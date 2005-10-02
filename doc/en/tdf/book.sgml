@@ -134,12 +134,11 @@
         example, the signature of <emphasis>make_id_tagdec</emphasis> is
         now:</para>
 <programlisting>
-<emphasis>t_intro</emphasis>: TDFINT
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>x</emphasis>:       SHAPE
--&gt; TAGDEC
-
+<emphasis>t_intro</emphasis>:   TDFINT
+<emphasis>acc</emphasis>:       OPTION(ACCESS)
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>x</emphasis>:         SHAPE
+           &rarr; TAGDEC
 </programlisting>
 
       <para>A new <literal>EXP</literal> constructor,
@@ -466,8 +465,7 @@
         <literal>SORT</literal>. As an example of a simple token definition,
         written here in a C-like notation, consider the following.</para>
 <programlisting>
-   <emphasis>EXP ptr_add (EXP par0, EXP par1, SHAPE par2) { add_to_ptr( par0, offset_mult( offset_pad( alignment(par2), shape_offset(par2)), par1)) }</emphasis>
-  
+<emphasis>EXP ptr_add (EXP par0, EXP par1, SHAPE par2) { add_to_ptr( par0, offset_mult( offset_pad( alignment(par2), shape_offset(par2)), par1)) }</emphasis>
 </programlisting>
 
       <para>This defines the token, <emphasis>ptr_add</emphasis>, to produce
@@ -483,8 +481,7 @@
 
       <para>A typical use of this token is:</para>
 <programlisting>
-   <emphasis>ptr_add( obtain_tag(tag41), contents(integer(~signed_int), obtain_tag(tag62)), integer(~char))</emphasis>
-  
+<emphasis>ptr_add( obtain_tag(tag41), contents(integer(~signed_int), obtain_tag(tag62)), integer(~char))</emphasis>
 </programlisting>
 
       <para>The effect of this use is to produce the TDF of the definition with
@@ -595,17 +592,15 @@
       document. The first is the construct
       <xref linkend='floating'> <emphasis>floating</emphasis>:</para>
 <programlisting>
-   <emphasis>fv</emphasis>:      FLOATING_VARIETY
-  -&gt; SHAPE
-  
+<emphasis>fv</emphasis>: FLOATING_VARIETY
+    &rarr; SHAPE
 </programlisting>
 
     <para>The constructs' arguments (one in this case) precede the
-      &quot;<emphasis>-&gt;</emphasis>&quot; and the result follows it. Each
+      &quot;<emphasis>&rarr;</emphasis>&quot; and the result follows it. Each
       argument is shown as follows:</para>
 <programlisting>
-   <emphasis>name</emphasis>:        SORT
-  
+<emphasis>name</emphasis>: SORT
 </programlisting>
 
     <para>The name standing before the colon is for use in the accompanying
@@ -615,7 +610,7 @@
     <para>The example given above indicates that <emphasis>floating</emphasis>
       takes one argument. This argument, <emphasis>v</emphasis>, is of
       <literal>SORT FLOATING_VARIETY</literal>. After the
-      &quot;<literal>-&gt;</literal>&quot; comes the <literal>SORT</literal> of
+      &quot;<literal>&rarr;</literal>&quot; comes the <literal>SORT</literal> of
       the result of <emphasis>floating</emphasis>. It is a
       <literal>SHAPE</literal>.</para>
 
@@ -628,10 +623,9 @@
       that it has an <literal>EXP</literal> argument and an
       <literal>EXP</literal> result:</para>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:     ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
     <para>it also supplies additional information about those
@@ -641,12 +635,11 @@
     <para>Some construct's arguments are optional. This is denoted as follows
       (from <xref linkend='apply-proc'> <emphasis>apply_proc</emphasis>):</para>
 <programlisting>
-   <emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>p</emphasis>:       EXP PROC
-<emphasis>params</emphasis>:      LIST(EXP)
-<emphasis>var_param</emphasis>:   OPTION(EXP)
--&gt; EXP <emphasis>result_shape</emphasis>
-  
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>p</emphasis>:            EXP PROC
+<emphasis>params</emphasis>:       LIST(EXP)
+<emphasis>var_param</emphasis>:    OPTION(EXP)
+              &rarr; EXP <emphasis>result_shape</emphasis>
 </programlisting>
 
     <para><emphasis>var_param</emphasis> is an optional argument to the
@@ -663,11 +656,10 @@
       formation shown in the specification of the
       <xref linkend='case'> <emphasis>case</emphasis> construct shown below:</para>
 <programlisting>
-   <emphasis>exhaustive</emphasis>:  BOOL
-<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>branches</emphasis>:    LIST(CASELIM)
--&gt; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
-  
+<emphasis>exhaustive</emphasis>: BOOL
+<emphasis>control</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>branches</emphasis>:   LIST(CASELIM)
+            &rarr; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
 </programlisting>
 
     <para>If <emphasis>exhaustive</emphasis> is true, the resulting
@@ -874,10 +866,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; ACCESS
-  
+             &rarr; ACCESS
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -902,11 +893,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM ACCESS
 <emphasis>e2</emphasis>:      BITSTREAM ACCESS
--&gt; ACCESS
-  
+         &rarr; ACCESS
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -925,10 +915,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>a1</emphasis>:      ACCESS
-<emphasis>a2</emphasis>:      ACCESS
--&gt; ACCESS
-  
+<emphasis>a1</emphasis>: ACCESS
+<emphasis>a2</emphasis>: ACCESS
+    &rarr; ACCESS
 </programlisting>
 
         <para>A construction qualified with <emphasis>add_accesses</emphasis>
@@ -944,8 +933,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>Only a variable (not an identity) may be qualified with
@@ -961,8 +949,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>An object must also have this property if it is to have a defined
@@ -977,8 +964,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>This property refers to a <literal>POINTER</literal>,
@@ -1006,8 +992,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>This property refers to a <literal>POINTER</literal>,
@@ -1035,8 +1020,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>An object qualified by <emphasis>out_par</emphasis> will be an
@@ -1053,8 +1037,7 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>This property refers to a global object. It says that the object
@@ -1070,8 +1053,7 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>Indicates that an object with this property is frequently used.
@@ -1085,8 +1067,7 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>An object qualified as having
@@ -1101,8 +1082,7 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>An object qualified as having
@@ -1119,8 +1099,7 @@
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
-   -&gt; ACCESS
-  
+&rarr; ACCESS
 </programlisting>
 
         <para>An object qualified as <emphasis>visible</emphasis> may be
@@ -1158,10 +1137,9 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; AL_TAG
-  
+             &rarr; AL_TAG
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1181,9 +1159,8 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>al_tagno</emphasis>:    TDFINT
--&gt; AL_TAG
-  
+<emphasis>al_tagno</emphasis>: TDFINT
+          &rarr; AL_TAG
 </programlisting>
 
         <para><emphasis>make_al_tag</emphasis> constructs an
@@ -1211,10 +1188,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>t</emphasis>:       TDFINT
-<emphasis>a</emphasis>:       ALIGNMENT
--&gt; AL_TAGDEF
-  
+<emphasis>t</emphasis>: TDFINT
+<emphasis>a</emphasis>: ALIGNMENT
+   &rarr; AL_TAGDEF
 </programlisting>
 
         <para>The <literal>AL_TAG</literal> identified by
@@ -1257,10 +1233,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>no_labels</emphasis>:   TDFINT
-<emphasis>tds</emphasis>:     SLIST(AL_TAGDEF)
--&gt; AL_TAGDEF_PROPS
-  
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(AL_TAGDEF)
+           &rarr; AL_TAGDEF_PROPS
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -1340,10 +1315,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; ALIGNMENT
-  
+             &rarr; ALIGNMENT
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1363,11 +1337,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM ALIGNMENT
 <emphasis>e2</emphasis>:      BITSTREAM ALIGNMENT
--&gt; ALIGNMENT
-  
+         &rarr; ALIGNMENT
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1386,9 +1359,8 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>sha</emphasis>:     SHAPE
--&gt; ALIGNMENT
-  
+<emphasis>sha</emphasis>: SHAPE
+     &rarr; ALIGNMENT
 </programlisting>
 
         <para>The <emphasis>alignment</emphasis> construct is defined as
@@ -1471,8 +1443,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; ALIGNMENT
-  
+&rarr; ALIGNMENT
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> of
@@ -1487,9 +1458,8 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>var</emphasis>:     BOOL
--&gt; ALIGNMENT
-  
+<emphasis>var</emphasis>: BOOL
+     &rarr; ALIGNMENT
 </programlisting>
 
         <para>If <emphasis>var</emphasis> is <emphasis>true</emphasis> the
@@ -1516,9 +1486,8 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   <emphasis>var</emphasis>:     BOOL
--&gt; ALIGNMENT
-  
+<emphasis>var</emphasis>: BOOL
+     &rarr; ALIGNMENT
 </programlisting>
 
         <para>If <emphasis>var</emphasis> is <emphasis>true</emphasis> the
@@ -1545,8 +1514,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; ALIGNMENT
-  
+&rarr; ALIGNMENT
 </programlisting>
 
         <para>Delivers {<emphasis>code</emphasis>}, the
@@ -1561,8 +1529,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; ALIGNMENT
-  
+&rarr; ALIGNMENT
 </programlisting>
 
         <para>Delivers the <literal>base ALIGNMENT</literal> of
@@ -1581,9 +1548,8 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   <emphasis>at</emphasis>:      AL_TAG
--&gt; ALIGNMENT
-  
+<emphasis>at</emphasis>: AL_TAG
+    &rarr; ALIGNMENT
 </programlisting>
 
         <para><emphasis>obtain_al_tag</emphasis> produces the
@@ -1598,9 +1564,8 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   <emphasis>sha</emphasis>:     SHAPE
--&gt; ALIGNMENT
-  
+<emphasis>sha</emphasis>: SHAPE
+     &rarr; ALIGNMENT
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> of a parameter of a
@@ -1614,10 +1579,9 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   <emphasis>a1</emphasis>:      ALIGNMENT
-<emphasis>a2</emphasis>:      ALIGNMENT
--&gt; ALIGNMENT
-  
+<emphasis>a1</emphasis>: ALIGNMENT
+<emphasis>a2</emphasis>: ALIGNMENT
+    &rarr; ALIGNMENT
 </programlisting>
 
         <para><emphasis>unite_alignments</emphasis> produces the alignment at
@@ -1634,8 +1598,7 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   -&gt; ALIGNMENT
-  
+&rarr; ALIGNMENT
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> used in the
@@ -1667,10 +1630,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; BITFIELD_VARIETY
-  
+             &rarr; BITFIELD_VARIETY
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1690,11 +1652,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM BITFIELD_VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM BITFIELD_VARIETY
--&gt; BITFIELD_VARIETY
-  
+         &rarr; BITFIELD_VARIETY
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1713,10 +1674,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>issigned</emphasis>:    BOOL
-<emphasis>bits</emphasis>:        NAT
--&gt; BITFIELD_VARIETY
-  
+<emphasis>issigned</emphasis>: BOOL
+<emphasis>bits</emphasis>:     NAT
+          &rarr; BITFIELD_VARIETY
 </programlisting>
 
         <para><emphasis>bfvar_bits</emphasis> constructs a
@@ -1762,10 +1722,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; BOOL
-  
+             &rarr; BOOL
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1785,11 +1744,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM BOOL
 <emphasis>e2</emphasis>:      BITSTREAM BOOL
--&gt; BOOL
-  
+         &rarr; BOOL
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1808,8 +1766,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; BOOL
-  
+&rarr; BOOL
 </programlisting>
 
         <para><emphasis>false</emphasis> produces a false
@@ -1823,8 +1780,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; BOOL
-  
+&rarr; BOOL
 </programlisting>
 
         <para><emphasis>true</emphasis> produces a true
@@ -1862,9 +1818,8 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>args</emphasis>:        LIST(EXP)
--&gt; CALLEES
-  
+<emphasis>args</emphasis>: LIST(EXP)
+      &rarr; CALLEES
 </programlisting>
 
         <para>The list of <literal>EXP</literal>s <emphasis>args</emphasis> are
@@ -1879,10 +1834,9 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>ptr</emphasis>:     EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>sze</emphasis>:     EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
--&gt; CALLEES
-  
+<emphasis>ptr</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>sze</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+     &rarr; CALLEES
 </programlisting>
 
         <para>The value of size <emphasis>sze</emphasis> pointed at by
@@ -1921,8 +1875,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; CALLEES
-  
+&rarr; CALLEES
 </programlisting>
 
         <para>The callee parameters of the call are the same as those of the
@@ -1948,12 +1901,11 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>prop_names</emphasis>:  SLIST(TDFIDENT)
+<emphasis>prop_names</emphasis>:  SLIST(TDFIDENT)
 <emphasis>cap_linking</emphasis>: SLIST(CAPSULE_LINK)
 <emphasis>ext_linkage</emphasis>: SLIST(EXTERN_LINK)
 <emphasis>groups</emphasis>:      SLIST(GROUP)
--&gt; CAPSULE
-  
+             &rarr; CAPSULE
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> brings together
@@ -2027,10 +1979,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>sn</emphasis>:      TDFIDENT
-<emphasis>n</emphasis>:       TDFINT
--&gt; CAPSULE_LINK
-  
+<emphasis>sn</emphasis>: TDFIDENT
+<emphasis>n</emphasis>:  TDFINT
+    &rarr; CAPSULE_LINK
 </programlisting>
 
         <para><emphasis>n</emphasis> is the number of
@@ -2060,11 +2011,10 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>branch</emphasis>:      LABEL
-<emphasis>lower</emphasis>:       SIGNED_NAT
-<emphasis>upper</emphasis>:       SIGNED_NAT
--&gt; CASELIM
-  
+<emphasis>branch</emphasis>: LABEL
+<emphasis>lower</emphasis>:  SIGNED_NAT
+<emphasis>upper</emphasis>:  SIGNED_NAT
+        &rarr; CASELIM
 </programlisting>
 
         <para>Makes a triple of destination and limits. The
@@ -2091,8 +2041,7 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_CODE
-  
+&rarr; ERROR_CODE
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from an
@@ -2108,8 +2057,7 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_CODE
-  
+&rarr; ERROR_CODE
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from a
@@ -2125,8 +2073,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_CODE
-  
+&rarr; ERROR_CODE
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from a stack
@@ -2156,10 +2103,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; ERROR_TREATMENT
-  
+             &rarr; ERROR_TREATMENT
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -2179,11 +2125,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM ERROR_TREATMENT
 <emphasis>e2</emphasis>:      BITSTREAM ERROR_TREATMENT
--&gt; ERROR_TREATMENT
-  
+         &rarr; ERROR_TREATMENT
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -2202,8 +2147,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_TREATMENT
-  
+&rarr; ERROR_TREATMENT
 </programlisting>
 
         <para>If an operation with a <emphasis>continue</emphasis>
@@ -2220,9 +2164,8 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>lab</emphasis>:     LABEL
--&gt; ERROR_TREATMENT
-  
+<emphasis>lab</emphasis>: LABEL
+     &rarr; ERROR_TREATMENT
 </programlisting>
 
         <para><emphasis>error_jump</emphasis> produces an
@@ -2249,9 +2192,8 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>trap_list</emphasis>:   LIST(ERROR_CODE)
--&gt; ERROR_TREATMENT
-  
+<emphasis>trap_list</emphasis>: LIST(ERROR_CODE)
+           &rarr; ERROR_TREATMENT
 </programlisting>
 
         <para>The list of <literal>ERROR_CODES</literal> in
@@ -2272,8 +2214,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_TREATMENT
-  
+&rarr; ERROR_TREATMENT
 </programlisting>
 
         <para><emphasis>wrap</emphasis> is an
@@ -2295,8 +2236,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; ERROR_TREATMENT
-  
+&rarr; ERROR_TREATMENT
 </programlisting>
 
         <para><emphasis>impossible</emphasis> is an
@@ -2333,10 +2273,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; EXP <emphasis>x</emphasis>
-  
+             &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -2356,11 +2295,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM EXP <emphasis>x</emphasis>
 <emphasis>e2</emphasis>:      BITSTREAM EXP <emphasis>y</emphasis>
--&gt; EXP (<emphasis>control</emphasis> ? <emphasis>x</emphasis> : <emphasis>y</emphasis>)
-  
+         &rarr; EXP (<emphasis>control</emphasis> ? <emphasis>x</emphasis> : <emphasis>y</emphasis>)
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -2379,10 +2317,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The absolute value of the result produced by
@@ -2401,10 +2338,9 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
--&gt; EXP POINTER(<emphasis>z</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+      &rarr; EXP POINTER(<emphasis>z</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated, giving
@@ -2445,10 +2381,9 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -2467,12 +2402,11 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   <emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>p</emphasis>:       EXP PROC
-<emphasis>params</emphasis>:      LIST(EXP)
-<emphasis>var_param</emphasis>:   OPTION(EXP)
--&gt; EXP <emphasis>result_shape</emphasis>
-  
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>p</emphasis>:            EXP PROC
+<emphasis>params</emphasis>:       LIST(EXP)
+<emphasis>var_param</emphasis>:    OPTION(EXP)
+              &rarr; EXP <emphasis>result_shape</emphasis>
 </programlisting>
 
         <para><emphasis>p, params</emphasis> and <emphasis>var_param</emphasis>
@@ -2525,14 +2459,13 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   <emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>p</emphasis>:       EXP PROC
-<emphasis>callers_intro</emphasis>:   LIST(OTAGEXP)
-<emphasis>callee_pars</emphasis>: CALLEES
-<emphasis>postlude</emphasis>:    EXP TOP
--&gt; EXP <emphasis>result_shape</emphasis>
-  
+<emphasis>result_shape</emphasis>:  SHAPE
+<emphasis>prcprops</emphasis>:      OPTION(PROCPROPS)
+<emphasis>p</emphasis>:             EXP PROC
+<emphasis>callers_intro</emphasis>: LIST(OTAGEXP)
+<emphasis>callee_pars</emphasis>:   CALLEES
+<emphasis>postlude</emphasis>:      EXP TOP
+               &rarr; EXP <emphasis>result_shape</emphasis>
 </programlisting>
 
         <para><emphasis>p</emphasis>, <emphasis>callers_intro</emphasis> and
@@ -2648,10 +2581,9 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP <emphasis>y</emphasis>
--&gt; EXP TOP
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP <emphasis>y</emphasis>
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The value produced by <emphasis>arg2</emphasis> will be put in
@@ -2685,11 +2617,10 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   <emphasis>md</emphasis>:      TRANSFER_MODE
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP <emphasis>y</emphasis>
--&gt; EXP TOP
-  
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP <emphasis>y</emphasis>
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The value produced by <emphasis>arg2</emphasis> will be put in
@@ -2726,11 +2657,10 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
-<emphasis>arg3</emphasis>:        EXP BITFIELD(<emphasis>v</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+<emphasis>arg3</emphasis>: EXP BITFIELD(<emphasis>v</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The value delivered by <emphasis>arg3</emphasis> is assigned at a
@@ -2753,12 +2683,11 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   <emphasis>md</emphasis>:      TRANSFER_MODE
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
-<emphasis>arg3</emphasis>:        EXP BITFIELD(<emphasis>v</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+<emphasis>arg3</emphasis>: EXP BITFIELD(<emphasis>v</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The value delivered by <emphasis>arg3</emphasis> is assigned at a
@@ -2787,11 +2716,10 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   <emphasis>v</emphasis>:       BITFIELD_VARIETY
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
--&gt; EXP BITFIELD(<emphasis>v</emphasis>)
-  
+<emphasis>v</emphasis>:    BITFIELD_VARIETY
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+      &rarr; EXP BITFIELD(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The bitfield of <literal>BITFIELD_VARIETY</literal>
@@ -2815,12 +2743,11 @@
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
-   <emphasis>md</emphasis>:      TRANSFER_MODE
-<emphasis>v</emphasis>:       BITFIELD_VARIETY
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
--&gt; EXP BITFIELD(<emphasis>v</emphasis>)
-  
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>v</emphasis>:    BITFIELD_VARIETY
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+      &rarr; EXP BITFIELD(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The bitfield of <literal>BITFIELD_VARIETY</literal>
@@ -2851,11 +2778,10 @@
           <member>Encoding number:</member><member>14</member>
         </simplelist>
 <programlisting>
-   <emphasis>exhaustive</emphasis>:  BOOL
-<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>branches</emphasis>:    LIST(CASELIM)
--&gt; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
-  
+<emphasis>exhaustive</emphasis>: BOOL
+<emphasis>control</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>branches</emphasis>:   LIST(CASELIM)
+            &rarr; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated to produce an integer
@@ -2884,10 +2810,9 @@
           <member>Encoding number:</member><member>15</member>
         </simplelist>
 <programlisting>
-   <emphasis>v</emphasis>:       VARIETY
-<emphasis>arg1</emphasis>:        EXP BITFIELD(<emphasis>bv</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>v</emphasis>:    VARIETY
+<emphasis>arg1</emphasis>: EXP BITFIELD(<emphasis>bv</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and converted to a
@@ -2904,11 +2829,10 @@
           <member>Encoding number:</member><member>16</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>r</emphasis>:       FLOATING_VARIETY
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>r</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>r</emphasis>:        FLOATING_VARIETY
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>r</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce floating
@@ -2932,11 +2856,10 @@
           <member>Encoding number:</member><member>17</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>r</emphasis>:       VARIETY
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>r</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>r</emphasis>:      VARIETY
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>r</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce an
@@ -2957,10 +2880,9 @@
           <member>Encoding number:</member><member>18</member>
         </simplelist>
 <programlisting>
-   <emphasis>bv</emphasis>:      BITFIELD_VARIETY
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP BITFIELD(<emphasis>bv</emphasis>)
-  
+<emphasis>bv</emphasis>:   BITFIELD_VARIETY
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP BITFIELD(<emphasis>bv</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and converted to a
@@ -2977,9 +2899,8 @@
           <member>Encoding number:</member><member>19</member>
         </simplelist>
 <programlisting>
-   <emphasis>c</emphasis>:       EXP FLOATING(<emphasis>cv</emphasis>)
--&gt; EXP FLOATING(<emphasis>cv</emphasis>)
-  
+<emphasis>c</emphasis>: EXP FLOATING(<emphasis>cv</emphasis>)
+   &rarr; EXP FLOATING(<emphasis>cv</emphasis>)
 </programlisting>
 
         <para>Delivers the complex conjugate of <emphasis>c</emphasis>.</para>
@@ -2995,11 +2916,10 @@
           <member>Encoding number:</member><member>20</member>
         </simplelist>
 <programlisting>
-   <emphasis>sha</emphasis>:     SHAPE
-<emphasis>arg1</emphasis>:        EXP COMPOUND(EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>))
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>alignment</emphasis>(<emphasis>sha</emphasis>))
--&gt; EXP <emphasis>sha</emphasis>
-  
+<emphasis>sha</emphasis>:  SHAPE
+<emphasis>arg1</emphasis>: EXP COMPOUND(EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>))
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>alignment</emphasis>(<emphasis>sha</emphasis>))
+      &rarr; EXP <emphasis>sha</emphasis>
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a
@@ -3024,10 +2944,9 @@
           <member>Encoding number:</member><member>21</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
-<emphasis>arg2</emphasis>:        EXP NOF(<emphasis>m</emphasis>, <emphasis>s</emphasis>)
--&gt; EXP NOF(<emphasis>n</emphasis>+<emphasis>m</emphasis>, <emphasis>s</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
+<emphasis>arg2</emphasis>: EXP NOF(<emphasis>m</emphasis>, <emphasis>s</emphasis>)
+      &rarr; EXP NOF(<emphasis>n</emphasis>+<emphasis>m</emphasis>, <emphasis>s</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3043,11 +2962,10 @@
           <member>Encoding number:</member><member>22</member>
         </simplelist>
 <programlisting>
-   <emphasis>altlab_intro</emphasis>:    LABEL
-<emphasis>first</emphasis>:       EXP <emphasis>x</emphasis>
-<emphasis>alt</emphasis>:     EXP <emphasis>z</emphasis>
--&gt; EXP (<emphasis>x</emphasis> LUB <emphasis>z</emphasis>)
-  
+<emphasis>altlab_intro</emphasis>: LABEL
+<emphasis>first</emphasis>:        EXP <emphasis>x</emphasis>
+<emphasis>alt</emphasis>:          EXP <emphasis>z</emphasis>
+              &rarr; EXP (<emphasis>x</emphasis> LUB <emphasis>z</emphasis>)
 </programlisting>
 
         <para><emphasis>first</emphasis> is evaluated. If
@@ -3084,10 +3002,9 @@
           <member>Encoding number:</member><member>23</member>
         </simplelist>
 <programlisting>
-   <emphasis>s</emphasis>:       SHAPE
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
--&gt; EXP <emphasis>s</emphasis>
-  
+<emphasis>s</emphasis>:    SHAPE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
         <para>A value of <literal>SHAPE</literal> <emphasis>s</emphasis> will
@@ -3119,11 +3036,10 @@
           <member>Encoding number:</member><member>24</member>
         </simplelist>
 <programlisting>
-   <emphasis>md</emphasis>:      TRANSFER_MODE
-<emphasis>s</emphasis>:       SHAPE
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
--&gt; EXP <emphasis>s</emphasis>
-  
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>s</emphasis>:    SHAPE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
         <para>A value of <literal>SHAPE</literal> <emphasis>s</emphasis> will
@@ -3157,8 +3073,7 @@
           <member>Encoding number:</member><member>25</member>
         </simplelist>
 <programlisting>
-   -&gt; EXP POINTER(<emphasis>fa</emphasis>)
-  
+&rarr; EXP POINTER(<emphasis>fa</emphasis>)
 </programlisting>
 
         <para>A value of <literal>SHAPE
@@ -3208,12 +3123,11 @@
           <member>Encoding number:</member><member>26</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3248,12 +3162,11 @@
           <member>Encoding number:</member><member>27</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3285,12 +3198,11 @@
           <member>Encoding number:</member><member>28</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3323,11 +3235,10 @@
           <member>Encoding number:</member><member>29</member>
         </simplelist>
 <programlisting>
-   <emphasis>fa</emphasis>:      ALIGNMENT
-<emphasis>y</emphasis>:       ALIGNMENT
-<emphasis>t</emphasis>:       TAG <emphasis>x</emphasis>
--&gt; EXP OFFSET(<emphasis>fa</emphasis>, <emphasis>y</emphasis>)
-  
+<emphasis>fa</emphasis>: ALIGNMENT
+<emphasis>y</emphasis>:  ALIGNMENT
+<emphasis>t</emphasis>:  TAG <emphasis>x</emphasis>
+    &rarr; EXP OFFSET(<emphasis>fa</emphasis>, <emphasis>y</emphasis>)
 </programlisting>
 
         <para><emphasis>t</emphasis> will be the tag of a
@@ -3378,9 +3289,8 @@
           <member>Encoding number:</member><member>30</member>
         </simplelist>
 <programlisting>
-   <emphasis>proctag</emphasis>: TAG PROC
--&gt; EXP OFFSET(<emphasis>locals_alignment</emphasis>, {})
-  
+<emphasis>proctag</emphasis>: TAG PROC
+         &rarr; EXP OFFSET(<emphasis>locals_alignment</emphasis>, {})
 </programlisting>
 
         <para>Delivers an <literal>OFFSET</literal> of a space sufficient to
@@ -3402,9 +3312,8 @@
           <member>Encoding number:</member><member>31</member>
         </simplelist>
 <programlisting>
-   <emphasis>message</emphasis>: STRING<emphasis>(k, n)</emphasis>
--&gt; EXP BOTTOM
-  
+<emphasis>message</emphasis>: STRING<emphasis>(k, n)</emphasis>
+         &rarr; EXP BOTTOM
 </programlisting>
 
         <para>Any attempt to use this operation to produce code will result in
@@ -3420,11 +3329,10 @@
           <member>Encoding number:</member><member>32</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>f</emphasis>:       FLOATING_VARIETY
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>f</emphasis>:        FLOATING_VARIETY
+<emphasis>arg1</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce an integer
@@ -3447,10 +3355,9 @@
           <member>Encoding number:</member><member>33</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce a
@@ -3476,11 +3383,10 @@
           <member>Encoding number:</member><member>34</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3505,11 +3411,10 @@
           <member>Encoding number:</member><member>35</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3534,11 +3439,10 @@
           <member>Encoding number:</member><member>36</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para>The maximum of the values delivered by <emphasis>arg1</emphasis>
@@ -3558,11 +3462,10 @@
           <member>Encoding number:</member><member>37</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para>The minimum of the values delivered by <emphasis>arg1</emphasis>
@@ -3582,10 +3485,9 @@
           <member>Encoding number:</member><member>38</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        LIST(EXP)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     LIST(EXP)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para>The arguments, <emphasis>arg1</emphasis>, are evaluated producing
@@ -3621,10 +3523,9 @@
           <member>Encoding number:</member><member>39</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce a
@@ -3647,10 +3548,9 @@
           <member>Encoding number:</member><member>40</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        LIST(EXP)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     LIST(EXP)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para>The arguments, <emphasis>arg1</emphasis>, are evaluated producing
@@ -3684,11 +3584,10 @@
           <member>Encoding number:</member><member>41</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para>The result of <emphasis>arg1</emphasis> is raised to the power
@@ -3708,14 +3607,13 @@
           <member>Encoding number:</member><member>42</member>
         </simplelist>
 <programlisting>
-   <emphasis>prob</emphasis>:        OPTION(NAT)
-<emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>nt</emphasis>:      NTEST
-<emphasis>dest</emphasis>:        LABEL
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>prob</emphasis>:     OPTION(NAT)
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>nt</emphasis>:       NTEST
+<emphasis>dest</emphasis>:     LABEL
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3751,9 +3649,8 @@
           <member>Encoding number:</member><member>43</member>
         </simplelist>
 <programlisting>
-   <emphasis>dest</emphasis>:        LABEL
--&gt; EXP BOTTOM
-  
+<emphasis>dest</emphasis>: LABEL
+      &rarr; EXP BOTTOM
 </programlisting>
 
         <para>Control passes to the <literal>EXP</literal> labelled
@@ -3768,9 +3665,8 @@
           <member>Encoding number:</member><member>44</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>{code</emphasis>})
--&gt; EXP BOTTOM
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>{code</emphasis>})
+      &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated. The label from which the
@@ -3792,12 +3688,11 @@
           <member>Encoding number:</member><member>45</member>
         </simplelist>
 <programlisting>
-   <emphasis>opt_access</emphasis>:  OPTION(ACCESS)
-<emphasis>name_intro</emphasis>:  TAG <emphasis>x</emphasis>
-<emphasis>definition</emphasis>:  EXP <emphasis>x</emphasis>
-<emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
-  
+<emphasis>opt_access</emphasis>: OPTION(ACCESS)
+<emphasis>name_intro</emphasis>: TAG <emphasis>x</emphasis>
+<emphasis>definition</emphasis>: EXP <emphasis>x</emphasis>
+<emphasis>body</emphasis>:       EXP <emphasis>y</emphasis>
+            &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para><emphasis>definition</emphasis> is evaluated to produce a value,
@@ -3842,9 +3737,8 @@
           <member>Encoding number:</member><member>46</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
--&gt; EXP <emphasis>x</emphasis>
-  
+<emphasis>arg1</emphasis>: EXP <emphasis>x</emphasis>
+      &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
         <para>If the result of this construction is discarded,
@@ -3860,9 +3754,8 @@
           <member>Encoding number:</member><member>47</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP <emphasis>c</emphasis>
--&gt; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP <emphasis>c</emphasis>
+      &rarr; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex. Delivers the imaginary
@@ -3876,9 +3769,8 @@
           <member>Encoding number:</member><member>48</member>
         </simplelist>
 <programlisting>
-   <emphasis>init</emphasis>:        EXP <emphasis>s</emphasis>
--&gt; EXP <emphasis>s</emphasis>
-  
+<emphasis>init</emphasis>: EXP <emphasis>s</emphasis>
+      &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
         <para>Any tag used as an argument of an <emphasis>obtain_tag</emphasis>
@@ -3907,13 +3799,12 @@
           <member>Encoding number:</member><member>49</member>
         </simplelist>
 <programlisting>
-   <emphasis>prob</emphasis>:        OPTION(NAT)
-<emphasis>nt</emphasis>:      NTEST
-<emphasis>dest</emphasis>:        LABEL
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>prob</emphasis>: OPTION(NAT)
+<emphasis>nt</emphasis>:   NTEST
+<emphasis>dest</emphasis>: LABEL
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3940,11 +3831,10 @@
           <member>Encoding number:</member><member>50</member>
         </simplelist>
 <programlisting>
-   <emphasis>labs_intro</emphasis>:  LIST(LABEL)
-<emphasis>starter</emphasis>: EXP <emphasis>x</emphasis>
-<emphasis>places</emphasis>:      LIST(EXP)
--&gt; EXP <emphasis>w</emphasis>
-  
+<emphasis>labs_intro</emphasis>: LIST(LABEL)
+<emphasis>starter</emphasis>:    EXP <emphasis>x</emphasis>
+<emphasis>places</emphasis>:     LIST(EXP)
+            &rarr; EXP <emphasis>w</emphasis>
 </programlisting>
 
         <para>The lists <emphasis>labs_intro</emphasis> and
@@ -3993,9 +3883,8 @@
           <member>Encoding number:</member><member>51</member>
         </simplelist>
 <programlisting>
-   <emphasis>x</emphasis>:       EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
--&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-  
+<emphasis>x</emphasis>: EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
+   &rarr; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
 </programlisting>
 
         <para>If the last use of <emphasis>local_alloc</emphasis> in the
@@ -4034,9 +3923,8 @@
           <member>Encoding number:</member><member>52</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+      &rarr; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
 </programlisting>
 
         <para>The <emphasis>arg1</emphasis> expression is evaluated and space
@@ -4089,9 +3977,8 @@
           <member>Encoding number:</member><member>53</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+      &rarr; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
 </programlisting>
 
         <para>If the <literal>OFFSET</literal> <emphasis>arg1</emphasis> can be
@@ -4110,10 +3997,9 @@
           <member>Encoding number:</member><member>54</member>
         </simplelist>
 <programlisting>
-   <emphasis>a</emphasis>:       EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>p</emphasis>:       EXP POINTER(<emphasis>alloca_alignment</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>a</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>p</emphasis>: EXP POINTER(<emphasis>alloca_alignment</emphasis>)
+   &rarr; EXP TOP
 </programlisting>
 
         <para>The <literal>POINTER</literal>, <emphasis>p</emphasis>, will be
@@ -4137,8 +4023,7 @@
           <member>Encoding number:</member><member>55</member>
         </simplelist>
 <programlisting>
-   -&gt; EXP TOP
-  
+&rarr; EXP TOP
 </programlisting>
 
         <para>Every space allocated by <emphasis>local_alloc</emphasis> within
@@ -4161,10 +4046,9 @@
           <member>Encoding number:</member><member>56</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>fa</emphasis>)
-<emphasis>arg2</emphasis>:        EXP POINTER({<emphasis>code</emphasis>})
--&gt; EXP BOTTOM
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>fa</emphasis>)
+<emphasis>arg2</emphasis>: EXP POINTER({<emphasis>code</emphasis>})
+      &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>arg1</emphasis> will be a pointer produced by an
@@ -4192,11 +4076,10 @@
           <member>Encoding number:</member><member>57</member>
         </simplelist>
 <programlisting>
-   <emphasis>c</emphasis>:       FLOATING_VARIETY
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
-<emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP FLOATING(<emphasis>c</emphasis>)
-  
+<emphasis>c</emphasis>:    FLOATING_VARIETY
+<emphasis>arg1</emphasis>: EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>arg2</emphasis>: EXP FLOATING(<emphasis>f</emphasis>)
+      &rarr; EXP FLOATING(<emphasis>c</emphasis>)
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex and derived from the same
@@ -4214,10 +4097,9 @@
           <member>Encoding number:</member><member>58</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>base</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        LIST(EXP)
--&gt; EXP COMPOUND(<emphasis>arg1</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>base</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: LIST(EXP)
+      &rarr; EXP COMPOUND(<emphasis>arg1</emphasis>)
 </programlisting>
 
         <para>Let the <emphasis>i</emphasis>th component
@@ -4268,14 +4150,13 @@
           <member>Encoding number:</member><member>59</member>
         </simplelist>
 <programlisting>
-   <emphasis>f</emphasis>:       FLOATING_VARIETY
-<emphasis>rm</emphasis>:      ROUNDING_MODE
-<emphasis>negative</emphasis>:    BOOL
-<emphasis>mantissa</emphasis>:    STRING<emphasis>(k, n)</emphasis>
-<emphasis>base</emphasis>:        NAT
-<emphasis>exponent</emphasis>:    SIGNED_NAT
--&gt; EXP FLOATING(<emphasis>f</emphasis>)
-  
+<emphasis>f</emphasis>:        FLOATING_VARIETY
+<emphasis>rm</emphasis>:       ROUNDING_MODE
+<emphasis>negative</emphasis>: BOOL
+<emphasis>mantissa</emphasis>: STRING<emphasis>(k, n)</emphasis>
+<emphasis>base</emphasis>:     NAT
+<emphasis>exponent</emphasis>: SIGNED_NAT
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
         <para><emphasis>f</emphasis> will not be complex.</para>
@@ -4312,13 +4193,12 @@
           <member>Encoding number:</member><member>60</member>
         </simplelist>
 <programlisting>
-   <emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>caller_intro</emphasis>:    LIST(TAGSHACC)
-<emphasis>callee_intro</emphasis>:    LIST(TAGSHACC)
-<emphasis>body</emphasis>:        EXP BOTTOM
--&gt; EXP PROC
-  
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>prcprops</emphasis>:     OPTION(PROCPROPS)
+<emphasis>caller_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>callee_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>body</emphasis>:         EXP BOTTOM
+              &rarr; EXP PROC
 </programlisting>
 
         <para>Evaluation of <emphasis>make_general_proc</emphasis> delivers a
@@ -4404,10 +4284,9 @@
           <member>Encoding number:</member><member>61</member>
         </simplelist>
 <programlisting>
-   <emphasis>v</emphasis>:       VARIETY
-<emphasis>value</emphasis>:       SIGNED_NAT
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>v</emphasis>:     VARIETY
+<emphasis>value</emphasis>: SIGNED_NAT
+       &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>An integer value is delivered of which the value is given by
@@ -4424,9 +4303,8 @@
           <member>Encoding number:</member><member>62</member>
         </simplelist>
 <programlisting>
-   <emphasis>lab</emphasis>:     LABEL
--&gt; EXP POINTER(<emphasis>{code</emphasis>})
-  
+<emphasis>lab</emphasis>: LABEL
+     &rarr; EXP POINTER(<emphasis>{code</emphasis>})
 </programlisting>
 
         <para>A
@@ -4445,9 +4323,8 @@
           <member>Encoding number:</member><member>63</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        LIST(EXP)
--&gt; EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
-  
+<emphasis>arg1</emphasis>: LIST(EXP)
+      &rarr; EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
 </programlisting>
 
         <para>Creates an array of <emphasis>n</emphasis> values of
@@ -4465,10 +4342,9 @@
           <member>Encoding number:</member><member>64</member>
         </simplelist>
 <programlisting>
-   <emphasis>v</emphasis>:       VARIETY
-<emphasis>str</emphasis>:     STRING<emphasis>(k, n)</emphasis>
--&gt; EXP NOF(<emphasis>n</emphasis>, INTEGER(<emphasis>v</emphasis>))
-  
+<emphasis>v</emphasis>:   VARIETY
+<emphasis>str</emphasis>: STRING<emphasis>(k, n)</emphasis>
+     &rarr; EXP NOF(<emphasis>n</emphasis>, INTEGER(<emphasis>v</emphasis>))
 </programlisting>
 
         <para>An <literal>NOF INTEGER</literal> is delivered. The conversions
@@ -4484,8 +4360,7 @@
           <member>Encoding number:</member><member>65</member>
         </simplelist>
 <programlisting>
-   -&gt; EXP POINTER({<emphasis>code</emphasis>})
-  
+&rarr; EXP POINTER({<emphasis>code</emphasis>})
 </programlisting>
 
         <para>Makes a null
@@ -4506,8 +4381,7 @@
           <member>Encoding number:</member><member>66</member>
         </simplelist>
 <programlisting>
-   -&gt; EXP PROC
-  
+&rarr; EXP PROC
 </programlisting>
 
         <para>A null <literal>PROC</literal> is created and delivered. The null
@@ -4526,9 +4400,8 @@
           <member>Encoding number:</member><member>67</member>
         </simplelist>
 <programlisting>
-   <emphasis>a</emphasis>:       ALIGNMENT
--&gt; EXP POINTER(<emphasis>a</emphasis>)
-  
+<emphasis>a</emphasis>: ALIGNMENT
+   &rarr; EXP POINTER(<emphasis>a</emphasis>)
 </programlisting>
 
         <para>A null <literal>POINTER</literal>(<emphasis>a</emphasis>) is
@@ -4550,12 +4423,11 @@
           <member>Encoding number:</member><member>68</member>
         </simplelist>
 <programlisting>
-   <emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>params_intro</emphasis>:    LIST(TAGSHACC)
-<emphasis>var_intro</emphasis>:   OPTION(TAGACC)
-<emphasis>body</emphasis>:        EXP BOTTOM
--&gt; EXP PROC
-  
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>params_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>var_intro</emphasis>:    OPTION(TAGACC)
+<emphasis>body</emphasis>:         EXP BOTTOM
+              &rarr; EXP PROC
 </programlisting>
 
         <para>Evaluation of <emphasis>make_proc</emphasis> delivers a
@@ -4631,11 +4503,10 @@
           <member>Encoding number:</member><member>116</member>
         </simplelist>
 <programlisting>
-   <emphasis>stack_base</emphasis>:  EXP POINTER(<emphasis>fa</emphasis>)
-<emphasis>frame_size</emphasis>:  EXP OFFSET(<emphasis>locals_alignment</emphasis>, <emphasis>x</emphasis>)
-<emphasis>alloc_size</emphasis>:  EXP OFFSET(<emphasis>alloca_alignment</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP POINTER(<emphasis>fb</emphasis>)
-  
+<emphasis>stack_base</emphasis>: EXP POINTER(<emphasis>fa</emphasis>)
+<emphasis>frame_size</emphasis>: EXP OFFSET(<emphasis>locals_alignment</emphasis>, <emphasis>x</emphasis>)
+<emphasis>alloc_size</emphasis>: EXP OFFSET(<emphasis>alloca_alignment</emphasis>, <emphasis>y</emphasis>)
+            &rarr; EXP POINTER(<emphasis>fb</emphasis>)
 </programlisting>
 
         <para>This creates a POINTER suitable for use with
@@ -4676,8 +4547,7 @@
           <member>Encoding number:</member><member>69</member>
         </simplelist>
 <programlisting>
-   -&gt; EXP TOP
-  
+&rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>make_top</emphasis> delivers a value of <literal>SHAPE
@@ -4691,9 +4561,8 @@
           <member>Encoding number:</member><member>70</member>
         </simplelist>
 <programlisting>
-   <emphasis>s</emphasis>:       SHAPE
--&gt; EXP <emphasis>s</emphasis>
-  
+<emphasis>s</emphasis>: SHAPE
+   &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
         <para>This <literal>EXP</literal> creates some value with the
@@ -4724,10 +4593,9 @@
           <member>Encoding number:</member><member>71</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The arguments will be evaluated and the maximum of the values
@@ -4741,10 +4609,9 @@
           <member>Encoding number:</member><member>72</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The arguments will be evaluated and the minimum of the values
@@ -4758,11 +4625,10 @@
           <member>Encoding number:</member><member>73</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -4786,12 +4652,11 @@
           <member>Encoding number:</member><member>74</member>
         </simplelist>
 <programlisting>
-   <emphasis>md</emphasis>:      TRANSFER_MODE
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>y</emphasis>)
-<emphasis>arg3</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP POINTER(<emphasis>y</emphasis>)
+<emphasis>arg3</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The arguments are evaluated to produce <emphasis>p1</emphasis>,
@@ -4827,11 +4692,10 @@
           <member>Encoding number:</member><member>75</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -4855,10 +4719,9 @@
           <member>Encoding number:</member><member>76</member>
         </simplelist>
 <programlisting>
-   <emphasis>n</emphasis>:       NAT
-<emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
--&gt; EXP NOF(<emphasis>n</emphasis>, <emphasis>x</emphasis>)
-  
+<emphasis>n</emphasis>:    NAT
+<emphasis>arg1</emphasis>: EXP <emphasis>x</emphasis>
+      &rarr; EXP NOF(<emphasis>n</emphasis>, <emphasis>x</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and an
@@ -4877,10 +4740,9 @@
           <member>Encoding number:</member><member>77</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce an
@@ -4901,9 +4763,8 @@
           <member>Encoding number:</member><member>78</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The argument is evaluated producing an integer value, of
@@ -4923,9 +4784,8 @@
           <member>Encoding number:</member><member>79</member>
         </simplelist>
 <programlisting>
-   <emphasis>t</emphasis>:       TAG <emphasis>x</emphasis>
--&gt; EXP <emphasis>x</emphasis>
-  
+<emphasis>t</emphasis>: TAG <emphasis>x</emphasis>
+   &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
         <para>The value with which the <literal>TAG</literal>
@@ -4941,10 +4801,9 @@
           <member>Encoding number:</member><member>80</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
--&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>t</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>t</emphasis>)
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s. The result
@@ -4968,11 +4827,10 @@
           <member>Encoding number:</member><member>81</member>
         </simplelist>
 <programlisting>
-   <emphasis>v</emphasis>:       VARIETY
-<emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>v</emphasis>:    VARIETY
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s,
@@ -4993,10 +4851,9 @@
           <member>Encoding number:</member><member>82</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 </programlisting>
 
         <para>The result is the <literal>OFFSET</literal> produced by
@@ -5021,10 +4878,9 @@
           <member>Encoding number:</member><member>83</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s. The result
@@ -5048,10 +4904,9 @@
           <member>Encoding number:</member><member>84</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 </programlisting>
 
         <para>The first argument gives an <literal>OFFSET</literal>,
@@ -5071,9 +4926,8 @@
           <member>Encoding number:</member><member>85</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
--&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 </programlisting>
 
         <para>The inverse of the argument is delivered.</para>
@@ -5089,10 +4943,9 @@
           <member>Encoding number:</member><member>86</member>
         </simplelist>
 <programlisting>
-   <emphasis>a</emphasis>:       ALIGNMENT
-<emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
--&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>z</emphasis>, <emphasis>a</emphasis>), <emphasis>a</emphasis>)
-  
+<emphasis>a</emphasis>:    ALIGNMENT
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>z</emphasis>, <emphasis>a</emphasis>), <emphasis>a</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated giving
@@ -5122,10 +4975,9 @@
           <member>Encoding number:</member><member>87</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>z</emphasis>)
--&gt; EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>z</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
 </programlisting>
 
         <para>The two arguments deliver offsets, <emphasis>p</emphasis> and
@@ -5150,13 +5002,12 @@
           <member>Encoding number:</member><member>88</member>
         </simplelist>
 <programlisting>
-   <emphasis>prob</emphasis>:        OPTION(NAT)
-<emphasis>nt</emphasis>:      NTEST
-<emphasis>dest</emphasis>:        LABEL
-<emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>prob</emphasis>: OPTION(NAT)
+<emphasis>nt</emphasis>:   NTEST
+<emphasis>dest</emphasis>: LABEL
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5190,9 +5041,8 @@
           <member>Encoding number:</member><member>89</member>
         </simplelist>
 <programlisting>
-   <emphasis>a</emphasis>:       ALIGNMENT
--&gt; EXP OFFSET(<emphasis>a</emphasis>, <emphasis>a</emphasis>)
-  
+<emphasis>a</emphasis>: ALIGNMENT
+   &rarr; EXP OFFSET(<emphasis>a</emphasis>, <emphasis>a</emphasis>)
 </programlisting>
 
         <para>A zero offset of <literal>SHAPE
@@ -5213,10 +5063,9 @@
           <member>Encoding number:</member><member>90</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -5236,11 +5085,10 @@
           <member>Encoding number:</member><member>91</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5264,13 +5112,12 @@
           <member>Encoding number:</member><member>92</member>
         </simplelist>
 <programlisting>
-   <emphasis>prob</emphasis>:        OPTION(NAT)
-<emphasis>nt</emphasis>:      NTEST
-<emphasis>dest</emphasis>:        LABEL
-<emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>prob</emphasis>: OPTION(NAT)
+<emphasis>nt</emphasis>:   NTEST
+<emphasis>dest</emphasis>: LABEL
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5308,11 +5155,10 @@
           <member>Encoding number:</member><member>93</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>w</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg2</emphasis> will be non-negative. The result is the
@@ -5332,13 +5178,12 @@
           <member>Encoding number:</member><member>94</member>
         </simplelist>
 <programlisting>
-   <emphasis>prob</emphasis>:        OPTION(NAT)
-<emphasis>nt</emphasis>:      NTEST
-<emphasis>dest</emphasis>:        LABEL
-<emphasis>arg1</emphasis>:        EXP PROC
-<emphasis>arg2</emphasis>:        EXP PROC
--&gt; EXP TOP
-  
+<emphasis>prob</emphasis>: OPTION(NAT)
+<emphasis>nt</emphasis>:   NTEST
+<emphasis>dest</emphasis>: LABEL
+<emphasis>arg1</emphasis>: EXP PROC
+<emphasis>arg2</emphasis>: EXP PROC
+      &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5371,9 +5216,8 @@
           <member>Encoding number:</member><member>95</member>
         </simplelist>
 <programlisting>
-   <emphasis>uses</emphasis>:        NAT
--&gt; EXP TOP
-  
+<emphasis>uses</emphasis>: NAT
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The integer <emphasis>uses</emphasis> gives the number of times
@@ -5390,9 +5234,8 @@
           <member>Encoding number:</member><member>96</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP <emphasis>c</emphasis>
--&gt; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP <emphasis>c</emphasis>
+      &rarr; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex. Delivers the real part of
@@ -5406,12 +5249,11 @@
           <member>Encoding number:</member><member>97</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5426,8 +5268,7 @@
 
         <para>The following equivalence shall hold:</para>
 <programlisting>
-   <emphasis>x = plus(mult(div0(x, y), y), rem0(x, y))</emphasis>
-  
+<emphasis>x = plus(mult(div0(x, y), y), rem0(x, y))</emphasis>
 </programlisting>
 
         <para>if all the <literal>ERROR_TREATMENT</literal>s are
@@ -5459,12 +5300,11 @@
           <member>Encoding number:</member><member>98</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5499,12 +5339,11 @@
           <member>Encoding number:</member><member>99</member>
         </simplelist>
 <programlisting>
-   <emphasis>div_by_0_err</emphasis>:    ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>div_by_0_err</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:       ERROR_TREATMENT
+<emphasis>arg1</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:         EXP INTEGER(<emphasis>v</emphasis>)
+              &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5539,11 +5378,10 @@
           <member>Encoding number:</member><member>100</member>
         </simplelist>
 <programlisting>
-   <emphasis>replab_intro</emphasis>:    LABEL
-<emphasis>start</emphasis>:       EXP TOP
-<emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
-  
+<emphasis>replab_intro</emphasis>: LABEL
+<emphasis>start</emphasis>:        EXP TOP
+<emphasis>body</emphasis>:         EXP <emphasis>y</emphasis>
+              &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para><emphasis>start</emphasis> is evaluated. Then
@@ -5572,9 +5410,8 @@
           <member>Encoding number:</member><member>101</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
--&gt; EXP BOTTOM
-  
+<emphasis>arg1</emphasis>: EXP <emphasis>x</emphasis>
+      &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a value,
@@ -5600,9 +5437,8 @@
           <member>Encoding number:</member><member>102</member>
         </simplelist>
 <programlisting>
-   <emphasis>lab_val</emphasis>: EXP POINTER <emphasis>code_alignment</emphasis>
--&gt; EXP BOTTOM
-  
+<emphasis>lab_val</emphasis>: EXP POINTER <emphasis>code_alignment</emphasis>
+         &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>lab_val</emphasis> will be a label value in the calling
@@ -5620,12 +5456,11 @@
           <member>Encoding number:</member><member>103</member>
         </simplelist>
 <programlisting>
-   <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
-<emphasis>mode</emphasis>:        ROUNDING_MODE
-<emphasis>r</emphasis>:       VARIETY
-<emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
--&gt; EXP INTEGER(<emphasis>r</emphasis>)
-  
+<emphasis>flpt_err</emphasis>: ERROR_TREATMENT
+<emphasis>mode</emphasis>:     ROUNDING_MODE
+<emphasis>r</emphasis>:        VARIETY
+<emphasis>arg1</emphasis>:     EXP FLOATING(<emphasis>f</emphasis>)
+          &rarr; EXP INTEGER(<emphasis>r</emphasis>)
 </programlisting>
 
         <para><emphasis>arg</emphasis> is evaluated to produce a floating point
@@ -5649,10 +5484,9 @@
           <member>Encoding number:</member><member>104</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>w</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The value delivered by <emphasis>arg1</emphasis> is rotated left
@@ -5673,10 +5507,9 @@
           <member>Encoding number:</member><member>105</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>w</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The value delivered by <emphasis>arg1</emphasis> is rotated right
@@ -5697,10 +5530,9 @@
           <member>Encoding number:</member><member>106</member>
         </simplelist>
 <programlisting>
-   <emphasis>statements</emphasis>:  LIST(EXP)
-<emphasis>result</emphasis>:      EXP <emphasis>x</emphasis>
--&gt; EXP <emphasis>x</emphasis>
-  
+<emphasis>statements</emphasis>: LIST(EXP)
+<emphasis>result</emphasis>:     EXP <emphasis>x</emphasis>
+            &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
         <para>The statements are evaluated in the same order as the list,
@@ -5732,9 +5564,8 @@
           <member>Encoding number:</member><member>107</member>
         </simplelist>
 <programlisting>
-   <emphasis>lim</emphasis>:     EXP POINTER({<emphasis>locals_alignment, alloca_alignment}</emphasis>)
--&gt; EXP TOP
-  
+<emphasis>lim</emphasis>: EXP POINTER({<emphasis>locals_alignment, alloca_alignment}</emphasis>)
+     &rarr; EXP TOP
 </programlisting>
 
         <para><emphasis>set_stack_limit</emphasis> sets the limits of remaining
@@ -5767,9 +5598,8 @@
           <member>Encoding number:</member><member>108</member>
         </simplelist>
 <programlisting>
-   <emphasis>s</emphasis>:       SHAPE
--&gt; EXP OFFSET(<emphasis>alignment</emphasis>(<emphasis>s</emphasis>), {})
-  
+<emphasis>s</emphasis>: SHAPE
+   &rarr; EXP OFFSET(<emphasis>alignment</emphasis>(<emphasis>s</emphasis>), {})
 </programlisting>
 
         <para>This construction delivers the This construction delivers the
@@ -5805,11 +5635,10 @@
           <member>Encoding number:</member><member>109</member>
         </simplelist>
 <programlisting>
-   <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
-<emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>w</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5839,10 +5668,9 @@
           <member>Encoding number:</member><member>110</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>w</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5867,10 +5695,9 @@
           <member>Encoding number:</member><member>111</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
--&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5893,11 +5720,10 @@
           <member>Encoding number:</member><member>112</member>
         </simplelist>
 <programlisting>
-   <emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>p</emphasis>:       EXP PROC
+<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
+<emphasis>p</emphasis>:           EXP PROC
 <emphasis>callee_pars</emphasis>: CALLEES
--&gt; EXP BOTTOM
-  
+             &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>p</emphasis> is called in the sense of
@@ -5931,9 +5757,8 @@
           <member>Encoding number:</member><member>113</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
--&gt; EXP BOTTOM
-  
+<emphasis>arg1</emphasis>: EXP <emphasis>x</emphasis>
+      &rarr; EXP BOTTOM
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a value,
@@ -5956,12 +5781,11 @@
           <member>Encoding number:</member><member>114</member>
         </simplelist>
 <programlisting>
-   <emphasis>opt_access</emphasis>:  OPTION(ACCESS)
-<emphasis>name_intro</emphasis>:  TAG POINTER(<emphasis>alignment(x</emphasis>))
-<emphasis>init</emphasis>:        EXP <emphasis>x</emphasis>
-<emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
-  
+<emphasis>opt_access</emphasis>: OPTION(ACCESS)
+<emphasis>name_intro</emphasis>: TAG POINTER(<emphasis>alignment(x</emphasis>))
+<emphasis>init</emphasis>:       EXP <emphasis>x</emphasis>
+<emphasis>body</emphasis>:       EXP <emphasis>y</emphasis>
+            &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para><emphasis>init</emphasis> is evaluated to produce a value,
@@ -6014,10 +5838,9 @@
           <member>Encoding number:</member><member>115</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -6051,9 +5874,8 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>s</emphasis>:       BYTE_ALIGN TDFIDENT(<emphasis>n</emphasis>)
--&gt; EXTERNAL
-  
+<emphasis>s</emphasis>: BYTE_ALIGN TDFIDENT(<emphasis>n</emphasis>)
+   &rarr; EXTERNAL
 </programlisting>
 
         <para><emphasis>string_extern</emphasis> produces an
@@ -6068,9 +5890,8 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>u</emphasis>:       BYTE_ALIGN UNIQUE
--&gt; EXTERNAL
-  
+<emphasis>u</emphasis>: BYTE_ALIGN UNIQUE
+   &rarr; EXTERNAL
 </programlisting>
 
         <para><emphasis>unique_extern</emphasis> produces an
@@ -6085,10 +5906,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>s</emphasis>:       BYTE_ALIGN TDFIDENT
-<emphasis>prev</emphasis>:        TDFINT
--&gt; EXTERNAL
-  
+<emphasis>s</emphasis>:    BYTE_ALIGN TDFIDENT
+<emphasis>prev</emphasis>: TDFINT
+      &rarr; EXTERNAL
 </programlisting>
 
         <para>This construct is redundant and should not be used.</para>
@@ -6113,9 +5933,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>el</emphasis>:      SLIST(LINKEXTERN)
--&gt; EXTERN_LINK
-  
+<emphasis>el</emphasis>: SLIST(LINKEXTERN)
+    &rarr; EXTERN_LINK
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> requires a
@@ -6143,10 +5962,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; FLOATING_VARIETY
-  
+             &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6165,11 +5983,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM FLOATING_VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM FLOATING_VARIETY
--&gt; FLOATING_VARIETY
-  
+         &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6188,12 +6005,11 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>base</emphasis>:        NAT
-<emphasis>mantissa_digs</emphasis>:   NAT
-<emphasis>min_exponent</emphasis>:    NAT
-<emphasis>max_exponent</emphasis>:    NAT
--&gt; FLOATING_VARIETY
-  
+<emphasis>base</emphasis>:          NAT
+<emphasis>mantissa_digs</emphasis>: NAT
+<emphasis>min_exponent</emphasis>:  NAT
+<emphasis>max_exponent</emphasis>:  NAT
+               &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para><emphasis>base</emphasis> is the base with respect to which the
@@ -6229,11 +6045,11 @@
 <programlisting>
 <emphasis>base<superscript>q-1</superscript></emphasis> &le; M &lt; <emphasis>base<superscript>q</superscript></emphasis>
 </programlisting>
-	  and
+          and
 <programlisting>
 <emphasis>-min_exponent</emphasis> &le; N &le; <emphasis>max_exponent</emphasis>
 </programlisting>
-	</para>
+        </para>
 
         <para>Zero will also be represented exactly in any
           <literal>FLOATING_VARIETY</literal>.</para>
@@ -6246,12 +6062,11 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>base</emphasis>:        NAT
-<emphasis>mantissa_digs</emphasis>:   NAT
-<emphasis>min_exponent</emphasis>:    NAT
-<emphasis>max_exponent</emphasis>:    NAT
--&gt; FLOATING_VARIETY
-  
+<emphasis>base</emphasis>:          NAT
+<emphasis>mantissa_digs</emphasis>: NAT
+<emphasis>min_exponent</emphasis>:  NAT
+<emphasis>max_exponent</emphasis>:  NAT
+               &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para>A <literal>FLOATING_VARIETY</literal> described by
@@ -6268,9 +6083,8 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>csh</emphasis>:     SHAPE
--&gt; FLOATING_VARIETY
-  
+<emphasis>csh</emphasis>: SHAPE
+     &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para><emphasis>csh</emphasis> will be a complex
@@ -6288,9 +6102,8 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   <emphasis>fsh</emphasis>:     SHAPE
--&gt; FLOATING_VARIETY
-  
+<emphasis>fsh</emphasis>: SHAPE
+     &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para><emphasis>fsh</emphasis> will be a floating
@@ -6320,9 +6133,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>us</emphasis>:      SLIST(UNIT)
--&gt; GROUP
-  
+<emphasis>us</emphasis>: SLIST(UNIT)
+    &rarr; GROUP
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> contains a list of
@@ -6351,10 +6163,9 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; LABEL <emphasis>x</emphasis>
-  
+             &rarr; LABEL <emphasis>x</emphasis>
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6373,9 +6184,8 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>labelno</emphasis>: TDFINT
--&gt; LABEL
-  
+<emphasis>labelno</emphasis>: TDFINT
+         &rarr; LABEL
 </programlisting>
 
         <para>Labels are represented in TDF by integers, but they are not
@@ -6403,10 +6213,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>unit_name</emphasis>:   TDFINT
-<emphasis>capsule_name</emphasis>:    TDFINT
--&gt; LINK
-  
+<emphasis>unit_name</emphasis>:    TDFINT
+<emphasis>capsule_name</emphasis>: TDFINT
+              &rarr; LINK
 </programlisting>
 
         <para>A <literal>LINK</literal> defines a linkable entity declared
@@ -6441,10 +6250,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>internal</emphasis>:    TDFINT
-<emphasis>ext</emphasis>:     EXTERNAL
--&gt; LINKEXTERN
-  
+<emphasis>internal</emphasis>: TDFINT
+<emphasis>ext</emphasis>:      EXTERNAL
+          &rarr; LINKEXTERN
 </programlisting>
 
         <para><emphasis>make_linkextern</emphasis> produces a
@@ -6473,9 +6281,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>ls</emphasis>:      SLIST(LINK)
--&gt; LINKS
-  
+<emphasis>ls</emphasis>: SLIST(LINK)
+    &rarr; LINKS
 </programlisting>
 
         <para><emphasis>make_unit</emphasis> uses a
@@ -6504,10 +6311,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; NAT
-  
+             &rarr; NAT
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6526,11 +6332,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM NAT
 <emphasis>e2</emphasis>:      BITSTREAM NAT
--&gt; NAT
-  
+         &rarr; NAT
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6549,9 +6354,8 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
--&gt; NAT
-  
+<emphasis>arg</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+     &rarr; NAT
 </programlisting>
 
         <para><emphasis>arg</emphasis> will be an install-time non-negative
@@ -6565,9 +6369,8 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>err</emphasis>:     ERROR_CODE
--&gt; NAT
-  
+<emphasis>err</emphasis>: ERROR_CODE
+     &rarr; NAT
 </programlisting>
 
         <para>Gives the <literal>NAT</literal> corresponding to the
@@ -6583,9 +6386,8 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>n</emphasis>:       TDFINT
--&gt; NAT
-  
+<emphasis>n</emphasis>: TDFINT
+   &rarr; NAT
 </programlisting>
 
         <para><emphasis>n</emphasis> is a non-negative integer of unbounded
@@ -6614,10 +6416,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; NTEST
-  
+             &rarr; NTEST
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6636,11 +6437,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM NTEST
 <emphasis>e2</emphasis>:      BITSTREAM NTEST
--&gt; NTEST
-  
+         &rarr; NTEST
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6659,8 +6459,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;equal&quot; test. quot;equalSignifies
@@ -6674,8 +6473,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;greater than&quot; test. quot;greater
@@ -6689,8 +6487,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;greater than or equal&quot; test.
@@ -6705,8 +6502,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;less than&quot; test. quot;less
@@ -6720,8 +6516,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;less than or equal&quot; test.
@@ -6736,8 +6531,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not equal&quot; test. quot;not
@@ -6751,8 +6545,7 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not greater than&quot; test. quot;not
@@ -6767,8 +6560,7 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not (greater than or equal)&quot; test.
@@ -6783,8 +6575,7 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not less than&quot; test. quot;not less
@@ -6798,8 +6589,7 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not (less than or equal)&quot; test.
@@ -6814,8 +6604,7 @@
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;less than or greater than&quot; test.
@@ -6830,8 +6619,7 @@
           <member>Encoding number:</member><member>14</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not less than and not greater
@@ -6846,8 +6634,7 @@
           <member>Encoding number:</member><member>15</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;comparable&quot; test.
@@ -6865,8 +6652,7 @@
           <member>Encoding number:</member><member>16</member>
         </simplelist>
 <programlisting>
-   -&gt; NTEST
-  
+&rarr; NTEST
 </programlisting>
 
         <para>Signifies Signifies &quot;not comparable&quot; test. quot;not
@@ -6895,10 +6681,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>tgopt</emphasis>:       OPTION(TAG <emphasis>x</emphasis>)
-<emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
--&gt; OTAGEXP
-  
+<emphasis>tgopt</emphasis>: OPTION(TAG <emphasis>x</emphasis>)
+<emphasis>e</emphasis>:     EXP <emphasis>x</emphasis>
+       &rarr; OTAGEXP
 </programlisting>
 
         <para><emphasis>e</emphasis> is evaluated and its value is the actual
@@ -6927,10 +6712,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; PROCPROPS
-  
+             &rarr; PROCPROPS
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6949,11 +6733,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM PROCPROPS
 <emphasis>e2</emphasis>:      BITSTREAM PROCPROPS
--&gt; PROCPROPS
-  
+         &rarr; PROCPROPS
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6972,10 +6755,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        PROCPROPS
-<emphasis>arg2</emphasis>:        PROCPROPS
--&gt; PROCPROPS
-  
+<emphasis>arg1</emphasis>: PROCPROPS
+<emphasis>arg2</emphasis>: PROCPROPS
+      &rarr; PROCPROPS
 </programlisting>
 
         <para>Delivers the join of <emphasis>arg1</emphasis> and
@@ -6989,8 +6771,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>The procedure body is required to check for stack
@@ -7004,8 +6785,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>The procedure body is a good candidate for inlining at its
@@ -7019,8 +6799,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>The procedure body will contain no label which is the destination
@@ -7034,8 +6813,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>The procedure body may be exited using an
@@ -7049,8 +6827,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>Applications of the procedure may have different numbers of
@@ -7064,8 +6841,7 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   -&gt; PROCPROPS
-  
+&rarr; PROCPROPS
 </programlisting>
 
         <para>Applications of the procedure may have different numbers of
@@ -7152,10 +6928,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; ROUNDING_MODE
-  
+             &rarr; ROUNDING_MODE
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7174,11 +6949,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM ROUNDING_MODE
 <emphasis>e2</emphasis>:      BITSTREAM ROUNDING_MODE
--&gt; ROUNDING_MODE
-  
+         &rarr; ROUNDING_MODE
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7197,8 +6971,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; ROUNDING_MODE
-  
+&rarr; ROUNDING_MODE
 </programlisting>
 
         <para>Round as specified by the current state of the machine.</para>
@@ -7211,8 +6984,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; ROUNDING_MODE
-  
+&rarr; ROUNDING_MODE
 </programlisting>
 
         <para>Signifies rounding to nearest. The effect when the number lies
@@ -7226,8 +6998,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; ROUNDING_MODE
-  
+&rarr; ROUNDING_MODE
 </programlisting>
 
         <para>Signifies rounding toward next largest.</para>
@@ -7240,8 +7011,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; ROUNDING_MODE
-  
+&rarr; ROUNDING_MODE
 </programlisting>
 
         <para>Signifies rounding toward next smallest.</para>
@@ -7254,8 +7024,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; ROUNDING_MODE
-  
+&rarr; ROUNDING_MODE
 </programlisting>
 
         <para>Signifies rounding toward zero.</para>
@@ -7285,10 +7054,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; SHAPE
-  
+             &rarr; SHAPE
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7307,11 +7075,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM SHAPE
 <emphasis>e2</emphasis>:      BITSTREAM SHAPE
--&gt; SHAPE
-  
+         &rarr; SHAPE
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7330,9 +7097,8 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>bf_var</emphasis>:      BITFIELD_VARIETY
--&gt; SHAPE
-  
+<emphasis>bf_var</emphasis>: BITFIELD_VARIETY
+        &rarr; SHAPE
 </programlisting>
 
         <para>A <literal>BITFIELD</literal> is used to represent a pattern of
@@ -7358,8 +7124,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; SHAPE
-  
+&rarr; SHAPE
 </programlisting>
 
         <para><literal>BOTTOM</literal> is the <literal>SHAPE</literal> which
@@ -7379,9 +7144,8 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>sz</emphasis>:      EXP OFFSET(<emphasis>x</emphasis>, y)
--&gt; SHAPE
-  
+<emphasis>sz</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, y)
+    &rarr; SHAPE
 </programlisting>
 
         <para>The <literal>SHAPE</literal> constructor
@@ -7407,9 +7171,8 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   <emphasis>fv</emphasis>:      FLOATING_VARIETY
--&gt; SHAPE
-  
+<emphasis>fv</emphasis>: FLOATING_VARIETY
+    &rarr; SHAPE
 </programlisting>
 
         <para>Most of the floating point arithmetic operations,
@@ -7434,9 +7197,8 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   <emphasis>var</emphasis>:     VARIETY
--&gt; SHAPE
-  
+<emphasis>var</emphasis>: VARIETY
+     &rarr; SHAPE
 </programlisting>
 
         <para>The different kinds of <literal>INTEGER</literal> are
@@ -7454,8 +7216,7 @@
           piece of TDF which attempted to add two values whose
           <literal>SHAPE</literal>s were:</para>
 <programlisting>
-   INTEGER(0, 60000)  <emphasis>and</emphasis>  INTEGER(0, 30000)
-  
+INTEGER(0, 60000)  <emphasis>and</emphasis>  INTEGER(0, 30000)
 </programlisting>
 
         <para>would be undefined. The reason is that without knowledge of the
@@ -7485,10 +7246,9 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   <emphasis>n</emphasis>:       NAT
-<emphasis>s</emphasis>:       SHAPE
--&gt; SHAPE
-  
+<emphasis>n</emphasis>: NAT
+<emphasis>s</emphasis>: SHAPE
+   &rarr; SHAPE
 </programlisting>
 
         <para>The <literal>NOF</literal> constructor describes the
@@ -7504,10 +7264,9 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        ALIGNMENT
-<emphasis>arg2</emphasis>:        ALIGNMENT
--&gt; SHAPE
-  
+<emphasis>arg1</emphasis>: ALIGNMENT
+<emphasis>arg2</emphasis>: ALIGNMENT
+      &rarr; SHAPE
 </programlisting>
 
         <para>The <literal>SHAPE</literal> constructor
@@ -7544,9 +7303,8 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg</emphasis>:     ALIGNMENT
--&gt; SHAPE
-  
+<emphasis>arg</emphasis>: ALIGNMENT
+     &rarr; SHAPE
 </programlisting>
 
         <para>A <literal>POINTER</literal> is a value which points to space
@@ -7564,8 +7322,7 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   -&gt; SHAPE
-  
+&rarr; SHAPE
 </programlisting>
 
         <para><literal>PROC</literal> is the <literal>SHAPE</literal> which
@@ -7579,8 +7336,7 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   -&gt; SHAPE
-  
+&rarr; SHAPE
 </programlisting>
 
         <para><literal>TOP</literal> is the <literal>SHAPE</literal> which
@@ -7607,10 +7363,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; SIGNED_NAT
-  
+             &rarr; SIGNED_NAT
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7629,11 +7384,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM SIGNED_NAT
 <emphasis>e2</emphasis>:      BITSTREAM SIGNED_NAT
--&gt; SIGNED_NAT
-  
+         &rarr; SIGNED_NAT
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7652,9 +7406,8 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
--&gt; SIGNED_NAT
-  
+<emphasis>arg</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+     &rarr; SIGNED_NAT
 </programlisting>
 
         <para><emphasis>arg</emphasis> will be an install-time constant. The
@@ -7668,10 +7421,9 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>neg</emphasis>:     TDFBOOL
-<emphasis>n</emphasis>:       TDFINT
--&gt; SIGNED_NAT
-  
+<emphasis>neg</emphasis>: TDFBOOL
+<emphasis>n</emphasis>:   TDFINT
+     &rarr; SIGNED_NAT
 </programlisting>
 
         <para><emphasis>n</emphasis> is a non-negative integer of unbounded
@@ -7686,10 +7438,9 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   <emphasis>neg</emphasis>:     BOOL
-<emphasis>n</emphasis>:       NAT
--&gt; SIGNED_NAT
-  
+<emphasis>neg</emphasis>: BOOL
+<emphasis>n</emphasis>:   NAT
+     &rarr; SIGNED_NAT
 </programlisting>
 
         <para>The result is negated if and only if <emphasis>neg</emphasis> is
@@ -7715,8 +7466,7 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7727,8 +7477,7 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7739,8 +7488,7 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7751,8 +7499,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7763,8 +7510,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7775,8 +7521,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7787,8 +7532,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
 
         <para>The <literal>SORT</literal> of <literal>EXP</literal>.</para>
@@ -7801,8 +7545,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7813,9 +7556,8 @@
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
-   <emphasis>foreign_name</emphasis>:    STRING<emphasis>(k, n)</emphasis>
--&gt; SORTNAME
-  
+<emphasis>foreign_name</emphasis>: STRING<emphasis>(k, n)</emphasis>
+              &rarr; SORTNAME
 </programlisting>
 
         <para>This <literal>SORT</literal> enables unanticipated kinds of
@@ -7829,8 +7571,7 @@
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7841,8 +7582,7 @@
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7853,8 +7593,7 @@
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7865,8 +7604,7 @@
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7877,8 +7615,7 @@
           <member>Encoding number:</member><member>14</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7889,8 +7626,7 @@
           <member>Encoding number:</member><member>15</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7901,8 +7637,7 @@
           <member>Encoding number:</member><member>16</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7913,8 +7648,7 @@
           <member>Encoding number:</member><member>17</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7925,8 +7659,7 @@
           <member>Encoding number:</member><member>18</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
 
         <para>The <literal>SORT</literal> of <literal>TAG</literal>.</para>
@@ -7939,8 +7672,7 @@
           <member>Encoding number:</member><member>19</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
 
@@ -7951,10 +7683,9 @@
           <member>Encoding number:</member><member>20</member>
         </simplelist>
 <programlisting>
-   <emphasis>result</emphasis>:      SORTNAME
-<emphasis>params</emphasis>:      LIST(SORTNAME)
--&gt; SORTNAME
-  
+<emphasis>result</emphasis>: SORTNAME
+<emphasis>params</emphasis>: LIST(SORTNAME)
+        &rarr; SORTNAME
 </programlisting>
 
         <para>The <literal>SORTNAME</literal> of a <literal>TOKEN</literal>.
@@ -7968,8 +7699,7 @@
           <member>Encoding number:</member><member>21</member>
         </simplelist>
 <programlisting>
-   -&gt; SORTNAME
-  
+&rarr; SORTNAME
 </programlisting>
       </sect2>
     </sect1>
@@ -7989,10 +7719,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; STRING<emphasis>(k, n)</emphasis>
-  
+             &rarr; STRING<emphasis>(k, n)</emphasis>
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8011,11 +7740,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM STRING
 <emphasis>e2</emphasis>:      BITSTREAM STRING
--&gt; STRING<emphasis>(k, n)</emphasis>
-  
+         &rarr; STRING<emphasis>(k, n)</emphasis>
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -8034,10 +7762,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg1</emphasis>:        STRING<emphasis>(k, n)</emphasis>
-<emphasis>arg2</emphasis>:        STRING<emphasis>(k, m)</emphasis>
--&gt; STRING<emphasis>(k, n+m)</emphasis>
-  
+<emphasis>arg1</emphasis>: STRING<emphasis>(k, n)</emphasis>
+<emphasis>arg2</emphasis>: STRING<emphasis>(k, m)</emphasis>
+      &rarr; STRING<emphasis>(k, n+m)</emphasis>
 </programlisting>
 
         <para>Gives a <literal>STRING</literal> which is the concatenation of
@@ -8051,9 +7778,8 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>arg</emphasis>:     TDFSTRING<emphasis>(k, n)</emphasis>
--&gt; STRING<emphasis>(k, n)</emphasis>
-  
+<emphasis>arg</emphasis>: TDFSTRING<emphasis>(k, n)</emphasis>
+     &rarr; STRING<emphasis>(k, n)</emphasis>
 </programlisting>
 
         <para>Delivers the <literal>STRING</literal> identical to the
@@ -8080,10 +7806,9 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; TAG <emphasis>x</emphasis>
-  
+             &rarr; TAG <emphasis>x</emphasis>
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8102,9 +7827,8 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>tagno</emphasis>:       TDFINT
--&gt; TAG <emphasis>x</emphasis>
-  
+<emphasis>tagno</emphasis>: TDFINT
+       &rarr; TAG <emphasis>x</emphasis>
 </programlisting>
 
         <para><emphasis>make_tag</emphasis> produces a <literal>TAG</literal>
@@ -8131,10 +7855,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>tg</emphasis>:      TAG POINTER <emphasis>var_param_alignment</emphasis>
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
--&gt; TAGACC
-  
+<emphasis>tg</emphasis>:  TAG POINTER <emphasis>var_param_alignment</emphasis>
+<emphasis>acc</emphasis>: OPTION(ACCESS)
+     &rarr; TAGACC
 </programlisting>
 
         <para>Constructs the pair for <emphasis>make_proc</emphasis>.</para>
@@ -8159,12 +7882,11 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>t_intro</emphasis>: TDFINT
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>x</emphasis>:       SHAPE
--&gt; TAGDEC
-  
+<emphasis>t_intro</emphasis>:   TDFINT
+<emphasis>acc</emphasis>:       OPTION(ACCESS)
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>x</emphasis>:         SHAPE
+           &rarr; TAGDEC
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8196,12 +7918,11 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>t_intro</emphasis>: TDFINT
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>x</emphasis>:       SHAPE
--&gt; TAGDEC
-  
+<emphasis>t_intro</emphasis>:   TDFINT
+<emphasis>acc</emphasis>:       OPTION(ACCESS)
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>x</emphasis>:         SHAPE
+           &rarr; TAGDEC
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8235,12 +7956,11 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>t_intro</emphasis>: TDFINT
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>x</emphasis>:       SHAPE
--&gt; TAGDEC
-  
+<emphasis>t_intro</emphasis>:   TDFINT
+<emphasis>acc</emphasis>:       OPTION(ACCESS)
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>x</emphasis>:         SHAPE
+           &rarr; TAGDEC
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8324,10 +8044,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>no_labels</emphasis>:   TDFINT
-<emphasis>tds</emphasis>:     SLIST(TAGDEC)
--&gt; TAGDEC_PROPS
-  
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(TAGDEC)
+           &rarr; TAGDEC_PROPS
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8357,11 +8076,10 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>t</emphasis>:       TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
--&gt; TAGDEF
-  
+<emphasis>t</emphasis>:         TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>e</emphasis>:         EXP <emphasis>x</emphasis>
+           &rarr; TAGDEF
 </programlisting>
 
         <para><emphasis>make_id_tagdef</emphasis> produces a
@@ -8399,12 +8117,11 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>t</emphasis>:       TDFINT
-<emphasis>opt_access</emphasis>:  OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
--&gt; TAGDEF
-  
+<emphasis>t</emphasis>:          TDFINT
+<emphasis>opt_access</emphasis>: OPTION(ACCESS)
+<emphasis>signature</emphasis>:  OPTION(STRING)
+<emphasis>e</emphasis>:          EXP <emphasis>x</emphasis>
+           &rarr; TAGDEF
 </programlisting>
 
         <para><emphasis>make_var_tagdef</emphasis> produces a
@@ -8445,12 +8162,11 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>t</emphasis>:       TDFINT
-<emphasis>opt_access</emphasis>:  OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
--&gt; TAGDEF
-  
+<emphasis>t</emphasis>:          TDFINT
+<emphasis>opt_access</emphasis>: OPTION(ACCESS)
+<emphasis>signature</emphasis>:  OPTION(STRING)
+<emphasis>e</emphasis>:          EXP <emphasis>x</emphasis>
+           &rarr; TAGDEF
 </programlisting>
 
         <para><emphasis>common_tagdef</emphasis> produces a
@@ -8562,10 +8278,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>no_labels</emphasis>:   TDFINT
-<emphasis>tds</emphasis>:     SLIST(TAGDEF)
--&gt; TAGDEF_PROPS
-  
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(TAGDEF)
+           &rarr; TAGDEF_PROPS
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8591,11 +8306,10 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>sha</emphasis>:     SHAPE
-<emphasis>opt_access</emphasis>:  OPTION(ACCESS)
-<emphasis>tg_intro</emphasis>:    TAG
--&gt; TAGSHACC
-  
+<emphasis>sha</emphasis>:        SHAPE
+<emphasis>opt_access</emphasis>: OPTION(ACCESS)
+<emphasis>tg_intro</emphasis>:   TAG
+            &rarr; TAGSHACC
 </programlisting>
 
         <para>This is an auxiliary construction to make the elements of
@@ -8659,11 +8373,10 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>tok</emphasis>:     TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>s</emphasis>:       SORTNAME
--&gt; TOKDEC
-  
+<emphasis>tok</emphasis>:       TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>s</emphasis>:         SORTNAME
+           &rarr; TOKDEC
 </programlisting>
 
         <para>The sort of the token <emphasis>tok</emphasis> is declared to be
@@ -8698,9 +8411,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>tds</emphasis>:     SLIST(TOKDEC)
--&gt; TOKDEC_PROPS
-  
+<emphasis>tds</emphasis>: SLIST(TOKDEC)
+     &rarr; TOKDEC_PROPS
 </programlisting>
 
         <para><emphasis>tds</emphasis> is a list of <literal>TOKDEC</literal>s
@@ -8727,11 +8439,10 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>tok</emphasis>:     TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>def</emphasis>:     BITSTREAM TOKEN_DEFN
--&gt; TOKDEF
-  
+<emphasis>tok</emphasis>:       TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>def</emphasis>:       BITSTREAM TOKEN_DEFN
+           &rarr; TOKDEF
 </programlisting>
 
         <para>A <literal>TOKDEF</literal> is constructed which defines the
@@ -8778,10 +8489,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>no_labels</emphasis>:   TDFINT
-<emphasis>tds</emphasis>:     SLIST(TOKDEF)
--&gt; TOKDEF_PROPS
-  
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(TOKDEF)
+           &rarr; TOKDEF_PROPS
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8810,10 +8520,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; TOKEN
-  
+             &rarr; TOKEN
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8832,9 +8541,8 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>tokno</emphasis>:       TDFINT
--&gt; TOKEN
-  
+<emphasis>tokno</emphasis>: TDFINT
+       &rarr; TOKEN
 </programlisting>
 
         <para><emphasis>make_tok</emphasis> constructs a
@@ -8849,9 +8557,8 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>tdef</emphasis>:        BITSTREAM TOKEN_DEFN
--&gt; TOKEN
-  
+<emphasis>tdef</emphasis>: BITSTREAM TOKEN_DEFN
+      &rarr; TOKEN
 </programlisting>
 
         <para><emphasis>tdef</emphasis> is used to supply the definition, as in
@@ -8880,11 +8587,10 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>result_sort</emphasis>: SORTNAME
+<emphasis>result_sort</emphasis>: SORTNAME
 <emphasis>tok_params</emphasis>:  LIST(TOKFORMALS)
 <emphasis>body</emphasis>:        <emphasis>result_sort</emphasis>
--&gt; TOKEN_DEFN
-  
+             &rarr; TOKEN_DEFN
 </programlisting>
 
         <para>Makes a token definition. <emphasis>result_sort</emphasis> is the
@@ -8964,10 +8670,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>sn</emphasis>:      SORTNAME
-<emphasis>tk</emphasis>:      TDFINT
--&gt; TOKFORMALS
-  
+<emphasis>sn</emphasis>: SORTNAME
+<emphasis>tk</emphasis>: TDFINT
+    &rarr; TOKFORMALS
 </programlisting>
 
         <para>An auxiliary construction to make up the elements of the lists in
@@ -9001,10 +8706,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; TRANSFER_MODE
-  
+             &rarr; TRANSFER_MODE
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -9029,11 +8733,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM TRANSFER_MODE
 <emphasis>e2</emphasis>:      BITSTREAM TRANSFER_MODE
--&gt; TRANSFER_MODE
-  
+         &rarr; TRANSFER_MODE
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -9052,10 +8755,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>md1</emphasis>:     TRANSFER_MODE
-<emphasis>md2</emphasis>:     TRANSFER_MODE
--&gt; TRANSFER_MODE
-  
+<emphasis>md1</emphasis>: TRANSFER_MODE
+<emphasis>md2</emphasis>: TRANSFER_MODE
+     &rarr; TRANSFER_MODE
 </programlisting>
 
         <para>A construction qualified by <emphasis>add_modes</emphasis> has
@@ -9073,8 +8775,7 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   -&gt; TRANSFER_MODE
-  
+&rarr; TRANSFER_MODE
 </programlisting>
 
         <para>If <emphasis>overlap</emphasis> is used to qualify a
@@ -9096,8 +8797,7 @@
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
-   -&gt; TRANSFER_MODE
-  
+&rarr; TRANSFER_MODE
 </programlisting>
 
         <para>This <literal>TRANSFER_MODE</literal> implies no special
@@ -9111,8 +8811,7 @@
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
-   -&gt; TRANSFER_MODE
-  
+&rarr; TRANSFER_MODE
 </programlisting>
 
         <para>If <emphasis>trap_on_nil</emphasis> is used to qualify a
@@ -9130,8 +8829,7 @@
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
-   -&gt; TRANSFER_MODE
-  
+&rarr; TRANSFER_MODE
 </programlisting>
 
         <para>If <emphasis>volatile</emphasis> is used to qualify a
@@ -9150,8 +8848,7 @@
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
-   -&gt; TRANSFER_MODE
-  
+&rarr; TRANSFER_MODE
 </programlisting>
 
         <para>A transfer qualified with complete shall leave the destination
@@ -9181,9 +8878,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>text</emphasis>:        SLIST(TDFIDENT)
--&gt; UNIQUE
-  
+<emphasis>text</emphasis>: SLIST(TDFIDENT)
+      &rarr; UNIQUE
 </programlisting>
 
         <para>Two <literal>UNIQUE</literal> values are equal if and only if
@@ -9212,11 +8908,10 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>local_vars</emphasis>:  SLIST(TDFINT)
-<emphasis>lks</emphasis>:     SLIST(LINKS)
-<emphasis>properties</emphasis>:  BYTESTREAM PROPS
--&gt; UNIT
-  
+<emphasis>local_vars</emphasis>: SLIST(TDFINT)
+<emphasis>lks</emphasis>:        SLIST(LINKS)
+<emphasis>properties</emphasis>: BYTESTREAM PROPS
+            &rarr; UNIT
 </programlisting>
 
         <para><emphasis>local_vars</emphasis> gives the number of linkable
@@ -9265,10 +8960,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>token_value</emphasis>: TOKEN
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; VARIETY
-  
+             &rarr; VARIETY
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -9287,11 +8981,10 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>e1</emphasis>:      BITSTREAM VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM VARIETY
--&gt; VARIETY
-  
+         &rarr; VARIETY
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -9310,10 +9003,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>lower_bound</emphasis>: SIGNED_NAT
+<emphasis>lower_bound</emphasis>: SIGNED_NAT
 <emphasis>upper_bound</emphasis>: SIGNED_NAT
--&gt; VARIETY
-  
+             &rarr; VARIETY
 </programlisting>
 
         <para><emphasis>lower_bound</emphasis> is the lower limit (inclusive)
@@ -9329,10 +9021,9 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>signed_width</emphasis>:    BOOL
-<emphasis>width</emphasis>:       NAT
--&gt; VARIETY
-  
+<emphasis>signed_width</emphasis>: BOOL
+<emphasis>width</emphasis>:        NAT
+              &rarr; VARIETY
 </programlisting>
 
         <para>If <emphasis>signed_width</emphasis> is <emphasis>true</emphasis>
@@ -9364,9 +9055,8 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>version_info</emphasis>:    SLIST(VERSION)
--&gt; VERSION_PROPS
-  
+<emphasis>version_info</emphasis>: SLIST(VERSION)
+              &rarr; VERSION_PROPS
 </programlisting>
 
         <para>Contains version information.</para>
@@ -9388,10 +9078,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>major_version</emphasis>:   TDFINT
-<emphasis>minor_version</emphasis>:   TDFINT
--&gt; VERSION
-  
+<emphasis>major_version</emphasis>: TDFINT
+<emphasis>minor_version</emphasis>: TDFINT
+               &rarr; VERSION
 </programlisting>
 
         <para>The major and minor version numbers of the TDF used. An increase
@@ -9414,9 +9103,8 @@
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>information</emphasis>: STRING(<emphasis>k, n</emphasis>)
--&gt; VERSION
-  
+<emphasis>information</emphasis>: STRING(<emphasis>k, n</emphasis>)
+             &rarr; VERSION
 </programlisting>
 
         <para>This is (usually character) information included in the TDF for
@@ -9450,10 +9138,9 @@
           <member>Encoding number:</member><member>0</member>
         </simplelist>
 <programlisting>
-   <emphasis>no_labels</emphasis>:   TDFINT
-<emphasis>tds</emphasis>:     SLIST(LINKINFO)
--&gt; LINKINFO_PROPS
-  
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(LINKINFO)
+           &rarr; LINKINFO_PROPS
 </programlisting>
 
         <para>Makes the <literal>UNIT</literal>.</para>
@@ -9475,10 +9162,9 @@
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
-   <emphasis>assexp</emphasis>:      EXP POINTER <emphasis>x</emphasis>
-<emphasis>id</emphasis>:      TDFSTRING<emphasis>(k, n)</emphasis>
--&gt; LINKINFO
-  
+<emphasis>assexp</emphasis>: EXP POINTER <emphasis>x</emphasis>
+<emphasis>id</emphasis>:     TDFSTRING<emphasis>(k, n)</emphasis>
+        &rarr; LINKINFO
 </programlisting>
 
         <para><emphasis>assexp</emphasis> will be an
@@ -9506,9 +9192,8 @@
           <member>Encoding number:</member> <member>2</member>
         </simplelist>
 <programlisting>
-   <emphasis>n</emphasis>:       TDFSTRING<emphasis>(k, n)</emphasis>
--&gt; LINKINFO
-  
+<emphasis>n</emphasis>: TDFSTRING<emphasis>(k, n)</emphasis>
+   &rarr; LINKINFO
 </programlisting>
 
         <para><emphasis>n</emphasis> shall be incorporated into the object file
@@ -9523,10 +9208,9 @@
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
-   <emphasis>namer</emphasis>:       EXP POINTER <emphasis>x</emphasis>
-<emphasis>val</emphasis>:     EXP POINTER <emphasis>y</emphasis>
--&gt; LINKINFO
-  
+<emphasis>namer</emphasis>: EXP POINTER <emphasis>x</emphasis>
+<emphasis>val</emphasis>:   EXP POINTER <emphasis>y</emphasis>
+       &rarr; LINKINFO
 </programlisting>
 
         <para><emphasis>namer</emphasis> and <emphasis>val</emphasis> will be
@@ -9545,10 +9229,9 @@
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
-   <emphasis>id</emphasis>:      TDFSTRING<emphasis>(k, n)</emphasis>
-<emphasis>val</emphasis>:     EXP POINTER <emphasis>x</emphasis>
--&gt; LINKINFO
-  
+<emphasis>id</emphasis>:  TDFSTRING<emphasis>(k, n)</emphasis>
+<emphasis>val</emphasis>: EXP POINTER <emphasis>x</emphasis>
+     &rarr; LINKINFO
 </programlisting>
 
         <para><emphasis>val</emphasis> will be an
@@ -9745,32 +9428,28 @@
       <sect2 id='class-one'>
         <title>Class 1</title>
 <programlisting>
-   <emphasis>p</emphasis> D1 <emphasis>q</emphasis> = <emphasis>n</emphasis>
-  
+<emphasis>p</emphasis> D1 <emphasis>q</emphasis> = <emphasis>n</emphasis>
 </programlisting>
 
         <para>where:</para>
 <programlisting>
-   <emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M1 <emphasis>q</emphasis>)
+<emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M1 <emphasis>q</emphasis>)
 sign(<emphasis>p</emphasis> M1 <emphasis>q</emphasis>) = sign(<emphasis>q</emphasis>)
 0 &lt;= |<emphasis>p</emphasis> M1 <emphasis>q</emphasis>| &lt; |<emphasis>q</emphasis>|
-  
 </programlisting>
       </sect2>
 
       <sect2 id='class-two'>
         <title>Class 2</title>
 <programlisting>
-   <emphasis>p</emphasis> D2 <emphasis>q</emphasis> = <emphasis>n</emphasis>
-  
+<emphasis>p</emphasis> D2 <emphasis>q</emphasis> = <emphasis>n</emphasis>
 </programlisting>
 
         <para>where:</para>
 <programlisting>
-   <emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M2 <emphasis>q</emphasis>)
+<emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M2 <emphasis>q</emphasis>)
 sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</emphasis>)
 0 &lt;= |<emphasis>p</emphasis> M2 <emphasis>q</emphasis>| &lt; |<emphasis>q</emphasis>|
-  
 </programlisting>
       </sect2>
     </sect1>
@@ -9898,7 +9577,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
 
       <para>The producer writer must give a definition of a
         <literal>TOKEN</literal> <emphasis>~Throw</emphasis> :
-        <literal>NAT</literal> -&gt; <literal>EXP</literal> where the
+        <literal>NAT</literal> &rarr; <literal>EXP</literal> where the
         <literal>NAT</literal> will be the <emphasis>error_val</emphasis> of some
         <literal>ERROR_CODE</literal>. The expansion of this token will be
         consistent with the interpretation of the relevant
@@ -10004,7 +9683,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         may be used to check that limit set by set_stack_limit is not exceeded by
         the allocation of the static locals of a procedure body to be obeyed. If
         it is exceeded then the producer-defined <literal>TOKEN</literal>
-        <emphasis>~Throw</emphasis>: <literal>NAT</literal> -&gt;
+        <emphasis>~Throw</emphasis>: <literal>NAT</literal> &rarr;
         <literal>EXP</literal> will be invoked as
         <emphasis>~Throw</emphasis>(<emphasis>error_val</emphasis>(<emphasis>stack_overflow</emphasis>)).
         Note that this will not include any space generated by
@@ -10346,20 +10025,17 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           there is one point to make concerning <emphasis>offset_max</emphasis>,
           which has the following arguments and result.</para>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
--&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
 </programlisting>
 
         <para>The <literal>SHAPE</literal>s could have been chosen to
           be:</para>
 <programlisting>
-   <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
--&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>),
-<emphasis>intersect_alignments</emphasis>(<emphasis>y</emphasis>, <emphasis>t</emphasis>))
-  
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>intersect_alignments</emphasis>(<emphasis>y</emphasis>, <emphasis>t</emphasis>))
 </programlisting>
 
         <para>where <emphasis>unite_alignments</emphasis> is set union and
@@ -10446,8 +10122,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           <emphasis>offset_add</emphasis> can operate correctly on these
           representations. However it is necessary that</para>
 <programlisting>
-   <emphasis>alignment</emphasis>(POINTER(<emphasis>A</emphasis>))={<emphasis>pointer</emphasis>}
-  
+<emphasis>alignment</emphasis>(POINTER(<emphasis>A</emphasis>))={<emphasis>pointer</emphasis>}
 </programlisting>
 
         <para>for any <literal>ALIGNMENT</literal>
@@ -10536,22 +10211,19 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
 
       <para>Note that:</para>
 <programlisting>
-   <emphasis>add_to_ptr(p, offset_add(q, r))</emphasis>
-  
+<emphasis>add_to_ptr(p, offset_add(q, r))</emphasis>
 </programlisting>
 
       <para>is equivalent to:</para>
 <programlisting>
-   <emphasis>add_to_ptr(add_to_ptr(p, q), r)</emphasis>
-  
+<emphasis>add_to_ptr(add_to_ptr(p, q), r)</emphasis>
 </programlisting>
 
       <para>In the case that <emphasis>p</emphasis> is the result of
         <emphasis>current_env</emphasis> and <emphasis>q</emphasis> is the result
         of <emphasis>env_offset</emphasis>:</para>
 <programlisting>
-   <emphasis>add_to_ptr(p, q)</emphasis>
-  
+<emphasis>add_to_ptr(p, q)</emphasis>
 </programlisting>
 
       <para>is defined to be an original pointer. For any such expression
@@ -10684,7 +10356,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       <para>If the <literal>ERROR_TREATMENT</literal> is
         <emphasis>trap(overflow),</emphasis> a producer-defined
         <literal>TOKEN</literal> <emphasis>~Throw</emphasis>:
-        <literal>NAT</literal> -&gt; <literal>EXP</literal> must be provided. On
+        <literal>NAT</literal> &rarr; <literal>EXP</literal> must be provided. On
         an overflow, the installer will arrange that
         <emphasis>~Throw</emphasis>(<emphasis>error_val</emphasis>(<emphasis>overflow</emphasis>))
         is evaluated.</para>
@@ -10807,15 +10479,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           <emphasis>F'</emphasis>. Extending the '-notation in the obvious
           manner:</para>
 <programlisting>
-   <emphasis>(a @ b)' = (a' @' b')</emphasis>
-  
+<emphasis>(a @ b)' = (a' @' b')</emphasis>
 </programlisting>
 
         <para>This equality will also hold using the TDF equality test,
           i.e.:</para>
 <programlisting>
-   <emphasis>(a @ b)' =' (a' @' b')</emphasis>
-  
+<emphasis>(a @ b)' =' (a' @' b')</emphasis>
 </programlisting>
       </sect2>
 
@@ -10827,14 +10497,12 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           the operator +; if <emphasis>x</emphasis> is any number and
           <emphasis>a</emphasis> and <emphasis>b</emphasis> are as above:</para>
 <programlisting>
-   <emphasis>(x &gt; b) =&gt; ((a' +' x') &gt;= (a + b)')</emphasis>
-  
+<emphasis>(x &gt; b) =&gt; ((a' +' x') &gt;= (a + b)')</emphasis>
 </programlisting>
 
         <para>and:</para>
 <programlisting>
-   <emphasis>(x &lt; b) =&gt; ((a' +' x') &lt;= (a + b)')</emphasis>
-  
+<emphasis>(x &lt; b) =&gt; ((a' +' x') &lt;= (a + b)')</emphasis>
 </programlisting>
 
         <para>and so on, reflecting the weakening of the ordering after the
@@ -10897,14 +10565,12 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         included in some properly aligned <literal>VARIETY</literal> value. The
         constraint applies to:</para>
 <programlisting>
-   <emphasis>x</emphasis>: <emphasis>offset</emphasis>(<emphasis>p</emphasis>, <emphasis>b</emphasis>)
-  
+<emphasis>x</emphasis>: <emphasis>offset</emphasis>(<emphasis>p</emphasis>, <emphasis>b</emphasis>)
 </programlisting>
 
       <para>and to:</para>
 <programlisting>
-   <emphasis>sh = bitfield</emphasis>(<emphasis>bfvar_bits(s, n)</emphasis>)
-  
+<emphasis>sh = bitfield</emphasis>(<emphasis>bfvar_bits(s, n)</emphasis>)
 </programlisting>
 
       <para>where <emphasis>alignment(sh)</emphasis> is included in
@@ -10916,14 +10582,12 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         <emphasis>q</emphasis>) where <emphasis>v</emphasis> is in
         <emphasis>q</emphasis>.</para>
 <programlisting>
-   <emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis>) &lt;= <emphasis>x</emphasis>
-  
+<emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis>) &lt;= <emphasis>x</emphasis>
 </programlisting>
 
       <para>and:</para>
 <programlisting>
-   <emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis> + <emphasis>sz</emphasis>(<emphasis>v</emphasis>)) &gt;= <emphasis>offset_pad</emphasis>( <emphasis>b</emphasis>, <emphasis>x</emphasis> + <emphasis>sz</emphasis>(<emphasis>sh</emphasis>))
-  
+<emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis> + <emphasis>sz</emphasis>(<emphasis>v</emphasis>)) &gt;= <emphasis>offset_pad</emphasis>( <emphasis>b</emphasis>, <emphasis>x</emphasis> + <emphasis>sz</emphasis>(<emphasis>sh</emphasis>))
 </programlisting>
 
       <para>where the comparisons are in the sense of
