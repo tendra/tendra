@@ -56,7 +56,7 @@
 
 
 
-extern void out_dwarf_type_attr PROTO_S ((diag_type t));
-extern void out_dwarf_user_type PROTO_S ((diag_type t));
-extern diag_type base_type PROTO_S ((diag_type t));
+extern void out_dwarf_type_attr(diag_type t);
+extern void out_dwarf_user_type(diag_type t);
+extern diag_type base_type(diag_type t);
 

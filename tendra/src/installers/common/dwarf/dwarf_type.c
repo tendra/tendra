@@ -92,9 +92,8 @@
 #define gcc_FT_long_long		0x8008
 #define gcc_FT_unsigned_long_long	0x8208
 
-static int is_fund_dwarf
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static int
+is_fund_dwarf(diag_type t)
 {
   switch(t->key)
   {
@@ -124,9 +123,8 @@ static int is_fund_dwarf
   exit (EXIT_FAILURE);
 }
 
-static void out_plain_fund_attr
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static void
+out_plain_fund_attr(diag_type t)
 {
   switch(t->key)
   {
@@ -201,9 +199,8 @@ static void out_plain_fund_attr
   }
 }
 
-static int is_qualified
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static int
+is_qualified(diag_type t)
 {
   switch(t->key)
   {
@@ -225,9 +222,8 @@ static int is_qualified
   }
 }
 
-static void out_quals
-    PROTO_N ( (t) )
-    PROTO_T ( diag_tq t )
+static void
+out_quals(diag_tq t)
 {
   if (t.is_const)
     dwarf1(MOD_const);
@@ -235,9 +231,8 @@ static void out_quals
     dwarf1(MOD_volatile);
 }
 
-static diag_type dequalify
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static diag_type
+dequalify(diag_type t)
 {
     /* get to base and output mods */
 /* QUALIFERS */
@@ -258,9 +253,8 @@ static diag_type dequalify
   }
 }
 
-diag_type base_type
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+diag_type
+base_type(diag_type t)
 {
   switch (t->key)
   {
@@ -273,9 +267,8 @@ diag_type base_type
   }
 }
 
-static void out_fund_attr
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static void
+out_fund_attr(diag_type t)
 {
   if (is_qualified(t))
   {
@@ -291,9 +284,8 @@ static void out_fund_attr
   }
 }
 
-static void out_plain_user_attr
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static void
+out_plain_user_attr(diag_type t)
 {
   /*  this NEVER writes out the actual TAG_xxxx block, but instead
    outputs the FORM_REF 4 byte offset of the actual block */
@@ -305,9 +297,8 @@ static void out_plain_user_attr
   dwarf4(&((*t->been_outed)[0]));
 }
 
-static void out_user_attr
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static void
+out_user_attr(diag_type t)
 {
   if (is_qualified(t))
   {
@@ -323,9 +314,8 @@ static void out_user_attr
   }
 }
 
-static void queue_up_type_out
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+static void
+queue_up_type_out(diag_type t)
 {
   if (BEEN_PUT_OUT(t))
   {
@@ -336,9 +326,8 @@ static void queue_up_type_out
   add_type_q(t);
 }
 
-void out_dwarf_type_attr
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+void
+out_dwarf_type_attr(diag_type t)
 {
 				/* output a dwarf type as an attribute
 				 if done once already then just the attr,
@@ -358,9 +347,8 @@ void out_dwarf_type_attr
   }
 }
 
-void out_dwarf_user_type
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+void
+out_dwarf_user_type(diag_type t)
 {
   if (!BEEN_PUT_OUT(t))		/* if so then no external refs */
   {
