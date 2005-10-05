@@ -309,7 +309,7 @@ out_procname(void)
 	else {
 		outs(local_prefix);
 		outn ((long)last_proc_cname);
-	};
+	}
 }
 
 
@@ -439,7 +439,7 @@ code_diag_info(dg_info d, void (*mcode)(void *), void * args)
 		code_diag_info (d->more, mcode, args);
 		break;
     }
-	};
+	}
 	return;
 }
 
@@ -1332,9 +1332,9 @@ out_diag_global(dg_name di, int global, int cname,
 		else {
 			outs(local_prefix);
 			outn ((long)cname);
-		};
+		}
 		d_outnl ();
-	};
+	}
 	return;
 }
 
@@ -1363,9 +1363,9 @@ diag_val_begin(diag_global * d, int global,
 		else {
 			outs(local_prefix);
 			outn ((long)cname);
-		};
+		}
 		d_outnl ();
-	};
+	}
 	return;
 }
 
@@ -1525,7 +1525,7 @@ stab_local(dg_name di, int param)
     else {
 		t->del_t = (param ? D_PARAM : D_LOCAL);
 		t->u.l.offset = (disp + no(id)) / 8;
-    };
+    }
     return;
 }
 

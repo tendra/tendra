@@ -83,13 +83,13 @@ might_overlap(shape sha, where w1, where w2)
 		if (name(e2) == name_tag && iscaonly(son(e2)))
 			return 0;
 		return 1;
-	};
+	}
 
 	if (name(e2) != name_tag) {
 		if (name(e1) == name_tag && iscaonly(son(e1)))
 			return 0;
 		return 1;
-	};
+	}
 
 	/* both are name_tags */
 	i1 = son(e1);
@@ -105,7 +105,7 @@ might_overlap(shape sha, where w1, where w2)
 		if (off2 <= off1 && (off2 + sz) > off1)
 			return 1;
 		return 0;
-	};
+	}
 	if (isglob(i2))
 		return 0;
 

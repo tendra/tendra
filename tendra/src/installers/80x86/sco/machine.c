@@ -90,7 +90,7 @@ reg_result(shape sha)
 		if (n == cpdhd && sz > 32 && sz != 64)
 			return 0;
 		return 1;
-	};
+	}
 
 	if (n == cpdhd || n == nofhd)
 		return 0;

@@ -97,7 +97,7 @@ check_filename(sourcemark sm)
     {
 		main_filename = sm.file->file.ints.chars;
 		return 1;
-    };
+    }
 }
 
 void
@@ -169,7 +169,7 @@ code_diag_info(diag_info * d, int proc_no,
 		}
 		code_diag_info (d->more, proc_no, mcode, args);
     }
-	};
+	}
 	return;
 }
 
@@ -191,7 +191,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 		if (l > 0)
 			fprintf(fpout, " .ln %d\n", l);
 		return;
-	};
+	}
 	if (d -> key == DIAG_INFO_ID)
 	{
 		ot ty;
@@ -205,7 +205,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 		{
 			fprintf(fpout, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 					last_line_no);
-		};
+		}
 
 		fprintf(fpout, " .def %s; .val ", d -> data.id_scope.nme.ints.chars);
 		if (param_dec)
@@ -217,7 +217,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 		fprintf(fpout, ".type 0%o; .endef\n", ty.type + (ty.modifier<<4));
 
 		return;
-	};
+	}
 
 	return;
 }
@@ -247,7 +247,7 @@ diag_val_begin(diag_global * d, int global,
 	else {
 		outs(local_prefix);
 		outn ((long)cname);
-	};
+	}
 	outs("; .scl ");
 	outn((long)(global ? 2 : 3));
 	outs("; ");
@@ -322,8 +322,8 @@ OUTPUT_GLOBALS_TAB(void)
 			fprintf (fpout, " .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
 			typ = out_type (di[i].data.typ.new_type, 0);
 			fprintf(fpout, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
-		};
-	};
+		}
+	}
 	return;
 }
 
@@ -340,7 +340,7 @@ OUTPUT_DIAG_TAGS(void)
 		outs ("                                                                                                                      ");
 		outnl ();
 		filename_space = 1;
-	};
+	}
 
 	for (i=0; i<n; ++i)
 	{
@@ -353,8 +353,8 @@ OUTPUT_DIAG_TAGS(void)
             out_tagged(d);
             break;
         default: break;
-		};
-	};
+		}
+	}
 	return;
 }
 
@@ -385,6 +385,6 @@ INSPECT_FILENAME(filename fn)
 		fseek (fpout, filename_pos, 0);
 		fprintf(fpout, " .file \"%s\"\n", f);
 		fseek(fpout, here, 0);
-	};
+	}
 	return;
 }

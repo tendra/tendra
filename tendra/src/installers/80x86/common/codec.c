@@ -135,7 +135,7 @@ uop(void (*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 		retcell (qw.where_exp);
 		cond1_set = 0;
 		return;
-	};
+	}
 	(*op) (sha, mw (a, 0), dest);
 	return;
 }

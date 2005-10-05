@@ -138,7 +138,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 					b = son(b);
 					first = 0;
 					goto rept;
-				};
+				}
 				if (name (bsa) == reff_tag &&
 					name (bsb) == reff_tag &&
 					(overlap ? (no (bsa) & -32) == (no (bsb) & -32) : no (bsa) == no (bsb)) &&
@@ -150,13 +150,13 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 					b = son(b);
 					first = 0;
 					goto rept;
-				};
-			};
+				}
+			}
 			if (isglob(a) || isglob(b))
 				return 0;
 			return (pt (a) == pt (b) &&
 					(overlap ? (no (a) & -32) == (no (b) & -32) : no (a) == no (b)));
-		};
+		}
 		if (na == name_tag) {
 			if ((overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b)) ||
 				(isvar (son (a)) != isvar (son (b))))
@@ -165,13 +165,13 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 			b = son(b);
 			first = 0;
 			goto rept;
-		};
+		}
 		if (na == cont_tag || na == ass_tag) {
 			a = son(a);
 			b = son(b);
 			first = 0;
 			goto rept;
-		};
+		}
 		if (na == field_tag || na == reff_tag) {
 			if (overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b))
 				return (0);
@@ -179,7 +179,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 			b = son(b);
 			first = 0;
 			goto rept;
-		};
+		}
 		if (na == real_tag && name (sh (a)) == name (sh (b))) {
 			flt fa, fb;
 			int  i;
@@ -191,15 +191,15 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 				 i++) {
 				if ((fa.mant)[i] != 0)
 					is_zero = 0;
-			};
+			}
 
 			return (i == MANT_SIZE &&
 					(is_zero || (fa.exp == fb.exp &&
 								 fa.sign == fb.sign)));
 
-		};
+		}
 		return (0);
-	};				/* end equal names */
+	}				/* end equal names */
 
 
 	if (na == name_tag && nb == ident_tag && first) {
@@ -208,14 +208,14 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		a = son(a);
 		first = 0;
 		goto rept;
-	};
+	}
 	if (na == ident_tag && nb == name_tag && first) {
 		if (overlap ? (no (b) & -32) != 0 : no (b) != 0)
 			return (0);
 		b = son(b);
 		first = 0;
 		goto rept;
-	};
+	}
 
 	if (na == cont_tag && name(son(a)) == name_tag &&
 		isvar(son(son(a))) && nb == ident_tag && first) {
@@ -224,7 +224,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		a = son(son(a));
 		first = 0;
 		goto rept;
-	};
+	}
 	if (na == ident_tag && nb == cont_tag && name(son(b)) == name_tag
 		&& isvar(son(son(b))) && first) {
 		if (overlap ? (no (son(b)) & -32) != 0 : no (son(b)) != 0)
@@ -232,7 +232,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		b = son(b);
 		first = 0;
 		goto rept;
-	};
+	}
 
 	if ((na == cont_tag || na == ass_tag) &&
 		name (son (a)) == name_tag &&
@@ -243,7 +243,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		b = son (b);
 		first = 0;
 		goto rept;
-	};
+	}
 	if ((nb == cont_tag || nb == ass_tag) &&
 		name (son (b)) == name_tag &&
 		isvar (son (son (b))) && na == name_tag && !isvar (son (a))) {
@@ -253,14 +253,14 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		b = son (son (b));
 		first = 0;
 		goto rept;
-	};
+	}
 	if ((na == ass_tag && nb == cont_tag) ||
 		(nb == ass_tag && na == cont_tag)) {
 		a = son(a);
 		b = son(b);
 		first = 0;
 		goto rept;
-	};
+	}
 	return (0);
 }
 
@@ -292,7 +292,7 @@ first_reg(int r)
 			t.regno = t.regno << 1;
 			++t.fr_no;
 		}
-	};
+	}
 	return (t);
 }
 
@@ -325,23 +325,23 @@ operand(int le, where wh, int b, int addr)
 			k = k / 8;
 		int_operand (k, le);
 		return;
-	};
+	}
 
 	if (n == ident_tag || n == labst_tag) {/* can only be dest */
 		switch (ptno (w)) {
 		case local_pl: {
 			rel_sp ((no (w) + off - stack_dec) / 8, b);
 			return;
-		};
+		}
 		case reg_pl: {
 			regn (no (w), off, w, le);
 			return;
-		};
+		}
 		default: {
 			MSG_fatal_illegal_operand();
-		};
-		};
-	};
+		}
+		}
+	}
 
 	if (n == name_tag) {
 		exp ident = son (w);
@@ -353,41 +353,41 @@ operand(int le, where wh, int b, int addr)
 			{
 				const_extn (ident, noff);
 				return;
-			};
+			}
 
 			if (isvar (ident))
 				const_extn (ident, noff);
 			else
 				extn (ident, noff, b);
 			return;
-		};
+		}
 
 		switch (ptno (ident)) {
 		case local_pl: {		/* local so relative to stack pointer or fp */
 			rel_sp ((ni + noff - stack_dec) / 8, b);
 			return;
-		};
+		}
 		case callstack_pl: {	/* caller arg so relative to stack pointer */
 			rel_cp ((ni + noff - stack_dec) / 8, b);
 			return;
-		};
+		}
 		case par_pl: {		/* parameter so relative to fp */
 			rel_ap ((ni + noff + 32) / 8, b);
 			return;
-		};
+		}
 		case reg_pl: {		/* in a register */
 			regn (ni, noff, w, le);
 			return;
-		};
+		}
 		case ferr_pl: {		/* relative to fp, depending on push space */
 			rel_ap1 ((ni + noff) / 8, b);
 			return;
-		};
+		}
 		default: {		/* doesnt happen */
 			MSG_fatal_illegal_operand();
-		};
-		};
-	};
+		}
+		}
+	}
 
 	if (n == cont_tag || n == ass_tag) {
 		exp ref = son (w);
@@ -395,13 +395,13 @@ operand(int le, where wh, int b, int addr)
 		if (addr) {
 			operand (le, mw (son (w), 0), b, 0);
 			return;
-		};
+		}
 		if (s == name_tag) {	/* content of id */
 			if (!isvar (son (ref))) {
 				exp ident = son (ref);
 				if (ptno (ident) != reg_pl && off != 0) {
 					MSG_fatal_illegal_operand();
-				};
+				}
 				if (isglob (ident)) {
 					if (name (sh (w)) != prokhd)
 						MSG_fatal_illegal_operand();
@@ -411,15 +411,15 @@ operand(int le, where wh, int b, int addr)
 					else
 						extn (ident, no (ref), b);
 					return;
-				};
+				}
 				switch (ptno (ident)) {
 				case reg_pl: {	/* indirect from register */
 					ind_reg (no (ident), no (ref), off, ref, b);
 					return;
-				};
+				}
 				default:
 					MSG_fatal_illegal_operand();
-				};
+				}
 			}
 			else {			/* variable */
 
@@ -430,31 +430,31 @@ operand(int le, where wh, int b, int addr)
 				if (isglob (ident)) {
 					extn (ident, noff, b);
 					return;
-				};
+				}
 				switch (ptno (ident)) {
 				case local_pl: {
 					/* local so relative to stack pointer or fp */
 					rel_sp ((ni + noff - stack_dec) / 8, b);
 					return;
-				};
+				}
 				case callstack_pl: {
 					/* caller arg so relative to stack pointer */
 					rel_cp ((ni + noff - stack_dec) / 8, b);
 					return;
-				};
+				}
 				case par_pl: {	/* parameter so relative to fp */
 					rel_ap ((ni + noff + 32) / 8, b);
 					return;
-				};
+				}
 				case reg_pl: {	/* in a register */
 					regn (ni, noff, ref, le);
 					return;
-				};
+				}
 				default:		/* doesnt happen */
 					MSG_fatal_illegal_operand();
-				};
-			};
-		};				/* end of cont(name) */
+				}
+			}
+		}				/* end of cont(name) */
 
 		if (s == cont_tag && name (son (ref)) == name_tag &&
 			isvar (son (son (ref)))) {
@@ -467,16 +467,16 @@ operand(int le, where wh, int b, int addr)
 
 				extn (ident, no (son (ref)), b);
 				return;
-			};
+			}
 			switch (ptno (ident)) {
 			case reg_pl: {		/* indirect from register */
 				ind_reg (no (ident), no (son (ref)), off, ref, b);
 				return;
-			};
+			}
 			default:
 				MSG_fatal_illegal_operand();
-			};
-		};				/* end of cont(cont(var)) */
+			}
+		}				/* end of cont(cont(var)) */
 
 
 		if (s == reff_tag) {
@@ -486,16 +486,16 @@ operand(int le, where wh, int b, int addr)
 				if (isglob (son (et))) {
 					extn (son (et), no (ref), b);
 					return;
-				};
+				}
 				switch (ptno (son (et))) {
 				case reg_pl: {
 					ind_reg (no (son (et)), no (et), (no (ref) + off), et, b);
 					return;
-				};
+				}
 				default:
 					MSG_fatal_illegal_operand();
-				};
-			};			/* end of cont(reff(name)) */
+				}
+			}			/* end of cont(reff(name)) */
 
 			if (t == cont_tag) {
 				switch (ptno (son (son (et)))) {
@@ -503,11 +503,11 @@ operand(int le, where wh, int b, int addr)
 					ind_reg (no (son (son (et))), no (son (et)),
 							 (no (ref) + off), son (et), b);
 					return;
-				};
+				}
 				default:
 					MSG_fatal_illegal_operand();
-				};
-			};			/* end of cont(ref(cont())) */
+				}
+			}			/* end of cont(ref(cont())) */
 
 			if (t == addptr_tag) {
 				where new_w;
@@ -515,9 +515,9 @@ operand(int le, where wh, int b, int addr)
 				new_w.where_off = off + no (ref);
 				operand (le, new_w, b, 0);
 				return;
-			};			/* end of cont(reff(addptr())) */
+			}			/* end of cont(reff(addptr())) */
 			MSG_fatal_illegal_operand();
-		};				/* end of cont(reff()) */
+		}				/* end of cont(reff()) */
 
 		if (s == addptr_tag) {
 			exp u = bro (son (ref));
@@ -531,18 +531,18 @@ operand(int le, where wh, int b, int addr)
 			if (name (u) == name_tag || name (u) == cont_tag) {
 				index_opnd (wc, wu, 1);
 				return;
-			};			/* end of cont(addptr(-, name)) */
+			}			/* end of cont(addptr(-, name)) */
 
 			if (name (u) == offset_mult_tag) {
 				int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
 				wu.where_exp = son (u);
 				index_opnd (wc, wu, k);
 				return;
-			};			/* end of cont(addptr(-, mult)) */
-		};				/* end of cont(addptr()) */
+			}			/* end of cont(addptr(-, mult)) */
+		}				/* end of cont(addptr()) */
 
 
-	};				/* end of cont */
+	}				/* end of cont */
 
 
 	if (n == reff_tag) {
@@ -552,32 +552,32 @@ operand(int le, where wh, int b, int addr)
 			if (isglob (son (se))) {
 				extn (son (se), no (w), b);
 				return;
-			};
+			}
 			switch (ptno (son (se))) {
 			case reg_pl: {
 				ind_reg (no (son (se)), no (son (se)), no (w), se, b);
 				return;
-			};
+			}
 			default:
 				MSG_fatal_illegal_operand();
-			};
-		};				/* end of reff(name)  */
+			}
+		}				/* end of reff(name)  */
 
 		if (s == cont_tag) {
 			if (isglob (son (son (se)))) {
 				extn (son (son (se)), no (w), b);
 				return;
-			};
+			}
 			switch (ptno (son (son (se)))) {
 			case reg_pl: {
 				ind_reg (no (son (son (se))), no (son (se)),
 						 no (w), son (se), b);
 				return;
-			};
+			}
 			default:
 				MSG_fatal_illegal_operand();
-			};
-		};				/* end of reff(cont()) */
+			}
+		}				/* end of reff(cont()) */
 
 		if (s == addptr_tag) {
 			where ww;
@@ -585,8 +585,8 @@ operand(int le, where wh, int b, int addr)
 			ww.where_off = off + no (w);
 			operand (le, ww, b, 0);
 			return;
-		};				/* end of reff(addptr()) */
-	};				/* end of reff() */
+		}				/* end of reff(addptr()) */
+	}				/* end of reff() */
 
 	if (n == addptr_tag) {
 		exp u = bro (son (w));
@@ -599,15 +599,15 @@ operand(int le, where wh, int b, int addr)
 		if (name (u) == name_tag || name (u) == cont_tag) {
 			index_opnd (wc, wu, 1);
 			return;
-		};				/* end of addptr(-, name)  */
+		}				/* end of addptr(-, name)  */
 
 		if (name (u) == offset_mult_tag) {
 			int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
 			wu.where_exp = son (u);
 			index_opnd (wc, wu, k);
 			return;
-		};				/* end of addptr(-, mult) */
-	};				/* end of addptr() */
+		}				/* end of addptr(-, mult) */
+	}				/* end of addptr() */
 
 	if (n == real_tag || n == val_tag || n == string_tag ||
 		n == proc_tag || n == general_proc_tag) {
@@ -617,37 +617,37 @@ operand(int le, where wh, int b, int addr)
 			const_list = getexp (f_bottom, const_list, 0, w, nilexp, 0, ln, 0);
 			const_intnl ((addr || n == proc_tag || n == general_proc_tag), ln, 0);
 			return;
-		};
+		}
 		/* assumes this is only used just after using the first part of the
 		 *       constant */
 		const_intnl (0, no (const_list), off);
 		return;
-	};
+	}
 
 	if (n == res_tag) {
 		const_intnl (0, no (w), off);
 		return;
-	};
+	}
 
 	if (n == null_tag) {
 		int_operand (no(w), le);
 		return;
-	};
+	}
 
 	if (n == field_tag) {
 		operand (le, mw (son (w), off + no (w)), b, addr);
 		return;
-	};
+	}
 
 	if (n == make_lv_tag) {
 		label_operand(w);
 		return;
-	};
+	}
 
 	if (n == current_env_tag) {
 		outbp();
 		return;
-	};
+	}
 
 	if (n == env_offset_tag) {
 		if (name(son(w))==0) {	/* must be caller arg with var_callees */
@@ -657,18 +657,18 @@ operand(int le, where wh, int b, int addr)
 		outs("$");
 		envoff_operand(son(w), no(w));
 		return;
-	};
+	}
 
 	if (n == env_size_tag) {
 		outs("$");
 		envsize_operand(son(son(w)));
 		return;
-	};
+	}
 
 	if (n == local_free_all_tag) {
 		ldisp();
 		return;
-	};
+	}
 
 	if (n == clear_tag) {
 		/* any legal operand will do! */
@@ -686,8 +686,8 @@ operand(int le, where wh, int b, int addr)
 		default:
 			outs("%eax");
 			return;
-		};
-	};
+		}
+	}
 
 	MSG_fatal_illegal_operand();
 }

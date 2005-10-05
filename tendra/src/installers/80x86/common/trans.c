@@ -475,7 +475,7 @@ main(int argc, char **argv)
 			outs(weak_list -> val_id);
 			outnl();
 			weak_list = weak_list -> next;
-		};
+		}
 
 #ifdef NEWDWARF
 		if (dwarf2) {

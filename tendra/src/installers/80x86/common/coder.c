@@ -667,7 +667,7 @@ def_where(exp e, exp def, ash stack)
 			ndc = alloc_regable (dc, def, e, big_reg);
 			if (ndc.dcl_pl != 0)		/* local copy of arg in register */
 				return (ndc);
-		};
+		}
 		dc.dcl_pl = ptno (son (def));
 		dc.dcl_n = no (son (def));
 		dc.dcl_new = 0;
@@ -1452,8 +1452,8 @@ coder(where dest, ash stack, exp e)
 					if (current_dg_info)
 						current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
-				};
-			};
+				}
+			}
 			if (!isret)
 				temp = final_dest_test(lab, e);
 			SET(temp);
@@ -2439,9 +2439,9 @@ coder(where dest, ash stack, exp e)
 					dpos = d;
 					break;
 				}
-			};
+			}
 			d = d->more;
-		};
+		}
 #ifdef NEWDWARF
 		CODE_DIAG_INFO (dgf(e), crt_proc_id, coder2, (void*)&args);
 #else
@@ -2451,7 +2451,7 @@ coder(where dest, ash stack, exp e)
 			crt_lno = dpos->data.i_src.endpos.line;
 			crt_charno = dpos->data.i_src.endpos.column;
 			crt_flnm = dpos->data.i_src.endpos.file->file_name;
-		};
+		}
 	}
 	else
 		coder1 (dest, stack, e);

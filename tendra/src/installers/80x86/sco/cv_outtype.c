@@ -90,7 +90,7 @@ out_type(diag_type t, int in_struct)
 		if (!is_signed(v))
 			res.type += 012;
 		break;
-	};
+	}
 	case DIAG_TYPE_FLOAT:
 	{
 		floating_variety v = t -> data.f_var;
@@ -101,9 +101,9 @@ out_type(diag_type t, int in_struct)
 		{
             res.type = 06;
             res.size = 4;
-		};
+		}
 		break;
-	};
+	}
 	case DIAG_TYPE_ARRAY:
 	{
 		ot arg;
@@ -120,7 +120,7 @@ out_type(diag_type t, int in_struct)
 		outn((long)res.size);
 		outs("; ");
 		break;
-	};
+	}
 	case DIAG_TYPE_PTR:
 	{
 		ot arg;
@@ -129,7 +129,7 @@ out_type(diag_type t, int in_struct)
 		res.size = 4;
 		res.type = arg.type;
 		break;
-	};
+	}
 	case DIAG_TYPE_PROC:
 	{
 		ot arg;
@@ -138,7 +138,7 @@ out_type(diag_type t, int in_struct)
 		res.size = 4;
 		res.type = arg.type;
 		break;
-	};
+	}
 	case DIAG_TYPE_STRUCT:
 	{
 		res.modifier = 0;
@@ -151,9 +151,9 @@ out_type(diag_type t, int in_struct)
 			outs(".size ");
 			outn((long)res.size);
 			outs("; ");
-		};
+		}
 		break;
-	};
+	}
 	case DIAG_TYPE_UNION:
 	{
 		res.modifier = 0;
@@ -166,9 +166,9 @@ out_type(diag_type t, int in_struct)
 			outs(".size ");
 			outn((long)res.size);
 			outs("; ");
-		};
+		}
 		break;
-	};
+	}
 	case DIAG_TYPE_ENUM:
 	{
 		ot arg;
@@ -180,19 +180,19 @@ out_type(diag_type t, int in_struct)
 			outs(".tag ");
 			outs(t -> data.t_struct.nme.ints.chars);
 			outs("; ");
-		};
+		}
 		outs(".size ");
 		outn((long)res.size);
 		outs("; ");
 		break;
-	};
+	}
 	case DIAG_TYPE_NULL:
 	{
 		res.modifier = 0;
 		res.size = 4;
 		res.type = 4;
 		break;
-	};
+	}
 	case DIAG_TYPE_LOC:
 		res = out_type(t -> data.loc.object, in_struct);
 		break;
@@ -204,7 +204,7 @@ out_type(diag_type t, int in_struct)
 		res.size = 4;
 		res.type = 4;
 		break;
-	};
+	}
 	return res;
 }
 
@@ -221,7 +221,7 @@ fixup(char ** n)
 		sprintf(&k[1], "%d", fixup_no++);
 		strcpy(k + strlen(k), "fake");
 		*n = k;
-    };
+    }
 	return;
 }
 
@@ -269,12 +269,12 @@ out_tagged(diag_type d)
 			ty = out_type(f.field_type, 1);
 			fprintf(fpout, ".type 0%o; .endef\n",
                     ty.type + (ty.modifier << 4));
-		};
-		};
+		}
+		}
         fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 				sz, d -> data.t_struct.nme.ints.chars, sz);
         return;
-	};
+	}
 	case DIAG_TYPE_UNION:
 	{
         struct diag_field_list_t fs;
@@ -303,11 +303,11 @@ out_tagged(diag_type d)
 		ty = out_type(f.field_type, 1);
 		fprintf(fpout, ".type 0%o; .endef\n",
 				ty.type + (ty.modifier << 4));
-		};
+		}
         fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 				sz, d -> data.t_union.nme.ints.chars, sz);
         return;
-	};
+	}
 	case DIAG_TYPE_ENUM:
 	{
         struct enum_values_list_t es;
@@ -322,12 +322,12 @@ out_tagged(diag_type d)
 		e = *es.array[i];
 		fprintf(fpout, " .def %s; .val %d; .scl 16; .type 013; .endef\n",
 				e.nme.ints.chars, no(e.val));
-		};
+		}
         fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 				sz, d -> data.t_enum.nme.ints.chars, sz);
         return;
-	};
+	}
 	default:
         return;
-	};
+	}
 }

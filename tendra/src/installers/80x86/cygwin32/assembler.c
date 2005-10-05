@@ -127,7 +127,7 @@ align_label(int f, exp jr)
 		if (f == 2)	/* preceded by a jmp or ret */
 			outs(".align 16");
 		outs("\n");
-	};
+	}
 	return;
 }
 
@@ -244,7 +244,7 @@ out_switch_jump(int tab, where a, int min)
 		outs (",4)");
 		outnl ();
 		return;
-	};
+	}
 }
 
 void
@@ -289,10 +289,10 @@ out_switch_table(int tab, int min, int max,
 					outs(local_prefix);
 					outn ((long)absent);
 				}
-			};
-		};
+			}
+		}
 		outnl ();
-	};
+	}
 	outnl();
 	return;
 }
@@ -327,7 +327,7 @@ outend(void)
 	if (st == EOF) {
 		failer ("failed to close file");
 		exit(EXIT_FAILURE);
-	};
+	}
 }
 
 void

@@ -252,7 +252,7 @@ out_procname()
 	else {
 		outs(local_prefix);
 		outn ((long)last_proc_cname);
-	};
+	}
 }
 
 
@@ -343,7 +343,7 @@ code_diag_info(diag_info * d, int proc_no,
 			stab_local (d, proc_no, acc);
 		code_diag_info (d->more, proc_no, mcode, args);
     }
-	};
+	}
 	return;
 }
 
@@ -784,9 +784,9 @@ diag_val_begin(diag_global * d, int global,
 		else {
 			outs(local_prefix);
 			outn ((long)cname);
-		};
+		}
 		outnl ();
-	};
+	}
 	return;
 }
 

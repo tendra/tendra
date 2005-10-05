@@ -97,12 +97,12 @@ special_fn(exp a1, exp a2, shape s)
 		spr.is_special = 1;
 		spr.special_exp = r;
 		return (spr);
-	};
+	}
 
 	if (!strcmp (id, "setjmp")) {
 		has_setjmp = 1;
 		module_has_setjmp = 1;
-	};
+	}
 
 	if (!strcmp (id, "longjmp")) {
 		exp r = getexp(f_bottom, nilexp, 0, a1, nilexp, 0, 0,apply_tag);
@@ -119,7 +119,7 @@ special_fn(exp a1, exp a2, shape s)
 		bro(a2) = r;
 		spr.is_special = 1;
 		spr.special_exp = r;
-	};
+	}
 
 	/* we must always set has_setjmp if it is longjmp,
 	 *        otherwise registers are not reset.
@@ -136,21 +136,21 @@ special_fn(exp a1, exp a2, shape s)
 		spr.special_exp = r;
 		kill_exp (a1, a1);
 		return (spr);
-	};
+	}
 
 	if (a2 != nilexp && last(a2) && !strcmp (id, "exit")) {
 		exp r = me_b3(f_bottom, a1, a2, apply_tag);
 		spr.is_special = 1;
 		spr.special_exp = r;
 		return (spr);
-	};
+	}
 
 	if (a2 == nilexp && !strcmp (id, "abort")) {
 		exp r = me_u3(f_bottom, a1, apply_tag);
 		spr.is_special = 1;
 		spr.special_exp = r;
 		return (spr);
-	};
+	}
 
 	return (spr);
 }

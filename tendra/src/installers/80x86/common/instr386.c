@@ -354,7 +354,7 @@ cmp64_contop(int d)
 			exp ap = getexp (f_bottom, nilexp, 0, sp.where_exp,
 							 nilexp, 0, 4, reff_tag);
 			ins2 (leal, size32, size32, mw (ap, 0), sp);
-		};
+		}
 		simple_branch (jmp, cmp_64hilab);
 		simplest_set_lab (lolab);
 	}
@@ -383,12 +383,12 @@ end_contop()
 			exp ap = getexp (f_bottom, nilexp, 0, sp.where_exp,
 							 nilexp, 0, 4, reff_tag);
 			ins2 (leal, size32, size32, mw (ap, 0), sp);
-		};
+		}
 		invalidate_dest (SPILLREG);
 		contop_dopop = 0;
 		extra_stack -= 32;
 		min_rfree |= SPILLMASK;
-	};
+	}
 	return;
 }
 
@@ -409,7 +409,7 @@ contop(exp a, int r0inuse, where dest)
 	else {
 		SPILLREG = reg3;
 		SPILLMASK = REG_EBX;
-	};
+	}
 
 	if ((n == cont_tag || n == ass_tag || n == reff_tag)
 		&& name (son (a)) == ident_tag) {
@@ -466,14 +466,14 @@ contop(exp a, int r0inuse, where dest)
 						no (id2) = 1;		/* id2 uses reg0 */
 						ptno (id1) = reg_pl;
 						no (id1) = no (son (son (id1)));
-					};
+					}
 
 					coder (mw (id1, 0), st, son (id1));
 					coder (mw (id2, 0), st, son (id2)); /* work out defs */
 					contop_level--;
 					son (a) = fin;		/* code body in caller */
 					return;
-				};
+				}
 
 
 				if (regs_free == 1 || !reg0_in_use) {
@@ -494,7 +494,7 @@ contop(exp a, int r0inuse, where dest)
 					if (name (fin) == reff_tag) {	/* remove reff */
 						offset = no (fin);
 						fin = son (fin);
-					};
+					}
 					old_overflow_e = overflow_e;
 					overflow_e = nilexp;
 					/* this must be an addptr, note that the
@@ -513,7 +513,7 @@ contop(exp a, int r0inuse, where dest)
 						mult (slongsh, use_reg, mw (bro (son (m)), 0),
 							  use_reg);
 						add (slongsh, mw (son (id2), 0), use_reg, use_reg);
-					};
+					}
 					overflow_e = old_overflow_e;
 
 					if (offset != 0) {
@@ -528,7 +528,7 @@ contop(exp a, int r0inuse, where dest)
 					 *		   in caller */
 					contop_level--;
 					return;
-				};
+				}
 
 				/* we are a register short so spill SPILLREG */
 				ins1 (pushl, size32, SPILLREG);
@@ -542,7 +542,7 @@ contop(exp a, int r0inuse, where dest)
 				if (name (fin) == reff_tag) {	/* remove reff */
 					offset = no (fin);
 					fin = son (fin);
-				};
+				}
 
 				old_overflow_e = overflow_e;
 				overflow_e = nilexp;
@@ -572,7 +572,7 @@ contop(exp a, int r0inuse, where dest)
 					else
 						/* otherwise add def of id2 to SPILLREG */
 						add (slongsh, mw (son (id2), 0), SPILLREG, SPILLREG);
-				};
+				}
 				overflow_e = old_overflow_e;
 
 				if (offset != 0) {	/* put back the reff if needed */
@@ -592,7 +592,7 @@ contop(exp a, int r0inuse, where dest)
 				else
 					contop_dopop = 2;	/* do not pop SPILREG */
 				return;
-			};
+			}
 
 			/* regs_goo >= 2 so we have enough registers */
 			setname (fin, top_tag);	/* nullify fin */
@@ -602,7 +602,7 @@ contop(exp a, int r0inuse, where dest)
 			setname (fin, oldn);	/* restore fin */
 			son (a) = fin;		/* code the rest in caller */
 			return;
-		};
+		}
 		/* end of IF 2 */
 
 		/* one declaration, so simple indirection */
@@ -631,7 +631,7 @@ contop(exp a, int r0inuse, where dest)
 				else
 					contop_dopop = 2;	/* do not pop SPILLREG */
 				return;
-			};
+			}
 
 			/* reg0 is available */
 			move (slongsh, mw (son (id1), 0), reg0);
@@ -643,7 +643,7 @@ contop(exp a, int r0inuse, where dest)
 			contop_level--;
 			son(a) = fin;	/* code the rest in caller */
 			return;
-		};
+		}
 
 
 		setname (fin, top_tag);	/* nullify fin */
@@ -653,7 +653,7 @@ contop(exp a, int r0inuse, where dest)
 		setname (fin, oldn);	/* restore fin */
 		son (a) = fin;		/* code the rest in caller */
 		return;
-	};
+	}
 	contop_level--;
 	top_regsinuse = regsinuse;
 	return;
@@ -689,7 +689,7 @@ initzeros()
 		(fllmaxr -> mant)[i] = (unsigned short)((i == 0) ? 1 : 0);
 		(fslongmaxr -> mant)[i] = (unsigned short)((i == 0) ? 32768 : 0);
 		(fsllmaxr -> mant)[i] = (unsigned short)((i == 0) ? 32768 : 0);
-	};
+	}
 
 	zeroe = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
 	fzeroe = getexp (shrealsh, nilexp, 0, nilexp, nilexp, 0, fzero_no, real_tag);
@@ -860,8 +860,8 @@ flinmem(where w)
 				id = son (son (e));
 				recog = 1;
 			}
-		};
-	};
+		}
+	}
 
 #ifndef NEWDIAGS
 	if (n == diagnose_tag)
@@ -872,7 +872,7 @@ flinmem(where w)
 		return (1);
 	else {
 		SET(id);
-	};
+	}
 
 	if (ptno (id) == reg_pl &&
 		(name (sh (son (id))) > ucharhd || no (id) < 0x10))/* 0x10 is edi */
@@ -934,7 +934,7 @@ absop(shape sha, where a1, where dest)
 		break;
     default:
 		failer("unexpected size");
-	};
+	}
 
 	cond1_set = 0;
 	cond2_set = 0;
@@ -993,7 +993,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 	else {
 		op12 = (ismax)  ? jb : ja;
 		op21 = (ismax) ? ja : jb;
-	};
+	}
 
 	cond1_set = 0;
 	cond2_set = 0;
@@ -1013,13 +1013,13 @@ maxmin(shape sha, where a1, where a2, where dest,
 		break;	/* use cmpl instead of in */
     default:
 		failer("unexpected size");
-	};
+	}
 
 	if (eq_where(a2, dest)) {
 		tempw = a1;
 		a1 = a2;
 		a2 = tempw;
-	};
+	}
 
 	mem1 = inmem(a1);
 	mem2 = inmem(a2);
@@ -1036,7 +1036,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 			move(sha, a2, reg0);
 			maxmin(sha, a1, reg0, dest, ismax);
 			return;
-		};
+		}
 		if (name(a2.where_exp) != val_tag) {
 			if (mem1) {
 				if (sz == 64) {
@@ -1056,7 +1056,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 					ins2(in, sz, sz, a1, a2);
 					end_contop();
 					simple_branch(op12, labno);
-				};
+				}
 			}
 			else {
 				if (mem2) {
@@ -1074,15 +1074,15 @@ maxmin(shape sha, where a1, where a2, where dest,
 						contop(a2.where_exp, eq_where(a1, reg0), dest);
 						ins2(in, sz, sz, a1, a2);
 						simple_branch(op12, labno);
-					};
+					}
 					late_contop = contop_dopop;
 					contop_dopop = 0;
 				}
 				else  {		/* cannot be (sz == 64) */
 					ins2(in, sz, sz, a1, a2);
 					simple_branch(op12, labno);
-				};
-			};
+				}
+			}
 		}
 		else {
 			if (sz == 64) {
@@ -1097,7 +1097,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 					x = flt_to_f64(no(a2.where_exp), is_signed(sha), &ov);
 					c = x.small;
 					c1 = x.big;
-				};
+				}
 				if (mem1) {
 					contop (a1.where_exp, 0, dest);
 					ins2 (cmpl, 32, 32, mw(zeroe, c1), mw(a1.where_exp, a1.where_off + 32));
@@ -1115,7 +1115,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 					simple_branch (jne, lab64);
 					ins2 (cmpl, 32, 32, mw(zeroe, c), reg0);
 					simple_branch ((ismax ? ja : jb), labno);
-				};
+				}
 			}
 			else {
 				if (mem1) {
@@ -1126,8 +1126,8 @@ maxmin(shape sha, where a1, where a2, where dest,
 				else
 					ins2(in, sz, sz, a2, a1);
 				simple_branch(op21, labno);
-			};
-		};
+			}
+		}
 		if (sz == 64)
 			simplest_set_lab (lab64);
 		move(sha, a2, dest);
@@ -1135,7 +1135,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 		if (late_contop) {
 			contop_dopop = late_contop;
 			end_contop();
-		};
+		}
 		regsinuse = riu;
 		invalidate_dest(dest);
 		invalidate_dest(a1);
@@ -1143,21 +1143,21 @@ maxmin(shape sha, where a1, where a2, where dest,
 		son(a1.where_exp) = hold1;
 		son(a2.where_exp) = hold2;
 		return;
-	};
+	}
 
 	if (eq_where(a1, reg0)) {
 		reg0_in_use = 1;
 		maxmin(sha, reg0, a2, reg0, ismax);
 		move(sha, reg0, dest);
 		return;
-	};
+	}
 
 	if (eq_where(a2, reg0)) {
 		reg0_in_use = 1;
 		maxmin(sha, a1, reg0, reg0, ismax);
 		move(sha, reg0, dest);
 		return;
-	};
+	}
 
 	move(sha, a1, reg0);
 	maxmin(sha, reg0, a2, dest, ismax);
@@ -1197,12 +1197,12 @@ add_plus(shape sha, where a1, where a2, where dest,
 		if (name(sha) == offsethd && al2(sha) != 1)
 			no(a) = no(a) / 8;
 		sh(a) = slongsh;
-	};
+	}
 	if (name(b) == val_tag && name(sh(b)) == offsethd && al2(sh(b)) != 1) {
 		if (name(sha) == offsethd && al2(sha) != 1)
 			no(b) = no(b) / 8;
 		sh(b) = slongsh;
-	};
+	}
 
 	cond1_set = 1;
 	cond2_set = 0;
@@ -1219,36 +1219,36 @@ add_plus(shape sha, where a1, where a2, where dest,
 			if (no (b) + boff == 0) {	/* adding zero */
 				cond1_set = 0;		/* we didn't know conditions after all */
 				return;
-			};
+			}
 			contop (a, 0, a1);	/* get the address of a if necessary */
 			if (no (b) + boff == 1) {	/* use inc */
 				if (sz == 8) {
 					ins1 (incb, sz, a1);
-				};
+				}
 				if (sz == 16) {
 					ins1 (incw, sz, a1);
-				};
+				}
 				if (sz == 32) {
 					ins1 (incl, sz, a1);
-				};
+				}
 			}
 			else {			/* use dec */
 				if (sz == 8) {
 					ins1 (decb, sz, a1);
-				};
+				}
 				if (sz == 16) {
 					ins1 (decw, sz, a1);
-				};
+				}
 				if (sz == 32) {
 					ins1 (decl, sz, a1);
-				};
-			};
+				}
+			}
 			invalidate_dest (dest);
 			end_contop ();
 			try_overflow (sha, plus1);
 			son(a) = hold;
 			return;
-		};
+		}
 
 		if (!inmem (a1) || !inmem (a2)) {
 			/* either a1 or a2 is not in memory */
@@ -1266,13 +1266,13 @@ add_plus(shape sha, where a1, where a2, where dest,
 				ins0 (stc);
 			if (sz == 8) {
 				ins2 ((plus1 ? adcb : addb), sz, sz, a2, a1);
-			};
+			}
 			if (sz == 16) {
 				ins2 ((plus1 ? adcw : addw), sz, sz, a2, a1);
-			};
+			}
 			if (sz == 32) {
 				ins2 ((plus1 ? adcl : addl), sz, sz, a2, a1);
-			};
+			}
 			if (sz == 64) {
 				where hi1, lo1, hi2, lo2;
 				lo1 = a1;
@@ -1289,7 +1289,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 						x = flt_to_f64(no(b), is_signed(sha), &ov);
 						c = x.small;
 						c1 = x.big;
-					};
+					}
 					lo2 = mw (zeroe, c);
 					hi2 = mw (zeroe, c1);
 				}
@@ -1299,7 +1299,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 				}
 				ins2 ((plus1 ? adcl : addl), 32, 32, lo2, lo1);
 				ins2 (adcl, 32, 32, hi2, hi1);
-			};
+			}
 			invalidate_dest (dest);
 			end_contop ();
 			regsinuse = riu;
@@ -1307,13 +1307,13 @@ add_plus(shape sha, where a1, where a2, where dest,
 			son(a) = holda;
 			son(b) = holdb;
 			return;
-		};
+		}
 
 		move (sha, a2, reg0);
 		add_plus (sha, reg0, a1, a1, plus1);
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	if (eq_where (a2, dest) &&
 		(!keep_short || !flinmem(dest))) {	/* altering dest */
@@ -1324,36 +1324,36 @@ add_plus(shape sha, where a1, where a2, where dest,
 			if (no (a) + aoff == 0) {	/* adding zero */
 				cond1_set = 0;		/* we didn't know conditions after all */
 				return;
-			};
+			}
 			contop (b, 0, a2);
 			if (no (a) + aoff == 1) {	/* use inc */
 				if (sz == 8) {
 					ins1 (incb, sz, a2);
-				};
+				}
 				if (sz == 16) {
 					ins1 (incw, sz, a2);
-				};
+				}
 				if (sz == 32) {
 					ins1 (incl, sz, a2);
-				};
+				}
 			}
 			else {			/* use dec */
 				if (sz == 8) {
 					ins1 (decb, sz, a2);
-				};
+				}
 				if (sz == 16) {
 					ins1 (decw, sz, a2);
-				};
+				}
 				if (sz == 32) {
 					ins1 (decl, sz, a2);
-				};
-			};
+				}
+			}
 			invalidate_dest (dest);
 			end_contop ();
 			try_overflow (sha, plus1);
 			son(a) = hold;
 			return;
-		};
+		}
 
 		if (!inmem (a1) || !inmem (a2)) {
 			/* either a1 or a2 is not in memory */
@@ -1371,13 +1371,13 @@ add_plus(shape sha, where a1, where a2, where dest,
 				ins0 (stc);
 			if (sz == 8) {
 				ins2 ((plus1 ? adcb : addb), sz, sz, a1, a2);
-			};
+			}
 			if (sz == 16) {
 				ins2 ((plus1 ? adcw : addw), sz, sz, a1, a2);
-			};
+			}
 			if (sz == 32) {
 				ins2 ((plus1 ? adcl : addl), sz, sz, a1, a2);
-			};
+			}
 			if (sz == 64) {
 				where hi1, lo1, hi2, lo2;
 				lo2 = a2;
@@ -1394,7 +1394,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 						x = flt_to_f64(no(a), is_signed(sha), &ov);
 						c = x.small;
 						c1 = x.big;
-					};
+					}
 					lo1 = mw (zeroe, c);
 					hi1 = mw (zeroe, c1);
 				}
@@ -1404,7 +1404,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 				}
 				ins2 ((plus1 ? adcl : addl), 32, 32, lo1, lo2);
 				ins2 (adcl, 32, 32, hi1, hi2);
-			};
+			}
 			invalidate_dest (dest);
 			try_overflow (sha, plus1);
 			end_contop ();
@@ -1412,27 +1412,27 @@ add_plus(shape sha, where a1, where a2, where dest,
 			son(a) = holda;
 			son(b) = holdb;
 			return;
-		};
+		}
 
 		move (sha, a1, reg0);
 		add_plus (sha, reg0, a2, a2, plus1);
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	if (name (a) == val_tag && !plus1 && !isbigval(a) && no (a) + aoff == 0) {
 		/* adding zero and moving */
 		cond1_set = 0;
 		move (sha, a2, dest);
 		return;
-	};
+	}
 
 	if (name (b) == val_tag && !plus1 && !isbigval(b) && no (b) + boff == 0) {
 		/* adding zero and moving */
 		cond1_set = 0;
 		move (sha, a1, dest);
 		return;
-	};
+	}
 
 	/* switch on memory position of a1, a2, dest */
 	switch ((inmem (a1) << 2) + (inmem (a2) << 1) + inmem (dest)) {
@@ -1445,7 +1445,7 @@ add_plus(shape sha, where a1, where a2, where dest,
             move (sha, a2, dest);
             add_plus (sha, a1, dest, dest, plus1);
             return;
-		};
+		}
 		/* otherwise cannot be plus1 */
 		if (name (a) == val_tag) {
 			if (name (b) == val_tag) {/* we know the answer */
@@ -1454,7 +1454,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 							   no (a) + no (b) + a1.where_off + a2.where_off),
 					  dest);
 				return;
-			};
+			}
 			if (name(sh(a)) == offsethd)
 				n = 1;
 			else
@@ -1473,8 +1473,8 @@ add_plus(shape sha, where a1, where a2, where dest,
 				move(sha, a2, dest);
 				add(sha, a1, dest, dest);
 				return;
-			};
-		};
+			}
+		}
 		if (name (b) == val_tag) {
 			if (name(sh(b)) == offsethd)
 				n = 1;
@@ -1494,8 +1494,8 @@ add_plus(shape sha, where a1, where a2, where dest,
 				move(sha, a1, dest);
 				add(sha, a2, dest, dest);
 				return;
-			};
-		};
+			}
+		}
 		ap = getexp (f_bottom, nilexp, 0, a, nilexp, 0, 0,
 					 addptr_tag);
 		{
@@ -1508,7 +1508,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 			bro(a) = temp;
 			return;
 		}
-	};
+	}
     case 1:
     case 3:
     case 5:
@@ -1536,7 +1536,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 		add_plus (sha, a1, reg0, reg0, plus1);
 		move (sha, reg0, dest);
 		return;
-	};
+	}
 }
 
 
@@ -1585,12 +1585,12 @@ sub(shape sha, where a1, where a2, where dest)
 		if (name(sha) == offsethd && al2(sha) != 1)
 			no(a) = no(a) / 8;
 		sh(a) = slongsh;
-	};
+	}
 	if (name(b) == val_tag && name(sh(b)) == offsethd && al2(sh(b)) != 1) {
 		if (name(sha) == offsethd && al2(sha) != 1)
 			no(b) = no(b) / 8;
 		sh(b) = slongsh;
-	};
+	}
 
 	if (name (sha) & 1) {
 		cond1_set = 1;
@@ -1601,7 +1601,7 @@ sub(shape sha, where a1, where a2, where dest)
 					 *				   unsigned */
 		cond1_set = 0;
 		cond2_set = 0;
-	};
+	}
 
 
 	if (eq_where (a2, dest) &&
@@ -1613,36 +1613,36 @@ sub(shape sha, where a1, where a2, where dest)
 			if (no (a) + aoff == 0) {	/* we didn't know the conditions */
 				cond1_set = 0;
 				return;
-			};
+			}
 			contop (b, 0, a2);
 			if (no (a) + aoff == 1) {	/* use dec */
 				if (sz == 8) {
 					ins1 (decb, sz, a2);
-				};
+				}
 				if (sz == 16) {
 					ins1 (decw, sz, a2);
-				};
+				}
 				if (sz == 32) {
 					ins1 (decl, sz, a2);
-				};
+				}
 			}
 			else {			/* use inc */
 				if (sz == 8) {
 					ins1 (incb, sz, a2);
-				};
+				}
 				if (sz == 16) {
 					ins1 (incw, sz, a2);
-				};
+				}
 				if (sz == 32) {
 					ins1 (incl, sz, a2);
-				};
-			};
+				}
+			}
 			invalidate_dest (dest);
 			end_contop ();
 			try_overflow (sha, 0);
 			son(b) = hold;
 			return;
-		};
+		}
 
 		if (!inmem (a1) || !inmem (a2)) {
 			int riu = regsinuse;
@@ -1657,13 +1657,13 @@ sub(shape sha, where a1, where a2, where dest)
 						(eq_where (reg0, a2) || eq_where (reg0, a1)), a2);
 			if (sz == 8) {
 				ins2 (subb, sz, sz, a1, a2);
-			};
+			}
 			if (sz == 16) {
 				ins2 (subw, sz, sz, a1, a2);
-			};
+			}
 			if (sz == 32) {
 				ins2 (subl, sz, sz, a1, a2);
-			};
+			}
 			if (sz == 64) {
 				where hi1, lo1, hi2, lo2;
 				lo2 = a2;
@@ -1680,7 +1680,7 @@ sub(shape sha, where a1, where a2, where dest)
 						x = flt_to_f64(no(a), is_signed(sha), &ov);
 						c = x.small;
 						c1 = x.big;
-					};
+					}
 					lo1 = mw (zeroe, c);
 					hi1 = mw (zeroe, c1);
 				}
@@ -1690,7 +1690,7 @@ sub(shape sha, where a1, where a2, where dest)
 				}
 				ins2 (subl, 32, 32, lo1, lo2);
 				ins2 (sbbl, 32, 32, hi1, hi2);
-			};
+			}
 			invalidate_dest (dest);
 			end_contop ();
 			regsinuse = riu;
@@ -1698,19 +1698,19 @@ sub(shape sha, where a1, where a2, where dest)
 			son(a) = holda;
 			son(b) = holdb;
 			return;
-		};
+		}
 
 		move (sha, a1, reg0);
 		sub (sha, reg0, dest, dest);
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	if (name (a) == val_tag && !isbigval(a) && no (a) + aoff == 0) {
 		cond1_set = 0;
 		move (sha, a2, dest);
 		return;
-	};
+	}
 
 	switch ((inmem (a1) << 2) + (inmem (a2) << 1) + inmem (dest)) {
     case 0:
@@ -1722,13 +1722,13 @@ sub(shape sha, where a1, where a2, where dest)
 			sub (sha, a1, dest, dest);
 			invalidate_dest (dest);
 			return;
-		};
+		}
 		if (eq_where (a1, reg0) || eq_where (a2, reg0)) {
 			if (eq_where (a2, reg0))
 				reg0_in_use = 1;
 			inverted_sub (sha, a1, a2, dest, dest);
 			return;
-		};
+		}
 		inverted_sub (sha, a1, a2, reg0, dest);
 		return;
     case 4:  			/* a1 in memory others not */
@@ -1737,7 +1737,7 @@ sub(shape sha, where a1, where a2, where dest)
 			sub (sha, a1, reg0, reg0);
 			invalidate_dest (dest);
 			return;
-		};		/* else drop through */
+		}		/* else drop through */
     case 1:
     case 3:
     case 5:
@@ -1750,7 +1750,7 @@ sub(shape sha, where a1, where a2, where dest)
 		 *         a2, and use it if not */
 		inverted_sub (sha, a1, a2, reg0, dest);
 		return;
-	};
+	}
 }
 
 
@@ -1769,15 +1769,15 @@ negate(shape sha, where a, where dest)
 		if (sz == 8) {
 			ins1 (negb, sz, dest);
 			invalidate_dest (dest);
-		};
+		}
 		if (sz == 16) {
 			ins1 (negw, sz, dest);
 			invalidate_dest (dest);
-		};
+		}
 		if (sz == 32) {
 			ins1 (negl, sz, dest);
 			invalidate_dest (dest);
-		};
+		}
 		if (sz == 64) {	/* must be reg0/1 */
 			move (slongsh, reg1, reg2);
 			move (slongsh, zero, reg1);
@@ -1788,10 +1788,10 @@ negate(shape sha, where a, where dest)
 			invalidate_dest (reg1);
 			invalidate_dest (reg2);
 			return;
-		};
+		}
 		try_overflow (sha, 0);
 		return;
-	};
+	}
 
 	if (!inmem (a) && name (a.where_exp) != val_tag &&
 		(w_islastuse (a) || eq_where (a, reg0))) {
@@ -1799,14 +1799,14 @@ negate(shape sha, where a, where dest)
 		negate (sha, a, a);
 		move (sha, a, dest);
 		return;
-	};
+	}
 
 	if (!inmem (dest)) {		/* dest is a register */
 		move (sha, a, dest);
 		negate (sha, dest, dest);
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	/* dest is in memory, a is either in memory or needed, it won't be reg0
 	 */
@@ -1831,39 +1831,39 @@ not(shape sha, where a, where dest)
 			ins1 (notb, sz, dest);
 			invalidate_dest (dest);
 			return;
-		};
+		}
 		if (sz == 16) {
 			ins1 (notw, sz, dest);
 			invalidate_dest (dest);
 			return;
-		};
+		}
 		if (sz == 32) {
 			ins1 (notl, sz, dest);
 			invalidate_dest (dest);
 			return;
-		};
+		}
 		if (sz == 64) {	/* must be reg0/1 */
 			ins1 (notl, 32, reg0);
 			ins1 (notl, 32, reg1);
 			invalidate_dest (reg0);
 			invalidate_dest (reg1);
 			return;
-		};
-	};
+		}
+	}
 
 	if (!inmem (a) && name (a.where_exp) != val_tag &&
 		(w_islastuse (a) || eq_where (a, reg0))) {
 		not (sha, a, a);
 		move (sha, a, dest);
 		return;
-	};
+	}
 
 	if (!inmem (dest)) {		/* dest is a register */
 		move (sha, a, dest);
 		not (sha, dest, dest);
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	/* dest is in memory, a is either in memory or needed, it won't be reg0
 	 */
@@ -1884,23 +1884,23 @@ in_fl_reg(exp e)
 	if (ne == name_tag && ptno (son (e)) == reg_pl) {
 		int  n = no (son (e));
 		return ((n > 0x80) ? n : 0);
-	};
+	}
 	if (ne == cont_tag && name (son (e)) == name_tag &&
 		isvar (son (son (e))) &&
 		ptno (son (son (e))) == reg_pl) {
 		int  n = no (son (son (e)));
 		return ((n > 0x80) ? n : 0);
-	};
+	}
 	if (ne == ass_tag && name (son (e)) == name_tag &&
 		isvar (son (son (e))) &&
 		ptno (son (son (e))) == reg_pl) {
 		int  n = no (son (son (e)));
 		return ((n > 0x80) ? n : 0);
-	};
+	}
 	if (ne == ident_tag && ptno (e) == reg_pl) {
 		int  n = no (e);
 		return ((n > 0x80) ? n : 0);
-	};
+	}
 	return (0);
 }
 
@@ -1960,7 +1960,7 @@ all_in_regs(exp e)
 		if (name (id2) != ident_tag)
 			return (1);
 		return (ptno (son (son (id2))) == reg_pl);
-	};
+	}
 
 	return (1);
 }
@@ -2006,7 +2006,7 @@ move(shape sha, where from, where to)
 		  invalidates (to.where_exp, cond2b.where_exp)))) {
 		cond1_set = 0;
 		cond2_set = 0;
-	};
+	}
 
 	if (name(fe) == reff_tag ||
 		(PIC_code && name(fe) == name_tag &&
@@ -2016,7 +2016,7 @@ move(shape sha, where from, where to)
     {
 		mova(from, to);
 		return;
-    };
+    }
 
 	if (name (sha) >= shrealhd && name (sha) <= doublehd) {
 		/* moving a float or double */
@@ -2040,17 +2040,17 @@ move(shape sha, where from, where to)
 						else {
 							ins1 (fstpt, 96, to);
 							ins1 (fldt, 96, to);
-						};
+						}
 					end_contop ();
 					son(fe) = holdfe;
 					son(te) = holdte;
 					return;
-				};
+				}
 				ins1 (fst, 0, to);	/* store fstack0 into to (a reg) */
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
+			}
 			if (f1pos != fstack_pos)
 				move (sha, from, flstack);
 			/* push from into floating point stack */
@@ -2069,14 +2069,14 @@ move(shape sha, where from, where to)
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
+			}
 			ins1 (fstp, 0, to);	/* pop from fstack0 into floating point
 								 *				   register */
 			pop_fl;
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		if (in_fl_reg (to.where_exp)) {
 			int fz;
 			if (name (from.where_exp) == real_tag &&
@@ -2107,8 +2107,8 @@ move(shape sha, where from, where to)
 					}
 					else
 						ins1 (fld, 0, from);/* push floating point register */
-				};
-			};
+				}
+			}
 			push_fl;			/* we necessarily did a push */
 			if (flinmem (to)) {	/* pop fstack0 to to (in memory) */
 				contop (te, 0, reg0);
@@ -2124,7 +2124,7 @@ move(shape sha, where from, where to)
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
+			}
 
 			f2 = in_fl_reg (to.where_exp);
 			f2pos = get_reg_no (f2);
@@ -2140,9 +2140,9 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		/* fall through for floating point number not in coprocessor */
-	};
+	}
 
 
 	if (name (to.where_exp) == apply_tag) {	/* pushing */
@@ -2159,7 +2159,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		/* we are pushing on parameter stack */
 		if (sz == 32) {
 			reg_w = equiv_reg (from, sz);
@@ -2172,8 +2172,8 @@ move(shape sha, where from, where to)
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
-		};
+			}
+		}
 		if (sz == 64) {	/* must be s64 or u64 */
 			if (name (fe) == val_tag) {	/* moving a constant integer */
 				if (!isbigval(fe)) {
@@ -2219,7 +2219,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		if (sz < 32 ||
 			(is80486 && inmem(from))) {
 			move (sha, from, reg0);
@@ -2232,7 +2232,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		contop (from.where_exp, 0, reg0);
 		ins1 (pushl, sz, from);
 #ifdef NEWDWARF
@@ -2244,7 +2244,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 
 	if (inmem (from) && inmem (to) && ((sz <= 32 && sz != 24)
@@ -2255,7 +2255,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	if (name(fe) == real_tag) {
 		int fv = name(sh(fe)) - shrealhd;
@@ -2272,7 +2272,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	if (name (fe) == val_tag) {	/* moving a constant integer */
 		isco = 1;
@@ -2288,11 +2288,11 @@ move(shape sha, where from, where to)
 			c = x.small;
 			c1 = x.big;
 		}
-	};
+	}
 	if (name (fe) == null_tag) {	/* moving a constant null */
 		isco = 1;
 		c = no(fe);
-	};
+	}
 
 
 	if (isco) {			/* moving a constant */
@@ -2309,7 +2309,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 
 		/* use fastest operation for each size of constant */
 
@@ -2320,7 +2320,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 
 		if (sz == 16) {
 			ins2 (movw, sz, sz, mw (zeroe, (c & 0xffff)), to);
@@ -2329,7 +2329,7 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 
 		if (sz == 64) {
 			if (eq_where (to, reg0)) {
@@ -2366,7 +2366,7 @@ move(shape sha, where from, where to)
 				move(slongsh, from, reg0);
 				move(slongsh, reg0, to);
 				move_reg(from, reg0, sha);
-			};
+			}
 		}
 		else {
 			ins2 (movl, 32, 32, from, to);
@@ -2377,7 +2377,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	/* moving a non-constant value */
 
@@ -2391,13 +2391,13 @@ move(shape sha, where from, where to)
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
+			}
 			move (slongsh, from, reg0);
 			move (sha, reg0, to);
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 
 		if (!inmem (to) && name (to.where_exp) != val_tag &&
 			(in_reg (to.where_exp) & 0x70)) {
@@ -2406,13 +2406,13 @@ move(shape sha, where from, where to)
 				son(fe) = holdfe;
 				son(te) = holdte;
 				return;
-			};
+			}
 			move (sha, from, reg0);
 			move (slongsh, reg0, to);
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 
 		if (in_reg (from.where_exp)) {
 			contop (te, eq_where (reg0, from), to);
@@ -2433,12 +2433,12 @@ move(shape sha, where from, where to)
 				invalidate_dest (to);
 				move_reg (from, to, sha);
 				end_contop ();
-			};
-		};
+			}
+		}
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 	if (sz == 16) {		/* moving 16 bits */
 		if (in_reg (from.where_exp)) {
 			contop (te, eq_where (reg0, from), to);
@@ -2459,12 +2459,12 @@ move(shape sha, where from, where to)
 				invalidate_dest (to);
 				move_reg (from, to, sha);
 				end_contop ();
-			};
-		};
+			}
+		}
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 	if (sz == 32) {		/* moving 32 bits */
 
 		if (in_reg (from.where_exp)) {
@@ -2486,12 +2486,12 @@ move(shape sha, where from, where to)
 				invalidate_dest (to);
 				move_reg (from, to, sha);
 				end_contop ();
-			};
-		};
+			}
+		}
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	if (sz == 64 && (eq_where (to, reg0) || eq_where (from, reg0))) {
 		/* moving reg0 & reg1 to or from memory */
@@ -2516,7 +2516,7 @@ move(shape sha, where from, where to)
 				ins2 (movl, sz, sz, reg1, w1);
 				invalidate_dest (to);
 				end_contop ();
-			};
+			}
 		regsinuse = riu;
 		son(fe) = holdfe;
 		son(te) = holdte;
@@ -2569,13 +2569,13 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		move(sha, from, flstack);
 		move(sha, flstack, to);
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	if (sz <= (40 * 8) && two_contops (fe, te)) {
 		int  i;
@@ -2596,7 +2596,7 @@ move(shape sha, where from, where to)
 			ins2 (movl, size32, size32, mw (fe, foff + i), reg0);
 			ins2 (movl, size32, size32, reg0, mw (te, toff + i));
 			invalidate_dest (mw (te, toff + i));
-		};
+		}
 		if (i == sz) {
 			invalidate_dest (reg0);
 			end_contop ();
@@ -2605,19 +2605,19 @@ move(shape sha, where from, where to)
 			son(fe) = holdfe;
 			son(te) = holdte;
 			return;
-		};
+		}
 		/* move final word and byte if necessary */
 		if ((sz - i) >= 16) {
 			ins2 (movw, size16, size16, mw (fe, foff + i), reg0);
 			ins2 (movw, size16, size16, reg0, mw (te, toff + i));
 			invalidate_dest (mw (te, toff + i));
 			i += 16;
-		};
+		}
 		if ((sz - i) >= 8) {
 			ins2 (movb, size8, size8, mw (fe, foff + i), reg0);
 			ins2 (movb, size8, size8, reg0, mw (te, toff + i));
 			invalidate_dest (mw (te, toff + i));
-		};
+		}
 		invalidate_dest (reg0);
 		end_contop ();
 		contop_level--;
@@ -2625,7 +2625,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	if (name(sha) == realhd) {
 		move(sha, from, flstack);
@@ -2633,7 +2633,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 
 	{				/* use rep movsl to do the move */
 		int  old_extra_stack = extra_stack;
@@ -2645,7 +2645,7 @@ move(shape sha, where from, where to)
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_push();
 #endif
-		};
+		}
 		if (regsinuse & REG_EDI) {
 			extra_stack += 32;
 			ins0 (pushedi);
@@ -2653,7 +2653,7 @@ move(shape sha, where from, where to)
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_push();
 #endif
-		};
+		}
 		if (regsinuse & REG_ECX) {
 			extra_stack += 32;
 			ins0 (pushecx);
@@ -2661,7 +2661,7 @@ move(shape sha, where from, where to)
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_push();
 #endif
-		};
+		}
 		old_regsinuse = regsinuse;
 		if (regsinuse & REG_ESI) {
 			mova (from, pushdest);
@@ -2670,7 +2670,7 @@ move(shape sha, where from, where to)
 		else {
 			mova (from, reg5);
 			regsinuse |= REG_ESI;
-		};
+		}
 
 		mova (to, reg4);
 		regsinuse = old_regsinuse;
@@ -2692,7 +2692,7 @@ move(shape sha, where from, where to)
 		if (sz >= 16) {
 			ins0 (movsw);
 			sz -= 16;
-		};
+		}
 		if (sz == 8)
 			ins0 (movsb);
 
@@ -2706,21 +2706,21 @@ move(shape sha, where from, where to)
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
-		};
+		}
 		if (regsinuse & REG_EDI) {
 			ins0 (popedi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
-		};
+		}
 		if (regsinuse & REG_ESI) {
 			ins0 (popesi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
-		};
+		}
 		check_stack_max;
 		extra_stack = old_extra_stack;
 		min_rfree |= REG_ESI | REG_EDI;
@@ -2728,7 +2728,7 @@ move(shape sha, where from, where to)
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
-	};
+	}
 }
 
 /* use rep movsb */
@@ -2828,7 +2828,7 @@ movecont(where from, where to, where length,
 		invalidate_dest(reg0);
 		invalidate_dest(reg1);
 		invalidate_dest(reg2);
-	};
+	}
 
 	return;
 }
@@ -2871,7 +2871,7 @@ stack_return (int longs)
 		invalidate_dest(reg1);
 		stack_dec += longs;
 		return;
-	};
+	}
 	if (longs == 32 && (regsinuse & REG_ECX) == 0)
 	{
 		ins0(popecx);
@@ -2882,7 +2882,7 @@ stack_return (int longs)
 		invalidate_dest(reg2);
 		stack_dec += longs;
 		return;
-	};
+	}
 	if (is80586 && longs == 64 && (regsinuse & REG_EDX) == 0)
 	{
 		ins0(popedx);
@@ -2898,7 +2898,7 @@ stack_return (int longs)
 		invalidate_dest(reg1);
 		stack_dec += longs;
 		return;
-	};
+	}
 	if (is80586 && longs == 64 && (regsinuse & REG_ECX) == 0)
 	{
 		ins0(popecx);
@@ -2914,7 +2914,7 @@ stack_return (int longs)
 		invalidate_dest(reg2);
 		stack_dec += longs;
 		return;
-	};
+	}
 	add (slongsh, mw (zeroe, (longs / 8)), sp, sp);
 	stack_dec += longs;
 #ifdef NEWDWARF
@@ -2948,7 +2948,7 @@ callins(int longs, exp fn, int ret_stack_dec)
 		if (inmem (mw (fn, 0))) {
 			move (slongsh, mw (fn, 0), reg0);
 			fn = reg0.where_exp;
-		};
+		}
 #ifdef NEWDWARF
 		if (current_dg_info) {
 			int rn;
@@ -2968,7 +2968,7 @@ callins(int longs, exp fn, int ret_stack_dec)
 		}
 #endif
 		ins1ind (call, 32, mw (fn, 0));
-	};
+	}
 	stack_dec = ret_stack_dec;
 #ifdef NEWDWARF
 	START_BB ();
@@ -2987,7 +2987,7 @@ jumpins(exp lab)
     if (inmem (mw (lab, 0))) {
 		move (slongsh, mw (lab, 0), reg0);
 		lab = reg0.where_exp;
-    };
+    }
     ins1ind (jmp, 32, mw (lab, 0));
     return;
 }
@@ -3083,15 +3083,15 @@ cmp(shape sha, where from, where min, int nt,
 			if (sz == 8) {
 				ins2 (testb, sz, sz, from, from);
 				return 0;
-			};
+			}
 			if (sz == 16) {
 				ins2 (testw, sz, sz, from, from);
 				return 0;
-			};
+			}
 			if (sz == 32) {
 				ins2 (testl, sz, sz, from, from);
 				return 0;
-			};
+			}
 			if (sz == 64) {	/* !inmem, so from must be reg0/reg1 */
 				if (nt >= 5) {
 					ins2 (orl, 32, 32, reg1, reg0);
@@ -3106,7 +3106,7 @@ cmp(shape sha, where from, where min, int nt,
 						return 0;
 					}
 			}
-		};
+		}
 
 
 		cond1_set = 0;
@@ -3125,22 +3125,22 @@ cmp(shape sha, where from, where min, int nt,
 			if (sz == 8) {
 				ins2 (testb, sz, sz, min, min);
 				return 0;
-			};
+			}
 			if (sz == 16) {
 				ins2 (testw, sz, sz, min, min);
 				return 0;
-			};
+			}
 			if (sz == 32) {
 				ins2 (testl, sz, sz, min, min);
 				return 0;
-			};
+			}
 			if (sz == 64) {	/* !inmem, so min must be reg0/reg1 */
 				ins2 (orl, 32, 32, reg1, reg0);
 				invalidate_dest (reg0);
 				cond2_set = 0;
 				return 0;
 			}
-		};
+		}
 
 		if (sz != 16 && sz <= 32 && ((name(min.where_exp) == null_tag ||
 									  name(min.where_exp) == val_tag) &&
@@ -3151,9 +3151,9 @@ cmp(shape sha, where from, where min, int nt,
 				cond1_set = 0;
 				cond2_set = 0;
 				IGNORE cmp(sha, reg0, min, nt, e);
-			};
+			}
 			return 0;
-		};
+		}
 
 		{
 			char *in;
@@ -3171,7 +3171,7 @@ cmp(shape sha, where from, where min, int nt,
 				break;
 			default:
 				failer("unexpected size");
-			};
+			}
 
 			if ((inmem (from) && inmem (min)) ||
 				(name (sha) == prokhd && !PIC_code && !eq_where(min, reg0)) ||
@@ -3201,8 +3201,8 @@ cmp(shape sha, where from, where min, int nt,
 						regsinuse |= REG_EDX;
 					contop (from.where_exp, eq_where (reg0, min), reg0);
 					contop_done = 1;
-				};
-			};
+				}
+			}
 
 			if ((name(min.where_exp) == val_tag || name(min.where_exp) == env_offset_tag) &&
 				((name(from.where_exp) == val_tag || name(from.where_exp) == env_offset_tag) ||
@@ -3211,7 +3211,7 @@ cmp(shape sha, where from, where min, int nt,
 				son(from.where_exp) = hold_from;
 				from = reg0;
 				hold_from = son(from.where_exp);
-			};
+			}
 
 			if (eq_where (from, reg0) && eq_where (min, reg0)
 				&& !eq_where (orig_min, reg0)) {
@@ -3249,7 +3249,7 @@ cmp(shape sha, where from, where min, int nt,
 					son(from.where_exp) = hold_from;
 					son(min.where_exp) = hold_min;
 					return 0;
-				};
+				}
 				mova (min, reg0);
 				son(min.where_exp) = hold_min;
 				min = reg0;
@@ -3261,8 +3261,8 @@ cmp(shape sha, where from, where min, int nt,
 						regsinuse |= REG_EDX;
 					contop (min.where_exp, eq_where (reg0, from), reg0);
 					contop_done = 1;
-				};
-			};
+				}
+			}
 
 			if (sz == 8 && (eq_where (min, reg4) || eq_where (min, reg5))) {
 				if (!eq_where (from, reg0)) {
@@ -3279,7 +3279,7 @@ cmp(shape sha, where from, where min, int nt,
 					son(min.where_exp) = hold_min;
 					return 0;
 				}
-			};
+			}
 
 			if (sz != 64) {
 				ins2 (in, sz, sz, min, from);/* do the comparison */
@@ -3359,7 +3359,7 @@ cmp(shape sha, where from, where min, int nt,
 				son(min.where_exp) = hold_min;
 				return 0;
 			}
-		};
+		}
 	}
 	else {
 		cond1_set = 0;
@@ -3439,7 +3439,7 @@ change_var_sh(shape sha, shape fsh, where from,
 		szt = 32;
 		sgt = 0;
 		break;
-	};
+	}
 
 	if (name (fe) == val_tag) {	/* we know the value */
 		int val;
@@ -3465,11 +3465,11 @@ change_var_sh(shape sha, shape fsh, where from,
 				no (fe) = val;
 				clearbigval (fe);
 			}
-		};
+		}
 		sh (fe) = sha;
 		move (sha, from, to);
 		return;
-	};
+	}
 
 
 	if (name(fsh) == bitfhd) {
@@ -3508,7 +3508,7 @@ change_var_sh(shape sha, shape fsh, where from,
 		if (inmem(from)) {
 			move (fsh, from, reg0);
 			from = reg0;
-		};
+		}
 		if (szf == 64) {
 			if (szt == 64) {
 				IGNORE cmp (slongsh, reg1, zero, f_greater_than_or_equal, nilexp);
@@ -3533,33 +3533,33 @@ change_var_sh(shape sha, shape fsh, where from,
 				if (szt != 32 || sgt) {
 					IGNORE cmp (ulongsh, reg0, mw(zeroe,max), f_less_than_or_equal, nilexp);
 					test_exception (f_less_than_or_equal, ulongsh);
-				};
+				}
 				if (sgf && sgt)
 					simplest_set_lab (lab1);
-			};
+			}
 		}
 		else {
 			if (sgf && (!sgt || szt < szf)) {
 				IGNORE cmp (fsh, from, mw(zeroe,min), f_greater_than_or_equal, nilexp);
 				test_exception (f_greater_than_or_equal, fsh);
-			};
+			}
 			if ((szt - sgt) < (szf - sgf)) {
 				IGNORE cmp (fsh, from, mw(zeroe,max), f_less_than_or_equal, nilexp);
 				test_exception (f_less_than_or_equal, fsh);
-			};
-		};
+			}
+		}
 	}
 
 	if (szf == 8) {
 		if (bad_from_reg(from)) {
 			move (slongsh, from, reg0);
 			from = reg0;
-		};
+		}
 
 		if (szt == 8) {
 			move (sha, from, to);
 			return;
-		};
+		}
 
 		if (szt == 16) {
 			if (sgf) {
@@ -3575,7 +3575,7 @@ change_var_sh(shape sha, shape fsh, where from,
 					ins2 (movsbw, szf, szt, from, to);
 					invalidate_dest (to);
 					end_contop ();
-				};
+				}
 				son(fe) = holdfe;
 				return;
 			}
@@ -3592,11 +3592,11 @@ change_var_sh(shape sha, shape fsh, where from,
 					ins2 (movzbw, szf, szt, from, to);
 					invalidate_dest (to);
 					end_contop ();
-				};
+				}
 				son(fe) = holdfe;
 				return;
-			};
-		};
+			}
+		}
 		if (szt >= 32) {
 			if (sgf) {
 				if (inmem (to) || szt == 64) {
@@ -3611,7 +3611,7 @@ change_var_sh(shape sha, shape fsh, where from,
 						}
 						else
 							move (ulongsh, zero, reg1);
-					};
+					}
 					move (sha, reg0, to);
 				}
 				else {
@@ -3619,10 +3619,10 @@ change_var_sh(shape sha, shape fsh, where from,
 					ins2 (movsbl, szf, szt, from, to);
 					invalidate_dest (to);
 					end_contop ();
-				};
+				}
 				son(fe) = holdfe;
 				return;
-			};
+			}
 			if (inmem (to) || szt == 64) {
 				move(scharsh, from, reg0);
 				and(slongsh, reg0, mw(zeroe, 0xff), reg0);
@@ -3641,19 +3641,19 @@ change_var_sh(shape sha, shape fsh, where from,
 				else {
 					move(scharsh, from, to);
 					and(slongsh, to, mw(zeroe, 0xff), to);
-				};
-			};
+				}
+			}
 			son(fe) = holdfe;
 			return;
-		};
-	};
+		}
+	}
 
 	if (szf == 16) {
 		if (szt == 8) {
 			if (bad_from_reg(from)) {
 				move (slongsh, from, reg0);
 				from = reg0;
-			};
+			}
 
 			if (sgt) {
 				if (inmem (to)) {
@@ -3664,16 +3664,16 @@ change_var_sh(shape sha, shape fsh, where from,
 					move (sha, from, to);
 				son(fe) = holdfe;
 				return;
-			};
+			}
 			move (sha, from, to);
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		if (szt == 16) {
 			move (sha, from, to);
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		if (sgf) {
 			if (inmem (to) || szt == 64) {
 				contop (fe, eq_where (reg0, from), reg0);
@@ -3687,7 +3687,7 @@ change_var_sh(shape sha, shape fsh, where from,
 					}
 					else
 						move (ulongsh, zero, reg1);
-				};
+				}
 				move (sha, reg0, to);
 			}
 			else {
@@ -3695,10 +3695,10 @@ change_var_sh(shape sha, shape fsh, where from,
 				ins2 (movswl, szf, szt, from, to);
 				invalidate_dest (to);
 				end_contop ();
-			};
+			}
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		if (inmem (to) || szt == 64) {
 			move(swordsh, from, reg0);
 			and(slongsh, reg0, mw(zeroe, 0xffff), reg0);
@@ -3709,17 +3709,17 @@ change_var_sh(shape sha, shape fsh, where from,
 		else {
 			move(swordsh, from, to);
 			and(slongsh, to, mw(zeroe, 0xffff), to);
-		};
+		}
 		son(fe) = holdfe;
 		return;
-	};
+	}
 
 	if (szf >= 32) {
 		if (szt == 8) {
 			if (bad_from_reg(from)) {
 				move (slongsh, from, reg0);
 				from = reg0;
-			};
+			}
 			if (sgt) {
 				if (inmem (from) && inmem (to)) {
 					move (sh (fe), from, reg0);
@@ -3729,11 +3729,11 @@ change_var_sh(shape sha, shape fsh, where from,
 					move (sha, from, to);
 				son(fe) = holdfe;
 				return;
-			};
+			}
 			move (sha, from, to);
 			son(fe) = holdfe;
 			return;
-		};
+		}
 
 		if (szt == 16) {
 			if (sgt) {
@@ -3745,11 +3745,11 @@ change_var_sh(shape sha, shape fsh, where from,
 					move (sha, from, to);
 				son(fe) = holdfe;
 				return;
-			};
+			}
 			move (sha, from, to);
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		if (szt > szf) {
 			move (slongsh, from, reg0);
 			if (sgf && sgt) {
@@ -3764,13 +3764,13 @@ change_var_sh(shape sha, shape fsh, where from,
 		move (sha, from, to);
 		son(fe) = holdfe;
 		return;
-	};
+	}
 
 	if (!sgf)  {
 		move (sha, from, to);
 		son(fe) = holdfe;
 		return;
-	};
+	}
 
 	move(sha, from, to);
 	son(fe) = holdfe;
@@ -3822,12 +3822,12 @@ andetc(char *opb, char *opw, char *opl, int one,
 	if (name (a) == val_tag && !isbigval(a) && no (a) + aoff == one) {
 		move (sha, a2, dest);
 		return;
-	};
+	}
 
 	if (name (b) == val_tag && !isbigval(b) && no (b) + boff == one) {
 		move (sha, a1, dest);
 		return;
-	};
+	}
 
 	cond1_set = 1;
 	cond2_set = 0;
@@ -3866,7 +3866,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 							else {
 								dlo = reg0;
 								dhi = reg1;
-							};
+							}
 							if (name(b) == val_tag) {
 								int c, c1;
 								if (!isbigval(b)) {
@@ -3893,23 +3893,23 @@ andetc(char *opb, char *opw, char *opl, int one,
 								else {
 									slo = reg0;
 									shi = reg1;
-								};
+								}
 								ins2 (opl, 32, 32, slo, dlo);
 								ins2 (opl, 32, 32, shi, dhi);
-							};
-						};
+							}
+						}
 			invalidate_dest (dest);
 			end_contop ();
 			regsinuse = riu;
 			son(a) = holda;
 			son(b) = holdb;
 			return;
-		};
+		}
 
 		move (sha, a2, reg0);
 		andetc (opb, opw, opl, one, sha, reg0, dest, dest);
 		return;
-	};
+	}
 
 	if (eq_where (a2, dest) &&
 		(!keep_short || !flinmem(dest))) {	/* use 2 address */
@@ -3942,7 +3942,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 					else {
 						dlo = reg0;
 						dhi = reg1;
-					};
+					}
 					if (name(a) == val_tag) {
 						int c, c1;
 						if (!isbigval(a)) {
@@ -3969,23 +3969,23 @@ andetc(char *opb, char *opw, char *opl, int one,
 						else {
 							slo = reg0;
 							shi = reg1;
-						};
+						}
 						ins2 (opl, 32, 32, slo, dlo);
 						ins2 (opl, 32, 32, shi, dhi);
-					};
-				};
+					}
+				}
 			invalidate_dest (dest);
 			end_contop ();
 			regsinuse = riu;
 			son(a) = holda;
 			son(b) = holdb;
 			return;
-		};
+		}
 
 		move (sha, a1, reg0);
 		andetc (opb, opw, opl, one, sha, reg0, dest, dest);
 		return;
-	};
+	}
 
 	switch ((inmem (a1) << 2) + (inmem (a2) << 1) + inmem (dest)) {
     case 0:
@@ -4016,7 +4016,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 		andetc (opb, opw, opl, one, sha, a1, reg0, reg0);
 		move (sha, reg0, dest);
 		return;
-	};
+	}
 
 }
 
@@ -4060,7 +4060,7 @@ needs_lib64()
 		if (!PIC_code)
 			lib64_error = getexp (slongsh, nilexp, 1, lib64_error, nilexp, 0, 0, cont_tag);
 		lib64_set = 1;
-	};
+	}
 	return;
 }
 
@@ -4079,7 +4079,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 		if (shape_size(sh2) != 32 || (eq_where (a2, reg0) && !eq_where (a1, reg0))) {
 			mult64 (sha, sh2, sh1, a2, a1);
 			return;
-		};
+		}
 		if (eq_where (a1, reg0)) {
 			int difsg = (is_signed(sh1) != is_signed(sh2));
 			int lab1, lab2;
@@ -4089,18 +4089,18 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 				if ((no(a2.where_exp) = a2.where_off) >= 0) {
 					sh2 = sh1;
 					difsg = 0;
-				};
+				}
 				reg0_in_use = 1;
 				move (sh2, a2, reg2);
 				a2 = reg2;
-			};
+			}
 			if (difsg && is_signed(sh2)) {
 				if (inmem (a2)) {
 					ins2 (movl, 32, 32, a2, reg2);
 					a2 = reg2;
-				};
+				}
 				ins2 (xchg, 32, 32, reg0, reg2);
-			};
+			}
 			if (difsg) {
 				lab1 = next_lab();
 				lab2 = next_lab();
@@ -4119,23 +4119,23 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 			regsinuse = riu;
 			son(a2.where_exp) = holda2;
 			return;
-		};
+		}
 		/* neither is in reg0 */
 		if (is_signed(sh2) && !is_signed(sh1)) {
 			mult64 (sha, sh2, sh1, a2, a1);
 			return;
-		};
+		}
 		if (is_signed(sh1)) {
 			if (name(a1.where_exp) != val_tag) {
 				move (sh1, a1, reg0);
 				mult64 (sha, sh1, sh2, reg0, a2);
 				return;
-			};
+			}
 			if ((no(a1.where_exp) + a1.where_off) >= 0 || is_signed(sh2)) {
 				move (sh2, a2, reg0);
 				mult64 (sha, sh2, sh2, reg0, a1);
 				return;
-			};
+			}
 			/* otherwise, we are multiplying negative constant by unsigned */
 			move (sh1, a1, reg0);
 			contop (a2.where_exp, 1, a2);
@@ -4143,25 +4143,25 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 				reg0_in_use = 1;
 				move (sh2, a2, reg2);
 				a2 = reg2;
-			};
+			}
 			ins1 (mull, 32, a2);
 			ins2 (subl, 32, 32, a2, reg1);
 			end_contop ();
 			son(a2.where_exp) = holda2;
 			return;
-		};
+		}
 		/* both are unsigned */
 		if (name(a1.where_exp) == val_tag) {
 			move (sh1, a1, reg0);
 			mult64 (sha, sh1, sh2, reg0, a2);
 			return;
-		};
+		}
 		{
 			move (sh2, a2, reg0);
 			mult64 (sha, sh2, sh1, reg0, a1);
 			return;
-		};
-	};
+		}
+	}
 
 	if (overflow_e != nilexp && !optop(overflow_e)) {
 		/* need library proc to check for overflow */
@@ -4169,7 +4169,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 		if (eq_where (a1, reg0)) {
 			a1 = a2;
 			a2 = reg0;
-		};
+		}
 		move (sha, a2, pushdest);
 		extra_stack += 64;
 		move (sha, a1, pushdest);
@@ -4182,7 +4182,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 		ins2 (testl, 32, 32, reg2, reg2);
 		test_exception (f_greater_than_or_equal, slongsh);
 		return;
-	};
+	}
 
 	if (shape_size(sh2) == 32 || (name(a2.where_exp) == val_tag && !isbigval(a2.where_exp))) {
 		if (eq_where (a1, reg0)) {
@@ -4230,7 +4230,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 #endif
 		regsinuse = riu;
 		return;
-	};
+	}
 
 	if (eq_where (a1, a2)) {
 		move (sha, a1, reg0);
@@ -4250,14 +4250,14 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 			dw2_track_pop();
 #endif
 		return;
-	};
+	}
 
 	if (eq_where (a2, reg0)) {
 		son(a2.where_exp) = holda2;
 		a2 = a1;
 		holda2 = son(a2.where_exp);
 		a1 = reg0;
-	};
+	}
 	move (sha, a1, reg0);
 	reg0_in_use = 1;
 	regsinuse |= REG_ECX | REG_EDX;
@@ -4299,7 +4299,7 @@ clean_multiply(int stored)
 #endif
 		extra_stack -= 32;
 		invalidate_dest(reg1);
-	};
+	}
 	return;
 }
 
@@ -4325,7 +4325,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		invalidate_dest (reg0);
 		invalidate_dest (reg2);
 		return;
-	};
+	}
 
 	if (sz == 8)
 		in = imulb;
@@ -4334,7 +4334,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			in = imulw;
 		else
 			in = imull;
-	};
+	}
 	invalidate_dest (reg0);
 	if (name (a2.where_exp) == val_tag && sz != 8 &&
 		(is_signed (sha) || overflow_e == nilexp || optop(overflow_e))) {
@@ -4347,21 +4347,21 @@ multiply(shape sha, where a1, where a2, where dest)
 				son(a1.where_exp) = hold_a1;
 				a1 = dest;
 				hold_a1 = son(a1.where_exp);
-			};
+			}
 			ins3 (in, sz, sz, sz, a2, a1, dest);
 			invalidate_dest (dest);
 			end_contop ();
 			try_overflow (sha, 0);
 			son(a1.where_exp) = hold_a1;
 			return;
-		};
+		}
 		/* x * const -> notreg   : use reg0 */
 		if (name (a1.where_exp) == val_tag) {
 			move (sha, a1, reg0);
 			son(a1.where_exp) = hold_a1;
 			a1 = reg0;
 			hold_a1 =  son(a1.where_exp);
-		};
+		}
 		ins3 (in, sz, sz, sz, a2, a1, reg0);
 		invalidate_dest (reg0);
 		end_contop ();
@@ -4369,7 +4369,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		move (sha, reg0, dest);
 		son(a1.where_exp) = hold_a1;
 		return;
-	};
+	}
 
 	if (is_signed (sha) && sz != 8) {
 		/* signed : we don't have to disturb eax/edx */
@@ -4384,7 +4384,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				try_overflow (sha, 0);
 				son(a1.where_exp) = hold_a1;
 				return;
-			};
+			}
 			if (eq_where (a1, dest)) {
 				contop (a2.where_exp,
 						(eq_where (reg0, a1) || eq_where (reg0, a2)),
@@ -4395,8 +4395,8 @@ multiply(shape sha, where a1, where a2, where dest)
 				try_overflow (sha, 0);
 				son(a2.where_exp) = hold_a2;
 				return;
-			};
-		};
+			}
+		}
 		if (eq_where (reg0, a2)) {
 			contop (a1.where_exp, 1, reg0);
 			ins2 (in, sz, sz, a1, reg0);
@@ -4406,7 +4406,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			move (sha, reg0, dest);
 			son(a1.where_exp) = hold_a1;
 			return;
-		};
+		}
 		move (sha, a1, reg0);
 		contop (a2.where_exp, 1, reg0);
 		ins2 (in, sz, sz, a2, reg0);
@@ -4432,7 +4432,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			extra_stack += 32;
 			check_stack_max;
 			invalidate_dest (reg1);
-		};
+		}
 		if (eq_where (reg0, dest)) {
 			if (eq_where (a2, reg0)) {
 				contop (a1.where_exp, 1, a1);
@@ -4442,7 +4442,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				}
 				else {
 					ins1 (in, sz, a1);
-				};
+				}
 				invalidate_dest (reg0);
 				invalidate_dest(reg1);
 				invalidate_dest (a1);
@@ -4451,7 +4451,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				try_overflow (sha, 0);
 				son(a1.where_exp) = hold_a1;
 				return;
-			};
+			}
 			if (eq_where (a1, reg0)) {
 				contop (a2.where_exp, 1, a2);
 				if (name (a2.where_exp) == val_tag) {
@@ -4460,7 +4460,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				}
 				else {
 					ins1 (in, sz, a2);
-				};
+				}
 				invalidate_dest (reg0);
 				invalidate_dest(reg1);
 				invalidate_dest (a2);
@@ -4469,8 +4469,8 @@ multiply(shape sha, where a1, where a2, where dest)
 				try_overflow (sha, 0);
 				son(a2.where_exp) = hold_a2;
 				return;
-			};
-		};
+			}
+		}
 		if (eq_where (reg0, a2)) {
 			contop (a1.where_exp, 1, a1);
 			if (name (a1.where_exp) == val_tag) {
@@ -4479,7 +4479,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			}
 			else {
 				ins1 (in, sz, a1);
-			};
+			}
 			invalidate_dest (a1);
 			invalidate_dest (reg0);
 			invalidate_dest(reg1);
@@ -4489,7 +4489,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			move (sha, reg0, dest);
 			son(a1.where_exp) = hold_a1;
 			return;
-		};
+		}
 		move (sha, a1, reg0);
 		contop (a2.where_exp, 1, a2);
 		if (name (a2.where_exp) == val_tag) {
@@ -4498,7 +4498,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		}
 		else {
 			ins1 (in, sz, a2);
-		};
+		}
 		invalidate_dest (a2);
 		invalidate_dest (a1);
 		invalidate_dest (reg0);
@@ -4509,7 +4509,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		move (sha, reg0, dest);
 		son(a2.where_exp) = hold_a2;
 		return;
-	};
+	}
 }
 
 #define short_mults 6
@@ -4537,12 +4537,12 @@ longc_mult(where a1, where a2, where dest,
 	if (n == 0) {
 		move (sha, zero, dest);
 		return;
-	};
+	}
 
 	if (n == 1) {
 		move (sha, a1, dest);
 		return;
-	};
+	}
 
 
 	switch (n) {
@@ -4564,7 +4564,7 @@ longc_mult(where a1, where a2, where dest,
 			invalidate_dest (dest);
 			son(dest.where_exp) = holdd;
 			return;
-		};
+		}
 		contop (dest.where_exp, eq_where (reg0, a1), dest);
 		mult_op (inc, a1, a1, 2, dest);
 		invalidate_dest (dest);
@@ -4578,7 +4578,7 @@ longc_mult(where a1, where a2, where dest,
 			invalidate_dest (dest);
 			son(dest.where_exp) = holdd;
 			return;
-		};
+		}
 		contop (dest.where_exp, eq_where (reg0, a1), dest);
 		mult_op (inc, a1, a1, 4, dest);
 		invalidate_dest (dest);
@@ -4589,7 +4589,7 @@ longc_mult(where a1, where a2, where dest,
 			longc_mult (a1, mw(zeroe, 8), dest, inc);
 			sub(sha, a1, dest, dest);
 			return;
-		};
+		}
 		if (!inmem(a1) && !inmem(dest)) {
 			if (!eq_where(a1, reg0)) {
 				contop (dest.where_exp, 1, dest);
@@ -4615,13 +4615,13 @@ longc_mult(where a1, where a2, where dest,
 					dw2_track_pop();
 #endif
 				return;
-			};
-		};
+			}
+		}
 		if (inmem(a1) && !inmem(dest)) {
 			move(sha, a1, reg0);
 			longc_mult(reg0, a2, dest, inc);
 			return;
-		};
+		}
 		multiply (sha, a1, a2, dest);
 		return;
     case 9:
@@ -4632,7 +4632,7 @@ longc_mult(where a1, where a2, where dest,
 			invalidate_dest (dest);
 			son(dest.where_exp) = holdd;
 			return;
-		};
+		}
 		contop (dest.where_exp, eq_where (reg0, a1), dest);
 		mult_op (inc, a1, a1, 8, dest);
 		invalidate_dest (dest);
@@ -4645,14 +4645,14 @@ longc_mult(where a1, where a2, where dest,
 		else  {
 			move (sha, a1, reg0);
 			mult_op (inc, reg0, reg0, 2, reg0);
-		};
+		}
 		contop (dest.where_exp, 1, dest);
 		mult_op (inc, reg0, reg0, 4, dest);
 		invalidate_dest (reg0);
 		invalidate_dest (dest);
 		son(dest.where_exp) = holdd;
 		return;
-	};
+	}
     case 25: {
         if (!inmem(a1)) {
 			mult_op (inc, a1, a1, 4, reg0);
@@ -4660,14 +4660,14 @@ longc_mult(where a1, where a2, where dest,
 		else  {
 			move (sha, a1, reg0);
 			mult_op (inc, reg0, reg0, 4, reg0);
-		};
+		}
 		contop (dest.where_exp, 1, dest);
 		mult_op (inc, reg0, reg0, 4, dest);
 		invalidate_dest (reg0);
 		invalidate_dest (dest);
 		son(dest.where_exp) = holdd;
 		return;
-	};
+	}
     default:
 		if ((n & (n - 1)) == 0) {
 			int  mask = 1;
@@ -4676,7 +4676,7 @@ longc_mult(where a1, where a2, where dest,
 				mask += mask;
 			shiftl (sha, mw (zeroe, c), a1, dest);
 			return;
-		};
+		}
 		if ((-n & (-n - 1)) == 0) {
 			int  mask = 1;
 			int  c;
@@ -4685,7 +4685,7 @@ longc_mult(where a1, where a2, where dest,
 			shiftl (sha, mw (zeroe, c), a1, dest);
 			negate (sha, dest, dest);
 			return;
-		};
+		}
 		for (i = 0; i < short_mults; ++i) {
 			if ((n % mtab[i]) == 0) {
 				int  x = n / mtab[i];
@@ -4698,7 +4698,7 @@ longc_mult(where a1, where a2, where dest,
 					longc_mult (a1, mw (zeroe, mtab[i]), w, 0);
 					longc_mult (w, mw (zeroe, x), dest, inc);
 					return;
-				};
+				}
 				for (j = 0; j < short_mults; ++j) {
 					if (x == mtab[j]) {
 						where w;
@@ -4709,13 +4709,13 @@ longc_mult(where a1, where a2, where dest,
 						longc_mult (a1, mw (zeroe, mtab[i]), w, 0);
 						longc_mult (w, mw (zeroe, x), dest, inc);
 						return;
-					};
-				};
-			};
-		};
+					}
+				}
+			}
+		}
 		multiply (sha, a1, a2, dest);
 		return;
-	};
+	}
 }
 
 /* multiply a1 by a2 and put into dest.
@@ -4732,12 +4732,12 @@ mult(shape sha, where a1, where a2, where dest)
 	if (name (a1.where_exp) == val_tag && sha_size == 32) {
 		longc_mult (a2, a1, dest, inc);
 		return;
-	};
+	}
 
 	if (name (a2.where_exp) == val_tag && sha_size == 32) {
 		longc_mult (a1, a2, dest, inc);
 		return;
-	};
+	}
 
 	multiply (sha, a1, a2, dest);
 	return;
@@ -4775,7 +4775,7 @@ shiftl(shape sha, where wshift, where from,
 #endif
 				extra_stack += 32;
 				check_stack_max;
-			};
+			}
 			reg0_in_use = 1;
 			regsinuse |= REG_EDX;
 			move (slongsh, wshift, reg2);
@@ -4789,7 +4789,7 @@ shiftl(shape sha, where wshift, where from,
 #endif
 				extra_stack -= 32;
 			}
-		};
+		}
 		invalidate_dest (reg0);
 		invalidate_dest (reg1);
 		move (sha, reg0, to);
@@ -4807,18 +4807,18 @@ shiftl(shape sha, where wshift, where from,
 		break;
     default:
 		shifter = (sig) ? sall : shll;
-	};
+	}
 
 	if (name (p) == val_tag) {	/* no of places is constant */
 		if (places >= 32) {
 			move (sha, zero, to);
 			return;
-		};
+		}
 		if (places == 0)
 		{
 			move(sha, from, to);
 			return;
-		};
+		}
 
 		if (places >=1 && places <= 1)	/* correspond to longc_mult */
 		{
@@ -4829,7 +4829,7 @@ shiftl(shape sha, where wshift, where from,
 				k = 4;
 			longc_mult(from, mw(zeroe, k), to, 0);
 			return;
-		};
+		}
 
 		if (eq_where (from, to)) {	/* shift in situ */
 			contop (to.where_exp, 0, to);
@@ -4838,7 +4838,7 @@ shiftl(shape sha, where wshift, where from,
 			end_contop ();
 			son(to.where_exp) = holdto;
 			return;
-		};
+		}
 		if (!inmem (to)) {		/* to is a register */
 			move (sha, from, to);
 			contop (to.where_exp, 0, to);
@@ -4847,7 +4847,7 @@ shiftl(shape sha, where wshift, where from,
 			end_contop ();
 			son(to.where_exp) = holdto;
 			return;
-		};
+		}
 		/* use reg0 to shift in */
 		move (sha, from, reg0);
 		ins2 (shifter, 8, sz, wshift, reg0);
@@ -4855,7 +4855,7 @@ shiftl(shape sha, where wshift, where from,
 		move (sha, reg0, to);
 		invalidate_dest (to);
 		return;
-	};
+	}
 	{				/* we don't know the number of places */
 		int   to_reg2,
 			wshift_reg2;
@@ -4870,7 +4870,7 @@ shiftl(shape sha, where wshift, where from,
 #endif
 			extra_stack += 32;
 			check_stack_max;
-		};
+		}
 
 		/* scan2 has guaranteed that wshift is not in reg0 */
 
@@ -4894,7 +4894,7 @@ shiftl(shape sha, where wshift, where from,
 
 		/* reg2 might be used in the address of to */
 		move (sha, reg0, to);
-	};
+	}
 	return;
 
 }
@@ -4929,7 +4929,7 @@ rotshiftr(int shft, shape sha, where wshift,
 #endif
 				extra_stack += 32;
 				check_stack_max;
-			};
+			}
 			reg0_in_use = 1;
 			regsinuse |= REG_EDX;
 			move (slongsh, wshift, reg2);
@@ -4943,7 +4943,7 @@ rotshiftr(int shft, shape sha, where wshift,
 #endif
 				extra_stack -= 32;
 			}
-		};
+		}
 		invalidate_dest (reg0);
 		invalidate_dest (reg1);
 		move (sha, reg0, to);
@@ -4974,7 +4974,7 @@ rotshiftr(int shft, shape sha, where wshift,
 		default:
 			shifter = (shft == 1) ? rorl : roll;
 		}
-	};
+	}
 
 	if (name (p) == val_tag) {
 		if (places >= 32) {
@@ -4983,8 +4983,8 @@ rotshiftr(int shft, shape sha, where wshift,
 			else {
 				move (sha, zero, to);
 				return;
-			};
-		};
+			}
+		}
 		if (eq_where (from, to)) {
 			contop (to.where_exp, 0, to);
 			ins2 (shifter, 8, sz, wshift, to);
@@ -4992,7 +4992,7 @@ rotshiftr(int shft, shape sha, where wshift,
 			end_contop ();
 			son(to.where_exp) = holdto;
 			return;
-		};
+		}
 		if (!inmem (to)) {
 			move (sha, from, to);
 			contop (to.where_exp, 0, to);
@@ -5001,13 +5001,13 @@ rotshiftr(int shft, shape sha, where wshift,
 			end_contop ();
 			son(to.where_exp) = holdto;
 			return;
-		};
+		}
 		move (sha, from, reg0);
 		ins2 (shifter, 8, sz, wshift, reg0);
 		invalidate_dest (reg0);
 		move (sha, reg0, to);
 		return;
-	};
+	}
 	{
 		int   to_reg2,
 			wshift_reg2;
@@ -5023,7 +5023,7 @@ rotshiftr(int shft, shape sha, where wshift,
 #endif
 			extra_stack += 32;
 			check_stack_max;
-		};
+		}
 
 		/* scan2 has guaranteed that wshift is not in reg0 */
 
@@ -5045,7 +5045,7 @@ rotshiftr(int shft, shape sha, where wshift,
 			ins2 (shifter, 8, sz, reg2, reg0);
 			invalidate_dest (reg0);
 			invalidate_dest (reg2);
-		};
+		}
 
 		if (!to_reg2 && (regsinuse & REG_ECX) && !wshift_reg2)
 		{
@@ -5060,7 +5060,7 @@ rotshiftr(int shft, shape sha, where wshift,
 		/* reg2 might be used in the address of to */
 		if (!selfed)
 			move (sha, reg0, to);
-	};
+	}
 	return;
 
 }
@@ -5135,12 +5135,12 @@ divit(shape sha, where bottom, where top,
 		while (m != v) {
 			++c;
 			m = m << 1;
-		};
+		}
 
 		if (c == 0)  {
 			move (sha, top, dest);
 			return;
-		};
+		}
 
 		if (inmem (dest))
 			rw = reg0;
@@ -5164,7 +5164,7 @@ divit(shape sha, where bottom, where top,
 		if (inmem (dest))
 			move (sha, rw, dest);
 		return;
-	};
+	}
 
 	if (sz == 64 && shape_size (shb) == 64 && (
 			name (bottom.where_exp) != val_tag || isbigval(bottom.where_exp) ||
@@ -5195,7 +5195,7 @@ divit(shape sha, where bottom, where top,
 		}
 		move (sha, reg0, dest);
 		return;
-	};
+	}
 
 	if (sz == 8) {
 		if (sg)
@@ -5219,7 +5219,7 @@ divit(shape sha, where bottom, where top,
 #endif
 			stack_dec -= 32;
 			check_stack_max;
-		};
+		}
 		reg0_in_use = 1;
 		if (sz == 64) {
 			int riu = regsinuse;
@@ -5229,7 +5229,7 @@ divit(shape sha, where bottom, where top,
 		}
 		else
 			move (shb, bottom, reg2);
-	};
+	}
 
 	if (test_zero) {		/* avoid divide by zero trap */
 		IGNORE cmp (shb, d, zero, f_not_equal, nilexp);
@@ -5262,7 +5262,7 @@ divit(shape sha, where bottom, where top,
 		stack_dec -= 32;
 		check_stack_max;
 		invalidate_dest (reg1);
-	};
+	}
 
 	if (sg) {			/* signed */
 		switch (sz) {
@@ -5306,7 +5306,7 @@ divit(shape sha, where bottom, where top,
 				ins1(decl, 32, reg0);
 			}
 			simplest_set_lab(end);
-		};
+		}
 	}
 	else {			/* unsigned */
 		switch (sz) {
@@ -5338,7 +5338,7 @@ divit(shape sha, where bottom, where top,
 			ins2 (xorl, 32, 32, reg1, reg1);
 			ins1 (divl, 32, d);
 		}
-	};
+	}
 	invalidate_dest (reg0);
 	invalidate_dest (reg1);
 	invalidate_dest (reg2);
@@ -5351,7 +5351,7 @@ divit(shape sha, where bottom, where top,
 			dw2_track_pop();
 #endif
 		stack_dec += 32;
-	};
+	}
 
 	if (reslab != 0)
 		simple_set_label (reslab);
@@ -5364,7 +5364,7 @@ divit(shape sha, where bottom, where top,
 			dw2_track_pop();
 #endif
 		stack_dec += 32;
-	};
+	}
 
 	move (sha, reg0, dest);
 	return;
@@ -5427,10 +5427,10 @@ remit(shape sha, where bottom, where top,
 		while (m != v) {
 			++c;
 			m = m << 1;
-		};
+		}
 		and (sha, top, mw (zeroe, lsmask[c]), dest);
 		return;
-	};
+	}
 
 	if (sz == 64 && shape_size (shb) == 64 && (
 			name (bottom.where_exp) != val_tag || isbigval(bottom.where_exp) ||
@@ -5460,7 +5460,7 @@ remit(shape sha, where bottom, where top,
 		}
 		move (sha, reg0, dest);
 		return;
-	};
+	}
 
 	if (sz == 8) {
 		if (sg)
@@ -5484,7 +5484,7 @@ remit(shape sha, where bottom, where top,
 #endif
 			stack_dec -= 32;
 			check_stack_max;
-		};
+		}
 		reg0_in_use = 1;
 		if (sz == 64) {
 			int riu = regsinuse;
@@ -5494,7 +5494,7 @@ remit(shape sha, where bottom, where top,
 		}
 		else
 			move (shb, bottom, reg2);
-	};
+	}
 
 	if (test_zero) {		/* avoid divide by zero trap */
 		IGNORE cmp (shb, d, zero, f_not_equal, nilexp);
@@ -5527,7 +5527,7 @@ remit(shape sha, where bottom, where top,
 		stack_dec -= 32;
 		check_stack_max;
 		invalidate_dest (reg1);
-	};
+	}
 
 	if (sg) {			/* signed */
 		switch (sz) {
@@ -5574,7 +5574,7 @@ remit(shape sha, where bottom, where top,
 				ins2(addl, 32, 32, reg0, reg1);
 			}
 			simple_set_label(end);
-		};
+		}
 	}
 	else {			/* unsigned */
 		switch (sz) {
@@ -5605,7 +5605,7 @@ remit(shape sha, where bottom, where top,
 			ins2 (xorl, 32, 32, reg1, reg1);
 			ins1 (divl, 32, d);
 		}
-	};
+	}
 	if (sz == 8)
 		ins0 ("movb %ah,%al");
 	else
@@ -5628,7 +5628,7 @@ remit(shape sha, where bottom, where top,
 			dw2_track_pop();
 #endif
 		stack_dec += 32;
-	};
+	}
 
 	if (reslab != 0)
 		simple_set_label (reslab);
@@ -5641,7 +5641,7 @@ remit(shape sha, where bottom, where top,
 			dw2_track_pop();
 #endif
 		stack_dec += 32;
-	};
+	}
 
 	move (sha, reg0, dest);
 
@@ -5687,7 +5687,7 @@ mova(where from, where to)
 		name (son (fe)) != ident_tag) {/* add on offset from reff */
 		mova (mw (son (fe), from.where_off + no (fe)), to);
 		return;
-	};
+	}
 
 	if (name (to.where_exp) == apply_tag) {	/* pushing */
 		if (!PIC_code && name (fe) == cont_tag &&
@@ -5704,7 +5704,7 @@ mova(where from, where to)
 			end_contop ();
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		if (!PIC_code &&name (fe) == name_tag &&
 			isglob (son (fe)) && isvar (son (fe))) {
 			contop (fe, 0, to);
@@ -5716,7 +5716,7 @@ mova(where from, where to)
 			end_contop ();
 			son(fe) = holdfe;
 			return;
-		};
+		}
 		mova (from, reg0);
 		ins1 (pushl,  32, reg0);
 #ifdef NEWDWARF
@@ -5724,20 +5724,20 @@ mova(where from, where to)
 			dw2_track_push();
 #endif
 		return;
-	};
+	}
 
 
 	if (inmem (to)) {
 		mova (from, reg0);
 		move (slongsh, reg0, to);
 		return;
-	};
+	}
 
 	if (!PIC_code && name (fe) == name_tag && isvar (son (fe)) &&
 		isglob (son (fe))) {
 		move (slongsh, from, to);
 		return;
-	};
+	}
 
 	contop (from.where_exp, 0, to);
 
@@ -5788,7 +5788,7 @@ bit_pos_cont(exp e, int nbits)
 			return (adjust_pos (son (e), nbits));
 
 		return (0);
-	};
+	}
 
 	MSG_fatal_illegal_bit_operand();
 	return (0);
@@ -5855,14 +5855,14 @@ mem_to_bits(exp e, shape sha, where dest,
 				osh = swordsh;
 			else
 				osh = uwordsh;
-		};
+		}
 
 		sh(e) = osh;
 		temp = getexp(dsh, nilexp, 0, e, nilexp, 0, 0, chvar_tag);
 		coder(dest, stack, temp);
 		retcell(temp);
 		return;
-	};
+	}
 
 	if ((pos + nbits) <= 8)
 		move_sh = scharsh;
@@ -5881,7 +5881,7 @@ mem_to_bits(exp e, shape sha, where dest,
 		 *       necessary */
 		invalidate_dest (dest);
 		return;
-	};
+	}
 
 	move (move_sh, mw (e, 0), reg0);/* move e to reg0 */
 	if (lsn != 0)
@@ -5930,7 +5930,7 @@ bits_to_mem(exp e, exp d, ash stack)
 			/* if we are assigning all ones, just or them in */
 			or (move_sh, mw (zeroe, k), dest, dest);
 			return;
-		};
+		}
 		if (no (son(e)) == 0) {
 			/* if we are assigning all ones, just or them in */
 			k = ~k;
@@ -5938,8 +5938,8 @@ bits_to_mem(exp e, exp d, ash stack)
 				k &= 0xff;
 			and (move_sh, mw (zeroe, k), dest, dest);
 			return;
-		};
-	};
+		}
+	}
 
 	if (pos == 0 && (nbits == 8 || nbits == 16)) {
 		shape osh;
@@ -5956,12 +5956,12 @@ bits_to_mem(exp e, exp d, ash stack)
 			else {
 				coder(reg0, stack, son(e));
 				move (osh, reg0, dest);
-			};
+			}
 		}
 		else
 			move(osh, mw(e, 0), dest);
 		return;
-	};
+	}
 
 	/* mask the bits we are putting in out of the dest */
 	if (name (e) != val_tag) {	/* this needs improvement */
@@ -5993,7 +5993,7 @@ bits_to_mem(exp e, exp d, ash stack)
 		and (move_sh, mw (zeroe, mask), dest, dest);
 		add (move_sh, reg0, dest, dest);/* add into dest */
 		return;
-	};
+	}
 }
 
 
@@ -6043,8 +6043,8 @@ fopm(shape sha, unsigned char op, int rev,
 			son(wh.where_exp) = hold;
 			return;
 #endif
-		};
-	};
+		}
+	}
 
 	switch (op) {			/* doubles */
     case fplus_tag:
@@ -6080,7 +6080,7 @@ fopm(shape sha, unsigned char op, int rev,
 		son(wh.where_exp) = hold;
 		return;
 #endif
-	};
+	}
 }
 
 
@@ -6117,7 +6117,7 @@ fopr(unsigned char op, int rev, where wh,
 			}
 			else
 				ins2 (fsub, 0, 0, wh, d);
-		};
+		}
 		break;
     case fmult_tag:
 		if (and_pop) {
@@ -6143,11 +6143,11 @@ fopr(unsigned char op, int rev, where wh,
 			}
 			else
 				ins2 (fdiv, 0, 0, wh, d);  /* (0,arg1,arg2-in-st0,0) -> st0 */
-		};
+		}
 		break;
     default:
 		MSG_fatal_illegal_fp_operation(op);
-	};
+	}
 
 	return;
 }
@@ -6179,11 +6179,11 @@ fl_binop(unsigned char op, shape sha, where arg1,
 			ins0("fmulp %st,%st(1)"); break;
         case fdiv_tag:
 			ins0("fdivp %st,%st(1)"); break;
-		};
+		}
 		pop_fl;
 		move(sha, flstack, dest);
 		return;
-	};
+	}
 
 	switch (tst) {
     case 6:
@@ -6200,12 +6200,12 @@ fl_binop(unsigned char op, shape sha, where arg1,
 				fopm (sha, op, 0, arg1);
 
 				return;
-			};
+			}
 			move (sha, arg1, flstack);
 			fopr (op, 1, flstack, dest, 1); /* 1: fdivrp st,st(2) */
 
 			return;
-		};
+		}
 		/* fall through to case 5 */
     case 5:
 
@@ -6214,7 +6214,7 @@ fl_binop(unsigned char op, shape sha, where arg1,
 
 			move (sha, flstack, dest);
 			return;
-		};
+		}
 
 		move (sha, arg1, flstack);
 		fopr (op, 1, arg2, flstack, 0); /* 2: fdivr st(2),st */
@@ -6228,12 +6228,12 @@ fl_binop(unsigned char op, shape sha, where arg1,
 				fopm (sha, op, 1, arg2);
 
 				return;
-			};
+			}
 			move (sha, arg2, flstack);
 			fopr (op, 0, flstack, dest, 1);/* 3: fdivp st,st(2) */
 
 			return;
-		};
+		}
 		/* fall through to case 3 */
     case 3:
 		if (use_pop (last_arg, arg1.where_exp) == 2) {
@@ -6241,7 +6241,7 @@ fl_binop(unsigned char op, shape sha, where arg1,
 
 			move (sha, flstack, dest);
 			return;
-		};
+		}
 
 		move (sha, arg2, flstack);
 		fopr (op, 0, arg1, flstack, 0); /* 4: fdiv st(2),st */
@@ -6263,12 +6263,12 @@ fl_binop(unsigned char op, shape sha, where arg1,
 			if (up1 == 2 && fd2 != fstack_pos && eq_where(arg2, dest)) {
 				fopr(op, 1, flstack, arg2, 1); /* 8: fdivrp st,st(3) */
 				return;
-			};
+			}
 			if (up2 == 2 && fd1 != fstack_pos && eq_where(arg1, dest)) {
 				fopr(op, 0, flstack, arg1, 1); /* 11:  fdivp st,st(3) */
 				return;
-			};
-		};
+			}
+		}
 
 		{
 			if (up1 == 2) {
@@ -6285,9 +6285,9 @@ fl_binop(unsigned char op, shape sha, where arg1,
 							fopr (op, 1, flstack, arg2, 1); /* 7: divrp st,st(1) */
 							move (sha, flstack, dest);
 							return;
-						};
-				};
-			};
+						}
+				}
+			}
 
 			if (up2 == 2) {
 				int  fd1;
@@ -6308,10 +6308,10 @@ fl_binop(unsigned char op, shape sha, where arg1,
 							fopr(op, 0, arg1, flstack, 0); /* 6: fdiv st(2),st */
 							move (sha, flstack, dest);
 							return;
-						};
-				};
-			};
-		};
+						}
+				}
+			}
+		}
 
 
 		move (sha, arg2, flstack);
@@ -6319,10 +6319,10 @@ fl_binop(unsigned char op, shape sha, where arg1,
 
 		move (sha, flstack, dest);
 		return;
-	};
+	}
 
 
-	};
+	}
 }
 
 
@@ -6354,7 +6354,7 @@ fl_multop(unsigned char op, shape sha, exp arglist,
 			ins0("fmulp %st,%st(1)"); break;
 		default:
 			MSG_fatal_illegal_fp_operation(op);
-		};
+		}
 		pop_fl;
 		if (last(arg2)) break;
 		arg2 = bro(arg2);
@@ -6404,11 +6404,11 @@ round_code(int mode, int ul, int sz)
 		else {
 			move (swordsh, mw (ind_sp.where_exp, (-(sz+32))), reg0);
 			or (swordsh, mw (zeroe, (mode << 10)), reg0, reg0);
-		};
+		}
 		move (swordsh, reg0, mw (ind_sp.where_exp, (-(sz+16))));
 		invalidate_dest (reg0);
 		ins1 (fldcw, size16, mw (ind_sp.where_exp, (-(sz+16))));
-	};
+	}
 	if (ul) {
 		if (sz == 64) {
 			move (doublesh, mw (sllmaxe, 0), flstack);
@@ -6417,14 +6417,14 @@ round_code(int mode, int ul, int sz)
 		}
 		else
 			ins1 (fsubl, size64, mw (smaxe, 0));
-	};
+	}
 	ins0 (frndint);
 	ins1 ((sz == 64 ? fistpll : fistpl), sz, mw (ind_sp.where_exp, (-sz)));
 	if (mode != 0 && mode != 4) {
 		ins1 (fldcw, size16, mw (ind_sp.where_exp, (-(sz+32))));
 		add (slongsh, mw (zeroe, 4), sp, sp);
 		extra_stack -= 32;
-	};
+	}
 	invalidate_dest(ind_sp);
 	return;
 }
@@ -6460,7 +6460,7 @@ roundit(shape sha, where from, where to, int mode)
 		move (sha, mw(ind_sp.where_exp, -sz), to);
 		add (slongsh, mw (zeroe, sz/8), sp, sp);
 		extra_stack -= sz;
-	};
+	}
 	return;
 }
 
@@ -6548,8 +6548,8 @@ floater(shape sha, where from, where to)
 #endif
 			}
 			from = ind_sp;
-		};
-	};
+		}
+	}
 
 	holdfe = son(from.where_exp);
 	contop (from.where_exp, 0, reg0);
@@ -6565,12 +6565,12 @@ floater(shape sha, where from, where to)
 		else
 			ins1 (faddl, size64, mw (dlongmaxe, 0));
 		simple_set_label (lab);
-	};
+	}
 	end_contop ();
 
 	if (!im || szf < 32) {
 		ins2 (addl,  32,  32, mw (zeroe, (szf == 64 ? 8 : 4)), sp);
-	};
+	}
 	push_fl;
 	move (sha, flstack, to);
 	son(from.where_exp) = holdfe;
@@ -6588,7 +6588,7 @@ changefl(shape sha, where from, where to)
 		/* change in case of shortening now dealt with by test_fl_ovfl */
 		move (sha, from, to);	/* just move to destination */
 		return;
-	};
+	}
 
 	/* from is not in fl reg */
 	move (shfrom, from, flstack);
@@ -6609,7 +6609,7 @@ fl_neg(shape sha, where from, where to)
 		get_reg_no (f2) == fstack_pos) {
 		ins0 (fchs);
 		return;
-	};
+	}
 	move (sha, from, flstack);
 	ins0 (fchs);
 	move (sha, flstack, to);
@@ -6629,7 +6629,7 @@ fl_abs(shape sha, where from, where to)
 		get_reg_no (f2) == fstack_pos) {
 		ins0 (fabs);
 		return;
-	};
+	}
 	move (sha, from, flstack);
 	ins0 (fabs);
 	move (sha, flstack, to);
@@ -6691,7 +6691,7 @@ test(shape sha, where a, where b)
 		break;
     default:
 		t = testl;
-	};
+	}
 
 	cond1_set = 0;
 	cond2_set = 0;
@@ -6704,7 +6704,7 @@ test(shape sha, where a, where b)
 		end_contop ();
 		son(b.where_exp) = hold;
 		return;
-	};
+	}
 	if (!inmem (b) && name (a.where_exp) != val_tag) {
 		hold = son(a.where_exp);
 		contop (a.where_exp,  (eq_where (reg0, a) || eq_where (reg0, b)),
@@ -6713,7 +6713,7 @@ test(shape sha, where a, where b)
 		end_contop ();
 		son(a.where_exp) = hold;
 		return;
-	};
+	}
 	hold = son(b.where_exp);
 	contop (b.where_exp,  (eq_where (reg0, a) || eq_where (reg0, b)),
 			reg0);
@@ -6848,7 +6848,7 @@ test_fl_ovfl(exp e, where dest)
 		}
 		branch(f_equal, pt(son(pt(e))), 0, scharhd);
 		invalidate_dest(reg0);
-	};
+	}
 	return;
 }
 
@@ -6906,7 +6906,7 @@ special_ins(char * id, exp arg, where dest)
 		case 2:
 			ins0(fclex);
 			return;
-		};
+		}
 	}
 	MSG_fatal_bad_operation("special_ins()");
 }

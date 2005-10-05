@@ -134,17 +134,17 @@ glopt(dec * dp)
 								kill_exp(t, t);
 								replace(to_change, idsc, idsc);
 								t = i;
-							};
-						};
-					};
-				};
-			};
+							}
+						}
+					}
+				}
+			}
 
 			if (pt(t) == nilexp)
 				return;
 			t = pt(t);
-		};
-	};
+		}
+	}
 
 	if (!writable_strings && !strcmp(dp -> dec_u.dec_val.dec_id, "strlen"))
 	{
@@ -185,17 +185,17 @@ glopt(dec * dp)
 								kill_exp(t, t);
 								replace(to_change, res, nilexp);
 								t = i;
-							};
-						};
-					};
-				};
-			};
+							}
+						}
+					}
+				}
+			}
 
 			if (pt(t) == nilexp)
 				return;
 			t = pt(t);
-		};
-	};
+		}
+	}
 
 
 

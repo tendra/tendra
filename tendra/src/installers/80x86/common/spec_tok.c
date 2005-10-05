@@ -87,7 +87,7 @@ special_token(token t, bitstream pars, int sortcode,
 	if (t -> tok_name == (char*)0) {
 		SET(tkv); /* call looks at done to see if result is meaningful */
 		return tkv;
-	};
+	}
 
 	if (!strcmp(t -> tok_name, "JMFprofile"))  {
 		nat n;
@@ -100,7 +100,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_exp = f_profile(n);
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "JMFinline"))  {
 		exp s;
 		tdf_pos old_place;
@@ -122,7 +122,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_exp = s;
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "~div"))  {
 		exp arg1, arg2;
 		tdf_pos old_place;
@@ -135,7 +135,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "~rem"))  {
 		exp arg1, arg2;
 		tdf_pos old_place;
@@ -148,7 +148,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_exp = me_b2(arg1, arg2, rem0_tag);
 		*done = 1;
 		return tkv;
-	};
+	}
 #ifdef INBUILT_PROMOTE
 	if (!strcmp(t -> tok_name, "~arith_type")) {
 		int a, b;
@@ -165,7 +165,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_signed_nat = sn;
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "~promote")) {
 		int a;
 		tdf_pos old_place;
@@ -179,7 +179,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_signed_nat = sn;
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "~sign_promote")) {
 		int a;
 		tdf_pos old_place;
@@ -193,7 +193,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_signed_nat = sn;
 		*done = 1;
 		return tkv;
-	};
+	}
 	if (!strcmp(t -> tok_name, "~convert")) {
 		int a;
 		tdf_pos old_place;
@@ -206,7 +206,7 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_variety = convert((unsigned)a);
 		*done = 1;
 		return tkv;
-	};
+	}
 #endif
 	if (!strcmp(t -> tok_name, "~alloca"))  {
 		exp arg1;
@@ -220,7 +220,7 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		has_alloca = 1;
 		return tkv;
-	};
+	}
 
 	if (!strcmp(t -> tok_name, "~exp_to_source") ||
 		!strcmp(t -> tok_name, "~diag_id_scope") ||
@@ -241,7 +241,7 @@ special_token(token t, bitstream pars, int sortcode,
         {
 			set_place(old_place);
 			return tkv;
-        };
+        }
 
 		if (!strcmp(t -> tok_name, "~exp_to_source"))
 		{
@@ -260,7 +260,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
 		if (!strcmp(t -> tok_name, "~diag_id_scope"))
 		{
@@ -276,7 +276,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
 		if (!strcmp(t -> tok_name, "~diag_type_scope"))
 		{
@@ -292,7 +292,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
 		if (!strcmp(t -> tok_name, "~diag_tag_scope"))
 		{
@@ -306,7 +306,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
 #ifdef NEWDIAGS
 		if (!strcmp(t -> tok_name, "~dg_exp"))
@@ -314,10 +314,10 @@ special_token(token t, bitstream pars, int sortcode,
 			tkv.tk_exp = read_dg_exp (tkv.tk_exp);
 			set_place(old_place);
 			return tkv;
-		};
+		}
 #endif
 
-	};
+	}
 
 	if (!strncmp(t -> tok_name, "~asm", 4)) {
 		int prp;

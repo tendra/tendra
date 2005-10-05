@@ -178,7 +178,7 @@ add_weights(weights w1, weights w2)
     wa = (w1.w_weights)[i];
     wb = (w2.w_weights)[i];
     (r.w_weights)[i] = wa + wb;
-  };
+  }
   r.booked = max (w1.booked, w2.booked);
   r.flbooked = max (w1.flbooked, w2.flbooked);
   return (r);
@@ -195,7 +195,7 @@ init_weights(void)
     (cmpregs.w_weights)[i] = vcmpregs[i];
     (divregs.w_weights)[i] = vdivregs[i];
     (applyregs.w_weights)[i] = vapplyregs[i];
-  };
+  }
   zeros.booked = -1;
   moveregs.booked = 1;
   cmpregs.booked = 1;
@@ -218,7 +218,7 @@ markcall(explist *el)
   while (t != (explist *) 0) {
     set_intnl_call (t -> wident);
     t = t -> etl;
-  };
+  }
 }
 
 /* mark all the declarations in the list
@@ -232,7 +232,7 @@ markmove(explist *el)
   while (t != (explist *) 0) {
     set_intnl_call (t -> wident);
     t = t -> etl;
-  };
+  }
 }
 
 /* mark to show reg1 may be needed */
@@ -243,7 +243,7 @@ markreg1(explist *el)
   while (t != (explist *) 0) {
     set_intnl_call (t -> wident);
     t = t -> etl;
-  };
+  }
 }
 
 
@@ -292,15 +292,15 @@ max_weights(int size, float locp, weights ws, int isfl)
 	      if (!bkset) {
 		bk = i + 1;
 		bkset = 1;
-	      };
+	      }
 	    }
 	    else
 	      pw[i] = w[i];
-	  };
-	};
-      };
-    };
-  };
+	  }
+	}
+      }
+    }
+  }
 
 
   res.wp_break = bk;
@@ -341,7 +341,7 @@ add_wlist(exp re, int usemc3, explist *el)
       wl1 = add_weights (wl1, try_mc3 (re, wl2, el));
     else
       wl1 = add_weights (wl1, wl2);
-  };
+  }
   return (wl1);
 }
 
@@ -391,7 +391,7 @@ weightsv(exp e, explist *el)
 	  fno (son (e)) += scale;/* add number of uses to the no field of
 				   the declaration */
 	return (zeros);
-      };
+      }
     case make_lv_tag:
         return zeros;
     case ident_tag:
@@ -408,7 +408,7 @@ weightsv(exp e, explist *el)
 		)))
 	    setvis (e);
 	  t = pt (t);
-	};
+	}
 
 	if (son (e) != nilexp) {
 	  weights wdef, wbody;
@@ -451,17 +451,17 @@ weightsv(exp e, explist *el)
 		  sp_scale = fno (e);
 		p.wp_break = 0;
 		p.wp_weights = wbody;
-	      };
+	      }
               old_scale = scale;
               scale = sp_scale;
 	      wdef =
 		weightsv (def, el);
 	      wdef = try_mc3 (def, wdef, el);
               scale = old_scale;
-	    };
+	    }
 	    no (e) = p.wp_break;/* set the break point */
 	    return (add_weights (wdef, p.wp_weights));
-	  };
+	  }
 
 	  if (name(sh(def)) == nofhd && ptno(sh(def)) == realhd &&
 		shape_size(sh(def)) >= 640)
@@ -473,12 +473,12 @@ weightsv(exp e, explist *el)
 	    wdef =
 		weightsv (def, el);
 	      wdef = try_mc3 (def, wdef, el);
-	  };
+	  }
 	  no (e) = 16;
 	  return (add_weights (wdef, wbody));
-	};
+	}
 	return (zeros);
-      };
+      }
     case labst_tag: {
 	explist nel;
 	weights wbody;
@@ -488,7 +488,7 @@ weightsv(exp e, explist *el)
 	wbody = weightsv (bro (son (e)), &nel);
 	scale = old_scale;
 	return (wbody);
-      };
+      }
     case rep_tag: {
 	swl = weightsv (son (e), el);
 
@@ -501,7 +501,7 @@ weightsv(exp e, explist *el)
         scale = old_scale;
 
 	return (add_weights (swl, bwl));
-      };
+      }
     case cond_tag:  {
         old_scale = scale;
 
@@ -512,7 +512,7 @@ weightsv(exp e, explist *el)
         scale = old_scale;
 
 	return (add_weights (swl, bwl));
-      };
+      }
     case case_tag:
       return (weightsv (son (e), el));
 
@@ -533,7 +533,7 @@ weightsv(exp e, explist *el)
 	  markcall (el);
 	return (add_weights (add_wlist (son (e), 0, el),
 	      applyregs));
-      };
+      }
 
     case ass_tag:
     case assvol_tag: {
@@ -547,19 +547,19 @@ weightsv(exp e, explist *el)
 	    try_mc3 (bro (son (e)), temp, el)
 	  )
 	);
-      };
+      }
     case proc_tag:
     case general_proc_tag: {
 	IGNORE weightsv (son (e), (explist *) 0);
 	return (zeros);
-      };
+      }
     case movecont_tag:
       if (isnooverlap(e))
         return (add_weights (add_wlist (son (e), 0, el), moveregs));
       else {
         markcall(el);
         return (add_wlist (son (e), 0, el));
-      };
+      }
     case val_tag:
     case real_tag:
     case env_offset_tag:
@@ -571,7 +571,7 @@ weightsv(exp e, explist *el)
 	markreg1 (el);				/* use of reg0 can include reg1 */
       wlarg = add_wlist (son (e), 0, el);
       return (wlarg);
-     };
+     }
     case prof_tag:
       scale = no(e);
       return zeros;
@@ -580,14 +580,14 @@ weightsv(exp e, explist *el)
      {if (checkalloc(e))
 	markreg1 (el);
       return (add_wlist (son (e), 0, el));
-     };
+     }
 
     default:
       if (sh(e) != nilexp &&
 		(name(sh(e)) == s64hd || name(sh(e)) == u64hd))
 	markreg1 (el);				/* use of reg0 can include reg1 */
       return (add_wlist (son (e), 1, el));
-  };
+  }
 }
 
 void

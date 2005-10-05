@@ -139,7 +139,7 @@ inval(exp d, exp r)
 		if (name (bro (son (r))) == offset_mult_tag)
 			return (inval (d, son (r)) || inval (d, son (bro (son (r)))));
 		return (inval (d, son (r)) || inval (d, bro (son (r))));
-	};
+	}
 
 	if (name (r) == ident_tag)
 		return (inval (d, son (r)) || inval (d, bro (son (r))));
@@ -200,7 +200,7 @@ equiv_reg(where w, int sz)
 #endif
 			return (reg_wheres[i]);
 		}
-	};
+	}
 	res.where_exp = nilexp;
 	return (res);
 }
@@ -257,7 +257,7 @@ invalidate_dest(where dest)
 		  invalidates (dest.where_exp, cond2b.where_exp)))) {
 		cond1_set = 0;
 		cond2_set = 0;
-	};
+	}
 
 	if (is_aliased (dest.where_exp)) {
 		for (i = 0; i < no_fixed_regs; ++i) {
@@ -303,15 +303,15 @@ invalidate_dest(where dest)
 				if (pr -> regcell_key == 0)
 					pr -> regcell_key = 4;
 			default:;
-			};
-		};
-	};
+			}
+		}
+	}
 
 	if (regmask) {
 		regno = get_regno (regmask);
 		if (regno < no_fixed_regs)
 			crt_reg_record[regno].regcell_key = 4;
-	};
+	}
 
 	if (regmask || d == nilexp) {
 		for (i = 0; i < no_fixed_regs; ++i) {
@@ -353,10 +353,10 @@ invalidate_dest(where dest)
 				if (pr -> regcell_key == 0)
 					pr -> regcell_key = 4;
 			default:;
-			};
-		};
+			}
+		}
 		return;
-	};
+	}
 #ifdef NEWDWARF
 	dw_ignore_used_regassn = 1;
 #endif
@@ -368,7 +368,7 @@ invalidate_dest(where dest)
 		regno = get_regno (regmask);
 		if (regno < no_fixed_regs)
 			crt_reg_record[regno].regcell_key = 4;
-	};
+	}
 #ifdef NEWDWARF
 	dw_ignore_used_regassn = 0;
 #endif
@@ -407,7 +407,7 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_to, 1);
 #endif
 			break;
-		};
+		}
 		case 2:
 		{
 			p -> regcell_key = 3;
@@ -418,7 +418,7 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_to, 0);
 #endif
 			break;
-		};
+		}
 		case 3:
 			break;
 		default:
@@ -431,9 +431,9 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_to, 0);
 #endif
 			break;
-		};
-		};
-	};
+		}
+		}
+	}
 	if (regmask_from && regmask_from < 64) {
 		int   regno_from = get_regno (regmask_from);
 		regcell * p = &crt_reg_record[regno_from];
@@ -448,7 +448,7 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_from, 1);
 #endif
 			break;
-		};
+		}
 		case 2:
 		{
 			p -> regcell_key = 3;
@@ -459,7 +459,7 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_from, 0);
 #endif
 			break;
-		};
+		}
 		case 3:
 			break;
 		default:
@@ -472,7 +472,7 @@ move_reg(where from, where to, shape sha)
 				dw_init_regassn (regno_from, 0);
 #endif
 			break;
-		};
-		};
-	};
+		}
+		}
+	}
 }

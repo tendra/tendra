@@ -112,7 +112,7 @@ align_label(int f, exp jr)
 	UNUSED(jr);
 	if (is80486 && !is80586) {
 		outs(".align 4\n");
-	};
+	}
 	return;
 }
 
@@ -230,11 +230,11 @@ out_switch_table(int tab, int min, int max,
 			else {
 				outs(local_prefix);
 				outn ((long)absent);
-			};
-		};
+			}
+		}
 		outnl ();
 
-	};
+	}
 
 }
 
@@ -261,13 +261,13 @@ outend(void)
 		outs(".text");
 		outnl();
 		dot_align(16);
-	};
+	}
 
 	st = fclose (fpout);
 	if (st == EOF) {
 		failer ("failed to close file");
 		exit (EXIT_FAILURE);
-	};
+	}
 }
 
 void

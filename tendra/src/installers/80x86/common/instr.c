@@ -191,7 +191,7 @@ outreal(exp e)
 		outhex(longs.i3);
 		outnl();
 		break;
-	};
+	}
 
 	return;
 }
@@ -212,7 +212,7 @@ rel_sp(int i, int b)
 			if (b)
 				outs (")");
 			return;
-		};
+		}
 		if (n <= 127 || no_frame || stack_aligned_8byte) {
 			/* use stack pointer if displacement from
 			 *				   it is small */
@@ -221,8 +221,8 @@ rel_sp(int i, int b)
 			if (b)
 				outs (")");
 			return;
-		};
-	};
+		}
+	}
 	/* otherwise use displacement from frame pointer */
 	outn ((long)(i + (stack_dec / 8)));
 	outs("-");
@@ -246,7 +246,7 @@ rel_cp(int i, int b)
 		if (b)
 			outs (")");
 		return;
-	};
+	}
 	outn ((long)n);
 	outs ("(%esp");
 	if (b)
@@ -276,7 +276,7 @@ rel_ap(int i, int b)
 		if (b)
 			outs (")");
 		return;
-	};
+	}
 }
 
 /* output operand relative to frame
@@ -305,7 +305,7 @@ rel_ap1(int i, int b)
 		if (b)
 			outs (")");
 		return;
-	};
+	}
 }
 
 int
@@ -339,16 +339,16 @@ regn(int regs, int rdisp, exp ldname, int le)
 		if (z == first_fl_reg) {
 			outs (fl_reg_name[0]);
 			return;
-		};
+		}
 		if (fstack_pos > 16) {
 			MSG_fatal_fp_stack_too_large(fstack_pos);
-		};
+		}
 		outs (fl_reg_name[fstack_pos - z]);
 		/* variables held in the floating point registers have to be addressed
 		 *       relative to the current stack position, because the registers are a
 		 *       stack as well as a register bank */
 		return;
-	};
+	}
 
 	switch (le) {
     case 8:
@@ -360,7 +360,7 @@ regn(int regs, int rdisp, exp ldname, int le)
     default:
 		rn = reg_name_long;
 		break;
-	};
+	}
 	outs (rn[z]);			/* this outputs the register name */
 	return;
 }
@@ -386,7 +386,7 @@ ind_reg(int regs, int rdisp, int offset, exp ldname,
 		regn (regs, rdisp, ldname, 32);
 		if (b)
 			outs (")");
-	};
+	}
 	return;
 }
 
@@ -405,7 +405,7 @@ index_opnd(where whmain, where wh, int sc)
 	if (sc != 1) {
 		outs (",");
 		outn ((long)sc);
-	};
+	}
 	outs (")");
 	return;
 }
@@ -433,12 +433,12 @@ extn(exp id, int off, int b)
 		{
 			outs ("+");
 			outn ((long)off / 8);
-		};
+		}
 		outs("(%ebx");
 		if (b)
 			outs(")");
 		return;
-	};
+	}
 
 	if (off == 0)
 		outs (et -> dec_u.dec_val.dec_id);
@@ -446,7 +446,7 @@ extn(exp id, int off, int b)
 		outs (et -> dec_u.dec_val.dec_id);
 		outs ("+");
 		outn ((long)off / 8);
-	};
+	}
 	if (!b)
 		outs ("(");
 	return;
@@ -466,7 +466,7 @@ int_operand(int k, int l)
 		break;
     default:
 		mask = 0xffffffff;
-	};
+	}
 	outs ("$");
 	outn ((long)k & mask);
 	return;
@@ -497,7 +497,7 @@ proc_extn(exp id, int off)
 			outn ((long)off / 8);
 			outs ("+");
 			outs (et -> dec_u.dec_val.dec_id);
-		};
+		}
 		if (et -> dec_u.dec_val.extnamed)
 			outs("@PLT");
 	}
@@ -505,7 +505,7 @@ proc_extn(exp id, int off)
 	{
 		outs ("$");
 		extn (id, off, 1);
-	};
+	}
 
 	return;
 }
@@ -577,7 +577,7 @@ envoff_operand(exp e, int off)
 	{
 		outn((long)off);
 		outs("+");
-	};
+	}
 	outs(local_prefix);
 	outs("O");
 	outn((long)l.i);		/* produce an identifying number */
@@ -695,12 +695,12 @@ simple_set_label(int labno)
 	int   st = 0;
 	if (!diagnose && labno == last_jump_label) {
 		st = fseek (fpout, last_jump_pos, 0);
-	};
+	}
 	/* eliminate immediately previous jump to this label */
 	if (st == -1) {
 		failer (SEEK_FAILURE);
 		exit(EXIT_FAILURE);
-	};
+	}
 #endif
 
 	cond1_set = 0;
@@ -769,7 +769,7 @@ jump(exp jr, int with_fl_reg)
 		while (fstack_pos > fs_dest)
 			discard_fstack ();
 		fstack_pos = good_fs;
-	};
+	}
 
 	if (sonno(jr) > stack_dec) {
 		add(slongsh, mw (zeroe, (sonno(jr)-stack_dec) / 8), sp, sp);
@@ -850,8 +850,8 @@ static char
 
 		default:
 			MSG_fatal_bad_test_number(test_no);
-		};
-	};
+		}
+	}
 
 	if (sg) {
 		switch (test_no) {
@@ -874,7 +874,7 @@ static char
 
 		default:
 			MSG_fatal_bad_test_number(test_no);
-		};
+		}
 	}
 	else {
 		switch (test_no) {
@@ -898,8 +898,8 @@ static char
 
 		default:
 			MSG_fatal_bad_test_number(test_no);
-		};
-	};
+		}
+	}
 	return ((char *) 0);
 }
 
@@ -974,7 +974,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 		fpucon = good_fpucon;
 		simplest_set_lab (nl);
 		return;
-	};
+	}
 
 	{
 		char* cj = out_branch (sg, test_no, shnm);
@@ -1047,7 +1047,7 @@ jmp_overflow(exp jr, int sg, int inv)
 		fpucon = good_fpucon;
 		simplest_set_lab (nl);
 		return;
-	};
+	}
 	if (sg)
 		simple_branch(jo, ptno(jr));
 	else
@@ -1158,7 +1158,7 @@ mult_op(int inc, where rmain, where rind,
 	if (sc != 1) {
 		outs (",");
 		outn ((long)sc);
-	};
+	}
 	outs ("),");
 
 	if (inmem (dest)) {
@@ -1172,7 +1172,7 @@ mult_op(int inc, where rmain, where rind,
 		operand (32, dest, 1, 0);
 		outnl ();
 		end_contop ();
-	};
+	}
 	return;
 }
 
@@ -1222,7 +1222,7 @@ caseins(int sz, exp arg, int min, int max,
 #ifdef NEWDWARF
 		START_BB ();
 #endif
-	};
+	}
 	return;
 }
 
@@ -1238,7 +1238,7 @@ const_intnl(int addr, int lab, int off)
 		if (off != 0) {
 			outs ("+");
 			outn ((long)off / 8);
-		};
+		}
 		outs("(%ebx)");
 		return;
 	}
@@ -1251,9 +1251,9 @@ const_intnl(int addr, int lab, int off)
 		if (off != 0) {
 			outs ("+");
 			outn ((long)off / 8);
-		};
+		}
 		return;
-	};
+	}
 }
 
 void
@@ -1368,7 +1368,7 @@ rotshift64(int shft, int sig, where wshift)
 				shft = 5 - shft;	/* reverse rotate */
 			}
 			}
-		};
+		}
 		if (places == 0)
 			return;
 		switch (shft) {	/* between 1 and 31 places */
@@ -1413,7 +1413,7 @@ rotshift64(int shft, int sig, where wshift)
 			return;
 		}
 		}
-	};
+	}
 	{				/* number of places in reg2 */
 		int lablow = next_lab ();
 		int labend = next_lab ();
@@ -1514,6 +1514,6 @@ rotshift64(int shft, int sig, where wshift)
 		}
 		}
 		simplest_set_lab (labend);
-	};
+	}
 	return;
 }

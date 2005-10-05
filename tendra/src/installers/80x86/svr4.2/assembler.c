@@ -111,11 +111,11 @@ align_label(int f, exp jr)
 		if (f == 3)
 			outs(".align 4");
 		outs("\n");
-	};
+	}
 	if (is80586 && ptno(jr) != last_jump_label)  {
 		if (f >= 1 && f <= 3)
 			outs(".align 4\n");
-	};
+	}
 	return;
 }
 
@@ -265,7 +265,7 @@ out_switch_jump(int tab, where a, int min)
 		outs (",4)");
 		outnl ();
 		return;
-	};
+	}
 }
 
 void
@@ -303,10 +303,10 @@ out_switch_table(int tab, int min, int max,
 					outs("-");
 					outs(local_prefix);
 					outn((long)pic_label);
-				};
-			};
+				}
+			}
 			outnl ();
-		};
+		}
 		outs(".text");
 		outnl();
 		return;
@@ -334,14 +334,14 @@ out_switch_table(int tab, int min, int max,
 				else {
 					outs(local_prefix);
 					outn ((long)absent);
-				};
-			};
+				}
+			}
 			outnl ();
-		};
+		}
 		outs(".text");
 		outnl();
 		return;
-	};
+	}
 }
 
 void
@@ -380,7 +380,7 @@ outend(void)
 	if (st == EOF) {
 		failer ("failed to close file");
 		exit(EXIT_FAILURE);
-	};
+	}
 }
 
 void
