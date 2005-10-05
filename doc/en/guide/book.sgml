@@ -4080,14 +4080,14 @@ REPR[A &cup; B] = (s: Max(REPR[A].s, REPR[B].s), b: REPR[A].b &or; REPR[B].b)
 
         <para>and their inclusion relationship is given by:</para>
 <programlisting>
-REPR[A ... B] = (REPR[A].s &ge; REPR[B].s) &and; (REPR[A].b &or; REPR[B].b)
+REPR[A ... B] = (REPR[A].s &ge; REPR[B].s) &and; (REPR[A].b &or; &not;REPR[B].b)
 </programlisting>
       </sect2>
 
       <sect2 id='offset-pointer-model-b'>
         <title>Offset and pointer model</title> 
 
-        <para>A value with SHAPE POINTER A where REPR[A].b is
+        <para>A value with SHAPE POINTER A where &not;REPR[A].b is
           represented by a pair consisting of a block-address of a scalar block
           and an integer bit-displacement within that block. Denote this
           by:</para>
@@ -4105,7 +4105,7 @@ REPR[A ... B] = (REPR[A].s &ge; REPR[B].s) &and; (REPR[A].b &or; REPR[B].b)
 (sb: scalar_block_address, ab: address_block_address, sd: scalar_displacement, ad: address_displacement)
 </programlisting>
 
-        <para>A value with SHAPE OFFSET(A, B) where REPR[A].b is
+        <para>A value with SHAPE OFFSET(A, B) where &not;REPR[A].b is
           represented by an integer bit-displacement.</para>
 
         <para>A value with SHAPE OFFSET(A, B) where REPR[A].b is represented
@@ -4137,43 +4137,46 @@ REPR[shape_offset(top)] = 0
 
         <para>The other OFFSET constructors are given by:</para>
 <programlisting>
-REPR[offset_zero(A)] = 0                                                if REPR[A].b
+REPR[offset_zero(A)] = 0                                                if &not;REPR[A].b
 REPR[offset_zero(A)] = (sd: 0, ad: 0)                                   if REPR[A].b
 </programlisting>
 
 <programlisting>
 REPR[offset_add(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        REPR[X] + REPR[Y]                                               if REPR[A].b &and; REPR[C].b
+        REPR[X] + REPR[Y]                                               if &not;REPR[A].b &and; &not;REPR[C].b
 REPR[offset_add(X: OFFSET(A,B), Y: OFFSET(C, D))] =
         (sd: REPR[X].sd + REPR[Y].sd, ad: REPR[X].ad + REPR[Y].ad)      if REPR[A].b &and; REPR[C].b
 REPR[offset_add(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        (sd: REPR[X].sd + REPR[Y], ad:REPR[X].ad)                       if REPR[A].b &and; REPR[C].b
+        (sd: REPR[X].sd + REPR[Y], ad:REPR[X].ad)                       if REPR[A].b &and; &not;REPR[C].b
 </programlisting>
 
 <programlisting>
 REPR[offset_pad(A, Y: OFFSET(C, D))] =
-        (REPR[Y] + REPR[A].s - 1)/REPR[A].s                             if REPR[A].b &and; REPR[C].b
+        (REPR[Y] + REPR[A].s - 1)/REPR[A].s                             if &not;REPR[A].b &and; &not;REPR[C].b
 REPR[offset_pad(A, Y: OFFSET(C, D))] =
         (sd: (REPR[Y] + REPR[A].s - 1)/REPR[A].s, ad: REPR[Y].ad)       if REPR[C].b
 REPR[offset_pad(A, Y: OFFSET(C, D))] =
-        (sd: (REPR[Y]+REPR[A].s-1)/REPR[A].s, ad: 0)                    if REPR[A].b &and; REPR[C].b
+        (sd: (REPR[Y]+REPR[A].s-1)/REPR[A].s, ad: 0)                    if REPR[A].b &and; &not;REPR[C].b
+</programlisting>
+
+<programlisting>
 REPR[offset_max(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        Max(REPR[X], REPR[Y])                                           if REPR[A].b &and; REPR[C].b
+        Max(REPR[X], REPR[Y])                                           if &not;REPR[A].b &and; &not;REPR[C].b
 REPR[offset_max(X: OFFSET(A,B), Y: OFFSET(C, D))] =
         (sd: Max(REPR[X].sd, REPR[Y].sd), ad: Max(REPR[X].a, REPR[Y].ad)) if REPR[A].b &and; REPR[C].b
 REPR[offset_max(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        (sd: Max(REPR[X].sd, REPR[Y]), ad:REPR[X].ad)                   if REPR[A].b &and; REPR[C].b
+        (sd: Max(REPR[X].sd, REPR[Y]), ad:REPR[X].ad)                   if REPR[A].b &and; &not;REPR[C].b
 REPR[offset_max(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        (sd: Max(REPR[Y].sd, REPR[X]), ad: REPR[Y].ad)                  if REPR[C].b &and; REPR[A].b
+        (sd: Max(REPR[Y].sd, REPR[X]), ad: REPR[Y].ad)                  if REPR[C].b &and; &not;REPR[A].b
 </programlisting>
 
 <programlisting>
 REPR[offset_subtract(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        REPR[X]- REPR[Y]                                                if REPR[A].b &and; REPR[C].b
+        REPR[X]- REPR[Y]                                                if &not;REPR[A].b &and; &not;REPR[C].b
 REPR[offset_subtract(X: OFFSET(A,B), Y: OFFSET(C, D))] =
         (sd: REPR[X].sd - REPR[Y].sd, ad:REPR[X].ad - REPR[Y].ad)       if REPR[A].b &and; REPR[C].b
 REPR[offset_add(X: OFFSET(A,B), Y: OFFSET(C, D))] =
-        REPR[X].sd - REPR[Y]                                            if REPR[A].b &and; REPR[C].b
+        REPR[X].sd - REPR[Y]                                            if REPR[A].b &and; &not;REPR[C].b
 </programlisting>
         <para>.... and so on.</para>
 
