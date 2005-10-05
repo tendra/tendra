@@ -2669,28 +2669,28 @@ f_make_dg_comp_unit()
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	
 	j=0;
 	for (i = 0; i < unit_no_of_dgtags; ++i)
 	{
 		if (unit_ind_dgtags[i] == (dgtag_struct *)0)
 			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-	};
+	}
 	
 #ifdef NEWDIAGS
 	was_within_diags = within_diags;

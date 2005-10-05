@@ -258,28 +258,28 @@ f_make_diagdef_unit()
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 	{
 		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
-	};
+	}
 	
 	was_within_diags = within_diags;
 	within_diags = 1;
@@ -859,28 +859,28 @@ f_make_diagtype_unit()
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 	{
 		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
-	};
+	}
 	
 	was_within_diags = within_diags;
 	within_diags = 1;
@@ -1088,28 +1088,28 @@ f_make_diagdef_unit()
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 	{
 		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
-	};
+	}
 	
 	start_bytestream();
 	no_of_labels = small_dtdfint();
@@ -1668,28 +1668,28 @@ f_make_diagtype_unit()
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 	{
 		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
-	};
+	}
 	
 	start_bytestream();
 	no_of_labels = small_dtdfint();

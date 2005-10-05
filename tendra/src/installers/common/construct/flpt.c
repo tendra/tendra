@@ -623,13 +623,13 @@ flt_mul(flt f1, flt f2, flt *res)
 				atl = acc[k] + (temp & 0xffff);
 				acc[k] = atl & 0xffff;
 				temp = (atl >> 16) + (temp >> 16);
-			};
-		};
-	};
+			}
+		}
+	}
 	
 	for (i = (2 * MANT_SIZE) - 1; i >= 0; i--) {
 		rdbl.mant[i] = (unsigned short)(acc[i]);	/* CAST:jmf: */
-	};
+	}
 	
 	while (rdbl.mant[0] == 0) {
 		for (i = 1; i < (2 * MANT_SIZE); i++) {
@@ -639,7 +639,7 @@ flt_mul(flt f1, flt f2, flt *res)
 		if ((--rdbl.exp) <= E_MIN) {
 			return (EXP2BIG);
 		}
-	};
+	}
 	
 	dbl2float (rdbl, res);
 	return (OKAY);
@@ -738,18 +738,18 @@ flt_div(flt f1, flt f2, flt *res)
 	
 	if (f2.sign == 0) {
 		return (DIVBY0);
-	};
+	}
 	
 	if (f1.sign == 0) {
 		flt_zero (res);
 		return (OKAY);
-	};
+	}
 	
 	for (i = 0; i < MANT_SIZE; ++i) {
 		a1[i] = f1.mant[i];
 		a2[i] = f2.mant[i];
 		r[i] = 0;
-	};
+	}
 	a1[MANT_SIZE] = 0;
 	a2[MANT_SIZE] = 0;
 	r[MANT_SIZE] = 0;
@@ -768,7 +768,7 @@ flt_div(flt f1, flt f2, flt *res)
 		for (; t < s; --bit_diff)
 			s >>= 1;
 		++bit_diff;
-	};
+	}
 	
 	
 	/* Shift a1 bit_diff places right if bit_diff positive.
@@ -779,7 +779,7 @@ flt_div(flt f1, flt f2, flt *res)
 			c = (unsigned int)(a1[i] + (c << 16));
 			a1[i] = (unsigned short)(c >> bit_diff);	/* CAST:jmf: */
 			c &= (unsigned int)((1 << (bit_diff+1)) -1);
-		};
+		}
 	}
 	else
 		if (bit_diff < 0) {
@@ -787,8 +787,8 @@ flt_div(flt f1, flt f2, flt *res)
 				c = (unsigned int)(a2[i] + (c << 16));
 				a2[i] = (unsigned short)(c >> -bit_diff);	/* CAST:jmf: */
 				c &= (unsigned int)((1 << (-bit_diff+1)) -1);
-			};
-		};
+			}
+		}
 	
 	/* do the division */
 	bit = 0;	/* current bit of result */
@@ -806,7 +806,7 @@ flt_div(flt f1, flt f2, flt *res)
 					c = (unsigned int)(-1);
 				else
 					c = 0;
-			};
+			}
 			sg = (c) ? 0 : 1;
 		}
 		else {
@@ -817,13 +817,13 @@ flt_div(flt f1, flt f2, flt *res)
 					c = 1;
 				else
 					c = 0;
-			};
+			}
 			sg = (c) ? 1 : 0;
-		};
+		}
 		if (sg) {
 			r[bitpos] = (unsigned short)((int)r[bitpos] | (1 << bit));
 			/* CAST:jmf: */
-		};
+		}
 		if (bit == 0) {
 			bit = 15;
 			++bitpos;
@@ -839,8 +839,8 @@ flt_div(flt f1, flt f2, flt *res)
 				keep_on = 1;
 			a2[i] = (unsigned short)(c >> 1);	/* CAST:jmf: */
 			c &= 1;
-		};
-	};
+		}
+	}
 	
 	/* correct line-up of r */
 	if (bit_diff > 0) {
@@ -850,22 +850,22 @@ flt_div(flt f1, flt f2, flt *res)
 		--final_expt;
 		if (bit_diff > -16)
 			final_shift = 16 + bit_diff;
-	};
+	}
 	k = (unsigned int)((((int)r[MANT_SIZE] << final_shift) & 0x8000) >> 15);
 	/* (int) coercion OK because r is shorter */
 	k = (unsigned int)(k + (r[MANT_SIZE] >> (16 - final_shift)));
 	for (i = MANT_SIZE-1; i >= 0; --i) {
 		k = (unsigned int)((r[i] << final_shift) + k);
-		res ->mant[i] = (unsigned short)(k & 0xffff);;	/* CAST:jmf: */
+		res ->mant[i] = (unsigned short)(k & 0xffff);	/* CAST:jmf: */
 		k >>= 16;
-	};
+	}
 	
 	if (res->mant[0] == 0) {
 		for (i = 0; i < MANT_SIZE-1; ++i)
 			res->mant[i] = res->mant[i+1];
 		res->mant[MANT_SIZE-1] = 0;
 		--final_expt;
-	};
+	}
 	
 	res -> exp = final_expt;
 	res -> sign = (f1.sign == f2.sign) ? 1 : -1;
@@ -1156,7 +1156,7 @@ init_flpt()
 	for (i = 0; i < MANT_SIZE; i++) {
 		(fzr -> mant)[i] = 0;
 		(forf -> mant)[i] = 0;
-	};
+	}
 	(forf -> mant)[0] = 1;
 	
 	return;
@@ -1222,7 +1222,7 @@ cmpflpt(flpt a, flpt b, int testno)
 		return (res == 0);
     default:
 		return (res != 0);
-	};
+	}
 }
 
 
@@ -1275,7 +1275,7 @@ floatrep_aux(int n, int sign)
 	if (n == 0)  {
 		flptnos[res] = fr;
 		return (res);
-	};
+	}
 	
 	fr.sign = sign;
 	
@@ -1284,11 +1284,11 @@ floatrep_aux(int n, int sign)
 		if (supp && t)  {
 			supp = 0;
 			fr.exp = i;
-		};
+		}
 		if (!supp) {
 			fr.mant[index++] = (unsigned short)t;	/* CAST:jmf: */
-		};
-	};
+		}
+	}
 	
 	flptnos[res] = fr;
 	return (res);
@@ -1323,7 +1323,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		c = (unsigned int)(((int)res -> mant[i] * base) + (int)c);
 		res -> mant[i] = (unsigned short)(c % FBASE);	/* CAST:jmf: */
 		c = c / FBASE;
-	};
+	}
 	if (c) {
 		++res -> exp;
 		i = res -> exp;
@@ -1332,7 +1332,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
 		res -> mant[0] = (unsigned short)c;	/* CAST:jmf: */
-	};
+	}
 	
 	if (res -> exp >= MANT_SIZE)
 		return;
@@ -1342,7 +1342,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		c = (unsigned int)(res -> mant[i] + c);
 		res -> mant[i] = (unsigned short)(c % FBASE);	/* CAST:jmf: */
 		c = c / FBASE;
-	};
+	}
 	if (c) {
 		++res -> exp;
 		i = res -> exp;
@@ -1351,7 +1351,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
 		res -> mant[0] = (unsigned short)c;	/* CAST:jmf: */
-	};
+	}
 	return;
 }
 
@@ -1367,12 +1367,12 @@ flpt_scale(int expt, flt * res, int base)
 				failer(BIG_FLPT);
 				exit(EXIT_FAILURE);
 				/* UNREACHED */
-			};
+			}
 			while (expt > 16) {
 				IGNORE flt_mul(*res, powers[15], &ft); /* cannot fail */
 				flt_copy(ft, res);
 				expt -= 16;
-			};
+			}
 			IGNORE flt_mul(*res, powers[expt-1], &ft); /* cannot fail */
 			flt_copy(ft, res);
 		}
@@ -1381,15 +1381,15 @@ flpt_scale(int expt, flt * res, int base)
 				if (expt < - MAX_USEFUL_DECEXP) {
 					flt_zero(res);
 					return;
-				};
+				}
 				while (expt < -16) {
 					IGNORE flt_div(*res, powers[15], &ft); /* cannot fail */
 					flt_copy(ft, res);
 					expt += 16;
-				};
+				}
 				IGNORE flt_div(*res, powers[-1 - expt], &ft); /* cannot fail */
 				flt_copy(ft, res);
-			};
+			}
 	}
 	else  {
 		if (base == 4)
@@ -1415,9 +1415,9 @@ flpt_scale(int expt, flt * res, int base)
 				else  {
 					flpt_newdig((unsigned int)0, res, two_powers[16 - expt]);
 					res->exp -= (temp+1);
-				};
-			};
-	};
+				}
+			}
+	}
 	return;
 }
 
@@ -1444,7 +1444,7 @@ flpt_round(int round_t, int posn, flt * res)
 	while (bitpos < 1)  {
 		bitpos += FBITS;
 		++digpos;
-	};
+	}
 	
 	--bitpos;
 	
@@ -1457,8 +1457,8 @@ flpt_round(int round_t, int posn, flt * res)
 		if (res -> mant[i]) {
 			bits_discarded = 1;
 			res -> mant[i] = 0;
-		};
-	};
+		}
+	}
 	
 	switch (round_t) {
     default:
@@ -1474,7 +1474,7 @@ flpt_round(int round_t, int posn, flt * res)
 				(unsigned short)(res -> mant[digpos] & bitmask[bitpos+1]);
 			
 			return;
-		};
+		}
 		res -> mant[digpos] =
 			(unsigned short)(res -> mant[digpos] | bitround[bitpos]);
 		break;
@@ -1486,13 +1486,13 @@ flpt_round(int round_t, int posn, flt * res)
 				(unsigned short)((int)res -> mant[digpos] & (int)bitmask[bitpos+1]);
 			
 			return;
-		};
+		}
 		res -> mant[digpos] =
 			(unsigned short)((int)res -> mant[digpos] | (int)bitround[bitpos]);
 		break;
     case R2NEAR:
 		break;
-	};
+	}
 	
 	res -> mant[digpos] =
 		(unsigned short)((int)res -> mant[digpos] & (int)bitmask[bitpos]);
@@ -1502,7 +1502,7 @@ flpt_round(int round_t, int posn, flt * res)
         c = (unsigned int)((int)res -> mant[i] + (int)c);
         res -> mant[i] = (unsigned short)(c % FBASE);	/* CAST:jmf: */
         c = c / FBASE;
-    };
+    }
 	if (c) {
         ++res -> exp;
         i = res -> exp;
@@ -1511,7 +1511,7 @@ flpt_round(int round_t, int posn, flt * res)
         for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
         res -> mant[0] = (unsigned short)c;
-	};
+	}
 	res -> mant[digpos+(int)c] =
 		(unsigned short)((int)res -> mant[digpos+(int)c] &
 						 (int)bitmask[bitpos+1]);
@@ -1532,7 +1532,7 @@ flpt_bits(floating_variety fv)
 	case 2: return LDOUBLE_BITS;
 		/* FLOAT_BITS is defined in config.h
 		 *				   64 for IEEE */
-	};
+	}
 	return 0;
 }
 
@@ -1574,8 +1574,8 @@ flpt_round_to_integer(int rndmd, flt * f)
 			break;
 		case R2NEAR:
 			break;
-		};
-	};
+		}
+	}
 	
 	
 /*
@@ -1588,13 +1588,13 @@ flpt_round_to_integer(int rndmd, flt * f)
  *    f -> mant[3] = f -> mant[f -> exp];
  *    for (ij = 4; ij <= f -> exp; ++ij) f -> mant[ij] = 0;
  *    f -> exp = 3;
- *  };
+ *  }
  *#else
  *  if (f -> exp > 1) {
  *    f -> mant[0] = f -> mant[f -> exp - 1];
  *    f -> mant[1] = f -> mant[f -> exp];
  *    f -> exp = 1;
- *  };
+ *  }
  *#endif
  */
 	if (f -> exp == 1)
@@ -1627,7 +1627,7 @@ real2longs_IEEE(flt * fp, int sw)
 	
 	if (fp -> sign == 0) {
 		return res;
-	};
+	}
 	
 	f = *fp;
 	
@@ -1647,7 +1647,7 @@ real2longs_IEEE(flt * fp, int sw)
 		expt_size = 15;
 		precision = LDOUBLE_BITS;
 		break;
-	};
+	}
 	
     for (mask = FBASE - 1; mask & c; mask <<= 1)
 		++ndig0;
@@ -1659,7 +1659,7 @@ real2longs_IEEE(flt * fp, int sw)
 		if (flpt_const_overflow_fail) {
 			failer(BIG_FLPT);
 			exit(EXIT_FAILURE);
-		};
+		}
 		switch (sw) {
 		case 0:
 			if (f.sign == -1)
@@ -1689,11 +1689,11 @@ real2longs_IEEE(flt * fp, int sw)
 			return res;
 #endif
 #endif
-		};
-    };
+		}
+    }
 	
     expt += bias;
-    i = precision - ndig0;;
+    i = precision - ndig0;
     sig1 = f.mant[0];
     index = 1;
     while (i >= 16)  {
@@ -1706,7 +1706,7 @@ real2longs_IEEE(flt * fp, int sw)
 		sig1 <<= 16;
 		sig1 = (unsigned int)(sig1 + f.mant[index++]);
 		i -= 16;
-    };
+    }
     if (i != 0) {
 		sig4 <<= i;
 		sig4 += (sig3 >> (32-i));
@@ -1716,7 +1716,7 @@ real2longs_IEEE(flt * fp, int sw)
 		sig2 += (sig1 >> (32-i));
 		sig1 <<= i;
 		sig1 = (unsigned int)(sig1 + (f.mant[index] >> (16-i)));
-    };
+    }
 	
     if (expt < 1) {
 		int places = 1 - expt;
@@ -1726,13 +1726,13 @@ real2longs_IEEE(flt * fp, int sw)
 			sig3 = sig4;
 			sig4 = 0;
 			places -= 32;
-		};
+		}
 		if (places > 0) {
 			sig1 = (sig1 >> places) + (sig2 << (32 - places));
 			sig2 = (sig2 >> places) + (sig3 << (32 - places));
 			sig3 = (sig3 >> places) + (sig4 << (32 - places));
 			sig4 >>= places;
-		};
+		}
 		expt = 0;
     }
     else
@@ -1777,7 +1777,7 @@ real2longs_IEEE(flt * fp, int sw)
 		return res;
 #endif
 #endif
-    };
+    }
 	
 	return res;
 }

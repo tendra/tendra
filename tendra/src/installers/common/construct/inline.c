@@ -171,8 +171,8 @@ inline_exp(exp e)
 							 *      			   new_var is killed at end */
 			cond_alt = f_contents(sha, copy(new_var));
 			/* delivers the contents of the variable - hence the value */
-		};
-	};
+		}
+	}
 	
 	lab = me_b3(sh(cond_alt), me_shint(sha, 0), cond_alt, labst_tag);
   	/* the labst for the new cond_tag we are making up */
@@ -189,7 +189,7 @@ inline_exp(exp e)
 			return;	/* no inlining if shapes do not match. */
 		t = bro(t);	/* next actual */
 		q = bro(son(q));	/* next formal */
-    };
+    }
 	
 	if (name(q) == ident_tag && isparam(q))
 		return;  /* no inline if more formals than actuals */
@@ -249,7 +249,7 @@ inline_exp(exp e)
 #endif
 			replace(bro(son(lab)), r, r);
 		}
-	};
+	}
 	
 	
 #ifdef NEWDIAGS

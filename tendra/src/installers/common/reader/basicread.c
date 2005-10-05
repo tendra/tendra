@@ -288,7 +288,7 @@ d_tdfstring()
 		tdb.ints.chars[n] = 0;
 		tdb.size = 8;
 		return tdb;
-	};
+	}
 	if (bits <= 16) {
 		tdb.ints.shorts = (short *) xcalloc (n + 1, sizeof (short));
 		for (i = 0; i < n; ++i)
@@ -296,7 +296,7 @@ d_tdfstring()
 		tdb.ints.shorts[n] = 0;
 		tdb.size = 16;
 		return tdb;
-	};
+	}
 	if (bits <= 32) {
 		tdb.ints.longs = (long *) xcalloc (n + 1, sizeof (long));
 		for (i = 0; i < n; ++i)
@@ -304,7 +304,7 @@ d_tdfstring()
 		tdb.ints.longs[n] = 0;
 		tdb.size = 32;
 		return tdb;
-	};
+	}
 	if (bits <= 64) {
 		tdb.ints.longs = (long *) xcalloc (n + 1, sizeof (long));
 		for (i = 0; i < n; ++i) {
@@ -314,11 +314,11 @@ d_tdfstring()
 			x.small = (unsigned int)getcode(32);
 			f = f64_to_flt(x, 0);
 			tdb.ints.longs[i] = f;
-		};
+		}
 		tdb.ints.longs[n] = 0;
 		tdb.size = 64;
 		return tdb;
-	};
+	}
 	failer(NO_BIG_STRINGS);
 	return tdb;
 }
@@ -358,7 +358,7 @@ d_tdfint()
 		if (digit >= 8)
 		{ goon = 0;
 		digit -= 8;
-		};
+		}
 		if (small)
 		{ if (total > 0x1fffffff)
 		{ small = 0;
@@ -371,8 +371,8 @@ d_tdfint()
 		else {
 			SET(f);
 			flpt_newdig(digit, &flptnos[f], 8);
-		};
-	};
+		}
+	}
 	nat_issmall(n) = (bool)small;
 	if (small)
 		natint(n) = (int)total;
@@ -381,7 +381,7 @@ d_tdfint()
 		SET(f);
 		nat_issmall(n) = 0;
 		natbig(n) = f;
-	};
+	}
 	return n;
 }
 

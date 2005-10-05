@@ -120,7 +120,7 @@ process_aldefs()
 				else
 					complete = 0;
 				break;
-			};
+			}
 			case 3: {
 				alignment a1;
 				a1 = my_aldef -> al.al_val.al_join.a;
@@ -133,11 +133,11 @@ process_aldefs()
 				else
 					complete = 0;
 				break;
-			};
+			}
 			default: failer(ILLEGAL_ALIGNMENT);
-			};
+			}
 			my_aldef = my_aldef -> next_aldef;
-		};
+		}
 	} while (changed);
 	
 	if (!complete)

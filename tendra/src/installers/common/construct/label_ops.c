@@ -82,7 +82,7 @@ label_is_next(exp lab, exp e)
 		e = bro(e);
 		if (e == nilexp || name(e) >= ass_tag || name(sh(e)) != bothd)
 			return 0;
-	};
+	}
 	if (name(bro(e)) == labst_tag)
 		return bro(e) == lab;
 	return 0;
@@ -122,7 +122,7 @@ next_jump(exp e)
 			e = bro(e);
 			if (e == nilexp || name(e) >= goto_tag)
 				return nilexp;
-		};
+		}
 		e = bro(e);
 	} while (name(e) == labst_tag && (e = father(e), name(e)!=rep_tag));
 	
@@ -149,7 +149,7 @@ short_next_jump(exp e)
 		e = bro(e);
 		if (e == nilexp || name(e) >= cond_tag)
 			return nilexp;
-    };
+    }
     e = bro(e);
 	
 	if (is_jumper(e))
@@ -185,7 +185,7 @@ final_dest(exp lab)
 		}
 		else
 			break;
-	};
+	}
 	return final;
 }
 
@@ -223,7 +223,7 @@ final_dest_test(exp lab, exp e)
 		}
 		else
 			break;
-	};
+	}
 	return final;
 }
 

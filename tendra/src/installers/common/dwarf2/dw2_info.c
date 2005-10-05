@@ -843,7 +843,7 @@ output_info(exp e, dg_info d)
     default:
 		failer ("unexpected dg_info");
 		
-	};
+	}
 	return;
 }
 
@@ -2228,6 +2228,6 @@ dw2_code_info(dg_info d, void (*mcode)(void *),
     default:
 		failer ("unexpected dg_info");
 		
-	};
+	}
 	return;
 }

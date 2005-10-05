@@ -700,7 +700,7 @@ copy_diagname(dg_name d, exp var, exp lab,
     }
     default:
 		failer ("unexpected copy_diagname");
-	};
+	}
 	return new;
 }
 
@@ -975,7 +975,7 @@ copy_dg_info(dg_info d, exp var, exp lab,
     }
     default:
 		failer ("copy_diaginfo incomplete");
-	};
+	}
 	return new;
 }
 

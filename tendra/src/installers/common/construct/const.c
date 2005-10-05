@@ -458,7 +458,7 @@ max_const(exp whole, exp e, int ass_ok)
 		}
 		else
 			return mct;
-	};
+	}
 		
 		
 	case cond_tag:{
@@ -531,7 +531,7 @@ max_const(exp whole, exp e, int ass_ok)
 			while (!last(this)) {
 				this = bro(this);
 				++tot_args;
-			};
+			}
 			
 			/* remember for which operator these are arguments */
 			/* NB - some items may not be args of this operator */
@@ -552,7 +552,7 @@ max_const(exp whole, exp e, int ass_ok)
 			if (arg_count != tot_args && arg_count > 0) {
 				SET(last_h);
 				pt (last_h) = nilexp;
-			};
+			}
 		}
 		return mc;
     }
@@ -941,7 +941,7 @@ safe_arg(exp e, exp esc)
 	default: {
 		SET(konst);
 		failer (BAD_SHAPE);
-    };
+    }
 	}
 	
 	v1 = getexp (sh (e), nilexp, 0, decl, pt (decl), 0,  0, name_tag);
@@ -1020,7 +1020,7 @@ safe_eval(exp e, exp escape_route)
 		SET(res);
 		failer (CONSTC_ERROR);
 		break;
-    };
+    }
 	case name_tag:
 	case env_offset_tag:
 	case general_env_offset_tag:
@@ -1323,7 +1323,7 @@ named_dest(exp dest)
 					return false;
 				glob_dest[glob_index++] = son(dest);
 				return true;
-			};
+			}
 		} else if (!isvar(son(dest)) && son (son (dest)) != nilexp) {
 			return named_dest (son (son (dest)));
 		}
@@ -1472,7 +1472,7 @@ repeat_consts()
 					rr = son (fa);
 					while (bro (rr) != loop && !last (rr))
 						rr = bro (rr);
-				};
+				}
 				if (sn || bro (rr) == loop) {
 					while (name(fa) != proc_tag && name(fa) != general_proc_tag
 						   && name(fa) != hold_tag && name(fa) != hold2_tag)

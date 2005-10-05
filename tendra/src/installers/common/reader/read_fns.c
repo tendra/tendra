@@ -287,7 +287,7 @@ f_procprops_cond(exp control, bitstream e1,
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_procprops();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -325,7 +325,7 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_string();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -366,7 +366,7 @@ f_alignment_cond(exp control, bitstream e1,
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_alignment();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -404,7 +404,7 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_access();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -444,7 +444,7 @@ f_transfer_mode_cond(exp control, bitstream e1,
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_transfer_mode();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -478,7 +478,7 @@ f_bfvar_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_bitfield_variety();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -511,7 +511,7 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_bool();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -526,7 +526,7 @@ find_index(char * nm)
 	{
 		if (!strcmp((crt_capsule_linking.members[i]).id, nm))
 			return i;
-	};
+	}
 	return -1;
 }
 
@@ -542,7 +542,7 @@ start_make_capsule(tdfstring_list prop_names,
 		xfree((void*)capsule_freelist->ptr);
 		xfree((void*)capsule_freelist);
 		capsule_freelist = cf;
-	};
+	}
 	
 	crt_tagdef_unit_no = -1;
 	unit_index = 0;
@@ -594,7 +594,7 @@ start_make_capsule(tdfstring_list prop_names,
 		tp -> tok_index = i;
 		tp -> is_capsule_token = 1;
 		tp -> recursive = 0;
-	};
+	}
 	
 	for (i = 0; i < capsule_no_of_tags; ++i) {
         /* initialise the table of tags */
@@ -607,13 +607,13 @@ start_make_capsule(tdfstring_list prop_names,
 		dp -> dec_u.dec_val.dec_shape = nilexp;
 		dp -> dec_u.dec_val.processed = 0;
 		dp -> dec_u.dec_val.isweak = 0;
-	};
+	}
 	
 	for (i = 0; i < capsule_no_of_als; ++i) {
         /* initialise the table of alignment tags */
 		aldef * ap = &capsule_altab[i];
 		ap -> al.al_n = 0;
-	};
+	}
 	
 	init_capsule_diagtags();	/* OLD DIAGS */
 	init_capsule_dgtags();	/* NEW DIAGS */
@@ -677,7 +677,7 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_error_treatment();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -711,7 +711,7 @@ f_exp_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_exp();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -777,7 +777,7 @@ f_flvar_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_floating_variety();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -831,7 +831,7 @@ f_nat_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_nat();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -864,7 +864,7 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_ntest();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -899,7 +899,7 @@ f_rounding_mode_cond(exp control, bitstream e1,
 	{
 		set_place(e1);
 		res = d_rounding_mode();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -932,7 +932,7 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_shape();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -967,7 +967,7 @@ f_signed_nat_cond(exp control, bitstream e1,
 	{
 		set_place(e1);
 		res = d_signed_nat();
-	};
+	}
 	set_place(bs);
 	return res;
 	
@@ -1473,7 +1473,7 @@ f_make_tokextern(tdfint internal, external ext)
 			t -> tok_special = 1;
 		if (!strcmp(s, "~convert"))
 			t -> tok_special = 1;
-	};
+	}
 	if (do_alloca && !strcmp(s, "~alloca"))
 		t -> tok_special = 1;
 	return 0;
@@ -1533,7 +1533,7 @@ f_make_link(tdfint internal, tdfint ext)
 	default:
 		failer(VARIABLE_TYPE);
 		return 0;
-	};
+	}
 }
 
 unique
@@ -1577,7 +1577,7 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 	{
 		set_place(e1);
 		res = d_variety();
-	};
+	}
 	set_place(bs);
 	return res;
 }
@@ -1880,7 +1880,7 @@ start_make_unit(tdfint_list lvl)
 		ndiagtype = (w == -1) ? 0 : natint(lvl.members[w]);
 		w = find_index("dgtag");		/* NEW DIAGS */
 		ndgtag = (w == -1) ? 0 : natint(lvl.members[w]);
-	};
+	}
 	
 	switch (crt_group_type)
 	{
@@ -1898,7 +1898,7 @@ start_make_unit(tdfint_list lvl)
 		if (doing_aldefs) {
 			process_aldefs();
 	        doing_aldefs = 0;
-		};
+		}
 		start_make_tagdec_unit(ntok, ntag, nal, ndiagtype, ndgtag);
 		return;
 	case TAGDEF_UNIT:
@@ -1911,7 +1911,7 @@ start_make_unit(tdfint_list lvl)
 		if (doing_aldefs) {
 			process_aldefs();
 	        doing_aldefs = 0;
-		};
+		}
 		start_make_diagtype_unit(ntok, ntag, nal, ndiagtype);
 		return;
 	case LINKINFO_UNIT:
@@ -1924,12 +1924,12 @@ start_make_unit(tdfint_list lvl)
 		if (doing_aldefs) {
 			process_aldefs();
 	        doing_aldefs = 0;
-		};
+		}
 		start_make_dg_comp_unit(ntok, ntag, nal, ndgtag);
 		return;
 	default:
 		return;
-	};
+	}
 }
 
 unit
@@ -1981,7 +1981,7 @@ f_make_unit(tdfint_list lvl, links_list lks,
 	default:
 		ignore_bytestream();
 		break;
-	};
+	}
 	return 0;
 }
 
@@ -2003,7 +2003,7 @@ f_make_linkextern(tdfint internal, external ext)
 	default:
 		failer(VARIABLE_TYPE);
 		return 0;
-	};
+	}
 }
 
 group
@@ -2187,7 +2187,7 @@ add_tagdec_list(tagdec_list list, tagdec elem,
 		else
 			setvar(e);
 #endif
-	};
+	}
 	
     if (elem.acc & (f_visible | f_long_jump_access))
 		setvis(e);
@@ -2201,20 +2201,20 @@ add_tagdec_list(tagdec_list list, tagdec elem,
     if (dp -> dec_u.dec_val.dec_shape != nilexp) {
 		if (shape_size(s) > shape_size(dp -> dec_u.dec_val.dec_shape))
 			dp -> dec_u.dec_val.dec_shape = s;
-    };
+    }
 	
     if (dp -> dec_u.dec_val.dec_shape == nilexp) {
 		dp -> dec_u.dec_val.dec_shape = s;
 		dp -> def_next = (dec *)0;
 		*deflist_end = dp;
 		deflist_end = &((*deflist_end) -> def_next);
-    };
+    }
 	
     dp -> dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable);
     if (!dp -> dec_u.dec_val.have_def)
 	{
 		setglob(e);
-	};
+	}
     /* the defining exp */
     brog(dp -> dec_u.dec_val.dec_exp) = dp;
     if (dp -> dec_u.dec_val.dec_id == (char *) 0)
@@ -2246,7 +2246,7 @@ add_tagdef_list(tagdef_list list, tagdef elem,
 		(name(new_def) != clear_tag && name(old_def) == clear_tag))  {
 		son(dp -> dec_u.dec_val.dec_exp) = new_def;
 		setfather(dp -> dec_u.dec_val.dec_exp, elem.def);
-	};
+	}
 	
 	return 0;
 }
@@ -2394,7 +2394,7 @@ new_link_list(int n)
 			tp -> tok_index = i;
 			tp -> is_capsule_token = 0;
 			tp -> recursive = 0;
-		};
+		}
 		return 0;
 	case TAG_TYPE:
 		unit_tagtab = (dec *)xcalloc(unit_no_of_tags - n,
@@ -2410,7 +2410,7 @@ new_link_list(int n)
 			dp -> dec_u.dec_val.processed = 0;
 			dp -> dec_u.dec_val.isweak = 0;
 			dp -> dec_u.dec_val.dec_exp = nilexp;
-		};
+		}
 		return 0;
 	case AL_TYPE:
 		unit_altab = (aldef *)xcalloc(unit_no_of_als - n,
@@ -2418,7 +2418,7 @@ new_link_list(int n)
 		for (i = 0; i < unit_no_of_als - n; ++i) {
 			aldef * ap = &unit_altab[i];
 			ap -> al.al_n = 0;
-		};
+		}
 		return 0;
 	case DIAGTAG_TYPE:		/* OLD DIAGS */
 		init_unit_diagtags(n);
@@ -2429,7 +2429,7 @@ new_link_list(int n)
 	default:
 		failer(LINK_TYPE);
 		return 0;
-	};
+	}
 }
 
 link_list

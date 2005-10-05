@@ -175,7 +175,7 @@ code_diag_info(diag_info * d, int proc_no,
 			{
 				failer("access should be in hold");
 				break;
-			};
+			}
 			x = son(x);
 			if (name(x) == cont_tag && name(son(x)) == name_tag && isvar(son(son(x))))
 				x = son(x);
@@ -183,7 +183,7 @@ code_diag_info(diag_info * d, int proc_no,
 				&& name(x) != val_tag && name(x) != null_tag)
 			{
 				break;	/* should do better ! */
-			};
+			}
 			
 			if ((base_type(d->data.id_scope.typ))->key == DIAG_TYPE_INITED)
 			{
@@ -208,7 +208,7 @@ code_diag_info(diag_info * d, int proc_no,
 				{
 					cont_sib_chain(TAG_local_variable);
 					out_dwarf_start_scope(&tlab);	/* only for local vars */
-				};
+				}
 			
 			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
 			out_dwarf_type_attr(d->data.id_scope.typ);
@@ -268,7 +268,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 			dwarf4(LAB2CHAR(TOS_LEX_BLK->end));
 			leave_dwarf_blk();
 			make_next_new_chain();
-		};
+		}
 		
 		next_dwarf_lab(&tlab);
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */
@@ -282,7 +282,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 			{
 				failer("diagnosing non-identifier");
 				return;
-			};
+			}
 			
 			if ((base_type(d->data.id_scope.typ))->key == DIAG_TYPE_INITED)
 			{
@@ -308,7 +308,7 @@ output_diag(diag_info * d, int proc_no, exp e)
 				{
 					cont_sib_chain(TAG_local_variable);
 					out_dwarf_start_scope(&tlab);	/* only for local vars */
-				};
+				}
 			
 			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
 			out_dwarf_type_attr(d->data.id_scope.typ);

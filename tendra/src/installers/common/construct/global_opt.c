@@ -119,7 +119,7 @@ checkext(exp e)
 			else pt(e) = pt(q);
 		}
 		return;
-	};
+	}
 	
 	return;
 }
@@ -145,7 +145,7 @@ opt_all_exps()
 		checkext (crt_exp);
 		glopt(my_def);
 		my_def = my_def -> def_next;
-	};
+	}
 	
 	normalised_inlining();
 	

@@ -165,7 +165,7 @@ read_sort(int sn)
 	case DG_TYPE_SORT:	/* NEW DIAGS */
 		v.tk_dg_type = d_dg_type();
 		break;
-	default:{SET(v);  failer(SORT_NAME);};
-    };
+	default:{SET(v);  failer(SORT_NAME);}
+    }
 	return v;
 }

@@ -124,7 +124,7 @@ sleb128(long value)
 		}
 		outn ((long)byt | 128);
 		outs (sep);
-	};
+	}
 }
 
 int
@@ -143,7 +143,7 @@ sleb128_length(long value)
 			return op;
 		}
 		op++;
-	};
+	}
 }
 
 void

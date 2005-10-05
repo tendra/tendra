@@ -121,19 +121,19 @@ unroll_complex(exp e, int n, exp control,
 		if (name(e) == goto_tag)
 			allow_double = 0;		/* prevent removal of internal test */
 		return n;
-	};
+	}
 	
 	switch (name (e)) {
     case test_tag:
     case testbit_tag:
 		if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
 			allow_double = 0;	/* prevent removal of internal test; jump out of loop */
-		};
+		}
 		return uc_list (son (e), n - decr, control, lia, ul, decr);
     case goto_tag:
 		if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
 			allow_double = 0;	/* prevent removal of internal test; jump out of loop */
-		};
+		}
 		return n-1;
     case cond_tag:
 	{
@@ -146,10 +146,10 @@ unroll_complex(exp e, int n, exp control,
 		else {
 			t = unroll_complex(son(e), n - decr, control, lia, ul, decr);
 			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
-		};
+		}
 		clearunroll(bro(son(e)));	/* unmark it */
 		return t;
-	};
+	}
     case ass_tag:
     case assvol_tag:
 	{
@@ -161,9 +161,9 @@ unroll_complex(exp e, int n, exp control,
 				allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
 			if (name(assdest) == name_tag && !iscaonly(son(assdest)))
 				allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
-		};
+		}
         return uc_list (son (e), n - decr, control, lia, ul, decr);
-	};
+	}
     case name_tag:
 		if (son (e) == control) { /* is this the control variable? */
 			exp t;
@@ -185,8 +185,8 @@ unroll_complex(exp e, int n, exp control,
 				else
 					names[names_index++] = bro(e);	/* record the use */
 #endif
-			};
-		};
+			}
+		}
 		return n - decr;
     case apply_tag:
     case solve_tag:
@@ -220,7 +220,7 @@ unroll_complex(exp e, int n, exp control,
 		return uc_list (son (e), n - (16*decr), control, lia, ul, decr);	/* heavy flpt ops */
     default:
 		return uc_list (son (e), n - decr, control, lia, ul, decr);	/* other ops decrease complexity by 1 */
-	};
+	}
 }
 
 void
@@ -326,12 +326,12 @@ inc_offset(exp var, shape sha, exp konst,
 			replace(bro(t), copy(sum), body);	/* replace the offset_mults in body */
 			kill_exp(b, b);
 			t = q;
-		};
+		}
 		if (t != rest)
 			failer("unroll failure");
 		
 		kill_exp(sum, sum);
-	};
+	}
 	return body;
 }
 
@@ -381,7 +381,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 			name(lia) = clear_tag;
 			clearlast(lia);
 			branches[i] = li;
-		};
+		}
 		SET(branches);
 		sh(branches[times+1]) = f_top;
 		
@@ -393,7 +393,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 			bro(son(branches[i])) = seq;
 			setlast(seq);
 			bro(seq) = branches[i];
-		};
+		}
 		
 		pt(test_out) = branches[times+1];
 		temp = me_u3(f_top, test_out, 0);
@@ -409,7 +409,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 			bro(temp1) = copy(inc);
 			clearlast(temp1);
 			temp1 = bro(temp1);
-		};
+		}
 		for (i = 1; i < times - 1; ++i) {
 			if (jumps_out)
 				bro(temp1) = copy(body);
@@ -421,8 +421,8 @@ unroll_trans(exp candidate, exp body, exp inc,
 				bro(temp1) = copy(inc);
 				clearlast(temp1);
 				temp1 = bro(temp1);
-			};
-		};
+			}
+		}
 		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
 		setlast(temp1);
 		bro(temp1) = bc;
@@ -431,7 +431,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 		else {
 			bc = me_b3(f_top, bc, inc_offset(var, sha, konst, body, i), seq_tag);
 			kill_exp(body, body);
-		};
+		}
 		
 		if (jumps_out)
 			kill_exp(new_c, new_c);
@@ -466,7 +466,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 		temp = hold_check(me_b3(sha, temp1, temp, minus_tag));
 		if (nt == (int)f_greater_than) {
 			temp = hold_check(me_b3(sha, temp, me_shint(sha, 1), plus_tag));
-		};
+		}
 		temp = hold_check(me_b3(sha, temp,
 								me_shint(sha, times-1), and_tag));
 		
@@ -488,7 +488,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 			clearlast(temp1);
 			bro(temp1) = temp2;
 			temp1 = temp2;
-		};
+		}
 		
 		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
 		setlast(temp1);
@@ -502,7 +502,7 @@ unroll_trans(exp candidate, exp body, exp inc,
 			bro(temp1) = branches[i];
 			clearlast(temp1);
 			temp1 = bro(temp1);
-		};
+		}
 		res = getexp(f_top, nilexp, 0, id, nilexp, 0, 0, solve_tag);
 		setlast(temp1);
 		bro(temp1) = res;
@@ -634,7 +634,7 @@ unroller()
 										unaliased_limit = son(son(limit));
 									else
 										limit_is_aliased = 1;
-								};
+								}
 								
 								names_index = 0;
 								allow_double = 1;
@@ -644,8 +644,8 @@ unroller()
 								if (count >= 0) {
 									unroll_trans (candidate, body, ass, te,
 												  limit, nt, dest, konst, reps, UNROLL_BY);
-								};
-							};
+								}
+							}
 						}
 						else {
 							int count;
@@ -655,13 +655,13 @@ unroller()
 													0, nilexp, 1);
 							if (count >= 0) {
 								simple_unroll(candidate, body, ass, te);
-							};
-						};
-					};
+							}
+						}
+					}
 				}
-			};
-		};
+			}
+		}
 		reps = pt (reps);
-	};
+	}
 	return;
 }

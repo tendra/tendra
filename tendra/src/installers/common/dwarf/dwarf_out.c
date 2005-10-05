@@ -681,14 +681,14 @@ dwarf_out_descriptor(diag_descriptor *x)
 		if (name(acc) != hold_tag) {
 			failer("access should be in hold");
 			break;
-		};
+		}
 		acc = son(acc);
 		if (name(acc) == cont_tag && name(son(acc)) == name_tag && isvar(son(son(acc))))
 			acc = son(acc);
 		if (name(acc) != name_tag) {
 			failer("not name_tag");
 			break;
-		};
+		}
 		t = son(acc);
 #endif
 		

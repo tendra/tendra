@@ -163,7 +163,7 @@ f_static_name_def(exp e, tdfstring id)
 		failer(ILLEGAL_STATIC);
 		kill_exp(e, e);
 		return 0;
-    };
+    }
 
 	if (separate_units)
 		failer(INCOMPATIBLE_U);
@@ -236,19 +236,19 @@ f_make_linkinfo_unit(void)
 	{
 		if (unit_ind_tokens[i] == (tok_define*)0)
 			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	}
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i)
 	{
 		if (unit_ind_tags[i] == (dec*)0)
 			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
+	}
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i)
 	{
 		if (unit_ind_als[i] == (aldef*)0)
 			unit_ind_als[i] = &unit_altab[j++];
-	};
+	}
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;

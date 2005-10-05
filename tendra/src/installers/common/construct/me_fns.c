@@ -321,7 +321,7 @@ long_to_al(int n)
     case 512: return const_al512;
     default: failer(BAD_LONG_AL);
 		return const_al32;
-	};
+	}
 }
 
 /* the shape describes an integer */

@@ -81,7 +81,7 @@ invar_list(exp e)
 		if (last(e))
 			return 1;
 		e = bro(e);
-	};
+	}
 }
 
 /* determines if e has no side effects and the same value
@@ -114,7 +114,7 @@ is_tester(exp e, int eq)
 	if (name(e) == test_tag || name(e) == testbit_tag) {
 		if (!eq || test_number(e) == f_equal)
 			return 1;
-	};
+	}
 	return 0;
 }
 
@@ -181,7 +181,7 @@ take_out_of_line(exp first, exp alt, int in_repeat,
 		
 		if (p != nilexp && (double)(no(p)) < (0.29 * scale))
 			extract = 1;
-	};
+	}
 	return extract;
 }
 

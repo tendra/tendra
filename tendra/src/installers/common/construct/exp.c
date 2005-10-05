@@ -125,7 +125,7 @@ next_exp()
 		res = freelist;
 		freelist = son(freelist);
 		return res;
-    };
+    }
 	
     /* if the freelist is empty we allocate from a block of exps */
 	if (exps_left == 0)
@@ -149,9 +149,9 @@ next_exp()
 				temp -> tl = alloc_list;
 				temp -> hd = next_exp_ptr;
 				alloc_list = temp;
-			};
-		};
-	};
+			}
+		}
+	}
 	
 	--exps_left;
 	res = next_exp_ptr++;
@@ -238,7 +238,7 @@ internal_to(exp whole, exp part)
 		   !(name (q) == ident_tag && isglob (q))) {
 		f = (int)(last (q));
 		q = bro (q);
-	};
+	}
 	/* ascend from part until we reach either whole or top of tree */
 	return (f && q == whole);
 }
@@ -276,7 +276,7 @@ kill_exp(exp e, exp scope)
 			/* check the declaration if now no use */
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == solve_tag) {
 			int looping;
@@ -288,13 +288,13 @@ kill_exp(exp e, exp scope)
 					t = bro (t);
 				}
 				while (looping);
-			};
+			}
 			if (pt(e) != nilexp)
 				son (pt (e)) = nilexp;
 			kill_el (son (e), scope);
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == ident_tag) {
 			++no (e);
@@ -306,7 +306,7 @@ kill_exp(exp e, exp scope)
 #endif
 				retcell (e);
 			return;
-		};
+		}
 		
 		
 		if (n == labst_tag) {
@@ -316,7 +316,7 @@ kill_exp(exp e, exp scope)
 			retcell (son (e));
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == case_tag) {
 			exp b = bro(son(e));
@@ -332,14 +332,14 @@ kill_exp(exp e, exp scope)
 			kill_exp (son (e), scope);
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == cond_tag) {
 			no (son (bro (son (e)))) = 0;
 			kill_el (son (e), scope);
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == rep_tag) {
 			if (pt(e) != nilexp)
@@ -348,24 +348,24 @@ kill_exp(exp e, exp scope)
 			kill_el (son (e), scope);
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == real_tag || (n == val_tag && isbigval(e))) {
 			flpt_ret (no (e));
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == val_tag) {
 			retcell (e);
 			return;
-		};
+		}
 		
 		if (n == env_offset_tag || n == string_tag || n==general_env_offset_tag)
 		{
 			retcell (e);
 			return;
-		};
+		}
 		
 		{
 			exp p = pt (e);
@@ -378,12 +378,12 @@ kill_exp(exp e, exp scope)
 					(scope == nilexp || internal_to (scope, p)))
 					altered (p, scope);	/* process if now no use of label and not
 										 *				   doing deadvar */
-			};
+			}
 			kill_el (son (e), scope);
 			retcell (e);
 			return;
-		};
-	};
+		}
+	}
 }
 
 
@@ -401,7 +401,7 @@ kill_el(exp e, exp scope)
 			e = next;
 		}
 		while (!l && e != nilexp);
-	};
+	}
 }
 
 /* return the shape delivered by a conditional (or similar construct)
@@ -464,7 +464,7 @@ char
 	if (n < 0) {
 		*ind = '-';
 		--ind;
-	};
+	}
 	
 	return (ind + 1);
 }
@@ -488,14 +488,14 @@ case_item(exp i)
 			t = bro (t);
 		else
 			go = 0;
-	};
+	}
 	
 	if (t != l) {
 		thigh = (son (t) == nilexp) ? t : son (t);
 	}
 	else {
 		SET(thigh);
-	};
+	}
 	
 	if (bro (t) != nilexp) {
 		nlow = bro (t);
@@ -503,7 +503,7 @@ case_item(exp i)
 	}
 	else {
 		SET(nlow); SET(nhigh);
-	};
+	}
 	
 	if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh))
 		failer (CASE_OVERLAP);
@@ -515,7 +515,7 @@ case_item(exp i)
 		bro (i) = bro (t);
 		bro (t) = i;
 		return;
-	};
+	}
 	
 	if (t != l && (no(i)-1) == no(thigh) && pt (i) == pt (t)) {
 		if (bro (t) != nilexp && (no(newhigh)+1) == no(nlow)
@@ -526,43 +526,43 @@ case_item(exp i)
 				son (t) = son (bro (t));
 				bro (t) = bro (bro (t));
 				return;
-			};
+			}
 			if (son (t) != nilexp) {
 				no (son (t)) = no(nhigh);
 				bro (t) = bro (bro (t));
 				return;
-			};
+			}
 			setson (t, getexp (slongsh, nilexp, 1, nilexp, nilexp, 0,
 							   no(nhigh), 0));
 			bro (t) = bro (bro (t));
 			return;
-		};
+		}
 		if (son (t) != nilexp) {
 			no (son (t)) = no(newhigh);
 			return;
-		};
+		}
 		setson (t, getexp (slongsh, nilexp, 1, nilexp,
 						   nilexp, 0, no(newhigh), 0));
 		return;
-	};
+	}
 	
 	if (bro (t) != nilexp && (no(newhigh) + 1) == no(nlow)
 		&& pt (i) == pt (bro (t))) {
 		if (son (bro (t)) != nilexp) {
 			no (bro (t)) = no(i);
 			return;
-		};
+		}
 		if (son (i) != nilexp) {
 			no (son (i)) = no(nhigh);
 			bro (i) = bro (bro (t));
 			bro (t) = i;
 			return;
-		};
+		}
 		son (i) = bro (t);
 		bro (i) = bro (bro (t));
 		bro (t) = i;
 		return;
-	};
+	}
 	
 	bro (i) = bro (t);
 	bro (t) = i;
@@ -590,7 +590,7 @@ scan_solve(exp e)
 		scan_solve (son (e));
 		scan_solve (bro (son (e)));
 		return;
-	};
+	}
     case case_tag:
 	{
 		exp t = son (e);
@@ -598,28 +598,28 @@ scan_solve(exp e)
 			exp s = son (pt (bro (t)));
 			if (isvar (s)) {
 				++no (s);
-			};
+			}
 			t = bro (t);
-		};
+		}
 		scan_solve (son (e));
 		return;
-	};
+	}
     default:
 	{
 		if (pt (e) != nilexp) {
 			exp s = son (pt (e));
 			if (isvar (s)) {
 				++no (s);
-			};
-		};
+			}
+		}
 		if (son (e) != nilexp) {
 			exp t = son (e);
 			while (scan_solve (t), !last (t))
 				t = bro (t);
-		};
+		}
 		return;
-	};
-	};
+	}
+	}
 }
 /*********************************************************************
  *  clean_labelled processes a labelled statement after it has been read.
@@ -643,7 +643,7 @@ clean_labelled(exp main, label_list placelabs)
 		exp t = son (l);
 		no (t) = is_loaded_lv(l);
 		setcrtsolve (t);		/* defined in expmacs = props(t) = 1 */
-	};
+	}
 	crt_no = 0;
 	ord = (int *) xcalloc (n, sizeof (int));
 	ord_no = 0;
@@ -663,9 +663,9 @@ clean_labelled(exp main, label_list placelabs)
 									 */
 				props (son (t)) = (prop)((props (son (t)) & 0xfb) | 8);
 				ord[ord_no++] = j;
-			};
-		};
-	};
+			}
+		}
+	}
 	s = sh (main);
 	for (i = 0; i < n; ++i) {
 		exp lab = get_lab(placelabs.elems[i]);
@@ -677,7 +677,7 @@ clean_labelled(exp main, label_list placelabs)
 		else
 			s = lub_shape (s, sh (lab));
 		/* form the result shape of the whole */
-	};
+	}
 	r = getexp (s, nilexp, 0, main, crt_repeat, 0, 0, solve_tag);
 	q = main;
 	for (i = 0; i < ord_no; ++i) {/* set up the solve with the statements in
@@ -686,7 +686,7 @@ clean_labelled(exp main, label_list placelabs)
 		bro (q) = get_lab(placelabs.elems[ord[i]]);
 		q = bro (q);
 		props (son (q)) = (prop)(props(son(q)) & 0xfe);
-	};
+	}
 	son (crt_repeat) = r;
 	crt_repeat = bro(crt_repeat);
 	setfather(r, q);
@@ -730,12 +730,12 @@ altaux(exp e, int n, exp scope)
 	if (name (f) == 0) {
 		altaux (f, n, scope);
 		return;
-	};
+	}
 	if (!check (f, scope) && n > 1) {
 		/* do check until n is exhausted */
 		altaux (f, n - 1, scope);
 		return;
-	};
+	}
 }
 
 /* e has been altered. see if any exp
@@ -813,7 +813,7 @@ copy_cpd(exp e, exp new_record, exp var, exp lab)
 	if (new_record != nilexp) {	/* record the construction */
 		pt (t) = new_record;
 		son (new_record) = t;
-	};
+	}
 	
 	/* copy the labelled statements */
 	q = bro (son (e));
@@ -847,7 +847,7 @@ copy_cpd(exp e, exp new_record, exp var, exp lab)
 		   !last (q)) {
 		q = bro (q);
 		n = bro (n);
-	};
+	}
 	
 	n = bro (n);
 	setlast (n);
@@ -895,7 +895,7 @@ copy_res(exp e, exp var, exp lab)
 				if (n == ident_tag)
 					sh (t) = sh (bro (son (t)));/* in case bro(son(t)) is a tuple */
 				return (t);
-			};
+			}
 			
 			if (n == name_tag) {
 				/* see if the corresponding declaration is being copied and pick up
@@ -914,7 +914,7 @@ copy_res(exp e, exp var, exp lab)
 					if (isglob(tp)) proc_externs = 1;
 				}
 				return (r);
-			};
+			}
 			
 			if (n == env_offset_tag || n == general_env_offset_tag) {
 				/* see if the corresponding declaration is being copied and pick up
@@ -924,12 +924,12 @@ copy_res(exp e, exp var, exp lab)
 				son (r) = tp;		/* add this use onto the correct usage
 									 *				   list */
 				return (r);
-			};
+			}
 			
 			if (n == cond_tag) {
 				exp z = copy_cpd (e, nilexp, var, lab);
 				return (z);
-			};
+			}
 			
 			if (n == rep_tag || n == solve_tag) {
 				/* we have to update the repeat records */
@@ -941,7 +941,7 @@ copy_res(exp e, exp var, exp lab)
 					if (senior == nilexp) { /* XX008 */
 						senior = crt_repeat;
 						bro(new_record) = senior;
-					};
+					}
 					set_copying_solve (record);/* mark as being copied */
 					pt (record) = new_record;
 					
@@ -950,15 +950,15 @@ copy_res(exp e, exp var, exp lab)
 							bro (new_record) = pt (senior);
 						else
 							++no (senior);
-					};
+					}
 					z = copy_cpd (e, new_record, var, lab);
 					clear_copying_solve(record);	/* unmark copying flag */
 				}
 				else {
 					z = copy_cpd (e, nilexp, var, lab);
-				};
+				}
 				return (z);
-			};
+			}
 			
 			if (n == case_tag) {
 				exp t = copy_res (son (e), var, lab);
@@ -977,11 +977,11 @@ copy_res(exp e, exp var, exp lab)
 					no (son (tp))++;
 					p = bro (p);
 					q = bro (q);
-				};
+				}
 				bro (p) = z;
 				if (PIC_code) proc_externs = 1;
 				return (z);
-			};
+			}
 			
 			if (n == real_tag || (n == val_tag && isbigval(e))) {
 				exp z = copyexp (e);
@@ -990,14 +990,14 @@ copy_res(exp e, exp var, exp lab)
 				no (z) = f;
 				if (PIC_code) proc_externs =1;
 				return (z);
-			};
+			}
 			
 			if (n == string_tag)
 			{
 				exp r = copyexp(e);
 				if (PIC_code) proc_externs =1;
 				return (r);
-			};
+			}
 			
 			if (n == res_tag) {
 				if (lab != nilexp) {
@@ -1052,11 +1052,11 @@ copy_res(exp e, exp var, exp lab)
 								diag_inline_result (bro(son(ass)));
 #endif
 							return f_sequence(el, go);
-						};
-				};
+						}
+				}
 				
 				/* FALL THROUGH if lab == nilexp */
-			};
+			}
 			{
 				exp p = pt (e);
 				exp z = copyexp (e);
@@ -1078,11 +1078,11 @@ copy_res(exp e, exp var, exp lab)
 					tp = (copying(p)) ? pt (p) : p;
 					pt (z) = tp;
 					no (son (tp))++;	/* update label use count */
-				};
+				}
 				
 				if (son (e) == nilexp) {
 					return (z);
-				};
+				}
 				{
 					exp t = son (e);
 					exp q = copy_res (t, var, lab);
@@ -1092,7 +1092,7 @@ copy_res(exp e, exp var, exp lab)
 						clearlast (ptt);
 						t = bro (t);
 						ptt = bro (ptt);
-					};
+					}
 					son (z) = q;
 					bro (ptt) = z;
 					setlast (ptt);
@@ -1102,8 +1102,8 @@ copy_res(exp e, exp var, exp lab)
 					/* in case bro(son(z)) is a tuple */
 					
 					return (z);
-				};
-			};
+				}
+			}
 		}
 }
 

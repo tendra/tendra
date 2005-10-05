@@ -156,7 +156,7 @@ f_change_floating_variety(error_treatment flpt_err,
 		c1 = me_complete_id (c1, make_comp);		/* Does a 'hold_check' */
 		
 		return c1;
-	};
+	}
 #endif  /* substitute complex */
 	
 #if ishppa
@@ -376,7 +376,7 @@ f_floating_div(error_treatment ov_err, exp arg1,
 		z1 = me_complete_id(z1, z2);
 		
 		return z1;
-	};
+	}
 #endif
 #if ishppa
 	{
@@ -525,7 +525,7 @@ f_floating_power(error_treatment ov_err, exp arg1,
 				exp x = push (z, me_startid(real_shape, z_re, 0));
 				exp y = push (x, me_startid(real_shape, z_im, 0));
 				
-				exp u, v, mylast;;
+				exp u, v, mylast;
 				
 				while ((n % 2) == 0) {
 					mylast = y;
@@ -844,7 +844,7 @@ f_floating_minus(error_treatment ov_err, exp arg1,
 		z1 = me_complete_id(z1, z2);
 		
 		return z1;
-	};
+	}
 #endif
 #if ishppa
 	{
@@ -887,8 +887,8 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 		t = bro(t);
 		if (name(sh(t)) == bothd)
 			return t;
-	};
-	};
+	}
+	}
 #endif
 	
 /* PAB changes - 19 October 1994 */
@@ -1007,7 +1007,7 @@ f_floating_negate(error_treatment ov_err,
 		c1 = me_complete_id(c1, make_comp);
 		
 		return c1;
-	};
+	}
 #endif
 #if ishppa
 	{
@@ -1049,8 +1049,8 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 		t = bro(t);
 		if (name(sh(t)) == bothd)
 			return t;
-	};
-	};
+	}
+	}
 #endif
 	
 /* PAB changes - 18 October 1994 */
@@ -1360,9 +1360,9 @@ f_make_floating(floating_variety fv, rounding_mode rm,
 					++exponent;
 				if (sig_digs < MANT_SIZE)
 					(flptnos[f].mant)[sig_digs++] = ch - '0';
-			};
-		};
-	};
+			}
+		}
+	}
 	
 	if (ignore_zero) {
 		flptnos[f].exp = 0;
@@ -1371,7 +1371,7 @@ f_make_floating(floating_variety fv, rounding_mode rm,
 	else {
 		flptnos[f].exp = exponent - 1;
 		flptnos[f].sign = (sign ? -1 : 1);
-	};
+	}
 	
 	if (flptnos[f].exp > target_dbl_maxexp)
 		failer (BIG_FLPT);
@@ -1422,9 +1422,9 @@ f_make_floating(floating_variety fv, rounding_mode rm,
 					has_sig_digs = 1;
 				exponent -= point;
 				flpt_newdig((unsigned int)c, &fr, base);
-			};
-		};
-	};
+			}
+		}
+	}
 	
 	if (ignore_zero) {
 		fr.exp = 0;
@@ -1436,7 +1436,7 @@ f_make_floating(floating_variety fv, rounding_mode rm,
 		else
 			fr.sign = 0;
 		flpt_scale(exponent, &fr, base);
-	};
+	}
 	
 	
 	flpt_round((int)rm, flpt_bits((floating_variety)fv), &fr);
@@ -1445,7 +1445,7 @@ f_make_floating(floating_variety fv, rounding_mode rm,
 		r2l r;
 		r = real2longs_IEEE(&fr, fv);
 		UNUSED(r);
-	};
+	}
 	
 	flptnos[f] = fr;
 	
@@ -1939,7 +1939,7 @@ me_complete_chain(exp ident_chain, exp last_link,
 		remove_link = bro(ident_chain);
 		link_to = me_complete_id(ident_chain, link_to);
 		ident_chain = remove_link;
-    };
+    }
 	
     return me_complete_id(ident_chain, link_to);
 }

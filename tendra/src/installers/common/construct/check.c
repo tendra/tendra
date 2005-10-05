@@ -221,7 +221,7 @@ flpt_power_of_2(flpt f)
 	for (i = 1; i < MANT_SIZE; i++) {
 		if (r -> mant[i] != 0)
 			return 0;
-	};
+	}
 	
 	return 1;
 }
@@ -272,7 +272,7 @@ eq_exp(exp a, exp b)
 		if (name (a) == real_tag) {
 			int   res = flt_cmp (flptnos[no (a)], flptnos[no (b)]);
 			return (res == 0);
-		};
+		}
 		if (name(a) == val_tag)  {
 			if (isbigval(a)) {
 				int res;
@@ -280,14 +280,14 @@ eq_exp(exp a, exp b)
 					return 0;
 				res = flt_cmp (flptnos[no (a)], flptnos[no (b)]);
 				return (res == 0);
-			};
+			}
 			if (isbigval(b))
 				return 0;
 			return (no(a) == no(b));
-		};
+		}
 		return (no (a) == no (b) &&
 				eq_explist (son (a), son (b)));
-	};
+	}
 	return (0);
 }
 
@@ -303,7 +303,7 @@ repbycont(exp e, bool has_label, exp scope)
 	if (has_label) {
 		no (son (pt (e)))--;
 		pt (e) = nilexp;
-	};
+	}
 #ifdef NEWDIAGS
 	dgf(n) = dgf(e);
 #endif
@@ -440,13 +440,13 @@ tests_to_bounds(exp a, exp b)
 			return nilexp;
 		nta = f_greater_than_or_equal;
 		++na;
-	};
+	}
 	if (ntb == f_greater_than) {
 		if (nb == maxes[name(sha)])
 			return nilexp;
 		ntb = f_greater_than_or_equal;
 		++nb;
-	};
+	}
 	if (ntb == f_greater_than_or_equal) {
 		ntemp = na;
 		na = nb;
@@ -454,7 +454,7 @@ tests_to_bounds(exp a, exp b)
 		nttemp = nta;
 		nta = ntb;
 		ntb = nttemp;
-	};
+	}
 	if (nta != f_greater_than_or_equal)
 		return nilexp;
 	if (ntb != f_less_than_or_equal && ntb != f_less_than)
@@ -465,7 +465,7 @@ tests_to_bounds(exp a, exp b)
 			return nilexp;
 		ntb = f_less_than_or_equal;
 		--nb;
-	};
+	}
 	
 	UNUSED(ntb);
 	
@@ -476,12 +476,12 @@ tests_to_bounds(exp a, exp b)
 	else {
 		if ((unsigned int)nb < (unsigned int)na)
 			return nilexp;
-	};
+	}
 	no(son(lab)) -= 1; /* one is removed by kill_exp below */
 	if (na == nb) {
 		kill_exp(b, b);
 		return make_test(f_equal, lab, x, me_shint(sha, na), test_tag);
-	};
+	}
 	{
 		exp s = hold_check(me_b2(x, me_shint(sha, na), minus_tag));
 		exp n = me_shint(sha, nb -na);
@@ -490,7 +490,7 @@ tests_to_bounds(exp a, exp b)
 		sh(n) = new_sha;
 		kill_exp(b, b);
 		return make_test(f_less_than_or_equal, lab, s, n, test_tag);
-	};
+	}
 }
 
 static int
@@ -503,7 +503,7 @@ check_seq(exp e, exp scope)
 	if (name(sh(bro(son(e)))) == bothd && name(sh(e)) != bothd) {
 		sh(e) = f_bottom;
 		changed = 1;
-	};
+	}
 	
 	while (name (sh (son (z))) == bothd || nos (son (z))) {
 		if (name (sh (son (z))) == bothd) {
@@ -519,8 +519,8 @@ check_seq(exp e, exp scope)
 					dg_dead_code (k, son(z));
 #endif
 					kill_exp (k, k);
-				};
-			};
+				}
+			}
 #ifdef NEWDIAGS
 			if (diagnose) {
 				dg_dead_code (bro(z), son(z));
@@ -533,7 +533,7 @@ check_seq(exp e, exp scope)
 			retcell (z);
 			retcell (e);
 			return (1);
-		};
+		}
 		if (last (son (z))) {
 #ifdef NEWDIAGS
 			if (diagnose) {
@@ -546,7 +546,7 @@ check_seq(exp e, exp scope)
 			retcell (z);
 			retcell (e);
 			return (1);
-		};
+		}
 #ifdef NEWDIAGS
 		if (diagnose)
 			dg_rdnd_code (son(z), bro(son(z)));
@@ -554,7 +554,7 @@ check_seq(exp e, exp scope)
 		k = son (z);
 		son (z) = bro (son (z));
 		kill_exp (k, k);
-	};
+	}
 	t = son (z);
 	for (;;) {
 		if (name(t) == test_tag && name(bro(son(t))) == val_tag &&
@@ -574,7 +574,7 @@ check_seq(exp e, exp scope)
 						if (changed)
 							altered(e, scope);
 						return 0;
-					};
+					}
 					if (t == son(z)) {
 #ifdef NEWDIAGS
 						if (diagnose)
@@ -583,7 +583,7 @@ check_seq(exp e, exp scope)
 						replace(e, bnds, scope);
 						retcell(e);
 						return 1;
-					};
+					}
 					ref = refto(father(t), t);
 					bro(*ref) = bro(t);
 					setlast(*ref);
@@ -596,8 +596,8 @@ check_seq(exp e, exp scope)
 					if (changed)
 						altered(e, scope);
 					return 0;
-				};
-			};
+				}
+			}
 			b = bro(t);
 			if (name(b) == test_tag && name(bro(son(b))) == val_tag &&
 				!isbigval(bro(son(b))) &&
@@ -615,15 +615,15 @@ check_seq(exp e, exp scope)
 						clearlast(bnds);
 					*ref = bnds;
 					t = bnds;
-				};
-			};
-		};
+				}
+			}
+		}
 		
 		if (last (t)) {
 			if (changed)
 				altered(e, scope);
 			return 0;
-		};
+		}
 		if (name (sh (bro (t))) == bothd) {
 			if (!last (bro (t))) {
 				kk = bro (bro (t));
@@ -638,8 +638,8 @@ check_seq(exp e, exp scope)
 						dg_dead_code (k, bro(t));
 #endif
 					kill_exp (k, k);
-				};
-			};
+				}
+			}
 #ifdef NEWDIAGS
 			if (diagnose)
 				dg_dead_code (bro(z), bro(t));
@@ -653,7 +653,7 @@ check_seq(exp e, exp scope)
 			sh(e) = f_bottom;
 			altered(e, scope);
 			return 0;
-		};
+		}
 		if (nos (bro (t))) {
 			if (last (bro (t))) {
 #ifdef NEWDIAGS
@@ -664,7 +664,7 @@ check_seq(exp e, exp scope)
 				setlast (t);
 				bro (t) = z;
 				return 0;
-			};
+			}
 			k = bro (t);
 			bro (t) = bro (bro (t));
 #ifdef NEWDIAGS
@@ -737,8 +737,8 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 			no(cst) = f;
 			setbigval(cst);
 			cst_u = cst;
-		};
-	};
+		}
+	}
 	
 	if (!optop(e))
 		return 0;
@@ -774,7 +774,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 				bro (p) = t;
 				clearlast (p);
 				p = bro (p);
-			};
+			}
 			while (last (t) && bro (t) != e)
 				t = bro (t);		/* ascend from sub-item */
 		}
@@ -792,7 +792,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 			replace (e, cst, scope);
 			retcell(e);
 			return (1);
-		};
+		}
 		
 		if (has_zero &&
 			((!isreal && no(cst) == zero && !isbigval(cst)) ||
@@ -813,7 +813,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 #endif
 			replace (e, hc (r, cst), scope);
 			return (1);
-		};
+		}
 		
 		if ((!isreal &&
 			 (no(cst) != one || (isbigval(cst) && cst != cst_u))) ||
@@ -834,7 +834,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 			replace (e, q, scope);
 			retcell(e);
 			return (1);
-		};
+		}
 		
 #ifdef NEWDIAGS
 		if (diagnose)
@@ -852,7 +852,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 			replace (e, hold_check(p), scope);
 			retcell(e);
 			return (1);
-		};
+		}
 		
 		bro (p) = q;		/* form result if no constant and more
 							 *				   than one arg */
@@ -865,7 +865,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 		replace (e, q, scope);
 		retcell(e);
 		return (1);
-	};
+	}
 	
 	return 0;	/* return from here if no change made */
 }
@@ -901,7 +901,7 @@ dochvar(int i, shape t)
 		}
         else
 			return (i & 0xff);
-	};
+	}
     case 16:
 	{
         if (is_signed(t))
@@ -913,7 +913,7 @@ dochvar(int i, shape t)
 		}
         else
 			return (i & 0xffff);
-	};
+	}
     case 32:
 	{
         if (is_signed(t))
@@ -925,12 +925,12 @@ dochvar(int i, shape t)
 		}
         else
 			return (i & (int)0xffffffff);
-	};
+	}
     case 64:
 		return (i);
     default:
 		return (i & masks[shape_size(t)]);
-	};
+	}
 }
 
 static void
@@ -1045,7 +1045,7 @@ plus_fn(exp ap, exp b, int et)
  *	(ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
  *    failer(ADD_OUT_OF_BOUNDS);
  *    exit(EXIT_FAILURE);
- *  };
+ *  }
  */
 	flpt_ret(fa);
 	flpt_ret(fb);
@@ -1079,7 +1079,7 @@ minus_fn(exp ap, exp b, int et)
  *	(ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
  *    failer(ADD_OUT_OF_BOUNDS);
  *    exit(EXIT_FAILURE);
- *  };
+ *  }
  */
 	flpt_ret(fa);
 	flpt_ret(fb);
@@ -1098,7 +1098,7 @@ neg_fn(exp b)
 	x.small = ~x.small;
 	if (x.small == (unsigned int)0xffffffff) {
 		++x.big;
-	};
+	}
 	++x.small;
 	bigres(b, &x);
 	return;
@@ -1141,7 +1141,7 @@ mult_fn(exp ap, exp b, int et)
 		(ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
 		failer(MULT_OUT_OF_BOUNDS);
 		exit(EXIT_FAILURE);
-	};
+	}
 	
 	flpt_ret(fa);
 	flpt_ret(fb);
@@ -1210,7 +1210,7 @@ domaxmin(exp ap, exp b, int mx)
 				use_a = mx;
 			else
 				use_a = !mx;
-		};
+		}
 	}
 	else {
 		if ((unsigned int)xa.big > (unsigned int)xb.big)
@@ -1222,8 +1222,8 @@ domaxmin(exp ap, exp b, int mx)
 				use_a = mx;
 			else
 				use_a = !mx;
-		};
-	};
+		}
+	}
 	SET(use_a);
 	if (use_a)
 		bigres(ap, &xa);
@@ -1344,7 +1344,7 @@ doshl(exp e)
 			no(arg1) = 0;
 			clearbigval(arg1);
 			return;
-		};
+		}
 		if (pl >= 32)  {
 			x.big = (int)(x.small << (pl-32));
 			x.small = 0;
@@ -1353,7 +1353,7 @@ doshl(exp e)
 			x.big <<= pl;
 			x.big |= (int)(x.small >> (32-pl));
 			x.small <<= pl;
-		};
+		}
 	}
 	else  {  /* shift right */
 		if (isbigval(arg2) || pl >= shape_size(sha)) {
@@ -1366,10 +1366,10 @@ doshl(exp e)
 				else
 					if (no(arg1) < 0)
 						no(arg1) = -1;
-			};
+			}
 			clearbigval(arg1);
 			return;
-		};
+		}
 		if (pl >= 32) {
 			if (sg)  {
 				x.small = (unsigned int)(x.big >> (pl-32));
@@ -1378,7 +1378,7 @@ doshl(exp e)
 			else {
 				x.small = ((unsigned int)x.big) >> (pl-32);
 				x.big = 0;
-			};
+			}
 		}
 		else  {
 			if (sg)  {
@@ -1390,9 +1390,9 @@ doshl(exp e)
 				x.small >>= pl;
 				x.small |= (unsigned int)(x.big << (32-pl));
 				x.big = (int)(((unsigned int)x.big) >> pl);
-			};
-		};
-	};
+			}
+		}
+	}
 	bigres(arg1, &x);
 	return;
 }
@@ -1445,7 +1445,7 @@ absbool(exp id)
 						)
 						return s;
 				} /* cond is (seq= first | L: top) */
-			}; /* seq is cond=c; id */
+			} /* seq is cond=c; id */
 			if (last(c) && name(c) == condassign_tag) {
 				/* seq is condassign = c; id */
 				exp s = son (c);
@@ -1455,7 +1455,7 @@ absbool(exp id)
 					!isbigval(bro(son(r))) &&
 					no (bro (son (r))) == 1 /* last of seq is id = 1 */)
 					return s;
-			}; /* seq is condassign = c; id */
+			} /* seq is condassign = c; id */
 		} /* one use is result  of sequence body */
 	} /* name initially 0 only used twice */
 	return nilexp;
@@ -1497,8 +1497,8 @@ seq_distr(exp e, exp scope)
 #endif
 			replace(e, x, scope);
 			return 1;
-		};
-	};
+		}
+	}
 	if (!last(x) && last(bro(x))) {
 		y = bro(x);
 		if (name(y) == seq_tag || name(y) == ident_tag) {
@@ -1523,8 +1523,8 @@ seq_distr(exp e, exp scope)
 #endif
 			replace(e, y, scope);
 			return 1;
-		};
-	};
+		}
+	}
 	return 0;
 }
 
@@ -1705,7 +1705,7 @@ check_fp2(exp e, exp scope)
 				return (1);
 			}
 		}
-	};
+	}
 	return (0);
 }
 
@@ -1740,7 +1740,7 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
 		}
 		else
@@ -1766,9 +1766,9 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
-		};
+		}
     case 16:
 		if (is_signed(sha))
 		{
@@ -1793,7 +1793,7 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
 		}
 		else
@@ -1819,9 +1819,9 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
-		};
+		}
     case 32:
 		if (is_signed(sha))
 		{
@@ -1846,7 +1846,7 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
 		}
 		else
@@ -1872,10 +1872,10 @@ docmp(shape sha, unsigned char test_no, int c1,
 			case 6:
 				c = (d1 != d2);
 				break;
-			};
+			}
 			break;
-		};
-	};
+		}
+	}
 	return (c);
 }
 
@@ -1911,7 +1911,7 @@ docmp_f(int test_no, exp a, exp b)
 					less = 1;
 				else
 					gr = 1;
-			};
+			}
 	}
 	else
 		if (!eq) {
@@ -1925,8 +1925,8 @@ docmp_f(int test_no, exp a, exp b)
 						less = 1;
 					else
 						gr = 1;
-				};
-		};
+				}
+		}
 	
 	switch (test_no) EXHAUSTIVE {
 	case 1:
@@ -1947,7 +1947,7 @@ docmp_f(int test_no, exp a, exp b)
 	case 6:
 	    c = !eq;
 	    break;
-	};
+	}
 	return c;
 }
 
@@ -1983,7 +1983,7 @@ check(exp e, exp scope)
 					replace(e, temp, scope);
 					retcell(e);
 					return 1;
-				};
+				}
 				if (last(temp))
 					break;
 				temp = bro(temp);
@@ -2017,7 +2017,7 @@ check(exp e, exp scope)
 					retcell(a);
 					retcell(e);
 					return 1;
-				};
+				}
 				
 				/* otherwise use field_tag */
 				
@@ -2031,7 +2031,7 @@ check(exp e, exp scope)
 				retcell(e);
 				retcell(a);
 				return 1;
-            };
+            }
 			if (name(v) == cont_tag) /* replace selecting from contents
 									  *                                      by taking contents of reff selection
 									  */
@@ -2048,7 +2048,7 @@ check(exp e, exp scope)
 				retcell(v);
 				retcell(e);
 				return 1;
-            };
+            }
 			{  /* always  remove component_tag: use a declaration */
 				exp var = me_startid(sh(e), v, 1);
 				exp ap, c;
@@ -2064,8 +2064,8 @@ check(exp e, exp scope)
 				replace(e, var, scope);
 				retcell(e);
 				return 1;
-			};
-        };
+			}
+        }
 		case offset_pad_tag:
 			if (name(son(e)) == val_tag && !isbigval(son(e)))
 			{
@@ -2091,7 +2091,7 @@ check(exp e, exp scope)
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
 		case offset_add_tag:
 		{
@@ -2112,9 +2112,9 @@ check(exp e, exp scope)
 				replace (e, a, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-        };
+        }
 		case offset_subtract_tag:
 		{
 			if (name (son (e)) == val_tag &&
@@ -2127,9 +2127,9 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case offset_negate_tag:
 		{
 			if (name (son (e)) == val_tag && !isbigval(son(e))) {
@@ -2143,9 +2143,9 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case offset_max_tag:
 		{
 			if (name (son (e)) == val_tag &&
@@ -2160,9 +2160,9 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case offset_mult_tag:
 		{
 			if (name (son (e)) == val_tag &&
@@ -2177,7 +2177,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(son(e)) == val_tag && !isbigval(son(e))&&
 				no(son(e)) == 1)
             {  /* multiply by 1 */
@@ -2185,7 +2185,7 @@ check(exp e, exp scope)
 				replace(e, bro(son(e)), scope);
 				retcell(e);
 				return (1);
-            };
+            }
 			if (name(son(e)) == val_tag && !isbigval(son(e)) &&					no(son(e)) == 0)
             {  /* multiply by 0 - replace by sequence - side-effects!*/
 				exp_list el;
@@ -2196,7 +2196,7 @@ check(exp e, exp scope)
 				replace(e, f_sequence(el, son(e)), scope);
 				retcell(e);
 				return (1);
-            };
+            }
 			
 			if (name(bro(son(e))) == val_tag &&
 				name(son(e)) == plus_tag)
@@ -2215,14 +2215,14 @@ check(exp e, exp scope)
 					temp = hold_check(me_b3(sh(e), x, copy(b),
 											offset_mult_tag));
 					res = hold_check(me_b3(sh(e), res, temp, offset_add_tag));
-				};
+				}
 				retcell(b);
 				replace(e, res, scope);
 				retcell(e);
 				return 1;
-            };
+            }
 			return 0;
-		};
+		}
 		case offset_div_by_int_tag:
 		case offset_div_tag:
 		{
@@ -2238,9 +2238,9 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 #if has_setcc
 		case absbool_tag:
 		{
@@ -2259,7 +2259,7 @@ check(exp e, exp scope)
 				replace (e, arg1, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(arg1) == val_tag || name(arg1) == real_tag ||
 				name(arg1) == null_tag) {
 				/* constant argument always second */
@@ -2270,9 +2270,9 @@ check(exp e, exp scope)
 				clearlast(arg2);
 				nt = exchange_ntest[nt];
 				settest_number(e, nt);
-			};
+			}
 			return 0;
-		};
+		}
 #endif
 		case plus_tag: 		/* apply commutative and associative laws
 							 */
@@ -2298,7 +2298,7 @@ check(exp e, exp scope)
 				replace(e, arg1, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(arg1) == val_tag)
 			{
 				exp q = hold_check(f_plus(f_impossible, arg2, arg1));
@@ -2309,7 +2309,7 @@ check(exp e, exp scope)
 				replace(e, q, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(arg2) == plus_tag && name(bro(son(arg2))) == val_tag &&
 				optop(arg2))
 			{
@@ -2325,7 +2325,7 @@ check(exp e, exp scope)
 				replace(e, x, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(arg1) == plus_tag && name(bro(son(arg1))) == val_tag &&
 				optop(arg1))
 			{
@@ -2341,7 +2341,7 @@ check(exp e, exp scope)
 				replace(e, x, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(arg2) == plus_tag && name(arg1) != plus_tag &&
 				optop(arg2))
 			{
@@ -2357,10 +2357,10 @@ check(exp e, exp scope)
 				replace(e, x, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			
 			return seq_distr(e, scope);
-		};
+		}
 #else
 		return (comm_ass (e, plus_tag, plus_fn,
 						  0, 0, 0, scope, 1, 0));
@@ -2391,8 +2391,8 @@ check(exp e, exp scope)
 					retcell (son (e));
 					retcell (e);
 					return (1);
-				};
-			};
+				}
+			}
 #if isAlpha
 			{ exp ptr = son(e);
 			exp off = bro(ptr);
@@ -2421,7 +2421,7 @@ check(exp e, exp scope)
 				replace (e, hc (r, p), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == reff_tag &&
                 shape_size(sh(e)) == 32) {
 				/* replace addptr(reff[n](a), b) by reff[n](addptr(a, b)) */
@@ -2448,7 +2448,7 @@ check(exp e, exp scope)
 				retcell (son (e));
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(bro(son(e))) == offset_add_tag)
 			{
 				exp p = son(e);
@@ -2467,7 +2467,7 @@ check(exp e, exp scope)
 					replace(e, hold_check(r), scope);
 					retcell(e);
 					return 1;
-				};
+				}
 				if (al1(sh(p)) == al2(sh(c)))  {
 					exp inner, outer;
 					inner = hold_check(me_b3(sh(e), p, a, addptr_tag));
@@ -2484,10 +2484,10 @@ check(exp e, exp scope)
 					replace(e, outer, scope);
 					retcell(e);
 					return 1;
-				};
-			};
+				}
+			}
 			return 0;
-		};
+		}
 		case chvar_tag: {
 #ifdef value_of_null
 			if (name(son(e))==null_tag) {
@@ -2502,7 +2502,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #endif
 			if (name (son (e)) == val_tag && optop(e)) {
 				/* evaluate chvar(const) */
@@ -2517,7 +2517,7 @@ check(exp e, exp scope)
  *	shape_size(sha) <= 32 && check_size(x, sg, 32)) {
  *    failer("Change_variety out of range");
  *    exit(EXIT_FAILURE);
- *  };
+ *  }
  *#endif
  */
 				dochvar_f (&x, sha);
@@ -2535,7 +2535,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (eq_shape (sh (e),  sh (son (e)))) {
 				/* replace identity chvar by argument */
 #ifdef NEWDIAGS
@@ -2545,7 +2545,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(son(e)) == chvar_tag &&
 				shape_size(sh(e)) == shape_size(sh(son(son(e)))) &&
 				name(sh(son(e))) == bitfhd) {
@@ -2553,14 +2553,14 @@ check(exp e, exp scope)
 				replace(e, res, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(son(e)) == chvar_tag && !is_signed(sh(e)) &&
 				shape_size(sh(e)) == shape_size(sh(son(e)))) {
 				replace(e, hold_check(me_u3(sh(e), son(son(e)), chvar_tag)),
 						scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(son(e)) == chvar_tag && !is_signed(sh(e)) &&
 				shape_size(sh(e)) < shape_size(sh(son(e))) &&
 				shape_size(sh(e)) == shape_size(sh(son(son(e))))) {
@@ -2568,7 +2568,7 @@ check(exp e, exp scope)
 						scope);
 				retcell(e);
 				return 1;
-			};
+			}
 #if little_end & has_byte_regs
 			/* only for little enders which have byte registers */
 			if ((shape_size(sh(e)) <= shape_size(sh(son(e)))) && optop(e) &&
@@ -2585,13 +2585,13 @@ check(exp e, exp scope)
 					if (name (son (e)) == cont_tag &&
 						name(son(son(e))) == name_tag)
 						setvis(son(son(son(e))));
-				};
+				}
 #endif
 				sh (son (e)) = sh (e);
 				replace (e, son (e), scope);
 				/* should this retcell(e) ? */
 				return (1);
-			};
+			}
 			/* only for little enders which have byte registers */
 			if (name (son (e)) == chvar_tag &&
 				shape_size(sh(e)) <= shape_size(sh (son (e)))) {
@@ -2605,7 +2605,7 @@ check(exp e, exp scope)
 				retcell (e);
 				retcell (w);
 				return (1);
-			};
+			}
 #endif
 #if little_end & has_byte_ops
 			/* only for little enders with byte and short operations */
@@ -2645,7 +2645,7 @@ check(exp e, exp scope)
 						setbro (q, varchange (sha, a));
 						clearlast (q);
 						q = bro (q);
-					};
+					}
 					
 					r = getexp (sha, nilexp, 0, t, pt (p), 0, no (p),
 								name (p));
@@ -2653,8 +2653,8 @@ check(exp e, exp scope)
 					replace (e, hc (r, q), scope);
 					retcell (e);
 					return (1);
-				};
-			};
+				}
+			}
 #endif
 			if (name (son (e)) == ident_tag && isvar (son (e))) {
 				/* distribute chvar into variable declaration of simple form
@@ -2678,7 +2678,7 @@ check(exp e, exp scope)
 						t = pt (t);
 					else
 						go = 0;
-				};
+				}
 				if (!go)
 					return (0);
 				if (name(def) == clear_tag) {
@@ -2698,16 +2698,16 @@ check(exp e, exp scope)
 						u = varchange (sh (e), copy (v));
 						replace (v, u, u);
 						kill_exp (v, def);
-					};
+					}
 					t = pt (t);
-				};
+				}
 				sh (vardec) = sh (e);
 				replace (e, vardec, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case bitf_to_int_tag:
         {
 			if (newcode) {
@@ -2743,7 +2743,7 @@ check(exp e, exp scope)
 						retcell(temp);
 						return 1;
 					}
-				};
+				}
 				
 				
 				sh(temp) = sha;
@@ -2759,7 +2759,7 @@ check(exp e, exp scope)
 						temp =
 							hold_check(me_b3(s64sh, temp,
 											 me_shint(s64sh, s), shr_tag));
-					};
+					}
 #else
 					s = shape_size(sha) - szbf;
 					if (s != 0) {
@@ -2769,21 +2769,21 @@ check(exp e, exp scope)
 						temp =
 							hold_check(me_b3(sha, temp, me_shint(sha, s),
 											 shr_tag));
-					};
+					}
 #endif
 				}
 				else {
 					int mask = (szbf == 32) ? -1 : (1 << szbf) - 1;
 					temp = hold_check(me_b3(sha, temp,
 											me_shint(sha, mask), and_tag));
-				};
+				}
 				
 				replace(e, hold_check(me_u3(sh(e), temp, chvar_tag)), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
-        };
+        }
 		case int_to_bitf_tag:
         {
 			if (newcode) {
@@ -2803,14 +2803,14 @@ check(exp e, exp scope)
 				}
 				else {
 					UNUSED(sha);
-				};
+				}
 				temp = hold_check(me_u3(sh(e), temp, chvar_tag));
 				replace(e, temp, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
-        };
+        }
 		case minptr_tag:
 		{
 			exp s = son(e);
@@ -2823,7 +2823,7 @@ check(exp e, exp scope)
 				replace (e, s, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (s) == val_tag &&
 				name (b) == val_tag) {/* both constants */
 				sh (s) = sh (e);
@@ -2832,13 +2832,13 @@ check(exp e, exp scope)
 				replace (e, s, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(b) == null_tag && no(b) == 0) {
 				sh (s) = sh (e);
 				replace(e, s, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(s) == name_tag && name(b) == name_tag &&
 				son(s) == son(b)) {
 				int n = no(s) - no(b);
@@ -2850,9 +2850,9 @@ check(exp e, exp scope)
 				replace(e, r, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
-		};
+		}
 		case minus_tag: {
 			exp z, a2, r;
 			exp arg1 = son(e);
@@ -2866,7 +2866,7 @@ check(exp e, exp scope)
 				replace(e, arg1, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			/* replace a-b by a+(-b) */
 			z = getexp (sh (e), nilexp, 0, bro (son (e)), pt(e),
 						0, 0,
@@ -2883,7 +2883,7 @@ check(exp e, exp scope)
 			replace (e, hc (r, a2), scope);
 			retcell (e);
 			return (1);
-		};
+		}
 		case mult_tag: {
 			if (!optop(e))
 				return 0;
@@ -2907,7 +2907,7 @@ check(exp e, exp scope)
 				replace (e, hc (pa, ke), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			
 			/* apply commutative and associative laws */
 #if is80x86
@@ -2917,7 +2917,7 @@ check(exp e, exp scope)
 			return (comm_ass (e, mult_tag, mult_fn,
 							  1, 1, 0, scope, 1, 0));
 #endif
-		};
+		}
 		case subptr_tag: {
 			/* replace subptr(a, b) by addptr(a, (-b)) */
 			exp z = getexp (sh (e), nilexp, 0, bro (son (e)), nilexp,
@@ -2933,7 +2933,7 @@ check(exp e, exp scope)
 			replace (e, hc (r, a2), scope);
 			retcell (e);
 			return (1);
-		};
+		}
 		case neg_tag: {
 			if (!optop(e))
 				return 0;
@@ -2947,7 +2947,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == neg_tag &&
 				optop(e) && optop (son (e))) {
 				/* replace --a by a if errtreat is impossible or ignore */
@@ -2962,7 +2962,7 @@ check(exp e, exp scope)
 				retcell (son (e));
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == plus_tag &&
 				optop(e) &&
 				optop (son (e))) {
@@ -2997,9 +2997,9 @@ check(exp e, exp scope)
 				replace (e, hc (r, p), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case shl_tag:
 		case shr_tag: {
 			if (name (bro (son (e))) == val_tag && no (bro (son (e))) == 0) {
@@ -3008,7 +3008,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == val_tag &&
 				name (bro (son (e))) == val_tag) {
 				/* evaluate if both args constant */
@@ -3017,7 +3017,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #if ismips
 			if (name(bro (son (e))) == val_tag &&
 				no (bro (son (e))) == shape_size(sh(e))) {
@@ -3051,7 +3051,7 @@ check(exp e, exp scope)
 				replace (e, r, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #endif
 			if (name(e) == shr_tag && name(son(e)) == shl_tag &&
 				name(bro(son(e))) == val_tag) {
@@ -3069,8 +3069,8 @@ check(exp e, exp scope)
 														me_shint(sh(arg1), q - p), shl_tag));
 							replace(son(e), temp, temp);
 							/* DELIBERATE FALL THROUGH */
-						};
-					};
+						}
+					}
 				}
 				else {
 					if (name(bro(son(arg1))) == val_tag) {
@@ -3084,10 +3084,10 @@ check(exp e, exp scope)
 							replace(e, hold_check(temp2), scope);
 							retcell(e);
 							return 1;
-						};
-					};
-				};
-			};
+						}
+					}
+				}
+			}
 			if (name(e) == shl_tag && name(son(e)) == and_tag &&
 				name(bro(son(e))) == val_tag) {
 				exp arg1 = son(e);
@@ -3116,12 +3116,12 @@ check(exp e, exp scope)
 							replace(e, hold_check(res), scope);
 							retcell(e);
 							return 1;
-						};
-					};
-				};
-			};
+						}
+					}
+				}
+			}
 			return seq_distr(e, scope);
-		};
+		}
 		case mod_tag:
 		{
 			if (name (son (e)) == val_tag &&
@@ -3138,10 +3138,10 @@ check(exp e, exp scope)
 					replace (e, son(e), scope);
 					retcell (e);
 					return (1);
-				};
-			};
+				}
+			}
 			return 0;
-		};
+		}
 		case rem0_tag:
 		case rem2_tag:
 		{
@@ -3161,10 +3161,10 @@ check(exp e, exp scope)
 					replace (e, son(e), scope);
 					retcell (e);
 					return (1);
-				};
-			};
+				}
+			}
 			return 0;
-		};
+		}
 		case div1_tag:
 		{
 			if (name (bro (son (e))) == val_tag && no (bro (son (e))) == 1) {
@@ -3173,7 +3173,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (optop(e) && name (son (e)) == val_tag &&
 				name (bro (son (e))) == val_tag &&
 				no(bro(son(e))) != 0) {
@@ -3183,9 +3183,9 @@ check(exp e, exp scope)
 				replace (e, son(e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case div0_tag:
 		case div2_tag:
 		{
@@ -3195,7 +3195,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (optop(e) && name (son (e)) == val_tag &&
 				name (bro (son (e))) == val_tag &&
 				no(bro(son(e))) != 0) {
@@ -3205,9 +3205,9 @@ check(exp e, exp scope)
 				replace (e, son(e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case max_tag:
 		case min_tag:
 		{
@@ -3218,9 +3218,9 @@ check(exp e, exp scope)
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
-		};
+		}
 		case chfl_tag: {
 			if (!optop(e))
 				return 0;
@@ -3230,7 +3230,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #if FBASE == 10
 			if (name (son (e)) == real_tag &&
 				name(sh(e)) < name(sh(son(e)))) {
@@ -3238,7 +3238,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #else
 			if (name (son (e)) == real_tag) {
 				if (name(sh(e)) < name(sh(son(e)))) {
@@ -3246,12 +3246,12 @@ check(exp e, exp scope)
 							   flpt_bits((floating_variety)(name(sh(e)) -
 															shrealhd)),
 							   &flptnos[no(son(e))]);
-				};
+				}
 				sh (son (e)) = sh (e);
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #endif
 			if (name (son (e)) == chfl_tag &&
 				name (sh (son (son (e)))) == name (sh (e)) &&
@@ -3263,9 +3263,9 @@ check(exp e, exp scope)
 				retcell (son (e));
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case round_tag:
 		{
 			if (!optop(e))
@@ -3291,7 +3291,7 @@ check(exp e, exp scope)
 				replace (e, iexp, scope);
 				kill_exp (e, scope);
 				return (1);
-			};
+			}
 #else
 			if (name (son (e)) == real_tag) {
 				/* apply if arg constant */
@@ -3309,11 +3309,11 @@ check(exp e, exp scope)
 				replace (e, iexp, scope);
 				kill_exp (e, scope);
 				return (1);
-			};
+			}
 #endif
 			
 			return 0;
-		};
+		}
 		case float_tag:
 		{
 			if (!optop(e))
@@ -3347,11 +3347,11 @@ check(exp e, exp scope)
 							for (i = 0; i < MANT_SIZE; i++) {
 								(flongmaxr.mant)[i] = (i < 10) ?
 									(maxdigs[i] - '0') : 0;
-							};
+							}
 							flt_add (flptnos[no (son (e))], flongmaxr, &r);
 							flptnos[no (son (e))] = r;
-						};
-					};
+						}
+					}
 				
 				flpt_round((int)f_to_nearest,
 						   flpt_bits((floating_variety)(name(sh(e))-shrealhd)),
@@ -3361,7 +3361,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #else
 			if (name (son (e)) == val_tag) {
 				/* apply if arg constant */
@@ -3400,7 +3400,7 @@ check(exp e, exp scope)
 							if (!isbigval(arg))
 								no(arg) = f64_to_flt(exp_to_f64(arg), is_signed(sha));
 							clearbigval(arg);
-						};
+						}
 				
 				
 				flpt_round((int)f_to_nearest,
@@ -3411,10 +3411,10 @@ check(exp e, exp scope)
 				replace (e, arg, scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #endif
 			return 0;
-		};
+		}
 		case fmult_tag:  		/* apply zero, unit and constant
 								 *                                   evaluation.
 								 *                                   NB dive MUST be false, because
@@ -3452,7 +3452,7 @@ check(exp e, exp scope)
 				replace(e, temp, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
 		case fneg_tag:
 		{
@@ -3475,7 +3475,7 @@ check(exp e, exp scope)
 					return (1);
 				}
 			return 0;
-		};
+		}
 		case fabs_tag:
 			if (name (son (e)) == real_tag) {
 				/* apply if arg constant */
@@ -3485,7 +3485,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
 		case and_tag:
 #if has_byte_ops
@@ -3511,8 +3511,8 @@ check(exp e, exp scope)
 					replace(e, v, scope);
 					retcell(e);
 					return 1;
-				};
-			};
+				}
+			}
 #endif
 			if (name(son(e)) == and_tag && name(bro(son(e))) == val_tag &&
 				name(bro(son(son(e)))) == val_tag
@@ -3523,7 +3523,7 @@ check(exp e, exp scope)
 				replace(e, res, scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			if (name(son(e)) == shr_tag && name(bro(son(e))) == val_tag &&
 				!isbigval(bro(son(e)))) {
 				exp arg1 = son(e);
@@ -3546,10 +3546,10 @@ check(exp e, exp scope)
 													   shr_tag));
 							replace(arg1, res, res);
 							return check(e, scope);
-						};
-					};
-				};
-			};
+						}
+					}
+				}
+			}
 			/* apply commutative and associative laws */
 			return (comm_ass (e, and_tag, and_fn, all_ones (son(e)),
 							  1, 0, scope, 1, 0));
@@ -3568,8 +3568,8 @@ check(exp e, exp scope)
 					replace(e, hold_check(res), scope);
 					retcell(e);
 					return 1;
-				};
-			};
+				}
+			}
 			return (comm_ass (e, or_tag, or_fn, 0, shape_size(sh(e)) <= 32,
 							  all_ones (son(e)),
 							  scope, 1, 0));
@@ -3584,16 +3584,16 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == not_tag) {/* not(not(x)) -> x */
 				sh(son(son(e))) = sh(e);
 				replace (e, son (son (e)), scope);
 				retcell (son (e));
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
-		};
+		}
 		case cont_tag:
 #ifdef promote_pars
 		{ int x = al1_of(sh(son(e)))->al.sh_hd;
@@ -3626,7 +3626,7 @@ check(exp e, exp scope)
             retcell(son(e));
             retcell(e);
             return 1;
-		};
+		}
 #endif
         return 0;
 		case field_tag:
@@ -3666,7 +3666,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name (son (e)) == cont_tag) {
 				/* replace field[n](cont(x)) by cont(reff[n](x)) */
 				exp arg = son (son (e));
@@ -3678,7 +3678,7 @@ check(exp e, exp scope)
 				retcell (son (e));
 				retcell (e);
 				return (1);
-			};
+			}
 			if (name(son(e)) == ident_tag && isvar(son(e)) &&
 				name(son(son(e))) == clear_tag &&
 				name(bro(son(son(e)))) == seq_tag) {
@@ -3738,7 +3738,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			
 			if (name (son (e)) == val_tag) {
 				no (son (e)) += (no (e) / 8);
@@ -3750,7 +3750,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			
 #if !temp_mips
 			/* confirm mips doesn't need this */
@@ -3765,7 +3765,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 #endif
 			
 #if remove_zero_offsets
@@ -3779,7 +3779,7 @@ check(exp e, exp scope)
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 #endif
 			
 			return (0);
@@ -3869,7 +3869,7 @@ check(exp e, exp scope)
 			replace(e, eshift , scope);
 			retcell(e);
 			return 1;
-		};
+		}
 		case abs_tag:
 			if (name (son (e)) == val_tag) {
 				if (is_signed(sh(e)) &&
@@ -3886,7 +3886,7 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			return 0;
 		case fmax_tag:
 		case fmin_tag:
@@ -3957,8 +3957,8 @@ check(exp e, exp scope)
 			return 0;
 		default:
 			return 0;
-		};
-	};
+		}
+	}
 	
 	
 	switch (name (e)) {		/* side effecting ops */
@@ -3984,7 +3984,7 @@ check(exp e, exp scope)
                 name(sh(son(son(bse)))) <= doublehd)  {
 				setvis(son(bse));
 				props(e) = (prop)(props(e) & ~0x08);
-			};
+			}
 			sh(bse) = sh(e);
 #ifdef NEWDIAGS
 			if (diagnose)
@@ -3994,8 +3994,8 @@ check(exp e, exp scope)
 			retcell(son(e));
 			retcell(e);
 			return 1;
-        };
-	};
+        }
+	}
 #if replace_compound
 	if (in_proc_def)
 	{  /* Provided that the exp is inside a procedure definition we
@@ -4027,12 +4027,12 @@ check(exp e, exp scope)
 			}
 			else {
 				ass = hold_check(f_bitfield_assign(p, t, q));
-			};
+			}
 			el = add_exp_list(el, ass, 0);
 			if (end)
 				break;
 			t = n;
-		};
+		}
         seq = f_sequence(el, cont);
 #ifdef NEWDIAGS
 		if (diagnose)
@@ -4041,7 +4041,7 @@ check(exp e, exp scope)
         replace(e, me_complete_id(var, seq), scope);
         retcell(e);
         return 1;
-	};
+	}
 #endif
 	return 0;
 #ifndef NEWDIAGS
@@ -4064,7 +4064,7 @@ check(exp e, exp scope)
 			replace(e, s, scope);
 			retcell(e);
 			return 1;
-        };
+        }
 #if has_setcc
 		/* use if target has setcc instruction */
 		if (!is80x86 || is80586) {
@@ -4083,8 +4083,8 @@ check(exp e, exp scope)
 				replace (e, a, a);
 				kill_exp (e, e);
 				return (0);
-			};
-		};
+			}
+		}
 #endif
 		if (name(sh(bro(son(e)))) != name(sh(e))) {
 			sh(e) = sh(bro(son(e)));
@@ -4104,7 +4104,7 @@ check(exp e, exp scope)
 			replace (e, bro (s), scope);
 			retcell(s);
 			return (1);
-		};
+		}
 		return (check_seq (e, scope));
     case cond_tag:
 		if (no (son (bro (son (e)))) == 0) {
@@ -4120,7 +4120,7 @@ check(exp e, exp scope)
 			kill_exp(bs, scope);
 			retcell(e);
 			return (1);
-		};
+		}
 		if (name (son (e)) == goto_tag &&
 			pt (son (e)) == bro (son (e))) {
 			/* replace cond which has first a simple goto to the alt by the
@@ -4139,7 +4139,7 @@ check(exp e, exp scope)
 			retcell(son(e));
 			retcell(e);
 			return (1);
-		};
+		}
 		
 		if (name (son (e)) == seq_tag && no (son (bro (son (e)))) == 1 &&
 			name (bro (son (son (e)))) == goto_tag) {
@@ -4166,9 +4166,9 @@ check(exp e, exp scope)
 				replace (e, son (e), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			
-		};
+		}
 #if maxmin_implemented
 		{
 			exp t;
@@ -4180,7 +4180,7 @@ check(exp e, exp scope)
 				nt = test_number(t);
 				if (nt == f_greater_than || nt == f_greater_than_or_equal) {
 					ismax = 1;
-				};
+				}
 				if (nt == f_less_than || nt == f_less_than_or_equal)
 					ismin = 1;
 			}
@@ -4192,8 +4192,8 @@ check(exp e, exp scope)
 						ismin = 1;
 					if (nt == f_less_than || nt == f_less_than_or_equal)
 						ismax = 1;
-				};
-			};
+				}
+			}
 			if (ismax || ismin) {
 				exp tq = me_b2(copy(son(t)), copy(bro(son(t))),
 							   (ismax)
@@ -4202,8 +4202,8 @@ check(exp e, exp scope)
 				replace(e, hold_check(tq), scope);
 				kill_exp(e, e);
 				return 1;
-			};
-		};
+			}
+		}
 #endif
 		
 #if condassign_implemented
@@ -4218,8 +4218,8 @@ check(exp e, exp scope)
 				replace(e, res, scope);
 				retcell(e);
 				return 1;
-			};
-		};
+			}
+		}
 #endif
 		
 		if (name(bro(son(bro(son(e))))) == top_tag) {
@@ -4245,19 +4245,19 @@ check(exp e, exp scope)
 			replace(e, hold_check(sq), scope);
 			retcell(e);
 			return 1;
-		};
+		}
 		if (name(son(e)) == goto_tag) {
 			replace(e, getexp(f_top, nilexp, 0, nilexp,
 							  nilexp, 0, 0, top_tag),
 					scope);
 			retcell(e);
 			return 1;
-		};
+		}
 		if (name(son(e)) == top_tag) {
 			replace(e, bro(son(e)), scope);
 			retcell(e);
 			return 1;
-		};
+		}
 #endif
     case goto_tag: case return_to_label_tag: case trap_tag:
 		return (0);
@@ -4296,10 +4296,10 @@ check(exp e, exp scope)
 							setreallyass(se);
 						replace (e, ap, scope);
 						return (1);
-					};
-				};
-			};
-		};
+					}
+				}
+			}
+		}
 #endif
 #ifdef promote_pars
 		{ int x = al1_of(sh(son(e)))->al.sh_hd;
@@ -4332,7 +4332,7 @@ check(exp e, exp scope)
 			else
 				repbycont (e, 1, scope);
 			return (1);
-		};
+		}
 		if (name(arg1) == shr_tag && name(arg2) == val_tag &&
 			name(bro(son(arg1))) == val_tag &&
 			!isbigval(arg2) && !isbigval(bro(son(arg1)))) {
@@ -4349,9 +4349,9 @@ check(exp e, exp scope)
 			replace(e, hold_check(res), scope);
 			retcell(e);
 			return 1;
-		};
+		}
 		return (0);
-	};
+	}
     case test_tag: {
 		exp arg1, arg2;
 		int  n;
@@ -4380,8 +4380,8 @@ check(exp e, exp scope)
             case 14: repbygo (e, pt (e), scope);
 				return 1;
 			default: break;
-			};
-        };
+			}
+        }
 		
 		settest_number(e, nt);
 		
@@ -4398,7 +4398,7 @@ check(exp e, exp scope)
 			else
 				repbygo (e, pt (e), scope);
 			return (1);
-		};
+		}
         if (test_number (e) >= 5 &&
             ((name(arg1) == null_tag && no(arg1) == 0 &&
 			  name(arg2) == name_tag &&
@@ -4413,7 +4413,7 @@ check(exp e, exp scope)
 			else
 				repbygo(e, pt(e), scope);
 			return 1;
-        };
+        }
 		if (name (arg1) == real_tag && name (arg2) == real_tag &&
 			test_number(e) <= 6) {
 			/* similar for reals */
@@ -4422,7 +4422,7 @@ check(exp e, exp scope)
 			else
 				repbygo (e, pt (e), scope);
 			return (1);
-		};
+		}
 		
 		/* end of constant expression evaluation */
 		
@@ -4438,7 +4438,7 @@ check(exp e, exp scope)
 			arg1 = son(e);
 			nt = exchange_ntest[nt];
 			settest_number(e, nt);
-		};
+		}
 		
 		if (name (arg1) == chvar_tag && name (arg2) == chvar_tag &&
 			name (sh (son (arg1))) == name (sh (son (arg2))) &&
@@ -4471,8 +4471,8 @@ check(exp e, exp scope)
 					setlast(son(arg2));
 					bro(son(arg2)) = e;
 					return 0;
-				};
-			};
+				}
+			}
 #endif
 			/* arrange to do test in smallest size integers by removing
 			 *	     chvar and altering shape of test args */
@@ -4485,7 +4485,7 @@ check(exp e, exp scope)
 			retcell (arg2);
 			retcell (e);
 			return (1);
-		};
+		}
 #if little_end & has_byte_ops
 		/* only for little enders with byte and short operations */
 		if (name (arg2) == val_tag && !isbigval(arg2) && no (arg2) == 0 &&
@@ -4502,7 +4502,7 @@ check(exp e, exp scope)
 					son (arg1) = son (son (arg1));
 					clearlast (son (arg1));
 					bro (son (arg1)) = v;
-				};
+				}
 				r = getexp (f_top, nilexp, 0, son (arg1), pt (e), 0,
 							0, testbit_tag);
 				no(r) = no(e);
@@ -4510,7 +4510,7 @@ check(exp e, exp scope)
 				replace (e, hc (r, bro (son (r))), scope);
 				retcell (e);
 				return (1);
-			};
+			}
 			
 			t = son (arg1);
 			while (!last (bro (t)))
@@ -4529,7 +4529,7 @@ check(exp e, exp scope)
 			replace (e, r, scope);
 			retcell (e);
 			return (1);
-		};
+		}
 		/* use if little end machine */
 		if (
 			name (arg2) == val_tag && !isbigval(arg2) &&
@@ -4555,7 +4555,7 @@ check(exp e, exp scope)
 				else {
 					bl = (n >= 0) & (n <= 255);
 					break;
-				};
+				}
 			case 16:
 				if (is_signed(sh(son(arg1)))) {
 					bl = (n >= -32768) & (n <= 32767);
@@ -4565,11 +4565,11 @@ check(exp e, exp scope)
 				{
 					bl = (n >= 0) & (n <= 65536);
 					break;
-				};
+				}
 			default:
 				bl = 0;
 				break;
-			};
+			}
 			if (bl) {
 				exp ee = copyexp (e);
 				son (ee) = son (arg1);
@@ -4580,9 +4580,9 @@ check(exp e, exp scope)
 				retcell (arg1);
 				retcell (e);
 				return (1);
-			};
+			}
 			return (0);
-		};
+		}
 		
         if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
             test_number (e) >= 5 &&
@@ -4607,7 +4607,7 @@ check(exp e, exp scope)
 					sh(son(rf)) = sh(rf);
 					son(c) = son(rf);
 					setfather(c, son(c));
-				};
+				}
 				
 				sh(arg2) = slongsh;
 				no(arg2) = ~(-(1 << nbits)) << pos;
@@ -4621,8 +4621,8 @@ check(exp e, exp scope)
 				replace(e, hc(r, arg2), scope);
 				retcell(e);
 				return 1;
-			};
-        };
+			}
+        }
 		
 		if (name(arg1) == shr_tag && name(arg2) == val_tag &&
 			no(arg2) == 0 && nt >= 5) {
@@ -4642,9 +4642,9 @@ check(exp e, exp scope)
 					res = hold_check(res);
 					replace(arg1, res, res);
 					return check(e, scope);
-				};
-			};
-		};
+				}
+			}
+		}
 		
 		if (name(arg1) == chvar_tag && name(arg2) == val_tag &&
 			!isbigval(arg2) &&
@@ -4666,13 +4666,13 @@ check(exp e, exp scope)
 				bro(q) = arg2;
 				retcell(arg1);
 				return 1;
-			};
-		};
+			}
+		}
 		
 		
 #endif
 		return (seq_distr (e, scope));
-	};
+	}
     case solve_tag: {		/* eliminate dead code */
 		exp t = son (e);
 		exp q;
@@ -4687,7 +4687,7 @@ check(exp e, exp scope)
 			replace (e, copy(t), scope);
 			kill_exp(e, e);
 			return (1);
-		};
+		}
 		
 		if (name(t) == goto_tag && no(son(pt(t))) == 1) {
 			exp lab = pt(t);
@@ -4696,7 +4696,7 @@ check(exp e, exp scope)
 				if (q == lab)
 					break;
 				q = bro(q);
-			};
+			}
 			if (q != e) {
 				exp rep = copy(bro(son(lab)));
 #ifdef NEWDIAGS
@@ -4705,8 +4705,8 @@ check(exp e, exp scope)
 				replace(t, rep, rep);
 				kill_exp(t, t);
 				t = rep;
-			};
-		};
+			}
+		}
 		
 		do {
 			if (no (son (bro (t))) == 0) {
@@ -4727,7 +4727,7 @@ check(exp e, exp scope)
 			else {
 				looping = !last (bro (t));
 				t = bro (t);
-			};
+			}
 		}
 		while (looping);
 		
@@ -4739,12 +4739,12 @@ check(exp e, exp scope)
 			replace (e, copy(son (e)), scope);
 			kill_exp(e,e);
 			return (1);
-		};
+		}
 		
 		if (changed)
 			return (1);
 		return (0);
-	};
+	}
     case case_tag:
 		if (name (son (e)) == val_tag) {
 			/* if we know the case argument select the right case branch and
@@ -4778,9 +4778,9 @@ check(exp e, exp scope)
 			else {
 				SET(z);
 				repbygo (e, z, scope);
-			};
+			}
 			return (1);
-		};
+		}
 		return (0);
     case rep_tag:
     case apply_general_tag:
@@ -4800,7 +4800,7 @@ check(exp e, exp scope)
     case alloca_tag:
 		if (name(son(e)) == chvar_tag && name(sh(son(son(e)))) == ulonghd) {
 			replace(son(e), son(son(e)), son(e));
-		};
+		}
 		return (0);
     case nof_tag:
     case labst_tag:
@@ -4840,9 +4840,9 @@ check(exp e, exp scope)
 			replace (e, r, scope);
 			kill_exp (e, scope);
 			return (1);
-		};
+		}
 		return 0;
-	};
+	}
     case ncopies_tag:
     case ignorable_tag:
 		return 0;
@@ -4909,7 +4909,7 @@ check(exp e, exp scope)
 						msh = s64sh;
 					else
 						msh = u64sh;
-				};
+				}
 		ptr_sha = f_pointer(long_to_al(rsz));
 		
 		if ((off / rsz) != 0) {
@@ -4940,7 +4940,7 @@ check(exp e, exp scope)
 		else {
 			eshift = val;
 			sh(eshift) = msh;
-		};
+		}
 		idval = me_startid(f_top, eshift, 0);
 		
 		if (rsz != bsz) {
@@ -4950,7 +4950,7 @@ check(exp e, exp scope)
 		else {
 			kill_exp(cont, cont);
 			cont = me_obtain(idval);
-		};
+		}
 		res = me_b3(f_top, me_obtain(id), cont,
 					(name(e) == bfass_tag)
 					? (unsigned char)ass_tag
@@ -4959,7 +4959,7 @@ check(exp e, exp scope)
 		replace(e, hold_check(me_complete_id(id, res)), scope);
 		retcell(e);
 		return 1;
-	};
+	}
     default:
 		return (0);
 	}

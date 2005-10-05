@@ -108,7 +108,7 @@ apply_only(exp e)
 				t = pt (t);
 			else
 				ao = 0;
-		};
+		}
 #else
 		f = father(t);
 		if (name (f) == apply_tag && son(f) == t)
@@ -116,7 +116,7 @@ apply_only(exp e)
 		else
 			ao = 0;
 #endif
-	};
+	}
 	return (ao);
 }
 
@@ -346,7 +346,7 @@ normalised_inlining()
 								this_changed = 1;
 								break;
 							}
-						};
+						}
 					t = nextt;
 				}
 				if (crt_uses <= no(crt_exp))

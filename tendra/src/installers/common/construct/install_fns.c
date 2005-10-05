@@ -677,7 +677,7 @@ clear_exp_list(exp_list el)
 		if (t == el.end)
 			return;
 		t = bro(t);
-	};
+	}
 }
 
 
@@ -783,7 +783,7 @@ f_unite_alignments(alignment a1, alignment a2)
 			return (&frame_als[(a1->al.al_val.al_frame | a2->al.al_val.al_frame)-1]);
 		}
 		
-	};
+	}
 	
 	j = (alignment)calloc(1, sizeof(aldef));
 	j -> al.al_n = 2;
@@ -1096,7 +1096,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		sp = special_fn(arg1, arg2.start, result_shape);
 		if (sp.is_special)
 			return sp.special_exp;
-	};
+	}
 	
 	if (arg2.number==0)
 	{setfather(res, arg1);}
@@ -1108,7 +1108,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 #ifdef promote_pars
 		promote_actuals(bro(son(res)));
 #endif
-	};
+	}
 	
 	/* rewrite struct/union value parameters as pointer-to-copy */
 	if (redo_structparams && arg2.number > 0)       /* has >0 params */
@@ -1189,7 +1189,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 				param = bro(param);
 			}
 		}
-	};
+	}
 
 
 	/* apply this transformation if the procedure has a structure-like
@@ -1219,14 +1219,14 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 			clearlast(son(res));
 			setlast(appname);
 			bro(appname) = app;
-		};
+		}
 		bro(son(res)) = appname;
 		t = son(app);
 		list.number = 1;
 		while (!last(t))
 		{
 			t = bro(t);
-		};
+		}
 		bro(t) = app;
 		list.start = app;
 		list.end = app;
@@ -1235,7 +1235,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		setfather(vardec, seq);
 		retcell(res);
 		return vardec;
-	};
+	}
 
 
 	return res;
@@ -1284,7 +1284,7 @@ f_assign_with_mode(transfer_mode md, exp arg1,
 							  f_conditional(&lb, f_sequence(el, trp),
 											f_assign_with_mode(md, me_obtain(d), arg2)));
 		
-   	};
+   	}
 #endif
 	if ((md & f_volatile)!=0)
 		return me_b3(f_top, arg1, arg2, assvol_tag);
@@ -1419,7 +1419,7 @@ f_bitfield_assign_with_mode(transfer_mode md,
 							  f_conditional(&lb, f_sequence(el, trp),
 											f_bitfield_assign_with_mode(md, me_obtain(d), off, val)));
 		
-   	};
+   	}
 #endif
 	if (md & f_volatile)
 		res = me_b3(f_top, p, val, bfassvol_tag);
@@ -1528,7 +1528,7 @@ f_bitfield_contents_with_mode(transfer_mode md,
 							  f_conditional(&lb, f_sequence(el, trp),
 											f_bitfield_contents_with_mode(md, bf, me_obtain(d), off)));
 		
-   	};
+   	}
 #endif
 	
 	if (md == f_volatile)
@@ -1603,7 +1603,7 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 		sh(ht) = changer_shape;
 		if (son(ht) != nilexp)
 			sh(son(ht)) = changer_shape;
-	};
+	}
 	setlast (ht);
 	bro (ht) = r;
 	
@@ -1679,7 +1679,7 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 		sh(ht) = sh(control);
 		if (son(ht) != nilexp)
 			sh(son(ht)) = sh(control);
-	};
+	}
 	setlast (ht);
 	bro (ht) = r;
 	
@@ -1915,7 +1915,7 @@ f_contents_with_mode(transfer_mode md, shape s,
 							  f_conditional(&lb, f_sequence(el, trp),
 											f_contents_with_mode(md, s, me_obtain(d))));
 		
-   	};
+   	}
 #endif
 	if (md & f_volatile)
 		return me_c2(s, arg1, contvol_tag);
@@ -1993,7 +1993,7 @@ div0_aux(error_treatment ov_err, exp arg1,
 		int n = no(arg2);
 		if ((n & (n-1)) == 0)
 			return me_b1(ov_err, arg1, arg2, div1_tag);
-	};
+	}
 	return me_b1(ov_err, arg1, arg2, div2_tag);
 #endif
 }
@@ -2168,7 +2168,7 @@ start_identify(access_option acc, tag name_intro,
 	if ((acc & (f_visible | f_long_jump_access)) != 0)
 	{
 		setvis(i);
-	};
+	}
 	set_tag(name_intro, i);
 	
 	return;
@@ -2236,7 +2236,7 @@ f_labelled(label_list placelabs_intro, exp starter,
 		else
 			fno(labst) = (float)5.0;
 		f = b;
-	};
+	}
 	return (clean_labelled(starter, placelabs_intro));
 }
 
@@ -2372,8 +2372,8 @@ f_make_compound(exp arg1, exp_list arg2)
 			if (bro(t) == arg2.end)
 				break;
 			t = bro(bro(t));
-		};
-	};
+		}
+	}
 #endif
 	
 	setfather (r, arg2.end);
@@ -2389,7 +2389,7 @@ f_make_compound(exp arg1, exp_list arg2)
 				failer ("make_compound size exceeded");
 			arr[i] = t;
 			t = bro(t);
-		};
+		}
 		
 #ifdef promote_pars
 		for (i = 0; i < arg2.number; i+=2)  {
@@ -2413,12 +2413,12 @@ f_make_compound(exp arg1, exp_list arg2)
 		for (i = 1; i < arg2.number; ++i)  {
 			bro(arr[i-1]) = arr[i];
 			clearlast(arr[i-1]);
-		};
+		}
 		bro(arr[arg2.number-1]) = r;
 		setlast(arr[arg2.number-1]);
 		
 		xfree((void*)arr);
-	};
+	}
 	
 	return r;
 }
@@ -2451,7 +2451,7 @@ f_make_int(variety v, signed_nat value)
 				failer(BIG_32);
 				exit(EXIT_FAILURE);
 			}
-		};
+		}
 		if (snat_issmall(value)) {
 			flt64 temp;
 			temp.big = 0;
@@ -2461,14 +2461,14 @@ f_make_int(variety v, signed_nat value)
 		else { /* copy required since exp may be killed & value may be token res */
 			b = new_flpt();
 			flt_copy (flptnos[value.signed_nat_val.big_s_nat], &flptnos[b]);
-		};
+		}
 		if (snatneg(value))
 			flptnos[b].sign = -1;
 		
 		if (flptnos[b].exp > 3) {
 			failer(BIG_32);
 			exit(EXIT_FAILURE);
-		};
+		}
 		res = getexp(f_integer(v), nilexp, 0, nilexp, nilexp, 0,
 					 b, val_tag);
 		setbigval(res);
@@ -2480,7 +2480,7 @@ f_make_int(variety v, signed_nat value)
 		
 		return getexp(f_integer(v), nilexp, 0, nilexp, nilexp, 0,
 					  n, val_tag);
-	};
+	}
 }
 
 exp
@@ -2507,7 +2507,7 @@ f_make_nof(exp_list arg1)
 	if (arg1.number == 0)  {
 		return getexp(f_nof(t, f_top), nilexp, 0, nilexp, nilexp,
 					  0, 0, nof_tag);
-	};
+	}
 	r = getexp (f_nof(t, sh(first)), nilexp, 0, first,
 				nilexp, 0, 0, nof_tag);
 	
@@ -2520,8 +2520,8 @@ f_make_nof(exp_list arg1)
 		if (temp == arg1.end)
 			break;
 		temp = bro(temp);
-	};
-	};
+	}
+	}
 #endif
 	
 	if (name(sh(first))==bitfhd) {
@@ -2595,13 +2595,13 @@ f_make_nof_int(variety v, string s)
 				flpt_ret(f);
 				if (s.size < 64 && sg)
 					x.big = (x.big << (64-s.size)) >> (64-s.size);
-			};
-			};
+			}
+			}
 			ss[i] = f64_to_flt(x, sg);
-		};
+		}
 		nostr(res) = (char*) (void*)ss;
 		return res;
-	};
+	}
 	
 	switch (s.size)
     {
@@ -2619,7 +2619,7 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (short)(unsigned char)s.ints.chars[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
+		}
 		case 32:
 		{
 			int * ss = (int*)xcalloc(s.number, sizeof(int));
@@ -2627,9 +2627,9 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (int)(unsigned char)s.ints.chars[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
-		};
-	};
+		}
+		}
+	}
 	case 16:
 	{
 		switch (elem_sz)
@@ -2641,7 +2641,7 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (char)(unsigned short)s.ints.shorts[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
+		}
 		case 16:
 			nostr(res) = (char*) (void*)s.ints.shorts;
 			return res;
@@ -2652,9 +2652,9 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (int)(unsigned short)s.ints.shorts[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
-		};
-	};
+		}
+		}
+	}
 	case 32:
 	{
 		switch (elem_sz)
@@ -2666,7 +2666,7 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (char)(unsigned long)s.ints.longs[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
+		}
 		case 16:
 		{
 			short * ss = (short*)xcalloc(s.number, sizeof(short));
@@ -2674,13 +2674,13 @@ f_make_nof_int(variety v, string s)
 				ss[i] = (short)(unsigned long)s.ints.longs[i];
 			nostr(res) = (char*) (void*)ss;
 			return res;
-		};
+		}
 		case 32:
 			nostr(res) = (char*)(void*)s.ints.longs;
 			return res;
-		};
-	};
-    };
+		}
+	}
+    }
 	return res;
 }
 
@@ -2825,7 +2825,7 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 		setvar(i);
 		setparam(i);
 		set_tag(vartag.val.tg, i);
-	};
+	}
 	
     /* set this flag to distinguish values created during procedure
 	 *       reading.
@@ -2862,7 +2862,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		setvis(i);
 		++params_intro.number;
 		varhack = 1;
-	};
+	}
 	
 	res = getexp(f_proc, nilexp, 0, params_intro.id, result_shape,
 				 0, 0, proc_tag);
@@ -2882,7 +2882,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 #ifdef promote_pars
 		promote_formals(son(res));
 #endif
-	};
+	}
 	
 	/* set the properties of the procedure construction from the
 	 *        global values accumulated during reading.
@@ -3046,7 +3046,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		setfather(proc_struct_result, son(res));
 		son(res) = proc_struct_result;
 		setfather(res, proc_struct_result);
-	};
+	}
 
 	/* clear this flag to distinguish values created during procedure
 	 *       reading.
@@ -3061,7 +3061,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
-	};
+	}
 
 
 	return res;
@@ -3272,13 +3272,13 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 			  0, 0, ident_tag);
 			setparam(iddec);
 			proc_struct_result = iddec;
-		};
+		}
 
 		bro(son(proc_struct_result)) = son(res);
 		setfather(proc_struct_result, son(res));
 		son(res) = proc_struct_result;
 		setfather(res, proc_struct_result);
-	};
+	}
 
 	/* clear this flag to distinguish values created during procedure
 	 *       reading.
@@ -3294,7 +3294,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
-	};
+	}
 
 	return res;
 }
@@ -3502,7 +3502,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops,
 		setfather(vardec, seq);
 		retcell(res);
 		res = vardec;
-	};
+	}
 	
 	if (redos != nilexp) { /* put in decs given by redo_structparams */
 		bro(son(last_redo)) = res; clearlast(son(last_redo));
@@ -3674,12 +3674,12 @@ f_move_some(transfer_mode md, exp arg1, exp arg2,
 												f_conditional(&lb, f_sequence(el,f_move_some(md, me_obtain(d1), me_obtain(d2), arg3)),trp
 													)));
 		
-   	};
+   	}
 #endif
 	if (!(md & f_overlap) && name(arg3) == val_tag && al2(sh(arg3)) > 1) {
 		exp c = f_contents(f_compound(arg3), arg1);
 		return f_assign(arg2, c);
-	};
+	}
 	
 	if (al2(sh(arg3)) < 8) {
 		arg3 = hold_check(f_offset_pad(f_alignment(ucharsh), arg3));
@@ -3980,7 +3980,7 @@ f_offset_mult(exp arg1, exp arg2)
 			arg2 = hold_check(f_change_variety(f_impossible, slongsh, arg2));
 		else
 			arg2 = hold_check(f_change_variety(f_impossible, s64sh, arg2));
-	};
+	}
 	
 	return me_b3(sh(arg1), arg2, arg1, offset_mult_tag);
     /* the order of arguments is being interchanged */
@@ -4226,7 +4226,7 @@ rem0_aux(error_treatment ov_err, exp arg1,
 		int n = no(arg2);
 		if ((n & (n-1)) == 0)
 			return me_b1(ov_err, arg1, arg2, mod_tag);
-	};
+	}
 	return me_b1(ov_err, arg1, arg2, rem2_tag);
 #endif
 }
@@ -4358,7 +4358,7 @@ f_return (exp arg1)
                                0, 0, ident_tag);
 			setparam(iddec);
 			proc_struct_result = iddec;
-		};
+		}
 		ptr_res_shape = f_pointer(f_alignment(sh(arg1)));
 		obt = getexp(ptr_res_shape, nilexp, 0, proc_struct_result,
 					 pt(proc_struct_result), 0, 0, name_tag);
@@ -4376,7 +4376,7 @@ f_return (exp arg1)
 		list.start = ass;
 		list.end = ass;
 		return f_sequence(list, ret);
-	};
+	}
 	return me_u3(f_bottom, arg1, res_tag);
 }
 
@@ -4480,7 +4480,7 @@ f_sequence(exp_list statements, exp result)
 		{
 			--num_bits;
 			rest = MAX_ST_LENGTH;
-		};
+		}
 		
 		for (i = 0; i < num_bits; ++i)
 		{
@@ -4493,7 +4493,7 @@ f_sequence(exp_list statements, exp result)
 			res = add_exp_list(res,
 							   hold_check(f_sequence(work, f_make_top())),
 							   i);
-		};
+		}
 		
 		work.start = t;
 		work.end = l;
@@ -4502,7 +4502,7 @@ f_sequence(exp_list statements, exp result)
 						   hold_check(f_sequence(work, f_make_top())),
 						   num_bits);
 		return f_sequence(res, result);
-	};
+	}
 }
 
 exp
@@ -4572,7 +4572,7 @@ f_shift_left(error_treatment ov_err, exp arg1,
 											 me_complete_id(d3,
 															f_conditional(&lb, f_sequence(el, me_obtain(d3)),trp))));
 		
-	};
+	}
 	
 	return me_b1(ov_err, arg1, arg2, shl_tag);
 }
@@ -4727,14 +4727,14 @@ f_computed_nat(exp arg)
 			nat_issmall(res) = 0;
 			natbig(res) = no(arg);
 			return res;
-		};
-	};
+		}
+	}
 	
 	if (name(arg) == name_tag && !isvar(son(arg))) {
 		res = f_computed_nat(son(son(arg)));
 		kill_exp(arg, arg);
 		return res;
-	};
+	}
 	
 	failer(ILLCOMPNAT);
 	nat_issmall(res) = 1;
@@ -4796,7 +4796,7 @@ f_compound(exp off)
 	else {
 		failer(ILLCPDOFFSET);
 		sz = 0;
-    };
+    }
 	return getshape(0, const_al1, const_al1,
 					al1_of(sh(off)),
 					sz, cpdhd);
@@ -4819,7 +4819,7 @@ f_floating(floating_variety fv)
 		return complexsh;
 	case complexdoublefv:
 		return complexdoublesh;
-	};
+	}
 	return realsh;
 }
 
@@ -4874,7 +4874,7 @@ f_nof(nat n, shape s)
 		ptno(res) = nm;	/* set the pt field of the shape to the
 						 *			   shapemacs.h hd identifier of the shape */
 		return res;
-	};
+	}
 }
 
 shape
@@ -4899,7 +4899,7 @@ f_offset(alignment arg1, alignment arg2)
 		case 8: return f_off512_8;
 		case 1: return f_off512_1;
 		default: failer(ILLOFF2); return f_off64_8;
-        };
+        }
 	case 64:
 		switch (arg2->al.al_val.al)
         {
@@ -4909,7 +4909,7 @@ f_offset(alignment arg1, alignment arg2)
 		case 8: return f_off64_8;
 		case 1: return f_off64_1;
 		default: failer(ILLOFF2); return f_off64_8;
-        };
+        }
 	case 32:
 		switch (arg2->al.al_val.al)
         {
@@ -4918,7 +4918,7 @@ f_offset(alignment arg1, alignment arg2)
 		case 8: return f_off32_8;
 		case 1: return f_off32_1;
 		default: failer(ILLOFF2); return f_off32_8;
-        };
+        }
 	case 16:
 		switch (arg2->al.al_val.al)
         {
@@ -4926,22 +4926,22 @@ f_offset(alignment arg1, alignment arg2)
 		case 8: return f_off16_8;
 		case 1: return f_off16_1;
 		default: failer(ILLOFF2); return f_off16_8;
-        };
+        }
 	case 8:
 		switch (arg2->al.al_val.al)
         {
 		case 8: return f_off8_8;
 		case 1: return f_off8_1;
 		default: failer(ILLOFF2); return f_off8_8;
-        };
+        }
 	case 1:
 		switch (arg2->al.al_val.al)
         {
 		case 1: return f_off1_1;
 		default: failer(ILLOFF2); return f_off1_1;
-        };
+        }
 	default: failer(ILLOFF1); return f_off8_8;
-	};
+	}
 }
 
 static shape frame_ptrs[32];
@@ -4984,7 +4984,7 @@ f_pointer(alignment arg)
 	case 32: return f_ptr32;
 	case 64: return f_ptr64;
 	default: failer(ILLALIGN); return f_ptr8;
-	};
+	}
 }
 
 shape f_proc;
@@ -5110,7 +5110,7 @@ f_computed_signed_nat(exp arg)
 					snatneg(res) = 0;
 					snatint(res) = no(arg);
 				}
-			};
+			}
 			return res;
 		}
 		else  {
@@ -5119,14 +5119,14 @@ f_computed_signed_nat(exp arg)
 			flptnos[no(arg)].sign = 1;
 			snatint(res) = no(arg);
 			return res;
-		};
-	};
+		}
+	}
 	
 	if (name(arg) == name_tag && !isvar(son(arg))) {
 		res = f_computed_signed_nat(son(son(arg)));
 		kill_exp(arg, arg);
 		return res;
-	};
+	}
 	
 	failer(ILLCOMPSNAT);
 	snat_issmall(res) = 1;
@@ -5258,7 +5258,7 @@ f_var_limits(signed_nat lower_bound, signed_nat upper_bound)
 			return s64sh;
 		else
 			return u64sh;
-	};
+	}
 	
     /* normalise the varieties to use only the six standard ones */
 	l = (unsigned int)(snatint(lower_bound));
@@ -5273,17 +5273,17 @@ f_var_limits(signed_nat lower_bound, signed_nat upper_bound)
 		if (h <= 65535)
 			return uwordsh;
 		return ulongsh;
-	};
+	}
 	
 	
 	if (l <= 128 && h <= 127)
 	{
 		return scharsh;
-	};
+	}
 	if (l<= 32768 && h <= 32767)
 	{
 		return swordsh;
-	};
+	}
 	return slongsh;
 }
 
@@ -5356,7 +5356,7 @@ new_exp_list(int n)
 {
 	exp_list res;
 	UNUSED(n);
-	res.number = 0;;
+	res.number = 0;
 	res.start = nilexp;
 	res.end = nilexp;
 	
@@ -5376,7 +5376,7 @@ add_exp_list(exp_list list, exp elem, int index)
 		setlast(elem);
 		bro(elem) = nilexp;
 		return list;
-	};
+	}
 	clearlast(list.end);
 	bro(list.end) = elem;
 	list.end = elem;
@@ -5428,7 +5428,7 @@ add_caselim_list(caselim_list list, caselim elem,
 		}
 		setbigval(lowval);
 #endif
-	};
+	}
 	no(lowval) = low;
 	
 	if (snat_issmall(elem.high)) {
@@ -5467,7 +5467,7 @@ add_caselim_list(caselim_list list, caselim elem,
 		else
 			ht = nilexp;
 #endif
-	};
+	}
 	
 /*     if (ht != nilexp && docmp_f((int)f_less_than, ht, lowval)){
  *	 retcell(lowval);
@@ -5564,16 +5564,16 @@ add_version_list(version_list list, version elem,
 	if (elem.major_version != global_version.major_version)  {
 		failer(WRONG_VERSION);
 		IGNORE fprintf(stderr, "This TDF has mixed versions\n");
-	};
+	}
 	
 	if (report_versions) {
 		if (!version_printed) {
 			version_printed = 1;
 			IGNORE fprintf(stderr, "This TDF is composed from Capsules of the following versions:-\n");
-		};
+		}
 		IGNORE fprintf(stderr, "TDF Version %d.%d\n",
 					   elem.major_version, elem.minor_version);
-	};
+	}
 	
 	return 0;
 }

@@ -96,16 +96,16 @@ flt_to_f64(flpt fp, int sg, int * ov)
 			res.big += (int)(f->mant[i-3] << 16);
 		if (i>3 || (sg && res.big < 0))
 			*ov = 1;
-	};
+	}
 	
 	if (f->sign == -1)  {
 		res.small = ~res.small;
 		res.big = ~res.big;
 		if (res.small == 0xffffffff) {
 			++res.big;
-		};
+		}
 		++res.small;
-	};
+	}
 	
 	return res;
 }
@@ -119,14 +119,14 @@ f64_to_flt(flt64 a, int sg)
 	
 	if (a.big == 0 && a.small == 0)  {
 		return r;
-	};
+	}
 	
 	if (sg && a.big < 0) {
 		a.small = ~a.small;
 		a.big = ~a.big;
 		if (a.small == 0xffffffff) {
 			++a.big;
-		};
+		}
 		++a.small;
 		res->sign = -1;
 	}
@@ -142,7 +142,7 @@ f64_to_flt(flt64 a, int sg)
 			res->exp = 1;
 			res->mant[0] = (unsigned short)((a.small & 0xffff0000) >> 16);
 			res->mant[1] = (unsigned short)(a.small & 0xffff);
-		};
+		}
 	}
 	else {
 		if ((a.big & (int)0xffff0000) == 0) {
@@ -157,8 +157,8 @@ f64_to_flt(flt64 a, int sg)
 			res->mant[1] = (unsigned short)(a.big & 0xffff);
 			res->mant[2] = (unsigned short)((a.small & 0xffff0000) >> 16);
 			res->mant[3] = (unsigned short)(a.small & 0xffff);
-		};
-	};
+		}
+	}
 	
 	return r;
 }

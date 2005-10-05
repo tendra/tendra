@@ -164,7 +164,7 @@ used_in(exp vardec, exp piece)
 			   (name (q) != ident_tag || !isglob(q))) {
 			upwards = q;
 			q = bro (q);
-		};
+		}
 		/* ascend from the use until we reach either vardec or piece */
 		if (last (upwards) && q == piece) {/* the use was in piece */
 			res = 1;
@@ -172,8 +172,8 @@ used_in(exp vardec, exp piece)
 				if (!last(t) ||
 					name(bro(t)) != cont_tag)
 					res = 3;	/* the use was not contents or in diagnostics*/
-			};
-		};
+			}
+		}
 		t = pt (t);
 	}
 	while (t != nilexp && res != 3);
@@ -215,7 +215,7 @@ simple_const(exp whole, exp e, int decl, int no_ass)
 		if (u != 3 && (iscaonly(var) || no_ass))
 			return (1);
 		return (0);
-	};
+	}
 	return (0);
 }
 
@@ -244,7 +244,7 @@ repbyseq(exp e)
 		replace (e, body, e);
 		retcell (def);
 		return;
-	};
+	}
 	seq = getexp (f_bottom, nilexp, 0, def, nilexp, 0, 0, 0);
 	bro (def) = seq;
 	setlast (def);
@@ -292,7 +292,7 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 			  if (name (p) == labst_tag) {/* can't go further */
 				  good = 0;
 				  goto ex;
-			  };
+			  }
 		  }
 		  else {
 			  if (name (bro (p)) == proc_tag ||
@@ -308,12 +308,12 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 					  name (son (p)) == name_tag && son (son (p)) == vardec) {
 					  good = 0;
 					  goto ex;
-				  };
+				  }
 				  goto up;
-			  };
+			  }
 		  }
-	  };
-  };
+	  }
+  }
 	
 /* rep processes an exp */
   rep: if (name (p) == ass_tag || name (p) == assvol_tag) {
@@ -325,8 +325,8 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 	  else {			/* assignment to something else */
 		  p = son (p);
 		  goto rep;
-	  };
-  };
+	  }
+  }
 	
 	if (name (p) == cont_tag) {
 		if (name (son (p)) == name_tag && son (son (p)) == vardec) {
@@ -336,8 +336,8 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 		else {
 			p = son (p);
 			goto rep;
-		};
-	};
+		}
+	}
 	
 	if (name (p) == name_tag || name(p) == env_offset_tag)
 		goto up;
@@ -350,13 +350,13 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 		else {			/* not aliased so OK */
 			p = son (p);
 			goto rep;
-		};
-	};
+		}
+	}
 	
 	if (name (p) == rep_tag) {
 		good = 0;
 		goto ex;
-	};
+	}
 	
 	if (name (p) == cond_tag) {
 		if (propagate (vardec, son (p), son (p), 1)) {
@@ -372,22 +372,22 @@ propagate(exp vardec, exp ende, exp plc, int bfirst)
 		else {
 			good = 0;
 			goto ex;
-		};
-	};
+		}
+	}
 	
 	if (name (p) == solve_tag) {
 		IGNORE propagate (vardec, son (p), son (p), 1);
 		/* give up after trying the first element */
 		good = 0;
 		goto ex;
-	};
+	}
 	
 	if (name (p) == case_tag) {
 		if (propagate (vardec, son (p), son (p), 1))
 			goto up;
 		good = 0;
 		goto ex;
-	};
+	}
 	
 	if (son (p) == nilexp)
 		goto up;
@@ -446,8 +446,8 @@ change_cont(exp vardec, exp val, int force)
 			}
 			else
 				t = pt (t);
-		};
-	};
+		}
+	}
 	bro (son (vardec)) = son (bh);
 	setlast (bro (son (vardec)));
 	bro (bro (son (vardec))) = vardec;
@@ -482,8 +482,8 @@ check_id(exp e, exp scope)
 			if (isparam(e))
 				setcaonly(e);
 			return 0;
-		};
-	};
+		}
+	}
 	
 	
 #if load_ptr_pars
@@ -513,7 +513,7 @@ check_id(exp e, exp scope)
 						ch_load = 0;
 				
 #ifdef NEWDIAGS
-			};
+			}
 #endif
 			if (pt (t1) == nilexp)
 				looping = 0;
@@ -547,14 +547,14 @@ check_id(exp e, exp scope)
 			{
 				son(old_pt_list) = new_var;
 				old_pt_list = pt(old_pt_list);
-			};
+			}
 			new_var = hold_check(new_var);
 			
 			bro(son(t1)) = new_var;
 			setfather(t1, new_var);
 			return 1;
-		};
-	};
+		}
+	}
 #endif
 	
 	if (!is_vis && !is_var &&
@@ -626,13 +626,13 @@ check_id(exp e, exp scope)
 							cp = hold_check(me_u3(sh(mem), cp, chvar_tag));
 						else
 							sh (cp) = sh (mem);
-					};
+					}
 #ifdef NEWDIAGS
 					if (diagnose)
 						dg_whole_comp (mem, cp);
 #endif
 					replace (mem, cp, body);
-				};
+				}
 #ifdef NEWDIAGS
 				dgf(def) = dgh;
 #endif
@@ -642,9 +642,9 @@ check_id(exp e, exp scope)
 				retcell (bh);
 				IGNORE check (e, scope);
 				return (1);
-			};
-		};
-	};
+			}
+		}
+	}
 	
 	if (!is_vis && !is_var &&
 		name(def) == reff_tag && al1(sh(def)) == 1
@@ -674,8 +674,8 @@ check_id(exp e, exp scope)
 			if (k == nilexp)
 				return 1;
 			t = k;
-		};
-	};
+		}
+	}
 	
 	
 	if (!is_vis && !is_var && name (def) == string_tag) {
@@ -686,11 +686,11 @@ check_id(exp e, exp scope)
 			if (name (sh (t)) > ucharhd) {
 				all_chars = 0;
 				break;
-			};
+			}
 			if (last (t))	/* Surely this is wrong ??? */
 				break;
 			t = pt (t);
-		};
+		}
 		if (all_chars) {
 			char *str = nostr(def);
 			
@@ -708,14 +708,14 @@ check_id(exp e, exp scope)
 				if (l)
 					break;
 				t = n;
-			};
+			}
 			if (no (e) == 0) {
 				replace (e, bro (son (e)), scope);
 				return (1);
-			};
+			}
 			return (0);
-		};
-	};
+		}
+	}
 	
 	
 	if (!is_vis && !is_var &&
@@ -742,8 +742,8 @@ check_id(exp e, exp scope)
 			setbro (r, hc (c, cz));
 			replace (e, hc (s, bro (son (s))), e);
 			return (1);
-		};
-	};
+		}
+	}
 	
     /* look to see if we can replace variable definitions by identities.
 	 *       This can be done if there are only contents operations and no
@@ -801,7 +801,7 @@ check_id(exp e, exp scope)
 							all_c = 0;
 							not_aliased = 0;
 #endif
-						};
+						}
 					}
 					else {
 						if (!last (tc) && last (bro (tc)) && no(tc) == 0 &&
@@ -842,12 +842,12 @@ check_id(exp e, exp scope)
 								else {
 									all_a = 0;
 									not_aliased = 0;
-								};
+								}
 #else
 								all_a = 0;
 								not_aliased = 0;
 #endif
-							};
+							}
 							if (name (assd_val) == val_tag || name (assd_val) == real_tag ||
 								name (assd_val) == null_tag ||
 								(name (assd_val) == name_tag &&
@@ -857,7 +857,7 @@ check_id(exp e, exp scope)
 								if (name (assd_val) == ident_tag &&
 									isvar (assd_val))
 									vardecass = 1;
-							};
+							}
 						}
 						else
 #ifdef NEWDIAGS
@@ -886,11 +886,11 @@ check_id(exp e, exp scope)
 									{
 										setvis (e);
 										uses_loc_address = 1;
-									};
-								};
+									}
+								}
 							}
-					};
-				};
+					}
+				}
 				tc = pt (tc);
 			}
 			while (tc != nilexp);
@@ -902,7 +902,7 @@ check_id(exp e, exp scope)
 				setvis (e);		/* set visible flag if there is an alias
 								 */
 				uses_loc_address = 1;
-			};
+			}
 			
 			if (all_c) {		/* if only cont operations replace by an
 								 *				   identity declaration and change the
@@ -921,7 +921,7 @@ check_id(exp e, exp scope)
 							dg_whole_comp (bro(tc), tc);
 #endif
 						replace (bro (tc), tc, tc);
-					};
+					}
 				}
 				while (pt (tc) != nilexp);
 				
@@ -936,8 +936,8 @@ check_id(exp e, exp scope)
 #endif
 						}
 						altered (tc, son (bh));
-					};
-				};
+					}
+				}
 				
 				bro (def) = son (bh);
 				bro (bro (def)) = e;
@@ -945,7 +945,7 @@ check_id(exp e, exp scope)
 				retcell (bh);
 				IGNORE check (e, scope);
 				return (1);
-			};
+			}
 			
 #if is80x86 || ishppa
 			/* look for places where we can avoid sign extending */
@@ -967,7 +967,7 @@ check_id(exp e, exp scope)
 							replace(bro(temp), x, x);
 							IGNORE check(father(x), father(x));
 							kill_exp(bro(temp), bro(temp));
-						};
+						}
 					}
 					else {
 						if (name(bro(temp)) == val_tag)
@@ -978,12 +978,12 @@ check_id(exp e, exp scope)
 #if ishppa
 							sh(bro(temp)) = (conversion == 8) ? ucharsh : uwordsh;
 #endif
-						};
-					};
+						}
+					}
 					temp = next;
-				};
+				}
 				replace(def, me_shint(slongsh, 0), def);
-			};
+			}
 #endif
 			
 			if (not_aliased && no(e) < 1000 &&
@@ -1007,7 +1007,7 @@ check_id(exp e, exp scope)
 						IGNORE propagate (e, e, body, 1);
 					}
 					while (change_cont (e, def, 0));
-				};
+				}
 				body = bro (def);
 				
 				do {
@@ -1076,17 +1076,17 @@ check_id(exp e, exp scope)
 										bro (a) = df;
 										bro (df) = ass;
 										setlast (df);
-									};
+									}
 									seq_hold = make_onearg (0, f_bottom, ass);
 									s = make_twoarg (seq_tag, f_top, seq_hold,
 													 son (son (bd)));
 									replace (bro (var), s, body);
 									chv = 1;
-								};
-							};
-						};
+								}
+							}
+						}
 						tc = pt (tc);
-					};
+					}
 				} while (chv);
 				
 #ifdef NEWDIAGS
@@ -1101,10 +1101,10 @@ check_id(exp e, exp scope)
 							diagonly = 0;
 						}
 						tc = pt (tc);
-					};
+					}
 					if (!diagonly)
 						repbyseq (e);
-				};
+				}
 #else
 				if (no (e) == no_ass && pt (e) != nilexp && !isparam(e)) {
 					tc = pt (e);
@@ -1112,10 +1112,10 @@ check_id(exp e, exp scope)
 						   pt (tc) != nilexp)
 						tc = pt (tc);
 					repbyseq (e);
-				};
+				}
 #endif
 				return (1);
-			};
+			}
 			
 			if (!isparam(e) && name (def) == clear_tag &&
 				name (body) == seq_tag &&
@@ -1135,8 +1135,8 @@ check_id(exp e, exp scope)
 							 getexp (f_top, nilexp, 0, nilexp, nilexp, 0, 0, top_tag),
 							 body);		/* replace assignment by void */
 					return (1);
-				};
-			};
+				}
+			}
 			
 #ifdef NEWDIAGS
 			if (all_a && !isparam(e) && !diag_visible) {
@@ -1161,14 +1161,14 @@ check_id(exp e, exp scope)
 						tc = pt(tc);
 						if (tc == nilexp)
 							break;
-					};
+					}
 					
 					repbyseq (e);
 					return (1);
-				};
+				}
 				
 				
-			};
+			}
 			
 			if (!is_var && !is_vis && no(e) == 1 && !isparam(e) &&
 				name(body) == ident_tag && name(son(body)) == name_tag &&
@@ -1191,7 +1191,7 @@ check_id(exp e, exp scope)
 #endif
 				replace(e, body, scope);
 				return 1;
-			};
+			}
 			
 			if (!is_var && !is_vis && name(def) == compound_tag) {
 				exp c = son(def);

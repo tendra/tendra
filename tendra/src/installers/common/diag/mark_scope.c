@@ -197,7 +197,7 @@ previous_scope(exp e)
 			return bro(bro(e));
 		
 		return nilexp;
-	};
+	}
 	
 	return nilexp;
 }
@@ -233,7 +233,7 @@ needs_hiding(exp a, exp b)
 		return !strcmp(da -> data.tag_scope.nme.ints.chars,
 					   db -> data.tag_scope.nme.ints.chars);
 	default: return 0;
-    };
+    }
 }
 
 void
@@ -253,12 +253,12 @@ mark_scope(exp e)
 		{
 			props(e) = (prop)(props(e) | 0x80);
 			return;
-		};
+		}
 		
 		if (props(scope) & 0x80)
 			return;
 		
-	};
+	}
 }
 
 #endif

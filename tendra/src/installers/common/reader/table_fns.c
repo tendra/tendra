@@ -219,7 +219,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 	tkv = special_token(td, pars, sortcode, &done);
 	if (done)
         return tkv;
-    };
+    }
 	
 	if (td -> defined == 0)
 	{
@@ -246,10 +246,10 @@ apply_tok(token td, bitstream pars, int sortcode,
 								   td -> tok_index);
 				else
 					IGNORE fprintf(stderr, "token number out of bounds\n");
-			};
-		};
+			}
+		}
 		exit(EXIT_FAILURE);
-	};
+	}
 	
 	{
 		int npars = td -> params.number;  /* number of parameters */
@@ -297,8 +297,8 @@ apply_tok(token td, bitstream pars, int sortcode,
 			}
 			else  {
 				return td -> tdvalue;
-			};
-		};
+			}
+		}
 		
 		old_place = keep_place();  /* remember the current input stream */
 		set_place(pars);
@@ -340,7 +340,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 			}
 			else {
 				SET(old_crt_repeat);
-			};
+			}
 			if (actual_pars != (tokval*)0) {
 				new_bindings[i].tdvalue = actual_pars[j]; /* this is not used at present*/
 			}
@@ -350,7 +350,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 			/* read a parameter */
 			if (sn.code == f_exp.code) {  /* XX008 */
 				crt_repeat = old_crt_repeat;
-			};
+			}
 			
 			new_bindings[i].defined = 1;
 			/* and say it is defined */
@@ -359,7 +359,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 			new_bindings[i].recursive = (sn.code == TOKEN);
 			/* and say it is not recursive for simple sorts */
 			new_bindings[i].tok_context = crt_context;
-		};
+		}
 		
 		set_place(td -> tdplace);  /* set up the place to read the definition */
 		
@@ -398,8 +398,8 @@ apply_tok(token td, bitstream pars, int sortcode,
 			if (q -> tdsort.code == f_exp.code) {
 				exp ek = q -> tdvalue.tk_exp;
 				kill_exp (ek, ek);
-			};
-		};
+			}
+		}
 		
 		/* restore the old environment of tables */
 		crt_context = old_context;
@@ -423,7 +423,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 			 *                 returned value might be altered */
 			IGNORE hold(val.tk_exp);
             return v;
-			};
+			}
 		}
 		else
 			if (npars > LOCAL_TOKS)
@@ -440,7 +440,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 			xfree((void *)r);
 		}
 		return val;
-	};
+	}
 }
 
 
