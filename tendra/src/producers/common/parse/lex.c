@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -123,7 +123,7 @@ const char *token_names [] = {
 #define LEX_TOKEN(A, B, C)		(B),
 #include "symbols.h"
 #undef LEX_TOKEN
-    NULL
+	NULL
 };
 
 
@@ -137,8 +137,8 @@ const char *token_names [] = {
 int
 primary_form(int t)
 {
-    int u = t;
-    switch (u) {
+	int u = t;
+	switch (u) {
 	case lex_and_H2 : u = lex_and_H1; break;
 	case lex_and_Heq_H2 : u = lex_and_Heq_H1; break;
 	case lex_close_Hbrace_H2 : u = lex_close_Hbrace_H1; break;
@@ -156,8 +156,8 @@ primary_form(int t)
 	case lex_or_Heq_H2 : u = lex_or_Heq_H1; break;
 	case lex_xor_H2 : u = lex_xor_H1; break;
 	case lex_xor_Heq_H2 : u = lex_xor_Heq_H1; break;
-    }
-    return (u);
+	}
+	return (u);
 }
 
 
@@ -170,12 +170,12 @@ primary_form(int t)
 int
 get_digraph(int t)
 {
-    int u = primary_form (t);
-    if (u != t) {
+	int u = primary_form (t);
+	if (u != t) {
 		update_column ();
 		report (crt_loc, ERR_lex_digraph_replace (t, u));
-    }
-    return (u);
+	}
+	return (u);
 }
 
 
@@ -191,8 +191,8 @@ get_digraph(int t)
 IDENTIFIER
 make_keyword(HASHID nm, int key, IDENTIFIER id)
 {
-    PTR (IDENTIFIER) ptr = hashid_id (nm);
-    if (IS_NULL_id (id)) {
+	PTR (IDENTIFIER) ptr = hashid_id (nm);
+	if (IS_NULL_id (id)) {
 		/* Find keyword type */
 		unsigned tag = id_keyword_tag;
 		if (key >= FIRST_ISO_KEYWORD && key <= LAST_ISO_KEYWORD) {
@@ -204,16 +204,16 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 		} else if (key == lex_identifier) {
 			tag = id_c99_keyword_tag;
 		}
-		
+
 		/* Create keyword identifier */
 		MAKE_id_keyword_etc (tag, nm, dspec_none, NULL_nspace, crt_loc, id);
 		COPY_ulong (id_no (id), (unsigned long) key);
-    }
-    COPY_id (hashid_cache (nm), NULL_id);
-    if (do_keyword) dump_declare (id, &crt_loc, 1);
-	
-    /* Add keyword to identifier meanings */
-    for (;;) {
+	}
+	COPY_id (hashid_cache (nm), NULL_id);
+	if (do_keyword) dump_declare (id, &crt_loc, 1);
+
+	/* Add keyword to identifier meanings */
+	for (;;) {
 		IDENTIFIER pid = DEREF_id (ptr);
 		switch (TAG_id (pid)) {
 	    case id_dummy_tag :
@@ -227,8 +227,8 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 	    }
 		}
 		ptr = id_alias (pid);
-    }
-    /* NOTREACHED */
+	}
+	/* NOTREACHED */
 }
 
 
@@ -241,31 +241,31 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 void
 init_keywords(void)
 {
-    int key;
-	
-    /* Set up keyword entries */
-    for (key = FIRST_KEYWORD; key <= LAST_KEYWORD; key++) {
+	int key;
+
+	/* Set up keyword entries */
+	for (key = FIRST_KEYWORD; key <= LAST_KEYWORD; key++) {
 		int ext = 0;
 		string keyword = token_name (key);
 		unsigned long h = hash (keyword);
 		if (keyword [0] == char_less) ext = 1;
 		KEYWORD (key) = lookup_name (keyword, h, ext, key);
-    }
-	
-    /* Bring the C keywords into scope */
-    for (key = FIRST_C_KEYWORD; key <= LAST_C_KEYWORD; key++) {
+	}
+
+	/* Bring the C keywords into scope */
+	for (key = FIRST_C_KEYWORD; key <= LAST_C_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		IGNORE make_keyword (nm, key, NULL_id);
-    }
-	
-    /* Bring the C99 keywords into scope */
-    for (key = FIRST_C99_KEYWORD; key <= LAST_C99_KEYWORD; key++) {
+	}
+
+	/* Bring the C99 keywords into scope */
+	for (key = FIRST_C99_KEYWORD; key <= LAST_C99_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		IGNORE make_keyword (nm, lex_identifier, NULL_id);
-    }
-	
-    /* Bring the C++ keywords into scope */
-    for (key = FIRST_CPP_KEYWORD; key <= LAST_CPP_KEYWORD; key++) {
+	}
+
+	/* Bring the C++ keywords into scope */
+	for (key = FIRST_CPP_KEYWORD; key <= LAST_CPP_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 #if LANGUAGE_CPP
 		IGNORE make_keyword (nm, key, NULL_id);
@@ -274,22 +274,22 @@ init_keywords(void)
 			IGNORE make_keyword (nm, lex_unknown, NULL_id);
 		}
 #endif
-    }
-	
-    /* Bring the ISO alternative keywords into scope */
-    for (key = FIRST_ISO_KEYWORD; key <= LAST_ISO_KEYWORD; key++) {
+	}
+
+	/* Bring the ISO alternative keywords into scope */
+	for (key = FIRST_ISO_KEYWORD; key <= LAST_ISO_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		if (allow_iso_keywords) {
 			IGNORE make_keyword (nm, key, NULL_id);
 		} else {
 			IGNORE make_keyword (nm, lex_unknown, NULL_id);
 		}
-    }
-	
-    /* Find underlying dummy identifier for 'operator' */
-    underlying_op = DEREF_id (hashid_id (KEYWORD (lex_operator)));
-    underlying_op = underlying_id (underlying_op);
-    return;
+	}
+
+	/* Find underlying dummy identifier for 'operator' */
+	underlying_op = DEREF_id (hashid_id (KEYWORD (lex_operator)));
+	underlying_op = underlying_id (underlying_op);
+	return;
 }
 
 
@@ -304,7 +304,7 @@ init_keywords(void)
 static int
 adjust_trigraph(void)
 {
-    if (allow_trigraphs) {
+	if (allow_trigraphs) {
 		int c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_question) {
@@ -371,8 +371,8 @@ adjust_trigraph(void)
 			/* Not a trigraph */
 			unread_char (c);
 		}
-    }
-    return (char_question);
+	}
+	return (char_question);
 }
 
 
@@ -386,13 +386,13 @@ adjust_trigraph(void)
 static int
 read_newline(void)
 {
-    if (allow_dos_newline) {
+	if (allow_dos_newline) {
 		int c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_newline) return (c);
 		unread_char (c);
-    }
-    return (char_return);
+	}
+	return (char_return);
 }
 
 
@@ -406,13 +406,13 @@ read_newline(void)
 static int
 read_eof(void)
 {
-    if (allow_dos_newline) {
+	if (allow_dos_newline) {
 		int c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_eof) return (c);
 		unread_char (c);
-    }
-    return (char_sub);
+	}
+	return (char_sub);
 }
 
 
@@ -427,7 +427,7 @@ read_eof(void)
 static int
 read_char(void)
 {
-    for (;;) {
+	for (;;) {
 		int c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_question) c = adjust_trigraph ();
@@ -446,8 +446,8 @@ read_char(void)
 		crt_loc.line++;
 		crt_loc.column = 0;
 		input_crt = input_posn;
-    }
-    /* NOTREACHED */
+	}
+	/* NOTREACHED */
 }
 
 
@@ -491,11 +491,11 @@ read_char(void)
 #define is_legal(T)		((T) & LEGAL_M)
 
 static unsigned char characters [ NO_CHAR + 2 ] = {
-    LEGAL,			/* EOF */
+	LEGAL,			/* EOF */
 #define CHAR_DATA(A, B, C, D)	(A),
 #include "char.h"
 #undef CHAR_DATA
-    ILLEG			/* dummy */
+	ILLEG			/* dummy */
 };
 
 static unsigned char *copy_characters = main_characters;
@@ -513,7 +513,7 @@ static unsigned char *copy_characters = main_characters;
 void
 set_char_lookup(int a, int b)
 {
-    if (a >= 0 && a < NO_CHAR && b >= 0 && b < NO_CHAR) {
+	if (a >= 0 && a < NO_CHAR && b >= 0 && b < NO_CHAR) {
 		unsigned char t = copy_characters [b];
 		if (a == char_return) {
 			if (b == char_newline) {
@@ -527,8 +527,8 @@ set_char_lookup(int a, int b)
 			}
 		}
 		main_characters [a] = t;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -544,8 +544,8 @@ set_char_lookup(int a, int b)
 void
 set_character(EXP a, EXP b)
 {
-    int c = get_char_value (b);
-    if (IS_exp_string_lit (a)) {
+	int c = get_char_value (b);
+	if (IS_exp_string_lit (a)) {
 		STRING s = DEREF_str (exp_string_lit_str (a));
 		unsigned long n = DEREF_ulong (str_simple_len (s));
 		string t = DEREF_string (str_simple_text (s));
@@ -568,11 +568,11 @@ set_character(EXP a, EXP b)
 				n--;
 			}
 		}
-    } else {
+	} else {
 		int d = get_char_value (a);
 		if (d != char_illegal) set_char_lookup (d, c);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -586,10 +586,10 @@ set_character(EXP a, EXP b)
 int
 is_white_char(unsigned long a)
 {
-    int t;
-    if (a >= NO_CHAR) return (0);
-    t = lookup_char (a);
-    return (is_white (t) || is_newline (t));
+	int t;
+	if (a >= NO_CHAR) return (0);
+	t = lookup_char (a);
+	return (is_white (t) || is_newline (t));
 }
 
 
@@ -603,8 +603,8 @@ is_white_char(unsigned long a)
 int
 is_alpha_char(unsigned long a)
 {
-    if (a >= NO_CHAR) return (0);
-    return (is_alpha (lookup_char (a)));
+	if (a >= NO_CHAR) return (0);
+	return (is_alpha (lookup_char (a)));
 }
 
 
@@ -617,8 +617,8 @@ is_alpha_char(unsigned long a)
 int
 is_legal_char(unsigned long a)
 {
-    if (a >= NO_CHAR) return (0);
-    return (is_legal (lookup_char (a)));
+	if (a >= NO_CHAR) return (0);
+	return (is_legal (lookup_char (a)));
 }
 
 
@@ -634,12 +634,12 @@ is_legal_char(unsigned long a)
 int
 peek_char(int a, int *legal)
 {
-    int c = read_char ();
-    ASSERT (a != char_newline);
-    if (c == a) return (1);
-    *legal = is_legal_char ((unsigned long) c);
-    unread_char (c);
-    return (0);
+	int c = read_char ();
+	ASSERT (a != char_newline);
+	if (c == a) return (1);
+	*legal = is_legal_char ((unsigned long) c);
+	unread_char (c);
+	return (0);
 }
 
 
@@ -697,18 +697,18 @@ static int good_eof = 0;
 static int
 skip_string(int q)
 {
-    int e = q;
-    LOCATION loc;
-    unsigned nl = 0;
-    int escaped = 0;
-    int have_char = 0;
-    int allow_nl = allow_newline_strings;
-    if (e == char_single_quote || in_preproc_dir == 1) allow_nl = 0;
-    update_column ();
-    loc = crt_loc;
-	
-    /* Scan to end of string */
-    for (;;) {
+	int e = q;
+	LOCATION loc;
+	unsigned nl = 0;
+	int escaped = 0;
+	int have_char = 0;
+	int allow_nl = allow_newline_strings;
+	if (e == char_single_quote || in_preproc_dir == 1) allow_nl = 0;
+	update_column ();
+	loc = crt_loc;
+
+	/* Scan to end of string */
+	for (;;) {
 		int c = read_char ();
 		if (END_STRING (c, e) && !escaped) {
 			if (e == char_single_quote && !have_char) {
@@ -743,15 +743,15 @@ skip_string(int q)
 			if (c == char_backslash) escaped = 1;
 		}
 		if (!escaped) have_char = 1;
-    }
-    if (nl) {
+	}
+	if (nl) {
 		/* Report newlines in string */
 		report (loc, ERR_lex_string_nl (nl, nl));
-    } else {
+	} else {
 		/* Don't bother with error recovery */
 		/* EMPTY */
-    }
-    return (lex_eof);
+	}
+	return (lex_eof);
 }
 
 
@@ -771,27 +771,27 @@ skip_string(int q)
 int
 read_string(int q, int esc)
 {
-    int c;
-    int e = q;
-    LOCATION loc;
-    long posn = -1;
-    int escaped = 0;
-    unsigned nl = 0;
-    int have_char = 0;
-    string s = token_buff.start;
-    string se = token_buff.end;
-    int allow_nl = allow_newline_strings;
-    update_column ();
-    if (e == char_single_quote) {
+	int c;
+	int e = q;
+	LOCATION loc;
+	long posn = -1;
+	int escaped = 0;
+	unsigned nl = 0;
+	int have_char = 0;
+	string s = token_buff.start;
+	string se = token_buff.end;
+	int allow_nl = allow_newline_strings;
+	update_column ();
+	if (e == char_single_quote) {
 		posn = tell_buffer (crt_buff_no);
 		allow_nl = 0;
-    } else if (in_preproc_dir == 1) {
+	} else if (in_preproc_dir == 1) {
 		allow_nl = 0;
-    }
-    loc = crt_loc;
-	
-    /* Scan the string */
-    for (;;) {
+	}
+	loc = crt_loc;
+
+	/* Scan the string */
+	for (;;) {
 		c = read_char ();
 		if (END_STRING (c, e) && !escaped) {
 			if (e == char_single_quote && !have_char) {
@@ -838,11 +838,11 @@ read_string(int q, int esc)
 			if (c == char_backslash) escaped = esc;
 		}
 		if (!escaped) have_char = 1;
-    }
-    if (nl) {
+	}
+	if (nl) {
 		/* Report newlines in string */
 		report (loc, ERR_lex_string_nl (nl, nl));
-    } else {
+	} else {
 		/* Error recovery */
 		if (e == char_single_quote && have_char) {
 			seek_buffer (crt_buff_no, posn, 1);
@@ -855,10 +855,10 @@ read_string(int q, int esc)
 				*(s++) = (character) c;
 			}
 		}
-    }
-    token_buff.posn = s;
-    *s = 0;
-    return (lex_eof);
+	}
+	token_buff.posn = s;
+	*s = 0;
+	return (lex_eof);
 }
 
 
@@ -875,20 +875,20 @@ read_string(int q, int esc)
 static int
 skip_comment(int keep)
 {
-    int c = 0;
-    int lastc;
-    string s, se;
-    LOCATION loc;
-    update_column ();
-    loc = crt_loc;
-    if (keep) {
+	int c = 0;
+	int lastc;
+	string s, se;
+	LOCATION loc;
+	update_column ();
+	loc = crt_loc;
+	if (keep) {
 		s = token_buff.start;
 		se = token_buff.end;
-    } else {
+	} else {
 		s = NULL;
 		se = NULL;
-    }
-    do {
+	}
+	do {
 		lastc = c;
 		read_label : {
 			/* Inlined version of read_char */
@@ -937,14 +937,14 @@ skip_comment(int keep)
 				}
 			}
 		}
-    } while (!END_COMMENT (lastc, c));
-    if (s) {
+	} while (!END_COMMENT (lastc, c));
+	if (s) {
 		s -= 2;
 		token_buff.posn = s;
 		*s = 0;
-    }
-    crt_spaces++;
-    return (lex_ignore_token);
+	}
+	crt_spaces++;
+	return (lex_ignore_token);
 }
 
 
@@ -962,16 +962,16 @@ skip_comment(int keep)
 static int
 skip_cpp_comment(int keep)
 {
-    int c;
-    string s, se;
-    if (keep) {
+	int c;
+	string s, se;
+	if (keep) {
 		s = token_buff.start;
 		se = token_buff.end;
-    } else {
+	} else {
 		s = NULL;
 		se = NULL;
-    }
-    do {
+	}
+	do {
 		read_label : {
 			/* Inlined version of read_char */
 			c = next_char ();
@@ -1009,16 +1009,16 @@ skip_cpp_comment(int keep)
 				}
 			}
 		}
-    } while (!END_CPP_COMMENT (c));
-    unread_char (c);
-    if (s) {
+	} while (!END_CPP_COMMENT (c));
+	unread_char (c);
+	if (s) {
 		s -= 1;
 		token_buff.posn = s;
 		*s = 0;
-    }
-    crt_line_changed = 1;
-    crt_spaces = 0;
-    return (lex_ignore_token);
+	}
+	crt_line_changed = 1;
+	crt_spaces = 0;
+	return (lex_ignore_token);
 }
 
 
@@ -1043,9 +1043,9 @@ skip_cpp_comment(int keep)
 unsigned long
 skip_white(int nl)
 {
-    int c;
-    unsigned long sp = 0;
-    for (;;) {
+	int c;
+	unsigned long sp = 0;
+	for (;;) {
 		c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_return) c = read_newline ();
@@ -1119,9 +1119,9 @@ skip_white(int nl)
 				}
 			}
 		}
-    }
-    unread_char (c);
-    return (sp);
+	}
+	unread_char (c);
+	return (sp);
 }
 
 
@@ -1138,7 +1138,7 @@ skip_white(int nl)
 void
 patch_white(unsigned long sp)
 {
-    if (sp & WHITE_NEWLINE) {
+	if (sp & WHITE_NEWLINE) {
 		if (sp & WHITE_SPACE) {
 			/* Patch in a space after a newline */
 			unsigned long n;
@@ -1160,8 +1160,8 @@ patch_white(unsigned long sp)
 		crt_loc.line--;
 		crt_loc.column = 0;
 		crt_spaces = 0;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1176,10 +1176,10 @@ patch_white(unsigned long sp)
 int
 skip_to_end(void)
 {
-    int c;
-    int res = 0;
-    in_preproc_dir = 0;
-    for (;;) {
+	int c;
+	int res = 0;
+	in_preproc_dir = 0;
+	for (;;) {
 		IGNORE skip_white (0);
 		read_label : {
 			/* Inlined version of read_char */
@@ -1218,11 +1218,11 @@ skip_to_end(void)
 				res = 1;
 			}
 		}
-    }
-    update_column ();
-    report (crt_loc, ERR_lex_phases_eof ());
-    good_eof = 1;
-    return (res);
+	}
+	update_column ();
+	report (crt_loc, ERR_lex_phases_eof ());
+	good_eof = 1;
+	return (res);
 }
 
 
@@ -1237,25 +1237,25 @@ skip_to_end(void)
 static unsigned long
 read_unicode(int c, int *pc)
 {
-    unsigned i, n;
-    unsigned long u;
-    character s [10];
-    ERROR err = NULL_err;
-    string p = s;
-    if (c == char_u && allow_unicodes) {
+	unsigned i, n;
+	unsigned long u;
+	character s [10];
+	ERROR err = NULL_err;
+	string p = s;
+	if (c == char_u && allow_unicodes) {
 		/* Read '\uxxxx' */
 		*pc = CHAR_UNI4;
 		n = 4;
-    } else if (c == char_U && allow_unicodes) {
+	} else if (c == char_U && allow_unicodes) {
 		/* Read '\Uxxxxxxxx' */
 		*pc = CHAR_UNI8;
 		n = 8;
-    } else {
+	} else {
 		unread_char (c);
 		*pc = CHAR_NONE;
 		return (0);
-    }
-    for (i = 0; i < n; i++) {
+	}
+	for (i = 0; i < n; i++) {
 		int t;
 		int d = read_char ();
 		if (d == char_eof) break;
@@ -1271,14 +1271,14 @@ read_unicode(int c, int *pc)
 			break;
 		}
 		s [i] = (character) d;
-    }
-    s [i] = 0;
-    u = eval_unicode (c, n, pc, &p, &err);
-    if (!IS_NULL_err (err)) {
+	}
+	s [i] = 0;
+	u = eval_unicode (c, n, pc, &p, &err);
+	if (!IS_NULL_err (err)) {
 		update_column ();
 		report (crt_loc, err);
-    }
-    return (u);
+	}
+	return (u);
 }
 
 
@@ -1293,12 +1293,12 @@ read_unicode(int c, int *pc)
 static HASHID
 read_extended_id(unsigned long u, int ch)
 {
-    string s;
-    int c, t;
-    HASHID nm;
-    unsigned long h;
-    BUFFER *bf = &token_buff;
-    do {
+	string s;
+	int c, t;
+	HASHID nm;
+	unsigned long h;
+	BUFFER *bf = &token_buff;
+	do {
 		if (!unicode_alpha (u)) {
 			/* Report illegal identifiers */
 			update_column ();
@@ -1319,13 +1319,13 @@ read_extended_id(unsigned long u, int ch)
 			int nextc = read_char ();
 			u = read_unicode (nextc, &ch);
 		}
-    } while (ch != CHAR_NONE);
-    unread_char (c);
-    bfputc (bf, 0);
-    s = bf->start;
-    h = hash (s);
-    nm = lookup_name (s, h, 1, lex_unknown);
-    return (nm);
+	} while (ch != CHAR_NONE);
+	unread_char (c);
+	bfputc (bf, 0);
+	s = bf->start;
+	h = hash (s);
+	nm = lookup_name (s, h, 1, lex_unknown);
+	return (nm);
 }
 
 
@@ -1358,12 +1358,12 @@ HASHID token_hashid = NULL_hashid;
 int
 read_token(void)
 {
-    int c, t;
-    int column = -1;
-    int preproc = lex_ignore_token;
-	
-    /* Read the next character */
-    start_label : {
+	int c, t;
+	int column = -1;
+	int preproc = lex_ignore_token;
+
+	/* Read the next character */
+	start_label : {
 		c = next_char ();
 		if (c == char_end) c = refill_char ();
 		restart_label : {
@@ -1381,19 +1381,19 @@ read_token(void)
 		process_label : {
 			/* Process the next character */
 		}
-    }
-	
-    /* Check symbols and punctuation */
-    if (is_symbol (t)) {
+	}
+
+	/* Check symbols and punctuation */
+	if (is_symbol (t)) {
 		switch (c) {
-			
+
 	    case char_question : {
 			/* Deal with '?' and trigraphs */
 			c = adjust_trigraph ();
 			if (c == char_question) return (lex_question);
 			goto restart_label;
 	    }
-			
+
 	    case char_backslash : {
 			/* Deal with escaped newlines */
 			unsigned long u;
@@ -1408,7 +1408,7 @@ read_token(void)
 				if (column == 0) column = 1;
 				goto start_label;
 			}
-			
+
 			/* Check for unicode characters */
 			u = read_unicode (nextc, &ch);
 			if (ch != CHAR_NONE) {
@@ -1418,18 +1418,18 @@ read_token(void)
 			}
 			return (lex_backslash);
 	    }
-			
+
 	    case char_hash : {
 			/* Deal with '#' and '##' */
 			c = read_char ();
 			if (c == char_hash) return (lex_hash_Hhash_H1);
 			unread_char (c);
-			
+
 			/* Return with '#' if not at start of line */
 			if (column < 0 || no_preproc_dir) {
 				return (lex_hash_H1);
 			}
-			
+
 			/* Deal with preprocessing directives */
 			preproc_label : {
 				unsigned long sp = skip_white (0);
@@ -1446,7 +1446,7 @@ read_token(void)
 				return (preproc);
 			}
 	    }
-			
+
 	    case char_percent : {
 			/* Deal with '%', '%=', '%>', '%:' and '%:%:' */
 			c = read_char ();
@@ -1465,12 +1465,12 @@ read_token(void)
 					unread_char (nextc);
 				}
 				unread_char (c);
-				
+
 				/* Return with '%:' if not at start of line */
 				if (column < 0 || no_preproc_dir) {
 					return (lex_hash_H2);
 				}
-				
+
 				/* Otherwise this is a preprocessing directive */
 				IGNORE get_digraph (lex_hash_H2);
 				goto preproc_label;
@@ -1478,19 +1478,19 @@ read_token(void)
 			unread_char (c);
 			return (lex_rem);
 	    }
-			
+
 	    case char_quote : {
 			/* Deal with string literals */
 			IGNORE read_string (c, 1);
 			return (lex_string_Hlit);
 	    }
-			
+
 	    case char_single_quote : {
 			/* Deal with character literals */
 			IGNORE read_string (c, 1);
 			return (lex_char_Hlit);
 	    }
-			
+
 	    case char_exclaim : {
 			/* Deal with '!' and '!=' */
 			c = read_char ();
@@ -1498,7 +1498,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_not_H1);
 	    }
-			
+
 	    case char_ampersand : {
 			/* Deal with '&', '&&' and '&=' */
 			c = read_char ();
@@ -1507,7 +1507,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_and_H1);
 	    }
-			
+
 	    case char_asterix : {
 			/* Deal with '*' and '*=' */
 			c = read_char ();
@@ -1515,7 +1515,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_star);
 	    }
-			
+
 	    case char_plus : {
 			/* Deal with '+', '++' and '+=' */
 			c = read_char ();
@@ -1527,7 +1527,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_plus);
 	    }
-			
+
 	    case char_minus : {
 			/* Deal with '-', '--', '-=', '->' and '->*' */
 			c = read_char ();
@@ -1545,7 +1545,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_minus);
 	    }
-			
+
 	    case char_dot : {
 			/* Deal with '.', '...', '.*' and numbers */
 			c = read_char ();
@@ -1575,7 +1575,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_dot);
 	    }
-			
+
 	    case char_slash : {
 			/* Deal with '/', '/=' and comments */
 			c = read_char ();
@@ -1605,7 +1605,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_div);
 	    }
-			
+
 	    case char_colon : {
 			/* Deal with ':', '::' and ':>' */
 			c = read_char ();
@@ -1619,7 +1619,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_colon);
 	    }
-			
+
 	    case char_less : {
 			/* Deal with '<', '<=', '<<', '<<=', '<%', '<:' */
 			c = read_char ();
@@ -1642,7 +1642,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_less);
 	    }
-			
+
 	    case char_equal : {
 			/* Deal with '=' and '==' */
 			c = read_char ();
@@ -1662,7 +1662,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_assign);
 	    }
-			
+
 	    case char_greater : {
 			/* Deal with '>', '>=', '>>' and '>>=' */
 			c = read_char ();
@@ -1679,7 +1679,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_greater);
 	    }
-			
+
 	    case char_circum : {
 			/* Deal with '^' and '^=' */
 			c = read_char ();
@@ -1687,7 +1687,7 @@ read_token(void)
 			unread_char (c);
 			return (lex_xor_H1);
 	    }
-			
+
 	    case char_bar : {
 			/* Deal with '|', '||' and '|=' */
 			c = read_char ();
@@ -1696,61 +1696,61 @@ read_token(void)
 			unread_char (c);
 			return (lex_or_H1);
 	    }
-			
+
 	    case char_open_round : {
 			/* Deal with '(' */
 			return (lex_open_Hround);
 	    }
-			
+
 	    case char_close_round : {
 			/* Deal with ')' */
 			return (lex_close_Hround);
 	    }
-			
+
 	    case char_comma : {
 			/* Deal with ',' */
 			return (lex_comma);
 	    }
-			
+
 	    case char_semicolon : {
 			/* Deal with ';' */
 			return (lex_semicolon);
 	    }
-			
+
 	    case char_open_square : {
 			/* Deal with '[' */
 			return (lex_open_Hsquare_H1);
 	    }
-			
+
 	    case char_close_square : {
 			/* Deal with ']' */
 			return (lex_close_Hsquare_H1);
 	    }
-			
+
 	    case char_open_brace : {
 			/* Deal with '{' */
 			return (lex_open_Hbrace_H1);
 	    }
-			
+
 	    case char_close_brace : {
 			/* Deal with '}' */
 			return (lex_close_Hbrace_H1);
 	    }
-			
+
 	    case char_tilde : {
 			/* Deal with '~' */
 			return (lex_compl_H1);
 	    }
-			
+
 	    default : {
 			/* Anything else is an unknown character */
 			goto unknown_label;
 	    }
 		}
-    }
-	
-    /* Read an identifier (calculating hash value on fly) */
-    if (is_alpha (t)) {
+	}
+
+	/* Read an identifier (calculating hash value on fly) */
+	if (is_alpha (t)) {
 		HASHID nm;
 		LOCATION loc;
 		BUFFER *bf = &token_buff;
@@ -1758,7 +1758,7 @@ read_token(void)
 		string se = bf->end;
 		unsigned long h = (unsigned long) c;
 		*(s++) = (character) c;
-		
+
 		/* Get the second character */
 		update_column ();
 		loc = crt_loc;
@@ -1811,7 +1811,7 @@ read_token(void)
 		unread_char (c);
 		se = s;
 		*se = 0;
-		
+
 		/* Look up the symbol in the hash table */
 		h %= HASH_SIZE;
 		s = bf->start;
@@ -1826,11 +1826,11 @@ read_token(void)
 		}
 		token_hashid = nm;
 		return (lex_identifier);
-    }
-	
-    /* Read the first token in a line */
-    if (c == char_return) c = read_newline ();
-    if (c == char_newline) {
+	}
+
+	/* Read the first token in a line */
+	if (c == char_return) c = read_newline ();
+	if (c == char_newline) {
 		newline_label : {
 			/* Re-entry point after C++ style comments */
 			crt_loc.line++;
@@ -1891,10 +1891,10 @@ read_token(void)
 			/* c and t now hold the next character */
 			goto process_label;
 		}
-    }
-	
-    /* Read a pp-number */
-    if (is_digit (t)) {
+	}
+
+	/* Read a pp-number */
+	if (is_digit (t)) {
 		number_label : {
 			int lastc;
 			BUFFER *bf = &token_buff;
@@ -1945,11 +1945,11 @@ read_token(void)
 			unread_char (c);
 		}
 		return (lex_integer_Hlit);
-    }
-	
-    /* End of file marker */
-    if (c == char_sub) c = read_eof ();
-    if (c == char_eof) {
+	}
+
+	/* End of file marker */
+	if (c == char_sub) c = read_eof ();
+	if (c == char_eof) {
 		eof_label : {
 			if (in_preproc_dir != 0) return (lex_eof);
 			if (!good_eof) {
@@ -1966,14 +1966,14 @@ read_token(void)
 		}
 		/* End of main file */
 		return (lex_eof);
-    }
-	
-    /* Unknown characters */
-    unknown_label : {
+	}
+
+	/* Unknown characters */
+	unknown_label : {
 		string s = token_buff.start;
 		add_multi_char (s, (unsigned long) c, CHAR_SIMPLE);
-    }
-    return (lex_unknown);
+	}
+	return (lex_unknown);
 }
 
 
@@ -1987,28 +1987,28 @@ read_token(void)
 void
 init_char(void)
 {
-    int i;
-    unsigned char *p, *q;
-	
-    /* Set native locale for multibyte characters */
+	int i;
+	unsigned char *p, *q;
+
+	/* Set native locale for multibyte characters */
 #if FS_MULTIBYTE
-    if (allow_multibyte) IGNORE setlocale (LC_CTYPE, "");
+	if (allow_multibyte) IGNORE setlocale (LC_CTYPE, "");
 #endif
-	
-    /* Allow for non-ASCII codesets */
-    map_ascii (main_characters);
-    map_ascii (digit_values);
-    map_ascii (escape_sequences);
-	
-    /* Set up extra characters */
-    p = xmalloc_nof (unsigned char, NO_CHAR);
-    q = main_characters;
-    copy_characters = p;
-    for (i = 0; i < NO_CHAR; i++) *(p++) = *(q++);
-	
-    /* Initialise token buffer */
-    token_buff.posn = extend_buffer (&token_buff, token_buff.posn);
-    return;
+
+	/* Allow for non-ASCII codesets */
+	map_ascii (main_characters);
+	map_ascii (digit_values);
+	map_ascii (escape_sequences);
+
+	/* Set up extra characters */
+	p = xmalloc_nof (unsigned char, NO_CHAR);
+	q = main_characters;
+	copy_characters = p;
+	for (i = 0; i < NO_CHAR; i++) *(p++) = *(q++);
+
+	/* Initialise token buffer */
+	token_buff.posn = extend_buffer (&token_buff, token_buff.posn);
+	return;
 }
 
 
@@ -2022,24 +2022,24 @@ init_char(void)
 void
 init_lex(void)
 {
-    /* Initialise file variables */
-    crt_buff_no = 0;
-    IGNORE init_buffer (crt_buff_no);
-    start_preproc_if ();
-    preproc_loc = crt_loc;
-    have_syntax_error = 0;
-    if (do_header) dump_start (&crt_loc, NULL);
-	
-    /* Deal with first start-up file */
-    open_startup ();
-	
-    /* Force processing to start at the beginning of a line */
-    unread_char (char_newline);
-    crt_loc.line--;
-	
-    /* Initialise the parser */
-    init_parser (NULL);
-    return;
+	/* Initialise file variables */
+	crt_buff_no = 0;
+	IGNORE init_buffer (crt_buff_no);
+	start_preproc_if ();
+	preproc_loc = crt_loc;
+	have_syntax_error = 0;
+	if (do_header) dump_start (&crt_loc, NULL);
+
+	/* Deal with first start-up file */
+	open_startup ();
+
+	/* Force processing to start at the beginning of a line */
+	unread_char (char_newline);
+	crt_loc.line--;
+
+	/* Initialise the parser */
+	init_parser (NULL);
+	return;
 }
 
 
@@ -2053,8 +2053,8 @@ init_lex(void)
 void
 process_file(void)
 {
-    init_lex ();
-    ADVANCE_LEXER;
-    parse_file (NULL_type, dspec_none);
-    return;
+	init_lex ();
+	ADVANCE_LEXER;
+	parse_file (NULL_type, dspec_none);
+	return;
 }

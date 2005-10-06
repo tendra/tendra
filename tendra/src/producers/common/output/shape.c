@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -113,16 +113,16 @@
 static BITSTREAM
 *enc_tdfint(BITSTREAM *bs, NAT n, int e)
 {
-    unsigned np;
-    LIST (unsigned) p;
-    if (IS_nat_small (n)) {
+	unsigned np;
+	LIST (unsigned) p;
+	if (IS_nat_small (n)) {
 		p = NULL_list (unsigned);
 		np = 1;
-    } else {
+	} else {
 		p = DEREF_list (nat_large_values (n));
 		np = LENGTH_list (p);
-    }
-    if (np <= 2) {
+	}
+	if (np <= 2) {
 		/* Small values */
 		unsigned long v = get_nat_value (n);
 		if (e) {
@@ -130,7 +130,7 @@ static BITSTREAM
 		} else {
 			tdf_en_tdfintl_aux (bs, v);
 		}
-    } else {
+	} else {
 		/* Really large values */
 		unsigned u = DEREF_unsigned (HEAD_list (p));
 		n = binary_nat_op (exp_rshift_tag, n, small_nat [3]);
@@ -138,8 +138,8 @@ static BITSTREAM
 		u &= 0x7;
 		if (e) u |= 0x8;
 		tdf_en_bits (bs, (unsigned) 4, u);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -153,12 +153,12 @@ static BITSTREAM
 BITSTREAM
 *enc_bool(BITSTREAM *bs, int n)
 {
-    if (n) {
+	if (n) {
 		ENC_true (bs);
-    } else {
+	} else {
 		ENC_false (bs);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -176,12 +176,12 @@ static BITSTREAM
 *enc_calc(BITSTREAM *bs, NAT n, int sgn, int intro,
 		  int sort)
 {
-    static int suppress_calc = 0;
-    NAT n1 = n;
-    ulong m = DEREF_ulong (nat_calc_tok (n));
-    EXP e = DEREF_exp (nat_calc_value (n));
-    TYPE t = DEREF_type (exp_type (e));
-    if (m == LINK_NONE && !suppress_calc) {
+	static int suppress_calc = 0;
+	NAT n1 = n;
+	ulong m = DEREF_ulong (nat_calc_tok (n));
+	EXP e = DEREF_exp (nat_calc_value (n));
+	TYPE t = DEREF_type (exp_type (e));
+	if (m == LINK_NONE && !suppress_calc) {
 		EXP f = eval_exp (e, 1);
 		if (!EQ_exp (f, e) && IS_exp_int_lit (f)) {
 			e = f;
@@ -201,23 +201,23 @@ static BITSTREAM
 				return (bs);
 			}
 		}
-    }
-	
-    /* Encode calculated value */
-    suppress_calc++;
-    if (sort == 0) {
+	}
+
+	/* Encode calculated value */
+	suppress_calc++;
+	if (sort == 0) {
 		ENC_computed_nat (bs);
 		sort = 2;
-    } else if (sort == 1) {
+	} else if (sort == 1) {
 		ENC_computed_signed_nat (bs);
 		sort = 2;
-    }
-    if (sgn) {
+	}
+	if (sgn) {
 		/* Negated value */
 		ENC_negate (bs);
 		bs = enc_error_treatment (bs, t);
 		bs = enc_calc (bs, n, 0, intro, sort);
-    } else {
+	} else {
 		if (intro && m == LINK_NONE) {
 			/* Introduce token for value */
 			while (!IS_NULL_exp (e) && IS_exp_int_lit (e)) {
@@ -270,9 +270,9 @@ static BITSTREAM
 			ENC_make_tok (bs, m);
 			ENC_LEN_SMALL (bs, 0);
 		}
-    }
-    suppress_calc--;
-    return (bs);
+	}
+	suppress_calc--;
+	return (bs);
 }
 
 
@@ -286,11 +286,11 @@ static BITSTREAM
 BITSTREAM
 *enc_nat(BITSTREAM *bs, NAT n, int intro)
 {
-    if (IS_NULL_nat (n)) {
+	if (IS_NULL_nat (n)) {
 		/* Null constant maps to zero */
 		ENC_make_nat (bs);
 		ENC_INT_SMALL (bs, 0);
-    } else {
+	} else {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
 	    case nat_small_tag : {
@@ -331,8 +331,8 @@ BITSTREAM
 			break;
 	    }
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -347,12 +347,12 @@ BITSTREAM
 BITSTREAM
 *enc_snat(BITSTREAM *bs, NAT n, int sgn, int intro)
 {
-    if (IS_NULL_nat (n)) {
+	if (IS_NULL_nat (n)) {
 		/* Null constant maps to zero */
 		ENC_make_signed_nat (bs);
 		ENC_OFF (bs);
 		ENC_INT_SMALL (bs, 0);
-    } else {
+	} else {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
 	    case nat_small_tag : {
@@ -404,8 +404,8 @@ BITSTREAM
 			break;
 	    }
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -421,7 +421,7 @@ BITSTREAM
 *enc_int_lit(BITSTREAM *bs, NAT n, TYPE t,
 			 unsigned etag)
 {
-    if (IS_nat_calc (n)) {
+	if (IS_nat_calc (n)) {
 		if (etag == exp_identifier_tag) {
 			/* Enumerator value */
 			bs = enc_calc (bs, n, 0, 1, 3);
@@ -429,13 +429,13 @@ BITSTREAM
 			/* Other calculated value */
 			bs = enc_calc (bs, n, 0, 0, 2);
 		}
-    } else {
+	} else {
 		/* Simple value */
 		ENC_make_int (bs);
 		bs = enc_variety (bs, t);
 		bs = enc_snat (bs, n, 0, 0);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -449,8 +449,8 @@ BITSTREAM
 BITSTREAM
 *enc_float(BITSTREAM *bs, FLOAT flt, TYPE t)
 {
-    ulong n = DEREF_ulong (flt_tok (flt));
-    if (n == LINK_NONE) {
+	ulong n = DEREF_ulong (flt_tok (flt));
+	if (n == LINK_NONE) {
 		/* Decompose literal */
 		BITSTREAM *ts;
 		string i = DEREF_string (flt_simple_int_part (flt));
@@ -459,7 +459,7 @@ BITSTREAM
 		unsigned long nf = (unsigned long) ustrlen (f);
 		unsigned long nt = ni + nf + 1;
 		NAT e = DEREF_nat (flt_simple_exponent (flt));
-		
+
 		/* Map to canonical form */
 		if (ni == 0) {
 			/* Introduce leading zero */
@@ -476,7 +476,7 @@ BITSTREAM
 			nf = 0;
 			nt = ni;
 		}
-		
+
 		/* Encode expression */
 		n = capsule_no (NULL_string, VAR_token);
 		ts = enc_tokdef_start (n, "E", NULL, 1);
@@ -497,12 +497,12 @@ BITSTREAM
 		ts = enc_snat (ts, e, 0, 0);
 		enc_tokdef_end (n, ts);
 		COPY_ulong (flt_tok (flt), n);
-    }
-    n = link_no (bs, n, VAR_token);
-    ENC_exp_apply_token (bs);
-    ENC_make_tok (bs, n);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	}
+	n = link_no (bs, n, VAR_token);
+	ENC_exp_apply_token (bs);
+	ENC_make_tok (bs, n);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -516,10 +516,10 @@ BITSTREAM
 BITSTREAM
 *enc_float_int(BITSTREAM *bs, int v, TYPE t)
 {
-    FLOAT flt = get_float (t, v);
-    if (!IS_NULL_flt (flt)) {
+	FLOAT flt = get_float (t, v);
+	if (!IS_NULL_flt (flt)) {
 		bs = enc_float (bs, flt, t);
-    } else {
+	} else {
 		char s [20];
 		sprintf_v (s, "%d", v);
 		ENC_make_floating (bs);
@@ -531,8 +531,8 @@ BITSTREAM
 		ENC_make_nat (bs);
 		ENC_INT (bs, 10);
 		bs = enc_snat (bs, NULL_nat, 0, 0);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -548,17 +548,17 @@ BITSTREAM
 BITSTREAM
 *enc_string(BITSTREAM *bs, STRING str, TYPE t)
 {
-    unsigned long i, m;
-    unsigned long d = 0;
-    string s = DEREF_string (str_simple_text (str));
-    unsigned long n = DEREF_ulong (str_simple_len (str));
-    unsigned kind = DEREF_unsigned (str_simple_kind (str));
-    if (n == 0) {
+	unsigned long i, m;
+	unsigned long d = 0;
+	string s = DEREF_string (str_simple_text (str));
+	unsigned long n = DEREF_ulong (str_simple_len (str));
+	unsigned kind = DEREF_unsigned (str_simple_kind (str));
+	if (n == 0) {
 		/* Allow for empty strings */
 		bs = enc_null_exp (bs, t);
 		return (bs);
-    }
-    if (IS_type_array (t)) {
+	}
+	if (IS_type_array (t)) {
 		/* Find array size */
 		NAT sz = DEREF_nat (type_array_size (t));
 		m = get_nat_value (sz);
@@ -577,10 +577,10 @@ BITSTREAM
 			}
 		}
 		t = DEREF_type (type_array_sub (t));
-    } else {
+	} else {
 		m = n + 1;
-    }
-    if (kind & STRING_FAT) {
+	}
+	if (kind & STRING_FAT) {
 		/* Fat character strings */
 		unsigned mbits = 0;
 		unsigned long maxc = 1;
@@ -635,15 +635,15 @@ BITSTREAM
 			/* Terminal zeros */
 			ENC_BITS (bs, BYTE_SIZE, 0);
 		}
-    }
-    if (d) {
+	}
+	if (d) {
 		/* Large padding */
 		ENC_n_copies (bs);
 		ENC_make_nat (bs);
 		ENC_INT (bs, d);
 		bs = enc_make_int (bs, t, 0);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -656,13 +656,13 @@ BITSTREAM
 BITSTREAM
 *enc_strlit(BITSTREAM *bs, STRING str)
 {
-    string s = DEREF_string (str_simple_text (str));
-    unsigned long n = DEREF_ulong (str_simple_len (str));
-    unsigned kind = DEREF_unsigned (str_simple_kind (str));
-    ENC_make_string (bs);
-    ENC_INT (bs, BYTE_SIZE);
-    ENC_INT (bs, n);
-    if (kind & STRING_MULTI) {
+	string s = DEREF_string (str_simple_text (str));
+	unsigned long n = DEREF_ulong (str_simple_len (str));
+	unsigned kind = DEREF_unsigned (str_simple_kind (str));
+	ENC_make_string (bs);
+	ENC_INT (bs, BYTE_SIZE);
+	ENC_INT (bs, n);
+	if (kind & STRING_MULTI) {
 		unsigned long i;
 		for (i = 0 ; i < n ; i++) {
 			int ch = CHAR_SIMPLE;
@@ -671,10 +671,10 @@ BITSTREAM
 			ENC_BITS (bs, BYTE_SIZE, c);
 			s += MULTI_WIDTH;
 		}
-    } else {
+	} else {
 		tdf_en_ascii (bs, n, s);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -690,12 +690,12 @@ BITSTREAM
 *enc_char(BITSTREAM *bs, STRING str, TYPE t,
 		  TYPE u)
 {
-    NAT n;
-    TYPE w;
-    int convert_to_t;
-    int convert_to_u;
-    unsigned long v = DEREF_ulong (str_simple_tok (str));
-    if (v == LINK_NONE) {
+	NAT n;
+	TYPE w;
+	int convert_to_t;
+	int convert_to_u;
+	unsigned long v = DEREF_ulong (str_simple_tok (str));
+	if (v == LINK_NONE) {
 		/* Evaluate literal */
 		n = eval_char_lit (str);
 		v = DEREF_ulong (str_simple_tok (str));
@@ -704,15 +704,15 @@ BITSTREAM
 			bs = enc_make_int (bs, t, (int) v);
 			return (bs);
 		}
-    } else {
+	} else {
 		if (v < 128) {
 			/* Small values are easy */
 			bs = enc_make_int (bs, t, (int) v);
 			return (bs);
 		}
 		n = make_nat_value (v);
-    }
-    if (check_nat_range (u, n) == 0) {
+	}
+	if (check_nat_range (u, n) == 0) {
 		if (EQ_type (t, u) || check_nat_range (t, n) == 0) {
 			/* Fits into both t and u */
 			w = t;
@@ -724,28 +724,28 @@ BITSTREAM
 			convert_to_t = 1;
 			convert_to_u = 0;
 		}
-    } else {
+	} else {
 		/* Doesn't fit into u */
 		w = find_char_type (n);
 		convert_to_t = 1;
 		convert_to_u = 1;
-    }
-    if (convert_to_t) {
+	}
+	if (convert_to_t) {
 		ENC_change_variety (bs);
 		bs = enc_error_treatment (bs, t);
 		bs = enc_variety (bs, t);
-    }
-    if (convert_to_u && !EQ_type (u, t)) {
+	}
+	if (convert_to_u && !EQ_type (u, t)) {
 		ENC_change_variety (bs);
 		bs = enc_error_treatment (bs, u);
 		bs = enc_variety (bs, u);
-    }
-    ENC_make_int (bs);
-    bs = enc_variety (bs, w);
-    ENC_make_signed_nat (bs);
-    ENC_OFF (bs);
-    bs = enc_tdfint (bs, n, 1);
-    return (bs);
+	}
+	ENC_make_int (bs);
+	bs = enc_variety (bs, w);
+	ENC_make_signed_nat (bs);
+	ENC_OFF (bs);
+	bs = enc_tdfint (bs, n, 1);
+	return (bs);
 }
 
 
@@ -758,11 +758,11 @@ BITSTREAM
 static INT_TYPE
 find_itype(TYPE t)
 {
-    INT_TYPE it;
-    unsigned tag = TAG_type (t);
-    if (tag == type_bitfield_tag) {
+	INT_TYPE it;
+	unsigned tag = TAG_type (t);
+	if (tag == type_bitfield_tag) {
 		it = DEREF_itype (type_bitfield_defn (t));
-    } else {
+	} else {
 		if (tag == type_enumerate_tag) {
 			/* Allow for enumeration types */
 			ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
@@ -771,8 +771,8 @@ find_itype(TYPE t)
 		}
 		if (tag != type_integer_tag) t = type_sint;
 		it = DEREF_itype (type_integer_rep (t));
-    }
-    return (it);
+	}
+	return (it);
 }
 
 
@@ -786,10 +786,10 @@ find_itype(TYPE t)
 static BITSTREAM
 *enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 {
-    ulong tok;
-    unsigned tag = TAG_itype (it);
-    ASSERT (ORDER_itype == 6);
-    switch (tag) {
+	ulong tok;
+	unsigned tag = TAG_itype (it);
+	ASSERT (ORDER_itype == 6);
+	switch (tag) {
 	case itype_basic_tag : {
 	    /* Built-in integral types */
 	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
@@ -816,11 +816,11 @@ static BITSTREAM
 	    bs = enc_token (bs, tk, args);
 	    return (bs);
 	}
-    }
-	
-    /* Find the token number */
-    tok = DEREF_ulong (itype_ntok (it));
-    if (tok == LINK_NONE) {
+	}
+
+	/* Find the token number */
+	tok = DEREF_ulong (itype_ntok (it));
+	if (tok == LINK_NONE) {
 		if (tag == itype_basic_tag) {
 			/* Look up special token number */
 			BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
@@ -877,14 +877,14 @@ static BITSTREAM
 			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
-    }
-	
-    /* Encode the token application */
-    tok = link_no (bs, tok, VAR_token);
-    ENC_signed_nat_apply_token (bs);
-    ENC_make_tok (bs, tok);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	}
+
+	/* Encode the token application */
+	tok = link_no (bs, tok, VAR_token);
+	ENC_signed_nat_apply_token (bs);
+	ENC_make_tok (bs, tok);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -898,11 +898,11 @@ static BITSTREAM
 BITSTREAM
 *enc_variety(BITSTREAM *bs, TYPE t)
 {
-    /* Find the token number */
-    INT_TYPE it = find_itype (t);
-    unsigned tag = TAG_itype (it);
-    ulong tok = DEREF_ulong (itype_itok (it));
-    if (tok == LINK_NONE) {
+	/* Find the token number */
+	INT_TYPE it = find_itype (t);
+	unsigned tag = TAG_itype (it);
+	ulong tok = DEREF_ulong (itype_itok (it));
+	if (tok == LINK_NONE) {
 		ASSERT (ORDER_itype == 6);
 		switch (tag) {
 	    case itype_basic_tag : {
@@ -973,18 +973,18 @@ BITSTREAM
 				enc_tokdef_end (tok, ts);
 			}
 		}
-    }
-	
-    /* Encode the token application */
-    tok = link_no (bs, tok, VAR_token);
-    if (tag == itype_bitfield_tag) {
+	}
+
+	/* Encode the token application */
+	tok = link_no (bs, tok, VAR_token);
+	if (tag == itype_bitfield_tag) {
 		ENC_bfvar_apply_token (bs);
-    } else {
+	} else {
 		ENC_var_apply_token (bs);
-    }
-    ENC_make_tok (bs, tok);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	}
+	ENC_make_tok (bs, tok);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -998,10 +998,10 @@ BITSTREAM
 static BITSTREAM
 *enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 {
-    ulong tok;
-    unsigned tag = TAG_ftype (ft);
-    ASSERT (ORDER_ftype == 4);
-    switch (tag) {
+	ulong tok;
+	unsigned tag = TAG_ftype (ft);
+	ASSERT (ORDER_ftype == 4);
+	switch (tag) {
 	case ftype_basic_tag : {
 	    /* Built-in floating types */
 	    BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
@@ -1020,11 +1020,11 @@ static BITSTREAM
 	    bs = enc_token (bs, tk, args);
 	    return (bs);
 	}
-    }
-	
-    /* Find the token number */
-    tok = DEREF_ulong (ftype_ntok (ft));
-    if (tok == LINK_NONE) {
+	}
+
+	/* Find the token number */
+	tok = DEREF_ulong (ftype_ntok (ft));
+	if (tok == LINK_NONE) {
 		if (tag == ftype_basic_tag) {
 			/* Look up special token number */
 			BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
@@ -1065,14 +1065,14 @@ static BITSTREAM
 			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
-    }
-	
-    /* Encode the token application */
-    tok = link_no (bs, tok, VAR_token);
-    ENC_signed_nat_apply_token (bs);
-    ENC_make_tok (bs, tok);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	}
+
+	/* Encode the token application */
+	tok = link_no (bs, tok, VAR_token);
+	ENC_signed_nat_apply_token (bs);
+	ENC_make_tok (bs, tok);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -1087,14 +1087,14 @@ static BITSTREAM
 BITSTREAM
 *enc_flvar(BITSTREAM *bs, TYPE t)
 {
-    ulong tok;
-    FLOAT_TYPE ft;
-    if (!IS_type_floating (t)) t = type_double;
-    ft = DEREF_ftype (type_floating_rep (t));
-	
-    /* Find the token number */
-    tok = DEREF_ulong (ftype_ftok (ft));
-    if (tok == LINK_NONE) {
+	ulong tok;
+	FLOAT_TYPE ft;
+	if (!IS_type_floating (t)) t = type_double;
+	ft = DEREF_ftype (type_floating_rep (t));
+
+	/* Find the token number */
+	tok = DEREF_ulong (ftype_ftok (ft));
+	if (tok == LINK_NONE) {
 		if (IS_ftype_basic (ft)) {
 			/* Built-in floating point types */
 			BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
@@ -1136,14 +1136,14 @@ BITSTREAM
 			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
-    }
-	
-    /* Encode the token application */
-    tok = link_no (bs, tok, VAR_token);
-    ENC_flvar_apply_token (bs);
-    ENC_make_tok (bs, tok);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	}
+
+	/* Encode the token application */
+	tok = link_no (bs, tok, VAR_token);
+	ENC_flvar_apply_token (bs);
+	ENC_make_tok (bs, tok);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -1157,9 +1157,9 @@ BITSTREAM
 BITSTREAM
 *enc_bfvar(BITSTREAM *bs, TYPE t)
 {
-    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-    ulong m = DEREF_ulong (itype_itok (it));
-    if (m == LINK_NONE) {
+	INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+	ulong m = DEREF_ulong (itype_itok (it));
+	if (m == LINK_NONE) {
 		static LIST (INT_TYPE) bftypes = NULL_list (INT_TYPE);
 		LIST (INT_TYPE) p = bftypes;
 		while (!IS_NULL_list (p)) {
@@ -1175,9 +1175,9 @@ BITSTREAM
 			/* Add bitfield type to list */
 			CONS_itype (it, bftypes, bftypes);
 		}
-    }
-    bs = enc_variety (bs, t);
-    return (bs);
+	}
+	bs = enc_variety (bs, t);
+	return (bs);
 }
 
 
@@ -1191,9 +1191,9 @@ BITSTREAM
 BITSTREAM
 *enc_arith(BITSTREAM *bs, TYPE t, int alt)
 {
-    unsigned n;
-    BUILTIN_TYPE bt;
-    if (!IS_NULL_type (t)) {
+	unsigned n;
+	BUILTIN_TYPE bt;
+	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
 	    case type_integer_tag :
 	    case type_enumerate_tag : {
@@ -1215,15 +1215,15 @@ BITSTREAM
 			return (bs);
 	    }
 		}
-    }
-    bt = is_builtin_type (t, 0);
-    if (alt) {
+	}
+	bt = is_builtin_type (t, 0);
+	if (alt) {
 		n = base_token [ bt ].alt;
-    } else {
+	} else {
 		n = base_token [ bt ].no;
-    }
-    bs = enc_make_snat (bs, (int) n);
-    return (bs);
+	}
+	bs = enc_make_snat (bs, (int) n);
+	return (bs);
 }
 
 
@@ -1236,11 +1236,11 @@ BITSTREAM
 int
 is_tokenised_class(TYPE t)
 {
-    if (!IS_NULL_type (t) && IS_type_token (t)) {
+	if (!IS_NULL_type (t) && IS_type_token (t)) {
 		IDENTIFIER id = DEREF_id (type_token_tok (t));
 		if (IS_id_token (id)) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1254,11 +1254,11 @@ is_tokenised_class(TYPE t)
 BITSTREAM
 *enc_alignment(BITSTREAM *bs, TYPE t)
 {
-    if (IS_NULL_type (t)) {
+	if (IS_NULL_type (t)) {
 		/* This shouldn't happen */
 		t = type_sint;
-    }
-    switch (TAG_type (t)) {
+	}
+	switch (TAG_type (t)) {
 	case type_ptr_tag :
 	case type_ref_tag : {
 	    /* Pointer alignment */
@@ -1325,8 +1325,8 @@ BITSTREAM
 	    bs = enc_shape (bs, t);
 	    break;
 	}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1340,7 +1340,7 @@ BITSTREAM
 static int
 simple_alignment(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
 	    case type_array_tag : {
 			/* Array types */
@@ -1367,8 +1367,8 @@ simple_alignment(TYPE t)
 			break;
 	    }
 		}
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -1381,7 +1381,7 @@ simple_alignment(TYPE t)
 BITSTREAM
 *enc_shape_offset(BITSTREAM *bs, TYPE t)
 {
-    if (!IS_NULL_type (t) && IS_type_array (t)) {
+	if (!IS_NULL_type (t) && IS_type_array (t)) {
 		/* Allow for variable-sized arrays */
 		NAT n = DEREF_nat (type_array_size (t));
 		if (!IS_NULL_nat (n) && IS_nat_calc (n)) {
@@ -1392,8 +1392,8 @@ BITSTREAM
 			bs = enc_exp (bs, e);
 			return (bs);
 		}
-    }
-    if (simple_alignment (t)) {
+	}
+	if (simple_alignment (t)) {
 		/* Use token as shorthand */
 		if (EQ_type (t, type_char)) {
 			bs = enc_special (bs, TOK_char_offset);
@@ -1403,14 +1403,14 @@ BITSTREAM
 			ts = enc_shape (ts, t);
 			tdf_en_bitstream (bs, ts);
 		}
-    } else {
+	} else {
 		/* Output explicit instructions */
 		ENC_offset_pad (bs);
 		bs = enc_alignment (bs, t);
 		ENC_shape_offset (bs);
 		bs = enc_shape (bs, t);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1423,13 +1423,13 @@ BITSTREAM
 BITSTREAM
 *enc_offset(BITSTREAM *bs, OFFSET off)
 {
-    if (IS_NULL_off (off)) {
+	if (IS_NULL_off (off)) {
 		ENC_offset_zero (bs);
 		bs = enc_alignment (bs, type_sint);
 		return (bs);
-    }
-    ASSERT (ORDER_off == 13);
-    switch (TAG_off (off)) {
+	}
+	ASSERT (ORDER_off == 13);
+	switch (TAG_off (off)) {
 	case off_zero_tag : {
 	    /* Zero offsets */
 	    TYPE t = DEREF_type (off_zero_type (off));
@@ -1550,8 +1550,8 @@ BITSTREAM
 	    bs = enc_alignment (bs, type_sint);
 	    break;
 	}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1566,10 +1566,10 @@ BITSTREAM
 *enc_extra_offset(BITSTREAM *bs, TYPE t, OFFSET off,
 				  int n)
 {
-    if (n == 0) {
+	if (n == 0) {
 		ENC_offset_zero (bs);
 		bs = enc_alignment (bs, t);
-    } else {
+	} else {
 		if (n < 0) {
 			ENC_offset_negate (bs);
 			n = -n;
@@ -1586,8 +1586,8 @@ BITSTREAM
 			bs = enc_extra_offset (bs, t, off, 1);
 			bs = enc_make_int (bs, type_sint, n);
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1603,7 +1603,7 @@ BITSTREAM
 *enc_add_ptr(BITSTREAM *bs, EXP a, ulong n,
 			 OFFSET off, int virt)
 {
-    if (IS_NULL_off (off)) {
+	if (IS_NULL_off (off)) {
 		if (n == LINK_NONE) {
 			bs = enc_exp (bs, a);
 		} else {
@@ -1612,9 +1612,9 @@ BITSTREAM
 			ENC_LEN_SMALL (bs, 0);
 		}
 		return (bs);
-    }
-    ASSERT (ORDER_off == 13);
-    switch (TAG_off (off)) {
+	}
+	ASSERT (ORDER_off == 13);
+	switch (TAG_off (off)) {
 	case off_base_tag : {
 	    /* Base class offsets */
 	    GRAPH gr = DEREF_graph (off_base_graph (off));
@@ -1674,17 +1674,17 @@ BITSTREAM
 	    }
 	    return (bs);
 	}
-    }
-	
-    /* Other offsets */
-    if (is_zero_offset (off)) {
+	}
+
+	/* Other offsets */
+	if (is_zero_offset (off)) {
 		bs = enc_add_ptr (bs, a, n, NULL_off, 0);
-    } else {
+	} else {
 		ENC_add_to_ptr (bs);
 		bs = enc_add_ptr (bs, a, n, NULL_off, 0);
 		bs = enc_offset (bs, off);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1697,12 +1697,12 @@ BITSTREAM
 BITSTREAM
 *enc_shape(BITSTREAM *bs, TYPE t)
 {
-    if (IS_NULL_type (t)) {
+	if (IS_NULL_type (t)) {
 		/* This shouldn't happen */
 		t = type_sint;
-    }
-    ASSERT (ORDER_type == 18);
-    switch (TAG_type (t)) {
+	}
+	ASSERT (ORDER_type == 18);
+	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {
 	    /* Integral and enumeration types */
@@ -1827,8 +1827,8 @@ BITSTREAM
 	    bs = enc_shape (bs, type_sint);
 	    break;
 	}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1842,14 +1842,14 @@ BITSTREAM
 int
 eq_type_rep(TYPE s, TYPE t, int ptr)
 {
-    unsigned ns, nt;
-    if (EQ_type (s, t)) return (1);
-    if (IS_NULL_type (s) || IS_NULL_type (t)) return (0);
-    ns = TAG_type (s);
-    nt = TAG_type (t);
-	
-    /* Check the first type */
-    switch (ns) {
+	unsigned ns, nt;
+	if (EQ_type (s, t)) return (1);
+	if (IS_NULL_type (s) || IS_NULL_type (t)) return (0);
+	ns = TAG_type (s);
+	nt = TAG_type (t);
+
+	/* Check the first type */
+	switch (ns) {
 	case type_top_tag :
 	case type_bottom_tag : {
 	    /* Top and bottom types */
@@ -1926,10 +1926,10 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 	    TYPE ps = DEREF_type (etype_rep (es));
 	    return (eq_type_rep (ps, t, ptr));
 	}
-    }
-	
-    /* Check the second type */
-    switch (nt) {
+	}
+
+	/* Check the second type */
+	switch (nt) {
 	case type_array_tag : {
 	    /* Array types */
 	    if (ptr) {
@@ -1945,14 +1945,14 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 	    TYPE pt = DEREF_type (etype_rep (et));
 	    return (eq_type_rep (s, pt, ptr));
 	}
-    }
-	
-    /* Compare the types */
-    if (ns == nt) {
+	}
+
+	/* Compare the types */
+	if (ns == nt) {
 		if (ptr) return (eq_type_offset (s, t));
 		return (eq_type_unqual (s, t));
-    }
-    return (0);
+	}
+	return (0);
 }
 
 

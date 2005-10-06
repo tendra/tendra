@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -123,7 +123,7 @@ unsigned char digit_values [ NO_CHAR + 1 ] = {
 #define CHAR_DATA(A, B, C, D)	(B),
 #include "char.h"
 #undef CHAR_DATA
-    NONE		/* dummy */
+	NONE		/* dummy */
 };
 
 
@@ -143,7 +143,7 @@ unsigned char escape_sequences [ NO_CHAR + 1 ] = {
 #define CHAR_DATA(A, B, C, D)	(C),
 #include "char.h"
 #undef CHAR_DATA
-    NONE		/* dummy */
+	NONE		/* dummy */
 };
 
 
@@ -158,16 +158,16 @@ unsigned char escape_sequences [ NO_CHAR + 1 ] = {
 void
 set_escape(EXP a, EXP b)
 {
-    int c = get_char_value (a);
-    int e = NONE;
-    if (!IS_NULL_exp (b)) {
+	int c = get_char_value (a);
+	int e = NONE;
+	if (!IS_NULL_exp (b)) {
 		e = get_char_value (b);
 		if (e == char_illegal) e = NONE;
-    }
-    if (c >= 0 && c < NO_CHAR) {
+	}
+	if (c >= 0 && c < NO_CHAR) {
 		escape_sequences [c] = (unsigned char) e;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -182,17 +182,17 @@ set_escape(EXP a, EXP b)
 static string
 check_digits(string s, unsigned base)
 {
-    unsigned b;
-    character c;
-    while (c = *s, c != 0) {
+	unsigned b;
+	character c;
+	while (c = *s, c != 0) {
 #if FS_EXTENDED_CHAR
 		if (IS_EXTENDED (c)) break;
 #endif
 		b = (unsigned) digit_values [c];
 		if (b >= base) break;
 		s++;
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -207,26 +207,26 @@ check_digits(string s, unsigned base)
 static NAT
 eval_digits(string s, string t, unsigned base)
 {
-    NAT n;
-    int m = 0;
-    string r = s;
-    unsigned long v = 0;
-    unsigned long b = (unsigned long) base;
-    while (r != t && m < 8) {
+	NAT n;
+	int m = 0;
+	string r = s;
+	unsigned long v = 0;
+	unsigned long b = (unsigned long) base;
+	while (r != t && m < 8) {
 		/* Evaluate first few digits */
 		unsigned long d = (unsigned long) digit_values [ *r ];
 		v = b * v + d;
 		m++;
 		r++;
-    }
-    n = make_nat_value (v);
-    while (r != t) {
+	}
+	n = make_nat_value (v);
+	while (r != t) {
 		/* Evaluate further digits */
 		unsigned d = (unsigned) digit_values [ *r ];
 		n = make_nat_literal (n, base, d);
 		r++;
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -241,17 +241,17 @@ eval_digits(string s, string t, unsigned base)
 static unsigned long
 eval_char_digits(string s, string t, unsigned base)
 {
-    string r;
-    int overflow = 0;
-    unsigned long n = 0;
-    unsigned long b = (unsigned long) base;
-    for (r = s; r != t; r++) {
+	string r;
+	int overflow = 0;
+	unsigned long n = 0;
+	unsigned long b = (unsigned long) base;
+	for (r = s; r != t; r++) {
 		unsigned long m = n;
 		n = b * n + (unsigned long) digit_values [ *r ];
 		if (n < m) overflow = 1;
-    }
-    if (overflow) report (crt_loc, ERR_lex_ccon_large ());
-    return (n);
+	}
+	if (overflow) report (crt_loc, ERR_lex_ccon_large ());
+	return (n);
 }
 
 
@@ -268,17 +268,17 @@ eval_char_digits(string s, string t, unsigned base)
 unsigned long
 eval_line_digits(string s, unsigned *err)
 {
-    string r;
-    unsigned e = 0;
-    unsigned long n = 0;
-    string t = check_digits (s, (unsigned) 10);
-    if (*t) e = 2;
-    for (r = s; r != t; r++) {
+	string r;
+	unsigned e = 0;
+	unsigned long n = 0;
+	string t = check_digits (s, (unsigned) 10);
+	if (*t) e = 2;
+	for (r = s; r != t; r++) {
 		n = 10 * n + (unsigned long) digit_values [ *r ];
 		if (n > 0x7fff) e |= 1;
-    }
-    *err = e;
-    return (n);
+	}
+	*err = e;
+	return (n);
 }
 
 
@@ -320,14 +320,14 @@ CV_SPEC cv_string = cv_none;
 void
 set_char_lit(TYPE t)
 {
-    if (IS_type_integer (t)) {
+	if (IS_type_integer (t)) {
 		INT_TYPE r = DEREF_itype (type_integer_rep (t));
 		INT_TYPE s = DEREF_itype (type_integer_rep (type_char));
 		type_char_lit = make_itype (r, s);
-    } else {
+	} else {
 		report (preproc_loc, ERR_pragma_char_lit (t));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -340,19 +340,19 @@ set_char_lit(TYPE t)
  */
 
 typedef struct lit_info_tag {
-    int tag;
-    TYPE type;
-    NAT bound;
-    IDENTIFIER tok;
-    int tok_no;
-    int opt;
-    struct lit_info_tag *next;
+	int tag;
+	TYPE type;
+	NAT bound;
+	IDENTIFIER tok;
+	int tok_no;
+	int opt;
+	struct lit_info_tag *next;
 } LITERAL_INFO;
 
 static LITERAL_INFO *int_lit_spec [ BASE_NO ] [ SUFFIX_NO ] = {
-    { NULL, NULL, NULL, NULL, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL, NULL }
+	{ NULL, NULL, NULL, NULL, NULL, NULL },
+	{ NULL, NULL, NULL, NULL, NULL, NULL },
+	{ NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 static LITERAL_INFO *crt_int_lit = NULL;
@@ -367,34 +367,34 @@ static LITERAL_INFO **ptr_int_lit = NULL;
  */
 
 static struct {
-    unsigned char type [6];
-    int tok;
-    LIST (TYPE) cases;
+	unsigned char type [6];
+	int tok;
+	LIST (TYPE) cases;
 } int_lit_tok [ BASE_NO ] [ SUFFIX_NO ] = {
-    {
+	{
 		{ { 2, 0, 2, 2, 1, 1 }, TOK_lit_int, NULL_list (TYPE) },
 		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list (TYPE) },
 		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list (TYPE) },
 		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list (TYPE) }
-    },
-    {
+	},
+	{
 		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list (TYPE) },
 		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list (TYPE) },
 		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list (TYPE) },
 		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list (TYPE) }
-    },
-    {
+	},
+	{
 		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list (TYPE) },
 		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list (TYPE) },
 		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list (TYPE) },
 		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list (TYPE) },
 		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list (TYPE) }
-    }
+	}
 };
 
 
@@ -436,26 +436,26 @@ static struct {
 void
 init_literal(void)
 {
-    int b, s;
-    BUILTIN_TYPE n;
-    OPTION opt = option (OPT_int_overflow);
-    ASSERT (!IS_NULL_type (type_char));
-	
-    /* String and character literal types */
-    type_mchar_lit = type_sint;
-    type_wchar_lit = type_wchar_t;
-    type_string_lit = type_char;
-    type_wstring_lit = type_wchar_t;
+	int b, s;
+	BUILTIN_TYPE n;
+	OPTION opt = option (OPT_int_overflow);
+	ASSERT (!IS_NULL_type (type_char));
+
+	/* String and character literal types */
+	type_mchar_lit = type_sint;
+	type_wchar_lit = type_wchar_t;
+	type_string_lit = type_char;
+	type_wstring_lit = type_wchar_t;
 #if LANGUAGE_CPP
-    set_char_lit (type_char);
-    set_string_qual (cv_const);
+	set_char_lit (type_char);
+	set_string_qual (cv_const);
 #else
-    set_char_lit (type_sint);
-    set_string_qual (cv_none);
+	set_char_lit (type_sint);
+	set_string_qual (cv_none);
 #endif
-	
-    /* Set up type lists */
-    for (b = 0; b < BASE_NO; b++) {
+
+	/* Set up type lists */
+	for (b = 0; b < BASE_NO; b++) {
 		for (s = 0; s < SUFFIX_NO; s++) {
 			LIST (TYPE) p = NULL_list (TYPE);
 			begin_literal (b, s);
@@ -472,16 +472,16 @@ init_literal(void)
 			p = REVERSE_list (p);
 			int_lit_tok [b] [s].cases = uniq_type_set (p);
 		}
-    }
-	
-    /* Set up string hash table */
-    if (string_hash_table == NULL) {
+	}
+
+	/* Set up string hash table */
+	if (string_hash_table == NULL) {
 		unsigned long i;
 		STRING *q = xmalloc_nof (STRING, HASH_STRING_SIZE);
 		for (i = 0; i < HASH_STRING_SIZE; i++) q [i] = NULL_str;
 		string_hash_table = q;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -495,10 +495,10 @@ init_literal(void)
 void
 set_string_qual(CV_SPEC cv)
 {
-    type_string_lit = qualify_type (type_string_lit, cv, 0);
-    type_wstring_lit = qualify_type (type_wstring_lit, cv, 0);
-    cv_string = cv;
-    return;
+	type_string_lit = qualify_type (type_string_lit, cv, 0);
+	type_wstring_lit = qualify_type (type_wstring_lit, cv, 0);
+	cv_string = cv;
+	return;
 }
 
 
@@ -512,11 +512,11 @@ set_string_qual(CV_SPEC cv)
 void
 begin_literal(int base, int suff)
 {
-    LITERAL_INFO **p = &(int_lit_spec [ base ] [ suff ]);
-    *p = NULL;
-    ptr_int_lit = p;
-    crt_int_lit = NULL;
-    return;
+	LITERAL_INFO **p = &(int_lit_spec [ base ] [ suff ]);
+	*p = NULL;
+	ptr_int_lit = p;
+	crt_int_lit = NULL;
+	return;
 }
 
 
@@ -533,22 +533,22 @@ begin_literal(int base, int suff)
 void
 add_range_literal(EXP e, int n)
 {
-    LITERAL_INFO *p = xmalloc (sizeof(*p));
-    p->tag = n;
-    if (!IS_NULL_exp (e) && IS_exp_int_lit (e)) {
+	LITERAL_INFO *p = xmalloc (sizeof(*p));
+	p->tag = n;
+	if (!IS_NULL_exp (e) && IS_exp_int_lit (e)) {
 		p->bound = DEREF_nat (exp_int_lit_nat (e));
-    } else {
+	} else {
 		p->bound = small_nat [0];
-    }
-    p->type = NULL_type;
-    p->tok = NULL_id;
-    p->tok_no = -1;
-    p->opt = OPT_none;
-    p->next = NULL;
-    *ptr_int_lit = p;
-    crt_int_lit = p;
-    ptr_int_lit = &(p->next);
-    return;
+	}
+	p->type = NULL_type;
+	p->tok = NULL_id;
+	p->tok_no = -1;
+	p->opt = OPT_none;
+	p->next = NULL;
+	*ptr_int_lit = p;
+	crt_int_lit = p;
+	ptr_int_lit = &(p->next);
+	return;
 }
 
 
@@ -562,34 +562,34 @@ add_range_literal(EXP e, int n)
 void
 add_type_literal(TYPE t)
 {
-    NAT n;
-    LITERAL_INFO *p = crt_int_lit;
-    if (IS_type_integer (t)) {
+	NAT n;
+	LITERAL_INFO *p = crt_int_lit;
+	if (IS_type_integer (t)) {
 		if (!is_arg_promote (t)) {
 			/* Type should promote to itself */
 			report (preproc_loc, ERR_pragma_lit_type (t));
 			t = promote_type (t);
 		}
-    } else {
+	} else {
 		/* Type should be integral */
 		if (!IS_type_error (t)) {
 			report (preproc_loc, ERR_pragma_lit_type (t));
 		}
 		t = type_ulong;
-    }
-    p->type = qualify_type (t, cv_none, 0);
-    n = p->bound;
-    if (p->tag == 2) {
+	}
+	p->type = qualify_type (t, cv_none, 0);
+	n = p->bound;
+	if (p->tag == 2) {
 		if (check_nat_range (t, n) != 0) {
 			/* Given bound should fit into type */
 			report (preproc_loc, ERR_pragma_lit_range (n, t));
 			n = max_type_value (t, 0);
 		}
-    } else {
+	} else {
 		n = max_type_value (t, 0);
-    }
-    p->bound = n;
-    return;
+	}
+	p->bound = n;
+	return;
 }
 
 
@@ -604,24 +604,24 @@ add_type_literal(TYPE t)
 void
 add_token_literal(IDENTIFIER id, unsigned sev)
 {
-    int n = -1;
-    LITERAL_INFO *p = crt_int_lit;
-    if (!IS_NULL_id (id)) {
+	int n = -1;
+	LITERAL_INFO *p = crt_int_lit;
+	if (!IS_NULL_id (id)) {
 		id = resolve_token (id, "ZZ", 0);
 		if (!IS_NULL_id (id)) n = builtin_token (id);
-    }
-    if (p->tag == 1) {
+	}
+	if (p->tag == 1) {
 		report (preproc_loc, ERR_pragma_lit_question ());
 		p->tag = 3;
-    }
-    p->tok = id;
-    p->tok_no = n;
-    switch (sev) {
+	}
+	p->tok = id;
+	p->tok_no = n;
+	switch (sev) {
 	case OPTION_ON : p->opt = OPT_error; break;
 	case OPTION_WARN : p->opt = OPT_warning; break;
 	default : p->opt = OPT_none; break;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -637,19 +637,19 @@ add_token_literal(IDENTIFIER id, unsigned sev)
 TYPE
 find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 {
-    TYPE t;
-    int tok;
-    INT_TYPE it;
-    int big = 0;
-    int have_tok = 0;
-    int opt = OPT_error;
-    NAT n = small_nat [0];
-    IDENTIFIER tid = NULL_id;
-    LIST (TYPE) qt = NULL_list (TYPE);
-    LITERAL_INFO *pt = int_lit_spec [ base ] [ suff ];
-	
-    /* Deal with calculated literals */
-    switch (TAG_nat (lit)) {
+	TYPE t;
+	int tok;
+	INT_TYPE it;
+	int big = 0;
+	int have_tok = 0;
+	int opt = OPT_error;
+	NAT n = small_nat [0];
+	IDENTIFIER tid = NULL_id;
+	LIST (TYPE) qt = NULL_list (TYPE);
+	LITERAL_INFO *pt = int_lit_spec [ base ] [ suff ];
+
+	/* Deal with calculated literals */
+	switch (TAG_nat (lit)) {
 	case nat_neg_tag : {
 	    lit = DEREF_nat (nat_neg_arg (lit));
 	    t = find_literal_type (lit, base, suff, num, fit);
@@ -666,10 +666,10 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 	    *fit = 1;
 	    return (t);
 	}
-    }
-	
-    /* Deal with simple literals */
-    while (pt != NULL) {
+	}
+
+	/* Deal with simple literals */
+	while (pt != NULL) {
 		int ch = 4;
 		TYPE s = pt->type;
 		switch (pt->tag) {
@@ -732,10 +732,10 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 		}
 		if (ch > 4) big = ch;
 		pt = pt->next;
-    }
-	
-    /* Tokenised result */
-    if (have_tok != 2) {
+	}
+
+	/* Tokenised result */
+	if (have_tok != 2) {
 		/* Find list of possible types */
 		if (IS_NULL_list (qt)) {
 			qt = int_lit_tok [ base ] [ suff ].cases;
@@ -743,28 +743,28 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			qt = REVERSE_list (qt);
 			qt = uniq_type_set (qt);
 		}
-    }
-    if (pt) {
+	}
+	if (pt) {
 		/* Get token information from table */
 		tid = pt->tok;
 		opt = pt->opt;
-    }
-    if (num && !(*fit)) {
+	}
+	if (num && !(*fit)) {
 		/* Report error if necessary */
 		ERROR err = ERR_lex_icon_large (num, n);
 		err = set_severity (err, opt, 0);
 		if (!IS_NULL_err (err)) report (crt_loc, err);
-    }
-    if (LENGTH_list (qt) == 1) {
+	}
+	if (LENGTH_list (qt) == 1) {
 		/* Only one possible case */
 		t = DEREF_type (HEAD_list (qt));
 		DESTROY_list (qt, SIZE_type);
 		return (t);
-    }
-    tok = int_lit_tok [ base ] [ suff ].tok;
-    MAKE_itype_literal (NULL_type, qt, lit, tok, base, suff, tid, it);
-    t = promote_itype (it, it);
-    return (t);
+	}
+	tok = int_lit_tok [ base ] [ suff ].tok;
+	MAKE_itype_literal (NULL_type, qt, lit, tok, base, suff, tid, it);
+	t = promote_itype (it, it);
+	return (t);
 }
 
 
@@ -782,21 +782,21 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 EXP
 make_literal_exp(string str, int *ptok, int force)
 {
-    EXP e;
-    string r;
-    int err = 0;
-    int flt = 0;
-    string s = str;
-    unsigned base = 10;
-    string dot_posn = NULL;
-    string exp_posn = NULL;
-    int form = BASE_DECIMAL;
-	
-    /* Check small literals */
-    character c1 = s [0];
-    character c2 = 0;
-    if (c1) c2 = s [1];
-    if (c2 == 0 && (c1 >= char_zero && c1 <= char_nine)) {
+	EXP e;
+	string r;
+	int err = 0;
+	int flt = 0;
+	string s = str;
+	unsigned base = 10;
+	string dot_posn = NULL;
+	string exp_posn = NULL;
+	int form = BASE_DECIMAL;
+
+	/* Check small literals */
+	character c1 = s [0];
+	character c2 = 0;
+	if (c1) c2 = s [1];
+	if (c2 == 0 && (c1 >= char_zero && c1 <= char_nine)) {
 		unsigned etag = exp_int_lit_tag;
 		int n = (int) digit_values [ c1 ];
 		NAT lit = small_nat [n];
@@ -805,16 +805,16 @@ make_literal_exp(string str, int *ptok, int force)
 		MAKE_exp_int_lit (type_sint, lit, etag, e);
 		*ptok = lex_integer_Hexp;
 		return (e);
-    }
-	
-    if (c1 == char_zero && (c2 == char_x || c2 == char_X)) {
+	}
+
+	if (c1 == char_zero && (c2 == char_x || c2 == char_X)) {
 		/* Hexadecimal integer */
 		base = 16;
 		form = BASE_HEXADECIMAL;
 		r = s + 2;
 		s = check_digits (r, base);
 		if (s == r) err = 1;
-    } else {
+	} else {
 		if (c1 == char_dot) {
 			/* Fractional component of floating literal */
 			dot_posn = s;
@@ -865,9 +865,9 @@ make_literal_exp(string str, int *ptok, int force)
 				report (crt_loc, ERR_lex_icon_octal (str));
 			}
 		}
-    }
-	
-    if (flt) {
+	}
+
+	if (flt) {
 		/* Floating literals */
 		int zero;
 		NAT expon;
@@ -878,7 +878,7 @@ make_literal_exp(string str, int *ptok, int force)
 		unsigned trail_zero = 0;
 		FLOAT lit = NULL_flt;
 		TYPE t = type_double;
-		
+
 		/* Check float suffix */
 		c1 = s [0];
 		if (c1 == char_f || c1 == char_F) {
@@ -892,10 +892,10 @@ make_literal_exp(string str, int *ptok, int force)
 			s++;
 			c1 = s [0];
 		}
-		
+
 		/* Check for end of number */
 		if (c1 || err) report (crt_loc, ERR_lex_literal_bad (str));
-		
+
 		/* Find number components (involves writing to s)  */
 		while (int_part [0] == char_zero) {
 			/* Remove initial zeros */
@@ -959,27 +959,27 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		if (dot_posn) dot_posn [0] = char_dot;
 		exp_posn [0] = ep;
-		
+
 		/* Construct result - type is as per suffix */
 		if (IS_NULL_flt (lit)) {
 			MAKE_flt_simple (int_part, frac_part, expon, lit);
 		}
 		MAKE_exp_float_lit (t, lit, e);
 		*ptok = lex_floating_Hexp;
-		
-    } else {
+
+	} else {
 		/* Integer literals */
 		TYPE t;
 		NAT lit;
 		int ls = 0;
 		int us = 0;
 		int fit = 0;
-		
+
 		/* Find integer value */
 		r = str;
 		if (form == BASE_HEXADECIMAL) r += 2;
 		lit = eval_digits (r, s, base);
-		
+
 		/* Check integer suffix */
 		c1 = s [0];
 		if (c1 == char_u || c1 == char_U) {
@@ -1005,10 +1005,10 @@ make_literal_exp(string str, int *ptok, int force)
 			s++;
 			c1 = s [0];
 		}
-		
+
 		/* Check for end of number */
 		if (c1 || err) report (crt_loc, ERR_lex_literal_bad (str));
-		
+
 		/* Find literal type */
 		if (force) {
 			t = type_ulong;
@@ -1025,8 +1025,8 @@ make_literal_exp(string str, int *ptok, int force)
 			MAKE_exp_int_lit (t, lit, exp_int_lit_tag, e);
 		}
 		*ptok = lex_integer_Hexp;
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1039,17 +1039,17 @@ make_literal_exp(string str, int *ptok, int force)
 int
 is_zero_float(FLOAT f)
 {
-    string s;
-    character c;
-    s = DEREF_string (flt_simple_int_part (f));
-    while (c = *(s++), c != 0) {
+	string s;
+	character c;
+	s = DEREF_string (flt_simple_int_part (f));
+	while (c = *(s++), c != 0) {
 		if (c != char_zero) return (0);
-    }
-    s = DEREF_string (flt_simple_frac_part (f));
-    while (c = *(s++), c != 0) {
+	}
+	s = DEREF_string (flt_simple_frac_part (f));
+	while (c = *(s++), c != 0) {
 		if (c != char_zero) return (0);
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -1064,19 +1064,19 @@ is_zero_float(FLOAT f)
 int
 eq_float_lit(FLOAT f, FLOAT g)
 {
-    NAT ef, eg;
-    ulong nf, ng;
-    string af, ag;
-    string bf, bg;
-    if (EQ_flt (f, g)) return (1);
-    DECONS_flt_simple (nf, af, bf, ef, f);
-    DECONS_flt_simple (ng, ag, bg, eg, g);
-    if (!ustreq (af, ag)) return (0);
-    if (!ustreq (bf, bg)) return (0);
-    if (compare_nat (ef, eg) != 0) return (0);
-    if (nf == LINK_NONE) COPY_ulong (flt_tok (f), ng);
-    if (ng == LINK_NONE) COPY_ulong (flt_tok (g), nf);
-    return (1);
+	NAT ef, eg;
+	ulong nf, ng;
+	string af, ag;
+	string bf, bg;
+	if (EQ_flt (f, g)) return (1);
+	DECONS_flt_simple (nf, af, bf, ef, f);
+	DECONS_flt_simple (ng, ag, bg, eg, g);
+	if (!ustreq (af, ag)) return (0);
+	if (!ustreq (bf, bg)) return (0);
+	if (compare_nat (ef, eg) != 0) return (0);
+	if (nf == LINK_NONE) COPY_ulong (flt_tok (f), ng);
+	if (ng == LINK_NONE) COPY_ulong (flt_tok (g), nf);
+	return (1);
 }
 
 
@@ -1103,31 +1103,31 @@ RMODE crt_round_mode = rmode_to_zero;
 NAT
 round_float_lit(FLOAT f, RMODE mode)
 {
-    NAT res;
-    unsigned base = 10;
-    unsigned long i, j, n;
-    unsigned long res_len;
-    unsigned long pre_len;
-    unsigned long exp_val;
-    character result [100];
-	
-    /* Decompose simple literal */
-    string int_part = DEREF_string (flt_simple_int_part (f));
-    string frac_part = DEREF_string (flt_simple_frac_part (f));
-    NAT expon = DEREF_nat (flt_simple_exponent (f));
-	
-    /* Find component lengths */
-    unsigned long int_len = (unsigned long) ustrlen (int_part);
-    unsigned long frac_len = (unsigned long) ustrlen (frac_part);
-	
-    /* Allow for initial zeros */
-    while (int_part [0] == char_zero) {
+	NAT res;
+	unsigned base = 10;
+	unsigned long i, j, n;
+	unsigned long res_len;
+	unsigned long pre_len;
+	unsigned long exp_val;
+	character result [100];
+
+	/* Decompose simple literal */
+	string int_part = DEREF_string (flt_simple_int_part (f));
+	string frac_part = DEREF_string (flt_simple_frac_part (f));
+	NAT expon = DEREF_nat (flt_simple_exponent (f));
+
+	/* Find component lengths */
+	unsigned long int_len = (unsigned long) ustrlen (int_part);
+	unsigned long frac_len = (unsigned long) ustrlen (frac_part);
+
+	/* Allow for initial zeros */
+	while (int_part [0] == char_zero) {
 		int_part++;
 		int_len--;
-    }
-	
-    /* Allow for exponent */
-    if (IS_nat_neg (expon)) {
+	}
+
+	/* Allow for exponent */
+	if (IS_nat_neg (expon)) {
 		expon = DEREF_nat (nat_neg_arg (expon));
 		exp_val = get_nat_value (expon);
 		if (exp_val > int_len) {
@@ -1137,14 +1137,14 @@ round_float_lit(FLOAT f, RMODE mode)
 			res_len = int_len - exp_val;
 			pre_len = 0;
 		}
-    } else {
+	} else {
 		exp_val = get_nat_value (expon);
 		res_len = int_len + exp_val;
 		pre_len = 0;
-    }
-	
-    /* Allow for initial zeros in fractional part */
-    if (int_part [0] == 0) {
+	}
+
+	/* Allow for initial zeros in fractional part */
+	if (int_part [0] == 0) {
 		while (frac_part [0] == char_zero) {
 			frac_part++;
 			frac_len--;
@@ -1159,41 +1159,41 @@ round_float_lit(FLOAT f, RMODE mode)
 			res = small_nat [0];
 			return (res);
 		}
-    }
-	
-    /* Extreme values are target dependent */
-    if (pre_len > 6) return (NULL_nat);
-    if (res_len > 6) return (NULL_nat);
-    if (exp_val == EXTENDED_MAX) return (NULL_nat);
-	
-    /* Construct integer string */
-    j = 0;
-    n = res_len;
-    for (i = 0; i < pre_len; i++) {
+	}
+
+	/* Extreme values are target dependent */
+	if (pre_len > 6) return (NULL_nat);
+	if (res_len > 6) return (NULL_nat);
+	if (exp_val == EXTENDED_MAX) return (NULL_nat);
+
+	/* Construct integer string */
+	j = 0;
+	n = res_len;
+	for (i = 0; i < pre_len; i++) {
 		if (j < n) {
 			result [j] = char_zero;
 			j++;
 		}
-    }
-    for (i = 0; i < int_len; i++) {
+	}
+	for (i = 0; i < int_len; i++) {
 		if (j < n) {
 			result [j] = int_part [i];
 			j++;
 		}
-    }
-    for (i = 0; i < frac_len; i++) {
+	}
+	for (i = 0; i < frac_len; i++) {
 		if (j < n) {
 			result [j] = frac_part [i];
 			j++;
 		}
-    }
-    for (; j < n; j++) result [j] = char_zero;
-    result [n] = 0;
-	
-    /* Calculate the result */
-    res = eval_digits (result, result + res_len, base);
-    UNUSED (mode);
-    return (res);
+	}
+	for (; j < n; j++) result [j] = char_zero;
+	result [n] = 0;
+
+	/* Calculate the result */
+	res = eval_digits (result, result + res_len, base);
+	UNUSED (mode);
+	return (res);
 }
 
 
@@ -1208,26 +1208,26 @@ round_float_lit(FLOAT f, RMODE mode)
 unsigned long
 eval_unicode(int c, unsigned n, int *pc, string *ps, ERROR *err)
 {
-    string r = *ps;
-    unsigned long u;
-    unsigned base = 16;
-    string s = check_digits (r, base);
-    unsigned m = (unsigned) (s - r);
-    if (m < n) {
+	string r = *ps;
+	unsigned long u;
+	unsigned base = 16;
+	string s = check_digits (r, base);
+	unsigned m = (unsigned) (s - r);
+	if (m < n) {
 		add_error (err, ERR_lex_charset_len (c, n));
-    } else {
+	} else {
 		s = r + n;
-    }
-    *ps = s;
-    u = eval_char_digits (r, s, base);
-    add_error (err, ERR_lex_charset_replace (u));
-    if (u < 0x20 || (u >= 0x7f && u <= 0x9f) || is_legal_char (u)) {
+	}
+	*ps = s;
+	u = eval_char_digits (r, s, base);
+	add_error (err, ERR_lex_charset_replace (u));
+	if (u < 0x20 || (u >= 0x7f && u <= 0x9f) || is_legal_char (u)) {
 		add_error (err, ERR_lex_charset_bad (u));
 		*pc = CHAR_SIMPLE;
-    } else {
+	} else {
 		if (u <= (unsigned long) 0xffff) *pc = CHAR_UNI4;
-    }
-    return (u);
+	}
+	return (u);
 }
 
 
@@ -1241,13 +1241,13 @@ eval_unicode(int c, unsigned n, int *pc, string *ps, ERROR *err)
 unsigned long
 get_multi_char(string s, int *pc)
 {
-    int i;
-    unsigned long n = 0;
-    for (i = MULTI_WIDTH - 1; i >= 1; i--) {
+	int i;
+	unsigned long n = 0;
+	for (i = MULTI_WIDTH - 1; i >= 1; i--) {
 		n = (n << 8) + (unsigned long) s [i];
-    }
-    *pc = (int) s [0];
-    return (n);
+	}
+	*pc = (int) s [0];
+	return (n);
 }
 
 
@@ -1264,14 +1264,14 @@ get_multi_char(string s, int *pc)
 void
 add_multi_char(string s, unsigned long n, int ch)
 {
-    int i;
-    s [0] = (character) ch;
-    for (i = 1; i < MULTI_WIDTH; i++) {
+	int i;
+	s [0] = (character) ch;
+	for (i = 1; i < MULTI_WIDTH; i++) {
 		s [i] = (character) (n & 0xff);
 		n >>= 8;
-    }
-    if (n) report (crt_loc, ERR_lex_ccon_large ());
-    return;
+	}
+	if (n) report (crt_loc, ERR_lex_ccon_large ());
+	return;
 }
 
 
@@ -1285,18 +1285,18 @@ add_multi_char(string s, unsigned long n, int ch)
 static void
 make_multi_string(string s, string t, unsigned long n, unsigned k)
 {
-    if (k & STRING_MULTI) {
+	if (k & STRING_MULTI) {
 		n *= MULTI_WIDTH;
 		xumemcpy (s, t, (size_t) n);
-    } else {
+	} else {
 		unsigned long i;
 		for (i = 0; i < n; i++) {
 			add_multi_char (s, (unsigned long) *t, CHAR_SIMPLE);
 			s += MULTI_WIDTH;
 			t++;
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1316,22 +1316,22 @@ make_multi_string(string s, string t, unsigned long n, unsigned k)
 static string
 get_multibyte(string s, string se, unsigned long *pc)
 {
-    wchar_t c;
-    int n = mbtowc (&c, s, (size_t) (se - s));
-    if (n > 0) {
+	wchar_t c;
+	int n = mbtowc (&c, s, (size_t) (se - s));
+	if (n > 0) {
 		/* Valid multibyte character */
 		*pc = (unsigned long) c;
 		s += n;
-    } else if (n == 0) {
+	} else if (n == 0) {
 		/* Null character */
 		*pc = 0;
 		s++;
-    } else {
+	} else {
 		/* Invalid multibyte character */
 		report (crt_loc, ERR_lex_ccon_multibyte ());
 		*pc = (unsigned long) *(s++);
-    }
-    return (s);
+	}
+	return (s);
 }
 
 #endif
@@ -1351,20 +1351,20 @@ get_multibyte(string s, string se, unsigned long *pc)
 STRING
 new_string_lit(string s, string se, int lex)
 {
-    STRING res;
-    STRING prev;
-    int multi = 0;
-    int overflow = 0;
-    unsigned long len = 0;
-    unsigned kind = STRING_NONE;
+	STRING res;
+	STRING prev;
+	int multi = 0;
+	int overflow = 0;
+	unsigned long len = 0;
+	unsigned kind = STRING_NONE;
 #if FS_MULTIBYTE
-    int multibyte = allow_multibyte;
+	int multibyte = allow_multibyte;
 #endif
-    size_t sz = (size_t) (se - s) + 1;
-    string str = ustring_alloc (sz);
-	
-    /* Find string type */
-    switch (lex) {
+	size_t sz = (size_t) (se - s) + 1;
+	string str = ustring_alloc (sz);
+
+	/* Find string type */
+	switch (lex) {
 	case lex_char_Hlit :
 	case lex_char_Hexp : {
 	    kind = STRING_CHAR;
@@ -1385,11 +1385,11 @@ new_string_lit(string s, string se, int lex)
 	    kind = STRING_WIDE;
 	    break;
 	}
-    }
-    if (do_string) dump_string_lit (s, se, kind);
-	
-    /* Scan string replacing escape sequences */
-    while (s != se) {
+	}
+	if (do_string) dump_string_lit (s, se, kind);
+
+	/* Scan string replacing escape sequences */
+	while (s != se) {
 		unsigned long c;
 		int ch = CHAR_SIMPLE;
 #if FS_MULTIBYTE
@@ -1416,7 +1416,7 @@ new_string_lit(string s, string se, int lex)
 #endif
 				if (c < NO_CHAR) e = escape_sequences [c];
 				switch (e) {
-					
+
 				case OCTE : {
 					/* Octal escape sequences */
 					unsigned base = 8;
@@ -1427,7 +1427,7 @@ new_string_lit(string s, string se, int lex)
 					ch = CHAR_OCTAL;
 					break;
 				}
-					
+
 				case HEXE : {
 					/* Hexadecimal escape sequences */
 					unsigned base = 16;
@@ -1442,7 +1442,7 @@ new_string_lit(string s, string se, int lex)
 					ch = CHAR_HEX;
 					break;
 				}
-					
+
 				case UNI4 : {
 					/* Short unicode escape sequences */
 					if (allow_unicodes) {
@@ -1459,7 +1459,7 @@ new_string_lit(string s, string se, int lex)
 					}
 					goto illegal_lab;
 				}
-					
+
 				case UNI8 : {
 					/* Long unicode escape sequences */
 					if (allow_unicodes) {
@@ -1476,7 +1476,7 @@ new_string_lit(string s, string se, int lex)
 					}
 					goto illegal_lab;
 				}
-					
+
 				case NONE :
 					illegal_lab : {
 						/* Illegal escape sequences */
@@ -1484,7 +1484,7 @@ new_string_lit(string s, string se, int lex)
 						report (crt_loc, ERR_lex_ccon_escape (i));
 						break;
 					}
-					
+
 				default : {
 					/* Simple escape sequences */
 					c = (unsigned long) e;
@@ -1525,15 +1525,15 @@ new_string_lit(string s, string se, int lex)
 			str [ len++ ] = (character) c;
 		}
 		if (len == 0) overflow = 1;
-    }
-    if (multi) {
+	}
+	if (multi) {
 		add_multi_char (str + len, (unsigned long) 0, CHAR_OCTAL);
 		len /= MULTI_WIDTH;
-    } else {
+	} else {
 		str [ len ] = 0;
-    }
-    if (overflow) len = ULONG_MAX;
-    if (!check_value (OPT_VAL_string_length, len)) {
+	}
+	if (overflow) len = ULONG_MAX;
+	if (!check_value (OPT_VAL_string_length, len)) {
 		len = option_value (OPT_VAL_string_length);
 		if (multi) {
 			unsigned long n = MULTI_WIDTH * len;
@@ -1541,10 +1541,10 @@ new_string_lit(string s, string se, int lex)
 		} else {
 			str [ len ] = 0;
 		}
-    }
-    MAKE_str_simple (len, str, kind, res);
-    prev = share_string_lit (res);
-    if (!EQ_str (prev, res)) {
+	}
+	MAKE_str_simple (len, str, kind, res);
+	prev = share_string_lit (res);
+	if (!EQ_str (prev, res)) {
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, len, str, kind, v, res);
@@ -1554,8 +1554,8 @@ new_string_lit(string s, string se, int lex)
 		UNUSED (kind);
 		UNUSED (v);
 		res = prev;
-    }
-    return (res);
+	}
+	return (res);
 }
 
 
@@ -1568,22 +1568,22 @@ new_string_lit(string s, string se, int lex)
 int
 eq_string_lit(STRING s, STRING t)
 {
-    string as, at;
-    unsigned ks, kt;
-    unsigned long ns, nt;
-    if (EQ_str (s, t)) return (1);
-    ks = DEREF_unsigned (str_simple_kind (s));
-    kt = DEREF_unsigned (str_simple_kind (t));
-    ns = DEREF_ulong (str_simple_len (s));
-    nt = DEREF_ulong (str_simple_len (t));
-    if (ks == kt && ns == nt) {
+	string as, at;
+	unsigned ks, kt;
+	unsigned long ns, nt;
+	if (EQ_str (s, t)) return (1);
+	ks = DEREF_unsigned (str_simple_kind (s));
+	kt = DEREF_unsigned (str_simple_kind (t));
+	ns = DEREF_ulong (str_simple_len (s));
+	nt = DEREF_ulong (str_simple_len (t));
+	if (ks == kt && ns == nt) {
 		as = DEREF_string (str_simple_text (s));
 		at = DEREF_string (str_simple_text (t));
 		if (as == at) return (1);
 		if (ks & STRING_MULTI) ns *= MULTI_WIDTH;
 		if (xumemcmp (as, at, (size_t) ns) == 0) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1596,30 +1596,30 @@ eq_string_lit(STRING s, STRING t)
 STRING
 concat_string_lit(STRING s, STRING t)
 {
-    string c;
-    STRING res;
-    STRING prev;
-    unsigned kc;
-    size_t sz;
-    unsigned long nc;
-    string a = DEREF_string (str_simple_text (s));
-    string b = DEREF_string (str_simple_text (t));
-    unsigned ka = DEREF_unsigned (str_simple_kind (s));
-    unsigned kb = DEREF_unsigned (str_simple_kind (t));
-    unsigned long na = DEREF_ulong (str_simple_len (s));
-    unsigned long nb = DEREF_ulong (str_simple_len (t));
-	
-    /* Form the result literal */
-    if (na == 0) return (t);
-    if (nb == 0) return (s);
-    nc = na + nb;
-    if (nc < na || nc < nb) nc = ULONG_MAX;
-    if (!check_value (OPT_VAL_string_length, nc)) {
+	string c;
+	STRING res;
+	STRING prev;
+	unsigned kc;
+	size_t sz;
+	unsigned long nc;
+	string a = DEREF_string (str_simple_text (s));
+	string b = DEREF_string (str_simple_text (t));
+	unsigned ka = DEREF_unsigned (str_simple_kind (s));
+	unsigned kb = DEREF_unsigned (str_simple_kind (t));
+	unsigned long na = DEREF_ulong (str_simple_len (s));
+	unsigned long nb = DEREF_ulong (str_simple_len (t));
+
+	/* Form the result literal */
+	if (na == 0) return (t);
+	if (nb == 0) return (s);
+	nc = na + nb;
+	if (nc < na || nc < nb) nc = ULONG_MAX;
+	if (!check_value (OPT_VAL_string_length, nc)) {
 		nc = option_value (OPT_VAL_string_length);
 		nb = nc - na;
-    }
-    kc = (ka | kb);
-    if (kc & STRING_MULTI) {
+	}
+	kc = (ka | kb);
+	if (kc & STRING_MULTI) {
 		/* Multi-byte strings */
 		unsigned long sa = MULTI_WIDTH * na;
 		unsigned long sc = MULTI_WIDTH * nc;
@@ -1628,17 +1628,17 @@ concat_string_lit(STRING s, STRING t)
 		make_multi_string (c, a, na, ka);
 		make_multi_string (c + sa, b, nb, kb);
 		add_multi_char (c + sc, (unsigned long) 0, CHAR_OCTAL);
-    } else {
+	} else {
 		/* Simple strings */
 		sz = (size_t) (nc + 1);
 		c = ustring_alloc (sz);
 		xumemcpy (c, a, (size_t) na);
 		xumemcpy (c + na, b, (size_t) nb);
 		c [ nc ] = 0;
-    }
-    MAKE_str_simple (nc, c, kc, res);
-    prev = share_string_lit (res);
-    if (!EQ_str (prev, res)) {
+	}
+	MAKE_str_simple (nc, c, kc, res);
+	prev = share_string_lit (res);
+	if (!EQ_str (prev, res)) {
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, nc, c, kc, v, res);
@@ -1648,8 +1648,8 @@ concat_string_lit(STRING s, STRING t)
 		UNUSED (kc);
 		UNUSED (v);
 		res = prev;
-    }
-    return (res);
+	}
+	return (res);
 }
 
 
@@ -1664,17 +1664,17 @@ concat_string_lit(STRING s, STRING t)
 STRING
 share_string_lit(STRING s)
 {
-    string a = DEREF_string (str_simple_text (s));
-    unsigned long h = (hash (a) % HASH_STRING_SIZE);
-    STRING p = string_hash_table [h];
-    STRING t = p;
-    while (!IS_NULL_str (t)) {
+	string a = DEREF_string (str_simple_text (s));
+	unsigned long h = (hash (a) % HASH_STRING_SIZE);
+	STRING p = string_hash_table [h];
+	STRING t = p;
+	while (!IS_NULL_str (t)) {
 		if (eq_string_lit (t, s)) return (t);
 		t = DEREF_str (str_next (t));
-    }
-    COPY_str (str_next (s), p);
-    string_hash_table [h] = s;
-    return (s);
+	}
+	COPY_str (str_next (s), p);
+	string_hash_table [h] = s;
+	return (s);
 }
 
 
@@ -1689,10 +1689,10 @@ share_string_lit(STRING s)
 unsigned long
 get_string_char(STRING s, int *pc)
 {
-    unsigned long c;
-    unsigned long i = DEREF_ulong (str_simple_tok (s));
-    unsigned long n = DEREF_ulong (str_simple_len (s));
-    if (i < n) {
+	unsigned long c;
+	unsigned long i = DEREF_ulong (str_simple_tok (s));
+	unsigned long n = DEREF_ulong (str_simple_len (s));
+	if (i < n) {
 		string text = DEREF_string (str_simple_text (s));
 		unsigned kind = DEREF_unsigned (str_simple_kind (s));
 		if (kind & STRING_MULTI) {
@@ -1701,12 +1701,12 @@ get_string_char(STRING s, int *pc)
 			c = (unsigned long) text [i];
 			*pc = CHAR_SIMPLE;
 		}
-    } else {
+	} else {
 		c = 0;
 		*pc = CHAR_NONE;
-    }
-    COPY_ulong (str_simple_tok (s), i + 1);
-    return (c);
+	}
+	COPY_ulong (str_simple_tok (s), i + 1);
+	return (c);
 }
 
 
@@ -1720,8 +1720,8 @@ get_string_char(STRING s, int *pc)
 int
 get_char_value(EXP e)
 {
-    int c = char_illegal;
-    if (!IS_NULL_exp (e)) {
+	int c = char_illegal;
+	if (!IS_NULL_exp (e)) {
 		if (IS_exp_int_lit (e)) {
 			NAT n = DEREF_nat (exp_int_lit_nat (e));
 			if (IS_nat_calc (n)) {
@@ -1748,8 +1748,8 @@ get_char_value(EXP e)
 				}
 			}
 		}
-    }
-    return (c);
+	}
+	return (c);
 }
 
 
@@ -1765,9 +1765,9 @@ get_char_value(EXP e)
 NAT
 eval_char_lit(STRING str)
 {
-    NAT n;
-    unsigned long v = DEREF_ulong (str_simple_tok (str));
-    if (v == LINK_NONE) {
+	NAT n;
+	unsigned long v = DEREF_ulong (str_simple_tok (str));
+	if (v == LINK_NONE) {
 		unsigned long i;
 		string s = DEREF_string (str_simple_text (str));
 		unsigned long len = DEREF_ulong (str_simple_len (str));
@@ -1800,11 +1800,11 @@ eval_char_lit(STRING str)
 			/* Store calculated value */
 			COPY_ulong (str_simple_tok (str), v);
 		}
-    } else {
+	} else {
 		/* Use stored value */
 		n = make_nat_value (v);
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -1819,11 +1819,11 @@ eval_char_lit(STRING str)
 TYPE
 find_char_type(NAT n)
 {
-    TYPE t;
-    int fit = 0;
-    string str = NULL_string;
-    t = find_literal_type (n, BASE_OCTAL, SUFFIX_NONE, str, &fit);
-    return (t);
+	TYPE t;
+	int fit = 0;
+	string str = NULL_string;
+	t = find_literal_type (n, BASE_OCTAL, SUFFIX_NONE, str, &fit);
+	return (t);
 }
 
 
@@ -1840,12 +1840,12 @@ find_char_type(NAT n)
 EXP
 make_string_exp(STRING s)
 {
-    EXP e;
-    string text = DEREF_string (str_simple_text (s));
-    unsigned long len = DEREF_ulong (str_simple_len (s));
-    unsigned kind = DEREF_unsigned (str_simple_kind (s));
-	
-    if (kind & STRING_CHAR) {
+	EXP e;
+	string text = DEREF_string (str_simple_text (s));
+	unsigned long len = DEREF_ulong (str_simple_len (s));
+	unsigned kind = DEREF_unsigned (str_simple_kind (s));
+
+	if (kind & STRING_CHAR) {
 		int fits = 0;
 		int digit = -1;
 		TYPE t0, t1, t2;
@@ -1929,7 +1929,7 @@ make_string_exp(STRING s)
 			e = make_cast_nat (t2, e, &err, CAST_IMPLICIT);
 		}
 		if (!IS_NULL_err (err)) report (crt_loc, err);
-    } else {
+	} else {
 		/* String literals */
 		TYPE t;
 		NAT n = make_nat_value (len + 1);
@@ -1940,8 +1940,8 @@ make_string_exp(STRING s)
 		}
 		MAKE_type_array (cv_lvalue, t, n, t);
 		MAKE_exp_string_lit (t, s, e);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1956,10 +1956,10 @@ make_string_exp(STRING s)
 EXP
 make_bool_exp(unsigned b, unsigned tag)
 {
-    EXP e;
-    NAT n = small_nat [b];
-    MAKE_exp_int_lit (type_bool, n, tag, e);
-    return (e);
+	EXP e;
+	NAT n = small_nat [b];
+	MAKE_exp_int_lit (type_bool, n, tag, e);
+	return (e);
 }
 
 
@@ -1974,11 +1974,11 @@ make_bool_exp(unsigned b, unsigned tag)
 unsigned
 test_bool_exp(EXP e)
 {
-    NAT n = DEREF_nat (exp_int_lit_nat (e));
-    if (IS_nat_small (n)) {
+	NAT n = DEREF_nat (exp_int_lit_nat (e));
+	if (IS_nat_small (n)) {
 		unsigned b = DEREF_unsigned (nat_small_value (n));
 		if (b == BOOL_FALSE) return (BOOL_FALSE);
 		if (b == BOOL_TRUE) return (BOOL_TRUE);
-    }
-    return (BOOL_UNKNOWN);
+	}
+	return (BOOL_UNKNOWN);
 }
