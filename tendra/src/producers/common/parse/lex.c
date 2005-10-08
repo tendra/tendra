@@ -1926,6 +1926,10 @@ read_token(void)
 					if (lastc == char_e || lastc == char_E) {
 						goto digit_label;
 					}
+					/* Allow for [Pp][+-] */
+					if (lastc == char_p || lastc == char_P) {
+						goto digit_label;
+					}
 				}
 				if (c == char_backslash) {
 					/* Allow for unicode characters */
