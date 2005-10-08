@@ -113,28 +113,28 @@
  */
 
 char mangle_ntype [ ORDER_ntype ] [3] = {
-    { MANGLE_error, 0, 0 },			/* ntype_none */
-    { MANGLE_char, 0, 0 },			/* ntype_char */
-    { MANGLE_signed, MANGLE_char, 0 },		/* ntype_schar */
-    { MANGLE_unsigned, MANGLE_char, 0 },	/* ntype_uchar */
-    { MANGLE_short, 0, 0 },			/* ntype_sshort */
-    { MANGLE_unsigned, MANGLE_short, 0 },	/* ntype_ushort */
-    { MANGLE_int, 0, 0 },			/* ntype_sint */
-    { MANGLE_unsigned, MANGLE_int, 0 },		/* ntype_uint */
-    { MANGLE_long, 0, 0 },			/* ntype_slong */
-    { MANGLE_unsigned, MANGLE_long, 0 },	/* ntype_ulong */
-    { MANGLE_llong, 0, 0 },			/* ntype_sllong */
-    { MANGLE_unsigned, MANGLE_llong, 0 },	/* ntype_ullong */
-    { MANGLE_float, 0, 0 },			/* ntype_float */
-    { MANGLE_double, 0, 0 },			/* ntype_double */
-    { MANGLE_ldouble, 0, 0 },			/* ntype_ldouble */
-    { MANGLE_void, 0, 0 },			/* ntype_void */
-    { MANGLE_bottom, 0, 0 },			/* ntype_bottom */
-    { MANGLE_bool, 0, 0 },			/* ntype_bool */
-    { MANGLE_ptrdiff_t, 0, 0 },			/* ntype_ptrdiff_t */
-    { MANGLE_size_t, 0, 0 },			/* ntype_size_t */
-    { MANGLE_wchar_t, 0, 0 },			/* ntype_wchar_t */
-    { MANGLE_ellipsis, 0, 0 }			/* ntype_ellipsis */
+	{ MANGLE_error, 0, 0 },			/* ntype_none */
+	{ MANGLE_char, 0, 0 },			/* ntype_char */
+	{ MANGLE_signed, MANGLE_char, 0 },		/* ntype_schar */
+	{ MANGLE_unsigned, MANGLE_char, 0 },	/* ntype_uchar */
+	{ MANGLE_short, 0, 0 },			/* ntype_sshort */
+	{ MANGLE_unsigned, MANGLE_short, 0 },	/* ntype_ushort */
+	{ MANGLE_int, 0, 0 },			/* ntype_sint */
+	{ MANGLE_unsigned, MANGLE_int, 0 },		/* ntype_uint */
+	{ MANGLE_long, 0, 0 },			/* ntype_slong */
+	{ MANGLE_unsigned, MANGLE_long, 0 },	/* ntype_ulong */
+	{ MANGLE_llong, 0, 0 },			/* ntype_sllong */
+	{ MANGLE_unsigned, MANGLE_llong, 0 },	/* ntype_ullong */
+	{ MANGLE_float, 0, 0 },			/* ntype_float */
+	{ MANGLE_double, 0, 0 },			/* ntype_double */
+	{ MANGLE_ldouble, 0, 0 },			/* ntype_ldouble */
+	{ MANGLE_void, 0, 0 },			/* ntype_void */
+	{ MANGLE_bottom, 0, 0 },			/* ntype_bottom */
+	{ MANGLE_bool, 0, 0 },			/* ntype_bool */
+	{ MANGLE_ptrdiff_t, 0, 0 },			/* ntype_ptrdiff_t */
+	{ MANGLE_size_t, 0, 0 },			/* ntype_size_t */
+	{ MANGLE_wchar_t, 0, 0 },			/* ntype_wchar_t */
+	{ MANGLE_ellipsis, 0, 0 }			/* ntype_ellipsis */
 };
 
 
@@ -156,15 +156,15 @@ unsigned long mangle_length = ULONG_MAX;
  *    recursive nature of many of the routines.
  */
 
-static int nspace_depth(NAMESPACE) ;
-static string mangle_op(int) ;
-static string mangle_hashid(HASHID, int *, int) ;
-static void mangle_exp(BUFFER *, EXP, int) ;
-static void mangle_nat(BUFFER *, NAT, int) ;
-static void mangle_nspace(BUFFER *, NAMESPACE, int) ;
-static void mangle_ctype(BUFFER *, CLASS_TYPE, int) ;
-static void mangle_token(BUFFER *, IDENTIFIER, LIST (TOKEN), int, int) ;
-static void mangle_type(BUFFER *, TYPE, int, int) ;
+static int nspace_depth(NAMESPACE);
+static string mangle_op(int);
+static string mangle_hashid(HASHID, int *, int);
+static void mangle_exp(BUFFER *, EXP, int);
+static void mangle_nat(BUFFER *, NAT, int);
+static void mangle_nspace(BUFFER *, NAMESPACE, int);
+static void mangle_ctype(BUFFER *, CLASS_TYPE, int);
+static void mangle_token(BUFFER *, IDENTIFIER, LIST (TOKEN), int, int);
+static void mangle_type(BUFFER *, TYPE, int, int);
 
 
 /*
@@ -188,7 +188,7 @@ static CLASS_TYPE crt_mangle_class = NULL_ctype;
 static int
 ident_depth(IDENTIFIER id)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		HASHID nm = DEREF_hashid (id_name (id));
 		if (!IS_hashid_anon (nm)) {
 			/* Simple identifiers */
@@ -196,8 +196,8 @@ ident_depth(IDENTIFIER id)
 			int n = nspace_depth (ns);
 			if (n >= 0) return (n + 1);
 		}
-    }
-    return (-1);
+	}
+	return (-1);
 }
 
 
@@ -212,7 +212,7 @@ ident_depth(IDENTIFIER id)
 static int
 nspace_depth(NAMESPACE ns)
 {
-    if (!IS_NULL_nspace (ns)) {
+	if (!IS_NULL_nspace (ns)) {
 		switch (TAG_nspace (ns)) {
 	    case nspace_named_tag :
 	    case nspace_ctype_tag : {
@@ -236,8 +236,8 @@ nspace_depth(NAMESPACE ns)
 			break;
 	    }
 		}
-    }
-    return (-1);
+	}
+	return (-1);
 }
 
 
@@ -260,15 +260,15 @@ static BUFFER name_buff = NULL_buff;
 static void
 mangle_number(BUFFER *bf, unsigned long n, int e)
 {
-    if (n < 10) {
+	if (n < 10) {
 		int d = '0' + (int) n;
 		bfputc (bf, d);
-    } else {
+	} else {
 		if (e > 1) bfputc (bf, MANGLE_sep);
 		bfprintf (bf, "%lu", n);
 		if (e > 0) bfputc (bf, MANGLE_sep);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -282,7 +282,7 @@ mangle_number(BUFFER *bf, unsigned long n, int e)
 static void
 mangle_id(BUFFER *bf, IDENTIFIER id, int d)
 {
-    if (d >= 0) {
+	if (d >= 0) {
 		int copy = 0;
 		HASHID nm = DEREF_hashid (id_name (id));
 		string s = mangle_hashid (nm, &copy, 1);
@@ -301,11 +301,11 @@ mangle_id(BUFFER *bf, IDENTIFIER id, int d)
 			/* Invalid identifier */
 			bfputc (bf, MANGLE_error);
 		}
-    } else {
+	} else {
 		/* Invalid identifier */
 		bfputc (bf, MANGLE_error);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -320,7 +320,7 @@ mangle_id(BUFFER *bf, IDENTIFIER id, int d)
 static void
 mangle_nspace(BUFFER *bf, NAMESPACE ns, int d)
 {
-    if (!IS_nspace_global (ns)) {
+	if (!IS_nspace_global (ns)) {
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
 		if (IS_id_class_name (id)) {
 			TYPE t = DEREF_type (id_class_name_defn (id));
@@ -331,8 +331,8 @@ mangle_nspace(BUFFER *bf, NAMESPACE ns, int d)
 			}
 		}
 		mangle_id (bf, id, d);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -346,12 +346,12 @@ mangle_nspace(BUFFER *bf, NAMESPACE ns, int d)
 static void
 mangle_exp_op(BUFFER *bf, int op, EXP a, EXP b, int n, int rec)
 {
-    string s = mangle_op (op);
-    bfputc (bf, MANGLE_op);
-    bfprintf (bf, "%s%d", s + 2, n);
-    if (!IS_NULL_exp (a)) mangle_exp (bf, a, rec);
-    if (!IS_NULL_exp (b)) mangle_exp (bf, b, rec);
-    return;
+	string s = mangle_op (op);
+	bfputc (bf, MANGLE_op);
+	bfprintf (bf, "%s%d", s + 2, n);
+	if (!IS_NULL_exp (a)) mangle_exp (bf, a, rec);
+	if (!IS_NULL_exp (b)) mangle_exp (bf, b, rec);
+	return;
 }
 
 
@@ -364,7 +364,7 @@ mangle_exp_op(BUFFER *bf, int op, EXP a, EXP b, int n, int rec)
 static void
 mangle_exp(BUFFER *bf, EXP e, int rec)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		ASSERT (ORDER_exp == 88);
 		switch (TAG_exp (e)) {
 	    case exp_identifier_tag :
@@ -577,8 +577,8 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 			break;
 	    }
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -592,9 +592,9 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 static void
 mangle_nat(BUFFER *bf, NAT n, int rec)
 {
-    if (IS_NULL_nat (n)) {
+	if (IS_NULL_nat (n)) {
 		bfputc (bf, MANGLE_sep);
-    } else {
+	} else {
 		unsigned tag = TAG_nat (n);
 		if (tag == nat_neg_tag) {
 			/* Negative values */
@@ -630,8 +630,8 @@ mangle_nat(BUFFER *bf, NAT n, int rec)
 			break;
 	    }
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -644,21 +644,21 @@ mangle_nat(BUFFER *bf, NAT n, int rec)
 string
 mangle_literal(INT_TYPE it)
 {
-    static character buff [20];
-    string s = buff;
-    int form = DEREF_int (itype_literal_form (it));
-    int suff = DEREF_int (itype_literal_suff (it));
-    *(s++) = MANGLE_literal;
-    if (form == BASE_OCTAL) {
+	static character buff [20];
+	string s = buff;
+	int form = DEREF_int (itype_literal_form (it));
+	int suff = DEREF_int (itype_literal_suff (it));
+	*(s++) = MANGLE_literal;
+	if (form == BASE_OCTAL) {
 		*(s++) = MANGLE_octal;
-    } else if (form == BASE_HEXADECIMAL) {
+	} else if (form == BASE_HEXADECIMAL) {
 		*(s++) = MANGLE_hex;
-    }
-    if (suff & SUFFIX_U) *(s++) = MANGLE_unsigned;
-    if (suff & SUFFIX_L) *(s++) = MANGLE_long;
-    if (suff & SUFFIX_LL) *(s++) = MANGLE_llong;
-    *s = 0;
-    return (buff);
+	}
+	if (suff & SUFFIX_U) *(s++) = MANGLE_unsigned;
+	if (suff & SUFFIX_L) *(s++) = MANGLE_long;
+	if (suff & SUFFIX_LL) *(s++) = MANGLE_llong;
+	*s = 0;
+	return (buff);
 }
 
 
@@ -672,7 +672,7 @@ mangle_literal(INT_TYPE it)
 static void
 mangle_itype(BUFFER *bf, INT_TYPE it)
 {
-    switch (TAG_itype (it)) {
+	switch (TAG_itype (it)) {
 	case itype_basic_tag : {
 	    /* Basic integral types */
 	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
@@ -732,8 +732,8 @@ mangle_itype(BUFFER *bf, INT_TYPE it)
 	    }
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -747,7 +747,7 @@ mangle_itype(BUFFER *bf, INT_TYPE it)
 static void
 mangle_ftype(BUFFER *bf, FLOAT_TYPE ft)
 {
-    switch (TAG_ftype (ft)) {
+	switch (TAG_ftype (ft)) {
 	case ftype_basic_tag : {
 	    /* Basic floating types */
 	    BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
@@ -777,8 +777,8 @@ mangle_ftype(BUFFER *bf, FLOAT_TYPE ft)
 	    mangle_token (bf, id, args, -2, 0);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -793,10 +793,10 @@ mangle_ftype(BUFFER *bf, FLOAT_TYPE ft)
 static void
 mangle_cv(BUFFER *bf, CV_SPEC cv)
 {
-    if (cv & cv_const) bfputc (bf, MANGLE_const);
-    if (cv & cv_volatile) bfputc (bf, MANGLE_volatile);
-    if (cv & cv_c) bfputc (bf, MANGLE_c_lang);
-    return;
+	if (cv & cv_const) bfputc (bf, MANGLE_const);
+	if (cv & cv_volatile) bfputc (bf, MANGLE_volatile);
+	if (cv & cv_c) bfputc (bf, MANGLE_c_lang);
+	return;
 }
 
 
@@ -812,39 +812,39 @@ mangle_cv(BUFFER *bf, CV_SPEC cv)
 static void
 mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 {
-    /* Output cv-qualifier */
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    mangle_cv (bf, qual);
-	
-    /* Output main type information */
-    switch (TAG_type (t)) {
-		
+	/* Output cv-qualifier */
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	mangle_cv (bf, qual);
+
+	/* Output main type information */
+	switch (TAG_type (t)) {
+
 	case type_integer_tag : {
 	    /* Integral types */
 	    INT_TYPE it = DEREF_itype (type_integer_rep (t));
 	    mangle_itype (bf, it);
 	    break;
 	}
-		
+
 	case type_floating_tag : {
 	    /* Floating-point types */
 	    FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 	    mangle_ftype (bf, ft);
 	    break;
 	}
-		
+
 	case type_top_tag : {
 	    /* Top type */
 	    bfputc (bf, MANGLE_void);
 	    break;
 	}
-		
+
 	case type_bottom_tag : {
 	    /* Bottom type */
 	    bfputc (bf, MANGLE_bottom);
 	    break;
 	}
-		
+
 	case type_ptr_tag : {
 	    /* Pointer types */
 	    bfputc (bf, MANGLE_ptr);
@@ -852,7 +852,7 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    mangle_type (bf, t, 2, 1);
 	    break;
 	}
-		
+
 	case type_ref_tag : {
 	    /* Reference types */
 	    bfputc (bf, MANGLE_ref);
@@ -860,7 +860,7 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    mangle_type (bf, t, 2, 1);
 	    break;
 	}
-		
+
 	case type_ptr_mem_tag : {
 	    /* Pointer to member types */
 	    CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
@@ -870,16 +870,16 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    mangle_type (bf, t, 2, 1);
 	    break;
 	}
-		
+
 	case type_func_tag : {
 	    /* Function types */
 	    LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
 	    int ell = DEREF_int (type_func_ellipsis (t));
-		
+
 	    /* Include any cv-qualifiers */
 	    qual = DEREF_cv (type_func_mqual (t));
 	    mangle_cv (bf, qual);
-		
+
 	    /* Include parameter types */
 	    if (fn) bfputc (bf, MANGLE_func);
 	    if (IS_NULL_list (p)) {
@@ -967,7 +967,7 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 			}
 	    }
 	    if (ell) bfputc (bf, MANGLE_ellipsis);
-		
+
 	    /* Include return type if necessary */
 	    if (fn == 2) {
 			t = DEREF_type (type_func_ret (t));
@@ -976,7 +976,7 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    }
 	    break;
 	}
-		
+
 	case type_array_tag : {
 	    /* Array types */
 	    NAT n = NULL_nat;
@@ -987,21 +987,21 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    mangle_type (bf, t, 2, 1);
 	    break;
 	}
-		
+
 	case type_bitfield_tag : {
 	    /* Bitfield types */
 	    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
 	    mangle_itype (bf, it);
 	    break;
 	}
-		
+
 	case type_compound_tag : {
 	    /* Class types */
 	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 	    mangle_ctype (bf, ct, -2);
 	    break;
 	}
-		
+
 	case type_enumerate_tag : {
 	    /* Enumeration types */
 	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
@@ -1015,7 +1015,7 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 #endif
 	    break;
 	}
-		
+
 	case type_token_tag : {
 	    /* Tokenised types */
 	    IDENTIFIER id = DEREF_id (type_token_tok (t));
@@ -1023,21 +1023,21 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	    mangle_token (bf, id, args, -2, 0);
 	    break;
 	}
-		
+
 	case type_templ_tag : {
 	    /* Template types */
 	    t = DEREF_type (type_templ_defn (t));
 	    mangle_type (bf, t, fn, arr);
 	    break;
 	}
-		
+
 	default : {
 	    /* Illegal types */
 	    bfputc (bf, MANGLE_error);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1051,10 +1051,10 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 static void
 mangle_ctype(BUFFER *bf, CLASS_TYPE ct, int d)
 {
-    CLASS_TYPE cs = crt_mangle_class;
-    if (!IS_NULL_ctype (cs) && eq_ctype (ct, cs)) {
+	CLASS_TYPE cs = crt_mangle_class;
+	if (!IS_NULL_ctype (cs) && eq_ctype (ct, cs)) {
 		bfputc (bf, MANGLE_self);
-    } else {
+	} else {
 		TYPE t = DEREF_type (ctype_form (ct));
 		if (!IS_NULL_type (t) && IS_type_token (t)) {
 			IDENTIFIER tid = DEREF_id (type_token_tok (t));
@@ -1065,8 +1065,8 @@ mangle_ctype(BUFFER *bf, CLASS_TYPE ct, int d)
 			if (d == -2) d = ident_depth (cid);
 			mangle_id (bf, cid, d);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1080,15 +1080,15 @@ mangle_ctype(BUFFER *bf, CLASS_TYPE ct, int d)
 static void
 mangle_graph(BUFFER *bf, GRAPH gr)
 {
-    int d = -2;
-    GRAPH gu = DEREF_graph (graph_up (gr));
-    CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
-    if (!IS_NULL_graph (gu)) {
+	int d = -2;
+	GRAPH gu = DEREF_graph (graph_up (gr));
+	CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
+	if (!IS_NULL_graph (gu)) {
 		mangle_graph (bf, gu);
 		d = 1;
-    }
-    mangle_ctype (bf, ct, d);
-    return;
+	}
+	mangle_ctype (bf, ct, d);
+	return;
 }
 
 
@@ -1102,7 +1102,7 @@ mangle_graph(BUFFER *bf, GRAPH gr)
 static void
 mangle_token_arg(BUFFER *bf, TOKEN tok)
 {
-    if (!IS_NULL_tok (tok)) {
+	if (!IS_NULL_tok (tok)) {
 		switch (TAG_tok (tok)) {
 	    case tok_exp_tag : {
 			EXP e = DEREF_exp (tok_exp_value (tok));
@@ -1148,8 +1148,8 @@ mangle_token_arg(BUFFER *bf, TOKEN tok)
 			break;
 	    }
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1163,14 +1163,14 @@ mangle_token_arg(BUFFER *bf, TOKEN tok)
 static void
 mangle_token_args(BUFFER *bf, LIST (TOKEN) args)
 {
-    unsigned m = LENGTH_list (args);
-    mangle_number (bf, (unsigned long) m, 2);
-    while (!IS_NULL_list (args)) {
+	unsigned m = LENGTH_list (args);
+	mangle_number (bf, (unsigned long) m, 2);
+	while (!IS_NULL_list (args)) {
 		TOKEN tok = DEREF_tok (HEAD_list (args));
 		mangle_token_arg (bf, tok);
 		args = TAIL_list (args);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1184,16 +1184,16 @@ mangle_token_args(BUFFER *bf, LIST (TOKEN) args)
 static void
 mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args, int d, int force)
 {
-    IDENTIFIER alt;
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (IS_id_token (id)) {
+	IDENTIFIER alt;
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (IS_id_token (id)) {
 		if (!IS_NULL_list (args)) force = 1;
 		alt = DEREF_id (id_token_alt (id));
-    } else {
+	} else {
 		force = 1;
 		alt = id;
-    }
-    if (d == -2) {
+	}
+	if (d == -2) {
 		if (ds & dspec_auto) {
 			/* Template parameter */
 			ulong n = DEREF_ulong (id_no (id));
@@ -1216,14 +1216,14 @@ mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args, int d, int force)
 			return;
 		}
 		d = ident_depth (alt);
-    }
-    if (force) bfputc (bf, MANGLE_template);
-    mangle_id (bf, alt, d);
-    if (!IS_NULL_list (args)) {
+	}
+	if (force) bfputc (bf, MANGLE_template);
+	mangle_id (bf, alt, d);
+	if (!IS_NULL_list (args)) {
 		/* Token arguments */
 		mangle_token_args (bf, args);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1237,8 +1237,8 @@ mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args, int d, int force)
 static string
 mangle_op(int op)
 {
-    const char *s;
-    switch (op) {
+	const char *s;
+	switch (op) {
 		/* Standard operator names */
 	case lex_abs : s = "__ab" ; break;
 	case lex_and_H1 : s = "__ad" ; break;
@@ -1285,7 +1285,7 @@ mangle_op(int op)
 	case lex_star_Heq : s = "__aml" ; break;
 	case lex_xor_H1 : s = "__er" ; break;
 	case lex_xor_Heq_H1 : s = "__aer" ; break;
-		
+
 		/* Invalid operator names */
 	case lex_cond_Hop : s = "__cn" ; break;
 	case lex_colon : s = "__cs" ; break;
@@ -1296,8 +1296,8 @@ mangle_op(int op)
 	case lex_typeid : s = "__td" ; break;
 	case lex_vtable : s = "__tb" ; break;
 	default : s = mangle_ntype [0] ; break;
-    }
-    return (ustrlit (s));
+	}
+	return (ustrlit (s));
 }
 
 
@@ -1311,9 +1311,9 @@ mangle_op(int op)
 static int
 mangle_ename(BUFFER *bf, string s)
 {
-    int u = 0;
-    character c;
-    while (c = *(s++), c != 0) {
+	int u = 0;
+	character c;
+	while (c = *(s++), c != 0) {
 		if (c == char_backslash) {
 			c = *(s++);
 			bfputc (bf, MANGLE_sep);
@@ -1328,8 +1328,8 @@ mangle_ename(BUFFER *bf, string s)
 		} else {
 			bfputc (bf, (int) c);
 		}
-    }
-    return (u);
+	}
+	return (u);
 }
 
 
@@ -1344,8 +1344,8 @@ mangle_ename(BUFFER *bf, string s)
 static string
 mangle_hashid(HASHID nm, int *pcopy, int force)
 {
-    string s = NULL;
-    switch (TAG_hashid (nm)) {
+	string s = NULL;
+	switch (TAG_hashid (nm)) {
 	case hashid_name_tag : {
 	    /* Simple identifiers */
 	    s = DEREF_string (hashid_name_text (nm));
@@ -1396,8 +1396,8 @@ mangle_hashid(HASHID nm, int *pcopy, int force)
 	    if (force && output_all) s = ustrlit ("");
 	    break;
 	}
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -1413,20 +1413,20 @@ mangle_hashid(HASHID nm, int *pcopy, int force)
 string
 mangle_name(IDENTIFIER id, int v, int ext)
 {
-    int d;
-    string s;
-    HASHID nm;
-    BUFFER *bf;
-    int copy = 0;
-    NAMESPACE ns;
-    string pre = NULL;
-    TYPE t = NULL_type;
-    TYPE f = NULL_type;
-    CLASS_TYPE cs = NULL_ctype;
-	
-    /* Check for internal linkage */
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (!(ds & dspec_extern)) {
+	int d;
+	string s;
+	HASHID nm;
+	BUFFER *bf;
+	int copy = 0;
+	NAMESPACE ns;
+	string pre = NULL;
+	TYPE t = NULL_type;
+	TYPE f = NULL_type;
+	CLASS_TYPE cs = NULL_ctype;
+
+	/* Check for internal linkage */
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (!(ds & dspec_extern)) {
 		if (ds & dspec_static) {
 			if (!output_all) return (NULL);
 		} else if (IS_id_enumerator (id)) {
@@ -1434,25 +1434,25 @@ mangle_name(IDENTIFIER id, int v, int ext)
 		} else {
 			return (NULL);
 		}
-    }
-    if ((ds & dspec_instance) && !is_exported (id)) {
+	}
+	if ((ds & dspec_instance) && !is_exported (id)) {
 		/* Non-exported templates */
 		if (!output_all) return (NULL);
-    }
-    if (output_all) ext = 1;
-	
-    /* Find the basic name */
-    name_buff.posn = name_buff.start;
-    nm = DEREF_hashid (id_name (id));
-    s = mangle_hashid (nm, &copy, 0);
-    if (s == NULL) return (NULL);
-	
-    /* Find the namespace depth */
-    ns = DEREF_nspace (id_parent (id));
-    d = nspace_depth (ns);
-	
-    /* Find any type qualifier */
-    switch (TAG_id (id)) {
+	}
+	if (output_all) ext = 1;
+
+	/* Find the basic name */
+	name_buff.posn = name_buff.start;
+	nm = DEREF_hashid (id_name (id));
+	s = mangle_hashid (nm, &copy, 0);
+	if (s == NULL) return (NULL);
+
+	/* Find the namespace depth */
+	ns = DEREF_nspace (id_parent (id));
+	d = nspace_depth (ns);
+
+	/* Find any type qualifier */
+	switch (TAG_id (id)) {
 	case id_variable_tag : {
 	    /* Simple variables */
 	    if (ds & dspec_c) {
@@ -1521,30 +1521,30 @@ mangle_name(IDENTIFIER id, int v, int ext)
 	    t = DEREF_type (id_enumerator_etype (id));
 	    break;
 	}
-    }
-	
-    /* Check for the simple cases */
-    if (d < 0) return (NULL);
-    if (d == 0 && IS_NULL_type (t) && pre == NULL) {
+	}
+
+	/* Check for the simple cases */
+	if (d < 0) return (NULL);
+	if (d == 0 && IS_NULL_type (t) && pre == NULL) {
 		if (copy) {
 			if (ustrchr (s, MANGLE_error)) return (NULL);
 			s = ustring_copy (s);
 		}
 		return (s);
-    }
-	
-    /* Deal with the complex case */
-    bf = clear_buffer (&mangle_buff, NULL);
-    if (pre) bfputs (bf, pre);
-    bfputs (bf, s);
-    if (v == VAR_token) {
+	}
+
+	/* Deal with the complex case */
+	bf = clear_buffer (&mangle_buff, NULL);
+	if (pre) bfputs (bf, pre);
+	bfputs (bf, s);
+	if (v == VAR_token) {
 		bfputc (bf, MANGLE_dot);
-    } else {
+	} else {
 		bfputc (bf, MANGLE_sep);
 		bfputc (bf, MANGLE_sep);
-    }
-    if (d) mangle_nspace (bf, ns, d);
-    if (!IS_NULL_type (f) && IS_type_token (f)) {
+	}
+	if (d) mangle_nspace (bf, ns, d);
+	if (!IS_NULL_type (f) && IS_type_token (f)) {
 		/* Check for template functions */
 		if (mangle_signature) {
 			IDENTIFIER fid = DEREF_id (type_token_tok (f));
@@ -1559,8 +1559,8 @@ mangle_name(IDENTIFIER id, int v, int ext)
 				bfputc (bf, MANGLE_sep);
 			}
 		}
-    }
-    if (!IS_NULL_type (t)) {
+	}
+	if (!IS_NULL_type (t)) {
 		/* Output function type */
 		int fn = 1;
 		if (!IS_hashid_name_etc (nm)) fn = 0;
@@ -1568,14 +1568,14 @@ mangle_name(IDENTIFIER id, int v, int ext)
 		crt_mangle_class = cs;
 		mangle_type (bf, t, fn, 0);
 		crt_mangle_class = NULL_ctype;
-    }
-    bfputc (bf, 0);
-	
-    /* Check for illegal names */
-    s = bf->start;
-    if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = ustring_copy (s);
-    return (s);
+	}
+	bfputc (bf, 0);
+
+	/* Check for illegal names */
+	s = bf->start;
+	if (ustrchr (s, MANGLE_error)) return (NULL);
+	s = ustring_copy (s);
+	return (s);
 }
 
 
@@ -1599,8 +1599,8 @@ ulong common_no = 0;
 string
 mangle_common(string s, IDENTIFIER id)
 {
-    string t = NULL;
-    if (s) {
+	string t = NULL;
+	if (s) {
 		BUFFER *bf = clear_buffer (&mangle_buff, NULL);
 		bfprintf (bf, "__v_");
 		if (!IS_NULL_id (id)) {
@@ -1617,8 +1617,8 @@ mangle_common(string s, IDENTIFIER id)
 		t = bf->start;
 		if (ustrchr (t, MANGLE_error)) return (NULL);
 		t = ustring_copy (t);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1632,16 +1632,16 @@ mangle_common(string s, IDENTIFIER id)
 string
 mangle_vtable(const char *pre, GRAPH gr)
 {
-    string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
-    name_buff.posn = name_buff.start;
-    bfputs (bf, ustrlit (pre));
-    mangle_graph (bf, gr);
-    bfputc (bf, 0);
-    s = bf->start;
-    if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = ustring_copy (s);
-    return (s);
+	string s;
+	BUFFER *bf = clear_buffer (&mangle_buff, NULL);
+	name_buff.posn = name_buff.start;
+	bfputs (bf, ustrlit (pre));
+	mangle_graph (bf, gr);
+	bfputc (bf, 0);
+	s = bf->start;
+	if (ustrchr (s, MANGLE_error)) return (NULL);
+	s = ustring_copy (s);
+	return (s);
 }
 
 
@@ -1655,16 +1655,16 @@ mangle_vtable(const char *pre, GRAPH gr)
 string
 mangle_typeid(const char *pre, CLASS_TYPE ct)
 {
-    string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
-    name_buff.posn = name_buff.start;
-    bfputs (bf, ustrlit (pre));
-    mangle_ctype (bf, ct, -2);
-    bfputc (bf, 0);
-    s = bf->start;
-    if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = ustring_copy (s);
-    return (s);
+	string s;
+	BUFFER *bf = clear_buffer (&mangle_buff, NULL);
+	name_buff.posn = name_buff.start;
+	bfputs (bf, ustrlit (pre));
+	mangle_ctype (bf, ct, -2);
+	bfputc (bf, 0);
+	s = bf->start;
+	if (ustrchr (s, MANGLE_error)) return (NULL);
+	s = ustring_copy (s);
+	return (s);
 }
 
 
@@ -1678,16 +1678,16 @@ mangle_typeid(const char *pre, CLASS_TYPE ct)
 string
 mangle_tname(const char *pre, TYPE t)
 {
-    string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
-    name_buff.posn = name_buff.start;
-    bfputs (bf, ustrlit (pre));
-    mangle_type (bf, t, 2, 1);
-    bfputc (bf, 0);
-    s = bf->start;
-    if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = ustring_copy (s);
-    return (s);
+	string s;
+	BUFFER *bf = clear_buffer (&mangle_buff, NULL);
+	name_buff.posn = name_buff.start;
+	bfputs (bf, ustrlit (pre));
+	mangle_type (bf, t, 2, 1);
+	bfputc (bf, 0);
+	s = bf->start;
+	if (ustrchr (s, MANGLE_error)) return (NULL);
+	s = ustring_copy (s);
+	return (s);
 }
 
 
@@ -1703,12 +1703,12 @@ string
 mangle_init()
 {
 #if (TDF_major >= 4)
-    return (NULL);
+	return (NULL);
 #else
-    char buff [50];
-    output_init = 1;
-    sprintf_v (buff, "_GLOBAL_$I$%s", uniq_string);
-    return (ustrlit (string_copy (buff)));
+	char buff [50];
+	output_init = 1;
+	sprintf_v (buff, "_GLOBAL_$I$%s", uniq_string);
+	return (ustrlit (string_copy (buff)));
 #endif
 }
 
@@ -1723,10 +1723,10 @@ mangle_init()
 string
 mangle_anon()
 {
-    char buff [50];
-    static unsigned long anon_no = 0;
-    sprintf_v (buff, "__%lu_%s", anon_no++, uniq_string);
-    return (ustrlit (string_copy (buff)));
+	char buff [50];
+	static unsigned long anon_no = 0;
+	sprintf_v (buff, "__%lu_%s", anon_no++, uniq_string);
+	return (ustrlit (string_copy (buff)));
 }
 
 
@@ -1739,7 +1739,7 @@ mangle_anon()
 static void
 mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 {
-    if (!IS_NULL_nspace (ns)) {
+	if (!IS_NULL_nspace (ns)) {
 		switch (TAG_nspace (ns)) {
 	    case nspace_named_tag :
 	    case nspace_ctype_tag : {
@@ -1761,8 +1761,8 @@ mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 			break;
 	    }
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1776,13 +1776,13 @@ mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 string
 mangle_diag(IDENTIFIER id, int q)
 {
-    int fn = 0;
-    TYPE t = NULL_type;
-    HASHID nm = DEREF_hashid (id_name (id));
-    unsigned tag = TAG_hashid (nm);
-    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
-    name_buff.posn = name_buff.start;
-    if (q) {
+	int fn = 0;
+	TYPE t = NULL_type;
+	HASHID nm = DEREF_hashid (id_name (id));
+	unsigned tag = TAG_hashid (nm);
+	BUFFER *bf = clear_buffer (&mangle_buff, NULL);
+	name_buff.posn = name_buff.start;
+	if (q) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (ds & dspec_c) {
 			/* Ignore C linkage objects */
@@ -1798,8 +1798,8 @@ mangle_diag(IDENTIFIER id, int q)
 				t = DEREF_type (id_function_etc_type (id));
 			}
 		}
-    }
-    switch (tag) {
+	}
+	switch (tag) {
 	case hashid_name_tag : {
 	    string s = DEREF_string (hashid_name_text (nm));
 	    bfputs (bf, s);
@@ -1844,13 +1844,13 @@ mangle_diag(IDENTIFIER id, int q)
 	    fn = 1;
 	    break;
 	}
-    }
-    if (!IS_NULL_type (t)) {
+	}
+	if (!IS_NULL_type (t)) {
 		/* Mangled function type */
 		bfputc (bf, MANGLE_sep);
 		bfputc (bf, MANGLE_sep);
 		mangle_type (bf, t, fn, 0);
-    }
-    bfputc (bf, 0);
-    return (bf->start);
+	}
+	bfputc (bf, 0);
+	return (bf->start);
 }

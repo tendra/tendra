@@ -155,11 +155,11 @@ int print_id_desc = 0;
 int
 print_lex(int t, BUFFER *bf, int sp)
 {
-    string s = token_name (t);
-    if (s == NULL) return (sp);
-    if (sp) bfputc (bf, ' ');
-    bfputs (bf, s);
-    return (1);
+	string s = token_name (t);
+	if (s == NULL) return (sp);
+	if (sp) bfputc (bf, ' ');
+	bfputs (bf, s);
+	return (1);
 }
 
 
@@ -172,17 +172,17 @@ print_lex(int t, BUFFER *bf, int sp)
 int
 print_access(DECL_SPEC n, BUFFER *bf, int sp)
 {
-    int t;
-    DECL_SPEC a = (n & dspec_access);
-    if (a == dspec_private) {
+	int t;
+	DECL_SPEC a = (n & dspec_access);
+	if (a == dspec_private) {
 		t = lex_private;
-    } else if (a == dspec_protected) {
+	} else if (a == dspec_protected) {
 		t = lex_protected;
-    } else {
+	} else {
 		t = lex_public;
-    }
-    sp = print_lex (t, bf, sp);
-    return (sp);
+	}
+	sp = print_lex (t, bf, sp);
+	return (sp);
 }
 
 
@@ -193,32 +193,32 @@ print_access(DECL_SPEC n, BUFFER *bf, int sp)
  */
 
 const char *ntype_name [ ORDER_ntype ] = {
-    "<error>",			/* ntype_none */
-    "char",			/* ntype_char */
-    "signed char",		/* ntype_schar */
-    "unsigned char",		/* ntype_uchar */
-    "short",			/* ntype_sshort */
-    "unsigned short",		/* ntype_ushort */
-    "int",			/* ntype_sint */
-    "unsigned int",		/* ntype_uint */
-    "long",			/* ntype_slong */
-    "unsigned long",		/* ntype_ulong */
-    "long long",		/* ntype_sllong */
-    "unsigned long long",	/* ntype_ullong */
-    "float",			/* ntype_float */
-    "double",			/* ntype_double */
-    "long double",		/* ntype_ldouble */
-    "void",			/* ntype_void */
-    "<bottom>",			/* ntype_bottom */
+	"<error>",			/* ntype_none */
+	"char",			/* ntype_char */
+	"signed char",		/* ntype_schar */
+	"unsigned char",		/* ntype_uchar */
+	"short",			/* ntype_sshort */
+	"unsigned short",		/* ntype_ushort */
+	"int",			/* ntype_sint */
+	"unsigned int",		/* ntype_uint */
+	"long",			/* ntype_slong */
+	"unsigned long",		/* ntype_ulong */
+	"long long",		/* ntype_sllong */
+	"unsigned long long",	/* ntype_ullong */
+	"float",			/* ntype_float */
+	"double",			/* ntype_double */
+	"long double",		/* ntype_ldouble */
+	"void",			/* ntype_void */
+	"<bottom>",			/* ntype_bottom */
 #if LANGUAGE_CPP
-    "bool",			/* ntype_bool */
+	"bool",			/* ntype_bool */
 #else
-    "_Bool",			/* ntype_bool */
+	"_Bool",			/* ntype_bool */
 #endif
-    "ptrdiff_t",		/* ntype_ptrdiff_t */
-    "size_t",			/* ntype_size_t */
-    "wchar_t",			/* ntype_wchar_t */
-    "..."			/* ntype_ellipsis */
+	"ptrdiff_t",		/* ntype_ptrdiff_t */
+	"size_t",			/* ntype_size_t */
+	"wchar_t",			/* ntype_wchar_t */
+	"..."			/* ntype_ellipsis */
 };
 
 
@@ -231,9 +231,9 @@ const char *ntype_name [ ORDER_ntype ] = {
 int
 print_ntype(BUILTIN_TYPE n, BUFFER *bf, int sp)
 {
-    if (sp) bfputc (bf, ' ');
-    bfputs (bf, ustrlit (ntype_name [n]));
-    return (1);
+	if (sp) bfputc (bf, ' ');
+	bfputs (bf, ustrlit (ntype_name [n]));
+	return (1);
 }
 
 
@@ -246,8 +246,8 @@ print_ntype(BUILTIN_TYPE n, BUFFER *bf, int sp)
 int
 print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 {
-    BASE_TYPE key = (n & btype_named);
-    if (key) {
+	BASE_TYPE key = (n & btype_named);
+	if (key) {
 		switch (key) {
 	    case btype_class : sp = print_lex (lex_class, bf, sp); break;
 	    case btype_struct : sp = print_lex (lex_struct, bf, sp); break;
@@ -255,7 +255,7 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 	    case btype_enum : sp = print_lex (lex_enum, bf, sp); break;
 	    case btype_any : sp = print_lex (lex_tag_Hcap, bf, sp); break;
 		}
-    } else {
+	} else {
 		if (n & btype_signed) sp = print_lex (lex_signed, bf, sp);
 		if (n & btype_unsigned) sp = print_lex (lex_unsigned, bf, sp);
 		if (n & btype_short) sp = print_lex (lex_short, bf, sp);
@@ -273,8 +273,8 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 		if (n & btype_wchar_t) sp = print_lex (lex_wchar_Ht, bf, sp);
 		if (n & btype_ellipsis) sp = print_lex (lex_ellipsis, bf, sp);
 		if (n & btype_star) sp = print_lex (lex_star, bf, sp);
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -287,12 +287,12 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 int
 print_cv(CV_SPEC n, BUFFER *bf, int sp)
 {
-    if (n) {
+	if (n) {
 		if (n & cv_const) sp = print_lex (lex_const, bf, sp);
 		if (n & cv_restrict) sp = print_lex (lex_restrict, bf, sp);
 		if (n & cv_volatile) sp = print_lex (lex_volatile, bf, sp);
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -306,21 +306,21 @@ print_cv(CV_SPEC n, BUFFER *bf, int sp)
 int
 print_dspec(DECL_SPEC n, BUFFER *bf, int sp)
 {
-    if (n & dspec_typedef) sp = print_lex (lex_typedef, bf, sp);
-    if (n & dspec_storage) {
+	if (n & dspec_typedef) sp = print_lex (lex_typedef, bf, sp);
+	if (n & dspec_storage) {
 		if (n & dspec_extern) sp = print_lex (lex_extern, bf, sp);
 		if (n & dspec_static) sp = print_lex (lex_static, bf, sp);
 		if (n & dspec_register) sp = print_lex (lex_register, bf, sp);
 		if (n & dspec_auto) sp = print_lex (lex_auto, bf, sp);
 		if (n & dspec_mutable) sp = print_lex (lex_mutable, bf, sp);
-    }
-    if (n & dspec_function) {
+	}
+	if (n & dspec_function) {
 		if (n & dspec_explicit) sp = print_lex (lex_explicit, bf, sp);
 		if (n & dspec_friend) sp = print_lex (lex_friend, bf, sp);
 		if (n & dspec_inline) sp = print_lex (lex_inline, bf, sp);
 		if (n & dspec_virtual) sp = print_lex (lex_virtual, bf, sp);
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -333,16 +333,16 @@ print_dspec(DECL_SPEC n, BUFFER *bf, int sp)
 static int
 print_linkage(CV_SPEC n, BUFFER *bf, int sp)
 {
-    CV_SPEC m = (n & cv_language);
-    if (m) {
+	CV_SPEC m = (n & cv_language);
+	if (m) {
 		if (m != cv_cpp && !print_c_style) {
 			string s = linkage_string (dspec_none, m);
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "extern \"%s\"", s);
 			sp = 1;
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -357,13 +357,13 @@ print_linkage(CV_SPEC n, BUFFER *bf, int sp)
 int
 print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 {
-    string fn;
-    unsigned long ln;
-    if (sp) bfputc (bf, ' ');
-    if (p == NULL) {
+	string fn;
+	unsigned long ln;
+	if (sp) bfputc (bf, ' ');
+	if (p == NULL) {
 		fn = ustrlit ("<unknown>");
 		ln = 0;
-    } else {
+	} else {
 		PTR (POSITION) pa = p->posn;
 		if (IS_NULL_ptr (pa)) {
 			fn = ustrlit ("<unknown>");
@@ -381,14 +381,14 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 			}
 		}
 		ln = p->line;
-    }
-    if (fn) {
+	}
+	if (fn) {
 		bfprintf (bf, "\"%s\"", fn);
 		if (ln) bfprintf (bf, ", line %lu", ln);
-    } else {
+	} else {
 		bfprintf (bf, "line %lu", ln);
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -402,11 +402,11 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 int
 print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 {
-    unsigned tag;
-    if (IS_NULL_hashid (p)) return (sp);
-    tag = TAG_hashid (p);
-    ASSERT (ORDER_hashid == 7);
-    switch (tag) {
+	unsigned tag;
+	if (IS_NULL_hashid (p)) return (sp);
+	tag = TAG_hashid (p);
+	ASSERT (ORDER_hashid == 7);
+	switch (tag) {
 	case hashid_name_tag :
 	case hashid_ename_tag : {
 	    /* Simple name */
@@ -488,8 +488,8 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -502,10 +502,10 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 int
 print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		int sep = 0;
 		HASHID p = DEREF_hashid (id_name (id));
-		
+
 		/* Print enclosing namespace name */
 		NAMESPACE ns = DEREF_nspace (id_parent (id));
 		if (sp) bfputc (bf, ' ');
@@ -519,7 +519,7 @@ print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 				IGNORE print_nspace (ns, qual, 1, bf, 0);
 			}
 		}
-		
+
 		/* Print identifier name */
 		if (IS_hashid_anon (p)) {
 			/* Print anonymous identifier names */
@@ -563,8 +563,8 @@ print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 			IGNORE print_hashid (p, sep, 0, bf, 0);
 		}
 		sp = 1;
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -577,7 +577,7 @@ print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 int
 print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		int prt = 1;
 		int key = 0;
 		TYPE t = NULL_type;
@@ -787,8 +787,8 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 			sp = print_lex (lex_assign, bf, sp);
 			sp = print_nspace (pns, qual_none, 0, bf, sp);
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -803,7 +803,7 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 int
 print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_nspace (ns)) {
+	if (!IS_NULL_nspace (ns)) {
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
 		switch (TAG_nspace (ns)) {
 	    case nspace_named_tag :
@@ -857,8 +857,8 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -872,7 +872,7 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 int
 print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_graph (gr)) {
+	if (!IS_NULL_graph (gr)) {
 		CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
 		GRAPH gs = DEREF_graph (graph_up (gr));
 		if (sp) {
@@ -886,8 +886,8 @@ print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 		IGNORE print_ctype (ct, qual_none, 0, bf, 0);
 		print_parent_namespace = 1;
 		if (sep) bfprintf (bf, "::");
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -902,10 +902,10 @@ print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 int
 print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 {
-    int q;
-    int t = p->tok;
-    if (sp) bfputc (bf, ' ');
-    switch (t) {
+	int q;
+	int t = p->tok;
+	if (sp) bfputc (bf, ' ');
+	switch (t) {
 	case lex_identifier :
 	case lex_type_Hname :
 	case lex_namespace_Hname :
@@ -1039,8 +1039,8 @@ print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -1056,7 +1056,7 @@ print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 int
 print_nat(NAT n, int paren, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_nat (n)) {
+	if (!IS_NULL_nat (n)) {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
 	    case nat_small_tag : {
@@ -1119,8 +1119,8 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1133,7 +1133,7 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 int
 print_flt(FLOAT n, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_flt (n)) {
+	if (!IS_NULL_flt (n)) {
 		string i = DEREF_string (flt_simple_int_part (n));
 		string d = DEREF_string (flt_simple_frac_part (n));
 		NAT e = DEREF_nat (flt_simple_exponent (n));
@@ -1144,8 +1144,8 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
 			IGNORE print_nat (e, 0, bf, 0);
 		}
 		sp = 1;
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1159,10 +1159,10 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
 void
 print_char(unsigned long c, int ch, int q, BUFFER *bf)
 {
-    char buff [20];
-    if (ch == CHAR_SIMPLE) {
+	char buff [20];
+	if (ch == CHAR_SIMPLE) {
 		switch (c) {
-			
+
 	    case char_alert : bfprintf (bf, "\\a"); break;
 	    case char_backspace : bfprintf (bf, "\\b"); break;
 	    case char_form_feed : bfprintf (bf, "\\f"); break;
@@ -1170,14 +1170,14 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 	    case char_return : bfprintf (bf, "\\r"); break;
 	    case char_tab : bfprintf (bf, "\\t"); break;
 	    case char_vert_tab : bfprintf (bf, "\\v"); break;
-			
+
 	    case char_backslash :
 	    case char_question : {
 			if (q) bfputc (bf, '\\');
 			bfputc (bf, (int) c);
 			break;
 	    }
-			
+
 	    case char_quote :
 	    case char_single_quote : {
 			int a = (int) c;
@@ -1185,7 +1185,7 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 			bfputc (bf, a);
 			break;
 	    }
-			
+
 	    default : {
 			int a = (int) c;
 			if (isprint (a)) {
@@ -1197,7 +1197,7 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 			break;
 	    }
 		}
-    } else {
+	} else {
 		const char *fmt;
 		switch (ch) {
 	    case CHAR_OCTAL : fmt = "\\%03lo"; break;
@@ -1207,8 +1207,8 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 		}
 		sprintf_v (buff, fmt, c);
 		bfputs (bf, ustrlit (buff));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1221,24 +1221,24 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 int
 print_str(STRING s, BUFFER *bf, int sp)
 {
-    string text;
-    int q = '"';
-    unsigned kind;
-    unsigned long i, len;
-	
-    if (IS_NULL_str (s)) return (sp);
-	
-    /* Print the opening quote */
-    if (sp) bfputc (bf, ' ');
-    kind = DEREF_unsigned (str_simple_kind (s));
-    if (kind & STRING_CHAR) q = '\'';
-    if (kind & STRING_WIDE) bfputc (bf, 'L');
-	
-    /* Print the string text */
-    text = DEREF_string (str_simple_text (s));
-    len = DEREF_ulong (str_simple_len (s));
-    bfputc (bf, q);
-    if (kind & STRING_MULTI) {
+	string text;
+	int q = '"';
+	unsigned kind;
+	unsigned long i, len;
+
+	if (IS_NULL_str (s)) return (sp);
+
+	/* Print the opening quote */
+	if (sp) bfputc (bf, ' ');
+	kind = DEREF_unsigned (str_simple_kind (s));
+	if (kind & STRING_CHAR) q = '\'';
+	if (kind & STRING_WIDE) bfputc (bf, 'L');
+
+	/* Print the string text */
+	text = DEREF_string (str_simple_text (s));
+	len = DEREF_ulong (str_simple_len (s));
+	bfputc (bf, q);
+	if (kind & STRING_MULTI) {
 		/* Multi-byte strings */
 		for (i = 0; i < len; i++) {
 			int ch = CHAR_SIMPLE;
@@ -1246,15 +1246,15 @@ print_str(STRING s, BUFFER *bf, int sp)
 			print_char (c, ch, q, bf);
 			text += MULTI_WIDTH;
 		}
-    } else {
+	} else {
 		/* Simple strings */
 		for (i = 0; i < len; i++) {
 			unsigned long c = (unsigned long) text [i];
 			print_char (c, CHAR_SIMPLE, q, bf);
 		}
-    }
-    bfputc (bf, q);
-    return (1);
+	}
+	bfputc (bf, q);
+	return (1);
 }
 
 
@@ -1267,7 +1267,7 @@ print_str(STRING s, BUFFER *bf, int sp)
 int
 print_exp(EXP e, int paren, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		switch (TAG_exp (e)) {
 	    case exp_identifier_tag :
 	    case exp_member_tag :
@@ -1332,8 +1332,8 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1346,7 +1346,7 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 int
 print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_tok (tok)) {
+	if (!IS_NULL_tok (tok)) {
 		ASSERT (ORDER_tok == 10);
 		switch (TAG_tok (tok)) {
 	    case tok_exp_tag : {
@@ -1387,8 +1387,8 @@ print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1403,9 +1403,9 @@ int
 print_token(IDENTIFIER id, QUALIFIER qual, LIST (TOKEN) args, BUFFER *bf,
 			int sp)
 {
-    int open_bracket = 0;
-    int close_bracket = 0;
-    if (IS_id_token (id)) {
+	int open_bracket = 0;
+	int close_bracket = 0;
+	if (IS_id_token (id)) {
 		/* Token application */
 		TOKEN tok = DEREF_tok (id_token_sort (id));
 		unsigned tag = TAG_tok (tok);
@@ -1418,13 +1418,13 @@ print_token(IDENTIFIER id, QUALIFIER qual, LIST (TOKEN) args, BUFFER *bf,
 			open_bracket = '<';
 			close_bracket = '>';
 		}
-    } else {
+	} else {
 		/* Template application */
 		open_bracket = '<';
 		close_bracket = '>';
-    }
-    sp = print_id_short (id, qual, bf, sp);
-    if (open_bracket) {
+	}
+	sp = print_id_short (id, qual, bf, sp);
+	if (open_bracket) {
 		int first = 1;
 		bfputc (bf, ' ');
 		bfputc (bf, open_bracket);
@@ -1440,8 +1440,8 @@ print_token(IDENTIFIER id, QUALIFIER qual, LIST (TOKEN) args, BUFFER *bf,
 		if (!first) bfputc (bf, ' ');
 		bfputc (bf, close_bracket);
 		sp = 1;
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1454,12 +1454,12 @@ print_token(IDENTIFIER id, QUALIFIER qual, LIST (TOKEN) args, BUFFER *bf,
 int
 print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 {
-    unsigned tag;
-    if (IS_NULL_tok (tok)) return (sp);
-    tag = TAG_tok (tok);
-    ASSERT (ORDER_tok == 10);
-    switch (tag) {
-		
+	unsigned tag;
+	if (IS_NULL_tok (tok)) return (sp);
+	tag = TAG_tok (tok);
+	ASSERT (ORDER_tok == 10);
+	switch (tag) {
+
 	case tok_exp_tag : {
 	    /* Expression tokens */
 	    sp = print_lex (lex_exp_Hcap, bf, sp);
@@ -1479,7 +1479,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-		
+
 	case tok_nat_tag : {
 	    /* Integer constant tokens */
 	    if (arg) {
@@ -1489,7 +1489,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-		
+
 	case tok_snat_tag : {
 	    /* Integer constant tokens */
 	    if (arg) {
@@ -1499,13 +1499,13 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-		
+
 	case tok_stmt_tag : {
 	    /* Statement tokens */
 	    sp = print_lex (lex_stmt_Hcap, bf, sp);
 	    break;
 	}
-		
+
 	case tok_type_tag : {
 	    /* Type tokens */
 	    if (arg) {
@@ -1520,7 +1520,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-		
+
 	case tok_func_tag : {
 	    /* Function tokens */
 	    if (arg) {
@@ -1534,7 +1534,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    }
 	    break;
 	}
-		
+
 	case tok_member_tag : {
 	    /* Member tokens */
 	    TYPE s = DEREF_type (tok_member_of (tok));
@@ -1551,7 +1551,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    sp = 1;
 	    break;
 	}
-		
+
 	case tok_class_tag : {
 	    /* Template class tokens */
 	    TYPE t = DEREF_type (tok_class_type (tok));
@@ -1563,7 +1563,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    sp = print_lex (lex_class, bf, sp);
 	    break;
 	}
-		
+
 	case tok_proc_tag : {
 	    /* Procedure tokens */
 	    TOKEN res;
@@ -1627,7 +1627,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    sp = print_sort (res, 0, bf, 1);
 	    break;
 	}
-		
+
 	case tok_templ_tag : {
 	    /* Template tokens */
 	    LIST (TOKEN) q;
@@ -1682,8 +1682,8 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	    sp = 1;
 	    break;
 	}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1698,7 +1698,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 int
 print_itype(INT_TYPE t, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_itype (t)) {
+	if (!IS_NULL_itype (t)) {
 		ASSERT (ORDER_itype == 6);
 		switch (TAG_itype (t)) {
 	    case itype_basic_tag : {
@@ -1765,8 +1765,8 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1779,7 +1779,7 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 int
 print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_ftype (t)) {
+	if (!IS_NULL_ftype (t)) {
 		ASSERT (ORDER_ftype == 4);
 		switch (TAG_ftype (t)) {
 	    case ftype_basic_tag : {
@@ -1815,8 +1815,8 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1829,7 +1829,7 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 int
 print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_ctype (ct)) {
+	if (!IS_NULL_ctype (ct)) {
 		TYPE t = DEREF_type (ctype_form (ct));
 		IDENTIFIER id = DEREF_id (ctype_name (ct));
 		if (key && IS_id_class_name (id)) {
@@ -1843,8 +1843,8 @@ print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 		} else {
 			sp = print_id_short (id, qual, bf, sp);
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1857,14 +1857,14 @@ print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 int
 print_etype(ENUM_TYPE et, int key, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_etype (et)) {
+	if (!IS_NULL_etype (et)) {
 		IDENTIFIER id = DEREF_id (etype_name (et));
 		if (key && IS_id_enum_name (id)) {
 			sp = print_lex (lex_enum, bf, sp);
 		}
 		sp = print_id_short (id, qual_none, bf, sp);
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -1878,7 +1878,7 @@ print_etype(ENUM_TYPE et, int key, BUFFER *bf, int sp)
 static int
 is_tailed_type(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		IDENTIFIER tid = DEREF_id (type_name (t));
 		if (IS_NULL_id (tid) || !print_type_alias) {
 			switch (TAG_type (t)) {
@@ -1893,8 +1893,8 @@ is_tailed_type(TYPE t)
 			}
 			}
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1908,12 +1908,12 @@ is_tailed_type(TYPE t)
 static int
 print_head(TYPE t, int key, BUFFER *bf, int sp)
 {
-    if (IS_NULL_type (t)) {
+	if (IS_NULL_type (t)) {
 		static unsigned long type_no = 0;
 		if (sp) bfputc (bf, ' ');
 		bfprintf (bf, "<type%lu>", ++type_no);
 		sp = 1;
-    } else {
+	} else {
 		CV_SPEC qual = DEREF_cv (type_qual (t));
 		IDENTIFIER tid = DEREF_id (type_name (t));
 		qual &= cv_qual;
@@ -2091,8 +2091,8 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -2106,7 +2106,7 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 static int
 print_tail(TYPE t, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		IDENTIFIER tid = DEREF_id (type_name (t));
 		if (!IS_NULL_id (tid) && print_type_alias) {
 			return (sp);
@@ -2231,8 +2231,8 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -2248,9 +2248,9 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 int
 print_type(TYPE t, BUFFER *bf, int sp)
 {
-    sp = print_head (t, print_c_style, bf, sp);
-    sp = print_tail (t, bf, sp);
-    return (sp);
+	sp = print_head (t, print_c_style, bf, sp);
+	sp = print_tail (t, bf, sp);
+	return (sp);
 }
 
 
@@ -2264,9 +2264,9 @@ print_type(TYPE t, BUFFER *bf, int sp)
 int
 print_type_list(LIST (TYPE) p, BUFFER *bf, int sp)
 {
-    if (sp) bfputc (bf, ' ');
-    bfputc (bf, '(');
-    if (!IS_NULL_list (p)) {
+	if (sp) bfputc (bf, ' ');
+	bfputc (bf, '(');
+	if (!IS_NULL_list (p)) {
 		for (; ;) {
 			TYPE t = DEREF_type (HEAD_list (p));
 			IGNORE print_type (t, bf, 1);
@@ -2275,9 +2275,9 @@ print_type_list(LIST (TYPE) p, BUFFER *bf, int sp)
 			bfputc (bf, ',');
 		}
 		bfputc (bf, ' ');
-    }
-    bfputc (bf, ')');
-    return (1);
+	}
+	bfputc (bf, ')');
+	return (1);
 }
 
 
@@ -2290,7 +2290,7 @@ print_type_list(LIST (TYPE) p, BUFFER *bf, int sp)
 int
 print_offset(OFFSET off, BUFFER *bf, int sp)
 {
-    if (!IS_NULL_off (off)) {
+	if (!IS_NULL_off (off)) {
 		switch (TAG_off (off)) {
 	    case off_base_tag : {
 			GRAPH gr = DEREF_graph (off_base_graph (off));
@@ -2328,8 +2328,8 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 			break;
 	    }
 		}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -2344,8 +2344,8 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 static string
 find_buffer_line(unsigned long n, unsigned long m)
 {
-    string p = input_posn - 1;
-    if (n <= m) {
+	string p = input_posn - 1;
+	if (n <= m) {
 		/* Scan backwards */
 		while (p >= input_start) {
 			character c = *(p--);
@@ -2358,7 +2358,7 @@ find_buffer_line(unsigned long n, unsigned long m)
 			/* Allow falling off start */
 			return (input_start);
 		}
-    } else {
+	} else {
 		while (p < input_end) {
 			character c = *(p++);
 			if (c == char_newline) {
@@ -2370,8 +2370,8 @@ find_buffer_line(unsigned long n, unsigned long m)
 			/* Allow falling off end */
 			return (p);
 		}
-    }
-    return (NULL);
+	}
+	return (NULL);
 }
 
 
@@ -2386,7 +2386,7 @@ find_buffer_line(unsigned long n, unsigned long m)
 static string
 find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 {
-    if (input_start && !bad_crt_loc) {
+	if (input_start && !bad_crt_loc) {
 		PTR (POSITION) pm = crt_loc.posn;
 		if (!IS_NULL_ptr (pm)) {
 			string fm = DEREF_string (posn_input (pm));
@@ -2400,8 +2400,8 @@ find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 				}
 			}
 		}
-    }
-    return (NULL);
+	}
+	return (NULL);
 }
 
 
@@ -2416,8 +2416,8 @@ find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 void
 print_source(LOCATION *loc, int lines, int full, const char *pre, FILE *f)
 {
-    PTR (POSITION) pn = loc->posn;
-    if (lines > 0 && !IS_NULL_ptr (pn)) {
+	PTR (POSITION) pn = loc->posn;
+	if (lines > 0 && !IS_NULL_ptr (pn)) {
 		string p;
 		int nl = 0;
 		FILE *g = NULL;
@@ -2435,7 +2435,7 @@ print_source(LOCATION *loc, int lines, int full, const char *pre, FILE *f)
 		} else {
 			ln -= b;
 		}
-		
+
 		/* Find start of source */
 		p = find_buffer_loc (fn, ln, n);
 		if (p == NULL) {
@@ -2454,7 +2454,7 @@ print_source(LOCATION *loc, int lines, int full, const char *pre, FILE *f)
 				}
 			}
 		}
-		
+
 		/* Print source */
 		if (full) {
 			if (pre) fputs_v (pre, f);
@@ -2504,6 +2504,6 @@ print_source(LOCATION *loc, int lines, int full, const char *pre, FILE *f)
 		}
 		if (nl) fputc_v ('\n', f);
 		if (g) fclose_v (g);
-    }
-    return;
+	}
+	return;
 }
