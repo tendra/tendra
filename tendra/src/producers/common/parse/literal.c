@@ -851,7 +851,7 @@ make_literal_exp(string str, int *ptok, int force)
 			c2 = s [1];
 			if (c2 == char_plus || c2 == char_minus) s++;
 			r = s + 1;
-			s = check_digits (r, base);
+			s = check_digits (r, 10);
 			if (s == r) err = 1;
 			flt = 1;
 		}
