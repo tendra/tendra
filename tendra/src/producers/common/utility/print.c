@@ -249,11 +249,11 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 	BASE_TYPE key = (n & btype_named);
 	if (key) {
 		switch (key) {
-	    case btype_class : sp = print_lex (lex_class, bf, sp); break;
-	    case btype_struct : sp = print_lex (lex_struct, bf, sp); break;
-	    case btype_union : sp = print_lex (lex_union, bf, sp); break;
-	    case btype_enum : sp = print_lex (lex_enum, bf, sp); break;
-	    case btype_any : sp = print_lex (lex_tag_Hcap, bf, sp); break;
+		case btype_class : sp = print_lex (lex_class, bf, sp); break;
+		case btype_struct : sp = print_lex (lex_struct, bf, sp); break;
+		case btype_union : sp = print_lex (lex_union, bf, sp); break;
+		case btype_enum : sp = print_lex (lex_enum, bf, sp); break;
+		case btype_any : sp = print_lex (lex_tag_Hcap, bf, sp); break;
 		}
 	} else {
 		if (n & btype_signed) sp = print_lex (lex_signed, bf, sp);
@@ -409,18 +409,18 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 	switch (tag) {
 	case hashid_name_tag :
 	case hashid_ename_tag : {
-	    /* Simple name */
-	    string s = DEREF_string (hashid_name_etc_text (p));
-	    if (sp) bfputc (bf, ' ');
-	    bfputs (bf, s);
-	    sp = 1;
-	    break;
+		/* Simple name */
+		string s = DEREF_string (hashid_name_etc_text (p));
+		if (sp) bfputc (bf, ' ');
+		bfputs (bf, s);
+		sp = 1;
+		break;
 	}
 	case hashid_constr_tag :
 	case hashid_destr_tag : {
-	    /* Class destructor name */
-	    IDENTIFIER tid = DEREF_id (hashid_constr_etc_tid (p));
-	    if (IS_NULL_id (tid)) {
+		/* Class destructor name */
+		IDENTIFIER tid = DEREF_id (hashid_constr_etc_tid (p));
+		if (IS_NULL_id (tid)) {
 			/* Unnamed constructor or destructor */
 			TYPE t = DEREF_type (hashid_constr_etc_type (p));
 			if (sep) {
@@ -431,7 +431,7 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 			}
 			if (tag == hashid_destr_tag) bfputc (bf, '~');
 			sp = print_type (t, bf, 0);
-	    } else {
+		} else {
 			/* Named constructor or destructor */
 			static HASHID lastp = NULL_hashid;
 			if (sep && !EQ_hashid (p, lastp)) {
@@ -449,34 +449,34 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 			}
 			if (tag == hashid_destr_tag) bfputc (bf, '~');
 			sp = print_hashid (p, 0, 1, bf, 0);
-	    }
-	    break;
+		}
+		break;
 	}
 	case hashid_conv_tag : {
-	    /* Overloaded conversion name */
-	    int prt = print_return_type;
-	    TYPE t = DEREF_type (hashid_conv_type (p));
-	    sp = print_lex (lex_operator, bf, sp);
-	    print_return_type = 1;
-	    sp = print_type (t, bf, sp);
-	    print_return_type = prt;
-	    break;
+		/* Overloaded conversion name */
+		int prt = print_return_type;
+		TYPE t = DEREF_type (hashid_conv_type (p));
+		sp = print_lex (lex_operator, bf, sp);
+		print_return_type = 1;
+		sp = print_type (t, bf, sp);
+		print_return_type = prt;
+		break;
 	}
 	case hashid_op_tag : {
-	    /* Overloaded operator name */
-	    int op = DEREF_int (hashid_op_lex (p));
-	    string s = token_name (op);
-	    sp = print_lex (lex_operator, bf, sp);
-	    if (s) {
+		/* Overloaded operator name */
+		int op = DEREF_int (hashid_op_lex (p));
+		string s = token_name (op);
+		sp = print_lex (lex_operator, bf, sp);
+		if (s) {
 			int c = (int) *s;
 			if (isalpha (c)) bfputc (bf, ' ');
 			bfputs (bf, s);
-	    }
-	    break;
+		}
+		break;
 	}
 	case hashid_anon_tag : {
-	    /* Anonymous identifier */
-	    if (anon) {
+		/* Anonymous identifier */
+		if (anon) {
 			unsigned long u = DEREF_ulong (hashid_anon_uniq (p));
 			if (sp) bfputc (bf, ' ');
 			if (print_uniq_anon) {
@@ -485,8 +485,8 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 				bfprintf (bf, "<anon%lu>", u);
 			}
 			sp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 	}
 	return (sp);
@@ -589,62 +589,62 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 		NAMESPACE pns = NULL_nspace;
 		LIST (TYPE) p = NULL_list (TYPE);
 		switch (TAG_id (id)) {
-	    case id_keyword_tag :
-	    case id_iso_keyword_tag : {
+		case id_keyword_tag :
+		case id_iso_keyword_tag : {
 			/* Keywords */
 			if (full) desc = "keyword";
 			break;
-	    }
-	    case id_builtin_tag : {
+		}
+		case id_builtin_tag : {
 			/* Built-in operators */
 			t = DEREF_type (id_builtin_ret (id));
 			p = DEREF_list (id_builtin_ptypes (id));
 			if (full) desc = "built-in";
 			break;
-	    }
-	    case id_obj_macro_tag :
-	    case id_func_macro_tag : {
+		}
+		case id_obj_macro_tag :
+		case id_func_macro_tag : {
 			/* Macros */
 			if (full) desc = "macro";
 			break;
-	    }
-	    case id_predicate_tag : {
+		}
+		case id_predicate_tag : {
 			/* Predicates */
 			if (full) desc = "predicate";
 			break;
-	    }
-	    case id_class_name_tag :
-	    case id_enum_name_tag : {
+		}
+		case id_class_name_tag :
+		case id_enum_name_tag : {
 			/* Class and enumeration names */
 			f = DEREF_type (id_class_name_etc_defn (id));
 			key = (full || print_c_style);
 			break;
-	    }
-	    case id_class_alias_tag :
-	    case id_enum_alias_tag :
-	    case id_type_alias_tag : {
+		}
+		case id_class_alias_tag :
+		case id_enum_alias_tag :
+		case id_type_alias_tag : {
 			/* Typedef names */
 			if (full) {
 				t = DEREF_type (id_class_name_etc_defn (id));
 				desc = "typedef";
 			}
 			break;
-	    }
-	    case id_nspace_name_tag : {
+		}
+		case id_nspace_name_tag : {
 			/* Namespace names */
 			if (full) desc = "namespace";
 			break;
-	    }
-	    case id_nspace_alias_tag : {
+		}
+		case id_nspace_alias_tag : {
 			/* Namespace aliases */
 			if (full) {
 				desc = "namespace";
 				pns = DEREF_nspace (id_nspace_alias_defn (id));
 			}
 			break;
-	    }
-	    case id_variable_tag :
-	    case id_parameter_tag : {
+		}
+		case id_variable_tag :
+		case id_parameter_tag : {
 			/* Object names */
 			if (full) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -652,34 +652,34 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 				t = DEREF_type (id_variable_etc_type (id));
 			}
 			break;
-	    }
-	    case id_stat_member_tag : {
+		}
+		case id_stat_member_tag : {
 			/* Static members */
 			if (full) {
 				t = DEREF_type (id_stat_member_type (id));
 				desc = "static";
 			}
 			break;
-	    }
-	    case id_weak_param_tag : {
+		}
+		case id_weak_param_tag : {
 			if (full) {
 				desc = "auto";
 				t = type_sint;
 			}
 			break;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_mem_func_tag : {
 			/* Function names */
 			HASHID nm = DEREF_hashid (id_name (id));
 			switch (TAG_hashid (nm)) {
-		    case hashid_constr_tag :
-		    case hashid_destr_tag :
-		    case hashid_conv_tag : {
+			case hashid_constr_tag :
+			case hashid_destr_tag :
+			case hashid_conv_tag : {
 				/* Inhibit return type */
 				prt = 0;
 				break;
-		    }
+			}
 			}
 			t = DEREF_type (id_function_etc_type (id));
 			f = DEREF_type (id_function_etc_form (id));
@@ -693,8 +693,8 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 				if (print_c_style) t = NULL_type;
 			}
 			break;
-	    }
-	    case id_stat_mem_func_tag : {
+		}
+		case id_stat_mem_func_tag : {
 			/* Static function member names */
 			t = DEREF_type (id_stat_mem_func_type (id));
 			f = DEREF_type (id_stat_mem_func_form (id));
@@ -707,19 +707,19 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 				if (print_c_style) t = NULL_type;
 			}
 			break;
-	    }
-	    case id_member_tag : {
+		}
+		case id_member_tag : {
 			/* Member names */
 			gr = DEREF_graph (id_member_base (id));
 			if (full) t = DEREF_type (id_member_type (id));
 			break;
-	    }
-	    case id_enumerator_tag : {
+		}
+		case id_enumerator_tag : {
 			/* Enumerator names */
 			if (full) desc = "enumerator";
 			break;
-	    }
-	    case id_label_tag : {
+		}
+		case id_label_tag : {
 			/* Label names */
 			if (full) {
 				int op = DEREF_int (id_label_op (id));
@@ -735,15 +735,15 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 				desc = "label";
 			}
 			break;
-	    }
-	    case id_token_tag : {
+		}
+		case id_token_tag : {
 			/* Token names */
 			if (full) {
 				tok = DEREF_tok (id_token_sort (id));
 				desc = "token";
 			}
 			break;
-	    }
+		}
 		}
 		if (desc) {
 			/* Print description */
@@ -806,8 +806,8 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 	if (!IS_NULL_nspace (ns)) {
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
 		switch (TAG_nspace (ns)) {
-	    case nspace_named_tag :
-	    case nspace_ctype_tag : {
+		case nspace_named_tag :
+		case nspace_ctype_tag : {
 			/* Named and class namespaces */
 			if (sp) bfputc (bf, ' ');
 			if (IS_id_class_name (id)) {
@@ -827,8 +827,8 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 			if (pre) bfprintf (bf, "::");
 			sp = 1;
 			break;
-	    }
-	    case nspace_unnamed_tag : {
+		}
+		case nspace_unnamed_tag : {
 			/* Unnamed namespaces */
 			if (sp) bfputc (bf, ' ');
 			ns = DEREF_nspace (id_parent (id));
@@ -841,8 +841,8 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 			if (pre) bfprintf (bf, "::");
 			sp = 1;
 			break;
-	    }
-	    case nspace_global_tag : {
+		}
+		case nspace_global_tag : {
 			/* The global namespace */
 			if (!pre || qual == qual_full || qual == qual_top) {
 				if (sp) bfputc (bf, ' ');
@@ -850,12 +850,12 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 				sp = 1;
 			}
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other namespaces */
 			if (!pre) sp = print_id_short (id, qual, bf, sp);
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -918,27 +918,27 @@ print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 			break;
 		}
 	case lex_destructor_Hname : {
-	    /* Destructor names */
-	    bfputc (bf, '~');
-	    goto identifier_label;
+		/* Destructor names */
+		bfputc (bf, '~');
+		goto identifier_label;
 	}
 	case lex_template_Hid :
 	case lex_template_Htype : {
-	    /* Template names */
-	    IDENTIFIER id = p->pp_data.tok.id;
-	    IGNORE print_id_short (id, qual_none, bf, 0);
-	    break;
+		/* Template names */
+		IDENTIFIER id = p->pp_data.tok.id;
+		IGNORE print_id_short (id, qual_none, bf, 0);
+		break;
 	}
 	case lex_integer_Hlit : {
-	    /* Integer and floating point literals */
-	    string s = p->pp_data.text;
-	    bfputs (bf, s);
-	    break;
+		/* Integer and floating point literals */
+		string s = p->pp_data.text;
+		bfputs (bf, s);
+		break;
 	}
 	case lex_char_Hlit : {
-	    /* Character literals */
-	    q = '\'';
-	    string_label : {
+		/* Character literals */
+		q = '\'';
+		string_label : {
 			string s = p->pp_data.str.start;
 			string e = p->pp_data.str.end;
 			bfputc (bf, q);
@@ -947,25 +947,25 @@ print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 				s++;
 			}
 			bfputc (bf, q);
-	    }
-	    break;
+		}
+		break;
 	}
 	case lex_wchar_Hlit : {
-	    /* Wide character literals */
-	    bfputc (bf, 'L');
-	    q = '\'';
-	    goto string_label;
+		/* Wide character literals */
+		bfputc (bf, 'L');
+		q = '\'';
+		goto string_label;
 	}
 	case lex_string_Hlit : {
-	    /* String literals */
-	    q = '"';
-	    goto string_label;
+		/* String literals */
+		q = '"';
+		goto string_label;
 	}
 	case lex_wstring_Hlit : {
-	    /* Wide string literals */
-	    bfputc (bf, 'L');
-	    q = '"';
-	    goto string_label;
+		/* Wide string literals */
+		bfputc (bf, 'L');
+		q = '"';
+		goto string_label;
 	}
 	case lex_integer_Hexp :
 	case lex_floating_Hexp :
@@ -973,71 +973,71 @@ print_pptok(PPTOKEN *p, BUFFER *bf, int sp)
 	case lex_wchar_Hexp :
 	case lex_string_Hexp :
 	case lex_wstring_Hexp : {
-	    /* Literal expressions */
-	    IGNORE print_exp (p->pp_data.exp, 0, bf, 0);
-	    break;
+		/* Literal expressions */
+		IGNORE print_exp (p->pp_data.exp, 0, bf, 0);
+		break;
 	}
 	case lex_unknown : {
-	    /* Unknown characters */
-	    unsigned long u;
-	    int ch = CHAR_SIMPLE;
-	    u = get_multi_char (p->pp_data.buff, &ch);
-	    if (ch == CHAR_SIMPLE) {
+		/* Unknown characters */
+		unsigned long u;
+		int ch = CHAR_SIMPLE;
+		u = get_multi_char (p->pp_data.buff, &ch);
+		if (ch == CHAR_SIMPLE) {
 			bfputc (bf, (int) u);
-	    } else {
+		} else {
 			print_char (u, ch, 0, bf);
-	    }
-	    break;
+		}
+		break;
 	}
 	case lex_nested_Hname : {
-	    /* Nested name qualifier */
-	    NAMESPACE ns = p->pp_data.ns;
-	    IGNORE print_nspace (ns, qual_nested, 1, bf, 0);
-	    break;
+		/* Nested name qualifier */
+		NAMESPACE ns = p->pp_data.ns;
+		IGNORE print_nspace (ns, qual_nested, 1, bf, 0);
+		break;
 	}
 	case lex_full_Hname : {
-	    /* Nested name qualifier */
-	    NAMESPACE ns = p->pp_data.ns;
-	    IGNORE print_nspace (ns, qual_full, 1, bf, 0);
-	    break;
+		/* Nested name qualifier */
+		NAMESPACE ns = p->pp_data.ns;
+		IGNORE print_nspace (ns, qual_full, 1, bf, 0);
+		break;
 	}
 	case lex_nested_Hname_Hstar : {
-	    /* Nested member qualifier */
-	    IDENTIFIER id = p->pp_data.id.use;
-	    IGNORE print_id_short (id, qual_nested, bf, 0);
-	    bfprintf (bf, "::*");
-	    break;
+		/* Nested member qualifier */
+		IDENTIFIER id = p->pp_data.id.use;
+		IGNORE print_id_short (id, qual_nested, bf, 0);
+		bfprintf (bf, "::*");
+		break;
 	}
 	case lex_full_Hname_Hstar : {
-	    /* Nested member qualifier */
-	    IDENTIFIER id = p->pp_data.id.use;
-	    IGNORE print_id_short (id, qual_full, bf, 0);
-	    bfprintf (bf, "::*");
-	    break;
+		/* Nested member qualifier */
+		IDENTIFIER id = p->pp_data.id.use;
+		IGNORE print_id_short (id, qual_full, bf, 0);
+		bfprintf (bf, "::*");
+		break;
 	}
 	case lex_complex_Hexp :
 	case lex_complex_Htype : {
-	    /* Token applications etc. */
-	    IDENTIFIER id = p->pp_data.tok.id;
-	    IGNORE print_id_short (id, qual_none, bf, 0);
-	    break;
+		/* Token applications etc. */
+		IDENTIFIER id = p->pp_data.tok.id;
+		IGNORE print_id_short (id, qual_none, bf, 0);
+		break;
 	}
 	case lex_macro_Harg : {
-	    /* Macro parameters */
-	    HASHID nm = p->pp_data.par.hash;
-	    string s = DEREF_string (hashid_name_etc_text (nm));
-	    bfputs (bf, s);
-	    break;
+		/* Macro parameters */
+		HASHID nm = p->pp_data.par.hash;
+		string s = DEREF_string (hashid_name_etc_text (nm));
+		bfputs (bf, s);
+		break;
 	}
 	default : {
-	    /* Simple token */
-	    if (t >= 0) {
+		/* Simple token */
+		if (t >= 0) {
 			string s = token_name (t);
 			bfputs (bf, s);
-	    } else {
+		} else {
 			bfprintf (bf, "<ignore>");
-	    }
-	    break;
+		}
+		break;
 	}
 	}
 	return (1);
@@ -1059,15 +1059,15 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 	if (!IS_NULL_nat (n)) {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
-	    case nat_small_tag : {
+		case nat_small_tag : {
 			/* Small values */
 			unsigned v = DEREF_unsigned (nat_small_value (n));
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "%u", v);
 			sp = 1;
 			break;
-	    }
-	    case nat_large_tag : {
+		}
+		case nat_large_tag : {
 			/* Large values */
 			LIST (unsigned) p;
 			p = DEREF_list (nat_large_values (n));
@@ -1094,8 +1094,8 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 			}
 			sp = 1;
 			break;
-	    }
-	    case nat_calc_tag : {
+		}
+		case nat_calc_tag : {
 			/* Calculated values */
 			EXP e = DEREF_exp (nat_calc_value (n));
 			while (!IS_NULL_exp (e) && IS_exp_cast (e)) {
@@ -1103,21 +1103,21 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 			}
 			sp = print_exp (e, paren, bf, sp);
 			break;
-	    }
-	    case nat_neg_tag : {
+		}
+		case nat_neg_tag : {
 			/* Negative values */
 			NAT m = DEREF_nat (nat_neg_arg (n));
 			if (sp) bfputc (bf, ' ');
 			bfputc (bf, '-');
 			IGNORE print_nat (m, 1, bf, 0);
 			break;
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			IDENTIFIER id = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
 			sp = print_token (id, qual_none, args, bf, sp);
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -1163,30 +1163,30 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 	if (ch == CHAR_SIMPLE) {
 		switch (c) {
 
-	    case char_alert : bfprintf (bf, "\\a"); break;
-	    case char_backspace : bfprintf (bf, "\\b"); break;
-	    case char_form_feed : bfprintf (bf, "\\f"); break;
-	    case char_newline : bfprintf (bf, "\\n"); break;
-	    case char_return : bfprintf (bf, "\\r"); break;
-	    case char_tab : bfprintf (bf, "\\t"); break;
-	    case char_vert_tab : bfprintf (bf, "\\v"); break;
+		case char_alert : bfprintf (bf, "\\a"); break;
+		case char_backspace : bfprintf (bf, "\\b"); break;
+		case char_form_feed : bfprintf (bf, "\\f"); break;
+		case char_newline : bfprintf (bf, "\\n"); break;
+		case char_return : bfprintf (bf, "\\r"); break;
+		case char_tab : bfprintf (bf, "\\t"); break;
+		case char_vert_tab : bfprintf (bf, "\\v"); break;
 
-	    case char_backslash :
-	    case char_question : {
+		case char_backslash :
+		case char_question : {
 			if (q) bfputc (bf, '\\');
 			bfputc (bf, (int) c);
 			break;
-	    }
+		}
 
-	    case char_quote :
-	    case char_single_quote : {
+		case char_quote :
+		case char_single_quote : {
 			int a = (int) c;
 			if (a == q) bfputc (bf, '\\');
 			bfputc (bf, a);
 			break;
-	    }
+		}
 
-	    default : {
+		default : {
 			int a = (int) c;
 			if (isprint (a)) {
 				bfputc (bf, a);
@@ -1195,15 +1195,15 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 				bfputs (bf, ustrlit (buff));
 			}
 			break;
-	    }
+		}
 		}
 	} else {
 		const char *fmt;
 		switch (ch) {
-	    case CHAR_OCTAL : fmt = "\\%03lo"; break;
-	    case CHAR_UNI4 : fmt = "\\u%04lx"; break;
-	    case CHAR_UNI8 : fmt = "\\U%08lx"; break;
-	    default : fmt = "\\x%lx"; break;
+		case CHAR_OCTAL : fmt = "\\%03lo"; break;
+		case CHAR_UNI4 : fmt = "\\u%04lx"; break;
+		case CHAR_UNI8 : fmt = "\\U%08lx"; break;
+		default : fmt = "\\x%lx"; break;
 		}
 		sprintf_v (buff, fmt, c);
 		bfputs (bf, ustrlit (buff));
@@ -1269,55 +1269,55 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_exp (e)) {
 		switch (TAG_exp (e)) {
-	    case exp_identifier_tag :
-	    case exp_member_tag :
-	    case exp_ambiguous_tag :
-	    case exp_undeclared_tag : {
+		case exp_identifier_tag :
+		case exp_member_tag :
+		case exp_ambiguous_tag :
+		case exp_undeclared_tag : {
 			IDENTIFIER id = DEREF_id (exp_identifier_etc_id (e));
 			QUALIFIER q = DEREF_qual (exp_identifier_etc_qual (e));
 			q &= qual_explicit;
 			sp = print_id_short (id, q, bf, sp);
 			break;
-	    }
-	    case exp_int_lit_tag : {
+		}
+		case exp_int_lit_tag : {
 			NAT n = DEREF_nat (exp_int_lit_nat (e));
 			sp = print_nat (n, paren, bf, sp);
 			break;
-	    }
-	    case exp_float_lit_tag : {
+		}
+		case exp_float_lit_tag : {
 			FLOAT flt = DEREF_flt (exp_float_lit_flt (e));
 			sp = print_flt (flt, bf, sp);
 			break;
-	    }
-	    case exp_char_lit_tag : {
+		}
+		case exp_char_lit_tag : {
 			STRING s = DEREF_str (exp_char_lit_str (e));
 			sp = print_str (s, bf, sp);
 			break;
-	    }
-	    case exp_string_lit_tag : {
+		}
+		case exp_string_lit_tag : {
 			STRING s = DEREF_str (exp_string_lit_str (e));
 			sp = print_str (s, bf, sp);
 			break;
-	    }
-	    case exp_null_tag :
-	    case exp_zero_tag :
-	    case exp_value_tag : {
+		}
+		case exp_null_tag :
+		case exp_zero_tag :
+		case exp_value_tag : {
 			if (sp) bfputc (bf, ' ');
 			bfputc (bf, '0');
 			break;
-	    }
-	    case exp_contents_tag : {
+		}
+		case exp_contents_tag : {
 			EXP a = DEREF_exp (exp_contents_ptr (e));
 			sp = print_exp (a, 0, bf, sp);
 			break;
-	    }
-	    case exp_token_tag : {
+		}
+		case exp_token_tag : {
 			IDENTIFIER id = DEREF_id (exp_token_tok (e));
 			LIST (TOKEN) args = DEREF_list (exp_token_args (e));
 			sp = print_token (id, qual_none, args, bf, sp);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			static unsigned long exp_no = 0;
 #ifdef RUNTIME
 			if (debugging) {
@@ -1330,7 +1330,7 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 			bfprintf (bf, "<exp%lu>", ++exp_no);
 			sp = 1;
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -1349,43 +1349,43 @@ print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 	if (!IS_NULL_tok (tok)) {
 		ASSERT (ORDER_tok == 10);
 		switch (TAG_tok (tok)) {
-	    case tok_exp_tag : {
+		case tok_exp_tag : {
 			EXP e = DEREF_exp (tok_exp_value (tok));
 			sp = print_exp (e, 0, bf, sp);
 			break;
-	    }
-	    case tok_stmt_tag : {
+		}
+		case tok_stmt_tag : {
 			EXP e = DEREF_exp (tok_stmt_value (tok));
 			sp = print_exp (e, 0, bf, sp);
 			break;
-	    }
-	    case tok_nat_tag :
-	    case tok_snat_tag : {
+		}
+		case tok_nat_tag :
+		case tok_snat_tag : {
 			NAT n = DEREF_nat (tok_nat_etc_value (tok));
 			sp = print_nat (n, 0, bf, sp);
 			break;
-	    }
-	    case tok_type_tag : {
+		}
+		case tok_type_tag : {
 			TYPE t = DEREF_type (tok_type_value (tok));
 			sp = print_type (t, bf, sp);
 			break;
-	    }
-	    case tok_member_tag : {
+		}
+		case tok_member_tag : {
 			OFFSET off = DEREF_off (tok_member_value (tok));
 			sp = print_offset (off, bf, sp);
 			break;
-	    }
-	    case tok_class_tag : {
+		}
+		case tok_class_tag : {
 			IDENTIFIER cid = DEREF_id (tok_class_value (tok));
 			sp = print_id_short (cid, qual_none, bf, sp);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "<arg>");
 			sp = 1;
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -1461,9 +1461,9 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 	switch (tag) {
 
 	case tok_exp_tag : {
-	    /* Expression tokens */
-	    sp = print_lex (lex_exp_Hcap, bf, sp);
-	    if (!arg) {
+		/* Expression tokens */
+		sp = print_lex (lex_exp_Hcap, bf, sp);
+		if (!arg) {
 			TYPE t = DEREF_type (tok_exp_type (tok));
 			CV_SPEC cv = DEREF_cv (type_qual (t));
 			if (cv & cv_lvalue) {
@@ -1476,112 +1476,112 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 			IGNORE print_type (t, bf, 1);
 			bfprintf (bf, " :");
 			sp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case tok_nat_tag : {
-	    /* Integer constant tokens */
-	    if (arg) {
+		/* Integer constant tokens */
+		if (arg) {
 			sp = print_lex (lex_exp_Hcap, bf, sp);
-	    } else {
+		} else {
 			sp = print_lex (lex_nat_Hcap, bf, sp);
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case tok_snat_tag : {
-	    /* Integer constant tokens */
-	    if (arg) {
+		/* Integer constant tokens */
+		if (arg) {
 			sp = print_lex (lex_exp_Hcap, bf, sp);
-	    } else {
+		} else {
 			sp = print_lex (lex_int_Hcap, bf, sp);
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case tok_stmt_tag : {
-	    /* Statement tokens */
-	    sp = print_lex (lex_stmt_Hcap, bf, sp);
-	    break;
+		/* Statement tokens */
+		sp = print_lex (lex_stmt_Hcap, bf, sp);
+		break;
 	}
 
 	case tok_type_tag : {
-	    /* Type tokens */
-	    if (arg) {
+		/* Type tokens */
+		if (arg) {
 			sp = print_lex (lex_type_Hcap, bf, sp);
-	    } else {
+		} else {
 			BASE_TYPE bt = DEREF_btype (tok_type_kind (tok));
 			int key = type_token_key (bt);
 			if (key == lex_signed || key == lex_unsigned) {
 				sp = print_lex (lex_variety_Hcap, bf, sp);
 			}
 			sp = print_lex (key, bf, sp);
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case tok_func_tag : {
-	    /* Function tokens */
-	    if (arg) {
+		/* Function tokens */
+		if (arg) {
 			sp = print_lex (lex_proc_Hcap, bf, sp);
-	    } else {
+		} else {
 			TYPE t = DEREF_type (tok_func_type (tok));
 			IGNORE print_lex (lex_func_Hcap, bf, sp);
 			IGNORE print_type (t, bf, 1);
 			bfprintf (bf, " :");
 			sp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case tok_member_tag : {
-	    /* Member tokens */
-	    TYPE s = DEREF_type (tok_member_of (tok));
-	    IGNORE print_lex (lex_member_Hcap, bf, sp);
-	    if (!arg) {
+		/* Member tokens */
+		TYPE s = DEREF_type (tok_member_of (tok));
+		IGNORE print_lex (lex_member_Hcap, bf, sp);
+		if (!arg) {
 			TYPE t = DEREF_type (tok_member_type (tok));
 			print_bitfield_sep = '%';
 			IGNORE print_type (t, bf, 1);
 			print_bitfield_sep = ':';
 			bfprintf (bf, " :");
-	    }
-	    IGNORE print_type (s, bf, 1);
-	    bfprintf (bf, " :");
-	    sp = 1;
-	    break;
+		}
+		IGNORE print_type (s, bf, 1);
+		bfprintf (bf, " :");
+		sp = 1;
+		break;
 	}
 
 	case tok_class_tag : {
-	    /* Template class tokens */
-	    TYPE t = DEREF_type (tok_class_type (tok));
-	    while (!IS_NULL_type (t) && IS_type_templ (t)) {
+		/* Template class tokens */
+		TYPE t = DEREF_type (tok_class_type (tok));
+		while (!IS_NULL_type (t) && IS_type_templ (t)) {
 			TOKEN sort = DEREF_tok (type_templ_sort (t));
 			sp = print_sort (sort, 0, bf, sp);
 			t = DEREF_type (type_templ_defn (t));
-	    }
-	    sp = print_lex (lex_class, bf, sp);
-	    break;
+		}
+		sp = print_lex (lex_class, bf, sp);
+		break;
 	}
 
 	case tok_proc_tag : {
-	    /* Procedure tokens */
-	    TOKEN res;
-	    int simple = 0;
-	    LIST (IDENTIFIER) p, q;
-	    sp = print_lex (lex_proc_Hcap, bf, sp);
-	    if (arg) break;
-	    res = DEREF_tok (tok_proc_res (tok));
-	    p = DEREF_list (tok_proc_pids (tok));
-	    q = DEREF_list (tok_proc_bids (tok));
-	    if (EQ_list (p, q)) simple = 1;
-	    if (simple) {
+		/* Procedure tokens */
+		TOKEN res;
+		int simple = 0;
+		LIST (IDENTIFIER) p, q;
+		sp = print_lex (lex_proc_Hcap, bf, sp);
+		if (arg) break;
+		res = DEREF_tok (tok_proc_res (tok));
+		p = DEREF_list (tok_proc_pids (tok));
+		q = DEREF_list (tok_proc_bids (tok));
+		if (EQ_list (p, q)) simple = 1;
+		if (simple) {
 			bfprintf (bf, " (");
-	    } else {
+		} else {
 			bfprintf (bf, " {");
-	    }
-	    sp = 0;
-	    while (!IS_NULL_list (q)) {
+		}
+		sp = 0;
+		while (!IS_NULL_list (q)) {
 			IDENTIFIER id = DEREF_id (HEAD_list (q));
 			if (!IS_NULL_id (id)) {
 				TOKEN par = DEREF_tok (id_token_sort (id));
@@ -1594,11 +1594,11 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 				sp = 1;
 			}
 			q = TAIL_list (q);
-	    }
-	    if (simple) {
+		}
+		if (simple) {
 			if (sp) bfputc (bf, ' ');
 			bfputc (bf, ')');
-	    } else {
+		} else {
 			bfprintf (bf, " |");
 			sp = 0;
 			while (!IS_NULL_list (p)) {
@@ -1623,31 +1623,31 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 				p = TAIL_list (p);
 			}
 			bfprintf (bf, " }");
-	    }
-	    sp = print_sort (res, 0, bf, 1);
-	    break;
+		}
+		sp = print_sort (res, 0, bf, 1);
+		break;
 	}
 
 	case tok_templ_tag : {
-	    /* Template tokens */
-	    LIST (TOKEN) q;
-	    LIST (IDENTIFIER) p;
-	    DECL_SPEC ex = DEREF_dspec (tok_templ_usage (tok));
-	    NAMESPACE ns = DEREF_nspace (tok_templ_pars (tok));
-	    if (ex & dspec_extern) {
+		/* Template tokens */
+		LIST (TOKEN) q;
+		LIST (IDENTIFIER) p;
+		DECL_SPEC ex = DEREF_dspec (tok_templ_usage (tok));
+		NAMESPACE ns = DEREF_nspace (tok_templ_pars (tok));
+		if (ex & dspec_extern) {
 			/* Exported templates */
 			sp = print_lex (lex_export, bf, sp);
-	    }
-	    IGNORE print_lex (lex_template, bf, sp);
-	    if (IS_NULL_nspace (ns)) {
+		}
+		IGNORE print_lex (lex_template, bf, sp);
+		if (IS_NULL_nspace (ns)) {
 			sp = 1;
 			break;
-	    }
-	    p = DEREF_list (tok_templ_pids (tok));
-	    q = DEREF_list (tok_templ_dargs (tok));
-	    bfprintf (bf, " <");
-	    sp = 0;
-	    while (!IS_NULL_list (p)) {
+		}
+		p = DEREF_list (tok_templ_pids (tok));
+		q = DEREF_list (tok_templ_dargs (tok));
+		bfprintf (bf, " <");
+		sp = 0;
+		while (!IS_NULL_list (p)) {
 			TOKEN val = NULL_tok;
 			IDENTIFIER id = DEREF_id (HEAD_list (p));
 			HASHID nm = DEREF_hashid (id_name (id));
@@ -1676,11 +1676,11 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 			p = TAIL_list (p);
 			if (!IS_NULL_list (p)) bfputc (bf, ',');
 			sp = 1;
-	    }
-	    if (sp) bfputc (bf, ' ');
-	    bfputc (bf, '>');
-	    sp = 1;
-	    break;
+		}
+		if (sp) bfputc (bf, ' ');
+		bfputc (bf, '>');
+		sp = 1;
+		break;
 	}
 	}
 	return (sp);
@@ -1701,12 +1701,12 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 	if (!IS_NULL_itype (t)) {
 		ASSERT (ORDER_itype == 6);
 		switch (TAG_itype (t)) {
-	    case itype_basic_tag : {
+		case itype_basic_tag : {
 			BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (t));
 			sp = print_ntype (n, bf, sp);
 			break;
-	    }
-	    case itype_bitfield_tag : {
+		}
+		case itype_bitfield_tag : {
 			BASE_TYPE bt = DEREF_btype (itype_bitfield_rep (t));
 			if (bt & btype_named) {
 				TYPE s = DEREF_type (itype_bitfield_sub (t));
@@ -1715,8 +1715,8 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 				sp = print_btype (bt, bf, sp);
 			}
 			break;
-	    }
-	    case itype_promote_tag : {
+		}
+		case itype_promote_tag : {
 			INT_TYPE s = DEREF_itype (itype_promote_arg (t));
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "%s (", special_name (TOK_promote));
@@ -1724,8 +1724,8 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, ")");
 			sp = 1;
 			break;
-	    }
-	    case itype_arith_tag : {
+		}
+		case itype_arith_tag : {
 			INT_TYPE s1 = DEREF_itype (itype_arith_arg1 (t));
 			INT_TYPE s2 = DEREF_itype (itype_arith_arg2 (t));
 			if (sp) bfputc (bf, ' ');
@@ -1736,8 +1736,8 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, ")");
 			sp = 1;
 			break;
-	    }
-	    case itype_literal_tag : {
+		}
+		case itype_literal_tag : {
 			NAT n = DEREF_nat (itype_literal_nat (t));
 			int tok = DEREF_int (itype_literal_spec (t));
 			if (sp) bfputc (bf, ' ');
@@ -1746,8 +1746,8 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, ")");
 			sp = 1;
 			break;
-	    }
-	    case itype_token_tag : {
+		}
+		case itype_token_tag : {
 			BUILTIN_TYPE n = DEREF_ntype (itype_unprom (t));
 			if (n == ntype_none || n == ntype_ellipsis) {
 				IDENTIFIER id;
@@ -1763,7 +1763,7 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 				sp = 1;
 			}
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -1782,12 +1782,12 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 	if (!IS_NULL_ftype (t)) {
 		ASSERT (ORDER_ftype == 4);
 		switch (TAG_ftype (t)) {
-	    case ftype_basic_tag : {
+		case ftype_basic_tag : {
 			BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (t));
 			sp = print_ntype (n, bf, sp);
 			break;
-	    }
-	    case ftype_arg_promote_tag : {
+		}
+		case ftype_arg_promote_tag : {
 			FLOAT_TYPE s = DEREF_ftype (ftype_arg_promote_arg (t));
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "%s (", special_name (TOK_promote));
@@ -1795,8 +1795,8 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, ")");
 			sp = 1;
 			break;
-	    }
-	    case ftype_arith_tag : {
+		}
+		case ftype_arith_tag : {
 			FLOAT_TYPE s1 = DEREF_ftype (ftype_arith_arg1 (t));
 			FLOAT_TYPE s2 = DEREF_ftype (ftype_arith_arg2 (t));
 			if (sp) bfputc (bf, ' ');
@@ -1807,13 +1807,13 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, ")");
 			sp = 1;
 			break;
-	    }
-	    case ftype_token_tag : {
+		}
+		case ftype_token_tag : {
 			IDENTIFIER id = DEREF_id (ftype_token_tok (t));
 			LIST (TOKEN) args = DEREF_list (ftype_token_args (t));
 			sp = print_token (id, qual_none, args, bf, sp);
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -1934,7 +1934,7 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 		}
 		ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
-	    case type_pre_tag : {
+		case type_pre_tag : {
 			/* Pre-types */
 			BASE_TYPE bt = DEREF_btype (type_pre_rep (t));
 			BASE_TYPE kt = (bt & btype_named);
@@ -1951,34 +1951,34 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 				sp = print_btype (bt, bf, sp);
 			}
 			break;
-	    }
-	    case type_integer_tag : {
+		}
+		case type_integer_tag : {
 			/* Integral types */
 			INT_TYPE it = DEREF_itype (type_integer_rep (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_itype (it, bf, sp);
 			break;
-	    }
-	    case type_floating_tag : {
+		}
+		case type_floating_tag : {
 			/* Floating-point types */
 			FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_ftype (ft, bf, sp);
 			break;
-	    }
-	    case type_top_tag : {
+		}
+		case type_top_tag : {
 			/* Top type */
 			sp = print_cv (qual, bf, sp);
 			sp = print_ntype (ntype_void, bf, sp);
 			break;
-	    }
-	    case type_bottom_tag : {
+		}
+		case type_bottom_tag : {
 			/* Bottom type */
 			sp = print_cv (qual, bf, sp);
 			sp = print_ntype (ntype_bottom, bf, sp);
 			break;
-	    }
-	    case type_ptr_tag : {
+		}
+		case type_ptr_tag : {
 			/* Pointer type */
 			TYPE s = DEREF_type (type_ptr_sub (t));
 			sp = print_head (s, key, bf, sp);
@@ -1990,8 +1990,8 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			}
 			sp = (qual ? print_cv (qual, bf, 1) : 0);
 			break;
-	    }
-	    case type_ref_tag : {
+		}
+		case type_ref_tag : {
 			/* Reference type */
 			TYPE s = DEREF_type (type_ref_sub (t));
 			sp = print_head (s, key, bf, sp);
@@ -2003,8 +2003,8 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			}
 			sp = (qual ? print_cv (qual, bf, 1) : 0);
 			break;
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			/* Pointer to member type */
 			TYPE s = DEREF_type (type_ptr_mem_sub (t));
 			CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
@@ -2017,8 +2017,8 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			bfprintf (bf, "::*");
 			sp = (qual ? print_cv (qual, bf, 1) : 0);
 			break;
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			/* Function type */
 			qual = DEREF_cv (type_func_mqual (t));
 			if (qual && print_func_linkage) {
@@ -2031,43 +2031,43 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 				}
 			}
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			/* Array type */
 			TYPE s = DEREF_type (type_array_sub (t));
 			sp = print_head (s, key, bf, sp);
 			break;
-	    }
-	    case type_bitfield_tag : {
+		}
+		case type_bitfield_tag : {
 			/* Bitfield type */
 			INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_itype (it, bf, sp);
 			break;
-	    }
-	    case type_compound_tag : {
+		}
+		case type_compound_tag : {
 			/* Class type */
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_ctype (ct, qual_none, key, bf, sp);
 			break;
-	    }
-	    case type_enumerate_tag : {
+		}
+		case type_enumerate_tag : {
 			/* Enumeration type */
 			ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_etype (et, key, bf, sp);
 			break;
-	    }
-	    case type_token_tag : {
+		}
+		case type_token_tag : {
 			/* Tokenised type */
 			IDENTIFIER id = DEREF_id (type_token_tok (t));
 			LIST (TOKEN) args = DEREF_list (type_token_args (t));
 			sp = print_cv (qual, bf, sp);
 			sp = print_token (id, qual_none, args, bf, sp);
 			break;
-	    }
-	    case type_templ_tag : {
+		}
+		case type_templ_tag : {
 			/* Template type */
 			TYPE s = DEREF_type (type_templ_defn (t));
 			TOKEN tok = DEREF_tok (type_templ_sort (t));
@@ -2075,21 +2075,21 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			sp = print_cv (qual, bf, sp);
 			sp = print_head (s, 1, bf, sp);
 			break;
-	    }
-	    case type_instance_tag : {
+		}
+		case type_instance_tag : {
 			/* Instance type */
 			IDENTIFIER id = DEREF_id (type_name (t));
 			sp = print_id_short (id, qual_none, bf, sp);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Error type */
 			sp = print_cv (qual, bf, sp);
 			if (sp) bfputc (bf, ' ');
 			bfprintf (bf, "<error_type>");
 			sp = 1;
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -2112,22 +2112,22 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 			return (sp);
 		}
 		switch (TAG_type (t)) {
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Pointer and reference types */
 			TYPE s = DEREF_type (type_ptr_etc_sub (t));
 			if (is_tailed_type (s)) bfprintf (bf, ")");
 			sp = print_tail (s, bf, sp);
 			break;
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			/* Pointer to member type */
 			TYPE s = DEREF_type (type_ptr_mem_sub (t));
 			if (is_tailed_type (s)) bfprintf (bf, ")");
 			sp = print_tail (s, bf, sp);
 			break;
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			/* Function type */
 			int prt = print_return_type;
 			int ell = DEREF_int (type_func_ellipsis (t));
@@ -2204,8 +2204,8 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 				sp = print_type_list (ex, bf, sp);
 			}
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			/* Array type */
 			TYPE s = DEREF_type (type_array_sub (t));
 			NAT n = DEREF_nat (type_array_size (t));
@@ -2214,8 +2214,8 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 			bfprintf (bf, "]");
 			sp = print_tail (s, bf, 1);
 			break;
-	    }
-	    case type_bitfield_tag : {
+		}
+		case type_bitfield_tag : {
 			/* Bitfield type */
 			INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
 			NAT n = DEREF_nat (itype_bitfield_size (it));
@@ -2223,13 +2223,13 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 			bfputc (bf, print_bitfield_sep);
 			IGNORE print_nat (n, 0, bf, 1);
 			break;
-	    }
-	    case type_templ_tag : {
+		}
+		case type_templ_tag : {
 			/* Template type */
 			TYPE s = DEREF_type (type_templ_defn (t));
 			sp = print_tail (s, bf, sp);
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);
@@ -2292,28 +2292,28 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_off (off)) {
 		switch (TAG_off (off)) {
-	    case off_base_tag : {
+		case off_base_tag : {
 			GRAPH gr = DEREF_graph (off_base_graph (off));
 			sp = print_graph (gr, 0, bf, sp);
 			break;
-	    }
-	    case off_deriv_tag : {
+		}
+		case off_deriv_tag : {
 			GRAPH gr = DEREF_graph (off_deriv_graph (off));
 			sp = print_graph (gr, 0, bf, sp);
 			break;
-	    }
-	    case off_member_tag : {
+		}
+		case off_member_tag : {
 			IDENTIFIER id = DEREF_id (off_member_id (off));
 			sp = print_id_short (id, qual_none, bf, sp);
 			break;
-	    }
-	    case off_token_tag : {
+		}
+		case off_token_tag : {
 			IDENTIFIER id = DEREF_id (off_token_tok (off));
 			LIST (TOKEN) args = DEREF_list (off_token_args (off));
 			sp = print_token (id, qual_none, args, bf, sp);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			static unsigned long off_no = 0;
 #ifdef RUNTIME
 			if (debugging) {
@@ -2326,7 +2326,7 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 			bfprintf (bf, "<off%lu>", ++off_no);
 			sp = 1;
 			break;
-	    }
+		}
 		}
 	}
 	return (sp);

@@ -651,20 +651,20 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 	/* Deal with calculated literals */
 	switch (TAG_nat (lit)) {
 	case nat_neg_tag : {
-	    lit = DEREF_nat (nat_neg_arg (lit));
-	    t = find_literal_type (lit, base, suff, num, fit);
-	    return (t);
+		lit = DEREF_nat (nat_neg_arg (lit));
+		t = find_literal_type (lit, base, suff, num, fit);
+		return (t);
 	}
 	case nat_token_tag : {
-	    t = type_sint;
-	    *fit = 1;
-	    return (t);
+		t = type_sint;
+		*fit = 1;
+		return (t);
 	}
 	case nat_calc_tag : {
-	    EXP e = DEREF_exp (nat_calc_value (lit));
-	    t = DEREF_type (exp_type (e));
-	    *fit = 1;
-	    return (t);
+		EXP e = DEREF_exp (nat_calc_value (lit));
+		t = DEREF_type (exp_type (e));
+		*fit = 1;
+		return (t);
 	}
 	}
 
@@ -673,7 +673,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 		int ch = 4;
 		TYPE s = pt->type;
 		switch (pt->tag) {
-	    case 0 : {
+		case 0 : {
 			TYPE r = s;
 			if (IS_NULL_type (r)) r = type_ulong;
 			ch = check_nat_range (r, lit);
@@ -682,21 +682,21 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			if (big) n = max_type_value (NULL_type, 0);
 			ch = big;
 			break;
-	    }
-	    case 1 : {
+		}
+		case 1 : {
 			n = pt->bound;
 			ch = check_nat_range (s, lit);
 			if (ch == 0) *fit = 1;
 			break;
-	    }
-	    case 2 : {
+		}
+		case 2 : {
 			n = pt->bound;
 			if (compare_nat (n, lit) >= 0) {
 				if (!IS_NULL_type (s)) *fit = 1;
 				ch = 0;
 			}
 			break;
-	    }
+		}
 		}
 		if (ch == 0) {
 			/* lit definitely fits into bound */
@@ -1367,23 +1367,23 @@ new_string_lit(string s, string se, int lex)
 	switch (lex) {
 	case lex_char_Hlit :
 	case lex_char_Hexp : {
-	    kind = STRING_CHAR;
-	    break;
+		kind = STRING_CHAR;
+		break;
 	}
 	case lex_wchar_Hlit :
 	case lex_wchar_Hexp : {
-	    kind = (STRING_WIDE | STRING_CHAR);
-	    break;
+		kind = (STRING_WIDE | STRING_CHAR);
+		break;
 	}
 	case lex_string_Hlit :
 	case lex_string_Hexp : {
-	    kind = STRING_NONE;
-	    break;
+		kind = STRING_NONE;
+		break;
 	}
 	case lex_wstring_Hlit :
 	case lex_wstring_Hexp : {
-	    kind = STRING_WIDE;
-	    break;
+		kind = STRING_WIDE;
+		break;
 	}
 	}
 	if (do_string) dump_string_lit (s, se, kind);

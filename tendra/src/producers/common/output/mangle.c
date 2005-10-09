@@ -214,18 +214,18 @@ nspace_depth(NAMESPACE ns)
 {
 	if (!IS_NULL_nspace (ns)) {
 		switch (TAG_nspace (ns)) {
-	    case nspace_named_tag :
-	    case nspace_ctype_tag : {
+		case nspace_named_tag :
+		case nspace_ctype_tag : {
 			/* Named and class namespaces */
 			IDENTIFIER id = DEREF_id (nspace_name (ns));
 			int n = ident_depth (id);
 			return (n);
-	    }
-	    case nspace_global_tag : {
+		}
+		case nspace_global_tag : {
 			/* The global namespace */
 			return (0);
-	    }
-	    case nspace_unnamed_tag : {
+		}
+		case nspace_unnamed_tag : {
 			/* Unnamed namespaces */
 			if (output_all) {
 				IDENTIFIER id = DEREF_id (nspace_name (ns));
@@ -234,7 +234,7 @@ nspace_depth(NAMESPACE ns)
 				if (n >= 0) return (n + 1);
 			}
 			break;
-	    }
+		}
 		}
 	}
 	return (-1);
@@ -367,31 +367,31 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 	if (!IS_NULL_exp (e)) {
 		ASSERT (ORDER_exp == 88);
 		switch (TAG_exp (e)) {
-	    case exp_identifier_tag :
-	    case exp_member_tag :
-	    case exp_ambiguous_tag :
-	    case exp_undeclared_tag : {
+		case exp_identifier_tag :
+		case exp_member_tag :
+		case exp_ambiguous_tag :
+		case exp_undeclared_tag : {
 			/* Identifier expressions */
 			IDENTIFIER id = DEREF_id (exp_identifier_etc_id (e));
 			int d = ident_depth (id);
 			bfputc (bf, MANGLE_sep);
 			mangle_id (bf, id, d);
 			break;
-	    }
-	    case exp_int_lit_tag : {
+		}
+		case exp_int_lit_tag : {
 			/* Integer literals */
 			NAT n = DEREF_nat (exp_int_lit_nat (e));
 			mangle_nat (bf, n, rec);
 			break;
-	    }
-	    case exp_char_lit_tag : {
+		}
+		case exp_char_lit_tag : {
 			/* Character literals */
 			STRING s = DEREF_str (exp_char_lit_str (e));
 			NAT n = eval_char_lit (s);
 			mangle_nat (bf, n, rec);
 			break;
-	    }
-	    case exp_float_lit_tag : {
+		}
+		case exp_float_lit_tag : {
 			/* Floating-point literals */
 			FLOAT flt = DEREF_flt (exp_float_lit_flt (e));
 			string i = DEREF_string (flt_simple_int_part (flt));
@@ -406,105 +406,105 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 				mangle_nat (bf, n, 0);
 			}
 			break;
-	    }
-	    case exp_null_tag :
-	    case exp_zero_tag :
-	    case exp_value_tag : {
+		}
+		case exp_null_tag :
+		case exp_zero_tag :
+		case exp_value_tag : {
 			/* Null pointers */
 			mangle_nat (bf, small_nat [0], 0);
 			break;
-	    }
-	    case exp_paren_tag :
-	    case exp_copy_tag : {
+		}
+		case exp_paren_tag :
+		case exp_copy_tag : {
 			/* Parenthesised expressions */
 			EXP a = DEREF_exp (exp_paren_etc_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_indir_tag : {
+		}
+		case exp_indir_tag : {
 			/* Indirection expressions */
 			EXP a = DEREF_exp (exp_indir_ptr (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_address_tag : {
+		}
+		case exp_address_tag : {
 			/* Address expressions */
 			EXP a = DEREF_exp (exp_address_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_address_mem_tag : {
+		}
+		case exp_address_mem_tag : {
 			/* Address expressions */
 			EXP a = DEREF_exp (exp_address_mem_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_negate_tag :
-	    case exp_compl_tag :
-	    case exp_not_tag :
-	    case exp_abs_tag : {
+		}
+		case exp_negate_tag :
+		case exp_compl_tag :
+		case exp_not_tag :
+		case exp_abs_tag : {
 			/* Unary expressions */
 			int op = op_token (e, lex_unknown);
 			EXP a = DEREF_exp (exp_negate_etc_arg (e));
 			mangle_exp_op (bf, op, a, NULL_exp, 1, rec);
 			break;
-	    }
-	    case exp_plus_tag :
-	    case exp_minus_tag :
-	    case exp_mult_tag :
-	    case exp_div_tag :
-	    case exp_rem_tag :
-	    case exp_and_tag :
-	    case exp_or_tag :
-	    case exp_xor_tag :
-	    case exp_log_and_tag :
-	    case exp_log_or_tag :
-	    case exp_lshift_tag :
-	    case exp_rshift_tag :
-	    case exp_max_tag :
-	    case exp_min_tag : {
+		}
+		case exp_plus_tag :
+		case exp_minus_tag :
+		case exp_mult_tag :
+		case exp_div_tag :
+		case exp_rem_tag :
+		case exp_and_tag :
+		case exp_or_tag :
+		case exp_xor_tag :
+		case exp_log_and_tag :
+		case exp_log_or_tag :
+		case exp_lshift_tag :
+		case exp_rshift_tag :
+		case exp_max_tag :
+		case exp_min_tag : {
 			/* Binary expressions */
 			int op = op_token (e, lex_unknown);
 			EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
 			EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
 			mangle_exp_op (bf, op, a, b, 2, rec);
 			break;
-	    }
-	    case exp_test_tag : {
+		}
+		case exp_test_tag : {
 			/* Test expressions */
 			int op = op_token (e, lex_unknown);
 			EXP a = DEREF_exp (exp_test_arg (e));
 			mangle_exp_op (bf, op, a, NULL_exp, 1, rec);
 			break;
-	    }
-	    case exp_compare_tag : {
+		}
+		case exp_compare_tag : {
 			/* Comparison expressions */
 			int op = op_token (e, lex_unknown);
 			EXP a = DEREF_exp (exp_compare_arg1 (e));
 			EXP b = DEREF_exp (exp_compare_arg2 (e));
 			mangle_exp_op (bf, op, a, b, 2, rec);
 			break;
-	    }
-	    case exp_cast_tag : {
+		}
+		case exp_cast_tag : {
 			/* Cast expressions */
 			EXP a = DEREF_exp (exp_cast_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_base_cast_tag : {
+		}
+		case exp_base_cast_tag : {
 			/* Base cast expressions */
 			EXP a = DEREF_exp (exp_base_cast_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_add_ptr_tag : {
+		}
+		case exp_add_ptr_tag : {
 			/* Pointer addition */
 			EXP a = DEREF_exp (exp_add_ptr_ptr (e));
 			/* NOT YET IMPLEMENTED */
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_offset_size_tag : {
+		}
+		case exp_offset_size_tag : {
 			/* Offset size */
 			OFFSET a = DEREF_off (exp_offset_size_off (e));
 			if (IS_off_type (a)) {
@@ -521,8 +521,8 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 			/* NOT YET IMPLEMENTED */
 			bfputc (bf, MANGLE_error);
 			break;
-	    }
-	    case exp_comma_tag : {
+		}
+		case exp_comma_tag : {
 			/* Comma expressions */
 			LIST (EXP) p = DEREF_list (exp_comma_args (e));
 			while (!IS_NULL_list (p)) {
@@ -535,8 +535,8 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 				}
 			}
 			break;
-	    }
-	    case exp_if_stmt_tag : {
+		}
+		case exp_if_stmt_tag : {
 			/* Conditional expressions */
 			EXP c = DEREF_exp (exp_if_stmt_cond (e));
 			EXP a = DEREF_exp (exp_if_stmt_true_code (e));
@@ -544,38 +544,38 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 			mangle_exp_op (bf, lex_cond_Hop, c, a, 3, rec);
 			mangle_exp (bf, b, rec);
 			break;
-	    }
-	    case exp_rtti_type_tag : {
+		}
+		case exp_rtti_type_tag : {
 			/* Run-time type information expressions */
 			TYPE s = DEREF_type (exp_rtti_type_arg (e));
 			int op = DEREF_int (exp_rtti_type_op (e));
 			mangle_exp_op (bf, op, NULL_exp, NULL_exp, 1, rec);
 			mangle_type (bf, s, 2, 1);
 			break;
-	    }
-	    case exp_token_tag : {
+		}
+		case exp_token_tag : {
 			/* Tokenised expressions */
 			IDENTIFIER id = DEREF_id (exp_token_tok (e));
 			LIST (TOKEN) args = DEREF_list (exp_token_args (e));
 			mangle_token (bf, id, args, -2, 1);
 			break;
-	    }
-	    case exp_location_tag : {
+		}
+		case exp_location_tag : {
 			/* Location expressions */
 			EXP a = DEREF_exp (exp_location_arg (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    case exp_dummy_tag : {
+		}
+		case exp_dummy_tag : {
 			/* Dummy expressions */
 			EXP a = DEREF_exp (exp_dummy_value (e));
 			mangle_exp (bf, a, rec);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			bfputc (bf, MANGLE_error);
 			break;
-	    }
+		}
 		}
 	}
 	return;
@@ -603,21 +603,21 @@ mangle_nat(BUFFER *bf, NAT n, int rec)
 			tag = TAG_nat (n);
 		}
 		switch (tag) {
-	    case nat_calc_tag : {
+		case nat_calc_tag : {
 			/* Calculated values */
 			EXP e = DEREF_exp (nat_calc_value (n));
 			if (rec) e = eval_exp (e, 1);
 			mangle_exp (bf, e, 0);
 			break;
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			/* Tokenised values */
 			IDENTIFIER id = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
 			mangle_token (bf, id, args, -2, 1);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Simple values */
 			unsigned long v = get_nat_value (n);
 			if (v == EXTENDED_MAX) {
@@ -628,7 +628,7 @@ mangle_nat(BUFFER *bf, NAT n, int rec)
 			}
 			bfputc (bf, MANGLE_sep);
 			break;
-	    }
+		}
 		}
 	}
 	return;
@@ -674,63 +674,63 @@ mangle_itype(BUFFER *bf, INT_TYPE it)
 {
 	switch (TAG_itype (it)) {
 	case itype_basic_tag : {
-	    /* Basic integral types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
-	    bfputs (bf, ustrlit (mangle_ntype [n]));
-	    break;
+		/* Basic integral types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
+		bfputs (bf, ustrlit (mangle_ntype [n]));
+		break;
 	}
 	case itype_bitfield_tag : {
-	    /* Bitfield types */
-	    TYPE s = DEREF_type (itype_bitfield_sub (it));
-	    NAT n = DEREF_nat (itype_bitfield_size (it));
-	    BASE_TYPE rep = DEREF_btype (itype_bitfield_rep (it));
-	    bfputc (bf, MANGLE_bitfield);
-	    mangle_nat (bf, n, 1);
-	    if (rep & btype_signed) {
+		/* Bitfield types */
+		TYPE s = DEREF_type (itype_bitfield_sub (it));
+		NAT n = DEREF_nat (itype_bitfield_size (it));
+		BASE_TYPE rep = DEREF_btype (itype_bitfield_rep (it));
+		bfputc (bf, MANGLE_bitfield);
+		mangle_nat (bf, n, 1);
+		if (rep & btype_signed) {
 			bfputc (bf, MANGLE_signed);
 			if (rep & btype_char) s = type_char;
-	    }
-	    mangle_type (bf, s, 2, 1);
-	    break;
+		}
+		mangle_type (bf, s, 2, 1);
+		break;
 	}
 	case itype_promote_tag : {
-	    /* Promotion types */
-	    INT_TYPE is = DEREF_itype (itype_promote_arg (it));
-	    bfputc (bf, MANGLE_promote);
-	    mangle_itype (bf, is);
-	    break;
+		/* Promotion types */
+		INT_TYPE is = DEREF_itype (itype_promote_arg (it));
+		bfputc (bf, MANGLE_promote);
+		mangle_itype (bf, is);
+		break;
 	}
 	case itype_arith_tag : {
-	    /* Arithmetic types */
-	    INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
-	    INT_TYPE ir = DEREF_itype (itype_arith_arg2 (it));
-	    bfputc (bf, MANGLE_arith);
-	    mangle_itype (bf, is);
-	    mangle_itype (bf, ir);
-	    break;
+		/* Arithmetic types */
+		INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
+		INT_TYPE ir = DEREF_itype (itype_arith_arg2 (it));
+		bfputc (bf, MANGLE_arith);
+		mangle_itype (bf, is);
+		mangle_itype (bf, ir);
+		break;
 	}
 	case itype_literal_tag : {
-	    /* Literal types */
-	    NAT n = DEREF_nat (itype_literal_nat (it));
-	    string s = mangle_literal (it);
-	    bfputs (bf, s);
-	    mangle_nat (bf, n, 1);
-	    break;
+		/* Literal types */
+		NAT n = DEREF_nat (itype_literal_nat (it));
+		string s = mangle_literal (it);
+		bfputs (bf, s);
+		mangle_nat (bf, n, 1);
+		break;
 	}
 	case itype_token_tag : {
-	    /* Tokenised types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_unprom (it));
-	    if (n == ntype_none || n == ntype_ellipsis) {
+		/* Tokenised types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_unprom (it));
+		if (n == ntype_none || n == ntype_ellipsis) {
 			IDENTIFIER id;
 			LIST (TOKEN) args;
 			id = DEREF_id (itype_token_tok (it));
 			args = DEREF_list (itype_token_args (it));
 			mangle_token (bf, id, args, -2, 0);
-	    } else {
+		} else {
 			bfputc (bf, MANGLE_promote);
 			bfputs (bf, ustrlit (mangle_ntype [n]));
-	    }
-	    break;
+		}
+		break;
 	}
 	}
 	return;
@@ -749,33 +749,33 @@ mangle_ftype(BUFFER *bf, FLOAT_TYPE ft)
 {
 	switch (TAG_ftype (ft)) {
 	case ftype_basic_tag : {
-	    /* Basic floating types */
-	    BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
-	    bfputs (bf, ustrlit (mangle_ntype [n]));
-	    break;
+		/* Basic floating types */
+		BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
+		bfputs (bf, ustrlit (mangle_ntype [n]));
+		break;
 	}
 	case ftype_arg_promote_tag : {
-	    /* Promotion types */
-	    FLOAT_TYPE fs = DEREF_ftype (ftype_arg_promote_arg (ft));
-	    bfputc (bf, MANGLE_promote);
-	    mangle_ftype (bf, fs);
-	    break;
+		/* Promotion types */
+		FLOAT_TYPE fs = DEREF_ftype (ftype_arg_promote_arg (ft));
+		bfputc (bf, MANGLE_promote);
+		mangle_ftype (bf, fs);
+		break;
 	}
 	case ftype_arith_tag : {
-	    /* Arithmetic types */
-	    FLOAT_TYPE fs = DEREF_ftype (ftype_arith_arg1 (ft));
-	    FLOAT_TYPE fr = DEREF_ftype (ftype_arith_arg2 (ft));
-	    bfputc (bf, MANGLE_arith);
-	    mangle_ftype (bf, fs);
-	    mangle_ftype (bf, fr);
-	    break;
+		/* Arithmetic types */
+		FLOAT_TYPE fs = DEREF_ftype (ftype_arith_arg1 (ft));
+		FLOAT_TYPE fr = DEREF_ftype (ftype_arith_arg2 (ft));
+		bfputc (bf, MANGLE_arith);
+		mangle_ftype (bf, fs);
+		mangle_ftype (bf, fr);
+		break;
 	}
 	case ftype_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER id = DEREF_id (ftype_token_tok (ft));
-	    LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
-	    mangle_token (bf, id, args, -2, 0);
-	    break;
+		/* Tokenised types */
+		IDENTIFIER id = DEREF_id (ftype_token_tok (ft));
+		LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
+		mangle_token (bf, id, args, -2, 0);
+		break;
 	}
 	}
 	return;
@@ -820,71 +820,71 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 	switch (TAG_type (t)) {
 
 	case type_integer_tag : {
-	    /* Integral types */
-	    INT_TYPE it = DEREF_itype (type_integer_rep (t));
-	    mangle_itype (bf, it);
-	    break;
+		/* Integral types */
+		INT_TYPE it = DEREF_itype (type_integer_rep (t));
+		mangle_itype (bf, it);
+		break;
 	}
 
 	case type_floating_tag : {
-	    /* Floating-point types */
-	    FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
-	    mangle_ftype (bf, ft);
-	    break;
+		/* Floating-point types */
+		FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
+		mangle_ftype (bf, ft);
+		break;
 	}
 
 	case type_top_tag : {
-	    /* Top type */
-	    bfputc (bf, MANGLE_void);
-	    break;
+		/* Top type */
+		bfputc (bf, MANGLE_void);
+		break;
 	}
 
 	case type_bottom_tag : {
-	    /* Bottom type */
-	    bfputc (bf, MANGLE_bottom);
-	    break;
+		/* Bottom type */
+		bfputc (bf, MANGLE_bottom);
+		break;
 	}
 
 	case type_ptr_tag : {
-	    /* Pointer types */
-	    bfputc (bf, MANGLE_ptr);
-	    t = DEREF_type (type_ptr_sub (t));
-	    mangle_type (bf, t, 2, 1);
-	    break;
+		/* Pointer types */
+		bfputc (bf, MANGLE_ptr);
+		t = DEREF_type (type_ptr_sub (t));
+		mangle_type (bf, t, 2, 1);
+		break;
 	}
 
 	case type_ref_tag : {
-	    /* Reference types */
-	    bfputc (bf, MANGLE_ref);
-	    t = DEREF_type (type_ref_sub (t));
-	    mangle_type (bf, t, 2, 1);
-	    break;
+		/* Reference types */
+		bfputc (bf, MANGLE_ref);
+		t = DEREF_type (type_ref_sub (t));
+		mangle_type (bf, t, 2, 1);
+		break;
 	}
 
 	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
-	    bfputc (bf, MANGLE_ptr_mem);
-	    mangle_ctype (bf, ct, -2);
-	    t = DEREF_type (type_ptr_mem_sub (t));
-	    mangle_type (bf, t, 2, 1);
-	    break;
+		/* Pointer to member types */
+		CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
+		bfputc (bf, MANGLE_ptr_mem);
+		mangle_ctype (bf, ct, -2);
+		t = DEREF_type (type_ptr_mem_sub (t));
+		mangle_type (bf, t, 2, 1);
+		break;
 	}
 
 	case type_func_tag : {
-	    /* Function types */
-	    LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
-	    int ell = DEREF_int (type_func_ellipsis (t));
+		/* Function types */
+		LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
+		int ell = DEREF_int (type_func_ellipsis (t));
 
-	    /* Include any cv-qualifiers */
-	    qual = DEREF_cv (type_func_mqual (t));
-	    mangle_cv (bf, qual);
+		/* Include any cv-qualifiers */
+		qual = DEREF_cv (type_func_mqual (t));
+		mangle_cv (bf, qual);
 
-	    /* Include parameter types */
-	    if (fn) bfputc (bf, MANGLE_func);
-	    if (IS_NULL_list (p)) {
+		/* Include parameter types */
+		if (fn) bfputc (bf, MANGLE_func);
+		if (IS_NULL_list (p)) {
 			if (fn && !ell) bfputc (bf, MANGLE_void);
-	    } else {
+		} else {
 			LIST (TYPE) q = p;
 			unsigned left = LENGTH_list (q);
 			while (!IS_NULL_list (q)) {
@@ -965,76 +965,76 @@ mangle_type(BUFFER *bf, TYPE t, int fn, int arr)
 					q = TAIL_list (q);
 				}
 			}
-	    }
-	    if (ell) bfputc (bf, MANGLE_ellipsis);
+		}
+		if (ell) bfputc (bf, MANGLE_ellipsis);
 
-	    /* Include return type if necessary */
-	    if (fn == 2) {
+		/* Include return type if necessary */
+		if (fn == 2) {
 			t = DEREF_type (type_func_ret (t));
 			bfputc (bf, MANGLE_sep);
 			mangle_type (bf, t, 2, 1);
-	    }
-	    break;
+		}
+		break;
 	}
 
 	case type_array_tag : {
-	    /* Array types */
-	    NAT n = NULL_nat;
-	    if (arr) n = DEREF_nat (type_array_size (t));
-	    bfputc (bf, MANGLE_array);
-	    mangle_nat (bf, n, 1);
-	    t = DEREF_type (type_array_sub (t));
-	    mangle_type (bf, t, 2, 1);
-	    break;
+		/* Array types */
+		NAT n = NULL_nat;
+		if (arr) n = DEREF_nat (type_array_size (t));
+		bfputc (bf, MANGLE_array);
+		mangle_nat (bf, n, 1);
+		t = DEREF_type (type_array_sub (t));
+		mangle_type (bf, t, 2, 1);
+		break;
 	}
 
 	case type_bitfield_tag : {
-	    /* Bitfield types */
-	    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-	    mangle_itype (bf, it);
-	    break;
+		/* Bitfield types */
+		INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+		mangle_itype (bf, it);
+		break;
 	}
 
 	case type_compound_tag : {
-	    /* Class types */
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    mangle_ctype (bf, ct, -2);
-	    break;
+		/* Class types */
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		mangle_ctype (bf, ct, -2);
+		break;
 	}
 
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
+		/* Enumeration types */
+		ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
 #if LANGUAGE_C
-	    t = DEREF_type (etype_rep (et));
-	    mangle_type (bf, t, fn, arr);
+		t = DEREF_type (etype_rep (et));
+		mangle_type (bf, t, fn, arr);
 #else
-	    IDENTIFIER eid = DEREF_id (etype_name (et));
-	    int d = ident_depth (eid);
-	    mangle_id (bf, eid, d);
+		IDENTIFIER eid = DEREF_id (etype_name (et));
+		int d = ident_depth (eid);
+		mangle_id (bf, eid, d);
 #endif
-	    break;
+		break;
 	}
 
 	case type_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER id = DEREF_id (type_token_tok (t));
-	    LIST (TOKEN) args = DEREF_list (type_token_args (t));
-	    mangle_token (bf, id, args, -2, 0);
-	    break;
+		/* Tokenised types */
+		IDENTIFIER id = DEREF_id (type_token_tok (t));
+		LIST (TOKEN) args = DEREF_list (type_token_args (t));
+		mangle_token (bf, id, args, -2, 0);
+		break;
 	}
 
 	case type_templ_tag : {
-	    /* Template types */
-	    t = DEREF_type (type_templ_defn (t));
-	    mangle_type (bf, t, fn, arr);
-	    break;
+		/* Template types */
+		t = DEREF_type (type_templ_defn (t));
+		mangle_type (bf, t, fn, arr);
+		break;
 	}
 
 	default : {
-	    /* Illegal types */
-	    bfputc (bf, MANGLE_error);
-	    break;
+		/* Illegal types */
+		bfputc (bf, MANGLE_error);
+		break;
 	}
 	}
 	return;
@@ -1104,49 +1104,49 @@ mangle_token_arg(BUFFER *bf, TOKEN tok)
 {
 	if (!IS_NULL_tok (tok)) {
 		switch (TAG_tok (tok)) {
-	    case tok_exp_tag : {
+		case tok_exp_tag : {
 			EXP e = DEREF_exp (tok_exp_value (tok));
 			TYPE t = DEREF_type (tok_exp_type (tok));
 			mangle_type (bf, t, 2, 1);
 			mangle_exp (bf, e, 1);
 			break;
-	    }
-	    case tok_stmt_tag : {
+		}
+		case tok_stmt_tag : {
 			EXP e = DEREF_exp (tok_stmt_value (tok));
 			bfputc (bf, MANGLE_stmt);
 			mangle_exp (bf, e, 1);
 			break;
-	    }
-	    case tok_nat_tag : {
+		}
+		case tok_nat_tag : {
 			NAT n = DEREF_nat (tok_nat_value (tok));
 			bfputc (bf, MANGLE_nat);
 			mangle_nat (bf, n, 1);
 			break;
-	    }
-	    case tok_snat_tag : {
+		}
+		case tok_snat_tag : {
 			NAT n = DEREF_nat (tok_snat_value (tok));
 			bfputc (bf, MANGLE_nat);
 			mangle_nat (bf, n, 1);
 			break;
-	    }
-	    case tok_type_tag : {
+		}
+		case tok_type_tag : {
 			TYPE t = DEREF_type (tok_type_value (tok));
 			bfputc (bf, MANGLE_type);
 			mangle_type (bf, t, 2, 1);
 			break;
-	    }
-	    case tok_class_tag : {
+		}
+		case tok_class_tag : {
 			IDENTIFIER id = DEREF_id (tok_class_value (tok));
 			int d = ident_depth (id);
 			bfputc (bf, MANGLE_type);
 			mangle_id (bf, id, d);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* NOT YET IMPLEMENTED */
 			bfputc (bf, MANGLE_error);
 			break;
-	    }
+		}
 		}
 	}
 	return;
@@ -1347,54 +1347,54 @@ mangle_hashid(HASHID nm, int *pcopy, int force)
 	string s = NULL;
 	switch (TAG_hashid (nm)) {
 	case hashid_name_tag : {
-	    /* Simple identifiers */
-	    s = DEREF_string (hashid_name_text (nm));
-	    break;
+		/* Simple identifiers */
+		s = DEREF_string (hashid_name_text (nm));
+		break;
 	}
 	case hashid_ename_tag : {
-	    /* Extended identifiers */
-	    BUFFER *bf = &name_buff;
-	    unsigned n = (unsigned) (bf->posn - bf->start);
-	    s = DEREF_string (hashid_ename_text (nm));
-	    if (mangle_ename (bf, s)) {
+		/* Extended identifiers */
+		BUFFER *bf = &name_buff;
+		unsigned n = (unsigned) (bf->posn - bf->start);
+		s = DEREF_string (hashid_ename_text (nm));
+		if (mangle_ename (bf, s)) {
 			bfputc (bf, 0);
 			s = bf->start + n;
 			*pcopy = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 	case hashid_constr_tag : {
-	    /* Constructor names */
-	    s = ustrlit ("__ct");
-	    break;
+		/* Constructor names */
+		s = ustrlit ("__ct");
+		break;
 	}
 	case hashid_destr_tag : {
-	    /* Destructor names */
-	    s = ustrlit ("__dt");
-	    break;
+		/* Destructor names */
+		s = ustrlit ("__dt");
+		break;
 	}
 	case hashid_conv_tag : {
-	    /* Conversion names */
-	    BUFFER *bf = &name_buff;
-	    unsigned n = (unsigned) (bf->posn - bf->start);
-	    TYPE t = DEREF_type (hashid_conv_type (nm));
-	    bfprintf (bf, "__op");
-	    mangle_type (bf, t, 2, 1);
-	    bfputc (bf, 0);
-	    s = bf->start + n;
-	    *pcopy = 1;
-	    break;
+		/* Conversion names */
+		BUFFER *bf = &name_buff;
+		unsigned n = (unsigned) (bf->posn - bf->start);
+		TYPE t = DEREF_type (hashid_conv_type (nm));
+		bfprintf (bf, "__op");
+		mangle_type (bf, t, 2, 1);
+		bfputc (bf, 0);
+		s = bf->start + n;
+		*pcopy = 1;
+		break;
 	}
 	case hashid_op_tag : {
-	    /* Operator names */
-	    int op = DEREF_int (hashid_op_lex (nm));
-	    s = mangle_op (op);
-	    break;
+		/* Operator names */
+		int op = DEREF_int (hashid_op_lex (nm));
+		s = mangle_op (op);
+		break;
 	}
 	case hashid_anon_tag : {
-	    /* Anonymous names */
-	    if (force && output_all) s = ustrlit ("");
-	    break;
+		/* Anonymous names */
+		if (force && output_all) s = ustrlit ("");
+		break;
 	}
 	}
 	return (s);
@@ -1454,72 +1454,72 @@ mangle_name(IDENTIFIER id, int v, int ext)
 	/* Find any type qualifier */
 	switch (TAG_id (id)) {
 	case id_variable_tag : {
-	    /* Simple variables */
-	    if (ds & dspec_c) {
+		/* Simple variables */
+		if (ds & dspec_c) {
 			/* C linkage */
 			if (d > 0 || !anon_c_linkage) d = 0;
-	    } else if (mangle_objects) {
+		} else if (mangle_objects) {
 			/* C++ linkage */
 			t = DEREF_type (id_variable_type (id));
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_stat_member_tag : {
-	    /* Static data members */
-	    if (mangle_objects) {
+		/* Static data members */
+		if (mangle_objects) {
 			t = DEREF_type (id_stat_member_type (id));
 			cs = parent_class (id);
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_function_tag : {
-	    /* Simple functions */
-	    if ((ds & dspec_inline) && !ext) {
+		/* Simple functions */
+		if ((ds & dspec_inline) && !ext) {
 			/* Inline functions */
 			d = -1;
-	    } else if (ds & dspec_main) {
+		} else if (ds & dspec_main) {
 			/* The main function */
 #if LANGUAGE_CPP && (TDF_major < 4)
 			s = ustrlit ("__MAIN__");
 #endif
 			d = 0;
-	    } else if (ds & dspec_c) {
+		} else if (ds & dspec_c) {
 			/* C linkage */
 			if (d > 0 || !anon_c_linkage) d = 0;
-	    } else {
+		} else {
 			/* C++ linkage */
 			t = DEREF_type (id_function_type (id));
 			f = DEREF_type (id_function_form (id));
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Member functions */
-	    if ((ds & dspec_implicit) && !output_all) {
+		/* Member functions */
+		if ((ds & dspec_implicit) && !output_all) {
 			/* Implicitly defined functions */
 			d = -1;
-	    } else if ((ds & dspec_inline) && !ext) {
+		} else if ((ds & dspec_inline) && !ext) {
 			/* Inline functions */
 			d = -1;
-	    } else {
+		} else {
 			t = DEREF_type (id_function_etc_type (id));
 			f = DEREF_type (id_function_etc_form (id));
 			cs = parent_class (id);
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_member_tag : {
-	    /* Data members */
-	    pre = ustrlit ("~cpp.mem.");
-	    t = DEREF_type (id_member_type (id));
-	    cs = parent_class (id);
-	    break;
+		/* Data members */
+		pre = ustrlit ("~cpp.mem.");
+		t = DEREF_type (id_member_type (id));
+		cs = parent_class (id);
+		break;
 	}
 	case id_enumerator_tag : {
-	    /* Enumerators */
-	    t = DEREF_type (id_enumerator_etype (id));
-	    break;
+		/* Enumerators */
+		t = DEREF_type (id_enumerator_etype (id));
+		break;
 	}
 	}
 
@@ -1741,8 +1741,8 @@ mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 {
 	if (!IS_NULL_nspace (ns)) {
 		switch (TAG_nspace (ns)) {
-	    case nspace_named_tag :
-	    case nspace_ctype_tag : {
+		case nspace_named_tag :
+		case nspace_ctype_tag : {
 			int copy = 0;
 			IDENTIFIER id = DEREF_id (nspace_name (ns));
 			HASHID nm = DEREF_hashid (id_name (id));
@@ -1753,13 +1753,13 @@ mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 			bfputc (bf, MANGLE_sep);
 			bfputc (bf, MANGLE_sep);
 			break;
-	    }
-	    case nspace_unnamed_tag : {
+		}
+		case nspace_unnamed_tag : {
 			IDENTIFIER id = DEREF_id (nspace_name (ns));
 			ns = DEREF_nspace (id_parent (id));
 			mangle_diag_nspace (bf, ns);
 			break;
-	    }
+		}
 		}
 	}
 	return;
@@ -1801,48 +1801,48 @@ mangle_diag(IDENTIFIER id, int q)
 	}
 	switch (tag) {
 	case hashid_name_tag : {
-	    string s = DEREF_string (hashid_name_text (nm));
-	    bfputs (bf, s);
-	    fn = 1;
-	    break;
+		string s = DEREF_string (hashid_name_text (nm));
+		bfputs (bf, s);
+		fn = 1;
+		break;
 	}
 	case hashid_ename_tag : {
-	    if (EQ_KEYWORD (nm, lex_this_Hname)) {
+		if (EQ_KEYWORD (nm, lex_this_Hname)) {
 			bfprintf (bf, "this");
-	    } else {
+		} else {
 			string s = DEREF_string (hashid_ename_text (nm));
 			IGNORE mangle_ename (bf, s);
-	    }
-	    fn = 1;
-	    break;
+		}
+		fn = 1;
+		break;
 	}
 	case hashid_constr_tag : {
-	    bfprintf (bf, "1");
-	    break;
+		bfprintf (bf, "1");
+		break;
 	}
 	case hashid_destr_tag : {
-	    bfprintf (bf, "0");
-	    break;
+		bfprintf (bf, "0");
+		break;
 	}
 	case hashid_conv_tag : {
-	    t = DEREF_type (hashid_conv_type (nm));
-	    bfprintf (bf, "operator__T");
-	    mangle_type (bf, t, 2, 1);
-	    t = NULL_type;
-	    break;
+		t = DEREF_type (hashid_conv_type (nm));
+		bfprintf (bf, "operator__T");
+		mangle_type (bf, t, 2, 1);
+		t = NULL_type;
+		break;
 	}
 	case hashid_op_tag : {
-	    int op = DEREF_int (hashid_op_lex (nm));
-	    string s = mangle_op (op);
-	    bfprintf (bf, "operator");
-	    if (s) bfputs (bf, s);
-	    break;
+		int op = DEREF_int (hashid_op_lex (nm));
+		string s = mangle_op (op);
+		bfprintf (bf, "operator");
+		if (s) bfputs (bf, s);
+		break;
 	}
 	case hashid_anon_tag : {
-	    ulong u = DEREF_ulong (hashid_anon_uniq (nm));
-	    bfprintf (bf, "__anon%lu", u);
-	    fn = 1;
-	    break;
+		ulong u = DEREF_ulong (hashid_anon_uniq (nm));
+		bfprintf (bf, "__anon%lu", u);
+		fn = 1;
+		break;
 	}
 	}
 	if (!IS_NULL_type (t)) {

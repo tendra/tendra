@@ -293,28 +293,28 @@ BITSTREAM
 	} else {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
-	    case nat_small_tag : {
+		case nat_small_tag : {
 			unsigned v = DEREF_unsigned (nat_small_value (n));
 			ENC_make_nat (bs);
 			ENC_INT (bs, v);
 			break;
-	    }
-	    case nat_large_tag : {
+		}
+		case nat_large_tag : {
 			ENC_make_nat (bs);
 			bs = enc_tdfint (bs, n, 1);
 			break;
-	    }
-	    case nat_calc_tag : {
+		}
+		case nat_calc_tag : {
 			bs = enc_calc (bs, n, 0, intro, 0);
 			break;
-	    }
-	    case nat_neg_tag : {
+		}
+		case nat_neg_tag : {
 			/* This case shouldn't occur */
 			ENC_make_nat (bs);
 			ENC_INT_SMALL (bs, 0);
 			break;
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			/* Token applications */
 			IDENTIFIER tok = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
@@ -329,7 +329,7 @@ BITSTREAM
 			}
 			bs = enc_token (bs, tok, args);
 			break;
-	    }
+		}
 		}
 	}
 	return (bs);
@@ -355,30 +355,30 @@ BITSTREAM
 	} else {
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
-	    case nat_small_tag : {
+		case nat_small_tag : {
 			unsigned v = DEREF_unsigned (nat_small_value (n));
 			if (v == 0) sgn = 0;
 			ENC_make_signed_nat (bs);
 			ENC_BOOL (bs, sgn);
 			ENC_INT (bs, v);
 			break;
-	    }
-	    case nat_large_tag : {
+		}
+		case nat_large_tag : {
 			ENC_make_signed_nat (bs);
 			ENC_BOOL (bs, sgn);
 			bs = enc_tdfint (bs, n, 1);
 			break;
-	    }
-	    case nat_calc_tag : {
+		}
+		case nat_calc_tag : {
 			bs = enc_calc (bs, n, sgn, intro, 1);
 			break;
-	    }
-	    case nat_neg_tag : {
+		}
+		case nat_neg_tag : {
 			NAT m = DEREF_nat (nat_neg_arg (n));
 			bs = enc_snat (bs, m, !sgn, intro);
 			break;
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			/* Token applications */
 			IDENTIFIER tok = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
@@ -402,7 +402,7 @@ BITSTREAM
 			}
 			bs = enc_token (bs, tok, args);
 			break;
-	    }
+		}
 		}
 	}
 	return (bs);
@@ -791,30 +791,30 @@ static BITSTREAM
 	ASSERT (ORDER_itype == 6);
 	switch (tag) {
 	case itype_basic_tag : {
-	    /* Built-in integral types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
-	    unsigned m = base_token [n].no;
-	    if (alt) m = base_token [n].alt;
-	    if (m != ARITH_none) {
+		/* Built-in integral types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
+		unsigned m = base_token [n].no;
+		if (alt) m = base_token [n].alt;
+		if (m != ARITH_none) {
 			/* Basic types are easy */
 			bs = enc_make_snat (bs, (int) m);
 			return (bs);
-	    }
-	    break;
+		}
+		break;
 	}
 	case itype_bitfield_tag : {
-	    /* Bitfield types */
-	    TYPE s = DEREF_type (itype_bitfield_sub (it));
-	    INT_TYPE is = find_itype (s);
-	    bs = enc_var_no (bs, is, alt);
-	    return (bs);
+		/* Bitfield types */
+		TYPE s = DEREF_type (itype_bitfield_sub (it));
+		INT_TYPE is = find_itype (s);
+		bs = enc_var_no (bs, is, alt);
+		return (bs);
 	}
 	case itype_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER tk = DEREF_id (itype_token_tok (it));
-	    LIST (TOKEN) args = DEREF_list (itype_token_args (it));
-	    bs = enc_token (bs, tk, args);
-	    return (bs);
+		/* Tokenised types */
+		IDENTIFIER tk = DEREF_id (itype_token_tok (it));
+		LIST (TOKEN) args = DEREF_list (itype_token_args (it));
+		bs = enc_token (bs, tk, args);
+		return (bs);
 	}
 	}
 
@@ -905,7 +905,7 @@ BITSTREAM
 	if (tok == LINK_NONE) {
 		ASSERT (ORDER_itype == 6);
 		switch (tag) {
-	    case itype_basic_tag : {
+		case itype_basic_tag : {
 			/* Built-in integral types */
 			BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
 			unsigned m = base_token [n].no;
@@ -916,8 +916,8 @@ BITSTREAM
 				COPY_ulong (itype_itok (it), tok);
 			}
 			break;
-	    }
-	    case itype_token_tag : {
+		}
+		case itype_token_tag : {
 			/* Tokenised integral types */
 			IDENTIFIER tk = DEREF_id (itype_token_tok (it));
 			DECL_SPEC ds = DEREF_dspec (id_storage (tk));
@@ -931,7 +931,7 @@ BITSTREAM
 				return (bs);
 			}
 			break;
-	    }
+		}
 		}
 		if (tok == LINK_NONE) {
 			/* Define the variety token */
@@ -1003,22 +1003,22 @@ static BITSTREAM
 	ASSERT (ORDER_ftype == 4);
 	switch (tag) {
 	case ftype_basic_tag : {
-	    /* Built-in floating types */
-	    BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
-	    unsigned m = base_token [n].no;
-	    if (m != ARITH_none) {
+		/* Built-in floating types */
+		BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
+		unsigned m = base_token [n].no;
+		if (m != ARITH_none) {
 			/* Basic types are easy */
 			bs = enc_make_snat (bs, (int) m);
 			return (bs);
-	    }
-	    break;
+		}
+		break;
 	}
 	case ftype_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER tk = DEREF_id (ftype_token_tok (ft));
-	    LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
-	    bs = enc_token (bs, tk, args);
-	    return (bs);
+		/* Tokenised types */
+		IDENTIFIER tk = DEREF_id (ftype_token_tok (ft));
+		LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
+		bs = enc_token (bs, tk, args);
+		return (bs);
 	}
 	}
 
@@ -1195,25 +1195,25 @@ BITSTREAM
 	BUILTIN_TYPE bt;
 	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
-	    case type_integer_tag :
-	    case type_enumerate_tag : {
+		case type_integer_tag :
+		case type_enumerate_tag : {
 			/* Integral and enumeration types */
 			INT_TYPE it = find_itype (t);
 			bs = enc_var_no (bs, it, alt);
 			return (bs);
-	    }
-	    case type_floating_tag : {
+		}
+		case type_floating_tag : {
 			/* Floating point types */
 			FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 			bs = enc_flvar_no (bs, ft);
 			return (bs);
-	    }
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		}
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Pointer types */
 			bs = enc_special (bs, TOK_ptr_rep);
 			return (bs);
-	    }
+		}
 		}
 	}
 	bt = is_builtin_type (t, 0);
@@ -1261,69 +1261,69 @@ BITSTREAM
 	switch (TAG_type (t)) {
 	case type_ptr_tag :
 	case type_ref_tag : {
-	    /* Pointer alignment */
-	    TYPE s = DEREF_type (type_ptr_etc_sub (t));
-	    switch (TAG_type (s)) {
+		/* Pointer alignment */
+		TYPE s = DEREF_type (type_ptr_etc_sub (t));
+		switch (TAG_type (s)) {
 		case type_top_tag :
 		case type_bottom_tag : {
-		    /* Generic pointer */
-		    ENC_alignment (bs);
-		    bs = enc_special (bs, TOK_ptr_void);
-		    break;
+			/* Generic pointer */
+			ENC_alignment (bs);
+			bs = enc_special (bs, TOK_ptr_void);
+			break;
 		}
 		case type_func_tag : {
-		    /* Function pointer */
-		    ENC_alignment (bs);
-		    ENC_proc (bs);
-		    break;
+			/* Function pointer */
+			ENC_alignment (bs);
+			ENC_proc (bs);
+			break;
 		}
 		default : {
-		    /* Simple pointers */
-		    ENC_alignment (bs);
-		    ENC_pointer (bs);
-		    ENC_alignment (bs);
-		    ENC_top (bs);
-		    break;
+			/* Simple pointers */
+			ENC_alignment (bs);
+			ENC_pointer (bs);
+			ENC_alignment (bs);
+			ENC_top (bs);
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_array_tag : {
-	    /* Array types */
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    bs = enc_alignment (bs, s);
-	    break;
+		/* Array types */
+		TYPE s = DEREF_type (type_array_sub (t));
+		bs = enc_alignment (bs, s);
+		break;
 	}
 	case type_compound_tag : {
-	    /* Compound types */
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    TYPE s = DEREF_type (ctype_form (ct));
-	    if (is_tokenised_class (s)) {
+		/* Compound types */
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		TYPE s = DEREF_type (ctype_form (ct));
+		if (is_tokenised_class (s)) {
 			ENC_alignment (bs);
 			bs = enc_shape (bs, s);
-	    } else {
+		} else {
 			bs = enc_al_ctype (bs, ct);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER id = DEREF_id (type_token_tok (t));
-	    ulong n = DEREF_ulong (id_no (id));
-	    if (n == LINK_TOKDEF) {
+		/* Tokenised types */
+		IDENTIFIER id = DEREF_id (type_token_tok (t));
+		ulong n = DEREF_ulong (id_no (id));
+		if (n == LINK_TOKDEF) {
 			/* Allow for recursive tokenised types */
 			bs = enc_special (bs, TOK_empty_align);
-	    } else {
+		} else {
 			ENC_alignment (bs);
 			bs = enc_shape (bs, t);
-	    }
-	    break;
+		}
+		break;
 	}
 	default : {
-	    /* Other types are simple */
-	    ENC_alignment (bs);
-	    bs = enc_shape (bs, t);
-	    break;
+		/* Other types are simple */
+		ENC_alignment (bs);
+		bs = enc_shape (bs, t);
+		break;
 	}
 	}
 	return (bs);
@@ -1342,12 +1342,12 @@ simple_alignment(TYPE t)
 {
 	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
-	    case type_array_tag : {
+		case type_array_tag : {
 			/* Array types */
 			TYPE s = DEREF_type (type_array_sub (t));
 			return (simple_alignment (s));
-	    }
-	    case type_compound_tag : {
+		}
+		case type_compound_tag : {
 			/* Compound types */
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 			TYPE s = DEREF_type (ctype_form (ct));
@@ -1358,14 +1358,14 @@ simple_alignment(TYPE t)
 				if (ci & cinfo_recursive) return (0);
 			}
 			break;
-	    }
-	    case type_token_tag : {
+		}
+		case type_token_tag : {
 			/* Tokenised types */
 			IDENTIFIER id = DEREF_id (type_token_tok (t));
 			ulong n = DEREF_ulong (id_no (id));
 			if (n == LINK_TOKDEF) return (0);
 			break;
-	    }
+		}
 		}
 	}
 	return (1);
@@ -1431,35 +1431,35 @@ BITSTREAM
 	ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 	case off_zero_tag : {
-	    /* Zero offsets */
-	    TYPE t = DEREF_type (off_zero_type (off));
-	    ENC_offset_zero (bs);
-	    bs = enc_alignment (bs, t);
-	    break;
+		/* Zero offsets */
+		TYPE t = DEREF_type (off_zero_type (off));
+		ENC_offset_zero (bs);
+		bs = enc_alignment (bs, t);
+		break;
 	}
 	case off_type_tag : {
-	    /* Type offsets */
-	    TYPE t = DEREF_type (off_type_type (off));
-	    bs = enc_shape_offset (bs, t);
-	    break;
+		/* Type offsets */
+		TYPE t = DEREF_type (off_type_type (off));
+		bs = enc_shape_offset (bs, t);
+		break;
 	}
 	case off_extra_tag : {
-	    /* Extra allocator offset */
-	    TYPE t = DEREF_type (off_extra_type (off));
-	    int n = DEREF_int (off_extra_scale (off));
-	    bs = enc_extra_offset (bs, t, off_size_t, n);
-	    break;
+		/* Extra allocator offset */
+		TYPE t = DEREF_type (off_extra_type (off));
+		int n = DEREF_int (off_extra_scale (off));
+		bs = enc_extra_offset (bs, t, off_size_t, n);
+		break;
 	}
 	case off_array_tag : {
-	    /* Array offsets */
-	    TYPE t = DEREF_type (off_array_type (off));
-	    unsigned n = DEREF_unsigned (off_array_arg (off));
-	    if (n == 0) {
+		/* Array offsets */
+		TYPE t = DEREF_type (off_array_type (off));
+		unsigned n = DEREF_unsigned (off_array_arg (off));
+		if (n == 0) {
 			ENC_offset_zero (bs);
 			bs = enc_alignment (bs, t);
-	    } else if (n == 1) {
+		} else if (n == 1) {
 			bs = enc_shape_offset (bs, t);
-	    } else {
+		} else {
 			ENC_offset_mult (bs);
 			bs = enc_shape_offset (bs, t);
 			ENC_make_int (bs);
@@ -1467,88 +1467,88 @@ BITSTREAM
 			ENC_make_signed_nat (bs);
 			ENC_OFF (bs);
 			ENC_INT (bs, n);
-	    }
-	    break;
+		}
+		break;
 	}
 	case off_base_tag : {
-	    /* Base class offsets */
-	    GRAPH gr = DEREF_graph (off_base_graph (off));
-	    bs = enc_base (bs, gr, 0);
-	    break;
+		/* Base class offsets */
+		GRAPH gr = DEREF_graph (off_base_graph (off));
+		bs = enc_base (bs, gr, 0);
+		break;
 	}
 	case off_deriv_tag : {
-	    /* Derived class offsets */
-	    GRAPH gr = DEREF_graph (off_deriv_graph (off));
-	    bs = enc_base (bs, gr, 0);
-	    break;
+		/* Derived class offsets */
+		GRAPH gr = DEREF_graph (off_deriv_graph (off));
+		bs = enc_base (bs, gr, 0);
+		break;
 	}
 	case off_member_tag : {
-	    /* Member offsets */
-	    IDENTIFIER id = DEREF_id (off_member_id (off));
-	    bs = enc_member (bs, id);
-	    break;
+		/* Member offsets */
+		IDENTIFIER id = DEREF_id (off_member_id (off));
+		bs = enc_member (bs, id);
+		break;
 	}
 	case off_ptr_mem_tag : {
-	    /* Pointer to member offsets */
-	    BITSTREAM *ts;
-	    EXP a = DEREF_exp (off_ptr_mem_arg (off));
-	    TYPE s = DEREF_type (exp_type (a));
-	    s = DEREF_type (type_ptr_mem_sub (s));
-	    bs = enc_special (bs, TOK_pm_offset);
-	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-	    ts = enc_exp (ts, a);
-	    ts = enc_alignment (ts, s);
-	    tdf_en_bitstream (bs, ts);
-	    break;
+		/* Pointer to member offsets */
+		BITSTREAM *ts;
+		EXP a = DEREF_exp (off_ptr_mem_arg (off));
+		TYPE s = DEREF_type (exp_type (a));
+		s = DEREF_type (type_ptr_mem_sub (s));
+		bs = enc_special (bs, TOK_pm_offset);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+		ts = enc_exp (ts, a);
+		ts = enc_alignment (ts, s);
+		tdf_en_bitstream (bs, ts);
+		break;
 	}
 	case off_negate_tag : {
-	    /* Offset negations */
-	    OFFSET off1 = DEREF_off (off_negate_arg (off));
-	    ENC_offset_negate (bs);
-	    bs = enc_offset (bs, off1);
-	    break;
+		/* Offset negations */
+		OFFSET off1 = DEREF_off (off_negate_arg (off));
+		ENC_offset_negate (bs);
+		bs = enc_offset (bs, off1);
+		break;
 	}
 	case off_plus_tag : {
-	    /* Offset additions */
-	    OFFSET off1 = DEREF_off (off_plus_arg1 (off));
-	    OFFSET off2 = DEREF_off (off_plus_arg2 (off));
-	    if (!IS_NULL_off (off1)) {
+		/* Offset additions */
+		OFFSET off1 = DEREF_off (off_plus_arg1 (off));
+		OFFSET off2 = DEREF_off (off_plus_arg2 (off));
+		if (!IS_NULL_off (off1)) {
 			ENC_offset_add (bs);
 			bs = enc_offset (bs, off1);
-	    }
-	    bs = enc_offset (bs, off2);
-	    break;
+		}
+		bs = enc_offset (bs, off2);
+		break;
 	}
 	case off_mult_tag : {
-	    /* Offset multiplications */
-	    OFFSET off1 = DEREF_off (off_mult_arg1 (off));
-	    EXP a = DEREF_exp (off_mult_arg2 (off));
-	    ENC_offset_mult (bs);
-	    bs = enc_offset (bs, off1);
-	    bs = enc_exp (bs, a);
-	    break;
+		/* Offset multiplications */
+		OFFSET off1 = DEREF_off (off_mult_arg1 (off));
+		EXP a = DEREF_exp (off_mult_arg2 (off));
+		ENC_offset_mult (bs);
+		bs = enc_offset (bs, off1);
+		bs = enc_exp (bs, a);
+		break;
 	}
 	case off_ptr_diff_tag : {
-	    /* Difference of two pointers */
-	    EXP a = DEREF_exp (off_ptr_diff_ptr1 (off));
-	    EXP b = DEREF_exp (off_ptr_diff_ptr2 (off));
-	    ENC_subtract_ptrs (bs);
-	    bs = enc_exp (bs, a);
-	    bs = enc_exp (bs, b);
-	    break;
+		/* Difference of two pointers */
+		EXP a = DEREF_exp (off_ptr_diff_ptr1 (off));
+		EXP b = DEREF_exp (off_ptr_diff_ptr2 (off));
+		ENC_subtract_ptrs (bs);
+		bs = enc_exp (bs, a);
+		bs = enc_exp (bs, b);
+		break;
 	}
 	case off_token_tag : {
-	    /* Token applications */
-	    IDENTIFIER tok = DEREF_id (off_token_tok (off));
-	    LIST (TOKEN) args = DEREF_list (off_token_args (off));
-	    bs = enc_token (bs, tok, args);
-	    break;
+		/* Token applications */
+		IDENTIFIER tok = DEREF_id (off_token_tok (off));
+		LIST (TOKEN) args = DEREF_list (off_token_args (off));
+		bs = enc_token (bs, tok, args);
+		break;
 	}
 	default : {
-	    /* Illegal offset */
-	    ENC_offset_zero (bs);
-	    bs = enc_alignment (bs, type_sint);
-	    break;
+		/* Illegal offset */
+		ENC_offset_zero (bs);
+		bs = enc_alignment (bs, type_sint);
+		break;
 	}
 	}
 	return (bs);
@@ -1616,28 +1616,28 @@ BITSTREAM
 	ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 	case off_base_tag : {
-	    /* Base class offsets */
-	    GRAPH gr = DEREF_graph (off_base_graph (off));
-	    DECL_SPEC acc = DEREF_dspec (graph_access (gr));
-	    if (virt && (acc & dspec_mutable)) {
+		/* Base class offsets */
+		GRAPH gr = DEREF_graph (off_base_graph (off));
+		DECL_SPEC acc = DEREF_dspec (graph_access (gr));
+		if (virt && (acc & dspec_mutable)) {
 			/* Virtual base offset */
 			bs = enc_add_base (bs, off, NULL_off);
 			bs = enc_add_ptr (bs, a, n, NULL_off, 0);
 			bs = enc_end_base (bs, off, NULL_off);
 			return (bs);
-	    }
-	    if (acc & dspec_ignore) {
+		}
+		if (acc & dspec_ignore) {
 			/* Null base offset */
 			bs = enc_add_ptr (bs, a, n, NULL_off, 0);
 			return (bs);
-	    }
-	    break;
+		}
+		break;
 	}
 	case off_deriv_tag : {
-	    /* Derived class offsets */
-	    GRAPH gr = DEREF_graph (off_deriv_graph (off));
-	    DECL_SPEC acc = DEREF_dspec (graph_access (gr));
-	    if (virt && (acc & dspec_mutable)) {
+		/* Derived class offsets */
+		GRAPH gr = DEREF_graph (off_deriv_graph (off));
+		DECL_SPEC acc = DEREF_dspec (graph_access (gr));
+		if (virt && (acc & dspec_mutable)) {
 			/* Virtual base offset */
 			OFFSET off1, off2;
 			gr = min_base_class (gr);
@@ -1653,26 +1653,26 @@ BITSTREAM
 			bs = enc_add_ptr (bs, a, n, NULL_off, 0);
 			bs = enc_end_base (bs, off1, off2);
 			return (bs);
-	    }
-	    if (acc & dspec_ignore) {
+		}
+		if (acc & dspec_ignore) {
 			/* Null base offset */
 			bs = enc_add_ptr (bs, a, n, NULL_off, 0);
 			return (bs);
-	    }
-	    break;
+		}
+		break;
 	}
 	case off_plus_tag : {
-	    /* Offset additions */
-	    OFFSET off1 = DEREF_off (off_plus_arg1 (off));
-	    OFFSET off2 = DEREF_off (off_plus_arg2 (off));
-	    if (is_zero_offset (off2)) {
+		/* Offset additions */
+		OFFSET off1 = DEREF_off (off_plus_arg1 (off));
+		OFFSET off2 = DEREF_off (off_plus_arg2 (off));
+		if (is_zero_offset (off2)) {
 			bs = enc_add_ptr (bs, a, n, off1, virt);
-	    } else {
+		} else {
 			ENC_add_to_ptr (bs);
 			bs = enc_add_ptr (bs, a, n, off1, virt);
 			bs = enc_offset (bs, off2);
-	    }
-	    return (bs);
+		}
+		return (bs);
 	}
 	}
 
@@ -1705,127 +1705,127 @@ BITSTREAM
 	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {
-	    /* Integral and enumeration types */
-	    ENC_integer (bs);
-	    bs = enc_variety (bs, t);
-	    break;
+		/* Integral and enumeration types */
+		ENC_integer (bs);
+		bs = enc_variety (bs, t);
+		break;
 	}
 	case type_floating_tag : {
-	    /* Floating point types */
-	    ENC_floating (bs);
-	    bs = enc_flvar (bs, t);
-	    break;
+		/* Floating point types */
+		ENC_floating (bs);
+		bs = enc_flvar (bs, t);
+		break;
 	}
 	case type_top_tag : {
-	    /* The top type */
-	    ENC_top (bs);
-	    break;
+		/* The top type */
+		ENC_top (bs);
+		break;
 	}
 	case type_bottom_tag : {
-	    /* The bottom type */
-	    ENC_bottom (bs);
-	    break;
+		/* The bottom type */
+		ENC_bottom (bs);
+		break;
 	}
 	case type_ptr_tag :
 	case type_ref_tag : {
-	    /* Pointer types */
-	    TYPE s = DEREF_type (type_ptr_etc_sub (t));
-	    switch (TAG_type (s)) {
+		/* Pointer types */
+		TYPE s = DEREF_type (type_ptr_etc_sub (t));
+		switch (TAG_type (s)) {
 		case type_top_tag :
 		case type_bottom_tag : {
-		    /* Generic pointer */
-		    bs = enc_special (bs, TOK_ptr_void);
-		    break;
+			/* Generic pointer */
+			bs = enc_special (bs, TOK_ptr_void);
+			break;
 		}
 		case type_func_tag : {
-		    /* Function pointer */
-		    ENC_proc (bs);
-		    break;
+			/* Function pointer */
+			ENC_proc (bs);
+			break;
 		}
 		default : {
-		    /* Normal pointer */
-		    ENC_pointer (bs);
-		    bs = enc_alignment (bs, s);
-		    break;
+			/* Normal pointer */
+			ENC_pointer (bs);
+			bs = enc_alignment (bs, s);
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    TYPE s = DEREF_type (type_ptr_mem_sub (t));
-	    if (IS_type_func (s)) {
+		/* Pointer to member types */
+		TYPE s = DEREF_type (type_ptr_mem_sub (t));
+		if (IS_type_func (s)) {
 			bs = enc_special (bs, TOK_pmf_type);
-	    } else {
+		} else {
 			bs = enc_special (bs, TOK_pm_type);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_func_tag : {
-	    /* Function types */
-	    ENC_proc (bs);
-	    break;
+		/* Function types */
+		ENC_proc (bs);
+		break;
 	}
 	case type_array_tag : {
-	    /* Array types */
-	    NAT n = DEREF_nat (type_array_size (t));
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    ENC_nof (bs);
-	    bs = enc_nat (bs, n, 1);
-	    bs = enc_shape (bs, s);
-	    break;
+		/* Array types */
+		NAT n = DEREF_nat (type_array_size (t));
+		TYPE s = DEREF_type (type_array_sub (t));
+		ENC_nof (bs);
+		bs = enc_nat (bs, n, 1);
+		bs = enc_shape (bs, s);
+		break;
 	}
 	case type_bitfield_tag : {
-	    /* Bitfield types */
-	    ENC_bitfield (bs);
-	    bs = enc_bfvar (bs, t);
-	    break;
+		/* Bitfield types */
+		ENC_bitfield (bs);
+		bs = enc_bfvar (bs, t);
+		break;
 	}
 	case type_compound_tag : {
-	    /* Compound types */
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    TYPE s = DEREF_type (ctype_form (ct));
-	    if (is_tokenised_class (s)) {
+		/* Compound types */
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		TYPE s = DEREF_type (ctype_form (ct));
+		if (is_tokenised_class (s)) {
 			bs = enc_shape (bs, s);
-	    } else {
+		} else {
 			bs = enc_ctype (bs, ct);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER tok = DEREF_id (type_token_tok (t));
-	    LIST (TOKEN) args = DEREF_list (type_token_args (t));
-	    if (IS_id_token (tok)) {
+		/* Tokenised types */
+		IDENTIFIER tok = DEREF_id (type_token_tok (t));
+		LIST (TOKEN) args = DEREF_list (type_token_args (t));
+		if (IS_id_token (tok)) {
 			bs = enc_token (bs, tok, args);
-	    } else {
+		} else {
 			/* This case shouldn't occur */
 			bs = enc_shape (bs, type_sint);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_templ_tag : {
-	    /* Template types */
-	    TYPE s = DEREF_type (type_templ_defn (t));
-	    bs = enc_shape (bs, s);
-	    break;
+		/* Template types */
+		TYPE s = DEREF_type (type_templ_defn (t));
+		bs = enc_shape (bs, s);
+		break;
 	}
 	case type_dummy_tag : {
-	    /* Dummy special token types */
-	    int tok = DEREF_int (type_dummy_tok (t));
+		/* Dummy special token types */
+		int tok = DEREF_int (type_dummy_tok (t));
 #if LANGUAGE_CPP
-	    if (tok == TOK_vtab_type) {
+		if (tok == TOK_vtab_type) {
 			bs = enc_vtable_shape (bs, size_dummy_vtab);
 			break;
-	    }
+		}
 #endif
-	    bs = enc_special (bs, tok);
-	    break;
+		bs = enc_special (bs, tok);
+		break;
 	}
 	default : {
-	    /* This case shouldn't occur */
-	    bs = enc_shape (bs, type_sint);
-	    break;
+		/* This case shouldn't occur */
+		bs = enc_shape (bs, type_sint);
+		break;
 	}
 	}
 	return (bs);
@@ -1852,18 +1852,18 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 	switch (ns) {
 	case type_top_tag :
 	case type_bottom_tag : {
-	    /* Top and bottom types */
-	    if (nt == ns) return (1);
-	    if (nt == type_top_tag || nt == type_bottom_tag) {
+		/* Top and bottom types */
+		if (nt == ns) return (1);
+		if (nt == type_top_tag || nt == type_bottom_tag) {
 			/* alignment (top) == alignment (bottom) */
 			return (ptr);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_tag :
 	case type_ref_tag : {
-	    /* Pointer and reference types */
-	    if (nt == type_ptr_tag || nt == type_ref_tag) {
+		/* Pointer and reference types */
+		if (nt == type_ptr_tag || nt == type_ref_tag) {
 			TYPE ps, pt;
 			if (ptr) {
 				/* alignment (pointer (s)) is constant */
@@ -1872,12 +1872,12 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 			ps = DEREF_type (type_ptr_etc_sub (s));
 			pt = DEREF_type (type_ptr_etc_sub (t));
 			return (eq_type_rep (ps, pt, 1));
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    if (nt == type_ptr_mem_tag) {
+		/* Pointer to member types */
+		if (nt == type_ptr_mem_tag) {
 			TYPE ps = DEREF_type (type_ptr_mem_sub (s));
 			TYPE pt = DEREF_type (type_ptr_mem_sub (t));
 			if (IS_type_func (ps)) {
@@ -1891,25 +1891,25 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 					return (1);
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_func_tag : {
-	    /* Function types */
-	    if (nt == type_func_tag) {
+		/* Function types */
+		if (nt == type_func_tag) {
 			/* All functions have the same representation */
 			return (1);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_array_tag : {
-	    /* Array types */
-	    if (ptr) {
+		/* Array types */
+		if (ptr) {
 			/* alignment (nof (n, s)) == alignment (s) */
 			TYPE ps = DEREF_type (type_array_sub (s));
 			return (eq_type_rep (ps, t, 1));
-	    }
-	    if (nt == type_array_tag) {
+		}
+		if (nt == type_array_tag) {
 			NAT ms = DEREF_nat (type_array_size (s));
 			NAT mt = DEREF_nat (type_array_size (t));
 			if (EQ_nat (ms, mt) || eq_nat (ms, mt)) {
@@ -1917,33 +1917,33 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 				TYPE pt = DEREF_type (type_array_sub (t));
 				return (eq_type_rep (ps, pt, 0));
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE es = DEREF_etype (type_enumerate_defn (s));
-	    TYPE ps = DEREF_type (etype_rep (es));
-	    return (eq_type_rep (ps, t, ptr));
+		/* Enumeration types */
+		ENUM_TYPE es = DEREF_etype (type_enumerate_defn (s));
+		TYPE ps = DEREF_type (etype_rep (es));
+		return (eq_type_rep (ps, t, ptr));
 	}
 	}
 
 	/* Check the second type */
 	switch (nt) {
 	case type_array_tag : {
-	    /* Array types */
-	    if (ptr) {
+		/* Array types */
+		if (ptr) {
 			/* alignment (nof (n, t)) == alignment (t) */
 			TYPE pt = DEREF_type (type_array_sub (t));
 			return (eq_type_rep (s, pt, 1));
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
-	    TYPE pt = DEREF_type (etype_rep (et));
-	    return (eq_type_rep (s, pt, ptr));
+		/* Enumeration types */
+		ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
+		TYPE pt = DEREF_type (etype_rep (et));
+		return (eq_type_rep (s, pt, ptr));
 	}
 	}
 
