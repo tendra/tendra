@@ -1068,11 +1068,13 @@ eq_float_lit(FLOAT f, FLOAT g)
 	ulong nf, ng;
 	string af, ag;
 	string bf, bg;
+	unsigned cf, cg;
 	if (EQ_flt (f, g)) return (1);
-	DECONS_flt_simple (nf, af, bf, ef, f);
-	DECONS_flt_simple (ng, ag, bg, eg, g);
+	DECONS_flt_simple (nf, af, bf, ef, cf, f);
+	DECONS_flt_simple (ng, ag, bg, eg, cg, g);
 	if (!ustreq (af, ag)) return (0);
 	if (!ustreq (bf, bg)) return (0);
+	if (cf != cg) return (0);
 	if (compare_nat (ef, eg) != 0) return (0);
 	if (nf == LINK_NONE) COPY_ulong (flt_tok (f), ng);
 	if (ng == LINK_NONE) COPY_ulong (flt_tok (g), nf);
@@ -1104,7 +1106,6 @@ NAT
 round_float_lit(FLOAT f, RMODE mode)
 {
 	NAT res;
-	unsigned base = 10;
 	unsigned long i, j, n;
 	unsigned long res_len;
 	unsigned long pre_len;
@@ -1114,6 +1115,7 @@ round_float_lit(FLOAT f, RMODE mode)
 	/* Decompose simple literal */
 	string int_part = DEREF_string (flt_simple_int_part (f));
 	string frac_part = DEREF_string (flt_simple_frac_part (f));
+	unsigned base = DEREF_unsigned (flt_simple_base (f));
 	NAT expon = DEREF_nat (flt_simple_exponent (f));
 
 	/* Find component lengths */

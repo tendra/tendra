@@ -945,6 +945,7 @@ union FLOAT (flt) = {
 	string int_part;
 	string frac_part;
 	NAT exponent;
+	unsigned base = "10";
     }
 };
 

@@ -1137,10 +1137,12 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
 		string i = DEREF_string (flt_simple_int_part (n));
 		string d = DEREF_string (flt_simple_frac_part (n));
 		NAT e = DEREF_nat (flt_simple_exponent (n));
+		unsigned b = DEREF_unsigned (flt_simple_base (n));
 		if (sp) bfputc (bf, ' ');
+		if (b == 16) bfprintf (bf, "0x");
 		bfprintf (bf, "%s.%s", i, d);
-		if (!is_zero_nat (e)) {
-			bfputc (bf, 'e');
+		if (!is_zero_nat (e) || b == 16) {
+			bfputc (bf, b == 16 ? 'p' : 'e');
 			IGNORE print_nat (e, 0, bf, 0);
 		}
 		sp = 1;

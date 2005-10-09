@@ -397,12 +397,13 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 			string i = DEREF_string (flt_simple_int_part (flt));
 			string d = DEREF_string (flt_simple_frac_part (flt));
 			NAT n = DEREF_nat (flt_simple_exponent (flt));
+			unsigned b = DEREF_unsigned (flt_simple_base (flt));
 			bfputc (bf, MANGLE_op);
-			bfprintf (bf, "f%sd%s", i, d);
+			bfprintf (bf, "f%s%sd%s", (b == 16 ? "0x" : ""), i, d);
 			if (is_zero_nat (n)) {
 				bfputc (bf, MANGLE_sep);
 			} else {
-				bfputc (bf, 'e');
+				bfputc (bf, b == 16 ? 'p' : 'e');
 				mangle_nat (bf, n, 0);
 			}
 			break;

@@ -459,6 +459,7 @@ BITSTREAM
 		unsigned long nf = (unsigned long) ustrlen (f);
 		unsigned long nt = ni + nf + 1;
 		NAT e = DEREF_nat (flt_simple_exponent (flt));
+		unsigned base = DEREF_unsigned (flt_simple_base (flt));
 
 		/* Map to canonical form */
 		if (ni == 0) {
@@ -493,7 +494,7 @@ BITSTREAM
 			tdf_en_ascii (ts, nf, f);
 		}
 		ENC_make_nat (ts);
-		ENC_INT (ts, 10);
+		ENC_INT (ts, base);
 		ts = enc_snat (ts, e, 0, 0);
 		enc_tokdef_end (n, ts);
 		COPY_ulong (flt_tok (flt), n);
