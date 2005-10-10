@@ -769,6 +769,46 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 
 
 /*
+ *    SHIFT A HEXADECIMAL STRING
+ *
+ *    This routine shifts the hexadecimal string s to the right by n bits.
+ *    The value n must be less than 4.  The vacant bits at s' leftmost
+ *    position are filled with shift_in.  If shift_out a null pointer, an
+ *    additional character that holds the shifted out bits is added.
+ *    Otherwise the bits are stored in *shift_out.
+ */
+
+static string
+shift_hex_string(string s, unsigned n, unsigned shift_in, unsigned *shift_out)
+{
+	static const char hex_values[] = "0123456789abcdef";
+	unsigned c, mask, v, x;
+	string out, ret;
+
+	ASSERT (n <= 3);
+
+	if (n == 0) return ustring_copy (s);
+
+	out = ret = ustring_alloc (ustrlen (s) + (shift_out != NULL ? 1 : 2));
+
+	mask = (1u << n) - 1;
+	c = shift_in;
+	while ((v = digit_values[*s++]) < 16) {
+		x = (v >> n) | c;
+		c = (v & mask) << (4 - n);
+		*out++ = hex_values[x];
+	}
+	if (shift_out != NULL) {
+		*shift_out = c;
+	} else {
+		*out++ = hex_values[c];
+	}
+	*out++ = '\0';
+	return ret;
+}
+
+
+/*
  *    ANALYSE AN INTEGER OR FLOATING LITERAL
  *
  *    This routine analyses the integer or floating literal given by the
@@ -786,8 +826,10 @@ make_literal_exp(string str, int *ptok, int force)
 	string r;
 	int err = 0;
 	int flt = 0;
+	int pexp;
 	string s = str;
 	unsigned base = 10;
+	string int_part, frac_part;
 	string dot_posn = NULL;
 	string exp_posn = NULL;
 	int form = BASE_DECIMAL;
@@ -808,62 +850,42 @@ make_literal_exp(string str, int *ptok, int force)
 	}
 
 	if (c1 == char_zero && (c2 == char_x || c2 == char_X)) {
-		/* Hexadecimal integer */
+		/* Hexadecimal literal */
 		base = 16;
 		form = BASE_HEXADECIMAL;
-		r = s + 2;
-		s = check_digits (r, base);
+		s += 2;
+	}
+
+	int_part = s;
+	s = check_digits (int_part, base);
+
+	if (s[0] == char_dot) {
+		dot_posn = s;
+		/* Fractional component of floating literal */
+		frac_part = s + 1;
+		s = check_digits (frac_part, base);
+		flt = 1;
+	}
+
+	exp_posn = s;
+	pexp = (s[0] == char_p || s[0] == char_P);
+	if (pexp || s[0] == char_e || s[0] == char_E) {
+		/* Exponent component of floating literal */
+		if (s[1] == char_plus || s[1] == char_minus) s++;
+		r = s + 1;
+		s = check_digits (r, 10);
 		if (s == r) err = 1;
-	} else {
-		if (c1 == char_dot) {
-			/* Fractional component of floating literal */
-			dot_posn = s;
-			r = s + 1;
-			s = check_digits (r, base);
-			if (s == r) err = 1;
-			flt = 1;
-		} else {
-			/* Sequence of decimal digits */
-			r = s;
-			s = check_digits (r, base);
-			if (s == r) {
-				if (c1 == char_plus || c1 == char_minus) {
-					/* Extension to handle signs */
-					e = make_literal_exp (str + 1, ptok, force);
-					if (c1 == char_minus) {
-						e = make_uminus_exp (lex_minus, e);
-					}
-					return (e);
-				}
-				err = 1;
-			}
-			if (s [0] == char_dot) {
-				/* Fractional component of floating literal */
-				dot_posn = s;
-				s = check_digits (s + 1, base);
-				flt = 1;
-			}
-		}
-		exp_posn = s;
-		c2 = s [0];
-		if (c2 == char_e || c2 == char_E) {
-			/* Exponent component of floating literal */
-			c2 = s [1];
-			if (c2 == char_plus || c2 == char_minus) s++;
-			r = s + 1;
-			s = check_digits (r, 10);
-			if (s == r) err = 1;
-			flt = 1;
-		}
-		if (c1 == char_zero && !flt) {
-			/* Octal integer */
-			base = 8;
-			form = BASE_OCTAL;
-			r = check_digits (str, base);
-			if (r != s) {
-				/* Digits contain 8 or 9 */
-				report (crt_loc, ERR_lex_icon_octal (str));
-			}
+		flt = 1;
+	}
+
+	if (c1 == char_zero && base == 10 && !flt) {
+		/* Octal integer */
+		base = 8;
+		form = BASE_OCTAL;
+		r = check_digits (str, base);
+		if (r != s) {
+			/* Digits contain 8 or 9 */
+			report (crt_loc, ERR_lex_icon_octal (str));
 		}
 	}
 
@@ -872,12 +894,23 @@ make_literal_exp(string str, int *ptok, int force)
 		int zero;
 		NAT expon;
 		character ep;
-		string frac_part;
-		string int_part = str;
 		string suff_posn = s;
 		unsigned trail_zero = 0;
 		FLOAT lit = NULL_flt;
 		TYPE t = type_double;
+
+		/* Exponent char and base must match.  Exponent must exist for
+		 * hexadecimal floating point literals. */
+		if ((base == 16) != pexp) {
+			err = 1;
+		}
+		if (base == 16) {
+			/* No digits */
+			if (exp_posn - int_part <= 1) {
+				if (exp_posn == int_part || dot_posn != NULL) err = 1;
+			}
+			report (crt_loc, ERR_lex_fcon_hex ());
+		}
 
 		/* Check float suffix */
 		c1 = s [0];
@@ -904,7 +937,6 @@ make_literal_exp(string str, int *ptok, int force)
 		if (dot_posn) {
 			dot_posn [0] = 0;
 			if (int_part == dot_posn) int_part = small_number [0];
-			frac_part = dot_posn + 1;
 			if (frac_part == exp_posn) {
 				frac_part = small_number [0];
 			} else {
@@ -923,12 +955,12 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		ep = exp_posn [0];
 		exp_posn [0] = 0;
-		if (ep == char_e || ep == char_E) {
+		if (ep == char_e || ep == char_E || ep == char_p || ep == char_P) {
 			/* Evaluate exponent */
 			r = exp_posn + 1;
 			c2 = r [0];
 			if (c2 == char_minus || c2 == char_plus) r++;
-			expon = eval_digits (r, suff_posn, base);
+			expon = eval_digits (r, suff_posn, 10);
 			if (c2 == char_minus) expon = negate_nat (expon);
 			zero = is_zero_nat (expon);
 		} else {
@@ -944,7 +976,34 @@ make_literal_exp(string str, int *ptok, int force)
 				}
 			}
 		}
-		if (IS_NULL_flt (lit)) {
+		if (base == 16) {
+			/* A hexadecimal floating point literal represents the value
+			 * q*2^e where q is the mantissa and e the exponent.  For TDF's
+			 * make_floating we have to convert that to q'*16^e' because the
+			 * base value is used for the representation of the mantissa and
+			 * the exponent. */
+			unsigned long n;
+			unsigned c;
+			if (is_negative_nat (expon)) {
+				/* q' = q >> (-e % 4)
+				 * e' = -(-e / 4) */
+				NAT m = negate_nat (expon);
+				n = get_nat_value (m);
+				if (n == EXTENDED_MAX) err = 1;
+				expon = negate_nat (make_nat_value (n / 4));
+				n %= 4;
+			} else {
+				/* q' = q >> (3 - (e + 3) % 4)
+				 * e' = (e + 3) / 4 */
+				n = get_nat_value (expon);
+				if (n == EXTENDED_MAX) err = 1;
+				expon = make_nat_value ((n + 3) / 4);
+				n = 3 - ((n + 3) % 4);
+			}
+			/* Compute q' */
+			int_part = shift_hex_string (int_part, n, 0, &c);
+			frac_part = shift_hex_string (frac_part, n, c, NULL);
+		} if (IS_NULL_flt (lit)) {
 			int_part = ustring_copy (int_part);
 			frac_part = ustring_copy (frac_part);
 		}
@@ -963,6 +1022,7 @@ make_literal_exp(string str, int *ptok, int force)
 		/* Construct result - type is as per suffix */
 		if (IS_NULL_flt (lit)) {
 			MAKE_flt_simple (int_part, frac_part, expon, lit);
+			COPY_unsigned (flt_simple_base (lit), base);
 		}
 		MAKE_exp_float_lit (t, lit, e);
 		*ptok = lex_floating_Hexp;

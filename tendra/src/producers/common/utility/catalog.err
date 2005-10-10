@@ -716,6 +716,12 @@ lex_fcon_large ( FLOAT: f )
     KEY (STD)	"Floating point literal '"f"' too large"
 }
 
+lex_fcon_hex ()
+{
+    KEY (ISO)	"-" | "-, 6.4.4.2"
+    KEY (STD)	"Hexadecimal floating point literal"
+}
+
 
 /*  --------------------------------------------------------------------
     2.13.4	String literals

@@ -53,6 +53,8 @@
 
 /* 6.4.2.2  */
 #pragma TenDRA option "func_id" allow
+/* 6.4.4.2 */
+#pragma TenDRA error "lex_fcon_hex" off
 /* 6.4.9#2 */
 #pragma TenDRA option "cpplus_comment" allow
 /* 6.7.2 */
