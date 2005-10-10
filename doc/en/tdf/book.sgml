@@ -4172,7 +4172,8 @@
           if false, positive.</para>
 
         <para>A floating point number,
-          <emphasis>mantissa</emphasis>*(<emphasis>base</emphasis>exponent) is
+          <emphasis>mantissa</emphasis>*<emphasis>base<superscript>exponent
+          </superscript></emphasis>is
           created and rounded to the representation of <emphasis>f</emphasis> as
           specified by <emphasis>rm</emphasis>. <emphasis>rm</emphasis> will not
           be <emphasis>round_as_state</emphasis>. <emphasis>mantissa</emphasis>
