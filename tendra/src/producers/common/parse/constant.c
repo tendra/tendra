@@ -434,7 +434,7 @@ calc_nat_value(NAT n, TYPE t)
 	EXP e;
 	TYPE s = t;
 	int ch = check_nat_range (s, n);
-	if (ch != 0) {
+	if (ch != NAT_FIT) {
 		/* n doesn't fit into t */
 		int fit = 0;
 		string str = NULL_string;
@@ -1301,15 +1301,7 @@ get_nat_bits(NAT n, int *eq)
  *
  *    This routine checks whether the integer constant n fits into the range
  *    of values of the integral, enumeration or bitfield type t.  The value
- *    returned is:
- *
- *	0 if n definitely fits into t,
- *	1 if n may fit into t and t is not unsigned,
- *	2 if n may fit into t and t is unsigned,
- *	3 if n definitely does not fit into t and t is not unsigned,
- *	4 if n definitely does not fit into t and t is unsigned,
- *	5 if n definitely does not fit into any type and t is not unsigned,
- *	6 if n definitely does not fit into any type and t is unsigned.
+ *    return is one of the NAT_ constants defined in constant.h.
  */
 
 int
@@ -1333,37 +1325,37 @@ check_nat_range(TYPE t, NAT n)
 		neg = 1;
 	}
 	if (tag == nat_calc_tag || tag == nat_token_tag) {
-		return (1 + u);
+		return (NAT_MAYFIT_SIGNED + u);
 	}
 	
 	/* Find the number of bits in the representation of n */
 	bits = get_nat_bits (n, &eq);
 	if (bits > basetype_info [ntype_ellipsis].max_bits) {
-		return (5 + u);
+		return (NAT_NEVERFIT_SIGNED + u);
 	}
 	
 	/* Check the type range */
 	if (sign == btype_unsigned) {
 		/* Unsigned types (eg [0-255]) */
-		if (neg) return (4);
-		if (bits <= sz) return (0);
-		if (bits > msz) return (4);
+		if (neg) return (NAT_NOFIT_UNSIGNED);
+		if (bits <= sz) return (NAT_FIT);
+		if (bits > msz) return (NAT_NOFIT_UNSIGNED);
 	} else if (sign == btype_signed) {
 		/* Symmetric signed types (eg [-127,127]) */
-		if (bits < sz) return (0);
-		if (bits >= msz) return (3);
+		if (bits < sz) return (NAT_FIT);
+		if (bits >= msz) return (NAT_NOFIT_SIGNED);
 	} else if (sign == (btype_signed | btype_long)) {
 		/* Asymmetric signed types (eg [-128,127]) */
-		if (bits < sz) return (0);
-		if (bits == sz && neg && eq) return (0);
-		if (bits >= msz) return (3);
+		if (bits < sz) return (NAT_FIT);
+		if (bits == sz && neg && eq) return (NAT_FIT);
+		if (bits >= msz) return (NAT_NOFIT_SIGNED);
 	} else {
 		/* Unspecified types */
-		if (neg) return (3);
-		if (bits < sz) return (0);
-		if (bits >= msz) return (3);
+		if (neg) return (NAT_NOFIT_SIGNED);
+		if (bits < sz) return (NAT_FIT);
+		if (bits >= msz) return (NAT_NOFIT_SIGNED);
 	}
-	return (1 + u);
+	return (NAT_MAYFIT_SIGNED + u);
 }
 
 
@@ -1466,7 +1458,7 @@ make_int_exp(TYPE t, unsigned tag, NAT n)
 {
 	EXP e;
 	int ch = check_nat_range (t, n);
-	if (ch == 0) {
+	if (ch == NAT_FIT) {
 		MAKE_exp_int_lit (t, n, tag, e);
 	} else {
 		e = NULL_exp;
@@ -1536,7 +1528,7 @@ make_cast_nat(TYPE t, EXP a, ERROR *err, unsigned cast)
 		etag = DEREF_unsigned (exp_int_lit_etag (a));
 	}
 	ch = check_nat_range (t, n);
-	if (ch != 0) {
+	if (ch != NAT_FIT) {
 		/* n may not fit into t */
 		a = calc_exp_value (a);
 		MAKE_exp_cast (t, CONV_INT_INT, a, e);

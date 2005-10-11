@@ -279,7 +279,7 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
 	if (IS_exp_int_lit (a) && eq_type_offset (s, t)) {
 		/* Allow for integer literals */
 		NAT n = DEREF_nat (exp_int_lit_nat (a));
-		if (check_nat_range (t, n) == 0) return (t);
+ 		if (check_nat_range (t, n) == NAT_FIT) return (t);
 	}
 	t = check_compatible (t, s, 2, &err2, 1);
 	if (!IS_NULL_err (err2)) {

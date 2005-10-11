@@ -1731,7 +1731,7 @@ eval_exp(EXP e, int ch)
 			TYPE t = DEREF_type (exp_type (e));
 			STRING s = DEREF_str (exp_char_lit_str (e));
 			NAT n = eval_char_lit (s);
-			if (check_nat_range (t, n) != 0) {
+			if (check_nat_range (t, n) != NAT_FIT) {
 				/* n may not fit into t */
 				TYPE u = find_char_type (n);
 				MAKE_exp_int_lit (u, n, tag, e);

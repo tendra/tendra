@@ -580,7 +580,7 @@ add_type_literal(TYPE t)
 	p->type = qualify_type (t, cv_none, 0);
 	n = p->bound;
 	if (p->tag == 2) {
-		if (check_nat_range (t, n) != 0) {
+		if (check_nat_range (t, n) != NAT_FIT) {
 			/* Given bound should fit into type */
 			report (preproc_loc, ERR_pragma_lit_range (n, t));
 			n = max_type_value (t, 0);
@@ -677,8 +677,8 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			TYPE r = s;
 			if (IS_NULL_type (r)) r = type_ulong;
 			ch = check_nat_range (r, lit);
-			if (ch == 0) *fit = 1;
-			if (ch > 4) big = ch;
+			if (ch == NAT_FIT) *fit = 1;
+			if (ch >= NAT_NEVERFIT_SIGNED) big = ch;
 			if (big) n = max_type_value (NULL_type, 0);
 			ch = big;
 			break;
@@ -686,7 +686,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 		case 1 : {
 			n = pt->bound;
 			ch = check_nat_range (s, lit);
-			if (ch == 0) *fit = 1;
+			if (ch == NAT_FIT) *fit = 1;
 			break;
 		}
 		case 2 : {
@@ -698,21 +698,21 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			break;
 		}
 		}
-		if (ch == 0) {
+		if (ch == NAT_FIT) {
 			/* lit definitely fits into bound */
 			if (!IS_NULL_type (s) && IS_NULL_list (qt)) {
 				/* No previous fit */
 				return (s);
 			}
 		}
-		if (ch <= 2) {
+		if (ch <= NAT_MAYFIT_UNSIGNED) {
 			/* lit may fit into bound */
 			if (!IS_NULL_type (s)) {
 				if (have_tok == 0) {
 					INT_TYPE is = DEREF_itype (type_integer_rep (s));
 					LIST (TYPE) st = DEREF_list (itype_cases (is));
 					qt = union_type_set (qt, st);
-					if (ch == 0) have_tok = 1;
+					if (ch == NAT_FIT) have_tok = 1;
 				}
 			} else {
 				if (have_tok == 0 && !IS_NULL_id (pt->tok)) {
@@ -730,7 +730,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 				break;
 			}
 		}
-		if (ch > 4) big = ch;
+		if (ch >= NAT_NEVERFIT_SIGNED) big = ch;
 		pt = pt->next;
 	}
 
@@ -1976,7 +1976,7 @@ make_string_exp(STRING s)
 			MAKE_exp_char_lit (t0, s, digit, e);
 			MAKE_nat_calc (e, n);
 		} else {
-			if (!fits && check_nat_range (t0, n) != 0) {
+			if (!fits && check_nat_range (t0, n) != NAT_FIT) {
 				/* Value doesn't fit into t0 */
 				t0 = find_char_type (n);
 			}

@@ -713,8 +713,8 @@ BITSTREAM
 		}
 		n = make_nat_value (v);
 	}
-	if (check_nat_range (u, n) == 0) {
-		if (EQ_type (t, u) || check_nat_range (t, n) == 0) {
+	if (check_nat_range (u, n) == NAT_FIT) {
+		if (EQ_type (t, u) || check_nat_range (t, n) == NAT_FIT) {
 			/* Fits into both t and u */
 			w = t;
 			convert_to_t = 0;

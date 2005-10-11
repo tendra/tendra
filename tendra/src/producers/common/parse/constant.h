@@ -103,6 +103,26 @@ extern NAT binary_nat_op(unsigned, NAT, NAT);
 extern int compare_nat(NAT, NAT);
 extern int eq_nat(NAT, NAT);
 
+
+/*
+ *    Return values for check_nat_range.  Note that there is code that
+ *    depends on this order, so be cautious when changing it.
+ */
+
+enum {
+	NAT_FIT,				/* n definitely fits into t */
+	NAT_MAYFIT_SIGNED,		/* n may fit into t and t is not unsigned */
+	NAT_MAYFIT_UNSIGNED,	/* n may fit into t and t is unsigned */
+	NAT_NOFIT_SIGNED,		/* n definitely does not fit into t and t is not
+							   unsigned */
+	NAT_NOFIT_UNSIGNED,		/* n definitely does not fit into t and t is
+							   unsigned */
+	NAT_NEVERFIT_SIGNED,	/* n definitely does not fit into any type and t
+							   is not unsigned */
+	NAT_NEVERFIT_UNSIGNED	/* n definitely does not fit into any type and t
+							   is unsigned */
+};
+
 extern int check_nat_range(TYPE, NAT);
 extern int check_type_size(TYPE, NAT);
 extern NAT max_type_value(TYPE, int);

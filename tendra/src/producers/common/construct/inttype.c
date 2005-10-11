@@ -752,13 +752,13 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 				} else {
 					NAT n = DEREF_nat (exp_int_lit_nat (a));
 					COPY_itype (type_integer_rep (s), ms);
-					if (check_nat_range (s, n) == 0) mr = ms;
+					if (check_nat_range (s, n) == NAT_FIT) mr = ms;
 					COPY_itype (type_integer_rep (s), is);
 				}
 			} else if (!IS_NULL_exp (b) && IS_exp_int_lit (b)) {
 				NAT n = DEREF_nat (exp_int_lit_nat (b));
 				COPY_itype (type_integer_rep (t), mt);
-				if (check_nat_range (t, n) == 0) mr = mt;
+				if (check_nat_range (t, n) == NAT_FIT) mr = mt;
 				COPY_itype (type_integer_rep (t), it);
 			}
 		}
