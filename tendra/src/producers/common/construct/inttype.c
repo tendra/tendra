@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -94,29 +94,29 @@
  *    symmetric (for example [-127,127]).
  */
 
-BASE_INFO basetype_info [ ORDER_ntype ] = {
-    { btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
-    { btype_char, 8, UINT_MAX, btype_none, 1, NULL_type },
-    { btype_schar, 8, UINT_MAX, btype_signed, 1, NULL_type },
-    { btype_uchar, 8, UINT_MAX, btype_unsigned, 1, NULL_type },
-    { btype_sshort, 16, UINT_MAX, btype_signed, 1, NULL_type },
-    { btype_ushort, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
-    { btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
-    { btype_uint, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
-    { btype_slong, 32, UINT_MAX, btype_signed, 1, NULL_type },
-    { btype_ulong, 32, UINT_MAX, btype_unsigned, 1, NULL_type },
-    { btype_sllong, 32, UINT_MAX, btype_signed, 0, NULL_type },
-    { btype_ullong, 32, UINT_MAX, btype_unsigned, 0, NULL_type },
-    { btype_float, 0, 0, btype_none, 1, NULL_type },
-    { btype_double, 0, 0, btype_none, 1, NULL_type },
-    { btype_ldouble, 0, 0, btype_none, 1, NULL_type },
-    { btype_void, 0, 0, btype_none, 1, NULL_type },
-    { btype_bottom, 0, 0, btype_none, 1, NULL_type },
-    { btype_bool, 1, 1, btype_unsigned, 1, NULL_type },
-    { btype_ptrdiff_t, 16, UINT_MAX, btype_signed, 0, NULL_type },
-    { btype_size_t, 16, UINT_MAX, btype_unsigned, 0, NULL_type },
-    { btype_wchar_t, 8, UINT_MAX, btype_none, LANGUAGE_CPP, NULL_type },
-    { btype_ellipsis, 0, UINT_MAX, btype_none, 0, NULL_type }
+BASE_INFO basetype_info [ORDER_ntype] = {
+	{ btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
+	{ btype_char, 8, UINT_MAX, btype_none, 1, NULL_type },
+	{ btype_schar, 8, UINT_MAX, btype_signed, 1, NULL_type },
+	{ btype_uchar, 8, UINT_MAX, btype_unsigned, 1, NULL_type },
+	{ btype_sshort, 16, UINT_MAX, btype_signed, 1, NULL_type },
+	{ btype_ushort, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
+	{ btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
+	{ btype_uint, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
+	{ btype_slong, 32, UINT_MAX, btype_signed, 1, NULL_type },
+	{ btype_ulong, 32, UINT_MAX, btype_unsigned, 1, NULL_type },
+	{ btype_sllong, 32, UINT_MAX, btype_signed, 0, NULL_type },
+	{ btype_ullong, 32, UINT_MAX, btype_unsigned, 0, NULL_type },
+	{ btype_float, 0, 0, btype_none, 1, NULL_type },
+	{ btype_double, 0, 0, btype_none, 1, NULL_type },
+	{ btype_ldouble, 0, 0, btype_none, 1, NULL_type },
+	{ btype_void, 0, 0, btype_none, 1, NULL_type },
+	{ btype_bottom, 0, 0, btype_none, 1, NULL_type },
+	{ btype_bool, 1, 1, btype_unsigned, 1, NULL_type },
+	{ btype_ptrdiff_t, 16, UINT_MAX, btype_signed, 0, NULL_type },
+	{ btype_size_t, 16, UINT_MAX, btype_unsigned, 0, NULL_type },
+	{ btype_wchar_t, 8, UINT_MAX, btype_none, LANGUAGE_CPP, NULL_type },
+	{ btype_ellipsis, 0, UINT_MAX, btype_none, 0, NULL_type }
 };
 
 
@@ -157,7 +157,7 @@ LIST (TYPE) all_llong_types = NULL_list (TYPE);
  *    minimum threshold value for error reporting.
  */
 
-unsigned char builtin_casts [ ORDER_ntype ] [ ORDER_ntype ] = {
+unsigned char builtin_casts [ORDER_ntype] [ORDER_ntype] = {
 	/*         CH CH SC UC SS US SI UI SL UL SX UX FL DB LD VD BT BL PD SZ WC EL */
 	/* CH */ { 0, 0, 5, 5, 1, 7, 1, 7, 1, 7, 1, 7, 8, 8, 8, 9, 9, 8, 1, 7, 0, 0 },
 	/* CH */ { 0, 0, 5, 5, 1, 7, 1, 7, 1, 7, 1, 7, 8, 8, 8, 9, 9, 8, 1, 7, 0, 0 },
@@ -197,16 +197,16 @@ int max_builtin_cast = 3;
 static void
 copy_builtin_cast(BUILTIN_TYPE n, BUILTIN_TYPE m)
 {
-    unsigned long i;
-    for (i = 1 ; i < ORDER_ntype ; i++) {
+	unsigned long i;
+	for (i = 1; i < ORDER_ntype; i++) {
 		builtin_casts [n] [i] = builtin_casts [m] [i];
 		builtin_casts [i] [n] = builtin_casts [i] [m];
-    }
-    builtin_casts [n] [n] = 0;
-    builtin_casts [n] [m] = 0;
-    builtin_casts [m] [n] = 0;
-    builtin_casts [m] [m] = 0;
-    return;
+	}
+	builtin_casts [n] [n] = 0;
+	builtin_casts [n] [m] = 0;
+	builtin_casts [m] [n] = 0;
+	builtin_casts [m] [m] = 0;
+	return;
 }
 
 
@@ -221,12 +221,12 @@ copy_builtin_cast(BUILTIN_TYPE n, BUILTIN_TYPE m)
  */
 
 void
-set_exact_types()
+set_exact_types(void)
 {
-    BUILTIN_TYPE n, m;
-    BASE_INFO *p = basetype_info;
-    for (n = ntype_char ; n < ntype_ellipsis ; n++) {
-		for (m = ntype_char ; m < ntype_ellipsis ; m++) {
+	BUILTIN_TYPE n, m;
+	BASE_INFO *p = basetype_info;
+	for (n = ntype_char; n < ntype_ellipsis; n++) {
+		for (m = ntype_char; m < ntype_ellipsis; m++) {
 			unsigned char c = builtin_casts [n] [m];
 			if (c >= 1 && c <= 4) {
 				unsigned bn = p [n].min_bits;
@@ -246,11 +246,11 @@ set_exact_types()
 				builtin_casts [n] [m] = c;
 			}
 		}
-    }
-    min_builtin_cast = 1;
-    safe_builtin_cast = 1;
-    max_builtin_cast = 2;
-    return;
+	}
+	min_builtin_cast = 1;
+	safe_builtin_cast = 1;
+	max_builtin_cast = 2;
+	return;
 }
 
 
@@ -264,28 +264,28 @@ set_exact_types()
 void
 set_char_sign(BASE_TYPE bt)
 {
-    BASE_INFO *p = basetype_info;
-    BUILTIN_TYPE nt = ntype_none;
-    if (bt & btype_signed) {
+	BASE_INFO *p = basetype_info;
+	BUILTIN_TYPE nt = ntype_none;
+	if (bt & btype_signed) {
 		nt = ntype_schar;
-		bt = p [ nt ].sign;
-    } else if (bt & btype_unsigned) {
+		bt = p [nt].sign;
+	} else if (bt & btype_unsigned) {
 		nt = ntype_uchar;
-		bt = p [ nt ].sign;
-    }
-    if (p [ ntype_char ].sign != bt) {
-		p [ ntype_char ].sign = bt;
-		builtin_casts [ ntype_char ] [ ntype_schar ] = 5;
-		builtin_casts [ ntype_char ] [ ntype_uchar ] = 5;
-		builtin_casts [ ntype_schar ] [ ntype_char ] = 5;
-		builtin_casts [ ntype_uchar ] [ ntype_char ] = 5;
-		builtin_casts [ ntype_schar ] [ ntype_wchar_t ] = 8;
-		builtin_casts [ ntype_uchar ] [ ntype_wchar_t ] = 8;
+		bt = p [nt].sign;
+	}
+	if (p [ntype_char].sign != bt) {
+		p [ntype_char].sign = bt;
+		builtin_casts [ntype_char] [ntype_schar] = 5;
+		builtin_casts [ntype_char] [ntype_uchar] = 5;
+		builtin_casts [ntype_schar] [ntype_char] = 5;
+		builtin_casts [ntype_uchar] [ntype_char] = 5;
+		builtin_casts [ntype_schar] [ntype_wchar_t] = 8;
+		builtin_casts [ntype_uchar] [ntype_wchar_t] = 8;
 		copy_builtin_cast (ntype_char, nt);
-		builtin_casts [ ntype_char ] [ ntype_wchar_t ] = 0;
-		builtin_casts [ nt ] [ ntype_wchar_t ] = 0;
-    }
-    return;
+		builtin_casts [ntype_char] [ntype_wchar_t] = 0;
+		builtin_casts [nt] [ntype_wchar_t] = 0;
+	}
+	return;
 }
 
 
@@ -298,16 +298,16 @@ set_char_sign(BASE_TYPE bt)
 void
 set_builtin_type(BASE_TYPE bt, TYPE t)
 {
-    /* Built-in integral types */
-    INT_TYPE is, it;
-    TYPE s = make_base_type (bt);
-    if (!IS_type_integer (t)) {
+	/* Built-in integral types */
+	INT_TYPE is, it;
+	TYPE s = make_base_type (bt);
+	if (!IS_type_integer (t)) {
 		report (crt_loc, ERR_pragma_builtin_type (t));
 		return;
-    }
-    is = DEREF_itype (type_integer_rep (s));
-    it = DEREF_itype (type_integer_rep (t));
-    if (!EQ_itype (is, it)) {
+	}
+	is = DEREF_itype (type_integer_rep (s));
+	it = DEREF_itype (type_integer_rep (t));
+	if (!EQ_itype (is, it)) {
 		TYPE r;
 		int key;
 		BUILTIN_TYPE ns = ntype_none;
@@ -318,9 +318,9 @@ set_builtin_type(BASE_TYPE bt, TYPE t)
 		} else if (bt == btype_wchar_t) {
 			ns = ntype_wchar_t;
 		}
-		key = basetype_info [ ns ].key;
-		r = basetype_info [ ns ].set;
-		basetype_info [ ns ].set = t;
+		key = basetype_info [ns].key;
+		r = basetype_info [ns].set;
+		basetype_info [ns].set = t;
 		if (!IS_NULL_type (r)) {
 			/* Check compatibility */
 			ERROR err = NULL_err;
@@ -340,8 +340,8 @@ set_builtin_type(BASE_TYPE bt, TYPE t)
 				copy_builtin_cast (ns, nt);
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -355,18 +355,18 @@ set_builtin_type(BASE_TYPE bt, TYPE t)
 void
 set_long_long_type(int big)
 {
-    if (big) {
-		base_token [ ntype_sllong ].tok = TOK_signed_llong ;;
-		base_token [ ntype_sllong ].no = ARITH_sllong ;;
-		base_token [ ntype_ullong ].tok = TOK_unsigned_llong ;;
-		base_token [ ntype_ullong ].no = ARITH_ullong ;;
-    } else {
-		base_token [ ntype_sllong ].tok = TOK_signed_long ;;
-		base_token [ ntype_sllong ].no = ARITH_slong ;;
-		base_token [ ntype_ullong ].tok = TOK_unsigned_long ;;
-		base_token [ ntype_ullong ].no = ARITH_ulong ;;
-    }
-    return;
+	if (big) {
+		base_token [ntype_sllong].tok = TOK_signed_llong;;
+		base_token [ntype_sllong].no = ARITH_sllong;;
+		base_token [ntype_ullong].tok = TOK_unsigned_llong;;
+		base_token [ntype_ullong].no = ARITH_ullong;;
+	} else {
+		base_token [ntype_sllong].tok = TOK_signed_long;;
+		base_token [ntype_sllong].no = ARITH_slong;;
+		base_token [ntype_ullong].tok = TOK_unsigned_long;;
+		base_token [ntype_ullong].no = ARITH_ulong;;
+	}
+	return;
 }
 
 
@@ -381,10 +381,10 @@ set_long_long_type(int big)
 BUILTIN_TYPE
 is_builtin_type(TYPE t, int sem)
 {
-    BUILTIN_TYPE nt = ntype_none;
-    if (!IS_NULL_type (t)) {
+	BUILTIN_TYPE nt = ntype_none;
+	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
-	    case type_integer_tag : {
+		case type_integer_tag : {
 			INT_TYPE it = DEREF_itype (type_integer_rep (t));
 			if (IS_itype_basic (it)) {
 				nt = DEREF_ntype (itype_basic_no (it));
@@ -402,30 +402,30 @@ is_builtin_type(TYPE t, int sem)
 				}
 			}
 			break;
-	    }
-	    case type_floating_tag : {
+		}
+		case type_floating_tag : {
 			FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 			if (IS_ftype_basic (ft)) {
 				nt = DEREF_ntype (ftype_basic_no (ft));
 			}
 			break;
-	    }
-	    case type_top_tag : {
+		}
+		case type_top_tag : {
 			nt = ntype_void;
 			break;
-	    }
-	    case type_bottom_tag : {
+		}
+		case type_bottom_tag : {
 			nt = ntype_bottom;
 			break;
-	    }
-	    case type_pre_tag : {
+		}
+		case type_pre_tag : {
 			BASE_TYPE bt = DEREF_btype (type_pre_rep (t));
 			if (bt == btype_ellipsis) nt = ntype_ellipsis;
 			break;
-	    }
 		}
-    }
-    return (nt);
+		}
+	}
+	return (nt);
 }
 
 
@@ -439,14 +439,14 @@ is_builtin_type(TYPE t, int sem)
 INT_TYPE
 expand_itype(INT_TYPE it)
 {
-    if (!IS_NULL_itype (it) && IS_itype_basic (it)) {
+	if (!IS_NULL_itype (it) && IS_itype_basic (it)) {
 		BUILTIN_TYPE nt = DEREF_ntype (itype_basic_no (it));
-		TYPE t = basetype_info [ nt ].set;
-		if (!IS_NULL_type (t) && !basetype_info [ nt ].key) {
+		TYPE t = basetype_info [nt].set;
+		if (!IS_NULL_type (t) && !basetype_info [nt].key) {
 			it = DEREF_itype (type_integer_rep (t));
 		}
-    }
-    return (it);
+	}
+	return (it);
 }
 
 
@@ -458,18 +458,18 @@ expand_itype(INT_TYPE it)
  */
 
 void
-term_itypes()
+term_itypes(void)
 {
-    IDENTIFIER id = get_special (TOK_ptrdiff_t, 1);
-    if (!IS_NULL_id (id)) {
-		TYPE t = basetype_info [ ntype_ptrdiff_t ].set;
+	IDENTIFIER id = get_special (TOK_ptrdiff_t, 1);
+	if (!IS_NULL_id (id)) {
+		TYPE t = basetype_info [ntype_ptrdiff_t].set;
 		if (!IS_NULL_type (t)) {
 			IGNORE define_type_token (id, t, 0);
 		}
-    }
-    id = get_special (TOK_size_t, 1);
-    if (!IS_NULL_id (id)) {
-		TYPE t = basetype_info [ ntype_size_t ].set;
+	}
+	id = get_special (TOK_size_t, 1);
+	if (!IS_NULL_id (id)) {
+		TYPE t = basetype_info [ntype_size_t].set;
 		if (!IS_NULL_type (t)) {
 			IGNORE define_type_token (id, t, 0);
 		} else {
@@ -477,26 +477,26 @@ term_itypes()
 			if (IS_tok_type (tok)) {
 				/* Allow deduction of __size_t from size_t */
 				t = DEREF_type (tok_type_value (tok));
-				basetype_info [ ntype_size_t ].set = t;
+				basetype_info [ntype_size_t].set = t;
 			}
 		}
-    }
-    id = get_special (TOK_size_t_2, 1);
-    if (!IS_NULL_id (id)) {
-		TYPE t = basetype_info [ ntype_size_t ].set;
+	}
+	id = get_special (TOK_size_t_2, 1);
+	if (!IS_NULL_id (id)) {
+		TYPE t = basetype_info [ntype_size_t].set;
 		if (!IS_NULL_type (t)) {
 			t = promote_type (t);
 			IGNORE define_type_token (id, t, 0);
 		}
-    }
-    id = get_special (TOK_wchar_t, 1);
-    if (!IS_NULL_id (id)) {
-		TYPE t = basetype_info [ ntype_wchar_t ].set;
+	}
+	id = get_special (TOK_wchar_t, 1);
+	if (!IS_NULL_id (id)) {
+		TYPE t = basetype_info [ntype_wchar_t].set;
 		if (!IS_NULL_type (t)) {
 			IGNORE define_type_token (id, t, 0);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -511,9 +511,9 @@ term_itypes()
 void
 set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 {
-    INT_TYPE it, is;
-    BUILTIN_TYPE nt;
-    if (!IS_type_integer (t)) {
+	INT_TYPE it, is;
+	BUILTIN_TYPE nt;
+	if (!IS_type_integer (t)) {
 		ENUM_TYPE et;
 		if (!IS_type_enumerate (t)) {
 			report (crt_loc, ERR_pragma_promote_type (t));
@@ -521,8 +521,8 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 		}
 		et = DEREF_etype (type_enumerate_defn (t));
 		t = DEREF_type (etype_rep (et));
-    }
-    if (!IS_type_integer (s)) {
+	}
+	if (!IS_type_integer (s)) {
 		ENUM_TYPE es;
 		if (!IS_type_enumerate (s)) {
 			report (crt_loc, ERR_pragma_promote_type (s));
@@ -530,13 +530,13 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 		}
 		es = DEREF_etype (type_enumerate_defn (s));
 		s = DEREF_type (etype_rep (es));
-    }
+	}
 	
-    /* Check previous definition */
-    is = DEREF_itype (type_integer_rep (s));
-    it = DEREF_itype (type_integer_rep (t));
-    nt = DEREF_ntype (itype_unprom (it));
-    if (nt != ntype_none) {
+	/* Check previous definition */
+	is = DEREF_itype (type_integer_rep (s));
+	it = DEREF_itype (type_integer_rep (t));
+	nt = DEREF_ntype (itype_unprom (it));
+	if (nt != ntype_none) {
 		ERROR err = NULL_err;
 		TYPE p = DEREF_type (itype_prom (it));
 		IGNORE check_compatible (p, s, 0, &err, 0);
@@ -546,10 +546,10 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 			report (crt_loc, err);
 		}
 		if (nt != ntype_ellipsis) ns = ntype_none;
-    }
+	}
 	
-    /* Set promoted type */
-    if (ns != ntype_none) {
+	/* Set promoted type */
+	if (ns != ntype_none) {
 		LIST (TYPE) ps;
 		TYPE p = make_itype (is, it);
 		COPY_type (itype_prom (it), p);
@@ -571,11 +571,11 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 			ns = n;
 		}
 		if (do_dump) dump_promote (it, is);
-    }
+	}
 	
-    /* Set s to be its own promotion */
-    if (!eq_itype (it, is)) set_promote_type (s, s, ns);
-    return;
+	/* Set s to be its own promotion */
+	if (!eq_itype (it, is)) set_promote_type (s, s, ns);
+	return;
 }
 
 
@@ -588,9 +588,9 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 void
 compute_promote_type(IDENTIFIER id)
 {
-    IDENTIFIER tid = resolve_token (id, "ZZ", 0);
-    if (!IS_NULL_id (tid)) set_special (TOK_promote, tid);
-    return;
+	IDENTIFIER tid = resolve_token (id, "ZZ", 0);
+	if (!IS_NULL_id (tid)) set_special (TOK_promote, tid);
+	return;
 }
 
 
@@ -601,7 +601,7 @@ compute_promote_type(IDENTIFIER id)
  *    with all the cases of representation and semantics.
  */
 
-static TYPE all_itypes [ ORDER_ntype ] [ ORDER_ntype ];
+static TYPE all_itypes [ORDER_ntype] [ORDER_ntype];
 
 
 /*
@@ -615,9 +615,9 @@ static TYPE all_itypes [ ORDER_ntype ] [ ORDER_ntype ];
 TYPE
 make_itype(INT_TYPE it, INT_TYPE is)
 {
-    TYPE r;
-    if (IS_NULL_itype (is)) is = it;
-    if (IS_itype_basic (it) && IS_itype_basic (is)) {
+	TYPE r;
+	if (IS_NULL_itype (is)) is = it;
+	if (IS_itype_basic (it) && IS_itype_basic (is)) {
 		BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
 		BUILTIN_TYPE m = DEREF_ntype (itype_basic_no (is));
 		r = all_itypes [n] [m];
@@ -625,10 +625,10 @@ make_itype(INT_TYPE it, INT_TYPE is)
 			MAKE_type_integer (cv_none, it, is, r);
 			all_itypes [n] [m] = r;
 		}
-    } else {
+	} else {
 		MAKE_type_integer (cv_none, it, is, r);
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -642,9 +642,9 @@ make_itype(INT_TYPE it, INT_TYPE is)
 TYPE
 make_ftype(FLOAT_TYPE ft, FLOAT_TYPE fs)
 {
-    TYPE r;
-    if (IS_NULL_ftype (fs)) fs = ft;
-    if (IS_ftype_basic (ft)) {
+	TYPE r;
+	if (IS_NULL_ftype (fs)) fs = ft;
+	if (IS_ftype_basic (ft)) {
 		BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
 		BUILTIN_TYPE m = DEREF_ntype (ftype_basic_no (fs));
 		r = all_itypes [n] [m];
@@ -652,10 +652,10 @@ make_ftype(FLOAT_TYPE ft, FLOAT_TYPE fs)
 			MAKE_type_floating (cv_none, ft, fs, r);
 			all_itypes [n] [m] = r;
 		}
-    } else {
+	} else {
 		MAKE_type_floating (cv_none, ft, fs, r);
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -670,22 +670,22 @@ make_ftype(FLOAT_TYPE ft, FLOAT_TYPE fs)
 TYPE
 promote_itype(INT_TYPE it, INT_TYPE ip)
 {
-    TYPE p;
-    TYPE t = make_itype (it, it);
-    if (IS_NULL_itype (ip)) {
+	TYPE p;
+	TYPE t = make_itype (it, it);
+	if (IS_NULL_itype (ip)) {
 		MAKE_itype_promote (NULL_type, all_prom_types, it, ip);
-    } else {
+	} else {
 		COPY_ntype (itype_unprom (ip), ntype_ellipsis);
 		COPY_ntype (itype_unprom (it), ntype_ellipsis);
-    }
-    if (EQ_itype (it, ip)) {
+	}
+	if (EQ_itype (it, ip)) {
 		p = t;
-    } else {
+	} else {
 		p = make_itype (ip, it);
-    }
-    COPY_type (itype_prom (ip), p);
-    COPY_type (itype_prom (it), p);
-    return (t);
+	}
+	COPY_type (itype_prom (ip), p);
+	COPY_type (itype_prom (it), p);
+	return (t);
 }
 
 
@@ -730,8 +730,8 @@ static INT_TYPE arith_sllong_ulong;
 TYPE
 arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 {
-    TYPE r;
-    if (IS_type_integer (t) && IS_type_integer (s)) {
+	TYPE r;
+	if (IS_type_integer (t) && IS_type_integer (s)) {
 		INT_TYPE ir;
 		INT_TYPE it = DEREF_itype (type_integer_rep (t));
 		INT_TYPE is = DEREF_itype (type_integer_rep (s));
@@ -795,7 +795,7 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 				r = make_itype (it, mr);
 				return (r);
 			}
-			if (nt == ntype_ulong && !basetype_info [ ntype_sllong ].key) {
+			if (nt == ntype_ulong && !basetype_info [ntype_sllong].key) {
 				r = make_itype (it, mr);
 				return (r);
 			}
@@ -810,7 +810,7 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 				r = make_itype (is, mr);
 				return (r);
 			}
-			if (ns == ntype_ulong && !basetype_info [ ntype_sllong ].key) {
+			if (ns == ntype_ulong && !basetype_info [ntype_sllong].key) {
 				r = make_itype (is, mr);
 				return (r);
 			}
@@ -824,11 +824,11 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 		MAKE_itype_arith (NULL_type, all_prom_types, it, is, ir);
 		r = promote_itype (ir, ir);
 		if (!IS_NULL_itype (mr)) r = make_itype (ir, mr);
-    } else {
+	} else {
 		/* This shouldn't happen */
 		r = t;
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -844,21 +844,21 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 TYPE
 promote_ftype(FLOAT_TYPE ft, FLOAT_TYPE fp)
 {
-    TYPE t, p;
-    init_float (ft);
-    t = make_ftype (ft, ft);
-    if (IS_NULL_ftype (fp)) {
+	TYPE t, p;
+	init_float (ft);
+	t = make_ftype (ft, ft);
+	if (IS_NULL_ftype (fp)) {
 		MAKE_ftype_arg_promote (NULL_type, ft, fp);
 		init_float (fp);
-    }
-    if (EQ_ftype (ft, fp)) {
+	}
+	if (EQ_ftype (ft, fp)) {
 		p = t;
-    } else {
+	} else {
 		p = make_ftype (fp, ft);
-    }
-    COPY_type (ftype_arg_prom (ft), p);
-    COPY_type (ftype_arg_prom (fp), p);
-    return (t);
+	}
+	COPY_type (ftype_arg_prom (ft), p);
+	COPY_type (ftype_arg_prom (fp), p);
+	return (t);
 }
 
 
@@ -872,8 +872,8 @@ promote_ftype(FLOAT_TYPE ft, FLOAT_TYPE fp)
 TYPE
 arith_ftype(TYPE t, TYPE s)
 {
-    TYPE r;
-    if (IS_type_floating (t) && IS_type_floating (s)) {
+	TYPE r;
+	if (IS_type_floating (t) && IS_type_floating (s)) {
 		FLOAT_TYPE fr;
 		FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 		FLOAT_TYPE fs = DEREF_ftype (type_floating_rep (s));
@@ -902,11 +902,11 @@ arith_ftype(TYPE t, TYPE s)
 		/* Construct an arithmetic type */
 		MAKE_ftype_arith (NULL_type, ft, fs, fr);
 		r = promote_ftype (fr, NULL_ftype);
-    } else {
+	} else {
 		/* This shouldn't happen */
 		r = t;
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -920,14 +920,14 @@ arith_ftype(TYPE t, TYPE s)
 BASE_TYPE
 key_type(int tok)
 {
-    BASE_TYPE bs = btype_none;
-    switch (tok) {
-	case lex_bool : bs = btype_bool ; break;
-	case lex_ptrdiff_Ht : bs = btype_ptrdiff_t ; break;
-	case lex_size_Ht : bs = btype_size_t ; break;
-	case lex_wchar_Ht : bs = btype_wchar_t ; break;
-    }
-    return (bs);
+	BASE_TYPE bs = btype_none;
+	switch (tok) {
+	case lex_bool : bs = btype_bool; break;
+	case lex_ptrdiff_Ht : bs = btype_ptrdiff_t; break;
+	case lex_size_Ht : bs = btype_size_t; break;
+	case lex_wchar_Ht : bs = btype_wchar_t; break;
+	}
+	return (bs);
 }
 
 
@@ -941,11 +941,11 @@ key_type(int tok)
 TYPE
 apply_itype_token(IDENTIFIER id, LIST (TOKEN) args)
 {
-    TYPE t;
-    INT_TYPE it;
+	TYPE t;
+	INT_TYPE it;
 	
-    /* Check for previous instance */
-    if (IS_NULL_list (args)) {
+	/* Check for previous instance */
+	if (IS_NULL_list (args)) {
 		if (IS_id_token (id)) {
 			IDENTIFIER tid = DEREF_id (id_token_alt (id));
 			if (IS_id_type_alias (tid)) {
@@ -955,23 +955,23 @@ apply_itype_token(IDENTIFIER id, LIST (TOKEN) args)
 				return (t);
 			}
 		}
-    }
+	}
 	
-    /* Create new instance */
-    MAKE_itype_token (NULL_type, all_int_types, id, args, it);
-    t = promote_itype (it, NULL_itype);
+	/* Create new instance */
+	MAKE_itype_token (NULL_type, all_int_types, id, args, it);
+	t = promote_itype (it, NULL_itype);
 	
-    /* Allow for special tokens */
-    if (IS_id_token (id)) {
+	/* Allow for special tokens */
+	if (IS_id_token (id)) {
 		int tok = builtin_token (id);
 		switch (tok) {
-	    case TOK_ptrdiff_t : t = type_ptrdiff_t ; break;
-	    case TOK_size_t : t = type_size_t ; break;
-	    case TOK_size_t_2 : t = promote_type (type_size_t) ; break;
-	    case TOK_wchar_t : t = type_wchar_t ; break;
+		case TOK_ptrdiff_t : t = type_ptrdiff_t; break;
+		case TOK_size_t : t = type_size_t; break;
+		case TOK_size_t_2 : t = promote_type (type_size_t); break;
+		case TOK_wchar_t : t = type_wchar_t; break;
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -985,11 +985,11 @@ apply_itype_token(IDENTIFIER id, LIST (TOKEN) args)
 TYPE
 apply_ftype_token(IDENTIFIER id, LIST (TOKEN) args)
 {
-    TYPE t;
-    FLOAT_TYPE ft;
+	TYPE t;
+	FLOAT_TYPE ft;
 	
-    /* Check for previous instance */
-    if (IS_NULL_list (args)) {
+	/* Check for previous instance */
+	if (IS_NULL_list (args)) {
 		if (IS_id_token (id)) {
 			IDENTIFIER tid = DEREF_id (id_token_alt (id));
 			if (IS_id_type_alias (tid)) {
@@ -999,12 +999,12 @@ apply_ftype_token(IDENTIFIER id, LIST (TOKEN) args)
 				return (t);
 			}
 		}
-    }
+	}
 	
-    /* Create new instance */
-    MAKE_ftype_token (NULL_type, id, args, ft);
-    t = promote_ftype (ft, NULL_ftype);
-    return (t);
+	/* Create new instance */
+	MAKE_ftype_token (NULL_type, id, args, ft);
+	t = promote_ftype (ft, NULL_ftype);
+	return (t);
 }
 
 
@@ -1017,15 +1017,15 @@ apply_ftype_token(IDENTIFIER id, LIST (TOKEN) args)
 static BASE_TYPE
 find_itype_sign(BASE_TYPE bt)
 {
-    BASE_TYPE sign;
-    if (bt & btype_unsigned) {
+	BASE_TYPE sign;
+	if (bt & btype_unsigned) {
 		sign = btype_unsigned;
-    } else if (bt & btype_signed) {
-		sign = basetype_info [ ntype_sint ].sign;
-    } else {
+	} else if (bt & btype_signed) {
+		sign = basetype_info [ntype_sint].sign;
+	} else {
 		sign = btype_none;
-    }
-    return (sign);
+	}
+	return (sign);
 }
 
 
@@ -1040,83 +1040,83 @@ find_itype_sign(BASE_TYPE bt)
 static unsigned
 find_itype_size(INT_TYPE it, unsigned *mbits, BASE_TYPE *sign)
 {
-    unsigned sz;
-    it = expand_itype (it);
-    switch (TAG_itype (it)) {
+	unsigned sz;
+	it = expand_itype (it);
+	switch (TAG_itype (it)) {
 	case itype_basic_tag : {
-	    /* Built-in types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
-	    sz = basetype_info [n].min_bits;
-	    *mbits = basetype_info [n].max_bits;
-	    *sign = basetype_info [n].sign;
-	    break;
+		/* Built-in types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
+		sz = basetype_info [n].min_bits;
+		*mbits = basetype_info [n].max_bits;
+		*sign = basetype_info [n].sign;
+		break;
 	}
 	case itype_bitfield_tag : {
-	    /* Bitfield types */
-	    NAT n = DEREF_nat (itype_bitfield_size (it));
-	    BASE_TYPE rep = DEREF_btype (itype_bitfield_rep (it));
-	    sz = (unsigned) get_nat_value (n);
-	    *mbits = sz;
-	    *sign = find_itype_sign (rep);
-	    break;
+		/* Bitfield types */
+		NAT n = DEREF_nat (itype_bitfield_size (it));
+		BASE_TYPE rep = DEREF_btype (itype_bitfield_rep (it));
+		sz = (unsigned) get_nat_value (n);
+		*mbits = sz;
+		*sign = find_itype_sign (rep);
+		break;
 	}
 	case itype_promote_tag : {
-	    /* Promotion types */
-	    unsigned si;
-	    it = DEREF_itype (itype_promote_arg (it));
-	    sz = find_itype_size (it, mbits, sign);
-	    si = basetype_info [ ntype_sint ].min_bits;
-	    if (sz < si) {
+		/* Promotion types */
+		unsigned si;
+		it = DEREF_itype (itype_promote_arg (it));
+		sz = find_itype_size (it, mbits, sign);
+		si = basetype_info [ntype_sint].min_bits;
+		if (sz < si) {
 			sz = si;
-			*mbits = basetype_info [ ntype_ellipsis ].max_bits;
+			*mbits = basetype_info [ntype_ellipsis].max_bits;
 			*sign = btype_none;
-	    }
-	    break;
+		}
+		break;
 	}
 	case itype_arith_tag : {
-	    /* Arithmetic types */
-	    INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
-	    unsigned ssz = find_itype_size (is, mbits, sign);
-	    is = DEREF_itype (itype_arith_arg2 (it));
-	    sz = find_itype_size (is, mbits, sign);
-	    if (sz < ssz) sz = ssz;
-	    *mbits = basetype_info [ ntype_ellipsis ].max_bits;
-	    *sign = btype_none;
-	    break;
+		/* Arithmetic types */
+		INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
+		unsigned ssz = find_itype_size (is, mbits, sign);
+		is = DEREF_itype (itype_arith_arg2 (it));
+		sz = find_itype_size (is, mbits, sign);
+		if (sz < ssz) sz = ssz;
+		*mbits = basetype_info [ntype_ellipsis].max_bits;
+		*sign = btype_none;
+		break;
 	}
 	case itype_literal_tag : {
-	    /* Literal types */
-	    sz = basetype_info [ ntype_sint ].min_bits;
-	    *mbits = basetype_info [ ntype_ellipsis ].max_bits;
-	    *sign = btype_none;
-	    break;
+		/* Literal types */
+		sz = basetype_info [ntype_sint].min_bits;
+		*mbits = basetype_info [ntype_ellipsis].max_bits;
+		*sign = btype_none;
+		break;
 	}
 	case itype_token_tag : {
-	    /* Tokenised types */
-	    BASE_TYPE bt = btype_none;
-	    IDENTIFIER tid = DEREF_id (itype_token_tok (it));
-	    TOKEN tok = DEREF_tok (id_token_sort (tid));
-	    if (IS_tok_proc (tok)) {
+		/* Tokenised types */
+		BASE_TYPE bt = btype_none;
+		IDENTIFIER tid = DEREF_id (itype_token_tok (it));
+		TOKEN tok = DEREF_tok (id_token_sort (tid));
+		if (IS_tok_proc (tok)) {
 			tok = DEREF_tok (tok_proc_res (tok));
-	    }
-	    if (IS_tok_type (tok)) {
+		}
+		if (IS_tok_type (tok)) {
 			bt = DEREF_btype (tok_type_kind (tok));
 			bt = find_itype_sign (bt);
-	    }
-	    sz = basetype_info [ ntype_ellipsis ].min_bits;
-	    *mbits = basetype_info [ ntype_ellipsis ].max_bits;
-	    *sign = bt;
-	    break;
+		}
+		sz = basetype_info [ntype_ellipsis].min_bits;
+		*mbits = basetype_info [ntype_ellipsis].max_bits;
+		*sign = bt;
+		break;
 	}
 	default : {
-	    /* Other types */
-	    sz = basetype_info [ ntype_ellipsis ].min_bits;
-	    *mbits = basetype_info [ ntype_ellipsis ].max_bits;
-	    *sign = btype_none;
-	    break;
+		/* Other types */
+		sz = basetype_info [ntype_ellipsis].min_bits;
+		*mbits = basetype_info [ntype_ellipsis].max_bits;
+		*sign = btype_none;
+		break;
 	}
-    }
-    return (sz);
+	}
+	return (sz);
 }
 
 
@@ -1130,27 +1130,27 @@ find_itype_size(INT_TYPE it, unsigned *mbits, BASE_TYPE *sign)
 unsigned
 find_type_size(TYPE t, unsigned *mbits, BASE_TYPE *sign)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_integer_tag : {
-	    /* Integral types */
-	    INT_TYPE it = DEREF_itype (type_integer_rep (t));
-	    return (find_itype_size (it, mbits, sign));
+		/* Integral types */
+		INT_TYPE it = DEREF_itype (type_integer_rep (t));
+		return (find_itype_size (it, mbits, sign));
 	}
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
-	    t = DEREF_type (etype_rep (et));
-	    return (find_type_size (t, mbits, sign));
+		/* Enumeration types */
+		ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
+		t = DEREF_type (etype_rep (et));
+		return (find_type_size (t, mbits, sign));
 	}
 	case type_bitfield_tag : {
-	    /* Bitfield types */
-	    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-	    return (find_itype_size (it, mbits, sign));
+		/* Bitfield types */
+		INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+		return (find_itype_size (it, mbits, sign));
 	}
-    }
-    *mbits = basetype_info [ ntype_ellipsis ].max_bits;
-    *sign = btype_none;
-    return (0);
+	}
+	*mbits = basetype_info [ntype_ellipsis].max_bits;
+	*sign = btype_none;
+	return (0);
 }
 
 
@@ -1166,17 +1166,17 @@ find_type_size(TYPE t, unsigned *mbits, BASE_TYPE *sign)
 static INT_TYPE
 make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns, BUILTIN_TYPE nt)
 {
-    INT_TYPE it;
-    int c = builtin_cast (nu, ns);
-    if (c <= min_builtin_cast) {
+	INT_TYPE it;
+	int c = builtin_cast (nu, ns);
+	if (c <= min_builtin_cast) {
 		/* u definitely fits inside s */
-		TYPE s = type_builtin [ ns ];
+		TYPE s = type_builtin [ns];
 		it = DEREF_itype (type_integer_rep (s));
-    } else if (c <= safe_builtin_cast) {
+	} else if (c <= safe_builtin_cast) {
 		/* u possibly fits inside s */
-		TYPE u = type_builtin [ nu ];
-		TYPE s = type_builtin [ ns ];
-		TYPE t = type_builtin [ nt ];
+		TYPE u = type_builtin [nu];
+		TYPE s = type_builtin [ns];
+		TYPE t = type_builtin [nt];
 		LIST (TYPE) pt = NULL_list (TYPE);
 		INT_TYPE ir = DEREF_itype (type_integer_rep (u));
 		INT_TYPE is = DEREF_itype (type_integer_rep (s));
@@ -1185,12 +1185,12 @@ make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns, BUILTIN_TYPE nt)
 		pt = uniq_type_set (pt);
 		MAKE_itype_arith (NULL_type, pt, ir, is, it);
 		IGNORE promote_itype (it, it);
-    } else {
+	} else {
 		/* u definitely does not fit inside s */
-		TYPE t = type_builtin [ nt ];
+		TYPE t = type_builtin [nt];
 		it = DEREF_itype (type_integer_rep (t));
-    }
-    return (it);
+	}
+	return (it);
 }
 
 
@@ -1203,34 +1203,34 @@ make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns, BUILTIN_TYPE nt)
 void
 init_itypes(int init)
 {
-    int c;
-    INT_TYPE it;
-    BUILTIN_TYPE n;
-    LIST (TYPE) qt;
-    unsigned long i, j;
-    BUILTIN_TYPE ntype_max = ntype_ulong;
+	int c;
+	INT_TYPE it;
+	BUILTIN_TYPE n;
+	LIST (TYPE) qt;
+	unsigned long i, j;
+	BUILTIN_TYPE ntype_max = ntype_ulong;
 	
-    /* Initialise type tables */
-    if (init) {
-		for (i = 0 ; i < ORDER_ntype ; i++) {
-			for (j = 0 ; j < ORDER_ntype ; j++) {
+	/* Initialise type tables */
+	if (init) {
+		for (i = 0; i < ORDER_ntype; i++) {
+			for (j = 0; j < ORDER_ntype; j++) {
 				all_itypes [i] [j] = NULL_type;
 			}
 		}
-    }
+	}
 	
-    /* Initialise all the types */
-    for (n = ntype_none ; n <= ntype_ellipsis ; n++) {
+	/* Initialise all the types */
+	for (n = ntype_none; n <= ntype_ellipsis; n++) {
 		TYPE t = NULL_type;
 		BUILTIN_TYPE m = n;
 		BASE_TYPE rep = basetype_info [n].rep;
 		switch (n) {
-	    case ntype_none : {
+		case ntype_none : {
 			/* Allow for inferred types */
 			m = ntype_sint;
 			goto default_lab;
-	    }
-	    default :
+		}
+		default :
 			default_lab : {
 				/* Create an integral type */
 				LIST (TYPE) pt = NULL_list (TYPE);
@@ -1248,9 +1248,9 @@ init_itypes(int init)
 				}
 				break;
 			}
-	    case ntype_float :
-	    case ntype_double :
-	    case ntype_ldouble : {
+		case ntype_float :
+		case ntype_double :
+		case ntype_ldouble : {
 			/* Create a floating type */
 			FLOAT_TYPE ft;
 			MAKE_ftype_basic (NULL_type, rep, n, ft);
@@ -1265,100 +1265,100 @@ init_itypes(int init)
 				COPY_ftype (type_floating_sem (t), ft);
 			}
 			break;
-	    }
-	    case ntype_void : {
+		}
+		case ntype_void : {
 			if (init) {
 				MAKE_type_top (cv_none, t);
 				type_builtin [n] = t;
 			}
 			break;
-	    }
-	    case ntype_bottom : {
+		}
+		case ntype_bottom : {
 			if (init) {
 				MAKE_type_bottom (cv_none, t);
 				type_builtin [n] = t;
 			}
 			break;
-	    }
-	    case ntype_ellipsis : {
+		}
+		case ntype_ellipsis : {
 			if (init) {
 				MAKE_type_pre (cv_none, rep, qual_none, t);
 				type_builtin [n] = t;
 			}
 			break;
-	    }
 		}
-    }
+		}
+	}
 	
-    /* Set up list of all integral types */
-    qt = NULL_list (TYPE);
-    for (n = ntype_max ; n >= ntype_char ; n--) {
+	/* Set up list of all integral types */
+	qt = NULL_list (TYPE);
+	for (n = ntype_max; n >= ntype_char; n--) {
 		CONS_type (type_builtin [n], qt, qt);
-    }
-    all_int_types = uniq_type_set (qt);
+	}
+	all_int_types = uniq_type_set (qt);
 	
-    /* Set up list of all promoted types */
-    qt = NULL_list (TYPE);
-    for (n = ntype_max ; n >= ntype_sint ; n--) {
+	/* Set up list of all promoted types */
+	qt = NULL_list (TYPE);
+	for (n = ntype_max; n >= ntype_sint; n--) {
 		CONS_type (type_builtin [n], qt, qt);
-    }
-    all_prom_types = uniq_type_set (qt);
+	}
+	all_prom_types = uniq_type_set (qt);
 	
-    /* Set up list of all promoted types (including long long) */
-    qt = NULL_list (TYPE);
-    for (n = ntype_ullong ; n >= ntype_sint ; n--) {
+	/* Set up list of all promoted types (including long long) */
+	qt = NULL_list (TYPE);
+	for (n = ntype_ullong; n >= ntype_sint; n--) {
 		CONS_type (type_builtin [n], qt, qt);
-    }
-    all_llong_types = uniq_type_set (qt);
+	}
+	all_llong_types = uniq_type_set (qt);
 	
-    /* Set up non-built-in types (also see init_tok) */
-    if (basetype_info [ ntype_bool ].key) {
-		base_token [ ntype_bool ].alt = ARITH_bool;
-    } else {
+	/* Set up non-built-in types (also see init_tok) */
+	if (basetype_info [ntype_bool].key) {
+		base_token [ntype_bool].alt = ARITH_bool;
+	} else {
 		/* 'bool' is equal to 'int' for most purposes */
-		const char **nms = ntype_name ; /* SCO cc gets const wrong */
+		const char **nms = ntype_name; /* SCO cc gets const wrong */
 		it = DEREF_itype (type_integer_rep (type_bool));
 		qt = NULL_list (TYPE);
 		CONS_type (type_sint, qt, qt);
 		COPY_list (itype_cases (it), qt);
-		base_token [ ntype_bool ].alt = ARITH_none;
-		nms [ ntype_bool ] = nms [ ntype_sint ];
-		mangle_ntype [ ntype_bool ] [0] = MANGLE_int;
-    }
-    if (basetype_info [ ntype_ptrdiff_t ].key) {
-		base_token [ ntype_ptrdiff_t ].alt = ARITH_ptrdiff_t;
-    } else {
+		base_token [ntype_bool].alt = ARITH_none;
+		nms [ntype_bool] = nms [ntype_sint];
+		mangle_ntype [ntype_bool] [0] = MANGLE_int;
+	}
+	if (basetype_info [ntype_ptrdiff_t].key) {
+		base_token [ntype_ptrdiff_t].alt = ARITH_ptrdiff_t;
+	} else {
 		/* ptrdiff_t will be either 'int' or 'long' */
 		it = DEREF_itype (type_integer_rep (type_ptrdiff_t));
 		qt = NULL_list (TYPE);
 		CONS_type (type_slong, qt, qt);
 		CONS_type (type_sint, qt, qt);
 		COPY_list (itype_cases (it), qt);
-		base_token [ ntype_ptrdiff_t ].alt = ARITH_none;
-    }
-    if (basetype_info [ ntype_size_t ].key) {
-		base_token [ ntype_size_t ].alt = ARITH_size_t;
-    } else {
+		base_token [ntype_ptrdiff_t].alt = ARITH_none;
+	}
+	if (basetype_info [ntype_size_t].key) {
+		base_token [ntype_size_t].alt = ARITH_size_t;
+	} else {
 		/* size_t will be either 'unsigned' or 'unsigned long' */
 		it = DEREF_itype (type_integer_rep (type_size_t));
 		qt = NULL_list (TYPE);
 		CONS_type (type_ulong, qt, qt);
 		CONS_type (type_uint, qt, qt);
 		COPY_list (itype_cases (it), qt);
-		base_token [ ntype_size_t ].alt = ARITH_none;
-    }
-    if (basetype_info [ ntype_wchar_t ].key) {
-		base_token [ ntype_wchar_t ].alt = ARITH_wchar_t;
-    } else {
+		base_token [ntype_size_t].alt = ARITH_none;
+	}
+	if (basetype_info [ntype_wchar_t].key) {
+		base_token [ntype_wchar_t].alt = ARITH_wchar_t;
+	} else {
 		/* wchar_t can be any type */
 		it = DEREF_itype (type_integer_rep (type_wchar_t));
 		qt = all_int_types;
 		COPY_list (itype_cases (it), qt);
-		base_token [ ntype_wchar_t ].alt = ARITH_none;
-    }
+		base_token [ntype_wchar_t].alt = ARITH_none;
+	}
 	
-    /* Calculate all promotion types */
-    for (i = 0 ; i < ORDER_ntype ; i++) {
+	/* Calculate all promotion types */
+	for (i = 0; i < ORDER_ntype; i++) {
 		TYPE t = type_builtin [i];
 		if (!IS_NULL_type (t)) {
 			switch (TAG_type (t)) {
@@ -1394,7 +1394,7 @@ init_itypes(int init)
 				}
 				
 				/* Find promotion type */
-				for (m = ntype_sint ; m <= ntype_ulong ; m++) {
+				for (m = ntype_sint; m <= ntype_ulong; m++) {
 					c = builtin_cast (n, m);
 					if (c <= safe_builtin_cast) {
 						/* Possibly fits */
@@ -1443,14 +1443,14 @@ init_itypes(int init)
 			}
 			}
 		}
-    }
+	}
 	
-    /* Calculate the arithmetic types */
-    it = make_arith (ntype_uint, ntype_slong, ntype_ulong);
-    arith_slong_uint = it;
-    it = make_arith (ntype_uint, ntype_sllong, ntype_ullong);
-    arith_sllong_uint = it;
-    it = make_arith (ntype_ulong, ntype_sllong, ntype_ullong);
-    arith_sllong_ulong = it;
-    return;
+	/* Calculate the arithmetic types */
+	it = make_arith (ntype_uint, ntype_slong, ntype_ulong);
+	arith_slong_uint = it;
+	it = make_arith (ntype_uint, ntype_sllong, ntype_ullong);
+	arith_sllong_uint = it;
+	it = make_arith (ntype_ulong, ntype_sllong, ntype_ullong);
+	arith_sllong_ulong = it;
+	return;
 }

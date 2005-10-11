@@ -119,7 +119,7 @@
  *    indicated by NONE.
  */
 
-unsigned char digit_values [ NO_CHAR + 1 ] = {
+unsigned char digit_values [NO_CHAR + 1] = {
 #define CHAR_DATA(A, B, C, D)	(B),
 #include "char.h"
 #undef CHAR_DATA
@@ -139,7 +139,7 @@ unsigned char digit_values [ NO_CHAR + 1 ] = {
  *    NONE.
  */
 
-unsigned char escape_sequences [ NO_CHAR + 1 ] = {
+unsigned char escape_sequences [NO_CHAR + 1] = {
 #define CHAR_DATA(A, B, C, D)	(C),
 #include "char.h"
 #undef CHAR_DATA
@@ -214,7 +214,7 @@ eval_digits(string s, string t, unsigned base)
 	unsigned long b = (unsigned long) base;
 	while (r != t && m < 8) {
 		/* Evaluate first few digits */
-		unsigned long d = (unsigned long) digit_values [ *r ];
+		unsigned long d = (unsigned long) digit_values [*r];
 		v = b * v + d;
 		m++;
 		r++;
@@ -222,7 +222,7 @@ eval_digits(string s, string t, unsigned base)
 	n = make_nat_value (v);
 	while (r != t) {
 		/* Evaluate further digits */
-		unsigned d = (unsigned) digit_values [ *r ];
+		unsigned d = (unsigned) digit_values [*r];
 		n = make_nat_literal (n, base, d);
 		r++;
 	}
@@ -247,7 +247,7 @@ eval_char_digits(string s, string t, unsigned base)
 	unsigned long b = (unsigned long) base;
 	for (r = s; r != t; r++) {
 		unsigned long m = n;
-		n = b * n + (unsigned long) digit_values [ *r ];
+		n = b * n + (unsigned long) digit_values [*r];
 		if (n < m) overflow = 1;
 	}
 	if (overflow) report (crt_loc, ERR_lex_ccon_large ());
@@ -274,7 +274,7 @@ eval_line_digits(string s, unsigned *err)
 	string t = check_digits (s, (unsigned) 10);
 	if (*t) e = 2;
 	for (r = s; r != t; r++) {
-		n = 10 * n + (unsigned long) digit_values [ *r ];
+		n = 10 * n + (unsigned long) digit_values [*r];
 		if (n > 0x7fff) e |= 1;
 	}
 	*err = e;
@@ -349,7 +349,7 @@ typedef struct lit_info_tag {
 	struct lit_info_tag *next;
 } LITERAL_INFO;
 
-static LITERAL_INFO *int_lit_spec [ BASE_NO ] [ SUFFIX_NO ] = {
+static LITERAL_INFO *int_lit_spec [BASE_NO] [SUFFIX_NO] = {
 	{ NULL, NULL, NULL, NULL, NULL, NULL },
 	{ NULL, NULL, NULL, NULL, NULL, NULL },
 	{ NULL, NULL, NULL, NULL, NULL, NULL }
@@ -370,7 +370,7 @@ static struct {
 	unsigned char type [6];
 	int tok;
 	LIST (TYPE) cases;
-} int_lit_tok [ BASE_NO ] [ SUFFIX_NO ] = {
+} int_lit_tok [BASE_NO] [SUFFIX_NO] = {
 	{
 		{ { 2, 0, 2, 2, 1, 1 }, TOK_lit_int, NULL_list (TYPE) },
 		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list (TYPE) },
@@ -461,7 +461,7 @@ init_literal(void)
 			begin_literal (b, s);
 			for (n = 0; n < 6; n++) {
 				if (int_lit_tok [b] [s].type [n] == 2) {
-					TYPE t = type_builtin [ ntype_sint + n ];
+					TYPE t = type_builtin [ntype_sint + n];
 					add_range_literal (NULL_exp, 1);
 					add_type_literal (t);
 					CONS_type (t, p, p);
@@ -512,7 +512,7 @@ set_string_qual(CV_SPEC cv)
 void
 begin_literal(int base, int suff)
 {
-	LITERAL_INFO **p = &(int_lit_spec [ base ] [ suff ]);
+	LITERAL_INFO **p = &(int_lit_spec [base] [suff]);
 	*p = NULL;
 	ptr_int_lit = p;
 	crt_int_lit = NULL;
@@ -646,7 +646,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 	NAT n = small_nat [0];
 	IDENTIFIER tid = NULL_id;
 	LIST (TYPE) qt = NULL_list (TYPE);
-	LITERAL_INFO *pt = int_lit_spec [ base ] [ suff ];
+	LITERAL_INFO *pt = int_lit_spec [base] [suff];
 
 	/* Deal with calculated literals */
 	switch (TAG_nat (lit)) {
@@ -717,9 +717,9 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			} else {
 				if (have_tok == 0 && !IS_NULL_id (pt->tok)) {
 					DESTROY_list (qt, SIZE_type);
-					tok = int_lit_tok [ base ] [ suff ].tok;
+					tok = int_lit_tok [base] [suff].tok;
 					if (pt->tok_no == tok) {
-						qt = int_lit_tok [ base ] [ suff ].cases;
+						qt = int_lit_tok [base] [suff].cases;
 					} else if (suff < SUFFIX_LL) {
 						qt = all_prom_types;
 					} else {
@@ -738,7 +738,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 	if (have_tok != 2) {
 		/* Find list of possible types */
 		if (IS_NULL_list (qt)) {
-			qt = int_lit_tok [ base ] [ suff ].cases;
+			qt = int_lit_tok [base] [suff].cases;
 		} else {
 			qt = REVERSE_list (qt);
 			qt = uniq_type_set (qt);
@@ -761,7 +761,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 		DESTROY_list (qt, SIZE_type);
 		return (t);
 	}
-	tok = int_lit_tok [ base ] [ suff ].tok;
+	tok = int_lit_tok [base] [suff].tok;
 	MAKE_itype_literal (NULL_type, qt, lit, tok, base, suff, tid, it);
 	t = promote_itype (it, it);
 	return (t);
@@ -840,7 +840,7 @@ make_literal_exp(string str, int *ptok, int force)
 	if (c1) c2 = s [1];
 	if (c2 == 0 && (c1 >= char_zero && c1 <= char_nine)) {
 		unsigned etag = exp_int_lit_tag;
-		int n = (int) digit_values [ c1 ];
+		int n = (int) digit_values [c1];
 		NAT lit = small_nat [n];
 		if (IS_NULL_nat (lit)) lit = make_small_nat (n);
 		if (n == 0) etag = exp_null_tag;
@@ -1049,7 +1049,7 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		if (c1 == char_l || c1 == char_L) {
 			ls = 1;
-			if (s [1] == c1 && basetype_info [ ntype_sllong ].key) {
+			if (s [1] == c1 && basetype_info [ntype_sllong].key) {
 				report (crt_loc, ERR_lex_icon_llong (str));
 				ls = 2;
 				s++;
@@ -1584,7 +1584,7 @@ new_string_lit(string s, string se, int lex)
 			add_multi_char (str + len, c, ch);
 			len += MULTI_WIDTH;
 		} else {
-			str [ len++ ] = (character) c;
+			str [len++] = (character) c;
 		}
 		if (len == 0) overflow = 1;
 	}
@@ -1592,7 +1592,7 @@ new_string_lit(string s, string se, int lex)
 		add_multi_char (str + len, (unsigned long) 0, CHAR_OCTAL);
 		len /= MULTI_WIDTH;
 	} else {
-		str [ len ] = 0;
+		str [len] = 0;
 	}
 	if (overflow) len = ULONG_MAX;
 	if (!check_value (OPT_VAL_string_length, len)) {
@@ -1601,7 +1601,7 @@ new_string_lit(string s, string se, int lex)
 			unsigned long n = MULTI_WIDTH * len;
 			add_multi_char (str + n, (unsigned long) 0, CHAR_OCTAL);
 		} else {
-			str [ len ] = 0;
+			str [len] = 0;
 		}
 	}
 	MAKE_str_simple (len, str, kind, res);
@@ -1696,7 +1696,7 @@ concat_string_lit(STRING s, STRING t)
 		c = ustring_alloc (sz);
 		xumemcpy (c, a, (size_t) na);
 		xumemcpy (c + na, b, (size_t) nb);
-		c [ nc ] = 0;
+		c [nc] = 0;
 	}
 	MAKE_str_simple (nc, c, kc, res);
 	prev = share_string_lit (res);

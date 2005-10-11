@@ -591,7 +591,7 @@ BITSTREAM
 		maxc <<= bits;
 		ENC_make_nof (bs);
 		ENC_LIST (bs, m);
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			TYPE u = t;
 			int ch = CHAR_SIMPLE;
 			unsigned long c = get_multi_char (s, &ch);
@@ -610,7 +610,7 @@ BITSTREAM
 			ENC_INT (bs, c);
 			s += MULTI_WIDTH;
 		}
-		for (; i < m ; i++) {
+		for (; i < m; i++) {
 			/* Terminal zeros */
 			bs = enc_make_int (bs, t, 0);
 		}
@@ -621,7 +621,7 @@ BITSTREAM
 		ENC_INT (bs, BYTE_SIZE);
 		ENC_INT (bs, m);
 		if (kind & STRING_MULTI) {
-			for (i = 0 ; i < n ; i++) {
+			for (i = 0; i < n; i++) {
 				int ch = CHAR_SIMPLE;
 				unsigned long c = get_multi_char (s, &ch);
 				if (ch == CHAR_SIMPLE) c = to_ascii (c, &ch);
@@ -632,7 +632,7 @@ BITSTREAM
 			/* Simple string */
 			tdf_en_ascii (bs, n, s);
 		}
-		for (i = n ; i < m ; i++) {
+		for (i = n; i < m; i++) {
 			/* Terminal zeros */
 			ENC_BITS (bs, BYTE_SIZE, 0);
 		}
@@ -665,7 +665,7 @@ BITSTREAM
 	ENC_INT (bs, n);
 	if (kind & STRING_MULTI) {
 		unsigned long i;
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			int ch = CHAR_SIMPLE;
 			unsigned long c = get_multi_char (s, &ch);
 			if (ch == CHAR_SIMPLE) c = to_ascii (c, &ch);
@@ -1219,9 +1219,9 @@ BITSTREAM
 	}
 	bt = is_builtin_type (t, 0);
 	if (alt) {
-		n = base_token [ bt ].alt;
+		n = base_token [bt].alt;
 	} else {
-		n = base_token [ bt ].no;
+		n = base_token [bt].no;
 	}
 	bs = enc_make_snat (bs, (int) n);
 	return (bs);

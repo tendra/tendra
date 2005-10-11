@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -127,9 +127,9 @@
 TYPE
 check_ret_type(TYPE t, ERROR *err, int def)
 {
-    CV_SPEC cv = DEREF_cv (type_qual (t));
-    cv &= cv_qual;
-    if (IS_type_top_etc (t)) {
+	CV_SPEC cv = DEREF_cv (type_qual (t));
+	cv &= cv_qual;
+	if (IS_type_top_etc (t)) {
 		if (cv != cv_none && !def) {
 			/* Can't return 'cv void' */
 			add_error (err, ERR_dcl_fct_ret_void (t));
@@ -140,14 +140,14 @@ check_ret_type(TYPE t, ERROR *err, int def)
 				t = qualify_type (t, cv, 0);
 			}
 		}
-    } else {
+	} else {
 		if (def) add_error (err, check_incomplete (t));
-    }
-    if (cv != cv_none && !def) {
+	}
+	if (cv != cv_none && !def) {
 		/* Check for cv-qualified return types */
 		add_error (err, ERR_dcl_fct_cv_ret (cv));
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -161,16 +161,16 @@ check_ret_type(TYPE t, ERROR *err, int def)
 LIST (EXP)
 convert_args(LIST (EXP) args)
 {
-    LIST (EXP) p = args;
-    while (!IS_NULL_list (p)) {
+	LIST (EXP) p = args;
+	while (!IS_NULL_list (p)) {
 		EXP e = DEREF_exp (HEAD_list (p));
 		if (!IS_NULL_exp (e)) {
 			e = convert_reference (e, REF_ASSIGN);
 			COPY_exp (HEAD_list (p), e);
 		}
 		p = TAIL_list (p);
-    }
-    return (args);
+	}
+	return (args);
 }
 
 
@@ -185,32 +185,32 @@ convert_args(LIST (EXP) args)
 unsigned
 min_no_args(TYPE fn)
 {
-    unsigned n = 0;
-    LIST (TYPE) ptypes;
-    LIST (TYPE) mtypes;
-    LIST (IDENTIFIER) p;
-    while (IS_type_templ (fn)) {
+	unsigned n = 0;
+	LIST (TYPE) ptypes;
+	LIST (TYPE) mtypes;
+	LIST (IDENTIFIER) p;
+	while (IS_type_templ (fn)) {
 		fn = DEREF_type (type_templ_defn (fn));
-    }
-    p = DEREF_list (type_func_pids (fn));
-    ptypes = DEREF_list (type_func_ptypes (fn));
-    mtypes = DEREF_list (type_func_mtypes (fn));
-    if (!EQ_list (mtypes, ptypes)) {
+	}
+	p = DEREF_list (type_func_pids (fn));
+	ptypes = DEREF_list (type_func_ptypes (fn));
+	mtypes = DEREF_list (type_func_mtypes (fn));
+	if (!EQ_list (mtypes, ptypes)) {
 		/* Add one for member functions */
 		if (!IS_NULL_list (mtypes)) {
 			mtypes = TAIL_list (mtypes);
 			if (EQ_list (mtypes, ptypes)) n = 1;
 		}
-    }
-    while (!IS_NULL_list (p)) {
+	}
+	while (!IS_NULL_list (p)) {
 		/* Scan for default arguments */
 		IDENTIFIER id = DEREF_id (HEAD_list (p));
 		EXP e = DEREF_exp (id_parameter_init (id));
 		if (!IS_NULL_exp (e)) break;
 		n++;
 		p = TAIL_list (p);
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -225,13 +225,13 @@ min_no_args(TYPE fn)
 int
 check_func_dargs(TYPE fn, int chk, int clr)
 {
-    int started = 0;
-    unsigned tag = TAG_type (fn);
-    while (tag == type_templ_tag) {
+	int started = 0;
+	unsigned tag = TAG_type (fn);
+	while (tag == type_templ_tag) {
 		fn = DEREF_type (type_templ_defn (fn));
 		tag = TAG_type (fn);
-    }
-    if (tag == type_func_tag) {
+	}
+	if (tag == type_func_tag) {
 		LIST (IDENTIFIER) pids = DEREF_list (type_func_pids (fn));
 		while (!IS_NULL_list (pids)) {
 			IDENTIFIER pid = DEREF_id (HEAD_list (pids));
@@ -258,8 +258,8 @@ check_func_dargs(TYPE fn, int chk, int clr)
 			}
 			pids = TAIL_list (pids);
 		}
-    }
-    return (started);
+	}
+	return (started);
 }
 
 
@@ -274,19 +274,19 @@ check_func_dargs(TYPE fn, int chk, int clr)
 static TYPE
 check_weak_arg(TYPE t, EXP a, ERROR *err)
 {
-    ERROR err2 = NULL_err;
-    TYPE s = DEREF_type (exp_type (a));
-    if (IS_exp_int_lit (a) && eq_type_offset (s, t)) {
+	ERROR err2 = NULL_err;
+	TYPE s = DEREF_type (exp_type (a));
+	if (IS_exp_int_lit (a) && eq_type_offset (s, t)) {
 		/* Allow for integer literals */
 		NAT n = DEREF_nat (exp_int_lit_nat (a));
 		if (check_nat_range (t, n) == 0) return (t);
-    }
-    t = check_compatible (t, s, 2, &err2, 1);
-    if (!IS_NULL_err (err2)) {
+	}
+	t = check_compatible (t, s, 2, &err2, 1);
+	if (!IS_NULL_err (err2)) {
 		err2 = set_severity (err2, OPT_whatever, 0);
 		add_error (err, err2);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -301,8 +301,8 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
 static void
 check_weak_args(IDENTIFIER id, LIST (EXP) args, unsigned n)
 {
-    TYPE fn = DEREF_type (id_function_etc_type (id));
-    if (IS_type_func (fn)) {
+	TYPE fn = DEREF_type (id_function_etc_type (id));
+	if (IS_type_func (fn)) {
 		int changed = 0;
 		int ell = DEREF_int (type_func_ellipsis (fn));
 		LIST (TYPE) p = DEREF_list (type_func_ptypes (fn));
@@ -374,8 +374,8 @@ check_weak_args(IDENTIFIER id, LIST (EXP) args, unsigned n)
 		} else {
 			DESTROY_list (q, SIZE_type);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -391,9 +391,9 @@ static void
 check_printf_args(IDENTIFIER id, LIST (TYPE) p, LIST (EXP) args, unsigned n,
 				  int pf)
 {
-    unsigned np = LENGTH_list (p) + (n - 1);
-    unsigned na = LENGTH_list (args) + (n - 1);
-    if (np != na) {
+	unsigned np = LENGTH_list (p) + (n - 1);
+	unsigned na = LENGTH_list (args) + (n - 1);
+	if (np != na) {
 		/* Check number of parameters */
 		ERROR err = ERR_expr_call_args_exact (na, na, np);
 		err = set_severity (err, OPT_weak, -1);
@@ -401,8 +401,8 @@ check_printf_args(IDENTIFIER id, LIST (TYPE) p, LIST (EXP) args, unsigned n,
 			err = concat_error (ERR_expr_call_func (id), err);
 		}
 		report (crt_loc, err);
-    }
-    while (!IS_NULL_list (p) && !IS_NULL_list (args)) {
+	}
+	while (!IS_NULL_list (p) && !IS_NULL_list (args)) {
 		/* Check parameter types */
 		ERROR err = NULL_err;
 		TYPE s = DEREF_type (HEAD_list (p));
@@ -434,8 +434,8 @@ check_printf_args(IDENTIFIER id, LIST (TYPE) p, LIST (EXP) args, unsigned n,
 		args = TAIL_list (args);
 		p = TAIL_list (p);
 		n++;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -452,22 +452,22 @@ check_printf_args(IDENTIFIER id, LIST (TYPE) p, LIST (EXP) args, unsigned n,
 static LIST (EXP)
 cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 {
-    int ell;
-    TYPE ret;
-    int extra = 0;
-    unsigned n = 1;
-    LIST (EXP) q;
-    LIST (TYPE) p;
-    LIST (TYPE) ptypes;
-    LIST (TYPE) mtypes;
-    ERROR err = NULL_err;
-    int printf_function = 0;
-    LIST (IDENTIFIER) pids;
-    OPTION weak = OPTION_OFF;
-    LIST (TYPE) ftypes = NULL_list (TYPE);
+	int ell;
+	TYPE ret;
+	int extra = 0;
+	unsigned n = 1;
+	LIST (EXP) q;
+	LIST (TYPE) p;
+	LIST (TYPE) ptypes;
+	LIST (TYPE) mtypes;
+	ERROR err = NULL_err;
+	int printf_function = 0;
+	LIST (IDENTIFIER) pids;
+	OPTION weak = OPTION_OFF;
+	LIST (TYPE) ftypes = NULL_list (TYPE);
 	
-    /* Allow for template types */
-    if (IS_type_templ (fn)) {
+	/* Allow for template types */
+	if (IS_type_templ (fn)) {
 		int d;
 		TOKEN sort = DEREF_tok (type_templ_sort (fn));
 		pids = DEREF_list (tok_templ_pids (sort));
@@ -479,26 +479,26 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 		restore_token_args (pids, d);
 		force_template--;
 		return (args);
-    }
+	}
 	
-    /* Check function return type */
-    ret = DEREF_type (type_func_ret (fn));
-    ret = check_ret_type (ret, &err, 1);
-    if (!IS_NULL_err (err)) {
+	/* Check function return type */
+	ret = DEREF_type (type_func_ret (fn));
+	ret = check_ret_type (ret, &err, 1);
+	if (!IS_NULL_err (err)) {
 		err = concat_error (err, ERR_expr_call_ret ());
 		if (!IS_NULL_id (id)) {
 			err = concat_error (ERR_expr_call_func (id), err);
 		}
 		report (crt_loc, err);
-    }
-    ret = convert_qual_type (ret);
-    *pr = ret;
+	}
+	ret = convert_qual_type (ret);
+	*pr = ret;
 	
-    /* Check number of arguments */
-    ell = DEREF_int (type_func_ellipsis (fn));
-    ptypes = DEREF_list (type_func_ptypes (fn));
-    mtypes = DEREF_list (type_func_mtypes (fn));
-    if (!EQ_list (mtypes, ptypes)) {
+	/* Check number of arguments */
+	ell = DEREF_int (type_func_ellipsis (fn));
+	ptypes = DEREF_list (type_func_ptypes (fn));
+	mtypes = DEREF_list (type_func_mtypes (fn));
+	if (!EQ_list (mtypes, ptypes)) {
 		if (mem) {
 			/* Member function */
 			extra = 1;
@@ -507,8 +507,8 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 			mtypes = ptypes;
 			COPY_list (type_func_mtypes (fn), mtypes);
 		}
-    }
-    if (match_no_args == 0) {
+	}
+	if (match_no_args == 0) {
 		/* Weren't checked in overload resolution */
 		unsigned na = LENGTH_list (args);
 		unsigned npars = LENGTH_list (mtypes);
@@ -544,15 +544,15 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 				}
 			}
 		}
-    }
+	}
 	
-    /* Check function argument types */
-    p = mtypes;
-    q = args;
-    pids = DEREF_list (type_func_pids (fn));
+	/* Check function argument types */
+	p = mtypes;
+	q = args;
+	pids = DEREF_list (type_func_pids (fn));
 	
-    /* Extra implicit argument */
-    if (extra && !IS_NULL_list (p) && !IS_NULL_list (q)) {
+	/* Extra implicit argument */
+	if (extra && !IS_NULL_list (p) && !IS_NULL_list (q)) {
 		EXP b = DEREF_exp (HEAD_list (q));
 		TYPE t = DEREF_type (HEAD_list (p));
 		if (!IS_NULL_exp (b) && !IS_NULL_type (t)) {
@@ -661,14 +661,14 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 		}
 		p = TAIL_list (p);
 		q = TAIL_list (q);
-    }
+	}
 	
-    /* Normal arguments */
-    if (ell & FUNC_NON_PROTO) {
+	/* Normal arguments */
+	if (ell & FUNC_NON_PROTO) {
 		weak = option (OPT_weak);
 		goto ellipsis_lab;
-    }
-    while (!IS_NULL_list (p) && !IS_NULL_list (q)) {
+	}
+	while (!IS_NULL_list (p) && !IS_NULL_list (q)) {
 		EXP b = DEREF_exp (HEAD_list (q));
 		TYPE t = DEREF_type (HEAD_list (p));
 		OPTION opt = option (OPT_conv_int_int_impl);
@@ -713,10 +713,10 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 		pids = TAIL_list (pids);
 		p = TAIL_list (p);
 		q = TAIL_list (q);
-    }
+	}
 	
-    /* Default arguments */
-    if (!IS_NULL_list (p)) {
+	/* Default arguments */
+	if (!IS_NULL_list (p)) {
 		LIST (EXP) dargs = NULL_list (EXP);
 		while (!IS_NULL_list (pids)) {
 			IDENTIFIER pid = DEREF_id (HEAD_list (pids));
@@ -755,10 +755,10 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 			dargs = REVERSE_list (dargs);
 			args = APPEND_list (args, dargs);
 		}
-    }
+	}
 	
-    /* Ellipsis arguments */
-    ellipsis_lab : {
+	/* Ellipsis arguments */
+	ellipsis_lab : {
 		unsigned wn = n;
 		LIST (EXP) wq = q;
 		while (!IS_NULL_list (q)) {
@@ -796,9 +796,9 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 			}
 			DESTROY_list (ftypes, SIZE_type);
 		}
-    }
-    IGNORE check_value (OPT_VAL_func_args, (unsigned long) (n - 1));
-    return (args);
+	}
+	IGNORE check_value (OPT_VAL_func_args, (unsigned long) (n - 1));
+	return (args);
 }
 
 
@@ -814,42 +814,42 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 EXP
 apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 {
-    EXP e;
-    TYPE fn;
-    TYPE ret;
-    DECL_SPEC ds;
-    int throws = 1;
-    EXP virt = NULL_exp;
-    IDENTIFIER fid = id;
+	EXP e;
+	TYPE fn;
+	TYPE ret;
+	DECL_SPEC ds;
+	int throws = 1;
+	EXP virt = NULL_exp;
+	IDENTIFIER fid = id;
 	
-    /* Check for non-functions */
-    if (!IS_id_function_etc (id)) {
+	/* Check for non-functions */
+	if (!IS_id_function_etc (id)) {
 		e = make_error_exp (0);
 		return (e);
-    }
+	}
 	
-    /* Check for inherited functions */
-    ds = DEREF_dspec (id_storage (id));
-    if (ds & dspec_inherit) {
+	/* Check for inherited functions */
+	ds = DEREF_dspec (id_storage (id));
+	if (ds & dspec_inherit) {
 		id = DEREF_id (id_alias (id));
 		ds = DEREF_dspec (id_storage (id));
-    }
+	}
 	
-    /* Check for trivial functions */
-    if (ds & dspec_trivial) {
+	/* Check for trivial functions */
+	if (ds & dspec_trivial) {
 		e = apply_trivial_func (id, args);
 		if (!IS_NULL_exp (e)) {
 			DESTROY_list (args, SIZE_exp);
 			return (e);
 		}
-    }
+	}
 	
-    /* Convert the arguments */
-    fn = DEREF_type (id_function_etc_type (id));
-    args = cast_args (id, fn, gr, args, &ret, 1);
+	/* Convert the arguments */
+	fn = DEREF_type (id_function_etc_type (id));
+	args = cast_args (id, fn, gr, args, &ret, 1);
 	
-    /* Check for virtual function calls */
-    if (ds & dspec_virtual) {
+	/* Check for virtual function calls */
+	if (ds & dspec_virtual) {
 		if (!(qual & qual_explicit)) {
 			EXP a = DEREF_exp (HEAD_list (args));
 			int know = know_type (a);
@@ -882,14 +882,14 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 				ds = DEREF_dspec (id_storage (id));
 			}
 		}
-    }
-    if ((ds & dspec_friend) && IS_NULL_exp (virt)) {
+	}
+	if ((ds & dspec_friend) && IS_NULL_exp (virt)) {
 		/* Call can't throw an exception */
 		throws = 0;
-    }
+	}
 	
-    /* Check for token applications */
-    if (ds & dspec_token) {
+	/* Check for token applications */
+	if (ds & dspec_token) {
 		if ((qual & qual_mark) && !(ds & dspec_reserve)) {
 			/* Parenthesised - use function proper */
 			/* EMPTY */
@@ -902,14 +902,14 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 				}
 			}
 		}
-    }
+	}
 	
-    /* A function call is a side effect */
-    no_side_effects++;
+	/* A function call is a side effect */
+	no_side_effects++;
 	
-    /* Form the result */
-    MAKE_exp_func_id (ret, id, args, virt, e);
-    if (pass_complex_type (ret)) {
+	/* Form the result */
+	MAKE_exp_func_id (ret, id, args, virt, e);
+	if (pass_complex_type (ret)) {
 		/* Allow for complex return types */
 		EXP a;
 		MAKE_exp_dummy (ret, NULL_exp, LINK_NONE, NULL_off, 0, a);
@@ -926,13 +926,13 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 		COPY_unsigned (exp_func_id_extra (e), 1);
 		COPY_type (exp_type (e), type_void);
 		MAKE_exp_constr (ret, e, a, a, DEFAULT_USR, e);
-    }
+	}
 	
-    /* Check for exception violations */
-    if (throws) {
+	/* Check for exception violations */
+	if (throws) {
 		IGNORE check_func_throw (fn, fid);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -946,46 +946,46 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 static EXP
 apply_func_exp(EXP a, LIST (EXP) args)
 {
-    /* Find function type */
-    EXP e;
-    TYPE ret;
-    int mem = 0;
-    TYPE fn = DEREF_type (exp_type (a));
-    CV_SPEC cv = DEREF_cv (type_qual (fn));
-    if (cv & cv_lvalue) {
+	/* Find function type */
+	EXP e;
+	TYPE ret;
+	int mem = 0;
+	TYPE fn = DEREF_type (exp_type (a));
+	CV_SPEC cv = DEREF_cv (type_qual (fn));
+	if (cv & cv_lvalue) {
 		a = convert_lvalue (a);
 		fn = DEREF_type (exp_type (a));
-    }
-    switch (TAG_type (fn)) {
+	}
+	switch (TAG_type (fn)) {
 	case type_ptr_tag : {
-	    fn = DEREF_type (type_ptr_sub (fn));
-	    break;
+		fn = DEREF_type (type_ptr_sub (fn));
+		break;
 	}
 	case type_ptr_mem_tag : {
-	    fn = DEREF_type (type_ptr_mem_sub (fn));
-	    break;
+		fn = DEREF_type (type_ptr_mem_sub (fn));
+		break;
 	}
-    }
+	}
 	
-    /* Convert the arguments */
-    match_no_args = 0;
-    if (IS_exp_call (a)) mem = 1;
-    args = cast_args (NULL_id, fn, NULL_graph, args, &ret, mem);
-    if (mem) {
+	/* Convert the arguments */
+	match_no_args = 0;
+	if (IS_exp_call (a)) mem = 1;
+	args = cast_args (NULL_id, fn, NULL_graph, args, &ret, mem);
+	if (mem) {
 		/* Record pointer to function member argument */
 		EXP c = DEREF_exp (HEAD_list (args));
 		TYPE t = DEREF_type (exp_type (c));
 		MAKE_exp_dummy (t, c, LINK_NONE, NULL_off, 1, c);
 		COPY_exp (exp_call_arg (a), c);
 		COPY_exp (HEAD_list (args), c);
-    }
+	}
 	
-    /* A function call is a side effect */
-    no_side_effects++;
+	/* A function call is a side effect */
+	no_side_effects++;
 	
-    /* Form the result */
-    MAKE_exp_func (ret, a, args, e);
-    if (pass_complex_type (ret)) {
+	/* Form the result */
+	MAKE_exp_func (ret, a, args, e);
+	if (pass_complex_type (ret)) {
 		/* Allow for complex return types */
 		EXP b;
 		MAKE_exp_dummy (ret, NULL_exp, LINK_NONE, NULL_off, 0, b);
@@ -994,11 +994,11 @@ apply_func_exp(EXP a, LIST (EXP) args)
 		COPY_unsigned (exp_func_extra (e), 1);
 		COPY_type (exp_type (e), type_void);
 		MAKE_exp_constr (ret, e, b, b, DEFAULT_USR, e);
-    }
+	}
 	
-    /* Check for exception violations */
-    IGNORE check_func_throw (fn, NULL_id);
-    return (e);
+	/* Check for exception violations */
+	IGNORE check_func_throw (fn, NULL_id);
+	return (e);
 }
 
 
@@ -1012,12 +1012,12 @@ apply_func_exp(EXP a, LIST (EXP) args)
 static EXP
 call_func_templ(EXP a, LIST (EXP) args, int is_paren)
 {
-    EXP e;
-    TYPE ret = type_templ_param;
-    if (is_paren) a = make_paren_exp (a);
-    CONS_exp (a, args, args);
-    MAKE_exp_opn (ret, lex_func_Hop, args, e);
-    return (e);
+	EXP e;
+	TYPE ret = type_templ_param;
+	if (is_paren) a = make_paren_exp (a);
+	CONS_exp (a, args, args);
+	MAKE_exp_opn (ret, lex_func_Hop, args, e);
+	return (e);
 }
 
 
@@ -1030,21 +1030,21 @@ call_func_templ(EXP a, LIST (EXP) args, int is_paren)
 EXP
 make_func_exp(EXP a, LIST (EXP) args, int rescan)
 {
-    EXP e;
-    TYPE fn;
-    unsigned tag;
-    unsigned ftag;
-    int is_ptr = 0;
-    int is_ptr_mem = 0;
-    int is_paren = IS_exp_paren (a);
+	EXP e;
+	TYPE fn;
+	unsigned tag;
+	unsigned ftag;
+	int is_ptr = 0;
+	int is_ptr_mem = 0;
+	int is_paren = IS_exp_paren (a);
 	
-    /* Do reference conversions */
-    a = convert_reference (a, REF_FUNCTION);
-    args = convert_args (args);
+	/* Do reference conversions */
+	a = convert_reference (a, REF_FUNCTION);
+	args = convert_args (args);
 	
-    /* Map '&f' to 'f' */
-    tag = TAG_exp (a);
-    if (tag == exp_address_tag) {
+	/* Map '&f' to 'f' */
+	tag = TAG_exp (a);
+	if (tag == exp_address_tag) {
 		/* Non-member function */
 		EXP b = DEREF_exp (exp_address_arg (a));
 		if (IS_exp_identifier_etc (b)) {
@@ -1052,7 +1052,7 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 			tag = TAG_exp (a);
 			is_paren = 1;
 		}
-    } else if (tag == exp_address_mem_tag) {
+	} else if (tag == exp_address_mem_tag) {
 		/* Member function (which better eventually be static) */
 		EXP b = DEREF_exp (exp_address_mem_arg (a));
 		IDENTIFIER id = DEREF_id (exp_member_id (b));
@@ -1069,31 +1069,31 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 			is_paren = 1;
 			is_ptr_mem = 1;
 		}
-    }
+	}
 	
-    /* Check function type */
-    fn = DEREF_type (exp_type (a));
-    ftag = TAG_type (fn);
+	/* Check function type */
+	fn = DEREF_type (exp_type (a));
+	ftag = TAG_type (fn);
 #if LANGUAGE_CPP
-    if (ftag == type_compound_tag) {
+	if (ftag == type_compound_tag) {
 		/* Allow for overloading using 'operator ()' */
 		if (overload_depth == 0) {
 			e = function_overload (a, args);
 			return (e);
 		}
-    }
+	}
 #endif
-    if (ftag == type_ptr_tag) {
+	if (ftag == type_ptr_tag) {
 		/* Allow for pointers to functions */
 		fn = DEREF_type (type_ptr_sub (fn));
 		ftag = TAG_type (fn);
 		is_ptr = 1;
-    }
-    while (ftag == type_templ_tag) {
+	}
+	while (ftag == type_templ_tag) {
 		fn = DEREF_type (type_templ_defn (fn));
 		ftag = TAG_type (fn);
-    }
-    if (ftag != type_func_tag) {
+	}
+	if (ftag != type_func_tag) {
 		if (ftag == type_token_tag && is_templ_type (fn)) {
 			/* Allow for template types */
 			e = call_func_templ (a, args, is_paren);
@@ -1115,16 +1115,16 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 		}
 		e = make_error_exp (0);
 		return (e);
-    }
+	}
 	
-    /* Deal with named functions */
-    if (!is_ptr) {
+	/* Deal with named functions */
+	if (!is_ptr) {
 		switch (tag) {
 			
-	    case exp_identifier_tag :
-	    case exp_member_tag :
-	    case exp_ambiguous_tag :
-	    case exp_undeclared_tag : {
+		case exp_identifier_tag :
+		case exp_member_tag :
+		case exp_ambiguous_tag :
+		case exp_undeclared_tag : {
 			/* Normal functions, 'f' */
 			int dep = 1;
 			DECL_SPEC ds;
@@ -1146,8 +1146,8 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 			if (qual & qual_explicit) dep = 0;
 			if (is_paren) qual |= qual_mark;
 			switch (TAG_id (id)) {
-		    case id_mem_func_tag :
-		    case id_stat_mem_func_tag :
+			case id_mem_func_tag :
+			case id_stat_mem_func_tag :
 				mem_func_label : {
 					/* Add argument for member functions */
 					extra = make_this_ref (&ns);
@@ -1155,20 +1155,20 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 					dep = 0;
 					break;
 				}
-		    case id_ambig_tag : {
+			case id_ambig_tag : {
 				/* Check for ambiguous member functions */
 				CLASS_TYPE ct = parent_class (id);
 				if (!IS_NULL_ctype (ct)) goto mem_func_label;
 				break;
-		    }
+			}
 			}
 			id = resolve_call (id, args, qual, dep);
 			switch (TAG_id (id)) {
-		    case id_function_tag : {
+			case id_function_tag : {
 				/* Normal function call */
 				break;
-		    }
-		    case id_mem_func_tag : {
+			}
+			case id_mem_func_tag : {
 				/* Member function call */
 				if (is_ptr_mem) {
 					fn = DEREF_type (id_mem_func_type (id));
@@ -1185,15 +1185,15 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 					crt_access_list.inherit++;
 				}
 				break;
-		    }
-		    case id_stat_mem_func_tag : {
+			}
+			case id_stat_mem_func_tag : {
 				/* Static member function call */
 				if (!IS_NULL_exp (extra)) {
 					COPY_exp (HEAD_list (args), NULL_exp);
 				}
 				break;
-		    }
-		    default : {
+			}
+			default : {
 				/* Non-function called */
 				if (in_template_decl) {
 					e = call_func_templ (a, args, is_paren);
@@ -1206,7 +1206,7 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 					}
 				}
 				return (e);
-		    }
+			}
 			}
 			use_func_id (id, 1, suppress_usage);
 			crt_access_list.inherit = acc;
@@ -1216,9 +1216,9 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 				e = apply_func_id (id, qual, NULL_graph, args);
 			}
 			return (e);
-	    }
+		}
 			
-	    case exp_call_tag : {
+		case exp_call_tag : {
 			/* Member function selectors */
 			EXP b = DEREF_exp (exp_call_ptr (a));
 			EXP c = DEREF_exp (exp_call_arg (a));
@@ -1269,37 +1269,37 @@ make_func_exp(EXP a, LIST (EXP) args, int rescan)
 			/* Pointer to member function selector, 'a.*f' */
 			CONS_exp (c, args, args);
 			break;
-	    }
 		}
-    }
+		}
+	}
 	
-    /* Form the result for function expressions */
-    e = apply_func_exp (a, args);
-    return (e);
+	/* Form the result for function expressions */
+	e = apply_func_exp (a, args);
+	return (e);
 }
 
 
 /*
  *    SHOULD A FUNCTION RETURN VALUE BE IGNORED?
  *
- *    This routine checks whether a function consisting of 'return e ;'
+ *    This routine checks whether a function consisting of 'return e;'
  *    should be inlined.
  */
 
 static EXP
 check_inline_return (EXP e, TYPE ret)
 {
-    if (IS_NULL_exp (e)) {
+	if (IS_NULL_exp (e)) {
 		/* No value returned */
 		MAKE_exp_value (ret, e);
 		return (e);
-    }
-    if (is_const_exp (e, -1)) {
+	}
+	if (is_const_exp (e, -1)) {
 		/* Constant expression returned */
 		MAKE_exp_copy (ret, e, e);
 		return (e);
-    }
-    return (NULL_exp);
+	}
+	return (NULL_exp);
 }
 
 
@@ -1317,13 +1317,13 @@ check_inline_return (EXP e, TYPE ret)
 EXP
 check_inline(IDENTIFIER id, LIST (EXP) args, TYPE ret)
 {
-    while (!IS_NULL_list (args)) {
+	while (!IS_NULL_list (args)) {
 		/* Check argument list */
 		EXP a = DEREF_exp (HEAD_list (args));
 		if (!IS_NULL_exp (a)) return (NULL_exp);
 		args = TAIL_list (args);
-    }
-    if (IS_id_function_etc (id)) {
+	}
+	if (IS_id_function_etc (id)) {
 		/* Check function definition */
 		EXP e = DEREF_exp (id_function_etc_defn (id));
 		if (!IS_NULL_exp (e) && IS_exp_sequence (e)) {
@@ -1349,8 +1349,8 @@ check_inline(IDENTIFIER id, LIST (EXP) args, TYPE ret)
 				}
 			}
 		}
-    }
-    return (NULL_exp);
+	}
+	return (NULL_exp);
 }
 
 
@@ -1368,13 +1368,13 @@ check_inline(IDENTIFIER id, LIST (EXP) args, TYPE ret)
 int
 pass_complex_type(TYPE t)
 {
-    if (!IS_NULL_type (t) && IS_type_compound (t)) {
+	if (!IS_NULL_type (t) && IS_type_compound (t)) {
 		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 		CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
 		CLASS_INFO cj = (ci & cinfo_trivial);
 		if (cj != cinfo_trivial) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1390,15 +1390,15 @@ pass_complex_type(TYPE t)
 void
 func_type_defn(int par)
 {
-    int td = have_type_declaration;
-    if (td == TYPE_DECL_NORMAL || td == TYPE_DECL_ANON) {
+	int td = have_type_declaration;
+	if (td == TYPE_DECL_NORMAL || td == TYPE_DECL_ANON) {
 		if (par) {
 			report (crt_loc, ERR_dcl_fct_typedef_par ());
 		} else {
 			report (crt_loc, ERR_dcl_fct_typedef_ret ());
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1413,24 +1413,24 @@ func_type_defn(int par)
 TYPE
 make_param_type(TYPE t, int loc)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_func_tag : {
-	    /* Function parameters are adjusted to pointers */
-	    member_func_type (NULL_ctype, id_parameter_tag, t);
-	    check_weak_func (t, 0);
-	    MAKE_type_ptr (cv_none, t, t);
-	    break;
+		/* Function parameters are adjusted to pointers */
+		member_func_type (NULL_ctype, id_parameter_tag, t);
+		check_weak_func (t, 0);
+		MAKE_type_ptr (cv_none, t, t);
+		break;
 	}
 	case type_array_tag : {
-	    /* Array parameters are adjusted to pointers */
-	    if (loc == CONTEXT_PARAMETER || loc == CONTEXT_WEAK_PARAM) {
+		/* Array parameters are adjusted to pointers */
+		if (loc == CONTEXT_PARAMETER || loc == CONTEXT_WEAK_PARAM) {
 			t = DEREF_type (type_array_sub (t));
 			MAKE_type_ptr (cv_none, t, t);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1447,24 +1447,24 @@ make_param_type(TYPE t, int loc)
 ERROR
 check_param_type(IDENTIFIER id, TYPE t)
 {
-    TYPE s = t;
-    int state = 0;
-    while (!IS_NULL_type (s)) {
+	TYPE s = t;
+	int state = 0;
+	while (!IS_NULL_type (s)) {
 		switch (TAG_type (s)) {
-	    case type_top_tag :
-	    case type_bottom_tag : {
+		case type_top_tag :
+		case type_bottom_tag : {
 			/* Void types */
 			if (state) return (NULL_err);
 			return (ERR_dcl_fct_par_void (id, t));
-	    }
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		}
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Pointer and reference types */
 			s = DEREF_type (type_ptr_etc_sub (s));
 			state = 1;
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			/* Array types */
 			if (state) {
 				NAT n = DEREF_nat (type_array_size (s));
@@ -1475,14 +1475,14 @@ check_param_type(IDENTIFIER id, TYPE t)
 			s = DEREF_type (type_array_sub (s));
 			state = 0;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other types */
 			return (NULL_err);
-	    }
 		}
-    }
-    return (NULL_err);
+		}
+	}
+	return (NULL_err);
 }
 
 
@@ -1496,12 +1496,12 @@ check_param_type(IDENTIFIER id, TYPE t)
 CV_SPEC
 func_linkage(CV_SPEC cv)
 {
-    DECL_SPEC ln = crt_linkage;
-    if (ln) {
+	DECL_SPEC ln = crt_linkage;
+	if (ln) {
 		if (ln & dspec_c) cv |= cv_c;
 		if (ln & dspec_cpp) cv |= cv_cpp;
-    }
-    return (cv);
+	}
+	return (cv);
 }
 
 
@@ -1520,19 +1520,19 @@ func_linkage(CV_SPEC cv)
 TYPE
 make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 {
-    int no_param = 0;
-    TYPE t = NULL_type;
-    LIST (IDENTIFIER) p1;
-    IDENTIFIER id = NULL_id;
-    LIST (TYPE) q = NULL_list (TYPE);
-    LIST (IDENTIFIER) p = NULL_list (IDENTIFIER);
+	int no_param = 0;
+	TYPE t = NULL_type;
+	LIST (IDENTIFIER) p1;
+	IDENTIFIER id = NULL_id;
+	LIST (TYPE) q = NULL_list (TYPE);
+	LIST (IDENTIFIER) p = NULL_list (IDENTIFIER);
 	
-    /* Get parameter declarations */
-    NAMESPACE ns = crt_namespace;
-    MEMBER mem = DEREF_member (nspace_last (ns));
+	/* Get parameter declarations */
+	NAMESPACE ns = crt_namespace;
+	MEMBER mem = DEREF_member (nspace_last (ns));
 	
-    /* Build up parameter type list (deleting cv-qualifiers) */
-    while (!IS_NULL_member (mem)) {
+	/* Build up parameter type list (deleting cv-qualifiers) */
+	while (!IS_NULL_member (mem)) {
 		id = DEREF_id (member_id (mem));
 		if (!IS_NULL_id (id) && IS_id_parameter (id)) {
 			t = DEREF_type (id_parameter_type (id));
@@ -1549,10 +1549,10 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 			no_param++;
 		}
 		mem = DEREF_member (member_next (mem));
-    }
+	}
 	
-    /* Check for non-prototype functions */
-    if (IS_NULL_type (r)) {
+	/* Check for non-prototype functions */
+	if (IS_NULL_type (r)) {
 		if (ell & FUNC_NON_PROTO) {
 			report (crt_loc, ERR_dcl_fct_nonproto ());
 			if (ell == FUNC_WEAK && no_param == 0) {
@@ -1565,15 +1565,15 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 		} else {
 			report (crt_loc, ERR_dcl_fct_proto ());
 		}
-    }
+	}
 	
-    /* Check for '(...)' */
-    if (no_param == 0 && (ell & FUNC_ELLIPSIS)) {
+	/* Check for '(...)' */
+	if (no_param == 0 && (ell & FUNC_ELLIPSIS)) {
 		report (crt_loc, ERR_dcl_fct_par_ellipsis ());
-    }
+	}
 	
-    /* Check for '(void)' */
-    if (no_param == 1 && !(ell & FUNC_ELLIPSIS)) {
+	/* Check for '(void)' */
+	if (no_param == 1 && !(ell & FUNC_ELLIPSIS)) {
 		/* Precisely one parameter (in t and id) */
 		if (IS_type_top (t)) {
 			HASHID nm = DEREF_hashid (id_name (id));
@@ -1585,11 +1585,11 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 			q = NULL_list (TYPE);
 			p = NULL_list (IDENTIFIER);
 		}
-    }
+	}
 	
-    /* Check for other void parameters */
-    p1 = p;
-    while (!IS_NULL_list (p1)) {
+	/* Check for other void parameters */
+	p1 = p;
+	while (!IS_NULL_list (p1)) {
 		ERROR err;
 		id = DEREF_id (HEAD_list (p1));
 		t = DEREF_type (id_parameter_type (id));
@@ -1599,11 +1599,11 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 			report (crt_loc, err);
 		}
 		p1 = TAIL_list (p1);
-    }
+	}
 	
-    /* Construct the function type */
-    MAKE_type_func (cv_none, r, q, ell, cv, q, ns, p, ex, t);
-    return (t);
+	/* Construct the function type */
+	MAKE_type_func (cv_none, r, q, ell, cv, q, ns, p, ex, t);
+	return (t);
 }
 
 
@@ -1622,12 +1622,12 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 void
 member_func_type(CLASS_TYPE ct, unsigned itag, TYPE t)
 {
-    unsigned tag = TAG_type (t);
-    while (tag == type_templ_tag) {
+	unsigned tag = TAG_type (t);
+	while (tag == type_templ_tag) {
 		t = DEREF_type (type_templ_defn (t));
 		tag = TAG_type (t);
-    }
-    if (tag == type_func_tag) {
+	}
+	if (tag == type_func_tag) {
 		CV_SPEC cv = DEREF_cv (type_func_mqual (t));
 		CV_SPEC qual = (cv & cv_qual);
 		LIST (TYPE) ptypes = DEREF_list (type_func_ptypes (t));
@@ -1672,8 +1672,8 @@ member_func_type(CLASS_TYPE ct, unsigned itag, TYPE t)
 				/* EMPTY */
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1688,8 +1688,8 @@ member_func_type(CLASS_TYPE ct, unsigned itag, TYPE t)
 void
 check_weak_func(TYPE t, int def)
 {
-    int ell = DEREF_int (type_func_ellipsis (t));
-    if (ell == FUNC_PARAMS) {
+	int ell = DEREF_int (type_func_ellipsis (t));
+	if (ell == FUNC_PARAMS) {
 		/* Have parameter list '(a1, a2, ..., an)' */
 		if (def) {
 			LOCATION loc;
@@ -1745,12 +1745,12 @@ check_weak_func(TYPE t, int def)
 			report (crt_loc, ERR_dcl_fct_weak ());
 			ell = FUNC_NO_PARAMS;
 		}
-    } else if (ell == FUNC_NO_PARAMS) {
+	} else if (ell == FUNC_NO_PARAMS) {
 		/* Have empty parameter list '()' */
 		if (def) ell = FUNC_WEAK_PARAMS;
-    }
-    COPY_int (type_func_ellipsis (t), ell);
-    return;
+	}
+	COPY_int (type_func_ellipsis (t), ell);
+	return;
 }
 
 
@@ -1764,15 +1764,15 @@ check_weak_func(TYPE t, int def)
 void
 object_type(TYPE t, unsigned tag)
 {
-    int depth = 0;
-    if (tag == id_type_alias_tag || tag == null_tag) {
+	int depth = 0;
+	if (tag == id_type_alias_tag || tag == null_tag) {
 		/* Force errors in these cases */
 		depth = 2;
-    }
-    while (!IS_NULL_type (t)) {
+	}
+	while (!IS_NULL_type (t)) {
 		ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
-	    case type_func_tag : {
+		case type_func_tag : {
 			/* Function types */
 			LIST (TYPE) ex;
 			CV_SPEC cv = DEREF_cv (type_func_mqual (t));
@@ -1833,37 +1833,37 @@ object_type(TYPE t, unsigned tag)
 				}
 			}
 			return;
-	    }
-	    case type_ptr_tag : {
+		}
+		case type_ptr_tag : {
 			t = DEREF_type (type_ptr_sub (t));
 			depth++;
 			break;
-	    }
-	    case type_ref_tag : {
+		}
+		case type_ref_tag : {
 			t = DEREF_type (type_ref_sub (t));
 			break;
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			t = DEREF_type (type_ptr_mem_sub (t));
 			depth++;
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			t = DEREF_type (type_array_sub (t));
 			depth++;
 			break;
-	    }
-	    case type_templ_tag : {
+		}
+		case type_templ_tag : {
 			t = DEREF_type (type_templ_defn (t));
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other types */
 			return;
-	    }
 		}
-    }
-    return;
+		}
+	}
+	return;
 }
 
 
@@ -1880,51 +1880,51 @@ object_type(TYPE t, unsigned tag)
 void
 decl_func_type(IDENTIFIER id, TYPE t, int def)
 {
-    NAMESPACE pns;
-    int is_templ = 0;
-    unsigned tag = TAG_id (id);
+	NAMESPACE pns;
+	int is_templ = 0;
+	unsigned tag = TAG_id (id);
 	
-    /* Step over template components */
-    if (IS_type_templ (t)) {
+	/* Step over template components */
+	if (IS_type_templ (t)) {
 		t = check_templ_params (t, id);
 		is_templ = 1;
-    }
-    pns = DEREF_nspace (type_func_pars (t));
-    COPY_id (nspace_name (pns), id);
+	}
+	pns = DEREF_nspace (type_func_pars (t));
+	COPY_id (nspace_name (pns), id);
 	
-    /* Check default arguments */
-    IGNORE check_func_dargs (t, 1, 0);
+	/* Check default arguments */
+	IGNORE check_func_dargs (t, 1, 0);
 	
-    /* Check cv-qualifiers */
-    switch (tag) {
+	/* Check cv-qualifiers */
+	switch (tag) {
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Allow for member functions */
-	    CLASS_TYPE ct = parent_class (id);
-	    member_func_type (ct, tag, t);
+		/* Allow for member functions */
+		CLASS_TYPE ct = parent_class (id);
+		member_func_type (ct, tag, t);
 		
-	    /* Allow for overloading of template functions */
-	    if (is_templ) {
+		/* Allow for overloading of template functions */
+		if (is_templ) {
 			templ_func_decl (id);
-	    } else {
+		} else {
 			IDENTIFIER over = DEREF_id (id_function_etc_over (id));
 			if (!IS_NULL_id (over)) {
 				/* Overloads a template function */
 				DECL_SPEC ds = DEREF_dspec (id_storage (over));
 				if (ds & dspec_template) templ_func_decl (id);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	default : {
-	    /* Allow for function typedefs */
-	    member_func_type (NULL_ctype, tag, t);
-	    break;
+		/* Allow for function typedefs */
+		member_func_type (NULL_ctype, tag, t);
+		break;
 	}
-    }
-    UNUSED (def);
-    return;
+	}
+	UNUSED (def);
+	return;
 }
 
 
@@ -1939,8 +1939,8 @@ decl_func_type(IDENTIFIER id, TYPE t, int def)
 static unsigned
 redecl_func_dargs(TYPE s, TYPE t)
 {
-    unsigned nargs = 0;
-    if (IS_type_func (s) && IS_type_func (t)) {
+	unsigned nargs = 0;
+	if (IS_type_func (s) && IS_type_func (t)) {
 		int started = 0;
 		LIST (IDENTIFIER) ps = DEREF_list (type_func_pids (s));
 		LIST (IDENTIFIER) pt = DEREF_list (type_func_pids (t));
@@ -2000,8 +2000,8 @@ redecl_func_dargs(TYPE s, TYPE t)
 			ps = TAIL_list (ps);
 			pt = TAIL_list (pt);
 		}
-    }
-    return (nargs);
+	}
+	return (nargs);
 }
 
 
@@ -2018,64 +2018,64 @@ redecl_func_dargs(TYPE s, TYPE t)
 TYPE
 redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 {
-    TYPE fs = s;
-    TYPE ft = t;
-    CV_SPEC qs, qt;
-    NAMESPACE ns, nt;
-    unsigned tag = TAG_id (id);
+	TYPE fs = s;
+	TYPE ft = t;
+	CV_SPEC qs, qt;
+	NAMESPACE ns, nt;
+	unsigned tag = TAG_id (id);
 	
-    /* Check template components */
-    redecl_template (&fs, &ft, id);
-    ns = DEREF_nspace (type_func_pars (fs));
-    nt = DEREF_nspace (type_func_pars (ft));
-    COPY_id (nspace_name (ns), id);
-    COPY_id (nspace_name (nt), id);
+	/* Check template components */
+	redecl_template (&fs, &ft, id);
+	ns = DEREF_nspace (type_func_pars (fs));
+	nt = DEREF_nspace (type_func_pars (ft));
+	COPY_id (nspace_name (ns), id);
+	COPY_id (nspace_name (nt), id);
 	
 #if LANGUAGE_C
-    /* Copy composite type information */
-    if (def) {
+	/* Copy composite type information */
+	if (def) {
 		TYPE ret = DEREF_type (type_func_ret (fs));
 		int ell = DEREF_int (type_func_ellipsis (fs));
 		LIST (TYPE) ptypes = DEREF_list (type_func_ptypes (fs));
 		COPY_list (type_func_ptypes (ft), ptypes);
 		COPY_int (type_func_ellipsis (ft), ell);
 		COPY_type (type_func_ret (ft), ret);
-    }
+	}
 #endif
 	
-    /* Check default arguments */
-    if (dargs && redecl_func_dargs (fs, ft)) {
+	/* Check default arguments */
+	if (dargs && redecl_func_dargs (fs, ft)) {
 		if (IS_type_templ (t)) {
 			report (decl_loc, ERR_dcl_fct_default_templ ());
 		}
-    }
+	}
 	
-    /* Check exception specifications */
-    if (eq_except (s, t) != 2) {
+	/* Check exception specifications */
+	if (eq_except (s, t) != 2) {
 		PTR (LOCATION) loc = id_loc (id);
 		report (decl_loc, ERR_except_spec_wrong (id, loc));
-    }
+	}
 	
-    /* Check cv-qualifiers */
-    switch (tag) {
+	/* Check cv-qualifiers */
+	switch (tag) {
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Allow for member functions */
-	    CLASS_TYPE ct = parent_class (id);
-	    member_func_type (ct, tag, ft);
-	    break;
+		/* Allow for member functions */
+		CLASS_TYPE ct = parent_class (id);
+		member_func_type (ct, tag, ft);
+		break;
 	}
 	default : {
-	    /* Allow for function typedefs */
-	    member_func_type (NULL_ctype, tag, ft);
-	    break;
+		/* Allow for function typedefs */
+		member_func_type (NULL_ctype, tag, ft);
+		break;
 	}
-    }
+	}
 	
-    /* Check function qualifiers */
-    qs = DEREF_cv (type_func_mqual (fs));
-    qt = DEREF_cv (type_func_mqual (ft));
-    if (qs != qt) {
+	/* Check function qualifiers */
+	qs = DEREF_cv (type_func_mqual (fs));
+	qt = DEREF_cv (type_func_mqual (ft));
+	if (qs != qt) {
 		qs &= cv_language;
 		qt &= cv_language;
 		if (qs != qt) {
@@ -2083,10 +2083,10 @@ redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 			string ln = linkage_string (dspec_none, qs);
 			report (decl_loc, ERR_dcl_link_func (ln));
 		}
-    }
+	}
 	
-    /* Select type to continue with */
-    if (def) {
+	/* Select type to continue with */
+	if (def) {
 		LIST (IDENTIFIER) sids = DEREF_list (type_func_pids (fs));
 		LIST (IDENTIFIER) tids = DEREF_list (type_func_pids (ft));
 		if (!EQ_list (sids, tids)) {
@@ -2106,8 +2106,8 @@ redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 			reset_primary_templ (s, t);
 		}
 		s = t;
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -2121,7 +2121,7 @@ redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 TYPE
 find_func_type(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		unsigned tag = TAG_type (t);
 		if (tag == type_ref_tag) {
 			t = DEREF_type (type_ref_sub (t));
@@ -2135,8 +2135,8 @@ find_func_type(TYPE t)
 			tag = TAG_type (t);
 		}
 		if (tag == type_func_tag) return (t);
-    }
-    return (NULL_type);
+	}
+	return (NULL_type);
 }
 
 
@@ -2162,10 +2162,10 @@ static STACK (LOCATION) decl_locs = NULL_stack (LOCATION);
 void
 begin_param(IDENTIFIER id)
 {
-    NAMESPACE ns = make_namespace (id, nspace_param_tag, 0);
-    push_namespace (ns);
-    PUSH_loc (decl_loc, decl_locs);
-    return;
+	NAMESPACE ns = make_namespace (id, nspace_param_tag, 0);
+	push_namespace (ns);
+	PUSH_loc (decl_loc, decl_locs);
+	return;
 }
 
 
@@ -2176,11 +2176,11 @@ begin_param(IDENTIFIER id)
  */
 
 void
-end_param()
+end_param(void)
 {
-    IGNORE pop_namespace ();
-    POP_loc (decl_loc, decl_locs);
-    return;
+	IGNORE pop_namespace ();
+	POP_loc (decl_loc, decl_locs);
+	return;
 }
 
 
@@ -2194,14 +2194,14 @@ end_param()
 void
 adjust_param(TYPE t)
 {
-    NAMESPACE ns;
-    while (IS_type_templ (t)) {
+	NAMESPACE ns;
+	while (IS_type_templ (t)) {
 		t = DEREF_type (type_templ_defn (t));
-    }
-    ns = DEREF_nspace (type_func_pars (t));
-    MODIFY_nspace_block_etc (nspace_block_tag, ns);
-    report (crt_loc, ERR_dcl_fct_typedef ());
-    return;
+	}
+	ns = DEREF_nspace (type_func_pars (t));
+	MODIFY_nspace_block_etc (nspace_block_tag, ns);
+	report (crt_loc, ERR_dcl_fct_typedef ());
+	return;
 }
 
 
@@ -2215,8 +2215,8 @@ adjust_param(TYPE t)
 int
 function_params(TYPE t)
 {
-    int def = 0;
-    if (IS_type_func (t)) {
+	int def = 0;
+	if (IS_type_func (t)) {
 		int func = have_func_declarator;
 		int ell = DEREF_int (type_func_ellipsis (t));
 		NAMESPACE ns = DEREF_nspace (type_func_pars (t));
@@ -2242,8 +2242,8 @@ function_params(TYPE t)
 		check_weak_func (t, def);
 		IGNORE pop_namespace ();
 		in_weak_param--;
-    }
-    return (def);
+	}
+	return (def);
 }
 
 
@@ -2272,8 +2272,8 @@ IDENTIFIER main_function = NULL_id;
 TYPE
 check_main(TYPE t, HASHID nm)
 {
-    int ok = 0;
-    if (IS_type_func (t)) {
+	int ok = 0;
+	if (IS_type_func (t)) {
 		TYPE r = DEREF_type (type_func_ret (t));
 		LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
 		int ell = DEREF_int (type_func_ellipsis (t));
@@ -2313,13 +2313,13 @@ check_main(TYPE t, HASHID nm)
 				}
 			}
 		}
-    }
-    if (!ok) {
+	}
+	if (!ok) {
 		/* Warn about unorthodox parameter types */
 		ERROR err = ERR_basic_start_main_proto (t, nm);
 		report (crt_loc, err);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -2333,14 +2333,14 @@ check_main(TYPE t, HASHID nm)
 void
 recheck_main(IDENTIFIER id)
 {
-    TYPE fn = DEREF_type (id_function_etc_type (id));
-    IDENTIFIER over = DEREF_id (id_function_etc_over (id));
-    if (!IS_NULL_id (over) || IS_type_templ (fn)) {
+	TYPE fn = DEREF_type (id_function_etc_type (id));
+	IDENTIFIER over = DEREF_id (id_function_etc_over (id));
+	if (!IS_NULL_id (over) || IS_type_templ (fn)) {
 		/* Can't overload 'main' */
 		report (decl_loc, ERR_basic_start_main_over (id));
-    }
-    main_function = id;
-    return;
+	}
+	main_function = id;
+	return;
 }
 
 
@@ -2366,29 +2366,29 @@ int crt_func_complex = 0;
  */
 
 static struct {
-    STACK (IDENTIFIER) id;
-    STACK (TYPE) ret;
-    STACK (int) unreached;
-    STACK (int) declaration;
-    STACK (int) destructor;
-    STACK (int) handler;
-    STACK (STACK (EXP)) loops;
-    STACK (NAMESPACE) labels;
-    STACK (LIST (EXP)) solves;
-    STACK (LIST (EXP)) tries;
-    STACK (unsigned long) opts;
+	STACK (IDENTIFIER) id;
+	STACK (TYPE) ret;
+	STACK (int) unreached;
+	STACK (int) declaration;
+	STACK (int) destructor;
+	STACK (int) handler;
+	STACK (STACK (EXP)) loops;
+	STACK (NAMESPACE) labels;
+	STACK (LIST (EXP)) solves;
+	STACK (LIST (EXP)) tries;
+	STACK (unsigned long) opts;
 } func_stack = {
-    NULL_stack (IDENTIFIER),
-    NULL_stack (TYPE),
-    NULL_stack (int),
-    NULL_stack (int),
-    NULL_stack (int),
-    NULL_stack (int),
-    NULL_stack (STACK (EXP)),
-    NULL_stack (NAMESPACE),
-    NULL_stack (LIST (EXP)),
-    NULL_stack (LIST (EXP)),
-    NULL_stack (unsigned long)
+	NULL_stack (IDENTIFIER),
+	NULL_stack (TYPE),
+	NULL_stack (int),
+	NULL_stack (int),
+	NULL_stack (int),
+	NULL_stack (int),
+	NULL_stack (STACK (EXP)),
+	NULL_stack (NAMESPACE),
+	NULL_stack (LIST (EXP)),
+	NULL_stack (LIST (EXP)),
+	NULL_stack (unsigned long)
 };
 
 
@@ -2402,19 +2402,19 @@ static struct {
 void
 begin_function(IDENTIFIER id)
 {
-    TYPE t;
-    int ell;
-    TYPE ret;
-    NAMESPACE ns;
-    NAMESPACE bns;
-    unsigned long n;
-    LIST (TYPE) ex;
-    ERROR err = NULL_err;
-    LIST (IDENTIFIER) p;
-    unsigned long npars = 0;
+	TYPE t;
+	int ell;
+	TYPE ret;
+	NAMESPACE ns;
+	NAMESPACE bns;
+	unsigned long n;
+	LIST (TYPE) ex;
+	ERROR err = NULL_err;
+	LIST (IDENTIFIER) p;
+	unsigned long npars = 0;
 	
-    /* Check for previous definition */
-    if (IS_id_function_etc (id)) {
+	/* Check for previous definition */
+	if (IS_id_function_etc (id)) {
 		EXP e = DEREF_exp (id_function_etc_defn (id));
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		t = DEREF_type (id_function_etc_type (id));
@@ -2430,79 +2430,79 @@ begin_function(IDENTIFIER id)
 		if ((ds & dspec_inline) && (ds & dspec_called)) {
 			report (decl_loc, ERR_dcl_fct_spec_inline_call (id));
 		}
-    } else {
+	} else {
 		t = type_func_void;
-    }
-    COPY_loc (id_loc (id), decl_loc);
-    stmt_loc = crt_loc;
+	}
+	COPY_loc (id_loc (id), decl_loc);
+	stmt_loc = crt_loc;
 	
-    /* Decompose function type */
-    while (IS_type_templ (t)) {
+	/* Decompose function type */
+	while (IS_type_templ (t)) {
 		t = DEREF_type (type_templ_defn (t));
-    }
-    ell = DEREF_int (type_func_ellipsis (t));
-    p = DEREF_list (type_func_pids (t));
-    ex = DEREF_list (type_func_except (t));
-    ns = DEREF_nspace (type_func_pars (t));
-    if (IS_NULL_nspace (ns)) {
+	}
+	ell = DEREF_int (type_func_ellipsis (t));
+	p = DEREF_list (type_func_pids (t));
+	ex = DEREF_list (type_func_except (t));
+	ns = DEREF_nspace (type_func_pars (t));
+	if (IS_NULL_nspace (ns)) {
 		ns = make_namespace (id, nspace_param_tag, 0);
-    }
-    bns = ns;
+	}
+	bns = ns;
 	
-    /* Check return type */
-    ret = DEREF_type (type_func_ret (t));
-    ret = check_ret_type (ret, &err, 1);
-    if (!IS_NULL_err (err)) {
+	/* Check return type */
+	ret = DEREF_type (type_func_ret (t));
+	ret = check_ret_type (ret, &err, 1);
+	if (!IS_NULL_err (err)) {
 		err = concat_error (err, ERR_dcl_fct_ret ());
 		report (decl_loc, err);
-    }
+	}
 	
-    /* Save old function data */
-    PUSH_id (crt_func_id, func_stack.id);
-    PUSH_type (crt_func_return, func_stack.ret);
-    PUSH_int (unreached_code, func_stack.unreached);
-    PUSH_int (in_declaration, func_stack.declaration);
-    PUSH_int (have_destructor, func_stack.destructor);
-    PUSH_int (in_func_handler, func_stack.handler);
-    PUSH_stack (crt_loop_stack, func_stack.loops);
-    PUSH_nspace (label_namespace, func_stack.labels);
-    PUSH_list (all_solve_stmts, func_stack.solves);
-    PUSH_list (all_try_blocks, func_stack.tries);
-    n = crt_option_value (OPT_VAL_statement_depth);
-    PUSH_ulong (n, func_stack.opts);
-    n = crt_option_value (OPT_VAL_nested_class);
-    PUSH_ulong (n, func_stack.opts);
-    n = number_errors;
-    PUSH_ulong (n, func_stack.opts);
+	/* Save old function data */
+	PUSH_id (crt_func_id, func_stack.id);
+	PUSH_type (crt_func_return, func_stack.ret);
+	PUSH_int (unreached_code, func_stack.unreached);
+	PUSH_int (in_declaration, func_stack.declaration);
+	PUSH_int (have_destructor, func_stack.destructor);
+	PUSH_int (in_func_handler, func_stack.handler);
+	PUSH_stack (crt_loop_stack, func_stack.loops);
+	PUSH_nspace (label_namespace, func_stack.labels);
+	PUSH_list (all_solve_stmts, func_stack.solves);
+	PUSH_list (all_try_blocks, func_stack.tries);
+	n = crt_option_value (OPT_VAL_statement_depth);
+	PUSH_ulong (n, func_stack.opts);
+	n = crt_option_value (OPT_VAL_nested_class);
+	PUSH_ulong (n, func_stack.opts);
+	n = number_errors;
+	PUSH_ulong (n, func_stack.opts);
 	
-    /* Set up new function data */
-    commentary (id);
-    crt_func_id = id;
-    crt_func_return = ret;
-    crt_func_complex = pass_complex_type (ret);
-    unreached_code = 0;
-    unreached_last = 0;
-    unreached_fall = 1;
-    in_declaration = 0;
-    have_destructor = 0;
-    in_func_handler = 0;
-    crt_loop_stack = NULL_stack (EXP);
-    all_solve_stmts = NULL_list (EXP);
-    all_try_blocks = NULL_list (EXP);
-    crt_option_value (OPT_VAL_statement_depth) = 0;
-    crt_option_value (OPT_VAL_nested_class) = 0;
-    if (option (OPT_variable)) record_location++;
-    label_namespace = make_namespace (id, nspace_label_tag, 0);
-    if (do_dump) dump_declare (id, &decl_loc, 1);
+	/* Set up new function data */
+	commentary (id);
+	crt_func_id = id;
+	crt_func_return = ret;
+	crt_func_complex = pass_complex_type (ret);
+	unreached_code = 0;
+	unreached_last = 0;
+	unreached_fall = 1;
+	in_declaration = 0;
+	have_destructor = 0;
+	in_func_handler = 0;
+	crt_loop_stack = NULL_stack (EXP);
+	all_solve_stmts = NULL_list (EXP);
+	all_try_blocks = NULL_list (EXP);
+	crt_option_value (OPT_VAL_statement_depth) = 0;
+	crt_option_value (OPT_VAL_nested_class) = 0;
+	if (option (OPT_variable)) record_location++;
+	label_namespace = make_namespace (id, nspace_label_tag, 0);
+	if (do_dump) dump_declare (id, &decl_loc, 1);
 	
-    /* Modify function parameter namespace */
-    if (IS_nspace_block (bns)) bns = NULL_nspace;
-    MODIFY_nspace_block_etc (nspace_block_tag, ns);
-    COPY_id (nspace_name (ns), id);
+	/* Modify function parameter namespace */
+	if (IS_nspace_block (bns)) bns = NULL_nspace;
+	MODIFY_nspace_block_etc (nspace_block_tag, ns);
+	COPY_id (nspace_name (ns), id);
 	
-    /* Check function parameters */
-    crt_id_qualifier = qual_none;
-    while (!IS_NULL_list (p)) {
+	/* Check function parameters */
+	crt_id_qualifier = qual_none;
+	while (!IS_NULL_list (p)) {
 		IDENTIFIER par = DEREF_id (HEAD_list (p));
 		IDENTIFIER par2 = DEREF_id (id_alias (par));
 		HASHID pnm = DEREF_hashid (id_name (par));
@@ -2527,16 +2527,16 @@ begin_function(IDENTIFIER id)
 			report (loc, ERR_dcl_fct_par_anon ());
 		}
 		switch (ptag) {
-	    case type_top_tag :
-	    case type_bottom_tag : {
+		case type_top_tag :
+		case type_bottom_tag : {
 			/* Void parameters have already been reported */
 			break;
-	    }
-	    case type_ref_tag : {
+		}
+		case type_ref_tag : {
 			/* References don't need checking */
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Check for incomplete types */
 			err = check_complete (pt);
 			if (!IS_NULL_err (err)) {
@@ -2547,29 +2547,29 @@ begin_function(IDENTIFIER id)
 				report (loc, err);
 			}
 			break;
-	    }
+		}
 		}
 		if (option (OPT_decl_hide)) check_hiding (par);
 		npars++;
 		p = TAIL_list (p);
-    }
+	}
 	
-    /* Declare parameters */
-    push_namespace (ns);
-    block_namespace = bns;
-    IGNORE check_value (OPT_VAL_func_pars, npars);
+	/* Declare parameters */
+	push_namespace (ns);
+	block_namespace = bns;
+	IGNORE check_value (OPT_VAL_func_pars, npars);
 	
-    /* Deal with the this pointer */
-    if (IS_id_mem_func (id)) {
+	/* Deal with the this pointer */
+	if (IS_id_mem_func (id)) {
 		IGNORE make_this_decl (id);
-    }
+	}
 	
-    /* Deal with the ellipsis parameter */
-    if (ell & FUNC_ELLIPSIS) make_ellipsis_decl ();
+	/* Deal with the ellipsis parameter */
+	if (ell & FUNC_ELLIPSIS) make_ellipsis_decl ();
 	
-    /* Create dummy try block */
-    start_try_check (ex);
-    return;
+	/* Create dummy try block */
+	start_try_check (ex);
+	return;
 }
 
 
@@ -2623,18 +2623,18 @@ declare_func_id(void)
 EXP
 end_function(IDENTIFIER id, EXP body)
 {
-    /* Check for errors in function */
-    TYPE ret;
-    int flow = 0;
-    unsigned long n;
-    POP_ulong (n, func_stack.opts);
-    if (option (OPT_variable)) {
+	/* Check for errors in function */
+	TYPE ret;
+	int flow = 0;
+	unsigned long n;
+	POP_ulong (n, func_stack.opts);
+	if (option (OPT_variable)) {
 		if (n == number_errors) flow = 1;
 		record_location--;
-    }
+	}
 	
-    /* Check function body */
-    if (!IS_NULL_exp (body)) {
+	/* Check function body */
+	if (!IS_NULL_exp (body)) {
 		if (!unreached_code) {
 			/* Check for falling out of function */
 			EXP e = fall_return_stmt ();
@@ -2665,10 +2665,10 @@ end_function(IDENTIFIER id, EXP body)
 			/* Variable flow analysis */
 			check_flow (id, body, flow);
 		}
-    }
+	}
 	
-    /* Define the function */
-    if (IS_id_function_etc (id)) {
+	/* Define the function */
+	if (IS_id_function_etc (id)) {
 		COPY_exp (id_function_etc_defn (id), body);
 		define_id (id);
 		if (!in_template_decl) {
@@ -2676,27 +2676,27 @@ end_function(IDENTIFIER id, EXP body)
 			free_nspace (label_namespace);
 		}
 		if (do_dump) dump_undefine (id, &crt_loc, 0);
-    }
+	}
 	
-    /* Restore old function data */
-    POP_id (crt_func_id, func_stack.id);
-    POP_type (ret, func_stack.ret);
-    POP_int (unreached_code, func_stack.unreached);
-    POP_int (in_declaration, func_stack.declaration);
-    POP_int (have_destructor, func_stack.destructor);
-    POP_int (in_func_handler, func_stack.handler);
-    POP_stack (crt_loop_stack, func_stack.loops);
-    POP_nspace (label_namespace, func_stack.labels);
-    POP_list (all_solve_stmts, func_stack.solves);
-    POP_list (all_try_blocks, func_stack.tries);
-    POP_ulong (n, func_stack.opts);
-    crt_option_value (OPT_VAL_nested_class) = n;
-    POP_ulong (n, func_stack.opts);
-    crt_option_value (OPT_VAL_statement_depth) = n;
-    crt_func_complex = pass_complex_type (ret);
-    crt_func_return = ret;
-    block_namespace = NULL_nspace;
-    suppress_variable = 0;
-    unreached_last = 0;
-    return (body);
+	/* Restore old function data */
+	POP_id (crt_func_id, func_stack.id);
+	POP_type (ret, func_stack.ret);
+	POP_int (unreached_code, func_stack.unreached);
+	POP_int (in_declaration, func_stack.declaration);
+	POP_int (have_destructor, func_stack.destructor);
+	POP_int (in_func_handler, func_stack.handler);
+	POP_stack (crt_loop_stack, func_stack.loops);
+	POP_nspace (label_namespace, func_stack.labels);
+	POP_list (all_solve_stmts, func_stack.solves);
+	POP_list (all_try_blocks, func_stack.tries);
+	POP_ulong (n, func_stack.opts);
+	crt_option_value (OPT_VAL_nested_class) = n;
+	POP_ulong (n, func_stack.opts);
+	crt_option_value (OPT_VAL_statement_depth) = n;
+	crt_func_complex = pass_complex_type (ret);
+	crt_func_return = ret;
+	block_namespace = NULL_nspace;
+	suppress_variable = 0;
+	unreached_last = 0;
+	return (body);
 }
