@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -142,25 +142,25 @@ static STACK (NAMESPACE) lookup_stack = NULL_stack (NAMESPACE);
 void
 init_parser(PPTOKEN *toks)
 {
-    PPTOKEN *q;
-    PUSH_int (crt_lex_token, token_stack);
-    PUSH_int (last_lex_token, token_stack);
-    PUSH_int (saved_lex_token, token_stack);
-    PUSH_nspace (crt_lookup, lookup_stack);
-    PUSH_pptok (first_token, parser_stack);
-    PUSH_pptok (crt_token, parser_stack);
-    q = new_pptok ();
-    q->tok = lex_ignore_token;
-    q->pp_space = 0;
-    q->next = toks;
-    first_token = q;
-    crt_token = q;
-    crt_lookup = NULL_nspace;
-    crt_lookup_depth = 0;
-    crt_lex_token = lex_unknown;
-    last_lex_token = lex_unknown;
-    saved_lex_token = lex_unknown;
-    return;
+	PPTOKEN *q;
+	PUSH_int (crt_lex_token, token_stack);
+	PUSH_int (last_lex_token, token_stack);
+	PUSH_int (saved_lex_token, token_stack);
+	PUSH_nspace (crt_lookup, lookup_stack);
+	PUSH_pptok (first_token, parser_stack);
+	PUSH_pptok (crt_token, parser_stack);
+	q = new_pptok ();
+	q->tok = lex_ignore_token;
+	q->pp_space = 0;
+	q->next = toks;
+	first_token = q;
+	crt_token = q;
+	crt_lookup = NULL_nspace;
+	crt_lookup_depth = 0;
+	crt_lex_token = lex_unknown;
+	last_lex_token = lex_unknown;
+	saved_lex_token = lex_unknown;
+	return;
 }
 
 
@@ -172,19 +172,19 @@ init_parser(PPTOKEN *toks)
  *    previous list is returned.
  */
 
-PPTOKEN*
+PPTOKEN *
 restore_parser(void)
 {
-    PPTOKEN *p = first_token;
-    POP_pptok (crt_token, parser_stack);
-    POP_pptok (first_token, parser_stack);
-    POP_nspace (crt_lookup, lookup_stack);
-    POP_int (last_lex_token, token_stack);
-    POP_int (saved_lex_token, token_stack);
-    POP_int (crt_lex_token, token_stack);
-    crt_lookup_depth = 0;
-    ASSERT (first_token != NULL);
-    return (p);
+	PPTOKEN *p = first_token;
+	POP_pptok (crt_token, parser_stack);
+	POP_pptok (first_token, parser_stack);
+	POP_nspace (crt_lookup, lookup_stack);
+	POP_int (last_lex_token, token_stack);
+	POP_int (saved_lex_token, token_stack);
+	POP_int (crt_lex_token, token_stack);
+	crt_lookup_depth = 0;
+	ASSERT (first_token != NULL);
+	return (p);
 }
 
 
@@ -198,18 +198,18 @@ restore_parser(void)
 void
 snip_tokens(PPTOKEN *p, PPTOKEN *q)
 {
-    PPTOKEN *r = first_token;
-    if (r == p) {
+	PPTOKEN *r = first_token;
+	if (r == p) {
 		first_token = q->next;
-    } else {
+	} else {
 		while (r->next != p) r = r->next;
 		r->next = q->next;
-    }
-    r = new_pptok ();
-    r->tok = lex_eof;
-    q->next = r;
-    r->next = NULL;
-    return;
+	}
+	r = new_pptok ();
+	r->tok = lex_eof;
+	q->next = r;
+	r->next = NULL;
+	return;
 }
 
 
@@ -221,18 +221,18 @@ snip_tokens(PPTOKEN *p, PPTOKEN *q)
  *    to pass more than one token to the parser.
  */
 
-PPTOKEN*
+PPTOKEN *
 patch_tokens(int n)
 {
-    while (n) {
+	while (n) {
 		PPTOKEN *p = new_pptok ();
 		p->tok = lex_ignore_token;
 		p->next = crt_token->next;
 		p->pp_space = WHITE_SPACE;
 		crt_token->next = p;
 		n--;
-    }
-    return (crt_token->next);
+	}
+	return (crt_token->next);
 }
 
 
@@ -257,37 +257,37 @@ int crt_state_depth = 0;
 void
 save_state(PARSE_STATE *s, int col)
 {
-    /* Save current location */
-    s->loc = crt_loc;
+	/* Save current location */
+	s->loc = crt_loc;
 	
-    /* Save current namespace */
-    s->nspace [0] = crt_namespace;
-    s->nspace [1] = templ_namespace;
-    s->nstack [0] = namespace_stack;
-    s->nstack [1] = crt_nspace_stack;
-    s->nstack [2] = local_nspace_stack;
+	/* Save current namespace */
+	s->nspace [0] = crt_namespace;
+	s->nspace [1] = templ_namespace;
+	s->nstack [0] = namespace_stack;
+	s->nstack [1] = crt_nspace_stack;
+	s->nstack [2] = local_nspace_stack;
 	
-    /* Save flag values */
-    s->flag [0] = in_class_defn;
-    s->flag [1] = in_function_defn;
-    s->flag [2] = really_in_class_defn;
-    s->flag [3] = really_in_function_defn;
-    s->flag [4] = in_declaration;
-    s->flag [5] = in_template_decl;
-    s->flag [6] = have_syntax_error;
-    s->flag [7] = cache_lookup;
-    s->flag [8] = crt_col_changed;
-    have_syntax_error = 0;
-    cache_lookup = old_cache_lookup;
-    crt_col_changed = col;
+	/* Save flag values */
+	s->flag [0] = in_class_defn;
+	s->flag [1] = in_function_defn;
+	s->flag [2] = really_in_class_defn;
+	s->flag [3] = really_in_function_defn;
+	s->flag [4] = in_declaration;
+	s->flag [5] = in_template_decl;
+	s->flag [6] = have_syntax_error;
+	s->flag [7] = cache_lookup;
+	s->flag [8] = crt_col_changed;
+	have_syntax_error = 0;
+	cache_lookup = old_cache_lookup;
+	crt_col_changed = col;
 	
-    /* Save declaration specifiers */
-    s->dspec [0] = crt_access;
-    s->dspec [1] = crt_linkage;
-    crt_access = dspec_public;
-    crt_state_depth++;
-    bad_crt_loc++;
-    return;
+	/* Save declaration specifiers */
+	s->dspec [0] = crt_access;
+	s->dspec [1] = crt_linkage;
+	crt_access = dspec_public;
+	crt_state_depth++;
+	bad_crt_loc++;
+	return;
 }
 
 
@@ -303,46 +303,46 @@ save_state(PARSE_STATE *s, int col)
 void
 restore_state(PARSE_STATE *s)
 {
-    /* Restore current namespace */
-    NAMESPACE ns = s->nspace [0];
-    NAMESPACE cns = crt_namespace;
-    LIST (NAMESPACE) pns = LIST_stack (s->nstack [0]);
-    cache_lookup = old_cache_lookup;
-    while (!EQ_list (pns, LIST_stack (namespace_stack))) {
+	/* Restore current namespace */
+	NAMESPACE ns = s->nspace [0];
+	NAMESPACE cns = crt_namespace;
+	LIST (NAMESPACE) pns = LIST_stack (s->nstack [0]);
+	cache_lookup = old_cache_lookup;
+	while (!EQ_list (pns, LIST_stack (namespace_stack))) {
 		/* Reset name look-up stack */
 		remove_namespace ();
-    }
-    crt_namespace = ns;
-    crt_nspace_stack = s->nstack [1];
-    local_nspace_stack = s->nstack [2];
-    if (!EQ_nspace (ns, cns)) {
+	}
+	crt_namespace = ns;
+	crt_nspace_stack = s->nstack [1];
+	local_nspace_stack = s->nstack [2];
+	if (!EQ_nspace (ns, cns)) {
 		/* Recalculate namespaces if necessary */
 		update_namespace ();
-    }
-    templ_namespace = s->nspace [1];
+	}
+	templ_namespace = s->nspace [1];
 	
-    /* Restore current location */
-    crt_loc = s->loc;
-    crt_line_changed = 1;
-    crt_file_changed = 1;
+	/* Restore current location */
+	crt_loc = s->loc;
+	crt_line_changed = 1;
+	crt_file_changed = 1;
 	
-    /* Restore flag values */
-    in_class_defn = s->flag [0];
-    in_function_defn = s->flag [1];
-    really_in_class_defn = s->flag [2];
-    really_in_function_defn = s->flag [3];
-    in_declaration = s->flag [4];
-    in_template_decl = s->flag [5];
-    have_syntax_error = s->flag [6];
-    cache_lookup = s->flag [7];
-    crt_col_changed = s->flag [8];
+	/* Restore flag values */
+	in_class_defn = s->flag [0];
+	in_function_defn = s->flag [1];
+	really_in_class_defn = s->flag [2];
+	really_in_function_defn = s->flag [3];
+	in_declaration = s->flag [4];
+	in_template_decl = s->flag [5];
+	have_syntax_error = s->flag [6];
+	cache_lookup = s->flag [7];
+	crt_col_changed = s->flag [8];
 	
-    /* Restore declaration specifiers */
-    crt_access = s->dspec [0];
-    crt_linkage = s->dspec [1];
-    crt_state_depth--;
-    bad_crt_loc--;
-    return;
+	/* Restore declaration specifiers */
+	crt_access = s->dspec [0];
+	crt_linkage = s->dspec [1];
+	crt_state_depth--;
+	bad_crt_loc--;
+	return;
 }
 
 
@@ -356,20 +356,20 @@ restore_state(PARSE_STATE *s)
 static void
 make_loc_tokens(PPTOKEN *p)
 {
-    PPTOKEN *q = new_pptok ();
-    if (crt_file_changed) {
+	PPTOKEN *q = new_pptok ();
+	if (crt_file_changed) {
 		q->tok = lex_builtin_Hfile;
 		crt_file_changed = 0;
-    } else {
+	} else {
 		q->tok = lex_builtin_Hline;
-    }
-    crt_line_changed = 0;
-    q->pp_space = crt_loc.column;
-    q->pp_data.loc.line = crt_loc.line;
-    q->pp_data.loc.posn = crt_loc.posn;
-    q->next = p->next;
-    p->next = q;
-    return;
+	}
+	crt_line_changed = 0;
+	q->pp_space = crt_loc.column;
+	q->pp_data.loc.line = crt_loc.line;
+	q->pp_data.loc.posn = crt_loc.posn;
+	q->next = p->next;
+	p->next = q;
+	return;
 }
 
 
@@ -380,10 +380,10 @@ make_loc_tokens(PPTOKEN *p)
  *    preprocessing tokens p.
  */
 
-PPTOKEN*
+PPTOKEN *
 read_loc_tokens(PPTOKEN *p)
 {
-    if (p) {
+	if (p) {
 		int t = p->tok;
 		if (t == lex_builtin_Hline) {
 			/* Set line number */
@@ -404,8 +404,8 @@ read_loc_tokens(PPTOKEN *p)
 			unsigned long sp = p->pp_space;
 			if (sp) crt_loc.column = sp;
 		}
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -421,8 +421,8 @@ read_loc_tokens(PPTOKEN *p)
 static IDENTIFIER
 find_destr_id(IDENTIFIER cid)
 {
-    CLASS_TYPE ct = NULL_ctype;
-    if (IS_id_class_name_etc (cid)) {
+	CLASS_TYPE ct = NULL_ctype;
+	if (IS_id_class_name_etc (cid)) {
 		TYPE t = DEREF_type (id_class_name_etc_defn (cid));
 		unsigned tag = TAG_type (t);
 		while (tag == type_templ_tag) {
@@ -432,18 +432,18 @@ find_destr_id(IDENTIFIER cid)
 		if (tag == type_compound_tag) {
 			ct = DEREF_ctype (type_compound_defn (t));
 		}
-    } else {
+	} else {
 		ct = find_class (cid);
-    }
-    if (!IS_NULL_ctype (ct)) {
+	}
+	if (!IS_NULL_ctype (ct)) {
 		/* Find destructor name */
 		IDENTIFIER tid = DEREF_id (ctype_destr (ct));
 		HASHID nm = DEREF_hashid (id_name (tid));
 		tid = DEREF_id (hashid_id (nm));
 		set_hashid_loc (tid, cid);
 		return (tid);
-    }
-    return (NULL_id);
+	}
+	return (NULL_id);
 }
 
 #endif
@@ -463,7 +463,7 @@ find_destr_id(IDENTIFIER cid)
 static void
 check_destr_id(IDENTIFIER cid, HASHID nm, int d)
 {
-    if (d <= 2) {
+	if (d <= 2) {
 		HASHID cnm = DEREF_hashid (id_name (cid));
 		IDENTIFIER tid = DEREF_id (hashid_destr_tid (cnm));
 		HASHID tnm = DEREF_hashid (id_name (tid));
@@ -472,8 +472,8 @@ check_destr_id(IDENTIFIER cid, HASHID nm, int d)
 			IDENTIFIER id = DEREF_id (hashid_id (nm));
 			report (crt_loc, ERR_dcl_typedef_destr (id, cnm));
 		}
-    }
-    return;
+	}
+	return;
 }
 
 #endif
@@ -530,24 +530,24 @@ check_destr_id(IDENTIFIER cid, HASHID nm, int d)
 int
 expand_token(int store)
 {
-    int t;
-    int expand;
+	int t;
+	int expand;
 #if LANGUAGE_CPP
-    NAMESPACE ns = crt_lookup;
+	NAMESPACE ns = crt_lookup;
 #endif
-    PPTOKEN *prev_tok = crt_token;
-    PPTOKEN *this_tok = prev_tok->next;
+	PPTOKEN *prev_tok = crt_token;
+	PPTOKEN *this_tok = prev_tok->next;
 	
-    /* A store value of EXPAND_RESCAN means rescan this token */
-    if (store == EXPAND_RESCAN) {
+	/* A store value of EXPAND_RESCAN means rescan this token */
+	if (store == EXPAND_RESCAN) {
 		this_tok = prev_tok;
 #if LANGUAGE_CPP
 		ns = NULL_nspace;
 #endif
-    }
+	}
 	
-    /* Get the next token */
-    start_label : {
+	/* Get the next token */
+	start_label : {
 		if (this_tok == NULL) {
 			/* Read the token from the file */
 			this_tok = new_pptok ();
@@ -590,33 +590,33 @@ expand_token(int store)
 			crt_token = this_tok;
 			expand = 0;
 		}
-    }
-    crt_lookup = NULL_nspace;
+	}
+	crt_lookup = NULL_nspace;
 	
-    /* Deal with context switch */
-    if (store == EXPAND_NORMAL) {
+	/* Deal with context switch */
+	if (store == EXPAND_NORMAL) {
 		OPTIONS *opts = prev_opts;
 		if (opts != crt_opts) set_mode (opts);
 		prev_opts = this_tok->pp_opts;
-    }
+	}
 	
-    /* Analyse the token */
-    switch (t) {
+	/* Analyse the token */
+	switch (t) {
 		
 	case lex_identifier : {
-	    /* Deal with identifiers */
-	    unsigned tag;
-	    int tt = lex_identifier;
+		/* Deal with identifiers */
+		unsigned tag;
+		int tt = lex_identifier;
 		
-	    /* Check for macro expansion */
-	    HASHID nm = this_tok->pp_data.id.hash;
-	    IDENTIFIER id = DEREF_id (hashid_id (nm));
-	    expand_label : {
+		/* Check for macro expansion */
+		HASHID nm = this_tok->pp_data.id.hash;
+		IDENTIFIER id = DEREF_id (hashid_id (nm));
+		expand_label : {
 			tag = TAG_id (id);
 			switch (tag) {
 				
-		    case id_obj_macro_tag :
-		    case id_func_macro_tag : {
+			case id_obj_macro_tag :
+			case id_func_macro_tag : {
 				/* Check for expansion of macros */
 				if (expand) {
 					PPTOKEN *toks;
@@ -629,17 +629,17 @@ expand_token(int store)
 				}
 				id = DEREF_id (id_alias (id));
 				goto expand_label;
-		    }
+			}
 				
-		    case id_keyword_tag : {
+			case id_keyword_tag : {
 				/* Check on keywords */
 				this_tok->pp_data.id.use = id;
 				t = (int) DEREF_ulong (id_no (id));
 				this_tok->tok = t;
 				return (t);
-		    }
+			}
 				
-		    case id_iso_keyword_tag : {
+			case id_iso_keyword_tag : {
 				/* Check on ISO keywords */
 				this_tok->pp_data.id.use = id;
 				if (!in_pragma_dir) {
@@ -657,10 +657,10 @@ expand_token(int store)
 					return (t);
 				}
 				break;
-		    }
+			}
 				
-		    case id_c99_keyword_tag :
-		    case id_reserved_tag : {
+			case id_c99_keyword_tag :
+			case id_reserved_tag : {
 				/* Report reserved identifiers */
 				if (store == EXPAND_NORMAL && !in_pragma_dir) {
 					ERROR err;
@@ -672,31 +672,31 @@ expand_token(int store)
 					report (crt_loc, err);
 				}
 				break;
-		    }
 			}
-	    }
+			}
+		}
 		
-	    /* Perform name look-up */
+		/* Perform name look-up */
 #if LANGUAGE_CPP
-	    if (IS_NULL_nspace (ns)) {
+		if (IS_NULL_nspace (ns)) {
 			id = find_id (nm);
-	    } else {
+		} else {
 			IDENTIFIER mid = find_qual_id (ns, nm, 0, 0);
 			if (!IS_NULL_id (mid)) id = mid;
-	    }
+		}
 #else
-	    id = find_op_id (nm);
+		id = find_op_id (nm);
 #endif
-	    tag = TAG_id (id);
+		tag = TAG_id (id);
 		
 #if LANGUAGE_CPP
-	    /* Look ahead for following '::' (C++ only) */
-	    t = expand_token (EXPAND_CHECK_COLON);
-	    crt_token = this_tok;
+		/* Look ahead for following '::' (C++ only) */
+		t = expand_token (EXPAND_CHECK_COLON);
+		crt_token = this_tok;
 #endif
 		
-	    /* Allow for tokens and templates */
-	    if (tag == id_token_tag) {
+		/* Allow for tokens and templates */
+		if (tag == id_token_tag) {
 			TOKEN sort = DEREF_tok (id_token_sort (id));
 			if (IS_tok_proc (sort)) {
 				/* Procedure token application */
@@ -751,7 +751,7 @@ expand_token(int store)
 			}
 			
 #if LANGUAGE_CPP
-	    } else if (t == lex_less) {
+		} else if (t == lex_less) {
 			/* Check for templates (C++ only) */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_template) {
@@ -818,11 +818,11 @@ expand_token(int store)
 				have_template = 1;
 			}
 #endif
-	    }
+		}
 		
 #if LANGUAGE_CPP
-	    /* Allow for destructors (C++ only) */
-	    if (store == EXPAND_DESTRUCTOR && t != lex_colon_Hcolon) {
+		/* Allow for destructors (C++ only) */
+		if (store == EXPAND_DESTRUCTOR && t != lex_colon_Hcolon) {
 			int level = 2;
 			IDENTIFIER cid = id;
 			do {
@@ -856,12 +856,12 @@ expand_token(int store)
 				}
 				}
 			} while (level);
-	    }
+		}
 #endif
 		
 #if LANGUAGE_CPP
-	    /* Look ahead for further qualifiers (C++ only) */
-	    if (t == lex_colon_Hcolon) {
+		/* Look ahead for further qualifiers (C++ only) */
+		if (t == lex_colon_Hcolon) {
 			/* Following token is '::' */
 			int level = 2;
 			IDENTIFIER cid = id;
@@ -923,96 +923,96 @@ expand_token(int store)
 				}
 				}
 			} while (level);
-	    }
+		}
 #endif
 		
-	    /* Deal with context dependent identifiers */
-	    switch (tag) {
+		/* Deal with context dependent identifiers */
+		switch (tag) {
 			
 #if LANGUAGE_CPP
 		case id_class_name_tag :
 		case id_enum_name_tag : {
-		    /* Type names (C++ only) */
-		    t = lex_type_Hname;
-		    break;
+			/* Type names (C++ only) */
+			t = lex_type_Hname;
+			break;
 		}
 #endif
 			
 		case id_class_alias_tag :
 		case id_enum_alias_tag :
 		case id_type_alias_tag : {
-		    /* Type aliases */
-		    t = lex_type_Hname;
-		    break;
+			/* Type aliases */
+			t = lex_type_Hname;
+			break;
 		}
 			
 #if LANGUAGE_CPP
 		case id_nspace_name_tag :
 		case id_nspace_alias_tag : {
-		    /* Namespace names (C++ only) */
-		    t = lex_namespace_Hname;
-		    break;
+			/* Namespace names (C++ only) */
+			t = lex_namespace_Hname;
+			break;
 		}
 #endif
 			
 		case id_token_tag : {
-		    /* Token names */
-		    TOKEN sort = DEREF_tok (id_token_sort (id));
-		    if (IS_tok_stmt (sort)) {
+			/* Token names */
+			TOKEN sort = DEREF_tok (id_token_sort (id));
+			if (IS_tok_stmt (sort)) {
 				t = lex_statement_Hname;
-		    } else {
+			} else {
 				t = lex_identifier;
-		    }
-		    break;
+			}
+			break;
 		}
 			
 		default : {
-		    /* Other names */
-		    t = lex_identifier;
-		    break;
+			/* Other names */
+			t = lex_identifier;
+			break;
 		}
-	    }
-	    if (tt == lex_identifier) {
+		}
+		if (tt == lex_identifier) {
 			this_tok->pp_data.id.use = id;
-	    } else {
+		} else {
 			this_tok->tok = tt;
 			t = tt;
-	    }
-	    break;
+		}
+		break;
 	}
 		
 #if LANGUAGE_CPP
 	case lex_colon_Hcolon : {
-	    /* Deal with qualified names (C++ only) */
-	    int nt;
-	    unsigned long depth;
-	    if (store == EXPAND_CHECK_COLON) {
+		/* Deal with qualified names (C++ only) */
+		int nt;
+		unsigned long depth;
+		if (store == EXPAND_CHECK_COLON) {
 			/* Look ahead for '::' */
 			return (t);
-	    } else if (IS_NULL_nspace (ns)) {
+		} else if (IS_NULL_nspace (ns)) {
 			/* Initial '::' */
 			ns = global_namespace;
 			depth = 0;
-	    } else if (store == EXPAND_IDENTIFIER) {
+		} else if (store == EXPAND_IDENTIFIER) {
 			/* Following a namespace identifier */
 			depth = crt_lookup_depth + 1;
-	    } else {
+		} else {
 			/* Badly placed '::' */
 			return (t);
-	    }
+		}
 		
-	    /* Look ahead to further tokens */
-	    crt_lookup = ns;
-	    crt_lookup_depth = depth;
-	    nt = expand_token (EXPAND_COLON_COLON);
-	    crt_lookup_depth = 0;
-	    if (nt == lex_nested_Hname) {
+		/* Look ahead to further tokens */
+		crt_lookup = ns;
+		crt_lookup_depth = depth;
+		nt = expand_token (EXPAND_COLON_COLON);
+		crt_lookup_depth = 0;
+		if (nt == lex_nested_Hname) {
 			nt = lex_full_Hname;
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
 			return (nt);
-	    }
-	    if (nt == lex_nested_Hname_Hstar) {
+		}
+		if (nt == lex_nested_Hname_Hstar) {
 			if (crt_token == this_tok->next) {
 				IGNORE check_value (OPT_VAL_scope_qualifiers, depth);
 			}
@@ -1020,52 +1020,52 @@ expand_token(int store)
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
 			return (nt);
-	    }
-	    IGNORE check_value (OPT_VAL_scope_qualifiers, depth);
-	    this_tok->pp_data.ns = ns;
-	    crt_lookup = ns;
-	    crt_token = this_tok;
-	    break;
+		}
+		IGNORE check_value (OPT_VAL_scope_qualifiers, depth);
+		this_tok->pp_data.ns = ns;
+		crt_lookup = ns;
+		crt_token = this_tok;
+		break;
 	}
 #endif
 		
 #if LANGUAGE_CPP
 	case lex_full_Hname :
 	case lex_nested_Hname : {
-	    /* Deal with stored nested names (C++ only) */
-	    int nt;
-	    ns = this_tok->pp_data.ns;
-	    crt_lookup = ns;
-	    crt_lookup_depth++;
-	    nt = expand_token (EXPAND_COLON_COLON);
-	    crt_lookup_depth = 0;
-	    if (nt == lex_nested_Hname) {
+		/* Deal with stored nested names (C++ only) */
+		int nt;
+		ns = this_tok->pp_data.ns;
+		crt_lookup = ns;
+		crt_lookup_depth++;
+		nt = expand_token (EXPAND_COLON_COLON);
+		crt_lookup_depth = 0;
+		if (nt == lex_nested_Hname) {
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = t;
 			return (nt);
-	    }
-	    if (nt == lex_nested_Hname_Hstar) {
+		}
+		if (nt == lex_nested_Hname_Hstar) {
 			if (t == lex_full_Hname) nt = lex_full_Hname_Hstar;
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
 			return (nt);
-	    }
-	    crt_lookup = ns;
-	    crt_token = this_tok;
-	    break;
+		}
+		crt_lookup = ns;
+		crt_token = this_tok;
+		break;
 	}
 #endif
 		
 #if LANGUAGE_CPP
 	case lex_star : {
-	    /* Deal with pointer to members (C++ only) */
-	    if (store == EXPAND_COLON_COLON && crt_lookup_depth) {
+		/* Deal with pointer to members (C++ only) */
+		if (store == EXPAND_COLON_COLON && crt_lookup_depth) {
 			IDENTIFIER cid = DEREF_id (nspace_name (ns));
 			t = lex_nested_Hname_Hstar;
 			this_tok->tok = t;
 			this_tok->pp_data.id.use = cid;
-	    }
-	    break;
+		}
+		break;
 	}
 #endif
 		
@@ -1109,56 +1109,56 @@ expand_token(int store)
 #endif
 		
 	case lex_integer_Hlit : {
-	    /* Deal with integer and floating point literals */
-	    int nt;
-	    int pn = pragma_number;
-	    OPTIONS *opts = crt_opts;
-	    OPTIONS *nopts = this_tok->pp_opts;
-	    string n = this_tok->pp_data.text;
-	    if (opts != nopts) set_mode (nopts);
-	    this_tok->pp_data.exp = make_literal_exp (n, &nt, pn);
-	    this_tok->tok = nt;
-	    if (opts != nopts) set_mode (opts);
-	    t = nt;
-	    break;
+		/* Deal with integer and floating point literals */
+		int nt;
+		int pn = pragma_number;
+		OPTIONS *opts = crt_opts;
+		OPTIONS *nopts = this_tok->pp_opts;
+		string n = this_tok->pp_data.text;
+		if (opts != nopts) set_mode (nopts);
+		this_tok->pp_data.exp = make_literal_exp (n, &nt, pn);
+		this_tok->tok = nt;
+		if (opts != nopts) set_mode (opts);
+		t = nt;
+		break;
 	}
 		
 	case lex_char_Hlit :
 	case lex_wchar_Hlit : {
-	    /* Deal with character literals */
-	    STRING s;
-	    OPTIONS *opts = crt_opts;
-	    OPTIONS *nopts = this_tok->pp_opts;
-	    string sb = this_tok->pp_data.str.start;
-	    string se = this_tok->pp_data.str.end;
-	    if (opts != nopts) set_mode (nopts);
-	    s = new_string_lit (sb, se, t);
-	    if (t == lex_char_Hlit) {
+		/* Deal with character literals */
+		STRING s;
+		OPTIONS *opts = crt_opts;
+		OPTIONS *nopts = this_tok->pp_opts;
+		string sb = this_tok->pp_data.str.start;
+		string se = this_tok->pp_data.str.end;
+		if (opts != nopts) set_mode (nopts);
+		s = new_string_lit (sb, se, t);
+		if (t == lex_char_Hlit) {
 			t = lex_char_Hexp;
-	    } else {
+		} else {
 			t = lex_wchar_Hexp;
-	    }
-	    this_tok->pp_data.exp = make_string_exp (s);
-	    this_tok->tok = t;
-	    if (opts != nopts) set_mode (opts);
-	    break;
+		}
+		this_tok->pp_data.exp = make_string_exp (s);
+		this_tok->tok = t;
+		if (opts != nopts) set_mode (opts);
+		break;
 	}
 		
 	case lex_string_Hlit :
 	case lex_wstring_Hlit : {
-	    /* Deal with string literals */
-	    int nt;
-	    STRING s;
-	    OPTIONS *opts = crt_opts;
-	    OPTIONS *nopts = this_tok->pp_opts;
-	    string sb = this_tok->pp_data.str.start;
-	    string se = this_tok->pp_data.str.end;
-	    if (opts != nopts) set_mode (nopts);
-	    s = new_string_lit (sb, se, t);
+		/* Deal with string literals */
+		int nt;
+		STRING s;
+		OPTIONS *opts = crt_opts;
+		OPTIONS *nopts = this_tok->pp_opts;
+		string sb = this_tok->pp_data.str.start;
+		string se = this_tok->pp_data.str.end;
+		if (opts != nopts) set_mode (nopts);
+		s = new_string_lit (sb, se, t);
 		
-	    /* Concatenate adjacent strings */
-	    nt = expand_token (EXPAND_STRING);
-	    if (nt == lex_string_Hlit || nt == lex_wstring_Hlit) {
+		/* Concatenate adjacent strings */
+		nt = expand_token (EXPAND_STRING);
+		if (nt == lex_string_Hlit || nt == lex_wstring_Hlit) {
 			/* Combine the following string with this one */
 			if (nt != t) {
 				/* String types don't match */
@@ -1167,12 +1167,12 @@ expand_token(int store)
 			}
 			s = concat_string_lit (s, crt_token->pp_data.strlit);
 			crt_token->tok = lex_ignore_token;
-	    }
-	    crt_token = this_tok;
-	    if (store == EXPAND_STRING) {
+		}
+		crt_token = this_tok;
+		if (store == EXPAND_STRING) {
 			/* Continue concatenation */
 			this_tok->pp_data.strlit = s;
-	    } else {
+		} else {
 			/* Transform string literal into expression */
 			if (t == lex_string_Hlit) {
 				t = lex_string_Hexp;
@@ -1181,22 +1181,22 @@ expand_token(int store)
 			}
 			this_tok->pp_data.exp = make_string_exp (s);
 			this_tok->tok = t;
-	    }
-	    if (opts != nopts) set_mode (opts);
-	    break;
+		}
+		if (opts != nopts) set_mode (opts);
+		break;
 	}
 		
 	case lex_ellipsis : {
-	    /* Ellipses */
-	    if (store == EXPAND_NORMAL) {
+		/* Ellipses */
+		if (store == EXPAND_NORMAL) {
 			OPTION opt = option (OPT_ellipsis_ident);
 			NAMESPACE cns = crt_namespace;
 			if (opt != OPTION_DISALLOW && IS_nspace_block (cns)) {
 				t = lex_ellipsis_Hexp;
 				this_tok->tok = t;
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 		
 	case lex_hash_H2 :
@@ -1205,10 +1205,10 @@ expand_token(int store)
 	case lex_open_Hsquare_H2 :
 	case lex_close_Hbrace_H2 :
 	case lex_close_Hsquare_H2 : {
-	    /* Digraphs */
-	    t = get_digraph (t);
-	    this_tok->tok = t;
-	    break;
+		/* Digraphs */
+		t = get_digraph (t);
+		this_tok->tok = t;
+		break;
 	}
 		
 	case lex_and_H2 :
@@ -1222,46 +1222,46 @@ expand_token(int store)
 	case lex_or_Heq_H2 :
 	case lex_xor_H2 :
 	case lex_xor_Heq_H2 : {
-	    /* ISO keywords */
-	    int tt;
-	    IDENTIFIER id = this_tok->pp_data.id.use;
-	    t = (int) DEREF_ulong (id_no (id));
-	    tt = primary_form (t);
-	    if (tt != t) {
+		/* ISO keywords */
+		int tt;
+		IDENTIFIER id = this_tok->pp_data.id.use;
+		t = (int) DEREF_ulong (id_no (id));
+		tt = primary_form (t);
+		if (tt != t) {
 			HASHID nm;
 			if (in_pragma_dir) break;
 			nm = this_tok->pp_data.id.hash;
 			report (crt_loc, ERR_lex_digraph_iso (nm, tt));
 			t = tt;
-	    }
-	    this_tok->tok = t;
+		}
+		this_tok->tok = t;
 #if LANGUAGE_CPP
-	    if (t == lex_compl_H1) goto compl_label;
+		if (t == lex_compl_H1) goto compl_label;
 #endif
-	    break;
+		break;
 	}
 		
 	case lex_unknown : {
-	    /* Unknown characters */
-	    unsigned long u;
-	    int ch = CHAR_SIMPLE;
-	    u = get_multi_char (this_tok->pp_data.buff, &ch);
-	    if (ch == CHAR_SIMPLE) {
+		/* Unknown characters */
+		unsigned long u;
+		int ch = CHAR_SIMPLE;
+		u = get_multi_char (this_tok->pp_data.buff, &ch);
+		if (ch == CHAR_SIMPLE) {
 			if (is_legal_char (u)) {
 				if (!is_white_char (u)) break;
 			} else {
 				int c = (int) u;
 				report (crt_loc, ERR_lex_pptoken_unknown (c));
 			}
-	    } else {
+		} else {
 			report (crt_loc, ERR_lex_pptoken_unicode (u));
-	    }
-	    this_tok->tok = lex_ignore_token;
-	    t = expand_token (store);
-	    break;
+		}
+		this_tok->tok = lex_ignore_token;
+		t = expand_token (store);
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1276,13 +1276,13 @@ expand_token(int store)
 int
 expand_preproc(int store)
 {
-    int t;
-    int expand;
-    PPTOKEN *prev_tok = crt_token;
-    PPTOKEN *this_tok = prev_tok->next;
+	int t;
+	int expand;
+	PPTOKEN *prev_tok = crt_token;
+	PPTOKEN *this_tok = prev_tok->next;
 	
-    /* Get the next token */
-    start_label : {
+	/* Get the next token */
+	start_label : {
 		if (this_tok == NULL) {
 			/* Read the token from the file */
 			this_tok = new_pptok ();
@@ -1326,17 +1326,17 @@ expand_preproc(int store)
 			crt_token = this_tok;
 			expand = 0;
 		}
-    }
+	}
 	
-    /* Deal with context switch */
-    if (store == EXPAND_NORMAL) {
+	/* Deal with context switch */
+	if (store == EXPAND_NORMAL) {
 		OPTIONS *opts = prev_opts;
 		if (opts != crt_opts) set_mode (opts);
 		prev_opts = this_tok->pp_opts;
-    }
+	}
 	
-    /* Deal with identifiers */
-    if (t == lex_identifier) {
+	/* Deal with identifiers */
+	if (t == lex_identifier) {
 		HASHID nm = this_tok->pp_data.id.hash;
 		IDENTIFIER id = DEREF_id (hashid_id (nm));
 		expand_label : {
@@ -1376,8 +1376,8 @@ expand_preproc(int store)
 			}
 		}
 		this_tok->pp_data.id.use = id;
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1393,15 +1393,15 @@ expand_preproc(int store)
 void
 rescan_template(NAMESPACE ns)
 {
-    PPTOKEN *p = crt_token;
-    crt_lookup = ns;
-    have_template = 0;
-    IGNORE expand_token (EXPAND_TEMPLATE);
-    if (!have_template) {
+	PPTOKEN *p = crt_token;
+	crt_lookup = ns;
+	have_template = 0;
+	IGNORE expand_token (EXPAND_TEMPLATE);
+	if (!have_template) {
 		/* Didn't read template-id */
 		report (crt_loc, ERR_temp_names_bad ());
-    }
-    crt_token = p;
-    crt_lookup = ns;
-    return;
+	}
+	crt_token = p;
+	crt_lookup = ns;
+	return;
 }

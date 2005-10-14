@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -103,39 +103,39 @@ TYPE;
 !unknown;
 
 /* Identifiers */
-identifier : () -> ( :IDENTIFIER );
-type-name : () -> ( :IDENTIFIER );
-!namespace-name : () -> ( :IDENTIFIER );
-statement-name : () -> ( :IDENTIFIER );
-!destructor-name : () -> ( :IDENTIFIER );
-!template-id : () -> ( :IDENTIFIER );
-!template-type : () -> ( :IDENTIFIER );
+identifier: () -> (:IDENTIFIER);
+type-name: () -> (:IDENTIFIER);
+!namespace-name: () -> (:IDENTIFIER);
+statement-name: () -> (:IDENTIFIER);
+!destructor-name: () -> (:IDENTIFIER);
+!template-id: () -> (:IDENTIFIER);
+!template-type: () -> (:IDENTIFIER);
 
 /* Nested name specifiers */
-!nested-name : () -> ( :NAMESPACE );
-!full-name : () -> ( :NAMESPACE );
-!nested-name-star : () -> ( :IDENTIFIER );
-!full-name-star : () -> ( :IDENTIFIER );
+!nested-name: () -> (:NAMESPACE);
+!full-name: () -> (:NAMESPACE);
+!nested-name-star: () -> (:IDENTIFIER);
+!full-name-star: () -> (:IDENTIFIER);
 
 /* Literals */
 !char-lit; !wchar-lit; !string-lit; !wstring-lit; !integer-lit;
 
 /* Literal expressions */
-char-exp : () -> ( :EXP );
-wchar-exp : () -> ( :EXP );
-string-exp : () -> ( :EXP );
-wstring-exp : () -> ( :EXP );
-integer-exp : () -> ( :EXP );
-floating-exp : () -> ( :EXP );
+char-exp: () -> (:EXP);
+wchar-exp: () -> (:EXP);
+string-exp: () -> (:EXP);
+wstring-exp: () -> (:EXP);
+integer-exp: () -> (:EXP);
+floating-exp: () -> (:EXP);
 
 /* Token applications */
-complex-exp : () -> ( :EXP );
-complex-stmt : () -> ( :EXP );
-complex-type : () -> ( :TYPE );
+complex-exp: () -> (:EXP);
+complex-stmt: () -> (:EXP);
+complex-type: () -> (:TYPE);
 
 /* Target-dependent preprocessing directives */
-hash-if : () -> ( :EXP );
-hash-elif : () -> ( :EXP );
+hash-if: () -> (:EXP);
+hash-elif: () -> (:EXP);
 hash-else;
 hash-endif;
 hash-pragma;
@@ -248,11 +248,11 @@ xor-eq =	{ xor-eq-1; };
  *    These actions give the lexical token numbers for various symbols.
  */
 
-<lex_crt> : () -> ( :LEX );
-<lex_open_round> : () -> ( :LEX );
-<lex_semicolon> : () -> ( :LEX );
-<lex_alignof> : () -> ( :LEX );
-<lex_sizeof> : () -> ( :LEX );
+<lex_crt> : () -> (:LEX);
+<lex_open_round> : () -> (:LEX);
+<lex_semicolon> : () -> (:LEX);
+<lex_alignof> : () -> (:LEX);
+<lex_sizeof> : () -> (:LEX);
 
 
 /*
@@ -263,18 +263,18 @@ xor-eq =	{ xor-eq-1; };
  *    lexical token number.
  */
 
-<expected> : ( :LEX ) -> ();
+<expected> : (:LEX) -> ();
 <error_fatal> : () -> ();
 <error_syntax> : () -> ();
 
 open-round-x = {
 	open-round;
-    ##	t = <lex_open_round>; <expected> ( t );
+    ##	t = <lex_open_round>; <expected> (t);
 };
 
 semicolon-x = {
 	semicolon;
-    ##	t = <lex_semicolon>; <expected> ( t );
+    ##	t = <lex_semicolon>; <expected> (t);
 };
 
 
@@ -286,28 +286,28 @@ semicolon-x = {
  *    gives all identifiers and sets the appropriate identifier type.
  */
 
-<id_anon> : () -> ( :IDENTIFIER );
-<id_none> : () -> ( :IDENTIFIER );
+<id_anon> : () -> (:IDENTIFIER);
+<id_none> : () -> (:IDENTIFIER);
 
-any-identifier : () -> ( id : IDENTIFIER ) = {
+any-identifier: () -> (id: IDENTIFIER) = {
 	id = identifier;
     ||	id = type-name;
     ||	id = statement-name;
 };
 
-any-identifier-opt : () -> ( id : IDENTIFIER ) = {
+any-identifier-opt: () -> (id: IDENTIFIER) = {
 	id = any-identifier;
     ||	id = <id_anon>;
 };
 
-id-entry : () -> ( id : IDENTIFIER ) = {
+id-entry: () -> (id: IDENTIFIER) = {
 	id = any-identifier;
     ##
 	<error_syntax>;
 	id = <id_none>;
 };
 
-operator-id : () -> ( id : IDENTIFIER ) = {
+operator-id: () -> (id: IDENTIFIER) = {
 	<error_syntax>;
 	id = <id_none>;
 };
@@ -321,25 +321,25 @@ operator-id : () -> ( id : IDENTIFIER ) = {
  *    Concatenation of adjacent string literals has already been performed.
  */
 
-integer-literal : () -> ( e : EXP ) = {
+integer-literal: () -> (e: EXP) = {
 	e = integer-exp;
 };
 
-character-literal : () -> ( e : EXP ) = {
+character-literal: () -> (e: EXP) = {
 	e = char-exp;
     ||	e = wchar-exp;
 };
 
-floating-literal : () -> ( e : EXP ) = {
+floating-literal: () -> (e: EXP) = {
 	e = floating-exp;
 };
 
-string-literal : () -> ( e : EXP ) = {
+string-literal: () -> (e: EXP) = {
 	e = string-exp;
     ||	e = wstring-exp;
 };
 
-literal : () -> ( e : EXP ) = {
+literal: () -> (e: EXP) = {
 	e = integer-literal;
     ||	e = character-literal;
     ||	e = floating-literal;
@@ -356,18 +356,18 @@ literal : () -> ( e : EXP ) = {
  *    extension.
  */
 
-<exp_ellipsis> : () -> ( :EXP );
+<exp_ellipsis> : () -> (:EXP);
 <exp_paren_begin> : () -> ();
-<exp_paren_end> : ( :EXP ) -> ( :EXP );
-<exp_identifier> : ( :IDENTIFIER ) -> ( :EXP );
+<exp_paren_end> : (:EXP) -> (:EXP);
+<exp_identifier> : (:IDENTIFIER) -> (:EXP);
 
-expression : () -> ( :EXP );
+expression: () -> (:EXP);
 
-primary-expression : () -> ( e : EXP ) = {
+primary-expression: () -> (e: EXP) = {
 	e = literal;
     ||
 	id = identifier;
-	e = <exp_identifier> ( id );
+	e = <exp_identifier> (id);
     ||
 	ellipsis-exp;
 	e = <exp_ellipsis>;
@@ -375,7 +375,7 @@ primary-expression : () -> ( e : EXP ) = {
 	open-round;
 	<exp_paren_begin>;
 	a = expression;
-	e = <exp_paren_end> ( a );
+	e = <exp_paren_end> (a);
 	close-round;
     ||
 	e = complex-exp;
@@ -390,21 +390,21 @@ primary-expression : () -> ( e : EXP ) = {
  *    separators rather than comma operators.
  */
 
-<list_exp_null> : () -> ( :LIST-EXP );
-<list_exp_cons> : ( :EXP, :LIST-EXP ) -> ( :LIST-EXP );
+<list_exp_null> : () -> (:LIST-EXP);
+<list_exp_cons> : (:EXP, :LIST-EXP) -> (:LIST-EXP);
 
-assignment-expression : () -> ( :EXP );
+assignment-expression: () -> (:EXP);
 
-expression-list : () -> ( p : LIST-EXP ) = {
+expression-list: () -> (p: LIST-EXP) = {
 	e = assignment-expression;
 	{
 		comma; q = expression-list;
 	    ||	q = <list_exp_null>;
 	};
-	p = <list_exp_cons> ( e, q );
+	p = <list_exp_cons> (e, q);
 };
 
-expression-list-opt : () -> ( p : LIST-EXP ) = {
+expression-list-opt: () -> (p: LIST-EXP) = {
 	p = expression-list;
     ||	p = <list_exp_null>;
 };
@@ -419,11 +419,11 @@ expression-list-opt : () -> ( p : LIST-EXP ) = {
  *    the provisions for dummy destructor calls.
  */
 
-<rescan_member> : ( :NAMESPACE, :IDENTIFIER ) -> ( :IDENTIFIER );
+<rescan_member> : (:NAMESPACE, :IDENTIFIER) -> (:IDENTIFIER);
 
-field-id-expression : ( ns : NAMESPACE ) -> ( id : IDENTIFIER ) = {
+field-id-expression: (ns: NAMESPACE) -> (id: IDENTIFIER) = {
 	uid = any-identifier;
-	id = <rescan_member> ( ns, uid );
+	id = <rescan_member> (ns, uid);
 };
 
 
@@ -436,57 +436,57 @@ field-id-expression : ( ns : NAMESPACE ) -> ( id : IDENTIFIER ) = {
  *    type identification operators.
  */
 
-<exp_postinc> : ( :EXP ) -> ( :EXP );
-<exp_postdec> : ( :EXP ) -> ( :EXP );
-<exp_index> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_func> : ( :EXP, :LIST-EXP ) -> ( :EXP );
+<exp_postinc> : (:EXP) -> (:EXP);
+<exp_postdec> : (:EXP) -> (:EXP);
+<exp_index> : (:EXP, :EXP) -> (:EXP);
+<exp_func> : (:EXP, :LIST-EXP) -> (:EXP);
 
-<exp_dot_begin> : ( :EXP ) -> ( :EXP, :TYPE, :NAMESPACE );
-<exp_dot_end> : ( :EXP, :TYPE, :NAMESPACE, :IDENTIFIER ) -> ( :EXP );
-<exp_arrow_begin> : ( :EXP ) -> ( :EXP, :TYPE, :NAMESPACE );
-<exp_arrow_end> : ( :EXP, :TYPE, :NAMESPACE, :IDENTIFIER ) -> ( :EXP );
+<exp_dot_begin> : (:EXP) -> (:EXP, :TYPE, :NAMESPACE);
+<exp_dot_end> : (:EXP, :TYPE, :NAMESPACE, :IDENTIFIER) -> (:EXP);
+<exp_arrow_begin> : (:EXP) -> (:EXP, :TYPE, :NAMESPACE);
+<exp_arrow_end> : (:EXP, :TYPE, :NAMESPACE, :IDENTIFIER) -> (:EXP);
 <rescan_token> : () -> ();
 
-<no_type_defns> : () -> ( :COUNT );
-<no_side_effects> : () -> ( :COUNT );
-<diff_type_defns> : ( :COUNT ) -> ( :COUNT );
-<diff_side_effects> : ( :COUNT ) -> ( :COUNT );
+<no_type_defns> : () -> (:COUNT);
+<no_side_effects> : () -> (:COUNT);
+<diff_type_defns> : (:COUNT) -> (:COUNT);
+<diff_side_effects> : (:COUNT) -> (:COUNT);
 <sizeof_begin> : () -> ();
 <sizeof_end> : () -> ();
 
-type-id : () -> ( :TYPE, :COUNT );
-type-id-false : () -> ( :TYPE, :COUNT );
-type-id-true : () -> ( :TYPE, :COUNT );
+type-id: () -> (:TYPE, :COUNT);
+type-id-false: () -> (:TYPE, :COUNT);
+type-id-true: () -> (:TYPE, :COUNT);
 
-postfix-expression : () -> ( e : EXP ) = {
+postfix-expression: () -> (e: EXP) = {
 	e = primary-expression;
     ||
 	a = postfix-expression;
 	open-square; b = expression; close-square;
-	e = <exp_index> ( a, b );
+	e = <exp_index> (a, b);
     ||
 	a = postfix-expression;
 	open-round; p = expression-list-opt;
-	e = <exp_func> ( a, p );
+	e = <exp_func> (a, p);
 	close-round;
     ||
 	a = postfix-expression;
-	( b, t, ns ) = <exp_dot_begin> ( a );
-	dot; id = field-id-expression ( ns );
-	e = <exp_dot_end> ( b, t, ns, id );
+	(b, t, ns) = <exp_dot_begin> (a);
+	dot; id = field-id-expression (ns);
+	e = <exp_dot_end> (b, t, ns, id);
 	<rescan_token>;
     ||
 	a = postfix-expression;
-	( b, t, ns ) = <exp_arrow_begin> ( a );
-	arrow; id = field-id-expression ( ns );
-	e = <exp_arrow_end> ( b, t, ns, id );
+	(b, t, ns) = <exp_arrow_begin> (a);
+	arrow; id = field-id-expression (ns);
+	e = <exp_arrow_end> (b, t, ns, id);
 	<rescan_token>;
     ||
 	a = postfix-expression; plus-plus;
-	e = <exp_postinc> ( a );
+	e = <exp_postinc> (a);
     ||
 	a = postfix-expression; minus-minus;
-	e = <exp_postdec> ( a );
+	e = <exp_postdec> (a);
 };
 
 
@@ -500,72 +500,72 @@ postfix-expression : () -> ( e : EXP ) = {
  *    expressions.
  */
 
-<exp_not> : ( :EXP ) -> ( :EXP );
-<exp_ref> : ( :EXP ) -> ( :EXP );
-<exp_indir> : ( :EXP ) -> ( :EXP );
-<exp_unary> : ( :LEX, :EXP ) -> ( :EXP );
-<exp_preinc> : ( :EXP ) -> ( :EXP );
-<exp_predec> : ( :EXP ) -> ( :EXP );
+<exp_not> : (:EXP) -> (:EXP);
+<exp_ref> : (:EXP) -> (:EXP);
+<exp_indir> : (:EXP) -> (:EXP);
+<exp_unary> : (:LEX, :EXP) -> (:EXP);
+<exp_preinc> : (:EXP) -> (:EXP);
+<exp_predec> : (:EXP) -> (:EXP);
 
-<exp_none> : () -> ( :EXP );
-<exp_sizeof> : ( :LEX, :TYPE, :EXP, :COUNT ) -> ( :EXP );
-<type_of> : ( :LEX, :EXP, :COUNT ) -> ( :TYPE );
+<exp_none> : () -> (:EXP);
+<exp_sizeof> : (:LEX, :TYPE, :EXP, :COUNT) -> (:EXP);
+<type_of> : (:LEX, :EXP, :COUNT) -> (:TYPE);
 
-unary-expression : () -> ( :EXP );
-cast-expression : () -> ( :EXP );
+unary-expression: () -> (:EXP);
+cast-expression: () -> (:EXP);
 
-sizeof-expression : ( op : LEX ) -> ( e : EXP ) = {
+sizeof-expression: (op: LEX) -> (e: EXP) = {
 	<sizeof_begin>;
 	n1 = <no_side_effects>;
 	m1 = <no_type_defns>;
 	{
 		a = unary-expression;
-		n2 = <diff_side_effects> ( n1 );
-		m2 = <diff_type_defns> ( m1 );
-		t = <type_of> ( op, a, n2 );
-		c = <exp_sizeof> ( op, t, a, m2 );
+		n2 = <diff_side_effects> (n1);
+		m2 = <diff_type_defns> (m1);
+		t = <type_of> (op, a, n2);
+		c = <exp_sizeof> (op, t, a, m2);
 	    ||
-		open-round; ( t, m2 ) = type-id-true;
+		open-round; (t, m2) = type-id-true;
 		a = <exp_none>;
-		c = <exp_sizeof> ( op, t, a, m2 );
+		c = <exp_sizeof> (op, t, a, m2);
 		close-round;
 	};
 	<sizeof_end>;
 	e = c;
 };
 
-unary-operator : () -> () = {
+unary-operator: () -> () = {
 	plus;
     ||	minus;
     ||	compl;
     ||	abs;
 };
 
-unary-expression : () -> ( e : EXP ) = {
+unary-expression: () -> (e: EXP) = {
 	e = postfix-expression;
     ||
 	plus-plus; a = unary-expression;
-	e = <exp_preinc> ( a );
+	e = <exp_preinc> (a);
     ||
 	minus-minus; a = unary-expression;
-	e = <exp_predec> ( a );
+	e = <exp_predec> (a);
     ||
 	star; a = cast-expression;
-	e = <exp_indir> ( a );
+	e = <exp_indir> (a);
     ||
 	and; a = cast-expression;
-	e = <exp_ref> ( a );
+	e = <exp_ref> (a);
     ||
 	not; a = cast-expression;
-	e = <exp_not> ( a );
+	e = <exp_not> (a);
     ||
 	op = <lex_crt>; unary-operator;
 	a = cast-expression;
-	e = <exp_unary> ( op, a );
+	e = <exp_unary> (op, a);
     ||
-	sizeof; op = <lex_sizeof>; e = sizeof-expression ( op );
+	sizeof; op = <lex_sizeof>; e = sizeof-expression (op);
     ||
-	alignof; op = <lex_alignof>; e = sizeof-expression ( op );
+	alignof; op = <lex_alignof>; e = sizeof-expression (op);
 };
 
 
@@ -578,18 +578,18 @@ unary-expression : () -> ( e : EXP ) = {
  *    to void.
  */
 
-<exp_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP );
-<exp_ignore> : ( :EXP ) -> ( :EXP );
+<exp_cast> : (:TYPE, :EXP, :COUNT) -> (:EXP);
+<exp_ignore> : (:EXP) -> (:EXP);
 
-cast-expression : () -> ( e : EXP ) = {
+cast-expression: () -> (e: EXP) = {
 	e = unary-expression;
     ||
-	open-round; ( t, n ) = type-id-false; close-round;
+	open-round; (t, n) = type-id-false; close-round;
 	a = cast-expression;
-	e = <exp_cast> ( t, a, n );
+	e = <exp_cast> (t, a, n);
     ||
 	discard; a = cast-expression;
-	e = <exp_ignore> ( a );
+	e = <exp_ignore> (a);
 };
 
 
@@ -600,21 +600,21 @@ cast-expression : () -> ( e : EXP ) = {
  *    the division and remainder operations, as well as multiplication.
  */
 
-<exp_div> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_rem> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_mult> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_div> : (:EXP, :EXP) -> (:EXP);
+<exp_rem> : (:EXP, :EXP) -> (:EXP);
+<exp_mult> : (:EXP, :EXP) -> (:EXP);
 
-multiplicative-expression : () -> ( e : EXP ) = {
+multiplicative-expression: () -> (e: EXP) = {
 	e = cast-expression;
     ||
 	a = multiplicative-expression; star; b = cast-expression;
-	e = <exp_mult> ( a, b );
+	e = <exp_mult> (a, b);
     ||
 	a = multiplicative-expression; div; b = cast-expression;
-	e = <exp_div> ( a, b );
+	e = <exp_div> (a, b);
     ||
 	a = multiplicative-expression; rem; b = cast-expression;
-	e = <exp_rem> ( a, b );
+	e = <exp_rem> (a, b);
 };
 
 
@@ -625,17 +625,17 @@ multiplicative-expression : () -> ( e : EXP ) = {
  *    addition and the subtraction operations.
  */
 
-<exp_plus> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_minus> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_plus> : (:EXP, :EXP) -> (:EXP);
+<exp_minus> : (:EXP, :EXP) -> (:EXP);
 
-additive-expression : () -> ( e : EXP ) = {
+additive-expression: () -> (e: EXP) = {
 	e = multiplicative-expression;
     ||
 	a = additive-expression; plus; b = multiplicative-expression;
-	e = <exp_plus> ( a, b );
+	e = <exp_plus> (a, b);
     ||
 	a = additive-expression; minus; b = multiplicative-expression;
-	e = <exp_minus> ( a, b );
+	e = <exp_minus> (a, b);
 };
 
 
@@ -646,17 +646,17 @@ additive-expression : () -> ( e : EXP ) = {
  *    are included.
  */
 
-<exp_lshift> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_rshift> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_lshift> : (:EXP, :EXP) -> (:EXP);
+<exp_rshift> : (:EXP, :EXP) -> (:EXP);
 
-shift-expression : () -> ( e : EXP ) = {
+shift-expression: () -> (e: EXP) = {
 	e = additive-expression;
     ||
 	a = shift-expression; lshift; b = additive-expression;
-	e = <exp_lshift> ( a, b );
+	e = <exp_lshift> (a, b);
     ||
 	a = shift-expression; rshift; b = additive-expression;
-	e = <exp_rshift> ( a, b );
+	e = <exp_rshift> (a, b);
 };
 
 
@@ -667,22 +667,22 @@ shift-expression : () -> ( e : EXP ) = {
  *    than, less than or equal and greater than or equal.
  */
 
-<exp_relation> : ( :LEX, :EXP, :EXP ) -> ( :EXP );
+<exp_relation> : (:LEX, :EXP, :EXP) -> (:EXP);
 
-relational-operator : () -> () = {
+relational-operator: () -> () = {
 	less;
     ||	greater;
     ||	less-eq;
     ||	greater-eq;
 };
 
-relational-expression : () -> ( e : EXP ) = {
+relational-expression: () -> (e: EXP) = {
 	e = shift-expression;
     ||
 	a = relational-expression;
 	op = <lex_crt>; relational-operator;
 	b = shift-expression;
-	e = <exp_relation> ( op, a, b );
+	e = <exp_relation> (op, a, b);
 };
 
 
@@ -692,20 +692,20 @@ relational-expression : () -> ( e : EXP ) = {
  *    These rules describe the equality expressions, equal and not equal.
  */
 
-<exp_equality> : ( :LEX, :EXP, :EXP ) -> ( :EXP );
+<exp_equality> : (:LEX, :EXP, :EXP) -> (:EXP);
 
-equality-operator : () -> () = {
+equality-operator: () -> () = {
 	eq;
     ||	not-eq;
 };
 
-equality-expression : () -> ( e : EXP ) = {
+equality-expression: () -> (e: EXP) = {
 	e = relational-expression;
     ||
 	a = equality-expression;
 	op = <lex_crt>; equality-operator;
 	b = relational-expression;
-	e = <exp_equality> ( op, a, b );
+	e = <exp_equality> (op, a, b);
 };
 
 
@@ -715,20 +715,20 @@ equality-expression : () -> ( e : EXP ) = {
  *    These rules describes the maximum and minimum expressions.
  */
 
-<exp_maxmin> : ( :LEX, :EXP, :EXP ) -> ( :EXP );
+<exp_maxmin> : (:LEX, :EXP, :EXP) -> (:EXP);
 
-maxmin-operator : () -> () = {
+maxmin-operator: () -> () = {
 	max;
     ||	min;
 };
 
-maxmin-expression : () -> ( e : EXP ) = {
+maxmin-expression: () -> (e: EXP) = {
 	e = equality-expression;
     ||
 	a = maxmin-expression;
 	op = <lex_crt>; maxmin-operator;
 	b = equality-expression;
-	e = <exp_maxmin> ( op, a, b );
+	e = <exp_maxmin> (op, a, b);
 };
 
 
@@ -738,13 +738,13 @@ maxmin-expression : () -> ( e : EXP ) = {
  *    This rule describes the bitwise and expressions.
  */
 
-<exp_and> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_and> : (:EXP, :EXP) -> (:EXP);
 
-and-expression : () -> ( e : EXP ) = {
+and-expression: () -> (e: EXP) = {
 	e = maxmin-expression;
     ||
 	a = and-expression; and; b = maxmin-expression;
-	e = <exp_and> ( a, b );
+	e = <exp_and> (a, b);
 };
 
 
@@ -754,13 +754,13 @@ and-expression : () -> ( e : EXP ) = {
  *    This rule describes the bitwise exclusive or expressions.
  */
 
-<exp_xor> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_xor> : (:EXP, :EXP) -> (:EXP);
 
-exclusive-or-expression : () -> ( e : EXP ) = {
+exclusive-or-expression: () -> (e: EXP) = {
 	e = and-expression;
     ||
 	a = exclusive-or-expression; xor; b = and-expression;
-	e = <exp_xor> ( a, b );
+	e = <exp_xor> (a, b);
 };
 
 
@@ -770,13 +770,13 @@ exclusive-or-expression : () -> ( e : EXP ) = {
  *    This rule describes the bitwise inclusive or expressions.
  */
 
-<exp_or> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_or> : (:EXP, :EXP) -> (:EXP);
 
-inclusive-or-expression : () -> ( e : EXP ) = {
+inclusive-or-expression: () -> (e: EXP) = {
 	e = exclusive-or-expression;
     ||
 	a = inclusive-or-expression; or; b = exclusive-or-expression;
-	e = <exp_or> ( a, b );
+	e = <exp_or> (a, b);
 };
 
 
@@ -786,14 +786,14 @@ inclusive-or-expression : () -> ( e : EXP ) = {
  *    This rule describes the logical and expressions.
  */
 
-<exp_log_and> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_log_and> : (:EXP, :EXP) -> (:EXP);
 
-logical-and-expression : () -> ( e : EXP ) = {
+logical-and-expression: () -> (e: EXP) = {
 	e = inclusive-or-expression;
     ||
 	a = logical-and-expression;
 	logical-and; b = inclusive-or-expression;
-	e = <exp_log_and> ( a, b );
+	e = <exp_log_and> (a, b);
 };
 
 
@@ -803,14 +803,14 @@ logical-and-expression : () -> ( e : EXP ) = {
  *    This rule describes the logical or expressions.
  */
 
-<exp_log_or> : ( :EXP, :EXP ) -> ( :EXP );
+<exp_log_or> : (:EXP, :EXP) -> (:EXP);
 
-logical-or-expression : () -> ( e : EXP ) = {
+logical-or-expression: () -> (e: EXP) = {
 	e = logical-and-expression;
     ||
 	a = logical-or-expression;
 	logical-or; b = logical-and-expression;
-	e = <exp_log_or> ( a, b );
+	e = <exp_log_or> (a, b);
 };
 
 
@@ -821,15 +821,15 @@ logical-or-expression : () -> ( e : EXP ) = {
  *    '?:' operator.
  */
 
-<exp_cond> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
+<exp_cond> : (:EXP, :EXP, :EXP) -> (:EXP);
 
-conditional-expression : () -> ( e : EXP ) = {
+conditional-expression: () -> (e: EXP) = {
 	e = logical-or-expression;
     ||
 	c = logical-or-expression;
 	question; a = expression;
 	colon; b = conditional-expression;
-	e = <exp_cond> ( c, a, b );
+	e = <exp_cond> (c, a, b);
 };
 
 
@@ -840,10 +840,10 @@ conditional-expression : () -> ( e : EXP ) = {
  *    simple assignment and the 'operate and becomes' operators like '+='.
  */
 
-<exp_assign> : ( :EXP, :EXP ) -> ( :EXP );
-<exp_assign_op> : ( :LEX, :EXP, :EXP ) -> ( :EXP );
+<exp_assign> : (:EXP, :EXP) -> (:EXP);
+<exp_assign_op> : (:LEX, :EXP, :EXP) -> (:EXP);
 
-assignment-operator : () -> () = {
+assignment-operator: () -> () = {
 	and-eq;
     ||	div-eq;
     ||	lshift-eq;
@@ -856,20 +856,20 @@ assignment-operator : () -> () = {
     ||	xor-eq;
 };
 
-assignment-expression : () -> ( e : EXP ) = {
+assignment-expression: () -> (e: EXP) = {
 	e = conditional-expression;
     ||
 	a = unary-expression;
 	assign; b = assignment-expression;
-	e = <exp_assign> ( a, b );
+	e = <exp_assign> (a, b);
     ||
 	a = unary-expression;
 	op = <lex_crt>; assignment-operator;
 	b = assignment-expression;
-	e = <exp_assign_op> ( op, a, b );
+	e = <exp_assign_op> (op, a, b);
 };
 
-expression-entry : () -> ( e : EXP ) = {
+expression-entry: () -> (e: EXP) = {
 	e = assignment-expression;
     ##
 	<error_syntax>;
@@ -885,36 +885,36 @@ expression-entry : () -> ( e : EXP ) = {
  *    expressions, plus operations for setting and discarding values.
  */
 
-<exp_set> : ( :EXP ) -> ( :EXP );
-<exp_unused> : ( :EXP ) -> ( :EXP );
+<exp_set> : (:EXP) -> (:EXP);
+<exp_unused> : (:EXP) -> (:EXP);
 
-flow-expression : () -> ( e : EXP ) = {
+flow-expression: () -> (e: EXP) = {
 	set; open-round; a = expression;
-	e = <exp_set> ( a );
+	e = <exp_set> (a);
 	close-round;
     ||
 	unused; open-round; a = expression;
-	e = <exp_unused> ( a );
+	e = <exp_unused> (a);
 	close-round;
 };
 
-inset-flow-expression : () -> ( e : EXP ) = {
+inset-flow-expression: () -> (e: EXP) = {
 	inset-start; set; a = expression;
-	e = <exp_set> ( a );
+	e = <exp_set> (a);
 	inset-end;
     ||
 	inset-start; unused; a = expression;
-	e = <exp_unused> ( a );
+	e = <exp_unused> (a);
 	inset-end;
 };
 
-inset-flow-statement : () -> ( e : EXP ) = {
+inset-flow-statement: () -> (e: EXP) = {
 	inset-start; set; a = expression;
-	e = <exp_set> ( a );
+	e = <exp_set> (a);
 	semicolon; inset-end;
     ||
 	inset-start; unused; a = expression;
-	e = <exp_unused> ( a );
+	e = <exp_unused> (a);
 	semicolon; inset-end;
 };
 
@@ -926,9 +926,9 @@ inset-flow-statement : () -> ( e : EXP ) = {
  *    from the flow-expressions by the addition of the comma operator.
  */
 
-<exp_comma> : ( :LIST-EXP ) -> ( :EXP );
+<exp_comma> : (:LIST-EXP) -> (:EXP);
 
-comma-expression-head : () -> ( e : EXP ) = {
+comma-expression-head: () -> (e: EXP) = {
 	e = assignment-expression; comma;
     ||
 	e = flow-expression;
@@ -936,21 +936,21 @@ comma-expression-head : () -> ( e : EXP ) = {
 	e = inset-flow-expression;
 };
 
-comma-expression-tail : () -> ( p : LIST-EXP ) = {
+comma-expression-tail: () -> (p: LIST-EXP) = {
 	a = assignment-expression;
 	q = <list_exp_null>;
-	p = <list_exp_cons> ( a, q );
+	p = <list_exp_cons> (a, q);
     ||
 	a = comma-expression-head; q = comma-expression-tail;
-	p = <list_exp_cons> ( a, q );
+	p = <list_exp_cons> (a, q);
 };
 
-expression : () -> ( e : EXP ) = {
+expression: () -> (e: EXP) = {
 	e = assignment-expression;
     ||
 	a = comma-expression-head; q = comma-expression-tail;
-	p = <list_exp_cons> ( a, q );
-	e = <exp_comma> ( p );
+	p = <list_exp_cons> (a, q);
+	e = <exp_comma> (p);
 };
 
 
@@ -961,7 +961,7 @@ expression : () -> ( e : EXP ) = {
  *    with all its temporary variables bound to it.
  */
 
-initialiser-expression : () -> ( e : EXP ) = {
+initialiser-expression: () -> (e: EXP) = {
 	e = assignment-expression;
 };
 
@@ -976,11 +976,11 @@ initialiser-expression : () -> ( e : EXP ) = {
  *    is evaluated to give an integer literal expression.
  */
 
-<exp_eval> : ( :EXP ) -> ( :EXP );
+<exp_eval> : (:EXP) -> (:EXP);
 
-constant-expression : () -> ( e : EXP ) = {
+constant-expression: () -> (e: EXP) = {
 	a = conditional-expression;
-	e = <exp_eval> ( a );
+	e = <exp_eval> (a);
 };
 
 
@@ -994,44 +994,44 @@ constant-expression : () -> ( e : EXP ) = {
  *    is the most difficult part of the statement processing.
  */
 
-<stmt_case_begin> : ( :EXP ) -> ( :EXP );
-<stmt_case_end> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_default_begin> : () -> ( :EXP );
-<stmt_default_end> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_label_begin> : ( :IDENTIFIER ) -> ( :EXP );
-<stmt_label_end> : ( :EXP, :EXP ) -> ( :EXP );
+<stmt_case_begin> : (:EXP) -> (:EXP);
+<stmt_case_end> : (:EXP, :EXP) -> (:EXP);
+<stmt_default_begin> : () -> (:EXP);
+<stmt_default_end> : (:EXP, :EXP) -> (:EXP);
+<stmt_label_begin> : (:IDENTIFIER) -> (:EXP);
+<stmt_label_end> : (:EXP, :EXP) -> (:EXP);
 <stmt_label_set> : () -> ();
 <stmt_label_mod> : () -> ();
 <stmt_label_clear> : () -> ();
 
-statement : () -> ( :EXP );
+statement: () -> (:EXP);
 
-fall-check : () -> () = {
+fall-check: () -> () = {
 	fall; <stmt_label_set>;
     ||	fall; semicolon; <stmt_label_set>;
     ||	$;
 };
 
-labelled-statement : () -> ( e : EXP ) = {
+labelled-statement: () -> (e: EXP) = {
 	fall-check;
 	case; c = constant-expression;
-	a = <stmt_case_begin> ( c );
+	a = <stmt_case_begin> (c);
 	<stmt_label_set>;
 	colon; b = statement;
-	e = <stmt_case_end> ( a, b );
+	e = <stmt_case_end> (a, b);
     ||
 	fall-check;
 	default;
 	a = <stmt_default_begin>;
 	<stmt_label_set>;
 	colon; b = statement;
-	e = <stmt_default_end> ( a, b );
+	e = <stmt_default_end> (a, b);
     ||
 	id = any-identifier;
 	<stmt_label_mod>;
-	a = <stmt_label_begin> ( id );
+	a = <stmt_label_begin> (id);
 	colon; b = statement;
-	e = <stmt_label_end> ( a, b );
+	e = <stmt_label_end> (a, b);
 };
 
 
@@ -1042,26 +1042,26 @@ labelled-statement : () -> ( e : EXP ) = {
  *    expression followed by a semicolon.
  */
 
-<stmt_exp> : ( :EXP ) -> ( :EXP );
-<stmt_none> : () -> ( :EXP );
-<reach_check> : () -> ( :BOOL );
-<reach_prev> : ( :BOOL ) -> ();
+<stmt_exp> : (:EXP) -> (:EXP);
+<stmt_none> : () -> (:EXP);
+<reach_check> : () -> (:BOOL);
+<reach_prev> : (:BOOL) -> ();
 
-block-expression : () -> ( e : EXP ) = {
+block-expression: () -> (e: EXP) = {
 	e = expression;
     ||	e = flow-expression;
 };
 
-expression-statement : () -> ( e : EXP ) = {
+expression-statement: () -> (e: EXP) = {
 	a = block-expression;
 	r = <reach_check>;
-	e = <stmt_exp> ( a );
+	e = <stmt_exp> (a);
 	<stmt_label_clear>;
 	semicolon;
     ||
 	a = inset-flow-statement;
 	r = <reach_check>;
-	e = <stmt_exp> ( a );
+	e = <stmt_exp> (a);
 	<stmt_label_clear>;
     ||
 	semicolon;
@@ -1077,57 +1077,57 @@ expression-statement : () -> ( e : EXP ) = {
  *    automatically define a local scope.
  */
 
-<stmt_compound_begin> : () -> ( :EXP );
-<stmt_compound_end> : ( :EXP ) -> ( :EXP );
-<stmt_compound_add> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_compound_block> : ( :EXP ) -> ( :BOOL );
-<stmt_compound_mark> : ( :EXP ) -> ();
-<stmt_return_fall> : () -> ( :EXP );
+<stmt_compound_begin> : () -> (:EXP);
+<stmt_compound_end> : (:EXP) -> (:EXP);
+<stmt_compound_add> : (:EXP, :EXP) -> (:EXP);
+<stmt_compound_block> : (:EXP) -> (:BOOL);
+<stmt_compound_mark> : (:EXP) -> ();
+<stmt_return_fall> : () -> (:EXP);
 
-<bool_true> : () -> ( :BOOL );
-<bool_false> : () -> ( :BOOL );
+<bool_true> : () -> (:BOOL);
+<bool_false> : () -> (:BOOL);
 
 <func_id_declare> : () -> ();
 
-declaration-statement : ( :BOOL ) -> ( :EXP );
+declaration-statement: (:BOOL) -> (:EXP);
 
-statement-seq-opt : ( c : EXP, d : BOOL ) -> ( e : EXP ) = {
+statement-seq-opt: (c: EXP, d: BOOL) -> (e: EXP) = {
 	a = statement;
-	b = <stmt_compound_add> ( c, a );
+	b = <stmt_compound_add> (c, a);
 	db = <bool_false>;
-	e = statement-seq-opt ( b, db );
+	e = statement-seq-opt (b, db);
     ||
-	a = declaration-statement ( d );
-	b = <stmt_compound_add> ( c, a );
-	e = statement-seq-opt ( b, d );
+	a = declaration-statement (d);
+	b = <stmt_compound_add> (c, a);
+	e = statement-seq-opt (b, d);
     ||
 	e = c;
 };
 
-compound-statement : () -> ( e : EXP ) = {
+compound-statement: () -> (e: EXP) = {
 	c = <stmt_compound_begin>;
 	open-brace;
-	d = <stmt_compound_block> ( c );
-	a = statement-seq-opt ( c, d );
+	d = <stmt_compound_block> (c);
+	a = statement-seq-opt (c, d);
 	close-brace;
-	e = <stmt_compound_end> ( a );
+	e = <stmt_compound_end> (a);
 	<rescan_token>;
 };
 
-function-body : () -> ( e : EXP ) = {
+function-body: () -> (e: EXP) = {
 	c = <stmt_compound_begin>;
 	<func_id_declare>;
 	open-brace;
-	d = <stmt_compound_block> ( c );
-	b = statement-seq-opt ( c, d );
+	d = <stmt_compound_block> (c);
+	b = statement-seq-opt (c, d);
 	r = <stmt_return_fall>;
-	a = <stmt_compound_add> ( b, r );
+	a = <stmt_compound_add> (b, r);
 	close-brace;
-	e = <stmt_compound_end> ( a );
+	e = <stmt_compound_end> (a);
 	<rescan_token>;
 };
 
-function-definition-entry : () -> ( e : EXP ) = {
+function-definition-entry: () -> (e: EXP) = {
 	e = function-body;
     ##
 	<error_syntax>;
@@ -1146,25 +1146,25 @@ function-definition-entry : () -> ( e : EXP ) = {
  *    statements.
  */
 
-simple-statement : () -> ( :EXP );
+simple-statement: () -> (:EXP);
 
-scoped-stmt-body : ( c : EXP ) -> ( e : EXP ) = {
+scoped-stmt-body: (c: EXP) -> (e: EXP) = {
 	open-brace;
-	d = <stmt_compound_block> ( c );
-	e = statement-seq-opt ( c, d );
+	d = <stmt_compound_block> (c);
+	e = statement-seq-opt (c, d);
 	close-brace;
     ||
 	a = simple-statement;
-	e = <stmt_compound_add> ( c, a );
+	e = <stmt_compound_add> (c, a);
 };
 
-scoped-statement : ( c : EXP ) -> ( e : EXP ) = {
-	a = scoped-stmt-body ( c );
-	e = <stmt_compound_end> ( a );
+scoped-statement: (c: EXP) -> (e: EXP) = {
+	a = scoped-stmt-body (c);
+	e = <stmt_compound_end> (a);
 	<rescan_token>;
     ##
 	<error_syntax>;
-	e = <stmt_compound_end> ( c );
+	e = <stmt_compound_end> (c);
 	<rescan_token>;
 };
 
@@ -1179,13 +1179,13 @@ scoped-statement : ( c : EXP ) -> ( e : EXP ) = {
  *    is_decl_statement.
  */
 
-<is_decl_statement> : ( :BOOL ) -> ( :BOOL );
-<stmt_decl> : () -> ( :EXP );
+<is_decl_statement> : (:BOOL) -> (:BOOL);
+<stmt_decl> : () -> (:EXP);
 
-declaration : () -> ();
+declaration: () -> ();
 
-declaration-statement : ( d : BOOL ) -> ( e : EXP ) = {
-	? = <is_decl_statement> ( d );
+declaration-statement: (d: BOOL) -> (e: EXP) = {
+	? = <is_decl_statement> (d);
 	declaration;
 	e = <stmt_decl>;
 	<stmt_label_clear>;
@@ -1203,33 +1203,33 @@ declaration-statement : ( d : BOOL ) -> ( e : EXP ) = {
  *    preprocessor.
  */
 
-<stmt_hash_if> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_hash_elif> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
-<stmt_hash_endif> : ( :EXP, :EXP ) -> ( :EXP );
-<cond_hash_if> : ( :EXP ) -> ( :EXP );
-<cond_hash_elif> : ( :EXP ) -> ();
+<stmt_hash_if> : (:EXP, :EXP) -> (:EXP);
+<stmt_hash_elif> : (:EXP, :EXP, :EXP) -> (:EXP);
+<stmt_hash_endif> : (:EXP, :EXP) -> (:EXP);
+<cond_hash_if> : (:EXP) -> (:EXP);
+<cond_hash_elif> : (:EXP) -> ();
 <cond_hash_else> : () -> ();
-<cond_hash_endif> : ( :EXP ) -> ();
+<cond_hash_endif> : (:EXP) -> ();
 
-target-condition-head : () -> ( e : EXP, p : EXP, r : BOOL ) = {
+target-condition-head: () -> (e: EXP, p: EXP, r: BOOL) = {
 	c = hash-if;
-	p = <cond_hash_if> ( c );
+	p = <cond_hash_if> (c);
 	r = <reach_check>;
 	a = compound-statement;
-	<reach_prev> ( r );
-	e = <stmt_hash_if> ( c, a );
+	<reach_prev> (r);
+	e = <stmt_hash_if> (c, a);
     ||
-	( a, p, r ) = target-condition-head;
+	(a, p, r) = target-condition-head;
 	c = hash-elif;
-	<cond_hash_elif> ( c );
+	<cond_hash_elif> (c);
 	s = <reach_check>;
 	b = compound-statement;
-	<reach_prev> ( r );
-	e = <stmt_hash_elif> ( a, c, b );
+	<reach_prev> (r);
+	e = <stmt_hash_elif> (a, c, b);
 };
 
-target-condition : () -> ( e : EXP ) = {
-	( a, p, r ) = target-condition-head;
+target-condition: () -> (e: EXP) = {
+	(a, p, r) = target-condition-head;
 	{
 		hash-else;
 		<cond_hash_else>;
@@ -1238,10 +1238,10 @@ target-condition : () -> ( e : EXP ) = {
 	    ||
 		b = <stmt_none>;
 	};
-	<cond_hash_endif> ( p );
+	<cond_hash_endif> (p);
 	hash-endif;
-	<reach_prev> ( r );
-	e = <stmt_hash_endif> ( a, b );
+	<reach_prev> (r);
+	e = <stmt_hash_endif> (a, b);
 };
 
 
@@ -1256,54 +1256,54 @@ target-condition : () -> ( e : EXP ) = {
  *    an if statement always has an associated else, except when it doesn't.
  */
 
-<stmt_if_begin> : ( :EXP ) -> ( :EXP );
-<stmt_if_cont> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_if_end> : ( :EXP, :EXP ) -> ( :EXP );
+<stmt_if_begin> : (:EXP) -> (:EXP);
+<stmt_if_cont> : (:EXP, :EXP) -> (:EXP);
+<stmt_if_end> : (:EXP, :EXP) -> (:EXP);
 <stmt_else> : () -> ();
-<stmt_no_else> : () -> ( :EXP );
-<stmt_switch_begin> : ( :EXP ) -> ( :EXP );
-<stmt_switch_end> : ( :EXP, :EXP, :BOOL ) -> ( :EXP );
+<stmt_no_else> : () -> (:EXP);
+<stmt_switch_begin> : (:EXP) -> (:EXP);
+<stmt_switch_end> : (:EXP, :EXP, :BOOL) -> (:EXP);
 
-<condition_get> : () -> ( :CONDITION );
-<condition_set> : ( :CONDITION ) -> ();
+<condition_get> : () -> (:CONDITION);
+<condition_set> : (:CONDITION) -> ();
 
-selection-statement : () -> ( e : EXP ) = {
+selection-statement: () -> (e: EXP) = {
 	if;
 	x = <condition_get>;
 	r = <reach_check>;
 	open-round-x; c = expression;
-	a = <stmt_if_begin> ( c );
+	a = <stmt_if_begin> (c);
 	close-round;
 	bs = <stmt_compound_begin>;
-	b = scoped-statement ( bs );
-	<reach_prev> ( r );
-	d = <stmt_if_cont> ( a, b );
+	b = scoped-statement (bs);
+	<reach_prev> (r);
+	d = <stmt_if_cont> (a, b);
 	{
 		else;
 		<stmt_else>;
 		fs = <stmt_compound_begin>;
-		f = scoped-statement ( fs );
+		f = scoped-statement (fs);
 	    ##
 		f = <stmt_no_else>;
 	};
-	<reach_prev> ( r );
-	e = <stmt_if_end> ( d, f );
-	<condition_set> ( x );
+	<reach_prev> (r);
+	e = <stmt_if_end> (d, f);
+	<condition_set> (x);
 	<stmt_label_clear>;
     ||
 	switch;
 	r = <reach_check>;
 	open-round; c = expression;
-	a = <stmt_switch_begin> ( c );
+	a = <stmt_switch_begin> (c);
 	close-round;
 	{
 		exhaustive; ex = <bool_true>;
 	    ||	ex = <bool_false>;
 	};
 	bs = <stmt_compound_begin>;
-	b = scoped-statement ( bs );
-	<reach_prev> ( r );
-	e = <stmt_switch_end> ( a, b, ex );
+	b = scoped-statement (bs);
+	<reach_prev> (r);
+	e = <stmt_switch_end> (a, b, ex);
 	<stmt_label_clear>;
     ||
 	e = target-condition;
@@ -1318,19 +1318,19 @@ selection-statement : () -> ( e : EXP ) = {
  *    while, do and for statements.
  */
 
-<stmt_while_begin> : ( :EXP ) -> ( :EXP );
-<stmt_while_end> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_do_begin> : () -> ( :EXP );
-<stmt_do_end> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
-<stmt_for_begin> : () -> ( :EXP );
+<stmt_while_begin> : (:EXP) -> (:EXP);
+<stmt_while_end> : (:EXP, :EXP) -> (:EXP);
+<stmt_do_begin> : () -> (:EXP);
+<stmt_do_end> : (:EXP, :EXP, :EXP) -> (:EXP);
+<stmt_for_begin> : () -> (:EXP);
 <stmt_for_decl> : () -> ();
-<stmt_for_init> : ( :EXP, :EXP ) -> ( :EXP );
-<stmt_for_cond> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
-<stmt_for_end> : ( :EXP, :EXP ) -> ( :EXP );
-<bind_temporary> : ( :EXP ) -> ( :EXP );
-<exp_location> : ( :EXP ) -> ( :EXP );
+<stmt_for_init> : (:EXP, :EXP) -> (:EXP);
+<stmt_for_cond> : (:EXP, :EXP, :EXP) -> (:EXP);
+<stmt_for_end> : (:EXP, :EXP) -> (:EXP);
+<bind_temporary> : (:EXP) -> (:EXP);
+<exp_location> : (:EXP) -> (:EXP);
 
-for-init-statement : () -> ( e : EXP ) = {
+for-init-statement: () -> (e: EXP) = {
 	e = expression-statement;
     ||
 	declaration;
@@ -1339,37 +1339,37 @@ for-init-statement : () -> ( e : EXP ) = {
 	<stmt_label_clear>;
 };
 
-for-cond-statement : () -> ( e : EXP ) = {
+for-cond-statement: () -> (e: EXP) = {
 	{
 		a = expression;
 	    ||	a = <exp_none>;
 	};
-	b = <bind_temporary> ( a );
-	e = <exp_location> ( b );
+	b = <bind_temporary> (a);
+	e = <exp_location> (b);
 	semicolon;
 };
 
-for-end-statement : () -> ( e : EXP ) = {
+for-end-statement: () -> (e: EXP) = {
 	a = expression;
-	b = <stmt_exp> ( a );
-	e = <bind_temporary> ( b );
+	b = <stmt_exp> (a);
+	e = <bind_temporary> (b);
     ||
 	e = <exp_none>;
 };
 
-iteration-statement : () -> ( e : EXP ) = {
+iteration-statement: () -> (e: EXP) = {
 	while;
 	x = <condition_get>;
 	r = <reach_check>;
 	open-round; c0 = expression;
-	c = <bind_temporary> ( c0 );
-	a = <stmt_while_begin> ( c );
+	c = <bind_temporary> (c0);
+	a = <stmt_while_begin> (c);
 	close-round;
 	bs = <stmt_compound_begin>;
-	b = scoped-statement ( bs );
-	<reach_prev> ( r );
-	e = <stmt_while_end> ( a, b );
-	<condition_set> ( x );
+	b = scoped-statement (bs);
+	<reach_prev> (r);
+	e = <stmt_while_end> (a, b);
+	<condition_set> (x);
 	<stmt_label_clear>;
     ||
 	do;
@@ -1377,13 +1377,13 @@ iteration-statement : () -> ( e : EXP ) = {
 	r = <reach_check>;
 	a = <stmt_do_begin>;
 	bs = <stmt_compound_begin>;
-	b = scoped-statement ( bs );
+	b = scoped-statement (bs);
 	while; open-round; c0 = expression;
-	c = <bind_temporary> ( c0 );
-	<reach_prev> ( r );
-	e = <stmt_do_end> ( a, b, c );
+	c = <bind_temporary> (c0);
+	<reach_prev> (r);
+	e = <stmt_do_end> (a, b, c);
 	close-round;
-	<condition_set> ( x );
+	<condition_set> (x);
 	<stmt_label_clear>;
 	semicolon-x;
     ||
@@ -1393,17 +1393,17 @@ iteration-statement : () -> ( e : EXP ) = {
 	open-round;
 	f = <stmt_for_begin>;
 	a = for-init-statement;
-	g = <stmt_for_init> ( f, a );
+	g = <stmt_for_init> (f, a);
 	c = for-cond-statement;
 	ds = <stmt_compound_begin>;
 	b = for-end-statement;
-	h = <stmt_for_cond> ( g, c, b );
+	h = <stmt_for_cond> (g, c, b);
 	close-round;
-	<stmt_compound_mark> ( ds );
-	d = scoped-statement ( ds );
-	<reach_prev> ( r );
-	e = <stmt_for_end> ( h, d );
-	<condition_set> ( x );
+	<stmt_compound_mark> (ds);
+	d = scoped-statement (ds);
+	<reach_prev> (r);
+	e = <stmt_for_end> (h, d);
+	<condition_set> (x);
 	<stmt_label_clear>;
 	<rescan_token>;
 };
@@ -1416,25 +1416,25 @@ iteration-statement : () -> ( e : EXP ) = {
  *    continue, return and goto statements.
  */
 
-<stmt_break> : () -> ( :EXP );
-<stmt_continue> : () -> ( :EXP );
-<stmt_return> : ( :EXP ) -> ( :EXP );
-<stmt_goto> : ( :IDENTIFIER ) -> ( :EXP );
-<stmt_goto_case> : ( :EXP ) -> ( :EXP );
-<stmt_goto_default> : () -> ( :EXP );
+<stmt_break> : () -> (:EXP);
+<stmt_continue> : () -> (:EXP);
+<stmt_return> : (:EXP) -> (:EXP);
+<stmt_goto> : (:IDENTIFIER) -> (:EXP);
+<stmt_goto_case> : (:EXP) -> (:EXP);
+<stmt_goto_default> : () -> (:EXP);
 
-jump-label : () -> ( e : EXP ) = {
+jump-label: () -> (e: EXP) = {
 	id = any-identifier;
-	e = <stmt_goto> ( id );
+	e = <stmt_goto> (id);
     ||
 	case; c = constant-expression;
-	e = <stmt_goto_case> ( c );
+	e = <stmt_goto_case> (c);
     ||
 	default;
 	e = <stmt_goto_default> ();
 };
 
-jump-statement : () -> ( e : EXP ) = {
+jump-statement: () -> (e: EXP) = {
 	break;
 	r = <reach_check>;
 	e = <stmt_break>;
@@ -1453,7 +1453,7 @@ jump-statement : () -> ( e : EXP ) = {
 		a = expression;
 	    ||	a = <exp_none>;
 	};
-	e = <stmt_return> ( a );
+	e = <stmt_return> (a);
 	<stmt_label_clear>;
 	semicolon-x;
     ||
@@ -1474,17 +1474,17 @@ jump-statement : () -> ( e : EXP ) = {
 
 <reach_set> : () -> ();
 <reach_unset> : () -> ();
-<stmt_reach> : ( :EXP ) -> ( :EXP );
-<stmt_unreach> : ( :EXP ) -> ( :EXP );
+<stmt_reach> : (:EXP) -> (:EXP);
+<stmt_unreach> : (:EXP) -> (:EXP);
 
-control-statement : () -> ( e : EXP ) = {
+control-statement: () -> (e: EXP) = {
 	reachable; <reach_set>;
 	a = statement;
-	e = <stmt_reach> ( a );
+	e = <stmt_reach> (a);
     ||
 	unreachable; <reach_unset>;
 	a = statement;
-	e = <stmt_unreach> ( a );
+	e = <stmt_unreach> (a);
 };
 
 
@@ -1495,13 +1495,13 @@ control-statement : () -> ( e : EXP ) = {
  *    statement names and the complex statements.
  */
 
-token-statement : () -> ( e : EXP ) = {
+token-statement: () -> (e: EXP) = {
 	id = statement-name;
-	a = <exp_identifier> ( id );
-	e = <stmt_exp> ( a );
+	a = <exp_identifier> (id);
+	e = <stmt_exp> (a);
     ||
 	a = complex-stmt;
-	e = <stmt_exp> ( a );
+	e = <stmt_exp> (a);
 };
 
 
@@ -1512,16 +1512,16 @@ token-statement : () -> ( e : EXP ) = {
  *    by a bracketed string literal and a semicolon.
  */
 
-<declare_asm> : ( :EXP, :LIST-EXP ) -> ( :EXP );
+<declare_asm> : (:EXP, :LIST-EXP) -> (:EXP);
 
-asm-definition : () -> ( e : EXP ) = {
+asm-definition: () -> (e: EXP) = {
 	asm; open-round;
 	a = string-literal;
 	{
 		comma; p = expression-list;
 	    ||	p = <list_exp_null>;
 	};
-	e = <declare_asm> ( a, p );
+	e = <declare_asm> (a, p);
 	close-round;
 	semicolon-x;
 };
@@ -1534,7 +1534,7 @@ asm-definition : () -> ( e : EXP ) = {
  *    types of statements listing above, including the try blocks.
  */
 
-simple-statement : () -> ( e : EXP ) = {
+simple-statement: () -> (e: EXP) = {
 	e = labelled-statement;
     ||	e = expression-statement;
     ||	e = selection-statement;
@@ -1545,12 +1545,12 @@ simple-statement : () -> ( e : EXP ) = {
     ||	e = asm-definition;
 };
 
-statement : () -> ( e : EXP ) = {
+statement: () -> (e: EXP) = {
 	e = simple-statement;
     ||	e = compound-statement;
 };
 
-statement-entry : () -> ( e : EXP ) = {
+statement-entry: () -> (e: EXP) = {
 	e = statement;
     ##
 	<error_syntax>;
@@ -1564,27 +1564,27 @@ statement-entry : () -> ( e : EXP ) = {
  *    These rules describe the lists of const and volatile type qualifiers.
  */
 
-<cv_none> : () -> ( :CV );
-<cv_const> : () -> ( :CV );
-<cv_restrict> : () -> ( :CV );
-<cv_volatile> : () -> ( :CV );
-<cv_join> : ( :CV, : CV ) -> ( :CV );
+<cv_none> : () -> (:CV);
+<cv_const> : () -> (:CV);
+<cv_restrict> : () -> (:CV);
+<cv_volatile> : () -> (:CV);
+<cv_join> : (:CV, : CV) -> (:CV);
 
-cv-qualifier : () -> ( cv : CV ) = {
+cv-qualifier: () -> (cv: CV) = {
 	const; cv = <cv_const>;
     ||	restrict; cv = <cv_restrict>;
     ||	volatile; cv = <cv_volatile>;
 };
 
-cv-qualifier-seq : () -> ( cv : CV ) = {
+cv-qualifier-seq: () -> (cv: CV) = {
 	a = cv-qualifier;
 	{
 		cv = a;
-	    ||	b = cv-qualifier-seq; cv = <cv_join> ( a, b );
+	    ||	b = cv-qualifier-seq; cv = <cv_join> (a, b);
 	};
 };
 
-cv-qualifier-seq-opt : () -> ( cv : CV ) = {
+cv-qualifier-seq-opt: () -> (cv: CV) = {
 	cv = <cv_none>;
     ||	cv = cv-qualifier-seq;
 };
@@ -1601,33 +1601,33 @@ cv-qualifier-seq-opt : () -> ( cv : CV ) = {
  *    specifier has been given.
  */
 
-<btype_none> : () -> ( :BTYPE );
-<btype_char> : () -> ( :BTYPE );
-<btype_short> : () -> ( :BTYPE );
-<btype_int> : () -> ( :BTYPE );
-<btype_long> : () -> ( :BTYPE );
-<btype_signed> : () -> ( :BTYPE );
-<btype_unsigned> : () -> ( :BTYPE );
-<btype_float> : () -> ( :BTYPE );
-<btype_double> : () -> ( :BTYPE );
-<btype_bool> : () -> ( :BTYPE );
-<btype_wchar_t> : () -> ( :BTYPE );
-<btype_size_t> : () -> ( :BTYPE );
-<btype_ptrdiff_t> : () -> ( :BTYPE );
-<btype_void> : () -> ( :BTYPE );
-<btype_bottom> : () -> ( :BTYPE );
-<btype_join> : ( :BTYPE, :BTYPE ) -> ( :BTYPE );
+<btype_none> : () -> (:BTYPE);
+<btype_char> : () -> (:BTYPE);
+<btype_short> : () -> (:BTYPE);
+<btype_int> : () -> (:BTYPE);
+<btype_long> : () -> (:BTYPE);
+<btype_signed> : () -> (:BTYPE);
+<btype_unsigned> : () -> (:BTYPE);
+<btype_float> : () -> (:BTYPE);
+<btype_double> : () -> (:BTYPE);
+<btype_bool> : () -> (:BTYPE);
+<btype_wchar_t> : () -> (:BTYPE);
+<btype_size_t> : () -> (:BTYPE);
+<btype_ptrdiff_t> : () -> (:BTYPE);
+<btype_void> : () -> (:BTYPE);
+<btype_bottom> : () -> (:BTYPE);
+<btype_join> : (:BTYPE, :BTYPE) -> (:BTYPE);
 
-<type_none> : () -> ( :TYPE );
-<type_pre> : () -> ( :TYPE );
-<type_name> : ( :IDENTIFIER ) -> ( :TYPE );
-<type_join> : ( :TYPE, :TYPE ) -> ( :TYPE );
-<type_complete> : ( :BTYPE, :TYPE, :CV ) -> ( :TYPE );
+<type_none> : () -> (:TYPE);
+<type_pre> : () -> (:TYPE);
+<type_name> : (:IDENTIFIER) -> (:TYPE);
+<type_join> : (:TYPE, :TYPE) -> (:TYPE);
+<type_complete> : (:BTYPE, :TYPE, :CV) -> (:TYPE);
 
-class-specifier : () -> ( :TYPE );
-enum-specifier : () -> ( :TYPE );
+class-specifier: () -> (:TYPE);
+enum-specifier: () -> (:TYPE);
 
-base-type-specifier : () -> ( bt : BTYPE ) = {
+base-type-specifier: () -> (bt: BTYPE) = {
 	char; bt = <btype_char>;
     ||	short; bt = <btype_short>;
     ||	int; bt = <btype_int>;
@@ -1644,12 +1644,12 @@ base-type-specifier : () -> ( bt : BTYPE ) = {
     ||	bottom; bt = <btype_bottom>;
 };
 
-type-specifier : () -> ( bt : BTYPE, t : TYPE ) = {
+type-specifier: () -> (bt: BTYPE, t: TYPE) = {
 	bt = base-type-specifier;
 	t = <type_pre>;
     ||
 	id = type-name;
-	t = <type_name> ( id );
+	t = <type_name> (id);
 	bt = <btype_none>;
     ||
 	t = complex-type;
@@ -1669,9 +1669,9 @@ type-specifier : () -> ( bt : BTYPE, t : TYPE ) = {
  *    These rules describe the class member specifiers.
  */
 
-member-declaration : () -> ();
+member-declaration: () -> ();
 
-member-specification-opt : () -> () = {
+member-specification-opt: () -> () = {
 	member-declaration;
 	member-specification-opt;
     ||
@@ -1689,30 +1689,30 @@ member-specification-opt : () -> () = {
  *    braces.
  */
 
-<type_class_begin> : ( :IDENTIFIER, :KEY ) -> ( :IDENTIFIER, :BOOL );
-<type_class_end> : ( :IDENTIFIER, :BOOL ) -> ( :IDENTIFIER );
-<type_elaborate> : ( :IDENTIFIER, :KEY ) -> ( :TYPE );
-<key_struct> : () -> ( :KEY );
-<key_union> : () -> ( :KEY );
-<key_enum> : () -> ( :KEY );
+<type_class_begin> : (:IDENTIFIER, :KEY) -> (:IDENTIFIER, :BOOL);
+<type_class_end> : (:IDENTIFIER, :BOOL) -> (:IDENTIFIER);
+<type_elaborate> : (:IDENTIFIER, :KEY) -> (:TYPE);
+<key_struct> : () -> (:KEY);
+<key_union> : () -> (:KEY);
+<key_enum> : () -> (:KEY);
 
-class-key : () -> ( key : KEY ) = {
+class-key: () -> (key: KEY) = {
     	struct; key = <key_struct>;
     ||	union; key = <key_union>;
 };
 
-class-specifier : () -> ( t : TYPE ) = {
+class-specifier: () -> (t: TYPE) = {
 	key = class-key;
 	{
 		id = any-identifier-opt;
-		( p, f ) = <type_class_begin> ( id, key );
+		(p, f) = <type_class_begin> (id, key);
 		open-brace; member-specification-opt; close-brace;
-		tid = <type_class_end> ( p, f );
-		t = <type_name> ( tid );
+		tid = <type_class_end> (p, f);
+		t = <type_name> (tid);
 		<rescan_token>;
 	    ||
 		id = any-identifier;
-		t = <type_elaborate> ( id, key );
+		t = <type_elaborate> (id, key);
 	};
 };
 
@@ -1727,48 +1727,48 @@ class-specifier : () -> ( t : TYPE ) = {
  */
 
 <error_comma> : () -> ();
-<type_enum_begin> : ( :IDENTIFIER ) -> ( :IDENTIFIER );
-<type_enum_end> : ( :IDENTIFIER ) -> ( :IDENTIFIER );
-<declarator_begin> : ( :IDENTIFIER ) -> ();
-<declare_enum> : ( :IDENTIFIER, :IDENTIFIER, :EXP ) -> ();
+<type_enum_begin> : (:IDENTIFIER) -> (:IDENTIFIER);
+<type_enum_end> : (:IDENTIFIER) -> (:IDENTIFIER);
+<declarator_begin> : (:IDENTIFIER) -> ();
+<declare_enum> : (:IDENTIFIER, :IDENTIFIER, :EXP) -> ();
 
-enumerator-definition : ( e : IDENTIFIER ) -> () = {
+enumerator-definition: (e: IDENTIFIER) -> () = {
 	id = any-identifier;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
 	{
 		assign; c = constant-expression;
 	    ||	c = <exp_none>;
 	};
-	<declare_enum> ( e, id, c );
+	<declare_enum> (e, id, c);
 };
 
-enumerator-list : ( e : IDENTIFIER ) -> () = {
-	enumerator-definition ( e );
+enumerator-list: (e: IDENTIFIER) -> () = {
+	enumerator-definition (e);
 	{
-		comma; enumerator-list ( e );
-	    ||	comma; comma; <error_comma>; enumerator-list ( e );
+		comma; enumerator-list (e);
+	    ||	comma; comma; <error_comma>; enumerator-list (e);
 	    ||	comma; <error_comma>;
 	    ||	$;
 	};
 };
 
-enum-specifier : () -> ( t : TYPE ) = {
+enum-specifier: () -> (t: TYPE) = {
 	enum;
 	{
 		id = any-identifier-opt;
-		p = <type_enum_begin> ( id );
+		p = <type_enum_begin> (id);
 		open-brace;
 		{
-			enumerator-list ( p );
+			enumerator-list (p);
 		    ||	$;
 		};
 		close-brace;
-		tid = <type_enum_end> ( p );
-		t = <type_name> ( tid );
+		tid = <type_enum_end> (p);
+		t = <type_name> (tid);
 	    ||
 		id = any-identifier;
 		key = <key_enum>;
-		t = <type_elaborate> ( id, key );
+		t = <type_elaborate> (id, key);
 	};
 };
 
@@ -1784,11 +1784,11 @@ enum-specifier : () -> ( t : TYPE ) = {
  *    type until type_complete is applied to it.
  */
 
-<is_type_specifier> : () -> ( :BOOL );
+<is_type_specifier> : () -> (:BOOL);
 <check_decl_specifier> : () -> ();
 
-type-qualifier : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
-	( bt, t ) = type-specifier;
+type-qualifier: () -> (bt: BTYPE, t: TYPE, cv: CV) = {
+	(bt, t) = type-specifier;
 	cv = <cv_none>;
     ||
 	cv = cv-qualifier;
@@ -1796,13 +1796,13 @@ type-qualifier : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
 	t = <type_none>;
 };
 
-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
-	( b1, t1, cv1 ) = type-qualifier;
+type-specifier-seq: () -> (bt: BTYPE, t: TYPE, cv: CV) = {
+	(b1, t1, cv1) = type-qualifier;
 	{
-		( b2, t2, cv2 ) = type-specifier-seq;
-		bt = <btype_join> ( b1, b2 );
-		t = <type_join> ( t1, t2 );
-		cv = <cv_join> ( cv1, cv2 );
+		(b2, t2, cv2) = type-specifier-seq;
+		bt = <btype_join> (b1, b2);
+		t = <type_join> (t1, t2);
+		cv = <cv_join> (cv1, cv2);
 	    ||
 		bt = b1;
 		t = t1;
@@ -1810,15 +1810,15 @@ type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
 	};
 };
 
-check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
+check-type-specifier-seq: () -> (bt: BTYPE, t: TYPE, cv: CV) = {
 	? = <is_type_specifier>;
-	( b1, t1, cv1 ) = type-qualifier;
+	(b1, t1, cv1) = type-qualifier;
 	<check_decl_specifier>;
 	{
-		( b2, t2, cv2 ) = check-type-specifier-seq;
-		bt = <btype_join> ( b1, b2 );
-		t = <type_join> ( t1, t2 );
-		cv = <cv_join> ( cv1, cv2 );
+		(b2, t2, cv2) = check-type-specifier-seq;
+		bt = <btype_join> (b1, b2);
+		t = <type_join> (t1, t2);
+		cv = <cv_join> (cv1, cv2);
 	    ||
 		bt = b1;
 		t = t1;
@@ -1834,13 +1834,13 @@ check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
  *    as well as the more obvious 'static', 'extern' and so on.
  */
 
-<dspec_auto> : () -> ( :DSPEC );
-<dspec_extern> : () -> ( :DSPEC );
-<dspec_static> : () -> ( :DSPEC );
-<dspec_register> : () -> ( :DSPEC );
-<dspec_typedef> : () -> ( :DSPEC );
+<dspec_auto> : () -> (:DSPEC);
+<dspec_extern> : () -> (:DSPEC);
+<dspec_static> : () -> (:DSPEC);
+<dspec_register> : () -> (:DSPEC);
+<dspec_typedef> : () -> (:DSPEC);
 
-storage-class-specifier : () -> ( ds : DSPEC ) = {
+storage-class-specifier: () -> (ds: DSPEC) = {
 	auto; ds = <dspec_auto>;
     ||	extern; ds = <dspec_extern>;
     ||	static; ds = <dspec_static>;
@@ -1855,9 +1855,9 @@ storage-class-specifier : () -> ( ds : DSPEC ) = {
  *    This rule describes the function specifier 'inline'.
  */
 
-<dspec_inline> : () -> ( :DSPEC );
+<dspec_inline> : () -> (:DSPEC);
 
-function-specifier : () -> ( ds : DSPEC ) = {
+function-specifier: () -> (ds: DSPEC) = {
 	inline; ds = <dspec_inline>;
 };
 
@@ -1872,18 +1872,18 @@ function-specifier : () -> ( ds : DSPEC ) = {
  *    declaration specifiers later.
  */
 
-<dspec_none> : () -> ( :DSPEC );
-<dspec_join> : ( :DSPEC, :DSPEC ) -> ( :DSPEC );
-<dspec_check> : ( :DSPEC ) -> ();
+<dspec_none> : () -> (:DSPEC);
+<dspec_join> : (:DSPEC, :DSPEC) -> (:DSPEC);
+<dspec_check> : (:DSPEC) -> ();
 
-<is_decl_specifier> : () -> ( :BOOL );
+<is_decl_specifier> : () -> (:BOOL);
 
-decl-specifier : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+decl-specifier: () -> (bt: BTYPE, t: TYPE, cv: CV, ds: DSPEC) = {
 	{
 		ds = storage-class-specifier;
 	    ||  ds = function-specifier;
 	};
-	<dspec_check> ( ds );
+	<dspec_check> (ds);
 	bt = <btype_none>;
 	t = <type_none>;
 	cv = <cv_none>;
@@ -1893,20 +1893,20 @@ decl-specifier : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
 	t = <type_none>;
 	ds = <dspec_none>;
     ||
-	( bt, t ) = type-specifier;
+	(bt, t) = type-specifier;
 	cv = <cv_none>;
 	ds = <dspec_none>;
 };
 
-decl-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
-	( b1, t1, cv1, ds1 ) = decl-specifier;
+decl-specifier-seq: () -> (bt: BTYPE, t: TYPE, cv: CV, ds: DSPEC) = {
+	(b1, t1, cv1, ds1) = decl-specifier;
 	<check_decl_specifier>;
 	{
-		( b2, t2, cv2, ds2 ) = decl-specifier-seq;
-		bt = <btype_join> ( b1, b2 );
-		t = <type_join> ( t1, t2 );
-		cv = <cv_join> ( cv1, cv2 );
-		ds = <dspec_join> ( ds1, ds2 );
+		(b2, t2, cv2, ds2) = decl-specifier-seq;
+		bt = <btype_join> (b1, b2);
+		t = <type_join> (t1, t2);
+		cv = <cv_join> (cv1, cv2);
+		ds = <dspec_join> (ds1, ds2);
 	    ||
 		bt = b1;
 		t = t1;
@@ -1915,16 +1915,16 @@ decl-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
 	};
 };
 
-check-decl-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+check-decl-specifier-seq: () -> (bt: BTYPE, t: TYPE, cv: CV, ds: DSPEC) = {
 	? = <is_decl_specifier>;
-	( b1, t1, cv1, ds1 ) = decl-specifier;
+	(b1, t1, cv1, ds1) = decl-specifier;
 	<check_decl_specifier>;
 	{
-		( b2, t2, cv2, ds2 ) = check-decl-specifier-seq;
-		bt = <btype_join> ( b1, b2 );
-		t = <type_join> ( t1, t2 );
-		cv = <cv_join> ( cv1, cv2 );
-		ds = <dspec_join> ( ds1, ds2 );
+		(b2, t2, cv2, ds2) = check-decl-specifier-seq;
+		bt = <btype_join> (b1, b2);
+		t = <type_join> (t1, t2);
+		cv = <cv_join> (cv1, cv2);
+		ds = <dspec_join> (ds1, ds2);
 	    ||
 		bt = b1;
 		t = t1;
@@ -1933,8 +1933,8 @@ check-decl-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) =
 	};
 };
 
-check-decl-specifier-seq-opt : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
-	( bt, t, cv, ds ) = check-decl-specifier-seq;
+check-decl-specifier-seq-opt: () -> (bt: BTYPE, t: TYPE, cv: CV, ds: DSPEC) = {
+	(bt, t, cv, ds) = check-decl-specifier-seq;
     ||
 	bt = <btype_none>;
 	t = <type_none>;
@@ -1952,11 +1952,11 @@ check-decl-specifier-seq-opt : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC
  *    included in the grammar, but are weeded out by type_ref.
  */
 
-<type_ptr> : ( :CV ) -> ( :TYPE );
+<type_ptr> : (:CV) -> (:TYPE);
 
-ptr-operator : () -> ( p : TYPE ) = {
+ptr-operator: () -> (p: TYPE) = {
 	star; cv = cv-qualifier-seq-opt;
-	p = <type_ptr> ( cv );
+	p = <type_ptr> (cv);
 };
 
 
@@ -1970,29 +1970,29 @@ ptr-operator : () -> ( p : TYPE ) = {
  *    using type_inject.
  */
 
-<type_array> : ( :EXP ) -> ( :TYPE );
-<type_inject> : ( :TYPE, :TYPE ) -> ( :TYPE );
-<type_build> : ( :TYPE, :TYPE ) -> ( :TYPE );
-<type_func> : ( :BOOL ) -> ( :TYPE );
-<type_func_weak> : ( :BOOL ) -> ( :TYPE );
-<type_func_none> : () -> ( :TYPE );
-<type_func_old> : () -> ( :TYPE );
+<type_array> : (:EXP) -> (:TYPE);
+<type_inject> : (:TYPE, :TYPE) -> (:TYPE);
+<type_build> : (:TYPE, :TYPE) -> (:TYPE);
+<type_func> : (:BOOL) -> (:TYPE);
+<type_func_weak> : (:BOOL) -> (:TYPE);
+<type_func_none> : () -> (:TYPE);
+<type_func_old> : () -> (:TYPE);
 
-<declarator_bad> : ( :TYPE ) -> ();
+<declarator_bad> : (:TYPE) -> ();
 
-<param_begin> : ( :IDENTIFIER ) -> ();
+<param_begin> : (:IDENTIFIER) -> ();
 <param_end> : () -> ();
 
-declarator-aux : () -> ( :TYPE, :IDENTIFIER );
-parameter-declaration-list : () -> ( :BOOL );
-parameter-id-list : () -> ();
+declarator-aux: () -> (:TYPE, :IDENTIFIER);
+parameter-declaration-list: () -> (:BOOL);
+parameter-id-list: () -> ();
 
-declarator-tail : ( id : IDENTIFIER ) -> ( t : TYPE ) = {
+declarator-tail: (id: IDENTIFIER) -> (t: TYPE) = {
 	open-round;
-	<param_begin> ( id );
+	<param_begin> (id);
 	{
 		ell = parameter-declaration-list;
-		s = <type_func> ( ell );
+		s = <type_func> (ell);
 		close-round;
 	    ||
 		parameter-id-list;
@@ -2010,44 +2010,44 @@ declarator-tail : ( id : IDENTIFIER ) -> ( t : TYPE ) = {
 		e = constant-expression;
 	    ||	e = <exp_none>;
 	};
-	t = <type_array> ( e );
+	t = <type_array> (e);
 	close-square;
     ||
 	weak; open-round;
-	<param_begin> ( id );
+	<param_begin> (id);
 	{
 		ell = parameter-declaration-list;
 	    ||	ell = <bool_false>;
 	};
-	t = <type_func_weak> ( ell );
+	t = <type_func_weak> (ell);
 	close-round;
 	<param_end>;
 };
 
-direct-declarator : () -> ( t : TYPE, id : IDENTIFIER ) = {
+direct-declarator: () -> (t: TYPE, id: IDENTIFIER) = {
 	id = any-identifier;
 	t = <type_none>;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
     ||
-	( p, id ) = direct-declarator;
-	q = declarator-tail ( id );
-	t = <type_build> ( p, q );
+	(p, id) = direct-declarator;
+	q = declarator-tail (id);
+	t = <type_build> (p, q);
     ||
-	open-round; ( t, id ) = declarator-aux;
-	<declarator_bad> ( t );
+	open-round; (t, id) = declarator-aux;
+	<declarator_bad> (t);
 	close-round;
 };
 
-declarator-aux : () -> ( t : TYPE, id : IDENTIFIER ) = {
-	( t, id ) = direct-declarator;
+declarator-aux: () -> (t: TYPE, id: IDENTIFIER) = {
+	(t, id) = direct-declarator;
     ||
-	p = ptr-operator; ( q, id ) = declarator-aux;
-	t = <type_build> ( q, p );
+	p = ptr-operator; (q, id) = declarator-aux;
+	t = <type_build> (q, p);
 };
 
-declarator : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER ) = {
-	( q, id ) = declarator-aux;
-	t = <type_inject> ( q, p );
+declarator: (p: TYPE) -> (t: TYPE, id: IDENTIFIER) = {
+	(q, id) = declarator-aux;
+	t = <type_inject> (q, p);
 };
 
 
@@ -2059,15 +2059,15 @@ declarator : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER ) = {
  *    Also initialisers cannot appear in abstract declarators.
  */
 
-abstract-declarator-aux : () -> ( :TYPE );
+abstract-declarator-aux: () -> (:TYPE);
 
-abstract-declarator-tail : () -> ( t : TYPE ) = {
+abstract-declarator-tail: () -> (t: TYPE) = {
 	open-round;
 	id = <id_none>;
-	<param_begin> ( id );
+	<param_begin> (id);
 	{
 		ell = parameter-declaration-list;
-		s = <type_func> ( ell );
+		s = <type_func> (ell);
 	    ||
 		s = <type_func_none>;
 	};
@@ -2080,45 +2080,45 @@ abstract-declarator-tail : () -> ( t : TYPE ) = {
 		e = constant-expression;
 	    ||	e = <exp_none>;
 	};
-	t = <type_array> ( e );
+	t = <type_array> (e);
 	close-square;
     ||
 	weak; open-round;
 	id = <id_none>;
-	<param_begin> ( id );
+	<param_begin> (id);
 	{
 		ell = parameter-declaration-list;
 	    ||	ell = <bool_false>;
 	};
-	t = <type_func_weak> ( ell );
+	t = <type_func_weak> (ell);
 	close-round;
 	<param_end>;
 };
 
-direct-abstract-declarator : () -> ( t : TYPE ) = {
+direct-abstract-declarator: () -> (t: TYPE) = {
 	t = abstract-declarator-tail;
     ||
 	p = direct-abstract-declarator;
 	q = abstract-declarator-tail;
-	t = <type_build> ( p, q );
+	t = <type_build> (p, q);
     ||
 	open-round; t = abstract-declarator-aux;
-	<declarator_bad> ( t );
+	<declarator_bad> (t);
 	close-round;
 };
 
-abstract-declarator-aux : () -> ( t : TYPE ) = {
+abstract-declarator-aux: () -> (t: TYPE) = {
 	t = direct-abstract-declarator;
     ||
 	t = ptr-operator;
     ||
 	p = ptr-operator; q = abstract-declarator-aux;
-	t = <type_build> ( q, p );
+	t = <type_build> (q, p);
 };
 
-abstract-declarator-opt : ( p : TYPE ) -> ( t : TYPE ) = {
+abstract-declarator-opt: (p: TYPE) -> (t: TYPE) = {
 	q = abstract-declarator-aux;
-	t = <type_inject> ( q, p );
+	t = <type_inject> (q, p);
     ||
 	t = p;
 };
@@ -2132,50 +2132,50 @@ abstract-declarator-opt : ( p : TYPE ) -> ( t : TYPE ) = {
  *    A predicate is necessary to distinguish declarator-ids from type names.
  */
 
-<is_parameter> : () -> ( :BOOL );
+<is_parameter> : () -> (:BOOL);
 
-parameter-declarator-aux : () -> ( :TYPE, :IDENTIFIER );
-parameter-declarator-aux-opt : () -> ( :TYPE, :IDENTIFIER );
+parameter-declarator-aux: () -> (:TYPE, :IDENTIFIER);
+parameter-declarator-aux-opt: () -> (:TYPE, :IDENTIFIER);
 
-direct-parameter-declarator : () -> ( t : TYPE, id : IDENTIFIER ) = {
+direct-parameter-declarator: () -> (t: TYPE, id: IDENTIFIER) = {
 	? = <is_parameter>;
 	id = any-identifier;
 	t = <type_none>;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
     ||
-	( p, id ) = direct-parameter-declarator;
+	(p, id) = direct-parameter-declarator;
 	q = abstract-declarator-tail;
-	t = <type_build> ( p, q );
+	t = <type_build> (p, q);
     ||
 	t = abstract-declarator-tail;
 	id = <id_anon>;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
     ||
 	open-round;
-	( t, id ) = parameter-declarator-aux;
-	<declarator_bad> ( t );
+	(t, id) = parameter-declarator-aux;
+	<declarator_bad> (t);
 	close-round;
 };
 
-parameter-declarator-aux : () -> ( t : TYPE, id : IDENTIFIER ) = {
-	( t, id ) = direct-parameter-declarator;
+parameter-declarator-aux: () -> (t: TYPE, id: IDENTIFIER) = {
+	(t, id) = direct-parameter-declarator;
     ||
 	p = ptr-operator;
-	( q, id ) = parameter-declarator-aux-opt;
-	t = <type_build> ( q, p );
+	(q, id) = parameter-declarator-aux-opt;
+	t = <type_build> (q, p);
 };
 
-parameter-declarator-aux-opt : () -> ( t : TYPE, id : IDENTIFIER ) = {
-	( t, id ) = parameter-declarator-aux;
+parameter-declarator-aux-opt: () -> (t: TYPE, id: IDENTIFIER) = {
+	(t, id) = parameter-declarator-aux;
     ||
 	t = <type_none>;
 	id = <id_anon>;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
 };
 
-parameter-declarator-opt : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER ) = {
-	( q, id ) = parameter-declarator-aux-opt;
-	t = <type_inject> ( q, p );
+parameter-declarator-opt: (p: TYPE) -> (t: TYPE, id: IDENTIFIER) = {
+	(q, id) = parameter-declarator-aux-opt;
+	t = <type_inject> (q, p);
 };
 
 
@@ -2187,18 +2187,18 @@ parameter-declarator-opt : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER ) = {
  *    not written with LL(1) parsers in mind, but are equivalent.
  */
 
-<dspec_complete> : ( :BTYPE, :TYPE, :CV, :DSPEC ) -> ( :TYPE, :DSPEC );
-<declare_param> : ( :DSPEC, :TYPE, :IDENTIFIER ) -> ( :DECL );
-<decl_none> : () -> ( :DECL );
+<dspec_complete> : (:BTYPE, :TYPE, :CV, :DSPEC) -> (:TYPE, :DSPEC);
+<declare_param> : (:DSPEC, :TYPE, :IDENTIFIER) -> (:DECL);
+<decl_none> : () -> (:DECL);
 
-parameter-declaration : () -> ( d : DECL ) = {
-	( bt, t1, cv, ds1 ) = decl-specifier-seq;
-	( t2, ds ) = <dspec_complete> ( bt, t1, cv, ds1 );
-	( t, id ) = parameter-declarator-opt ( t2 );
-	d = <declare_param> ( ds, t, id );
+parameter-declaration: () -> (d: DECL) = {
+	(bt, t1, cv, ds1) = decl-specifier-seq;
+	(t2, ds) = <dspec_complete> (bt, t1, cv, ds1);
+	(t, id) = parameter-declarator-opt (t2);
+	d = <declare_param> (ds, t, id);
 };
 
-parameter-declaration-list : () -> ( ell : BOOL ) = {
+parameter-declaration-list: () -> (ell: BOOL) = {
 	ellipsis;
 	ell = <bool_true>;
     ||
@@ -2211,14 +2211,14 @@ parameter-declaration-list : () -> ( ell : BOOL ) = {
 	};
 };
 
-parameter-entry : ( s : TYPE, p : NUMBER ) -> ( d : DECL ) = {
+parameter-entry: (s: TYPE, p: NUMBER) -> (d: DECL) = {
 	d = parameter-declaration;
     ##
 	<error_syntax>;
 	d = <decl_none>;
 };
 
-template-type-param : () -> ( d : DECL ) = {
+template-type-param: () -> (d: DECL) = {
 	<error_syntax>;
 	d = <decl_none>;
 };
@@ -2231,32 +2231,32 @@ template-type-param : () -> ( d : DECL ) = {
  *    occur in a non-prototype function definition.
  */
 
-<declare_weak_param> : ( :IDENTIFIER ) -> ();
-<declarator_weak> : ( :IDENTIFIER ) -> ();
+<declare_weak_param> : (:IDENTIFIER) -> ();
+<declarator_weak> : (:IDENTIFIER) -> ();
 
-first-parameter-id : () -> ( id : IDENTIFIER ) = {
+first-parameter-id: () -> (id: IDENTIFIER) = {
 	id = identifier;
     ||	id = statement-name;
 };
 
-second-parameter-id : () -> ( id : IDENTIFIER ) = {
+second-parameter-id: () -> (id: IDENTIFIER) = {
 	id = first-parameter-id;
-    ||	id = type-name; <declarator_weak> ( id );
+    ||	id = type-name; <declarator_weak> (id);
 };
 
-parameter-id-tail : () -> () = {
+parameter-id-tail: () -> () = {
 	comma; id = second-parameter-id;
-	<declarator_begin> ( id );
-	<declare_weak_param> ( id );
+	<declarator_begin> (id);
+	<declare_weak_param> (id);
 	parameter-id-tail;
     ||
 	$;
 };
 
-parameter-id-list : () -> () = {
+parameter-id-list: () -> () = {
 	id = first-parameter-id;
-	<declarator_begin> ( id );
-	<declare_weak_param> ( id );
+	<declarator_begin> (id);
+	<declare_weak_param> (id);
 	parameter-id-tail;
 };
 
@@ -2270,51 +2270,51 @@ parameter-id-list : () -> () = {
  *    identifier is maintained.
  */
 
-<is_type_id_false> : () -> ( :BOOL );
-<is_type_id_true> : () -> ( :BOOL );
-<type_bitfield> : ( :TYPE, :BTYPE, :EXP ) -> ( :TYPE );
-<type_check> : ( :TYPE ) -> ();
+<is_type_id_false> : () -> (:BOOL);
+<is_type_id_true> : () -> (:BOOL);
+<type_bitfield> : (:TYPE, :BTYPE, :EXP) -> (:TYPE);
+<type_check> : (:TYPE) -> ();
 
-type-id : () -> ( t : TYPE, n : COUNT ) = {
+type-id: () -> (t: TYPE, n: COUNT) = {
 	n1 = <no_type_defns>;
-	( bt, p, cv ) = type-specifier-seq;
-	q = <type_complete> ( bt, p, cv );
-	t = abstract-declarator-opt ( q );
-	n = <diff_type_defns> ( n1 );
-	<type_check> ( t );
+	(bt, p, cv) = type-specifier-seq;
+	q = <type_complete> (bt, p, cv);
+	t = abstract-declarator-opt (q);
+	n = <diff_type_defns> (n1);
+	<type_check> (t);
 };
 
-type-id-false : () -> ( t : TYPE, n : COUNT ) = {
+type-id-false: () -> (t: TYPE, n: COUNT) = {
 	? = <is_type_id_false>;
-	( t, n ) = type-id;
+	(t, n) = type-id;
 };
 
-type-id-true : () -> ( t : TYPE, n : COUNT ) = {
+type-id-true: () -> (t: TYPE, n: COUNT) = {
 	? = <is_type_id_true>;
-	( t, n ) = type-id;
+	(t, n) = type-id;
 };
 
-token-type-id : () -> ( t : TYPE ) = {
-	( bt, p, cv ) = type-specifier-seq;
-	q = <type_complete> ( bt, p, cv );
-	t = abstract-declarator-opt ( q );
+token-type-id: () -> (t: TYPE) = {
+	(bt, p, cv) = type-specifier-seq;
+	q = <type_complete> (bt, p, cv);
+	t = abstract-declarator-opt (q);
 };
 
-member-type-id : () -> ( t : TYPE ) = {
-	( bt, p, cv ) = type-specifier-seq;
-	q = <type_complete> ( bt, p, cv );
+member-type-id: () -> (t: TYPE) = {
+	(bt, p, cv) = type-specifier-seq;
+	q = <type_complete> (bt, p, cv);
 	{
-		t = abstract-declarator-opt ( q );
+		t = abstract-declarator-opt (q);
 	    ||
 		rem;
 		c = constant-expression;
-		t = <type_bitfield> ( q, bt, c );
+		t = <type_bitfield> (q, bt, c);
 	};
 };
 
-type-id-entry : () -> ( t : TYPE ) = {
+type-id-entry: () -> (t: TYPE) = {
 	t = token-type-id;
-	<type_check> ( t );
+	<type_check> (t);
     ##
 	<error_syntax>;
 	t = <type_none>;
@@ -2328,41 +2328,41 @@ type-id-entry : () -> ( t : TYPE ) = {
  *    style and aggregate initialisers.
  */
 
-<exp_aggregate> : ( :LIST-EXP ) -> ( :EXP );
+<exp_aggregate> : (:LIST-EXP) -> (:EXP);
 
-initialiser-clause : ( :DECL ) -> ( :EXP );
+initialiser-clause: (:DECL) -> (:EXP);
 
-initialiser-list : ( d : DECL ) -> ( p : LIST-EXP ) = {
-	b = initialiser-clause ( d );
-	a = <exp_location> ( b );
+initialiser-list: (d: DECL) -> (p: LIST-EXP) = {
+	b = initialiser-clause (d);
+	a = <exp_location> (b);
 	{
-		comma; q = initialiser-list ( d );
+		comma; q = initialiser-list (d);
 	    ||	comma; q = <list_exp_null>;
 	    ||	q = <list_exp_null>;
 	};
-	p = <list_exp_cons> ( a, q );
+	p = <list_exp_cons> (a, q);
 };
 
-initialiser-clause : ( d : DECL ) -> ( e : EXP ) = {
+initialiser-clause: (d: DECL) -> (e: EXP) = {
 	e = initialiser-expression;
     ||
 	open-brace;
 	{
-		p = initialiser-list ( d );
+		p = initialiser-list (d);
 	    ||	p = <list_exp_null>;
 	};
 	close-brace;
-	e = <exp_aggregate> ( p );
+	e = <exp_aggregate> (p);
 };
 
-initialiser-opt : ( d : DECL ) -> ( e : EXP ) = {
-	assign; e = initialiser-clause ( d );
+initialiser-opt: (d: DECL) -> (e: EXP) = {
+	assign; e = initialiser-clause (d);
     ||
 	e = <exp_none>;
 };
 
-initialiser-entry : ( d : DECL ) -> ( e : EXP ) = {
-	e = initialiser-clause ( d );
+initialiser-entry: (d: DECL) -> (e: EXP) = {
+	e = initialiser-clause (d);
     ##
 	<error_syntax>;
 	e = <exp_none>;
@@ -2378,21 +2378,21 @@ initialiser-entry : ( d : DECL ) -> ( e : EXP ) = {
  *    initialisers.
  */
 
-<declare_id> : ( :DSPEC, :BTYPE, :TYPE, :IDENTIFIER ) -> ( :DECL );
-<initialise_id> : ( :DECL, :EXP ) -> ();
+<declare_id> : (:DSPEC, :BTYPE, :TYPE, :IDENTIFIER) -> (:DECL);
+<initialise_id> : (:DECL, :EXP) -> ();
 
-init-declarator : ( ds : DSPEC, bt : BTYPE, p : TYPE ) -> () = {
-	( t, id ) = declarator ( p );
-	d = <declare_id> ( ds, bt, t, id );
-	e = initialiser-opt ( d );
-	<initialise_id> ( d, e );
+init-declarator: (ds: DSPEC, bt: BTYPE, p: TYPE) -> () = {
+	(t, id) = declarator (p);
+	d = <declare_id> (ds, bt, t, id);
+	e = initialiser-opt (d);
+	<initialise_id> (d, e);
 };
 
-init-declarator-list : ( ds : DSPEC, bt : BTYPE, t : TYPE ) -> () = {
-	init-declarator ( ds, bt, t );
+init-declarator-list: (ds: DSPEC, bt: BTYPE, t: TYPE) -> () = {
+	init-declarator (ds, bt, t);
 	{
 		comma;
-		init-declarator-list ( ds, bt, t );
+		init-declarator-list (ds, bt, t);
 	    ||
 		$;
 	};
@@ -2407,14 +2407,14 @@ init-declarator-list : ( ds : DSPEC, bt : BTYPE, t : TYPE ) -> () = {
  *    directives are included in this rule for convenience.
  */
 
-<decl_hash_if> : ( :EXP ) -> ();
-<decl_hash_elif> : ( :EXP ) -> ();
+<decl_hash_if> : (:EXP) -> ();
+<decl_hash_elif> : (:EXP) -> ();
 <decl_hash_else> : () -> ();
 <decl_hash_endif> : () -> ();
 
-declaration-seq-opt : () -> ();
+declaration-seq-opt: () -> ();
 
-declaration-cond-body : () -> () = {
+declaration-cond-body: () -> () = {
 	open-brace;
 	ds = <dspec_none>;
 	t = <type_none>;
@@ -2422,20 +2422,20 @@ declaration-cond-body : () -> () = {
 	close-brace;
 };
 
-declaration-cond-head : () -> ( p : EXP ) = {
+declaration-cond-head: () -> (p: EXP) = {
 	c = hash-if;
-	p = <cond_hash_if> ( c );
-	<decl_hash_if> ( c );
+	p = <cond_hash_if> (c);
+	<decl_hash_if> (c);
 	declaration-cond-body;
     ||
 	p = declaration-cond-head;
 	c = hash-elif;
-	<cond_hash_elif> ( c );
-	<decl_hash_elif> ( c );
+	<cond_hash_elif> (c);
+	<decl_hash_elif> (c);
 	declaration-cond-body;
 };
 
-declaration-cond : () -> () = {
+declaration-cond: () -> () = {
 	p = declaration-cond-head;
 	{
 		hash-else;
@@ -2445,7 +2445,7 @@ declaration-cond : () -> () = {
 	    ||
 		$;
 	};
-	<cond_hash_endif> ( p );
+	<cond_hash_endif> (p);
 	hash-endif;
 	<decl_hash_endif>;
     ||
@@ -2460,14 +2460,14 @@ declaration-cond : () -> () = {
  *    list of declarations.
  */
 
-<declare_extern> : ( :EXP ) -> ();
+<declare_extern> : (:EXP) -> ();
 <declare_empty> : () -> ();
 
-external-declaration : () -> ( :EXP );
+external-declaration: () -> (:EXP);
 
-declaration-elem : () -> () = {
+declaration-elem: () -> () = {
 	e = external-declaration;
-	<declare_extern> ( e );
+	<declare_extern> (e);
     ||
 	declaration-cond;
     ||
@@ -2475,7 +2475,7 @@ declaration-elem : () -> () = {
 	<declare_empty>;
 };
 
-declaration-seq-opt : () -> () = {
+declaration-seq-opt: () -> () = {
 	declaration-elem;
 	declaration-seq-opt;
     ||
@@ -2489,20 +2489,20 @@ declaration-seq-opt : () -> () = {
  *    This rule describes the declarations.
  */
 
-<declare_id_empty> : ( :DSPEC, :BTYPE, :TYPE, :CV ) -> ();
+<declare_id_empty> : (:DSPEC, :BTYPE, :TYPE, :CV) -> ();
 
-declaration : () -> () = {
-	( bt, t1, cv, ds1 ) = check-decl-specifier-seq;
+declaration: () -> () = {
+	(bt, t1, cv, ds1) = check-decl-specifier-seq;
 	{
-		( t, ds ) = <dspec_complete> ( bt, t1, cv, ds1 );
-		init-declarator-list ( ds, bt, t );
+		(t, ds) = <dspec_complete> (bt, t1, cv, ds1);
+		init-declarator-list (ds, bt, t);
 	    ||
-		<declare_id_empty> ( ds1, bt, t1, cv );
+		<declare_id_empty> (ds1, bt, t1, cv);
 	};
 	semicolon;
 };
 
-declaration-entry : ( t : TYPE, ds : DSPEC ) -> () = {
+declaration-entry: (t: TYPE, ds: DSPEC) -> () = {
 	declaration;
     ##
 	<error_syntax>;
@@ -2517,38 +2517,38 @@ declaration-entry : ( t : TYPE, ds : DSPEC ) -> () = {
  *    with the function-definition rule.
  */
 
-<is_function> : ( :TYPE ) -> ( :BOOL );
-<define_func> : ( :DSPEC, :TYPE, :IDENTIFIER ) -> ( :DECL );
-<function_begin> : ( :DECL ) -> ( :BOOL );
-<function_end> : ( :DECL, :EXP, :BOOL ) -> ();
+<is_function> : (:TYPE) -> (:BOOL);
+<define_func> : (:DSPEC, :TYPE, :IDENTIFIER) -> (:DECL);
+<function_begin> : (:DECL) -> (:BOOL);
+<function_end> : (:DECL, :EXP, :BOOL) -> ();
 
-external-declaration : () -> ( e : EXP ) = {
-	( bt, t1, cv, ds1 ) = check-decl-specifier-seq-opt;
-	( t, ds ) = <dspec_complete> ( bt, t1, cv, ds1 );
-	( s, id ) = declarator ( t );
+external-declaration: () -> (e: EXP) = {
+	(bt, t1, cv, ds1) = check-decl-specifier-seq-opt;
+	(t, ds) = <dspec_complete> (bt, t1, cv, ds1);
+	(s, id) = declarator (t);
 	{
-		d = <declare_id> ( ds, bt, s, id );
-		a = initialiser-opt ( d );
-		<initialise_id> ( d, a );
+		d = <declare_id> (ds, bt, s, id);
+		a = initialiser-opt (d);
+		<initialise_id> (d, a);
 		{
 			comma;
-			init-declarator-list ( ds, bt, t );
+			init-declarator-list (ds, bt, t);
 		    ||
 			$;
 		};
 		semicolon;
 	    ||
-		? = <is_function> ( s );
-		d = <define_func> ( ds, s, id );
-		b = <function_begin> ( d );
+		? = <is_function> (s);
+		d = <define_func> (ds, s, id);
+		b = <function_begin> (d);
 		a = function-body;
-		<function_end> ( d, a, b );
+		<function_end> (d, a, b);
 		<rescan_token>;
 	};
 	e = <exp_none>;
     ||
-	( bt, t, cv, ds ) = check-decl-specifier-seq;
-	<declare_id_empty> ( ds, bt, t, cv );
+	(bt, t, cv, ds) = check-decl-specifier-seq;
+	<declare_id_empty> (ds, bt, t, cv);
 	semicolon;
 	e = <exp_none>;
     ||
@@ -2567,26 +2567,26 @@ external-declaration : () -> ( e : EXP ) = {
  *    in bitfields 'signed int' is not synonymous with 'int'.
  */
 
-<declare_member> : ( :TYPE, :IDENTIFIER ) -> ();
-<declare_bitfield> : ( :TYPE, :IDENTIFIER ) -> ();
-<type_bitfield_mem> : ( :TYPE, :BTYPE, :EXP, :IDENTIFIER ) -> ( :TYPE );
+<declare_member> : (:TYPE, :IDENTIFIER) -> ();
+<declare_bitfield> : (:TYPE, :IDENTIFIER) -> ();
+<type_bitfield_mem> : (:TYPE, :BTYPE, :EXP, :IDENTIFIER) -> (:TYPE);
 
-member-declarator : ( p : TYPE, q : BTYPE ) -> () = {
-	( t, id ) = declarator ( p );
-	<declare_member> ( t, id );
+member-declarator: (p: TYPE, q: BTYPE) -> () = {
+	(t, id) = declarator (p);
+	<declare_member> (t, id);
     ||
 	id = any-identifier-opt;
-	<declarator_begin> ( id );
+	<declarator_begin> (id);
 	colon; c = constant-expression;
-	t = <type_bitfield_mem> ( p, q, c, id );
-	<declare_bitfield> ( t, id );
+	t = <type_bitfield_mem> (p, q, c, id);
+	<declare_bitfield> (t, id);
 };
 
-member-declarator-list : ( p : TYPE, q : BTYPE ) -> () = {
-	member-declarator ( p, q );
+member-declarator-list: (p: TYPE, q: BTYPE) -> () = {
+	member-declarator (p, q);
 	{
 		comma;
-		member-declarator-list ( p, q );
+		member-declarator-list (p, q);
 	    ||
 		$;
 	};
@@ -2599,22 +2599,22 @@ member-declarator-list : ( p : TYPE, q : BTYPE ) -> () = {
  *    This rule describes the class member declarations.
  */
 
-<declare_member_empty> : ( :BTYPE, :TYPE, :CV ) -> ();
+<declare_member_empty> : (:BTYPE, :TYPE, :CV) -> ();
 
-member-declaration : () -> () = {
-	( bt, p, cv ) = check-type-specifier-seq;
-	t = <type_complete> ( bt, p, cv );
-	member-declarator ( t, bt );
+member-declaration: () -> () = {
+	(bt, p, cv) = check-type-specifier-seq;
+	t = <type_complete> (bt, p, cv);
+	member-declarator (t, bt);
 	{
 		semicolon;
 	    ||
 		comma;
-		member-declarator-list ( t, bt );
+		member-declarator-list (t, bt);
 		semicolon;
 	};
     ||
-	( bt, p, cv ) = check-type-specifier-seq;
-	<declare_member_empty> ( bt, p, cv );
+	(bt, p, cv) = check-type-specifier-seq;
+	<declare_member_empty> (bt, p, cv);
 	semicolon;
 };
 
@@ -2627,7 +2627,7 @@ member-declaration : () -> () = {
  *    by the end of the file.
  */
 
-translation-unit : ( t : TYPE, ds : DSPEC ) -> () = {
+translation-unit: (t: TYPE, ds: DSPEC) -> () = {
 	declaration-seq-opt; eof;
     ##
 	<error_fatal>;
@@ -2643,7 +2643,7 @@ translation-unit : ( t : TYPE, ds : DSPEC ) -> () = {
  *    handled by the calling routine.
  */
 
-hash-if-expression : () -> ( e : EXP ) = {
+hash-if-expression: () -> (e: EXP) = {
 	e = constant-expression;
     ##
 	<error_syntax>;
@@ -2658,40 +2658,40 @@ hash-if-expression : () -> ( e : EXP ) = {
  *    constant-offset is used for reading member token definitions.
  */
 
-<offset_nspace> : ( :TYPE ) -> ( :NAMESPACE );
-<offset_index> : ( :OFFSET, :TYPE, :EXP ) -> ( :OFFSET, :TYPE );
-<offset_member> : ( :OFFSET, :TYPE, :IDENTIFIER, :NAMESPACE ) -> ( :OFFSET, :TYPE );
+<offset_nspace> : (:TYPE) -> (:NAMESPACE);
+<offset_index> : (:OFFSET, :TYPE, :EXP) -> (:OFFSET, :TYPE);
+<offset_member> : (:OFFSET, :TYPE, :IDENTIFIER, :NAMESPACE) -> (:OFFSET, :TYPE);
 
-member-designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
-	ns = <offset_nspace> ( s );
+member-designator: (b: OFFSET, s: TYPE) -> (a: OFFSET, t: TYPE) = {
+	ns = <offset_nspace> (s);
 	<rescan_token>;
-	id = field-id-expression ( ns );
-	( a, t ) = <offset_member> ( b, s, id, ns );
+	id = field-id-expression (ns);
+	(a, t) = <offset_member> (b, s, id, ns);
 	<rescan_token>;
 };
 
-designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
-	dot; ( a, t ) = member-designator ( b, s );
+designator: (b: OFFSET, s: TYPE) -> (a: OFFSET, t: TYPE) = {
+	dot; (a, t) = member-designator (b, s);
     ||
 	open-square; e = constant-expression;
-	( a, t ) = <offset_index> ( b, s, e );
+	(a, t) = <offset_index> (b, s, e);
 	close-square;
 };
 
-designator-list : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
-	( a, t ) = designator ( b, s );
+designator-list: (b: OFFSET, s: TYPE) -> (a: OFFSET, t: TYPE) = {
+	(a, t) = designator (b, s);
     ||
-	( c, u ) = designator-list ( b, s );
-	( a, t ) = designator ( c, u );
+	(c, u) = designator-list (b, s);
+	(a, t) = designator (c, u);
 };
 
-constant-offset : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
-	( c, u ) = member-designator ( b, s );
+constant-offset: (b: OFFSET, s: TYPE) -> (a: OFFSET, t: TYPE) = {
+	(c, u) = member-designator (b, s);
 	{
 		a = c;
 		t = u;
 	    ||
-		( a, t ) = designator-list ( c, u );
+		(a, t) = designator-list (c, u);
 	};
     ##
 	<error_syntax>;
