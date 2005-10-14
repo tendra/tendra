@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -136,19 +136,19 @@ static BUFFER *dump_buff = &dump_buff_rep;
  */
 
 static void
-dump_string()
+dump_string(void)
 {
-    FILE *f = dump_file;
-    BUFFER *bf = dump_buff;
-    string s = bf->start;
-    size_t n = (size_t) (bf->posn - s);
-    fprintf_v (f, "&%lu<", (unsigned long) n);
-    if (n) {
+	FILE *f = dump_file;
+	BUFFER *bf = dump_buff;
+	string s = bf->start;
+	size_t n = (size_t) (bf->posn - s);
+	fprintf_v (f, "&%lu<", (unsigned long) n);
+	if (n) {
 		IGNORE fwrite (s, sizeof (character), n, f);
 		bf->posn = s;
-    }
-    fputc_v ('>', f);
-    return;
+	}
+	fputc_v ('>', f);
+	return;
 }
 
 
@@ -159,10 +159,10 @@ dump_string()
  *    so a couple of forward declarations are required.
  */
 
-static void dump_id(IDENTIFIER) ;
-static void dump_type(TYPE) ;
-static void dump_tok_appl(IDENTIFIER, LIST (TOKEN)) ;
-static void dump_nat(NAT, int) ;
+static void dump_id(IDENTIFIER);
+static void dump_type(TYPE);
+static void dump_tok_appl(IDENTIFIER, LIST (TOKEN));
+static void dump_nat(NAT, int);
 
 
 /*
@@ -186,19 +186,19 @@ int dump_anon_class = 0;
  *    This is a sequence of characters giving the type of identifier.
  */
 
-static const char*
+static const char *
 dump_key(IDENTIFIER id, int def)
 {
-    const char *key = NULL;
-    if (do_dump && !IS_NULL_id (id)) {
+	const char *key = NULL;
+	if (do_dump && !IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
-	    case id_keyword_tag :
-	    case id_iso_keyword_tag : {
+		case id_keyword_tag :
+		case id_iso_keyword_tag : {
 			/* Keywords */
 			key = "K";
 			break;
-	    }
-	    case id_obj_macro_tag : {
+		}
+		case id_obj_macro_tag : {
 			/* Object-like macros */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_builtin) {
@@ -207,18 +207,18 @@ dump_key(IDENTIFIER id, int def)
 				key = "MO";
 			}
 			break;
-	    }
-	    case id_func_macro_tag : {
+		}
+		case id_func_macro_tag : {
 			/* Function-like macros */
 			key = "MF";
 			break;
-	    }
-	    case id_builtin_tag : {
+		}
+		case id_builtin_tag : {
 			/* Built-in functions */
 			key = "FB";
 			break;
-	    }
-	    case id_class_name_tag : {
+		}
+		case id_class_name_tag : {
 			/* Classes, structures and unions */
 			CLASS_TYPE ct;
 			CLASS_INFO ci;
@@ -236,15 +236,15 @@ dump_key(IDENTIFIER id, int def)
 				key = "TC";
 			}
 			break;
-	    }
-	    case id_enum_name_tag : {
+		}
+		case id_enum_name_tag : {
 			/* Enumerations */
 			key = "TE";
 			break;
-	    }
-	    case id_class_alias_tag :
-	    case id_enum_alias_tag :
-	    case id_type_alias_tag : {
+		}
+		case id_class_alias_tag :
+		case id_enum_alias_tag :
+		case id_type_alias_tag : {
 			/* Type aliases */
 			if (dump_anon_class) {
 				dump_anon_class = 0;
@@ -252,18 +252,18 @@ dump_key(IDENTIFIER id, int def)
 				key = "TA";
 			}
 			break;
-	    }
-	    case id_nspace_name_tag : {
+		}
+		case id_nspace_name_tag : {
 			/* Namespaces */
 			key = "NN";
 			break;
-	    }
-	    case id_nspace_alias_tag : {
+		}
+		case id_nspace_alias_tag : {
 			/* Namespace aliases */
 			key = "NA";
 			break;
-	    }
-	    case id_variable_tag : {
+		}
+		case id_variable_tag : {
 			/* Variables */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_auto) {
@@ -274,14 +274,14 @@ dump_key(IDENTIFIER id, int def)
 				key = "VE";
 			}
 			break;
-	    }
-	    case id_parameter_tag :
-	    case id_weak_param_tag : {
+		}
+		case id_parameter_tag :
+		case id_weak_param_tag : {
 			/* Function parameters */
 			if (def && do_local) key = "VP";
 			break;
-	    }
-	    case id_function_tag : {
+		}
+		case id_function_tag : {
 			/* Functions */
 			static char f [10];
 			char *fp = f;
@@ -297,8 +297,8 @@ dump_key(IDENTIFIER id, int def)
 			*fp = 0;
 			key = f;
 			break;
-	    }
-	    case id_mem_func_tag : {
+		}
+		case id_mem_func_tag : {
 			/* Member functions */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (!(ds & dspec_trivial)) {
@@ -309,33 +309,33 @@ dump_key(IDENTIFIER id, int def)
 				}
 			}
 			break;
-	    }
-	    case id_stat_mem_func_tag : {
+		}
+		case id_stat_mem_func_tag : {
 			/* Static member functions */
 			key = "CS";
 			break;
-	    }
-	    case id_stat_member_tag : {
+		}
+		case id_stat_member_tag : {
 			/* Static data members */
 			key = "CD";
 			break;
-	    }
-	    case id_member_tag : {
+		}
+		case id_member_tag : {
 			/* Data members */
 			key = "CM";
 			break;
-	    }
-	    case id_enumerator_tag : {
+		}
+		case id_enumerator_tag : {
 			/* Enumerators */
 			key = "E";
 			break;
-	    }
-	    case id_label_tag : {
+		}
+		case id_label_tag : {
 			/* Labels */
 			key = "L";
 			break;
-	    }
-	    case id_token_tag : {
+		}
+		case id_token_tag : {
 			/* Tokens */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_auto) {
@@ -353,10 +353,10 @@ dump_key(IDENTIFIER id, int def)
 				}
 			}
 			break;
-	    }
 		}
-    }
-    return (key);
+		}
+	}
+	return (key);
 }
 
 
@@ -369,16 +369,16 @@ dump_key(IDENTIFIER id, int def)
 static void
 dump_lex(int t)
 {
-    FILE *f = dump_file;
-    string s = token_name (t);
-    if (s) {
+	FILE *f = dump_file;
+	string s = token_name (t);
+	if (s) {
 		unsigned n = (unsigned) ustrlen (s);
 		if (n > 100 || ustrchr (s, '>')) fprintf_v (f, "&%u", n);
 		fprintf_v (f, "<%s>", strlit (s));
-    } else {
+	} else {
 		fputs_v ("<>", f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -391,56 +391,56 @@ dump_lex(int t)
 static void
 dump_hashid(HASHID nm)
 {
-    FILE *f = dump_file;
-    if (IS_NULL_hashid (nm)) {
+	FILE *f = dump_file;
+	if (IS_NULL_hashid (nm)) {
 		fputs_v ("<>", f);
 		return;
-    }
-    switch (TAG_hashid (nm)) {
+	}
+	switch (TAG_hashid (nm)) {
 	case hashid_name_tag :
 	case hashid_ename_tag : {
-	    /* Simple identifiers */
-	    string s = DEREF_string (hashid_name_etc_text (nm));
-	    unsigned n = (unsigned) ustrlen (s);
-	    if (n > 100 || ustrchr (s, '>')) fprintf_v (f, "&%u", n);
-	    fprintf_v (f, "<%s>", strlit (s));
-	    break;
+		/* Simple identifiers */
+		string s = DEREF_string (hashid_name_etc_text (nm));
+		unsigned n = (unsigned) ustrlen (s);
+		if (n > 100 || ustrchr (s, '>')) fprintf_v (f, "&%u", n);
+		fprintf_v (f, "<%s>", strlit (s));
+		break;
 	}
 	case hashid_constr_tag : {
-	    /* Constructor names */
-	    TYPE t = DEREF_type (hashid_constr_type (nm));
-	    fputc_v ('C', f);
-	    dump_type (t);
-	    break;
+		/* Constructor names */
+		TYPE t = DEREF_type (hashid_constr_type (nm));
+		fputc_v ('C', f);
+		dump_type (t);
+		break;
 	}
 	case hashid_destr_tag : {
-	    /* Destructor names */
-	    TYPE t = DEREF_type (hashid_destr_type (nm));
-	    fputc_v ('D', f);
-	    dump_type (t);
-	    break;
+		/* Destructor names */
+		TYPE t = DEREF_type (hashid_destr_type (nm));
+		fputc_v ('D', f);
+		dump_type (t);
+		break;
 	}
 	case hashid_conv_tag : {
-	    /* Conversion function names */
-	    TYPE t = DEREF_type (hashid_conv_type (nm));
-	    fputc_v ('T', f);
-	    dump_type (t);
-	    break;
+		/* Conversion function names */
+		TYPE t = DEREF_type (hashid_conv_type (nm));
+		fputc_v ('T', f);
+		dump_type (t);
+		break;
 	}
 	case hashid_op_tag : {
-	    /* Overloaded operator names */
-	    int t = DEREF_int (hashid_op_lex (nm));
-	    fputc_v ('O', f);
-	    dump_lex (t);
-	    break;
+		/* Overloaded operator names */
+		int t = DEREF_int (hashid_op_lex (nm));
+		fputc_v ('O', f);
+		dump_lex (t);
+		break;
 	}
 	default : {
-	    /* Other names */
-	    fputs_v ("<>", f);
-	    break;
+		/* Other names */
+		fputs_v ("<>", f);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -454,7 +454,7 @@ dump_hashid(HASHID nm)
 static void
 dump_nspace(NAMESPACE ns, int blk)
 {
-    if (!IS_NULL_nspace (ns)) {
+	if (!IS_NULL_nspace (ns)) {
 		if (blk) {
 			LIST (IDENTIFIER) s;
 			s = LIST_stack (DEREF_stack (nspace_set (ns)));
@@ -482,9 +482,9 @@ dump_nspace(NAMESPACE ns, int blk)
 				return;
 			}
 		}
-    }
-    fputs_v ("*", dump_file);
-    return;
+	}
+	fputs_v ("*", dump_file);
+	return;
 }
 
 
@@ -497,13 +497,13 @@ dump_nspace(NAMESPACE ns, int blk)
 static void
 dump_access(DECL_SPEC acc)
 {
-    DECL_SPEC ds = (acc & dspec_access);
-    if (ds == dspec_private) {
+	DECL_SPEC ds = (acc & dspec_access);
+	if (ds == dspec_private) {
 		fputc_v ('P', dump_file);
-    } else if (ds == dspec_protected) {
+	} else if (ds == dspec_protected) {
 		fputc_v ('B', dump_file);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -526,9 +526,9 @@ ulong dump_id_next = 1;
 static void
 dump_id(IDENTIFIER id)
 {
-    if (IS_NULL_id (id)) {
+	if (IS_NULL_id (id)) {
 		fputs_v ("0", dump_file);
-    } else {
+	} else {
 		ulong n = DEREF_ulong (id_dump (id));
 		if (n == LINK_NONE || (n & LINK_EXTERN)) {
 			FILE *f = dump_file;
@@ -551,8 +551,8 @@ dump_id(IDENTIFIER id)
 		} else {
 			fprintf_v (dump_file, "%lu", n);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -579,11 +579,11 @@ static PTR (POSITION) last_posn = NULL_ptr (POSITION);
 static void
 dump_loc(LOCATION *loc)
 {
-    FILE *f = dump_file;
-    unsigned long ln = loc->line;
-    unsigned long cn = loc->column;
-    PTR (POSITION) posn = loc->posn;
-    if (EQ_ptr (posn, last_posn)) {
+	FILE *f = dump_file;
+	unsigned long ln = loc->line;
+	unsigned long cn = loc->column;
+	PTR (POSITION) posn = loc->posn;
+	if (EQ_ptr (posn, last_posn)) {
 		/* Same file information as previously */
 		if (ln == last_ln) {
 			if (cn == last_cn) {
@@ -597,7 +597,7 @@ dump_loc(LOCATION *loc)
 			last_cn = cn;
 			last_ln = ln;
 		}
-    } else {
+	} else {
 		/* Different file information */
 		string file = DEREF_string (posn_file (posn));
 		string input = DEREF_string (posn_input (posn));
@@ -623,8 +623,8 @@ dump_loc(LOCATION *loc)
 		last_posn = posn;
 		last_cn = cn;
 		last_ln = ln;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -637,26 +637,26 @@ dump_loc(LOCATION *loc)
 static void
 dump_exp(EXP e)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		switch (TAG_exp (e)) {
-	    case exp_int_lit_tag : {
+		case exp_int_lit_tag : {
 			/* Integer literals */
 			NAT n = DEREF_nat (exp_int_lit_nat (e));
 			dump_nat (n, 0);
 			return;
-	    }
-	    case exp_token_tag : {
+		}
+		case exp_token_tag : {
 			/* Tokenised expressions */
 			IDENTIFIER id = DEREF_id (exp_token_tok (e));
 			LIST (TOKEN) args = DEREF_list (exp_token_args (e));
 			dump_tok_appl (id, args);
 			return;
-	    }
 		}
-    }
-    IGNORE print_exp (e, 0, dump_buff, 0);
-    dump_string ();
-    return;
+		}
+	}
+	IGNORE print_exp (e, 0, dump_buff, 0);
+	dump_string ();
+	return;
 }
 
 
@@ -669,9 +669,9 @@ dump_exp(EXP e)
 static void
 dump_off(OFFSET off)
 {
-    IGNORE print_offset (off, dump_buff, 0);
-    dump_string ();
-    return;
+	IGNORE print_offset (off, dump_buff, 0);
+	dump_string ();
+	return;
 }
 
 
@@ -684,48 +684,48 @@ dump_off(OFFSET off)
 static void
 dump_nat(NAT n, int neg)
 {
-    if (!IS_NULL_nat (n)) {
+	if (!IS_NULL_nat (n)) {
 		FILE *f = dump_file;
 		ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
-	    case nat_small_tag : {
+		case nat_small_tag : {
 			/* Small literals */
 			unsigned v = DEREF_unsigned (nat_small_value (n));
 			int s = (neg ? '-' : '+');
 			fputc_v (s, f);
 			fprintf_v (f, "%u", v);
 			break;
-	    }
-	    case nat_large_tag : {
+		}
+		case nat_large_tag : {
 			/* Large literals */
 			unsigned long v = get_nat_value (n);
 			int s = (neg ? '-' : '+');
 			fputc_v (s, f);
 			fprintf_v (f, "%lu", v);
 			break;
-	    }
-	    case nat_neg_tag : {
+		}
+		case nat_neg_tag : {
 			/* Negated literals */
 			NAT m = DEREF_nat (nat_neg_arg (n));
 			dump_nat (m, !neg);
 			break;
-	    }
-	    case nat_calc_tag : {
+		}
+		case nat_calc_tag : {
 			/* Calculated literals */
 			EXP e = DEREF_exp (nat_calc_value (n));
 			dump_exp (e);
 			break;
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			/* Tokenised literals */
 			IDENTIFIER id = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
 			dump_tok_appl (id, args);
 			break;
-	    }
 		}
-    }
-    return;
+		}
+	}
+	return;
 }
 
 
@@ -738,9 +738,9 @@ dump_nat(NAT n, int neg)
 static void
 dump_params(LIST (IDENTIFIER) pids)
 {
-    int started = 0;
-    FILE *f = dump_file;
-    while (!IS_NULL_list (pids)) {
+	int started = 0;
+	FILE *f = dump_file;
+	while (!IS_NULL_list (pids)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		if (!IS_NULL_id (pid)) {
 			if (IS_id_token (pid)) {
@@ -751,8 +751,8 @@ dump_params(LIST (IDENTIFIER) pids)
 			started = 1;
 		}
 		pids = TAIL_list (pids);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -765,119 +765,119 @@ dump_params(LIST (IDENTIFIER) pids)
 static void
 dump_sort(TOKEN tok)
 {
-    FILE *f = dump_file;
-    ASSERT (ORDER_tok == 10);
-    switch (TAG_tok (tok)) {
+	FILE *f = dump_file;
+	ASSERT (ORDER_tok == 10);
+	switch (TAG_tok (tok)) {
 	case tok_exp_tag : {
-	    /* Expression tokens */
-	    TYPE t = DEREF_type (tok_exp_type (tok));
-	    int c = DEREF_int (tok_exp_constant (tok));
-	    if (c) {
+		/* Expression tokens */
+		TYPE t = DEREF_type (tok_exp_type (tok));
+		int c = DEREF_int (tok_exp_constant (tok));
+		if (c) {
 			fputs_v ("ZEC", f);
-	    } else {
+		} else {
 			CV_SPEC cv = DEREF_cv (type_qual (t));
 			if (cv & cv_lvalue) {
 				fputs_v ("ZEL", f);
 			} else {
 				fputs_v ("ZER", f);
 			}
-	    }
-	    dump_type (t);
-	    break;
+		}
+		dump_type (t);
+		break;
 	}
 	case tok_stmt_tag : {
-	    /* Statement tokens */
-	    fputs_v ("ZS", f);
-	    break;
+		/* Statement tokens */
+		fputs_v ("ZS", f);
+		break;
 	}
 	case tok_nat_tag : {
-	    /* Integer constant tokens */
-	    fputs_v ("ZN", f);
-	    break;
+		/* Integer constant tokens */
+		fputs_v ("ZN", f);
+		break;
 	}
 	case tok_snat_tag : {
-	    /* Integer constant tokens */
-	    fputs_v ("ZI", f);
-	    break;
+		/* Integer constant tokens */
+		fputs_v ("ZI", f);
+		break;
 	}
 	case tok_type_tag : {
-	    /* Type tokens */
-	    int c;
-	    BASE_TYPE bt = DEREF_btype (tok_type_kind (tok));
-	    if (bt & btype_float) {
+		/* Type tokens */
+		int c;
+		BASE_TYPE bt = DEREF_btype (tok_type_kind (tok));
+		if (bt & btype_float) {
 			if (bt & btype_int) {
 				c = 'A';
 			} else {
 				c = 'F';
 			}
-	    } else if (bt & btype_int) {
+		} else if (bt & btype_int) {
 			c = 'I';
-	    } else if (bt & btype_class) {
+		} else if (bt & btype_class) {
 			c = 'S';
-	    } else if (bt & btype_struct) {
+		} else if (bt & btype_struct) {
 			c = 'S';
-	    } else if (bt & btype_union) {
+		} else if (bt & btype_union) {
 			c = 'U';
-	    } else {
+		} else {
 			c = 'O';
-	    }
-	    fputs_v ("ZT", f);
-	    fputc_v (c, f);
-	    break;
+		}
+		fputs_v ("ZT", f);
+		fputc_v (c, f);
+		break;
 	}
 	case tok_func_tag : {
-	    /* Function tokens */
-	    TYPE t = DEREF_type (tok_func_type (tok));
-	    fputs_v ("ZF", f);
-	    dump_type (t);
-	    break;
+		/* Function tokens */
+		TYPE t = DEREF_type (tok_func_type (tok));
+		fputs_v ("ZF", f);
+		dump_type (t);
+		break;
 	}
 	case tok_member_tag : {
-	    /* Member tokens */
-	    TYPE t = DEREF_type (tok_member_type (tok));
-	    TYPE s = DEREF_type (tok_member_of (tok));
-	    fputs_v ("ZM", f);
-	    dump_type (t);
-	    fputc_v (MANGLE_colon, f);
-	    dump_type (s);
-	    break;
+		/* Member tokens */
+		TYPE t = DEREF_type (tok_member_type (tok));
+		TYPE s = DEREF_type (tok_member_of (tok));
+		fputs_v ("ZM", f);
+		dump_type (t);
+		fputc_v (MANGLE_colon, f);
+		dump_type (s);
+		break;
 	}
 	case tok_class_tag : {
-	    /* Template parameter tokens */
-	    TYPE t = DEREF_type (tok_class_type (tok));
-	    TOKEN sort = DEREF_tok (type_templ_sort (t));
-	    fputs_v ("ZT", f);
-	    dump_sort (sort);
-	    break;
+		/* Template parameter tokens */
+		TYPE t = DEREF_type (tok_class_type (tok));
+		TOKEN sort = DEREF_tok (type_templ_sort (t));
+		fputs_v ("ZT", f);
+		dump_sort (sort);
+		break;
 	}
 	case tok_proc_tag : {
-	    /* Procedure tokens */
-	    TOKEN res = DEREF_tok (tok_proc_res (tok));
-	    LIST (IDENTIFIER) bids = DEREF_list (tok_proc_bids (tok));
-	    LIST (IDENTIFIER) pids = DEREF_list (tok_proc_pids (tok));
-	    if (EQ_list (bids, pids)) {
+		/* Procedure tokens */
+		TOKEN res = DEREF_tok (tok_proc_res (tok));
+		LIST (IDENTIFIER) bids = DEREF_list (tok_proc_bids (tok));
+		LIST (IDENTIFIER) pids = DEREF_list (tok_proc_pids (tok));
+		if (EQ_list (bids, pids)) {
 			fputs_v ("ZPS", f);
 			dump_params (bids);
-	    } else {
+		} else {
 			fputs_v ("ZPG", f);
 			dump_params (bids);
 			fputs_v (";", f);
 			dump_params (pids);
-	    }
-	    fputc_v (MANGLE_colon, f);
-	    dump_sort (res);
-	    break;
+		}
+		fputc_v (MANGLE_colon, f);
+		dump_sort (res);
+		break;
 	}
 	case tok_templ_tag : {
-	    /* Template tokens */
-	    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
-	    fputc_v (MANGLE_template, f);
-	    dump_params (pids);
-	    fputc_v (MANGLE_colon, f);
-	    break;
+		/* Template tokens */
+		LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
+		fputc_v (MANGLE_template, f);
+		dump_params (pids);
+		fputc_v (MANGLE_colon, f);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -894,67 +894,67 @@ dump_sort(TOKEN tok)
 static void
 dump_itype(INT_TYPE it)
 {
-    FILE *f = dump_file;
-    ASSERT (ORDER_itype == 6);
-    switch (TAG_itype (it)) {
+	FILE *f = dump_file;
+	ASSERT (ORDER_itype == 6);
+	switch (TAG_itype (it)) {
 	case itype_basic_tag : {
-	    /* Basic integral types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
-	    fputs_v (mangle_ntype [n], f);
-	    break;
+		/* Basic integral types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_basic_no (it));
+		fputs_v (mangle_ntype [n], f);
+		break;
 	}
 	case itype_bitfield_tag : {
-	    /* Bitfield types */
-	    NAT n = DEREF_nat (itype_bitfield_size (it));
-	    TYPE s = DEREF_type (itype_bitfield_sub (it));
-	    fputc_v (MANGLE_bitfield, f);
-	    dump_nat (n, 0);
-	    fputc_v (MANGLE_colon, f);
-	    dump_type (s);
-	    break;
+		/* Bitfield types */
+		NAT n = DEREF_nat (itype_bitfield_size (it));
+		TYPE s = DEREF_type (itype_bitfield_sub (it));
+		fputc_v (MANGLE_bitfield, f);
+		dump_nat (n, 0);
+		fputc_v (MANGLE_colon, f);
+		dump_type (s);
+		break;
 	}
 	case itype_promote_tag : {
-	    /* Promotion types */
-	    INT_TYPE is = DEREF_itype (itype_promote_arg (it));
-	    fputc_v (MANGLE_promote, f);
-	    dump_itype (is);
-	    break;
+		/* Promotion types */
+		INT_TYPE is = DEREF_itype (itype_promote_arg (it));
+		fputc_v (MANGLE_promote, f);
+		dump_itype (is);
+		break;
 	}
 	case itype_arith_tag : {
-	    /* Arithmetic types */
-	    INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
-	    INT_TYPE ir = DEREF_itype (itype_arith_arg2 (it));
-	    fputc_v (MANGLE_arith, f);
-	    dump_itype (is);
-	    fputc_v (MANGLE_colon, f);
-	    dump_itype (ir);
-	    break;
+		/* Arithmetic types */
+		INT_TYPE is = DEREF_itype (itype_arith_arg1 (it));
+		INT_TYPE ir = DEREF_itype (itype_arith_arg2 (it));
+		fputc_v (MANGLE_arith, f);
+		dump_itype (is);
+		fputc_v (MANGLE_colon, f);
+		dump_itype (ir);
+		break;
 	}
 	case itype_literal_tag : {
-	    /* Literal types */
-	    NAT n = DEREF_nat (itype_literal_nat (it));
-	    string s = mangle_literal (it);
-	    fputs_v (strlit (s), f);
-	    dump_nat (n, 0);
-	    break;
+		/* Literal types */
+		NAT n = DEREF_nat (itype_literal_nat (it));
+		string s = mangle_literal (it);
+		fputs_v (strlit (s), f);
+		dump_nat (n, 0);
+		break;
 	}
 	case itype_token_tag : {
-	    /* Tokenised types */
-	    BUILTIN_TYPE n = DEREF_ntype (itype_unprom (it));
-	    if (n == ntype_none || n == ntype_ellipsis) {
+		/* Tokenised types */
+		BUILTIN_TYPE n = DEREF_ntype (itype_unprom (it));
+		if (n == ntype_none || n == ntype_ellipsis) {
 			IDENTIFIER id;
 			LIST (TOKEN) args;
 			id = DEREF_id (itype_token_tok (it));
 			args = DEREF_list (itype_token_args (it));
 			dump_tok_appl (id, args);
-	    } else {
+		} else {
 			fputc_v (MANGLE_promote, f);
 			fputs_v (mangle_ntype [n], f);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -967,41 +967,41 @@ dump_itype(INT_TYPE it)
 static void
 dump_ftype(FLOAT_TYPE ft)
 {
-    FILE *f = dump_file;
-    ASSERT (ORDER_ftype == 4);
-    switch (TAG_ftype (ft)) {
+	FILE *f = dump_file;
+	ASSERT (ORDER_ftype == 4);
+	switch (TAG_ftype (ft)) {
 	case ftype_basic_tag : {
-	    /* Basic floating types */
-	    BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
-	    fputs_v (mangle_ntype [n], f);
-	    break;
+		/* Basic floating types */
+		BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (ft));
+		fputs_v (mangle_ntype [n], f);
+		break;
 	}
 	case ftype_arg_promote_tag : {
-	    /* Promotion types */
-	    FLOAT_TYPE fs = DEREF_ftype (ftype_arg_promote_arg (ft));
-	    fputc_v (MANGLE_promote, f);
-	    dump_ftype (fs);
-	    break;
+		/* Promotion types */
+		FLOAT_TYPE fs = DEREF_ftype (ftype_arg_promote_arg (ft));
+		fputc_v (MANGLE_promote, f);
+		dump_ftype (fs);
+		break;
 	}
 	case ftype_arith_tag : {
-	    /* Arithmetic types */
-	    FLOAT_TYPE fs = DEREF_ftype (ftype_arith_arg1 (ft));
-	    FLOAT_TYPE fr = DEREF_ftype (ftype_arith_arg2 (ft));
-	    fputc_v (MANGLE_arith, f);
-	    dump_ftype (fs);
-	    fputc_v (MANGLE_colon, f);
-	    dump_ftype (fr);
-	    break;
+		/* Arithmetic types */
+		FLOAT_TYPE fs = DEREF_ftype (ftype_arith_arg1 (ft));
+		FLOAT_TYPE fr = DEREF_ftype (ftype_arith_arg2 (ft));
+		fputc_v (MANGLE_arith, f);
+		dump_ftype (fs);
+		fputc_v (MANGLE_colon, f);
+		dump_ftype (fr);
+		break;
 	}
 	case ftype_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER id = DEREF_id (ftype_token_tok (ft));
-	    LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
-	    dump_tok_appl (id, args);
-	    break;
+		/* Tokenised types */
+		IDENTIFIER id = DEREF_id (ftype_token_tok (ft));
+		LIST (TOKEN) args = DEREF_list (ftype_token_args (ft));
+		dump_tok_appl (id, args);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1014,9 +1014,9 @@ dump_ftype(FLOAT_TYPE ft)
 static void
 dump_ctype(CLASS_TYPE ct)
 {
-    IDENTIFIER cid = DEREF_id (ctype_name (ct));
-    dump_id (cid);
-    return;
+	IDENTIFIER cid = DEREF_id (ctype_name (ct));
+	dump_id (cid);
+	return;
 }
 
 
@@ -1029,9 +1029,9 @@ dump_ctype(CLASS_TYPE ct)
 static void
 dump_etype(ENUM_TYPE et)
 {
-    IDENTIFIER eid = DEREF_id (etype_name (et));
-    dump_id (eid);
-    return;
+	IDENTIFIER eid = DEREF_id (etype_name (et));
+	dump_id (eid);
+	return;
 }
 
 
@@ -1044,9 +1044,9 @@ dump_etype(ENUM_TYPE et)
 static void
 dump_cv(CV_SPEC cv)
 {
-    if (cv & cv_const) fputc_v (MANGLE_const, dump_file);
-    if (cv & cv_volatile) fputc_v (MANGLE_volatile, dump_file);
-    return;
+	if (cv & cv_const) fputc_v (MANGLE_const, dump_file);
+	if (cv & cv_volatile) fputc_v (MANGLE_volatile, dump_file);
+	return;
 }
 
 
@@ -1059,7 +1059,7 @@ dump_cv(CV_SPEC cv)
 static void
 dump_type_list(LIST (TYPE) p, int ell, int started)
 {
-    while (!IS_NULL_list (p)) {
+	while (!IS_NULL_list (p)) {
 		TYPE t = DEREF_type (HEAD_list (p));
 		if (!IS_NULL_type (t)) {
 			if (started) fputc_v (MANGLE_comma, dump_file);
@@ -1068,8 +1068,8 @@ dump_type_list(LIST (TYPE) p, int ell, int started)
 			started = 1;
 		}
 		p = TAIL_list (p);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1082,188 +1082,188 @@ dump_type_list(LIST (TYPE) p, int ell, int started)
 static void
 dump_type(TYPE t)
 {
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    IDENTIFIER tid = DEREF_id (type_name (t));
-    dump_cv (qual);
-    if (!IS_NULL_id (tid)) {
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	IDENTIFIER tid = DEREF_id (type_name (t));
+	dump_cv (qual);
+	if (!IS_NULL_id (tid)) {
 		switch (TAG_id (tid)) {
-	    case id_class_alias_tag :
-	    case id_enum_alias_tag :
-	    case id_type_alias_tag : {
+		case id_class_alias_tag :
+		case id_enum_alias_tag :
+		case id_type_alias_tag : {
 			dump_id (tid);
 			return;
-	    }
 		}
-    }
-    ASSERT (ORDER_type == 18);
-    switch (TAG_type (t)) {
-		
+		}
+	}
+	ASSERT (ORDER_type == 18);
+	switch (TAG_type (t)) {
+
 	case type_pre_tag : {
-	    /* Pre-types */
-	    if (!IS_NULL_id (tid)) {
+		/* Pre-types */
+		if (!IS_NULL_id (tid)) {
 			dump_id (tid);
-	    } else {
+		} else {
 			BASE_TYPE bt = DEREF_btype (type_pre_rep (t));
 			if (bt == btype_ellipsis) {
 				fputs_v ("Q<...>", dump_file);
 			} else {
 				fputc_v (MANGLE_error, dump_file);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_integer_tag : {
-	    /* Integral types */
-	    INT_TYPE it = DEREF_itype (type_integer_rep (t));
-	    dump_itype (it);
-	    break;
+		/* Integral types */
+		INT_TYPE it = DEREF_itype (type_integer_rep (t));
+		dump_itype (it);
+		break;
 	}
-		
+
 	case type_floating_tag : {
-	    /* Floating point types */
-	    FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
-	    dump_ftype (ft);
-	    break;
+		/* Floating point types */
+		FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
+		dump_ftype (ft);
+		break;
 	}
-		
+
 	case type_top_tag : {
-	    /* Top type */
-	    fputc_v (MANGLE_void, dump_file);
-	    break;
+		/* Top type */
+		fputc_v (MANGLE_void, dump_file);
+		break;
 	}
-		
+
 	case type_bottom_tag : {
-	    /* Bottom type */
-	    fputc_v (MANGLE_bottom, dump_file);
-	    break;
+		/* Bottom type */
+		fputc_v (MANGLE_bottom, dump_file);
+		break;
 	}
-		
+
 	case type_ptr_tag : {
-	    /* Pointer types */
-	    TYPE s = DEREF_type (type_ptr_sub (t));
-	    fputc_v (MANGLE_ptr, dump_file);
-	    dump_type (s);
-	    break;
+		/* Pointer types */
+		TYPE s = DEREF_type (type_ptr_sub (t));
+		fputc_v (MANGLE_ptr, dump_file);
+		dump_type (s);
+		break;
 	}
-		
+
 	case type_ref_tag : {
-	    /* Reference types */
-	    TYPE s = DEREF_type (type_ref_sub (t));
-	    fputc_v (MANGLE_ref, dump_file);
-	    dump_type (s);
-	    break;
+		/* Reference types */
+		TYPE s = DEREF_type (type_ref_sub (t));
+		fputc_v (MANGLE_ref, dump_file);
+		dump_type (s);
+		break;
 	}
-		
+
 	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
-	    TYPE s = DEREF_type (type_ptr_mem_sub (t));
-	    fputc_v (MANGLE_ptr_mem, dump_file);
-	    dump_ctype (ct);
-	    fputc_v (MANGLE_colon, dump_file);
-	    dump_type (s);
-	    break;
+		/* Pointer to member types */
+		CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
+		TYPE s = DEREF_type (type_ptr_mem_sub (t));
+		fputc_v (MANGLE_ptr_mem, dump_file);
+		dump_ctype (ct);
+		fputc_v (MANGLE_colon, dump_file);
+		dump_type (s);
+		break;
 	}
-		
+
 	case type_func_tag : {
-	    /* Function types */
-	    FILE *f = dump_file;
-	    TYPE r = DEREF_type (type_func_ret (t));
-	    LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
-	    LIST (TYPE) e = DEREF_list (type_func_except (t));
-	    int ell = DEREF_int (type_func_ellipsis (t));
-	    CV_SPEC mqual = DEREF_cv (type_func_mqual (t));
-	    if (ell & FUNC_WEAK) {
+		/* Function types */
+		FILE *f = dump_file;
+		TYPE r = DEREF_type (type_func_ret (t));
+		LIST (TYPE) p = DEREF_list (type_func_ptypes (t));
+		LIST (TYPE) e = DEREF_list (type_func_except (t));
+		int ell = DEREF_int (type_func_ellipsis (t));
+		CV_SPEC mqual = DEREF_cv (type_func_mqual (t));
+		if (ell & FUNC_WEAK) {
 			fputc_v (MANGLE_weak, f);
-	    } else {
+		} else {
 			fputc_v (MANGLE_func, f);
-	    }
-	    dump_type (r);
-	    dump_type_list (p, ell, 1);
-	    if (ell & FUNC_VAR_PARAMS) {
+		}
+		dump_type (r);
+		dump_type_list (p, ell, 1);
+		if (ell & FUNC_VAR_PARAMS) {
 			fputc_v (MANGLE_dot, f);
-	    } else {
+		} else {
 			fputc_v (MANGLE_colon, f);
-	    }
-	    if (!EQ_list (e, univ_type_set)) {
+		}
+		if (!EQ_list (e, univ_type_set)) {
 			/* Output exception specifiers */
 			fputc_v ('(', f);
 			dump_type_list (e, FUNC_NONE, 0);
 			fputc_v (')', f);
-	    }
-	    dump_cv (mqual);
-	    if (ell & FUNC_NO_PARAMS) {
+		}
+		dump_cv (mqual);
+		if (ell & FUNC_NO_PARAMS) {
 			fputc_v (MANGLE_dot, f);
-	    } else {
+		} else {
 			fputc_v (MANGLE_colon, f);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_array_tag : {
-	    /* Array types */
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    NAT n = DEREF_nat (type_array_size (t));
-	    fputc_v (MANGLE_array, dump_file);
-	    if (!IS_NULL_nat (n)) dump_nat (n, 0);
-	    fputc_v (MANGLE_colon, dump_file);
-	    dump_type (s);
-	    break;
+		/* Array types */
+		TYPE s = DEREF_type (type_array_sub (t));
+		NAT n = DEREF_nat (type_array_size (t));
+		fputc_v (MANGLE_array, dump_file);
+		if (!IS_NULL_nat (n)) dump_nat (n, 0);
+		fputc_v (MANGLE_colon, dump_file);
+		dump_type (s);
+		break;
 	}
-		
+
 	case type_bitfield_tag : {
-	    /* Bitfield types */
-	    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-	    dump_itype (it);
-	    break;
+		/* Bitfield types */
+		INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+		dump_itype (it);
+		break;
 	}
-		
+
 	case type_compound_tag : {
-	    /* Class types */
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    dump_ctype (ct);
-	    break;
+		/* Class types */
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		dump_ctype (ct);
+		break;
 	}
-		
+
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
-	    dump_etype (et);
-	    break;
+		/* Enumeration types */
+		ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
+		dump_etype (et);
+		break;
 	}
-		
+
 	case type_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER id = DEREF_id (type_token_tok (t));
-	    LIST (TOKEN) args = DEREF_list (type_token_args (t));
-	    dump_tok_appl (id, args);
-	    break;
+		/* Tokenised types */
+		IDENTIFIER id = DEREF_id (type_token_tok (t));
+		LIST (TOKEN) args = DEREF_list (type_token_args (t));
+		dump_tok_appl (id, args);
+		break;
 	}
-		
+
 	case type_templ_tag : {
-	    /* Template types */
-	    TYPE s = DEREF_type (type_templ_defn (t));
-	    TOKEN sort = DEREF_tok (type_templ_sort (t));
-	    dump_sort (sort);
-	    dump_type (s);
-	    break;
+		/* Template types */
+		TYPE s = DEREF_type (type_templ_defn (t));
+		TOKEN sort = DEREF_tok (type_templ_sort (t));
+		dump_sort (sort);
+		dump_type (s);
+		break;
 	}
-		
+
 	case type_instance_tag : {
-	    /* Template instance types */
-	    IDENTIFIER id = DEREF_id (type_name (t));
-	    dump_id (id);
-	    break;
+		/* Template instance types */
+		IDENTIFIER id = DEREF_id (type_name (t));
+		dump_id (id);
+		break;
 	}
-		
+
 	default : {
-	    /* Other types */
-	    fputc_v (MANGLE_error, dump_file);
-	    break;
+		/* Other types */
+		fputc_v (MANGLE_error, dump_file);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1276,16 +1276,16 @@ dump_type(TYPE t)
 static void
 dump_graph(GRAPH gr)
 {
-    FILE *f = dump_file;
-    unsigned n = DEREF_unsigned (graph_no (gr));
-    DECL_SPEC ds = DEREF_dspec (graph_access (gr));
-    if (ds & dspec_main) {
+	FILE *f = dump_file;
+	unsigned n = DEREF_unsigned (graph_no (gr));
+	DECL_SPEC ds = DEREF_dspec (graph_access (gr));
+	if (ds & dspec_main) {
 		/* First instance of base */
 		DECL_SPEC acc = (ds & dspec_access);
 		CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
 		LIST (GRAPH) br = DEREF_list (graph_tails (gr));
 		fprintf_v (f, "%u=", n);
-		
+
 		/* Dump access */
 		if (ds & dspec_virtual) fputc_v ('V', f);
 		if (acc != dspec_public) {
@@ -1299,7 +1299,7 @@ dump_graph(GRAPH gr)
 			}
 		}
 		dump_access (acc);
-		
+
 		/* Dump base classes */
 		dump_ctype (ct);
 		if (!IS_NULL_list (br)) {
@@ -1312,12 +1312,12 @@ dump_graph(GRAPH gr)
 			}
 			fputc_v (')', f);
 		}
-		
-    } else {
+
+	} else {
 		/* Subsequent instances of base */
 		fprintf_v (f, "%u:", n);
-    }
-    return;
+	}
+	return;
 }
 
 /*
@@ -1329,13 +1329,13 @@ dump_graph(GRAPH gr)
 static void
 dump_tok_appl(IDENTIFIER id, LIST (TOKEN) args)
 {
-    if (IS_id_token (id)) {
+	if (IS_id_token (id)) {
 		IDENTIFIER alt = DEREF_id (id_token_alt (id));
 		if (!IS_NULL_id (alt)) id = alt;
-    }
-    if (IS_NULL_list (args)) {
+	}
+	if (IS_NULL_list (args)) {
 		dump_id (id);
-    } else {
+	} else {
 		FILE *f = dump_file;
 		fputc_v ('T', f);
 		dump_id (id);
@@ -1398,8 +1398,8 @@ dump_tok_appl(IDENTIFIER id, LIST (TOKEN) args)
 			args = TAIL_list (args);
 		}
 		fputc_v (MANGLE_colon, f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1413,8 +1413,8 @@ dump_tok_appl(IDENTIFIER id, LIST (TOKEN) args)
 void
 dump_base(CLASS_TYPE ct)
 {
-    unsigned n = DEREF_unsigned (ctype_no_bases (ct));
-    if (n > 1) {
+	unsigned n = DEREF_unsigned (ctype_no_bases (ct));
+	if (n > 1) {
 		FILE *f = dump_file;
 		if (f) {
 			const char *key;
@@ -1431,8 +1431,8 @@ dump_base(CLASS_TYPE ct)
 			dump_graph (gr);
 			fputc_v ('\n', f);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1446,15 +1446,15 @@ dump_base(CLASS_TYPE ct)
 void
 dump_override(IDENTIFIER id, IDENTIFIER fid)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		fputs_v ("O\t", f);
 		dump_id (id);
 		fputc_v ('\t', f);
 		dump_id (fid);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1468,11 +1468,11 @@ dump_override(IDENTIFIER id, IDENTIFIER fid)
 void
 dump_alias(IDENTIFIER id, IDENTIFIER cid, LOCATION *loc)
 {
-    ulong n = DEREF_ulong (id_dump (cid));
-    COPY_ulong (id_dump (id), n);
-    /* NOT YET IMPLEMENTED */
-    UNUSED (loc);
-    return;
+	ulong n = DEREF_ulong (id_dump (cid));
+	COPY_ulong (id_dump (id), n);
+	/* NOT YET IMPLEMENTED */
+	UNUSED (loc);
+	return;
 }
 
 
@@ -1486,11 +1486,11 @@ dump_alias(IDENTIFIER id, IDENTIFIER cid, LOCATION *loc)
 void
 dump_using(NAMESPACE ns, NAMESPACE cns, LOCATION *loc)
 {
-    /* NOT YET IMPLEMENTED */
-    UNUSED (ns);
-    UNUSED (cns);
-    UNUSED (loc);
-    return;
+	/* NOT YET IMPLEMENTED */
+	UNUSED (ns);
+	UNUSED (cns);
+	UNUSED (loc);
+	return;
 }
 
 
@@ -1515,14 +1515,14 @@ static char *err_output = NULL;
 int
 dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 {
-    if (IS_err_simple (e)) {
+	if (IS_err_simple (e)) {
 		/* Simple error message */
 		FILE *f = dump_file;
 		int n = DEREF_int (err_simple_number (e));
 		ERR_DATA *msg = ERR_CATALOG + n;
 		const char *sig = msg->signature;
 		ERR_PROPS props = msg->props;
-		
+
 		/* Dump start of error */
 		if (f == NULL) return (0);
 		if (props & ERR_PROP_compiler) return (0);
@@ -1530,10 +1530,10 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			/* First error component */
 			const char *err;
 			switch (sev) {
-			case ERROR_FATAL : err = "EF" ; break;
-			case ERROR_INTERNAL : err = "EI" ; break;
-			case ERROR_WARNING : err = "EW" ; break;
-			default : err = "ES" ; break;
+			case ERROR_FATAL : err = "EF"; break;
+			case ERROR_INTERNAL : err = "EI"; break;
+			case ERROR_WARNING : err = "EW"; break;
+			default : err = "ES"; break;
 			}
 			fprintf_v (f, "%s\t", err);
 			dump_loc (loc);
@@ -1542,7 +1542,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			/* Subsequent error component */
 			fputs_v ("EC\t", f);
 		}
-		
+
 		/* Dump error number */
 		if (err_output [n]) {
 			fprintf_v (f, "%d", n);
@@ -1551,7 +1551,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			fprintf_v (f, "%d = <%s.%s>", n, ERR_NAME, name);
 			err_output [n] = 1;
 		}
-		
+
 		/* Dump error arguments */
 		if (sig == NULL) {
 			fprintf_v (f, "\t0\t%d\n", cnt);
@@ -1559,7 +1559,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			unsigned a;
 			unsigned na = (unsigned) strlen (sig);
 			fprintf_v (f, "\t%u\t%d\n", na, cnt);
-			for (a = 0 ; a < na ; a++) {
+			for (a = 0; a < na; a++) {
 				switch (sig [a]) {
 				case ERR_KEY_ACCESS : {
 					ACCESS acc;
@@ -1729,15 +1729,15 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 				fputc_v ('\n', f);
 			}
 		}
-		
-    } else {
+
+	} else {
 		/* Composite error message */
 		ERROR e1 = DEREF_err (err_compound_head (e));
 		ERROR e2 = DEREF_err (err_compound_tail (e));
 		if (!dump_error (e1, loc, sev, 1)) return (0);
 		if (!dump_error (e2, NULL, sev, cnt)) return (0);
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -1751,8 +1751,8 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 void
 dump_destr(IDENTIFIER id, LOCATION *loc)
 {
-    EXP d = DEREF_exp (id_variable_etc_term (id));
-    if (!IS_NULL_exp (d)) {
+	EXP d = DEREF_exp (id_variable_etc_term (id));
+	if (!IS_NULL_exp (d)) {
 		unsigned tag = TAG_exp (d);
 		while (tag == exp_paren_tag) {
 			d = DEREF_exp (exp_paren_arg (d));
@@ -1772,8 +1772,8 @@ dump_destr(IDENTIFIER id, LOCATION *loc)
 			dump_use (id, loc, 0);
 			dump_call (fn, loc, 0);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1788,41 +1788,41 @@ dump_destr(IDENTIFIER id, LOCATION *loc)
 void
 dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, def);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, def);
+	if (key && f) {
 		/* Dump identifier key */
 		char d = 'M';
 		int destr = 0;
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (dump_implicit || dump_template) fputc_v ('I', f);
 		switch (def) {
-	    case 1 : d = 'D' ; break;
-	    case 2 : d = 'T' ; break;
+		case 1 : d = 'D'; break;
+		case 2 : d = 'T'; break;
 		}
-		
+
 		/* Dump location and identifier information */
 		fprintf_v (f, "%c%s\t", d, key);
 		dump_loc (loc);
 		fputc_v ('\t', f);
 		dump_id (id);
 		fputc_v ('\t', f);
-		
+
 		/* Dump identifier specific information */
 		switch (TAG_id (id)) {
-	    case id_obj_macro_tag : {
+		case id_obj_macro_tag : {
 			/* Object-like macros */
 			fputs_v ("ZUO", f);
 			break;
-	    }
-	    case id_func_macro_tag : {
+		}
+		case id_func_macro_tag : {
 			/* Function-like macros */
 			unsigned n;
 			n = DEREF_unsigned (id_func_macro_no_params (id));
 			fprintf_v (f, "ZUF%u", n);
 			break;
-	    }
-	    case id_builtin_tag : {
+		}
+		case id_builtin_tag : {
 			/* Built-in operators */
 			TYPE r = DEREF_type (id_builtin_ret (id));
 			LIST (TYPE) p = DEREF_list (id_builtin_ptypes (id));
@@ -1832,12 +1832,12 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 			fputc_v (MANGLE_colon, f);
 			fputc_v (MANGLE_colon, f);
 			break;
-	    }
-	    case id_class_name_tag :
-	    case id_enum_name_tag :
-	    case id_class_alias_tag :
-	    case id_enum_alias_tag :
-	    case id_type_alias_tag : {
+		}
+		case id_class_name_tag :
+		case id_enum_name_tag :
+		case id_class_alias_tag :
+		case id_enum_alias_tag :
+		case id_type_alias_tag : {
 			/* Type aliases */
 			TYPE t = DEREF_type (id_class_name_etc_defn (id));
 			if (ds & dspec_token) {
@@ -1851,35 +1851,35 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 			}
 			dump_type (t);
 			break;
-	    }
-	    case id_nspace_name_tag : {
+		}
+		case id_nspace_name_tag : {
 			/* Namespace names */
 			fputc_v ('*', f);
 			break;
-	    }
-	    case id_nspace_alias_tag : {
+		}
+		case id_nspace_alias_tag : {
 			/* Namespace aliases */
 			NAMESPACE ns = DEREF_nspace (id_nspace_alias_defn (id));
 			dump_nspace (ns, 0);
 			break;
-	    }
-	    case id_variable_tag :
-	    case id_parameter_tag :
-	    case id_stat_member_tag : {
+		}
+		case id_variable_tag :
+		case id_parameter_tag :
+		case id_stat_member_tag : {
 			/* Variables */
 			TYPE t = DEREF_type (id_variable_etc_type (id));
 			dump_type (t);
 			if (!(ds & dspec_auto)) destr = def;
 			break;
-	    }
-	    case id_weak_param_tag : {
+		}
+		case id_weak_param_tag : {
 			/* Non-prototype function parameters */
 			dump_type (type_sint);
 			break;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_mem_func_tag :
+		case id_stat_mem_func_tag : {
 			/* Functions */
 			TYPE t = DEREF_type (id_function_etc_type (id));
 			IDENTIFIER over = DEREF_id (id_function_etc_over (id));
@@ -1889,38 +1889,38 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 				dump_id (over);
 			}
 			break;
-	    }
-	    case id_member_tag : {
+		}
+		case id_member_tag : {
 			/* Data members */
 			TYPE t = DEREF_type (id_member_type (id));
 			dump_type (t);
 			break;
-	    }
-	    case id_enumerator_tag : {
+		}
+		case id_enumerator_tag : {
 			/* Enumerators */
 			TYPE t = DEREF_type (id_enumerator_etype (id));
 			dump_type (t);
 			break;
-	    }
-	    case id_token_tag : {
+		}
+		case id_token_tag : {
 			/* Tokens */
 			TOKEN tok = DEREF_tok (id_token_sort (id));
 			dump_sort (tok);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other identifiers */
 			fputc_v ('*', f);
 			break;
-	    }
+		}
 		}
 		fputc_v ('\n', f);
-		
+
 		/* Deal with destructors */
 		if (destr && do_usage) dump_destr (id, loc);
-    }
-    dump_implicit = 0;
-    return;
+	}
+	dump_implicit = 0;
+	return;
 }
 
 
@@ -1934,9 +1934,9 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 void
 dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, def);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, def);
+	if (key && f) {
 		if (def) {
 			fprintf_v (f, "U%s\t", key);
 		} else {
@@ -1946,8 +1946,8 @@ dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 		fputc_v ('\t', f);
 		dump_id (id);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1961,17 +1961,17 @@ dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 void
 dump_use(IDENTIFIER id, LOCATION *loc, int expl)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, 1);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, 1);
+	if (key && f) {
 		if (!expl) fputc_v ('I', f);
 		fprintf_v (f, "L%s\t", key);
 		dump_loc (loc);
 		fputc_v ('\t', f);
 		dump_id (id);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1985,17 +1985,17 @@ dump_use(IDENTIFIER id, LOCATION *loc, int expl)
 void
 dump_call(IDENTIFIER id, LOCATION *loc, int expl)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, 1);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, 1);
+	if (key && f) {
 		if (!expl) fputc_v ('I', f);
 		fprintf_v (f, "C%s\t", key);
 		dump_loc (loc);
 		fputc_v ('\t', f);
 		dump_id (id);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2009,9 +2009,9 @@ dump_call(IDENTIFIER id, LOCATION *loc, int expl)
 void
 dump_instance(IDENTIFIER id, TYPE form, TYPE spec)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, 1);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, 1);
+	if (key && f) {
 		fprintf_v (f, "Z%s\t", key);
 		dump_id (id);
 		fputc_v ('\t', f);
@@ -2023,8 +2023,8 @@ dump_instance(IDENTIFIER id, TYPE form, TYPE spec)
 		} else {
 			fputs_v ("\t*\n", f);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2038,9 +2038,9 @@ dump_instance(IDENTIFIER id, TYPE form, TYPE spec)
 void
 dump_token(IDENTIFIER id, IDENTIFIER tok)
 {
-    FILE *f = dump_file;
-    const char *key = dump_key (id, 1);
-    if (key && f) {
+	FILE *f = dump_file;
+	const char *key = dump_key (id, 1);
+	if (key && f) {
 		HASHID nm = DEREF_hashid (id_name (tok));
 		if (IS_hashid_name_etc (nm)) {
 			string s = DEREF_string (hashid_name_etc_text (nm));
@@ -2049,8 +2049,8 @@ dump_token(IDENTIFIER id, IDENTIFIER tok)
 			dump_id (id);
 			fprintf_v (f, "\t&%u<%s>\n", n, strlit (s));
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2064,13 +2064,13 @@ dump_token(IDENTIFIER id, IDENTIFIER tok)
 void
 dump_token_param(IDENTIFIER id)
 {
-    dump_declare (id, &crt_loc, 0);
-    if (IS_id_token (id)) {
+	dump_declare (id, &crt_loc, 0);
+	if (IS_id_token (id)) {
 		IDENTIFIER alt = DEREF_id (id_token_alt (id));
 		ulong n = DEREF_ulong (id_dump (id));
 		COPY_ulong (id_dump (alt), n);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2084,11 +2084,11 @@ dump_token_param(IDENTIFIER id)
 void
 dump_builtin(IDENTIFIER id)
 {
-    if (IS_id_builtin (id)) {
+	if (IS_id_builtin (id)) {
 		dump_implicit = 1;
 		dump_declare (id, &crt_loc, 0);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2102,15 +2102,15 @@ dump_builtin(IDENTIFIER id)
 void
 dump_promote(INT_TYPE it, INT_TYPE ip)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		fputs_v ("P\t", f);
 		dump_itype (it);
 		fputc_v (MANGLE_colon, f);
 		dump_itype (ip);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2124,8 +2124,8 @@ dump_promote(INT_TYPE it, INT_TYPE ip)
 void
 dump_begin_scope(IDENTIFIER id, NAMESPACE ns, NAMESPACE pns, LOCATION *loc)
 {
-    FILE *f = dump_file;
-    if (!IS_NULL_nspace (ns) && f) {
+	FILE *f = dump_file;
+	if (!IS_NULL_nspace (ns) && f) {
 		ulong n;
 		HASHID nm;
 		if (!IS_NULL_id (id)) {
@@ -2154,8 +2154,8 @@ dump_begin_scope(IDENTIFIER id, NAMESPACE ns, NAMESPACE pns, LOCATION *loc)
 		dump_nspace (pns, 1);
 		fputc_v ('\n', f);
 		COPY_ulong (nspace_dump (ns), n);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2169,8 +2169,8 @@ dump_begin_scope(IDENTIFIER id, NAMESPACE ns, NAMESPACE pns, LOCATION *loc)
 void
 dump_end_scope(IDENTIFIER id, NAMESPACE ns, LOCATION *loc)
 {
-    FILE *f = dump_file;
-    if (!IS_NULL_nspace (ns) && f) {
+	FILE *f = dump_file;
+	if (!IS_NULL_nspace (ns) && f) {
 		ulong n = DEREF_ulong (nspace_dump (ns));
 		if (!IS_NULL_id (id)) {
 			fputs_v ("SEH\t", f);
@@ -2179,8 +2179,8 @@ dump_end_scope(IDENTIFIER id, NAMESPACE ns, LOCATION *loc)
 		}
 		dump_loc (loc);
 		fprintf_v (f, "\t%lu\n", n);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2194,8 +2194,8 @@ dump_end_scope(IDENTIFIER id, NAMESPACE ns, LOCATION *loc)
 void
 dump_string_lit(string s, string e, unsigned kind)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		unsigned long n = (unsigned long) (e - s);
 		fputc_v ('A', f);
 		if (kind & STRING_CHAR) fputc_v ('C', f);
@@ -2208,8 +2208,8 @@ dump_string_lit(string s, string e, unsigned kind)
 			fputc_v (c, f);
 		}
 		fputs_v (">\n", f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2223,8 +2223,8 @@ dump_string_lit(string s, string e, unsigned kind)
 void
 dump_start(LOCATION *loc, INCL_DIR *dir)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		fputs_v ("FS\t", f);
 		dump_loc (loc);
 		if (dir) {
@@ -2232,8 +2232,8 @@ dump_start(LOCATION *loc, INCL_DIR *dir)
 		} else {
 			fputs_v ("\t*\n", f);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2246,13 +2246,13 @@ dump_start(LOCATION *loc, INCL_DIR *dir)
 void
 dump_end(LOCATION *loc)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		fputs_v ("FE\t", f);
 		dump_loc (loc);
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2269,14 +2269,14 @@ dump_end(LOCATION *loc)
 void
 dump_include(LOCATION *loc, string nm, int st, int q)
 {
-    FILE *f = dump_file;
-    if (f) {
+	FILE *f = dump_file;
+	if (f) {
 		const char *incl;
 		switch (st) {
-	    case 2 : incl = "FIS" ; break;
-	    case 3 : incl = "FIE" ; break;
-	    case 4 : incl = "FIR" ; nm = NULL ; break;
-	    default : {
+		case 2 : incl = "FIS"; break;
+		case 3 : incl = "FIE"; break;
+		case 4 : incl = "FIR"; nm = NULL; break;
+		default : {
 			if (q == char_quote) {
 				incl = "FIQ";
 			} else if (q == char_close_square) {
@@ -2285,7 +2285,7 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 				incl = "FIA";
 			}
 			break;
-	    }
+		}
 		}
 		fprintf_v (f, "%s\t", incl);
 		dump_loc (loc);
@@ -2295,8 +2295,8 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 			fprintf_v (f, "\t&%u<%s>", n, strlit (nm));
 		}
 		fputc_v ('\n', f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2310,39 +2310,39 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 void
 init_dump(string nm, string opt)
 {
-    if (nm) {
+	if (nm) {
 		/* Open dump file */
 		FILE *f;
 		char *p;
 		character c;
 		unsigned i, n;
 		int do_all = 0;
-		output_name [ OUTPUT_DUMP ] = nm;
+		output_name [OUTPUT_DUMP] = nm;
 		if (!open_output (OUTPUT_DUMP, text_mode)) {
 			fail (ERR_fail_dump (nm));
 			tenapp_exit ();
 			return;
 		}
-		f = output_file [ OUTPUT_DUMP ];
+		f = output_file [OUTPUT_DUMP];
 		fprintf_v (f, "# Dump file for %s %s\n", progname, progvers);
 		fprintf_v (f, "V\t%lu\t%lu\t", DUMP_major, DUMP_minor);
 		fprintf_v (f, "<%s>\n", LANGUAGE_NAME);
 		dump_file = f;
-		
+
 		/* Set dump options */
 		do_dump = 1;
 		while (c = *(opt++), (c && c != '=')) {
 			switch (c) {
-			case 'a' : do_all = 1 ; break;
-			case 'c' : do_string = 1 ; break;
-			case 'e' : do_error = 1 ; break;
-			case 'h' : do_header = 1 ; break;
-			case 'k' : do_keyword = 1 ; break;
-			case 'l' : do_local = 1 ; break;
-			case 'm' : do_macro = 1 ; break;
+			case 'a' : do_all = 1; break;
+			case 'c' : do_string = 1; break;
+			case 'e' : do_error = 1; break;
+			case 'h' : do_header = 1; break;
+			case 'k' : do_keyword = 1; break;
+			case 'l' : do_local = 1; break;
+			case 'm' : do_macro = 1; break;
 			case 'p' : break;
-			case 's' : do_scope = 1 ; break;
-			case 'u' : do_usage = 1 ; break;
+			case 's' : do_scope = 1; break;
+			case 'u' : do_usage = 1; break;
 			default : {
 				/* Unknown dump options */
 				const char *err = "Unknown dump option, '%c'";
@@ -2359,15 +2359,15 @@ init_dump(string nm, string opt)
 			do_macro = 1;
 			do_usage = 1;
 		}
-		
+
 		/* Allocate table of error numbers */
 		n = catalog_size;
 		p = xmalloc_nof (char, n);
-		for (i = 0 ; i < n ; i++) p [i] = 0;
+		for (i = 0; i < n; i++) p [i] = 0;
 		err_output = p;
 		last_input = ustrlit ("");
 		last_file = ustrlit ("");
-		
+
 		/* Output file inclusion directories */
 		if (do_header) {
 			ulong r = 0;
@@ -2390,8 +2390,8 @@ init_dump(string nm, string opt)
 		}
 		if (do_usage || do_scope) record_location = 1;
 		if (do_error) max_errors = ULONG_MAX;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2402,9 +2402,9 @@ init_dump(string nm, string opt)
  */
 
 void
-term_dump()
+term_dump(void)
 {
-    if (do_dump) {
+	if (do_dump) {
 		FILE *f = dump_file;
 		if (f) {
 			dump_file = NULL;
@@ -2412,6 +2412,6 @@ term_dump()
 			close_output (OUTPUT_DUMP);
 		}
 		do_dump = 0;
-    }
-    return;
+	}
+	return;
 }
