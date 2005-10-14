@@ -971,11 +971,11 @@ read_include(int act, int dir)
 		int end = 0;
 		int next = 0;
 		int legal = 1;
-		int import = 0;
+		int import = INCLUDE_NORMAL;
 		character quote = 0;
 		
 		/* Look ahead for start of header name */
-		if (dir == lex_import) import = 1;
+		if (dir == lex_import) import = INCLUDE_IMPORT;
 		if (dir == lex_include_Hnext) next = 1;
 		IGNORE skip_white (0);
 		if (peek_char (char_less, &legal)) {
@@ -1858,7 +1858,7 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 		/* '#include' checks for included files */
 		if (def) return (1);
 		IGNORE quote_tok_list (p, 0, char_quote);
-		return (start_include (token_buff.start, char_quote, 4, 0));
+		return (start_include (token_buff.start, char_quote, INCLUDE_CHECK, 0));
     }
     if (key == lex_keyword) {
 		/* '#keyword' checks for keywords */

@@ -825,7 +825,7 @@ open_startup(void)
 		startup_files = p;
 		preproc_loc = crt_loc;
 		crt_file_type = 1;
-		if (start_include (fn, char_quote, 2, 0)) return;
+		if (start_include (fn, char_quote, INCLUDE_STARTUP, 0)) return;
 	}
 	crt_file_type = 0;
 	return;
@@ -940,7 +940,7 @@ already_included(string nm, STAT_TYPE *fs, int st)
 	INCL_FILE *p = included_files;
 	while (p != NULL) {
 		int ok;
-		if (ustreq (nm, p->name) && st != 4) {
+		if (ustreq (nm, p->name) && st != INCLUDE_CHECK) {
 			/* Check file names */
 			ok = 1;
 		} else {
@@ -949,15 +949,15 @@ already_included(string nm, STAT_TYPE *fs, int st)
 		}
 		if (ok) {
 			/* Check matching file */
-			if (st == 4) {
+			if (st == INCLUDE_CHECK) {
 				/* Simple enquiry */
 				return (1);
 			}
 			crt_included_file = p;
-			if (st == 1) {
+			if (st == INCLUDE_IMPORT) {
 				/* Imported file */
-				if (p->imported == 1) return (1);
-				p->imported = 1;
+				if (p->imported == INCLUDE_IMPORT) return (1);
+				p->imported = INCLUDE_IMPORT;
 			}
 			if (p->state == 2) {
 				/* Check protection macro */
@@ -972,7 +972,7 @@ already_included(string nm, STAT_TYPE *fs, int st)
 	
 	/* Create new imported file structure */
 	p = xmalloc (sizeof(*p));
-	if (st != 4) crt_included_file = p;
+	if (st != INCLUDE_CHECK) crt_included_file = p;
 	p->name = nm;
 	p->imported = st;
 	p->macro = NULL_hashid;
@@ -1085,11 +1085,10 @@ add_pathname(string d, string f, int up)
  *
  *    This routine searches for, and opens, an included file named nm.  The
  *    argument q equals '"' or '>', depending on the form of the #include
- *    directive.  The argument st is 0 for normal inclusions, 1 for imported
- *    inclusions, 2 for start-up files and 3 for end-up files.  A value of
- *    4 is used for checking inclusion.  next is true if the search is to
- *    restart at the current position in the directory path.  The routine
- *    returns 1 to indicate that the file was opened successfully.
+ *    directive.  The argument st is one of the INCLUDE_ constants described
+ *    in file.h.  next is true if the search is to restart at the current
+ *    position in the directory path.  The routine returns 1 to indicate
+ *    that the file was opened successfully.
  */
 
 int
@@ -1124,7 +1123,7 @@ start_include(string nm, int q, int st, int next)
 		
 	} else if (is_full_pathname (nm)) {
 		/* Allow for full file names */
-		if (st < 2) {
+		if (st < INCLUDE_STARTUP) {
 			report (preproc_loc, ERR_cpp_include_full (nm));
 		}
 		f = fopen (strlit (file), "r");
@@ -1163,7 +1162,7 @@ start_include(string nm, int q, int st, int next)
 			dir = DEREF_string (posn_dir (crt_loc.posn));
 		}
 	}
-	if (st == 4) {
+	if (st == INCLUDE_CHECK) {
 		/* Just testing ... */
 		if (f == NULL) return (0);
 		if (!special) fclose_v (f);
@@ -1249,7 +1248,8 @@ start_include(string nm, int q, int st, int next)
 		 * that are included from start-up or end-up files. */
 		static unsigned long ignore_depth = ULONG_MAX;
 		if (c <= ignore_depth) ignore_depth = ULONG_MAX;
-	   	if (st == 0 && (inclusion_dependencies == DEP_ALL || q == char_quote)) {
+	   	if (st == INCLUDE_NORMAL &&
+			(inclusion_dependencies == DEP_ALL || q == char_quote)) {
 			if (ignore_depth == ULONG_MAX) {
 				print_dependency (strlit (input_name), NULL);
 			}
@@ -1334,7 +1334,7 @@ end_include(int prev)
 			endup_files = p;
 			preproc_loc = crt_loc;
 			crt_file_type = 1;
-			if (start_include (fn, char_quote, 3, 0)) return (1);
+			if (start_include (fn, char_quote, INCLUDE_ENDUP, 0)) return (1);
 		}
 		crt_file_type = 0;
 		return (0);
@@ -1383,7 +1383,7 @@ end_include(int prev)
 		LOCATION ploc;
 		int st = position [c].startup;
 		ploc = crt_loc;
-		if (st >= 2) ploc.line++;
+		if (st >= INCLUDE_STARTUP) ploc.line++;
 		report (ploc, ERR_cpp_include_close (nm));
 	}
 	if (do_header) dump_include (&crt_loc, NULL_string, 4, 0);

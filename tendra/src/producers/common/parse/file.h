@@ -97,6 +97,21 @@ extern int already_included(string, STAT_TYPE *, int);
 
 
 /*
+ *    CONSTANTS FOR VARIOUS INCLUDE FUNCTIONS
+ *
+ *    The order is important, don't change it at will.
+ */
+
+enum {
+    INCLUDE_NORMAL,		/* normal inclusion */
+    INCLUDE_IMPORT,		/* imported inclusion */
+    INCLUDE_STARTUP,		/* inclusion of start-up files */
+    INCLUDE_ENDUP,		/* inclusion of end-up files */
+    INCLUDE_CHECK		/* checking inclusion */
+};
+
+
+/*
  *    TYPE REPRESENTING AN INCLUSION DIRECTORY
  *
  *    This type is used to represent a directory which is searched during
