@@ -2273,9 +2273,9 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 	if (f) {
 		const char *incl;
 		switch (st) {
-		case 2 : incl = "FIS"; break;
-		case 3 : incl = "FIE"; break;
-		case 4 : incl = "FIR"; nm = NULL; break;
+		case INCLUDE_STARTUP : incl = "FIS"; break;
+		case INCLUDE_ENDUP : incl = "FIE"; break;
+		case INCLUDE_RESUMPTION : incl = "FIR"; nm = NULL; break;
 		default : {
 			if (q == char_quote) {
 				incl = "FIQ";
