@@ -107,7 +107,8 @@ enum {
     INCLUDE_IMPORT,		/* imported inclusion */
     INCLUDE_STARTUP,		/* inclusion of start-up files */
     INCLUDE_ENDUP,		/* inclusion of end-up files */
-    INCLUDE_CHECK		/* checking inclusion */
+    INCLUDE_CHECK,		/* checking inclusion */
+    INCLUDE_RESUMPTION		/* file resumption after inclusion */
 };
 
 

@@ -1386,7 +1386,7 @@ end_include(int prev)
 		if (st >= INCLUDE_STARTUP) ploc.line++;
 		report (ploc, ERR_cpp_include_close (nm));
 	}
-	if (do_header) dump_include (&crt_loc, NULL_string, 4, 0);
+	if (do_header) dump_include (&crt_loc, NULL_string, INCLUDE_RESUMPTION, 0);
 	crt_loc.line++;
 	crt_loc.column = 0;
 	input_crt = input_posn;

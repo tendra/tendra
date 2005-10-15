@@ -2261,9 +2261,9 @@ dump_end(LOCATION *loc)
  *
  *    This routine adds a file inclusion to the dump file.  loc gives the
  *    location of the '#include' directive, the following file start gives
- *    the file included.  st is as in start_include, plus 4 for the
- *    resumption of a file after a file has been included.  q is either '"',
- *    '>' or ']' depending on the type of inclusion.
+ *    the file included.  st is one of the INCLUDE_ enumerators documented
+ *    in file.h.  q is either '"', '>' or ']' depending on the type of
+ *    inclusion.
  */
 
 void
