@@ -100,9 +100,9 @@
 void
 print_version(void)
 {
-    MSG_tcc_version(VERSION_STRING, checker ? " (checker)" : "", machine_name, RELEASE);
-    flag_no_files = 1;
-    return;
+	MSG_tcc_version(VERSION_STRING, checker ? " (checker)" : "", machine_name, RELEASE);
+	flag_no_files = 1;
+	return;
 }
 
 
@@ -137,11 +137,11 @@ static boolean made_tempdir = 0;
 static void
 main_start(char *prog, char **envp)
 {
-    environment = envp;
-    buffer = xalloc (buffer_size * sizeof(*buffer));
-    progname = find_basename (prog);
-    initialise_options ();
-    return;
+	environment = envp;
+	buffer = xalloc (buffer_size * sizeof(*buffer));
+	progname = find_basename (prog);
+	initialise_options ();
+	return;
 }
 
 
@@ -155,16 +155,16 @@ main_start(char *prog, char **envp)
 static void
 main_middle(void)
 {
-    char *s = temp_name (temporary_dir, progname);
-    tempdir = string_copy (s);
-    cmd_list (exec_mkdir);
-    cmd_string (tempdir);
-    IGNORE execute (no_filename, no_filename);
-    if (last_return) {
+	char *s = temp_name (temporary_dir, progname);
+	tempdir = string_copy (s);
+	cmd_list (exec_mkdir);
+	cmd_string (tempdir);
+	IGNORE execute (no_filename, no_filename);
+	if (last_return) {
 		MSG_cant_create_temporary_directory ();
-    }
-    made_tempdir = 1;
-    return;
+	}
+	made_tempdir = 1;
+	return;
 }
 
 
@@ -179,18 +179,18 @@ main_middle(void)
 void
 main_end(void)
 {
-    IGNORE signal (SIGINT, SIG_IGN);
-    remove_junk ();
-    remove_startup ();
-    if (made_tempdir) {
+	IGNORE signal (SIGINT, SIG_IGN);
+	remove_junk ();
+	remove_startup ();
+	if (made_tempdir) {
 		made_tempdir = 0;
 		cmd_string ((char *) null);
 		cmd_list (exec_remove);
 		cmd_string (tempdir);
 		IGNORE execute (no_filename, no_filename);
-    }
-    kill_stray ();
-    exit (exit_status);
+	}
+	kill_stray ();
+	exit (exit_status);
 }
 
 
@@ -203,53 +203,53 @@ main_end(void)
 int
 main(int argc, char **argv)
 {
-    int a;
-    char *s;
-    filename *output;
-    list *opts = null;
+	int a;
+	char *s;
+	filename *output;
+	list *opts = null;
 
-    /* Initialisation */
-    tenapp_init(argc, argv, "TCC", VERSION_STRING);
-    tenapp_add_eh (main_end);
-    main_start (PROGNAME_TCC, environ);
+	/* Initialisation */
+	tenapp_init(argc, argv, "TCC", VERSION_STRING);
+	tenapp_add_eh (main_end);
+	main_start (PROGNAME_TCC, environ);
 
-    /* Check TCCOPTS options */
-    s = getenv (TCCOPT_VAR);
-    if (s != null) {
-    	opts = make_list (s);
-        process_options (opts, main_optmap, 0);
-        free_list (opts);
-        opts = null;
-    }
+	/* Check TCCOPTS options */
+	s = getenv (TCCOPT_VAR);
+	if (s != null) {
+		opts = make_list (s);
+		process_options (opts, main_optmap, 0);
+		free_list (opts);
+		opts = null;
+	}
 
-    /* Process command line options */
-    for (a = argc - 1 ; a >= 1 ; a--) {
+	/* Process command line options */
+	for (a = argc - 1; a >= 1; a--) {
 		opts = insert_item (argv [a], opts);
-    }
-    process_options (opts, main_optmap, 0);
-    update_options ();
+	}
+	process_options (opts, main_optmap, 0);
+	update_options ();
 	reconcile_envopts();
-    free_list (opts);
+	free_list (opts);
 
-    /* Check for input files */
-    if (input_files == null) {
+	/* Check for input files */
+	if (input_files == null) {
 		if (flag_no_files) main_end ();
 		MSG_no_input_files_specified ();
-    }
+	}
 
-    /* Apply compilation */
-    main_middle ();
-    output = apply_all (input_files);
+	/* Apply compilation */
+	main_middle ();
+	output = apply_all (input_files);
 
-    /* Check for unprocessed files */
-    while (output != null) {
+	/* Check for unprocessed files */
+	while (output != null) {
 		if (output->storage == INPUT_FILE) {
 			MSG_input_file_not_processed (output->name);
 		}
 		output = output->next;
-    }
+	}
 
-    /* Exit from program */
-    main_end ();
-    return (0);
+	/* Exit from program */
+	main_end ();
+	return (0);
 }

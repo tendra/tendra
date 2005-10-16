@@ -78,7 +78,7 @@
  *    flaged as tccenv-derived instead of user-created.
  */
 
-hashtable*
+hashtable *
 init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 {
 	int i;
@@ -120,7 +120,7 @@ key_match(char *key, char *keyfield)
 }
 
 htnode *
-lookup_table (hashtable *ht, char *key)
+lookup_table(hashtable *ht, char *key)
 {
 	int  hashval;
 	htnode *hn;
@@ -142,7 +142,7 @@ lookup_table (hashtable *ht, char *key)
 	return hn;
 }
 
-htnode*
+htnode *
 update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 			 char *file, int line_num)
 {
@@ -249,15 +249,15 @@ hash(char *key, int tblsize, int keysize)
 void
 comment(int e, char *s, ...) /* VARARGS */
 {
-    FILE *f;
-    va_list args;
-    va_start (args, s);
-    f = (e ? stdout : stderr);
-    IGNORE fflush (f);
-    IGNORE vfprintf (f, s, args);
-    IGNORE fflush (f);
-    va_end (args);
-    return;
+	FILE *f;
+	va_list args;
+	va_start (args, s);
+	f = (e ? stdout : stderr);
+	IGNORE fflush (f);
+	IGNORE vfprintf (f, s, args);
+	IGNORE fflush (f);
+	va_end (args);
+	return;
 }
 
 
@@ -293,8 +293,8 @@ size_t PATH_SUBS_elems = ARRAY_SIZE (PATH_SUBS);
  *     c)  for a select group of variables, sane defaults are
  *          used.
  */
-char*
-find_path_subst (char *var)
+char *
+find_path_subst(char *var)
 {
 	char *ret;
 	char **subs;

@@ -79,8 +79,8 @@ typedef struct {
  */
 
 typedef struct list_t {
-    void *item;
-    struct list_t *next;
+	void *item;
+	struct list_t *next;
 } list;
 
 

@@ -72,14 +72,14 @@
  */
 
 typedef struct filename_t {
-    char *name;
-    char *bname;
-    int uniq;
-    int type;
-    int storage;
-    boolean final;
-    struct filename_t *aux;
-    struct filename_t *next;
+	char *name;
+	char *bname;
+	int uniq;
+	int type;
+	int storage;
+	boolean final;
+	struct filename_t *aux;
+	struct filename_t *next;
 } filename;
 
 #define no_filename		((filename *) null)

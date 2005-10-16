@@ -100,25 +100,25 @@ static int delay_signal_handling = 0;
 void
 enable_delayed_signal(void)
 {
-    delay_signal_handling = 1;
-    return;
+	delay_signal_handling = 1;
+	return;
 }
 
 void
 disable_delayed_signal(void)
 {
-    delay_signal_handling = 0;
-    return;
+	delay_signal_handling = 0;
+	return;
 }
 
 void
 process_delayed_signal(void)
 {
-    if (last_signal != 0) {
+	if (last_signal != 0) {
 		last_command = last_signaled_cmd;
 		tenapp_signal (last_signal);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -133,17 +133,17 @@ process_delayed_signal(void)
 void
 cmd_string(char *s)
 {
-    if (cmd_no >= command_size) {
+	if (cmd_no >= command_size) {
 		command_size += 1000;
 		command = xrealloc (command, command_size * sizeof(*command));
-    }
-    command [ cmd_no ] = s;
-    if (s == null) {
+	}
+	command [cmd_no] = s;
+	if (s == null) {
 		cmd_no = 0;
-    } else if (*s) {
+	} else if (*s) {
 		cmd_no++;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -157,8 +157,8 @@ cmd_string(char *s)
 void
 cmd_filename(filename *p)
 {
-    for (; p != null ; p = p->next) cmd_string (p->name);
-    return;
+	for (; p != null; p = p->next) cmd_string (p->name);
+	return;
 }
 
 
@@ -171,8 +171,8 @@ cmd_filename(filename *p)
 void
 cmd_list(list *p)
 {
-    for (; p != null ; p = p->next) cmd_string (p->item);
-    return;
+	for (; p != null; p = p->next) cmd_string (p->item);
+	return;
 }
 
 
@@ -187,8 +187,8 @@ boolean exec_error = 0;
 void
 reset_exec_error(void)
 {
-    exec_error = 0;
-    return;
+	exec_error = 0;
+	return;
 }
 
 
@@ -226,11 +226,11 @@ void
 kill_stray(void)
 {
 #if FS_FORK
-    if (running_pid == -1) return;
-    IGNORE kill ((pid_t) running_pid, SIGTERM);
-    running_pid = -1;
+	if (running_pid == -1) return;
+	IGNORE kill ((pid_t) running_pid, SIGTERM);
+	running_pid = -1;
 #endif
-    return;
+	return;
 }
 
 
@@ -254,14 +254,14 @@ static filename *junk = null;
 void
 remove_junk(void)
 {
-    if (!dry_run && !flag_keep_err) {
+	if (!dry_run && !flag_keep_err) {
 		filename *p;
-		for (p = junk ; p != null ; p = p->next) {
+		for (p = junk; p != null; p = p->next) {
 			if (p->storage == OUTPUT_FILE) IGNORE remove (p->name);
 		}
-    }
-    junk = null;
-    return;
+	}
+	junk = null;
+	return;
 }
 
 
@@ -275,13 +275,13 @@ remove_junk(void)
 static void
 print_cmd(char *b)
 {
-    char **s;
-    for (s = command ; *s != null ; s++) {
+	char **s;
+	for (s = command; *s != null; s++) {
 		*b = ' ';
 		IGNORE strcpy (b + 1, *s);
 		b += strlen (b);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -296,60 +296,60 @@ print_cmd(char *b)
  *    has been abstracted to also allow the BSD implementation.
  */
 
-filename*
+filename *
 execute(filename *input, filename *output)
 {
-    char *cmd;
-    int err = 0;
-    boolean filled_buff = 0;
-    char buff [ buffer_size ] ;
+	char *cmd;
+	int err = 0;
+	boolean filled_buff = 0;
+	char buff [buffer_size];
 
-    cmd_string ((char *) null);
-    cmd = command [0];
-    if (cmd == null) {
+	cmd_string ((char *) null);
+	cmd = command [0];
+	if (cmd == null) {
 		MSG_empty_command ();
 		return (null);
-    }
-    last_command = cmd;
-    last_return = 0;
-    junk = output;
+	}
+	last_command = cmd;
+	last_return = 0;
+	junk = output;
 
-    if (taciturn) {
+	if (taciturn) {
 		/* Print input files if in taciturn mode */
 		filename *p;
-		for (p = input ; p != null ; p = p->next) {
+		for (p = input; p != null; p = p->next) {
 			if (p->storage == INPUT_FILE) {
 				comment (1, "%s:\n", p->name);
 			}
 		}
-    }
+	}
 
-    if (verbose) {
+	if (verbose) {
 		/* Print command if in verbose mode */
 		print_cmd (buff);
 		filled_buff = 1;
 		comment (1, "%s\n", buff + 1);
-    }
+	}
 
-    if (cmd && strneq (cmd, "builtin/", 8)) {
+	if (cmd && strneq (cmd, "builtin/", 8)) {
 		/* Check built in commands */
 		cmd += 8;
 		switch (*cmd) {
-	    case 'b' : {
+		case 'b' : {
 			if (streq (cmd, "build_archive")) {
 				err = build_archive (command [1], command + 2);
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 'c' : {
+		}
+		case 'c' : {
 			if (streq (cmd, "cat")) {
 				err = cat_file (command [1]);
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 'm' : {
+		}
+		case 'm' : {
 			if (streq (cmd, "mkdir")) {
 				err = make_dir (command [1]);
 				goto execute_error;
@@ -359,29 +359,29 @@ execute(filename *input, filename *output)
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 'r' : {
+		}
+		case 'r' : {
 			if (streq (cmd, "remove")) {
 				err = remove_file (command [1]);
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 's' : {
+		}
+		case 's' : {
 			if (streq (cmd, "split_archive")) {
 				err = split_archive (command [1], &output);
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 't' : {
+		}
+		case 't' : {
 			if (streq (cmd, "touch")) {
 				err = touch_file (command [1], command [2]);
 				goto execute_error;
 			}
 			break;
-	    }
-	    case 'u' : {
+		}
+		case 'u' : {
 			if (streq (cmd, "undef")) {
 				cmd = command [1];
 				if (dry_run) {
@@ -393,12 +393,12 @@ execute(filename *input, filename *output)
 				goto execute_error;
 			}
 			break;
-	    }
+		}
 		}
 		MSG_built_in_command_not_implemented (cmd);
 		err = 1;
 
-    } else if (!dry_run) {
+	} else if (!dry_run) {
 		/* Call system commands */
 #if FS_FORK
 		{
@@ -497,16 +497,16 @@ execute(filename *input, filename *output)
 			}
 		}
 #endif
-    }
+	}
 
-    /* Deal with errors */
-    execute_error : {
-        disable_delayed_signal ();
+	/* Deal with errors */
+	execute_error : {
+		disable_delayed_signal ();
 		last_return = err;
 		if (tidy_up) {
 			/* Remove unneeded files */
 			filename *p;
-			for (p = input ; p != null ; p = p->next) {
+			for (p = input; p != null; p = p->next) {
 				if (p->storage == TEMP_FILE && p->type != BINARY_OBJ) {
 					IGNORE remove (p->name);
 				}
@@ -525,5 +525,5 @@ execute(filename *input, filename *output)
 		}
 		junk = null;
 		return (output);
-    }
+	}
 }

@@ -98,14 +98,14 @@ boolean case_insensitive = 0;
 static void
 to_lower_case(char *s)
 {
-    char c;
-    while (c = *s, c != 0) {
+	char c;
+	while (c = *s, c != 0) {
 		if (is_upper_case (c)) {
 			*s = (char) (c - 'A' + 'a');
 		}
 		s++;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -117,31 +117,31 @@ to_lower_case(char *s)
  *    empty.  This table needs to be kept in step with Table 1.
  */
 
-char *suffixes [ TYPE_ARRAY_SIZE ] = {
-    null,	/* C_SOURCE */
-    null,	/* PREPROC_C */
-    "cpp",	/* CPP_SOURCE */
-    null,	/* PREPROC_CPP */
-    null,	/* INDEP_TDF */
-    null,	/* DEP_TDF */
-    null,	/* AS_SOURCE */
-    null,	/* BINARY_OBJ */
-    null,	/* EXECUTABLE */
-    null,	/* PRETTY_TDF */
-    null,	/* PL_TDF */
-    null,	/* TDF_ARCHIVE */
-    null,	/* MIPS_G_FILE */
-    null,	/* MIPS_T_FILE */
-    null,	/* C_SPEC */
-    null,	/* CPP_SPEC */
-    null,  	/* ERROR_FILE */
-    null,	/* STARTUP_FILE */
-    null,	/* UNKNOWN_TYPE */
-    null,	/* INDEP_TDF_COMPLEX (dummy type) */
-    null,	/* C_SPEC_1 (dummy type) */
-    null,	/* C_SPEC_2 (dummy type) */
-    null,	/* INDEP_TDF_AUX (dummy type) */
-    null	/* BINARY_OBJ_AUX (dummy type) */
+char *suffixes [TYPE_ARRAY_SIZE] = {
+	null,	/* C_SOURCE */
+	null,	/* PREPROC_C */
+	"cpp",	/* CPP_SOURCE */
+	null,	/* PREPROC_CPP */
+	null,	/* INDEP_TDF */
+	null,	/* DEP_TDF */
+	null,	/* AS_SOURCE */
+	null,	/* BINARY_OBJ */
+	null,	/* EXECUTABLE */
+	null,	/* PRETTY_TDF */
+	null,	/* PL_TDF */
+	null,	/* TDF_ARCHIVE */
+	null,	/* MIPS_G_FILE */
+	null,	/* MIPS_T_FILE */
+	null,	/* C_SPEC */
+	null,	/* CPP_SPEC */
+	null,  	/* ERROR_FILE */
+	null,	/* STARTUP_FILE */
+	null,	/* UNKNOWN_TYPE */
+	null,	/* INDEP_TDF_COMPLEX (dummy type) */
+	null,	/* C_SPEC_1 (dummy type) */
+	null,	/* C_SPEC_2 (dummy type) */
+	null,	/* INDEP_TDF_AUX (dummy type) */
+	null	/* BINARY_OBJ_AUX (dummy type) */
 };
 
 
@@ -153,7 +153,7 @@ char *suffixes [ TYPE_ARRAY_SIZE ] = {
  */
 
 char *tempdir = null;
-char *workdir = null ;
+char *workdir = null;
 
 
 /*
@@ -162,14 +162,14 @@ char *workdir = null ;
  *    This routine returns the basename of the file name s.
  */
 
-char*
+char *
 find_basename(char *s)
 {
-    char *r = s;
-    for (; *s ; s++) {
+	char *r = s;
+	for (; *s; s++) {
 		if (*s == '/') r = s + 1;
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -179,20 +179,20 @@ find_basename(char *s)
  *    This routine returns the full name of the file name s.
  */
 
-char*
+char *
 find_fullname(char *s)
 {
-    static char *pwd = null;
-    if (*s == '/') return (s);
-    if (pwd == null) {
+	static char *pwd = null;
+	if (*s == '/') return (s);
+	if (pwd == null) {
 		if (get_cwd (buffer, buffer_size)) {
 			pwd = string_concat (buffer, "/");
 		} else {
 			MSG_cant_determine_current_working_directory ();
 			pwd = "";
 		}
-    }
-    return (string_concat (pwd, s));
+	}
+	return (string_concat (pwd, s));
 }
 
 
@@ -203,11 +203,11 @@ find_fullname(char *s)
  *    the file suffix, and returns the latter.
  */
 
-static char*
+static char *
 split_name(char *s)
 {
-    int i, n = (int) strlen (s);
-    for (i = n - 1 ; i >= 0 ; i--) {
+	int i, n = (int) strlen (s);
+	for (i = n - 1; i >= 0; i--) {
 		if (s [i] == '.') {
 			s [i] = 0;
 			if (case_insensitive) {
@@ -216,8 +216,8 @@ split_name(char *s)
 			}
 			return (s + (i + 1));
 		}
-    }
-    return ("");
+	}
+	return ("");
 }
 
 
@@ -227,10 +227,10 @@ split_name(char *s)
  *    This routine allocates a new filename structure.
  */
 
-static filename*
+static filename *
 new_filename(void)
 {
-    return (xalloc (sizeof (filename)));
+	return (xalloc (sizeof (filename)));
 }
 
 
@@ -244,12 +244,12 @@ new_filename(void)
 filename
 *add_filename(filename *p, filename *q)
 {
-    filename *r;
-    if (p == null) return (q);
-    if (q == null) return (p);
-    for (r = p ; r->next != null ; r = r->next) /* empty */;
-    r->next = q;
-    return (p);
+	filename *r;
+	if (p == null) return (q);
+	if (q == null) return (p);
+	for (r = p; r->next != null; r = r->next) /* empty */;
+	r->next = q;
+	return (p);
 }
 
 
@@ -264,7 +264,7 @@ filename
 int
 find_type(int s, int suff)
 {
-    switch (s) {
+	switch (s) {
 	case C_SOURCE_KEY : return (C_SOURCE);
 	case PREPROC_C_KEY : return (PREPROC_C);
 	case CPP_SOURCE_KEY : return (CPP_SOURCE);
@@ -273,29 +273,29 @@ find_type(int s, int suff)
 	case BINARY_OBJ_KEY : return (BINARY_OBJ);
 	case C_SPEC_KEY : return (C_SPEC);
 	case CPP_SPEC_KEY : return (CPP_SPEC);
-    }
-    if (!checker) {
+	}
+	if (!checker) {
 		switch (s) {
-	    case INDEP_TDF_KEY : return (INDEP_TDF);
-	    case DEP_TDF_KEY : return (DEP_TDF);
-	    case PRETTY_TDF_KEY : return (PRETTY_TDF);
+		case INDEP_TDF_KEY : return (INDEP_TDF);
+		case DEP_TDF_KEY : return (DEP_TDF);
+		case PRETTY_TDF_KEY : return (PRETTY_TDF);
 		}
-    }
-    if (suff) return (DEFAULT_TYPE);
-    switch (s) {
+	}
+	if (suff) return (DEFAULT_TYPE);
+	switch (s) {
 	case MIPS_G_FILE_KEY : return (MIPS_G_FILE);
 	case MIPS_T_FILE_KEY : return (MIPS_T_FILE);
 	case STARTUP_FILE_KEY : return (STARTUP_FILE);
 	case ALL_KEY : return (ALL_TYPES);
-    }
-    if (!checker) {
+	}
+	if (!checker) {
 		switch (s) {
-	    case PL_TDF_KEY : return (PL_TDF);
-	    case TDF_ARCHIVE_KEY : return (TDF_ARCHIVE);
+		case PL_TDF_KEY : return (PL_TDF);
+		case TDF_ARCHIVE_KEY : return (TDF_ARCHIVE);
 		}
-    }
-    MSG_unknown_file_type (s);
-    return (UNKNOWN_TYPE);
+	}
+	MSG_unknown_file_type (s);
+	return (UNKNOWN_TYPE);
 }
 
 
@@ -306,53 +306,53 @@ find_type(int s, int suff)
  *    suffix.  It needs to be kept in step with Table 1 and Table 2.
  */
 
-static char*
+static char *
 file_suffix(int t)
 {
-    static char suff [3];
-    suff [0] = 0;
-    suff [1] = 0;
-    suff [2] = 0;
-    switch (t) {
-	case C_SOURCE : suff [0] = C_SOURCE_KEY ; break;
-	case PREPROC_C : suff [0] = PREPROC_C_KEY ; break;
-	case CPP_SOURCE : suff [0] = CPP_SOURCE_KEY ; break;
-	case PREPROC_CPP : suff [0] = PREPROC_CPP_KEY ; break;
-	case INDEP_TDF : suff [0] = INDEP_TDF_KEY ; break;
+	static char suff [3];
+	suff [0] = 0;
+	suff [1] = 0;
+	suff [2] = 0;
+	switch (t) {
+	case C_SOURCE : suff [0] = C_SOURCE_KEY; break;
+	case PREPROC_C : suff [0] = PREPROC_C_KEY; break;
+	case CPP_SOURCE : suff [0] = CPP_SOURCE_KEY; break;
+	case PREPROC_CPP : suff [0] = PREPROC_CPP_KEY; break;
+	case INDEP_TDF : suff [0] = INDEP_TDF_KEY; break;
 	case INDEP_TDF_AUX : {
-	    suff [0] = INDEP_TDF_KEY;
-	    suff [1] = EXTRA_KEY;
-	    break;
+		suff [0] = INDEP_TDF_KEY;
+		suff [1] = EXTRA_KEY;
+		break;
 	}
-	case DEP_TDF : suff [0] = DEP_TDF_KEY ; break;
-	case AS_SOURCE : suff [0] = AS_SOURCE_KEY ; break;
-	case BINARY_OBJ : suff [0] = BINARY_OBJ_KEY ; break;
+	case DEP_TDF : suff [0] = DEP_TDF_KEY; break;
+	case AS_SOURCE : suff [0] = AS_SOURCE_KEY; break;
+	case BINARY_OBJ : suff [0] = BINARY_OBJ_KEY; break;
 	case BINARY_OBJ_AUX : {
-	    if ((use_sparc_cc == 1) && use_system_cc) {
+		if ((use_sparc_cc == 1) && use_system_cc) {
 			suff [0] = '.';
 			suff [1] = BINARY_OBJ_KEY;
-	    } else {
+		} else {
 			suff [0] = BINARY_OBJ_AUX_KEY;
-	    }
-	    break;
+		}
+		break;
 	}
-	case PRETTY_TDF : suff [0] = PRETTY_TDF_KEY ; break;
-	case PL_TDF : suff [0] = PL_TDF_KEY ; break;
-	case MIPS_G_FILE : suff [0] = MIPS_G_FILE_KEY ; break;
-	case MIPS_T_FILE : suff [0] = MIPS_T_FILE_KEY ; break;
-	case C_SPEC : suff [0] = C_SPEC_KEY ; break;
-	case CPP_SPEC : suff [0] = CPP_SPEC_KEY ; break;
-    }
-    if (suff [0]) {
+	case PRETTY_TDF : suff [0] = PRETTY_TDF_KEY; break;
+	case PL_TDF : suff [0] = PL_TDF_KEY; break;
+	case MIPS_G_FILE : suff [0] = MIPS_G_FILE_KEY; break;
+	case MIPS_T_FILE : suff [0] = MIPS_T_FILE_KEY; break;
+	case C_SPEC : suff [0] = C_SPEC_KEY; break;
+	case CPP_SPEC : suff [0] = CPP_SPEC_KEY; break;
+	}
+	if (suff [0]) {
 		if (case_insensitive && is_upper_case (suff [0])) {
 			/* Make allowances for case insensitive systems */
 			to_lower_case (suff);
 			suff [1] = suff [0];
 		}
 		return (suff);
-    }
-    MSG_illegal_file_type ();
-    return (file_suffix (DEFAULT_TYPE));
+	}
+	MSG_illegal_file_type ();
+	return (file_suffix (DEFAULT_TYPE));
 }
 
 
@@ -397,18 +397,18 @@ static int uniq_no = 0;
  *    be kept in step with Table 1, Table 2 and Table 3.
  */
 
-filename*
+filename *
 find_filename(char *s, int t)
 {
-    filename *p = new_filename ();
-    char *b = string_copy (find_basename (s));
-    char *e = split_name (b);
-    int i;
+	filename *p = new_filename ();
+	char *b = string_copy (find_basename (s));
+	char *e = split_name (b);
+	int i;
 
-    /* Find the file type */
-    if (suffix_overrides && t == UNKNOWN_TYPE) {
-		for (i = 0 ; i < TYPE_ARRAY_SIZE ; i++) {
-			if (suffixes [ i ] != null && streq (e, suffixes [ i ])) {
+	/* Find the file type */
+	if (suffix_overrides && t == UNKNOWN_TYPE) {
+		for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
+			if (suffixes [i] != null && streq (e, suffixes [i])) {
 				if (checker) {
 					if (i == PL_TDF || i == TDF_ARCHIVE) continue;
 				}
@@ -416,8 +416,8 @@ find_filename(char *s, int t)
 				break;
 			}
 		}
-    }
-    if (t == UNKNOWN_TYPE) {
+	}
+	if (t == UNKNOWN_TYPE) {
 		if (e [0]) {
 			if (e [1]) {
 				if (e [2]) {
@@ -459,24 +459,24 @@ find_filename(char *s, int t)
 			/* Length == 0 */
 			t = DEFAULT_TYPE;
 		}
-    }
+	}
 
-    /* Return the result */
-    p->name = s;
-    p->bname = b;
-    p->uniq = new_unique ();
-    p->type = t;
-    if (option_next) {
+	/* Return the result */
+	p->name = s;
+	p->bname = b;
+	p->uniq = new_unique ();
+	p->type = t;
+	if (option_next) {
 		p->storage = INPUT_OPTION;
 		option_next = 0;
-    } else {
+	} else {
 		p->storage = INPUT_FILE;
 		no_input_files++;
-    }
-    p->final = 0;
-    p->aux = null;
-    p->next = null;
-    return (p);
+	}
+	p->final = 0;
+	p->aux = null;
+	p->next = null;
+	return (p);
 }
 
 
@@ -491,9 +491,9 @@ find_filename(char *s, int t)
 int
 where(int t)
 {
-    if (!keeps [t]) return (TEMP_FILE);
-    if (!stops [t]) return (PRESERVED_FILE);
-    return (OUTPUT_FILE);
+	if (!keeps [t]) return (TEMP_FILE);
+	if (!stops [t]) return (PRESERVED_FILE);
+	return (OUTPUT_FILE);
 }
 
 
@@ -505,25 +505,25 @@ where(int t)
  *    to be kept in step with Table 1 and Table 2.
  */
 
-filename*
+filename *
 make_filename(filename *p, int t, int s)
 {
-    boolean f = 0;
-    char *b, *d, *e;
-    char *nm = null;
-    filename *q = new_filename ();
+	boolean f = 0;
+	char *b, *d, *e;
+	char *nm = null;
+	filename *q = new_filename ();
 
-    /* Examine the storage class */
-    switch (s) {
+	/* Examine the storage class */
+	switch (s) {
 	case INPUT_FILE :
 	case INPUT_OPTION : {
-	    /* This shouldn't occur */
-	    d = null;
-	    break;
+		/* This shouldn't occur */
+		d = null;
+		break;
 	}
 	case OUTPUT_FILE : {
-	    /* Check output file name */
-	    if (final_name) {
+		/* Check output file name */
+		if (final_name) {
 			static boolean used_final_name = 0;
 			if (used_final_name) {
 				MSG_can_only_name_one_file_with_o ();
@@ -540,30 +540,30 @@ make_filename(filename *p, int t, int s)
 				used_final_name = 1;
 				f = 1;
 			}
-	    }
-	    d = workdir;
-	    break;
+		}
+		d = workdir;
+		break;
 	}
 	case PRESERVED_FILE : {
-	    /* Preserved files are turned into output files */
-	    d = workdir;
-	    s = OUTPUT_FILE;
-	    break;
+		/* Preserved files are turned into output files */
+		d = workdir;
+		s = OUTPUT_FILE;
+		break;
 	}
 	case TEMP_FILE : {
-	    /* Temporary files */
-	    d = tempdir;
-	    break;
+		/* Temporary files */
+		d = tempdir;
+		break;
 	}
 	default : {
-	    MSG_illegal_storage_type ();
-	    d = null;
-	    break;
+		MSG_illegal_storage_type ();
+		d = null;
+		break;
 	}
-    }
+	}
 
-    /* Find the file name */
-    if (nm == null) {
+	/* Find the file name */
+	if (nm == null) {
 		if (p != null && p->type == t) {
 			nm = find_basename (p->name);
 			if (d != null) {
@@ -594,10 +594,10 @@ make_filename(filename *p, int t, int s)
 				}
 			}
 		}
-    }
+	}
 
-    /* Find the file name */
-    if (nm == null) {
+	/* Find the file name */
+	if (nm == null) {
 		if (p == null || make_up_names) {
 			static int seq = 0;
 			IGNORE sprintf (buffer, MADE_UP_NAME, seq++);
@@ -612,17 +612,17 @@ make_filename(filename *p, int t, int s)
 			IGNORE sprintf (buffer, "%s/%s.%s", d, b, e);
 		}
 		nm = string_copy (buffer);
-    }
+	}
 
-    /* Fill in the fields of the result */
-    SET (b);
-    q->name = nm;
-    q->bname = b;
-    q->uniq = (p ? p->uniq : new_unique ());
-    q->type = t;
-    q->storage = s;
-    q->final = f;
-    q->aux = null;
-    q->next = null;
-    return (q);
+	/* Fill in the fields of the result */
+	SET (b);
+	q->name = nm;
+	q->bname = b;
+	q->uniq = (p ? p->uniq : new_unique ());
+	q->type = t;
+	q->storage = s;
+	q->final = f;
+	q->aux = null;
+	q->next = null;
+	return (q);
 }

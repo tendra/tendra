@@ -80,16 +80,16 @@ static list *spare_lists = null;
  *    This routine allocates a new list structure.
  */
 
-static list*
+static list *
 new_list(void)
 {
-    if (spare_lists) {
+	if (spare_lists) {
 		list *p = spare_lists;
 		spare_lists = p->next;
 		return (p);
-    } else {
+	} else {
 		return (xalloc (sizeof (list)));
-    }
+	}
 }
 
 
@@ -102,8 +102,8 @@ new_list(void)
 void
 free_list(list *p)
 {
-    spare_lists = add_list (p, spare_lists);
-    return;
+	spare_lists = add_list (p, spare_lists);
+	return;
 }
 
 
@@ -113,15 +113,15 @@ free_list(list *p)
  *    This routine joins two lists, p and q, and returns the result.
  */
 
-list*
+list *
 add_list(list *p, list *q)
 {
-    list *r;
-    if (p == null) return (q);
-    if (q == null) return (p);
-    for (r = p ; r->next != null ; r = r->next) /* empty */;
-    r->next = q;
-    return (p);
+	list *r;
+	if (p == null) return (q);
+	if (q == null) return (p);
+	for (r = p; r->next != null; r = r->next) /* empty */;
+	r->next = q;
+	return (p);
 }
 
 
@@ -132,17 +132,17 @@ add_list(list *p, list *q)
  *    the result.
  */
 
-list*
+list *
 add_item(list *p, void *s)
 {
-    list *q, *r;
-    q = new_list ();
-    q->item = s;
-    q->next = null;
-    if (p == null) return (q);
-    for (r = p ; r->next != null ; r = r->next) /* empty */;
-    r->next = q;
-    return (p);
+	list *q, *r;
+	q = new_list ();
+	q->item = s;
+	q->next = null;
+	if (p == null) return (q);
+	for (r = p; r->next != null; r = r->next) /* empty */;
+	r->next = q;
+	return (p);
 }
 
 
@@ -153,13 +153,13 @@ add_item(list *p, void *s)
  *    returns the result.
  */
 
-list*
+list *
 insert_item(void *s, list *p)
 {
-    list *q = new_list ();
-    q->item = s;
-    q->next = p;
-    return (q);
+	list *q = new_list ();
+	q->item = s;
+	q->next = p;
+	return (q);
 }
 
 /*
@@ -168,7 +168,7 @@ insert_item(void *s, list *p)
  *
  */
 
-list*
+list *
 insert_inorder(ordered_node* indata, list *inlst)
 {
 	list *head = inlst;
@@ -206,16 +206,16 @@ insert_inorder(ordered_node* indata, list *inlst)
  *    spaces (spaces and tabs).
  */
 
-list*
+list *
 make_list(void *s)
 {
-    list *r = null;
-    char *p = string_copy (s);
-    while (1) {
+	list *r = null;
+	char *p = string_copy (s);
+	while (1) {
 		while (*p == ' ' || *p == '\t') *(p++) = 0;
 		if (*p == 0) break;
 		r = add_item (r, p);
 		while (*p && *p != ' ' && *p != '\t') p++;
-    }
-    return (r);
+	}
+	return (r);
 }

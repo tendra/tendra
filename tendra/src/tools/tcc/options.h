@@ -69,9 +69,9 @@
  */
 
 typedef struct {
-    char *in;
-    char *out;
-    char *explain;
+	char *in;
+	char *out;
+	char *explain;
 	int  rank;
 } optmap;
 
@@ -86,8 +86,8 @@ typedef struct {
 #define max_var		100
 
 typedef struct {
-    int argc;
-    char *argv[max_var];
+	int argc;
+	char *argv[max_var];
 } args_out;
 
 

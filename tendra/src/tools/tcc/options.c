@@ -141,7 +141,7 @@ optmap main_optmap [] = {
 	{"-vb", "1TC", "specifies fairly verbose mode", 51},
 	{"-vt", "1TT", "verbose information about tool chain invocation", 51},
 	{"-ve", "1TE", "verbose information about tool chain environment", 51},
-    {"-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1},
+	{"-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1},
 
 	/* added */
 	{"-y+$=$", "E?$1?$2", "sets an env directory variable", 1},
@@ -419,7 +419,7 @@ special_option(void)
  *  the corresponding boolean variable.
  */
 
-static boolean*
+static boolean *
 lookup_bool(char *s)
 {
 	char a = s [0];
@@ -533,7 +533,7 @@ lookup_bool(char *s)
  *  step with Table 4.
  */
 
-static list**
+static list **
 lookup_list(char *s)
 {
 	char a = s [0];
@@ -676,7 +676,7 @@ lookup_list(char *s)
  *  the corresponding string variable.
  */
 
-static char**
+static char **
 lookup_string(char *s)
 {
 	char a = s [0];
@@ -942,7 +942,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
 
 	/* Print output */
 	a = 0;
-	for (i = 0 ; i < loop ; i++) {
+	for (i = 0; i < loop; i++) {
 		int  count = 0;
 		char buff [MAX_LINE];
 		q = buff;
@@ -977,7 +977,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
 					list **sp = lookup_list (p + 1);
 					if (sp == null)
 						return (MATCH_OUT_ERR);
-					for (pt = *sp ; pt ; pt = pt->next) {
+					for (pt = *sp; pt; pt = pt->next) {
 						int l = (int) strlen (pt->item);
 						IGNORE strncpy (q, pt->item, (size_t) l);
 						q += l;
@@ -1037,7 +1037,7 @@ interpret_cmd(char *cmd)
 	/* Deal with at-hack */
 	if (c == '@') {
 		char *p = string_copy (cmd + 1), *q;
-		for (q = p ; *q ; q++) {
+		for (q = p; *q; q++) {
 			if (*q == '@')
 				*q = ' ';
 		}
@@ -1076,7 +1076,7 @@ interpret_cmd(char *cmd)
 			if (sp == null)
 				return;
 			comment (1, "%s=\"", cmd + 3);
-			for (p = *sp ; p != null ; p = p->next) {
+			for (p = *sp; p != null; p = p->next) {
 				comment (1, "%s", p->item);
 				if (p->next) comment (1, " ");
 			}
@@ -1309,7 +1309,7 @@ interpret_cmd(char *cmd)
 			list **sp = lookup_list (cmd + 2), *pt;
 			if (sp == null) return;
 			comment (1, "%c%c =", cmd [2], cmd [3]);
-			for (pt = *sp ; pt != null ; pt = pt->next) {
+			for (pt = *sp; pt != null; pt = pt->next) {
 				if (pt->item) {
 					comment (1, " %s", pt->item);
 				} else {
@@ -1367,13 +1367,13 @@ process_options(list *opt, optmap *tab, int fast)
 			arg = p->item;
 		}
 		status = MATCH_FAILED;
-		for (t = tab ; t->in != null ; t++) {
+		for (t = tab; t->in != null; t++) {
 			args_out res;
 			status = match_option (t->in, t->out, arg, &res);
 			switch (status) {
 			case MATCH_OK : {
 				/* Complete option - interpret result */
-				for (a = 0 ; a < res.argc ; a++) {
+				for (a = 0; a < res.argc; a++) {
 					if (no_shuffle != 0 || fast == 1) {
 						interpret_cmd (res.argv[a]);
 					}

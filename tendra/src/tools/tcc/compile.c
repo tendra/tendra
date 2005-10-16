@@ -93,27 +93,27 @@ static filename *apply_unjoin (filename *, int);
  *    returning the result.
  */
 
-static filename*
+static filename *
 apply_cc(filename *input)
 {
-    filename *p = input;
-    filename *output = null;
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	while (p != null) {
 		filename *ps = null;
 		filename *pn = p->next;
 		p->next = null;
 		switch (p->type) {
 
-	    case C_SOURCE : {
+		case C_SOURCE : {
 			/* C source */
-			if (make_preproc || keeps [ PREPROC_C ]) {
+			if (make_preproc || keeps [PREPROC_C]) {
 				p = do_cc (p, PREPROC_C);
-				if (stops [ PREPROC_C ]) break;
+				if (stops [PREPROC_C]) break;
 			}
 			goto preproc_c_lab;
-	    }
+		}
 
-	    case PREPROC_C :
+		case PREPROC_C :
 			preproc_c_lab : {
 				/* Preprocessed C source */
 				if (use_system_cc == 1) {
@@ -125,13 +125,13 @@ apply_cc(filename *input)
 						ps = ps->next;
 					}
 				}
-				if (stops [ DEP_TDF ]) {
+				if (stops [DEP_TDF]) {
 					if (ps != null) p = null;
 					break;
-				} else if (stops [ AS_SOURCE ]) {
+				} else if (stops [AS_SOURCE]) {
 					p = do_cc (p, AS_SOURCE);
 					break;
-				} else if (keeps [ AS_SOURCE ]) {
+				} else if (keeps [AS_SOURCE]) {
 					p = do_cc (p, AS_SOURCE);
 				} else {
 					p = do_cc (p, binary_obj_type);
@@ -140,16 +140,16 @@ apply_cc(filename *input)
 				goto as_source_lab;
 			}
 
-	    case CPP_SOURCE : {
+		case CPP_SOURCE : {
 			/* C++ source */
-			if (make_preproc || keeps [ PREPROC_CPP ]) {
+			if (make_preproc || keeps [PREPROC_CPP]) {
 				p = do_cc (p, PREPROC_CPP);
-				if (stops [ PREPROC_CPP ]) break;
+				if (stops [PREPROC_CPP]) break;
 			}
 			goto preproc_cpp_lab;
-	    }
+		}
 
-	    case PREPROC_CPP :
+		case PREPROC_CPP :
 			preproc_cpp_lab : {
 				/* Preprocessed C++ source */
 				if (use_system_cc == 1) {
@@ -161,13 +161,13 @@ apply_cc(filename *input)
 						ps = ps->next;
 					}
 				}
-				if (stops [ DEP_TDF ]) {
+				if (stops [DEP_TDF]) {
 					if (ps != null) p = null;
 					break;
-				} else if (stops [ AS_SOURCE ]) {
+				} else if (stops [AS_SOURCE]) {
 					p = do_cc (p, AS_SOURCE);
 					break;
-				} else if (keeps [ AS_SOURCE ]) {
+				} else if (keeps [AS_SOURCE]) {
 					p = do_cc (p, AS_SOURCE);
 				} else {
 					p = do_cc (p, binary_obj_type);
@@ -176,54 +176,54 @@ apply_cc(filename *input)
 				goto as_source_lab;
 			}
 
-	    case AS_SOURCE :
+		case AS_SOURCE :
 			as_source_lab : {
 				/* Assembly source file */
-				if (!stops [ AS_SOURCE ]) p = do_cc (p, BINARY_OBJ);
+				if (!stops [AS_SOURCE]) p = do_cc (p, BINARY_OBJ);
 				break;
 			}
 
-	    case BINARY_OBJ : {
+		case BINARY_OBJ : {
 			/* Binary object file */
 			break;
-	    }
+		}
 
-	    case C_SPEC : {
+		case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
 				MSG_is_a_C_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-					keeps_aux [ BINARY_OBJ ] == 1 &&
-					!stops [ AS_SOURCE ]) {
+					keeps_aux [BINARY_OBJ] == 1 &&
+					!stops [AS_SOURCE]) {
 					p = do_build_file (p, BINARY_OBJ);
 				}
 			}
 			break;
-	    }
+		}
 
-	    case CPP_SPEC : {
+		case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
 				MSG_is_a_cpp_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-					keeps_aux [ BINARY_OBJ ] == 1 &&
-					!stops [ AS_SOURCE ]) {
+					keeps_aux [BINARY_OBJ] == 1 &&
+					!stops [AS_SOURCE]) {
 					p = do_build_file (p, BINARY_OBJ);
 				}
 			}
 			break;
-	    }
+		}
 
-	    default : {
+		default : {
 			/* Other file types give an error */
 			MSG_TDF_file_not_recognised_in_cc_mode (p->name);
 			p->type = DEFAULT_TYPE;
 			break;
-	    }
+		}
 		}
 		if (p && p->storage != INPUT_FILE && p->aux == null) {
 			boolean have_spec = 0;
@@ -245,8 +245,8 @@ apply_cc(filename *input)
 		output = add_filename (output, p);
 		if (ps) output = add_filename (output, ps);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -256,20 +256,20 @@ apply_cc(filename *input)
  *    This routine applies the TDF linker to p, returning the result.
  */
 
-static filename*
+static filename *
 apply_tdf_link(filename *p)
 {
-    static boolean tried = 0;
-    if (p == null || stops [ INDEP_TDF ]) return (p);
-    if (tokdef_name && tokdef_output == null && !tried) {
+	static boolean tried = 0;
+	if (p == null || stops [INDEP_TDF]) return (p);
+	if (tokdef_name && tokdef_output == null && !tried) {
 		filename *q;
 		if (!allow_notation) read_env (TNC_ENV);
 		q = find_filename (tokdef_name, PRETTY_TDF);
 		q = do_notation (q);
 		if (q) tokdef_output = q->name;
 		tried = 1;
-    }
-    return (do_tdf_link (p));
+	}
+	return (do_tdf_link (p));
 }
 
 
@@ -283,98 +283,98 @@ apply_tdf_link(filename *p)
  *    with Table 1.
  */
 
-static filename*
+static filename *
 apply_compile(filename *input, int produce)
 {
-    filename *p = input;
-    filename *output = null;
-    if (use_system_cc) return (apply_cc (input));
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	if (use_system_cc) return (apply_cc (input));
+	while (p != null) {
 		filename *pc = p;
 		filename *pn = p->next;
 		p->next = null;
 		switch (p->type) {
 
-	    case C_SOURCE : {
+		case C_SOURCE : {
 			/* C source */
-			if (keeps [ PREPROC_C ]) {
+			if (keeps [PREPROC_C]) {
 				p = do_preproc (p);
 			} else {
 				p = do_produce (p);
 			}
-			if (allow_specs && stops [ C_SPEC ]) p = null;
+			if (allow_specs && stops [C_SPEC]) p = null;
 			if (p != pc) p = apply_compile (p, produce);
 			break;
-	    }
+		}
 
-	    case PREPROC_C : {
+		case PREPROC_C : {
 			/* Preprocessed C source */
-			if (stops [ PREPROC_C ]) break;
+			if (stops [PREPROC_C]) break;
 			p = do_produce (p);
-			if (allow_specs && stops [ C_SPEC ]) p = null;
+			if (allow_specs && stops [C_SPEC]) p = null;
 			if (p != pc) p = apply_compile (p, produce);
 			break;
-	    }
+		}
 
-	    case CPP_SOURCE : {
+		case CPP_SOURCE : {
 			/* C++ source */
 			if (allow_cpp) {
-				if (keeps [ PREPROC_CPP ]) {
+				if (keeps [PREPROC_CPP]) {
 					p = do_cpp_preproc (p);
 				} else {
 					p = do_cpp_produce (p);
 				}
-				if (allow_specs && stops [ CPP_SPEC ]) p = null;
+				if (allow_specs && stops [CPP_SPEC]) p = null;
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
 				MSG_is_a_cpp_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
-	    }
+		}
 
-	    case PREPROC_CPP : {
+		case PREPROC_CPP : {
 			/* Preprocessed C++ source */
-			if (stops [ PREPROC_CPP ]) break;
+			if (stops [PREPROC_CPP]) break;
 			if (allow_cpp) {
 				p = do_cpp_produce (p);
-				if (allow_specs && stops [ CPP_SPEC ]) p = null;
+				if (allow_specs && stops [CPP_SPEC]) p = null;
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
 				MSG_is_a_preprocessed_cpp_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
-	    }
+		}
 
-	    case INDEP_TDF : {
+		case INDEP_TDF : {
 			/* Target independent TDF */
 			if (!produce) {
 				p = apply_tdf_link (p);
 				if (p != pc) p = apply_compile (p, produce);
 			}
 			break;
-	    }
+		}
 
-	    case DEP_TDF : {
+		case DEP_TDF : {
 			/* Target dependent TDF */
 			if (!produce) {
 				p = do_translate (p);
 				if (p != pc) p = apply_compile (p, produce);
 			}
 			break;
-	    }
+		}
 
-	    case AS_SOURCE : {
+		case AS_SOURCE : {
 			/* Assembly source */
 			if (!produce) {
 				p = do_assemble (p);
 				if (p != pc) p = apply_compile (p, produce);
 			}
 			break;
-	    }
+		}
 
-	    case PRETTY_TDF : {
+		case PRETTY_TDF : {
 			/* TDF notation source */
 			if (allow_notation) {
 				p = do_notation (p);
@@ -384,9 +384,9 @@ apply_compile(filename *input, int produce)
 				p->type = DEFAULT_TYPE;
 			}
 			break;
-	    }
+		}
 
-	    case PL_TDF : {
+		case PL_TDF : {
 			/* PL_TDF source */
 			if (allow_pl_tdf) {
 				p = do_pl_tdf (p);
@@ -396,37 +396,37 @@ apply_compile(filename *input, int produce)
 				p->type = DEFAULT_TYPE;
 			}
 			break;
-	    }
+		}
 
-	    case C_SPEC : {
+		case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
 				MSG_is_a_C_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-					keeps_aux [ BINARY_OBJ ] == 1 &&
-					!stops [ AS_SOURCE ]) {
+					keeps_aux [BINARY_OBJ] == 1 &&
+					!stops [AS_SOURCE]) {
 					p = do_build_file (p, BINARY_OBJ);
 				}
 			}
 			break;
-	    }
+		}
 
-	    case CPP_SPEC : {
+		case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
 				MSG_is_a_cpp_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-					keeps_aux [ BINARY_OBJ ] == 1 &&
-					!stops [ AS_SOURCE ]) {
+					keeps_aux [BINARY_OBJ] == 1 &&
+					!stops [AS_SOURCE]) {
 					p = do_build_file (p, BINARY_OBJ);
 				}
 			}
 			break;
-	    }
+		}
 		}
 		if (p && p->storage != INPUT_FILE && p->aux == null) {
 			boolean have_spec = 0;
@@ -444,8 +444,8 @@ apply_compile(filename *input, int produce)
 			if (have_spec) {
 				int t = p->type;
 				if (t == INDEP_TDF && checker && !stops [t]) {
-					if (stops [ BINARY_OBJ ] ||
-						keeps_aux [ BINARY_OBJ ] == 1) {
+					if (stops [BINARY_OBJ] ||
+						keeps_aux [BINARY_OBJ] == 1) {
 						p = do_build_file (p->next, BINARY_OBJ);
 					}
 				}
@@ -456,8 +456,8 @@ apply_compile(filename *input, int produce)
 		}
 		output = add_filename (output, p);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -468,12 +468,12 @@ apply_compile(filename *input, int produce)
  *    compiles them to binary object files, and returns them.
  */
 
-static filename*
+static filename *
 filter_ofiles(filename *input)
 {
-    filename *p = input;
-    filename *links = null;
-    while (p != null) {
+	filename *p = input;
+	filename *links = null;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		p->aux = pn;
@@ -484,8 +484,8 @@ filter_ofiles(filename *input)
 			}
 		}
 		p = pn;
-    }
-    return (links);
+	}
+	return (links);
 }
 
 
@@ -496,15 +496,15 @@ filter_ofiles(filename *input)
  *    and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_link(filename *input)
 {
-    filename *p = input;
-    int spec_out = C_SPEC_2;
-    filename *links = null, *links_out = null;
-    filename *specs = null, *specs_out;
-    filename *others = null;
-    while (p != null) {
+	filename *p = input;
+	int spec_out = C_SPEC_2;
+	filename *links = null, *links_out = null;
+	filename *specs = null, *specs_out;
+	filename *others = null;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		p->aux = pn;
@@ -519,21 +519,21 @@ apply_link(filename *input)
 			others = add_filename (others, p);
 		}
 		p = pn;
-    }
-    last_return = 0;
-    keeps [ binary_obj_type ] = 0;
-    specs_out = do_link_specs (specs, spec_out);
-    links = add_filename (links, filter_ofiles (specs_out));
-    if (use_dynlink != 0 && use_system_cc == 0) links = do_dynlink (links);
-    if (links) links_out = do_link (links);
-    if (specs_out && links_out) specs_out->uniq = links_out->uniq;
-    p = add_filename (links_out, specs_out);
-    p = add_filename (p, others);
-    if (last_return) {
+	}
+	last_return = 0;
+	keeps [binary_obj_type] = 0;
+	specs_out = do_link_specs (specs, spec_out);
+	links = add_filename (links, filter_ofiles (specs_out));
+	if (use_dynlink != 0 && use_system_cc == 0) links = do_dynlink (links);
+	if (links) links_out = do_link (links);
+	if (specs_out && links_out) specs_out->uniq = links_out->uniq;
+	p = add_filename (links_out, specs_out);
+	p = add_filename (p, others);
+	if (last_return) {
 		/* If the linking failed, keep the .o files */
 		filename *q = input;
-		boolean b = keeps [ BINARY_OBJ ];
-		keeps [ BINARY_OBJ ] = 1;
+		boolean b = keeps [BINARY_OBJ];
+		keeps [BINARY_OBJ] = 1;
 		p = null;
 		while (q != null) {
 			filename *qa = q->aux;
@@ -559,8 +559,8 @@ apply_link(filename *input)
 			p = add_filename (p, q);
 			q = qa;
 		}
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -571,13 +571,13 @@ apply_link(filename *input)
  *    and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_split_arch(filename *input)
 {
-    filename *p = input;
-    filename *output = null;
-    archive_type = TDF_ARCHIVE;
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	archive_type = TDF_ARCHIVE;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (p->type == TDF_ARCHIVE) {
@@ -590,8 +590,8 @@ apply_split_arch(filename *input)
 		}
 		output = add_filename (output, p);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -602,15 +602,15 @@ apply_split_arch(filename *input)
  *    and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_build_arch(filename *input)
 {
-    filename *p = input;
-    filename *links = null;
-    filename *specs = null;
-    filename *others = null;
-    int spec_out = C_SPEC_1;
-    while (p != null) {
+	filename *p = input;
+	filename *links = null;
+	filename *specs = null;
+	filename *others = null;
+	int spec_out = C_SPEC_1;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (p->type == INDEP_TDF) {
@@ -624,13 +624,13 @@ apply_build_arch(filename *input)
 			others = add_filename (others, p);
 		}
 		p = pn;
-    }
-    specs = do_link_specs (specs, spec_out);
-    links = do_build_arch (links);
-    if (specs && links) specs->uniq = links->uniq;
-    p = add_filename (links, specs);
-    p = add_filename (p, others);
-    return (p);
+	}
+	specs = do_link_specs (specs, spec_out);
+	links = do_build_arch (links);
+	if (specs && links) specs->uniq = links->uniq;
+	p = add_filename (links, specs);
+	p = add_filename (p, others);
+	return (p);
 }
 
 
@@ -641,15 +641,15 @@ apply_build_arch(filename *input)
  *    input, and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_build(filename *input)
 {
-    filename *p = input;
-    filename *links = null;
-    filename *specs = null;
-    filename *others = null;
-    int spec_out = C_SPEC_1;
-    while (p != null) {
+	filename *p = input;
+	filename *links = null;
+	filename *specs = null;
+	filename *others = null;
+	int spec_out = C_SPEC_1;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (p->type == INDEP_TDF) {
@@ -663,13 +663,13 @@ apply_build(filename *input)
 			others = add_filename (others, p);
 		}
 		p = pn;
-    }
-    specs = do_link_specs (specs, spec_out);
-    links = do_tdf_build (links);
-    if (specs && links) specs->uniq = links->uniq;
-    p = add_filename (links, specs);
-    p = add_filename (p, others);
-    return (p);
+	}
+	specs = do_link_specs (specs, spec_out);
+	links = do_tdf_build (links);
+	if (specs && links) specs->uniq = links->uniq;
+	p = add_filename (links, specs);
+	p = add_filename (p, others);
+	return (p);
 }
 
 
@@ -680,21 +680,21 @@ apply_build(filename *input)
  *    and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_preproc(filename *input)
 {
-    filename *p = input;
-    filename *output = null;
-    if (use_system_cc) return (apply_cc (input));
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	if (use_system_cc) return (apply_cc (input));
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (p->type == C_SOURCE) p = do_preproc (p);
 		else if (p->type == CPP_SOURCE) p = do_cpp_preproc (p);
 		output = add_filename (output, p);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -705,17 +705,17 @@ apply_preproc(filename *input)
  *    input, and returns the corresponding output files.
  */
 
-static filename*
+static filename *
 apply_pretty(filename *input)
 {
-    filename *p = input;
-    filename *output = null;
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (make_tspec) {
 			if (p->type == C_SPEC) p = do_pretty (p);
-        } else if (p->type == INDEP_TDF) {
+		} else if (p->type == INDEP_TDF) {
 			if (make_pretty == 2) p = apply_tdf_link (p);
 			p = do_pretty (p);
 		} else if (p->type == DEP_TDF) {
@@ -723,8 +723,8 @@ apply_pretty(filename *input)
 		}
 		output = add_filename (output, p);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -736,13 +736,13 @@ apply_pretty(filename *input)
  *    in the aux field.
  */
 
-static filename*
+static filename *
 apply_unjoin(filename *input, int t)
 {
-    filename *p = input;
-    filename *output = null;
-    archive_type = t;
-    while (p != null) {
+	filename *p = input;
+	filename *output = null;
+	archive_type = t;
+	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
 		if (p->type == t) {
@@ -754,8 +754,8 @@ apply_unjoin(filename *input, int t)
 		}
 		output = add_filename (output, p);
 		p = pn;
-    }
-    return (output);
+	}
+	return (output);
 }
 
 
@@ -766,45 +766,45 @@ apply_unjoin(filename *input, int t)
  *    input, and returns the corresponding output files.
  */
 
-filename*
+filename *
 apply_all(filename *input)
 {
-    filename *p = input;
+	filename *p = input;
 
-    /* Set up file types */
-    if (allow_specs) binary_obj_type = BINARY_OBJ_AUX;
+	/* Set up file types */
+	if (allow_specs) binary_obj_type = BINARY_OBJ_AUX;
 
-    /* Preprocessing is a special case */
-    if (make_preproc) return (apply_preproc (p));
+	/* Preprocessing is a special case */
+	if (make_preproc) return (apply_preproc (p));
 
-    /* Any TDF archives are split immediately */
-    p = apply_split_arch (input);
+	/* Any TDF archives are split immediately */
+	p = apply_split_arch (input);
 
-    /* Deal with building TDF archive case */
-    if (make_archive) {
+	/* Deal with building TDF archive case */
+	if (make_archive) {
 		p = apply_compile (p, 1);
 		if (make_complex) p = apply_build (p);
 		return (apply_build_arch (p));
-    }
+	}
 
-    /* Deal with pretty printing case */
-    if (make_pretty) {
+	/* Deal with pretty printing case */
+	if (make_pretty) {
 		p = apply_compile (p, 1);
 		if (make_complex) p = apply_build (p);
 		return (apply_pretty (p));
-    }
+	}
 
-    /* Deal with building TDF complex */
-    if (make_complex) {
+	/* Deal with building TDF complex */
+	if (make_complex) {
 		p = apply_compile (p, 1);
 		p = apply_build (p);
-    }
+	}
 
-    /* Main compilation phases */
-    p = apply_compile (p, (int) checker);
-    if (allow_specs && !stops [ BINARY_OBJ ]) {
+	/* Main compilation phases */
+	p = apply_compile (p, (int) checker);
+	if (allow_specs && !stops [BINARY_OBJ]) {
 		p = apply_unjoin (p, BINARY_OBJ);
-    }
-    p = apply_link (p);
-    return (p);
+	}
+	p = apply_link (p);
+	return (p);
 }

@@ -372,8 +372,8 @@ read_env_aux(char *nm, hashtable *ht)
  *  table of tccenv key/value mappings.  This function performs
  *  all error handling; it will return a valid char *, or fail.
  */
-char*
-dereference_var (char *esc_start, char *esc_end, hashtable *ht,
+char *
+dereference_var(char *esc_start, char *esc_end, hashtable *ht,
 				 char *nm, int line_num)
 {
 	htnode* hn;

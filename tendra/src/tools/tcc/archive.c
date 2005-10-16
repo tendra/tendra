@@ -88,12 +88,12 @@
 static int
 read_file(char *nm, char *w, long n, FILE *f)
 {
-    if (dry_run) {
+	if (dry_run) {
 		if (fseek (f, n, SEEK_CUR)) {
 			MSG_error_when_stepping_over (nm);
 			return (1);
 		}
-    } else {
+	} else {
 		size_t m = (size_t) n;
 		FILE *g = fopen (nm, w);
 		if (g == null) {
@@ -119,8 +119,8 @@ read_file(char *nm, char *w, long n, FILE *f)
 			m = (size_t) (m - r);
 		}
 		IGNORE fclose (g);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -134,25 +134,25 @@ read_file(char *nm, char *w, long n, FILE *f)
 static int
 write_file(char *nm, char *rd, FILE *f)
 {
-    FILE *g;
-    size_t n, m;
-    pointer p = (pointer) buffer;
-    if (dry_run) return (0);
-    g = fopen (nm, rd);
-    if (g == null) {
+	FILE *g;
+	size_t n, m;
+	pointer p = (pointer) buffer;
+	if (dry_run) return (0);
+	g = fopen (nm, rd);
+	if (g == null) {
 		MSG_cant_open_copy_source_file (nm);
 		return (1);
-    }
-    while (n = fread (p, sizeof (char), (size_t) block_size, g), n) {
+	}
+	while (n = fread (p, sizeof (char), (size_t) block_size, g), n) {
 		m = fwrite (p, sizeof (char), n, f);
 		if (m != n) {
 			MSG_writing_error_when_copying (nm);
 			IGNORE fclose (g);
 			return (0);
 		}
-    }
-    IGNORE fclose (g);
-    return (0);
+	}
+	IGNORE fclose (g);
+	return (0);
 }
 
 
@@ -166,7 +166,7 @@ write_file(char *nm, char *rd, FILE *f)
 int
 cat_file(char *nm)
 {
-    return (write_file (nm, "r", stdout));
+	return (write_file (nm, "r", stdout));
 }
 
 
@@ -183,18 +183,18 @@ cat_file(char *nm)
 int
 make_dir(char *nm)
 {
-    if (dry_run) return (0);
+	if (dry_run) return (0);
 #if FS_STAT
-    {
+	{
 		mode_t m = (mode_t) (S_IRWXU | S_IRWXG | S_IRWXO);
 		int e = mkdir (nm, m);
 		return (e);
-    }
+	}
 #else
-    {
+	{
 		MSG_built_in_mkdir_function_not_implemented ();
 		return (1);
-    }
+	}
 #endif
 }
 
@@ -210,30 +210,30 @@ make_dir(char *nm)
 int
 move_file(char *from, char *to)
 {
-    int e;
-    FILE *f;
-    if (dry_run) return (0);
-    if (streq (from, to)) return (0);
+	int e;
+	FILE *f;
+	if (dry_run) return (0);
+	if (streq (from, to)) return (0);
 #if FS_STAT
-    if (rename (from, to) == 0) return (0);
-    if (errno != EXDEV) {
+	if (rename (from, to) == 0) return (0);
+	if (errno != EXDEV) {
 		MSG_cant_rename_file (from, to);
 		return (1);
-    }
+	}
 #endif
-    f = fopen (to, "wb");
-    if (f == null) {
+	f = fopen (to, "wb");
+	if (f == null) {
 		MSG_cant_open_copy_destination_file (to);
 		return (1);
-    }
-    e = write_file (from, "rb", f);
-    IGNORE fclose (f);
-    if (e) return (e);
-    if (remove (from)) {
+	}
+	e = write_file (from, "rb", f);
+	IGNORE fclose (f);
+	if (e) return (e);
+	if (remove (from)) {
 		MSG_cant_remove_source_file (from);
 		return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -250,9 +250,9 @@ move_file(char *from, char *to)
 int
 remove_file(char *nm)
 {
-    if (dry_run) return (0);
+	if (dry_run) return (0);
 #if FS_DIRENT
-    {
+	{
 		struct stat st;
 		int e = stat (nm, &st);
 		if (e != -1) {
@@ -289,12 +289,12 @@ remove_file(char *nm)
 			return (1);
 		}
 		return (0);
-    }
+	}
 #else
-    {
+	{
 		MSG_built_in_remove_function_not_implemented ();
 		return (1);
-    }
+	}
 #endif
 }
 
@@ -309,7 +309,7 @@ remove_file(char *nm)
 int
 touch_file(char *nm, char *opt)
 {
-    if (!dry_run) {
+	if (!dry_run) {
 		FILE *f = fopen (nm, "w");
 		if (f == null) MSG_cant_touch_file (nm);
 		if (opt && streq (opt, "-k")) {
@@ -324,8 +324,8 @@ touch_file(char *nm, char *opt)
 			IGNORE fputs ("EMPTY\n", f);
 		}
 		IGNORE fclose (f);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -341,19 +341,19 @@ touch_file(char *nm, char *opt)
 
 #if !FS_TEMPNAM
 
-char*
+char *
 like_tempnam(char *dir, char *pfx) /* ARGSUSED */
 {
-    static char letter = 'a';
-    char *p = buffer;
-    UNUSED (dir);
-    IGNORE tmpnam (p);
-    p += strlen (p);
-    p [0] = letter;
-    p [1] = '.';
-    IGNORE strcpy (p + 2, pfx);
-    letter = (char) (letter + 1);
-    return (string_copy (buffer));
+	static char letter = 'a';
+	char *p = buffer;
+	UNUSED (dir);
+	IGNORE tmpnam (p);
+	p += strlen (p);
+	p [0] = letter;
+	p [1] = '.';
+	IGNORE strcpy (p + 2, pfx);
+	letter = (char) (letter + 1);
+	return (string_copy (buffer));
 }
 
 #endif
@@ -374,14 +374,14 @@ long
 file_size(char *nm)
 {
 #if FS_STAT
-    {
+	{
 		struct stat st;
 		int e = stat (nm, &st);
 		if (e == -1) return (0);
 		return ((long) st.st_size);
-    }
+	}
 #else
-    {
+	{
 		size_t n = 0, m;
 		pointer p = (pointer) buffer;
 		FILE *f = fopen (nm, "rb");
@@ -391,7 +391,7 @@ file_size(char *nm)
 		}
 		IGNORE fclose (f);
 		return ((long) n);
-    }
+	}
 #endif
 }
 
@@ -409,7 +409,7 @@ static long
 file_time(char *nm)
 {
 #if FS_STAT
-    {
+	{
 		int e;
 		struct stat st;
 		if (dry_run) return (0);
@@ -419,12 +419,12 @@ file_time(char *nm)
 			return (0);
 		}
 		return ((long) st.st_mtime);
-    }
+	}
 #else
-    {
+	{
 		UNUSED (nm);
 		return (0);
-    }
+	}
 #endif
 }
 
@@ -450,14 +450,14 @@ file_time(char *nm)
 boolean
 is_archive(char *nm)
 {
-    boolean b = 0;
-    FILE *f = fopen (nm, "rb");
-    if (f == null) return (b);
-    if (fgets (buffer, 20, f) && streq (buffer, ARCHIVE_HEADER)) {
+	boolean b = 0;
+	FILE *f = fopen (nm, "rb");
+	if (f == null) return (b);
+	if (fgets (buffer, 20, f) && streq (buffer, ARCHIVE_HEADER)) {
 		b = 1;
-    }
-    IGNORE fclose (f);
-    return (b);
+	}
+	IGNORE fclose (f);
+	return (b);
 }
 
 
@@ -484,8 +484,8 @@ static boolean archive_options = 1;
 void
 process_archive_opt(void)
 {
-    list *p;
-    for (p = opt_joiner; p != null; p = p->next) {
+	list *p;
+	for (p = opt_joiner; p != null; p = p->next) {
 		char *opt = p->item;
 		if (streq (opt, "-copy") || streq (opt, "-c")) {
 			archive_links = 0;
@@ -508,9 +508,9 @@ process_archive_opt(void)
 		} else {
 			MSG_unknown_archiver_option (opt);
 		}
-    }
-    opt_joiner = null;
-    return;
+	}
+	opt_joiner = null;
+	return;
 }
 
 
@@ -526,17 +526,17 @@ process_archive_opt(void)
 int
 build_archive(char *arch, char **input)
 {
-    FILE *f;
-    char **s;
-    boolean end = 0;
-    if (dry_run) return (0);
-    f = fopen (arch, "wb");
-    if (f == null) {
+	FILE *f;
+	char **s;
+	boolean end = 0;
+	if (dry_run) return (0);
+	f = fopen (arch, "wb");
+	if (f == null) {
 		MSG_cant_open_output_archive (arch);
 		return (1);
-    }
-    IGNORE fputs (ARCHIVE_HEADER, f);
-    for (s = input; *s; s++) {
+	}
+	IGNORE fputs (ARCHIVE_HEADER, f);
+	for (s = input; *s; s++) {
 		if (end) {
 			/* Archive options */
 			if (archive_options) {
@@ -595,10 +595,10 @@ build_archive(char *arch, char **input)
 				IGNORE fclose (g);
 			}
 		}
-    }
-    if (!end) IGNORE fputs (ARCHIVE_TRAILER, f);
-    IGNORE fclose (f);
-    return (0);
+	}
+	if (!end) IGNORE fputs (ARCHIVE_TRAILER, f);
+	IGNORE fclose (f);
+	return (0);
 }
 
 
@@ -613,30 +613,30 @@ build_archive(char *arch, char **input)
 int
 split_archive(char *arch, filename **ret)
 {
-    boolean failed = 0, go = 1;
-    list *opts = null;
-    filename *q = null;
-    filename *output = null;
-    boolean need_moves = 0;
+	boolean failed = 0, go = 1;
+	list *opts = null;
+	filename *q = null;
+	filename *output = null;
+	boolean need_moves = 0;
 
-    /* Open archive file */
-    FILE *f = fopen (arch, "rb");
-    if (f == null) {
+	/* Open archive file */
+	FILE *f = fopen (arch, "rb");
+	if (f == null) {
 		MSG_cant_open_input_archive (arch);
 		failed = 1;
 		goto archive_error;
-    }
+	}
 
-    /* Check for archive header */
-    if (fgets (buffer, buffer_size, f) == null ||
+	/* Check for archive header */
+	if (fgets (buffer, buffer_size, f) == null ||
 		!streq (buffer, ARCHIVE_HEADER)) {
 		MSG_illegal_input_archive (arch);
 		failed = 1;
 		goto archive_error;
-    }
+	}
 
-    /* Extract archived files */
-    do {
+	/* Extract archived files */
+	do {
 		if (fgets (buffer, buffer_size, f) == null) {
 			MSG_premature_end_of_archive (arch);
 			failed = 1;
@@ -753,14 +753,14 @@ split_archive(char *arch, filename **ret)
 			failed = 1;
 			goto archive_error;
 		}
-    } while (go);
+	} while (go);
 
-    /* Return */
-    archive_error : {
+	/* Return */
+	archive_error : {
 		IGNORE fclose (f);
 		if (need_moves) {
 			for (q = output; q != null; q = q->next) {
-				if (q->aux && keeps_aux [ archive_type ]) {
+				if (q->aux && keeps_aux [archive_type]) {
 					if (verbose) {
 						comment (1, "... rename %s to %s\n", q->name,
 								 q->aux->name);
@@ -782,5 +782,5 @@ split_archive(char *arch, filename **ret)
 		}
 		if (failed) return (1);
 		return (0);
-    }
+	}
 }
