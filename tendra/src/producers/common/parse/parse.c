@@ -1390,6 +1390,15 @@ expand_preproc(int store)
 			}
 			}
 		}
+		if (find_hashid (nm) == lex_pragma_H2) {
+			if (operator_pragma ()) {
+				this_tok = crt_token->next;
+				/* Continue after the closing ) */
+				goto start_label;
+			}
+			/* Otherwise treat _Pragma as an ordinary identifier */
+		}
+
 		this_tok->pp_data.id.use = id;
 	}
 	return (t);
