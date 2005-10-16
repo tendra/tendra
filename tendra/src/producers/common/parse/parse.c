@@ -83,6 +83,7 @@
 #include "namespace.h"
 #include "option.h"
 #include "parse.h"
+#include "pragma.h"
 #include "predict.h"
 #include "preproc.h"
 #include "redeclare.h"
@@ -675,6 +676,14 @@ expand_token(int store)
 			}
 			}
 		}
+		if (find_hashid (nm) == lex_pragma_H2) {
+			if (operator_pragma ()) {
+				this_tok = crt_token->next;
+				/* Continue after the closing ) */
+				goto start_label;
+			}
+			/* Otherwise treat _Pragma as an ordinary identifier */
+		}
 		
 		/* Perform name look-up */
 #if LANGUAGE_CPP
@@ -1153,6 +1162,12 @@ expand_token(int store)
 		OPTIONS *nopts = this_tok->pp_opts;
 		string sb = this_tok->pp_data.str.start;
 		string se = this_tok->pp_data.str.end;
+
+		/* Don't concatenate string literals while looking at the tokens
+		 * following _Pragma.  String concatenation is done later, in
+		 * translation phase 6. */
+		if (store == EXPAND_PRAGMA) break;
+
 		if (opts != nopts) set_mode (nopts);
 		s = new_string_lit (sb, se, t);
 		

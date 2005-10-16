@@ -64,6 +64,7 @@
 #include "error.h"
 #include "catalog.h"
 #include "option.h"
+#include "buffer.h"
 #include "char.h"
 #include "declare.h"
 #include "dump.h"
@@ -1229,4 +1230,62 @@ lint_comment(void)
 	
 	/* Rest of comment is ignored */
 	return (lex_ignore_token);
+}
+
+
+/*
+ *    HANDLE THE PRAGMA OPERATOR
+ *
+ *    This function checks if an occurrence of the identifier _Pragma is a
+ *    valid application of the _Pragma operator.  For that the next three
+ *    tokens after _Pragma need to be a left parenthesis, a string literal
+ *    and a right parenthesis.  Escaped " and \ characters in the string are
+ *    unquoted.  A _Pragma operator is equivalent to a #pragma preprocessing
+ *    directive followed by the string content.  The function returns 1 if a
+ *    valid application of _Pragma was found and 0 otherwise.
+ */
+
+int
+operator_pragma(void)
+{
+	int t;
+	PPTOKEN *this_tok = crt_token;
+
+	t = expand_token (EXPAND_PRAGMA);
+	if (t == lex_open_Hround) {
+		t = expand_token (EXPAND_PRAGMA);
+		if (t == lex_string_Hlit || t == lex_wstring_Hlit) {
+			string sb = crt_token->pp_data.str.start;
+			string se = crt_token->pp_data.str.end;
+			t = expand_token (EXPAND_PRAGMA);
+			if (t == lex_close_Hround) {
+				/* Write 'pragma <string>\n\n' into internal_buff. */
+				BUFFER *bf = &internal_buff;
+				bfputs (bf, "pragma ");
+				/* Unquote \\ and \". */
+				while (sb != se) {
+					if (sb[0] == '\\' && (sb[1] == '\\' || sb[1] == '"')) {
+						bfputc (bf, sb[1]);
+						sb += 2;
+					} else
+						bfputc (bf, *sb++);
+				}
+				/* Two newlines are needed here.  One is consumed by
+				 * parse_pragma() and without the second one we complain
+				 * that the file doesn't end in a newline. */
+				bfputs (bf, "\n\n");
+				bf->end = bf->posn;
+				bf->posn = bf->start;
+
+				if (setup_pragma ()) {
+					read_preproc_dir (1, lex_ignore_token);
+				}
+				return (1);
+			}
+		}
+	}
+
+	/* Make _Pragma the current token */
+	crt_token = this_tok;
+	return (0);
 }

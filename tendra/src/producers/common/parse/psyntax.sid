@@ -193,7 +193,7 @@ indented; initialization; integer; interface; internal; into;
 int-cap; keyword; limit; !line; linkage; lit; longlong; lvalue;
 macro; !main; member; member-cap; name; nat-cap; nested; nline;
 no; no-def; object; octal; of; off; on; option; overflow;
-overload; pointer; postpone; pragma; precedence; preserve; printf;
+overload; pointer; postpone; pragma; !pragma-2; precedence; preserve; printf;
 proc-cap; promote; promoted; prototype; ptrdiff-t; qualifier;
 quote; reachable; !reference; reject; representation; reset;
 resolution; rvalue; scalar-cap; scanf; set; size-t; !size-t-2;

@@ -1395,3 +1395,25 @@ end_include(int prev)
 	if (c == 0) open_startup ();
 	return (1);
 }
+
+
+/*
+ *    SETUP THE PRAGMA OPERATOR
+ *
+ *    For the _Pragma operator the inclusion of a header is faked.  The
+ *    operator's argument is already written into internal_buff at this
+ *    point.  The string contents will be tokenised and consumed by
+ *    read_preproc_dir.  If the end of the buffer is hit, end_include will
+ *    be called and the parsing is continued after the _Pragma operator.
+ */
+
+int
+setup_pragma(void)
+{
+	int ret;
+	string s = internal_name;
+	internal_name = "<_Pragma>";
+	ret = start_include (internal_name, char_quote, INCLUDE_NORMAL, 0);
+	internal_name = s;
+	return (ret);
+}

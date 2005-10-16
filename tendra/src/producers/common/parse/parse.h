@@ -93,6 +93,7 @@ typedef struct pstate_tag {
 #define EXPAND_CHECK_COLON		6
 #define EXPAND_DESTRUCTOR		7
 #define EXPAND_STRING			8
+#define EXPAND_PRAGMA			9
 
 
 /*

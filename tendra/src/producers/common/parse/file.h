@@ -90,6 +90,7 @@ extern long tell_buffer(unsigned long);
 extern void seek_buffer(unsigned long, long, int);
 extern void protection_macro(HASHID, int, int);
 extern void update_column(void);
+extern int setup_pragma(void);
 
 #ifdef SYSTEM_INCLUDED
 extern int already_included(string, STAT_TYPE *, int);

@@ -446,6 +446,7 @@
 	LEX_TOKEN (lex_pointer, "pointer", TOK_NONE)
 	LEX_TOKEN (lex_postpone, "postpone", TOK_NONE)
 	LEX_TOKEN (lex_pragma, "pragma", TOK_NONE)
+	LEX_TOKEN (lex_pragma_H2, "_Pragma", TOK_NONE)
 	LEX_TOKEN (lex_precedence, "precedence", TOK_NONE)
 	LEX_TOKEN (lex_preserve, "preserve", TOK_NONE)
 	LEX_TOKEN (lex_printf, "printf", TOK_NONE)

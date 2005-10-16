@@ -72,6 +72,7 @@ extern int find_keyword(IDENTIFIER);
 extern void define_keyword(IDENTIFIER, int);
 extern void undef_keyword(IDENTIFIER);
 extern void rescan_pragma(int);
+extern int operator_pragma(void);
 
 
 #endif
