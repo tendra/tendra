@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -101,20 +131,22 @@ exp freelist;	/* init by init_exp */
   /* the number of unused cells in the block */
 int exps_left;	/* init by init_exp */
 
-  /* the next free pointer in the block which is used if the freelist
-     is empty */
+/* the next free pointer in the block which is used if the freelist is empty */
 static exp next_exp_ptr;	/* no need to init */
 
 
-  /* the types used to record a list of blocks for reuse, if
-     separate_units is set */
-struct expalloc_cell_t {struct expalloc_cell_t * tl; exp hd;};
+/* the types used to record a list of blocks for reuse, if separate_units is
+ * set */
+struct expalloc_cell_t {
+	struct expalloc_cell_t *tl;
+	exp hd;
+};
 typedef struct expalloc_cell_t expalloc_cell;
 
-static expalloc_cell * alloc_list = (expalloc_cell *)0;
-		/* good init for the whole run */
-static expalloc_cell * alloc_freelist = (expalloc_cell *)0;
-		/* good init for the whole run */
+static expalloc_cell *alloc_list = (expalloc_cell *)0;
+/* good init for the whole run */
+static expalloc_cell *alloc_freelist = (expalloc_cell *)0;
+/* good init for the whole run */
 
 
 static char  ic_buff[21];	/* no init needed */
@@ -125,52 +157,52 @@ static int current_alloc_size = 20000;
 
 /* PROCEDURES */
 
-void altered PROTO_S ( ( exp, exp ) ) ;
+void altered(exp, exp);
 
-exp next_exp
-    PROTO_Z ()
+exp
+next_exp(void)
 {
   exp res;
-  if (freelist != nilexp)
-    {  /* first try to allocate fron the freelist */
+  if (freelist != nilexp) {
+      /* first try to allocate fron the freelist */
       res = freelist;
       freelist = son(freelist);
       return res;
-    };
+  }
 
     /* if the freelist is empty we allocate from a block of exps */
-  if (exps_left == 0)
-   {  /* if the block is empty we must allocate another */
-     if (alloc_freelist)
-       {  /* if there is anything in this list of blocks we can reuse
-             it and we do not need to calloc */
-         exps_left = current_alloc_size;
-         next_exp_ptr = alloc_freelist -> hd;
-         alloc_freelist = alloc_freelist -> tl;
-       }
-     else
-       {  /* otherwise we must calloc a new block */
-         exps_left = current_alloc_size;
-         next_exp_ptr = (exp)xcalloc(exps_left, sizeof(struct exp_t));
-          { /* and if we are after the start of tagdefs we put
-               the block on to alloc_list so that it can be reused
-               for the next unit */
-            expalloc_cell * temp =
-               (expalloc_cell *)xmalloc(sizeof(expalloc_cell));
-            temp -> tl = alloc_list;
-            temp -> hd = next_exp_ptr;
-            alloc_list = temp;
-          };
-       };
-   };
+  if (exps_left == 0) {
+    /* if the block is empty we must allocate another */
+    if (alloc_freelist) {
+      /* if there is anything in this list of blocks we can reuse
+       * it and we do not need to calloc */
+      exps_left = current_alloc_size;
+      next_exp_ptr = alloc_freelist->hd;
+      alloc_freelist = alloc_freelist->tl;
+    } else {
+      /* otherwise we must calloc a new block */
+      exps_left = current_alloc_size;
+      next_exp_ptr = (exp)xcalloc(exps_left, sizeof(struct exp_t));
+      { /* and if we are after the start of tagdefs we put
+	   the block on to alloc_list so that it can be reused
+	   for the next unit */
+	expalloc_cell * temp =
+	    (expalloc_cell *)xmalloc(sizeof(expalloc_cell));
+	temp->tl = alloc_list;
+	temp->hd = next_exp_ptr;
+	alloc_list = temp;
+      }
+    }
+  }
 
   --exps_left;
   res = next_exp_ptr++;
   return res;
 }
 
-void set_large_alloc
-    PROTO_Z ()
+
+void
+set_large_alloc(void)
 {
   /* called at the start of tagdefs */
   alloc_freelist = alloc_list;
@@ -179,18 +211,20 @@ void set_large_alloc
   return;
 }
 
-   /* create a new exp */
-exp getexp
-    PROTO_N ( (s, b, l, sn, px, pr, n, tg) )
-    PROTO_T ( shape s X exp b X int l X exp sn X exp px X prop pr X int n X unsigned char tg )
+
+/* create a new exp */
+
+exp
+getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
 {
   exp res = next_exp();
   sh(res) = s;
   bro(res) = b;
-  if (l)
+  if (l) {
    setlast(res);
-  else
+  } else {
    clearlast(res);
+  }
   son(res) = sn;
   pt(res) = px;
   props(res) = pr;
@@ -203,37 +237,41 @@ exp getexp
   return res;
 }
 
-exp copyexp
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+exp
+copyexp(exp e)
 {
   exp res = next_exp();
   *res = *e;
   return res;
 }
 
-  /* makes a new shape */
-exp getshape
-    PROTO_N ( (l, sn, px, pr, n, tg) )
-    PROTO_T ( int l X alignment sn X alignment px X alignment pr X int n X unsigned char tg )
+
+/* makes a new shape */
+
+exp
+getshape(int l, alignment sn, alignment px, alignment pr, int n,
+	 unsigned char tg)
 {
   exp res = next_exp();
-  if (l)
+  if (l) {
    setlast(res);
-  else
+  } else {
    clearlast(res);
-  res ->sonf.ald = sn;
-  res -> ptf.ald = px;
-  res -> brof.ald = pr;
+  }
+  res->sonf.ald = sn;
+  res->ptf.ald = px;
+  res->brof.ald = pr;
   no(res) = n;
   name(res) = tg;
   return res;
 }
 
-  /* return an exp cell to the freelist */
-void retcell
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+/* return an exp cell to the freelist */
+
+void
+retcell(exp e)
 {
   son(e) = freelist;
   freelist = (e);
@@ -241,97 +279,97 @@ void retcell
 }
 
 
-  /* true if part is inside whole */
-int internal_to
-    PROTO_N ( (whole, part) )
-    PROTO_T ( exp whole X exp part )
+/* true if part is inside whole */
+int
+internal_to(exp whole, exp part)
 {
   int f = 1;
   exp q = part;
   while (q != whole && q != nilexp &&
-      !(name (q) == ident_tag && isglob (q))) {
-    f = (int)(last (q));
-    q = bro (q);
-  };
+	 !(name(q) == ident_tag && isglob(q))) {
+    f = (int)(last(q));
+    q = bro(q);
+  }
   /* ascend from part until we reach either whole or top of tree */
-  return (f && q == whole);
+  return(f && q == whole);
 }
 
-static void kill_el PROTO_S ((exp e, exp scope));
 
-  /* kill an exp, return it and its components to the freelist,
-     if necessary remove uses of tags and labels, and propagate
-     changes to identity and variable declarations and to labels
-     but not outside scope */
-void kill_exp
-    PROTO_N ( (e, scope) )
-    PROTO_T ( exp e X exp scope )
+static void kill_el(exp e, exp scope);
+
+/* kill an exp, return it and its components to the freelist, if necessary
+ * remove uses of tags and labels, and propagate changes to identity and
+ * variable declarations and to labels but not outside scope */
+
+void
+kill_exp(exp e, exp scope)
 {
   if (e != nilexp) {
-    unsigned char n = name (e);
+    unsigned char n = name(e);
 
 
     if (n == name_tag) {
-      exp q = son (e);
+      exp q = son(e);
 #ifdef NEWDIAGS
-      if (!isdiaginfo(e))
-	--no (son (e));		/* decrease usage count */
+      if (!isdiaginfo(e)) {
+	--no(son(e));		/* decrease usage count */
+      }
 #else
-      --no (son (e));		/* decrease usage count */
+      --no(son(e));		/* decrease usage count */
 #endif
-      while (pt (q) != e)
-	q = pt (q);
-      pt (q) = pt (e);		/* remove from usage list */
-      if (
-          no (son (e)) == 0 &&
-	  son (son (e)) != nilexp &&
-	  bro (son (son (e))) != nilexp &&
-	  (scope == nilexp || internal_to (scope, son (e))))
-	IGNORE check (son (e), scope);
+      while (pt(q)!= e) {
+	q = pt(q);
+      }
+      pt(q) = pt(e);		/* remove from usage list */
+      if (no(son(e)) == 0 && son(son(e))!= nilexp &&
+	  bro(son(son(e)))!= nilexp &&
+	 (scope == nilexp || internal_to(scope, son(e)))) {
+	IGNORE check(son(e), scope);
+      }
       /* check the declaration if now no use */
-      retcell (e);
+      retcell(e);
       return;
-    };
+    }
 
     if (n == solve_tag) {
       int looping;
-      if (!last (son (e))) {
-	exp t = bro (son (e));
+      if (!last(son(e))) {
+	exp t = bro(son(e));
 	do {
-	  no (son (t)) = 0;
-	  looping = !last (t);
-	  t = bro (t);
-	}
-	while (looping);
-      };
-      if (pt(e) != nilexp)
-        son (pt (e)) = nilexp;
-      kill_el (son (e), scope);
-      retcell (e);
+	  no(son(t)) = 0;
+	  looping = !last(t);
+	  t = bro(t);
+	} while (looping);
+      }
+      if (pt(e) != nilexp) {
+        son(pt(e)) = nilexp;
+      }
+      kill_el(son(e), scope);
+      retcell(e);
       return;
-    };
+    }
 
     if (n == ident_tag) {
-      ++no (e);
-      kill_el (son (e), scope);
+      ++no(e);
+      kill_el(son(e), scope);
 #ifdef NEWDIAGS
-      if (diagnose && pt(e))	/* allow diags to hold on to id */
-	diag_kill_id (e);
-      else
+      if (diagnose && pt(e)) {	/* allow diags to hold on to id */
+	diag_kill_id(e);
+      } else
 #endif
-      retcell (e);
+      retcell(e);
       return;
-    };
+    }
 
 
     if (n == labst_tag) {
-      ++no (e);
+      ++no(e);
       --proc_label_count;
-      kill_el (bro (son (e)), scope);
-      retcell (son (e));
-      retcell (e);
+      kill_el(bro(son(e)), scope);
+      retcell(son(e));
+      retcell(e);
       return;
-    };
+    }
 
     if (n == case_tag) {
       exp b = bro(son(e));
@@ -339,134 +377,138 @@ void kill_exp
 	exp nextb = bro(b);
 	int l = last(b);
 	--no(son(pt(b)));
-	if (son(b) != nilexp) retcell(son(b));
+	if (son(b) != nilexp) {
+	  retcell(son(b));
+	}
 	retcell(b);
-	if (l) break;
+	if (l) {
+	  break;
+	}
 	b = nextb;
       }
-      kill_exp (son (e), scope);
-      retcell (e);
+      kill_exp(son(e), scope);
+      retcell(e);
       return;
-    };
+    }
 
     if (n == cond_tag) {
-      no (son (bro (son (e)))) = 0;
-      kill_el (son (e), scope);
-      retcell (e);
+      no(son(bro(son(e)))) = 0;
+      kill_el(son(e), scope);
+      retcell(e);
       return;
-    };
+    }
 
     if (n == rep_tag) {
-      if (pt(e) != nilexp)
-        son (pt (e)) = nilexp;
-      no (son (bro (son (e)))) = 0;
-      kill_el (son (e), scope);
-      retcell (e);
+      if (pt(e) != nilexp) {
+        son(pt(e)) = nilexp;
+      }
+      no(son(bro(son(e)))) = 0;
+      kill_el(son(e), scope);
+      retcell(e);
       return;
-    };
+    }
 
     if (n == real_tag || (n == val_tag && isbigval(e))) {
-      flpt_ret (no (e));
-      retcell (e);
+      flpt_ret(no(e));
+      retcell(e);
       return;
-    };
+    }
 
     if (n == val_tag) {
-      retcell (e);
+      retcell(e);
       return;
-    };
+    }
 
-    if (n == env_offset_tag || n == string_tag || n==general_env_offset_tag)
-     {
-      retcell (e);
+    if (n == env_offset_tag || n == string_tag || n==general_env_offset_tag) {
+      retcell(e);
       return;
-     };
+     }
 
     {
-      exp p = pt (e);
-      if (p != nilexp && (props (son (p)) & 1) == 0) {
+      exp p = pt(e);
+      if (p != nilexp && (props(son(p)) & 1) == 0) {
 	/* decrease label usage count */
-	--no (son (p));
-	if (
-            no (son (p)) == 0 && !is_loaded_lv(p) &&
-	    bro (son (p)) != nilexp &&
-	    (scope == nilexp || internal_to (scope, p)))
-	  altered (p, scope);	/* process if now no use of label and not
-				   doing deadvar */
-      };
-      kill_el (son (e), scope);
-      retcell (e);
+	--no(son(p));
+	if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p))!= nilexp &&
+	   (scope == nilexp || internal_to(scope, p))) {
+	  /* process if now no use of label and not doing deadvar */
+	  altered (p, scope);
+	}
+      }
+      kill_el(son(e), scope);
+      retcell(e);
       return;
-    };
-  };
+    }
+  }
 }
 
 
 /* kill the arguments of a construction */
-static void kill_el
-    PROTO_N ( (e, scope) )
-    PROTO_T ( exp e X exp scope )
+
+static void
+kill_el (exp e, exp scope)
 {
   if (e != nilexp) {
     int l;
     exp next;
     do {
-      l = (int)(last (e));
-      next = bro (e);
-      kill_exp (e, scope);
+      l = (int)(last(e));
+      next = bro(e);
+      kill_exp(e, scope);
       e = next;
     }
     while (!l && e != nilexp);
-  };
+  }
 }
 
   /* return the shape delivered by a conditional (or similar construct)
      which delivers an a from one branch and a b from the other */
-shape lub_shape
-    PROTO_N ( (a, b) )
-    PROTO_T ( shape a X shape b )
+shape
+lub_shape(shape a, shape b)
 {
   int asz = shape_size(a);
   int bsz = shape_size(b);
-  if (name(a) ==bothd)
+  if (name(a) ==bothd) {
    return b;
-  if (name(b) == bothd)
+  }
+  if (name(b) == bothd) {
    return a;
-  if (asz == bsz && shape_align(a) == shape_align(b))
-    return (a);
-  return (f_top);
+  }
+  if (asz == bsz && shape_align(a) == shape_align(b)) {
+    return(a);
+  }
+  return(f_top);
 }
 
   /* true if the shapes are equal */
-int eq_shape
-    PROTO_N ( (a, b) )
-    PROTO_T ( shape a X shape b )
+int
+eq_shape(shape a, shape b)
 {
-  if (name(a) != name(b))
-     return 0;
-  if (shape_size(a)!=shape_size(b) ||
-           is_signed(a)!=is_signed(b) ||
-           shape_align(a)!=shape_align(b) ||
-           al1(a)!=al1(b))
-     return 0;
-  if (name(a) == nofhd)
-     return 1;
-  else
-     return (al2(a)==al2(b));
+  if (name(a)!= name(b)) {
+    return 0;
+  }
+  if (shape_size(a) !=shape_size(b) || is_signed(a)!=is_signed(b) ||
+      shape_align(a)!=shape_align(b) || al1(a)!=al1(b)) {
+    return 0;
+  }
+  if (name(a) == nofhd) {
+    return 1;
+  } else {
+    return(al2(a) ==al2(b));
+  }
 }
 
   /* source of numbers for local labels */
-int next_lab
-    PROTO_Z ()
+int
+next_lab(void)
 {
   return crt_labno++;
 }
 
-char *intchars
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+char *
+intchars(int n)
 {
-  int  r, d;
+  int r, d;
   char *ind;
 
   ind = &ic_buff[19];
@@ -478,114 +520,111 @@ char *intchars
     d = d / 10;
     *ind = (char)(r + 48); /* CAST:jmf: must be in 48:57 */
     --ind;
-  }
-  while (d != 0);
+  } while (d != 0);
   if (n < 0) {
     *ind = '-';
     --ind;
-  };
+  }
 
-  return (ind + 1);
+  return(ind + 1);
 }
 
 
-void case_item
-    PROTO_N ( (i) )
-    PROTO_T ( exp i )
+void
+case_item(exp i)
 {
   exp l = global_case;
   exp t = l;
   int go = 1;
-  exp  newhigh = (son (i) == nilexp) ? i : son (i);
-  exp  thigh;
-  exp  nlow,
-        nhigh;
+  exp newhigh = (son(i) == nilexp)? i : son(i);
+  exp thigh;
+  exp nlow, nhigh;
 
-  while (go && bro (t) != nilexp) {
-    exp j = bro (t);
-    exp  highj = (son (j) == nilexp) ? j : son (j);
-    if (docmp_f((int)f_greater_than, i, highj))
-      t = bro (t);
-    else
+  while (go && bro(t)!= nilexp) {
+    exp j = bro(t);
+    exp  highj = (son(j) == nilexp)? j : son(j);
+    if (docmp_f((int)f_greater_than, i, highj)) {
+      t = bro(t);
+    } else {
       go = 0;
-  };
+    }
+  }
 
   if (t != l) {
-    thigh = (son (t) == nilexp) ? t : son (t);
-  }
-  else {
+    thigh = (son(t) == nilexp)? t : son(t);
+  } else {
     SET(thigh);
-  };
-
-  if (bro (t) != nilexp) {
-    nlow = bro (t);
-    nhigh = (son (bro (t)) == nilexp) ? nlow : son (bro (t));
   }
-  else {
-    SET(nlow); SET(nhigh);
-  };
 
-  if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh))
-    failer (CASE_OVERLAP);
-  if (bro (t) != nilexp &&
-	 docmp_f((int)f_greater_than_or_equal, newhigh, nlow))
-    failer (CASE_OVERLAP);
+  if (bro(t)!= nilexp) {
+    nlow = bro(t);
+    nhigh = (son(bro(t)) == nilexp)? nlow : son(bro(t));
+  } else {
+    SET(nlow); SET(nhigh);
+  }
+
+  if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
+    failer(CASE_OVERLAP);
+  }
+  if (bro(t) != nilexp &&
+      docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
+    failer(CASE_OVERLAP);
+  }
 
   if (isbigval(i) || isbigval(newhigh)) {
-    bro (i) = bro (t);
-    bro (t) = i;
+    bro(i) = bro(t);
+    bro(t) = i;
     return;
-  };
+  }
 
-  if (t != l && (no(i)-1) == no(thigh) && pt (i) == pt (t)) {
-    if (bro (t) != nilexp && (no(newhigh)+1) == no(nlow)
-	&& pt (i) == pt (bro (t))) {
-      if (son (bro (t)) != nilexp) {
-	if (son (t) != nilexp)
-	  retcell (son (t));
-	son (t) = son (bro (t));
-	bro (t) = bro (bro (t));
+  if (t != l && (no(i) -1) == no(thigh) && pt(i) == pt(t)) {
+    if (bro(t)!= nilexp && (no(newhigh) +1) == no(nlow) &&
+	pt(i) == pt(bro(t))) {
+      if (son(bro(t))!= nilexp) {
+	if (son(t) != nilexp) {
+	  retcell(son(t));
+	}
+	son(t) = son(bro(t));
+	bro(t) = bro(bro(t));
 	return;
-      };
-      if (son (t) != nilexp) {
-	no (son (t)) = no(nhigh);
-	bro (t) = bro (bro (t));
+      }
+      if (son(t) != nilexp) {
+	no(son(t)) = no(nhigh);
+	bro(t) = bro(bro(t));
 	return;
-      };
-      setson (t, getexp (slongsh, nilexp, 1, nilexp, nilexp, 0,
-			  no(nhigh), 0));
-      bro (t) = bro (bro (t));
+      }
+      setson(t, getexp(slongsh, nilexp, 1, nilexp, nilexp, 0, no(nhigh), 0));
+      bro(t) = bro(bro(t));
       return;
-    };
-    if (son (t) != nilexp) {
-      no (son (t)) = no(newhigh);
+    }
+    if (son(t)!= nilexp) {
+      no(son(t)) = no(newhigh);
       return;
-    };
-    setson (t, getexp (slongsh, nilexp, 1, nilexp,
-			 nilexp, 0, no(newhigh), 0));
+    }
+    setson(t, getexp(slongsh, nilexp, 1, nilexp, nilexp, 0, no(newhigh), 0));
     return;
-  };
+  }
 
-  if (bro (t) != nilexp && (no(newhigh) + 1) == no(nlow)
-      && pt (i) == pt (bro (t))) {
-    if (son (bro (t)) != nilexp) {
-      no (bro (t)) = no(i);
+  if (bro(t)!= nilexp && (no(newhigh) + 1) == no(nlow) &&
+      pt(i) == pt(bro(t))) {
+    if (son(bro(t))!= nilexp) {
+      no(bro(t)) = no(i);
       return;
-    };
-    if (son (i) != nilexp) {
-      no (son (i)) = no(nhigh);
-      bro (i) = bro (bro (t));
-      bro (t) = i;
+    }
+    if (son(i)!= nilexp) {
+      no(son(i)) = no(nhigh);
+      bro(i) = bro(bro(t));
+      bro(t) = i;
       return;
-    };
-    son (i) = bro (t);
-    bro (i) = bro (bro (t));
-    bro (t) = i;
+    }
+    son(i) = bro(t);
+    bro(i) = bro(bro(t));
+    bro(t) = i;
     return;
-  };
+  }
 
-  bro (i) = bro (t);
-  bro (t) = i;
+  bro(i) = bro(t);
+  bro(t) = i;
   return;
 }
 
@@ -594,11 +633,10 @@ void case_item
   scan_solve is part of the process of reading a solve construction.
   It scans the exp e, to increment the count of labels used by e.
  *******************************************************************/
-void scan_solve
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+scan_solve(exp e)
 {
-  unsigned char  n = name (e);
+  unsigned char n = name(e);
   switch (n) {
     case name_tag:
     case make_lv_tag:
@@ -607,283 +645,281 @@ void scan_solve
       return;
     case clear_tag:
       return;
-    case ident_tag: {
-	scan_solve (son (e));
-	scan_solve (bro (son (e)));
+    case ident_tag:
+	scan_solve(son(e));
+	scan_solve(bro(son(e)));
 	return;
-      };
-    case case_tag:
-      {
-	exp t = son (e);
-	while (!last (t)) {
-	  exp s = son (pt (bro (t)));
-	  if (isvar (s)) {
-	    ++no (s);
-	  };
-	  t = bro (t);
-	};
-	scan_solve (son (e));
+    case case_tag: {
+	exp t = son(e);
+	while (!last(t)) {
+	  exp s = son(pt(bro(t)));
+	  if (isvar(s)) {
+	    ++no(s);
+	  }
+	  t = bro(t);
+	}
+	scan_solve(son(e));
 	return;
-      };
+    }
     default:
-      {
-	if (pt (e) != nilexp) {
-	  exp s = son (pt (e));
-	  if (isvar (s)) {
-	    ++no (s);
-	  };
-	};
-	if (son (e) != nilexp) {
-	  exp t = son (e);
-	  while (scan_solve (t), !last (t))
-	    t = bro (t);
-	};
+	if (pt(e)!= nilexp) {
+	  exp s = son(pt(e));
+	  if (isvar(s)) {
+	    ++no(s);
+	  }
+	}
+	if (son(e)!= nilexp) {
+	  exp t = son(e);
+	  while (scan_solve(t), !last(t)) {
+	    t = bro(t);
+	  }
+	}
 	return;
-      };
   };
 }
+
+
 /*********************************************************************
   clean_labelled processes a labelled statement after it has been read.
   It places the labelled statements in a good order.
  *********************************************************************/
 
-exp clean_labelled
-    PROTO_N ( (main, placelabs) )
-    PROTO_T ( exp main X label_list placelabs )
+exp
+clean_labelled(exp main, label_list placelabs)
 {
-  int   i,
-        crt_no;
+  int i, crt_no;
   int go = 1;
   shape s;
   exp r, q;
   int n = placelabs.number;
-  int  *ord;			/* records the order in which the
+  int *ord;			/* records the order in which the
 				   statemnts are to be placed */
-  int   ord_no;
+  int ord_no;
   for (i = 0; i < n; ++i) {	/* set up the labels */
     exp l = get_lab(placelabs.elems[i]);
-    exp t = son (l);
-    no (t) = is_loaded_lv(l);
+    exp t = son(l);
+    no(t) = is_loaded_lv(l);
     setcrtsolve (t);		/* defined in expmacs = props(t) = 1 */
-  };
+  }
   crt_no = 0;
-  ord = (int *) xcalloc (n, sizeof (int));
+  ord = (int *)xcalloc(n, sizeof(int));
   ord_no = 0;
-  scan_solve (main);		/* mark the labels used by the initiator
-				*/
-  while (go) {			/* continue as long as we have added a
-				   statement */
+  scan_solve (main);		/* mark the labels used by the initiator */
+
+  while (go) {
+    /* continue as long as we have added a statement */
     go = 0;
     for (i = 0; i < n; ++i) {	/* look for unprocessed but used sts */
-      int   j = ((i + crt_no) % n);
+      int j = ((i + crt_no)% n);
       exp t = get_lab(placelabs.elems[j]);
-      if ((props (son (t)) & 8) == 0 && no (son (t)) != 0) {
+      if ((props(son(t)) & 8) == 0 && no(son(t)) != 0) {
 	/* we have found an unprocessed but used statement */
 	go = 1;
-	props (son (t)) = 5;
-	scan_solve (t);		/* now scan it to mark the things it uses
-				*/
-	props (son (t)) = (prop)((props (son (t)) & 0xfb) | 8);
+	props(son(t)) = 5;
+	scan_solve (t);		/* now scan it to mark the things it uses */
+	props(son(t)) = (prop)((props(son(t)) & 0xfb) | 8);
 	ord[ord_no++] = j;
-      };
-    };
-  };
-  s = sh (main);
+      }
+    }
+  }
+  s = sh(main);
   for (i = 0; i < n; ++i) {
     exp lab = get_lab(placelabs.elems[i]);
-    exp t = son (lab);
-    if ((props (t) & 8) != 8) {
-      kill_exp (bro (t), bro (t));/* remove unwanted statements */
-
+    exp t = son(lab);
+    if ((props(t) & 8) != 8) {
+      /* remove unwanted statements */
+      kill_exp (bro(t), bro(t));
+    } else {
+      /* form the result shape of the whole */
+      s = lub_shape(s, sh(lab));
     }
-    else
-      s = lub_shape (s, sh (lab));
-    /* form the result shape of the whole */
-  };
-  r = getexp (s, nilexp, 0, main, crt_repeat, 0, 0, solve_tag);
+  }
+  r = getexp(s, nilexp, 0, main, crt_repeat, 0, 0, solve_tag);
   q = main;
-  for (i = 0; i < ord_no; ++i) {/* set up the solve with the statements in
-				   the order specified by ord */
-    clearlast (q);
-    bro (q) = get_lab(placelabs.elems[ord[i]]);
-    q = bro (q);
-    props (son (q)) = (prop)(props(son(q)) & 0xfe);
-  };
-  son (crt_repeat) = r;
+  for (i = 0; i < ord_no; ++i) {
+    /* set up the solve with the statements in the order specified by ord */
+    clearlast(q);
+    bro(q) = get_lab(placelabs.elems[ord[i]]);
+    q = bro(q);
+    props(son(q)) = (prop)(props(son(q)) & 0xfe);
+  }
+  son(crt_repeat) = r;
   crt_repeat = bro(crt_repeat);
   setfather(r, q);
-  return (r);
+  return(r);
 }
+
 
 /* find the (unique) downward reference to e */
-exp * refto
-    PROTO_N ( (f, e) )
-    PROTO_T ( exp f X exp e )
+
+exp *
+refto(exp f, exp e)
 {
-  exp * x = &son (f);
-  while (*x != e)
-    x = &bro (*x);
-  return (x);
+  exp *x = &son(f);
+  while (*x != e) {
+    x = &bro(*x);
+  }
+  return(x);
 }
+
 
 /* find the father of u */
-exp father
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+exp
+father(exp e)
 {
-  if (e == nilexp)
-    return (e);
-  while (!last (e))
-    e = bro (e);
-  return (bro (e));
+  if (e == nilexp) {
+    return(e);
+  }
+  while (!last(e)) {
+    e = bro(e);
+  }
+  return(bro(e));
 }
 
-/* auxiliary routine for altered, looks up
-   in the tree n levels, checking */
-static void altaux
-    PROTO_N ( (e, n, scope) )
-    PROTO_T ( exp e X int n X exp scope )
+
+/* auxiliary routine for altered, looks up in the tree n levels, checking */
+
+static void
+altaux(exp e, int n, exp scope)
 {
   exp f;
-  if (bro (e) == nilexp || e == scope ||
-      (name (e) == ident_tag && isglob (e)))
-    return;			/* ignore if top of tree */
-  f = father (e);
-  if (f == nilexp || bro (f) == nilexp ||
-      (name (f) == ident_tag && isglob (f)))
-    return;			/* ignore if top of tree */
-  if (name (f) == 0) {
-    altaux (f, n, scope);
+  if (bro(e) == nilexp || e == scope || (name(e) == ident_tag && isglob(e))) {
+    /* ignore if top of tree */
     return;
-  };
-  if (!check (f, scope) && n > 1) {
+  }
+  f = father(e);
+  if (f == nilexp || bro(f) == nilexp || (name(f) == ident_tag && isglob(f))) {
+    /* ignore if top of tree */
+    return;
+  }
+  if (name(f) == 0) {
+    altaux(f, n, scope);
+    return;
+  }
+  if (!check(f, scope) && n > 1) {
     /* do check until n is exhausted */
-    altaux (f, n - 1, scope);
+    altaux(f, n - 1, scope);
     return;
-  };
+  }
 }
 
-/* e has been altered. see if any exp
-   higher up the tree can now recognise an
-   optimisation (using check) */
-void altered
-    PROTO_N ( (e, scope) )
-    PROTO_T ( exp e X exp scope )
+
+/* e has been altered. see if any exp higher up the tree can now recognise an
+ * optimisation (using check) */
+
+void
+altered (exp e, exp scope)
 {
-  altaux (e, 1, scope);
+  altaux(e, 1, scope);
 }
 
-/* replace old by e, and (if not doing
-   deadvar) check whether any
-   consequential optimisations are
-   possible */
-void replace
-    PROTO_N ( (old, e, scope) )
-    PROTO_T ( exp old X exp e X exp scope )
+/* replace old by e, and (if not doing deadvar) check whether any consequential
+ * optimisations are possible */
+
+void
+replace(exp old, exp e, exp scope)
 {
-  exp f = father (old);
-  exp * ref = refto (f, old);
-  if (last (*ref))
-    setlast (e);
-  else
-    clearlast (e);
-  bro (e) = bro (*ref);
+  exp f = father(old);
+  exp * ref = refto(f, old);
+  if (last(*ref)) {
+    setlast(e);
+  } else {
+    clearlast(e);
+  }
+  bro(e) = bro(*ref);
   *ref = e;
-  if (scope == old)
+  if (scope == old) {
     return;
-  altered (e, scope);
+  }
+  altered(e, scope);
 }
 
-/* copy a labelled statement and put links
-   into pt so that copies of uses of the
-   original can refer to the copy */
-void copy_labst
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+/* copy a labelled statement and put links into pt so that copies of uses of
+ * the original can refer to the copy */
+
+void
+copy_labst(exp e)
 {
-  exp t = copyexp (e);
-  exp d = copyexp (son (e));
+  exp t = copyexp(e);
+  exp d = copyexp(son(e));
   setcopy(e);
-  no (t) = 0;
-  no (d) = 0;
-  pt (d) = pt (e);
-  pt (t) = nilexp;
-  pt (e) = t;
-  son (t) = d;
+  no(t) = 0;
+  no(d) = 0;
+  pt(d) = pt(e);
+  pt(t) = nilexp;
+  pt(e) = t;
+  son(t) = d;
   ++proc_label_count;
 }
 
-/* end the copy of a labelled statement
-   and restore the original state */
-exp undo_labst
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+/* end the copy of a labelled statement and restore the original state */
+
+exp
+undo_labst(exp e)
 {
-  exp r = pt (e);
-  pt (e) = pt (son (r));
+  exp r = pt(e);
+  pt(e) = pt(son(r));
   clearcopy(e);
-  return (r);
+  return(r);
 }
 
-exp copy_res PROTO_S ( ( exp, exp, exp ) ) ;
-exp copy PROTO_S ( ( exp ) ) ;
 
-/* used to copy cond, repeat and solve so
-   that copies of references to the
-   labelled statements can refer to the
-   copies of the labelled statements */
-static exp copy_cpd
-    PROTO_N ( (e, new_record, var, lab) )
-    PROTO_T ( exp e X exp new_record X exp var X exp lab )
+exp copy_res(exp, exp, exp);
+exp copy(exp);
+
+/* used to copy cond, repeat and solve so that copies of references to the
+ * labelled statements can refer to the copies of the labelled statements */
+
+static
+exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 {
-  exp t = copyexp (e);
+  exp t = copyexp(e);
   exp q;
   exp j, c, s, n, k;
 
-  if (new_record != nilexp) {	/* record the construction */
-    pt (t) = new_record;
-    son (new_record) = t;
-  };
+  if (new_record != nilexp) {
+    /* record the construction */
+    pt(t) = new_record;
+    son(new_record) = t;
+  }
 
   /* copy the labelled statements */
-  q = bro (son (e));
-  copy_labst (q);
-  while (!last (q)) {
-    q = bro (q);
-    copy_labst (q);
+  q = bro(son(e));
+  copy_labst(q);
+  while (!last(q)) {
+    q = bro(q);
+    copy_labst(q);
   }
 
   /* copy the bodies of the labelled statments */
-  q = bro (son (e));
-  while (j = copy_res (bro (son (q)), var, lab),
-      c = pt (q),
-      bro (son (c)) = j,
-      bro (j) = c,
-      setlast (j),
-      !last (q))
-    q = bro (q);
+  q = bro(son(e));
+  while (j = copy_res(bro(son(q)), var, lab), c = pt(q), bro(son(c)) = j,
+	 bro(j) = c, setlast(j), !last(q)) {
+    q = bro(q);
+  }
 
   /* copy the lead statement */
-  s = copy_res (son (e), var, lab);
-  son (t) = s;
-  clearlast (s);
-  q = bro (son (e));
+  s = copy_res(son(e), var, lab);
+  son(t) = s;
+  clearlast(s);
+  q = bro(son(e));
   n = s;
 
   /* restore the labelled statements */
-  while (k = undo_labst (q),
-      bro (n) = k,
-      clearlast (n),
-      !last (q)) {
-    q = bro (q);
-    n = bro (n);
-  };
+  while (k = undo_labst(q), bro(n) = k, clearlast(n), !last(q)) {
+    q = bro(q);
+    n = bro(n);
+  }
 
-  n = bro (n);
-  setlast (n);
-  bro (n) = t;
-  return (t);
+  n = bro(n);
+  setlast(n);
+  bro(n) = t;
+  return(t);
 }
+
 
 /******************************************************************
   copy copies e and all its sub-cells recursively, amending usage
@@ -891,176 +927,184 @@ static exp copy_cpd
   declarations which it copies.
  ******************************************************************/
 
-exp copy_res
-    PROTO_N ( (e, var, lab) )
-    PROTO_T ( exp e X exp var X exp lab )
+exp
+copy_res(exp e, exp var, exp lab)
 {
-  if (e == nilexp)
-    return (e);
+  if (e == nilexp) {
+    return(e);
 #ifdef NEWDIAGS
-  else
-  if (dgf(e) != nildiag)
-    return copy_res_diag (e, dgf(e), var, lab);
+  } else if (dgf(e) != nildiag) {
+    return copy_res_diag(e, dgf(e), var, lab);
 #endif
-  else {
-    unsigned char n = name (e);
+  } else {
+    unsigned char n = name(e);
 
     if (n == ident_tag) {
-      exp t = copyexp (e);
-      exp x = pt (e);		/* remember the usage list */
+      exp t = copyexp(e);
+      exp x = pt(e);		/* remember the usage list */
       exp s, bs;
       setcopy (e);		/* mark e as being copied */
-      no (t) = 0;		/* clear the usage count */
-      pt (e) = t;		/* record the copy in the pt field of the
+      no(t) = 0;		/* clear the usage count */
+      pt(e) = t;		/* record the copy in the pt field of the
 				   original */
-      pt (t) = nilexp;		/* set the new usage list to empty */
-      s = copy_res (son (e), var, lab);	/* copy the definition */
-      bs = copy_res (bro (son (e)), var, lab);/* copy the body */
-      son (t) = s;
-      bro (s) = bs;
-      bro (bs) = t;
-      clearlast (s);
-      setlast (bs);
-      pt (e) = x;		/* reset the remembered usage list */
+      pt(t) = nilexp;		/* set the new usage list to empty */
+      s = copy_res(son(e), var, lab);	/* copy the definition */
+      bs = copy_res(bro(son(e)), var, lab);/* copy the body */
+      son(t) = s;
+      bro(s) = bs;
+      bro(bs) = t;
+      clearlast(s);
+      setlast(bs);
+      pt(e) = x;		/* reset the remembered usage list */
       clearcopy (e);		/* remove the copying flag */
-      if (n == ident_tag)
-	sh (t) = sh (bro (son (t)));/* in case bro(son(t)) is a tuple */
-      return (t);
-    };
+      if (n == ident_tag) {
+	/* in case bro(son(t)) is a tuple */
+	sh (t) = sh(bro(son(t)));
+      }
+      return(t);
+    }
 
     if (n == name_tag) {
       /* see if the corresponding declaration is being copied and pick up
          the correct usage list */
-      exp tp = (copying (son (e)) ? pt (son (e)) : son (e));
-      exp r = copyexp (e);
-      son (r) = tp;		/* add this use onto the correct usage
+      exp tp = (copying(son(e))? pt(son(e)): son(e));
+      exp r = copyexp(e);
+      son(r) = tp;		/* add this use onto the correct usage
 				   list */
-      pt (r) = pt (tp);
-      pt (tp) = r;
+      pt(r) = pt(tp);
+      pt(tp) = r;
 #ifdef NEWDIAGS
       if (!isdiaginfo(r))
 #endif
       {
-	++no (tp);		/* increment the correct usage count */
-	if (isglob(tp)) proc_externs = 1;
+	++no(tp);		/* increment the correct usage count */
+	if (isglob(tp)) {
+	  proc_externs = 1;
+	}
       }
-      return (r);
-    };
+      return(r);
+    }
 
     if (n == env_offset_tag || n == general_env_offset_tag) {
       /* see if the corresponding declaration is being copied and pick up
          the correct usage list */
-      exp tp = (copying (son (e)) ? pt (son (e)) : son (e));
-      exp r = copyexp (e);
-      son (r) = tp;		/* add this use onto the correct usage
+      exp tp = (copying(son(e))? pt(son(e)): son(e));
+      exp r = copyexp(e);
+      son(r) = tp;		/* add this use onto the correct usage
 				   list */
-      return (r);
-    };
+      return(r);
+    }
 
     if (n == cond_tag) {
-      exp z = copy_cpd (e, nilexp, var, lab);
-      return (z);
-    };
+      exp z = copy_cpd(e, nilexp, var, lab);
+      return(z);
+    }
 
     if (n == rep_tag || n == solve_tag) {
       /* we have to update the repeat records */
-      exp record = pt (e);
+      exp record = pt(e);
       exp z;
       if (record != nilexp) {
-        exp senior = bro (record);
-        exp new_record = copyexp (record);
-	if (senior == nilexp) { /* XX008 */
+        exp senior = bro(record);
+        exp new_record = copyexp(record);
+	if (senior == nilexp) {
+	  /* XX008 */
 	  senior = crt_repeat;
 	  bro(new_record) = senior;
-	};
+	}
         set_copying_solve (record);/* mark as being copied */
-        pt (record) = new_record;
+        pt(record) = new_record;
 
-        if (senior != nilexp) {	/* update repeat records */
-	  if ((props (senior) & 1) == 1)
-	    bro (new_record) = pt (senior);
-	  else
-	    ++no (senior);
-        };
-        z = copy_cpd (e, new_record, var, lab);
+        if (senior != nilexp) {
+	  /* update repeat records */
+	  if ((props(senior) & 1) == 1) {
+	    bro(new_record) = pt(senior);
+	  } else {
+	    ++no(senior);
+	  }
+        }
+        z = copy_cpd(e, new_record, var, lab);
         clear_copying_solve(record);	/* unmark copying flag */
+      } else {
+	z = copy_cpd(e, nilexp, var, lab);
       }
-      else {
-	z = copy_cpd (e, nilexp, var, lab);
-      };
-      return (z);
-    };
+      return(z);
+    }
 
     if (n == case_tag) {
-      exp t = copy_res (son (e), var, lab);
-      exp z = copyexp (e);
-      exp q = son (e);
+      exp t = copy_res(son(e), var, lab);
+      exp z = copyexp(e);
+      exp q = son(e);
       exp p = t;
       exp labloc, tp;
-      son (z) = t;
-      while (!last (q)) {
-	setbro (p, copyexp (bro (q)));
-	if (son (bro (q)) != nilexp)
-	  setson (bro (p), copyexp (son (bro (q))));
-	labloc = pt (bro (p));
-	tp = (copying(labloc)) ? pt (labloc) : labloc;
-	pt (bro (p)) = tp;
-	no (son (tp))++;
-	p = bro (p);
-	q = bro (q);
-      };
-      bro (p) = z;
-      if (PIC_code) proc_externs = 1;
-      return (z);
-    };
+      son(z) = t;
+      while (!last(q)) {
+	setbro(p, copyexp(bro(q)));
+	if (son(bro(q)) != nilexp) {
+	  setson(bro(p), copyexp(son(bro(q))));
+	}
+	labloc = pt(bro(p));
+	tp = (copying(labloc))? pt(labloc): labloc;
+	pt(bro(p)) = tp;
+	no(son(tp)) ++;
+	p = bro(p);
+	q = bro(q);
+      }
+      bro(p) = z;
+      if (PIC_code) {
+	proc_externs = 1;
+      }
+      return(z);
+    }
 
     if (n == real_tag || (n == val_tag && isbigval(e))) {
-      exp z = copyexp (e);
-      flpt f = new_flpt ();
-      flt_copy (flptnos[no (e)], &flptnos[f]);
-      no (z) = f;
-      if (PIC_code) proc_externs =1;
-      return (z);
-    };
+      exp z = copyexp(e);
+      flpt f = new_flpt();
+      flt_copy(flptnos[no(e)], &flptnos[f]);
+      no(z) = f;
+      if (PIC_code) {
+	proc_externs =1;
+      }
+      return(z);
+    }
 
-   if (n == string_tag)
-    {
+   if (n == string_tag) {
       exp r = copyexp(e);
-      if (PIC_code) proc_externs =1;
-      return (r);
-    };
+      if (PIC_code) {
+	proc_externs =1;
+      }
+      return(r);
+    }
 
     if (n == res_tag) {
       if (lab != nilexp) {
-	exp go = getexp(f_bottom, nilexp, 0, nilexp, lab,
-			 0, 0, goto_tag);
-	no(son(lab))++;
+	exp go = getexp(f_bottom, nilexp, 0, nilexp, lab, 0, 0, goto_tag);
+	no(son(lab)) ++;
 
 	if (name(son(e)) == clear_tag) {
 #ifdef NEWDIAGS
-	  if (extra_diags)
-	    diag_inline_result (go);
+	  if (extra_diags) {
+	    diag_inline_result(go);
+	  }
 #endif
 	  return go;
-	}
-        else
-        if (var == nilexp) {
+	} else if (var == nilexp) {
 	  exp_list el;
-          exp c = copy(son(e));
+	  exp c = copy(son(e));
 	  exp s;
 	  el.start = c;
 	  el.end = c;
 	  el.number = 1;
 	  s = f_sequence(el, go);
 #ifdef NEWDIAGS
-	  if (extra_diags)
-	    diag_inline_result (go);
-	  return diag_hold_check (s);	/* not inlining */
+	  if (extra_diags) {
+	    diag_inline_result(go);
+	  }
+	  return diag_hold_check(s);	/* not inlining */
 #else
-          return hold_check(s);
+	  return hold_check(s);
 #endif
-	}
-	else {
+	} else {
 	  exp ass;
 	  exp_list el;
 	  exp old_var;
@@ -1070,7 +1114,7 @@ exp copy_res
 					   copy on var because it belongs
 					   in the other context recurse!
 					*/
-	  ident = (copying(son(var))) ? pt(son(var)) : son(var);
+	  ident = (copying(son(var)))? pt(son(var)): son(var);
 	  pt(old_var) = pt(ident);
 	  pt(ident) = old_var;
 	  ++no(ident);
@@ -1079,132 +1123,168 @@ exp copy_res
 	  el.end = ass;
 	  el.number = 1;
 #if NEWDIAGS
-	  if (extra_diags)
-	    diag_inline_result (bro(son(ass)));
+	  if (extra_diags) {
+	    diag_inline_result(bro(son(ass)));
+	  }
 #endif
 	  return f_sequence(el, go);
-	};
-      };
+	}
+      }
 
        /* FALL THROUGH if lab == nilexp */
-     };
+     }
     {
-      exp p = pt (e);
-      exp z = copyexp (e);
+      exp p = pt(e);
+      exp z = copyexp(e);
       exp tp;
       switch (name(e)) {
-	case alloca_tag: case apply_general_tag: has_alloca = 1; break;
-	case tail_call_tag: has_alloca = 1; has_setjmp = 1; break;
-	case current_env_tag: uses_crt_env = 1; uses_loc_address = 1;
-		if (in_proc_def) sh(z) = f_pointer(frame_alignment);
-		break;
-        case untidy_return_tag: case local_free_all_tag: case long_jump_tag:
-			has_setjmp = 1; break;
+	case alloca_tag:
+	case apply_general_tag:
+	  has_alloca = 1;
+	  break;
+	case tail_call_tag:
+	  has_alloca = 1;
+	  has_setjmp = 1;
+	  break;
+	case current_env_tag:
+	  uses_crt_env = 1;
+	  uses_loc_address = 1;
+	  if (in_proc_def) {
+	    sh(z) = f_pointer(frame_alignment);
+	  }
+	  break;
+        case untidy_return_tag:
+	case local_free_all_tag:
+	case long_jump_tag:
+	  has_setjmp = 1; break;
       }
 
       if (p != nilexp) {
 	/* the pt field must be a label */
 	/* look to see if label is being copied and pick up right
 	   statement */
-	tp = (copying(p)) ? pt (p) : p;
-	pt (z) = tp;
-	no (son (tp))++;	/* update label use count */
-      };
+	tp = (copying(p)) ? pt(p) : p;
+	pt(z) = tp;
+	no(son(tp))++;	/* update label use count */
+      }
 
-      if (son (e) == nilexp) {
-	return (z);
-      };
+      if (son(e) == nilexp) {
+	return(z);
+      }
       {
-	exp t = son (e);
-	exp q = copy_res (t, var, lab);
+	exp t = son(e);
+	exp q = copy_res(t, var, lab);
 	exp ptt = q;
 	while (!last (t)) {	/* copy the arguments */
-	  setbro (ptt, copy_res (bro (t), var, lab));
-	  clearlast (ptt);
-	  t = bro (t);
-	  ptt = bro (ptt);
-	};
-	son (z) = q;
-	bro (ptt) = z;
-	setlast (ptt);
+	  setbro(ptt, copy_res(bro(t), var, lab));
+	  clearlast(ptt);
+	  t = bro(t);
+	  ptt = bro(ptt);
+	}
+	son(z) = q;
+	bro(ptt) = z;
+	setlast(ptt);
 
-	if (n == labst_tag || n == seq_tag)
-	  sh (z) = sh (bro (son (z)));
-	/* in case bro(son(z)) is a tuple */
+	if (n == labst_tag || n == seq_tag) {
+	  /* in case bro(son(z)) is a tuple */
+	  sh(z) = sh(bro(son(z)));
+	}
 
-	return (z);
-      };
-    };
+	return(z);
+      }
+    }
   }
 }
 
-exp copy
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+
+exp
+copy(exp e)
 {
   return copy_res(e, nilexp, nilexp);
 }
 
-int is_comm
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+
+int
+is_comm(exp e)
 {
-    if (no_bss)
-      return 0;
-    switch ( name ( e ) ) {
+  if (no_bss) {
+    return 0;
+  }
+  switch (name(e)) {
 
-	case val_tag : return ( no ( e ) ? 0 : 1 ) ;
+  case val_tag:
+    return(no(e) ? 0 : 1);
 
-	case int_to_bitf_tag :
-	case chvar_tag : return ( is_comm ( son ( e ) ) ) ;
+  case int_to_bitf_tag:
+  case chvar_tag:
+    return(is_comm(son(e)));
 
-	case real_tag : {
-	    flpt f = no ( e ) ;
-	    return ( flptnos [f].sign ? 0 : 1 ) ;
-	}
+  case real_tag: {
+    flpt f = no(e);
+    return(flptnos[f].sign ? 0 : 1);
+  }
 
-	case compound_tag : {
-	    exp t = son ( e ) ;
-	    if ( t == nilexp ) return ( 1 ) ;
-	    while ( 1 ) {
-		t = bro ( t ) ;
-		if ( name ( sh ( t ) ) != bitfhd ) {
-		    if ( !is_comm ( t ) ) return ( 0 ) ;
-		} else {
-		    if ( name ( t ) == val_tag ) {
-			if ( no ( t ) ) return ( 0 ) ;
-		    } else {
-			if ( no ( son ( t ) ) ) return ( 0 ) ;
-		    }
-		}
-		if ( last ( t ) ) return ( 1 ) ;
-		t = bro ( t ) ;
-	    }
-	    /* Not reached */
-	}
-
-	case ncopies_tag : return ( is_comm ( son ( e ) ) ) ;
-
-	case nof_tag : {
-	    exp t = son ( e ) ;
-	    if ( t == nilexp ) return 1;
-	    while ( 1 ) {
-		if ( !is_comm ( t ) ) return ( 0 ) ;
-		if ( last ( t ) ) return ( 1 ) ;
-		t = bro ( t ) ;
-	    }
-	    /* Not reached */
-	}
-
-	case concatnof_tag : {
-	    exp t = son ( e ) ;
-	    return ( is_comm ( t ) && is_comm ( bro ( t ) ) ) ;
-	}
-
-	case clear_tag :
-	case res_tag :  return ( 1 ) ;
-
-	case null_tag : return ( no(e) == 0 ) ;
+  case compound_tag: {
+    exp t = son(e);
+    if (t == nilexp) {
+      return(1);
     }
-    return ( 0 ) ;
+    while (1) {
+      t = bro(t);
+      if (name(sh(t))!= bitfhd) {
+	if (!is_comm(t)) {
+	  return(0);
+	}
+      } else {
+	if (name(t) == val_tag) {
+	  if (no(t)) {
+	    return(0);
+	  }
+	} else {
+	  if (no(son(t))) {
+	    return(0);
+	  }
+	}
+      }
+      if (last(t)) {
+	return(1);
+      }
+      t = bro(t);
+    }
+    /* Not reached */
+  }
+
+  case ncopies_tag:
+    return(is_comm(son(e)));
+
+  case nof_tag: {
+    exp t = son(e);
+    if (t == nilexp) {
+      return 1;
+    }
+    while (1) {
+      if (!is_comm(t)) {
+	return(0);
+      }
+      if (last(t)) {
+	return(1);
+      }
+      t = bro(t);
+    }
+    /* Not reached */
+  }
+
+  case concatnof_tag: {
+    exp t = son(e);
+    return(is_comm(t) && is_comm(bro(t)));
+  }
+
+  case clear_tag:
+  case res_tag:
+    return(1);
+
+  case null_tag:
+    return(no(e) == 0);
+  }
+  return(0);
 }

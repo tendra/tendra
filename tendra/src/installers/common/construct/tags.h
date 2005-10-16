@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -62,9 +92,6 @@ $Log: tags.h,v $
  *
 ***********************************************************************/
 #ifndef c_diff
-
-
-
 
 #define ident_tag 1
 
@@ -166,12 +193,9 @@ $Log: tags.h,v $
 #define int_to_bitf_tag 94
 #define conj_tag 95
 
-
-
 #define hold_tag 101
 #define hold2_tag 102 /* 102 also used as hold */
 #define initial_value_tag 103 /* removed in common part */
-
 
 #define cont_tag 113
 #define field_tag 114
@@ -203,11 +227,11 @@ $Log: tags.h,v $
 #define trap_tag 208
 #define asm_tag 209
 
-#define is_o(t) ((t)>=cont_tag && (t)<=make_stack_limit_tag)
-#define is_a(t) ((t)>=plus_tag && (t)<=make_stack_limit_tag)
+#define is_o(t)	((t) >= cont_tag && (t) <= make_stack_limit_tag)
+#define is_a(t)	((t) >= plus_tag && (t) <= make_stack_limit_tag)
 
 
-#endif
+#endif /* c_diff */
 
 
 /***********************************************************************
@@ -218,7 +242,7 @@ that an exp has a son which is nilexp or its first argument exp. The
 next argument is the bro of the first, the next the bro of that etc.
 The last argument has the last field set and its bro is the head exp
 of the construction. In a name_tag the son contains the ident_tag which
-declares the identity or variable being used. case, env_offset and string 
+declares the identity or variable being used. case, env_offset and string
 are also special cases.
 
 The pt field is used in goto and test-like constructions to hold the
@@ -288,7 +312,7 @@ and_tag: represents and
 		has_byte_ops is 1.
 	no(e) is 0.
 	pt(e) is nilexp.
-	
+
 apply_tag: Represents apply_proc construction.
 	son(e) is arg1
 	bro(son(e)) is arg2 in the form of a brother list of zero or
@@ -381,7 +405,7 @@ concatnof_tag: represents concat nof
 	son(e) is arg1.
 	bro(arg1) is arg2
 		arg1 and arg2 will be nof(m, s) and nof(n, s)
-	shape is nof(m+n, s)
+	shape is nof(m + n, s)
 	no(e) is 0.
 	pt(e) is nilexp.
 
@@ -638,7 +662,7 @@ minptr_tag: Represents subtract_pointers construction.
 
 minus_tag: represents subtraction.
 	This is replaced by addition of negation by check.c.
-		
+
 mod_tag: Represents rem1 construction.
 	son(e) is arg1.
 	bro(son(e)) is arg2
@@ -715,7 +739,7 @@ null_tag: represent ptr null and proc null.
 offset_add_tag: Represents offset_add construction.
 	son(e) is arg1
 	bro(son(e)) is arg2.
-	shape is offset(max(al1(arg1),al1(arg2)),al2(arg2)) 
+	shape is offset(max(al1(arg1),al1(arg2)),al2(arg2))
 	pt(e) is nilexp.
 	no(e) is 0.
 
@@ -736,7 +760,7 @@ offset_div_by_int_tag: Represents offset_div_by_int construction.
 offset_max_tag: Represents offset_max construction.
 	son(e) is arg1
 	bro(son(e)) is arg2.
-	shape is offset(max(al1(arg1),al1(arg2)),max(al2(arg1),al2(arg2))) 
+	shape is offset(max(al1(arg1),al1(arg2)),max(al2(arg1),al2(arg2)))
 	pt(e) is nilexp.
 	no(e) is 0.
 
@@ -762,7 +786,7 @@ offset_pad_tag: represents offset pad.
 offset_subtract_tag: Represents offset_subtract construction.
 	son(e) is arg1
 	bro(son(e)) is arg2.
-	shape is offset(al2(arg1),al2(arg2)) 
+	shape is offset(al2(arg1),al2(arg2))
 	pt(e) is nilexp.
 	no(e) is 0.
 
@@ -802,7 +826,7 @@ proc_tag: represents make_proc
 	pt(e) is shape of return.
 
 	Properties in the props field are defined in expmacs.h
-	
+
 
 prof_tag: represents profile exp.
 	son(e) is nilexp.
@@ -844,7 +868,7 @@ rep_tag: represents repeat construction.
 	no(e) is 0.
 
 	Properties in the props field are defined in expmacs.h
-	
+
 res_tag: Represents the return construction.
 	son(e) is arg1
 	shape is bottom.
@@ -969,24 +993,24 @@ val_tag: represents constant integers and offsets.
 general_proc_tag:
 	son = (ident for caller-formal as in proc_tag)
 			....
-	      with body = (ident for callee_formal with 
+	      with body = (ident for callee_formal with
 	      			def = formal_callee_tag)
 	      			....
 	      		   with body of proc
 	props = procprops
 	shape is proc.
 	pt(e) is shape of return.
-	
+
 apply_general_tag:
         son = proc
         bro(son) = exp(tag=0; props = procprops; no = number of otagexps;
         		son = list of otagexps ie caller actuals)
         	   if tag is present in otagexp, then
-        	   		name(otagexp)=caller_tag
+        	   		name(otagexp) = caller_tag
         	   		son(otagexp) = actual
-        	   	and postlude will have ident with 
-        	   		def = caller_name_tag 
-				and no(def) = no of corresponding caller_tag 
+        	   	and postlude will have ident with
+        	   		def = caller_name_tag
+				and no(def) = no of corresponding caller_tag
 					in the otagexp list, starting from 0
         	   else otagexp is the actual exp
         bro(bro(son)) = callees =(1) make_callee_list_tag with son list of exps
@@ -994,13 +1018,13 @@ apply_general_tag:
         	        	 (2) make_dynamic_callee_tag with son ptr
         	        	 	and bro(son) size
         	        	 (3) same_callees_tag
-			and props = procprops	
+			and props = procprops
         bro(bro(bro(son))) = postlude with tags identified as above
 
-tail_call_tag:       
-        son = proc       
+tail_call_tag:
+        son = proc
         bro(son)= (tag=0; props = procprops; son = callees as above)
-        	       
+
 untidy_return:
 	son = result exp
 

@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -118,7 +148,7 @@ Shift left + trap_tag
 #define MAXUSE 16
 #define VERYBIGUSAGE 100
 #define MEMINC 64
-#define nilmem ((memlist *)0)
+#define nilmem	((memlist *)0)
 
 /* IDENTITIES */
 
@@ -159,14 +189,13 @@ static int has_lj_dest;
 
 /* PROCEDURES */
 
-exp get_repeats PROTO_S ((void));
+exp get_repeats(void);
 
-static int find_glob
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int
+find_glob(exp e)
 {
   int i;
-  for ( i = 0; i < glob_index; i++)
+  for (i = 0; i < glob_index; i++)
     if (glob_dest[i] == e)
       return 1;
   return 0;
@@ -176,24 +205,23 @@ static int find_glob
  *  ret_constlist returns the elements of a constants-list
  ************************************************************************/
 
-void ret_constlist
-    PROTO_N ( (head) )
-    PROTO_T ( exp head )
+void
+ret_constlist(exp head)
 {
   if (head != nilexp) {
-    exp limit = pt (head), t = son (head), n;
-    retcell (head);
+    exp limit = pt(head), t = son(head), n;
+    retcell(head);
     while (t != limit) {
-      n = bro (t);
-      retcell (t);
+      n = bro(t);
+      retcell(t);
       t = n;
     }
-    retcell (t);
+    retcell(t);
   }
   return;
 }
 
-static maxconst max_const PROTO_S ( ( exp, exp, int ) ) ;
+static maxconst max_const(exp, exp, int);
 /* declaration - max_const and mc_list are mutually recursive */
 
 
@@ -213,9 +241,8 @@ static maxconst max_const PROTO_S ( ( exp, exp, int ) ) ;
  *                constant then the value self_const is returned.
  ************************************************************************/
 
-static maxconst mc_list
-    PROTO_N ( (whole, e, ass_ok, good) )
-    PROTO_T ( exp whole X exp e X int ass_ok X int good )
+static
+maxconstmc_list(exp whole, exp e, int ass_ok, int good)
 {
   exp t = e;
   int contin = true;
@@ -227,41 +254,42 @@ static maxconst mc_list
   do {
     /* NB - t may be killed within max_const (offset_mult) */
     /* so remember next one in list */
-    exp next_t = bro (t);
-    if (last (t))
+    exp next_t = bro(t);
+    if (last(t)) {
       contin = false;
-    mc = max_const (whole, t, ass_ok);
+    }
+    mc = max_const(whole, t, ass_ok);
 
     if (mc.self) {
       /* the whole of t is constant */
       /* make a list element */
-      exp w = getexp (f_bottom, nilexp, false, t, nilexp, cond_flag,
+      exp w = getexp(f_bottom, nilexp, false, t, nilexp, cond_flag,
 		       0, 0);
-      if (result.cont == nilexp)/* first item - start a list */
-	result.cont = getexp (f_bottom, nilexp, false, w, w, 0,  0, 0);
-      else {			/* add this to list */
-	bro (pt (result.cont)) = w;
-	pt (result.cont) = w;
+      if (result.cont == nilexp) {/* first item - start a list */
+	result.cont = getexp(f_bottom, nilexp, false, w, w, 0,  0, 0);
+      } else {			/* add this to list */
+	bro(pt(result.cont)) = w;
+	pt(result.cont) = w;
       }
     } else {
       result.self = false;	/* some part of e is not constant */
       if (mc.cont != nilexp) {	/* but t has constants in it */
 	if (result.cont != nilexp) {	/* add them to list */
-	  bro (pt (result.cont)) = son (mc.cont);
-	  pt (result.cont) = pt (mc.cont);
-	  retcell (mc.cont);
-	} else			/* list was empty - start list */
+	  bro(pt(result.cont)) = son(mc.cont);
+	  pt(result.cont) = pt(mc.cont);
+	  retcell(mc.cont);
+	} else {		/* list was empty - start list */
 	  result.cont = mc.cont;
+	}
       }
     }
 
     t = next_t;
-  }
-  while (contin);
+  } while (contin);
 
   if (result.self) {
-    ret_constlist (result.cont);
-    return (self_const);
+    ret_constlist(result.cont);
+    return(self_const);
   }
   return result;
 }
@@ -271,125 +299,126 @@ static maxconst mc_list
  *  intnl_to returns true if part is contained in whole
  ************************************************************************/
 
-int intnl_to
-    PROTO_N ( (whole, part) )
-    PROTO_T ( exp whole X exp part )
+int
+intnl_to(exp whole, exp part)
 {
   exp q = part;
 
-  while (q != whole && q != nilexp && name(q) != hold_tag
-		&& name(q) != hold2_tag &&
-	 (name (q) != ident_tag || !isglob (q)))
-    q = father (q);
+  while (q != whole && q != nilexp && name(q) != hold_tag &&
+	 name(q) != hold2_tag && (name(q)!= ident_tag || !isglob(q))) {
+    q = father(q);
+  }
 
   return q == whole;
 }
 
 /* heavily used idents are kept in lookup list */
 
-static int not_assigned_to PROTO_S ( ( exp, exp ) ) ;
+static int not_assigned_to(exp, exp);
 
-static int not_ass2
-    PROTO_N ( (vardec, piece) )
-    PROTO_T ( exp vardec X exp piece )
+static int
+not_ass2(exp vardec, exp piece)
 {
   /*
    * this replaces used_in with stronger test - see changes in assigns_alias
    */
-  exp t = pt (vardec);
+  exp t = pt(vardec);
   exp q;
   exp upwards = t;
 
   do {				/* test each use of the identifier */
     q = t;
     while (q != nilexp && q != piece && q != vardec &&
-	   name (q) != rep_tag &&
-	   (name (q) != ident_tag || !isglob (q))) {
+	   name(q)!= rep_tag && (name(q)!= ident_tag || !isglob(q))) {
       upwards = q;
-      q = bro (q);
+      q = bro(q);
     }
 
-    if (q != nilexp && q != piece && name (q) == rep_tag) {
+    if (q != nilexp && q != piece && name(q) == rep_tag) {
       /* q has got to a repeat, so */
       /* scan up repeat_list structure for holder of piece */
-      exp h = pt (q), hp = pt (piece);
-      while (h != nilexp && h != hp)
-	h = bro (h);
+      exp h = pt(q), hp = pt(piece);
+      while (h != nilexp && h != hp) {
+	h = bro(h);
+      }
       if (h == hp) {
 	/* q was within piece */
 	q = piece;
-	upwards = son (q);
-	while (!last (upwards))
-	  upwards = bro (upwards);
-      } else
+	upwards = son(q);
+	while (!last(upwards)) {
+	  upwards = bro(upwards);
+	}
+      } else {
 	q = nilexp;
+      }
     }
     /* ascend from the use until we reach either vardec or piece */
     if (q == piece && last (upwards)) {	/* the use was in piece */
-      if (isreallyass(t))
+      if (isreallyass(t)) {
         return false;
-      if (!last (t) && last (bro (t)) &&
-	  (name (bro (bro (t))) == ass_tag ||
-	   name (bro (bro (t))) == assvol_tag))
+      }
+      if (!last(t) && last(bro(t)) &&
+	 (name(bro(bro(t))) == ass_tag || name(bro(bro(t))) == assvol_tag)) {
 	return false;		/* the use was an assignment */
-      if (!last (t) && last (bro (t))
-	  && name (bro (bro (t))) == ident_tag) {
+      }
+      if (!last(t) && last(bro(t)) && name(bro(bro(t))) == ident_tag) {
 	/* use in declaration */
-	if (!isvar (bro (bro (t))) &&
-	    !not_assigned_to (bro (bro (t)), bro (t))) {
+	if (!isvar(bro(bro(t))) && !not_assigned_to(bro(bro(t)), bro(t))) {
 	  return false;
 	}
       } else {
-	exp dad = father (t);
-	if (name (dad) == addptr_tag && son (dad) == t) {
+	exp dad = father(t);
+	if (name(dad) == addptr_tag && son(dad) == t) {
 	  /* use in subscript .... */
-	  if (!last (dad) && last (bro (dad)) &&
-	       (name (bro (bro (dad))) == ass_tag ||
-	         name (bro (bro (dad))) == assvol_tag))
+	  if (!last(dad) && last(bro(dad)) &&
+	      (name(bro(bro(dad))) == ass_tag ||
+	       name(bro(bro(dad))) == assvol_tag)) {
 	    return false;		/* the use was an assignment */
-	  if (!last (dad) && last (bro (dad)) &&
-	      name (bro (bro (dad))) == ident_tag) {
+	  }
+	  if (!last(dad) && last(bro(dad)) &&
+	      name(bro(bro(dad))) == ident_tag) {
 	    /* ... which is identified */
-	    if (!isvar (bro (bro (dad))) &&
-		!not_assigned_to (bro (bro (dad)), bro (dad))) {
+	    if (!isvar(bro(bro(dad))) &&
+		!not_assigned_to(bro(bro(dad)), bro(dad))) {
 	      return false;
 	    }
 	  }
 	}
       }
     }
-    t = pt (t);
+    t = pt(t);
   } while (t != nilexp);
   return true;
 }
 
 
-static int not_assigned_to
-    PROTO_N ( (vardec, body) )
-    PROTO_T ( exp vardec X exp body )
+static int
+not_assigned_to(exp vardec, exp body)
 {
-  if (no (vardec) > VERYBIGUSAGE)
+  if (no(vardec) > VERYBIGUSAGE) {
     return false;
+  }
 
-  if (no (vardec) > MAXUSE) {
+  if (no(vardec) > MAXUSE) {
     /* when a variable is used many times the result from not_ass2 */
     /* is saved in an ordered list to avoid n-squared run-times    */
     memlist *ptr = mem;
     /* is this declaration known? */
     /* NOTE: memory is cleared after each repeat is processed */
     /* so any in memory refer to the current repeat */
-    while (ptr != nilmem && (ptr->dec) != vardec)
+    while (ptr != nilmem && (ptr->dec)!= vardec)
       ptr = ptr->next;
     if (ptr == nilmem) {
       memlist **pp = &mem;
       /* insert with heavier used decs first */
-      while (*pp != nilmem && no ((*pp)->dec) > no (vardec))
-	pp = &((*pp)->next);
+      while (*pp != nilmem && no((*pp) ->dec) > no(vardec)) {
+	pp = & ((*pp) ->next);
+      }
       if (fmem == nilmem) {
 	/* add some cells onto the free list */
 	memlist **fpp = &fmem;
 	int i;
-	*fpp = (memlist *) xcalloc (MEMINC, sizeof (memlist));
+	*fpp = (memlist *)xcalloc(MEMINC, sizeof(memlist));
 	for (i = 0; i < MEMINC; ++i) {
 	  (*fpp)->next = (*fpp) + 1;
 	  fpp = &((*fpp)->next);
@@ -401,15 +430,16 @@ static int not_assigned_to
       fmem = ptr->next;
       /* remember this vardec */
       ptr->dec = vardec;
-      ptr->res = not_ass2 (vardec, body);
+      ptr->res = not_ass2(vardec, body);
       /* put cell into mem list */
       ptr->next = *pp;
       *pp = ptr;
     }
-    return (ptr->res);
-  } else
+    return(ptr->res);
+  } else {
     /* default case - identifier not heavily used */
-    return (not_ass2 (vardec, body));
+    return(not_ass2(vardec, body));
+  }
 }
 
 
@@ -425,13 +455,12 @@ static int not_assigned_to
  *                variables
  ************************************************************************/
 
-static maxconst max_const
-    PROTO_N ( (whole, e, ass_ok) )
-    PROTO_T ( exp whole X exp e X int ass_ok )
+static maxconst
+max_const(exp whole, exp e, int ass_ok)
 {
-  switch (name (e)) {
+  switch (name(e)) {
   case labst_tag:
-    return mc_list (whole, bro (son (e)), ass_ok, false);
+    return mc_list(whole, bro(son(e)), ass_ok, false);
 
   case contvol_tag:
   case case_tag:
@@ -444,18 +473,18 @@ static maxconst max_const
     maxconst mc;
     maxconst mct;
     mc = max_const(whole, bro(son(e)), ass_ok);
-    mct = mc_list (whole, son (e), ass_ok, optop(e));
-    if (mct.self)
+    mct = mc_list(whole, son(e), ass_ok, optop(e));
+    if (mct.self) {
       return mct;
+    }
 
     if (mc.self && !strict_fl_div && optop(e)) {
       flpt f = new_flpt();
       exp funit;
       exp temp1;
       exp temp2;
-      flt_copy (flptnos[fone_no], &flptnos[f]);
-      funit = getexp(sh(e), nilexp, 0, nilexp, nilexp,
-			0, f, real_tag);
+      flt_copy(flptnos[fone_no], &flptnos[f]);
+      funit = getexp(sh(e), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
       temp1 = me_b3(sh(e), funit, bro(son(e)), fdiv_tag);
       temp2 = me_b3(sh(e), son(e), temp1, fmult_tag);
 
@@ -464,29 +493,31 @@ static maxconst max_const
 #endif
       replace(e, temp2, temp2);
       return max_const(whole, temp2, ass_ok);
-    }
-    else
+    } else {
       return mct;
-  };
+    }
+  }
 
 
-  case cond_tag:{
+  case cond_tag: {
       prop old_cond_flag = cond_flag;
       maxconst mc;
-      if (cond_flag == 0)
+      if (cond_flag == 0) {
 	cond_flag = 1;
-      mc = mc_list (whole, son (e), ass_ok, false);
+      }
+      mc = mc_list(whole, son(e), ass_ok, false);
       cond_flag = old_cond_flag;
       return mc;
-    }
+  }
 
   case test_tag:{
       maxconst mc;
-      mc = mc_list (whole, son (e), ass_ok, false);
-      if (cond_flag == 1)
+      mc = mc_list(whole, son(e), ass_ok, false);
+      if (cond_flag == 1) {
 	cond_flag = 2;
+      }
       return mc;
-    }
+  }
 
   case val_tag:
   case proc_tag:
@@ -495,87 +526,93 @@ static maxconst max_const
     return self_const;
 
   case name_tag:
-    if (intnl_to (whole, son (e)))
+    if (intnl_to(whole, son(e))) {
       return no_consts;		/* internal const - may change */
-    else
+    } else {
       return self_const;	/* external constant */
+    }
 
   case cont_tag:
-    if ((name (son (e)) == name_tag) && isvar (son (son (e)))) {
+    if ((name(son(e)) == name_tag) && isvar(son(son(e)))) {
       /* so e is extracting the contents of a variable */
-      exp var = son (son (e));
+      exp var = son(son(e));
 
-      if (!intnl_to (whole, var) && (not_assigned_to (var, whole))
+      if (!intnl_to(whole, var) && (not_assigned_to(var, whole))
 	  && ass_ok) {
 	/*
 	 * variable declared external to whole, and NEVER assigned to in
 	 * whole
 	 */
-	if (iscaonly(var))
+	if (iscaonly(var)) {
 	  return self_const;
-	if (isglob(var) && !find_glob(var))
-	  return self_const;
-	return no_consts;
 	}
-      else
+	if (isglob(var) && !find_glob(var)) {
+	  return self_const;
+	}
 	return no_consts;
-    } else
-      return mc_list (whole, son (e), ass_ok, ass_ok);
+      } else {
+	return no_consts;
+      }
+    } else {
+      return mc_list(whole, son(e), ass_ok, ass_ok);
+    }
 
   case plus_tag:
   case and_tag:
   case or_tag:
   case xor_tag:
-  case mult_tag:{
+  case mult_tag: {
       maxconst mc;
 
-      mc = mc_list (whole, son (e), ass_ok, optop(e));
+      mc = mc_list(whole, son(e), ass_ok, optop(e));
 
-      if (mc.cont != nilexp && pt (mc.cont) != son (mc.cont) && optop(e)) {
+      if (mc.cont != nilexp && pt(mc.cont)!= son(mc.cont) && optop(e)) {
 	/* more than 1 item in list */
-	exp limit = pt (mc.cont), h = son (mc.cont), arg, this, last_h;
+	exp limit = pt(mc.cont), h = son(mc.cont), arg, this, last_h;
 	int arg_count = 0;
 	int tot_args = 1;
 	this = son(e);
-	while(!last(this)) {
+	while (!last(this)) {
 	  this = bro(this);
 	  ++tot_args;
-	};
+	}
 
 	/* remember for which operator these are arguments */
 	/* NB - some items may not be args of this operator */
 	while (h != nilexp) {
-	  this = son (h);
-	  arg = son (e);
-	  while (arg != nilexp && arg != this)
-	    arg = (last (arg) ? nilexp : bro (arg));
+	  this = son(h);
+	  arg = son(e);
+	  while (arg != nilexp && arg != this) {
+	    arg = (last(arg)? nilexp : bro(arg));
+	  }
 	  if (arg != nilexp) {
 	    /* it's an argument of this operator */
 	    ++arg_count;
-	    pt (h) = e;
+	    pt(h) = e;
 	    last_h = h;
 	  }
-	  h = (h == limit ? nilexp : bro (h));
+	  h = (h == limit ? nilexp : bro(h));
 	}
 	/* remove reference to operator if only 1 arg is const */
 	if (arg_count != tot_args && arg_count > 0) {
 	  SET(last_h);
-	  pt (last_h) = nilexp;
-	};
+	  pt(last_h) = nilexp;
+	}
       }
       return mc;
-    }
+  }
 
-  case addptr_tag:{
-      exp p = son (e);
+  case addptr_tag: {
+      exp p = son(e);
       maxconst mc, mx;
 
       /* find the root pointer */
-      while (name (p) == addptr_tag)
-	p = son (p);
+      while (name(p) == addptr_tag) {
+	p = son(p);
+      }
 
-      mc = max_const (whole, p, ass_ok);
-      ret_constlist (mc.cont);
+      mc = max_const(whole, p, ass_ok);
+      ret_constlist(mc.cont);
 
       if (mc.self) {
 	/* root pointer is constant in this context */
@@ -583,39 +620,39 @@ static maxconst max_const
 
 	/* construct list of ALL constant parts */
 	/* initial list element will hold const. ptr */
-	cph = getexp (f_bottom, nilexp, false, nilexp, nilexp,
+	cph = getexp(f_bottom, nilexp, false, nilexp, nilexp,
 		      0,  0, 0);
 	mc.self = false;	/* assume, for moment */
-	mc.cont = getexp (f_bottom, nilexp, false, cph, cph,
+	mc.cont = getexp(f_bottom, nilexp, false, cph, cph,
 			  0,  0, 0);
 
 	/* return up the chain, testing the offsets */
 	while (p != e) {
-	  mx = max_const (whole, bro (p), ass_ok);
-	  p = bro (p);		/* p is now the offset */
+	  mx = max_const(whole, bro(p), ass_ok);
+	  p = bro(p);		/* p is now the offset */
 
 	  /* add offset to appropriate list */
-	  list = (mx.self) ? &c_list : &v_list;
-	  *list = getexp (nilexp, *list, 0, p, nilexp, 0,  0, 0);
+	  list = (mx.self)? &c_list : &v_list;
+	  *list = getexp(nilexp, *list, 0, p, nilexp, 0,  0, 0);
 
 	  if (mx.cont != nilexp) {
 	    /* the offset is not constant, but PARTS of it are */
 
 	    /* remove any "negate(name(...))" */
-	    exp lim = pt (mx.cont), h = son (mx.cont);
+	    exp lim = pt(mx.cont), h = son(mx.cont);
 	    while (h != nilexp) {
-	      if (name (son (h)) == neg_tag &&
-		  name (son (son (h))) == name_tag)
-		no (h) = -1;	/* set "done" flag */
-	      h = (h == lim ? nilexp : bro (h));
+	      if (name(son(h)) == neg_tag && name(son(son(h))) == name_tag) {
+		no(h) = -1;	/* set "done" flag */
+	      }
+	      h = (h == lim ? nilexp : bro(h));
 	    }
 
 	    /* add constant parts to mc */
-	    bro (pt (mx.cont)) = son (mc.cont);
-	    son (mc.cont) = son (mx.cont);
-	    retcell (mx.cont);
+	    bro(pt(mx.cont)) = son(mc.cont);
+	    son(mc.cont) = son(mx.cont);
+	    retcell(mx.cont);
 	  }
-	  p = bro (p);		/* p is now the next higher operation */
+	  p = bro(p);		/* p is now the next higher operation */
 	}
 
 	if (v_list == nilexp) {
@@ -623,11 +660,11 @@ static maxconst max_const
 	  /* return c_list elements */
 	  while (c_list != nilexp) {
 	    x = c_list;
-	    c_list = bro (c_list);
-	    retcell (x);
+	    c_list = bro(c_list);
+	    retcell(x);
 	  }
 
-	  ret_constlist (mc.cont);
+	  ret_constlist(mc.cont);
 
 	  return self_const;
 	}
@@ -638,46 +675,48 @@ static maxconst max_const
 	/* put non-constant offsets at the higher levels */
 	while (v_list != nilexp) {
 	  /* put next offset in 2nd argument position */
-	  x = son (p);
-	  bro (x) = son (v_list);
-	  bro (bro (x)) = p;
+	  x = son(p);
+	  bro(x) = son(v_list);
+	  bro(bro(x)) = p;
 	  p = x;		/* point to 1st argument */
 	  /* traverse v_list, returning elements */
 	  x = v_list;
-	  v_list = bro (x);
-	  retcell (x);
+	  v_list = bro(x);
+	  retcell(x);
 	}
 
 	/* the rest is constant - add it to mc.cont */
-	son (cph) = p;
+	son(cph) = p;
 
 	/* and put constant offsets at the lower levels */
 	while (c_list != nilexp) {
 	  /* put next offset in 2nd argument position */
-	  x = son (p);
-	  bro (x) = son (c_list);
-	  bro (bro (x)) = p;
+	  x = son(p);
+	  bro(x) = son(c_list);
+	  bro(bro(x)) = p;
 	  p = x;		/* point to 1st argument */
 	  /* traverse c_list, returning elements */
 	  x = c_list;
-	  c_list = bro (x);
-	  retcell (x);
+	  c_list = bro(x);
+	  retcell(x);
 	}
 
 	return mc;
-      } else
-	return mc_list (whole, son (e), ass_ok, true);
-    }
+      } else {
+	return mc_list(whole, son(e), ass_ok, true);
+      }
+  }
 
-  case offset_mult_tag:{
-      exp arg1 = son (e);
-      exp arg2 = bro (arg1);
+  case offset_mult_tag: {
+      exp arg1 = son(e);
+      exp arg2 = bro(arg1);
       maxconst mc1, mc2;
-      shape ofsh = sh (e);
-      mc1 = max_const (whole, arg1, ass_ok);
-      mc2 = max_const (whole, arg2, ass_ok);
-      if (mc1.self && mc2.self)
+      shape ofsh = sh(e);
+      mc1 = max_const(whole, arg1, ass_ok);
+      mc2 = max_const(whole, arg2, ass_ok);
+      if (mc1.self && mc2.self) {
 	return self_const;
+      }
       if (mc2.self && mc1.cont != nilexp) {
 	/**********************************************************
          * the offset is const, and arg1 has some constant parts
@@ -693,68 +732,72 @@ static maxconst max_const
 	exp *ref;
 	exp m_res;
 	int j;
-	ret_constlist (mc1.cont);
-	if (name (arg1) == mult_tag) {
-	  exp m_arg = son (arg1);
+	ret_constlist(mc1.cont);
+	if (name(arg1) == mult_tag) {
+	  exp m_arg = son(arg1);
 	  /* sort into const and varying args */
 	  while (m_arg != nilexp) {
-	    mc1 = max_const (whole, m_arg, ass_ok);
+	    mc1 = max_const(whole, m_arg, ass_ok);
 	    if (mc1.self) {
 	      /* add to constant operand list */
-	      klist = getexp (nilexp, klist, false, m_arg, nilexp,
+	      klist = getexp(nilexp, klist, false, m_arg, nilexp,
 			      0,  0, 0);
 	    } else {
 	      /* add to non-constant operand list */
-	      nklist = getexp (nilexp, nklist, false, m_arg, nilexp,
+	      nklist = getexp(nilexp, nklist, false, m_arg, nilexp,
 			       0,  0, 0);
-	      ret_constlist (mc1.cont);
+	      ret_constlist(mc1.cont);
 	    }
-	    if (last (m_arg))
+	    if (last(m_arg)) {
 	      m_arg = nilexp;
-	    else
-	      m_arg = bro (m_arg);
+	    } else {
+	      m_arg = bro(m_arg);
+	    }
 	  }
 	  /* build offset_mult chain with const parts innermost */
-	  m_res = copy (arg2);
+	  m_res = copy(arg2);
 	  for (j = 0; j < 2; ++j) {
-	    exp *list = (j == 0) ? &klist : &nklist;
+	    exp *list = (j == 0)? &klist : &nklist;
 	    /* use klist, and then nklist */
 	    while (*list != nilexp) {
 	      exp z = *list;
-	      exp a1 = copy (son (z));
-	      exp offmul = getexp (ofsh, nilexp, false, a1, nilexp,
+	      exp a1 = copy(son(z));
+	      exp offmul = getexp(ofsh, nilexp, false, a1, nilexp,
 				   0,  0, offset_mult_tag);
-	      setbro (a1, m_res);
-	      clearlast (a1);
-	      setbro (m_res, offmul);
-	      setlast (m_res);
+	      setbro(a1, m_res);
+	      clearlast(a1);
+	      setbro(m_res, offmul);
+	      setlast(m_res);
 	      m_res = hold_check(offmul);
-	      *list = bro (z);
-	      retcell (z);
+	      *list = bro(z);
+	      retcell(z);
 	    }
 	  }
 	  /* insert m_res - kill left overs */
-	  ref = refto (father (e), e);
-	  if (last (*ref))
-	    setlast (m_res);
-	  else
-	    clearlast (m_res);
-	  bro (m_res) = bro (*ref);
+	  ref = refto(father(e), e);
+	  if (last(*ref)) {
+	    setlast(m_res);
+	  } else {
+	    clearlast(m_res);
+	  }
+	  bro(m_res) = bro(*ref);
 	  *ref = m_res;
-	  kill_exp (e, e);
-	} else
+	  kill_exp(e, e);
+	} else {
 	  m_res = e;
-	return mc_list (whole, son (m_res), ass_ok, true);
+	}
+	return mc_list(whole, son(m_res), ass_ok, true);
       }
       /* default action */
-      return mc_list (whole, son (e), ass_ok, true);
-    }
+      return mc_list(whole, son(e), ass_ok, true);
+  }
 
   default:
-    if (son (e) == nilexp)
+    if (son(e) == nilexp) {
       return self_const;
-    else
-      return mc_list (whole, son (e), ass_ok, is_a (name (e)) && optop(e));
+    } else {
+      return mc_list(whole, son(e), ass_ok, is_a(name(e)) && optop(e));
+    }
   }
 }
 
@@ -772,127 +815,130 @@ static maxconst max_const
  *        limit   last constant holder in list
  ************************************************************************/
 
-void do_this_k
-    PROTO_N ( (kdec, patn, list, limit) )
-    PROTO_T ( exp kdec X exp patn X exp list X exp limit )
+void
+do_this_k(exp kdec, exp patn, exp list, exp limit)
 {
   exp t = list;
   int scan = true;
   exp arglist = nilexp, ap;
   int nargs = 0;
 
-  if (pt (list) != nilexp) {
+  if (pt(list)!= nilexp) {
     /* build required argument list */
-    exp p = son (patn);
+    exp p = son(patn);
     while (p != nilexp) {
-      exp arg_h = getexp (nilexp, arglist, 0, p, nilexp, 0, 0, 0);
+      exp arg_h = getexp(nilexp, arglist, 0, p, nilexp, 0, 0, 0);
       arglist = arg_h;
       ++nargs;
-      p = (last (p) ? nilexp : bro (p));
+      p = (last(p)? nilexp : bro(p));
     }
   }
   while (scan) {
-    if (no (t) == 0) {
+    if (no(t) == 0) {
 
-      if (pt (t) == nilexp && eq_exp (son (t), patn)) {
+      if (pt(t) == nilexp && eq_exp(son(t), patn)) {
 	/* simple correspondence */
-	exp e = son (t);
-	exp f = father (e);
-	exp tagt = getexp (sh (e), bro (e),  (int)(last (e)),
-			   kdec, pt (kdec), 0,  0, name_tag);
-	pt (kdec) = tagt;
-	++no (kdec);
+	exp e = son(t);
+	exp f = father(e);
+	exp tagt = getexp(sh(e), bro(e), (int)(last(e)),
+			   kdec, pt(kdec), 0,  0, name_tag);
+	pt(kdec) = tagt;
+	++no(kdec);
 #ifdef NEWDIAGS
-	if (diagnose)
-	  dg_extracted (tagt, *(refto (f, e)));
+	if (diagnose) {
+	  dg_extracted(tagt, *(refto(f, e)));
+	}
 #endif
-	*(refto (f, e)) = tagt;
-	no (t) = -1;		/* dealt with */
-	kill_exp (son (t), son (t));
-      } else
-      if (pt (t) != nilexp && name (pt (t)) == name (patn)) {
+	*(refto(f, e)) = tagt;
+	no(t) = -1;		/* dealt with */
+	kill_exp(son(t), son(t));
+      } else if (pt(t)!= nilexp && name(pt(t)) == name(patn)) {
 	/* try for complex match - at least the operator is correct */
 	/* check errtreat ??? */
 	int scan2 = true;
 	int matched = 0;
-	exp t2 = t, op = pt (t);
+	exp t2 = t, op = pt(t);
 
 
 	while (matched >= 0 && scan2) {
-	  if (no (t2) == 0 && pt (t2) == op) {
+	  if (no(t2) == 0 && pt(t2) == op) {
 	    /* find match in argument list */
 	    ap = arglist;
 
 	    while (ap != nilexp &&
-		   (pt (ap) != nilexp || !eq_exp (son (t2), son (ap)))
-	      )
-	      ap = bro (ap);
+		   (pt(ap)!= nilexp || !eq_exp(son(t2), son(ap)))) {
+	      ap = bro(ap);
+	    }
 
-	    if (ap == nilexp)
+	    if (ap == nilexp) {
 	      matched = -1;
-	    else {
-	      pt (ap) = t2;
+	    } else {
+	      pt(ap) = t2;
 	      ++matched;
 	    }
 	  }
-	  if (t2 == limit)
+	  if (t2 == limit) {
 	    scan2 = false;
-	  else
-	    t2 = bro (t2);
+	  } else {
+	    t2 = bro(t2);
+	  }
 	}
 
 	if (matched == nargs) {
-	  exp prev_arg = nilexp, oparg = son (op), cc;
+	  exp prev_arg = nilexp, oparg = son(op), cc;
 	  int last_arg;
 
-	  cc = getexp (sh (son (kdec)), op, 1, kdec, pt (kdec), 0,
+	  cc = getexp(sh(son(kdec)), op, 1, kdec, pt(kdec), 0,
 		        0, name_tag);
-	  pt (kdec) = cc;
-	  ++no (kdec);
+	  pt(kdec) = cc;
+	  ++no(kdec);
 
 	  while (oparg != nilexp) {
-	    last_arg = (int)last (oparg);
+	    last_arg = (int)last(oparg);
 	    ap = arglist;
-	    while (ap != nilexp && son (pt (ap)) != oparg)
-	      ap = bro (ap);
+	    while (ap != nilexp && son(pt(ap))!= oparg) {
+	      ap = bro(ap);
+	    }
 	    if (ap == nilexp) {
 	      /* this is one of the other args of op */
-	      if (prev_arg == nilexp)
-		son (op) = oparg;
-	      else
-		bro (prev_arg) = oparg;
-	      clearlast (oparg);
+	      if (prev_arg == nilexp) {
+		son(op) = oparg;
+	      } else {
+		bro(prev_arg) = oparg;
+	      }
+	      clearlast(oparg);
 	      prev_arg = oparg;
 	    }
-	    oparg = (last_arg ? nilexp : bro (oparg));
+	    oparg = (last_arg ? nilexp : bro(oparg));
 	  }
 
 	  /* now add combined constant */
-	  bro (prev_arg) = cc;
+	  bro(prev_arg) = cc;
 
 	  /* mark those dealt with & clear arglist */
 	  ap = arglist;
 	  while (ap != nilexp) {
-	    exp deadarg = son (pt (ap));
-	    no (pt (ap)) = -1;
-	    son (pt (ap)) = nilexp;
-	    pt (ap) = nilexp;
-	    kill_exp (deadarg, deadarg);
-	    ap = bro (ap);
+	    exp deadarg = son(pt(ap));
+	    no(pt(ap)) = -1;
+	    son(pt(ap)) = nilexp;
+	    pt(ap) = nilexp;
+	    kill_exp(deadarg, deadarg);
+	    ap = bro(ap);
 	  }
 	}
       }
     }
-    if (t == limit)
+    if (t == limit) {
       scan = false;
-    else
-      t = bro (t);
+    } else {
+      t = bro(t);
+    }
   }
 
   /* return arglist */
   while (arglist != nilexp) {
-    ap = bro (arglist);
-    retcell (arglist);
+    ap = bro(arglist);
+    retcell(arglist);
     arglist = ap;
   }
 }
@@ -909,16 +955,15 @@ void do_this_k
  *			numeric and zero
  ************************************************************************/
 
-static exp safe_arg
-    PROTO_N ( (e, esc) )
-    PROTO_T ( exp e X exp esc )
+static exp
+safe_arg(exp e, exp esc)
 {
-  exp decl = getexp (sh (e), nilexp, 0, e, nilexp,
+  exp decl = getexp(sh(e), nilexp, 0, e, nilexp,
 		     0,  0, ident_tag);
   exp v1, v2, z, s, konst, tst;
 
   /* make the unsafe value for this shape */
-  switch (name (sh (e))) {
+  switch (name(sh(e))) {
   case ptrhd:
     konst = me_null(sh(e), ptr_null, null_tag);
     break;
@@ -930,54 +975,52 @@ static exp safe_arg
   case ulonghd:
   case s64hd:
   case u64hd:
-    konst = getexp (sh (e), nilexp, 0, nilexp, nilexp,
-		    0,  0, val_tag);
+    konst = getexp(sh(e), nilexp, 0, nilexp, nilexp, 0,  0, val_tag);
     break;
   case shrealhd:
   case realhd:
-  case doublehd:{
-      flpt f = new_flpt ();
+  case doublehd: {
+      flpt f = new_flpt();
       int i;
-      for (i = 0; i < MANT_SIZE; ++i)
+      for (i = 0; i < MANT_SIZE; ++i) {
 	(flptnos[f].mant)[i] = 0;
+      }
       flptnos[f].exp = 0;
       flptnos[f].sign = 0;
-      konst = getexp (sh (e), nilexp, 0, nilexp, nilexp,
-		      0, f, real_tag);
+      konst = getexp(sh(e), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
       break;
-    }
+  }
   case offsethd:
-    konst = f_offset_zero (f_alignment (sh (e)));
+    konst = f_offset_zero(f_alignment(sh(e)));
     break;
-  default: {
+  default:
       SET(konst);
-      failer (BAD_SHAPE);
-    };
+      failer(BAD_SHAPE);
   }
 
-  v1 = getexp (sh (e), nilexp, 0, decl, pt (decl), 0,  0, name_tag);
-  pt (decl) = v1;
-  ++no (decl);
-  v2 = getexp (sh (e), nilexp, 1, decl, pt (decl), 0,  0, name_tag);
-  pt (decl) = v2;
-  ++no (decl);
+  v1 = getexp(sh(e), nilexp, 0, decl, pt(decl), 0,  0, name_tag);
+  pt(decl) = v1;
+  ++no(decl);
+  v2 = getexp(sh(e), nilexp, 1, decl, pt(decl), 0,  0, name_tag);
+  pt(decl) = v2;
+  ++no(decl);
 
-  tst = getexp (f_top, nilexp, 0, v1, esc, 0,
+  tst = getexp(f_top, nilexp, 0, v1, esc, 0,
 		 0, test_tag);
   settest_number(tst, f_not_equal);
-  ++no (son (esc));
-  setbro (v1, konst);
-  tst = hc (tst, konst);
+  ++no(son(esc));
+  setbro(v1, konst);
+  tst = hc(tst, konst);
 
-  z = getexp (f_top, v2, 0, tst, nilexp, 0,  0, 0);
-  setbro (tst, z);
-  setlast (tst);
-  s = getexp (sh (e), decl, 1, z, nilexp, 0,  0, seq_tag);
-  setbro (e, s);
-  clearlast (e);
-  s = hc (s, v2);
+  z = getexp(f_top, v2, 0, tst, nilexp, 0,  0, 0);
+  setbro(tst, z);
+  setlast(tst);
+  s = getexp(sh(e), decl, 1, z, nilexp, 0,  0, seq_tag);
+  setbro(e, s);
+  clearlast(e);
+  s = hc(s, v2);
 
-  return (hc (decl, s));
+  return(hc(decl, s));
 }
 
 
@@ -1009,35 +1052,34 @@ static exp safe_arg
  *        escape_route	label: jump to this if evaluation would fail
  ************************************************************************/
 
-static exp safe_eval
-    PROTO_N ( (e, escape_route) )
-    PROTO_T ( exp e X exp escape_route )
+static exp
+safe_eval(exp e, exp escape_route)
 {
   exp esc_lab, res;
 
   if (escape_route == nilexp) {
     /* this is outermost call - construct escape label */
-    exp z = getexp (f_top, nilexp, 0, nilexp, nilexp, 0,  0, clear_tag);
-    esc_lab = getexp (sh (e), nilexp, 0, z, nilexp,
+    exp z = getexp(f_top, nilexp, 0, nilexp, nilexp, 0,  0, clear_tag);
+    esc_lab = getexp(sh(e), nilexp, 0, z, nilexp,
 		      0,  0, labst_tag);
-  } else
+  } else {
     esc_lab = escape_route;
+  }
 
-  switch (name (e)) {
+  switch (name(e)) {
   case ident_tag:
   case cond_tag:
   case rep_tag:
   case solve_tag:
-  case case_tag:  {
+  case case_tag:
       SET(res);
-      failer (CONSTC_ERROR);
+      failer(CONSTC_ERROR);
       break;
-    };
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:
   case real_tag:
-    res = copy (e);
+    res = copy(e);
     break;
   case div0_tag:
   case div1_tag:
@@ -1047,93 +1089,91 @@ static exp safe_eval
   case rem2_tag:
   case rem0_tag:
   case offset_div_tag:
-  case offset_div_by_int_tag:
-    {
-      exp arg1 = safe_eval (son (e), esc_lab);
-      exp arg2 = safe_eval (bro (son (e)), esc_lab);
-      res = copyexp (e);
-      setson (res, arg1);
-      arg2 = safe_arg (arg2, esc_lab);
-      setbro (arg1, arg2);
-      clearlast (arg1);
-      res = hc (res, arg2);
+  case offset_div_by_int_tag: {
+      exp arg1 = safe_eval(son(e), esc_lab);
+      exp arg2 = safe_eval(bro(son(e)), esc_lab);
+      res = copyexp(e);
+      setson(res, arg1);
+      arg2 = safe_arg(arg2, esc_lab);
+      setbro(arg1, arg2);
+      clearlast(arg1);
+      res = hc(res, arg2);
       break;
-    }
-  case cont_tag:
-    {
-      exp arg = son (e);
-      if (name (arg) == name_tag &&
-	  (isglob (son (arg)) || isvar (son (arg))))
-	res = copy (e);
+  }
+  case cont_tag: {
+      exp arg = son(e);
+      if (name(arg) == name_tag &&
+	 (isglob(son(arg)) || isvar(son(arg))))
+	res = copy(e);
       else {
-	arg = safe_eval (arg, esc_lab);
+	arg = safe_eval(arg, esc_lab);
 	if (!arg_is_reff)
-	  arg = safe_arg (arg, esc_lab);
-	res = copyexp (e);
-	setson (res, arg);
-	res = hc (res, arg);
+	  arg = safe_arg(arg, esc_lab);
+	res = copyexp(e);
+	setson(res, arg);
+	res = hc(res, arg);
       }
       break;
-    }
-  case reff_tag:
-    {
-      exp arg = son (e);
-      if (name (arg) == name_tag && isglob (son (arg)))
-	res = copy (e);
+  }
+  case reff_tag: {
+      exp arg = son(e);
+      if (name(arg) == name_tag && isglob(son(arg)))
+	res = copy(e);
       else {
-	arg = safe_eval (arg, esc_lab);
+	arg = safe_eval(arg, esc_lab);
 	if (!arg_is_reff)
-	  arg = safe_arg (arg, esc_lab);
-	res = copyexp (e);
-	setson (res, arg);
-	res = hc (res, arg);
+	  arg = safe_arg(arg, esc_lab);
+	res = copyexp(e);
+	setson(res, arg);
+	res = hc(res, arg);
       }
       break;
-    }
-  default:{
-      exp k = copyexp (e);
-      exp arg = son (e);
+  }
+  default: {
+      exp k = copyexp(e);
+      exp arg = son(e);
       exp p;
       if (arg == nilexp) {
 	res = k;
 	break;
       }
-      p = safe_eval (arg, esc_lab);
-      setson (k, p);
-      while (!last (arg)) {
-	exp safe = safe_eval (bro (arg), esc_lab);
-	setbro (p, safe);
-	clearlast (p);
-	p = bro (p);
-	arg = bro (arg);
+      p = safe_eval(arg, esc_lab);
+      setson(k, p);
+      while (!last(arg)) {
+	exp safe = safe_eval(bro(arg), esc_lab);
+	setbro(p, safe);
+	clearlast(p);
+	p = bro(p);
+	arg = bro(arg);
       }
-      res = hc (k, p);
+      res = hc(k, p);
       break;
-    }
+  }
   }
 
-  arg_is_reff = (name (e) == reff_tag);
-  if (escape_route != nilexp)
+  arg_is_reff = (name(e) == reff_tag);
+  if (escape_route != nilexp) {
     return (res);		/* this was an inner call */
+  }
 
-  if (no (son (esc_lab)) == 0) {
+  if (no(son(esc_lab)) == 0) {
     /* the escape route is not used - inherently safe */
-    retcell (son (esc_lab));
-    retcell (esc_lab);
-    return (res);
+    retcell(son(esc_lab));
+    retcell(esc_lab);
+    return(res);
   } else {
     /* the escape route was used - construct conditional */
-    exp cond = getexp (sh (e), nilexp, 0, res, nilexp,
+    exp cond = getexp(sh(e), nilexp, 0, res, nilexp,
 		       0,  0, cond_tag);
     exp safe;
-    safe = getexp (sh (e), nilexp, 1, nilexp, nilexp,
+    safe = getexp(sh(e), nilexp, 1, nilexp, nilexp,
 		   0,  0, clear_tag);
-    setbro (son (esc_lab), safe);
-    IGNORE hc (esc_lab, safe);
-    setbro (res, esc_lab);
-    clearlast (res);
-    IGNORE hc (cond, esc_lab);
-    return (cond);
+    setbro(son(esc_lab), safe);
+    IGNORE hc(esc_lab, safe);
+    setbro(res, esc_lab);
+    clearlast(res);
+    IGNORE hc(cond, esc_lab);
+    return(cond);
   }
 }
 
@@ -1148,62 +1188,63 @@ static exp safe_eval
  *                     this must not be empty
  ************************************************************************/
 
-static void look_for_caonly
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static void
+look_for_caonly(exp e)
 {
   if (name(e) == name_tag) {
-    if (isvar(son(e)))
+    if (isvar(son(e))) {
       clearcaonly(son(e));
+    }
     return;
   }
-  if (name(e) == addptr_tag)
+  if (name(e) == addptr_tag) {
     look_for_caonly(son(e));
-  if (name(e) == seq_tag || name(e) == ident_tag)
+  }
+  if (name(e) == seq_tag || name(e) == ident_tag) {
     look_for_caonly(bro(son(e)));
+  }
   return;
 }
 
-static int extract_consts
-    PROTO_N ( (issn, rf, list_head) )
-    PROTO_T ( int issn X exp rf X exp list_head )
+
+static int
+extract_consts(int issn, exp rf, exp list_head)
 {
   exp val;
   int changed = 0;		/* result; will be true if we make a change */
-  exp t = son (list_head);	/* first in list */
+  exp t = son(list_head);	/* first in list */
   exp limit = pt (list_head);	/* last in list */
   int contin = true;
 
   do {
-    if (issn)
-      val = son (rf);
-    else
-      val = bro (rf);
-    if (no (t) != 0)		/* this has been dealt with previously - just
-				 * check for end */
+    if (issn) {
+      val = son(rf);
+    } else {
+      val = bro(rf);
+    }
+    if (no(t) != 0) {
+      /* this has been dealt with previously - just * check for end */
       contin = (t != limit);
-    else {
+    } else {
       /* this has not been absorbed by a previous constant */
 
       exp e;
       int force = 0;
 
-      if (pt (t) == nilexp) {
+      if (pt(t) == nilexp) {
 	/* simple constant - no brothers */
 	exp f;
-	e = son (t);
-	f = father (e);
+	e = son(t);
+	f = father(e);
 
 
 
 	/* ?????????????????? */
-	if (!last (e) && last (bro (e))
-	    && (name (f) == ident_tag)
-	    && !isvar (f)) {
+	if (!last(e) && last(bro(e)) && (name(f) == ident_tag) && !isvar(f)) {
 	  /* this is an in-register constant declaration */
 	  /* so remove the force register bit from f so  */
 	  /* that it becomes a simple renaming           */
-	  clearusereg (f);
+	  clearusereg(f);
 	  /* and set the force register bit for the      */
 	  /* outer declaration                           */
 	  force = 1;
@@ -1211,106 +1252,113 @@ static int extract_consts
 #ifdef NEWDIAGS
 	e = copy_dg_separate (e);	/* original may remain in use */
 #else
-	e = copy (e);
+	e = copy(e);
 #endif
 	/* so son(t) can be killed or used in declaration */
       } else {
 	/* the next few consts are args of the same operator */
-	exp op = pt (t), new_c, prev = nilexp, c_arg = nilexp, t2 = t;
+	exp op = pt(t), new_c, prev = nilexp, c_arg = nilexp, t2 = t;
 	int scan = true;
 
-	new_c = copyexp (op);
+	new_c = copyexp(op);
 
 	while (scan) {
-	  if (no (t2) == 0 && pt (t2) == op) {
+	  if (no(t2) == 0 && pt(t2) == op) {
 #ifdef NEWDIAGS
-	    c_arg = copy_dg_separate (son (t2));
+	    c_arg = copy_dg_separate(son(t2));
 					/* original may remain in use */
 #else
-	    c_arg = copy (son (t2));
+	    c_arg = copy(son(t2));
 #endif
-	    if (prev == nilexp)
-	      son (new_c) = c_arg;
-	    else {
-	      bro (prev) = c_arg;
-	      clearlast (prev);
+	    if (prev == nilexp) {
+	      son(new_c) = c_arg;
+	    } else {
+	      bro(prev) = c_arg;
+	      clearlast(prev);
 	    }
 	    prev = c_arg;
 	  }
-	  if (t2 == limit)
+	  if (t2 == limit) {
 	    scan = false;
-	  else
-	    t2 = bro (t2);
+	  } else {
+	    t2 = bro(t2);
+	  }
 	}
 
-	e = hc (new_c, c_arg);
+	e = hc(new_c, c_arg);
       }
 
-      if (is_worth (e)) {
+      if (is_worth(e)) {
 	/* declare new constant */
 	exp konst;
 	exp newdec;
 	int kill_e = false;
 #ifdef NEWDIAGS
-	if (diagnose)
-	  strip_dg_context (e);
+	if (diagnose) {
+	  strip_dg_context(e);
+	}
 #endif
-	if (props (t) > 1) {
+	if (props(t) > 1) {
 	  /* this const. is in a conditional in the loop */
 	  /* ensure that extraction from loop does not cause a failure */
 	  kill_e = true;
-	  konst = safe_eval (e, nilexp);
-	} else
+	  konst = safe_eval(e, nilexp);
+	} else {
 	  konst = e;
-	newdec = getexp (sh (val), bro (val),
-		  (int)(last (val)), konst, nilexp, 0,  0, ident_tag);
-	if (has_lj_dest)
+	}
+	newdec = getexp(sh(val), bro(val),
+		 (int)(last(val)), konst, nilexp, 0,  0, ident_tag);
+	if (has_lj_dest) {
 	  setvis(newdec);
-	if (force && isvis(father(e)))
+	}
+	if (force && isvis(father(e))) {
 	  setvis(newdec);
-	else
-	if (force || ismips)
-	  setusereg (newdec);
+	} else if (force || ismips)
+	  setusereg(newdec);
 
-	if (name(sh(konst)) == ptrhd)
+	if (name(sh(konst)) == ptrhd) {
 	  look_for_caonly(konst);
+	}
 
-	bro (konst) = val;
-	clearlast (konst);
-	bro (val) = newdec;
-	setlast (val);
-	if (issn)
-	  son (rf) = newdec;
-	else
-	  bro (rf) = newdec;
+	bro(konst) = val;
+	clearlast(konst);
+	bro(val) = newdec;
+	setlast(val);
+	if (issn) {
+	  son(rf) = newdec;
+	} else {
+	  bro(rf) = newdec;
+	}
 
 #ifdef NEWDIAGS
 	if (diagnose) {
-	  make_optim_dg (DGD_EXTRACT, newdec);
+	  make_optim_dg(DGD_EXTRACT, newdec);
 	}
 #endif
-	do_this_k (newdec, e, t, limit);
-	if (kill_e)
-	  kill_exp (e, e);
+	do_this_k(newdec, e, t, limit);
+	if (kill_e) {
+	  kill_exp(e, e);
+	}
 	changed = 1;		/* have made a change */
-      } else
-	kill_exp (e, e);
+      } else {
+	kill_exp(e, e);
+      }
     }
 
-    if (t == limit)		/* that was the last in the list */
+    if (t == limit) {
+      /* that was the last in the list */
       contin = false;
-    else {
-      exp n = bro (t);
-      retcell (t);
+    } else {
+      exp n = bro(t);
+      retcell(t);
       t = n;
     }
-  }
-  while (contin);
+  } while (contin);
 
-  retcell (t);
+  retcell(t);
 
-  retcell (list_head);
-  return (changed);
+  retcell(list_head);
+  return(changed);
 }
 
 
@@ -1322,82 +1370,85 @@ static int extract_consts
  *
  ************************************************************************/
 
-int named_dest
-    PROTO_N ( (dest) )
-    PROTO_T ( exp dest )
+int
+named_dest(exp dest)
 {
-  switch (name (dest)) {
-  case name_tag:{
-      if (isvar (son (dest))) {
-	if (iscaonly (son (dest)))
+  switch (name(dest)) {
+  case name_tag:
+      if (isvar(son(dest))) {
+	if (iscaonly(son(dest))) {
 	  return true;
+	}
 	if (isglob(son(dest))) {
-	  if (find_glob(son(dest)))
+	  if (find_glob(son(dest))) {
 	    return true;
-	  if (glob_index == globmax)
+	  }
+	  if (glob_index == globmax) {
 	    return false;
+	  }
 	  glob_dest[glob_index++] = son(dest);
 	  return true;
-	};
-      } else if (!isvar(son(dest)) && son (son (dest)) != nilexp) {
-	return named_dest (son (son (dest)));
+	}
+      } else if (!isvar(son(dest)) && son(son(dest))!= nilexp) {
+	return named_dest(son(son(dest)));
       }
       return false;
-    }
   case addptr_tag:
-  case reff_tag:{
+  case reff_tag:
       /* Should we look at bro son to see if it contains an assignment ??? */
       return false;
-    }
   default:
     return false;
   }
 }
 
-int assigns_alias
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+int
+assigns_alias(exp e)
 {
-  switch (name (e)) {
+  switch (name(e)) {
   case assvol_tag:
-  case ass_tag:{
-      exp dest = son (e);
+  case ass_tag: {
+      exp dest = son(e);
 
-      if (!named_dest (son (e)))
-	return (true);		/* LHS may be aliassed */
-      else			/* check RHS for assignments */
-	return (assigns_alias (bro (dest)));
+      if (!named_dest(son(e))) {
+	/* LHS may be aliassed */
+	return (true);
+      } else {
+	/* check RHS for assignments */
+	return(assigns_alias(bro(dest)));
+      }
     }
 
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:
-    return (false);
+    return(false);
 
   case case_tag:
-    return (assigns_alias (son (e)));
+    return(assigns_alias(son(e)));
     /* NB - must only look at first son */
 
   case bfass_tag:
   case apply_tag:
     return (true);		/* pessimist! */
 
-  default:{
+  default: {
       int aa = false;
-      exp s = son (e);
+      exp s = son(e);
 
       while ((s != nilexp) && !aa) {
-	aa = assigns_alias (s);
-	if (aa || last (s))
+	aa = assigns_alias(s);
+	if (aa || last(s))
 	  s = nilexp;
 	else
-	  s = bro (s);
+	  s = bro(s);
       }
 
-      return (aa);
-    }
+      return(aa);
+  }
   }
 }
+
 
 /************************************************************************
  *  scan_for_lv
@@ -1407,33 +1458,33 @@ int assigns_alias
  *
  ************************************************************************/
 
-static int scan_for_lv
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int
+scan_for_lv(exp e)
 {
-  switch (name (e)) {
+  switch (name(e)) {
   case make_lv_tag:
-    return (true);
+    return(true);
 
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:
-    return (false);
+    return(false);
 
-  default:{
+  default: {
       int aa = false;
-      exp s = son (e);
+      exp s = son(e);
 
       while ((s != nilexp) && !aa) {
-	aa = scan_for_lv (s);
-	if (aa || last (s))
+	aa = scan_for_lv(s);
+	if (aa || last(s)) {
 	  s = nilexp;
-	else
-	  s = bro (s);
+	} else {
+	  s = bro(s);
+	}
       }
 
-      return (aa);
-    }
+      return(aa);
+  }
   }
 }
 
@@ -1444,16 +1495,16 @@ static int scan_for_lv
  *  calls extract_consts on each element of the list of repeat loops
  ************************************************************************/
 
-void repeat_consts
-    PROTO_Z ()
+void
+repeat_consts(void)
 {
-  exp reps = get_repeats ();
+  exp reps = get_repeats();
 
   while (reps != nilexp) {
-    if (son (reps) != nilexp && name (son (reps)) == rep_tag
-	&& no (reps) < max_loop_depth) {
-      exp loop = son (reps);
-      exp sts = bro (son (loop));
+    if (son(reps)!= nilexp && name(son(reps)) == rep_tag
+	&& no(reps) < max_loop_depth) {
+      exp loop = son(reps);
+      exp sts = bro(son(loop));
       int no_alias;
       maxconst mx;
       exp consts;
@@ -1462,49 +1513,54 @@ void repeat_consts
       memlist **mptr = &mem;
 
       glob_index = 0;
-      no_alias = !assigns_alias (sts);
-      while (*mptr != nilmem)
-	mptr = &((*mptr)->next);
+      no_alias = !assigns_alias(sts);
+      while (*mptr != nilmem) {
+	mptr = & ((*mptr) ->next);
+      }
       *mptr = fmem;
       fmem = mem;
       mem = nilmem;
 
-      mx = mc_list (loop, sts, no_alias, false);
+      mx = mc_list(loop, sts, no_alias, false);
 
       consts = mx.cont;
       /* NB - false forces a list to be produced */
 
-      if (no_alias)
+      if (no_alias) {
 	set_noalias (reps);	/* preserve for forall processing */
+      }
 
       if (consts != nilexp) {
 	exp rr;
 	int sn;
-	exp fa = father (loop);
-	if (son (fa) == loop) {
+	exp fa = father(loop);
+	if (son(fa) == loop) {
 	  sn = 1;
 	  rr = fa;
 	} else {
 	  sn = 0;
-	  rr = son (fa);
-	  while (bro (rr) != loop && !last (rr))
-	    rr = bro (rr);
-	};
-	if (sn || bro (rr) == loop) {
-	  while (name(fa) != proc_tag && name(fa) != general_proc_tag
-		&& name(fa) != hold_tag && name(fa) != hold2_tag)
+	  rr = son(fa);
+	  while (bro(rr)!= loop && !last(rr)) {
+	    rr = bro(rr);
+	  }
+	}
+	if (sn || bro(rr) == loop) {
+	  while (name(fa)!= proc_tag && name(fa)!= general_proc_tag
+		&& name(fa)!= hold_tag && name(fa)!= hold2_tag) {
 	    fa = father(fa);
-	  if (name(fa) != hold_tag && name(fa) != hold2_tag) {
-	    if (proc_uses_crt_env(fa))
-	      has_lj_dest = scan_for_lv (sts);
-	    else
+	  }
+	  if (name(fa)!= hold_tag && name(fa)!= hold2_tag) {
+	    if (proc_uses_crt_env(fa)) {
+	      has_lj_dest = scan_for_lv(sts);
+	    } else {
 	      has_lj_dest = 0;
-	    IGNORE extract_consts (sn, rr, consts);
+	    }
+	    IGNORE extract_consts(sn, rr, consts);
 	  }
 	}
       }
     }
-    reps = pt (reps);
+    reps = pt(reps);
   }
 }
 
@@ -1517,30 +1573,31 @@ void repeat_consts
  *  returns the repeat_list
  ************************************************************************/
 
-exp get_repeats
-    PROTO_Z ()
+exp
+get_repeats(void)
 {
-  if (repeat_list != nilexp && !is_dist (repeat_list)) {
+  if (repeat_list != nilexp && !is_dist(repeat_list)) {
     exp reps = repeat_list;
 
     while (reps != nilexp) {
-      if (no (reps) == 0) {
+      if (no(reps) == 0) {
 	/* this is a leaf node */
 	/* no(x) is used in dexp to count directly nested loops */
 	int dist = 0;
 	exp sup = reps;
 	do {
 	  set_dist (sup);	/* no(x) is now max dist to leaf */
-	  no (sup) = dist;
-	  if (son (sup) != nilexp && name (son (sup)) == rep_tag)
+	  no(sup) = dist;
+	  if (son(sup)!= nilexp && name(son(sup)) == rep_tag) {
 	    ++dist;		/* only repeats are significant */
-	  sup = bro (sup);	/* go to enclosing repeat */
-	} while (sup != nilexp && (!is_dist (sup) || no (sup) < dist));
+	  }
+	  sup = bro(sup);	/* go to enclosing repeat */
+	} while (sup != nilexp && (!is_dist(sup) || no(sup) < dist));
       }
-      reps = pt (reps);
+      reps = pt(reps);
     }
   }
-  return (repeat_list);
+  return(repeat_list);
 }
 
 
@@ -1550,14 +1607,14 @@ exp get_repeats
  *  returns the storage used by repeat_list
  ************************************************************************/
 
-void return_repeats
-    PROTO_Z ()
+void
+return_repeats(void)
 {
   exp reps = repeat_list;
 
   while (reps != nilexp) {
-    exp next = pt (reps);
-    retcell (reps);
+    exp next = pt(reps);
+    retcell(reps);
     reps = next;
   }
   repeat_list = nilexp;

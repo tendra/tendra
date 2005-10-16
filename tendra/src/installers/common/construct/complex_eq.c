@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -55,41 +85,41 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 #include "complex_eq.h"
 
 
-static int complex_eq_explist
-    PROTO_N ( (a, b, laba, labb) )
-    PROTO_T ( exp a X exp b X exp laba X exp labb )
+static int
+complex_eq_explist(exp a, exp b, exp laba, exp labb)
 {
-	if (a==nilexp) return (b==nilexp);
-	if (b==nilexp || !complex_eq_exp(a,b,laba,labb) ) return 0;
-	if (last(a)) return (last(b));
+	if (a == nilexp) return(b == nilexp);
+	if (b == nilexp || !complex_eq_exp(a,b,laba,labb)) return 0;
+	if (last(a)) return(last(b));
 	if (last(b)) return 0;
 	return complex_eq_explist(bro(a), bro(b), laba, labb);
 }
 
 
-int complex_eq_exp
-    PROTO_N ( (a, b, laba, labb) )
-    PROTO_T ( exp a X exp b X exp laba X exp labb )
+int
+complex_eq_exp(exp a, exp b, exp laba, exp labb)
 {
-	if (name(a) != name(b) || !eq_shape(sh(a), sh(b))) return 0;
+	if (name(a)!= name(b) || !eq_shape(sh(a), sh(b))) return 0;
 	if (name(a) == seq_tag) {
-		return (complex_eq_explist(son(son(a)), son(son(b)), laba, labb) &&
-			complex_eq_exp(bro(son(a)), bro(son(b)),laba,labb) );
+		return(complex_eq_explist(son(son(a)), son(son(b)), laba,
+					  labb) &&
+		       complex_eq_exp(bro(son(a)), bro(son(b)),laba,labb));
 	}
 	if (name(a) == cond_tag) {
 		exp fa = son(a);
 		exp fb = son(b);
-	 	return (complex_eq_exp(fa,fb, bro(fa), bro(fb)) &&
-	 		  complex_eq_exp(bro(son(bro(fa))), bro(son(bro(fb))), laba, labb) );
+		return(complex_eq_exp(fa,fb, bro(fa), bro(fb)) &&
+		       complex_eq_exp(bro(son(bro(fa))), bro(son(bro(fb))),
+				      laba, labb));
 	}
-	if (name(a)==test_tag) {
-		return(pt(a)==laba && pt(b)==labb && props(a)==props(b) &&
-			complex_eq_explist(son(a),son(b), laba, labb) );
+	if (name(a) ==test_tag) {
+		return(pt(a) ==laba && pt(b) ==labb && props(a) ==props(b) &&
+		       complex_eq_explist(son(a),son(b), laba, labb));
 	}
-	if (name(a)==name_tag) {
-		return (son(a)==son(b) && no(a)==no(b));
+	if (name(a) ==name_tag) {
+		return(son(a) ==son(b) && no(a) ==no(b));
 	}
 
-	return (is_a(name(a)) && no(a)==no(b) &&
-		 complex_eq_explist(son(a), son(b), laba, labb) );
+	return(is_a(name(a)) && no(a) ==no(b) &&
+	       complex_eq_explist(son(a), son(b), laba, labb));
 }

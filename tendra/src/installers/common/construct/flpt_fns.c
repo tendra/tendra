@@ -73,9 +73,8 @@ $Log: flpt_fns.c,v $
 
 
 
-  /* This file consists of the floating point and complex operations
-     extracted from install_fns.c, to reduce compilation unit sizes
-  */
+/* This file consists of the floating point and complex operations
+   extracted from install_fns.c, to reduce compilation unit sizes */
 
 #include "config.h"
 #include <ctype.h>
@@ -738,7 +737,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	  }
 
 
-	  /*  n=n/2  */
+	  /*  n = n / 2  */
 
 	  {
 	      exp constant2 = me_shint(integer_shape, 2);
@@ -749,7 +748,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	  }
 
 
-	  /*  if n is odd then w = z*w  */
+	  /*  if n is odd then w = z * w  */
 
 	  {
 	      exp constant1 = me_shint(integer_shape, 1);
@@ -792,8 +791,8 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					     me_contents(n), constant1);
 
 	      seq_zero = me_b2(square_z, update_w, 0);
-	      setbro (square_z, half_n);	/*  insert half_n between   */
-	      setbro (half_n, update_w);	/*  square_x and update_w   */
+	      setbro(square_z, half_n);	/*  insert half_n between   */
+	      setbro(half_n, update_w);	/*  square_x and update_w   */
 	      clearlast(half_n);
 	      seq_zero = hold_check(seq_zero);
 
@@ -2190,7 +2189,8 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 		failer("constant value out of range: power: must be non-negative");
 	    } else {
 		/* take reciprocal */
-		arg1 = hold_check(f_floating_div(ov_err, me_obtain(real1), arg1));
+		arg1 = hold_check(f_floating_div(ov_err, me_obtain(real1),
+						 arg1));
 	    }
 	}
 	x = push(real1, me_startid(real_shape, arg1, 0));
@@ -2289,14 +2289,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	    mult_x_w = f_assign(me_obtain(w), answer);
 	}
 
-	/*  n=n/2  */
+	/*  n = n / 2  */
 	{
 	    exp answer = f_shift_right(me_contents(n),
 				       me_shint(integer_shape, 1));
 	    half_n = f_assign(me_obtain(n), answer);
 	}
 
-	/*  if n is odd then w = z*w  */
+	/*  if n is odd then w = z * w  */
 	{
 	    exp rem_n_2 = f_and(me_contents(n), me_shint(integer_shape, 1));
 	    exp alt_labst = hold_check(me_b3(f_top, f_make_value(f_top),
@@ -2355,8 +2355,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (is_integer(real_shape)) {
 	    make_comp = me_contents(w);
-	}
-	else {
+	} else {
 	    exp make_comp2 = f_floating_div(ov_err, me_obtain(real1),
 					    me_contents(w));
 	    exp alt_labst = hold_check(me_b3(real_shape, f_make_value(f_top),
