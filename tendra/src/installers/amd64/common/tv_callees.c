@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -68,7 +98,7 @@ $Log: tv_callees.c,v $
 
 
 void transform_var_callees
-    PROTO_Z ()
+(void)
 				/* Transforms caller arguments of general
 				   procs with variable callees, to appear
 				   like a structure whose address is
@@ -79,25 +109,25 @@ void transform_var_callees
 				*/
 {
   dec * my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
-    if (son(tg) != nilexp && name(son(tg)) == general_proc_tag
+    if (son(tg)!= nilexp && name(son(tg)) == general_proc_tag
 		&& proc_has_vcallees(son(tg))) {
       shape pc_sh = f_pointer(f_callers_alignment(0));
       int param_offset = 0;
       exp gp_body = son(son(tg));
-      exp newdec = getexp (sh(gp_body), nilexp, 1, nilexp, nilexp, 0, 0, ident_tag);
+      exp newdec = getexp(sh(gp_body), nilexp, 1, nilexp, nilexp, 0, 0, ident_tag);
       exp newlist = nilexp;
-      son(newdec) = getexp (pc_sh, nilexp, 0, nilexp, nilexp, 0, 0, formal_callee_tag);
+      son(newdec) = getexp(pc_sh, nilexp, 0, nilexp, nilexp, 0, 0, formal_callee_tag);
 
       while (name(gp_body) == ident_tag && isparam(gp_body)
-		&& name(son(gp_body)) != formal_callee_tag) {
+		&& name(son(gp_body))!= formal_callee_tag) {
 	exp arg_id = gp_body;
 	exp oldlist = pt(arg_id);
 	gp_body = bro(son(gp_body));
 	while (oldlist != nilexp) {
 	  exp this_n = oldlist;
-	  exp new_n = getexp (pc_sh, this_n, 1, newdec, newlist, 0, 0, name_tag);
+	  exp new_n = getexp(pc_sh, this_n, 1, newdec, newlist, 0, 0, name_tag);
 	  oldlist = pt(oldlist);
 	  newlist = new_n;
 	  no(newdec) ++;
@@ -107,8 +137,8 @@ void transform_var_callees
 	    no(this_n) += param_offset;
 	  }
 	  else {
-	    exp r = getexp (f_pointer(f_alignment(sh(son(arg_id)))),
-		 this_n, 1, new_n, nilexp, 0, no(this_n)+param_offset, reff_tag);
+	    exp r = getexp(f_pointer(f_alignment(sh(son(arg_id)))),
+		 this_n, 1, new_n, nilexp, 0, no(this_n) +param_offset, reff_tag);
 	    bro(new_n) = r;
 	    name(this_n) = cont_tag;
 	    son(this_n) = r;
@@ -128,7 +158,7 @@ void transform_var_callees
       }
       {
 	setparam (newdec);	/* not var */
-	setcaonly (newdec);
+	setcaonly(newdec);
 	bro(son(newdec)) = gp_body;
 	setfather(newdec, gp_body);
 	gp_body = newdec;
@@ -137,11 +167,11 @@ void transform_var_callees
       setfather(son(tg),gp_body);
     }
 
-    if (son(tg) != nilexp &&
+    if (son(tg)!= nilexp &&
 	(name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
       exp nlist = pt(tg);
       while (nlist != nilexp) {
-	if (name(nlist) == name_tag && last(nlist) && bro(nlist) != nilexp &&
+	if (name(nlist) == name_tag && last(nlist) && bro(nlist)!= nilexp &&
 		name(bro(nlist)) == env_size_tag)
 	  set_proc_needs_envsize(son(tg));
 	nlist = pt(nlist);

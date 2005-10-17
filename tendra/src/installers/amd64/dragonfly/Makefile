@@ -37,34 +37,34 @@ SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
 
 #MAKE_TDF=make_tdf
 #
-#TDF_OUT=${SRC5}/decoder.c ${SRC5}/ecodes.h ${SRC5}/externs.h ${SRC5}/inits.h\
-# ${SRC5}/main_reads.h ${SRC5}/temp_fns.new
+#TDF_OUT=${SRC6}/decoder.c ${SRC6}/ecodes.h ${SRC6}/externs.h ${SRC6}/inits.h\
+# ${SRC6}/main_reads.h ${SRC6}/temp_fns.new
 #
 #auto : ${TDF_OUT}
 #
-#${SRC5}/decoder.c : ${SPEC} ${SRC7}/decoder.c
-#	@${REMOVE} ${SRC5}/decoder.c
-#	${MAKE_TDF} ${SPEC} ${SRC7}/decoder.c ${SRC5}/decoder.c
+#${SRC6}/decoder.c : ${SPEC} ${SRC7}/decoder.c
+#	@${REMOVE} ${SRC6}/decoder.c
+#	${MAKE_TDF} ${SPEC} ${SRC7}/decoder.c ${SRC6}/decoder.c
 #
-#${SRC5}/ecodes.h : ${SPEC} ${SRC7}/ecodes.h
-#	@${REMOVE} ${SRC5}/ecodes.h
-#	${MAKE_TDF} ${SPEC} ${SRC7}/ecodes.h ${SRC5}/ecodes.h
+#${SRC6}/ecodes.h : ${SPEC} ${SRC7}/ecodes.h
+#	@${REMOVE} ${SRC6}/ecodes.h
+#	${MAKE_TDF} ${SPEC} ${SRC7}/ecodes.h ${SRC6}/ecodes.h
 #
-#${SRC5}/externs.h : ${SPEC} ${SRC7}/externs.h
-#	@${REMOVE} ${SRC5}/externs.h
-#	${MAKE_TDF} ${SPEC} ${SRC7}/externs.h ${SRC5}/externs.h
+#${SRC6}/externs.h : ${SPEC} ${SRC7}/externs.h
+#	@${REMOVE} ${SRC6}/externs.h
+#	${MAKE_TDF} ${SPEC} ${SRC7}/externs.h ${SRC6}/externs.h
 #
-#${SRC5}/inits.h : ${SPEC} ${SRC7}/inits.h
-#	@${REMOVE} ${SRC5}/inits.h
-#	${MAKE_TDF} ${SPEC} ${SRC7}/inits.h ${SRC5}/inits.h
+#${SRC6}/inits.h : ${SPEC} ${SRC7}/inits.h
+#	@${REMOVE} ${SRC6}/inits.h
+#	${MAKE_TDF} ${SPEC} ${SRC7}/inits.h ${SRC6}/inits.h
 #
-#${SRC5}/main_reads.h : ${SPEC} ${SRC7}/main_reads.h
-#	@${REMOVE} ${SRC5}/main_reads.h
-#	${MAKE_TDF} ${SPEC} ${SRC7}/main_reads.h ${SRC5}/main_reads.h
+#${SRC6}/main_reads.h : ${SPEC} ${SRC7}/main_reads.h
+#	@${REMOVE} ${SRC6}/main_reads.h
+#	${MAKE_TDF} ${SPEC} ${SRC7}/main_reads.h ${SRC6}/main_reads.h
 #
-#${SRC5}/temp_fns.new : ${SPEC} ${SRC7}/temp_fns.c
-#	@${REMOVE} ${SRC5}/temp_fns.new
-#	${MAKE_TDF} ${SPEC} ${SRC7}/temp_fns.c ${SRC5}/temp_fns.new
+#${SRC6}/temp_fns.new : ${SPEC} ${SRC7}/temp_fns.c
+#	@${REMOVE} ${SRC6}/temp_fns.new
+#	${MAKE_TDF} ${SPEC} ${SRC7}/temp_fns.c ${SRC6}/temp_fns.new
 #
 #auto_clobber :
 #	${REMOVE} ${TDF_OUT}

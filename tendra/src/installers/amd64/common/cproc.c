@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -202,9 +232,8 @@ exp hasenvoff_list = nilexp;	/* global, used by coder */
 
 /* PROCEDURES */
 
-static void add_odd_bits
-    PROTO_N ( (r) )
-    PROTO_T ( outofline * r )
+static void
+add_odd_bits(outofline * r)
 {
   if (r != (outofline*)0) {
     if (r -> next == (outofline*)0)
@@ -222,11 +251,11 @@ static void add_odd_bits
 #ifdef NEWDWARF
   if (dwarf2) {
 #if 1
-    dw2_start_extra_bit (r->body);
+    dw2_start_extra_bit(r->body);
 #else
-    dw2_start_extra_bit (r->dw2_slave);
+    dw2_start_extra_bit(r->dw2_slave);
 #endif
-    START_BB ();
+    START_BB();
   }
 #endif
 
@@ -240,7 +269,7 @@ static void add_odd_bits
   repeat_level = r->repeat_level;
   scale = r->scale;
   coder(r->dest, r->stack, r->body);
-  if (name(sh(r->body)) != bothd)  {
+  if (name(sh(r->body))!= bothd) {
     clean_stack();
     jump(r->jr, 0);
   }
@@ -249,17 +278,16 @@ static void add_odd_bits
 #ifdef NEWDWARF
   if (dwarf2)
 #if 1
-    dw2_end_extra_bit (r->body);
+    dw2_end_extra_bit(r->body);
 #else
-    dw2_end_extra_bit (r->dw2_hi);
+    dw2_end_extra_bit(r->dw2_hi);
 #endif
 #endif
   return;
 }
 
-static void out_pops
-    PROTO_N ( (tot_sp, push_space, extra, dpos) )
-    PROTO_T ( int tot_sp X int push_space X int extra X int dpos )
+static void
+out_pops(int tot_sp, int push_space, int extra, int dpos)
 {
 #ifdef NEWDWARF
   int st;
@@ -268,112 +296,111 @@ static void out_pops
   tot_sp -= extra;
   if (no_frame && !stack_aligned_8byte) {
     if (tot_sp != push_space) {
-      outs (" addl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%esp");
+      outs(" addl $");
+      outn((long)(tot_sp - push_space));
+      outs(",%esp");
       outnl();
 #ifdef NEWDWARF
       if (diagnose && dwarf2)
-	dwl0 = set_dw_text_label ();
+	dwl0 = set_dw_text_label();
 #endif
     };
   }
   else {
     if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
-      outs (" leal -");
-      outn ((long)push_space);
-      outs ("(%ebp),%esp");
+      outs(" leal -");
+      outn((long)push_space);
+      outs("(%ebp),%esp");
       outnl();
     };
   };
 
   /* pop the registers at the end */
   if (no_frame && (min_rfree & 0x40)) {
-    outs (" pop %ebp");
+    outs(" pop %ebp");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+      dwl1 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x20) {
-    outs (" pop %esi");
+    outs(" pop %esi");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl2 = set_dw_text_label ();
+      dwl2 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x10) {
-    outs (" pop %edi");
+    outs(" pop %edi");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl3 = set_dw_text_label ();
+      dwl3 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x8) {
-    outs (" pop %ebx");
+    outs(" pop %ebx");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl4 = set_dw_text_label ();
+      dwl4 = set_dw_text_label();
 #endif
   };
 
-  if (!no_frame)  {
-    outs (" pop %ebp");
+  if (!no_frame) {
+    outs(" pop %ebp");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+      dwl1 = set_dw_text_label();
 #endif
   };
   outnl();
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    st = fseek (fpout, dpos, 0);
+    st = fseek(fpout, dpos, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    dw2_fde_restore_args (dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
+    dw2_fde_restore_args(dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
   }
 #endif
   return;
 }
 
-static void out_untidy_pops
-    PROTO_N ( (tot_sp, push_space) )
-    PROTO_T ( int tot_sp X int push_space )
+static void
+out_untidy_pops(int tot_sp, int push_space)
 {
   if (no_frame) {
     int s_offset = tot_sp - push_space;
     if (min_rfree & 0x40) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%ebp");
+      outs(" movl ");
+      outn((long)s_offset);
+      outs("(%esp),%ebp");
       outnl();
       s_offset += 4;
     };
     if (min_rfree & 0x20) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%esi");
+      outs(" movl ");
+      outn((long)s_offset);
+      outs("(%esp),%esi");
       outnl();
       s_offset += 4;
     };
     if (min_rfree & 0x10) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%edi");
+      outs(" movl ");
+      outn((long)s_offset);
+      outs("(%esp),%edi");
       outnl();
       s_offset += 4;
     };
     if (min_rfree & 0x8) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%ebx");
+      outs(" movl ");
+      outn((long)s_offset);
+      outs("(%esp),%ebx");
       outnl();
       /* s_offset += 4; */
     };
@@ -381,36 +408,35 @@ static void out_untidy_pops
   else {
     int fm_offset = - push_space;
     if (min_rfree & 0x20) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%esi");
+      outs(" movl ");
+      outn((long)fm_offset);
+      outs("(%ebp),%esi");
       outnl();
       fm_offset += 4;
     };
     if (min_rfree & 0x10) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%edi");
+      outs(" movl ");
+      outn((long)fm_offset);
+      outs("(%ebp),%edi");
       outnl();
       fm_offset += 4;
     };
     if (min_rfree & 0x8) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%ebx");
+      outs(" movl ");
+      outn((long)fm_offset);
+      outs("(%ebp),%ebx");
       outnl();
       /* fm_offset += 4; */
     };
-    outs (" movl 0(%ebp),%ebp");
+    outs(" movl 0(%ebp),%ebp");
     outnl();
   };
   return;
 }
 
 
-int cproc
-    PROTO_N ( (p, pname, cname, global, diag_props) )
-    PROTO_T ( exp p X char *pname X int cname X int global X diag_global * diag_props )
+int
+cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 {
   exp jr, t, body;
   ash stack;
@@ -450,7 +476,7 @@ int cproc
   not_in_postlude = 1;
   keep_short = 0;
   repeat_level = 0;
-  callee_size = (proc_has_vcallees(p) ? -1 : 0);
+  callee_size = (proc_has_vcallees(p)? -1 : 0);
   ferrsize = 0;
   fpucon = normal_fpucon;
 
@@ -465,7 +491,7 @@ int cproc
 /* 8byte align */
   request_align_8byte = permit_8byte_align && useful_double;
 
-  if (pname[0] != local_prefix[0])
+  if (pname[0]!= local_prefix[0])
     proc_type(pname);
 
   has_alloca = proc_has_alloca(p);
@@ -477,7 +503,7 @@ int cproc
   no_frame = 1;
   if (always_use_frame || do_profile || must_use_bp || has_dy_callees ||
         proc_uses_crt_env(p) || proc_has_setjmp(p) || proc_has_asm
-     )
+    )
      no_frame = 0;
 
   if (request_align_8byte && no_frame) {
@@ -500,7 +526,7 @@ int cproc
   cond1_set = 0;
   cond2_set = 0;		/* state of condition flags is not known
 				*/
-  clear_reg_record (crt_reg_record);
+  clear_reg_record(crt_reg_record);
   stack.ashsize = 0;
   stack.ashalign = 0;
 
@@ -510,7 +536,7 @@ int cproc
 				/* set up params before any diagnostics */
   t = son(p);
   param_pos = 0;
-  while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
+  while (name(t) == ident_tag && isparam(t) && name(son(t))!= formal_callee_tag)
    {
      t = bro(son(t));
    };
@@ -532,7 +558,7 @@ int cproc
    };
    {
      exp pp = son(p);
-     while (name(pp) == ident_tag && isparam(pp) && name(son(pp)) != formal_callee_tag)
+     while (name(pp) == ident_tag && isparam(pp) && name(son(pp))!= formal_callee_tag)
       {
 	ptno(pp) = par_pl;
 	no(pp) = param_pos;
@@ -549,9 +575,9 @@ int cproc
 
 
   if (global) {
-    outs (".globl ");
-    outs (pname);
-    outnl ();
+    outs(".globl ");
+    outs(pname);
+    outnl();
   };
 
   if (is80486)
@@ -561,111 +587,111 @@ int cproc
 
   if (diagnose)
 #ifdef NEWDWARF
-    DIAG_PROC_BEGIN (diag_props, global, cname, pname, p);
+    DIAG_PROC_BEGIN(diag_props, global, cname, pname, p);
 #else
-    diag_proc_begin (diag_props, global, cname, pname);
+    diag_proc_begin(diag_props, global, cname, pname);
 #endif
 
   if (cname == -1)
-    outs (pname);
+    outs(pname);
   else
     {
       outs(local_prefix);
       outn((long)cname);
     };
-  outs (":");
-  outnl ();
+  outs(":");
+  outnl();
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    START_BB ();
-    dwl0 = set_dw_text_label ();
+    START_BB();
+    dwl0 = set_dw_text_label();
   }
 #endif
 
 /* space for setting local displacement label */
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos1 = ftell (fpout);
-  outs ("                          ");
+  old_pos1 = ftell(fpout);
+  outs("                          ");
      /* ".set .LdispNNNN, SSSSS\n" */
-  outnl ();
+  outnl();
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos1a = ftell (fpout);
-  outs ("                             ");
+  old_pos1a = ftell(fpout);
+  outs("                             ");
      /* ".set .LfcwdispNNNN, SSSSS\n" */
-  outnl ();
+  outnl();
 
   if (!no_frame) {
-    outs (" pushl %ebp");
-    outnl ();
-    outs (" movl %esp,%ebp");
-    outnl ();
+    outs(" pushl %ebp");
+    outnl();
+    outs(" movl %esp,%ebp");
+    outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+      dwl1 = set_dw_text_label();
 #endif
   };
 
 /* space for pushing fixed point registers */
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos2 = ftell (fpout);
-  outs ("               ");
+  old_pos2 = ftell(fpout);
+  outs("               ");
      /* " pushl %ebx\n" */
 #ifdef NEWDWARF
   if (diagnose && dwarf2)
-    outs (dw_labroom);
+    outs(dw_labroom);
 #endif
-  outnl ();
+  outnl();
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos3 = ftell (fpout);
-  outs ("               ");
+  old_pos3 = ftell(fpout);
+  outs("               ");
      /* " pushl %edi\n" */
 #ifdef NEWDWARF
   if (diagnose && dwarf2)
-    outs (dw_labroom);
+    outs(dw_labroom);
 #endif
-  outnl ();
+  outnl();
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos4 = ftell (fpout);
-  outs ("               ");
+  old_pos4 = ftell(fpout);
+  outs("               ");
      /* " pushl %esi\n" */
 #ifdef NEWDWARF
   if (diagnose && dwarf2)
-    outs (dw_labroom);
+    outs(dw_labroom);
 #endif
-  outnl ();
+  outnl();
   if (no_frame) {
     if (flush_before_tell)
       IGNORE fflush(fpout);
-    old_pos5 = ftell (fpout);
-    outs ("               ");
+    old_pos5 = ftell(fpout);
+    outs("               ");
        /* " pushl %ebp\n" */
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      outs (dw_labroom);
+      outs(dw_labroom);
 #endif
-    outnl ();
+    outnl();
   }
 
 /* space for subtract from stack pointer */
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos8 = ftell (fpout);
-  outs ("                     ");
+  old_pos8 = ftell(fpout);
+  outs("                     ");
      /* " subl $SSSSS,%esp\n" */
      /* " movl $SSSSS,%eax\n" */
-  outnl ();
+  outnl();
   if (proc_has_checkstack(p)) {
-    checkalloc_stack (reg0, 1);
+    checkalloc_stack(reg0, 1);
   };
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    dwl8 = set_dw_text_label ();
-    dw_entry_pos = dw2_start_fde (dwl0, dwl1);
+    dwl8 = set_dw_text_label();
+    dw_entry_pos = dw2_start_fde(dwl0, dwl1);
   }
 #endif
 
@@ -676,45 +702,49 @@ int cproc
 
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  old_pos9 = ftell (fpout);
-  outs ("                                    ");
+  old_pos9 = ftell(fpout);
+  outs("                                    ");
      /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
-  outnl ();
+  outnl();
 
 
-#if islinux || isfreebsd
+#if isdragonfly || isfreebsd || islinux
   if (
-#if islinux
+#if isdragonfly
+  !dragonfly_elf &&
+#elif isfreebsd
+  !freebsd_elf &&
+#elif islinux
 	!linux_elf &&
 #endif
-	pname[0] != local_prefix[0] &&
-	!strcmp (pname+prefix_length, "main")) {
+	pname[0]!= local_prefix[0] &&
+	!strcmp(pname+prefix_length, "main")) {
     out_main_prelude();
   }
 #endif
 
   if (do_profile) {
     int  labl = next_lab ();	/* output profile procedure header */
-    outs (".data");
-    outnl ();
+    outs(".data");
+    outnl();
     dot_align(4);
     outs(local_prefix);
-    outs ("P");
-    outn ((long)labl);
-    outs (":");
-    outnl ();
-    outs (" .long 0");
-    outnl ();
-    outs (".text");
-    outnl ();
-    outs (" leal ");
+    outs("P");
+    outn((long)labl);
+    outs(":");
+    outnl();
+    outs(" .long 0");
+    outnl();
+    outs(".text");
+    outnl();
+    outs(" leal ");
     outs(local_prefix);
-    outs ("P");
-    outn ((long)labl);
-    outs (",%edx");
-    outnl ();
-    outs (" call _mcount");
-    outnl ();
+    outs("P");
+    outn((long)labl);
+    outs(",%edx");
+    outnl();
+    outs(" call _mcount");
+    outnl();
   };
 
 
@@ -731,7 +761,7 @@ int cproc
      need_preserve_stack = 1;
      stack.ashsize += 32;
      max_stack = stack.ashsize;
-     save_stack ();
+     save_stack();
    };
 
   scale = (float)1.0;
@@ -750,12 +780,12 @@ int cproc
 
 
   if (crt_ret_lab_used) {
-    jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
+    jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
                 0, 0);
     sonno(jr) = stack_dec;
     ptno(jr) = crt_ret_lab;
     fstack_pos_of(jr) = (prop)first_fl_reg;
-    set_label (jr);
+    set_label(jr);
   };
 
 	/* If the procedure loads the current env and uses make_lv
@@ -768,7 +798,7 @@ int cproc
     min_rfree |= 0x38;
 
   /* compute space needed for local variables in memory */
-  ms = ((max_stack + 31) / 32) * 4;
+  ms = ((max_stack + 31) / 32)* 4;
   /* compute space needed for pushing registers */
   if (no_frame && min_rfree & 0x40)
     push_space += 4;
@@ -786,31 +816,31 @@ int cproc
 #ifdef NEWDWARF
     long over_lab;
     if (diagnose && dwarf2) {
-      over_lab = next_dwarf_label ();
-      dw2_return_pos (over_lab);
+      over_lab = next_dwarf_label();
+      dw2_return_pos(over_lab);
     }
 #endif
-    restore_callregs (0);
+    restore_callregs(0);
     retins();
-    outnl ();
+    outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dw2_after_fde_exit (over_lab);
+      dw2_after_fde_exit(over_lab);
 #endif
   };
-  outnl ();
+  outnl();
 
-  this_pos = ftell (fpout);
+  this_pos = ftell(fpout);
   while (returns_list != nilexp) {
-    st = fseek (fpout, (long)no(returns_list), 0);
+    st = fseek(fpout,(long)no(returns_list), 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
     if (name(returns_list) == 1)
-      out_untidy_pops (tot_sp, push_space);
+      out_untidy_pops(tot_sp, push_space);
     else
-      out_pops(tot_sp, push_space, ptno(returns_list)/8, sonno(returns_list));
+      out_pops(tot_sp, push_space, ptno(returns_list) /8, sonno(returns_list));
     returns_list = bro(returns_list);
   };
   fseek(fpout, this_pos, 0);
@@ -819,13 +849,13 @@ int cproc
   if (diagnose) {
     no (p) = tot_sp;	/* may be used by delayed diagnostics */
 #ifdef NEWDWARF
-    DIAG_PROC_END (diag_props, p);
+    DIAG_PROC_END(diag_props, p);
 #else
-    diag_proc_end (diag_props);
+    diag_proc_end(diag_props);
 #endif
 #ifdef NEWDWARF
   if (dwarf2)
-    dw2_complete_fde ();
+    dw2_complete_fde();
 #endif
   }
 
@@ -834,40 +864,40 @@ int cproc
 
     if (flush_before_tell)
       IGNORE fflush(fpout);
-    this_pos = ftell (fpout);
-    st = fseek (fpout, old_pos1, 0);
+    this_pos = ftell(fpout);
+    st = fseek(fpout, old_pos1, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
 
     /* set the label which says how much the stack was decreased, in case
        frame pointer addressing is used  */
-    outs (".set ");
+    outs(".set ");
     outs(local_prefix);
-    outs ("disp");
-    outn ((long)crt_proc_id);
-    outs (", ");
-    outn ((long)tot_sp);
+    outs("disp");
+    outn((long)crt_proc_id);
+    outs(", ");
+    outn((long)tot_sp);
 
     if (ferrsize != 0) {
 	/* set label for displacement to fpu control local store */
-      st = fseek (fpout, old_pos1a, 0);
+      st = fseek(fpout, old_pos1a, 0);
       if (st == -1) {
-        failer (SEEK_FAILURE);
+        failer(SEEK_FAILURE);
         exit(EXIT_FAILURE);
       };
-      outs (".set ");
+      outs(".set ");
       outs(local_prefix);
-      outs ("fcwdisp");
-      outn ((long)crt_proc_id);
-      outs (", ");
-      outn ((long)((no_frame) ? (tot_sp - push_space - ferrsize) : (push_space + ferrsize)));
+      outs("fcwdisp");
+      outn((long)crt_proc_id);
+      outs(", ");
+      outn((long)((no_frame)?(tot_sp - push_space - ferrsize):(push_space + ferrsize)));
     }
 
-    st = fseek (fpout, this_pos, 0);
+    st = fseek(fpout, this_pos, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
   };
@@ -875,137 +905,141 @@ int cproc
   if (tot_sp != push_space || proc_has_checkstack(p)) {
     if (flush_before_tell)
       IGNORE fflush(fpout);
-    this_pos = ftell (fpout);
-    st = fseek (fpout, old_pos8, 0);
+    this_pos = ftell(fpout);
+    st = fseek(fpout, old_pos8, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
 
     /* decrease the stack if necessary */
     if (proc_has_checkstack(p)) {
-      outs (" movl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%eax");
+      outs(" movl $");
+      outn((long)(tot_sp - push_space));
+      outs(",%eax");
     }
     else {
-      outs (" subl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%esp");
+      outs(" subl $");
+      outn((long)(tot_sp - push_space));
+      outs(",%esp");
     };
     outnl();
 
     if (ferrsize != 0) {	/* record FPU control word */
-      st = fseek (fpout, old_pos9, 0);
+      st = fseek(fpout, old_pos9, 0);
       if (st == -1) {
-        failer (SEEK_FAILURE);
+        failer(SEEK_FAILURE);
         exit(EXIT_FAILURE);
       };
-      move (uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
+      move(uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
     }
 
-    st = fseek (fpout, this_pos, 0);
+    st = fseek(fpout, this_pos, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
   };
 
   /* push registers as necessary */
   if (min_rfree & 0x8) {
-    st = fseek (fpout, old_pos2, 0);
+    st = fseek(fpout, old_pos2, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    outs (" pushl %ebx");
+    outs(" pushl %ebx");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl2 = set_dw_text_label ();
+      dwl2 = set_dw_text_label();
 #endif
   };
 
   if (min_rfree & 0x10) {
-    st = fseek (fpout, old_pos3, 0);
+    st = fseek(fpout, old_pos3, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    outs (" pushl %edi");
+    outs(" pushl %edi");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl3 = set_dw_text_label ();
+      dwl3 = set_dw_text_label();
 #endif
   };
 
 
   if (min_rfree & 0x20) {
-    st = fseek (fpout, old_pos4, 0);
+    st = fseek(fpout, old_pos4, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    outs (" pushl %esi");
+    outs(" pushl %esi");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl4 = set_dw_text_label ();
+      dwl4 = set_dw_text_label();
 #endif
   };
 
   if (no_frame && (min_rfree & 0x40)) {
-    st = fseek (fpout, old_pos5, 0);
+    st = fseek(fpout, old_pos5, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    outs (" pushl %ebp");
+    outs(" pushl %ebp");
     outnl();
 #ifdef NEWDWARF
     if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+      dwl1 = set_dw_text_label();
 #endif
   };
 
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    st = fseek (fpout, dw_entry_pos, 0);
+    st = fseek(fpout, dw_entry_pos, 0);
     if (st == -1) {
-      failer (SEEK_FAILURE);
+      failer(SEEK_FAILURE);
       exit(EXIT_FAILURE);
     };
-    dw2_fde_entry (dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
+    dw2_fde_entry(dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
   };
 #endif
 
-  st = fseek (fpout, this_pos, 0);
+  st = fseek(fpout, this_pos, 0);
   if (st == -1) {
-    failer (SEEK_FAILURE);
+    failer(SEEK_FAILURE);
     exit(EXIT_FAILURE);
   };
 
-  if (pname[0] != local_prefix[0])
-    proc_size (pname);
+  if (pname[0]!= local_prefix[0])
+    proc_size(pname);
 
   if (proc_needs_envsize(p)) {
-    outs (".set ");
+    outs(".set ");
     outs(local_prefix);
-    outs ("ESZ");
-    outs (pname);
-    outs (", ");
-    outn ((long)(tot_sp + 4 + max_extra_stack/8));
-    outnl ();
+    outs("ESZ");
+    outs(pname);
+    outs(", ");
+    outn((long)(tot_sp + 4 + max_extra_stack/8));
+    outnl();
   }
 
-#if islinux || isfreebsd
+#if isdragonfly || isfreebsd || islinux
   if (
-#if islinux
+#if isdragonfly
+  !dragonfly_elf &&
+#elif isfreebsd
+  !freebsd_elf &&
+#elif islinux
 	!linux_elf &&
 #endif
-	pname[0] != local_prefix[0] &&
-	!strcmp (pname+prefix_length, "main")) {
+	pname[0]!= local_prefix[0] &&
+	!strcmp(pname+prefix_length, "main")) {
     out_main_postlude();
   }
 #endif
@@ -1034,7 +1068,7 @@ int cproc
   else
     set_proc_has_fp(p);
 
-  return (proc_needs_envsize(p) ? tot_sp + 4 + max_extra_stack/8 : 0);
+  return(proc_needs_envsize(p)? tot_sp + 4 + max_extra_stack/8 : 0);
 }
 
 
@@ -1042,8 +1076,7 @@ int cproc
    when we know which ones are reused.
    This preserves %eax, %ecx, %edx */
 void restore_callregs
-    PROTO_N ( (untidy) )
-    PROTO_T ( int untidy )
+(int untidy)
 {
   char *sp50 = "                                                  ";
   long retpos = ftell(fpout);
@@ -1051,12 +1084,12 @@ void restore_callregs
   outs(sp50); outs(sp50); outs(sp50);
   outnl();
   returns_list = getexp(f_top, returns_list, 0, nilexp,
-				nilexp, 0, 0, (unsigned char)untidy);
+				nilexp, 0, 0,(unsigned char)untidy);
   no(returns_list) = (int)retpos;
   ptno(returns_list) = stack_dec;
 #ifdef NEWDWARF
   if (diagnose && dwarf2)
-    sonno(returns_list) = (int)dw2_prep_fde_restore_args (untidy);
+    sonno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
 #endif
   return;
 }

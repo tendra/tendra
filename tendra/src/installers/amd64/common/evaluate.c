@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -119,10 +149,9 @@ $Log: evaluate.c,v $
 
 
 static void outsize
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+(int n)
 {
-  switch ((n+7)/8) {
+  switch ((n+7) /8) {
     case 1:
 	outbyte();
 	break;
@@ -138,8 +167,7 @@ static void outsize
 
 
 long  evalexp
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   switch (name(e)) {
     case  val_tag:
@@ -147,56 +175,56 @@ long  evalexp
     case top_tag:
       {
 	if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
-		return (no(e)>>3);
+		return(no(e) >>3);
 	}
-        return (no (e));
+        return(no(e));
       }
     case bitf_to_int_tag:
       {
-	return evalexp (son (e));
+	return evalexp(son(e));
       }
     case int_to_bitf_tag:
       {
-	long  w = evalexp (son (e));
-	if (shape_align(sh(e)) != 1) {
-	  failer ("should be align 1");
+	long  w = evalexp(son(e));
+	if (shape_align(sh(e))!= 1) {
+	  failer("should be align 1");
 	}
-	if (shape_size(sh(e)) != 32) {
+	if (shape_size(sh(e))!= 32) {
 	  w &= ((1 << shape_size(sh(e))) - 1);
 	}
 	return w;
       }
     case not_tag:
       {
-	return (~evalexp (son (e)));
+	return(~evalexp(son(e)));
       }
     case and_tag:
       {
-	return (evalexp (son (e)) & evalexp (bro (son (e))));
+	return(evalexp(son(e)) & evalexp(bro(son(e))));
       }
     case or_tag:
       {
-	return (evalexp (son (e)) | evalexp (bro (son (e))));
+	return(evalexp(son(e)) | evalexp(bro(son(e))));
       }
     case xor_tag:
       {
-	return (evalexp (son (e)) ^ evalexp (bro (son (e))));
+	return(evalexp(son(e))^ evalexp(bro(son(e))));
       }
 
     case shr_tag:
       {
-	return (evalexp (son (e)) >> evalexp (bro (son (e))));
+	return(evalexp(son(e)) >> evalexp(bro(son(e))));
       }
 
     case shl_tag:
       {
-	return (evalexp (son (e)) << evalexp (bro (son (e))));
+	return(evalexp(son(e)) << evalexp(bro(son(e))));
       }
 
     case concatnof_tag:
       {
-	long  wd = evalexp (son (e));
-	return (wd | (evalexp (bro (son (e))) << shape_size(sh(son(e)))));
+	long  wd = evalexp(son(e));
+	return(wd | (evalexp(bro(son(e))) << shape_size(sh(son(e)))));
       }
 
     case clear_tag:
@@ -208,79 +236,78 @@ long  evalexp
     case env_offset_tag:
       {
 	if (name(son(e)) == 0)
-   	  return (no(son(e)) / 8);
+   	  return(no(son(e)) / 8);
 	break;
       }
     case env_size_tag:
       {
 	dec * et = brog(son(son(e)));
 	if (et -> dec_u.dec_val.processed)
-	  return (et -> dec_u.dec_val.index);
+	  return(et -> dec_u.dec_val.index);
 	break;
       }
     case offset_add_tag:
       {
-    	return (evalexp(son(e))+evalexp(bro(son(e))));
+    	return(evalexp(son(e)) +evalexp(bro(son(e))));
       }
     case offset_max_tag:
       {
 	long a = evalexp(son(e));
 	long b = evalexp(bro(son(e)));
-    	return (a > b ? a : b);
+    	return(a > b ? a : b);
       }
     case offset_pad_tag:
       {
-	return( rounder(evalexp(son(e)), shape_align(sh(e)) / 8));
+	return(rounder(evalexp(son(e)), shape_align(sh(e)) / 8));
       }
     case offset_mult_tag:
       {
-    	return (evalexp(son(e))*evalexp(bro(son(e))));
+    	return(evalexp(son(e))*evalexp(bro(son(e))));
       }
     case offset_div_tag:
     case offset_div_by_int_tag:
       {
-    	return (evalexp(son(e))/evalexp(bro(son(e))));
+    	return(evalexp(son(e)) /evalexp(bro(son(e))));
       }
     case offset_subtract_tag:
       {
-    	return (evalexp(son(e))-evalexp(bro(son(e))));
+    	return(evalexp(son(e)) -evalexp(bro(son(e))));
       }
     case offset_negate_tag:
       {
-	return (- evalexp(son(e)));
+	return(- evalexp(son(e)));
       }
     case seq_tag:
       {
 	if (name(son(son(e))) == prof_tag && last(son(son(e))))
-	   return (evalexp(bro(son(e))));
+	   return(evalexp(bro(son(e))));
 	break;
       }
     case cont_tag:
       {
 	if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
-		&& son(son(son(e))) != nilexp
+		&& son(son(son(e)))!= nilexp
 		&& !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
-	   return (evalexp(son(son(son(e)))));
+	   return(evalexp(son(son(son(e)))));
 	break;
       }
   }
   failer(BAD_VAL);
-  return (0);
+  return(0);
 }
 
 
 /* outputs a value */
 static void evalval
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   int e_size = shape_size(sh(e));
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   int ov;
 
   if (n == val_tag) {
-    int k = (name(sh(e)) == offsethd && al2(sh(e)) != 1)
-                  ? no(e)/8 : no(e);
+    int k = (name(sh(e)) == offsethd && al2(sh(e))!= 1)
+                  ? no(e) /8 : no(e);
     flt64 x;
     if (isbigval(e)) {
       x = flt_to_f64(k, is_signed(sh(e)), &ov);
@@ -288,23 +315,23 @@ static void evalval
     }
     switch (e_size) {
       case 8:
-	outn ((long)k & 0xff);
+	outn((long)k & 0xff);
 	break;
       case 16:
-	outn ((long)k & 0xffff);
+	outn((long)k & 0xffff);
 	break;
       case 32:
-	outn ((long)k);
+	outn((long)k);
 	break;
       case 64:
-	outn ((long)k);
-	outs (", ");
+	outn((long)k);
+	outs(", ");
 	if (isbigval(e)) {
-	  SET (x);
+	  SET(x);
 	  outn((long)x.big);
 	} else
 	if (is_signed(sh(e)) && k < 0)
-	  outn((long)-1);
+	  outn((long) -1);
 	else
 	  outn((long)0);
 	break;
@@ -316,43 +343,43 @@ static void evalval
   };
 
   if (n == real_tag) {
-    outreal (e);
+    outreal(e);
     return;
   };
 
   if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
     outopenbr();
-    outs (brog (son (son (e))) -> dec_u.dec_val.dec_id);
-    outs (" + ");
-    outn ((long)(no (e) + no (son (e))) / 8);
+    outs(brog(son(son(e))) -> dec_u.dec_val.dec_id);
+    outs(" + ");
+    outn((long)(no(e) + no(son(e))) / 8);
     outclosebr();
     return;
   };
 
   if (n == name_tag) {
-    if (no (e) != 0) {
+    if (no(e)!= 0) {
       outopenbr();
-      outs (brog (son (e)) -> dec_u.dec_val.dec_id);
-      outs (" + ");
-      outn ((long)no (e) / 8);
+      outs(brog(son(e)) -> dec_u.dec_val.dec_id);
+      outs(" + ");
+      outn((long)no(e) / 8);
       outclosebr();
     }
     else
-      outs (brog (son (e)) -> dec_u.dec_val.dec_id);
+      outs(brog(son(e)) -> dec_u.dec_val.dec_id);
     return;
   };
 
   {
-    int k = evalexp (e);
+    int k = evalexp(e);
     switch (e_size) {
       case 8:
-	outn ((long)k & 0xff);
+	outn((long)k & 0xff);
 	break;
       case 16:
-	outn ((long)k & 0xffff);
+	outn((long)k & 0xffff);
 	break;
       case 32:
-	outn ((long)k);
+	outn((long)k);
 	break;
       default:
 	outn((long)k);
@@ -366,8 +393,7 @@ static void evalval
 
 /* auxiliary for evalaux */
 static  void clear_out
-    PROTO_N ( (n, isconst, al) )
-    PROTO_T ( int n X int isconst X int al )
+(int n, int isconst, int al)
 {
   if (n == 0)
      return;
@@ -375,21 +401,21 @@ static  void clear_out
   if (isconst) {
     while (al >= 32 && n >= 4) {
       outlong();
-      outs ("0");
-      outnl ();
+      outs("0");
+      outnl();
       n -= 4;
     };
     while (n > 0) {
       outbyte();
-      outs ("0");
-      outnl ();
+      outs("0");
+      outnl();
       --n;
     };
   }
   else {
-    outs (".set .,.+");
-    outn ((long)n);
-    outnl ();
+    outs(".set .,.+");
+    outn((long)n);
+    outnl();
   };
 
   return;
@@ -397,11 +423,10 @@ static  void clear_out
 
 /* does the work of outputting of constants recursively */
 static void evalaux
-    PROTO_N ( (e, isconst, al) )
-    PROTO_T ( exp e X int isconst X int al )
+(exp e, int isconst, int al)
 {
   int e_size = shape_size(sh(e));
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
 
   if (n == compound_tag) {		/* output components in turn */
     int work = 0;
@@ -424,7 +449,7 @@ static void evalaux
             off >= (crt_off + 8))
          {
 	    outbyte();
-	    outn ((long)work & 0xff);
+	    outn((long)work & 0xff);
             outnl();
             crt_off += 8;
             work = 0;
@@ -435,27 +460,27 @@ static void evalaux
               failer(CPD_ORDER);
        if (off >= (crt_off + 8))
            {
-              clear_out((off-crt_off)/8, isconst, al);
+              clear_out((off-crt_off) /8, isconst, al);
               crt_off = off & -8;
            };
 
-       if (name(sh(val)) != bitfhd)
+       if (name(sh(val))!= bitfhd)
          {
-           evalaux(val, isconst, (crt_off + al) & 56);
+           evalaux(val, isconst,(crt_off + al) & 56);
            crt_off += shape_size(sh(val));
          }
        else
          {
            offn = off - crt_off;
            sz = shape_size(sh(val));
-           nx = (name(val)==int_to_bitf_tag) ? no(son(val)) : no(val);
+           nx = (name(val) ==int_to_bitf_tag)? no(son(val)): no(val);
            work += nx << offn;
            bits_left = offn+sz;
            if ((offn + sz) <= 32)
               { while ((offn+sz) >= 8)
                  {
 	           outbyte();
-	           outn ((long)work & 0xff);
+	           outn((long)work & 0xff);
                    outnl();
                    crt_off += 8;
                    work >>= 8;
@@ -469,7 +494,7 @@ static void evalaux
               for (i=0; i<4; ++i)
                  {
 	           outbyte();
-	           outn ((long)work & 0xff);
+	           outn((long)work & 0xff);
                    outnl();
                    crt_off += 8;
                    work >>= 8;
@@ -485,11 +510,11 @@ static void evalaux
           if (bits_left)
             {
 	       outbyte();
-	       outn ((long)work & 0xff);
+	       outn((long)work & 0xff);
                outnl();
                crt_off += 8;
             };
-          clear_out((shape_size(sh(e)) - crt_off)/8, isconst,
+          clear_out((shape_size(sh(e)) - crt_off) /8, isconst,
 			8);
           return;
         };
@@ -516,23 +541,23 @@ static void evalaux
       for (j = i; goon && j < i + 10; ++j) {
         switch (props(e))
          {
-           case 8: outn ((long) s[j]); break;
-           case 16: outn ((long) ((short*)(void*)s)[j]); break;
+           case 8: outn((long)s[j]); break;
+           case 16: outn((long)((short*)(void*)s)[j]); break;
 		/* the pun to short* is correct: jmf */
-           case 32: outn ((long) ((int*)(void*)s)[j]); break;
+           case 32: outn((long)((int*)(void*)s)[j]); break;
 		/* the pun to int* is correct: jmf */
 	   case 64: {
 	     flt64 x;
 	     int ov;
 	     x = flt_to_f64(((int*)(void*)s)[j], 0, &ov);
-	     outn((long)x.small); outs (", "); outn((long)x.big);
+	     outn((long)x.small); outs(", "); outn((long)x.big);
 	   };
          };
 	--goon;
 	if (goon && j < i + 9)
-	  outs (", ");
+	  outs(", ");
       };
-      outnl ();
+      outnl();
     };
     return;
   };
@@ -540,22 +565,22 @@ static void evalaux
   if (n == res_tag) {
     int  nb;
     nb = shape_size(sh(son(e))) / 8;
-    clear_out (nb, isconst, shape_align(sh(son(e))));
+    clear_out(nb, isconst, shape_align(sh(son(e))));
     return;
   };
 
   if (n == ncopies_tag) {
-    int  m = no (e);
+    int  m = no(e);
     int  sz, i;
     exp val = son(e);
-    while ( name ( val ) == ncopies_tag ) {
-	m *= no ( val ) ;
-	val = son ( val ) ;
+    while (name(val) == ncopies_tag) {
+	m *= no(val);
+	val = son(val);
     }
     sz = shape_size(sh(val)) / 8;
     if ((name(val) == null_tag ||
 	 name(val) == val_tag) && !isbigval(val) && no(val) == 0)
-      clear_out (m * sz, isconst, shape_align(sh(val)));
+      clear_out(m * sz, isconst, shape_align(sh(val)));
     else {
       for (i = 0; i < m; i++)
 	evalaux(val, isconst, al);
@@ -574,20 +599,20 @@ static void evalaux
         if (last(t))
           return;
         t = bro(t);
-        dot_align((shape_align(sh(t))<=8) ? 1 : shape_align(sh(t))/8);
+        dot_align((shape_align(sh(t)) <=8)? 1 : shape_align(sh(t)) /8);
       };
    };
 
   if (n == concatnof_tag) {
-    evalaux (son (e), isconst, al);
-    evalaux (bro (son (e)), isconst, (al +shape_size(son(e))) & 63);
+    evalaux(son(e), isconst, al);
+    evalaux(bro(son(e)), isconst,(al +shape_size(son(e))) & 63);
     return;
   };
 
   if (n == clear_tag)
    {
-     int sz = shape_size ( sh ( e ) ) / 8;
-     clear_out (sz, isconst, al);
+     int sz = shape_size(sh(e)) / 8;
+     clear_out(sz, isconst, al);
      return;
    };
 
@@ -608,19 +633,18 @@ static void evalaux
    cname, or identifier s cname==-1 means
    use s */
 void evaluate
-    PROTO_N ( (c, cname, s, isconst, global, diag_props) )
-    PROTO_T ( exp c X int cname X char *s X int isconst X int global X diag_global * diag_props )
+(exp c, int cname, char *s, int isconst, int global, diag_global * diag_props)
 {
   int al = shape_align(sh(c));
 
   if (global && cname == -1) {
-    outs (".globl ");
-    outs (s);
-    outnl ();
+    outs(".globl ");
+    outs(s);
+    outnl();
   };
 
   if (name(sh(c)) == realhd ||
-        (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
+       (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
       shape_size(sh(c)) >= 512)
     al = 64;
 
@@ -631,32 +655,32 @@ void evaluate
 
   if (diag_props)
 #ifdef NEWDWARF
-    DIAG_VAL_BEGIN (diag_props, global, cname, s);
+    DIAG_VAL_BEGIN(diag_props, global, cname, s);
 #else
     diag_val_begin(diag_props, global, cname, s);
 #endif
 
   if (cname == -1) {
-    outs (s);
+    outs(s);
   }
   else {
     outs(local_prefix);
-    outn ((long)cname);
+    outn((long)cname);
   };
 
-  outs (":");
+  outs(":");
   outnl();
 
-  evalaux (c, isconst, al);
+  evalaux(c, isconst, al);
 
   if (global)
     eval_postlude(s, c);
 
-  outnl ();
+  outnl();
 
   if (diag_props) {
 #ifdef NEWDWARF
-    DIAG_VAL_END (diag_props);
+    DIAG_VAL_END(diag_props);
 #else
     diag_val_end(diag_props);
 #endif

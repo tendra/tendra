@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -168,8 +198,8 @@ $Log: scan2.c,v $
 
 /* MACROS */
 
-#define assexp(isson, p, v) if (isson) setson(p, v); else setbro(p, v)
-#define contexp(isson, p) ((isson) ? son(p) : bro(p))
+#define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
+#define contexp(isson, p)((isson)? son(p): bro(p))
 
 /* PROCEDURES */
 
@@ -177,35 +207,34 @@ $Log: scan2.c,v $
    to, and replaces x by a use of the
    identifier */
 static void cca
-    PROTO_N ( (sto, to, sx, x) )
-    PROTO_T ( int sto X exp to X int sx X exp x )
+(int sto, exp to, int sx, exp x)
 {
   exp def, ato, id, tg;
-  def = contexp (sx, x);
+  def = contexp(sx, x);
   if (name(def)==caller_tag) {	/* position sensitive */
-    cca (sto, to, 1, def);
+    cca(sto, to, 1, def);
     return;
   }
-  ato = contexp (sto, to);
-  id = getexp (sh (ato), bro (ato), (int)(last (ato)), def, nilexp,
+  ato = contexp(sto, to);
+  id = getexp(sh(ato), bro(ato), (int)(last(ato)), def, nilexp,
       0, 1, ident_tag);
-  tg = getexp (sh (def), bro (def), (int)(last (def)), id, nilexp,
+  tg = getexp(sh(def), bro(def), (int)(last(def)), id, nilexp,
       0, 0, name_tag);
-  pt (id) = tg;
-  clearlast (def);
+  pt(id) = tg;
+  clearlast(def);
   if (def != ato) {
-    bro (def) = ato;
-    bro (ato) = id;
-    setlast (ato);
-    assexp (sto, to, id);
-    assexp (sx, x, tg);
+    bro(def) = ato;
+    bro(ato) = id;
+    setlast(ato);
+    assexp(sto, to, id);
+    assexp(sx, x, tg);
   }
   else {
-    bro (def) = tg;
-    bro (tg) = id;
-    setlast (tg);
-    clearlast (def);
-    assexp (sto, to, id);
+    bro(def) = tg;
+    bro(tg) = id;
+    setlast(tg);
+    clearlast(def);
+    assexp(sto, to, id);
   };
 #ifdef NEWDIAGS
   if (diagnose) {
@@ -234,39 +263,37 @@ static void cca
    operations. This boolean result is used
    to ensure that not more than one
    operand is so treated */
-static int cc
-    PROTO_N ( (sto, to, se, e, doit, count, usereg0) )
-    PROTO_T ( int sto X exp to X int se X exp e X
-	      int (*doit) PROTO_S ((exp, int, int )) X
-	      int count X int usereg0 )
+static int
+cc(int sto, exp to, int se, exp e, int(*doit)(exp, int, int), int count,
+   int usereg0)
 {
   int unused = usereg0;	/* can still use reg0 */
-  exp ec = contexp (se, e);
-  if (last (ec)) {
-    if (doit (ec, count, unused)) {
-      cca (sto, to, se, e);
-      ec = contexp (sto, to);
-      return (scan2 (1, ec, son (ec), unused));
+  exp ec = contexp(se, e);
+  if (last(ec)) {
+    if (doit(ec, count, unused)) {
+      cca(sto, to, se, e);
+      ec = contexp(sto, to);
+      return(scan2(1, ec, son(ec), unused));
     }
     else {
       if (unused)
-	return (scan2 (se, e, ec, 1));
-      return (scan2 (sto, to, ec, unused));
+	return(scan2(se, e, ec, 1));
+      return(scan2(sto, to, ec, unused));
     }
   }
   else {
-    unused = cc (sto, to, 0, ec, doit, count + 1, unused);
+    unused = cc(sto, to, 0, ec, doit, count + 1, unused);
     /* can we still use reg0? */
-    ec = contexp (se, e);
-    if (doit (ec, count, unused)) {
-      cca (sto, to, se, e);
-      ec = contexp (sto, to);
-      return (scan2 (1, ec, son (ec), unused));
+    ec = contexp(se, e);
+    if (doit(ec, count, unused)) {
+      cca(sto, to, se, e);
+      ec = contexp(sto, to);
+      return(scan2(1, ec, son(ec), unused));
     }
     else {
       if (unused)
-	return (scan2 (sto, to, ec, 1));
-      return (scan2 (sto, to, ec, unused));
+	return(scan2(sto, to, ec, 1));
+      return(scan2(sto, to, ec, unused));
     };
   };
 }
@@ -283,47 +310,45 @@ static int cc
    keeps all operations in the same order.
    The difference in detail from cc supports
    the asymmetry of div etc */
-static void cc1
-    PROTO_N ( (sto, to, se, e, doit, count, usereg0) )
-    PROTO_T ( int sto X exp to X int se X exp e X
-	      int (*doit) PROTO_S ((exp, int, int)) X
-	      int count X int usereg0 )
+static void
+cc1(int sto, exp to, int se, exp e, int(*doit)(exp, int, int), int count,
+    int usereg0)
 {
-  int unused = ((count == 1) ? usereg0 : 0);
+  int unused = ((count == 1)? usereg0 : 0);
 	/* can we still use reg0? */
-  exp ec = contexp (se, e);
-  if (last (ec)) {
-    if (doit (ec, count, unused)) {
-      cca (sto, to, se, e);
-      ec = contexp (sto, to);
-      IGNORE scan2 (1, ec, son (ec), unused);
+  exp ec = contexp(se, e);
+  if (last(ec)) {
+    if (doit(ec, count, unused)) {
+      cca(sto, to, se, e);
+      ec = contexp(sto, to);
+      IGNORE scan2(1, ec, son(ec), unused);
       return;
     }
     else {
-      if (unused)  {
-	IGNORE scan2 (se, e, ec, 1);
+      if (unused) {
+	IGNORE scan2(se, e, ec, 1);
         return;
       };
-      IGNORE scan2 (sto, to, ec, unused);
+      IGNORE scan2(sto, to, ec, unused);
       return;
     }
   }
   else {
-    cc1 (sto, to, 0, ec, doit, count + 1, unused);
+    cc1(sto, to, 0, ec, doit, count + 1, unused);
     /* can we still use reg0? */
-    ec = contexp (se, e);
-    if (doit (ec, count, unused)) {
-      cca (sto, to, se, e);
-      ec = contexp (sto, to);
-      IGNORE scan2 (1, ec, son (ec), unused);
+    ec = contexp(se, e);
+    if (doit(ec, count, unused)) {
+      cca(sto, to, se, e);
+      ec = contexp(sto, to);
+      IGNORE scan2(1, ec, son(ec), unused);
       return;
     }
     else {
-      if (unused)  {
-	IGNORE scan2 (se, e, ec, 1);
+      if (unused) {
+	IGNORE scan2(se, e, ec, 1);
 	return;
       };
-      IGNORE scan2 (sto, to, ec, unused);
+      IGNORE scan2(sto, to, ec, unused);
       return;
     };
   };
@@ -332,33 +357,31 @@ static void cc1
 
 /* does cca and forces the declaration to use a register */
 static void ccp
-    PROTO_N ( (sto, to, sx, x) )
-    PROTO_T ( int sto X exp to X int sx X exp x )
+(int sto, exp to, int sx, exp x)
 {
   exp toc;
-  cca (sto, to, sx, x);
-  toc = contexp (sto, to);
-  setusereg (toc);
-  IGNORE scan2 (1, toc, son (toc), 0);
+  cca(sto, to, sx, x);
+  toc = contexp(sto, to);
+  setusereg(toc);
+  IGNORE scan2(1, toc, son(toc), 0);
   return;
 }
 
 /* is an operand */
 static int is_opnd
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
 				/* make sure (is_o && is_crc -> !is_opnd) */
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   if (n == name_tag) {
     if (isvar(son(e)))
-	return (isglob(son(e)) && !PIC_code);
-    return (son(son(e)) != nilexp &&
-	(!isglob(son(e)) || !PIC_code || name(sh(son(e))) != prokhd ||
+	return(isglob(son(e)) && !PIC_code);
+    return(son(son(e))!= nilexp &&
+	(!isglob(son(e)) || !PIC_code || name(sh(son(e)))!= prokhd ||
 				(brog(son(e)) -> dec_u.dec_val.extnamed)) &&
-	(name(son(son(e))) != ident_tag || !isparam(son(son(e))) ));
+	(name(son(son(e)))!= ident_tag || !isparam(son(son(e)))));
   }
-  return (
+  return(
       n == val_tag || n == real_tag || n == env_size_tag ||
       n == cont_tag ||
       n == string_tag ||
@@ -380,15 +403,14 @@ static int is_opnd
    instruction as possible, since we are
    short of registers on the 80386 */
 static void ap_argsc
-    PROTO_N ( (sto, to, e) )
-    PROTO_T ( int sto X exp to X exp e )
+(int sto, exp to, exp e)
 {
   exp p, a, q;
   int  k;
   int do1 = 1;
 
-  if (name (son (e)) == reff_tag)
-    q = son (son (e));
+  if (name(son(e)) == reff_tag)
+    q = son(son(e));
   else
     q = son (e);		/* q must be addptr - all addptrs processed here */
 
@@ -397,34 +419,34 @@ static void ap_argsc
 				/* env_offset to arg requires indirection from
 				   frame pointer */
     shape pc_sh = f_pointer(f_callers_alignment(0));
-    exp c = getexp (pc_sh, bro(son(q)), 0, nilexp, nilexp, 0, 0, cont_tag);
-    exp r = getexp (pc_sh, c, 1, son(q), nilexp, 0, 64, reff_tag);
-    setfather (r, son(q));
+    exp c = getexp(pc_sh, bro(son(q)), 0, nilexp, nilexp, 0, 0, cont_tag);
+    exp r = getexp(pc_sh, c, 1, son(q), nilexp, 0, 64, reff_tag);
+    setfather(r, son(q));
     son(c) = r;
     son(q) = c;
   }
 
-  p = son (q);
-  a = bro (p);
+  p = son(q);
+  a = bro(p);
 
-  if (name (p) == name_tag && isvar (son (p)) && isglob (son (p)))
+  if (name(p) == name_tag && isvar(son(p)) && isglob(son(p)))
     do1 = 0;
 
   if (do1)
-    ccp (1, e, 1, q);
+    ccp(1, e, 1, q);
 
-  if (name (a) == offset_mult_tag && name (bro (son (a))) == val_tag &&
-      (k = no (bro (son (a))), k == 8 || k == 16 || k == 32 || k == 64))
-    ccp (1, e, 1, bro (son (q)));
+  if (name(a) == offset_mult_tag && name(bro(son(a))) == val_tag &&
+     (k = no(bro(son(a))), k == 8 || k == 16 || k == 32 || k == 64))
+    ccp(1, e, 1, bro(son(q)));
   else
-    ccp (1, e, 0, son (q));
+    ccp(1, e, 0, son(q));
 
   if (do1) {
-    cca (sto, to, 1, son (e));
-    cca (sto, to, 1, bro (son (son (e))));
+    cca(sto, to, 1, son(e));
+    cca(sto, to, 1, bro(son(son(e))));
   }
   else
-    cca (sto, to, 1, son (e));
+    cca(sto, to, 1, son(e));
 
   return;
 
@@ -445,13 +467,12 @@ static void ap_argsc
    This is done by contop in instr386, during
    the code production. */
 static int cont_arg
-    PROTO_N ( (sto, to, e, usereg0) )
-    PROTO_T ( int sto X exp to X exp e X int usereg0 )
+(int sto, exp to, exp e, int usereg0)
 {
-  unsigned char  n = name (son (e));
+  unsigned char  n = name(son(e));
 
 
-    if (n == name_tag && isvar (son (son (e))))
+    if (n == name_tag && isvar(son(son(e))))
       return usereg0;
 
     if (n == cont_tag && usereg0 && shape_size(sh(e)) <= 32) {
@@ -460,9 +481,9 @@ static int cont_arg
     }
 
     if (n == reff_tag) {
-      exp s = son (son (e));
-      if (name (s) == name_tag)  {
-	if (isusereg (son (s)))
+      exp s = son(son(e));
+      if (name(s) == name_tag) {
+	if (isusereg(son(s)))
           return 0;
         if (!PIC_code && isglob(son(s)) && isvar(son(s)))
           return 0;
@@ -473,24 +494,24 @@ static int cont_arg
 	return 0;
       }
 
-      if (name (s) == addptr_tag) {
-	ap_argsc (sto, to, e);
+      if (name(s) == addptr_tag) {
+	ap_argsc(sto, to, e);
 	return 0;
       }
     };
 
 
     if (n == addptr_tag) {
-      ap_argsc (sto, to, e);
+      ap_argsc(sto, to, e);
       return 0;
     };
 
   if (n == reff_tag)
-    ccp (1, e, 1, son (e));
+    ccp(1, e, 1, son(e));
   else
-    ccp (1, e, 1, e);
+    ccp(1, e, 1, e);
 
-  cca (sto, to, 1, son (e));
+  cca(sto, to, 1, son(e));
 
   return 0;
 }
@@ -498,33 +519,30 @@ static int cont_arg
 
 /* is assignable */
 static int is_assable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  return (is_a (name (e)) || name(e) == alloca_tag ||
-	 ((name (e) == apply_tag || name (e) == apply_general_tag) &&
-	(name (sh (e)) <= ulonghd || name (sh (e)) == ptrhd)));
+  return(is_a(name(e)) || name(e) == alloca_tag ||
+	((name(e) == apply_tag || name(e) == apply_general_tag) &&
+	(name(sh(e)) <= ulonghd || name(sh(e)) == ptrhd)));
 }
 
 /* doit routine, is not an operand */
 static int notopnd
-    PROTO_N ( (t, c, usereg0) )
-    PROTO_T ( exp t X int c X int usereg0 )
+(exp t, int c, int usereg0)
 {
   UNUSED(c);
   if (usereg0) {
-    if (is_opnd (t))
-      return (0);
-    return (!is_assable (t));
+    if (is_opnd(t))
+      return(0);
+    return(!is_assable(t));
   };
-  return (!is_opnd (t));
+  return(!is_opnd(t));
 }
 
-static int scan_for_alloca PROTO_S ((exp));
+static int scan_for_alloca(exp);
 
 static int scan_alloc_args
-    PROTO_N ( (s) )
-    PROTO_T ( exp s )
+(exp s)
 {
   if (scan_for_alloca(s))
     return 1;
@@ -534,8 +552,7 @@ static int scan_alloc_args
 }
 
 static int scan_for_alloca
-    PROTO_N ( (t) )
-    PROTO_T ( exp t )
+(exp t)
 {
   switch (name(t)) {
     case local_free_all_tag:
@@ -564,8 +581,7 @@ static int scan_for_alloca
 }
 
 static int no_alloca
-    PROTO_N ( (t, c, usereg0) )
-    PROTO_T ( exp t X int c X int usereg0 )
+(exp t, int c, int usereg0)
 {
   UNUSED(c); UNUSED(usereg0);
   return scan_for_alloca(t);
@@ -573,60 +589,55 @@ static int no_alloca
 
 /* uses cc, requiring all to be operands */
 static void all_opnd
-    PROTO_N ( (sto, to, e, usereg0) )
-    PROTO_T ( int sto X exp to X exp e X int usereg0 )
+(int sto, exp to, exp e, int usereg0)
 {
-  IGNORE cc (sto, to, 1, e, notopnd, 1, usereg0);
+  IGNORE cc(sto, to, 1, e, notopnd, 1, usereg0);
   return;
 }
 
 /* doit routine, not assignable */
 static int notass
-    PROTO_N ( (t, i, usereg0) )
-    PROTO_T ( exp t X int i X int usereg0 )
+(exp t, int i, int usereg0)
 {
   UNUSED(i); UNUSED(usereg0);
-  return (!is_assable (t));
+  return(!is_assable(t));
 }
 
 /* uses cc, requiring all to be assignable */
 static void all_assable
-    PROTO_N ( (sto, to, e) )
-    PROTO_T ( int sto X exp to X exp e )
+(int sto, exp to, exp e)
 {
-  IGNORE cc (sto, to, 1, e, notass, 1, 1);
+  IGNORE cc(sto, to, 1, e, notass, 1, 1);
   return;
 }
 
 /* just used in the next routine */
 static int is_direct
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  unsigned char  s = name (e);
-  return ((s == name_tag && !isglob (son (e)) && !isvar (son (e))) ||
-      (s == cont_tag && name (son (e)) == name_tag &&
-	!isglob (son (son (e))) && isvar (son (son (e)))));
+  unsigned char  s = name(e);
+  return((s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
+     (s == cont_tag && name(son(e)) == name_tag &&
+	!isglob(son(son(e))) && isvar(son(son(e)))));
 }
 
 /* is indirectly addressable */
 static int is_indable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  unsigned char  s = name (e);
+  unsigned char  s = name(e);
   if (s == name_tag)
-    return (1);
+    return(1);
 
   if (s == cont_tag) {
-    unsigned char  t = name (son (e));
-    return ((t == name_tag && isvar (son (son (e)))) ||
-	(t == cont_tag && name (son (son (e))) == name_tag &&
-	  isvar (son (son (son (e))))) ||
-	(t == reff_tag && is_direct (son (son (e)))));
+    unsigned char  t = name(son(e));
+    return((t == name_tag && isvar(son(son(e)))) ||
+	(t == cont_tag && name(son(son(e))) == name_tag &&
+	  isvar(son(son(son(e))))) ||
+	(t == reff_tag && is_direct(son(son(e)))));
   };
 
-  return ((s == reff_tag && is_direct (son (e))) ||
+  return((s == reff_tag && is_direct(son(e))) ||
 
       s == addptr_tag);
 }
@@ -634,17 +645,16 @@ static int is_indable
 
 /* son must be indirectly addressable */
 static void indable_son
-    PROTO_N ( (sto, to, e) )
-    PROTO_T ( int sto X exp to X exp e )
+(int sto, exp to, exp e)
 {
-  if (!is_indable (son (e))) {
+  if (!is_indable(son(e))) {
     exp ec;
-    cca (sto, to, 1, e);
-    ec = contexp (sto, to);
-    IGNORE scan2 (1, ec, son (ec), 0);
+    cca(sto, to, 1, e);
+    ec = contexp(sto, to);
+    IGNORE scan2(1, ec, son(ec), 0);
   }
   else
-    IGNORE scan2 (sto, to, son (e), 0);
+    IGNORE scan2(sto, to, son(e), 0);
   return;
 }
 
@@ -652,15 +662,14 @@ static void indable_son
 
 /* apply scan2 to this bro list, moving "to" along it */
 static void scanargs
-    PROTO_N ( (st, e, usereg0) )
-    PROTO_T ( int st X exp e X int usereg0 )
+(int st, exp e, int usereg0)
 {
   exp t = e;
   exp temp;
 
-  while (temp = contexp (st, t), IGNORE scan2 (st, t, temp, usereg0),
-      temp = contexp (st, t), !last (temp)) {
-    t = contexp (st, t);
+  while (temp = contexp(st, t), IGNORE scan2(st, t, temp, usereg0),
+      temp = contexp(st, t), !last(temp)) {
+    t = contexp(st, t);
     st = 0;
   };
   return;
@@ -670,142 +679,132 @@ static void scanargs
 
 /* doit routine for plus first arg cant be negate, others can */
 static int plusdo
-    PROTO_N ( (t, i, usereg0) )
-    PROTO_T ( exp t X int i X int usereg0 )
+(exp t, int i, int usereg0)
 {
   UNUSED(i);
   if (usereg0)
-    return (0);
-  if (name (t) == neg_tag)
-    return (0);
-  return (!is_opnd (t));
+    return(0);
+  if (name(t) == neg_tag)
+    return(0);
+  return(!is_opnd(t));
 }
 
 /* doit routine for mult */
 static int multdo
-    PROTO_N ( (t, i, usereg0) )
-    PROTO_T ( exp t X int i X int usereg0 )
+(exp t, int i, int usereg0)
 {
   UNUSED(i);
-  return ((usereg0) ? 0 : !is_opnd (t));
+  return((usereg0)? 0 : !is_opnd(t));
 }
 
 /* doit routine for and */
 static int anddo
-    PROTO_N ( (t, i, usereg0) )
-    PROTO_T ( exp t X int i X int usereg0 )
+(exp t, int i, int usereg0)
 {
   UNUSED(i);
-  return ((usereg0) ? 0 : !is_opnd (t));
+  return((usereg0)? 0 : !is_opnd(t));
 }
 
 /* doit routine for xor */
 static int notado
-    PROTO_N ( (t, i, usereg0) )
-    PROTO_T ( exp t X int i X int usereg0 )
+(exp t, int i, int usereg0)
 {
   UNUSED(i);
-  return ((usereg0) ? 0 : !is_opnd (t));
+  return((usereg0)? 0 : !is_opnd(t));
 }
 
 /* change offset representation bytes to bits */
 static void make_bitfield_offset
-    PROTO_N ( (e, pe, spe, sha) )
-    PROTO_T ( exp e X exp pe X int spe X shape sha )
+(exp e, exp pe, int spe, shape sha)
 {
   exp omul;
   exp val8;
   if (name(e) == val_tag)
     return;
-  omul = getexp (sha, bro(e), (int)(last (e)), e, nilexp, 0, 0, offset_mult_tag);
-  val8 = getexp (slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+  omul = getexp(sha, bro(e), (int)(last(e)), e, nilexp, 0, 0, offset_mult_tag);
+  val8 = getexp(slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
   clearlast(e);
   setbro(e, val8);
   assexp(spe, pe, omul);
 }
 
 static void scan_apply_args
-    PROTO_N ( (spto, pto, sato, ato) )
-    PROTO_T ( int spto X exp pto X int sato X exp ato )
+(int spto, exp pto, int sato, exp ato)
 {
-  if (scan_alloc_args (contexp (sato, ato)))
-    IGNORE cc (spto, pto, sato, ato, no_alloca, 1, 0);
+  if (scan_alloc_args(contexp(sato, ato)))
+    IGNORE cc(spto, pto, sato, ato, no_alloca, 1, 0);
   else
     IGNORE scanargs(sato, ato, 1);
 }
 
 /* avoid registers corrupted by dynamic callees */
 static void cca_for_cees
-    PROTO_N ( (sto, to, e) )
-    PROTO_T ( int sto X exp to X exp e )
+(int sto, exp to, exp e)
 {
   if (name(son(e)) == name_tag) {
-    if (!isglob (son(son(e))))
-      set_intnl_call (son(son(e)));
+    if (!isglob(son(son(e))))
+      set_intnl_call(son(son(e)));
     return;
   }
   if (name(son(e)) == cont_tag && name(son(son(e))) == name_tag) {
-    if (!isglob (son(son(son(e)))))
-      set_intnl_call (son(son(son(e))));
+    if (!isglob(son(son(son(e)))))
+      set_intnl_call(son(son(son(e))));
     return;
   }
-  cca (sto, to, 1, e);
-  set_intnl_call (contexp (sto, to));
+  cca(sto, to, 1, e);
+  set_intnl_call(contexp(sto, to));
 }
 
 
 static int is_asm_opnd
-    PROTO_N ( (e, ext) )
-    PROTO_T ( exp e X int ext )
+(exp e, int ext)
 {
-  unsigned char n = name (e);
+  unsigned char n = name(e);
   if (n == name_tag) {
-    setvis (son(e));
+    setvis(son(e));
     return 1;
   }
   if (n == cont_tag && name(son(e)) == name_tag && isvar(son(son(e)))) {
-    setvis (son(son(e)));
+    setvis(son(son(e)));
     return 1;
   }
-  return (n == val_tag || n == real_tag || n == null_tag ||
+  return(n == val_tag || n == real_tag || n == null_tag ||
 	(n == reff_tag && name(son(e)) == name_tag));
 }
 
 static int is_asm_var
-    PROTO_N ( (e, ext) )
-    PROTO_T ( exp e X int ext )
+(exp e, int ext)
 {
-  unsigned char n = name (e);
+  unsigned char n = name(e);
   if (n == name_tag && isvar(son(e))) {
-    setvis (son(e));
+    setvis(son(e));
     return 1;
   }
   return 0;
 }
 
 void check_asm_seq
-    PROTO_N ( (e, ext) )
-    PROTO_T ( exp e X int ext )
+(exp e, int ext)
 {
   if (name(e) == asm_tag) {
     if ((asm_string(e) && name(son(e)) == string_tag) ||
 	(asm_in(e) && is_asm_opnd(son(e), ext)) ||
-	(asm_var(e) && is_asm_var(son(e), ext)) )
+	(asm_var(e) && is_asm_var(son(e), ext)))
       return;
   }
   if (name(e) == seq_tag) {
     exp t = son(son(e));
     for (;;) {
-      check_asm_seq (t, ext);
+      check_asm_seq(t, ext);
       if (last(t))
 	break;
       t = bro(t);
     }
-    check_asm_seq (bro(son(e)), ext);
+    check_asm_seq(bro(son(e)), ext);
   }
   else
-  if (name(e) != top_tag)
-    failer ("illegal ~asm");
+  if (name(e)!= top_tag)
+    failer("illegal ~asm");
   return;
 }
 
@@ -813,10 +812,9 @@ void check_asm_seq
 
 /* main scan routine */
 int scan2
-    PROTO_N ( (sto, to, e, usereg0) )
-    PROTO_T ( int sto X exp to X exp e X int usereg0 )
+(int sto, exp to, exp e, int usereg0)
 {
-  switch (name (e)) {
+  switch (name(e)) {
     case prof_tag:
 	return 0;
     case cond_tag:
@@ -832,45 +830,45 @@ int scan2
     case caller_tag:
       {
 	if (son(e) == nilexp) /* empty make_nof */
-	  return (0);
-	scanargs (1, e, 1);
-	return (0);
+	  return(0);
+	scanargs(1, e, 1);
+	return(0);
       };
 
     case labst_tag:
       {
-	IGNORE scan2 (0, son (e), bro (son (e)), 1);
-	return (0);
+	IGNORE scan2(0, son(e), bro(son(e)), 1);
+	return(0);
       };
     case ident_tag:
       {
-	IGNORE scan2 (0, son (e), bro (son (e)), 0);
-	IGNORE scan2 (1, e, son (e), 0);
-	return (0);
+	IGNORE scan2(0, son(e), bro(son(e)), 0);
+	IGNORE scan2(1, e, son(e), 0);
+	return(0);
       };
     case seq_tag:
       {
-	scanargs (1, son (e), 1);
-	IGNORE scan2 (0, son (e), bro (son (e)), 1);
-	return (0);
+	scanargs(1, son(e), 1);
+	IGNORE scan2(0, son(e), bro(son(e)), 1);
+	return(0);
       };
 
     case local_free_tag:
     case long_jump_tag:
     case return_to_label_tag:
       {
-	all_assable (sto, to, e);
-	return (0);
+	all_assable(sto, to, e);
+	return(0);
       };
 
     case offset_add_tag:
     case offset_subtract_tag:
       {
-	if (al2(sh(son(e))) == 1 && al2(sh(bro(son(e)))) != 1)
-	  make_bitfield_offset (bro(son(e)), son(e), 0, sh(e));
-	if (al2(sh(son(e))) != 1 && al2(sh(bro(son(e)))) == 1)
-	  make_bitfield_offset (son(e), e, 1, sh(e));
-	IGNORE all_opnd (sto, to, e, usereg0);
+	if (al2(sh(son(e))) == 1 && al2(sh(bro(son(e))))!= 1)
+	  make_bitfield_offset(bro(son(e)), son(e), 0, sh(e));
+	if (al2(sh(son(e)))!= 1 && al2(sh(bro(son(e)))) == 1)
+	  make_bitfield_offset(son(e), e, 1, sh(e));
+	IGNORE all_opnd(sto, to, e, usereg0);
 	return 0;
 	/* all arguments except possibly one must be operands */
       };
@@ -890,7 +888,7 @@ int scan2
     case min_tag:
     case abs_tag:
       {
-	IGNORE all_opnd (sto, to, e, usereg0);
+	IGNORE all_opnd(sto, to, e, usereg0);
 	return 0;
 	/* all arguments except possibly one must be operands */
       };
@@ -898,32 +896,32 @@ int scan2
     case minptr_tag:
     case make_stack_limit_tag:
       {
-	IGNORE all_opnd (sto, to, e, 0);
+	IGNORE all_opnd(sto, to, e, 0);
 	return 0;
       };
     case set_stack_limit_tag:
       {
 	exp lim = find_stlim_var();
-	setbro (lim, son(e));
-	setson (e, lim);
-	setname (e, ass_tag);
-	return scan2 (sto, to, e, usereg0);
+	setbro(lim, son(e));
+	setson(e, lim);
+	setname(e, ass_tag);
+	return scan2(sto, to, e, usereg0);
       };
     case chvar_tag:
       {
-	int ur = usereg0 && name(son(e)) != cont_tag;
-	IGNORE all_opnd (sto, to, e, ur);
+	int ur = usereg0 && name(son(e))!= cont_tag;
+	IGNORE all_opnd(sto, to, e, ur);
 	return 0;
       };
 
     case test_tag:
     case absbool_tag:
       {
-	if ((name (sh (son (e))) >= shrealhd &&
-	      name (sh (son (e))) <= doublehd))
+	if ((name(sh(son(e))) >= shrealhd &&
+	      name(sh(son(e))) <= doublehd))
 	  IGNORE all_opnd (sto, to, e, 0);/* all arguments must be operands */
 	else
-	  IGNORE all_opnd (sto, to, e, usereg0);
+	  IGNORE all_opnd(sto, to, e, usereg0);
 	/* all arguments except possibly one must be operands */
 	return 0;
       };
@@ -935,19 +933,19 @@ int scan2
     case div2_tag:
     case div0_tag:
       {
-	if (name (sh (e)) == u64hd) {
+	if (name(sh(e)) == u64hd) {
 	  exp * bottom = &bro(son(e));
-	  if (name(*bottom) == chvar_tag && shape_size (sh (son(*bottom))) <= 32 &&
-		name (son(*bottom)) != val_tag && !is_signed (sh (son(*bottom))) ) {
-	    if (shape_size (sh (son(*bottom))) == 32) {
-	      setbro (son(*bottom), bro(*bottom));
+	  if (name(*bottom) == chvar_tag && shape_size(sh(son(*bottom))) <= 32 &&
+		name(son(*bottom))!= val_tag && !is_signed(sh(son(*bottom)))) {
+	    if (shape_size(sh(son(*bottom))) == 32) {
+	      setbro(son(*bottom), bro(*bottom));
 	      *bottom = son(*bottom);
 	    }
 	    else
-	      setsh (son(*bottom), ulongsh);
+	      setsh(son(*bottom), ulongsh);
 	  }
 	}
-	cc1 (sto, to, 1, e, notopnd, 1, usereg0);
+	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
       };
@@ -958,20 +956,20 @@ int scan2
     case rotr_tag:
     case offset_div_tag:
       {
-	cc1 (sto, to, 1, e, notopnd, 1, usereg0);
+	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
       };
 
     case offset_div_by_int_tag:
       {
-	if (name(sh(bro(son(e)))) != slonghd &&  name(sh(bro(son(e)))) != ulonghd) {
-	  exp ch = getexp ((name(sh(bro(son(e))))&1 ? slongsh : ulongsh),
+	if (name(sh(bro(son(e))))!= slonghd &&  name(sh(bro(son(e))))!= ulonghd) {
+	  exp ch = getexp((name(sh(bro(son(e)))) &1 ? slongsh : ulongsh),
 		e, 1, bro(son(e)), nilexp, 0, 0, chvar_tag);
 	  setbro(bro(son(e)), ch);
 	  setbro(son(e), ch);
 	};
-	cc1 (sto, to, 1, e, notopnd, 1, usereg0);
+	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
       };
@@ -995,30 +993,30 @@ int scan2
       {
 	exp toc;
 	if (name (e) == assvol_tag)/* change assvol to assign */
-	  setname (e, ass_tag);
-	IGNORE cont_arg (sto, to, e, 0);
+	  setname(e, ass_tag);
+	IGNORE cont_arg(sto, to, e, 0);
 	/* special check for references */
-	if (!is_assable (bro (son (e)))) {
+	if (!is_assable(bro(son(e)))) {
 	  /* second argument must be assignable */
-	  cca (sto, to, 0, son (e));
-	  toc = contexp (sto, to);
-	  IGNORE scan2 (1, toc, son (toc), 1);
+	  cca(sto, to, 0, son(e));
+	  toc = contexp(sto, to);
+	  IGNORE scan2(1, toc, son(toc), 1);
 	}
 	else
-	  IGNORE scan2 (sto, to, bro (son (e)), 1);
-	return (0);
+	  IGNORE scan2(sto, to, bro(son(e)), 1);
+	return(0);
       };
     case apply_tag:
       {
 	if (builtinproc(e)) {	/* son must be named global */
 	  if (!last(son(e)))
-	    IGNORE cc (sto, to, 0, son(e), notopnd, 1, 0);
+	    IGNORE cc(sto, to, 0, son(e), notopnd, 1, 0);
 	  return 0;
 	}
         if (!last(son(e)))
-	  scan_apply_args (sto, to, 0, son(e));
-	indable_son (sto, to, e);
-	return (0);
+	  scan_apply_args(sto, to, 0, son(e));
+	indable_son(sto, to, e);
+	return(0);
       };
     case apply_general_tag:
       {
@@ -1026,178 +1024,178 @@ int scan2
 	exp p_post = cees;	/* bro(p_post) is postlude */
 	while (name(bro(p_post)) == ident_tag && name(son(bro(p_post))) == caller_name_tag)
 	  p_post = son(bro(p_post));
-	scan2 (0, p_post, bro(p_post), 1);
-	if (son(cees) != nilexp)
-	  scan_apply_args (sto, to, 1, cees);
-	if (no(bro(son(e))) != 0)
-	  scan_apply_args (sto, to, 1, bro(son(e)));
-	indable_son (sto, to, e);
-	if ((name(cees) == make_dynamic_callee_tag && name(bro(son(cees))) != val_tag)
+	scan2(0, p_post, bro(p_post), 1);
+	if (son(cees)!= nilexp)
+	  scan_apply_args(sto, to, 1, cees);
+	if (no(bro(son(e)))!= 0)
+	  scan_apply_args(sto, to, 1, bro(son(e)));
+	indable_son(sto, to, e);
+	if ((name(cees) == make_dynamic_callee_tag && name(bro(son(cees)))!= val_tag)
 		|| (name(cees) == same_callees_tag && callee_size < 0))
 	  has_dy_callees = 1;
 	if (name(cees) == same_callees_tag)
 	  has_same_callees = 1;
 	if (name(cees) == make_dynamic_callee_tag || name(cees) == same_callees_tag)
-	  cca_for_cees (sto, to, e);
-	return (0);
+	  cca_for_cees(sto, to, e);
+	return(0);
       };
     case tail_call_tag:
       {
 	exp cees = bro(son(e));
 	has_tail_call = 1;
-	if (son(cees) != nilexp)
-	  IGNORE cc (sto, to, 1, cees, no_alloca, 1, 0);
-	indable_son (sto, to, e);
-	if (name(cees) == make_dynamic_callee_tag && name(bro(son(cees))) != val_tag)
+	if (son(cees)!= nilexp)
+	  IGNORE cc(sto, to, 1, cees, no_alloca, 1, 0);
+	indable_son(sto, to, e);
+	if (name(cees) == make_dynamic_callee_tag && name(bro(son(cees)))!= val_tag)
 	  has_dy_callees = 1;
 	if (name(cees) == same_callees_tag)
 	  has_same_callees = 1;
 	if (name(cees) == make_dynamic_callee_tag)
-	  cca_for_cees (sto, to, e);
-	return (0);
+	  cca_for_cees(sto, to, e);
+	return(0);
       };
     case goto_lv_tag:
       {
-	indable_son (sto, to, e);
-	return (0);
+	indable_son(sto, to, e);
+	return(0);
       };
     case res_tag:
     case untidy_return_tag:
       {
 	if ((name(sh(son(e))) == cpdhd) &&
-	     (name(son(e)) != cont_tag ||
-	      name(son(son(e))) != name_tag ||
+	    (name(son(e))!= cont_tag ||
+	      name(son(son(e)))!= name_tag ||
 	      !isvar(son(son(son(e)))))) { /* gcc compatibility */
 	  exp ec;
-	  cca (sto, to, 1, e);
-	  ec = contexp (sto, to);
-	  IGNORE scan2 (1, ec, son (ec), 0);
+	  cca(sto, to, 1, e);
+	  ec = contexp(sto, to);
+	  IGNORE scan2(1, ec, son(ec), 0);
 	  return 0;
 	}
 	else  {
-	  IGNORE (scan2 (sto, to, son (e), 1));
+	  IGNORE(scan2(sto, to, son(e), 1));
 	  return 0;
 	};
       };
     case case_tag:
       {
 	exp toc;
-	if (name (son (e)) != name_tag &&
-	    (name (son (e)) != cont_tag ||
-	      name (son (son (e))) != name_tag)) {
-	  cca (sto, to, 1, e);
-	  toc = contexp (sto, to);
-	  IGNORE scan2 (1, toc, son (toc), 0);
+	if (name(son(e))!= name_tag &&
+	   (name(son(e))!= cont_tag ||
+	      name(son(son(e)))!= name_tag)) {
+	  cca(sto, to, 1, e);
+	  toc = contexp(sto, to);
+	  IGNORE scan2(1, toc, son(toc), 0);
 	}
 	else
-	  IGNORE scan2 (sto, to, son (e), 0);
-	return (0);
+	  IGNORE scan2(sto, to, son(e), 0);
+	return(0);
       };
     case plus_tag:
       {
-	IGNORE cc (sto, to, 1, e, plusdo, 1, usereg0);
+	IGNORE cc(sto, to, 1, e, plusdo, 1, usereg0);
 	return 0;
       };
     case addptr_tag:
       {
-	exp f = father (e);
-	exp new_r = getexp (sh (e), bro (e), (int)(last (e)),
+	exp f = father(e);
+	exp new_r = getexp(sh(e), bro(e), (int)(last(e)),
                              e, nilexp, 0,
 	    0, reff_tag);
-	exp * ref = refto (f, e);
-	setlast (e);
-	bro (e) = new_r;
+	exp * ref = refto(f, e);
+	setlast(e);
+	bro(e) = new_r;
 	*ref = new_r;
-	ap_argsc (sto, to, new_r);
-	return (0);
+	ap_argsc(sto, to, new_r);
+	return(0);
       };
     case mult_tag:
       {
-	if (shape_size (sh (e)) == 64 && optop(e)) {
+	if (shape_size(sh(e)) == 64 && optop(e)) {
 	  exp * arglist = &son(e);
 	  for (;;) {
-	    if (name(*arglist) == chvar_tag && shape_size (sh (son(*arglist))) <= 32 &&
-		(is_signed (sh (e)) || !is_signed (sh (son(*arglist)))) ) {
-	      if (shape_size (sh (son(*arglist))) == 32) {
-		setbro (son(*arglist), bro(*arglist));
+	    if (name(*arglist) == chvar_tag && shape_size(sh(son(*arglist))) <= 32 &&
+		(is_signed(sh(e)) || !is_signed(sh(son(*arglist))))) {
+	      if (shape_size(sh(son(*arglist))) == 32) {
+		setbro(son(*arglist), bro(*arglist));
 		if (last(*arglist))
-		  setlast (son(*arglist));
+		  setlast(son(*arglist));
 		else
-		  clearlast (son(*arglist));
+		  clearlast(son(*arglist));
 		*arglist = son(*arglist);
 	      }
 	      else
-		setsh (son(*arglist), (is_signed (sh (e)) ? slongsh : ulongsh));
+		setsh(son(*arglist), (is_signed(sh(e))? slongsh : ulongsh));
 	    }
 	    if (last(*arglist))
 	      break;
 	    arglist = &bro(*arglist);
 	  }
 	}
-	IGNORE cc (sto, to, 1, e, multdo, 1, usereg0);
+	IGNORE cc(sto, to, 1, e, multdo, 1, usereg0);
 	return 0;
       };
     case and_tag:
       {
-	IGNORE cc (sto, to, 1, e, anddo, 1, usereg0);
+	IGNORE cc(sto, to, 1, e, anddo, 1, usereg0);
 	return 0;
       };
     case or_tag:
     case xor_tag:
       {
-	IGNORE cc (sto, to, 1, e, notado, 1, usereg0);
+	IGNORE cc(sto, to, 1, e, notado, 1, usereg0);
 	return 0;
       };
     case cont_tag:
     case contvol_tag:
       {
-	if (name (e) == contvol_tag)
-	  setname (e, cont_tag);
-	return cont_arg (sto, to, e, usereg0);
+	if (name(e) == contvol_tag)
+	  setname(e, cont_tag);
+	return cont_arg(sto, to, e, usereg0);
       };
     case field_tag:
       {
-	if (!is_o (name (son (e))) || name (e) == cont_tag) {
+	if (!is_o(name(son(e))) || name(e) == cont_tag) {
 	  exp temp;
-	  cca (sto, to, 1, e);
-	  temp = contexp (sto, to);
-	  return (scan2 (1, temp, son (temp), usereg0));
+	  cca(sto, to, 1, e);
+	  temp = contexp(sto, to);
+	  return(scan2(1, temp, son(temp), usereg0));
 	}
 	else
-	  return (scan2 (sto, to, son (e), usereg0));
+	  return(scan2(sto, to, son(e), usereg0));
       };
     case reff_tag:
       {
-	if (name (son (e)) == addptr_tag) {
-	  ap_argsc (sto, to, e);
-	  return (0);
+	if (name(son(e)) == addptr_tag) {
+	  ap_argsc(sto, to, e);
+	  return(0);
 	};
 
-	ccp (sto, to, 1, e);
-	return (0);
+	ccp(sto, to, 1, e);
+	return(0);
       };
     case proc_tag:
     case general_proc_tag:
       {
-	IGNORE scan2 (1, e, son (e), 1);
-	return (0);
+	IGNORE scan2(1, e, son(e), 1);
+	return(0);
       };
     case asm_tag:
       {
-	if (props(e) != 0)
-	  failer ("~asm not in ~asm_sequence");
-	check_asm_seq (son(e), 0);
+	if (props(e)!= 0)
+	  failer("~asm not in ~asm_sequence");
+	check_asm_seq(son(e), 0);
 	proc_has_asm = 1;
-	return (0);
+	return(0);
       };
 
     case name_tag:
-      if (!is_opnd (e)) {
+      if (!is_opnd(e)) {
 	return 0;
       }
 
 	/* DELIBERATE FALL THROUGH */
     default:
-      return (usereg0);
+      return(usereg0);
   };
 }

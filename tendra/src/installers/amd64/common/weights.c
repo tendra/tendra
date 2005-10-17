@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -99,7 +129,7 @@ $Log: weights.c,v $
 
 /* MACROS */
 
-#define max(x,y) ((x>=y) ? (x) : (y))
+#define max(x,y)((x>=y)?(x):(y))
 
 #define wno 6
  /* number of available registers */
@@ -156,7 +186,7 @@ typedef struct elt  explist;
 				/* list of identity declarations in force
 				   at this point */
 
-weights weightsv PROTO_S ( ( exp, explist * ) ) ;
+weights weightsv(exp, explist *);
 
 /* VARIABLES */
 
@@ -169,15 +199,14 @@ weights zeros, moveregs, cmpregs, divregs, applyregs;
 /* PROCEDURES */
 
 static int no_side_aux
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   exp arg;
-  if (name(e)==name_tag || name(e)==env_offset_tag || name(e)==top_tag || son(e)==nilexp)
+  if (name(e) ==name_tag || name(e) ==env_offset_tag || name(e) ==top_tag || son(e) ==nilexp)
     return 1;
-  for (arg=son(e); ; arg=bro(arg))
+  for (arg=son(e);; arg=bro(arg))
   {
-    if ((!is_a(name(arg)) && name(arg) != ident_tag) || !no_side_aux(arg))
+    if ((!is_a(name(arg)) && name(arg)!= ident_tag) || !no_side_aux(arg))
       return 0;
     if (last(arg))
       return 1;
@@ -188,18 +217,16 @@ static int no_side_aux
 /* test for guaranteed no side effect */
 /* simple assignment is permitted */
 int no_side
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  return ((is_a (name (e)) || name (e) == test_tag || name (e) == ass_tag ||
-	   name (e) == testbit_tag || name (e) == ident_tag)
-	&& no_side_aux (e));
+  return((is_a(name(e)) || name(e) == test_tag || name(e) == ass_tag ||
+	   name(e) == testbit_tag || name(e) == ident_tag)
+	&& no_side_aux(e));
 }
 
 /* add two weight vectors */
 weights add_weights
-    PROTO_N ( (w1, w2) )
-    PROTO_T ( weights w1 X weights w2 )
+(weights w1, weights w2)
 {
   weights r;
   float  wa,
@@ -208,24 +235,24 @@ weights add_weights
   for (i = 0; i < (wno + wfno); ++i) {
     wa = (w1.w_weights)[i];
     wb = (w2.w_weights)[i];
-    (r.w_weights)[i] = wa + wb;
+   (r.w_weights)[i] = wa + wb;
   };
-  r.booked = max (w1.booked, w2.booked);
-  r.flbooked = max (w1.flbooked, w2.flbooked);
-  return (r);
+  r.booked = max(w1.booked, w2.booked);
+  r.flbooked = max(w1.flbooked, w2.flbooked);
+  return(r);
 }
 
 void init_weights
-    PROTO_Z ()
+(void)
 {
 		/* initialisation of constants */
   int  i;
   for (i = 0; i < (wno + wfno); ++i) {
-    (zeros.w_weights)[i] = vzeros[i];
-    (moveregs.w_weights)[i] = vmoveregs[i];
-    (cmpregs.w_weights)[i] = vcmpregs[i];
-    (divregs.w_weights)[i] = vdivregs[i];
-    (applyregs.w_weights)[i] = vapplyregs[i];
+   (zeros.w_weights)[i] = vzeros[i];
+   (moveregs.w_weights)[i] = vmoveregs[i];
+   (cmpregs.w_weights)[i] = vcmpregs[i];
+   (divregs.w_weights)[i] = vdivregs[i];
+   (applyregs.w_weights)[i] = vapplyregs[i];
   };
   zeros.booked = -1;
   moveregs.booked = 1;
@@ -242,13 +269,12 @@ void init_weights
   return;
 }
 
-void markcall
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void
+markcall(explist *el)
 {
-  explist * t = el;
-  while (t != (explist *) 0) {
-    set_intnl_call (t -> wident);
+  explist *t = el;
+  while (t != (explist *)0) {
+    set_intnl_call(t -> wident);
     t = t -> etl;
   };
 }
@@ -257,25 +283,23 @@ void markcall
    of currently active declarations, to
    show that there is a call, movc3 etc.
    within their scope */
-void markmove
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void
+markmove(explist *el)
 {
-  explist * t = el;
-  while (t != (explist *) 0) {
-    set_intnl_call (t -> wident);
+  explist *t = el;
+  while (t != (explist *)0) {
+    set_intnl_call(t -> wident);
     t = t -> etl;
   };
 }
 
 /* mark to show reg1 may be needed */
-void markreg1
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void
+markreg1(explist *el)
 {
-  explist * t = el;
-  while (t != (explist *) 0) {
-    set_intnl_call (t -> wident);
+  explist *t = el;
+  while (t != (explist *)0) {
+    set_intnl_call(t -> wident);
     t = t -> etl;
   };
 }
@@ -285,27 +309,26 @@ void markreg1
    set up the break point to put in the no
    field of the declaration */
 wp max_weights
-    PROTO_N ( (size, locp, ws, isfl) )
-    PROTO_T ( int size X float locp X weights ws X int isfl )
+(int size, float locp, weights ws, int isfl)
 {
   int  k = (size + 31) / 32;
   int  bk = 11;
   int bkset = 0;
   int  q;
   int  i;
-  float * w = &(ws.w_weights)[(isfl) ? wno : 0];
+  float *w = &(ws.w_weights)[(isfl) ? wno : 0];
   wp res;
-  float *pw = &((res.wp_weights).w_weights)[(isfl) ? wno : 0];
-  int  bkd = (isfl) ? ws.flbooked : ws.booked;
-  int  lwno = (isfl) ? wfno : wno;
+  float *pw = &((res.wp_weights).w_weights)[(isfl)? wno : 0];
+  int  bkd = (isfl)? ws.flbooked : ws.booked;
+  int  lwno = (isfl)? wfno : wno;
   res.wp_weights.booked = ws.booked;
   res.wp_weights.flbooked = ws.flbooked;
 
   for (i = 0; i < (wno + wfno); ++i)
-    ((res.wp_weights).w_weights)[i] = (ws.w_weights)[i];
+   ((res.wp_weights).w_weights)[i] = (ws.w_weights)[i];
 
    {
-    float  loc = locp * k;
+    float  loc = locp *k;
     q = -1;
     for (i = 0; i < lwno; ++i) {
       {
@@ -339,72 +362,68 @@ wp max_weights
 
 
   res.wp_break = bk;
-  return (res);
+  return(res);
 }
 
 
 /* see if we must use movc3?? */
 weights try_mc3
-    PROTO_N ( (e, ws, el) )
-    PROTO_T ( exp e X weights ws X explist * el )
+(exp e, weights ws, explist *el)
 {
   int  sz = shape_size(sh(e));
 
   if (sz <= 128)
-    return (ws);
+    return(ws);
 
-  markmove (el);
-  return (add_weights (ws, moveregs));
+  markmove(el);
+  return(add_weights(ws, moveregs));
 }
 
 /* work out the weights for a list of exp.
    usemc3 is 1 if movc3 may be used. */
 weights add_wlist
-    PROTO_N ( (re, usemc3, el) )
-    PROTO_T ( exp re X int usemc3 X explist * el )
+(exp re, int usemc3, explist *el)
 {
   weights wl1, wl2;
   if (re == nilexp)
-    return (zeros);
+    return(zeros);
 
-  wl1 = weightsv (re, el);
+  wl1 = weightsv(re, el);
   if (usemc3)
-    wl1 = try_mc3 (re, wl1, el);
+    wl1 = try_mc3(re, wl1, el);
 
-  while (!last (re)) {
-    re = bro (re);
-    wl2 = weightsv (re, el);
+  while (!last(re)) {
+    re = bro(re);
+    wl2 = weightsv(re, el);
     if (usemc3)
-      wl1 = add_weights (wl1, try_mc3 (re, wl2, el));
+      wl1 = add_weights(wl1, try_mc3(re, wl2, el));
     else
-      wl1 = add_weights (wl1, wl2);
+      wl1 = add_weights(wl1, wl2);
   };
-  return (wl1);
+  return(wl1);
 }
 
 
 
 /* can the value defined by e be put in a register */
 int regable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   unsigned char  n;
-  shape sha = sh (son (e));
-  n = name (sha);
-  if (isvis (e) || n == cpdhd || n == nofhd || n == s64hd || n == u64hd)
-    return (0);
+  shape sha = sh(son(e));
+  n = name(sha);
+  if (isvis(e) || n == cpdhd || n == nofhd || n == s64hd || n == u64hd)
+    return(0);
   if (all_variables_visible && isvar(e))
     return 0;
-  return (1);
+  return(1);
 }
 
 int isflsh
-    PROTO_N ( (s) )
-    PROTO_T ( shape s )
+(shape s)
 {
-  unsigned char  n = name (s);
-  return (n >= shrealhd && n <= doublehd);
+  unsigned char  n = name(s);
+  return(n >= shrealhd && n <= doublehd);
 }
 
 
@@ -417,107 +436,106 @@ int isflsh
    declaration. After the scan the break
    point is put into the no of the
    declaration */
-weights weightsv
-    PROTO_N ( (e, el) )
-    PROTO_T ( exp e X explist * el )
+weights
+weightsv(exp e, explist *el)
 {
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   float old_scale;
   weights swl, bwl;
 
   switch (n) {
     case name_tag: {
-	if (!isglob (son (e)))
+	if (!isglob(son(e)))
 	  fno (son (e)) += scale;/* add number of uses to the no field of
 				   the declaration */
-	return (zeros);
+	return(zeros);
       };
     case make_lv_tag:
         return zeros;
     case ident_tag:
        {
 	explist nel;
-	exp t = pt (e);
+	exp t = pt(e);
 	nel.wident = e;
 	nel.etl = el;
-	while (isvar (e) && !isvis (e) && t != nilexp) {
-	  if (!(last (t) && name (bro (t)) == cont_tag) &&
+	while (isvar(e) && !isvis(e) && t != nilexp) {
+	  if (!(last(t) && name(bro(t)) == cont_tag) &&
               !(last(t) && name(bro(t)) == hold_tag) &&
-	      !(last (bro (t)) && (name (bro (bro (t))) == ass_tag ||
-		  name (bro (bro (t))) == assvol_tag
+	      !(last(bro(t)) && (name(bro(bro(t))) == ass_tag ||
+		  name(bro(bro(t))) == assvol_tag
 		)))
-	    setvis (e);
-	  t = pt (t);
+	    setvis(e);
+	  t = pt(t);
 	};
 
-	if (son (e) != nilexp) {
+	if (son(e)!= nilexp) {
 	  weights wdef, wbody;
-	  exp def = son (e);
-	  exp body = bro (def);
+	  exp def = son(e);
+	  exp body = bro(def);
 
 	  if (name(sh(def)) == u64hd || name(sh(def)) == s64hd)
 	    markreg1(el);
 
 	  fno (e) = 0.0;	/* clear the accumulated value field */
-	  wbody = weightsv (body, &nel);
+	  wbody = weightsv(body, &nel);
 	  /* do body (which will add to the accumulated value field */
-	  if (regable (e)) {
+	  if (regable(e)) {
 	    wp p;
-	    float  loc = fno (e);
+	    float  loc = fno(e);
             if (has_intnl_call(e))
                loc += 2.0;
-	    p = max_weights (shape_size(sh (def)),
-		(name (def) == name_tag && isusereg (e)) ? 1.0 : loc,
+	    p = max_weights(shape_size(sh(def)),
+		(name(def) == name_tag && isusereg(e))? 1.0 : loc,
 		wbody,
-		isflsh (sh (def)));
-	    if (name (def) == clear_tag)
+		isflsh(sh(def)));
+	    if (name(def) == clear_tag)
 	      wdef = zeros;
 	    else {
 	      float  sp_scale = scale;
-	      if (!isvar (e) &&
-		  ((name (def) == name_tag && !isvar (son (def)) &&
-		      (!isglob (son (def))) && !isloadparam(def)
-		    ) ||
-		    (name (def) == cont_tag &&
-		      name (son (def)) == name_tag &&
-		      isvar (son (son (def))) &&
-		      (!isglob (son (son (def)))) &&
+	      if (!isvar(e) &&
+		 ((name(def) == name_tag && !isvar(son(def)) &&
+		     (!isglob(son(def))) && !isloadparam(def)
+		   ) ||
+		   (name(def) == cont_tag &&
+		      name(son(def)) == name_tag &&
+		      isvar(son(son(def))) &&
+		     (!isglob(son(son(def)))) &&
 
-		      no_side (body)))) {
-		if (isusereg (e)) {
-		  sp_scale = 8.0 * fno (e);
+		      no_side(body)))) {
+		if (isusereg(e)) {
+		  sp_scale = 8.0 *fno(e);
 		}
 		else
-		  sp_scale = fno (e);
+		  sp_scale = fno(e);
 		p.wp_break = 0;
 		p.wp_weights = wbody;
 	      };
               old_scale = scale;
               scale = sp_scale;
 	      wdef =
-		weightsv (def, el);
-	      wdef = try_mc3 (def, wdef, el);
+		weightsv(def, el);
+	      wdef = try_mc3(def, wdef, el);
               scale = old_scale;
 	    };
 	    no (e) = p.wp_break;/* set the break point */
-	    return (add_weights (wdef, p.wp_weights));
+	    return(add_weights(wdef, p.wp_weights));
 	  };
 
 	  if (name(sh(def)) == nofhd && ptno(sh(def)) == realhd &&
 		shape_size(sh(def)) >= 640)
 	    useful_double = 1;
 
-	  if (name (def) == clear_tag)
+	  if (name(def) == clear_tag)
 	    wdef = zeros;
 	  else {
 	    wdef =
-		weightsv (def, el);
-	      wdef = try_mc3 (def, wdef, el);
+		weightsv(def, el);
+	      wdef = try_mc3(def, wdef, el);
 	  };
-	  no (e) = 16;
-	  return (add_weights (wdef, wbody));
+	  no(e) = 16;
+	  return(add_weights(wdef, wbody));
 	};
-	return (zeros);
+	return(zeros);
       };
     case labst_tag: {
 	explist nel;
@@ -525,92 +543,92 @@ weights weightsv
 	nel.wident = e;
 	nel.etl = el;
 	old_scale = scale;
-	wbody = weightsv (bro (son (e)), &nel);
+	wbody = weightsv(bro(son(e)), &nel);
 	scale = old_scale;
-	return (wbody);
+	return(wbody);
       };
     case rep_tag: {
-	swl = weightsv (son (e), el);
+	swl = weightsv(son(e), el);
 
         old_scale = scale;
 
         if (scale < 1e30)
 		scale = 20*scale;
 
-	bwl = weightsv (bro (son (e)), el);
+	bwl = weightsv(bro(son(e)), el);
         scale = old_scale;
 
-	return (add_weights (swl, bwl));
+	return(add_weights(swl, bwl));
       };
     case cond_tag:  {
         old_scale = scale;
 
         scale = 0.5*scale;
-        swl = weightsv (son (e), el);
-	bwl = weightsv (bro (son (e)), el);
+        swl = weightsv(son(e), el);
+	bwl = weightsv(bro(son(e)), el);
 
         scale = old_scale;
 
-	return (add_weights (swl, bwl));
+	return(add_weights(swl, bwl));
       };
     case case_tag:
-      return (weightsv (son (e), el));
+      return(weightsv(son(e), el));
 
     case compound_tag:
-      return (add_wlist (son (e), 1, el));
+      return(add_wlist(son(e), 1, el));
       /* may use movc3 for component */
 
     case res_tag:
     case untidy_return_tag:
-      return (weightsv (son (e), el));
+      return(weightsv(son(e), el));
 
     case asm_tag:
     case apply_tag:
     case apply_general_tag:
     case tail_call_tag:
       {
-        if (name(sh(e)) != bothd && !builtinproc(e))
-	  markcall (el);
-	return (add_weights (add_wlist (son (e), 0, el),
+        if (name(sh(e))!= bothd && !builtinproc(e))
+	  markcall(el);
+	return(add_weights(add_wlist(son(e), 0, el),
 	      applyregs));
       };
 
     case ass_tag:
     case assvol_tag: {
       /* may use movc3 for assigned value */
-      unsigned char shn = name (sh (bro (son (e))));
+      unsigned char shn = name(sh(bro(son(e))));
       weights temp;
-      temp = weightsv (bro (son (e)), el);
+      temp = weightsv(bro(son(e)), el);
       if (shn == u64hd || shn == s64hd)
-	markreg1 (el);
-      return (add_weights (weightsv (son (e), el),
-	    try_mc3 (bro (son (e)), temp, el)
-	  )
+	markreg1(el);
+      return(add_weights(weightsv(son(e), el),
+	    try_mc3(bro(son(e)), temp, el)
+	 )
 	);
       };
     case proc_tag:
     case general_proc_tag: {
-	IGNORE weightsv (son (e), (explist *) 0);
-	return (zeros);
+	IGNORE weightsv(son(e), (explist *)0);
+	return(zeros);
       };
     case movecont_tag:
       if (isnooverlap(e))
-        return (add_weights (add_wlist (son (e), 0, el), moveregs));
+        return(add_weights(add_wlist(son(e), 0, el), moveregs));
       else {
         markcall(el);
-        return (add_wlist (son (e), 0, el));
+        return(add_wlist(son(e), 0, el));
       };
     case val_tag:
     case real_tag:
     case env_offset_tag:
-      return (zeros);
+      return(zeros);
 
     case test_tag:
      {weights wlarg;
       if (name(sh(son(e))) == s64hd || name(sh(son(e))) == u64hd)
 	markreg1 (el);				/* use of reg0 can include reg1 */
-      wlarg = add_wlist (son (e), 0, el);
-      return (wlarg);
+      wlarg = add_wlist(son(e), 0, el);
+      return(wlarg);
      };
     case prof_tag:
       scale = no(e);
@@ -618,23 +636,22 @@ weights weightsv
 
     case alloca_tag:
      {if (checkalloc(e))
-	markreg1 (el);
-      return (add_wlist (son (e), 0, el));
+	markreg1(el);
+      return(add_wlist(son(e), 0, el));
      };
 
     default:
-      if (sh(e) != nilexp &&
+      if (sh(e)!= nilexp &&
 		(name(sh(e)) == s64hd || name(sh(e)) == u64hd))
 	markreg1 (el);				/* use of reg0 can include reg1 */
-      return (add_wlist (son (e), 1, el));
+      return(add_wlist(son(e), 1, el));
   };
 }
 
 void comp_weights
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   scale = 1.0;
-  IGNORE weightsv (e, (explist *) 0);
+  IGNORE weightsv(e,(explist *)0);
   return;
 }

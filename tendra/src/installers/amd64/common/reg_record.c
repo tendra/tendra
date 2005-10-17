@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -96,16 +126,15 @@ reg_record crt_reg_record;
 
 /* clear out all the register records */
 void clear_reg_record
-    PROTO_N ( (s) )
-    PROTO_T ( regcell * s )
+(regcell * s)
 {
   int   i;
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
 #ifdef NEWDWARF
     if (dwarf2) {
-      dw_close_regassn (i, 0);
-      dw_close_regassn (i, 1);
+      dw_close_regassn(i, 0);
+      dw_close_regassn(i, 1);
     }
 #endif
   }
@@ -115,16 +144,15 @@ void clear_reg_record
 /* clear out the registers not preserved
    over procedure calls */
 void clear_low_reg_record
-    PROTO_N ( (s) )
-    PROTO_T ( regcell * s )
+(regcell * s)
 {
   int   i;
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
 #ifdef NEWDWARF
     if (dwarf2) {
-      dw_close_regassn (i, 0);
-      dw_close_regassn (i, 1);
+      dw_close_regassn(i, 0);
+      dw_close_regassn(i, 1);
     }
 #endif
   }
@@ -134,51 +162,48 @@ void clear_low_reg_record
 
 /* true if changing d invalidates r */
 static  int inval
-    PROTO_N ( (d, r) )
-    PROTO_T ( exp d X exp r )
+(exp d, exp r)
 {
-  if ((d == nilexp || name (d) == cont_tag) &&
-      (name (r) == cont_tag || (name (r) == name_tag && isglob (son (r)))))
-    return (1);
-  if ((name (r) == name_tag && !isvar (son (r))) ||
-	name (r) == cont_tag)
-    return (eq_where (mw (d, 0), mw (r, 0)));
+  if ((d == nilexp || name(d) == cont_tag) &&
+     (name(r) == cont_tag || (name(r) == name_tag && isglob(son(r)))))
+    return(1);
+  if ((name(r) == name_tag && !isvar(son(r))) ||
+	name(r) == cont_tag)
+    return(eq_where(mw(d, 0), mw(r, 0)));
 
-  if (name (r) == reff_tag)
-    return (inval (d, son (r)));
+  if (name(r) == reff_tag)
+    return(inval(d, son(r)));
 
-  if (name (r) == addptr_tag) {
-    if (name (bro (son (r))) == offset_mult_tag)
-      return (inval (d, son (r)) || inval (d, son (bro (son (r)))));
-    return (inval (d, son (r)) || inval (d, bro (son (r))));
+  if (name(r) == addptr_tag) {
+    if (name(bro(son(r))) == offset_mult_tag)
+      return(inval(d, son(r)) || inval(d, son(bro(son(r)))));
+    return(inval(d, son(r)) || inval(d, bro(son(r))));
   };
 
-  if (name (r) == ident_tag)
-    return (inval (d, son (r)) || inval (d, bro (son (r))));
+  if (name(r) == ident_tag)
+    return(inval(d, son(r)) || inval(d, bro(son(r))));
 
-  return (0);
+  return(0);
 }
 
 /* true if changing d invalidates r */
 int invalidates
-    PROTO_N ( (d, r) )
-    PROTO_T ( exp d X exp r )
+(exp d, exp r)
 {
-  if (name (r) == cont_tag || name (r) == ass_tag)
-    return (inval (d, son (r)));
-  return (0);
+  if (name(r) == cont_tag || name(r) == ass_tag)
+    return(inval(d, son(r)));
+  return(0);
 }
 
 /* convert register mask to register number */
 static int  get_regno
-    PROTO_N ( (mask) )
-    PROTO_T ( int mask )
+(int mask)
 {
   int   m = 1;
   int   res;
   for (res = 0; res < no_fixed_regs && (mask & m) == 0; res++)
     m = m + m;
-  return (res);
+  return(res);
 }
 
 /* if there is a register holding the same
@@ -186,68 +211,65 @@ static int  get_regno
    (as a where), otherwise the where_exp
    field of the result will be nilexp */
 where equiv_reg
-    PROTO_N ( (w, sz) )
-    PROTO_T ( where w X int sz )
+(where w, int sz)
 {
   int   i;
   where res;
   res.where_exp = nilexp;
 
   if (w.where_off != 0)
-    return (res);
+    return(res);
   for (i = 0; i < no_fixed_regs; i++) {
     regcell * p = &crt_reg_record[i];
     if ((p -> regcell_key & 1) &&
 	(sz == 0 || sz == p -> first_size) &&
-	eq_where_exp (p -> first_dest, w.where_exp, 1, (sz==0))) {
+	eq_where_exp(p -> first_dest, w.where_exp, 1,(sz==0))) {
 #ifdef NEWDWARF
       if (dwarf2)
-	dw_used_regassn (i, 0);
+	dw_used_regassn(i, 0);
 #endif
-      return (reg_wheres[i]);
+      return(reg_wheres[i]);
     }
     if ((p -> regcell_key & 2) &&
 	(sz == 0 || sz == p -> second_size) &&
-	eq_where_exp (p -> second_dest, w.where_exp, 1, (sz==0))) {
+	eq_where_exp(p -> second_dest, w.where_exp, 1,(sz==0))) {
 #ifdef NEWDWARF
       if (dwarf2)
-	dw_used_regassn (i, 1);
+	dw_used_regassn(i, 1);
 #endif
-      return (reg_wheres[i]);
+      return(reg_wheres[i]);
     }
   };
   res.where_exp = nilexp;
-  return (res);
+  return(res);
 }
 
 static int is_aliased
-    PROTO_N ( (dest) )
-    PROTO_T ( exp dest )
+(exp dest)
 {
   if (dest == nilexp)
     return 0;
-  if (name (dest) != cont_tag &&
-      name (dest) != ass_tag)
-    return (0);
+  if (name(dest)!= cont_tag &&
+      name(dest)!= ass_tag)
+    return(0);
 
-  if (name (son (dest)) == name_tag &&
-      isvar (son (son (dest))) &&
-      iscaonly (son (son (dest))))
-    return (0);
-  return (1);
+  if (name(son(dest)) == name_tag &&
+      isvar(son(son(dest))) &&
+      iscaonly(son(son(dest))))
+    return(0);
+  return(1);
 }
 
 static  int shape_overlap
-    PROTO_N ( (e1, e2) )
-    PROTO_T ( exp e1 X exp e2 )
+(exp e1, exp e2)
 {
-  shape s1 = sh (e1);
-  shape s2 = sh (e2);
-  if (name (s1) <= doublehd && name (s1) > tophd && name (s2) == ptrhd)
-    return (0);
-  if (name (s2) <= doublehd && name (s2) > tophd && name (s1) == ptrhd)
-    return (0);
-  return (1);
+  shape s1 = sh(e1);
+  shape s2 = sh(e2);
+  if (name(s1) <= doublehd && name(s1) > tophd && name(s2) == ptrhd)
+    return(0);
+  if (name(s2) <= doublehd && name(s2) > tophd && name(s1) == ptrhd)
+    return(0);
+  return(1);
 }
 
 
@@ -255,11 +277,10 @@ static  int shape_overlap
    needed when dest receives an unknown
    value */
 void invalidate_dest
-    PROTO_N ( (dest) )
-    PROTO_T ( where dest )
+(where dest)
 {
   exp d = dest.where_exp;
-  int  regmask = (d == nilexp) ? 0 : (in_reg (d) & 0x7fffffff);
+  int  regmask = (d == nilexp)? 0 :(in_reg(d) & 0x7fffffff);
   int  regno;
   where weq;
   int   i;
@@ -267,66 +288,66 @@ void invalidate_dest
 	/* this repeats the condition state check at start of move,
 	   in case contop has reset it */
 
-  if ((cond1_set && (eq_where (dest, cond1) ||
-	  invalidates (dest.where_exp, cond1.where_exp))) ||
-      (cond2_set &&
-	(eq_where (dest, cond2a) || eq_where (dest, cond2b) ||
-	  invalidates (dest.where_exp, cond2a.where_exp) ||
-	  invalidates (dest.where_exp, cond2b.where_exp)))) {
+  if ((cond1_set && (eq_where(dest, cond1) ||
+	  invalidates(dest.where_exp, cond1.where_exp))) ||
+     (cond2_set &&
+	(eq_where(dest, cond2a) || eq_where(dest, cond2b) ||
+	  invalidates(dest.where_exp, cond2a.where_exp) ||
+	  invalidates(dest.where_exp, cond2b.where_exp)))) {
     cond1_set = 0;
     cond2_set = 0;
   };
 
-  if (is_aliased (dest.where_exp)) {
+  if (is_aliased(dest.where_exp)) {
     for (i = 0; i < no_fixed_regs; ++i) {
       regcell * pr = &crt_reg_record[i];
       switch (pr -> regcell_key) {
 	case 1:
-	  if (is_aliased (pr -> first_dest) &&
-	      shape_overlap (dest.where_exp, pr -> first_dest)) {
+	  if (is_aliased(pr -> first_dest) &&
+	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 0);
+	      dw_close_regassn(i, 0);
 #endif
 	  }
 	  break;
 	case 2:
-	  if (is_aliased (pr -> second_dest) &&
-	      shape_overlap (dest.where_exp, pr -> second_dest)) {
+	  if (is_aliased(pr -> second_dest) &&
+	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 1);
+	      dw_close_regassn(i, 1);
 #endif
 	  }
 	  break;
 	case 3:
-	  if (is_aliased (pr -> first_dest) &&
-	      shape_overlap (dest.where_exp, pr -> first_dest)) {
+	  if (is_aliased(pr -> first_dest) &&
+	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 0);
+	      dw_close_regassn(i, 0);
 #endif
 	  }
-	  if (is_aliased (pr -> second_dest) &&
-	      shape_overlap (dest.where_exp, pr -> second_dest)) {
+	  if (is_aliased(pr -> second_dest) &&
+	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 1);
+	      dw_close_regassn(i, 1);
 #endif
 	  }
 	  if (pr -> regcell_key == 0)
 	    pr -> regcell_key = 4;
-	default: ;
+	default:;
       };
     };
   };
 
   if (regmask) {
-    regno = get_regno (regmask);
+    regno = get_regno(regmask);
     if (regno < no_fixed_regs)
       crt_reg_record[regno].regcell_key = 4;
   };
@@ -336,41 +357,41 @@ void invalidate_dest
       regcell * pr = &crt_reg_record[i];
       switch (pr -> regcell_key) {
 	case 1:
-	  if (invalidates (d, pr -> first_dest)) {
+	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 0);
+	      dw_close_regassn(i, 0);
 #endif
 	  }
 	  break;
 	case 2:
-	  if (invalidates (d, pr -> second_dest)) {
+	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 1);
+	      dw_close_regassn(i, 1);
 #endif
 	  }
 	  break;
 	case 3:
-	  if (invalidates (d, pr -> first_dest)) {
+	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 0);
+	      dw_close_regassn(i, 0);
 #endif
 	  }
-	  if (invalidates (d, pr -> second_dest)) {
+	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
 #ifdef NEWDWARF
 	    if (dwarf2)
-	      dw_close_regassn (i, 1);
+	      dw_close_regassn(i, 1);
 #endif
 	  }
 	  if (pr -> regcell_key == 0)
 	    pr -> regcell_key = 4;
-	default: ;
+	default:;
       };
     };
     return;
@@ -379,11 +400,11 @@ void invalidate_dest
   dw_ignore_used_regassn = 1;
 #endif
   while (1) {
-    weq = equiv_reg (dest, 0);
+    weq = equiv_reg(dest, 0);
     if (weq.where_exp == nilexp)
       break;
-    regmask = (in_reg (weq.where_exp) & 0x7fffffff);
-    regno = get_regno (regmask);
+    regmask = (in_reg(weq.where_exp) & 0x7fffffff);
+    regno = get_regno(regmask);
     if (regno < no_fixed_regs)
       crt_reg_record[regno].regcell_key = 4;
   };
@@ -396,11 +417,10 @@ void invalidate_dest
 /* from is being moved to to. Make changes
    to the register records accordingly */
 void move_reg
-    PROTO_N ( (from, to, sha) )
-    PROTO_T ( where from X where to X shape sha )
+(where from, where to, shape sha)
 {
-  int  regmask_to = in_reg (to.where_exp);
-  int  regmask_from = in_reg (from.where_exp);
+  int  regmask_to = in_reg(to.where_exp);
+  int  regmask_from = in_reg(from.where_exp);
   int sz = shape_size(sha);
   if (name(sha) == shrealhd)
     return;
@@ -410,10 +430,10 @@ void move_reg
     return;
   if (from.where_off != 0 || to.where_off != 0)
     return;
-  if (regmask_to && invalidates (to.where_exp, from.where_exp))
+  if (regmask_to && invalidates(to.where_exp, from.where_exp))
     return;
   if (regmask_to && regmask_to < 64) {
-    int   regno_to = get_regno (regmask_to);
+    int   regno_to = get_regno(regmask_to);
     regcell * p = &crt_reg_record[regno_to];
     switch (p -> regcell_key) {
       case 1:
@@ -423,7 +443,7 @@ void move_reg
 	  p -> second_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_to, 1);
+	    dw_init_regassn(regno_to, 1);
 #endif
 	  break;
 	};
@@ -434,7 +454,7 @@ void move_reg
 	  p -> first_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_to, 0);
+	    dw_init_regassn(regno_to, 0);
 #endif
 	  break;
 	};
@@ -447,14 +467,14 @@ void move_reg
 	  p -> first_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_to, 0);
+	    dw_init_regassn(regno_to, 0);
 #endif
 	  break;
 	};
     };
   };
   if (regmask_from && regmask_from < 64) {
-    int   regno_from = get_regno (regmask_from);
+    int   regno_from = get_regno(regmask_from);
     regcell * p = &crt_reg_record[regno_from];
     switch (p -> regcell_key) {
       case 1:
@@ -464,7 +484,7 @@ void move_reg
 	  p -> second_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_from, 1);
+	    dw_init_regassn(regno_from, 1);
 #endif
 	  break;
 	};
@@ -475,7 +495,7 @@ void move_reg
 	  p -> first_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_from, 0);
+	    dw_init_regassn(regno_from, 0);
 #endif
 	  break;
 	};
@@ -488,7 +508,7 @@ void move_reg
 	  p -> first_size = sz;
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    dw_init_regassn (regno_from, 0);
+	    dw_init_regassn(regno_from, 0);
 #endif
 	  break;
 	};

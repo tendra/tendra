@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -165,14 +195,13 @@ $Log: translate.c,v $
 static exp delayed_const_list = nilexp;
 
 static int const_ready
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   if (n == env_size_tag)
-    return (brog(son(son(e))) -> dec_u.dec_val.processed);
+    return(brog(son(son(e))) -> dec_u.dec_val.processed);
   if (n == env_offset_tag)
-    return (name(son(e)) == 0);
+    return(name(son(e)) == 0);
   if (n == name_tag || son(e) == nilexp)
     return 1;
   e = son(e);
@@ -181,58 +210,57 @@ static int const_ready
       return 0;
     e = bro(e);
   }
-  return (const_ready(e));
+  return(const_ready(e));
 }
 
 static void eval_if_ready
-    PROTO_N ( (t,now) )
-    PROTO_T ( exp t X int now )
+(exp t, int now)
 {
   if (now || const_ready(son(t))) {
     if (isglob(t)) {
 	dec * d = ptg(t);
 	if (!writable_strings &&
-	    (!isvar (t) || (d -> dec_u.dec_val.acc & f_constant)) &&
+	   (!isvar(t) || (d -> dec_u.dec_val.acc & f_constant)) &&
 	    !PIC_code) {
           out_readonly_section();
-	  outnl ();
+	  outnl();
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    note_ro (d -> dec_u.dec_val.dec_id);
+	    note_ro(d -> dec_u.dec_val.dec_id);
 #endif
 	}
 	else {
 	  if (do_prom)
-	    failer ("prom data");
-	  outs (".data");
-	  outnl ();
+	    failer("prom data");
+	  outs(".data");
+	  outnl();
 #ifdef NEWDWARF
 	  if (dwarf2)
-	    note_data (d -> dec_u.dec_val.dec_id);
+	    note_data(d -> dec_u.dec_val.dec_id);
 #endif
 	};
-	evaluate (son(t),
-                  (-1),
+	evaluate(son(t),
+                 (-1),
                   d -> dec_u.dec_val.dec_id,
-		  (!isvar (t)),
-                  (int)(d -> dec_u.dec_val.extnamed),
+		 (!isvar(t)),
+                 (int)(d -> dec_u.dec_val.extnamed),
                   d -> dec_u.dec_val.diag_info);
     }
     else {
-	if (!writable_strings && name (son (t)) != res_tag) {
+	if (!writable_strings && name(son(t))!= res_tag) {
              out_readonly_section();
-	     outnl ();
+	     outnl();
 	   }
 	else {
 	     if (do_prom)
-	       failer ("prom data");
-	     outs (".data");
-	     outnl ();
+	       failer("prom data");
+	     outs(".data");
+	     outnl();
 	   };
-	evaluate (son (t), no (t), (char *) 0,
-	        (name (son (t)) != res_tag), 0, (diag_global*)0);
+	evaluate(son(t), no(t), (char *)0,
+	       (name(son(t))!= res_tag), 0,(diag_global*)0);
     }
-    retcell (t);
+    retcell(t);
   }
   else {
     bro(t) = delayed_const_list;
@@ -245,31 +273,30 @@ static void eval_if_ready
 /* PROCEDURES */
 
 void make_code
-    PROTO_N ( (my_def) )
-    PROTO_T ( dec * my_def )
+(dec * my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
 
-  if (son(tg) != nilexp && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
+  if (son(tg)!= nilexp && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
     ash stack;
     stack.ashsize = stack.ashalign = 0;
-    if (props(son(tg)) != 0)
-      failer ("~asm not in ~asm_sequence");
-    check_asm_seq (son(son(tg)), 1);
-    outs (".text");
-    coder (zero, stack, son(tg));
-    outnl ();
+    if (props(son(tg))!= 0)
+      failer("~asm not in ~asm_sequence");
+    check_asm_seq(son(son(tg)), 1);
+    outs(".text");
+    coder(zero, stack, son(tg));
+    outnl();
   }
 
-  if (son (tg) != nilexp && (my_def -> dec_u.dec_val.extnamed || no(tg) != 0)) {
-    if (name (son (tg)) == proc_tag || name (son (tg)) == general_proc_tag) {
-      if (strncmp("__I.TDF", id+prefix_length, 7)==0) {
-	out_initialiser (id);
+  if (son(tg)!= nilexp && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
+    if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
+      if (strncmp("__I.TDF", id+prefix_length, 7) ==0) {
+	out_initialiser(id);
 	set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
       }
-      outs (".text");
-      outnl ();
+      outs(".text");
+      outnl();
       if (isvar(tg)) {
         char * newid = make_local_name();
 	if (my_def -> dec_u.dec_val.extnamed) {
@@ -289,12 +316,12 @@ void make_code
 	my_def -> dec_u.dec_val.extnamed = 0;
       }
       my_def -> dec_u.dec_val.index =	/* for use in constant evaluation */
-	cproc (son (tg), id, (-1), (int)(my_def -> dec_u.dec_val.extnamed),
+	cproc(son(tg), id,(-1), (int)(my_def -> dec_u.dec_val.extnamed),
                 my_def -> dec_u.dec_val.diag_info);
       while (const_list != nilexp) {
 	/* put in the constants required by the procedure */
 	exp t = const_list;
-	const_list = bro (const_list);
+	const_list = bro(const_list);
 	eval_if_ready(t,0);
       };
     }
@@ -354,7 +381,7 @@ void make_code
 	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
          if (diag_props)
 #ifdef NEWDWARF
-           DIAG_VAL_BEGIN (diag_props, is_ext, -1, id);
+           DIAG_VAL_BEGIN(diag_props, is_ext, -1, id);
 #else
            diag_val_begin(diag_props, is_ext, -1, id);
 #endif
@@ -368,7 +395,7 @@ void make_code
            out_bss(id, sh(son(tg)));
 #ifdef NEWDWARF
 	   if (dwarf2)
-	     note_data (id);
+	     note_data(id);
 #endif
 	 }
 	 else
@@ -378,7 +405,7 @@ void make_code
            out_dot_lcomm(id, sh(son(tg)));
          if (diag_props) {
 #ifdef NEWDWARF
-           DIAG_VAL_END (diag_props);
+           DIAG_VAL_END(diag_props);
 #else
            diag_val_end(diag_props);
 #endif
@@ -387,26 +414,25 @@ void make_code
 
       else {			/* global values */
 
-	exp t = getexp (f_bottom, nilexp, 0, son(tg), nilexp, props(tg), -1, 0);
+	exp t = getexp(f_bottom, nilexp, 0, son(tg), nilexp, props(tg), -1, 0);
 	ptg(t) = my_def;
-	eval_if_ready (t, 0);
+	eval_if_ready(t, 0);
 
       };
      };
     };
   };
 
-  if (son(tg) != nilexp)  {
+  if (son(tg)!= nilexp) {
      my_def -> dec_u.dec_val.processed = 1;
   };
   return;
 }
 
 void mark_unaliased
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  exp p = pt (e);
+  exp p = pt(e);
   int ca = 1;
   while (p != nilexp && ca) {
 #ifdef NEWDIAGS
@@ -414,23 +440,23 @@ void mark_unaliased
 #else
     if (bro(p) == nilexp ||
 #endif
-        (!(last (p) && name (bro (p)) == cont_tag) &&
-	 !(!last (p) && last (bro (p)) &&
-                 name (bro (bro (p))) == ass_tag)))
+       (!(last(p) && name(bro(p)) == cont_tag) &&
+	 !(!last(p) && last(bro(p)) &&
+                 name(bro(bro(p))) == ass_tag)))
 #ifdef NEWDIAGS
 	&& !isdiaginfo(p))
 #endif
       ca = 0;
-    p = pt (p);
+    p = pt(p);
   };
   if (ca)
-    setcaonly (e);
+    setcaonly(e);
   return;
 }
 
 
 void translate_capsule
-    PROTO_Z ()
+(void)
 {
   dec * my_def;
 
@@ -440,23 +466,23 @@ void translate_capsule
 #else
   if (diagnose)
 #endif
-    init_stab_aux ();
+    init_stab_aux();
 #endif
 
 
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (PIC_code) {
       exp idval = son(crt_exp);
       if (!(my_def -> dec_u.dec_val.dec_var) &&
-	   ( idval == nilexp || ( name(idval) != val_tag && name(idval) != real_tag &&
+	  (idval == nilexp || (name(idval)!= val_tag && name(idval)!= real_tag &&
 		name(idval) != null_tag )	/* optimised out in opt_all_exps/checkext */
-	   ) &&
-	   (name(sh(crt_exp)) != prokhd ||
-		( idval != nilexp && name(idval) != null_tag &&
-		  name(idval) != proc_tag && name(idval) != general_proc_tag )
-	   ) )
+	  ) &&
+	  (name(sh(crt_exp))!= prokhd ||
+		(idval != nilexp && name(idval)!= null_tag &&
+		  name(idval)!= proc_tag && name(idval)!= general_proc_tag)
+	  ))
       {
 		/* make variable, and change all uses to contents */
 	exp p = pt(crt_exp);
@@ -466,14 +492,14 @@ void translate_capsule
 	  setvar(crt_exp);
 	while (p != nilexp) {
 	  exp np = pt(p);
-	  exp* ptr = refto (father(p), p);
-	  exp c = getexp (sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
-	  setfather (c, p);
-	  if (no(p) != 0) {
-	    exp r = getexp (sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
+	  exp* ptr = refto(father(p), p);
+	  exp c = getexp(sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
+	  setfather(c, p);
+	  if (no(p)!= 0) {
+	    exp r = getexp(sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
 	    no(p) = 0;
 	    son(c) = r;
-	    setfather (r, p);
+	    setfather(r, p);
 	  }
 	  *ptr = c;
 	  p = np;
@@ -482,14 +508,14 @@ void translate_capsule
     }
     else {	/* !PIC_code; make indirect global idents direct */
       exp tg = crt_exp;
-      while (!isvar(tg) && son(tg) != nilexp && name(son(tg)) == name_tag && no(son(tg)) == 0)
+      while (!isvar(tg) && son(tg)!= nilexp && name(son(tg)) == name_tag && no(son(tg)) == 0)
 	tg = son(son(tg));
       if (tg != crt_exp) {
 	exp p = pt(crt_exp);
 	while (p != nilexp) {
 	  exp np = pt(p);
-	  if (son(p) != crt_exp)
-	    failer ("not simple name");
+	  if (son(p)!= crt_exp)
+	    failer("not simple name");
 	  son(p) = tg;
 	  pt(p) = pt(tg);
 	  pt(tg) = p;
@@ -503,18 +529,18 @@ void translate_capsule
     my_def = my_def -> def_next;
   }
 
-  opt_all_exps ();
+  opt_all_exps();
 
-  transform_var_callees ();
+  transform_var_callees();
 
       /* mark static unaliased */
     my_def = top_def;
-    while (my_def != (dec *) 0) {
+    while (my_def != (dec *)0) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-      if (son (crt_exp) != nilexp &&
+      if (son(crt_exp)!= nilexp &&
 	  !my_def -> dec_u.dec_val.extnamed &&
-   	  isvar (crt_exp))
-        mark_unaliased (crt_exp);
+   	  isvar(crt_exp))
+        mark_unaliased(crt_exp);
       my_def = my_def -> def_next;
     };
 
@@ -523,29 +549,29 @@ void translate_capsule
 
 #ifdef NEWDWARF
   if (dwarf2) {
-    outs (".text\n");
-    dwarf2_prelude ();
+    outs(".text\n");
+    dwarf2_prelude();
   }
 #endif
 
   my_def = top_def;
 
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     if (!my_def -> dec_u.dec_val.processed)
-       make_code (my_def);
+       make_code(my_def);
     my_def = my_def -> def_next;
   };
 
   while (delayed_const_list != nilexp) {
     exp t = delayed_const_list;
-    delayed_const_list = bro (delayed_const_list);
+    delayed_const_list = bro(delayed_const_list);
     eval_if_ready(t,1);
   }
 
-  outs (".text\n");
+  outs(".text\n");
 #ifdef NEWDWARF
   if (dwarf2) {
-    dwarf2_postlude ();
+    dwarf2_postlude();
   }
 #endif
   return;
@@ -553,13 +579,13 @@ void translate_capsule
 }
 
 void translate_tagdef
-    PROTO_Z ()
+(void)
 {
   return;
 }
 
 void translate_unit
-    PROTO_Z ()
+(void)
 {
   return;
 }
