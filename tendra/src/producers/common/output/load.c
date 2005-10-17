@@ -1861,7 +1861,7 @@ read_spec(void)
 	char buff [20];
 	const char *msg = NULL;
 	NAMESPACE gns = NULL_nspace;
-	BITSTREAM *bs = tdf_fstream_createf (input_file, NULL);
+	BITSTREAM *bs = tdf_fstream_createf (input_file, strlit (input_name));
 
 	tdf_de_magic(bs, tdf_spec_magic);
 	if (1) {
@@ -1886,10 +1886,7 @@ read_spec(void)
 				e = spec_error;
 				if (e == 0) {
 					DE_ALIGN (bs);
-					if (!tdf_stream_eof (bs)) {
-						msg = "end of file expected";
-						e = 1;
-					}
+					tdf_stream_expect_eof (bs);
 				} else {
 					sprintf_v (buff, "code %d", e);
 					msg = buff;
