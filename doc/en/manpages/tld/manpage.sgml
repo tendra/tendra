@@ -56,11 +56,11 @@
     '+' character. They can be concatenated into a single command line word,
     e.g.:</para>
 
-  <para><option>-vor</option> <replaceable>output-file</replaceable>
+  <para><option>-Vor</option> <replaceable>output-file</replaceable>
     <emphasis>rename-shape</emphasis> <emphasis>rename-from</emphasis>
     <emphasis>rename-to</emphasis></para>
 
-  <para>which contains three different switches (<option>-v</option>, which
+  <para>which contains three different switches (<option>-V</option>, which
     takes no arguments; <option>-o</option>, which takes one argument:
     <emphasis>output-file</emphasis>; and <option>-r</option>, which takes
     three arguments: <emphasis>rename-shape</emphasis>,
@@ -341,7 +341,7 @@
     specification) unit set names are known.</para>
 
   <para><option>--version</option>
-    <option>-v</option></para>
+    <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
     stream.</para>
@@ -432,7 +432,7 @@
     specification) unit set names are known.</para>
 
   <para><option>--version</option>
-    <option>-v</option></para>
+    <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
     stream.</para>
@@ -486,7 +486,7 @@
     its name.</para>
 
   <para><option>--version</option>
-    <option>-v</option></para>
+    <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
     stream.</para>
@@ -562,7 +562,7 @@
   <para>Write the current error message list to the standard output.</para>
 
   <para><option>--version</option>
-    <option>-v</option></para>
+    <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
     stream.</para>
