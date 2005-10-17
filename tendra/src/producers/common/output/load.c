@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -120,13 +120,13 @@
  *    routines.
  */
 
-static EXP load_exp(BITSTREAM *, TYPE) ;
-static TYPE load_type(BITSTREAM *, IDENTIFIER) ;
-static TYPE load_ctype(BITSTREAM *, IDENTIFIER, CLASS_TYPE *) ;
-static IDENTIFIER load_id(BITSTREAM *, NAMESPACE) ;
-static LIST (TYPE) load_type_list(BITSTREAM *) ;
-static TOKEN load_tok(BITSTREAM *, int) ;
-static void load_nspace(BITSTREAM *, NAMESPACE, int) ;
+static EXP load_exp(BITSTREAM *, TYPE);
+static TYPE load_type(BITSTREAM *, IDENTIFIER);
+static TYPE load_ctype(BITSTREAM *, IDENTIFIER, CLASS_TYPE *);
+static IDENTIFIER load_id(BITSTREAM *, NAMESPACE);
+static LIST (TYPE) load_type_list(BITSTREAM *);
+static TOKEN load_tok(BITSTREAM *, int);
+static void load_nspace(BITSTREAM *, NAMESPACE, int);
 
 
 /*
@@ -148,8 +148,8 @@ static int spec_error = 0;
 static void
 spec_fail(int code)
 {
-    if (!spec_error) spec_error = code;
-    return;
+	if (!spec_error) spec_error = code;
+	return;
 }
 
 
@@ -193,12 +193,12 @@ spec_fail(int code)
 static int
 load_lex(BITSTREAM *bs)
 {
-    int t = (int) DE_BITS (bs, BITS_lex);
-    if (t > LAST_TOKEN) {
+	int t = (int) DE_BITS (bs, BITS_lex);
+	if (t > LAST_TOKEN) {
 		t = lex_unknown;
 		SPEC_ERROR ();
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -209,12 +209,12 @@ load_lex(BITSTREAM *bs)
  *    bitstream bs.
  */
 
-static PPTOKEN
-*load_pptoks(BITSTREAM *bs)
+static PPTOKEN *
+load_pptoks(BITSTREAM *bs)
 {
-    /* NOT YET IMPLEMENTED */
-    UNUSED (bs);
-    return (NULL);
+	/* NOT YET IMPLEMENTED */
+	UNUSED (bs);
+	return (NULL);
 }
 
 
@@ -227,7 +227,7 @@ static PPTOKEN
 static void
 load_loc(BITSTREAM *bs)
 {
-    if (DE_BOOL (bs)) {
+	if (DE_BOOL (bs)) {
 		/* Line number has changed */
 		crt_loc.line = DE_INT (bs);
 		crt_loc.column = 0;
@@ -272,8 +272,8 @@ load_loc(BITSTREAM *bs)
 				}
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -287,9 +287,9 @@ load_loc(BITSTREAM *bs)
 static HASHID
 load_hashid(BITSTREAM *bs, NAMESPACE ns)
 {
-    HASHID nm = NULL_hashid;
-    unsigned n = DE_BITS (bs, BITS_hashid);
-    if (n) {
+	HASHID nm = NULL_hashid;
+	unsigned n = DE_BITS (bs, BITS_hashid);
+	if (n) {
 		if (n <= ORDER_hashid) {
 			unsigned tag = n - 1;
 			ASSERT (ORDER_hashid == 7);
@@ -355,8 +355,8 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 		} else {
 			SPEC_ERROR ();
 		}
-    }
-    return (nm);
+	}
+	return (nm);
 }
 
 
@@ -369,17 +369,17 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 static LIST (HASHID)
 load_hashid_list(BITSTREAM *bs, NAMESPACE ns)
 {
-    LIST (HASHID) p = NULL_list (HASHID);
-    while (DE_BOOL (bs)) {
+	LIST (HASHID) p = NULL_list (HASHID);
+	while (DE_BOOL (bs)) {
 		HASHID nm = load_hashid (bs, ns);
 		if (IS_NULL_hashid (nm)) {
 			SPEC_ERROR ();
 			break;
 		}
 		CONS_hashid (nm, p, p);
-    }
-    p = REVERSE_list (p);
-    return (p);
+	}
+	p = REVERSE_list (p);
+	return (p);
 }
 
 
@@ -402,12 +402,12 @@ static ulong ids_pending = 0;
  *    extending it if necessary.
  */
 
-static IDENTIFIER
-*id_lookup(ulong d)
+static IDENTIFIER *
+id_lookup(ulong d)
 {
-    ulong m = id_table_size;
-    IDENTIFIER *p = id_table;
-    if (d >= m) {
+	ulong m = id_table_size;
+	IDENTIFIER *p = id_table;
+	if (d >= m) {
 		ulong n = d + 100;
 		p = xrealloc (p, sizeof(*p) * n);
 		while (m < n) {
@@ -416,8 +416,8 @@ static IDENTIFIER
 		}
 		id_table_size = n;
 		id_table = p;
-    }
-    return (p + d);
+	}
+	return (p + d);
 }
 
 
@@ -432,16 +432,16 @@ static IDENTIFIER
 static IDENTIFIER
 load_use(BITSTREAM *bs, unsigned tag)
 {
-    IDENTIFIER id;
-    IDENTIFIER *pid;
-    ulong d = DE_INT (bs);
-    if (d == 0) {
+	IDENTIFIER id;
+	IDENTIFIER *pid;
+	ulong d = DE_INT (bs);
+	if (d == 0) {
 		/* Null identifier */
 		return (NULL_id);
-    }
-    pid = id_lookup (d);
-    id = *pid;
-    if (IS_NULL_id (id)) {
+	}
+	pid = id_lookup (d);
+	id = *pid;
+	if (IS_NULL_id (id)) {
 		/* Create dummy identifier */
 		HASHID nm = KEYWORD (lex_zzzz);
 		MAKE_id_pending (nm, dspec_none, NULL_nspace, crt_loc,
@@ -449,8 +449,8 @@ load_use(BITSTREAM *bs, unsigned tag)
 		COPY_ulong (id_dump (id), d);
 		ids_pending++;
 		*pid = id;
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -463,14 +463,14 @@ load_use(BITSTREAM *bs, unsigned tag)
 static LIST (IDENTIFIER)
 load_use_list(BITSTREAM *bs)
 {
-    LIST (IDENTIFIER) p = NULL_list (IDENTIFIER);
-    while (DE_BOOL (bs)) {
+	LIST (IDENTIFIER) p = NULL_list (IDENTIFIER);
+	while (DE_BOOL (bs)) {
 		IDENTIFIER id = load_use (bs, null_tag);
 		if (spec_error) break;
 		CONS_id (id, p, p);
-    }
-    p = REVERSE_list (p);
-    return (p);
+	}
+	p = REVERSE_list (p);
+	return (p);
 }
 
 
@@ -484,14 +484,14 @@ load_use_list(BITSTREAM *bs)
 static LIST (TOKEN)
 load_tok_list(BITSTREAM *bs, int def)
 {
-    LIST (TOKEN) p = NULL_list (TOKEN);
-    while (DE_BOOL (bs)) {
+	LIST (TOKEN) p = NULL_list (TOKEN);
+	while (DE_BOOL (bs)) {
 		TOKEN tok = load_tok (bs, def);
 		if (spec_error) break;
 		CONS_tok (tok, p, p);
-    }
-    p = REVERSE_list (p);
-    return (p);
+	}
+	p = REVERSE_list (p);
+	return (p);
 }
 
 
@@ -504,27 +504,27 @@ load_tok_list(BITSTREAM *bs, int def)
 static NAT
 load_nat(BITSTREAM *bs)
 {
-    NAT m = NULL_nat;
-    unsigned n = DE_BITS (bs, BITS_nat);
-    if (n == 0) {
+	NAT m = NULL_nat;
+	unsigned n = DE_BITS (bs, BITS_nat);
+	if (n == 0) {
 		/* Null constants */
 		return (m);
-    }
-    if (n > ORDER_nat) {
+	}
+	if (n > ORDER_nat) {
 		SPEC_ERROR ();
 		return (m);
-    }
-    ASSERT (ORDER_nat == 5);
-    switch (n - 1) {
+	}
+	ASSERT (ORDER_nat == 5);
+	switch (n - 1) {
 	case nat_small_tag : {
-	    unsigned long v = DE_INT (bs);
-	    m = make_nat_value (v);
-	    break;
+		unsigned long v = DE_INT (bs);
+		m = make_nat_value (v);
+		break;
 	}
 	case nat_large_tag : {
-	    int count = 0;
-	    LIST (unsigned) p = NULL_list (unsigned);
-	    while (DE_BOOL (bs)) {
+		int count = 0;
+		LIST (unsigned) p = NULL_list (unsigned);
+		while (DE_BOOL (bs)) {
 			unsigned v = (unsigned) DE_INT (bs);
 			CONS_unsigned (v, p, p);
 			if (++count == 10) {
@@ -535,41 +535,41 @@ load_nat(BITSTREAM *bs)
 				}
 				count = 0;
 			}
-	    }
-	    p = REVERSE_list (p);
-	    m = make_large_nat (p);
-	    break;
+		}
+		p = REVERSE_list (p);
+		m = make_large_nat (p);
+		break;
 	}
 	case nat_calc_tag : {
-	    EXP e = load_exp (bs, type_sint);
-	    if (!IS_NULL_exp (e)) {
+		EXP e = load_exp (bs, type_sint);
+		if (!IS_NULL_exp (e)) {
 			MAKE_nat_calc (e, m);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case nat_neg_tag : {
-	    m = load_nat (bs);
-	    if (!IS_NULL_nat (m)) {
+		m = load_nat (bs);
+		if (!IS_NULL_nat (m)) {
 			m = negate_nat (m);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case nat_token_tag : {
-	    IDENTIFIER tok = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tok)) {
+		IDENTIFIER tok = load_use (bs, null_tag);
+		if (!IS_NULL_id (tok)) {
 			LIST (TOKEN) args = load_tok_list (bs, 1);
 			MAKE_nat_token (tok, args, m);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-    }
-    return (m);
+	}
+	return (m);
 }
 
 
@@ -582,9 +582,9 @@ load_nat(BITSTREAM *bs)
 static OFFSET
 load_off(BITSTREAM *bs)
 {
-    /* NOT YET IMPLEMENTED */
-    UNUSED (bs);
-    return (NULL_off);
+	/* NOT YET IMPLEMENTED */
+	UNUSED (bs);
+	return (NULL_off);
 }
 
 
@@ -597,48 +597,48 @@ load_off(BITSTREAM *bs)
 static EXP
 load_exp(BITSTREAM *bs, TYPE t)
 {
-    unsigned tag;
-    EXP e = NULL_exp;
-    unsigned n = DE_BITS (bs, BITS_exp);
-    if (n == 0) {
+	unsigned tag;
+	EXP e = NULL_exp;
+	unsigned n = DE_BITS (bs, BITS_exp);
+	if (n == 0) {
 		/* Null expressions */
 		return (e);
-    }
-    if (n > ORDER_exp) {
+	}
+	if (n > ORDER_exp) {
 		SPEC_ERROR ();
 		return (e);
-    }
-    tag = n - 1;
-    switch (tag) {
+	}
+	tag = n - 1;
+	switch (tag) {
 	case exp_int_lit_tag : {
-	    NAT m = load_nat (bs);
-	    if (!IS_NULL_nat (m)) {
+		NAT m = load_nat (bs);
+		if (!IS_NULL_nat (m)) {
 			unsigned etag = DE_BITS (bs, BITS_exp);
 			if (etag < ORDER_exp) {
 				MAKE_exp_int_lit (t, m, etag, e);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case exp_token_tag : {
-	    IDENTIFIER tok = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tok)) {
+		IDENTIFIER tok = load_use (bs, null_tag);
+		if (!IS_NULL_id (tok)) {
 			LIST (TOKEN) args = load_tok_list (bs, 1);
 			MAKE_exp_token (t, tok, args, e);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	default : {
-	    /* NOT YET IMPLEMENTED */
-	    MAKE_exp_value (t, e);
-	    break;
+		/* NOT YET IMPLEMENTED */
+		MAKE_exp_value (t, e);
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -651,12 +651,12 @@ load_exp(BITSTREAM *bs, TYPE t)
 static BUILTIN_TYPE
 load_ntype(BITSTREAM *bs)
 {
-    BUILTIN_TYPE nt = (BUILTIN_TYPE) DE_BITS (bs, BITS_ntype);
-    if (nt >= ORDER_ntype) {
+	BUILTIN_TYPE nt = (BUILTIN_TYPE) DE_BITS (bs, BITS_ntype);
+	if (nt >= ORDER_ntype) {
 		nt = ntype_none;
 		SPEC_ERROR ();
-    }
-    return (nt);
+	}
+	return (nt);
 }
 
 
@@ -670,25 +670,25 @@ load_ntype(BITSTREAM *bs)
 static TYPE
 load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 {
-    TYPE t = NULL_type;
-    unsigned n = DE_BITS (bs, BITS_itype);
-    if (n == 0) {
+	TYPE t = NULL_type;
+	unsigned n = DE_BITS (bs, BITS_itype);
+	if (n == 0) {
 		/* Null types */
 		return (t);
-    }
-    if (n > ORDER_itype) {
+	}
+	if (n > ORDER_itype) {
 		SPEC_ERROR ();
 		return (t);
-    }
-    switch (n - 1) {
+	}
+	switch (n - 1) {
 	case itype_basic_tag : {
-	    BUILTIN_TYPE nt = load_ntype (bs);
-	    t = type_builtin [ nt ];
-	    break;
+		BUILTIN_TYPE nt = load_ntype (bs);
+		t = type_builtin [nt];
+		break;
 	}
 	case itype_bitfield_tag : {
-	    TYPE s = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_type (bs, NULL_id);
+		if (!IS_NULL_type (s)) {
 			BASE_TYPE bt = load_btype (bs);
 			NAT m = load_nat (bs);
 			if (!IS_NULL_nat (m)) {
@@ -696,34 +696,34 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 				cv = cv_none;
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case itype_promote_tag : {
-	    TYPE s = load_itype (bs, cv_none, type_integer_tag);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_itype (bs, cv_none, type_integer_tag);
+		if (!IS_NULL_type (s)) {
 			t = promote_type (s);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case itype_arith_tag : {
-	    TYPE s = load_itype (bs, cv_none, type_integer_tag);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_itype (bs, cv_none, type_integer_tag);
+		if (!IS_NULL_type (s)) {
 			TYPE r = load_itype (bs, cv_none, type_integer_tag);
 			if (!IS_NULL_type (r)) {
 				t = arith_itype (s, r, NULL_exp, NULL_exp);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case itype_literal_tag : {
-	    NAT m = load_nat (bs);
-	    if (!IS_NULL_nat (m)) {
+		NAT m = load_nat (bs);
+		if (!IS_NULL_nat (m)) {
 			int form = (int) DE_BITS (bs, 2);
 			if (form >= 0 && form < BASE_NO) {
 				int suff = (int) DE_BITS (bs, 3);
@@ -734,29 +734,29 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 					break;
 				}
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case itype_token_tag : {
-	    IDENTIFIER tok = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tok)) {
+		IDENTIFIER tok = load_use (bs, null_tag);
+		if (!IS_NULL_id (tok)) {
 			LIST (TOKEN) args = load_tok_list (bs, 1);
 			t = apply_itype_token (tok, args);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-    }
-    if (!IS_NULL_type (t)) {
+	}
+	if (!IS_NULL_type (t)) {
 		if (TAG_type (t) == tag) {
 			if (cv) t = qualify_type (t, cv, 0);
 		} else {
 			SPEC_ERROR ();
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -770,63 +770,63 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 static TYPE
 load_ftype(BITSTREAM *bs, CV_SPEC cv)
 {
-    TYPE t = NULL_type;
-    unsigned n = DE_BITS (bs, BITS_ftype);
-    if (n == 0) {
+	TYPE t = NULL_type;
+	unsigned n = DE_BITS (bs, BITS_ftype);
+	if (n == 0) {
 		/* Null types */
 		return (t);
-    }
-    if (n > ORDER_ftype) {
+	}
+	if (n > ORDER_ftype) {
 		SPEC_ERROR ();
 		return (t);
-    }
-    ASSERT (ORDER_ftype == 4);
-    switch (n - 1) {
+	}
+	ASSERT (ORDER_ftype == 4);
+	switch (n - 1) {
 	case ftype_basic_tag : {
-	    BUILTIN_TYPE nt = load_ntype (bs);
-	    t = type_builtin [ nt ];
-	    break;
+		BUILTIN_TYPE nt = load_ntype (bs);
+		t = type_builtin [nt];
+		break;
 	}
 	case ftype_arg_promote_tag : {
-	    TYPE s = load_ftype (bs, cv_none);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_ftype (bs, cv_none);
+		if (!IS_NULL_type (s)) {
 			t = arg_promote_type (s, KILL_err);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case ftype_arith_tag : {
-	    TYPE s = load_ftype (bs, cv_none);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_ftype (bs, cv_none);
+		if (!IS_NULL_type (s)) {
 			TYPE r = load_ftype (bs, cv_none);
 			if (!IS_NULL_type (r)) {
 				t = arith_ftype (s, r);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case ftype_token_tag : {
-	    IDENTIFIER tok = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tok)) {
+		IDENTIFIER tok = load_use (bs, null_tag);
+		if (!IS_NULL_id (tok)) {
 			LIST (TOKEN) args = load_tok_list (bs, 1);
 			t = apply_ftype_token (tok, args);
 			break;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    if (!IS_NULL_type (t)) {
+	}
+	if (!IS_NULL_type (t)) {
 		if (IS_type_floating (t)) {
 			if (cv) t = qualify_type (t, cv, 0);
 		} else {
 			SPEC_ERROR ();
 			t = NULL_type;
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -840,12 +840,12 @@ load_ftype(BITSTREAM *bs, CV_SPEC cv)
 static GRAPH
 load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 {
-    GRAPH gr;
-    LIST (GRAPH) br = NULL_list (GRAPH);
-    if (IS_NULL_graph (gu)) {
+	GRAPH gr;
+	LIST (GRAPH) br = NULL_list (GRAPH);
+	if (IS_NULL_graph (gu)) {
 		/* Top graph node */
 		gr = gt;
-    } else {
+	} else {
 		/* Read graph node */
 		CLASS_TYPE ct = NULL_ctype;
 		IGNORE load_ctype (bs, NULL_id, &ct);
@@ -856,18 +856,18 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 			SPEC_ERROR ();
 			return (NULL_graph);
 		}
-    }
-    while (DE_BOOL (bs)) {
+	}
+	while (DE_BOOL (bs)) {
 		/* Read base classes */
 		GRAPH gs = load_graph (bs, gr, gt);
 		if (IS_NULL_graph (gs)) break;
 		CONS_graph (gs, br, br);
-    }
-    br = REVERSE_list (br);
-    COPY_list (graph_tails (gr), br);
-    COPY_graph (graph_top (gr), gt);
-    COPY_graph (graph_up (gr), gu);
-    return (gr);
+	}
+	br = REVERSE_list (br);
+	COPY_list (graph_tails (gr), br);
+	COPY_graph (graph_top (gr), gt);
+	COPY_graph (graph_up (gr), gu);
+	return (gr);
 }
 
 
@@ -882,19 +882,19 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 static TYPE
 load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 {
-    TYPE t = NULL_type;
-    if (!IS_NULL_id (def)) {
+	TYPE t = NULL_type;
+	if (!IS_NULL_id (def)) {
 		if (IS_id_class_name (def)) {
 			/* Read class definition */
 			GRAPH gr;
 			CLASS_TYPE ct;
 			DECL_SPEC acc;
 			NAMESPACE mns;
-			
+
 			/* Read the class information */
 			CLASS_INFO ci = load_cinfo (bs);
 			CLASS_USAGE cu = load_cusage (bs);
-			
+
 			/* Create the class type */
 			acc = (dspec_public | dspec_defn);
 			MAKE_graph_basic (NULL_ctype, acc, gr);
@@ -908,22 +908,22 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 			IGNORE lookup_destr (t, def);
 			crt_class = ct;
 			*pct = ct;
-			
+
 			/* Read the base class graph */
 			IGNORE load_graph (bs, NULL_graph, gr);
 			end_base_class (ct, 1);
-			
+
 			/* Read template form */
 			if (DE_BOOL (bs)) {
 				TYPE form = load_type (bs, NULL_id);
 				COPY_type (ctype_form (ct), form);
 			}
-			
+
 		} else {
 			SPEC_ERROR ();
 		}
-		
-    } else {
+
+	} else {
 		/* Read class name */
 		IDENTIFIER cid = load_use (bs, id_class_name_tag);
 		if (!IS_NULL_id (cid)) {
@@ -945,8 +945,8 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 		} else {
 			SPEC_ERROR ();
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -961,8 +961,8 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 static TYPE
 load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 {
-    TYPE t = NULL_type;
-    if (!IS_NULL_id (def)) {
+	TYPE t = NULL_type;
+	if (!IS_NULL_id (def)) {
 		if (IS_id_enum_name (def)) {
 			/* Read enumeration definition */
 			ENUM_TYPE et;
@@ -984,7 +984,7 @@ load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 		} else {
 			SPEC_ERROR ();
 		}
-    } else {
+	} else {
 		/* Read enumeration name */
 		IDENTIFIER eid = load_use (bs, id_enum_name_tag);
 		if (!IS_NULL_id (eid)) {
@@ -1000,8 +1000,8 @@ load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 			t = NULL_type;
 			SPEC_ERROR ();
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1015,8 +1015,8 @@ load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 static LIST (IDENTIFIER)
 load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 {
-    LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
-    while (DE_BOOL (bs)) {
+	LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
+	while (DE_BOOL (bs)) {
 		HASHID nm;
 		MEMBER mem;
 		IDENTIFIER pid = load_id (bs, ns);
@@ -1028,9 +1028,9 @@ load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 		mem = search_member (ns, nm, 1);
 		COPY_id (member_id (mem), pid);
 		CONS_id (pid, pids, pids);
-    }
-    pids = REVERSE_list (pids);
-    return (pids);
+	}
+	pids = REVERSE_list (pids);
+	return (pids);
 }
 
 
@@ -1044,49 +1044,49 @@ load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 static TYPE
 load_type(BITSTREAM *bs, IDENTIFIER def)
 {
-    unsigned n;
-    CV_SPEC cv;
-    unsigned tag;
-    TYPE t = NULL_type;
-    if (DE_BOOL (bs)) {
+	unsigned n;
+	CV_SPEC cv;
+	unsigned tag;
+	TYPE t = NULL_type;
+	if (DE_BOOL (bs)) {
 		/* Built-in types */
 		BUILTIN_TYPE nt;
 		cv = load_cv (bs);
 		nt = load_ntype (bs);
-		t = type_builtin [ nt ];
+		t = type_builtin [nt];
 		if (cv) t = qualify_type (t, cv, 0);
 		return (t);
-    }
-	
-    /* Read type independent fields */
-    n = DE_BITS (bs, BITS_type);
-    if (n == 0) {
+	}
+
+	/* Read type independent fields */
+	n = DE_BITS (bs, BITS_type);
+	if (n == 0) {
 		/* Null types */
 		return (t);
-    }
-    if (n > ORDER_type) {
+	}
+	if (n > ORDER_type) {
 		SPEC_ERROR ();
 		return (NULL_type);
-    }
-    tag = n - 1;
-    cv = load_cv (bs);
-	
-    /* Read type dependent fields */
-    ASSERT (ORDER_type == 18);
-    switch (tag) {
-		
-	case type_pre_tag : {
-	    IDENTIFIER tid = load_use (bs, null_tag);
-	    QUALIFIER qual = load_qual (bs);
-	    BASE_TYPE bt = load_btype (bs);
-	    MAKE_type_pre (cv, bt, qual, t);
-	    COPY_id (type_name (t), tid);
-	    break;
 	}
-		
+	tag = n - 1;
+	cv = load_cv (bs);
+
+	/* Read type dependent fields */
+	ASSERT (ORDER_type == 18);
+	switch (tag) {
+
+	case type_pre_tag : {
+		IDENTIFIER tid = load_use (bs, null_tag);
+		QUALIFIER qual = load_qual (bs);
+		BASE_TYPE bt = load_btype (bs);
+		MAKE_type_pre (cv, bt, qual, t);
+		COPY_id (type_name (t), tid);
+		break;
+	}
+
 	case type_integer_tag : {
-	    t = load_itype (bs, cv, tag);
-	    if (!IS_NULL_type (t)) {
+		t = load_itype (bs, cv, tag);
+		if (!IS_NULL_type (t)) {
 			if (DE_BOOL (bs)) {
 				TYPE s = load_itype (bs, cv_none, tag);
 				if (!IS_NULL_type (s)) {
@@ -1097,54 +1097,54 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 				}
 			}
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_floating_tag : {
-	    t = load_ftype (bs, cv);
-	    break;
+		t = load_ftype (bs, cv);
+		break;
 	}
-		
+
 	case type_top_tag :
 	case type_bottom_tag : {
-	    /* Should not happen */
-	    MAKE_type_top_etc (tag, cv, t);
-	    break;
+		/* Should not happen */
+		MAKE_type_top_etc (tag, cv, t);
+		break;
 	}
-		
+
 	case type_ptr_tag :
 	case type_ref_tag : {
-	    /* Pointer and reference types */
-	    TYPE s = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (s)) {
+		/* Pointer and reference types */
+		TYPE s = load_type (bs, NULL_id);
+		if (!IS_NULL_type (s)) {
 			MAKE_type_ptr_etc (tag, cv, s, t);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    CLASS_TYPE cs = NULL_ctype;
-	    IGNORE load_ctype (bs, NULL_id, &cs);
-	    if (!IS_NULL_ctype (cs)) {
+		/* Pointer to member types */
+		CLASS_TYPE cs = NULL_ctype;
+		IGNORE load_ctype (bs, NULL_id, &cs);
+		if (!IS_NULL_ctype (cs)) {
 			TYPE r = load_type (bs, NULL_id);
 			if (!IS_NULL_type (r)) {
 				MAKE_type_ptr_mem (cv, cs, r, t);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_func_tag : {
-	    /* Function types */
-	    TYPE r = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (r)) {
+		/* Function types */
+		TYPE r = load_type (bs, NULL_id);
+		if (!IS_NULL_type (r)) {
 			int ell;
 			NAMESPACE pns;
 			CV_SPEC mqual;
@@ -1171,81 +1171,81 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 				member_func_type (cs, id_mem_func_tag, t);
 			}
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_array_tag : {
-	    /* Array types */
-	    TYPE s = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (s)) {
+		/* Array types */
+		TYPE s = load_type (bs, NULL_id);
+		if (!IS_NULL_type (s)) {
 			NAT m = load_nat (bs);
 			MAKE_type_array (cv, s, m, t);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_bitfield_tag : {
-	    /* Bitfield types */
-	    t = load_itype (bs, cv, tag);
-	    break;
+		/* Bitfield types */
+		t = load_itype (bs, cv, tag);
+		break;
 	}
-		
+
 	case type_compound_tag : {
-	    /* Class types */
-	    CLASS_TYPE ct = NULL_ctype;
-	    t = load_ctype (bs, def, &ct);
-	    if (!IS_NULL_type (t)) {
+		/* Class types */
+		CLASS_TYPE ct = NULL_ctype;
+		t = load_ctype (bs, def, &ct);
+		if (!IS_NULL_type (t)) {
 			if (cv) t = qualify_type (t, cv, 0);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_enumerate_tag : {
-	    /* Enumeration types */
-	    ENUM_TYPE et = NULL_etype;
-	    t = load_etype (bs, def, &et);
-	    if (!IS_NULL_type (t)) {
+		/* Enumeration types */
+		ENUM_TYPE et = NULL_etype;
+		t = load_etype (bs, def, &et);
+		if (!IS_NULL_type (t)) {
 			if (cv) t = qualify_type (t, cv, 0);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_token_tag : {
-	    IDENTIFIER tok = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tok)) {
+		IDENTIFIER tok = load_use (bs, null_tag);
+		if (!IS_NULL_id (tok)) {
 			LIST (TOKEN) args = load_tok_list (bs, 1);
 			MAKE_type_token (cv, tok, args, t);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_templ_tag : {
-	    TOKEN tok = load_tok (bs, 0);
-	    if (!IS_NULL_tok (tok) && IS_tok_templ (tok)) {
+		TOKEN tok = load_tok (bs, 0);
+		if (!IS_NULL_tok (tok) && IS_tok_templ (tok)) {
 			TYPE s = load_type (bs, def);
 			if (!IS_NULL_type (s)) {
 				int fix = DE_BOOL (bs);
 				MAKE_type_templ (cv, tok, s, fix, t);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_instance_tag : {
-	    IDENTIFIER tid = load_use (bs, null_tag);
-	    if (!IS_NULL_id (tid)) {
+		IDENTIFIER tid = load_use (bs, null_tag);
+		if (!IS_NULL_id (tid)) {
 			IDENTIFIER id = load_use (bs, null_tag);
 			if (!IS_NULL_id (id)) {
 				DECL_SPEC acc = load_dspec (bs);
@@ -1253,24 +1253,24 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 				COPY_id (type_name (t), tid);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case type_dummy_tag : {
-	    int tok = (int) DE_INT (bs);
-	    MAKE_type_dummy (cv, tok, t);
-	    break;
+		int tok = (int) DE_INT (bs);
+		MAKE_type_dummy (cv, tok, t);
+		break;
 	}
-		
+
 	case type_error_tag : {
-	    t = type_error;
-	    if (cv) t = qualify_type (t, cv, 0);
-	    break;
+		t = type_error;
+		if (cv) t = qualify_type (t, cv, 0);
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1283,14 +1283,14 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 static LIST (TYPE)
 load_type_list(BITSTREAM *bs)
 {
-    LIST (TYPE) p = NULL_list (TYPE);
-    while (DE_BOOL (bs)) {
+	LIST (TYPE) p = NULL_list (TYPE);
+	while (DE_BOOL (bs)) {
 		TYPE t = load_type (bs, NULL_id);
 		if (spec_error) break;
 		CONS_type (t, p, p);
-    }
-    p = REVERSE_list (p);
-    return (p);
+	}
+	p = REVERSE_list (p);
+	return (p);
 }
 
 
@@ -1304,56 +1304,56 @@ load_type_list(BITSTREAM *bs)
 static TOKEN
 load_tok(BITSTREAM *bs, int def)
 {
-    unsigned tag;
-    TOKEN tok = NULL_tok;
-    unsigned n = DE_BITS (bs, BITS_tok);
-    if (n == 0) {
+	unsigned tag;
+	TOKEN tok = NULL_tok;
+	unsigned n = DE_BITS (bs, BITS_tok);
+	if (n == 0) {
 		return (tok);
-    }
-    if (n > ORDER_tok) {
+	}
+	if (n > ORDER_tok) {
 		SPEC_ERROR ();
 		return (tok);
-    }
-    ASSERT (ORDER_tok == 10);
-    tag = n - 1;
-    switch (tag) {
+	}
+	ASSERT (ORDER_tok == 10);
+	tag = n - 1;
+	switch (tag) {
 	case tok_exp_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			EXP e = NULL_exp;
 			int c = DE_BOOL (bs);
 			if (def) e = load_exp (bs, t);
 			MAKE_tok_exp (t, c, e, tok);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case tok_stmt_tag : {
-	    EXP e = NULL_exp;
-	    if (def) e = load_exp (bs, type_void);
-	    MAKE_tok_stmt (e, tok);
-	    break;
+		EXP e = NULL_exp;
+		if (def) e = load_exp (bs, type_void);
+		MAKE_tok_stmt (e, tok);
+		break;
 	}
 	case tok_nat_tag :
 	case tok_snat_tag : {
-	    NAT m = NULL_nat;
-	    if (def) m = load_nat (bs);
-	    MAKE_tok_nat_etc (tag, m, tok);
-	    break;
+		NAT m = NULL_nat;
+		if (def) m = load_nat (bs);
+		MAKE_tok_nat_etc (tag, m, tok);
+		break;
 	}
 	case tok_type_tag : {
-	    BASE_TYPE kind = load_btype (bs);
-	    TYPE s = load_type (bs, NULL_id);
-	    TYPE t = NULL_type;
-	    if (def) t = load_type (bs, NULL_id);
-	    MAKE_tok_type (kind, t, tok);
-	    COPY_type (tok_type_alt (tok), s);
-	    break;
+		BASE_TYPE kind = load_btype (bs);
+		TYPE s = load_type (bs, NULL_id);
+		TYPE t = NULL_type;
+		if (def) t = load_type (bs, NULL_id);
+		MAKE_tok_type (kind, t, tok);
+		COPY_type (tok_type_alt (tok), s);
+		break;
 	}
 	case tok_func_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t) && IS_type_func (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t) && IS_type_func (t)) {
 			TOKEN proc = load_tok (bs, 0);
 			IDENTIFIER id = NULL_id;
 			if (def) id = load_use (bs, null_tag);
@@ -1361,13 +1361,13 @@ load_tok(BITSTREAM *bs, int def)
 			COPY_tok (tok_func_proc (tok), proc);
 			COPY_id (tok_func_defn (tok), id);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case tok_member_tag : {
-	    TYPE s = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (s)) {
+		TYPE s = load_type (bs, NULL_id);
+		if (!IS_NULL_type (s)) {
 			TYPE t = load_type (bs, NULL_id);
 			if (!IS_NULL_type (t)) {
 				OFFSET off = NULL_off;
@@ -1375,51 +1375,51 @@ load_tok(BITSTREAM *bs, int def)
 				MAKE_tok_member (s, t, off, tok);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case tok_class_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			TYPE s = load_type (bs, NULL_id);
 			IDENTIFIER id = NULL_id;
 			if (def) id = load_use (bs, null_tag);
 			MAKE_tok_class (t, id, tok);
 			COPY_type (tok_class_alt (tok), s);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
 	case tok_proc_tag : {
-	    TOKEN res;
-	    NAMESPACE pns;
-	    int key = lex_identifier;
-	    LIST (IDENTIFIER) bids;
-	    LIST (IDENTIFIER) pids;
-	    begin_param (NULL_id);
-	    pns = crt_namespace;
-	    bids = load_param_list (bs, pns, id_token_tag);
-	    if (DE_BOOL (bs)) {
+		TOKEN res;
+		NAMESPACE pns;
+		int key = lex_identifier;
+		LIST (IDENTIFIER) bids;
+		LIST (IDENTIFIER) pids;
+		begin_param (NULL_id);
+		pns = crt_namespace;
+		bids = load_param_list (bs, pns, id_token_tag);
+		if (DE_BOOL (bs)) {
 			pids = bids;
-	    } else {
+		} else {
 			pids = load_use_list (bs);
-	    }
-	    end_param ();
-	    res = load_tok (bs, def);
-	    if (DE_BOOL (bs)) key = load_lex (bs);
-	    if (!IS_NULL_tok (res)) {
+		}
+		end_param ();
+		res = load_tok (bs, def);
+		if (DE_BOOL (bs)) key = load_lex (bs);
+		if (!IS_NULL_tok (res)) {
 			MAKE_tok_proc (res, pns, key, tok);
 			tok = cont_proc_token (tok, bids, pids);
-	    } else {
+		} else {
 			SPEC_ERROR ();
-	    }
-	    break;
+		}
+		break;
 	}
 	case tok_templ_tag : {
-	    DECL_SPEC ex = load_dspec (bs);
-	    if (DE_BOOL (bs)) {
+		DECL_SPEC ex = load_dspec (bs);
+		if (DE_BOOL (bs)) {
 			NAMESPACE pns;
 			LIST (TOKEN) dargs;
 			LIST (IDENTIFIER) pids;
@@ -1430,13 +1430,13 @@ load_tok(BITSTREAM *bs, int def)
 			MAKE_tok_templ (ex, pns, tok);
 			COPY_list (tok_templ_pids (tok), pids);
 			COPY_list (tok_templ_dargs (tok), dargs);
-	    } else {
+		} else {
 			MAKE_tok_templ (ex, NULL_nspace, tok);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (tok);
+	}
+	return (tok);
 }
 
 
@@ -1449,196 +1449,196 @@ load_tok(BITSTREAM *bs, int def)
 static IDENTIFIER
 load_id(BITSTREAM *bs, NAMESPACE ns)
 {
-    ulong d;
-    HASHID nm;
-    unsigned n;
-    unsigned tag;
-    DECL_SPEC ds;
-    IDENTIFIER qid;
-    IDENTIFIER *pid;
-    IDENTIFIER id = NULL_id;
-    IDENTIFIER lid = NULL_id;
-	
-    /* Read identifier number */
-    d = DE_INT (bs);
-    if (d == 0) {
+	ulong d;
+	HASHID nm;
+	unsigned n;
+	unsigned tag;
+	DECL_SPEC ds;
+	IDENTIFIER qid;
+	IDENTIFIER *pid;
+	IDENTIFIER id = NULL_id;
+	IDENTIFIER lid = NULL_id;
+
+	/* Read identifier number */
+	d = DE_INT (bs);
+	if (d == 0) {
 		/* Null identifiers */
 		return (id);
-    }
-	
-    /* Read identifier tag */
-    n = DE_BITS (bs, BITS_id);
-    if (n == 0) {
+	}
+
+	/* Read identifier tag */
+	n = DE_BITS (bs, BITS_id);
+	if (n == 0) {
 		/* Null identifiers */
 		return (id);
-    }
-    if (n > ORDER_id) {
+	}
+	if (n > ORDER_id) {
 		SPEC_ERROR ();
 		return (id);
-    }
-	
-    /* Check previous look-up */
-    pid = id_lookup (d);
-    qid = *pid;
-    if (!IS_NULL_id (qid)) {
+	}
+
+	/* Check previous look-up */
+	pid = id_lookup (d);
+	qid = *pid;
+	if (!IS_NULL_id (qid)) {
 		if (!IS_id_pending (qid)) {
 			SPEC_ERROR ();
 			qid = NULL_id;
 		}
-    }
-	
-    /* Read identifier independent information */
-    nm = load_hashid (bs, ns);
-    if (IS_NULL_hashid (nm)) {
+	}
+
+	/* Read identifier independent information */
+	nm = load_hashid (bs, ns);
+	if (IS_NULL_hashid (nm)) {
 		SPEC_ERROR ();
 		return (id);
-    }
-    tag = n - 1;
-    ds = load_dspec (bs);
-    load_loc (bs);
-    if (DE_BOOL (bs)) {
+	}
+	tag = n - 1;
+	ds = load_dspec (bs);
+	load_loc (bs);
+	if (DE_BOOL (bs)) {
 		/* Read alias */
 		lid = load_use (bs, tag);
-    }
-	
-    /* Read identifier dependent information */
-    ASSERT (ORDER_id == 28);
-    switch (tag) {
-		
-	case id_dummy_tag : {
-	    id = DEREF_id (hashid_id (nm));
-	    id = underlying_id (id);
-	    break;
 	}
-		
+
+	/* Read identifier dependent information */
+	ASSERT (ORDER_id == 28);
+	switch (tag) {
+
+	case id_dummy_tag : {
+		id = DEREF_id (hashid_id (nm));
+		id = underlying_id (id);
+		break;
+	}
+
 	case id_keyword_tag :
 	case id_iso_keyword_tag :
 	case id_reserved_tag : {
-	    int key = load_lex (bs);
-	    id = make_keyword (nm, key, NULL_id);
-	    break;
+		int key = load_lex (bs);
+		id = make_keyword (nm, key, NULL_id);
+		break;
 	}
-		
+
 	case id_builtin_tag : {
-	    TYPE r = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (r)) {
+		TYPE r = load_type (bs, NULL_id);
+		if (!IS_NULL_type (r)) {
 			LIST (TYPE) p = load_type_list (bs);
 			MAKE_id_builtin (nm, ds, ns, crt_loc, r, p, id);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_obj_macro_tag : {
-	    PPTOKEN *def = load_pptoks (bs);
-	    MAKE_id_obj_macro (nm, ds, ns, crt_loc, def, id);
-	    break;
+		PPTOKEN *def = load_pptoks (bs);
+		MAKE_id_obj_macro (nm, ds, ns, crt_loc, def, id);
+		break;
 	}
-		
+
 	case id_func_macro_tag : {
-	    PPTOKEN *def = load_pptoks (bs);
-	    LIST (HASHID) pars = load_hashid_list (bs, NULL_nspace);
-	    unsigned npars = LENGTH_list (pars);
-	    MAKE_id_func_macro (nm, ds, ns, crt_loc, def, pars, npars, 0, id);
-	    break;
+		PPTOKEN *def = load_pptoks (bs);
+		LIST (HASHID) pars = load_hashid_list (bs, NULL_nspace);
+		unsigned npars = LENGTH_list (pars);
+		MAKE_id_func_macro (nm, ds, ns, crt_loc, def, pars, npars, 0, id);
+		break;
 	}
-		
+
 	case id_predicate_tag : {
-	    /* NOT YET IMPLEMENTED */
-	    MAKE_id_undef (nm, ds, ns, crt_loc, id);
-	    break;
+		/* NOT YET IMPLEMENTED */
+		MAKE_id_undef (nm, ds, ns, crt_loc, id);
+		break;
 	}
-		
+
 	case id_class_name_tag : {
-	    /* Class names */
-	    TYPE t = type_error;
-	    MAKE_id_class_name (nm, ds, ns, crt_loc, t, id);
-	    if (ds & dspec_implicit) {
+		/* Class names */
+		TYPE t = type_error;
+		MAKE_id_class_name (nm, ds, ns, crt_loc, t, id);
+		if (ds & dspec_implicit) {
 			if (!IS_NULL_id (lid) && IS_id_class_name (lid)) {
 				t = DEREF_type (id_class_name_defn (lid));
 			}
-	    } else {
+		} else {
 			*pid = id;
 			t = load_type (bs, id);
-	    }
-	    if (type_tag (t) == type_compound_tag) {
+		}
+		if (type_tag (t) == type_compound_tag) {
 			COPY_type (id_class_name_defn (id), t);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_enum_name_tag : {
-	    /* Enumeration names */
-	    TYPE t = type_error;
-	    MAKE_id_enum_name (nm, ds, ns, crt_loc, t, id);
-	    t = load_type (bs, id);
-	    if (type_tag (t) == type_enumerate_tag) {
+		/* Enumeration names */
+		TYPE t = type_error;
+		MAKE_id_enum_name (nm, ds, ns, crt_loc, t, id);
+		t = load_type (bs, id);
+		if (type_tag (t) == type_enumerate_tag) {
 			COPY_type (id_enum_name_defn (id), t);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_class_alias_tag :
 	case id_enum_alias_tag :
 	case id_type_alias_tag : {
-	    /* Type aliases */
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		/* Type aliases */
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			id = make_typedef (ns, nm, t, ds);
 			if (TAG_id (id) != tag) SPEC_ERROR ();
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_nspace_name_tag : {
-	    /* Namespace names */
-	    NAMESPACE pns = NULL_nspace;
-	    unsigned ntag = nspace_named_tag;
-	    if (IS_hashid_anon (nm)) ntag = nspace_unnamed_tag;
-	    MAKE_id_nspace_name (nm, ds, ns, crt_loc, pns, id);
-	    pns = make_namespace (id, ntag, 50);
-	    COPY_nspace (id_nspace_name_defn (id), pns);
-	    break;
+		/* Namespace names */
+		NAMESPACE pns = NULL_nspace;
+		unsigned ntag = nspace_named_tag;
+		if (IS_hashid_anon (nm)) ntag = nspace_unnamed_tag;
+		MAKE_id_nspace_name (nm, ds, ns, crt_loc, pns, id);
+		pns = make_namespace (id, ntag, 50);
+		COPY_nspace (id_nspace_name_defn (id), pns);
+		break;
 	}
-		
+
 	case id_nspace_alias_tag : {
-	    /* Namespace aliases */
-	    IDENTIFIER nid = load_use (bs, id_nspace_name_tag);
-	    if (!IS_NULL_id (nid)) {
+		/* Namespace aliases */
+		IDENTIFIER nid = load_use (bs, id_nspace_name_tag);
+		if (!IS_NULL_id (nid)) {
 			NAMESPACE pns = find_namespace (nid);
 			if (!IS_NULL_nspace (pns)) {
 				MAKE_id_nspace_alias (nm, ds, ns, crt_loc, pns, id);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_variable_tag :
 	case id_parameter_tag :
 	case id_stat_member_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			MAKE_id_variable_etc (tag, nm, ds, ns, crt_loc, t, id);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			MAKE_id_function_etc (tag, nm, ds, ns, crt_loc, t,
 								  NULL_id, id);
 			*pid = id;
@@ -1648,76 +1648,76 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 				COPY_type (id_function_etc_form (id), form);
 			}
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_member_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			MAKE_id_member (nm, ds, ns, crt_loc, t, id);
 			break;
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_enumerator_tag : {
-	    TYPE t = load_type (bs, NULL_id);
-	    if (!IS_NULL_type (t)) {
+		TYPE t = load_type (bs, NULL_id);
+		if (!IS_NULL_type (t)) {
 			EXP e = load_exp (bs, t);
 			if (!IS_NULL_exp (e)) {
 				MAKE_id_enumerator (nm, ds, ns, crt_loc, t, e, id);
 				break;
 			}
-	    }
-	    SPEC_ERROR ();
-	    break;
+		}
+		SPEC_ERROR ();
+		break;
 	}
-		
+
 	case id_label_tag :
 	case id_weak_param_tag : {
-	    /* NOT YET IMPLEMENTED */
-	    MAKE_id_undef (nm, ds, ns, crt_loc, id);
-	    break;
+		/* NOT YET IMPLEMENTED */
+		MAKE_id_undef (nm, ds, ns, crt_loc, id);
+		break;
 	}
-		
+
 	case id_token_tag : {
-	    TOKEN tok = load_tok (bs, 0);
-	    if (!IS_NULL_tok (tok)) {
+		TOKEN tok = load_tok (bs, 0);
+		if (!IS_NULL_tok (tok)) {
 			MAKE_id_token (nm, ds, ns, crt_loc, tok, NULL_id, id);
 			COPY_id (id_token_alt (id), id);
 			break;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_ambig_tag : {
-	    LIST (IDENTIFIER) ids = load_use_list (bs);
-	    int over = DE_BOOL (bs);
-	    MAKE_id_ambig (nm, ds, ns, crt_loc, ids, over, id);
-	    break;
+		LIST (IDENTIFIER) ids = load_use_list (bs);
+		int over = DE_BOOL (bs);
+		MAKE_id_ambig (nm, ds, ns, crt_loc, ids, over, id);
+		break;
 	}
-		
+
 	case id_undef_tag : {
-	    MAKE_id_undef (nm, ds, ns, crt_loc, id);
-	    if (DE_BOOL (bs)) {
+		MAKE_id_undef (nm, ds, ns, crt_loc, id);
+		if (DE_BOOL (bs)) {
 			TYPE form = load_type (bs, NULL_id);
 			COPY_type (id_undef_form (id), form);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_pending_tag : {
-	    /* This shouldn't happen */
-	    SPEC_ERROR ();
-	    break;
+		/* This shouldn't happen */
+		SPEC_ERROR ();
+		break;
 	}
-    }
-	
-    /* Set identifier look up */
-    if (!IS_NULL_id (id)) {
+	}
+
+	/* Set identifier look up */
+	if (!IS_NULL_id (id)) {
 		if (!IS_NULL_id (lid)) {
 			COPY_id (id_alias (id), lid);
 		}
@@ -1726,8 +1726,8 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 			ids_pending--;
 		}
 		*pid = id;
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -1741,11 +1741,11 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 static void
 load_members(BITSTREAM *bs, IDENTIFIER id)
 {
-    switch (TAG_id (id)) {
+	switch (TAG_id (id)) {
 	case id_class_name_tag : {
-	    /* Read class members */
-	    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-	    if (!(ds & dspec_implicit)) {
+		/* Read class members */
+		DECL_SPEC ds = DEREF_dspec (id_storage (id));
+		if (!(ds & dspec_implicit)) {
 			int templ = 0;
 			TYPE t = DEREF_type (id_class_name_defn (id));
 			while (IS_type_templ (t)) {
@@ -1762,28 +1762,28 @@ load_members(BITSTREAM *bs, IDENTIFIER id)
 					load_nspace (bs, ns, 1);
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_nspace_name_tag : {
-	    /* Read namespace members */
-	    NAMESPACE cns = DEREF_nspace (id_nspace_name_defn (id));
-	    load_nspace (bs, cns, 0);
-	    break;
+		/* Read namespace members */
+		NAMESPACE cns = DEREF_nspace (id_nspace_name_defn (id));
+		load_nspace (bs, cns, 0);
+		break;
 	}
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    TYPE t = DEREF_type (id_function_etc_type (id));
-	    if (IS_type_templ (t)) {
+		TYPE t = DEREF_type (id_function_etc_type (id));
+		if (IS_type_templ (t)) {
 			/* Read template function instances */
 			NAMESPACE ns = DEREF_nspace (id_parent (id));
 			load_nspace (bs, ns, 1);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1798,13 +1798,13 @@ load_members(BITSTREAM *bs, IDENTIFIER id)
 static void
 load_nspace(BITSTREAM *bs, NAMESPACE ns, int inst)
 {
-    int v = verbose;
-    for (; ;) {
+	int v = verbose;
+	for (;;) {
 		/* Read identifier */
 		IDENTIFIER id = load_id (bs, ns);
 		if (IS_NULL_id (id) || spec_error) break;
 		if (v) commentary (id);
-		
+
 		/* Set namespace member */
 		if (!IS_NULL_nspace (ns) && !inst) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -1837,11 +1837,11 @@ load_nspace(BITSTREAM *bs, NAMESPACE ns, int inst)
 				COPY_list (nspace_named_etc_extra (ns), ids);
 			}
 		}
-		
+
 		/* Check for classes, namespaces and templates */
 		load_members (bs, id);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1854,17 +1854,17 @@ load_nspace(BITSTREAM *bs, NAMESPACE ns, int inst)
  */
 
 int
-read_spec()
+read_spec(void)
 {
-    /* Read file identifier */
-    int e = 0;
-    char buff [20];
-    const char *msg = NULL;
-    NAMESPACE gns = NULL_nspace;
-    BITSTREAM *bs = tdf_fstream_createf (input_file, NULL);
+	/* Read file identifier */
+	int e = 0;
+	char buff [20];
+	const char *msg = NULL;
+	NAMESPACE gns = NULL_nspace;
+	BITSTREAM *bs = tdf_fstream_createf (input_file, NULL);
 
 	tdf_de_magic(bs, tdf_spec_magic);
-    if (1) {
+	if (1) {
 		unsigned long n1 = DE_INT (bs);
 		unsigned long n2 = DE_INT (bs);
 		unsigned long n3 = DE_INT (bs);
@@ -1900,22 +1900,22 @@ read_spec()
 			msg = "bad version number";
 			e = 1;
 		}
-    } else {
+	} else {
 		msg = "bad magic number";
 		e = 1;
-    }
-	
-    /* Check for errors */
-    if (msg) fail (ERR_fail_spec_bad (input_name, ustrlit (msg)));
-    if (!output_spec) e = 1;
-    xfree (id_table);
-    id_table_size = 0;
-    id_table = NULL;
-    spec_error = 0;
-	
-    /* Merge read identifiers */
-    if (!IS_NULL_nspace (gns)) {
+	}
+
+	/* Check for errors */
+	if (msg) fail (ERR_fail_spec_bad (input_name, ustrlit (msg)));
+	if (!output_spec) e = 1;
+	xfree (id_table);
+	id_table_size = 0;
+	id_table = NULL;
+	spec_error = 0;
+
+	/* Merge read identifiers */
+	if (!IS_NULL_nspace (gns)) {
 		merge_namespaces (global_namespace, gns);
-    }
-    return (e);
+	}
+	return (e);
 }
