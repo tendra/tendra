@@ -586,22 +586,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-api_check</option></term>
-      <listitem>
-        <para>Causes <emphasis>tchk</emphasis> to create an API usage
-          analysis file, with default name <emphasis>a.api</emphasis>.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-api_check_out </option><replaceable>string</replaceable></term>
-      <listitem>
-        <para>If an API usage analysis file is produced, call it
-          <emphasis>string</emphasis>.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-b</option></term>
       <listitem>
         <para>Stops the library <emphasis>libc.a</emphasis> being used by
