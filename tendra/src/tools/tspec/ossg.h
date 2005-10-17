@@ -120,41 +120,6 @@
 #endif
 
 
-/* Definitions of PROTO macros for weak prototypes */
-
-#if FS_WEAK_PROTOTYPES
-#ifndef PROTO_S
-#pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-#define PROTO_S( types )	KW_WEAK_PROTOTYPE types
-#define PROTO_N( names )	names
-#define PROTO_T( params )	params ;
-#define PROTO_Z()		()
-#endif
-#endif
-
-
-/* Definitions of PROTO macros for prototypes */
-
-#if FS_PROTOTYPES
-#ifndef PROTO_S
-#define PROTO_S( types )	types
-#define PROTO_N( names )
-#define PROTO_T( params )	( params )
-#define PROTO_Z()		( void )
-#endif
-#endif
-
-
-/* Definitions of PROTO macros for non-prototypes */
-
-#ifndef PROTO_S
-#define PROTO_S( types )	()
-#define PROTO_N( names )	names
-#define PROTO_T( params )	params ;
-#define PROTO_Z()		()
-#endif
-
-
 /* Definitions of TenDRA keywords */
 
 #if FS_TENDRA
