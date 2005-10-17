@@ -64,7 +64,7 @@ INSTALL_SUB+=		lib/diag
 .if defined(WRAPPERS)
 INSTALL_TARGETS+=	install-wrapper
 INSTALL_SUBBIN=		bin
-WRAPPERS+=		tcc.sh
+WRAPPERS+=		tcc.sh tchk.sh
 .endif
 
 .if (defined(MAN1) || defined(MAN5)) && ${MAN_INSTALL} == "yes"

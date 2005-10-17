@@ -10,12 +10,12 @@
 WRAPPERS=	disp.sh pl.sh tld.sh tnc.sh tspec.sh
 
 # Utilities
-WRAPPERS+=	calculus.sh lexi.sh sid.sh tchk.sh
+WRAPPERS+=	calculus.sh lexi.sh sid.sh
 
 # The rest
 WRAPPERS+=	tdfc2.sh trans.sh
 
-DEPEND_SRC=	${WRAPPERS:R} tcc-special
+DEPEND_SRC=	${WRAPPERS:R} tcc-special tchk-special
 
 #${WRAPPERS}:
 
@@ -26,12 +26,17 @@ DEPEND_SRC=	${WRAPPERS:R} tcc-special
 	${.OBJDIR}/${.TARGET}
 
 
-# The tcc script is special
+# The tcc and tchk scripts are special
 tcc-special:
 	${BIN_CAT} ${.CURDIR}/tcc.sh | \
 	${BIN_SED} ${SED_OPTS} | \
 	${BIN_SED} ${SED_OPTS_BIN} > \
 	${.OBJDIR}/tcc
+tchk-special:
+	${BIN_CAT} ${.CURDIR}/tchk.sh | \
+	${BIN_SED} ${SED_OPTS} | \
+	${BIN_SED} ${SED_OPTS_BIN} > \
+	${.OBJDIR}/tchk
 
 
 
@@ -45,6 +50,6 @@ SED_OPTS_BIN=	\
 		-e "s|-BIN_ECHO-|${BIN_ECHO}|g"
 
 
-CLEANFILES=	${WRAPPERS:R} tcc.sh
+CLEANFILES=	${WRAPPERS:R} tcc.sh tchk.sh
 
 .include "${.CURDIR}/../../mk/base/tendra.prog.mk"
