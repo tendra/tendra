@@ -287,18 +287,18 @@ do_produce(filename *input)
  *    APPLY THE C PREPROCESSOR
  *
  *    This routine applies the TDF C preprocessor to input and returns
- *    the result.  If files of type PREPROC_C are not being preserved
- *    then the output is sent to the standard output.
+ *    the result.  It is also used to apply the preprocessor to assembler
+ *    sources.  The parameter t tells the file type.
  */
 
 filename *
-do_preproc(filename *input)
+do_preproc(filename *input, int t)
 {
 	filename *output;
 	if (input == null) return (input);
 	if (checker && !use_system_cc) return (input);
-	if (keeps [PREPROC_C]) {
-		output = make_filename (input, PREPROC_C, where (PREPROC_C));
+	if (t == AS_SOURCE || keeps [t]) {
+		output = make_filename (input, t, where (t));
 	} else {
 		output = null;
 	}
@@ -990,12 +990,12 @@ do_link_specs(filename *input, int t)
  *    USE THE SYSTEM COMPILER
  *
  *    tcc may optionally be used do invoke the system compiler, cc.  This
- *    routine applies cc to the input files, input, compiling as far as
- *    files of type t, and returning the output files.
+ *    routine applies cc to the input files, input, compiling from type f to
+ *    as far as files of type t, and returning the output files.
  */
 
 filename *
-do_cc(filename *input, int t)
+do_cc(filename *input, int f, int t)
 {
 	char *flag;
 	filename *output;
@@ -1009,7 +1009,11 @@ do_cc(filename *input, int t)
 			output = null;
 		}
 	} else if (t == AS_SOURCE) {
-		flag = "-S";
+		if (f == PREPROC_AS) {
+			flag = "-E";
+		} else {
+			flag = "-S";
+		}
 	} else {
 		flag = "-c";
 		output->type = BINARY_OBJ;

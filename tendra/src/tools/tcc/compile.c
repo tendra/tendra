@@ -107,7 +107,7 @@ apply_cc(filename *input)
 		case C_SOURCE : {
 			/* C source */
 			if (make_preproc || keeps [PREPROC_C]) {
-				p = do_cc (p, PREPROC_C);
+				p = do_cc (p, C_SOURCE, PREPROC_C);
 				if (stops [PREPROC_C]) break;
 			}
 			goto preproc_c_lab;
@@ -129,12 +129,12 @@ apply_cc(filename *input)
 					if (ps != null) p = null;
 					break;
 				} else if (stops [AS_SOURCE]) {
-					p = do_cc (p, AS_SOURCE);
+					p = do_cc (p, C_SOURCE, AS_SOURCE);
 					break;
 				} else if (keeps [AS_SOURCE]) {
-					p = do_cc (p, AS_SOURCE);
+					p = do_cc (p, C_SOURCE, AS_SOURCE);
 				} else {
-					p = do_cc (p, binary_obj_type);
+					p = do_cc (p, C_SOURCE, binary_obj_type);
 					break;
 				}
 				goto as_source_lab;
@@ -143,7 +143,7 @@ apply_cc(filename *input)
 		case CPP_SOURCE : {
 			/* C++ source */
 			if (make_preproc || keeps [PREPROC_CPP]) {
-				p = do_cc (p, PREPROC_CPP);
+				p = do_cc (p, CPP_SOURCE, PREPROC_CPP);
 				if (stops [PREPROC_CPP]) break;
 			}
 			goto preproc_cpp_lab;
@@ -165,12 +165,12 @@ apply_cc(filename *input)
 					if (ps != null) p = null;
 					break;
 				} else if (stops [AS_SOURCE]) {
-					p = do_cc (p, AS_SOURCE);
+					p = do_cc (p, CPP_SOURCE, AS_SOURCE);
 					break;
 				} else if (keeps [AS_SOURCE]) {
-					p = do_cc (p, AS_SOURCE);
+					p = do_cc (p, CPP_SOURCE, AS_SOURCE);
 				} else {
-					p = do_cc (p, binary_obj_type);
+					p = do_cc (p, CPP_SOURCE, binary_obj_type);
 					break;
 				}
 				goto as_source_lab;
@@ -179,9 +179,15 @@ apply_cc(filename *input)
 		case AS_SOURCE :
 			as_source_lab : {
 				/* Assembly source file */
-				if (!stops [AS_SOURCE]) p = do_cc (p, BINARY_OBJ);
+				if (!stops [AS_SOURCE]) p = do_cc (p, AS_SOURCE, BINARY_OBJ);
 				break;
 			}
+
+		case PREPROC_AS : {
+			/* Preprocessed assembly source */
+			p = do_cc (p, PREPROC_AS, AS_SOURCE);
+			goto as_source_lab;
+		}
 
 		case BINARY_OBJ : {
 			/* Binary object file */
@@ -298,7 +304,7 @@ apply_compile(filename *input, int produce)
 		case C_SOURCE : {
 			/* C source */
 			if (keeps [PREPROC_C]) {
-				p = do_preproc (p);
+				p = do_preproc (p, PREPROC_C);
 			} else {
 				p = do_produce (p);
 			}
@@ -370,6 +376,15 @@ apply_compile(filename *input, int produce)
 			if (!produce) {
 				p = do_assemble (p);
 				if (p != pc) p = apply_compile (p, produce);
+			}
+			break;
+		}
+
+		case PREPROC_AS : {
+			/* Preprocessed assembly source */
+			if (!produce) {
+				p = do_preproc (p, AS_SOURCE);
+				p = apply_compile (p, produce);
 			}
 			break;
 		}
@@ -689,8 +704,11 @@ apply_preproc(filename *input)
 	while (p != null) {
 		filename *pn = p->next;
 		p->next = null;
-		if (p->type == C_SOURCE) p = do_preproc (p);
-		else if (p->type == CPP_SOURCE) p = do_cpp_preproc (p);
+		if (p->type == C_SOURCE) {
+			p = do_preproc (p, PREPROC_C);
+		} else if (p->type == CPP_SOURCE) {
+			p = do_cpp_preproc (p);
+		}
 		output = add_filename (output, p);
 		p = pn;
 	}

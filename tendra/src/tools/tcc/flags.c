@@ -170,6 +170,7 @@ boolean keeps [TYPE_ARRAY_SIZE] = {
 	0,	/* INDEP_TDF */
 	0,	/* DEP_TDF */
 	0,	/* AS_SOURCE */
+	0,	/* PREPROC_AS */
 	0,	/* BINARY_OBJ */
 	2,	/* EXECUTABLE */
 	1,	/* PRETTY_TDF */
@@ -198,6 +199,7 @@ boolean keeps_aux [TYPE_ARRAY_SIZE] = {
 	0,	/* INDEP_TDF */
 	0,	/* DEP_TDF */
 	0,	/* AS_SOURCE */
+	0,	/* PREPROC_AS */
 	0,	/* BINARY_OBJ */
 	0,	/* EXECUTABLE */
 	0,	/* PRETTY_TDF */
@@ -226,6 +228,7 @@ boolean stops [TYPE_ARRAY_SIZE] = {
 	0,	/* INDEP_TDF */
 	0,	/* DEP_TDF */
 	0,	/* AS_SOURCE */
+	0,	/* PREPROC_AS */
 	0,	/* BINARY_OBJ */
 	2,	/* EXECUTABLE */
 	2,	/* PRETTY_TDF */

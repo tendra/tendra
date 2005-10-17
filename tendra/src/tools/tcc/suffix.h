@@ -74,6 +74,7 @@
 #define INDEP_TDF_KEY			'j'
 #define DEP_TDF_KEY			't'
 #define AS_SOURCE_KEY			's'
+#define PREPROC_AS_KEY			'S'
 #define BINARY_OBJ_KEY			'o'
 #define BINARY_OBJ_AUX_KEY		'b'
 #define PRETTY_TDF_KEY			'p'

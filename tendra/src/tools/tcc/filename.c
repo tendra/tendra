@@ -125,6 +125,7 @@ char *suffixes [TYPE_ARRAY_SIZE] = {
 	null,	/* INDEP_TDF */
 	null,	/* DEP_TDF */
 	null,	/* AS_SOURCE */
+	null,	/* PREPROC_AS */
 	null,	/* BINARY_OBJ */
 	null,	/* EXECUTABLE */
 	null,	/* PRETTY_TDF */
@@ -270,6 +271,7 @@ find_type(int s, int suff)
 	case CPP_SOURCE_KEY : return (CPP_SOURCE);
 	case PREPROC_CPP_KEY : return (PREPROC_CPP);
 	case AS_SOURCE_KEY : return (AS_SOURCE);
+	case PREPROC_AS_KEY : return (PREPROC_AS);
 	case BINARY_OBJ_KEY : return (BINARY_OBJ);
 	case C_SPEC_KEY : return (C_SPEC);
 	case CPP_SPEC_KEY : return (CPP_SPEC);
@@ -326,6 +328,7 @@ file_suffix(int t)
 	}
 	case DEP_TDF : suff [0] = DEP_TDF_KEY; break;
 	case AS_SOURCE : suff [0] = AS_SOURCE_KEY; break;
+	case PREPROC_AS : suff [0] = PREPROC_AS_KEY; break;
 	case BINARY_OBJ : suff [0] = BINARY_OBJ_KEY; break;
 	case BINARY_OBJ_AUX : {
 		if ((use_sparc_cc == 1) && use_system_cc) {

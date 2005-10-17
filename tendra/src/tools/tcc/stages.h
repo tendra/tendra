@@ -68,7 +68,7 @@
  */
 
 extern filename *do_produce(filename *);
-extern filename *do_preproc(filename *);
+extern filename *do_preproc(filename *, int);
 extern filename *do_cpp_produce(filename *);
 extern filename *do_cpp_preproc(filename *);
 extern filename *do_tdf_link(filename *);
@@ -84,7 +84,7 @@ extern filename *do_split_arch(filename *);
 extern filename *do_build_arch(filename *);
 extern filename *do_build_file(filename *, int);
 extern filename *do_link_specs(filename *, int);
-extern filename *do_cc(filename *, int);
+extern filename *do_cc(filename *, int, int);
 extern filename *do_keep(filename *);
 extern int binary_obj_type;
 
