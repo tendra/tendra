@@ -104,7 +104,6 @@ extern char **env_paths;
  *    These variables control the behaviour of tcc.
  */
 
-extern boolean api_checks;
 extern boolean checker;
 extern boolean copyright;
 extern boolean dry_run;

@@ -428,7 +428,6 @@ lookup_bool(char *s)
 	switch (a) {
 	case 'A' : {
 		if (b == 'A') return (&use_alpha_assembler);
-		if (b == 'C') return (&api_checks);
 		if (b == 'R') return (&make_archive);
 		if (b == 'S') return (&use_assembler);
 		break;

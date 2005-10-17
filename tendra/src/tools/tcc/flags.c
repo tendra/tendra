@@ -100,7 +100,6 @@ char **env_paths = NULL;
  *    should we be running in verbose mode?
  */
 
-boolean api_checks = 0;
 boolean checker = 0;
 boolean copyright = 0;
 boolean dry_run = 0;
