@@ -226,24 +226,24 @@
    <para><command>tld</command>accepts the following switches in link
      mode:</para>
 
-  <para><option>--all-hide-defined</option>
+  <para><option>--all-hide-defined</option>,
     <option>-a</option></para>
 
   <para>Hide all external names (of any shape) that are defined.</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the linking process in
     <emphasis>FILE</emphasis>.</para>
 
-  <para><option>--help</option>
+  <para><option>--help</option>,
     <option>-?</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
   <para><option>--hide</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>
+    <emphasis>NAME</emphasis>,
     <option>-h</option> <replaceable>SHAPE</replaceable>
     <emphasis>NAME</emphasis></para>
 
@@ -251,27 +251,27 @@
     <emphasis>NAME</emphasis> to be hidden. An error is reported if the name
     is not defined.</para>
 
-  <para><option>--hide-defined</option> <replaceable>SHAPE</replaceable>
+  <para><option>--hide-defined</option> <replaceable>SHAPE</replaceable>,
     <option>-H</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Cause the all external <emphasis>SHAPE</emphasis> names that are
     defined to be hidden.</para>
 
   <para><option>--keep</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>
+    <emphasis>NAME</emphasis>,
     <option>-k</option> <replaceable>SHAPE</replaceable>
     <emphasis>NAME</emphasis></para>
 
   <para>Cause the external <emphasis>SHAPE</emphasis> name
     <emphasis>NAME</emphasis> to be kept.</para>
 
-  <para><option>--keep-all</option> <replaceable>SHAPE</replaceable>
+  <para><option>--keep-all</option> <replaceable>SHAPE</replaceable>,
     <option>-K</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Cause the all external <emphasis>SHAPE</emphasis> names to be
     kept.</para>
 
-  <para><option>--library</option> <replaceable>FILE</replaceable>
+  <para><option>--library</option> <replaceable>FILE</replaceable>,
     <option>-l</option><replaceable>FILE</replaceable></para>
 
   <para>Use the file <emphasis>FILE</emphasis> as a TDF library. If the
@@ -280,73 +280,73 @@
     '<emphasis>FILE</emphasis>.tl'. Duplicate entries for the same library
     are ignored.</para>
 
-  <para><option>--output-file</option> <replaceable>FILE</replaceable>
+  <para><option>--output-file</option> <replaceable>FILE</replaceable>,
     <option>-o</option> <replaceable>FILE</replaceable></para>
 
   <para>Write the output capsule to the file <emphasis>FILE</emphasis>. If
     this switch is not specified, then the output is written to the file
     'capsule.j' instead.</para>
 
-  <para><option>--path</option> <replaceable>DIRECTORY</replaceable>
+  <para><option>--path</option> <replaceable>DIRECTORY</replaceable>,
     <option>-L</option><replaceable>DIRECTORY</replaceable></para>
 
   <para>Append the directory <emphasis>DIRECTORY</emphasis> to the library
     search path.</para>
 
   <para><option>--rename</option> <replaceable>SHAPE</replaceable>
-    <emphasis>FROM</emphasis> <emphasis>TO</emphasis>
+    <emphasis>FROM</emphasis> <emphasis>TO</emphasis>,
     <option>-r</option> <replaceable>SHAPE</replaceable>
     <emphasis>FROM</emphasis> <emphasis>TO</emphasis></para>
 
   <para>Rename the external <emphasis>SHAPE</emphasis> name
     <emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</para>
 
-  <para><option>--rename-file</option> <replaceable>FILE</replaceable>
+  <para><option>--rename-file</option> <replaceable>FILE</replaceable>,
     <option>-R</option> <replaceable>FILE</replaceable></para>
 
   <para>Read the contents of the file <emphasis>FILE</emphasis> as a series
     of renaming specifications. The format of the file is described
     above.</para>
 
-  <para><option>--show-errors</option>
+  <para><option>--show-errors</option>,
     <option>-e</option></para>
 
   <para>Write the current error message list to the standard output.</para>
 
   <para><option>--suppress</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>
+    <emphasis>NAME</emphasis>,
     <option>-s</option> <replaceable>SHAPE</replaceable>
     <emphasis>NAME</emphasis></para>
 
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
 
-  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
+  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>,
     <option>-S</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Do not try to find a definition for any external
     <emphasis>SHAPE</emphasis> name.</para>
 
-  <para><option>--suppress-mult</option>
+  <para><option>--suppress-mult</option>,
     <option>-M</option></para>
 
   <para>Do not use non-unique definitions in libraries as definitions for
     external names.</para>
 
-  <para><option>--unit-file</option> <replaceable>FILE</replaceable>
+  <para><option>--unit-file</option> <replaceable>FILE</replaceable>,
     <option>-u</option> <replaceable>FILE</replaceable></para>
 
   <para>Parse <emphasis>FILE</emphasis> to get a new unit set name list. By
     default, all of the standard (as specified in the version 4.0 TDF
     specification) unit set names are known.</para>
 
-  <para><option>--version</option>
+  <para><option>--version</option>,
     <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
     stream.</para>
 
-  <para><option>--warnings</option>
+  <para><option>--warnings</option>,
     <option>-w</option></para>
 
   <para>Enable/disable the printing of warning messages. Warnings are
@@ -374,17 +374,17 @@
    <para><command>tld</command>accepts the following switches in library
      construction mode:</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library construction process in
     <emphasis>FILE</emphasis>.</para>
 
-  <para><option>--help</option><option>-?</option></para>
+  <para><option>--help</option>, <option>-?</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
-  <para><option>--include-library</option> <replaceable>FILE</replaceable>
+  <para><option>--include-library</option> <replaceable>FILE</replaceable>,
     <option>-i</option> <replaceable>FILE</replaceable></para>
 
   <para>Include all of the capsules in the TDF library
@@ -392,46 +392,46 @@
     name should be a proper file name, not a library abbreviation like the
     <option>--library</option> switch used by the linking mode.</para>
 
-  <para><option>--output-file</option> <replaceable>FILE</replaceable>
+  <para><option>--output-file</option> <replaceable>FILE</replaceable>,
     <option>-o</option> <replaceable>FILE</replaceable></para>
 
   <para>Write the output library to the file <emphasis>FILE</emphasis>. If
     this switch is not specified, then the output is written to the file
     'library.tl' instead.</para>
 
-  <para><option>--show-errors</option>
+  <para><option>--show-errors</option>,
     <option>-e</option></para>
 
   <para>Write the current error message list to the standard output.</para>
 
   <para><option>--suppress</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>
+    <emphasis>NAME</emphasis>,
     <option>-s</option> <replaceable>SHAPE</replaceable>
     <emphasis>NAME</emphasis></para>
 
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
 
-  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
+  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>,
     <option>-S</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Do not try to find a definition for any external
     <emphasis>SHAPE</emphasis> name.</para>
 
-  <para><option>--suppress-mult</option>
+  <para><option>--suppress-mult</option>,
     <option>-M</option></para>
 
   <para>Do not use non-unique definitions in libraries as definitions for
     external names.</para>
 
-  <para><option>--unit-file</option> <replaceable>FILE</replaceable>
+  <para><option>--unit-file</option> <replaceable>FILE</replaceable>,
     <option>-u</option> <replaceable>FILE</replaceable></para>
 
   <para>Parse <emphasis>FILE</emphasis> to get a new unit set name list. By
     default, all of the standard (as specified in the version 4.0 TDF
     specification) unit set names are known.</para>
 
-  <para><option>--version</option>
+  <para><option>--version</option>,
     <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
@@ -452,18 +452,18 @@
   <para><command>tld</command>accepts the following switches in library contents
     mode:</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library contents process in
     <emphasis>FILE</emphasis>.</para>
 
-  <para><option>--help</option>
+  <para><option>--help</option>,
     <option>-?</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
-  <para><option>--index</option>
+  <para><option>--index</option>,
     <option>-i</option></para>
 
   <para>Enable/disable the printing of the index of the library. If
@@ -473,19 +473,19 @@
     itself. If the order is important, use the --debug-file option and look
     at the output that is produced.</para>
 
-  <para><option>--show-errors</option>
+  <para><option>--show-errors</option>,
     <option>-e</option></para>
 
   <para>Write the current error message list to the standard output.</para>
 
-  <para><option>--size</option>
+  <para><option>--size</option>,
     <option>-s</option></para>
 
   <para>Enable/disable the printing of the size of each capsule in the
     library. If enabled, the size of each capsule in bytes is printed after
     its name.</para>
 
-  <para><option>--version</option>
+  <para><option>--version</option>,
     <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
@@ -516,14 +516,14 @@
   <para><command>tld</command>accepts the following switches in library
     extraction mode:</para>
 
-  <para><option>--all</option>
+  <para><option>--all</option>,
     <option>-a</option></para>
 
   <para>Enable/disable the extraction of all capsules. If all capsules are
     to be extracted, no capsule names should be specified on the command
     line.</para>
 
-  <para><option>--basename</option> <!-- .br -->
+  <para><option>--basename</option>,
     <option>-b</option></para>
 
   <para>Enable/disable the use of the basename of each capsule when
@@ -531,24 +531,24 @@
     into the current directory, using just their basename. This may cause
     some of the capsules to be written on top of each other.</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library extraction process in
     <emphasis>FILE</emphasis>.</para>
 
-  <para><option>--help</option>
+  <para><option>--help</option>,
     <option>-?</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
-  <para><option>--info</option>
+  <para><option>--info</option>,
     <option>-i</option></para>
 
   <para>Enable/disable informational messages. These say which capsules are
     being extracted.</para>
 
-  <para><option>--match-basename</option>
+  <para><option>--match-basename</option>,
     <option>-m</option></para>
 
   <para>Enable/disable matching of capsule names by basename. If enabled,
@@ -556,12 +556,12 @@
     file names specified. This may result in more than one capsule being
     extracted for one file name.</para>
 
-  <para><option>--show-errors</option>
+  <para><option>--show-errors</option>,
   <option>-e</option></para>
 
   <para>Write the current error message list to the standard output.</para>
 
-  <para><option>--version</option>
+  <para><option>--version</option>,
     <option>-V</option></para>
 
   <para>Write the version number of the program to the standard error
