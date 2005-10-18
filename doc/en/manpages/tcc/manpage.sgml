@@ -31,7 +31,7 @@
   <itemizedlist>
     <listitem>
       <para>Arguments whose names end in <markup>.c</markup> are
-	understood to be C source files.</para>
+        understood to be C source files.</para>
     </listitem>
 
     <listitem>
@@ -41,19 +41,19 @@
 
     <listitem>
       <para>Arguments whose names end in <markup>.C</markup> are
-	understood to be C++ source files (only if <option>-Yc++</option>
-	is specified).</para>
+        understood to be C++ source files (only if <option>-Yc++</option>
+        is specified).</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.I</markup> are
-	understood to be preprocessed C++ source files (only if
-	 <option>-Yc++</option> is specified).</para>
+        understood to be preprocessed C++ source files (only if
+         <option>-Yc++</option> is specified).</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.j</markup> are
-	 understood to be target independent TDF capsules.</para>
+         understood to be target independent TDF capsules.</para>
     </listitem>
 
     <listitem>
@@ -64,35 +64,35 @@
 
     <listitem>
       <para>Arguments whose names end in <markup>.t</markup> are
-	understood to be target dependent TDF capsules.</para>
+        understood to be target dependent TDF capsules.</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.s</markup> are
-	understood to be assembly source files.</para>
+        understood to be assembly source files.</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.S</markup> are
-	understood to be assembly source files that need to be
-	preprocessed.</para>
+        understood to be assembly source files that need to be
+        preprocessed.</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.d</markup> are
-	understood to be TenDRA dump files.</para>
+        understood to be TenDRA dump files.</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.K</markup> are
-	understood to be C++ spec files (only if <option>-Yc++</option>
-	is specified).</para>
+        understood to be C++ spec files (only if <option>-Yc++</option>
+        is specified).</para>
     </listitem>
 
     <listitem>
       <para>Arguments whose names end in <markup>.p</markup> are
-	understood to be TDF notation source files (only if
-	<option>-Ytnc</option> is specified).</para>
+        understood to be TDF notation source files (only if
+        <option>-Ytnc</option> is specified).</para>
     </listitem>
 
     <listitem>
@@ -103,8 +103,8 @@
 
     <listitem>
       <para>All other arguments (but particularly those whose names end
-	in <markup>.o</markup> and <markup>.a</markup>) are understood to
-	be binary object files.</para>
+        in <markup>.o</markup> and <markup>.a</markup>) are understood to
+        be binary object files.</para>
      </listitem>
   </itemizedlist>
 
