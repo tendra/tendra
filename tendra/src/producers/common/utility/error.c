@@ -1277,7 +1277,7 @@ commentary(IDENTIFIER id)
 		print_id_desc++;
 		IGNORE print_id_long (id, qual_none, bf, 0);
 		print_id_desc--;
-		bfprintf (bf, " ;\n");
+		bfprintf (bf, ";\n");
 		output_buffer (bf, 1);
 	}
 	return;

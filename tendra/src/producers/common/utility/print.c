@@ -2146,11 +2146,11 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 				/* Weak function prototype */
 				bfprintf (bf, " WEAK");
 			}
-			bfprintf (bf, " (");
+			bfprintf (bf, "(");
 			if (IS_NULL_list (p) && !(ell & FUNC_ELLIPSIS)) {
 				/* There are no parameters */
 				if (!(ell & FUNC_NO_PARAMS) && print_c_style) {
-					bfprintf (bf, " void");
+					bfprintf (bf, "void");
 					sp = 1;
 				}
 			} else {
@@ -2162,7 +2162,7 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 				while (!IS_NULL_list (p)) {
 					TYPE s = DEREF_type (HEAD_list (p));
 					if (ell & FUNC_PARAMS) s = unpromote_type (s);
-					IGNORE print_type (s, bf, 1);
+					IGNORE print_type (s, bf, 0);
 					if (dargs) {
 						/* Print default argument */
 						IDENTIFIER id = DEREF_id (HEAD_list (q));
@@ -2179,19 +2179,16 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 					}
 					p = TAIL_list (p);
 					if (!IS_NULL_list (p)) {
-						bfputc (bf, ',');
+						bfprintf (bf, ", ");
 					} else if (ell & FUNC_ELLIPSIS) {
-						bfputc (bf, ',');
+						bfprintf (bf, ", ");
 					}
-					sp = 1;
 				}
 				if (ell & FUNC_ELLIPSIS) {
-					bfprintf (bf, " ...");
-					sp = 1;
+					bfprintf (bf, "...");
 				}
 				print_return_type = prt;
 			}
-			if (sp) bfputc (bf, ' ');
 			bfputc (bf, ')');
 			sp = print_cv (qual, bf, 1);
 			if (prt) {
@@ -2211,7 +2208,7 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 			/* Array type */
 			TYPE s = DEREF_type (type_array_sub (t));
 			NAT n = DEREF_nat (type_array_size (t));
-			bfprintf (bf, " [");
+			bfprintf (bf, "[");
 			IGNORE print_nat (n, 0, bf, 0);
 			bfprintf (bf, "]");
 			sp = print_tail (s, bf, 1);
