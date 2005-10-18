@@ -1065,9 +1065,15 @@
 
     <varlistentry>
       <term><filename>file.s</filename></term>
-
       <listitem>
         <para>Assembly source file</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><filename>file.S</filename></term>
+      <listitem>
+        <para>Assembly source file that is run through the preprocessor</para>
       </listitem>
     </varlistentry>
 
