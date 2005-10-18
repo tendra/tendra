@@ -38,7 +38,7 @@
 #include "tdf_stream.h"
 
 /*
- * Align to a byte boundray if not already at.
+ * Align to a byte boundary if not already at.
  */
 void
 tdf_de_align(struct tdf_stream *sp)
