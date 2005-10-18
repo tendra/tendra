@@ -56,25 +56,18 @@
     '+' character. They can be concatenated into a single command line word,
     e.g.:</para>
 
-  <para><option>-Vor</option> <replaceable>output-file</replaceable>
-    <emphasis>rename-shape</emphasis> <emphasis>rename-from</emphasis>
-    <emphasis>rename-to</emphasis></para>
+  <para><option>-Vo</option> <replaceable>output-file</replaceable></para>
 
-  <para>which contains three different switches (<option>-V</option>, which
-    takes no arguments; <option>-o</option>, which takes one argument:
-    <emphasis>output-file</emphasis>; and <option>-r</option>, which takes
-    three arguments: <emphasis>rename-shape</emphasis>,
-    <emphasis>rename-from</emphasis>, and
-    <emphasis>rename-to</emphasis>).</para>
+  <para>which contains two different switches (<option>-V</option>, which
+    takes no arguments; and <option>-o</option>, which takes one argument:
+    <emphasis>output-file</emphasis>).</para>
 
   <para>Long form switches are strings, and begin with '--' or '++'. With
     long form switches, only the shortest unique prefix need be entered. The
     long form of the above example would be:</para>
 
-  <para><option>--version</option> <option>--output-file</option>
-    <replaceable>output-file</replaceable> <option>--rename</option>
-    <replaceable>rename-shape</replaceable> <emphasis>rename-from</emphasis>
-    <emphasis>rename-to</emphasis></para>
+  <para><option>--version</option> <option>--output-file </option>
+    <replaceable>output-file</replaceable></para>
 
   <para>In most cases the arguments to the switch should follow the switch
     as a separate word. In the case of short form switches, the arguments to
