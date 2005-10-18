@@ -6,6 +6,8 @@
 echo "<!DOCTYPE refentry PUBLIC \"-//FreeBSD//DTD DocBook V4.1-Based Extension//EN\"["
 echo "<!ENTITY % man PUBLIC \"-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN\">"
 echo "%man;"
+echo "<!ENTITY % doc PUBLIC \"-//FreeBSD//ENTITIES DocBook Document Entities//EN\">"
+echo "%doc;"
 
 
 case $1 in
