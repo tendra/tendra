@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tnc" "1" "Sun 08 Aug 2004, 19:59" "tnc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tnc" "1" "Tue 18 Oct 2005, 07:24" "tnc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtnc\fP - TDF notation compiler
@@ -64,51 +64,52 @@ path used by \fBtnc\fP to find included files in
 Causes \fBtnc\fP to treat any external
 identifiers starting with \fIprefix\fP to be treated
 as if they were declare \fIlocal\fP\&.
-.IP "\fB-V\fP" 5
-To be documented\&.
-.IP "\fB-c\fP or \fB-cv\fP or \fB-check\fP" 5
+.IP "\fB-V\fP or \fB--version\fP" 5
+Makes \fBtnc\fP print its version number and the
+version of the TDF specification it supports\&.
+.IP "\fB-c\fP or \fB--cv\fP or \fB--check\fP" 5
 Specifies that \fBtnc\fP should apply extra
 checks to \fIinput-file\fP\&. For example, simple
 shape checking is applied\&. These checks are more efficient in
-\fIread\fP mode than in \fIdecode\fP mode\&. If the \fB-cv\fP option is used in
+\fIread\fP mode than in \fIdecode\fP mode\&. If the \fB--cv\fP option is used in
 \fIwrite\fP mode, all the information gleaned from
 the shape checking appears in
 \fIoutput-file\fP\&.
-.IP "\fB-d\fP or \fB-decode\fP" 5
+.IP "\fB-d\fP or \fB--decode\fP" 5
 Specifies that \fBtnc\fP should be in
 \fIdecode\fP mode\&. That is, that
 \fIinput-file\fP is a TDF capsule\&.
-.IP "\fB-e\fP or \fB-encode\fP" 5
+.IP "\fB-e\fP or \fB--encode\fP" 5
 Specifies that \fBtnc\fP should be in
 \fIencode\fP mode\&. That is, that
 \fIoutput-file\fP is a TDF capsule\&.
-.IP "\fB-eval\fP" 5
+.IP "\fB--eval\fP" 5
 Specifies that \fBtnc\fP should simplify its
 input by evaluating constant expressions as far as possible\&.
-.IP "\fB-expand\fP" 5
+.IP "\fB--expand\fP" 5
 Specifies that \fBtnc\fP should expand its input
 by replacing all applications of defined tokens by the token
 definition\&.
-.IP "\fB-f\fP or \fB-func\fP" 5
+.IP "\fB-f\fP or \fB--func\fP" 5
 Causes \fBtnc\fP to use its alternative,
 functional, form for both input and output\&. The options
-\fB-func_in\fP and \fB-func_out\fP may be
+\fB--func_in\fP and \fB--func_out\fP may be
 used to change the input and the output independently\&.
 .IP "\fB-h\fP" 5
 To be documented\&.
-.IP "\fB-help \fP\fIsubject\fP \&.\&.\&." 5
+.IP "\fB--help \fP\fIsubject\fP \&.\&.\&." 5
 Makes \fBtnc\fP print its help message on the
 given subject(s)\&. If no subject is given, or the subject is
 \fIall\fP, all the help messages are printed\&.
-.IP "\fB-l\fP or \fB-lib\fP" 5
+.IP "\fB-l\fP or \fB--lib\fP" 5
 In \fIdecode\fP mode, specifies that
 \fIinput-file\fP is not a TDF capsule, but a TDF
 library\&. All the capsules comprising the library are
 decoded\&.
-.IP "\fB-o\fP \fIoutput-file\fP" 5
+.IP "\fB-o\fP \fIoutput-file\fP" 5
 Gives an alternative method of specifying the output
 file\&.
-.IP "\fB-p\fP or \fB-print\fP" 5
+.IP "\fB-p\fP or \fB--print\fP" 5
 Specifies that \fBtnc\fP should be in
 \fIdecode\fP and \fIwrite\fP modes\&.
 That is, that \fIinput-file\fP is a TDF capsule and
@@ -118,29 +119,26 @@ pretty-printer\&.
 .IP "\fB-q\fP" 5
 Causes \fBtnc\fP not to check the consistency of
 multiple tag or token definitions\&.
-.IP "\fB-r\fP or \fB-read\fP" 5
+.IP "\fB-r\fP or \fB--read\fP" 5
 Specifies that \fBtnc\fP should be in
 \fIread\fP mode\&. That is, that
 \fIinput-file\fP should consist of TDF text\&.
-.IP "\fB-t\fP or \fB-tsimp\fP" 5
+.IP "\fB-t\fP or \fB--tsimp\fP" 5
 Specifies that \fBtnc\fP should expand its input
 by replacing all applications of defined tokens by the token
 definition and by evaluating constant expressions as far as
-possible\&. This is equivalent to \fB-expand
--eval\fP\&.
+possible\&. This is equivalent to \fB--expand
+--eval\fP\&.
 .IP "\fB-u\fP" 5
 To be documented\&.
 .IP "\fB-v\fP" 5
 In \fIwrite\fP mode, specifies that the output
 should be in the "verbose" form, with no shorthand forms\&.
-.IP "\fB-version\fP" 5
-Makes \fBtnc\fP print its version number and the
-version of the TDF specification it supports\&.
-.IP "\fB-w\fP or \fB-write\fP" 5
+.IP "\fB-w\fP or \fB--write\fP" 5
 Specifies that \fBtnc\fP should be in
 \fIwrite\fP mode\&. That is, that
 \fIoutput-file\fP should consist of TDF text\&.
 .SH "SEE ALSO"
 .PP
 \fBdisp\fP\fB(1)\fP, \fBtcc\fP\fB(1)\fP\&.
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24

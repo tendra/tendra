@@ -24,13 +24,13 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "pl" "1" "Sun 08 Aug 2004, 19:59" "pl @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "pl" "1" "Tue 18 Oct 2005, 07:50" "pl @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBpl\fP - PL_TDF compiler producing TDF
 .SH "SYNOPSIS"
 .PP
-\fBpl\fP [-v]  [-I\fI path\fP]  [-V] \fIinfile\&.pl\fP \fIoutfile\&.j\fP 
+\fBpl\fP [-v]  [-I \fIpath\fP]  [-V] \fIinfile\&.pl\fP \fIoutfile\&.j\fP 
 .SH "DESCRIPTION"
 .PP
 The action of \fBpl\fP is to compile a PL_TDF text in
@@ -39,7 +39,7 @@ The action of \fBpl\fP is to compile a PL_TDF text in
 The resulting \&.j file is suitable for linking and translation by
 \fBtcc\fP\fB(1)\fP
 .SH "OPTIONS"
-.IP "\fB-I\ path\fP" 5
+.IP "\fB-I\fP \fIpath\fP" 5
 Gives the search path for any #include files in the PL_TDF
 text\&.
 .IP "\fB-V\fP" 5
@@ -47,10 +47,12 @@ This option causes \fBpl\fP to print its version
 number and the version of the TDF specification it supports\&.
 .IP "\fB-g\fP" 5
 To be documented\&.
+.IP "\fB-h\fP, \fB--help\fP" 5
+Prints a summary of all options\&.
 .IP "\fB-p\fP" 5
 This option produces a "pretty print" of the TDF capsule on the
 standard output\&.
 .SH "SEE ALSO"
 .PP
 \fBtcc\fP\fB(1)\fP\&.
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:50

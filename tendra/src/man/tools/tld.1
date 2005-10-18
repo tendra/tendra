@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tld" "1" "Sun 08 Aug 2004, 19:59" "tld @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tld" "1" "Tue 18 Oct 2005, 07:24" "tld @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtld\fP - TDF linking and library manipulation
@@ -61,20 +61,17 @@ Short form switches are single characters, and begin with a \&'-\&' or
 \&'+\&' character\&. They can be concatenated into a single command line word,
 e\&.g\&.:
 .PP
-\fB-vor\fP \fIoutput-file\fP\fIrename-shape\fP \fIrename-from\fP\fIrename-to\fP
+\fB-Vo\fP \fIoutput-file\fP
 .PP
-which contains three different switches (\fB-v\fP, which
-takes no arguments; \fB-o\fP, which takes one argument:
-\fIoutput-file\fP; and \fB-r\fP, which takes
-three arguments: \fIrename-shape\fP,
-\fIrename-from\fP, and
-\fIrename-to\fP)\&.
+which contains two different switches (\fB-V\fP, which
+takes no arguments; and \fB-o\fP, which takes one argument:
+\fIoutput-file\fP)\&.
 .PP
 Long form switches are strings, and begin with \&'--\&' or \&'++\&'\&. With
 long form switches, only the shortest unique prefix need be entered\&. The
 long form of the above example would be:
 .PP
-\fB--version\fP \fB--output-file\fP\fIoutput-file\fP \fB--rename\fP\fIrename-shape\fP \fIrename-from\fP\fIrename-to\fP
+\fB--version\fP \fB--output-file \fP\fIoutput-file\fP
 .PP
 In most cases the arguments to the switch should follow the switch
 as a separate word\&. In the case of short form switches, the arguments to
@@ -102,13 +99,13 @@ written as
 Each component of a unique is a string\&. A string consists of any
 sequence of characters, although some special characters must be preceded
 by a backslash character to stop them being treated specially\&. These
-characters are \&'\fI\\\fR\&', \&'[\fP\&',
-\&'\fI]\fP\&' and \&'\fB\&.\fP\&'\&. In addition, the
-following character sequences are treated the same as they would be in C:
-\&'\fI\\n\fP\&', \&'\fI\\r\fP\&',
-\&'\fI\\fP \&', \&'\fI\\0\fP\&'\&. Finally, the
-sequence \&'\fI\\x\fP\fINN\fP\&' represents the
-character with code \fINN\fP in hex\&.
+characters are \fB\&'\\'\fP,
+\fB\&'[\&'\fP, \fB\&']\&'\fP and \fB\&'\&.\&'\fP\&.
+In addition, the following character sequences are treated the same as they
+would be in C: \fB\&'\\n\&'\fP, \fB\&'\\r\&'\fP,
+\fB\&'\\t\&'\fP, \fB\&'\\0\&'\fP\&.  Finally, the
+sequence \fB\&'\\xNN\&'\fP represents the character with code
+\fINN\fP in hex\&.
 .SH "RENAME FILE SYNTAX"
 .PP
 Renaming may be specified either on the command line, or in a file\&.
@@ -126,9 +123,9 @@ supported\&. The hash character acts as a comment to end of line character
 The file should consist of a sequence of strings enclosed in double
 quotes\&. The backslash character can be used to escape characters\&. The
 following C style escape sequences are recognized:
-\&'\fI\\n\fP\&', \&'\fI\\r\fP\&',
-\&'\fI\\fP \&', \&'\fI\\0\fP\&'\&. Also, the
-sequence \&'\fI\\x\fP\fINN\fP\&' represents the
+\fB\&'\\n\&'\fP, \fB\&'\\r\&'\fP,
+\fB\&'\\t\&'\fP, \fB\&'\\0\&'\fP\&. Also, the
+sequence \fB\&'\\xNN\&'\fP represents the
 character with code \fINN\fP in hex\&. The order of the
 strings is important, as it specifies the order that the unit sets should
 be in when read from capsules\&. It is necessary to specify the
@@ -202,44 +199,52 @@ capsules and the necessary library capsules\&. Unless specified with the
 \fIcapsule\&.j\fP\&.
 .SH "Switches"
 .PP
-\fBtld\fPaccepts the following switches in link
+\fBtld\fP accepts the following switches in link
 mode:
 .PP
-\fB--all-hide-defined\fP\fB-a\fP
+\fB--all-hide-defined\fP,
+\fB-a\fP
 .PP
 Hide all external names (of any shape) that are defined\&.
 .PP
-\fB--debug-file\fP \fIFILE\fP\fB-d\fP \fIFILE\fP
+\fB--debug-file\fP \fIFILE\fP,
+\fB-d\fP \fIFILE\fP
 .PP
 Produce a diagnostic trace of the linking process in
 \fIFILE\fP\&.
 .PP
-\fB--help\fP\fB-?\fP
+\fB--help\fP,
+\fB-?\fP
 .PP
 Write an option summary to the standard error\&.
 .PP
-\fB--hide\fP \fISHAPE\fP\fINAME\fP\fB-h\fP \fISHAPE\fP\fINAME\fP
+\fB--hide\fP \fISHAPE\fP\fB \fP\fINAME\fP,
+\fB-h\fP \fISHAPE\fP\fB \fP\fINAME\fP
 .PP
 Cause the external \fISHAPE\fP name
 \fINAME\fP to be hidden\&. An error is reported if the name
 is not defined\&.
 .PP
-\fB--hide-defined\fP \fISHAPE\fP\fB-H\fP \fISHAPE\fP
+\fB--hide-defined\fP \fISHAPE\fP,
+\fB-H\fP \fISHAPE\fP
 .PP
 Cause the all external \fISHAPE\fP names that are
 defined to be hidden\&.
 .PP
-\fB--keep\fP \fISHAPE\fP\fINAME\fP\fB-k\fP \fISHAPE\fP\fINAME\fP
+\fB--keep\fP \fISHAPE\fP\fB \fP\fINAME\fP,
+\fB-k\fP \fISHAPE\fP\fB \fP\fINAME\fP
 .PP
 Cause the external \fISHAPE\fP name
 \fINAME\fP to be kept\&.
 .PP
-\fB--keep-all\fP \fISHAPE\fP\fB-K\fP \fISHAPE\fP
+\fB--keep-all\fP \fISHAPE\fP,
+\fB-K\fP \fISHAPE\fP
 .PP
 Cause the all external \fISHAPE\fP names to be
 kept\&.
 .PP
-\fB--library\fP \fIFILE\fP\fB-l\fP\fIFILE\fP
+\fB--library\fP \fIFILE\fP,
+\fB-l\fP\fIFILE\fP
 .PP
 Use the file \fIFILE\fP as a TDF library\&. If the
 file name contains a \&'/\&', then it is used as specified; if not, the
@@ -247,59 +252,70 @@ library search path is searched for a file named
 \&'\fIFILE\fP\&.tl\&'\&. Duplicate entries for the same library
 are ignored\&.
 .PP
-\fB--output-file\fP \fIFILE\fP\fB-o\fP \fIFILE\fP
+\fB--output-file\fP \fIFILE\fP,
+\fB-o\fP \fIFILE\fP
 .PP
 Write the output capsule to the file \fIFILE\fP\&. If
 this switch is not specified, then the output is written to the file
 \&'capsule\&.j\&' instead\&.
 .PP
-\fB--path\fP \fIDIRECTORY\fP\fB-L\fP\fIDIRECTORY\fP
+\fB--path\fP \fIDIRECTORY\fP,
+\fB-L\fP\fIDIRECTORY\fP
 .PP
 Append the directory \fIDIRECTORY\fP to the library
 search path\&.
 .PP
-\fB--rename\fP \fISHAPE\fP\fIFROM\fP \fITO\fP\fB-r\fP \fISHAPE\fP\fIFROM\fP \fITO\fP
+\fB--rename\fP \fISHAPE\fP\fB \fP\fIFROM\fP\fB \fP\fITO\fP,
+\fB-r\fP \fISHAPE\fP\fB \fP\fIFROM\fP\fB \fP\fITO\fP
 .PP
 Rename the external \fISHAPE\fP name
 \fIFROM\fP to \fITO\fP\&.
 .PP
-\fB--rename-file\fP \fIFILE\fP\fB-R\fP \fIFILE\fP
+\fB--rename-file\fP \fIFILE\fP,
+\fB-R\fP \fIFILE\fP
 .PP
 Read the contents of the file \fIFILE\fP as a series
 of renaming specifications\&. The format of the file is described
 above\&.
 .PP
-\fB--show-errors\fP\fB-e\fP
+\fB--show-errors\fP,
+\fB-e\fP
 .PP
 Write the current error message list to the standard output\&.
 .PP
-\fB--suppress\fP \fISHAPE\fP\fINAME\fP\fB-s\fP \fISHAPE\fP\fINAME\fP
+\fB--suppress\fP \fISHAPE\fP\fB \fP\fINAME\fP,
+\fB-s\fP \fISHAPE\fP\fB \fP\fINAME\fP
 .PP
 Do not try to find a definition for the external
 \fISHAPE\fP name \fINAME\fP\&.
 .PP
-\fB--suppress-all\fP \fISHAPE\fP\fB-S\fP \fISHAPE\fP
+\fB--suppress-all\fP \fISHAPE\fP,
+\fB-S\fP \fISHAPE\fP
 .PP
 Do not try to find a definition for any external
 \fISHAPE\fP name\&.
 .PP
-\fB--suppress-mult\fP\fB-M\fP
+\fB--suppress-mult\fP,
+\fB-M\fP
 .PP
 Do not use non-unique definitions in libraries as definitions for
 external names\&.
 .PP
-\fB--unit-file\fP \fIFILE\fP\fB-u\fP \fIFILE\fP
+\fB--unit-file\fP \fIFILE\fP,
+\fB-u\fP \fIFILE\fP
 .PP
 Parse \fIFILE\fP to get a new unit set name list\&. By
 default, all of the standard (as specified in the version 4\&.0 TDF
 specification) unit set names are known\&.
 .PP
-\fB--version\fP\fB-v\fP
+\fB--version\fP,
+\fB-V\fP
 .PP
 Write the version number of the program to the standard error
 stream\&.
 .PP
-\fB--warnings\fP\fB-w\fP
+\fB--warnings\fP,
+\fB-w\fP
 .PP
 Enable/disable the printing of warning messages\&. Warnings are
 generated for things like obsolete linker information units, and
@@ -315,59 +331,66 @@ library is written to the file \fIlibrary\&.tl\fP, unless
 the \fB--output-file\fP switch is used\&.
 .SH "Switches"
 .PP
-FIXME: tld
-.PP
-\fBtld\fPaccepts the following switches in library
+\fBtld\fP accepts the following switches in library
 construction mode:
 .PP
-\fB--debug-file\fP \fIFILE\fP\fB-d\fP \fIFILE\fP
+\fB--debug-file\fP \fIFILE\fP,
+\fB-d\fP \fIFILE\fP
 .PP
 Produce a diagnostic trace of the library construction process in
 \fIFILE\fP\&.
 .PP
-\fB--help\fP\fB-?\fP
+\fB--help\fP, \fB-?\fP
 .PP
 Write an option summary to the standard error\&.
 .PP
-\fB--include-library\fP \fIFILE\fP\fB-i\fP \fIFILE\fP
+\fB--include-library\fP \fIFILE\fP,
+\fB-i\fP \fIFILE\fP
 .PP
 Include all of the capsules in the TDF library
 \fIFILE\fP in the library being constructed\&. The library
 name should be a proper file name, not a library abbreviation like the
 \fB--library\fP switch used by the linking mode\&.
 .PP
-\fB--output-file\fP \fIFILE\fP\fB-o\fP \fIFILE\fP
+\fB--output-file\fP \fIFILE\fP,
+\fB-o\fP \fIFILE\fP
 .PP
 Write the output library to the file \fIFILE\fP\&. If
 this switch is not specified, then the output is written to the file
 \&'library\&.tl\&' instead\&.
 .PP
-\fB--show-errors\fP\fB-e\fP
+\fB--show-errors\fP,
+\fB-e\fP
 .PP
 Write the current error message list to the standard output\&.
 .PP
-\fB--suppress\fP \fISHAPE\fP\fINAME\fP\fB-s\fP \fISHAPE\fP\fINAME\fP
+\fB--suppress\fP \fISHAPE\fP\fB \fP\fINAME\fP,
+\fB-s\fP \fISHAPE\fP\fB \fP\fINAME\fP
 .PP
 Do not try to find a definition for the external
 \fISHAPE\fP name \fINAME\fP\&.
 .PP
-\fB--suppress-all\fP \fISHAPE\fP\fB-S\fP \fISHAPE\fP
+\fB--suppress-all\fP \fISHAPE\fP,
+\fB-S\fP \fISHAPE\fP
 .PP
 Do not try to find a definition for any external
 \fISHAPE\fP name\&.
 .PP
-\fB--suppress-mult\fP\fB-M\fP
+\fB--suppress-mult\fP,
+\fB-M\fP
 .PP
 Do not use non-unique definitions in libraries as definitions for
 external names\&.
 .PP
-\fB--unit-file\fP \fIFILE\fP\fB-u\fP \fIFILE\fP
+\fB--unit-file\fP \fIFILE\fP,
+\fB-u\fP \fIFILE\fP
 .PP
 Parse \fIFILE\fP to get a new unit set name list\&. By
 default, all of the standard (as specified in the version 4\&.0 TDF
 specification) unit set names are known\&.
 .PP
-\fB--version\fP\fB-v\fP
+\fB--version\fP,
+\fB-V\fP
 .PP
 Write the version number of the program to the standard error
 stream\&.
@@ -378,19 +401,22 @@ When invoked with the \fB-mt\fP switch,
 library specified on the command line\&.
 .SH "Switches"
 .PP
-\fBtld\fPaccepts the following switches in library contents
-mode:
+\fBtld\fP accepts the following switches in library
+contents mode:
 .PP
-\fB--debug-file\fP \fIFILE\fP\fB-d\fP \fIFILE\fP
+\fB--debug-file\fP \fIFILE\fP,
+\fB-d\fP \fIFILE\fP
 .PP
 Produce a diagnostic trace of the library contents process in
 \fIFILE\fP\&.
 .PP
-\fB--help\fP\fB-?\fP
+\fB--help\fP,
+\fB-?\fP
 .PP
 Write an option summary to the standard error\&.
 .PP
-\fB--index\fP\fB-i\fP
+\fB--index\fP,
+\fB-i\fP
 .PP
 Enable/disable the printing of the index of the library\&. If
 printing of the index is enabled, the index of the library will be
@@ -399,17 +425,20 @@ is not necessarily the same as the order of the index in the library
 itself\&. If the order is important, use the --debug-file option and look
 at the output that is produced\&.
 .PP
-\fB--show-errors\fP\fB-e\fP
+\fB--show-errors\fP,
+\fB-e\fP
 .PP
 Write the current error message list to the standard output\&.
 .PP
-\fB--size\fP\fB-s\fP
+\fB--size\fP,
+\fB-s\fP
 .PP
 Enable/disable the printing of the size of each capsule in the
 library\&. If enabled, the size of each capsule in bytes is printed after
 its name\&.
 .PP
-\fB--version\fP\fB-v\fP
+\fB--version\fP,
+\fB-V\fP
 .PP
 Write the version number of the program to the standard error
 stream\&.
@@ -430,16 +459,17 @@ The extracted capsules will overwrite existing files of the same
 name\&.
 .SH "Switches"
 .PP
-\fBtld\fPaccepts the following switches in library
+\fBtld\fP accepts the following switches in library
 extraction mode:
 .PP
-\fB--all\fP\fB-a\fP
+\fB--all\fP,
+\fB-a\fP
 .PP
 Enable/disable the extraction of all capsules\&. If all capsules are
 to be extracted, no capsule names should be specified on the command
 line\&.
 .PP
-\fB--basename\fP 
+\fB--basename\fP,
 \fB-b\fP
 .PP
 Enable/disable the use of the basename of each capsule when
@@ -447,36 +477,42 @@ extracting\&. If this is enabled, then extracted capsules are extracted
 into the current directory, using just their basename\&. This may cause
 some of the capsules to be written on top of each other\&.
 .PP
-\fB--debug-file\fP \fIFILE\fP\fB-d\fP \fIFILE\fP
+\fB--debug-file\fP \fIFILE\fP,
+\fB-d\fP \fIFILE\fP
 .PP
 Produce a diagnostic trace of the library extraction process in
 \fIFILE\fP\&.
 .PP
-\fB--help\fP\fB-?\fP
+\fB--help\fP,
+\fB-?\fP
 .PP
 Write an option summary to the standard error\&.
 .PP
-\fB--info\fP\fB-i\fP
+\fB--info\fP,
+\fB-i\fP
 .PP
 Enable/disable informational messages\&. These say which capsules are
 being extracted\&.
 .PP
-\fB--match-basename\fP\fB-m\fP
+\fB--match-basename\fP,
+\fB-m\fP
 .PP
 Enable/disable matching of capsule names by basename\&. If enabled,
 then the basename of each library capsule is also matched against the
 file names specified\&. This may result in more than one capsule being
 extracted for one file name\&.
 .PP
-\fB--show-errors\fP\fB-e\fP
+\fB--show-errors\fP,
+\fB-e\fP
 .PP
 Write the current error message list to the standard output\&.
 .PP
-\fB--version\fP\fB-v\fP
+\fB--version\fP,
+\fB-V\fP
 .PP
 Write the version number of the program to the standard error
 stream\&.
 .SH "SEE ALSO"
 .PP
 \fBtcc\fP\fB(1)\fP\&.
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24

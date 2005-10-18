@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "disp" "1" "Sun 08 Aug 2004, 19:59" "disp @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "disp" "1" "Tue 18 Oct 2005, 07:24" "disp @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBdisp\fP - TDF pretty printer
@@ -81,14 +81,14 @@ the version of the TDF specification it supports\&.
 Makes \fBdisp\fP issue a warning about every
 token which is used before it is declared\&.
 .IP "\fB-a\fP" 5
-To be documented\&.
-.IP "\fB-d\fP" 5
-To be documented\&.
+Do not print indentation dots\&.
 .IP "\fB-g\fP" 5
 Makes \fBdisp\fP print any diagnostic
 information units within the TDF capsule\&.
+.IP "\fB-h\fP" 5
+Prints a summary of all options\&.
 .IP "\fB-i\fP" 5
-To be documented\&.
+Does nothing, included for compatibility\&.
 .IP "\fB-l\fP" 5
 Makes \fBdisp\fP print the usage information
 associated with the external tokens and tags and also any
@@ -111,9 +111,9 @@ do not have external names\&. The \fB-V\fP option
 makes it not attempt any such rationalisation, but instead to output
 exactly what it reads\&.
 .IP "\fB-v\fP" 5
-To be documented\&.
+Report number of columns in the output\&.
 .IP "\fB-x\fP" 5
-To be documented\&.
+Do not decode version properties\&.
 .SH "DIAGNOSTICS"
 .PP
 The error reports if the input file is not a legal TDF capsule are
@@ -123,4 +123,4 @@ position within the input file that the error occurred\&.
 .SH "SEE ALSO"
 .PP
 \fBtcc\fP\fB(1)\fP\&.
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24

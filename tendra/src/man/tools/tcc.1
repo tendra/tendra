@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tcc" "1" "Sun 08 Aug 2004, 19:59" "tcc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tcc" "1" "Tue 18 Oct 2005, 07:34" "tcc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtcc\fP - User interface to the TDF system
@@ -34,51 +34,55 @@
 .SH "Description"
 .PP
 \fBtcc\fP is the user interface to the TDF system\&. It is
-more fully
+more fully documented in the \fItcc User\&'s Guide (link to URL http://www.ten15.org/docs/tcc/) \fR\&.
 .PP
 \fBtcc\fP accepts several types of arguments as
 \fIfiles\fP:
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.c\fP are
 understood to be C source files\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.i\fP are
 understood to be preprocessed C source files\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.C\fP are
 understood to be C++ source files (only if \fB-Yc++\fP is specified)\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.I\fP are
 understood to be preprocessed C++ source files (only if
 \fB-Yc++\fP is specified)\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.j\fP are
 understood to be target independent TDF capsules\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.ta\fP are
 understood to be archives of target independent TDF
 capsules\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.t\fP are
 understood to be target dependent TDF capsules\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.s\fP are
 understood to be assembly source files\&.
-.IP "-" 5
+.IP "   \(bu" 6
+Arguments whose names end in \f(CW\&.S\fP are
+understood to be assembly source files that need to be
+preprocessed\&.
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.d\fP are
 understood to be TenDRA dump files\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.K\fP are
 understood to be C++ spec files (only if \fB-Yc++\fP is specified)\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.p\fP are
 understood to be TDF notation source files (only if
 \fB-Ytnc\fP is specified)\&.
-.IP "-" 5
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.pl\fP are
 understood to be PL_TDF source files (only if
 \fB-Ypl_tdf\fP is specified)\&.
-.IP "-" 5
+.IP "   \(bu" 6
 All other arguments (but particularly those whose names end
 in \f(CW\&.o\fP and \f(CW\&.a\fP) are understood to
 be binary object files\&.
@@ -114,6 +118,7 @@ not preserved unless explicitly instructed\&.
 The standard file suffixes \fIc\fP,
 \fIi\fP, \fIC\fP, \fII\fP,
 \fIj\fP, \fIt\fP, \fIs\fP,
+\fIS\fP,
 \fIo\fP, \fId\fP, \fIk\fP,
 and \fIK\fP, together with \fIp\fP (pretty-printed TDF capsule) and \fIpl\fP (PL_TDF source
 file), are used to indicate file types in some options\&. Also the
@@ -300,12 +305,6 @@ details about environments\&.
 .IP "\fB-Z\fP\fIstring\fP" 5
 Provided for \fBcc\fP\fB(1)\fP compatibility\&. Specifies
 various installer options\&.
-.IP "\fB-api_check\fP" 5
-Causes \fItchk\fP to create an API usage
-analysis file, with default name \fIa\&.api\fP\&.
-.IP "\fB-api_check_out \fP\fIstring\fP" 5
-If an API usage analysis file is produced, call it
-\fIstring\fP\&.
 .IP "\fB-b\fP" 5
 Stops the library \fIlibc\&.a\fP being used by
 the linker by default\&.
@@ -507,6 +506,8 @@ Target independent TDF capsule
 Target dependent TDF capsule
 .IP "\fBfile\&.s\fP" 5
 Assembly source file
+.IP "\fBfile\&.S\fP" 5
+Assembly source file that is run through the preprocessor
 .IP "\fBfile\&.o\fP" 5
 Binary object file
 .IP "\fBfile\&.d\fP" 5
@@ -549,4 +550,4 @@ Temporary directory (this may be changed using the
 \fBtld\fP\fB(1)\fP, \fBtrans386\fP\fB(1)\fP, \fBalphatrans\fP\fB(1)\fP,
 \fBhppatrans\fP\fB(1)\fP, \fBmipstrans\fP\fB(1)\fP, \fBsparctrans\fP\fB(1)\fP,
 \fBtccenv\fP\fB(5)\fP\&.
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:34
