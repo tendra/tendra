@@ -369,7 +369,7 @@ static ArgListT main_builder_arg_list[] = {
 	AP_OPT_FOLLOWING(suppress_all,	'S', "suppress-all", main_handle_suppress_all),
 	AP_OPT_PROC_SW	(suppress_mult,	'M', "suppress-mult", main_handle_suppress_mult),
 	AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
-	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_EMPTY	(version,		'V', "version", main_handle_version),
 	AP_OPT_EOL
 };
 
@@ -379,7 +379,7 @@ static ArgListT main_contents_arg_list[] = {
 	AP_OPT_PROC_SW	(index,			'i', "index", main_handle_index),
 	AP_OPT_PROC_SW	(size,			's', "size", main_handle_size),
 	AP_OPT_PROC_SW	(tdf_version,	't', "tdf-version", main_handle_tdf_version),
-	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_EMPTY	(version,		'V', "version", main_handle_version),
 	AP_OPT_EOL
 };
 
@@ -390,7 +390,7 @@ static ArgListT main_extract_arg_list[] = {
 	AP_OPT_EMPTY	(help,			'h', "help", main_handle_extract_help),
 	AP_OPT_PROC_SW	(info,			'i', "info", main_handle_info),
 	AP_OPT_PROC_SW	(match_basename,'m', "match-basename", main_handle_match_base),
-	AP_OPT_EMPTY	(version,	'V', NULL, main_handle_version),
+	AP_OPT_EMPTY	(version,		'V', "version", main_handle_version),
 	AP_OPT_EOL
 };
 
@@ -412,7 +412,7 @@ static ArgListT main_linker_arg_list[] = {
 	AP_OPT_FOLLOWING(suppress_all,	'S', "suppress-all", main_handle_suppress_all),
 	AP_OPT_PROC_SW	(suppress_mult,	'M', "suppress-mult", main_handle_suppress_mult),
 	AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
-	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_EMPTY	(version,		'V', "version", main_handle_version),
 	AP_OPT_PROC_SW	(warning,		'w', "warnings", main_handle_warning),
 	AP_OPT_EOL
 };

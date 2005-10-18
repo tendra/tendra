@@ -298,7 +298,7 @@ static ArgListT cmdl_opts[] = {
 	AP_OPT_EITHER	(include,		'I', NULL, opt_include),
 	AP_OPT_EITHER	(lprefix,		'L', NULL, opt_lprefix),
 	AP_OPT_EITHER	(subject,		'S', NULL, opt_subject),
-	AP_OPT_EMPTY	(version,		'V', NULL, opt_version),
+	AP_OPT_EMPTY	(version,		'V', "verbose", opt_version),
 	AP_OPT_EMPTY	(check,			'c', "check", opt_check),
 	AP_OPT_EMPTY	(cv,			'\0', "cv", opt_cv),
 	AP_OPT_EMPTY	(decode,		'd', "decode", opt_decode),
