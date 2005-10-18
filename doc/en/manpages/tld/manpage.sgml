@@ -223,7 +223,7 @@
 <refsect1 id='tld-switches2'>
   <title>Switches</title>
 
-   <para><command>tld</command>accepts the following switches in link
+   <para><command>tld</command> accepts the following switches in link
      mode:</para>
 
   <para><option>--all-hide-defined</option>,
@@ -369,9 +369,7 @@
 <refsect1 id='tld-switches3'>
   <title>Switches</title>
 
-  <para>FIXME: tld</para>
-
-   <para><command>tld</command>accepts the following switches in library
+   <para><command>tld</command> accepts the following switches in library
      construction mode:</para>
 
   <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
@@ -449,8 +447,8 @@
 <refsect1 id='tld-switches4'>
   <title>Switches</title>
 
-  <para><command>tld</command>accepts the following switches in library contents
-    mode:</para>
+  <para><command>tld</command> accepts the following switches in library
+    contents mode:</para>
 
   <para><option>--debug-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
@@ -513,7 +511,7 @@
 <refsect1 id='tld-switches5'>
   <title>Switches</title>
 
-  <para><command>tld</command>accepts the following switches in library
+  <para><command>tld</command> accepts the following switches in library
     extraction mode:</para>
 
   <para><option>--all</option>,
