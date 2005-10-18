@@ -41,10 +41,10 @@
     '+' character. They can be concatentated into a single command line word,
     e.g.:</para>
 
-  <para><option>-vdl</option> <replaceable>dump-file</replaceable>
+  <para><option>-Vdl</option> <replaceable>dump-file</replaceable>, 
     <emphasis>language-name</emphasis></para>
 
-  <para>which contains three different switches (<option>-v</option>, which
+  <para>which contains three different switches (<option>-V</option>, which
     takes no arguments; <option>-d</option>, which takes one argument:
     <emphasis>dump-file</emphasis>; and <option>-l</option>, which takes one
     argument: <emphasis>language-name</emphasis>).</para>
@@ -95,9 +95,9 @@
     name</emphasis><emphasis>}</emphasis>. These variables will be replaced
     by suitable information when the error occurs. The backslash character
     can be used to escape characters. The following C style escape sequences
-    are recognized: '<emphasis>\\n</emphasis>', '<emphasis>\\r</emphasis>',
-    '<emphasis>\</emphasis> ', '<emphasis>&amp;numsp;</emphasis>'. Also, the
-    sequence '<emphasis>\\x</emphasis><emphasis>NN</emphasis>' represents the
+    are recognized: <literal>'\n'</literal>, <literal>'\r'</literal>,
+    <literal>'\t'</literal>, <literal>'\0'</literal>. Also, the
+    sequence <literal>'\xNN'</literal> represents the
     character with code <emphasis>NN</emphasis> in hex. The hash character
     acts as a comment to end of line character.</para>
 
@@ -108,26 +108,26 @@
 <refsect1 id='sid-options'>
   <title>OPTIONS</title>
 
-  <para><command>sid</command>accepts the following command line options:</para>
+  <para><command>sid</command> accepts the following command line options:</para>
 
-  <para><option>--dump-file</option> <replaceable>FILE</replaceable>
+  <para><option>--dump-file</option> <replaceable>FILE</replaceable>,
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>This option causes intermediate dumps of the grammar to be written
     to the file <emphasis>FILE</emphasis>.</para>
 
-  <para><option>--factor-limit</option> <replaceable>LIMIT</replaceable>
+  <para><option>--factor-limit</option> <replaceable>LIMIT</replaceable>,
     <option>-f</option> <replaceable>LIMIT</replaceable></para>
 
   <para>This option limits the number of rules that can be created during
     the factorisation process. It is probably best not to change this.</para>
 
-  <para><option>--help</option>
+  <para><option>--help</option>,
     <option>-h</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
-  <para><option>--inline</option> <replaceable>INLINES</replaceable>
+  <para><option>--inline</option> <replaceable>INLINES</replaceable>,
     <option>-i</option> <replaceable>INLINES</replaceable></para>
 
   <para>This option controls what inlining will be done in the output
@@ -195,18 +195,18 @@
     phase. The words may be given in any case. They are evaluated in the
     order given, so:</para>
 
-  <para>-inline noall,singles</para>
+  <para>--inline noall,singles</para>
 
   <para>would turn on single alternative rule inlining only, whilst:</para>
 
-  <para>-inline singles,noall</para>
+  <para>--inline singles,noall</para>
 
   <para>would turn off all inlining. The default is as if SID were invoked
     with the option:</para>
 
-  <para>-inline noall,basics,tail</para>
+  <para>--inline noall,basics,tail</para>
 
-  <para><option>--language</option> <emphasis>LANGUAGE</emphasis> <!-- .br -->
+  <para><option>--language</option> <emphasis>LANGUAGE</emphasis>,
     <option>-l</option> <emphasis>LANGUAGE</emphasis></para>
 
   <para>This option specifies the output language. Currently this should be
@@ -283,24 +283,24 @@
     transformations that would be applied to the grammar. There are no
     language specific options for the "test" language.</para>
 
-  <para><option>--show-errors</option>
+  <para><option>--show-errors</option>,
     <option>-e</option></para>
 
   <para>Write the current error message list to the standard output.</para>
 
-  <para><option>--switch</option> <replaceable>OPTION</replaceable>
+  <para><option>--switch</option> <replaceable>OPTION</replaceable>,
     <option>-s</option> <replaceable>OPTION</replaceable></para>
 
   <para>Pass through <emphasis>OPTION</emphasis> as a language specific
     option.</para>
 
-  <para><option>--tab-width</option> <replaceable>NUMBER</replaceable>
+  <para><option>--tab-width</option> <replaceable>NUMBER</replaceable>,
     <option>-t</option> <replaceable>NUMBER</replaceable></para>
 
   <para>This option specifies the number of spaces that a tab occupies. It
     defaults to 8. It is only used when indenting output.</para>
 
-  <para><option>--version</option>
+  <para><option>--version</option>,
     <option>-V</option></para>
 
   <para>This option causes the version number and supported languages to be
