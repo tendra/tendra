@@ -84,14 +84,14 @@ typedef int ReaderTypeT, *ReaderTypeP;
 #define RT_STRING	(1)
 #else
 typedef enum {
-    RT_STREAM,
-    RT_STRING
+	RT_STREAM,
+	RT_STRING
 } ReaderTypeT, *ReaderTypeP;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct TDFReaderT {
-    ReaderTypeT			type;
-    union {
+	ReaderTypeT			type;
+	union {
 		BIStreamT		bistream;
 		struct {
 			char *			contents;
@@ -100,9 +100,9 @@ typedef struct TDFReaderT {
 			char *			name;
 			unsigned		byte;
 		} string;
-    } u;
-    ByteT			byte;
-    BoolT			new_byte;
+	} u;
+	ByteT			byte;
+	BoolT			new_byte;
 } TDFReaderT, *TDFReaderP;
 
 /*--------------------------------------------------------------------------*/

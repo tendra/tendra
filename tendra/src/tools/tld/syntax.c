@@ -78,54 +78,54 @@
 int
 syntax_value(char c)
 {
-    if ((c >= '0') && (c <= '9')) {
+	if ((c >= '0') && (c <= '9')) {
 		return (c - '0');
-    } else if ((c >= 'A') && (c <= 'Z')) {
+	} else if ((c >= 'A') && (c <= 'Z')) {
 		return (c - 'A' + 10);
-    } else if ((c >= 'a') && (c <= 'z')) {
+	} else if ((c >= 'a') && (c <= 'z')) {
 		return (c - 'a' + 10);
-    }
-    return (SYNTAX_NO_VALUE);
+	}
+	return (SYNTAX_NO_VALUE);
 }
 
 char
 syntax_upcase(char c)
 {
-    if ((c >= 'a') && (c <= 'z')) {
+	if ((c >= 'a') && (c <= 'z')) {
 		return ((char) (c - 'a' + 'A'));
-    }
-    return (c);
+	}
+	return (c);
 }
 
 char
 syntax_downcase(char c)
 {
-    if ((c >= 'A') && (c <= 'Z')) {
+	if ((c >= 'A') && (c <= 'Z')) {
 		return ((char) (c - 'A' + 'a'));
-    }
-    return (c);
+	}
+	return (c);
 }
 
 BoolT
 syntax_is_white_space(char c)
 {
-    return ((c < 33) || (c > 126));
+	return ((c < 33) || (c > 126));
 }
 
 BoolT
 syntax_is_printable(char c)
 {
-    return ((c > 31) && (c < 127));
+	return ((c > 31) && (c < 127));
 }
 
 BoolT
 syntax_is_letter(char c)
 {
-    return (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
+	return (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
 }
 
 BoolT
 syntax_is_digit(char c)
 {
-    return ((c >= '0') && (c <= '9'));
+	return ((c >= '0') && (c <= '9'));
 }

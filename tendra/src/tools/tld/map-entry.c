@@ -79,61 +79,61 @@
 MapEntryP
 map_entry_create(NStringP key, MapEntryP next, unsigned count)
 {
-    MapEntryP entry = ALLOCATE (MapEntryT);
+	MapEntryP entry = ALLOCATE (MapEntryT);
 
-    entry->next  = next;
-    nstring_copy (&(entry->key), key);
-    entry->count = count;
-    return (entry);
+	entry->next  = next;
+	nstring_copy (&(entry->key), key);
+	entry->count = count;
+	return (entry);
 }
 
 MapEntryP
 map_entry_next(MapEntryP entry)
 {
-    return (entry->next);
+	return (entry->next);
 }
 
 NStringP
 map_entry_key(MapEntryP entry)
 {
-    return (&(entry->key));
+	return (&(entry->key));
 }
 
 void
 map_entry_set_num_links(MapEntryP entry, unsigned num_links)
 {
-    entry->num_links = num_links;
-    entry->links     = ALLOCATE_VECTOR (MapLinkT, num_links);
+	entry->num_links = num_links;
+	entry->links     = ALLOCATE_VECTOR (MapLinkT, num_links);
 }
 
 void
 map_entry_set_link(MapEntryP entry, unsigned link, unsigned internal,
-    unsigned external)
+	unsigned external)
 {
-    ASSERT (link < entry->num_links);
-    entry->links [link].internal = internal;
-    entry->links [link].external = external;
+	ASSERT (link < entry->num_links);
+	entry->links [link].internal = internal;
+	entry->links [link].external = external;
 }
 
 unsigned
 map_entry_get_count(MapEntryP entry)
 {
-    return (entry->count);
+	return (entry->count);
 }
 
 unsigned
 map_entry_get_num_links(MapEntryP entry)
 {
-    return (entry->num_links);
+	return (entry->num_links);
 }
 
 void
 map_entry_get_link(MapEntryP entry, unsigned link, unsigned *internal_ref,
-    unsigned *external_ref)
+	unsigned *external_ref)
 {
-    ASSERT (link < entry->num_links);
-    *internal_ref = entry->links [link].internal;
-    *external_ref = entry->links [link].external;
+	ASSERT (link < entry->num_links);
+	*internal_ref = entry->links [link].internal;
+	*external_ref = entry->links [link].external;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -141,12 +141,12 @@ map_entry_get_link(MapEntryP entry, unsigned link, unsigned *internal_ref,
 void
 map_entry_check_non_empty(MapEntryP entry, void *gclosure)
 {
-    ShapeTableP table = (ShapeTableP) gclosure;
+	ShapeTableP table = (ShapeTableP) gclosure;
 
-    if (entry->count > 0) {
+	if (entry->count > 0) {
 		NStringP    key         = map_entry_key (entry);
 		ShapeEntryP shape_entry = shape_table_get (table, key);
 
 		shape_entry_set_non_empty (shape_entry);
-    }
+	}
 }

@@ -80,92 +80,92 @@ ExceptionP XX_bostream_write_error = EXCEPTION ("error writing to binary stream"
 void
 bostream_init(BOStreamP bostream)
 {
-    bostream->name = NULL;
+	bostream->name = NULL;
 }
 
 BoolT
 bostream_open(BOStreamP bostream, char *name)
 {
 #ifdef FS_BINARY_STDIO
-    if ((bostream->file = fopen (name, "wb")) == NIL (FILE *)) {
+	if ((bostream->file = fopen (name, "wb")) == NIL (FILE *)) {
 		return (FALSE);
-    }
+	}
 #else
-    if ((bostream->file = fopen (name, "w")) == NIL (FILE *)) {
+	if ((bostream->file = fopen (name, "w")) == NIL (FILE *)) {
 		return (FALSE);
-    }
+	}
 #endif /* defined (FS_BINARY_STDIO) */
-    bostream->name  = name;
-    return (TRUE);
+	bostream->name  = name;
+	return (TRUE);
 }
 
 void
 bostream_assign(BOStreamP to, BOStreamP from)
 {
-    to->file  = from->file;
-    to->name  = from->name;
+	to->file  = from->file;
+	to->name  = from->name;
 }
 
 BoolT
 bostream_is_open(BOStreamP bostream)
 {
-    return (bostream->name != NULL);
+	return (bostream->name != NULL);
 }
 
 void
 bostream_write_chars(BOStreamP bostream, unsigned length, char *chars)
 {
-    unsigned bytes_read = (unsigned) fwrite ((void *) chars, sizeof (char),
+	unsigned bytes_read = (unsigned) fwrite ((void *) chars, sizeof (char),
 											 (size_t) length, bostream->file);
 
-    if ((bytes_read != length) && (ferror (bostream->file))) {
+	if ((bytes_read != length) && (ferror (bostream->file))) {
 		char *name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
-    }
+	}
 }
 
 void
 bostream_write_bytes(BOStreamP bostream, unsigned length, ByteP bytes)
 {
-    unsigned bytes_read = (unsigned) fwrite ((void *) bytes, sizeof (ByteT),
+	unsigned bytes_read = (unsigned) fwrite ((void *) bytes, sizeof (ByteT),
 											 (size_t) length, bostream->file);
 
-    if ((bytes_read != length) && (ferror (bostream->file))) {
+	if ((bytes_read != length) && (ferror (bostream->file))) {
 		char *name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
-    }
+	}
 }
 
 void
 bostream_write_byte(BOStreamP bostream, ByteT byte)
 {
-    if ((fputc ((int) byte, bostream->file) == EOF) &&
+	if ((fputc ((int) byte, bostream->file) == EOF) &&
 		(ferror (bostream->file))) {
 		char *name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
-    }
+	}
 }
 
 char *
 bostream_name(BOStreamP bostream)
 {
-    return (bostream->name);
+	return (bostream->name);
 }
 
 void
 bostream_close(BOStreamP bostream)
 {
-    if (fclose (bostream->file)) {
+	if (fclose (bostream->file)) {
 		char *name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
-    }
-    bostream_init (bostream);
+	}
+	bostream_init (bostream);
 }

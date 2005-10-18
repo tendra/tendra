@@ -78,9 +78,9 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct TDFWriterT {
-    BOStreamT			bostream;
-    ByteT			byte;
-    BoolT			new_byte;
+	BOStreamT			bostream;
+	ByteT			byte;
+	BoolT			new_byte;
 } TDFWriterT, *TDFWriterP;
 
 /*--------------------------------------------------------------------------*/

@@ -83,15 +83,15 @@
 
 static LibraryP *
 builder_read_libraries(ArgDataP arg_data, unsigned *num_libs_ref,
-    unsigned *num_capsules_ref)
+	unsigned *num_capsules_ref)
 {
-    unsigned  num_lib_files   = arg_data_num_library_files (arg_data);
-    char **lib_files = arg_data_library_files (arg_data);
-    LibraryP *libraries       = ALLOCATE_VECTOR (LibraryP, num_lib_files);
-    unsigned  num_capsules    = 0;
-    unsigned  i;
+	unsigned  num_lib_files   = arg_data_num_library_files (arg_data);
+	char **lib_files = arg_data_library_files (arg_data);
+	LibraryP *libraries       = ALLOCATE_VECTOR (LibraryP, num_lib_files);
+	unsigned  num_capsules    = 0;
+	unsigned  i;
 
-    for (i = 0; i < num_lib_files; i ++) {
+	for (i = 0; i < num_lib_files; i ++) {
 		LibraryP library = library_create_stream_input (lib_files [i]);
 
 		if (library != NIL (LibraryP)) {
@@ -106,49 +106,49 @@ builder_read_libraries(ArgDataP arg_data, unsigned *num_libs_ref,
 			libraries [i] = NIL (LibraryP);
 			MSG_cant_open_input_file (lib_files [i]);
 		}
-    }
-    *num_libs_ref = num_lib_files;
-    *num_capsules_ref = num_capsules;
-    return (libraries);
+	}
+	*num_libs_ref = num_lib_files;
+	*num_capsules_ref = num_capsules;
+	return (libraries);
 }
 
 static void
 builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
-    unsigned capsule_index, UnitTableP units, ShapeTableP shapes)
+	unsigned capsule_index, UnitTableP units, ShapeTableP shapes)
 {
-    char *name = capsule_name (capsule);
-    unsigned i;
+	char *name = capsule_name (capsule);
+	unsigned i;
 
-    for (i = 0; i < capsule_index; i ++) {
+	for (i = 0; i < capsule_index; i ++) {
 		if (cstring_equal (name, capsule_name (capsules [i]))) {
 			MSG_duplicate_capsule_name (name);
 		}
-    }
-    capsule_set_index (capsule, capsule_index);
-    capsule_read (capsule, units, shapes);
-    capsule_store_contents (capsule);
-    capsule_close (capsule);
-    capsules [capsule_index] = capsule;
+	}
+	capsule_set_index (capsule, capsule_index);
+	capsule_read (capsule, units, shapes);
+	capsule_store_contents (capsule);
+	capsule_close (capsule);
+	capsules [capsule_index] = capsule;
 }
 
 static CapsuleP *
 builder_read_capsules(ArgDataP arg_data, UnitTableP units,
-    ShapeTableP shapes, unsigned *num_capsules_ref)
+	ShapeTableP shapes, unsigned *num_capsules_ref)
 {
-    unsigned  num_input_files = arg_data_get_num_files (arg_data);
-    char **input_files = arg_data_get_files (arg_data);
-    unsigned  capsule_index   = 0;
-    unsigned  num_libraries;
-    LibraryP *libraries;
-    unsigned  num_capsules;
-    CapsuleP *capsules;
-    unsigned  i;
+	unsigned  num_input_files = arg_data_get_num_files (arg_data);
+	char **input_files = arg_data_get_files (arg_data);
+	unsigned  capsule_index   = 0;
+	unsigned  num_libraries;
+	LibraryP *libraries;
+	unsigned  num_capsules;
+	CapsuleP *capsules;
+	unsigned  i;
 
-    libraries     = builder_read_libraries (arg_data, &num_libraries,
-					    &num_capsules);
-    num_capsules += num_input_files;
-    capsules      = ALLOCATE_VECTOR (CapsuleP, num_capsules);
-    for (i = 0; i < num_libraries; i ++) {
+	libraries     = builder_read_libraries (arg_data, &num_libraries,
+						&num_capsules);
+	num_capsules += num_input_files;
+	capsules      = ALLOCATE_VECTOR (CapsuleP, num_capsules);
+	for (i = 0; i < num_libraries; i ++) {
 		LibraryP library = libraries [i];
 
 		if (library != NIL (LibraryP)) {
@@ -167,9 +167,9 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 				capsule_index ++;
 			}
 		}
-    }
-    DEALLOCATE (libraries);
-    for (i = 0; i < num_input_files; i ++) {
+	}
+	DEALLOCATE (libraries);
+	for (i = 0; i < num_input_files; i ++) {
 		CapsuleP capsule;
 
 		if ((capsule = capsule_create_stream_input (input_files [i])) !=
@@ -180,28 +180,28 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 		} else {
 			MSG_cant_open_input_file (input_files [i]);
 		}
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 
-    *num_capsules_ref = num_capsules;
-    return (capsules);
+	*num_capsules_ref = num_capsules;
+	return (capsules);
 }
 
 static void
 builder_check_multi_defs(ShapeTableP shapes)
 {
-    shape_table_iter (shapes, shape_entry_check_multi_defs, NULL);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	shape_table_iter (shapes, shape_entry_check_multi_defs, NULL);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 builder_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
-    void *gclosure)
+	void *gclosure)
 {
-    ShapeTableP lib_shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
+	ShapeTableP lib_shapes = (ShapeTableP) gclosure;
+	ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
 
-    if (entry) {
+	if (entry) {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
 
@@ -218,38 +218,38 @@ builder_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
 				name_entry_set_definition (name_entry, NIL (CapsuleP));
 			}
 		}
-    }
+	}
 }
 
 static void
 builder_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
-    if (arg_data_get_suppress_mult (arg_data)) {
+	if (arg_data_get_suppress_mult (arg_data)) {
 		shape_table_iter (lib_shapes, shape_entry_suppress_mult,
 						  NULL);
-    }
-    shape_control_iter (arg_data_get_suppresses (arg_data), builder_suppress_1,
+	}
+	shape_control_iter (arg_data_get_suppresses (arg_data), builder_suppress_1,
 						(void *) lib_shapes);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 
 }
 
 static void
 builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
-    unsigned num_capsules, CapsuleP *capsules)
+	unsigned num_capsules, CapsuleP *capsules)
 {
-    char *output_file = arg_data_get_output_file (arg_data);
-    LibraryP library;
+	char *output_file = arg_data_get_output_file (arg_data);
+	LibraryP library;
 
-    if ((library = library_create_stream_output (output_file)) !=
+	if ((library = library_create_stream_output (output_file)) !=
 		NIL (LibraryP)) {
 		library_write (library, shapes, num_capsules, capsules);
 		library_close (library);
-    } else {
+	} else {
 		MSG_cant_open_output_file (output_file);
 		UNREACHED;
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -257,13 +257,13 @@ builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
 void
 builder_main(ArgDataP arg_data)
 {
-    UnitTableP  units  = unit_table_create ();
-    ShapeTableP shapes = shape_table_create ();
-    unsigned    num_capsules;
-    CapsuleP   *capsules;
+	UnitTableP  units  = unit_table_create ();
+	ShapeTableP shapes = shape_table_create ();
+	unsigned    num_capsules;
+	CapsuleP   *capsules;
 
-    capsules = builder_read_capsules (arg_data, units, shapes, &num_capsules);
-    builder_check_multi_defs (shapes);
-    builder_suppress (arg_data, shapes);
-    builder_write_library (arg_data, shapes, num_capsules, capsules);
+	capsules = builder_read_capsules (arg_data, units, shapes, &num_capsules);
+	builder_check_multi_defs (shapes);
+	builder_suppress (arg_data, shapes);
+	builder_write_library (arg_data, shapes, num_capsules, capsules);
 }

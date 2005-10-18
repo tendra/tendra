@@ -76,51 +76,51 @@
 void
 cstring_list_init(CStringListP list)
 {
-    list->head = NIL (CStringListEntryP);
-    list->tail = &(list->head);
+	list->head = NIL (CStringListEntryP);
+	list->tail = &(list->head);
 }
 
 void
 cstring_list_append(CStringListP list, char *string)
 {
-    CStringListEntryP entry = ALLOCATE (CStringListEntryT);
+	CStringListEntryP entry = ALLOCATE (CStringListEntryT);
 
-    entry->next   = NIL (CStringListEntryP);
-    entry->string = string;
-    *(list->tail) = entry;
-    list->tail    = &(entry->next);
+	entry->next   = NIL (CStringListEntryP);
+	entry->string = string;
+	*(list->tail) = entry;
+	list->tail    = &(entry->next);
 }
 
 BoolT
 cstring_list_contains(CStringListP list, char *string)
 {
-    CStringListEntryP entry = list->head;
-    while (entry != NIL (CStringListEntryP)) {
+	CStringListEntryP entry = list->head;
+	while (entry != NIL (CStringListEntryP)) {
 		if (cstring_equal (string, entry->string)) {
 			return (TRUE);
 		}
 		entry = entry->next;
-    }
-    return (FALSE);
+	}
+	return (FALSE);
 }
 
 CStringListEntryP
 cstring_list_head(CStringListP list)
 {
-    return (list->head);
+	return (list->head);
 }
 
 char *
 cstring_list_entry_string(CStringListEntryP entry)
 {
-    return (entry->string);
+	return (entry->string);
 }
 
 CStringListEntryP
 cstring_list_entry_deallocate(CStringListEntryP entry)
 {
-    CStringListEntryP next = entry->next;
+	CStringListEntryP next = entry->next;
 
-    DEALLOCATE (entry);
-    return (next);
+	DEALLOCATE (entry);
+	return (next);
 }

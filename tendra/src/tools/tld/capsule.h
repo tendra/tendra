@@ -88,21 +88,21 @@ typedef int CapsuleTypeT, *CapsuleTypeP;
 #define CT_OUTPUT		(1)
 #else
 typedef enum {
-    CT_INPUT,
-    CT_OUTPUT
+	CT_INPUT,
+	CT_OUTPUT
 } CapsuleTypeT, *CapsuleTypeP;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct CapsuleT {
-    CapsuleTypeT		type;
-    union {
+	CapsuleTypeT		type;
+	union {
 		TDFReaderT		reader;
 		TDFWriterT		writer;
-    } u;
-    NStringT			contents;
-    unsigned			capsule_index;
-    char *				name;
-    BoolT			complete;
+	} u;
+	NStringT			contents;
+	unsigned			capsule_index;
+	char *				name;
+	BoolT			complete;
 } CapsuleT, *CapsuleP;
 
 /*--------------------------------------------------------------------------*/

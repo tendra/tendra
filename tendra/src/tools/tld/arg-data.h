@@ -81,45 +81,45 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct ShapeControlEntryT {
-    struct ShapeControlEntryT  *next;
-    NStringT			shape;
-    BoolT			all;
-    NameKeyListT		names;
+	struct ShapeControlEntryT  *next;
+	NStringT			shape;
+	BoolT			all;
+	NameKeyListT		names;
 } ShapeControlEntryT, *ShapeControlEntryP;
 
 typedef struct ShapeControlT {
-    ShapeControlEntryP		head;
+	ShapeControlEntryP		head;
 } ShapeControlT, *ShapeControlP;
 
 typedef struct RenameControlEntryT {
-    struct RenameControlEntryT *next;
-    NStringT			shape;
-    NameKeyPairListT		names;
+	struct RenameControlEntryT *next;
+	NStringT			shape;
+	NameKeyPairListT		names;
 } RenameControlEntryT, *RenameControlEntryP;
 
 typedef struct RenameControlT {
-    RenameControlEntryP		head;
+	RenameControlEntryP		head;
 } RenameControlT, *RenameControlP;
 
 typedef struct ArgDataT {
-    BoolT			all_hide_defined;
-    BoolT			suppress_mult;
-    ShapeControlT		hides;
-    ShapeControlT		keeps;
-    ShapeControlT		suppresses;
-    RenameControlT		renames;
-    BoolT			extract_all;
-    BoolT			extract_basename;
-    BoolT			extract_match_base;
-    BoolT			content_index;
-    BoolT			content_size;
-    BoolT			content_version;
-    OStreamT			debug_file;
-    char *				default_output_file;
-    char *				output_file;
-    unsigned			num_library_files;
-    unsigned			num_library_paths;
-    union {
+	BoolT			all_hide_defined;
+	BoolT			suppress_mult;
+	ShapeControlT		hides;
+	ShapeControlT		keeps;
+	ShapeControlT		suppresses;
+	RenameControlT		renames;
+	BoolT			extract_all;
+	BoolT			extract_basename;
+	BoolT			extract_match_base;
+	BoolT			content_index;
+	BoolT			content_size;
+	BoolT			content_version;
+	OStreamT			debug_file;
+	char *				default_output_file;
+	char *				output_file;
+	unsigned			num_library_files;
+	unsigned			num_library_paths;
+	union {
 		struct {
 			CStringListT	file;
 			CStringListT	path;
@@ -128,10 +128,10 @@ typedef struct ArgDataT {
 			char **			file;
 			char **			path;
 		} vector;
-    } library;
-    char *				unit_file;
-    unsigned			num_files;
-    char **				files;
+	} library;
+	char *				unit_file;
+	unsigned			num_files;
+	char **				files;
 } ArgDataT, *ArgDataP;
 
 /*--------------------------------------------------------------------------*/

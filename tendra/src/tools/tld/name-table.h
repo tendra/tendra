@@ -85,7 +85,7 @@ struct ShapeEntryT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct NameTableT {
-    NameEntryP			contents [NAME_TABLE_SIZE];
+	NameEntryP			contents [NAME_TABLE_SIZE];
 } NameTableT, *NameTableP;
 
 /*--------------------------------------------------------------------------*/

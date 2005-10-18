@@ -171,9 +171,9 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct BIStreamT {
-    FILE		       *file;
-    unsigned			bytes;
-    char *				name;
+	FILE		       *file;
+	unsigned			bytes;
+	char *				name;
 } BIStreamT, *BIStreamP;
 
 /*--------------------------------------------------------------------------*/

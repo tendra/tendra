@@ -243,22 +243,22 @@
 typedef char *		ExceptionP;
 
 typedef struct {
-    char *				exception;
-    void *				data;
-    unsigned			line;
-    char *				file;
+	char *				exception;
+	void *				data;
+	unsigned			line;
+	char *				file;
 } ThrowDataT, *ThrowDataP;
 
 typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    unsigned			magic_start;
-    char *				file;
-    unsigned			line;
+	unsigned			magic_start;
+	char *				file;
+	unsigned			line;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-    struct HandlerT	       *next;
-    jmp_buf			buffer;
+	struct HandlerT	       *next;
+	jmp_buf			buffer;
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    unsigned			magic_end;
+	unsigned			magic_end;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
 } HandlerT, *HandlerP;
 
@@ -311,9 +311,9 @@ extern NoReturnT		X__exception_throw(void);
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
 
 #define WITH \
-     X__exception_handler_stack = X___exception_handler.next; \
+ 	X__exception_handler_stack = X___exception_handler.next; \
  } else { \
-     X__exception_handler_stack = X___exception_handler.next; {
+ 	X__exception_handler_stack = X___exception_handler.next; {
 
 #define END_HANDLE }}}
 
@@ -330,7 +330,7 @@ X__exception_throw_data.line
 X__exception_throw_data.file
 
 #define RETHROW() \
-X__exception_throw ();
+X__exception_throw();
 
 #define UNHANDLE X__exception_handler_stack = X___exception_handler.next;
 

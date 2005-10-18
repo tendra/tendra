@@ -85,24 +85,24 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct UnitSetListEntryT {
-    struct UnitSetListEntryT   *next;
-    NStringT			name;
+	struct UnitSetListEntryT   *next;
+	NStringT			name;
 } UnitSetListEntryT, *UnitSetListEntryP;
 
 typedef struct UnitSetT {
-    NStringT			name;
-    UnitEntryP			entry;
+	NStringT			name;
+	UnitEntryP			entry;
 } UnitSetT, *UnitSetP;
 
 typedef struct ShapeDataT {
-    ShapeEntryP			entry;
-    unsigned			num_ids;
-    unsigned		       *id_maps;
+	ShapeEntryP			entry;
+	unsigned			num_ids;
+	unsigned		       *id_maps;
 } ShapeDataT, *ShapeDataP;
 
 typedef struct NameDataT {
-    NameEntryP		       *names_vec;
-    unsigned			num_names;
+	NameEntryP		       *names_vec;
+	unsigned			num_names;
 } NameDataT, *NameDataP;
 
 /*--------------------------------------------------------------------------*/
@@ -112,18 +112,18 @@ typedef struct NameDataT {
 /*--------------------------------------------------------------------------*/
 
 static char *capsule_default_unit_set_names [NUM_DEFAULT_UNIT_SETS] = {
-    "tld",
-    "tld2",
-    "versions",
-    "tokdec",
-    "tokdef",
-    "aldef",
-    "diagtype",
-    "tagdec",
-    "diagdef",
-    "dgcompunit",
-    "tagdef",
-    "linkinfo"
+	"tld",
+	"tld2",
+	"versions",
+	"tokdec",
+	"tokdef",
+	"aldef",
+	"diagtype",
+	"tagdec",
+	"diagdef",
+	"dgcompunit",
+	"tagdef",
+	"linkinfo"
 };
 static UnitSetT   capsule_default_unit_sets [NUM_DEFAULT_UNIT_SETS];
 static unsigned   capsule_num_unit_sets;
@@ -141,7 +141,7 @@ static unsigned   capsule_minor_version = 0;
 static void
 capsule_setup_defaults(void)
 {
-    if (capsule_unit_sets == NIL (UnitSetP)) {
+	if (capsule_unit_sets == NIL (UnitSetP)) {
 		unsigned i;
 
 		for (i = 0; i < NUM_DEFAULT_UNIT_SETS; i ++) {
@@ -150,15 +150,15 @@ capsule_setup_defaults(void)
 		}
 		capsule_num_unit_sets = NUM_DEFAULT_UNIT_SETS;
 		capsule_unit_sets     = capsule_default_unit_sets;
-    }
+	}
 }
 
 static void
 capsule_setup(UnitTableP units)
 {
-    static BoolT need_setup = TRUE;
+	static BoolT need_setup = TRUE;
 
-    if (need_setup) {
+	if (need_setup) {
 		unsigned i;
 
 		capsule_setup_defaults ();
@@ -171,25 +171,25 @@ capsule_setup(UnitTableP units)
 			debug_info_u_name (name);
 		}
 		need_setup = FALSE;
-    }
+	}
 }
 
 static BoolT
 capsule_read_unit_set_name(IStreamP istream, DStringP dstring)
 {
-    char c;
+	char c;
 
-    do {
+	do {
 		if (!istream_read_char (istream, &c)) {
 			return (FALSE);
 		}
-    } while (syntax_is_white_space (c));
-    if (c != '"') {
+	} while (syntax_is_white_space (c));
+	if (c != '"') {
 		MSG_unit_set_expected_quote (istream);
 		UNREACHED;
-    }
-    dstring_init (dstring);
-    while (istream_read_char (istream, &c)) {
+	}
+	dstring_init (dstring);
+	while (istream_read_char (istream, &c)) {
 		if (c == '"') {
 			return (TRUE);
 		} else if (c == '\\') {
@@ -206,28 +206,28 @@ capsule_read_unit_set_name(IStreamP istream, DStringP dstring)
 		} else {
 			dstring_append_char (dstring, c);
 		}
-    }
-    MSG_unit_set_eof_in_name (istream);
-    UNREACHED;
+	}
+	MSG_unit_set_eof_in_name (istream);
+	UNREACHED;
 }
 
 static void
 capsule_check_unit_sets(IStreamP istream)
 {
-    static BoolT    inited    = FALSE;
-    static NStringT tld;
-    static NStringT tld2;
-    BoolT           tld_found = FALSE;
-    unsigned        i;
+	static BoolT    inited    = FALSE;
+	static NStringT tld;
+	static NStringT tld2;
+	BoolT           tld_found = FALSE;
+	unsigned        i;
 
-    if (!inited) {
+	if (!inited) {
 		nstring_copy_cstring (&tld, "tld");
 		nstring_copy_cstring (&tld2, "tld2");
 		inited = TRUE;
-    }
-    capsule_tld_index  = UINT_MAX;
-    capsule_tld2_index = UINT_MAX;
-    for (i = 0; i < capsule_num_unit_sets; i ++) {
+	}
+	capsule_tld_index  = UINT_MAX;
+	capsule_tld2_index = UINT_MAX;
+	for (i = 0; i < capsule_num_unit_sets; i ++) {
 		NStringP name = &(capsule_unit_sets [i].name);
 		unsigned j;
 
@@ -243,24 +243,24 @@ capsule_check_unit_sets(IStreamP istream)
 		} else if (nstring_equal (name, &tld2)) {
 			capsule_tld2_index = i;
 		}
-    }
-    if (!tld_found) {
+	}
+	if (!tld_found) {
 		MSG_unit_set_no_tld_name (istream_name (istream));
 		UNREACHED;
-    }
+	}
 }
 
 static void
 capsule_read_unit_set_file_1(IStreamP istream)
 {
-    UnitSetListEntryP  head          = NIL (UnitSetListEntryP);
-    UnitSetListEntryP *tail          = &head;
-    unsigned           num_unit_sets = 0;
-    UnitSetListEntryP  entry;
-    UnitSetP           unit_sets;
-    unsigned           i;
+	UnitSetListEntryP  head          = NIL (UnitSetListEntryP);
+	UnitSetListEntryP *tail          = &head;
+	unsigned           num_unit_sets = 0;
+	UnitSetListEntryP  entry;
+	UnitSetP           unit_sets;
+	unsigned           i;
 
-    for (;;) {
+	for (;;) {
 		DStringT dstring;
 
 		if (!capsule_read_unit_set_name (istream, &dstring)) {
@@ -273,22 +273,22 @@ capsule_read_unit_set_file_1(IStreamP istream)
 		tail        = &(entry->next);
 		dstring_destroy (&dstring);
 		num_unit_sets ++;
-    }
+	}
   done:
-    unit_sets = ALLOCATE_VECTOR (UnitSetT, num_unit_sets);
-    i         = 0;
-    entry     = head;
-    while (entry) {
+	unit_sets = ALLOCATE_VECTOR (UnitSetT, num_unit_sets);
+	i         = 0;
+	entry     = head;
+	while (entry) {
 		UnitSetListEntryP tmp = entry->next;
 
 		nstring_assign (&(unit_sets [i].name), &(entry->name));
 		DEALLOCATE (entry);
 		entry = tmp;
 		i ++;
-    }
-    capsule_num_unit_sets = num_unit_sets;
-    capsule_unit_sets     = unit_sets;
-    capsule_check_unit_sets (istream);
+	}
+	capsule_num_unit_sets = num_unit_sets;
+	capsule_unit_sets     = unit_sets;
+	capsule_check_unit_sets (istream);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -296,28 +296,28 @@ capsule_read_unit_set_file_1(IStreamP istream)
 static TDFReaderP
 capsule_reader(CapsuleP capsule)
 {
-    ASSERT (capsule->type == CT_INPUT);
-    return (&(capsule->u.reader));
+	ASSERT (capsule->type == CT_INPUT);
+	return (&(capsule->u.reader));
 }
 
 static TDFWriterP
 capsule_writer(CapsuleP capsule)
 {
-    ASSERT (capsule->type == CT_OUTPUT);
-    return (&(capsule->u.writer));
+	ASSERT (capsule->type == CT_OUTPUT);
+	return (&(capsule->u.writer));
 }
 
 static NStringP
 capsule_magic(void)
 {
-    static NStringT const_magic;
-    static BoolT    inited = FALSE;
+	static NStringT const_magic;
+	static BoolT    inited = FALSE;
 
-    if (!inited) {
+	if (!inited) {
 		nstring_copy_cstring (&const_magic, "TDFC");
 		inited = TRUE;
-    }
-    return (&const_magic);
+	}
+	return (&const_magic);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -325,56 +325,56 @@ capsule_magic(void)
 static void
 capsule_read_header(CapsuleP capsule)
 {
-    TDFReaderP reader      = capsule_reader (capsule);
-    NStringP   const_magic = capsule_magic ();
-    NStringT   magic;
-    unsigned   major;
-    unsigned   minor;
+	TDFReaderP reader      = capsule_reader (capsule);
+	NStringP   const_magic = capsule_magic ();
+	NStringT   magic;
+	unsigned   major;
+	unsigned   minor;
 
-    nstring_init_length (&magic, (unsigned) 4);
-    tdf_read_bytes (reader, &magic);
-    if (!nstring_equal (&magic, const_magic)) {
+	nstring_init_length (&magic, (unsigned) 4);
+	tdf_read_bytes (reader, &magic);
+	if (!nstring_equal (&magic, const_magic)) {
 		MSG_capsule_bad_magic (capsule, &magic, const_magic);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    nstring_destroy (&magic);
-    major = tdf_read_int (reader);
-    minor = tdf_read_int (reader);
-    debug_info_r_versions (major, minor);
-    if (major < 4) {
+	}
+	nstring_destroy (&magic);
+	major = tdf_read_int (reader);
+	minor = tdf_read_int (reader);
+	debug_info_r_versions (major, minor);
+	if (major < 4) {
 		MSG_capsule_bad_version (capsule, major);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    } else if (capsule_major_version == 0) {
+	} else if (capsule_major_version == 0) {
 		capsule_major_version = major;
 		capsule_minor_version = minor;
-    } else if (capsule_major_version != major) {
+	} else if (capsule_major_version != major) {
 		MSG_capsule_version_mismatch (capsule, capsule_major_version, major);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    } else if (capsule_minor_version < minor) {
+	} else if (capsule_minor_version < minor) {
 		capsule_minor_version = minor;
-    }
-    tdf_read_align (reader);
+	}
+	tdf_read_align (reader);
 }
 
 static UnitEntryP *
 capsule_read_unit_set_names(CapsuleP capsule, UnitTableP units,
-    unsigned *num_unit_sets_ref)
+	unsigned *num_unit_sets_ref)
 {
-    TDFReaderP  reader        = capsule_reader (capsule);
-    unsigned    num_unit_sets = tdf_read_int (reader);
-    UnitEntryP *units_vec     = ALLOCATE_VECTOR (UnitEntryP, num_unit_sets);
-    UnitEntryP  tld_entry     = capsule_unit_sets [capsule_tld_index].entry;
-    UnitEntryP  tld2_entry    = ((capsule_tld2_index == UINT_MAX) ?
+	TDFReaderP  reader        = capsule_reader (capsule);
+	unsigned    num_unit_sets = tdf_read_int (reader);
+	UnitEntryP *units_vec     = ALLOCATE_VECTOR (UnitEntryP, num_unit_sets);
+	UnitEntryP  tld_entry     = capsule_unit_sets [capsule_tld_index].entry;
+	UnitEntryP  tld2_entry    = ((capsule_tld2_index == UINT_MAX) ?
 								 NIL (UnitEntryP) :
 								 capsule_unit_sets [capsule_tld2_index].entry);
-    BoolT       has_tld_unit  = FALSE;
-    unsigned    i;
+	BoolT       has_tld_unit  = FALSE;
+	unsigned    i;
 
-    debug_info_r_start_unit_decs (num_unit_sets);
-    for (i = 0; i < num_unit_sets; i ++) {
+	debug_info_r_start_unit_decs (num_unit_sets);
+	for (i = 0; i < num_unit_sets; i ++) {
 		NStringT   nstring;
 		UnitEntryP entry;
 
@@ -413,25 +413,25 @@ capsule_read_unit_set_names(CapsuleP capsule, UnitTableP units,
 		}
 		debug_info_r_unit_dec (&nstring);
 		nstring_destroy (&nstring);
-    }
-    if (!has_tld_unit) {
+	}
+	if (!has_tld_unit) {
 		MSG_missing_tld_unit_set (tdf_reader_name (reader));
-    }
-    *num_unit_sets_ref = num_unit_sets;
-    return (units_vec);
+	}
+	*num_unit_sets_ref = num_unit_sets;
+	return (units_vec);
 }
 
 static ShapeDataP
 capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
-    unsigned *num_shapes_ref)
+	unsigned *num_shapes_ref)
 {
-    TDFReaderP reader     = capsule_reader (capsule);
-    unsigned   num_shapes = tdf_read_int (reader);
-    ShapeDataP shapes_vec = ALLOCATE_VECTOR (ShapeDataT, num_shapes);
-    unsigned   i;
+	TDFReaderP reader     = capsule_reader (capsule);
+	unsigned   num_shapes = tdf_read_int (reader);
+	ShapeDataP shapes_vec = ALLOCATE_VECTOR (ShapeDataT, num_shapes);
+	unsigned   i;
 
-    debug_info_r_start_shapes (num_shapes);
-    for (i = 0; i < num_shapes; i ++) {
+	debug_info_r_start_shapes (num_shapes);
+	for (i = 0; i < num_shapes; i ++) {
 		NStringT    nstring;
 		unsigned    num_ids;
 		ShapeEntryP entry;
@@ -455,27 +455,27 @@ capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
 		for (j = 0; j < num_ids; j ++) {
 			shapes_vec [i].id_maps [j] = UINT_MAX;
 		}
-    }
-    *num_shapes_ref = num_shapes;
-    return (shapes_vec);
+	}
+	*num_shapes_ref = num_shapes;
+	return (shapes_vec);
 }
 
 static NameEntryP *
 capsule_read_external_names_1(CapsuleP capsule, ShapeDataP shape,
-    unsigned *num_ref)
+	unsigned *num_ref)
 {
-    TDFReaderP  reader         = capsule_reader (capsule);
-    unsigned    num_this_shape = tdf_read_int (reader);
-    ShapeEntryP entry          = shape->entry;
-    NStringP    key            = shape_entry_key (entry);
-    NameTableP  table          = shape_entry_name_table (entry);
-    unsigned    num_ids        = shape->num_ids;
-    unsigned   *id_maps        = shape->id_maps;
-    NameEntryP *names_vec      = ALLOCATE_VECTOR (NameEntryP, num_this_shape);
-    unsigned    i;
+	TDFReaderP  reader         = capsule_reader (capsule);
+	unsigned    num_this_shape = tdf_read_int (reader);
+	ShapeEntryP entry          = shape->entry;
+	NStringP    key            = shape_entry_key (entry);
+	NameTableP  table          = shape_entry_name_table (entry);
+	unsigned    num_ids        = shape->num_ids;
+	unsigned   *id_maps        = shape->id_maps;
+	NameEntryP *names_vec      = ALLOCATE_VECTOR (NameEntryP, num_this_shape);
+	unsigned    i;
 
-    debug_info_r_start_shape_names (key, num_this_shape);
-    for (i = 0; i < num_this_shape; i ++) {
+	debug_info_r_start_shape_names (key, num_this_shape);
+	for (i = 0; i < num_this_shape; i ++) {
 		unsigned   id = tdf_read_int (reader);
 		NameKeyT   name;
 		NameEntryP name_entry;
@@ -497,28 +497,28 @@ capsule_read_external_names_1(CapsuleP capsule, ShapeDataP shape,
 		debug_info_r_name (&name, id, id_maps [id],
 						   name_entry_key (name_entry));
 		name_key_destroy (&name);
-    }
-    *num_ref = num_this_shape;
-    return (names_vec);
+	}
+	*num_ref = num_this_shape;
+	return (names_vec);
 }
 
 static NameDataP
 capsule_read_external_names(CapsuleP capsule, unsigned num_shapes,
-    ShapeDataP shapes_vec)
+	ShapeDataP shapes_vec)
 {
-    TDFReaderP reader = capsule_reader (capsule);
-    NameDataT *names_vec_vec;
-    unsigned   num_names;
-    unsigned   i;
+	TDFReaderP reader = capsule_reader (capsule);
+	NameDataT *names_vec_vec;
+	unsigned   num_names;
+	unsigned   i;
 
-    if ((num_names = tdf_read_int (reader)) != num_shapes) {
+	if ((num_names = tdf_read_int (reader)) != num_shapes) {
 		MSG_shape_and_name_count_mismatch (capsule, num_shapes, num_names);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_names (num_names);
-    names_vec_vec = ALLOCATE_VECTOR (NameDataT, num_names);
-    for (i = 0; i < num_names; i ++) {
+	}
+	debug_info_r_start_names (num_names);
+	names_vec_vec = ALLOCATE_VECTOR (NameDataT, num_names);
+	for (i = 0; i < num_names; i ++) {
 		ShapeDataP  shape = &(shapes_vec [i]);
 		NameEntryP *names_vec;
 		unsigned    num_this_shape;
@@ -527,53 +527,53 @@ capsule_read_external_names(CapsuleP capsule, unsigned num_shapes,
 												   &num_this_shape);
 		names_vec_vec [i].names_vec = names_vec;
 		names_vec_vec [i].num_names = num_this_shape;
-    }
-    return (names_vec_vec);
+	}
+	return (names_vec_vec);
 }
 
 /*--------------------------------------------------------------------------*/
 
 static unsigned
 capsule_get_token_index(ShapeTableP shapes, unsigned num_shapes,
-    ShapeDataP shapes_vec)
+	ShapeDataP shapes_vec)
 {
-    ShapeEntryP token_entry = shape_table_get_token_entry (shapes);
-    unsigned    i;
+	ShapeEntryP token_entry = shape_table_get_token_entry (shapes);
+	unsigned    i;
 
-    for (i = 0; i < num_shapes; i ++) {
+	for (i = 0; i < num_shapes; i ++) {
 		if (shapes_vec [i].entry == token_entry) {
 			return (i);
 		}
-    }
-    return (UINT_MAX);
+	}
+	return (UINT_MAX);
 }
 
 static unsigned
 capsule_get_tag_index(ShapeTableP shapes, unsigned num_shapes,
-    ShapeDataP shapes_vec)
+	ShapeDataP shapes_vec)
 {
-    ShapeEntryP tag_entry = shape_table_get_tag_entry (shapes);
-    unsigned    i;
+	ShapeEntryP tag_entry = shape_table_get_tag_entry (shapes);
+	unsigned    i;
 
-    for (i = 0; i < num_shapes; i ++) {
+	for (i = 0; i < num_shapes; i ++) {
 		if (shapes_vec [i].entry == tag_entry) {
 			return (i);
 		}
-    }
-    return (UINT_MAX);
+	}
+	return (UINT_MAX);
 }
 
 static void
 capsule_read_usage(CapsuleP capsule, NameDataP entry, BoolT need_dec,
-    BoolT no_mult, NStringP shape_key)
+	BoolT no_mult, NStringP shape_key)
 {
-    TDFReaderP  reader    = capsule_reader (capsule);
-    unsigned    num_names = entry->num_names;
-    NameEntryP *names_vec = entry->names_vec;
-    unsigned    i;
+	TDFReaderP  reader    = capsule_reader (capsule);
+	unsigned    num_names = entry->num_names;
+	NameEntryP *names_vec = entry->names_vec;
+	unsigned    i;
 
-    debug_info_r_start_usages (shape_key, num_names);
-    for (i = 0; i < num_names; i ++) {
+	debug_info_r_start_usages (shape_key, num_names);
+	for (i = 0; i < num_names; i ++) {
 		unsigned   use        = tdf_read_int (reader);
 		NameEntryP name_entry = names_vec [i];
 		unsigned   name_use   = name_entry_get_use (name_entry);
@@ -608,43 +608,43 @@ capsule_read_usage(CapsuleP capsule, NameDataP entry, BoolT need_dec,
 		}
 		debug_info_r_usage (use, name_use, key);
 		name_entry_merge_use (name_entry, use);
-    }
+	}
 }
 
 static void
 capsule_read_tld_type_0_unit(CapsuleP capsule, ShapeTableP shapes,
-    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
+	unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
-    unsigned i;
+	unsigned i;
 
-    i = capsule_get_token_index (shapes, num_shapes, shapes_vec);
-    if (i != UINT_MAX) {
+	i = capsule_get_token_index (shapes, num_shapes, shapes_vec);
+	if (i != UINT_MAX) {
 		NStringP key = shape_entry_key (shapes_vec [i].entry);
 
 		capsule_read_usage (capsule, &(names_vec_vec [i]), FALSE, TRUE, key);
-    }
-    i = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
-    if (i != UINT_MAX) {
+	}
+	i = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
+	if (i != UINT_MAX) {
 		NStringP key = shape_entry_key (shapes_vec [i].entry);
 
 		capsule_read_usage (capsule, &(names_vec_vec [i]), TRUE, FALSE, key);
-    }
+	}
 }
 
 static void
 capsule_read_tld_type_1_unit(CapsuleP capsule, ShapeTableP shapes,
-    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
+	unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
-    unsigned i;
-    unsigned token = capsule_get_token_index (shapes, num_shapes, shapes_vec);
-    unsigned tag   = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
+	unsigned i;
+	unsigned token = capsule_get_token_index (shapes, num_shapes, shapes_vec);
+	unsigned tag   = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
 
-    for (i = 0; i < num_shapes; i ++) {
+	for (i = 0; i < num_shapes; i ++) {
 		NStringP key = shape_entry_key (shapes_vec [i].entry);
 
 		capsule_read_usage (capsule, &(names_vec_vec [i]), i == tag,
 							i == token, key);
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -652,111 +652,111 @@ capsule_read_tld_type_1_unit(CapsuleP capsule, ShapeTableP shapes,
 typedef void (*UnitTypeProcP)(CapsuleP, ShapeTableP, unsigned, ShapeDataP, NameDataP);
 
 static UnitTypeProcP capsule_type_jump_table [] = {
-    capsule_read_tld_type_0_unit,
-    capsule_read_tld_type_1_unit
+	capsule_read_tld_type_0_unit,
+	capsule_read_tld_type_1_unit
 };
 
 #define CAPSULE_TYPE_JUMP_TABLE_SIZE \
 	((unsigned) (sizeof (capsule_type_jump_table) / \
-		     sizeof (UnitTypeProcP)))
+		 	sizeof (UnitTypeProcP)))
 
 /*--------------------------------------------------------------------------*/
 
 static void
 capsule_read_tld_unit_header(CapsuleP capsule, NStringP unit_set)
 {
-    TDFReaderP reader = capsule_reader (capsule);
+	TDFReaderP reader = capsule_reader (capsule);
 
-    if (tdf_read_int (reader) != 1) {
+	if (tdf_read_int (reader) != 1) {
 		MSG_too_many_tld_units (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_units (unit_set, (unsigned) 1);
-    debug_info_r_start_unit (unit_set, (unsigned) 1, (unsigned) 1);
-    if (tdf_read_int (reader) != 0) {
+	}
+	debug_info_r_start_units (unit_set, (unsigned) 1);
+	debug_info_r_start_unit (unit_set, (unsigned) 1, (unsigned) 1);
+	if (tdf_read_int (reader) != 0) {
 		MSG_too_many_tld_unit_counts (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_counts ((unsigned) 0);
-    if (tdf_read_int (reader) != 0) {
+	}
+	debug_info_r_start_counts ((unsigned) 0);
+	if (tdf_read_int (reader) != 0) {
 		MSG_too_many_tld_unit_mappings (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_maps ((unsigned) 0);
-    capsule_unit_length = tdf_read_int (reader);
-    debug_info_r_unit_body (capsule_unit_length);
-    tdf_read_align (reader);
-    capsule_unit_offset = tdf_reader_byte (reader);
+	}
+	debug_info_r_start_maps ((unsigned) 0);
+	capsule_unit_length = tdf_read_int (reader);
+	debug_info_r_unit_body (capsule_unit_length);
+	tdf_read_align (reader);
+	capsule_unit_offset = tdf_reader_byte (reader);
 }
 
 static void
 capsule_read_tld_unit_trailer(CapsuleP capsule)
 {
-    TDFReaderP reader  = capsule_reader (capsule);
-    unsigned   offset  = tdf_reader_byte (reader);
-    unsigned   correct = (capsule_unit_offset + capsule_unit_length);
+	TDFReaderP reader  = capsule_reader (capsule);
+	unsigned   offset  = tdf_reader_byte (reader);
+	unsigned   correct = (capsule_unit_offset + capsule_unit_length);
 
-    tdf_read_align (reader);
-    if (correct != offset) {
+	tdf_read_align (reader);
+	if (correct != offset) {
 		MSG_tld_unit_wrong_size (capsule, correct, offset);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
+	}
 }
 
 static void
 capsule_read_tld2_units(CapsuleP capsule, ShapeTableP shapes,
-    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
+	unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
-    UnitEntryP tld2_entry = capsule_unit_sets [capsule_tld2_index].entry;
-    NStringP   key        = unit_entry_key (tld2_entry);
+	UnitEntryP tld2_entry = capsule_unit_sets [capsule_tld2_index].entry;
+	NStringP   key        = unit_entry_key (tld2_entry);
 
-    ASSERT (capsule_tld2_index != UINT_MAX);
-    capsule_read_tld_unit_header (capsule, key);
-    debug_info_r_tld_version ((unsigned) 0);
-    capsule_read_tld_type_0_unit (capsule, shapes, num_shapes, shapes_vec,
+	ASSERT (capsule_tld2_index != UINT_MAX);
+	capsule_read_tld_unit_header (capsule, key);
+	debug_info_r_tld_version ((unsigned) 0);
+	capsule_read_tld_type_0_unit (capsule, shapes, num_shapes, shapes_vec,
 								  names_vec_vec);
-    capsule_read_tld_unit_trailer (capsule);
+	capsule_read_tld_unit_trailer (capsule);
 }
 
 static void
 capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
-    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
+	unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
-    TDFReaderP reader    = capsule_reader (capsule);
-    UnitEntryP tld_entry = capsule_unit_sets [capsule_tld_index].entry;
-    NStringP   key       = unit_entry_key (tld_entry);
-    unsigned   unit_type;
+	TDFReaderP reader    = capsule_reader (capsule);
+	UnitEntryP tld_entry = capsule_unit_sets [capsule_tld_index].entry;
+	NStringP   key       = unit_entry_key (tld_entry);
+	unsigned   unit_type;
 
-    capsule_read_tld_unit_header (capsule, key);
-    unit_type = tdf_read_int (reader);
-    if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
+	capsule_read_tld_unit_header (capsule, key);
+	unit_type = tdf_read_int (reader);
+	if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
 		MSG_unknown_tld_unit_type (capsule, unit_type);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_tld_version (unit_type);
-    (*(capsule_type_jump_table [unit_type])) (capsule, shapes, num_shapes,
+	}
+	debug_info_r_tld_version (unit_type);
+	(*(capsule_type_jump_table [unit_type])) (capsule, shapes, num_shapes,
 											  shapes_vec, names_vec_vec);
-    capsule_read_tld_unit_trailer (capsule);
+	capsule_read_tld_unit_trailer (capsule);
 }
 
 static MapEntryP *
 capsule_read_unit_counts(CapsuleP capsule, unsigned num_shapes,
-    ShapeDataP shapes_vec, unsigned num_counts, UnitEntryP unit_entry,
-    UnitP unit, unsigned unit_num)
+	ShapeDataP shapes_vec, unsigned num_counts, UnitEntryP unit_entry,
+	UnitP unit, unsigned unit_num)
 {
-    if ((num_counts != 0) && (num_counts != num_shapes)) {
+	if ((num_counts != 0) && (num_counts != num_shapes)) {
 		MSG_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
 								   unit_entry_key (unit_entry));
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_counts (num_counts);
-    if (num_counts != 0) {
+	}
+	debug_info_r_start_counts (num_counts);
+	if (num_counts != 0) {
 		TDFReaderP reader  = capsule_reader (capsule);
 		MapTableP  table   = unit_map_table (unit);
 		MapEntryP *entries = ALLOCATE_VECTOR (MapEntryP, num_counts);
@@ -771,28 +771,28 @@ capsule_read_unit_counts(CapsuleP capsule, unsigned num_shapes,
 			entries [i] = entry;
 		}
 		return (entries);
-    } else {
+	} else {
 		return (NIL (MapEntryP *));
-    }
+	}
 }
 
 static void
 capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
-    ShapeDataP shapes_vec, UnitEntryP unit_entry, unsigned unit_num,
-    MapEntryP *entries)
+	ShapeDataP shapes_vec, UnitEntryP unit_entry, unsigned unit_num,
+	MapEntryP *entries)
 {
-    TDFReaderP reader          = capsule_reader (capsule);
-    unsigned   num_link_shapes = tdf_read_int (reader);
-    unsigned   i;
+	TDFReaderP reader          = capsule_reader (capsule);
+	unsigned   num_link_shapes = tdf_read_int (reader);
+	unsigned   i;
 
-    if (num_link_shapes != num_counts) {
+	if (num_link_shapes != num_counts) {
 		MSG_unit_mapping_num_mismatch (capsule, num_link_shapes, num_counts,
 									 unit_num, unit_entry_key (unit_entry));
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_maps (num_link_shapes);
-    for (i = 0; i < num_link_shapes; i ++) {
+	}
+	debug_info_r_start_maps (num_link_shapes);
+	for (i = 0; i < num_link_shapes; i ++) {
 		unsigned    num_links   = tdf_read_int (reader);
 		ShapeEntryP shape_entry = (shapes_vec [i].entry);
 		NStringP    key         = shape_entry_key (shape_entry);
@@ -821,71 +821,71 @@ capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
 			external = id_maps [external];
 			map_entry_set_link (entries [i], j, internal, external);
 		}
-    }
+	}
 }
 
 static void
 capsule_read_unit(CapsuleP capsule, unsigned num_shapes, ShapeDataP shapes_vec,
-    UnitEntryP unit_entry, unsigned unit_num)
+	UnitEntryP unit_entry, unsigned unit_num)
 {
-    TDFReaderP reader     = capsule_reader (capsule);
-    unsigned   num_counts = tdf_read_int (reader);
-    UnitP      unit       = unit_entry_add_unit (unit_entry, num_counts);
-    MapEntryP *entries;
-    unsigned   size;
-    NStringT   nstring;
+	TDFReaderP reader     = capsule_reader (capsule);
+	unsigned   num_counts = tdf_read_int (reader);
+	UnitP      unit       = unit_entry_add_unit (unit_entry, num_counts);
+	MapEntryP *entries;
+	unsigned   size;
+	NStringT   nstring;
 
-    entries = capsule_read_unit_counts (capsule, num_shapes, shapes_vec,
+	entries = capsule_read_unit_counts (capsule, num_shapes, shapes_vec,
 					num_counts, unit_entry, unit,
 					unit_num);
 
-    capsule_read_unit_maps (capsule, num_counts, shapes_vec, unit_entry,
-			    unit_num, entries);
-    size = tdf_read_int (reader);
-    debug_info_r_unit_body (size);
-    nstring_init_length (&nstring, size);
-    tdf_read_bytes (reader, &nstring);
-    unit_set_contents (unit, &nstring);
-    DEALLOCATE (entries);
+	capsule_read_unit_maps (capsule, num_counts, shapes_vec, unit_entry,
+				unit_num, entries);
+	size = tdf_read_int (reader);
+	debug_info_r_unit_body (size);
+	nstring_init_length (&nstring, size);
+	tdf_read_bytes (reader, &nstring);
+	unit_set_contents (unit, &nstring);
+	DEALLOCATE (entries);
 }
 
 static void
 capsule_read_units(CapsuleP capsule, unsigned num_shapes,
-    ShapeDataP shapes_vec, UnitEntryP unit_entry)
+	ShapeDataP shapes_vec, UnitEntryP unit_entry)
 {
-    TDFReaderP reader    = capsule_reader (capsule);
-    unsigned   num_units = tdf_read_int (reader);
-    unsigned   i;
+	TDFReaderP reader    = capsule_reader (capsule);
+	unsigned   num_units = tdf_read_int (reader);
+	unsigned   i;
 
-    debug_info_r_start_units (unit_entry_key (unit_entry), num_units);
-    for (i = 0; i < num_units; i ++) {
+	debug_info_r_start_units (unit_entry_key (unit_entry), num_units);
+	for (i = 0; i < num_units; i ++) {
 		debug_info_r_start_unit (unit_entry_key (unit_entry), i + 1,
 					 num_units);
 		capsule_read_unit (capsule, num_shapes, shapes_vec,
 				   unit_entry, i);
-    }
+	}
 }
 
 static void
 capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
-    UnitEntryP *units_vec, ShapeTableP shapes, unsigned num_shapes,
-    ShapeDataP shapes_vec, NameDataP names_vec_vec)
+	UnitEntryP *units_vec, ShapeTableP shapes, unsigned num_shapes,
+	ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
-    TDFReaderP reader       = capsule_reader (capsule);
-    UnitEntryP tld_entry    = capsule_unit_sets [capsule_tld_index].entry;
-    UnitEntryP tld2_entry   = ((capsule_tld2_index == UINT_MAX) ?
+	TDFReaderP reader       = capsule_reader (capsule);
+	UnitEntryP tld_entry    = capsule_unit_sets [capsule_tld_index].entry;
+	UnitEntryP tld2_entry   = ((capsule_tld2_index == UINT_MAX) ?
 							   NIL (UnitEntryP) :
 							   capsule_unit_sets [capsule_tld2_index].entry);
-    unsigned   num_units;
-    unsigned   i;
+	unsigned   num_units;
+	unsigned   i;
 
-    if ((num_units = tdf_read_int (reader)) != num_unit_sets) {
+	if ((num_units = tdf_read_int (reader)) != num_unit_sets) {
 		MSG_unit_set_count_mismatch (capsule, num_unit_sets, num_units);
 		THROW (XX_capsule_error);
 		UNREACHED;
-    }
-    debug_info_r_start_unit_sets (num_units);
-    for (i = 0; i < num_units; i ++) {
+	}
+	debug_info_r_start_unit_sets (num_units);
+	for (i = 0; i < num_units; i ++) {
 		if (units_vec [i] == tld_entry) {
 			capsule_read_tld_units (capsule, shapes, num_shapes, shapes_vec,
 									names_vec_vec);
@@ -896,7 +896,7 @@ capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
 			capsule_read_units (capsule, num_shapes, shapes_vec,
 								units_vec [i]);
 		}
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -904,15 +904,15 @@ capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
 static void
 capsule_write_header(CapsuleP capsule)
 {
-    TDFWriterP writer      = capsule_writer (capsule);
-    NStringP   const_magic = capsule_magic ();
+	TDFWriterP writer      = capsule_writer (capsule);
+	NStringP   const_magic = capsule_magic ();
 
-    tdf_write_bytes (writer, const_magic);
-    ASSERT (capsule_major_version >= 4);
-    tdf_write_int (writer, capsule_major_version);
-    tdf_write_int (writer, capsule_minor_version);
-    debug_info_w_versions (capsule_major_version, capsule_minor_version);
-    tdf_write_align (writer);
+	tdf_write_bytes (writer, const_magic);
+	ASSERT (capsule_major_version >= 4);
+	tdf_write_int (writer, capsule_major_version);
+	tdf_write_int (writer, capsule_minor_version);
+	debug_info_w_versions (capsule_major_version, capsule_minor_version);
+	tdf_write_align (writer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -920,76 +920,76 @@ capsule_write_header(CapsuleP capsule)
 void
 capsule_read_unit_set_file(char *name)
 {
-    IStreamT istream;
+	IStreamT istream;
 
-    ASSERT (capsule_unit_sets == NIL (UnitSetP));
-    if (!istream_open (&istream, name)) {
+	ASSERT (capsule_unit_sets == NIL (UnitSetP));
+	if (!istream_open (&istream, name)) {
 		MSG_cant_open_unit_set_file (name);
 		UNREACHED;
-    }
-    capsule_read_unit_set_file_1 (&istream);
-    istream_close (&istream);
+	}
+	capsule_read_unit_set_file_1 (&istream);
+	istream_close (&istream);
 }
 
 CapsuleP
 capsule_create_stream_input(char *name)
 {
-    CapsuleP capsule = ALLOCATE (CapsuleT);
+	CapsuleP capsule = ALLOCATE (CapsuleT);
 
-    capsule->type = CT_INPUT;
-    if (!tdf_reader_open (capsule_reader (capsule), name)) {
+	capsule->type = CT_INPUT;
+	if (!tdf_reader_open (capsule_reader (capsule), name)) {
 		DEALLOCATE (capsule);
 		return (NIL (CapsuleP));
-    }
-    capsule->name     = name;
-    capsule->complete = FALSE;
-    return (capsule);
+	}
+	capsule->name     = name;
+	capsule->complete = FALSE;
+	return (capsule);
 }
 
 CapsuleP
 capsule_create_string_input(char *name, NStringP contents)
 {
-    CapsuleP capsule = ALLOCATE (CapsuleT);
+	CapsuleP capsule = ALLOCATE (CapsuleT);
 
-    capsule->type     = CT_INPUT;
-    tdf_reader_open_string (capsule_reader (capsule), name, contents);
-    capsule->name     = name;
-    capsule->complete = FALSE;
-    return (capsule);
+	capsule->type     = CT_INPUT;
+	tdf_reader_open_string (capsule_reader (capsule), name, contents);
+	capsule->name     = name;
+	capsule->complete = FALSE;
+	return (capsule);
 }
 
 CapsuleP
 capsule_create_stream_output(char *name)
 {
-    CapsuleP capsule = ALLOCATE (CapsuleT);
+	CapsuleP capsule = ALLOCATE (CapsuleT);
 
-    capsule->type = CT_OUTPUT;
-    if (!tdf_writer_open (capsule_writer (capsule), name)) {
+	capsule->type = CT_OUTPUT;
+	if (!tdf_writer_open (capsule_writer (capsule), name)) {
 		DEALLOCATE (capsule);
 		return (NIL (CapsuleP));
-    }
-    capsule->name = name;
-    return (capsule);
+	}
+	capsule->name = name;
+	return (capsule);
 }
 
 char *
 capsule_name(CapsuleP capsule)
 {
-    return (capsule->name);
+	return (capsule->name);
 }
 
 unsigned
 capsule_byte(CapsuleP capsule)
 {
-    return (tdf_reader_byte (capsule_reader (capsule)));
+	return (tdf_reader_byte (capsule_reader (capsule)));
 }
 
 void
 capsule_read(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 {
-    ASSERT (capsule->type == CT_INPUT);
-    capsule_setup (units);
-    HANDLE {
+	ASSERT (capsule->type == CT_INPUT);
+	capsule_setup (units);
+	HANDLE {
 		UnitEntryP *units_vec;
 		unsigned    num_unit_sets;
 		ShapeDataP  shapes_vec;
@@ -1016,7 +1016,7 @@ capsule_read(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 		DEALLOCATE (shapes_vec);
 		DEALLOCATE (names_vec_vec);
 		capsule->complete = TRUE;
-    } WITH {
+	} WITH {
 		ExceptionP exception = EXCEPTION_EXCEPTION ();
 
 		debug_info_r_abort_capsule ();
@@ -1024,13 +1024,13 @@ capsule_read(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 			(exception != XX_tdf_read_error)) {
 			RETHROW ();
 		}
-    } END_HANDLE
+	} END_HANDLE
 		  }
 
 void
 capsule_store_contents(CapsuleP capsule)
 {
-    if (capsule->complete) {
+	if (capsule->complete) {
 		TDFReaderP reader = capsule_reader (capsule);
 		unsigned   length = tdf_reader_byte (reader);
 
@@ -1038,58 +1038,58 @@ capsule_store_contents(CapsuleP capsule)
 		tdf_reader_rewind (reader);
 		tdf_read_bytes (reader, &(capsule->contents));
 		tdf_read_eof (reader);
-    }
+	}
 }
 
 NStringP
 capsule_contents(CapsuleP capsule)
 {
-    return (&(capsule->contents));
+	return (&(capsule->contents));
 }
 
 void
 capsule_set_index(CapsuleP capsule, unsigned i)
 {
-    capsule->capsule_index = i;
+	capsule->capsule_index = i;
 }
 
 unsigned
 capsule_get_index(CapsuleP capsule)
 {
-    return (capsule->capsule_index);
+	return (capsule->capsule_index);
 }
 
 void
 capsule_write(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 {
-    TDFWriterP      writer     = capsule_writer (capsule);
-    UnitEntryP      tld_entry  = capsule_unit_sets [capsule_tld_index].entry;
-    unsigned        num_shapes = 0;
-    UnitSetClosureT unit_set_closure;
-    unsigned        i;
+	TDFWriterP      writer     = capsule_writer (capsule);
+	UnitEntryP      tld_entry  = capsule_unit_sets [capsule_tld_index].entry;
+	unsigned        num_shapes = 0;
+	UnitSetClosureT unit_set_closure;
+	unsigned        i;
 
-    debug_info_w_start_capsule (capsule_name (capsule));
-    capsule_write_header (capsule);
-    unit_set_closure.num_unit_sets = 1;
-    unit_set_closure.shapes        = shapes;
-    unit_table_iter (units, unit_entry_do_count, (void *) &unit_set_closure);
-    debug_info_w_start_unit_decs (unit_set_closure.num_unit_sets);
-    tdf_write_int (writer, unit_set_closure.num_unit_sets);
-    for (i = 0; i < capsule_num_unit_sets; i ++) {
+	debug_info_w_start_capsule (capsule_name (capsule));
+	capsule_write_header (capsule);
+	unit_set_closure.num_unit_sets = 1;
+	unit_set_closure.shapes        = shapes;
+	unit_table_iter (units, unit_entry_do_count, (void *) &unit_set_closure);
+	debug_info_w_start_unit_decs (unit_set_closure.num_unit_sets);
+	tdf_write_int (writer, unit_set_closure.num_unit_sets);
+	for (i = 0; i < capsule_num_unit_sets; i ++) {
 		UnitEntryP entry = capsule_unit_sets [i].entry;
 
 		unit_entry_write_unit_set (entry, tld_entry, writer);
-    }
-    shape_table_iter (shapes, shape_entry_do_count, (void *) &num_shapes);
-    debug_info_w_start_shapes (num_shapes);
-    tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_write_shape, (void *) writer);
-    debug_info_w_start_names (num_shapes);
-    tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_write_externs, (void *) writer);
-    debug_info_w_start_unit_sets (unit_set_closure.num_unit_sets);
-    tdf_write_int (writer, unit_set_closure.num_unit_sets);
-    for (i = 0; i < capsule_num_unit_sets; i ++) {
+	}
+	shape_table_iter (shapes, shape_entry_do_count, (void *) &num_shapes);
+	debug_info_w_start_shapes (num_shapes);
+	tdf_write_int (writer, num_shapes);
+	shape_table_iter (shapes, shape_entry_write_shape, (void *) writer);
+	debug_info_w_start_names (num_shapes);
+	tdf_write_int (writer, num_shapes);
+	shape_table_iter (shapes, shape_entry_write_externs, (void *) writer);
+	debug_info_w_start_unit_sets (unit_set_closure.num_unit_sets);
+	tdf_write_int (writer, unit_set_closure.num_unit_sets);
+	for (i = 0; i < capsule_num_unit_sets; i ++) {
 		UnitEntryP entry = capsule_unit_sets [i].entry;
 
 		if (entry == tld_entry) {
@@ -1097,37 +1097,37 @@ capsule_write(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 		} else {
 			unit_entry_write_units (entry, shapes, num_shapes, writer);
 		}
-    }
-    debug_info_w_end_capsule ();
+	}
+	debug_info_w_end_capsule ();
 }
 
 void
 capsule_close(CapsuleP capsule)
 {
-    switch (capsule->type) EXHAUSTIVE {
+	switch (capsule->type) EXHAUSTIVE {
 	case CT_INPUT:
 		tdf_reader_close (capsule_reader (capsule));
 		break;
 	case CT_OUTPUT:
 		tdf_writer_close (capsule_writer (capsule));
 		break;
-    }
+	}
 }
 
 unsigned
 capsule_get_major_version(void)
 {
-    return (capsule_major_version);
+	return (capsule_major_version);
 }
 
 void
 capsule_set_major_version(unsigned major)
 {
-    capsule_major_version = major;
+	capsule_major_version = major;
 }
 
 unsigned
 capsule_get_minor_version(void)
 {
-    return (capsule_minor_version);
+	return (capsule_minor_version);
 }

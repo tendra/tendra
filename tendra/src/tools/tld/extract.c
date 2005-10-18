@@ -80,21 +80,21 @@
 void
 extract_main(ArgDataP arg_data)
 {
-    BoolT     extract_all  = arg_data_get_extract_all (arg_data);
-    BoolT     extract_base = arg_data_get_extract_basename (arg_data);
-    BoolT     match_base   = arg_data_get_extract_match_base (arg_data);
-    unsigned  num_files    = arg_data_get_num_files (arg_data);
-    char **files = arg_data_get_files (arg_data);
-    LibraryP  library;
+	BoolT     extract_all  = arg_data_get_extract_all (arg_data);
+	BoolT     extract_base = arg_data_get_extract_basename (arg_data);
+	BoolT     match_base   = arg_data_get_extract_match_base (arg_data);
+	unsigned  num_files    = arg_data_get_num_files (arg_data);
+	char **files = arg_data_get_files (arg_data);
+	LibraryP  library;
 
-    if (extract_all && (num_files > 1)) {
+	if (extract_all && (num_files > 1)) {
 		MSG_all_specified_with_capsules ();
 		UNREACHED;
-    } else  if ((!extract_all) && (num_files == 1)) {
+	} else  if ((!extract_all) && (num_files == 1)) {
 		MSG_no_capsules_specified ();
 		UNREACHED;
-    }
-    if ((library = library_create_stream_input (files [0])) !=
+	}
+	if ((library = library_create_stream_input (files [0])) !=
 		NIL (LibraryP)) {
 		if (extract_all) {
 			library_extract_all (library, extract_base);
@@ -105,8 +105,8 @@ extract_main(ArgDataP arg_data)
 							 files);
 		}
 		library_close (library);
-    } else {
+	} else {
 		MSG_cant_open_input_file (files [0]);
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }

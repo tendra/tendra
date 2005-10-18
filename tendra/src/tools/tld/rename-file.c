@@ -97,19 +97,19 @@ typedef int RenameTagT, *RenameTagP;
 #define RTOK_EOF		(3)
 #else
 typedef enum {
-    RTOK_SHAPE,
-    RTOK_NAME,
-    RTOK_SEMI,
-    RTOK_EOF
+	RTOK_SHAPE,
+	RTOK_NAME,
+	RTOK_SEMI,
+	RTOK_EOF
 } RenameTagT, *RenameTagP;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct RenameTokenT {
-    RenameTagT			tag;
-    union {
+	RenameTagT			tag;
+	union {
 		NStringT		shape;
 		NameKeyT		name;
-    } u;
+	} u;
 } RenameTokenT, *RenameTokenP;
 
 /*--------------------------------------------------------------------------*/
@@ -117,12 +117,12 @@ typedef struct RenameTokenT {
 static BoolT
 rename_file_skip_white_space(IStreamP istream, char *c_ref)
 {
-    BoolT comment = FALSE;
+	BoolT comment = FALSE;
 
-    for (;;) {
+	for (;;) {
 		char c;
 
-      redo:
+  	redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
@@ -141,28 +141,28 @@ rename_file_skip_white_space(IStreamP istream, char *c_ref)
 			}
 			break;
 		}
-    }
+	}
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 static void
 rename_file_read_unique(IStreamP istream, RenameTokenP token)
 {
-    NameKeyP          name   = &(token->u.name);
-    unsigned          length = 1;
-    DStringT          dstring;
-    NStringT          nstring;
-    NStringListT      list;
-    NStringListEntryP entry;
-    unsigned          i;
+	NameKeyP          name   = &(token->u.name);
+	unsigned          length = 1;
+	DStringT          dstring;
+	NStringT          nstring;
+	NStringListT      list;
+	NStringListEntryP entry;
+	unsigned          i;
 
-    dstring_init (&dstring);
-    nstring_list_init (&list);
-    for (;;) {
+	dstring_init (&dstring);
+	nstring_list_init (&list);
+	for (;;) {
 		char c;
 
-      redo:
+  	redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
@@ -212,27 +212,27 @@ rename_file_read_unique(IStreamP istream, RenameTokenP token)
 			dstring_append_char (&dstring, c);
 			break;
 		}
-    }
+	}
   eof:
-    MSG_rename_unexpected_eof (istream);
-    dstring_destroy (&dstring);
-    for (entry = nstring_list_head (&list); entry;
+	MSG_rename_unexpected_eof (istream);
+	dstring_destroy (&dstring);
+	for (entry = nstring_list_head (&list); entry;
 		 entry = nstring_list_entry_deallocate (entry)) {
 		nstring_destroy (nstring_list_entry_string (entry));
-    }
-    token->tag = RTOK_EOF;
+	}
+	token->tag = RTOK_EOF;
 }
 
 static void
 rename_file_read_shape(IStreamP istream, RenameTokenP token)
 {
-    DStringT dstring;
+	DStringT dstring;
 
-    dstring_init (&dstring);
-    for (;;) {
+	dstring_init (&dstring);
+	for (;;) {
 		char c;
 
-      redo:
+  	redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
@@ -264,24 +264,24 @@ rename_file_read_shape(IStreamP istream, RenameTokenP token)
 			dstring_append_char (&dstring, c);
 			break;
 		}
-    }
+	}
   eof:
-    MSG_rename_unexpected_eof (istream);
-    dstring_destroy (&dstring);
-    token->tag = RTOK_EOF;
+	MSG_rename_unexpected_eof (istream);
+	dstring_destroy (&dstring);
+	token->tag = RTOK_EOF;
 }
 
 static void
 rename_file_read_string(IStreamP istream, RenameTokenP token)
 {
-    DStringT dstring;
-    NStringT nstring;
+	DStringT dstring;
+	NStringT nstring;
 
-    dstring_init (&dstring);
-    for (;;) {
+	dstring_init (&dstring);
+	for (;;) {
 		char c;
 
-      redo:
+  	redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
@@ -317,20 +317,20 @@ rename_file_read_string(IStreamP istream, RenameTokenP token)
 			dstring_append_char (&dstring, c);
 			break;
 		}
-    }
+	}
   eof:
-    MSG_rename_unexpected_eof (istream);
-    dstring_destroy (&dstring);
-    token->tag = RTOK_EOF;
+	MSG_rename_unexpected_eof (istream);
+	dstring_destroy (&dstring);
+	token->tag = RTOK_EOF;
 }
 
 static void
 rename_file_next_token(IStreamP istream, RenameTokenP token)
 {
-    char c;
+	char c;
 
   again:
-    if (rename_file_skip_white_space (istream, &c)) {
+	if (rename_file_skip_white_space (istream, &c)) {
 		switch (c) {
 		case '[':
 			rename_file_read_unique (istream, token);
@@ -348,17 +348,17 @@ rename_file_next_token(IStreamP istream, RenameTokenP token)
 			MSG_rename_illegal_char (istream, c);
 			goto again;
 		}
-    } else {
+	} else {
 		token->tag = RTOK_EOF;
-    }
+	}
 }
 
 static void
 rename_file_parse_names(IStreamP istream, NStringP shape, ArgDataP arg_data,
-    RenameTokenP token)
+	RenameTokenP token)
 {
-    rename_file_next_token (istream, token);
-    while (token->tag == RTOK_NAME) {
+	rename_file_next_token (istream, token);
+	while (token->tag == RTOK_NAME) {
 		NameKeyT name;
 
 		name_key_assign (&name, &(token->u.name));
@@ -382,18 +382,18 @@ rename_file_parse_names(IStreamP istream, NStringP shape, ArgDataP arg_data,
 				rename_file_next_token (istream, token);
 			}
 		}
-    }
+	}
 }
 
 static void
 rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
 {
-    BoolT        need_error = TRUE;
-    RenameTokenT token;
-    NStringT     shape;
+	BoolT        need_error = TRUE;
+	RenameTokenT token;
+	NStringT     shape;
 
-    rename_file_next_token (istream, &token);
-    while (token.tag != RTOK_EOF) {
+	rename_file_next_token (istream, &token);
+	while (token.tag != RTOK_EOF) {
 		switch (token.tag) {
 		case RTOK_SHAPE:
 			nstring_assign (&shape, &(token.u.shape));
@@ -412,7 +412,7 @@ rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
 			rename_file_next_token (istream, &token);
 			break;
 		}
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -420,13 +420,13 @@ rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
 void
 rename_file_parse(char *name, ArgDataP arg_data)
 {
-    IStreamT istream;
+	IStreamT istream;
 
-    if (istream_open (&istream, name)) {
+	if (istream_open (&istream, name)) {
 		rename_file_parse_1 (&istream, arg_data);
 		istream_close (&istream);
-    } else {
+	} else {
 		MSG_cant_open_rename_file (name);
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }

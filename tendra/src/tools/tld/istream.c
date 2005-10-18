@@ -85,14 +85,14 @@ ExceptionP XX_istream_read_error = EXCEPTION ("error reading from stream");
 static char istream_input_buffer [ISTREAM_BUFSIZE];
 
 static IStreamT		istream_input_1 = {
-    NIL (FILE *),
-    &(istream_input_buffer [0]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE - 1]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE]),
-    1,
-    "<stdin>",
-    FALSE
+	NIL (FILE *),
+	&(istream_input_buffer [0]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE - 1]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE]),
+	1,
+	"<stdin>",
+	FALSE
 };
 
 IStreamT	 *const istream_input = &istream_input_1;
@@ -102,12 +102,12 @@ IStreamT	 *const istream_input = &istream_input_1;
 static IStreamStatusT
 istream_read_hex_char(IStreamP istream, char *c_ref)
 {
-    int value;
-    int tmp;
-    char c;
+	int value;
+	int tmp;
+	char c;
 
   redo1:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
+	switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo1, eof);
 		return (ISTREAM_STAT_SYNTAX_ERROR);
@@ -120,9 +120,9 @@ istream_read_hex_char(IStreamP istream, char *c_ref)
 		}
 		tmp = value;
 		break;
-    }
+	}
   redo2:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
+	switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo2, eof);
 		return (ISTREAM_STAT_SYNTAX_ERROR);
@@ -134,11 +134,11 @@ istream_read_hex_char(IStreamP istream, char *c_ref)
 			return (ISTREAM_STAT_SYNTAX_ERROR);
 		}
 		break;
-    }
-    *c_ref = (char) ((tmp * 16) + value);
-    return (ISTREAM_STAT_READ_CHAR);
+	}
+	*c_ref = (char) ((tmp * 16) + value);
+	return (ISTREAM_STAT_READ_CHAR);
   eof:
-    return (ISTREAM_STAT_SYNTAX_ERROR);
+	return (ISTREAM_STAT_SYNTAX_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -146,7 +146,7 @@ istream_read_hex_char(IStreamP istream, char *c_ref)
 void
 istream_setup(void)
 {
-    istream_input_1.file = stdin;
+	istream_input_1.file = stdin;
 }
 
 #ifdef FS_FAST
@@ -155,7 +155,7 @@ istream_setup(void)
 void
 istream_init(IStreamP istream)
 {
-    istream->name = NULL;
+	istream->name = NULL;
 }
 #ifdef FS_FAST
 #define istream_init(is) ((is)->name = NULL)
@@ -164,28 +164,28 @@ istream_init(IStreamP istream)
 BoolT
 istream_open(IStreamP istream, char *name)
 {
-    if ((istream->file = fopen (name, "r")) == NIL (FILE *)) {
+	if ((istream->file = fopen (name, "r")) == NIL (FILE *)) {
 		return (FALSE);
-    }
-    istream->buffer  = ALLOCATE_VECTOR (char, ISTREAM_BUFSIZE);
-    istream->limit   = &(istream->buffer [ISTREAM_BUFSIZE]);
-    istream->line    = 1;
-    istream->name    = name;
-    X__istream_fill_buffer (istream);
-    return (TRUE);
+	}
+	istream->buffer  = ALLOCATE_VECTOR (char, ISTREAM_BUFSIZE);
+	istream->limit   = &(istream->buffer [ISTREAM_BUFSIZE]);
+	istream->line    = 1;
+	istream->name    = name;
+	X__istream_fill_buffer (istream);
+	return (TRUE);
 }
 
 void
 istream_assign(IStreamP to, IStreamP from)
 {
-    to->file      = from->file;
-    to->buffer    = from->buffer;
-    to->current   = from->current;
-    to->end       = from->end;
-    to->limit     = from->limit;
-    to->line      = from->line;
-    to->name      = from->name;
-    to->read_last = from->read_last;
+	to->file      = from->file;
+	to->buffer    = from->buffer;
+	to->current   = from->current;
+	to->end       = from->end;
+	to->limit     = from->limit;
+	to->line      = from->line;
+	to->name      = from->name;
+	to->read_last = from->read_last;
 }
 
 #ifdef FS_FAST
@@ -194,7 +194,7 @@ istream_assign(IStreamP to, IStreamP from)
 BoolT
 istream_is_open(IStreamP istream)
 {
-    return (istream->name != NULL);
+	return (istream->name != NULL);
 }
 #ifdef FS_FAST
 #define istream_is_open(is) ((is)->name != NULL)
@@ -203,10 +203,10 @@ istream_is_open(IStreamP istream)
 BoolT
 istream_read_char(IStreamP istream, char *c_ref)
 {
-    char c;
+	char c;
 
   redo:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
+	switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\n':
 		istream_inc_line (istream);
 		break;
@@ -215,39 +215,39 @@ istream_read_char(IStreamP istream, char *c_ref)
 		break;
 	default:
 		break;
-    }
-    *c_ref = c;
-    return (TRUE);
+	}
+	*c_ref = c;
+	return (TRUE);
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 BoolT
 istream_peek_char(IStreamP istream, char *c_ref)
 {
-    char c;
+	char c;
 
   redo:
-    switch (c = ISTREAM_PEEK_CHAR (istream)) {
+	switch (c = ISTREAM_PEEK_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo, eof);
 		break;
 	default:
 		break;
-    }
-    *c_ref = c;
-    return (TRUE);
+	}
+	*c_ref = c;
+	return (TRUE);
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 IStreamStatusT
 istream_read_escaped_char(IStreamP istream, char *c_ref)
 {
-    char c;
+	char c;
 
   redo:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
+	switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo, eof);
 		*c_ref = c;
@@ -275,9 +275,9 @@ istream_read_escaped_char(IStreamP istream, char *c_ref)
 	default:
 		*c_ref = c;
 		return (ISTREAM_STAT_READ_CHAR);
-    }
+	}
   eof:
-    return (ISTREAM_STAT_SYNTAX_ERROR);
+	return (ISTREAM_STAT_SYNTAX_ERROR);
 }
 
 #ifdef FS_FAST
@@ -286,7 +286,7 @@ istream_read_escaped_char(IStreamP istream, char *c_ref)
 void
 istream_inc_line(IStreamP istream)
 {
-    istream->line ++;
+	istream->line ++;
 }
 #ifdef FS_FAST
 #define istream_inc_line(is) ((is)->line ++)
@@ -298,7 +298,7 @@ istream_inc_line(IStreamP istream)
 unsigned
 istream_line(IStreamP istream)
 {
-    return (istream->line);
+	return (istream->line);
 }
 #ifdef FS_FAST
 #define istream_line(is) ((is)->line)
@@ -310,7 +310,7 @@ istream_line(IStreamP istream)
 char *
 istream_name(IStreamP istream)
 {
-    return (istream->name);
+	return (istream->name);
 }
 #ifdef FS_FAST
 #define istream_name(is) ((is)->name)
@@ -319,11 +319,11 @@ istream_name(IStreamP istream)
 void
 istream_close(IStreamP istream)
 {
-    (void) fclose (istream->file);
-    if (istream != istream_input) {
+	(void) fclose (istream->file);
+	if (istream != istream_input) {
 		DEALLOCATE (istream->buffer);
-    }
-    istream_init (istream);
+	}
+	istream_init (istream);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -331,17 +331,17 @@ istream_close(IStreamP istream)
 void
 X__istream_fill_buffer(IStreamP istream)
 {
-    size_t bytes = fread ((void *) (istream->buffer), sizeof (char),
+	size_t bytes = fread ((void *) (istream->buffer), sizeof (char),
 						 (size_t) (ISTREAM_BUFSIZE - 1), istream->file);
 
-    if ((bytes == (size_t) 0) && (ferror (istream->file))) {
+	if ((bytes == (size_t) 0) && (ferror (istream->file))) {
 		char *name = string_copy (istream->name);
 
 		THROW_VALUE (XX_istream_read_error, name);
 		UNREACHED;
-    }
-    istream->current   = istream->buffer;
-    istream->end       = (istream->current + bytes);
-    istream->read_last = FALSE;
-    *(istream->end) ++ = '\0';
+	}
+	istream->current   = istream->buffer;
+	istream->end       = (istream->current + bytes);
+	istream->read_last = FALSE;
+	*(istream->end) ++ = '\0';
 }

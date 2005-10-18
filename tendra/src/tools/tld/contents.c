@@ -80,24 +80,24 @@
 void
 contents_main(ArgDataP arg_data)
 {
-    BoolT     content_index   = arg_data_get_content_index (arg_data);
-    BoolT     content_size    = arg_data_get_content_size (arg_data);
-    BoolT     content_version = arg_data_get_content_version (arg_data);
-    unsigned  num_files       = arg_data_get_num_files (arg_data);
-    char **files = arg_data_get_files (arg_data);
-    LibraryP  library;
+	BoolT     content_index   = arg_data_get_content_index (arg_data);
+	BoolT     content_size    = arg_data_get_content_size (arg_data);
+	BoolT     content_version = arg_data_get_content_version (arg_data);
+	unsigned  num_files       = arg_data_get_num_files (arg_data);
+	char **files = arg_data_get_files (arg_data);
+	LibraryP  library;
 
-    if (num_files != 1) {
+	if (num_files != 1) {
 		MSG_too_many_library_files ();
 		UNREACHED;
-    }
-    if ((library = library_create_stream_input (files [0])) !=
+	}
+	if ((library = library_create_stream_input (files [0])) !=
 		NIL (LibraryP)) {
 		library_content (library, content_index, content_size,
 						 content_version);
 		library_close (library);
-    } else {
+	} else {
 		MSG_cant_open_input_file (files [0]);
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }

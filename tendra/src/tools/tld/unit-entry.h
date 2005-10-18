@@ -80,22 +80,22 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct UnitT {
-    struct UnitT	       *next;
-    MapTableP			map_table;
-    NStringT			contents;
+	struct UnitT	       *next;
+	MapTableP			map_table;
+	NStringT			contents;
 } UnitT, *UnitP;
 
 typedef struct UnitEntryT {
-    struct UnitEntryT	       *next;
-    NStringT			key;
-    unsigned			order;
-    UnitP			head;
-    UnitP		       *tail;
+	struct UnitEntryT	       *next;
+	NStringT			key;
+	unsigned			order;
+	UnitP			head;
+	UnitP		       *tail;
 } UnitEntryT, *UnitEntryP;
 
 typedef struct UnitSetClosureT {
-    unsigned			num_unit_sets;
-    ShapeTableP			shapes;
+	unsigned			num_unit_sets;
+	ShapeTableP			shapes;
 } UnitSetClosureT, *UnitSetClosureP;
 
 /*--------------------------------------------------------------------------*/

@@ -76,102 +76,102 @@
 ShapeTableP
 shape_table_create(void)
 {
-    ShapeTableP table = ALLOCATE (ShapeTableT);
-    unsigned    i;
+	ShapeTableP table = ALLOCATE (ShapeTableT);
+	unsigned    i;
 
-    for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
+	for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		table->contents [i] = NIL (ShapeEntryP);
-    }
-    table->token_entry = NIL (ShapeEntryP);
-    table->tag_entry   = NIL (ShapeEntryP);
-    return (table);
+	}
+	table->token_entry = NIL (ShapeEntryP);
+	table->tag_entry   = NIL (ShapeEntryP);
+	return (table);
 }
 
 ShapeEntryP
 shape_table_add(ShapeTableP table, NStringP key)
 {
-    unsigned     hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
-    ShapeEntryP *entryp     = &(table->contents [hash_value]);
-    ShapeEntryP  entry;
+	unsigned     hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
+	ShapeEntryP *entryp     = &(table->contents [hash_value]);
+	ShapeEntryP  entry;
 
-    while ((entry = *entryp) != NIL (ShapeEntryP)) {
+	while ((entry = *entryp) != NIL (ShapeEntryP)) {
 		if (nstring_equal (key, shape_entry_key (entry))) {
 			return (entry);
 		}
 		entryp = shape_entry_next_ref (entry);
-    }
-    entry   = shape_entry_create (key);
-    *entryp = entry;
-    return (entry);
+	}
+	entry   = shape_entry_create (key);
+	*entryp = entry;
+	return (entry);
 }
 
 ShapeEntryP
 shape_table_get(ShapeTableP table, NStringP key)
 {
-    unsigned    hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
-    ShapeEntryP entry      = (table->contents [hash_value]);
+	unsigned    hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
+	ShapeEntryP entry      = (table->contents [hash_value]);
 
-    while (entry) {
+	while (entry) {
 		if (nstring_equal (key, shape_entry_key (entry))) {
 			return (entry);
 		}
 		entry = shape_entry_next (entry);
-    }
-    return (NIL (ShapeEntryP));
+	}
+	return (NIL (ShapeEntryP));
 }
 
 ShapeEntryP
 shape_table_get_token_entry(ShapeTableP table)
 {
-    if (table->token_entry == NIL (ShapeEntryP)) {
+	if (table->token_entry == NIL (ShapeEntryP)) {
 		NStringT nstring;
 
 		nstring_copy_cstring (&nstring, "token");
 		table->token_entry = shape_table_get (table, &nstring);
 		nstring_destroy (&nstring);
-    }
-    return (table->token_entry);
+	}
+	return (table->token_entry);
 }
 
 ShapeEntryP
 shape_table_get_tag_entry(ShapeTableP table)
 {
-    if (table->tag_entry == NIL (ShapeEntryP)) {
+	if (table->tag_entry == NIL (ShapeEntryP)) {
 		NStringT nstring;
 
 		nstring_copy_cstring (&nstring, "tag");
 		table->tag_entry = shape_table_get (table, &nstring);
 		nstring_destroy (&nstring);
-    }
-    return (table->tag_entry);
+	}
+	return (table->tag_entry);
 }
 
 void
 shape_table_iter(ShapeTableP table, void (*proc)(ShapeEntryP, void *),
-    void *closure)
+	void *closure)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
+	for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		ShapeEntryP entry = (table->contents [i]);
 
 		while (entry) {
 			(*proc) (entry, closure);
 			entry = shape_entry_next (entry);
 		}
-    }
+	}
 }
 
 void
 shape_table_deallocate(ShapeTableP table)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
+	for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		ShapeEntryP entry = (table->contents [i]);
 
 		while (entry) {
 			entry = shape_entry_deallocate (entry);
 		}
-    }
+	}
 }

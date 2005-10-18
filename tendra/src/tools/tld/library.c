@@ -87,69 +87,69 @@ static ExceptionP XX_library_error   = EXCEPTION ("error in TDF library");
 static TDFReaderP
 library_reader(LibraryP library)
 {
-    ASSERT (library->type == LT_INPUT);
-    return (&(library->u.reader));
+	ASSERT (library->type == LT_INPUT);
+	return (&(library->u.reader));
 }
 
 static TDFWriterP
 library_writer(LibraryP library)
 {
-    ASSERT (library->type == LT_OUTPUT);
-    return (&(library->u.writer));
+	ASSERT (library->type == LT_OUTPUT);
+	return (&(library->u.writer));
 }
 
 /*--------------------------------------------------------------------------*/
 
 static void
 library_check_index_entry(LibraryP library, ShapeEntryP entry, BoolT need_dec,
-    BoolT no_mult, NStringP shape_key, NameKeyP key, unsigned use,
-    LibCapsuleP lib_capsule, NameTableP table)
+	BoolT no_mult, NStringP shape_key, NameKeyP key, unsigned use,
+	LibCapsuleP lib_capsule, NameTableP table)
 {
-    NameEntryP  name_entry  = name_table_add (table, key, entry);
-    unsigned    name_use    = name_entry_get_use (name_entry);
+	NameEntryP  name_entry  = name_table_add (table, key, entry);
+	unsigned    name_use    = name_entry_get_use (name_entry);
 
-    if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
+	if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
 		MSG_lib_bad_usage (library, shape_key, key, use);
 		THROW (XX_library_error);
 		UNREACHED;
-    } else if (no_mult && (use & U_MULT)) {
+	} else if (no_mult && (use & U_MULT)) {
 		MSG_lib_illegally_mult_defined (library, shape_key, key);
 		THROW (XX_library_error);
 		UNREACHED;
-    } else if (need_dec &&
+	} else if (need_dec &&
 			   (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
 				((use & (U_MULT | U_DECD)) == U_MULT))) {
 		MSG_lib_defined_but_not_declared (library, shape_key, key);
 		THROW (XX_library_error);
 		UNREACHED;
-    }
-    if ((use & U_DEFD) && (name_use & U_DEFD)) {
+	}
+	if ((use & U_DEFD) && (name_use & U_DEFD)) {
 		LibCapsuleP definition = name_entry_get_lib_definition (name_entry);
 
 		MSG_lib_multiply_defined (library, shape_key, key, definition);
-    } else if ((use & U_MULT) && (name_use & U_MULT) &&
+	} else if ((use & U_MULT) && (name_use & U_MULT) &&
 			   (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
 		name_entry_set_lib_definition (name_entry, NIL (LibCapsuleP));
-    } else if ((use & U_DEFD) ||
+	} else if ((use & U_DEFD) ||
 			   ((use & U_MULT) && (!(name_use & (U_MULT | U_DEFD))))) {
 		name_entry_set_lib_definition (name_entry, lib_capsule);
-    }
-    debug_info_r_index_entry (key, use, name_use, name_entry_key (name_entry),
+	}
+	debug_info_r_index_entry (key, use, name_use, name_entry_key (name_entry),
 							  lib_capsule_name (lib_capsule));
-    name_entry_merge_use (name_entry, use);
+	name_entry_merge_use (name_entry, use);
 }
 
 static unsigned
 library_read_version_0_capsules(LibraryP library)
 {
-    TDFReaderP reader       = library_reader (library);
-    unsigned   num_capsules = tdf_read_int (reader);
-    unsigned   i;
+	TDFReaderP reader       = library_reader (library);
+	unsigned   num_capsules = tdf_read_int (reader);
+	unsigned   i;
 
-    debug_info_r_start_capsules (num_capsules);
-    library->num_capsules = num_capsules;
-    library->capsules     = ALLOCATE_VECTOR (LibCapsuleT, num_capsules);
-    for (i = 0; i < num_capsules; i ++) {
+	debug_info_r_start_capsules (num_capsules);
+	library->num_capsules = num_capsules;
+	library->capsules     = ALLOCATE_VECTOR (LibCapsuleT, num_capsules);
+	for (i = 0; i < num_capsules; i ++) {
 		NStringP contents = &(library->capsules [i].contents);
 		NStringT nstring;
 		unsigned length;
@@ -168,22 +168,22 @@ library_read_version_0_capsules(LibraryP library)
 		tdf_read_bytes (reader, contents);
 		debug_info_r_capsule (&nstring, length);
 		nstring_destroy (&nstring);
-    }
-    return (num_capsules);
+	}
+	return (num_capsules);
 }
 
 static void
 library_read_version_0(LibraryP library, ShapeTableP shapes)
 {
-    TDFReaderP  reader       = library_reader (library);
-    unsigned    num_capsules = library_read_version_0_capsules (library);
-    ShapeEntryP token_entry  = shape_table_get_token_entry (shapes);
-    ShapeEntryP tag_entry    = shape_table_get_tag_entry (shapes);
-    unsigned    num_shapes   = tdf_read_int (reader);
-    unsigned    i;
+	TDFReaderP  reader       = library_reader (library);
+	unsigned    num_capsules = library_read_version_0_capsules (library);
+	ShapeEntryP token_entry  = shape_table_get_token_entry (shapes);
+	ShapeEntryP tag_entry    = shape_table_get_tag_entry (shapes);
+	unsigned    num_shapes   = tdf_read_int (reader);
+	unsigned    i;
 
-    debug_info_r_start_index (num_shapes);
-    for (i = 0; i < num_shapes; i ++) {
+	debug_info_r_start_index (num_shapes);
+	for (i = 0; i < num_shapes; i ++) {
 		NStringT    name;
 		ShapeEntryP entry;
 		BoolT       need_dec;
@@ -221,32 +221,32 @@ library_read_version_0(LibraryP library, ShapeTableP shapes)
 			name_key_destroy (&external_name);
 		}
 		nstring_destroy (&name);
-    }
-    tdf_read_eof (reader);
+	}
+	tdf_read_eof (reader);
 }
 
 static void
 library_extract_1(LibCapsuleP capsule, BoolT use_basename)
 {
-    char *old_name = lib_capsule_name (capsule);
-    char *name = old_name;
-    NStringP   contents = lib_capsule_contents (capsule);
-    TDFWriterT writer;
+	char *old_name = lib_capsule_name (capsule);
+	char *name = old_name;
+	NStringP   contents = lib_capsule_contents (capsule);
+	TDFWriterT writer;
 
-    if (use_basename) {
+	if (use_basename) {
 		name = file_name_basename (name);
-    }
-    file_name_populate (name);
-    if (tdf_writer_open (&writer, name)) {
+	}
+	file_name_populate (name);
+	if (tdf_writer_open (&writer, name)) {
 		MSG_extracting_capsule (old_name, name);
 		tdf_write_bytes (&writer, contents);
 		tdf_writer_close (&writer);
-    } else {
+	} else {
 		MSG_cant_open_output_file (name);
-    }
-    if (use_basename) {
+	}
+	if (use_basename) {
 		DEALLOCATE (name);
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -254,7 +254,7 @@ library_extract_1(LibCapsuleP capsule, BoolT use_basename)
 typedef void (*LibTypeProcP)(LibraryP, ShapeTableP);
 
 static LibTypeProcP library_type_jump_table [] = {
-    library_read_version_0
+	library_read_version_0
 };
 
 #define LIBRARY_TYPE_JUMP_TABLE_SIZE \
@@ -265,14 +265,14 @@ static LibTypeProcP library_type_jump_table [] = {
 static NStringP
 library_magic(void)
 {
-    static NStringT const_magic;
-    static BoolT    inited = FALSE;
+	static NStringT const_magic;
+	static BoolT    inited = FALSE;
 
-    if (!inited) {
+	if (!inited) {
 		nstring_copy_cstring (&const_magic, "TDFL");
 		inited = TRUE;
-    }
-    return (&const_magic);
+	}
+	return (&const_magic);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -280,38 +280,38 @@ library_magic(void)
 static void
 library_read_header(LibraryP library)
 {
-    TDFReaderP reader        = library_reader (library);
-    NStringP   const_magic   = library_magic ();
-    unsigned   capsule_major = capsule_get_major_version ();
-    NStringT   magic;
-    unsigned   major;
-    unsigned   minor;
+	TDFReaderP reader        = library_reader (library);
+	NStringP   const_magic   = library_magic ();
+	unsigned   capsule_major = capsule_get_major_version ();
+	NStringT   magic;
+	unsigned   major;
+	unsigned   minor;
 
-    nstring_init_length (&magic, (unsigned) 4);
-    tdf_read_bytes (reader, &magic);
-    if (!nstring_equal (&magic, const_magic)) {
+	nstring_init_length (&magic, (unsigned) 4);
+	tdf_read_bytes (reader, &magic);
+	if (!nstring_equal (&magic, const_magic)) {
 		MSG_library_bad_magic (library, &magic, const_magic);
 		THROW (XX_library_error);
 		UNREACHED;
-    }
-    nstring_destroy (&magic);
-    major = tdf_read_int (reader);
-    minor = tdf_read_int (reader);
-    debug_info_r_lib_versions (major, minor);
-    if (major < 4) {
+	}
+	nstring_destroy (&magic);
+	major = tdf_read_int (reader);
+	minor = tdf_read_int (reader);
+	debug_info_r_lib_versions (major, minor);
+	if (major < 4) {
 		MSG_library_bad_version (library, major);
 		THROW (XX_library_error);
 		UNREACHED;
-    } else if (capsule_major == 0) {
+	} else if (capsule_major == 0) {
 		capsule_set_major_version (major);
-    } else if (capsule_major != major) {
+	} else if (capsule_major != major) {
 		MSG_library_version_mismatch (library, capsule_major, major);
 		THROW (XX_library_error);
 		UNREACHED;
-    }
-    library->major = major;
-    library->minor = minor;
-    tdf_read_align (reader);
+	}
+	library->major = major;
+	library->minor = minor;
+	tdf_read_align (reader);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -319,17 +319,17 @@ library_read_header(LibraryP library)
 static void
 library_write_header(LibraryP library)
 {
-    TDFWriterP writer      = library_writer (library);
-    NStringP   const_magic = library_magic ();
-    unsigned   major       = capsule_get_major_version ();
-    unsigned   minor       = capsule_get_minor_version ();
+	TDFWriterP writer      = library_writer (library);
+	NStringP   const_magic = library_magic ();
+	unsigned   major       = capsule_get_major_version ();
+	unsigned   minor       = capsule_get_minor_version ();
 
-    tdf_write_bytes (writer, const_magic);
-    ASSERT (major >= 4);
-    tdf_write_int (writer, major);
-    tdf_write_int (writer, minor);
-    debug_info_w_lib_versions (major, minor);
-    tdf_write_align (writer);
+	tdf_write_bytes (writer, const_magic);
+	ASSERT (major >= 4);
+	tdf_write_int (writer, major);
+	tdf_write_int (writer, minor);
+	debug_info_w_lib_versions (major, minor);
+	tdf_write_align (writer);
 }
 
 
@@ -338,47 +338,47 @@ library_write_header(LibraryP library)
 char *
 lib_capsule_name(LibCapsuleP capsule)
 {
-    return (capsule->name);
+	return (capsule->name);
 }
 
 char *
 lib_capsule_full_name(LibCapsuleP capsule)
 {
-    char *lib_name = library_name (capsule->library);
-    unsigned lib_length = strlen (lib_name);
-    char *name = lib_capsule_name (capsule);
-    unsigned length     = strlen (name);
-    char *full_name = ALLOCATE_VECTOR (char, lib_length + length + 3);
-    char *tmp = full_name;
+	char *lib_name = library_name (capsule->library);
+	unsigned lib_length = strlen (lib_name);
+	char *name = lib_capsule_name (capsule);
+	unsigned length     = strlen (name);
+	char *full_name = ALLOCATE_VECTOR (char, lib_length + length + 3);
+	char *tmp = full_name;
 
-    (void) memcpy (tmp, lib_name, (size_t) lib_length);
-    tmp += lib_length;
-    *tmp = '(';
-    tmp ++;
-    (void) memcpy (tmp, name, (size_t) length);
-    tmp += length;
-    *tmp = ')';
-    tmp ++;
-    *tmp = '\0';
-    return (full_name);
+	(void) memcpy (tmp, lib_name, (size_t) lib_length);
+	tmp += lib_length;
+	*tmp = '(';
+	tmp ++;
+	(void) memcpy (tmp, name, (size_t) length);
+	tmp += length;
+	*tmp = ')';
+	tmp ++;
+	*tmp = '\0';
+	return (full_name);
 }
 
 NStringP
 lib_capsule_contents(LibCapsuleP capsule)
 {
-    return (&(capsule->contents));
+	return (&(capsule->contents));
 }
 
 BoolT
 lib_capsule_is_loaded(LibCapsuleP capsule)
 {
-    return (capsule->loaded);
+	return (capsule->loaded);
 }
 
 void
 lib_capsule_loaded(LibCapsuleP capsule)
 {
-    capsule->loaded = TRUE;
+	capsule->loaded = TRUE;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -386,10 +386,10 @@ lib_capsule_loaded(LibCapsuleP capsule)
 void
 write_lib_capsule_full_name(OStreamP ostream, LibCapsuleP capsule)
 {
-    write_cstring (ostream, library_name (capsule->library));
-    write_char (ostream, '(');
-    write_cstring (ostream, lib_capsule_name (capsule));
-    write_char (ostream, ')');
+	write_cstring (ostream, library_name (capsule->library));
+	write_char (ostream, '(');
+	write_cstring (ostream, lib_capsule_name (capsule));
+	write_char (ostream, ')');
 }
 
 /*--------------------------------------------------------------------------*/
@@ -397,66 +397,66 @@ write_lib_capsule_full_name(OStreamP ostream, LibCapsuleP capsule)
 LibraryP
 library_create_stream_input(char *name)
 {
-    LibraryP library = ALLOCATE (LibraryT);
+	LibraryP library = ALLOCATE (LibraryT);
 
-    library->type = LT_INPUT;
-    if (!tdf_reader_open (library_reader (library), name)) {
+	library->type = LT_INPUT;
+	if (!tdf_reader_open (library_reader (library), name)) {
 		DEALLOCATE (library);
 		return (NIL (LibraryP));
-    }
-    library->name     = name;
-    library->complete = FALSE;
-    return (library);
+	}
+	library->name     = name;
+	library->complete = FALSE;
+	return (library);
 }
 
 LibraryP
 library_create_stream_output(char *name)
 {
-    LibraryP library = ALLOCATE (LibraryT);
+	LibraryP library = ALLOCATE (LibraryT);
 
-    library->type = LT_OUTPUT;
-    if (!tdf_writer_open (library_writer (library), name)) {
+	library->type = LT_OUTPUT;
+	if (!tdf_writer_open (library_writer (library), name)) {
 		DEALLOCATE (library);
 		return (NIL (LibraryP));
-    }
-    library->name     = name;
-    library->complete = FALSE;
-    return (library);
+	}
+	library->name     = name;
+	library->complete = FALSE;
+	return (library);
 }
 
 char *
 library_name(LibraryP library)
 {
-    return (library->name);
+	return (library->name);
 }
 
 unsigned
 library_num_capsules(LibraryP library)
 {
-    return (library->num_capsules);
+	return (library->num_capsules);
 }
 
 LibCapsuleP
 library_get_capsule(LibraryP library, unsigned capsule_index)
 {
-    ASSERT (capsule_index < library->num_capsules);
-    return (&(library->capsules [capsule_index]));
+	ASSERT (capsule_index < library->num_capsules);
+	return (&(library->capsules [capsule_index]));
 }
 
 unsigned
 library_byte(LibraryP library)
 {
-    return (tdf_reader_byte (library_reader (library)));
+	return (tdf_reader_byte (library_reader (library)));
 }
 
 void
 library_content(LibraryP library, BoolT want_index, BoolT want_size,
-    BoolT want_version)
+	BoolT want_version)
 {
-    ShapeTableP shapes = shape_table_create ();
+	ShapeTableP shapes = shape_table_create ();
 
-    library_read (library, shapes);
-    if (library->complete) {
+	library_read (library, shapes);
+	if (library->complete) {
 		unsigned i;
 
 		if (want_version) {
@@ -484,16 +484,16 @@ library_content(LibraryP library, BoolT want_index, BoolT want_size,
 			shape_table_iter (shapes, shape_entry_show_content,
 							  NULL);
 		}
-    }
+	}
 }
 
 void
 library_extract_all(LibraryP library, BoolT use_basename)
 {
-    ShapeTableP shapes = shape_table_create ();
+	ShapeTableP shapes = shape_table_create ();
 
-    library_read (library, shapes);
-    if (library->complete) {
+	library_read (library, shapes);
+	if (library->complete) {
 		unsigned i;
 
 		for (i = 0; i < library->num_capsules; i ++) {
@@ -501,17 +501,17 @@ library_extract_all(LibraryP library, BoolT use_basename)
 
 			library_extract_1 (capsule, use_basename);
 		}
-    }
+	}
 }
 
 void
 library_extract(LibraryP library, BoolT use_basename, BoolT match_basename,
-    unsigned num_files, char **files)
+	unsigned num_files, char **files)
 {
-    ShapeTableP shapes = shape_table_create ();
+	ShapeTableP shapes = shape_table_create ();
 
-    library_read (library, shapes);
-    if (library->complete) {
+	library_read (library, shapes);
+	if (library->complete) {
 		unsigned i;
 
 		for (i = 0; i < num_files; i ++) {
@@ -540,13 +540,13 @@ library_extract(LibraryP library, BoolT use_basename, BoolT match_basename,
 				MSG_capsule_not_found (files [i], library_name (library));
 			}
 		}
-    }
+	}
 }
 
 void
 library_read(LibraryP library, ShapeTableP shapes)
 {
-    HANDLE {
+	HANDLE {
 		TDFReaderP reader = library_reader (library);
 		unsigned   library_type;
 
@@ -562,7 +562,7 @@ library_read(LibraryP library, ShapeTableP shapes)
 		(*(library_type_jump_table [library_type])) (library, shapes);
 		debug_info_r_end_library ();
 		library->complete = TRUE;
-    } WITH {
+	} WITH {
 		ExceptionP exception = EXCEPTION_EXCEPTION ();
 
 		debug_info_r_abort_library ();
@@ -570,24 +570,24 @@ library_read(LibraryP library, ShapeTableP shapes)
 			(exception != XX_library_error)) {
 			RETHROW ();
 		}
-    } END_HANDLE
+	} END_HANDLE
 		  }
 
 void
 library_write(LibraryP library, ShapeTableP shapes, unsigned num_capsules,
-    CapsuleP *capsules)
+	CapsuleP *capsules)
 {
-    TDFWriterP writer     = library_writer (library);
-    unsigned   num_shapes = 0;
-    unsigned   i;
+	TDFWriterP writer     = library_writer (library);
+	unsigned   num_shapes = 0;
+	unsigned   i;
 
-    debug_info_w_start_library (library_name (library));
-    library_write_header (library);
-    debug_info_w_library_version ((unsigned) 0);
-    tdf_write_int (writer, (unsigned) 0);
-    debug_info_w_start_capsules (num_capsules);
-    tdf_write_int (writer, num_capsules);
-    for (i = 0; i < num_capsules; i ++) {
+	debug_info_w_start_library (library_name (library));
+	library_write_header (library);
+	debug_info_w_library_version ((unsigned) 0);
+	tdf_write_int (writer, (unsigned) 0);
+	debug_info_w_start_capsules (num_capsules);
+	tdf_write_int (writer, num_capsules);
+	for (i = 0; i < num_capsules; i ++) {
 		CapsuleP capsule = capsules [i];
 		char *name = capsule_name (capsule);
 		NStringP contents = capsule_contents (capsule);
@@ -600,24 +600,24 @@ library_write(LibraryP library, ShapeTableP shapes, unsigned num_capsules,
 		nstring_destroy (&nstring);
 		tdf_write_int (writer, length);
 		tdf_write_bytes (writer, contents);
-    }
-    shape_table_iter (shapes, shape_entry_do_lib_count,
+	}
+	shape_table_iter (shapes, shape_entry_do_lib_count,
 					  (void *) &num_shapes);
-    debug_info_w_start_index (num_shapes);
-    tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_do_lib_write, (void *) writer);
-    debug_info_w_end_library ();
+	debug_info_w_start_index (num_shapes);
+	tdf_write_int (writer, num_shapes);
+	shape_table_iter (shapes, shape_entry_do_lib_write, (void *) writer);
+	debug_info_w_end_library ();
 }
 
 void
 library_close(LibraryP library)
 {
-    switch (library->type) EXHAUSTIVE {
+	switch (library->type) EXHAUSTIVE {
 	case CT_INPUT:
 		tdf_reader_close (library_reader (library));
 		break;
 	case CT_OUTPUT:
 		tdf_writer_close (library_writer (library));
 		break;
-    }
+	}
 }

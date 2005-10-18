@@ -85,32 +85,32 @@ typedef int LibraryTypeT, *LibraryTypeP;
 #define LT_OUTPUT		(1)
 #else
 typedef enum {
-    LT_INPUT,
-    LT_OUTPUT
+	LT_INPUT,
+	LT_OUTPUT
 } LibraryTypeT, *LibraryTypeP;
 #endif /* defined (FS_NO_ENUM) */
 
 struct LibraryT;
 
 typedef struct LibCapsuleT {
-    struct LibraryT	       *library;
-    char *				name;
-    NStringT			contents;
-    BoolT			loaded;
+	struct LibraryT	       *library;
+	char *				name;
+	NStringT			contents;
+	BoolT			loaded;
 } LibCapsuleT, *LibCapsuleP;
 
 typedef struct LibraryT {
-    LibraryTypeT		type;
-    union {
+	LibraryTypeT		type;
+	union {
 		TDFReaderT		reader;
 		TDFWriterT		writer;
-    } u;
-    char *				name;
-    unsigned			num_capsules;
-    LibCapsuleP			capsules;
-    unsigned			major;
-    unsigned			minor;
-    BoolT			complete;
+	} u;
+	char *				name;
+	unsigned			num_capsules;
+	LibCapsuleP			capsules;
+	unsigned			major;
+	unsigned			minor;
+	BoolT			complete;
 } LibraryT, *LibraryP;
 
 /*--------------------------------------------------------------------------*/

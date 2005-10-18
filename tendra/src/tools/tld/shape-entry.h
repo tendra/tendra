@@ -84,26 +84,26 @@ struct UnitTableT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct ShapeEntryT {
-    struct ShapeEntryT	       *next;
-    NStringT			key;
-    NameTableP			names;
-    unsigned			id_count;
-    BoolT			non_empty;
-    unsigned			num_lib_names;
-    NameEntryP			head;
-    NameEntryP		       *tail;
+	struct ShapeEntryT	       *next;
+	NStringT			key;
+	NameTableP			names;
+	unsigned			id_count;
+	BoolT			non_empty;
+	unsigned			num_lib_names;
+	NameEntryP			head;
+	NameEntryP		       *tail;
 } ShapeEntryT, *ShapeEntryP;
 
 typedef struct ShapeClosureT {
-    MapTableP			table;
-    TDFWriterP			writer;
+	MapTableP			table;
+	TDFWriterP			writer;
 } ShapeClosureT, *ShapeClosureP;
 
 typedef struct ShapeLibClosureT {
-    BoolT			did_define;
-    struct ShapeTableT	       *lib_shapes;
-    struct UnitTableT	       *units;
-    struct ShapeTableT	       *shapes;
+	BoolT			did_define;
+	struct ShapeTableT	       *lib_shapes;
+	struct UnitTableT	       *units;
+	struct ShapeTableT	       *shapes;
 } ShapeLibClosureT, *ShapeLibClosureP;
 
 /*--------------------------------------------------------------------------*/

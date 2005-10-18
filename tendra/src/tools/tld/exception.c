@@ -86,22 +86,22 @@ ThrowDataT			X__exception_throw_data;
 NoReturnT
 X__exception_throw(void)
 {
-    static BoolT failing = FALSE;
-    HandlerP     stack   = X__exception_handler_stack;
+	static BoolT failing = FALSE;
+	HandlerP     stack   = X__exception_handler_stack;
 
-    if (failing) {
+	if (failing) {
 		abort ();
 		UNREACHED;
-    } else if (stack == NIL (HandlerP)) {
+	} else if (stack == NIL (HandlerP)) {
 		failing = TRUE;
 		MSG_exception_unhandled (X__exception_throw_data.exception,
 							   X__exception_throw_data.file,
 							   X__exception_throw_data.line);
 		abort ();
 		UNREACHED;
-    }
+	}
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
+	if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
 		(stack->magic_end != X__EXCEPTION_MAGIC) ||
 #if PO_EXCEPTION_STACK_DIRECTION > 0
 		(((void *) stack) > ((void *) &stack)) ||
@@ -114,14 +114,14 @@ X__exception_throw(void)
 		MSG_exception_corrupt_handler (stack->file, stack->line);
 		abort ();
 		UNREACHED;
-    }
+	}
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-    longjmp (X__exception_handler_stack->buffer, 1);
-    UNREACHED;
+	longjmp (X__exception_handler_stack->buffer, 1);
+	UNREACHED;
 }
 
 char *
 exception_name(ExceptionP exc)
 {
-    return (exc);
+	return (exc);
 }

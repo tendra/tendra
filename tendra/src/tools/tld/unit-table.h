@@ -82,7 +82,7 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct UnitTableT {
-    UnitEntryP			contents [UNIT_TABLE_SIZE];
+	UnitEntryP			contents [UNIT_TABLE_SIZE];
 } UnitTableT, *UnitTableP;
 
 /*--------------------------------------------------------------------------*/

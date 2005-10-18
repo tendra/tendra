@@ -82,9 +82,9 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct ShapeTableT {
-    ShapeEntryP			token_entry;
-    ShapeEntryP			tag_entry;
-    ShapeEntryP			contents [SHAPE_TABLE_SIZE];
+	ShapeEntryP			token_entry;
+	ShapeEntryP			tag_entry;
+	ShapeEntryP			contents [SHAPE_TABLE_SIZE];
 } ShapeTableT, *ShapeTableP;
 
 /*--------------------------------------------------------------------------*/

@@ -80,78 +80,78 @@ ExceptionP XX_bistream_read_error = EXCEPTION ("error reading from binary stream
 void
 bistream_init(BIStreamP bistream)
 {
-    bistream->name = NULL;
+	bistream->name = NULL;
 }
 
 BoolT
 bistream_open(BIStreamP bistream, char *name)
 {
 #ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen (name, "rb")) == NIL (FILE *)) {
+	if ((bistream->file = fopen (name, "rb")) == NIL (FILE *)) {
 		return (FALSE);
-    }
+	}
 #else
-    if ((bistream->file = fopen (name, "r")) == NIL (FILE *)) {
+	if ((bistream->file = fopen (name, "r")) == NIL (FILE *)) {
 		return (FALSE);
-    }
+	}
 #endif /* defined (FS_BINARY_STDIO) */
-    bistream->bytes = 0;
-    bistream->name  = name;
-    return (TRUE);
+	bistream->bytes = 0;
+	bistream->name  = name;
+	return (TRUE);
 }
 
 void
 bistream_assign(BIStreamP to, BIStreamP from)
 {
-    to->file  = from->file;
-    to->bytes = from->bytes;
-    to->name  = from->name;
+	to->file  = from->file;
+	to->bytes = from->bytes;
+	to->name  = from->name;
 }
 
 BoolT
 bistream_is_open(BIStreamP bistream)
 {
-    return (bistream->name != NULL);
+	return (bistream->name != NULL);
 }
 
 unsigned
 bistream_read_chars(BIStreamP bistream, unsigned length, char *chars)
 {
-    unsigned bytes_read = (unsigned) fread ((void *) chars, sizeof (char),
+	unsigned bytes_read = (unsigned) fread ((void *) chars, sizeof (char),
 											(size_t) length, bistream->file);
 
-    if ((bytes_read == 0) && (ferror (bistream->file))) {
+	if ((bytes_read == 0) && (ferror (bistream->file))) {
 		char *name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return (bytes_read);
+	}
+	bistream->bytes += bytes_read;
+	return (bytes_read);
 }
 
 unsigned
 bistream_read_bytes(BIStreamP bistream, unsigned length, ByteP bytes)
 {
-    unsigned bytes_read = (unsigned) fread ((void *) bytes, sizeof (ByteT),
+	unsigned bytes_read = (unsigned) fread ((void *) bytes, sizeof (ByteT),
 											(size_t) length, bistream->file);
 
-    if ((bytes_read == 0) && (ferror (bistream->file))) {
+	if ((bytes_read == 0) && (ferror (bistream->file))) {
 		char *name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return (bytes_read);
+	}
+	bistream->bytes += bytes_read;
+	return (bytes_read);
 }
 
 BoolT
 bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
 {
-    int byte = fgetc (bistream->file);
+	int byte = fgetc (bistream->file);
 
-    if (byte == EOF) {
+	if (byte == EOF) {
 		if (ferror (bistream->file)) {
 			char *name = string_copy (bistream->name);
 
@@ -160,37 +160,37 @@ bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
 		} else if (feof (bistream->file)) {
 			return (FALSE);
 		}
-    }
-    bistream->bytes ++;
-    *byte_ref = (ByteT) byte;
-    return (TRUE);
+	}
+	bistream->bytes ++;
+	*byte_ref = (ByteT) byte;
+	return (TRUE);
 }
 
 unsigned
 bistream_byte(BIStreamP bistream)
 {
-    return (bistream->bytes);
+	return (bistream->bytes);
 }
 
 char *
 bistream_name(BIStreamP bistream)
 {
-    return (bistream->name);
+	return (bistream->name);
 }
 
 void
 bistream_rewind(BIStreamP bistream)
 {
 #ifdef FS_ANSI_ENVIRON
-    rewind (bistream->file);
+	rewind (bistream->file);
 #else
-    (void) fseek (bistream->file, (long) 0, SEEK_SET);
+	(void) fseek (bistream->file, (long) 0, SEEK_SET);
 #endif /* defined (FS_REWIND) */
 }
 
 void
 bistream_close(BIStreamP bistream)
 {
-    (void) fclose (bistream->file);
-    bistream_init (bistream);
+	(void) fclose (bistream->file);
+	bistream_init (bistream);
 }

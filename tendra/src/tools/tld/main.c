@@ -92,10 +92,10 @@
 /*--------------------------------------------------------------------------*/
 
 typedef enum {
-    MODE_BUILDER,
-    MODE_CONTENTS,
-    MODE_EXTRACT,
-    MODE_LINKER
+	MODE_BUILDER,
+	MODE_CONTENTS,
+	MODE_EXTRACT,
+	MODE_LINKER
 } ModeT;
 
 /*--------------------------------------------------------------------------*/
@@ -110,218 +110,218 @@ static ModeT	mode = MODE_LINKER;
 static void
 main_handle_all(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_extract_all (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_extract_all (&main_arg_data, enable);
 }
 
 static void
 main_handle_all_hide_defd(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_all_hide_defd (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_all_hide_defd (&main_arg_data, enable);
 }
 
 static void
 main_handle_basename(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_extract_basename (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_extract_basename (&main_arg_data, enable);
 }
 
 static void
 main_handle_debug_file(char *option, void *gclosure, char *debug_file)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_debug_file (&main_arg_data, debug_file);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_debug_file (&main_arg_data, debug_file);
 }
 
 static void
 main_handle_hide(char *option, void *gclosure, char *shape, char *name)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_hide (&main_arg_data, shape, name);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_hide (&main_arg_data, shape, name);
 }
 
 static void
 main_handle_hide_defined(char *option, void *gclosure, char *shape)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_hide_defined (&main_arg_data, shape);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_hide_defined (&main_arg_data, shape);
 }
 
 static void
 main_handle_index(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_content_index (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_content_index (&main_arg_data, enable);
 }
 
 static void
 main_handle_info(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    msg_sev_set(MSG_SEV_INFO, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	msg_sev_set(MSG_SEV_INFO, enable);
 }
 
 static void
 main_handle_keep(char *option, void *gclosure, char *shape, char *name)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_keep (&main_arg_data, shape, name);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_keep (&main_arg_data, shape, name);
 }
 
 static void
 main_handle_keep_all(char *option, void *gclosure, char *shape)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_keep_all (&main_arg_data, shape);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_keep_all (&main_arg_data, shape);
 }
 
 static void
 main_handle_library_file(char *option, void *gclosure, char *library_file)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_library_file (&main_arg_data, library_file);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_library_file (&main_arg_data, library_file);
 }
 
 static void
 main_handle_match_base(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_extract_match_base (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_extract_match_base (&main_arg_data, enable);
 }
 
 static void
 main_handle_output_file(char *option, void *gclosure, char *output_file)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_output_file (&main_arg_data, output_file);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_output_file (&main_arg_data, output_file);
 }
 
 static void
 main_handle_library_path(char *option, void *gclosure, char *directory)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_library_path (&main_arg_data, directory);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_library_path (&main_arg_data, directory);
 }
 
 static void
 main_handle_rename(char *option, void *gclosure, char *shape, char *from,
-    char *to)
+	char *to)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_parse_rename (&main_arg_data, shape, from, to);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_parse_rename (&main_arg_data, shape, from, to);
 }
 
 static void
 main_handle_rename_file(char *option, void *gclosure, char *name)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    rename_file_parse (name, &main_arg_data);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	rename_file_parse (name, &main_arg_data);
 }
 
 static void
 main_handle_size(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_content_size (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_content_size (&main_arg_data, enable);
 }
 
 static void
 main_handle_suppress(char *option, void *gclosure, char *shape, char *name)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_suppress (&main_arg_data, shape, name);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_suppress (&main_arg_data, shape, name);
 }
 
 static void
 main_handle_suppress_all(char *option, void *gclosure, char *shape)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_add_suppress_all (&main_arg_data, shape);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_add_suppress_all (&main_arg_data, shape);
 }
 
 static void
 main_handle_suppress_mult(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_suppress_mult (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_suppress_mult (&main_arg_data, enable);
 }
 
 static void
 main_handle_tdf_version(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_content_version (&main_arg_data, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_content_version (&main_arg_data, enable);
 }
 
 static void
 main_handle_unit_file(char *option, void *gclosure, char *unit_file)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    arg_data_set_unit_file (&main_arg_data, unit_file);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	arg_data_set_unit_file (&main_arg_data, unit_file);
 }
 
 static void
 main_handle_version(char *option, void *gclosure)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_one_off = TRUE;
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_one_off = TRUE;
 	tenapp_report_version();
 }
 
 static void
 main_handle_warning(char *option, void *gclosure, BoolT enable)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_other = TRUE;
-    msg_sev_set(MSG_SEV_WARNING, enable);
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_used_other = TRUE;
+	msg_sev_set(MSG_SEV_WARNING, enable);
 }
 
 static void
@@ -361,20 +361,20 @@ static ArgListT main_opts[] = {
 };
 
 static ArgListT main_builder_arg_list[] = {
-    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
 	AP_OPT_EMPTY	(help,			'h', "help", main_handle_builder_help),
 	AP_OPT_FOLLOWING(include_library,'i',"include-library", main_handle_library_file),
 	AP_OPT_FOLLOWING(output_file,	'o', "output-file",main_handle_output_file),
 	AP_OPT_FOLLOWING2(suppress,		's', "suppress", main_handle_suppress),
 	AP_OPT_FOLLOWING(suppress_all,	'S', "suppress-all", main_handle_suppress_all),
 	AP_OPT_PROC_SW	(suppress_mult,	'M', "suppress-mult", main_handle_suppress_mult),
-    AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
+	AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
 	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
 	AP_OPT_EOL
 };
 
 static ArgListT main_contents_arg_list[] = {
-    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
 	AP_OPT_EMPTY	(help,			'h', "help", main_handle_contents_help),
 	AP_OPT_PROC_SW	(index,			'i', "index", main_handle_index),
 	AP_OPT_PROC_SW	(size,			's', "size", main_handle_size),
@@ -386,7 +386,7 @@ static ArgListT main_contents_arg_list[] = {
 static ArgListT main_extract_arg_list[] = {
 	AP_OPT_PROC_SW	(all,			'a', "all", main_handle_all),
 	AP_OPT_PROC_SW	(basename,		'b', "basename", main_handle_basename),
-    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
 	AP_OPT_EMPTY	(help,			'h', "help", main_handle_extract_help),
 	AP_OPT_PROC_SW	(info,			'i', "info", main_handle_info),
 	AP_OPT_PROC_SW	(match_basename,'m', "match-basename", main_handle_match_base),
@@ -397,7 +397,7 @@ static ArgListT main_extract_arg_list[] = {
 static ArgListT main_linker_arg_list[] = {
 	AP_OPT_PROC_SW	(all_hide_defined,'a', "all-hide-defined",
 		main_handle_all_hide_defd),
-    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
 	AP_OPT_EMPTY	(help,			'\0', "help", main_handle_linker_help),
 	AP_OPT_FOLLOWING2(hide,			'h', "hide", main_handle_hide),
 	AP_OPT_FOLLOWING(hide_defined,	'H', "hide-defined", main_handle_hide_defined),
@@ -550,8 +550,8 @@ msg_uh_libcapfullname(char ch, void *pp)
 static ModeT
 main_init(int argc, char **argv)
 {
-    ArgListT *arg_list;
-    int       skip;
+	ArgListT *arg_list;
+	int       skip;
 
 	msg_uh_add(MSG_KEY_NStringP, msg_uh_NStringP);
 	msg_uh_add(MSG_KEY_NameKeyP, msg_uh_NameKeyP);
@@ -561,11 +561,11 @@ main_init(int argc, char **argv)
 	msg_uh_add(MSG_KEY_tdfr_offset, msg_uh_tdfr_offset);
 	msg_uh_add(MSG_KEY_ExceptionName, msg_uh_ExceptionName);
 	msg_uh_add(MSG_KEY_libcapfullname, msg_uh_libcapfullname);
-    argc--;
-    argv++;
+	argc--;
+	argv++;
 	if (argc <= 0)
 		main_handle_root_help (NULL, NULL);
-    if (argv[0][0] == '-') {
+	if (argv[0][0] == '-') {
 		switch (argv[0][1]) {
 		case 'h':
 		case 'm':
@@ -592,21 +592,21 @@ main_init(int argc, char **argv)
 	case MODE_LINKER:
 		arg_list = main_linker_arg_list;
 		arg_data_init (&main_arg_data, "capsule.j");
-    }
-    skip = arg_parse_arguments (arg_list, argc, argv);
-    argc -= skip;
-    argv += skip;
-    if (main_used_one_off && (!main_used_other) && (argc == 0)) {
+	}
+	skip = arg_parse_arguments (arg_list, argc, argv);
+	argc -= skip;
+	argv += skip;
+	if (main_used_one_off && (!main_used_other) && (argc == 0)) {
 		exit (EXIT_SUCCESS);
 		UNREACHED;
-    } else if (argc == 0) {
+	} else if (argc == 0) {
 		MSG_missing_files ();
 		UNREACHED;
-    }
-    arg_data_set_files (&main_arg_data, argc, argv);
-    arg_data_vector_libraries (&main_arg_data);
-    debug_set_file (arg_data_get_debug_file (&main_arg_data));
-    return (mode);
+	}
+	arg_data_set_files (&main_arg_data, argc, argv);
+	arg_data_vector_libraries (&main_arg_data);
+	debug_set_file (arg_data_get_debug_file (&main_arg_data));
+	return (mode);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -614,7 +614,7 @@ main_init(int argc, char **argv)
 int
 main(int argc, char **argv)
 {
-    HANDLE {
+	HANDLE {
 		istream_setup ();
 		tenapp_init(argc, argv, "TDF linker", "4.0#8");
 		msg_sev_set(MSG_SEV_WARNING, 0);
@@ -633,7 +633,7 @@ main(int argc, char **argv)
 			linker_main (&main_arg_data);
 			break;
 		}
-    } WITH {
+	} WITH {
 		ExceptionP exception = EXCEPTION_EXCEPTION ();
 
 		if (exception == XX_dalloc_no_memory) {
@@ -654,7 +654,7 @@ main(int argc, char **argv)
 			RETHROW ();
 			UNREACHED;
 		}
-    } END_HANDLE
+	} END_HANDLE
 		  exit (EXIT_SUCCESS);
-    UNREACHED;
+	UNREACHED;
 }

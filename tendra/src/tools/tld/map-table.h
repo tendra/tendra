@@ -82,7 +82,7 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct MapTableT {
-    MapEntryP			contents [MAP_TABLE_SIZE];
+	MapEntryP			contents [MAP_TABLE_SIZE];
 } MapTableT, *MapTableP;
 
 /*--------------------------------------------------------------------------*/

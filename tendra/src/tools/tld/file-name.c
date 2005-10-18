@@ -76,95 +76,95 @@
 char *
 file_name_basename(char *path)
 {
-    char *last = strrchr (path, '/');
+	char *last = strrchr (path, '/');
 
-    if (last) {
+	if (last) {
 		return (string_copy (last + 1));
-    } else {
+	} else {
 		return (string_copy (path));
-    }
+	}
 }
 
 char *
 file_name_dirname(char *path)
 {
-    char *last = strrchr (path, '/');
+	char *last = strrchr (path, '/');
 
-    if (last) {
+	if (last) {
 		return (string_ncopy (path, (unsigned) (last - path)));
-    } else {
+	} else {
 		return (string_copy (path));
-    }
+	}
 }
 
 char *
 file_name_expand(char *dir, char *name, char *suffix)
 {
-    unsigned dir_length  = strlen (dir);
-    unsigned name_length = strlen (name);
-    unsigned suf_length  = (suffix ? (strlen (suffix)) : 0);
-    unsigned suf_extra   = (unsigned) (suffix ? 1 : 0);
-    unsigned extra;
-    unsigned length;
-    char *path;
-    char *tmp;
+	unsigned dir_length  = strlen (dir);
+	unsigned name_length = strlen (name);
+	unsigned suf_length  = (suffix ? (strlen (suffix)) : 0);
+	unsigned suf_extra   = (unsigned) (suffix ? 1 : 0);
+	unsigned extra;
+	unsigned length;
+	char *path;
+	char *tmp;
 
-    if ((dir_length > 0) && (dir [dir_length - 1] != '/')) {
+	if ((dir_length > 0) && (dir [dir_length - 1] != '/')) {
 		extra = 1;
-    } else {
+	} else {
 		extra = 0;
-    }
-    length = (dir_length + extra + name_length + suf_extra + suf_length + 1);
-    path   = ALLOCATE_VECTOR (char, length);
-    tmp    = path;
-    if (dir_length > 0) {
+	}
+	length = (dir_length + extra + name_length + suf_extra + suf_length + 1);
+	path   = ALLOCATE_VECTOR (char, length);
+	tmp    = path;
+	if (dir_length > 0) {
 		(void) memcpy (tmp, dir, (size_t) dir_length);
 		tmp += dir_length;
 		if (dir [dir_length - 1] != '/') {
 			tmp [0] = '/';
 			tmp ++;
 		}
-    }
-    (void) memcpy (tmp, name, (size_t) name_length);
-    tmp += name_length;
-    if (suffix) {
+	}
+	(void) memcpy (tmp, name, (size_t) name_length);
+	tmp += name_length;
+	if (suffix) {
 		tmp [0] = '.';
 		tmp ++;
 		(void) memcpy (tmp, suffix, (size_t) suf_length);
 		tmp += suf_length;
-    }
-    tmp [0] = '\0';
-    return (path);
+	}
+	tmp [0] = '\0';
+	return (path);
 }
 
 BoolT
 file_name_is_basename(char *path)
 {
-    return (strchr (path, '/') == NULL);
+	return (strchr (path, '/') == NULL);
 }
 
 BoolT
 file_name_is_absolute(char *path)
 {
-    return (path [0] == '/');
+	return (path [0] == '/');
 }
 
 void
 file_name_populate(char *path)
 {
 #ifdef FS_MKDIR
-    char *new_path = cstring_duplicate (path);
-    char *tmp      = cstring_find (new_path, '/');
+	char *new_path = cstring_duplicate (path);
+	char *tmp      = cstring_find (new_path, '/');
 
-    if (tmp) {
+	if (tmp) {
 		do {
 			*tmp = '\0';
 			(void) mkdir (new_path, 0755);
 			*tmp = '/';
 		} while ((tmp = cstring_find (tmp + 1, '/')) != NULL);
-    }
-    DEALLOCATE (new_path);
+	}
+	DEALLOCATE (new_path);
 #else
-    UNUSED (path);
+	UNUSED (path);
 #endif /* defined (FS_MKDIR) */
 }

@@ -92,19 +92,19 @@ typedef int NameEntryTypeT, *NameEntryTypeP;
 #define NT_PLACEHOLDER		(4)
 #else
 typedef enum {
-    NT_INDIRECT,
-    NT_INDIRECT_CYCLING,
-    NT_INDIRECT_DONE,
-    NT_DIRECT,
-    NT_PLACEHOLDER
+	NT_INDIRECT,
+	NT_INDIRECT_CYCLING,
+	NT_INDIRECT_DONE,
+	NT_DIRECT,
+	NT_PLACEHOLDER
 } NameEntryTypeT, *NameEntryTypeP;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameEntryT {
-    struct NameEntryT	       *next;
-    NameKeyT			key;
-    NameEntryTypeT		type;
-    union {
+	struct NameEntryT	       *next;
+	NameKeyT			key;
+	NameEntryTypeT		type;
+	union {
 		struct {
 			unsigned		id;
 			unsigned		use;
@@ -113,7 +113,7 @@ typedef struct NameEntryT {
 			struct NameEntryT  *list_next;
 		} direct;
 		struct NameEntryT      *indirect;
-    } u;
+	} u;
 } NameEntryT, *NameEntryP;
 
 /*--------------------------------------------------------------------------*/

@@ -81,7 +81,7 @@
 #pragma TenDRA conditional lvalue disallow
 #pragma TenDRA no external declaration disallow
 #pragma TenDRA weak macro equality disallow
-#pragma TenDRA extra ; disallow
+#pragma TenDRA extra; disallow
 #pragma TenDRA extra type definition disallow
 #pragma TenDRA implicit int type for external declaration disallow
 #pragma TenDRA implicit int type for function return disallow

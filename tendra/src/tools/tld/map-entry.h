@@ -77,16 +77,16 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct MapLinkT {
-    unsigned			internal;
-    unsigned			external;
+	unsigned			internal;
+	unsigned			external;
 } MapLinkT, *MapLinkP;
 
 typedef struct MapEntryT {
-    struct MapEntryT	       *next;
-    NStringT			key;
-    unsigned			count;
-    unsigned			num_links;
-    MapLinkP			links;
+	struct MapEntryT	       *next;
+	NStringT			key;
+	unsigned			count;
+	unsigned			num_links;
+	MapLinkP			links;
 } MapEntryT, *MapEntryP;
 
 /*--------------------------------------------------------------------------*/

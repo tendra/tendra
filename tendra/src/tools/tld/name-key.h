@@ -83,41 +83,41 @@ typedef int NameKeyTypeT, *NameKeyTypeP;
 #define KT_UNIQUE	(1)
 #else
 typedef enum {
-    KT_STRING,
-    KT_UNIQUE
+	KT_STRING,
+	KT_UNIQUE
 } NameKeyTypeT, *NameKeyTypeP;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameUniqueT {
-    unsigned			length;
-    NStringP			components;
+	unsigned			length;
+	NStringP			components;
 } NameUniqueT, *NameUniqueP;
 
 typedef struct NameKeyT {
-    NameKeyTypeT		type;
-    union {
+	NameKeyTypeT		type;
+	union {
 		NStringT		string;
 		NameUniqueT		unique;
-    } u;
+	} u;
 } NameKeyT, *NameKeyP;
 
 typedef struct NameKeyListEntryT {
-    struct NameKeyListEntryT   *next;
-    NameKeyT			key;
+	struct NameKeyListEntryT   *next;
+	NameKeyT			key;
 } NameKeyListEntryT, *NameKeyListEntryP;
 
 typedef struct NameKeyListT {
-    NameKeyListEntryP		head;
+	NameKeyListEntryP		head;
 } NameKeyListT, *NameKeyListP;
 
 typedef struct NameKeyPairListEntryT {
-    struct NameKeyPairListEntryT *next;
-    NameKeyT			  from;
-    NameKeyT			  to;
+	struct NameKeyPairListEntryT *next;
+	NameKeyT			  from;
+	NameKeyT			  to;
 } NameKeyPairListEntryT, *NameKeyPairListEntryP;
 
 typedef struct NameKeyPairListT {
-    NameKeyPairListEntryP		head;
+	NameKeyPairListEntryP		head;
 } NameKeyPairListT, *NameKeyPairListP;
 
 /*--------------------------------------------------------------------------*/

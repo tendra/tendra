@@ -76,50 +76,50 @@
 UnitTableP
 unit_table_create(void)
 {
-    UnitTableP table = ALLOCATE (UnitTableT);
-    unsigned   i;
+	UnitTableP table = ALLOCATE (UnitTableT);
+	unsigned   i;
 
-    for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
+	for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
 		table->contents [i] = NIL (UnitEntryP);
-    }
-    return (table);
+	}
+	return (table);
 }
 
 UnitEntryP
 unit_table_add(UnitTableP table, NStringP key, unsigned order)
 {
-    unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
-    UnitEntryP next       = (table->contents [hash_value]);
-    UnitEntryP entry      = unit_entry_create (key, next, order);
+	unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
+	UnitEntryP next       = (table->contents [hash_value]);
+	UnitEntryP entry      = unit_entry_create (key, next, order);
 
-    table->contents [hash_value] = entry;
-    return (entry);
+	table->contents [hash_value] = entry;
+	return (entry);
 }
 
 UnitEntryP
 unit_table_get(UnitTableP table, NStringP key)
 {
-    unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
-    UnitEntryP entry      = (table->contents [hash_value]);
+	unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
+	UnitEntryP entry      = (table->contents [hash_value]);
 
-    while (entry && (!nstring_equal (key, unit_entry_key (entry)))) {
+	while (entry && (!nstring_equal (key, unit_entry_key (entry)))) {
 		entry = unit_entry_next (entry);
-    }
-    return (entry);
+	}
+	return (entry);
 }
 
 void
 unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, void *),
-    void *closure)
+	void *closure)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
+	for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
 		UnitEntryP entry = (table->contents [i]);
 
 		while (entry) {
 			(*proc) (entry, closure);
 			entry = unit_entry_next (entry);
 		}
-    }
+	}
 }

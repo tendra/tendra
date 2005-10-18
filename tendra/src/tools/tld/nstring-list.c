@@ -75,38 +75,38 @@
 void
 nstring_list_init(NStringListP list)
 {
-    list->head = NIL (NStringListEntryP);
-    list->tail = &(list->head);
+	list->head = NIL (NStringListEntryP);
+	list->tail = &(list->head);
 }
 
 void
 nstring_list_append(NStringListP list, NStringP string)
 {
-    NStringListEntryP entry = ALLOCATE (NStringListEntryT);
+	NStringListEntryP entry = ALLOCATE (NStringListEntryT);
 
-    entry->next   = NIL (NStringListEntryP);
-    nstring_assign (&(entry->string), string);
-    *(list->tail) = entry;
-    list->tail    = &(entry->next);
+	entry->next   = NIL (NStringListEntryP);
+	nstring_assign (&(entry->string), string);
+	*(list->tail) = entry;
+	list->tail    = &(entry->next);
 }
 
 NStringListEntryP
 nstring_list_head(NStringListP list)
 {
-    return (list->head);
+	return (list->head);
 }
 
 NStringP
 nstring_list_entry_string(NStringListEntryP entry)
 {
-    return (&(entry->string));
+	return (&(entry->string));
 }
 
 NStringListEntryP
 nstring_list_entry_deallocate(NStringListEntryP entry)
 {
-    NStringListEntryP next = entry->next;
+	NStringListEntryP next = entry->next;
 
-    DEALLOCATE (entry);
-    return (next);
+	DEALLOCATE (entry);
+	return (next);
 }

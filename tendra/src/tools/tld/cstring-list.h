@@ -130,13 +130,13 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct CStringListEntryT {
-    struct CStringListEntryT   *next;
-    char *			string;
+	struct CStringListEntryT   *next;
+	char *			string;
 } CStringListEntryT, *CStringListEntryP;
 
 typedef struct CStringListT {
-    CStringListEntryP		head;
-    CStringListEntryP	       *tail;
+	CStringListEntryP		head;
+	CStringListEntryP	       *tail;
 } CStringListT, *CStringListP;
 
 /*--------------------------------------------------------------------------*/

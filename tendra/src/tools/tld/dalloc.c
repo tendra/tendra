@@ -86,10 +86,10 @@ ExceptionP XX_dalloc_no_memory = EXCEPTION ("cannot allocate memory");
 /*--------------------------------------------------------------------------*/
 
 typedef struct DallocDataT {
-    char *				file;
-    unsigned			line;
-    size_t			size;
-    int				magic;
+	char *				file;
+	unsigned			line;
+	size_t			size;
+	int				magic;
 } DallocDataT, *DallocDataP;
 
 /*--------------------------------------------------------------------------*/
@@ -110,12 +110,12 @@ void *
 X__dalloc_allocate(size_t size, size_t length,
 				   char *file, unsigned line)
 {
-    void *tmp;
+	void *tmp;
 
-    ASSERT (size != 0);
-    if (length == 0) {
+	ASSERT (size != 0);
+	if (length == 0) {
 		tmp = NULL;
-    } else {
+	} else {
 		size_t        real_size = (((size) * length) + dalloc_data_size);
 		vm_address_t address;
 		DallocDataP  data;
@@ -133,15 +133,15 @@ X__dalloc_allocate(size_t size, size_t length,
 		data->line  = line;
 		data->size  = real_size;
 		data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+	}
+	return (tmp);
 }
 
 void
 X__dalloc_deallocate(void *ptr, char *file,
 					 unsigned line)
 {
-    if (ptr) {
+	if (ptr) {
 		ByteP         pointer = (ByteP) ptr;
 		DallocDataP   data    = (DallocDataP) (pointer - dalloc_data_size);
 		vm_address_t  address = (vm_address_t) data;
@@ -159,7 +159,7 @@ X__dalloc_deallocate(void *ptr, char *file,
 		data->magic = 0;
 		result = vm_protect (task_self (), address, size, FALSE, VM_PROT_NONE);
 		ASSERT (result == KERN_SUCCESS);
-    }
+	}
 }
 
 #else
@@ -168,12 +168,12 @@ void *
 X__dalloc_allocate(size_t size, size_t length,
 				   char *file, unsigned line)
 {
-    void *tmp;
+	void *tmp;
 
-    ASSERT (size != 0);
-    if (length == 0) {
+	ASSERT (size != 0);
+	if (length == 0) {
 		tmp = NULL;
-    } else {
+	} else {
 		size_t       real_size = ((size * length) + dalloc_data_size);
 		ByteP       base;
 		DallocDataP data;
@@ -189,15 +189,15 @@ X__dalloc_allocate(size_t size, size_t length,
 		data->file  = file;
 		data->line  = line;
 		data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+	}
+	return (tmp);
 }
 
 void
 X__dalloc_deallocate(void *ptr, char *file,
 					 unsigned line)
 {
-    if (ptr) {
+	if (ptr) {
 		ByteP       pointer = (ByteP) ptr;
 		DallocDataP data    = (DallocDataP) (pointer - dalloc_data_size);
 
@@ -211,7 +211,7 @@ X__dalloc_deallocate(void *ptr, char *file,
 		}
 		data->magic = 0;
 		free (data);
-    }
+	}
 }
 
 #endif /* defined (__NeXT__) */
@@ -221,16 +221,16 @@ X__dalloc_deallocate(void *ptr, char *file,
 void *
 X__dalloc_allocate(size_t size, size_t length)
 {
-    void *tmp;
+	void *tmp;
 
-    ASSERT (size != 0);
-    if (length == 0) {
+	ASSERT (size != 0);
+	if (length == 0) {
 		tmp = NULL;
-    } else if ((tmp = calloc (length, size)) == NULL) {
+	} else if ((tmp = calloc (length, size)) == NULL) {
 		THROW (XX_dalloc_no_memory);
 		UNREACHED;
-    }
-    return (tmp);
+	}
+	return (tmp);
 }
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */

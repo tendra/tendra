@@ -83,8 +83,8 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct RenameClosureT {
-    ShapeTableP			shapes;
-    ShapeTableP			lib_shapes;
+	ShapeTableP			shapes;
+	ShapeTableP			lib_shapes;
 } RenameClosureT, *RenameClosureP;
 
 /*--------------------------------------------------------------------------*/
@@ -92,47 +92,47 @@ typedef struct RenameClosureT {
 static void
 linker_rename_1(NStringP shape, NameKeyPairListP names, void *gclosure)
 {
-    RenameClosureP        closure    = (RenameClosureP) gclosure;
-    ShapeTableP           shapes     = closure->shapes;
-    ShapeTableP           lib_shapes = closure->lib_shapes;
-    ShapeEntryP           entry      = shape_table_add (shapes, shape);
-    ShapeEntryP           lib_entry  = shape_table_add (lib_shapes, shape);
-    NameTableP            table      = shape_entry_name_table (entry);
-    NameTableP            lib_table  = shape_entry_name_table (lib_entry);
-    NameKeyPairListEntryP name       = name_key_pair_list_head (names);
+	RenameClosureP        closure    = (RenameClosureP) gclosure;
+	ShapeTableP           shapes     = closure->shapes;
+	ShapeTableP           lib_shapes = closure->lib_shapes;
+	ShapeEntryP           entry      = shape_table_add (shapes, shape);
+	ShapeEntryP           lib_entry  = shape_table_add (lib_shapes, shape);
+	NameTableP            table      = shape_entry_name_table (entry);
+	NameTableP            lib_table  = shape_entry_name_table (lib_entry);
+	NameKeyPairListEntryP name       = name_key_pair_list_head (names);
 
-    for (; name; name = name_key_pair_list_entry_next (name)) {
+	for (; name; name = name_key_pair_list_entry_next (name)) {
 		NameKeyP from = name_key_pair_list_entry_from (name);
 		NameKeyP to   = name_key_pair_list_entry_to (name);
 
 		debug_info_l_rename (shape, from, to);
 		name_table_add_rename (table, from, to);
 		name_table_add_rename (lib_table, from, to);
-    }
-    name_table_resolve_renames (table, shape, TRUE);
-    name_table_resolve_renames (lib_table, shape, FALSE);
+	}
+	name_table_resolve_renames (table, shape, TRUE);
+	name_table_resolve_renames (lib_table, shape, FALSE);
 }
 
 static void
 linker_rename(ArgDataP arg_data, ShapeTableP shapes, ShapeTableP lib_shapes)
 {
-    RenameClosureT closure;
+	RenameClosureT closure;
 
-    closure.shapes     = shapes;
-    closure.lib_shapes = lib_shapes;
-    rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
+	closure.shapes     = shapes;
+	closure.lib_shapes = lib_shapes;
+	rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
 						 (void *) &closure);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_read_capsules(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 {
-    unsigned  num_input_files = arg_data_get_num_files (arg_data);
-    char **input_files = arg_data_get_files (arg_data);
-    unsigned  i;
+	unsigned  num_input_files = arg_data_get_num_files (arg_data);
+	char **input_files = arg_data_get_files (arg_data);
+	unsigned  i;
 
-    for (i = 0; i < num_input_files; i ++) {
+	for (i = 0; i < num_input_files; i ++) {
 		CapsuleP capsule;
 
 		if ((capsule = capsule_create_stream_input (input_files [i])) !=
@@ -142,20 +142,20 @@ linker_read_capsules(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 		} else {
 			MSG_cant_open_input_file (input_files [i]);
 		}
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
-    char **files = arg_data_library_files (arg_data);
-    char **paths = arg_data_library_paths (arg_data);
-    unsigned    num_files = arg_data_num_library_files (arg_data);
-    unsigned    num_paths = arg_data_num_library_paths (arg_data);
-    unsigned    i;
+	char **files = arg_data_library_files (arg_data);
+	char **paths = arg_data_library_paths (arg_data);
+	unsigned    num_files = arg_data_num_library_files (arg_data);
+	unsigned    num_paths = arg_data_num_library_paths (arg_data);
+	unsigned    i;
 
-    for (i = 0; i < num_files; i ++) {
+	for (i = 0; i < num_files; i ++) {
 		LibraryP library = NIL (LibraryP);
 
 		if (file_name_is_basename (files [i])) {
@@ -178,23 +178,23 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 				MSG_cant_open_library_file (files [i]);
 			}
 		}
-      found:
+  	found:
 		if (library) {
 			library_read (library, lib_shapes);
 			library_close (library);
 		}
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
-    void *gclosure)
+	void *gclosure)
 {
-    ShapeTableP lib_shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
+	ShapeTableP lib_shapes = (ShapeTableP) gclosure;
+	ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
 
-    if (entry) {
+	if (entry) {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
 
@@ -210,47 +210,47 @@ linker_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
 				name_entry_set_lib_definition (name_entry, NIL (LibCapsuleP));
 			}
 		}
-    }
+	}
 }
 
 static void
 linker_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
-    if (arg_data_get_suppress_mult (arg_data)) {
+	if (arg_data_get_suppress_mult (arg_data)) {
 		shape_table_iter (lib_shapes, shape_entry_lib_suppress_mult,
 						  NULL);
-    }
-    shape_control_iter (arg_data_get_suppresses (arg_data), linker_suppress_1,
+	}
+	shape_control_iter (arg_data_get_suppresses (arg_data), linker_suppress_1,
 						(void *) lib_shapes);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_resolve_undefined(UnitTableP units, ShapeTableP shapes,
-    ShapeTableP lib_shapes)
+	ShapeTableP lib_shapes)
 {
-    ShapeLibClosureT closure;
+	ShapeLibClosureT closure;
 
-    closure.lib_shapes = lib_shapes;
-    closure.units      = units;
-    closure.shapes     = shapes;
-    do {
+	closure.lib_shapes = lib_shapes;
+	closure.units      = units;
+	closure.shapes     = shapes;
+	do {
 		closure.did_define = FALSE;
 		shape_table_iter (shapes, shape_entry_resolve_undefined,
 						  (void *) &closure);
-    } while (closure.did_define);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	} while (closure.did_define);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_hide(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 {
-    ShapeTableP shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry  = shape_table_get (shapes, shape);
+	ShapeTableP shapes = (ShapeTableP) gclosure;
+	ShapeEntryP entry  = shape_table_get (shapes, shape);
 
-    if (entry == NIL (ShapeEntryP)) {
+	if (entry == NIL (ShapeEntryP)) {
 		MSG_cant_hide_shape (shape);
-    } else {
+	} else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
 
@@ -270,18 +270,18 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 				MSG_cant_hide_undefined (shape, key);
 			}
 		}
-    }
+	}
 }
 
 static void
 linker_keep(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 {
-    ShapeTableP shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry  = shape_table_get (shapes, shape);
+	ShapeTableP shapes = (ShapeTableP) gclosure;
+	ShapeEntryP entry  = shape_table_get (shapes, shape);
 
-    if (entry == NIL (ShapeEntryP)) {
+	if (entry == NIL (ShapeEntryP)) {
 		MSG_cant_keep_shape (shape);
-    } else {
+	} else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
 
@@ -299,37 +299,37 @@ linker_keep(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 				name_entry_unhide (name_entry);
 			}
 		}
-    }
+	}
 }
 
 static void
 linker_hide_and_keep(ArgDataP arg_data, ShapeTableP shapes)
 {
-    if (arg_data_get_all_hide_defd (arg_data)) {
+	if (arg_data_get_all_hide_defd (arg_data)) {
 		shape_table_iter (shapes, shape_entry_hide_all_defd, NULL);
-    }
-    shape_control_iter (arg_data_get_hides (arg_data), linker_hide,
+	}
+	shape_control_iter (arg_data_get_hides (arg_data), linker_hide,
 						(void *) shapes);
-    shape_control_iter (arg_data_get_keeps (arg_data), linker_keep,
+	shape_control_iter (arg_data_get_keeps (arg_data), linker_keep,
 						(void *) shapes);
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_write_capsule(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 {
-    char *output_file = arg_data_get_output_file (arg_data);
-    CapsuleP capsule;
+	char *output_file = arg_data_get_output_file (arg_data);
+	CapsuleP capsule;
 
-    if ((capsule = capsule_create_stream_output (output_file)) !=
+	if ((capsule = capsule_create_stream_output (output_file)) !=
 		NIL (CapsuleP)) {
 		capsule_write (capsule, units, shapes);
 		capsule_close (capsule);
-    } else {
+	} else {
 		MSG_cant_open_output_file (output_file);
 		UNREACHED;
-    }
-    tenapp_checkerrors(MSG_SEV_ERROR);
+	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -337,15 +337,15 @@ linker_write_capsule(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 void
 linker_main(ArgDataP arg_data)
 {
-    UnitTableP  units      = unit_table_create ();
-    ShapeTableP shapes     = shape_table_create ();
-    ShapeTableP lib_shapes = shape_table_create ();
+	UnitTableP  units      = unit_table_create ();
+	ShapeTableP shapes     = shape_table_create ();
+	ShapeTableP lib_shapes = shape_table_create ();
 
-    linker_rename (arg_data, shapes, lib_shapes);
-    linker_read_capsules (arg_data, units, shapes);
-    linker_load_libraries (arg_data, lib_shapes);
-    linker_suppress (arg_data, lib_shapes);
-    linker_resolve_undefined (units, shapes, lib_shapes);
-    linker_hide_and_keep (arg_data, shapes);
-    linker_write_capsule (arg_data, units, shapes);
+	linker_rename (arg_data, shapes, lib_shapes);
+	linker_read_capsules (arg_data, units, shapes);
+	linker_load_libraries (arg_data, lib_shapes);
+	linker_suppress (arg_data, lib_shapes);
+	linker_resolve_undefined (units, shapes, lib_shapes);
+	linker_hide_and_keep (arg_data, shapes);
+	linker_write_capsule (arg_data, units, shapes);
 }

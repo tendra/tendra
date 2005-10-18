@@ -84,7 +84,7 @@ ExceptionP XX_tdf_read_error = EXCEPTION ("error reading TDF capsule");
 static unsigned
 tdf_read_nibble(TDFReaderP reader)
 {
-    if (reader->new_byte) {
+	if (reader->new_byte) {
 		switch (reader->type) EXHAUSTIVE {
 		case RT_STREAM:
 			if (bistream_read_byte (&(reader->u.bistream), &(reader->byte))) {
@@ -105,9 +105,9 @@ tdf_read_nibble(TDFReaderP reader)
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
-    }
-    reader->new_byte = TRUE;
-    return (reader->byte & 0xF);
+	}
+	reader->new_byte = TRUE;
+	return (reader->byte & 0xF);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -115,60 +115,60 @@ tdf_read_nibble(TDFReaderP reader)
 BoolT
 tdf_reader_open(TDFReaderP reader, char *name)
 {
-    reader->type     = RT_STREAM;
-    reader->new_byte = TRUE;
-    if (!bistream_open (&(reader->u.bistream), name)) {
+	reader->type     = RT_STREAM;
+	reader->new_byte = TRUE;
+	if (!bistream_open (&(reader->u.bistream), name)) {
 		return (FALSE);
-    }
-    return (TRUE);
+	}
+	return (TRUE);
 }
 
 void
 tdf_reader_open_string(TDFReaderP reader, char *name, NStringP bytes)
 {
-    char *contents = nstring_contents (bytes);
-    unsigned length   = nstring_length (bytes);
+	char *contents = nstring_contents (bytes);
+	unsigned length   = nstring_length (bytes);
 
-    reader->type              = RT_STRING;
-    reader->new_byte          = TRUE;
-    reader->u.string.contents = contents;
-    reader->u.string.current  = contents;
-    reader->u.string.limit    = (contents + length);
-    reader->u.string.name     = name;
-    reader->u.string.byte     = 0;
+	reader->type              = RT_STRING;
+	reader->new_byte          = TRUE;
+	reader->u.string.contents = contents;
+	reader->u.string.current  = contents;
+	reader->u.string.limit    = (contents + length);
+	reader->u.string.name     = name;
+	reader->u.string.byte     = 0;
 }
 
 char *
 tdf_reader_name(TDFReaderP reader)
 {
-    switch (reader->type) EXHAUSTIVE {
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		return (bistream_name (&(reader->u.bistream)));
 	case RT_STRING:
 		return (reader->u.string.name);
-    }
-    UNREACHED;
+	}
+	UNREACHED;
 }
 
 unsigned
 tdf_reader_byte(TDFReaderP reader)
 {
-    switch (reader->type) EXHAUSTIVE {
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		return (bistream_byte (&(reader->u.bistream)));
 	case RT_STRING:
 		return (reader->u.string.byte);
-    }
-    UNREACHED;
+	}
+	UNREACHED;
 }
 
 unsigned
 tdf_read_int(TDFReaderP reader)
 {
-    unsigned value = 0;
-    unsigned limit = (UINT_MAX >> 3);
+	unsigned value = 0;
+	unsigned limit = (UINT_MAX >> 3);
 
-    for (;;) {
+	for (;;) {
 		unsigned nibble = tdf_read_nibble (reader);
 
 		if (value > limit) {
@@ -181,23 +181,23 @@ tdf_read_int(TDFReaderP reader)
 		if (nibble & 0x8) {
 			return (value);
 		}
-    }
+	}
 }
 
 void
 tdf_read_align(TDFReaderP reader)
 {
-    reader->new_byte = TRUE;
+	reader->new_byte = TRUE;
 }
 
 void
 tdf_read_bytes(TDFReaderP reader, NStringP nstring)
 {
-    unsigned length   = nstring_length (nstring);
-    char *contents = nstring_contents (nstring);
+	unsigned length   = nstring_length (nstring);
+	char *contents = nstring_contents (nstring);
 
-    tdf_read_align (reader);
-    switch (reader->type) EXHAUSTIVE {
+	tdf_read_align (reader);
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		if (bistream_read_chars (&(reader->u.bistream), length, contents) !=
 			length) {
@@ -216,35 +216,35 @@ tdf_read_bytes(TDFReaderP reader, NStringP nstring)
 		reader->u.string.current += length;
 		reader->u.string.byte    += length;
 		break;
-    }
+	}
 }
 
 void
 tdf_read_string(TDFReaderP reader, NStringP nstring)
 {
-    unsigned size = tdf_read_int (reader);
-    unsigned length;
+	unsigned size = tdf_read_int (reader);
+	unsigned length;
 
-    if (size != 8) {
+	if (size != 8) {
 		MSG_unsupported_char_size_in_tdf (reader, size);
 		THROW (XX_tdf_read_error);
 		UNREACHED;
-    }
-    length = tdf_read_int (reader);
-    nstring_init_length (nstring, length);
-    tdf_read_bytes (reader, nstring);
+	}
+	length = tdf_read_int (reader);
+	nstring_init_length (nstring, length);
+	tdf_read_bytes (reader, nstring);
 }
 
 void
 tdf_read_name(TDFReaderP reader, NameKeyP name)
 {
-    unsigned type = ((tdf_read_nibble (reader) >> 2) & 0x3);
-    NStringT nstring;
-    unsigned components;
-    unsigned i;
+	unsigned type = ((tdf_read_nibble (reader) >> 2) & 0x3);
+	NStringT nstring;
+	unsigned components;
+	unsigned i;
 
-    tdf_read_align (reader);
-    switch (type) {
+	tdf_read_align (reader);
+	switch (type) {
 	case 0x1:
 		tdf_read_string (reader, &nstring);
 		name_key_init_string (name, &nstring);
@@ -261,15 +261,15 @@ tdf_read_name(TDFReaderP reader, NameKeyP name)
 		MSG_bad_name_type_in_tdf (reader, type);
 		THROW (XX_tdf_read_error);
 		UNREACHED;
-    }
+	}
 }
 
 void
 tdf_read_eof(TDFReaderP reader)
 {
-    ByteT byte;
+	ByteT byte;
 
-    switch (reader->type) EXHAUSTIVE {
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		if (bistream_read_byte (&(reader->u.bistream), &byte)) {
 			MSG_expected_eof_in_tdf (reader);
@@ -284,30 +284,30 @@ tdf_read_eof(TDFReaderP reader)
 			UNREACHED;
 		}
 		break;
-    }
+	}
 }
 
 void
 tdf_reader_rewind(TDFReaderP reader)
 {
-    switch (reader->type) EXHAUSTIVE {
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		bistream_rewind (&(reader->u.bistream));
 		break;
 	case RT_STRING:
 		reader->u.string.current = reader->u.string.contents;
 		break;
-    }
+	}
 }
 
 void
 tdf_reader_close(TDFReaderP reader)
 {
-    switch (reader->type) EXHAUSTIVE {
+	switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		bistream_close (&(reader->u.bistream));
 		break;
 	case RT_STRING:
 		break;
-    }
+	}
 }

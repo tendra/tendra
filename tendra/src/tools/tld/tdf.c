@@ -76,37 +76,37 @@
 unsigned
 tdf_int_size(unsigned value)
 {
-    unsigned size = 1;
+	unsigned size = 1;
 
-    while (value >>= 3) {
+	while (value >>= 3) {
 		size ++;
-    }
-    return (size);
+	}
+	return (size);
 }
 
 void
 write_usage(OStreamP ostream, unsigned use)
 {
-    char *sep = "";
+	char *sep = "";
 
-    write_char (ostream, '{');
-    if (use & U_DEFD) {
+	write_char (ostream, '{');
+	if (use & U_DEFD) {
 		write_cstring (ostream, "DEFD");
 		sep = ", ";
-    }
-    if (use & U_MULT) {
+	}
+	if (use & U_MULT) {
 		write_cstring (ostream, sep);
 		write_cstring (ostream, "MULT");
 		sep = ", ";
-    }
-    if (use & U_DECD) {
+	}
+	if (use & U_DECD) {
 		write_cstring (ostream, sep);
 		write_cstring (ostream, "DECD");
 		sep = ", ";
-    }
-    if (use & U_USED) {
+	}
+	if (use & U_USED) {
 		write_cstring (ostream, sep);
 		write_cstring (ostream, "USED");
-    }
-    write_char (ostream, '}');
+	}
+	write_char (ostream, '}');
 }

@@ -130,13 +130,13 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NStringListEntryT {
-    struct NStringListEntryT   *next;
-    NStringT			string;
+	struct NStringListEntryT   *next;
+	NStringT			string;
 } NStringListEntryT, *NStringListEntryP;
 
 typedef struct NStringListT {
-    NStringListEntryP		head;
-    NStringListEntryP	       *tail;
+	NStringListEntryP		head;
+	NStringListEntryP	       *tail;
 } NStringListT, *NStringListP;
 
 /*--------------------------------------------------------------------------*/

@@ -149,14 +149,14 @@ extern void *			X__dalloc_allocate(size_t, size_t);
 
 #define ALLOCATE(type) \
 ((type *) X__dalloc_allocate (sizeof (type), (size_t) 1, __FILE__, \
-			      (unsigned) __LINE__))
+			  	(unsigned) __LINE__))
 
 #define ALLOCATE_VECTOR(type,length) \
 ((type *) X__dalloc_allocate (sizeof (type), (size_t) (length), __FILE__, \
-			      (unsigned) __LINE__))
+			  	(unsigned) __LINE__))
 
 #define DEALLOCATE(pointer) \
-X__dalloc_deallocate ((void *) (pointer), __FILE__, (unsigned) __LINE__)
+X__dalloc_deallocate((void *) (pointer), __FILE__, (unsigned) __LINE__)
 
 #else
 
@@ -167,7 +167,7 @@ X__dalloc_deallocate ((void *) (pointer), __FILE__, (unsigned) __LINE__)
 ((type *) X__dalloc_allocate (sizeof (type), (size_t) (length)))
 
 #define DEALLOCATE(pointer) \
-if (pointer) {free ((void *) (pointer));}
+if(pointer) {free ((void *) (pointer));}
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

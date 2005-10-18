@@ -79,30 +79,30 @@
 static BoolT
 name_key_parse_hex_char(char *name, char *c_ref)
 {
-    char result;
-    char c;
-    int  value;
+	char result;
+	char c;
+	int  value;
 
-    if ((c = name [0]), ((value = syntax_value (c)) != SYNTAX_NO_VALUE)) {
+	if ((c = name [0]), ((value = syntax_value (c)) != SYNTAX_NO_VALUE)) {
 		result = (char) ((unsigned) value << 4);
-    } else {
+	} else {
 		return (FALSE);
-    }
-    if ((c = name [1]), ((value = syntax_value (c)) != SYNTAX_NO_VALUE)) {
+	}
+	if ((c = name [1]), ((value = syntax_value (c)) != SYNTAX_NO_VALUE)) {
 		result |= (char) value;
-    } else {
+	} else {
 		return (FALSE);
-    }
-    *c_ref = result;
-    return (TRUE);
+	}
+	*c_ref = result;
+	return (TRUE);
 }
 
 static BoolT
 name_key_parse_escaped(char **name_ref, char *c_ref)
 {
-    char *name = (*name_ref);
+	char *name = (*name_ref);
 
-    switch ((*++ name)) {
+	switch ((*++ name)) {
 	case 'x': case 'X':
 		if (!name_key_parse_hex_char (name, c_ref)) {
 			return (FALSE);
@@ -130,27 +130,27 @@ name_key_parse_escaped(char **name_ref, char *c_ref)
 		break;
 	default:
 		return (FALSE);
-    }
-    *name_ref = name;
-    return (TRUE);
+	}
+	*name_ref = name;
+	return (TRUE);
 }
 
 static BoolT
 name_key_parse_cstring_unique(NameKeyP key, char *name)
 {
-    unsigned length   = 1;
-    char *tmp_name = name;
-    NStringP components;
-    unsigned i;
+	unsigned length   = 1;
+	char *tmp_name = name;
+	NStringP components;
+	unsigned i;
 
-    while (*++ tmp_name) {
+	while (*++ tmp_name) {
 		if (*tmp_name == '.') {
 			length ++;
 		}
-    }
-    components = ALLOCATE_VECTOR (NStringT, length);
-    length     = 0;
-    for (;;) {
+	}
+	components = ALLOCATE_VECTOR (NStringT, length);
+	length     = 0;
+	for (;;) {
 		DStringT dstring;
 
 		name ++;
@@ -176,31 +176,31 @@ name_key_parse_cstring_unique(NameKeyP key, char *name)
 		if (*name == ']') {
 			break;
 		}
-    }
-    if (*name) {
-      fail:
-		for (i = 0; i < length ; i ++) {
+	}
+	if (*name) {
+  	fail:
+		for (i = 0; i < length; i ++) {
 			nstring_destroy (&(components [i]));
 		}
 		DEALLOCATE (components);
 		return (FALSE);
-    }
-    name_key_init_unique (key, length);
-    for (i = 0; i < length; i ++) {
+	}
+	name_key_init_unique (key, length);
+	for (i = 0; i < length; i ++) {
 		name_key_set_component (key, i, &(components [i]));
-    }
-    DEALLOCATE (components);
-    return (TRUE);
+	}
+	DEALLOCATE (components);
+	return (TRUE);
 }
 
 static BoolT
 name_key_parse_cstring_string(NameKeyP key, char *name)
 {
-    DStringT dstring;
-    NStringT nstring;
+	DStringT dstring;
+	NStringT nstring;
 
-    dstring_init (&dstring);
-    while (*name) {
+	dstring_init (&dstring);
+	while (*name) {
 		if ((*name == '[') || (*name == ']') || (*name == '.')) {
 			dstring_destroy (&dstring);
 			return (FALSE);
@@ -216,19 +216,19 @@ name_key_parse_cstring_string(NameKeyP key, char *name)
 		} else {
 			dstring_append_char (&dstring, *name ++);
 		}
-    }
-    dstring_to_nstring (&dstring, &nstring);
-    name_key_init_string (key, &nstring);
-    return (TRUE);
+	}
+	dstring_to_nstring (&dstring, &nstring);
+	name_key_init_string (key, &nstring);
+	return (TRUE);
 }
 
 static void
 write_name_key_1(OStreamP ostream, NStringP nstring)
 {
-    unsigned length = nstring_length (nstring);
-    char *bytes = nstring_contents (nstring);
+	unsigned length = nstring_length (nstring);
+	char *bytes = nstring_contents (nstring);
 
-    while (length --) {
+	while (length --) {
 		switch (*bytes) {
 		case '[': case ']': case '.': case '\\':
 			write_char (ostream, '\\');
@@ -237,7 +237,7 @@ write_name_key_1(OStreamP ostream, NStringP nstring)
 			write_char (ostream, *bytes);
 		}
 		bytes ++;
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -245,74 +245,74 @@ write_name_key_1(OStreamP ostream, NStringP nstring)
 void
 name_key_init_string(NameKeyP key, NStringP string)
 {
-    key->type = KT_STRING;
-    nstring_assign (&(key->u.string), string);
+	key->type = KT_STRING;
+	nstring_assign (&(key->u.string), string);
 }
 
 void
 name_key_init_unique(NameKeyP key, unsigned components)
 {
-    key->type                = KT_UNIQUE;
-    key->u.unique.length     = components;
-    key->u.unique.components = ALLOCATE_VECTOR (NStringT, components);
+	key->type                = KT_UNIQUE;
+	key->u.unique.length     = components;
+	key->u.unique.components = ALLOCATE_VECTOR (NStringT, components);
 }
 
 BoolT
 name_key_parse_cstring(NameKeyP key, char *name)
 {
-    if (*name == '[') {
+	if (*name == '[') {
 		return (name_key_parse_cstring_unique (key, name));
-    } else {
+	} else {
 		return (name_key_parse_cstring_string (key, name));
-    }
+	}
 }
 
 void
 name_key_set_component(NameKeyP key, unsigned component, NStringP string)
 {
-    ASSERT ((key->type == KT_UNIQUE) && (component < key->u.unique.length));
-    nstring_assign (&(key->u.unique.components [component]), string);
+	ASSERT ((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+	nstring_assign (&(key->u.unique.components [component]), string);
 }
 
 NameKeyTypeT
 name_key_type(NameKeyP key)
 {
-    return (key->type);
+	return (key->type);
 }
 
 NStringP
 name_key_string(NameKeyP key)
 {
-    ASSERT (key->type == KT_STRING);
-    return (&(key->u.string));
+	ASSERT (key->type == KT_STRING);
+	return (&(key->u.string));
 }
 
 unsigned
 name_key_components(NameKeyP key)
 {
-    ASSERT (key->type == KT_UNIQUE);
-    return (key->u.unique.length);
+	ASSERT (key->type == KT_UNIQUE);
+	return (key->u.unique.length);
 }
 
 NStringP
 name_key_get_component(NameKeyP key, unsigned component)
 {
-    ASSERT ((key->type == KT_UNIQUE) && (component < key->u.unique.length));
-    return (&(key->u.unique.components [component]));
+	ASSERT ((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+	return (&(key->u.unique.components [component]));
 }
 
 unsigned
 name_key_hash_value(NameKeyP key)
 {
 #ifdef __TenDRA__
-    unsigned hash_value; /* "tcc" complains if this is initialised */
+	unsigned hash_value; /* "tcc" complains if this is initialised */
 #else
-    unsigned hash_value = 0; /* "gcc" complains if this is not initialised */
+	unsigned hash_value = 0; /* "gcc" complains if this is not initialised */
 #endif /* defined (__TenDRA__) */
-    unsigned components;
-    unsigned i;
+	unsigned components;
+	unsigned i;
 
-    switch (key->type) EXHAUSTIVE {
+	switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		hash_value = nstring_hash_value (&(key->u.string));
 		break;
@@ -323,20 +323,20 @@ name_key_hash_value(NameKeyP key)
 			hash_value += nstring_hash_value (&(key->u.unique.components [i]));
 		}
 		break;
-    }
-    return (hash_value);
+	}
+	return (hash_value);
 }
 
 BoolT
 name_key_equal(NameKeyP key1, NameKeyP key2)
 {
-    unsigned components;
-    unsigned i;
+	unsigned components;
+	unsigned i;
 
-    if (key1->type != key2->type) {
+	if (key1->type != key2->type) {
 		return (FALSE);
-    }
-    switch (key1->type) EXHAUSTIVE {
+	}
+	switch (key1->type) EXHAUSTIVE {
 	case KT_STRING:
 		return (nstring_equal (&(key1->u.string), &(key2->u.string)));
 	case KT_UNIQUE:
@@ -350,14 +350,14 @@ name_key_equal(NameKeyP key1, NameKeyP key2)
 			}
 		}
 		break;
-    }
-    return (TRUE);
+	}
+	return (TRUE);
 }
 
 void
 name_key_assign(NameKeyP to, NameKeyP from)
 {
-    switch (to->type = from->type) EXHAUSTIVE {
+	switch (to->type = from->type) EXHAUSTIVE {
 	case KT_STRING:
 		nstring_assign (&(to->u.string), &(from->u.string));
 		break;
@@ -365,16 +365,16 @@ name_key_assign(NameKeyP to, NameKeyP from)
 		to->u.unique.length     = from->u.unique.length;
 		to->u.unique.components = from->u.unique.components;
 		break;
-    }
+	}
 }
 
 void
 name_key_copy(NameKeyP to, NameKeyP from)
 {
-    unsigned components;
-    unsigned i;
+	unsigned components;
+	unsigned i;
 
-    switch (to->type = from->type) EXHAUSTIVE {
+	switch (to->type = from->type) EXHAUSTIVE {
 	case KT_STRING:
 		nstring_copy (&(to->u.string), &(from->u.string));
 		break;
@@ -386,16 +386,16 @@ name_key_copy(NameKeyP to, NameKeyP from)
 						  &(from->u.unique.components [i]));
 		}
 		break;
-    }
+	}
 }
 
 void
 name_key_destroy(NameKeyP key)
 {
-    unsigned components;
-    unsigned i;
+	unsigned components;
+	unsigned i;
 
-    switch (key->type) EXHAUSTIVE {
+	switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		nstring_destroy (&(key->u.string));
 		break;
@@ -406,17 +406,17 @@ name_key_destroy(NameKeyP key)
 		}
 		DEALLOCATE (key->u.unique.components);
 		break;
-    }
+	}
 }
 
 void
 write_name_key(OStreamP ostream, NameKeyP key)
 {
-    char     sep = '[';
-    unsigned components;
-    unsigned i;
+	char     sep = '[';
+	unsigned components;
+	unsigned i;
 
-    switch (key->type) EXHAUSTIVE {
+	switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		write_name_key_1 (ostream, &(key->u.string));
 		break;
@@ -431,7 +431,7 @@ write_name_key(OStreamP ostream, NameKeyP key)
 		}
 		write_char (ostream, ']');
 		break;
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -439,43 +439,43 @@ write_name_key(OStreamP ostream, NameKeyP key)
 void
 name_key_list_init(NameKeyListP list)
 {
-    list->head = NIL (NameKeyListEntryP);
+	list->head = NIL (NameKeyListEntryP);
 }
 
 void
 name_key_list_add(NameKeyListP list, NameKeyP key)
 {
-    NameKeyListEntryP entry;
+	NameKeyListEntryP entry;
 
-    for (entry = name_key_list_head (list); entry;
+	for (entry = name_key_list_head (list); entry;
 		 entry = name_key_list_entry_next (entry)) {
 		if (name_key_equal (key, &(entry->key))) {
 			name_key_destroy (key);
 			return;
 		}
-    }
-    entry       = ALLOCATE (NameKeyListEntryT);
-    entry->next = list->head;
-    name_key_assign (&(entry->key), key);
-    list->head  = entry;
+	}
+	entry       = ALLOCATE (NameKeyListEntryT);
+	entry->next = list->head;
+	name_key_assign (&(entry->key), key);
+	list->head  = entry;
 }
 
 NameKeyListEntryP
 name_key_list_head(NameKeyListP list)
 {
-    return (list->head);
+	return (list->head);
 }
 
 NameKeyP
 name_key_list_entry_key(NameKeyListEntryP entry)
 {
-    return (&(entry->key));
+	return (&(entry->key));
 }
 
 NameKeyListEntryP
 name_key_list_entry_next(NameKeyListEntryP entry)
 {
-    return (entry->next);
+	return (entry->next);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -483,48 +483,48 @@ name_key_list_entry_next(NameKeyListEntryP entry)
 void
 name_key_pair_list_init(NameKeyPairListP list)
 {
-    list->head = NIL (NameKeyPairListEntryP);
+	list->head = NIL (NameKeyPairListEntryP);
 }
 
 BoolT
 name_key_pair_list_add(NameKeyPairListP list, NameKeyP from, NameKeyP to)
 {
-    NameKeyPairListEntryP entry;
+	NameKeyPairListEntryP entry;
 
-    for (entry = name_key_pair_list_head (list); entry;
+	for (entry = name_key_pair_list_head (list); entry;
 		 entry = name_key_pair_list_entry_next (entry)) {
 		if (name_key_equal (from, &(entry->from))) {
 			return (FALSE);
 		}
-    }
-    entry       = ALLOCATE (NameKeyPairListEntryT);
-    entry->next = list->head;
-    name_key_assign (&(entry->from), from);
-    name_key_assign (&(entry->to), to);
-    list->head  = entry;
-    return (TRUE);
+	}
+	entry       = ALLOCATE (NameKeyPairListEntryT);
+	entry->next = list->head;
+	name_key_assign (&(entry->from), from);
+	name_key_assign (&(entry->to), to);
+	list->head  = entry;
+	return (TRUE);
 }
 
 NameKeyPairListEntryP
 name_key_pair_list_head(NameKeyPairListP list)
 {
-    return (list->head);
+	return (list->head);
 }
 
 NameKeyP
 name_key_pair_list_entry_from(NameKeyPairListEntryP entry)
 {
-    return (&(entry->from));
+	return (&(entry->from));
 }
 
 NameKeyP
 name_key_pair_list_entry_to(NameKeyPairListEntryP entry)
 {
-    return (&(entry->to));
+	return (&(entry->to));
 }
 
 NameKeyPairListEntryP
 name_key_pair_list_entry_next(NameKeyPairListEntryP entry)
 {
-    return (entry->next);
+	return (entry->next);
 }

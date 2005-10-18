@@ -237,14 +237,14 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct IStreamT {
-    FILE		       *file;
-    char *				buffer;
-    char *				current;
-    char *				end;
-    char *				limit;
-    unsigned			line;
-    char *				name;
-    BoolT			read_last;
+	FILE		       *file;
+	char *				buffer;
+	char *				current;
+	char *				end;
+	char *				limit;
+	unsigned			line;
+	char *				name;
+	BoolT			read_last;
 } IStreamT, *IStreamP;
 
 #ifdef FS_NO_ENUM
@@ -254,9 +254,9 @@ typedef int IStreamStatusT, *IStreamStatusP;
 #define ISTREAM_STAT_SYNTAX_ERROR	(2)
 #else
 typedef enum {
-    ISTREAM_STAT_READ_CHAR,
-    ISTREAM_STAT_NO_CHAR,
-    ISTREAM_STAT_SYNTAX_ERROR
+	ISTREAM_STAT_READ_CHAR,
+	ISTREAM_STAT_NO_CHAR,
+	ISTREAM_STAT_SYNTAX_ERROR
 } IStreamStatusT, *IStreamStatusP;
 #endif /* defined (FS_NO_ENUM) */
 
@@ -294,27 +294,27 @@ extern void			X__istream_fill_buffer(IStreamP);
 
 #define ISTREAM_HANDLE_NULL(istream,redo,eof) \
 { \
-    IStreamP X___is = (istream); \
-    if (X___is->read_last) { \
+	IStreamP X___is = (istream); \
+	if (X___is->read_last) { \
 	if (X___is->current == X___is->end) { \
-	    if (X___is->end == X___is->limit) { \
+		if (X___is->end == X___is->limit) { \
 		X__istream_fill_buffer (X___is); \
 		goto redo; \
-	    } else { \
+		} else { \
 		X___is->current --; \
 		goto eof; \
-	    } \
+		} \
 	} \
-    } else { \
+	} else { \
 	if (X___is->current == (X___is->end - 1)) { \
-	    if (X___is->end == X___is->limit) { \
+		if (X___is->end == X___is->limit) { \
 		X__istream_fill_buffer (X___is); \
 		goto redo; \
-	    } else { \
+		} else { \
 		goto eof; \
-	    } \
+		} \
 	} \
-    } \
+	} \
 }
 
 /*--------------------------------------------------------------------------*/
