@@ -2,6 +2,8 @@
 <!ENTITY manpage SYSTEM "manpage.sgml">
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man;
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc;
 ]>
 
 <!-- $TenDRA$ -->

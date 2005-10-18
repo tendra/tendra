@@ -23,7 +23,7 @@
   <title>Description</title>
 
   <para><command>tcc</command> is the user interface to the TDF system. It is
-    more fully</para>
+    more fully documented in the &doc.tcc;.</para>
 
   <para><command>tcc</command> accepts several types of arguments as
     <emphasis>files</emphasis>:</para>
