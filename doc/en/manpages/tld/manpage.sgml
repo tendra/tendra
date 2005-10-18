@@ -243,9 +243,9 @@
   <para>Write an option summary to the standard error.</para>
 
   <para><option>--hide</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>,
+    <literal> </literal><replaceable>NAME</replaceable>,
     <option>-h</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis></para>
+    <literal> </literal><replaceable>NAME</replaceable></para>
 
   <para>Cause the external <emphasis>SHAPE</emphasis> name
     <emphasis>NAME</emphasis> to be hidden. An error is reported if the name
@@ -258,9 +258,9 @@
     defined to be hidden.</para>
 
   <para><option>--keep</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>,
+    <literal> </literal><replaceable>NAME</replaceable>,
     <option>-k</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis></para>
+    <literal> </literal><replaceable>NAME</replaceable></para>
 
   <para>Cause the external <emphasis>SHAPE</emphasis> name
     <emphasis>NAME</emphasis> to be kept.</para>
@@ -294,9 +294,11 @@
     search path.</para>
 
   <para><option>--rename</option> <replaceable>SHAPE</replaceable>
-    <emphasis>FROM</emphasis> <emphasis>TO</emphasis>,
+    <literal> </literal><replaceable>FROM</replaceable>
+    <literal> </literal><replaceable>TO</replaceable>,
     <option>-r</option> <replaceable>SHAPE</replaceable>
-    <emphasis>FROM</emphasis> <emphasis>TO</emphasis></para>
+    <literal> </literal><replaceable>FROM</replaceable>
+    <literal> </literal><replaceable>TO</replaceable></para>
 
   <para>Rename the external <emphasis>SHAPE</emphasis> name
     <emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</para>
@@ -314,9 +316,9 @@
   <para>Write the current error message list to the standard output.</para>
 
   <para><option>--suppress</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>,
+    <literal> </literal><replaceable>NAME</replaceable>,
     <option>-s</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis></para>
+    <literal> </literal><replaceable>NAME</replaceable></para>
 
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
@@ -403,9 +405,9 @@
   <para>Write the current error message list to the standard output.</para>
 
   <para><option>--suppress</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis>,
+    <literal> </literal><replaceable>NAME</replaceable>,
     <option>-s</option> <replaceable>SHAPE</replaceable>
-    <emphasis>NAME</emphasis></para>
+    <literal> </literal><replaceable>NAME</replaceable></para>
 
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
