@@ -78,13 +78,13 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-c</option> or <option>-cv</option> or <option>-check</option></term>
+      <term><option>-c</option> or <option>--cv</option> or <option>--check</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should apply extra
           checks to <emphasis>input-file</emphasis>. For example, simple
           shape checking is applied. These checks are more efficient in
           <emphasis>read</emphasis> mode than in <emphasis>decode</emphasis>
-          mode. If the <option>-cv</option> option is used in
+          mode. If the <option>--cv</option> option is used in
           <emphasis>write</emphasis> mode, all the information gleaned from
           the shape checking appears in
           <emphasis>output-file</emphasis>.</para>
@@ -92,7 +92,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-d</option> or <option>-decode</option></term>
+      <term><option>-d</option> or <option>--decode</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>decode</emphasis> mode. That is, that
@@ -101,7 +101,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-e</option> or <option>-encode</option></term>
+      <term><option>-e</option> or <option>--encode</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>encode</emphasis> mode. That is, that
@@ -110,7 +110,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-eval</option></term>
+      <term><option>--eval</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should simplify its
           input by evaluating constant expressions as far as possible.</para>
@@ -118,7 +118,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-expand</option></term>
+      <term><option>--expand</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should expand its input
           by replacing all applications of defined tokens by the token
@@ -127,11 +127,11 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-f</option> or <option>-func</option></term>
+      <term><option>-f</option> or <option>--func</option></term>
       <listitem>
         <para>Causes <command>tnc</command> to use its alternative,
           functional, form for both input and output. The options
-          <option>-func_in</option> and <option>-func_out</option> may be
+          <option>--func_in</option> and <option>--func_out</option> may be
           used to change the input and the output independently.</para>
       </listitem>
     </varlistentry>
@@ -144,7 +144,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-help </option><replaceable>subject</replaceable> ...</term>
+      <term><option>--help </option><replaceable>subject</replaceable> ...</term>
       <listitem>
         <para>Makes <command>tnc</command> print its help message on the
           given subject(s). If no subject is given, or the subject is
@@ -153,7 +153,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-l</option> or <option>-lib</option></term>
+      <term><option>-l</option> or <option>--lib</option></term>
       <listitem>
         <para>In <emphasis>decode</emphasis> mode, specifies that
           <emphasis>input-file</emphasis> is not a TDF capsule, but a TDF
@@ -171,7 +171,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-p</option> or <option>-print</option></term>
+      <term><option>-p</option> or <option>--print</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>decode</emphasis> and <emphasis>write</emphasis> modes.
@@ -191,7 +191,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-r</option> or <option>-read</option></term>
+      <term><option>-r</option> or <option>--read</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>read</emphasis> mode. That is, that
@@ -200,13 +200,13 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-t</option> or <option>-tsimp</option></term>
+      <term><option>-t</option> or <option>--tsimp</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should expand its input
           by replacing all applications of defined tokens by the token
           definition and by evaluating constant expressions as far as
-          possible. This is equivalent to <option>-expand
-          -eval</option>.</para>
+          possible. This is equivalent to <option>--expand
+          --eval</option>.</para>
       </listitem>
     </varlistentry>
 
@@ -226,7 +226,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-w</option> or <option>-write</option></term>
+      <term><option>-w</option> or <option>--write</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>write</emphasis> mode. That is, that
