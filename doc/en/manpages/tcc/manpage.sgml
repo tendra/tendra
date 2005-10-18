@@ -99,6 +99,15 @@
     <varlistentry>
       <term>-</term>
       <listitem>
+        <para>Arguments whose names end in <markup>.S</markup> are
+	  understood to be assembly source files that need to be
+	  preprocessed.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>-</term>
+      <listitem>
         <para>Arguments whose names end in <markup>.d</markup> are
           understood to be TenDRA dump files.</para>
         </listitem>
@@ -170,6 +179,7 @@
   <para>The standard file suffixes <emphasis>c</emphasis>,
     <emphasis>i</emphasis>, <emphasis>C</emphasis>, <emphasis>I</emphasis>,
     <emphasis>j</emphasis>, <emphasis>t</emphasis>, <emphasis>s</emphasis>,
+    <emphasis>S</emphasis>,
     <emphasis>o</emphasis>, <emphasis>d</emphasis>, <emphasis>k</emphasis>,
     and <emphasis>K</emphasis>, together with <emphasis>p</emphasis>
     (pretty-printed TDF capsule) and <emphasis>pl</emphasis> (PL_TDF source
