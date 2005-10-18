@@ -563,8 +563,10 @@ main_init(int argc, char **argv)
 	msg_uh_add(MSG_KEY_libcapfullname, msg_uh_libcapfullname);
 	argc--;
 	argv++;
-	if (argc <= 0)
+	if (argc <= 0) {
 		main_handle_root_help (NULL, NULL);
+		return (EXIT_FAILURE);
+	}
 	if (argv[0][0] == '-') {
 		switch (argv[0][1]) {
 		case 'h':
