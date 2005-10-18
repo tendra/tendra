@@ -108,13 +108,13 @@
   <para>Each component of a unique is a string. A string consists of any
     sequence of characters, although some special characters must be preceded
     by a backslash character to stop them being treated specially. These
-    characters are '<emphasis>\\\fR', '[</emphasis>',
-    '<emphasis>]</emphasis>' and '<literal>.</literal>'. In addition, the
-    following character sequences are treated the same as they would be in C:
-    '<emphasis>\\n</emphasis>', '<emphasis>\\r</emphasis>',
-    '<emphasis>\</emphasis> ', '<emphasis>\&numsp;</emphasis>'. Finally, the
-    sequence '<emphasis>\\x</emphasis><emphasis>NN</emphasis>' represents the
-    character with code <emphasis>NN</emphasis> in hex.</para>
+    characters are <literal>'\'</literal>,
+    <literal>'['</literal>, <literal>']'</literal> and <literal>'.'</literal>.
+    In addition, the following character sequences are treated the same as they
+    would be in C: <literal>'\n'</literal>, <literal>'\r'</literal>,
+    <literal>'\t'</literal>, <literal>'\0'</literal>.  Finally, the
+    sequence <literal>'\xNN'</literal> represents the character with code
+    <emphasis>NN</emphasis> in hex.</para>
 </refsect1>
 
 <refsect1 id='tld-renamefilesyntax'>
@@ -138,9 +138,9 @@
   <para>The file should consist of a sequence of strings enclosed in double
     quotes. The backslash character can be used to escape characters. The
     following C style escape sequences are recognized:
-    '<emphasis>\\n</emphasis>', '<emphasis>\\r</emphasis>',
-    '<emphasis>\</emphasis> ', '<emphasis>\&numsp;</emphasis>'. Also, the
-    sequence '<emphasis>\\x</emphasis><emphasis>NN</emphasis>' represents the
+    <literal>'\n'</literal>, <literal>'\r'</literal>,
+    <literal>'\t'</literal>, <literal>'\0'</literal>. Also, the
+    sequence <literal>'\xNN'</literal> represents the
     character with code <emphasis>NN</emphasis> in hex. The order of the
     strings is important, as it specifies the order that the unit sets should
     be in when read from capsules. It is necessary to specify the
