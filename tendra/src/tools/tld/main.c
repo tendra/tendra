@@ -445,7 +445,7 @@ main_handle_contents_help(char *option, void *closure)
 	UNUSED(option);
 	UNUSED(closure);
 
-	MSG_builder_usage ();
+	MSG_contents_usage ();
 	arg_print_usage (main_contents_arg_list);
 	msg_append_newline ();
 }
