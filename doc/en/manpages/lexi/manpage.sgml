@@ -49,7 +49,7 @@
     <varlistentry>
       <term><option>-h</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Prints a summary of all options.</para>
       </listitem>
     </varlistentry>
 
@@ -151,7 +151,7 @@
 /* Character groups */
 
 /* These characters are silently ignored. */
-GROUP white = " \\t\\n\\r" ;
+GROUP white = " \t\n\r" ;
 GROUP alpha = {A-Z} + {a-z} + "_";
 GROUP digit = {0-9};
 GROUP alphanum = "[alpha][digit]";
