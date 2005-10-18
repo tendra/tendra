@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -102,9 +102,9 @@
 string
 report_version(int vers)
 {
-    BUFFER *bf = clear_buffer (&print_buff, NULL);
-    bfprintf (bf, "%x: Version %x", progname, progvers);
-    if (vers) {
+	BUFFER *bf = clear_buffer (&print_buff, NULL);
+	bfprintf (bf, "%x: Version %x", progname, progvers);
+	if (vers) {
 		char buff [20];
 		char *v = LANGUAGE_VERSION;
 		sprintf_v (buff, "%.4s-%.2s", v, v + 4);
@@ -114,8 +114,8 @@ report_version(int vers)
 		bfprintf (bf, ", Release %x", RELEASE);
 #endif
 		bfprintf (bf, ")");
-    }
-    return (bf->start);
+	}
+	return (bf->start);
 }
 
 
@@ -189,34 +189,34 @@ static int std_version_idx = 0;
 void
 error_option(string opt)
 {
-    int out = 1;
-    character c;
-    while (c = *(opt++), c != 0) {
+	int out = 1;
+	character c;
+	while (c = *(opt++), c != 0) {
 		switch (c) {
-	    case 'a' : print_ansi_ref = out; break;
-	    case 'c' : print_error_source = out; break;
-	    case 'e' : print_error_name = out; break;
-	    case 'f' : good_fseek = out; break;
-	    case 'g' : record_location = out; break;
-	    case 'i' : good_stat = out; break;
-	    case 'k' : output_spec = out; break;
-	    case 'l' : print_error_loc = out; break;
-	    case 'm' : allow_multibyte = out; break;
-	    case 'p' : preproc_space = out; break;
-	    case 'q' : print_short = out; break;
-	    case 'r' : allow_dos_newline = out; break;
-	    case 's' : print_iso_ref = out; break;
-	    case 't' : print_type_alias = out; break;
-	    case 'V' : print_std_version = out; break;
-	    case 'x' : print_c_style = out; break;
-	    case '+' : out = 1; break;
-	    case '-' : out = 0; break;
-	    case 'o' : {
+		case 'a' : print_ansi_ref = out; break;
+		case 'c' : print_error_source = out; break;
+		case 'e' : print_error_name = out; break;
+		case 'f' : good_fseek = out; break;
+		case 'g' : record_location = out; break;
+		case 'i' : good_stat = out; break;
+		case 'k' : output_spec = out; break;
+		case 'l' : print_error_loc = out; break;
+		case 'm' : allow_multibyte = out; break;
+		case 'p' : preproc_space = out; break;
+		case 'q' : print_short = out; break;
+		case 'r' : allow_dos_newline = out; break;
+		case 's' : print_iso_ref = out; break;
+		case 't' : print_type_alias = out; break;
+		case 'V' : print_std_version = out; break;
+		case 'x' : print_c_style = out; break;
+		case '+' : out = 1; break;
+		case '-' : out = 0; break;
+		case 'o' : {
 			msg_stream = (out ? ostream_output : ostream_error);
 			break;
-	    }
-	    case 'v' : {
-			int i, j, n, year; 
+		}
+		case 'v' : {
+			int i, j, n, year;
 			j = sscanf(strlit (opt), "%4d%n", &year, &n);
 			for (i = 0; i < ARRAY_SIZE (std_version); i++)
 				if (j == 1 && year == std_version [i].year) {
@@ -227,30 +227,30 @@ error_option(string opt)
 				error (ERROR_WARNING, "Unknown standard version");
 			if (j == 1) opt += n;
 			break;
-	    }
-	    case 'w' : {
+		}
+		case 'w' : {
 			OPTION sev = OPTION_WARN;
 			if (out) sev = OPTION_OFF;
-			OPT_CATALOG [ OPT_warning ].def [0] = sev;
-			OPT_CATALOG [ OPT_warning ].def [1] = sev;
+			OPT_CATALOG [OPT_warning].def [0] = sev;
+			OPT_CATALOG [OPT_warning].def [1] = sev;
 			break;
-	    }
-	    case 'z' : {
+		}
+		case 'z' : {
 			OPTION sev = OPTION_ON;
 			if (out) sev = OPTION_WARN;
-			OPT_CATALOG [ OPT_error ].def [0] = sev;
-			OPT_CATALOG [ OPT_error ].def [1] = sev;
+			OPT_CATALOG [OPT_error].def [0] = sev;
+			OPT_CATALOG [OPT_error].def [1] = sev;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Unknown output options */
 			const char *err = "Unknown error formatting option, '%c'";
 			error (ERROR_WARNING, err, (int) c);
 			break;
-	    }
 		}
-    }
-    return;
+		}
+	}
+	return;
 }
 
 
@@ -267,21 +267,21 @@ error_option(string opt)
 #define HEADER_ASSERT		"Assertion"
 
 #define PRINT_HEADER(M, L, F)\
-	print_location ((L), (F)) ;\
-	fputs_v (": ", (F)) ;\
-	fputs_v ((M), (F)) ;\
+	print_location ((L), (F));\
+	fputs_v (": ", (F));\
+	fputs_v ((M), (F));\
 	fputs_v (":\n", (F))
 
 #define PRINT_SOURCE(L, F)\
 	print_source ((L), 1, 0, "    ", (F))
 
 #define PRINT_FROM(L, F)\
-	fputs_v ("    (included from ", (F)) ;\
-	print_location ((L), (F)) ;\
+	fputs_v ("    (included from ", (F));\
+	print_location ((L), (F));\
 	fputs_v (")\n", (F))
 
 #define PRINT_START(M, F)\
-	fputs_v ((M), (F)) ;\
+	fputs_v ((M), (F));\
 	fputs_v (": ", (F))
 
 #define MESSAGE_START		"  "
@@ -319,35 +319,35 @@ static void print_error_msg(ERROR, LOCATION *, FILE *);
 void
 exit_handler(void)
 {
-    if (fmm_error) {
+	if (fmm_error) {
 		/* Cope with memory allocation errors */
 		exit_status = EXIT_FAILURE;
 		output_capsule = 0;
 		output_spec = 0;
 		free_buffer (&token_buff);
-    }
-    if (do_dump) {
+	}
+	if (do_dump) {
 		/* End dump file */
 		term_dump ();
 		do_dump = 0;
-    }
-    if (do_error) {
+	}
+	if (do_error) {
 		/* Report errors in dump file */
 		unsigned long e = number_errors;
 		unsigned long w = number_warnings;
 		int sev = (e ? ERROR_SERIOUS : ERROR_WARNING);
 		do_error = 0;
 		error (sev, "%lu error(s), %lu warning(s)", e, w);
-    }
-    if (output_name [ OUTPUT_SPEC ]) {
+	}
+	if (output_name [OUTPUT_SPEC]) {
 		/* Write spec file */
 		begin_spec ();
 		end_spec ();
-    }
-    if (output_tdf) {
+	}
+	if (output_tdf) {
 		/* Write capsule */
 		write_capsule ();
-    }
+	}
 }
 
 
@@ -361,7 +361,7 @@ exit_handler(void)
 static void
 error_break(void)
 {
-    return;
+	return;
 }
 
 
@@ -372,43 +372,43 @@ error_break(void)
  *    sev.  It also updates the internal flags.
  */
 
-static const char*
+static const char *
 error_header(int sev)
 {
-    const char *msg;
-    switch (sev) {
+	const char *msg;
+	switch (sev) {
 	case ERROR_FATAL : {
-	    msg = HEADER_FATAL;
-	    exit_status = EXIT_FAILURE;
-	    output_capsule = 0;
-	    number_errors++;
-	    break;
+		msg = HEADER_FATAL;
+		exit_status = EXIT_FAILURE;
+		output_capsule = 0;
+		number_errors++;
+		break;
 	}
 	case ERROR_INTERNAL : {
-	    msg = HEADER_INTERNAL;
-	    if (error_severity [ OPTION_ON ] == ERROR_SERIOUS) {
+		msg = HEADER_INTERNAL;
+		if (error_severity [OPTION_ON] == ERROR_SERIOUS) {
 			exit_status = EXIT_FAILURE;
 			output_capsule = 0;
-	    }
-	    number_errors++;
-	    break;
+		}
+		number_errors++;
+		break;
 	}
 	default : {
-	    msg = HEADER_SERIOUS;
-	    if (error_severity [ OPTION_ON ] == ERROR_SERIOUS) {
+		msg = HEADER_SERIOUS;
+		if (error_severity [OPTION_ON] == ERROR_SERIOUS) {
 			exit_status = EXIT_FAILURE;
 			output_capsule = 0;
-	    }
-	    number_errors++;
-	    break;
+		}
+		number_errors++;
+		break;
 	}
 	case ERROR_WARNING : {
-	    msg = HEADER_WARNING;
-	    number_warnings++;
-	    break;
+		msg = HEADER_WARNING;
+		number_warnings++;
+		break;
 	}
-    }
-    return (msg);
+	}
+	return (msg);
 }
 
 
@@ -421,10 +421,10 @@ error_header(int sev)
 static void
 print_location(LOCATION *loc, FILE *f)
 {
-    BUFFER *bf = clear_buffer (&print_buff, f);
-    IGNORE print_loc (loc, NULL, bf, 0);
-    output_buffer (bf, 0);
-    return;
+	BUFFER *bf = clear_buffer (&print_buff, f);
+	IGNORE print_loc (loc, NULL, bf, 0);
+	output_buffer (bf, 0);
+	return;
 }
 
 
@@ -440,27 +440,27 @@ print_location(LOCATION *loc, FILE *f)
 static void
 isoC90_to_ansiC89(BUFFER *bf, const char *s)
 {
-    char c;
-    unsigned long n = 0;
-    const char *p = "1.";
-    const char *q = s;
-    while (c = *q, (c >= '0' && c <= '9')) {
+	char c;
+	unsigned long n = 0;
+	const char *p = "1.";
+	const char *q = s;
+	while (c = *q, (c >= '0' && c <= '9')) {
 		n = 10 * n + (unsigned long) (c - '0');
 		q++;
-    }
-    if (n == 0) {
+	}
+	if (n == 0) {
 		bfprintf (bf, "%x", s);
-    } else {
+	} else {
 		switch (n) {
-	    case 1 : n = 2; break;
-	    case 2 : n = 3; break;
-	    case 3 : n = 6; break;
-	    case 4 : n = 7; break;
-	    default : p = ""; n -= 3; break;
+		case 1 : n = 2; break;
+		case 2 : n = 3; break;
+		case 3 : n = 6; break;
+		case 4 : n = 7; break;
+		default : p = ""; n -= 3; break;
 		}
 		bfprintf (bf, "%x%lu%x", p, n, q);
-    }
-    return;
+	}
+	return;
 }
 #endif
 
@@ -475,14 +475,14 @@ isoC90_to_ansiC89(BUFFER *bf, const char *s)
 static void
 print_error_start(FILE *f, LOCATION *loc, int sev)
 {
-    const char *msg = error_header (sev);
-    if (loc) {
+	const char *msg = error_header (sev);
+	if (loc) {
 		PRINT_HEADER (msg, loc, f);
 		if (print_error_loc) {
 			/* Print full error location */
 			LOCATION floc;
 			LOCATION *ploc = loc;
-			for (; ;) {
+			for (;;) {
 				PTR (LOCATION) from;
 				PTR (POSITION) posn = ploc->posn;
 				if (IS_NULL_ptr (posn)) break;
@@ -497,10 +497,10 @@ print_error_start(FILE *f, LOCATION *loc, int sev)
 			/* Print source line */
 			PRINT_SOURCE (loc, f);
 		}
-    } else {
+	} else {
 		PRINT_START (msg, f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -514,16 +514,16 @@ print_error_start(FILE *f, LOCATION *loc, int sev)
 static void
 print_error_end(FILE *f, int sev)
 {
-    unsigned long n = number_errors;
-    if (n >= max_errors && sev != ERROR_FATAL) {
+	unsigned long n = number_errors;
+	if (n >= max_errors && sev != ERROR_FATAL) {
 		ERROR err = ERR_fail_too_many (n);
 		print_error_msg (err, &crt_loc, f);
 		sev = ERROR_FATAL;
-    }
-    fputs_v (MESSAGE_TERM, f);
-    error_break ();
-    if (sev == ERROR_FATAL) tenapp_exit ();
-    return;
+	}
+	fputs_v (MESSAGE_TERM, f);
+	error_break ();
+	if (sev == ERROR_FATAL) tenapp_exit ();
+	return;
 }
 
 
@@ -535,17 +535,17 @@ print_error_end(FILE *f, int sev)
  */
 
 int error_severity [] = {
-    ERROR_NONE,				/* OPTION_OFF */
-    ERROR_WARNING,			/* OPTION_WARN */
-    ERROR_SERIOUS,			/* OPTION_ON */
-    ERROR_WHATEVER			/* OPTION_WHATEVER */
+	ERROR_NONE,				/* OPTION_OFF */
+	ERROR_WARNING,			/* OPTION_WARN */
+	ERROR_SERIOUS,			/* OPTION_ON */
+	ERROR_WHATEVER			/* OPTION_WHATEVER */
 };
 
 int default_severity [] = {
-    ERROR_NONE,				/* OPTION_OFF */
-    ERROR_WARNING,			/* OPTION_WARN */
-    ERROR_SERIOUS,			/* OPTION_ON */
-    ERROR_WHATEVER			/* OPTION_WHATEVER */
+	ERROR_NONE,				/* OPTION_OFF */
+	ERROR_WARNING,			/* OPTION_WARN */
+	ERROR_SERIOUS,			/* OPTION_ON */
+	ERROR_WHATEVER			/* OPTION_WHATEVER */
 };
 
 
@@ -562,33 +562,33 @@ int default_severity [] = {
 ERROR
 make_error(int n, ...) /* VARARGS */
 {
-    int sev;
-    ERROR e;
-    OPTION opt;
-    va_list args;
-    ERR_DATA *msg;
-    const char *s;
-    va_start (args, n);
-	
-    /* Check severity level */
-    msg = ERR_CATALOG + n;
-    if (crt_opt) {
-		opt = crt_opt [ msg->usage ];
-    } else {
+	int sev;
+	ERROR e;
+	OPTION opt;
+	va_list args;
+	ERR_DATA *msg;
+	const char *s;
+	va_start (args, n);
+
+	/* Check severity level */
+	msg = ERR_CATALOG + n;
+	if (crt_opt) {
+		opt = crt_opt [msg->usage];
+	} else {
 		/* Can have errors before crt_opt is initialised */
-		opt = OPT_CATALOG [ msg->usage ].def [0];
-    }
-    sev = error_severity [ opt ];
-    if (sev == ERROR_NONE) {
+		opt = OPT_CATALOG [msg->usage].def [0];
+	}
+	sev = error_severity [opt];
+	if (sev == ERROR_NONE) {
 		va_end (args);
 		return (NULL_err);
-    }
-	
-    /* Read arguments */
-    s = msg->signature;
-    if (s == NULL) {
+	}
+
+	/* Read arguments */
+	s = msg->signature;
+	if (s == NULL) {
 		MAKE_err_simple (sev, n, e);
-    } else {
+	} else {
 		unsigned i, m = (unsigned) strlen (s);
 		if (no_error_args) m = 0;
 		MAKE_err_simple_args (sev, n, m, e);
@@ -705,9 +705,9 @@ make_error(int n, ...) /* VARARGS */
 			}
 			}
 		}
-    }
-    va_end (args);
-    return (e);
+	}
+	va_end (args);
+	return (e);
 }
 
 
@@ -721,21 +721,21 @@ make_error(int n, ...) /* VARARGS */
 static void
 print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
 {
-    char c;
-    QUALIFIER qual = qual_none;
-	
-    /* Extract error information */
-    int n = DEREF_int (err_simple_number (e));
-    unsigned sz = DEREF_unsigned (err_simple_size (e));
-	
-    /* Look up error in catalogue */
-    ERR_DATA *msg = ERR_CATALOG + n;
-    const char *sig = msg->signature;
-    const char *s = msg->key_STD;
-	
-    /* Print the error message */
-    if (s == NULL) return;
-    while (c = *(s++), c != 0) {
+	char c;
+	QUALIFIER qual = qual_none;
+
+	/* Extract error information */
+	int n = DEREF_int (err_simple_number (e));
+	unsigned sz = DEREF_unsigned (err_simple_size (e));
+
+	/* Look up error in catalogue */
+	ERR_DATA *msg = ERR_CATALOG + n;
+	const char *sig = msg->signature;
+	const char *s = msg->key_STD;
+
+	/* Print the error message */
+	if (s == NULL) return;
+	while (c = *(s++), c != 0) {
 		if (c == '%') {
 			/* Error argument - find number */
 			unsigned a;
@@ -748,14 +748,14 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
 				bfputc (bf, c);
 				continue;
 			}
-			
+
 			/* Find argument type */
 			if (a < sz) {
 				c = sig [a];
 			} else {
 				c = '?';
 			}
-			
+
 			/* Print appropriate argument */
 			switch (c) {
 			case ERR_KEY_ACCESS : {
@@ -914,8 +914,8 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
 			/* Other characters */
 			bfputc (bf, c);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 /*
@@ -970,7 +970,7 @@ print_std(BUFFER *bf, const char *iso)
 static void
 print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 {
-    if (IS_err_simple (e)) {
+	if (IS_err_simple (e)) {
 		/* Print simple error message */
 		BUFFER *bf;
 		int n = DEREF_int (err_simple_number (e));
@@ -1005,15 +1005,15 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 		print_error_body (e, loc, bf);
 		bfprintf (bf, MESSAGE_END);
 		output_buffer (bf, 1);
-		
-    } else {
+
+	} else {
 		/* Print composite error message */
 		ERROR e1 = DEREF_err (err_compound_head (e));
 		ERROR e2 = DEREF_err (err_compound_tail (e));
 		print_error_msg (e1, loc, f);
 		print_error_msg (e2, loc, f);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1027,7 +1027,7 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 void
 destroy_error(ERROR e, int d)
 {
-    if (!IS_NULL_err (e)) {
+	if (!IS_NULL_err (e)) {
 		if (IS_err_simple (e)) {
 			if (d) DESTROY_err_simple_args (e);
 		} else {
@@ -1038,8 +1038,8 @@ destroy_error(ERROR e, int d)
 			destroy_error (e2, 1);
 			UNUSED (sev);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1053,15 +1053,15 @@ destroy_error(ERROR e, int d)
 ERROR
 concat_error(ERROR e1, ERROR e2)
 {
-    ERROR e;
-    int s1, s2;
-    if (IS_NULL_err (e1)) return (e2);
-    if (IS_NULL_err (e2)) return (e1);
-    s1 = DEREF_int (err_severity (e1));
-    s2 = DEREF_int (err_severity (e2));
-    if (s2 > s1) s1 = s2;
-    MAKE_err_compound (s1, e1, e2, e);
-    return (e);
+	ERROR e;
+	int s1, s2;
+	if (IS_NULL_err (e1)) return (e2);
+	if (IS_NULL_err (e2)) return (e1);
+	s1 = DEREF_int (err_severity (e1));
+	s2 = DEREF_int (err_severity (e2));
+	if (s2 > s1) s1 = s2;
+	MAKE_err_compound (s1, e1, e2, e);
+	return (e);
 }
 
 
@@ -1076,20 +1076,20 @@ concat_error(ERROR e1, ERROR e2)
 ERROR
 concat_warning(ERROR e1, ERROR e2)
 {
-    ERROR e;
-    int s1, s2;
-    if (IS_NULL_err (e1)) return (e2);
-    if (IS_NULL_err (e2)) return (e1);
-    s1 = DEREF_int (err_severity (e1));
-    if (s1 > ERROR_WARNING) {
+	ERROR e;
+	int s1, s2;
+	if (IS_NULL_err (e1)) return (e2);
+	if (IS_NULL_err (e2)) return (e1);
+	s1 = DEREF_int (err_severity (e1));
+	if (s1 > ERROR_WARNING) {
 		s2 = DEREF_int (err_severity (e2));
 		if (s2 > s1) s1 = s2;
 		MAKE_err_compound (s1, e1, e2, e);
-    } else {
+	} else {
 		destroy_error (e2, 1);
 		e = e1;
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1103,7 +1103,7 @@ concat_warning(ERROR e1, ERROR e2)
 void
 add_error(ERROR *err, ERROR e)
 {
-    if (!IS_NULL_err (e)) {
+	if (!IS_NULL_err (e)) {
 		if (err) {
 			ERROR e1 = *err;
 			if (IS_NULL_err (e1)) {
@@ -1117,8 +1117,8 @@ add_error(ERROR *err, ERROR e)
 		} else {
 			destroy_error (e, 1);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1143,9 +1143,9 @@ static ERROR error_prefix = NULL_err;
 ERROR
 set_prefix(ERROR e)
 {
-    ERROR p = error_prefix;
-    error_prefix = e;
-    return (p);
+	ERROR p = error_prefix;
+	error_prefix = e;
+	return (p);
 }
 
 
@@ -1159,9 +1159,9 @@ set_prefix(ERROR e)
 void
 restore_prefix(ERROR e)
 {
-    destroy_error (error_prefix, 1);
-    error_prefix = e;
-    return;
+	destroy_error (error_prefix, 1);
+	error_prefix = e;
+	return;
 }
 
 
@@ -1174,7 +1174,7 @@ restore_prefix(ERROR e)
 void
 print_error(LOCATION *loc, ERROR e)
 {
-    if (!IS_NULL_err (e)) {
+	if (!IS_NULL_err (e)) {
 		int d = 1;
 		int sev = DEREF_int (err_severity (e));
 		if (sev > error_threshold) {
@@ -1201,8 +1201,8 @@ print_error(LOCATION *loc, ERROR e)
 			}
 		}
 		destroy_error (e, d);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1216,8 +1216,8 @@ print_error(LOCATION *loc, ERROR e)
 EXP
 install_error(LOCATION *loc, ERROR e)
 {
-    EXP a = NULL_exp;
-    if (!IS_NULL_err (e)) {
+	EXP a = NULL_exp;
+	if (!IS_NULL_err (e)) {
 		int sev = DEREF_int (err_severity (e));
 		if (sev > ERROR_WARNING) {
 			string s;
@@ -1232,8 +1232,8 @@ install_error(LOCATION *loc, ERROR e)
 			MAKE_exp_fail (type_bottom, s, a);
 		}
 		destroy_error (e, 1);
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -1248,17 +1248,17 @@ install_error(LOCATION *loc, ERROR e)
 void
 error(int sev, const char *s, ...) /* VARARGS */
 {
-    va_list args;
-    va_start (args, s);
-    if (sev > error_threshold) {
+	va_list args;
+	va_start (args, s);
+	if (sev > error_threshold) {
 		FILE *f = msg_stream->file;
 		print_error_start (f, NULL, sev);
 		vfprintf_v (f, s, args);
 		fputs_v (MESSAGE_END, f);
 		print_error_end (f, sev);
-    }
-    va_end (args);
-    return;
+	}
+	va_end (args);
+	return;
 }
 
 
@@ -1272,15 +1272,15 @@ error(int sev, const char *s, ...) /* VARARGS */
 void
 commentary(IDENTIFIER id)
 {
-    if (verbose && !IS_NULL_id (id)) {
+	if (verbose && !IS_NULL_id (id)) {
 		BUFFER *bf = clear_buffer (&print_buff, stdout);
 		print_id_desc++;
 		IGNORE print_id_long (id, qual_none, bf, 0);
 		print_id_desc--;
 		bfprintf (bf, " ;\n");
 		output_buffer (bf, 1);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1297,17 +1297,17 @@ commentary(IDENTIFIER id)
 void
 assertion(const char *s, const char *file, int line)
 {
-    FILE *f = msg_stream->file;
-    PRINT_HEADER (HEADER_ASSERT, &crt_loc, f);
-    fprintf_v (f, "  %s, %s: line %d.\n\n", s, file, line);
-    error_break ();
-    abort ();
+	FILE *f = msg_stream->file;
+	PRINT_HEADER (HEADER_ASSERT, &crt_loc, f);
+	fprintf_v (f, "  %s, %s: line %d.\n\n", s, file, line);
+	error_break ();
+	abort ();
 }
 
 int
 is_true(int c)
 {
-    return (c);
+	return (c);
 }
 
 #endif
