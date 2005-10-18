@@ -70,9 +70,10 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term>
+      <term><option>-V</option> or <option>--version</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Makes <command>tnc</command> print its version number and the
+          version of the TDF specification it supports.</para>
       </listitem>
     </varlistentry>
 
@@ -221,14 +222,6 @@
       <listitem>
         <para>In <emphasis>write</emphasis> mode, specifies that the output
           should be in the "verbose" form, with no shorthand forms.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-version</option></term>
-      <listitem>
-        <para>Makes <command>tnc</command> print its version number and the
-          version of the TDF specification it supports.</para>
       </listitem>
     </varlistentry>
 
