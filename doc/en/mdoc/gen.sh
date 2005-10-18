@@ -51,13 +51,13 @@ esac
 if [ -f "../manpages/$1/manpage.sgml" ]; then
 	echo "]>"
 	echo "<refentry id=\"$1\">"
-	cat ../manpages/$1/manpage.sgml
+	sed -e 's/\\/&&/g' ../manpages/$1/manpage.sgml
 elif [ -f "../manpages/trans/$1/manpage.sgml" ]; then
 	echo "<!ENTITY % ref.man.options SYSTEM \"tmp/options.sgml_tmp\"> %ref.man.options;"
 	echo "<!ENTITY % ref.man.common SYSTEM \"tmp/common.sgml_tmp\"> %ref.man.common;"
 	echo "]>"
 	echo "<refentry id=\"trans-$1\">"
-	cat ../manpages/trans/$1/manpage.sgml
+	sed -e 's/\\/&&/g' ../manpages/trans/$1/manpage.sgml
 fi
 
 
