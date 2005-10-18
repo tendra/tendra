@@ -236,60 +236,76 @@
           a C header file containing the external declarations for the
           parser. The C language specific options are:
 
-        <para>prototypes proto ossg-prototypes ossg-proto no-prototypes
-          no-proto</para>
+        <variablelist>
+          <varlistentry>
+            <term>prototypes proto ossg-prototypes ossg-proto no-prototypes no-proto</term>
+            <listitem>
+              <para>These enable or disable the use of function prototypes
+                or the OSSG prototype macros.</para>
+            </listitem>
+          </varlistentry>
 
-        <para>These enable or disable the use of function prototypes or the OSSG
-          prototype macros.</para>
+          <varlistentry>
+            <term>split split=<emphasis>NUMBER</emphasis> no-split</term>
+            <listitem>
+              <para>These enable or disable the output file split option.
+                The generated files can be very large even without inlining.
+                This option splits the main output file into a number of
+                components containing about <emphasis>NUMBER</emphasis>
+                lines each (the default being 50000). These components are
+                distinguished by successively substituting 1, 2, 3, ...  for
+                the character '@' in the output file name.</para>
+            </listitem>
+          </varlistentry>
 
-        <para>
-          split split=<emphasis>NUMBER</emphasis> no-split</para>
+          <varlistentry>
+            <term>numeric-ids numeric no-numeric-ids no-numeric</term>
+            <listitem>
+              <para>These enable or disable the use of numeric identifiers.
+                Numeric identifiers replace the identifier name with a
+                number, which is mainly of use in stopping identifier names
+                getting too long. The disadvantage is that the code becomes
+                less readable, and more difficult to debug. Numeric
+                identifiers are not used by default and are never used for
+                terminal numbers.</para>
+            </listitem>
+          </varlistentry>
 
-        <para>
-          These enable or disable the output file split option. The
-          generated files can be very large even without inlining. This
-          option splits the main output file into a number of components
-          containing about <emphasis>NUMBER</emphasis> lines each (the
-          default being 50000). These components are distinguished by
-          successively substituting 1, 2, 3, ...  for the character '@' in
-          the output file name.</para>
+          <varlistentry>
+            <term>casts cast no-casts no-cast</term>
+            <listitem>
+              <para>These enable or disable casting of action and assignment
+                operator immutable parameters. If enabled, a parameter is
+                cast to its own type when it is substituted into the action.
+                This will cause some compilers to complain about attempts to
+                modify the parameter (which can help pick out attempts at
+                mutating parameters that should not be mutated). The
+                disadvantage is that not all compilers will reject attempts
+                at mutation, and that ANSI doesn't allow casting to
+                structure and union types, which means that some code may be
+                illegal. Parameter casting is disabled by default.</para>
+            </listitem>
+          </varlistentry>
 
-        <para>
-          numeric-ids numeric no-numeric-ids no-numeric</para>
+          <varlistentry>
+            <term>unreachable-macros unreachable-macro unreachable-comments unreachable-comment</term>
+            <listitem>
+              <para>These choose whether unreachable code is marked by a
+                macro or a comment.  The default is to mark unreachable code
+                with a comment "/*UNREACHED*/", however a macro "UNREACHED;"
+                may be used instead, if desired.</para>
+            </listitem>
+          </varlistentry>
 
-        <para>
-          These enable or disable the use of numeric identifiers. Numeric
-          identifiers replace the identifier name with a number, which is
-          mainly of use in stopping identifier names getting too long. The
-          disadvantage is that the code becomes less readable, and more
-          difficult to debug. Numeric identifiers are not used by default
-          and are never used for terminal numbers.</para>
-
-        <para>
-          casts cast no-casts no-cast</para>
-
-        <para>
-          These enable or disable casting of action and assignment operator
-          immutable parameters. If enabled, a parameter is cast to its own
-          type when it is substituted into the action. This will cause some
-          compilers to complain about attempts to modify the parameter
-          (which can help pick out attempts at mutating parameters that
-          should not be mutated). The disadvantage is that not all compilers
-          will reject attempts at mutation, and that ANSI doesn't allow
-          casting to structure and union types, which means that some code
-          may be illegal. Parameter casting is disabled by default.</para>
-
-        <para>
-          unreachable-macros unreachable-macro unreachable-comments
-          unreachable-comment</para>
-
-        <para>
-          These choose whether unreachable code is marked by a macro or a
-          comment.  The default is to mark unreachable code with a comment
-          "/*UNREACHED*/", however a macro "UNREACHED;" may be used instead,
-          if desired.  lines line no-lines no-line These determine whether
-          "#line" directives should be output to relate the output file to
-          the actions file. These are generated by default.</para>
+          <varlistentry>
+            <term>lines line no-lines no-line</term>
+            <listitem>
+              <para>These determine whether "#line" directives should be
+                output to relate the output file to the actions file. These
+                are generated by default.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
 
         <para>The "test" language only takes one input file, and produces no
           output file. It may be used to check that a grammar is valid. In
