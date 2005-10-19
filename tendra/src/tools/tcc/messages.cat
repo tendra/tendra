@@ -457,7 +457,7 @@ unknown_special_option(ccp: opt)
 unknown_boolean_identifier(char: a, char: b)
 {
 	USAGE: ERROR /*OPTION*/
-	KEY(STD) "Unknown boolean identifier, '%c%c'"
+	KEY(STD) "Unknown boolean identifier, '"a b"'"
 }
 
 unknown_compilation_stage(char: b)
