@@ -7,7 +7,7 @@ DATA_DEFAULT=	default-build default
 
 # common directory
 DATA_COMMON=	16bit 32bit Goption K-PIC K-ieee K-noieee K-prom \
-	Versions Xa Xc Xp Xs Xt Xw aes alloca ansi bsd_extn \
+	Versions Xa Xc Xp Xs Xt Xw alloca ansi bsd_extn \
 	building c c++ c99 common compact cose \
 	gcc iso longlong makelib motif_1_1 motif_1_2 motif_private \
 	mse pl_tdf posix posix1 posix2 status strict_mot_1_2 \
