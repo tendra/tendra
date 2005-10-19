@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "lexi" "1" "Tue 18 Oct 2005, 07:42" "lexi @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "lexi" "1" "Wed 19 Oct 2005, 01:45" "lexi @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBlexi\fP - lexical analyser tool
@@ -149,43 +149,17 @@ IF (with_trigraphs) {
 .fi
 .PP
 .SH "The C interface"
-.IP "
-.PP
-.nf
-.sp 1
-\fBint \fBread_token\fP\fR(\fBvoid\fR)
-.fi
-" 5
+.IP "\fBint read_token(void);\fP" 5
 The main analyzer routine produced by
-	\fBlexi\fP\&.
+\fBlexi\fP\&.
 .PP
-Next functions are used by analyzer\&.
-.IP "
-.PP
-.nf
-.sp 1
-\fBint \fBread_char\fP\fR(\fBvoid\fR)
-.fi
-" 5
-Reads next token from input stream\&.
-.IP "
-.PP
-.nf
-.sp 1
-\fBvoid \fBunread_char\fP\fR(
-\fBint\fR);
-.fi
-" 5
-Returns character to the input stream\&.
-.IP "
-.PP
-.nf
-.sp 1
-\fBint \fBunknown_token\fP\fR(
-\fBint\fR);
-.fi
-" 5
-This function is called by \fBread_token()\fP 	    when unknown token is found\&.
+The following functions are used by the analyzer\&.
+.IP "\fBint read_char(void);\fP" 5
+Reads the next token from the input stream\&.
+.IP "\fBvoid unread_char(int);\fP" 5
+Returns a character to the input stream\&.
+.IP "\fBint unknown_token(int);\fP" 5
+This function is called by \fBread_token()\fP when an unknown token is found\&.
 .SH "Bugs"
 .PP
 The \fBlexi\fP input file must contain at least one TOKEN
@@ -194,4 +168,4 @@ directive, unless invalid lexer is produced\&.
 .PP
 \fBtcc\fP\fB(1)\fP ,
 \fBsid\fP\fB(1)\fP \&.
-...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:42
+...\" created by instant / docbook-to-man, Wed 19 Oct 2005, 01:45

@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tnc" "1" "Tue 18 Oct 2005, 07:24" "tnc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tnc" "1" "Wed 19 Oct 2005, 02:22" "tnc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtnc\fP - TDF notation compiler
@@ -64,6 +64,10 @@ path used by \fBtnc\fP to find included files in
 Causes \fBtnc\fP to treat any external
 identifiers starting with \fIprefix\fP to be treated
 as if they were declare \fIlocal\fP\&.
+.IP "\fB-S \fP\fIsubject\fP" 5
+Makes \fBtnc\fP print its help message on the
+given subject\&. The subject \fIall\fP prints all help
+messages\&.
 .IP "\fB-V\fP or \fB--version\fP" 5
 Makes \fBtnc\fP print its version number and the
 version of the TDF specification it supports\&.
@@ -93,14 +97,10 @@ definition\&.
 .IP "\fB-f\fP or \fB--func\fP" 5
 Causes \fBtnc\fP to use its alternative,
 functional, form for both input and output\&. The options
-\fB--func_in\fP and \fB--func_out\fP may be
+\fB--funcin\fP and \fB--funcout\fP may be
 used to change the input and the output independently\&.
-.IP "\fB-h\fP" 5
-To be documented\&.
-.IP "\fB--help \fP\fIsubject\fP \&.\&.\&." 5
-Makes \fBtnc\fP print its help message on the
-given subject(s)\&. If no subject is given, or the subject is
-\fIall\fP, all the help messages are printed\&.
+.IP "\fB-h\fP or \fB--help\fP" 5
+Prints a summary of all options\&.
 .IP "\fB-l\fP or \fB--lib\fP" 5
 In \fIdecode\fP mode, specifies that
 \fIinput-file\fP is not a TDF capsule, but a TDF
@@ -141,4 +141,4 @@ Specifies that \fBtnc\fP should be in
 .SH "SEE ALSO"
 .PP
 \fBdisp\fP\fB(1)\fP, \fBtcc\fP\fB(1)\fP\&.
-...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24
+...\" created by instant / docbook-to-man, Wed 19 Oct 2005, 02:22
