@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tccenv" "5" "Sun 08 Aug 2004, 19:59" "tccenv @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tccenv" "5" "Wed 19 Oct 2005, 07:42" "tccenv @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtccenv\fP - Environments for tcc
@@ -48,8 +48,11 @@ An environment is just a file which is interpreted by
 -Y\fIstring\fP, where \fIstring\fP is the
 name of the file\&. Each environment file consists of lines of the
 form
-.IP "\fB*IDENTIFIER\fP" 5
-"text"
+.PP
+.nf
+\f(CW*IDENTIFIER "text"\fR
+.fi
+.PP
 .PP
 where \fIIDENTIFIER\fP is one of the environmental
 identifiers, \fItext\fP tells \fBtcc\fP\fB(1)\fP how to
@@ -59,18 +62,22 @@ environment prefixes + < and >\&.
 .PP
 The simplest example of a user-defined environment contains lines
 of the form
-.IP "\fB+FLAG\fP" 5
-"text"
+.PP
+.nf
+\f(CW+FLAG "text"\fR
+.fi
+.PP
 .PP
 which tells \fBtcc\fP\fB(1)\fP to interpret
 \fItext\fP as if it were passed on the command-line\&. So,
 for example, an environment consisting of the lines
-.IP "\fB+FLAG\fP" 5
-"-Yposix"
-.IP "\fB+FLAG\fP" 5
-"-Xs"
-.IP "\fB+FLAG\fP" 5
-"-I/home/user/include"
+.PP
+.nf
+\f(CW+FLAG "-Yposix"
++FLAG "-Xs"
++FLAG "-I/home/user/include"\fR
+.fi
+.PP
 .PP
 will modify \fBtcc\fP\fB(1)\fP to use the POSIX 1003\&.1 API with
 strict checks, and add the directory /home/user/include to the search
@@ -96,6 +103,8 @@ POSIX) and extension APIs (such as the X11 environments):
 the ANSI X3\&.159 API (this is the default API environment)
 .IP "\fBiso\fP" 5
 the ISO/IEC 9899:1990 (Amendment 1:L1995 (E)) API
+.IP "\fBc99\fP" 5
+the ISO/IEC 9899:1999 API
 .IP "\fBposix\fP" 5
 the POSIX (IEEE 1003\&.1:1988) API
 .IP "\fBposix1\fP" 5
@@ -110,8 +119,6 @@ the X/Open Portability Guide 4
 the X/Open Single UNIX Specification (Spec 1170)
 .IP "\fBsvid3\fP" 5
 the System V Interface Definition (3rd Edition)
-.IP "\fBaes\fP" 5
-the Application Environment Specification (Revision A) API
 .IP "\fBbsd_extn\fP" 5
 BSD-like extension for use with POSIX, etc\&.
 .IP "\fBx5_lib\fP" 5
@@ -311,4 +318,4 @@ sets the target machine version (Mips only)
 .SH "SEE ALSO"
 .PP
 \fBtcc\fP\fB(1)\fP, \fBtchk\fP\fB(1)\fP, \fBtcpplus\fP\fB(1)\fP\fBpl\fP\fB(1)\fP\&. \fBtnc\fP\fB(1)\fP
-...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59
+...\" created by instant / docbook-to-man, Wed 19 Oct 2005, 07:42
