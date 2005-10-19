@@ -170,7 +170,7 @@ optmap main_optmap [] = {
 	{"-H", "1PI", "causes included files to be printed", 147},
 	{"-S?,+$,+*", "I$1$2", "specifies input files", 15},
 	{"-S?:+$", "I$1$2", "specifies input files", 15},
-	{"-V", "EVersions|1CR", "causes all tools to print their version numbers", 21},
+	{"-V", "EVersions", "causes all tools to print their version numbers", 21},
 	{"-cc", "1CC", "forces the system compiler to be used", 23},
 	{"-cc_only", "2CC", "forces only the system compiler to be used", 22},
 	{"-do?+$", "SN$1$2", "sets a default output file name", 148},
