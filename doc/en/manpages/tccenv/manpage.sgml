@@ -36,14 +36,9 @@
     name of the file. Each environment file consists of lines of the
     form</para>
 
-  <variablelist>
-   <varlistentry>
-     <term><filename>*IDENTIFIER</filename></term>
-      <listitem>
-        <para>"text"</para>
-      </listitem>
-    </varlistentry>
-  </variablelist>
+  <programlisting>
+*IDENTIFIER "text"
+</programlisting>
 
   <para>where <emphasis>IDENTIFIER</emphasis> is one of the environmental
     identifiers, <emphasis>text</emphasis> tells &man.tendra.tcc; how to
@@ -57,43 +52,19 @@
   <para>The simplest example of a user-defined environment contains lines
     of the form</para>
 
-  <variablelist>
-   <varlistentry>
-     <term><filename>+FLAG</filename></term>
-      <listitem>
-        <para>"text"</para>
-      </listitem>
-    </varlistentry>
-  </variablelist>
+  <programlisting>
++FLAG "text"
+</programlisting>
 
   <para>which tells &man.tendra.tcc; to interpret
     <emphasis>text</emphasis> as if it were passed on the command-line. So,
     for example, an environment consisting of the lines</para>
 
-  <variablelist>
-
-   <varlistentry>
-     <term><filename>+FLAG</filename></term>
-      <listitem>
-        <para>"-Yposix"</para>
-      </listitem>
-    </varlistentry>
-
-   <varlistentry>
-     <term><filename>+FLAG</filename></term>
-      <listitem>
-        <para>"-Xs"</para>
-      </listitem>
-    </varlistentry>
-
-   <varlistentry>
-     <term><filename>+FLAG</filename></term>
-      <listitem>
-        <para>"-I/home/user/include"</para>
-      </listitem>
-    </varlistentry>
-
-  </variablelist>
+  <programlisting>
++FLAG "-Yposix"
++FLAG "-Xs"
++FLAG "-I/home/user/include"
+</programlisting>
 
   <para>will modify &man.tendra.tcc; to use the POSIX 1003.1 API with
     strict checks, and add the directory /home/user/include to the search
@@ -133,9 +104,14 @@
         <para>the ISO/IEC 9899:1990 (Amendment 1:L1995 (E)) API</para>
       </listitem>
     </varlistentry>
-  </variablelist>
 
-  <variablelist>
+    <varlistentry>
+      <term><filename>c99</filename></term>
+      <listitem>
+        <para>the ISO/IEC 9899:1999 API</para>
+      </listitem>
+    </varlistentry>
+
     <varlistentry>
       <term><filename>posix</filename></term>
       <listitem>
@@ -185,15 +161,6 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
-      <term><filename>aes</filename></term>
-      <listitem>
-        <para>the Application Environment Specification (Revision A) API</para>
-      </listitem>
-    </varlistentry>
-  </variablelist>
-
-  <variablelist>
     <varlistentry>
       <term><filename>bsd_extn</filename></term>
       <listitem>
@@ -263,10 +230,6 @@
         <para>Motif (Release 1.2)</para>
       </listitem>
     </varlistentry>
-  </variablelist>
-
-
-  <variablelist>
 
     <varlistentry>
       <term><filename>system</filename></term>
