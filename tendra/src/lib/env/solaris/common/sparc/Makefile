@@ -2,7 +2,7 @@
 
 .PATH : ${.CURDIR} ${.CURDIR}/../../../common
 
-DATA=	Xa Xc Xp Xs Xt Xw default.extra tcc_diag tcc_prof
+DATA=	Xa Xc Xp Xs Xt Xw tcc_diag tcc_prof
 
 INSTALL_ENV=	yes
 

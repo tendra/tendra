@@ -2,7 +2,7 @@
 
 .PATH : ${.CURDIR} ${.CURDIR}/../../../common
 
-DATA=	K-PIC K-frame K-noframe Z-p Z-p1 Z-p2 Z-p4 default.extra tcc_diag\
+DATA=	K-PIC K-frame K-noframe Z-p Z-p1 Z-p2 Z-p4 tcc_diag\
 	tcc_prof
 
 INSTALL_ENV=	yes

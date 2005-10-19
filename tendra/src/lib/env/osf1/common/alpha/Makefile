@@ -2,7 +2,7 @@
 
 .PATH : ${.CURDIR} ${.CURDIR}/../../../common
 
-DATA=	default.extra posix_lib static tcc_diag tcc_prof
+DATA=	posix_lib static tcc_diag tcc_prof
 
 INSTALL_ENV=	yes
 
