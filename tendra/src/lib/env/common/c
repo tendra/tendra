@@ -2,4 +2,4 @@
  * $TenDRA$
 */
 
-+INCL			"-Yansi"
++FLAG			"-Yansi"
