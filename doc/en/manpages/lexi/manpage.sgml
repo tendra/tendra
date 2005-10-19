@@ -187,62 +187,34 @@ IF (with_trigraphs) {
   <title>The C interface</title>
   <variablelist>
     <varlistentry>
-      <term>
-        <funcsynopsis>
-          <funcprototype>
-            <funcdef>int <function>read_token</function></funcdef>
-            <void>
-          </funcprototype>
-        </funcsynopsis>
-      </term>
+      <term><literal>int read_token(void);</literal></term>
       <listitem><para>The main analyzer routine produced by
         <command>lexi</command>.</para>
       </listitem>
     </varlistentry>
   </variablelist>
 
-  <para>Next functions are used by analyzer.</para>
+  <para>The following functions are used by the analyzer.</para>
 
   <variablelist>
     <varlistentry>
-      <term>
-        <funcsynopsis>
-          <funcprototype>
-            <funcdef>int <function>read_char</function></funcdef>
-            <void>
-          </funcprototype>
-        </funcsynopsis>
-      </term>
+      <term><literal>int read_char(void);</literal></term>
       <listitem>
-        <para>Reads next token from input stream.</para>
+        <para>Reads the next token from the input stream.</para>
       </listitem>
     </varlistentry>
     <varlistentry>
-      <term>
-        <funcsynopsis>
-          <funcprototype>
-            <funcdef>void <function>unread_char</function></funcdef>
-            <paramdef>int</paramdef>
-          </funcprototype>
-        </funcsynopsis>
-      </term>
-        <listitem>
-          <para>Returns character to the input stream.</para>
-        </listitem>
+      <term><literal>void unread_char(int);</literal></term>
+      <listitem>
+        <para>Returns a character to the input stream.</para>
+      </listitem>
     </varlistentry>
     <varlistentry>
-      <term>
-        <funcsynopsis>
-          <funcprototype>
-            <funcdef>int <function>unknown_token</function></funcdef>
-            <paramdef>int</paramdef>
-          </funcprototype>
-        </funcsynopsis>
-      </term>
-        <listitem>
-          <para>This function is called by <function>read_token()</function>
-            when unknown token is found.</para>
-        </listitem>
+      <term><literal>int unknown_token(int);</literal></term>
+      <listitem>
+        <para>This function is called by <function>read_token()</function>
+          when an unknown token is found.</para>
+      </listitem>
   </variablelist>
 </refsect1>
 
