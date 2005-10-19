@@ -196,7 +196,7 @@ IF (with_trigraphs) {
         </funcsynopsis>
       </term>
       <listitem><para>The main analyzer routine produced by
-	<command>lexi</command>.</para>
+        <command>lexi</command>.</para>
       </listitem>
     </varlistentry>
   </variablelist>
@@ -222,27 +222,27 @@ IF (with_trigraphs) {
         <funcsynopsis>
           <funcprototype>
             <funcdef>void <function>unread_char</function></funcdef>
-	    <paramdef>int</paramdef>
+            <paramdef>int</paramdef>
           </funcprototype>
         </funcsynopsis>
       </term>
-	<listitem>
-	  <para>Returns character to the input stream.</para>
-	</listitem>
+        <listitem>
+          <para>Returns character to the input stream.</para>
+        </listitem>
     </varlistentry>
     <varlistentry>
       <term>
         <funcsynopsis>
           <funcprototype>
             <funcdef>int <function>unknown_token</function></funcdef>
-	    <paramdef>int</paramdef>
+            <paramdef>int</paramdef>
           </funcprototype>
         </funcsynopsis>
       </term>
-	<listitem>
-	  <para>This function is called by <function>read_token()</function>
-	    when unknown token is found.</para>
-	</listitem>
+        <listitem>
+          <para>This function is called by <function>read_token()</function>
+            when unknown token is found.</para>
+        </listitem>
   </variablelist>
 </refsect1>
 
