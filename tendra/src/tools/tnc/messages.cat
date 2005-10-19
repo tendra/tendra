@@ -540,7 +540,7 @@ FATAL_external_expected()
 FATAL_illegal_external(ccp: name)
 {
 	USAGE: FATAL
-	KEY(STD) "Illegal external, %s"where
+	KEY(STD) "Illegal external, "name where
 }
 
 cant_have_external_name_with_local()
