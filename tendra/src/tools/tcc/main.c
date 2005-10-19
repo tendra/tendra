@@ -130,8 +130,7 @@ static boolean made_tempdir = 0;
  *    MAIN INITIALISATION ROUTINE
  *
  *    This is the initialisation routine called at the very start of the
- *    program.  The signals SIGINT, SIGSEGV, SIGTERM and SIGFPE are all
- *    in ANSI.
+ *    program.
  */
 
 static void
@@ -141,6 +140,7 @@ main_start(char *prog, char **envp)
 	buffer = xalloc (buffer_size * sizeof(*buffer));
 	progname = find_basename (prog);
 	initialise_options ();
+	msg_sev_set(MSG_SEV_INFO, 1);
 	return;
 }
 
