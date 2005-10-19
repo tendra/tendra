@@ -131,7 +131,7 @@
       <listitem>
         <para>Causes <command>tnc</command> to use its alternative,
           functional, form for both input and output. The options
-          <option>--func_in</option> and <option>--func_out</option> may be
+          <option>--funcin</option> and <option>--funcout</option> may be
           used to change the input and the output independently.</para>
       </listitem>
     </varlistentry>
