@@ -143,7 +143,7 @@ recursive_inclusion(ccp: sn)
 set_not_found(ccp: sn)
 {
 	USAGE: ERROR
-	KEY(STD) fileline"Set '%s' not found"
+	KEY(STD) fileline"Set '"sn"' not found"
 }
 
 set_not_found_no_file(ccp: sn, ccp: file)
@@ -215,7 +215,7 @@ unmatched_close_hbrace()
 bracket_imbalance_of(int: brackets)
 {
 	USAGE: ERROR
-	KEY(STD) fileline"Bracket imbalance of %d"
+	KEY(STD) fileline"Bracket imbalance of "brackets
 }
 
 pif_without_pendif()
