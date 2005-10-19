@@ -1,9 +1,9 @@
 # $TenDRA$
 
-# default env files
-# default-build is used for *building* only, and is installed for historical
-# purposes.
-DATA_DEFAULT=	default-build default
+# default env file
+DATA_DEFAULT=	default
+# default-build is used for *building* only, don't install it
+DATA_DEFAULT_BUILD=	default-build
 
 # common directory
 DATA_COMMON=	16bit 32bit Goption K-PIC K-ieee K-noieee K-prom \
@@ -16,7 +16,7 @@ DATA_COMMON=	16bit 32bit Goption K-PIC K-ieee K-noieee K-prom \
 	tdp tnc tsimp unix95 wsl x5_aw x5_ext x5_lib x5_mit x5_mu \
 	x5_private x5_proto x5_t xpg3 xpg4
 
-DEPEND_SRC=	${DATA} ${DATA_COMMON} ${DATA_DEFAULT}
+DEPEND_SRC=	${DATA} ${DATA_COMMON} ${DATA_DEFAULT} ${DATA_DEFAULT_BUILD}
 
 INSTALL_TARGETS=	install-env
 
@@ -27,12 +27,7 @@ ${DATA_COMMON}:
 	@${BIN_CP} ${ARGS_CP} -R ${SRC_DIR}/src/lib/env/common/${.TARGET} ${.OBJDIR}/${.TARGET}
 
 
-#${DATA_DEFAULT}:
-#	cat ${SRC_DIR}/src/lib/env/common/${.TARGET} | \
-#		${SED} ${SED_DEFAULT} > ${.OBJDIR}/${.TARGET}
-
-
-${DATA_DEFAULT}:
+${DATA_DEFAULT} ${DATA_DEFAULT_BUILD}:
 	cat ${SRC_DIR}/src/lib/env/common/${.TARGET} \
 		${.CURDIR}/default.extra | \
 		${BIN_SED} ${SED_DEFAULT} | \
