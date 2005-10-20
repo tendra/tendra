@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -84,19 +84,19 @@
  */
 
 PORT_ENTRY port_entry [] = {
-    { "char_bits", 0, 0, btype_none },			/* 0 */
-    { "short_bits", 0, 0, btype_none },			/* 1 */
-    { "int_bits", 0, 0, btype_none },			/* 2 */
-    { "long_bits", 0, 0, btype_none },			/* 3 */
-    { "longlong_bits", 0, 0, btype_none },		/* 4 */
-    { "max_bits", 1, UINT_MAX, btype_none },		/* 5 */
-    { "signed_range", 0, 0, btype_none },		/* 6 */
-    { "char_type", 0, 0, btype_none },			/* 7 */
-    { "exact_range", 1, 0, btype_none },		/* 8 */
-    { "ptr_int", 1, 0, btype_none },			/* 9 */
-    { "ptr_fn", 1, 0, btype_none },			/* 10 */
-    { "non_prototype_checks", 1, 0, btype_none },	/* 11 */
-    { "multibyte", 1, 0, btype_none }			/* 12 */
+	{ "char_bits", 0, 0, btype_none },				/* 0 */
+	{ "short_bits", 0, 0, btype_none },				/* 1 */
+	{ "int_bits", 0, 0, btype_none },				/* 2 */
+	{ "long_bits", 0, 0, btype_none },				/* 3 */
+	{ "longlong_bits", 0, 0, btype_none },			/* 4 */
+	{ "max_bits", 1, UINT_MAX, btype_none },		/* 5 */
+	{ "signed_range", 0, 0, btype_none },			/* 6 */
+	{ "char_type", 0, 0, btype_none },				/* 7 */
+	{ "exact_range", 1, 0, btype_none },			/* 8 */
+	{ "ptr_int", 1, 0, btype_none },				/* 9 */
+	{ "ptr_fn", 1, 0, btype_none },					/* 10 */
+	{ "non_prototype_checks", 1, 0, btype_none },	/* 11 */
+	{ "multibyte", 1, 0, btype_none }				/* 12 */
 };
 
 
@@ -110,16 +110,16 @@ PORT_ENTRY port_entry [] = {
 static int
 parse_table(void)
 {
-    int t;
-    PORT_ENTRY *p = port_entry;
-    while (t = read_token (), t == lex_identifier) {
+	int t;
+	PORT_ENTRY *p = port_entry;
+	while (t = read_token (), t == lex_identifier) {
 		int i;
 		unsigned n = 0;
 		HASHID nm = token_hashid;
 		BASE_TYPE bt = btype_none;
 		string us = DEREF_string (hashid_name_etc_text (nm));
 		update_column ();
-		
+
 		/* Check through table entries */
 		for (i = 0; i < PORT_size; i++) {
 			string ut = ustrlit (p [i].name);
@@ -132,17 +132,17 @@ parse_table(void)
 				break;
 			}
 		}
-		
+
 		/* Perform appropriate action */
 		switch (i) {
-			
-	    case PORT_char_bits :
-	    case PORT_short_bits :
-	    case PORT_int_bits :
-	    case PORT_long_bits :
-	    case PORT_llong_bits :
-	    case PORT_max_bits :
-	    case PORT_multibyte : {
+
+		case PORT_char_bits :
+		case PORT_short_bits :
+		case PORT_int_bits :
+		case PORT_long_bits :
+		case PORT_llong_bits :
+		case PORT_max_bits :
+		case PORT_multibyte : {
 			/* Deal with integral values */
 			unsigned err = 0;
 			t = read_token ();
@@ -152,9 +152,9 @@ parse_table(void)
 			n = (unsigned) eval_line_digits (us, &err);
 			if (err) report (crt_loc, ERR_lex_literal_bad (us));
 			break;
-	    }
-			
-	    case PORT_signed_range : {
+		}
+
+		case PORT_signed_range : {
 			/* Deal with range values */
 			t = read_token ();
 			update_column ();
@@ -169,9 +169,9 @@ parse_table(void)
 				return (t);
 			}
 			break;
-	    }
-			
-	    case PORT_char_type : {
+		}
+
+		case PORT_char_type : {
 			/* Deal with sign values */
 			t = read_token ();
 			update_column ();
@@ -188,9 +188,9 @@ parse_table(void)
 				return (t);
 			}
 			break;
-	    }
-			
-	    case PORT_ptr_int : {
+		}
+
+		case PORT_ptr_int : {
 			/* Deal with type values */
 			t = read_token ();
 			update_column ();
@@ -211,11 +211,11 @@ parse_table(void)
 				return (t);
 			}
 			break;
-	    }
-			
-	    case PORT_exact_range :
-	    case PORT_ptr_fn :
-	    case PORT_non_proto : {
+		}
+
+		case PORT_exact_range :
+		case PORT_ptr_fn :
+		case PORT_non_proto : {
 			/* Deal with boolean values */
 			t = read_token ();
 			update_column ();
@@ -230,17 +230,17 @@ parse_table(void)
 				return (t);
 			}
 			break;
-	    }
-			
-	    default : {
+		}
+
+		default : {
 			/* Unknown entry identifier */
 			return (t);
-	    }
+		}
 		}
 		p [i].value = n;
 		p [i].type = bt;
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -253,11 +253,11 @@ parse_table(void)
 void
 read_table(string nm)
 {
-    int set = 0;
-    PORT_ENTRY *p = port_entry;
-	
-    /* Read table */
-    if (nm) {
+	int set = 0;
+	PORT_ENTRY *p = port_entry;
+
+	/* Read table */
+	if (nm) {
 		int i, t;
 		input_name = nm;
 		if (!open_input (text_mode)) {
@@ -295,63 +295,63 @@ read_table(string nm)
 			pragma_number = 0;
 			close_input ();
 		}
-    }
-	
-    /* Set values from table */
-    if (set) {
-		unsigned m = p [ PORT_llong_bits ].value;
+	}
+
+	/* Set values from table */
+	if (set) {
+		unsigned m = p [PORT_llong_bits].value;
 		unsigned long n;
 		BASE_INFO *q = basetype_info;
-		set_char_sign (p [ PORT_char_type ].type);
-		if (p [ PORT_exact_range ].value == 0) {
+		set_char_sign (p [PORT_char_type].type);
+		if (p [PORT_exact_range].value == 0) {
 			/* Find maximum number of bits in an integer */
-			m = p [ PORT_max_bits ].value;
+			m = p [PORT_max_bits].value;
 		}
 		for (n = 0; n < ORDER_ntype; n++) {
-			unsigned exact = p [ PORT_exact_range ].value;
+			unsigned exact = p [PORT_exact_range].value;
 			switch (n) {
 			case ntype_char :
 			case ntype_schar :
 			case ntype_uchar : {
-				q [n].min_bits = p [ PORT_char_bits ].value;
+				q [n].min_bits = p [PORT_char_bits].value;
 				q [n].max_bits = m;
 				break;
 			}
 			case ntype_sshort :
 			case ntype_ushort : {
-				q [n].min_bits = p [ PORT_short_bits ].value;
+				q [n].min_bits = p [PORT_short_bits].value;
 				q [n].max_bits = m;
 				break;
 			}
 			case ntype_sint :
 			case ntype_uint :
 			case ntype_none : {
-				q [n].min_bits = p [ PORT_int_bits ].value;
+				q [n].min_bits = p [PORT_int_bits].value;
 				q [n].max_bits = m;
 				break;
 			}
 			case ntype_slong :
 			case ntype_ulong : {
-				q [n].min_bits = p [ PORT_long_bits ].value;
+				q [n].min_bits = p [PORT_long_bits].value;
 				q [n].max_bits = m;
 				break;
 			}
 			case ntype_sllong :
 			case ntype_ullong : {
-				q [n].min_bits = p [ PORT_llong_bits ].value;
+				q [n].min_bits = p [PORT_llong_bits].value;
 				q [n].max_bits = m;
 				break;
 			}
 			case ntype_ptrdiff_t :
 			case ntype_size_t : {
-				q [n].min_bits = p [ PORT_int_bits ].value;
+				q [n].min_bits = p [PORT_int_bits].value;
 				q [n].max_bits = m;
 				exact = 0;
 				break;
 			}
 			case ntype_wchar_t :
 			case ntype_ellipsis : {
-				q [n].min_bits = p [ PORT_char_bits ].value;
+				q [n].min_bits = p [PORT_char_bits].value;
 				q [n].max_bits = m;
 				exact = 0;
 				break;
@@ -363,13 +363,13 @@ read_table(string nm)
 			}
 			if (q [n].sign & btype_signed) {
 				/* Set signed type range */
-				q [n].sign = p [ PORT_signed_range ].type;
+				q [n].sign = p [PORT_signed_range].type;
 			}
 		}
-		if (p [ PORT_exact_range ].value) {
+		if (p [PORT_exact_range].value) {
 			/* Set exact type ranges */
 			set_exact_types ();
 		}
-    }
-    return;
+	}
+	return;
 }
