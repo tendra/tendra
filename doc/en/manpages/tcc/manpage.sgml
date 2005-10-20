@@ -84,6 +84,11 @@
     </listitem>
 
     <listitem>
+      <para>Arguments whose names end in <markup>.k</markup> are
+        understood to be C spec files.</para>
+    </listitem>
+
+    <listitem>
       <para>Arguments whose names end in <markup>.K</markup> are
         understood to be C++ spec files (only if <option>-Yc++</option>
         is specified).</para>
@@ -202,6 +207,13 @@
       <term><emphasis>l</emphasis></term>
       <listitem>
         <para>System linker</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><emphasis>s</emphasis></term>
+      <listitem>
+        <para>C spec linker</para>
       </listitem>
     </varlistentry>
 
@@ -1020,7 +1032,7 @@
 
   <variablelist>
     <varlistentry>
-      <term> <filename>file.c</filename></term>
+      <term><filename>file.c</filename></term>
       <listitem>
         <para>C source file</para>
       </listitem>
@@ -1087,6 +1099,13 @@
     <varlistentry><term><filename>file.d</filename></term>
       <listitem>
         <para>TenDRA dump file</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><filename>file.k</filename></term>
+      <listitem>
+        <para>C spec file</para>
       </listitem>
     </varlistentry>
 
