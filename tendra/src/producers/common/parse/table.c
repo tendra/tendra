@@ -255,6 +255,7 @@ read_table(string nm)
 {
 	int set = 0;
 	PORT_ENTRY *p = port_entry;
+	LIST(string) end_files = endup_files;
 
 	/* Read table */
 	if (nm) {
@@ -272,7 +273,11 @@ read_table(string nm)
 			IGNORE init_buffer (crt_buff_no);
 			unread_char (char_newline);
 			crt_loc.line--;
+			/* Temporarily clear the list of end-up files while reading the
+			 * table.  They must not be included. */
+			endup_files = NULL_list (string);
 			t = parse_table ();
+			endup_files = end_files;
 			update_column ();
 			if (t != lex_eof) {
 				/* Parse error in portability table */
