@@ -166,7 +166,7 @@ optmap main_optmap [] = {
 	{"-B+$", "1ON|Io$0", "passed to the system linker", 144},
 	{"-C", "AOC$0", "preserves comments when preprocessing", 30},
 	{"-E", "1PR", "causes C source files to be preprocessed", 145},
-	{"-P", "1PR|Ki|Ki", "halts compilation after creating .i and .I files", 145},
+	{"-P", "1PR|Ki|KI", "halts compilation after creating .i and .I files", 145},
 	{"-E?:+$", "LE$1$2", "specifies an executable to be used", 146},
 	{"-H", "1PI", "causes included files to be printed", 147},
 	{"-S?,+$,+*", "I$1$2", "specifies input files", 15},
