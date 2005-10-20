@@ -54,6 +54,7 @@
  * $TenDRA$
  */
 
+#include <ctype.h>
 
 #include "config.h"
 #include "cstring.h"
@@ -80,16 +81,6 @@ boolean case_insensitive = 0;
 
 
 /*
- *    IS A CHARACTER UPPER CASE?
- *
- *    This macro checks whether the character C is upper case.  It is ASCII
- *    dependent.
- */
-
-#define is_upper_case(C)	((C) >= 'A' && (C) <= 'Z')
-
-
-/*
  *    CONVERT A STRING TO LOWER CASE
  *
  *    This routine converts the string s to lower case.
@@ -98,11 +89,8 @@ boolean case_insensitive = 0;
 static void
 to_lower_case(char *s)
 {
-	char c;
-	while (c = *s, c != 0) {
-		if (is_upper_case (c)) {
-			*s = (char) (c - 'A' + 'a');
-		}
+	while (*s != '\0') {
+		*s = tolower ((unsigned char)*s);
 		s++;
 	}
 	return;
@@ -166,11 +154,10 @@ char *workdir = null;
 char *
 find_basename(char *s)
 {
-	char *r = s;
-	for (; *s; s++) {
-		if (*s == '/') r = s + 1;
-	}
-	return (r);
+	char *r = strrchr (s, '/');
+	if (r != NULL)
+		return (r + 1);
+	return (s);
 }
 
 
@@ -207,16 +194,14 @@ find_fullname(char *s)
 static char *
 split_name(char *s)
 {
-	int i, n = (int) strlen (s);
-	for (i = n - 1; i >= 0; i--) {
-		if (s [i] == '.') {
-			s [i] = 0;
-			if (case_insensitive) {
-				/* Allow for case insensitive systems */
-				to_lower_case (s + (i + 1));
-			}
-			return (s + (i + 1));
+	char *p = strrchr (s, '.');
+	if (p != NULL) {
+		*p = '\0';
+		if (case_insensitive) {
+			/* Allow for case insensitive systems */
+			to_lower_case (p + 1);
 		}
+		return (p + 1);
 	}
 	return ("");
 }
@@ -242,8 +227,8 @@ new_filename(void)
  *    result.
  */
 
-filename
-*add_filename(filename *p, filename *q)
+filename *
+add_filename(filename *p, filename *q)
 {
 	filename *r;
 	if (p == null) return (q);
@@ -347,7 +332,7 @@ file_suffix(int t)
 	case CPP_SPEC : suff [0] = CPP_SPEC_KEY; break;
 	}
 	if (suff [0]) {
-		if (case_insensitive && is_upper_case (suff [0])) {
+		if (case_insensitive && isupper ((unsigned char) suff [0])) {
 			/* Make allowances for case insensitive systems */
 			to_lower_case (suff);
 			suff [1] = suff [0];
