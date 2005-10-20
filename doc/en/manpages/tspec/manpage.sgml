@@ -21,13 +21,16 @@
   <cmdsynopsis>
     <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
-    <arg choice='plain'><replaceable>apiheader</replaceable></arg>
+    <arg choice='plain'><replaceable>api</replaceable></arg>
+    <arg choice='plain'><replaceable>header</replaceable></arg>
   </cmdsynopsis>
 
   <cmdsynopsis>
     <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
-    <arg choice='plain'><replaceable>apiheadersubset</replaceable></arg>
+    <arg choice='plain'><replaceable>api</replaceable></arg>
+    <arg choice='plain'><replaceable>header</replaceable></arg>
+    <arg choice='plain'><replaceable>subset</replaceable></arg>
   </cmdsynopsis>
 
   <cmdsynopsis>
