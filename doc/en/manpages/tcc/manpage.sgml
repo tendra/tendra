@@ -116,26 +116,41 @@
   <para>The compilation process is as follows. Depending on the options
     given, it may halt at any stage:</para>
 
-  <para>TDF archives are split into their constituent target independent
-    capsules.</para>
+  <orderedlist>
+    <listitem>
+      <para>TDF archives are split into their constituent target independent
+        capsules.</para>
+    </listitem>
 
-  <para>C source files (including preprocessed C) are compiled into
-    target independent TDF capsules using &man.tendra.tdfc2;.
-    (&man.tendra.tcpplus; does the same for C++ source files when
-    <option>-Yc++</option> is specified.)</para>
-    <para>Target independent TDF capsules are linked, using
-    &man.tendra.tld;, with the TDF libraries to produce target dependent
-    TDF capsules.</para>
+    <listitem>
+      <para>C source files (including preprocessed C) are compiled into
+        target independent TDF capsules using &man.tendra.tdfc2;.
+        (&man.tendra.tcpplus; does the same for C++ source files when
+        <option>-Yc++</option> is specified.)</para>
+    </listitem>
 
-  <para>Target dependent TDF capsules are translated into assembly source
-    files using one of &man.tendra.mipstrans; (q.v. - things are not quite
-    so simple in this case), &man.tendra.trans386; etc.</para>
+    <listitem>
+      <para>Target independent TDF capsules are linked, using
+        &man.tendra.tld;, with the TDF libraries to produce target dependent
+        TDF capsules.</para>
+    </listitem>
 
-  <para>Assembly source files are compiled into binary object files using
-    &man.freebsd.as;.</para>
+    <listitem>
+      <para>Target dependent TDF capsules are translated into assembly source
+        files using one of &man.tendra.mipstrans; (q.v. - things are not quite
+        so simple in this case), &man.tendra.trans386; etc.</para>
+    </listitem>
 
-  <para>Binary object files are linked with the precompiled libraries,
-    using &man.freebsd.ld;, to produce a final executable.</para>
+    <listitem>
+      <para>Assembly source files are compiled into binary object files using
+        &man.freebsd.as;.</para>
+    </listitem>
+
+    <listitem>
+      <para>Binary object files are linked with the precompiled libraries,
+        using &man.freebsd.ld;, to produce a final executable.</para>
+    </listitem>
+  </orderedlist>
 
   <para>With the exception of binary object files, intermediate files are
     not preserved unless explicitly instructed.</para>
