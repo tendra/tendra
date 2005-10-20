@@ -79,7 +79,7 @@
  *    PORTABILITY TABLE ENTRIES
  *
  *    This table describes the portability table entries.  The entries need
- *    to be keep in one-to-one correspondence with the PORT_* macros defined
+ *    to be kept in one-to-one correspondence with the PORT_* macros defined
  *    in table.h.
  */
 
