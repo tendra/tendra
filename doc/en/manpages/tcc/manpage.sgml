@@ -751,8 +751,8 @@
       <term><option>-k</option></term>
       <listitem>
         <para>In intermodular checking mode, halts the compilation after
-          the creation of the C++ spec files. This is equivalent to
-          <option>-FK</option>.</para>
+          the creation of C or C++ spec files. This is equivalent to
+          <option>-Fk</option> or <option>-FK</option> (for C++ files).</para>
       </listitem>
     </varlistentry>
 
