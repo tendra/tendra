@@ -142,9 +142,7 @@ optmap main_optmap [] = {
 	{"-vt", "1TT", "verbose information about tool chain invocation", 51},
 	{"-ve", "1TE", "verbose information about tool chain environment", 51},
 	{"-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1},
-
-	/* added */
-	{"-y+$=$", "E?$1?$2", "sets an env directory variable", 1},
+	{"-y+$=$", "E?$1=$2", "sets an env directory variable", 1},
 
 
 	/* Options not allowed in checker */
@@ -1148,55 +1146,34 @@ interpret_cmd(char *cmd)
 
 	case 'E' : {
 		/* Environment */
-		if (*(cmd+1) == '?') {
-			char var[MAX_LINE];
-			char val[MAX_LINE];
-			int  count;
-			char *p, *q, *r;
-			char c1;
+		if (cmd [1] == '?') {
 			char **subs;
-			int i;
+			unsigned i, var_len;
 #if FS_STAT
 			struct stat sb;
 #endif
-			q = var;
-			r = val;
-			p = cmd+2;
-			count = 0;
-			while ((c1 = *p++) != '?') {
-				*q++ = c1;
-			}
-			*q++='\0';
+			const char *var = cmd + 2;
+			const char *val = strchr (var, '=');
+			if (val == NULL)
+				return;
+			var_len = val - var;
+			val++;
 
-			while ((c1 = *p++) != '\0') {
-				*r++ = c1;
-				/* only the val is user supplied and needs bounds
-				   checking */
- 				if (++count >= MAX_LINE){
-					MSG_exceeded_maximum_buffer_length_in_y_argument ();
-				}
- 			}
-			*r++ ='\0';
 			/* additional error checking for those platforms supporting stat */
 #if FS_STAT
 			if (stat (val, &sb) == -1) {
 				MSG_interpret_cmd (val);
 			}
 #endif
-			i=0;
-			subs = PATH_SUBS;
-			while (*subs) {
-				if (!strcmp (*subs, var)) {
-					env_paths[i] = string_copy(val);
+			for (subs = PATH_SUBS, i = 0; subs [i] != NULL; i++) {
+				if (strneq (subs [i], var, var_len)) {
+					env_paths [i] = string_copy(val);
 					break;
 				}
-				i++;
-				subs++;
 			}
-			if (!*subs)
-				MSG_ignoring_non_standard_env_assignment (var, val);
-		}
-		else {
+			if (subs [i] == NULL)
+				MSG_ignoring_non_standard_env_assignment (var);
+		} else {
 			read_env (cmd + 1);
 		}
 		return;
