@@ -496,22 +496,16 @@ interpreting(ccp: cmd)
 	KEY(STD) "Interpreting '" cmd "'"
 }
 
-exceeded_maximum_buffer_length_in_y_argument()
-{
-	USAGE: FATAL
-	KEY(STD) "Exceeded maximum buffer length in -y argument"
-}
-
 interpret_cmd(ccp: val)
 {
 	USAGE: ERROR
-	KEY(STD) "interpret_cmd: "val " " strerror
+	KEY(STD) "interpret_cmd: "val ": " strerror
 }
 
-ignoring_non_standard_env_assignment(ccp: var, ccp: val)
+ignoring_non_standard_env_assignment(ccp: asmt)
 {
 	USAGE: WARNING
-	KEY(STD) "Ignoring non-standard env assignment: "var"="val
+	KEY(STD) "Ignoring non-standard env assignment: "asmt
 }
 
 list_of_recognised_options()
