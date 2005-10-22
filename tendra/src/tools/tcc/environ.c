@@ -199,7 +199,8 @@ read_env_aux(char *nm, hashtable *ht)
 		p = buffer;
 		c = *p++;
 		line_num++;
-		if (c == '<' || c == '>' || c == '+' || c == '?') {
+		if (c == ACTION_PREPEND || c == ACTION_APPEND ||
+		    c == ACTION_REPLACE || c == ACTION_QUERY) {
 			key_start = (p-1);
 			key_length = 0;
 			while (c = *p++, is_alphanum(c)) {

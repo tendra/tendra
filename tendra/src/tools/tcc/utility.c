@@ -168,17 +168,17 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 			hn->val = NULL;
 		else {
 			switch (*key) {
-			case '+': /* assignment */
+			case ACTION_REPLACE:
 				hn->val = val;
 				break;
 
-			case '>': /* append */
+			case ACTION_APPEND:
 				if (hn->val)
 					hn->val = string_append (hn->val, val, ' ');
 				hn->val = val;
 				break;
 
-			case '<': /* prepend */
+			case ACTION_PREPEND:
 				if (hn->val)
 					hn->val = string_append (val, hn->val, ' ');
 				hn->val = val;
