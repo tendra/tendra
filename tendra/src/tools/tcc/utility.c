@@ -90,12 +90,10 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 	ht->keysize = keysize;
 	ht->hashfcn = hashfcn;
 	ht->node = malloc(tblsize * sizeof(*ht->node));
-	for (i = 0; i < tblsize; i++)
-	{
+	for (i = 0; i < tblsize; i++) {
 		ht->node[i] = NULL;
 	}
-	for (t = environ_optmap; t->in != NULL; t++)
-	{
+	for (t = environ_optmap; t->in != NULL; t++) {
 		/* initialize hash table with tccenv keys */
 		update_table (ht, t->in, NULL, TCCENV, NULL, -1);
 	}
@@ -132,12 +130,10 @@ lookup_table(hashtable *ht, char *key)
 	}
 	hashval = ht->hashfcn (key, ht->tblsize, ht->keysize);
 	hn = ht->node[hashval];
-	while (hn != NULL && !key_match(key, hn->key))
-	{
+	while (hn != NULL && !key_match(key, hn->key)) {
 		hn = hn->next;
 	}
-	if (hn)
-	{
+	if (hn) {
 		hn->flag |= READ;
 	}
 	return hn;
@@ -152,14 +148,12 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 	hashval = ht->hashfcn (key, ht->tblsize, ht->keysize);
 	hn = ht->node[hashval];
 	/* locate matching node */
-	while (hn != NULL && !key_match(key, hn->key))
-	{
+	while (hn != NULL && !key_match(key, hn->key)) {
 		hn = hn->next;
 	}
 
 	/* Case 1.  Node was not found; push */
-	if (hn == NULL)
-	{
+	if (hn == NULL) {
 		hn = malloc (sizeof(*hn));
 		hn->flag = flag;
 		hn->key  = key;
@@ -169,14 +163,11 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 		hn->next = ht->node[hashval];
 		ht->node[hashval] = hn;
 	}
-	else /* Case 2.  Update */
-	{
+	else /* Case 2.  Update */ {
 		if (!val)
 			hn->val = NULL;
-		else
-		{
-			switch (*key)
-			{
+		else {
+			switch (*key) {
 			case '+': /* assignment */
 				hn->val = val;
 				break;
@@ -218,17 +209,14 @@ hash(char *key, int tblsize, int keysize)
 	int hashval = 0;
 
 	/* skip leading +, <, >, ?, / chars */
-	while (*key && !(is_alphanum(*key)))
-	{
+	while (*key && !(is_alphanum(*key))) {
 		key++;
 	}
 
-	if (!key)
-	{
+	if (!key) {
 		MSG_hash_operation_requested_on_empty_key ();;
 	}
-	while (*key && !is_whitespace(*key) && i < keysize)
-	{
+	while (*key && !is_whitespace(*key) && i < keysize) {
 		hashval += (hashval * 37) + (int) *key;
 		key++;
 		i++;
