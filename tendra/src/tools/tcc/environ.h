@@ -67,7 +67,6 @@
  */
 
 extern void read_env(char *);
-extern int  read_env_aux(char *, hashtable *);
 extern void find_envpath(void);
 extern void show_envpath(char *);
 extern void reconcile_envopts(void);

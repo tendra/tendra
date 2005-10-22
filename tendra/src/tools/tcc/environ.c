@@ -144,7 +144,7 @@ show_envpath(char *dummy)
  *  and avoiding copying strings around in memory.
  */
 
-int
+static int
 read_env_aux(char *nm, hashtable *ht)
 {
 	/* Find the environment */
