@@ -1261,7 +1261,7 @@ operator_pragma(void)
 			if (t == lex_close_Hround) {
 				/* Write 'pragma <string>\n\n' into internal_buff. */
 				BUFFER *bf = &internal_buff;
-				bfputs (bf, "pragma ");
+				bfputs (bf, ustrlit ("pragma "));
 				/* Unquote \\ and \". */
 				while (sb != se) {
 					if (sb[0] == '\\' && (sb[1] == '\\' || sb[1] == '"')) {
@@ -1273,7 +1273,7 @@ operator_pragma(void)
 				/* Two newlines are needed here.  One is consumed by
 				 * parse_pragma() and without the second one we complain
 				 * that the file doesn't end in a newline. */
-				bfputs (bf, "\n\n");
+				bfputs (bf, ustrlit ("\n\n"));
 				bf->end = bf->posn;
 				bf->posn = bf->start;
 

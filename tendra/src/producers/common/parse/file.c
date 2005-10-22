@@ -1412,7 +1412,7 @@ setup_pragma(void)
 {
 	int ret;
 	string s = internal_name;
-	internal_name = "<_Pragma>";
+	internal_name = ustrlit ("<_Pragma>");
 	ret = start_include (internal_name, char_quote, INCLUDE_NORMAL, 0);
 	internal_name = s;
 	return (ret);
