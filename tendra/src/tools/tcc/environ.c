@@ -175,8 +175,7 @@ read_env_aux(char *nm, hashtable *ht)
 	 */
 	line_num = 0;
 
-	while (fgets (buffer, buffer_size, f) != null)
-	{
+	while (fgets (buffer, buffer_size, f) != null) {
 		char c;          /* temp char */
 		char *p;         /* current pointer to scan buffer */
 		char *key_start; /* points to +, <, > start of key */
@@ -341,8 +340,7 @@ read_env_aux(char *nm, hashtable *ht)
 			/* if the key/value pair is a tccenv variable, it's
 			   a finished command, and should be executed */
 			hn = lookup_table(ht, key_start);
-			if (hn && (hn->flag & TCCENV))
-			{
+			if (hn && (hn->flag & TCCENV)) {
 				/* process the command */
 				dummy.item = cmd;
 				dummy.next = null;
@@ -391,11 +389,9 @@ dereference_var(char *esc_start, char *esc_end, hashtable *ht,
 
 	/* If we fail to find a TENDRA_* env match, look
 	   up in hashtable */
-	if (!sub)
-	{
+	if (!sub) {
 		hn = lookup_table(ht, esc_start);
-		if (hn == NULL)
-		{
+		if (hn == NULL) {
 			MSG_undefined_variable_in_file (esc_start, nm, line_num);
 		}
 		sub = hn->val;
@@ -434,8 +430,7 @@ reconcile_envopts(void)
 	 *  execute stage.  This mistake is so fundamental, we give a
 	 *  warning even without verbose being set.
 	 */
-	if (environ_count == 0)
-	{
+	if (environ_count == 0) {
 		MSG_not_invoked_with_any_Yenv_arguments ();
  	}
 
@@ -445,16 +440,14 @@ reconcile_envopts(void)
 
 	/* If the global env table is NULL, no -Y args succeeded, or none
 	   were given */
-	if (!environ_hashtable)
-	{
+	if (!environ_hashtable) {
 		/* -Y args given, but failed */
 		if (environ_count > 0)
 			MSG_failed_to_load_any_environment_files ();
 		return;
 	}
 
-	for (i = 0; i < TCC_TBLSZE; i++)
-	{
+	for (i = 0; i < TCC_TBLSZE; i++) {
 		hn = environ_hashtable->node[i];
 		if (hn &&  (hn->flag & USR)  &&
 			!(hn->flag & READ))
@@ -479,8 +472,7 @@ read_env(char *nm)
 	/* note attempt to load -Y env file */
 	environ_count++;
 
-	if (ht == NULL)
-	{
+	if (ht == NULL) {
 		ht = init_table (TCC_TBLSZE, TCC_KEYSZE, &hash);
 		environ_hashtable = ht; /* hack */
 	}
