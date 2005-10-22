@@ -112,7 +112,7 @@ extern char **environ;
 #if FS_TEMPNAM
 #define temp_name(X, Y)		(char *) tempnam ((X), (Y))
 #else
-extern char *like_tempnam(char *, char *);
+extern char *like_tempnam(const char *, const char *);
 #define temp_name(X, Y)		like_tempnam ((X), (Y))
 #endif
 

@@ -342,7 +342,7 @@ touch_file(char *nm, char *opt)
 #if !FS_TEMPNAM
 
 char *
-like_tempnam(char *dir, char *pfx) /* ARGSUSED */
+like_tempnam(const char *dir, const char *pfx) /* ARGSUSED */
 {
 	static char letter = 'a';
 	char *p = buffer;
