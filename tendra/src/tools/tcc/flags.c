@@ -468,7 +468,7 @@ set_stage(int t, int k)
  */
 
 void
-set_machine(void)
+set_machine(char *arg)
 {
 #if 0
 	char *mach = machine_name;
@@ -490,6 +490,7 @@ set_machine(void)
 		use_assembler = 0;
 	}
 #endif
+	UNUSED (arg);
 	return;
 }
 

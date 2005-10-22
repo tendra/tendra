@@ -98,8 +98,9 @@
  */
 
 void
-print_version(void)
+print_version(char *dummy)
 {
+	UNUSED (dummy);
 	MSG_tcc_version(VERSION_STRING, checker ? " (checker)" : "", machine_name, RELEASE);
 	flag_no_files = 1;
 	return;

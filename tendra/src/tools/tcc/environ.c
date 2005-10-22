@@ -113,8 +113,9 @@ find_envpath(void)
  */
 
 void
-show_envpath(void)
+show_envpath(char *dummy)
 {
+	UNUSED (dummy);
 	find_envpath ();
 	MSG_environment_path_is (envpath);
 	return;

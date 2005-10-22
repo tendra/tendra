@@ -187,7 +187,7 @@ optmap main_optmap [] = {
 	{"-s?:+$", "SS$1$2|1SO", "specifies a suffix override", 25},
 	{"-show_errors", "1SE", "causes error producing commands to be shown", 3},
 	{"-show_env", "CSE", "causes the environment path to be printed", 202},
-	{"-special+$", "SXX$1|CSP", "allows various internal options", 4},
+	{"-special+$", "CSP:$1", "allows various internal options", 4},
 	{"-startup+$", "@D$1$n", "specifies a start-up option", 5},
 	{"-target+$", "AOC-target|AOC$1", "provided for cc compatibility", 150},
 	{"-temp+$", "STD$1", "specifies the temporary directory", 1},
@@ -365,29 +365,17 @@ static boolean debug_options = 0;
 
 
 /*
- *  LOCAL FLAGS
- *
- *  These values may be used for temporary storage by the option
- *  interpreter.
- */
-
-static boolean xx_bool = 0;
-static list *xx_list = null;
-static char *xx_string = null;
-
-
-/*
  *  ROUTINE IMPLEMENTING THE -SPECIAL OPTION
  *
  *  This routine enables certain internal options depending on the
- *  value of the string held in xx_string.
+ *  value of the argument.
  */
 
 static void
-special_option(void)
+special_option(char *arg)
 {
 	boolean b = 1;
-	char *s = xx_string;
+	char *s = arg;
 	if (strneq (s, "no_", 3)) {
 		b = 0;
 		s += 3;
@@ -511,10 +499,6 @@ lookup_bool(char *s)
 	}
 	case 'W' : {
 		if (b == 'A') return (&warnings);
-		break;
-	}
-	case 'X' : {
-		if (b == 'X') return (&xx_bool);
 		break;
 	}
 	}
@@ -657,7 +641,6 @@ lookup_list(char *s)
 	case 'X' : {
 		switch (b) {
 		case 'O' : return (&opt_unknown);
-		case 'X' : return (&xx_list);
 		}
 		break;
 	}
@@ -717,41 +700,22 @@ lookup_string(char *s)
 	if (a == 'T' && b == 'D') return (&temporary_dir);
 	if (a == 'V' && b == 'F') return (&version_flag);
 	if (a == 'W' && b == 'D') return (&workdir);
-	if (a == 'X' && b == 'X') return (&xx_string);
 	MSG_unknown_string_identifier (a, b);
 	return (null);
 }
 
 
 /*
- *  DUMMY ARGUMENT FOR PROCEDURE
- *
- *  This variable is used to hold any argument passed to one of the procedures
- *  in lookup_proc.
- */
-
-static char *lookup_proc_arg = null;
-
-
-/*
  *  DUMMY WRAPPER PROCEDURES
  *
- *  These routine(s) are used to call procedures with an argument using
- *  lookup_proc.
+ *  These routine(s) are used to call procedures without an argument.
  */
 
 static void
-add_pragma_aux(void)
+find_envpath_aux(char *dummy)
 {
-	add_pragma (lookup_proc_arg);
-	return;
-}
-
-static void
-add_token_aux(void)
-{
-	add_token (lookup_proc_arg);
-	return;
+	UNUSED (dummy);
+	find_envpath ();
 }
 
 
@@ -762,7 +726,7 @@ add_token_aux(void)
  *  the corresponding procedure.
  */
 
-typedef void (*proc)();
+typedef void (*proc)(char *);
 
 static proc
 lookup_proc(char *s)
@@ -770,9 +734,9 @@ lookup_proc(char *s)
 	char a = s [0];
 	char b = 0;
 	if (a) b = s [1];
-	if (a == 'A' && b == 'P') return (add_pragma_aux);
-	if (a == 'A' && b == 'T') return (add_token_aux);
-	if (a == 'F' && b == 'E') return (find_envpath);
+	if (a == 'A' && b == 'P') return (add_pragma);
+	if (a == 'A' && b == 'T') return (add_token);
+	if (a == 'F' && b == 'E') return (find_envpath_aux);
 	if (a == 'P' && b == 'V') return (print_version);
 	if (a == 'S' && b == 'E') return (show_envpath);
 	if (a == 'S' && b == 'M') return (set_machine);
@@ -1126,15 +1090,14 @@ interpret_cmd(char *cmd)
 
 	case 'C' : {
 		/* Call */
+		char *arg = NULL;
 		proc p = lookup_proc (cmd + 1);
 		if (p == null)
 			return;
 		if (cmd [3] == ':') {
-			lookup_proc_arg = cmd + 4;
-		} else {
-			lookup_proc_arg = null;
+			arg = cmd + 4;
 		}
-		(*p) ();
+		(*p) (arg);
 		return;
 	}
 

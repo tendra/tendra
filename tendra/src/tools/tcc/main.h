@@ -75,7 +75,7 @@ extern char **environment;
  */
 
 extern void main_end(void);
-extern void print_version(void);
+extern void print_version(char *);
 
 
 #endif
