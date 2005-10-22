@@ -348,11 +348,12 @@ read_env_aux(char *nm, hashtable *ht)
 				process_options (&dummy, environ_optmap, 1);
 			}
 
-			/* update hashtable with new key/value pair*/
-			hn = update_table(ht, key_start, val_start,
-							  USR, nm, line_num);
-
-		} /* if the line is a +, >, < env action command */
+			if (*key_start != ACTION_QUERY) {
+				/* update hashtable with new key/value pair*/
+				hn = update_table(ht, key_start, val_start,
+								  USR, nm, line_num);
+			}
+		}
 
 	} /* for each line in the env file */
 	return (0);
