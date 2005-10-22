@@ -24,7 +24,7 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "tcc" "1" "Tue 18 Oct 2005, 07:34" "tcc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "tcc" "1" "Sat 22 Oct 2005, 14:19" "tcc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBtcc\fP - User interface to the TDF system
@@ -72,6 +72,9 @@ preprocessed\&.
 Arguments whose names end in \f(CW\&.d\fP are
 understood to be TenDRA dump files\&.
 .IP "   \(bu" 6
+Arguments whose names end in \f(CW\&.k\fP are
+understood to be C spec files\&.
+.IP "   \(bu" 6
 Arguments whose names end in \f(CW\&.K\fP are
 understood to be C++ spec files (only if \fB-Yc++\fP is specified)\&.
 .IP "   \(bu" 6
@@ -89,26 +92,26 @@ be binary object files\&.
 .PP
 The compilation process is as follows\&. Depending on the options
 given, it may halt at any stage:
-.PP
+.IP "   1." 6
 TDF archives are split into their constituent target independent
 capsules\&.
-.PP
+.IP "   2." 6
 C source files (including preprocessed C) are compiled into
 target independent TDF capsules using \fBtdfc2\fP\fB(1)\fP\&.
 (\fBtcpplus\fP\fB(1)\fP does the same for C++ source files when
 \fB-Yc++\fP is specified\&.)
-.PP
+.IP "   3." 6
 Target independent TDF capsules are linked, using
 \fBtld\fP\fB(1)\fP, with the TDF libraries to produce target dependent
 TDF capsules\&.
-.PP
+.IP "   4." 6
 Target dependent TDF capsules are translated into assembly source
 files using one of \fBmipstrans\fP\fB(1)\fP (q\&.v\&. - things are not quite
 so simple in this case), \fBtrans386\fP\fB(1)\fP etc\&.
-.PP
+.IP "   5." 6
 Assembly source files are compiled into binary object files using
 \fBas\fP\fB(1)\fP\&.
-.PP
+.IP "   6." 6
 Binary object files are linked with the precompiled libraries,
 using \fBld\fP\fB(1)\fP, to produce a final executable\&.
 .PP
@@ -142,6 +145,8 @@ TDF translator
 System assembler
 .IP "\fIl\fP" 5
 System linker
+.IP "\fIs\fP" 5
+C spec linker
 .IP "\fIS\fP" 5
 C++ spec linker
 .IP "\fIe\fP" 5
@@ -381,8 +386,8 @@ Tells the TDF linker to use the TDF library
 \fIstring\fP\f(CW\&.tl\fP\&.
 .IP "\fB-k\fP" 5
 In intermodular checking mode, halts the compilation after
-the creation of the C++ spec files\&. This is equivalent to
-\fB-FK\fP\&.
+the creation of C or C++ spec files\&. This is equivalent to
+\fB-Fk\fP or \fB-FK\fP (for C++ files)\&.
 .IP "\fB-keep_errors\fP" 5
 By default, if an error occurs during the production of a
 file, \fBtcc\fP will remove it\&. This option will
@@ -491,7 +496,7 @@ writable\&.
 .IP "\fB-z\fP\fIstring\fP" 5
 Passed to the system linker\&.
 .SH "FILES"
-.IP " \fBfile\&.c\fP" 5
+.IP "\fBfile\&.c\fP" 5
 C source file
 .IP "\fBfile\&.i\fP" 5
 Preprocessed C source file
@@ -512,6 +517,8 @@ Assembly source file that is run through the preprocessor
 Binary object file
 .IP "\fBfile\&.d\fP" 5
 TenDRA dump file
+.IP "\fBfile\&.k\fP" 5
+C spec file
 .IP "\fBfile\&.K\fP" 5
 C++ spec file (only if \fB-Yc++\fP is
 specified)
@@ -550,4 +557,4 @@ Temporary directory (this may be changed using the
 \fBtld\fP\fB(1)\fP, \fBtrans386\fP\fB(1)\fP, \fBalphatrans\fP\fB(1)\fP,
 \fBhppatrans\fP\fB(1)\fP, \fBmipstrans\fP\fB(1)\fP, \fBsparctrans\fP\fB(1)\fP,
 \fBtccenv\fP\fB(5)\fP\&.
-...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:34
+...\" created by instant / docbook-to-man, Sat 22 Oct 2005, 14:19
