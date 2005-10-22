@@ -92,10 +92,4 @@ extern int environ_count;             /* how may -Y env loads are attempted */
 #define is_quote(X)		((X) == '"')
 #define is_newline(X)		((X) == '\n')
 
-
-/*
- *  Use variable substitution for each env line read in
- */
-#define ENVIRONSUB
-
 #endif
