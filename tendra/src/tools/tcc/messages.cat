@@ -282,7 +282,7 @@ value_assigned_to_key_not_terminated_with_end_quote(ccp: file, unsigned: line,
 undefined_variable_in_file(ccp: var, ccp: file, unsigned: line)
 {
 	USAGE: FATAL
-	KEY(STD) "Undefined variable <"var"> in "file" line "line
+	KEY(STD) file": line "line": Undefined variable '"var"'"
 }
 
 not_invoked_with_any_Yenv_arguments()
