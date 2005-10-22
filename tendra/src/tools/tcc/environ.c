@@ -396,7 +396,6 @@ dereference_var(char *esc_start, char *esc_end, hashtable *ht,
 		hn = lookup_table(ht, esc_start);
 		if (hn == NULL)
 		{
-			*esc_end = tmp;
 			MSG_undefined_variable_in_file (esc_start, nm, line_num);
 		}
 		sub = hn->val;
