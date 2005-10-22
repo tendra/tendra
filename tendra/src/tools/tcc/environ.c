@@ -385,8 +385,8 @@ dereference_var(char *esc_start, char *esc_end, hashtable *ht,
 
 	/*   Attempt to match TENDRA_* env arguments,
 		 which are most likely to occur. */
-	if (!strncmp ("TENDRA", esc_start, 6)) {
-		sub = find_path_subst(esc_start);
+	if (strneq ("TENDRA", esc_start, 6)) {
+		sub = get_tendra_var(esc_start);
 	}
 
 	/* If we fail to find a TENDRA_* env match, look

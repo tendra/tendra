@@ -502,10 +502,10 @@ interpret_cmd(ccp: val)
 	KEY(STD) "interpret_cmd: "val ": " strerror
 }
 
-ignoring_non_standard_env_assignment(ccp: asmt)
+ignoring_non_standard_env_assignment(ccp: var, ccp: val)
 {
 	USAGE: WARNING
-	KEY(STD) "Ignoring non-standard env assignment: "asmt
+	KEY(STD) "Ignoring non-standard env assignment: "var"="val
 }
 
 list_of_recognised_options()
@@ -596,13 +596,6 @@ looking_up_null_key_in_tccenv_hashtable()
 {
 	USAGE: WARNING
 	KEY(STD) "Looking up null key in tccenv hashtable"
-}
-
-env_variable_is_null(ccp: name)
-{
-	USAGE: FATAL
-	KEY(STD) "The env variable <"name"> is null.
-		 \nCheck your environment or edit your env files."
 }
 
 unknown_environment_variable(ccp: var)

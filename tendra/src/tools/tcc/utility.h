@@ -77,14 +77,10 @@ extern char *buffer;
  */
 
 extern void comment (int, char *, ...);
-extern char* find_path_subst(char *);
 extern int hash(char *, int, int);
 
 /*extern char* format_path(char *); */
 
-
-extern char *PATH_SUBS[];
-extern size_t PATH_SUBS_elems;
 
 typedef struct htnode {
 	struct htnode *next;
@@ -110,5 +106,9 @@ extern hashtable* init_table   (int, int, int (*fcn) (char*, int, int));
 extern htnode*    lookup_table (hashtable *, char *);
 extern htnode*    update_table (hashtable *, char *, char *,
 								unsigned int, char *, int);
+
+extern char *get_tendra_var(char *);
+extern int set_tendra_var(const char *, char *);
+extern void set_tendra_var_env(char *);
 
 #endif

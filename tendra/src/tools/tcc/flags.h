@@ -94,9 +94,6 @@ extern char *name_p_file;
 extern char *temporary_dir;
 extern char *tokdef_output;
 extern char *version_flag;
-extern char *dev_null;
-
-extern char **env_paths;
 
 /*
  *    INTERNAL OPTIONS

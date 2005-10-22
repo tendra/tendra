@@ -54,6 +54,7 @@
  * $TenDRA$
  */
 
+#include <assert.h>
 #include <stdarg.h>
 
 #include "config.h"
@@ -262,66 +263,104 @@ comment(int e, char *s, ...) /* VARARGS */
 
 
 /*
- *  Substitution variables.  This is Table 5.
- *
+ *  TENDRA variables.  This is Table 5.
  */
-char *PATH_SUBS[] = {
-	"TENDRA_MACHDIR",
-	"TENDRA_BINDIR",
-	"TENDRA_ENVDIR",
-	"TENDRA_LIBDIR",
-	"TENDRA_INCLDIR",
-	"TENDRA_STARTUPDIR",
-	"TENDRA_TMPDIR",
-	"TENDRA_BASEDIR",
-	NULL
-};
 
-size_t PATH_SUBS_elems = ARRAY_SIZE (PATH_SUBS);
+static struct {
+	const char *var;
+	char *value;
+} tendra_paths [] = {
+	{ "TENDRA_MACHDIR", NULL },
+	{ "TENDRA_BINDIR", NULL },
+	{ "TENDRA_ENVDIR", NULL },
+	{ "TENDRA_LIBDIR", NULL },
+	{ "TENDRA_INCLDIR", NULL },
+	{ "TENDRA_STARTUPDIR", NULL },
+	{ "TENDRA_TMPDIR", NULL },
+	{ "TENDRA_BASEDIR", NULL },
+};
 
 
 /*
- *  Takes in a substitution variable as an argument, and returns its
- *  corresponding value.  This routine is used by the env substitution
- *  function (see format_path) to map variables to paths.
+ *  GET A TENDRA PATH VARIABLE
  *
- *  For example, input is "<TCCDIR_BASE>", and return value
- *  is "/usr/local/share/".  Variable lookup is prioritized:
+ *  Takes in a TENDRA variable name as an argument, and returns its
+ *  corresponding value.  This routine is used by the dereference_var
+ *  function to map variables to paths.
  *
- *     a)  command line args have highest priority,
- *     b)  environment variables are used next,
- *     c)  for a select group of variables, sane defaults are
- *          used.
+ *  For example, input is "TENDRA_LIBDIR", and return value
+ *  is "/usr/local/lib/TenDRA/lib".  Variable lookup is prioritized:
+ *
+ *     a)  command line arguments have highest priority,
+ *     b)  environment variables (from environment files) are used next,
+ *     c)  and finally getenv() is queried. 
  */
+
 char *
-find_path_subst(char *var)
+get_tendra_var(char *var)
 {
 	char *ret;
-	char **subs;
-	int i = 0;
+	unsigned i;
 
-	subs = PATH_SUBS;
-	while (*subs){
-		if (!strcmp (var, *subs)) {
-			if (env_paths[i] == NULL){
-				MSG_env_variable_is_null (PATH_SUBS[i]);
-			}
- 			return env_paths[i];
+	for (i = 0; i < ARRAY_SIZE (tendra_paths); i++) {
+		if (streq (var, tendra_paths [i].var)) {
+			if (tendra_paths [i].value != NULL)
+				return (tendra_paths [i].value);
+			break;
 		}
-		i++;
-		subs++;
 	}
-	if (!*subs)
-		MSG_expected_y_option (var);
-	ret = getenv (var);
+	/* Ignore other variables starting with TENDRA */
+	if (i == ARRAY_SIZE (tendra_paths))
+		return (NULL);
 
+	MSG_expected_y_option (var);
+	ret = getenv (var);
 	/* Perhaps this should not be fatal? */
-	if (!ret)
+	if (ret == NULL)
 		MSG_unknown_environment_variable (var);
-	return ret;
+	return (ret);
 }
 
 
+/*
+ *  SET A TENDRA PATH VARIABLE
+ *
+ *  This function sets the variable var to a copy of value.  If the variable
+ *  does not exist, it returns 0 for failure, otherwise 1.
+ */
+
+int
+set_tendra_var(const char *var, char *value)
+{
+	unsigned i;
+
+	for (i = 0; i < ARRAY_SIZE (tendra_paths); i++) {
+		if (streq (var, tendra_paths [i].var)) {
+			tendra_paths [i].value = string_copy (value);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+
+/*
+ *  SET A TENDRA PATH VARIABLE
+ *
+ *  This function is used to set a TENDRA_ variable from an environment
+ *  file.  The first character is a digit specifying the variable's index in
+ *  the tendra_paths array, the rest is the new value.
+ */
+
+void
+set_tendra_var_env(char *arg)
+{
+	unsigned index = arg [0] - '0';
+	assert (index < ARRAY_SIZE (tendra_paths));
+
+	if (tendra_paths [index].value == NULL)
+		tendra_paths [index].value = arg + 1;
+}
 
 
 /*

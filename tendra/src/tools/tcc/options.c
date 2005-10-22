@@ -289,18 +289,16 @@ optmap environ_optmap [] = {
 
 	/*
 	 * Set special env file variables.
-	 * These must be kept in sync with Table 5 in utility.h
+	 * These must be kept in sync with Table 5 in utility.c.
 	 */
-	{"$TENDRA_MACHDIR $", "SSV0$2", null, 0},
-	{"$TENDRA_BINDIR $", "SSV1$2", null, 0},
-	{"$TENDRA_ENVDIR $", "SSV2$2", null, 0},
-	{"$TENDRA_LIBDIR $", "SSV3$2", null, 0},
-	{"$TENDRA_INCLDIR $", "SSV4$2", null, 0},
-	{"$TENDRA_STARTUPDIR $", "SSV5$2", null, 0},
-	{"$TENDRA_TMPDIR $", "SSV6$2", null, 0},
-	{"$TENDRA_BASEDIR $", "SSV7$2", null, 0},
-
-
+	{"$TENDRA_MACHDIR $", "CTV:0$2", null, 0},
+	{"$TENDRA_BINDIR $", "CTV:1$2", null, 0},
+	{"$TENDRA_ENVDIR $", "CTV:2$2", null, 0},
+	{"$TENDRA_LIBDIR $", "CTV:3$2", null, 0},
+	{"$TENDRA_INCLDIR $", "CTV:4$2", null, 0},
+	{"$TENDRA_STARTUPDIR $", "CTV:5$2", null, 0},
+	{"$TENDRA_TMPDIR $", "CTV:6$2", null, 0},
+	{"$TENDRA_BASEDIR $", "CTV:7$2", null, 0},
 
 
 	/* Flags */
@@ -677,16 +675,6 @@ lookup_string(char *s)
 	}
 	if (a == 'S') {
 		int t;
-		char* p1;
-		if (b == 'V') {
-			int i = s[2] - '0';
-			p1 = (s+3);
-			/* change the path, if it was not set at cmd line */
-			if (env_paths[i] == NULL)
-				env_paths[i] = p1;
-			/* hack */
-			return &dev_null;
-		}
 		t = find_type (b, 0);
 		return (suffixes + t);
 	}
@@ -741,6 +729,7 @@ lookup_proc(char *s)
 	if (a == 'S' && b == 'E') return (show_envpath);
 	if (a == 'S' && b == 'M') return (set_machine);
 	if (a == 'S' && b == 'P') return (special_option);
+	if (a == 'T' && b == 'V') return (set_tendra_var_env);
 	MSG_unknown_procedure_identifier (a, b);
 	return (null);
 }
@@ -1110,17 +1099,14 @@ interpret_cmd(char *cmd)
 	case 'E' : {
 		/* Environment */
 		if (cmd [1] == '?') {
-			char **subs;
-			unsigned i, var_len;
 #if FS_STAT
 			struct stat sb;
 #endif
-			const char *var = cmd + 2;
-			const char *val = strchr (var, '=');
+			char *var = cmd + 2;
+			char *val = strchr (var, '=');
 			if (val == NULL)
 				return;
-			var_len = val - var;
-			val++;
+			*val++ = '\0';
 
 			/* additional error checking for those platforms supporting stat */
 #if FS_STAT
@@ -1128,14 +1114,8 @@ interpret_cmd(char *cmd)
 				MSG_interpret_cmd (val);
 			}
 #endif
-			for (subs = PATH_SUBS, i = 0; subs [i] != NULL; i++) {
-				if (strneq (subs [i], var, var_len)) {
-					env_paths [i] = string_copy(val);
-					break;
-				}
-			}
-			if (subs [i] == NULL)
-				MSG_ignoring_non_standard_env_assignment (var);
+			if (!set_tendra_var (var, val))
+				MSG_ignoring_non_standard_env_assignment (var, val);
 		} else {
 			read_env (cmd + 1);
 		}
