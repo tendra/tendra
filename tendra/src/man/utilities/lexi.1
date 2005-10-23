@@ -24,20 +24,20 @@
 .\" 
 .\" $TenDRA$ 
 .\" 
-.TH "lexi" "1" "Wed 19 Oct 2005, 01:45" "lexi @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.TH "lexi" "1" "Sun 23 Oct 2005, 12:36" "lexi @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
 .SH "NAME" 
 .PP 
 \fBlexi\fP - lexical analyser tool
 .SH "SYNOPSIS"
 .PP
 \fBlexi\fP [\fIoptions\fP] \fIinput-file\fP  [\fIoutput-file\fP] 
-.SH "Description"
+.SH "DESCRIPTION"
 .PP
 \fBlexi\fP translates a description of a lexical analyser,
 \fIinput-file\fP, into code implementing that analyser\&.
 This is output into the \fIoutput-file\fP argument, if
 present, or the standard output otherwise\&.
-.SH "Options"
+.SH "OPTIONS"
 .IP "\fB-V\fP" 5
 Causes \fBlexi\fP print its version number\&.
 .IP "\fB-f\fP" 5
@@ -57,7 +57,7 @@ macros specified in the input\&.
 .IP "\fB-t\fP" 5
 Causes \fBlexi\fP to generate code describing the
 lookup table\&.
-.SH "Input File"
+.SH "INPUT FILE"
 .PP
 The \fBlexi\fP input file defines the lexical analyzer
 to be created\&. It contains character group definitions, token mappings,
@@ -106,7 +106,7 @@ optional\&. It is possible use multiple commands, surrounding them with
 curly brackets\&.
 .PP
 It is possible to use C style comments in the input file\&.
-.SH "Examples"
+.SH "EXAMPLES"
 .PP
 The first example is taken from \fBlexi\fP sources,
 this is snippet from input grammar specification\&.
@@ -148,7 +148,7 @@ IF (with_trigraphs) {
 }\fR
 .fi
 .PP
-.SH "The C interface"
+.SH "THE C INTERFACE"
 .IP "\fBint read_token(void);\fP" 5
 The main analyzer routine produced by
 \fBlexi\fP\&.
@@ -160,12 +160,12 @@ Reads the next token from the input stream\&.
 Returns a character to the input stream\&.
 .IP "\fBint unknown_token(int);\fP" 5
 This function is called by \fBread_token()\fP when an unknown token is found\&.
-.SH "Bugs"
+.SH "BUGS"
 .PP
 The \fBlexi\fP input file must contain at least one TOKEN
 directive, unless invalid lexer is produced\&.
-.SH "See Also"
+.SH "SEE ALSO"
 .PP
 \fBtcc\fP\fB(1)\fP ,
 \fBsid\fP\fB(1)\fP \&.
-...\" created by instant / docbook-to-man, Wed 19 Oct 2005, 01:45
+...\" created by instant / docbook-to-man, Sun 23 Oct 2005, 12:36
