@@ -218,13 +218,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>motif_1_1</filename></term>
-      <listitem>
-        <para>Motif (Release 1.1)</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><filename>motif_1_2</filename></term>
       <listitem>
         <para>Motif (Release 1.2)</para>
