@@ -130,6 +130,11 @@ test:
 		${BIN_GROFF} -Tascii -man $$i > /dev/null; \
 	done
 
+install:
+	@[ -d "${MAN_DIR}" ] || (echo "Please set MAN_DIR."; exit 1)
+	for i in ${MAN} ${MAN_TRANS}; do \
+		cp $${i} $$(find ${MAN_DIR} -name $${i}); \
+	done
 
 clean:
 	rm -rf ${.CURDIR}/tmp
