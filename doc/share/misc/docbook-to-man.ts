@@ -147,7 +147,7 @@ EndText:	^
 -
 #
 GI:		REFSECT1
-StartText:	^.SH "${_followrel child TITLE 1000}"^
+StartText:	^.SH "${_followrel child TITLE 1020}"^
 EndText:	^
 -
 #
@@ -2005,6 +2005,10 @@ GI:		_doTitle
 SpecID:		1010
 StartText:	^.PP^\\fB
 EndText:	\\fR^.PP^
+-
+GI:		_passthroughupper
+SpecID:		1020
+Replace:	${_! printf "%s" "${+content}" | tr [[:lower:]] [[:upper:]]}
 -
 #
 #
