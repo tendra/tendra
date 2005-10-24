@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -282,70 +282,70 @@ ENTRIES:
     property which most errors would have, a 'non_iso' property is used.
 */
 
-fail_input ( string: s )
+fail_input(string: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (ISO)	/* empty */
     KEY (STD)	"Can't open input file, '"s"'"
 }
 
-fail_output ( string: s )
+fail_output(string: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Can't open output file, '"s"'"
 }
 
-fail_dump ( string: s )
+fail_dump(string: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Can't open output dump file, '"s"'"
 }
 
-fail_spec ( string: s )
+fail_spec(string: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Can't open output spec file, '"s"'"
 }
 
-fail_spec_bad ( string: s, string: m )
+fail_spec_bad(string: s, string: m)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Ill-formed spec file, '"s"': "m
 }
 
-fail_port ( string: s )
+fail_port(string: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Can't open portability table, '"s"'"
 }
 
-fail_too_many ( ulong: n )
+fail_too_many(ulong: n)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	"Too many errors ("n") - aborting"
 }
 
-fail_error ( cstring: s )
+fail_error(cstring: s)
 {
     PROPERTIES: non_iso, compiler
     KEY (STD)	s
 }
 
-fail_warning ( cstring: s )
+fail_warning(cstring: s)
 {
     USAGE:	warning
     PROPERTIES: non_iso, compiler
     KEY (STD)	s
 }
 
-fail_list_item ( unsigned: n, LONG_ID: id, PTR_LOC: loc )
+fail_list_item(unsigned: n, LONG_ID: id, PTR_LOC: loc)
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, dummy
     KEY (STD)	"\t"n". '"id"' ("loc")"
 }
 
-fail_list_end ( unsigned: n )
+fail_list_end(unsigned: n)
 {
     USAGE:	none
     PROPERTIES:	non_iso, dummy
@@ -412,27 +412,27 @@ fail_list_end ( unsigned: n )
 		[lex]
     --------------------------------------------------------------------  */
 
-lex_parse ( PPTOKEN_P: pptok )
+lex_parse(PPTOKEN_P: pptok)
 {
     PROPERTIES:	non_iso, syntax
     KEY (ISO)	/* none */
     KEY (STD)	"Parse error before '"pptok"'"
 }
 
-lex_expect ( LEX: lex )
+lex_expect(LEX: lex)
 {
     PROPERTIES:	non_iso, syntax
     KEY (STD)	"Syntax error, '"lex"' expected"
 }
 
-lex_extra_comma ()
+lex_extra_comma()
 {
     USAGE:	comma_extra
     PROPERTIES:	non_iso, syntax
     KEY (STD)	"Extra comma at end of list"
 }
 
-lex_abort ()
+lex_abort()
 {
     PROPERTIES:	non_iso, syntax
     KEY (STD)	"Can't recover from this error"
@@ -444,19 +444,19 @@ lex_abort ()
 		[lex.phases]
     --------------------------------------------------------------------  */
 
-lex_phases_eof ()
+lex_phases_eof()
 {
     USAGE:	eof_nline
     KEY (ISO)	"2.1" | "5.1.1.2, 5.1.1.2"
     KEY (STD)	"File does not end in newline character"
 }
 
-lex_phases_comm_eof ()
+lex_phases_comm_eof()
 {
     KEY (STD)	"Unterminated comment"
 }
 
-lex_phases_str_eof ()
+lex_phases_str_eof()
 {
     KEY (STD)	"End of file in string literal"
 }
@@ -467,20 +467,20 @@ lex_phases_str_eof ()
 		[lex.charset]
     --------------------------------------------------------------------  */
 
-lex_charset_len ( cint: c, unsigned: n )
+lex_charset_len(cint: c, unsigned: n)
 {
     KEY (ISO)	"2.2" | "5.2.1, 6.4.3"
     KEY (STD)	"Universal character '\\"c"' should be followed by "n"
 		 hexadecimal digits"
 }
 
-lex_charset_replace ( ucint: c )
+lex_charset_replace(ucint: c)
 {
     USAGE:	trigraph
     KEY (STD)	"Universal character '"c"' used"
 }
 
-lex_charset_bad ( ucint: c )
+lex_charset_bad(ucint: c)
 {
     KEY (STD)	"Invalid universal character '"c"'"
 }
@@ -491,7 +491,7 @@ lex_charset_bad ( ucint: c )
 		[lex.trigraph]
     --------------------------------------------------------------------  */
 
-lex_trigraph_replace ( cint: c1, cint: c2 )
+lex_trigraph_replace(cint: c1, cint: c2)
 {
     USAGE:	trigraph
     KEY (ISO)	"2.3" | "5.2.1.1, 5.1.1.2"
@@ -504,13 +504,13 @@ lex_trigraph_replace ( cint: c1, cint: c2 )
 		[lex.pptoken]
     --------------------------------------------------------------------  */
 
-lex_pptoken_unknown ( cint: c )
+lex_pptoken_unknown(cint: c)
 {
     KEY (ISO)	"2.4" | "6.1, 6.4"
     KEY (STD)	"Illegal character, '"c"'"
 }
 
-lex_pptoken_unicode ( ucint: c )
+lex_pptoken_unicode(ucint: c)
 {
     KEY (STD)	"Illegal universal character, '"c"'"
 }
@@ -521,14 +521,14 @@ lex_pptoken_unicode ( ucint: c )
 		[lex.digraph]
     --------------------------------------------------------------------  */
 
-lex_digraph_replace ( LEX: lex1, LEX: lex2 )
+lex_digraph_replace(LEX: lex1, LEX: lex2)
 {
     USAGE:	digraph
     KEY (ISO)	"2.5" | "Amendment 1, 6.4.6"
     KEY (STD)	"Digraph '"lex1"' replaced by '"lex2"'"
 }
 
-lex_digraph_iso ( HASHID: lex1, LEX: lex2 )
+lex_digraph_iso(HASHID: lex1, LEX: lex2)
 {
     USAGE:	iso_keyword
     KEY (STD)	"ISO keyword '"lex1"' replaced by '"lex2"'"
@@ -546,7 +546,7 @@ lex_digraph_iso ( HASHID: lex1, LEX: lex2 )
 		[lex.comment]
     --------------------------------------------------------------------  */
 
-lex_comment_nest ()
+lex_comment_nest()
 {
     USAGE:	nest_comment
     KEY (ISO)	"2.7" | "6.1.9, 6.4.9"
@@ -571,14 +571,14 @@ lex_comment_nest ()
 		[lex.name]
     --------------------------------------------------------------------  */
 
-lex_name_limit ( HASHID: nm, ulong: m, ulong: n )
+lex_name_limit(HASHID: nm, ulong: m, ulong: n)
 {
     USAGE:	name_limit
     KEY (ISO)	"2.10" | "6.1.2, 6.4.2"
     KEY (STD)	"Length of identifier '"nm"' ("m") exceeds "n
 }
 
-lex_name_extendid ( ucint: c )
+lex_name_extendid(ucint: c)
 {
     KEY (STD)	"Invalid universal character, '"c"', in identifier"
 }
@@ -589,25 +589,25 @@ lex_name_extendid ( ucint: c )
 		[lex.key]
     --------------------------------------------------------------------  */
 
-lex_key_word ( LEX: lex )
+lex_key_word(LEX: lex)
 {
     KEY (ISO)	"2.11" | "6.1.1, 6.4.1"
     KEY (STD)	"'"lex"' is now a keyword"
 }
 
-lex_key_iso ( HASHID: nm )
+lex_key_iso(HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"ISO keyword '"nm"' is not a valid macro identifier"
 }
 
-lex_key_reserve ( HASHID: nm )
+lex_key_reserve(HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"'"nm"' is a reserved identifier"
 }
 
-lex_key_c99 ( HASHID: nm )
+lex_key_c99(HASHID: nm)
 {
     USAGE:	wall
     KEY (ISO)	/* none */
@@ -620,7 +620,7 @@ lex_key_c99 ( HASHID: nm )
 		[lex.op]
     --------------------------------------------------------------------  */
 
-lex_op_old_assign ( cint: c1, cint: c2 )
+lex_op_old_assign(cint: c1, cint: c2)
 {
     USAGE:	none
     KEY (ISO)	"2.12" | "6.1.5, 6.4.6"
@@ -633,7 +633,7 @@ lex_op_old_assign ( cint: c1, cint: c2 )
 		[lex.literal]
     --------------------------------------------------------------------  */
 
-lex_literal_bad ( string: num )
+lex_literal_bad(string: num)
 {
     KEY (ISO)	"2.13" | "6.1.3, 6.4.4"
     KEY (STD)	"Can't convert '"num"' to a number"
@@ -645,18 +645,18 @@ lex_literal_bad ( string: num )
 		[lex.icon]
     --------------------------------------------------------------------  */
 
-lex_icon_octal ( string: num )
+lex_icon_octal(string: num)
 {
     KEY (ISO)	"2.13.1" | "6.1.3.2, 6.4.4.1"
     KEY (STD)	"Illegal octal digits in '"num"'"
 }
 
-lex_icon_large ( string: num, NAT: n )
+lex_icon_large(string: num, NAT: n)
 {
     KEY (STD)	"Integer literal '"num"' exceeds maximum value ("n")"
 }
 
-lex_icon_llong ( string: num )
+lex_icon_llong(string: num)
 {
     USAGE:	longlong
     KEY (STD)	"'long long' integer literal '"num"'"
@@ -668,37 +668,37 @@ lex_icon_llong ( string: num )
 		[lex.ccon]
     --------------------------------------------------------------------  */
 
-lex_ccon_multibyte ()
+lex_ccon_multibyte()
 {
     KEY (ISO)	"2.13.2" | "5.2.1.2, 5.2.1.2"
     KEY (STD)	"Invalid multibyte character"
 }
 
-lex_ccon_empty ()
+lex_ccon_empty()
 {
     KEY (ISO)	"2.13.2" | "6.1.3.4, 6.4.4.4"
     KEY (STD)	"Empty character literal"
 }
 
-lex_ccon_multi ( STRING: str )
+lex_ccon_multi(STRING: str)
 {
     USAGE:	wall
     KEY (STD)	"Multicharacter character literal, "str
 }
 
-lex_ccon_escape ( cint: c )
+lex_ccon_escape(cint: c)
 {
     USAGE:	escape_unknown
     KEY (STD)	"Unknown escape sequence, '\\"c"'"
 }
 
-lex_ccon_hex ( cint: c )
+lex_ccon_hex(cint: c)
 {
     USAGE:	escape_unknown
     KEY (STD)	"Invalid hexadecimal escape sequence, '\\"c"'"
 }
 
-lex_ccon_large ()
+lex_ccon_large()
 {
     USAGE:	escape_overflow
     KEY (STD)	"Character out of range"
@@ -710,13 +710,13 @@ lex_ccon_large ()
 		[lex.fcon]
     --------------------------------------------------------------------  */
 
-lex_fcon_large ( FLOAT: f )
+lex_fcon_large(FLOAT: f)
 {
     KEY (ISO)	"2.13.3" | "6.1.3.1, 6.4.4.2"
     KEY (STD)	"Floating point literal '"f"' too large"
 }
 
-lex_fcon_hex ()
+lex_fcon_hex()
 {
     KEY (ISO)	"-" | "-, 6.4.4.2"
     KEY (STD)	"Hexadecimal floating point literal"
@@ -728,18 +728,18 @@ lex_fcon_hex ()
 		[lex.string]
     --------------------------------------------------------------------  */
 
-lex_string_nl ( unsigned: n, plural: s )
+lex_string_nl(unsigned: n, plural: s)
 {
     KEY (ISO)	"2.13.4" | "6.1.4, 6.4.5"
     KEY (STD)	n" newline character"s" in string literal"
 }
 
-lex_string_pp_nl ()
+lex_string_pp_nl()
 {
     KEY (STD)	"End of line in string literal"
 }
 
-lex_string_concat ()
+lex_string_concat()
 {
     USAGE:	concat_string
     KEY (STD)	"Concatenation of different string literal types"
@@ -769,65 +769,65 @@ lex_string_concat ()
 		[basic.def.odr] = [basic.odr]
     --------------------------------------------------------------------  */
 
-basic_odr_decl ( IDENTIFIER: id, PTR_LOC: loc )
+basic_odr_decl(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (ISO)	"3.2" | "6.5, 6.7"
     KEY (STD)	"'"id"' has already been declared (at "loc")"
 }
 
-basic_odr_diff ( IDENTIFIER: id, PTR_LOC: loc )
+basic_odr_diff(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"'"id"' has already been declared as a different kind
 		 of object (at "loc")"
 }
 
-basic_odr_typedef ( IDENTIFIER: id, PTR_LOC: loc )
+basic_odr_typedef(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	type_redef
     KEY (STD)	"Type '"id"' redeclared (see "loc")"
 }
 
-basic_odr_def ( IDENTIFIER: id, PTR_LOC: loc )
+basic_odr_def(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (ISO)	"3.2" | "6.7, 6.9"
     KEY (STD)	"'"id"' has already been defined (at "loc")"
 }
 
-basic_odr_def_func ( LONG_ID: id, PTR_LOC: loc )
+basic_odr_def_func(LONG_ID: id, PTR_LOC: loc)
 {
     KEY (STD)	"The function '"id"' has already been defined (at "loc")"
 }
 
-basic_odr_undef ( LONG_ID: id )
+basic_odr_undef(LONG_ID: id)
 {
     KEY (STD)	"'"id"' has been used but not defined"
 }
 
-basic_odr_inline ( LONG_ID: id )
+basic_odr_inline(LONG_ID: id)
 {
     KEY (STD)	"The 'inline' function '"id"' has been used but not defined"
 }
 
-basic_odr_unused ( LONG_ID: id )
+basic_odr_unused(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"'"id"' has been defined but not used"
 }
 
-basic_odr_redundant ( LONG_ID: id )
+basic_odr_redundant(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"'"id"' has been declared but not used or defined"
 }
 
-basic_odr_tentative ( IDENTIFIER: id, PTR_LOC: loc )
+basic_odr_tentative(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	wall
     KEY (ISO)	"3.2" | "6.7.2, 6.9.2"
     KEY (STD)	"Multiple definition of '"id"' (see "loc")"
 }
 
-basic_odr_def_type ( LONG_ID: id, PTR_LOC: loc )
+basic_odr_def_type(LONG_ID: id, PTR_LOC: loc)
 {
     KEY (ISO)	"3.2" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"The type '"id"' has already been defined (at "loc")"
@@ -845,7 +845,7 @@ basic_odr_def_type ( LONG_ID: id, PTR_LOC: loc )
 		[basic.scope.pdecl]
     --------------------------------------------------------------------  */
 
-basic_scope_pdecl_param ( LONG_ID: id )
+basic_scope_pdecl_param(LONG_ID: id)
 {
     USAGE:	wall
     KEY (ISO)	"3.3.1" | "6.1.2.1, 6.2.1"
@@ -889,7 +889,7 @@ basic_scope_pdecl_param ( LONG_ID: id )
 		[basic.scope.hiding]
     --------------------------------------------------------------------  */
 
-basic_scope_hide ( HASHID: nm, PTR_LOC: loc )
+basic_scope_hide(HASHID: nm, PTR_LOC: loc)
 {
     USAGE:	decl_hide
     KEY (ISO)	"3.3.7" | "6.1.2.1, 6.2.1"
@@ -897,7 +897,7 @@ basic_scope_hide ( HASHID: nm, PTR_LOC: loc )
 		 (at "loc")"
 }
 
-basic_scope_hide_mem ( HASHID: nm, IDENTIFIER: id )
+basic_scope_hide_mem(HASHID: nm, IDENTIFIER: id)
 {
     USAGE:	decl_hide
     KEY (STD)	"Declaration of '"nm"' hides the member '"id"'"
@@ -909,18 +909,18 @@ basic_scope_hide_mem ( HASHID: nm, IDENTIFIER: id )
 		[basic.lookup] = [lookup]
     --------------------------------------------------------------------  */
 
-lookup_ambig_id ( IDENTIFIER: id )
+lookup_ambig_id(IDENTIFIER: id)
 {
     KEY (ISO)	"3.4" | "6.3.1, 6.5.1"
     KEY (STD)	"The name '"id"' is ambiguous"
 }
 
-lookup_ambig_mem ( IDENTIFIER: id )
+lookup_ambig_mem(IDENTIFIER: id)
 {
     KEY (STD)	"The member '"id"' is ambiguous"
 }
 
-lookup_ambig_list ()
+lookup_ambig_list()
 {
     USAGE:	whatever
     KEY (STD)	"Ambiguous meanings are as follows"
@@ -932,13 +932,13 @@ lookup_ambig_list ()
 		[basic.lookup.unqual] = [lookup.unqual]
     --------------------------------------------------------------------  */
 
-lookup_unqual_undef ( HASHID: nm )
+lookup_unqual_undef(HASHID: nm)
 {
     KEY (ISO)	"3.4.1" | "6.3.1, 6.5.1"
     KEY (STD)	"The identifier '"nm"' hasn't been declared in this scope"
 }
 
-lookup_unqual_vis ( IDENTIFIER: id )
+lookup_unqual_vis(IDENTIFIER: id)
 {
     KEY (STD)	"Previous declaration of '"id"' isn't visible in this scope"
 }
@@ -955,18 +955,18 @@ lookup_unqual_vis ( IDENTIFIER: id )
 		[basic.lookup.qual] = [lookup.qual]
     --------------------------------------------------------------------  */
 
-lookup_qual_undef ( HASHID: nm, NAMESPACE: ns )
+lookup_qual_undef(HASHID: nm, NAMESPACE: ns)
 {
     KEY (ISO)	"3.4.3" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"The member '"nm"' of '"ns"' hasn't been declared"
 }
 
-lookup_qual_bad ( IDENTIFIER: id, NAMESPACE: ns )
+lookup_qual_bad(IDENTIFIER: id, NAMESPACE: ns)
 {
     KEY (STD)	"'"id"' is not a member of '"ns"'"
 }
 
-lookup_qual_decl ( IDENTIFIER: id, NAMESPACE: ns )
+lookup_qual_decl(IDENTIFIER: id, NAMESPACE: ns)
 {
     KEY (STD)	"'"id"' is not an immediate member of '"ns"'"
 }
@@ -989,18 +989,18 @@ lookup_qual_decl ( IDENTIFIER: id, NAMESPACE: ns )
 		[basic.lookup.elab] = [lookup.elab]
     --------------------------------------------------------------------  */
 
-lookup_elab_alias ( BASE_TYPE: bt, IDENTIFIER: id )
+lookup_elab_alias(BASE_TYPE: bt, IDENTIFIER: id)
 {
     KEY (ISO)	"3.4.4" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"'typedef' name used in '"bt" "id"'"
 }
 
-lookup_elab_invalid ( BASE_TYPE: bt, IDENTIFIER: id )
+lookup_elab_invalid(BASE_TYPE: bt, IDENTIFIER: id)
 {
     KEY (STD)	"Invalid identifier used in '"bt" "id"'"
 }
 
-lookup_elab_enum ( LONG_ID: id )
+lookup_elab_enum(LONG_ID: id)
 {
     USAGE:	enum_decl
     KEY (STD)	"Can't declare the enumeration '"id"'"
@@ -1012,7 +1012,7 @@ lookup_elab_enum ( LONG_ID: id )
 		[basic.lookup.classref] = [lookup.classref]
     --------------------------------------------------------------------  */
 
-lookup_classref_ambig ( IDENTIFIER: id )
+lookup_classref_ambig(IDENTIFIER: id)
 {
     KEY (ISO)	"3.4.5" | "????"
     KEY (STD)	"Ambiguous class member look-up for '"id"'"
@@ -1030,47 +1030,47 @@ lookup_classref_ambig ( IDENTIFIER: id )
 		[basic.link]
     --------------------------------------------------------------------  */
 
-basic_link_mem_extern ( LONG_ID: id )
+basic_link_mem_extern(LONG_ID: id)
 {
     KEY (ISO)	"3.5" | "6.1.2.2, 6.2.2"
     KEY (STD)	"The member '"id"' has external linkage"
 }
 
-basic_link_none ( TYPE: t, LONG_ID: id )
+basic_link_none(TYPE: t, LONG_ID: id)
 {
     USAGE:	cpp_error
     KEY (STD)	"A type with no linkage, '"t"', can't be used to declare
 		 an object with linkage, '"id"'"
 }
 
-basic_link_qual ( CV_SPEC: cv1, CV_SPEC: cv2 )
+basic_link_qual(CV_SPEC: cv1, CV_SPEC: cv2)
 {
     USAGE:	type_qual_incompat
     KEY (ISO)	"3.5" | "6.5.3, 6.7.3"
     KEY (STD)	"The type qualifiers '"cv1"' and '"cv2"' are incompatible"
 }
 
-basic_link_incompat ( TYPE: t1, TYPE: t2 )
+basic_link_incompat(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"3.5" | "6.1.2.6, 6.2.7"
     KEY (STD)	"The types '"t1"' and '"t2"' are incompatible"
 }
 
-basic_link_decl_type ( IDENTIFIER: id, PTR_LOC: loc )
+basic_link_decl_type(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	whatever
     KEY (STD)	"The declaration of '"id"' should be compatible with
 		 that at "loc
 }
 
-basic_link_typedef ( IDENTIFIER: id, PTR_LOC: loc )
+basic_link_typedef(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	whatever
     KEY (STD)	"The redefinition of type '"id"' should be compatible
 		 with that at "loc
 }
 
-basic_link_unmatch ( TYPE: t, IDENTIFIER: id )
+basic_link_unmatch(TYPE: t, IDENTIFIER: id)
 {
     KEY (STD)	"The type '"t"' does not match any declaration of the
 		 member '"id"'"
@@ -1088,43 +1088,43 @@ basic_link_unmatch ( TYPE: t, IDENTIFIER: id )
 		[basic.start.main]
     --------------------------------------------------------------------  */
 
-basic_start_main_over ( IDENTIFIER: id )
+basic_start_main_over(IDENTIFIER: id)
 {
     KEY (ISO)	"3.6.1" | "5.1.2.2, 5.1.2.2.1"
     KEY (STD)	"Can't overload '"id"'"
 }
 
-basic_start_main_ret ( TYPE: t, HASHID: nm )
+basic_start_main_ret(TYPE: t, HASHID: nm)
 {
     USAGE:	error | wall
     KEY (STD)	"Illegal return type '"t"' for '"nm"'"
 }
 
-basic_start_main_proto ( TYPE: t, HASHID: nm )
+basic_start_main_proto(TYPE: t, HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"Unorthodox type '"t"' for '"nm"'"
 }
 
-basic_start_main_link ( HASHID: nm, DECL_SPEC: ds )
+basic_start_main_link(HASHID: nm, DECL_SPEC: ds)
 {
     USAGE:	error | wall
     KEY (STD)	"Can't declare '"nm"' to be '"ds"'"
 }
 
-basic_start_main_call ( IDENTIFIER: id )
+basic_start_main_call(IDENTIFIER: id)
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't call '"id"' from within a program"
 }
 
-basic_start_main_addr ( IDENTIFIER: id )
+basic_start_main_addr(IDENTIFIER: id)
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't take the address of '"id"'"
 }
 
-basic_start_main_fall ( IDENTIFIER: id, TYPE: t )
+basic_start_main_fall(IDENTIFIER: id, TYPE: t)
 {
     USAGE:	wall | func_ret_missing
     KEY (STD)	"Implicit 'return 0' in function '"id"' which returns '"t"'"
@@ -1166,45 +1166,45 @@ basic_start_main_fall ( IDENTIFIER: id, TYPE: t )
 		[basic.stc.dynamic]
     --------------------------------------------------------------------  */
 
-basic_stc_alloc_ret ( HASHID: nm, TYPE: t )
+basic_stc_alloc_ret(HASHID: nm, TYPE: t)
 {
     KEY (ISO)	"3.7.3" | "????"
     KEY (STD)	"'"nm"' should return '"t"'"
 }
 
-basic_stc_alloc_p1 ( HASHID: nm, TYPE: t )
+basic_stc_alloc_p1(HASHID: nm, TYPE: t)
 {
     KEY (STD)	"First parameter of '"nm"' should have type '"t"'"
 }
 
-basic_stc_alloc_d1 ( HASHID: nm )
+basic_stc_alloc_d1(HASHID: nm)
 {
     KEY (STD)	"First parameter of '"nm"' can't have default argument"
 }
 
-basic_stc_alloc_p2 ( HASHID: nm, TYPE: t )
+basic_stc_alloc_p2(HASHID: nm, TYPE: t)
 {
     USAGE:	delete_over
     KEY (STD)	"Second parameter of '"nm"' should have type '"t"'"
 }
 
-basic_stc_alloc_pn ( HASHID: nm )
+basic_stc_alloc_pn(HASHID: nm)
 {
     USAGE:	delete_over
     KEY (STD)	"Too many parameters for '"nm"'"
 }
 
-basic_stc_alloc_templ ( HASHID: nm )
+basic_stc_alloc_templ(HASHID: nm)
 {
     KEY (STD)	"Template '"nm"' should have at least two parameters"
 }
 
-basic_stc_alloc_nspace ( IDENTIFIER: id )
+basic_stc_alloc_nspace(IDENTIFIER: id)
 {
     KEY (STD)	"Should declare '"id"' in global namespace scope"
 }
 
-basic_stc_alloc_link ( IDENTIFIER: id )
+basic_stc_alloc_link(IDENTIFIER: id)
 {
     KEY (STD)	"Can't declare '"id"' with internal linkage"
 }
@@ -1221,7 +1221,7 @@ basic_stc_alloc_link ( IDENTIFIER: id )
 		[basic.stc.dynamic.deallocation] = [basic.stc.dealloc]
     --------------------------------------------------------------------  */
 
-basic_stc_dealloc_over ( IDENTIFIER: id )
+basic_stc_dealloc_over(IDENTIFIER: id)
 {
     USAGE:	delete_over
     KEY (ISO)	"3.7.3.2" | "????"
@@ -1246,56 +1246,56 @@ basic_stc_dealloc_over ( IDENTIFIER: id )
 		[basic.types]
     --------------------------------------------------------------------  */
 
-basic_types_def_incompl ( IDENTIFIER: id )
+basic_types_def_incompl(IDENTIFIER: id)
 {
     KEY (ISO)	"3.9" | "6.5, 6.7"
     KEY (STD)	"The defined object '"id"' must have complete object type"
 }
 
-basic_types_par_incompl ( IDENTIFIER: id )
+basic_types_par_incompl(IDENTIFIER: id)
 {
     KEY (STD)	"The parameter '"id"' must have complete object type"
 }
 
-basic_types_tent_incompl ( IDENTIFIER: id )
+basic_types_tent_incompl(IDENTIFIER: id)
 {
     KEY (ISO)	"3.9" | "6.7.2, 6.9.2"
     KEY (STD)	"The implicitly defined object '"id"' must have complete
 		 object type"
 }
 
-basic_types_obj_func ( TYPE: t )
+basic_types_obj_func(TYPE: t)
 {
     USAGE:	whatever
     KEY (ISO)	"3.9" | "6.1.2.5, 6.2.5"
     KEY (STD)	"The function type '"t"' is not an object type"
 }
 
-basic_types_obj_ref ( TYPE: t )
+basic_types_obj_ref(TYPE: t)
 {
     USAGE:	whatever
     KEY (STD)	"The reference type '"t"' is not an object type"
 }
 
-basic_types_incompl ( TYPE: t )
+basic_types_incompl(TYPE: t)
 {
     USAGE:	whatever
     KEY (STD)	"The type '"t"' is incomplete"
 }
 
-basic_types_completed ( TYPE: t )
+basic_types_completed(TYPE: t)
 {
     USAGE:	complete_struct
     KEY (STD)	"The type '"t"' has not been completed in its scope"
 }
 
-basic_types_obj_incompl ()
+basic_types_obj_incompl()
 {
     USAGE:	whatever
     KEY (STD)	"An incomplete type is not a complete object type"
 }
 
-basic_types_obj_void ( TYPE: t )
+basic_types_obj_void(TYPE: t)
 {
     USAGE:	ptr_void
     KEY (STD)	"'"t"' is not a pointer to a complete object type"
@@ -1307,18 +1307,18 @@ basic_types_obj_void ( TYPE: t )
 		[basic.fundamental] = [basic.fund]
     --------------------------------------------------------------------  */
 
-basic_fund_void_decl ( IDENTIFIER: id, TYPE: t )
+basic_fund_void_decl(IDENTIFIER: id, TYPE: t)
 {
     KEY (ISO)	"3.9.1" | "6.1.2.5, 6.2.5"
     KEY (STD)	"The object '"id"' declared to have type '"t"'"
 }
 
-basic_fund_void_mem ( IDENTIFIER: id, TYPE: t )
+basic_fund_void_mem(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"The class member '"id"' declared to have type '"t"'"
 }
 
-basic_fund_void_exp ( TYPE: t )
+basic_fund_void_exp(TYPE: t)
 {
     KEY (STD)	"Invalid use of expression of type '"t"'"
 }
@@ -1341,39 +1341,39 @@ basic_fund_void_exp ( TYPE: t )
 		[basic.lval]
     --------------------------------------------------------------------  */
 
-basic_lval_not ()
+basic_lval_not()
 {
     USAGE:	whatever
     KEY (ISO)	"3.10" | "6.2.2.1, 6.3.2.1"
     KEY (STD)	"Expression is not an lvalue"
 }
 
-basic_lval_mod_rvalue ()
+basic_lval_mod_rvalue()
 {
     KEY (STD)	"Expression should be an lvalue to be modifiable"
 }
 
-basic_lval_mod_array ()
+basic_lval_mod_array()
 {
     KEY (STD)	"Lvalues of array type are not modifiable"
 }
 
-basic_lval_mod_func ()
+basic_lval_mod_func()
 {
     KEY (STD)	"Lvalues of function type are not modifiable"
 }
 
-basic_lval_mod_incompl ()
+basic_lval_mod_incompl()
 {
     KEY (STD)	"Lvalues of incomplete types are not modifiable"
 }
 
-basic_lval_mod_const ()
+basic_lval_mod_const()
 {
     KEY (STD)	"A 'const' qualified lvalue is not modifiable"
 }
 
-basic_lval_mod_member ( TYPE: t )
+basic_lval_mod_member(TYPE: t)
 {
     USAGE:	c_error
     KEY (STD)	"A type with a 'const' member, '"t"', is not modifiable"
@@ -1391,7 +1391,7 @@ basic_lval_mod_member ( TYPE: t )
 		[conv.lval]
     --------------------------------------------------------------------  */
 
-conv_lval_incompl ()
+conv_lval_incompl()
 {
     KEY (ISO)	"4.1" | "6.2.2.1, 6.3.2.1"
     KEY (STD)	"Can't perform lvalue conversion on an incomplete type"
@@ -1403,14 +1403,14 @@ conv_lval_incompl ()
 		[conv.array]
     --------------------------------------------------------------------  */
 
-conv_array_string ()
+conv_array_string()
 {
     USAGE:	const_string
     KEY (ISO)	"4.2" | "6.1.4, 6.4.5"
     KEY (STD)	"Conversion of string literal to non-'const' type"
 }
 
-conv_array_str_mod ()
+conv_array_str_mod()
 {
     USAGE:	const_string
     KEY (STD)	"String literals are not modifiable"
@@ -1428,14 +1428,14 @@ conv_array_str_mod ()
 		[conv.qual]
     --------------------------------------------------------------------  */
 
-conv_qual_cast ( CV_SPEC: cv )
+conv_qual_cast(CV_SPEC: cv)
 {
     USAGE:	type_qual_incompat
     KEY (ISO)	"4.4" | "6.3.16.1, 6.5.16.1"
     KEY (STD)	"Conversion casts away '"cv"'-ness"
 }
 
-conv_qual_multi ()
+conv_qual_multi()
 {
     USAGE:	type_qual_incompat
     KEY (STD)	"Multi-level qualification conversion should contain
@@ -1460,7 +1460,7 @@ conv_qual_multi ()
 		[conv.integral]
     --------------------------------------------------------------------  */
 
-conv_integral_cast ( TYPE: t1, TYPE: t2 )
+conv_integral_cast(TYPE: t1, TYPE: t2)
 {
     USAGE:	whatever
     KEY (ISO)	"4.7" | "6.2.1, 6.3.1"
@@ -1473,7 +1473,7 @@ conv_integral_cast ( TYPE: t1, TYPE: t2 )
 		[conv.double]
     --------------------------------------------------------------------  */
 
-conv_double_cast ( TYPE: t1, TYPE: t2 )
+conv_double_cast(TYPE: t1, TYPE: t2)
 {
     USAGE:	whatever
     KEY (ISO)	"4.8" | "6.2.1, 6.3.1"
@@ -1486,20 +1486,20 @@ conv_double_cast ( TYPE: t1, TYPE: t2 )
 		[conv.fpint]
     --------------------------------------------------------------------  */
 
-conv_fpint_trunc ( TYPE: t1, TYPE: t2 )
+conv_fpint_trunc(TYPE: t1, TYPE: t2)
 {
     USAGE:	whatever
     KEY (ISO)	"4.9" | "6.2.1, 6.3.1"
     KEY (STD)	"Floating point truncation from '"t1"' to '"t2"'"
 }
 
-conv_fpint_float ( TYPE: t1, TYPE: t2 )
+conv_fpint_float(TYPE: t1, TYPE: t2)
 {
     USAGE:	whatever
     KEY (STD)	"Integer to floating point conversion from '"t1"' to '"t2"'"
 }
 
-conv_fpint_large ( FLOAT: f )
+conv_fpint_large(FLOAT: f)
 {
     USAGE:	int_overflow
     KEY (STD)	"Integer overflow in truncation of '"f"'"
@@ -1511,47 +1511,47 @@ conv_fpint_large ( FLOAT: f )
 		[conv.ptr]
     --------------------------------------------------------------------  */
 
-conv_ptr_null_complex ()
+conv_ptr_null_complex()
 {
     USAGE:	ptr_operator
     KEY (ISO)	"4.10" | "6.2.2.3, 6.3.2.3"
     KEY (STD)	"Complex null pointer constant"
 }
 
-conv_ptr_nonzero ( TYPE: t1, TYPE: t2 )
+conv_ptr_nonzero(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"4.10" | "6.3.4, 6.5.4"
     KEY (STD)	"Conversion of nonzero value of type '"t1"' to type '"t2"'"
 }
 
-conv_ptr_cast ( TYPE: t1, TYPE: t2 )
+conv_ptr_cast(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Pointer conversion from '"t1"' to '"t2"'"
 }
 
-conv_ptr_incompat ()
+conv_ptr_incompat()
 {
     USAGE:	whatever
     KEY (STD)	"Types in pointer conversion should be compatible"
 }
 
-conv_ptr_ambiguous ()
+conv_ptr_ambiguous()
 {
     KEY (STD)	"Base class in pointer conversion must be unambiguous"
 }
 
-conv_ptr_access ()
+conv_ptr_access()
 {
     KEY (STD)	"Accessible base required in base class conversion"
 }
 
-conv_ptr_common ()
+conv_ptr_common()
 {
     USAGE:	whatever
     KEY (STD)	"Can't bring incompatible types to a common pointer type"
 }
 
-conv_ptr_gen ( TYPE: t )
+conv_ptr_gen(TYPE: t)
 {
     USAGE:	gen_ptr_char
     KEY (STD)	"Type '"t"' used as generic pointer type"
@@ -1563,29 +1563,29 @@ conv_ptr_gen ( TYPE: t )
 		[conv.mem]
     --------------------------------------------------------------------  */
 
-conv_mem_nonzero ( TYPE: t1, TYPE: t2 )
+conv_mem_nonzero(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"4.11" | "????"
     KEY (STD)	"Conversion of nonzero value of type '"t1"' to type '"t2"'"
 }
 
-conv_mem_cast ( TYPE: t1, TYPE: t2 )
+conv_mem_cast(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Pointer to member conversion from '"t1"' to '"t2"'"
 }
 
-conv_mem_ambiguous ()
+conv_mem_ambiguous()
 {
     KEY (STD)	"Base class in pointer to member conversion must
 		 be unambiguous"
 }
 
-conv_mem_virtual ()
+conv_mem_virtual()
 {
     KEY (STD)	"Base class in pointer to member conversion can't be virtual"
 }
 
-conv_mem_common ()
+conv_mem_common()
 {
     USAGE:	whatever
     KEY (STD)	"Can't bring incompatible types to a common pointer to
@@ -1598,13 +1598,13 @@ conv_mem_common ()
 		[conv.bool]
     --------------------------------------------------------------------  */
 
-conv_bool_cast ( TYPE: t )
+conv_bool_cast(TYPE: t)
 {
     KEY (ISO)	"4.12" | "6.3, 6.5"
     KEY (STD)	"Can't convert expression of type '"t"' to a boolean"
 }
 
-conv_bool_assign ()
+conv_bool_assign()
 {
     USAGE:	bool_assign
     KEY (STD)	"Assignment in boolean value"
@@ -1616,20 +1616,20 @@ conv_bool_assign ()
 		[expr]
     --------------------------------------------------------------------  */
 
-expr_paren_left ( LEX: op1, LEX: op2 )
+expr_paren_left(LEX: op1, LEX: op2)
 {
     USAGE:	paren
     KEY (ISO)	"5" | "6.3, 6.5"
     KEY (STD)	"Operator precedence is '( a "op1" b ) "op2" c'"
 }
 
-expr_paren_right ( LEX: op1, LEX: op2 )
+expr_paren_right(LEX: op1, LEX: op2)
 {
     USAGE:	paren
     KEY (STD)	"Operator precedence is 'a "op1" ( b "op2" c )'"
 }
 
-expr_convert_op ( unsigned: n, LEX: op )
+expr_convert_op(unsigned: n, LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"Conversion of operand "n" in operation '"op"'"
@@ -1641,18 +1641,18 @@ expr_convert_op ( unsigned: n, LEX: op )
 		[expr.prim]
     --------------------------------------------------------------------  */
 
-expr_prim_this ()
+expr_prim_this()
 {
     KEY (ISO)	"5.1" | "6.3.1, 6.5.1"
     KEY (STD)	"'this' is only in scope in non-static member functions"
 }
 
-expr_prim_mem ( LONG_ID: id )
+expr_prim_mem(LONG_ID: id)
 {
     KEY (STD)	"Can't use non-static member '"id"' in this context"
 }
 
-expr_prim_type ( LONG_ID: id )
+expr_prim_type(LONG_ID: id)
 {
     KEY (STD)	"'"id"' denotes a type, not an expression"
 }
@@ -1669,26 +1669,26 @@ expr_prim_type ( LONG_ID: id )
 		[expr.sub]
     --------------------------------------------------------------------  */
 
-expr_sub_ptr_op ( TYPE: t1, TYPE: t2 )
+expr_sub_ptr_op(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.2.1" | "6.3.2.1, 6.5.2.1"
     KEY (STD)	"One operand of '[]' should have pointer type, not
 		 '"t1"' and '"t2"'"
 }
 
-expr_sub_int_op ( TYPE: t )
+expr_sub_int_op(TYPE: t)
 {
     KEY (STD)	"Non-pointer operand of '[]' should have integral type,
 		 not '"t"'"
 }
 
-expr_sub_char_op ( TYPE: t )
+expr_sub_char_op(TYPE: t)
 {
     USAGE:	ptr_operator
     KEY (STD)	"Non-pointer operand of '[]' has type '"t"'"
 }
 
-expr_sub_incompl ()
+expr_sub_incompl()
 {
     KEY (STD)	"Pointer to complete object type expected in '[]'"
 }
@@ -1699,83 +1699,83 @@ expr_sub_incompl ()
 		[expr.call]
     --------------------------------------------------------------------  */
 
-expr_call_func ( LONG_ID: id )
+expr_call_func(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (ISO)	"5.2.2" | "6.3.2.2, 6.5.2.2"
     KEY (STD)	"In call of function '"id"'"
 }
 
-expr_call_op ( TYPE: t )
+expr_call_op(TYPE: t)
 {
     KEY (STD)	"Invalid function type, '"t"'"
 }
 
-expr_call_ret ()
+expr_call_ret()
 {
     KEY (STD)	"Function return type should be a complete object type
 		 or 'void'"
 }
 
-expr_call_mem ( LONG_ID: id )
+expr_call_mem(LONG_ID: id)
 {
     KEY (STD)	"Non-static member function '"id"' should have an
 		 associated object"
 }
 
-expr_call_undecl ( LONG_ID: id )
+expr_call_undecl(LONG_ID: id)
 {
     USAGE:	func_impl
     KEY (STD)	"Implicit declaration of function '"id"'"
 }
 
-expr_call_arg ( unsigned: n )
+expr_call_arg(unsigned: n)
 {
     USAGE:	whatever
     KEY (STD)	"Argument "n" is converted to parameter type"
 }
 
-expr_call_ellipsis ( unsigned: n )
+expr_call_ellipsis(unsigned: n)
 {
     USAGE:	whatever
     KEY (STD)	"Argument "n" is converted to its promotion type"
 }
 
-expr_call_weak_arg ( unsigned: n, PTR_LOC: loc )
+expr_call_weak_arg(unsigned: n, PTR_LOC: loc)
 {
     USAGE:	weak
     KEY (STD)	"Incompatible type for argument "n" (see "loc")"
 }
 
-expr_call_args_exact ( unsigned: n, plural: s, unsigned: m )
+expr_call_args_exact(unsigned: n, plural: s, unsigned: m)
 {
     KEY (STD)	"Function call has "n" argument"s", it should have "m
 }
 
-expr_call_args_range ( unsigned: n, plural: s, unsigned: m1, unsigned: m2 )
+expr_call_args_range(unsigned: n, plural: s, unsigned: m1, unsigned: m2)
 {
     KEY (STD)	"Function call has "n" argument"s", it should have
 		 between "m1" and "m2
 }
 
-expr_call_args_min ( unsigned: n, plural: s, unsigned: m )
+expr_call_args_min(unsigned: n, plural: s, unsigned: m)
 {
     KEY (STD)	"Function call has "n" argument"s", it should have at
 		 least "m
 }
 
-expr_call_struct ( TYPE: t )
+expr_call_struct(TYPE: t)
 {
     USAGE:	wall
     KEY (STD)	"Argument of type '"t"' is passed as a data structure"
 }
 
-expr_call_ell_func ()
+expr_call_ell_func()
 {
     KEY (STD)	"Can only use '...' in function defined using '...'"
 }
 
-expr_call_ell_exp ()
+expr_call_ell_exp()
 {
     USAGE:	ellipsis_ident
     KEY (STD)	"'...' used as an expression"
@@ -1787,24 +1787,24 @@ expr_call_ell_exp ()
 		[expr.type.conv]
     --------------------------------------------------------------------  */
 
-expr_type_conv_incompl ()
+expr_type_conv_incompl()
 {
     KEY (ISO)	"5.2.3" | "6.3.4, 6.5.4"
     KEY (STD)	"Complete object type required in type conversion"
 }
 
-expr_type_conv_array ( TYPE: t )
+expr_type_conv_array(TYPE: t)
 {
     KEY (STD)	"Can't use array type '"t"' in function-style cast"
 }
 
-expr_type_conv_bad ()
+expr_type_conv_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using a function-style cast"
 }
 
-expr_type_conv_many ( TYPE: t )
+expr_type_conv_many(TYPE: t)
 {
     KEY (STD)	"A function-style cast with more than one argument
 		 requires a class type, not '"t"'"
@@ -1816,23 +1816,23 @@ expr_type_conv_many ( TYPE: t )
 		[expr.pseudo]
     --------------------------------------------------------------------  */
 
-expr_pseudo_type ( TYPE: t1, TYPE: t2 )
+expr_pseudo_type(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.2.4" | "????"
     KEY (STD)	"Type mismatch for pseudo-destructor '"t1"::~"t2"'"
 }
 
-expr_pseudo_scalar ( TYPE: t )
+expr_pseudo_scalar(TYPE: t)
 {
     KEY (STD)	"Can only have pseudo-destructor for scalar types, not '"t"'"
 }
 
-expr_pseudo_obj ( HASHID: nm, TYPE: t )
+expr_pseudo_obj(HASHID: nm, TYPE: t)
 {
     KEY (STD)	"Pseudo-destructor '"nm"' applied to type '"t"'"
 }
 
-expr_pseudo_args ( HASHID: nm )
+expr_pseudo_args(HASHID: nm)
 {
     KEY (STD)	"Can't give arguments to pseudo-destructor '"nm"'"
 }
@@ -1843,57 +1843,57 @@ expr_pseudo_args ( HASHID: nm )
 		[expr.ref]
     --------------------------------------------------------------------  */
 
-expr_ref_arrow_op ( TYPE: t, string: key )
+expr_ref_arrow_op(TYPE: t, string: key)
 {
     KEY (ISO)	"5.2.5" | "6.3.2.3, 6.5.2.3"
     KEY (STD)	"First operand of '->' should have type pointer to "key",
 		 not '"t"'"
 }
 
-expr_ref_dot_op ( TYPE: t, string: key )
+expr_ref_dot_op(TYPE: t, string: key)
 {
     KEY (STD)	"First operand of '.' should have "key" type, not '"t"'"
 }
 
-expr_ref_arrow_dot ( TYPE: t )
+expr_ref_arrow_dot(TYPE: t)
 {
     KEY (STD)	"Should use '.' with operand of type '"t"', not '->'"
 }
 
-expr_ref_dot_arrow ( TYPE: t )
+expr_ref_dot_arrow(TYPE: t)
 {
     KEY (STD)	"Should use '->' with operand of type '"t"', not '.'"
 }
 
-expr_ref_incompl ( LEX: op, BASE_TYPE: key )
+expr_ref_incompl(LEX: op, BASE_TYPE: key)
 {
     KEY (STD)	"The "key" associated with the operand of '"op"' should
 		 be complete"
 }
 
-expr_ref_select ( LEX: op, string: key )
+expr_ref_select(LEX: op, string: key)
 {
     KEY (STD)	"Second operand of '"op"' should be a member of the "key"
 		 given by the first operand"
 }
 
-expr_ref_call ()
+expr_ref_call()
 {
     KEY (STD)	"Can only use member function selector in function call"
 }
 
-expr_ref_qual ( QUALIFIER: qual, IDENTIFIER: id )
+expr_ref_qual(QUALIFIER: qual, IDENTIFIER: id)
 {
     USAGE:	none
     KEY (STD)	"Illegal member access specifier, '"qual id"'"
 }
 
-expr_ref_func_type ( CLASS_TYPE: ct )
+expr_ref_func_type(CLASS_TYPE: ct)
 {
     KEY (STD)	"Member function called with unrelated class '"ct"'"
 }
 
-expr_ref_type ( IDENTIFIER: id )
+expr_ref_type(IDENTIFIER: id)
 {
     KEY (STD)	"'"id"' denotes a type member"
 }
@@ -1904,32 +1904,32 @@ expr_ref_type ( IDENTIFIER: id )
 		[expr.post.incr]
     --------------------------------------------------------------------  */
 
-expr_post_incr_mod ( LEX: op )
+expr_post_incr_mod(LEX: op)
 {
     USAGE:	whatever
     KEY (ISO)	"5.2.6" | "6.3.2.4, 6.5.2.4"
     KEY (STD)	"Operand of postfix '"op"' should be modifiable"
 }
 
-expr_post_incr_op ( LEX: op, TYPE: t )
+expr_post_incr_op(LEX: op, TYPE: t)
 {
     KEY (STD)	"Operand of postfix '"op"' should have arithmetic or
 		 pointer type, not '"t"'"
 }
 
-expr_post_incr_incompl ( LEX: op )
+expr_post_incr_incompl(LEX: op)
 {
     KEY (STD)	"Pointer to complete object type expected in postfix
 		 '"op"' operation"
 }
 
-expr_post_incr_bool_inc ( LEX: op, TYPE: t )
+expr_post_incr_bool_inc(LEX: op, TYPE: t)
 {
     USAGE:	int_operator
     KEY (STD)	"Use of postfix '"op"' on type '"t"' is deprecated"
 }
 
-expr_post_incr_bool_dec ( LEX: op, TYPE: t )
+expr_post_incr_bool_dec(LEX: op, TYPE: t)
 {
     KEY (STD)	"Postfix '"op"' can't be applied to type '"t"'"
 }
@@ -1940,37 +1940,37 @@ expr_post_incr_bool_dec ( LEX: op, TYPE: t )
 		[expr.dynamic.cast] = [expr.cast.dynam]
     --------------------------------------------------------------------  */
 
-expr_cast_dynam_typedef ()
+expr_cast_dynam_typedef()
 {
     KEY (ISO)	"5.2.7" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'dynamic_cast' expression"
 }
 
-expr_cast_dynam_bad ()
+expr_cast_dynam_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using 'dynamic_cast'"
 }
 
-expr_cast_dynam_type ( TYPE: t )
+expr_cast_dynam_type(TYPE: t)
 {
     KEY (STD)	"Pointer or reference to complete class expected in
 		 'dynamic_cast', not '"t"'"
 }
 
-expr_cast_dynam_ptr ( TYPE: t )
+expr_cast_dynam_ptr(TYPE: t)
 {
     KEY (STD)	"Operand to 'dynamic_cast' should be a pointer to
 		 complete class, not '"t"'"
 }
 
-expr_cast_dynam_ref ( TYPE: t )
+expr_cast_dynam_ref(TYPE: t)
 {
     KEY (STD)	"Operand to 'dynamic_cast' should be an lvalue of
 		 complete class type, not '"t"'"
 }
 
-expr_cast_dynam_poly ( CLASS_TYPE: ct )
+expr_cast_dynam_poly(CLASS_TYPE: ct)
 {
     KEY (STD)	"Operand to 'dynamic_cast' should have polymorphic
 		 class, not '"ct"'"
@@ -1982,30 +1982,30 @@ expr_cast_dynam_poly ( CLASS_TYPE: ct )
 		[expr.typeid]
     --------------------------------------------------------------------  */
 
-expr_typeid_index ( LEX: op )
+expr_typeid_index(LEX: op)
 {
     USAGE:	wall
     KEY (ISO)	"5.2.8" | "????"
     KEY (STD)	"Index in '"op"' expression is unevaluated"
 }
 
-expr_typeid_side ( LEX: op )
+expr_typeid_side(LEX: op)
 {
     USAGE:	wall
     KEY (STD)	"Side effects in unevaluated '"op"' expression"
 }
 
-expr_typeid_typedef ( LEX: op )
+expr_typeid_typedef(LEX: op)
 {
     KEY (STD)	"Can't define a type in a '"op"' expression"
 }
 
-expr_typeid_incompl ( LEX: op )
+expr_typeid_incompl(LEX: op)
 {
     KEY (STD)	"Can't have incomplete class in a '"op"' expression"
 }
 
-expr_typeid_vtable ( LEX: op )
+expr_typeid_vtable(LEX: op)
 {
     KEY (STD)	"Can only apply '"op"' to polymorphic types"
 }
@@ -2016,35 +2016,35 @@ expr_typeid_vtable ( LEX: op )
 		[expr.static.cast] = [expr.cast.stat]
     --------------------------------------------------------------------  */
 
-expr_cast_stat_typedef ()
+expr_cast_stat_typedef()
 {
     KEY (ISO)	"5.2.9" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'static_cast' expression"
 }
 
-expr_cast_stat_bad ()
+expr_cast_stat_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using 'static_cast'"
 }
 
-expr_cast_stat_int_enum ( TYPE: t1, TYPE: t2 )
+expr_cast_stat_int_enum(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Integer to enumeration conversion from '"t1"' to '"t2"'"
 }
 
-expr_cast_stat_enum_enum ( TYPE: t1, TYPE: t2 )
+expr_cast_stat_enum_enum(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Conversion between different enumeration types '"t1"'
 		 and '"t2"'"
 }
 
-expr_cast_stat_virt ()
+expr_cast_stat_virt()
 {
     KEY (STD)	"Base class in pointer up-cast can't be virtual"
 }
 
-expr_cast_stat_func ( TYPE: t )
+expr_cast_stat_func(TYPE: t)
 {
     KEY (STD)	"Can't cast to the function type '"t"'"
 }
@@ -2055,43 +2055,43 @@ expr_cast_stat_func ( TYPE: t )
 		[expr.reinterpret.cast] = [expr.cast.reint]
     --------------------------------------------------------------------  */
 
-expr_cast_reint_typedef ()
+expr_cast_reint_typedef()
 {
     KEY (ISO)	"5.2.10" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'reinterpret_cast' expression"
 }
 
-expr_cast_reint_bad ()
+expr_cast_reint_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using 'reinterpret_cast'"
 }
 
-expr_cast_reint_int_ptr ( TYPE: t1, TYPE: t2 )
+expr_cast_reint_int_ptr(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Integer to pointer conversion from '"t1"' to '"t2"'"
 }
 
-expr_cast_reint_ptr_int ( TYPE: t1, TYPE: t2 )
+expr_cast_reint_ptr_int(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Pointer to integer conversion from '"t1"' to '"t2"'"
 }
 
-expr_cast_reint_func_ptr ( TYPE: t1, TYPE: t2 )
+expr_cast_reint_func_ptr(TYPE: t1, TYPE: t2)
 {
     USAGE:	conv_ptr_func
     KEY (STD)	"Can't convert function pointer '"t1"' to non-function
 		 pointer '"t2"'"
 }
 
-expr_cast_reint_func_ptr2 ( TYPE: t1, TYPE: t2 )
+expr_cast_reint_func_ptr2(TYPE: t1, TYPE: t2)
 {
     USAGE:	conv_ptr_func
     KEY (STD)	"Can't convert non-function pointer '"t1"' to function
 		 pointer '"t2"'"
 }
 
-expr_cast_reint_mem_func ( TYPE: t1, TYPE: t2 )
+expr_cast_reint_mem_func(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Pointer to member function '"t1"' converted to pointer
 		 to function '"t2"'"
@@ -2103,13 +2103,13 @@ expr_cast_reint_mem_func ( TYPE: t1, TYPE: t2 )
 		[expr.const.cast] = [expr.cast.const]
     --------------------------------------------------------------------  */
 
-expr_cast_const_typedef ()
+expr_cast_const_typedef()
 {
     KEY (ISO)	"5.2.11" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'const_cast' expression"
 }
 
-expr_cast_const_bad ()
+expr_cast_const_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using 'const_cast'"
@@ -2127,94 +2127,94 @@ expr_cast_const_bad ()
 		[expr.unary.op]
     --------------------------------------------------------------------  */
 
-expr_unary_op_indir_op ( TYPE: t )
+expr_unary_op_indir_op(TYPE: t)
 {
     KEY (ISO)	"5.3.1" | "6.3.3.2, 6.5.3.2"
     KEY (STD)	"Operand of unary '*' should have pointer type, not '"t"'"
 }
 
-expr_unary_op_indir_void ( TYPE: t )
+expr_unary_op_indir_void(TYPE: t)
 {
     USAGE:	none
     KEY (STD)	"Can't apply unary '*' to a operand of type '"t"'"
 }
 
-expr_unary_op_indir_null ( LEX: op )
+expr_unary_op_indir_null(LEX: op)
 {
     USAGE:	ptr_operator
     KEY (STD)	"'"op"' is undefined on null pointers"
 }
 
-expr_unary_op_ref_lvalue ()
+expr_unary_op_ref_lvalue()
 {
     KEY (STD)	"Operand of unary '&' should be an lvalue"
 }
 
-expr_unary_op_ref_void ( TYPE: t )
+expr_unary_op_ref_void(TYPE: t)
 {
     KEY (STD)	"Can't apply unary '&' to a operand of type '"t"'"
 }
 
-expr_unary_op_ref_incompl ()
+expr_unary_op_ref_incompl()
 {
     USAGE:	none
     KEY (STD)	"Operand of unary '&' can't be incomplete"
 }
 
-expr_unary_op_ref_post ( IDENTIFIER: id )
+expr_unary_op_ref_post(IDENTIFIER: id)
 {
     USAGE:	wall
     KEY (STD)	"Function '"id"' declared in class previously taken address
 		 of as incomplete type"
 }
 
-expr_unary_op_ref_bitf ()
+expr_unary_op_ref_bitf()
 {
     KEY (STD)	"Operand of unary '&' can't be a bitfield"
 }
 
-expr_unary_op_ref_register ( IDENTIFIER: id )
+expr_unary_op_ref_register(IDENTIFIER: id)
 {
     USAGE:	addr_register
     KEY (STD)	"Can't take the address of the 'register' variable '"id"'"
 }
 
-expr_unary_op_ref_paren ()
+expr_unary_op_ref_paren()
 {
     KEY (STD)	"Member operand to unary '&' can't be parenthesized"
 }
 
-expr_unary_op_ref_full ()
+expr_unary_op_ref_full()
 {
     USAGE:	none
     KEY (STD)	"Member operand to unary '&' can't be a fully qualified
 		 identifier"
 }
 
-expr_unary_op_ref_unqual ()
+expr_unary_op_ref_unqual()
 {
     KEY (STD)	"Member operand to unary '&' must be a qualified identifier"
 }
 
-expr_unary_op_uplus_op ( LEX: op, TYPE: t )
+expr_unary_op_uplus_op(LEX: op, TYPE: t)
 {
     KEY (ISO)	"5.3.1" | "6.3.3.3, 6.5.3.3"
     KEY (STD)	"Operand of unary '"op"' should have arithmetic or pointer
 		 type, not '"t"'"
 }
 
-expr_unary_op_uminus_op ( LEX: op, TYPE: t )
+expr_unary_op_uminus_op(LEX: op, TYPE: t)
 {
     KEY (STD)	"Operand of unary '"op"' should have arithmetic type,
 		 not '"t"'"
 }
 
-expr_unary_op_compl_op ( LEX: op, TYPE: t )
+expr_unary_op_compl_op(LEX: op, TYPE: t)
 {
     KEY (STD)	"Operand of '"op"' should have integral type, not '"t"'"
 }
 
-expr_unary_op_not_op ()
+expr_unary_op_not_op()
 {
     USAGE:	whatever
     KEY (STD)	"Operand of '!' is converted to a boolean"
@@ -2226,32 +2226,32 @@ expr_unary_op_not_op ()
 		[expr.pre.incr]
     --------------------------------------------------------------------  */
 
-expr_pre_incr_mod ( LEX: op )
+expr_pre_incr_mod(LEX: op)
 {
     USAGE:	whatever
     KEY (ISO)	"5.3.2" | "6.3.3.1, 6.5.3.1"
     KEY (STD)	"Operand of prefix '"op"' should be modifiable"
 }
 
-expr_pre_incr_op ( LEX: op, TYPE: t )
+expr_pre_incr_op(LEX: op, TYPE: t)
 {
     KEY (STD)	"Operand of prefix '"op"' should have arithmetic or
 		 pointer type, not '"t"'"
 }
 
-expr_pre_incr_incompl ( LEX: op )
+expr_pre_incr_incompl(LEX: op)
 {
     KEY (STD)	"Pointer to complete object type expected in prefix
 		 '"op"' operation"
 }
 
-expr_pre_incr_bool_inc ( LEX: op, TYPE: t )
+expr_pre_incr_bool_inc(LEX: op, TYPE: t)
 {
     USAGE:	int_operator
     KEY (STD)	"Use of prefix '"op"' on type '"t"' is deprecated"
 }
 
-expr_pre_incr_bool_dec ( LEX: op, TYPE: t )
+expr_pre_incr_bool_dec(LEX: op, TYPE: t)
 {
     KEY (STD)	"Prefix '"op"' can't be applied to type '"t"'"
 }
@@ -2262,29 +2262,29 @@ expr_pre_incr_bool_dec ( LEX: op, TYPE: t )
 		[expr.sizeof]
     --------------------------------------------------------------------  */
 
-expr_sizeof_func ( LEX: op )
+expr_sizeof_func(LEX: op)
 {
     KEY (ISO)	"5.3.3" | "6.3.3.4, 6.5.3.4"
     KEY (STD)	"Can't apply '"op"' to a function type"
 }
 
-expr_sizeof_bitf ( LEX: op )
+expr_sizeof_bitf(LEX: op)
 {
     KEY (STD)	"Can't apply '"op"' to a bitfield type"
 }
 
-expr_sizeof_incompl ( LEX: op )
+expr_sizeof_incompl(LEX: op)
 {
     KEY (STD)	"Can't apply '"op"' to an incomplete type"
 }
 
-expr_sizeof_typedef ( LEX: op )
+expr_sizeof_typedef(LEX: op)
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't define a type in a '"op"' expression"
 }
 
-expr_sizeof_side ( LEX: op )
+expr_sizeof_side(LEX: op)
 {
     USAGE:	wall
     KEY (STD)	"Side effects in unevaluated '"op"' expression"
@@ -2296,35 +2296,35 @@ expr_sizeof_side ( LEX: op )
 		[expr.new]
     --------------------------------------------------------------------  */
 
-expr_new_typedef ()
+expr_new_typedef()
 {
     KEY (ISO)	"5.3.4" | "????"
     KEY (STD)	"Can't declare types in a 'new' expression"
 }
 
-expr_new_incompl ()
+expr_new_incompl()
 {
     KEY (STD)	"Type in 'new' expression should be a complete object type"
 }
 
-expr_new_abstract ()
+expr_new_abstract()
 {
     KEY (STD)	"Type in 'new' expression can't be abstract"
 }
 
-expr_new_dim ( TYPE: t )
+expr_new_dim(TYPE: t)
 {
     KEY (STD)	"Array bound in 'new' expression should have integral
 		 type, not '"t"'"
 }
 
-expr_new_init ( LEX: op )
+expr_new_init(LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"In '"op"' expression initializer"
 }
 
-expr_new_array_init ( LEX: op )
+expr_new_array_init(LEX: op)
 {
     KEY (STD)	"Can't have an initializer in '"op"' expression"
 }
@@ -2335,50 +2335,50 @@ expr_new_array_init ( LEX: op )
 		[expr.delete]
     --------------------------------------------------------------------  */
 
-expr_delete_ptr ( LEX: op, TYPE: t )
+expr_delete_ptr(LEX: op, TYPE: t)
 {
     KEY (ISO)	"5.3.5" | "????"
     KEY (STD)	"Operand of '"op"' expression should have pointer type,
 		 not '"t"'"
 }
 
-expr_delete_conv ( LEX: op )
+expr_delete_conv(LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"Operand of '"op"' expression is converted to a pointer type"
 }
 
-expr_delete_void ( LEX: op, TYPE: t )
+expr_delete_void(LEX: op, TYPE: t)
 {
     USAGE:	wall
     KEY (STD)	"Operand of '"op"' expression can't have type '"t"'"
 }
 
-expr_delete_obj ( LEX: op )
+expr_delete_obj(LEX: op)
 {
     KEY (STD)	"Pointer in '"op"' expression should be to an object type"
 }
 
-expr_delete_incompl ( LEX: op )
+expr_delete_incompl(LEX: op)
 {
     USAGE:	wall
     KEY (STD)	"Pointer in '"op"' expression should be to a complete type"
 }
 
-expr_delete_post ( IDENTIFIER: id )
+expr_delete_post(IDENTIFIER: id)
 {
     USAGE:	wall
     KEY (STD)	"Function '"id"' declared in class deleted through
 		 pointer to incomplete type"
 }
 
-expr_delete_const ( CV_SPEC: cv )
+expr_delete_const(CV_SPEC: cv)
 {
     USAGE:	none
     KEY (STD)	"Can't delete a '"cv"' object"
 }
 
-expr_delete_array ( LEX: op )
+expr_delete_array(LEX: op)
 {
     KEY (STD)	"The array bound in '"op"' is anachronistic"
 }
@@ -2389,37 +2389,37 @@ expr_delete_array ( LEX: op )
 		[expr.cast]
     --------------------------------------------------------------------  */
 
-expr_cast_expl_used ()
+expr_cast_expl_used()
 {
     USAGE:	cast_explicit
     KEY (ISO)	"5.4" | "6.3.4, 6.5.4"
     KEY (STD)	"Explicit cast expression"
 }
 
-expr_cast_expl_typedef ()
+expr_cast_expl_typedef()
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't define a type in a cast expression"
 }
 
-expr_cast_expl_scalar ( TYPE: t )
+expr_cast_expl_scalar(TYPE: t)
 {
     USAGE:	c_error
     KEY (STD)	"Can't cast to the non-scalar type '"t"'"
 }
 
-expr_cast_invalid ( TYPE: t1, TYPE: t2 )
+expr_cast_invalid(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Illegal conversion from type '"t1"' to type '"t2"'"
 }
 
-expr_cast_expl_bad ()
+expr_cast_expl_bad()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion using an explicit cast"
 }
 
-expr_cast_ref ( TYPE: t1, TYPE: t2 )
+expr_cast_ref(TYPE: t1, TYPE: t2)
 {
     USAGE:	whatever
     KEY (STD)	"'cast < "t1" > ( a )' is equivalent to
@@ -2432,56 +2432,56 @@ expr_cast_ref ( TYPE: t1, TYPE: t2 )
 		[expr.mptr.oper]
     --------------------------------------------------------------------  */
 
-expr_mptr_oper_arrow_op ( LONG_ID: id, TYPE: t )
+expr_mptr_oper_arrow_op(LONG_ID: id, TYPE: t)
 {
     KEY (ISO)	"5.5" | "????"
     KEY (STD)	"First operand of '->*' should have type pointer to
 		 '"id"', not '"t"'"
 }
 
-expr_mptr_oper_dot_op ( LONG_ID: id, TYPE: t )
+expr_mptr_oper_dot_op(LONG_ID: id, TYPE: t)
 {
     KEY (STD)	"First operand of '.*' should have type '"id"', not '"t"'"
 }
 
-expr_mptr_oper_arrow_dot ( TYPE: t )
+expr_mptr_oper_arrow_dot(TYPE: t)
 {
     KEY (STD)	"Should use '.*' with operand of type '"t"', not '->*'"
 }
 
-expr_mptr_oper_dot_arrow ( TYPE: t )
+expr_mptr_oper_dot_arrow(TYPE: t)
 {
     KEY (STD)	"Should use '->*' with operand of type '"t"', not '.*'"
 }
 
-expr_mptr_oper_op2 ( LEX: op, TYPE: t )
+expr_mptr_oper_op2(LEX: op, TYPE: t)
 {
     KEY (STD)	"Second operand of '"op"' should have pointer to member
 		 type, not '"t"'"
 }
 
-expr_mptr_oper_compl ( LEX: op )
+expr_mptr_oper_compl(LEX: op)
 {
     KEY (STD)	"Class in '"op"' should be complete"
 }
 
-expr_mptr_oper_ambig ( LEX: op )
+expr_mptr_oper_ambig(LEX: op)
 {
     KEY (STD)	"Base class conversion in '"op"' must be unambiguous"
 }
 
-expr_mptr_oper_call ()
+expr_mptr_oper_call()
 {
     KEY (STD)	"Can only use function member selector in a function call"
 }
 
-expr_mptr_oper_null ( LEX: op )
+expr_mptr_oper_null(LEX: op)
 {
     USAGE:	ptr_operator
     KEY (STD)	"'"op"' is undefined on null pointer to members"
 }
 
-expr_mptr_oper_paren ()
+expr_mptr_oper_paren()
 {
     USAGE:	whatever
     KEY (STD)	"Possible precedence error involving '.*' or '->*'"
@@ -2493,25 +2493,25 @@ expr_mptr_oper_paren ()
 		[expr.mul]
     --------------------------------------------------------------------  */
 
-expr_mul_mul_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_mul_mul_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.6" | "6.3.5, 6.5.5"
     KEY (STD)	"Operands of binary '"op"' should be arithmetic, not
 		 '"t1"' and '"t2"'"
 }
 
-expr_mul_rem_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_mul_rem_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"' and '"t2"'"
 }
 
-expr_mul_div_zero ( LEX: op )
+expr_mul_div_zero(LEX: op)
 {
     USAGE:	int_overflow
     KEY (STD)	"Division operation '"op"' with zero divisor is undefined"
 }
 
-expr_mul_div_neg ( LEX: op, NAT: n )
+expr_mul_div_neg(LEX: op, NAT: n)
 {
     USAGE:	int_operator
     KEY (STD)	"Division operation '"op"' involving negative operand
@@ -2524,32 +2524,32 @@ expr_mul_div_neg ( LEX: op, NAT: n )
 		[expr.add]
     --------------------------------------------------------------------  */
 
-expr_add_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_add_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.7" | "6.3.6, 6.5.6"
     KEY (STD)	"Can't perform binary '"op"' on operands of types '"t1"'
 		 and '"t2"'"
 }
 
-expr_add_incompl ( LEX: op )
+expr_add_incompl(LEX: op)
 {
     KEY (STD)	"Pointer to complete object type expected in binary '"op"'"
 }
 
-expr_add_ptrdiff ()
+expr_add_ptrdiff()
 {
     USAGE:	whatever
     KEY (STD)	"Pointers in '-' should be to compatible types"
 }
 
-expr_add_array ( NAT: n, TYPE: t, LEX: op )
+expr_add_array(NAT: n, TYPE: t, LEX: op)
 {
     USAGE:	ptr_operator
     KEY (STD)	"Can't address element '"n"' of array of type '"t"'
 		 using '"op"'"
 }
 
-expr_add_different ()
+expr_add_different()
 {
     USAGE:	ptr_operator
     KEY (STD)	"Pointers in '-' should be to elements of the same array"
@@ -2561,34 +2561,34 @@ expr_add_different ()
 		[expr.shift]
     --------------------------------------------------------------------  */
 
-expr_shift_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_shift_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.8" | "6.3.7, 6.5.7"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"' and '"t2"'"
 }
 
-expr_shift_op1_sign ( LEX: op )
+expr_shift_op1_sign(LEX: op)
 {
     USAGE:	int_operator
     KEY (STD)	"Shift operation '"op"' with signed first operand is
 		 implementation dependent"
 }
 
-expr_shift_op1_neg ( LEX: op, NAT: n )
+expr_shift_op1_neg(LEX: op, NAT: n)
 {
     USAGE:	int_operator
     KEY (STD)	"Shift operation '"op"' with negative first operand '"n"'
 		 is implementation dependent"
 }
 
-expr_shift_op2_neg ( LEX: op, NAT: n )
+expr_shift_op2_neg(LEX: op, NAT: n)
 {
     USAGE:	int_operator
     KEY (STD)	"Shift operation '"op"' with negative second operand '"n"'
 		 is undefined"
 }
 
-expr_shift_op2_big ( LEX: op, NAT: n, TYPE: t )
+expr_shift_op2_big(LEX: op, NAT: n, TYPE: t)
 {
     USAGE:	int_operator
     KEY (STD)	"Shift operation '"op"' second operand '"n"' exceeds
@@ -2601,53 +2601,53 @@ expr_shift_op2_big ( LEX: op, NAT: n, TYPE: t )
 		[expr.rel]
     --------------------------------------------------------------------  */
 
-expr_rel_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_rel_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.9" | "6.3.8, 6.5.8"
     KEY (STD)	"Can't perform '"op"' on operands of types '"t1"' and '"t2"'"
 }
 
-expr_rel_nonzero ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_rel_nonzero(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Can't perform '"op"' on an operand of type '"t1"' and a
 		 nonzero value of type '"t2"'"
 }
 
-expr_rel_ptr ( LEX: op )
+expr_rel_ptr(LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"Pointer operands of '"op"' are converted to a common type"
 }
 
-expr_rel_ptr_void ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_rel_ptr_void(LEX: op, TYPE: t1, TYPE: t2)
 {
     USAGE:	ptr_operator | error
     KEY (STD)	"Comparison '"op"' performed on operands of types '"t1"'
 		 and '"t2"'"
 }
 
-expr_rel_paren ( LEX: op1, LEX: op2 )
+expr_rel_paren(LEX: op1, LEX: op2)
 {
     USAGE:	paren
     KEY (STD)	"Expressions like 'a "op1" b "op2" c' do not have their
 		 mathematical meaning"
 }
 
-expr_rel_true ()
+expr_rel_true()
 {
     USAGE:	int_operator
     KEY (STD)	"The relation 'a >= 0' is always true for unsigned
 		 comparisons"
 }
 
-expr_rel_false ()
+expr_rel_false()
 {
     USAGE:	int_operator
     KEY (STD)	"The relation 'a < 0' is always false for unsigned
 		 comparisons"
 }
 
-expr_rel_null ( LEX: op )
+expr_rel_null(LEX: op)
 {
     USAGE:	ptr_operator | error
     KEY (STD)	"Can't have null pointer operand to '"op"'"
@@ -2659,32 +2659,32 @@ expr_rel_null ( LEX: op )
 		[expr.eq]
     --------------------------------------------------------------------  */
 
-expr_eq_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_eq_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.10" | "6.3.9, 6.5.9"
     KEY (STD)	"Can't perform '"op"' on operands of types '"t1"' and '"t2"'"
 }
 
-expr_eq_nonzero ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_eq_nonzero(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Can't perform '"op"' on an operand of type '"t1"' and
 		 a nonzero value of type '"t2"'"
 }
 
-expr_eq_ptr ( LEX: op )
+expr_eq_ptr(LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"Pointer operands of '"op"' are converted to a common type"
 }
 
-expr_eq_mptr ( LEX: op )
+expr_eq_mptr(LEX: op)
 {
     USAGE:	whatever
     KEY (STD)	"Pointer to member operands of '"op"' are converted to a
 		 common type"
 }
 
-expr_eq_float ( LEX: op )
+expr_eq_float(LEX: op)
 {
     USAGE:	int_operator
     KEY (STD)	"Floating point '"op"' operation"
@@ -2696,7 +2696,7 @@ expr_eq_float ( LEX: op )
 		[expr.bit.and]
     --------------------------------------------------------------------  */
 
-expr_bit_and_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_bit_and_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.11" | "6.3.10, 6.5.10"
     KEY (STD)	"Operands of binary '"op"' should be integral, not
@@ -2709,7 +2709,7 @@ expr_bit_and_op ( LEX: op, TYPE: t1, TYPE: t2 )
 		[expr.xor]
     --------------------------------------------------------------------  */
 
-expr_xor_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_xor_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.12" | "6.3.11, 6.5.11"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"'
@@ -2722,7 +2722,7 @@ expr_xor_op ( LEX: op, TYPE: t1, TYPE: t2 )
 		[expr.or]
     --------------------------------------------------------------------  */
 
-expr_or_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_or_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"5.13" | "6.3.12, 6.5.12"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"'
@@ -2735,7 +2735,7 @@ expr_or_op ( LEX: op, TYPE: t1, TYPE: t2 )
 		[expr.log.and]
     --------------------------------------------------------------------  */
 
-expr_log_and_op ( LEX: op )
+expr_log_and_op(LEX: op)
 {
     USAGE:	whatever
     KEY (ISO)	"5.14" | "6.3.13, 6.5.13"
@@ -2748,7 +2748,7 @@ expr_log_and_op ( LEX: op )
 		[expr.log.or]
     --------------------------------------------------------------------  */
 
-expr_log_or_op ( LEX: op )
+expr_log_or_op(LEX: op)
 {
     USAGE:	whatever
     KEY (ISO)	"5.15" | "6.3.14, 6.5.14"
@@ -2761,44 +2761,44 @@ expr_log_or_op ( LEX: op )
 		[expr.cond]
     --------------------------------------------------------------------  */
 
-expr_cond_bool ()
+expr_cond_bool()
 {
     USAGE:	whatever
     KEY (ISO)	"5.16" | "6.3.15, 6.5.15"
     KEY (STD)	"The condition of '?:' is converted to a boolean"
 }
 
-expr_cond_const ()
+expr_cond_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant condition in '?:' expression"
 }
 
-expr_cond_op ( TYPE: t1, TYPE: t2 )
+expr_cond_op(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Can't perform '?:' on operands of types '"t1"' and '"t2"'"
 }
 
-expr_cond_qual ( TYPE: t1, TYPE: t2 )
+expr_cond_qual(TYPE: t1, TYPE: t2)
 {
     USAGE:	none
     KEY (STD)	"Qualifier mismatch for operands of types '"t1"' and
 		 '"t2"' in '?:'"
 }
 
-expr_cond_nonzero ( TYPE: t1, TYPE: t2 )
+expr_cond_nonzero(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Can't perform '?:' on an operand of type '"t1"' and a
 		 nonzero value of type '"t2"'"
 }
 
-expr_cond_ptr ()
+expr_cond_ptr()
 {
     USAGE:	whatever
     KEY (STD)	"Pointer operands of '?:' are converted to a common type"
 }
 
-expr_cond_mptr ()
+expr_cond_mptr()
 {
     USAGE:	whatever
     KEY (STD)	"Pointer to member operands of '?:' are converted
@@ -2811,30 +2811,30 @@ expr_cond_mptr ()
 		[expr.ass]
     --------------------------------------------------------------------  */
 
-expr_ass_mod ( LEX: op )
+expr_ass_mod(LEX: op)
 {
     USAGE:	whatever
     KEY (ISO)	"5.17" | "6.3.16, 6.5.16"
     KEY (STD)	"Left operand of '"op"' should be modifiable"
 }
 
-expr_ass_op ( LEX: op, TYPE: t1, TYPE: t2 )
+expr_ass_op(LEX: op, TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Can't perform '"op"' on operands of types '"t1"' and '"t2"'"
 }
 
-expr_ass_incompl ( LEX: op )
+expr_ass_incompl(LEX: op)
 {
     KEY (STD)	"Pointer to complete object type expected in '"op"'"
 }
 
-expr_ass_conv ()
+expr_ass_conv()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion by assignment"
 }
 
-expr_ass_twice ( IDENTIFIER: id )
+expr_ass_twice(IDENTIFIER: id)
 {
     USAGE:	variable
     KEY (STD)	"Variable '"id"' modified twice in expression"
@@ -2852,30 +2852,30 @@ expr_ass_twice ( IDENTIFIER: id )
 		[expr.const]
     --------------------------------------------------------------------  */
 
-expr_const_bad ()
+expr_const_bad()
 {
     USAGE:	whatever
     KEY (ISO)	"5.19" | "6.4, 6.6"
     KEY (STD)	"Illegal integer constant expression"
 }
 
-expr_const_int ( TYPE: t )
+expr_const_int(TYPE: t)
 {
     USAGE:	whatever
     KEY (STD)	"Constant expression should have integral type, not '"t"'"
 }
 
-expr_const_off_mem ( LONG_ID: id )
+expr_const_off_mem(LONG_ID: id)
 {
     KEY (STD)	"Member '"id"' doesn't designate a constant offset"
 }
 
-expr_const_off_array ( TYPE: t )
+expr_const_off_array(TYPE: t)
 {
     KEY (STD)	"Array type required in constant offset, not '"t"'"
 }
 
-expr_const_off_dim ()
+expr_const_off_dim()
 {
     KEY (STD)	"Constant index required in constant offset"
 }
@@ -2886,14 +2886,14 @@ expr_const_off_dim ()
 		[stmt.stmt]
     --------------------------------------------------------------------  */
 
-stmt_stmt_unreach ()
+stmt_stmt_unreach()
 {
     USAGE:	reached
     KEY (ISO)	"6" | "6.6, 6.8"
     KEY (STD)	"Statement not reached"
 }
 
-stmt_stmt_empty ( LEX: op )
+stmt_stmt_empty(LEX: op)
 {
     USAGE:	empty_body
     KEY (STD)	"Empty body in '"op"' statement"
@@ -2905,29 +2905,29 @@ stmt_stmt_empty ( LEX: op )
 		[stmt.label]
     --------------------------------------------------------------------  */
 
-stmt_label_redef ( IDENTIFIER: lab, LONG_ID: fn, PTR_LOC: loc )
+stmt_label_redef(IDENTIFIER: lab, LONG_ID: fn, PTR_LOC: loc)
 {
     KEY (ISO)	"6.1" | "6.6.1, 6.8.1"
     KEY (STD)	"Label '"lab"' already defined in function '"fn"' (at "loc")"
 }
 
-stmt_label_unused ( IDENTIFIER: lab, LONG_ID: fn )
+stmt_label_unused(IDENTIFIER: lab, LONG_ID: fn)
 {
     USAGE:	reached
     KEY (STD)	"Label '"lab"' defined but not used in function '"fn"'"
 }
 
-stmt_label_case ()
+stmt_label_case()
 {
     KEY (STD)	"'case' should be inside a 'switch' statement"
 }
 
-stmt_label_default ()
+stmt_label_default()
 {
     KEY (STD)	"'default' should be inside a 'switch' statement"
 }
 
-stmt_label_fall ( LEX: op )
+stmt_label_fall(LEX: op)
 {
     USAGE:	case_fall
     KEY (STD)	"Fall into '"op"' statement"
@@ -2939,20 +2939,20 @@ stmt_label_fall ( LEX: op )
 		[stmt.expr]
     --------------------------------------------------------------------  */
 
-stmt_expr_discard_func ()
+stmt_expr_discard_func()
 {
     USAGE:	discard_func
     KEY (ISO)	"6.2" | "6.6.3, 6.8.3"
     KEY (STD)	"Discarded function return"
 }
 
-stmt_expr_discard_val ()
+stmt_expr_discard_val()
 {
     USAGE:	discard_value
     KEY (STD)	"Discarded value"
 }
 
-stmt_expr_incompl ()
+stmt_expr_incompl()
 {
     USAGE:	none
     KEY (STD)	"Incomplete value discarded"
@@ -2970,13 +2970,13 @@ stmt_expr_incompl ()
 		[stmt.select]
     --------------------------------------------------------------------  */
 
-stmt_select_type ( TYPE: t )
+stmt_select_type(TYPE: t)
 {
     KEY (ISO)	"6.4" | "6.6.4, 6.8.4"
     KEY (STD)	"Invalid type for condition declaration, '"t"'"
 }
 
-stmt_select_typedef ()
+stmt_select_typedef()
 {
     KEY (STD)	"Can't declare a type in a condition declaration"
 }
@@ -2987,20 +2987,20 @@ stmt_select_typedef ()
 		[stmt.if]
     --------------------------------------------------------------------  */
 
-stmt_if_cond ()
+stmt_if_cond()
 {
     USAGE:	whatever
     KEY (ISO)	"6.4.1" | "6.6.4.1, 6.8.4.1"
     KEY (STD)	"Condition of an 'if' statement is converted to a boolean"
 }
 
-stmt_if_const ()
+stmt_if_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant condition in 'if' statement"
 }
 
-stmt_if_no_else ()
+stmt_if_no_else()
 {
     USAGE:	cond_default
     KEY (STD)	"No 'else' in 'if' statement"
@@ -3012,81 +3012,81 @@ stmt_if_no_else ()
 		[stmt.switch]
     --------------------------------------------------------------------  */
 
-stmt_switch_control ( TYPE: t )
+stmt_switch_control(TYPE: t)
 {
     KEY (ISO)	"6.4.2" | "6.6.4.2, 6.8.4.2"
     KEY (STD)	"Control expression of a 'switch' statement should have
 		 integral type, not '"t"'"
 }
 
-stmt_switch_conv ()
+stmt_switch_conv()
 {
     USAGE:	whatever
     KEY (STD)	"Control expression of a 'switch' statement is converted
 		 to an integral type"
 }
 
-stmt_switch_const ()
+stmt_switch_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant control expression in 'switch' statement"
 }
 
-stmt_switch_case_const ()
+stmt_switch_case_const()
 {
     KEY (STD)	"Expression in a 'case' statement should be an integer
 		 constant"
 }
 
-stmt_switch_case_dup ( NAT: n, PTR_LOC: loc )
+stmt_switch_case_dup(NAT: n, PTR_LOC: loc)
 {
     KEY (STD)	"'case "n"' already defined in 'switch' (at "loc")"
 }
 
-stmt_switch_default_dup ( PTR_LOC: loc )
+stmt_switch_default_dup(PTR_LOC: loc)
 {
     KEY (STD)	"'default' already defined in 'switch' (at "loc")"
 }
 
-stmt_switch_case_not ( NAT: n )
+stmt_switch_case_not(NAT: n)
 {
     KEY (STD)	"'case "n"' not defined in 'switch'"
 }
 
-stmt_switch_default_not ()
+stmt_switch_default_not()
 {
     KEY (STD)	"'default' not defined in 'switch'"
 }
 
-stmt_switch_exhaust_none ()
+stmt_switch_exhaust_none()
 {
     KEY (STD)	"No cases in exhaustive 'switch' statement"
 }
 
-stmt_switch_exhaust_default ()
+stmt_switch_exhaust_default()
 {
     KEY (STD)	"Can't have 'default' in exhaustive 'switch' statement"
 }
 
-stmt_switch_case_none ()
+stmt_switch_case_none()
 {
     USAGE:	const_cond
     KEY (STD)	"No cases in 'switch' statement"
 }
 
-stmt_switch_no_default ()
+stmt_switch_no_default()
 {
     USAGE:	cond_default
     KEY (STD)	"No 'default' in 'switch' statement"
 }
 
-stmt_switch_case_enum ( LONG_ID: id )
+stmt_switch_case_enum(LONG_ID: id)
 {
     USAGE:	enum_switch
     KEY (STD)	"Enumerator '"id"' not covered in 'switch'"
 }
 
-stmt_switch_case_extra ( NAT: n, TYPE: t )
+stmt_switch_case_extra(NAT: n, TYPE: t)
 {
     USAGE:	enum_switch
     KEY (STD)	"'case "n"' is not a valid value for type '"t"'"
@@ -3104,14 +3104,14 @@ stmt_switch_case_extra ( NAT: n, TYPE: t )
 		[stmt.while]
     --------------------------------------------------------------------  */
 
-stmt_while_cond ()
+stmt_while_cond()
 {
     USAGE:	whatever
     KEY (ISO)	"6.5.1" | "6.6.5.1, 6.8.5.1"
     KEY (STD)	"Condition of a 'while' statement is converted to a boolean"
 }
 
-stmt_while_const ()
+stmt_while_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant condition in 'while' statement"
@@ -3123,14 +3123,14 @@ stmt_while_const ()
 		[stmt.do]
     --------------------------------------------------------------------  */
 
-stmt_do_cond ()
+stmt_do_cond()
 {
     USAGE:	whatever
     KEY (ISO)	"6.5.2" | "6.6.5.2, 6.8.5.2"
     KEY (STD)	"Condition of a 'do' statement is converted to a boolean"
 }
 
-stmt_do_const ()
+stmt_do_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant condition in 'do' statement"
@@ -3142,33 +3142,33 @@ stmt_do_const ()
 		[stmt.for]
     --------------------------------------------------------------------  */
 
-stmt_for_cond ()
+stmt_for_cond()
 {
     USAGE:	whatever
     KEY (ISO)	"6.5.3" | "6.6.5.3, 6.8.5.3"
     KEY (STD)	"Condition of a 'for' statement is converted to a boolean"
 }
 
-stmt_for_const ()
+stmt_for_const()
 {
     USAGE:	const_cond
     KEY (STD)	"Constant condition in 'for' statement"
 }
 
-stmt_for_init ( IDENTIFIER: id )
+stmt_for_init(IDENTIFIER: id)
 {
     USAGE:	for_scope
     KEY (STD)	"Variable '"id"' used outside its 'for' statement"
 }
 
-stmt_for_decl ()
+stmt_for_decl()
 {
     USAGE:	none | error
     KEY (ISO)	"???" | "-, 6.8.5.3"
     KEY (STD)	"Declaration in 'for' statement"
 }
 
-stmt_for_storage ( DECL_SPEC: ds )
+stmt_for_storage(DECL_SPEC: ds)
 {
     USAGE:	none | error
     KEY (ISO)	"???" | "-, 6.8.5"
@@ -3176,7 +3176,7 @@ stmt_for_storage ( DECL_SPEC: ds )
 		 specifier(s) '"ds"'"
 }
 
-stmt_for_no_object ()
+stmt_for_no_object()
 {
     USAGE:	none | error
     KEY (STD)	"Declaration in 'for' statement must declare an identifier for
@@ -3195,7 +3195,7 @@ stmt_for_no_object ()
 		[stmt.break]
     --------------------------------------------------------------------  */
 
-stmt_break_bad ()
+stmt_break_bad()
 {
     KEY (ISO)	"6.6.1" | "6.6.6.3, 6.8.6.3"
     KEY (STD)	"'break' should be inside an iteration or 'switch' statement"
@@ -3207,7 +3207,7 @@ stmt_break_bad ()
 		[stmt.cont]
     --------------------------------------------------------------------  */
 
-stmt_cont_bad ()
+stmt_cont_bad()
 {
     KEY (ISO)	"6.6.2" | "6.6.6.2, 6.8.6.2"
     KEY (STD)	"'continue' should be inside an iteration statement"
@@ -3219,7 +3219,7 @@ stmt_cont_bad ()
 		[stmt.return]
     --------------------------------------------------------------------  */
 
-stmt_return_void ( IDENTIFIER: id, TYPE: t )
+stmt_return_void(IDENTIFIER: id, TYPE: t)
 {
     USAGE:	func_ret_void
     KEY (ISO)	"6.6.3" | "6.6.6.4, 6.8.6.4"
@@ -3227,29 +3227,29 @@ stmt_return_void ( IDENTIFIER: id, TYPE: t )
 		 returns '"t"'"
 }
 
-stmt_return_none ( IDENTIFIER: id, TYPE: t )
+stmt_return_none(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"'return' with value in function '"id"' which returns '"t"'"
 }
 
-stmt_return_bottom ( IDENTIFIER: id, TYPE: t )
+stmt_return_bottom(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"Can't return from function '"id"' which returns '"t"'"
 }
 
-stmt_return_conv ()
+stmt_return_conv()
 {
     USAGE:	whatever
     KEY (STD)	"'return' value is converted to function return type"
 }
 
-stmt_return_fall ( IDENTIFIER: id, TYPE: t )
+stmt_return_fall(IDENTIFIER: id, TYPE: t)
 {
     USAGE:	func_ret_missing
     KEY (STD)	"Fall out of function '"id"' which returns '"t"'"
 }
 
-stmt_return_auto ( LONG_ID: id, LEX: op )
+stmt_return_auto(LONG_ID: id, LEX: op)
 {
     USAGE:	ptr_operator
     KEY (STD)	"Reference to local variable '"id"' in '"op"'"
@@ -3261,13 +3261,13 @@ stmt_return_auto ( LONG_ID: id, LEX: op )
 		[stmt.goto]
     --------------------------------------------------------------------  */
 
-stmt_goto_undef ( IDENTIFIER: lab, LONG_ID: fn )
+stmt_goto_undef(IDENTIFIER: lab, LONG_ID: fn)
 {
     KEY (ISO)	"6.6.4" | "6.6.6.1, 6.8.6.1"
     KEY (STD)	"Label '"lab"' used but not defined in function '"fn"'"
 }
 
-stmt_goto_case ( LEX: op )
+stmt_goto_case(LEX: op)
 {
     KEY (STD)	"Can't have 'goto "op"'"
 }
@@ -3278,45 +3278,45 @@ stmt_goto_case ( LEX: op )
 		[stmt.dcl]
     --------------------------------------------------------------------  */
 
-stmt_dcl_start ()
+stmt_dcl_start()
 {
     USAGE:	c_error
     KEY (ISO)	"6.7" | "6.6.2, -"
     KEY (STD)	"Declaration statement should be at start of block"
 }
 
-stmt_dcl_bypass_lab ( IDENTIFIER: lab, IDENTIFIER: id )
+stmt_dcl_bypass_lab(IDENTIFIER: lab, IDENTIFIER: id)
 {
     USAGE:	error | variable
     KEY (ISO)	"6.7" | "6.6.2, 6.8.2"
     KEY (STD)	"Jump to label '"lab"' bypasses initialization of '"id"'"
 }
 
-stmt_dcl_bypass_case ( NAT: n, IDENTIFIER: id )
+stmt_dcl_bypass_case(NAT: n, IDENTIFIER: id)
 {
     USAGE:	error | variable
     KEY (STD)	"Jump to 'case "n"' bypasses initialization of '"id"'"
 }
 
-stmt_dcl_bypass_default ( IDENTIFIER: id )
+stmt_dcl_bypass_default(IDENTIFIER: id)
 {
     USAGE:	error | variable
     KEY (STD)	"Jump to 'default' bypasses initialization of '"id"'"
 }
 
-stmt_dcl_unused ( LONG_ID: id )
+stmt_dcl_unused(LONG_ID: id)
 {
     USAGE:	variable
     KEY (STD)	"Variable '"id"' not used"
 }
 
-stmt_dcl_unset ( LONG_ID: id )
+stmt_dcl_unset(LONG_ID: id)
 {
     USAGE:	variable
     KEY (STD)	"Variable '"id"' may be used without being set"
 }
 
-stmt_dcl_reset ( LONG_ID: id )
+stmt_dcl_reset(LONG_ID: id)
 {
     USAGE:	variable
     KEY (STD)	"Variable '"id"' not used since previous assignment"
@@ -3334,39 +3334,39 @@ stmt_dcl_reset ( LONG_ID: id )
 		[dcl.dcl]
     --------------------------------------------------------------------  */
 
-dcl_dcl_none ()
+dcl_dcl_none()
 {
     USAGE:	decl_none
     KEY (ISO)	"7" | "6.7, 6.9"
     KEY (STD)	"No declarations in translation unit"
 }
 
-dcl_dcl_empty ()
+dcl_dcl_empty()
 {
     USAGE:	decl_empty
     KEY (ISO)	"7" | "6.5, 6.7"
     KEY (STD)	"Every declaration must introduce a name"
 }
 
-dcl_dcl_semicolon ()
+dcl_dcl_semicolon()
 {
     USAGE:	semicolon_extra
     KEY (STD)	"Can't have empty declaration"
 }
 
-dcl_dcl_anon ()
+dcl_dcl_anon()
 {
     USAGE:	decl_struct_anon
     KEY (STD)	"Every type definition must introduce a name"
 }
 
-dcl_dcl_ds_empty ()
+dcl_dcl_ds_empty()
 {
     USAGE:	dspec_none
     KEY (STD)	"No declaration specifiers in declaration"
 }
 
-dcl_dcl_ds_func ()
+dcl_dcl_ds_func()
 {
     USAGE:	dspec_none_func
     KEY (STD)	"No declaration specifiers in function definition"
@@ -3378,13 +3378,13 @@ dcl_dcl_ds_func ()
 		[dcl.spec]
     --------------------------------------------------------------------  */
 
-dcl_spec_dup ( DECL_SPEC: ds )
+dcl_spec_dup(DECL_SPEC: ds)
 {
     KEY (ISO)	"7.1" | "6.5.1, 6.7.1"
     KEY (STD)	"Duplicate declaration specifier, '"ds" "ds"'"
 }
 
-dcl_spec_order ( DECL_SPEC: ds )
+dcl_spec_order(DECL_SPEC: ds)
 {
     USAGE:	wall
     KEY (STD)	"Declaration specifier, '"ds"' after type specifier"
@@ -3396,82 +3396,82 @@ dcl_spec_order ( DECL_SPEC: ds )
 		[dcl.stc]
     --------------------------------------------------------------------  */
 
-dcl_stc_dup ( DECL_SPEC: ds1, DECL_SPEC: ds2 )
+dcl_stc_dup(DECL_SPEC: ds1, DECL_SPEC: ds2)
 {
     KEY (ISO)	"7.1.1" | "6.5.1, 6.7.1"
     KEY (STD)	"Multiple storage class specifiers '"ds1"', assuming '"ds2"'"
 }
 
-dcl_stc_stat_block ()
+dcl_stc_stat_block()
 {
     USAGE:	func_block
     KEY (STD)	"Can't declare 'static' functions inside a block"
 }
 
-dcl_stc_bad ( DECL_SPEC: ds )
+dcl_stc_bad(DECL_SPEC: ds)
 {
     USAGE:	cpp_error
     KEY (ISO)	"7.1.1" | "6.7, 6.9"
     KEY (STD)	"Storage class specifier '"ds"' must be applied to an object"
 }
 
-dcl_stc_expl_spec ( DECL_SPEC: ds )
+dcl_stc_expl_spec(DECL_SPEC: ds)
 {
     KEY (STD)	"Can't apply '"ds"' to an explicit specialization or
 		 instantiation"
 }
 
-dcl_stc_auto_bad ( DECL_SPEC: ds )
+dcl_stc_auto_bad(DECL_SPEC: ds)
 {
     KEY (STD)	"Can only apply '"ds"' to a function parameter or variable"
 }
 
-dcl_stc_auto_func ( DECL_SPEC: ds )
+dcl_stc_auto_func(DECL_SPEC: ds)
 {
     KEY (STD)	"Can't apply '"ds"' to a function declaration"
 }
 
-dcl_stc_ext_inline ()
+dcl_stc_ext_inline()
 {
     USAGE:	none
     KEY (STD)	"Can't declare a function 'extern inline'"
 }
 
-dcl_stc_ext_mem ()
+dcl_stc_ext_mem()
 {
     KEY (STD)	"Can't apply 'extern' to a class member"
 }
 
-dcl_stc_mut_bad ()
+dcl_stc_mut_bad()
 {
     KEY (STD)	"Can only apply 'mutable' to a data member"
 }
 
-dcl_stc_mut_const ( LONG_ID: id )
+dcl_stc_mut_const(LONG_ID: id)
 {
     KEY (STD)	"Can't apply 'mutable' to the 'const' member '"id"'"
 }
 
-dcl_stc_param ( DECL_SPEC: ds )
+dcl_stc_param(DECL_SPEC: ds)
 {
     KEY (ISO)	"7.1.1" | "6.7.1, 6.9.1"
     KEY (STD)	"Can't apply '"ds"' to a function parameter"
 }
 
-dcl_stc_auto_par ()
+dcl_stc_auto_par()
 {
     USAGE:	c_error
     KEY (STD)	"Can't apply 'auto' to a function parameter"
 }
 
-dcl_stc_internal ( LONG_ID: id, PTR_LOC: loc )
+dcl_stc_internal(LONG_ID: id, PTR_LOC: loc)
 {
     USAGE:	link_incompat
     KEY (ISO)	"7.1.1" | "6.1.2.2, 6.2.2"
     KEY (STD)	"'"id"' previously declared with internal linkage (at "loc")"
 }
 
-dcl_stc_external ( LONG_ID: id, PTR_LOC: loc )
+dcl_stc_external(LONG_ID: id, PTR_LOC: loc)
 {
     USAGE:	link_resolve
     KEY (STD)	"'"id"' previously declared with external linkage (at "loc")"
@@ -3483,39 +3483,39 @@ dcl_stc_external ( LONG_ID: id, PTR_LOC: loc )
 		[dcl.fct.spec]
     --------------------------------------------------------------------  */
 
-dcl_fct_spec_inline_bad ()
+dcl_fct_spec_inline_bad()
 {
     KEY (ISO)	"7.1.2" | "6.5.1, 6.7.4"
     KEY (STD)	"The specifier 'inline' can only applied to function
 		 declarations"
 }
 
-dcl_fct_spec_block ()
+dcl_fct_spec_block()
 {
     KEY (STD)	"Can't declare 'inline' functions inside a block"
 }
 
-dcl_fct_spec_virtual ()
+dcl_fct_spec_virtual()
 {
     KEY (STD)	"The specifier 'virtual' can only applied to function members"
 }
 
-dcl_fct_spec_explicit ()
+dcl_fct_spec_explicit()
 {
     KEY (STD)	"The specifier 'explicit' can only applied to function members"
 }
 
-dcl_fct_spec_expl_constr ()
+dcl_fct_spec_expl_constr()
 {
     KEY (STD)	"Can only apply 'explicit' to a constructor"
 }
 
-dcl_fct_spec_expl_conv ()
+dcl_fct_spec_expl_conv()
 {
     KEY (STD)	"Can't apply 'explicit' to a conversion function"
 }
 
-dcl_fct_spec_inline_call ( LONG_ID: id )
+dcl_fct_spec_inline_call(LONG_ID: id)
 {
     USAGE:	none
     KEY (STD)	"The inline function '"id"' has been called before it
@@ -3528,34 +3528,34 @@ dcl_fct_spec_inline_call ( LONG_ID: id )
 		[dcl.typedef]
     --------------------------------------------------------------------  */
 
-dcl_typedef_func ()
+dcl_typedef_func()
 {
     KEY (ISO)	"7.1.3" | "6.5.1, 6.7.1"
     KEY (STD)	"Can't apply 'typedef' to a function definition"
 }
 
-dcl_typedef_par ()
+dcl_typedef_par()
 {
     KEY (STD)	"Can't apply 'typedef' to a function parameter"
 }
 
-dcl_typedef_dspec ( DECL_SPEC: ds )
+dcl_typedef_dspec(DECL_SPEC: ds)
 {
     KEY (STD)	"Can't use declaration specifier(s) '"ds"' with 'typedef'"
 }
 
-dcl_typedef_dcl ()
+dcl_typedef_dcl()
 {
     USAGE:	none
     KEY (STD)	"The 'typedef' specifier must define a type"
 }
 
-dcl_typedef_constr ( IDENTIFIER: id, HASHID: nm )
+dcl_typedef_constr(IDENTIFIER: id, HASHID: nm)
 {
     KEY (STD)	"Can't use 'typedef' name '"id"' in constructor '"nm"'"
 }
 
-dcl_typedef_destr ( IDENTIFIER: id, HASHID: nm )
+dcl_typedef_destr(IDENTIFIER: id, HASHID: nm)
 {
     KEY (STD)	"Can't use 'typedef' name '"id"' in destructor '"nm"'"
 }
@@ -3566,7 +3566,7 @@ dcl_typedef_destr ( IDENTIFIER: id, HASHID: nm )
 		[dcl.friend]
     --------------------------------------------------------------------  */
 
-dcl_friend_class ()
+dcl_friend_class()
 {
     KEY (ISO)	"7.1.4" | "????"
     KEY (STD)	"The specifier 'friend' can only be used in a class
@@ -3579,38 +3579,38 @@ dcl_friend_class ()
 		[dcl.type]
     --------------------------------------------------------------------  */
 
-dcl_type_infer ( TYPE: t )
+dcl_type_infer(TYPE: t)
 {
     USAGE:	whatever
     KEY (ISO)	"7.1.5" | "6.5.2, 6.7.2"
     KEY (STD)	"Type '"t"' inferred"
 }
 
-dcl_type_none ()
+dcl_type_none()
 {
     USAGE:	infer_int
     KEY (STD)	"No type specifier given in declaration"
 }
 
-dcl_type_qual ()
+dcl_type_qual()
 {
     USAGE:	infer_int_cv
     KEY (STD)	"Only type qualifiers given in type specifier"
 }
 
-dcl_type_cv_dup ( CV_SPEC: cv )
+dcl_type_cv_dup(CV_SPEC: cv)
 {
     KEY (ISO)	"7.1.5" | "6.5.3, -"
     KEY (STD)	"Duplicate type qualifier, '"cv" "cv"'"
 }
 
-dcl_type_type_cv ( LONG_ID: id, CV_SPEC: cv )
+dcl_type_type_cv(LONG_ID: id, CV_SPEC: cv)
 {
     USAGE:	wall | error
     KEY (STD)	"Type '"id"' is already '"cv"' qualified"
 }
 
-dcl_type_restrict_bad ( TYPE: t )
+dcl_type_restrict_bad(TYPE: t)
 {
     KEY (ISO)	"-" | "-, 6.7.3"
     KEY (STD)	"Type '"t"' may not be 'restrict' qualified"
@@ -3622,7 +3622,7 @@ dcl_type_restrict_bad ( TYPE: t )
 		[dcl.type.cv]
     --------------------------------------------------------------------  */
 
-dcl_type_cv_unused ( CV_SPEC: cv )
+dcl_type_cv_unused(CV_SPEC: cv)
 {
     USAGE:	cpp_error
     KEY (ISO)	"7.1.5.1" | "6.5.3, 6.7.3"
@@ -3635,34 +3635,34 @@ dcl_type_cv_unused ( CV_SPEC: cv )
 		[dcl.type.simple]
     --------------------------------------------------------------------  */
 
-dcl_type_simple_dup ( BASE_TYPE: bt )
+dcl_type_simple_dup(BASE_TYPE: bt)
 {
     KEY (ISO)	"7.1.5.2" | "6.5.2, 6.7.2"
     KEY (STD)	"Duplicate type specifier, '"bt" "bt"'"
 }
 
-dcl_type_simple_bad ( BASE_TYPE: bt1, BASE_TYPE: bt2 )
+dcl_type_simple_bad(BASE_TYPE: bt1, BASE_TYPE: bt2)
 {
     KEY (STD)	"Illegal type specifier, '"bt1"', assuming '"bt2"'"
 }
 
-dcl_type_simple_llong ( BASE_TYPE: bt )
+dcl_type_simple_llong(BASE_TYPE: bt)
 {
     USAGE:	longlong
     KEY (STD)	"Type specifier '"bt"' used"
 }
 
-dcl_type_simple_many ( TYPE: t1, TYPE: t2 )
+dcl_type_simple_many(TYPE: t1, TYPE: t2)
 {
     KEY (STD)	"Duplicate type names, '"t1"' and '"t2"'"
 }
 
-dcl_type_simple_undecl ( BASE_TYPE: bt, TYPE: t )
+dcl_type_simple_undecl(BASE_TYPE: bt, TYPE: t)
 {
     KEY (STD)	"Can't use type specifiers '"bt"' with '"t"'"
 }
 
-dcl_type_simple_undef ( IDENTIFIER: id )
+dcl_type_simple_undef(IDENTIFIER: id)
 {
     KEY (STD)	"The type '"id"' hasn't been declared"
 }
@@ -3673,14 +3673,14 @@ dcl_type_simple_undef ( IDENTIFIER: id )
 		[dcl.type.elab]
     --------------------------------------------------------------------  */
 
-dcl_type_elab_bad ( BASE_TYPE: bt1, BASE_TYPE: bt2, IDENTIFIER: id, PTR_LOC: loc )
+dcl_type_elab_bad(BASE_TYPE: bt1, BASE_TYPE: bt2, IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	type_tag_ignore
     KEY (ISO)	"7.1.5.3" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"Inconsistent key '"bt1"' used for '"bt2" "id"' (see "loc")"
 }
 
-dcl_type_elab_qual ( BASE_TYPE: bt )
+dcl_type_elab_qual(BASE_TYPE: bt)
 {
     KEY (STD)	"A type declaration should have the form '"bt" identifier'"
 }
@@ -3691,20 +3691,20 @@ dcl_type_elab_qual ( BASE_TYPE: bt )
 		[dcl.enum]
     --------------------------------------------------------------------  */
 
-dcl_enum_none ()
+dcl_enum_none()
 {
     USAGE:	c_error
     KEY (ISO)	"7.2" | "6.5.2.2, 6.7.2.2"
     KEY (STD)	"No enumerators in enumeration type"
 }
 
-dcl_enum_const ( LONG_ID: id )
+dcl_enum_const(LONG_ID: id)
 {
     KEY (STD)	"Value for enumerator '"id"' should be an integer
 		 constant expression"
 }
 
-dcl_enum_zero ( TYPE: t )
+dcl_enum_zero(TYPE: t)
 {
     USAGE:	wall
     KEY (STD)	"Zero is not a valid enumerator value for '"t"'"
@@ -3716,13 +3716,13 @@ dcl_enum_zero ( TYPE: t )
 		[basic.namespace] = [dcl.nspace]
     --------------------------------------------------------------------  */
 
-dcl_nspace_scope ()
+dcl_nspace_scope()
 {
     KEY (ISO)	"7.3" | "????"
     KEY (STD)	"A namespace can only be defined in namespace scope"
 }
 
-dcl_nspace_undef ( IDENTIFIER: id )
+dcl_nspace_undef(IDENTIFIER: id)
 {
     KEY (STD)	"The namespace '"id"' hasn't been defined"
 }
@@ -3733,7 +3733,7 @@ dcl_nspace_undef ( IDENTIFIER: id )
 		[namespace.def] = [dcl.nspace.def]
     --------------------------------------------------------------------  */
 
-dcl_nspace_def_orig ( IDENTIFIER: id1, IDENTIFIER: id2 )
+dcl_nspace_def_orig(IDENTIFIER: id1, IDENTIFIER: id2)
 {
     KEY (ISO)	"7.3.1" | "????"
     KEY (STD)	"Namespace extension should use original name, '"id1"',
@@ -3746,7 +3746,7 @@ dcl_nspace_def_orig ( IDENTIFIER: id1, IDENTIFIER: id2 )
 		[namespace.unnamed] = [dcl.nspace.unnamed]
     --------------------------------------------------------------------  */
 
-dcl_nspace_unnamed_static ()
+dcl_nspace_unnamed_static()
 {
     USAGE:	none
     KEY (ISO)	"7.3.1.1" | "????"
@@ -3759,7 +3759,7 @@ dcl_nspace_unnamed_static ()
 		[namespace.memdef] = [dcl.nspace.memdef]
     --------------------------------------------------------------------  */
 
-dcl_nspace_memdef_scope ( LONG_ID: id )
+dcl_nspace_memdef_scope(LONG_ID: id)
 {
     KEY (ISO)	"7.3.1.2" | "6.5.7, 6.7.8"
     KEY (STD)	"'"id"' can only be defined in an enclosing namespace scope"
@@ -3771,19 +3771,19 @@ dcl_nspace_memdef_scope ( LONG_ID: id )
 		[namespace.alias] = [dcl.nspace.alias]
     --------------------------------------------------------------------  */
 
-dcl_nspace_alias_class ( NAMESPACE: ns )
+dcl_nspace_alias_class(NAMESPACE: ns)
 {
     KEY (ISO)	"7.3.2" | "????"
     KEY (STD)	"Namespace alias can't refer to the class '"ns"'"
 }
 
-dcl_nspace_alias_bad ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_nspace_alias_bad(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Namespace alias '"id"' has already been defined as an
 		 original namespace name (at "loc")"
 }
 
-dcl_nspace_alias_redef ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_nspace_alias_redef(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Namespace '"id"' redefined inconsistently (see "loc")"
 }
@@ -3794,50 +3794,50 @@ dcl_nspace_alias_redef ( IDENTIFIER: id, PTR_LOC: loc )
 		[namespace.udecl] = [dcl.nspace.udecl]
     --------------------------------------------------------------------  */
 
-dcl_nspace_udecl_unqual ()
+dcl_nspace_udecl_unqual()
 {
     KEY (ISO)	"7.3.3" | "????"
     KEY (STD)	"The identifier in a 'using' declaration must be qualified"
 }
 
-dcl_nspace_udecl_mem ( IDENTIFIER: id )
+dcl_nspace_udecl_mem(IDENTIFIER: id)
 {
     KEY (STD)	"Can't use '"id"' in its own scope"
 }
 
-dcl_nspace_udecl_base ( IDENTIFIER: id, CLASS_TYPE: ct )
+dcl_nspace_udecl_base(IDENTIFIER: id, CLASS_TYPE: ct)
 {
     KEY (STD)	"Used identifier '"id"' is not a member of a base class
 		 of '"ct"'"
 }
 
-dcl_nspace_udecl_vis ( IDENTIFIER: id, CLASS_TYPE: ct )
+dcl_nspace_udecl_vis(IDENTIFIER: id, CLASS_TYPE: ct)
 {
     KEY (STD)	"Used identifier '"id"' is not visible in '"ct"'"
 }
 
-dcl_nspace_udecl_id ( IDENTIFIER: id )
+dcl_nspace_udecl_id(IDENTIFIER: id)
 {
     KEY (STD)	"'"id"' can only be used in a derived class"
 }
 
-dcl_nspace_udecl_constr ( IDENTIFIER: id )
+dcl_nspace_udecl_constr(IDENTIFIER: id)
 {
     KEY (STD)	"Can't use the member '"id"'"
 }
 
-dcl_nspace_udecl_acc ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_nspace_udecl_acc(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	wall
     KEY (STD)	"Declaration reduces access to '"id"' (see "loc")"
 }
 
-dcl_nspace_udecl_multi ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_nspace_udecl_multi(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Invalid redeclaration of '"id"' (see "loc")"
 }
 
-dcl_nspace_udecl_redecl ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_nspace_udecl_redecl(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Can't redeclare '"id"' (see "loc")"
 }
@@ -3849,13 +3849,13 @@ dcl_nspace_udecl_redecl ( IDENTIFIER: id, PTR_LOC: loc )
     --------------------------------------------------------------------  */
 
 
-dcl_nspace_udir_class ( NAMESPACE: ns )
+dcl_nspace_udir_class(NAMESPACE: ns)
 {
     KEY (ISO)	"7.3.4" | "????"
     KEY (STD)	"Can't use the class namespace '"ns"'"
 }
 
-dcl_nspace_udir_dup ( NAMESPACE: ns )
+dcl_nspace_udir_dup(NAMESPACE: ns)
 {
     USAGE:	none
     KEY (STD)	"Namespace '"ns"' already used in this scope"
@@ -3867,14 +3867,14 @@ dcl_nspace_udir_dup ( NAMESPACE: ns )
 		[dcl.asm]
     --------------------------------------------------------------------  */
 
-dcl_asm_ti ()
+dcl_asm_ti()
 {
     USAGE:	wall
     KEY (ISO)	"7.4" | "Annex G, Annex J"
     KEY (STD)	"'asm' declarations are not portable"
 }
 
-dcl_asm_args ()
+dcl_asm_args()
 {
     KEY (STD)	"Can't have arguments with 'asm'"
 }
@@ -3885,43 +3885,43 @@ dcl_asm_args ()
 		[dcl.link]
     --------------------------------------------------------------------  */
 
-dcl_link_unknown ( STRING: str )
+dcl_link_unknown(STRING: str)
 {
     KEY (ISO)	"7.5" | "????"
     KEY (STD)	"Unknown linkage specifier, "str
 }
 
-dcl_link_scope ()
+dcl_link_scope()
 {
     KEY (STD)	"Linkage specifications can only occur in namespace scope"
 }
 
-dcl_link_lang ( LONG_ID: id, string: s, PTR_LOC: loc )
+dcl_link_lang(LONG_ID: id, string: s, PTR_LOC: loc)
 {
     USAGE:	link_incompat
     KEY (STD)	"'"id"' previously declared with "s" linkage (at "loc")"
 }
 
-dcl_link_func ( string: s )
+dcl_link_func(string: s)
 {
     USAGE:	func_linkage
     KEY (STD)	"Function type previously declared with "s" linkage"
 }
 
-dcl_link_conv ()
+dcl_link_conv()
 {
     USAGE:	func_linkage
     KEY (STD)	"Differing function linkage specifications in conversion"
 }
 
-dcl_link_over ()
+dcl_link_over()
 {
     USAGE:	whatever
     KEY (STD)	"Only one function in a set of overloaded functions
 		 can have C linkage"
 }
 
-dcl_link_redecl ( HASHID: nm, PTR_LOC: loc )
+dcl_link_redecl(HASHID: nm, PTR_LOC: loc)
 {
     USAGE:	whatever | none
     KEY (STD)	"Two objects with C linkage named '"nm"' are the same"
@@ -3951,25 +3951,25 @@ dcl_link_redecl ( HASHID: nm, PTR_LOC: loc )
 		[dcl.meaning]
     --------------------------------------------------------------------  */
 
-dcl_meaning_id ( QUALIFIER: qual, IDENTIFIER: id )
+dcl_meaning_id(QUALIFIER: qual, IDENTIFIER: id)
 {
     KEY (ISO)	"8.3" | "6.5.4, 6.7.5"
     KEY (STD)	"The identifier '"qual id"' can't be used in this context"
 }
 
-dcl_meaning_full ( QUALIFIER: qual, IDENTIFIER: id )
+dcl_meaning_full(QUALIFIER: qual, IDENTIFIER: id)
 {
     USAGE:	none
     KEY (STD)	"The fully qualified identifier '"qual id"' can't be
 		 used in this context"
 }
 
-dcl_meaning_mem ( QUALIFIER: qual, IDENTIFIER: id )
+dcl_meaning_mem(QUALIFIER: qual, IDENTIFIER: id)
 {
     KEY (STD)	"Illegally qualified member declaration '"qual id"'"
 }
 
-dcl_meaning_paren ()
+dcl_meaning_paren()
 {
     USAGE:	wall
     KEY (STD)	"Redundant parentheses in declarator"
@@ -3987,34 +3987,34 @@ dcl_meaning_paren ()
 		[dcl.ref]
     --------------------------------------------------------------------  */
 
-dcl_ref_cv ( CV_SPEC: cv )
+dcl_ref_cv(CV_SPEC: cv)
 {
     KEY (ISO)	"8.3.2" | "????"
     KEY (STD)	"Can't have '"cv"' qualified references"
 }
 
-dcl_ref_cv_type ( CV_SPEC: cv, LONG_ID: id )
+dcl_ref_cv_type(CV_SPEC: cv, LONG_ID: id)
 {
     USAGE:	wall
     KEY (STD)	"'"cv"' qualifier for reference type '"id"'"
 }
 
-dcl_ref_void ( TYPE: t )
+dcl_ref_void(TYPE: t)
 {
     KEY (STD)	"Can't have references to '"t"'"
 }
 
-dcl_ref_ref ()
+dcl_ref_ref()
 {
     KEY (STD)	"Can't have references to references"
 }
 
-dcl_ref_ptr ()
+dcl_ref_ptr()
 {
     KEY (STD)	"Can't have pointers to references"
 }
 
-dcl_ref_array ()
+dcl_ref_array()
 {
     KEY (STD)	"Can't have arrays of references"
 }
@@ -4025,23 +4025,23 @@ dcl_ref_array ()
 		[dcl.mptr]
     --------------------------------------------------------------------  */
 
-dcl_mptr_type ( IDENTIFIER: id )
+dcl_mptr_type(IDENTIFIER: id)
 {
     KEY (ISO)	"8.3.3" | "????"
     KEY (STD)	"Class name required in pointer to member, not '"id"'"
 }
 
-dcl_mptr_class ( TYPE: t )
+dcl_mptr_class(TYPE: t)
 {
     KEY (STD)	"Class type required in pointer to member, not '"t"'"
 }
 
-dcl_mptr_void ( TYPE: t )
+dcl_mptr_void(TYPE: t)
 {
     KEY (STD)	"Can't have pointers to '"t"' members"
 }
 
-dcl_mptr_ref ()
+dcl_mptr_ref()
 {
     KEY (STD)	"Can't have pointers to reference members"
 }
@@ -4052,57 +4052,57 @@ dcl_mptr_ref ()
 		[dcl.array]
     --------------------------------------------------------------------  */
 
-dcl_array_void ( TYPE: t )
+dcl_array_void(TYPE: t)
 {
     KEY (ISO)	"8.3.4" | "6.1.2.5, 6.2.5"
     KEY (STD)	"Can't have arrays of '"t"'"
 }
 
-dcl_array_incompl ()
+dcl_array_incompl()
 {
     USAGE:	type_obj_incompl
     KEY (STD)	"Can't have arrays of incomplete types"
 }
 
-dcl_array_abstract ()
+dcl_array_abstract()
 {
     KEY (STD)	"Can't have arrays of abstract types"
 }
 
-dcl_array_array ()
+dcl_array_array()
 {
     KEY (STD)	"Can't have arrays of incomplete arrays"
 }
 
-dcl_array_bitf ()
+dcl_array_bitf()
 {
     KEY (STD)	"Can't have arrays of bitfields"
 }
 
-dcl_array_func ()
+dcl_array_func()
 {
     KEY (STD)	"Can't have arrays of functions"
 }
 
-dcl_array_flex_mem ()
+dcl_array_flex_mem()
 {
     KEY (ISO)	"-" | "-, 6.7.2.1"
     KEY (STD)	"Can't have arrays of structs with a flexible array member"
 }
 
-dcl_array_dim_const ()
+dcl_array_dim_const()
 {
     KEY (ISO)	"8.3.4" | "6.5.4.2, -"
     KEY (STD)	"Array bound should be an integer constant expression"
 }
 
-dcl_array_dim_zero ()
+dcl_array_dim_zero()
 {
     KEY (ISO)	"8.3.4" | "6.5.4.2, 6.7.5.2"
     KEY (STD)	"Array bound can't be zero"
 }
 
-dcl_array_dim_neg ( NAT: n )
+dcl_array_dim_neg(NAT: n)
 {
     KEY (STD)	"Array bound should be greater than zero, not "n
 }
@@ -4113,164 +4113,164 @@ dcl_array_dim_neg ( NAT: n )
 		[dcl.fct]
     --------------------------------------------------------------------  */
 
-dcl_fct_par_void ( IDENTIFIER: id, TYPE: t )
+dcl_fct_par_void(IDENTIFIER: id, TYPE: t)
 {
     KEY (ISO)	"8.3.5" | "6.5.4.3, 6.7.5.3"
     KEY (STD)	"Parameter '"id"' declared to have type '"t"'"
 }
 
-dcl_fct_par_array ( IDENTIFIER: id, TYPE: t )
+dcl_fct_par_array(IDENTIFIER: id, TYPE: t)
 {
     USAGE:	cpp_error
     KEY (STD)	"Parameter '"id"' declared to have incomplete array
 		 type '"t"'"
 }
 
-dcl_fct_par_weak ()
+dcl_fct_par_weak()
 {
     KEY (STD)	"Parameter required in weak function prototype"
 }
 
-dcl_fct_par_empty ()
+dcl_fct_par_empty()
 {
     KEY (STD)	"Precisely '( void )' required in empty parameter list"
 }
 
-dcl_fct_par_ellipsis ()
+dcl_fct_par_ellipsis()
 {
     USAGE:	none | ellipsis_ident
     KEY (STD)	"Need at least one parameter before '...'"
 }
 
-dcl_fct_weak ()
+dcl_fct_weak()
 {
     KEY (STD)	"Can only have parameter list in function definition"
 }
 
-dcl_fct_proto ()
+dcl_fct_proto()
 {
     USAGE:	func_proto
     KEY (STD)	"Function prototype used"
 }
 
-dcl_fct_nonproto ()
+dcl_fct_nonproto()
 {
     USAGE:	func_weak
     KEY (STD)	"Non-prototype function used"
 }
 
-dcl_fct_array ()
+dcl_fct_array()
 {
     KEY (STD)	"Can't have functions returning arrays"
 }
 
-dcl_fct_bitf ()
+dcl_fct_bitf()
 {
     KEY (STD)	"Can't have functions returning bitfields"
 }
 
-dcl_fct_func ()
+dcl_fct_func()
 {
     KEY (STD)	"Can't have functions returning functions"
 }
 
-dcl_fct_typedef_par ()
+dcl_fct_typedef_par()
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't define a type in a function parameter"
 }
 
-dcl_fct_typedef_ret ()
+dcl_fct_typedef_ret()
 {
     USAGE:	cpp_error
     KEY (STD)	"Can't define a type in a function return"
 }
 
-dcl_fct_cv_ret ( CV_SPEC: cv )
+dcl_fct_cv_ret(CV_SPEC: cv)
 {
     USAGE:	none
     KEY (STD)	"A function can't return a '"cv"' qualified type"
 }
 
-dcl_fct_cv ( CV_SPEC: cv )
+dcl_fct_cv(CV_SPEC: cv)
 {
     KEY (STD)	"Invalid use of '"cv"' qualified function"
 }
 
-dcl_fct_cv_decl ( CV_SPEC: cv )
+dcl_fct_cv_decl(CV_SPEC: cv)
 {
     KEY (STD)	"Only non-static member functions can be '"cv"' qualified"
 }
 
-dcl_fct_compat_ellipsis ()
+dcl_fct_compat_ellipsis()
 {
     USAGE:	ellipsis_extra
     KEY (STD)	"Compatible function types should agree on use of ellipsis"
 }
 
-dcl_fct_compat_prom ( TYPE: t )
+dcl_fct_compat_prom(TYPE: t)
 {
     USAGE:	func_incompat
     KEY (STD)	"The type '"t"' is not compatible with its argument
 		 promotion type"
 }
 
-dcl_fct_qual ( CV_SPEC: cv, LONG_ID: id )
+dcl_fct_qual(CV_SPEC: cv, LONG_ID: id)
 {
     KEY (ISO)	"8.3.5" | "6.5.3, 6.7.3"
     KEY (STD)	"'"cv"' qualifier for function type '"id"'"
 }
 
-dcl_fct_ret ()
+dcl_fct_ret()
 {
     KEY (ISO)	"8.3.5" | "6.7.1, 6.9.1"
     KEY (STD)	"Function return type should be a complete object type or
 		 'void'"
 }
 
-dcl_fct_ret_void ( TYPE: t )
+dcl_fct_ret_void(TYPE: t)
 {
     KEY (STD)	"Function return type can't be '"t"'"
 }
 
-dcl_fct_typedef ()
+dcl_fct_typedef()
 {
     KEY (STD)	"Can't define a function using a 'typedef' function type"
 }
 
-dcl_fct_par_proto ()
+dcl_fct_par_proto()
 {
     KEY (STD)	"Can't have parameter list with prototype"
 }
 
-dcl_fct_par_anon ()
+dcl_fct_par_anon()
 {
     USAGE:	c_error
     KEY (STD)	"Must have parameter name in function definition"
 }
 
-dcl_fct_par_undecl ( HASHID: nm )
+dcl_fct_par_undecl(HASHID: nm)
 {
     KEY (STD)	"Parameter '"nm"' doesn't appear in parameter list"
 }
 
-dcl_fct_par_typedef ( IDENTIFIER: id )
+dcl_fct_par_typedef(IDENTIFIER: id)
 {
     KEY (STD)	"Can't use type name '"id"' in parameter list"
 }
 
-dcl_fct_par_none ()
+dcl_fct_par_none()
 {
     KEY (STD)	"Parameter declaration should contain a declarator"
 }
 
-dcl_fct_par_impl ( IDENTIFIER: id )
+dcl_fct_par_impl(IDENTIFIER: id)
 {
     USAGE:	param_impl
     KEY (STD)	"Implicit declaration of parameter '"id"'"
 }
 
-dcl_fct_par_order ()
+dcl_fct_par_order()
 {
     USAGE:	wall
     KEY (STD)	"Function parameters declared out of sequence"
@@ -4282,39 +4282,39 @@ dcl_fct_par_order ()
 		[dcl.fct.default]
     --------------------------------------------------------------------  */
 
-dcl_fct_default_bad ()
+dcl_fct_default_bad()
 {
     KEY (ISO)	"8.3.6" | "6.7.1, 6.9.1"
     KEY (STD)	"Can only have default arguments in a function declaration"
 }
 
-dcl_fct_default_missing ( IDENTIFIER: id )
+dcl_fct_default_missing(IDENTIFIER: id)
 {
     KEY (STD)	"Parameter '"id"' should have a default argument"
 }
 
-dcl_fct_default_dup ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_fct_default_dup(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Duplicate default argument for parameter '"id"' (see "loc")"
 }
 
-dcl_fct_default_redef ( IDENTIFIER: id, PTR_LOC: loc )
+dcl_fct_default_redef(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Default argument for parameter '"id"' redefined
 		 inconsistently (see "loc")"
 }
 
-dcl_fct_default_templ ()
+dcl_fct_default_templ()
 {
     KEY (STD)	"Can't add default arguments to template functions"
 }
 
-dcl_fct_default_param ( IDENTIFIER: id )
+dcl_fct_default_param(IDENTIFIER: id)
 {
     KEY (STD)	"'"id"' can't be used in a default argument"
 }
 
-dcl_fct_default_weak ( IDENTIFIER: id )
+dcl_fct_default_weak(IDENTIFIER: id)
 {
     USAGE:	c_error
     KEY (STD)	"Can't initialize the parameter '"id"'"
@@ -4326,13 +4326,13 @@ dcl_fct_default_weak ( IDENTIFIER: id )
 		[dcl.fct.def]
     --------------------------------------------------------------------  */
 
-dcl_fct_def_scope ()
+dcl_fct_def_scope()
 {
     KEY (ISO)	"8.4" | "6.7.1, 6.9.1"
     KEY (STD)	"A function can only be defined in namespace or class scope"
 }
 
-dcl_fct_def_comment ( LONG_ID: id )
+dcl_fct_def_comment(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"In definition of function '"id"'"
@@ -4344,63 +4344,63 @@ dcl_fct_def_comment ( LONG_ID: id )
 		[dcl.init]
     --------------------------------------------------------------------  */
 
-dcl_init_decl ( IDENTIFIER: id, string: s )
+dcl_init_decl(IDENTIFIER: id, string: s)
 {
     USAGE:	whatever
     KEY (ISO)	"8.5" | "6.5.7, 6.7.8"
     KEY (STD)	"In initialization of '"id s"'"
 }
 
-dcl_init_typedef ( IDENTIFIER: id )
+dcl_init_typedef(IDENTIFIER: id)
 {
     KEY (STD)	"Can't initialize the type '"id"'"
 }
 
-dcl_init_incompl ()
+dcl_init_incompl()
 {
     KEY (STD)	"Can't initialize objects of incomplete type"
 }
 
-dcl_init_func ( LONG_ID: id )
+dcl_init_func(LONG_ID: id)
 {
     KEY (STD)	"Can't initialize the function '"id"'"
 }
 
-dcl_init_flex_mem ( )
+dcl_init_flex_mem()
 {
     KEY (STD)	"Can't initialize a flexible array member"
 }
 
-dcl_init_bad ()
+dcl_init_bad()
 {
     KEY (STD)	"Badly placed function style initializer"
 }
 
-dcl_init_const ()
+dcl_init_const()
 {
     USAGE:	cpp_error
     KEY (STD)	"'const' objects should be initialized"
 }
 
-dcl_init_ctor ( TYPE: t )
+dcl_init_ctor(TYPE: t)
 {
     KEY (STD)	"A constructor-style initializer with more than one
 		 argument requires a class type, not '"t"'"
 }
 
-dcl_init_conv ()
+dcl_init_conv()
 {
     USAGE:	whatever
     KEY (STD)	"Can't perform this conversion by initialization"
 }
 
-dcl_init_assign ()
+dcl_init_assign()
 {
     USAGE:	whatever
     KEY (STD)	"Initializers are converted as if by assignment"
 }
 
-dcl_init_dynamic ()
+dcl_init_dynamic()
 {
     USAGE:	init_dynamic
     KEY (STD)	"Object initializer should be a constant expression"
@@ -4412,65 +4412,65 @@ dcl_init_dynamic ()
 		[dcl.init.aggr]
     --------------------------------------------------------------------  */
 
-dcl_init_aggr_array_bad ()
+dcl_init_aggr_array_bad()
 {
     KEY (ISO)	"8.5.1" | "6.5.7, 6.7.8"
     KEY (STD)	"Bad array initializer"
 }
 
-dcl_init_aggr_dynamic ()
+dcl_init_aggr_dynamic()
 {
     USAGE:	init_dynamic
     KEY (STD)	"Expression in aggregate initializer should be constant"
 }
 
-dcl_init_aggr_array_ti ( NAT: n, TYPE: t )
+dcl_init_aggr_array_ti(NAT: n, TYPE: t)
 {
     USAGE:	init_aggregate
     KEY (STD)	"Target dependent initialization, '"n"' elements for
 		 array of type '"t"'"
 }
 
-dcl_init_aggr_excess ( TYPE: t )
+dcl_init_aggr_excess(TYPE: t)
 {
     KEY (STD)	"Too many elements in initializer for type '"t"'"
 }
 
-dcl_init_aggr_pad ( NAT: n, TYPE: t )
+dcl_init_aggr_pad(NAT: n, TYPE: t)
 {
     USAGE:	init_aggregate
     KEY (STD)	"'"n"' too few elements in initializer for type '"t"'"
 }
 
-dcl_init_aggr_type ( TYPE: t )
+dcl_init_aggr_type(TYPE: t)
 {
     KEY (STD)	"Can't initialize objects of type '"t"' using aggregate
 		 initializers"
 }
 
-dcl_init_aggr_empty ()
+dcl_init_aggr_empty()
 {
     USAGE:	c_error
     KEY (STD)	"Empty aggregate initializer"
 }
 
-dcl_init_aggr_no_scalar ()
+dcl_init_aggr_no_scalar()
 {
     KEY (STD)	"Scalar aggregate initializers can't be empty"
 }
 
-dcl_init_aggr_nest ()
+dcl_init_aggr_nest()
 {
     KEY (STD)	"Scalar aggregate initializers can't be nested"
 }
 
-dcl_init_aggr_partial ()
+dcl_init_aggr_partial()
 {
     USAGE:	init_aggregate
     KEY (STD)	"Partially bracketed aggregate initializer"
 }
 
-dcl_init_aggr_auto ( IDENTIFIER: id )
+dcl_init_aggr_auto(IDENTIFIER: id)
 {
     USAGE:	init_struct
     KEY (STD)	"Initializer for local aggregate variable '"id"'"
@@ -4482,24 +4482,24 @@ dcl_init_aggr_auto ( IDENTIFIER: id )
 		[dcl.init.string]
     --------------------------------------------------------------------  */
 
-dcl_init_string_char ()
+dcl_init_string_char()
 {
     KEY (ISO)	"8.5.2" | "6.5.7, 6.7.8"
     KEY (STD)	"Can only initialize character arrays with string literals"
 }
 
-dcl_init_string_wchar ()
+dcl_init_string_wchar()
 {
     KEY (STD)	"Can only initialize wide character arrays with wide
 		 string literals"
 }
 
-dcl_init_string_excess ( TYPE: t )
+dcl_init_string_excess(TYPE: t)
 {
     KEY (STD)	"Initializer string too long for type '"t"'"
 }
 
-dcl_init_string_zero ( TYPE: t )
+dcl_init_string_zero(TYPE: t)
 {
     USAGE:	cpp_error
     KEY (STD)	"Initializer string (including terminal zero) too long
@@ -4512,35 +4512,35 @@ dcl_init_string_zero ( TYPE: t )
 		[dcl.init.ref]
     --------------------------------------------------------------------  */
 
-dcl_init_ref_none ()
+dcl_init_ref_none()
 {
     KEY (ISO)	"8.5.3" | "6.5.7, 6.7.8"
     KEY (STD)	"References should be initialized"
 }
 
-dcl_init_ref_ambig ()
+dcl_init_ref_ambig()
 {
     KEY (STD)	"Base class in reference binding must be unambiguous"
 }
 
-dcl_init_ref_const ()
+dcl_init_ref_const()
 {
     KEY (STD)	"A non-'const' reference can't be initialized using
 		 an rvalue"
 }
 
-dcl_init_ref_qual ( CV_SPEC: cv )
+dcl_init_ref_qual(CV_SPEC: cv)
 {
     KEY (STD)	"Reference binding from more '"cv"' qualified type"
 }
 
-dcl_init_ref_func ()
+dcl_init_ref_func()
 {
     KEY (STD)	"A reference to function can only be initialized
 		 by a function"
 }
 
-dcl_init_ref_tmp ( TYPE: t )
+dcl_init_ref_tmp(TYPE: t)
 {
     USAGE:	wall
     KEY (STD)	"Introducing temporary variable of type '"t"'"
@@ -4552,7 +4552,7 @@ dcl_init_ref_tmp ( TYPE: t )
 		[class]
     --------------------------------------------------------------------  */
 
-class_none ()
+class_none()
 {
     USAGE:	c_error
     KEY (ISO)	"9" | "6.5.2.1, 6.7.2.1"
@@ -4571,111 +4571,111 @@ class_none ()
 		[class.mem]
     --------------------------------------------------------------------  */
 
-class_mem_empty ()
+class_mem_empty()
 {
     USAGE:	decl_empty
     KEY (ISO)	"9.2" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"Every member declaration must introduce a name"
 }
 
-class_mem_declarator ()
+class_mem_declarator()
 {
     USAGE:	c_error
     KEY (STD)	"A member declaration should contain a declarator"
 }
 
-class_mem_semicolon ()
+class_mem_semicolon()
 {
     USAGE:	semicolon_extra
     KEY (STD)	"Can't have empty member declaration"
 }
 
-class_mem_anon ()
+class_mem_anon()
 {
     USAGE:	decl_struct_anon
     KEY (STD)	"Every type definition must introduce a member name"
 }
 
-class_mem_ds_empty ()
+class_mem_ds_empty()
 {
     USAGE:	dspec_none
     KEY (STD)	"No declaration specifiers in member declaration"
 }
 
-class_mem_redecl ( IDENTIFIER: id, PTR_LOC: loc )
+class_mem_redecl(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"The member '"id"' has already been declared (at "loc")"
 }
 
-class_mem_incompl_mem ( IDENTIFIER: id )
+class_mem_incompl_mem(IDENTIFIER: id)
 {
     KEY (STD)	"The member '"id"' must have complete object type"
 }
 
-class_mem_init_mem ( LONG_ID: id )
+class_mem_init_mem(LONG_ID: id)
 {
     KEY (STD)	"Can't have initializer with non-static member '"id"'"
 }
 
-class_mem_def ( LONG_ID: id )
+class_mem_def(LONG_ID: id)
 {
     KEY (STD)	"Can't define the non-static member '"id"'"
 }
 
-class_mem_init_const ()
+class_mem_init_const()
 {
     KEY (STD)	"A member initializer should be a constant expression"
 }
 
-class_mem_incompl_stat ( IDENTIFIER: id )
+class_mem_incompl_stat(IDENTIFIER: id)
 {
     KEY (STD)	"The static member '"id"' must have complete object type"
 }
 
-class_mem_ctor ( IDENTIFIER: id )
+class_mem_ctor(IDENTIFIER: id)
 {
     USAGE:	cpp_error
     KEY (STD)	"The member '"id"' can't have the same name as its class"
 }
 
-class_mem_ctor_data ( IDENTIFIER: id )
+class_mem_ctor_data(IDENTIFIER: id)
 {
     USAGE:	new | none
     KEY (STD)	"The data member '"id"' can't have the same name as its class"
 }
 
-class_mem_ref ( CLASS_TYPE: ct )
+class_mem_ref(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-static reference member"
 }
 
-class_mem_const ( CLASS_TYPE: ct )
+class_mem_const(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-static 'const' member"
 }
 
-class_mem_flex ( TYPE: t )
+class_mem_flex(TYPE: t)
 {
     USAGE:	whatever
     KEY (ISO)	"-" | "-, 6.7.2.1"
     KEY (STD)	"'"t"' has a flexible array member"
 }
 
-class_mem_flex_first ()
+class_mem_flex_first()
 {
     KEY (STD)   "Flexible array members may only occur in structs with
 		 at least one other named member"
 }
 
-class_mem_flex_not_last ( IDENTIFIER: id1, IDENTIFIER: id2 )
+class_mem_flex_not_last(IDENTIFIER: id1, IDENTIFIER: id2)
 {
     KEY (STD)   "Member '"id1"' follows flexible array member '"id2"' which
 		 must be the last member"
 }
 
-class_mem_flex_nested ()
+class_mem_flex_nested()
 {
     KEY (STD)   "Can't nest structs with flexible array members"
 }
@@ -4686,19 +4686,19 @@ class_mem_flex_nested ()
 		[class.mfct]
     --------------------------------------------------------------------  */
 
-class_mfct_eof ( LONG_ID: id )
+class_mfct_eof(LONG_ID: id)
 {
     KEY (ISO)	"9.3" | "????"
     KEY (STD)	"End of file encountered in rewriting '"id"'"
 }
 
-class_mfct_scope ( LONG_ID: id )
+class_mfct_scope(LONG_ID: id)
 {
     KEY (STD)	"'"id"' can only be defined in its class or an enclosing
 		 namespace scope"
 }
 
-class_mfct_redecl ( LONG_ID: id )
+class_mfct_redecl(LONG_ID: id)
 {
     KEY (STD)	"Can't redeclare the member function '"id"'"
 }
@@ -4715,7 +4715,7 @@ class_mfct_redecl ( LONG_ID: id )
 		[class.this]
     --------------------------------------------------------------------  */
 
-class_this_qual ( CV_SPEC: cv )
+class_this_qual(CV_SPEC: cv)
 {
     KEY (ISO)	"9.3.2" | "????"
     KEY (STD)	"Member function called for more '"cv"' qualified object"
@@ -4733,7 +4733,7 @@ class_this_qual ( CV_SPEC: cv )
 		[class.static.mfct]
     --------------------------------------------------------------------  */
 
-class_static_mfct_virt ()
+class_static_mfct_virt()
 {
     KEY (ISO)	"9.4.1" | "????"
     KEY (STD)	"Can't have virtual static member functions"
@@ -4745,32 +4745,32 @@ class_static_mfct_virt ()
 		[class.static.data]
     --------------------------------------------------------------------  */
 
-class_static_data_init ( IDENTIFIER: id, TYPE: t )
+class_static_data_init(IDENTIFIER: id, TYPE: t)
 {
     KEY (ISO)	"9.4.2" | "????"
     KEY (STD)	"The static member '"id"' can only have an initializer
 		 if it has integral type, not '"t"'"
 }
 
-class_static_data_const ( IDENTIFIER: id, TYPE: t )
+class_static_data_const(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"The static member '"id"' can only have an initializer
 		 if it has 'const' type, not '"t"'"
 }
 
-class_static_data_def ( IDENTIFIER: id, PTR_LOC: loc )
+class_static_data_def(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"'"id"' was initialized in its class (at "loc"),
 		 and so can't be assigned a value in its definition"
 }
 
-class_static_data_scope ( IDENTIFIER: id )
+class_static_data_scope(IDENTIFIER: id)
 {
     KEY (STD)	"'"id"' can only be defined in its class or an enclosing
 		 namespace scope"
 }
 
-class_static_data_anon ( IDENTIFIER: id )
+class_static_data_anon(IDENTIFIER: id)
 {
     KEY (STD)	"Can't have static member '"id"' in an anonymous class"
 }
@@ -4781,54 +4781,54 @@ class_static_data_anon ( IDENTIFIER: id )
 		[class.union]
     --------------------------------------------------------------------  */
 
-class_union_deriv ( CLASS_TYPE: ct )
+class_union_deriv(CLASS_TYPE: ct)
 {
     KEY (ISO)	"9.5" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"The union '"ct"' can't have base classes"
 }
 
-class_union_base ( CLASS_TYPE: ct )
+class_union_base(CLASS_TYPE: ct)
 {
     KEY (STD)	"The union '"ct"' can't be used as a base class"
 }
 
-class_union_static ( CLASS_TYPE: ct )
+class_union_static(CLASS_TYPE: ct)
 {
     KEY (STD)	"The union '"ct"' can't contain a static data member"
 }
 
-class_union_virtual ( CLASS_TYPE: ct )
+class_union_virtual(CLASS_TYPE: ct)
 {
     KEY (STD)	"The union '"ct"' can't contain a virtual function"
 }
 
-class_union_ref ( CLASS_TYPE: ct, TYPE: t )
+class_union_ref(CLASS_TYPE: ct, TYPE: t)
 {
     KEY (STD)	"The union '"ct"' can't have a member of reference type '"t"'"
 }
 
-class_union_mem ( CLASS_TYPE: ct, TYPE: t )
+class_union_mem(CLASS_TYPE: ct, TYPE: t)
 {
     KEY (STD)	"The union '"ct"' can't have a member of type '"t"'"
 }
 
-class_union_anon_private ()
+class_union_anon_private()
 {
     KEY (STD)	"An anonymous union can't have 'private' or 'protected'
 		 members"
 }
 
-class_union_anon_func ()
+class_union_anon_func()
 {
     KEY (STD)	"An anonymous union can't have function members"
 }
 
-class_union_anon_static ()
+class_union_anon_static()
 {
     KEY (STD)	"An anonymous union can't have external linkage"
 }
 
-class_union_anon_mem ()
+class_union_anon_mem()
 {
     KEY (STD)	"An anonymous union can't be a static data member of a class"
 }
@@ -4839,67 +4839,67 @@ class_union_anon_mem ()
 		[class.bit]
     --------------------------------------------------------------------  */
 
-class_bit_base ( TYPE: t )
+class_bit_base(TYPE: t)
 {
     KEY (ISO)	"9.6" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"Bitfield base type should be integral, not '"t"'"
 }
 
-class_bit_base_int ( TYPE: t )
+class_bit_base_int(TYPE: t)
 {
     USAGE:	bitf_type
     KEY (STD)	"Only 'int' types allowed in bitfields, not '"t"'"
 }
 
-class_bit_sign ( BASE_TYPE: bt )
+class_bit_sign(BASE_TYPE: bt)
 {
     USAGE:	wall
     KEY (STD)	"Sign of a bitfield of type '"bt"' is implementation dependent"
 }
 
-class_bit_dim_const ()
+class_bit_dim_const()
 {
     KEY (STD)	"Bitfield width should be an integer constant expression"
 }
 
-class_bit_dim_zero ()
+class_bit_dim_zero()
 {
     KEY (STD)	"Only unnamed bitfields can have width zero"
 }
 
-class_bit_dim_neg ( NAT: n )
+class_bit_dim_neg(NAT: n)
 {
     KEY (STD)	"Bitfield width should be non-negative, not '"n"'"
 }
 
-class_bit_dim_big ( NAT: n, TYPE: t )
+class_bit_dim_big(NAT: n, TYPE: t)
 {
     USAGE:	bitf_overflow
     KEY (STD)	"Bitfield width '"n"' exceeds minimum size for base
 		 type, '"t"'"
 }
 
-class_bit_static ()
+class_bit_static()
 {
     KEY (STD)	"A bitfield can't be a static member"
 }
 
-class_bit_typedef ()
+class_bit_typedef()
 {
     KEY (STD)	"Can't use 'typedef' to define a bitfield type"
 }
 
-class_bit_ptr ()
+class_bit_ptr()
 {
     KEY (STD)	"Can't have pointers to bitfields"
 }
 
-class_bit_ref ()
+class_bit_ref()
 {
     KEY (STD)	"Can't have references to bitfields"
 }
 
-class_bit_mptr ()
+class_bit_mptr()
 {
     KEY (STD)	"Can't have pointers to bitfield members"
 }
@@ -4916,7 +4916,7 @@ class_bit_mptr ()
 		[class.local]
     --------------------------------------------------------------------  */
 
-class_local_func ( LONG_ID: id )
+class_local_func(LONG_ID: id)
 {
     USAGE:	none
     KEY (ISO)	"9.8" | "6.5.2.1, 6.7.2.1"
@@ -4924,12 +4924,12 @@ class_local_func ( LONG_ID: id )
 		 defined in that class"
 }
 
-class_local_static ( IDENTIFIER: id )
+class_local_static(IDENTIFIER: id)
 {
     KEY (STD)	"Can't have static member '"id"' in a local class"
 }
 
-class_local_auto ( IDENTIFIER: id )
+class_local_auto(IDENTIFIER: id)
 {
     KEY (STD)	"Can't use variable '"id"' in local class"
 }
@@ -4946,29 +4946,29 @@ class_local_auto ( IDENTIFIER: id )
 		[class.derived]
     --------------------------------------------------------------------  */
 
-class_derived_class ( TYPE: t )
+class_derived_class(TYPE: t)
 {
     KEY (ISO)	"10" | "????"
     KEY (STD)	"A base class should have class type, not '"t"'"
 }
 
-class_derived_incompl ()
+class_derived_incompl()
 {
     KEY (STD)	"A base class should be complete"
 }
 
-class_derived_empty ( CLASS_TYPE: ct )
+class_derived_empty(CLASS_TYPE: ct)
 {
     KEY (STD)	"Empty base class list for '"ct"'"
 }
 
-class_derived_base ( CLASS_TYPE: ct, CLASS_TYPE: cs )
+class_derived_base(CLASS_TYPE: ct, CLASS_TYPE: cs)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a base class, '"cs"'"
 }
 
-class_derived_virt ( CLASS_TYPE: ct, CLASS_TYPE: cs )
+class_derived_virt(CLASS_TYPE: ct, CLASS_TYPE: cs)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' is a virtual base class of '"cs"'"
@@ -4980,7 +4980,7 @@ class_derived_virt ( CLASS_TYPE: ct, CLASS_TYPE: cs )
 		[class.mi]
     --------------------------------------------------------------------  */
 
-class_mi_dup ( CLASS_TYPE: ct, CLASS_TYPE: cs )
+class_mi_dup(CLASS_TYPE: ct, CLASS_TYPE: cs)
 {
     KEY (ISO)	"10.1" | "????"
     KEY (STD)	"Class '"ct"' already has a base class '"cs"'"
@@ -4992,14 +4992,14 @@ class_mi_dup ( CLASS_TYPE: ct, CLASS_TYPE: cs )
 		[class.member.lookup]
     --------------------------------------------------------------------  */
 
-class_member_lookup_ambig ( CLASS_TYPE: ct, CLASS_TYPE: cs )
+class_member_lookup_ambig(CLASS_TYPE: ct, CLASS_TYPE: cs)
 {
     USAGE:	whatever
     KEY (ISO)	"10.2" | "????"
     KEY (STD)	"'"ct"' is an ambiguous base class of '"cs"'"
 }
 
-class_member_lookup_func ()
+class_member_lookup_func()
 {
     KEY (STD)	"Can't call a member function inherited from an ambiguous
 		 base class"
@@ -5011,58 +5011,58 @@ class_member_lookup_func ()
 		[class.virtual]
     --------------------------------------------------------------------  */
 
-class_virtual_poly ( CLASS_TYPE: ct )
+class_virtual_poly(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (ISO)	"10.3" | "????"
     KEY (STD)	"'"ct"' is a polymorphic type"
 }
 
-class_virtual_override ( HASHID: nm )
+class_virtual_override(HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"'"nm"' is an overriding virtual function"
 }
 
-class_virtual_hide ( HASHID: nm, LONG_ID: id )
+class_virtual_hide(HASHID: nm, LONG_ID: id)
 {
     USAGE:	wall
     KEY (STD)	"'"nm"' hides rather than overrides the virtual
 		 function '"id"'"
 }
 
-class_virtual_ret ( IDENTIFIER: id1, LONG_ID: id2, PTR_LOC: loc )
+class_virtual_ret(IDENTIFIER: id1, LONG_ID: id2, PTR_LOC: loc)
 {
     KEY (STD)	"Return type for overriding virtual function '"id1"'
 		 differs from that for '"id2"' (see "loc")"
 }
 
-class_virtual_darg ( IDENTIFIER: id )
+class_virtual_darg(IDENTIFIER: id)
 {
     USAGE:	wall
     KEY (STD)	"Default arguments for virtual function '"id"' differ
 		 from those of overridden function"
 }
 
-class_virtual_ambig ( IDENTIFIER: id1, LONG_ID: id2 )
+class_virtual_ambig(IDENTIFIER: id1, LONG_ID: id2)
 {
     KEY (STD)	"Conversion from return type of '"id1"' to that of
 		 '"id2"' must be unambiguous"
 }
 
-class_virtual_final ( LONG_ID: id, CLASS_TYPE: ct )
+class_virtual_final(LONG_ID: id, CLASS_TYPE: ct)
 {
     KEY (STD)	"Virtual function '"id"' doesn't have a unique final
 		 overrider in '"ct"'"
 }
 
-class_virtual_destr ( CLASS_TYPE: ct )
+class_virtual_destr(CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"The polymorphic type '"ct"' doesn't have a virtual destructor"
 }
 
-class_virtual_not ( LONG_ID: id )
+class_virtual_not(LONG_ID: id)
 {
     USAGE:	wall
     KEY (STD)	"Call to '"id"' is not virtual"
@@ -5074,55 +5074,55 @@ class_virtual_not ( LONG_ID: id )
 		[class.abstract]
     --------------------------------------------------------------------  */
 
-class_abstract_virt ()
+class_abstract_virt()
 {
     KEY (ISO)	"10.4" | "????"
     KEY (STD)	"Only virtual functions can be pure"
 }
 
-class_abstract_zero ()
+class_abstract_zero()
 {
     KEY (STD)	"A pure specifier should be precisely '0'"
 }
 
-class_abstract_class ( CLASS_TYPE: ct )
+class_abstract_class(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"The class '"ct"' is abstract"
 }
 
-class_abstract_pure ( LONG_ID: id )
+class_abstract_pure(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"'"id"' is a pure virtual function"
 }
 
-class_abstract_decl ( IDENTIFIER: id )
+class_abstract_decl(IDENTIFIER: id)
 {
     KEY (STD)	"The object '"id"' can't have abstract type"
 }
 
-class_abstract_mem ( IDENTIFIER: id )
+class_abstract_mem(IDENTIFIER: id)
 {
     KEY (STD)	"The member '"id"' can't have abstract type"
 }
 
-class_abstract_par ()
+class_abstract_par()
 {
     KEY (STD)	"A function parameter can't have abstract type"
 }
 
-class_abstract_ret ()
+class_abstract_ret()
 {
     KEY (STD)	"A function can't return an abstract type"
 }
 
-class_abstract_cast ()
+class_abstract_cast()
 {
     KEY (STD)	"Can't explicitly cast to an abstract type"
 }
 
-class_abstract_call ( LONG_ID: id )
+class_abstract_call(LONG_ID: id)
 {
     USAGE:	wall
     KEY (STD)	"Calling the pure virtual function '"id"' is undefined"
@@ -5140,24 +5140,24 @@ class_abstract_call ( LONG_ID: id )
 		[class.access.spec]
     --------------------------------------------------------------------  */
 
-class_access_spec_priv ( CLASS_TYPE: ct )
+class_access_spec_priv(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (ISO)	"11.1" | "????"
     KEY (STD)	"'"ct"' has a 'private' or 'protected' member"
 }
 
-class_access_spec_id ( LONG_ID: id, ACCESS: acc, LONG_ID: fn )
+class_access_spec_id(LONG_ID: id, ACCESS: acc, LONG_ID: fn)
 {
     KEY (STD)	"The '"acc"' member '"id"' can't be accessed by '"fn"'"
 }
 
-class_access_spec_none ( LONG_ID: id, ACCESS: acc )
+class_access_spec_none(LONG_ID: id, ACCESS: acc)
 {
     KEY (STD)	"Can't access the '"acc"' member '"id"'"
 }
 
-class_access_spec_change ( LONG_ID: id, PTR_LOC: loc )
+class_access_spec_change(LONG_ID: id, PTR_LOC: loc)
 {
     KEY (STD)	"Can't change access in redeclaration of '"id"' (see "loc")"
 }
@@ -5168,19 +5168,19 @@ class_access_spec_change ( LONG_ID: id, PTR_LOC: loc )
 		[class.access.base]
     --------------------------------------------------------------------  */
 
-class_access_base_acc ( LONG_ID: id, ACCESS: acc )
+class_access_base_acc(LONG_ID: id, ACCESS: acc)
 {
     USAGE:	wall
     KEY (ISO)	"11.2" | "????"
     KEY (STD)	"Missing base class access, '"acc" "id"'"
 }
 
-class_access_base_id ( CLASS_TYPE: b, CLASS_TYPE: d, ACCESS: acc, LONG_ID: fn )
+class_access_base_id(CLASS_TYPE: b, CLASS_TYPE: d, ACCESS: acc, LONG_ID: fn)
 {
     KEY (STD)	"The '"acc"' base '"b"' of '"d"' can't be accessed by '"fn"'"
 }
 
-class_access_base_none ( CLASS_TYPE: b, CLASS_TYPE: d, ACCESS: acc )
+class_access_base_none(CLASS_TYPE: b, CLASS_TYPE: d, ACCESS: acc)
 {
     KEY (STD)	"Can't access the '"acc"' base '"b"' of '"d"'"
 }
@@ -5191,7 +5191,7 @@ class_access_base_none ( CLASS_TYPE: b, CLASS_TYPE: d, ACCESS: acc )
 		[class.access.dcl]
     --------------------------------------------------------------------  */
 
-class_access_dcl_using ( IDENTIFIER: id )
+class_access_dcl_using(IDENTIFIER: id)
 {
     USAGE:	none
     KEY (ISO)	"11.3" | "????"
@@ -5204,46 +5204,46 @@ class_access_dcl_using ( IDENTIFIER: id )
 		[class.friend]
     --------------------------------------------------------------------  */
 
-class_friend_decl ()
+class_friend_decl()
 {
     KEY (ISO)	"11.4" | "????"
     KEY (STD)	"Only functions and classes can be friends"
 }
 
-class_friend_elab ()
+class_friend_elab()
 {
     KEY (STD)	"Elaborated type specifier required in friend declaration"
 }
 
-class_friend_storage ( DECL_SPEC: ds )
+class_friend_storage(DECL_SPEC: ds)
 {
     KEY (STD)	"The 'friend' specifier can't be used with the storage
 		 class specifier '"ds"'"
 }
 
-class_friend_def ()
+class_friend_def()
 {
     KEY (STD)	"Can't apply 'friend' to a class definition"
 }
 
-class_friend_local ()
+class_friend_local()
 {
     KEY (STD)	"Can't define a 'friend' function in a local class"
 }
 
-class_friend_pre ( IDENTIFIER: id )
+class_friend_pre(IDENTIFIER: id)
 {
     USAGE:	wall
     KEY (STD)	"'"id"' first declared in a friend declaration"
 }
 
-class_friend_dup_func ( LONG_ID: id, CLASS_TYPE: ct )
+class_friend_dup_func(LONG_ID: id, CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"Function '"id"' is already a friend of '"ct"'"
 }
 
-class_friend_dup_class ( CLASS_TYPE: cs, CLASS_TYPE: ct )
+class_friend_dup_class(CLASS_TYPE: cs, CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"Class '"cs"' is already a friend of '"ct"'"
@@ -5273,7 +5273,7 @@ class_friend_dup_class ( CLASS_TYPE: cs, CLASS_TYPE: ct )
 		[special]
     --------------------------------------------------------------------  */
 
-class_special_decl ( LONG_ID: id )
+class_special_decl(LONG_ID: id)
 {
     KEY (ISO)	"12" | "????"
     KEY (STD)	"Can't explicitly declare the implicit function '"id"'"
@@ -5285,61 +5285,61 @@ class_special_decl ( LONG_ID: id )
 		[class.ctor]
     --------------------------------------------------------------------  */
 
-class_ctor_static ()
+class_ctor_static()
 {
     KEY (ISO)	"12.1" | "????"
     KEY (STD)	"Constructors can't be static members"
 }
 
-class_ctor_virtual ()
+class_ctor_virtual()
 {
     KEY (STD)	"Constructors can't be virtual members"
 }
 
-class_ctor_ret ( HASHID: nm )
+class_ctor_ret(HASHID: nm)
 {
     KEY (STD)	"Can't give return type for constructor '"nm"'"
 }
 
-class_ctor_qual ( HASHID: nm, CV_SPEC: cv )
+class_ctor_qual(HASHID: nm, CV_SPEC: cv)
 {
     KEY (STD)	"The constructor '"nm"' can't be '"cv"' qualified"
 }
 
-class_ctor_result ( LONG_ID: id )
+class_ctor_result(LONG_ID: id)
 {
     KEY (STD)	"Can't return a value from the constructor '"id"'"
 }
 
-class_ctor_addr ( LONG_ID: id )
+class_ctor_addr(LONG_ID: id)
 {
     KEY (STD)	"Can't take the address of the constructor '"id"'"
 }
 
-class_ctor_default ( CLASS_TYPE: ct )
+class_ctor_default(CLASS_TYPE: ct)
 {
     KEY (STD)	"'"ct"' has no default constructor"
 }
 
-class_ctor_user ( CLASS_TYPE: ct )
+class_ctor_user(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a user-defined constructor"
 }
 
-class_ctor_nontriv ( CLASS_TYPE: ct )
+class_ctor_nontriv(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-trivial constructor"
 }
 
-class_ctor_make ( CLASS_TYPE: ct )
+class_ctor_make(CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"'"ct"' has only copy constructors"
 }
 
-class_ctor_private ( CLASS_TYPE: ct )
+class_ctor_private(CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"'"ct"' has only private non-copy constructors and
@@ -5370,34 +5370,34 @@ class_ctor_private ( CLASS_TYPE: ct )
 		[class.conv.fct]
     --------------------------------------------------------------------  */
 
-class_conv_fct_typedef ( HASHID: nm )
+class_conv_fct_typedef(HASHID: nm)
 {
     KEY (ISO)	"12.3.2" | "????"
     KEY (STD)	"Can't declare type in conversion function name '"nm"'"
 }
 
-class_conv_fct_ret ( HASHID: nm )
+class_conv_fct_ret(HASHID: nm)
 {
     KEY (STD)	"Can't give return type for conversion function '"nm"'"
 }
 
-class_conv_fct_ret_bad ( HASHID: nm, TYPE: t )
+class_conv_fct_ret_bad(HASHID: nm, TYPE: t)
 {
     KEY (STD)	"Conversion function '"nm"' declared to return '"t"'"
 }
 
-class_conv_fct_pars ( HASHID: nm )
+class_conv_fct_pars(HASHID: nm)
 {
     KEY (STD)	"Can't give parameter types for conversion function '"nm"'"
 }
 
-class_conv_fct_void ( HASHID: nm )
+class_conv_fct_void(HASHID: nm)
 {
     USAGE:	none
     KEY (STD)	"Illegal conversion function '"nm"'"
 }
 
-class_conv_fct_mem ()
+class_conv_fct_mem()
 {
     KEY (STD)	"A conversion function must be a non-static member"
 }
@@ -5408,65 +5408,65 @@ class_conv_fct_mem ()
 		[class.dtor]
     --------------------------------------------------------------------  */
 
-class_dtor_static ()
+class_dtor_static()
 {
     KEY (ISO)	"12.4" | "????"
     KEY (STD)	"Destructors can't be static members"
 }
 
-class_dtor_ret ( HASHID: nm )
+class_dtor_ret(HASHID: nm)
 {
     KEY (STD)	"Can't give return type for destructor '"nm"'"
 }
 
-class_dtor_pars ( HASHID: nm )
+class_dtor_pars(HASHID: nm)
 {
     KEY (STD)	"Can't give parameter types for destructor '"nm"'"
 }
 
-class_dtor_func ( HASHID: nm )
+class_dtor_func(HASHID: nm)
 {
     KEY (STD)	"The destructor '"nm"' must be a member function"
 }
 
-class_dtor_inherit ( HASHID: nm, NAMESPACE: ns )
+class_dtor_inherit(HASHID: nm, NAMESPACE: ns)
 {
     KEY (STD)	"The destructor '"nm"' can't be inherited by '"ns"'"
 }
 
-class_dtor_qual ( HASHID: nm, CV_SPEC: cv )
+class_dtor_qual(HASHID: nm, CV_SPEC: cv)
 {
     KEY (STD)	"The destructor '"nm"' can't be '"cv"' qualified"
 }
 
-class_dtor_default ( CLASS_TYPE: ct )
+class_dtor_default(CLASS_TYPE: ct)
 {
     KEY (STD)	"'"ct"' has no default destructor"
 }
 
-class_dtor_nontriv ( CLASS_TYPE: ct )
+class_dtor_nontriv(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-trivial destructor"
 }
 
-class_dtor_result ( LONG_ID: id )
+class_dtor_result(LONG_ID: id)
 {
     KEY (STD)	"Can't return a value from the destructor '"id"'"
 }
 
-class_dtor_addr ( LONG_ID: id )
+class_dtor_addr(LONG_ID: id)
 {
     KEY (STD)	"Can't take the address of the destructor '"id"'"
 }
 
-class_dtor_private ( CLASS_TYPE: ct )
+class_dtor_private(CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"'"ct"' has a private destructor and no friends"
 }
 
-class_dtor_three ( CLASS_TYPE: ct )
+class_dtor_three(CLASS_TYPE: ct)
 {
     USAGE:	wall
     KEY (STD)	"A class '"ct"' with a destructor, copy constructor
@@ -5479,7 +5479,7 @@ class_dtor_three ( CLASS_TYPE: ct )
 		[class.free]
     --------------------------------------------------------------------  */
 
-class_free_static ( HASHID: nm )
+class_free_static(HASHID: nm)
 {
     USAGE:	whatever
     KEY (ISO)	"12.5" | "????"
@@ -5504,85 +5504,85 @@ class_free_static ( HASHID: nm )
 		[class.base.init]
     --------------------------------------------------------------------  */
 
-class_base_init_bad ( LONG_ID: id )
+class_base_init_bad(LONG_ID: id)
 {
     KEY (ISO)	"12.6.2" | "????"
     KEY (STD)	"The function '"id"' can't have constructor-style
 		 initializers"
 }
 
-class_base_init_empty ( LONG_ID: id )
+class_base_init_empty(LONG_ID: id)
 {
     KEY (STD)	"Empty constructor-style initializer for function '"id"'"
 }
 
-class_base_init_old ( LONG_ID: id )
+class_base_init_old(LONG_ID: id)
 {
     KEY (STD)	"Anachronistic base class initializer in '"id"'"
 }
 
-class_base_init_uniq ( CLASS_TYPE: ct )
+class_base_init_uniq(CLASS_TYPE: ct)
 {
     KEY (STD)	"Class '"ct"' does not have a unique base class"
 }
 
-class_base_init_static ( IDENTIFIER: id )
+class_base_init_static(IDENTIFIER: id)
 {
     KEY (STD)	"Initializer '"id"' isn't a non-static member or a base class"
 }
 
-class_base_init_inherit ( IDENTIFIER: id )
+class_base_init_inherit(IDENTIFIER: id)
 {
     KEY (STD)	"Can't use inherited member '"id"' as an initializer"
 }
 
-class_base_init_base ( CLASS_TYPE: ct )
+class_base_init_base(CLASS_TYPE: ct)
 {
     KEY (STD)	"The base class initializer '"ct"' should be a direct
 		 or a virtual base"
 }
 
-class_base_init_ambig ( CLASS_TYPE: ct )
+class_base_init_ambig(CLASS_TYPE: ct)
 {
     KEY (STD)	"The base class initializer '"ct"' is both a direct and
 		 a virtual base"
 }
 
-class_base_init_dup ( IDENTIFIER: id )
+class_base_init_dup(IDENTIFIER: id)
 {
     KEY (STD)	"Initializer for '"id"' already given"
 }
 
-class_base_init_none ( IDENTIFIER: id )
+class_base_init_none(IDENTIFIER: id)
 {
     USAGE:	variable
     KEY (STD)	"No initializer for '"id"' in constructor"
 }
 
-class_base_init_order ( IDENTIFIER: id )
+class_base_init_order(IDENTIFIER: id)
 {
     USAGE:	variable
     KEY (STD)	"Constructor initializer for '"id"' out of sequence"
 }
 
-class_base_init_union ( CLASS_TYPE: ct )
+class_base_init_union(CLASS_TYPE: ct)
 {
     KEY (STD)	"More than one initializer given for union '"ct"'"
 }
 
-class_base_init_anon ( IDENTIFIER: id )
+class_base_init_anon(IDENTIFIER: id)
 {
     KEY (STD)	"More than one initializer given for anonymous union
 		 member '"id"'"
 }
 
-class_base_init_err ( LONG_ID: id )
+class_base_init_err(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"In special member function '"id"'"
 }
 
-class_base_init_impl ( LONG_ID: id )
+class_base_init_impl(LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"In implicit definition of '"id"'"
@@ -5600,35 +5600,35 @@ class_base_init_impl ( LONG_ID: id )
 		[class.copy]
     --------------------------------------------------------------------  */
 
-class_copy_bad ( HASHID: nm )
+class_copy_bad(HASHID: nm)
 {
     KEY (ISO)	"12.8" | "????"
     KEY (STD)	"Copy constructor '"nm"' should have a reference parameter"
 }
 
-class_copy_constr ( CLASS_TYPE: ct )
+class_copy_constr(CLASS_TYPE: ct)
 {
     KEY (STD)	"'"ct"' has no copy constructor"
 }
 
-class_copy_assign ( CLASS_TYPE: ct )
+class_copy_assign(CLASS_TYPE: ct)
 {
     KEY (STD)	"'"ct"' has no copy assignment operator"
 }
 
-class_copy_nontriv_constr ( CLASS_TYPE: ct )
+class_copy_nontriv_constr(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-trivial copy constructor"
 }
 
-class_copy_nontriv_assign ( CLASS_TYPE: ct )
+class_copy_nontriv_assign(CLASS_TYPE: ct)
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-trivial copy assignment operator"
 }
 
-class_copy_ptr ()
+class_copy_ptr()
 {
     USAGE:	wall
     KEY (STD)	"Pointers are shallow copied"
@@ -5646,7 +5646,7 @@ class_copy_ptr ()
 		[over.load]
     --------------------------------------------------------------------  */
 
-over_load_pars ()
+over_load_pars()
 {
     USAGE:	whatever
     KEY (ISO)	"13.1" | "????"
@@ -5678,26 +5678,26 @@ over_load_pars ()
 		[over.match.call]
     --------------------------------------------------------------------  */
 
-over_match_call_mem ( IDENTIFIER: id )
+over_match_call_mem(IDENTIFIER: id)
 {
     KEY (ISO)	"13.3.1.1" | "????"
     KEY (STD)	"Can't have member function '&"id"' in call"
 }
 
-over_match_call_ok ( LONG_ID: id )
+over_match_call_ok(LONG_ID: id)
 {
     USAGE:	overload_res
     KEY (STD)	"Overloaded function call resolves to '"id"'"
 }
 
-over_match_call_target ( IDENTIFIER: id )
+over_match_call_target(IDENTIFIER: id)
 {
     USAGE:	overload_dep
     KEY (STD)	"Target dependent resolution for call to overloaded
 		 function '"id"'"
 }
 
-over_match_call_ambig ( IDENTIFIER: id )
+over_match_call_ambig(IDENTIFIER: id)
 {
     USAGE:	overload_ambig
     KEY (STD)	"Ambiguous call to overloaded function '"id"'"
@@ -5721,26 +5721,26 @@ over_match_call_ambig ( IDENTIFIER: id )
 		[over.match.oper]
     --------------------------------------------------------------------  */
 
-over_match_oper_ok ( LONG_ID: id )
+over_match_oper_ok(LONG_ID: id)
 {
     USAGE:	overload_res
     KEY (ISO)	"13.3.1.2" | "????"
     KEY (STD)	"Overloaded operator resolves to '"id"'"
 }
 
-over_match_oper_target ( LEX: op )
+over_match_oper_target(LEX: op)
 {
     USAGE:	overload_dep
     KEY (STD)	"Target dependent resolution for overloaded operator '"op"'"
 }
 
-over_match_oper_ambig ( LEX: op )
+over_match_oper_ambig(LEX: op)
 {
     USAGE:	overload_ambig
     KEY (STD)	"Ambiguous overloaded operator '"op"'"
 }
 
-over_match_oper_arrow ()
+over_match_oper_arrow()
 {
     KEY (STD)	"Infinite loop in overloading of '->'"
 }
@@ -5751,27 +5751,27 @@ over_match_oper_arrow ()
 		[over.match.ctor]
     --------------------------------------------------------------------  */
 
-over_match_ctor_ok ( LONG_ID: id )
+over_match_ctor_ok(LONG_ID: id)
 {
     USAGE:	overload_res
     KEY (ISO)	"13.3.1.3" | "????"
     KEY (STD)	"Overloaded constructor call resolves to '"id"'"
 }
 
-over_match_ctor_target ( IDENTIFIER: id )
+over_match_ctor_target(IDENTIFIER: id)
 {
     USAGE:	overload_dep
     KEY (STD)	"Target dependent resolution for call to overloaded
 		 constructor '"id"'"
 }
 
-over_match_ctor_ambig ( IDENTIFIER: id )
+over_match_ctor_ambig(IDENTIFIER: id)
 {
     USAGE:	overload_ambig
     KEY (STD)	"Ambiguous call to overloaded constructor '"id"'"
 }
 
-over_match_ctor_none ( IDENTIFIER: id )
+over_match_ctor_none(IDENTIFIER: id)
 {
     KEY (STD)	"None of the overloaded constructors '"id"' is viable
 		 for given call"
@@ -5789,27 +5789,27 @@ over_match_ctor_none ( IDENTIFIER: id )
 		[over.match.conv]
     --------------------------------------------------------------------  */
 
-over_match_conv_ok ( LONG_ID: id )
+over_match_conv_ok(LONG_ID: id)
 {
     USAGE:	overload_res
     KEY (ISO)	"13.3.1.5" | "????"
     KEY (STD)	"Overloaded user-defined conversion resolves to '"id"'"
 }
 
-over_match_conv_target ( TYPE: t1, TYPE: t2 )
+over_match_conv_target(TYPE: t1, TYPE: t2)
 {
     USAGE:	overload_dep
     KEY (STD)	"Target dependent resolution for user-defined conversion
 		 from '"t1"' to '"t2"'"
 }
 
-over_match_conv_ambig ( TYPE: t1, TYPE: t2 )
+over_match_conv_ambig(TYPE: t1, TYPE: t2)
 {
     USAGE:	overload_ambig
     KEY (STD)	"Ambiguous user-defined conversion from '"t1"' to '"t2"'"
 }
 
-over_match_conv_dup ( TYPE: t )
+over_match_conv_dup(TYPE: t)
 {
     KEY (STD)	"Ambiguous user-defined conversions from '"t"'"
 }
@@ -5827,14 +5827,14 @@ over_match_conv_dup ( TYPE: t )
 		[over.match.viable]
     --------------------------------------------------------------------  */
 
-over_match_viable_none ( IDENTIFIER: id )
+over_match_viable_none(IDENTIFIER: id)
 {
     KEY (ISO)	"13.3.2" | "????"
     KEY (STD)	"None of the overloaded functions '"id"' is viable for
 		 given call"
 }
 
-over_match_viable_list ()
+over_match_viable_list()
 {
     USAGE:	whatever
     KEY (STD)	"Viable candidates are as follows"
@@ -5846,14 +5846,14 @@ over_match_viable_list ()
 		[over.match.best]
     --------------------------------------------------------------------  */
 
-over_match_best_install ()
+over_match_best_install()
 {
     USAGE:	overload_ambig
     KEY (ISO)	"13.3.3" | "????"
     KEY (STD)	"Failed target dependent overload resolution"
 }
 
-over_match_best_common ()
+over_match_best_common()
 {
     KEY (STD)	"Can't find common return type for target dependent
 		 overload resolution"
@@ -5901,18 +5901,18 @@ over_match_best_common ()
 		[over.over]
     --------------------------------------------------------------------  */
 
-over_over_context ( IDENTIFIER: id )
+over_over_context(IDENTIFIER: id)
 {
     KEY (ISO)	"13.4" | "????"
     KEY (STD)	"Can't use the overloaded function '"id"' in this context"
 }
 
-over_over_none ( IDENTIFIER: id, TYPE: t )
+over_over_none(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"None of the overloaded functions '"id"' has type '"t"'"
 }
 
-over_over_ok ( LONG_ID: id )
+over_over_ok(LONG_ID: id)
 {
     USAGE:	overload_res
     KEY (STD)	"Address of overloaded function resolves to '"id"'"
@@ -5924,28 +5924,28 @@ over_over_ok ( LONG_ID: id )
 		[over.oper]
     --------------------------------------------------------------------  */
 
-over_oper_bad ( LEX: op )
+over_oper_bad(LEX: op)
 {
     KEY (ISO)	"13.5" | "????"
     KEY (STD)	"Can't overload '"op"'"
 }
 
-over_oper_static ()
+over_oper_static()
 {
     KEY (STD)	"Overloaded operators can't be static members"
 }
 
-over_oper_type ( HASHID: nm )
+over_oper_type(HASHID: nm)
 {
     KEY (STD)	"'"nm"' should have an overloadable parameter type"
 }
 
-over_oper_default ( HASHID: nm )
+over_oper_default(HASHID: nm)
 {
     KEY (STD)	"'"nm"' can't have default arguments"
 }
 
-over_oper_func ( IDENTIFIER: id )
+over_oper_func(IDENTIFIER: id)
 {
     KEY (STD)	"'"id"' is not a function"
 }
@@ -5956,7 +5956,7 @@ over_oper_func ( IDENTIFIER: id )
 		[over.unary]
     --------------------------------------------------------------------  */
 
-over_unary_pars ( HASHID: nm, unsigned: n, plural: s )
+over_unary_pars(HASHID: nm, unsigned: n, plural: s)
 {
     KEY (ISO)	"13.5.1" | "????"
     KEY (STD)	"'"nm"' should have "n" parameter"s
@@ -5968,13 +5968,13 @@ over_unary_pars ( HASHID: nm, unsigned: n, plural: s )
 		[over.binary]
     --------------------------------------------------------------------  */
 
-over_binary_pars_p2 ( HASHID: nm, unsigned: n, plural: s )
+over_binary_pars_p2(HASHID: nm, unsigned: n, plural: s)
 {
     KEY (ISO)	"13.5.2" | "????"
     KEY (STD)	"'"nm"' should have "n" parameter"s
 }
 
-over_binary_pars_p1 ( HASHID: nm, unsigned: n, unsigned: m, plural: s )
+over_binary_pars_p1(HASHID: nm, unsigned: n, unsigned: m, plural: s)
 {
     KEY (STD)	"'"nm"' should have "n" or "m" parameter"s
 }
@@ -5985,13 +5985,13 @@ over_binary_pars_p1 ( HASHID: nm, unsigned: n, unsigned: m, plural: s )
 		[over.ass]
     --------------------------------------------------------------------  */
 
-over_ass_mem ( HASHID: nm )
+over_ass_mem(HASHID: nm)
 {
     KEY (ISO)	"13.5.3" | "????"
     KEY (STD)	"'"nm"' should be a member function"
 }
 
-over_ass_pars ( HASHID: nm, unsigned: n, plural: s )
+over_ass_pars(HASHID: nm, unsigned: n, plural: s)
 {
     KEY (STD)	"'"nm"' should have "n" parameter"s
 }
@@ -6002,7 +6002,7 @@ over_ass_pars ( HASHID: nm, unsigned: n, plural: s )
 		[over.call]
     --------------------------------------------------------------------  */
 
-over_call_mem ( HASHID: nm )
+over_call_mem(HASHID: nm)
 {
     KEY (ISO)	"13.5.4" | "????"
     KEY (STD)	"'"nm"' should be a member function"
@@ -6014,13 +6014,13 @@ over_call_mem ( HASHID: nm )
 		[over.sub]
     --------------------------------------------------------------------  */
 
-over_sub_mem ( HASHID: nm )
+over_sub_mem(HASHID: nm)
 {
     KEY (ISO)	"13.5.5" | "????"
     KEY (STD)	"'"nm"' should be a member function"
 }
 
-over_sub_pars ( HASHID: nm, unsigned: n, plural: s )
+over_sub_pars(HASHID: nm, unsigned: n, plural: s)
 {
     KEY (STD)	"'"nm"' should have "n" parameter"s
 }
@@ -6031,13 +6031,13 @@ over_sub_pars ( HASHID: nm, unsigned: n, plural: s )
 		[over.ref]
     --------------------------------------------------------------------  */
 
-over_ref_mem ( HASHID: nm )
+over_ref_mem(HASHID: nm)
 {
     KEY (ISO)	"13.5.6" | "????"
     KEY (STD)	"'"nm"' should be a member function"
 }
 
-over_ref_pars ( HASHID: nm, unsigned: n, plural: s )
+over_ref_pars(HASHID: nm, unsigned: n, plural: s)
 {
     KEY (STD)	"'"nm"' should have "n" parameter"s
 }
@@ -6048,13 +6048,13 @@ over_ref_pars ( HASHID: nm, unsigned: n, plural: s )
 		[over.inc]
     --------------------------------------------------------------------  */
 
-over_inc_pars ( HASHID: nm, unsigned: n, unsigned: m, plural: s )
+over_inc_pars(HASHID: nm, unsigned: n, unsigned: m, plural: s)
 {
     KEY (ISO)	"13.5.7" | "????"
     KEY (STD)	"'"nm"' should have "n" or "m" parameter"s
 }
 
-over_inc_pars_p2 ( HASHID: nm, TYPE: t )
+over_inc_pars_p2(HASHID: nm, TYPE: t)
 {
     KEY (STD)	"Extra parameter to '"nm"' should be of type '"t"'"
 }
@@ -6071,38 +6071,38 @@ over_inc_pars_p2 ( HASHID: nm, TYPE: t )
 		[temp]
     --------------------------------------------------------------------  */
 
-temp_decl_bad ()
+temp_decl_bad()
 {
     KEY (ISO)	"14" | "????"
     KEY (STD)	"Invalid template declaration"
 }
 
-temp_decl_scope ()
+temp_decl_scope()
 {
     KEY (STD)	"A template can only be declared in namespace or class scope"
 }
 
-temp_decl_func ()
+temp_decl_func()
 {
     KEY (STD)	"Can't have partially specialized template functions"
 }
 
-temp_decl_one ()
+temp_decl_one()
 {
     KEY (STD)	"Can only declare a single object in a template declaration"
 }
 
-temp_decl_linkage ()
+temp_decl_linkage()
 {
     KEY (STD)	"A template can't have C linkage"
 }
 
-temp_decl_export ( IDENTIFIER: id )
+temp_decl_export(IDENTIFIER: id)
 {
     KEY (STD)	"Can't export the template '"id"'"
 }
 
-temp_decl_undef ( LONG_ID: id )
+temp_decl_undef(LONG_ID: id)
 {
     KEY (STD)	"The non-exported template '"id"' has not been defined"
 }
@@ -6113,43 +6113,43 @@ temp_decl_undef ( LONG_ID: id )
 		[temp.param]
     --------------------------------------------------------------------  */
 
-temp_param_eof ()
+temp_param_eof()
 {
     KEY (ISO)	"14.1" | "????"
     KEY (STD)	"End of file in template parameters"
 }
 
-temp_param_dup ( HASHID: nm )
+temp_param_dup(HASHID: nm)
 {
     KEY (STD)	"Duplicate template parameter '"nm"'"
 }
 
-temp_param_type ( IDENTIFIER: id, TYPE: t )
+temp_param_type(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"The template parameter '"id"' can't have type '"t"'"
 }
 
-temp_param_dcl_stc ( DECL_SPEC: ds )
+temp_param_dcl_stc(DECL_SPEC: ds)
 {
     KEY (STD)	"Can't apply '"ds"' to a template parameter"
 }
 
-temp_param_default ( IDENTIFIER: id )
+temp_param_default(IDENTIFIER: id)
 {
     KEY (STD)	"The template parameter '"id"' should have a default argument"
 }
 
-temp_param_func ()
+temp_param_func()
 {
     KEY (STD)	"Can't have default arguments in template function"
 }
 
-temp_param_redecl ()
+temp_param_redecl()
 {
     KEY (STD)	"Can't have default arguments in template redeclaration"
 }
 
-temp_param_none ( LONG_ID: id )
+temp_param_none(LONG_ID: id)
 {
     KEY (STD)	"No template from which to specialize '"id"'"
 }
@@ -6160,28 +6160,28 @@ temp_param_none ( LONG_ID: id )
 		[temp.names]
     --------------------------------------------------------------------  */
 
-temp_names_eof ( LONG_ID: id )
+temp_names_eof(LONG_ID: id)
 {
     KEY (ISO)	"14.2" | "????"
     KEY (STD)	"End of file in arguments for template '"id"'"
 }
 
-temp_names_hack ()
+temp_names_hack()
 {
     KEY (STD)	"'>>' in template arguments interpreted as '> >'"
 }
 
-temp_names_bad ()
+temp_names_bad()
 {
     KEY (STD)	"Bad 'template' qualifier"
 }
 
-temp_names_not ( IDENTIFIER: id )
+temp_names_not(IDENTIFIER: id)
 {
     KEY (STD)	"'template "id"' doesn't name a template member"
 }
 
-temp_names_mem ( IDENTIFIER: id )
+temp_names_mem(IDENTIFIER: id)
 {
     KEY (STD)	"Member '"id"' should be prefixed by 'template'"
 }
@@ -6192,72 +6192,72 @@ temp_names_mem ( IDENTIFIER: id )
 		[temp.arg]
     --------------------------------------------------------------------  */
 
-temp_arg_type ( IDENTIFIER: pid, LONG_ID: id )
+temp_arg_type(IDENTIFIER: pid, LONG_ID: id)
 {
     KEY (ISO)	"14.3" | "????"
     KEY (STD)	"Type expected for parameter '"pid"' of template '"id"'"
 }
 
-temp_arg_exp ( IDENTIFIER: pid, LONG_ID: id )
+temp_arg_exp(IDENTIFIER: pid, LONG_ID: id)
 {
     KEY (STD)	"Expression expected for parameter '"pid"' of template '"id"'"
 }
 
-temp_arg_less ( LONG_ID: id )
+temp_arg_less(LONG_ID: id)
 {
     KEY (STD)	"Not enough arguments for template '"id"'"
 }
 
-temp_arg_more ( LONG_ID: id )
+temp_arg_more(LONG_ID: id)
 {
     KEY (STD)	"Too many arguments for template '"id"'"
 }
 
-temp_arg_local ( TYPE: t )
+temp_arg_local(TYPE: t)
 {
     KEY (STD)	"Type argument '"t"' should have external linkage"
 }
 
-temp_arg_const ()
+temp_arg_const()
 {
     KEY (STD)	"A non-type template argument should be constant"
 }
 
-temp_arg_internal ()
+temp_arg_internal()
 {
     KEY (STD)	"A non-type template argument should have external linkage"
 }
 
-temp_arg_over ()
+temp_arg_over()
 {
     KEY (STD)	"A non-type template argument can't be an overloaded
 		 pointer to member"
 }
 
-temp_arg_bad ()
+temp_arg_bad()
 {
     KEY (STD)	"Invalid non-type template argument"
 }
 
-temp_arg_init ( IDENTIFIER: pid, LONG_ID: id )
+temp_arg_init(IDENTIFIER: pid, LONG_ID: id)
 {
     USAGE:	whatever
     KEY (STD)	"In initialization of template parameter '"pid"' of '"id"'"
 }
 
-temp_arg_templ ( IDENTIFIER: pid, LONG_ID: id )
+temp_arg_templ(IDENTIFIER: pid, LONG_ID: id)
 {
     KEY (STD)	"Template name expected for parameter '"pid"' of
 		 template '"id"'"
 }
 
-temp_arg_templ_not ( IDENTIFIER: pid, IDENTIFIER: id )
+temp_arg_templ_not(IDENTIFIER: pid, IDENTIFIER: id)
 {
     KEY (STD)	"Value for template parameter '"pid"', '"id"' does
 		 not denote a type name"
 }
 
-temp_arg_templ_bad ( IDENTIFIER: pid, TYPE: t )
+temp_arg_templ_bad(IDENTIFIER: pid, TYPE: t)
 {
     KEY (STD)	"Invalid type for template parameter '"pid"', '"t"'"
 }
@@ -6304,18 +6304,18 @@ temp_arg_templ_bad ( IDENTIFIER: pid, TYPE: t )
 		[temp.mem]
     --------------------------------------------------------------------  */
 
-temp_mem_virtual ()
+temp_mem_virtual()
 {
     KEY (ISO)	"14.5.2" | "????"
     KEY (STD)	"A template member function can't be virtual"
 }
 
-temp_mem_destr ()
+temp_mem_destr()
 {
     KEY (STD)	"A destructor can't be a template member function"
 }
 
-temp_mem_local ()
+temp_mem_local()
 {
     KEY (STD)	"A local class can't have a template member or friend"
 }
@@ -6332,19 +6332,19 @@ temp_mem_local ()
 		[temp.class.spec]
     --------------------------------------------------------------------  */
 
-temp_class_spec_primary ( TYPE: t )
+temp_class_spec_primary(TYPE: t)
 {
     KEY (ISO)	"14.5.4" | "????"
     KEY (STD)	"Specialization '"t"' should be more specialized than
 		 its primary template"
 }
 
-temp_class_spec_depend ( TYPE: t )
+temp_class_spec_depend(TYPE: t)
 {
     KEY (STD)	"Dependent non-type argument in specialization '"t"'"
 }
 
-temp_class_spec_darg ()
+temp_class_spec_darg()
 {
     KEY (STD)	"Can't have default arguments in template specialization"
 }
@@ -6355,13 +6355,13 @@ temp_class_spec_darg ()
 		[temp.class.spec.match]
     --------------------------------------------------------------------  */
 
-temp_class_spec_ambig ( TYPE: t )
+temp_class_spec_ambig(TYPE: t)
 {
     KEY (ISO)	"14.5.4.1" | "????"
     KEY (STD)	"Ambiguous specialization for template '"t"'"
 }
 
-temp_class_spec_match ( LONG_ID: id )
+temp_class_spec_match(LONG_ID: id)
 {
     USAGE:	wall
     KEY (STD)	"Specialization '"id"' used"
@@ -6403,24 +6403,24 @@ temp_class_spec_match ( LONG_ID: id )
 		[temp.res]
     --------------------------------------------------------------------  */
 
-temp_res_nspace ( NAMESPACE: ns, TYPE: t )
+temp_res_nspace(NAMESPACE: ns, TYPE: t)
 {
     KEY (ISO)	"14.6" | "????"
     KEY (STD)	"Qualifier '"ns"' expands to the non-class type '"t"'"
 }
 
-temp_res_qual ()
+temp_res_qual()
 {
     KEY (STD)	"Qualifier in 'typename' doesn't depend on a template
 		 parameter"
 }
 
-temp_res_type ( NAMESPACE: ns, HASHID: nm )
+temp_res_type(NAMESPACE: ns, HASHID: nm)
 {
     KEY (STD)	"'typename "ns"::"nm"' doesn't denote a type"
 }
 
-temp_res_key ( BASE_TYPE: key, IDENTIFIER: id, LONG_ID: tid, TYPE: t )
+temp_res_key(BASE_TYPE: key, IDENTIFIER: id, LONG_ID: tid, TYPE: t)
 {
     KEY (STD)	"Template parameter '"id"' of '"tid"' should be '"key"',
 		 not '"t"'"
@@ -6432,13 +6432,13 @@ temp_res_key ( BASE_TYPE: key, IDENTIFIER: id, LONG_ID: tid, TYPE: t )
 		[temp.local]
     --------------------------------------------------------------------  */
 
-temp_local_not ( TYPE: t )
+temp_local_not(TYPE: t)
 {
     KEY (ISO)	"14.6.1" | "????"
     KEY (STD)	"Can't use the template type '"t"' in this context"
 }
 
-temp_local_hide ( IDENTIFIER: id )
+temp_local_hide(IDENTIFIER: id)
 {
     KEY (STD)	"Can't hide the template parameter '"id"'"
 }
@@ -6515,51 +6515,51 @@ temp_local_hide ( IDENTIFIER: id )
 		[temp.spec]
     --------------------------------------------------------------------  */
 
-temp_spec_type ( TYPE: t, IDENTIFIER: id )
+temp_spec_type(TYPE: t, IDENTIFIER: id)
 {
     KEY (ISO)	"14.7" | "????"
     KEY (STD)	"Invalid type '"t"' for specialization of template '"id"'"
 }
 
-temp_spec_bad ( TYPE: t )
+temp_spec_bad(TYPE: t)
 {
     KEY (STD)	"Invalid specialization for template '"t"'"
 }
 
-temp_spec_member ( LONG_ID: id )
+temp_spec_member(LONG_ID: id)
 {
     KEY (STD)	"Can't specialize '"id"' in a class"
 }
 
-temp_spec_prefix ()
+temp_spec_prefix()
 {
     USAGE:	new
     KEY (STD)	"'template <>' required in template specialization"
 }
 
-temp_spec_reinst ( TYPE: t )
+temp_spec_reinst(TYPE: t)
 {
     KEY (STD)	"Template '"t"' already explicitly instantiated"
 }
 
-temp_spec_respec ( TYPE: t )
+temp_spec_respec(TYPE: t)
 {
     USAGE:	none
     KEY (STD)	"Template '"t"' already explicitly specialized"
 }
 
-temp_spec_redecl ( TYPE: t )
+temp_spec_redecl(TYPE: t)
 {
     KEY (STD)	"Template '"t"' both explicitly instantiated and
 		 explicitly specialized"
 }
 
-temp_spec_used ( TYPE: t )
+temp_spec_used(TYPE: t)
 {
     KEY (STD)	"Template '"t"' specialized after use"
 }
 
-temp_spec_post ( TYPE: t, TYPE: s )
+temp_spec_post(TYPE: t, TYPE: s)
 {
     KEY (STD)	"Template specialization '"t"' matches previously
 		 used instance '"s"'"
@@ -6571,19 +6571,19 @@ temp_spec_post ( TYPE: t, TYPE: s )
 		[temp.inst]
     --------------------------------------------------------------------  */
 
-temp_inst_def ( TYPE: t )
+temp_inst_def(TYPE: t)
 {
     USAGE:	wall
     KEY (ISO)	"14.7.1" | "????"
     KEY (STD)	"Instantiating template '"t"'"
 }
 
-temp_inst_depth ( ulong: n )
+temp_inst_depth(ulong: n)
 {
     KEY (STD)	"Template instantiation depth too great ("n")"
 }
 
-temp_inst_comment ( TYPE: t, PTR_LOC: loc )
+temp_inst_comment(TYPE: t, PTR_LOC: loc)
 {
     USAGE:	whatever
     KEY (STD)	"In instantiation of template '"t"' (at "loc")"
@@ -6595,29 +6595,29 @@ temp_inst_comment ( TYPE: t, PTR_LOC: loc )
 		[temp.explicit]
     --------------------------------------------------------------------  */
 
-temp_explicit_bad ( LONG_ID: id )
+temp_explicit_bad(LONG_ID: id)
 {
     KEY (ISO)	"14.7.2" | "????"
     KEY (STD)	"No template from which to instantiate '"id"'"
 }
 
-temp_explicit_id ( IDENTIFIER: id )
+temp_explicit_id(IDENTIFIER: id)
 {
     USAGE:	none
     KEY (STD)	"'"id" <>' required in explicit template instantiation"
 }
 
-temp_explicit_def ()
+temp_explicit_def()
 {
     KEY (STD)	"Can't have definition in explicit template instantiation"
 }
 
-temp_explicit_incompl ()
+temp_explicit_incompl()
 {
     KEY (STD)	"Complete class required in explicit template instantiation"
 }
 
-temp_explicit_templ ()
+temp_explicit_templ()
 {
     KEY (STD)	"Invalid template instantiation"
 }
@@ -6628,7 +6628,7 @@ temp_explicit_templ ()
 		[temp.expl.spec]
     --------------------------------------------------------------------  */
 
-temp_expl_spec_dargs ()
+temp_expl_spec_dargs()
 {
     KEY (ISO)	"14.7.3" | "????"
     KEY (STD)	"Can't have default function arguments in explicit
@@ -6653,13 +6653,13 @@ temp_expl_spec_dargs ()
 		[temp.deduct]
     --------------------------------------------------------------------  */
 
-temp_deduct_fail ( LONG_ID: id )
+temp_deduct_fail(LONG_ID: id)
 {
     KEY (ISO)	"14.8.2" | "????"
     KEY (STD)	"Template argument deduction failed for '"id"'"
 }
 
-temp_deduct_undef ( IDENTIFIER: pid, LONG_ID: id )
+temp_deduct_undef(IDENTIFIER: pid, LONG_ID: id)
 {
     KEY (STD)	"Can't deduce value of template parameter '"pid"'"
 }
@@ -6676,20 +6676,20 @@ temp_deduct_undef ( IDENTIFIER: pid, LONG_ID: id )
 		[except]
     --------------------------------------------------------------------  */
 
-except_handlers ()
+except_handlers()
 {
     KEY (ISO)	"15" | "????"
     KEY (STD)	"A 'try' block must have at least one associated
 		 'catch' handler"
 }
 
-except_not ()
+except_not()
 {
     USAGE:	throw_bad
     KEY (STD)	"Body of 'try' block doesn't throw an exception"
 }
 
-except_jump_into ()
+except_jump_into()
 {
     KEY (STD)	"Can't jump into a 'try' block or handler"
 }
@@ -6700,29 +6700,29 @@ except_jump_into ()
 		[except.throw]
     --------------------------------------------------------------------  */
 
-except_throw_type ()
+except_throw_type()
 {
     KEY (ISO)	"15.1" | "????"
     KEY (STD)	"Can only throw an expression, not a type"
 }
 
-except_throw_typedef ()
+except_throw_typedef()
 {
     KEY (STD)	"Can't define a type in a 'throw' expression"
 }
 
-except_throw_copy ()
+except_throw_copy()
 {
     USAGE:	whatever
     KEY (STD)	"'throw' expression is copied to temporary variable"
 }
 
-except_throw_incompl ()
+except_throw_incompl()
 {
     KEY (STD)	"Can't throw a reference to an incomplete class"
 }
 
-except_throw_ambig ()
+except_throw_ambig()
 {
     USAGE:	none
     KEY (STD)	"Can't throw an expression with an ambiguous base class"
@@ -6740,30 +6740,30 @@ except_throw_ambig ()
 		[except.handle]
     --------------------------------------------------------------------  */
 
-except_handle_typedef ()
+except_handle_typedef()
 {
     KEY (ISO)	"15.3" | "????"
     KEY (STD)	"Can't define a type in an exception declaration"
 }
 
-except_handle_unreach ( TYPE: t1, TYPE: t2 )
+except_handle_unreach(TYPE: t1, TYPE: t2)
 {
     USAGE:	throw_bad
     KEY (STD)	"Exceptions of type '"t1"' will be caught by the
 		 previous '"t2"' handler"
 }
 
-except_handle_ellipsis ()
+except_handle_ellipsis()
 {
     KEY (STD)	"A '...' exception handler must be the last in its block"
 }
 
-except_handle_incompl ()
+except_handle_incompl()
 {
     KEY (STD)	"Can't catch a reference to an incomplete class"
 }
 
-except_handle_return ( IDENTIFIER: id )
+except_handle_return(IDENTIFIER: id)
 {
     KEY (STD)	"Can't return from exception handler in '"id"'"
 }
@@ -6774,59 +6774,59 @@ except_handle_return ( IDENTIFIER: id )
 		[except.spec]
     --------------------------------------------------------------------  */
 
-except_spec_bad ()
+except_spec_bad()
 {
     KEY (ISO)	"15.4" | "????"
     KEY (STD)	"Can only use exception specification in a function declarator"
 }
 
-except_spec_typedef ()
+except_spec_typedef()
 {
     KEY (STD)	"Can't define a type in an exception specification"
 }
 
-except_spec_ellipsis ()
+except_spec_ellipsis()
 {
     KEY (STD)	"Can't use '...' in an exception specification"
 }
 
-except_spec_incompl ()
+except_spec_incompl()
 {
     USAGE:	new
     KEY (STD)	"Can't have a reference to an incomplete class in
 		 an exception specification"
 }
 
-except_spec_wrong ( IDENTIFIER: id, PTR_LOC: loc )
+except_spec_wrong(IDENTIFIER: id, PTR_LOC: loc)
 {
     KEY (STD)	"Redeclaration of '"id"' should have the same exception
 		 specifiers (see "loc")"
 }
 
-except_spec_virtual ( IDENTIFIER: id1, LONG_ID: id2, PTR_LOC: loc )
+except_spec_virtual(IDENTIFIER: id1, LONG_ID: id2, PTR_LOC: loc)
 {
     KEY (STD)	"Exception specifiers for overriding virtual function
 		 '"id1"' should be more restrictive than those for
 		 '"id2"' (see "loc")"
 }
 
-except_spec_assign ()
+except_spec_assign()
 {
     KEY (STD)	"Exception specifiers in conversion should be more restrictive"
 }
 
-except_spec_init ()
+except_spec_init()
 {
     KEY (STD)	"Exception specifiers in initialization should match"
 }
 
-except_spec_throw ( TYPE: t )
+except_spec_throw(TYPE: t)
 {
     USAGE:	throw_bad
     KEY (STD)	"Uncaught exception of type '"t"' thrown"
 }
 
-except_spec_call ( LONG_ID: id, TYPE: t )
+except_spec_call(LONG_ID: id, TYPE: t)
 {
     USAGE:	throw_bad
     KEY (STD)	"Function '"id"' may throw an uncaught exception of type '"t"'"
@@ -6862,49 +6862,49 @@ except_spec_call ( LONG_ID: id, TYPE: t )
 		[cpp]
     --------------------------------------------------------------------  */
 
-cpp_bad ()
+cpp_bad()
 {
     USAGE:	ppdir_id
     KEY (ISO)	"16" | "6.8, 6.10"
     KEY (STD)	"Bad preprocessing directive"
 }
 
-cpp_unknown ( HASHID: nm )
+cpp_unknown(HASHID: nm)
 {
     USAGE:	ppdir_unknown
     KEY (STD)	"Unknown preprocessing directive, '#"nm"'"
 }
 
-cpp_end ( LEX: dir )
+cpp_end(LEX: dir)
 {
     KEY (STD)	"End of '#"dir"' directive expected"
 }
 
-cpp_indent ()
+cpp_indent()
 {
     USAGE:	ppdir_indent
     KEY (STD)	"Indented preprocessing directive"
 }
 
-cpp_indent_dir ()
+cpp_indent_dir()
 {
     USAGE:	ppdir_indent_dir
     KEY (STD)	"Space after '#' in preprocessing directive"
 }
 
-cpp_old ( LEX: dir )
+cpp_old(LEX: dir)
 {
     USAGE:	none
     KEY (STD)	"Pre-ISO preprocessors don't handle '#"dir"'"
 }
 
-cpp_space_replace ()
+cpp_space_replace()
 {
     KEY (STD)	"White space required before illegal character in
 		 replacement list"
 }
 
-cpp_space_replace2 ()
+cpp_space_replace2()
 {
     USAGE:	none
     KEY (ISO)	"-" | "-, 6.10.3"
@@ -6918,68 +6918,68 @@ cpp_space_replace2 ()
 		[cpp.cond]
     --------------------------------------------------------------------  */
 
-cpp_cond_if_match ( LEX: dir1, LEX: dir2 )
+cpp_cond_if_match(LEX: dir1, LEX: dir2)
 {
     KEY (ISO)	"16.1" | "6.8.1, 6.10.1"
     KEY (STD)	"'#"dir1"' without matching '#"dir2"'"
 }
 
-cpp_cond_else_dup ( LEX: dir1, LEX: dir2, PTR_LOC: loc )
+cpp_cond_else_dup(LEX: dir1, LEX: dir2, PTR_LOC: loc)
 {
     KEY (STD)	"'#"dir1"' after '#"dir2"' (at "loc")"
 }
 
-cpp_cond_def_id ()
+cpp_cond_def_id()
 {
     KEY (STD)	"Bad 'defined' operation"
 }
 
-cpp_cond_def_replace ()
+cpp_cond_def_replace()
 {
     USAGE:	wall
     KEY (STD)	"Macro expansion gives 'defined'"
 }
 
-cpp_cond_ifdef_id ( LEX: dir )
+cpp_cond_ifdef_id(LEX: dir)
 {
     KEY (STD)	"Macro identifier expected after '#"dir"'"
 }
 
-cpp_cond_zero ( HASHID: nm )
+cpp_cond_zero(HASHID: nm)
 {
     USAGE:	none
     KEY (STD)	"Identifier '"nm"' replaced by '0'"
 }
 
-cpp_cond_if_const ( LEX: dir )
+cpp_cond_if_const(LEX: dir)
 {
     KEY (STD)	"Integer constant expression expected after '#"dir"'"
 }
 
-cpp_cond_if_ti ( LEX: dir )
+cpp_cond_if_ti(LEX: dir)
 {
     USAGE:	wall
     KEY (STD)	"Target dependent '#"dir"'"
 }
 
-cpp_cond_if_ti_decl ( LEX: dir )
+cpp_cond_if_ti_decl(LEX: dir)
 {
     USAGE:	decl_cond
     KEY (STD)	"Can't have target dependent '#"dir"' at outer level"
 }
 
-cpp_cond_if_jump_into ()
+cpp_cond_if_jump_into()
 {
     KEY (STD)	"Can't jump into a target dependent '#if' statement"
 }
 
-cpp_cond_if_macro ( HASHID: nm )
+cpp_cond_if_macro(HASHID: nm)
 {
     KEY (ISO)   "16.1" | "6.8.1, 6.10.1"
     KEY (STD)	"Can't define macro '"nm"' in a target dependent '#if'
 		 statement"
 }
-cpp_cond_endif_end ( LEX: dir )
+cpp_cond_endif_end(LEX: dir)
 {
     USAGE:	ppdir_text
     KEY (STD)	"No text allowed after '#"dir"' directive"
@@ -6991,63 +6991,63 @@ cpp_cond_endif_end ( LEX: dir )
 		[cpp.include]
     --------------------------------------------------------------------  */
 
-cpp_include_bad ()
+cpp_include_bad()
 {
     KEY (ISO)	"16.2" | "6.8.2, 6.10.2"
     KEY (STD)	"Illegal header name"
 }
 
-cpp_include_incompl ()
+cpp_include_incompl()
 {
     KEY (STD)	"Incomplete header name"
 }
 
-cpp_include_undef ( string: str )
+cpp_include_undef(string: str)
 {
     USAGE:	wall
     KEY (STD)	"Undefined header name, '"str"'"
 }
 
-cpp_include_empty ()
+cpp_include_empty()
 {
     KEY (STD)	"Empty header name"
 }
 
-cpp_include_full ( string: str )
+cpp_include_full(string: str)
 {
     USAGE:	include_full
     KEY (STD)	"Inclusion of '"str"' may not be portable"
 }
 
-cpp_include_unknown ( string: str )
+cpp_include_unknown(string: str)
 {
     KEY (STD)	"Can't open included file, '"str"'"
 }
 
-cpp_include_open ( string: str )
+cpp_include_open(string: str)
 {
     USAGE:	include_verbose
     KEY (STD)	"Opening included file, '"str"'"
 }
 
-cpp_include_close ( string: str )
+cpp_include_close(string: str)
 {
     USAGE:	include_verbose
     KEY (STD)	"Closing included file, '"str"'"
 }
 
-cpp_include_depth ( ulong: n )
+cpp_include_depth(ulong: n)
 {
     KEY (STD)	"Include depth too great ("n")"
 }
 
-cpp_include_dup ( string: str, PTR_LOC: loc )
+cpp_include_dup(string: str, PTR_LOC: loc)
 {
     USAGE:	include_verbose
     KEY (STD)	"File '"str"' has already been included (from "loc")"
 }
 
-cpp_include_date ()
+cpp_include_date()
 {
     USAGE:	wall
     KEY (STD)	"Date stamp on file has changed"
@@ -7059,89 +7059,89 @@ cpp_include_date ()
 		[cpp.replace]
     --------------------------------------------------------------------  */
 
-cpp_replace_id ( LEX: dir )
+cpp_replace_id(LEX: dir)
 {
     KEY (ISO)	"16.3" | "6.8.3, 6.10.3"
     KEY (STD)	"Macro identifier expected after '#"dir"'"
 }
 
-cpp_replace_redef_ok ( IDENTIFIER: id, PTR_LOC: loc )
+cpp_replace_redef_ok(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	none
     KEY (STD)	"Macro '"id"' redefined (see "loc")"
 }
 
-cpp_replace_redef_bad ( IDENTIFIER: id, PTR_LOC: loc )
+cpp_replace_redef_bad(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	macro_redef
     KEY (STD)	"Macro '"id"' redefined inconsistently (see "loc")"
 }
 
-cpp_replace_redef_weak ( IDENTIFIER: id, PTR_LOC: loc )
+cpp_replace_redef_weak(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	macro_weak
     KEY (STD)	"Macro '"id"' redefined with parameter renaming (see "loc")"
 }
 
-cpp_replace_redef_space ( IDENTIFIER: id, PTR_LOC: loc )
+cpp_replace_redef_space(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	macro_weak
     KEY (STD)	"Macro '"id"' redefined with differing white space (see "loc")"
 }
 
-cpp_replace_redef_nest ( IDENTIFIER: id, PTR_LOC: loc )
+cpp_replace_redef_nest(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	macro_nest
     KEY (STD)	"Nested definition of macro '"id"' (see "loc")"
 }
 
-cpp_replace_par_dup ( HASHID: nm1, HASHID: nm2 )
+cpp_replace_par_dup(HASHID: nm1, HASHID: nm2)
 {
     KEY (STD)	"Parameter '"nm1"' already defined for macro '"nm2"'"
 }
 
-cpp_replace_par_bad ( HASHID: nm )
+cpp_replace_par_bad(HASHID: nm)
 {
     KEY (STD)	"Badly punctuated parameters for macro '"nm"'"
 }
 
-cpp_replace_arg_none ( HASHID: nm )
+cpp_replace_arg_none(HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"Macro '"nm"' invoked without arguments"
 }
 
-cpp_replace_arg_empty ( unsigned: n, HASHID: nm )
+cpp_replace_arg_empty(unsigned: n, HASHID: nm)
 {
     KEY (STD)	"Argument "n" for macro '"nm"' is empty"
 }
 
-cpp_replace_arg_ppdir ( HASHID: nm )
+cpp_replace_arg_ppdir(HASHID: nm)
 {
     USAGE:	macro_arg_dir
     KEY (STD)	"Preprocessing directive in arguments for macro '"nm"'"
 }
 
-cpp_replace_arg_eof ( HASHID: nm )
+cpp_replace_arg_eof(HASHID: nm)
 {
     KEY (STD)	"Unterminated arguments for macro '"nm"'"
 }
 
-cpp_replace_arg_number ( HASHID: nm, unsigned: n, plural: s, unsigned: m )
+cpp_replace_arg_number(HASHID: nm, unsigned: n, plural: s, unsigned: m)
 {
     KEY (STD)	"Macro '"nm"' applied with "n" argument"s", not "m
 }
 
-cpp_replace_arg_number2 ( HASHID: nm, unsigned: n, plural: s, unsigned: m )
+cpp_replace_arg_number2(HASHID: nm, unsigned: n, plural: s, unsigned: m)
 {
     KEY (STD)	"Variadic macro '"nm"' applied with "n" argument"s", not at
 		 least "m
 }
 
-cpp_replace_va_args_bad ( HASHID: nm )
+cpp_replace_va_args_bad(HASHID: nm)
 {
     KEY (ISO)	"-" | "-, 6.10.3"
-    KEY (STD)	"'__VA_ARGS__' in replacement list of macro '"nm"' without 
+    KEY (STD)	"'__VA_ARGS__' in replacement list of macro '"nm"' without
 		 ellipsis notation"
 }
 
@@ -7157,19 +7157,19 @@ cpp_replace_va_args_bad ( HASHID: nm )
 		[cpp.stringize]
     --------------------------------------------------------------------  */
 
-cpp_stringize_par ( HASHID: nm )
+cpp_stringize_par(HASHID: nm)
 {
     USAGE:	hash_ident
     KEY (ISO)	"16.3.2" | "6.8.3.2, 6.10.3.2"
     KEY (STD)	"'#' should be followed by a parameter for macro '"nm"'"
 }
 
-cpp_stringize_bad ( HASHID: nm )
+cpp_stringize_bad(HASHID: nm)
 {
     KEY (STD)	"Invalid string formed by macro '"nm"'"
 }
 
-cpp_stringize_old ( HASHID: par, HASHID: nm )
+cpp_stringize_old(HASHID: par, HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"Quoted parameter '"par"' in definition of macro '"nm"'"
@@ -7181,13 +7181,13 @@ cpp_stringize_old ( HASHID: par, HASHID: nm )
 		[cpp.concat]
     --------------------------------------------------------------------  */
 
-cpp_concat_place ( HASHID: nm )
+cpp_concat_place(HASHID: nm)
 {
     KEY (ISO)	"16.3.3" | "6.8.3.3, 6.10.3.3"
     KEY (STD)	"Badly placed '##' operator in macro '"nm"'"
 }
 
-cpp_concat_bad ( HASHID: nm )
+cpp_concat_bad(HASHID: nm)
 {
     KEY (STD)	"Invalid result for '##' operator in macro '"nm"'"
 }
@@ -7198,7 +7198,7 @@ cpp_concat_bad ( HASHID: nm )
 		[cpp.rescan]
     --------------------------------------------------------------------  */
 
-cpp_rescan_recursive ( HASHID: nm )
+cpp_rescan_recursive(HASHID: nm)
 {
     USAGE:	wall
     KEY (ISO)	"16.3.4" | "6.8.3.4, 6.10.3.4"
@@ -7211,13 +7211,13 @@ cpp_rescan_recursive ( HASHID: nm )
 		[cpp.scope]
     --------------------------------------------------------------------  */
 
-cpp_scope_id ( LEX: dir )
+cpp_scope_id(LEX: dir)
 {
     KEY (ISO)	"16.3.5" | "6.8.3.5, 6.10.3.5"
     KEY (STD)	"Macro identifier expected after '#"dir"'"
 }
 
-cpp_scope_undef ( HASHID: nm )
+cpp_scope_undef(HASHID: nm)
 {
     USAGE:	none
     KEY (STD)	"Undefined macro '"nm"' was not defined"
@@ -7229,18 +7229,18 @@ cpp_scope_undef ( HASHID: nm )
 		[cpp.line]
     --------------------------------------------------------------------  */
 
-cpp_line_bad ( LEX: dir )
+cpp_line_bad(LEX: dir)
 {
     KEY (ISO)	"16.4" | "6.8.4, 6.10.4"
     KEY (STD)	"Line number expected after '#"dir"'"
 }
 
-cpp_line_float ( LEX: dir )
+cpp_line_float(LEX: dir)
 {
     KEY (STD)	"Invalid line number in '#"dir"'"
 }
 
-cpp_line_range ( LEX: dir )
+cpp_line_range(LEX: dir)
 {
     KEY (STD)	"Line number out of range in '#"dir"'"
 }
@@ -7251,7 +7251,7 @@ cpp_line_range ( LEX: dir )
 		[cpp.error]
     --------------------------------------------------------------------  */
 
-cpp_error_msg ( string: str )
+cpp_error_msg(string: str)
 {
     KEY (ISO)	"16.5" | "6.8.5, 6.10.5"
     KEY (STD)	str
@@ -7263,7 +7263,7 @@ cpp_error_msg ( string: str )
 		[cpp.pragma]
     --------------------------------------------------------------------  */
 
-cpp_pragma_unknown ( LEX: dir )
+cpp_pragma_unknown(LEX: dir)
 {
     USAGE:	pragma_unknown
     KEY (ISO)	"16.6" | "6.8.6, 6.10.6"
@@ -7276,7 +7276,7 @@ cpp_pragma_unknown ( LEX: dir )
 		[cpp.null]
     --------------------------------------------------------------------  */
 
-cpp_null ()
+cpp_null()
 {
     USAGE:	wall
     KEY (ISO)	"16.7" | "6.8.7, 6.10.7"
@@ -7289,23 +7289,23 @@ cpp_null ()
 		[cpp.predefined] = [cpp.predef]
     --------------------------------------------------------------------  */
 
-cpp_predef_bad ( HASHID: nm, LEX: dir )
+cpp_predef_bad(HASHID: nm, LEX: dir)
 {
     KEY (ISO)	"16.8" | "6.8.8, 6.10.8"
     KEY (STD)	"Identifier '"nm"' subject of '#"dir"' directive"
 }
 
-cpp_predef_undef ( IDENTIFIER: id )
+cpp_predef_undef(IDENTIFIER: id)
 {
     KEY (STD)	"Undefining built-in macro '"id"'"
 }
 
-cpp_predef_redef ( IDENTIFIER: id )
+cpp_predef_redef(IDENTIFIER: id)
 {
     KEY (STD)	"Built-in macro '"id"' redefined"
 }
 
-cpp_predef_keyword ( HASHID: nm )
+cpp_predef_keyword(HASHID: nm)
 {
     USAGE:	wall
     KEY (STD)	"Keyword '"nm"' redefined using '#define'"
@@ -7317,7 +7317,7 @@ cpp_predef_keyword ( HASHID: nm )
 		[lib.language.support]
     --------------------------------------------------------------------  */
 
-lib_builtin ( string: ns, HASHID: nm )
+lib_builtin(string: ns, HASHID: nm)
 {
     KEY (ISO)	"18" | "????"
     KEY (STD)	"Built-in '"ns"::"nm"' not declared"
@@ -7329,77 +7329,77 @@ lib_builtin ( string: ns, HASHID: nm )
 		[lib.input.output]
     --------------------------------------------------------------------  */
 
-printf_unknown ( string: s )
+printf_unknown(string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Unknown format string, '"s"'"
 }
 
-printf_invalid ( string: s )
+printf_invalid(string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Invalid format string, '"s"'"
 }
 
-printf_unterm ( string: s )
+printf_unterm(string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Unterminated '"s"' format string"
 }
 
-printf_flags ( string: t, string: s )
+printf_flags(string: t, string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Can't have flags '"t"' with '"s"' format string"
 }
 
-printf_width ( string: s )
+printf_width(string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Can't have field width with '"s"' format string"
 }
 
-printf_precision ( string: s )
+printf_precision(string: s)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Can't have precision with '"s"' format string"
 }
 
-printf_arg_zero ()
+printf_arg_zero()
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Can't have argument zero in format string"
 }
 
-printf_arg_large ( unsigned: n )
+printf_arg_large(unsigned: n)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Argument "n" in format string out of range"
 }
 
-printf_arg_compat ( unsigned: n )
+printf_arg_compat(unsigned: n)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"Incompatible format string for argument "n
 }
 
-printf_arg_none ( unsigned: n )
+printf_arg_none(unsigned: n)
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
     KEY (STD)	"No format string given for argument "n
 }
 
-printf_arg_mix ()
+printf_arg_mix()
 {
     USAGE:	printf_string
     PROPERTIES:	non_iso, printf
@@ -7412,13 +7412,13 @@ printf_arg_mix ()
 		[lib.language.support]
     --------------------------------------------------------------------  */
 
-limits_max ( string: s, ulong: m, ulong: n )
+limits_max(string: s, ulong: m, ulong: n)
 {
     KEY (ISO)	"Annex B" | "5.2.4.1, 5.2.4.1"
     KEY (STD)	"Value for '"s"' ("m") exceeds implementation limit ("n")"
 }
 
-limits_min ( string: s, ulong: m, ulong: n )
+limits_min(string: s, ulong: m, ulong: n)
 {
     USAGE:	wall
     KEY (STD)	"Value for '"s"' ("m") exceeds minimum implementation
@@ -7431,203 +7431,203 @@ limits_min ( string: s, ulong: m, ulong: n )
 		[pragma]
     --------------------------------------------------------------------  */
 
-pragma_scope_undef ( HASHID: nm )
+pragma_scope_undef(HASHID: nm)
 {
     PROPERTIES:	non_iso, pragma
     KEY (ISO)	/* none */
     KEY (STD)	"Checking scope '"nm"' not defined"
 }
 
-pragma_scope_redef ( HASHID: nm )
+pragma_scope_redef(HASHID: nm)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Checking scope '"nm"' already defined"
 }
 
-pragma_scope_end ()
+pragma_scope_end()
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unexpected end of checking scope"
 }
 
-pragma_scope_set ( string: s )
+pragma_scope_set(string: s)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Option '"s"' has already been set in this scope"
 }
 
-pragma_dblock_name ( HASHID: nm )
+pragma_dblock_name(HASHID: nm)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Name mismatch for end of declaration block '"nm"'"
 }
 
-pragma_dblock_end ()
+pragma_dblock_end()
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unexpected end of declaration block"
 }
 
-pragma_dir_undef ( string: d )
+pragma_dir_undef(string: d)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Directory '"d"' not defined"
 }
 
-pragma_dir_mode ( string: d )
+pragma_dir_mode(string: d)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Checking mode for directory '"d"' already defined"
 }
 
-pragma_error_bad ( STRING: s )
+pragma_error_bad(STRING: s)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unknown error, "s
 }
 
-pragma_option_bad ( STRING: s )
+pragma_option_bad(STRING: s)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unknown option, "s
 }
 
-pragma_keyword_bad ( HASHID: nm )
+pragma_keyword_bad(HASHID: nm)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unknown keyword, '"nm"'"
 }
 
-pragma_char_lit ( TYPE: t )
+pragma_char_lit(TYPE: t)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Character literal should have integral type, not '"t"'"
 }
 
-pragma_builtin_type ( TYPE: t )
+pragma_builtin_type(TYPE: t)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Built-in type should be integral, not '"t"'"
 }
 
-pragma_promote_type ( TYPE: t )
+pragma_promote_type(TYPE: t)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Promotion type should be integral, not '"t"'"
 }
 
-pragma_promote_compat ( TYPE: t )
+pragma_promote_compat(TYPE: t)
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Promotion types for '"t"' should be compatible"
 }
 
-pragma_compat_type ()
+pragma_compat_type()
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Invalid arguments for directive"
 }
 
-pragma_arg_dup ( TYPE: t )
+pragma_arg_dup(TYPE: t)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Inconsistent compatible argument type for '"t"'"
 }
 
-pragma_arg_cycle ()
+pragma_arg_cycle()
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Directive completes a cycle of compatible argument types"
 }
 
-pragma_lit_type ( TYPE: t )
+pragma_lit_type(TYPE: t)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Literal type should be a promoted integral type, not '"t"'"
 }
 
-pragma_lit_range ( NAT: n, TYPE: t )
+pragma_lit_range(NAT: n, TYPE: t)
 {
     USAGE:	none
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Literal limit '"n"' doesn't fit into type '"t"'"
 }
 
-pragma_lit_question ()
+pragma_lit_question()
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Type required in '?:' literal limit"
 }
 
-pragma_token_sort ( IDENTIFIER: id )
+pragma_token_sort(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Invalid sort for token '"id"'"
 }
 
-pragma_preserve_undecl ( LEX: op, IDENTIFIER: id )
+pragma_preserve_undecl(LEX: op, IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Identifier in '"op"' directive, '"id"', doesn't have linkage"
 }
 
-pragma_weak_redef ( IDENTIFIER: id )
+pragma_weak_redef(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Weak symbol '"id"' already defined"
 }
 
-pragma_cpp_known ( LEX: dir )
+pragma_cpp_known(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Preprocessing directive '#"dir"' used"
 }
 
-pragma_cpp_ident ( LEX: dir )
+pragma_cpp_ident(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"String literal expected after '#"dir"'"
 }
 
-pragma_assert_id ( LEX: dir )
+pragma_assert_id(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Predicate identifier expected after '#"dir"'"
 }
 
-pragma_assert_open ( LEX: dir )
+pragma_assert_open(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Open bracket expected after predicate in '#"dir"'"
 }
 
-pragma_assert_paren ( LEX: dir )
+pragma_assert_paren(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Unterminated predicate token sequence in '#"dir"'"
 }
 
-pragma_assert_empty ( LEX: dir )
+pragma_assert_empty(LEX: dir)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Empty predicate token sequence in '#"dir"'"
 }
 
-pragma_assert_pred ( HASHID: nm )
+pragma_assert_pred(HASHID: nm)
 {
     USAGE:	ppdir_assert
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Predicate '"nm"' used"
 }
 
-port_entry_undef ( string: s )
+port_entry_undef(string: s)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Portability table entry '"s"' not defined"
 }
 
-port_entry_redef ( string: s )
+port_entry_redef(string: s)
 {
     PROPERTIES:	non_iso, pragma
     KEY (STD)	"Portability table entry '"s"' already defined"
@@ -7639,7 +7639,7 @@ port_entry_redef ( string: s )
 		[token]
     --------------------------------------------------------------------  */
 
-token_info ( IDENTIFIER: id )
+token_info(IDENTIFIER: id)
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, token
@@ -7647,204 +7647,204 @@ token_info ( IDENTIFIER: id )
     KEY (STD)	"'"id"' is tokenized"
 }
 
-token_redecl ( IDENTIFIER: id, PTR_LOC: loc )
+token_redecl(IDENTIFIER: id, PTR_LOC: loc)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Token '"id"' declared inconsistently (see "loc")"
 }
 
-token_redef ( IDENTIFIER: id, PTR_LOC: loc )
+token_redef(IDENTIFIER: id, PTR_LOC: loc)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Incompatible redefinition for token '"id"' (see "loc")"
 }
 
-token_redef_ok ( IDENTIFIER: id, PTR_LOC: loc )
+token_redef_ok(IDENTIFIER: id, PTR_LOC: loc)
 {
     USAGE:	token_redef
     PROPERTIES:	non_iso, token
     KEY (STD)	"Redefinition of token '"id"' (see "loc")"
 }
 
-token_undef ( IDENTIFIER: id )
+token_undef(IDENTIFIER: id)
 {
     USAGE:	token_undef
     PROPERTIES:	non_iso, token
     KEY (STD)	"Token '"id"' not defined"
 }
 
-token_undecl ( IDENTIFIER: id )
+token_undecl(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Token '"id"' not declared"
 }
 
-token_qual ( IDENTIFIER: id )
+token_qual(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Can't qualify the token name '"id"'"
 }
 
-token_scope ( IDENTIFIER: id )
+token_scope(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Identifier '"id"' used out of scope"
 }
 
-token_no_def ( IDENTIFIER: id, PTR_LOC: loc )
+token_no_def(IDENTIFIER: id, PTR_LOC: loc)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Token in 'no_def' directive, '"id"', has already been
 		 defined (at "loc")"
 }
 
-token_def_not ( IDENTIFIER: id )
+token_def_not(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Can't define token '"id"'"
 }
 
-token_def_args ( IDENTIFIER: id )
+token_def_args(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Wrong number of parameters in definition of token '"id"'"
 }
 
-token_def_func ( IDENTIFIER: id, TYPE: t )
+token_def_func(IDENTIFIER: id, TYPE: t)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Function of type '"t"' required in 'FUNC' token
 		 definition, not '"id"'"
 }
 
-token_def_ambig ( IDENTIFIER: id )
+token_def_ambig(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Ambiguous 'FUNC' token '"id"' in definition"
 }
 
-token_def_except ()
+token_def_except()
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Exception specifiers should match in 'FUNC' token definition"
 }
 
-token_def_implicit ( IDENTIFIER: id )
+token_def_implicit(IDENTIFIER: id)
 {
     USAGE:	func_token_undef
     PROPERTIES:	non_iso, token
     KEY (STD)	"Implicit definition of token '"id"'"
 }
 
-token_proc_high ()
+token_proc_high()
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"High-level 'PROC' tokens not allowed"
 }
 
-token_func ( TYPE: t )
+token_func(TYPE: t)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"A 'FUNC' token should have function type, not '"t"'"
 }
 
-token_mem ( TYPE: t )
+token_mem(TYPE: t)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"The second type in a 'MEMBER' token should have class
 		 type, not '"t"'"
 }
 
-token_mem_off ()
+token_mem_off()
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, token
     KEY (STD)	"Constant offset required in 'MEMBER' token"
 }
 
-token_stmt_ret ( IDENTIFIER: id )
+token_stmt_ret(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Can't have 'return' statement in 'STATEMENT' token '"id"'"
 }
 
-token_stmt_jump ()
+token_stmt_jump()
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Jump into 'STATEMENT' token"
 }
 
-token_const ( IDENTIFIER: id )
+token_const(IDENTIFIER: id)
 {
     USAGE:	token_const
     PROPERTIES:	non_iso, token
     KEY (STD)	"Non-constant 'EXP' token '"id"' used in constant expression"
 }
 
-token_arg_sort ( IDENTIFIER: id )
+token_arg_sort(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Wrong sort for 'PROC' token parameter '"id"'"
 }
 
-token_arg_bad ( IDENTIFIER: id )
+token_arg_bad(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Invalid 'PROC' token parameter '"id"'"
 }
 
-token_arg_exp ( IDENTIFIER: id )
+token_arg_exp(IDENTIFIER: id)
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, token
     KEY (STD)	"Values for 'EXP' token '"id"' are converted to the token type"
 }
 
-token_arg_const ( IDENTIFIER: id )
+token_arg_const(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Non-constant value for constant 'EXP' token '"id"'"
 }
 
-token_arg_lvalue ( IDENTIFIER: id )
+token_arg_lvalue(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Value for lvalue 'EXP' token '"id"' is an rvalue"
 }
 
-token_arg_mem ( IDENTIFIER: id )
+token_arg_mem(IDENTIFIER: id)
 {
     USAGE:	whatever
     PROPERTIES:	non_iso, token
     KEY (STD)	"Types for 'MEMBER' token '"id"' should be compatible"
 }
 
-token_arg_nat ( IDENTIFIER: id )
+token_arg_nat(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Non-negative integer constant required in 'NAT' token '"id"'"
 }
 
-token_arg_type ( LEX: tok, IDENTIFIER: id, TYPE: t )
+token_arg_type(LEX: tok, IDENTIFIER: id, TYPE: t)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Invalid type for '"tok"' token '"id"', '"t"'"
 }
 
-token_recursive ( IDENTIFIER: id )
+token_recursive(IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Token '"id"' defined recursively"
 }
 
-token_arg_undef ( IDENTIFIER: pid, IDENTIFIER: id )
+token_arg_undef(IDENTIFIER: pid, IDENTIFIER: id)
 {
     PROPERTIES:	non_iso, token
     KEY (STD)	"Can't deduce value of token parameter '"pid"' in
 		 application of token '"id"'"
 }
 
-token_conv ( IDENTIFIER: id, TYPE: t, TYPE: s )
+token_conv(IDENTIFIER: id, TYPE: t, TYPE: s)
 {
     USAGE:	none
     PROPERTIES:	non_iso, token
