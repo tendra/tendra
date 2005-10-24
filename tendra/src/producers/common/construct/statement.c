@@ -1976,7 +1976,13 @@ find_return_exp(EXP a, IDENTIFIER *lab, int op)
 				report (crt_loc, ERR_class_dtor_result (id));
 				*lab = find_postlude_label ();
 			} else {
-				report (crt_loc, ERR_stmt_return_none (id, r));
+				TYPE ta = DEREF_type (exp_type (a));
+				/* Special case for void because C++ allows return (void)0
+				 * and the like. */
+				if (eq_type_qual (ta, type_void, 1))
+					report (crt_loc, ERR_stmt_return_void_expr (id));
+				else
+					report (crt_loc, ERR_stmt_return_none (id, r));
 			}
 		}
 		if (in_func_handler == 2) {

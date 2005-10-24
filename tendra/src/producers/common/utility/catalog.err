@@ -3227,6 +3227,12 @@ stmt_return_void(IDENTIFIER: id, TYPE: t)
 		 returns '"t"'"
 }
 
+stmt_return_void_expr(IDENTIFIER: id)
+{
+    USAGE:	none | error
+    KEY (STD)	"'return' with value in function '"id"' which returns 'void'"
+}
+
 stmt_return_none(IDENTIFIER: id, TYPE: t)
 {
     KEY (STD)	"'return' with value in function '"id"' which returns '"t"'"
