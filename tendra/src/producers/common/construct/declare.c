@@ -1009,7 +1009,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			if (ds & dspec_linkage) {
 				/* Block function declarations */
 				id = unify_previous (id, t, prev_id, 0);
-			} else if (redef && (ds & dspec_auto)) {
+			} else if (redef) {
 				/* Redeclarations of local variables */
 				mem = update_member (ns, mem);
 			}
