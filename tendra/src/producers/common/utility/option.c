@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -111,7 +111,7 @@
 
 OPT_DATA OPT_CATALOG [] = {
 #include "opts.h"
-    { NULL, OPT_VALUE_off }
+	{ NULL, OPT_VALUE_off }
 };
 
 #define CATALOG_SIZE		ARRAY_SIZE (OPT_CATALOG)
@@ -138,50 +138,50 @@ OPT_DATA OPT_CATALOG [] = {
 #define STR_LIMIT		(ULONG_MAX >> 3)
 
 OPT_VALUE_DATA OPT_VALUE_CATALOG [] = {
-    /* Implementation quantities (from Annex B) */
-    { "statement_depth", &crt_loc, NO_LIMIT, LIMIT (256, 15), 0, 1 },
-    { "hash_if_depth", &preproc_loc, NO_LIMIT, LIMIT (256, 8), 0, 1 },
-    { "declarator_max", &crt_loc, NO_LIMIT, LIMIT (256, 12), 0, 0 },
-    { "paren_depth", &crt_loc, NO_LIMIT, LIMIT (256, 32), 0, 1 },
-    { "name_limit", &crt_loc, NO_LIMIT, LIMIT (1024, 31), 0, 0 },
-    { "extern_name_limit", &crt_loc, NO_LIMIT, LIMIT (1024, 6), 0, 0 },
-    { "external_ids", &crt_loc, NO_LIMIT, LIMIT (65536, 511), 0, 0 },
-    { "block_ids", &crt_loc, NO_LIMIT, LIMIT (1024, 127), 0, 0 },
-    { "macro_ids", &preproc_loc, NO_LIMIT, LIMIT (65536, 1024), 0, 1 },
-    { "func_pars", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
-    { "func_args", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
-    { "macro_pars", &preproc_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
-    { "macro_args", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
-    { "line_length", &crt_loc, NO_LIMIT, LIMIT (65536, 509), 0, 0 },
-    { "string_length", &crt_loc, STR_LIMIT, LIMIT (65536, 509), 0, 0 },
-    { "sizeof_object", &crt_loc, NO_LIMIT, LIMIT (262144, 32767), 0, 0 },
-    { "include_depth", &preproc_loc, 256, LIMIT (256, 8), 0, 1 },
-    { "switch_cases", &crt_loc, NO_LIMIT, LIMIT (16384, 257), 0, 0 },
-    { "data_members", &crt_loc, NO_LIMIT, LIMIT (16384, 127), 0, 0 },
-    { "enum_consts", &crt_loc, NO_LIMIT, LIMIT (4096, 127), 0, 0 },
-    { "nested_class", &crt_loc, NO_LIMIT, LIMIT (256, 15), 0, 1 },
-    { "atexit_funcs", &crt_loc, NO_LIMIT, LIMIT (32, 32), 0, 0 },
-    { "base_classes", &crt_loc, NO_LIMIT, LIMIT (16384, 0), 0, 0 },
-    { "direct_bases", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
-    { "class_members", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
-    { "virtual_funcs", &crt_loc, NO_LIMIT, LIMIT (16384, 0), 0, 0 },
-    { "virtual_bases", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
-    { "static_members", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
-    { "friends", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
-    { "access_declarations", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
-    { "ctor_initializers", &crt_loc, NO_LIMIT, LIMIT (6144, 0), 0, 0 },
-    { "scope_qualifiers", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
-    { "external_specs", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 1 },
-    { "template_pars", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
-    { "instance_depth", &crt_loc, 17, LIMIT (17, 0), 0, 1 },
-    { "exception_handlers", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
-    { "exception_specs", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
-	
-    /* Other quantities */
-    { "cast_explicit", &crt_loc, CAST_EXPLICIT, 0, 0, 0 },
-    { "maximum_error", &crt_loc, 32, 1, 0, 0 },
-    { "tab_width", &crt_loc, 8, 1, 0, 0 },
-    { NULL, NULL, 0, 0, 0, 0 }
+	/* Implementation quantities (from Annex B) */
+	{ "statement_depth", &crt_loc, NO_LIMIT, LIMIT (256, 15), 0, 1 },
+	{ "hash_if_depth", &preproc_loc, NO_LIMIT, LIMIT (256, 8), 0, 1 },
+	{ "declarator_max", &crt_loc, NO_LIMIT, LIMIT (256, 12), 0, 0 },
+	{ "paren_depth", &crt_loc, NO_LIMIT, LIMIT (256, 32), 0, 1 },
+	{ "name_limit", &crt_loc, NO_LIMIT, LIMIT (1024, 31), 0, 0 },
+	{ "extern_name_limit", &crt_loc, NO_LIMIT, LIMIT (1024, 6), 0, 0 },
+	{ "external_ids", &crt_loc, NO_LIMIT, LIMIT (65536, 511), 0, 0 },
+	{ "block_ids", &crt_loc, NO_LIMIT, LIMIT (1024, 127), 0, 0 },
+	{ "macro_ids", &preproc_loc, NO_LIMIT, LIMIT (65536, 1024), 0, 1 },
+	{ "func_pars", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
+	{ "func_args", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
+	{ "macro_pars", &preproc_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
+	{ "macro_args", &crt_loc, NO_LIMIT, LIMIT (256, 31), 0, 0 },
+	{ "line_length", &crt_loc, NO_LIMIT, LIMIT (65536, 509), 0, 0 },
+	{ "string_length", &crt_loc, STR_LIMIT, LIMIT (65536, 509), 0, 0 },
+	{ "sizeof_object", &crt_loc, NO_LIMIT, LIMIT (262144, 32767), 0, 0 },
+	{ "include_depth", &preproc_loc, 256, LIMIT (256, 8), 0, 1 },
+	{ "switch_cases", &crt_loc, NO_LIMIT, LIMIT (16384, 257), 0, 0 },
+	{ "data_members", &crt_loc, NO_LIMIT, LIMIT (16384, 127), 0, 0 },
+	{ "enum_consts", &crt_loc, NO_LIMIT, LIMIT (4096, 127), 0, 0 },
+	{ "nested_class", &crt_loc, NO_LIMIT, LIMIT (256, 15), 0, 1 },
+	{ "atexit_funcs", &crt_loc, NO_LIMIT, LIMIT (32, 32), 0, 0 },
+	{ "base_classes", &crt_loc, NO_LIMIT, LIMIT (16384, 0), 0, 0 },
+	{ "direct_bases", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
+	{ "class_members", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
+	{ "virtual_funcs", &crt_loc, NO_LIMIT, LIMIT (16384, 0), 0, 0 },
+	{ "virtual_bases", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
+	{ "static_members", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
+	{ "friends", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
+	{ "access_declarations", &crt_loc, NO_LIMIT, LIMIT (4096, 0), 0, 0 },
+	{ "ctor_initializers", &crt_loc, NO_LIMIT, LIMIT (6144, 0), 0, 0 },
+	{ "scope_qualifiers", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
+	{ "external_specs", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 1 },
+	{ "template_pars", &crt_loc, NO_LIMIT, LIMIT (1024, 0), 0, 0 },
+	{ "instance_depth", &crt_loc, 17, LIMIT (17, 0), 0, 1 },
+	{ "exception_handlers", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
+	{ "exception_specs", &crt_loc, NO_LIMIT, LIMIT (256, 0), 0, 0 },
+
+	/* Other quantities */
+	{ "cast_explicit", &crt_loc, CAST_EXPLICIT, 0, 0, 0 },
+	{ "maximum_error", &crt_loc, 32, 1, 0, 0 },
+	{ "tab_width", &crt_loc, 8, 1, 0, 0 },
+	{ NULL, NULL, 0, 0, 0, 0 }
 };
 
 #define VALUE_CAT_SIZE		ARRAY_SIZE (OPT_VALUE_CATALOG)
@@ -195,35 +195,35 @@ OPT_VALUE_DATA OPT_VALUE_CATALOG [] = {
  */
 
 typedef struct {
-    const char *name;
-    int number;
+	const char *name;
+	int number;
 } OPT_TYPE_DATA;
 
 static OPT_TYPE_DATA OPT_TYPE_CATALOG [] = {
-    { "ACCESS", ERR_KEY_ACCESS },
-    { "BASE_TYPE", ERR_KEY_BASE_TYPE },
-    { "CLASS_TYPE", ERR_KEY_CLASS_TYPE },
-    { "CV_SPEC", ERR_KEY_CV_SPEC },
-    { "DECL_SPEC", ERR_KEY_DECL_SPEC },
-    { "FLOAT", ERR_KEY_FLOAT },
-    { "HASHID", ERR_KEY_HASHID },
-    { "IDENTIFIER", ERR_KEY_IDENTIFIER },
-    { "LEX", ERR_KEY_LEX },
-    { "LONG_ID", ERR_KEY_LONG_ID },
-    { "NAMESPACE", ERR_KEY_NAMESPACE },
-    { "NAT", ERR_KEY_NAT },
-    { "PPTOKEN_P", ERR_KEY_PPTOKEN_P },
-    { "PTR_LOC", ERR_KEY_PTR_LOC },
-    { "QUALIFIER", ERR_KEY_QUALIFIER },
-    { "STRING", ERR_KEY_STRING },
-    { "TYPE", ERR_KEY_TYPE },
-    { "cint", ERR_KEY_cint },
-    { "cstring", ERR_KEY_cstring },
-    { "string", ERR_KEY_string },
-    { "ucint", ERR_KEY_ucint },
-    { "ulong", ERR_KEY_ulong },
-    { "unsigned", ERR_KEY_unsigned },
-    { "plural", ERR_KEY_plural }
+	{ "ACCESS", ERR_KEY_ACCESS },
+	{ "BASE_TYPE", ERR_KEY_BASE_TYPE },
+	{ "CLASS_TYPE", ERR_KEY_CLASS_TYPE },
+	{ "CV_SPEC", ERR_KEY_CV_SPEC },
+	{ "DECL_SPEC", ERR_KEY_DECL_SPEC },
+	{ "FLOAT", ERR_KEY_FLOAT },
+	{ "HASHID", ERR_KEY_HASHID },
+	{ "IDENTIFIER", ERR_KEY_IDENTIFIER },
+	{ "LEX", ERR_KEY_LEX },
+	{ "LONG_ID", ERR_KEY_LONG_ID },
+	{ "NAMESPACE", ERR_KEY_NAMESPACE },
+	{ "NAT", ERR_KEY_NAT },
+	{ "PPTOKEN_P", ERR_KEY_PPTOKEN_P },
+	{ "PTR_LOC", ERR_KEY_PTR_LOC },
+	{ "QUALIFIER", ERR_KEY_QUALIFIER },
+	{ "STRING", ERR_KEY_STRING },
+	{ "TYPE", ERR_KEY_TYPE },
+	{ "cint", ERR_KEY_cint },
+	{ "cstring", ERR_KEY_cstring },
+	{ "string", ERR_KEY_string },
+	{ "ucint", ERR_KEY_ucint },
+	{ "ulong", ERR_KEY_ulong },
+	{ "unsigned", ERR_KEY_unsigned },
+	{ "plural", ERR_KEY_plural }
 };
 
 #define TYPE_CAT_SIZE		ARRAY_SIZE (OPT_TYPE_CATALOG)
@@ -237,13 +237,13 @@ static OPT_TYPE_DATA OPT_TYPE_CATALOG [] = {
  */
 
 typedef struct opt_hash_tag {
-    int number;
-    OPT_DATA *entry;
-    struct opt_hash_tag *next;
+	int number;
+	OPT_DATA *entry;
+	struct opt_hash_tag *next;
 } OPT_HASH;
 
 #define HASH_OPTION		128
-static OPT_HASH *option_hash [ HASH_OPTION + 1 ];
+static OPT_HASH *option_hash [HASH_OPTION + 1];
 static OPT_HASH *all_option_hash = NULL;
 
 
@@ -256,14 +256,14 @@ static OPT_HASH *all_option_hash = NULL;
 static void
 init_opt_hash(void)
 {
-    int i;
-    OPT_DATA *cat = OPT_CATALOG;
-    OPT_HASH *opt = xmalloc_nof (OPT_HASH, CATALOG_SIZE);
-    for (i = 0; i <= HASH_OPTION; i++) {
+	int i;
+	OPT_DATA *cat = OPT_CATALOG;
+	OPT_HASH *opt = xmalloc_nof (OPT_HASH, CATALOG_SIZE);
+	for (i = 0; i <= HASH_OPTION; i++) {
 		option_hash [i] = NULL;
-    }
-    all_option_hash = opt;
-    for (i = 0; i < CATALOG_SIZE; i++) {
+	}
+	all_option_hash = opt;
+	for (i = 0; i < CATALOG_SIZE; i++) {
 		unsigned long h;
 		string s = ustrlit (cat->name);
 		if (s) {
@@ -278,8 +278,8 @@ init_opt_hash(void)
 		option_hash [h] = opt;
 		cat++;
 		opt++;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -294,8 +294,8 @@ init_opt_hash(void)
 int
 find_option_no(STRING s, int n)
 {
-    unsigned kind = DEREF_unsigned (str_simple_kind (s));
-    if (kind == STRING_NONE) {
+	unsigned kind = DEREF_unsigned (str_simple_kind (s));
+	if (kind == STRING_NONE) {
 		OPT_HASH *opt;
 		unsigned long h;
 		string text = DEREF_string (str_simple_text (s));
@@ -317,8 +317,8 @@ find_option_no(STRING s, int n)
 				}
 			}
 		}
-    }
-    return (-1);
+	}
+	return (-1);
 }
 
 
@@ -334,8 +334,8 @@ find_option_no(STRING s, int n)
 int
 find_value_no(STRING s, int n)
 {
-    unsigned kind = DEREF_unsigned (str_simple_kind (s));
-    if (kind == STRING_NONE) {
+	unsigned kind = DEREF_unsigned (str_simple_kind (s));
+	if (kind == STRING_NONE) {
 		int i;
 		OPT_VALUE_DATA *p = OPT_VALUE_CATALOG;
 		string text = DEREF_string (str_simple_text (s));
@@ -353,8 +353,8 @@ find_value_no(STRING s, int n)
 			}
 			p++;
 		}
-    }
-    return (-1);
+	}
+	return (-1);
 }
 
 
@@ -370,8 +370,8 @@ find_value_no(STRING s, int n)
 int
 find_type_no(STRING s)
 {
-    unsigned kind = DEREF_unsigned (str_simple_kind (s));
-    if (kind == STRING_NONE) {
+	unsigned kind = DEREF_unsigned (str_simple_kind (s));
+	if (kind == STRING_NONE) {
 		int i;
 		OPT_TYPE_DATA *p = OPT_TYPE_CATALOG;
 		string text = DEREF_string (str_simple_text (s));
@@ -385,8 +385,8 @@ find_type_no(STRING s)
 			}
 			p++;
 		}
-    }
-    return (-1);
+	}
+	return (-1);
 }
 
 
@@ -418,9 +418,9 @@ OPTION *crt_opt = NULL;
 ERROR
 set_severity(ERROR err, int n, int set)
 {
-    if (!IS_NULL_err (err)) {
+	if (!IS_NULL_err (err)) {
 		OPTION opt = crt_opts->opt [n];
-		int e = error_severity [ opt ];
+		int e = error_severity [opt];
 		if (set != 0) {
 			/* Compare with previous severity */
 			int c = DEREF_int (err_severity (err));
@@ -438,8 +438,8 @@ set_severity(ERROR err, int n, int set)
 			/* Set severity level */
 			COPY_int (err_severity (err), e);
 		}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -454,136 +454,136 @@ set_severity(ERROR err, int n, int set)
 static void
 action_option(int n, unsigned opt, int end)
 {
-    switch (n) {
+	switch (n) {
 	case OPT_none : {
-	    error_severity [ OPTION_OFF ] = default_severity [ opt ];
-	    break;
+		error_severity [OPTION_OFF] = default_severity [opt];
+		break;
 	}
 	case OPT_warning : {
-	    error_severity [ OPTION_WARN ] = default_severity [ opt ];
-	    break;
+		error_severity [OPTION_WARN] = default_severity [opt];
+		break;
 	}
 	case OPT_error : {
-	    error_severity [ OPTION_ON ] = default_severity [ opt ];
-	    break;
+		error_severity [OPTION_ON] = default_severity [opt];
+		break;
 	}
 	case OPT_whatever : {
-	    error_severity [ OPTION_WHATEVER ] = default_severity [ opt ];
-	    break;
+		error_severity [OPTION_WHATEVER] = default_severity [opt];
+		break;
 	}
 	case OPT_conv_int_int_expl :
 	case OPT_conv_int_int_impl :
 	case OPT_conv_int_ptr_expl :
 	case OPT_conv_ptr_ptr_expl : {
-	    /* Individual conversion options */
-	    if (!end) {
+		/* Individual conversion options */
+		if (!end) {
 			OPTION *q = real_opts->opt;
 			OPTION c = OPTION_OFF;
 			OPTION c1 = OPTION_OFF;
-			OPTION c2 = q [ OPT_conv_int_ptr_expl ];
-			OPTION c3 = q [ OPT_conv_ptr_ptr_expl ];
-			OPTION c11 = q [ OPT_conv_int_int_expl ];
-			OPTION c12 = q [ OPT_conv_int_int_impl ];
+			OPTION c2 = q [OPT_conv_int_ptr_expl];
+			OPTION c3 = q [OPT_conv_ptr_ptr_expl];
+			OPTION c11 = q [OPT_conv_int_int_expl];
+			OPTION c12 = q [OPT_conv_int_int_impl];
 			if (c11 || c12) c1 = OPTION_ON;
 			if (c1 || c2 || c3) c = OPTION_ON;
-			q [ OPT_conv_ptr_ptr ] = c3;
-			q [ OPT_conv_int_ptr ] = c2;
-			q [ OPT_conv_int_int ] = c1;
-			q [ OPT_conv ] = c;
-	    }
-	    break;
+			q [OPT_conv_ptr_ptr] = c3;
+			q [OPT_conv_int_ptr] = c2;
+			q [OPT_conv_int_int] = c1;
+			q [OPT_conv] = c;
+		}
+		break;
 	}
 	case OPT_discard_func :
 	case OPT_discard_static :
 	case OPT_discard_value : {
-	    /* Individual discard options */
-	    if (!end) {
+		/* Individual discard options */
+		if (!end) {
 			OPTION *q = real_opts->opt;
 			OPTION d = OPTION_OFF;
 			OPTION d1 = OPTION_OFF;
-			OPTION d2 = q [ OPT_discard_static ];
-			OPTION d11 = q [ OPT_discard_func ];
-			OPTION d12 = q [ OPT_discard_value ];
+			OPTION d2 = q [OPT_discard_static];
+			OPTION d11 = q [OPT_discard_func];
+			OPTION d12 = q [OPT_discard_value];
 			if (d11 || d12) d1 = OPTION_ON;
 			if (d1 || d2) d = OPTION_ON;
-			q [ OPT_discard_exp ] = d1;
-			q [ OPT_discard ] = d;
-	    }
-	    break;
+			q [OPT_discard_exp] = d1;
+			q [OPT_discard] = d;
+		}
+		break;
 	}
 	case OPT_const_internal : {
-	    /* Linkage of const objects */
-	    if (opt == OPTION_ON) {
+		/* Linkage of const objects */
+		if (opt == OPTION_ON) {
 			const_linkage = dspec_static;
-	    } else {
+		} else {
 			const_linkage = dspec_extern;
-	    }
-	    break;
+		}
+		break;
 	}
 	case OPT_inline_internal : {
-	    /* Linkage of inline functions */
-	    if (opt == OPTION_ON) {
+		/* Linkage of inline functions */
+		if (opt == OPTION_ON) {
 			inline_linkage = dspec_static;
-	    } else {
+		} else {
 			inline_linkage = dspec_extern;
-	    }
-	    break;
+		}
+		break;
 	}
 	case OPT_decl_volatile : {
-	    /* Volatility of external objects */
-	    if (opt == OPTION_ON) {
+		/* Volatility of external objects */
+		if (opt == OPTION_ON) {
 			cv_extern = cv_volatile;
-	    } else {
+		} else {
 			cv_extern = cv_none;
-	    }
-	    break;
+		}
+		break;
 	}
 	case OPT_proto_scope : {
-	    /* Recalculate namespaces */
-	    update_namespace ();
-	    break;
+		/* Recalculate namespaces */
+		update_namespace ();
+		break;
 	}
 	case OPT_cpplus_comment : {
-	    /* C++ comments */
-	    allow_cpp_comments = (opt != OPTION_DISALLOW);
-	    break;
+		/* C++ comments */
+		allow_cpp_comments = (opt != OPTION_DISALLOW);
+		break;
 	}
 	case OPT_digraph : {
-	    /* Digraphs */
-	    allow_digraphs = (opt != OPTION_DISALLOW);
-	    break;
+		/* Digraphs */
+		allow_digraphs = (opt != OPTION_DISALLOW);
+		break;
 	}
 	case OPT_dollar_ident : {
-	    /* Dollar in identifier */
-	    int c = char_z;
-	    if (opt == OPTION_DISALLOW) c = char_dollar;
-	    set_char_lookup (char_dollar, c);
-	    break;
+		/* Dollar in identifier */
+		int c = char_z;
+		if (opt == OPTION_DISALLOW) c = char_dollar;
+		set_char_lookup (char_dollar, c);
+		break;
 	}
 	case OPT_iso_keyword : {
-	    /* ISO keywords */
-	    allow_iso_keywords = (opt != OPTION_DISALLOW);
-	    break;
+		/* ISO keywords */
+		allow_iso_keywords = (opt != OPTION_DISALLOW);
+		break;
 	}
 	case OPT_lint_comment : {
-	    /* Lint comments */
-	    analyse_comments = (opt != OPTION_DISALLOW);
-	    break;
+		/* Lint comments */
+		analyse_comments = (opt != OPTION_DISALLOW);
+		break;
 	}
 	case OPT_longlong : {
-	    /* 'long long' types */
-	    int key = (opt != OPTION_DISALLOW);
-	    basetype_info [ ntype_sllong ].key = key;
-	    basetype_info [ ntype_ullong ].key = key;
-	    break;
+		/* 'long long' types */
+		int key = (opt != OPTION_DISALLOW);
+		basetype_info [ntype_sllong].key = key;
+		basetype_info [ntype_ullong].key = key;
+		break;
 	}
 	case OPT_trigraph : {
-	    /* Trigraphs */
-	    allow_trigraphs = (opt != OPTION_DISALLOW);
-	    break;
+		/* Trigraphs */
+		allow_trigraphs = (opt != OPTION_DISALLOW);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -601,47 +601,47 @@ action_option(int n, unsigned opt, int end)
 void
 set_option(int n, unsigned opt)
 {
-    if (n != -1) {
+	if (n != -1) {
 		/* Set the option level */
 		switch (n) {
-	    case OPT_conv : {
+		case OPT_conv : {
 			/* All conversion options */
 			set_option (OPT_conv_int_int_expl, opt);
 			set_option (OPT_conv_int_int_impl, opt);
 			set_option (OPT_conv_int_ptr_expl, opt);
 			set_option (OPT_conv_ptr_ptr_expl, opt);
 			break;
-	    }
-	    case OPT_conv_int_int : {
+		}
+		case OPT_conv_int_int : {
 			/* All integer conversion options */
 			set_option (OPT_conv_int_int_expl, opt);
 			set_option (OPT_conv_int_int_impl, opt);
 			break;
-	    }
-	    case OPT_conv_int_ptr : {
+		}
+		case OPT_conv_int_ptr : {
 			/* All integer to pointer conversion options */
 			set_option (OPT_conv_int_ptr_expl, opt);
 			break;
-	    }
-	    case OPT_conv_ptr_ptr : {
+		}
+		case OPT_conv_ptr_ptr : {
 			/* All pointer conversion options */
 			set_option (OPT_conv_ptr_ptr_expl, opt);
 			break;
-	    }
-	    case OPT_discard : {
+		}
+		case OPT_discard : {
 			/* All discard options */
 			set_option (OPT_discard_func, opt);
 			set_option (OPT_discard_static, opt);
 			set_option (OPT_discard_value, opt);
 			break;
-	    }
-	    case OPT_discard_exp : {
+		}
+		case OPT_discard_exp : {
 			/* Expression discard options */
 			set_option (OPT_discard_func, opt);
 			set_option (OPT_discard_value, opt);
 			break;
-	    }
-	    case OPT_func_impl : {
+		}
+		case OPT_func_impl : {
 			/* These options are negated */
 			if (opt == OPTION_ON) {
 				opt = OPTION_OFF;
@@ -649,8 +649,8 @@ set_option(int n, unsigned opt)
 				opt = OPTION_ON;
 			}
 			goto default_lab;
-	    }
-	    default :
+		}
+		default :
 			default_lab : {
 				/* Simple options */
 				OPTIONS *p = crt_opts;
@@ -683,8 +683,8 @@ set_option(int n, unsigned opt)
 				break;
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -699,25 +699,25 @@ set_option(int n, unsigned opt)
 static void
 action_value(int n, unsigned long v)
 {
-    switch (n) {
+	switch (n) {
 	case OPT_VAL_include_depth : {
-	    set_incl_depth (v);
-	    break;
+		set_incl_depth (v);
+		break;
 	}
 	case OPT_VAL_name_limit : {
-	    if (v < max_id_length) max_id_length = v;
-	    break;
+		if (v < max_id_length) max_id_length = v;
+		break;
 	}
 	case OPT_VAL_maximum_error : {
-	    max_errors = v;
-	    break;
+		max_errors = v;
+		break;
 	}
 	case OPT_VAL_tab_width : {
-	    if (v != 0) tab_width = v;
-	    break;
+		if (v != 0) tab_width = v;
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -731,18 +731,18 @@ action_value(int n, unsigned long v)
 void
 set_value(int n, EXP e, unsigned long v)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		NAT m;
 		if (!IS_exp_int_lit (e)) return;
 		m = DEREF_nat (exp_int_lit_nat (e));
 		v = get_nat_value (m);
-    }
-    if (n != -1) {
+	}
+	if (n != -1) {
 		OPT_VALUE_CATALOG [n].max_value = v;
 		OPT_VALUE_CATALOG [n].min_value = v;
 		action_value (n, v);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -757,15 +757,15 @@ set_value(int n, EXP e, unsigned long v)
 int
 check_value(int n, unsigned long v, ...) /* VARARGS */
 {
-    va_list args;
-    unsigned long u;
-    OPT_VALUE_DATA *p;
-    va_start (args, v);
-	
-    /* Check against implementation limit */
-    p = OPT_VALUE_CATALOG + n;
-    u = p->max_value;
-    if (v > u) {
+	va_list args;
+	unsigned long u;
+	OPT_VALUE_DATA *p;
+	va_start (args, v);
+
+	/* Check against implementation limit */
+	p = OPT_VALUE_CATALOG + n;
+	u = p->max_value;
+	if (v > u) {
 		int err = 1;
 		if (p->incr) {
 			if (v > u + 1) err = 0;
@@ -800,11 +800,11 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 		}
 		va_end (args);
 		return (0);
-    }
-	
-    /* Check against minimum implementation limit */
-    u = p->min_value;
-    if (v > u) {
+	}
+
+	/* Check against minimum implementation limit */
+	u = p->min_value;
+	if (v > u) {
 		if (p->incr) {
 			p->incr = 2;
 		} else {
@@ -812,9 +812,9 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 			string s = ustrlit (p->name);
 			print_error (loc, ERR_limits_min (s, v, u));
 		}
-    }
-    va_end (args);
-    return (1);
+	}
+	va_end (args);
+	return (1);
 }
 
 
@@ -828,10 +828,10 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 int
 incr_value(int n)
 {
-    OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
-    unsigned long v = ++(p->crt_value);
-    ASSERT (p->incr);
-    return (check_value (n, v));
+	OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
+	unsigned long v = ++(p->crt_value);
+	ASSERT (p->incr);
+	return (check_value (n, v));
 }
 
 
@@ -844,9 +844,9 @@ incr_value(int n)
 void
 decr_value(int n)
 {
-    OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
-    unsigned long v = p->crt_value;
-    if (v) {
+	OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
+	unsigned long v = p->crt_value;
+	if (v) {
 		if (p->incr == 2) {
 			/* Report maximum value attained */
 			LOCATION *loc = p->loc;
@@ -856,8 +856,8 @@ decr_value(int n)
 			p->incr = 1;
 		}
 		p->crt_value = v - 1;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -870,8 +870,8 @@ decr_value(int n)
 void
 set_link_opt(DECL_SPEC ds)
 {
-    OPTIONS *p = crt_opts;
-    if (p) {
+	OPTIONS *p = crt_opts;
+	if (p) {
 		DECL_SPEC ods = p->lnk_opt [1];
 		if (ods != dspec_ignore) {
 			/* Option already set in this scope */
@@ -884,8 +884,8 @@ set_link_opt(DECL_SPEC ds)
 		p->lnk_opt [1] = ds;
 		crt_linkage = ds;
 		new_linkage = ds;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -897,14 +897,14 @@ set_link_opt(DECL_SPEC ds)
  *    null pointer is returned.
  */
 
-static OPTIONS
-*find_option(HASHID nm)
+static OPTIONS *
+find_option(HASHID nm)
 {
-    OPTIONS *p;
-    for (p = all_opts; p != NULL; p = p->next) {
+	OPTIONS *p;
+	for (p = all_opts; p != NULL; p = p->next) {
 		if (EQ_hashid (nm, p->name)) return (p);
-    }
-    return (NULL);
+	}
+	return (NULL);
 }
 
 
@@ -916,41 +916,41 @@ static OPTIONS
  *    null pointer, the nth entry of the options catalogue above.
  */
 
-static OPTIONS
-*new_option(HASHID nm, OPTIONS *q, int n)
+static OPTIONS *
+new_option(HASHID nm, OPTIONS *q, int n)
 {
-    /* Allocate space for new scope */
-    int i;
-    OPTIONS *p = xmalloc_nof (OPTIONS, 1);
-    OPTION *po = xmalloc_nof (OPTION, 2 * CATALOG_SIZE);
-    OPTION *ps = po + CATALOG_SIZE;
-    p->opt = po;
-    p->set = ps;
-    p->val_opt [0] = no_declarations;
-    p->lnk_opt [0] = crt_linkage;
-    p->lnk_opt [1] = dspec_ignore;
-    p->prev = NULL;
-    p->name = NULL_hashid;
-    p->next = all_opts;
-    all_opts = p;
-	
-    /* Check scope name */
-    if (!IS_NULL_hashid (nm)) {
+	/* Allocate space for new scope */
+	int i;
+	OPTIONS *p = xmalloc_nof (OPTIONS, 1);
+	OPTION *po = xmalloc_nof (OPTION, 2 * CATALOG_SIZE);
+	OPTION *ps = po + CATALOG_SIZE;
+	p->opt = po;
+	p->set = ps;
+	p->val_opt [0] = no_declarations;
+	p->lnk_opt [0] = crt_linkage;
+	p->lnk_opt [1] = dspec_ignore;
+	p->prev = NULL;
+	p->name = NULL_hashid;
+	p->next = all_opts;
+	all_opts = p;
+
+	/* Check scope name */
+	if (!IS_NULL_hashid (nm)) {
 		if (find_option (nm)) {
 			report (preproc_loc, ERR_pragma_scope_redef (nm));
 		}
 		p->name = nm;
-    }
-	
-    /* Set up scope */
-    if (q) {
+	}
+
+	/* Set up scope */
+	if (q) {
 		/* Copy existing scope */
 		OPTION *qo = q->opt;
 		for (i = 0; i < CATALOG_SIZE; i++) {
 			*(po++) = *(qo++);
 			*(ps++) = ERROR_WHATEVER;
 		}
-    } else {
+	} else {
 		/* Use standard scope */
 		OPT_DATA *cat = OPT_CATALOG;
 		for (i = 0; i < CATALOG_SIZE; i++) {
@@ -959,8 +959,8 @@ static OPTIONS
 			*(ps++) = ERROR_SERIOUS;
 			cat++;
 		}
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -973,15 +973,15 @@ static OPTIONS
 void
 begin_option(IDENTIFIER id)
 {
-    OPTIONS *p;
-    HASHID nm = NULL_hashid;
-    if (!IS_NULL_id (id)) nm = DEREF_hashid (id_name (id));
-    p = new_option (nm, real_opts, 0);
-    p->prev = real_opts;
-    crt_opts = p;
-    real_opts = p;
-    crt_opt = p->opt;
-    return;
+	OPTIONS *p;
+	HASHID nm = NULL_hashid;
+	if (!IS_NULL_id (id)) nm = DEREF_hashid (id_name (id));
+	p = new_option (nm, real_opts, 0);
+	p->prev = real_opts;
+	crt_opts = p;
+	real_opts = p;
+	crt_opt = p->opt;
+	return;
 }
 
 
@@ -994,8 +994,8 @@ begin_option(IDENTIFIER id)
 void
 end_option(int expl)
 {
-    OPTIONS *p = real_opts;
-    if (p) {
+	OPTIONS *p = real_opts;
+	if (p) {
 		OPTIONS *q = p->prev;
 		DECL_SPEC ds = p->lnk_opt [0];
 		if (expl && p->val_opt [0] == no_declarations) {
@@ -1027,9 +1027,9 @@ end_option(int expl)
 			}
 			return;
 		}
-    }
-    report (preproc_loc, ERR_pragma_scope_end ());
-    return;
+	}
+	report (preproc_loc, ERR_pragma_scope_end ());
+	return;
 }
 
 
@@ -1044,10 +1044,10 @@ end_option(int expl)
 void
 use_mode(OPTIONS *p, int e)
 {
-    int i;
-    OPTIONS *q = real_opts;
-    DECL_SPEC ds = p->lnk_opt [1];
-    if (ds != dspec_ignore) {
+	int i;
+	OPTIONS *q = real_opts;
+	DECL_SPEC ds = p->lnk_opt [1];
+	if (ds != dspec_ignore) {
 		DECL_SPEC ods = q->lnk_opt [1];
 		if (ods != dspec_ignore) {
 			/* Option already set in this scope */
@@ -1061,8 +1061,8 @@ use_mode(OPTIONS *p, int e)
 		q->lnk_opt [1] = ds;
 		crt_linkage = ds;
 		new_linkage = ds;
-    }
-    for (i = 0; i < CATALOG_SIZE; i++) {
+	}
+	for (i = 0; i < CATALOG_SIZE; i++) {
 		if (p->set [i] != ERROR_WHATEVER && OPT_CATALOG [i].scoped) {
 			OPTION new_opt = p->opt [i];
 			OPTION old_opt = q->opt [i];
@@ -1082,8 +1082,8 @@ use_mode(OPTIONS *p, int e)
 			}
 			q->set [i] = ERROR_SERIOUS;
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1097,11 +1097,11 @@ use_mode(OPTIONS *p, int e)
 void
 set_mode(OPTIONS *p)
 {
-    if (p) {
+	if (p) {
 		crt_opts = p;
 		crt_opt = p->opt;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1116,14 +1116,14 @@ set_mode(OPTIONS *p)
 void
 use_option(IDENTIFIER id, unsigned opt)
 {
-    HASHID nm = DEREF_hashid (id_name (id));
-    OPTIONS *p = find_option (nm);
-    if (p == NULL) {
+	HASHID nm = DEREF_hashid (id_name (id));
+	OPTIONS *p = find_option (nm);
+	if (p == NULL) {
 		report (preproc_loc, ERR_pragma_scope_undef (nm));
 		return;
-    }
-    use_mode (p, error_severity [ opt ]);
-    return;
+	}
+	use_mode (p, error_severity [opt]);
+	return;
 }
 
 
@@ -1137,16 +1137,16 @@ use_option(IDENTIFIER id, unsigned opt)
 void
 directory_option(IDENTIFIER dir, IDENTIFIER id)
 {
-    string s;
-    HASHID nm = DEREF_hashid (id_name (id));
-    OPTIONS *p = find_option (nm);
-    if (p == NULL) {
+	string s;
+	HASHID nm = DEREF_hashid (id_name (id));
+	OPTIONS *p = find_option (nm);
+	if (p == NULL) {
 		report (preproc_loc, ERR_pragma_scope_undef (nm));
-    }
-    nm = DEREF_hashid (id_name (dir));
-    s = DEREF_string (hashid_name_etc_text (nm));
-    directory_mode (s, p);
-    return;
+	}
+	nm = DEREF_hashid (id_name (dir));
+	s = DEREF_string (hashid_name_etc_text (nm));
+	directory_mode (s, p);
+	return;
 }
 
 
@@ -1160,58 +1160,58 @@ directory_option(IDENTIFIER dir, IDENTIFIER id)
 void
 init_option(int level)
 {
-    int i;
-    string s;
-    HASHID nm;
-    OPTION *po;
-    OPTIONS *p1, *p2;
-    OPT_DATA *cat = OPT_CATALOG;
-    OPT_VALUE_DATA *vcat = OPT_VALUE_CATALOG;
-	
-    /* Mark basic options */
-    cat [ OPT_none ].scoped = 0;
-    cat [ OPT_warning ].scoped = 0;
-    cat [ OPT_error ].scoped = 0;
-    cat [ OPT_whatever ].scoped = 0;
-	
-    /* Mark unscoped options */
-    cat [ OPT_const_internal ].scoped = 0;
-    cat [ OPT_cpplus_comment ].scoped = 0;
-    cat [ OPT_digraph ].scoped = 0;
-    cat [ OPT_dollar_ident ].scoped = 0;
-    cat [ OPT_ellipsis_ident ].scoped = 0;
-    cat [ OPT_inline_internal ].scoped = 0;
-    cat [ OPT_iso_keyword ].scoped = 0;
-    cat [ OPT_lint_comment ].scoped = 0;
-    cat [ OPT_trigraph ].scoped = 0;
-	
-    /* A few other initialisations */
-    max_id_length = vcat [ OPT_VAL_name_limit ].min_value;
-	
-    /* Set up default compilation modes */
-    s = ustrlit ("__DEFAULT__");
-    nm = lookup_name (s, hash (s), 0, lex_identifier);
-    p1 = new_option (nm, NULL, 0);
-    s = ustrlit ("__ALL__");
-    nm = lookup_name (s, hash (s), 0, lex_identifier);
-    p2 = new_option (nm, NULL, 1);
-	
-    /* Bring option into scope */
-    if (level == 1) p1 = p2;
-    p1 = new_option (NULL_hashid, p1, 0);
-    crt_opts = p1;
-    real_opts = p1;
-    po = p1->opt;
-    crt_opt = po;
-    for (i = 0; i < CATALOG_SIZE; i++) {
+	int i;
+	string s;
+	HASHID nm;
+	OPTION *po;
+	OPTIONS *p1, *p2;
+	OPT_DATA *cat = OPT_CATALOG;
+	OPT_VALUE_DATA *vcat = OPT_VALUE_CATALOG;
+
+	/* Mark basic options */
+	cat [OPT_none].scoped = 0;
+	cat [OPT_warning].scoped = 0;
+	cat [OPT_error].scoped = 0;
+	cat [OPT_whatever].scoped = 0;
+
+	/* Mark unscoped options */
+	cat [OPT_const_internal].scoped = 0;
+	cat [OPT_cpplus_comment].scoped = 0;
+	cat [OPT_digraph].scoped = 0;
+	cat [OPT_dollar_ident].scoped = 0;
+	cat [OPT_ellipsis_ident].scoped = 0;
+	cat [OPT_inline_internal].scoped = 0;
+	cat [OPT_iso_keyword].scoped = 0;
+	cat [OPT_lint_comment].scoped = 0;
+	cat [OPT_trigraph].scoped = 0;
+
+	/* A few other initialisations */
+	max_id_length = vcat [OPT_VAL_name_limit].min_value;
+
+	/* Set up default compilation modes */
+	s = ustrlit ("__DEFAULT__");
+	nm = lookup_name (s, hash (s), 0, lex_identifier);
+	p1 = new_option (nm, NULL, 0);
+	s = ustrlit ("__ALL__");
+	nm = lookup_name (s, hash (s), 0, lex_identifier);
+	p2 = new_option (nm, NULL, 1);
+
+	/* Bring option into scope */
+	if (level == 1) p1 = p2;
+	p1 = new_option (NULL_hashid, p1, 0);
+	crt_opts = p1;
+	real_opts = p1;
+	po = p1->opt;
+	crt_opt = po;
+	for (i = 0; i < CATALOG_SIZE; i++) {
 		OPTION e = *(po++);
 		action_option (i, (unsigned) e, 0);
-    }
-    for (i = 0; i < VALUE_CAT_SIZE; i++) {
+	}
+	for (i = 0; i < VALUE_CAT_SIZE; i++) {
 		action_value (i, vcat->max_value);
 		vcat++;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1226,7 +1226,7 @@ init_option(int level)
 void
 term_option(void)
 {
-    if (real_opts) {
+	if (real_opts) {
 		int i;
 		int expl = 1;
 		OPT_VALUE_DATA *p = OPT_VALUE_CATALOG;
@@ -1248,8 +1248,8 @@ term_option(void)
 		if (expl && no_declarations == 0 && !preproc_only) {
 			report (preproc_loc, ERR_dcl_dcl_none ());
 		}
-    }
-    xfree (all_option_hash);
-    all_option_hash = NULL;
-    return;
+	}
+	xfree (all_option_hash);
+	all_option_hash = NULL;
+	return;
 }
