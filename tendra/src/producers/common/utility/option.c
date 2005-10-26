@@ -179,6 +179,7 @@ OPT_VALUE_DATA OPT_VALUE_CATALOG [] = {
 
 	/* Other quantities */
 	{ "cast_explicit", &crt_loc, CAST_EXPLICIT, 0, 0, 0 },
+	{ "hash_line_number", &crt_loc, 32767, 0, 0, 0 },
 	{ "maximum_error", &crt_loc, 32, 1, 0, 0 },
 	{ "tab_width", &crt_loc, 8, 1, 0, 0 },
 	{ NULL, NULL, 0, 0, 0, 0 }

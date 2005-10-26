@@ -149,8 +149,9 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [];
 #define OPT_VAL_exception_handlers		35
 #define OPT_VAL_exception_specs			36
 #define OPT_VAL_cast_explicit			37
-#define OPT_VAL_maximum_error			38
-#define OPT_VAL_tab_width			39
+#define OPT_VAL_hash_line_number		38
+#define OPT_VAL_maximum_error			39
+#define OPT_VAL_tab_width			40
 
 
 /*

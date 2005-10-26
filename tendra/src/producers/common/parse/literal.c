@@ -262,7 +262,7 @@ eval_char_digits(string s, string t, unsigned base)
  *    number in a #line, or similar, preprocessing directive.  Any errors
  *    arising are indicated using err.  This is a bit pattern consisting
  *    of 2 if s is not a simple string of decimal digits, and 1 if its
- *    value exceeds 32767.
+ *    value exceeds the currently set limit.
  */
 
 unsigned long
@@ -274,9 +274,15 @@ eval_line_digits(string s, unsigned *err)
 	string t = check_digits (s, (unsigned) 10);
 	if (*t) e = 2;
 	for (r = s; r != t; r++) {
-		n = 10 * n + (unsigned long) digit_values [*r];
-		if (n > 0x7fff) e |= 1;
+		int d = digit_values [*r];
+		if (n > (ULONG_MAX - d) / 10) {
+			e |= 1;
+			break;
+		}
+		n = 10 * n + d;
 	}
+	if (n > option_value (OPT_VAL_hash_line_number))
+		e |= 1;
 	*err = e;
 	return (n);
 }
