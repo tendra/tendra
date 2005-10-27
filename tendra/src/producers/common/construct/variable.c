@@ -332,26 +332,16 @@ check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
  */
 
 static int
-define_tentative(IDENTIFIER id, int anon)
+define_tentative(IDENTIFIER id)
 {
 	int def = 0;
 	EXP e = DEREF_exp (id_variable_etc_init (id));
 	if (!IS_NULL_exp (e) && IS_exp_zero (e)) {
 		LOCATION loc;
-		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		TYPE t = DEREF_type (id_variable_etc_type (id));
 		bad_crt_loc++;
 		loc = crt_loc;
 		DEREF_loc (id_loc (id), crt_loc);
-		if (anon || !(ds & dspec_extern)) {
-			/* Types for internal objects should be complete */
-			ERROR err = check_complete (t);
-			if (!IS_NULL_err (err)) {
-				ERROR err2 = ERR_basic_types_tent_incompl (id);
-				err = concat_error (err, err2);
-				report (crt_loc, err);
-			}
-		}
 		if (IS_type_array (t)) {
 			/* Complete array 'A []' to 'A [1]' */
 			NAT n = DEREF_nat (type_array_size (t));
@@ -361,6 +351,13 @@ define_tentative(IDENTIFIER id, int anon)
 				n = small_nat [1];
 				MAKE_type_array (qual, s, n, t);
 				COPY_type (id_variable_etc_type (id), t);
+			}
+		} else {
+			ERROR err = check_complete (t);
+			if (!IS_NULL_err (err)) {
+				ERROR err2 = ERR_basic_types_tent_incompl (id);
+				err = concat_error (err, err2);
+				report (crt_loc, err);
 			}
 		}
 		e = init_general (t, NULL_exp, id, 0);
@@ -483,7 +480,7 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 			check_usage (id, blk, anon);
 			if (IS_NULL_exp (blk)) {
 				if (ds & dspec_defn) {
-					IGNORE define_tentative (id, anon);
+					IGNORE define_tentative (id);
 				}
 				compile_variable (id, 0);
 			} else {
@@ -522,7 +519,7 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 			if (IS_NULL_exp (blk)) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (id));
 				if (ds & dspec_defn) {
-					IGNORE define_tentative (id, anon);
+					IGNORE define_tentative (id);
 				}
 				compile_variable (id, 0);
 			}

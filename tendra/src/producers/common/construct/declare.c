@@ -804,7 +804,9 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 			/* EMPTY */
 		} else {
 			ERROR err;
-			if (!tentative) {
+			/* Tentative definitions with internal linkage must have
+			 * complete type. */ 
+			if (!tentative || (ds & dspec_static)) {
 				err = check_complete (t);
 				if (!IS_NULL_err (err)) {
 					/* Other definitions should have complete type */
