@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -127,11 +127,11 @@ int anon_c_linkage = 0;
 static void
 check_usage(IDENTIFIER id, EXP blk, int anon)
 {
-    int opt;
-    ERROR err;
-    LOCATION loc;
-    HASHID nm = DEREF_hashid (id_name (id));
-    if (!IS_hashid_anon (nm)) {
+	int opt;
+	ERROR err;
+	LOCATION loc;
+	HASHID nm = DEREF_hashid (id_name (id));
+	if (!IS_hashid_anon (nm)) {
 		/* Ignore anonymous identifiers */
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (anon == ANON_NAMESPACE && (ds & dspec_c)) {
@@ -233,8 +233,8 @@ check_usage(IDENTIFIER id, EXP blk, int anon)
 				}
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -250,8 +250,8 @@ static void
 check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns, EXP blk, int anon,
 				  int chk)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (!(ds & dspec_done)) {
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (!(ds & dspec_done)) {
 		/* Scan through template applications */
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		INSTANCE apps = DEREF_inst (tok_templ_apps (sort));
@@ -268,8 +268,8 @@ check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns, EXP blk, int anon,
 		}
 		if (spec_unit) spec_unit = save_end (spec_unit, NULL_nspace);
 		COPY_dspec (id_storage (id), ds);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -282,8 +282,8 @@ check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns, EXP blk, int anon,
 static void
 check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
 {
-    LOCATION loc;
-    if (cu & cusage_destr) {
+	LOCATION loc;
+	if (cu & cusage_destr) {
 		IDENTIFIER id = DEREF_id (ctype_destr (ct));
 		if (!IS_NULL_id (id) && IS_id_mem_func (id)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -292,22 +292,22 @@ check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
 				report (loc, ERR_expr_delete_post (id));
 			}
 		}
-    }
-    if (cu & cusage_delete) {
+	}
+	if (cu & cusage_delete) {
 		IDENTIFIER id = find_operator (ct, lex_delete);
 		if (!IS_NULL_id (id)) {
 			DEREF_loc (id_loc (id), loc);
 			report (loc, ERR_expr_delete_post (id));
 		}
-    }
-    if (cu & cusage_delete_array) {
+	}
+	if (cu & cusage_delete_array) {
 		IDENTIFIER id = find_operator (ct, lex_delete_Harray);
 		if (!IS_NULL_id (id)) {
 			DEREF_loc (id_loc (id), loc);
 			report (loc, ERR_expr_delete_post (id));
 		}
-    }
-    if (cu & cusage_address) {
+	}
+	if (cu & cusage_address) {
 		IDENTIFIER id = find_operator (ct, lex_and_H1);
 		while (!IS_NULL_id (id) && IS_id_function_etc (id)) {
 			TYPE t = DEREF_type (id_function_etc_type (id));
@@ -318,8 +318,8 @@ check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
 			}
 			id = DEREF_id (id_function_etc_over (id));
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -334,9 +334,9 @@ check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
 static int
 define_tentative(IDENTIFIER id, int anon)
 {
-    int def = 0;
-    EXP e = DEREF_exp (id_variable_etc_init (id));
-    if (!IS_NULL_exp (e) && IS_exp_zero (e)) {
+	int def = 0;
+	EXP e = DEREF_exp (id_variable_etc_init (id));
+	if (!IS_NULL_exp (e) && IS_exp_zero (e)) {
 		LOCATION loc;
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		TYPE t = DEREF_type (id_variable_etc_type (id));
@@ -350,7 +350,7 @@ define_tentative(IDENTIFIER id, int anon)
 				ERROR err2 = ERR_basic_types_tent_incompl (id);
 				err = concat_error (err, err2);
 				report (crt_loc, err);
-            }
+			}
 		}
 		if (IS_type_array (t)) {
 			/* Complete array 'A []' to 'A [1]' */
@@ -369,8 +369,8 @@ define_tentative(IDENTIFIER id, int anon)
 		crt_loc = loc;
 		bad_crt_loc--;
 		def = 1;
-    }
-    return (def);
+	}
+	return (def);
 }
 
 
@@ -388,14 +388,14 @@ define_tentative(IDENTIFIER id, int anon)
 unsigned long
 check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 {
-    unsigned long n = 1;
-    if (spec_unit) spec_unit = save_id (spec_unit, id, ns);
-    switch (TAG_id (id)) {
-		
+	unsigned long n = 1;
+	if (spec_unit) spec_unit = save_id (spec_unit, id, ns);
+	switch (TAG_id (id)) {
+
 	case id_class_name_tag : {
-	    /* Check the members of a class */
-	    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-	    if (!(ds & dspec_implicit)) {
+		/* Check the members of a class */
+		DECL_SPEC ds = DEREF_dspec (id_storage (id));
+		if (!(ds & dspec_implicit)) {
 			int templ = 0;
 			CLASS_TYPE ct;
 			CLASS_INFO ci;
@@ -449,10 +449,10 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 				/* Template classes */
 				check_template_id (s, id, ns, blk, anon, chk);
 			}
-	    }
-	    goto type_label;
+		}
+		goto type_label;
 	}
-		
+
 	case id_enum_name_tag :
 	case id_class_alias_tag :
 	case id_enum_alias_tag :
@@ -465,17 +465,17 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 			}
 			break;
 		}
-		
+
 	case id_nspace_name_tag : {
-	    /* Check the members of a namespace */
-	    NAMESPACE cns = DEREF_nspace (id_nspace_name_defn (id));
-	    n += check_namespace (cns, NULL_exp, anon, chk);
-	    break;
+		/* Check the members of a namespace */
+		NAMESPACE cns = DEREF_nspace (id_nspace_name_defn (id));
+		n += check_namespace (cns, NULL_exp, anon, chk);
+		break;
 	}
-		
+
 	case id_variable_tag : {
-	    /* Check variable usage */
-	    if (chk) {
+		/* Check variable usage */
+		if (chk) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if ((ds & dspec_static) && preserve_all) {
 				compile_preserve (id);
@@ -498,26 +498,26 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 					}
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_parameter_tag : {
-	    /* Check parameter usage */
-	    if (chk && suppress_variable == 0) {
+		/* Check parameter usage */
+		if (chk && suppress_variable == 0) {
 			check_usage (id, blk, anon);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_stat_member_tag : {
-	    /* Check static data member usage */
-	    if (anon == ANON_CLASS) {
+		/* Check static data member usage */
+		if (anon == ANON_CLASS) {
 			LOCATION loc;
 			DEREF_loc (id_loc (id), loc);
 			report (loc, ERR_class_static_data_anon (id));
-	    }
-	    if (chk) {
+		}
+		if (chk) {
 			check_usage (id, blk, anon);
 			if (IS_NULL_exp (blk)) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -526,20 +526,20 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 				}
 				compile_variable (id, 0);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Check member function usage */
-	    TYPE t = DEREF_type (id_function_etc_type (id));
-	    IDENTIFIER over = DEREF_id (id_function_etc_over (id));
-	    if (!IS_NULL_id (over)) {
+		/* Check member function usage */
+		TYPE t = DEREF_type (id_function_etc_type (id));
+		IDENTIFIER over = DEREF_id (id_function_etc_over (id));
+		if (!IS_NULL_id (over)) {
 			n += check_identifier (over, ns, blk, anon, chk);
-	    }
-	    if (IS_type_func (t)) {
+		}
+		if (IS_type_func (t)) {
 			/* Simple functions */
 			if (chk) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -552,30 +552,30 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 				check_usage (id, blk, anon);
 				if (IS_NULL_exp (blk)) compile_function (id, 0);
 			}
-	    } else {
+		} else {
 			/* Template functions */
 			check_template_id (t, id, ns, blk, anon, chk);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_enumerator_tag : {
-	    /* Check enumerator value */
-	    if (chk) {
+		/* Check enumerator value */
+		if (chk) {
 			EXP e = DEREF_exp (id_enumerator_value (id));
 			if (overflow_exp (e)) compile_variable (id, 0);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_nspace_alias_tag :
 	case id_member_tag :
 	case id_weak_param_tag : {
-	    /* Don't check these (yet) */
-	    break;
+		/* Don't check these (yet) */
+		break;
 	}
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -593,36 +593,36 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 unsigned long
 check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
 {
-    unsigned long n = 0;
-    if (!IS_NULL_nspace (ns)) {
+	unsigned long n = 0;
+	if (!IS_NULL_nspace (ns)) {
 		MEMBER mem;
 		LIST (IDENTIFIER) extra;
-		
+
 		/* Find namespace components */
 		switch (TAG_nspace (ns)) {
-	    case nspace_named_tag :
-	    case nspace_global_tag :
-	    case nspace_ctype_tag : {
+		case nspace_named_tag :
+		case nspace_global_tag :
+		case nspace_ctype_tag : {
 			mem = DEREF_member (nspace_named_etc_first (ns));
 			extra = DEREF_list (nspace_named_etc_extra (ns));
 			break;
-	    }
-	    case nspace_unnamed_tag : {
+		}
+		case nspace_unnamed_tag : {
 			mem = DEREF_member (nspace_unnamed_first (ns));
 			extra = DEREF_list (nspace_unnamed_extra (ns));
 			if (anon != ANON_GLOBAL && suppress_variable != 2) {
 				anon = ANON_NAMESPACE;
 			}
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			mem = DEREF_member (nspace_last (ns));
 			extra = NULL_list (IDENTIFIER);
 			anon = ANON_NONE;
 			break;
-	    }
 		}
-		
+		}
+
 		/* Scan through namespace members */
 		while (!IS_NULL_member (mem)) {
 			IDENTIFIER id = DEREF_id (member_id (mem));
@@ -635,16 +635,16 @@ check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
 			}
 			mem = DEREF_member (member_next (mem));
 		}
-		
+
 		/* Scan through extra namespace members */
 		while (!IS_NULL_list (extra)) {
 			IDENTIFIER id = DEREF_id (HEAD_list (extra));
 			n += check_identifier (id, ns, blk, anon, chk);
 			extra = TAIL_list (extra);
 		}
-    }
-    if (spec_unit) spec_unit = save_end (spec_unit, ns);
-    return (n);
+	}
+	if (spec_unit) spec_unit = save_end (spec_unit, ns);
+	return (n);
 }
 
 
@@ -656,11 +656,11 @@ check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
  */
 
 static void
-check_token()
+check_token(void)
 {
-    NAMESPACE ns = token_namespace;
-    MEMBER mem = DEREF_member (nspace_global_first (ns));
-    while (!IS_NULL_member (mem)) {
+	NAMESPACE ns = token_namespace;
+	MEMBER mem = DEREF_member (nspace_global_first (ns));
+	while (!IS_NULL_member (mem)) {
 		IDENTIFIER id = DEREF_id (member_id (mem));
 		if (!IS_NULL_id (id)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -705,8 +705,8 @@ check_token()
 			}
 		}
 		mem = DEREF_member (member_next (mem));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -721,11 +721,11 @@ check_token()
 unsigned long
 check_global(int complete)
 {
-    /* Check main function if necessary */
-    unsigned long n;
-    int anon = ANON_NONE;
-    NAMESPACE ns = global_namespace;
-    if (complete && suppress_variable != 2) {
+	/* Check main function if necessary */
+	unsigned long n;
+	int anon = ANON_NONE;
+	NAMESPACE ns = global_namespace;
+	if (complete && suppress_variable != 2) {
 		IDENTIFIER id = main_function;
 		HASHID nm = KEYWORD (lex_main);
 		if (IS_NULL_id (id)) {
@@ -751,14 +751,14 @@ check_global(int complete)
 			COPY_dspec (id_storage (id), ds);
 		}
 		anon = ANON_GLOBAL;
-    }
-	
-    /* Apply checks to namespaces */
-    begin_spec ();
-    n = check_namespace (ns, NULL_exp, anon, 1);
-    end_spec ();
-    check_token ();
-    return (n);
+	}
+
+	/* Apply checks to namespaces */
+	begin_spec ();
+	n = check_namespace (ns, NULL_exp, anon, 1);
+	end_spec ();
+	check_token ();
+	return (n);
 }
 
 
@@ -771,11 +771,11 @@ check_global(int complete)
 EXP
 make_set_exp(EXP a)
 {
-    EXP e;
-    a = convert_reference (a, REF_NORMAL);
-    a = convert_lvalue (a);
-    MAKE_exp_set (type_void, a, e);
-    return (e);
+	EXP e;
+	a = convert_reference (a, REF_NORMAL);
+	a = convert_lvalue (a);
+	MAKE_exp_set (type_void, a, e);
+	return (e);
 }
 
 
@@ -788,11 +788,11 @@ make_set_exp(EXP a)
 EXP
 make_unused_exp(EXP a)
 {
-    EXP e;
-    a = convert_reference (a, REF_NORMAL);
-    a = convert_lvalue (a);
-    MAKE_exp_unused (type_void, a, e);
-    return (e);
+	EXP e;
+	a = convert_reference (a, REF_NORMAL);
+	a = convert_lvalue (a);
+	MAKE_exp_unused (type_void, a, e);
+	return (e);
 }
 
 
@@ -816,11 +816,11 @@ int preserve_all = 0;
 void
 preserve_id(IDENTIFIER id, int act)
 {
-    switch (TAG_id (id)) {
+	switch (TAG_id (id)) {
 	case id_function_tag : {
-	    IDENTIFIER over = DEREF_id (id_function_over (id));
-	    if (!IS_NULL_id (over)) preserve_id (over, act);
-	    goto action_lab;
+		IDENTIFIER over = DEREF_id (id_function_over (id));
+		if (!IS_NULL_id (over)) preserve_id (over, act);
+		goto action_lab;
 	}
 	case id_variable_tag :
 		action_lab : {
@@ -836,12 +836,12 @@ preserve_id(IDENTIFIER id, int act)
 			break;
 		}
 	default : {
-	    ERROR err = ERR_pragma_preserve_undecl (act, id);
-	    report (preproc_loc, err);
-	    break;
+		ERROR err = ERR_pragma_preserve_undecl (act, id);
+		report (preproc_loc, err);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -895,11 +895,11 @@ typedef DECL_SPEC VAR_INFO;
  *    routines.
  */
 
-static VAR_INFO flow_exp(EXP, VAR_INFO) ;
-static VAR_INFO flow_alias_exp(EXP, VAR_INFO) ;
-static VAR_INFO flow_stmt(EXP, VAR_INFO, int) ;
-static VAR_INFO flow_offset(OFFSET, VAR_INFO, int) ;
-static void set_variable(IDENTIFIER, VAR_INFO) ;
+static VAR_INFO flow_exp(EXP, VAR_INFO);
+static VAR_INFO flow_alias_exp(EXP, VAR_INFO);
+static VAR_INFO flow_stmt(EXP, VAR_INFO, int);
+static VAR_INFO flow_offset(OFFSET, VAR_INFO, int);
+static void set_variable(IDENTIFIER, VAR_INFO);
 
 
 /*
@@ -926,15 +926,15 @@ static LIST (IDENTIFIER) crt_flow_assign = NULL_list (IDENTIFIER);
 static void
 start_variable(IDENTIFIER id, DECL_SPEC ds, VAR_INFO use)
 {
-    VARIABLE var;
-    use |= (va_variable | va_done | va_used_this);
-    if (!(ds & dspec_used)) use |= va_ignore;
-    var.id = id;
-    var.info = DEREF_dspec (id_storage (id));
-    COPY_dspec (id_storage (id), use);
-    CONS_var (var, crt_flow_vars, crt_flow_vars);
-    DEREF_loc (id_loc (id), stmt_loc);
-    return;
+	VARIABLE var;
+	use |= (va_variable | va_done | va_used_this);
+	if (!(ds & dspec_used)) use |= va_ignore;
+	var.id = id;
+	var.info = DEREF_dspec (id_storage (id));
+	COPY_dspec (id_storage (id), use);
+	CONS_var (var, crt_flow_vars, crt_flow_vars);
+	DEREF_loc (id_loc (id), stmt_loc);
+	return;
 }
 
 
@@ -950,9 +950,9 @@ start_variable(IDENTIFIER id, DECL_SPEC ds, VAR_INFO use)
 static int
 ignore_variable(IDENTIFIER id)
 {
-    HASHID nm = DEREF_hashid (id_name (id));
-    if (IS_hashid_anon (nm)) return (1);
-    if (IS_id_variable (id)) {
+	HASHID nm = DEREF_hashid (id_name (id));
+	if (IS_hashid_anon (nm)) return (1);
+	if (IS_id_variable (id)) {
 		TYPE t = DEREF_type (id_variable_type (id));
 		CV_SPEC cv = find_cv_qual (t);
 		if (cv & cv_volatile) {
@@ -967,15 +967,15 @@ ignore_variable(IDENTIFIER id)
 				if (IS_exp_null (e)) return (1);
 			}
 		}
-    } else if (IS_id_member (id)) {
+	} else if (IS_id_member (id)) {
 		TYPE t = DEREF_type (id_member_type (id));
 		CV_SPEC cv = find_cv_qual (t);
 		if (cv & cv_volatile) {
 			/* Ignore volatile members */
 			return (1);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -990,7 +990,7 @@ ignore_variable(IDENTIFIER id)
 static VAR_INFO
 end_usage(IDENTIFIER id, VAR_INFO ds, int ret)
 {
-    if (ret && (ds & va_member)) {
+	if (ret && (ds & va_member)) {
 		/* Class members are used after return */
 		if (ret == 2) {
 			set_variable (id, va_member);
@@ -998,14 +998,14 @@ end_usage(IDENTIFIER id, VAR_INFO ds, int ret)
 		} else {
 			ds |= va_used_this;
 		}
-    } else if (!(ds & va_used_this) && (ds & va_set)) {
+	} else if (!(ds & va_used_this) && (ds & va_set)) {
 		if (!(ds & va_ignore) && !ignore_variable (id)) {
 			report (stmt_loc, ERR_stmt_dcl_reset (id));
 			ds |= va_error;
 		}
 		ds |= va_used_this;
-    }
-    return (ds);
+	}
+	return (ds);
 }
 
 
@@ -1019,9 +1019,9 @@ end_usage(IDENTIFIER id, VAR_INFO ds, int ret)
 static void
 end_variable(int flow, int ret)
 {
-    VARIABLE var;
-    DESTROY_CONS_var (destroy, var, crt_flow_vars, crt_flow_vars);
-    if (flow) {
+	VARIABLE var;
+	DESTROY_CONS_var (destroy, var, crt_flow_vars, crt_flow_vars);
+	if (flow) {
 		VAR_INFO use = DEREF_dspec (id_storage (var.id));
 		use = end_usage (var.id, use, ret);
 		if (!(use & (va_member | va_ignore))) {
@@ -1041,9 +1041,9 @@ end_variable(int flow, int ret)
 				}
 			}
 		}
-    }
-    COPY_dspec (id_storage (var.id), var.info);
-    return;
+	}
+	COPY_dspec (id_storage (var.id), var.info);
+	return;
 }
 
 
@@ -1057,7 +1057,7 @@ end_variable(int flow, int ret)
 static void
 set_variable(IDENTIFIER id, VAR_INFO use)
 {
-    if (!(use & va_unreached)) {
+	if (!(use & va_unreached)) {
 		VAR_INFO ds = DEREF_dspec (id_storage (id));
 		if (use & va_assign) {
 			/* Assignment */
@@ -1083,20 +1083,20 @@ set_variable(IDENTIFIER id, VAR_INFO use)
 				ds |= (va_set | va_maybe_set | va_any_set | va_assign);
 				ds &= ~va_used_this;
 			}
-			
+
 		} else if (use & va_alias_set) {
 			/* Read-write alias */
 			ds |= (va_maybe_set | va_any_set);
 			ds |= (va_used_this | va_any_use);
-			
+
 		} else if (use & va_alias_used) {
 			/* Read-only alias */
 			ds |= (va_used_this | va_any_use);
-			
+
 		} else if (use & va_address) {
 			/* Address */
 			ds |= (va_used_this | va_any_use);
-			
+
 		} else {
 			/* Use */
 			if (!(ds & (va_set | va_maybe_set))) {
@@ -1116,8 +1116,8 @@ set_variable(IDENTIFIER id, VAR_INFO use)
 			ds |= (va_used_this | va_any_use);
 		}
 		COPY_dspec (id_storage (id), ds);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1131,15 +1131,15 @@ set_variable(IDENTIFIER id, VAR_INFO use)
 static void
 set_members(VAR_INFO use)
 {
-    if (!(use & va_unreached)) {
+	if (!(use & va_unreached)) {
 		VAR_LIST va = crt_flow_mems;
 		while (!IS_NULL_list (va)) {
 			IDENTIFIER id = DEREF_id (var_id (HEAD_list (va)));
 			set_variable (id, use);
 			va = TAIL_list (va);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1154,15 +1154,15 @@ set_members(VAR_INFO use)
 static VAR_INFO
 merge_usage(VAR_INFO dp, VAR_INFO dq, int u)
 {
-    VAR_INFO ds = (dp | dq);
-    VAR_INFO dt = dspec_none;
-    switch (u) {
-	case 0 : dt = (dp & dq) ; break;
-	case 1 : dt = dp ; break;
-	case 2 : dt = dq ; break;
-    }
-    ds = ((ds & ~va_filter) | (dt & va_filter));
-    return (ds);
+	VAR_INFO ds = (dp | dq);
+	VAR_INFO dt = dspec_none;
+	switch (u) {
+	case 0 : dt = (dp & dq); break;
+	case 1 : dt = dp; break;
+	case 2 : dt = dq; break;
+	}
+	ds = ((ds & ~va_filter) | (dt & va_filter));
+	return (ds);
 }
 
 
@@ -1178,18 +1178,18 @@ merge_usage(VAR_INFO dp, VAR_INFO dq, int u)
 static PTR (VARIABLE)
 search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
 {
-    if (!IS_NULL_list (q)) {
+	if (!IS_NULL_list (q)) {
 		PTR (VARIABLE) ptr = HEAD_list (q);
 		IDENTIFIER pid = DEREF_id (var_id (ptr));
 		if (EQ_id (pid, id)) return (ptr);
-    }
-    while (!IS_NULL_list (p)) {
+	}
+	while (!IS_NULL_list (p)) {
 		PTR (VARIABLE) ptr = HEAD_list (p);
 		IDENTIFIER pid = DEREF_id (var_id (ptr));
 		if (EQ_id (pid, id)) return (ptr);
 		p = TAIL_list (p);
-    }
-    return (NULL_ptr (VARIABLE));
+	}
+	return (NULL_ptr (VARIABLE));
 }
 
 
@@ -1203,10 +1203,10 @@ search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
 static VAR_LIST
 save_vars(VAR_LIST va, int cond)
 {
-    VAR_LIST vb = crt_flow_vars;
-    VAR_LIST vc = va;
-    VAR_LIST vd = va;
-    while (!IS_NULL_list (vb)) {
+	VAR_LIST vb = crt_flow_vars;
+	VAR_LIST vc = va;
+	VAR_LIST vd = va;
+	while (!IS_NULL_list (vb)) {
 		VARIABLE var;
 		PTR (VARIABLE) pvar;
 		var.id = DEREF_id (var_id (HEAD_list (vb)));
@@ -1227,9 +1227,9 @@ save_vars(VAR_LIST va, int cond)
 		}
 		if (!IS_NULL_list (vd)) vd = TAIL_list (vd);
 		vb = TAIL_list (vb);
-    }
-    if (IS_NULL_list (vc)) va = REVERSE_list (va);
-    return (va);
+	}
+	if (IS_NULL_list (vc)) va = REVERSE_list (va);
+	return (va);
 }
 
 
@@ -1243,9 +1243,9 @@ save_vars(VAR_LIST va, int cond)
 static void
 load_vars(VAR_LIST va, int u)
 {
-    VAR_LIST vb = crt_flow_vars;
-    VAR_LIST vc = va;
-    while (!IS_NULL_list (vb)) {
+	VAR_LIST vb = crt_flow_vars;
+	VAR_LIST vc = va;
+	while (!IS_NULL_list (vb)) {
 		IDENTIFIER id = DEREF_id (var_id (HEAD_list (vb)));
 		VAR_INFO acc = DEREF_dspec (id_storage (id));
 		PTR (VARIABLE) pvar = search_vars (va, vc, id);
@@ -1256,8 +1256,8 @@ load_vars(VAR_LIST va, int u)
 		COPY_dspec (id_storage (id), acc);
 		if (!IS_NULL_list (vc)) vc = TAIL_list (vc);
 		vb = TAIL_list (vb);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1271,7 +1271,7 @@ load_vars(VAR_LIST va, int u)
 static void
 swap_vars(VAR_LIST va)
 {
-    while (!IS_NULL_list (va)) {
+	while (!IS_NULL_list (va)) {
 		VARIABLE var;
 		VAR_INFO acc;
 		DEREF_var (HEAD_list (va), var);
@@ -1279,8 +1279,8 @@ swap_vars(VAR_LIST va)
 		COPY_dspec (var_info (HEAD_list (va)), acc);
 		COPY_dspec (id_storage (var.id), var.info);
 		va = TAIL_list (va);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1293,14 +1293,14 @@ swap_vars(VAR_LIST va)
 static void
 mark_vars(VAR_LIST va, VAR_INFO use)
 {
-    while (!IS_NULL_list (va)) {
+	while (!IS_NULL_list (va)) {
 		IDENTIFIER id = DEREF_id (var_id (HEAD_list (va)));
 		VAR_INFO acc = DEREF_dspec (id_storage (id));
 		acc |= use;
 		COPY_dspec (id_storage (id), acc);
 		va = TAIL_list (va);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1314,7 +1314,7 @@ mark_vars(VAR_LIST va, VAR_INFO use)
 static VAR_INFO
 flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 {
-    if (!(use & va_unreached)) {
+	if (!(use & va_unreached)) {
 		VAR_INFO ds = DEREF_dspec (id_storage (lab));
 		if (ds & dspec_reserve) {
 			/* Has backward jump */
@@ -1328,8 +1328,8 @@ flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 		ds |= dspec_temp;
 		COPY_dspec (id_storage (lab), ds);
 		use |= va_unreached;
-    }
-    return (use);
+	}
+	return (use);
 }
 
 
@@ -1343,13 +1343,13 @@ flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 static VAR_INFO
 flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
 {
-    EXP e = DEREF_exp (id_label_stmt (lab));
-    VAR_INFO ds = DEREF_dspec (id_storage (lab));
-    if (ds & dspec_reserve) {
+	EXP e = DEREF_exp (id_label_stmt (lab));
+	VAR_INFO ds = DEREF_dspec (id_storage (lab));
+	if (ds & dspec_reserve) {
 		/* Has backward jump */
 		mark_vars (crt_flow_vars, (va_maybe_set | va_used_this));
 		use &= ~va_unreached;
-    } else {
+	} else {
 		/* Only forward jumps */
 		int unreached = 0;
 		VAR_LIST va = DEREF_list (id_label_vars (lab));
@@ -1358,12 +1358,12 @@ flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
 		DESTROY_list (va, SIZE_var);
 		COPY_list (id_label_vars (lab), NULL_list (VARIABLE));
 		if (ds & dspec_temp) use &= ~va_unreached;
-    }
-    if (!IS_NULL_exp (e)) {
+	}
+	if (!IS_NULL_exp (e)) {
 		e = DEREF_exp (exp_label_stmt_body (e));
 		use = flow_stmt (e, use, flow);
-    }
-    return (use);
+	}
+	return (use);
 }
 
 
@@ -1376,19 +1376,19 @@ flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
  */
 
 static void
-flow_sequence_point()
+flow_sequence_point(void)
 {
-    LIST (IDENTIFIER) p = crt_flow_assign;
-    while (!IS_NULL_list (p)) {
+	LIST (IDENTIFIER) p = crt_flow_assign;
+	while (!IS_NULL_list (p)) {
 		VAR_INFO ds;
 		IDENTIFIER id;
 		DESTROY_CONS_id (destroy, id, p, p);
 		ds = DEREF_dspec (id_storage (id));
 		ds &= ~va_assign;
 		COPY_dspec (id_storage (id), ds);
-    }
-    crt_flow_assign = NULL_list (IDENTIFIER);
-    return;
+	}
+	crt_flow_assign = NULL_list (IDENTIFIER);
+	return;
 }
 
 
@@ -1403,7 +1403,7 @@ flow_sequence_point()
 static VAR_INFO
 flow_terminate(VAR_INFO use, int ret)
 {
-    if (!(use & va_unreached)) {
+	if (!(use & va_unreached)) {
 		VAR_LIST va = crt_flow_vars;
 		while (!IS_NULL_list (va)) {
 			IDENTIFIER id = DEREF_id (var_id (HEAD_list (va)));
@@ -1412,10 +1412,10 @@ flow_terminate(VAR_INFO use, int ret)
 			COPY_dspec (id_storage (id), ds);
 			va = TAIL_list (va);
 		}
-    }
-    UNUSED (ret);
-    use |= va_unreached;
-    return (use);
+	}
+	UNUSED (ret);
+	use |= va_unreached;
+	return (use);
 }
 
 
@@ -1429,29 +1429,29 @@ flow_terminate(VAR_INFO use, int ret)
 static VAR_INFO
 flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use, int flow)
 {
-    VAR_LIST va;
-    VAR_INFO ua, ub;
-    int unreached = 0;
-    unsigned cv = eval_const_cond (c);
-    if (flow) {
+	VAR_LIST va;
+	VAR_INFO ua, ub;
+	int unreached = 0;
+	unsigned cv = eval_const_cond (c);
+	if (flow) {
 		/* Condition */
 		use = flow_exp (c, use);
 		flow_sequence_point ();
-    }
-    ua = use;
-    ub = use;
-    if (cv == BOOL_FALSE) ua |= va_unreached;
-    if (cv == BOOL_TRUE) ub |= va_unreached;
-    va = save_vars (NULL_list (VARIABLE), 1);
-    ua = flow_stmt (a, ua, flow);
-    swap_vars (va);
-    ub = flow_stmt (b, ub, flow);
-    if (ua & va_unreached) unreached |= 1;
-    if (ub & va_unreached) unreached |= 2;
-    load_vars (va, unreached);
-    DESTROY_list (va, SIZE_var);
-    use = (ua & ub);
-    return (use);
+	}
+	ua = use;
+	ub = use;
+	if (cv == BOOL_FALSE) ua |= va_unreached;
+	if (cv == BOOL_TRUE) ub |= va_unreached;
+	va = save_vars (NULL_list (VARIABLE), 1);
+	ua = flow_stmt (a, ua, flow);
+	swap_vars (va);
+	ub = flow_stmt (b, ub, flow);
+	if (ua & va_unreached) unreached |= 1;
+	if (ub & va_unreached) unreached |= 2;
+	load_vars (va, unreached);
+	DESTROY_list (va, SIZE_var);
+	use = (ua & ub);
+	return (use);
 }
 
 
@@ -1465,7 +1465,7 @@ flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use, int flow)
 static VAR_INFO
 flow_set(EXP e, VAR_INFO use, VAR_INFO act)
 {
-    if (!(use & va_unreached) && !IS_NULL_exp (e)) {
+	if (!(use & va_unreached) && !IS_NULL_exp (e)) {
 		EXP a = NULL_exp;
 		if (IS_exp_contents (e)) {
 			/* Check for simple lvalues */
@@ -1495,8 +1495,8 @@ flow_set(EXP e, VAR_INFO use, VAR_INFO act)
 				}
 			}
 		}
-    }
-    return (use);
+	}
+	return (use);
 }
 
 
@@ -1509,7 +1509,7 @@ flow_set(EXP e, VAR_INFO use, VAR_INFO act)
 static VAR_INFO
 flow_token_list(LIST (TOKEN) p, VAR_INFO use)
 {
-    while (!IS_NULL_list (p)) {
+	while (!IS_NULL_list (p)) {
 		TOKEN tok = DEREF_tok (HEAD_list (p));
 		if (!IS_NULL_tok (tok)) {
 			switch (TAG_tok (tok)) {
@@ -1534,8 +1534,8 @@ flow_token_list(LIST (TOKEN) p, VAR_INFO use)
 			}
 		}
 		p = TAIL_list (p);
-    }
-    return (use);
+	}
+	return (use);
 }
 
 
@@ -1549,71 +1549,71 @@ flow_token_list(LIST (TOKEN) p, VAR_INFO use)
 static VAR_INFO
 flow_offset(OFFSET off, VAR_INFO use, int mem)
 {
-    DECL_SPEC ua = (use & ~va_mask);
-    if (IS_NULL_off (off)) return (ua);
-    ASSERT (ORDER_off == 13);
-    switch (TAG_off (off)) {
-		
+	DECL_SPEC ua = (use & ~va_mask);
+	if (IS_NULL_off (off)) return (ua);
+	ASSERT (ORDER_off == 13);
+	switch (TAG_off (off)) {
+
 	case off_member_tag : {
-	    /* Member offsets */
-	    if (mem) {
+		/* Member offsets */
+		if (mem) {
 			IDENTIFIER id = DEREF_id (off_member_id (off));
 			VAR_INFO ds = DEREF_dspec (id_storage (id));
 			if (ds & va_variable) set_variable (id, use);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case off_ptr_mem_tag : {
-	    /* Pointer to member offsets */
-	    EXP a = DEREF_exp (off_ptr_mem_arg (off));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Pointer to member offsets */
+		EXP a = DEREF_exp (off_ptr_mem_arg (off));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case off_negate_tag : {
-	    /* Negated offsets */
-	    OFFSET off1 = DEREF_off (off_negate_arg (off));
-	    ua = flow_offset (off1, ua, 0);
-	    break;
+		/* Negated offsets */
+		OFFSET off1 = DEREF_off (off_negate_arg (off));
+		ua = flow_offset (off1, ua, 0);
+		break;
 	}
-		
+
 	case off_plus_tag : {
-	    /* Offset addition */
-	    OFFSET off1 = DEREF_off (off_plus_arg1 (off));
-	    OFFSET off2 = DEREF_off (off_plus_arg2 (off));
-	    ua = flow_offset (off1, ua, 0);
-	    ua = flow_offset (off2, ua, 0);
-	    break;
+		/* Offset addition */
+		OFFSET off1 = DEREF_off (off_plus_arg1 (off));
+		OFFSET off2 = DEREF_off (off_plus_arg2 (off));
+		ua = flow_offset (off1, ua, 0);
+		ua = flow_offset (off2, ua, 0);
+		break;
 	}
-		
+
 	case off_mult_tag : {
-	    /* Offset multiplication */
-	    OFFSET off1 = DEREF_off (off_mult_arg1 (off));
-	    EXP a = DEREF_exp (off_mult_arg2 (off));
-	    ua = flow_offset (off1, ua, 0);
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Offset multiplication */
+		OFFSET off1 = DEREF_off (off_mult_arg1 (off));
+		EXP a = DEREF_exp (off_mult_arg2 (off));
+		ua = flow_offset (off1, ua, 0);
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case off_ptr_diff_tag : {
-	    /* Difference of two pointers */
-	    EXP a = DEREF_exp (off_ptr_diff_ptr1 (off));
-	    EXP b = DEREF_exp (off_ptr_diff_ptr2 (off));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Difference of two pointers */
+		EXP a = DEREF_exp (off_ptr_diff_ptr1 (off));
+		EXP b = DEREF_exp (off_ptr_diff_ptr2 (off));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case off_token_tag : {
-	    /* Tokenised offsets */
-	    LIST (TOKEN) args = DEREF_list (off_token_args (off));
-	    ua = flow_token_list (args, ua);
-	    break;
+		/* Tokenised offsets */
+		LIST (TOKEN) args = DEREF_list (off_token_args (off));
+		ua = flow_token_list (args, ua);
+		break;
 	}
-    }
-    ua &= ~va_mask;
-    return (ua);
+	}
+	ua &= ~va_mask;
+	return (ua);
 }
 
 
@@ -1626,7 +1626,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 static VAR_INFO
 flow_exp_list(LIST (EXP) p, VAR_INFO use, int fn)
 {
-    while (!IS_NULL_list (p)) {
+	while (!IS_NULL_list (p)) {
 		EXP a = DEREF_exp (HEAD_list (p));
 		if (!IS_NULL_exp (a)) {
 			VAR_INFO ua;
@@ -1638,8 +1638,8 @@ flow_exp_list(LIST (EXP) p, VAR_INFO use, int fn)
 			if (ua & va_unreached) use |= va_unreached;
 		}
 		p = TAIL_list (p);
-    }
-    return (use);
+	}
+	return (use);
 }
 
 
@@ -1655,8 +1655,8 @@ flow_exp_list(LIST (EXP) p, VAR_INFO use, int fn)
 static VAR_INFO
 flow_alias_exp(EXP e, VAR_INFO use)
 {
-    VAR_INFO ua = (use | va_alias_used);
-    if (!IS_NULL_exp (e)) {
+	VAR_INFO ua = (use | va_alias_used);
+	if (!IS_NULL_exp (e)) {
 		TYPE t = DEREF_type (exp_type (e));
 		CV_SPEC cv = find_cv_qual (t);
 		if (cv & cv_lvalue) {
@@ -1669,9 +1669,9 @@ flow_alias_exp(EXP e, VAR_INFO use)
 			cv = find_cv_qual (s);
 			if (!(cv & cv_const)) ua |= va_alias_set;
 		}
-    }
-    ua = flow_exp (e, ua);
-    return (ua);
+	}
+	ua = flow_exp (e, ua);
+	return (ua);
 }
 
 
@@ -1684,15 +1684,15 @@ flow_alias_exp(EXP e, VAR_INFO use)
 static VAR_INFO
 flow_exp(EXP e, VAR_INFO use)
 {
-    VAR_INFO ua = (use & ~va_mask);
-    if (IS_NULL_exp (e)) return (ua);
-    ASSERT (ORDER_exp == 88);
-    switch (TAG_exp (e)) {
-		
+	VAR_INFO ua = (use & ~va_mask);
+	if (IS_NULL_exp (e)) return (ua);
+	ASSERT (ORDER_exp == 88);
+	switch (TAG_exp (e)) {
+
 	case exp_identifier_tag : {
-	    /* Identifier expressions */
-	    IDENTIFIER id = DEREF_id (exp_identifier_id (e));
-	    if (IS_id_variable_etc (id)) {
+		/* Identifier expressions */
+		IDENTIFIER id = DEREF_id (exp_identifier_id (e));
+		if (IS_id_variable_etc (id)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_auto) {
 				set_variable (id, use);
@@ -1701,26 +1701,26 @@ flow_exp(EXP e, VAR_INFO use)
 					set_members (use);
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_assign_tag : {
-	    /* Assignment expressions */
-	    EXP a = DEREF_exp (exp_assign_ref (e));
-	    EXP b = DEREF_exp (exp_assign_arg (e));
-	    ua = flow_alias_exp (b, ua);
-	    if (ua & va_unreached) use |= va_unreached;
-	    ua = flow_exp (a, (use | va_assign));
-	    break;
+		/* Assignment expressions */
+		EXP a = DEREF_exp (exp_assign_ref (e));
+		EXP b = DEREF_exp (exp_assign_arg (e));
+		ua = flow_alias_exp (b, ua);
+		if (ua & va_unreached) use |= va_unreached;
+		ua = flow_exp (a, (use | va_assign));
+		break;
 	}
-		
+
 	case exp_init_tag : {
-	    /* Initialisation expressions */
-	    EXP a = DEREF_exp (exp_init_arg (e));
-	    ua = flow_alias_exp (a, ua);
-	    if (ua & va_unreached) use |= va_unreached;
-	    if (!IS_NULL_exp (a)) {
+		/* Initialisation expressions */
+		EXP a = DEREF_exp (exp_init_arg (e));
+		ua = flow_alias_exp (a, ua);
+		if (ua & va_unreached) use |= va_unreached;
+		if (!IS_NULL_exp (a)) {
 			IDENTIFIER id = DEREF_id (exp_init_id (e));
 			if (IS_id_variable (id)) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -1730,17 +1730,17 @@ flow_exp(EXP e, VAR_INFO use)
 					break;
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_preinc_tag : {
-	    /* Pre-increment expressions */
-	    EXP a = DEREF_exp (exp_preinc_ref (e));
-	    EXP b = DEREF_exp (exp_preinc_op (e));
-	    EXP c = DEREF_exp (exp_dummy_value (a));
-	    int op = DEREF_int (exp_preinc_becomes (e));
-	    if (op == lex_assign) {
+		/* Pre-increment expressions */
+		EXP a = DEREF_exp (exp_preinc_ref (e));
+		EXP b = DEREF_exp (exp_preinc_op (e));
+		EXP c = DEREF_exp (exp_dummy_value (a));
+		int op = DEREF_int (exp_preinc_becomes (e));
+		if (op == lex_assign) {
 			/* Bitfield assignment */
 			ua = flow_alias_exp (b, ua);
 			if (ua & va_unreached) use |= va_unreached;
@@ -1751,39 +1751,39 @@ flow_exp(EXP e, VAR_INFO use)
 				break;
 			}
 			use |= va_partial;
-	    } else {
+		} else {
 			COPY_exp (exp_dummy_value (a), NULL_exp);
 			ua = flow_exp (b, ua);
 			COPY_exp (exp_dummy_value (a), c);
 			if (ua & va_unreached) use |= va_unreached;
 			use |= va_becomes;
-	    }
-	    ua = flow_exp (c, (use | va_assign));
-	    break;
+		}
+		ua = flow_exp (c, (use | va_assign));
+		break;
 	}
-		
+
 	case exp_postinc_tag : {
-	    /* Post-increment expressions */
-	    EXP a = DEREF_exp (exp_postinc_ref (e));
-	    EXP b = DEREF_exp (exp_postinc_op (e));
-	    EXP c = DEREF_exp (exp_dummy_value (a));
-	    COPY_exp (exp_dummy_value (a), NULL_exp);
-	    ua = flow_exp (b, ua);
-	    COPY_exp (exp_dummy_value (a), c);
-	    if (ua & va_unreached) use |= va_unreached;
-	    ua = flow_exp (a, (use | va_becomes));
-	    break;
+		/* Post-increment expressions */
+		EXP a = DEREF_exp (exp_postinc_ref (e));
+		EXP b = DEREF_exp (exp_postinc_op (e));
+		EXP c = DEREF_exp (exp_dummy_value (a));
+		COPY_exp (exp_dummy_value (a), NULL_exp);
+		ua = flow_exp (b, ua);
+		COPY_exp (exp_dummy_value (a), c);
+		if (ua & va_unreached) use |= va_unreached;
+		ua = flow_exp (a, (use | va_becomes));
+		break;
 	}
-		
+
 	case exp_indir_tag : {
-	    /* Indirection expressions */
-	    EXP a = DEREF_exp (exp_indir_ptr (e));
-	    if (!IS_NULL_list (crt_flow_mems) && is_this_exp (e)) {
+		/* Indirection expressions */
+		EXP a = DEREF_exp (exp_indir_ptr (e));
+		if (!IS_NULL_list (crt_flow_mems) && is_this_exp (e)) {
 			/* Have '*this' */
 			set_members (use);
 			break;
-	    }
-	    if (IS_exp_add_ptr (a)) {
+		}
+		if (IS_exp_add_ptr (a)) {
 			EXP b = DEREF_exp (exp_add_ptr_ptr (a));
 			OFFSET off = DEREF_off (exp_add_ptr_off (a));
 			if (!IS_NULL_list (crt_flow_mems) && is_this_exp (b)) {
@@ -1799,91 +1799,91 @@ flow_exp(EXP e, VAR_INFO use)
 				ua = flow_exp (c, (use | va_partial));
 				break;
 			}
-	    } else if (IS_exp_address (a)) {
+		} else if (IS_exp_address (a)) {
 			/* Have '*&b' */
 			EXP b = DEREF_exp (exp_address_arg (a));
 			ua = flow_exp (b, use);
 			break;
-	    }
-	    ua = flow_exp (a, ua);
-	    break;
+		}
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_contents_tag : {
-	    /* Contents expressions */
-	    EXP a = DEREF_exp (exp_contents_ptr (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Contents expressions */
+		EXP a = DEREF_exp (exp_contents_ptr (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_address_tag : {
-	    /* Address expressions */
-	    EXP a = DEREF_exp (exp_address_arg (e));
-	    if (IS_exp_indir (a) && !is_this_exp (a)) {
+		/* Address expressions */
+		EXP a = DEREF_exp (exp_address_arg (e));
+		if (IS_exp_indir (a) && !is_this_exp (a)) {
 			EXP b = DEREF_exp (exp_indir_ptr (a));
 			TYPE t = DEREF_type (exp_type (b));
 			if (!IS_type_ref (t)) {
 				ua = flow_exp (b, use);
 				break;
 			}
-	    }
-	    ua = (use & ~va_other);
-	    ua = flow_exp (a, (ua | va_address));
-	    break;
+		}
+		ua = (use & ~va_other);
+		ua = flow_exp (a, (ua | va_address));
+		break;
 	}
-		
+
 	case exp_address_mem_tag : {
-	    /* Member address expressions */
-	    EXP a = DEREF_exp (exp_address_mem_arg (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Member address expressions */
+		EXP a = DEREF_exp (exp_address_mem_arg (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_func_tag : {
-	    /* Function expressions */
-	    TYPE t = DEREF_type (exp_type (e));
-	    EXP a = DEREF_exp (exp_func_fn (e));
-	    LIST (EXP) args = DEREF_list (exp_func_args (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp_list (args, ua, 1);
-	    if (IS_type_bottom (t)) {
+		/* Function expressions */
+		TYPE t = DEREF_type (exp_type (e));
+		EXP a = DEREF_exp (exp_func_fn (e));
+		LIST (EXP) args = DEREF_list (exp_func_args (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp_list (args, ua, 1);
+		if (IS_type_bottom (t)) {
 			/* Deal with functions like exit */
 			ua = flow_terminate (ua, 1);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_func_id_tag : {
-	    /* Function expressions */
-	    TYPE t = DEREF_type (exp_type (e));
-	    LIST (EXP) args = DEREF_list (exp_func_id_args (e));
-	    ua = flow_exp_list (args, ua, 1);
-	    if (IS_type_bottom (t)) {
+		/* Function expressions */
+		TYPE t = DEREF_type (exp_type (e));
+		LIST (EXP) args = DEREF_list (exp_func_id_args (e));
+		ua = flow_exp_list (args, ua, 1);
+		if (IS_type_bottom (t)) {
 			/* Deal with functions like exit */
 			ua = flow_terminate (ua, 1);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_call_tag : {
-	    /* Pointer to member function expressions */
-	    EXP a = DEREF_exp (exp_call_ptr (e));
-	    EXP b = DEREF_exp (exp_call_arg (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Pointer to member function expressions */
+		EXP a = DEREF_exp (exp_call_ptr (e));
+		EXP b = DEREF_exp (exp_call_arg (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_negate_tag :
 	case exp_compl_tag :
 	case exp_not_tag :
 	case exp_abs_tag : {
-	    /* Unary expressions */
-	    EXP a = DEREF_exp (exp_negate_etc_arg (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Unary expressions */
+		EXP a = DEREF_exp (exp_negate_etc_arg (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_plus_tag :
 	case exp_minus_tag :
 	case exp_mult_tag :
@@ -1896,158 +1896,158 @@ flow_exp(EXP e, VAR_INFO use)
 	case exp_rshift_tag :
 	case exp_max_tag :
 	case exp_min_tag : {
-	    /* Binary expressions */
-	    EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
-	    EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Binary expressions */
+		EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
+		EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_log_and_tag :
 	case exp_log_or_tag : {
-	    /* Logical expressions */
-	    EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
-	    EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
-	    ua = flow_exp (a, ua);
-	    flow_sequence_point ();
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Logical expressions */
+		EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
+		EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
+		ua = flow_exp (a, ua);
+		flow_sequence_point ();
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_test_tag : {
-	    /* Test expressions */
-	    EXP a = DEREF_exp (exp_test_arg (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Test expressions */
+		EXP a = DEREF_exp (exp_test_arg (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_compare_tag : {
-	    /* Comparison expressions */
-	    EXP a = DEREF_exp (exp_compare_arg1 (e));
-	    EXP b = DEREF_exp (exp_compare_arg2 (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Comparison expressions */
+		EXP a = DEREF_exp (exp_compare_arg1 (e));
+		EXP b = DEREF_exp (exp_compare_arg2 (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_cast_tag : {
-	    /* Cast expressions */
-	    TYPE t = DEREF_type (exp_type (e));
-	    EXP a = DEREF_exp (exp_cast_arg (e));
-	    ua = (use & ~va_other);
-	    ua = flow_exp (a, ua);
-	    if (IS_type_bottom (t)) {
+		/* Cast expressions */
+		TYPE t = DEREF_type (exp_type (e));
+		EXP a = DEREF_exp (exp_cast_arg (e));
+		ua = (use & ~va_other);
+		ua = flow_exp (a, ua);
+		if (IS_type_bottom (t)) {
 			/* Allow for casting to bottom */
 			ua = flow_terminate (ua, 1);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_base_cast_tag : {
-	    /* Base cast expressions */
-	    EXP a = DEREF_exp (exp_base_cast_arg (e));
-	    ua = (use & ~va_other);
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Base cast expressions */
+		EXP a = DEREF_exp (exp_base_cast_arg (e));
+		ua = (use & ~va_other);
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_dyn_cast_tag : {
-	    /* Dynamic cast expressions */
-	    EXP a = DEREF_exp (exp_dyn_cast_arg (e));
-	    ua = (use & ~va_other);
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Dynamic cast expressions */
+		EXP a = DEREF_exp (exp_dyn_cast_arg (e));
+		ua = (use & ~va_other);
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_add_ptr_tag : {
-	    /* Pointer addition expressions */
-	    EXP a = DEREF_exp (exp_add_ptr_ptr (e));
-	    OFFSET off = DEREF_off (exp_add_ptr_off (e));
-	    if (!IS_NULL_list (crt_flow_mems) && is_this_exp (a)) {
+		/* Pointer addition expressions */
+		EXP a = DEREF_exp (exp_add_ptr_ptr (e));
+		OFFSET off = DEREF_off (exp_add_ptr_off (e));
+		if (!IS_NULL_list (crt_flow_mems) && is_this_exp (a)) {
 			/* Have 'this->off' */
 			use &= ~va_other;
 			ua = flow_offset (off, use, 1);
 			break;
-	    }
-	    ua = flow_offset (off, ua, 0);
-	    if (ua & va_unreached) use |= va_unreached;
-	    use &= ~va_other;
-	    ua = flow_exp (a, use);
-	    break;
+		}
+		ua = flow_offset (off, ua, 0);
+		if (ua & va_unreached) use |= va_unreached;
+		use &= ~va_other;
+		ua = flow_exp (a, use);
+		break;
 	}
-		
+
 	case exp_offset_size_tag : {
-	    /* Offset expressions */
-	    OFFSET off = DEREF_off (exp_offset_size_off (e));
-	    ua = flow_offset (off, ua, 0);
-	    break;
+		/* Offset expressions */
+		OFFSET off = DEREF_off (exp_offset_size_off (e));
+		ua = flow_offset (off, ua, 0);
+		break;
 	}
-		
+
 	case exp_constr_tag : {
-	    /* Constructor calls */
-	    EXP a = DEREF_exp (exp_constr_call (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Constructor calls */
+		EXP a = DEREF_exp (exp_constr_call (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_destr_tag : {
-	    /* Destructor calls */
-	    EXP a = DEREF_exp (exp_destr_call (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Destructor calls */
+		EXP a = DEREF_exp (exp_destr_call (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_alloc_tag : {
-	    /* Allocation expressions */
-	    EXP a = DEREF_exp (exp_alloc_call (e));
-	    EXP b = DEREF_exp (exp_alloc_init (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Allocation expressions */
+		EXP a = DEREF_exp (exp_alloc_call (e));
+		EXP b = DEREF_exp (exp_alloc_init (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_dealloc_tag : {
-	    /* Deallocation expressions */
-	    EXP a = DEREF_exp (exp_dealloc_term (e));
-	    EXP b = DEREF_exp (exp_dealloc_call (e));
-	    EXP c = DEREF_exp (exp_dealloc_arg (e));
-	    EXP d = DEREF_exp (exp_dummy_value (c));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    ua = flow_set (d, ua, va_none);
-	    break;
+		/* Deallocation expressions */
+		EXP a = DEREF_exp (exp_dealloc_term (e));
+		EXP b = DEREF_exp (exp_dealloc_call (e));
+		EXP c = DEREF_exp (exp_dealloc_arg (e));
+		EXP d = DEREF_exp (exp_dummy_value (c));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		ua = flow_set (d, ua, va_none);
+		break;
 	}
-		
+
 	case exp_rtti_tag : {
-	    /* Run-time type information expressions */
-	    EXP a = DEREF_exp (exp_rtti_arg (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Run-time type information expressions */
+		EXP a = DEREF_exp (exp_rtti_arg (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_dynamic_tag : {
-	    /* Dynamic initialiser expressions */
-	    EXP a = DEREF_exp (exp_dynamic_arg (e));
-	    ua = flow_exp (a, ua);
-	    break;
+		/* Dynamic initialiser expressions */
+		EXP a = DEREF_exp (exp_dynamic_arg (e));
+		ua = flow_exp (a, ua);
+		break;
 	}
-		
+
 	case exp_aggregate_tag : {
-	    /* Aggregate initialiser expressions */
-	    LIST (EXP) args;
-	    args = DEREF_list (exp_aggregate_args (e));
-	    ua = flow_exp_list (args, ua, 0);
-	    break;
+		/* Aggregate initialiser expressions */
+		LIST (EXP) args;
+		args = DEREF_list (exp_aggregate_args (e));
+		ua = flow_exp_list (args, ua, 0);
+		break;
 	}
-		
+
 	case exp_initialiser_tag : {
-	    /* Constructor initialiser expressions */
-	    int kind = DEREF_int (exp_initialiser_kind (e));
-	    LIST (EXP) p = DEREF_list (exp_initialiser_args (e));
-	    LIST (OFFSET) q = DEREF_list (exp_initialiser_offs (e));
-	    if (kind == 0) q = NULL_list (OFFSET);
-	    while (!IS_NULL_list (p)) {
+		/* Constructor initialiser expressions */
+		int kind = DEREF_int (exp_initialiser_kind (e));
+		LIST (EXP) p = DEREF_list (exp_initialiser_args (e));
+		LIST (OFFSET) q = DEREF_list (exp_initialiser_offs (e));
+		if (kind == 0) q = NULL_list (OFFSET);
+		while (!IS_NULL_list (p)) {
 			EXP a = DEREF_exp (HEAD_list (p));
 			ua = flow_exp (a, ua);
 			if (!IS_NULL_list (q)) {
@@ -2060,25 +2060,25 @@ flow_exp(EXP e, VAR_INFO use)
 				q = TAIL_list (q);
 			}
 			p = TAIL_list (p);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_nof_tag : {
-	    /* Array initialiser expressions */
-	    EXP a = DEREF_exp (exp_nof_start (e));
-	    EXP b = DEREF_exp (exp_nof_pad (e));
-	    EXP c = DEREF_exp (exp_nof_end (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    ua = flow_exp (c, ua);
-	    break;
+		/* Array initialiser expressions */
+		EXP a = DEREF_exp (exp_nof_start (e));
+		EXP b = DEREF_exp (exp_nof_pad (e));
+		EXP c = DEREF_exp (exp_nof_end (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		ua = flow_exp (c, ua);
+		break;
 	}
-		
+
 	case exp_comma_tag : {
-	    /* Comma expressions */
-	    LIST (EXP) p = DEREF_list (exp_comma_args (e));
-	    if (!IS_NULL_list (p)) {
+		/* Comma expressions */
+		LIST (EXP) p = DEREF_list (exp_comma_args (e));
+		if (!IS_NULL_list (p)) {
 			EXP a;
 			for (;;) {
 				a = DEREF_exp (HEAD_list (p));
@@ -2089,87 +2089,87 @@ flow_exp(EXP e, VAR_INFO use)
 				if (ua & va_unreached) use |= va_unreached;
 			}
 			ua = flow_exp (a, use);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_if_stmt_tag : {
-	    /* Conditional expressions */
-	    EXP c = DEREF_exp (exp_if_stmt_cond (e));
-	    EXP a = DEREF_exp (exp_if_stmt_true_code (e));
-	    EXP b = DEREF_exp (exp_if_stmt_false_code (e));
-	    ua = flow_if_exp (c, a, b, ua, 1);
-	    break;
+		/* Conditional expressions */
+		EXP c = DEREF_exp (exp_if_stmt_cond (e));
+		EXP a = DEREF_exp (exp_if_stmt_true_code (e));
+		EXP b = DEREF_exp (exp_if_stmt_false_code (e));
+		ua = flow_if_exp (c, a, b, ua, 1);
+		break;
 	}
-		
+
 	case exp_exception_tag : {
-	    /* Exception expressions */
-	    EXP a = DEREF_exp (exp_exception_arg (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_terminate (ua, 1);
-	    break;
+		/* Exception expressions */
+		EXP a = DEREF_exp (exp_exception_arg (e));
+		ua = flow_exp (a, ua);
+		ua = flow_terminate (ua, 1);
+		break;
 	}
-		
+
 	case exp_set_tag : {
-	    /* Set expressions */
-	    EXP a = DEREF_exp (exp_set_arg (e));
-	    ua = flow_set (a, ua, va_set);
-	    break;
+		/* Set expressions */
+		EXP a = DEREF_exp (exp_set_arg (e));
+		ua = flow_set (a, ua, va_set);
+		break;
 	}
-		
+
 	case exp_unused_tag : {
-	    /* Unused expressions */
-	    EXP a = DEREF_exp (exp_unused_arg (e));
-	    ua = flow_set (a, ua, va_none);
-	    break;
+		/* Unused expressions */
+		EXP a = DEREF_exp (exp_unused_arg (e));
+		ua = flow_set (a, ua, va_none);
+		break;
 	}
-		
+
 	case exp_op_tag : {
-	    /* Undetermined expressions */
-	    EXP a = DEREF_exp (exp_op_arg1 (e));
-	    EXP b = DEREF_exp (exp_op_arg2 (e));
-	    ua = flow_exp (a, ua);
-	    ua = flow_exp (b, ua);
-	    break;
+		/* Undetermined expressions */
+		EXP a = DEREF_exp (exp_op_arg1 (e));
+		EXP b = DEREF_exp (exp_op_arg2 (e));
+		ua = flow_exp (a, ua);
+		ua = flow_exp (b, ua);
+		break;
 	}
-		
+
 	case exp_opn_tag : {
-	    /* Undetermined expressions */
-	    LIST (EXP) args = DEREF_list (exp_opn_args (e));
-	    ua = flow_exp_list (args, ua, 0);
-	    break;
+		/* Undetermined expressions */
+		LIST (EXP) args = DEREF_list (exp_opn_args (e));
+		ua = flow_exp_list (args, ua, 0);
+		break;
 	}
-		
+
 	case exp_token_tag : {
-	    /* Tokenised expressions */
-	    LIST (TOKEN) args = DEREF_list (exp_token_args (e));
-	    ua = flow_token_list (args, ua);
-	    break;
+		/* Tokenised expressions */
+		LIST (TOKEN) args = DEREF_list (exp_token_args (e));
+		ua = flow_token_list (args, ua);
+		break;
 	}
-		
+
 	case exp_dummy_tag : {
-	    /* Dummy expressions */
-	    EXP a = DEREF_exp (exp_dummy_value (e));
-	    ua = flow_exp (a, use);
-	    break;
+		/* Dummy expressions */
+		EXP a = DEREF_exp (exp_dummy_value (e));
+		ua = flow_exp (a, use);
+		break;
 	}
-		
+
 	case exp_paren_tag :
 	case exp_copy_tag : {
-	    /* Parenthesised expressions */
-	    EXP a = DEREF_exp (exp_paren_etc_arg (e));
-	    ua = flow_exp (a, use);
-	    break;
+		/* Parenthesised expressions */
+		EXP a = DEREF_exp (exp_paren_etc_arg (e));
+		ua = flow_exp (a, use);
+		break;
 	}
-		
+
 	case exp_location_tag : {
-	    /* Location expressions */
-	    EXP a = DEREF_exp (exp_location_arg (e));
-	    ua = flow_exp (a, use);
-	    DEREF_loc (exp_location_end (e), stmt_loc);
-	    break;
+		/* Location expressions */
+		EXP a = DEREF_exp (exp_location_arg (e));
+		ua = flow_exp (a, use);
+		DEREF_loc (exp_location_end (e), stmt_loc);
+		break;
 	}
-		
+
 	case exp_sequence_tag :
 	case exp_solve_stmt_tag :
 	case exp_decl_stmt_tag :
@@ -2184,13 +2184,13 @@ flow_exp(EXP e, VAR_INFO use)
 	case exp_handler_tag :
 	case exp_reach_tag :
 	case exp_unreach_tag : {
-	    /* Statements */
-	    ua = flow_stmt (e, ua, 1);
-	    break;
+		/* Statements */
+		ua = flow_stmt (e, ua, 1);
+		break;
 	}
-    }
-    ua &= ~va_mask;
-    return (ua);
+	}
+	ua &= ~va_mask;
+	return (ua);
 }
 
 
@@ -2205,8 +2205,8 @@ flow_exp(EXP e, VAR_INFO use)
 static void
 flow_jump(EXP a, EXP b)
 {
-    unsigned long d = no_destructors;
-    while (!IS_NULL_exp (a) && !EQ_exp (a, b) && d) {
+	unsigned long d = no_destructors;
+	while (!IS_NULL_exp (a) && !EQ_exp (a, b) && d) {
 		/* Scan up to enclosing statement */
 		if (IS_exp_decl_stmt (a)) {
 			IDENTIFIER id = DEREF_id (exp_decl_stmt_id (a));
@@ -2223,8 +2223,8 @@ flow_jump(EXP a, EXP b)
 			}
 		}
 		a = get_parent_stmt (a);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2237,30 +2237,30 @@ flow_jump(EXP a, EXP b)
 static VAR_INFO
 flow_while_stmt(EXP e, VAR_INFO use, int flow)
 {
-    VAR_INFO ua;
-    EXP c = DEREF_exp (exp_while_stmt_cond (e));
-    EXP a = DEREF_exp (exp_while_stmt_body (e));
-    IDENTIFIER blab = DEREF_id (exp_while_stmt_break_lab (e));
-    IDENTIFIER clab = DEREF_id (exp_while_stmt_cont_lab (e));
-    unsigned cv = eval_const_cond (c);
-    if (flow) {
+	VAR_INFO ua;
+	EXP c = DEREF_exp (exp_while_stmt_cond (e));
+	EXP a = DEREF_exp (exp_while_stmt_body (e));
+	IDENTIFIER blab = DEREF_id (exp_while_stmt_break_lab (e));
+	IDENTIFIER clab = DEREF_id (exp_while_stmt_cont_lab (e));
+	unsigned cv = eval_const_cond (c);
+	if (flow) {
 		use = flow_exp (c, use);
 		flow_sequence_point ();
-    }
-    ua = use;
-    if (cv != BOOL_TRUE) {
+	}
+	ua = use;
+	if (cv != BOOL_TRUE) {
 		IGNORE flow_goto_stmt (blab, use, 1);
 		if (cv == BOOL_FALSE) ua |= va_unreached;
-    }
-    ua = flow_stmt (a, ua, flow);
-    ua = flow_label_stmt (clab, ua, flow);
-    if (flow) {
+	}
+	ua = flow_stmt (a, ua, flow);
+	ua = flow_label_stmt (clab, ua, flow);
+	if (flow) {
 		IGNORE flow_exp (c, ua);
 		flow_sequence_point ();
-    }
-    mark_vars (crt_flow_vars, va_used_this);
-    use = flow_label_stmt (blab, (use | va_unreached), flow);
-    return (use);
+	}
+	mark_vars (crt_flow_vars, va_used_this);
+	use = flow_label_stmt (blab, (use | va_unreached), flow);
+	return (use);
 }
 
 
@@ -2273,21 +2273,21 @@ flow_while_stmt(EXP e, VAR_INFO use, int flow)
 static VAR_INFO
 flow_do_stmt(EXP e, VAR_INFO use, int flow)
 {
-    EXP c = DEREF_exp (exp_do_stmt_cond (e));
-    EXP a = DEREF_exp (exp_do_stmt_body (e));
-    IDENTIFIER blab = DEREF_id (exp_do_stmt_break_lab (e));
-    IDENTIFIER clab = DEREF_id (exp_do_stmt_cont_lab (e));
-    unsigned cv = eval_const_cond (c);
-    use = flow_stmt (a, use, flow);
-    use = flow_label_stmt (clab, use, flow);
-    if (flow) {
+	EXP c = DEREF_exp (exp_do_stmt_cond (e));
+	EXP a = DEREF_exp (exp_do_stmt_body (e));
+	IDENTIFIER blab = DEREF_id (exp_do_stmt_break_lab (e));
+	IDENTIFIER clab = DEREF_id (exp_do_stmt_cont_lab (e));
+	unsigned cv = eval_const_cond (c);
+	use = flow_stmt (a, use, flow);
+	use = flow_label_stmt (clab, use, flow);
+	if (flow) {
 		use = flow_exp (c, use);
 		flow_sequence_point ();
-    }
-    mark_vars (crt_flow_vars, va_used_this);
-    if (cv == BOOL_TRUE) use |= va_unreached;
-    use = flow_label_stmt (blab, use, flow);
-    return (use);
+	}
+	mark_vars (crt_flow_vars, va_used_this);
+	if (cv == BOOL_TRUE) use |= va_unreached;
+	use = flow_label_stmt (blab, use, flow);
+	return (use);
 }
 
 
@@ -2301,7 +2301,7 @@ flow_do_stmt(EXP e, VAR_INFO use, int flow)
 static VAR_INFO
 flow_solve_stmt(EXP e, LIST (IDENTIFIER) p, VAR_INFO use, int flow)
 {
-    if (!IS_NULL_list (p)) {
+	if (!IS_NULL_list (p)) {
 		/* Scan through variables */
 		IDENTIFIER id = DEREF_id (HEAD_list (p));
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -2313,9 +2313,9 @@ flow_solve_stmt(EXP e, LIST (IDENTIFIER) p, VAR_INFO use, int flow)
 		}
 		use = flow_solve_stmt (e, TAIL_list (p), use, flow);
 		return (use);
-    }
-    use = flow_stmt (e, use, flow);
-    return (use);
+	}
+	use = flow_stmt (e, use, flow);
+	return (use);
 }
 
 
@@ -2328,24 +2328,24 @@ flow_solve_stmt(EXP e, LIST (IDENTIFIER) p, VAR_INFO use, int flow)
 static VAR_INFO
 flow_switch_stmt(EXP e, VAR_INFO use, int flow)
 {
-    EXP a = DEREF_exp (exp_switch_stmt_body (e));
-    int exhaust = DEREF_int (exp_switch_stmt_exhaust (e));
-    LIST (IDENTIFIER) p = DEREF_list (exp_switch_stmt_case_labs (e));
-    IDENTIFIER dlab = DEREF_id (exp_switch_stmt_default_lab (e));
-    IDENTIFIER blab = DEREF_id (exp_switch_stmt_break_lab (e));
-    if (flow) {
+	EXP a = DEREF_exp (exp_switch_stmt_body (e));
+	int exhaust = DEREF_int (exp_switch_stmt_exhaust (e));
+	LIST (IDENTIFIER) p = DEREF_list (exp_switch_stmt_case_labs (e));
+	IDENTIFIER dlab = DEREF_id (exp_switch_stmt_default_lab (e));
+	IDENTIFIER blab = DEREF_id (exp_switch_stmt_break_lab (e));
+	if (flow) {
 		/* Deal with control statement */
 		EXP c = DEREF_exp (exp_switch_stmt_control (e));
 		use = flow_exp (c, use);
 		flow_sequence_point ();
-    }
-    if (!IS_NULL_id (dlab)) {
+	}
+	if (!IS_NULL_id (dlab)) {
 		/* Mark jumps to default statement */
 		dlab = DEREF_id (id_alias (dlab));
 		IGNORE flow_goto_stmt (dlab, use, 1);
 		exhaust = 1;
-    }
-    while (!IS_NULL_list (p)) {
+	}
+	while (!IS_NULL_list (p)) {
 		/* Mark jumps to case statements */
 		IDENTIFIER clab = DEREF_id (HEAD_list (p));
 		clab = DEREF_id (id_alias (clab));
@@ -2355,14 +2355,14 @@ flow_switch_stmt(EXP e, VAR_INFO use, int flow)
 			dlab = clab;
 		}
 		p = TAIL_list (p);
-    }
-    if (!exhaust) {
+	}
+	if (!exhaust) {
 		/* Break label is reached in non-exhaustive cases */
 		IGNORE flow_goto_stmt (blab, use, 1);
-    }
-    use = flow_stmt (a, (use | va_unreached), flow);
-    use = flow_label_stmt (blab, use, flow);
-    return (use);
+	}
+	use = flow_stmt (a, (use | va_unreached), flow);
+	use = flow_label_stmt (blab, use, flow);
+	return (use);
 }
 
 
@@ -2375,19 +2375,19 @@ flow_switch_stmt(EXP e, VAR_INFO use, int flow)
 static VAR_INFO
 flow_try_block(EXP e, VAR_INFO use, int flow)
 {
-    VAR_INFO ua = (use | va_unreached);
-    EXP a = DEREF_exp (exp_try_block_body (e));
-    LIST (EXP) p = DEREF_list (exp_try_block_handlers (e));
-    EXP c = DEREF_exp (exp_try_block_ellipsis (e));
-    use = flow_stmt (a, use, flow);
-    /* NOT YET IMPLEMENTED */
-    while (!IS_NULL_list (p)) {
+	VAR_INFO ua = (use | va_unreached);
+	EXP a = DEREF_exp (exp_try_block_body (e));
+	LIST (EXP) p = DEREF_list (exp_try_block_handlers (e));
+	EXP c = DEREF_exp (exp_try_block_ellipsis (e));
+	use = flow_stmt (a, use, flow);
+	/* NOT YET IMPLEMENTED */
+	while (!IS_NULL_list (p)) {
 		EXP b = DEREF_exp (HEAD_list (p));
 		IGNORE flow_stmt (b, ua, flow);
 		p = TAIL_list (p);
-    }
-    IGNORE flow_stmt (c, ua, flow);
-    return (use);
+	}
+	IGNORE flow_stmt (c, ua, flow);
+	return (use);
 }
 
 
@@ -2400,9 +2400,9 @@ flow_try_block(EXP e, VAR_INFO use, int flow)
 static VAR_INFO
 flow_decl_stmt(EXP e, VAR_INFO use, int flow)
 {
-    EXP a = DEREF_exp (exp_decl_stmt_body (e));
-    IDENTIFIER id = DEREF_id (exp_decl_stmt_id (e));
-    if (IS_id_variable (id)) {
+	EXP a = DEREF_exp (exp_decl_stmt_body (e));
+	IDENTIFIER id = DEREF_id (exp_decl_stmt_id (e));
+	if (IS_id_variable (id)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (ds & dspec_auto) {
 			/* Local variable */
@@ -2428,9 +2428,9 @@ flow_decl_stmt(EXP e, VAR_INFO use, int flow)
 			if (!IS_NULL_exp (d)) no_destructors--;
 			return (use);
 		}
-    }
-    use = flow_stmt (a, use, flow);
-    return (use);
+	}
+	use = flow_stmt (a, use, flow);
+	return (use);
 }
 
 
@@ -2443,16 +2443,16 @@ flow_decl_stmt(EXP e, VAR_INFO use, int flow)
 static VAR_INFO
 flow_stmt(EXP e, VAR_INFO use, int flow)
 {
-    /* Deal with statements */
-    VAR_INFO ua = (use & ~va_mask);
-    if (IS_NULL_exp (e)) return (ua);
-    ASSERT (ORDER_exp == 88);
-    switch (TAG_exp (e)) {
-		
+	/* Deal with statements */
+	VAR_INFO ua = (use & ~va_mask);
+	if (IS_NULL_exp (e)) return (ua);
+	ASSERT (ORDER_exp == 88);
+	switch (TAG_exp (e)) {
+
 	case exp_sequence_tag : {
-	    /* Compound statements */
-	    LIST (EXP) p = DEREF_list (exp_sequence_first (e));
-	    while (!IS_NULL_list (p)) {
+		/* Compound statements */
+		LIST (EXP) p = DEREF_list (exp_sequence_first (e));
+		while (!IS_NULL_list (p)) {
 			EXP a = DEREF_exp (HEAD_list (p));
 			if (!IS_NULL_exp (a)) {
 				VAR_INFO ub = flow_stmt (a, ua, flow);
@@ -2463,138 +2463,138 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 				}
 			}
 			p = TAIL_list (p);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_solve_stmt_tag : {
-	    /* Solve statements */
-	    LIST (IDENTIFIER) p;
-	    EXP a = DEREF_exp (exp_solve_stmt_body (e));
-	    p = DEREF_list (exp_solve_stmt_vars (e));
-	    ua = flow_solve_stmt (a, p, ua, flow);
-	    break;
+		/* Solve statements */
+		LIST (IDENTIFIER) p;
+		EXP a = DEREF_exp (exp_solve_stmt_body (e));
+		p = DEREF_list (exp_solve_stmt_vars (e));
+		ua = flow_solve_stmt (a, p, ua, flow);
+		break;
 	}
-		
+
 	case exp_decl_stmt_tag : {
-	    /* Declaration statements */
-	    ua = flow_decl_stmt (e, ua, flow);
-	    break;
+		/* Declaration statements */
+		ua = flow_decl_stmt (e, ua, flow);
+		break;
 	}
-		
+
 	case exp_if_stmt_tag : {
-	    /* Conditional statements */
-	    EXP c = DEREF_exp (exp_if_stmt_cond (e));
-	    EXP a = DEREF_exp (exp_if_stmt_true_code (e));
-	    EXP b = DEREF_exp (exp_if_stmt_false_code (e));
-	    ua = flow_if_exp (c, a, b, ua, flow);
-	    break;
+		/* Conditional statements */
+		EXP c = DEREF_exp (exp_if_stmt_cond (e));
+		EXP a = DEREF_exp (exp_if_stmt_true_code (e));
+		EXP b = DEREF_exp (exp_if_stmt_false_code (e));
+		ua = flow_if_exp (c, a, b, ua, flow);
+		break;
 	}
-		
+
 	case exp_while_stmt_tag : {
-	    /* While statements */
-	    ua = flow_while_stmt (e, ua, flow);
-	    break;
+		/* While statements */
+		ua = flow_while_stmt (e, ua, flow);
+		break;
 	}
-		
+
 	case exp_do_stmt_tag : {
-	    /* Do statements */
-	    ua = flow_do_stmt (e, ua, flow);
-	    break;
+		/* Do statements */
+		ua = flow_do_stmt (e, ua, flow);
+		break;
 	}
-		
+
 	case exp_switch_stmt_tag : {
-	    /* Switch statements */
-	    ua = flow_switch_stmt (e, ua, flow);
-	    break;
+		/* Switch statements */
+		ua = flow_switch_stmt (e, ua, flow);
+		break;
 	}
-		
+
 	case exp_hash_if_tag : {
-	    /* Target dependent conditional statements */
-	    EXP c = DEREF_exp (exp_hash_if_cond (e));
-	    EXP a = DEREF_exp (exp_hash_if_true_code (e));
-	    EXP b = DEREF_exp (exp_hash_if_false_code (e));
-	    ua = flow_if_exp (c, a, b, ua, flow);
-	    break;
+		/* Target dependent conditional statements */
+		EXP c = DEREF_exp (exp_hash_if_cond (e));
+		EXP a = DEREF_exp (exp_hash_if_true_code (e));
+		EXP b = DEREF_exp (exp_hash_if_false_code (e));
+		ua = flow_if_exp (c, a, b, ua, flow);
+		break;
 	}
-		
+
 	case exp_return_stmt_tag : {
-	    /* Return statements */
-	    EXP a = DEREF_exp (exp_return_stmt_value (e));
-	    if (flow) {
+		/* Return statements */
+		EXP a = DEREF_exp (exp_return_stmt_value (e));
+		if (flow) {
 			ua = flow_exp (a, ua);
 			flow_sequence_point ();
-	    }
-	    ua = flow_terminate (ua, 2);
-	    flow_jump (e, NULL_exp);
-	    break;
+		}
+		ua = flow_terminate (ua, 2);
+		flow_jump (e, NULL_exp);
+		break;
 	}
-		
+
 	case exp_goto_stmt_tag : {
-	    /* Goto statements */
-	    EXP join = DEREF_exp (exp_goto_stmt_join (e));
-	    IDENTIFIER lab = DEREF_id (exp_goto_stmt_label (e));
-	    lab = DEREF_id (id_alias (lab));
-	    ua = flow_goto_stmt (lab, ua, 0);
-	    flow_jump (e, join);
-	    break;
+		/* Goto statements */
+		EXP join = DEREF_exp (exp_goto_stmt_join (e));
+		IDENTIFIER lab = DEREF_id (exp_goto_stmt_label (e));
+		lab = DEREF_id (id_alias (lab));
+		ua = flow_goto_stmt (lab, ua, 0);
+		flow_jump (e, join);
+		break;
 	}
-		
+
 	case exp_label_stmt_tag : {
-	    /* Labelled statements */
-	    IDENTIFIER lab = DEREF_id (exp_label_stmt_label (e));
-	    ua = flow_label_stmt (lab, ua, flow);
-	    break;
+		/* Labelled statements */
+		IDENTIFIER lab = DEREF_id (exp_label_stmt_label (e));
+		ua = flow_label_stmt (lab, ua, flow);
+		break;
 	}
-		
+
 	case exp_try_block_tag : {
-	    /* Try blocks */
-	    ua = flow_try_block (e, ua, flow);
-	    break;
+		/* Try blocks */
+		ua = flow_try_block (e, ua, flow);
+		break;
 	}
-		
+
 	case exp_handler_tag : {
-	    /* Exception handlers */
-	    EXP a = DEREF_exp (exp_handler_body (e));
-	    ua = flow_stmt (a, ua, flow);
-	    break;
+		/* Exception handlers */
+		EXP a = DEREF_exp (exp_handler_body (e));
+		ua = flow_stmt (a, ua, flow);
+		break;
 	}
-		
+
 	case exp_reach_tag : {
-	    /* Reached statements */
-	    EXP a = DEREF_exp (exp_reach_body (e));
-	    ua &= ~va_unreached;
-	    ua = flow_stmt (a, ua, flow);
-	    break;
+		/* Reached statements */
+		EXP a = DEREF_exp (exp_reach_body (e));
+		ua &= ~va_unreached;
+		ua = flow_stmt (a, ua, flow);
+		break;
 	}
-		
+
 	case exp_unreach_tag : {
-	    /* Unreached statements */
-	    EXP a = DEREF_exp (exp_unreach_body (e));
-	    ua |= va_unreached;
-	    ua = flow_stmt (a, ua, flow);
-	    break;
+		/* Unreached statements */
+		EXP a = DEREF_exp (exp_unreach_body (e));
+		ua |= va_unreached;
+		ua = flow_stmt (a, ua, flow);
+		break;
 	}
-		
+
 	case exp_location_tag : {
-	    /* Location expressions */
-	    EXP a = DEREF_exp (exp_location_arg (e));
-	    ua = flow_stmt (a, use, flow);
-	    DEREF_loc (exp_location_end (e), stmt_loc);
-	    break;
+		/* Location expressions */
+		EXP a = DEREF_exp (exp_location_arg (e));
+		ua = flow_stmt (a, use, flow);
+		DEREF_loc (exp_location_end (e), stmt_loc);
+		break;
 	}
-		
+
 	default : {
-	    /* Simple expressions */
-	    if (!(ua & va_unreached) && flow) {
+		/* Simple expressions */
+		if (!(ua & va_unreached) && flow) {
 			ua = flow_exp (e, ua);
 			flow_sequence_point ();
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    ua &= ~va_mask;
-    return (ua);
+	}
+	ua &= ~va_mask;
+	return (ua);
 }
 
 
@@ -2610,9 +2610,9 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 void
 check_flow(IDENTIFIER id, EXP e, int flow)
 {
-    VAR_INFO use;
-    LIST (IDENTIFIER) pids;
-    if (IS_id_function_etc (id)) {
+	VAR_INFO use;
+	LIST (IDENTIFIER) pids;
+	if (IS_id_function_etc (id)) {
 		TYPE t = DEREF_type (id_function_etc_type (id));
 		while (IS_type_templ (t)) {
 			t = DEREF_type (type_templ_defn (t));
@@ -2655,16 +2655,16 @@ check_flow(IDENTIFIER id, EXP e, int flow)
 			}
 			pids = TAIL_list (pids);
 		}
-    }
-    DEREF_loc (id_loc (id), stmt_loc);
-    flow_sequence_point ();
-    use = flow_stmt (e, va_none, flow);
-    IGNORE flow_terminate (use, 2);
-    crt_flow_mems = NULL_list (VARIABLE);
-    while (!IS_NULL_list (crt_flow_vars)) {
+	}
+	DEREF_loc (id_loc (id), stmt_loc);
+	flow_sequence_point ();
+	use = flow_stmt (e, va_none, flow);
+	IGNORE flow_terminate (use, 2);
+	crt_flow_mems = NULL_list (VARIABLE);
+	while (!IS_NULL_list (crt_flow_vars)) {
 		/* End parameter and member scopes */
 		end_variable (flow, 2);
-    }
-    stmt_loc = crt_loc;
-    return;
+	}
+	stmt_loc = crt_loc;
+	return;
 }
