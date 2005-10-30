@@ -36,7 +36,6 @@
 /* The pragmas below replace #pragma not_ansi */
 
 #pragma TenDRA extra ... allow
-#pragma TenDRA extra , allow
 #pragma TenDRA incomplete type as object type allow
 #pragma TenDRA dollar as ident allow
 #pragma TenDRA variable initialization allow
@@ -49,4 +48,3 @@
 #pragma TenDRA unknown struct/union allow
 #pragma TenDRA conversion analysis (int-pointer implicit) off
 #pragma TenDRA conversion analysis (pointer-pointer implicit) off
-

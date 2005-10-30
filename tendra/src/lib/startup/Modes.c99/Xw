@@ -2,7 +2,7 @@
  * STARTUP FILE FOR COMPILATION MODE XW
  *
  * Xw represents a "warning" oriented compilation mode.
- * Many non ANSI C features are permitted with a warning.
+ * Many non ISO C features are permitted with a warning.
  * Extra checks are performed again producing warnings.
  * This will compile most code, possibly generating many
  * warnings that can be used to progressively improve the code.
@@ -11,15 +11,10 @@
  */
 
 #pragma TenDRA declaration block Xw__startup begin
+
+#include "Xc"
+
 #pragma TenDRA begin
-
-#include "../Literal/ansi.pf"
-#include "../Promotion/ansi.pf"
-
-#define __ANDF__ 1
-#define __TenDRA__ 1
-#define __OPENLINT__ 1
-
 
 /* Xs level checks, but set to warn */
 #pragma TenDRA complete struct/union analysis warning
@@ -32,13 +27,10 @@
 #pragma TenDRA function pointer as pointer warning
 #pragma TenDRA implicit function declaration warning
 #pragma TenDRA implicit int type for function return warning
-#pragma TenDRA incompatible interface declaration warning
 #pragma TenDRA incompatible void return warning
 #pragma TenDRA unreachable code warning
 #pragma TenDRA variable analysis warning
 #pragma TenDRA weak prototype analysis warning
-
-#pragma TenDRA linkage resolution : (internal) warning
 
 #pragma TenDRA no external declaration warning
 #pragma TenDRA unknown pragma warning
@@ -67,7 +59,6 @@
 #pragma TenDRA weak macro equality warning
 
 #pragma TenDRA extra ... warning
-#pragma TenDRA extra , warning
 #pragma TenDRA incomplete type as object type warning
 #pragma TenDRA incompatible type qualifier warning
 #pragma TenDRA no directive/nline after ident warning

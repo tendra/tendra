@@ -54,7 +54,6 @@
 #pragma TenDRA directive weak allow
 #pragma TenDRA discard analysis off
 #pragma TenDRA enum switch analysis off
-#pragma TenDRA extra , allow
 #pragma TenDRA extra ; after conditional allow
 #pragma TenDRA extra bitfield int type allow
 #pragma TenDRA extra type definition allow
