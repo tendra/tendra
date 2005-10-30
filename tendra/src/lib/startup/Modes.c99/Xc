@@ -1,12 +1,12 @@
 /*
- * STARTUP FILE FOR COMPILATION MODE Xc99
+ * STARTUP FILE FOR COMPILATION MODE XC
  *
- * Xc99 represents strict ISO/IEC 9899:1999 compliance, no more, no less.
+ * Xc represents strict ISO/IEC 9899:1999 compliance, no more, no less.
  *
  * $TenDRA$
  */
 
-#pragma TenDRA declaration block Xc99__startup begin
+#pragma TenDRA declaration block Xc__startup begin
 
 #pragma TenDRA begin
 
