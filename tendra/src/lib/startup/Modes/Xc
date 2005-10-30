@@ -1,8 +1,11 @@
 /*
-    STARTUP FILE FOR COMPILATION MODE XC
+ * STARTUP FILE FOR COMPILATION MODE XC
+ *
+ * Xc represents strict ANSI compliance, no more, no less.
+ *
+ * $TenDRA$
+ */
 
-    Xc represents strict ANSI compliance, no more, no less.
-*/
 #pragma TenDRA declaration block Xc__startup begin
 
 #pragma TenDRA begin

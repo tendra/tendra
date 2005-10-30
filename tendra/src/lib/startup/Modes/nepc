@@ -1,9 +1,11 @@
 /*
-    STARTUP FILE FOR NO EXTRA PORTABILITY CHECKS
-
-    nepc represents a switch for turning off most of the extra
-    conversion and weak prototype checking.
-*/
+ * STARTUP FILE FOR NO EXTRA PORTABILITY CHECKS
+ *
+ * nepc represents a switch for turning off most of the extra
+ * conversion and weak prototype checking.
+ *
+ * $TenDRA$
+ */
 
 #pragma TenDRA begin
 

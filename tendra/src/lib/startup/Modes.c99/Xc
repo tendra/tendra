@@ -1,10 +1,11 @@
 /*
- *  STARTUP FILE FOR COMPILATION MODE Xc99
+ * STARTUP FILE FOR COMPILATION MODE Xc99
  *
- *  Xc99 represents strict ISO/IEC 9899:1999 compliance, no more, no less.
+ * Xc99 represents strict ISO/IEC 9899:1999 compliance, no more, no less.
  *
  * $TenDRA$
  */
+
 #pragma TenDRA declaration block Xc99__startup begin
 
 #pragma TenDRA begin
@@ -30,7 +31,7 @@
 #define __NO_PRINTF_CHECKS 1
 #endif
 
-/* Implicit function declarations are not allowed in C99 anymore. */ 
+/* Implicit function declarations are not allowed in C99 anymore. */
 #pragma TenDRA implicit function declaration off
 /* No implicit int for K&R-style function parameters. */
 #pragma TenDRA implicit int type for function argument disallow

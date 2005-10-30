@@ -1,9 +1,11 @@
 /*
-    STARTUP FILE FOR COMPILATION MODE XA
-
-    Xa represents relaxed compilation.  It will allow most reasonable
-    code through without comment.
-*/
+ * STARTUP FILE FOR COMPILATION MODE XA
+ *
+ * Xa represents relaxed compilation.  It will allow most reasonable
+ * code through without comment.
+ *
+ * $TenDRA$
+ */
 
 #pragma TenDRA declaration block Xa__startup begin
 

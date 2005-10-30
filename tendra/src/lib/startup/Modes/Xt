@@ -1,9 +1,11 @@
 /*
-    STARTUP FILE FOR COMPILATION MODE XT
-
-    Xt represents traditional C.  It is quite useless for portability
-    checking and is old provided for compiling old code.
-*/
+ * STARTUP FILE FOR COMPILATION MODE XT
+ *
+ * Xt represents traditional C.  It is quite useless for portability
+ * checking and is old provided for compiling old code.
+ *
+ * $TenDRA$
+ */
 
 #pragma TenDRA declaration block Xt__startup begin
 
