@@ -2,5 +2,5 @@
  * $TenDRA$
 */
 
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xc"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xc"
++STARTUP		"-f<MODES_DIR>/Xc"
++STARTUP_CPP		"-f<MODES_CPP_DIR>/Xc"
