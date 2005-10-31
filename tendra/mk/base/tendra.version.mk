@@ -9,7 +9,7 @@
 #       have their own version.
 #
 #       libten has its own version.  Rather than bump the consumer versions
-#       (everything, pretty much) it makes more sense for it to have it's own
+#       (everything, pretty much) it makes more sense for it to have its own
 #       version.
 #
 # CVS builds will have -cvs <date> added to the version string
