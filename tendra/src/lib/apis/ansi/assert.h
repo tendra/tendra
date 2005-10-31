@@ -1,5 +1,5 @@
 #   		 Crown Copyright (c) 1997
-#   
+#
 #   This TenDRA(r) Computer Program is subject to Copyright
 #   owned by the United Kingdom Secretary of State for Defence
 #   acting through the Defence Evaluation and Research Agency
@@ -8,18 +8,18 @@
 #   to other parties and amendment for any purpose not excluding
 #   product development provided that any such use et cetera
 #   shall be deemed to be acceptance of the following conditions:-
-#   
+#
 #       (1) Its Recipients shall ensure that this Notice is
 #       reproduced upon any copies or amended versions of it;
-#   
+#
 #       (2) Any amended version of it shall be clearly marked to
 #       show both the nature of and the organisation responsible
 #       for the relevant amendment or amendments;
-#   
+#
 #       (3) Its onward transfer from a recipient to another
 #       party shall be deemed to be that party's acceptance of
 #       these conditions;
-#   
+#
 #       (4) DERA gives no warranty or assurance as to its
 #       quality or suitability for any purpose and DERA accepts
 #       no liability whatsoever in relation to any use to which
@@ -28,7 +28,7 @@
 $PROTECT = "";
 
 +SUBSET "fail" := {
-+FUNC void __assert_aux (const char *, const char *, const char *, int);
++FUNC void __assert_aux(const char *, const char *, const char *, int);
 %%%
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,10 +62,10 @@ $PROTECT = "";
  * Provide token definition here */
 #define __assert_aux(E, FNC, F, L)					\
 	((((FNC) != NULL) ?						\
-	    fprintf (stderr, "assertion failed: %s, function %s, "	\
+	    fprintf(stderr, "assertion failed: %s, function %s, "	\
 		"file %s, line %d\n", (E), (FNC), (F), (L))		\
-	  : fprintf (stderr, "assertion failed: %s, file %s, "		\
-		"line %d\n", (E), (F), (L))), abort ())
+	  : fprintf(stderr, "assertion failed: %s, file %s, "		\
+		"line %d\n", (E), (F), (L))), abort())
 %%%
 };
 

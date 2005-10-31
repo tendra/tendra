@@ -209,7 +209,7 @@
 
 # 7.12.6.9
 
-+FUNC double log1p(double); 
++FUNC double log1p(double);
 +FUNC float log1pf(float);
 +FUNC long double log1pl(long double);
 
