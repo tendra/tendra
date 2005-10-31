@@ -1,13 +1,8 @@
 # $TenDRA$
 
-.PATH : ${.OBJDIR}/../../xpg4.api
+.include "../Makefile.inc"
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/xpg4.h
-
-TL=	xpg4.tl
-
-SRCS=	iconv.c langinfo.c limits.c monetary.c nl_types.c search.c \
-	sem.c shm.c stdio.c time.c unistd.c wchar.c
+# Generated API Makefile
+.include "${API_GEN}/Makefile"
 
 .include "../../../../../mk/base/tendra.prog.mk"
-

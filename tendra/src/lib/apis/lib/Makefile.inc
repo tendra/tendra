@@ -13,3 +13,8 @@ TCC_OPTS+=	-Fj \
 
 TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/include \
 		-I/usr/include
+
+# Point to the tspec-generated directory from lib/${API} and lib/${API}/diag
+API_GEN=	${OBJ_DIR:S/apis\/lib/apis/:C/\/diag$//}.api
+
+.include "../../../../mk/base/tendra.var.mk"

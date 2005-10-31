@@ -1,11 +1,11 @@
 # $TenDRA$
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/cpp.h
+.include "../Makefile.inc"
 
-.PATH : ${.OBJDIR}/../../cpp.api
+# Generated API Makefile
+.include "${API_GEN}/Makefile"
 
-TL=	cpp.tl
-
+# Override
 SRCS=	cstdlib.c
 
 # This is a very crappy way to handle this.
@@ -14,4 +14,3 @@ LDADD?=  ../../../libcpp/tokens/basic.j ../../../libcpp/tokens/ptr_func.j \
         ../../../libcpp/tokens/vtable.j
 
 .include "../../../../../mk/base/tendra.prog.mk"
-

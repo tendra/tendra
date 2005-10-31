@@ -1,12 +1,8 @@
 # $TenDRA$
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/gcc.h
+.include "../Makefile.inc"
 
-.PATH : ${.OBJDIR}/../../gcc.api
-
-TL=	gcc.tl
-
-SRCS=	param.c resource.c tdf_alloca.c timeval.c
+# Generated API Makefile
+.include "${API_GEN}/Makefile"
 
 .include "../../../../../mk/base/tendra.prog.mk"
-

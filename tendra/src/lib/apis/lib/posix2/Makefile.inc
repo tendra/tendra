@@ -1,12 +1,8 @@
 # $TenDRA$
 
-.PATH : ${.OBJDIR}/../../posix2.api
+.include "../Makefile.inc"
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/posix2.h
-
-TL=	posix2.tl
-
-SRCS=	fnmatch.c glob.c limits.c regex.c unistd.c wordexp.c
+# Generated API Makefile
+.include "${API_GEN}/Makefile"
 
 .include "../../../../../mk/base/tendra.prog.mk"
-
