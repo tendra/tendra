@@ -63,6 +63,7 @@
 #include "object.h"
 #include "hash.h"
 #include "name.h"
+#include "str_array.h"
 #include "type.h"
 #include "utility.h"
 
@@ -107,13 +108,14 @@ need_header(const info *i, const char *api)
 void
 print_makefile(char *api, hash_elem *f)
 {
+	struct str_array sa;
 	char *nm;
 	FILE *output;
 	hash_elem *e;
 	char *api2 = hack_name (api, "_Aa0");
 	int ls = output_src_len;
 	hash_table *subdirs = make_hash_table("Subdirs");
-	int idx, firstline;
+	int idx, firstline, size;
 
 	/* Open output file */
 	nm = MAKEFILE;
@@ -138,20 +140,23 @@ print_makefile(char *api, hash_elem *f)
 
 	/* Print the list of files */
 	IGNORE fputs ("SRCS=\t", output);
-	firstline = 1;
+	str_array_init (&sa);
 	for (e = f; e != null; e = e->next) {
 		info *i = e->obj->u.u_info;
-		if (need_cfile (i, api)) {
-			IGNORE fprintf (output, "%s%s", firstline ? "" : " \\\n\t",
-			   	basename (i->src));
-			firstline = 0;
-		}
+		if (need_cfile (i, api)) str_array_add (&sa, basename (i->src));
+	}
+
+	str_array_sort (&sa);
+	size = str_array_size (&sa);
+	for (idx = 0; idx < size; idx++) {
+		IGNORE fprintf (output, "%s%s", idx == 0 ? "" : " \\\n\t",
+			str_array_get (&sa, idx));
 	}
 	IGNORE fputs ("\n\n", output);
 
 	/* Print all headers we want to install */
 	IGNORE fprintf (output, "HEADERS=");
-	firstline = 1;
+	str_array_clear (&sa);
 	for (e = f; e != null; e = e->next) {
 		info *i = e->obj->u.u_info;
 		char *p;
@@ -164,9 +169,7 @@ print_makefile(char *api, hash_elem *f)
 			i->api == NULL  || strstr(i->api, "dummy") != NULL)
 			continue;
 
-		IGNORE fprintf (output, "%s%s", firstline ? "" : " \\\n\t",
-			i->incl + ls);
-		firstline = 0;
+		str_array_add (&sa, i->incl + ls);
 
 		buffer[0] = '\0';
 		IGNORE strncat(buffer, i->incl + ls, buffsize);
@@ -181,6 +184,12 @@ print_makefile(char *api, hash_elem *f)
 			}
 		}
 	}
+	str_array_sort (&sa);
+	size = str_array_size (&sa);
+	for (idx = 0; idx < size; idx++) {
+		IGNORE fprintf (output, "%s%s", idx == 0 ? "" : " \\\n\t",
+			str_array_get (&sa, idx));
+	}
 	IGNORE fputs ("\n\n", output);
 
 	/* Print the list of subdirectories we have to create */
@@ -194,6 +203,7 @@ print_makefile(char *api, hash_elem *f)
 		}
 	IGNORE fputs ("\n", output);
 
+	str_array_destroy (&sa);
 	IGNORE fclose (output);
 	return;
 }

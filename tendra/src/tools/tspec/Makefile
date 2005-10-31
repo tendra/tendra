@@ -6,7 +6,7 @@ CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
 PROG = tspec
 
 SRCS=	hash.c index.c lex.c main.c makefile.c name.c \
-	object.c print.c syntax.c type.c utility.c \
+	object.c print.c str_array.c syntax.c type.c utility.c \
 	variable.c
 
 USE_LIBTEN=	yes
