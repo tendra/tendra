@@ -678,7 +678,7 @@ build-insert: () -> (s) = @{ @s = token_value; @};
     object *p = make_exp (@id.iname, @id.ivers, OBJ_DEFINE);
     if (@p) {
 	if (*@p) {
-	    def = string_printf ("( %s ) %s", @p, @def);
+	    def = string_printf ("(%s) %s", @p, @def);
 	} else {
 	    def = string_printf ("() %s", @def);
 	}
