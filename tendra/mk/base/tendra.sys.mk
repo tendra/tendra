@@ -2,14 +2,7 @@
 
 .SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p .disp
 
-#CC		?=	cc
-CFLAGS		?=	-O -pipe
-CXX		?=	c++
-CXXFLAGS	?=	${CXXINCLUDES} ${CFLAGS}
-CPP		?=	cpp
-ECHO		?=	echo
-ECHODIR		?=	echo
-
+CFLAGS?=	-O -pipe
 
 .c.o:
 	${BIN_CC} ${CFLAGS} -c ${.IMPSRC}
