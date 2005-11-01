@@ -33,7 +33,10 @@
 #define __signed	signed
 #endif
 
-/* Work around __aligned() */
+/* Work around __aligned() and __attribute__()*/
 #ifndef	__aligned
 #define	__aligned(x)	/* nothing */
+#endif
+#ifndef	__attribute__
+#define	__attribute__(x)	/* nothing */
 #endif
