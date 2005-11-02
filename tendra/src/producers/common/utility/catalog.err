@@ -3492,7 +3492,7 @@ dcl_stc_external(LONG_ID: id, PTR_LOC: loc)
 dcl_fct_spec_inline_bad()
 {
     KEY (ISO)	"7.1.2" | "6.5.1, 6.7.4"
-    KEY (STD)	"The specifier 'inline' can only applied to function
+    KEY (STD)	"The specifier 'inline' can only be applied to function
 		 declarations"
 }
 
@@ -3503,7 +3503,8 @@ dcl_fct_spec_block()
 
 dcl_fct_spec_virtual()
 {
-    KEY (STD)	"The specifier 'virtual' can only applied to function members"
+    KEY (STD)	"The specifier 'virtual' can only be applied to function
+		 members"
 }
 
 dcl_fct_spec_explicit()
