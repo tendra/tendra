@@ -3509,7 +3509,8 @@ dcl_fct_spec_virtual()
 
 dcl_fct_spec_explicit()
 {
-    KEY (STD)	"The specifier 'explicit' can only applied to function members"
+    KEY (STD)	"The specifier 'explicit' can only be applied to function
+		 members"
 }
 
 dcl_fct_spec_expl_constr()
