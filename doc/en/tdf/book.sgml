@@ -8191,13 +8191,11 @@ INTEGER(0, 60000)  <emphasis>and</emphasis>  INTEGER(0, 30000)
           ).</para>
 
         <para><emphasis>t</emphasis> will be declared in the
-          <literal>CAPSULE</literal> using <emphasis>common_tagdec</emphasis>.If
-          both the <emphasis>common_tagdec</emphasis> and</para>
-
-        <para><emphasis>common_tagdef</emphasis> have
-          <emphasis>signatures</emphasis> present, the string.</para>
-
-        <para>will be identical. Let the maximum <literal>SHAPE</literal> of
+          <literal>CAPSULE</literal> using <emphasis>common_tagdec</emphasis>.
+          If both the <emphasis>common_tagdec</emphasis> and
+          <emphasis>common_tagdef</emphasis> have
+          <emphasis>signatures</emphasis> present, the strings
+          will be identical. Let the maximum <literal>SHAPE</literal> of
           these (see <xref linkend='common-tagdec'> common_tagdec) be <emphasis>s</emphasis>.</para>
 
         <para>There may be any number of <emphasis>common_tagdef</emphasis>
