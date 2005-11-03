@@ -59,8 +59,6 @@ errors2.h errors3.h:: catalog.err extra.err
 		${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err
 
 tdf1.h:: tdf1.h-tdf
-	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.CURDIR}/../common/output/tdf1.h-tdf \
-	${.OBJDIR}/tdf1.h
 
 #calculus generated files
 CLEANFILES+=	assert_def.h c_class.h ctype_ops.h err_ops.h etype_ops.h \

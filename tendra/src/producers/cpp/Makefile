@@ -1,6 +1,6 @@
 # $TenDRA$
 
-SRCDIRS=        cpp/syntax common/construct common  \
+SRCDIRS=        cpp/syntax common common/construct common/obj_templ  \
 		common/output common/parse common/utility
 
 PROG = tcpplus
