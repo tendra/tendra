@@ -408,7 +408,7 @@ fmm_calloc(size_t size, struct fmm_type *ftp)
 }
 
 /*
- * Free a block of memory allocated by fm_malloc().
+ * Free a block of memory allocated by fmm_malloc().
  */
 void
 fmm_free(void *addr, struct fmm_type *ftp)
