@@ -85,7 +85,8 @@
  *
  ** Type:	ArgTypeT
  ** Repr:	enum {AT_SWITCH, AT_NEG_SWITCH, AT_PROC_SWITCH, AT_IMMEDIATE,
- *		      AT_EITHER, AT_FOLLOWING, AT_EMPTY, AT_FOLLOWING2}
+ *		      AT_EITHER, AT_FOLLOWING, AT_EMPTY, AT_FOLLOWING2, AT_FOLLOWING3,
+ *		      AT_SET, AT_RESET}
  *
  * This is the type of the an option.  The constants have the following
  * meanings:
@@ -155,6 +156,16 @@
  * This is the type of an option with three following arguments.  The
  * procedure will be called with the option that was selected, the error
  * closure, the option closure, and the arguments to the option.
+ *
+ *  AT_SET
+ *
+ * This is the type of an option with no argument.  The boolean variable 
+ * passed as closure will be set to true.
+ *
+ *  AT_RESET
+ *
+ * This is the type of an option with no argument.  The boolean variable 
+ * passed as closure will be set to false.
  *
  * Note that if a matched option is a short option, then the current position
  * is passed to the option handling procedure as the option name.  For long
