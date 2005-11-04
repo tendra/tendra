@@ -1025,7 +1025,7 @@ capsule_read(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 			RETHROW ();
 		}
 	} END_HANDLE
-		  }
+}
 
 void
 capsule_store_contents(CapsuleP capsule)
