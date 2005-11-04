@@ -567,7 +567,8 @@ make_filename(filename *p, int t, int s)
 			case CPP_SPEC : break;
 			case INDEP_TDF_AUX :
 			case INDEP_TDF : {
-				if (make_archive || make_complex || tokdef_name) {
+				if (make_archive || make_complex || make_pretty ||
+					tokdef_name) {
 					break;
 				}
 				goto default_lab;
