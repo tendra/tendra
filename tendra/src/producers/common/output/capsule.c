@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -114,27 +114,27 @@
  */
 
 typedef struct {
-    const char *name;
-    int labels;
-    int count;
-    LIST (BITSTREAM_P) pres;
-    LIST (BITSTREAM_P) units;
+	const char *name;
+	int labels;
+	int count;
+	LIST (BITSTREAM_P) pres;
+	LIST (BITSTREAM_P) units;
 } EQN_INFO;
 
 #define NO_EQNS		NULL_list (BITSTREAM_P)
 
-static EQN_INFO eqns [ EQN_no ] = {
-    { LINK_tld_props, 0, 0, NO_EQNS, NO_EQNS },		/* EQN_tld */
-    { LINK_version_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_versions */
-    { LINK_tokdec_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdec */
-    { LINK_tokdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdef */
-    { LINK_al_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_aldef */
-    { LINK_diag_type_unit, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_diagtype */
-    { LINK_tagdec_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdec */
-    { LINK_diag_unit, 1, 1, NO_EQNS, NO_EQNS },		/* EQN_diagdef */
-    { LINK_dg_comp_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_dgcomp */
-    { LINK_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdef */
-    { LINK_linkinfo_props, 1, 1, NO_EQNS, NO_EQNS }	/* EQN_linkinfo */
+static EQN_INFO eqns [EQN_no] = {
+	{ LINK_tld_props, 0, 0, NO_EQNS, NO_EQNS },		/* EQN_tld */
+	{ LINK_version_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_versions */
+	{ LINK_tokdec_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdec */
+	{ LINK_tokdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdef */
+	{ LINK_al_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_aldef */
+	{ LINK_diag_type_unit, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_diagtype */
+	{ LINK_tagdec_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdec */
+	{ LINK_diag_unit, 1, 1, NO_EQNS, NO_EQNS },		/* EQN_diagdef */
+	{ LINK_dg_comp_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_dgcomp */
+	{ LINK_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdef */
+	{ LINK_linkinfo_props, 1, 1, NO_EQNS, NO_EQNS }	/* EQN_linkinfo */
 };
 
 
@@ -149,22 +149,22 @@ static EQN_INFO eqns [ EQN_no ] = {
  */
 
 typedef struct {
-    const char *name;
-    ulong no;
-    ulong sz;
-    int present;
-    string *names;
-    unsigned char *uses;
-    ulong *diags;
+	const char *name;
+	ulong no;
+	ulong sz;
+	int present;
+	string *names;
+	unsigned char *uses;
+	ulong *diags;
 } VAR_INFO;
 
-static VAR_INFO vars [ VAR_total ] = {
-    { LINK_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_tag */
-    { LINK_token, 0, 0, 0, NULL, NULL, NULL },		/* VAR_token */
-    { LINK_al_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_alignment */
-    { LINK_diag_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_diagtag */
-    { LINK_dg_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_dgtag */
-    { LINK_label, 0, 0, 0, NULL, NULL, NULL }		/* VAR_label */
+static VAR_INFO vars [VAR_total] = {
+	{ LINK_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_tag */
+	{ LINK_token, 0, 0, 0, NULL, NULL, NULL },		/* VAR_token */
+	{ LINK_al_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_alignment */
+	{ LINK_diag_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_diagtag */
+	{ LINK_dg_tag, 0, 0, 0, NULL, NULL, NULL },		/* VAR_dgtag */
+	{ LINK_label, 0, 0, 0, NULL, NULL, NULL }		/* VAR_label */
 };
 
 
@@ -179,12 +179,12 @@ static VAR_INFO vars [ VAR_total ] = {
  */
 
 typedef struct link_tag {
-    ulong no [ VAR_total ];
-    ulong no_map [ VAR_no ];
-    ulong *map [ VAR_no ];
-    ulong count;
-    int create;
-    struct link_tag *next;
+	ulong no [VAR_total];
+	ulong no_map [VAR_no];
+	ulong *map [VAR_no];
+	ulong count;
+	int create;
+	struct link_tag *next;
 } LINKAGE;
 
 
@@ -208,15 +208,15 @@ static LINKAGE *all_links = NULL;
 static void
 start_linkage(BITSTREAM **ps, int create)
 {
-    /* Allocate a linkage unit */
-    int i;
-    VAR_INFO *var = vars;
-    LINKAGE *p = xmalloc (sizeof(*p));
-    for (i = 0 ; i < VAR_no ; i++) {
+	/* Allocate a linkage unit */
+	int i;
+	VAR_INFO *var = vars;
+	LINKAGE *p = xmalloc (sizeof(*p));
+	for (i = 0; i < VAR_no; i++) {
 		ulong j, n = var->sz;
 		if (n) {
 			ulong *q = xmalloc_nof (ulong, n);
-			for (j = 0 ; j < n ; j++) q [j] = LINK_NONE;
+			for (j = 0; j < n; j++) q [j] = LINK_NONE;
 			p->map [i] = q;
 		} else {
 			p->map [i] = NULL;
@@ -224,16 +224,16 @@ start_linkage(BITSTREAM **ps, int create)
 		p->no [i] = 0;
 		p->no_map [i] = 0;
 		var++;
-    }
-    p->no [ VAR_label ] = 0;
-    p->count = 0;
-    p->create = create;
-    p->next = all_links;
-    all_links = p;
-	
-    /* Start TDF stream */
-    *ps = tdf_bs_create (NULL, TDFS_MODE_WRITE, p);
-    return;
+	}
+	p->no [VAR_label] = 0;
+	p->count = 0;
+	p->create = create;
+	p->next = all_links;
+	all_links = p;
+
+	/* Start TDF stream */
+	*ps = tdf_bs_create (NULL, TDFS_MODE_WRITE, p);
+	return;
 }
 
 
@@ -246,39 +246,39 @@ start_linkage(BITSTREAM **ps, int create)
 static void
 extend_linkage(int v)
 {
-    ulong i;
-    LINKAGE *q;
-    VAR_INFO *var = vars + v;
-    ulong m = var->sz;
-    ulong n = m + 100;
-	
-    /* Extend global linkage table */
-    string *s = var->names;
-    unsigned char *u = var->uses;
-    ulong *d = var->diags;
-    s = xrealloc (s, sizeof(*s) * n);
-    u = xrealloc (u, sizeof(*u) * n);
-    if (output_diag && (v == VAR_tag || v == VAR_token)) {
+	ulong i;
+	LINKAGE *q;
+	VAR_INFO *var = vars + v;
+	ulong m = var->sz;
+	ulong n = m + 100;
+
+	/* Extend global linkage table */
+	string *s = var->names;
+	unsigned char *u = var->uses;
+	ulong *d = var->diags;
+	s = xrealloc (s, sizeof(*s) * n);
+	u = xrealloc (u, sizeof(*u) * n);
+	if (output_diag && (v == VAR_tag || v == VAR_token)) {
 		d = xrealloc (d, sizeof(*d) * n);
-    }
-    for (i = m ; i < n ; i++) {
+	}
+	for (i = m; i < n; i++) {
 		s [i] = NULL;
 		u [i] = USAGE_NONE;
 		if (d) d [i] = LINK_NONE;
-    }
-    var->sz = n;
-    var->names = s;
-    var->uses = u;
-    var->diags = d;
-	
-    /* Extend each unit linkage table */
-    for (q = all_links ; q != NULL ; q = q->next) {
+	}
+	var->sz = n;
+	var->names = s;
+	var->uses = u;
+	var->diags = d;
+
+	/* Extend each unit linkage table */
+	for (q = all_links; q != NULL; q = q->next) {
 		ulong *r = q->map [v];
 		r = xrealloc (r, sizeof(*r) * n);
-		for (i = m ; i < n ; i++) r [i] = LINK_NONE;
+		for (i = m; i < n; i++) r [i] = LINK_NONE;
 		q->map [v] = r;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -292,13 +292,13 @@ extend_linkage(int v)
 ulong
 capsule_no(string s, int v)
 {
-    VAR_INFO *var = vars + v;
-    ulong n = (var->no)++;
-    if (n >= var->sz) extend_linkage (v);
-    var->uses [n] = USAGE_USE;
-    var->names [n] = s;
-    var->present = 1;
-    return (n | LINK_EXTERN);
+	VAR_INFO *var = vars + v;
+	ulong n = (var->no)++;
+	if (n >= var->sz) extend_linkage (v);
+	var->uses [n] = USAGE_USE;
+	var->names [n] = s;
+	var->present = 1;
+	return (n | LINK_EXTERN);
 }
 
 
@@ -314,17 +314,17 @@ capsule_no(string s, int v)
 ulong
 capsule_name(ulong n, string *ps, int v)
 {
-    string s = *ps;
-    if (n == LINK_NONE) {
+	string s = *ps;
+	if (n == LINK_NONE) {
 		n = capsule_no (s, v);
-    } else {
+	} else {
 		VAR_INFO *var = vars + v;
 		ulong m = (n & ~LINK_EXTERN);
 		ASSERT (n & LINK_EXTERN);
 		*ps = var->names [m];
 		var->names [m] = s;
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -340,21 +340,21 @@ capsule_name(ulong n, string *ps, int v)
 int
 capsule_id(IDENTIFIER id, int v)
 {
-    int r;
-    IDENTIFIER lid = DEREF_id (id_alias (id));
-    ulong n = DEREF_ulong (id_no (lid));
-    if (n == LINK_NONE) {
+	int r;
+	IDENTIFIER lid = DEREF_id (id_alias (id));
+	ulong n = DEREF_ulong (id_no (lid));
+	if (n == LINK_NONE) {
 		/* Not yet given a number */
 		string s = mangle_name (lid, v, 0);
 		n = capsule_no (s, v);
 		COPY_ulong (id_no (lid), n);
 		COPY_ulong (id_no (id), n);
 		r = 1;
-    } else {
+	} else {
 		ASSERT (n & LINK_EXTERN);
 		r = 0;
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -369,17 +369,17 @@ capsule_id(IDENTIFIER id, int v)
 ulong
 link_no(BITSTREAM *bs, ulong n, int v)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
-    ulong m = (n & ~LINK_EXTERN);
-    n = lnk->map [v] [m];
-    if (n == LINK_NONE) {
+	LINKAGE *lnk = (LINKAGE *) bs->ts_link;
+	ulong m = (n & ~LINK_EXTERN);
+	n = lnk->map [v] [m];
+	if (n == LINK_NONE) {
 		/* Does not have unit number */
 		n = (lnk->no [v])++;
 		lnk->map [v] [m] = n;
 		(lnk->no_map [v])++;
 		vars [v].present = 1;
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -396,13 +396,13 @@ link_no(BITSTREAM *bs, ulong n, int v)
 ulong
 unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 {
-    ulong n;
-    if (IS_NULL_id (id)) {
+	ulong n;
+	if (IS_NULL_id (id)) {
 		/* Allow anonymous identifiers */
 		LINKAGE *lnk = (LINKAGE *) bs->ts_link;
 		n = (lnk->no [v])++;
 		vars [v].present = 1;
-    } else {
+	} else {
 		IDENTIFIER lid = DEREF_id (id_alias (id));
 		n = DEREF_ulong (id_no (lid));
 		if (n == LINK_NONE) {
@@ -424,7 +424,7 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 				LOCATION loc;
 				DEREF_loc (id_loc (id), loc);
 				report (loc, ERR_token_recursive (id));
-				n = last_params [ DUMMY_token ];
+				n = last_params [DUMMY_token];
 				COPY_ulong (id_no (id), n);
 			}
 			if (n & LINK_EXTERN) {
@@ -432,8 +432,8 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 				n = link_no (bs, n, v);
 			}
 		}
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -446,7 +446,7 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 void
 clear_no(IDENTIFIER id)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		IDENTIFIER lid = DEREF_id (id_alias (id));
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		COPY_dspec (id_storage (id), (ds & ~dspec_done));
@@ -456,8 +456,8 @@ clear_no(IDENTIFIER id)
 			COPY_dspec (id_storage (lid), (ds & ~dspec_done));
 			COPY_ulong (id_no (lid), LINK_NONE);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -471,16 +471,16 @@ clear_no(IDENTIFIER id)
 void
 set_diag_tag(IDENTIFIER id, int v, ulong m)
 {
-    ulong n = DEREF_ulong (id_no (id));
-    if (n == LINK_NONE) {
+	ulong n = DEREF_ulong (id_no (id));
+	if (n == LINK_NONE) {
 		IGNORE capsule_id (id, v);
 		CONS_id (id, pending_funcs, pending_funcs);
 		n = DEREF_ulong (id_no (id));
-    }
-    n &= ~LINK_EXTERN;
-    ASSERT (vars [v].diags);
-    vars [v].diags [n] = m;
-    return;
+	}
+	n &= ~LINK_EXTERN;
+	ASSERT (vars [v].diags);
+	vars [v].diags [n] = m;
+	return;
 }
 
 
@@ -494,11 +494,11 @@ set_diag_tag(IDENTIFIER id, int v, ulong m)
 ulong
 get_diag_tag(IDENTIFIER id, int v)
 {
-    ulong n = DEREF_ulong (id_no (id));
-    if (n == LINK_NONE) return (LINK_NONE);
-    n &= ~LINK_EXTERN;
-    ASSERT (vars [v].diags);
-    return (vars [v].diags [n]);
+	ulong n = DEREF_ulong (id_no (id));
+	if (n == LINK_NONE) return (LINK_NONE);
+	n &= ~LINK_EXTERN;
+	ASSERT (vars [v].diags);
+	return (vars [v].diags [n]);
 }
 
 
@@ -512,8 +512,8 @@ get_diag_tag(IDENTIFIER id, int v)
 ulong
 no_labels(BITSTREAM *bs)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
-    return (lnk->no [ VAR_label ]);
+	LINKAGE *lnk = (LINKAGE *) bs->ts_link;
+	return (lnk->no [VAR_label]);
 }
 
 
@@ -527,11 +527,11 @@ no_labels(BITSTREAM *bs)
 void
 record_usage(ulong n, int v, unsigned u)
 {
-    ulong m = (n & ~LINK_EXTERN);
-    unsigned char *pw = vars [v].uses + m;
-    unsigned w = (unsigned) *pw;
-    *pw = (unsigned char) (w | u);
-    return;
+	ulong m = (n & ~LINK_EXTERN);
+	unsigned char *pw = vars [v].uses + m;
+	unsigned w = (unsigned) *pw;
+	*pw = (unsigned char) (w | u);
+	return;
 }
 
 
@@ -545,9 +545,9 @@ record_usage(ulong n, int v, unsigned u)
 unsigned
 find_usage(ulong n, int v)
 {
-    ulong m = (n & ~LINK_EXTERN);
-    unsigned u = (unsigned) vars [v].uses [m];
-    return (u);
+	ulong m = (n & ~LINK_EXTERN);
+	unsigned u = (unsigned) vars [v].uses [m];
+	return (u);
 }
 
 
@@ -561,9 +561,9 @@ find_usage(ulong n, int v)
 void
 clear_usage(ulong n, int v)
 {
-    ulong m = (n & ~LINK_EXTERN);
-    vars [v].uses [m] = USAGE_NONE;
-    return;
+	ulong m = (n & ~LINK_EXTERN);
+	vars [v].uses [m] = USAGE_NONE;
+	return;
 }
 
 
@@ -578,9 +578,9 @@ clear_usage(ulong n, int v)
 void
 count_item(BITSTREAM *bs)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
-    (lnk->count)++;
-    return;
+	LINKAGE *lnk = (LINKAGE *) bs->ts_link;
+	(lnk->count)++;
+	return;
 }
 
 
@@ -595,7 +595,7 @@ count_item(BITSTREAM *bs)
 static void
 add_unit(int u, BITSTREAM *bs, BITSTREAM *ps)
 {
-    if (bs) {
+	if (bs) {
 		LINKAGE *lnk = (LINKAGE *) bs->ts_link;
 		if (lnk == NULL || lnk->count || ps) {
 			EQN_INFO *eqn = eqns + u;
@@ -606,8 +606,8 @@ add_unit(int u, BITSTREAM *bs, BITSTREAM *ps)
 			eqn->units = us;
 			eqn->pres = vs;
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -653,12 +653,12 @@ ulong term_no = 0;
  *    added at a subsequent stage.
  */
 
-static BITSTREAM
-*make_tld_unit()
+static BITSTREAM *
+make_tld_unit(void)
 {
-    struct tdf_stream *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
-    ENC_INT (bs, 1);
-    return (bs);
+	struct tdf_stream *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+	ENC_INT (bs, 1);
+	return (bs);
 }
 
 
@@ -669,23 +669,23 @@ static BITSTREAM
  *    which gives the TDF version number.
  */
 
-static BITSTREAM
-*make_version_unit()
+static BITSTREAM *
+make_version_unit(void)
 {
-    BITSTREAM *bs;
-    start_linkage (&bs, 1);
-    ENC_make_version (bs);
-    bs = enc_version (bs);
-    count_item (bs);
-    if (output_all) {
+	BITSTREAM *bs;
+	start_linkage (&bs, 1);
+	ENC_make_version (bs);
+	bs = enc_version (bs);
+	count_item (bs);
+	if (output_all) {
 		/* Output compiler version number */
 		string vers = report_version (0);
 		ENC_user_info (bs);
 		ENC_make_string (bs);
 		tdf_en_ustring (bs, vers);
 		count_item (bs);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -697,23 +697,23 @@ static BITSTREAM
  */
 
 static void
-make_capsule_units()
+make_capsule_units(void)
 {
-    BITSTREAM *bs;
-    init_diag ();
-    bs = make_version_unit ();
-    add_unit (EQN_versions, bs, NULL);
-    enc_dynamic_init ();
-    add_unit (EQN_tokdec, tokdec_unit, NULL);
-    add_unit (EQN_tokdef, tokdef_unit, NULL);
-    add_unit (EQN_aldef, aldef_unit, NULL);
-    add_unit (EQN_diagtype, diagtype_unit, NULL);
-    add_unit (EQN_tagdec, tagdec_unit, NULL);
-    add_unit (EQN_diagdef, diagdef_unit, NULL);
-    add_unit (EQN_dgcomp, diagcomp_unit, diagcomp_pre);
-    add_unit (EQN_tagdef, tagdef_unit, NULL);
-    add_unit (EQN_linkinfo, linkinfo_unit, NULL);
-    return;
+	BITSTREAM *bs;
+	init_diag ();
+	bs = make_version_unit ();
+	add_unit (EQN_versions, bs, NULL);
+	enc_dynamic_init ();
+	add_unit (EQN_tokdec, tokdec_unit, NULL);
+	add_unit (EQN_tokdef, tokdef_unit, NULL);
+	add_unit (EQN_aldef, aldef_unit, NULL);
+	add_unit (EQN_diagtype, diagtype_unit, NULL);
+	add_unit (EQN_tagdec, tagdec_unit, NULL);
+	add_unit (EQN_diagdef, diagdef_unit, NULL);
+	add_unit (EQN_dgcomp, diagcomp_unit, diagcomp_pre);
+	add_unit (EQN_tagdef, tagdef_unit, NULL);
+	add_unit (EQN_linkinfo, linkinfo_unit, NULL);
+	return;
 }
 
 
@@ -724,19 +724,19 @@ make_capsule_units()
  *    are used to designate the components of unique identifiers.
  */
 
-static BITSTREAM
-*enc_name(BITSTREAM *bs, string s, int v)
+static BITSTREAM *
+enc_name(BITSTREAM *bs, string s, int v)
 {
-    string t = s;
-    unsigned u = 0;
-    unsigned long n;
-    for (; ;) {
+	string t = s;
+	unsigned u = 0;
+	unsigned long n;
+	for (;;) {
 		t = ustrchr (t, ' ');
 		u++;
 		if (t == NULL) break;
 		t++;
-    }
-    if (u == 1) {
+	}
+	if (u == 1) {
 		/* Simple identifiers */
 		n = (unsigned long) ustrlen (s);
 		if (v == VAR_tag && n > mangle_length) {
@@ -745,12 +745,12 @@ static BITSTREAM
 		ENC_string_extern (bs);
 		ENC_ALIGN (bs);
 		ENC_IDENT (bs, s, n);
-    } else {
+	} else {
 		/* Unique identifiers */
 		ENC_unique_extern (bs);
 		ENC_ALIGN (bs);
 		ENC_SLIST (bs, u);
-		for (; ;) {
+		for (;;) {
 			t = ustrchr (s, ' ');
 			if (t == NULL) {
 				n = (unsigned long) ustrlen (s);
@@ -761,8 +761,8 @@ static BITSTREAM
 			ENC_IDENT (bs, s, n);
 			s = t + 1;
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -773,75 +773,75 @@ static BITSTREAM
  *    bitstream bs.
  */
 
-static BITSTREAM
-*write_capsule_body(BITSTREAM *bs)
+static BITSTREAM *
+write_capsule_body(BITSTREAM *bs)
 {
-    int i, j;
-    EQN_INFO *eqn;
-    VAR_INFO *var;
-    ulong no_eqns = 0;
-    ulong no_vars = 0;
-    BITSTREAM *ts, *to;
-	
-    /* Call capsule construction routines */
-    make_capsule_units ();
-	
-    /* Count the number of variables */
-    var = vars;
-    for (i = 0 ; i < VAR_no ; i++) {
+	int i, j;
+	EQN_INFO *eqn;
+	VAR_INFO *var;
+	ulong no_eqns = 0;
+	ulong no_vars = 0;
+	BITSTREAM *ts, *to;
+
+	/* Call capsule construction routines */
+	make_capsule_units ();
+
+	/* Count the number of variables */
+	var = vars;
+	for (i = 0; i < VAR_no; i++) {
 		if (var->present) no_vars++;
 		var++;
-    }
-	
-    /* Construct linker information unit */
-    if (no_vars) {
+	}
+
+	/* Construct linker information unit */
+	if (no_vars) {
 		ts = make_tld_unit ();
 		add_unit (EQN_tld, ts, NULL);
-    } else {
+	} else {
 		ts = NULL;
-    }
-    to = ts;
-	
-    /* Count the number of equations */
-    eqn = eqns;
-    for (i = 0 ; i < EQN_no ; i++) {
+	}
+	to = ts;
+
+	/* Count the number of equations */
+	eqn = eqns;
+	for (i = 0; i < EQN_no; i++) {
 		if (!IS_NULL_list (eqn->units)) no_eqns++;
 		eqn++;
-    }
-	
-    /* Output the equation names */
-    eqn = eqns;
-    ENC_SLIST (bs, no_eqns);
-    for (i = 0 ; i < EQN_no ; i++) {
+	}
+
+	/* Output the equation names */
+	eqn = eqns;
+	ENC_SLIST (bs, no_eqns);
+	for (i = 0; i < EQN_no; i++) {
 		if (!IS_NULL_list (eqn->units)) {
 			string s = ustrlit (eqn->name);
 			ENC_IDENT (bs, s, ustrlen (s));
 		}
 		eqn++;
-    }
-	
-    /* Output the variable names and numbers */
-    var = vars;
-    ENC_SLIST (bs, no_vars);
-    for (i = 0 ; i < VAR_no ; i++) {
+	}
+
+	/* Output the variable names and numbers */
+	var = vars;
+	ENC_SLIST (bs, no_vars);
+	for (i = 0; i < VAR_no; i++) {
 		if (var->present) {
 			string s = ustrlit (var->name);
 			ENC_IDENT (bs, s, ustrlen (s));
 			ENC_INT (bs, var->no);
 		}
 		var++;
-    }
-	
-    /* Output the external variable identifiers */
-    var = vars;
-    ENC_SLIST (bs, no_vars);
-    for (i = 0 ; i < VAR_no ; i++) {
+	}
+
+	/* Output the external variable identifiers */
+	var = vars;
+	ENC_SLIST (bs, no_vars);
+	for (i = 0; i < VAR_no; i++) {
 		if (var->present) {
 			ulong no_ext = 0;
 			ulong k, n = var->no;
 			string *names = var->names;
 			unsigned char *uses = var->uses;
-			for (k = 0 ; k < n ; k++) {
+			for (k = 0; k < n; k++) {
 				string s = names [k];
 				unsigned use = (unsigned) uses [k];
 				if (use != USAGE_NONE) {
@@ -880,7 +880,7 @@ static BITSTREAM
 				}
 			}
 			ENC_SLIST (bs, no_ext);
-			for (k = 0 ; k < n ; k++) {
+			for (k = 0; k < n; k++) {
 				string s = names [k];
 				if (s) {
 					unsigned use = (unsigned) uses [k];
@@ -899,19 +899,19 @@ static BITSTREAM
 			}
 		}
 		var++;
-    }
-	
-    /* Update linker information unit */
-    if (ts != to) {
-		LIST (BITSTREAM_P) u = eqns [ EQN_tld ].units;
+	}
+
+	/* Update linker information unit */
+	if (ts != to) {
+		LIST (BITSTREAM_P) u = eqns [EQN_tld].units;
 		u = END_list (u);
 		COPY_bits (HEAD_list (u), ts);
-    }
-	
-    /* Output the equation units */
-    eqn = eqns;
-    ENC_SLIST (bs, no_eqns);
-    for (i = 0 ; i < EQN_no ; i++) {
+	}
+
+	/* Output the equation units */
+	eqn = eqns;
+	ENC_SLIST (bs, no_eqns);
+	for (i = 0; i < EQN_no; i++) {
 		int labels = eqn->labels;
 		int count = eqn->count;
 		LIST (BITSTREAM_P) u = eqn->units;
@@ -929,31 +929,31 @@ static BITSTREAM
 				BITSTREAM *us = DEREF_bits (HEAD_list (u));
 				BITSTREAM *vs = DEREF_bits (HEAD_list (v));
 				void *plnk = us->ts_link;
-				
+
 				/* Output linkage information */
 				if (plnk) {
 					/* Output numbers of local variables */
 					LINKAGE *lnk = (LINKAGE *) plnk;
 					var = vars;
 					ENC_SLIST (bs, no_vars);
-					for (j = 0 ; j < VAR_no ; j++) {
+					for (j = 0; j < VAR_no; j++) {
 						if (var->present) {
 							ulong nj = lnk->no [j];
 							ENC_INT (bs, nj);
 						}
 						var++;
 					}
-					
+
 					/* Output links for local variables */
 					ENC_SLIST (bs, no_vars);
 					var = vars;
-					for (j = 0 ; j < VAR_no ; j++) {
+					for (j = 0; j < VAR_no; j++) {
 						if (var->present) {
 							ulong k, n = vars [j].no;
 							ulong *map = lnk->map [j];
 							ulong no_map = lnk->no_map [j];
 							ENC_SLIST (bs, no_map);
-							for (k = 0 ; k < n ; k++) {
+							for (k = 0; k < n; k++) {
 								ulong nk = map [k];
 								if (nk != LINK_NONE) {
 									ENC_INT (bs, nk);
@@ -963,14 +963,14 @@ static BITSTREAM
 						}
 						var++;
 					}
-					
+
 					/* Add extra information to unit */
 					if (lnk->create && (labels || count || vs)) {
 						BITSTREAM *ws;
 						ws = tdf_bs_create (NULL, TDFS_MODE_WRITE, plnk);
 						if (labels) {
 							/* Number of labels */
-							ulong no_labs = lnk->no [ VAR_label ];
+							ulong no_labs = lnk->no [VAR_label];
 							ENC_INT (ws, no_labs);
 						}
 						ws = tdf_en_stream (ws, vs);
@@ -981,13 +981,13 @@ static BITSTREAM
 						}
 						us = tdf_en_stream (ws, us);
 					}
-					
+
 				} else {
 					/* No linkage information */
 					ENC_SLIST_SMALL (bs, 0);
 					ENC_SLIST_SMALL (bs, 0);
 				}
-				
+
 				/* Add unit bitstream to capsule */
 				ENC_ALIGN (us);
 				ub = us->ts_pos;
@@ -999,8 +999,8 @@ static BITSTREAM
 			}
 		}
 		eqn++;
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1013,8 +1013,8 @@ static BITSTREAM
  */
 
 CLASS_TYPE last_class = NULL_ctype;
-ulong last_params [ DUMMY_max ];
-int last_conts [ DUMMY_max ];
+ulong last_params [DUMMY_max];
+int last_conts [DUMMY_max];
 
 
 /*
@@ -1024,14 +1024,14 @@ int last_conts [ DUMMY_max ];
  */
 
 void
-clear_params()
+clear_params(void)
 {
-    int n;
-    for (n = 0 ; n < DUMMY_max ; n++) {
+	int n;
+	for (n = 0; n < DUMMY_max; n++) {
 		last_params [n] = LINK_NONE;
 		last_conts [n] = 0;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1042,9 +1042,9 @@ clear_params()
  */
 
 void
-init_capsule()
+init_capsule(void)
 {
-    if (output_capsule) {
+	if (output_capsule) {
 		/* Initialise capsule units */
 		HASHID nm;
 		void *lnk;
@@ -1065,7 +1065,7 @@ init_capsule()
 			output_unused = 1;
 		}
 		written_capsule = 0;
-		
+
 		/* Initialise special functions */
 		clear_params ();
 		lnk = tagdef_unit->ts_link;
@@ -1074,7 +1074,7 @@ init_capsule()
 		term_static_func = tdf_bs_create (NULL, TDFS_MODE_WRITE, lnk);
 		init_no = 0;
 		term_no = 0;
-		
+
 		/* Initialise dummy types */
 		MAKE_type_compound (cv_none, NULL_ctype, dummy_class);
 		MAKE_type_ptr (cv_none, dummy_class, ptr_dummy_class);
@@ -1088,8 +1088,8 @@ init_capsule()
 		MAKE_off_type (type_size_t, off_size_t);
 		nm = lookup_anon ();
 		dummy_type_name = DEREF_id (hashid_id (nm));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1101,10 +1101,10 @@ init_capsule()
  */
 
 void
-init_diag()
+init_diag(void)
 {
 #if TDF_NEW_DIAG
-    if (output_capsule && output_diag >= 2) {
+	if (output_capsule && output_diag >= 2) {
 		BITSTREAM *bs = diagcomp_pre;
 		if (bs == NULL) {
 			bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagcomp_unit->ts_link);
@@ -1112,9 +1112,9 @@ init_diag()
 			diagcomp_pre = bs;
 			output_new_diag = output_diag;
 		}
-    }
+	}
 #endif
-    return;
+	return;
 }
 
 
@@ -1136,10 +1136,10 @@ init_diag()
  *    bitstream bs.
  */
 
-static BITSTREAM
-*write_capsule_body(BITSTREAM *bs)
+static BITSTREAM *
+write_capsule_body(BITSTREAM *bs)
 {
-    return (bs);
+	return (bs);
 }
 
 
@@ -1151,10 +1151,10 @@ static BITSTREAM
  */
 
 void
-init_capsule()
+init_capsule(void)
 {
-    output_capsule = 0;
-    return;
+	output_capsule = 0;
+	return;
 }
 
 
@@ -1166,9 +1166,9 @@ init_capsule()
  */
 
 void
-init_diag()
+init_diag(void)
 {
-    return;
+	return;
 }
 
 
@@ -1221,41 +1221,41 @@ int output_virtual = 0;
 void
 output_option(string opt)
 {
-    int out = 1;
-    character c;
-    while (c = *(opt++), c != 0) {
+	int out = 1;
+	character c;
+	while (c = *(opt++), c != 0) {
 		switch (c) {
-	    case 'a' : output_all = out ; break;
-	    case 'b' : output_bugs = out ; break;
-	    case 'c' : output_capsule = out ; break;
-	    case 'd' : output_term = out ; break;
-	    case 'e' : output_except = out ; break;
-	    case 'f' : mangle_signature = out ; break;
-	    case 'g' : output_diag = (DIAG_VERSION * out) ; break;
-	    case 'h' : output_builtin = out ; break;
-	    case 'i' : output_init = out ; break;
-	    case 'j' : output_inline = out ; break;
-	    case 'l' : output_std = out ; break;
-	    case 'm' : output_date = out ; break;
-	    case 'n' : mangle_objects = out ; break;
-	    case 'o' : output_order = out ; break;
-	    case 'p' : output_partial = out ; break;
-	    case 'r' : output_rtti = out ; break;
-	    case 's' : output_shared = out ; break;
-	    case 't' : output_tokdec = out ; break;
-	    case 'u' : output_unused = out ; break;
-	    case 'v' : output_virtual = out ; break;
-	    case '+' : out = 1 ; break;
-	    case '-' : out = 0 ; break;
-	    default : {
+		case 'a' : output_all = out; break;
+		case 'b' : output_bugs = out; break;
+		case 'c' : output_capsule = out; break;
+		case 'd' : output_term = out; break;
+		case 'e' : output_except = out; break;
+		case 'f' : mangle_signature = out; break;
+		case 'g' : output_diag = (DIAG_VERSION * out); break;
+		case 'h' : output_builtin = out; break;
+		case 'i' : output_init = out; break;
+		case 'j' : output_inline = out; break;
+		case 'l' : output_std = out; break;
+		case 'm' : output_date = out; break;
+		case 'n' : mangle_objects = out; break;
+		case 'o' : output_order = out; break;
+		case 'p' : output_partial = out; break;
+		case 'r' : output_rtti = out; break;
+		case 's' : output_shared = out; break;
+		case 't' : output_tokdec = out; break;
+		case 'u' : output_unused = out; break;
+		case 'v' : output_virtual = out; break;
+		case '+' : out = 1; break;
+		case '-' : out = 0; break;
+		default : {
 			/* Unknown output options */
 			const char *err = "Unknown output option, '%c'";
 			error (ERROR_WARNING, err, (int) c);
 			break;
-	    }
 		}
-    }
-    return;
+		}
+	}
+	return;
 }
 
 
@@ -1267,16 +1267,16 @@ output_option(string opt)
  *    represent are not used.
  */
 
-BITSTREAM
-*enc_version(BITSTREAM *bs)
+BITSTREAM *
+enc_version(BITSTREAM *bs)
 {
-    int v = TDF_minor;
+	int v = TDF_minor;
 #if (TDF_major == 4 && TDF_minor == 1)
-    if (!output_new_diag) v = 0;
+	if (!output_new_diag) v = 0;
 #endif
-    ENC_INT (bs, TDF_major);
-    ENC_INT (bs, v);
-    return (bs);
+	ENC_INT (bs, TDF_major);
+	ENC_INT (bs, v);
+	return (bs);
 }
 
 
@@ -1288,22 +1288,22 @@ BITSTREAM
  */
 
 void
-write_capsule()
+write_capsule(void)
 {
-    if (output_tdf && !written_capsule) {
+	if (output_tdf && !written_capsule) {
 		/* Open the output file */
 		FILE *f;
 		BITSTREAM *bs;
 		written_capsule = 1;
 		if (!open_output (OUTPUT_TDF, binary_mode)) {
-			string nm = output_name [ OUTPUT_TDF ];
+			string nm = output_name [OUTPUT_TDF];
 			fail (ERR_fail_output (nm));
 			tenapp_exit ();
 			return;
 		}
-		f = output_file [ OUTPUT_TDF ];
+		f = output_file [OUTPUT_TDF];
 		bs = tdf_bs_create (f, TDFS_MODE_WRITE, NULL);
-		
+
 		/* Encode the magic number (4.0 and later) */
 		ASSERT (TDF_VERSION == 100 * TDF_major + TDF_minor);
 #if (TDF_major >= 4)
@@ -1314,7 +1314,7 @@ write_capsule()
 		bs = enc_version (bs);
 		ENC_ALIGN (bs);
 #endif
-		
+
 		/* Encode the main capsule body */
 		if (output_capsule) {
 			bs = write_capsule_body (bs);
@@ -1327,6 +1327,6 @@ write_capsule()
 		tdf_en_align(bs);
 		tdf_stream_destroy (bs);
 		close_output (OUTPUT_TDF);
-    }
-    return;
+	}
+	return;
 }

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -86,7 +86,7 @@ FAIL_COMPILER Unknown TDF version number!
  *    more than once in certain of these macros.
  */
 
-#define ENC_LIST(A, B)	{ ENC_BITS (A, 1, 0) ; ENC_INT (A, B) ; }
+#define ENC_LIST(A, B)	{ ENC_BITS (A, 1, 0); ENC_INT (A, B); }
 #define ENC_SLIST(A, B)	ENC_INT (A, B)
 #define ENC_LENGTH(A, B)	ENC_INT (A, B)
 
@@ -98,8 +98,8 @@ FAIL_COMPILER Unknown TDF version number!
 #define ENC_NTEST(A, B)	ENX_ntest (A, (B) + 3)
 #define ENC_RMODE(A, B)	ENX_rounding_mode (A, (B) + 3)
 
-#define ENC_SEQUENCE(A, B)	{ ENC_sequence (A) ; ENC_LIST (A, B) ; }
-#define ENC_SEQ_SMALL(A, B)	{ ENC_sequence (A) ; ENC_LIST_SMALL (A, B) ; }
+#define ENC_SEQUENCE(A, B)	{ ENC_sequence (A); ENC_LIST (A, B); }
+#define ENC_SEQ_SMALL(A, B)	{ ENC_sequence (A); ENC_LIST_SMALL (A, B); }
 
 #ifndef LINK_dg_comp_props
 #define LINK_dg_comp_props		"<error>"

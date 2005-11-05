@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -112,7 +112,7 @@
  *    This table gives the mangled forms of the built-in types.
  */
 
-char mangle_ntype [ ORDER_ntype ] [3] = {
+char mangle_ntype [ORDER_ntype] [3] = {
 	{ MANGLE_error, 0, 0 },			/* ntype_none */
 	{ MANGLE_char, 0, 0 },			/* ntype_char */
 	{ MANGLE_signed, MANGLE_char, 0 },		/* ntype_schar */
@@ -1241,62 +1241,62 @@ mangle_op(int op)
 	const char *s;
 	switch (op) {
 		/* Standard operator names */
-	case lex_abs : s = "__ab" ; break;
-	case lex_and_H1 : s = "__ad" ; break;
-	case lex_and_Heq_H1 : s = "__aad" ; break;
-	case lex_array_Hop : s = "__vc" ; break;
-	case lex_arrow : s = "__rf" ; break;
-	case lex_arrow_Hstar : s = "__rm" ; break;
-	case lex_assign : s = "__as" ; break;
-	case lex_comma : s = "__cm" ; break;
-	case lex_compl_H1 : s = "__co" ; break;
-	case lex_delete : s = "__dl" ; break;
-	case lex_delete_Harray : s = "__vd" ; break;
-	case lex_div : s = "__dv" ; break;
-	case lex_div_Heq : s = "__adv" ; break;
-	case lex_eq : s = "__eq" ; break;
-	case lex_func_Hop : s = "__cl" ; break;
-	case lex_greater : s = "__gt" ; break;
-	case lex_greater_Heq : s = "__ge" ; break;
-	case lex_less : s = "__lt" ; break;
-	case lex_less_Heq : s = "__le" ; break;
-	case lex_logical_Hand_H1 : s = "__aa" ; break;
-	case lex_logical_Hor_H1 : s = "__oo" ; break;
-	case lex_lshift : s = "__ls" ; break;
-	case lex_lshift_Heq : s = "__als" ; break;
-	case lex_max : s = "__mx" ; break;
-	case lex_min : s = "__mn" ; break;
-	case lex_minus : s = "__mi" ; break;
-	case lex_minus_Heq : s = "__ami" ; break;
-	case lex_minus_Hminus : s = "__mm" ; break;
-	case lex_new : s = "__nw" ; break;
-	case lex_new_Harray : s = "__vn" ; break;
-	case lex_not_H1 : s = "__nt" ; break;
-	case lex_not_Heq_H1 : s = "__ne" ; break;
-	case lex_or_H1 : s = "__or" ; break;
-	case lex_or_Heq_H1 : s = "__aor" ; break;
-	case lex_plus : s = "__pl" ; break;
-	case lex_plus_Heq : s = "__apl" ; break;
-	case lex_plus_Hplus : s = "__pp" ; break;
-	case lex_rem : s = "__md" ; break;
-	case lex_rem_Heq : s = "__amd" ; break;
-	case lex_rshift : s = "__rs" ; break;
-	case lex_rshift_Heq : s = "__ars" ; break;
-	case lex_star : s = "__ml" ; break;
-	case lex_star_Heq : s = "__aml" ; break;
-	case lex_xor_H1 : s = "__er" ; break;
-	case lex_xor_Heq_H1 : s = "__aer" ; break;
+	case lex_abs : s = "__ab"; break;
+	case lex_and_H1 : s = "__ad"; break;
+	case lex_and_Heq_H1 : s = "__aad"; break;
+	case lex_array_Hop : s = "__vc"; break;
+	case lex_arrow : s = "__rf"; break;
+	case lex_arrow_Hstar : s = "__rm"; break;
+	case lex_assign : s = "__as"; break;
+	case lex_comma : s = "__cm"; break;
+	case lex_compl_H1 : s = "__co"; break;
+	case lex_delete : s = "__dl"; break;
+	case lex_delete_Harray : s = "__vd"; break;
+	case lex_div : s = "__dv"; break;
+	case lex_div_Heq : s = "__adv"; break;
+	case lex_eq : s = "__eq"; break;
+	case lex_func_Hop : s = "__cl"; break;
+	case lex_greater : s = "__gt"; break;
+	case lex_greater_Heq : s = "__ge"; break;
+	case lex_less : s = "__lt"; break;
+	case lex_less_Heq : s = "__le"; break;
+	case lex_logical_Hand_H1 : s = "__aa"; break;
+	case lex_logical_Hor_H1 : s = "__oo"; break;
+	case lex_lshift : s = "__ls"; break;
+	case lex_lshift_Heq : s = "__als"; break;
+	case lex_max : s = "__mx"; break;
+	case lex_min : s = "__mn"; break;
+	case lex_minus : s = "__mi"; break;
+	case lex_minus_Heq : s = "__ami"; break;
+	case lex_minus_Hminus : s = "__mm"; break;
+	case lex_new : s = "__nw"; break;
+	case lex_new_Harray : s = "__vn"; break;
+	case lex_not_H1 : s = "__nt"; break;
+	case lex_not_Heq_H1 : s = "__ne"; break;
+	case lex_or_H1 : s = "__or"; break;
+	case lex_or_Heq_H1 : s = "__aor"; break;
+	case lex_plus : s = "__pl"; break;
+	case lex_plus_Heq : s = "__apl"; break;
+	case lex_plus_Hplus : s = "__pp"; break;
+	case lex_rem : s = "__md"; break;
+	case lex_rem_Heq : s = "__amd"; break;
+	case lex_rshift : s = "__rs"; break;
+	case lex_rshift_Heq : s = "__ars"; break;
+	case lex_star : s = "__ml"; break;
+	case lex_star_Heq : s = "__aml"; break;
+	case lex_xor_H1 : s = "__er"; break;
+	case lex_xor_Heq_H1 : s = "__aer"; break;
 
 		/* Invalid operator names */
-	case lex_cond_Hop : s = "__cn" ; break;
-	case lex_colon : s = "__cs" ; break;
-	case lex_colon_Hcolon : s = "__cc" ; break;
-	case lex_dot : s = "__df" ; break;
-	case lex_dot_Hstar : s = "__dm" ; break;
-	case lex_sizeof : s = "__sz" ; break;
-	case lex_typeid : s = "__td" ; break;
-	case lex_vtable : s = "__tb" ; break;
-	default : s = mangle_ntype [0] ; break;
+	case lex_cond_Hop : s = "__cn"; break;
+	case lex_colon : s = "__cs"; break;
+	case lex_colon_Hcolon : s = "__cc"; break;
+	case lex_dot : s = "__df"; break;
+	case lex_dot_Hstar : s = "__dm"; break;
+	case lex_sizeof : s = "__sz"; break;
+	case lex_typeid : s = "__td"; break;
+	case lex_vtable : s = "__tb"; break;
+	default : s = mangle_ntype [0]; break;
 	}
 	return (ustrlit (s));
 }
@@ -1701,7 +1701,7 @@ mangle_tname(const char *pre, TYPE t)
  */
 
 string
-mangle_init()
+mangle_init(void)
 {
 #if (TDF_major >= 4)
 	return (NULL);
@@ -1722,7 +1722,7 @@ mangle_init()
  */
 
 string
-mangle_anon()
+mangle_anon(void)
 {
 	char buff [50];
 	static unsigned long anon_no = 0;

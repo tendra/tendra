@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -130,9 +130,9 @@ LIST (IDENTIFIER) pending_funcs = NULL_list (IDENTIFIER);
 static void
 check_mangled(IDENTIFIER id)
 {
-    IDENTIFIER lid = DEREF_id (id_alias (id));
-    DECL_SPEC ds = DEREF_dspec (id_storage (lid));
-    if (!(ds & dspec_done)) {
+	IDENTIFIER lid = DEREF_id (id_alias (id));
+	DECL_SPEC ds = DEREF_dspec (id_storage (lid));
+	if (!(ds & dspec_done)) {
 		if ((ds & dspec_extern) && !(ds & dspec_defn)) {
 			if (ds & (dspec_used | dspec_called)) {
 				/* Should have an external name */
@@ -146,8 +146,8 @@ check_mangled(IDENTIFIER id)
 		}
 		ds |= dspec_done;
 		COPY_dspec (id_storage (lid), ds);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -179,10 +179,10 @@ DECL_SPEC crt_func_access = dspec_none;
  *    declaration specifiers ds.
  */
 
-BITSTREAM
-*enc_access(BITSTREAM *bs, DECL_SPEC ds)
+BITSTREAM *
+enc_access(BITSTREAM *bs, DECL_SPEC ds)
 {
-    if (ds & dspec_mutable) {
+	if (ds & dspec_mutable) {
 		ENC_ON (bs);
 		if (output_bugs) {
 			/* Needed for old installer bug */
@@ -190,10 +190,10 @@ BITSTREAM
 			ENC_visible (bs);
 		}
 		ENC_long_jump_access (bs);
-    } else {
+	} else {
 		ENC_OFF (bs);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -205,14 +205,14 @@ BITSTREAM
  *    in TDF version 4.0.
  */
 
-static BITSTREAM
-*enc_signature(BITSTREAM *bs, IDENTIFIER id)
+static BITSTREAM *
+enc_signature(BITSTREAM *bs, IDENTIFIER id)
 {
 #if (TDF_major >= 4)
-    ENC_OFF (bs);
+	ENC_OFF (bs);
 #endif
-    UNUSED (id);
-    return (bs);
+	UNUSED (id);
+	return (bs);
 }
 
 
@@ -228,9 +228,9 @@ static BITSTREAM
 static int
 is_common_tag(IDENTIFIER id, string *ps)
 {
-    NAMESPACE ns = DEREF_nspace (id_parent (id));
-    IDENTIFIER pid = DEREF_id (nspace_name (ns));
-    if (!IS_NULL_id (pid) && IS_id_function_etc (pid)) {
+	NAMESPACE ns = DEREF_nspace (id_parent (id));
+	IDENTIFIER pid = DEREF_id (nspace_name (ns));
+	if (!IS_NULL_id (pid) && IS_id_function_etc (pid)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (pid));
 		if ((ds & dspec_inline) && (ds & dspec_extern)) {
 			string s = mangle_name (pid, VAR_tag, 1);
@@ -239,8 +239,8 @@ is_common_tag(IDENTIFIER id, string *ps)
 				return (2);
 			}
 		}
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -253,39 +253,39 @@ is_common_tag(IDENTIFIER id, string *ps)
  *    initialisation and termination need to be done dynamically.
  */
 
-static BITSTREAM
-*enc_static_var(BITSTREAM *bs, IDENTIFIER id)
+static BITSTREAM *
+enc_static_var(BITSTREAM *bs, IDENTIFIER id)
 {
-    ulong n;
-    int ext = 0;
-    BITSTREAM *ts;
-    string s = NULL;
-    int i = in_static_init;
-    int uc = unreached_code;
-    int var = is_common_tag (id, &s);
-    TYPE t = DEREF_type (id_variable_type (id));
-    EXP a = DEREF_exp (id_variable_init (id));
-    EXP b = DEREF_exp (id_variable_term (id));
-	
-    /* Encode the tag declaration */
-    if (var == 2 || output_all) ext = 1 ;;
-    IGNORE capsule_id (id, VAR_tag);
-    n = DEREF_ulong (id_no (id));
-    if (ext) {
+	ulong n;
+	int ext = 0;
+	BITSTREAM *ts;
+	string s = NULL;
+	int i = in_static_init;
+	int uc = unreached_code;
+	int var = is_common_tag (id, &s);
+	TYPE t = DEREF_type (id_variable_type (id));
+	EXP a = DEREF_exp (id_variable_init (id));
+	EXP b = DEREF_exp (id_variable_term (id));
+
+	/* Encode the tag declaration */
+	if (var == 2 || output_all) ext = 1;;
+	IGNORE capsule_id (id, VAR_tag);
+	n = DEREF_ulong (id_no (id));
+	if (ext) {
 		/* Make up external name for variable */
 		string sn = mangle_common (s, id);
 		n = capsule_name (n, &sn, VAR_tag);
-    }
-    enc_tagdec (id, n, t, var);
-	
-    /* Encode the tag definition */
-    ts = enc_tagdef_start (id, n, t, var);
-    in_static_init = 1;
-    unreached_code = 0;
-    if (!IS_NULL_exp (a) && IS_exp_dynamic (a)) {
+	}
+	enc_tagdec (id, n, t, var);
+
+	/* Encode the tag definition */
+	ts = enc_tagdef_start (id, n, t, var);
+	in_static_init = 1;
+	unreached_code = 0;
+	if (!IS_NULL_exp (a) && IS_exp_dynamic (a)) {
 		/* Dynamic initialiser */
 		ts = enc_null_exp (ts, t);
-    } else {
+	} else {
 		/* Static initialiser */
 		if (var == 2) {
 			ts = enc_null_exp (ts, t);
@@ -294,13 +294,13 @@ static BITSTREAM
 			ts = enc_exp (ts, a);
 			a = NULL_exp;
 		}
-    }
-    unreached_code = uc;
-    in_static_init = i;
-    enc_tagdef_end (ts);
-	
-    /* Encode dynamic components */
-    if (!IS_NULL_exp (a) || !IS_NULL_exp (b)) {
+	}
+	unreached_code = uc;
+	in_static_init = i;
+	enc_tagdef_end (ts);
+
+	/* Encode dynamic components */
+	if (!IS_NULL_exp (a) || !IS_NULL_exp (b)) {
 		/* Declare flag */
 		ulong m1;
 		int dummy = 0;
@@ -331,7 +331,7 @@ static BITSTREAM
 			}
 			term_no++;
 		}
-		
+
 		/* Encode initialiser */
 		ENC_SEQ_SMALL (bs, 1);
 		m1 = link_no (bs, m, VAR_tag);
@@ -350,15 +350,15 @@ static BITSTREAM
 		if (!IS_NULL_exp (a)) {
 			ENC_make_top (bs);
 		}
-		
+
 		/* Encode destructor */
 		if (!IS_NULL_exp (b)) {
 			ts = term_static_func;
 			ts = enc_term_global (ts, n, t, b, m);
 			term_static_func = ts;
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -374,17 +374,16 @@ static BITSTREAM
  *    corresponding declaration statement for use with diagnostics.
  */
 
-BITSTREAM
-*enc_variable(BITSTREAM *bs, IDENTIFIER id,
-			  int var, EXP *d, EXP e)
+BITSTREAM *
+enc_variable(BITSTREAM *bs, IDENTIFIER id, int var, EXP *d, EXP e)
 {
-    /* Check for previous definition */
-    IDENTIFIER lid = DEREF_id (id_alias (id));
-    DECL_SPEC ds = DEREF_dspec (id_storage (lid));
-    if (ds & dspec_done) return (bs);
-    ds |= dspec_done;
-	
-    if (ds & dspec_auto) {
+	/* Check for previous definition */
+	IDENTIFIER lid = DEREF_id (id_alias (id));
+	DECL_SPEC ds = DEREF_dspec (id_storage (lid));
+	if (ds & dspec_done) return (bs);
+	ds |= dspec_done;
+
+	if (ds & dspec_auto) {
 		/* Local variable definition */
 		int dummy = 0;
 		ulong n = unit_no (bs, id, VAR_tag, 1);
@@ -427,14 +426,14 @@ BITSTREAM
 		}
 		if (dummy) free_exp (a, 1);
 		if (d) *d = b;
-    } else if (!(ds & dspec_linkage)) {
+	} else if (!(ds & dspec_linkage)) {
 		/* Static variable definition */
 		if (IS_id_variable (id)) {
 			COPY_dspec (id_storage (lid), ds);
 			bs = enc_static_var (bs, id);
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -445,45 +444,44 @@ BITSTREAM
  *    to the bitstream bs.
  */
 
-static BITSTREAM
-*enc_func_defn(BITSTREAM *bs, IDENTIFIER id,
-			   EXP e)
+static BITSTREAM *
+enc_func_defn(BITSTREAM *bs, IDENTIFIER id, EXP e)
 {
-    unsigned n;
-    unsigned npids;
-    int is_main = 0;
-    EXP r = NULL_exp;
-    unsigned seq = 0;
-    unsigned rpids = 0;
-    unsigned epids = 0;
-    BITSTREAM *ts = NULL;
-    int diag = output_diag;
-    LIST (IDENTIFIER) qids;
-    IDENTIFIER eid = NULL_id;
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    TYPE fn = DEREF_type (id_function_etc_type (id));
-    TYPE ret = DEREF_type (type_func_ret (fn));
-    int ell = DEREF_int (type_func_ellipsis (fn));
-    LIST (IDENTIFIER) pids = DEREF_list (type_func_pids (fn));
+	unsigned n;
+	unsigned npids;
+	int is_main = 0;
+	EXP r = NULL_exp;
+	unsigned seq = 0;
+	unsigned rpids = 0;
+	unsigned epids = 0;
+	BITSTREAM *ts = NULL;
+	int diag = output_diag;
+	LIST (IDENTIFIER) qids;
+	IDENTIFIER eid = NULL_id;
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	TYPE fn = DEREF_type (id_function_etc_type (id));
+	TYPE ret = DEREF_type (type_func_ret (fn));
+	int ell = DEREF_int (type_func_ellipsis (fn));
+	LIST (IDENTIFIER) pids = DEREF_list (type_func_pids (fn));
 #if LANGUAGE_CPP
-    EXP post = NULL_exp;
-    int throws = output_except;
-    LIST (TYPE) except = DEREF_list (type_func_except (fn));
+	EXP post = NULL_exp;
+	int throws = output_except;
+	LIST (TYPE) except = DEREF_list (type_func_except (fn));
 #endif
-	
-    /* Check for main routine */
-    if (ds & dspec_main) {
+
+	/* Check for main routine */
+	if (ds & dspec_main) {
 		HASHID nm = DEREF_hashid (id_name (id));
 		if (IS_hashid_name (nm)) {
 			ds &= ~dspec_friend;
 			is_main = 1;
 			seq++;
 		}
-    }
-	
-    /* Check exception specifier */
+	}
+
+	/* Check exception specifier */
 #if LANGUAGE_CPP
-    if (throws) {
+	if (throws) {
 		if (output_partial) post = except_postlude (id);
 		if (IS_NULL_exp (post)) {
 			if (EQ_list (except, univ_type_set)) {
@@ -495,57 +493,57 @@ static BITSTREAM
 		} else {
 			ds |= dspec_mutable;
 		}
-    }
+	}
 #endif
-	
-    /* Encode start of function */
-    common_no = 0;
-    crt_func_access = ds;
-    clear_params ();
-    ENC_make_proc (bs);
-    if (pass_complex_type (ret)) {
+
+	/* Encode start of function */
+	common_no = 0;
+	crt_func_access = ds;
+	clear_params ();
+	ENC_make_proc (bs);
+	if (pass_complex_type (ret)) {
 		ENC_top (bs);
 		rpids = 1;
-    } else {
+	} else {
 		if (IS_type_top_etc (ret)) {
-			last_params [ DUMMY_return ] = LINK_ZERO;
+			last_params [DUMMY_return] = LINK_ZERO;
 		} else if (is_main) {
 			MAKE_exp_null (ret, r);
 		} else {
 			MAKE_exp_value (ret, r);
 		}
 		bs = enc_shape (bs, ret);
-    }
-    MAKE_exp_return_stmt (type_bottom, r, r);
-	
-    /* Encode 'this' parameter */
-    if (IS_id_mem_func (id)) {
+	}
+	MAKE_exp_return_stmt (type_bottom, r, r);
+
+	/* Encode 'this' parameter */
+	if (IS_id_mem_func (id)) {
 		CLASS_TYPE ct = parent_class (id);
 		IDENTIFIER pid = this_param (id, 0);
 		ASSERT (!IS_NULL_id (pid));
 		CONS_id (pid, pids, pids);
 		epids = extra_constr_args (id, ct);
 		last_class = ct;
-    }
-	
-    /* Encode number of parameters */
-    npids = LENGTH_list (pids);
-    ENC_LIST (bs, rpids + npids + epids);
-    qids = pids;
-	
-    /* Encode function return parameter */
-    if (rpids) {
+	}
+
+	/* Encode number of parameters */
+	npids = LENGTH_list (pids);
+	ENC_LIST (bs, rpids + npids + epids);
+	qids = pids;
+
+	/* Encode function return parameter */
+	if (rpids) {
 		ulong pn = unit_no (bs, NULL_id, VAR_tag, 1);
 		ENC_pointer (bs);
 		bs = enc_alignment (bs, ret);
 		bs = enc_access (bs, ds);
 		ENC_make_tag (bs, pn);
-		last_params [ DUMMY_return ] = pn;
-    }
-	
-    /* Encode normal function parameters */
-    n = 0;
-    while (!IS_NULL_list (pids)) {
+		last_params [DUMMY_return] = pn;
+	}
+
+	/* Encode normal function parameters */
+	n = 0;
+	while (!IS_NULL_list (pids)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		DECL_SPEC pds = DEREF_dspec (id_storage (pid));
 		TYPE pt = DEREF_type (id_parameter_type (pid));
@@ -603,20 +601,20 @@ static BITSTREAM
 		bs = enc_access (bs, ds);
 		ENC_make_tag (bs, pn);
 		pids = TAIL_list (pids);
-    }
-	
-    /* Encode extra function parameters */
-    while (epids) {
+	}
+
+	/* Encode extra function parameters */
+	while (epids) {
 		ulong pn = unit_no (bs, NULL_id, VAR_tag, 1);
 		bs = enc_shape (bs, type_sint);
 		bs = enc_access (bs, ds);
 		ENC_make_tag (bs, pn);
-		last_params [ DUMMY_extra ] = pn;
+		last_params [DUMMY_extra] = pn;
 		epids--;
-    }
-	
-    /* Encode ellipsis parameter */
-    if (ell & FUNC_ELLIPSIS) {
+	}
+
+	/* Encode ellipsis parameter */
+	if (ell & FUNC_ELLIPSIS) {
 		ulong pn;
 		eid = ellipsis_param (id);
 		ASSERT (!IS_NULL_id (eid));
@@ -624,48 +622,48 @@ static BITSTREAM
 		ENC_ON (bs);
 		ENC_make_tag (bs, pn);
 		bs = enc_access (bs, ds);
-		last_params [ DUMMY_ellipsis ] = pn;
-    } else {
+		last_params [DUMMY_ellipsis] = pn;
+	} else {
 		ENC_OFF (bs);
-    }
-	
-    /* Allow for reference parameters */
-    if (ts) (void)tdf_en_stream (bs, ts);
-    ts = bs;
-	
-    /* Encode function body */
-    seq += stmt_length (e);
-    if (diag) bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+	}
+
+	/* Allow for reference parameters */
+	if (ts) (void)tdf_en_stream (bs, ts);
+	ts = bs;
+
+	/* Encode function body */
+	seq += stmt_length (e);
+	if (diag) bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 #if LANGUAGE_CPP
-    if (throws) bs = enc_try_func (bs, post);
+	if (throws) bs = enc_try_func (bs, post);
 #endif
-    ENC_SEQUENCE (bs, seq);
-    if (is_main) bs = enc_special (bs, TOK_start);
-    bs = enc_compound_stmt (bs, e);
+	ENC_SEQUENCE (bs, seq);
+	if (is_main) bs = enc_special (bs, TOK_start);
+	bs = enc_compound_stmt (bs, e);
 #if LANGUAGE_CPP
-    if (throws) bs = enc_catch_func (bs, except, post);
+	if (throws) bs = enc_catch_func (bs, except, post);
 #endif
-    if (diag) {
+	if (diag) {
 		BITSTREAM *us = enc_diag_begin (&bs);
 		us = enc_stmt (us, r);
 		bs = enc_diag_end (bs, us, r, 1);
 		bs = enc_diag_params (ts, qids, bs, e);
-    } else {
+	} else {
 		bs = enc_stmt (bs, r);
-    }
-    free_exp (r, 1);
-	
-    /* Clear parameter tag numbers */
-    pids = qids;
-    while (!IS_NULL_list (pids)) {
+	}
+	free_exp (r, 1);
+
+	/* Clear parameter tag numbers */
+	pids = qids;
+	while (!IS_NULL_list (pids)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		clear_no (pid);
 		pids = TAIL_list (pids);
-    }
-    if (!IS_NULL_id (eid)) clear_no (eid);
-    crt_func_access = dspec_none;
-    clear_params ();
-    return (bs);
+	}
+	if (!IS_NULL_id (eid)) clear_no (eid);
+	crt_func_access = dspec_none;
+	clear_params ();
+	return (bs);
 }
 
 
@@ -678,27 +676,26 @@ static BITSTREAM
  *    The actual tag type has to be added (t is only used for access checks).
  */
 
-BITSTREAM
-*enc_tagdec_start(IDENTIFIER id, ulong n,
-				  TYPE t, int var)
+BITSTREAM *
+enc_tagdec_start(IDENTIFIER id, ulong n, TYPE t, int var)
 {
-    unsigned use = USAGE_DECL;
-    BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdec_unit->ts_link);
-    ulong m = link_no (bs, n, VAR_tag);
-    if (var == 0) {
+	unsigned use = USAGE_DECL;
+	BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdec_unit->ts_link);
+	ulong m = link_no (bs, n, VAR_tag);
+	if (var == 0) {
 		ENC_make_id_tagdec (bs);
-    } else if (var == 1) {
+	} else if (var == 1) {
 		ENC_make_var_tagdec (bs);
-    } else {
+	} else {
 		ENC_common_tagdec (bs);
 		use |= USAGE_COMMON;
-    }
-    ENC_INT (bs, m);
-    bs = enc_access (bs, dspec_none);
-    bs = enc_signature (bs, id);
-    record_usage (n, VAR_tag, use);
-    UNUSED (t);
-    return (bs);
+	}
+	ENC_INT (bs, m);
+	bs = enc_access (bs, dspec_none);
+	bs = enc_signature (bs, id);
+	record_usage (n, VAR_tag, use);
+	UNUSED (t);
+	return (bs);
 }
 
 
@@ -711,9 +708,9 @@ BITSTREAM
 void
 enc_tagdec_end(BITSTREAM *bs)
 {
-    count_item (bs);
-    tagdec_unit = tdf_en_stream (tagdec_unit, bs);
-    return;
+	count_item (bs);
+	tagdec_unit = tdf_en_stream (tagdec_unit, bs);
+	return;
 }
 
 
@@ -727,13 +724,13 @@ enc_tagdec_end(BITSTREAM *bs)
 void
 enc_tagdec(IDENTIFIER id, ulong n, TYPE t, int var)
 {
-    unsigned u = find_usage (n, VAR_tag);
-    if (!(u & USAGE_DECL)) {
+	unsigned u = find_usage (n, VAR_tag);
+	if (!(u & USAGE_DECL)) {
 		BITSTREAM *bs = enc_tagdec_start (id, n, t, var);
 		bs = enc_shape (bs, t);
 		enc_tagdec_end (bs);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -746,27 +743,26 @@ enc_tagdec(IDENTIFIER id, ulong n, TYPE t, int var)
  *    definition to be added.
  */
 
-BITSTREAM
-*enc_tagdef_start(IDENTIFIER id, ulong n,
-				  TYPE t, int var)
+BITSTREAM *
+enc_tagdef_start(IDENTIFIER id, ulong n, TYPE t, int var)
 {
-    unsigned use = USAGE_DEFN;
-    BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdef_unit->ts_link);
-    ulong m = link_no (bs, n, VAR_tag);
-    if (var == 0) {
+	unsigned use = USAGE_DEFN;
+	BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdef_unit->ts_link);
+	ulong m = link_no (bs, n, VAR_tag);
+	if (var == 0) {
 		ENC_make_id_tagdef (bs);
-    } else if (var == 1) {
+	} else if (var == 1) {
 		ENC_make_var_tagdef (bs);
-    } else {
+	} else {
 		ENC_common_tagdef (bs);
 		use |= USAGE_COMMON;
-    }
-    ENC_INT (bs, m);
-    if (var) bs = enc_access (bs, dspec_none);
-    bs = enc_signature (bs, id);
-    record_usage (n, VAR_tag, use);
-    UNUSED (t);
-    return (bs);
+	}
+	ENC_INT (bs, m);
+	if (var) bs = enc_access (bs, dspec_none);
+	bs = enc_signature (bs, id);
+	record_usage (n, VAR_tag, use);
+	UNUSED (t);
+	return (bs);
 }
 
 
@@ -779,9 +775,9 @@ BITSTREAM
 void
 enc_tagdef_end(BITSTREAM *bs)
 {
-    count_item (bs);
-    tagdef_unit = tdf_en_stream (tagdef_unit, bs);
-    return;
+	count_item (bs);
+	tagdef_unit = tdf_en_stream (tagdef_unit, bs);
+	return;
 }
 
 
@@ -799,17 +795,17 @@ enc_tagdef_end(BITSTREAM *bs)
 ulong
 make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 {
-    ulong n;
-    int fn = 0;
-    int def = 1;
-    LOCATION loc;
-	
-    /* Find the tag number */
-    bad_crt_loc++;
-    loc = crt_loc;
-    if (IS_NULL_id (id)) {
+	ulong n;
+	int fn = 0;
+	int def = 1;
+	LOCATION loc;
+
+	/* Find the tag number */
+	bad_crt_loc++;
+	loc = crt_loc;
+	if (IS_NULL_id (id)) {
 		n = capsule_no (NULL_string, VAR_tag);
-    } else {
+	} else {
 		PTR (LOCATION) ploc = id_loc (id);
 		DEREF_loc (ploc, crt_loc);
 		crt_enc_loc = ploc;
@@ -819,13 +815,13 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 			var = 0;
 			fn = 1;
 		}
-    }
-	
-    /* Encode the declaration */
-    enc_tagdec (id, n, t, var);
-	
-    /* Check for definition */
-    if (!IS_NULL_exp (e)) {
+	}
+
+	/* Encode the declaration */
+	enc_tagdec (id, n, t, var);
+
+	/* Check for definition */
+	if (!IS_NULL_exp (e)) {
 		BITSTREAM *bs;
 		EXP d1 = NULL_exp;
 		int uc = unreached_code;
@@ -855,14 +851,14 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 		}
 		unreached_code = uc;
 		enc_tagdef_end (bs);
-		
+
 		/* Check for destructor */
 		if (!IS_NULL_exp (d)) {
 			BITSTREAM *ts = term_func;
 			ts = enc_term_global (ts, n, t, d, LINK_NONE);
 			term_func = ts;
 		}
-    } else {
+	} else {
 		/* Only declared */
 		if (!IS_NULL_id (id)) {
 			string s = NULL;
@@ -877,14 +873,14 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 			IGNORE capsule_name (n, &s, VAR_tag);
 			def = 0;
 		}
-    }
-    if (!IS_NULL_id (id) && output_diag) {
+	}
+	if (!IS_NULL_id (id) && output_diag) {
 		HASHID nm = DEREF_hashid (id_name (id));
 		if (!IS_hashid_anon (nm)) enc_diag_id (id, def);
-    }
-    crt_loc = loc;
-    bad_crt_loc--;
-    return (n);
+	}
+	crt_loc = loc;
+	bad_crt_loc--;
+	return (n);
 }
 
 
@@ -896,18 +892,18 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
  */
 
 void
-enc_dynamic_init()
+enc_dynamic_init(void)
 {
-    BITSTREAM *bs;
-    ulong m1 = LINK_NONE;
-    ulong m2 = LINK_NONE;
-    ulong init = init_no;
-    ulong term = term_no;
-    int diag = output_diag;
-    if (output_all) diag = 1;
-	
-    /* Create the termination function */
-    if (term) {
+	BITSTREAM *bs;
+	ulong m1 = LINK_NONE;
+	ulong m2 = LINK_NONE;
+	ulong init = init_no;
+	ulong term = term_no;
+	int diag = output_diag;
+	if (output_all) diag = 1;
+
+	/* Create the termination function */
+	if (term) {
 		if (output_term) {
 			/* Define the termination function */
 			TYPE t = dummy_func;
@@ -925,7 +921,7 @@ enc_dynamic_init()
 			ENC_return (bs);
 			ENC_make_top (bs);
 			enc_tagdef_end (bs);
-			
+
 			/* Define the termination link */
 			m2 = capsule_no (NULL_string, VAR_tag);
 			bs = enc_tagdec_start (NULL_id, m2, NULL_type, 1);
@@ -937,10 +933,10 @@ enc_dynamic_init()
 			init++;
 		}
 		init++;
-    }
-	
-    /* Create the initialisation function */
-    if (init) {
+	}
+
+	/* Create the initialisation function */
+	if (init) {
 		int var = 1;
 		TYPE t = type_sint;
 		TYPE s = t;
@@ -987,7 +983,7 @@ enc_dynamic_init()
 		if (var == 0) ENC_return (bs);
 		bs = enc_make_int (bs, s, 1);
 		enc_tagdef_end (bs);
-		
+
 		/* Set up initialisation variable */
 		if (var == 0 && nm == NULL) {
 			ulong n2 = capsule_no (NULL_string, VAR_tag);
@@ -1004,8 +1000,8 @@ enc_dynamic_init()
 			ENC_OFF (bs);
 			enc_tagdef_end (bs);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1020,8 +1016,8 @@ enc_dynamic_init()
 void
 enc_tokdec(ulong n, const char *sorts)
 {
-    BITSTREAM *bs = tokdec_unit;
-    if (bs) {
+	BITSTREAM *bs = tokdec_unit;
+	if (bs) {
 		char res = *(sorts++);
 		char arg = *sorts;
 		if (arg) {
@@ -1046,8 +1042,8 @@ enc_tokdec(ulong n, const char *sorts)
 			count_item (bs);
 			tokdec_unit = bs;
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1060,30 +1056,29 @@ enc_tokdec(ulong n, const char *sorts)
  *    returned via pars.
  */
 
-BITSTREAM
-*enc_tokdef_start(ulong n, const char *sorts,
-				  ulong *pars, int d)
+BITSTREAM *
+enc_tokdef_start(ulong n, const char *sorts, ulong *pars, int d)
 {
-    char res;
-    unsigned i, m;
-    BITSTREAM *bs;
-    if (d) enc_tokdec (n, sorts);
-    record_usage (n, VAR_token, USAGE_DEFN);
-    bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tokdef_unit->ts_link);
-    ENC_token_definition (bs);
-    res = *(sorts++);
-    bs = enc_sort (bs, (int) res);
-    m = (unsigned) strlen (sorts);
-    ENC_LIST (bs, m);
-    for (i = 0 ; i < m ; i++) {
+	char res;
+	unsigned i, m;
+	BITSTREAM *bs;
+	if (d) enc_tokdec (n, sorts);
+	record_usage (n, VAR_token, USAGE_DEFN);
+	bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tokdef_unit->ts_link);
+	ENC_token_definition (bs);
+	res = *(sorts++);
+	bs = enc_sort (bs, (int) res);
+	m = (unsigned) strlen (sorts);
+	ENC_LIST (bs, m);
+	for (i = 0; i < m; i++) {
 		/* Encode token parameters */
 		char arg = sorts [i];
 		ulong r = unit_no (bs, NULL_id, VAR_token, 1);
 		bs = enc_sort (bs, (int) arg);
 		ENC_INT (bs, r);
 		pars [i] = r;
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1097,15 +1092,15 @@ BITSTREAM
 void
 enc_tokdef_end(ulong n, BITSTREAM *ps)
 {
-    BITSTREAM *bs = tokdef_unit;
-    ulong m = link_no (bs, n, VAR_token);
-    ENC_make_tokdef (bs);
-    ENC_INT (bs, m);
-    bs = enc_signature (bs, NULL_id);
-    tdf_en_bitstream (bs, ps);
-    count_item (bs);
-    tokdef_unit = bs;
-    return;
+	BITSTREAM *bs = tokdef_unit;
+	ulong m = link_no (bs, n, VAR_token);
+	ENC_make_tokdef (bs);
+	ENC_INT (bs, m);
+	bs = enc_signature (bs, NULL_id);
+	tdf_en_bitstream (bs, ps);
+	count_item (bs);
+	tokdef_unit = bs;
+	return;
 }
 
 
@@ -1120,18 +1115,18 @@ enc_tokdef_end(ulong n, BITSTREAM *ps)
 int
 enc_tokdef(IDENTIFIER id, int def)
 {
-    int dec;
-    ulong n;
-    BUFFER *bf;
-    unsigned npars = 0;
-    IDENTIFIER fid = NULL_id;
-    TOKEN tok = DEREF_tok (id_token_sort (id));
-    unsigned tag = TAG_tok (tok);
-    int r = token_code (tok);
-	
-    /* Check for declaration and definition */
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (ds & dspec_auto) {
+	int dec;
+	ulong n;
+	BUFFER *bf;
+	unsigned npars = 0;
+	IDENTIFIER fid = NULL_id;
+	TOKEN tok = DEREF_tok (id_token_sort (id));
+	unsigned tag = TAG_tok (tok);
+	int r = token_code (tok);
+
+	/* Check for declaration and definition */
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (ds & dspec_auto) {
 		/* Token parameter */
 		LOCATION loc;
 		if (ds & dspec_register) return (r);
@@ -1140,21 +1135,21 @@ enc_tokdef(IDENTIFIER id, int def)
 		ds |= dspec_register;
 		COPY_dspec (id_storage (id), ds);
 		clear_no (id);
-    }
-    if (ds & dspec_defn) def = 1;
-    dec = capsule_id (id, VAR_token);
-    if (def) {
+	}
+	if (ds & dspec_defn) def = 1;
+	dec = capsule_id (id, VAR_token);
+	if (def) {
 		if (ds & dspec_done) return (r);
-    } else if (dec) {
+	} else if (dec) {
 		if (tokdec_unit == NULL) return (r);
-    } else {
+	} else {
 		return (r);
-    }
-	
-    /* Construct token sort */
-    bf = clear_buffer (&mangle_buff, NULL);
-    bfputc (bf, r);
-    if (tag == tok_func_tag) {
+	}
+
+	/* Construct token sort */
+	bf = clear_buffer (&mangle_buff, NULL);
+	bfputc (bf, r);
+	if (tag == tok_func_tag) {
 		/* Function token */
 		fid = DEREF_id (tok_func_defn (tok));
 		tok = func_proc_token (tok);
@@ -1163,8 +1158,8 @@ enc_tokdef(IDENTIFIER id, int def)
 			/* Ellipsis function */
 			return (r);
 		}
-    }
-    if (tag == tok_proc_tag) {
+	}
+	if (tag == tok_proc_tag) {
 		/*  Parameters for procedure tokens */
 		LIST (IDENTIFIER) p = DEREF_list (tok_proc_bids (tok));
 		while (!IS_NULL_list (p)) {
@@ -1177,15 +1172,15 @@ enc_tokdef(IDENTIFIER id, int def)
 			}
 			p = TAIL_list (p);
 		}
-    }
-    bfputc (bf, 0);
-	
-    /* Output declaration and definition */
-    n = DEREF_ulong (id_no (id));
-    if (dec) {
+	}
+	bfputc (bf, 0);
+
+	/* Output declaration and definition */
+	n = DEREF_ulong (id_no (id));
+	if (dec) {
 		enc_tokdec (n, strlit (bf->start));
-    }
-    if (def) {
+	}
+	if (def) {
 		BITSTREAM *bs;
 		ulong std_pars [20];
 		ulong *pars = std_pars;
@@ -1193,7 +1188,7 @@ enc_tokdef(IDENTIFIER id, int def)
 		bs = enc_tokdef_start (n, strlit (bf->start), pars, 0);
 		COPY_dspec (id_storage (id), (ds | dspec_done));
 		COPY_ulong (id_no (id), LINK_TOKDEF);
-		last_params [ DUMMY_token ] = n;
+		last_params [DUMMY_token] = n;
 		if (tag == tok_proc_tag) {
 			unsigned i = 0;
 			if (IS_NULL_id (fid)) {
@@ -1241,8 +1236,8 @@ enc_tokdef(IDENTIFIER id, int def)
 		COPY_ulong (id_no (id), n);
 		enc_tokdef_end (n, bs);
 		if (pars != std_pars) xfree (pars);
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -1258,12 +1253,12 @@ enc_tokdef(IDENTIFIER id, int def)
 static int
 need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 {
-    if (ds & dspec_temp) {
+	if (ds & dspec_temp) {
 		/* Temporary variables */
 		if (ds & dspec_ignore) return (0);
 		if (ds & dspec_explicit) return (2);
-    }
-    if (ds & dspec_defn) {
+	}
+	if (ds & dspec_defn) {
 		/* Output defined variables */
 		if (ds & dspec_extern) return (1);
 		if (n == LINK_NONE) {
@@ -1280,12 +1275,12 @@ need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 			if (!overflow_exp (e)) return (2);
 		}
 		return (1);
-    }
-    if (ds & dspec_used) {
+	}
+	if (ds & dspec_used) {
 		/* Defer used variables */
 		return (2);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1298,7 +1293,7 @@ need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 void
 compile_variable(IDENTIFIER id, int force)
 {
-    if (output_capsule) {
+	if (output_capsule) {
 		IDENTIFIER lid = DEREF_id (id_alias (id));
 		DECL_SPEC ds = DEREF_dspec (id_storage (lid));
 		if (!(ds & dspec_done)) {
@@ -1382,10 +1377,10 @@ compile_variable(IDENTIFIER id, int force)
 				}
 			}
 		}
-    } else {
+	} else {
 		check_mangled (id);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1400,10 +1395,10 @@ compile_variable(IDENTIFIER id, int force)
  */
 
 void
-compile_pending()
+compile_pending(void)
 {
-    int changed;
-    do {
+	int changed;
+	do {
 		LIST (IDENTIFIER) p = pending_funcs;
 		if (!output_capsule) break;
 		changed = 0;
@@ -1448,9 +1443,9 @@ compile_pending()
 			p = TAIL_list (p);
 		}
 		if (!changed) changed = enc_diag_pending ();
-    } while (changed);
-    compile_incompl ();
-    return;
+	} while (changed);
+	compile_incompl ();
+	return;
 }
 
 
@@ -1469,22 +1464,22 @@ compile_pending()
 static int
 need_function(DECL_SPEC ds, ulong n)
 {
-    if (ds & (dspec_inline | dspec_implicit | dspec_token)) {
+	if (ds & (dspec_inline | dspec_implicit | dspec_token)) {
 		/* Defer inline functions */
 		if ((ds & dspec_defn) && n != LINK_NONE) return (1);
 		return (2);
-    }
-    if (ds & dspec_defn) {
+	}
+	if (ds & dspec_defn) {
 		/* Output defined functions */
 		if ((ds & dspec_extern) || output_unused) return (1);
 		if (n != LINK_NONE) return (1);
 		return (2);
-    }
-    if (ds & (dspec_used | dspec_called | dspec_virtual)) {
+	}
+	if (ds & (dspec_used | dspec_called | dspec_virtual)) {
 		/* Defer called functions */
 		return (2);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1498,15 +1493,15 @@ need_function(DECL_SPEC ds, ulong n)
 void
 compile_function(IDENTIFIER id, int force)
 {
-    /* Check for template functions */
-    TYPE t;
-    IDENTIFIER lid = DEREF_id (id_alias (id));
-    if (IS_id_ambig (lid)) return;
-    t = DEREF_type (id_function_etc_type (lid));
-    if (IS_type_templ (t)) return;
-	
-    /* Simple functions */
-    if (output_capsule) {
+	/* Check for template functions */
+	TYPE t;
+	IDENTIFIER lid = DEREF_id (id_alias (id));
+	if (IS_id_ambig (lid)) return;
+	t = DEREF_type (id_function_etc_type (lid));
+	if (IS_type_templ (t)) return;
+
+	/* Simple functions */
+	if (output_capsule) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (lid));
 		if (!(ds & (dspec_done | dspec_trivial))) {
 			int output;
@@ -1535,11 +1530,11 @@ compile_function(IDENTIFIER id, int force)
 				free_function (lid);
 			}
 		}
-    } else {
+	} else {
 		free_function (lid);
 		check_mangled (lid);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1551,7 +1546,7 @@ compile_function(IDENTIFIER id, int force)
  */
 
 #define dspec_ignore_virtual\
-    (dspec_inherit | dspec_implicit | dspec_inline | dspec_pure)
+	(dspec_inherit | dspec_implicit | dspec_inline | dspec_pure)
 
 
 /*
@@ -1571,7 +1566,7 @@ compile_function(IDENTIFIER id, int force)
 void
 compile_virtual(CLASS_TYPE ct, int anon)
 {
-    if (output_capsule) {
+	if (output_capsule) {
 		IDENTIFIER cid = DEREF_id (ctype_name (ct));
 		crt_enc_loc = id_loc (cid);
 		if (anon == ANON_NONE && !output_virtual) {
@@ -1607,8 +1602,8 @@ compile_virtual(CLASS_TYPE ct, int anon)
 		}
 		/* Define the table internally */
 		define_vtable (ct, 1, 0);
-    }
-    return;
+	}
+	return;
 }
 
 #endif
@@ -1624,14 +1619,14 @@ compile_virtual(CLASS_TYPE ct, int anon)
 void
 compile_token(IDENTIFIER id, int def)
 {
-    if (!def) report (crt_loc, ERR_token_undef (id));
-    if (output_capsule) {
+	if (!def) report (crt_loc, ERR_token_undef (id));
+	if (output_capsule) {
 		crt_enc_loc = id_loc (id);
 		IGNORE enc_tokdef (id, 1);
 		if (output_diag) enc_diag_token (id, NULL_type);
 		crt_enc_loc = NULL_ptr (LOCATION);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1645,7 +1640,7 @@ compile_token(IDENTIFIER id, int def)
 void
 compile_type(IDENTIFIER id)
 {
-    if (output_capsule && output_diag) {
+	if (output_capsule && output_diag) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if ((ds & dspec_used) && !(ds & dspec_done)) {
 			ds |= dspec_done;
@@ -1659,8 +1654,8 @@ compile_type(IDENTIFIER id)
 				crt_enc_loc = NULL_ptr (LOCATION);
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1674,9 +1669,9 @@ compile_type(IDENTIFIER id)
 void
 compile_asm(EXP e)
 {
-    TYPE t = DEREF_type (exp_type (e));
-    IGNORE make_tagdef (NULL_id, t, e, NULL_exp, 1);
-    return;
+	TYPE t = DEREF_type (exp_type (e));
+	IGNORE make_tagdef (NULL_id, t, e, NULL_exp, 1);
+	return;
 }
 
 
@@ -1690,14 +1685,14 @@ compile_asm(EXP e)
 void
 compile_comment(string s, unsigned long n)
 {
-    if (output_capsule) {
+	if (output_capsule) {
 		BITSTREAM *bs = linkinfo_unit;
 		ENC_make_comment (bs);
 		tdf_en_tdfstring8 (bs, n, s);
 		count_item (bs);
 		linkinfo_unit = bs;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1711,7 +1706,7 @@ compile_comment(string s, unsigned long n)
 void
 compile_preserve(IDENTIFIER id)
 {
-    if (output_capsule) {
+	if (output_capsule) {
 		ulong n;
 		BITSTREAM *bs = linkinfo_unit;
 		ENC_static_name_def (bs);
@@ -1722,8 +1717,8 @@ compile_preserve(IDENTIFIER id)
 		enc_diag_name (bs, id, 1);
 		count_item (bs);
 		linkinfo_unit = bs;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1737,11 +1732,11 @@ compile_preserve(IDENTIFIER id)
 void
 compile_weak(IDENTIFIER id, IDENTIFIER aid)
 {
-    if (output_capsule && !IS_NULL_id (id)) {
+	if (output_capsule && !IS_NULL_id (id)) {
 		ulong n;
 		string s = NULL;
 		BITSTREAM *bs = linkinfo_unit;
-		
+
 		/* Set up weak symbol name */
 		id = DEREF_id (id_alias (id));
 		IGNORE capsule_id (id, VAR_tag);
@@ -1755,7 +1750,7 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 			ENC_make_tag (bs, n);
 			count_item (bs);
 		}
-		
+
 		/* Set up weak symbol definition */
 		if (!IS_NULL_id (aid)) {
 			aid = DEREF_id (id_alias (aid));
@@ -1770,8 +1765,8 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 			count_item (bs);
 		}
 		linkinfo_unit = bs;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1786,15 +1781,15 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 void
 update_tag(IDENTIFIER id, int ext)
 {
-    IDENTIFIER lid = DEREF_id (id_alias (id));
-    ulong n = DEREF_ulong (id_no (lid));
-    if (n != LINK_NONE && (n & LINK_EXTERN)) {
+	IDENTIFIER lid = DEREF_id (id_alias (id));
+	ulong n = DEREF_ulong (id_no (lid));
+	if (n != LINK_NONE && (n & LINK_EXTERN)) {
 		string s = mangle_name (lid, VAR_tag, ext);
 		n = capsule_name (n, &s, VAR_tag);
 		COPY_ulong (id_no (lid), n);
 		COPY_ulong (id_no (id), n);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1819,9 +1814,9 @@ update_tag(IDENTIFIER id, int ext)
 void
 compile_variable(IDENTIFIER id, int force)
 {
-    check_mangled (id);
-    UNUSED (force);
-    return;
+	check_mangled (id);
+	UNUSED (force);
+	return;
 }
 
 
@@ -1833,9 +1828,9 @@ compile_variable(IDENTIFIER id, int force)
  */
 
 void
-compile_pending()
+compile_pending(void)
 {
-    return;
+	return;
 }
 
 
@@ -1849,11 +1844,11 @@ compile_pending()
 void
 compile_function(IDENTIFIER id, int force)
 {
-    TYPE t = DEREF_type (id_function_etc_type (t));
-    if (IS_type_func (t)) free_function (id);
-    check_mangled (id);
-    UNUSED (force);
-    return;
+	TYPE t = DEREF_type (id_function_etc_type (t));
+	if (IS_type_func (t)) free_function (id);
+	check_mangled (id);
+	UNUSED (force);
+	return;
 }
 
 
@@ -1870,9 +1865,9 @@ compile_function(IDENTIFIER id, int force)
 void
 compile_virtual(CLASS_TYPE ct, int anon)
 {
-    UNUSED (ct);
-    UNUSED (anon);
-    return;
+	UNUSED (ct);
+	UNUSED (anon);
+	return;
 }
 
 #endif
@@ -1888,8 +1883,8 @@ compile_virtual(CLASS_TYPE ct, int anon)
 void
 compile_token(IDENTIFIER id, int def)
 {
-    if (!def) report (crt_loc, ERR_token_undef (id));
-    return;
+	if (!def) report (crt_loc, ERR_token_undef (id));
+	return;
 }
 
 
@@ -1903,8 +1898,8 @@ compile_token(IDENTIFIER id, int def)
 void
 compile_type(IDENTIFIER id)
 {
-    UNUSED (id);
-    return;
+	UNUSED (id);
+	return;
 }
 
 
@@ -1918,8 +1913,8 @@ compile_type(IDENTIFIER id)
 void
 compile_asm(EXP e)
 {
-    UNUSED (e);
-    return;
+	UNUSED (e);
+	return;
 }
 
 
@@ -1933,9 +1928,9 @@ compile_asm(EXP e)
 void
 compile_comment(string s, unsigned long n)
 {
-    UNUSED (s);
-    UNUSED (n);
-    return;
+	UNUSED (s);
+	UNUSED (n);
+	return;
 }
 
 
@@ -1949,8 +1944,8 @@ compile_comment(string s, unsigned long n)
 void
 compile_preserve(IDENTIFIER id)
 {
-    UNUSED (id);
-    return;
+	UNUSED (id);
+	return;
 }
 
 
@@ -1964,9 +1959,9 @@ compile_preserve(IDENTIFIER id)
 void
 compile_weak(IDENTIFIER id, IDENTIFIER aid)
 {
-    UNUSED (id);
-    UNUSED (aid);
-    return;
+	UNUSED (id);
+	UNUSED (aid);
+	return;
 }
 
 
@@ -1980,9 +1975,9 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 void
 update_tag(IDENTIFIER id, int ext)
 {
-    UNUSED (id);
-    UNUSED (ext);
-    return;
+	UNUSED (id);
+	UNUSED (ext);
+	return;
 }
 
 

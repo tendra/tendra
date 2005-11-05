@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -150,14 +150,14 @@ IDENTIFIER dummy_type_name = NULL_id;
  *    the bitstream bs.
  */
 
-static BITSTREAM
-*enc_exp_token(BITSTREAM *bs, ulong n)
+static BITSTREAM *
+enc_exp_token(BITSTREAM *bs, ulong n)
 {
-    ulong m = link_no (bs, n, VAR_token);
-    ENC_exp_apply_token (bs);
-    ENC_make_tok (bs, m);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	ulong m = link_no (bs, n, VAR_token);
+	ENC_exp_apply_token (bs);
+	ENC_make_tok (bs, m);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -168,14 +168,14 @@ static BITSTREAM
  *    bitstream bs.
  */
 
-static BITSTREAM
-*enc_shape_token(BITSTREAM *bs, ulong n)
+static BITSTREAM *
+enc_shape_token(BITSTREAM *bs, ulong n)
 {
-    ulong m = link_no (bs, n, VAR_token);
-    ENC_shape_apply_token (bs);
-    ENC_make_tok (bs, m);
-    ENC_LEN_SMALL (bs, 0);
-    return (bs);
+	ulong m = link_no (bs, n, VAR_token);
+	ENC_shape_apply_token (bs);
+	ENC_make_tok (bs, m);
+	ENC_LEN_SMALL (bs, 0);
+	return (bs);
 }
 
 
@@ -196,34 +196,34 @@ static BITSTREAM
  *    as a string literal.
  */
 
-static BITSTREAM
-*enc_buffer(BITSTREAM *bs, BUFFER *bf)
+static BITSTREAM *
+enc_buffer(BITSTREAM *bs, BUFFER *bf)
 {
-    string s = bf->start;
-    unsigned long n = (unsigned long) (bf->posn - s);
-	
-    /* Declare the string literal */
-    ulong m = capsule_no (NULL_string, VAR_tag);
-    BITSTREAM *ts = enc_tagdec_start (NULL_id, m, NULL_type, 1);
-    ENC_nof (ts);
-    ENC_make_nat (ts);
-    ENC_INT (ts, n);
-    ts = enc_shape (ts, type_char);
-    enc_tagdec_end (ts);
-	
-    /* Define the string literal */
-    ts = enc_tagdef_start (NULL_id, m, NULL_type, 1);
-    ENC_make_nof_int (ts);
-    ts = enc_variety (ts, type_char);
-    ENC_make_string (ts);
-    tdf_en_tdfstring8 (ts, n, s);
-    enc_tagdef_end (ts);
-	
-    /* Encode the result */
-    m = link_no (bs, m, VAR_tag);
-    ENC_obtain_tag (bs);
-    ENC_make_tag (bs, m);
-    return (bs);
+	string s = bf->start;
+	unsigned long n = (unsigned long) (bf->posn - s);
+
+	/* Declare the string literal */
+	ulong m = capsule_no (NULL_string, VAR_tag);
+	BITSTREAM *ts = enc_tagdec_start (NULL_id, m, NULL_type, 1);
+	ENC_nof (ts);
+	ENC_make_nat (ts);
+	ENC_INT (ts, n);
+	ts = enc_shape (ts, type_char);
+	enc_tagdec_end (ts);
+
+	/* Define the string literal */
+	ts = enc_tagdef_start (NULL_id, m, NULL_type, 1);
+	ENC_make_nof_int (ts);
+	ts = enc_variety (ts, type_char);
+	ENC_make_string (ts);
+	tdf_en_tdfstring8 (ts, n, s);
+	enc_tagdef_end (ts);
+
+	/* Encode the result */
+	m = link_no (bs, m, VAR_tag);
+	ENC_obtain_tag (bs);
+	ENC_make_tag (bs, m);
+	return (bs);
 }
 
 
@@ -235,22 +235,22 @@ static BITSTREAM
  *    to bs.
  */
 
-static BITSTREAM
-*enc_rtti_bases(BITSTREAM *bs, LIST (GRAPH) br, LIST (TYPE) pt, NAT sz)
+static BITSTREAM *
+enc_rtti_bases(BITSTREAM *bs, LIST (GRAPH) br, LIST (TYPE) pt, NAT sz)
 {
-    TYPE t;
-    ulong n, m;
-    BITSTREAM *ts, *us;
-    int a = INFO_public;
-	
-    if (!IS_NULL_list (br)) {
+	TYPE t;
+	ulong n, m;
+	BITSTREAM *ts, *us;
+	int a = INFO_public;
+
+	if (!IS_NULL_list (br)) {
 		/* Get base class information */
 		VIRTUAL vt;
 		CLASS_TYPE ct;
 		GRAPH gr = DEREF_graph (HEAD_list (br));
 		DECL_SPEC acc = DEREF_dspec (graph_access (gr));
 		br = TAIL_list (br);
-		
+
 		/* Find base class information */
 		ct = DEREF_ctype (graph_head (gr));
 		t = make_class_type (ct);
@@ -272,8 +272,8 @@ static BITSTREAM
 			a = INFO_private;
 		}
 		m = DEREF_ulong (graph_base_off (gr));
-		
-    } else if (!IS_NULL_list (pt)) {
+
+	} else if (!IS_NULL_list (pt)) {
 		/* Get sub-type information */
 		t = DEREF_type (HEAD_list (pt));
 		pt = TAIL_list (pt);
@@ -290,43 +290,43 @@ static BITSTREAM
 			}
 		}
 		m = LINK_NONE;
-		
-    } else {
+
+	} else {
 		/* Output end of list */
 		ENC_make_null_ptr (bs);
 		ENC_alignment (bs);
 		bs = enc_special (bs, TOK_baseid_type);
 		return (bs);
-    }
-	
-    /* Declare base structure */
-    n = capsule_no (NULL_string, VAR_tag);
-    ts = enc_tagdec_start (NULL_id, n, NULL_type, 1);
-    ts = enc_special (ts, TOK_baseid_type);
-    enc_tagdec_end (ts);
-	
-    /* Define base structure */
-    ts = enc_tagdef_start (NULL_id, n, NULL_type, 1);
-    ts = enc_special (ts, TOK_baseid_make);
-    us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
-    us = enc_rtti_type (us, t, lex_typeid);
-    if (m == LINK_NONE) {
+	}
+
+	/* Declare base structure */
+	n = capsule_no (NULL_string, VAR_tag);
+	ts = enc_tagdec_start (NULL_id, n, NULL_type, 1);
+	ts = enc_special (ts, TOK_baseid_type);
+	enc_tagdec_end (ts);
+
+	/* Define base structure */
+	ts = enc_tagdef_start (NULL_id, n, NULL_type, 1);
+	ts = enc_special (ts, TOK_baseid_make);
+	us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
+	us = enc_rtti_type (us, t, lex_typeid);
+	if (m == LINK_NONE) {
 		ENC_offset_zero (us);
 		us = enc_alignment (us, type_sint);
-    } else {
+	} else {
 		us = enc_exp_token (us, m);
-    }
-    us = enc_rtti_bases (us, br, pt, NULL_nat);
-    us = enc_make_snat (us, a);
-    us = enc_snat (us, sz, 0, 0);
-    tdf_en_bitstream (ts, us);
-    enc_tagdef_end (ts);
-	
-    /* Encode the result */
-    n = link_no (bs, n, VAR_tag);
-    ENC_obtain_tag (bs);
-    ENC_make_tag (bs, n);
-    return (bs);
+	}
+	us = enc_rtti_bases (us, br, pt, NULL_nat);
+	us = enc_make_snat (us, a);
+	us = enc_snat (us, sz, 0, 0);
+	tdf_en_bitstream (ts, us);
+	enc_tagdef_end (ts);
+
+	/* Encode the result */
+	n = link_no (bs, n, VAR_tag);
+	ENC_obtain_tag (bs);
+	ENC_make_tag (bs, n);
+	return (bs);
 }
 
 
@@ -341,13 +341,13 @@ static BITSTREAM
 static void
 enc_rtti_struct(TYPE t, ulong n, int def)
 {
-    unsigned acc = find_usage (n, VAR_tag);
-    if (!(acc & USAGE_DECL)) {
+	unsigned acc = find_usage (n, VAR_tag);
+	if (!(acc & USAGE_DECL)) {
 		BITSTREAM *bs = enc_tagdec_start (NULL_id, n, NULL_type, 1);
 		bs = enc_special (bs, TOK_typeid_type);
 		enc_tagdec_end (bs);
-    }
-    if (def && !(acc & USAGE_DEFN)) {
+	}
+	if (def && !(acc & USAGE_DEFN)) {
 		int c = RTTI_void;
 		NAT sz = NULL_nat;
 		BITSTREAM *bs, *ts;
@@ -359,31 +359,31 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 		print_uniq_anon--;
 		bfputc (bf, 0);
 		switch (TAG_type (t)) {
-	    case type_integer_tag : {
+		case type_integer_tag : {
 			/* Integral types */
 			c = RTTI_integer;
 			break;
-	    }
-	    case type_floating_tag : {
+		}
+		case type_floating_tag : {
 			/* Floating-point types */
 			c = RTTI_float;
 			break;
-	    }
-	    case type_ptr_tag : {
+		}
+		case type_ptr_tag : {
 			/* Pointer types */
 			TYPE s = DEREF_type (type_ptr_sub (t));
 			CONS_type (s, p, p);
 			c = RTTI_ptr;
 			break;
-	    }
-	    case type_ref_tag : {
+		}
+		case type_ref_tag : {
 			/* Reference types */
 			TYPE s = DEREF_type (type_ref_sub (t));
 			CONS_type (s, p, p);
 			c = RTTI_ref;
 			break;
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			/* Pointer to member types */
 			TYPE s = DEREF_type (type_ptr_mem_sub (t));
 			CLASS_TYPE cs = DEREF_ctype (type_ptr_mem_of (t));
@@ -392,8 +392,8 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 			CONS_type (s, p, p);
 			c = RTTI_ptr_mem;
 			break;
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			/* Function types */
 			TYPE s = DEREF_type (type_func_ret (t));
 			CV_SPEC mq = DEREF_cv (type_func_mqual (t));
@@ -415,16 +415,16 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 				c = RTTI_func;
 			}
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			/* Array types */
 			TYPE s = DEREF_type (type_array_sub (t));
 			CONS_type (s, p, p);
 			sz = DEREF_nat (type_array_size (t));
 			c = RTTI_array;
 			break;
-	    }
-	    case type_bitfield_tag : {
+		}
+		case type_bitfield_tag : {
 			/* Bitfield types */
 			INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
 			TYPE s = DEREF_type (itype_bitfield_sub (it));
@@ -432,8 +432,8 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 			sz = DEREF_nat (itype_bitfield_size (it));
 			c = RTTI_bitfield;
 			break;
-	    }
-	    case type_compound_tag : {
+		}
+		case type_compound_tag : {
 			/* Class types */
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 			CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
@@ -445,12 +445,12 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 				c = RTTI_class;
 			}
 			break;
-	    }
-	    case type_enumerate_tag : {
+		}
+		case type_enumerate_tag : {
 			/* Enumeration types */
 			c = RTTI_enum;
 			break;
-	    }
+		}
 		}
 		bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
 		bs = enc_special (bs, TOK_typeid_make);
@@ -461,8 +461,8 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 		DESTROY_list (p, SIZE_type);
 		tdf_en_bitstream (bs, ts);
 		enc_tagdef_end (bs);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -487,41 +487,41 @@ static LIST (ulong) rtti_tags = NULL_list (ulong);
  *    necessary.
  */
 
-BITSTREAM
-*enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
+BITSTREAM *
+enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 {
-    ulong n = LINK_NONE;
-    if (IS_NULL_type (t)) {
+	ulong n = LINK_NONE;
+	if (IS_NULL_type (t)) {
 		/* Map null type to null pointer */
 		ENC_make_null_ptr (bs);
 		ENC_alignment (bs);
 		bs = enc_special (bs, TOK_typeid_type);
 		return (bs);
-    }
-    if (op == lex_typeid && !output_rtti) {
+	}
+	if (op == lex_typeid && !output_rtti) {
 		/* Use dummy type if RTTI suppressed */
 		t = type_error;
-    }
-    switch (TAG_type (t)) {
+	}
+	switch (TAG_type (t)) {
 	case type_top_tag :
 	case type_bottom_tag :
 	case type_integer_tag :
 	case type_floating_tag :
 	case type_pre_tag :
 	case type_error_tag : {
-	    /* Built-in types */
-	    BITSTREAM *ts;
-	    bs = enc_special (bs, TOK_typeid_basic);
-	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-	    ts = enc_arith (ts, t, 1);
-	    tdf_en_bitstream (bs, ts);
-	    return (bs);
+		/* Built-in types */
+		BITSTREAM *ts;
+		bs = enc_special (bs, TOK_typeid_basic);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+		ts = enc_arith (ts, t, 1);
+		tdf_en_bitstream (bs, ts);
+		return (bs);
 	}
 	case type_compound_tag : {
-	    /* Class types */
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
-	    if (ci & cinfo_polymorphic) {
+		/* Class types */
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
+		if (ci & cinfo_polymorphic) {
 			/* Polymorphic class types */
 			int used;
 			VIRTUAL vt = DEREF_virt (ctype_virt (ct));
@@ -545,13 +545,13 @@ BITSTREAM
 				ENC_make_tag (bs, n);
 				return (bs);
 			}
-	    } else {
+		} else {
 			IGNORE compile_class (ct);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    if (n == LINK_NONE) {
+	}
+	if (n == LINK_NONE) {
 		/* Check for previous definition */
 		LIST (TYPE) p = rtti_types;
 		LIST (ulong) q = rtti_tags;
@@ -573,11 +573,11 @@ BITSTREAM
 			CONS_ulong (n, rtti_tags, rtti_tags);
 			enc_rtti_struct (t, n, 1);
 		}
-    }
-    n = link_no (bs, n, VAR_tag);
-    ENC_obtain_tag (bs);
-    ENC_make_tag (bs, n);
-    return (bs);
+	}
+	n = link_no (bs, n, VAR_tag);
+	ENC_obtain_tag (bs);
+	ENC_make_tag (bs, n);
+	return (bs);
 }
 
 
@@ -588,14 +588,14 @@ BITSTREAM
  *    the bitstream bs.
  */
 
-BITSTREAM
-*enc_rtti_exp(BITSTREAM *bs, EXP e)
+BITSTREAM *
+enc_rtti_exp(BITSTREAM *bs, EXP e)
 {
-    EXP a = DEREF_exp (exp_rtti_arg (e));
-    EXP b = DEREF_exp (exp_rtti_except (e));
-    int op = DEREF_int (exp_rtti_op (e));
-    TYPE t = DEREF_type (exp_type (a));
-    if (IS_type_ptr_etc (t)) {
+	EXP a = DEREF_exp (exp_rtti_arg (e));
+	EXP b = DEREF_exp (exp_rtti_except (e));
+	int op = DEREF_int (exp_rtti_op (e));
+	TYPE t = DEREF_type (exp_type (a));
+	if (IS_type_ptr_etc (t)) {
 		TYPE s = DEREF_type (type_ptr_etc_sub (t));
 		if (IS_type_compound (s)) {
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (s));
@@ -610,7 +610,7 @@ BITSTREAM
 				IGNORE compile_class (ct);
 				off = DEREF_off (virt_table_off (vt));
 				n = DEREF_ulong (virt_table_tok (vt));
-				
+
 				/* Introduce variable for pointer */
 				a1 = DEREF_exp (exp_dummy_value (a));
 				m = unit_no (bs, NULL_id, VAR_tag, 1);
@@ -620,7 +620,7 @@ BITSTREAM
 				bs = enc_exp (bs, a);
 				COPY_ulong (exp_dummy_no (a), m);
 				COPY_exp (exp_dummy_value (a), NULL_exp);
-				
+
 				/* Check for null pointers */
 				if (!IS_NULL_exp (b)) {
 					ulong lab = unit_no (bs, NULL_id, VAR_label, 1);
@@ -637,7 +637,7 @@ BITSTREAM
 					bs = enc_exp (bs, b);
 					ENC_make_top (bs);
 				}
-				
+
 				/* Find the run-time type information */
 				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				if (op == lex_typeid) {
@@ -664,9 +664,9 @@ BITSTREAM
 				return (bs);
 			}
 		}
-    }
-    bs = enc_rtti_type (bs, t, op);
-    return (bs);
+	}
+	bs = enc_rtti_type (bs, t, op);
+	return (bs);
 }
 
 
@@ -676,72 +676,72 @@ BITSTREAM
  *    This routine adds the dynamic cast expression e to the bitstream bs.
  */
 
-BITSTREAM
-*enc_dyn_cast(BITSTREAM *bs, EXP e)
+BITSTREAM *
+enc_dyn_cast(BITSTREAM *bs, EXP e)
 {
-    ulong m;
-    int used;
-    OFFSET off;
-    VIRTUAL vt;
-    CLASS_TYPE ct;
-    BITSTREAM *ts, *us;
-    ulong r = LINK_NONE;
-    TYPE t = DEREF_type (exp_type (e));
-    EXP a = DEREF_exp (exp_dyn_cast_arg (e));
-    TYPE s = DEREF_type (exp_type (a));
-    EXP a1 = DEREF_exp (exp_dummy_value (a));
-    EXP b = DEREF_exp (exp_dyn_cast_except (e));
-	
-    /* Introduce identity for argument */
-    ulong n = unit_no (bs, NULL_id, VAR_tag, 1);
-    ENC_identify (bs);
-    bs = enc_access (bs, dspec_none);
-    ENC_make_tag (bs, n);
-    bs = enc_exp (bs, a1);
-    COPY_exp (exp_dummy_value (a), NULL_exp);
-    COPY_ulong (exp_dummy_no (a), n);
-	
-    /* Convert to result type */
-    bs = enc_special (bs, TOK_from_ptr_void);
-    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-    t = DEREF_type (type_ptr_etc_sub (t));
-    ts = enc_alignment (ts, t);
-	
-    /* Introduce variable in exception case */
-    if (!IS_NULL_exp (b)) {
+	ulong m;
+	int used;
+	OFFSET off;
+	VIRTUAL vt;
+	CLASS_TYPE ct;
+	BITSTREAM *ts, *us;
+	ulong r = LINK_NONE;
+	TYPE t = DEREF_type (exp_type (e));
+	EXP a = DEREF_exp (exp_dyn_cast_arg (e));
+	TYPE s = DEREF_type (exp_type (a));
+	EXP a1 = DEREF_exp (exp_dummy_value (a));
+	EXP b = DEREF_exp (exp_dyn_cast_except (e));
+
+	/* Introduce identity for argument */
+	ulong n = unit_no (bs, NULL_id, VAR_tag, 1);
+	ENC_identify (bs);
+	bs = enc_access (bs, dspec_none);
+	ENC_make_tag (bs, n);
+	bs = enc_exp (bs, a1);
+	COPY_exp (exp_dummy_value (a), NULL_exp);
+	COPY_ulong (exp_dummy_no (a), n);
+
+	/* Convert to result type */
+	bs = enc_special (bs, TOK_from_ptr_void);
+	ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+	t = DEREF_type (type_ptr_etc_sub (t));
+	ts = enc_alignment (ts, t);
+
+	/* Introduce variable in exception case */
+	if (!IS_NULL_exp (b)) {
 		r = unit_no (ts, NULL_id, VAR_tag, 1);
 		ENC_variable (ts);
 		ts = enc_access (ts, crt_func_access);
 		ENC_make_tag (ts, r);
-    }
-	
-    /* Encode main token */
-    ts = enc_special (ts, TOK_dynam_cast);
-    us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
-	
-    /* Encode address of virtual function table */
-    s = DEREF_type (type_ptr_etc_sub (s));
-    ct = DEREF_ctype (type_compound_defn (s));
-    IGNORE compile_class (ct);
-    vt = DEREF_virt (ctype_virt (ct));
-    off = DEREF_off (virt_table_off (vt));
-    m = DEREF_ulong (virt_table_tok (vt));
-    ENC_add_to_ptr (us);
-    us = enc_add_ptr (us, a, LINK_NONE, off, 0);
-    us = enc_exp_token (us, m);
-    used = DEREF_int (virt_table_rtti_used (vt));
-    if (!used) {
+	}
+
+	/* Encode main token */
+	ts = enc_special (ts, TOK_dynam_cast);
+	us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
+
+	/* Encode address of virtual function table */
+	s = DEREF_type (type_ptr_etc_sub (s));
+	ct = DEREF_ctype (type_compound_defn (s));
+	IGNORE compile_class (ct);
+	vt = DEREF_virt (ctype_virt (ct));
+	off = DEREF_off (virt_table_off (vt));
+	m = DEREF_ulong (virt_table_tok (vt));
+	ENC_add_to_ptr (us);
+	us = enc_add_ptr (us, a, LINK_NONE, off, 0);
+	us = enc_exp_token (us, m);
+	used = DEREF_int (virt_table_rtti_used (vt));
+	if (!used) {
 		IDENTIFIER cid = DEREF_id (ctype_name (ct));
 		COPY_int (virt_table_rtti_used (vt), 1);
 		compile_virtual (ct, !has_linkage (cid));
-    }
-	
-    /* Output run-time type information */
-    us = enc_rtti_type (us, t, lex_typeid);
-    tdf_en_bitstream (ts, us);
-	
-    /* Check for exceptions */
-    if (!IS_NULL_exp (b)) {
+	}
+
+	/* Output run-time type information */
+	us = enc_rtti_type (us, t, lex_typeid);
+	tdf_en_bitstream (ts, us);
+
+	/* Check for exceptions */
+	if (!IS_NULL_exp (b)) {
 		ulong lab = unit_no (ts, NULL_id, VAR_label, 1);
 		ENC_SEQ_SMALL (ts, 1);
 		ENC_conditional (ts);
@@ -762,12 +762,12 @@ BITSTREAM
 		ts = enc_special (ts, TOK_ptr_void);
 		ENC_obtain_tag (ts);
 		ENC_make_tag (ts, r);
-    }
-	
-    /* End conversion expression */
-    tdf_en_bitstream (bs, ts);
-    COPY_exp (exp_dummy_value (a), a1);
-    return (bs);
+	}
+
+	/* End conversion expression */
+	tdf_en_bitstream (bs, ts);
+	COPY_exp (exp_dummy_value (a), a1);
+	return (bs);
 }
 
 
@@ -794,14 +794,14 @@ static VIRTUAL all_thunks = NULL_virt;
 static ulong
 make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 {
-    ulong n;
-    DECL_SPEC acc = DEREF_dspec (graph_access (ret));
-    IGNORE capsule_id (fid, VAR_tag);
-    if (acc & dspec_ignore) {
+	ulong n;
+	DECL_SPEC acc = DEREF_dspec (graph_access (ret));
+	IGNORE capsule_id (fid, VAR_tag);
+	if (acc & dspec_ignore) {
 		/* Use fid for trivial conversions */
 		n = DEREF_ulong (id_no (fid));
-		
-    } else {
+
+	} else {
 		EXP e;
 		int ell;
 		TYPE f2;
@@ -811,7 +811,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		ulong rn, pn;
 		LIST (TYPE) p;
 		BITSTREAM *bs, *ts;
-		
+
 		/* Check previously defined thunks */
 		VIRTUAL vt = all_thunks;
 		while (!IS_NULL_virt (vt)) {
@@ -825,7 +825,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 			}
 			vt = DEREF_virt (virt_next (vt));
 		}
-		
+
 		/* Find type information */
 		while (IS_type_templ (f)) {
 			f = DEREF_type (type_templ_defn (f));
@@ -839,7 +839,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 			f2 = DEREF_type (type_templ_defn (f2));
 		}
 		r2 = DEREF_type (type_func_ret (f2));
-		
+
 		/* Declare the thunk function */
 		n = capsule_no (NULL_string, VAR_tag);
 		enc_tagdec (NULL_id, n, f, 0);
@@ -880,7 +880,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 			ENC_OFF (bs);
 		}
 		ENC_OFF (ts);
-		
+
 		/* Output the function body */
 		rn = unit_no (bs, NULL_id, VAR_tag, 1);
 		MAKE_exp_dummy (r2, NULL_exp, rn, NULL_off, 1, e);
@@ -908,13 +908,13 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		bs = enc_add_ptr (bs, e, LINK_NONE, off, 1);
 		enc_tagdef_end (bs);
 		free_exp (e, 1);
-		
+
 		/* Add to list of all thunks */
 		MAKE_virt_simple (fid, n, ret, vt);
 		COPY_virt (virt_next (vt), all_thunks);
 		all_thunks = vt;
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -925,16 +925,16 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
  *    n functions to the bitstream bs.
  */
 
-BITSTREAM
-*enc_vtable_shape(BITSTREAM *bs, ulong n)
+BITSTREAM *
+enc_vtable_shape(BITSTREAM *bs, ulong n)
 {
-    BITSTREAM *ts;
-    bs = enc_special (bs, TOK_vtab_type);
-    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-    ENC_make_nat (ts);
-    ENC_INT (ts, n + VIRTUAL_EXTRA);
-    tdf_en_bitstream (bs, ts);
-    return (bs);
+	BITSTREAM *ts;
+	bs = enc_special (bs, TOK_vtab_type);
+	ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+	ENC_make_nat (ts);
+	ENC_INT (ts, n + VIRTUAL_EXTRA);
+	tdf_en_bitstream (bs, ts);
+	return (bs);
 }
 
 
@@ -951,41 +951,41 @@ static void
 enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 				ulong rtti)
 {
-    ulong r;
-    BITSTREAM *bs, *ts, *us;
-    ulong m = DEREF_ulong (virt_no (vt));
-    ulong p = DEREF_ulong (virt_table_tok (vt));
-    OFFSET off = DEREF_off (virt_table_off (vt));
-    LIST (VIRTUAL) pt = DEREF_list (virt_table_entries (vt));
-	
-    /* Output start of table */
-    bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
-    bs = enc_special (bs, TOK_vtab_make);
-    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-    ENC_obtain_tag (ts);
-    r = link_no (ts, rtti, VAR_tag);
-    ENC_make_tag (ts, r);
-    if (inherited) {
+	ulong r;
+	BITSTREAM *bs, *ts, *us;
+	ulong m = DEREF_ulong (virt_no (vt));
+	ulong p = DEREF_ulong (virt_table_tok (vt));
+	OFFSET off = DEREF_off (virt_table_off (vt));
+	LIST (VIRTUAL) pt = DEREF_list (virt_table_entries (vt));
+
+	/* Output start of table */
+	bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
+	bs = enc_special (bs, TOK_vtab_make);
+	ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
+	ENC_obtain_tag (ts);
+	r = link_no (ts, rtti, VAR_tag);
+	ENC_make_tag (ts, r);
+	if (inherited) {
 		/* Add base class offset */
 		OFFSET off2 = DEREF_off (graph_off (gr));
 		if (!is_zero_offset (off2)) {
 			ENC_offset_add (ts);
 			ts = enc_offset (ts, off2);
 		}
-    }
-    if (!is_zero_offset (off)) {
+	}
+	if (!is_zero_offset (off)) {
 		/* Add inherited table offset */
 		ENC_offset_add (ts);
 		ts = enc_offset (ts, off);
-    }
-    ts = enc_exp_token (ts, p);
-    ENC_make_nat (ts);
-    ENC_INT (ts, m + VIRTUAL_EXTRA);
-	
-    /* Output virtual functions */
-    ENC_make_nof (ts);
-    ENC_LIST (ts, m);
-    while (!IS_NULL_list (pt)) {
+	}
+	ts = enc_exp_token (ts, p);
+	ENC_make_nat (ts);
+	ENC_INT (ts, m + VIRTUAL_EXTRA);
+
+	/* Output virtual functions */
+	ENC_make_nof (ts);
+	ENC_LIST (ts, m);
+	while (!IS_NULL_list (pt)) {
 		GRAPH gs;
 		DECL_SPEC ds;
 		IDENTIFIER fid;
@@ -1006,7 +1006,7 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 		fid = DEREF_id (virt_func (at));
 		ds = DEREF_dspec (id_storage (fid));
 		gs = DEREF_graph (virt_base (at));
-		
+
 		/* Output pointer to member function */
 		ts = enc_special (ts, TOK_pmf_make);
 		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
@@ -1029,10 +1029,10 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 		us = enc_base (us, gr, 0);
 		tdf_en_bitstream (ts, us);
 		pt = TAIL_list (pt);
-    }
-    tdf_en_bitstream (bs, ts);
-    enc_tagdef_end (bs);
-    return;
+	}
+	tdf_en_bitstream (bs, ts);
+	enc_tagdef_end (bs);
+	return;
 }
 
 
@@ -1047,24 +1047,24 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 void
 define_vtable(CLASS_TYPE ct, int def, int ext)
 {
-    ulong r;
-    int used;
-    int have_main_table = 0;
-    VIRTUAL vt = DEREF_virt (ctype_virt (ct));
-    if (IS_NULL_virt (vt)) return;
-    if (output_all) ext = 1;
-    if (def == 2) {
+	ulong r;
+	int used;
+	int have_main_table = 0;
+	VIRTUAL vt = DEREF_virt (ctype_virt (ct));
+	if (IS_NULL_virt (vt)) return;
+	if (output_all) ext = 1;
+	if (def == 2) {
 		/* Force definition in this case */
 		IGNORE compile_class (ct);
-    } else {
+	} else {
 		ulong n = DEREF_ulong (ctype_shape (ct));
 		if (n == LINK_NONE) return;
-    }
-	
-    /* Output run-time type information */
-    r = DEREF_ulong (virt_table_rtti (vt));
-    used = DEREF_int (virt_table_rtti_used (vt));
-    if (used || def) {
+	}
+
+	/* Output run-time type information */
+	r = DEREF_ulong (virt_table_rtti (vt));
+	used = DEREF_int (virt_table_rtti_used (vt));
+	if (used || def) {
 		TYPE t = dummy_class;
 		if (ext) {
 			/* Make up external name */
@@ -1075,10 +1075,10 @@ define_vtable(CLASS_TYPE ct, int def, int ext)
 		COPY_int (virt_table_rtti_used (vt), 1);
 		COPY_ctype (type_compound_defn (t), ct);
 		enc_rtti_struct (t, r, def);
-    }
-	
-    /* Output virtual function tables */
-    while (!IS_NULL_virt (vt)) {
+	}
+
+	/* Output virtual function tables */
+	while (!IS_NULL_virt (vt)) {
 		ulong n;
 		VIRTUAL vs;
 		unsigned acc;
@@ -1114,8 +1114,8 @@ define_vtable(CLASS_TYPE ct, int def, int ext)
 			enc_vtable_defn (vs, n, ct, gr, inherited, r);
 		}
 		vt = DEREF_virt (virt_next (vt));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1129,10 +1129,10 @@ define_vtable(CLASS_TYPE ct, int def, int ext)
 static ulong
 declare_vtable(CLASS_TYPE ct)
 {
-    ulong n = LINK_NONE;
-    ulong r = LINK_NONE;
-    VIRTUAL vt = DEREF_virt (ctype_virt (ct));
-    while (!IS_NULL_virt (vt)) {
+	ulong n = LINK_NONE;
+	ulong r = LINK_NONE;
+	VIRTUAL vt = DEREF_virt (ctype_virt (ct));
+	while (!IS_NULL_virt (vt)) {
 		ulong t;
 		OFFSET off;
 		ulong m = DEREF_ulong (virt_table_tok (vt));
@@ -1156,7 +1156,7 @@ declare_vtable(CLASS_TYPE ct)
 			m = declare_vtable (cs);
 		}
 		if (n == LINK_NONE) n = m;
-		
+
 		/* Allocate (but not define) virtual table tags */
 		t = capsule_no (NULL_string, VAR_tag);
 		clear_usage (t, VAR_tag);
@@ -1168,8 +1168,8 @@ declare_vtable(CLASS_TYPE ct)
 		COPY_ulong (virt_table_rtti (vt), r);
 		COPY_ulong (virt_table_tok (vt), m);
 		vt = DEREF_virt (virt_next (vt));
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -1192,8 +1192,8 @@ declare_vtable(CLASS_TYPE ct)
 ulong
 virtual_no(IDENTIFIER id, VIRTUAL vt)
 {
-    LIST (VIRTUAL) pv = DEREF_list (virt_table_entries (vt));
-    while (!IS_NULL_list (pv)) {
+	LIST (VIRTUAL) pv = DEREF_list (virt_table_entries (vt));
+	while (!IS_NULL_list (pv)) {
 		VIRTUAL vs = DEREF_virt (HEAD_list (pv));
 		IDENTIFIER vid = DEREF_id (virt_func (vs));
 		if (EQ_id (vid, id)) {
@@ -1201,8 +1201,8 @@ virtual_no(IDENTIFIER id, VIRTUAL vt)
 			return (m + VIRTUAL_EXTRA);
 		}
 		pv = TAIL_list (pv);
-    }
-    return (VIRTUAL_EXTRA);
+	}
+	return (VIRTUAL_EXTRA);
 }
 
 
@@ -1217,12 +1217,12 @@ virtual_no(IDENTIFIER id, VIRTUAL vt)
 static int
 is_zero_bitfield(TYPE t)
 {
-    if (!IS_NULL_type (t) && IS_type_bitfield (t)) {
+	if (!IS_NULL_type (t) && IS_type_bitfield (t)) {
 		INT_TYPE bf = DEREF_itype (type_bitfield_defn (t));
 		DECL_SPEC ds = DEREF_dspec (itype_bitfield_info (bf));
 		if (ds & dspec_pure) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1234,10 +1234,10 @@ is_zero_bitfield(TYPE t)
  *    virtual bases is added.
  */
 
-static BITSTREAM
-*enc_offset_add(BITSTREAM *bs, TYPE t)
+static BITSTREAM *
+enc_offset_add(BITSTREAM *bs, TYPE t)
 {
-    if (EQ_type (t, dummy_class)) {
+	if (EQ_type (t, dummy_class)) {
 		/* Class offset */
 		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 		GRAPH gr = DEREF_graph (ctype_base (ct));
@@ -1246,10 +1246,10 @@ static BITSTREAM
 			bs = enc_exp_token (bs, m);
 			return (bs);
 		}
-    }
-    ENC_shape_offset (bs);
-    bs = enc_shape (bs, t);
-    return (bs);
+	}
+	ENC_shape_offset (bs);
+	bs = enc_shape (bs, t);
+	return (bs);
 }
 
 
@@ -1261,14 +1261,13 @@ static BITSTREAM
  *    to the bitstream bs.  Note that bitfield types are awkward.
  */
 
-static BITSTREAM
-*enc_offset_pad(BITSTREAM *bs, ulong n, TYPE t,
-				TYPE s)
+static BITSTREAM *
+enc_offset_pad(BITSTREAM *bs, ulong n, TYPE t, TYPE s)
 {
-    BITSTREAM *ts;
-    unsigned tag = null_tag;
-    int z = is_zero_bitfield (t);
-    if (!IS_NULL_type (s)) {
+	BITSTREAM *ts;
+	unsigned tag = null_tag;
+	int z = is_zero_bitfield (t);
+	if (!IS_NULL_type (s)) {
 		if (is_zero_bitfield (s)) {
 			/* Force an alignment */
 			s = find_bitfield_type (s);
@@ -1276,30 +1275,30 @@ static BITSTREAM
 		ENC_offset_pad (bs);
 		bs = enc_alignment (bs, s);
 		tag = TAG_type (s);
-    }
-    if (tag == type_bitfield_tag) {
+	}
+	if (tag == type_bitfield_tag) {
 		/* Use token for bitfields */
 		bs = enc_special (bs, TOK_pad);
 		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-    } else {
+	} else {
 		ts = bs;
-    }
-	
-    /* Add offset (except for zero sized bitfields) */
-    if (!z) ENC_offset_add (ts);
-    ts = enc_exp_token (ts, n);
-    if (!z) ts = enc_offset_add (ts, t);
-	
-    /* Encode extra bitfield arguments */
-    if (tag == type_bitfield_tag) {
+	}
+
+	/* Add offset (except for zero sized bitfields) */
+	if (!z) ENC_offset_add (ts);
+	ts = enc_exp_token (ts, n);
+	if (!z) ts = enc_offset_add (ts, t);
+
+	/* Encode extra bitfield arguments */
+	if (tag == type_bitfield_tag) {
 		TYPE r = find_bitfield_type (s);
 		ts = enc_shape (ts, r);
 		ts = enc_shape (ts, s);
 		tdf_en_bitstream (bs, ts);
-    } else {
+	} else {
 		bs = ts;
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1313,8 +1312,8 @@ static BITSTREAM
 static void
 enc_al_tagdef(ulong m, ulong n)
 {
-    unsigned acc = find_usage (m, VAR_alignment);
-    if (!(acc & USAGE_DEFN)) {
+	unsigned acc = find_usage (m, VAR_alignment);
+	if (!(acc & USAGE_DEFN)) {
 		BITSTREAM *bs = aldef_unit;
 		ulong r = link_no (bs, m, VAR_alignment);
 		ENC_make_al_tagdef (bs);
@@ -1328,8 +1327,8 @@ enc_al_tagdef(ulong m, ulong n)
 		record_usage (m, VAR_alignment, USAGE_DEFN);
 		count_item (bs);
 		aldef_unit = bs;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1344,8 +1343,8 @@ enc_al_tagdef(ulong m, ulong n)
 ulong
 compile_class(CLASS_TYPE ct)
 {
-    ulong n = DEREF_ulong (ctype_shape (ct));
-    if (n == LINK_NONE) {
+	ulong n = DEREF_ulong (ctype_shape (ct));
+	if (n == LINK_NONE) {
 		ulong m;
 		HASHID nm;
 		NAMESPACE ns;
@@ -1365,7 +1364,7 @@ compile_class(CLASS_TYPE ct)
 #if LANGUAGE_CPP
 		VIRTUAL vt = DEREF_virt (ctype_virt (ct));
 #endif
-		
+
 		/* Check for tokenised types */
 		if (ci & cinfo_token) {
 			IDENTIFIER id = DEREF_id (ctype_name (ct));
@@ -1375,11 +1374,11 @@ compile_class(CLASS_TYPE ct)
 			COPY_ulong (ctype_shape (ct), n);
 			return (n);
 		}
-		
+
 		/* Assign token number */
 		n = capsule_no (NULL_string, VAR_token);
 		COPY_ulong (ctype_shape (ct), n);
-		
+
 		/* Allow for recursive types */
 		if (ci & cinfo_recursive) {
 			m = DEREF_ulong (graph_al_tag (gr));
@@ -1392,7 +1391,7 @@ compile_class(CLASS_TYPE ct)
 				COPY_ulong (graph_al_tag (gr), m);
 			}
 		}
-		
+
 		/* Assign virtual function tokens */
 #if LANGUAGE_CPP
 		if (!IS_NULL_virt (vt)) {
@@ -1401,7 +1400,7 @@ compile_class(CLASS_TYPE ct)
 			IGNORE declare_vtable (ct);
 		}
 #endif
-		
+
 		/* Scan through direct base classes */
 		br = DEREF_list (graph_tails (gr));
 		while (!IS_NULL_list (br)) {
@@ -1409,7 +1408,7 @@ compile_class(CLASS_TYPE ct)
 			GRAPH gs = DEREF_graph (HEAD_list (br));
 			DECL_SPEC acc = DEREF_dspec (graph_access (gs));
 			CLASS_TYPE cs = DEREF_ctype (graph_head (gs));
-			
+
 			/* Define offset token */
 			IGNORE compile_class (cs);
 			m = capsule_no (NULL_string, VAR_token);
@@ -1448,7 +1447,7 @@ compile_class(CLASS_TYPE ct)
 				bs = enc_offset_add (bs, pt);
 			}
 			enc_tokdef_end (m, bs);
-			
+
 			/* Find member type */
 			pt = dummy_class;
 			COPY_ctype (type_compound_defn (pt), cs);
@@ -1460,7 +1459,7 @@ compile_class(CLASS_TYPE ct)
 			pm = m;
 			br = TAIL_list (br);
 		}
-		
+
 		/* Scan through data members */
 		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, tokdef_unit->ts_link);
 		ns = DEREF_nspace (ctype_member (ct));
@@ -1548,7 +1547,7 @@ compile_class(CLASS_TYPE ct)
 			}
 			macc = nacc;
 		} while (macc);
-		
+
 		/* Allow for virtual function table */
 #if LANGUAGE_CPP
 		if (!IS_NULL_virt (vt)) {
@@ -1572,13 +1571,13 @@ compile_class(CLASS_TYPE ct)
 			no_bases++;
 		}
 #endif
-		
+
 		/* Scan through virtual bases */
 		br = DEREF_list (ctype_vbase (ct));
 		while (!IS_NULL_list (br)) {
 			GRAPH gs = DEREF_graph (HEAD_list (br));
 			CLASS_TYPE cs = DEREF_ctype (graph_head (gs));
-			
+
 			/* Define offset token */
 			IGNORE compile_class (cs);
 			m = capsule_no (NULL_string, VAR_token);
@@ -1605,7 +1604,7 @@ compile_class(CLASS_TYPE ct)
 			no_bases++;
 			br = TAIL_list (br);
 		}
-		
+
 		/* Define the overall shape token */
 		no_mems += no_bases;
 		if (no_mems) {
@@ -1627,11 +1626,11 @@ compile_class(CLASS_TYPE ct)
 			}
 			tdf_en_bitstream (bs, ts);
 			enc_tokdef_end (m, bs);
-			
+
 			/* Record offset of non-virtual components */
 			if (vo == LINK_NONE) vo = m;
 			COPY_ulong (graph_core_off (gr), vo);
-			
+
 			/* Non-empty structure shape definition */
 			if (ext) {
 				string s = mangle_typeid ("~cpp.sh.", ct);
@@ -1642,7 +1641,7 @@ compile_class(CLASS_TYPE ct)
 			bs = enc_exp_token (bs, m);
 			enc_tokdef_end (n, bs);
 			ci &= ~cinfo_empty;
-			
+
 		} else {
 			/* Empty structure definition */
 			clear_usage (n, VAR_token);
@@ -1653,13 +1652,13 @@ compile_class(CLASS_TYPE ct)
 			ci |= cinfo_empty;
 		}
 		COPY_cinfo (ctype_info (ct), ci);
-		
+
 		/* Define associated alignment tag */
 		m = DEREF_ulong (graph_al_tag (gr));
 		if (m != LINK_NONE) enc_al_tagdef (m, n);
 		COPY_ctype (type_compound_defn (dummy_class), cd);
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -1669,12 +1668,12 @@ compile_class(CLASS_TYPE ct)
  *    This routine adds the class type ct to the bitstream bs as a TDF SHAPE.
  */
 
-BITSTREAM
-*enc_ctype(BITSTREAM *bs, CLASS_TYPE ct)
+BITSTREAM *
+enc_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 {
-    ulong n = compile_class (ct);
-    bs = enc_shape_token (bs, n);
-    return (bs);
+	ulong n = compile_class (ct);
+	bs = enc_shape_token (bs, n);
+	return (bs);
 }
 
 
@@ -1698,10 +1697,10 @@ static LIST (CLASS_TYPE) incompl_classes = NULL_list (CLASS_TYPE);
  */
 
 void
-compile_incompl()
+compile_incompl(void)
 {
-    LIST (CLASS_TYPE) p = incompl_classes;
-    while (!IS_NULL_list (p)) {
+	LIST (CLASS_TYPE) p = incompl_classes;
+	while (!IS_NULL_list (p)) {
 		CLASS_TYPE ct = DEREF_ctype (HEAD_list (p));
 		ulong n = DEREF_ulong (ctype_shape (ct));
 		if (n == LINK_NONE) {
@@ -1711,10 +1710,10 @@ compile_incompl()
 			enc_al_tagdef (m, n);
 		}
 		p = TAIL_list (p);
-    }
-    DESTROY_list (incompl_classes, SIZE_ctype);
-    incompl_classes = NULL_list (CLASS_TYPE);
-    return;
+	}
+	DESTROY_list (incompl_classes, SIZE_ctype);
+	incompl_classes = NULL_list (CLASS_TYPE);
+	return;
 }
 
 
@@ -1725,12 +1724,12 @@ compile_incompl()
  *    bs.  Note that ct is not compiled by this routine.
  */
 
-BITSTREAM
-*enc_al_ctype(BITSTREAM *bs, CLASS_TYPE ct)
+BITSTREAM *
+enc_al_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 {
-    GRAPH gr = DEREF_graph (ctype_base (ct));
-    ulong m = DEREF_ulong (graph_al_tag (gr));
-    if (m == LINK_NONE) {
+	GRAPH gr = DEREF_graph (ctype_base (ct));
+	ulong m = DEREF_ulong (graph_al_tag (gr));
+	if (m == LINK_NONE) {
 		string s = NULL;
 		ulong n = DEREF_ulong (ctype_shape (ct));
 		if (n != LINK_NONE) {
@@ -1743,11 +1742,11 @@ BITSTREAM
 		m = capsule_no (s, VAR_alignment);
 		COPY_ulong (graph_al_tag (gr), m);
 		CONS_ctype (ct, incompl_classes, incompl_classes);
-    }
-    m = link_no (bs, m, VAR_alignment);
-    ENC_obtain_al_tag (bs);
-    ENC_make_al_tag (bs, m);
-    return (bs);
+	}
+	m = link_no (bs, m, VAR_alignment);
+	ENC_obtain_al_tag (bs);
+	ENC_make_al_tag (bs, m);
+	return (bs);
 }
 
 
@@ -1763,39 +1762,39 @@ BITSTREAM
 static ulong
 compile_base(GRAPH gr, int ptr)
 {
-    ulong n, m;
-    GRAPH g1, g2;
-    BITSTREAM *bs;
-    string s = NULL;
-    OFFSET off = DEREF_off (graph_off (gr));
-    DECL_SPEC acc = DEREF_dspec (graph_access (gr));
-    if ((acc & dspec_virtual) && !ptr) {
+	ulong n, m;
+	GRAPH g1, g2;
+	BITSTREAM *bs;
+	string s = NULL;
+	OFFSET off = DEREF_off (graph_off (gr));
+	DECL_SPEC acc = DEREF_dspec (graph_access (gr));
+	if ((acc & dspec_virtual) && !ptr) {
 		/* Virtual base class */
 		n = DEREF_ulong (graph_real_off (gr));
 		return (n);
-    }
-    if (IS_off_base (off)) {
+	}
+	if (IS_off_base (off)) {
 		/* Direct base class */
 		n = DEREF_ulong (graph_base_off (gr));
 		return (n);
-    }
-	
-    /* Check for recorded values */
-    if (ptr) {
+	}
+
+	/* Check for recorded values */
+	if (ptr) {
 		n = DEREF_ulong (graph_base_off (gr));
-    } else {
+	} else {
 		n = DEREF_ulong (graph_real_off (gr));
-    }
-    if (n != LINK_NONE) return (n);
-    if (output_all) {
+	}
+	if (n != LINK_NONE) return (n);
+	if (output_all) {
 		const char *pre = "~cpp.base.";
 		if ((acc & dspec_mutable) && !ptr) pre = "~cpp.virt.";
 		s = mangle_vtable (pre, gr);
-    }
-    n = capsule_no (s, VAR_token);
-	
-    /* Decompose base offset */
-    if (acc & dspec_mutable) {
+	}
+	n = capsule_no (s, VAR_token);
+
+	/* Decompose base offset */
+	if (acc & dspec_mutable) {
 		/* Base of virtual base */
 		CLASS_TYPE cs;
 		g1 = DEREF_graph (graph_up (gr));
@@ -1807,7 +1806,7 @@ compile_base(GRAPH gr, int ptr)
 		} else {
 			COPY_ulong (graph_real_off (gr), n);
 		}
-    } else {
+	} else {
 		/* Indirect base */
 		OFFSET off1 = DEREF_off (off_deriv_direct (off));
 		OFFSET off2 = DEREF_off (off_deriv_indirect (off));
@@ -1819,17 +1818,17 @@ compile_base(GRAPH gr, int ptr)
 		}
 		COPY_ulong (graph_base_off (gr), n);
 		COPY_ulong (graph_real_off (gr), n);
-    }
-	
-    /* Define the token */
-    bs = enc_tokdef_start (n, "E", NULL, 1);
-    ENC_offset_add (bs);
-    m = compile_base (g1, 0);
-    bs = enc_exp_token (bs, m);
-    m = compile_base (g2, ptr);
-    bs = enc_exp_token (bs, m);
-    enc_tokdef_end (n, bs);
-    return (n);
+	}
+
+	/* Define the token */
+	bs = enc_tokdef_start (n, "E", NULL, 1);
+	ENC_offset_add (bs);
+	m = compile_base (g1, 0);
+	bs = enc_exp_token (bs, m);
+	m = compile_base (g2, ptr);
+	bs = enc_exp_token (bs, m);
+	enc_tokdef_end (n, bs);
+	return (n);
 }
 
 
@@ -1842,21 +1841,21 @@ compile_base(GRAPH gr, int ptr)
  *    otherwise.
  */
 
-BITSTREAM
-*enc_base(BITSTREAM *bs, GRAPH gr, int ptr)
+BITSTREAM *
+enc_base(BITSTREAM *bs, GRAPH gr, int ptr)
 {
-    GRAPH gt = DEREF_graph (graph_top (gr));
-    CLASS_TYPE ct = DEREF_ctype (graph_head (gt));
-    if (EQ_graph (gr, gt)) {
+	GRAPH gt = DEREF_graph (graph_top (gr));
+	CLASS_TYPE ct = DEREF_ctype (graph_head (gt));
+	if (EQ_graph (gr, gt)) {
 		ENC_offset_zero (bs);
 		bs = enc_al_ctype (bs, ct);
-    } else {
+	} else {
 		ulong n;
 		IGNORE compile_class (ct);
 		n = compile_base (gr, ptr);
 		bs = enc_exp_token (bs, n);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1868,13 +1867,12 @@ BITSTREAM
  *    and off2 gives the indirect component.
  */
 
-BITSTREAM
-*enc_add_base(BITSTREAM *bs, OFFSET off1,
-			  OFFSET off2)
+BITSTREAM *
+enc_add_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 {
-    GRAPH gr = DEREF_graph (off_base_graph (off1));
-    DECL_SPEC acc = DEREF_dspec (graph_access (gr));
-    if (!IS_NULL_off (off2)) {
+	GRAPH gr = DEREF_graph (off_base_graph (off1));
+	DECL_SPEC acc = DEREF_dspec (graph_access (gr));
+	if (!IS_NULL_off (off2)) {
 		if (IS_off_deriv (off2)) {
 			OFFSET off3 = DEREF_off (off_deriv_direct (off2));
 			OFFSET off4 = DEREF_off (off_deriv_indirect (off2));
@@ -1882,19 +1880,19 @@ BITSTREAM
 		} else {
 			bs = enc_add_base (bs, off2, NULL_off);
 		}
-    }
-    if (acc & dspec_virtual) {
+	}
+	if (acc & dspec_virtual) {
 		/* Indirection for virtual bases */
 		CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
 		ENC_contents (bs);
 		ENC_pointer (bs);
 		bs = enc_al_ctype (bs, ct);
-    }
-    if (!(acc & dspec_ignore)) {
+	}
+	if (!(acc & dspec_ignore)) {
 		/* Add base class offset */
 		ENC_add_to_ptr (bs);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1906,13 +1904,12 @@ BITSTREAM
  *    and off2 gives the indirect component.
  */
 
-BITSTREAM
-*enc_end_base(BITSTREAM *bs, OFFSET off1,
-			  OFFSET off2)
+BITSTREAM *
+enc_end_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 {
-    GRAPH gr = DEREF_graph (off_base_graph (off1));
-    DECL_SPEC acc = DEREF_dspec (graph_access (gr));
-    if (!(acc & dspec_ignore)) {
+	GRAPH gr = DEREF_graph (off_base_graph (off1));
+	DECL_SPEC acc = DEREF_dspec (graph_access (gr));
+	if (!(acc & dspec_ignore)) {
 		/* Output base class offset */
 		ulong n = DEREF_ulong (graph_base_off (gr));
 		if (n == LINK_NONE) {
@@ -1923,8 +1920,8 @@ BITSTREAM
 			n = DEREF_ulong (graph_base_off (gr));
 		}
 		bs = enc_exp_token (bs, n);
-    }
-    if (!IS_NULL_off (off2)) {
+	}
+	if (!IS_NULL_off (off2)) {
 		if (IS_off_deriv (off2)) {
 			OFFSET off3 = DEREF_off (off_deriv_direct (off2));
 			OFFSET off4 = DEREF_off (off_deriv_indirect (off2));
@@ -1932,8 +1929,8 @@ BITSTREAM
 		} else {
 			bs = enc_end_base (bs, off2, NULL_off);
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1945,12 +1942,12 @@ BITSTREAM
  *    of the structure.
  */
 
-BITSTREAM
-*enc_member(BITSTREAM *bs, IDENTIFIER id)
+BITSTREAM *
+enc_member(BITSTREAM *bs, IDENTIFIER id)
 {
-    ulong tok;
-    unsigned tag = TAG_id (id);
-    if (tag == id_member_tag) {
+	ulong tok;
+	unsigned tag = TAG_id (id);
+	if (tag == id_member_tag) {
 		/* Simple data member */
 		OFFSET off = DEREF_off (id_member_off (id));
 		if (IS_off_member (off)) {
@@ -1972,14 +1969,14 @@ BITSTREAM
 		} else {
 			bs = enc_offset (bs, off);
 		}
-    } else {
+	} else {
 		/* Static data members and member functions */
 		IGNORE capsule_id (id, VAR_tag);
 		tok = unit_no (bs, id, VAR_tag, 0);
 		ENC_obtain_tag (bs);
 		ENC_make_tag (bs, tok);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -1994,16 +1991,15 @@ BITSTREAM
  *    order.
  */
 
-static BITSTREAM
-*enc_null_class_aux(BITSTREAM *bs, CLASS_TYPE ct,
-					int virt)
+static BITSTREAM *
+enc_null_class_aux(BITSTREAM *bs, CLASS_TYPE ct, int virt)
 {
-    CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
-    if (ci & (cinfo_empty | cinfo_token)) {
+	CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
+	if (ci & (cinfo_empty | cinfo_token)) {
 		/* Tokenised and empty classes */
 		ENC_make_value (bs);
 		bs = enc_ctype (bs, ct);
-    } else {
+	} else {
 		/* Non-empty classes */
 		MEMBER mem;
 		unsigned no_mems = 0;
@@ -2012,7 +2008,7 @@ static BITSTREAM
 		LIST (GRAPH) bv = DEREF_list (ctype_vbase (ct));
 		NAMESPACE ns = DEREF_nspace (ctype_member (ct));
 		BITSTREAM *ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
-		
+
 		/* Scan through direct base classes */
 		while (!IS_NULL_list (br)) {
 			GRAPH gs = DEREF_graph (HEAD_list (br));
@@ -2034,7 +2030,7 @@ static BITSTREAM
 			}
 			br = TAIL_list (br);
 		}
-		
+
 		/* Scan through data members */
 		mem = DEREF_member (nspace_ctype_first (ns));
 		mem = next_data_member (mem, 0);
@@ -2048,7 +2044,7 @@ static BITSTREAM
 			mem = DEREF_member (member_next (mem));
 			mem = next_data_member (mem, 0);
 		}
-		
+
 		/* Scan through virtual function tables */
 #if LANGUAGE_CPP
 		if (ci & cinfo_polymorphic) {
@@ -2066,7 +2062,7 @@ static BITSTREAM
 			}
 		}
 #endif
-		
+
 		/* Scan through virtual bases */
 		if (virt) {
 			while (!IS_NULL_list (bv)) {
@@ -2084,7 +2080,7 @@ static BITSTREAM
 		} else {
 			if (IS_NULL_list (bv)) virt = 1;
 		}
-		
+
 		/* Encode complete construct */
 		if (no_mems) {
 			ENC_make_compound (bs);
@@ -2107,8 +2103,8 @@ static BITSTREAM
 			bs = enc_ctype (bs, ct);
 			tdf_stream_destroy (ts);
 		}
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -2120,11 +2116,11 @@ static BITSTREAM
  *    first time the routine is called.
  */
 
-BITSTREAM
-*enc_null_class(BITSTREAM *bs, CLASS_TYPE ct)
+BITSTREAM *
+enc_null_class(BITSTREAM *bs, CLASS_TYPE ct)
 {
-    ulong n = DEREF_ulong (ctype_null_exp (ct));
-    if (n == LINK_NONE) {
+	ulong n = DEREF_ulong (ctype_null_exp (ct));
+	if (n == LINK_NONE) {
 		/* Define token for null value */
 		BITSTREAM *ts;
 		string s = NULL;
@@ -2135,9 +2131,9 @@ BITSTREAM
 		ts = enc_tokdef_start (n, "E", NULL, 1);
 		ts = enc_null_class_aux (ts, ct, 1);
 		enc_tokdef_end (n, ts);
-    }
-    bs = enc_exp_token (bs, n);
-    return (bs);
+	}
+	bs = enc_exp_token (bs, n);
+	return (bs);
 }
 
 
@@ -2161,11 +2157,11 @@ BITSTREAM
  *    constructor or assignment operator (see init_empty_base).
  */
 
-static BITSTREAM
-*enc_ctor_exp(BITSTREAM *bs, EXP a, OFFSET off,
-			  ulong m, int virt, unsigned seq)
+static BITSTREAM *
+enc_ctor_exp(BITSTREAM *bs, EXP a, OFFSET off, ulong m, int virt,
+			 unsigned seq)
 {
-    if (!IS_NULL_exp (a)) {
+	if (!IS_NULL_exp (a)) {
 		int context = 0;
 		EXP d = NULL_exp;
 		TYPE s = DEREF_type (exp_type (a));
@@ -2194,9 +2190,9 @@ static BITSTREAM
 				/* Non-bitfield assignment */
 				bs = enc_dummy_exp (bs, t, m, off, 0, virt);
 			}
-			last_conts [ DUMMY_copy ] = 1;
+			last_conts [DUMMY_copy] = 1;
 			bs = enc_dummy_exp (bs, t, LINK_NONE, off, DUMMY_copy, 1);
-			last_conts [ DUMMY_copy ] = 0;
+			last_conts [DUMMY_copy] = 0;
 			seq--;
 		} else {
 			/* Constructor initialiser */
@@ -2212,12 +2208,12 @@ static BITSTREAM
 			bs = enc_destr_count (bs, s, 1);
 			seq--;
 		}
-    }
-    while (seq) {
+	}
+	while (seq) {
 		ENC_make_top (bs);
 		seq--;
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -2228,12 +2224,11 @@ static BITSTREAM
  *    for an object with tag number m and class ct to the bitstream bs.
  */
 
-static BITSTREAM
-*enc_virt_init(BITSTREAM *bs, CLASS_TYPE ct,
-			   ulong m)
+static BITSTREAM *
+enc_virt_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 {
-    LIST (GRAPH) bv = DEREF_list (ctype_vbase (ct));
-    while (!IS_NULL_list (bv)) {
+	LIST (GRAPH) bv = DEREF_list (ctype_vbase (ct));
+	while (!IS_NULL_list (bv)) {
 		GRAPH gr = DEREF_graph (HEAD_list (bv));
 		ulong tv = DEREF_ulong (graph_real_off (gr));
 		while (!IS_NULL_graph (gr)) {
@@ -2250,8 +2245,8 @@ static BITSTREAM
 			gr = DEREF_graph (graph_equal (gr));
 		}
 		bv = TAIL_list (bv);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -2262,12 +2257,11 @@ static BITSTREAM
  *    for an object with tag number m and class ct to the bitstream bs.
  */
 
-static BITSTREAM
-*enc_vtab_init(BITSTREAM *bs, CLASS_TYPE ct,
-			   ulong m, int virt)
+static BITSTREAM *
+enc_vtab_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m, int virt)
 {
-    VIRTUAL vt = DEREF_virt (ctype_virt (ct));
-    while (!IS_NULL_virt (vt)) {
+	VIRTUAL vt = DEREF_virt (ctype_virt (ct));
+	while (!IS_NULL_virt (vt)) {
 		OFFSET off = DEREF_off (virt_table_off (vt));
 		ulong tv = DEREF_ulong (virt_table_tok (vt));
 		ulong tt = DEREF_ulong (virt_table_tbl (vt));
@@ -2286,8 +2280,8 @@ static BITSTREAM
 		ENC_obtain_tag (bs);
 		ENC_make_tag (bs, tt);
 		vt = DEREF_virt (virt_next (vt));
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -2298,27 +2292,26 @@ static BITSTREAM
  *    number m and class ct to the bitstream bs.
  */
 
-static BITSTREAM
-*enc_delete_obj(BITSTREAM *bs, CLASS_TYPE ct,
-				ulong m)
+static BITSTREAM *
+enc_delete_obj(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 {
-    IDENTIFIER cid = DEREF_id (ctype_name (ct));
-    TYPE t = DEREF_type (id_class_name_etc_defn (cid));
-    IDENTIFIER fid = find_allocator (t, lex_delete, 0, NULL_id);
-    if (IS_NULL_id (fid)) {
+	IDENTIFIER cid = DEREF_id (ctype_name (ct));
+	TYPE t = DEREF_type (id_class_name_etc_defn (cid));
+	IDENTIFIER fid = find_allocator (t, lex_delete, 0, NULL_id);
+	if (IS_NULL_id (fid)) {
 		/* This shouldn't happen */
 		ENC_make_top (bs);
-    } else {
+	} else {
 		ulong d;
 		BITSTREAM *ts;
 		TYPE fn = DEREF_type (id_function_etc_type (fid));
 		LIST (TYPE) ptypes = DEREF_list (type_func_ptypes (fn));
 		unsigned npids = LENGTH_list (ptypes);
-		
+
 		/* Mark the function as to be compiled */
 		IGNORE capsule_id (fid, VAR_tag);
 		CONS_id (fid, pending_funcs, pending_funcs);
-		
+
 		/* Encode the function call */
 		ENC_apply_proc (bs);
 		ENC_top (bs);
@@ -2346,8 +2339,8 @@ static BITSTREAM
 			bs = enc_shape_offset (bs, c);
 		}
 		ENC_OFF (bs);
-    }
-    return (bs);
+	}
+	return (bs);
 }
 
 
@@ -2358,42 +2351,42 @@ static BITSTREAM
  *    to the bitstream bs.
  */
 
-BITSTREAM
-*enc_ctor_init(BITSTREAM *bs, EXP e)
+BITSTREAM *
+enc_ctor_init(BITSTREAM *bs, EXP e)
 {
-    ulong n, m;
-    CLASS_TYPE ct = last_class;
-    int kind = DEREF_int (exp_initialiser_kind (e));
-    LIST (EXP) p = DEREF_list (exp_initialiser_args (e));
-    LIST (OFFSET) q = DEREF_list (exp_initialiser_offs (e));
-	
-    /* Find number of items */
-    unsigned np = LENGTH_list (p);
-    unsigned nv = DEREF_unsigned (exp_initialiser_virt (e));
-    unsigned nb = DEREF_unsigned (exp_initialiser_base (e));
-    unsigned no = np - nv;
-	
-    /* Compile the class */
-    IGNORE compile_class (ct);
-	
-    /* Find the 'this' pointer */
-    n = last_params [ DUMMY_this ];
-    m = unit_no (bs, NULL_id, VAR_tag, 1);
-    ENC_identify (bs);
-    bs = enc_access (bs, crt_func_access);
-    ENC_make_tag (bs, m);
-    ENC_contents (bs);
-    ENC_pointer (bs);
-    bs = enc_al_ctype (bs, ct);
-    ENC_obtain_tag (bs);
-    ENC_make_tag (bs, n);
-	
-    if (kind == DEFAULT_DESTR) {
+	ulong n, m;
+	CLASS_TYPE ct = last_class;
+	int kind = DEREF_int (exp_initialiser_kind (e));
+	LIST (EXP) p = DEREF_list (exp_initialiser_args (e));
+	LIST (OFFSET) q = DEREF_list (exp_initialiser_offs (e));
+
+	/* Find number of items */
+	unsigned np = LENGTH_list (p);
+	unsigned nv = DEREF_unsigned (exp_initialiser_virt (e));
+	unsigned nb = DEREF_unsigned (exp_initialiser_base (e));
+	unsigned no = np - nv;
+
+	/* Compile the class */
+	IGNORE compile_class (ct);
+
+	/* Find the 'this' pointer */
+	n = last_params [DUMMY_this];
+	m = unit_no (bs, NULL_id, VAR_tag, 1);
+	ENC_identify (bs);
+	bs = enc_access (bs, crt_func_access);
+	ENC_make_tag (bs, m);
+	ENC_contents (bs);
+	ENC_pointer (bs);
+	bs = enc_al_ctype (bs, ct);
+	ENC_obtain_tag (bs);
+	ENC_make_tag (bs, n);
+
+	if (kind == DEFAULT_DESTR) {
 		/* Deal with destructors */
 		int context = 0;
 		unsigned ns = no + 1;
-		ulong m2 = last_params [ DUMMY_extra ];
-		if (last_params [ DUMMY_count ] != LINK_NONE) {
+		ulong m2 = last_params [DUMMY_extra];
+		if (last_params [DUMMY_count] != LINK_NONE) {
 			context = 5;
 			ns--;
 		}
@@ -2403,7 +2396,7 @@ BITSTREAM
 		} else {
 			if (ns == 0) ENC_make_top (bs);
 		}
-		
+
 		/* Destroy members and direct bases */
 		while (no) {
 			EXP a = DEREF_exp (HEAD_list (p));
@@ -2418,7 +2411,7 @@ BITSTREAM
 			p = TAIL_list (p);
 			no--;
 		}
-		
+
 		/* Conditionally destroy virtual bases */
 		if (nv) {
 			int mask = 0;
@@ -2438,7 +2431,7 @@ BITSTREAM
 			}
 			ENC_make_top (bs);
 		}
-		
+
 		/* Conditionally call 'operator delete' */
 		if (context == 0) {
 			ns = 1;
@@ -2446,18 +2439,18 @@ BITSTREAM
 			bs = enc_delete_obj (bs, ct, m);
 			ENC_make_top (bs);
 		}
-		
-    } else {
+
+	} else {
 		/* Deal with constructors */
 		int virt = 1;
 		unsigned ns, nu;
 		unsigned ni = 0;
 		unsigned nt = 0;
 		unsigned ne = 1;
-		
+
 		/* Allow for copy constructors */
 		if (kind == DEFAULT_COPY || kind == DEFAULT_ASSIGN) {
-			ulong n1 = last_params [ DUMMY_second ];
+			ulong n1 = last_params [DUMMY_second];
 			ulong m1 = unit_no (bs, NULL_id, VAR_tag, 1);
 			ENC_identify (bs);
 			bs = enc_access (bs, crt_func_access);
@@ -2467,9 +2460,9 @@ BITSTREAM
 			bs = enc_al_ctype (bs, ct);
 			ENC_obtain_tag (bs);
 			ENC_make_tag (bs, n1);
-			last_params [ DUMMY_copy ] = m1;
+			last_params [DUMMY_copy] = m1;
 		}
-		
+
 		/* Count number of items */
 		if (kind != DEFAULT_ASSIGN) {
 			VIRTUAL vt = DEREF_virt (ctype_virt (ct));
@@ -2496,7 +2489,7 @@ BITSTREAM
 			}
 			virt = 0;
 		}
-		if (last_params [ DUMMY_count ] != LINK_NONE) ne = 2;
+		if (last_params [DUMMY_count] != LINK_NONE) ne = 2;
 		ns = ne * no + nt;
 		nu = ne * nv + ni;
 		if (nu) ns++;
@@ -2505,11 +2498,11 @@ BITSTREAM
 		} else {
 			if (ns == 0) ENC_make_top (bs);
 		}
-		
+
 		/* Conditionally initialise virtual bases */
 		if (nu) {
 			int dv = 0;
-			ulong m2 = last_params [ DUMMY_extra ];
+			ulong m2 = last_params [DUMMY_extra];
 			bs = enc_flag_test (bs, m2, nu, 0, ntest_not_eq);
 			if (ni) {
 				/* Initialise virtual base pointers */
@@ -2531,7 +2524,7 @@ BITSTREAM
 				bs = enc_destr_count (bs, NULL_type, dv);
 			}
 		}
-		
+
 		/* Initialise direct bases */
 		while (nb) {
 			EXP a = DEREF_exp (HEAD_list (p));
@@ -2541,10 +2534,10 @@ BITSTREAM
 			p = TAIL_list (p);
 			nb--;
 		}
-		
+
 		/* Initialise virtual function tables */
 		if (nt) bs = enc_vtab_init (bs, ct, m, 1);
-		
+
 		/* Initialise members */
 		while (!IS_NULL_list (p)) {
 			EXP a = DEREF_exp (HEAD_list (p));
@@ -2553,9 +2546,9 @@ BITSTREAM
 			q = TAIL_list (q);
 			p = TAIL_list (p);
 		}
-		last_params [ DUMMY_copy ] = LINK_NONE;
-    }
-    return (bs);
+		last_params [DUMMY_copy] = LINK_NONE;
+	}
+	return (bs);
 }
 
 

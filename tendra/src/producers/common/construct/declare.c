@@ -805,7 +805,7 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 		} else {
 			ERROR err;
 			/* Tentative definitions with internal linkage must have
-			 * complete type. */ 
+			 * complete type. */
 			if (!tentative || (ds & dspec_static)) {
 				err = check_complete (t);
 				if (!IS_NULL_err (err)) {
@@ -2712,22 +2712,22 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				switch (td) {
 				case TYPE_DECL_ELABORATE :
 				case TYPE_DECL_OVER_ELAB : {
-					/* Have 'friend class A ;' */
+					/* Have 'friend class A;' */
 					break;
 				}
 				case TYPE_DECL_NORMAL : {
-					/* Have 'friend class A { ... } ;' */
+					/* Have 'friend class A { ... };' */
 					report (crt_loc, ERR_class_friend_def ());
 					break;
 				}
 				case TYPE_DECL_ANON : {
-					/* Have 'friend class { ... } ;' */
+					/* Have 'friend class { ... };' */
 					report (crt_loc, ERR_class_mem_anon ());
 					report (crt_loc, ERR_class_friend_def ());
 					break;
 				}
 				default : {
-					/* Have 'friend A ;' */
+					/* Have 'friend A;' */
 					report (crt_loc, ERR_class_friend_elab ());
 					break;
 				}
