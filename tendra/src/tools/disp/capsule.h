@@ -80,7 +80,7 @@ extern long *var_count;
 extern binding *crt_binding;
 extern long total;
 extern long blank_lines;
-extern void de_capsule(void) ;
+extern void de_capsule(void);
 
 
 #endif

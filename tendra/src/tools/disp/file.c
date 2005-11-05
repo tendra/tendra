@@ -107,14 +107,14 @@ void
 open_files(char *name1, char *name2)
 {
 	tdfr = tdf_fstream_create (name1);
-    if (tdfr == null) MSG_cant_open_input_file (name1);
-    if (name2) {
+	if (tdfr == null) MSG_cant_open_input_file (name1);
+	if (name2) {
 		pp_file = fopen (name2, "w");
 		if (pp_file == null) MSG_cant_open_output_file (name2);
-    } else {
+	} else {
 		pp_file = stdout;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -137,11 +137,11 @@ static char *spaces1;
 void
 init_spaces(int d)
 {
-    int i, j;
-    if (helpflag) {
+	int i, j;
+	if (helpflag) {
 		spaces1 = xmalloc_nof (char, 5000);
 		/* every dth character should be a '.' */
-		for (i = 0, j = 0 ; i < 5000 ; i++) {
+		for (i = 0, j = 0; i < 5000; i++) {
 			if (++j == d) {
 				spaces1 [i] = '.';
 				j = 0;
@@ -149,8 +149,8 @@ init_spaces(int d)
 				spaces1 [i] = ' ';
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -164,8 +164,8 @@ init_spaces(int d)
 void
 spaces(int n)
 {
-    if (n < 0) n = 0;
-    if (printflag) {
+	if (n < 0) n = 0;
+	if (printflag) {
 		if (helpflag) {
 			if (n) {
 				IGNORE fwrite (spaces1, sizeof (char),
@@ -175,11 +175,11 @@ spaces(int n)
 			int i;
 			int q = (n / TBSIZE);
 			int r = (n % TBSIZE);
-			for (i = 0 ; i < q ; i++) IGNORE fputc (TAB, pp_file);
-			for (i = 0 ; i < r ; i++) IGNORE fputc (SPACE, pp_file);
+			for (i = 0; i < q; i++) IGNORE fputc (TAB, pp_file);
+			for (i = 0; i < r; i++) IGNORE fputc (SPACE, pp_file);
 		}
-    }
-    column = n;
-    lastc = ' ';
-    return;
+	}
+	column = n;
+	lastc = ' ';
+	return;
 }

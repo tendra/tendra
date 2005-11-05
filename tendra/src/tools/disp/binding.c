@@ -75,29 +75,29 @@
 object *
 new_object(long v)
 {
-    static object *free_objs = null;
-    static int objs_left = 0;
+	static object *free_objs = null;
+	static int objs_left = 0;
 
-    object *p;
-    if (objs_left == 0) {
+	object *p;
+	if (objs_left == 0) {
 		objs_left = 200;
 		free_objs = xmalloc_nof (object, objs_left);
-    }
-    objs_left--;
-    p = free_objs + objs_left;
-    p->named = 0;
-    p->id = (var_count [v])++;
-    p->order = -1;
-    p->aux = null;
-    if (v == var_tag) {
+	}
+	objs_left--;
+	p = free_objs + objs_left;
+	p->named = 0;
+	p->id = (var_count [v])++;
+	p->order = -1;
+	p->aux = null;
+	if (v == var_tag) {
 		var (p) = 3;
-    } else if (v == var_token) {
+	} else if (v == var_token) {
 		is_foreign (p) = 0;
 		res_sort (p) = sort_unknown;
 		implicit_sort (p) = sort_unknown;
 		arg_sorts (p) = null;
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -120,24 +120,24 @@ static binding *spare_bt = null;
 binding *
 new_binding_table(void)
 {
-    binding *bt;
-    long i, n = no_variables;
-    if (n == 0) return (null);
-    if (spare_bt) {
+	binding *bt;
+	long i, n = no_variables;
+	if (n == 0) return (null);
+	if (spare_bt) {
 		bt = spare_bt;
 		spare_bt = null;
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			bt [i].max_no = 0;
 		}
-    } else {
+	} else {
 		bt = xmalloc_nof (binding, n);
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			bt [i].max_no = 0;
 			bt [i].sz = 0;
 			bt [i].table = null;
 		}
-    }
-    return (bt);
+	}
+	return (bt);
 }
 
 
@@ -150,8 +150,8 @@ new_binding_table(void)
 void
 free_binding_table(binding *bt)
 {
-    spare_bt = bt;
-    return;
+	spare_bt = bt;
+	return;
 }
 
 
@@ -164,24 +164,24 @@ free_binding_table(binding *bt)
 void
 set_binding_size(binding *bt, long v, long n)
 {
-    object **p;
-    binding *b;
-    long i, m = n + 10;
-    if (v < 0 || v >= no_variables) {
+	object **p;
+	binding *b;
+	long i, m = n + 10;
+	if (v < 0 || v >= no_variables) {
 		MSG_illegal_binding_sort ();
 		return;
-    }
-    b = bt + v;
-    b->max_no = n;
-    if (b->sz < m) {
+	}
+	b = bt + v;
+	b->max_no = n;
+	if (b->sz < m) {
 		p = xrealloc (b->table, sizeof(object *) * m);
 		b->sz = m;
 		b->table = p;
-    } else {
+	} else {
 		p = b->table;
-    }
-    for (i = 0 ; i < b->sz ; i++) p [i] = null;
-    return;
+	}
+	for (i = 0; i < b->sz; i++) p [i] = null;
+	return;
 }
 
 
@@ -194,13 +194,13 @@ set_binding_size(binding *bt, long v, long n)
 void
 set_binding(binding *bt, long v, long n, object *p)
 {
-    binding *b;
-    if (v < 0 || v >= no_variables) {
+	binding *b;
+	if (v < 0 || v >= no_variables) {
 		MSG_illegal_binding_sort ();
 		return;
-    }
-    b = bt + v;
-    if (n >= b->max_no || n < 0) {
+	}
+	b = bt + v;
+	if (n >= b->max_no || n < 0) {
 		out ("<error>");
 		MSG_object_number_too_big ( n, var_types [v]);
 		while (n >= b->sz) {
@@ -208,14 +208,14 @@ set_binding(binding *bt, long v, long n, object *p)
 			long i, m = b->sz + 100;
 			b->sz = m;
 			b->table = xrealloc (b->table, sizeof (object *) * m);
-			for (i = 1 ; i <= 100 ; i++) b->table [ m - i ] = null;
+			for (i = 1; i <= 100; i++) b->table [m - i] = null;
 		}
-    }
-    if (b->table [n]) {
+	}
+	if (b->table [n]) {
 		MSG_object_already_bound (object_name (v, n), var_types [v]);
-    }
-    b->table [n] = p;
-    return;
+	}
+	b->table [n] = p;
+	return;
 }
 
 
@@ -229,17 +229,17 @@ set_binding(binding *bt, long v, long n, object *p)
 void
 complete_binding(binding *bt)
 {
-    long v;
-    for (v = 0 ; v < no_variables ; v++) {
+	long v;
+	for (v = 0; v < no_variables; v++) {
 		long i;
 		binding *b = bt + v;
-		for (i = 0 ; i < b->max_no ; i++) {
+		for (i = 0; i < b->max_no; i++) {
 			if (b->table [i] == null) {
 				b->table [i] = new_object (v);
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -252,18 +252,18 @@ complete_binding(binding *bt)
 object *
 find_binding(binding *bt, long v, long n)
 {
-    binding *b;
-    if (v < 0 || v >= no_variables) {
+	binding *b;
+	if (v < 0 || v >= no_variables) {
 		MSG_illegal_binding_sort ();
 		return (null);
-    }
-    b = bt + v;
-    if (n >= b->max_no || n < 0) {
+	}
+	b = bt + v;
+	if (n >= b->max_no || n < 0) {
 		out ("<error>");
 		MSG_object_number_too_big (n, var_types [v]);
-    }
-    if (n >= b->sz) return (null);
-    return (b->table [n]);
+	}
+	if (n >= b->sz) return (null);
+	return (b->table [n]);
 }
 
 
@@ -276,39 +276,39 @@ find_binding(binding *bt, long v, long n)
 void
 out_object(long n, object *p, long v)
 {
-    if (v < 0 || v >= no_variables) {
+	if (v < 0 || v >= no_variables) {
 		out ("<error>");
 		MSG_illegal_binding_sort ();
 		return;
-    }
-    if (dumb_mode) {
+	}
+	if (dumb_mode) {
 		word *w;
 		out_string (var_types [v]);
 		w = new_word (HORIZ_BRACKETS);
 		out_int (n);
 		end_word (w);
 		return;
-    }
-    if (p == null) {
+	}
+	if (p == null) {
 		p = find_binding (crt_binding, v, n);
 		if (p == null) {
 			p = new_object (v);
 			set_binding (crt_binding, v, n, p);
 		}
-    }
-    if (p->named) {
+	}
+	if (p->named) {
 		if (p->name.simple) {
 			out (p->name.val.str);
 		} else {
 			out_unique (p->name.val.uniq);
 		}
 		return;
-    }
-    out_char ('~');
-    out_string (var_types [v]);
-    out_char ('_');
-    out_int (p->id);
-    return;
+	}
+	out_char ('~');
+	out_string (var_types [v]);
+	out_char ('_');
+	out_int (p->id);
+	return;
 }
 
 
@@ -321,21 +321,21 @@ out_object(long n, object *p, long v)
 char *
 object_name(long v, long n)
 {
-    object *p;
-    char *buff = xmalloc_nof (char, 1000);
-    if (dumb_mode) {
+	object *p;
+	char *buff = xmalloc_nof (char, 1000);
+	if (dumb_mode) {
 		IGNORE sprintf (buff, "%ld", n);
 		return (buff);
-    }
-    p = find_binding (crt_binding, v, n);
-    if (p->named) {
+	}
+	p = find_binding (crt_binding, v, n);
+	if (p->named) {
 		if (p->name.simple) {
 			IGNORE sprintf (buff, "%s", p->name.val.str);
 		} else {
 			IGNORE sprintf (buff, "unique(%ld)", p->id);
 		}
-    } else {
+	} else {
 		IGNORE sprintf (buff, "%ld", p->id);
-    }
-    return (buff);
+	}
+	return (buff);
 }

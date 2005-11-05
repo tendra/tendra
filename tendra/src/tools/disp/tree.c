@@ -102,13 +102,13 @@ word *word_ptr;
 void
 initialize_tree(void)
 {
-    if (page == null) {
+	if (page == null) {
 		page = xmalloc_nof (char, 10000);
 		page_length = 10000;
-    }
-    word_ptr = &word1;
-    length = 0;
-    return;
+	}
+	word_ptr = &word1;
+	length = 0;
+	return;
 }
 
 
@@ -122,11 +122,11 @@ word *
 new_word(int c)
 {
 #define BLOCK 100
-    static word *wblock;
-    static int block_count = BLOCK;
+	static word *wblock;
+	static int block_count = BLOCK;
 
-    word *new_ptr;
-    if (printflag) {
+	word *new_ptr;
+	if (printflag) {
 
 		if (block_count == BLOCK) {
 			/* Allocate space if required */
@@ -159,8 +159,8 @@ new_word(int c)
 		}
 		word_ptr->son = null;
 		word_ptr->bro = null;
-    }
-    return (word_ptr);
+	}
+	return (word_ptr);
 }
 
 
@@ -173,12 +173,12 @@ new_word(int c)
 void
 out_char(int c)
 {
-    if (printflag) {
-		page [ length ] = (char) c;
+	if (printflag) {
+		page [length] = (char) c;
 		length++;
-		page [ length ] = 0;
-    }
-    return;
+		page [length] = 0;
+	}
+	return;
 }
 
 
@@ -191,11 +191,11 @@ out_char(int c)
 void
 out_string(char *str)
 {
-    if (printflag) {
+	if (printflag) {
 		IGNORE strcpy (page + length, str);
 		length += (int) strlen (str);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -209,7 +209,7 @@ out_string(char *str)
 void
 out(char *str)
 {
-    if (printflag) {
+	if (printflag) {
 		if (length) {
 			out_string (str);
 			IGNORE new_word (SIMPLE);
@@ -218,8 +218,8 @@ out(char *str)
 			ptr->text = str;
 			ptr->length = (int) strlen (str);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -232,7 +232,7 @@ out(char *str)
 void
 out_int(long n)
 {
-    if (printflag) {
+	if (printflag) {
 		/* Note that the input is cast to an unsigned int */
 		unsigned long m = (unsigned long) n, dig, power = 1;
 
@@ -248,8 +248,8 @@ out_int(long n)
 		}
 		/* Make this into a simple word */
 		IGNORE new_word (SIMPLE);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -265,7 +265,7 @@ out_int(long n)
 void
 out_signed(char *n, int sn)
 {
-    if (printflag) {
+	if (printflag) {
 		/* Calculate the number of binary digits in n */
 		int a = digit (*n), d;
 		if (a & 4) {
@@ -281,7 +281,7 @@ out_signed(char *n, int sn)
 			/* If n will fit into a long work out its value */
 			char *s;
 			long t = 0;
-			for (s = n ; *s ; s++) t = 8 * t + digit (*s);
+			for (s = n; *s; s++) t = 8 * t + digit (*s);
 			if (sn && t) out_char ('-');
 			out_int (t);
 		} else {
@@ -293,8 +293,8 @@ out_signed(char *n, int sn)
 			out (n);
 			end_word (w);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -307,15 +307,15 @@ out_signed(char *n, int sn)
 void
 out_unique(unique u)
 {
-    word *w;
-    out_string ("unique");
-    w = new_word (HORIZ_BRACKETS);
-    while (*u) {
+	word *w;
+	out_string ("unique");
+	w = new_word (HORIZ_BRACKETS);
+	while (*u) {
 		out (*u);
 		u++;
-    }
-    end_word (w);
-    return;
+	}
+	end_word (w);
+	return;
 }
 
 
@@ -330,7 +330,7 @@ out_unique(unique u)
 void
 format(int c, char *func, char *args)
 {
-    if (printflag) {
+	if (printflag) {
 		word *ptr;
 		if (length) {
 			out_string (func);
@@ -342,8 +342,8 @@ format(int c, char *func, char *args)
 		}
 		decode (args);
 		end_word (ptr);
-    } else {
+	} else {
 		decode (args);
-    }
-    return;
+	}
+	return;
 }

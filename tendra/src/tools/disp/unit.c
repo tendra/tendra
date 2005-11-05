@@ -90,16 +90,16 @@ long max_lab_no = 0;
 static void
 read_no_labs(void)
 {
-    long n = tdf_int ();
-    if (show_stuff) {
+	long n = tdf_int ();
+	if (show_stuff) {
 		word *w = new_word (HORIZ_NONE);
 		out_string ("label x ");
 		out_int (n);
 		end_word (w);
 		blank_line ();
-    }
-    max_lab_no = n;
-    return;
+	}
+	max_lab_no = n;
+	return;
 }
 
 
@@ -115,22 +115,22 @@ read_no_labs(void)
 void
 token_sort(object *t, sortname rs, char *args, long n)
 {
-    sortid s;
-    s = find_sort (rs);
-    if (s.decode == 'F') is_foreign (t) = 1;
-    if (args) {
+	sortid s;
+	s = find_sort (rs);
+	if (s.decode == 'F') is_foreign (t) = 1;
+	if (args) {
 		char *p;
-		for (p = args ; *p ; p++) {
+		for (p = args; *p; p++) {
 			if (*p == 'F') is_foreign (t) = 1;
 		}
-    }
-    if (res_sort (t) == sort_unknown) {
+	}
+	if (res_sort (t) == sort_unknown) {
 		sortname is = implicit_sort (t);
 		if (is != sort_unknown && is != rs) {
 			MSG_token_inconsistent_with_previous_use (
 						 object_name (var_token, n));
 		}
-    } else {
+	} else {
 		int good = 1;
 		if (res_sort (t) != rs) good = 0;
 		if (args) {
@@ -146,10 +146,10 @@ token_sort(object *t, sortname rs, char *args, long n)
 			MSG_token_declared_inconsistently (
 						 object_name (var_token, n));
 		}
-    }
-    res_sort (t) = rs;
-    arg_sorts (t) = args;
-    return;
+	}
+	res_sort (t) = rs;
+	arg_sorts (t) = args;
+	return;
 }
 
 
@@ -162,33 +162,33 @@ token_sort(object *t, sortname rs, char *args, long n)
 static void
 de_tokdec_aux(void)
 {
-    long t;
-    sortid s;
-    object *obj;
-    char *args = null;
-    word *w = new_word (HORIZ_NONE);
+	long t;
+	sortid s;
+	object *obj;
+	char *args = null;
+	word *w = new_word (HORIZ_NONE);
 
-    /* Find declaration type */
-    IGNORE de_tokdec ();
+	/* Find declaration type */
+	IGNORE de_tokdec ();
 
-    /* Find token number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_token, t);
-    if (obj == null) {
+	/* Find token number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_token, t);
+	if (obj == null) {
 		obj = new_object (var_token);
 		set_binding (crt_binding, var_token, t, obj);
-    }
-    out_object (t, obj, var_token);
-    out (":");
+	}
+	out_object (t, obj, var_token);
+	out (":");
 
-    /* Deal with signature */
-    out ("[");
-    decode ("?[X]");
-    out ("] :");
+	/* Deal with signature */
+	out ("[");
+	decode ("?[X]");
+	out ("] :");
 
-    /* Decode token sort */
-    s = de_sort_name (0);
-    if (s.res == sort_token) {
+	/* Decode token sort */
+	s = de_sort_name (0);
+	if (s.res == sort_token) {
 		long i, m;
 		s = de_sort_name (1);
 		check_list ();
@@ -199,7 +199,7 @@ de_tokdec_aux(void)
 		} else {
 			word *wp = new_word (HORIZ_BRACKETS);
 			args = xmalloc_nof (char, m + 1);
-			for (i = 0 ; i < m ; i++) {
+			for (i = 0; i < m; i++) {
 				sortid p;
 				p = de_sort_name (1);
 				args [i] = p.decode;
@@ -209,11 +209,11 @@ de_tokdec_aux(void)
 			end_word (wp);
 		}
 		out_string ("-> ");
-    }
-    out (s.name);
-    end_word (w);
-    if (obj) token_sort (obj, s.res, args, t);
-    return;
+	}
+	out (s.name);
+	end_word (w);
+	if (obj) token_sort (obj, s.res, args, t);
+	return;
 }
 
 
@@ -228,50 +228,50 @@ static void
 de_tokdef_aux(void)
 {
 	tdf_pos end;
-    long t;
-    sortid s;
-    char *args;
-    object *obj;
-    long m;
-    word *w = new_word (HORIZ_NONE);
+	long t;
+	sortid s;
+	char *args;
+	object *obj;
+	long m;
+	word *w = new_word (HORIZ_NONE);
 
-    /* Find definition type */
-    IGNORE de_tokdef ();
+	/* Find definition type */
+	IGNORE de_tokdef ();
 
-    /* Find token number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_token, t);
-    if (obj == null) {
+	/* Find token number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_token, t);
+	if (obj == null) {
 		obj = new_object (var_token);
 		set_binding (crt_binding, var_token, t, obj);
-    }
-    out_object (t, obj, var_token);
-    out (":");
+	}
+	out_object (t, obj, var_token);
+	out (":");
 
-    /* Deal with signature */
-    out ("[");
-    decode ("?[X]");
-    out ("] :");
+	/* Deal with signature */
+	out ("[");
+	decode ("?[X]");
+	out ("] :");
 
-    /* Read definition length and work out end */
-    end = tdf_int ();
-    end += tdf_stream_tell (tdfr); 
+	/* Read definition length and work out end */
+	end = tdf_int ();
+	end += tdf_stream_tell (tdfr);
 
-    /* Find definition type */
-    IGNORE de_token_defn ();
+	/* Find definition type */
+	IGNORE de_token_defn ();
 
-    /* Decode token sort */
-    s = de_sort_name (1);
-    check_list ();
-    m = tdf_int ();
-    if (m == 0) {
+	/* Decode token sort */
+	s = de_sort_name (1);
+	check_list ();
+	m = tdf_int ();
+	if (m == 0) {
 		out ("()");
 		args = "";
-    } else {
+	} else {
 		long i;
 		word *wp = new_word (HORIZ_BRACKETS);
 		args = xmalloc_nof (char, m + 1);
-		for (i = 0 ; i < m ; i++) {
+		for (i = 0; i < m; i++) {
 			long pn;
 			sortid p;
 			object *tp;
@@ -304,17 +304,17 @@ de_tokdef_aux(void)
 		}
 		args [m] = 0;
 		end_word (wp);
-    }
-    out_string ("-> ");
+	}
+	out_string ("-> ");
 
-    /* Set result sort */
-    out (s.name);
-    end_word (w);
-    token_sort (obj, s.res, args, t);
+	/* Set result sort */
+	out (s.name);
+	end_word (w);
+	token_sort (obj, s.res, args, t);
 
-    /* Main definition body */
-    out ("Definition :");
-    if (skipping || is_foreign (obj)) {
+	/* Main definition body */
+	out ("Definition :");
+	if (skipping || is_foreign (obj)) {
 		tdf_pos pos = tdf_stream_tell (tdfr);
 		out ("....");
 		if (pos > end) {
@@ -322,7 +322,7 @@ de_tokdef_aux(void)
 		} else {
 			tdf_skip_bits (tdfr, end - pos);
 		}
-    } else {
+	} else {
 		char buff [2];
 		buff [0] = s.decode;
 		buff [1] = 0;
@@ -330,8 +330,8 @@ de_tokdef_aux(void)
 		if (tdf_stream_tell (tdfr) != end) {
 			MSG_token_definition_size_wrong ();
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -344,46 +344,46 @@ de_tokdef_aux(void)
 static void
 de_tagdec_aux(void)
 {
-    long t;
-    char m;
-    word *wa;
-    object *obj;
-    word *w = new_word (HORIZ_NONE);
+	long t;
+	char m;
+	word *wa;
+	object *obj;
+	word *w = new_word (HORIZ_NONE);
 
-    /* Find declaration type */
-    long n = de_tagdec ();
+	/* Find declaration type */
+	long n = de_tagdec ();
 
-    /* Get tag number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_tag, t);
-    if (obj == null) {
+	/* Get tag number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_tag, t);
+	if (obj == null) {
 		obj = new_object (var_tag);
 		set_binding (crt_binding, var_tag, t, obj);
-    }
-    out_object (t, obj, var_tag);
+	}
+	out_object (t, obj, var_tag);
 
-    /* Check consistency */
-    switch (n) {
-	case tagdec_make_var_tagdec : out ("(variable)") ; m = 0 ; break;
-	case tagdec_make_id_tagdec : out ("(identity)") ; m = 1 ; break;
-	default : out ("(common)") ; m = 2 ; break;
-    }
-    if (obj) {
+	/* Check consistency */
+	switch (n) {
+	case tagdec_make_var_tagdec : out ("(variable)"); m = 0; break;
+	case tagdec_make_id_tagdec : out ("(identity)"); m = 1; break;
+	default : out ("(common)"); m = 2; break;
+	}
+	if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
 			string s = object_name (var_tag, t);
 			MSG_tag_declared_inconsistently (s);
 		}
 		var (obj) = m;
-    }
+	}
 
-    /* Decode declaration body */
-    wa = new_word (VERT_NONE);
-    format (HORIZ_NONE, "has access : ", "?[u]");
-    format (HORIZ_NONE, " and signature : ", "?[X]");
-    format (HORIZ_NONE, " and shape : ", "S");
-    end_word (wa);
-    end_word (w);
-    return;
+	/* Decode declaration body */
+	wa = new_word (VERT_NONE);
+	format (HORIZ_NONE, "has access : ", "?[u]");
+	format (HORIZ_NONE, " and signature : ", "?[X]");
+	format (HORIZ_NONE, " and shape : ", "S");
+	end_word (wa);
+	end_word (w);
+	return;
 }
 
 
@@ -396,45 +396,45 @@ de_tagdec_aux(void)
 static void
 de_tagdef_aux(void)
 {
-    long t;
-    char m;
-    object *obj;
-    word *w = new_word (HORIZ_NONE);
+	long t;
+	char m;
+	object *obj;
+	word *w = new_word (HORIZ_NONE);
 
-    /* Find definition type */
-    long n = de_tagdef ();
+	/* Find definition type */
+	long n = de_tagdef ();
 
-    /* Get tag number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_tag, t);
-    if (obj == null) {
+	/* Get tag number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_tag, t);
+	if (obj == null) {
 		MSG_tag_defined_but_not_declared (object_name (var_tag, t));
 		obj = new_object (var_tag);
 		set_binding (crt_binding, var_tag, t, obj);
-    }
-    out_object (t, obj, var_tag);
+	}
+	out_object (t, obj, var_tag);
 
-    /* Check consistency */
-    switch (n) {
-	case tagdef_make_var_tagdef : out ("(variable)") ; m = 0 ; break;
-	case tagdef_make_id_tagdef : out ("(identity)") ; m = 1 ; break;
-	default : out ("(common)") ; m = 2 ; break;
-    }
-    if (obj) {
+	/* Check consistency */
+	switch (n) {
+	case tagdef_make_var_tagdef : out ("(variable)"); m = 0; break;
+	case tagdef_make_id_tagdef : out ("(identity)"); m = 1; break;
+	default : out ("(common)"); m = 2; break;
+	}
+	if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
 			MSG_tag_declared_inconsistently (
 						 object_name (var_tag, t));
 		}
 		var (obj) = m;
-    }
+	}
 
-    /* Decode definition body */
-    out ("is :");
-    end_word (w);
-    if (m != 1) format (HORIZ_NONE, "access : ", "?[u]");
-    format (HORIZ_NONE, "signature : ", "?[X]");
-    IGNORE de_exp ();
-    return;
+	/* Decode definition body */
+	out ("is :");
+	end_word (w);
+	if (m != 1) format (HORIZ_NONE, "access : ", "?[u]");
+	format (HORIZ_NONE, "signature : ", "?[X]");
+	IGNORE de_exp ();
+	return;
 }
 
 
@@ -447,27 +447,27 @@ de_tagdef_aux(void)
 static void
 de_al_tagdef_aux(void)
 {
-    long t;
-    object *obj;
-    word *w = new_word (HORIZ_NONE);
+	long t;
+	object *obj;
+	word *w = new_word (HORIZ_NONE);
 
-    /* Find definition type */
-    IGNORE de_al_tagdef ();
+	/* Find definition type */
+	IGNORE de_al_tagdef ();
 
-    /* Get alignment tag number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_al_tag, t);
-    if (obj == null) {
+	/* Get alignment tag number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_al_tag, t);
+	if (obj == null) {
 		obj = new_object (var_al_tag);
 		set_binding (crt_binding, var_al_tag, t, obj);
-    }
-    out_object (t, obj, var_al_tag);
+	}
+	out_object (t, obj, var_al_tag);
 
-    /* Decode alignment body */
-    out ("is :");
-    end_word (w);
-    IGNORE de_alignment ();
-    return;
+	/* Decode alignment body */
+	out ("is :");
+	end_word (w);
+	IGNORE de_alignment ();
+	return;
 }
 
 
@@ -480,14 +480,14 @@ de_al_tagdef_aux(void)
 void
 de_tokdec_props(void)
 {
-    long i;
-    long n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i;
+	long n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_tokdec_aux ();
 		blank_lines = 0;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 
@@ -500,16 +500,16 @@ de_tokdec_props(void)
 void
 de_tokdef_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_tokdef_aux ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 
@@ -522,16 +522,16 @@ de_tokdef_props(void)
 void
 de_tagdec_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_tagdec_aux ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 
@@ -544,16 +544,16 @@ de_tagdec_props(void)
 void
 de_tagdef_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_tagdef_aux ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 
@@ -566,16 +566,16 @@ de_tagdef_props(void)
 void
 de_al_tagdef_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_al_tagdef_aux ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 
@@ -600,21 +600,21 @@ int versions = 1;
 static void
 out_usage(long n)
 {
-    static char *usage_info [] = {
+	static char *usage_info [] = {
 		"used", "declared", "defined", "multiply-defined"
-    };
-    int i;
-    int used = 0;
-    word *w = new_word (HORIZ_BRACKETS);
-    for (i = 0 ; i < 4 ; i++) {
+	};
+	int i;
+	int used = 0;
+	word *w = new_word (HORIZ_BRACKETS);
+	for (i = 0; i < 4; i++) {
 		if (n & (1 << i)) {
 			out (usage_info [i]);
 			used = 1;
 		}
-    }
-    if (!used) out ("unused");
-    end_word (w);
-    return;
+	}
+	if (!used) out ("unused");
+	end_word (w);
+	return;
 }
 
 
@@ -629,33 +629,33 @@ out_usage(long n)
 static void
 de_usage(long v)
 {
-    object **p;
-    long i, n;
-    binding *b;
-    long total_ext = 0, max_ext = -1;
-    if (v < 0 || v >= no_variables) return;
-    b = crt_binding + v;
-    n = b->sz;
-    if (n == 0) return;
-    p = xmalloc_nof (object *, n);
-    for (i = 0 ; i < n ; i++) {
+	object **p;
+	long i, n;
+	binding *b;
+	long total_ext = 0, max_ext = -1;
+	if (v < 0 || v >= no_variables) return;
+	b = crt_binding + v;
+	n = b->sz;
+	if (n == 0) return;
+	p = xmalloc_nof (object *, n);
+	for (i = 0; i < n; i++) {
 		object *q = b->table [i];
 		long rank = (q ? q->order : -1);
 		if (rank != -1 && b->table [i]->named) {
-			p [ rank ] = b->table [i];
+			p [rank] = b->table [i];
 			if (rank >= max_ext) max_ext = rank;
 			total_ext++;
 		}
-    }
-    if (total_ext != max_ext + 1) {
+	}
+	if (total_ext != max_ext + 1) {
 		MSG_usage_information_wrong ();
 		return;
-    }
-    if (total_ext) {
+	}
+	if (total_ext) {
 		out_string (var_types [v]);
 		out (" Usage Information");
 		blank_line ();
-		for (i = 0 ; i < total_ext ; i++) {
+		for (i = 0; i < total_ext; i++) {
 			long use = tdf_int ();
 			word *w = new_word (HORIZ_NONE);
 			if (p [i]->name.simple) {
@@ -670,9 +670,9 @@ de_usage(long v)
 		blank_line ();
 		blank_lines = 2;
 		total += total_ext;
-    }
-    xfree (p);
-    return;
+	}
+	xfree (p);
+	return;
 }
 
 
@@ -686,9 +686,9 @@ de_usage(long v)
 void
 de_tld2_unit(void)
 {
-    de_usage (var_token);
-    de_usage (var_tag);
-    return;
+	de_usage (var_token);
+	de_usage (var_tag);
+	return;
 }
 
 
@@ -703,23 +703,23 @@ de_tld2_unit(void)
 void
 de_tld_unit(void)
 {
-    long n = tdf_int ();
-    switch (n) {
+	long n = tdf_int ();
+	switch (n) {
 	case 0 : {
-	    de_tld2_unit ();
-	    break;
+		de_tld2_unit ();
+		break;
 	}
 	case 1 : {
-	    long v;
-	    for (v = 0 ; v < no_variables ; v++) de_usage (v);
-	    break;
+		long v;
+		for (v = 0; v < no_variables; v++) de_usage (v);
+		break;
 	}
 	default : {
-	    MSG_illegal_tld_version_number (n);
-	    break;
+		MSG_illegal_tld_version_number (n);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -734,25 +734,25 @@ de_tld_unit(void)
 static void
 de_diag_tagdef_aux(void)
 {
-    long t;
-    object *obj;
-    word *w = new_word (HORIZ_NONE);
-    IGNORE de_diag_tagdef ();
+	long t;
+	object *obj;
+	word *w = new_word (HORIZ_NONE);
+	IGNORE de_diag_tagdef ();
 
-    /* Get alignment tag number */
-    t = tdf_int ();
-    obj = find_binding (crt_binding, var_diag_tag, t);
-    if (obj == null) {
+	/* Get alignment tag number */
+	t = tdf_int ();
+	obj = find_binding (crt_binding, var_diag_tag, t);
+	if (obj == null) {
 		obj = new_object (var_diag_tag);
 		set_binding (crt_binding, var_diag_tag, t, obj);
-    }
-    out_object (t, obj, var_diag_tag);
+	}
+	out_object (t, obj, var_diag_tag);
 
-    /* Decode body */
-    out ("is :");
-    end_word (w);
-    IGNORE de_diag_type ();
-    return;
+	/* Decode body */
+	out ("is :");
+	end_word (w);
+	IGNORE de_diag_type ();
+	return;
 }
 
 #endif
@@ -769,16 +769,16 @@ de_diag_tagdef_aux(void)
 void
 de_diag_type_unit(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		de_diag_tagdef_aux ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 #endif
@@ -795,16 +795,16 @@ de_diag_type_unit(void)
 void
 de_diag_unit(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		IGNORE de_diag_descriptor ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 #endif
@@ -821,19 +821,19 @@ de_diag_unit(void)
 void
 de_dg_comp_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    IGNORE de_dg_compilation ();
-    blank_line ();
-    blank_lines = 1;
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	IGNORE de_dg_compilation ();
+	blank_line ();
+	blank_lines = 1;
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		IGNORE de_dg_append ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += (n + 1);
-    return;
+	}
+	total += (n + 1);
+	return;
 }
 
 #endif
@@ -850,16 +850,16 @@ de_dg_comp_props(void)
 void
 de_linkinfo_props(void)
 {
-    long i, n;
-    read_no_labs ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	read_no_labs ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		IGNORE de_linkinfo ();
 		blank_line ();
 		blank_lines = 1;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 #endif
@@ -883,10 +883,10 @@ static struct tdf_version lastver = {-1, -1};
 void
 de_make_version(char *s)
 {
-    struct tdf_version v;
+	struct tdf_version v;
 
-    tdf_de_make_version (tdfr, &v);
-    if (v.major != lastver.major || v.minor != v.minor || dumb_mode) {
+	tdf_de_make_version (tdfr, &v);
+	if (v.major != lastver.major || v.minor != v.minor || dumb_mode) {
 		word *w;
 		out_string (s);
 		w = new_word (HORIZ_BRACKETS);
@@ -894,11 +894,11 @@ de_make_version(char *s)
 		out_int (v.minor);
 		end_word (w);
 		lastver = v;
-    }
-    if (v.major != version_major || v.minor > version_minor) {
+	}
+	if (v.major != version_major || v.minor > version_minor) {
 		MSG_illegal_version_number (v.major, v.minor, version_major, version_minor);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -913,14 +913,14 @@ de_make_version(char *s)
 void
 de_version_props(void)
 {
-    long i, n;
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	long i, n;
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		IGNORE de_version ();
 		blank_lines = 0;
-    }
-    total += n;
-    return;
+	}
+	total += n;
+	return;
 }
 
 #endif
@@ -936,9 +936,9 @@ void
 de_magic(char *s)
 {
 	tdf_de_magic (tdfr, s);
-    de_make_version (s);
-    lastver.major = -1;
-    lastver.minor = -1;
+	de_make_version (s);
+	lastver.major = -1;
+	lastver.minor = -1;
 	tdf_de_align (tdfr);
-    return;
+	return;
 }

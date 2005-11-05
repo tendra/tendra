@@ -67,8 +67,8 @@
  *    FORWARD DECLARATIONS
  */
 
-static void display(int) ;
-static void expression(word *, int, int, int, int, int) ;
+static void display(int);
+static void expression(word *, int, int, int, int, int);
 
 
 /*
@@ -110,13 +110,13 @@ static int dot_spacing;
 #define M 100
 
 static int dec [7][3] = {
-    { 4, 2, 8 },
-    { 2, 1, 3 },
-    { 8, 6, M },
-    { 1, 0, 1 },
-    { 3, 2, 3 },
-    { 6, 4, 6 },
-    { M, 8, M }
+	{ 4, 2, 8 },
+	{ 2, 1, 3 },
+	{ 8, 6, M },
+	{ 1, 0, 1 },
+	{ 3, 2, 3 },
+	{ 6, 4, 6 },
+	{ M, 8, M }
 };
 
 
@@ -131,46 +131,46 @@ static int dec [7][3] = {
 void
 pretty_tree(void)
 {
-    int i, j;
-    int maximum0;
+	int i, j;
+	int maximum0;
 
-    initialize_tree ();
+	initialize_tree ();
 
-    /* Do some trial runs to try to fit into right number of columns... */
-    printflag = 0;
+	/* Do some trial runs to try to fit into right number of columns... */
+	printflag = 0;
 
-    /* With a maximum indentation of 0... */
-    maxtab = 0;
-    display (0);
-    maximum0 = maximum;
+	/* With a maximum indentation of 0... */
+	maxtab = 0;
+	display (0);
+	maximum0 = maximum;
 
-    /* Try some larger/smaller values */
-    if (!quickflag && maximum < maxcol) {
+	/* Try some larger/smaller values */
+	if (!quickflag && maximum < maxcol) {
 		maxtab = 4;
-		for (i = 0 ; i < 3 ; i++) {
+		for (i = 0; i < 3; i++) {
 			display (1);
 			j = -1;
 			while (dec[++j][0] != maxtab);
-			maxtab = dec[j][ maximum < maxcol ? 2 : 1 ];
+			maxtab = dec[j][maximum < maxcol ? 2 : 1];
 		}
-    }
+	}
 
-    /* Work out dot spacing */
-    dot_spacing = 8;
-    if (maxtab != 100) dot_spacing = 2 * (maxtab + 1);
-    if (maxtab == 0) {
+	/* Work out dot spacing */
+	dot_spacing = 8;
+	if (maxtab != 100) dot_spacing = 2 * (maxtab + 1);
+	if (maxtab == 0) {
 		if (maximum0 > maxcol) maxcol = maximum0;
 		dot_spacing = 4;
-    }
-    init_spaces (dot_spacing);
+	}
+	init_spaces (dot_spacing);
 
-    /* Actually do the printing */
-    printflag = 1;
-    display (0);
-    if (progress) {
+	/* Actually do the printing */
+	printflag = 1;
+	display (0);
+	if (progress) {
 		IGNORE fprintf (stderr, "Printed in %d columns.\n", maximum);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -185,14 +185,14 @@ pretty_tree(void)
 static void
 display(int test)
 {
-    word *ptr;
-    maximum = 0;
-    for (ptr = word1.bro ; ptr ; ptr = ptr->bro) {
+	word *ptr;
+	maximum = 0;
+	for (ptr = word1.bro; ptr; ptr = ptr->bro) {
 		column = 0;
 		expression (ptr, 0, 0, 0, 1, 0);
 		if (test && (maximum > maxcol)) return;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -203,13 +203,13 @@ display(int test)
  */
 
 #define put_out(c)						\
-    {								\
+	{								\
 	if (c) {						\
-	    if (printflag) IGNORE fputc ((c), pp_file) ;	\
-	    column++ ;						\
-	    lastc = (c) ;					\
+		if (printflag) IGNORE fputc ((c), pp_file);	\
+		column++;						\
+		lastc = (c);					\
 	}							\
-    }
+	}
 
 
 /*
@@ -220,12 +220,12 @@ display(int test)
  */
 
 #define new_line()						\
-    {								\
-	if (column > maximum) maximum = column ;		\
-	if (printflag) IGNORE fputc (NEWLINE, pp_file) ;	\
-	column = 0 ;						\
-	lastc = NEWLINE ;					\
-    }
+	{								\
+	if (column > maximum) maximum = column;		\
+	if (printflag) IGNORE fputc (NEWLINE, pp_file);	\
+	column = 0;						\
+	lastc = NEWLINE;					\
+	}
 
 
 /*
@@ -243,31 +243,31 @@ display(int test)
 static void
 expression(word *ptr, int col, int first, int last, int flag, int pending)
 {
-    word *p;
-    char bar = '|';
-    char open = '(';
-    char close = ')';
-    char comma = ',';
-    int more, pends;
-    char sort, opener, sep;
-    int len, visible, horiz;
-    int mflag, new_col, temp_col, temp_max;
+	word *p;
+	char bar = '|';
+	char open = '(';
+	char close = ')';
+	char comma = ',';
+	int more, pends;
+	char sort, opener, sep;
+	int len, visible, horiz;
+	int mflag, new_col, temp_col, temp_max;
 
-    /* print initial spaces */
-    if (column == 0) spaces (col);
+	/* print initial spaces */
+	if (column == 0) spaces (col);
 
-    /* output first character */
-    put_out (first);
+	/* output first character */
+	put_out (first);
 
-    /* copy out initial text */
-    col = column;
-    len = (int) ptr->length;
-    sort = ptr->type;
-    if (printflag) IGNORE fputs (ptr->text, pp_file);
-    column += len;
+	/* copy out initial text */
+	col = column;
+	len = (int) ptr->length;
+	sort = ptr->type;
+	if (printflag) IGNORE fputs (ptr->text, pp_file);
+	column += len;
 
-    /* if we have parameters, we need to decode them */
-    if (sort != SIMPLE) {
+	/* if we have parameters, we need to decode them */
+	if (sort != SIMPLE) {
 
 		/* are the brackets visible or not? */
 		visible = ((sort == HORIZ_NONE || sort == VERT_NONE) ? 0 : 1);
@@ -306,7 +306,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 			sep = comma;
 			pends = 0;
 			/* print parameters */
-			for (p = ptr->son ; p ; p = p->bro) {
+			for (p = ptr->son; p; p = p->bro) {
 				if (p->bro == null) {
 					/* for last, take trailing brackets into account */
 					sep = close;
@@ -336,7 +336,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 			sep = comma;
 			pends = 0;
 			/* print parameters */
-			for (p = ptr->son ; p ; p = p->bro) {
+			for (p = ptr->son; p; p = p->bro) {
 				/* for last, take trailing brackets into account */
 				if (p->bro == null) {
 					sep = close;
@@ -362,7 +362,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 				opener = 0;
 			}
 			/* print parameters */
-			for (p = ptr->son ; p ; p = p->bro) {
+			for (p = ptr->son; p; p = p->bro) {
 				if (p->bro == null) {
 					/* last requires special treatment */
 					sep = 0;
@@ -375,12 +375,12 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 			}
 			if (visible) put_out (close);
 		}
-    }
+	}
 
-    /* output last character */
-    if (last != ',' || (lastc != '.' && lastc != ':')) put_out (last);
+	/* output last character */
+	if (last != ',' || (lastc != '.' && lastc != ':')) put_out (last);
 
-    /* and a newline if required */
-    if (flag) new_line ();
-    return;
+	/* and a newline if required */
+	if (flag) new_line ();
+	return;
 }

@@ -133,16 +133,16 @@ binding *crt_binding;
 static void
 de_linkextern(long v, long r)
 {
-    object *p;
-    external ext;
-    long n = tdf_int ();
-    ext = de_extern_name ();
-    p = new_object (v);
-    set_binding (crt_binding, v, n, p);
-    p->named = 1;
-    p->name = ext;
-    p->order = r;
-    if (v == var_token && ext.simple) {
+	object *p;
+	external ext;
+	long n = tdf_int ();
+	ext = de_extern_name ();
+	p = new_object (v);
+	set_binding (crt_binding, v, n, p);
+	p->named = 1;
+	p->name = ext;
+	p->order = r;
+	if (v == var_token && ext.simple) {
 		/* Look for special tokens */
 		char *nm = ext.val.str;
 		if (nm [0] == '~' && diagnostics) {
@@ -158,8 +158,8 @@ de_linkextern(long v, long r)
 				token_sort (p, sort_exp, "x$d", n);
 			}
 		}
-    }
-    if (dumb_mode) {
+	}
+	if (dumb_mode) {
 		word *w1, *w2;
 		w1 = new_word (HORIZ_NONE);
 		out_string (var_types [v]);
@@ -173,8 +173,8 @@ de_linkextern(long v, long r)
 			out_unique (ext.val.uniq);
 		}
 		end_word (w1);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -198,22 +198,22 @@ long blank_lines = 0;
 static void
 de_equation(equation_func f)
 {
-    long i, n;
-    long no_var;
-    int needs_it = 0;
-    static long unitno = 1;
+	long i, n;
+	long no_var;
+	int needs_it = 0;
+	static long unitno = 1;
 
-    /* Record old bindings */
-    binding *old_binding = crt_binding;
+	/* Record old bindings */
+	binding *old_binding = crt_binding;
 
-    /* Read the number of each type of variable */
-    no_var = tdf_int ();
-    if (no_var) {
+	/* Read the number of each type of variable */
+	no_var = tdf_int ();
+	if (no_var) {
 		if (no_var != no_variables) {
 			MSG_number_of_local_variables_wrong ();
 		}
 		crt_binding = new_binding_table ();
-		for (i = 0 ; i < no_var ; i++) {
+		for (i = 0; i < no_var; i++) {
 			long sz = tdf_int ();
 			set_binding_size (crt_binding, i, sz);
 			if (show_stuff) {
@@ -223,12 +223,12 @@ de_equation(equation_func f)
 			}
 		}
 		if (show_stuff) blank_line ();
-    }
+	}
 
-    /* Read linkage for each type of variable */
-    n = tdf_int ();
-    if (n != no_var) MSG_number_of_linkage_units_wrong ();
-    if (no_var) {
+	/* Read linkage for each type of variable */
+	n = tdf_int ();
+	if (n != no_var) MSG_number_of_linkage_units_wrong ();
+	if (no_var) {
 		if (dumb_mode) {
 			word *w = new_word (HORIZ_NONE);
 			out_string ("Bindings for Unit ");
@@ -237,9 +237,9 @@ de_equation(equation_func f)
 			end_word (w);
 			blank_line ();
 		}
-		for (i = 0 ; i < no_var ; i++) {
+		for (i = 0; i < no_var; i++) {
 			long j, no_links = tdf_int ();
-			for (j = 0 ; j < no_links ; j++) {
+			for (j = 0; j < no_links; j++) {
 				object *p;
 				long inner = tdf_int ();
 				long outer = tdf_int ();
@@ -270,12 +270,12 @@ de_equation(equation_func f)
 
 		/* Complete the bindings */
 		complete_binding (crt_binding);
-    }
+	}
 
-    /* Read the unit body */
-    n = BYTESIZE * tdf_int ();
+	/* Read the unit body */
+	n = BYTESIZE * tdf_int ();
 	tdf_de_align (tdfr);
-    if (f == null) {
+	if (f == null) {
 		tdf_skip_bits (tdfr, n);
 		if (dumb_mode) {
 			out ("(skipped)");
@@ -283,27 +283,27 @@ de_equation(equation_func f)
 			blank_lines = 1;
 		}
 		total++;
-    } else {
+	} else {
 		tdf_pos end = tdf_stream_tell (tdfr) + n;
 		(*f) ();
 		tdf_de_align (tdfr);
 		if (tdf_stream_tell (tdfr) != end) MSG_unit_length_wrong ();
-    }
+	}
 
-    /* Restore old bindings */
-    if (no_var) {
+	/* Restore old bindings */
+	if (no_var) {
 		free_binding_table (crt_binding);
 		crt_binding = old_binding;
 		if (dumb_mode) {
-			for (i = blank_lines ; i < 2 ; i++) blank_line ();
+			for (i = blank_lines; i < 2; i++) blank_line ();
 			out_string ("End of Bindings for Unit ");
 			out_int (unitno++);
 			blank_line ();
 			blank_line ();
 			blank_lines = 2;
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -318,26 +318,26 @@ de_equation(equation_func f)
 void
 de_capsule(void)
 {
-    long i, n;
-    long no_eqn, no_var;
-    if (dumb_mode) show_stuff = 1;
+	long i, n;
+	long no_eqn, no_var;
+	if (dumb_mode) show_stuff = 1;
 
-    /* Read the magic number */
-    out ("MAGIC NUMBER");
-    blank_line ();
-    de_magic (version_magic);
-    blank_line ();
-    blank_line ();
+	/* Read the magic number */
+	out ("MAGIC NUMBER");
+	blank_line ();
+	de_magic (version_magic);
+	blank_line ();
+	blank_line ();
 
-    /* Read the equation types */
-    no_eqn = tdf_int ();
-    if (no_eqn) {
+	/* Read the equation types */
+	no_eqn = tdf_int ();
+	if (no_eqn) {
 		if (show_stuff) {
 			out ("EQUATION TYPES");
 			blank_line ();
 		}
 		eqn_types = xmalloc_nof (string, no_eqn);
-		for (i = 0 ; i < no_eqn ; i++) {
+		for (i = 0; i < no_eqn; i++) {
 			string s = de_tdfstring_align ();
 			eqn_types [i] = s;
 			if (show_stuff) out (s);
@@ -346,13 +346,13 @@ de_capsule(void)
 			blank_line ();
 			blank_line ();
 		}
-    }
+	}
 
-    /* Read the variable types and initialize the bindings */
-    no_var = tdf_int ();
-    no_variables = no_var;
-    crt_binding = new_binding_table ();
-    if (no_var) {
+	/* Read the variable types and initialize the bindings */
+	no_var = tdf_int ();
+	no_variables = no_var;
+	crt_binding = new_binding_table ();
+	if (no_var) {
 		if (show_stuff) {
 			out ("VARIABLE TYPES");
 			blank_line ();
@@ -360,9 +360,9 @@ de_capsule(void)
 		var_types = xmalloc_nof (string, no_var);
 		var_letters = xmalloc_nof (char, no_var + 1);
 		var_count = xmalloc_nof (long, no_var);
-		var_letters [ no_var ] = 0;
+		var_letters [no_var] = 0;
 
-		for (i = 0 ; i < no_var ; i++) {
+		for (i = 0; i < no_var; i++) {
 			string sv = de_tdfstring_align ();
 			long sz = tdf_int ();
 			var_letters [i] = find_variable (sv, i);
@@ -379,33 +379,33 @@ de_capsule(void)
 			blank_line ();
 			blank_line ();
 		}
-    }
+	}
 
-    /* Read the external variable names */
-    n = tdf_int ();
-    if (n != no_var) MSG_number_of_variables_wrong ();
-    if (no_var) {
+	/* Read the external variable names */
+	n = tdf_int ();
+	if (n != no_var) MSG_number_of_variables_wrong ();
+	if (no_var) {
 		if (dumb_mode) {
 			out ("EXTERNAL NAMES");
 			blank_line ();
 		}
-		for (i = 0 ; i < no_var ; i++) {
+		for (i = 0; i < no_var; i++) {
 			long j, no_links = tdf_int ();
-			for (j = 0 ; j < no_links ; j++) de_linkextern (i, j);
+			for (j = 0; j < no_links; j++) de_linkextern (i, j);
 		}
 		if (dumb_mode) {
 			blank_line ();
 			blank_line ();
 		}
-    }
+	}
 
-    /* Complete the bindings */
-    complete_binding (crt_binding);
+	/* Complete the bindings */
+	complete_binding (crt_binding);
 
-    /* Read the equations */
-    n = tdf_int ();
-    if (n != no_eqn) MSG_number_of_equations_wrong ();
-    for (i = 0 ; i < no_eqn ; i++) {
+	/* Read the equations */
+	n = tdf_int ();
+	if (n != no_eqn) MSG_number_of_equations_wrong ();
+	for (i = 0; i < no_eqn; i++) {
 		int used = 0;
 		char *title = null;
 		long j, no_units = tdf_int ();
@@ -434,13 +434,13 @@ de_capsule(void)
 				blank_line ();
 				blank_lines = 1;
 			}
-			for (j = 0 ; j < no_units ; j++) de_equation (f);
+			for (j = 0; j < no_units; j++) de_equation (f);
 			if (printflag && (dumb_mode || f)) {
 				if (total == 0) {
 					out ("(none)");
 					blank_lines = 0;
 				}
-				for (j = blank_lines ; j < 2 ; j++) blank_line ();
+				for (j = blank_lines; j < 2; j++) blank_line ();
 				blank_lines = 2;
 			}
 			total = 0;
@@ -460,15 +460,15 @@ de_capsule(void)
 			blank_line ();
 			blank_lines = 1;
 		}
-		for (j = 0 ; j < no_units ; j++) de_equation (f);
+		for (j = 0; j < no_units; j++) de_equation (f);
 		if (dumb_mode || f) {
 			if (total == 0) {
 				out ("(none)");
 				blank_lines = 0;
 			}
-			for (j = blank_lines ; j < 2 ; j++) blank_line ();
+			for (j = blank_lines; j < 2; j++) blank_line ();
 			blank_lines = 2;
 		}
-    }
-    return;
+	}
+	return;
 }

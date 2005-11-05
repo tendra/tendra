@@ -78,9 +78,9 @@ typedef unsigned char byte;
  */
 
 typedef struct {
-    long byte;
-    int bit;
-    unsigned worksp;
+	long byte;
+	int bit;
+	unsigned worksp;
 } place;
 
 
@@ -95,11 +95,11 @@ typedef char *string;
 typedef string *unique;
 
 typedef struct {
-    char simple;
-    union {
+	char simple;
+	union {
 		string str;
 		unique uniq;
-    } val;
+	} val;
 } external;
 
 
@@ -114,11 +114,11 @@ typedef struct {
 typedef int sortname;
 
 typedef struct {
-    char *name;
-    char *fname;
-    char decode;
-    sortname res;
-    char *args;
+	char *name;
+	char *fname;
+	char decode;
+	sortname res;
+	char *args;
 } sortid;
 
 
@@ -132,9 +132,9 @@ typedef struct {
  */
 
 typedef struct {
-    sortname tok_res_sort;
-    char *tok_arg_sorts;
-    sortname tok_implicit_sort;
+	sortname tok_res_sort;
+	char *tok_arg_sorts;
+	sortname tok_implicit_sort;
 } token_info;
 
 
@@ -148,15 +148,15 @@ typedef struct {
  */
 
 typedef struct object_tag {
-    int flag;
-    int named;
-    external name;
-    long id;
-    long order;
-    union {
+	int flag;
+	int named;
+	external name;
+	long id;
+	long order;
+	union {
 		token_info tok;
-    } extra;
-    struct object_tag *aux;
+	} extra;
+	struct object_tag *aux;
 } object;
 
 
@@ -192,9 +192,9 @@ typedef struct object_tag {
  */
 
 typedef struct {
-    long max_no;
-    long sz;
-    object **table;
+	long max_no;
+	long sz;
+	object **table;
 } binding;
 
 

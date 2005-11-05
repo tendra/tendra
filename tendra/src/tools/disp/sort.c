@@ -90,22 +90,22 @@ BoolT warn_undeclared = FALSE;
 object *
 de_token_aux(sortname s, char *nm)
 {
-    word *w;
-    long bits, t;
-    object *obj = null;
-    int ap = 1, simple = 1;
-    int just_tok = (s == sort_unknown ? 1 : 0);
+	word *w;
+	long bits, t;
+	object *obj = null;
+	int ap = 1, simple = 1;
+	int just_tok = (s == sort_unknown ? 1 : 0);
 
-    /* Find the token number */
-    long n = de_token ();
-    if (n == token_make_tok) {
+	/* Find the token number */
+	long n = de_token ();
+	if (n == token_make_tok) {
 		t = tdf_int ();
-    } else {
+	} else {
 		simple = 0;
-    }
+	}
 
-    /* Look up simple tokens */
-    if (simple) {
+	/* Look up simple tokens */
+	if (simple) {
 		SET (t);
 		obj = find_binding (crt_binding, var_token, t);
 		if (obj == null) {
@@ -149,10 +149,10 @@ de_token_aux(sortname s, char *nm)
 				ap = 0;
 			}
 		}
-    }
+	}
 
-    /* Output "apply_token" if appropriate */
-    if (ap) {
+	/* Output "apply_token" if appropriate */
+	if (ap) {
 		if (just_tok) {
 			out_string ("make_token");
 		} else {
@@ -176,13 +176,13 @@ de_token_aux(sortname s, char *nm)
 				IGNORE new_word (SIMPLE);
 			}
 		}
-    } else {
+	} else {
 		/* Applications of named tokens are indicated by "*" */
 		out_string ("*");
-    }
+	}
 
-    /* Quit here if just reading token */
-    if (just_tok) {
+	/* Quit here if just reading token */
+	if (just_tok) {
 		if (ap) {
 			SET (w);
 			end_word (w);
@@ -190,13 +190,13 @@ de_token_aux(sortname s, char *nm)
 			IGNORE new_word (SIMPLE);
 		}
 		return (obj);
-    }
+	}
 
-    /* Read length of token arguments */
-    bits = tdf_int ();
+	/* Read length of token arguments */
+	bits = tdf_int ();
 
-    /* Deal with tokens without arguments */
-    if (bits == 0) {
+	/* Deal with tokens without arguments */
+	if (bits == 0) {
 		if (obj && res_sort (obj) != sort_unknown) {
 			char *ps = arg_sorts (obj);
 			if (ps && *ps) {
@@ -216,10 +216,10 @@ de_token_aux(sortname s, char *nm)
 			IGNORE new_word (SIMPLE);
 		}
 		return (obj);
-    }
+	}
 
-    /* Deal with tokens with arguments */
-    if (obj && res_sort (obj) != sort_unknown && !is_foreign (obj)) {
+	/* Deal with tokens with arguments */
+	if (obj && res_sort (obj) != sort_unknown && !is_foreign (obj)) {
 		/* Known token - decode arguments */
 		if (arg_sorts (obj)) {
 			tdf_pos pos;
@@ -245,15 +245,15 @@ de_token_aux(sortname s, char *nm)
 			}
 			return (obj);
 		}
-    } else {
+	} else {
 		/* Unknown token - step over arguments */
 		if (!ap) w = new_word (VERT_BRACKETS);
 		out ("....");
 		tdf_skip_bits (tdfr, bits);
-    }
-    SET (w);
-    end_word (w);
-    return (obj);
+	}
+	SET (w);
+	end_word (w);
+	return (obj);
 }
 
 
@@ -264,20 +264,20 @@ de_token_aux(sortname s, char *nm)
 void
 de_make_label(long lab_no)
 {
-    if (dumb_mode) {
+	if (dumb_mode) {
 		word *w;
 		out_string ("label");
 		w = new_word (HORIZ_BRACKETS);
 		out_int (lab_no);
 		end_word (w);
-    } else {
+	} else {
 		out_string ("~label_");
 		out_int (lab_no);
-    }
-    if (lab_no < 0 || lab_no >= max_lab_no) {
+	}
+	if (lab_no < 0 || lab_no >= max_lab_no) {
 		MSG_label_number_out_of_range (lab_no);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -301,23 +301,23 @@ void
 de_tdfstring_format(void)
 {
 	TDFSTRING ts;
-    word *ptr1;
+	word *ptr1;
 	size_t n;
 	char *s;
 
 	tdf_de_tdfstring(tdfr, &ts);
 
-    if (ts.size != 8) {
+	if (ts.size != 8) {
 		char sbuff [100];
 		IGNORE sprintf (sbuff, "make_string_%ld", (long)ts.size);
 		out_string (sbuff);
 		ptr1 = new_word (HORIZ_BRACKETS);
-    }
-    if (ts.size > 8) {
+	}
+	if (ts.size > 8) {
 		TDFINTL i;
 		for (i = 0; i < ts.number; i++)
 			out_int (ts.ints.longs[i]);
-    } else {
+	} else {
 		s = tdf_string_format (&ts);
 		n = strlen (s);
 		if (n == 0) {
@@ -329,20 +329,20 @@ de_tdfstring_format(void)
 			char *w = xmalloc_nof (char, m + 3);
 			IGNORE memcpy (w + 1, s, (size_t) m);
 			w [0] = QUOTE;
-			w [ m + 1 ] = QUOTE;
-			w [ m + 2 ] = 0;
+			w [m + 1] = QUOTE;
+			w [m + 2] = 0;
 			out (w);
 			n -= m;
 			s += m;
 		}
-    }
-    if (ts.size != 8) {
+	}
+	if (ts.size != 8) {
 		SET (ptr1);
 		end_word (ptr1);
-    }
+	}
 	if (ts.number)
 		xfree (ts.ints.chars);
-    return;
+	return;
 }
 
 
@@ -365,39 +365,39 @@ de_tdfstring_format(void)
 void
 de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 {
-    long i, n;
-    word *ptr1, *ptr2;
+	long i, n;
+	word *ptr1, *ptr2;
 	tdf_pos posn1, posn2;
 
-    int tempflag = printflag;
+	int tempflag = printflag;
 
-    out_string (nm);
-    ptr1 = new_word (VERT_BRACKETS);
+	out_string (nm);
+	ptr1 = new_word (VERT_BRACKETS);
 
-    /* Read the number of statements A1, ..., An */
-    check_list ();
-    n = tdf_int ();
+	/* Read the number of statements A1, ..., An */
+	check_list ();
+	n = tdf_int ();
 
-    /* Record the position of A1 */
-    posn1 = tdf_stream_tell (tdfr);
+	/* Record the position of A1 */
+	posn1 = tdf_stream_tell (tdfr);
 
-    /* Step over A1, ..., An */
-    printflag = 0;
-    for (i = 0 ; i < n ; i++) decode (str1);
-    printflag = tempflag;
+	/* Step over A1, ..., An */
+	printflag = 0;
+	for (i = 0; i < n; i++) decode (str1);
+	printflag = tempflag;
 
-    /* Decode B */
-    decode (str2);
+	/* Decode B */
+	decode (str2);
 
-    if (ntwice) {
+	if (ntwice) {
 		/* Read and check the number of statements C1, ..., Cn */
 		long m;
 		check_list ();
 		m = tdf_int ();
 		if (m != n) MSG_illegal_construct (nm);
-    }
+	}
 
-    for (i = 0 ; i < n ; i++) {
+	for (i = 0; i < n; i++) {
 		ptr2 = new_word (VERT_BRACKETS);
 
 		/* Record the position of Ci */
@@ -415,9 +415,9 @@ de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 		decode (str3);
 
 		end_word (ptr2);
-    }
-    end_word (ptr1);
-    return;
+	}
+	end_word (ptr1);
+	return;
 }
 
 
@@ -435,25 +435,25 @@ de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 void
 de_case_fn(char *nm, char *str1, char *str2)
 {
-    long i, n;
-    word *ptr1, *ptr2, *ptr3;
+	long i, n;
+	word *ptr1, *ptr2, *ptr3;
 
-    out_string (nm);
-    ptr1 = new_word (VERT_BRACKETS);
-    decode (str1);
-    ptr2 = new_word (VERT_BRACKETS);
-    check_list ();
-    n = tdf_int ();
-    for (i = 0 ; i < n ; i++) {
+	out_string (nm);
+	ptr1 = new_word (VERT_BRACKETS);
+	decode (str1);
+	ptr2 = new_word (VERT_BRACKETS);
+	check_list ();
+	n = tdf_int ();
+	for (i = 0; i < n; i++) {
 		ptr3 = new_word (HORIZ_NONE);
 		IGNORE de_label ();
 		out (":");
 		format (HORIZ_BRACKETS, "", str2);
 		end_word (ptr3);
-    }
-    end_word (ptr2);
-    end_word (ptr1);
-    return;
+	}
+	end_word (ptr2);
+	end_word (ptr1);
+	return;
 }
 
 
@@ -471,22 +471,22 @@ de_case_fn(char *nm, char *str1, char *str2)
 void
 de_mk_proc_fn(char *nm, char *str1, char *str2, char *str3)
 {
-    long i, n;
-    word *ptr;
-    out_string (nm);
-    ptr = new_word (VERT_BRACKETS);
-    decode (str1);
-    check_list ();
-    n = tdf_int ();
-    if (n == 0) {
+	long i, n;
+	word *ptr;
+	out_string (nm);
+	ptr = new_word (VERT_BRACKETS);
+	decode (str1);
+	check_list ();
+	n = tdf_int ();
+	if (n == 0) {
 		out ("empty");
-    } else {
-		for (i = 0 ; i < n ; i++) {
+	} else {
+		for (i = 0; i < n; i++) {
 			out_string (nm);
 			format (VERT_BRACKETS, "_arg", str2);
 		}
-    }
-    decode (str3);
-    end_word (ptr);
-    return;
+	}
+	decode (str3);
+	end_word (ptr);
+	return;
 }

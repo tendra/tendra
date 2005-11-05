@@ -70,11 +70,11 @@
 
 
 typedef struct s_word {
-    char type;
-    int length;
-    char *text;
-    struct s_word *son;
-    struct s_word *bro;
+	char type;
+	int length;
+	char *text;
+	struct s_word *son;
+	struct s_word *bro;
 } word;
 
 
@@ -109,21 +109,21 @@ typedef struct s_word {
  */
 
 #define blank_line()		(void) new_word (SIMPLE)
-#define end_word(X)		word_ptr = (X) ; word_ptr->bro = null
+#define end_word(X)		word_ptr = (X); word_ptr->bro = null
 
 extern int length;
 extern word word1;
 extern word *word_ptr;
 
-extern void initialize_tree(void) ;
-extern word *new_word(int) ;
-extern void out_char(int) ;
-extern void out_string(char *) ;
-extern void out(char *) ;
-extern void out_int(long) ;
-extern void out_signed(char *, int) ;
-extern void out_unique(unique) ;
-extern void format(int, char *, char *) ;
+extern void initialize_tree(void);
+extern word *new_word(int);
+extern void out_char(int);
+extern void out_string(char *);
+extern void out(char *);
+extern void out_int(long);
+extern void out_signed(char *, int);
+extern void out_unique(unique);
+extern void format(int, char *, char *);
 
 
 #endif

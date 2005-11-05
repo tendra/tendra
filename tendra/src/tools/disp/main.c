@@ -169,8 +169,8 @@ main(int argc, char **argv)
 	char *input, *output;
 	int optcnt;
 
-    tenapp_init(argc, argv, "TDF pretty printer", "1.5");
-    msg_uh_add(MSG_GLOB_tdfoff, msg_uh_tdfoff);
+	tenapp_init(argc, argv, "TDF pretty printer", "1.5");
+	msg_uh_add(MSG_GLOB_tdfoff, msg_uh_tdfoff);
 
 	output = NULL;
 	argc--;
@@ -187,11 +187,11 @@ main(int argc, char **argv)
 	if (argc == 2)
 		output = *argv;
 
-    /* Open the files */
+	/* Open the files */
 	open_files (input, output);
 
-    /* Perform binary dump if required */
-    if (dump) {
+	/* Perform binary dump if required */
+	if (dump) {
 		long f;
 		int bits = 0, n = 1;
 		while (f =  tdf_de_bits (tdfr, 1), !tdf_stream_eof (tdfr)) {
@@ -208,13 +208,13 @@ main(int argc, char **argv)
 		}
 		if (n != 1) IGNORE fputc ('\n', pp_file);
 		exit (0);
-    }
+	}
 
-    /* Call the main routines */
-    if (diagnostics || show_usage) do_foreign_sorts = 1;
-    init_foreign_sorts ();
-    initialize_tree ();
-    de_capsule ();
-    pretty_tree ();
-    return (exit_status);
+	/* Call the main routines */
+	if (diagnostics || show_usage) do_foreign_sorts = 1;
+	init_foreign_sorts ();
+	initialize_tree ();
+	de_capsule ();
+	pretty_tree ();
+	return (exit_status);
 }

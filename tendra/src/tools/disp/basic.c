@@ -115,7 +115,7 @@ tdf_string_format(TDFSTRING *sp)
 	char *s, *p;
 
 	n = 0;
-	for (i = 0 ; i < sp->number ; i++) {
+	for (i = 0; i < sp->number; i++) {
 		c = sp->ints.chars[i];
 		if (printable (c)) {
 			if (c == SLASH || c == QUOTE)
@@ -131,7 +131,7 @@ tdf_string_format(TDFSTRING *sp)
 		}
 	}
 	p = s = xmalloc (n + 1);
-	for (i = 0 ; i < sp->number ; i++) {
+	for (i = 0; i < sp->number; i++) {
 		c = sp->ints.chars[i];
 		if (printable (c)) {
 			if (c == SLASH || c == QUOTE) *p++ = SLASH;
@@ -148,9 +148,9 @@ tdf_string_format(TDFSTRING *sp)
 				*p++ = charact (c % 8);
 			}
 		}
-    }
-    *p++ = 0;
-    return (s);
+	}
+	*p++ = 0;
+	return (s);
 }
 
 
@@ -170,14 +170,14 @@ de_tdfstring(void)
 	char *s;
 
 	tdf_de_tdfstring(tdfr, &ts);
-    if (ts.size == 8 && ts.number < 1000) {
+	if (ts.size == 8 && ts.number < 1000) {
 		s = tdf_string_format (&ts);
-    } else {
+	} else {
 		s = "<UNPRINTABLE>";
-    }
+	}
 	if (ts.number)
 		xfree (ts.ints.chars);
-    return (s);
+	return (s);
 }
 
 
@@ -195,14 +195,14 @@ de_tdfstring_align(void)
 	char *s;
 
 	tdf_de_tdfident(tdfr, &ti);
-    if (ti.size == 8 && ti.number < 1000) {
+	if (ti.size == 8 && ti.number < 1000) {
 		s = tdf_string_format (&ti);
-    } else {
+	} else {
 		s = "<UNPRINTABLE>";
-    }
+	}
 	if (ti.number)
 		xfree (ti.ints.chars);
-    return (s);
+	return (s);
 }
 
 
@@ -216,13 +216,13 @@ de_tdfstring_align(void)
 unique
 de_unique(void)
 {
-    long i, n;
-    unique u;
-    n = tdf_int ();
-    u = xmalloc_nof (string, n + 1);
-    for (i = 0 ; i < n ; i++) u [i] = de_tdfstring_align ();
-    u [n] = null;
-    return (u);
+	long i, n;
+	unique u;
+	n = tdf_int ();
+	u = xmalloc_nof (string, n + 1);
+	for (i = 0; i < n; i++) u [i] = de_tdfstring_align ();
+	u [n] = null;
+	return (u);
 }
 
 
@@ -236,33 +236,33 @@ de_unique(void)
 external
 de_extern_name(void)
 {
-    external e;
-    long n = de_external ();
+	external e;
+	long n = de_external ();
 	tdf_de_align (tdfr);
-    switch (n) {
+	switch (n) {
 	case external_string_extern : {
-	    e.simple = 1;
-	    e.val.str = de_tdfstring_align ();
-	    break;
+		e.simple = 1;
+		e.val.str = de_tdfstring_align ();
+		break;
 	}
 	case external_unique_extern : {
-	    e.simple = 0;
-	    e.val.uniq = de_unique ();
-	    break;
+		e.simple = 0;
+		e.val.uniq = de_unique ();
+		break;
 	}
 	case external_chain_extern : {
-	    e.simple = 1;
-	    e.val.str = de_tdfstring_align ();
-	    IGNORE tdf_int ();
-	    break;
+		e.simple = 1;
+		e.val.str = de_tdfstring_align ();
+		IGNORE tdf_int ();
+		break;
 	}
 	default : {
-	    e.simple = 1;
-	    e.val.str = "<ERROR>";
-	    break;
+		e.simple = 1;
+		e.val.str = "<ERROR>";
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -289,17 +289,17 @@ static long fs_size = 0;
 void
 add_foreign_sort(char *nm, char *fnm, int c)
 {
-    long n = no_foreign_sorts++;
-    if (n >= fs_size) {
+	long n = no_foreign_sorts++;
+	if (n >= fs_size) {
 		fs_size += 20;
 		foreign_sorts = xrealloc (foreign_sorts, sizeof(sortid) * fs_size);
-    }
-    foreign_sorts [n].name = nm;
-    foreign_sorts [n].fname = fnm;
-    foreign_sorts [n].decode = (char) c;
-    foreign_sorts [n].res = (sortname) (extra_sorts + n);
-    foreign_sorts [n].args = null;
-    return;
+	}
+	foreign_sorts [n].name = nm;
+	foreign_sorts [n].fname = fnm;
+	foreign_sorts [n].decode = (char) c;
+	foreign_sorts [n].res = (sortname) (extra_sorts + n);
+	foreign_sorts [n].args = null;
+	return;
 }
 
 
@@ -310,8 +310,8 @@ add_foreign_sort(char *nm, char *fnm, int c)
 static sortid
 de_complex_sort(sortname sn)
 {
-    sortid cs;
-    if (sn == sort_token) {
+	sortid cs;
+	if (sn == sort_token) {
 		long i, n;
 		sortid cp, cr;
 		char buff [1000];
@@ -331,7 +331,7 @@ de_complex_sort(sortname sn)
 		p = p + strlen (p);
 
 		/* Decode arguments of token sort */
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			cp = de_sort_name (0);
 			cp = de_complex_sort (cp.res);
 			if (i) *(p++) = ',';
@@ -348,11 +348,11 @@ de_complex_sort(sortname sn)
 		p = xmalloc_nof (char, (int) strlen (buff) + 1);
 		IGNORE strcpy (p, buff);
 		cs.name = p;
-    } else {
+	} else {
 		/* Non-token sorts are simple */
 		cs = find_sort (sn);
-    }
-    return (cs);
+	}
+	return (cs);
 }
 
 
@@ -367,11 +367,11 @@ de_complex_sort(sortname sn)
 sortid
 de_sort_name(int expand)
 {
-    sortname sn = (sortname) de_sortname ();
-    if (sn == sort_token && expand) {
+	sortname sn = (sortname) de_sortname ();
+	if (sn == sort_token && expand) {
 		return (de_complex_sort (sn));
-    }
-    if (sn == sort_foreign) {
+	}
+	if (sn == sort_foreign) {
 		long i;
 		string nm;
 #if string_ext
@@ -383,13 +383,13 @@ de_sort_name(int expand)
 			MSG_unknown_foreign_sort ();
 		}
 		nm = de_tdfstring ();
-		for (i = 0 ; i < no_foreign_sorts ; i++) {
+		for (i = 0; i < no_foreign_sorts; i++) {
 			if (streq (nm, foreign_sorts [i].fname)) {
 				return (foreign_sorts [i]);
 			}
 		}
 		add_foreign_sort (nm, nm, 'F');
 		return (foreign_sorts [i]);
-    }
-    return (find_sort (sn));
+	}
+	return (find_sort (sn));
 }

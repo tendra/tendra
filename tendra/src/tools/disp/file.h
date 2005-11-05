@@ -75,9 +75,9 @@ extern int maximum;
 extern int lastc;
 extern BoolT dump;
 
-extern void open_files(char *, char *) ;
-extern void init_spaces(int) ;
-extern void spaces(int) ;
+extern void open_files(char *, char *);
+extern void init_spaces(int);
+extern void spaces(int);
 
 
 #endif

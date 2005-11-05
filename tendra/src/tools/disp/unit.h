@@ -67,21 +67,21 @@
  *    types associated with them.
  */
 
-extern void token_sort(object *, sortname, char *, long) ;
-extern void de_tagdec_props(void) ;
-extern void de_tagdef_props(void) ;
-extern void de_tokdec_props(void) ;
-extern void de_tokdef_props(void) ;
-extern void de_al_tagdef_props(void) ;
-extern void de_dg_comp_props(void) ;
-extern void de_diag_type_unit(void) ;
-extern void de_diag_unit(void) ;
-extern void de_linkinfo_props(void) ;
-extern void de_version_props(void) ;
-extern void de_tld2_unit(void) ;
-extern void de_tld_unit(void) ;
-extern void de_make_version(char *) ;
-extern void de_magic(char *) ;
+extern void token_sort(object *, sortname, char *, long);
+extern void de_tagdec_props(void);
+extern void de_tagdef_props(void);
+extern void de_tokdec_props(void);
+extern void de_tokdef_props(void);
+extern void de_al_tagdef_props(void);
+extern void de_dg_comp_props(void);
+extern void de_diag_type_unit(void);
+extern void de_diag_unit(void);
+extern void de_linkinfo_props(void);
+extern void de_version_props(void);
+extern void de_tld2_unit(void);
+extern void de_tld_unit(void);
+extern void de_make_version(char *);
+extern void de_magic(char *);
 extern long max_lab_no;
 extern BoolT show_usage;
 extern BoolT diagnostics;

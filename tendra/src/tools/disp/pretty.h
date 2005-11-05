@@ -69,7 +69,7 @@
  *    output into a reasonable number of columns.
  */
 
-extern void pretty_tree(void) ;
+extern void pretty_tree(void);
 extern BoolT helpflag;
 extern int maxcol;
 extern BoolT progress;
