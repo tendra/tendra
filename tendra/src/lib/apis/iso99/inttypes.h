@@ -1,4 +1,4 @@
-# Copyright (c) 2003, The TenDRA Project
+# Copyright (c) 2005, The TenDRA Project
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -24,3 +24,35 @@
 #
 # $TenDRA$
 #
+
++IMPLEMENT "iso99", "stdint.h";
+
++USE "iso99", "stddef.h", "_wchar_t";
+
+# 7.8
+
++TYPE (struct) imaxdiv_t;
+
+# 7.8.1
+
+# NOT YET IMPLEMENTED
+#
+# PRI* and SCN* must be macros expanding to character string literals.
+
+# 7.8.2.1
+
++FUNC intmax_t imaxabs(intmax_t);
+
+# 7.8.2.2
+
++FUNC imaxdiv_t imaxdiv(intmax_t, intmax_t);
+
+# 7.8.2.3
+
++FUNC intmax_t strtoimax(const char * restrict, char ** restrict, int);
++FUNC uintmax_t strtoumax(const char * restrict, char ** restrict, int);
+
+# 7.8.2.4
+
++FUNC intmax_t wcstoimax(const ~wchar_t * restrict, ~wchar_t ** restrict, int);
++FUNC uintmax_t wcstoumax(const ~wchar_t * restrict, ~wchar_t ** restrict, int);
