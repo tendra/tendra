@@ -58,8 +58,6 @@ errors2.h errors3.h:: catalog.err extra.err
 	${BIN_AWK} -f ${MKERR} -- -l ${.OBJDIR}/errors2.h -d ${.OBJDIR}/errors3.h \
 		${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err
 
-tdf1.h:: tdf1.h-tdf
-
 #calculus generated files
 CLEANFILES+=	assert_def.h c_class.h ctype_ops.h err_ops.h etype_ops.h \
 		exp_ops.h flt_ops.h ftype_ops.h graph_ops.h hashid_ops.h \

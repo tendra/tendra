@@ -19,8 +19,6 @@ syntax.c: syntax.sid syntax.act
 	${SID} ${SID_OPTS} ${.CURDIR}/syntax.sid ${.CURDIR}/syntax.act \
 	${OBJ_DIR}/syntax.c ${OBJ_DIR}/syntax.h
 
-consfile.c: consfile.c-tdf
-
 CLEANFILES+=	syntax.c syntax.h consfile.c consfile.h decodings.c decodings.h encodings.h enc_nos.h fnsfile.c
 
 .include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
