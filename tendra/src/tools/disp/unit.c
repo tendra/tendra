@@ -364,9 +364,18 @@ de_tagdec_aux(void)
 
 	/* Check consistency */
 	switch (n) {
-	case tagdec_make_var_tagdec : out ("(variable)"); m = 0; break;
-	case tagdec_make_id_tagdec : out ("(identity)"); m = 1; break;
-	default : out ("(common)"); m = 2; break;
+	case tagdec_make_var_tagdec :
+		out ("(variable)");
+		m = 0;
+		break;
+	case tagdec_make_id_tagdec :
+		out ("(identity)");
+		m = 1;
+		break;
+	case tagdec_common_tagdec :
+		out ("(common)");
+		m = 2;
+		break;
 	}
 	if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
@@ -416,9 +425,18 @@ de_tagdef_aux(void)
 
 	/* Check consistency */
 	switch (n) {
-	case tagdef_make_var_tagdef : out ("(variable)"); m = 0; break;
-	case tagdef_make_id_tagdef : out ("(identity)"); m = 1; break;
-	default : out ("(common)"); m = 2; break;
+	case tagdef_make_var_tagdef :
+		out ("(variable)");
+		m = 0;
+		break;
+	case tagdef_make_id_tagdef :
+		out ("(identity)");
+		m = 1;
+		break;
+	case tagdef_common_tagdef :
+		out ("(common)");
+		m = 2;
+		break;
 	}
 	if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
