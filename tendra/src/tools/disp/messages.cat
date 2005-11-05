@@ -219,7 +219,7 @@ illegal_version_number(long: v1, long: v2, int: version_major, int: version_mino
 {
 	USAGE: FATAL
 	KEY(STD) tdfoff"Illegal version number, "v1"."v2
-		 "(supported version is "version_major"."version_minor")"
+		 " (supported version is "version_major"."version_minor")"
 }
 
 bad_magic_number(ccp: mn)
