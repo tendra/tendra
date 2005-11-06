@@ -55,72 +55,36 @@
  */
 
 
-#ifndef basicrd_key
-#define basicrd_key 1
+#ifndef BASICREAD_INCLUDED
+#define BASICREAD_INCLUDED
 
 
+char initreader(char *);
+void endreader(void);
+void failer(char *);
 
-extern char initreader(char *n);
-/* start the input stream reading from the file called n */
+unsigned long getcode(unsigned int);
+int  get_big_code(unsigned int);
 
-extern void endreader(void);
+tdf_pos keep_place(void);
+void set_place(tdf_pos);
+int  small_dtdfint(void);
+void to_boundary(void);
+bitstream d_bitstream(void);
 
-extern unsigned long getcode(unsigned int n);
-/* read n bits from the input stream */
+void start_bytestream(void);
+bytestream d_bytestream(void);
+void ignore_bytestream(void);
+void end_bytestream(void);
 
-extern int get_big_code(unsigned int n);
-/* read construct encoding number (n bit pieces)
- *        from the input stream */
-
-extern tdf_pos keep_place(void);
-/* deliver the current place in the input stream */
-
-extern void set_place(tdf_pos);
-/* start reading from pl in the input stream */
-
-extern void failer(char *s);
-/* records the failure message s and sets good_trans to false */
-
-extern int  small_dtdfint(void);
-
-
-extern void to_boundary(void);
-/* step the input stream on to the next byte boundary */
-
-extern bitstream d_bitstream(void);
-/* delivers a new place for the bitstream in the input stream and
- *        steps over it */
-
-extern void start_bytestream(void);
-/* records in bytestream_pickup the end of a bytestream */
-
-extern bytestream d_bytestream(void);
-/* returns bytestream_pickup */
-
-extern void ignore_bytestream(void);
-/* steps over a bytestream */
-
-extern void end_bytestream(void);
-/* resets the input stream from bytestream_pickup */
-
-extern tdfstring d_tdfstring(void);
-/* reads a tdfstring from the input stream */
-
-extern tdfstring d_tdfident(void);
-/* reads a tdfident from the input stream */
-
-extern tdfbool d_tdfbool(void);
-/* reads a tdfbool from the input stream */
-
-extern tdfint d_tdfint(void);
-/* reads a tdfint from the input stream */
+tdfstring d_tdfstring(void);
+tdfstring d_tdfident(void);
+tdfbool d_tdfbool(void);
+tdfint d_tdfint(void);
 
 extern int crt_lno;
-
-extern char * crt_flnm;
-
+extern char *crt_flnm;
 extern int crt_charno;
-
 extern struct tdf_stream *tdfr;
 
 

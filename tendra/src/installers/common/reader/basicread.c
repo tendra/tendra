@@ -90,13 +90,13 @@ static tdf_pos bytestream_pickup;	/* set before use */
 /* records the end of a bytestream */
 
 
+static void check_magic_no(void);
 
-/**********************************************************************
- *   failer prints an error message on the standard output, and sets
- *   good_trans to 1 to indicate an error.
- **********************************************************************/
 
-/* fails, giving error message s */
+/*
+ * Print an error message on the standard output, and set
+ * good_trans to 1 to indicate an error.
+ */
 void
 failer(char *s)
 {
@@ -113,12 +113,9 @@ failer(char *s)
 }
 
 
-/***************************************************************
- *  initreader opens the file called n and sets initial values
- *  into variables.
- ***************************************************************/
-void check_magic_no(void) ;
-
+/*
+ * Open the file called n and set initial values into variables.
+ */
 bool
 initreader(char *n)
 {
@@ -143,12 +140,19 @@ endreader()
 	tdfr = NULL;
 }
 
+/*
+ * Read n bits from the input stream.
+ */
 unsigned long
 getcode(unsigned int np)
 {
 	return tdf_de_bits (tdfr, np);
 }
 
+
+/*
+ * Read construct encoding number (n bit pieces) from the input stream.
+ */
 int
 get_big_code(unsigned int n)
 {
@@ -156,24 +160,19 @@ get_big_code(unsigned int n)
 	return (int)tdf_de_tdfextint (tdfr, n);
 }
 
-/********************************************************************
- *   keep_place records the present state of the getcode variables
- *   in a place. It condenses the position variables into the
- *   bits_on field, measured from the start of the recorded line.
- ********************************************************************/
-
+/*
+ * Return current position in the input stream.
+ */
 tdf_pos
-keep_place()
+keep_place(void)
 {
 	return tdf_stream_tell (tdfr);
 }
 
-/********************************************************************
- *  set_place resets the getcode variables from the place pl, which
- *  was produced by keep_placee. If necessary it reads more
- *  lines from the file.
- ********************************************************************/
 
+/*
+ * Set new position in the input stream.
+ */
 void
 set_place(tdf_pos pos)
 {
@@ -181,15 +180,13 @@ set_place(tdf_pos pos)
 }
 
 
-/*********************************************************************
- *  small_dtdfint reads one TDF integer using getcode. TDF integers are
- *  encoded as a number of octal digits, most significant first.
- *  These octal digits are encoded in 4-bit chunks with 8 added on
- *  to the last digit only.
- *********************************************************************/
-
+/*
+ * Read one TDF integer using getcode. TDF integers are encoded as a number of
+ * octal digits, most significant first. These octal digits are encoded in
+ * 4-bit chunks with 8 added on to the last digit only.
+ */
 int
-small_dtdfint()
+small_dtdfint(void)
 {
 	int  digit;
 	int total = 0;
@@ -198,21 +195,21 @@ small_dtdfint()
 	return (8 * total + (digit - 8));
 }
 
-/* step the input stream on to the next byte boundary */
-
+/*
+ * Step the input stream on to the next byte boundary
+ */
 void
-to_boundary()
+to_boundary(void)
 {
 	tdf_de_align (tdfr);
 	return;
 }
 
-
-/* delivers a new place for the bitstream in the input stream and steps
- *    over it */
-
+/*
+ * Remeber start of the bitstream and skip over it.
+ */
 bitstream
-d_bitstream()
+d_bitstream(void)
 {
 	TDFINTL  length;
 	tdf_pos here;
@@ -223,19 +220,18 @@ d_bitstream()
 	return here;
 }
 
-
-
-
 bytestream
-d_bytestream()
+d_bytestream(void)
 {
 	return bytestream_pickup;
 }
 
+/*
+ * Skip bytestream.
+ */
 void
-ignore_bytestream()
+ignore_bytestream(void)
 {
-	/* steps over a bytestream */
 	TDFINTL length;
 	tdf_pos here;
 
@@ -246,10 +242,11 @@ ignore_bytestream()
 	return;
 }
 
-/* records in bytestream_pickup the end of a bytestream */
-
+/*
+ * Record in bytestream_pickup the end of a bytestream.
+ */
 void
-start_bytestream()
+start_bytestream(void)
 {
 	TDFINTL length;
 	tdf_pos here;
@@ -261,20 +258,22 @@ start_bytestream()
 	return;
 }
 
-
-/* resets the input stream from bytestream_pickup */
-
+/*
+ * Set the input stream position from bytestream_pickup.
+ */
 void
-end_bytestream()
+end_bytestream(void)
 {
 	tdf_stream_seek (tdfr, bytestream_pickup);
 	return;
 }
 
+/*
+ * Read a tdfstring from the input stream.
+ */
 tdfstring
-d_tdfstring()
+d_tdfstring(void)
 {
-	/* reads a tdfstring from the input stream */
 	TDFINTL bits, i, n;
 	tdfstring tdb;
 
@@ -323,8 +322,11 @@ d_tdfstring()
 	return tdb;
 }
 
+/*
+ * Read a tdfident from the input stream.
+ */
 tdfstring
-d_tdfident()
+d_tdfident(void)
 {
 	tdfstring tdb;
 
@@ -332,19 +334,21 @@ d_tdfident()
 	return tdb;
 }
 
+/*
+ * Read a tdfbool from the input stream.
+ */
 tdfbool
-d_tdfbool()
+d_tdfbool(void)
 {
-	/* reads a tdfbool from the input stream */
 	return (tdfbool)tdf_de_tdfbool (tdfr);
 }
 
-
-
+/*
+ * Read a tdfint from the input stream.
+ */
 tdfint
-d_tdfint()
+d_tdfint(void)
 {
-	/* reads a tdfint from the input stream */
 	nat n;
 	unsigned int  digit;
 	unsigned int total = 0;
@@ -352,23 +356,20 @@ d_tdfint()
 	int goon = 1;
 	flpt f;
 	
-	while (goon)
-	{
+	while (goon) {
 		digit = (unsigned int)getcode(4);
-		if (digit >= 8)
-		{ goon = 0;
-		digit -= 8;
+		if (digit >= 8) {
+			goon = 0;
+			digit -= 8;
 		}
-		if (small)
-		{ if (total > 0x1fffffff)
-		{ small = 0;
-		f = floatrep_unsigned(total);
-		flpt_newdig(digit, &flptnos[f], 8);
-		}
-		else
-			total = (total << 3) + digit;
-		}
-		else {
+		if (small) {
+			if (total > 0x1fffffff) {
+				small = 0;
+				f = floatrep_unsigned(total);
+				flpt_newdig(digit, &flptnos[f], 8);
+			} else
+				total = (total << 3) + digit;
+		} else {
 			SET(f);
 			flpt_newdig(digit, &flptnos[f], 8);
 		}
@@ -376,8 +377,7 @@ d_tdfint()
 	nat_issmall(n) = (bool)small;
 	if (small)
 		natint(n) = (int)total;
-	else
-	{
+	else {
 		SET(f);
 		nat_issmall(n) = 0;
 		natbig(n) = f;
@@ -385,8 +385,8 @@ d_tdfint()
 	return n;
 }
 
-void
-check_magic_no()
+static void
+check_magic_no(void)
 {
 	struct tdf_version v;
 

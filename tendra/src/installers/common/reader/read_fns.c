@@ -56,16 +56,12 @@
 
 
 
-
-
-
-/* this file contains the definitions of some of the functions
- *   called from decoder.c to set up the in-store representations of TDF.
- *   It defines those functions which are independent of the actual
- *   representation, particularly the token substitution and
- *   unit handling
+/*
+ * This file contains the definitions of some of the functions
+ * called from decoder.c to set up the in-store representations of TDF.
+ * It defines those functions which are independent of the actual
+ * representation, particularly the token substitution and unit handling.
  */
-
 
 #include "config.h"
 #include "cstring.h"
@@ -101,47 +97,40 @@
 
 /* Some external declarations  */
 
-extern diag_type_unit f_make_diagtype_unit(void);	/* OLD DIAGS */
-extern int f_make_linkinfo_unit(void);
-extern void start_make_linkinfo_unit(int, int, int, int);
 extern int machine_toks(char *);
-extern void tidy_initial_values(void);
 
 /* MACROS */
 
 /* codes for the types of unit which are understood here */
-#define UNKNOWN_UNIT 0
-#define TOKDEC_UNIT 1
-#define TOKDEF_UNIT 2
-#define AL_UNIT 3
-#define TAGDEC_UNIT 4
-#define TAGDEF_UNIT 5
-#define DIAGDEF_UNIT 6		/* OLD DIAGS */
-#define DIAGTYPE_UNIT 7		/* OLD DIAGS */
-#define LINKINFO_UNIT 8
-#define VERSIONS_UNIT 9
-#define DGCOMP_UNIT 10		/* NEW DIAGS */
+#define	UNKNOWN_UNIT	0
+#define	TOKDEC_UNIT		1
+#define	TOKDEF_UNIT		2
+#define	AL_UNIT			3
+#define	TAGDEC_UNIT		4
+#define	TAGDEF_UNIT		5
+#define	DIAGDEF_UNIT	6		/* OLD DIAGS */
+#define	DIAGTYPE_UNIT	7		/* OLD DIAGS */
+#define	LINKINFO_UNIT	8
+#define	VERSIONS_UNIT	9
+#define	DGCOMP_UNIT		10		/* NEW DIAGS */
 
 /* codes for the kinds of linkable variable which are understood here */
-#define UNKNOWN_TYPE 0
-#define TOK_TYPE 1
-#define TAG_TYPE 2
-#define AL_TYPE 3
-#define DIAGTAG_TYPE 4		/* OLD DIAGS */
-#define DGTAG_TYPE 5		/* NEW DIAGS */
+#define	UNKNOWN_TYPE	0
+#define	TOK_TYPE		1
+#define	TAG_TYPE		2
+#define	AL_TYPE			3
+#define	DIAGTAG_TYPE	4		/* OLD DIAGS */
+#define	DGTAG_TYPE		5		/* NEW DIAGS */
 
 /* VARIABLES */
 /* All variables are initialised, jmf */
 
-int crt_group_type;	 /* the code for the current group of units */
-int crt_links_type;/* the code for the current type of linkable variable                      */
-int crt_extern_link_type;/* the code for the current type of externally
-						  *                             linked variable */
-tdfstring * crt_capsule_groups; /* the identifier for the current group
-								 *                                   of units */
+int crt_group_type;		/* the code for the current group of units */
+int crt_links_type;		/* the code for the current type of linkable variable */
+int crt_extern_link_type;/* the code for the current type of externally linked variable */
+tdfstring * crt_capsule_groups; /* the identifier for the current group of units */
 int crt_capsule_group_no; /* the number in the group */
-int crt_capsule_link_no;  /* the number of linkable variables
-						   *                               of the current type */
+int crt_capsule_link_no;  /* the number of linkable variables of the current type */
 capsule_link_list crt_capsule_linking;
 
 static int no_of_local_tokens;
@@ -235,55 +224,54 @@ check_tok_sig(tok_define * t, string sig)
 {
 	char * sid = sig.ints.chars;
 	int s = (sig.size*sig.number)/8;
+
 	if (t->signature != (char*)0) {
 		char * id = t->signature;
 		int i;
+
 		for (i=0; i<s; i++) {
-			if (id[i]!=sid[i]) break;
+			if (id[i] != sid[i])
+				break;
 		}
-		if (i!=s || id[s] !=0) {
+		if (i != s || id[s] != 0) {
 			IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
 			failer("Token signatures should be equal");
 		}
-	}
-	else {
+	} else {
 		t->signature = sid;
 	}
 }
 
 /* all the _apply_token functions follow this pattern */
 procprops
-f_procprops_apply_token(token token_value,
-						bitstream token_args)
+f_procprops_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, PROCPROPS, (tokval*)0);
 	return v.tk_procprops;
 }
 
 /* all the _cond functions follow this pattern */
 procprops
-f_procprops_cond(exp control, bitstream e1,
-				 bitstream e2)
+f_procprops_cond(exp control, bitstream e1, bitstream e2)
 {
 	bitstream bs;
 	procprops res;
 	int n;
+
 	bs = keep_place();
-	
+
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		/* use the second bitstream */
 		set_place(e2);
 		res = d_procprops();
-	}
-	else
-	{
+	} else {
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_procprops();
@@ -296,6 +284,7 @@ string
 f_string_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, STRING, (tokval*)0);
 	return v.tk_string;
 }
@@ -307,21 +296,19 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	string res;
 	int n;
+
 	bs = keep_place();
-	
+
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		/* use the second bitstream */
 		set_place(e2);
 		res = d_string();
-	}
-	else
-	{
+	} else {
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_string();
@@ -332,37 +319,34 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 
 
 alignment
-f_alignment_apply_token(token token_value,
-						bitstream token_args)
+f_alignment_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, ALIGNMENT_SORT, (tokval*)0);
 	return v.tk_alignment;
 }
 
 /* all the _cond functions follow this pattern */
 alignment
-f_alignment_cond(exp control, bitstream e1,
-				 bitstream e2)
+f_alignment_cond(exp control, bitstream e1,  bitstream e2)
 {
 	bitstream bs;
 	alignment res;
 	int n;
+
 	bs = keep_place();
-	
+
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		/* use the second bitstream */
 		set_place(e2);
 		res = d_alignment();
-	}
-	else
-	{
+	} else {
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_alignment();
@@ -375,6 +359,7 @@ access
 f_access_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, ACCESS_SORT, (tokval*)0);
 	return v.tk_access;
 }
@@ -386,21 +371,19 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	access res;
 	int n;
+
 	bs = keep_place();
-	
+
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		/* use the second bitstream */
 		set_place(e2);
 		res = d_access();
-	}
-	else
-	{
+	} else {
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_access();
@@ -410,37 +393,34 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 }
 
 transfer_mode
-f_transfer_mode_apply_token(token token_value,
-							bitstream token_args)
+f_transfer_mode_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT, (tokval*)0);
 	return v.tk_transfer_mode;
 }
 
 
 transfer_mode
-f_transfer_mode_cond(exp control, bitstream e1,
-					 bitstream e2)
+f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 {
 	bitstream bs;
 	transfer_mode res;
 	int n;
+
 	bs = keep_place();
-	
+
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		/* use the second bitstream */
 		set_place(e2);
 		res = d_transfer_mode();
-	}
-	else
-	{
+	} else {
 		/* use the first bitstream */
 		set_place(e1);
 		res = d_transfer_mode();
@@ -454,6 +434,7 @@ bitfield_variety
 f_bfvar_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, BITFIELD_VARIETY, (tokval*)0);
 	return v.tk_bitfield_variety;
 }
@@ -464,18 +445,16 @@ f_bfvar_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	bitfield_variety res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_bitfield_variety();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_bitfield_variety();
 	}
@@ -487,6 +466,7 @@ bool
 f_bool_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, BOOL, (tokval*)0);
 	return v.tk_bool;
 }
@@ -497,18 +477,16 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	bool res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_bool();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_bool();
 	}
@@ -522,8 +500,8 @@ int
 find_index(char * nm)
 {
 	int i;
-	for (i=0; i < crt_capsule_linking.number; ++i)
-	{
+
+	for (i=0; i < crt_capsule_linking.number; ++i) {
 		if (!strcmp((crt_capsule_linking.members[i]).id, nm))
 			return i;
 	}
@@ -532,49 +510,49 @@ find_index(char * nm)
 
 
 void
-start_make_capsule(tdfstring_list prop_names,
-				   capsule_link_list capsule_linking)
+start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 {
 	int i;
-	
+
 	while (capsule_freelist) {
-		capsule_frees * cf = capsule_freelist -> next;
+		capsule_frees *cf = capsule_freelist->next;
+
 		xfree((void*)capsule_freelist->ptr);
 		xfree((void*)capsule_freelist);
 		capsule_freelist = cf;
 	}
-	
+
 	crt_tagdef_unit_no = -1;
 	unit_index = 0;
 	top_aldef = (aldef *)0;
 	doing_aldefs = 0;
-	
+
 	crt_capsule_groups = prop_names.elems;
 	crt_capsule_group_no = prop_names.number;
-	
+
 	crt_capsule_linking = capsule_linking;
 	crt_capsule_link_no = capsule_linking.number;
-	
+
 	i = find_index("token");
 	capsule_no_of_tokens = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
-	
+
 	i = find_index("tag");
 	capsule_no_of_tags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
-	
+
 	i = find_index("alignment");
 	capsule_no_of_als = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
-	
+
 	i = find_index("diagtag");		/* OLD DIAGS */
 	capsule_no_of_diagtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
-	
+
 	i = find_index("dgtag");		/* NEW DIAGS */
 	capsule_no_of_dgtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
-	
+
 	capsule_toktab = (tok_define*)xcalloc(capsule_no_of_tokens,
 										  sizeof(tok_define));
 	capsule_tagtab = (dec*)xcalloc(capsule_no_of_tags, sizeof(dec));
@@ -583,41 +561,44 @@ start_make_capsule(tdfstring_list prop_names,
 												sizeof(diag_tagdef));	/* OLD DIAGS */
 	capsule_dgtab = (dgtag_struct*)xcalloc(capsule_no_of_dgtags,
 										   sizeof(dgtag_struct));	/* NEW DIAGS */
-	
+
+	/* initialise the table of tokens */
 	for (i = 0; i < capsule_no_of_tokens; ++i) {
-        /* initialise the table of tokens */
-		tok_define * tp = &capsule_toktab[i];
-		tp -> tok_special = 0;
-		tp -> valpresent = 0;
-		tp -> unit_number = crt_tagdef_unit_no;
-		tp -> defined = 0;
-		tp -> tok_index = i;
-		tp -> is_capsule_token = 1;
-		tp -> recursive = 0;
+		tok_define *tp = &capsule_toktab[i];
+
+		tp->tok_special = 0;
+		tp->valpresent = 0;
+		tp->unit_number = crt_tagdef_unit_no;
+		tp->defined = 0;
+		tp->tok_index = i;
+		tp->is_capsule_token = 1;
+		tp->recursive = 0;
 	}
-	
+
+	/* initialise the table of tags */
 	for (i = 0; i < capsule_no_of_tags; ++i) {
-        /* initialise the table of tags */
-		dec * dp = &capsule_tagtab[i];
-		dp -> dec_u.dec_val.dec_outermost = 0;
-		dp -> dec_u.dec_val.dec_id = (char *) 0;
-		dp -> dec_u.dec_val.extnamed = 0;
-		dp -> dec_u.dec_val.diag_info = (diag_global *)0;
-		dp -> dec_u.dec_val.have_def = 0;
-		dp -> dec_u.dec_val.dec_shape = nilexp;
-		dp -> dec_u.dec_val.processed = 0;
-		dp -> dec_u.dec_val.isweak = 0;
+		dec *dp = &capsule_tagtab[i];
+
+		dp->dec_u.dec_val.dec_outermost = 0;
+		dp->dec_u.dec_val.dec_id = (char *) 0;
+		dp->dec_u.dec_val.extnamed = 0;
+		dp->dec_u.dec_val.diag_info = (diag_global *)0;
+		dp->dec_u.dec_val.have_def = 0;
+		dp->dec_u.dec_val.dec_shape = nilexp;
+		dp->dec_u.dec_val.processed = 0;
+		dp->dec_u.dec_val.isweak = 0;
 	}
-	
+
+	/* initialise the table of alignment tags */
 	for (i = 0; i < capsule_no_of_als; ++i) {
-        /* initialise the table of alignment tags */
-		aldef * ap = &capsule_altab[i];
-		ap -> al.al_n = 0;
+		aldef *ap = &capsule_altab[i];
+
+		ap->al.al_n = 0;
 	}
-	
+
 	init_capsule_diagtags();	/* OLD DIAGS */
 	init_capsule_dgtags();	/* NEW DIAGS */
-	
+
 	return;
 }
 
@@ -629,13 +610,13 @@ f_make_capsule(tdfstring_list prop_names,
 {
 	UNUSED(prop_names); UNUSED(capsule_linking);
 	UNUSED(external_linkage);UNUSED(units);
-	
+
 	translate_capsule();
 	return 0;
 }
 
 void
-init_capsule()
+init_capsule(void)
 {
 	return;
 }
@@ -644,6 +625,7 @@ capsule_link
 f_make_capsule_link(tdfstring sn, tdfint n)
 {
 	capsule_link res;
+
 	res.n = n;
 	res.id = (char*)sn.ints.chars;
 	return res;
@@ -653,6 +635,7 @@ error_treatment
 f_errt_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, ERROR_TREATMENT, (tokval*)0);
 	return v.tk_error_treatment;
 }
@@ -663,18 +646,16 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	error_treatment res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_error_treatment();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_error_treatment();
 	}
@@ -682,11 +663,11 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
 	return res;
 }
 
-
 exp
 f_exp_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, EXP_S, (tokval*)0);
 	return v.tk_exp;
 }
@@ -697,18 +678,16 @@ f_exp_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	exp res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_exp();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_exp();
 	}
@@ -720,6 +699,7 @@ external
 f_string_extern(tdfstring s)
 {
 	external e;
+
 	e.isstring = 1;
 	e.ex.id = s;
 	return e;
@@ -729,6 +709,7 @@ external
 f_unique_extern(unique u)
 {
 	external e;
+
 	e.isstring = 0;
 	e.ex.u = u;
 	return e;
@@ -744,7 +725,7 @@ f_chain_extern(tdfstring s, tdfint i)
 }
 
 void
-init_external()
+init_external(void)
 {
 	return;
 }
@@ -753,6 +734,7 @@ floating_variety
 f_flvar_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, FLOATING_VARIETY, (tokval*)0);
 	return v.tk_floating_variety;
 }
@@ -763,18 +745,16 @@ f_flvar_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	floating_variety res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_floating_variety();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_floating_variety();
 	}
@@ -787,6 +767,7 @@ label
 f_label_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, LABEL, (tokval*)0);
 	return v.tk_label;
 }
@@ -798,7 +779,7 @@ f_make_label(tdfint labelno)
 }
 
 void
-init_label()
+init_label(void)
 {
 	return;
 }
@@ -807,6 +788,7 @@ nat
 f_nat_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, NAT, (tokval*)0);
 	return v.tk_nat;
 }
@@ -817,18 +799,16 @@ f_nat_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	nat res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_nat();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_nat();
 	}
@@ -840,6 +820,7 @@ ntest
 f_ntest_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, NTEST, (tokval*)0);
 	return v.tk_ntest;
 }
@@ -850,18 +831,16 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	ntest res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_ntest();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_ntest();
 	}
@@ -870,33 +849,30 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
 }
 
 rounding_mode
-f_rounding_mode_apply_token(token token_value,
-							bitstream token_args)
+f_rounding_mode_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, ROUNDING_MODE, (tokval*)0);
 	return v.tk_rounding_mode;
 }
 
 rounding_mode
-f_rounding_mode_cond(exp control, bitstream e1,
-					 bitstream e2)
+f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
 {
 	bitstream bs;
 	rounding_mode res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_rounding_mode();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_rounding_mode();
 	}
@@ -918,18 +894,16 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
 	bitstream bs;
 	shape res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_shape();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_shape();
 	}
@@ -938,39 +912,36 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
 }
 
 signed_nat
-f_signed_nat_apply_token(token token_value,
-						 bitstream token_args)
+f_signed_nat_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, SIGNED_NAT, (tokval*)0);
 	return v.tk_signed_nat;
 }
 
 signed_nat
-f_signed_nat_cond(exp control, bitstream e1,
-				  bitstream e2)
+f_signed_nat_cond(exp control, bitstream e1,  bitstream e2)
 {
 	bitstream bs;
 	signed_nat res;
 	int n;
+
 	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_signed_nat();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_signed_nat();
 	}
 	set_place(bs);
 	return res;
-	
+
 }
 
 
@@ -986,6 +957,7 @@ sortname f_ntest;
 sortname f_rounding_mode;
 sortname f_shape;
 sortname f_signed_nat;
+sortname f_variety;
 sortname f_tag;
 sortname f_al_tag;
 sortname f_diag_filename;	/* OLD DIAGS */
@@ -1028,28 +1000,28 @@ sortname
 f_token(sortname result, sortname_list params)
 {
 	sortname res;
+
 	res.code = TOKEN;
 	res.result = result.code;
 	res.pars = params;
 	return res;
 }
 
-sortname f_variety;
 void
-init_sortname()
+init_sortname(void)
 {
 	f_alignment_sort.code = ALIGNMENT_SORT;
-	f_bitfield_variety.code =   BITFIELD_VARIETY;
-	f_bool.code =   BOOL;
-	f_error_treatment.code =   ERROR_TREATMENT;
-	f_exp.code =   EXP_S;
-	f_floating_variety.code =   FLOATING_VARIETY;
+	f_bitfield_variety.code = BITFIELD_VARIETY;
+	f_bool.code = BOOL;
+	f_error_treatment.code = ERROR_TREATMENT;
+	f_exp.code = EXP_S;
+	f_floating_variety.code = FLOATING_VARIETY;
 	f_label.code = LABEL;
-	f_nat.code =   NAT;
-	f_ntest.code =   NTEST;
-	f_rounding_mode.code =   ROUNDING_MODE;
-	f_shape.code =   SHAPE;
-	f_signed_nat.code =   SIGNED_NAT;
+	f_nat.code = NAT;
+	f_ntest.code = NTEST;
+	f_rounding_mode.code = ROUNDING_MODE;
+	f_shape.code = SHAPE;
+	f_signed_nat.code = SIGNED_NAT;
 	f_tag.code = TAG;
 	f_al_tag.code = AL_TAG;
 	f_variety.code = VARIETY;
@@ -1066,7 +1038,6 @@ init_sortname()
 	f_dg_idname.code = DG_IDNAME_SORT;		/* NEW DIAGS */
 	f_dg_name.code = DG_NAME_SORT;		/* NEW DIAGS */
 	f_dg_type.code = DG_TYPE_SORT;		/* NEW DIAGS */
-	
 	return;
 }
 
@@ -1074,6 +1045,7 @@ tag
 f_tag_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, TAG, (tokval*)0);
 	return v.tk_tag;
 }
@@ -1082,6 +1054,7 @@ al_tag
 f_al_tag_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, AL_TAG, (tokval*)0);
 	return v.tk_al_tag;
 }
@@ -1093,7 +1066,7 @@ f_make_tag(tdfint tagno)
 }
 
 void
-init_tag()
+init_tag(void)
 {
 	return;
 }
@@ -1105,7 +1078,7 @@ f_make_al_tag(tdfint tagno)
 }
 
 void
-init_al_tag()
+init_al_tag(void)
 {
 	return;
 }
@@ -1114,75 +1087,73 @@ void
 check_sig(tag tg, string sig)
 {
 	char * sid = sig.ints.chars;
-	int s = (sig.size*sig.number)/8;
+	int s = (sig.size*sig.number) / 8;
+
 	if (tg->dec_u.dec_val.has_signature) {
 		char * id = tg->dec_u.dec_val.dec_id;
 		int i;
-		for (i=0; i<s; i++) {
-			if (id[i]!=sid[i]) break;
+
+		for (i = 0; i < s; i++) {
+			if (id[i] != sid[i])
+				break;
 		}
-		if (i!=s || id[s] !=0) {
+		if ( i != s || id[s] != 0) {
 			IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
 			failer("Signatures should be equal");
 		}
-	}
-	else {
+	} else {
 		tg->dec_u.dec_val.dec_id = sid;
 		tg->dec_u.dec_val.has_signature = 1;
 	}
 }
 
-
-
-
-
 tagdec
-f_make_id_tagdec(tdfint t_intro, access_option acc,
-				 string_option sig, shape x)
+f_make_id_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
 	tagdec res;
+
 	res.tg = get_dec(natint(t_intro));
 	res.sha = x;
 	res.acc = acc;
 	res.is_variable = 0;
 	res.is_common = 0;
-	res.tg -> dec_u.dec_val.is_common = 0;
+	res.tg->dec_u.dec_val.is_common = 0;
 	if (sig.present) check_sig(res.tg, sig.val);
 	return res;
 }
 
 tagdec
-f_make_var_tagdec(tdfint t_intro, access_option acc,
-				  string_option sig, shape x)
+f_make_var_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
 	tagdec res;
+
 	res.tg = get_dec(natint(t_intro));
 	res.sha = x;
 	res.acc = acc;
 	res.is_variable = 1;
 	res.is_common = 0;
-	res.tg -> dec_u.dec_val.is_common = 0;
+	res.tg->dec_u.dec_val.is_common = 0;
 	if (sig.present) check_sig(res.tg, sig.val);
 	return res;
 }
 
 tagdec
-f_common_tagdec(tdfint t_intro, access_option acc,
-				string_option sig, shape x)
+f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
 	tagdec res;
+
 	res.tg = get_dec(natint(t_intro));
 	res.sha = x;
 	res.acc = acc;
 	res.is_variable = 1;
 	res.is_common = 1;
-	res.tg -> dec_u.dec_val.is_common = 0;
+	res.tg->dec_u.dec_val.is_common = 0;
 	if (sig.present) check_sig(res.tg, sig.val);
 	return res;
 }
 
 void
-init_tagdec()
+init_tagdec(void)
 {
 	return;
 }
@@ -1196,14 +1167,14 @@ start_make_id_tagdef(tdfint t)
 }
 
 tagdef
-f_make_id_tagdef(tdfint t, string_option sig,
-				 exp e)
+f_make_id_tagdef(tdfint t, string_option sig, exp e)
 {
 	dec * dp = get_dec(natint(t));
 	tagdef res;
+
 	res.tg = dp;
-	if (dp -> dec_u.dec_val.processed ||
-        son(dp -> dec_u.dec_val.dec_exp) != nilexp)
+	if (dp->dec_u.dec_val.processed ||
+        son(dp->dec_u.dec_val.dec_exp) != nilexp)
 		res.def = nilexp; /* set to nilexp if already output */
 	else
 		res.def = e;
@@ -1218,20 +1189,20 @@ void
 start_make_var_tagdef(tdfint t)
 {
 	UNUSED(t);
-	
+
 	return;
 }
 
 tagdef
-f_make_var_tagdef(tdfint t, access_option opt_access,
-				  string_option sig, exp e)
+f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
 {
 	dec * dp = get_dec(natint(t));
 	tagdef res;
+
 	UNUSED(opt_access);
 	res.tg = dp;
-	if (dp -> dec_u.dec_val.processed ||
-        son(dp -> dec_u.dec_val.dec_exp) != nilexp)
+	if (dp->dec_u.dec_val.processed ||
+        son(dp->dec_u.dec_val.dec_exp) != nilexp)
 		res.def = nilexp; /* set to nilexp if already output */
 	else
 		res.def = e;
@@ -1249,11 +1220,11 @@ start_common_tagdef(tdfint t)
 }
 
 tagdef
-f_common_tagdef(tdfint t, access_option opt_access,
-				string_option sig, exp e)
+f_common_tagdef(tdfint t, access_option opt_access,	string_option sig, exp e)
 {
 	dec * dp = get_dec(natint(t));
 	tagdef res;
+
 	UNUSED(opt_access);
 	res.tg = dp;
 	res.def = e;
@@ -1264,13 +1235,13 @@ f_common_tagdef(tdfint t, access_option opt_access,
 }
 
 void
-init_tagdef()
+init_tagdef(void)
 {
 	return;
 }
 
 void
-init_al_tagdef()
+init_al_tagdef(void)
 {
 	return;
 }
@@ -1289,80 +1260,77 @@ f_make_tagextern(tdfint internal, external ext)
 	dec * dp = &capsule_tagtab[natint(internal)];
 	char *nm = external_to_string(ext);
 	char * id = add_prefix(nm);
-	dp -> dec_u.dec_val.dec_id = id;
-	dp -> dec_u.dec_val.dec_outermost = 1;
-	dp -> dec_u.dec_val.extnamed = 1;
-	
+
+	dp->dec_u.dec_val.dec_id = id;
+	dp->dec_u.dec_val.dec_outermost = 1;
+	dp->dec_u.dec_val.extnamed = 1;
+
 	return 0;
 }
 
 taglink
 f_make_taglink(tdfint internal, tdfint ext)
 {
-	unit_ind_tags[natint(internal)] =
-		&capsule_tagtab[natint(ext)];
+	unit_ind_tags[natint(internal)] = &capsule_tagtab[natint(ext)];
 	return 0;
 }
-
 
 allink
 f_make_allink(tdfint internal, tdfint ext)
 {
-	unit_ind_als[natint(internal)] =
-		&capsule_altab[natint(ext)];
+	unit_ind_als[natint(internal)] = &capsule_altab[natint(ext)];
 	return 0;
 }
 
-
 tokdec
-f_make_tokdec(tdfint tok, string_option sig,
-			  sortname s)
+f_make_tokdec(tdfint tok, string_option sig, sortname s)
 {
 	tok_define * tok_d = get_tok(natint(tok));
+
 	if (sig.present) check_tok_sig(tok_d, sig.val);
 	UNUSED(s);
 	return 0;
 }
 
 void
-init_tokdec()
+init_tokdec(void)
 {
 	return;
 }
 
 tokdef
-f_make_tokdef(tdfint tokn, string_option sig,
-			  bitstream def)
+f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
 {
 	sortname result_sort;
 	tokformals_list params;
 	tdf_pos old_place;
 	tok_define * tok = get_tok(natint(tokn));
+
 	if (sig.present) check_tok_sig(tok, sig.val);
 	old_place = keep_place();
 	set_place(def);
 	IGNORE getcode(1);
 	result_sort = d_sortname();
 	params = d_tokformals_list();
-	tok -> tdsort = result_sort;
-	tok -> params = params;
-	tok -> tdplace = keep_place();
-	tok -> defined = 1;
+	tok->tdsort = result_sort;
+	tok->params = params;
+	tok->tdplace = keep_place();
+	tok->defined = 1;
 	tok->tok_context = (context*)0;
-	
+
     /* record the tables which are current so that they can be
 	 *       used when the token is applied */
-	tok -> my_labtab = unit_labtab;
-	tok -> my_tagtab = unit_ind_tags;
-	tok -> my_toktab = unit_ind_tokens;
-	tok -> my_altab = unit_ind_als;
-	tok -> my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-	tok -> my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+	tok->my_labtab = unit_labtab;
+	tok->my_tagtab = unit_ind_tags;
+	tok->my_toktab = unit_ind_tokens;
+	tok->my_altab = unit_ind_als;
+	tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
+	tok->my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
 	if (params.number == 0)
-		tok -> re_evaluate = 0;
+		tok->re_evaluate = 0;
 	else
-		tok -> re_evaluate = 1;
-	
+		tok->re_evaluate = 1;
+
 	set_place(old_place);
 	return 0;
 }
@@ -1374,45 +1342,45 @@ f_use_tokdef(bitstream def)
 	sortname result_sort;
 	tokformals_list params;
 	tdf_pos old_place;
-	
+
 	old_place = keep_place();
 	set_place(def);
 	IGNORE getcode(1);
 	result_sort = d_sortname();
 	params = d_tokformals_list();
-	tok -> tok_special = 0;
-	tok -> valpresent = 0;
-	tok -> unit_number = crt_tagdef_unit_no;
-	tok -> defined = 0;
-	tok -> is_capsule_token = 0;
-	tok -> recursive = 0;
-	tok -> tdsort = result_sort;
-	tok -> params = params;
-	tok -> tdplace = keep_place();
-	tok -> defined = 1;
+	tok->tok_special = 0;
+	tok->valpresent = 0;
+	tok->unit_number = crt_tagdef_unit_no;
+	tok->defined = 0;
+	tok->is_capsule_token = 0;
+	tok->recursive = 0;
+	tok->tdsort = result_sort;
+	tok->params = params;
+	tok->tdplace = keep_place();
+	tok->defined = 1;
 	tok->tok_context = crt_context;
-	
+
     /* record the tables which are current so that they can be
 	 *       used when the token is applied */
-	tok -> my_labtab = unit_labtab;
-	tok -> my_tagtab = unit_ind_tags;
-	tok -> my_toktab = unit_ind_tokens;
-	tok -> my_altab = unit_ind_als;
-	tok -> my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-	tok -> my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
-	
+	tok->my_labtab = unit_labtab;
+	tok->my_tagtab = unit_ind_tags;
+	tok->my_toktab = unit_ind_tokens;
+	tok->my_altab = unit_ind_als;
+	tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
+	tok->my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+
 	if (params.number == 0)
-		tok -> re_evaluate = 0;
+		tok->re_evaluate = 0;
 	else
-		tok -> re_evaluate = 1;
-	
+		tok->re_evaluate = 1;
+
 	set_place(old_place);
 	return tok;
 }
 
 
 void
-init_tokdef()
+init_tokdef(void)
 {
 	return;
 }
@@ -1421,6 +1389,7 @@ token
 f_token_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, TOKEN, (tokval*)0);
 	return v.tk_token;
 }
@@ -1432,7 +1401,7 @@ f_make_tok(tdfint tokno)
 }
 
 void
-init_token()
+init_token(void)
 {
 	return;
 }
@@ -1447,7 +1416,7 @@ f_token_definition(sortname result_sort, tokformals_list tok_params)
 }
 
 void
-init_token_defn()
+init_token_defn(void)
 {
 	return;
 }
@@ -1457,25 +1426,24 @@ f_make_tokextern(tdfint internal, external ext)
 {
 	tok_define * t = &capsule_toktab[natint(internal)];
 	char * s = external_to_string(ext);
-	t -> tok_name = s;
-	
-	if (machine_toks(s))  /* determines special tokens specific
-						   *			   to each machine */
-		t -> tok_special = 1;
-	
-	
+	t->tok_name = s;
+
+	/* determines special tokens specific to each machine */
+	if (machine_toks(s))
+		t->tok_special = 1;
+
 	if (replace_arith_type)  {
 		if (!strcmp(s, "~arith_type"))
-			t -> tok_special = 1;
+			t->tok_special = 1;
 		if (!strcmp(s, "~promote"))
-			t -> tok_special = 1;
+			t->tok_special = 1;
 		if (!strcmp(s, "~sign_promote"))
-			t -> tok_special = 1;
+			t->tok_special = 1;
 		if (!strcmp(s, "~convert"))
-			t -> tok_special = 1;
+			t->tok_special = 1;
 	}
 	if (do_alloca && !strcmp(s, "~alloca"))
-		t -> tok_special = 1;
+		t->tok_special = 1;
 	return 0;
 }
 
@@ -1485,7 +1453,6 @@ f_make_alextern(tdfint internal, external ext)
 	UNUSED(internal); UNUSED(ext);
 	return 0;
 }
-
 
 tokformals
 f_make_tokformals(sortname sn, tdfint tk)
@@ -1497,7 +1464,7 @@ f_make_tokformals(sortname sn, tdfint tk)
 }
 
 void
-init_tokformals()
+init_tokformals(void)
 {
 	return;
 }
@@ -1505,16 +1472,14 @@ init_tokformals()
 toklink
 f_make_toklink(tdfint internal, tdfint ext)
 {
-	unit_ind_tokens[natint(internal)] =
-		&capsule_toktab[natint(ext)];
+	unit_ind_tokens[natint(internal)] = &capsule_toktab[natint(ext)];
 	return 0;
 }
 
 link
 f_make_link(tdfint internal, tdfint ext)
 {
-	switch (crt_links_type)
-	{
+	switch (crt_links_type) {
 	case TOK_TYPE:
 		IGNORE f_make_toklink(internal, ext);
 		return 0;
@@ -1543,16 +1508,16 @@ f_make_unique(tdfstring_list text)
 }
 
 void
-init_unique()
+init_unique(void)
 {
 	return;
 }
-
 
 variety
 f_var_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
+
 	v = apply_tok(token_value, token_args, VARIETY, (tokval*)0);
 	return v.tk_variety;
 }
@@ -1568,13 +1533,10 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
-	if (n==0)
-	{
+	if (n == 0) {
 		set_place(e2);
 		res = d_variety();
-	}
-	else
-	{
+	} else {
 		set_place(e1);
 		res = d_variety();
 	}
@@ -1598,7 +1560,7 @@ allocate_unit(int no_of_tokens, int no_of_tags,
 	unit_ind_tags = xmalloc(unit_no_of_tags * sizeof(*unit_ind_tags));
 	for (i = 0; i < no_of_tags; i++)
 		unit_ind_tags[i] = NULL;
-	
+
 	unit_no_of_als = no_of_als;
 	unit_ind_als = xmalloc(unit_no_of_als * sizeof(*unit_ind_als));
 	for (i = 0; i < no_of_als; i++)
@@ -1672,7 +1634,7 @@ start_make_tokdec_unit(int no_of_tokens, int no_of_tags,
 }
 
 tokdec_unit
-f_make_tokdec_unit()
+f_make_tokdec_unit(void)
 {
 	setup_ind_tokens();
 	start_bytestream();
@@ -1691,7 +1653,7 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags,
 }
 
 tokdef_unit
-f_make_tokdef_unit()
+f_make_tokdef_unit(void)
 {
 	int no_of_labels;
 
@@ -1705,9 +1667,9 @@ f_make_tokdef_unit()
 	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_tokdef_list();
 	end_bytestream();
-	
+
 	/* tables must be kept for use during token application */
-	
+
 	return 0;
 }
 
@@ -1721,7 +1683,7 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags,
 }
 
 tagdec_unit
-f_make_tagdec_unit()
+f_make_tagdec_unit(void)
 {
 	int no_of_labels;
 
@@ -1735,14 +1697,14 @@ f_make_tagdec_unit()
 	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_tagdec_list();
 	end_bytestream();
-	
+
 	xfree((void*)unit_ind_tokens);
 	xfree((void*)unit_ind_tags);
 	xfree((void*)unit_ind_als);
 	xfree((void*)unit_labtab);
-	
+
 	xfree((void*)unit_toktab);
-	
+
 	return 0;
 }
 
@@ -1757,7 +1719,7 @@ start_make_versions_unit(int no_of_tokens,
 }
 
 version_props
-f_make_versions_unit()
+f_make_versions_unit(void)
 {
 
 	setup_ind_tokens();
@@ -1766,14 +1728,14 @@ f_make_versions_unit()
 	start_bytestream();
 	IGNORE d_version_list();
 	end_bytestream();
-	
+
 	xfree((void*)unit_ind_tokens);
 	xfree((void*)unit_ind_tags);
 	xfree((void*)unit_ind_als);
-	
+
 	xfree((void*)unit_toktab);
 	xfree((void*)unit_tagtab);
-	
+
 	return 0;
 }
 
@@ -1786,7 +1748,7 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
 		++crt_tagdef_unit_no;
 		set_large_alloc();
 	}
-	
+
 	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
 				  no_of_dgtags);
 }
@@ -1795,7 +1757,7 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
 
 
 tagdef_unit
-f_make_tagdef_unit()
+f_make_tagdef_unit(void)
 {
 	int no_of_labels;
 
@@ -1811,15 +1773,15 @@ f_make_tagdef_unit()
 	tidy_initial_values();
 	translate_unit();
 	end_bytestream();
-	
+
 	xfree((void*)unit_ind_tokens);
 	xfree((void*)unit_ind_tags);
 	xfree((void*)unit_ind_als);
 	xfree((void*)unit_labtab);
-	
+
 	xfree((void*)unit_toktab);
 	xfree((void*)unit_tagtab);
-	
+
 	return 0;
 }
 
@@ -1833,7 +1795,7 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags,
 }
 
 aldef_unit
-f_make_aldef_unit()
+f_make_aldef_unit(void)
 {
 	int no_of_labels;
 
@@ -1845,15 +1807,15 @@ f_make_aldef_unit()
 	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_al_tagdef_list();
 	end_bytestream();
-	
+
 	xfree((void*)unit_ind_tokens);
 	xfree((void*)unit_ind_tags);
 	xfree((void*)unit_ind_als);
 	xfree((void*)unit_labtab);
-	
+
 	xfree((void*)unit_toktab);
 	xfree((void*)unit_tagtab);
-	
+
 	return 0;
 }
 
@@ -1866,9 +1828,9 @@ start_make_unit(tdfint_list lvl)
 	int nal = 0;
 	int ndiagtype = 0;	/* OLD DIAGS */
 	int ndgtag = 0;	/* NEW DIAGS */
-	
+
 	++unit_index;
-	
+
 	if (lvl.number != 0) {
 		w = find_index("token");
 		ntok = (w == -1) ? 0 : natint(lvl.members[w]);
@@ -1881,9 +1843,8 @@ start_make_unit(tdfint_list lvl)
 		w = find_index("dgtag");		/* NEW DIAGS */
 		ndgtag = (w == -1) ? 0 : natint(lvl.members[w]);
 	}
-	
-	switch (crt_group_type)
-	{
+
+	switch (crt_group_type) {
 	case TOKDEC_UNIT:
 		start_make_tokdec_unit(ntok, ntag, nal, ndiagtype, ndgtag);
 		return;
@@ -1933,12 +1894,11 @@ start_make_unit(tdfint_list lvl)
 }
 
 unit
-f_make_unit(tdfint_list lvl, links_list lks,
-			bytestream prs)
+f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
 {
 	UNUSED(lvl); UNUSED(lks); UNUSED(prs);
-	switch (crt_group_type)
-	{
+
+	switch (crt_group_type) {
 	case TOKDEC_UNIT:
 		IGNORE f_make_tokdec_unit();
 		break;
@@ -1988,8 +1948,7 @@ f_make_unit(tdfint_list lvl, links_list lks,
 linkextern
 f_make_linkextern(tdfint internal, external ext)
 {
-	switch (crt_extern_link_type)
-	{
+	switch (crt_extern_link_type) {
 	case TOK_TYPE:
 		return f_make_tokextern(internal, ext);
 	case TAG_TYPE:
@@ -2074,8 +2033,7 @@ new_sortname_list(int n)
 }
 
 sortname_list
-add_sortname_list(sortname_list list, sortname elem,
-				  int index)
+add_sortname_list(sortname_list list, sortname elem, int index)
 {
 	list.elems[index] = elem;
 	return list;
@@ -2085,6 +2043,7 @@ tokformals_list
 new_tokformals_list(int n)
 {
 	tokformals_list res;
+
 	res.number = n;
 	res.par_sorts = (sortname *)xcalloc(n, sizeof(sortname));
 	res.par_names = (int *)xcalloc(n, sizeof(int));
@@ -2092,8 +2051,7 @@ new_tokformals_list(int n)
 }
 
 tokformals_list
-add_tokformals_list(tokformals_list list,
-					tokformals elem, int index)
+add_tokformals_list(tokformals_list list, tokformals elem, int index)
 {
 	list.par_sorts[index] = elem.sn;
 	list.par_names[index] = elem.tk;
@@ -2108,8 +2066,7 @@ new_tokdec_list(int n)
 }
 
 tokdec_list
-add_tokdec_list(tokdec_list list, tokdec elem,
-				int index)
+add_tokdec_list(tokdec_list list, tokdec elem, int index)
 {
 	UNUSED(list); UNUSED(elem); UNUSED(index);
 	return 0;
@@ -2138,8 +2095,7 @@ new_al_tagdef_list(int n)
 }
 
 al_tagdef_list
-add_al_tagdef_list(al_tagdef_list list, al_tagdef elem,
-				   int index)
+add_al_tagdef_list(al_tagdef_list list, al_tagdef elem, int index)
 {
 	UNUSED(list); UNUSED(elem); UNUSED(index);
 	return 0;
@@ -2150,9 +2106,10 @@ al_tagdef
 f_make_al_tagdef(tdfint t, alignment a)
 {
 	aldef * ap = get_aldef(natint(t));
-	ap -> next_aldef = top_aldef;
+
+	ap->next_aldef = top_aldef;
 	top_aldef = ap;
-	ap -> al = a -> al;
+	ap->al = a->al;
 	return 0;
 }
 
@@ -2174,52 +2131,50 @@ add_tagdec_list(tagdec_list list, tagdec elem,
     exp e;
     UNUSED(list); UNUSED(index);
     s = elem.sha;
-	
+
     e = getexp(s, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
-	
-    if (elem.is_variable)
-	{
+
+    if (elem.is_variable) {
 #if keep_PIC_vars
 		setvar(e);
 #else
-		if (PIC_code && dp -> dec_u.dec_val.extnamed)
+		if (PIC_code && dp->dec_u.dec_val.extnamed)
 			sh(e) = f_pointer(f_alignment(s));
 		else
 			setvar(e);
 #endif
 	}
-	
+
     if (elem.acc & (f_visible | f_long_jump_access))
 		setvis(e);
     if (elem.acc & f_constant)
 		setcaonly(e);
-	
-    dp -> dec_u.dec_val.acc = elem.acc;
-	
-    dp -> dec_u.dec_val.dec_exp = e;
-	
-    if (dp -> dec_u.dec_val.dec_shape != nilexp) {
-		if (shape_size(s) > shape_size(dp -> dec_u.dec_val.dec_shape))
-			dp -> dec_u.dec_val.dec_shape = s;
+
+    dp->dec_u.dec_val.acc = elem.acc;
+
+    dp->dec_u.dec_val.dec_exp = e;
+
+    if (dp->dec_u.dec_val.dec_shape != nilexp) {
+		if (shape_size(s) > shape_size(dp->dec_u.dec_val.dec_shape))
+			dp->dec_u.dec_val.dec_shape = s;
     }
-	
-    if (dp -> dec_u.dec_val.dec_shape == nilexp) {
-		dp -> dec_u.dec_val.dec_shape = s;
-		dp -> def_next = (dec *)0;
+
+    if (dp->dec_u.dec_val.dec_shape == nilexp) {
+		dp->dec_u.dec_val.dec_shape = s;
+		dp->def_next = (dec *)0;
 		*deflist_end = dp;
-		deflist_end = &((*deflist_end) -> def_next);
+		deflist_end = &((*deflist_end)->def_next);
     }
-	
-    dp -> dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable);
-    if (!dp -> dec_u.dec_val.have_def)
-	{
+
+    dp->dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable);
+    if (!dp->dec_u.dec_val.have_def) {
 		setglob(e);
 	}
     /* the defining exp */
-    brog(dp -> dec_u.dec_val.dec_exp) = dp;
-    if (dp -> dec_u.dec_val.dec_id == (char *) 0)
-		dp -> dec_u.dec_val.dec_id = make_local_name();
-	
+    brog(dp->dec_u.dec_val.dec_exp) = dp;
+    if (dp->dec_u.dec_val.dec_id == (char *) 0)
+		dp->dec_u.dec_val.dec_id = make_local_name();
+
 	return 0;
 }
 
@@ -2231,23 +2186,23 @@ new_tagdef_list(int n)
 }
 
 tagdef_list
-add_tagdef_list(tagdef_list list, tagdef elem,
-				int index)
+add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
 	dec * dp = elem.tg;
-	exp old_def = son(dp -> dec_u.dec_val.dec_exp);
+	exp old_def = son(dp->dec_u.dec_val.dec_exp);
 	exp new_def = elem.def;
+
 	UNUSED(list); UNUSED(index);
-	if (dp -> dec_u.dec_val.processed || new_def == nilexp)
+	if (dp->dec_u.dec_val.processed || new_def == nilexp)
 		return 0;
-	
+
 	if (old_def == nilexp ||
 		shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
 		(name(new_def) != clear_tag && name(old_def) == clear_tag))  {
-		son(dp -> dec_u.dec_val.dec_exp) = new_def;
-		setfather(dp -> dec_u.dec_val.dec_exp, elem.def);
+		son(dp->dec_u.dec_val.dec_exp) = new_def;
+		setfather(dp->dec_u.dec_val.dec_exp, elem.def);
 	}
-	
+
 	return 0;
 }
 
@@ -2255,6 +2210,7 @@ tdfident_list
 new_tdfident_list(int n)
 {
 	tdfstring_list res;
+
 	res.elems = (tdfstring *)xcalloc(n, sizeof(tdfstring));
 	res.number = n;
 	return res;
@@ -2272,14 +2228,14 @@ tdfint_list
 new_tdfint_list(int n)
 {
 	tdfint_list res;
+
 	res.members = (tdfint *)xcalloc(n, sizeof(tdfint));
 	res.number = n;
 	return res;
 }
 
 tdfint_list
-add_tdfint_list(tdfint_list list, tdfint elem,
-				int index)
+add_tdfint_list(tdfint_list list, tdfint elem, int index)
 {
 	list.members[index] = elem;
 	return list;
@@ -2294,11 +2250,10 @@ new_group_list(int n)
 }
 
 group_list
-add_group_list(group_list list, group elem,
-			   int index)
+add_group_list(group_list list, group elem, int index)
 {
 	UNUSED(list); UNUSED(elem);
-	if (index < (crt_capsule_group_no-1))
+	if (index < (crt_capsule_group_no - 1))
 		crt_group_type = group_type(crt_capsule_groups[index+1].ints.chars);
 	return 0;
 }
@@ -2313,11 +2268,10 @@ new_links_list(int n)
 }
 
 links_list
-add_links_list(links_list list, links elem,
-			   int index)
+add_links_list(links_list list, links elem, int index)
 {
 	UNUSED(list); UNUSED(elem);
-	if (index < (crt_capsule_linking.number-1))
+	if (index < (crt_capsule_linking.number - 1))
 		crt_links_type = links_type(crt_capsule_linking.members[index+1].id);
 	return 0;
 }
@@ -2332,13 +2286,12 @@ new_extern_link_list(int n)
 }
 
 extern_link_list
-add_extern_link_list(extern_link_list list,
-					 extern_link elem, int index)
+add_extern_link_list(extern_link_list list, extern_link elem, int index)
 {
 	UNUSED(list); UNUSED(elem);
-	if (index < (crt_capsule_linking.number-1))
+	if (index < (crt_capsule_linking.number - 1))
 		crt_extern_link_type =
-			links_type(crt_capsule_linking.members[index+1].id);
+			links_type(crt_capsule_linking.members[index + 1].id);
 	return 0;
 }
 
@@ -2346,15 +2299,14 @@ capsule_link_list
 new_capsule_link_list(int n)
 {
 	capsule_link_list res;
+
 	res.members = (capsule_link *)xcalloc(n, sizeof(capsule_link));
 	res.number = n;
 	return res;
 }
 
 capsule_link_list
-add_capsule_link_list(capsule_link_list list,
-					  capsule_link elem,
-					  int index)
+add_capsule_link_list(capsule_link_list list, capsule_link elem, int index)
 {
 	list.members[index] = elem;
 	return list;
@@ -2378,8 +2330,8 @@ link_list
 new_link_list(int n)
 {
 	int i;
-	switch (crt_links_type)
-	{
+
+	switch (crt_links_type) {
 		/* initialise the table */
 	case TOK_TYPE:
 		no_of_local_tokens = unit_no_of_tokens - n;
@@ -2387,13 +2339,13 @@ new_link_list(int n)
 											sizeof(tok_define));
 		for (i = 0; i < no_of_local_tokens; ++i) {
 			tok_define * tp = &unit_toktab[i];
-			tp -> tok_special = 0;
-			tp -> valpresent = 0;
-			tp -> unit_number = crt_tagdef_unit_no;
-			tp -> defined = 0;
-			tp -> tok_index = i;
-			tp -> is_capsule_token = 0;
-			tp -> recursive = 0;
+			tp->tok_special = 0;
+			tp->valpresent = 0;
+			tp->unit_number = crt_tagdef_unit_no;
+			tp->defined = 0;
+			tp->tok_index = i;
+			tp->is_capsule_token = 0;
+			tp->recursive = 0;
 		}
 		return 0;
 	case TAG_TYPE:
@@ -2401,23 +2353,22 @@ new_link_list(int n)
 									 sizeof(dec));
 		for (i = 0; i < unit_no_of_tags - n; ++i) {
 			dec * dp = &unit_tagtab[i];
-			dp -> dec_u.dec_val.dec_outermost = 0;
-			dp -> dec_u.dec_val.dec_id = (char *) 0;
-			dp -> dec_u.dec_val.extnamed = 0;
-			dp -> dec_u.dec_val.diag_info = (diag_global *)0;
-			dp -> dec_u.dec_val.have_def = 0;
-			dp -> dec_u.dec_val.dec_shape = nilexp;
-			dp -> dec_u.dec_val.processed = 0;
-			dp -> dec_u.dec_val.isweak = 0;
-			dp -> dec_u.dec_val.dec_exp = nilexp;
+			dp->dec_u.dec_val.dec_outermost = 0;
+			dp->dec_u.dec_val.dec_id = (char *) 0;
+			dp->dec_u.dec_val.extnamed = 0;
+			dp->dec_u.dec_val.diag_info = (diag_global *)0;
+			dp->dec_u.dec_val.have_def = 0;
+			dp->dec_u.dec_val.dec_shape = nilexp;
+			dp->dec_u.dec_val.processed = 0;
+			dp->dec_u.dec_val.isweak = 0;
+			dp->dec_u.dec_val.dec_exp = nilexp;
 		}
 		return 0;
 	case AL_TYPE:
-		unit_altab = (aldef *)xcalloc(unit_no_of_als - n,
-									  sizeof(aldef));
+		unit_altab = (aldef *)xcalloc(unit_no_of_als - n, sizeof(aldef));
 		for (i = 0; i < unit_no_of_als - n; ++i) {
 			aldef * ap = &unit_altab[i];
-			ap -> al.al_n = 0;
+			ap->al.al_n = 0;
 		}
 		return 0;
 	case DIAGTAG_TYPE:		/* OLD DIAGS */
@@ -2447,14 +2398,11 @@ new_linkextern_list(int n)
 }
 
 linkextern_list
-add_linkextern_list(linkextern_list list,
-					linkextern elem, int index)
+add_linkextern_list(linkextern_list list, linkextern elem, int index)
 {
 	UNUSED(list); UNUSED(elem); UNUSED(index);
 	return 0;
 }
-
-
 
 
 exp_option no_exp_option;
@@ -2463,13 +2411,14 @@ exp_option
 yes_exp_option(exp elem)
 {
 	exp_option res;
+
 	res.present = 1;
 	res.val = elem;
 	return res;
 }
 
 void
-init_exp_option()
+init_exp_option(void)
 {
 	no_exp_option.present = 0;
 	return;
@@ -2481,92 +2430,87 @@ tag_option
 yes_tag_option(tag elem)
 {
 	tag_option res;
+
 	res.present = 1;
 	res.val = elem;
 	return res;
 }
 
 void
-init_tag_option()
+init_tag_option(void)
 {
 	no_tag_option.present = 0;
 	return;
 }
 
 void
-init_capsule_link()
-{
-	return;
-}
-
-
-void
-init_extern_link()
+init_capsule_link(void)
 {
 	return;
 }
 
 void
-init_group()
+init_extern_link(void)
 {
 	return;
 }
 
 void
-init_unit()
+init_group(void)
 {
 	return;
 }
 
 void
-init_link()
+init_unit(void)
 {
 	return;
 }
 
 void
-init_linkextern()
+init_link(void)
 {
 	return;
 }
 
 void
-init_links()
+init_linkextern(void)
 {
 	return;
 }
 
 void
-init_tagdec_props()
+init_links(void)
 {
 	return;
 }
 
 void
-init_tagdef_props()
+init_tagdec_props(void)
 {
 	return;
 }
 
 void
-init_al_tagdef_props()
+init_tagdef_props(void)
 {
 	return;
 }
 
 void
-init_tokdec_props()
+init_al_tagdef_props(void)
 {
 	return;
 }
 
 void
-init_tokdef_props()
+init_tokdec_props(void)
 {
 	return;
 }
 
-
-
-
-
+void
+init_tokdef_props(void)
+{
+	return;
+}
