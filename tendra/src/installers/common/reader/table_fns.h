@@ -55,36 +55,17 @@
  */
 
 
-#ifndef table_decs_key
-#define table_decs_key 1
+#ifndef TABLE_FNS_INCLUDED
+#define TABLE_FNS_INCLUDED
 
 
+exp  get_lab(label);
+void set_lab(label, exp);
+exp  get_tag(tag);
+void set_tag(tag, exp);
+dec *get_dec(int);
+aldef *get_aldef(int);
+tok_define *get_tok(int);
+tokval apply_tok(token, bitstream, int, tokval *);
 
-
-extern exp get_lab(label l);
-/* find the exp which is labelled by l */
-
-extern void set_lab(label l, exp e);
-/* set the exp which is labelled by l */
-
-extern exp get_tag(tag tg);
-/* find the exp known as tg */
-
-extern void set_tag(tag tg, exp e);
-/* set the exp known as tg */
-
-
-extern dec * get_dec(int tg);
-/* find the tag declaration indexed by tg */
-
-extern aldef * get_aldef(int tg);
-/* find the alignment tag value indexed by tg */
-
-extern tok_define * get_tok(int tk);
-/* find the token declaration indexed by tg */
-
-extern tokval apply_tok(token tk, bitstream pars, int sortcode,
-						tokval * actual_pars);
-/* apply tk to its parameters in pars, and return the result */
-
-#endif
+#endif /* !TABLE_FNS_INCLUDED */
