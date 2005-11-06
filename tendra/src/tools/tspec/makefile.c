@@ -135,7 +135,7 @@ print_makefile(char *api, hash_elem *f)
 
 	IGNORE fprintf (output, "TL=\t%s.tl\n\n", api);
 	IGNORE fprintf (output,
-"TCCFLAGS+=\t-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/%s.h\n\n",
+"TCCFLAGS+=\t-f${SRC_DIR}/src/lib/machines/${SRC_MACHINES}/startup/%s.h\n\n",
 		api);
 
 	/* Print the list of files */
