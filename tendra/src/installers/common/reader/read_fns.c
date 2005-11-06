@@ -77,6 +77,7 @@
 #include "flags.h"
 #include "me_fns.h"
 #include "installglob.h"
+#include "install_fns.h"
 #include "readglob.h"
 #include "table_fns.h"
 #include "flpttypes.h"
