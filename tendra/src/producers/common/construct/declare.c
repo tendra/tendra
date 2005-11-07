@@ -1191,8 +1191,11 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	if (st == dspec_static) {
 		/* Check on static functions */
 		if (main_func) {
-			report (crt_loc, ERR_basic_start_main_link (nm, st));
-			st = dspec_extern;
+			err = ERR_basic_start_main_static (nm);
+			if (!IS_NULL_err (err)) {
+				report (crt_loc, err);
+				st = dspec_extern;
+			}
 		} else {
 			/* Check static declarations */
 			/* EMPTY */

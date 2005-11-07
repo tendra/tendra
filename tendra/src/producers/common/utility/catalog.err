@@ -1108,8 +1108,14 @@ basic_start_main_proto(TYPE: t, HASHID: nm)
 
 basic_start_main_link(HASHID: nm, DECL_SPEC: ds)
 {
-    USAGE:	error | wall
+    USAGE:	error
     KEY (STD)	"Can't declare '"nm"' to be '"ds"'"
+}
+
+basic_start_main_static(HASHID: nm)
+{
+    USAGE:	cpp_error
+    KEY (STD)	"Can't declare '"nm"' to be 'static'"
 }
 
 basic_start_main_call(IDENTIFIER: id)
