@@ -1462,11 +1462,18 @@ compile_pending(void)
  */
 
 static int
-need_function(DECL_SPEC ds, ulong n)
+need_function(DECL_SPEC ds, ulong n, int inline_def)
 {
 	if (ds & (dspec_inline | dspec_implicit | dspec_token)) {
 		/* Defer inline functions */
 		if ((ds & dspec_defn) && n != LINK_NONE) return (1);
+#if LANGUAGE_C
+		/* Inline functions with external linkage that are not inline
+		 * definitions create an external definition, don't defer them. */
+		if ((ds & dspec_inline) && (ds & dspec_extern) && !inline_def) {
+			return (1);
+		}
+#endif
 		return (2);
 	}
 	if (ds & dspec_defn) {
@@ -1511,7 +1518,8 @@ compile_function(IDENTIFIER id, int force)
 			} else {
 				/* Determine whether to output */
 				ulong n = DEREF_ulong (id_no (lid));
-				output = need_function (ds, n);
+				int inline_def = DEREF_int (id_function_etc_inline_def (id));
+				output = need_function (ds, n, inline_def);
 				if (output == 2) {
 					/* Defer function until later */
 					CONS_id (lid, pending_funcs, pending_funcs);

@@ -791,6 +791,9 @@ union IDENTIFIER (id) = {
 	IDENTIFIER over;
 	TYPE form = "NULL_type";
 	LIST CLASS_TYPE chums = "NULL_list ( CLASS_TYPE )";
+	int inline_def = "0";
+	IDENTIFIER static_def = "NULL_id";
+	IDENTIFIER static_ref = "NULL_id";
 	EXP defn = "NULL_exp";
     },
     member -> {

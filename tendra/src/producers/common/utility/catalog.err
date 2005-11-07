@@ -193,6 +193,7 @@ USAGE:
     init_dynamic = none | error,
     init_struct = none | wall,
     inline_internal = off | on,
+    inline_c99 = none | error,
     int_operator = wall,
     int_overflow = wall,
     interf_incompat = error,
@@ -3534,6 +3535,39 @@ dcl_fct_spec_inline_call(LONG_ID: id)
     USAGE:	none
     KEY (STD)	"The inline function '"id"' has been called before it
 		 is defined"
+}
+
+dcl_fct_spec_inline_def_extern(LONG_ID: id)
+{
+    USAGE:	whatever
+    KEY (ISO)	"-" | "-, 6.7.4"
+    KEY (STD)	"The function '"id"' is an inline definition with external
+		 linkage"
+}
+
+dcl_fct_spec_inline_extern(LONG_ID: id)
+{
+    USAGE:	whatever
+    KEY (STD)	"The inline function '"id"' has external linkage"
+}
+
+dcl_fct_spec_inline_static_def(LONG_ID: id)
+{
+    USAGE:	inline_c99
+    KEY (STD)	"Can't define modifiable object '"id"' with static storage
+		 duration"
+}
+
+dcl_fct_spec_inline_static_ref(LONG_ID: id)
+{
+    USAGE:	inline_c99
+    KEY (STD)	"Reference to the identifier '"id"' which has internal linkage"
+}
+
+dcl_fct_spec_inline_undefined(LONG_ID: id)
+{
+    USAGE:	inline_c99
+    KEY (STD)	"Missing function definition for '"id"'"
 }
 
 

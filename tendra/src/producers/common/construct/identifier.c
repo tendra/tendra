@@ -168,6 +168,15 @@ use_id(IDENTIFIER id, int suppress)
 			if (!suppress) define_template (id, 0);
 		}
 	}
+
+	/* Remember references to identifiers with internal linkage */
+	if ((ds & dspec_static) && in_function_defn) {
+		IDENTIFIER fn = crt_func_id;
+		if (IS_NULL_id (DEREF_id (id_function_etc_static_ref (fn)))) {
+			COPY_id (id_function_etc_static_ref (fn), id);
+		}
+	}
+
 	if (do_usage) dump_use (id, &crt_loc, 1);
 	return;
 }
@@ -238,6 +247,15 @@ use_func_id(IDENTIFIER id, int expl, int suppress)
 			}
 		}
 	}
+
+	/* Remember references to identifiers with internal linkage */
+	if ((ds & dspec_static) && in_function_defn) {
+		IDENTIFIER fn = crt_func_id;
+		if (IS_NULL_id (DEREF_id (id_function_etc_static_ref (fn)))) {
+			COPY_id (id_function_etc_static_ref (fn), id);
+		}
+	}
+
 	if (do_usage) dump_call (id, &crt_loc, expl);
 	return;
 }

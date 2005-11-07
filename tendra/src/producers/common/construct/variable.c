@@ -372,6 +372,53 @@ define_tentative(IDENTIFIER id)
 
 
 /*
+ *    ADDITIONAL CHECKS FOR INLINE FUNCTIONS
+ *
+ *    This routine performs additional constraint checks on the inline
+ *    function id as demanded by ISO C99.
+ */
+
+static void
+check_inline_func(IDENTIFIER id)
+{
+#if LANGUAGE_C
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	ERROR err = NULL_err;
+	LOCATION loc;
+
+	DEREF_loc (id_loc (id), loc);
+	/* Functions with external linkage must be defined. */
+	if (!(ds & dspec_static) &&
+		IS_NULL_exp (DEREF_id (id_function_etc_defn (id)))) {
+		err = ERR_dcl_fct_spec_inline_undefined (id);
+		if (!IS_NULL_err (err)) {
+			err = concat_error (ERR_dcl_fct_spec_inline_extern (id), err);
+		}
+	}
+	/* More checks for inline definitions. */
+	if (DEREF_int (id_function_etc_inline_def (id))) {
+		/* Must not have a definition of a modifiable static object. */
+		IDENTIFIER sid = DEREF_id (id_function_etc_static_def (id));
+		if (!IS_NULL_id (sid)) {
+			err = ERR_dcl_fct_spec_inline_static_def (sid);
+		}
+		/* Must not have a reference to an object with internal linkage. */
+		sid = DEREF_id (id_function_etc_static_ref (id));
+		if (!IS_NULL_id (sid)) {
+			err = concat_error (err, ERR_dcl_fct_spec_inline_static_ref (sid));
+		}
+		if (!IS_NULL_err (err)) {
+			err = concat_error (ERR_dcl_fct_spec_inline_def_extern (id), err);
+		}
+	}
+	if (!IS_NULL_err (err)) report (loc, err);
+#else
+	UNUSED (id);
+#endif
+}
+
+
+/*
  *    CHECK A GLOBAL IDENTIFIER
  *
  *    This routine applies the global program checks to the identifier id
@@ -544,6 +591,7 @@ check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 					compile_preserve (id);
 				}
 				if (ds & dspec_inline) {
+					check_inline_func (id);
 					if (!anon) anon = ANON_INLINE;
 				}
 				check_usage (id, blk, anon);

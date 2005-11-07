@@ -1067,6 +1067,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	IDENTIFIER prev_id = NULL_id;
 	unsigned itag = id_function_tag;
 	HASHID nm = DEREF_hashid (id_name (id));
+	int inline_def = 0;
 #if LANGUAGE_CPP
 	int allocator = 0;
 #endif
@@ -1201,6 +1202,8 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			/* EMPTY */
 		}
 	} else if (ds & dspec_inline) {
+		if (st != dspec_extern) inline_def = 1;
+
 		/* Check on inline functions */
 		if (main_func) {
 			fn = dspec_inline;
@@ -1292,6 +1295,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		/* Declare the function */
 		ds = adjust_linkage (ds, 0);
 		MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
+		COPY_int (id_function_etc_inline_def (id), inline_def);
 		if (in_function_defn) {
 			id = unify_previous (id, t, prev_id, def);
 		} else {
@@ -1311,6 +1315,8 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	} else {
 		/* Redeclare the function */
 		id = old_id;
+		inline_def &= DEREF_int (id_function_etc_inline_def (id));
+		COPY_int (id_function_etc_inline_def (id), inline_def);
 		is_redeclared = 1;
 	}
 	ds = DEREF_dspec (id_storage (id));

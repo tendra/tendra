@@ -1048,14 +1048,19 @@ copy_id(IDENTIFIER id, int type)
 		TYPE form;
 		IDENTIFIER over;
 		LIST (CLASS_TYPE) fr;
+		int idef;
+		IDENTIFIER sdef, sref;
 		DECONS_id_function_etc (nm, ds, ns, loc, lid, no, dno, t,
-								over, form, fr, a, cid);
+								over, form, fr, idef, sdef, sref, a, cid);
 		if (type) {
 			t = copy_typedef (cid, t, cv_none);
 			if (type == 2) t = expand_type (t, 1);
 		}
 		MAKE_id_function_etc (tag, nm, ds, ns, loc, t, over, cid);
 		COPY_type (id_function_etc_form (cid), form);
+		COPY_int (id_function_etc_inline_def (cid), idef);
+		COPY_id (id_function_etc_static_def (cid), sdef);
+		COPY_id (id_function_etc_static_ref (cid), sref);
 		COPY_exp (id_function_etc_defn (cid), a);
 		if (type == 2) {
 			/* Copy friend classes */

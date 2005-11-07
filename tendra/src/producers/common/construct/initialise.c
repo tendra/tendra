@@ -2083,6 +2083,17 @@ init_object(IDENTIFIER id, EXP e)
 	ds = DEREF_dspec (id_storage (id));
 	temp_storage = (ds & dspec_storage);
 
+	/* Remember modifiable objects with static storage duration */
+	if (!(ds & dspec_auto) && in_function_defn) {
+		CV_SPEC qual = find_cv_qual (t);
+		if (!(qual & cv_const)) {
+			IDENTIFIER fn = crt_func_id;
+			if (IS_NULL_id (DEREF_id (id_function_etc_static_def (fn)))) {
+				COPY_id (id_function_etc_static_def (fn), id);
+			}
+		}
+	}
+
 	/* Check array initialisers */
 	if (tag == type_array_tag) {
 		int chk = 0;
