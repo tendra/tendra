@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -144,10 +144,10 @@ LOCATION preproc_loc = NULL_loc;
 static unsigned
 negate_cond(unsigned cond)
 {
-    if (cond == PP_TRUE) return (PP_FALSE);
-    if (cond == PP_FALSE) return (PP_TRUE);
-    if (cond == PP_PAST) return (PP_FALSE);
-    return (cond);
+	if (cond == PP_TRUE) return (PP_FALSE);
+	if (cond == PP_FALSE) return (PP_TRUE);
+	if (cond == PP_PAST) return (PP_FALSE);
+	return (cond);
 }
 
 
@@ -173,13 +173,13 @@ static unsigned preproc_depth = 0;
  */
 
 void
-start_preproc_if (void)
+start_preproc_if(void)
 {
-    PUSH_unsigned (preproc_depth, preproc_stack);
-    PUSH_unsigned (PP_END, preproc_stack);
-    PUSH_loc (crt_loc, loc_stack);
-    preproc_depth = 0;
-    return;
+	PUSH_unsigned (preproc_depth, preproc_stack);
+	PUSH_unsigned (PP_END, preproc_stack);
+	PUSH_loc (crt_loc, loc_stack);
+	preproc_depth = 0;
+	return;
 }
 
 
@@ -196,10 +196,10 @@ start_preproc_if (void)
  */
 
 int
-clear_preproc_if (void)
+clear_preproc_if(void)
 {
-    int ok = 1;
-    while (!IS_NULL_stack (preproc_stack)) {
+	int ok = 1;
+	while (!IS_NULL_stack (preproc_stack)) {
 		int dir;
 		LOCATION loc;
 		unsigned cond;
@@ -221,8 +221,8 @@ clear_preproc_if (void)
 		decr_value (OPT_VAL_hash_if_depth);
 		preproc_depth--;
 		ok = 0;
-    }
-    return (ok);
+	}
+	return (ok);
 }
 
 
@@ -249,33 +249,33 @@ IDENTIFIER token_macro = NULL_id;
 unsigned
 check_macro(HASHID macro, int used)
 {
-    /* Check for simple macros */
-    DECL_SPEC ds;
-    IDENTIFIER id;
-    if (IS_NULL_hashid (macro)) {
+	/* Check for simple macros */
+	DECL_SPEC ds;
+	IDENTIFIER id;
+	if (IS_NULL_hashid (macro)) {
 		/* Special case for protection macros */
 		return (PP_TRUE);
-    }
-    id = DEREF_id (hashid_id (macro));
-    switch (TAG_id (id)) {
+	}
+	id = DEREF_id (hashid_id (macro));
+	switch (TAG_id (id)) {
 	case id_obj_macro_tag :
 	case id_func_macro_tag : {
-	    if (used) {
+		if (used) {
 			ds = DEREF_dspec (id_storage (id));
 			ds |= dspec_used;
 			COPY_dspec (id_storage (id), ds);
 			if (do_macro && do_usage) dump_use (id, &preproc_loc, 1);
-	    }
-	    return (PP_TRUE);
+		}
+		return (PP_TRUE);
 	}
 	case id_iso_keyword_tag : {
-	    if (used) report (preproc_loc, ERR_lex_key_iso (macro));
-	    break;
+		if (used) report (preproc_loc, ERR_lex_key_iso (macro));
+		break;
 	}
-    }
-	
-    /* Check for tokenised values */
-    if (preproc_only) {
+	}
+
+	/* Check for tokenised values */
+	if (preproc_only) {
 		id = underlying_id (id);
 		ds = DEREF_dspec (id_storage (id));
 		if (ds & dspec_token) {
@@ -283,8 +283,8 @@ check_macro(HASHID macro, int used)
 			token_macro = id;
 			return (PP_TOKEN | PP_UNRESOLVED);
 		}
-		
-    } else {
+
+	} else {
 		id = find_id (macro);
 		while (!IS_NULL_id (id)) {
 			IDENTIFIER tid = find_token (id);
@@ -315,8 +315,8 @@ check_macro(HASHID macro, int used)
 			if (!IS_id_function_etc (id)) break;
 			id = DEREF_id (id_function_etc_over (id));
 		}
-    }
-    return (PP_FALSE);
+	}
+	return (PP_FALSE);
 }
 
 
@@ -342,15 +342,15 @@ EXP crt_hash_if_exp = NULL_exp;
 void
 patch_preproc_dir(PPTOKEN *p)
 {
-    if (p) {
+	if (p) {
 		PPTOKEN *q = p;
 		while (q->next && q->next->tok != lex_newline) q = q->next;
 		free_tok_list (q->next);
 		q->next = crt_token->next;
 		crt_token->next = p;
 		p->pp_space = WHITE_SPACE;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -372,19 +372,19 @@ patch_preproc_dir(PPTOKEN *p)
 static unsigned
 read_if_exp(int act, int dir)
 {
-    EXP e = NULL_exp;
-    unsigned cond = PP_SKIP;
-    if (act) {
+	EXP e = NULL_exp;
+	unsigned cond = PP_SKIP;
+	if (act) {
 		/* Read the rest of the line */
 		PARSE_STATE ps;
 		HASHID def = KEYWORD (lex_defined);
 		PPTOKEN *p = read_line (lex_ignore_token, lex_newline);
 		PPTOKEN *q = p;
-		
+
 		/* Scan line for defined operations and assertions */
 		while (q != NULL) {
 			int t = q->tok;
-			
+
 			if (t == lex_identifier &&
 				EQ_hashid (q->pp_data.id.hash, def)) {
 				/* Deal with 'defined' */
@@ -406,7 +406,7 @@ read_if_exp(int act, int dir)
 						r->next = NULL;
 						free_tok_list (r);
 					}
-					
+
 				} else if (t == lex_open_Hround &&
 						   r->next->tok == lex_identifier &&
 						   r->next->next->tok == lex_close_Hround) {
@@ -424,12 +424,12 @@ read_if_exp(int act, int dir)
 						r->next->next->next = NULL;
 						free_tok_list (r);
 					}
-					
+
 				} else {
 					/* Badly formed 'defined' operation */
 					report (preproc_loc, ERR_cpp_cond_def_id ());
 				}
-				
+
 			} else if ((t == lex_hash_H1 || t == lex_hash_H2) &&
 					   q->next->tok == lex_identifier) {
 				/* Deal with '#predicate' */
@@ -454,12 +454,12 @@ read_if_exp(int act, int dir)
 			}
 			q = q->next;
 		}
-		
+
 		/* Macro expand the line */
 		q = expand_tok_list (p);
 		free_tok_list (p);
 		p = q;
-		
+
 		/* Check for any remaining identifiers */
 		while (q != NULL) {
 			if (q->tok == lex_identifier) {
@@ -517,7 +517,7 @@ read_if_exp(int act, int dir)
 			}
 			q = q->next;
 		}
-		
+
 		/* Parse the line for a constant expression */
 		save_state (&ps, 0);
 		init_parser (p);
@@ -541,7 +541,7 @@ read_if_exp(int act, int dir)
 			}
 		}
 		restore_state (&ps);
-		
+
 		/* Check the result expression */
 		if (!IS_NULL_exp (e)) {
 			/* Evaluate the expression */
@@ -563,7 +563,7 @@ read_if_exp(int act, int dir)
 				}
 			}
 		}
-		
+
 		/* Restore the parser */
 		p = restore_parser ();
 		if (cond == PP_UNRESOLVED) {
@@ -581,9 +581,9 @@ read_if_exp(int act, int dir)
 		}
 		free_tok_list (p);
 		in_hash_if_exp--;
-    }
-    if (in_preproc_dir) IGNORE skip_to_end ();
-    return (cond);
+	}
+	if (in_preproc_dir) IGNORE skip_to_end ();
+	return (cond);
 }
 
 
@@ -600,8 +600,8 @@ read_if_exp(int act, int dir)
 static unsigned
 read_if_def(int act, int dir, int prev)
 {
-    unsigned cond;
-    if (act) {
+	unsigned cond;
+	if (act) {
 		int t = read_token ();
 		update_column ();
 		if (in_preproc_dir) preproc_loc = crt_loc;
@@ -620,11 +620,11 @@ read_if_def(int act, int dir, int prev)
 			report (preproc_loc, ERR_cpp_cond_ifdef_id (dir));
 			cond = PP_FALSE;
 		}
-    } else {
+	} else {
 		cond = PP_SKIP;
-    }
-    if (in_preproc_dir) IGNORE skip_to_end ();
-    return (cond);
+	}
+	if (in_preproc_dir) IGNORE skip_to_end ();
+	return (cond);
 }
 
 
@@ -641,12 +641,12 @@ read_if_def(int act, int dir, int prev)
  */
 
 static int
-read_if (int dir, unsigned c, int prev)
+read_if(int dir, unsigned c, int prev)
 {
-    unsigned cond = c;
-    int ret = lex_ignore_token;
-	
-    if (dir == lex_if || dir == lex_ifdef || dir == lex_ifndef) {
+	unsigned cond = c;
+	int ret = lex_ignore_token;
+
+	if (dir == lex_if || dir == lex_ifdef || dir == lex_ifndef) {
 		/* Deal with '#if', '#ifdef' and '#ifndef' */
 		if (cond == PP_UNRESOLVED) ret = lex_hash_Hif;
 		if (prev != lex_included && preproc_depth == 0) {
@@ -657,8 +657,8 @@ read_if (int dir, unsigned c, int prev)
 		PUSH_loc (preproc_loc, loc_stack);
 		IGNORE incr_value (OPT_VAL_hash_if_depth);
 		preproc_depth++;
-		
-    } else {
+
+	} else {
 		/* Get current condition for other directives */
 		LOCATION loc;
 		unsigned crt_cond;
@@ -678,7 +678,7 @@ read_if (int dir, unsigned c, int prev)
 		}
 		crt_cond = (cond & PP_COND_MASK);
 		ret = lex_end_condition;
-		
+
 		if (dir == lex_endif) {
 			/* Deal with '#endif' */
 			if (crt_cond == PP_UNRESOLVED) {
@@ -691,7 +691,7 @@ read_if (int dir, unsigned c, int prev)
 			}
 			POP_loc (loc, loc_stack);
 			UNUSED (loc);
-			
+
 		} else if (dir == lex_else) {
 			/* Deal with '#else' */
 			PTR (LOCATION) ploc;
@@ -711,7 +711,7 @@ read_if (int dir, unsigned c, int prev)
 			}
 			IGNORE incr_value (OPT_VAL_hash_if_depth);
 			preproc_depth++;
-			
+
 		} else {
 			/* Deal with '#elif' (fairly tricky) */
 			unsigned new_cond;
@@ -765,12 +765,12 @@ read_if (int dir, unsigned c, int prev)
 			preproc_depth++;
 			cond = c;
 		}
-    }
-    ASSERT (!in_preproc_dir);
-	
-    /* Step over any unused code */
-    cond &= PP_COND_MASK;
-    if (cond == PP_FALSE || cond == PP_PAST || cond == PP_SKIP) {
+	}
+	ASSERT (!in_preproc_dir);
+
+	/* Step over any unused code */
+	cond &= PP_COND_MASK;
+	if (cond == PP_FALSE || cond == PP_PAST || cond == PP_SKIP) {
 		for (;;) {
 			int t;
 			unsigned long sp = skip_white (1);
@@ -811,9 +811,9 @@ read_if (int dir, unsigned c, int prev)
 				if (in_preproc_dir) IGNORE skip_to_end ();
 			}
 		}
-    }
-    in_preproc_dir = 0;
-    return (ret);
+	}
+	in_preproc_dir = 0;
+	return (ret);
 }
 
 
@@ -831,21 +831,21 @@ read_if (int dir, unsigned c, int prev)
 int
 patch_cond(int t, int dir)
 {
-    HASHID nm;
-    PPTOKEN *p;
-    IDENTIFIER id;
-	
-    /* Compilation action */
-    if (!preproc_only) {
+	HASHID nm;
+	PPTOKEN *p;
+	IDENTIFIER id;
+
+	/* Compilation action */
+	if (!preproc_only) {
 		switch (t) {
-	    case lex_hash_Hif : {
+		case lex_hash_Hif : {
 			/* Create '#if {' */
 			p = patch_tokens (1);
 			p->tok = lex_open_Hbrace_H1;
 			break;
-	    }
-	    case lex_hash_Helif :
-	    case lex_hash_Helse : {
+		}
+		case lex_hash_Helif :
+		case lex_hash_Helse : {
 			/* Create '} #elif {' and '} #else {' */
 			p = patch_tokens (2);
 			p->tok = t;
@@ -853,26 +853,26 @@ patch_cond(int t, int dir)
 			p->next->tok = lex_open_Hbrace_H1;
 			t = lex_close_Hbrace_H1;
 			break;
-	    }
-	    case lex_hash_Hendif : {
+		}
+		case lex_hash_Hendif : {
 			/* Create '} #endif' */
 			p = patch_tokens (1);
 			p->tok = t;
 			t = lex_close_Hbrace_H1;
 			break;
-	    }
+		}
 		}
 		return (t);
-    }
-	
-    /* Preprocessing action */
-    id = token_macro;
-    if (IS_NULL_id (id)) return (t);
-    nm = DEREF_hashid (id_name (id));
-    switch (t) {
-		
+	}
+
+	/* Preprocessing action */
+	id = token_macro;
+	if (IS_NULL_id (id)) return (t);
+	nm = DEREF_hashid (id_name (id));
+	switch (t) {
+
 	case lex_hash_Hif : {
-	    if (dir == lex_ifdef) {
+		if (dir == lex_ifdef) {
 			/* Create '#if defined x' */
 			p = patch_tokens (2);
 			p->tok = lex_identifier ,
@@ -880,7 +880,7 @@ patch_cond(int t, int dir)
 			p->next->tok = lex_identifier ,
 				p->next->pp_data.id.hash = nm;
 			p->next->pp_data.id.use = id;
-	    } else if (dir == lex_ifndef) {
+		} else if (dir == lex_ifndef) {
 			/* Create '#if !defined x' */
 			p = patch_tokens (3);
 			p->tok = lex_not_H1;
@@ -890,13 +890,13 @@ patch_cond(int t, int dir)
 			p->next->next->tok = lex_identifier ,
 				p->next->next->pp_data.id.hash = nm;
 			p->next->next->pp_data.id.use = id;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_hash_Hop : {
-	    /* Create '#define x ...' or '#undef x' */
-	    if (dir == lex_define) {
+		/* Create '#define x ...' or '#undef x' */
+		if (dir == lex_define) {
 			/* Patch in macro definition */
 			PPTOKEN *q = NULL;
 			unsigned tag = TAG_id (id);
@@ -935,18 +935,18 @@ patch_cond(int t, int dir)
 					}
 				}
 			}
-	    }
-	    p = patch_tokens (2);
-	    p->tok = lex_identifier;
-	    p->pp_data.id.hash = KEYWORD (dir);
-	    p->pp_space = 0;
-	    p->next->tok = lex_identifier ,
+		}
+		p = patch_tokens (2);
+		p->tok = lex_identifier;
+		p->pp_data.id.hash = KEYWORD (dir);
+		p->pp_space = 0;
+		p->next->tok = lex_identifier ,
 			p->next->pp_data.id.hash = nm;
-	    p->next->pp_data.id.use = id;
-	    break;
+		p->next->pp_data.id.use = id;
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -964,8 +964,8 @@ patch_cond(int t, int dir)
 int
 read_include(int act, int dir)
 {
-    int ret = lex_ignore_token;
-    if (act) {
+	int ret = lex_ignore_token;
+	if (act) {
 		string s;
 		character c;
 		int end = 0;
@@ -973,7 +973,7 @@ read_include(int act, int dir)
 		int legal = 1;
 		int import = INCLUDE_NORMAL;
 		character quote = 0;
-		
+
 		/* Look ahead for start of header name */
 		if (dir == lex_import) import = INCLUDE_IMPORT;
 		if (dir == lex_include_Hnext) next = 1;
@@ -989,7 +989,7 @@ read_include(int act, int dir)
 			}
 		}
 		update_column ();
-		
+
 		if (quote) {
 			/* Read simple header name */
 			int e = read_string ((int) quote, 0);
@@ -1003,7 +1003,7 @@ read_include(int act, int dir)
 			PPTOKEN *q = expand_tok_list (p);
 			IGNORE quote_tok_list (q, 0, char_quote);
 			s = token_buff.start;
-			
+
 			/* Check first character */
 			c = s [0];
 			if (c == char_less) {
@@ -1017,7 +1017,7 @@ read_include(int act, int dir)
 				report (preproc_loc, ERR_cpp_include_bad ());
 				act = 0;
 			}
-			
+
 			/* Scan header name */
 			if (quote) {
 				string t = ++s;
@@ -1057,11 +1057,11 @@ read_include(int act, int dir)
 				ret = lex_included;
 			}
 		}
-    } else {
+	} else {
 		/* Ignore rest of line */
 		if (in_preproc_dir) IGNORE skip_to_end ();
-    }
-    return (ret);
+	}
+	return (ret);
 }
 
 
@@ -1076,31 +1076,31 @@ read_include(int act, int dir)
 static int
 eq_pptok(PPTOKEN *p, PPTOKEN *q)
 {
-    int eq = 2;
-    while (p && q) {
+	int eq = 2;
+	while (p && q) {
 		int t1 = p->tok;
 		int t2 = q->tok;
 		if (t1 != t2) return (0);
 		if (p->pp_space != q->pp_space) eq = 1;
 		switch (t1) {
-	    case lex_identifier : {
+		case lex_identifier : {
 			/* Check identifiers */
 			HASHID n1 = p->pp_data.id.hash;
 			HASHID n2 = q->pp_data.id.hash;
 			if (!EQ_hashid (n1, n2)) return (0);
 			break;
-	    }
-	    case lex_integer_Hlit : {
+		}
+		case lex_integer_Hlit : {
 			/* Check integer and floating-point literals */
 			string s1 = p->pp_data.text;
 			string s2 = q->pp_data.text;
 			if (!ustreq (s1, s2)) return (0);
 			break;
-	    }
-	    case lex_char_Hlit :
-	    case lex_string_Hlit :
-	    case lex_wchar_Hlit :
-	    case lex_wstring_Hlit : {
+		}
+		case lex_char_Hlit :
+		case lex_string_Hlit :
+		case lex_wchar_Hlit :
+		case lex_wstring_Hlit : {
 			/* Check string and characters literals */
 			string s1 = p->pp_data.str.start;
 			string s2 = q->pp_data.str.start;
@@ -1109,28 +1109,28 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			if (n1 != n2) return (0);
 			if (xumemcmp (s1, s2, n1) != 0) return (0);
 			break;
-	    }
-	    case lex_unknown : {
+		}
+		case lex_unknown : {
 			/* Check unknown characters */
 			string s1 = p->pp_data.buff;
 			string s2 = q->pp_data.buff;
 			size_t n1 = MULTI_WIDTH;
 			if (xumemcmp (s1, s2, n1) != 0) return (0);
 			break;
-	    }
-	    case lex_macro_Harg : {
+		}
+		case lex_macro_Harg : {
 			/* Check macro parameter applications */
 			unsigned long m1 = p->pp_data.par.no;
 			unsigned long m2 = q->pp_data.par.no;
 			if (m1 != m2) return (0);
 			break;
-	    }
+		}
 		}
 		p = p->next;
 		q = q->next;
-    }
-    if (p || q) return (0);
-    return (eq);
+	}
+	if (p || q) return (0);
+	return (eq);
 }
 
 
@@ -1145,35 +1145,35 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 static ERROR
 check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 {
-    int defn_ok;
-    int pars_ok = 1;
-    ERROR err = NULL_err;
-    PTR (LOCATION) loc_old;
-    PPTOKEN *defn_new, *defn_old;
-    unsigned tag_new = TAG_id (id_new);
-    unsigned tag_old = TAG_id (id_old);
-    DECL_SPEC ds_old = DEREF_dspec (id_storage (id_old));
-	
-    /* Check on old macro definition */
-    loc_old = id_loc (id_old);
-    if ((ds_old & dspec_builtin) && crt_file_type == 0) {
+	int defn_ok;
+	int pars_ok = 1;
+	ERROR err = NULL_err;
+	PTR (LOCATION) loc_old;
+	PPTOKEN *defn_new, *defn_old;
+	unsigned tag_new = TAG_id (id_new);
+	unsigned tag_old = TAG_id (id_old);
+	DECL_SPEC ds_old = DEREF_dspec (id_storage (id_old));
+
+	/* Check on old macro definition */
+	loc_old = id_loc (id_old);
+	if ((ds_old & dspec_builtin) && crt_file_type == 0) {
 		/* Built-in macro redefined */
 		err = ERR_cpp_predef_redef (id_old);
-    }
-	
-    /* Macro types must agree */
-    if (tag_new != tag_old) {
+	}
+
+	/* Macro types must agree */
+	if (tag_new != tag_old) {
 		ERROR e = ERR_cpp_replace_redef_bad (id_old, loc_old);
 		err = concat_error (err, e);
 		return (err);
-    }
-	
-    if (tag_new == id_obj_macro_tag) {
+	}
+
+	if (tag_new == id_obj_macro_tag) {
 		/* Find the definitions for object-like macros */
 		defn_new = DEREF_pptok (id_obj_macro_defn (id_new));
 		defn_old = DEREF_pptok (id_obj_macro_defn (id_old));
-		
-    } else {
+
+	} else {
 		/* Check parameter lists for function-like macros */
 		unsigned no_pars_new, no_pars_old;
 		LIST (HASHID) pars_new, pars_old;
@@ -1181,14 +1181,14 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 		pars_old = DEREF_list (id_func_macro_params (id_old));
 		no_pars_new = DEREF_unsigned (id_func_macro_no_params (id_new));
 		no_pars_old = DEREF_unsigned (id_func_macro_no_params (id_old));
-		
+
 		if (no_pars_new != no_pars_old) {
 			/* Number of parameters must match */
 			ERROR e = ERR_cpp_replace_redef_bad (id_old, loc_old);
 			err = concat_error (err, e);
 			return (err);
 		}
-		
+
 		while (!IS_NULL_list (pars_new)) {
 			/* Check that parameter names match */
 			HASHID p_new = DEREF_hashid (HEAD_list (pars_new));
@@ -1201,39 +1201,39 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 			pars_new = TAIL_list (pars_new);
 			pars_old = TAIL_list (pars_old);
 		}
-		
+
 		/* Find the definitions for function-like macros */
 		defn_new = DEREF_pptok (id_func_macro_defn (id_new));
 		defn_old = DEREF_pptok (id_func_macro_defn (id_old));
-    }
-	
-    /* Check that the definitions match */
-    defn_ok = eq_pptok (defn_new, defn_old);
-    if (defn_ok == 0) {
+	}
+
+	/* Check that the definitions match */
+	defn_ok = eq_pptok (defn_new, defn_old);
+	if (defn_ok == 0) {
 		/* Inconsistent redefinition */
 		ERROR e = ERR_cpp_replace_redef_bad (id_old, loc_old);
 		err = concat_error (err, e);
 		return (err);
-    } else if (defn_ok == 1) {
+	} else if (defn_ok == 1) {
 		/* Consistent redefinition up to white space */
 		ERROR e = ERR_cpp_replace_redef_space (id_old, loc_old);
 		e = set_severity (e, OPT_macro_redef, -1);
 		err = concat_error (err, e);
-    }
-	
-    /* Prepare final error */
-    if (pars_ok) {
+	}
+
+	/* Prepare final error */
+	if (pars_ok) {
 		/* Consistent macro redefinition */
 		if (IS_NULL_err (err)) {
 			err = ERR_cpp_replace_redef_ok (id_old, loc_old);
 		}
-    } else {
+	} else {
 		/* Consistent redefinition up to parameter names */
 		ERROR e = ERR_cpp_replace_redef_weak (id_old, loc_old);
 		e = set_severity (e, OPT_macro_redef, -1);
 		err = concat_error (err, e);
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1247,17 +1247,17 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 static IDENTIFIER
 free_macro_defn(IDENTIFIER id)
 {
-    PPTOKEN *defn;
-    IDENTIFIER prev = DEREF_id (id_alias (id));
-    if (IS_id_obj_macro (id)) {
+	PPTOKEN *defn;
+	IDENTIFIER prev = DEREF_id (id_alias (id));
+	if (IS_id_obj_macro (id)) {
 		defn = DEREF_pptok (id_obj_macro_defn (id));
 		COPY_pptok (id_obj_macro_defn (id), NULL);
-    } else {
+	} else {
 		defn = DEREF_pptok (id_func_macro_defn (id));
 		COPY_pptok (id_func_macro_defn (id), NULL);
-    }
-    free_tok_list (defn);
-    return (prev);
+	}
+	free_tok_list (defn);
+	return (prev);
 }
 
 
@@ -1275,51 +1275,51 @@ free_macro_defn(IDENTIFIER id)
 static int
 read_define(void)
 {
-    HASHID macro;
-    PPTOKEN *defn;
-    int legal = 1;
-    IDENTIFIER id;
-    IDENTIFIER tok;
-    IDENTIFIER prev;
-    unsigned prev_def;
-    unsigned npars = 0;
-    int object_like = 0;
-    int va_macro = 0;
-    int ret = lex_ignore_token;
-    int first_tok = lex_ignore_token;
-    LIST (HASHID) pars = NULL_list (HASHID);
-    OPTION preproc_strings = option (OPT_preproc_old);
-    PPTOKEN *p;
-	
-    /* Read the macro identifier */
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_identifier) {
+	HASHID macro;
+	PPTOKEN *defn;
+	int legal = 1;
+	IDENTIFIER id;
+	IDENTIFIER tok;
+	IDENTIFIER prev;
+	unsigned prev_def;
+	unsigned npars = 0;
+	int object_like = 0;
+	int va_macro = 0;
+	int ret = lex_ignore_token;
+	int first_tok = lex_ignore_token;
+	LIST (HASHID) pars = NULL_list (HASHID);
+	OPTION preproc_strings = option (OPT_preproc_old);
+	PPTOKEN *p;
+
+	/* Read the macro identifier */
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_identifier) {
 		report (preproc_loc, ERR_cpp_replace_id (lex_define));
 		return (ret);
-    }
-    macro = token_hashid;
-    if (EQ_KEYWORD (macro, lex_defined)) {
+	}
+	macro = token_hashid;
+	if (EQ_KEYWORD (macro, lex_defined)) {
 		/* Cannot define defined as a macro */
 		report (preproc_loc, ERR_cpp_predef_bad (macro, lex_define));
-    } else {
+	} else {
 		id = DEREF_id (hashid_id (macro));
 		if (IS_id_keyword (id) && !preproc_only) {
 			/* Warn about redefining keywords */
 			report (preproc_loc, ERR_cpp_predef_keyword (macro));
 		}
-    }
-    prev_def = check_macro (macro, 0);
-    tok = token_macro;
-	
-    /* Check for macro parameters */
-    if (peek_char (char_open_round, &legal)) {
+	}
+	prev_def = check_macro (macro, 0);
+	tok = token_macro;
+
+	/* Check for macro parameters */
+	if (peek_char (char_open_round, &legal)) {
 		int err = 0;
 		int last_tok = lex_open_Hround;
 		LIST (HASHID) lp;
 		unsigned long par_no = 1;
-		
+
 		/* Scan through definition looking for parameters */
 		update_column ();
 		if (in_preproc_dir) preproc_loc = crt_loc;
@@ -1341,7 +1341,7 @@ read_define(void)
 				}
 				IGNORE check_macro (par, 0);
 				CONS_hashid (par, pars, pars);
-				
+
 				/* Mark name with parameter number */
 				mark = DEREF_ulong (hashid_hash (par));
 				if (mark >= HASH_SIZE) {
@@ -1373,24 +1373,24 @@ read_define(void)
 			/* Report any errors */
 			report (preproc_loc, ERR_cpp_replace_par_bad (macro));
 		}
-		
+
 		/* Allow for parameter expansion in strings */
 		if (preproc_strings) {
 			/* This causes strings not to be recognised */
 			set_char_lookup (char_quote, char_illegal);
 			set_char_lookup (char_single_quote, char_illegal);
 		}
-		
+
 		/* Read the macro definition for function-like macros */
 		defn = read_line (first_tok, lex_ignore_token);
 		if (defn) defn->pp_space = WHITE_SPACE;
-		
+
 		/* Restore string terminators */
 		if (preproc_strings) {
 			set_char_lookup (char_quote, char_quote);
 			set_char_lookup (char_single_quote, char_single_quote);
 		}
-		
+
 		/* Mark the macro parameters in the definition */
 		for (p = defn; p != NULL; p = p->next) {
 			int tk = p->tok;
@@ -1405,12 +1405,12 @@ read_define(void)
 				}
 			}
 		}
-		
+
 		/* Check for quoted parameters */
 		if (preproc_strings) {
 			defn = recognise_strings (defn, macro, 0);
 		}
-		
+
 		/* Check for '#' operators */
 		for (p = defn; p != NULL; p = p->next) {
 			int tk = p->tok;
@@ -1424,7 +1424,7 @@ read_define(void)
 				}
 			}
 		}
-		
+
 		/* Clear the parameter marks */
 		for (lp = pars; !IS_NULL_list (lp); lp = TAIL_list (lp)) {
 			HASHID par = DEREF_hashid (HEAD_list (lp));
@@ -1434,8 +1434,8 @@ read_define(void)
 			npars++;
 		}
 		pars = REVERSE_list (pars);
-		
-    } else {
+
+	} else {
 		/* Read the macro definition for object-like macros */
 		ERROR err = NULL_err;
 		if (!(skip_white (0) & WHITE_SPACE)) err = ERR_cpp_space_replace2 ();
@@ -1447,8 +1447,8 @@ read_define(void)
 			destroy_error (err, 1);
 		}
 		object_like = 1;
-    }
-	
+	}
+
 	/* Complain about '__VA_ARGS__' in object-like or non-varargs macros */
 	if (!va_macro && option (OPT_va_macro) == OPTION_ALLOW) {
 		for (p = defn; p != NULL; p = p->next)
@@ -1458,9 +1458,9 @@ read_define(void)
 				break;
 			}
 	}
-		
-    /* Check for '##' operators */
-    if (defn) {
+
+	/* Check for '##' operators */
+	if (defn) {
 		int tk = defn->tok;
 		if (tk == lex_hash_Hhash_H2) tk = get_digraph (tk);
 		if (tk == lex_hash_Hhash_H1) {
@@ -1479,23 +1479,23 @@ read_define(void)
 				}
 			}
 		}
-    }
-	
-    /* Define the macro */
-    if (!IS_NULL_exp (crt_hash_cond)) {
+	}
+
+	/* Define the macro */
+	if (!IS_NULL_exp (crt_hash_cond)) {
 		report (preproc_loc, ERR_cpp_cond_if_macro (macro));
-    }
-    prev = DEREF_id (hashid_id (macro));
-    if (object_like) {
+	}
+	prev = DEREF_id (hashid_id (macro));
+	if (object_like) {
 		MAKE_id_obj_macro (macro, dspec_defn, NULL_nspace, preproc_loc,
 						   defn, id);
-    } else {
+	} else {
 		IGNORE check_value (OPT_VAL_macro_pars, (ulong) npars);
 		MAKE_id_func_macro (macro, dspec_defn, NULL_nspace, preproc_loc,
 							defn, pars, npars, va_macro, id);
-    }
-    COPY_id (id_alias (id), prev);
-    if (prev_def & PP_TOKEN) {
+	}
+	COPY_id (id_alias (id), prev);
+	if (prev_def & PP_TOKEN) {
 		/* Allow for token definitions */
 		prev_def &= PP_COND_MASK;
 		if (prev_def == PP_UNRESOLVED) {
@@ -1515,17 +1515,17 @@ read_define(void)
 			}
 			prev_def = PP_FALSE;
 		}
-    }
-    COPY_id (hashid_id (macro), id);
-    if (do_macro) {
+	}
+	COPY_id (hashid_id (macro), id);
+	if (do_macro) {
 		/* Dump macro definition using current namespace */
 		COPY_nspace (id_parent (id), crt_namespace);
 		dump_declare (id, &preproc_loc, 1);
 		COPY_nspace (id_parent (id), NULL_nspace);
-    }
-	
-    /* Check consistency of previous definition */
-    if (prev_def == PP_TRUE) {
+	}
+
+	/* Check consistency of previous definition */
+	if (prev_def == PP_TRUE) {
 		ERROR err;
 		if (option (OPT_macro_nest) == OPTION_DISALLOW) {
 			err = check_macro_redef (id, prev);
@@ -1536,10 +1536,10 @@ read_define(void)
 		}
 		if (!IS_NULL_err (err)) report (preproc_loc, err);
 		COPY_id (id_alias (id), prev);
-    } else {
+	} else {
 		IGNORE incr_value (OPT_VAL_macro_ids);
-    }
-    return (ret);
+	}
+	return (ret);
 }
 
 
@@ -1554,26 +1554,26 @@ read_define(void)
 static int
 read_undef(void)
 {
-    /* Read the macro identifier */
-    unsigned def;
-    HASHID macro;
-    int ret = lex_ignore_token;
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_identifier) {
+	/* Read the macro identifier */
+	unsigned def;
+	HASHID macro;
+	int ret = lex_ignore_token;
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_identifier) {
 		report (preproc_loc, ERR_cpp_scope_id (lex_undef));
 		return (ret);
-    }
-    macro = token_hashid;
-    if (EQ_KEYWORD (macro, lex_defined)) {
+	}
+	macro = token_hashid;
+	if (EQ_KEYWORD (macro, lex_defined)) {
 		/* Cannot undefine defined */
 		report (preproc_loc, ERR_cpp_predef_bad (macro, lex_undef));
-    }
-	
-    /* Undefine the macro if necessary */
-    def = check_macro (macro, 0);
-    if (def == PP_TRUE) {
+	}
+
+	/* Undefine the macro if necessary */
+	def = check_macro (macro, 0);
+	if (def == PP_TRUE) {
 		/* Previously defined as macro */
 		IDENTIFIER prev = DEREF_id (hashid_id (macro));
 		DECL_SPEC ds = DEREF_dspec (id_storage (prev));
@@ -1584,8 +1584,8 @@ read_undef(void)
 		prev = free_macro_defn (prev);
 		COPY_id (hashid_id (macro), prev);
 		decr_value (OPT_VAL_macro_ids);
-		
-    } else if (def & PP_TOKEN) {
+
+	} else if (def & PP_TOKEN) {
 		/* Previously defined as token */
 		IDENTIFIER prev = token_macro;
 		def &= PP_COND_MASK;
@@ -1616,17 +1616,17 @@ read_undef(void)
 				remove_id (prev);
 			}
 		}
-		
-    } else {
+
+	} else {
 		/* Not previously declared */
 		report (preproc_loc, ERR_cpp_scope_undef (macro));
-    }
-	
-    /* Check the rest of the directive */
-    if (in_preproc_dir && skip_to_end ()) {
+	}
+
+	/* Check the rest of the directive */
+	if (in_preproc_dir && skip_to_end ()) {
 		report (preproc_loc, ERR_cpp_end (lex_undef));
-    }
-    return (ret);
+	}
+	return (ret);
 }
 
 
@@ -1640,17 +1640,17 @@ read_undef(void)
 static void
 read_location(int dir)
 {
-    /* Read the line */
-    PPTOKEN *p = read_line (lex_ignore_token, lex_ignore_token);
-    unsigned long ln = crt_loc.line;
-    string fn = DEREF_string (posn_file (crt_loc.posn));
-    unsigned long ln_old = ln;
-    string fn_old = fn;
-	
-    /* Macro expand the line */
-    PPTOKEN *q = expand_tok_list (p);
-    q = clean_tok_list (q);
-    if (q && q->tok == lex_integer_Hlit && dir == lex_line) {
+	/* Read the line */
+	PPTOKEN *p = read_line (lex_ignore_token, lex_ignore_token);
+	unsigned long ln = crt_loc.line;
+	string fn = DEREF_string (posn_file (crt_loc.posn));
+	unsigned long ln_old = ln;
+	string fn_old = fn;
+
+	/* Macro expand the line */
+	PPTOKEN *q = expand_tok_list (p);
+	q = clean_tok_list (q);
+	if (q && q->tok == lex_integer_Hlit && dir == lex_line) {
 		/* Process '#line number string-opt' */
 		unsigned err = 0;
 		PPTOKEN *r = q->next;
@@ -1671,7 +1671,7 @@ read_location(int dir)
 			r = r->next;
 		}
 		if (r) report (preproc_loc, ERR_cpp_end (dir));
-    } else if (q && q->tok == lex_string_Hlit && dir == lex_file) {
+	} else if (q && q->tok == lex_string_Hlit && dir == lex_file) {
 		/* Process '#file string' */
 		PPTOKEN *r = q->next;
 		fn = q->pp_data.str.start;
@@ -1680,12 +1680,12 @@ read_location(int dir)
 			crt_line_changed = 1;
 		}
 		if (r) report (preproc_loc, ERR_cpp_end (dir));
-    } else {
+	} else {
 		report (preproc_loc, ERR_cpp_line_bad (dir));
-    }
-    free_tok_list (p);
-    free_tok_list (q);
-    if (crt_line_changed) {
+	}
+	free_tok_list (p);
+	free_tok_list (q);
+	if (crt_line_changed) {
 		PTR (POSITION) posn = crt_loc.posn;
 		string d = DEREF_string (posn_dir (posn));
 		string input = DEREF_string (posn_input (posn));
@@ -1696,10 +1696,10 @@ read_location(int dir)
 		posn = MAKE_ptr (SIZE_posn);
 		MAKE_posn (fn, 0, input, fn, d, off, from, date, posn);
 		crt_loc.posn = posn;
-    }
-    crt_loc.line = ln;
-    crt_loc.column = 0;
-    return;
+	}
+	crt_loc.line = ln;
+	crt_loc.column = 0;
+	return;
 }
 
 
@@ -1713,16 +1713,16 @@ read_location(int dir)
 static void
 read_error(int opt)
 {
-    ERROR err;
-    PPTOKEN *p = read_line (lex_ignore_token, lex_ignore_token);
-    IGNORE quote_tok_list (p, 0, char_quote);
-    err = ERR_cpp_error_msg (token_buff.start);
-    if (!IS_NULL_err (err)) {
+	ERROR err;
+	PPTOKEN *p = read_line (lex_ignore_token, lex_ignore_token);
+	IGNORE quote_tok_list (p, 0, char_quote);
+	err = ERR_cpp_error_msg (token_buff.start);
+	if (!IS_NULL_err (err)) {
 		err = set_severity (err, opt, 0);
 		report (preproc_loc, err);
-    }
-    free_tok_list (p);
-    return;
+	}
+	free_tok_list (p);
+	return;
 }
 
 
@@ -1735,20 +1735,20 @@ read_error(int opt)
 void
 read_ident(int dir)
 {
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t == lex_string_Hlit) {
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t == lex_string_Hlit) {
 		string s = token_buff.start;
 		unsigned long n = (unsigned long) (token_buff.posn - s);
 		compile_comment (s, n);
 		if (in_preproc_dir && skip_to_end ()) {
 			report (preproc_loc, ERR_cpp_end (dir));
 		}
-    } else {
+	} else {
 		report (preproc_loc, ERR_pragma_cpp_ident (dir));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1762,16 +1762,16 @@ read_ident(int dir)
 IDENTIFIER
 make_assert(HASHID pred, int key)
 {
-    NAMESPACE ns = assert_namespace;
-    MEMBER mem = search_member (ns, pred, 1);
-    IDENTIFIER id = DEREF_id (member_id (mem));
-    if (IS_NULL_id (id)) {
+	NAMESPACE ns = assert_namespace;
+	MEMBER mem = search_member (ns, pred, 1);
+	IDENTIFIER id = DEREF_id (member_id (mem));
+	if (IS_NULL_id (id)) {
 		/* Define assertion if not already defined */
 		MAKE_id_predicate (pred, dspec_none, ns, preproc_loc, id);
 		COPY_ulong (id_no (id), (unsigned long) key);
 		COPY_id (member_id (mem), id);
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -1783,14 +1783,14 @@ make_assert(HASHID pred, int key)
  *    the token after the matching close bracket.
  */
 
-static PPTOKEN*
+static PPTOKEN *
 skip_predicate(PPTOKEN **p, int dir)
 {
-    PPTOKEN *q = *p;
-    PPTOKEN *r = NULL;
-    int bracket = 1;
-    if (q) q->pp_space = 0;
-    while (q) {
+	PPTOKEN *q = *p;
+	PPTOKEN *r = NULL;
+	int bracket = 1;
+	if (q) q->pp_space = 0;
+	while (q) {
 		int t = q->tok;
 		if (t == lex_open_Hround) {
 			/* Increase bracket count */
@@ -1824,9 +1824,9 @@ skip_predicate(PPTOKEN **p, int dir)
 		}
 		r = q;
 		q = q->next;
-    }
-    report (preproc_loc, ERR_pragma_assert_paren (dir));
-    return (NULL);
+	}
+	report (preproc_loc, ERR_pragma_assert_paren (dir));
+	return (NULL);
 }
 
 
@@ -1840,27 +1840,27 @@ skip_predicate(PPTOKEN **p, int dir)
 static int
 check_assert(HASHID pred, PPTOKEN *p, int def)
 {
-    IDENTIFIER id = make_assert (pred, lex_unknown);
-    int key = (int) DEREF_ulong (id_no (id));
-    LIST (PPTOKEN_P) s = DEREF_list (id_predicate_values (id));
-    report (preproc_loc, ERR_pragma_assert_pred (pred));
-    if (def) {
+	IDENTIFIER id = make_assert (pred, lex_unknown);
+	int key = (int) DEREF_ulong (id_no (id));
+	LIST (PPTOKEN_P) s = DEREF_list (id_predicate_values (id));
+	report (preproc_loc, ERR_pragma_assert_pred (pred));
+	if (def) {
 		/* Check for any predicate */
 		if (!IS_NULL_list (s)) return (1);
-    } else {
+	} else {
 		while (!IS_NULL_list (s)) {
 			PPTOKEN *q = DEREF_pptok (HEAD_list (s));
 			if (eq_pptok (p, q) == 2) return (1);
 			s = TAIL_list (s);
 		}
-    }
-    if (key == lex_include) {
+	}
+	if (key == lex_include) {
 		/* '#include' checks for included files */
 		if (def) return (1);
 		IGNORE quote_tok_list (p, 0, char_quote);
 		return (start_include (token_buff.start, char_quote, INCLUDE_CHECK, 0));
-    }
-    if (key == lex_keyword) {
+	}
+	if (key == lex_keyword) {
 		/* '#keyword' checks for keywords */
 		if (def) return (1);
 		if (p && p->next == NULL) {
@@ -1870,8 +1870,8 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 				if (IS_id_iso_keyword (pid)) return (1);
 			}
 		}
-    }
-    if (key == lex_option) {
+	}
+	if (key == lex_option) {
 		/* '#option' checks for options */
 		int n;
 		ulong sn;
@@ -1889,8 +1889,8 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 		}
 		n = find_option_no (str, 0);
 		if (n != -1 && option (n)) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1904,10 +1904,10 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 static void
 set_assert(IDENTIFIER id, PPTOKEN *p, int def)
 {
-    LIST (PPTOKEN_P) s;
-    PTR (LIST (PPTOKEN_P)) ps = id_predicate_values (id);
-    LIST (PPTOKEN_P) r = DEREF_list (ps);
-    while (s = DEREF_list (ps), !IS_NULL_list (s)) {
+	LIST (PPTOKEN_P) s;
+	PTR (LIST (PPTOKEN_P)) ps = id_predicate_values (id);
+	LIST (PPTOKEN_P) r = DEREF_list (ps);
+	while (s = DEREF_list (ps), !IS_NULL_list (s)) {
 		PPTOKEN *q = DEREF_pptok (HEAD_list (s));
 		if (eq_pptok (p, q) == 2) {
 			/* Already asserted */
@@ -1920,15 +1920,15 @@ set_assert(IDENTIFIER id, PPTOKEN *p, int def)
 			return;
 		}
 		ps = PTR_TAIL_list (s);
-    }
-    if (def) {
+	}
+	if (def) {
 		/* Create assertion */
 		CONS_pptok (p, r, r);
 		COPY_list (id_predicate_values (id), r);
-    } else {
+	} else {
 		free_tok_list (p);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1941,37 +1941,37 @@ set_assert(IDENTIFIER id, PPTOKEN *p, int def)
 static void
 read_assert(int dir)
 {
-    /* Read the predicate name */
-    int def = 1;
-    IDENTIFIER id;
-    PPTOKEN *p, *q;
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_identifier) {
+	/* Read the predicate name */
+	int def = 1;
+	IDENTIFIER id;
+	PPTOKEN *p, *q;
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_identifier) {
 		report (preproc_loc, ERR_pragma_assert_id (dir));
 		return;
-    }
-    id = make_assert (token_hashid, lex_unknown);
-	
-    /* Read the predicate token sequence */
-    t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_open_Hround) {
+	}
+	id = make_assert (token_hashid, lex_unknown);
+
+	/* Read the predicate token sequence */
+	t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_open_Hround) {
 		report (preproc_loc, ERR_pragma_assert_open (dir));
 		return;
-    }
-    p = read_line (lex_ignore_token, lex_ignore_token);
-    q = skip_predicate (&p, dir);
-    if (q) {
+	}
+	p = read_line (lex_ignore_token, lex_ignore_token);
+	q = skip_predicate (&p, dir);
+	if (q) {
 		report (preproc_loc, ERR_cpp_end (dir));
 		free_tok_list (q);
-    }
-	
-    /* Create the assertion */
-    if (p) set_assert (id, p, def);
-    return;
+	}
+
+	/* Create the assertion */
+	if (p) set_assert (id, p, def);
+	return;
 }
 
 
@@ -1984,25 +1984,25 @@ read_assert(int dir)
 static void
 read_unassert(int dir)
 {
-    /* Read the predicate name */
-    IDENTIFIER id;
-    PPTOKEN *p, *q;
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_identifier) {
+	/* Read the predicate name */
+	IDENTIFIER id;
+	PPTOKEN *p, *q;
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_identifier) {
 		report (preproc_loc, ERR_pragma_assert_id (dir));
 		return;
-    }
-    id = make_assert (token_hashid, lex_unknown);
-	
-    /* Check for simple identifier */
-    t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t == lex_newline) {
+	}
+	id = make_assert (token_hashid, lex_unknown);
+
+	/* Check for simple identifier */
+	t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t == lex_newline) {
 		p = NULL;
-    } else {
+	} else {
 		/* Read the predicate token sequence */
 		if (t != lex_open_Hround) {
 			report (preproc_loc, ERR_pragma_assert_open (dir));
@@ -2014,9 +2014,9 @@ read_unassert(int dir)
 			report (preproc_loc, ERR_cpp_end (dir));
 			free_tok_list (q);
 		}
-    }
-	
-    if (p == NULL) {
+	}
+
+	if (p == NULL) {
 		/* Unassert all values */
 		LIST (PPTOKEN_P) r;
 		r = DEREF_list (id_predicate_values (id));
@@ -2026,11 +2026,11 @@ read_unassert(int dir)
 		}
 		COPY_list (id_predicate_values (id), r);
 		COPY_ulong (id_no (id), lex_unknown);
-    } else {
+	} else {
 		/* Destroy the assertion */
 		set_assert (id, p, 0);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2045,11 +2045,11 @@ read_unassert(int dir)
 static IDENTIFIER
 find_weak_id(HASHID nm)
 {
-    if (!IS_NULL_hashid (nm)) {
+	if (!IS_NULL_hashid (nm)) {
 		ERROR err;
 		IDENTIFIER id = find_id (nm);
 		switch (TAG_id (id)) {
-	    case id_variable_tag : {
+		case id_variable_tag : {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (!(ds & dspec_auto)) {
 				ds |= dspec_used;
@@ -2057,8 +2057,8 @@ find_weak_id(HASHID nm)
 				return (id);
 			}
 			break;
-	    }
-	    case id_function_tag : {
+		}
+		case id_function_tag : {
 			TYPE t = DEREF_type (id_function_type (id));
 			IDENTIFIER over = DEREF_id (id_function_over (id));
 			if (IS_NULL_id (over) && IS_type_func (t)) {
@@ -2068,12 +2068,12 @@ find_weak_id(HASHID nm)
 				return (id);
 			}
 			break;
-	    }
+		}
 		}
 		err = ERR_pragma_preserve_undecl (lex_weak, id);
 		report (preproc_loc, err);
-    }
-    return (NULL_id);
+	}
+	return (NULL_id);
 }
 
 
@@ -2086,12 +2086,12 @@ find_weak_id(HASHID nm)
 void
 read_weak(int dir)
 {
-    IDENTIFIER id = NULL_id;
-    IDENTIFIER aid = NULL_id;
-    int t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t == lex_identifier) {
+	IDENTIFIER id = NULL_id;
+	IDENTIFIER aid = NULL_id;
+	int t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t == lex_identifier) {
 		id = find_weak_id (token_hashid);
 		t = read_token ();
 		update_column ();
@@ -2107,10 +2107,10 @@ read_weak(int dir)
 				if (in_preproc_dir) preproc_loc = crt_loc;
 			}
 		}
-    } else {
+	} else {
 		t = lex_unknown;
-    }
-    if (!IS_NULL_id (aid)) {
+	}
+	if (!IS_NULL_id (aid)) {
 		static LIST (IDENTIFIER) weak_ids = NULL_list (IDENTIFIER);
 		LIST (IDENTIFIER) p = weak_ids;
 		while (!IS_NULL_list (p)) {
@@ -2125,13 +2125,13 @@ read_weak(int dir)
 		if (!IS_NULL_id (id)) {
 			CONS_id (id, weak_ids, weak_ids);
 		}
-    }
-    compile_weak (id, aid);
-    if (t != lex_newline) {
+	}
+	compile_weak (id, aid);
+	if (t != lex_newline) {
 		report (preproc_loc, ERR_cpp_end (dir));
-    }
-    if (in_preproc_dir) IGNORE skip_to_end ();
-    return;
+	}
+	if (in_preproc_dir) IGNORE skip_to_end ();
+	return;
 }
 
 
@@ -2154,18 +2154,18 @@ read_weak(int dir)
 int
 read_preproc_dir(int act, int prev)
 {
-    int t;
-    ERROR err;
-    HASHID dir;
-    int pp = lex_ignore_token;
-    in_preproc_dir = 1;
-    preproc_loc = crt_loc;
-	
-    /* Read the token following the '#' */
-    t = read_token ();
-    update_column ();
-    if (in_preproc_dir) preproc_loc = crt_loc;
-    if (t != lex_identifier) {
+	int t;
+	ERROR err;
+	HASHID dir;
+	int pp = lex_ignore_token;
+	in_preproc_dir = 1;
+	preproc_loc = crt_loc;
+
+	/* Read the token following the '#' */
+	t = read_token ();
+	update_column ();
+	if (in_preproc_dir) preproc_loc = crt_loc;
+	if (t != lex_identifier) {
 		if (!act) goto end_label;
 		if (t == lex_newline || t == lex_eof) {
 			/* Warn about empty directives */
@@ -2175,90 +2175,90 @@ read_preproc_dir(int act, int prev)
 		/* Give an error for other directives */
 		report (preproc_loc, ERR_cpp_bad ());
 		goto end_label;
-    }
-	
-    /* Analyse the '#identifier' directive */
-    dir = token_hashid;
-    t = find_hashid (dir);
-    switch (t) {
-		
+	}
+
+	/* Analyse the '#identifier' directive */
+	dir = token_hashid;
+	t = find_hashid (dir);
+	switch (t) {
+
 	case lex_define : {
-	    /* Deal with '#define' */
-	    if (act) {
+		/* Deal with '#define' */
+		if (act) {
 			pp = read_define ();
 			if (pp >= 0) pp = patch_cond (pp, t);
-	    }
-	    goto end_label;
+		}
+		goto end_label;
 	}
-		
+
 	case lex_else :
 	case lex_endif : {
-	    /* Deal with '#else' and '#endif' */
-	    if (in_preproc_dir && skip_to_end ()) {
+		/* Deal with '#else' and '#endif' */
+		if (in_preproc_dir && skip_to_end ()) {
 			/* Check end of directive */
 			report (preproc_loc, ERR_cpp_cond_endif_end (t));
-	    }
-	    pp = read_if (t, PP_FALSE, lex_ignore_token);
-	    if (act && pp >= 0) pp = patch_cond (pp, t);
-	    return (pp);
+		}
+		pp = read_if (t, PP_FALSE, lex_ignore_token);
+		if (act && pp >= 0) pp = patch_cond (pp, t);
+		return (pp);
 	}
-		
+
 	case lex_elif : {
-	    /* Deal with '#elif' (expression is read in read_if) */
-	    report (preproc_loc, ERR_cpp_old (t));
-	    pp = read_if (t, PP_FALSE, lex_ignore_token);
-	    if (act && pp >= 0) pp = patch_cond (pp, t);
-	    return (pp);
+		/* Deal with '#elif' (expression is read in read_if) */
+		report (preproc_loc, ERR_cpp_old (t));
+		pp = read_if (t, PP_FALSE, lex_ignore_token);
+		if (act && pp >= 0) pp = patch_cond (pp, t);
+		return (pp);
 	}
-		
+
 	case lex_error : {
-	    /* Deal with '#error' */
+		/* Deal with '#error' */
 		if (!act) goto end_label;
-	    report (preproc_loc, ERR_cpp_old (t));
-	    read_error (OPT_error);
-	    goto end_label;
+		report (preproc_loc, ERR_cpp_old (t));
+		read_error (OPT_error);
+		goto end_label;
 	}
-		
+
 	case lex_include : {
-	    /* Deal with '#include' */
+		/* Deal with '#include' */
 		if (!act) goto end_label;
-	    pp = read_include (act, t);
-	    return (pp);
+		pp = read_include (act, t);
+		return (pp);
 	}
-		
+
 	case lex_if : {
-	    /* Deal with '#if' */
-	    unsigned cond = read_if_exp (act, t);
-	    pp = read_if (t, cond, lex_ignore_token);
-	    if (act && pp >= 0) pp = patch_cond (pp, t);
-	    return (pp);
+		/* Deal with '#if' */
+		unsigned cond = read_if_exp (act, t);
+		pp = read_if (t, cond, lex_ignore_token);
+		if (act && pp >= 0) pp = patch_cond (pp, t);
+		return (pp);
 	}
-		
+
 	case lex_ifdef : {
-	    /* Deal with '#ifdef' */
-	    unsigned cond = read_if_def (act, t, prev);
-	    pp = read_if (t, cond, prev);
-	    if (act && pp >= 0) pp = patch_cond (pp, t);
-	    return (pp);
+		/* Deal with '#ifdef' */
+		unsigned cond = read_if_def (act, t, prev);
+		pp = read_if (t, cond, prev);
+		if (act && pp >= 0) pp = patch_cond (pp, t);
+		return (pp);
 	}
-		
+
 	case lex_ifndef : {
-	    /* Deal with '#ifndef' */
-	    unsigned cond = read_if_def (act, t, prev);
-	    pp = read_if (t, negate_cond (cond), prev);
-	    if (act && pp >= 0) pp = patch_cond (pp, t);
-	    return (pp);
+		/* Deal with '#ifndef' */
+		unsigned cond = read_if_def (act, t, prev);
+		pp = read_if (t, negate_cond (cond), prev);
+		if (act && pp >= 0) pp = patch_cond (pp, t);
+		return (pp);
 	}
-		
+
 	case lex_line : {
-	    /* Deal with '#line' */
-	    if (act) read_location (t);
-	    goto end_label;
+		/* Deal with '#line' */
+		if (act) read_location (t);
+		goto end_label;
 	}
-		
+
 	case lex_pragma : {
-	    /* Deal with '#pragma' */
-	    if (act) {
+		/* Deal with '#pragma' */
+		if (act) {
 			int ts = have_type_specifier;
 			int td = have_type_declaration;
 			int fd = have_func_declarator;
@@ -2271,25 +2271,25 @@ read_preproc_dir(int act, int prev)
 			have_type_specifier = ts;
 			have_type_declaration = td;
 			have_func_declarator = fd;
-	    }
-	    goto end_label;
+		}
+		goto end_label;
 	}
-		
+
 	case lex_undef : {
-	    /* Deal with '#undef' */
-	    if (act) {
+		/* Deal with '#undef' */
+		if (act) {
 			pp = read_undef ();
 			if (pp >= 0) pp = patch_cond (pp, t);
-	    }
-	    goto end_label;
+		}
+		goto end_label;
 	}
-		
+
 	case lex_assert : {
-	    /* Deal with '#assert' (extension) */
+		/* Deal with '#assert' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_assert);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_assert);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_assert, 0);
@@ -2299,16 +2299,16 @@ read_preproc_dir(int act, int prev)
 				read_assert (t);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_file : {
-	    /* Deal with '#file' (extension) */
+		/* Deal with '#file' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_file);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_file);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_file, 0);
@@ -2318,16 +2318,16 @@ read_preproc_dir(int act, int prev)
 				read_location (t);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_ident : {
-	    /* Deal with '#ident' (extension) */
+		/* Deal with '#ident' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_ident);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_ident);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_ident, 0);
@@ -2337,17 +2337,17 @@ read_preproc_dir(int act, int prev)
 				read_ident (t);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_import :
 	case lex_include_Hnext : {
-	    /* Deal with '#import' and '#include_next' (extension) */
+		/* Deal with '#import' and '#include_next' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_import);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_import);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_import, 0);
@@ -2358,16 +2358,16 @@ read_preproc_dir(int act, int prev)
 				return (pp);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_unassert : {
-	    /* Deal with '#unassert' (extension) */
+		/* Deal with '#unassert' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_unassert);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_unassert);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_unassert, 0);
@@ -2377,16 +2377,16 @@ read_preproc_dir(int act, int prev)
 				read_unassert (t);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_warning : {
-	    /* Deal with '#warning' (extension) */
+		/* Deal with '#warning' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_warning);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_warning);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_warning, 0);
@@ -2396,16 +2396,16 @@ read_preproc_dir(int act, int prev)
 				read_error (OPT_warning);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case lex_weak : {
-	    /* Deal with '#weak' (extension) */
+		/* Deal with '#weak' (extension) */
 		OPTION opt;
 		if (!act) goto end_label;
-	    opt = option (OPT_ppdir_weak);
-	    if (opt != OPTION_DISALLOW) {
+		opt = option (OPT_ppdir_weak);
+		if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_weak, 0);
@@ -2415,17 +2415,17 @@ read_preproc_dir(int act, int prev)
 				read_weak (t);
 			}
 			goto end_label;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-	
-    /* Unknown directives */
-    report (preproc_loc, ERR_cpp_unknown (dir));
-    end_label : {
+	}
+
+	/* Unknown directives */
+	report (preproc_loc, ERR_cpp_unknown (dir));
+	end_label : {
 		if (in_preproc_dir) IGNORE skip_to_end ();
 		return (pp);
-    }
+	}
 }
 
 
@@ -2455,7 +2455,7 @@ print_dependency(const char *fn, FILE *output)
 		if (f != NULL) putc ('\n', f);
 		f = output;
 		col = fprintf (f, "%.*s%s:", (int)(dot - file), file,
-		    inclusion_obj_suffix);
+			inclusion_obj_suffix);
 	}
 	if (col + strlen (fn) > 72) {
 		fputs (" \\\n ", f);
@@ -2476,42 +2476,42 @@ print_dependency(const char *fn, FILE *output)
 void
 preprocess_file(void)
 {
-    int t;
-    FILE *f;
-    string fn;
-    BUFFER *bf;
-    unsigned long ws = 0;
-    unsigned long ln = 0;
-    int force_space = preproc_space;
-    static BUFFER preproc_buff = { NULL, NULL, NULL, NULL };
-	
-    /* Initialise input file */
-    init_lex ();
-    fn = DEREF_string (posn_file (preproc_loc.posn));
-	
-    /* Open output file */
-    if (!open_output (OUTPUT_PREPROC, text_mode)) {
-		string nm = output_name [ OUTPUT_PREPROC ];
+	int t;
+	FILE *f;
+	string fn;
+	BUFFER *bf;
+	unsigned long ws = 0;
+	unsigned long ln = 0;
+	int force_space = preproc_space;
+	static BUFFER preproc_buff = { NULL, NULL, NULL, NULL };
+
+	/* Initialise input file */
+	init_lex ();
+	fn = DEREF_string (posn_file (preproc_loc.posn));
+
+	/* Open output file */
+	if (!open_output (OUTPUT_PREPROC, text_mode)) {
+		string nm = output_name [OUTPUT_PREPROC];
 		fail (ERR_fail_output (nm));
 		tenapp_exit ();
 		return;
-    }
-    f = output_file [ OUTPUT_PREPROC ];
-    bf = clear_buffer (&preproc_buff, f);
-    if (inclusion_dependencies == DEP_NONE) {
+	}
+	f = output_file [OUTPUT_PREPROC];
+	bf = clear_buffer (&preproc_buff, f);
+	if (inclusion_dependencies == DEP_NONE) {
 		fprintf_v (f, "#line 1 \"%s\"", strlit (fn));
-    } else {
+	} else {
 		print_dependency (strlit (fn), f);
-    }
-    crt_file_changed = 1;
-	
-    /* Scan through preprocessing tokens */
-    while (t = expand_preproc (EXPAND_NORMAL), t != lex_eof) {
+	}
+	crt_file_changed = 1;
+
+	/* Scan through preprocessing tokens */
+	while (t = expand_preproc (EXPAND_NORMAL), t != lex_eof) {
 		/* Allow for skipped files */
 		if (crt_file_type) continue;
 		/* The actual printing is done via start_include() */
 		if (inclusion_dependencies != DEP_NONE) continue;
-		
+
 		/* Replace keywords by underlying identifier */
 		if (t >= FIRST_KEYWORD && t <= LAST_KEYWORD) {
 			crt_token->tok = lex_identifier;
@@ -2523,7 +2523,7 @@ preprocess_file(void)
 			crt_spaces = 0;
 			continue;
 		}
-		
+
 		/* Print any required '#line' directives */
 		if (crt_line_changed) {
 			int ch = crt_file_changed;
@@ -2551,16 +2551,16 @@ preprocess_file(void)
 				ln = n;
 			}
 			crt_line_changed = 0;
-			
+
 			/* Print indentation */
 			ws = sp;
 			for (; sp >= tab; sp -= tab) bfputc (bf, '\t');
 			for (; sp; sp--) bfputc (bf, ' ');
-			
+
 			/* Allow for hash symbols */
 			if (t == lex_hash_H1) crt_token->tok = lex_hash_Hhash_H1;
 			if (t == lex_hash_H2) crt_token->tok = lex_hash_Hhash_H2;
-			
+
 		} else {
 			unsigned long sp = crt_spaces;
 			if (sp != ws || force_space) {
@@ -2569,12 +2569,12 @@ preprocess_file(void)
 				bfputc (bf, ' ');
 			}
 		}
-		
+
 		/* Print the token name */
 		IGNORE print_pptok (crt_token, bf, 0);
-    }
-    bfputc (bf, '\n');
-    output_buffer (bf, 0);
-    close_output (OUTPUT_PREPROC);
-    return;
+	}
+	bfputc (bf, '\n');
+	output_buffer (bf, 0);
+	close_output (OUTPUT_PREPROC);
+	return;
 }
