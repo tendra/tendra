@@ -65,8 +65,11 @@ tdf_de_bits(struct tdf_stream *sp, unsigned int n)
 	pos = sp->ts_pos;
 	for (; n; n -= bc) {
 		if (sp->ts_need_byte) {
-			if (!TDF_STREAM_READ_BYTE(sp, &b))
+			if (!TDF_STREAM_READ_BYTE(sp, &b)) {
+				sp->ts_pos = pos;
+				sp->ts_byte = b;
 				MSG_fatal_tdf_unexpected_eof(sp);
+			}
 			sp->ts_need_byte = 0;
 			/* may be align pos as well ? Or make an assert ? */
 		}
