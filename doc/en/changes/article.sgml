@@ -93,6 +93,106 @@
         </thead>
         <tbody>
           <row>
+            <entry>20051107</entry>
+            <entry>API</entry>
+            <entry>Semantics of C99's <emphasis>inline</emphasis> specifier
+              fixed.</entry>
+          </row>
+          <row>
+            <entry>20051105</entry>
+            <entry>API</entry>
+            <entry>Initial version of C99's &lt;inttypes.h&gt; header, the PRI
+              and SCN macros are still missing.</entry>
+          </row>
+          <row>
+            <entry>20051101</entry>
+            <entry>API</entry>
+            <entry>The xpg3 API is now built by default.</entry>
+          </row>
+          <row>
+            <entry>20051030</entry>
+            <entry>API</entry>
+            <entry>The -Yc99 flag can now be combined with -Xmode.</entry>
+          </row>
+          <row>
+            <entry>20051027</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed C producer bugs for tentative definitions.</entry>
+          </row>
+          <row>
+            <entry>20051026</entry>
+            <entry>Bugfix</entry>
+            <entry>Maximum line number in #line directives made
+              adjustable.</entry>
+          </row>
+          <row>
+            <entry>20051026</entry>
+            <entry>Bugfix</entry>
+            <entry>Tcc's -KPIC option now works on FreeBSD/80x86.</entry>
+          </row>
+          <row>
+            <entry>20051024</entry>
+            <entry>Bugfix</entry>
+            <entry>Make the C++ producer allow 'return
+              <emphasis>voidexp</emphasis>;'.</entry>
+          </row>
+          <row>
+            <entry>20051022</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed a bunch of bugs in tcc (-P, -Ystatus, -info,
+              -show_env).</entry>
+          </row>
+          <row>
+            <entry>20051020</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed a bug in the producers if both -n and -e were
+              specified.</entry>
+          </row>
+          <row>
+            <entry>20051019</entry>
+            <entry>Codebase</entry>
+            <entry>Removed non-working environments: aes, motif_1_1 and
+              mse.</entry>
+          </row>
+          <row>
+            <entry>20051018</entry>
+            <entry>Behaviour</entry>
+            <entry>Allow --version in tld and tnc.</entry>
+          </row>
+          <row>
+            <entry>20051017</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed the tchk script.</entry>
+          </row>
+          <row>
+            <entry>20051017</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed spec file reading in the producers (-s file).</entry>
+          </row>
+          <row>
+            <entry>20051017</entry>
+            <entry>Enhancement</entry>
+            <entry>Tcc taught about .S files (assembler files with preprocessor
+              directives).</entry>
+          </row>
+          <row>
+            <entry>20051016</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's _Pragma preprocessing operator.</entry>
+          </row>
+          <row>
+            <entry>20051010</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's hexadecimal floating point
+              literals.</entry>
+          </row>
+          <row>
+            <entry>20050722</entry>
+            <entry>API</entry>
+            <entry>Allow post- and prefix increments and decrements on
+              _Bool.</entry>
+          </row>
+          <row>
             <entry>20041017</entry>
             <entry>API</entry>
             <entry>Implemented C99's flexible array members.</entry>
@@ -104,6 +204,11 @@
               as part of libten. Converted tools, producers and
 	      installers to use library functions for TDF manipulations.</entry>
           </row>
+	  <row>
+	    <entry>20041017</entry>
+	    <entry>API</entry>
+	    <entry>Implemented C99's flexible array members.</entry>
+	  </row>
 	  <row>
 	    <entry>20040815</entry>
 	    <entry>Codebase</entry>
