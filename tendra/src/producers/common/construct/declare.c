@@ -2907,5 +2907,6 @@ external_declaration(EXP e, int d)
 			clear_templates (0);
 		}
 	}
+	compile_weak_pending ();
 	return;
 }

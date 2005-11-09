@@ -75,7 +75,8 @@ extern void compile_asm(EXP);
 extern void compile_comment(string, unsigned long);
 extern void compile_preserve(IDENTIFIER);
 extern void compile_pending(void);
-extern void compile_weak(IDENTIFIER, IDENTIFIER);
+extern void add_weak_dir(IDENTIFIER, IDENTIFIER);
+extern void compile_weak_pending(void);
 extern void update_tag(IDENTIFIER, int);
 extern LIST (IDENTIFIER) pending_funcs;
 

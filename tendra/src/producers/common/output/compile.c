@@ -86,6 +86,7 @@
 #include "construct.h"
 #include "convert.h"
 #include "copy.h"
+#include "declare.h"
 #include "destroy.h"
 #include "diag.h"
 #include "encode.h"
@@ -1737,10 +1738,23 @@ compile_preserve(IDENTIFIER id)
  *    to the output capsule.
  */
 
-void
+static void
 compile_weak(IDENTIFIER id, IDENTIFIER aid)
 {
-	if (output_capsule && !IS_NULL_id (id)) {
+	/* Add a declaration for id. */
+	DECL_SPEC ds = DEREF_dspec (id_storage (aid));
+	if (IS_id_variable (aid)) {
+		TYPE t = DEREF_type (id_variable_type (aid));
+		id = make_object_decl (dspec_extern, t, id, 0);
+		init_object (id, NULL_exp);
+	} else if (IS_id_function (aid)) {
+		TYPE t = DEREF_type (id_function_type (aid));
+		id = make_func_decl (dspec_none, t, id, 0);
+	}
+	ds = DEREF_dspec (id_storage (id));
+	COPY_dspec (id_storage (id), ds | dspec_used);
+
+	if (output_capsule) {
 		ulong n;
 		string s = NULL;
 		BITSTREAM *bs = linkinfo_unit;
@@ -1775,6 +1789,56 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 		linkinfo_unit = bs;
 	}
 	return;
+}
+
+
+/*
+ *    LIST OF PENDING WEAK PRAGMAS
+ *
+ *    For '#pragma weak id = aid' the two identifiers are stored in
+ *    these lists.  They are used only at the end of the next external
+ *    definition.  This is done because we add an external declaration of
+ *    the identifier id.
+ */
+
+static LIST (IDENTIFIER) pending_weak_alias = NULL_list (IDENTIFIER);
+static LIST (IDENTIFIER) pending_weak_symbol = NULL_list (IDENTIFIER);
+
+
+/*
+ *    ADD A WEAK LINKAGE DIRECTIVE
+ *
+ *    This routine adds the identifiers id and aid to the pragma weak lists
+ *    for later use.
+ */
+
+void
+add_weak_dir(IDENTIFIER id, IDENTIFIER aid)
+{
+	if (!IS_NULL_id (id) && !IS_NULL_id (aid)) {
+		CONS_id (id, pending_weak_alias, pending_weak_alias);
+		CONS_id (aid, pending_weak_symbol, pending_weak_symbol);
+	}
+}
+
+
+/*
+ *    COMPILE PENDING WEAK LINKAGE DIRECTIVES
+ *
+ *    This routine checks if there are pending identifiers on the pragma
+ *    weak list and invokes compile_weak for each pair.
+ */
+
+void
+compile_weak_pending(void)
+{
+	while (!IS_NULL_list (pending_weak_alias)) {
+		IDENTIFIER alias = DEREF_id (HEAD_list (pending_weak_alias));
+		IDENTIFIER symbol = DEREF_id (HEAD_list (pending_weak_symbol));
+		compile_weak (alias, symbol);
+		pending_weak_alias = TAIL_list (pending_weak_alias);
+		pending_weak_symbol = TAIL_list (pending_weak_symbol);
+	}
 }
 
 

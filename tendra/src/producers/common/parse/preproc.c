@@ -2038,12 +2038,14 @@ read_unassert(int dir)
  *    LOOK UP AN IDENTIFIER IN A PRAGMA WEAK DIRECTIVE
  *
  *    This routine looks up the identifier named nm used in a '#pragma
- *    weak' directive.  The result should be an external variable or
- *    function.  The null identifier is returned to indicate an error.
+ *    weak' directive.  If succeed is 1, a dummy identifier will be returned
+ *    even if nm was not found.  Otherwise the result should be an external
+ *    variable or function.  The null identifier is returned to indicate an
+ *    error.
  */
 
 static IDENTIFIER
-find_weak_id(HASHID nm)
+find_weak_id(HASHID nm, int succeed)
 {
 	if (!IS_NULL_hashid (nm)) {
 		ERROR err;
@@ -2067,6 +2069,9 @@ find_weak_id(HASHID nm)
 				COPY_dspec (id_storage (id), ds);
 				return (id);
 			}
+		}
+		case id_dummy_tag : {
+			if (succeed) return (id);
 			break;
 		}
 		}
@@ -2092,7 +2097,7 @@ read_weak(int dir)
 	update_column ();
 	if (in_preproc_dir) preproc_loc = crt_loc;
 	if (t == lex_identifier) {
-		id = find_weak_id (token_hashid);
+		id = find_weak_id (token_hashid, 1);
 		t = read_token ();
 		update_column ();
 		if (in_preproc_dir) preproc_loc = crt_loc;
@@ -2101,7 +2106,7 @@ read_weak(int dir)
 			update_column ();
 			if (in_preproc_dir) preproc_loc = crt_loc;
 			if (t == lex_identifier) {
-				aid = find_weak_id (token_hashid);
+				aid = find_weak_id (token_hashid, 0);
 				t = read_token ();
 				update_column ();
 				if (in_preproc_dir) preproc_loc = crt_loc;
@@ -2126,7 +2131,7 @@ read_weak(int dir)
 			CONS_id (id, weak_ids, weak_ids);
 		}
 	}
-	compile_weak (id, aid);
+	add_weak_dir (id, aid);
 	if (t != lex_newline) {
 		report (preproc_loc, ERR_cpp_end (dir));
 	}
