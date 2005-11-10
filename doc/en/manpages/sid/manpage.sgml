@@ -249,7 +249,7 @@
                 The generated files can be very large even without inlining.
                 This option splits the main output file into a number of
                 components containing about <emphasis>NUMBER</emphasis>
-                lines each (the default being 50000). These components are
+                lines each (the default being 5000). These components are
                 distinguished by successively substituting 1, 2, 3, ...  for
                 the character '@' in the output file name.</para>
             </listitem>
