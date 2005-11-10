@@ -351,14 +351,20 @@ c_output_switch (COutputInfoP info, unsigned indent)
 }
 
 static void
-c_output_case(COutputInfoP info, unsigned terminal,
+c_output_case(COutputInfoP info, TableP table, unsigned terminal,
 			  unsigned indent)
 {
 	OStreamP ostream = c_out_info_ostream (info);
+	EntryP entry;
 	
 	c_output_indent (info, indent + C_INDENT_STEP - C_INDENT_FOR_CASE);
 	write_cstring (ostream, "case ");
-	write_unsigned (ostream, terminal);
+	entry = table_get_basic_by_number (table, terminal);
+	if (entry != NULL) {
+		c_output_mapped_key (info, entry);
+	} else {
+		write_unsigned (ostream, terminal);
+	}
 	write_char (ostream, ':');
 	write_newline (ostream);
 }
@@ -374,12 +380,13 @@ c_output_default(COutputInfoP info, unsigned indent)
 }
 
 static void
-c_output_bitvec_cases(COutputInfoP info, BitVecP bitvec,
+c_output_bitvec_cases(COutputInfoP info, TableP table, BitVecP bitvec,
 					  unsigned indent)
 {
 	OStreamP ostream  = c_out_info_ostream (info);
 	unsigned terminal = bitvec_first_bit (bitvec);
 	unsigned count    = 0;
+	EntryP entry;
 	
 	do {
 		if (count ++ == 0) {
@@ -388,9 +395,10 @@ c_output_bitvec_cases(COutputInfoP info, BitVecP bitvec,
 			write_char (ostream, ' ');
 		}
 		write_cstring (ostream, "case ");
-		write_unsigned (ostream, terminal);
+		entry = table_get_basic_by_number (table, terminal);
+		c_output_mapped_key (info, entry);
 		write_char (ostream, ':');
-		if (count == 5) {
+		if (count == 3) {
 			write_newline (ostream);
 			count = 0;
 		}
@@ -517,6 +525,7 @@ c_output_basic_in_alt(COutputInfoP info, ItemP item,
 					  RuleP handler_rule,
 					  BoolT need_switch,
 					  BoolT need_check, BoolT outer_level,
+					  TableP table,
 					  unsigned error_terminal,
 					  SaveRStackP state,
 					  unsigned indent)
@@ -530,13 +539,13 @@ c_output_basic_in_alt(COutputInfoP info, ItemP item,
 	
 	if (need_switch) {
 		c_output_switch (info, indent);
-		c_output_case (info, terminal, indent);
+		c_output_case (info, table, terminal, indent);
 		if (code) {
 			c_output_basic_extract (info, code, item, key, state, code_indent);
 		}
 		c_output_break (info, code_indent);
 		if (need_check) {
-			c_output_case (info, error_terminal, indent);
+			c_output_case (info, table, error_terminal, indent);
 			c_output_restore (info, handler_rule, outer_level, code_indent);
 		}
 		c_output_default (info, indent);
@@ -768,8 +777,8 @@ c_output_alt(COutputInfoP info, AltP alt,
 		switch (item_type (item)) EXHAUSTIVE {
 		case ET_BASIC:
 			c_output_basic_in_alt (info, item, handler_rule, need_switch,
-								   need_check, outer_level, error_terminal,
-								   &state, code_indent);
+								   need_check, outer_level, table, 
+								   error_terminal, &state, code_indent);
 			need_switch = TRUE;
 			need_check  = FALSE;
 			break;
@@ -930,7 +939,7 @@ c_output_rule(COutputInfoP info, RuleP rule,
 						ASSERT (!full_first_set);
 						c_output_default (info, code_indent);
 					} else {
-						c_output_bitvec_cases (info, alt_first_set (alt),
+						c_output_bitvec_cases (info, table, alt_first_set (alt),
 											   code_indent);
 					}
 					if (c_output_alt (info, alt, rule, handler_rule, call_list,
@@ -944,7 +953,7 @@ c_output_rule(COutputInfoP info, RuleP rule,
 				}
 			}
 			if (need_check) {
-				c_output_case (info, error_terminal, code_indent);
+				c_output_case (info, table, error_terminal, code_indent);
 				c_output_restore (info, handler_rule, outer_level,
 								  code_indent + C_INDENT_STEP);
 			}
