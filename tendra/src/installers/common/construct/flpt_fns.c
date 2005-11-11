@@ -104,7 +104,6 @@ exp_list reorder_list(exp_list, int) ;
 exp me_contents(exp) ;
 extern int eq_et(error_treatment, error_treatment) ;
 extern exp TDFcallaux(error_treatment, exp, char *, shape) ;
-extern exp find_named_tg(char *, shape) ;
 
 static exp me_complete_chain(exp, exp, exp) ;
 static exp push(exp, exp) ;

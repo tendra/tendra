@@ -57,7 +57,7 @@
 
 
 
-
+extern exp find_named_tg(char *, shape);
 
 
 extern shape ucharsh;
