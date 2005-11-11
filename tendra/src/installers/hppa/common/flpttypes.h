@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -85,7 +85,7 @@
 # define FNUM_SIZE 65		/* max size required by flt2str */
 /* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(null) */
 
-#define E_MIN	(-1000000)	/* (LONG_MIN/10) doesnt work on 80386 cc 
+#define E_MIN	(-1000000)	/* (LONG_MIN/10) doesnt work on 80386 cc
 							 */
 #define E_MAX	(LONG_MAX/10)
 
@@ -108,7 +108,7 @@ typedef struct _flt {
 	/* point is between 1st and 2nd digits */
 	int   sign;			/* -1: negative; +1: positive; 0: value is
 						 *				   zero */
-	int  exp;			/* signed exponent; in range E_MIN..E_MAX 
+	int  exp;			/* signed exponent; in range E_MIN..E_MAX
 						 */
 }                   flt;	/* floating point representation */
 
@@ -147,7 +147,7 @@ typedef struct _flt {
 	/* point is between 1st and 2nd digits */
 	int   sign;			/* -1: negative; +1: positive; 0: value is
 						 *				   zero */
-	int  exp;			/* signed exponent; in range E_MIN..E_MAX 
+	int  exp;			/* signed exponent; in range E_MIN..E_MAX
 						 */
 }                   flt;	/* floating point representation */
 

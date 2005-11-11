@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -99,16 +99,16 @@ special_token(token t, bitstream pars, int sortcode,
 {
 	tokval tkv;
 	UNUSED(sortcode);
-	
+
 	if (t -> tok_name == (char*)0) {
 		SET(tkv); /* call looks at done to see if result is meaningful */
 		return tkv;
-		
+
 	};
-	
-	
+
+
 	/* Added for VARARGS */
-	
+
 	if (!strcmp(t -> tok_name,"ansi.stdarg.__va_start")) {
 		exp arg1;
 		exp id;
@@ -120,7 +120,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(old_place);
 		if (name(arg1) != name_tag) failer("Not a tag in va_start");
 		id = son(arg1);
-		
+
 		env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),
 					   nilexp, 0, id, nilexp, 0, 0, env_offset_tag);
 		setvis(id);
@@ -131,7 +131,7 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 	/* end of addition for VARARGS */
-	
+
 #if is80x86
 	if (!strcmp(t -> tok_name, "~div"))  {
 		exp arg1, arg2;
@@ -140,7 +140,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
-		
+
 		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
 		*done = 1;
@@ -204,7 +204,7 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	};
 #endif
-	
+
 #if ishppa
 	if (!strcmp(t -> tok_name,"~next_caller_offset")) {
 		exp arg1, arg2;
@@ -227,16 +227,16 @@ special_token(token t, bitstream pars, int sortcode,
 		tkv.tk_exp = hold_check(me_b3(f_offset(al1_of(sh(arg1)),
 											   al2_of(sh(arg2))),
 									  arg1,arg2,offset_subtract_tag));
-		*done = 1; 
-		
+		*done = 1;
+
 		if (shape_size(sha2)>64)
-		{ 
+		{
 			al2_of(sh(tkv.tk_exp))->al.sh_hd = nofhd+1;
 		}
-		
+
 		return tkv;
 	}
-	
+
 	if (!strcmp(t -> tok_name,"~next_callee_offset")) {
 		exp arg1, arg2, off;
 		shape sha1, sha2;
@@ -263,7 +263,7 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	
+
 	if (!strcmp(t -> tok_name,"~alloc_size")) {
 		exp off,off1,arg1;
 		tdf_pos old_place;
@@ -279,9 +279,9 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	
+
 #endif
-	
+
 	if (!strcmp(t -> tok_name, "~alloca"))  {
 		exp arg1;
 		tdf_pos old_place;
@@ -295,24 +295,24 @@ special_token(token t, bitstream pars, int sortcode,
 		has_alloca = 1;
 		return tkv;
 	};
-	
+
 	if (!strcmp(t -> tok_name, "~exp_to_source") ||
 		!strcmp(t -> tok_name, "~diag_id_scope") ||
 		!strcmp(t -> tok_name, "~diag_type_scope") ||
 		!strcmp(t -> tok_name, "~diag_tag_scope"))  {
-		
+
 		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
-		
+
 		if (!diagnose)
 		{
 			set_place(old_place);
 			return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~exp_to_source"))
 		{exp r;
 		diag_info * di = read_exp_to_source();
@@ -327,7 +327,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(old_place);
 		return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_id_scope"))
 		{exp r;
 		diag_info * di = read_diag_id_scope();
@@ -339,7 +339,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(old_place);
 		return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_type_scope"))
 		{exp r;
 		diag_info * di = read_diag_type_scope();
@@ -351,7 +351,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(old_place);
 		return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_tag_scope"))
 		{exp r;
 		diag_info * di = read_diag_tag_scope();
@@ -363,10 +363,10 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(old_place);
 		return tkv;
 		};
-		
-		
+
+
 	};
-	
+
 	SET(tkv); /* call looks at done to see if result is meaningful */
 	return tkv;
 }

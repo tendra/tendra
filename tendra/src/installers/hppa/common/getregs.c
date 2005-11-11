@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -105,17 +105,17 @@ settempregs(exp tg)
 	/*ARGSUSED*/
 	currentfix = GR2;
 	choosefix = RMASK(currentfix);
-	
+
 	currentfloat = 1;
 	choosefloat = RMASK(currentfloat);
-	
+
 }
 
 /* get a free temporary fixed pt reg */
 int
 getreg(long fixed)
 {
-	
+
 	/*
 	 * Choose reg from set 'fixed'. Chosen in a cyclic order, to give good
 	 * chance for peep-hole optimiser finding something useful lying around. Bit
@@ -123,23 +123,23 @@ getreg(long fixed)
 	 */
 	int reg = -1;
 	long start = choosefix;
-	
-	
+
+
 	FULLCOMMENT3("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
-	
+
 	/* currentfix and choosefix are in step, one the reg number, one the mask */
 	assert(choosefix == RMASK(currentfix));
-	
+
 	for (;;)
 	{
 		if ((choosefix & fixed) == 0)
 			reg = currentfix;
-		
+
 		assert(reg != GR0); 	/* hard wired to 0, shouldn't be in set */
 		assert(reg != GR1);	       /* ad-hoc temporary                     */
 		assert(reg != DP);        /* %dp must not be changed              */
 		assert(reg != SP);       /* %sp must not be changed              */
-		
+
 		if (currentfix == R_LAST)
 		{
 			/* back to start */
@@ -152,7 +152,7 @@ getreg(long fixed)
 			currentfix++;
 			choosefix = choosefix << 1;
 		}
-		
+
 		if (reg != -1)
 		{
 			FULLCOMMENT1("getreg: allocating %d", reg);
@@ -172,7 +172,7 @@ getreg(long fixed)
 int
 getfreg(long fl) /* get a free temporary floating reg */
 {
-	
+
 	/*
 	 * Choose reg from set 'fl'. Chosen in a cyclic order, to give good chance
 	 * for peep-hole optimiser finding something useful lying around. Bit set in
@@ -180,20 +180,20 @@ getfreg(long fl) /* get a free temporary floating reg */
 	 */
 	int reg = -1;
 	long start = choosefloat;
-	
+
 	FULLCOMMENT3("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
-	
+
 	/*
 	 * currentfloat and choosefloat are in step, one the reg number, one the
 	 * mask
 	 */
 	assert(choosefloat == RMASK(currentfloat));
-	
+
 	for (;;)
 	{
 		if (((choosefloat & fl) == 0) && IS_FLT_TREG(currentfloat))
 			reg = currentfloat;
-		
+
 		if (currentfloat == R_FLT_LAST)
 		{
 			/* back to start */
@@ -206,14 +206,14 @@ getfreg(long fl) /* get a free temporary floating reg */
 			currentfloat++;
 			choosefloat = choosefloat << 1;
 		}
-		
+
 		if (reg != -1)
 		{
 			FULLCOMMENT1("getfreg: allocating %d", reg);
 			assert(IS_FLT_TREG(reg));
 			return reg;
 		}
-		
+
 		if (choosefloat == start)
 		{
 			fail("getfreg: too many floating point regs required");

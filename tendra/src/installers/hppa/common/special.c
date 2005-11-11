@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -95,11 +95,11 @@ speci
 special_fn(exp a1, exp a2, shape s)
 {				/* look for special functions */
 	speci spr;
-	
+
 	/* +++ implement special fns handling */
 	spr.is_special = 0;
 	spr.special_exp = nilexp;
-	
+
 	return spr;
 }
 
@@ -107,23 +107,23 @@ special_fn(exp a1, exp a2, shape s)
 static int
 specno(char * n)
 {
-	
+
 	/*
 	 * specno: >0 special, handle inline in specialmake 0 not special <0
 	 * special, rewrite TDF in specialneeds, no call to specialmake
 	 */
-	
+
 	FULLCOMMENT1("specno(%s)", (long) n);
-	
+
 	if (strcmp(n, "___builtin_strcpy") == 0 || strcmp(n, "___TDF_builtin_strcpy") == 0)
 		return -1;
-	
+
 	if (strcmp(n, "___builtin_asm") == 0 || strcmp(n, "___TDF_builtin_asm") == 0)
 		return 4;
-	
+
 	if (strcmp(n, "___builtin_alloca") == 0 || strcmp(n, "___TDF_builtin_alloca") == 0)
 		return 5;
-	
+
 #if 0
 	/* +++ use special maybe */
 	if (strcmp(n, "strlen") == 0)
@@ -131,7 +131,7 @@ specno(char * n)
 	if (strcmp(n, "strcmp") == 0)
 		return -3;
 #endif
-	
+
 	return 0;
 }
 
@@ -142,13 +142,13 @@ char
 {
 	switch (i)
 	{
-    case -1:
-    case 1:
+	case -1:
+	case 1:
 		return ("_strcpy");
-		
+
 	case 5:
 		return ("_alloca");
-		
+
 	default:
 		fail("attempting external call to builtin");
 		return "";
@@ -170,17 +170,17 @@ needs
 specialneeds(int i, exp application, exp pars)
 {
 	FULLCOMMENT1("specialneeds(%d,...)", i);
-	
+
 	switch (i)
 	{
 /* +++ implement special fuinction handling */
-		
+
 	case 4:
 	{   return zeroneeds;		/* asm(string) */ }
-	
+
 	case 5:
 		return zeroneeds;		/* alloca(n) */
-		
+
 	default:
 		comment1("specialneeds: unimplemented builtin %d", i);
 		fail("unimplemented builtin");
@@ -198,7 +198,7 @@ specialfn(exp fn)
 		isglob(son(fn)) && son(son(fn)) == nilexp)
 	{
 		char *extname = brog(son(fn))->dec_u.dec_val.dec_id;
-		
+
 		return specno(extname);
 	}
 	return 0;
@@ -212,14 +212,14 @@ specialopt(exp fn)
 		isglob(son(fn)) && son(son(fn)) == nilexp)
 	{
 		char *extname = brog(son(fn))->dec_u.dec_val.dec_id;
-		
+
 		if (extname == 0)
 			return 0;
-		
+
 		extname += strlen(name_prefix); /* Normalise "_foo" -> "foo" */
-		
+
 		FULLCOMMENT1("specialopt: %s", (int)extname);
-		
+
 		if ((strcmp(extname, "vfork") == 0) ||
 			(strcmp(extname, "setjmp") == 0) ||
 			(strcmp(extname, "_setjmp") == 0) ||
@@ -241,11 +241,11 @@ specialmake(int i, exp par, space sp, where dest,
 	switch (i)
 	{
 	case 4:
-    {
+	{
 		/* asm(s) - simply output s */
 		exp e;
 		char *s;
-		
+
 		/* "par" is (eval_tag (pack_tag (string_tag no=string-table-index))) */
 		e = son(son(par));
 		if (name(e) != string_tag)
@@ -254,35 +254,35 @@ specialmake(int i, exp par, space sp, where dest,
 			return 0;
 		}
 		s = nostr(e);
-		
+
 		/* asm is dangerous; as the least precaution, zap register tracking. */
 		clear_all();
 		fprintf(outf,"!  asm:\n");
 		fprintf(outf,s);
 		fputc('\n',outf);
 		break;
-    }
-	
+	}
+
 	case 5:
-    {
-		
-		/* alloca(n) - grow stack frame by n bytes and then grab 
+	{
+
+		/* alloca(n) - grow stack frame by n bytes and then grab
 		 *	  grab n bytes */
-		
+
 		int maxargbytes = max_args>>3;
 		int dreg;
 		ans aa;
-		
+
 		dreg = ((discrim(dest.answhere)==inreg) ? regalt(dest.answhere) : getreg(sp.fixed));
-		
+
 		if (name(par) == val_tag)
 		{
 			/* n is a constant */
 			int n = no(par);
-			
+
 			/* adjust n to be multiple of 64 so stack stays 64 byte aligned */
 			n = (n+63) & ~(63);
-			
+
 			if (n != 0)
 			{
 				/* alloca(n) = %sp - maxargbytes */
@@ -293,7 +293,7 @@ specialmake(int i, exp par, space sp, where dest,
 					ir_ins(i_addil,fs_L,empty_ltrl,-maxargbytes,SP);
 					ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,-maxargbytes,GR1,dreg);
 				}
-				/* grow stack frame, i.e. %sp -> %sp + n */             
+				/* grow stack frame, i.e. %sp -> %sp + n */
 				if (SIMM14(n))
 					ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,SP,SP);
 				else
@@ -307,11 +307,11 @@ specialmake(int i, exp par, space sp, where dest,
 		else
 		{
 			int nreg = reg_operand(par, sp);
-			
+
 			/* adjust nreg so that stack stays 64 byte aligned */
 			ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,63,nreg,GR1);
 			riir_ins(i_dep,c_,0,31,6,GR1);
-			
+
 			/* alloca(n) = %sp - maxargbytes */
 			if (SIMM14(-maxargbytes))
 				ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,-maxargbytes,SP,dreg);
@@ -323,18 +323,18 @@ specialmake(int i, exp par, space sp, where dest,
 			/* %sp -> %sp + nreg */
 			rrr_ins(i_add,c_,SP,GR1,SP);
 		}
-		
+
 		setregalt(aa, dreg);
 		move(aa, dest, guardreg(dreg, sp).fixed, 0);
 		break;
-    }
-	
+	}
+
 	default:
 		comment1("specialmake: unimplemented builtin %d", i);
 		fail("unimplemented builtin");
 		return 0;
 	}
-	
+
 	return exitlab;		/* for most cases */
 }
 
@@ -359,7 +359,7 @@ static struct {
 	CONST char *proc_name;
 	bool called;
 	bool in_library;
-} millicode_lib [ sz_millicode_lib ] =
+} millicode_lib [sz_millicode_lib] =
 {
 	{ milli_mulU, 0, 1 },	        /* $$mulU    */
 	{ milli_mulI, 0, 1 },	        /* $$mulI    */
@@ -378,17 +378,17 @@ static struct {
 void
 call_millicode(int n, int r, char *stub, bool restore_linkage_ptr_reg)
 {
-    CONST char *nm = millicode_lib[n].proc_name;
-    millicode_lib[n].called = 1;
-    extj_special_ins (nm, r, stub, 0);
-    if (PIC_code && restore_linkage_ptr_reg)
+	CONST char *nm = millicode_lib[n].proc_name;
+	millicode_lib[n].called = 1;
+	extj_special_ins (nm, r, stub, 0);
+	if (PIC_code && restore_linkage_ptr_reg)
 		rr_ins(i_copy,GR5,GR19);
-    return;
-	
+	return;
+
 }
 
 void
-import_millicode()
+import_millicode(void)
 {
 	int n;
 	for (n=0; n<sz_millicode_lib; n++)

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -73,22 +73,22 @@
 bool
 valregable(shape s)
 {
-    int n = name(s);
-    if (is_floating(n))
-    {
-		return 0 ; /* floats don't go in fixed point registers */
-    } 
-    else
-    {
+	int n = name(s);
+	if (is_floating(n))
+	{
+		return 0; /* floats don't go in fixed point registers */
+	}
+	else
+	{
 		ash a;
 		a = ashof(s);
 		if (a.ashsize > 32)
 		{
-			return (0) ; /* too big for a 32 bit register */
-		} 
+			return (0); /* too big for a 32 bit register */
+		}
 		else if (n==cpdhd || n==nofhd)
 		{
-			return 0 ; /* Compound shapes are not put in registers */
+			return 0; /* Compound shapes are not put in registers */
 		}
 		else if (n==tophd)
 		{
@@ -98,7 +98,7 @@ valregable(shape s)
 		{
 			return 1;
 		}
-    }
+	}
 }
 
 /*
@@ -108,12 +108,12 @@ valregable(shape s)
 bool
 fixregable(exp e)
 {
-    if (!isvis (e) && !isoutpar(e) && !isglob (e) && !isenvoff(e)
+	if (!isvis (e) && !isoutpar(e) && !isglob (e) && !isenvoff(e)
 		&& (name(son(e))!=caller_name_tag)) {
 		shape s = sh (son (e));
 		return (valregable (s));
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -124,7 +124,7 @@ fixregable(exp e)
 bool
 floatregable(exp e)
 {
-    if (!isvis (e) && !isoutpar(e) && !isglob (e) && !isenvoff(e)
+	if (!isvis (e) && !isoutpar(e) && !isglob (e) && !isenvoff(e)
 		&& (name(son(e))!=caller_name_tag)) {
 		shape s = sh (son (e));
 		if (is_floating (name (s))) {
@@ -138,6 +138,6 @@ floatregable(exp e)
 		} else {
 			return (0);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }

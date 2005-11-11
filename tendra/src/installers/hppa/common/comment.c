@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -88,56 +88,56 @@ bool do_comment;
 void
 comment(char * mess)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! ");
 		fprintf (outf,"%s\n", mess);
-    }
-    return;
+	}
+	return;
 }
 
 void
 comment1(char * mess, long p1)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! ");
 		fprintf (outf, mess, p1);
 		fputc('\n',outf);
-    }
-    return;
+	}
+	return;
 }
 
 void
 comment2(char * mess, long p1, long p2)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! ");
 		fprintf (outf, mess, p1, p2);
 		fputc('\n',outf);
-    }
-    return;
+	}
+	return;
 }
 
 void
 comment3(char * mess, long p1, long p2, long p3)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! ");
 		fprintf (outf, mess, p1, p2, p3);
 		fputc('\n',outf);
-    }
-    return;
+	}
+	return;
 }
 
 void
 comment4(char * mess, long p1, long p2, long p3,
 		 long p4)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! ");
 		fprintf (outf, mess, p1, p2, p3, p4);
 		fputc('\n',outf);
-    }
-    return;
+	}
+	return;
 }
 
 #endif /* DO_COMMENT */
@@ -150,16 +150,16 @@ comment4(char * mess, long p1, long p2, long p3,
 void
 fail(char * mess)
 {
-    if (do_comment) {
+	if (do_comment) {
 		fprintf(outf, "!! TRANSLATION FAILED : ");
 		fprintf(outf, mess);
 		fputc('\n',outf);
 		fflush (outf);
-    }
-    fprintf (stderr, "trans : internal error '%s'\n", mess);
-    if (!do_comment) exit (EXIT_FAILURE);
-    /* generate more code to give the error context when commenting */
-    return;
+	}
+	fprintf (stderr, "trans : internal error '%s'\n", mess);
+	if (!do_comment) exit (EXIT_FAILURE);
+	/* generate more code to give the error context when commenting */
+	return;
 }
 
 

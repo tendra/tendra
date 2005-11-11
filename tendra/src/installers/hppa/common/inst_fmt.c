@@ -98,14 +98,14 @@
 #define prokhd 24
 
 #define plabel(X) ((X)<0 ?\
-    (son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==nilexp ?\
-    name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==prokhd :\
-    (IS_A_PROC(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)))) : 0)
+	(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==nilexp ?\
+	name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==prokhd :\
+	(IS_A_PROC(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)))) : 0)
 
 #define globaldata(X) ((X)<0 ?\
-    ((name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==proc_tag ||\
-    name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==general_proc_tag)\
-    ? 0 : 1) : 0)
+	((name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==proc_tag ||\
+	name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==general_proc_tag)\
+	? 0 : 1) : 0)
 
 
 extern int firstlab, labno;
@@ -200,7 +200,7 @@ static CONST char space_reg_name_tab[8][5] =
 
 #define	RN(reg)	reg_name(reg)
 #define	FN(reg)	float_reg_name(reg)
-#define	SN(reg)	space_reg_name_tab[ reg ]
+#define	SN(reg)	space_reg_name_tab[reg]
 
 #define NA -1
 
@@ -360,7 +360,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 					line--;
 				}
 	}
-	
+
 	{
 		pIn pI;
 		pI = (pIn) malloc(sizeof(psuedoIn));
@@ -402,34 +402,34 @@ char
 {
 	static char *sp;
 	static int sizeof_space = 0;
-	
+
 	if (sizeof_space == 0)
 	{
 		/* init sp */
 		sizeof_space = 64;		/* generous first guess */
 		sp = (char *) malloc(sizeof_space);
 	}
-	
+
 	if (id < 0)
 	{
 		char *ext = main_globals[(-id) - 1]->dec_u.dec_val.dec_id;
-		
+
 		int len_needed = 1 + strlen(ext) + 1;	/* _NAME\0 */
-		
+
 		if (len_needed > sizeof_space)
 		{
 			sizeof_space = len_needed;
 			sp = (char *) xrealloc(sp, sizeof_space);
 		}
-		
+
 		sprintf(sp, "%s", ext);
-		
+
 		return sp;
 	}
 	else
 	{
 		assert(id > R_LAST);	/* not a confused register */
-		
+
 		sprintf(sp, "LD$%ld", id);
 		return sp;
 	}
@@ -446,7 +446,7 @@ rrr_ins(ins_p ins, ins_p cond, int a, int b,
 	int p;
 	int ops[4];
 	clear_reg(c);
-	
+
 	if (ins==i_add && a==b)
 	{
 		ops[0]=a;
@@ -554,12 +554,12 @@ void
 ir_ins(ins_p ins, ins_p fs, CONST char *ltrl,
 	   long l, int d)
 {
-    char I[128];
-	
-    /* build immediate, i.e. field selector applied to literal+long */
-    if (!(*ltrl))
+	char I[128];
+
+	/* build immediate, i.e. field selector applied to literal+long */
+	if (!(*ltrl))
 		sprintf(I,"%s%ld",fs,l);
-    else
+	else
 		if (l>0)
 			sprintf(I,"%s%s+%ld",fs,ltrl,l);
 		else
@@ -567,12 +567,12 @@ ir_ins(ins_p ins, ins_p fs, CONST char *ltrl,
 				sprintf(I,"%s%s-%ld",fs,ltrl,-l);
 			else
 				sprintf(I,"%s%s",fs,ltrl);
-	
-    clear_reg(d);
-	
-    outp(ins,NOCOND,zops,NA);
-    fprintf(outf,"\t%s\t%s,%s\n",ins,I,RN(d));
-	
+
+	clear_reg(d);
+
+	outp(ins,NOCOND,zops,NA);
+	fprintf(outf,"\t%s\t%s,%s\n",ins,I,RN(d));
+
 }
 
 
@@ -637,13 +637,13 @@ ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs,
 		  CONST char *ltrl, long l, int b,
 		  int d)
 {
-    char O[128];
-    if (d==GR0)
+	char O[128];
+	if (d==GR0)
 		return;
-    /* build offset, i.e. field selector applied to literal+long */
-    if (!(*ltrl))
+	/* build offset, i.e. field selector applied to literal+long */
+	if (!(*ltrl))
 		sprintf(O,"%s%ld",fs,l);
-    else
+	else
 		if (l>0)
 			sprintf(O,"%s%s+%ld",fs,ltrl,l);
 		else
@@ -707,7 +707,7 @@ set_ins(char *e, baseoff a, int d)
 	else
 		extname = ext_name(a.base);
 	o = a.offset;
-	
+
 	if (a.base<0)
 	{
 		p = plabel(a.base);
@@ -856,12 +856,12 @@ void
 st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs,
 		  CONST char *ltrl, long l, int b)
 {
-    char O[128];
-	
-    /* build offset, i.e. field selector applied to literal+long */
-    if (!(*ltrl))
+	char O[128];
+
+	/* build offset, i.e. field selector applied to literal+long */
+	if (!(*ltrl))
 		sprintf(O,"%s%ld",fs,l);
-    else
+	else
 		if (l>0)
 			sprintf(O,"%s%s+%ld",fs,ltrl,l);
 		else
@@ -869,9 +869,9 @@ st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs,
 				sprintf(O,"%s%s-%ld",fs,ltrl,-l);
 			else
 				sprintf(O,"%s%s",fs,ltrl);
-	
-    outp(ins,NOCOND,zops,NA);
-    fprintf(outf,"\t%s%s\t%s,%s(%s)\n",ins,cmplt,RN(s),O,RN(b));
+
+	outp(ins,NOCOND,zops,NA);
+	fprintf(outf,"\t%s%s\t%s,%s(%s)\n",ins,cmplt,RN(s),O,RN(b));
 }
 
 void
@@ -880,7 +880,7 @@ st_ins(ins_p ins, int s, baseoff a)
 	/* ins must be one of i_sb, i_sh or i_sw */
 	long o=a.offset;
 	CONST char *i_st;
-	
+
 	if (IS_FIXREG(a.base))
 	{
 		int b=a.base;
@@ -969,18 +969,18 @@ mtsp_in(int r, int sr)
 void
 ub_ins(CONST char *cmplt, int lab)
 {
-    if (OPTIM)
-    {
+	if (OPTIM)
+	{
 		int b;
 		b=outp(i_ub,NOCOND,zops,lab);
 		if (b)
 			fprintf(outf,"%s",GAP);
-    }
-    else
-    {
+	}
+	else
+	{
 		fprintf(outf,"\tb%s\tL$$%d\n",cmplt,lab);
 		z_ins(i_nop);
-    }
+	}
 }
 
 
@@ -1296,8 +1296,8 @@ void
 stf_ins(ins_p ins, int s, baseoff a)
 {
 	/* ins must be either i_fstw or i_fstd */
-	
-	
+
+
 	CONST char *i_fst = (ins==i_fstw ? i_fstws : i_fstds);
 	if (IS_FIXREG(a.base))
 	{
@@ -1375,9 +1375,9 @@ out_directive(CONST char *d, CONST char *params)
 void
 outlab(char *prefix, int n)
 {
-    if (prefix[0]=='L' && prefix[1]=='$')
+	if (prefix[0]=='L' && prefix[1]=='$')
 		outp(i_lab,NOCOND,zops,n);
-    else
+	else
 		outp(i_,NOCOND,zops,NA);
-    fprintf(outf,"%s%d\n",prefix,n);
+	fprintf(outf,"%s%d\n",prefix,n);
 }

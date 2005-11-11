@@ -137,10 +137,10 @@ mem_temp(int byte_offset)
 {
 	baseoff b;
 	b = MEM_TEMP_BOFF;
-	
+
 	/* Only 2 words of temporary memory allocated */
 	assert(byte_offset >= 0 && byte_offset < 8);
-	
+
 	b.offset+=byte_offset;
 	return b;
 }
@@ -149,7 +149,7 @@ mem_temp(int byte_offset)
 
 /* Save callee-saves ("s") registers on the stack. */
 void
-save_sregs()
+save_sregs(void)
 {
 	if (fixdump==0)
 		return;
@@ -170,7 +170,7 @@ save_sregs()
 
 /* Restore the callee-saves ("s") registers saved on the stack. */
 void
-restore_sregs()
+restore_sregs(void)
 {
 	if (fixdump==0)
 		return;
@@ -260,9 +260,9 @@ make_proc_tag_code(exp e, space sp, where dest,
 	makeans mka;
 	bool is_main=STRCMP(proc_name,"main");
 	bool save_sp;
-	
+
 	set_up_frame(e);
-	
+
 	/*
 	 *   Grab the frame size, offsets, etc. of this procedure's frame
 	 */
@@ -275,11 +275,11 @@ make_proc_tag_code(exp e, space sp, where dest,
 	locals_offset = pr->locals_offset;
 	callee_sz = pr->callee_sz;
 	simpleans = (pprops & long_result_bit) == 0;
-	
+
 	save_sp = (((Has_fp && (No_S || (Uses_crt_env && Has_vcallees)))) ||
 			   (Uses_crt_env && (!leaf || proc_has_checkstack(e)
 								 || Has_checkalloc)));
-	
+
 	if (OPTIM)
 	{
 		lines=BLOCK;
@@ -292,12 +292,12 @@ make_proc_tag_code(exp e, space sp, where dest,
 	}
 	odd_bits = (outofline*)0;
 	repeat_level=0;
-	
+
 	mka.lab = exitlab;
 	mka.regmove = NOREG;
-	
+
 	assert(name(e) == proc_tag);	/* procedure definition */
-	
+
 	export[0]=0;
 	outnl();
 	if (is_main)
@@ -348,15 +348,15 @@ make_proc_tag_code(exp e, space sp, where dest,
 		outs(",CALLS\n");
 	}
 	outs("\t.ENTRY\n");
-	
+
 	/* store return pointer */
 	st_ir_ins(i_stw,cmplt_,RP,fs_,empty_ltrl,-20,SP);
-	
+
 	if (fixdump != 0)
 	{
 		save_sregs();  /* Save the s-regs on stack. */
 	}
-	
+
 	if (do_profile)
 	{
 		char g[128];
@@ -387,7 +387,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 		b.offset-=4;
 		ld_ins(i_lw,0,b,ARG3);
 	}
-	
+
 	{
 		/*
 		 *   Increment the Stack Pointer
@@ -436,7 +436,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 			}
 		}
 	}
-	
+
 	if (save_sp && !Has_fp)
 	{
 		if (proc_has_checkstack(e))
@@ -444,7 +444,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 		else
 			st_ir_ins(i_stw,cmplt_,T1,fs_,empty_ltrl,FP_BOFF.offset,SP);
 	}
-	
+
 	if (proc_has_checkstack(e))
 	{
 		baseoff b;
@@ -459,7 +459,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 			rr_ins(i_copy,SP,FP);
 		rr_ins(i_copy,T1,SP);
 	}
-	
+
 	if (PIC_code)
 	{
 		st_ir_ins(i_stw,cmplt_,GR19,fs_,empty_ltrl,-32,SP);
@@ -468,7 +468,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 			rr_ins(i_copy,GR19,GR5);
 		}
 	}
-	
+
 	if (is_main)
 	{
 		int n = new_label();
@@ -503,14 +503,14 @@ make_proc_tag_code(exp e, space sp, where dest,
 			outlab("L$$",end);
 		}
 	}
-	
+
 	if (Has_vsp)
 		rr_ins(i_copy,SP,EP);
 	if (Has_tos)
 		st_ins(i_sw,SP,SP_BOFF);
 	if ((Has_fp && (No_S || (Uses_crt_env && Has_vcallees))))
 		st_ins(i_sw,FP,FP_BOFF);
-	
+
 	if (!simpleans)
 	{
 		/* structure or union result */
@@ -539,7 +539,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 		/* no result */
 		setregalt(procans,GR0);
 	}
-	
+
 	clear_all();
 	RSCOPE_LEVEL = 0;
 	res_label = 0;
@@ -547,9 +547,9 @@ make_proc_tag_code(exp e, space sp, where dest,
 	return_to_label_label = 0;
 	last_odd_bit = 0;
 	doing_odd_bits = 0;
-	
+
 	code_here(son(e),sp,nowhere);	/* Code body of procedure. */
-	
+
 	if (stackerr_lab!=0)
 	{
 		outlab("L$$",stackerr_lab);
@@ -560,7 +560,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 		outlab("L$$",aritherr_lab);
 		do_exception(SIGFPE);
 	}
-	
+
 	doing_odd_bits = 1;
 	while (odd_bits != (outofline*)0)
 	{
@@ -569,14 +569,14 @@ make_proc_tag_code(exp e, space sp, where dest,
 		last_odd_bit=0;
 		add_odd_bits(ol);
 	}
-	
+
 	if (xdb)
 	{
 		outlab("L$$",res_label);
 		code_for_ret(RES);
 	}
-	
-	
+
+
 	if (OPTIM)
 	{
 		/*
@@ -746,9 +746,9 @@ make_proc_tag_code(exp e, space sp, where dest,
 		SET_FILE_POSN(outf,Pos);
 		free(hit);
 	}
-	
-	
-	
+
+
+
 	{
 		int i;
 		for (i=0;i<line;i++)
@@ -759,8 +759,8 @@ make_proc_tag_code(exp e, space sp, where dest,
 		free(pCode);
 		free(labIntro);
 	}
-	
-	
+
+
 	outs("\t.EXIT\n");
 	clear_all();  /* for next proc */
 	return mka;
@@ -863,9 +863,9 @@ make_res_tag_code(exp e, space sp, where dest,
 		if (RSCOPE_LABEL != exitlab)
 			ub_ins(cmplt_,RSCOPE_LABEL);
 	}
-	
+
 	clear_all();	  /* regs invalid after return. (Not needed for inlining?) */
-	
+
 	return mka;
 }
 

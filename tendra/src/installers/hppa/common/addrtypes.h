@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -72,62 +72,62 @@
  */
 
 typedef struct {
-    int lab;
-    int regmove;
+	int lab;
+	int regmove;
 } makeans;
 
 typedef struct {
-    int base;
-    long offset;
+	int base;
+	long offset;
 } baseoff;
 
 typedef struct {
-    baseoff b;
-    bool adval;
+	baseoff b;
+	bool adval;
 } instore;
 
 typedef struct {
-    int fr;
-    bool dble;
+	int fr;
+	bool dble;
 } freg;
 
 typedef struct {
-    int *fr;
-    bool dble;
+	int *fr;
+	bool dble;
 } somefreg;
 
 typedef struct {
-    int *r;
+	int *r;
 } somereg;
 
 typedef struct {
-    enum ansdiscrim {
+	enum ansdiscrim {
 		inreg,
 		infreg,
 		notinreg,
 		bitad,
 		insomereg,
 		insomefreg
-    } d;
-    union {
+	} d;
+	union {
 		int regans;
 		freg fregans;
 		instore instoreans;
 		instore bitadans;
 		somefreg somefregans;
 		somereg someregans;
-    } val;
+	} val;
 } ans;
 
 typedef struct {
-    ans answhere;
-    ash ashwhere;
+	ans answhere;
+	ash ashwhere;
 } where;
 
 typedef struct {
-    long maxi;
-    long mini;
-    char *fmt;
+	long maxi;
+	long mini;
+	char *fmt;
 } mm;
 
 struct regcell_t {int regcell_key;
@@ -177,12 +177,12 @@ typedef struct outofline_t {
 #define someregalt(x)		(x).val.someregans.r
 #define somefregalt(x)	(x).val.somefregans
 
-#define setregalt(x, y)	(x).d = inreg ; regalt (x) = (y)
-#define setfregalt(x, y)	(x).d = infreg ; fregalt (x) = (y)
-#define setinsalt(x, y)	(x).d = notinreg ; insalt (x) = (y)
-#define setbitadalt(x, y)	(x).d = bitad ; bitadalt (x) = (y)
-#define setsomeregalt(x, y)	(x).d = insomereg ; someregalt (x) = (y)
-#define setsomefregalt(x, y)	(x).d = insomefreg ; somefregalt (x) = (y)
+#define setregalt(x, y)	(x).d = inreg; regalt (x) = (y)
+#define setfregalt(x, y)	(x).d = infreg; fregalt (x) = (y)
+#define setinsalt(x, y)	(x).d = notinreg; insalt (x) = (y)
+#define setbitadalt(x, y)	(x).d = bitad; bitadalt (x) = (y)
+#define setsomeregalt(x, y)	(x).d = insomereg; someregalt (x) = (y)
+#define setsomefregalt(x, y)	(x).d = insomefreg; somefregalt (x) = (y)
 
 
 

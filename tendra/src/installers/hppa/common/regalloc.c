@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -161,13 +161,13 @@ regalloc(exp e, int freefixed, int freefloat,
 		long st = stack;
 		spacereq body;
 		ash a;
-		
+
 		FULLCOMMENT4("regalloc ident_tag(%d):	freefixed,freefloat,stack = %d %d %ld",
 					 EXP_NUM(e), freefixed, freefloat, stack);
-		
+
 		assert(freefixed >= 0);
 		assert(freefloat >= 0);
-		
+
 		if (props(e) & defer_bit)
 		{
 			/* the tag declared is transparent to code production */
@@ -194,7 +194,7 @@ regalloc(exp e, int freefixed, int freefloat,
 			else
 			{
 				a = ashof(sh(s));
-				
+
 				if (name(s) == compound_tag || name(s) == nof_tag || name(s) == concatnof_tag)
 				{
 					/*
@@ -203,26 +203,26 @@ regalloc(exp e, int freefixed, int freefloat,
 					 * stack - bit address for current allocation
 					 * st - bit address for next allocation
 					 */
-					
+
 					assert((stack&31)==0);	/* we expect stack to be word aligned */
-					
+
 					st = ALIGNNEXT(stack, a.ashalign);
 					st = ALIGNNEXT(st+a.ashsize, 32);	/* maintain word alignment */
-					
+
 					assert(st-stack>=a.ashsize);
 					assert((st&31)==0);
-					
+
 					def = regalloc (s, freefixed, freefloat, st);
 				}
 				else
 				{
 					def = regalloc(s, freefixed, freefloat, stack);
 				}
-				
+
 				FULLCOMMENT4("regalloc ident_tag:	props=%#x,fixregable=%d,no(e)=%d,ffix=%d",
 							 props(e), fixregable(e), no(e), ffix);
-				
-				
+
+
 				if ((props(e) & inreg_bits) == 0 && fixregable(e) && no(e) < ffix)
 				{
 					/* suitable for s reg, no(e) has been set up by weights */
@@ -242,23 +242,23 @@ regalloc(exp e, int freefixed, int freefloat,
 				}
 				else if ((props(e) & inanyreg) == 0)
 				{
-					
+
 					/*
 					 * not suitable for reg allocation
 					 */
 					if (name(son(e)) == val_tag && !isvar(e) && !isenvoff(e))
 					{
-						
+
 						/*
 						 * must have been forced by const optimisation - replace uses by the
 						 * value
 						 */
 						exp t = pt(e);
-						
+
 						for (; t != nilexp;)
 						{
 							exp p = pt(t);
-							
+
 							setname(t, val_tag);
 							son(t) = nilexp;
 							no(t) = no(son(e));
@@ -267,7 +267,7 @@ regalloc(exp e, int freefixed, int freefloat,
 							t = p;
 						}
 						pt(e) = nilexp;
-						
+
 						FULLCOMMENT("regalloc heavily used const: no spare regs - replace use by value");
 						props(e) |= defer_bit;
 						def = zerospace;
@@ -286,21 +286,21 @@ regalloc(exp e, int freefixed, int freefloat,
 					}
 					else
 					{
-						
+
 						/*
 						 * allocate on stack stack - bit address for current allocation st -
 						 * bit address for next allocation
 						 */
-						
+
 						assert((stack & 31) == 0);	/* we expect stack to be word aligned */
-						
+
 						stack = ALIGNNEXT(stack, a.ashalign);
 						st = ALIGNNEXT(stack + a.ashsize, 32);	/* maintain word
 																 * alignment */
-						
+
 						assert(st - stack >= a.ashsize);
 						assert((stack & 31) == 0);
-						
+
 						def.stack = MAX_OF(def.stack, st);
 						no(e) = stack * 2 + GR17;
 						FULLCOMMENT3("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack, st, no(e));
@@ -308,7 +308,7 @@ regalloc(exp e, int freefixed, int freefloat,
 				}
 				else if (no(e) == R_USE_RES_REG)
 				{
-					
+
 					/*
 					 * optimisation: use result reg for ident_tag to avoid reg move
 					 */

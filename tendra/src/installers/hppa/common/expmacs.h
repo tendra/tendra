@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -110,10 +110,10 @@
 #define setsh(x, b)			sh (x) = (b)
 #define setson(x, b)			son (x) = (b)
 #define setpt(x, b)			pt (x) = (b)
-#define setlast(x)			last (x) = 1 
-#define clearlast(x)			last (x) = 0 
+#define setlast(x)			last (x) = 1
+#define clearlast(x)			last (x) = 0
 #define setname(x, n)			name (x) = (n)
-#define setfather(f, s)		setbro (s, f) ; setlast (s)
+#define setfather(f, s)		setbro (s, f); setlast (s)
 #define setbyteuse(x)                   props(x) = (prop)(props(x) | 0x800)
 
 /*
@@ -147,7 +147,7 @@
 #define setntest(x, t)		props (x) = (t)
 #define round_number(x)		(props (x) >> 3)
 #define setround_number(x, r)		props (x) = (props (x) & 0x7) |\
-						      ((r) << 3)
+						  	((r) << 3)
 #define fstack_pos_of(x)		props (x)
 
 
@@ -164,8 +164,8 @@
  *    PROPERTIES OF CONSTRUCTS WITH EXCEPTIONS
  */
 
-#define setjmp_dest(x, d)		{ setpt (x, d) ;\
-					  no (son (d))++ ; }
+#define setjmp_dest(x, d)		{ setpt (x, d);\
+					  no (son (d))++; }
 #define seterr_code(x, d)		props (x) = (d)
 #define errhandle(x)			(props (x) & 0x7)
 #define isov(x)                         (errhandle(x) == 0x4)
@@ -358,8 +358,8 @@
 #define proc_has_nolongj(e) ((props(e) & 0x1000) !=0)
 #define is_fn_glob(e) (name(e)==name_tag && name(son(e))==ident_tag\
 			&& (son(son(e))==nilexp ||\
-                             name(son(son(e)))==proc_tag ||\
-                             name(son(son(e)))==general_proc_tag))
+ 							name(son(son(e)))==proc_tag ||\
+ 							name(son(son(e)))==general_proc_tag))
 #define call_is_untidy(e) ((props(e) & 4) != 0)
 
 #define IS_A_PROC(e) (name(e)==proc_tag || name(e)==general_proc_tag)

@@ -201,7 +201,7 @@ baseoff FP_BOFF;
  *	otherwise they are offset relative to FP. The callee_sz is stored
  *	on the stack only when Has_vcallees==1, and therefore Has_fp==1,
  *	and is offset relative to FP.
- 
+
 */
 
 
@@ -225,7 +225,7 @@ setframe_flags(exp e, bool leaf)
 	 *       offsets relative to a frame pointer = %r3. We comply by putting
 	 *       Has_fp=1  */
 	is_PIC_and_calls = (PIC_code && !leaf);
-	
+
 #ifdef Try_No_S
 	No_S = 1;
 #endif
@@ -241,83 +241,83 @@ setframe_flags(exp e, bool leaf)
 void
 set_up_frame(exp e)
 {
-    procrec * pr = & procrecs[no(e)];
-    needs * ndpr = & pr->needsproc;
-    spacereq *sppr = & pr->spacereqproc;
-    long pprops = (ndpr->propsneeds);
-    bool leaf = (pprops & anyproccall) == 0;
-    long ma = ndpr->maxargs;   /* maxargs of proc body in bits  */
-    long st = sppr->stack;    /*  space for locals in bits     */
-    bool simpleans = (pprops & long_result_bit) == 0;
-    int cs = pr->callee_sz;
-	
-    setframe_flags(e,leaf);
-	
-    if (No_S)
-    {
+	procrec * pr = & procrecs[no(e)];
+	needs * ndpr = & pr->needsproc;
+	spacereq *sppr = & pr->spacereqproc;
+	long pprops = (ndpr->propsneeds);
+	bool leaf = (pprops & anyproccall) == 0;
+	long ma = ndpr->maxargs;   /* maxargs of proc body in bits  */
+	long st = sppr->stack;    /*  space for locals in bits     */
+	bool simpleans = (pprops & long_result_bit) == 0;
+	int cs = pr->callee_sz;
+
+	setframe_flags(e,leaf);
+
+	if (No_S)
+	{
 		fixdump = -65536; /* dump all sregs */
-    }
-    else
-    {
+	}
+	else
+	{
 		fixdump = sppr->fixdump;
-    }
-    if (Has_fp) /* Has frame pointer */
-    {
+	}
+	if (Has_fp) /* Has frame pointer */
+	{
 		/* reserved GR3 for use as frame pointer...     */
-		fixdump|=(1<<FP) ; /* ...dump and restore FP  */
-    }
-    if (Has_vsp) /* Has variable stack pointer */
-    {
+		fixdump|=(1<<FP); /* ...dump and restore FP  */
+	}
+	if (Has_vsp) /* Has variable stack pointer */
+	{
 		/* reserved GR4 for use as "enviroment pointer"...   */
 		EP = GR4;
-		fixdump|=(1<<EP) ; /* ...dump and restore EP    */
-    }
-    else
-    {
+		fixdump|=(1<<EP); /* ...dump and restore EP    */
+	}
+	else
+	{
 		EP = SP;
-    }
-    if (is_PIC_and_calls)
-    {
+	}
+	if (is_PIC_and_calls)
+	{
 		/* reserved GR5 as a copy of GR19...             */
-		fixdump|=(1<<GR5) ; /* ...dump and restore GR5  */
-    }
-	
-    st+=(2<<5);       /* 2 words of temporary memory */
-    if (!simpleans)  /*  + 2 words in which to store address of long result */
-    {
+		fixdump|=(1<<GR5); /* ...dump and restore GR5  */
+	}
+
+	st+=(2<<5);       /* 2 words of temporary memory */
+	if (!simpleans)  /*  + 2 words in which to store address of long result */
+	{
 		st+=(2<<5);
-    }
-    if (Has_tos)
-    {
+	}
+	if (Has_tos)
+	{
 		st+=(1<<5);  /*  + 1 word in which to store SP (reset at possible  */
-    }              /*   long jump targets)                               */
-	
-    /*   HP PA reserved stack area. c.f. p 3-13 of HP PA reference manual */
-    if (!leaf)
-    {
+	}              /*   long jump targets)                               */
+
+	/*   HP PA reserved stack area. c.f. p 3-13 of HP PA reference manual */
+	if (!leaf)
+	{
 		if (ma<(4<<5))
 			ma = (4<<5);	 /* 4 words for parameter dump */
 		ma+=(8<<5);  	/*  + 8 word frame marker     */
-    }
-	
-    /* keep maxargs a multiple of 2 words to ease possible alloca inlining */
-    ma = (ma+63) & ~63;
-    /* keep st a multiple of 2 words */
-    st = (st + 63) & ~63;
-	
-    pr->locals_offset = ma + st;  /* relative to EP */
-	
-    /*  Budget for sreg save area  */
-    if (Has_callees)
-    {
+	}
+
+	/* keep maxargs a multiple of 2 words to ease possible alloca inlining */
+	ma = (ma+63) & ~63;
+	/* keep st a multiple of 2 words */
+	st = (st + 63) & ~63;
+
+	pr->locals_offset = ma + st;  /* relative to EP */
+
+	/*  Budget for sreg save area  */
+	if (Has_callees)
+	{
 		st+=(18<<5); /* 2 words to keep a record of callee sz (2 words      */
 		/*  are allocated to guarentee the callees are double  */
 		/*   word aligned) + (maximum) 16 word register save   */
 		/*    area (because callers must know where to put     */
 		/*     callees).                                       */
-    }
-    else
-    {
+	}
+	else
+	{
 		/* Can we be more economical? */
 		int nos;
 		if (No_S)
@@ -329,39 +329,39 @@ set_up_frame(exp e)
 			nos = bitsin(fixdump); /* = number of s regs used in body of proc */
 		}
 		st+=(nos<<5);
-    }
-	
-    if (!Has_vcallees)
-    {
+	}
+
+	if (!Has_vcallees)
+	{
 		/* adjust st so that ma + st + cs is a multiple of 16 words
 		 * according to convention */
 		st = ((ma+st+cs+511) & (~511)) - ma -cs;
-    }
-	
-    pr->locals_space = st;
-    pr->frame_sz = ma + st + cs;
-    if (Has_vcallees)
-    {
+	}
+
+	pr->locals_space = st;
+	pr->frame_sz = ma + st + cs;
+	if (Has_vcallees)
+	{
 		/* relative to FP */
 		pr->params_offset = (8<<5);
 		pr->callees_offset = -(18<<5);
-    }
-    else
-    {
+	}
+	else
+	{
 		/* relative to EP */
 		pr->params_offset = pr->frame_sz + (8<<5);
 		pr->callees_offset = pr->frame_sz - (18<<5);
-    }
-    pr->leaf = leaf;
-    pr->max_args = ma;
-	
-    MEM_TEMP_BOFF.base = EP; MEM_TEMP_BOFF.offset = -(ma>>3)-(2<<2);
-    LONG_RESULT_BOFF.base = EP; LONG_RESULT_BOFF.offset = -(ma>>3)-(4<<2);
-    SP_BOFF.base = EP; SP_BOFF.offset = -(ma>>3)-(simpleans ? (3<<2) : (5<<2));
-    FP_BOFF.base = EP; FP_BOFF.offset = -4;
-	
-    stackerr_lab=0;
-    aritherr_lab=0;
+	}
+	pr->leaf = leaf;
+	pr->max_args = ma;
+
+	MEM_TEMP_BOFF.base = EP; MEM_TEMP_BOFF.offset = -(ma>>3)-(2<<2);
+	LONG_RESULT_BOFF.base = EP; LONG_RESULT_BOFF.offset = -(ma>>3)-(4<<2);
+	SP_BOFF.base = EP; SP_BOFF.offset = -(ma>>3)-(simpleans ? (3<<2) : (5<<2));
+	FP_BOFF.base = EP; FP_BOFF.offset = -4;
+
+	stackerr_lab=0;
+	aritherr_lab=0;
 }
 
 

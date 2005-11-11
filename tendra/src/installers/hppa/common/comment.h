@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -67,26 +67,26 @@
 
 
 extern bool do_comment;
-extern void fail(char *) ;
+extern void fail(char *);
 
 
 #ifdef DO_COMMENT
 
 /* Commenting routines */
-extern void comment(char *) ;
-extern void comment1(char *, long) ;
-extern void comment2(char *, long, long) ;
-extern void comment3(char *, long, long, long) ;
-extern void comment4(char *, long, long, long, long) ;
+extern void comment(char *);
+extern void comment1(char *, long);
+extern void comment2(char *, long, long);
+extern void comment3(char *, long, long, long);
+extern void comment4(char *, long, long, long, long);
 
 #else /* DO_COMMENT */
 
 /* Dummy commenting macros */
-#define comment(s)			
-#define comment1(s, a)		
-#define comment2(s, a, b)		
-#define comment3(s, a, b, c)		
-#define comment4(s, a, b, c, d)	
+#define comment(s)
+#define comment1(s, a)
+#define comment2(s, a, b)
+#define comment3(s, a, b, c)
+#define comment4(s, a, b, c, d)
 
 #endif /* DO_COMMENT */
 
@@ -123,12 +123,12 @@ extern void comment4(char *, long, long, long, long) ;
 #else /* DO_FULLCOMMENT */
 
 /* Dummy full commenting macros */
-#define FULLCOMMENT(s)		
-#define FULLCOMMENT1(s, a)		
-#define FULLCOMMENT2(s, a, b)		
-#define FULLCOMMENT3(s, a, b, c)	
-#define FULLCOMMENT4(s, a, b, c, d)	
-#define PRTDF(s, e)			
+#define FULLCOMMENT(s)
+#define FULLCOMMENT1(s, a)
+#define FULLCOMMENT2(s, a, b)
+#define FULLCOMMENT3(s, a, b, c)
+#define FULLCOMMENT4(s, a, b, c, d)
+#define PRTDF(s, e)
 
 #endif /* DO_FULLCOMMENT */
 

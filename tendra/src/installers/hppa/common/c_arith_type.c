@@ -111,7 +111,7 @@ convert(unsigned a)
 	case (t_char|t_unsigned): return ucharsh;
 	case (t_short|t_signed): return swordsh;
 	case (t_short|t_unsigned): return uwordsh;
-		
+
 	case (t_int|t_signed): return slongsh;
 	case (t_int|t_unsigned): return ulongsh;
 	case (t_long|t_signed): return slongsh;

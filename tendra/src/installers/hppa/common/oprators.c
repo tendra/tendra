@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -123,7 +123,7 @@ regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
 	exp t = bro(s);
-	
+
 	if (ABS_OF(regofval(s)) == reg)
 	{
 		(*seq) = t;
@@ -158,7 +158,7 @@ logical_op(CONST char *lop, long i, int r,
 {
 	int t;
 	if (r==d)
-		t=GR1; 
+		t=GR1;
 	else
 		t=d;
 	if (lop==i_and && i==-1)
@@ -193,7 +193,7 @@ logical_op(CONST char *lop, long i, int r,
 			imm_to_r(i,d);
 			return;
 		}
-		else 
+		else
 			if (i==-1)
 			{
 				ir_ins(i_ldi,fs_,"",-1,d);
@@ -260,7 +260,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	int a1;
 	int a2;
 	exp next = bro(seq);
-	
+
 	if (name(seq)==not_tag &&
 		last(next) &&
 		rins==i_and &&
@@ -272,9 +272,9 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 		rrr_ins(i_andcm,c_,a2,a1,final);
 		return;
 	}
-	
+
 	if (name(next)==not_tag &&
-		last(next) && 
+		last(next) &&
 		rins==i_and &&
 		name(seq)!=val_tag)
 	{
@@ -284,7 +284,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 		rrr_ins(i_andcm,c_,a1,a2,final);
 		return;
 	}
-	
+
 	if (name(next)==val_tag &&
 		last(next) &&
 		rins==i_and &&
@@ -292,7 +292,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	{
 		exp shift=bro(son(seq));
 		if (name(shift)==val_tag)
-		{ 
+		{
 			int n,s;
 			n=no(next);
 			s=no(shift);
@@ -308,10 +308,10 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 			}
 		}
 	}
-	
-	
+
+
 	/* evaluate 1st operand into a1 */
-	
+
 	if (name(seq)==cont_tag && name(bro(seq))==val_tag && last(bro(seq))
 		&& !(props(son(seq)) & inreg_bits))
 	{
@@ -320,7 +320,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	}
 	else
 		a1 = reg_operand(seq, sp);
-	
+
 	if (name(father(seq))==make_stack_limit_tag)
 	{
 		baseoff b;
@@ -328,7 +328,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 		b.base = a1;
 		ld_ins(i_lw,0,b,b.base);
 	}
-	
+
 	for (;;)
 	{
 		nsp = guardreg(a1, sp);
@@ -374,7 +374,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 		{
 			exp sq = seq;
 			CONST char *ins = rins;
-			
+
 			a2 = reg_operand(sq, nsp);
 			/* evaluate next operand */
 			if (last(seq))
@@ -400,15 +400,15 @@ int
 comm_op(exp e, space sp, where d, ins_p rrins)
 {
 	CONST char *rins = rrins;
-	
+
 	switch (discrim (d.answhere))
 	{
 	case inreg:
-    {
+	{
 		int dest = regalt(d.answhere);
 		bool usesdest = regremoved(&son(e), dest);
 		exp seq = son(e);
-		
+
 		/*
 		 * the destination is in a register; take care that we don't alter it
 		 * before possible use as an operand ....
@@ -442,7 +442,7 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 		{
 			/* dest used, use temp */
 			int r = getreg(sp.fixed);
-			
+
 			do_comm(seq, sp, r, rins);
 			rrr_ins(rins,c_,dest,r,dest);
 			if (optop(e))
@@ -457,9 +457,9 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 				tidyshort(dest, sh(e));
 			return dest;
 		}
-    }				/* end inreg */
+	}				/* end inreg */
 	default:
-    {
+	{
 		ans a;
 		int r = getreg(sp.fixed);
 		space nsp;
@@ -478,7 +478,7 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 		move(a, d, nsp.fixed, 1);
 		/* ... and move into a */
 		return ((rok)?r:NOREG);
-    }				/* notinreg */
+	}				/* notinreg */
 	}				/* end switch */
 }
 
@@ -524,10 +524,10 @@ monop(exp e, space sp, where dest, ins_p ins) /* evaluate fixed monadic operatio
 {
 	int r1 = getreg(sp.fixed);
 	int a1 = reg_operand(son(e), sp);
-	
+
 	/* operand in reg a1 */
 	space nsp;
-	
+
 	if (discrim(dest.answhere) == inreg)
 	{
 		/* destination in register */
@@ -572,9 +572,9 @@ monop(exp e, space sp, where dest, ins_p ins) /* evaluate fixed monadic operatio
 static void
 quad_addr(exp e, int r, space sp)
 {
-    instore is;
-    if (name(e)==real_tag)
-    {
+	instore is;
+	if (name(e)==real_tag)
+	{
 		labexp next;
 		next  = (labexp) malloc(sizeof(struct labexp_t));
 		next->e = e;
@@ -585,21 +585,21 @@ quad_addr(exp e, int r, space sp)
 		is.adval = 0;
 		is.b.offset = 0;
 		is.b.base = next->lab;
-    }
-    else
-    {
+	}
+	else
+	{
 		where w;
 		w=locate1(e,sp,sh(e),0);
-		if (discrim(w.answhere)!=notinreg) 
+		if (discrim(w.answhere)!=notinreg)
 			failer ("Illegal expression in quad_addr");
 		is=insalt(w.answhere);
-    }
-    if (is.adval)
-    {
+	}
+	if (is.adval)
+	{
 		failer("Illegal expression in quad_addr");
-    }
-    if (IS_FIXREG(is.b.base))
-    {
+	}
+	if (IS_FIXREG(is.b.base))
+	{
 		if (is.b.offset==0)
 		{
 			if (is.b.base!=r)
@@ -607,10 +607,10 @@ quad_addr(exp e, int r, space sp)
 		}
 		else
 			ld_ins(i_lo,1,is.b,r);
-    }
-    else
+	}
+	else
 		set_ins("",is.b,r);
-    return;
+	return;
 }
 
 
@@ -621,7 +621,7 @@ quad_addr(exp e, int r, space sp)
 static struct {
 	CONST char proc_name[32];
 	bool called;
-} long_double_lib [ 14 ] =
+} long_double_lib [14] =
 {
 	{ "_U_Qfcmp", 0 },
 	{ "_U_Qfadd", 0 },
@@ -641,7 +641,7 @@ static struct {
 
 
 void
-import_long_double_lib()
+import_long_double_lib(void)
 {
 	int n;
 	for (n=0; n<14; n++)
@@ -667,7 +667,7 @@ quad_op(exp e, space sp, where dest)
 {
 	char *s=0,*stub=0;
 	bool quad_ret = 1;
-	
+
 	switch (name(e))
 	{
 	case test_tag:
@@ -701,7 +701,7 @@ quad_op(exp e, space sp, where dest)
 		quad_addr(r,ARG1,sp);
 		break;
 	}
-	case fneg_tag : 
+	case fneg_tag :
 	{
 		baseoff b;
 		b.base=0; b.offset=0;
@@ -736,7 +736,7 @@ quad_op(exp e, space sp, where dest)
 			l = son(e);
 			if (name(sh(l)) == doublehd)
 				return;
-			else 
+			else
 				if  (name(sh(l))==realhd)
 				{
 					s = "_U_Qfcnvff_dbl_to_quad";
@@ -835,7 +835,7 @@ quad_op(exp e, space sp, where dest)
 	}
 #endif
 	case fplus_tag :
-	case fminus_tag : 
+	case fminus_tag :
 	case fmult_tag :
 	case fdiv_tag :
 	{
@@ -848,13 +848,13 @@ quad_op(exp e, space sp, where dest)
 		else
 			if (name(e) == fminus_tag)
 			{
-				s = "_U_Qfsub" ; 
+				s = "_U_Qfsub";
 				long_double_lib[2].called=1;
 			}
 			else
 				if (name(e) == fmult_tag)
 				{
-					s = "_U_Qfmpy" ; 
+					s = "_U_Qfmpy";
 					long_double_lib[3].called=1;
 				}
 				else
@@ -895,7 +895,7 @@ quad_op(exp e, space sp, where dest)
 					rr_ins(i_copy,is.b.base,RET0);
 				else
 					ld_ins(i_lo,1,is.b,RET0);
-			} 
+			}
 			else
 				set_ins("",is.b,RET0);
 		}
@@ -925,7 +925,7 @@ quad_op(exp e, space sp, where dest)
 						rr_ins(i_copy,is.b.base,RET0);
 					else
 						ld_ins(i_lo,1,is.b,RET0);
-				} 
+				}
 				else
 					set_ins("",is.b,RET0);
 			}
@@ -933,19 +933,19 @@ quad_op(exp e, space sp, where dest)
 				ld_ins(i_lw,1,is.b,RET0);
 			b.base =  RET0; b.offset = 4;
 			ld_ins(i_lw,1,b,T3);
-			cj_ins(c_neq, 0, T3, end) ;         
+			cj_ins(c_neq, 0, T3, end);
 			b.offset+=4;
 			ld_ins(i_lw,1,b,T3);
-			cj_ins(c_neq, 0, T3, end) ;         
+			cj_ins(c_neq, 0, T3, end);
 			b.offset+=4;
 			ld_ins(i_lw,1,b,T3);
-			cj_ins(c_neq, 0, T3, end) ;         
+			cj_ins(c_neq, 0, T3, end);
 			b.offset=0;
 			ld_ins(i_lw,1,b,T3);
 			imm_to_r(2147418112,T4);
-			cj_ins(c_eq, T4, T3, trap) ;         
+			cj_ins(c_eq, T4, T3, trap);
 			imm_to_r(-65536,T4);
-			cj_ins(c_eq, T4, T3, trap) ;         
+			cj_ins(c_eq, T4, T3, trap);
 			outlab("L$$",end);
 		}
 		else
@@ -959,13 +959,13 @@ quad_op(exp e, space sp, where dest)
 					stf_ins(i_fstd,3*4+1,b);
 					b.offset+=4;
 					ld_ins(i_lw,1,b,T3);
-					cj_ins(c_neq, 0, T3, end) ;         
+					cj_ins(c_neq, 0, T3, end);
 					b.offset-=4;
 					ld_ins(i_lw,1,b,T3);
 					imm_to_r(2146435072,T4);
-					cj_ins(c_eq, T4, T3, trap) ;         
+					cj_ins(c_eq, T4, T3, trap);
 					imm_to_r(-1048576,T4);
-					cj_ins(c_eq, T4, T3, trap) ;         
+					cj_ins(c_eq, T4, T3, trap);
 					outlab("L$$",end);
 				}
 				else
@@ -975,9 +975,9 @@ quad_op(exp e, space sp, where dest)
 					stf_ins(i_fstw,3*4,b);
 					ld_ins(i_lw,1,b,T3);
 					imm_to_r(2139095040,T4);
-					cj_ins(c_eq, T4, T3, trap) ;         
+					cj_ins(c_eq, T4, T3, trap);
 					imm_to_r(-8388608,T4);
-					cj_ins(c_eq, T4, T3, trap) ;         
+					cj_ins(c_eq, T4, T3, trap);
 				}
 			}
 	}
@@ -1001,7 +1001,7 @@ fop(exp e, space sp, where dest, ins_p ins)
 	freg fr;
 	ans aa;
 	baseoff b;
-	
+
 #if use_long_double
 	if (name(sh(e))==doublehd)
 	{
@@ -1010,8 +1010,8 @@ fop(exp e, space sp, where dest, ins_p ins)
 		return (NOREG);
 	}
 #endif
-	
-	
+
+
 	dble=(name(sh(e))==realhd ? 1 : 0);
 	if (IsRev(e))
 	{

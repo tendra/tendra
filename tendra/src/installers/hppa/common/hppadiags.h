@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -61,23 +61,23 @@
 #ifndef HPPADDECS_INCLUDED
 #define HPPADDECS_INCLUDED
 
-extern void init_stab(void) ;
-extern void init_stab_aux(void) ;
-extern void stab_collect_files(filename) ;
-extern void stab_tagdefs(void) ;
-extern void stab_typedefs(void) ;
-extern void stab_begin(diag_info *, int, exp) ;
+extern void init_stab(void);
+extern void init_stab_aux(void);
+extern void stab_collect_files(filename);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
+extern void stab_begin(diag_info *, int, exp);
 
-extern void init_stab_aux(void) ;
-extern void init_diag(void) ;
-extern void stab_file(long, bool) ;
-extern void stabn(long, long) ;
-extern long diagbr_open(long) ;
-extern void diagbr_close(long) ;
-extern void stab_types(void) ;
-extern void stab_global(shape, char *, bool) ;
-extern void stab_proc(exp, char *, bool) ;
-extern void stab_local(char *, diag_type, exp, long, long) ;
+extern void init_stab_aux(void);
+extern void init_diag(void);
+extern void stab_file(long, bool);
+extern void stabn(long, long);
+extern long diagbr_open(long);
+extern void diagbr_close(long);
+extern void stab_types(void);
+extern void stab_global(shape, char *, bool);
+extern void stab_proc(exp, char *, bool);
+extern void stab_local(char *, diag_type, exp, long, long);
 extern void close_function_scope(int);
 extern long currentfile;
 extern void stab_end(diag_info*, exp);

@@ -184,10 +184,10 @@ main(int argc, char ** argv)
 		case 'H' :
 		{
 #ifdef _SYMTAB_INCLUDED
-	        diagnose = 1;
+			diagnose = 1;
 			xdb = 1;
 #else
-	        fprintf(stderr,"trans warning: XDB diagnostics not supported on this version of hppatrans, -H option ignored\n");
+			fprintf(stderr,"trans warning: XDB diagnostics not supported on this version of hppatrans, -H option ignored\n");
 			xdb = 0;
 			diagnose = 0;
 #endif
@@ -353,6 +353,6 @@ init_trans(char * infname, char * outfname)
 void
 out_rename(char * oldid, char * newid)
 {
-    comment2 ("renamed %s as %s", oldid, newid);
-    return;
+	comment2 ("renamed %s as %s", oldid, newid);
+	return;
 }

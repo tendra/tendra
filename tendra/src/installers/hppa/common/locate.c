@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -97,11 +97,11 @@
 baseoff
 boff(exp e)
 {
-	
+
 	int n = no(e);
 	int b = n & 0x3f;
 	baseoff an;
-	
+
 	if (isglob(e))
 	{
 		/* bro() is index in main_globals */
@@ -140,8 +140,8 @@ boff(exp e)
 	else if (b == GR17)
 	{
 		/* locally declared */
-		an.base = EP; 
-		an.offset = ((n-b)>>4)-(locals_offset>>3); 
+		an.base = EP;
+		an.offset = ((n-b)>>4)-(locals_offset>>3);
 	}
 	else if (b == EP)
 	{
@@ -184,7 +184,7 @@ boff(exp e)
  * locate differs from locate1 only in that it looks to see e has already
  * been evaluated somehow
  */
-where locate(exp, space, shape, int) ;
+where locate(exp, space, shape, int);
 
 
 /*
@@ -201,9 +201,9 @@ locate1(exp e, space sp, shape s, int dreg)
 	FULLCOMMENT3("locate1: %s, %s, dreg=%d", (int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
 	FULLCOMMENT4("        space=(%ld,%ld) no(e)=%d no(son(e))=%d", sp.fixed, sp.flt, no(e), no(son(e)));
 #endif
-	
+
 	a = ashof(s);
-	
+
 /*
  *  while (name(e) == diag_tag || name(e) == fscope_tag || name(e) == cscope_tag)
  *  {
@@ -213,24 +213,24 @@ locate1(exp e, space sp, shape s, int dreg)
 	switch (name(e))
 	{
 	case name_tag:
-    {
+	{
 		exp dc = son(e);
 		bool var = isvar(dc);
-		
+
 		/* this a locally declared name ... */
 		if (props(dc) & defer_bit)
 		{
-			
+
 			/*
 			 * ... it has been identified with a simple expression which is better
 			 * evaluated every time
 			 */
 			where w;
-			
+
 			FULLCOMMENT("locate1: name_tag: defer_bit");
-			
+
 			w = locate(son(dc), sp, sh(son(dc)), dreg);
-			
+
 			if (no(e) == 0)
 			{
 				aa = w.answhere;
@@ -238,7 +238,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			else
 			{
 				instore is;
-				
+
 				switch (discrim (w.answhere))
 				{
 				case notinreg:
@@ -250,16 +250,16 @@ locate1(exp e, space sp, shape s, int dreg)
 				default:
 					fail("name not deferable");
 				}
-				
+
 				setinsalt(aa, is);
 			}
 		}
 		else if (props(dc) & inreg_bits)
 		{
 			/* ... it has been allocated in a fixed point reg */
-			
+
 			FULLCOMMENT1("locate1: name_tag: fixed point reg%s", (int) (var?" var":""));
-			
+
 			if (var)
 			{
 				setregalt(aa, no(dc));
@@ -267,7 +267,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			else
 			{
 				instore b;
-				
+
 				b.b.base = no(dc);
 				b.b.offset = 0;
 				b.adval = 1;
@@ -277,11 +277,11 @@ locate1(exp e, space sp, shape s, int dreg)
 		else if (props(dc) & infreg_bits)
 		{
 			/* ... it has been allocated in a floating point reg */
-			
+
 			freg fr;
-			
+
 			FULLCOMMENT("locate1: name_tag: fixed point reg");
-			
+
 			fr.fr = no(dc);
 			fr.dble = (a.ashsize==64 ? 1 : 0);
 			setfregalt(aa, fr);
@@ -290,7 +290,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		{
 			/* ... it is in memory */
 			instore is;
-			
+
 			if (var || (name(sh(e)) == prokhd &&
 						(son(dc) == nilexp || IS_A_PROC(son(dc)))))
 			{
@@ -318,10 +318,10 @@ locate1(exp e, space sp, shape s, int dreg)
 		wans.answhere = aa;
 		wans.ashwhere = a;
 		return wans;
-    }
-	
+	}
+
 	case addptr_tag:
-    {
+	{
 		exp sum = son(e);
 		where wsum;
 		int addend;
@@ -331,15 +331,15 @@ locate1(exp e, space sp, shape s, int dreg)
 		instore is;
 		ans asum;
 		int shift;
-		
+
 		wsum = locate(sum, sp, sh(sum), 0);
 		asum = wsum.answhere;
-		
+
 		/*
 		 * answer is going to be wsum displaced by integer result of evaluating
 		 * bro(sum)
 		 */
-		
+
 		switch (discrim (asum))
 		{
 		case notinreg:
@@ -349,22 +349,22 @@ locate1(exp e, space sp, shape s, int dreg)
 			{
 				/* wsum is a literal address in store ... */
 				baseoff b;
-				
+
 				b = is.b;
 				if (!IS_FIXREG(b.base))
 				{
 					/* ... it is not a base-offset , so make it one */
-					
+
 					reg = getreg(sp.fixed);
 					set_ins("",b, reg);
 					keepreg(sum, reg);
 					b.base = reg;
 					b.offset = 0;
-					
+
 				}
-				
+
 				nsp = guardreg(b.base, sp);
-				
+
 				shift=no(bro(son(bro(sum))));
 				if (name(bro(sum))==offset_mult_tag && name(bro(son(bro(sum))))==val_tag && (shift==0 || shift==2 || shift==4))
 				{
@@ -381,16 +381,16 @@ locate1(exp e, space sp, shape s, int dreg)
 						dreg = getreg(nsp.fixed);
 					rrr_ins(i_add,c_,b.base,addend,dreg);
 				}
-				
+
 				clear_reg(dreg);
-				
+
 				/* ... add it to the base register into new reg */
 				b.base = dreg;
 				is.b = b;
 				setinsalt(aa, is);
 				wans.answhere = aa;
 				wans.ashwhere = a;
-				
+
 				/* ...and use it as base a literal base-offset result */
 				keepexp(e, aa);
 				return wans;
@@ -404,20 +404,20 @@ locate1(exp e, space sp, shape s, int dreg)
 			}
 			break;
 		}			/* end notinreg */
-		
+
 		case inreg:
 		{
 			/* wsum is already in reg */
 			ind = regalt(asum);
 			break;
 		}
-		
+
 		default:
 		{
 			fail("locate ? reg");
 		}
 		}				/* end case */
-		
+
 		/* register ind contains the evaluation of 1st operand of addptr */
 		nsp = guardreg(ind, sp);
 		/* evaluate displacement, add it to ind in new reg */
@@ -426,7 +426,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		{
 			is.b.base = ind;
 			is.b.offset = frame_offset(son(bro(sum)));
-		} 
+		}
 		else
 		{
 			shift=no(bro(son(bro(sum))));
@@ -440,7 +440,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			else
 			{
 				addend = reg_operand(bro(sum), nsp);
-				
+
 				if (dreg == 0)
 					dreg = getreg(nsp.fixed);
 				rrr_ins(i_add,c_,ind,addend,dreg);
@@ -455,21 +455,21 @@ locate1(exp e, space sp, shape s, int dreg)
 		/* ... and deliver literal base_offset */
 		keepexp(e, aa);
 		return wans;
-    }				/* end add_ptr */
-	
+	}				/* end add_ptr */
+
 	case subptr_tag:		/* this is nugatory - previous transforms make
 							 * it into addptr or reff */
-    {
+	{
 		exp sum = son(e);
 		int ind = reg_operand(sum, sp);
 		instore isa;
-		
+
 		isa.adval = 1;
 		sum = bro(sum);
 		if (name(sum) == val_tag)
 		{
 			instore isa;
-			
+
 			isa.b.base = ind;
 			isa.b.offset = -no(e);
 			setinsalt(aa, isa);
@@ -487,18 +487,18 @@ locate1(exp e, space sp, shape s, int dreg)
 		wans.ashwhere = a;
 		keepexp(e, aa);
 		return wans;
-    }				/* end subptr */
-	
+	}				/* end subptr */
+
 	case reff_tag:
-    {
+	{
 		instore isa;
 #if USE_BITAD
 		bool bitfield = 0;
 #endif
-		
+
 		/* answer is going to be wans displaced by no(e) */
 		wans = locate(son(e), sp, sh(son(e)), 0);
-		
+
 #if USE_BITAD
 		bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
 #endif
@@ -509,21 +509,21 @@ locate1(exp e, space sp, shape s, int dreg)
 			isa = insalt(wans.answhere);
 			if (!isa.adval)
 			{
-				
+
 				/*
 				 * wans is an actual pointer  in store, so make it into a literal
 				 * address....
 				 */
 				int reg = getreg(sp.fixed);
-				
+
 				ld_ins(i_lw,0,isa.b,reg);
 				isa.b.offset = 0;
 				isa.b.base = reg;
 				isa.adval = 1;
 			}
-			
+
 			/*  ... and add appropriate displacement to give result  */
-			
+
 #if USE_BITAD
 			if (bitfield)
 			{
@@ -580,26 +580,26 @@ locate1(exp e, space sp, shape s, int dreg)
 		}
 		wans.ashwhere = a;
 		return wans;
-    }				/* end reff */
-	
+	}				/* end reff */
+
 	case cont_tag:
 	case contvol_tag:
-    {
+	{
 		exp s = son(e);
 		ans ason;
 		instore isa;
 		int reg;
 		where fc;
-		
+
 		fc = locate(s, sp, sh(e), 0);
 		ason = fc.answhere;
-		
+
 		/*
 		 * answer is going to be the contents of address represented by fc
 		 */
-		
+
 		FULLCOMMENT1("locate1: cont[vol]_tag: %s", (int)ANSDISCRIM_NAME(discrim (ason)));
-		
+
 		switch (discrim (ason))
 		{
 		case notinreg:
@@ -614,7 +614,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			}
 			else
 			{
-				
+
 				/*
 				 * actual pointer in store so load it into reg and deliver direct
 				 * base-offset (reg,0)
@@ -636,11 +636,11 @@ locate1(exp e, space sp, shape s, int dreg)
 			}
 #endif
 			goto breakson;
-			
+
 		}			/* end notinrg */
-		
+
 		case inreg:
-			
+
 			/*
 			 * this one is fraught - it depends on only being used in lh-value
 			 * positions from vars - take care
@@ -662,13 +662,13 @@ locate1(exp e, space sp, shape s, int dreg)
 			/* fc is in register, so deliver literal(!?) base-offset */
 			goto breakson;
 		}
-		
+
 		case infreg:		/* ditto caveat above */
 		{
 			aa = ason;
 			goto breakson;
 		}
-		
+
 #if USE_BITAD
 		case bitad:
 		{
@@ -692,28 +692,28 @@ locate1(exp e, space sp, shape s, int dreg)
 		wans.answhere = aa;
 		wans.ashwhere = a;
 		return wans;
-		
-    }				/* end cont */
-	
+
+	}				/* end cont */
+
 	case top_tag:		/* does this ever happen ? */
-    {
+	{
 		setregalt(aa, 0);
 		wans.answhere = aa;
 		wans.ashwhere = a;
 		return wans;
-    }				/* end top */
-	
+	}				/* end top */
+
 	case field_tag:
-    {
+	{
 		instore isa;
-		
+
 		wans = locate(son(e), sp, sh(son(e)), 0);
-		
+
 		/*
 		 * answer is wans displace literally by no(e); it should always be a
 		 * literal store address
 		 */
-		
+
 		switch (discrim (wans.answhere))
 		{
 		case notinreg:
@@ -746,17 +746,17 @@ locate1(exp e, space sp, shape s, int dreg)
 		}
 		wans.ashwhere = a;
 		return wans;
-    }				/* end field */
+	}				/* end field */
 	default:
-    {
-		
+	{
+
 		/*
 		 * general catch all; evaluate e into register and deliver it as a
 		 * literal store address
 		 */
 		int r = reg_operand(e, sp);
 		instore is;
-		
+
 		if (r == RET0)		/* guard possible result from proc - can do
 							 * better */
 		{
@@ -772,7 +772,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		wans.answhere = aa;
 		wans.ashwhere = a;
 		return wans;
-    }
+	}
 	}
 }
 
@@ -781,7 +781,7 @@ locate(exp e, space sp, shape s, int dreg)
 {
 	ans ak;
 	where w;
-	
+
 	ak = iskept(e);
 	if (discrim (ak) == inreg && (regalt(ak) == 0))
 	{

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -115,7 +115,7 @@ int
 regofval(exp e)
 {
 	exp dc = son(e);
-	
+
 	if (name(e) == name_tag && name(dc) == ident_tag)	/* ident tag */
 	{
 		if ((props(dc) & defer_bit) != 0)
@@ -128,9 +128,9 @@ regofval(exp e)
 		}
 		return R_NO_REG;
 	}
-	else if ((name(e) == val_tag && no(e) == 0) 
+	else if ((name(e) == val_tag && no(e) == 0)
 #if 0
-			 || name(e) == clear_tag || name(e)== top_tag 
+			 || name(e) == clear_tag || name(e)== top_tag
 #endif
 		)
 	{
@@ -146,7 +146,7 @@ int
 fregofval(exp e)
 {
 	exp dc = son(e);
-	
+
 	if (name(e) == name_tag && name(dc) == ident_tag)
 	{
 		if ((props(dc) & infreg_bits) != 0)
@@ -167,7 +167,7 @@ static int
 make_code_here(exp e, space sp, where dest)
 {
 	makeans mka;
-	
+
 	mka = make_code(e, sp, dest, 0);
 	if (mka.lab != 0)
 	{
@@ -184,39 +184,39 @@ is_reg_operand(exp e, space sp)
 {
 	int x = regofval(e);
 	ans aa;
-	
+
 	if (x >= 0 && x < R_NO_REG)
 		return x;			/* x is a register for e */
-	
+
 	if (name(e) == cont_tag)
 	{
 		x = regofval(son(e));
 		if (x < 0)
 			return (-x);
 	}
-	
+
 	aa = iskept(e);
-	
+
 	if (discrim (aa) == inreg && regalt(aa) != 0)
 	{				/* the same expression has already been
 					 * evaluated into a reg */
 		return regalt(aa);
 	}
-	
+
 	if (discrim (aa) == notinreg)
 	{
 		instore is;
-		
+
 		is = insalt(aa);
 		if (is.adval && is.b.offset == 0)
 		{
 			int r = is.b.base;
-			
+
 			/* the same expression has already been evaluated into a reg */
 			return r;
 		}
 	}
-	
+
 	return R_NO_REG;		/* exprssion can go to many regs just as
 							 * easily */
 }
@@ -226,15 +226,15 @@ int
 reg_operand(exp e, space sp)
 {
 	int reg;
-	
+
 	reg = is_reg_operand(e, sp);
-	
+
 	if (reg == R_NO_REG || reg == GR0)
 	{
 		/* allow make_code_here to evaluate e into reg of its choice */
 		ans aa;
 		where w;
-		
+
 		reg = -1;
 		setsomeregalt(aa, &reg);
 		w.answhere = aa;
@@ -257,18 +257,18 @@ void
 reg_operand_here(exp e, space sp, int this_reg)
 {
 	int reg;
-	
+
 	assert(IS_FIXREG(this_reg) && this_reg != GR0);	/* variable fix reg */
-	
-	
+
+
 	reg = is_reg_operand(e, sp);
-	
+
 	if (reg == R_NO_REG || reg == GR0)
 	{
 		/* evaluate to this_reg */
-		
+
 		where w;
-		
+
 		w.ashwhere = ashof(sh(e));
 		setregalt(w.answhere, this_reg);
 		make_code_here(e, sp, w);
@@ -277,11 +277,11 @@ reg_operand_here(exp e, space sp, int this_reg)
 	{
 		/* e was found easily in a reg, move to this_reg if needed */
 		assert(IS_FIXREG(reg));
-		
+
 		if (reg != this_reg)
 			rr_ins(i_copy,reg,this_reg);
 	}
-	
+
 	keepreg(e, this_reg);
 }
 
@@ -293,15 +293,15 @@ freg_operand(exp e, space sp, int reg)
 	ans aa;
 	where w;
 	freg fr;
-	
+
 	w.ashwhere = ashof(sh(e));
 	fr.dble = (w.ashwhere.ashsize == 64) ? 1 : 0;
-	
+
 	if (x >= 0 && x < R_NO_REG)
 	{
 		return x;
 	}
-	
+
 	if (name(e) == cont_tag)
 	{
 		x = fregofval(son(e));
@@ -320,14 +320,14 @@ freg_operand(exp e, space sp, int reg)
 		make_code(e, sp, w, 0);
 		return R_FR4;   /* float point proc calls give result in %fr4 */
 	}
-	
+
 	aa = iskept(e);
 	if (discrim (aa) == infreg)
 	{
 		/* e already evaluated in fl reg */
 		return regalt(aa) /* cheat */;
 	}
-	
+
 	fr.fr = reg;
 	setfregalt(aa, fr);
 	w.answhere = aa;
@@ -347,11 +347,11 @@ int
 code_here(exp e, space sp, where dest)
 {
 	int reg;
-	
-	
+
+
 	reg = is_reg_operand(e, sp);
-	
-	
+
+
 	if (reg == R_NO_REG || reg == GR0)
 	{
 		return make_code_here(e, sp, dest);
@@ -362,13 +362,13 @@ code_here(exp e, space sp, where dest)
 		/* +++ for reals as well */
 		/* e was found easily in a reg */
 		ans aa;
-		
+
 		assert(IS_FIXREG(reg));
 		assert(ashof(sh(e)).ashsize <= 32);
-		
+
 		setregalt(aa, reg);
 		move(aa, dest, guardreg(reg, sp).fixed, 1);
-		
+
 		return reg;
 	}
 }

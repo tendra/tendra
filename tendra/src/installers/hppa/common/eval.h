@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -65,11 +65,11 @@
 #include "flpttypes.h"
 #include "common_types.h"
 
-extern int next_data_lab(void) ;
-extern int next_PIC_pcrel_lab(void) ;
-extern mm maxmin(shape) ;
-extern instore evaluated(exp, long) ;
-extern long *realrep(exp) ;
+extern int next_data_lab(void);
+extern int next_PIC_pcrel_lab(void);
+extern mm maxmin(shape);
+extern instore evaluated(exp, long);
+extern long *realrep(exp);
 extern long evalexp(exp);
 extern void set_align(int);
 extern void evalone(exp, int);

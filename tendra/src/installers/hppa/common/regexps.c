@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -62,7 +62,7 @@
 /* regexps.c
  *
  *For trivial 'peephole' optimisations
- 
+
 */
 
 
@@ -90,7 +90,7 @@ int line;
 
 regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
 
-bool sim_exp(exp, exp) ;
+bool sim_exp(exp, exp);
 
 /* Same size and alignment and "both float or both fixed". */
 bool
@@ -142,10 +142,10 @@ sim_exp(exp a, exp b) /* * basically eq_exp except equal shapes requirement is w
 
 /* forget all register - exp associations */
 void
-clear_all()
+clear_all(void)
 {
 	int i;
-	
+
 	for (i = 0; i < 48; i++)
 	{
 		regexps[i].keptexp = nilexp;
@@ -174,14 +174,14 @@ iskept(exp e)
 {
 	int i;
 	ans nilans;
-	
+
 	setregalt(nilans, 0);		/* init nilans */
-	
+
 #ifdef NO_KEPT_OPTS
 	/* no reg tracking */
 	return nilans;
 #endif
-	
+
 	/* reg tracking of unions unsafe, as views of location can differ */
 	/* +++ track on fields */
 	/* +++ safe to allow structs but not unions */
@@ -189,12 +189,12 @@ iskept(exp e)
 	{
 		return nilans;
 	}
-	
+
 	for (i = 0; i < 48; i++)
 	{
 		exp ke = regexps[i].keptexp;
 		bool isc = regexps[i].iscont;
-		
+
 		if (ke != nilexp)
 		{
 			/* there is an association with reg i */
@@ -207,21 +207,21 @@ iskept(exp e)
 			{
 				ans aa;
 				aa = (regexps[i].inans);
-				
+
 #if 0
 				FULLCOMMENT4("iskept found: reg=%d isc=%d name(e)=%d name(son(e))=%d", i, isc, name(e), name(son(e)));
 				FULLCOMMENT3("	hd(e)=%d hd(son(e))=%d hd(ke)=%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
 				FULLCOMMENT3("	sim_exp(ke, e)=%d sim_exp(ke, son(e))=%d eq_size(sh(ke), sh(e))=%d",
 							 sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
 #endif
-				
+
 				switch (discrim (aa))
 				{
 				case notinreg:
 				{
 					if (!aa.val.instoreans.adval)
 					{
-						
+
 						/*
 						 * the expression is given indirectly - it may have also been
 						 * loaded into a register
@@ -230,7 +230,7 @@ iskept(exp e)
 					}
 				}
 				/* FALLTHROUGH */
-				
+
 				default:
 					return aa;
 				}
@@ -238,12 +238,12 @@ iskept(exp e)
 			else if (name(ke) == cont_tag && !isc)
 			{
 				ans aq;
-				
+
 				aq = regexps[i].inans;
 				if (discrim (aq) == notinreg)
 				{
 					instore is;
-					
+
 					is = insalt(aq);
 					if (!is.adval && is.b.offset == 0 && IS_FIXREG(is.b.base)
 						&& sim_exp(son(ke), e))
@@ -258,12 +258,12 @@ iskept(exp e)
 			else if (name(ke) == reff_tag && !isc)
 			{
 				ans aq;
-				
+
 				aq = regexps[i].inans;
 				if (discrim (aq) == notinreg)
 				{
 					instore is;
-					
+
 					is = insalt(aq);
 					if (is.adval && is.b.offset == (no(ke) / 8)
 						&& IS_FIXREG(is.b.base)
@@ -287,43 +287,43 @@ void
 keepexp(exp e, ans loc)
 {
 	int reg=0;
-	
+
 	switch (discrim (loc))
 	{
 	case insomereg:
 	case insomefreg:
-    {
+	{
 		fail("keep ? reg");
-    }
+	}
 #if USE_BITAD
 	case bitad:
-    {
+	{
 		return;
-    }
+	}
 #endif
 	case inreg:
-    {
+	{
 		reg = regalt(loc);
 		break;
-    }
+	}
 	case infreg:
-    {
+	{
 		reg = fregalt(loc).fr + 32;
 		break;
-    }
+	}
 	case notinreg:
-    {
+	{
 		reg = insalt(loc).b.base;
 		if (!IS_FIXREG(reg))
 			return;
 		break;
-    }
+	}
 	default:{}
 	}
-	
+
 	assert(reg >= 0 && reg < 48);
 	assert(reg != GR1);
-	
+
 	regexps[reg].keptexp = e;
 	regexps[reg].inans = loc;
 	regexps[reg].iscont = 0;
@@ -335,10 +335,10 @@ keepcont(exp e, int regcode)
 {
 	freg fr;
 	int reg = ABS_OF(regcode);
-	
+
 	assert(reg >= 0 && reg < 48);
 	assert(reg != GR1);
-	
+
 	if (reg > 31)
 	{
 		fr.dble = ((regcode < 0) ? 1 : 0);
@@ -348,13 +348,13 @@ keepcont(exp e, int regcode)
 	else
 	{
 		instore is;
-		
+
 		is.b.base = regcode;
 		is.b.offset = 0;
 		is.adval = 1;
 		setinsalt(regexps[reg].inans, is);
 	}
-	
+
 	regexps[reg].keptexp = e;
 	regexps[reg].iscont = 1;
 }
@@ -365,10 +365,10 @@ keepreg(exp e, int regcode)
 {
 	freg fr;
 	int reg = ABS_OF(regcode);
-	
+
 	assert(reg >= 0 && reg < 48);
 	assert(reg != GR1);
-	
+
 	if (reg > 31)
 	{
 		fr.dble = ((regcode < 0) ? 1 : 0);
@@ -378,19 +378,19 @@ keepreg(exp e, int regcode)
 	else
 	{
 		instore is;
-		
+
 		is.b.base = regcode;
 		is.b.offset = 0;
 		is.adval = 1;
 		setinsalt(regexps[reg].inans, is);
 	}
-	
+
 	regexps[reg].keptexp = e;
 	regexps[reg].iscont = 0;
 }
 
 
-bool couldeffect(exp, exp) ;
+bool couldeffect(exp, exp);
 
 
 /* could e be lhs */
@@ -399,7 +399,7 @@ couldbe(exp e, exp lhs)
 {
 	int ne = name(e);
 	exp s = son(e);
-	
+
 	if (ne == name_tag)
 	{
 		if (lhs != 0 && s == son(lhs))
@@ -432,9 +432,9 @@ couldbe(exp e, exp lhs)
 	{
 		return (couldbe(s, lhs) || couldeffect(bro(s), lhs));
 	}
-	
+
 	return 1;
-	
+
 }
 
 /* could alteration to z effect e? */
@@ -454,15 +454,15 @@ couldeffect(exp e, exp z /* a name or zero */)
 			return 0;
 		if (son(son(e)) == nilexp)
 			return 1 /* could it happen? */;
-		
+
 		return couldeffect(son(son(e)), z);
-		
+
 	}
 	if (ne < plus_tag || ne == contvol_tag)
 		return 1;
-	
+
 	e = son(e);
-	
+
 	while (e != nilexp)
 	{
 		if (couldeffect(e, z))
@@ -488,7 +488,7 @@ dependson(exp e, bool isc, exp z)
 		{
 			z = son(z);
 		}
-		
+
 		if (name(z) != name_tag)
 		{
 			if (name(z) != cont_tag)
@@ -496,7 +496,7 @@ dependson(exp e, bool isc, exp z)
 			z = 0;
 			break;
 		}
-		
+
 		if (isvar(son(z)))
 			break;
 		if (IS_A_PROC(son(z)))
@@ -508,9 +508,9 @@ dependson(exp e, bool isc, exp z)
 			return 1;			/* can it happen? */
 		z = son(son(z));
 	}
-	
+
 	/* z is now unambiguous variable name or 0 meaning some contents */
-	
+
 	return ((isc) ? couldbe(e, z) : couldeffect(e, z));
 }
 
@@ -520,7 +520,7 @@ void
 clear_dep_reg(exp lhs)
 {
 	int i;
-	
+
 	for (i = 0; i < 48; i++)
 	{
 		if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs))

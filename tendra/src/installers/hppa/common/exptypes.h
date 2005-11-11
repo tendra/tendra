@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -77,14 +77,14 @@ typedef unsigned short prop;
  */
 
 typedef union {
-    struct exp_t *e;
-    char *str;
-    int l;
-    unsigned int ui;
-    float f;
-    struct dec_t *glob;
-    diag_info *d;
-    struct aldef_t *ald;
+	struct exp_t *e;
+	char *str;
+	int l;
+	unsigned int ui;
+	float f;
+	struct dec_t *glob;
+	diag_info *d;
+	struct aldef_t *ald;
 } expno;
 
 
@@ -93,25 +93,25 @@ typedef union {
  */
 
 struct exp_t {
-    expno brof;
-    expno numf;
-    expno ptf;
-    expno sonf;
-    struct exp_t *shf;
-    prop propsf;
-    unsigned char namef;
-    unsigned int lastf : 1;
-    unsigned int park : 1;
-    int commuted;
+	expno brof;
+	expno numf;
+	expno ptf;
+	expno sonf;
+	struct exp_t *shf;
+	prop propsf;
+	unsigned char namef;
+	unsigned int lastf : 1;
+	unsigned int park : 1;
+	int commuted;
 };
 
 typedef struct exp_t *exp;
 
 struct labexp_t {
-    exp e;
-    int lab;
-    struct labexp_t *next;
-} ;
+	exp e;
+	int lab;
+	struct labexp_t *next;
+};
 
 typedef struct labexp_t *labexp;
 

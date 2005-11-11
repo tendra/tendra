@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -64,44 +64,44 @@
 #include "addrtypes.h"
 #include "hppains.h"
 
-extern char *ext_name(long) ;
+extern char *ext_name(long);
 
-extern void ldmb_ins(ins_p, int, int, int) ;
-extern void ld_ins(ins_p, int, baseoff, int) ;
+extern void ldmb_ins(ins_p, int, int, int);
+extern void ld_ins(ins_p, int, baseoff, int);
 
-extern void st_ins(ins_p, int, baseoff) ;
+extern void st_ins(ins_p, int, baseoff);
 
-extern void riir_ins(ins_p, ins_p, int, long, long, int) ;
+extern void riir_ins(ins_p, ins_p, int, long, long, int);
 
-extern void ir_ins(ins_p, ins_p, CONST char*, long, int) ;
+extern void ir_ins(ins_p, ins_p, CONST char*, long, int);
 
 extern void imm_to_r(long, int);
 
-extern void set_ins(char*, baseoff, int) ;
-extern void z_ins(ins_p) ;
+extern void set_ins(char*, baseoff, int);
+extern void z_ins(ins_p);
 
-extern void condrr_ins(char, ins_p, int, int, int, int) ;
-extern void condri_ins(ins_p, int, long, int) ;
+extern void condrr_ins(char, ins_p, int, int, int, int);
+extern void condri_ins(ins_p, int, long, int);
 
-extern void extj_special_ins(CONST char *, int, char *, int) ;
-extern void extj_reg_ins(ins_p, int) ;
+extern void extj_special_ins(CONST char *, int, char *, int);
+extern void extj_reg_ins(ins_p, int);
 
-extern void ret_ins(ins_p) ;
+extern void ret_ins(ins_p);
 
-extern void ldf_ro_ins(ins_p, baseoff, int) ;
-extern void ldf_rr_ins(ins_p,ins_p, int, int, int) ;
-extern void ldf_ins(ins_p, baseoff, int) ;
-extern void stf_ro_ins(ins_p, int, baseoff) ;
-extern void stf_rr_ins(ins_p, int, int, int) ;
-extern void stf_ins(ins_p, int, baseoff) ;
+extern void ldf_ro_ins(ins_p, baseoff, int);
+extern void ldf_rr_ins(ins_p,ins_p, int, int, int);
+extern void ldf_ins(ins_p, baseoff, int);
+extern void stf_ro_ins(ins_p, int, baseoff);
+extern void stf_rr_ins(ins_p, int, int, int);
+extern void stf_ins(ins_p, int, baseoff);
 
-extern void rrf_ins(ins_p,ins_p,ins_p, int, int) ;
-extern void rrrf_ins(ins_p, ins_p, int, int, int) ;
+extern void rrf_ins(ins_p,ins_p,ins_p, int, int);
+extern void rrrf_ins(ins_p, ins_p, int, int, int);
 
-extern void rrf_cmp_ins(ins_p, int, int) ;
-extern void immr_ins(ins_p, char*,char*,long,char*,int) ;
-extern void ld_immr_ins(ins_p, char*,char*,long,char*,int,int) ;
-extern void st_immr_ins(ins_p,int, char*,char*,long,char*,int) ;
+extern void rrf_cmp_ins(ins_p, int, int);
+extern void immr_ins(ins_p, char*,char*,long,char*,int);
+extern void ld_immr_ins(ins_p, char*,char*,long,char*,int,int);
+extern void st_immr_ins(ins_p,int, char*,char*,long,char*,int);
 extern void iiir_ins(ins_p,ins_p,int,int,int,int);
 extern void bb_in(ins_p,int,int,int);
 extern void rr_ins(ins_p, int, int);
@@ -140,8 +140,8 @@ typedef fpos_t FILE_POSN;
 
 typedef struct {
 	FILE_POSN fpos;     /* position in outf  */
-	ins_p  ins;        /* instruction       */                    
-	ins_p  cc;        /* condition code    */                    
+	ins_p  ins;        /* instruction       */
+	ins_p  cc;        /* condition code    */
 	int    op[4];    /* operands          */
 	int    lab;     /* label             */
 } psuedoIn;

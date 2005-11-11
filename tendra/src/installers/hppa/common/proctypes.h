@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -66,7 +66,7 @@
 
 
 typedef struct {
-	int fixneeds ;
+	int fixneeds;
 	int floatneeds;
 	prop propsneeds;
 	int maxargs;
@@ -87,62 +87,62 @@ typedef struct {
 #define wfloatno	16
 
 typedef struct {
-    float fix [ wfixno ];
-    float floating [ wfloatno ];
+	float fix [wfixno];
+	float floating [wfloatno];
 } weights;
 
 
 typedef struct {
-    int regadd;
-    long stackadd;
-    long forweights;
+	int regadd;
+	long stackadd;
+	long forweights;
 } parpair;
 
 
 typedef struct {
-    long fixdump;
-    long fltdump;
-    long stack;
+	long fixdump;
+	long fltdump;
+	long stack;
 } spacereq;
 
 
 typedef struct {
-    needs needsproc;
-    spacereq spacereqproc;
-    long locals_space;
-    long locals_offset;
-    long callees_offset;
-    long params_offset;
-    int frame_sz;
-    int max_args;
-    int fixdump;
-    int floatdump;
-    int dumpstart;
-    int fldumpstart;
-    int callee_sz;
-    exp nameproc;
-    int tlrecstart;
-    int expproc;
-    bool Has_ll;
-    bool Has_checkalloc;
-    bool has_vcallees;
-    bool has_no_vcallers;
-    bool leaf;
-    bool Has_alloca;  
+	needs needsproc;
+	spacereq spacereqproc;
+	long locals_space;
+	long locals_offset;
+	long callees_offset;
+	long params_offset;
+	int frame_sz;
+	int max_args;
+	int fixdump;
+	int floatdump;
+	int dumpstart;
+	int fldumpstart;
+	int callee_sz;
+	exp nameproc;
+	int tlrecstart;
+	int expproc;
+	bool Has_ll;
+	bool Has_checkalloc;
+	bool has_vcallees;
+	bool has_no_vcallers;
+	bool leaf;
+	bool Has_alloca;
 } procrec;
 
 
 typedef struct {
-    weights wp_weights;
-    long fix_break;
-    long float_break;
+	weights wp_weights;
+	long fix_break;
+	long float_break;
 } wp;
 
 
 typedef struct {
-    long fixed;
-    long flt;
-} space ;
+	long fixed;
+	long flt;
+} space;
 
 
 #endif /* PROCTYPES_INCLUDED */

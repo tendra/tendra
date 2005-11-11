@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -137,23 +137,23 @@
  *
  * Revision 3.1  95/04/10  16:28:36  16:28:36  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:19:09  11:19:09  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:29:03  15:29:03  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.3  95/02/10  11:38:54  11:38:54  wfs (William Simmonds)
  * Rewrote the inner level initializations previously handled by calls
  * to evaluated().
- * 
+ *
  * Revision 1.2  95/01/17  17:31:02  17:31:02  wfs (William Simmonds)
  * Changed name of an included header file.
- * 
+ *
  * Revision 1.1  95/01/11  12:59:09  12:59:09  wfs (William Simmonds)
  * Initial revision
- * 
+ *
  */
 
 
@@ -293,7 +293,7 @@ labexp current,first;
 
 int nexps;
 
-extern baseoff boff(exp) ;
+extern baseoff boff(exp);
 extern int res_label;
 
 FILE *outf = NULL;/* assembler output file */
@@ -302,7 +302,7 @@ int main_globals_index;
 
 procrec *procrecs,*cpr;
 
-dec *diag_def = NULL ;	/* diagnostics definition */
+dec *diag_def = NULL;	/* diagnostics definition */
 
 #define is_zero(e) is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
@@ -311,7 +311,7 @@ ash
 ashof(shape s)
 {
 	ash a;
-	
+
 	a.ashsize = shape_size(s);
 	a.ashalign = shape_align(s);
 	return a;
@@ -324,10 +324,10 @@ varsize(shape sha)
 {
 	switch (name(sha))
 	{
-    case cpdhd:
-    {
+	case cpdhd:
+	{
 		shape t = son(sha);
-		
+
 		if (t == nilexp)
 			return 1;
 		if (varsize(sh(t)))
@@ -339,11 +339,11 @@ varsize(shape sha)
 				return 1;
 		}
 		return 0;
-    }
-	
+	}
+
 	case nofhd:
 		return 1;
-		
+
 	default:
 		return 0;
 	}
@@ -353,14 +353,14 @@ void
 insection(enum section s)
 {
 	static enum section current_section = no_section;
-	
+
 	if (s == current_section)
 		return;
-	
+
 	current_section = s;
-	
-    switch (s)
-    {
+
+	switch (s)
+	{
 	case shortdata_section:
 	{
 		outs("\t.SHORTDATA\n");
@@ -368,7 +368,7 @@ insection(enum section s)
 	}
 	case data_section:
 	{
-		outs("\t.DATA\n");  
+		outs("\t.DATA\n");
 		return;
 	}
 	case text_section:
@@ -396,8 +396,8 @@ insection(enum section s)
 	}
 	case rodata_section:
 	default: {}
-    }
-    failer("bad \".section\" name");
+	}
+	failer("bad \".section\" name");
 }
 
 void
@@ -429,23 +429,23 @@ baseoff
 find_tg(char *n)
 {
 	int i;
-	for (i=0;i<main_globals_index;i++) 
+	for (i=0;i<main_globals_index;i++)
 	{
 		exp tg = main_globals[i] -> dec_u.dec_val.dec_exp;
 		char *id = main_globals[i] -> dec_u.dec_val.dec_id;
 		if (strcmp(id,n)==0)
 		{
-			return boff(tg); 
+			return boff(tg);
 		}
 	}
 	failer("Extension name not declared ");
 	exit(EXIT_FAILURE);
-}	
+}
 
 
 /* translate the TDF */
 void
-translate_capsule()
+translate_capsule(void)
 {
 	int noprocs;
 	int procno;
@@ -456,7 +456,7 @@ translate_capsule()
 	int r;
 	static int capn=0;
 	capn++;
-	
+
 	/* mark the as output as TDF compiled */
 	outs("\t;  Produced by the ");
 	fprintf(outf,"%s %s", progdesc, progvers);
@@ -473,7 +473,7 @@ translate_capsule()
 		outs("\t.IMPORT\t_mcount,CODE\n");
 	outs("\t.IMPORT\t$global$,DATA\n");
 	outnl();
-	
+
 #if 0
 	outs("LB\t.MACRO\tTARGET\n");
 	outs("\tldil\tL'TARGET,%r1\n");
@@ -482,7 +482,7 @@ translate_capsule()
 	outs("\tnop\n");
 	outnl();
 #endif
-	
+
 	/* Begin diagnostics if necessary. */
 	if (diagnose)
 	{
@@ -492,11 +492,11 @@ translate_capsule()
 		outnl();
 		outnl();
 	}
-	
+
 	setregalt(nowhere.answhere, 0);
 	nowhere.ashwhere.ashsize = 0;
 	nowhere.ashwhere.ashsize = 0;
-	
+
 	if (!diagnose)
 		opt_all_exps();  /* optimise */
 	/* mark static unaliased; count procs */
@@ -507,7 +507,7 @@ translate_capsule()
 		exp scexp = son(crt_exp);
 		if (scexp != nilexp)
 		{
-			if (!diagnose && !separate_units && 
+			if (!diagnose && !separate_units &&
 				!crt_def->dec_u.dec_val.extnamed && isvar(crt_exp))
 				mark_unaliased(crt_exp);
 			if (name(scexp) == proc_tag || name(scexp)== general_proc_tag)
@@ -535,27 +535,27 @@ translate_capsule()
 		}
 	};
 	outnl();
-	
+
 	/* alloc memory */
 	procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
-	
+
 	proc_def_trans_order = (dec**) xcalloc(noprocs, sizeof (dec*));
 	if (xdb)
 	{
 		src_line = (int*) xcalloc(noprocs,sizeof(int));
 	}
-	
+
 	/* number proc defs */
 	procno = 0;
 	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
 	{
 		exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-		
+
 		if (son(crt_exp) != nilexp && (name(son(crt_exp)) == proc_tag ||
 									   name(son(crt_exp))== general_proc_tag))
 		{
 			procrec *pr = &procrecs[procno];
-			proc_def_trans_order[procno] = crt_def; 
+			proc_def_trans_order[procno] = crt_def;
 			if (xdb)
 			{
 				/* Retrieve diagnostic info neccessary to comply with xdb's
@@ -564,7 +564,7 @@ translate_capsule()
 				if (dd != (diag_descriptor*)0)
 				{
 					sourcemark *sm = &dd -> data.id.whence;
-					src_line[procno] = sm->line_no.nat_val.small_nat; 
+					src_line[procno] = sm->line_no.nat_val.small_nat;
 				}
 				else
 					src_line[procno] = 0;
@@ -573,24 +573,24 @@ translate_capsule()
 			no(son(crt_exp)) = procno++;/* index into procrecs in no(proc) */
 		}
 	}
-	
-	
+
+
 	/*
 	 * Scan to put everything in HP_PA form, and calculate register and stack
 	 * space needs.
 	 */
-	
+
 	/*
 	 *      First work out which fixed point t-regs, i.e. those not preserved
-	 *  over calls, can be used. This needs to be done before scan() which 
+	 *  over calls, can be used. This needs to be done before scan() which
 	 *  adds idents so temp reg needs are within available temp reg set.
 	 *
 	 */
-	
+
 	/* initial reg sets */
 	tempregs.fixed = PROC_TREGS;
 	tempregs.flt = PROC_FLT_TREGS;
-	
+
 	/* GR0,GR1,SP,DP are NEVER allocatable */
 	tempregs.fixed |= RMASK(GR0);
 	tempregs.fixed |= RMASK(GR1);
@@ -600,7 +600,7 @@ translate_capsule()
 	{
 		tempregs.fixed |= RMASK(GR19); /* %r19 is reserved in PIC mode */
 	}
-	
+
 	/* count t fixed point regs we can use, and set the global maxfix_tregs */
 	maxfix_tregs = 0;
 	for (r = R_FIRST; r <= R_LAST; r++)
@@ -611,7 +611,7 @@ translate_capsule()
 	}
 	comment4("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
 			 maxfix_tregs, tempregs.fixed, MAXFLOAT_TREGS, tempregs.flt);
-	
+
 	/* scan all the procs, to put everything in HP_PA form */
 	nexps = 0;
 	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
@@ -631,12 +631,12 @@ translate_capsule()
 			pr->needsproc.builtin=builtin;
 		}
 	}
-	
+
 	/* calculate the break points for register allocation */
 	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
 	{
 		exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-		
+
 		if (son(crt_exp) != nilexp && (name(son(crt_exp)) == proc_tag ||
 									   name(son(crt_exp))== general_proc_tag))
 		{
@@ -649,19 +649,19 @@ translate_capsule()
 			int freefixed, freefloat;
 			int No_S = (!leaf && proc_uses_crt_env(son(crt_exp)) && proc_has_lv(son(crt_exp)));
 			proc_name = crt_def->dec_u.dec_val.dec_id;
-			
+
 			setframe_flags(son(crt_exp),leaf);
-			
+
 			/* free s registers = GR3,GR4,..,GR18 */
 			freefixed = 16;
-			
+
 			if (Has_fp) /* Has frame pointer */
-			{ 
+			{
 				freefixed--;
 				/* reserve GR3 as frame pointer (i.e. points to bottom of stack) */
 			}
 			if (Has_vsp) /* Has variable stack pointer */
-			{ 
+			{
 				freefixed--;
 				/* reserve GR4 for use as copy of the original stack pointer */
 			}
@@ -674,7 +674,7 @@ translate_capsule()
 			{
 				pr->callee_sz = 0; /*  Don't know callee_sz  */
 			}
-			
+
 			real_reg[1] = GR4;
 			real_reg[2] = GR5;
 			if (Has_fp)
@@ -698,25 +698,25 @@ translate_capsule()
 						real_reg[2] = GR4;
 					}
 			}
-			
+
 			/* +++ create float s regs for leaf? */
 			freefloat = 0;		/* none, always the same */
-			
+
 			/* estimate usage of tags in body of proc */
 			if (!No_S)
 				w = weightsv(UNITWEIGHT, bro(son(son(crt_exp))));
-			
+
 			/* reg and stack allocation for tags */
 			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
-			
+
 			/* reg and stack allocation for tags */
 			pr->spacereqproc = forrest;
-			
+
 			set_up_frame(son(crt_exp));
 		}
 	}
-	
-	
+
+
 	/*  Set up main_globals and output global definitions. */
 	i = 0;
 	for (crt_def=top_def; crt_def!=(dec*)0; crt_def=crt_def->def_next)
@@ -732,7 +732,7 @@ translate_capsule()
 		main_globals[i]->dec_u.dec_val.sym_number = i;
 		i++;
 	}
-	
+
 	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
 	{
 		exp tg = crt_def->dec_u.dec_val.dec_exp;
@@ -758,7 +758,7 @@ translate_capsule()
 					{
 						outs("\t.EXPORT\t");
 						outs(id);
-						outs(",DATA\n"); 
+						outs(",DATA\n");
 					}
 					is = evaluated(son(tg),symdef);
 					if (diagnose)
@@ -766,18 +766,18 @@ translate_capsule()
 						diag_def = crt_def;
 						stab_global(son(tg), id, extnamed);
 					}
-					
+
 					if (is.adval)
 					{
 						setvar(tg);
 					}
-				} 
+				}
 			}
 	}
-	
-	
+
+
 	/* Uninitialized data local to module. */
-	
+
 	for (crt_def=top_def; crt_def != (dec *) 0; crt_def=crt_def->def_next)
 	{
 		exp tg = crt_def->dec_u.dec_val.dec_exp;
@@ -803,9 +803,9 @@ translate_capsule()
 			outn(size);
 		}
 	}
-	
+
 	/* Translate the procedures. */
-	
+
 	if (xdb)
 	{
 		/*  XDB requires the procedures to be translated in the order
@@ -823,14 +823,14 @@ translate_capsule()
 					pdef = proc_def_trans_order[n];
 					proc_def_trans_order[n] = proc_def_trans_order[j];
 					proc_def_trans_order[j] = pdef;
-					
+
 				}
 			}
 	}
 	else
 	{
 #if TRANSLATE_GLOBALS_FIRST
-		/*  Translate the global procedures first.  */  
+		/*  Translate the global procedures first.  */
 		int fstat = 0, lglob = noprocs-1;
 		while (fstat<lglob)
 		{
@@ -850,7 +850,7 @@ translate_capsule()
 		}
 #endif
 	}
-	
+
 	for (next_proc_def=0; next_proc_def < procno; next_proc_def++)
 	{
 		exp tg, crt_exp;
@@ -861,12 +861,12 @@ translate_capsule()
 		tg = crt_def->dec_u.dec_val.dec_exp;
 		id = crt_def->dec_u.dec_val.dec_id;
 		extnamed = (bool) crt_def->dec_u.dec_val.extnamed;
-		
+
 		if (no(tg)!=0 || extnamed)
 		{
 			crt_exp = crt_def->dec_u.dec_val.dec_exp;
 			pr = & procrecs[no(son(crt_exp))];
-			insection(text_section);    
+			insection(text_section);
 			outnl();
 			outnl();
 			if (diagnose)
@@ -876,25 +876,25 @@ translate_capsule()
 			}
 			seed_label();		/* reset label sequence */
 			settempregs(son(tg));	/* reset getreg sequence */
-			
+
 			first = (labexp) malloc(sizeof(struct labexp_t));
 			first->e = (exp) 0;
 			first->next = (labexp) 0;
 			current = first;
-			
+
 			proc_name=id;
 			code_here(son(tg), tempregs, nowhere);
-			
-			outs("\t.PROCEND\n\t;") ;  
+
+			outs("\t.PROCEND\n\t;");
 			outs(id);
 			if (xdb)
 			{
 #if _SYMTAB_INCLUDED
 				close_function_scope(res_label);
 				outnl();
-				outs("_") ;  
+				outs("_");
 				outs(id);
-				outs("_end_") ;  
+				outs("_end_");
 #endif
 			}
 			outnl();
@@ -910,7 +910,7 @@ translate_capsule()
 				outnl();
 			}
 			if (first->next != (labexp)0)
-			{ 
+			{
 				exp e,z;
 				labexp p,next;
 				ash a;
@@ -967,31 +967,31 @@ translate_capsule()
 			}
 			else
 				free(first);
-		} 
+		}
 	}
-	
+
 	return;
 }
 
 void
-translate_tagdef()
+translate_tagdef(void)
 {
 	return;
 }
 
 void
-translate_unit()
+translate_unit(void)
 {
 	if (separate_units)
 	{
 		dec *crt_def;
-		
+
 		translate_capsule();
 		crt_def = top_def;
 		while (crt_def != (dec *) 0)
 		{
 			exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-			
+
 			no(crt_exp) = 0;
 			pt(crt_exp) = nilexp;
 			crt_def = crt_def->def_next;
@@ -1009,28 +1009,28 @@ translate_unit()
  */
 
 void
-exit_translator()
+exit_translator(void)
 {
-    outnl();
-    outnl();
-    outnl();
-    outnl();
-    import_millicode();
+	outnl();
+	outnl();
+	outnl();
+	outnl();
+	import_millicode();
 #if use_long_double
-    import_long_double_lib();
+	import_long_double_lib();
 #endif
-    outnl();
-    outnl();
-    if (xdb)
-    {
+	outnl();
+	outnl();
+	if (xdb)
+	{
 #ifdef _SYMTAB_INCLUDED
 		output_DEBUG();
 		outnl();
 		outnl();
 #endif
-    }
-    outs("\t.END\n");
-    return;
+	}
+	outs("\t.END\n");
+	return;
 }
 
 
