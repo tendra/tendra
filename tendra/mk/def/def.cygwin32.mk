@@ -84,5 +84,6 @@ BIN_TOUCH?=	/bin/touch
 BIN_TR?=	/bin/tr
 BIN_TRUE?=	/bin/true
 BIN_TYPE?=	type		# Shell builtin
+BIN_UNAME?=	/bin/uname
 BIN_WC?=	/bin/wc
 XARGS?=		/bin/xargs

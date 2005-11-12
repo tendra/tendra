@@ -1,8 +1,5 @@
 # $TenDRA$
 
-# Platform dependent commands' locations.
-UNAME=		/sbin/uname
-
 # Platform settings.
 PREFIX?=	/usr/local
 MAN_COMPRESS=	yes
@@ -15,9 +12,9 @@ PREFIX?=	/usr/local
 TMP_DIR=	/tmp
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
 
-MACH_CPU!=	${UNAME} -p
-MACH_OS!=	${UNAME}
-MACH_VERS!=	${UNAME} -r
+MACH_CPU!=	${BIN_UNAME} -p
+MACH_OS!=	${BIN_UNAME}
+MACH_VERS!=	${BIN_UNAME} -r
 
 .if ${MACH_OS} == "IRIX64"
 MACH_OS=       IRIX

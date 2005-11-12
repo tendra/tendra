@@ -83,5 +83,6 @@ BIN_TOUCH?=		/sbin/touch
 BIN_TR?=		/usr/bin/tr
 BIN_TRUE?=		/usr/bin/true
 BIN_TYPE?=		/sbin/type
+BIN_UNAME?=		/sbin/uname
 BIN_WC?=		/sbin/wc
 BIN_XARGS?=		/sbin/xargs

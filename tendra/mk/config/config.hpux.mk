@@ -1,9 +1,5 @@
 # $TenDRA$
 
-# Platform dependent commands' locations.
-UNAME=		/usr/bin/uname
-
-
 # Platform settings.
 PREFIX?=	/usr/local
 MAN_COMPRESS=	yes
@@ -42,8 +38,8 @@ SRC_MACHINES=	${BUILD_OS}/${MACH_CPU}
 #}
 
 MACH_CPU=	hppa # Be lame for now and hardwire it, until above works.
-MACH_OS!=	${UNAME}
-MACH_VERS!=	${UNAME} -r
+MACH_OS!=	${BIN_UNAME}
+MACH_VERS!=	${BIN_UNAME} -r
 
 # Not sure of the best way to get the exec type, suggestions?
 MACH_EXEC=	elf

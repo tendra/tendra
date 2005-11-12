@@ -1,9 +1,5 @@
 # $TenDRA$
 
-# Platform dependent commands' locations.
-UNAME=		/usr/bin/uname
-
-
 # Platform settings.
 PREFIX?=	/usr/local
 MAN_COMPRESS=	yes
@@ -14,9 +10,9 @@ TMP_DIR=	/tmp
 # SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
 
-TMP_CPU!=	${UNAME} -p
-MACH_OS!=	${UNAME}
-MACH_VERS!=	${UNAME} -r
+TMP_CPU!=	${BIN_UNAME} -p
+MACH_OS!=	${BIN_UNAME}
+MACH_VERS!=	${BIN_UNAME} -r
 
 MACH_VERS_MAJOR=	${MACH_VERS:C/^(.).*/\1/}
 # SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
@@ -36,9 +32,5 @@ MACH_CPU=	80x86
 .elif ${TMP_CPU} == "alpha"
 MACH_CPU=	alpha
 .endif
-
-
-# No longer needed
-#TCC_OPTS+=	-f${SRC_DIR}/src/lib/machines/${BUILD_OS}/${MACH_CPU}/include/gcc_dependency.h
 
 .include "config.common.mk"

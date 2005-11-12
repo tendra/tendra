@@ -104,5 +104,6 @@ BIN_TOUCH?=	/bin/touch
 BIN_TR?=	/usr/bin/tr
 BIN_TRUE?=	/bin/true
 BIN_TYPE?=	type		# shell builtin.
+BIN_UNAME?=	/bin/uname
 BIN_WC?=	/usr/bin/wc
 BIN_XARGS?=	/usr/bin/xargs

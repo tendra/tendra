@@ -1,9 +1,5 @@
 # $TenDRA$
 
-# Platform dependent commands' locations.
-UNAME=		/usr/bin/uname
-
-
 # Platform settings.
 PREFIX?=	/usr/local
 MAN_COMPRESS=	yes
@@ -16,9 +12,9 @@ SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
 # SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
 SRC_MACHINES=	${BUILD_OS}/${MACH_CPU}
 
-MACH_CPU!=	${UNAME} -p
+MACH_CPU!=	${BIN_UNAME} -p
 MACH_OS=	Solaris
-MACH_VERS!=	${UNAME} -r
+MACH_VERS!=	${BIN_UNAME} -r
 
 
 # Not sure of the best way to get the exec type, suggestions?

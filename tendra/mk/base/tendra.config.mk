@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux irix linux netbsd\
+BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux irix linux netbsd \
 		openbsd osf1 qnx solaris sunos tru64
 
 config-check:
@@ -33,68 +33,18 @@ ${BUILD_TARGETS}: config-create
 
 .endif
 
-.if make(aix)
-BUILD_OS=	aix
-.include "../config/config.aix.mk"
-.endif
 
-.if make(cygwin32)
-BUILD_OS=	cygwin32
-.include "../config/config.cygwin32.mk"
-.endif
+.for ARCH in ${BUILD_TARGETS}
+.if make(${ARCH})
+BUILD_OS=	${ARCH}
 
-.if make(darwin)
-BUILD_OS=	darwin
-.include "../config/config.darwin.mk"
-.endif
-
-.if make(freebsd)
-BUILD_OS=	freebsd
-.include "../config/config.freebsd.mk"
-.endif
-
-.if make(hpux)
-BUILD_OS=	hpux
-.include "../config/config.hpux.mk"
-.endif
-
-.if make(irix)
-BUILD_OS=	irix
-.include "../config/config.irix.mk"
-.endif
-
-.if make(linux)
-BUILD_OS=	linux
-.include "../config/config.linux.mk"
-.endif
-
-.if make(netbsd)
-BUILD_OS=	netbsd
-.include "../config/config.netbsd.mk"
-.endif
-
-.if make(openbsd)
-BUILD_OS=	openbsd
-.include "../config/config.openbsd.mk"
-.endif
-
-.if make(osf1) || make(tru64)
+# Handle special case architechtures
+.if ${BUILD_OS} == tru64
 BUILD_OS=	osf1
-.include "../config/config.osf1.mk"
 .endif
 
-.if make(qnx)
-BUILD_OS=	qnx
-.include "../config/config.qnx.mk"
+.include "../def/def.${BUILD_OS}.mk"
+.include "../config/config.${BUILD_OS}.mk"
 .endif
-
-.if make(solaris) 
-BUILD_OS=	solaris
-.include "../config/config.solaris.mk"
-.endif
-
-.if make(sunos)
-BUILD_OS=	sunos
-.include "../config/config.sunos.mk"
-.endif
+.endfor
 
