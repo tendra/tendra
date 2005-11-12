@@ -58,6 +58,7 @@
 
 
 extern exp find_named_tg(char *, shape);
+extern void tidy_initial_values(void);
 
 
 extern shape ucharsh;
