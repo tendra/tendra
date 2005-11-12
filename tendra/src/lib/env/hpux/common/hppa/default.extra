@@ -5,6 +5,7 @@
 
 /* Binaries */
 
++BIN_AS		"-BIN_AS-"
 +BIN_LD		"-BIN_LD-"
 
 
@@ -15,6 +16,7 @@
 
 +MACHINE		"hpux-*-hppa"
 +FLAG			"--1HL"
++AS			"<BIN_AS>"
 +LD			"<BIN_LD> -x -u main"
 +CRT1			"<TENDRA_LIBDIR>/sys/dyn_begin.o"
 +CRTN			"<TENDRA_LIBDIR>/sys/dyn_end.o"
