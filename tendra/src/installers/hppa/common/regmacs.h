@@ -135,8 +135,8 @@
 #define FP         GR3  /* Frame Pointer. GR3 is reserved for use as a
 						 *                           frame pointer iff Has_fp==1 (cf. frames.c).  */
 
-int EP;  /*  EP is a register which holds the frames original stack pointer.
-		  *             EP=GR3, if has_vsp==1, or SP otherwise (c.f. frames.c).  */
+extern int EP;  /*  EP is a register which holds the frames original stack pointer.
+		  		 *  EP=GR3, if has_vsp==1, or SP otherwise (c.f. frames.c).  */
 
 
 /* Range of all fixed registers */

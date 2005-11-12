@@ -75,7 +75,9 @@
 #include "myassert.h"
 #include "labels.h"
 #include "frames.h"
+#include "makecode.h"
 #include "oprators.h"
+#include "translat.h"
 
 #define isdbl(e) ((bool) (name (e) != shrealhd))
 
@@ -93,11 +95,6 @@
 #include "basicread.h"
 #include "inst_fmt.h"
 #endif
-
-extern long trap_label(exp);
-extern void trap_handler(baseoff,int,int);
-extern baseoff zero_exception_register(space);
-extern labexp current,first;
 
 
 int long_double_0 = 0;

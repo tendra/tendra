@@ -90,6 +90,7 @@
 #include "regmacs.h"
 #include "needscan.h"
 #include "translat.h"
+#include "makecode.h"
 #include "muldvrem.h"
 #include "proc.h"
 #include "out.h"
@@ -105,8 +106,6 @@
 
 #define IS_POW2(c)		((c) != 0 && ((c) & ((c)-1)) == 0)
 
-extern long trap_label(exp);
-extern comib_ins(ins_p,int,int,int);
 /*
  * Utility functions.
  */

@@ -70,6 +70,6 @@ extern needs likediv(exp *, exp **);
 
 extern int maxfix, maxfloat;
 
-int builtin;
+extern int builtin;
 
 #endif /* NEEDSCAN_INCLUDED */

@@ -103,6 +103,7 @@
 #include "makecode.h"
 #include "extratags.h"
 #include "f64.h"
+#include "misc.h"
 #include "misc_c.h"
 #include "special.h"
 #include "loc_signal.h"
@@ -116,14 +117,6 @@ int last_odd_bit;
 int doing_odd_bits;
 static exp crt_proc;
 where nowhere;
-
-extern char export[128];
-extern int leaf;
-extern labexp current,first;
-extern int RSCOPE_LEVEL,RSCOPE_LABEL;
-extern exp find_named_tg(char *, shape);
-extern baseoff find_tg(char* s);
-extern int reg_result(shape);
 
 #define GETREG(d, s)  (discrim ((d).answhere) == inreg ?\
 			  regalt ((d).answhere) :\

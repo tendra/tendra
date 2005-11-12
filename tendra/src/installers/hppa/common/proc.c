@@ -89,6 +89,7 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "regable.h"
+#include "externs.h"
 #include "flags.h"
 #include "special.h"
 #include "translat.h"
@@ -97,6 +98,7 @@
 #include "proc.h"
 #include "misc.h"
 #include "hppadiags.h"
+#include "install_fns.h"
 #include "loc_signal.h"
 
 #define RES    1
@@ -107,26 +109,13 @@
 #define NA    -1
 
 
-extern outofline *odd_bits;
-extern int repeat_level;
-extern regpeep regexps[64];
-extern char *proc_name;
-extern int line;
-extern char export[128];
-extern int firstlab,labno;
 int leaf;
-extern baseoff find_tg(char* s);
-extern exp find_named_tg(char *,shape);
-extern shape f_pointer(alignment);
-extern alignment f_alignment(shape);
-extern shape f_proc;
-extern void do_exception(int);
-
 int res_label;
 static int untidy_return_label,return_to_label_label;
 static bool simpleans;
 static ans procans;
-int RSCOPE_LEVEL,RSCOPE_LABEL;
+int RSCOPE_LEVEL;
+static int RSCOPE_LABEL;
 
 /*
  *   Temporary space on stack which can be referenced by short instruction

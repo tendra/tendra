@@ -72,6 +72,7 @@
 #include "basicread.h"	/* for good_trans */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
+#include "misc.h"
 #include "flpt.h"
 #include "exptypes.h"
 #include "exp.h"		/* for current_alloc_size */

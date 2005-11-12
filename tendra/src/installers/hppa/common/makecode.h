@@ -64,11 +64,20 @@
 #include "proctypes.h"
 #include "exptypes.h"
 
-extern where nowhere;
 extern makeans make_code(exp, space, where, int);
+extern int bitsin(long);
+extern bool last_param(exp);
+extern long trap_label(exp);
+extern void trap_handler(baseoff, int, int);
+extern baseoff zero_exception_register(space);
+extern void do_exception(int);
+
+extern where nowhere;
 extern int repeat_level;
 extern outofline * current_odd_bit;
 extern int last_odd_bit;
 extern int doing_odd_bits;
+extern long notbranch[];
+extern outofline *odd_bits;
 
 #endif /* MAKECODE_INCLUDED */

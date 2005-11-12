@@ -62,6 +62,7 @@
 #include "config.h"
 #include "common_types.h"
 #include "expmacs.h"
+#include "misc.h"
 #include "shapemacs.h"
 #include "regable.h"
 
@@ -81,12 +82,3 @@ reg_result(shape sha)
 	}
 	return (0);
 }
-
-
-/*
- *    NAME PREFIXES
- */
-
-char *local_prefix = "";
-char *name_prefix = "";
-

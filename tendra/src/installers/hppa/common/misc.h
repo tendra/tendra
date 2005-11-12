@@ -60,4 +60,9 @@
 
 #ifndef MISC
 #define MISC
+
+extern int reg_result(shape);
+
+extern bool do_tlrecursion;
+
 #endif

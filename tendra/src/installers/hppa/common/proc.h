@@ -90,4 +90,8 @@ extern makeans make_res_tag_code(exp, space, where, int);
 extern makeans make_apply_tag_code(exp, space, where, int);
 extern void restore_sregs(void);
 
+extern int leaf;
+extern int res_label;
+extern int RSCOPE_LEVEL;
+
 #endif /* PROCDECS_INCLUDED */

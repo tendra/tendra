@@ -126,7 +126,11 @@ extern void outlab(char*, int);
 extern void bl_in(ins_p, char*, int);
 extern void ble_in(ins_p, char*, int, int);
 
-int line,lines,nLabels;
+extern void comib_ins(ins_p, int, int, int);
+
+extern int line;
+extern int lines;
+extern int nLabels;
 
 #if FS_NO_ANSI_ENVIRON
 typedef long FILE_POSN;
@@ -153,9 +157,9 @@ typedef psuedoIn *pIn;
 #define BLOCK 65536
 #define INCR  4096
 
-pIn *pCode;
-int *labIntro;  /*  `labIntro[lab]' will record the line number on
-				 *                     which label `lab' was introduced. */
+extern pIn *pCode;
+extern int *labIntro;  /*  `labIntro[lab]' will record the line number on
+				 		*  which label `lab' was introduced. */
 
 
 

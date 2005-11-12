@@ -65,5 +65,7 @@ extern void seed_label(void);
 extern int new_label(void);
 extern void outlab(char*, int);
 
+extern int firstlab;
+extern int labno;
 
 #endif /* LABELDECS_INCLUDED */

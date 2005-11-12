@@ -61,6 +61,7 @@
 #include "config.h"
 #include "bitsmacs.h"
 #include "common_types.h"
+#include "exp.h"
 #include "expmacs.h"
 #include "procrec.h"
 #include "tags.h"
@@ -69,12 +70,8 @@
 #include "regmacs.h"
 #include "flags.h"
 #include "frames.h"
-
-extern char *proc_name;
-extern int bitsin(long);
-extern exp father(exp);
-extern int diagnose;
-extern int gdb;
+#include "makecode.h"
+#include "translat.h"
 
 bool Has_fp = 0;
 bool Has_vsp = 0;
@@ -103,6 +100,8 @@ baseoff MEM_TEMP_BOFF;
 baseoff LONG_RESULT_BOFF;
 baseoff SP_BOFF;
 baseoff FP_BOFF;
+
+int EP;
 
 /*
  *	The purpose of this file (the 5th revision) is to collect together

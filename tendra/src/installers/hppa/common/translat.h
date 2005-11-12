@@ -61,13 +61,7 @@
 #ifndef TRANSLAT_INCLUDED
 #define TRANSLAT_INCLUDED
 
-extern int optim_level;
-extern int maxfix_tregs;
-extern dec **main_globals;
-extern dec *diag_def;
-
-extern int translate(char *, char *, char *);
-extern void exit_translator(void);
+#include "procrec.h"
 
 enum section {
 	no_section = 0,
@@ -78,7 +72,21 @@ enum section {
 	shortbss_section,
 	rodata_section
 };
+
+extern int translate(char *, char *, char *);
+extern void exit_translator(void);
 extern void insection(enum section);
+
+extern int optim_level;
+extern int maxfix_tregs;
+extern dec **main_globals;
+extern procrec *cpr;
+extern dec *diag_def;
+extern char *proc_name;
+extern char export[128];
+extern labexp current;
+extern int nexps;
+
 extern int OPTIM;
 extern int for_gcc;
 

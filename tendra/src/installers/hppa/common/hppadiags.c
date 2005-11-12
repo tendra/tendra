@@ -83,6 +83,7 @@
 #include "myassert.h"
 #include "translat.h"
 #include "machine.h"
+#include "makecode.h"
 #include "szs_als.h"
 #include "install_fns.h"
 #include "installglob.h"
@@ -96,8 +97,6 @@
 #endif
 
 
-
-extern bool last_param(exp);
 
 
 /*

@@ -86,8 +86,6 @@
  *   added to line 351 */
 
 
-int line;
-
 regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
 
 bool sim_exp(exp, exp);

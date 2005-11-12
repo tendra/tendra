@@ -94,6 +94,9 @@
 #include "install_fns.h"
 #include "externs.h"
 #include "regmacs.h"
+#include "makecode.h"
+#include "me_fns.h"
+#include "misc.h"
 #include "muldvrem.h"
 #include "translat.h"
 #include "comment.h"
@@ -103,16 +106,6 @@
 #include "extratags.h"
 #include "needscan.h"
 
-
-/* used by scan to set initial parameter positions */
-extern alignment long_to_al(unsigned long);
-extern int specialopt(exp);
-
-extern long notbranch[];	/* in makecode.c */
-extern bool do_tlrecursion;
-extern int nexps;
-
-extern procrec *cpr;
 
 static int stparam;		/* Size of parameter list in bits */
 static int fixparam;		/* Next available place for param */
@@ -127,6 +120,7 @@ bool has_tail_call;
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 
+int builtin;
 
 /* advance declaration of scan */
 needs scan(exp *, exp **);

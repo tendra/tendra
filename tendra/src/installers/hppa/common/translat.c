@@ -270,6 +270,7 @@
 #include "hppadiags.h"
 #include "installglob.h"
 #include "externs.h"
+#include "locate.h"
 #include "out.h"
 #include "translat.h"
 #include "version.h"
@@ -279,8 +280,6 @@
 #include "special.h"
 #include "oprators.h"
 #include "time.h"
-
-extern dec *diag_def;
 
 
 
@@ -292,9 +291,6 @@ char export[128];
 labexp current,first;
 
 int nexps;
-
-extern baseoff boff(exp);
-extern int res_label;
 
 FILE *outf = NULL;/* assembler output file */
 dec **main_globals;

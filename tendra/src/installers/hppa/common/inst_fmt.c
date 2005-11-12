@@ -89,6 +89,7 @@
 #include "expmacs.h"
 #include "flags.h"
 #include "eval.h"
+#include "labels.h"
 
 #define name(x) ((x)->namef)
 #define sh(x) ((x)->shf)
@@ -108,14 +109,18 @@
 	? 0 : 1) : 0)
 
 
-extern int firstlab, labno;
-extern int nexps;
 char last_ins[96];
 
 int zops[]={0,0,0,0};
 int last_line;
 char last_symb[128];
 int last_o;
+int line;
+int lines;
+int nLabels;
+
+pIn *pCode;
+int *labIntro;
 
 static CONST char reg_name_tab[32][6] =
 { "%r0"  ,

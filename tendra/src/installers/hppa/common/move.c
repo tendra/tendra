@@ -91,7 +91,6 @@
 #include "makecode.h"
 #include "move.h"
 
-extern char reg_name_tab[32][5];
 #define	MAX_STEPS_INLINE_MOVE	12	/* (was 8) 16 instructions */
 
 
