@@ -532,16 +532,16 @@ do_callers(exp list, space sp, char *stub)
 			if (hd==shrealhd)
 			{
 				frg.dble = 0;
-				sprintf(s,"ARGW%d=FR ",fltpar-4);
+				sprintf(s,"ARGW%d=FR,",fltpar-4);
 				strcat(stub,s);
 			}
 			else
 			{
 				frg.dble = 1;
 				if (off==(10<<5))
-					strcat(stub,"ARGW0=FR ARGW1=FU ");
+					strcat(stub,"ARGW0=FR,ARGW1=FU,");
 				else
-					strcat(stub,"ARGW2=FR ARGW3=FU ");
+					strcat(stub,"ARGW2=FR,ARGW3=FU,");
 			}
 			setfregalt(ansfr,frg);
 			w.answhere = ansfr;
@@ -581,7 +581,7 @@ do_callers(exp list, space sp, char *stub)
 				/* Evaluate parameter into fixed parameter register. */
 				code_here(par,sp,w);
 				sp = guardreg(fixpar,sp);
-				sprintf(s,"ARGW%d=GR ",fixpar-ARG0);
+				sprintf(s,"ARGW%d=GR,",fixpar-ARG0);
 				strcat(stub,s);
 			}
 			else
@@ -610,7 +610,7 @@ do_callers(exp list, space sp, char *stub)
 						if (fixpar<ARG3+1)
 						{
 							ld_ins(i_lw,0,is.b,fixpar);
-							sprintf(s,"ARGW%d=GR ",fixpar-ARG0);
+							sprintf(s,"ARGW%d=GR,",fixpar-ARG0);
 							strcat(stub,s);
 							sp = guardreg(fixpar,sp);
 						}

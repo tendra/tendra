@@ -147,7 +147,7 @@ int
 call_muldivrem(exp lhs, exp rhs, space sp,
 			   int proc)
 {
-	char *stub="ARGW0=GR ARGW1=GR";
+	char *stub="ARGW0=GR,ARGW1=GR";
 	reg_operand_here(lhs, sp, ARG0);
 	sp = needreg(ARG0, sp);
 
@@ -700,7 +700,7 @@ do_div(exp e, space sp, int final_reg, bool sgned)
 	space nsp;
 	int trap = 0;
 	int sz = shape_size(sh(e));
-	char *stub="ARGW0=GR ARGW1=GR";
+	char *stub="ARGW0=GR,ARGW1=GR";
 	if (!optop(e))
 		trap = trap_label(e);
 	assert(last(rhs));
@@ -836,7 +836,7 @@ do_rem(exp e, space sp, int final_reg, bool sgned)
 	space nsp;
 	int trap = 0;
 	baseoff b;
-	char *stub="ARGW0=GR ARGW1=GR";
+	char *stub="ARGW0=GR,ARGW1=GR";
 	assert(last(rhs));
 	b = mem_temp(0);
 	if (!optop(e))
