@@ -1,2 +1,4 @@
+/* $TenDRA$ */
+
 #include "ansi.h"
-#define _KERNEL
+#define __WRONG_GCC
