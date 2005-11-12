@@ -98,8 +98,3 @@ BUILD_OS=	sunos
 .include "../config/config.sunos.mk"
 .endif
 
-.if make(irix)
-BUILD_OS=	irix
-.include "../config/config.irix.mk"
-.endif
-
