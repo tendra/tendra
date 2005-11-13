@@ -100,10 +100,9 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 	return ht;
 }
 
-int
+static int
 key_match(char *key, char *keyfield)
 {
-	int i;
 	if (!key || !keyfield)
 		return 0;
 	/* advance pointers past command chars */
@@ -111,11 +110,7 @@ key_match(char *key, char *keyfield)
 		key++;
 	while (*keyfield && !is_alphanum(*keyfield))
 		keyfield++;
-	for (i=0; i < strlen(key); i++)
-		if (key[i] != keyfield[i]) {
-			return 0;
-		}
-	return 1;
+	return strncmp (key, keyfield, strlen (key)) == 0;
 }
 
 htnode *
@@ -214,7 +209,7 @@ hash(char *key, int tblsize, int keysize)
 	}
 
 	if (!key) {
-		MSG_hash_operation_requested_on_empty_key ();;
+		MSG_hash_operation_requested_on_empty_key ();
 	}
 	while (*key && !is_whitespace(*key) && i < keysize) {
 		hashval += (hashval * 37) + (int) *key;

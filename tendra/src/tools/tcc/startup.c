@@ -154,7 +154,7 @@ char *tokdef_name = null;
  *    This routine prints the message s to the tcc token definition file.
  */
 
-void
+static void
 add_to_tokdef(char *s)
 {
 	if (tokdef_name == null) {
