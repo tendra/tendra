@@ -1,6 +1,6 @@
 # $TenDRA$
 
-.PATH : ${.CURDIR} ${OBJ_DIR} . ${.CURDIR}/../../../common/tokens ${.CURDIR}/../../../common/src
+.PATH : ${.CURDIR} ${OBJ_DIR} ${.CURDIR}/../src . ${.CURDIR}/../../../common/tokens ${.CURDIR}/../../../common/src
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
@@ -10,12 +10,12 @@ TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 
 DEPEND_SRC=	except_toks.t var_toks.t dep_toks.j \
 		map_toks.j target_tok.tl sys_toks.j sys.j \
-		crtp_n.o
+		crtp_n.o dyn_begin.o dyn_end.o
 
 
 # Where these get installed!
 INSTALL_LIB=		target_tok.tl
-INSTALL_LIB_SYS=	crtp_n.o
+INSTALL_LIB_SYS=	crtp_n.o dyn_begin.o dyn_end.o
 
 
 except_toks.t: except_toks.j
