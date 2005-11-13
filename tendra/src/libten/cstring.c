@@ -29,6 +29,8 @@
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>
+
+#include "cstring.h"
 #include "fmm.h"
 
 struct fmm_type *memtype_str;
