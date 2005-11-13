@@ -742,7 +742,7 @@ make_proc_tag_code(exp e, space sp, where dest,
 		int i;
 		for (i=0;i<line;i++)
 		{
-			pIn j=pCode[line];
+			pIn j=pCode[i];
 			free(j);
 		}
 		free(pCode);
