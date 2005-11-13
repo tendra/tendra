@@ -4,6 +4,9 @@
 
 CFLAGS?=	-O -pipe
 
+.c.j:
+	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} ${.IMPSRC}
+
 .c.o:
 	${BIN_CC} ${CFLAGS} -c ${.IMPSRC}
 
@@ -11,17 +14,14 @@ CFLAGS?=	-O -pipe
 	${MAKE_TDF} ${SRC_DIR}/src/lib/tdf/def_4_1.db ${.IMPSRC} >\
 	${OBJ_DIR}/${.TARGET}
 
-.pl.j:
-	${PL} ${.IMPSRC} ${.TARGET} 
+.cc.o:
+	${TCC} ${TCC_OPTS} ${TCC_FLAGS} -c ${.IMPSRC}
 
 .j.disp:
 	${DISP} ${DISP_FLAGS} ${.IMPSRC} ${.TARGET} || (true)
 
-.c.j:
-	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} ${.IMPSRC}
-
-.cc.o:
-	${TCC} ${TCC_OPTS} ${TCC_FLAGS} -c ${.IMPSRC}
-
 .p.j:
 	${TNC} ${.IMPSRC} ${.TARGET}
+
+.pl.j:
+	${PL} ${.IMPSRC} ${.TARGET} 
