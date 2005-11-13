@@ -356,7 +356,7 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 	pp = blkp->fbh_page;
 	allocsize = 1 << pp->fph_bi;
 	if (allocsize > FMM_LARGE_ALLOC) {
-		allocsize = FMM_PAGE_HDRSZ + FMM_BLK_HDRSZ + size;;
+		allocsize = FMM_PAGE_HDRSZ + FMM_BLK_HDRSZ + size;
 		prevp = pp->fph_prev;
 		nextp = pp->fph_next;
 		ftp->ft_memuse -= pp->fph_pagesize;
