@@ -78,10 +78,8 @@
 /*
  *    INTERCEPT SPECIAL TOKENS
  */
-
 tokval
-special_token(token t, bitstream pars, int sortcode,
-			  int *done)
+special_token(token t, bitstream pars, int sortcode, int *done)
 {
     tokval tkv;
     UNUSED (sortcode);
@@ -93,9 +91,10 @@ special_token(token t, bitstream pars, int sortcode,
     }
 	
     /* alloca */
-    if (!strcmp (t->tok_name, "~alloca")) {
+    if (strcmp (t->tok_name, "~alloca") == 0) {
 		exp arg1;
 		tdf_pos old_place;
+
 		old_place = keep_place ();
 		set_place (pars);
 		arg1 = hold_check (d_exp ());
@@ -108,11 +107,12 @@ special_token(token t, bitstream pars, int sortcode,
     }
 	
     /* diagnostic tokens */
-    if (!strcmp (t->tok_name, "~exp_to_source") ||
-		!strcmp (t->tok_name, "~diag_id_scope") ||
-		!strcmp (t->tok_name, "~diag_type_scope") ||
-		!strcmp (t->tok_name, "~diag_tag_scope")) {
+    if (strcmp (t->tok_name, "~exp_to_source") == 0 ||
+		strcmp (t->tok_name, "~diag_id_scope") == 0 ||
+		strcmp (t->tok_name, "~diag_type_scope") == 0 ||
+		strcmp (t->tok_name, "~diag_tag_scope") == 0) {
 		tdf_pos old_place;
+
 		old_place = keep_place ();
 		set_place (pars);
 		tkv.tk_exp = hold_check (d_exp ());
@@ -121,7 +121,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place (old_place);
 			return (tkv);
 		}
-		if (!strcmp (t->tok_name, "~exp_to_source")) {
+		if (strcmp (t->tok_name, "~exp_to_source") == 0) {
 			exp r;
 			diag_info *di = read_exp_to_source ();
 			crt_lno = natint (di->data.source.end.line_no);
@@ -135,7 +135,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place (old_place);
 			return (tkv);
 		}
-		if (!strcmp (t->tok_name, "~diag_id_scope")) {
+		if (strcmp (t->tok_name, "~diag_id_scope") == 0) {
 			exp r;
 			diag_info *di = read_diag_id_scope ();
 			r = getexp (sh (tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
@@ -146,7 +146,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place (old_place);
 			return (tkv);
 		}
-		if (!strcmp (t->tok_name, "~diag_type_scope")) {
+		if (strcmp (t->tok_name, "~diag_type_scope") == 0) {
 			exp r;
 			diag_info *di = read_diag_type_scope ();
 			r = getexp (sh (tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
@@ -157,7 +157,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place (old_place);
 			return (tkv);
 		}
-		if (!strcmp (t->tok_name, "~diag_tag_scope")) {
+		if (strcmp (t->tok_name, "~diag_tag_scope") == 0) {
 			exp r;
 			diag_info *di = read_diag_tag_scope ();
 			r = getexp (sh (tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,

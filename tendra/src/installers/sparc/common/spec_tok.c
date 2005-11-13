@@ -54,18 +54,6 @@
  * $TenDRA$
  */
 
-/*
- *^^^	21/12/92  jmf	Added ~div as special token
- *^^^	26/03/93  jmf	Changes for new spec 2.1
- *^^^	24/05/93  jmf	Added ~alloca as special token, not alloc
- *^^^	10/06/93  jmf	Change long to int, remove extern declarations.
- *^^^	19/08/93  jmf	Put arith_type, promote, sign_promote, convert
- *^^^			into c_arith-type.h in machine directories.
- *^^^	19/08/93  jmf	Set crt_lno in exp_to_source
- *^^^	23/09/93  jmf	Use natmacs.h
- *--------------------------------------------------------------------------
- */
-
 
 #include "config.h"
 #include "common_types.h"
@@ -95,24 +83,24 @@
 
 
 tokval
-special_token(token t, bitstream pars, int sortcode,
-			  int * done)
+special_token(token t, bitstream pars, int sortcode, int * done)
 {
 	tokval tkv;
 	UNUSED(sortcode);
 
-	if (t -> tok_name == (char*)0) {
+	if (t->tok_name == (char*)0) {
 		SET(tkv); /* call looks at done to see if result is meaningful */
 		return tkv;
 	};
 
 	/* Added for VARARGS on sparc etc */
 
-	if (!strcmp(t -> tok_name,"ansi.stdarg.__va_start")) {
+	if (strcmp(t->tok_name,"ansi.stdarg.__va_start") == 0) {
 		exp arg1;
 		exp id;
 		exp env_o;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -132,12 +120,13 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 
-	if (!strcmp(t -> tok_name,"ansi.stdarg.va_arg")) {
+	if (strcmp(t->tok_name,"ansi.stdarg.va_arg") == 0) {
 		exp arg1;
 		shape s, s1;
 		exp id, ass, con;
 		exp_list el;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -167,10 +156,11 @@ special_token(token t, bitstream pars, int sortcode,
 	}
 	/* end of addition for VARARGS */
 
-	if (!strcmp(t -> tok_name,"~next_caller_offset")) {
+	if (strcmp(t->tok_name,"~next_caller_offset") == 0) {
 		exp arg1;
 		shape s1, s2;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -189,10 +179,11 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 
-	if (!strcmp(t -> tok_name,"~next_callee_offset")) {
+	if (strcmp(t->tok_name,"~next_callee_offset") == 0) {
 		exp arg1;
 		shape s1, s2;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -208,9 +199,10 @@ special_token(token t, bitstream pars, int sortcode,
 	}
 
 
-	if (!strcmp(t -> tok_name, "~alloca"))  {
+	if (strcmp(t->tok_name, "~alloca") == 0) {
 		exp arg1;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -220,26 +212,26 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		has_alloca = 1;
 		return tkv;
-	};
+	}
 
-	if (!strcmp(t->tok_name, "~Sync_handler")){
+	if (strcmp(t->tok_name, "~Sync_handler") == 0) {
 		tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,special_tag);
 		*done = 1;
 		return tkv;
 	}
 
-	if (!strcmp(t->tok_name, "__sparc_special")){
+	if (strcmp(t->tok_name, "__sparc_special") == 0) {
 		exp arg;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg = d_exp();
 		assert(name(arg) == val_tag);
-		if (no(arg) == 0){
+		if (no(arg) == 0) {
 			tkv.tk_exp = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,special_tag);
 			*done = 1;
-		}
-		else{
+		} else {
 			failer("Unsupported argument to token __alpha_special");
 			tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,null_tag);
 			*done = 1;
@@ -250,27 +242,27 @@ special_token(token t, bitstream pars, int sortcode,
 
 
 
-	if (!strcmp(t -> tok_name, "~exp_to_source") ||
-		!strcmp(t -> tok_name, "~diag_id_scope") ||
-		!strcmp(t -> tok_name, "~diag_type_scope") ||
-		!strcmp(t -> tok_name, "~diag_tag_scope")
+	if (strcmp(t->tok_name, "~exp_to_source") == 0 ||
+		strcmp(t->tok_name, "~diag_id_scope") == 0 ||
+		strcmp(t->tok_name, "~diag_type_scope") == 0 ||
+		strcmp(t->tok_name, "~diag_tag_scope") == 0
 #ifdef NEWDIAGS
-		|| !strcmp(t -> tok_name, "~dg_exp")
+		|| strcmp(t->tok_name, "~dg_exp") == 0
 #endif
-		)  {
-
+		) {
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
 
-		if (!diagnose){
+		if (!diagnose) {
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
-		if (!strcmp(t -> tok_name, "~exp_to_source")){
+		if (strcmp(t->tok_name, "~exp_to_source") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_exp_to_source (tkv.tk_exp);
 #else
@@ -280,15 +272,15 @@ special_token(token t, bitstream pars, int sortcode,
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			crt_lno = natint(di -> data.source.end.line_no);
-			crt_charno = natint(di -> data.source.end.char_off);
-			crt_flnm = di -> data.source.beg.file->file.ints.chars;
+			crt_lno = natint(di->data.source.end.line_no);
+			crt_charno = natint(di->data.source.end.char_off);
+			crt_flnm = di->data.source.beg.file->file.ints.chars;
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
-		if (!strcmp(t -> tok_name, "~diag_id_scope")){
+		if (strcmp(t->tok_name, "~diag_id_scope") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_diag_id_scope (tkv.tk_exp);
 #else
@@ -301,9 +293,9 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
-		if (!strcmp(t -> tok_name, "~diag_type_scope")){
+		if (strcmp(t->tok_name, "~diag_type_scope") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_diag_type_scope (tkv.tk_exp);
 #else
@@ -316,9 +308,9 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
-		if (!strcmp(t -> tok_name, "~diag_tag_scope")){
+		if (strcmp(t->tok_name, "~diag_tag_scope") == 0) {
 #ifndef NEWDIAGS
 			diag_info * di = read_diag_tag_scope();
 			exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
@@ -329,35 +321,36 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 			set_place(old_place);
 			return tkv;
-		};
+		}
 
 #ifdef NEWDIAGS
-		if (!strcmp(t -> tok_name, "~dg_exp")){
+		if (strcmp(t->tok_name, "~dg_exp") == 0) {
 			tkv.tk_exp = read_dg_exp (tkv.tk_exp);
 			set_place(old_place);
 			return tkv;
-		};
+		}
 #endif
 
 	}
 
-	if (!strncmp(t -> tok_name, "~asm", 4)) {
+	if (strncmp(t->tok_name, "~asm", 4) == 0) {
 		int prp;
 		exp arg1;
 		tdf_pos old_place;
+
 		old_place = keep_place();
-		if (!strcmp(t -> tok_name, "~asm")) {
+		if (strcmp(t->tok_name, "~asm") == 0) {
 			set_place(pars);
 			arg1 = hold_check (f_make_nof_int (ucharsh, d_string()));
 			prp = 1;
 		} else {
-			if (!strcmp(t -> tok_name, "~asm_sequence"))
+			if (strcmp(t->tok_name, "~asm_sequence") == 0)
 				prp = 0;
-			else if (!strcmp(t -> tok_name, "~asm_exp_input"))
+			else if (strcmp(t->tok_name, "~asm_exp_input") == 0)
 				prp = 2;
-			else if (!strcmp(t -> tok_name, "~asm_exp_output"))
+			else if (strcmp(t->tok_name, "~asm_exp_output") == 0)
 				prp = 4;
-			else if (!strcmp(t -> tok_name, "~asm_exp_address"))
+			else if (strcmp(t->tok_name, "~asm_exp_address") == 0)
 				prp = 8;
 			else
 				return tkv;

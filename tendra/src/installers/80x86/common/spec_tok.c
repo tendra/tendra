@@ -78,20 +78,20 @@
 /* intercepts specially defined tokens */
 
 tokval
-special_token(token t, bitstream pars, int sortcode,
-			  int * done)
+special_token(token t, bitstream pars, int sortcode, int * done)
 {
 	tokval tkv;
 	UNUSED(sortcode);
 
-	if (t -> tok_name == (char*)0) {
+	if (t->tok_name == (char*)0) {
 		SET(tkv); /* call looks at done to see if result is meaningful */
 		return tkv;
 	}
 
-	if (!strcmp(t -> tok_name, "JMFprofile"))  {
+	if (strcmp(t->tok_name, "JMFprofile") == 0)  {
 		nat n;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		n = d_nat();
@@ -101,9 +101,10 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "JMFinline"))  {
+	if (strcmp(t->tok_name, "JMFinline") == 0)  {
 		exp s;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		IGNORE d_shape();
@@ -123,9 +124,10 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "~div"))  {
+	if (strcmp(t->tok_name, "~div") == 0)  {
 		exp arg1, arg2;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -136,9 +138,10 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "~rem"))  {
+	if (strcmp(t->tok_name, "~rem") == 0)  {
 		exp arg1, arg2;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -150,10 +153,11 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 #ifdef INBUILT_PROMOTE
-	if (!strcmp(t -> tok_name, "~arith_type")) {
+	if (strcmp(t->tok_name, "~arith_type") == 0) {
 		int a, b;
 		tdf_pos old_place;
 		signed_nat sn;
+
 		old_place = keep_place();
 		set_place(pars);
 		sn = d_signed_nat();
@@ -166,10 +170,11 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "~promote")) {
+	if (strcmp(t->tok_name, "~promote") == 0) {
 		int a;
 		tdf_pos old_place;
 		signed_nat sn;
+
 		old_place = keep_place();
 		set_place(pars);
 		sn = d_signed_nat();
@@ -180,10 +185,11 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "~sign_promote")) {
+	if (strcmp(t->tok_name, "~sign_promote") == 0) {
 		int a;
 		tdf_pos old_place;
 		signed_nat sn;
+
 		old_place = keep_place();
 		set_place(pars);
 		sn = d_signed_nat();
@@ -194,10 +200,11 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	if (!strcmp(t -> tok_name, "~convert")) {
+	if (strcmp(t->tok_name, "~convert") == 0) {
 		int a;
 		tdf_pos old_place;
 		signed_nat sn;
+
 		old_place = keep_place();
 		set_place(pars);
 		sn = d_signed_nat();
@@ -208,9 +215,10 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 #endif
-	if (!strcmp(t -> tok_name, "~alloca"))  {
+	if (strcmp(t->tok_name, "~alloca") == 0)  {
 		exp arg1;
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -222,29 +230,28 @@ special_token(token t, bitstream pars, int sortcode,
 		return tkv;
 	}
 
-	if (!strcmp(t -> tok_name, "~exp_to_source") ||
-		!strcmp(t -> tok_name, "~diag_id_scope") ||
-		!strcmp(t -> tok_name, "~diag_type_scope") ||
-		!strcmp(t -> tok_name, "~diag_tag_scope")
+	if (strcmp(t->tok_name, "~exp_to_source") == 0 ||
+		strcmp(t->tok_name, "~diag_id_scope") == 0 ||
+		strcmp(t->tok_name, "~diag_type_scope") == 0 ||
+		strcmp(t->tok_name, "~diag_tag_scope") == 0
 #ifdef NEWDIAGS
-		|| !strcmp(t -> tok_name, "~dg_exp")
+		|| strcmp(t->tok_name, "~dg_exp" == 0)
 #endif
 		)  {
 
 		tdf_pos old_place;
+
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
 
-		if (!diagnose)
-        {
+		if (!diagnose) {
 			set_place(old_place);
 			return tkv;
         }
 
-		if (!strcmp(t -> tok_name, "~exp_to_source"))
-		{
+		if (strcmp(t->tok_name, "~exp_to_source") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_exp_to_source (tkv.tk_exp);
 #else
@@ -254,16 +261,15 @@ special_token(token t, bitstream pars, int sortcode,
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			crt_lno = natint(di -> data.source.end.line_no);
-			crt_charno = natint(di -> data.source.end.char_off);
-			crt_flnm = di -> data.source.beg.file->file.ints.chars;
+			crt_lno = natint(di->data.source.end.line_no);
+			crt_charno = natint(di->data.source.end.char_off);
+			crt_flnm = di->data.source.beg.file->file.ints.chars;
 #endif
 			set_place(old_place);
 			return tkv;
 		}
 
-		if (!strcmp(t -> tok_name, "~diag_id_scope"))
-		{
+		if (strcmp(t->tok_name, "~diag_id_scope") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_diag_id_scope (tkv.tk_exp);
 #else
@@ -278,8 +284,7 @@ special_token(token t, bitstream pars, int sortcode,
 			return tkv;
 		}
 
-		if (!strcmp(t -> tok_name, "~diag_type_scope"))
-		{
+		if (strcmp(t->tok_name, "~diag_type_scope") == 0) {
 #ifdef NEWDIAGS
 			tkv.tk_exp = read_diag_type_scope (tkv.tk_exp);
 #else
@@ -294,8 +299,7 @@ special_token(token t, bitstream pars, int sortcode,
 			return tkv;
 		}
 
-		if (!strcmp(t -> tok_name, "~diag_tag_scope"))
-		{
+		if (strcmp(t->tok_name, "~diag_tag_scope") == 0) {
 #ifndef NEWDIAGS
 			diag_info * di = read_diag_tag_scope();
 			exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
@@ -309,8 +313,7 @@ special_token(token t, bitstream pars, int sortcode,
 		}
 
 #ifdef NEWDIAGS
-		if (!strcmp(t -> tok_name, "~dg_exp"))
-		{
+		if (strcmp(t->tok_name, "~dg_exp") == 0) {
 			tkv.tk_exp = read_dg_exp (tkv.tk_exp);
 			set_place(old_place);
 			return tkv;
@@ -319,30 +322,27 @@ special_token(token t, bitstream pars, int sortcode,
 
 	}
 
-	if (!strncmp(t -> tok_name, "~asm", 4)) {
+	if (strncmp(t->tok_name, "~asm", 4) == 0) {
 		int prp;
 		exp arg1;
 		tdf_pos old_place;
+
 		old_place = keep_place();
-		if (!strcmp(t -> tok_name, "~asm")) {
+		if (strcmp(t->tok_name, "~asm") == 0) {
 			set_place(pars);
 			arg1 = hold_check (f_make_nof_int (ucharsh, d_string()));
 			prp = 1;
-		}
-		else {
-			if (!strcmp(t -> tok_name, "~asm_sequence"))
+		} else {
+			if (strcmp(t->tok_name, "~asm_sequence") == 0)
 				prp = 0;
+			else if (strcmp(t->tok_name, "~asm_exp_input") == 0)
+				prp = 2;
+			else if (strcmp(t->tok_name, "~asm_exp_output") == 0)
+				prp = 4;
+			else if (strcmp(t->tok_name, "~asm_exp_address") == 0)
+				prp = 8;
 			else
-				if (!strcmp(t -> tok_name, "~asm_exp_input"))
-					prp = 2;
-				else
-					if (!strcmp(t -> tok_name, "~asm_exp_output"))
-						prp = 4;
-					else
-						if (!strcmp(t -> tok_name, "~asm_exp_address"))
-							prp = 8;
-						else
-							return tkv;
+				return tkv;
 			set_place(pars);
 			arg1 = hold_check (d_exp());
 		}
