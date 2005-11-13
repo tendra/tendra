@@ -1,6 +1,6 @@
 # $TenDRA$
 
-.SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p .disp
+.SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p .disp .s
 
 CFLAGS?=	-O -pipe
 
@@ -28,3 +28,6 @@ CFLAGS?=	-O -pipe
 
 .pl.o:
 	${TCC} ${TCC_OPTS} -Ypl_tdf -c ${.IMPSRC}
+
+.s.o:
+	${TCC} ${TCC_OPTS} ${TCCFLAGS} -c ${.IMPSRC}
