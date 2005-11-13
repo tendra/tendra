@@ -74,8 +74,8 @@
 
 /* Types representing instructions */
 
-typedef CONST char ins_t [];
-typedef CONST char *ins_p;
+typedef const char ins_t [];
+typedef const char *ins_p;
 
 #define I_NIL  null  /*  The nil instruction */
 

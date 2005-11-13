@@ -122,7 +122,7 @@ int nLabels;
 pIn *pCode;
 int *labIntro;
 
-static CONST char reg_name_tab[32][6] =
+static const char reg_name_tab[32][6] =
 { "%r0"  ,
   "%r1"  ,
   "%r2"  ,
@@ -156,7 +156,7 @@ static CONST char reg_name_tab[32][6] =
   "%r17" ,
   "%r18"    };
 
-static CONST char float_reg_name_tab[32][3][7] =
+static const char float_reg_name_tab[32][3][7] =
 {
 	{ "%fr0L", "%fr0", "%fr0R" },
 	{ "%fr1L", "%fr1", "%fr1R" },
@@ -192,7 +192,7 @@ static CONST char float_reg_name_tab[32][3][7] =
 	{ "%fr31L", "%fr31", "%fr31R" }
 };
 
-static CONST char space_reg_name_tab[8][5] =
+static const char space_reg_name_tab[8][5] =
 { "%sr0" ,
   "%sr1" ,
   "%sr2" ,
@@ -212,15 +212,15 @@ static CONST char space_reg_name_tab[8][5] =
 ins_p NOCOND=0;
 
 
-CONST char
-*reg_name(int r)
+const char *
+reg_name(int r)
 {
 	assert(IS_FIXREG(r));
 	return reg_name_tab[r];
 }
 
-static char
-*float_reg_name(int reg)
+static char *
+float_reg_name(int reg)
 {
 	return float_reg_name_tab[0][0]+(7*reg);
 }
@@ -402,8 +402,8 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 }
 
 
-char
-*ext_name(long id)
+char *
+ext_name(long id)
 {
 	static char *sp;
 	static int sizeof_space = 0;
@@ -556,7 +556,7 @@ iiir_ins(ins_p ins, ins_p cond, int a, int b,
  *   immediate (i.e. field selector literal+long) to register instructions
  */
 void
-ir_ins(ins_p ins, ins_p fs, CONST char *ltrl,
+ir_ins(ins_p ins, ins_p fs, const char *ltrl,
 	   long l, int d)
 {
 	char I[128];
@@ -639,7 +639,7 @@ riir_ins(ins_p ins, ins_p cc, int s, long a,
 
 void
 ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs,
-		  CONST char *ltrl, long l, int b,
+		  const char *ltrl, long l, int b,
 		  int d)
 {
 	char O[128];
@@ -784,7 +784,7 @@ ld_ins(ins_p ins, int sgnd, baseoff a, int d)
 {
 	/* ins must be one of i_lb, i_lh, i_lo, i_lwm or i_lw */
 	long o=a.offset;
-	CONST char *i_ld;
+	const char *i_ld;
 	if (d==GR0)
 		return;
 	clear_reg(d);
@@ -859,7 +859,7 @@ ld_ins(ins_p ins, int sgnd, baseoff a, int d)
 
 void
 st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs,
-		  CONST char *ltrl, long l, int b)
+		  const char *ltrl, long l, int b)
 {
 	char O[128];
 
@@ -884,7 +884,7 @@ st_ins(ins_p ins, int s, baseoff a)
 {
 	/* ins must be one of i_sb, i_sh or i_sw */
 	long o=a.offset;
-	CONST char *i_st;
+	const char *i_st;
 
 	if (IS_FIXREG(a.base))
 	{
@@ -972,7 +972,7 @@ mtsp_in(int r, int sr)
  *   Unconditional branch.
  */
 void
-ub_ins(CONST char *cmplt, int lab)
+ub_ins(const char *cmplt, int lab)
 {
 	if (OPTIM)
 	{
@@ -1058,7 +1058,7 @@ call_ins(ins_p n, char *target, int t, char stub[128])
  *   jump/call to compiler generated external identifier, eg .mulI
  */
 void
-extj_special_ins(CONST char *nm, int r, char stub[128],
+extj_special_ins(const char *nm, int r, char stub[128],
 				 int import)
 {
 	if (import)
@@ -1116,7 +1116,7 @@ addib_in(char *cond, int i, int d, int lab)
  *   register comparisons
  */
 void
-comb_ins(CONST char *cond, int l, int r, int lab)
+comb_ins(const char *cond, int l, int r, int lab)
 {
 	int ops[4];
 	ops[0]=l;
@@ -1147,7 +1147,7 @@ comib_ins(ins_p cond, int l, int r, int lab)
 
 
 void
-cj_ins(CONST char *cond, int l, int r, int lab)
+cj_ins(const char *cond, int l, int r, int lab)
 {
 	int ops[4];
 	ops[0]=l;
@@ -1169,7 +1169,7 @@ cj_ins(CONST char *cond, int l, int r, int lab)
  *   register, immediate comparison
  */
 void
-cij_ins(CONST char *cond, long l, int r, int lab)
+cij_ins(const char *cond, long l, int r, int lab)
 {
 	int ops[4];
 	ops[0]=l;
@@ -1252,7 +1252,7 @@ void
 ldf_ins(ins_p ins, baseoff a, int d)
 {
 	/* ins must be either i_fldw or i_fldd */
-	CONST char *i_fld = (ins==i_fldw ? i_fldws : i_fldds);
+	const char *i_fld = (ins==i_fldw ? i_fldws : i_fldds);
 	if (IS_FIXREG(a.base))
 	{
 		if (SIMM5(a.offset))
@@ -1303,7 +1303,7 @@ stf_ins(ins_p ins, int s, baseoff a)
 	/* ins must be either i_fstw or i_fstd */
 
 
-	CONST char *i_fst = (ins==i_fstw ? i_fstws : i_fstds);
+	const char *i_fst = (ins==i_fstw ? i_fstws : i_fstds);
 	if (IS_FIXREG(a.base))
 	{
 		if (SIMM5(a.offset))
@@ -1365,7 +1365,7 @@ rrrf_ins(ins_p ins, ins_p fmt, int a, int b,
  *   Directives
  */
 void
-out_directive(CONST char *d, CONST char *params)
+out_directive(const char *d, const char *params)
 {
 	/* directive, parameters */
 	outp(directive,NOCOND,zops,NA);

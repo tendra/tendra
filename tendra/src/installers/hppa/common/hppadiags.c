@@ -1111,7 +1111,8 @@ stabd(long findex, long lno, int seg)
  *    OUTPUT INITIAL DIAGNOSTICS FOR A DIAGNOSE_TAG
  */
 
-/* ARGSUSED */ void
+/* ARGSUSED */
+void
 stab_begin(diag_info * d, int proc_no, exp e)
 {
 	exp x;
@@ -1277,8 +1278,9 @@ init_stab_aux(void)
  *    FIND THE DIAGNOSTICS CORRESPONDING TO THE CURRENT DECLARATION
  */
 
-/* ARGSUSED */ static diag_descriptor
-*find_dd(exp e)
+/* ARGSUSED */
+static diag_descriptor *
+find_dd(exp e)
 {
 	if (diag_def == NULL) return (NULL);
 	return (diag_def->dec_u.dec_val.diag_info);
@@ -2182,7 +2184,8 @@ close_function_scope(int res_label)
  *    OUTPUT DIAGNOSTICS FOR A LOCAL VARIABLE
  */
 
-/* ARGSUSED */ void
+/* ARGSUSED */
+void
 stab_local(char *nm, diag_type dt, exp ldid,
 		   long disp, long findex)
 {

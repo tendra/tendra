@@ -150,7 +150,7 @@ regremoved(exp * seq, int reg)
  *   logical operation, lop, with operands immediate, i, and register, r
  */
 void
-logical_op(CONST char *lop, long i, int r,
+logical_op(const char *lop, long i, int r,
 		   int d)
 {
 	int t;
@@ -370,7 +370,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 		else
 		{
 			exp sq = seq;
-			CONST char *ins = rins;
+			const char *ins = rins;
 
 			a2 = reg_operand(sq, nsp);
 			/* evaluate next operand */
@@ -396,7 +396,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 int
 comm_op(exp e, space sp, where d, ins_p rrins)
 {
-	CONST char *rins = rrins;
+	const char *rins = rrins;
 
 	switch (discrim (d.answhere))
 	{
@@ -489,7 +489,7 @@ non_comm_op(exp e, space sp, where dest, ins_p rins) /* evaluate binary operatio
 	int a1 = reg_operand(l, sp);
 	space nsp;
 	int a2;
-	CONST char *ins;
+	const char *ins;
 	ins=rins;
 	nsp = guardreg(a1, sp);
 	a2 = reg_operand(r, nsp);
@@ -616,7 +616,7 @@ quad_addr(exp e, int r, space sp)
  */
 
 static struct {
-	CONST char proc_name[32];
+	const char proc_name[32];
 	bool called;
 } long_double_lib [14] =
 {

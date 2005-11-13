@@ -141,8 +141,8 @@ needs scan(exp *, exp **);
 
 
 /* return ptrexp pointing to e */
-exp
-*ptr_position(exp e)
+exp *
+ptr_position(exp e)
 {
 	exp *res;
 	exp dad = father(e);

@@ -219,8 +219,8 @@ static void outfloat(f)
  *    it cannot convert the number sufficiently accurately.
  */
 
-long
-*realrep(exp e)
+long *
+realrep(exp e)
 {
 	int i, ex;
 	char bits [128];

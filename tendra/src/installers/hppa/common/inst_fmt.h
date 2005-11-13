@@ -73,7 +73,7 @@ extern void st_ins(ins_p, int, baseoff);
 
 extern void riir_ins(ins_p, ins_p, int, long, long, int);
 
-extern void ir_ins(ins_p, ins_p, CONST char*, long, int);
+extern void ir_ins(ins_p, ins_p, const char*, long, int);
 
 extern void imm_to_r(long, int);
 
@@ -83,7 +83,7 @@ extern void z_ins(ins_p);
 extern void condrr_ins(char, ins_p, int, int, int, int);
 extern void condri_ins(ins_p, int, long, int);
 
-extern void extj_special_ins(CONST char *, int, char *, int);
+extern void extj_special_ins(const char *, int, char *, int);
 extern void extj_reg_ins(ins_p, int);
 
 extern void ret_ins(ins_p);
@@ -106,21 +106,21 @@ extern void iiir_ins(ins_p,ins_p,int,int,int,int);
 extern void bb_in(ins_p,int,int,int);
 extern void rr_ins(ins_p, int, int);
 extern void rrr_ins(ins_p, ins_p, int, int, int);
-extern void ub_ins(CONST char*, int);
-extern void cj_ins(CONST char*, int, int, int);
-extern void st_ir_ins(ins_p, ins_p, int, ins_p, CONST char*, long, int);
-extern void ld_ir_ins(ins_p, ins_p, ins_p, CONST char*, long, int, int);
-extern void comb_ins(CONST char*, int, int, int);
+extern void ub_ins(const char*, int);
+extern void cj_ins(const char*, int, int, int);
+extern void st_ir_ins(ins_p, ins_p, int, ins_p, const char*, long, int);
+extern void ld_ir_ins(ins_p, ins_p, ins_p, const char*, long, int, int);
+extern void comb_ins(const char*, int, int, int);
 extern void cmp_rrf_ins(ins_p, ins_p, ins_p, int, int);
 extern void rrir_ins(ins_p, ins_p, int, int, long, int);
-extern void cij_ins(CONST char*, long, int, int);
+extern void cij_ins(const char*, long, int, int);
 extern void irr_ins(ins_p, ins_p, ins_p, long, int, int);
 extern void ld_rr_ins(ins_p, ins_p, int, int, int);
 extern void r_ins(ins_p, int);
-extern void out_directive(CONST char*, CONST char*);
+extern void out_directive(const char*, const char*);
 extern void iir_ins(ins_p, ins_p, int, int, int);
 extern void rir_ins(ins_p, ins_p, int, long, int);
-extern CONST char* reg_name(int);
+extern const char* reg_name(int);
 extern void call_ins(ins_p, char*, int, char*);
 extern void outlab(char*, int);
 extern void bl_in(ins_p, char*, int);

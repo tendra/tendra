@@ -137,8 +137,8 @@ specno(char * n)
 
 
 /* what name to use with call instruction for specials */
-char
-*special_call_name(int i)
+char *
+special_call_name(int i)
 {
 	switch (i)
 	{
@@ -160,8 +160,8 @@ char
 
 static needs zeroneeds = {0, 0, 0, 0};	/* has no needs */
 #if 0
-static CONST needs onefixneeds = {1, 0, 0, 0};	/* one fix reg needs */
-static CONST needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
+static const needs onefixneeds = {1, 0, 0, 0};	/* one fix reg needs */
+static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 #endif
 
 
@@ -356,7 +356,7 @@ int library_key = 0;
 #define sz_millicode_lib 7
 
 static struct {
-	CONST char *proc_name;
+	const char *proc_name;
 	bool called;
 	bool in_library;
 } millicode_lib [sz_millicode_lib] =
@@ -378,7 +378,7 @@ static struct {
 void
 call_millicode(int n, int r, char *stub, bool restore_linkage_ptr_reg)
 {
-	CONST char *nm = millicode_lib[n].proc_name;
+	const char *nm = millicode_lib[n].proc_name;
 	millicode_lib[n].called = 1;
 	extj_special_ins (nm, r, stub, 0);
 	if (PIC_code && restore_linkage_ptr_reg)

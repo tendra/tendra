@@ -192,7 +192,7 @@ inlinechoice(exp t, exp def, int total_uses) /* delivers 0 if no uses of this pr
 	int max_complexity;
 
 	int nparam;
-	CONST unsigned int CONST_BONUS_UNIT = 16;
+	const unsigned int CONST_BONUS_UNIT = 16;
 	int const_param_bonus;
 	int adjusted_max_complexity;
 
