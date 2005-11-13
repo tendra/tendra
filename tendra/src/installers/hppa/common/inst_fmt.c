@@ -219,7 +219,7 @@ reg_name(int r)
 	return reg_name_tab[r];
 }
 
-static char *
+static const char *
 float_reg_name(int reg)
 {
 	return float_reg_name_tab[0][0]+(7*reg);
