@@ -321,9 +321,8 @@ branches(shape s, int i)
 }
 
 /*
- *char *ussets
- *    PROTO_N ((i))
- *    PROTO_T (int i)
+ *char *
+ *ussets(int i)
  *{
  *  switch (i) {
  *    case  1:
@@ -341,9 +340,8 @@ branches(shape s, int i)
  *  }
  *}
  *
- *char *ssets
- *    PROTO_N ((i))
- *    PROTO_T (int i)
+ *char *
+ *ssets(int i)
  *{
  *  switch (i) {
  *    case  1:
