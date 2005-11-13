@@ -12,6 +12,12 @@ DEPEND_SRC=	except_toks.t var_toks.t dep_toks.j \
 		map_toks.j target_tok.tl sys_toks.j sys.j \
 		crtp_n.o
 
+
+# Where these get installed!
+INSTALL_LIB=		target_tok.tl
+INSTALL_LIB_SYS=	crtp_n.o
+
+
 except_toks.j: except_toks.pl
 	${PL} ${.IMPSRC} ${.TARGET}
 
