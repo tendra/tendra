@@ -54,6 +54,8 @@
  * $TenDRA$
  */
 
+#ifndef INSTALL_FNS_INCLUDED
+#define INSTALL_FNS_INCLUDED
 
 
 
@@ -75,3 +77,4 @@ extern shape doublesh;
 
 extern alignment frame_alignment;
 
+#endif  /* !INSTALL_FNS_INCLUDED */
