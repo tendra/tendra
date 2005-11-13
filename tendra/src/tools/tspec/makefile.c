@@ -62,6 +62,7 @@
 
 #include "object.h"
 #include "hash.h"
+#include "makefile.h"
 #include "name.h"
 #include "str_array.h"
 #include "type.h"

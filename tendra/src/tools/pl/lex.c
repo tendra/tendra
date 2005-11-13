@@ -61,6 +61,7 @@
 #include "find_id.h"
 #include "fmm.h"
 #include "includes.h"
+#include "lex.h"
 #include "msgcat.h"
 #include "syntax.h"
 #include "reserved.h"
