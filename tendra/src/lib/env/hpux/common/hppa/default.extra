@@ -11,6 +11,7 @@
 
 /* Libraries */
 
++LIB_CRT0	"-LIB_CRT0-"
 +LIB_MCRT0	"-LIB_MCRT0-"
 
 
@@ -18,5 +19,6 @@
 +FLAG			"--1HL"
 +AS			"<BIN_AS>"
 +LD			"<BIN_LD> -x -u main"
++CRT0			"<LIB_CRT0>"
 +CRT1			"<TENDRA_LIBDIR>/sys/dyn_begin.o"
 +CRTN			"<TENDRA_LIBDIR>/sys/dyn_end.o"
