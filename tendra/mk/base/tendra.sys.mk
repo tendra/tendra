@@ -25,3 +25,6 @@ CFLAGS?=	-O -pipe
 
 .pl.j:
 	${PL} ${.IMPSRC} ${.TARGET} 
+
+.pl.o:
+	${TCC} ${TCC_OPTS} -Ypl_tdf -c ${.IMPSRC}
