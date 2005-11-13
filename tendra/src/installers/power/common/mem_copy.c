@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"
@@ -123,16 +125,16 @@ static_memory_copy(int reg_from, int reg_to,
 		/* copy the words */
 		for (i=0;i<words;i++)
 		{
-			ld_ro_ins(i_l,from,R_TMP0);comment(NIL);
-			st_ro_ins(i_st,R_TMP0,to);comment(NIL);
+			ld_ro_ins(i_l,from,R_TMP0);comment(NULL);
+			st_ro_ins(i_st,R_TMP0,to);comment(NULL);
 			from.offset += 4;
 			to.offset += 4;
 		}
 		/* copy the bytes */
 		for (i=0;i<bytes;i++)
 		{
-			ld_ro_ins(i_lbz,from,R_TMP0);comment(NIL);
-			st_ro_ins(i_stb,R_TMP0,to);comment(NIL);
+			ld_ro_ins(i_lbz,from,R_TMP0);comment(NULL);
+			st_ro_ins(i_stb,R_TMP0,to);comment(NULL);
 			from.offset +=1;
 			to.offset +=1;
 		}
@@ -152,8 +154,8 @@ static_memory_copy(int reg_from, int reg_to,
 			ld_const_ins(words,R_TMP0);
 			mt_ins(i_mtctr,R_TMP0);
 			set_label(loop);
-			ld_ro_ins(i_lu,from,R_TMP0);comment(NIL);
-			st_ro_ins(i_stu,R_TMP0,to);comment(NIL);
+			ld_ro_ins(i_lu,from,R_TMP0);comment(NULL);
+			st_ro_ins(i_stu,R_TMP0,to);comment(NULL);
 			uncond_ins(i_bdn,loop);
 			rir_ins(i_a,reg_from,4,reg_from);
 			rir_ins(i_a,reg_to,4,reg_to);
@@ -164,8 +166,8 @@ static_memory_copy(int reg_from, int reg_to,
 		to.offset =0;
 		for (i=0;i<bytes;i++)
 		{
-			ld_ro_ins(i_lbz,from,R_TMP0);comment(NIL);
-			st_ro_ins(i_stb,R_TMP0,to);comment(NIL);
+			ld_ro_ins(i_lbz,from,R_TMP0);comment(NULL);
+			st_ro_ins(i_stb,R_TMP0,to);comment(NULL);
 			from.offset +=1;
 			to.offset +=1;
 		}
@@ -204,16 +206,16 @@ reverse_static_memory_copy(int reg_from, int reg_to,
 		offset -=1;
 		from.offset =offset;
 		to.offset = offset;
-		ld_ro_ins(i_lbz,from,R_TMP0);comment(NIL);
-		st_ro_ins(i_stb,R_TMP0,to);comment(NIL);
+		ld_ro_ins(i_lbz,from,R_TMP0);comment(NULL);
+		st_ro_ins(i_stb,R_TMP0,to);comment(NULL);
 	}
 	for (r = 0;r<words;r++)
 	{
 		offset -=4;
 		from.offset =offset;
 		to.offset = offset;
-		ld_ro_ins(i_l,from,R_TMP0);comment(NIL);
-		st_ro_ins(i_st,R_TMP0,to);comment(NIL);
+		ld_ro_ins(i_l,from,R_TMP0);comment(NULL);
+		st_ro_ins(i_st,R_TMP0,to);comment(NULL);
 	}
 	ASSERT(offset ==0);
 	return;
@@ -244,8 +246,8 @@ dynamic_byte_memory_copy(int reg_from, int reg_to,
 	mt_ins(i_mtctr,reg_size);
 	
 	set_label(loop);
-	ld_ro_ins(i_lbzu,from,R_TMP0);comment(NIL);
-	st_ro_ins(i_stbu,R_TMP0,to);comment(NIL);
+	ld_ro_ins(i_lbzu,from,R_TMP0);comment(NULL);
+	st_ro_ins(i_stbu,R_TMP0,to);comment(NULL);
 	uncond_ins(i_bdn,loop);
 	
 	rir_ins(i_a,reg_from,1,reg_from);
@@ -278,8 +280,8 @@ reverse_dynamic_byte_memory_copy(int reg_from,
 	rrr_ins(i_a,reg_to,reg_size,reg_to);
 	mt_ins(i_mtctr,reg_size);
 	set_label(loop);
-	ld_ro_ins(i_lbzu,from,R_TMP0);comment(NIL);
-	st_ro_ins(i_stbu,R_TMP0,to);comment(NIL);
+	ld_ro_ins(i_lbzu,from,R_TMP0);comment(NULL);
+	st_ro_ins(i_stbu,R_TMP0,to);comment(NULL);
 	uncond_ins(i_bdn,loop);
 	
 	set_label(zero);
@@ -313,8 +315,8 @@ dynamic_word_memory_copy(int reg_from, int reg_to,
 	mt_ins(i_mtctr,R_TMP0);
 	
 	set_label(loop);
-	ld_ro_ins(i_lu,from,R_TMP0);comment(NIL);
-	st_ro_ins(i_stu,R_TMP0,to);comment(NIL);
+	ld_ro_ins(i_lu,from,R_TMP0);comment(NULL);
+	st_ro_ins(i_stu,R_TMP0,to);comment(NULL);
 	uncond_ins(i_bdn,loop);
 	
 	rir_ins(i_a,reg_from,4,reg_from);
@@ -348,8 +350,8 @@ reverse_dynamic_word_memory_copy(int reg_from,
 	mt_ins(i_mtctr,R_TMP0);
 	
 	set_label(loop);
-	ld_ro_ins(i_lu,from,R_TMP0);comment(NIL);
-	st_ro_ins(i_stu,R_TMP0,to);comment(NIL);
+	ld_ro_ins(i_lu,from,R_TMP0);comment(NULL);
+	st_ro_ins(i_stu,R_TMP0,to);comment(NULL);
 	uncond_ins(i_bdn,loop);
 	
 	set_label(zero);

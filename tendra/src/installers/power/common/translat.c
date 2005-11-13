@@ -163,6 +163,7 @@
 #include "fmm.h"
 #include "msgcat.h"
 
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "installglob.h"

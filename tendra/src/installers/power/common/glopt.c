@@ -85,6 +85,7 @@
 
 
 #include "config.h"
+
 #include "common_types.h"
 #include "tags.h"
 #include "externs.h"

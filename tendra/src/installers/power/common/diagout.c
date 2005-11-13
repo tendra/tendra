@@ -82,9 +82,9 @@
 
 
 
-
-
 #include "config.h"
+
+#include "common_types.h"
 #include "cross_config.h"
 #include "fmm.h"
 

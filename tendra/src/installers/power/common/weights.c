@@ -115,6 +115,8 @@
 ******************************************************************/
 
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 
 #include "exptypes.h"

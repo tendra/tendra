@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "translat.h"
 #include "labels.h"

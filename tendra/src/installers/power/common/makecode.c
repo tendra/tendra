@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -2440,12 +2442,12 @@ make_code(exp e, space sp, where dest, int exitlab)
 			int f1 = getfreg(guardfreg(f, sp).flt);
 			
 			ld_const_ins(0x43300000, R_TMP0);
-			st_ro_ins(i_st, R_TMP0, mem_temp(0));comment(NIL);
+			st_ro_ins(i_st, R_TMP0, mem_temp(0));comment(NULL);
 			ld_const_ins(0x80000000, R_TMP0);
-			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NIL);
+			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NULL);
 			ldf_ro_ins(i_lfd, mem_temp(0), f);
 			rir_ins(i_xor, r, 0x80000000, R_TMP0);
-			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NIL);
+			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NULL);
 			ldf_ro_ins(i_lfd, mem_temp(0), f1);
 			rrrf_ins(i_fs, f1, f, f);
 		}
@@ -2456,11 +2458,11 @@ make_code(exp e, space sp, where dest, int exitlab)
 			int f1 = getfreg(guardfreg(f, sp).flt);
 			
 			ld_const_ins(0x43300000, R_TMP0);
-			st_ro_ins(i_st, R_TMP0, mem_temp(0));comment(NIL);
+			st_ro_ins(i_st, R_TMP0, mem_temp(0));comment(NULL);
 			ld_const_ins(0x0, R_TMP0);
-			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NIL);
+			st_ro_ins(i_st, R_TMP0, mem_temp(4));comment(NULL);
 			ldf_ro_ins(i_lfd, mem_temp(0), f);
-			st_ro_ins(i_st, r, mem_temp(4));comment(NIL);
+			st_ro_ins(i_st, r, mem_temp(4));comment(NULL);
 			ldf_ro_ins(i_lfd, mem_temp(0), f1);
 			rrrf_ins(i_fs, f1, f, f);
 		}
@@ -2825,7 +2827,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		destr=regfrmdest(&dest,sp);
 		rrf_ins(call_fctiwz?i_fctiwz:i_fctiw,sfr,ifr);
 		stf_ins(i_stfd,ifr,mem_temp(0));
-		ld_ro_ins(i_l,mem_temp(4),destr);comment(NIL);
+		ld_ro_ins(i_l,mem_temp(4),destr);comment(NULL);
 		
 		if (changed_mode)
 		{
@@ -3061,7 +3063,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		creg = next_creg();
 		lab = new_label();
 		cmp_rr_ins(i_cmp,left,right,creg);
-		mov_rr_ins(left,r);comment(NIL);
+		mov_rr_ins(left,r);comment(NULL);
 		if (name(e)==min_tag)
 		{
 			bc_ins(i_blt,creg,lab,LIKELY_TO_JUMP);
@@ -3070,7 +3072,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		{
 			bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);  
 		}
-		mov_rr_ins(right,r);comment(NIL);
+		mov_rr_ins(right,r);comment(NULL);
 		set_label(lab);
 		setregalt(aa,r);
 		move(aa, dest,guardreg(r,sp).fixed , 0);
@@ -3275,14 +3277,14 @@ make_code(exp e, space sp, where dest, int exitlab)
 			ld_ins(i_l,b,R_TMP0);
 			cmp_rr_ins(i_cmp,xdreg,R_TMP0,cr);
 			bc_ins(i_blt,cr,slab,UNLIKELY_TO_JUMP);
-			mov_rr_ins(xdreg,R_SP);comment(NIL);
+			mov_rr_ins(xdreg,R_SP);comment(NULL);
 		}
 		
 		
 		
 		if (p_args_and_link_size==0)
 		{
-			mov_rr_ins(R_SP,dreg);comment(NIL);
+			mov_rr_ins(R_SP,dreg);comment(NULL);
 		}
 		else
 		{
@@ -3313,7 +3315,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		}
 		else
 		{
-			mov_rr_ins(R_SP , r);comment(NIL);
+			mov_rr_ins(R_SP , r);comment(NULL);
 		}
 		setregalt(aa, r);
 		mka.regmove = move(aa, dest, sp.fixed, 1);
@@ -3359,7 +3361,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 			else
 			{
-				mov_rr_ins(r,R_SP);comment(NIL);
+				mov_rr_ins(r,R_SP);comment(NULL);
 			}
 		}
 		else
@@ -3510,8 +3512,8 @@ move_dlts(int dr, int sr, int szr, int bytemove) /* move szr bytes to dr from sr
 	rir_ins(i_a,dr,-1,dr);               /* ai     dr,dr,-1 */
 	mt_ins(i_mtctr,szr);                 /* mtctr  szr      */
 	set_label(lin);                      /* L.???           */
-	ld_ro_ins(i_lbzu,sr_baseoff,R_TMP0); /* lbzu   0,1(sr)  */comment(NIL);
-	st_ro_ins(i_stbu,R_TMP0,dr_baseoff); /* stbu   0,1(dr)  */comment(NIL);
+	ld_ro_ins(i_lbzu,sr_baseoff,R_TMP0); /* lbzu   0,1(sr)  */comment(NULL);
+	st_ro_ins(i_stbu,R_TMP0,dr_baseoff); /* stbu   0,1(dr)  */comment(NULL);
 	uncond_ins(i_bdn, lin);              /* bdn    L.???    */
 	rrr_ins(i_sf, szr , sr ,sr);       /* sf     sr,szr,sr*/
 	rir_ins(i_a , sr , 1, sr);          /* ai     sr,sr,1  */
@@ -3536,8 +3538,8 @@ move_dgts(int dr, int sr, int szr, int bytemove) /* move szr bytes to dr from sr
 	rrr_ins(i_a,dr,szr,dr);              /* a      dr,szr,dr */
 	mt_ins(i_mtctr,szr);                 /* mtctr  szr       */
 	set_label(lin);                      /* L.???            */
-	ld_ro_ins(i_lbzu,sr_baseoff,R_TMP0); /* lbzu   0,-1(sr)  */comment(NIL);
-	st_ro_ins(i_stbu,R_TMP0,dr_baseoff); /* stbu   0,-1(dr)  */comment(NIL);
+	ld_ro_ins(i_lbzu,sr_baseoff,R_TMP0); /* lbzu   0,-1(sr)  */comment(NULL);
+	st_ro_ins(i_stbu,R_TMP0,dr_baseoff); /* stbu   0,-1(dr)  */comment(NULL);
 	uncond_ins(i_bdn, lin);              /* bdn    L.???     */
 	return;
 }
@@ -3623,7 +3625,7 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 		/* Do no adjustment */
 		if (sreg!=dreg)
 		{
-			mov_rr_ins(sreg,dreg);comment(NIL);
+			mov_rr_ins(sreg,dreg);comment(NULL);
 		}
 		return;
 	}
@@ -3655,7 +3657,7 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 			break;
 		case slonghd:
 		case ulonghd:
-			mov_rr_ins(sreg,dreg);comment(NIL);
+			mov_rr_ins(sreg,dreg);comment(NULL);
 			break;
 		default:
 			fail("Unexpected integer shape in adjust_to_size");
@@ -3668,23 +3670,23 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 		{
 		case scharhd:
 			testsigned(sreg, -128, 127, trap);
-			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
 		case ucharhd:
 			testusigned(sreg,255,trap);
-			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
 		case swordhd:
 			testsigned(sreg,-0x8000,0x7fff,trap);
-			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
 		case uwordhd:
 			testusigned(sreg,0xffff,trap);
-			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
 		case slonghd:
 		case ulonghd:
-			mov_rr_ins(sreg,dreg);comment(NIL);
+			mov_rr_ins(sreg,dreg);comment(NULL);
 			break;
 		default:
 			fail("Unexpected integer shape in adjust_to_size");

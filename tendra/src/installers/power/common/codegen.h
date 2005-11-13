@@ -89,6 +89,7 @@
 
 #include "config.h"
 
+#include "common_types.h"
 #include "regmacs.h"
 
 #include "ash.h"

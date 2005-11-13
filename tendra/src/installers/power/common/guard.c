@@ -102,6 +102,8 @@
 ******************************************************************/
 
 #include "config.h"
+
+#include "common_types.h"
 #include "codegen.h"
 
 #include "tempdecs.h"	/* for tempdecopt */

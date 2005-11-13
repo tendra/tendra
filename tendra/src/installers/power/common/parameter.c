@@ -87,6 +87,7 @@
 #include "config.h"
 #include "fmm.h"
 
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

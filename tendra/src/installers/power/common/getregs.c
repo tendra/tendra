@@ -97,6 +97,8 @@
 ******************************************************************/
 
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 

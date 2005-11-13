@@ -87,6 +87,8 @@
 /* dynamic_init.c does all the dynamic initialisation code
  */
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

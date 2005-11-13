@@ -90,6 +90,8 @@
  *      evaluating an exp is in a register or directly or literally in store,
  */
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

@@ -85,7 +85,10 @@
 
 
 #include "config.h"
+
 #include <limits.h>
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"

@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -403,7 +405,7 @@ generate_untidy_procedure_epilogue()
 		baseoff back_chain;
 		back_chain.base = R_SP;
 		back_chain.offset = 0;
-		ld_ro_ins(i_l,back_chain,R_TEMP_FP);comment(NIL);
+		ld_ro_ins(i_l,back_chain,R_TEMP_FP);comment(NULL);
 		restore_sregs(R_TEMP_FP,0);
 	}
 	else

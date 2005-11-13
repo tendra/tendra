@@ -93,7 +93,10 @@
  *****************************************************************/
 
 #include "config.h"
+
 #include <ctype.h>
+
+#include "common_types.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

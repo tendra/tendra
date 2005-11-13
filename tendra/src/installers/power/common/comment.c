@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "translat.h"	/* for as_file */
 #include "comment.h"
 bool do_comment;			/* set in powertrans.c */
