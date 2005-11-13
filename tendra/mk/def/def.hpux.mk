@@ -12,7 +12,8 @@
 
 # Libraries
 
-LIB_CRT0?=	/usr/ccs/lib/hpux32/crt0.o
+#LIB_CRT0?=	/usr/ccs/lib/hpux32/crt0.o
+LIB_CRT0?=	/usr/ccs/lib/crt0.o
 LIB_CRT1?=	
 LIB_CRTI?=	
 LIB_CRTN?=	
