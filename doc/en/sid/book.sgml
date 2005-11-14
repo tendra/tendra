@@ -1711,7 +1711,7 @@ rule1 = {
   ||
     terminal1 ;
   ##
-    &lt;action1&gt ;
+    &lt;action1&gt; ;
 } ;
 
 rule2 = {
@@ -1719,7 +1719,7 @@ rule2 = {
   ||
     terminal2 ;
   ##
-    &lt;action2&gt ;
+    &lt;action2&gt; ;
 } ;
         </programlisting>
 
@@ -1806,7 +1806,7 @@ rule1 [
 
 rule2 = {
   rule1 ;
-    &lt;action2&gt ;
+    &lt;action2&gt; ;
   ||
     terminal2 ;
 } ;
