@@ -66,8 +66,7 @@ SED_DEFAULT_LIB= \
 		-e "s|-LIB_FCRT1-|${LIB_FCRT1}|g" \
 		-e "s|-LIB_GCRT0-|${LIB_GCRT0}|g" \
 		-e "s|-LIB_GCRT1-|${LIB_GCRT1}|g" \
-		-e "s|-LIB_LD_LINUX_1-|${LIB_LD_LINUX_1}|g" \
-		-e "s|-LIB_LD_LINUX_2-|${LIB_LD_LINUX_2}|g" \
+		-e "s|-LIB_LD_LINUX-|${LIB_LD_LINUX}|g" \
 		-e "s|-LIB_MCRT0-|${LIB_MCRT0}|g" \
 		-e "s|-LIB_MCRT1-|${LIB_MCRT1}|g" \
 		-e "s|-LIB_PCRT0-|${LIB_PCRT0}|g" \
