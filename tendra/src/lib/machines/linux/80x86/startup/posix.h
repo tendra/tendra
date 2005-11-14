@@ -9,3 +9,4 @@
 #undef _POSIX_NGROUPS_MAX
 #undef _POSIX_OPEN_MAX
 #undef _POSIX_PATH_MAX
+#define __WRONG_POSIX_TIME_H
