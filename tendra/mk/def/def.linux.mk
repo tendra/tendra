@@ -17,7 +17,7 @@ LIB_CRTI?=		/usr/lib/crti.o
 LIB_CRTBEGIN?=		/usr/lib/crtbegin.o
 LIB_CRTEND?=		/usr/lib/crtend.o
 LIB_CRTN?=		/usr/lib/crtn.o
-LIB_LD_LINUX_1?=	/lib/ld-linux.so.1
+LIB_LD_LINUX?=		/lib/ld-linux.so.2
 LIB_GCRT1?=		/usr/lib/gcrt1.o
 LIB_MCRT0?=		/usr/lib/Mcrt1.o
 .endif

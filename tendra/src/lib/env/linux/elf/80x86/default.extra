@@ -13,7 +13,7 @@
 /* Libraries */
 
 
-+LIB_LD_LINUX_1	"-LIB_LD_LINUX_1-"
++LIB_LD_LINUX	"-LIB_LD_LINUX-"
 +LIB_CRT1	"-LIB_CRT1-"
 +LIB_CRTI	"-LIB_CRTI-"
 +LIB_CRTBEGIN	"-LIB_CRTBEGIN-"
@@ -26,7 +26,7 @@
 +AS			"<BIN_AS> -Qy"
 +LD			"<BIN_LD> -m elf_i386"
 +CC			"<BIN_CC>"
-+CRT0			"-dynamic-linker <LIB_LD_LINUX_1> <LIB_CRT1>"
++CRT0			"-dynamic-linker <LIB_LD_LINUX> <LIB_CRT1>"
 +CRT1			"<LIB_CRTI> <LIB_CRTBEGIN>"
 +CRTN			"<LIB_CRTEND> <LIB_CRTN>"
 +SYS_LIB		"-ltdf"
