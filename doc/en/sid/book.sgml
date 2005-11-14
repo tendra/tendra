@@ -216,13 +216,13 @@
 
       <programlisting>
 list-of-integers = {
-    integer ;
-  ||
-    integer ;
-    comma ;
-    list-of-integers ;
-} ;
-      </programlisting>
+        integer;
+    ||
+        integer;
+        comma;
+        list-of-integers;
+};
+</programlisting>
 
       <para>This production contains two alternatives: the first matches the
         terminal <literal>integer</literal>; the second matches the sequence
@@ -306,14 +306,14 @@ list-of-integers = {
 
       <programlisting>
 Ai = Aj Bji, Ci
-      </programlisting>
+</programlisting>
 
       <para>into:</para>
 
       <programlisting>
 Ai = Cj Xji
 Xji = Bjk Xki, Yji
-      </programlisting>
+</programlisting>
 
       <para>where <literal>Yji</literal> is the identity function if
         <literal>i</literal> equals <literal>j</literal>, and an error
@@ -373,23 +373,23 @@ Xji = Bjk Xki, Yji
 
       <programlisting>
 X = {
-      a ; b ;
-  ||  a ; c ;
-} ;
-      </programlisting>
+        a; b;
+    ||  a; c;
+};
+</programlisting>
 
       <para>would be transformed into something like:</para>
 
       <programlisting>
 X = {
-  a ; X1 ;
-} ;
+        a; X1;
+};
 
 X1 = {
-      b ;
-  ||  c ;
-} ;
-      </programlisting>
+        b;
+    ||  c;
+};
+</programlisting>
 
       <para>It will also expand calls to rules at the beginning of alternatives if this is necessary to allow the parser to be produced (this is the phase that the limit is needed for). The expansions are done in the following cases:</para>
 
@@ -442,7 +442,7 @@ X1 = {
 
     <programlisting>
 sid <emphasis>options input-files output-files</emphasis>
-    </programlisting>
+</programlisting>
 
 
     <para>Please see the <xref linkend='sid-manpage'> manpage for a complete list of
@@ -484,7 +484,7 @@ sid <emphasis>options input-files output-files</emphasis>
 %terminals%
 %productions%
 %entry%
-      </programlisting>
+</programlisting>
 
       <para>Identifiers must begin with a letter, an underscore or a hyphen.
         This may be followed by zero or more letters, digits, underscores and
@@ -493,7 +493,7 @@ sid <emphasis>options input-files output-files</emphasis>
 
       <programlisting>
 expression  mult-expr   plus_expr   expr-1
-      </programlisting>
+</programlisting>
 
       <para>Identifiers are split into two namespaces: local names have one
         space; types, actions, rules, non-local names and terminals share the
@@ -505,8 +505,8 @@ expression  mult-expr   plus_expr   expr-1
       <programlisting>
 &amp;   ;   =   [   :   ]   !   ,
 ||  $   ?   {   }   (   )   &lt;
-&gt;    -&gt;   ::  ##
-      </programlisting>
+&gt;   -&gt;  ::  ##
+</programlisting>
 
       <para>All other characters are illegal.</para>
     </sect1>
@@ -521,9 +521,9 @@ expression  mult-expr   plus_expr   expr-1
 
       <programlisting>
 %types%
-NumberT ;
-StringT ;
-      </programlisting>
+NumberT;
+StringT;
+</programlisting>
 
       <para>This declares two types: <literal>NumberT</literal> and
         <literal>StringT</literal>. There is no requirement for the type names
@@ -564,28 +564,28 @@ StringT ;
       <para>The simplest type of terminal declaration is as follows:</para>
 
       <programlisting>
-terminal1 ;
-      </programlisting>
+terminal1;
+</programlisting>
 
       <para>This means the same as:</para>
 
       <programlisting>
-terminal1 : () -&gt; () ;
-      </programlisting>
+terminal1: () -&gt; ();
+</programlisting>
 
       <para>An example of a more complex terminal declaration is:</para>
 
       <programlisting>
-terminal2 : () -&gt; ( :StringT ) ;
-      </programlisting>
+terminal2: () -&gt; (:StringT);
+</programlisting>
 
       <para>If these terminals were not to be used in the grammar, they should
         be declared as:</para>
 
       <programlisting>
-!terminal1 ;
-!terminal2 : () -&gt; ( :StringT ) ;
-      </programlisting>
+!terminal1;
+!terminal2: () -&gt; (:StringT);
+</programlisting>
     </sect1>
 
     <sect1 id='rule-def-sect'>
@@ -600,17 +600,17 @@ terminal2 : () -&gt; ( :StringT ) ;
         e.g.:</para>
 
       <programlisting>
-rule1 : ( :NumberT ) -&gt; ( :NumberListT ) ;
-rule2 ;
-      </programlisting>
+rule1: (:NumberT) -&gt; (:NumberListT);
+rule2;
+</programlisting>
 
       <para>Action declarations are similar, although the names are surrounded
         by angle brackets, e.g.:</para>
 
       <programlisting>
-&lt;action1&gt; : ( :StringT &amp; ) -&gt; () ;
-&lt;action2&gt; ;
-      </programlisting>
+&lt;action1&gt;: (:StringT &amp;) -&gt; ();
+&lt;action2&gt;;
+</programlisting>
 
       <para>A declaration (or a definition) may be prefixed with the
         <literal>::</literal> symbol. This symbol forces the definition into
@@ -620,20 +620,20 @@ rule2 ;
         following:</para>
 
       <programlisting>
-add-expr : () -&gt; ( v : NumberT ) = {
-    v1 = mul-expr ;
-    plus ;
-    v2 = expr ;
-    v  = &lt;add&gt; ( v1, v2 ) ;
-  ||
-    v1 = mul-expr ;
-    minus ;
-    v2 = expr ;
-    v  = &lt;subtract&gt; ( v1, v2 ) ;
-  ##
-    v = &lt;ex&gt; ;
-} ;
-      </programlisting>
+add-expr: () -&gt; (v: NumberT) = {
+        v1 = mul-expr;
+        plus;
+        v2 = expr;
+        v = &lt;add&gt; (v1, v2);
+    ||
+        v1 = mul-expr;
+        minus;
+        v2 = expr;
+        v = &lt;subtract&gt; (v1, v2);
+    ##
+        v = &lt;ex&gt;;
+};
+</programlisting>
 
       <para>The production begins with the rule name, followed by the
         parameter and result names and types (in this case, the rule name is
@@ -656,8 +656,8 @@ add-expr : () -&gt; ( v : NumberT ) = {
         i.e.:</para>
 
       <programlisting>
-$ ;
-      </programlisting>
+$;
+</programlisting>
 
       <para>unless it is an exception handler alternative (in which case it
         must do something), or a sequence of items. The empty string is only
@@ -670,15 +670,15 @@ $ ;
         assignment in conventional programming languages:</para>
 
       <programlisting>
-( a, b, c ) = ( d, e, f ) ;
-      </programlisting>
+(a, b, c) = (d, e, f);
+</programlisting>
 
       <para>Each tuple must contain the same number of names. In the case of a
         one-tuple, the parentheses may be dropped, e.g.:</para>
 
       <programlisting>
-a = d ;
-      </programlisting>
+a = d;
+</programlisting>
 
       <para>Note that this is a binding operation, not an assignment. Each
         name on the left hand side must be a new name. It is illegal to
@@ -687,8 +687,8 @@ a = d ;
         <literal>&amp;</literal> symbol, e.g.:</para>
 
       <programlisting>
-( a, &amp;b, c ) = ( d, e, f ) ;
-      </programlisting>
+(a, &amp;b, c) = (d, e, f);
+</programlisting>
 
       <para>would assign to the name <literal>b</literal>, which must have
         been previously defined (it may be a parameter; if it is a call by
@@ -699,8 +699,8 @@ a = d ;
         result tuple to ignore results, e.g.:</para>
 
       <programlisting>
-( a, !, b, ! ) = ( c, d, e, f ) ;
-      </programlisting>
+(a, !, b, !) = (c, d, e, f);
+</programlisting>
 
       <para>This is not particularly useful in an identity, but may be more
         useful in a call to a rule, terminal or action. A call to a terminal
@@ -708,16 +708,16 @@ a = d ;
         language, e.g.:</para>
 
       <programlisting>
-( a, b ) = rule1 ( c, d ) ;
-( e, f ) = terminal1 () ;
-      </programlisting>
+(a, b) = rule1 (c, d);
+(e, f) = terminal1 ();
+</programlisting>
 
       <para>Calls to actions have the same form, except that action names are
         surrounded by angle brackets, e.g.:</para>
 
       <programlisting>
-( g, h, i ) = &lt;action1&gt; ( a, e ) ;
-      </programlisting>
+(g, h, i) = &lt;action1&gt; (a, e);
+</programlisting>
 
       <para>In addition, one of the names in the result tuple of the call to
         the action may be the predicate result symbol <literal>?</literal>, in
@@ -733,34 +733,34 @@ a = d ;
         be prefixed by the <literal>&amp;</literal> symbol, e.g.:</para>
 
       <programlisting>
-length = &lt;string-length&gt; ( &amp;string ) ;
-      </programlisting>
+length = &lt;string-length&gt; (&amp;string);
+</programlisting>
 
       <para>If the rule, terminal or action has the zero-tuple as a result,
         then only the right hand side of the definition is required,
         e.g.:</para>
 
       <programlisting>
-rule2 ( a, b ) ;
-terminal2 () ;
-&lt;action2&gt; ( c, d ) ;
-      </programlisting>
+rule2 (a, b);
+terminal2 ();
+&lt;action2&gt; (c, d);
+</programlisting>
 
       <para>If the rule, terminal or action has the zero-tuple as a parameter,
         then the parameter tuple may be omitted, e.g.:</para>
 
       <programlisting>
-( a, b ) = rule3 ;
-terminal3 ;
-c = &lt;action3&gt; ;
-      </programlisting>
+(a, b) = rule3;
+terminal3;
+c = &lt;action3&gt;;
+</programlisting>
 
       <para>In older versions of <literal>sid</literal>, it used to be
         possible to have ambiguous items, e.g.:</para>
 
       <programlisting>
-a = b ;
-      </programlisting>
+a = b;
+</programlisting>
 
       <para>where <literal>b</literal> was both a rule and a name. As local
         names may not shadow non-local and global names, then this is no
@@ -790,20 +790,20 @@ a = b ;
         normal rule, e.g.:</para>
 
       <programlisting>
-list : () -&gt; ( l : ListT ) = {
-  n = number ;
-  /* START ANONYMOUS RULE */ {
-    ? = &lt;at-eof&gt; ;
-    l = &lt;make-list&gt; ( n ) ;
-  ||
-    comma ;
-    l1 = list ;
-    l  = &lt;cons&gt; ( n, l1 ) ;
-  ##
-    l = &lt;com-or-eof&gt; ( n ) ;
-  } ; /* END ANONYMOUS RULE */
-} ;
-      </programlisting>
+list: () -&gt; (l: ListT) = {
+        n = number;
+        /* START ANONYMOUS RULE */ {
+                ? = &lt;at-eof&gt;;
+                l = &lt;make-list&gt; (n);
+            ||
+                comma;
+                l1 = list;
+                l  = &lt;cons&gt; (n, l1);
+            ##
+                l = &lt;com-or-eof&gt; (n);
+        }; /* END ANONYMOUS RULE */
+};
+</programlisting>
 
       <para>An anonymous rule is always inlined.</para>
 
@@ -815,19 +815,19 @@ list : () -&gt; ( l : ListT ) = {
 
       <programlisting>
 x-list [
-  x = {
-      terminal1 ;
-      terminal2 ;
+        x = {
+                terminal1;
+                terminal2;
+            ||
+                terminal3;
+        };
+] = {
+        x;
     ||
-      terminal3 ;
-  } ;
-  ] = {
-      x ;
-    ||
-      x ;
-      x-list ;
-} ;
-      </programlisting>
+        x;
+        x-list;
+};
+</programlisting>
 
       <para>In this case, the rule <literal>x</literal> would be local to the
         rule <literal>x-list</literal> and no other rule would be able to use
@@ -858,16 +858,16 @@ x-list [
 
       <programlisting>
 rule1 [
-  name1 : Type1T ;
-  rule1_1 = {
-    &lt;action1&gt; ( name1 ) ;
-    rule2 ( name1 ) ;
-  } ;
+        name1: Type1T;
+        rule1_1 = {
+                &lt;action1&gt; (name1);
+                rule2 (name1);
+        };
 ] = {
-  &lt;action2&gt; ( &amp;name1 ) ;
-  rule1_1 ;
-} ;
-      </programlisting>
+        &lt;action2&gt; (&amp;name1);
+        rule1_1;
+};
+</programlisting>
 
       <para>It is possible to associate an initialiser with a non-local name,
         by following the type name with a <literal>=</literal> symbol and the
@@ -875,11 +875,11 @@ rule1 [
 
       <programlisting>
 rule1 [
-  name1 : Type1T = &lt;action1&gt; ;
+        name1: Type1T = &lt;action1&gt;;
 ] = {
-  // ....
-} ;
-      </programlisting>
+        // ....
+};
+</programlisting>
 
       <para>In this case the action is called at the start of the rule to
         initialise the non-local name. The action should return an object of
@@ -898,8 +898,8 @@ rule1 [
         names, terminated by a semicolon, e.g.:</para>
 
       <programlisting>
-%entry% expr ;
-      </programlisting>
+%entry% expr;
+</programlisting>
 
       <para>If you are going to use a rule as an entry point into the grammar
         (i.e. you wish to call the associated function), you must list it in
@@ -1195,24 +1195,24 @@ rule1 [
 
       <programlisting>
 @{
-  /* A code block */
-  {
-    int i ;
-    if ( @param ) {
-    @! ;
-  }
-  @result = 0 ;
-  for ( i = 0 ; i &lt; 100 ; i++ ) {
-    printf ( &quot;{%d}\n&quot;, i ) ;
-    @result += i ;
-  }
-  @=param += @result ;
-  if ( @. == TOKEN_SEMI ) {
-    @&gt; ;
-  }
-}
+        /* A code block */
+        {
+                int i;
+                if (@param) {
+                        @!;
+                }
+                @result = 0;
+                for (i = 0; i &lt; 100; i++) {
+                        printf (&quot;{%d}\n&quot;, i);
+                        @result += i;
+                }
+                @=param += @result;
+                if (@. == TOKEN_SEMI) {
+                        @&gt;;
+                }
+        }
 @}
-      </programlisting>
+</programlisting>
     </sect1>
 
     <sect1 id='prefixes-section'>
@@ -1228,13 +1228,13 @@ rule1 [
 
       <programlisting>
 %prefixes%
-type        = ZT ;
-function    = ZR ;
-label       = ZL ;
-input       = ZI ;
-output      = ZO ;
-terminal    = ZB ;
-      </programlisting>
+type        = ZT;
+function    = ZR;
+label       = ZL;
+input       = ZI;
+output      = ZO;
+terminal    = ZB;
+</programlisting>
     </sect1>
 
     <sect1 id='maps-section'>
@@ -1250,9 +1250,9 @@ terminal    = ZB ;
 
       <programlisting>
 %maps%
-NumberT     -&gt; unsigned ;
-calculator  -&gt; calculator ;
-      </programlisting>
+NumberT     -&gt; unsigned;
+calculator  -&gt; calculator;
+</programlisting>
 
       <note>
         <para>It is not possible to map type identifiers to be arbitrary C
@@ -1281,16 +1281,16 @@ calculator  -&gt; calculator ;
 %header% @{
 #include &quot;lexer.h&quot;
 
-LexerT token ;
+LexerT token;
 
 #define CURRENT_TERMINAL    token.t
 #define ADVANCE_LEXER       next_token ()
 
-extern void terminal_error () ;
-extern void syntax_error () ;
+extern void terminal_error ();
+extern void syntax_error ();
 @}, @{
-@} ;
-      </programlisting>
+@};
+</programlisting>
 
     </sect1>
 
@@ -1310,14 +1310,14 @@ extern void syntax_error () ;
       <programlisting>
 %assignments%
 
-ListT : ( l1 ) -&gt; ( l2 ) = @{
-  if ( @l2.head = @l1.head ) {
-    @l2.tail = @l1.tail ;
-  } else {
-    @l2.tail = &amp;( @l2.head ) ;
-  }
-@} ;
-      </programlisting>
+ListT: (l1) -&gt; (l2) = @{
+        if (@l2.head = @l1.head) {
+                @l2.tail = @l1.tail;
+        } else {
+                @l2.tail = &amp;(@l2.head);
+        }
+@};
+</programlisting>
 
       <para>If a type has an assignment operator defined, it must also have a
         parameter assignment operator type defined and a result assignment
@@ -1353,14 +1353,14 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
       <programlisting>
 %parameter-assignments%
 
-ListT : ( l1 ) -&gt; ( l2 ) = @{
-  if ( @l2.head = @l1-&gt;head ) {
-    @l2.tail = @l1-&gt;tail ;
-  } else {
-    @l2.tail = &amp;( @l2.head ) ;
-  }
-@} ;
-      </programlisting>
+ListT: (l1) -&gt; (l2) = @{
+        if (@l2.head = @l1-&gt;head) {
+                @l2.tail = @l1-&gt;tail;
+        } else {
+                @l2.tail = &amp;(@l2.head);
+        }
+@};
+</programlisting>
     </sect1>
 
     <sect1 id='result-assignments-sect'>
@@ -1379,14 +1379,14 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
       <programlisting>
 %result-assignments%
 
-ListT : ( l1 ) -&gt; ( l2 ) = @{
-  if ( @l2-&gt;head = @l1.head ) {
-    @l2-&gt;tail = @l1.tail ;
-  } else {
-    @l2-&gt;tail = &amp;( @l2-&gt;head ) ;
-  }
-@} ;
-      </programlisting>
+ListT: (l1) -&gt; (l2) = @{
+        if (@l2-&gt;head = @l1.head) {
+                @l2-&gt;tail = @l1.tail;
+        } else {
+                @l2-&gt;tail = &amp;(@l2-&gt;head);
+        }
+@};
+</programlisting>
     </sect1>
 
     <sect1 id='terminal-result-ext-sect'>
@@ -1406,18 +1406,18 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
       <programlisting>
 %terminals%
 
-number : () -&gt; ( n ) = @{
-  @n = token.u.number ;
-@} ;
+number: () -&gt; (n) = @{
+        @n = token.u.number;
+@};
 
-identifier : () -&gt; ( i ) = @{
-  @i = token.u.identifier ;
-@} ;
+identifier: () -&gt; (i) = @{
+        @i = token.u.identifier;
+@};
 
-string : () -&gt; ( s ) = @{
-  @s = token.u.string ;
-@} ;
-      </programlisting>
+string: () -&gt; (s) = @{
+        @s = token.u.string;
+@};
+</programlisting>
     </sect1>
 
     <sect1 id='action-def-section'>
@@ -1429,8 +1429,8 @@ string : () -&gt; ( s ) = @{
         actions. An action definition has the following form:</para>
 
       <programlisting>
-&lt;action-name&gt; : ( parameters ) -&gt; ( results ) = code-block ;
-      </programlisting>
+&lt;action-name&gt;: (parameters) -&gt; (results) = code-block;
+</programlisting>
 
       <para>This is similar to the form of all previous definitions, except
         that the name is surrounded in angle brackets. What follows is also
@@ -1453,39 +1453,39 @@ string : () -&gt; ( s ) = @{
         to zero-tuple, then the type can be omitted, e.g.:</para>
 
       <programlisting>
-&lt;action&gt; = @{ /* .... */ @} ;
-      </programlisting>
+&lt;action&gt; = @{ /* .... */ @};
+</programlisting>
 
       <para>An example action definition section is:</para>
 
       <programlisting>
 %actions%
 
-&lt;add&gt; : ( v1, v2 ) -&gt; ( v3 ) = @{
-  @v3 = @v1 + @v2 ;
-@} ;
+&lt;add&gt;: (v1, v2) -&gt; (v3) = @{
+        @v3 = @v1 + @v2;
+@};
 
-&lt;subtract&gt; : ( v1 : NumberT, v2 : NumberT ) -&gt; ( v3 : NumberT ) = @{
-  @v3 = @v1 - @v2 ;
-@} ;
+&lt;subtract&gt;: (v1: NumberT, v2: NumberT) -&gt; (v3: NumberT) = @{
+        @v3 = @v1 - @v2;
+@};
 
-&lt;multiply&gt; : ( v1 : NumberT, v2 ) -&gt; ( v3 ) = @{
-  @v3 = @v1 * @v2 ;
-@} ;
+&lt;multiply&gt;: (v1: NumberT, v2) -&gt; (v3) = @{
+        @v3 = @v1 * @v2;
+@};
 
-&lt;divide&gt; : ( v1, v2 ) -&gt; ( v3 : NumberT ) = @{
-  @v3 = @v1 / @v2 ;
-@} ;
+&lt;divide&gt;: (v1, v2) -&gt; (v3: NumberT) = @{
+        @v3 = @v1 / @v2;
+@};
 
-&lt;print&gt; : ( v ) -&gt; () = @{
-  printf ( &quot;%u\n&quot;, @v ) ;
-@} ;
+&lt;print&gt;: (v) -&gt; () = @{
+        printf (&quot;%u\n&quot;, @v);
+@};
 
 &lt;error&gt; = @{
-  fprintf ( stderr, &quot;ERROR\n&quot; ) ;
-exit ( EXIT_FAILURE ) ;
-@} ;
-      </programlisting>
+        fprintf (stderr, &quot;ERROR\n&quot;);
+        exit (EXIT_FAILURE);
+@};
+</programlisting>
 
       <para>Do not define static variables in action definitions; if you do,
         you will get unexpected results. If you wish to use static variables
@@ -1500,15 +1500,15 @@ exit ( EXIT_FAILURE ) ;
 
       <programlisting>
 %trailer% @{
-  int main ()
-  {
-    next_token () ;
-    calculator ( NULL ) ;
-    return 0 ;
-  }
-  @}, @{
-@} ;
-      </programlisting>
+        int main(void)
+        {
+                next_token ();
+                calculator (NULL);
+                return 0;
+        }
+@}, @{
+@};
+</programlisting>
 
       <para>The code blocks will be appended to the generated parser, and the
         generated header file respectively.</para>
@@ -1528,34 +1528,34 @@ exit ( EXIT_FAILURE ) ;
 
     <programlisting>
 rule1 = {
-    rule2 ;
-    /* .... */
-  ||
-    /* .... */
-} ;
+        rule2;
+        /* .... */
+    ||
+        /* .... */
+};
 
 rule2 = {
-    ? = &lt;predicate&gt; ;
-    /* .... */
-  ||
-    /* .... */
-} ;
-    </programlisting>
+        ? = &lt;predicate&gt;;
+        /* .... */
+    ||
+        /* .... */
+};
+</programlisting>
 
     <para>would be expanded into:</para>
 
     <programlisting>
 rule1 = {
-  ? = predicate ;
-    /* .... */
-    /* .... */
-  ||
-    /* .... */
-    /* .... */
-  ||
-    /* .... */
-} ;
-    </programlisting>
+        ? = predicate;
+        /* .... */
+        /* .... */
+    ||
+        /* .... */
+        /* .... */
+    ||
+        /* .... */
+};
+</programlisting>
 
     <para>Also, if a predicate is used to select which alternative to use, it
       must be the first thing in the alternative, so the following would not
@@ -1563,13 +1563,13 @@ rule1 = {
 
     <programlisting>
 rule = {
-    &lt;action&gt; ;
-    ? = &lt;predicate&gt; ;
-    /* .... */
-  ||
-    /* .... */
-} ;
-    </programlisting>
+        &lt;action&gt;;
+        ? = &lt;predicate&gt;;
+        /* .... */
+    ||
+        /* .... */
+};
+</programlisting>
 
     <para>When predicates begin a rule, they are executed (in some arbitrary
       order) until one of them returns true. The alternative that this
@@ -1641,8 +1641,8 @@ rule = {
     <para>For example, given the following rule:</para>
 
     <programlisting>
-rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;
-    </programlisting>
+rule1: (:Type1T, :Type2T, :Type3T &amp;) -&gt; (:Type4T);
+</programlisting>
 
     <para>where <literal>Type2T</literal> has a parameter assignment operator
       defined, and <literal>rule1</literal> is mapped to
@@ -1650,13 +1650,13 @@ rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;
       the call would be something like:</para>
 
     <programlisting>
-Type1T a = make_type1 () ;
-Type2T b = make_type2 () ;
-Type3T c = make_type3 () ;
-Type4T d ;
+Type1T a = make_type1 ();
+Type2T b = make_type2 ();
+Type3T c = make_type3 ();
+Type4T d;
 
-rule1 ( a, b, &amp;c, &amp;d ) ;
-    </programlisting>
+rule1 (a, b, &amp;c, &amp;d);
+</programlisting>
   </chapter>
 
   <chapter id='understanding-error-messages'>
@@ -1681,18 +1681,18 @@ rule1 ( a, b, &amp;c, &amp;d ) ;
           have the same parameter and result types, e.g.:</para>
 
         <programlisting>
-rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
-    rule2 ( a, b ) ;
-  ||
-    terminal1 ;
-} ;
+rule1: (a: Type1T, b: Type1T, c: Type2T, d: Type2T) -&gt; () = {
+        rule2 (a, b);
+    ||
+        terminal1;
+};
 
-rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
-    rule1 ( a, a, b, b ) ;
-  ||
-    terminal2 ;
-} ;
-        </programlisting>
+rule2: (a: Type1T, b: Type2T) -&gt; () = {
+        rule1 (a, a, b, b);
+    ||
+        terminal2;
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='exception-handlers'>
@@ -1707,21 +1707,21 @@ rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
 
         <programlisting>
 rule1 = {
-    rule2 ;
-  ||
-    terminal1 ;
-  ##
-    &lt;action1&gt; ;
-} ;
+        rule2;
+    ||
+        terminal1;
+    ##
+        &lt;action1&gt;;
+};
 
 rule2 = {
-    rule1 ;
-  ||
-    terminal2 ;
-  ##
-    &lt;action2&gt; ;
-} ;
-        </programlisting>
+        rule1;
+    ||
+        terminal2;
+    ##
+        &lt;action2&gt;;
+};
+</programlisting>
 
         <para>It is quite likely that when using exception handlers, it may be
           necessary to do the left recursion elimination manually to ensure
@@ -1739,12 +1739,12 @@ rule2 = {
           calling rule, e.g.:</para>
 
         <programlisting>
-rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
-    rule1 ( b, a ) ;
-  ||
-    terminal1 ;
-} ;
-        </programlisting>
+rule1: (a: Type1T, b: Type1T) -&gt; () = {
+        rule1 (b, a);
+    ||
+        terminal1;
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='non-local-name'>
@@ -1761,22 +1761,22 @@ rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
 
         <programlisting>
 rule1 [
-  name1 : Type1T ;
-  rule1_1 [
-    name1_1 : Type1T ;
-  ] = {
-      rule1 ;
-      &lt;action1_1&gt; ( name1_1 ) ;
-    ||
-      terminal1 ;
-  } ;
+        name1: Type1T;
+        rule1_1 [
+                name1_1: Type1T;
+        ] = {
+                rule1;
+                &lt;action1_1&gt; (name1_1);
+            ||
+                terminal1;
+        };
 ] = {
-    terminal2 ;
-  ||
-    rule1_1 ;
-    &lt;action1&gt; ( name1 ) ;
-} ;
-        </programlisting>
+        terminal2;
+    ||
+        rule1_1;
+        &lt;action1&gt; (name1);
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='declares-productions'>
@@ -1792,25 +1792,25 @@ rule1 [
 
         <programlisting>
 rule1 [
-  name1 : Type1T ;
-  rule1_1 = {
-  &lt;action1_1&gt; ( name1 ) ;
-  } ;
+        name1: Type1T;
+        rule1_1 = {
+                &lt;action1_1&gt; (name1);
+        };
 ] = {
-    terminal1 ;
-    rule1_1 ;
-  ||
-    rule2 ;
-    &lt;action1&gt; ( name1 ) ;
-} ;
+        terminal1;
+        rule1_1;
+    ||
+        rule2;
+        &lt;action1&gt; (name1);
+};
 
 rule2 = {
-  rule1 ;
-    &lt;action2&gt; ;
-  ||
-    terminal2 ;
-} ;
-        </programlisting>
+        rule1;
+        &lt;action2&gt;;
+    ||
+        terminal2;
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='cycle-term-recursive'>
@@ -1824,23 +1824,23 @@ rule2 = {
 
         <programlisting>
 rule1 = {
-    rule2 ;
-  ||
-    rule3 ;
-} ;
+        rule2;
+    ||
+        rule3;
+};
 
 rule2 = {
-    rule1 ;
-  ||
-    rule3 ;
-} ;
+        rule1;
+    ||
+        rule3;
+};
 
 rule3 = {
-    rule1 ;
-  ||
-    rule2 ;
-} ;
-        </programlisting>
+        rule1;
+    ||
+        rule2;
+};
+</programlisting>
       </simplesect>
     </sect1>
 
@@ -1859,12 +1859,12 @@ rule3 = {
 
         <programlisting>
 rule1 = {
-    &lt;action1&gt; ;
-    rule1 ;
-  ||
-    terminal1 ;
-} ;
-        </programlisting>
+        &lt;action1&gt;;
+        rule1;
+    ||
+        terminal1;
+};
+</programlisting>
 
         <para>This is not removed by the left recursion elimination phase, as
           the call is not the leftmost item in the alternative.</para>
@@ -1880,12 +1880,12 @@ rule1 = {
 
         <programlisting>
 rule1 = {
-    &lt;action1&gt; ;
-    ? = &lt;predicate&gt; ;
-  ||
-    terminal1 ;
-} ;
-        </programlisting>
+        &lt;action1&gt;;
+        ? = &lt;predicate&gt;;
+    ||
+        terminal1;
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='rule-production'>
@@ -1900,18 +1900,18 @@ rule1 = {
 
         <programlisting>
 rule1 = {
-    ? = &lt;predicate&gt; ;
-  ||
-    terminal1 ;
-} ;
+        ? = &lt;predicate&gt;;
+    ||
+        terminal1;
+};
 
 rule2 = {
-    &lt;action&gt; ;
-    rule1 ;
-  ||
-    terminal2 ;
-} ;
-        </programlisting>
+        &lt;action&gt;;
+        rule1;
+    ||
+        terminal2;
+};
+</programlisting>
       </simplesect>
 
       <simplesect id='see-through-alt-a'>
@@ -1978,12 +1978,12 @@ rule2 = {
 
         <programlisting>
 rule1 = {
-    &lt;action1&gt; ;
-    terminal1 ;
-  ||
-    terminal1 ;
-} ;
-        </programlisting>
+        &lt;action1&gt;;
+        terminal1;
+    ||
+        terminal1;
+};
+</programlisting>
 
         <para>Normally, the factoring process will remove the problem, but
           when something like the above happens to stop the factoring
@@ -1999,13 +1999,13 @@ rule1 = {
 
         <programlisting>
 rule1 = {
-  ( a, ? ) = &lt;predicate&gt; ;
-    &lt;action1&gt; ( a ) ;
-  ||
-    ( ?, b ) = &lt;predicate&gt; ;
-    &lt;action2&gt; ( b ) ;
-} ;
-        </programlisting>
+        (a, ?) = &lt;predicate&gt;;
+        &lt;action1&gt; (a);
+    ||
+        (?, b) = &lt;predicate&gt;;
+        &lt;action2&gt; (b);
+};
+</programlisting>
 
         <para>Again, it is normally the case that the factoring process will
           remove this problem, but if the same predicate uses different
@@ -2025,18 +2025,18 @@ rule1 = {
 
         <programlisting>
 rule1 = {
-    terminal1 ;
-  ||
-    $ ;
-} ;
+        terminal1;
+    ||
+        $;
+};
 
 rule2 = {
-  rule1 ;
-    terminal1 ;
-  ||
-    terminal2 ;
-} ;
-        </programlisting>
+        rule1;
+        terminal1;
+    ||
+        terminal2;
+};
+</programlisting>
 
         <para>The alternatives listed are the alternatives which call the
           rule, and contain (some of) the named terminals after the call. The
@@ -2055,19 +2055,19 @@ rule2 = {
 
         <programlisting>
 rule1 = {
-    ? = &lt;predicate&gt; ;
-  ||
-    $ ;
-} ;
+        ? = &lt;predicate&gt;;
+    ||
+        $;
+};
 
 rule2 = {
-    terminal1 ;
-    rule1 ;
-    ? = &lt;predicate&gt; ;
-  ||
-    terminal2 ;
-} ;
-        </programlisting>
+        terminal1;
+        rule1;
+        ? = &lt;predicate&gt;;
+    ||
+        terminal2;
+};
+</programlisting>
 
         <para>The alternatives listed are the alternatives which call the
           rule, and contain (some of) the named predicates after the call. The
@@ -2083,11 +2083,11 @@ rule2 = {
 
         <programlisting>
 rule1 = {
-    &lt;action1&gt; ;
-  ||
-    &lt;action2&gt; ;
-} ;
-        </programlisting>
+        &lt;action1&gt;;
+    ||
+        &lt;action2&gt;;
+};
+</programlisting>
 
       </simplesect>
     </sect1>
