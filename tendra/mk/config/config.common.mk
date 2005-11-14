@@ -80,8 +80,7 @@ config-create:
 	@echo ${BIN_UNAME}
 	@${BIN_TEST} -x "${BIN_UNAME}"
 	@echo "===> Writing configuration"
-	@cat ${SRC_DIR}/mk/misc/default.config.mk \
-	|sed ${SED_OPT_VAR} \
+	@${BIN_SED} ${SED_OPT_VAR} ${SRC_DIR}/mk/misc/default.config.mk \
 	> ${SRC_DIR}/config.mk
 	@echo "Config file created! You can find it at: ${SRC_DIR}/config.mk"
 .endif
