@@ -43,8 +43,8 @@ BUILD_OS=	${ARCH}
 BUILD_OS=	osf1
 .endif
 
-.include "../def/def.${BUILD_OS}.mk"
 .include "../config/config.${BUILD_OS}.mk"
+.include "../def/def.${BUILD_OS}.mk"
 .endif
 .endfor
 
