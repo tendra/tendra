@@ -29,8 +29,7 @@ SRC_ENV=	@SRC_ENV@
 SRC_MACHINES=	@SRC_MACHINES@
 
 BUILD_OS=	@BUILD_OS@
-OBJ_ENV=	${OBJ_PREFIX}/@OBJ_ENV@
-DEFAULT_BUILD=	${OBJ_ENV}/${SRC_ENV}/default-build
+DEFAULT_BUILD=	${OBJ_PREFIX}/lib/env/${SRC_ENV}/default-build
 
 .include "${SRC_DIR}/mk/def/def.@MACH_OS_LCASE@.mk"
 

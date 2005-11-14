@@ -26,7 +26,6 @@ SED_OPT_VAR=	\
 	-e "s|@SRC_ENV@|${SRC_ENV}|g" \
 	-e "s|@SRC_MACHINES@|${SRC_MACHINES}|g" \
 	-e "s|@OBJ_PREFIX@|${SRC_DIR}/obj|g" \
-	-e "s|@OBJ_ENV@|lib/env/${ENV_SRC}|g" \
 	-e "s|@MAN_COMPRESS@|${MAN_COMPRESS}|g" \
 	-e "s|@MAN_INSTALL@|${MAN_INSTALL}|g" \
 	-e "s|@PREFIX@|${PREFIX}|g"
