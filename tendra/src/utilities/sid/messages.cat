@@ -78,7 +78,7 @@ code_undefined_result(ccp: file, unsigned: line, EntryP: identifier_name)
 bad_id_substitution(ccp: file, unsigned: line, EntryP: identifier_name)
 {
 	USAGE: ERROR
-	KEY(STD) file": "line: "substituted identifier '"identifier_name"'
+	KEY(STD) file": "line": substituted identifier '"identifier_name"'
 		 is not a parameter or result"
 }
 
