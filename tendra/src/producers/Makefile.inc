@@ -4,7 +4,7 @@ CFLAGS+= -I${.CURDIR} -I. ${SRCDIRS:S|^|-I${.CURDIR}/../|}
 CFLAGS+= -I${SRC_DIR}/src/include
 
 .PATH : ${.CURDIR} ${SRCDIRS:S|^|${.CURDIR}/../|}
-SID_OPTS=	-l ansi-c -s numeric -s split -s no-lines
+SID_OPTS=	-l ansi-c -s split -s no-lines
 
 # common/construct
 SRCS+=	access.c allocate.c assign.c basetype.c cast.c check.c \
