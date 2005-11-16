@@ -64,6 +64,7 @@ static BoolT tdf_bs_read_byte(struct tdf_stream *, ByteT *);
 static void tdf_bs_rewind(struct tdf_stream *);
 static void tdf_bs_write_byte(struct tdf_stream *, ByteT);
 static void tdf_bs_write(struct tdf_stream *, size_t, const ByteT *);
+static void tdf_bs_seek(struct tdf_stream *, unsigned long);
 
 static struct tdf_chunk *
 tdf_bs_alloc_chunk(struct tdf_bstream *sp)
@@ -119,6 +120,7 @@ tdf_bs_create(FILE *f, tdf_stream_mode mode, void *link)
 	sp->s.ts_rewind = tdf_bs_rewind;
 	sp->s.ts_read = tdf_bs_read;
 	sp->s.ts_read_byte = tdf_bs_read_byte;
+	sp->s.ts_seek = tdf_bs_seek;
 	if (mode == TDFS_MODE_WRITE) {
 		sp->s.ts_write = tdf_bs_write;
 		sp->s.ts_write_byte = tdf_bs_write_byte;
@@ -171,7 +173,8 @@ tdf_bs_read(struct tdf_stream *asp, size_t n, void *dest)
 		}
 		if (n < toread)
 			toread = n;
-		memcpy(dp, chp->tc_data + bytecnt, toread);
+		if (dest)
+			memcpy(dp, chp->tc_data + bytecnt, toread);
 		bytecnt += toread;
 		chp->tc_offset = bytecnt;
 		nread += toread;
@@ -216,6 +219,25 @@ tdf_bs_rewind(struct tdf_stream *asp)
 	asp->ts_mode = TDFS_MODE_READ;
 	sp->ts_last = sp->ts_first;
 	sp->ts_first->tc_offset = 0;
+}
+
+static void
+tdf_bs_seek(struct tdf_stream *asp, unsigned long off)
+{
+	unsigned long curofs;
+
+	curofs = tdf_pos_offset(asp->ts_pos);
+	if (off == curofs)
+		return;
+	if (off > curofs) {
+		off -= curofs;
+	} else {
+		tdf_bs_rewind(asp);
+	}
+	if (off)
+		off--;
+	if (tdf_bs_read(asp, off, NULL) != off)
+		MSG_fatal_tdf_stream_seek_error(asp);
 }
 
 /*
