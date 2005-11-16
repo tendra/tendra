@@ -81,6 +81,7 @@ tdf_stream_init(struct tdf_stream *sp, tdf_stream_mode mode, const char *name)
 	sp->ts_pos = 0;
 	sp->ts_need_byte = 1;	/* indicate that the byte buffer is empty */
 	sp->ts_eof = 0;
+	sp->ts_startgap = 0;
 }
 
 /*
@@ -132,6 +133,8 @@ tdf_stream_rewind(struct tdf_stream *sp)
 {
 	tdf_stream_flush(sp);
 	TDF_STREAM_REWIND(sp);
+	if (sp->ts_startgap)
+		(void)tdf_de_bits(sp, sp->ts_startgap);
 }
 
 void

@@ -52,6 +52,7 @@ struct tdf_stream {
 	ByteT			ts_byte;
 	int				ts_need_byte;
 	int				ts_eof;
+	int				ts_startgap;
 	size_t			ts_tdfintlen;
     void *			ts_link;		/* user defined field */
 	ByteT			ts_tdfint[TDFINT_MAXLEN + 1];
