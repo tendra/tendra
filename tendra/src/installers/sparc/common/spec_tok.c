@@ -99,12 +99,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		exp arg1;
 		exp id;
 		exp env_o;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 
 		if (name(arg1) != name_tag) failer("Not a tag in va_start");
 		id = son(arg1);
@@ -125,13 +121,9 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		shape s, s1;
 		exp id, ass, con;
 		exp_list el;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		s = d_shape();
-		set_place(old_place);
 
 		s1 = s;
 		if (sparccpd(s)) {
@@ -159,14 +151,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strcmp(t->tok_name,"~next_caller_offset") == 0) {
 		exp arg1;
 		shape s1, s2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		s1 = d_shape();
 		s2 = d_shape();
-		set_place(old_place);
 		caller_offset_used = 1;
 
 		if (sparccpd(s1)) {
@@ -182,14 +170,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strcmp(t->tok_name,"~next_callee_offset") == 0) {
 		exp arg1;
 		shape s1, s2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		s1 = d_shape();
 		s2 = d_shape();
-		set_place(old_place);
 
 		tkv.tk_exp = hold_check (f_offset_pad (f_parameter_alignment (s2),
 											   f_offset_pad (f_alignment (s2),
@@ -201,12 +185,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 	if (strcmp(t->tok_name, "~alloca") == 0) {
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 		tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
 									  arg1, alloca_tag));
 		*done = 1;
@@ -222,10 +202,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 	if (strcmp(t->tok_name, "__sparc_special") == 0) {
 		exp arg;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg = d_exp();
 		assert(name(arg) == val_tag);
 		if (no(arg) == 0) {
@@ -236,7 +213,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,null_tag);
 			*done = 1;
 		}
-		set_place(old_place);
 		return tkv;
 	}
 
@@ -250,17 +226,11 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		|| strcmp(t->tok_name, "~dg_exp") == 0
 #endif
 		) {
-		tdf_pos old_place;
-
-		old_place = keep_place();
-		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
 
-		if (!diagnose) {
-			set_place(old_place);
+		if (!diagnose)
 			return tkv;
-		}
 
 		if (strcmp(t->tok_name, "~exp_to_source") == 0) {
 #ifdef NEWDIAGS
@@ -276,7 +246,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			crt_charno = natint(di->data.source.end.char_off);
 			crt_flnm = di->data.source.beg.file->file.ints.chars;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -291,7 +260,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -306,7 +274,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -319,14 +286,12 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
 #ifdef NEWDIAGS
 		if (strcmp(t->tok_name, "~dg_exp") == 0) {
 			tkv.tk_exp = read_dg_exp (tkv.tk_exp);
-			set_place(old_place);
 			return tkv;
 		}
 #endif
@@ -336,11 +301,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strncmp(t->tok_name, "~asm", 4) == 0) {
 		int prp;
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
 		if (strcmp(t->tok_name, "~asm") == 0) {
-			set_place(pars);
 			arg1 = hold_check (f_make_nof_int (ucharsh, d_string()));
 			prp = 1;
 		} else {
@@ -354,10 +316,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 				prp = 8;
 			else
 				return tkv;
-			set_place(pars);
 			arg1 = hold_check (d_exp());
 		}
-		set_place(old_place);
 		tkv.tk_exp = getexp (f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);
 		setfather (tkv.tk_exp, arg1);
 		*done = 1;

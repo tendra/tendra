@@ -58,7 +58,8 @@
 #ifndef TOKTYPES_INCLUDED
 #define	TOKTYPES_INCLUDED
 
-typedef tdf_pos bitstream;
+struct tdf_stream;
+typedef struct tdf_stream* bitstream;
 typedef tdf_pos bytestream;
 
 typedef struct sortname_t {
@@ -139,7 +140,7 @@ struct tok_define_t {
 		int			number;			/* total number of parameters */
 	} params;
 	sortname	tdsort;				/* sort of token result */
-	tdf_pos		tdplace;			/* place to read definition from */
+	struct tdf_stream*	tdstream;		/* stream to read definition from */
 	int			unit_number;		/* number of unit in which defined */
 	union tokval_u tdvalue;			/* preserved value if valpresent */
 	int			tok_index;			/* index number of this token */

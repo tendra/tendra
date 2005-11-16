@@ -1542,7 +1542,7 @@ relative_exp(shape s, token t)
 	exp id = me_startid (s, f_make_value (s), 0);
 	tokval tv;
 	tv.tk_exp = me_obtain (id);
-	tv = apply_tok(t, keep_place(), EXP_S, &tv);
+	tv = apply_tok(t, get_tdf_stream(), EXP_S, &tv);
 	IGNORE me_complete_id (id, hold_check (tv.tk_exp));
 	return hold(id);
 }

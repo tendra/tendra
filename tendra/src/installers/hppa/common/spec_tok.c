@@ -98,12 +98,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		exp arg1;
 		exp id;
 		exp env_o;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 		if (name(arg1) != name_tag) failer("Not a tag in va_start");
 		id = son(arg1);
 
@@ -121,30 +117,22 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 #if is80x86
 	if (strcmp(t->tok_name, "~div") == 0) {
 		exp arg1, arg2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
 
-		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
 		*done = 1;
 		return tkv;
 	}
 	if (strcmp(t->tok_name, "~arith_type") == 0) {
 		int a, b;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
 		sn = d_signed_nat();
 		b = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = arith_type(a, b);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -152,14 +140,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~promote") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = promote(a);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -167,14 +151,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~sign_promote") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = sign_promote(a);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -182,14 +162,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~convert") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		tkv.tk_variety = convert((unsigned)a);
 		*done = 1;
 		return tkv;
@@ -200,14 +176,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strcmp(t->tok_name,"~next_caller_offset") == 0) {
 		exp arg1, arg2;
 		shape sha1, sha2, sha3;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		sha1 = d_shape();
 		sha2 = d_shape();
-		set_place(old_place);
 		sha3 = (shape_size(sha2) > 64 ? f_pointer(f_alignment(sha2)) :
 				(shape_size(sha2) < 32 ? swordsh : sha2));
 		arg2 = hold_check(f_offset_pad(f_parameter_alignment(sha3),
@@ -230,14 +202,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strcmp(t->tok_name,"~next_callee_offset") == 0) {
 		exp arg1, arg2, off;
 		shape sha1, sha2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		sha1 = d_shape();
 		sha2 = d_shape();
-		set_place(old_place);
 		arg2 = hold_check(f_offset_pad(f_parameter_alignment(sha1),
 									   f_shape_offset(sha1)));
 		off = hold_check(me_b3(f_offset(al1_of(sh(arg1)),
@@ -254,12 +222,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 	if (strcmp(t->tok_name,"~alloc_size") == 0) {
 		exp off,off1,arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 		off1 = hold_check(f_offset_pad(SLONG_ALIGN,arg1));
 		off = hold_check(me_b3(f_offset(al1_of(sh(off1)),
 										SLONG_ALIGN),
@@ -273,12 +237,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 	if (strcmp(t->tok_name, "~alloca") == 0) {
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 		tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
 									  arg1, alloca_tag));
 		*done = 1;
@@ -291,16 +251,11 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		strcmp(t->tok_name, "~diag_type_scope") == 0 ||
 		strcmp(t->tok_name, "~diag_tag_scope") == 0) {
 
-		tdf_pos old_place;
-		old_place = keep_place();
-		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
 
-		if (!diagnose) {
-			set_place(old_place);
+		if (!diagnose)
 			return tkv;
-		}
 
 		if (strcmp(t->tok_name, "~exp_to_source") == 0) {
 			exp r;
@@ -314,7 +269,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -327,7 +281,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -340,7 +293,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -353,7 +305,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			setfather(r, tkv.tk_exp);
 			dno(r) = di;
 			tkv.tk_exp = r;
-			set_place(old_place);
 			return tkv;
 		}
 

@@ -58,7 +58,6 @@
 #ifndef BASICREAD_INCLUDED
 #define BASICREAD_INCLUDED
 
-
 char initreader(char *);
 void endreader(void);
 void failer(char *);
@@ -66,11 +65,13 @@ void failer(char *);
 unsigned long getcode(unsigned int);
 int  get_big_code(unsigned int);
 
-tdf_pos keep_place(void);
-void set_place(tdf_pos);
+struct tdf_stream* get_tdf_stream(void);
+void set_tdf_stream(struct tdf_stream *);
 int  small_dtdfint(void);
 void to_boundary(void);
 bitstream d_bitstream(void);
+void skip_bitstream(struct tdf_stream *);
+struct tdf_stream *copy_tdfstream(struct tdf_stream *, unsigned long);
 
 void start_bytestream(void);
 bytestream d_bytestream(void);

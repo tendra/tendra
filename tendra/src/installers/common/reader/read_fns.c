@@ -66,6 +66,8 @@
 #include "config.h"
 #include "cstring.h"
 #include "fmm.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "common_types.h"
 #include "basicread.h"
@@ -257,11 +259,8 @@ f_procprops_apply_token(token token_value, bitstream token_args)
 procprops
 f_procprops_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	procprops res;
 	int n;
-
-	bs = keep_place();
 
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
@@ -270,14 +269,15 @@ f_procprops_cond(exp control, bitstream e1, bitstream e2)
 	retcell(control);
 	if (n == 0) {
 		/* use the second bitstream */
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_procprops();
 	} else {
 		/* use the first bitstream */
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_procprops();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -294,11 +294,8 @@ f_string_apply_token(token token_value, bitstream token_args)
 string
 f_string_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	string res;
 	int n;
-
-	bs = keep_place();
 
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
@@ -307,14 +304,15 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 	retcell(control);
 	if (n == 0) {
 		/* use the second bitstream */
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_string();
 	} else {
 		/* use the first bitstream */
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_string();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -332,11 +330,8 @@ f_alignment_apply_token(token token_value, bitstream token_args)
 alignment
 f_alignment_cond(exp control, bitstream e1,  bitstream e2)
 {
-	bitstream bs;
 	alignment res;
 	int n;
-
-	bs = keep_place();
 
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
@@ -345,14 +340,15 @@ f_alignment_cond(exp control, bitstream e1,  bitstream e2)
 	retcell(control);
 	if (n == 0) {
 		/* use the second bitstream */
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_alignment();
 	} else {
 		/* use the first bitstream */
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_alignment();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -369,11 +365,8 @@ f_access_apply_token(token token_value, bitstream token_args)
 access
 f_access_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	access res;
 	int n;
-
-	bs = keep_place();
 
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
@@ -382,14 +375,15 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 	retcell(control);
 	if (n == 0) {
 		/* use the second bitstream */
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_access();
 	} else {
 		/* use the first bitstream */
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_access();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -406,11 +400,8 @@ f_transfer_mode_apply_token(token token_value, bitstream token_args)
 transfer_mode
 f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	transfer_mode res;
 	int n;
-
-	bs = keep_place();
 
     /* the control must evaluate to a constant */
 	if (name(control) != val_tag)
@@ -419,14 +410,15 @@ f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 	retcell(control);
 	if (n == 0) {
 		/* use the second bitstream */
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_transfer_mode();
 	} else {
 		/* use the first bitstream */
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_transfer_mode();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -443,23 +435,22 @@ f_bfvar_apply_token(token token_value, bitstream token_args)
 bitfield_variety
 f_bfvar_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	bitfield_variety res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_bitfield_variety();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_bitfield_variety();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -475,23 +466,22 @@ f_bool_apply_token(token token_value, bitstream token_args)
 bool
 f_bool_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	bool res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_bool();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_bool();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -644,23 +634,22 @@ f_errt_apply_token(token token_value, bitstream token_args)
 error_treatment
 f_errt_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	error_treatment res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_error_treatment();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_error_treatment();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -676,23 +665,22 @@ f_exp_apply_token(token token_value, bitstream token_args)
 exp
 f_exp_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	exp res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_exp();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_exp();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -743,23 +731,22 @@ f_flvar_apply_token(token token_value, bitstream token_args)
 floating_variety
 f_flvar_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	floating_variety res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_floating_variety();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_floating_variety();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -797,23 +784,22 @@ f_nat_apply_token(token token_value, bitstream token_args)
 nat
 f_nat_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	nat res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_nat();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_nat();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -829,23 +815,22 @@ f_ntest_apply_token(token token_value, bitstream token_args)
 ntest
 f_ntest_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	ntest res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_ntest();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_ntest();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -861,23 +846,22 @@ f_rounding_mode_apply_token(token token_value, bitstream token_args)
 rounding_mode
 f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	rounding_mode res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_rounding_mode();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_rounding_mode();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -892,23 +876,22 @@ f_shape_apply_token(token token_value, bitstream token_args)
 shape
 f_shape_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	shape res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_shape();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_shape();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 
@@ -924,23 +907,22 @@ f_signed_nat_apply_token(token token_value, bitstream token_args)
 signed_nat
 f_signed_nat_cond(exp control, bitstream e1,  bitstream e2)
 {
-	bitstream bs;
 	signed_nat res;
 	int n;
 
-	bs = keep_place();
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_signed_nat();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_signed_nat();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 
 }
@@ -1304,18 +1286,18 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
 {
 	sortname result_sort;
 	tokformals_list params;
-	tdf_pos old_place;
+	tdf_pos bspos, bslen;
 	tok_define * tok = get_tok(natint(tokn));
 
 	if (sig.present) check_tok_sig(tok, sig.val);
-	old_place = keep_place();
-	set_place(def);
+	bslen = tdf_de_tdfintl(tdfr);
+	bspos = tdf_stream_tell(tdfr);
 	IGNORE getcode(1);
 	result_sort = d_sortname();
 	params = d_tokformals_list();
 	tok->tdsort = result_sort;
 	tok->params = params;
-	tok->tdplace = keep_place();
+	tok->tdstream = copy_tdfstream(tdfr, bslen - (tdf_stream_tell(tdfr) - bspos));
 	tok->defined = 1;
 	tok->tok_context = (context*)0;
 
@@ -1331,8 +1313,6 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
 		tok->re_evaluate = 0;
 	else
 		tok->re_evaluate = 1;
-
-	set_place(old_place);
 	return 0;
 }
 
@@ -1342,10 +1322,10 @@ f_use_tokdef(bitstream def)
 	token tok = (token)xcalloc(1, sizeof(tok_define)) /* space thief ?*/;
 	sortname result_sort;
 	tokformals_list params;
-	tdf_pos old_place;
+	tdf_pos bspos, bslen;
 
-	old_place = keep_place();
-	set_place(def);
+	bslen = tdf_de_tdfintl(tdfr);
+	bspos = tdf_stream_tell(tdfr);
 	IGNORE getcode(1);
 	result_sort = d_sortname();
 	params = d_tokformals_list();
@@ -1357,7 +1337,7 @@ f_use_tokdef(bitstream def)
 	tok->recursive = 0;
 	tok->tdsort = result_sort;
 	tok->params = params;
-	tok->tdplace = keep_place();
+	tok->tdstream = copy_tdfstream(tdfr, bslen - (tdf_stream_tell(tdfr) - bspos));
 	tok->defined = 1;
 	tok->tok_context = crt_context;
 
@@ -1374,8 +1354,6 @@ f_use_tokdef(bitstream def)
 		tok->re_evaluate = 0;
 	else
 		tok->re_evaluate = 1;
-
-	set_place(old_place);
 	return tok;
 }
 
@@ -1526,22 +1504,22 @@ f_var_apply_token(token token_value, bitstream token_args)
 variety
 f_var_cond(exp control, bitstream e1, bitstream e2)
 {
-	bitstream bs;
 	variety res;
 	int n;
-	bs = keep_place();
+
 	if (name(control) != val_tag)
 		failer(CONTROL_EXP);
 	n = no(control);
 	retcell(control);
 	if (n == 0) {
-		set_place(e2);
+		skip_bitstream(e1);
+		tdf_de_tdfintl(e2);
 		res = d_variety();
 	} else {
-		set_place(e1);
+		tdf_de_tdfintl(e1);
 		res = d_variety();
+		skip_bitstream(e2);
 	}
-	set_place(bs);
 	return res;
 }
 

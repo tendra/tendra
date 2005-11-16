@@ -59,6 +59,8 @@
 
 #include "config.h"
 #include "fmm.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "common_types.h"
 #include "readglob.h"
@@ -210,14 +212,23 @@ set_tag(tag tg, exp e)
 tokval
 apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 {
+	TDFINTL bsend;
+
+	bsend = tdf_de_tdfintl(pars);	/* pars.length */
+	bsend += tdf_stream_tell(pars);
+
 	if (td->tok_special || td->defined == 0) {
 		/* handle the special tokens */
 		tokval tkv;
 		int done = 0;
 
 		tkv = special_token(td, pars, sortcode, &done);
-		if (done)
+		if (done) {
+			/* Special token handler may not read an entire bitstream */
+			if (tdf_stream_tell(pars) < bsend)
+				tdf_skip_bits(pars, bsend - tdf_stream_tell(pars));
 			return tkv;
+		}
 	}
 
 	if (td->defined == 0) {
@@ -253,7 +264,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 		context *old_context = crt_context;
 
 		tokval val;
-		tdf_pos old_place;  /* to record the current place in the input stream */
+		struct tdf_stream *old_stream;
 		tok_define *new_bindings;
 		int i,j;
 		dec **old_tagtab;		/* to remember the current tag table */
@@ -294,8 +305,6 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 			}
 		}
 
-		old_place = keep_place();  /* remember the current input stream */
-		set_place(pars);
 
 		/* now set up the new parameter bindings */
 		if (npars > LOCAL_TOKS) {
@@ -349,8 +358,6 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 			new_bindings[i].tok_context = crt_context;
 		}
 
-		set_place(td->tdplace);  /* set up the place to read the definition */
-
 		new_context.recursive = td->recursive;
 		new_context.outer = td->tok_context;
 		new_context.tags = (tag_con *)0;
@@ -371,10 +378,16 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 
 		/* read the body of the definition */
 		td->recursive = 1;  /* set up to detect recursion */
+
+		old_stream = get_tdf_stream();
+		tdf_stream_rewind(td->tdstream);
+
+		set_tdf_stream(td->tdstream);  /* set up the stream to read the definition */
 		val = read_sort(sortcode);
+		set_tdf_stream(old_stream);  /* restore the place in the input stream */
+
 		td->recursive = new_context.recursive;
 
-		set_place(old_place);  /* restore the place in the input stream */
 
 		new_bindings = &new_context.loctoks[0];
 

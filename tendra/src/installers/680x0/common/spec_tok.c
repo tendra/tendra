@@ -93,12 +93,8 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     /* alloca */
     if (strcmp (t->tok_name, "~alloca") == 0) {
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place ();
-		set_place (pars);
 		arg1 = hold_check (d_exp ());
-		set_place (old_place);
 		tkv.tk_exp = hold_check (me_u3 (f_pointer (long_to_al (8)),
 										arg1, alloca_tag));
 		*done = 1;
@@ -111,16 +107,11 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 		strcmp (t->tok_name, "~diag_id_scope") == 0 ||
 		strcmp (t->tok_name, "~diag_type_scope") == 0 ||
 		strcmp (t->tok_name, "~diag_tag_scope") == 0) {
-		tdf_pos old_place;
 
-		old_place = keep_place ();
-		set_place (pars);
 		tkv.tk_exp = hold_check (d_exp ());
 		*done = 1;
-		if (!diagnose) {
-			set_place (old_place);
+		if (!diagnose)
 			return (tkv);
-		}
 		if (strcmp (t->tok_name, "~exp_to_source") == 0) {
 			exp r;
 			diag_info *di = read_exp_to_source ();
@@ -132,7 +123,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			setfather (r, tkv.tk_exp);
 			dno (r) = di;
 			tkv.tk_exp = r;
-			set_place (old_place);
 			return (tkv);
 		}
 		if (strcmp (t->tok_name, "~diag_id_scope") == 0) {
@@ -143,7 +133,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			setfather (r, tkv.tk_exp);
 			dno (r) = di;
 			tkv.tk_exp = r;
-			set_place (old_place);
 			return (tkv);
 		}
 		if (strcmp (t->tok_name, "~diag_type_scope") == 0) {
@@ -154,7 +143,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			setfather (r, tkv.tk_exp);
 			dno (r) = di;
 			tkv.tk_exp = r;
-			set_place (old_place);
 			return (tkv);
 		}
 		if (strcmp (t->tok_name, "~diag_tag_scope") == 0) {
@@ -165,7 +153,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			setfather (r, tkv.tk_exp);
 			dno (r) = di;
 			tkv.tk_exp = r;
-			set_place (old_place);
 			return (tkv);
 		}
     }

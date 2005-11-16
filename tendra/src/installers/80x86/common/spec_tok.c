@@ -90,23 +90,16 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 	if (strcmp(t->tok_name, "JMFprofile") == 0)  {
 		nat n;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		n = d_nat();
 
-		set_place(old_place);
 		tkv.tk_exp = f_profile(n);
 		*done = 1;
 		return tkv;
 	}
 	if (strcmp(t->tok_name, "JMFinline") == 0)  {
 		exp s;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		IGNORE d_shape();
 		s = d_exp();
 		if (name(s) == apply_tag)
@@ -119,35 +112,26 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 
 		s = hold_check(s);
 
-		set_place(old_place);
 		tkv.tk_exp = s;
 		*done = 1;
 		return tkv;
 	}
 	if (strcmp(t->tok_name, "~div") == 0)  {
 		exp arg1, arg2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
 
-		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
 		*done = 1;
 		return tkv;
 	}
 	if (strcmp(t->tok_name, "~rem") == 0)  {
 		exp arg1, arg2;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
 
-		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, rem0_tag);
 		*done = 1;
 		return tkv;
@@ -155,16 +139,12 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 #ifdef INBUILT_PROMOTE
 	if (strcmp(t->tok_name, "~arith_type") == 0) {
 		int a, b;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
 		sn = d_signed_nat();
 		b = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = arith_type(a, b);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -172,14 +152,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~promote") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = promote(a);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -187,14 +163,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~sign_promote") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		snatint(sn) = sign_promote(a);
 		tkv.tk_signed_nat = sn;
 		*done = 1;
@@ -202,14 +174,10 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	}
 	if (strcmp(t->tok_name, "~convert") == 0) {
 		int a;
-		tdf_pos old_place;
 		signed_nat sn;
 
-		old_place = keep_place();
-		set_place(pars);
 		sn = d_signed_nat();
 		a = snatint(sn);
-		set_place(old_place);
 		tkv.tk_variety = convert((unsigned)a);
 		*done = 1;
 		return tkv;
@@ -217,12 +185,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 #endif
 	if (strcmp(t->tok_name, "~alloca") == 0)  {
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
-		set_place(pars);
 		arg1 = hold_check(d_exp());
-		set_place(old_place);
 		tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
 									  arg1, alloca_tag));
 		*done = 1;
@@ -238,18 +202,11 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		|| strcmp(t->tok_name, "~dg_exp" == 0)
 #endif
 		)  {
-
-		tdf_pos old_place;
-
-		old_place = keep_place();
-		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
 
-		if (!diagnose) {
-			set_place(old_place);
+		if (!diagnose)
 			return tkv;
-        }
 
 		if (strcmp(t->tok_name, "~exp_to_source") == 0) {
 #ifdef NEWDIAGS
@@ -265,7 +222,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			crt_charno = natint(di->data.source.end.char_off);
 			crt_flnm = di->data.source.beg.file->file.ints.chars;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -280,7 +236,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -295,7 +250,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
@@ -308,14 +262,12 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 #endif
-			set_place(old_place);
 			return tkv;
 		}
 
 #ifdef NEWDIAGS
 		if (strcmp(t->tok_name, "~dg_exp") == 0) {
 			tkv.tk_exp = read_dg_exp (tkv.tk_exp);
-			set_place(old_place);
 			return tkv;
 		}
 #endif
@@ -325,11 +277,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	if (strncmp(t->tok_name, "~asm", 4) == 0) {
 		int prp;
 		exp arg1;
-		tdf_pos old_place;
 
-		old_place = keep_place();
 		if (strcmp(t->tok_name, "~asm") == 0) {
-			set_place(pars);
 			arg1 = hold_check (f_make_nof_int (ucharsh, d_string()));
 			prp = 1;
 		} else {
@@ -343,10 +292,8 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 				prp = 8;
 			else
 				return tkv;
-			set_place(pars);
 			arg1 = hold_check (d_exp());
 		}
-		set_place(old_place);
 		tkv.tk_exp = getexp (f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);
 		setfather (tkv.tk_exp, arg1);
 		*done = 1;

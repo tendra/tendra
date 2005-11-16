@@ -115,11 +115,8 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 
   if (!strcmp(t -> tok_name, "~alloca"))  {
     exp arg1;
-    tdf_pos old_place;
-    old_place = keep_place();
-    set_place(pars);
+
     arg1 = hold_check(d_exp());
-    set_place(old_place);
     tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
 				  arg1, alloca_tag));
     *done = 1;
@@ -130,11 +127,9 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     /* builtin function taking a TYPE argument and returning 
        TRUE if the argument is float,double or long double and FALSE
        otherwise */
-    tdf_pos old_place;
     shape arg;
     signed_nat lower,upper,resval;
-    old_place=keep_place();
-    set_place(pars);
+
     arg = d_shape();
     resval.issmall=lower.issmall=upper.issmall=1;
     resval.negative=lower.negative=upper.negative=0;
@@ -147,7 +142,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       resval.signed_nat_val.small_s_nat=0;
     }
     tkv.tk_exp = f_make_int(slongsh,resval);
-    set_place(old_place);
     *done=1;
     return tkv;
   }
@@ -168,8 +162,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     /* This is a means of invoking alpha assembler instructions from a
        TDF file */
     exp arg;
-    tdf_pos old_place = keep_place();
-    set_place(pars);
+
     arg = d_exp();
     Assert(name(arg) == val_tag);
     if(no(arg) == 0){
@@ -183,7 +176,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,null_tag);
       *done = 1;
     }
-    set_place(old_place);
     return tkv;
   }
     
@@ -194,7 +186,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
        The pointer field of the compound is set equal to the 64
        bit integer, and the integer field is set to 8.
        */
-    tdf_pos old_place;
     exp arg1,arg2,arg3;		/* parameters of the token */
     exp_list list;		/* list of exps used to construct the 
 			       result sequence */
@@ -203,8 +194,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     exp component1;	
     exp component2;		/* the components of the exp */
     exp copy_of_compound;
-    old_place = keep_place();
-    set_place(pars);
     arg1 = d_exp();
     arg2 = d_exp();
     arg3 = d_exp(); /* don't care */
@@ -228,7 +217,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     list.number = 2;
     tkv.tk_exp = f_sequence(list,res);
     kill_exp(arg3,arg3);
-    set_place(old_place);
     *done=1;
     return tkv;
   }
@@ -237,16 +225,13 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       !strcmp(t -> tok_name, "~diag_id_scope") ||
       !strcmp(t -> tok_name, "~diag_type_scope") ||
       !strcmp(t -> tok_name, "~diag_tag_scope"))  {
-    tdf_pos old_place;
-    old_place = keep_place();
-    set_place(pars);
+
     tkv.tk_exp = hold_check(d_exp());
     *done = 1;
     
-    if (!diagnose){
-      set_place(old_place);
+    if (!diagnose)
       return tkv;
-    }
+
     if (!strcmp(t -> tok_name, "~exp_to_source")){
       exp r;
       diag_info * di = read_exp_to_source();
@@ -258,7 +243,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       setfather(r, tkv.tk_exp);
       dno(r) = di;
       tkv.tk_exp = r;
-      set_place(old_place);
       return tkv;
     }
     if (!strcmp(t -> tok_name, "~diag_id_scope")){
@@ -269,7 +253,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       setfather(r, tkv.tk_exp);
       dno(r) = di;
       tkv.tk_exp = r;
-      set_place(old_place);
       return tkv;
     }
     if (!strcmp(t -> tok_name, "~diag_type_scope")){
@@ -280,7 +263,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       setfather(r, tkv.tk_exp);
       dno(r) = di;
       tkv.tk_exp = r;
-      set_place(old_place);
       return tkv;
     }
     if (!strcmp(t -> tok_name, "~diag_tag_scope")){
@@ -291,7 +273,6 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       setfather(r, tkv.tk_exp);
       dno(r) = di;
       tkv.tk_exp = r;
-      set_place(old_place);
       return tkv;
     }
   }

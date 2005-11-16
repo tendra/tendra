@@ -161,24 +161,23 @@ get_big_code(unsigned int n)
 }
 
 /*
- * Return current position in the input stream.
+ * Return currently active TDF stream.
  */
-tdf_pos
-keep_place(void)
+struct tdf_stream*
+get_tdf_stream(void)
 {
-	return tdf_stream_tell (tdfr);
+	return tdfr;
 }
 
 
 /*
- * Set new position in the input stream.
+ * Set new TDF stream.
  */
 void
-set_place(tdf_pos pos)
+set_tdf_stream(struct tdf_stream *s)
 {
-	tdf_stream_seek (tdfr, pos);
+	tdfr = s;
 }
-
 
 /*
  * Read one TDF integer using getcode. TDF integers are encoded as a number of
@@ -205,19 +204,61 @@ to_boundary(void)
 	return;
 }
 
+void
+skip_bitstream(struct tdf_stream *sp)
+{
+	tdf_skip_bits(sp, tdf_de_tdfintl(tdfr));
+}
+
+struct tdf_stream*
+copy_tdfstream(struct tdf_stream *src, unsigned long len)
+{	
+	struct tdf_stream *dst;
+	ByteT cpbuf[16];
+	unsigned int ncp, ncpbits;
+
+	dst = tdf_bs_create(NULL, TDFS_MODE_WRITE, NULL);
+	ncpbits = tdf_pos_bit(src->ts_pos);
+	if (ncpbits) {
+		/* read unaligned stream */
+		dst->ts_startgap = ncpbits;
+		tdf_en_bits(dst, ncpbits, 0);
+		while (len) {
+			ncpbits = sizeof(TDFINTL) * TDF_BYTE_SIZE;
+			if (len < ncpbits)
+				ncpbits = len;
+			tdf_en_bits(dst, ncpbits, tdf_de_bits(src, ncpbits));
+			len -= ncpbits;
+		}
+	} else {
+		while (len) {
+			ncpbits = sizeof(cpbuf) * TDF_BYTE_SIZE;
+			if (len < ncpbits)
+				ncpbits = len;
+			ncp = ncpbits / TDF_BYTE_SIZE;
+			if (ncp) {
+				tdf_stream_read(src, ncp, cpbuf);
+				tdf_stream_write(dst, ncp, cpbuf);
+			}
+			ncp = ncpbits % TDF_BYTE_SIZE;
+			if (ncp) {
+				tdf_en_bits(dst, ncp, tdf_de_bits(src, ncp));
+			}
+			len -= ncpbits;
+		}
+	}
+	tdf_en_align(dst);
+	tdf_stream_rewind(dst);
+	return dst;
+}
+
 /*
- * Remeber start of the bitstream and skip over it.
+ * Actual decoding of bitstream will happen later.
  */
 bitstream
 d_bitstream(void)
 {
-	TDFINTL  length;
-	tdf_pos here;
-
-	length = tdf_de_tdfintl (tdfr);
-	here = tdf_stream_tell (tdfr);
-	tdf_stream_seek (tdfr, here + length);
-	return here;
+	return tdfr;
 }
 
 bytestream
