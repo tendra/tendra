@@ -231,11 +231,14 @@ tdf_bs_seek(struct tdf_stream *asp, unsigned long off)
 		return;
 	if (off > curofs) {
 		off -= curofs;
+		if (asp->ts_need_byte)
+			off++;
 	} else {
 		tdf_bs_rewind(asp);
 	}
-	if (off)
-		off--;
+	if (off == 0)
+		return;
+	off--;
 	if (tdf_bs_read(asp, off, NULL) != off)
 		MSG_fatal_tdf_stream_seek_error(asp);
 }

@@ -140,6 +140,17 @@ tdf_stream_rewind(struct tdf_stream *sp)
 void
 tdf_stream_seek(struct tdf_stream *sp, tdf_pos pos)
 {
+	tdf_pos diff;
+
+	if (pos == sp->ts_pos)
+		return;
+	if (pos > sp->ts_pos) {
+		diff = pos - sp->ts_pos;
+		if (diff <= TDF_BYTE_SIZE * 0) {
+			(void)tdf_de_bits(sp, diff);
+			return;
+		}
+	}
 	TDF_STREAM_SEEK(sp, tdf_pos_offset(pos));
 	sp->ts_pos = tdf_pos_align(pos);
 	sp->ts_need_byte = 1;
