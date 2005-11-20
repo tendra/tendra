@@ -1741,18 +1741,20 @@ compile_preserve(IDENTIFIER id)
 static void
 compile_weak(IDENTIFIER id, IDENTIFIER aid)
 {
-	/* Add a declaration for id. */
-	DECL_SPEC ds = DEREF_dspec (id_storage (aid));
-	if (IS_id_variable (aid)) {
-		TYPE t = DEREF_type (id_variable_type (aid));
-		id = make_object_decl (dspec_extern, t, id, 0);
-		init_object (id, NULL_exp);
-	} else if (IS_id_function (aid)) {
-		TYPE t = DEREF_type (id_function_type (aid));
-		id = make_func_decl (dspec_none, t, id, 0);
+	if (!IS_NULL_id (aid)) {
+		/* Add a declaration for id. */
+		DECL_SPEC ds = DEREF_dspec (id_storage (aid));
+		if (IS_id_variable (aid)) {
+			TYPE t = DEREF_type (id_variable_type (aid));
+			id = make_object_decl (dspec_extern, t, id, 0);
+			init_object (id, NULL_exp);
+		} else if (IS_id_function (aid)) {
+			TYPE t = DEREF_type (id_function_type (aid));
+			id = make_func_decl (dspec_none, t, id, 0);
+		}
+		ds = DEREF_dspec (id_storage (id));
+		COPY_dspec (id_storage (id), ds | dspec_used);
 	}
-	ds = DEREF_dspec (id_storage (id));
-	COPY_dspec (id_storage (id), ds | dspec_used);
 
 	if (output_capsule) {
 		ulong n;
@@ -1815,7 +1817,7 @@ static LIST (IDENTIFIER) pending_weak_symbol = NULL_list (IDENTIFIER);
 void
 add_weak_dir(IDENTIFIER id, IDENTIFIER aid)
 {
-	if (!IS_NULL_id (id) && !IS_NULL_id (aid)) {
+	if (!IS_NULL_id (id)) {
 		CONS_id (id, pending_weak_alias, pending_weak_alias);
 		CONS_id (aid, pending_weak_symbol, pending_weak_symbol);
 	}

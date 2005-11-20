@@ -2130,6 +2130,9 @@ read_weak(int dir)
 		if (!IS_NULL_id (id)) {
 			CONS_id (id, weak_ids, weak_ids);
 		}
+	} else if (!IS_NULL_id (id) && IS_id_dummy (id)) {
+		ERROR err = ERR_pragma_preserve_undecl (lex_weak, id);
+		report (preproc_loc, err);
 	}
 	add_weak_dir (id, aid);
 	if (t != lex_newline) {
