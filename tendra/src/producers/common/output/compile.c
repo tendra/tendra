@@ -111,6 +111,9 @@
 #include "variable.h"
 
 
+static void compile_weak(IDENTIFIER, IDENTIFIER);
+
+
 /*
  *    LIST OF ALL PENDING FUNCTIONS
  *
@@ -1535,6 +1538,13 @@ compile_function(IDENTIFIER id, int force)
 				COPY_dspec (id_storage (lid), ds);
 				crt_enc_loc = id_loc (lid);
 				IGNORE make_tagdef (lid, t, e, NULL_exp, 0);
+#if LANGUAGE_CPP
+				/* Create a weak symbol for for an inline functions with
+				 * external linkage. */
+				if ((ds & dspec_inline) && (ds & dspec_extern)) {
+					compile_weak (lid, NULL_id);
+				}
+#endif
 				crt_enc_loc = NULL_ptr (LOCATION);
 				free_function (lid);
 			}

@@ -345,7 +345,7 @@ capsule_id(IDENTIFIER id, int v)
 	ulong n = DEREF_ulong (id_no (lid));
 	if (n == LINK_NONE) {
 		/* Not yet given a number */
-		string s = mangle_name (lid, v, LANGUAGE_C);
+		string s = mangle_name (lid, v, 1);
 		n = capsule_no (s, v);
 		COPY_ulong (id_no (lid), n);
 		COPY_ulong (id_no (id), n);
