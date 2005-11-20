@@ -124,7 +124,7 @@ int is_redeclared = 0;
  *    const objects and the default cv-qualifiers for external objects.
  */
 
-DECL_SPEC inline_linkage = dspec_static;
+DECL_SPEC inline_linkage = dspec_extern;
 DECL_SPEC const_linkage = dspec_static;
 CV_SPEC cv_extern = cv_none;
 

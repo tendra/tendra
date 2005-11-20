@@ -192,7 +192,7 @@ USAGE:
     init_aggregate = wall,
     init_dynamic = none | error,
     init_struct = none | wall,
-    inline_internal = off | on,
+    inline_internal = off,
     inline_c99 = none | error,
     int_operator = wall,
     int_overflow = wall,
