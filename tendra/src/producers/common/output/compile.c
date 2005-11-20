@@ -2028,7 +2028,7 @@ compile_preserve(IDENTIFIER id)
  *    '#pragma weak id = aid' when TDF output is disabled.
  */
 
-void
+static void
 compile_weak(IDENTIFIER id, IDENTIFIER aid)
 {
 	UNUSED (id);
