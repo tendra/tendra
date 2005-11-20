@@ -1149,7 +1149,7 @@ unmangle_name(string s, BUFFER *bf)
 		op = unmangle_op (&s0);
 		if (op == lex_unknown) {
 #if (TDF_major < 4)
-			if (ustrseq (s, "__MAIN__") s = ustrlit ("main");
+			if (ustrseq (s, "__MAIN__")) s = ustrlit ("main");
 #endif
 				bfputs (bf, s);
 				return (NULL);
