@@ -4486,7 +4486,7 @@ check(exp e, exp scope)
 			retcell (e);
 			return (1);
 		}
-#if little_end & has_byte_ops
+#if little_end & has_byte_ops & 0
 		/* only for little enders with byte and short operations */
 		if (name (arg2) == val_tag && !isbigval(arg2) && no (arg2) == 0 &&
 			name (arg1) == and_tag &&
