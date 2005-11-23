@@ -43,6 +43,8 @@ struct tdf_fstream {
 	struct tdf_stream	s;
 	FILE *				ts_file;
 	int					ts_noclose;
+	int					ts_ispipe;
+	long				ts_filepos;
 };
 
 static void tdf_fstream_done(struct tdf_stream *);
@@ -69,6 +71,7 @@ struct tdf_stream*
 tdf_fstream_createf(FILE *f, const char *name)
 {
 	struct tdf_fstream *sp;
+	long fpos;
 
 	sp = xmalloc (sizeof (*sp));
 	tdf_stream_init(&sp->s, TDFS_MODE_READ, name);
@@ -79,6 +82,14 @@ tdf_fstream_createf(FILE *f, const char *name)
 	sp->s.ts_rewind = tdf_fstream_rewind;
 	sp->s.ts_seek = tdf_fstream_seek;
 	sp->ts_file = f;
+	fpos = ftell(f);
+	if (fpos < 0) {
+		sp->ts_ispipe = 1;
+		sp->ts_filepos = 0;
+	} else {
+		sp->ts_ispipe = 0;
+		sp->ts_filepos = fpos;
+	}
 	return (struct tdf_stream*)sp;
 }
 
@@ -101,6 +112,7 @@ tdf_fstream_read(struct tdf_stream *asp, size_t length, void *dest)
 
 	if (nread == 0 && ferror (sp->ts_file))
 		MSG_fatal_tdf_stream_read_error(asp->ts_name);
+	sp->ts_filepos += nread;
 	return nread;
 }
 
@@ -120,6 +132,7 @@ tdf_fstream_read_byte(struct tdf_stream *asp, ByteT *bp)
 			return FALSE;
 		}
 	}
+	sp->ts_filepos++;
 	*bp = (ByteT)byte;
 	return TRUE;
 }
@@ -130,6 +143,7 @@ tdf_fstream_rewind(struct tdf_stream *asp)
 	struct tdf_fstream *sp = (struct tdf_fstream *)asp;
 
 	rewind (sp->ts_file);
+	sp->ts_filepos = 0;
 	asp->ts_pos = 0;
 	asp->ts_need_byte = 1;
 	asp->ts_eof = 0;
@@ -139,7 +153,17 @@ static void
 tdf_fstream_seek(struct tdf_stream *asp, unsigned long off)
 {
 	struct tdf_fstream *sp = (struct tdf_fstream *)asp;
+	unsigned long curpos;
 
-	if (fseek (sp->ts_file, (long)off, SEEK_SET))
+	if (sp->ts_ispipe) {
+		curpos = (unsigned long)sp->ts_filepos;
+		if (off == curpos)
+			return;
+		if (off < curpos)
+			MSG_fatal_tdf_stream_seek_error(sp);
+		for (; curpos < off; curpos++)
+			(void)fgetc(sp->ts_file);
+	} else if (fseek (sp->ts_file, (long)off, SEEK_SET))
 		MSG_fatal_tdf_stream_seek_error(sp);
+	sp->ts_filepos = (long)off;
 }
