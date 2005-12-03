@@ -128,13 +128,13 @@ extern int machine_toks(char *);
 /* VARIABLES */
 /* All variables are initialised, jmf */
 
-int crt_group_type;		/* the code for the current group of units */
-int crt_links_type;		/* the code for the current type of linkable variable */
-int crt_extern_link_type;/* the code for the current type of externally linked variable */
-tdfstring * crt_capsule_groups; /* the identifier for the current group of units */
-int crt_capsule_group_no; /* the number in the group */
-int crt_capsule_link_no;  /* the number of linkable variables of the current type */
-capsule_link_list crt_capsule_linking;
+static int crt_group_type;		/* the code for the current group of units */
+static int crt_links_type;		/* the code for the current type of linkable variable */
+static int crt_extern_link_type;/* the code for the current type of externally linked variable */
+static tdfstring * crt_capsule_groups; /* the identifier for the current group of units */
+static int crt_capsule_group_no; /* the number in the group */
+static int crt_capsule_link_no;  /* the number of linkable variables of the current type */
+static capsule_link_list crt_capsule_linking;
 
 static int no_of_local_tokens;
 
