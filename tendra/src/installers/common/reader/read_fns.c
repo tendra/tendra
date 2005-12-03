@@ -486,14 +486,16 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
 }
 
 
-/* locate the index number of the linkable variable */
-int
-find_index(char * nm)
+/*
+ * Locate the index number of the linkable variable
+ */
+static int
+cap_get_link_index(const char *name)
 {
 	int i;
 
-	for (i=0; i < crt_capsule_linking.number; ++i) {
-		if (!strcmp((crt_capsule_linking.members[i]).id, nm))
+	for (i = 0; i < crt_capsule_linking.number; i++) {
+		if (strcmp(crt_capsule_linking.members[i].id, name) == 0)
 			return i;
 	}
 	return -1;
@@ -524,23 +526,23 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	crt_capsule_linking = capsule_linking;
 	crt_capsule_link_no = capsule_linking.number;
 
-	i = find_index("token");
+	i = cap_get_link_index("token");
 	capsule_no_of_tokens = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
-	i = find_index("tag");
+	i = cap_get_link_index("tag");
 	capsule_no_of_tags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
-	i = find_index("alignment");
+	i = cap_get_link_index("alignment");
 	capsule_no_of_als = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
-	i = find_index("diagtag");		/* OLD DIAGS */
+	i = cap_get_link_index("diagtag");		/* OLD DIAGS */
 	capsule_no_of_diagtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
-	i = find_index("dgtag");		/* NEW DIAGS */
+	i = cap_get_link_index("dgtag");		/* NEW DIAGS */
 	capsule_no_of_dgtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
@@ -1811,15 +1813,15 @@ start_make_unit(tdfint_list lvl)
 	++unit_index;
 
 	if (lvl.number != 0) {
-		w = find_index("token");
+		w = cap_get_link_index("token");
 		ntok = (w == -1) ? 0 : natint(lvl.members[w]);
-		w = find_index("tag");
+		w = cap_get_link_index("tag");
 		ntag = (w == -1) ? 0 : natint(lvl.members[w]);
-		w = find_index("alignment");
+		w = cap_get_link_index("alignment");
 		nal = (w == -1) ? 0 : natint(lvl.members[w]);
-		w = find_index("diagtag");		/* OLD DIAGS */
+		w = cap_get_link_index("diagtag");		/* OLD DIAGS */
 		ndiagtype = (w == -1) ? 0 : natint(lvl.members[w]);
-		w = find_index("dgtag");		/* NEW DIAGS */
+		w = cap_get_link_index("dgtag");		/* NEW DIAGS */
 		ndgtag = (w == -1) ? 0 : natint(lvl.members[w]);
 	}
 
