@@ -165,7 +165,6 @@ opt_dwarf2(char *option, void *closure)
 	diagnose = 1;
 	extra_diags = 1;
 	dwarf2 = 1;
-	break;
 }
 
 static void
@@ -311,7 +310,7 @@ static ArgListT cmdl_opts[] = {
 	AP_OPT_EMPTY	(quit,			'Q', NULL, opt_quit),
 	AP_OPT_BINSW	(round_flop,	'R', NULL, &round_after_flop),
 #ifdef NEWDWARF
-	AP_OPT_EMPTY	(dwarf2abbrev	'T', NULL, opt_dwarf2abbrev),
+	AP_OPT_EMPTY	(dwarf2abbrev,	'T', NULL, opt_dwarf2abbrev),
 #endif
 	AP_OPT_BINSW	(do_unroll,		'U', NULL, &do_unroll),
 	AP_OPT_EMPTY	(versions,		'V', "version", opt_versions),
