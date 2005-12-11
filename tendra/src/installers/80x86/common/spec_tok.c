@@ -199,7 +199,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		strcmp(t->tok_name, "~diag_type_scope") == 0 ||
 		strcmp(t->tok_name, "~diag_tag_scope") == 0
 #ifdef NEWDIAGS
-		|| strcmp(t->tok_name, "~dg_exp" == 0)
+		|| strcmp(t->tok_name, "~dg_exp") == 0
 #endif
 		)  {
 		tkv.tk_exp = hold_check(d_exp());
