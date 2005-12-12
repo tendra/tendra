@@ -66,38 +66,8 @@
 /* All variables except good_trans are initialised. This assumes
  *that translation stops after the first error */
 
-dec * capsule_tagtab;
-/* the table of tags which are available at the capsule level */
+struct tdf_capsule cap;			/* capsule being processed */
 
-tok_define * capsule_toktab;
-/* the table of tokens which are available at the capsule level */
-
-aldef * capsule_altab;
-/* the table of alignment tags which are available at the
- *     capsule level */
-
-diag_tagdef * capsule_diag_tagtab;	/* OLD DIAGS */
-/* the table of diagnostic tags which are available at the
- *     capsule level */
-
-dgtag_struct * capsule_dgtab;		/* NEW DIAGS */
-/* the table of diagnostic tags which are available at the
- *     capsule level */
-
-int capsule_no_of_tokens;
-/* the number of tokens at the capsule level */
-
-int capsule_no_of_tags;
-/* the number of tags at the capsule level */
-
-int capsule_no_of_als;
-/* the number of alignment tags at the capsule level */
-
-int capsule_no_of_diagtags;	/* OLD DIAGS */
-/* the number of diagnostic tags at the capsule level */
-
-int capsule_no_of_dgtags;	/* NEW DIAGS */
-/* the number of diagnostic tags at the capsule level */
 
 
 dec * unit_tagtab;

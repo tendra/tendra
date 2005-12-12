@@ -788,9 +788,9 @@ init_capsule_diagtags()
 	/* the space has been calloced in read_fns */
 	
 	int i;
-	for (i = 0; i < capsule_no_of_diagtags; ++i)
+	for (i = 0; i < cap.c_ndiagtags; ++i)
 	{
-		init_dgtag (&capsule_diag_tagtab[i]);
+		init_dgtag (&cap.c_diagtags[i]);
 	}
 	return;
 }
@@ -930,7 +930,7 @@ add_diag_tagdef_list(diag_tagdef_list list,
 linkextern
 f_make_diagtagextern(tdfint internal, external ext)
 {
-	dg_tag tg = &capsule_diag_tagtab[natint(internal)];
+	dg_tag tg = &cap.c_diagtags[natint(internal)];
 	tg->outref.k = NO_LAB;	/* old diag names are internal ! */
 	tg->outref.u.s = external_to_string(ext);
 	return 0;
@@ -947,7 +947,7 @@ void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
 	unit_ind_diagtags[natint(i)] =
-		&capsule_diag_tagtab[natint(ext)];
+		&cap.c_diagtags[natint(ext)];
 	return;
 }
 
@@ -1598,9 +1598,9 @@ init_capsule_diagtags()
 	/* the space has been calloced in read_fns */
 	
 	int i;
-	for (i = 0; i < capsule_no_of_diagtags; ++i)
+	for (i = 0; i < cap.c_ndiagtags; ++i)
 	{
-		diag_tagdef * tp 	= &capsule_diag_tagtab[i];
+		diag_tagdef * tp 	= &cap.c_diagtags[i];
 		tp->d_type = (diag_type) xcalloc(1,sizeof(struct diag_type_t));
 		tp->d_type->key = DIAG_TYPE_INITED;
 	}
@@ -1725,7 +1725,7 @@ add_diag_tagdef_list(diag_tagdef_list list,
 linkextern
 f_make_diagtagextern(tdfint internal, external ext)
 {
-	diag_tagdef * dp = &capsule_diag_tagtab[natint(internal)];
+	diag_tagdef * dp = &cap.c_diagtags[natint(internal)];
 	char *nm = ext.ex.id.ints.chars;
 	char * id;
 	int idl = (int)strlen(nm);
@@ -1755,7 +1755,7 @@ void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
 	unit_ind_diagtags[natint(i)] =
-		&capsule_diag_tagtab[natint(ext)];
+		&cap.c_diagtags[natint(ext)];
 	return;
 }
 

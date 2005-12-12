@@ -527,37 +527,37 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	crt_capsule_link_no = capsule_linking.number;
 
 	i = cap_get_link_index("token");
-	capsule_no_of_tokens = (i == -1) ? 0 :
+	cap.c_ntokens = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
 	i = cap_get_link_index("tag");
-	capsule_no_of_tags = (i == -1) ? 0 :
+	cap.c_ntags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
 	i = cap_get_link_index("alignment");
-	capsule_no_of_als = (i == -1) ? 0 :
+	cap.c_naltags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
 	i = cap_get_link_index("diagtag");		/* OLD DIAGS */
-	capsule_no_of_diagtags = (i == -1) ? 0 :
+	cap.c_ndiagtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
 	i = cap_get_link_index("dgtag");		/* NEW DIAGS */
-	capsule_no_of_dgtags = (i == -1) ? 0 :
+	cap.c_ndgtags = (i == -1) ? 0 :
 		natint((capsule_linking.members[i]).n);
 
-	capsule_toktab = (tok_define*)xcalloc(capsule_no_of_tokens,
+	cap.c_tokens = (tok_define*)xcalloc(cap.c_ntokens,
 										  sizeof(tok_define));
-	capsule_tagtab = (dec*)xcalloc(capsule_no_of_tags, sizeof(dec));
-	capsule_altab = (aldef*)xcalloc(capsule_no_of_als, sizeof(aldef));
-	capsule_diag_tagtab = (diag_tagdef*)xcalloc(capsule_no_of_diagtags,
+	cap.c_tags = (dec*)xcalloc(cap.c_ntags, sizeof(dec));
+	cap.c_altags = (aldef*)xcalloc(cap.c_naltags, sizeof(aldef));
+	cap.c_diagtags = (diag_tagdef*)xcalloc(cap.c_ndiagtags,
 												sizeof(diag_tagdef));	/* OLD DIAGS */
-	capsule_dgtab = (dgtag_struct*)xcalloc(capsule_no_of_dgtags,
+	cap.c_dgtags = (dgtag_struct*)xcalloc(cap.c_ndgtags,
 										   sizeof(dgtag_struct));	/* NEW DIAGS */
 
 	/* initialise the table of tokens */
-	for (i = 0; i < capsule_no_of_tokens; ++i) {
-		tok_define *tp = &capsule_toktab[i];
+	for (i = 0; i < cap.c_ntokens; ++i) {
+		tok_define *tp = &cap.c_tokens[i];
 
 		tp->tok_special = 0;
 		tp->valpresent = 0;
@@ -569,8 +569,8 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	}
 
 	/* initialise the table of tags */
-	for (i = 0; i < capsule_no_of_tags; ++i) {
-		dec *dp = &capsule_tagtab[i];
+	for (i = 0; i < cap.c_ntags; ++i) {
+		dec *dp = &cap.c_tags[i];
 
 		dp->dec_u.dec_val.dec_outermost = 0;
 		dp->dec_u.dec_val.dec_id = (char *) 0;
@@ -583,8 +583,8 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	}
 
 	/* initialise the table of alignment tags */
-	for (i = 0; i < capsule_no_of_als; ++i) {
-		aldef *ap = &capsule_altab[i];
+	for (i = 0; i < cap.c_naltags; ++i) {
+		aldef *ap = &cap.c_altags[i];
 
 		ap->al.al_n = 0;
 	}
@@ -1242,7 +1242,7 @@ add_prefix(char * nm)
 tagextern
 f_make_tagextern(tdfint internal, external ext)
 {
-	dec * dp = &capsule_tagtab[natint(internal)];
+	dec * dp = &cap.c_tags[natint(internal)];
 	char *nm = external_to_string(ext);
 	char * id = add_prefix(nm);
 
@@ -1256,14 +1256,14 @@ f_make_tagextern(tdfint internal, external ext)
 taglink
 f_make_taglink(tdfint internal, tdfint ext)
 {
-	unit_ind_tags[natint(internal)] = &capsule_tagtab[natint(ext)];
+	unit_ind_tags[natint(internal)] = &cap.c_tags[natint(ext)];
 	return 0;
 }
 
 allink
 f_make_allink(tdfint internal, tdfint ext)
 {
-	unit_ind_als[natint(internal)] = &capsule_altab[natint(ext)];
+	unit_ind_als[natint(internal)] = &cap.c_altags[natint(ext)];
 	return 0;
 }
 
@@ -1405,7 +1405,7 @@ init_token_defn(void)
 tokextern
 f_make_tokextern(tdfint internal, external ext)
 {
-	tok_define * t = &capsule_toktab[natint(internal)];
+	tok_define * t = &cap.c_tokens[natint(internal)];
 	char * s = external_to_string(ext);
 	t->tok_name = s;
 
@@ -1453,7 +1453,7 @@ init_tokformals(void)
 toklink
 f_make_toklink(tdfint internal, tdfint ext)
 {
-	unit_ind_tokens[natint(internal)] = &capsule_toktab[natint(ext)];
+	unit_ind_tokens[natint(internal)] = &cap.c_tokens[natint(ext)];
 	return 0;
 }
 

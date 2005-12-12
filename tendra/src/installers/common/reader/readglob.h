@@ -58,41 +58,27 @@
 #ifndef readglob_key
 #define readglob_key 1
 
+/*
+ * Data used for reading and translating of TDF capsule.
+ */
+struct tdf_capsule {
+	int				c_ntags;			/* the number of tags */
+	dec				*c_tags;			/* the table of tags */
 
+	int				c_ntokens;			/* the number of tokens */
+	tok_define		*c_tokens;			/* the table of tokens */
 
-extern dec * capsule_tagtab;
-/* the table of tags which are available at the capsule level */
+	int				c_naltags;			/* the number of alignment tags */
+	aldef			*c_altags;			/* the table of alignment tags */
 
-extern tok_define * capsule_toktab;
-/* the table of tokens which are available at the capsule level */
+	int				c_ndiagtags;		/* OLD DIAGS, the number of diagnostic tags */
+	diag_tagdef		*c_diagtags;		/* OLD DIAGS, the table of diagnostic tags */
 
-extern aldef * capsule_altab;
-/* the table of alignment tags which are available at the
- *     capsule level */
+	int				c_ndgtags;			/* NEW DIAGS, the number of diagnostic tags */
+	dgtag_struct	*c_dgtags;			/* NEW DIAGS, the table of diagnostic name tags */
+};
 
-extern diag_tagdef * capsule_diag_tagtab;	/* OLD DIAGS */
-/* the table of diagnostic tags which are available at the
- *     capsule level */
-
-extern dgtag_struct * capsule_dgtab;		/* NEW DIAGS */
-/* the table of diagnostic name tags which are available at the
- *     capsule level */
-
-extern int capsule_no_of_tokens;
-/* the number of tokens at the capsule level */
-
-extern int capsule_no_of_tags;
-/* the number of tags at the capsule level */
-
-extern int capsule_no_of_als;
-/* the number of alignment tags at the capsule level */
-
-extern int capsule_no_of_diagtags;	/* OLD DIAGS */
-/* the number of diagnostic tags at the capsule level */
-
-extern int capsule_no_of_dgtags;	/* NEW DIAGS */
-/* the number of diagnostic tags at the capsule level */
-
+extern struct tdf_capsule cap;			/* capsule being processed */
 
 extern dec * unit_tagtab;
 /* the table of tags for the current unit */

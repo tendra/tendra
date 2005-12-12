@@ -2599,9 +2599,9 @@ init_capsule_dgtags()
 	/* the space has been calloced in read_fns */
 	
 	int i;
-	for (i = 0; i < capsule_no_of_dgtags; ++i)
+	for (i = 0; i < cap.c_ndgtags; ++i)
 	{
-		init_dgtag (&capsule_dgtab[i]);
+		init_dgtag (&cap.c_dgtags[i]);
 	}
 	return;
 }
@@ -2718,14 +2718,14 @@ void
 f_make_dglink(tdfint i, tdfint ext)
 {
 	unit_ind_dgtags[natint(i)] =
-		&capsule_dgtab[natint(ext)];
+		&cap.c_dgtags[natint(ext)];
 	return;
 }
 
 linkextern
 f_make_dgtagextern(tdfint internal, external ext)
 {
-	dg_tag tg = &capsule_dgtab[natint(internal)];
+	dg_tag tg = &cap.c_dgtags[natint(internal)];
 	tg->outref.k = LAB_STR;
 	tg->outref.u.s = external_to_string(ext);
 	return 0;

@@ -237,13 +237,13 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 			failer(UNDEFINED_TOK);
 
 		if (td->is_capsule_token &&
-			td->tok_index < capsule_no_of_tokens &&
+			td->tok_index < cap.c_ntokens &&
 			td->tok_index >= 0 &&
 			td->tok_name != (char*)0)
 			IGNORE fprintf(stderr, "token is: %s\n", td->tok_name);
 		else {
 			if (td->is_capsule_token &&
-				td->tok_index < capsule_no_of_tokens &&
+				td->tok_index < cap.c_ntokens &&
 				td->tok_index >= 0)
 				IGNORE fprintf(stderr, "capsule token number: %d\n", td->tok_index);
 			else {
