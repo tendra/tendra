@@ -63,6 +63,7 @@
 #include "fmm.h"
 
 #include "common_types.h"
+#include "installglob.h"
 #include "out.h"
 #include "expmacs.h"
 #include "exp.h"
@@ -86,7 +87,7 @@
 void
 dot_align(int n)
 {
-	if (linux_elf) {
+	if (do_elf) {
 		outs(".align "); outn((long)n); outnl();
 		return;
 	}
@@ -133,7 +134,7 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
-	if (linux_elf) {
+	if (do_elf) {
 		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 /* forward jump and continued into
  *      if (f==0)
@@ -172,7 +173,7 @@ align_label(int f, exp jr)
 void
 eval_postlude(char * s, exp c)
 {
-	if (!linux_elf)
+	if (!do_elf)
 		return;
 	outs(".size ");
 	outs (s);
@@ -189,7 +190,7 @@ eval_postlude(char * s, exp c)
 void
 out_readonly_section(void)
 {
-	if (linux_elf)
+	if (do_elf)
 		outs (".section .rodata");
 	else
 		outs (".text");
@@ -413,7 +414,7 @@ outdivsym(void)
 void
 out_initialiser(char* id)
 {
-	if (!linux_elf) {
+	if (!do_elf) {
 		outs(".stabs \"___TDFI_LIST__\",22,0,0,");
 		outs (id);
 		outnl ();
@@ -432,7 +433,7 @@ out_initialiser(char* id)
 
 
 void
-out_main_prelude(void)		/* if (!linux_elf) */
+out_main_prelude(void)		/* if (!do_elf) */
 {
 	int nl1 = next_lab ();
 	int nl2 = next_lab ();
@@ -454,7 +455,7 @@ out_main_prelude(void)		/* if (!linux_elf) */
 }
 
 void
-out_main_postlude(void)	/* if (!linux_elf) */
+out_main_postlude(void)	/* if (!do_elf) */
 {
 	char * sdummy = "Idummy";
 	char * pdummy = (char *) xcalloc (((int)strlen(local_prefix) +

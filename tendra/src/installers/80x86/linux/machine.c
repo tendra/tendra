@@ -62,6 +62,7 @@
 
 #include "config.h"
 #include "common_types.h"
+#include "installglob.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "shapemacs.h"
@@ -71,8 +72,6 @@
 
 /* VARIABLES */
 /* All variables are initialised, jmf */
-
-int linux_elf = 1;
 
 char * local_prefix = ".L";
 char * name_prefix = "";
@@ -84,7 +83,7 @@ char * name_prefix = "";
 void
 set_linux_format(int elf)
 {
-	linux_elf = elf;
+	do_elf = elf;
 	if (elf) {
 		local_prefix = ".L";
 		name_prefix = "";

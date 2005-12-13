@@ -107,6 +107,8 @@ extern int lv_null;
 
 extern BoolT no_bss;
 
+extern int do_elf;
+
 #define MAJOR_VERSION 4
 #define MINOR_VERSION 1
 

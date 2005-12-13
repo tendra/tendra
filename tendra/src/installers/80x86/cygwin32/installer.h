@@ -122,7 +122,6 @@
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-extern int linux_elf;  /* machine.c */
 #define prefix_length 1	/* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
 #define normal_fpucon 0x37f

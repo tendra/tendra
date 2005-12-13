@@ -55,13 +55,11 @@
  */
 
 
-/* linux/diag_out.c */
-
-
 #include "config.h"
 #include "fmm.h"
 
 #include "common_types.h"
+#include "installglob.h"
 #include "basicread.h"
 #include "out.h"
 #include "machine.h"
@@ -274,14 +272,14 @@ stabd(long findex, long lno, int seg)
 
     if (seg != 0)		/* 0 suppresses always */
     {
-		if (seg < 0 && !linux_elf)
+		if (seg < 0 && !do_elf)
 			seg = - seg;
 		if (seg > 0)		/* -ve line nos are put out in the stabs */
 		{
 			i = next_lab ();
 			fprintf (dg_file, "%sL.%ld:\n", local_prefix, i);
 			fprintf (dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld",seg, lno, local_prefix, i);
-			if (linux_elf && in_proc) {
+			if (do_elf && in_proc) {
 				outs ("-");
 				out_procname ();
 			}
@@ -550,6 +548,8 @@ static void
 stab_scope_close(long findex)
 {
     long i;
+
+	UNUSED(findex);
     if (open_label != 0)
     {
 		fprintf (dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld\n", N_LBRAC,

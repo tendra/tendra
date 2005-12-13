@@ -85,7 +85,7 @@
 #define isfreebsd 1
 #define isnetbsd 0
 #define isopenbsd 0
-#define remove_struct_ref (!freebsd_elf)
+#define remove_struct_ref (!do_elf)
 
 #define has_setcc 1
 #define little_end 1
@@ -112,7 +112,7 @@
 #define do_case_transforms 1
 #define substitute_complex 1
 #define has_rotate 1
-#define GCC_STRUCTS -1	/* (freebsd_elf ? 0 : 1) */
+#define GCC_STRUCTS -1	/* (do_elf ? 0 : 1) */
 
 
 #define maxmin_implemented 1
@@ -124,8 +124,7 @@
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-extern int freebsd_elf;  /* machine.c */
-#define prefix_length (freebsd_elf ? 0 : 1)	/* strlen(name_prefix) */
+#define prefix_length (do_elf ? 0 : 1)	/* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
 #define normal_fpucon 0x1272
 

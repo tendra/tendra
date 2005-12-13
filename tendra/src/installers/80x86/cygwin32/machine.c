@@ -72,8 +72,6 @@
 /* VARIABLES */
 /* All variables are initialised, jmf */
 
-int linux_elf = 0;
-
 char * local_prefix = "L";
 char * name_prefix = "_";
 

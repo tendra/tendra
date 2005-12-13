@@ -119,5 +119,5 @@ int lv_null = 0;
 
 BoolT no_bss = 0;
 
-
+int do_elf = 1;
 

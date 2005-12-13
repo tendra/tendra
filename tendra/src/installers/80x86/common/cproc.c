@@ -572,15 +572,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 
 #if islinux || isfreebsd
 	{
-		/* TODO: consider a flag for elf, regardless of OS */
-		int main_prel;
-#if islinux
-		main_prel = !linux_elf;
-#endif
-#if isfreebsd
-		main_prel = !freebsd_elf;
-#endif
-		if (main_prel && pname[0] != local_prefix[0] &&
+		if (!do_elf && pname[0] != local_prefix[0] &&
 			!strcmp (pname + prefix_length, "main")) {
 			out_main_prelude();
 		}
@@ -907,7 +899,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 #if islinux || isfreebsd
 	if (
 #if islinux
-		!linux_elf &&
+		!do_elf &&
 #endif
 		pname[0] != local_prefix[0] &&
 		!strcmp (pname+prefix_length, "main")) {

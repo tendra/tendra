@@ -3,7 +3,7 @@
 PROG=	trans
 
 # installers/80x86/cygwin32
-SRCS=	assembler.c diag_out.c machine.c
+SRCS=	assembler.c diag_out_stabs.c machine.c
 
 # installers/80x86
 .include "${.CURDIR}/../Makefile.inc"

@@ -61,6 +61,7 @@
 #include "tdf_types.h"
 
 #include "common_types.h"
+#include "installglob.h"
 #include "out.h"
 #include "expmacs.h"
 #include "exp.h"
@@ -84,7 +85,7 @@
 void
 dot_align(int n)
 {
-	if (freebsd_elf) {
+	if (do_elf) {
 		outs(".align ");
 		outn((long)n);
 		outnl();
@@ -134,7 +135,7 @@ outlong()
 void
 align_label(int f, exp jr)
 {
-	if (freebsd_elf) {
+	if (do_elf) {
 		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 /* forward jump and continued into
    if (f==0)
@@ -173,7 +174,7 @@ align_label(int f, exp jr)
 void
 eval_postlude(char * s, exp c)
 {
-	if (!freebsd_elf)
+	if (!do_elf)
 		return;
 	outs(".size ");
 	outs (s);
@@ -190,7 +191,7 @@ eval_postlude(char * s, exp c)
 void
 out_readonly_section()
 {
-	if (freebsd_elf)
+	if (do_elf)
 		outs (".section .rodata");
 	else
 		outs (".text");
@@ -425,7 +426,7 @@ outdivsym()
 void
 out_initialiser(char* id)
 {
-	if (!freebsd_elf) {
+	if (!do_elf) {
 		outs(".stabs \"___TDFI_LIST__\",22,0,0,");
 		outs (id);
 		outnl ();
@@ -444,7 +445,7 @@ out_initialiser(char* id)
 
 
 void
-out_main_prelude()		/* if (!freebsd_elf) */
+out_main_prelude()		/* if (!do_elf) */
 {
 	int nl1 = next_lab ();
 	int nl2 = next_lab ();
@@ -466,7 +467,7 @@ out_main_prelude()		/* if (!freebsd_elf) */
 }
 
 void
-out_main_postlude()	/* if (!freebsd_elf) */
+out_main_postlude()	/* if (!do_elf) */
 {
 	char * sdummy = "Idummy";
 	char * pdummy = (char *) xcalloc (((int)strlen(local_prefix) +

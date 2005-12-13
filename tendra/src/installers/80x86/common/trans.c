@@ -420,13 +420,9 @@ main(int argc, char **argv)
 	argc -= optcnt;
 	argv += optcnt;
 
-#if islinux
+#if islinux || isfreebsd
 	if (gcc_compatible < 0)
-		gcc_compatible = ! linux_elf;
-#endif
-#if isfreebsd
-	if (gcc_compatible < 0)
-		gcc_compatible = ! freebsd_elf;
+		gcc_compatible = !do_elf;
 #endif
 
 	if (argc < 2)
