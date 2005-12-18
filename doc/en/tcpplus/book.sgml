@@ -9151,7 +9151,7 @@ token -&gt; {
           is used to represent an error arising during the compilation of a C++
           program. Errors are first class objects within the producer and can be
           passed to and from procedures. Each error has an associated
-          <literal>severity</literal> (serious, warning, none etc.). Simple
+          <literal>severity</literal> (error, warning, none etc.). Simple
           errors are represented by the <literal>simple</literal> field, which
           consists of an index, <literal>number</literal>, into the error
           catalogue, plus a variable length list of error arguments. Errors can
@@ -9248,21 +9248,23 @@ token -&gt; {
         <xref linkend='error-catalogue-syntax'> error catalogue syntax is given as an annex. A typical
         entry in the catalogue is as follows:</para>
 <programlisting>
-class_union_deriv ( CLASS_TYPE: ct )
+class_union_deriv(CLASS_TYPE: ct)
 {
-  USAGE:              serious
-  PROPERTIES:         ansi
-  KEY (ISO)           &quot;9.5&quot;
-  KEY (STANDARD)      &quot;The union '&quot;ct&quot;' can't have base classes&quot;
+  USAGE:      error
+  PROPERTIES: iso
+  KEY (ISO)   &quot;9.5&quot;
+  KEY (STD)   &quot;The union '&quot;ct&quot;' can't have base classes&quot;
 }
 </programlisting>
 
       <para>This defines an error, <literal>class_union_deriv</literal>, which
         takes a single parameter <literal>ct</literal> of type
         <literal>CLASS_TYPE</literal>. The severity of this error is
-        <literal>serious</literal>; that is to say, a constraint error. The error
-        property <literal>ansi</literal> indicates that the error arises from the
-        ISO C++ standard, the associated <literal>ISO</literal> key indicating
+        <literal>error</literal>; that is to say, a constraint error. The error
+        property <literal>iso</literal> indicates that the error arises from the
+        ISO C++ standard (in the actual file <literal>iso</literal> is the
+        default and thus omitted), the associated <literal>ISO</literal> key
+        indicating
         section 9.5. Finally the text to be printed for this error, including a
         reference to <literal>ct</literal>, is given. Looking up section 9.5 in
         the ISO C++ standard reveals the corresponding constraint in paragraph
@@ -9287,24 +9289,22 @@ class_union_deriv ( CLASS_TYPE: ct )
         of a constraint error in this way is undefined.</para>
 
       <para>In addition to the obvious error severity levels,
-        <literal>serious</literal>, <literal>warning</literal> and
+        <literal>error</literal>, <literal>warning</literal> and
         <literal>none</literal>, the error catalogue specifies a list of optional
         severity levels along with their default values. For example, the
         entry:</para>
 <programlisting>
-link_incompat = serious
+link_incompat = error
 </programlisting>
 
       <para>sets up an option named <literal>link_incompat</literal> which is a
         constraint error by default. Errors with this severity, such as:</para>
 <programlisting>
-dcl_stc_external ( LONG_ID: id, PTR_LOC: loc )
+dcl_stc_internal(LONG_ID: id, PTR_LOC: loc)
 {
-  USAGE:              link_incompat
-  PROPERTIES:         ansi
-  KEY (ISO)           &quot;7.1.1&quot;
-  KEY (STANDARD)      &quot;'&quot;id&quot;' previously declared with external
-linkage (at &quot;loc&quot;)&quot;
+  USAGE:      link_incompat
+  KEY (ISO)   &quot;7.1.1&quot;
+  KEY (STD)   &quot;'&quot;id&quot;' previously declared with internal linkage (at &quot;loc&quot;)&quot;
 }
 </programlisting>
 
@@ -9326,16 +9326,16 @@ linkage (at &quot;loc&quot;)&quot;
       <para>The error catalogue is processed by a simple tool,
         <literal>make_err</literal>, which generates C code which is compiled
         into the C++ producer. Each error in the catalogue is assigned a number
-        (there are currently 873 errors in the catalogue) which gives an index
+        (there are currently 984 errors in the catalogue) which gives an index
         into an automatically generated table of error information. It is this
         error number, together with a list of error arguments, which forms the
-        associated <xref linkend='primitive-types'> #err<literal>ERROR</literal> object.
+        associated <xref linkend='primitive-types'><literal>ERROR</literal> object.
         <literal>make_err</literal> generates a macro for each error in the
         catalogue which takes arguments of the appropriate types (which may be
         statically checked) and creates an <literal>ERROR</literal> object. For
         example, for the entry above this macro takes the form:</para>
 <programlisting>
-ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
+ERROR ERR_class_union_deriv(CLASS_TYPE);
 </programlisting>
 
       <para>These macros hide the error catalogue numbers from the rest of the
@@ -9367,7 +9367,7 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
         follows:</para>
 <programlisting>
 &quot;file.C&quot;, line 42: Error:
-[ISO 9.5]: The union 'U' can't have base classes.
+  [ISO C++98 9.5]: The union 'U' can't have base classes.
 </programlisting>
 
       <para>The ISO section number can be suppressed using
