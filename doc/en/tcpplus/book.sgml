@@ -7681,8 +7681,8 @@ struct _fake_ostream::myfields {
 
     <para>The C++ producer is a large program (over 200000 lines, including
       automatically generated code) written in C. A description of the
-      <xref linkend='coding-standard'> coding conventions used, the <xref linkend='api-usage-target-dep'>
-      API observed and the basic organisation of the <xref linkend='source-code-modules'> source
+      <xref linkend='api-usage-target-dep'> API observed and the basic
+      organisation of the <xref linkend='source-code-modules'> source
       code are described in the first section.</para>
 
     <para>One of the design methods used in the C++ producer is the extensive
@@ -7722,139 +7722,9 @@ struct _fake_ostream::myfields {
       <title>Source Code Organisation / Style Guide</title>
 
       <para>This section describes the basic organisation of the source code
-        for the C++ producer. This includes the coding conventions applied, the
-        application programming interface (API) observed and the division of the
-        code into separate modules.</para>
-
-      <sect2 id='coding-standard'>
-        <title>C coding standard</title>
-
-        <para>The C++ producer is written in a subset of C which is compatible
-          with C++ (it compiles with most C compilers, but also bootstraps
-          itself). It has been written to conform to the local (OSSG)
-          <xref linkend='bib-ccs'> C coding standard; most of the conformance
-          checking being automated by use of a <xref linkend='configuration'> user-defined
-          compilation profile, <literal>ossg_std.h</literal>. The standard macros
-          described in the coding standard are defined in the standard header
-          <literal>ossg.h</literal>. This is included from the header
-          <literal>config.h</literal> which is included by all source files. The
-          default definitions for these macros, set according to the value of
-          <literal>__STDC__</literal> and other compiler-defined macros, should
-          be correct, but they can be overridden by defining the
-          <literal>FS_*</literal> macros, described in the header, as
-          command-line options.</para>
-
-        <para>The most important of these macros are those used to handle
-          function prototypes, enabling both ISO and pre-ISO C compilers to be
-          accommodated. Simple function definitions take the form:</para>
-<programlisting>
-ret function
-  PROTO_N ( ( p1, p2, ...., pn ) )
-  PROTO_T ( par1 p1 X par2 p2 X .... X parn pn )
-{
-  ....
-}
-</programlisting>
-
-        <para>with the <literal>PROTO_N</literal> macro being used to list the
-          parameter names (note the double bracket) and the
-          <literal>PROTO_T</literal> macro being used to list the parameter types
-          using <literal>X</literal> (cartesian product) as a separator. The
-          corresponding function declaration will have the form:</para>
-<programlisting>
-ret function PROTO_S ( ( par1, par2, ...., parn ) ) ;
-</programlisting>
-
-        <para>The case where there are no parameter types is defined
-          using:</para>
-<programlisting>
-ret function
-  PROTO_Z ()
-{
-  ....
-}
-</programlisting>
-
-        <para>and declared as:</para>
-<programlisting>
-ret function PROTO_S ( ( void ) ) ;
-</programlisting>
-
-        <para>Functions with ellipses are defined using:</para>
-<programlisting>
-#if FS_STDARG
-#include &lt;stdarg.h&gt;
-#else
-#include &lt;varargs.h&gt;
-#endif
-
-ret function
-  PROTO_V ( ( par1 p1, par2 p2, ...., parn pn, ... ) )
-{
-va_list args ;
-....
-#if FS_STDARG
-  va_start ( args, pn ) ;
-#else
-  par1 p1 ;
-  par2 p2 ;
-  ....
-  parn pn ;
-  va_start ( args ) ;
-  p1 = va_arg ( args, par1 ) ;
-  p2 = va_arg ( args, par2 ) ;
-  ....
-  pn = va_arg ( args, parn ) ;
-  #endif
-  ....
-  va_end ( args ) ;
-  ....
-}
-</programlisting>
-
-        <para>and declared as:</para>
-<programlisting>
-ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;
-</programlisting>
-
-        <note>
-          <para><literal>&lt;varargs.h&gt;</literal> does not allow for
-            parameters preceding the <literal>va_alist</literal>, so the fixed
-            parameters need to be explicitly assigned from
-            <literal>args</literal>.</para>
-        </note>
-
-        <para>The following <xref linkend='keywords'> TenDRA keywords are
-          defined (with suitable default values for non-TenDRA compilers):</para>
-<programlisting>
-#pragma TenDRA keyword SET for set
-#pragma TenDRA keyword UNUSED for discard variable
-#pragma TenDRA keyword IGNORE for discard value
-#pragma TenDRA keyword EXHAUSTIVE for exhaustive
-#pragma TenDRA keyword REACHED for set reachable
-#pragma TenDRA keyword UNREACHED for set unreachable
-#pragma TenDRA keyword FALL_THROUGH for fall into case
-</programlisting>
-
-        <para>Various flags giving properties of the compiler being used are
-          defined in <literal>ossg.h</literal>. Among the most useful are
-          <literal>FS_STDARG</literal>, which is true if the compiler supports
-          ellipsis functions (see above), and <literal>FS_STDC_HASH</literal>,
-          which is true if the preprocessor supports the ISO stringising and
-          concatenation operators. The macros <literal>CONST</literal> and
-          <literal>VOLATILE</literal>, to be used in place of
-          <literal>const</literal> and <literal>volatile</literal>, are also
-          defined.</para>
-
-        <para>A policy of rigorous static program checking is enforced. The
-          TenDRA C producer is applied with the user-defined compilation mode
-          <literal>ossg_std.h</literal> and intermodule checks enabled. Checking
-          is applied with both the C and <literal>#pragma token</literal>
-          &doc.calculus; <literal>calculus</literal> output files.
-          The C++ producer itself is applied with the same checks. <literal>gcc
-          -Wall</literal> and various versions of <literal>lint</literal> are
-          also periodically applied.</para>
-      </sect2>
+        for the C++ producer. This includes the application programming
+        interface (API) observed and the division of the code into separate
+        modules.</para>
 
       <sect2 id='api-usage-target-dep'>
         <title>API usage and target dependencies</title>
@@ -9520,10 +9390,7 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
         &doc.sid; <literal>sid</literal> tool. Because of the
         large size of the generated code (1.3MB), the <literal>sid</literal>
         output is run through a simple program, <literal>sidsplit</literal>,
-        which splits the output into a number of more manageable modules. It also
-        transforms the code to use the
-        <xref linkend='coding-standard'> <literal>PROTO</literal> macros used in the rest
-        of the program.</para>
+        which splits the output into a number of more manageable modules.</para>
 
       <para><literal>sid</literal> is designed as a parser for grammars which
         can be transformed into LL(1) grammars. The distinguishing feature of
