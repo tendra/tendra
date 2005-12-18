@@ -68,8 +68,4 @@
 EXTERN_DIAG diag_descriptor_list  unit_diagvar_tab;
 #endif
 
-EXTERN_DIAG int 		unit_no_of_diagtags;
-
-EXTERN_DIAG diag_tagdef * *	unit_ind_diagtags;
-EXTERN_DIAG diag_tagdef * 	unit_diag_tagdeftab;
 #endif

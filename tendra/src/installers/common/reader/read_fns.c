@@ -1525,41 +1525,65 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 	return res;
 }
 
-static void
-allocate_unit(int no_of_tokens, int no_of_tags,
-			  int no_of_als, int no_of_diagtags,
-			  int no_of_dgtags)
+void
+allocate_unit(int ntokens, int ntags, int naltags, int ndiagtags, int ndgtags)
 {
 	int i;
 
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = xmalloc(unit_no_of_tokens * sizeof(*unit_ind_tokens));
-	for (i = 0; i < no_of_tokens; i++)
+	unit_no_of_tokens = ntokens;
+	unit_toktab = NULL;
+	unit_ind_tokens = xmalloc(ntokens * sizeof(*unit_ind_tokens));
+	for (i = 0; i < ntokens; i++)
 		unit_ind_tokens[i] = NULL;
 
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = xmalloc(unit_no_of_tags * sizeof(*unit_ind_tags));
-	for (i = 0; i < no_of_tags; i++)
+	unit_no_of_tags = ntags;
+	unit_tagtab = NULL;
+	unit_ind_tags = xmalloc(ntags * sizeof(*unit_ind_tags));
+	for (i = 0; i < ntags; i++)
 		unit_ind_tags[i] = NULL;
 
-	unit_no_of_als = no_of_als;
-	unit_ind_als = xmalloc(unit_no_of_als * sizeof(*unit_ind_als));
-	for (i = 0; i < no_of_als; i++)
+	unit_no_of_als = naltags;
+	unit_altab = NULL;
+	unit_ind_als = xmalloc(naltags * sizeof(*unit_ind_als));
+	for (i = 0; i < naltags; i++)
 		unit_ind_als[i] = NULL;
 
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = xmalloc(unit_no_of_diagtags *
-							sizeof(*unit_ind_diagtags));
-	for (i = 0; i < no_of_diagtags; i++)
+	unit_no_of_diagtags = ndiagtags;	/* OLD DIAGS */
+	unit_ind_diagtags = xmalloc(ndiagtags *	sizeof(*unit_ind_diagtags));
+	for (i = 0; i < ndiagtags; i++)
 		unit_ind_diagtags[i] = NULL;
 
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = xmalloc(unit_no_of_dgtags * sizeof(*unit_ind_dgtags));
-	for (i = 0; i < no_of_dgtags; i++)
+	unit_no_of_dgtags = ndgtags;		/* NEW DIAGS */
+	unit_ind_dgtags = xmalloc(ndgtags * sizeof(*unit_ind_dgtags));
+	for (i = 0; i < ndgtags; i++)
 		unit_ind_dgtags[i] = NULL;
+
+	unit_labtab = NULL;
+	unit_no_of_labels = 0;
 }
 
-static void
+void
+unit_destroy(void)
+{
+
+	xfree(unit_ind_tokens);
+	xfree(unit_ind_tags);
+	xfree(unit_ind_als);
+
+	xfree(unit_labtab);
+	xfree(unit_toktab);
+	xfree(unit_tagtab);
+	xfree(unit_altab);
+}
+
+void
+unit_alloc_labels(long nlabels)
+{
+	unit_no_of_labels = nlabels;
+	unit_labtab = (exp*)xcalloc(nlabels, sizeof(exp));
+}
+
+void
 setup_ind_tokens(void)
 {
 	int i, j;
@@ -1570,7 +1594,7 @@ setup_ind_tokens(void)
 	}
 }
 
-static void
+void
 setup_ind_tags(void)
 {
 	int i, j;
@@ -1581,8 +1605,8 @@ setup_ind_tags(void)
 	}
 }
 
-static void
-setup_ind_als(void)
+void
+setup_ind_altags(void)
 {
 	int i, j;
 
@@ -1592,7 +1616,19 @@ setup_ind_als(void)
 	}
 }
 
-static void
+void
+setup_ind_diagtags(void)
+{
+	int i, j;
+
+	/* OLD DIAGS */
+	for (i = 0, j = 0; i < unit_no_of_diagtags; ++i) {
+		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
+			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
+	}
+}
+
+void
 setup_ind_dgtags(void)
 {
 	int i, j;
@@ -1605,12 +1641,10 @@ setup_ind_dgtags(void)
 }
 
 void
-start_make_tokdec_unit(int no_of_tokens, int no_of_tags,
-					   int no_of_als, int no_of_diagtags,
-					   int no_of_dgtags)
+start_make_tokdec_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+					   int ndgtags)
 {
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 	return;
 }
 
@@ -1625,27 +1659,22 @@ f_make_tokdec_unit(void)
 }
 
 void
-start_make_tokdef_unit(int no_of_tokens, int no_of_tags,
-					   int no_of_als, int no_of_diagtags,
-					   int no_of_dgtags)
+start_make_tokdef_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+					   int ndgtags)
 {
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 }
 
 tokdef_unit
 f_make_tokdef_unit(void)
 {
-	int no_of_labels;
 
 	setup_ind_tokens();
 	setup_ind_tags();
-	setup_ind_als();
+	setup_ind_altags();
 	setup_ind_dgtags();
 	start_bytestream();
-	no_of_labels = small_dtdfint();
-	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_alloc_labels(small_dtdfint());
 	IGNORE d_tokdef_list();
 	end_bytestream();
 
@@ -1655,48 +1684,33 @@ f_make_tokdef_unit(void)
 }
 
 void
-start_make_tagdec_unit(int no_of_tokens, int no_of_tags,
-					   int no_of_als, int no_of_diagtags,
-					   int no_of_dgtags)
+start_make_tagdec_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+					   int ndgtags)
 {
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 }
 
 tagdec_unit
 f_make_tagdec_unit(void)
 {
-	int no_of_labels;
 
 	setup_ind_tokens();
 	setup_ind_tags();
-	setup_ind_als();
+	setup_ind_altags();
 	setup_ind_dgtags();
 	start_bytestream();
-	no_of_labels = small_dtdfint();
-	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_alloc_labels(small_dtdfint());
 	IGNORE d_tagdec_list();
 	end_bytestream();
-
-	xfree((void*)unit_ind_tokens);
-	xfree((void*)unit_ind_tags);
-	xfree((void*)unit_ind_als);
-	xfree((void*)unit_labtab);
-
-	xfree((void*)unit_toktab);
-
+	unit_destroy();
 	return 0;
 }
 
 void
-start_make_versions_unit(int no_of_tokens,
-						 int no_of_tags,
-						 int no_of_als, int no_of_diagtags,
-						 int no_of_dgtags)
+start_make_versions_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+						 int ndgtags)
 {
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 }
 
 version_props
@@ -1705,33 +1719,24 @@ f_make_versions_unit(void)
 
 	setup_ind_tokens();
 	setup_ind_tags();
-	setup_ind_als();
+	setup_ind_altags();
 	start_bytestream();
 	IGNORE d_version_list();
 	end_bytestream();
-
-	xfree((void*)unit_ind_tokens);
-	xfree((void*)unit_ind_tags);
-	xfree((void*)unit_ind_als);
-
-	xfree((void*)unit_toktab);
-	xfree((void*)unit_tagtab);
-
+	unit_destroy();
 	return 0;
 }
 
 void
-start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
-					   int no_of_als, int no_of_diagtags,
-					   int no_of_dgtags)
+start_make_tagdef_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+					   int ndgtags)
 {
 	if (separate_units)	{
 		++crt_tagdef_unit_no;
 		set_large_alloc();
 	}
 
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 }
 
 
@@ -1740,63 +1745,39 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
 tagdef_unit
 f_make_tagdef_unit(void)
 {
-	int no_of_labels;
 
 	setup_ind_tokens();
 	setup_ind_tags();
-	setup_ind_als();
+	setup_ind_altags();
 	setup_ind_dgtags();
 	start_bytestream();
-	no_of_labels = small_dtdfint();
-	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_alloc_labels(small_dtdfint());
 	IGNORE d_tagdef_list();
 	tidy_initial_values();
 	translate_unit();
 	end_bytestream();
-
-	xfree((void*)unit_ind_tokens);
-	xfree((void*)unit_ind_tags);
-	xfree((void*)unit_ind_als);
-	xfree((void*)unit_labtab);
-
-	xfree((void*)unit_toktab);
-	xfree((void*)unit_tagtab);
-
+	unit_destroy();
 	return 0;
 }
 
 void
-start_make_aldef_unit(int no_of_tokens, int no_of_tags,
-					  int no_of_als, int no_of_diagtags,
-					  int no_of_dgtags)
+start_make_aldef_unit(int ntokens, int ntags, int naltags, int ndiagtags,
+					  int ndgtags)
 {
-	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
-				  no_of_dgtags);
+	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);
 }
 
 aldef_unit
 f_make_aldef_unit(void)
 {
-	int no_of_labels;
 
 	setup_ind_tokens();
-	setup_ind_als();
+	setup_ind_altags();
 	start_bytestream();
-	no_of_labels = small_dtdfint();
-	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_alloc_labels(small_dtdfint());
 	IGNORE d_al_tagdef_list();
 	end_bytestream();
-
-	xfree((void*)unit_ind_tokens);
-	xfree((void*)unit_ind_tags);
-	xfree((void*)unit_ind_als);
-	xfree((void*)unit_labtab);
-
-	xfree((void*)unit_toktab);
-	xfree((void*)unit_tagtab);
-
+	unit_destroy();
 	return 0;
 }
 

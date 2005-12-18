@@ -63,3 +63,12 @@ extern void translate_tagdef(void);
 extern void translate_unit(void);
 extern char * main_NAME;
 extern char * init_NAME(char *);
+
+void allocate_unit(int, int, int, int, int);
+void unit_destroy(void);
+void unit_alloc_labels(long);
+void setup_ind_altags(void);
+void setup_ind_dgtags(void);
+void setup_ind_diagtags(void);
+void setup_ind_tags(void);
+void setup_ind_tokens(void);

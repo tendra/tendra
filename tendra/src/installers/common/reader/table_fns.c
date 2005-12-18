@@ -76,6 +76,7 @@
 #include "installglob.h"
 #include "install_fns.h"
 #include "diagglob.h"
+#include "diag_fns.h"
 #include "dg_fns.h"
 #include "check.h"
 

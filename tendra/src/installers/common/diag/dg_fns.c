@@ -62,6 +62,7 @@
 
 #include "common_types.h"
 #include "readglob.h"
+#include "read_fns.h"
 #include "table_fns.h"
 #include "basicread.h"
 #include "install_fns.h"
@@ -2623,74 +2624,24 @@ init_unit_dgtags(int n)
 }
 
 void
-start_make_dg_comp_unit(int toks, int tags,
-						int als, int dgnames)
+start_make_dg_comp_unit(int ntokens, int ntags, int naltags, int ndgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_dgtags = dgnames;
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
+
+	allocate_unit(ntokens, ntags, naltags, 0, ndgtags);
 	return;
 }
 
 void
 f_make_dg_comp_unit()
 {
-	int i;
-	int j = 0;
-	int no_of_labels;
 #ifdef NEWDIAGS
 	int was_within_diags;
 #endif
 	
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	}
-	
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	}
-	
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	}
-	
-	j=0;
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-	{
-		if (unit_ind_dgtags[i] == (dgtag_struct *)0)
-			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-	}
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_altags();
+	setup_ind_dgtags();
 	
 #ifdef NEWDIAGS
 	was_within_diags = within_diags;
@@ -2701,9 +2652,7 @@ f_make_dg_comp_unit()
 		while (* comp_unit_ptr)
 			comp_unit_ptr = &(* comp_unit_ptr)->another;
 		start_bytestream();
-		no_of_labels = small_dtdfint();
-		unit_no_of_labels = no_of_labels;
-		unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+		unit_alloc_labels(small_dtdfint());
 		(* comp_unit_ptr) = d_dg_compilation();
 		IGNORE d_dg_append_list();
 		end_bytestream();

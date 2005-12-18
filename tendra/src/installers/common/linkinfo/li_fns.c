@@ -77,6 +77,7 @@ extern weak_cell *weak_list;
 #endif
 
 #include "readglob.h"
+#include "read_fns.h"
 #include "basicread.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -198,71 +199,26 @@ add_linkinfo_list(linkinfo_list list, linkinfo elem,
 
 
 void
-start_make_linkinfo_unit(int no_of_tokens,
-						 int no_of_tags,
-						 int no_of_als, int no_of_diagtypes)
+start_make_linkinfo_unit(int ntokens, int ntags, int naltags, int ndiagtags)
 {
-	int i;
-	UNUSED(no_of_diagtypes);
+	UNUSED(ndiagtags);
 
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-
+	allocate_unit(ntokens, ntags, naltags, 0, 0);
 	return;
 }
 
 int
 f_make_linkinfo_unit(void)
 {
-	int i;
-	int j = 0;
-	int no_of_labels;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	}
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	}
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	}
+
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_altags();
 	start_bytestream();
-	no_of_labels = small_dtdfint();
-	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_alloc_labels(small_dtdfint());
 	IGNORE d_linkinfo_list();
 	end_bytestream();
-
-	xfree((void*)unit_ind_tokens);
-	xfree((void*)unit_ind_tags);
-	xfree((void*)unit_ind_als);
-	xfree((void*)unit_labtab);
-	xfree((void*)unit_toktab);
-	xfree((void*)unit_tagtab);
-
+	unit_destroy();
 	return 0;
 }
 
