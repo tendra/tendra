@@ -9388,9 +9388,8 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
 
       <para>The parser used in the C++ producer is generated using the
         &doc.sid; <literal>sid</literal> tool. Because of the
-        large size of the generated code (1.3MB), the <literal>sid</literal>
-        output is run through a simple program, <literal>sidsplit</literal>,
-        which splits the output into a number of more manageable modules.</para>
+        large size of the generated code (650kB), <literal>sid</literal>
+        splits the output into a number of more manageable modules.</para>
 
       <para><literal>sid</literal> is designed as a parser for grammars which
         can be transformed into LL(1) grammars. The distinguishing feature of
