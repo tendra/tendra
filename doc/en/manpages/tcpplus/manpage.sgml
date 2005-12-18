@@ -140,7 +140,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tcpplus-bigN-option'>
       <term><option>-N</option><replaceable>name</replaceable><emphasis>:</emphasis><emphasis>
         directory</emphasis></term>
       <listitem>
@@ -259,7 +259,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tccplus-d-option'>
       <term><option>-d</option><replaceable>opt</replaceable><emphasis>=</emphasis><emphasis>
         dump-file</emphasis></term>
       <listitem>
@@ -276,7 +276,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tcpplus-e-option'>
       <term><option>-e</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as an end-up file. This is
@@ -285,7 +285,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tcpplus-f-option'>
       <term><option>-f</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as a start-up file. This is
@@ -340,7 +340,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tcpplus-n-option'>
       <term><option>-n</option><replaceable>port-table</replaceable></term>
       <listitem>
         <para>Specifies that the given portability table should be used to
@@ -382,7 +382,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
+    <varlistentry id='tcpplus-u-option'>
       <term><option>-u</option><replaceable> name ... name</replaceable></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to print the unmangle forms
