@@ -90,6 +90,7 @@ alphadiags.c,v
 #include "fmm.h"
 
 #include "common_types.h"
+#include "readglob.h"
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "expmacs.h"
@@ -484,8 +485,8 @@ void
 OUTPUT_DIAG_TAGS(void)
 {
   /*collects structs & unions */ 
-  diag_tagdef ** di = unit_ind_diagtags;
-  long n = unit_no_of_diagtags;
+  diag_tagdef ** di = cunit->u_ind_diagtags;
+  long n = cunit->u_ndiagtags;
   long i;
   long il = no_of_sus;
 

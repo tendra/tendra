@@ -128,7 +128,7 @@ set_lab(label l, exp e)
 dec*
 get_dec(int tg)
 {
-	dec *res = unit_ind_tags[tg];
+	dec *res = cunit->u_ind_tags[tg];
 
 	res->dec_u.dec_val.index = tg;
 	return res;
@@ -140,7 +140,7 @@ get_dec(int tg)
 aldef*
 get_aldef(int tg)
 {
-	return unit_ind_als[tg];
+	return cunit->u_ind_altags[tg];
 }
 
 /*
@@ -168,7 +168,7 @@ get_tok(int tk)
 		}
 		con = con->outer;
 	}
-	return unit_ind_tokens[tk];
+	return cunit->u_ind_tokens[tk];
 }
 
 /*
@@ -249,7 +249,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 				IGNORE fprintf(stderr, "capsule token number: %d\n", td->tok_index);
 			else {
 				if (td->tok_index >= 0 &&
-					td->tok_index < unit_no_of_tokens)
+					td->tok_index < cunit->u_ntokens)
 					IGNORE fprintf(stderr, "local unit token number: %d\n",
 								   td->tok_index);
 				else
@@ -266,22 +266,11 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 
 		tokval val;
 		struct tdf_stream *old_stream;
+		struct tdf_unit *old_unit;
 		tok_define *new_bindings;
 		int i,j;
-		dec **old_tagtab;		/* to remember the current tag table */
-		exp *old_labtab;		/* to remember the current label table */
-		tok_define **old_toktab;/* to remember the current token table */
-		aldef **old_altab;		/* to remember the current alignment tag table */
-		diag_tagdef **old_diagtab;		/* OLD DIAGS */
-		dgtag_struct **old_dgtab;		/* NEW DIAGS */
 
-		/* now remember them */
-		old_tagtab = unit_ind_tags;
-		old_labtab = unit_labtab;
-		old_toktab = unit_ind_tokens;
-		old_altab = unit_ind_als;
-		old_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-		old_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+		old_unit = cunit;
 
 		new_context.no_toks = (short)npars;
 		nil_params.number = 0;
@@ -367,15 +356,9 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 		crt_context = &new_context;
 
 		/*
-		 * now set up the tables which belong to the place where the
-		 * token was defined
+		 * Switch to the unit where the token was defined
 		 */
-		unit_ind_tags = td->my_tagtab;
-		unit_labtab = td->my_labtab;
-		unit_ind_tokens = td->my_toktab;
-		unit_ind_als = td->my_altab;
-		unit_ind_diagtags = td->my_diagtab;		/* OLD DIAGS */
-		unit_ind_dgtags = td->my_dgtab;			/* NEW DIAGS */
+		cunit = td->my_unit;
 
 		/* read the body of the definition */
 		td->recursive = 1;  /* set up to detect recursion */
@@ -411,12 +394,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval *actual_pars)
 
 		/* restore the old environment of tables */
 		crt_context = old_context;
-		unit_ind_tags = old_tagtab;
-		unit_labtab = old_labtab;
-		unit_ind_tokens = old_toktab;
-		unit_ind_als = old_altab;
-		unit_ind_diagtags = old_diagtab;	/* OLD DIAGS */
-		unit_ind_dgtags = old_dgtab;		/* NEW DIAGS */
+		cunit = old_unit;
 
 		if (!doing_aldefs && npars == 0 && new_context.recursive == 0) {
 			/*

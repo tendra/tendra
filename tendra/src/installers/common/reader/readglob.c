@@ -68,47 +68,12 @@
 
 struct tdf_capsule cap;			/* capsule being processed */
 
+struct tdf_unit *cunit;			/* unit being processed */
 
-
-dec * unit_tagtab;
-/* the table of tags for the current unit */
-
-tok_define * unit_toktab;
-/* the table of tokens for the current unit */
-
-aldef * unit_altab;
-/* the table of alignment tags for the current unit */
-
-int unit_no_of_tokens;
-/* the number of tokens in the current unit */
-
-int unit_no_of_tags;
-/* the number of tags in the current unit */
-
-int unit_no_of_als;
-/* the number of alignment tags in the current unit */
-
-dec ** unit_ind_tags;
-/* table of pointers to the tags used in the current unit */
-
-tok_define ** unit_ind_tokens;
-/* table of pointers to the tokens used in the current unit */
-
-aldef ** unit_ind_als;
-/* table of pointers to the alignment tags used in the current unit */
-
-
-exp * unit_labtab;
-/* table of labels used in the current unit */
-
-int unit_no_of_labels;
-/* number of labels used in the current unit */
 
 int crt_tagdef_unit_no;
 /* number of current tagdef unit. -1 before tagdef units */
 
-int unit_index;
-/* number of current unit */
 
 int rep_make_proc = 1;  /* identify any make_procs not in make_id_tagdef*/
 

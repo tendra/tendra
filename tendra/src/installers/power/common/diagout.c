@@ -307,8 +307,8 @@ INSPECT_FILENAME(filename f)
 void
 OUTPUT_DIAG_TAGS()
 {
-	diag_tagdef **di = unit_ind_diagtags;
-	unsigned int n = unit_no_of_diagtags;
+	diag_tagdef **di = cunit->u_ind_diagtags;
+	unsigned int n = cunit->u_ndiagtags;
 	int i;
 	int il = no_of_sus; /* There should be no clashes within a single unit so we save a bit of time here */
 	

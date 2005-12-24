@@ -76,6 +76,7 @@
 #include "bitsmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
+#include "readglob.h"
 #include "locate.h"
 #include "diagglob.h"
 #include "mark_scope.h"
@@ -2359,8 +2360,8 @@ stab_types(void)
 void
 stab_tagdefs(void)
 {
-	diag_tagdef **di = unit_ind_diagtags;
-	unsigned int n = unit_no_of_diagtags;
+	diag_tagdef **di = cunit->u_ind_diagtags;
+	unsigned int n = cunit->u_ndiagtags;
 	int i;
 
 	for (i = 0; i < n; i++)

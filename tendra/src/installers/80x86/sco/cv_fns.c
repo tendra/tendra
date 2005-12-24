@@ -61,6 +61,7 @@
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"
+#include "readglob.h"
 #include "out.h"
 #include "machine.h"
 #include "cv_types.h"
@@ -330,8 +331,8 @@ OUTPUT_GLOBALS_TAB(void)
 void
 OUTPUT_DIAG_TAGS(void)
 {
-	diag_tagdef ** di = unit_ind_diagtags;
-	int n = unit_no_of_diagtags;
+	diag_tagdef ** di = cunit->u_ind_diagtags;
+	int n = cunit->u_ndiagtags;
 	int i;
 
 	if (!filename_space)

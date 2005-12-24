@@ -97,6 +97,7 @@
 #include "diagglob.h"
 #include "mark_scope.h"
 #include "basicread.h"
+#include "readglob.h"
 #include "new_code.h"
 #include "new_symbol.h"
 
@@ -439,8 +440,8 @@ static long leng_sus = 0;
 void
 OUTPUT_DIAG_TAGS()
 {
-	diag_tagdef ** di = unit_ind_diagtags;
-	unsigned long n = unit_no_of_diagtags;
+	diag_tagdef ** di = cunit->u_ind_diagtags;
+	unsigned long n = cunit->u_ndiagtags;
 	long i;
 	long il = no_of_sus;
 	

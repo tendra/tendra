@@ -59,10 +59,6 @@
 #ifndef dg_fns_key
 #define dg_fns_key 1
 
-extern int unit_no_of_dgtags;
-extern dgtag_struct ** unit_ind_dgtags;
-extern dgtag_struct * 	unit_dgtagtab;
-
 void init_capsule_dgtags(void);
 void init_unit_dgtags(int n);
 void start_make_dg_comp_unit(int toks, int tags, int als, int dgnames);

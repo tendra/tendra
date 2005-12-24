@@ -105,10 +105,6 @@ extern void diag_val_end(diag_global * d);
 #endif
 
 
-extern int unit_no_of_diagtags;
-extern diag_tagdef ** unit_ind_diagtags;
-extern diag_tagdef *unit_diag_tagdeftab;
-
 extern void f_make_diagtaglink(tdfint i, tdfint ext);
 
 #ifdef NEWDIAGS

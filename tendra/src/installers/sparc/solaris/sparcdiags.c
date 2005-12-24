@@ -79,6 +79,7 @@
 #include "machine.h"
 #include "szs_als.h"
 #include "read_fns.h"
+#include "readglob.h"
 #include "installglob.h"
 #include "externs.h"
 #include "out.h"
@@ -1662,8 +1663,8 @@ stab_types(void)
 void
 stab_tagdefs(void)
 {
-    diag_tagdef **di = unit_ind_diagtags;
-    int i, n = unit_no_of_diagtags, istag;
+    diag_tagdef **di = cunit->u_ind_diagtags;
+    int i, n = cunit->u_ndiagtags, istag;
 
     for (i = 0; i < n; i++) {
 		diag_type d = di [i]->d_type;

@@ -156,12 +156,6 @@ init_token_option()
 }
 
 
-
-int unit_no_of_dgtags;
-dgtag_struct ** unit_ind_dgtags;
-dgtag_struct * 	unit_dgtagtab;
-
-
 dg
 f_dg_apply_token(token token_value, bitstream token_args)
 {
@@ -571,9 +565,9 @@ dg_tag
 f_make_dg_tag(tdfint num)
 {
 	int index = natint(num);
-	if (index >= unit_no_of_dgtags)
+	if (index >= cunit->u_ndgtags)
 		failer("make_dg_tag out of range");
-	return unit_ind_dgtags[index];
+	return cunit->u_ind_dgtags[index];
 }
 
 void
@@ -2613,12 +2607,12 @@ init_unit_dgtags(int n)
 	
 	int i;
 	
-	unit_dgtagtab = (dgtag_struct *) xcalloc(unit_no_of_dgtags - n,
+	cunit->u_dgtags = (dgtag_struct *) xcalloc(cunit->u_ndgtags - n,
 											 sizeof(dgtag_struct));
 	
-	for (i = 0; i < unit_no_of_dgtags - n; ++i)
+	for (i = 0; i < cunit->u_ndgtags - n; ++i)
 	{
-		init_dgtag (&unit_dgtagtab[i]);
+		init_dgtag (&cunit->u_dgtags[i]);
 	}
 	return;
 }
@@ -2666,8 +2660,7 @@ f_make_dg_comp_unit()
 void
 f_make_dglink(tdfint i, tdfint ext)
 {
-	unit_ind_dgtags[natint(i)] =
-		&cap.c_dgtags[natint(ext)];
+	cunit->u_ind_dgtags[natint(i)] = &cap.c_dgtags[natint(ext)];
 	return;
 }
 

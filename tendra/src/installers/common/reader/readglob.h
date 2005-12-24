@@ -62,6 +62,8 @@
  * Data used for reading and translating of TDF capsule.
  */
 struct tdf_capsule {
+	int				c_unitindex;		/* number of current unit */
+
 	int				c_ntags;			/* the number of tags */
 	dec				*c_tags;			/* the table of tags */
 
@@ -78,46 +80,38 @@ struct tdf_capsule {
 	dgtag_struct	*c_dgtags;			/* NEW DIAGS, the table of diagnostic name tags */
 };
 
+
+struct tdf_unit {
+	int				u_ntags;			/* the number of tags */
+	dec				*u_tags;			/* the table of tags */
+	dec				**u_ind_tags;		/* table of pointers to the tags used in this unit */
+
+	int				u_ntokens;			/* the number of tokens */
+	tok_define		*u_tokens;			/* the table of tokens */
+	tok_define		**u_ind_tokens;		/* table of pointers to the tokens used in this unit */
+
+	int				u_naltags;			/* the number of alignment tags */
+	aldef			*u_altags;			/* the table of alignment tags */
+	aldef			**u_ind_altags;		/* table of pointers to the alignment tags used in this unit */
+
+	int				u_nlabels;			/* number of labels used in this unit */
+	exp				*u_labels;			/* table of labels used in this unit */
+
+	int				u_ndiagtags;
+	diag_tagdef		*u_diagtags;
+	diag_tagdef		**u_ind_diagtags;
+
+	int				u_ndgtags;
+	dgtag_struct	*u_dgtags;
+	dgtag_struct	**u_ind_dgtags;
+};
+
 extern struct tdf_capsule cap;			/* capsule being processed */
-
-extern dec * unit_tagtab;
-/* the table of tags for the current unit */
-
-extern tok_define * unit_toktab;
-/* the table of tokens for the current unit */
-
-extern aldef * unit_altab;
-/* the table of alignment tags for the current unit */
-
-extern int unit_no_of_tokens;
-/* the number of tokens in the current unit */
-
-extern int unit_no_of_tags;
-/* the number of tags in the current unit */
-
-extern int unit_no_of_als;
-/* the number of alignment tags in the current unit */
-
-extern dec ** unit_ind_tags;
-/* table of pointers to the tags used in the current unit */
-
-extern tok_define ** unit_ind_tokens;
-/* table of pointers to the tokens used in the current unit */
-
-extern aldef ** unit_ind_als;
-/* table of pointers to the alignment tags used in the current unit */
-
-
-extern exp * unit_labtab;
-/* table of labels used in the current unit */
-
-extern int unit_no_of_labels;
-/* number of labels used in the current unit */
+extern struct tdf_unit *cunit;			/* unit being processed */
 
 extern int crt_tagdef_unit_no;
 /* number of current tagdef unit. -1 before tagdef units */
 
-extern int unit_index;
 
 extern char * make_local_name(void);
 

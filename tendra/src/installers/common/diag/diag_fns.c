@@ -77,12 +77,6 @@
 #include "diag_fns.h"
 
 
-int unit_no_of_diagtags;
-
-diag_tagdef **unit_ind_diagtags;
-diag_tagdef *unit_diag_tagdeftab;
-
-
 #ifdef NEWDIAGS
 
 
@@ -696,9 +690,9 @@ diag_tag
 f_make_diag_tag(tdfint num)
 {
 	int index = natint(num);
-	if (index >= unit_no_of_diagtags)
+	if (index >= cunit->u_ndiagtags)
 		failer("make_dg_tag out of range");
-	return unit_ind_diagtags[index];
+	return cunit->u_ind_diagtags[index];
 }
 
 
@@ -767,12 +761,12 @@ init_unit_diagtags(int n)
 	
 	int i;
 	
-	unit_diag_tagdeftab = (diag_tagdef *) xcalloc(unit_no_of_diagtags - n,
+	cunit->u_diagtags = (diag_tagdef *) xcalloc(cunit->u_ndiagtags - n,
 												  sizeof(diag_tagdef));
 	
-	for (i = 0; i < unit_no_of_diagtags - n; ++i)
+	for (i = 0; i < cunit->u_ndiagtags - n; ++i)
 	{
-		init_dgtag (&unit_diag_tagdeftab[i]);
+		init_dgtag (&cunit->u_diagtags[i]);
 	}
 	return;
 }
@@ -849,8 +843,7 @@ f_use_diag_tag(diag_tag t)
 void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
-	unit_ind_diagtags[natint(i)] =
-		&cap.c_diagtags[natint(ext)];
+	cunit->u_ind_diagtags[natint(i)] = &cap.c_diagtags[natint(ext)];
 	return;
 }
 
@@ -1471,12 +1464,12 @@ init_unit_diagtags(int n)
 	
 	int i;
 	
-	unit_diag_tagdeftab = (diag_tagdef *) xcalloc(unit_no_of_diagtags - n,
+	cunit->u_diagtags = (diag_tagdef *) xcalloc(cunit->u_ndiagtags - n,
 												  sizeof(diag_tagdef));
 	
-	for (i = 0; i < unit_no_of_diagtags - n; ++i)
+	for (i = 0; i < cunit->u_ndiagtags - n; ++i)
 	{
-		diag_tagdef * tp = &unit_diag_tagdeftab[i];
+		diag_tagdef * tp = &cunit->u_diagtags[i];
 		tp->d_type = (diag_type) xcalloc(1,sizeof(struct diag_type_t));
 		tp->d_type->key = DIAG_TYPE_INITED;
 	}
@@ -1511,7 +1504,7 @@ diag_tagdef_list
 add_diag_tagdef_list(diag_tagdef_list list,
 					 diag_tagdef elem, int index)
 {
-	diag_tagdef * new = unit_ind_diagtags[natint(elem.d_tag)];
+	diag_tagdef * new = cunit->u_ind_diagtags[natint(elem.d_tag)];
 	UNUSED(list); UNUSED(index);
 	
 	new->d_tag 	= elem.d_tag;
@@ -1546,15 +1539,14 @@ f_make_diagtagextern(tdfint internal, external ext)
 diag_type
 f_use_diag_tag(diag_tag t)
 {
-	return unit_ind_diagtags[natint(t)]->d_type;
+	return cunit->u_ind_diagtags[natint(t)]->d_type;
 }
 
 
 void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
-	unit_ind_diagtags[natint(i)] =
-		&cap.c_diagtags[natint(ext)];
+	cunit->u_ind_diagtags[natint(i)] = &cap.c_diagtags[natint(ext)];
 	return;
 }
 

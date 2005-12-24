@@ -516,7 +516,7 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	}
 
 	crt_tagdef_unit_no = -1;
-	unit_index = 0;
+	cap.c_unitindex = 0;
 	top_aldef = (aldef *)0;
 	doing_aldefs = 0;
 
@@ -765,7 +765,7 @@ f_label_apply_token(token token_value, bitstream token_args)
 label
 f_make_label(tdfint labelno)
 {
-	return &unit_labtab[natint(labelno)];
+	return &cunit->u_labels[natint(labelno)];
 }
 
 void
@@ -1256,14 +1256,14 @@ f_make_tagextern(tdfint internal, external ext)
 taglink
 f_make_taglink(tdfint internal, tdfint ext)
 {
-	unit_ind_tags[natint(internal)] = &cap.c_tags[natint(ext)];
+	cunit->u_ind_tags[natint(internal)] = &cap.c_tags[natint(ext)];
 	return 0;
 }
 
 allink
 f_make_allink(tdfint internal, tdfint ext)
 {
-	unit_ind_als[natint(internal)] = &cap.c_altags[natint(ext)];
+	cunit->u_ind_altags[natint(internal)] = &cap.c_altags[natint(ext)];
 	return 0;
 }
 
@@ -1303,14 +1303,8 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
 	tok->defined = 1;
 	tok->tok_context = (context*)0;
 
-    /* record the tables which are current so that they can be
-	 *       used when the token is applied */
-	tok->my_labtab = unit_labtab;
-	tok->my_tagtab = unit_ind_tags;
-	tok->my_toktab = unit_ind_tokens;
-	tok->my_altab = unit_ind_als;
-	tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-	tok->my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+    /* record current unit as it will be used when the token is applied */
+	tok->my_unit = cunit;
 	if (params.number == 0)
 		tok->re_evaluate = 0;
 	else
@@ -1343,14 +1337,8 @@ f_use_tokdef(bitstream def)
 	tok->defined = 1;
 	tok->tok_context = crt_context;
 
-    /* record the tables which are current so that they can be
-	 *       used when the token is applied */
-	tok->my_labtab = unit_labtab;
-	tok->my_tagtab = unit_ind_tags;
-	tok->my_toktab = unit_ind_tokens;
-	tok->my_altab = unit_ind_als;
-	tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-	tok->my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+    /* record current unit as it will be used when the token is applied */
+	tok->my_unit = cunit;
 
 	if (params.number == 0)
 		tok->re_evaluate = 0;
@@ -1453,7 +1441,7 @@ init_tokformals(void)
 toklink
 f_make_toklink(tdfint internal, tdfint ext)
 {
-	unit_ind_tokens[natint(internal)] = &cap.c_tokens[natint(ext)];
+	cunit->u_ind_tokens[natint(internal)] = &cap.c_tokens[natint(ext)];
 	return 0;
 }
 
@@ -1528,59 +1516,68 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 void
 allocate_unit(int ntokens, int ntags, int naltags, int ndiagtags, int ndgtags)
 {
+	struct tdf_unit *up;
 	int i;
 
-	unit_no_of_tokens = ntokens;
-	unit_toktab = NULL;
-	unit_ind_tokens = xmalloc(ntokens * sizeof(*unit_ind_tokens));
+	up = xmalloc(sizeof(*up));
+
+	up->u_ntokens = ntokens;
+	up->u_tokens = NULL;
+	up->u_ind_tokens = xmalloc(ntokens * sizeof(*up->u_ind_tokens));
 	for (i = 0; i < ntokens; i++)
-		unit_ind_tokens[i] = NULL;
+		up->u_ind_tokens[i] = NULL;
 
-	unit_no_of_tags = ntags;
-	unit_tagtab = NULL;
-	unit_ind_tags = xmalloc(ntags * sizeof(*unit_ind_tags));
+	up->u_ntags = ntags;
+	up->u_tags = NULL;
+	up->u_ind_tags = xmalloc(ntags * sizeof(*up->u_ind_tags));
 	for (i = 0; i < ntags; i++)
-		unit_ind_tags[i] = NULL;
+		up->u_ind_tags[i] = NULL;
 
-	unit_no_of_als = naltags;
-	unit_altab = NULL;
-	unit_ind_als = xmalloc(naltags * sizeof(*unit_ind_als));
+	up->u_naltags = naltags;
+	up->u_altags = NULL;
+	up->u_ind_altags = xmalloc(naltags * sizeof(*up->u_ind_altags));
 	for (i = 0; i < naltags; i++)
-		unit_ind_als[i] = NULL;
+		up->u_ind_altags[i] = NULL;
 
-	unit_no_of_diagtags = ndiagtags;	/* OLD DIAGS */
-	unit_ind_diagtags = xmalloc(ndiagtags *	sizeof(*unit_ind_diagtags));
+	up->u_ndiagtags = ndiagtags;		/* OLD DIAGS */
+	up->u_ind_diagtags = xmalloc(ndiagtags * sizeof(*up->u_ind_diagtags));
 	for (i = 0; i < ndiagtags; i++)
-		unit_ind_diagtags[i] = NULL;
+		up->u_ind_diagtags[i] = NULL;
 
-	unit_no_of_dgtags = ndgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = xmalloc(ndgtags * sizeof(*unit_ind_dgtags));
+	up->u_ndgtags = ndgtags;			/* NEW DIAGS */
+	up->u_ind_dgtags = xmalloc(ndgtags * sizeof(*up->u_ind_dgtags));
 	for (i = 0; i < ndgtags; i++)
-		unit_ind_dgtags[i] = NULL;
+		up->u_ind_dgtags[i] = NULL;
 
-	unit_labtab = NULL;
-	unit_no_of_labels = 0;
+	up->u_labels = NULL;
+	up->u_nlabels = 0;
+
+	cunit = up;
 }
 
 void
 unit_destroy(void)
 {
+	struct tdf_unit *up = cunit;
 
-	xfree(unit_ind_tokens);
-	xfree(unit_ind_tags);
-	xfree(unit_ind_als);
+	xfree(up->u_ind_tokens);
+	xfree(up->u_ind_tags);
+	xfree(up->u_ind_altags);
 
-	xfree(unit_labtab);
-	xfree(unit_toktab);
-	xfree(unit_tagtab);
-	xfree(unit_altab);
+	xfree(up->u_labels);
+	xfree(up->u_tokens);
+	xfree(up->u_tags);
+	xfree(up->u_altags);
+
+	cunit = NULL;
+	xfree(up);
 }
 
 void
 unit_alloc_labels(long nlabels)
 {
-	unit_no_of_labels = nlabels;
-	unit_labtab = (exp*)xcalloc(nlabels, sizeof(exp));
+	cunit->u_nlabels = nlabels;
+	cunit->u_labels = (exp*)xcalloc(nlabels, sizeof(exp));
 }
 
 void
@@ -1588,9 +1585,9 @@ setup_ind_tokens(void)
 {
 	int i, j;
 
-	for (i = 0, j = 0; i < unit_no_of_tokens; ++i) {
-		if (unit_ind_tokens[i] == NULL)
-			unit_ind_tokens[i] = &unit_toktab[j++];
+	for (i = 0, j = 0; i < cunit->u_ntokens; ++i) {
+		if (cunit->u_ind_tokens[i] == NULL)
+			cunit->u_ind_tokens[i] = &cunit->u_tokens[j++];
 	}
 }
 
@@ -1599,9 +1596,9 @@ setup_ind_tags(void)
 {
 	int i, j;
 
-	for (i = 0, j = 0; i < unit_no_of_tags; ++i) {
-		if (unit_ind_tags[i] == NULL)
-			unit_ind_tags[i] = &unit_tagtab[j++];
+	for (i = 0, j = 0; i < cunit->u_ntags; ++i) {
+		if (cunit->u_ind_tags[i] == NULL)
+			cunit->u_ind_tags[i] = &cunit->u_tags[j++];
 	}
 }
 
@@ -1610,9 +1607,9 @@ setup_ind_altags(void)
 {
 	int i, j;
 
-	for (i = 0, j = 0; i < unit_no_of_als; ++i) {
-		if (unit_ind_als[i] == NULL)
-			unit_ind_als[i] = &unit_altab[j++];
+	for (i = 0, j = 0; i < cunit->u_naltags; ++i) {
+		if (cunit->u_ind_altags[i] == (aldef*)0)
+			cunit->u_ind_altags[i] = &cunit->u_altags[j++];
 	}
 }
 
@@ -1622,9 +1619,9 @@ setup_ind_diagtags(void)
 	int i, j;
 
 	/* OLD DIAGS */
-	for (i = 0, j = 0; i < unit_no_of_diagtags; ++i) {
-		if (unit_ind_diagtags[i] == (diag_tagdef *)0)
-			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
+	for (i = 0, j = 0; i < cunit->u_ndiagtags; ++i) {
+		if (cunit->u_ind_diagtags[i] == (diag_tagdef *)0)
+			cunit->u_ind_diagtags[i] = &cunit->u_diagtags[j++];
 	}
 }
 
@@ -1634,9 +1631,9 @@ setup_ind_dgtags(void)
 	int i, j;
 
 	/* NEW DIAGS */
-	for (i = 0, j = 0; i < unit_no_of_dgtags; ++i) {
-		if (unit_ind_dgtags[i] == NULL)
-			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
+	for (i = 0, j = 0; i < cunit->u_ndgtags; ++i) {
+		if (cunit->u_ind_dgtags[i] == (dgtag_struct *)0)
+			cunit->u_ind_dgtags[i] = &cunit->u_dgtags[j++];
 	}
 }
 
@@ -1791,7 +1788,7 @@ start_make_unit(tdfint_list lvl)
 	int ndiagtype = 0;	/* OLD DIAGS */
 	int ndgtag = 0;	/* NEW DIAGS */
 
-	++unit_index;
+	++cap.c_unitindex;
 
 	if (lvl.number != 0) {
 		w = cap_get_link_index("token");
@@ -2296,11 +2293,11 @@ new_link_list(int n)
 	switch (crt_links_type) {
 		/* initialise the table */
 	case TOK_TYPE:
-		no_of_local_tokens = unit_no_of_tokens - n;
-		unit_toktab = (tok_define *)xcalloc(no_of_local_tokens,
+		no_of_local_tokens = cunit->u_ntokens - n;
+		cunit->u_tokens = (tok_define *)xcalloc(no_of_local_tokens,
 											sizeof(tok_define));
 		for (i = 0; i < no_of_local_tokens; ++i) {
-			tok_define * tp = &unit_toktab[i];
+			tok_define * tp = &cunit->u_tokens[i];
 			tp->tok_special = 0;
 			tp->valpresent = 0;
 			tp->unit_number = crt_tagdef_unit_no;
@@ -2311,10 +2308,9 @@ new_link_list(int n)
 		}
 		return 0;
 	case TAG_TYPE:
-		unit_tagtab = (dec *)xcalloc(unit_no_of_tags - n,
-									 sizeof(dec));
-		for (i = 0; i < unit_no_of_tags - n; ++i) {
-			dec * dp = &unit_tagtab[i];
+		cunit->u_tags = (dec *)xcalloc(cunit->u_ntags - n, sizeof(dec));
+		for (i = 0; i < cunit->u_ntags - n; ++i) {
+			dec * dp = &cunit->u_tags[i];
 			dp->dec_u.dec_val.dec_outermost = 0;
 			dp->dec_u.dec_val.dec_id = (char *) 0;
 			dp->dec_u.dec_val.extnamed = 0;
@@ -2327,9 +2323,9 @@ new_link_list(int n)
 		}
 		return 0;
 	case AL_TYPE:
-		unit_altab = (aldef *)xcalloc(unit_no_of_als - n, sizeof(aldef));
-		for (i = 0; i < unit_no_of_als - n; ++i) {
-			aldef * ap = &unit_altab[i];
+		cunit->u_altags = (aldef *)xcalloc(cunit->u_naltags - n, sizeof(aldef));
+		for (i = 0; i < cunit->u_naltags - n; ++i) {
+			aldef * ap = &cunit->u_altags[i];
 			ap->al.al_n = 0;
 		}
 		return 0;

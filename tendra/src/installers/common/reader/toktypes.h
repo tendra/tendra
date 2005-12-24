@@ -127,12 +127,7 @@ typedef struct t_lab_con {
 typedef union tokval_u tokval;
 
 struct tok_define_t {
-	dec			**my_tagtab;		/* the tagtab current at the definition */
-	aldef		**my_altab;			/* the altab current at the definition */
-	exp			*my_labtab;			/* the labtab current at the definition */
-	struct tok_define_t **my_toktab;	/* the toktab current at the definition */
-	diag_tagdef	**my_diagtab;		/* OLD DIAGS, the diagtab current at the definition */
-	dgtag_struct **my_dgtab;		/* NEW DIAGS, the dgtab current at the definition */
+	struct tdf_unit	*my_unit;		/* unit of the definition */
 	char		*tok_name;			/* the identifier (if any) for the token */
 	struct tokformals_list_t {		/* description of formal parameters */
 		sortname	*par_sorts;		/* sorts of parameters */
