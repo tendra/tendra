@@ -9661,2568 +9661,2790 @@ bs = enc_exp ( bs, b ) ;
       <link linkend='configuration'>compiler configuration</link>
       and <link linkend='token-syntax'>token specification</link>:</para>
 
-    <table frame="none" id='pragma-directive'>
-      <title>pragma-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>pragma TenDRA ++<emphasis><subscript>opt</subscript> tendra-directive</emphasis></entry>
-          <entry><xref linkend='tendra-directive'> # </entry>
-      </row>
-
-      <row>
-          <entry>pragma <emphasis>token-directive</emphasis></entry>
-          <entry><xref linkend='token-directive'> # </entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='tendra-directive'>
-      <title>tendra-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-
-      <row>
-          <entry><emphasis>scope-directive</emphasis></entry>
-          <entry><xref linkend='scope-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>low-level-directive</emphasis></entry>
-          <entry><xref linkend='low-level-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>analysis-directive on</emphasis></entry>
-          <entry><xref linkend='analysis-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>check-directive allow</emphasis></entry>
-          <entry><xref linkend='check-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>keyword-directive</emphasis></entry>
-          <entry><xref linkend='keyword-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>type-directive</emphasis></entry>
-          <entry><xref linkend='type-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>linkage-directive</emphasis></entry>
-          <entry><xref linkend='linkage-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>misc-directive</emphasis></entry>
-          <entry><xref linkend='misc-directive'></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>tendra-token-directive</emphasis></entry>
-          <entry><xref linkend='tendra-token-directive'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='on'>
-      <title>on</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>on</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>warning</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>off</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='allow'>
-      <title>allow</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>allow</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>warning</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>disallow</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='scope-directive'>
-      <title>scope-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>begin</entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>begin name environment <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>end</entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>use environment <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></entry>
-          <entry><xref linkend='checking-scopes'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='low-level-directive'>
-      <title>low-devel-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-
-      <row>
-          <entry>error <emphasis>string-literal allow</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-
-      <row>
-          <entry>error <emphasis>string-literal on</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-
-      <row>
-          <entry>error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-
-      <row>
-          <entry>option <emphasis>string-literal allow</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-
-      <row>
-          <entry>option <emphasis>string-literal on</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-
-      <row>
-          <entry>option value <emphasis>string-literal integer-literal</emphasis></entry>
-          <entry><xref linkend='implementation-limits'> </entry>
-      </row>
-
-      <row>
-          <entry>use error <emphasis>string-literal</emphasis></entry>
-          <entry><xref linkend='low-level-conf'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='analysis-directive'>
-      <title>analysis-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>complete initialization analysis</entry>
-          <entry><xref linkend='initialiser-expr'></entry>
-      </row>
-
-      <row>
-          <entry>complete struct / union analysis</entry>
-          <entry><xref linkend='elaborated-specifiers'></entry>
-      </row>
-
-      <row>
-          <entry>conversion analysis <emphasis>conversion-spec<subscript>opt</subscript></emphasis></entry>
-          <entry><xref linkend='type-conversations'></entry>
-      </row>
-
-      <row>
-          <entry>discard analysis <emphasis>discard-spec<subscript>opt</subscript></emphasis></entry>
-          <entry><xref linkend='discarded-expressions'></entry>
-      </row>
-
-      <row>
-          <entry>enum switch analysis</entry>
-          <entry><xref linkend='switch-statements'></entry>
-      </row>
-
-      <row>
-          <entry>external function linkage</entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>for initialization block</entry>
-          <entry><xref linkend='for-statements'></entry>
-      </row>
-
-      <row>
-          <entry>ignore struct / union / enum tag</entry>
-          <entry><xref linkend='elaborated-specifiers'></entry>
-      </row>
-
-      <row>
-          <entry>implicit export template</entry>
-          <entry><xref linkend='template-compilation'></entry>
-      </row>
-
-      <row>
-          <entry>implicit function declaration</entry>
-          <entry><xref linkend='implicit-function-decl'></entry>
-      </row>
-
-      <row>
-          <entry>integer operator analysis</entry>
-          <entry><xref linkend='expressions'></entry>
-      </row>
-
-      <row>
-          <entry>integer overflow analysis</entry>
-          <entry><xref linkend='expressions'></entry>
-      </row>
-
-      <row>
-          <entry>nested comment analysis</entry>
-          <entry><xref linkend='comments'></entry>
-      </row>
-
-      <row>
-          <entry>operator precedence analysis</entry>
-          <entry><xref linkend='expressions'></entry>
-      </row>
-
-      <row>
-          <entry>pointer operator analysis</entry>
-          <entry><xref linkend='expressions'></entry>
-      </row>
-
-      <row>
-          <entry>throw analysis</entry>
-          <entry><xref linkend='configuration'>#throw</entry>
-      </row>
-
-      <row>
-          <entry>unify external linkage</entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>variable analysis</entry>
-          <entry><xref linkend='variable-flow-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>variable hiding analysis</entry>
-          <entry><xref linkend='variable-hiding'></entry>
-      </row>
-
-      <row>
-          <entry>weak prototype analysis</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='conversion-spec'>
-      <title>conversion-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>( int - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( int - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( pointer - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( pointer - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( int - enum implicit )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( pointer - void * implicit )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( void * - pointer implicit )</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='implicit-spec'>
-      <title>implicit-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>implicit</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>explicit</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='discard-spec'>
-      <title>discard-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>( function return )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( static )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( value )</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='check-directive'>
-      <title>check-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>ambiguous overload resolution</entry>
-          <entry><xref linkend='overloaded-funct'></entry>
-      </row>
-
-      <row>
-          <entry>assignment as bool</entry>
-          <entry><xref linkend='conditional-iteration'></entry>
-      </row>
-
-      <row>
-          <entry>bitfield overflow</entry>
-          <entry><xref linkend='bitfield-types-b'></entry>
-      </row>
-
-      <row>
-          <entry>block function static</entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>catch all</entry>
-          <entry><xref linkend='other-checks'></entry>
-      </row>
-
-      <row>
-          <entry>character escape overflow</entry>
-          <entry><xref linkend='escape-sequences'></entry>
-      </row>
-
-      <row>
-          <entry>compatible token</entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>complete file includes</entry>
-          <entry><xref linkend='inclusion-directives'></entry>
-      </row>
-
-      <row>
-          <entry>conditional declaration</entry>
-          <entry><xref linkend='target-dep-conditional'></entry>
-      </row>
-
-      <row>
-          <entry>conditional lvalue</entry>
-          <entry><xref linkend='lvalue-expressions'></entry>
-      </row>
-
-      <row>
-          <entry>conditional overload resolution <emphasis>overload-spec<subscript>opt</subscript></emphasis></entry>
-          <entry><xref linkend='overloaded-funct'></entry>
-      </row>
-
-      <row>
-          <entry>const conditional</entry>
-          <entry><xref linkend='conditional-iteration'></entry>
-      </row>
-
-      <row>
-          <entry>directive as macro argument</entry>
-          <entry><xref linkend='macro-definitions'></entry>
-      </row>
-
-      <row>
-          <entry>dollar as ident</entry>
-          <entry><xref linkend='identifier-names'></entry>
-      </row>
-
-      <row>
-          <entry>extra ,</entry>
-          <entry><xref linkend='elaborated-specifiers'></entry>
-      </row>
-
-      <row>
-          <entry>extra ;</entry>
-          <entry><xref linkend='empty-decl'></entry>
-      </row>
-
-      <row>
-          <entry>extra ; after conditional</entry>
-          <entry><xref linkend='conditional-iteration'></entry>
-      </row>
-
-      <row>
-          <entry>extra ...</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>extra bitfield int type</entry>
-          <entry><xref linkend='bitfield-types-b'></entry>
-      </row>
-
-      <row>
-          <entry>extra macro definition</entry>
-          <entry><xref linkend='macro-definitions'></entry>
-      </row>
-
-      <row>
-          <entry>fextra type definition</entry>
-          <entry><xref linkend='decl'></entry>
-      </row>
-
-      <row>
-          <entry>fall into case</entry>
-          <entry><xref linkend='switch-statements'></entry>
-      </row>
-
-      <row>
-          <entry>forward enum declaration</entry>
-          <entry><xref linkend='elaborated-specifiers'></entry>
-      </row>
-
-      <row>
-          <entry>function pointer as pointer</entry>
-          <entry><xref linkend='type-conversations'></entry>
-      </row>
-
-      <row>
-          <entry>ident ...</entry>
-          <entry><xref linkend='ellipsis-functions'></entry>
-      </row>
-
-      <row>
-          <entry>implicit int type <emphasis>inttype-spec<subscript>opt</subscript></emphasis></entry>
-          <entry><xref linkend='implicit-int'></entry>
-      </row>
-
-      <row>
-          <entry>implicit token definition</entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>incompatible interface declaration</entry>
-          <entry><xref linkend='token-specifcations'> </entry>
-      </row>
-
-      <row>
-          <entry>incompatible member declaration</entry>
-          <entry><xref linkend='member-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>incompatible linkage</entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>incompatible promoted function argument</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>incompatible type qualifier</entry>
-          <entry><xref linkend='compat'></entry>
-      </row>
-
-      <row>
-          <entry>incompatible void return</entry>
-          <entry><xref linkend='return-statements'></entry>
-      </row>
-
-      <row>
-          <entry>incomplete type as object type</entry>
-          <entry><xref linkend='incomplete-types'></entry>
-      </row>
-
-      <row>
-          <entry>indented # directive</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>indented directive after #</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>initialization of struct / union ( auto )</entry>
-          <entry><xref linkend='initialiser-expr'></entry>
-      </row>
-
-      <row>
-          <entry>longlong type</entry>
-          <entry><xref linkend='extended-integral'></entry>
-      </row>
-
-      <row>
-          <entry>no directive / nline after ident</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>no external declaration</entry>
-          <entry><xref linkend='empty-source-files'></entry>
-      </row>
-
-      <row>
-          <entry>no ident after #</entry>
-          <entry><xref linkend='macro-definitions'></entry>
-      </row>
-
-      <row>
-          <entry>no nline after file end</entry>
-          <entry><xref linkend='lexical-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>no token definition</entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>overload resolution</entry>
-          <entry><xref linkend='overloaded-funct'></entry>
-      </row>
-
-      <row>
-          <entry>prototype</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>prototype ( weak )</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>rvalue token as const</entry>
-          <entry><xref linkend='expression-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>text after directive</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>this lvalue</entry>
-          <entry><xref linkend='lvalue-expressions'></entry>
-      </row>
-
-      <row>
-          <entry>unify incompatible string literal</entry>
-          <entry><xref linkend='string-literals-a'></entry>
-      </row>
-
-      <row>
-          <entry>unknown directive</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>unknown escape</entry>
-          <entry><xref linkend='escape-sequences'></entry>
-      </row>
-
-      <row>
-          <entry>unknown pragma</entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>unknown struct / union</entry>
-          <entry><xref linkend='empty-decl'></entry>
-      </row>
-
-      <row>
-          <entry>unmatched quote</entry>
-          <entry><xref linkend='string-literals-a'></entry>
-      </row>
-
-      <row>
-          <entry>unreachable code</entry>
-          <entry><xref linkend='unreached-code-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>variable initialization</entry>
-          <entry><xref linkend='initialiser-expr'></entry>
-      </row>
-
-      <row>
-          <entry>weak macro equality</entry>
-          <entry><xref linkend='macro-definitions'></entry>
-      </row>
-
-      <row>
-          <entry>writeable string literal</entry>
-          <entry><xref linkend='string-literals-a'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='inttype-spec'>
-      <title>inttype-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>for const / volatile</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>for external declaration</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>for function return</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='overload-spec'>
-      <title>overload-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>( complete )</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( incomplete )</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='keyword-directive'>
-      <title>keyword-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>keyword <emphasis>identifier</emphasis> for <emphasis>keyword-spec</emphasis></entry>
-          <entry><xref linkend='keyword-directive'></entry>
-      </row>
-
-      <row>
-          <entry>undef keyword <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='keyword-spec'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='keyword-spec'>
-      <title>keyword-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>discard value</entry>
-          <entry><xref linkend='discarded-expressions'></entry>
-      </row>
-
-      <row>
-          <entry>discard variable</entry>
-          <entry><xref linkend='variable-flow-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>exhaustive</entry>
-          <entry><xref linkend='switch-statements'></entry>
-      </row>
-
-      <row>
-          <entry>fall into case</entry>
-          <entry><xref linkend='switch-statements'></entry>
-      </row>
-
-      <row>
-          <entry>keyword <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='keywords'></entry>
-      </row>
-
-      <row>
-          <entry>operator <emphasis>operator</emphasis></entry>
-          <entry><xref linkend='keywords'></entry>
-      </row>
-
-      <row>
-          <entry>set</entry>
-          <entry><xref linkend='variable-flow-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>set reachable</entry>
-          <entry><xref linkend='unreached-code-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>set unreachable</entry>
-          <entry><xref linkend='unreached-code-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>type representation</entry>
-          <entry><xref linkend='type-conversations'></entry>
-      </row>
-
-      <row>
-          <entry>weak</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-
-    <table frame="none" id='type-directive'>
-      <title>type-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>bottom <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='unreached-code-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>character <emphasis>character-sign</emphasis></entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>character <emphasis>character-literal character-mapping</emphasis></entry>
-          <entry><xref linkend='identifier-names'></entry>
-      </row>
-
-      <row>
-          <entry>character <emphasis>string-literal character-mapping</emphasis></entry>
-          <entry><xref linkend='identifier-names'></entry>
-      </row>
-
-      <row>
-          <entry>compute promote <emphasis>identifier</emphasis></entry>
-          <entry><xref linkend='arithmetic-types'> </entry>
-      </row>
-
-      <row>
-          <entry>escape <emphasis>character-literal character-mapping</emphasis></entry>
-          <entry><xref linkend='escape-sequences'></entry>
-      </row>
-
-      <row>
-          <entry>integer literal <emphasis>literal-spec</emphasis></entry>
-          <entry><xref linkend='integer-literals'></entry>
-      </row>
-
-      <row>
-          <entry>promoted <emphasis>type-id</emphasis> : <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='arithmetic-types'> </entry>
-      </row>
-
-      <row>
-          <entry>set character literal : <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>set longlong type : <emphasis>longlong-spec</emphasis></entry>
-          <entry><xref linkend='extended-integral'></entry>
-      </row>
-
-      <row>
-          <entry>set ptrdiff_t : <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>set size_t : <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>set wchar_t : <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>set string literal : <emphasis>string-const</emphasis></entry>
-          <entry><xref linkend='string-literals-a'></entry>
-      </row>
-
-      <row>
-          <entry>set std namespace : <emphasis>scope-name</emphasis></entry>
-          <entry><xref linkend='std-namespace'></entry>
-      </row>
-
-      <row>
-          <entry>type <emphasis>identifier</emphasis> for <emphasis>type-spec</emphasis></entry>
-          <entry><xref linkend='type-spec'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='character-sign'>
-      <title>character-sign</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>signed</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>unsigned</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>either</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='character-mapping'>
-      <title>character-mapping</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>as <emphasis>character-literal</emphasis> allow</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>disallow</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='literal-spec'>
-      <title>literal-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>literal-base literal-suffix<subscript>opt</subscript> literal-type-list</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='literal-base'>
-      <title>literal-base</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>decimal</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>octal</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>hexadecimal</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='literal-suffix'>
-      <title>literal-suffix</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>unsigned</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>long</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>unsigned long</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>long long</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>unsigned long long</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='literal-type-list'>
-      <title>literal-type-list</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>* <emphasis>literal-type-spec</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>integer-literal literal-type-spec</emphasis> PIPEPIPE <emphasis>literal-type-list</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>? <emphasis>literal-type-spec</emphasis> PIPEPIPE <emphasis>literal-type-list</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='literal-type-spec'>
-      <title>literal-type-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>: <emphasis>type-id</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>* <emphasis>allow<subscript>opt</subscript></emphasis> : <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>* * <emphasis>allow<subscript>opt</subscript></emphasis> :</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='longlong-spec'>
-      <title>longlong-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>long</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>long long</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='string-const'>
-      <title>string-const</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>const</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>no const</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='scope-name'>
-      <title>scope-name</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>::</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='type-spec'>
-      <title>type-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>bottom</entry>
-          <entry><xref linkend='unreached-code-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>ptrdiff_t</entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>size_t</entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>wchar_t</entry>
-          <entry><xref linkend='character-literals'></entry>
-      </row>
-
-      <row>
-          <entry>... printf</entry>
-          <entry><xref linkend='printf-scanf-argument'></entry>
-      </row>
-
-      <row>
-          <entry>... scanf</entry>
-          <entry><xref linkend='printf-scanf-argument'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='linkage-directive'>
-      <title>linkage-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>const linkage <emphasis>linkage</emphasis></entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>external linkage <emphasis>string-literal</emphasis></entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>external volatile_t</entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>inline linkage <emphasis>linkage</emphasis></entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-
-      <row>
-          <entry>linkage resolution : <emphasis>linkage-spec</emphasis></entry>
-          <entry><xref linkend='object-linkage'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='linkage'>
-      <title>linkage</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>external</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>internal</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='linkage-spec'>
-      <title>linkage-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>( <emphasis>linkage</emphasis> ) on</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( <emphasis>linkage</emphasis> ) warning</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>off</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='misc-directive'>
-      <title>misc-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>argument <emphasis>type-id</emphasis> as ...</entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis></entry>
-          <entry><xref linkend='weak-function-prototypes'></entry>
-      </row>
-
-      <row>
-          <entry>compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></entry>
-          <entry><xref linkend='compat'></entry>
-      </row>
-
-      <row>
-          <entry>conversion <emphasis>identifier-list</emphasis> allow</entry>
-          <entry><xref linkend='type-conversations'></entry>
-      </row>
-
-      <row>
-          <entry>declaration block <emphasis>identifier</emphasis> begin</entry>
-          <entry><xref linkend='identifier-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>declaration block end</entry>
-          <entry><xref linkend='identifier-scopes'></entry>
-      </row>
-
-      <row>
-          <entry>directive <emphasis>directive-spec directive-state</emphasis></entry>
-          <entry><xref linkend='preprocessing-directives'></entry>
-      </row>
-
-      <row>
-          <entry>discard <emphasis>expression</emphasis></entry>
-          <entry><xref linkend='variable-flow-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>exhaustive</entry>
-          <entry><xref linkend='switch-statements'></entry>
-      </row>
-
-      <row>
-          <entry>explicit cast <emphasis>cast-spec<subscript>opt</subscript> allow</emphasis></entry>
-          <entry><xref linkend='cast-expressions'></entry>
-      </row>
-
-      <row>
-          <entry>includes depth <emphasis>integer-literal</emphasis></entry>
-          <entry><xref linkend='inclusion-directives'></entry>
-      </row>
-
-      <row>
-          <entry>preserve <emphasis>preserve-list</emphasis></entry>
-          <entry><xref linkend='static-identifers'></entry>
-      </row>
-
-      <row>
-          <entry>set <emphasis>expression</emphasis></entry>
-          <entry><xref linkend='variable-flow-analysis'></entry>
-      </row>
-
-      <row>
-          <entry>set error limit <emphasis>integer-literal</emphasis></entry>
-          <entry><xref linkend='implementation-limits'> </entry>
-      </row>
-
-      <row>
-          <entry>set name limit <emphasis>integer-literal</emphasis> warning<emphasis><subscript>opt</subscript></emphasis></entry>
-          <entry><xref linkend='identifier-names'></entry>
-      </row>
-
-      <row>
-          <entry>suspend static <emphasis>identifier-list</emphasis></entry>
-          <entry><xref linkend='discarded-expressions'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='directive-spec'>
-      <title>directive-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>assert</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>file</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>ident</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>import</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>include_next</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>unassert</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>warning</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>weak</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='directive-state'>
-      <title>directive-state</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>allow</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>warning</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>disallow</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( ignore ) allow</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>( ignore ) warning</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='cast-operator'>
-      <title>cast-operator</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>static_cast</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>const_cast</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>reinterpret_cast</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='cast-spec'>
-      <title>cast-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>as <emphasis>cast-operator</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>cast-spec</emphasis> PIPEPIPE <emphasis>cast-operator</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='preserve-list'>
-      <title>preserve-list</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>identifier-list</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>*</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='identifier-list'>
-      <title>identifier-list</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>identifier identifier-list<subscript>opt</subscript></emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-directive'>
-      <title>token-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>token <emphasis>token-spec</emphasis></entry>
-          <entry><xref linkend='token-specifcations'> </entry>
-      </row>
-
-      <row>
-          <entry>no_def <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>define <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>ignore <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>interface <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>undef token <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>extend interface <emphasis>header-name</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>implement interface <emphasis>header-name</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-    <table frame="none" id='tendra-token-directive'>
-      <title>tendra-token-directive</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>token <emphasis>token-spec</emphasis></entry>
-          <entry><xref linkend='token-specifcations'> </entry>
-      </row>
-
-      <row>
-          <entry>no_def <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>define <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>reject <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>interface <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>undef token <emphasis>token-list</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>extend <emphasis>header-name</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>implement <emphasis>header-name</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-
-      <row>
-          <entry>member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis></entry>
-          <entry><xref linkend='defining-tokens'></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='member-offset'>
-      <title>member-offset</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>::<emphasis><subscript>opt</subscript> id-expression</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>member-offset</emphasis> . ::<emphasis><subscript>opt</subscript> id-expression</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>member-offset</emphasis> [ <emphasis>constant-expression</emphasis> ]</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-list'>
-      <title>token-list</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-id token-list<subscript>opt</subscript></emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry># <emphasis>preproc-token-list</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-id'>
-      <title>token-id</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>type-id</emphasis> . <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-spec'>
-      <title>token-spec</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-introduction token-identification</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-introduction'>
-      <title>token-introduction</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>exp-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>statement-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>type-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>member-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>procedure-token</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-identification'>
-      <title>token-identification</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis> # <emphasis>external-identifier<subscript>opt</subscript></emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='token-namespace'>
-      <title>token-namespace</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>TAG</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='external-identifier'>
-      <title>external-identifier</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>-</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>preproc-token-list</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='exp-token'>
-      <title>exp-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>EXP <emphasis>exp-storage<subscript>opt</subscript></emphasis> : <emphasis>type-id</emphasis> :</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>NAT</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>INTEGER</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='exp-storage'>
-      <title>exp-storage</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>lvalue</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>rvalue</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>const</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='statement-token'>
-      <title>statement-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>STATEMENT</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='type-token'>
-      <title>type-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>TYPE</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>VARIETY</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>VARIETY signed</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>VARIETY unsigned</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>FLOAT</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>ARITHMETIC</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>SCALAR</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>CLASS</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>STRUCT</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>UNION</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='member-token'>
-      <title>member-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>MEMBER <emphasis>access-specifier<subscript>opt</subscript> member-type-id</emphasis> : <emphasis>type-id</emphasis> :</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='member-type-id'>
-      <title>member-type-id</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>type-id</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>type-id</emphasis> % <emphasis>constant-expression</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='access-specifier'>
-      <title>access-specifier</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>public</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>protected</entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>private</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='procedure-token'>
-      <title>procedure-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>general-procedure</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>simple-procedure</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>function-procedure</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='general-procedure'>
-      <title></title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>PROC { <emphasis>bound-toks<subscript>opt</subscript></emphasis> PIPEPIPE <emphasis>prog-pars<subscript>opt</subscript></emphasis> } <emphasis>token-introduction</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='bound-toks'>
-      <title>bound-toks</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>bound-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>bound-token</emphasis> , <emphasis>bound-toks</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='bound-token'>
-      <title>bound-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='prog-pars'>
-      <title>prog-pars</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>program-parameter</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>program-parameter</emphasis> , <emphasis>prog-pars</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='program-parameter'>
-      <title>program-parameter</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>EXP <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>STATEMENT <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>TYPE <emphasis>type-id</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>MEMBER <emphasis>type-id</emphasis> : <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry>PROC <emphasis>identifier</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='simple-procedure'>
-      <title>simple-procedure</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>PROC ( <emphasis>simple-toks<subscript>opt</subscript></emphasis> ) <emphasis>token-introduction</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='simple-toks'>
-      <title>simple-toks</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>simple-token</emphasis></entry>
-          <entry></entry>
-      </row>
-
-      <row>
-          <entry><emphasis>simple-token</emphasis> , <emphasis>simple-toks</emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='simple-token'>
-      <title>simple-token</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry><emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier<subscript>opt</subscript></emphasis></entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
-
-
-
-
-    <table frame="none" id='function-procedure'>
-      <title>function-procedure</title>
-      <tgroup cols="2">
-      <thead>
-        <row>
-          <entry>statement</entry>
-          <entry>reference</entry>
-        </row>
-      </thead>
-      <tbody>
-      <row>
-          <entry>FUNC <emphasis>type-id</emphasis> :</entry>
-          <entry></entry>
-      </row>
-      </tbody>
-      </tgroup>
-    </table>
+    <informaltable frame="none" id='pragma-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>pragma-directive:</emphasis></entry>
+          </row>
+          
+          <row>
+            <entry></entry>
+            <entry><literal>#pragma TenDRA ++<subscript>opt</subscript></literal>
+              <link linkend='tendra-directive'><emphasis>tendra-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>#pragma</literal>
+              <link linkend='token-directive'><emphasis>token-directive</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='tendra-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>tendra-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='scope-directive'><emphasis>scope-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='low-level-directive'><emphasis>low-level-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='analysis-directive'><emphasis>analysis-directive</emphasis></link>
+              <link linkend='on'><emphasis>on</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='check-directive'><emphasis>check-directive</emphasis></link>
+              <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='keyword-directive'><emphasis>keyword-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='type-directive'><emphasis>type-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='linkage-directive'><emphasis>linkage-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='misc-directive'><emphasis>misc-directive</emphasis></link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='tendra-token-directive'><emphasis>tendra-token-directive</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='on' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>on:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>on</literal></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>warning</literal></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>off</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='allow' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>allow:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>allow</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>warning</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>disallow</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='scope-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>scope-directive:</emphasis></entry>
+            <entry><link linkend='checking-scopes'>Description</link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>begin</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>begin name environment</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>end</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>directory</literal> <emphasis>identifier</emphasis>
+              <literal>use environment</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>use environment</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>use environment</literal> <emphasis>identifier</emphasis>
+              <literal>reset</literal> <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='low-level-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>low-devel-directive:</emphasis></entry>
+            <entry><link linkend='low-level-conf'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>error</literal> <emphasis>string-literal</emphasis>
+              <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>error</literal> <emphasis>string-literal</emphasis>
+               <link linkend='on'><emphasis>on</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>error</literal> <emphasis>string-literal</emphasis>
+              <literal>as option</literal> <emphasis>string-literal</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>option</literal> <emphasis>string-literal</emphasis>
+              <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>option</literal> <emphasis>string-literal</emphasis>
+              <link linkend='on'><emphasis>on</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>option value</literal> <emphasis>string-literal integer-literal</emphasis></entry>
+            <entry><link linkend='implementation-limits'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>use error</literal> <emphasis>string-literal</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='analysis-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>analysis-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>complete initialization analysis</literal></entry>
+            <entry><link linkend='initialiser-expr'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>complete struct / union analysis</literal></entry>
+            <entry><link linkend='elaborated-specifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>conversion analysis</literal> <link linkend='conversion-spec'>
+              <emphasis>conversion-spec<subscript>opt</subscript></emphasis></link></entry>
+            <entry><link linkend='type-conversations'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>discard analysis</literal> <link linkend='discard-spec'>
+              <emphasis>discard-spec<subscript>opt</subscript></emphasis></link></entry>
+            <entry><link linkend='discarded-expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>enum switch analysis</literal></entry>
+            <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>external function linkage</literal></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>for initialization block</literal></entry>
+            <entry><link linkend='for-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ignore struct / union / enum tag</literal></entry>
+            <entry><link linkend='elaborated-specifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implicit export template</literal></entry>
+            <entry><link linkend='template-compilation'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implicit function declaration</literal></entry>
+            <entry><link linkend='implicit-function-decl'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>integer operator analysis</literal></entry>
+            <entry><link linkend='expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>integer overflow analysis</literal></entry>
+            <entry><link linkend='expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>nested comment analysis</literal></entry>
+            <entry><link linkend='comments'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>operator precedence analysis</literal></entry>
+            <entry><link linkend='expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>pointer operator analysis</literal></entry>
+            <entry><link linkend='expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>throw analysis</literal></entry>
+            <entry><link linkend='configuration'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unify external linkage</literal></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>variable analysis</literal></entry>
+            <entry><link linkend='variable-flow-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>variable hiding analysis</literal></entry>
+            <entry><link linkend='variable-hiding'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>weak prototype analysis</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='conversion-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>conversion-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>( int - int</literal> <link linkend='implicit-spec'>
+              <emphasis>implicit-spec<subscript>opt</subscript></emphasis></link> <literal>)</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( int - pointer</literal> <link linkend='implicit-spec'>
+              <emphasis>implicit-spec<subscript>opt</subscript></emphasis></link> <literal>)</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( pointer - int</literal> <link linkend='implicit-spec'>
+              <emphasis>implicit-spec<subscript>opt</subscript></emphasis></link> <literal>)</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( pointer - pointer</literal> <link linkend='implicit-spec'>
+              <emphasis>implicit-spec<subscript>opt</subscript></emphasis></link> <literal>)</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( int - enum implicit )</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( pointer - void * implicit )</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( void * - pointer implicit )</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='implicit-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>implicit-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>implicit</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>explicit</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='discard-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>discard-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>( function return )</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( static )</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( value )</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='check-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>check-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>ambiguous overload resolution</literal></entry>
+            <entry><link linkend='overloaded-funct'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>assignment as bool</literal></entry>
+            <entry><link linkend='conditional-iteration'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>bitfield overflow</literal></entry>
+            <entry><link linkend='bitfield-types-b'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>block function static</literal></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>catch all</literal></entry>
+            <entry><link linkend='other-checks'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>character escape overflow</literal></entry>
+            <entry><link linkend='escape-sequences'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>compatible token</literal></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>complete file includes</literal></entry>
+            <entry><link linkend='inclusion-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>conditional declaration</literal></entry>
+            <entry><link linkend='target-dep-conditional'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>conditional lvalue</literal></entry>
+            <entry><link linkend='lvalue-expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>conditional overload resolution</literal>
+              <link linkend='overload-spec'><emphasis>overload-spec<subscript>opt</subscript></emphasis>
+              </link></entry>
+            <entry><link linkend='overloaded-funct'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>const conditional</literal></entry>
+            <entry><link linkend='conditional-iteration'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>directive as macro argument</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>dollar as ident</literal></entry>
+            <entry><link linkend='identifier-names'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra ,</literal></entry>
+            <entry><link linkend='elaborated-specifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra ;</literal></entry>
+            <entry><link linkend='empty-decl'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra ; after conditional</literal></entry>
+            <entry><link linkend='conditional-iteration'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra ...</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra bitfield int type</literal></entry>
+            <entry><link linkend='bitfield-types-b'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra macro definition</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra type definition</literal></entry>
+            <entry><link linkend='decl'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>fall into case</literal></entry>
+            <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>forward enum declaration</literal></entry>
+            <entry><link linkend='elaborated-specifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>function pointer as pointer</literal></entry>
+            <entry><link linkend='type-conversations'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ident ...</literal></entry>
+            <entry><link linkend='ellipsis-functions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implicit int type</literal>
+              <link linkend='inttype-spec'><emphasis>inttype-spec<subscript>opt</subscript></emphasis>
+              </link></entry>
+            <entry><link linkend='implicit-int'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implicit token definition</literal></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible interface declaration</literal></entry>
+            <entry><link linkend='token-specifcations'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible member declaration</literal></entry>
+            <entry><link linkend='member-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible linkage</literal></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible promoted function argument</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible type qualifier</literal></entry>
+            <entry><link linkend='compat'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incompatible void return</literal></entry>
+            <entry><link linkend='return-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>incomplete type as object type</literal></entry>
+            <entry><link linkend='incomplete-types'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>indented # directive</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>indented directive after #</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>initialization of struct / union ( auto )</literal></entry>
+            <entry><link linkend='initialiser-expr'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>longlong type</literal></entry>
+            <entry><link linkend='extended-integral'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no directive / nline after ident</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no external declaration</literal></entry>
+            <entry><link linkend='empty-source-files'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no ident after #</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no nline after file end</literal></entry>
+            <entry><link linkend='lexical-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no token definition</literal></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>overload resolution</literal></entry>
+            <entry><link linkend='overloaded-funct'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>prototype</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>prototype ( weak )</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>rvalue token as const</literal></entry>
+            <entry><link linkend='expression-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>text after directive</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>this lvalue</literal></entry>
+            <entry><link linkend='lvalue-expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unify incompatible string literal</literal></entry>
+            <entry><link linkend='string-literals-a'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unknown directive</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unknown escape</literal></entry>
+            <entry><link linkend='escape-sequences'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unknown pragma</literal></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unknown struct / union</literal></entry>
+            <entry><link linkend='empty-decl'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unmatched quote</literal></entry>
+            <entry><link linkend='string-literals-a'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unreachable code</literal></entry>
+            <entry><link linkend='unreached-code-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>variable initialization</literal></entry>
+            <entry><link linkend='initialiser-expr'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>weak macro equality</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>writeable string literal</literal></entry>
+            <entry><link linkend='string-literals-a'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='inttype-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>inttype-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>for const / volatile</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>for external declaration</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>for function return</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='overload-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>overload-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>( complete )</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( incomplete )</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='keyword-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>keyword-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>keyword</literal> <emphasis>identifier</emphasis> <literal>for</literal>
+              <link linkend='keyword-spec'><emphasis>keyword-spec</emphasis></link></entry>
+            <entry><link linkend='keyword-directive'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>undef keyword</literal> <emphasis>identifier</emphasis></entry>
+            <entry><link linkend='keyword-spec'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='keyword-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>keyword-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>discard value</literal></entry>
+            <entry><link linkend='discarded-expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>discard variable</literal></entry>
+            <entry><link linkend='variable-flow-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>exhaustive</literal></entry>
+            <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>fall into case</literal></entry>
+            <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>keyword</literal> <emphasis>identifier</emphasis></entry>
+            <entry><link linkend='keywords'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>operator</literal> <emphasis>operator</emphasis></entry>
+            <entry><link linkend='keywords'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set</literal></entry>
+            <entry><link linkend='variable-flow-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set reachable</literal></entry>
+            <entry><link linkend='unreached-code-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set unreachable</literal></entry>
+            <entry><link linkend='unreached-code-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>type representation</literal></entry>
+            <entry><link linkend='type-conversations'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>weak</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='type-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>type-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>bottom</literal> <emphasis>identifier</emphasis></entry>
+            <entry><link linkend='unreached-code-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>character</literal>
+              <link linkend='character-sign'><emphasis>character-sign</emphasis></link></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>character</literal> <emphasis>character-literal</emphasis>
+              <link linkend='character-mapping'><emphasis>character-mapping</emphasis></link></entry>
+            <entry><link linkend='identifier-names'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>character</literal> <emphasis>string-literal</emphasis>
+              <link linkend='character-mapping'><emphasis>character-mapping</emphasis></link></entry>
+            <entry><link linkend='identifier-names'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>compute promote</literal> <emphasis>identifier</emphasis></entry>
+            <entry><link linkend='arithmetic-types'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>escape</literal> <emphasis>character-literal</emphasis>
+              <link linkend='character-mapping'><emphasis>character-mapping</emphasis></link></entry>
+            <entry><link linkend='escape-sequences'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>integer literal</literal>
+              <link linkend='literal-spec'><emphasis>literal-spec</emphasis></link></entry>
+            <entry><link linkend='integer-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>promoted</literal> <emphasis>type-id</emphasis> <literal>:</literal>
+              <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='arithmetic-types'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set character literal :</literal> <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set longlong type :</literal>
+              <link linkend='longlong-spec'><emphasis>longlong-spec</emphasis></link></entry>
+            <entry><link linkend='extended-integral'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set ptrdiff_t :</literal> <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set size_t :</literal> <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set wchar_t :</literal> <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set string literal :</literal>
+              <link linkend='string-const'><emphasis>string-const</emphasis></link></entry>
+            <entry><link linkend='string-literals-a'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set std namespace :</literal>
+              <link linkend='scope-name'><emphasis>scope-name</emphasis></link></entry>
+            <entry><link linkend='std-namespace'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>type</literal> <emphasis>identifier</emphasis> <literal>for</literal>
+              <link linkend='type-spec'><emphasis>type-spec</emphasis></link></entry>
+            <entry><link linkend='type-spec'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='character-sign' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>character-sign:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>signed</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unsigned</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>either</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='character-mapping' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>character-mapping:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>as</literal> <emphasis>character-literal</emphasis>
+              <literal>allow</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>disallow</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='literal-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>literal-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='literal-base'><emphasis>literal-base</emphasis></link>
+              <link linkend='literal-suffix'><emphasis>literal-suffix<subscript>opt</subscript>
+              </emphasis></link> <link linkend='literal-type-list'><emphasis>literal-type-list
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='literal-base' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>literal-base:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>decimal</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>octal</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>hexadecimal</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='literal-suffix' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>literal-suffix:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>unsigned</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>long</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unsigned long</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>long long</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unsigned long long</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='literal-type-list' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>literal-type-list:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>*</literal> <link linkend='literal-type-spec'>
+              <emphasis>literal-type-spec</emphasis></link></entry>
+            <entry></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><emphasis>integer-literal</emphasis>
+              <link linkend='literal-type-spec'><emphasis>literal-type-spec</emphasis></link>
+              <literal>|</literal> <link linkend='literal-type-list'><emphasis>literal-type-list
+              </emphasis></link></entry>
+            <entry></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>?</literal> <link linkend='literal-type-spec'><emphasis>literal-type-spec
+              </emphasis></link> <literal>|</literal>
+              <link linkend='literal-type-list'><emphasis>literal-type-list</emphasis></link></entry>
+            <entry></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='literal-type-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>literal-type-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>:</literal> <emphasis>type-id</emphasis></entry>
+            <entry></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>*</literal> <link linkend='allow'><emphasis>allow<subscript>opt</subscript>
+              </emphasis></link> <literal>:</literal> <emphasis>identifier</emphasis></entry>
+            <entry></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>* *</literal> <link linkend='allow'><emphasis>allow<subscript>opt</subscript>
+              </emphasis></link> <literal>:</literal></entry>
+            <entry></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='longlong-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>longlong-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>long</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>long long</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='string-const' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>string-const:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>const</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no const</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='scope-name' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>scope-name:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>::</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='type-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>type-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>bottom</literal></entry>
+            <entry><link linkend='unreached-code-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ptrdiff_t</literal></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>size_t</literal></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>wchar_t</literal></entry>
+            <entry><link linkend='character-literals'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>... printf</literal></entry>
+            <entry><link linkend='printf-scanf-argument'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>... scanf</literal></entry>
+            <entry><link linkend='printf-scanf-argument'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='linkage-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>linkage-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>const linkage</literal>
+              <link linkend='linkage'><emphasis>linkage</emphasis></link></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>external linkage</literal> <emphasis>string-literal</emphasis></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>external volatile_t</literal></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>inline linkage</literal>
+              <link linkend='linkage'><emphasis>linkage</emphasis></link></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>linkage resolution :</literal>
+              <link linkend='linkage-spec'><emphasis>linkage-spec</emphasis></link></entry>
+            <entry><link linkend='object-linkage'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='linkage' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>linkage:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>external</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>internal</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='linkage-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>linkage-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>(</literal> <link linkend='linkage'><emphasis>linkage</emphasis></link>
+              <literal>) on</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>(</literal> <link linkend='linkage'><emphasis>linkage</emphasis></link>
+              <literal>) warning</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>off</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='misc-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>misc-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>argument</literal> <emphasis>type-id</emphasis>
+              <literal>as ...</literal></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>argument</literal> <emphasis>type-id</emphasis> <literal>as</literal>
+              <emphasis>type-id</emphasis></entry>
+            <entry><link linkend='weak-function-prototypes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>compatible type :</literal> <emphasis>type-id</emphasis>
+              <literal>==</literal> <emphasis>type-id</emphasis> <literal>:</literal>
+              <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+            <entry><link linkend='compat'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>conversion</literal>
+              <link linkend='identifier-list'><emphasis>identifier-list</emphasis></link>
+              <literal>allow</literal></entry>
+            <entry><link linkend='type-conversations'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>declaration block</literal> <emphasis>identifier</emphasis>
+              <literal>begin</literal></entry>
+            <entry><link linkend='identifier-scopes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>declaration block end</literal></entry>
+            <entry><link linkend='identifier-scopes'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>directive</literal>
+              <link linkend='directive-spec'><emphasis>directive-spec</emphasis></link>
+              <link linkend='directive-state'><emphasis>directive-state</emphasis></link></entry>
+            <entry><link linkend='preprocessing-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>discard</literal> <emphasis>expression</emphasis></entry>
+            <entry><link linkend='variable-flow-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>exhaustive</literal></entry>
+            <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>explicit cast</literal>
+              <link linkend='cast-spec'><emphasis>cast-spec<subscript>opt</subscript></emphasis></link>
+              <link linkend='allow'><emphasis>allow</emphasis></link></entry>
+            <entry><link linkend='cast-expressions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>includes depth</literal> <emphasis>integer-literal</emphasis></entry>
+            <entry><link linkend='inclusion-directives'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>preserve</literal>
+              <link linkend='preserve-list'><emphasis>preserve-list</emphasis></link></entry>
+            <entry><link linkend='static-identifers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set</literal> <emphasis>expression</emphasis></entry>
+            <entry><link linkend='variable-flow-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set error limit</literal> <emphasis>integer-literal</emphasis></entry>
+            <entry><link linkend='implementation-limits'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>set name limit</literal> <emphasis>integer-literal</emphasis>
+              <literal>warning</literal><emphasis><subscript>opt</subscript></emphasis></entry>
+            <entry><link linkend='identifier-names'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>suspend static</literal>
+              <link linkend='identifier-list'><emphasis>identifier-list</emphasis></link></entry>
+            <entry><link linkend='discarded-expressions'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='directive-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>directive-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>assert</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>file</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ident</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>import</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>include_next</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>unassert</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>warning</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>weak</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='directive-state' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>directive-state:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>allow</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>warning</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>disallow</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( ignore ) allow</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>( ignore ) warning</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='cast-operator' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>cast-operator:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>static_cast</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>const_cast</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>reinterpret_cast</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='cast-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>cast-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>as</literal>
+              <link linkend='cast-operator'><emphasis>cast-operator</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='cast-spec'><emphasis>cast-spec</emphasis></link>
+              <literal>|</literal> <link linkend='cast-operator'><emphasis>cast-operator
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='preserve-list' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>preserve-list:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='identifier-list'><emphasis>identifier-list</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>*</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='identifier-list' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>identifier-list:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><emphasis>identifier</emphasis>
+              <link linkend='identifier-list'><emphasis>identifier-list<subscript>opt</subscript>
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>token</literal>
+              <link linkend='token-spec'><emphasis>token-spec</emphasis></link></entry>
+            <entry><link linkend='token-specifcations'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no_def</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>define</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ignore</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>interface</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>undef token</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extend interface</literal> <emphasis>header-name</emphasis></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implement interface</literal> <emphasis>header-name</emphasis></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='tendra-token-directive' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>tendra-token-directive:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>token</literal>
+              <link linkend='token-spec'><emphasis>token-spec</emphasis></link></entry>
+            <entry><link linkend='token-specifcations'>Description</link> </entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no_def</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>define</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>reject</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>interface</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>undef token</literal>
+              <link linkend='token-list'><emphasis>token-list</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extend</literal> <emphasis>header-name</emphasis></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>implement</literal> <emphasis>header-name</emphasis></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>member definition</literal> <emphasis>type-id</emphasis>
+              <literal>:</literal> <emphasis>identifier</emphasis>
+              <link linkend='member-offset'><emphasis>member-offset</emphasis></link></entry>
+            <entry><link linkend='defining-tokens'>Description</link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='member-offset' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>member-offset:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>::</literal><emphasis><subscript>opt</subscript></emphasis>
+              <emphasis>id-expression</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='member-offset'><emphasis>member-offset</emphasis></link>
+              <literal>. ::</literal><emphasis><subscript>opt</subscript></emphasis>
+              <emphasis>id-expression</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='member-offset'><emphasis>member-offset</emphasis></link>
+              <literal>[</literal> <emphasis>constant-expression</emphasis> <literal>]</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-list' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-list:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-id'><emphasis>token-id</emphasis></link>
+              <link linkend='token-list'><emphasis>token-list<subscript>opt</subscript></emphasis>
+              </link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>#</literal> <emphasis>preproc-token-list</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-id' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-id:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-namespace'><emphasis>token-namespace<subscript>opt</subscript>
+              </emphasis></link><emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><emphasis>type-id</emphasis> <literal>.</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-spec' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-spec:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-introduction'><emphasis>token-introduction</emphasis></link>
+              <link linkend='token-identification'><emphasis>token-identification</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-introduction' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-introduction:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='exp-token'><emphasis>exp-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='statement-token'><emphasis>statement-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='type-token'><emphasis>type-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='member-token'><emphasis>member-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='procedure-token'><emphasis>procedure-token</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-identification' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-identification:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-namespace'><emphasis>token-namespace<subscript>opt</subscript>
+              </emphasis></link> <emphasis>identifier</emphasis> <literal>#</literal>
+              <link linkend='external-identifier'><emphasis>external-identifier<subscript>opt</subscript>
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='token-namespace' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>token-namespace:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>TAG</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='external-identifier' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>external-identifier:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>-</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><emphasis>preproc-token-list</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='exp-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>exp-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>EXP</literal> <link linkend='exp-storage'><emphasis>exp-storage
+              <subscript>opt</subscript></emphasis></link> <literal>:</literal>
+              <emphasis>type-id</emphasis> :</entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>NAT</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>INTEGER</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='exp-storage' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>exp-storage:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>lvalue</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>rvalue</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>const</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='statement-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>statement-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>STATEMENT</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='type-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>type-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>TYPE</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>VARIETY</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>VARIETY signed</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>VARIETY unsigned</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>FLOAT</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>ARITHMETIC</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>SCALAR</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>CLASS</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>STRUCT</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>UNION</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='member-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>member-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>MEMBER</literal>
+              <link linkend='access-specifier'><emphasis>access-specifier<subscript>opt</subscript>
+              </emphasis></link> <link linkend='member-type-id'><emphasis>member-type-id</emphasis></link>
+              <literal>:</literal> <emphasis>type-id</emphasis> <literal>:</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='member-type-id' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>member-type-id:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><emphasis>type-id</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><emphasis>type-id</emphasis> <literal>%</literal>
+              <emphasis>constant-expression</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='access-specifier' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>access-specifier:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>public</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>protected</literal></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>private</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='procedure-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>procedure-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='general-procedure'><emphasis>general-procedure</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='simple-procedure'><emphasis>simple-procedure</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='function-procedure'><emphasis>function-procedure</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='general-procedure' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>general-procedure:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>PROC {</literal>
+              <link linkend='bound-toks'><emphasis>bound-toks<subscript>opt</subscript></emphasis></link>
+              <literal>|</literal>
+              <link linkend='prog-pars'><emphasis>prog-pars<subscript>opt</subscript></emphasis></link>
+              <literal>}</literal> <link linkend='token-introduction'><emphasis>token-introduction
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='bound-toks' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>bound-toks:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='bound-token'><emphasis>bound-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='bound-token'><emphasis>bound-token</emphasis></link>
+              <literal>,</literal> <link linkend='bound-toks'><emphasis>bound-toks</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='bound-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>bound-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-introduction'><emphasis>token-introduction</emphasis></link>
+              <link linkend='token-namespace'><emphasis>token-namespace<subscript>opt</subscript>
+              </emphasis></link> <emphasis>identifier</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='prog-pars' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>prog-pars:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='program-parameter'><emphasis>program-parameter</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='program-parameter'><emphasis>program-parameter</emphasis></link>
+              <literal>,</literal> <link linkend='prog-pars'><emphasis>prog-pars</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='program-parameter' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>program-parameter:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>EXP</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>STATEMENT</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>TYPE</literal> <emphasis>type-id</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>MEMBER</literal> <emphasis>type-id</emphasis> <literal>:</literal>
+              <emphasis>identifier</emphasis></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>PROC</literal> <emphasis>identifier</emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='simple-procedure' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>simple-procedure:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>PROC (</literal>
+              <link linkend='simple-toks'><emphasis>simple-toks<subscript>opt</subscript></emphasis></link>
+              <literal>)</literal> <link linkend='token-introduction'><emphasis>token-introduction
+              </emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='simple-toks' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>simple-toks:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='simple-token'><emphasis>simple-token</emphasis></link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><link linkend='simple-token'><emphasis>simple-token</emphasis></link>
+              <literal>,</literal> <link linkend='simple-toks'><emphasis>simple-toks</emphasis></link></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='simple-token' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>simple-token:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><link linkend='token-introduction'><emphasis>token-introduction</emphasis></link>
+              <link linkend='token-namespace'><emphasis>token-namespace<subscript>opt</subscript>
+              </emphasis></link> <emphasis>identifier<subscript>opt</subscript></emphasis></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+
+    <informaltable frame="none" id='function-procedure' pgwide='1'>
+      <tgroup cols="3">
+        <colspec colname='c1' colwidth='1*'>
+        <colspec colname='c2' colwidth='5*'>
+        <colspec colname='c3' colwidth='2*'>
+
+        <tbody>
+          <row>
+            <entry namest="c1" nameend="c2"><emphasis>function-procedure:</emphasis></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>FUNC</literal> <emphasis>type-id</emphasis> <literal>:</literal></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
 
 
 
