@@ -159,9 +159,9 @@ colon-colon; !dot-star; !abs; !max; !min;
 
 /* C keywords */
 auto; !break; case; !char; const; !continue; !default; !do;
-!double; !else; enum; !extern; !float; for; !goto; !if; int;
+!double; !else; enum; !extern; float; for; !goto; !if; int;
 long; !register; return; !short; signed; !sizeof; static; struct;
-switch; !typedef; union; unsigned; void; volatile; !while;
+switch; typedef; union; unsigned; void; volatile; !while;
 
 /* C99 keywords */
 !restrict;
@@ -179,25 +179,25 @@ static-cast; template; this; throw; !true; !try; !typeid;
 
 /* TenDRA keywords */
 accept; after; !alignof; all; allow; ambiguous; analysis;
-argument; arith-cap; !array; as; assert; assignment; begin;
+argument; arith-cap; array; as; assert; assignment; begin;
 bitfield; block; bottom; cast; character; class-cap; code;
 comment; compatible; complete; compute; conditional; conversion;
 decimal; decl; define; !define-cap; !defined; definition; depth;
 directive; directory; disallow; discard; dollar; either; !elif;
-ellipsis-exp; end; !endif; environment; equality; error; escape;
+ellipsis-exp; empty; end; !endif; environment; equality; error; escape;
 exhaustive; exp-cap; !explain; !extend; external; extra; fall;
-file; float-cap; forward; func-cap; !func-id; function; hexadecimal; hiding;
-ident; identif; !ifdef; !ifndef; ignore; !implement; implicit;
+file; flexible; float-cap; forward; func-cap; func-id; function; hexadecimal;
+hiding; ident; identif; !ifdef; !ifndef; ignore; !implement; implicit;
 import; !include; includes; include-next; incompatible; incomplete;
 indented; initialization; integer; interface; internal; into;
-int-cap; keyword; limit; !line; linkage; lit; longlong; lvalue;
+int-cap; keyword; limit; line; linkage; lit; longlong; lvalue;
 macro; !main; member; member-cap; name; nat-cap; nested; nline;
 no; no-def; object; octal; of; off; on; option; overflow;
 overload; pointer; postpone; pragma; !pragma-2; precedence; preserve; printf;
 proc-cap; promote; promoted; prototype; ptrdiff-t; qualifier;
 quote; reachable; !reference; reject; representation; reset;
 resolution; rvalue; scalar-cap; scanf; set; size-t; !size-t-2;
-!sort; std; stmt-cap; string; struct-cap; suspend; tag; tag-cap;
+!sort; space; std; stmt-cap; string; struct-cap; suspend; tag; tag-cap;
 !tendra; text; !this-name; token; type; type-cap; !typeof;
 un-known; unassert; undef; unify; union-cap; unmatched; unpostpone;
 unreachable; !unused; use; value; variable; variety-cap; !va-args;
@@ -1015,6 +1015,8 @@ type-spec: () -> () = {
 <opt_conv_ptr_ptr_impl> : () -> (:NUMBER);
 <opt_conv_ptr_ptr_void> : () -> (:NUMBER);
 <opt_conv_ptr_void_ptr> : () -> (:NUMBER);
+<opt_cpplus_comment> : () -> (:NUMBER);
+<opt_decl_mixed> : () -> (:NUMBER);
 <opt_decl_cond> : () -> (:NUMBER);
 <opt_decl_hide> : () -> (:NUMBER);
 <opt_decl_none> : () -> (:NUMBER);
@@ -1036,8 +1038,11 @@ type-spec: () -> () = {
 <opt_eof_nline> : () -> (:NUMBER);
 <opt_escape_overflow> : () -> (:NUMBER);
 <opt_escape_unknown> : () -> (:NUMBER);
+<opt_flex_array_member> : () -> (:NUMBER);
+<opt_for_decl> : () -> (:NUMBER);
 <opt_for_scope> : () -> (:NUMBER);
 <opt_func_block> : () -> (:NUMBER);
+<opt_func_id> : () -> (:NUMBER);
 <opt_func_impl> : () -> (:NUMBER);
 <opt_func_incompat> : () -> (:NUMBER);
 <opt_func_linkage> : () -> (:NUMBER);
@@ -1046,11 +1051,13 @@ type-spec: () -> () = {
 <opt_func_token_undef> : () -> (:NUMBER);
 <opt_func_weak> : () -> (:NUMBER);
 <opt_hash_ident> : () -> (:NUMBER);
+<opt_hex_float_lit> : () -> (:NUMBER);
 <opt_include_full> : () -> (:NUMBER);
 <opt_infer_int> : () -> (:NUMBER);
 <opt_infer_int_cv> : () -> (:NUMBER);
 <opt_init_aggregate> : () -> (:NUMBER);
 <opt_init_dynamic> : () -> (:NUMBER);
+<opt_init_dynamic_aggr> : () -> (:NUMBER);
 <opt_init_struct> : () -> (:NUMBER);
 <opt_inline_internal> : () -> (:NUMBER);
 <opt_interf_incompat> : () -> (:NUMBER);
@@ -1061,8 +1068,10 @@ type-spec: () -> () = {
 <opt_link_resolve> : () -> (:NUMBER);
 <opt_longlong> : () -> (:NUMBER);
 <opt_macro_arg_dir> : () -> (:NUMBER);
+<opt_macro_arg_empty> : () -> (:NUMBER);
 <opt_macro_redef> : () -> (:NUMBER);
 <opt_macro_weak> : () -> (:NUMBER);
+<opt_macro_wspace> : () -> (:NUMBER);
 <opt_member_incompat> : () -> (:NUMBER);
 <opt_name_limit> : () -> (:NUMBER);
 <opt_nest_comment> : () -> (:NUMBER);
@@ -1095,10 +1104,13 @@ type-spec: () -> () = {
 <opt_token_redef> : () -> (:NUMBER);
 <opt_token_undef> : () -> (:NUMBER);
 <opt_type_obj_incompl> : () -> (:NUMBER);
+<opt_type_qual_dup> : () -> (:NUMBER);
+<opt_type_qual_dup_typedef> : () -> (:NUMBER);
 <opt_type_qual_incompat> : () -> (:NUMBER);
 <opt_type_redef> : () -> (:NUMBER);
 <opt_type_tag_ignore> : () -> (:NUMBER);
 <opt_unmatched> : () -> (:NUMBER);
+<opt_va_macro> : () -> (:NUMBER);
 <opt_variable> : () -> (:NUMBER);
 <opt_wall> : () -> (:NUMBER);
 <opt_weak> : () -> (:NUMBER);
@@ -1306,8 +1318,17 @@ check-spec: () -> (n: NUMBER) = {
 	const; conditional;
 	n = <opt_const_cond>;
     ||
+	decl; after; code;
+	n = <opt_decl_mixed>;
+    ||
 	directive; as; macro; argument;
 	n = <opt_macro_arg_dir>;
+    ||
+	empty; macro; argument;
+	n = <opt_macro_arg_empty>;
+    ||
+	line; comment;
+	n = <opt_cpplus_comment>;
     ||
 	dollar; as; ident;
 	n = <opt_dollar_ident>;
@@ -1333,8 +1354,20 @@ check-spec: () -> (n: NUMBER) = {
 	extra; type; definition;
 	n = <opt_type_redef>;
     ||
+	extra; type; qualifier;
+	n = <opt_type_qual_dup>;
+    ||
+	extra; type; qualifier; open-round; typedef; close-round;
+	n = <opt_type_qual_dup_typedef>;
+    ||
 	fall; into; case;
 	n = <opt_case_fall>;
+    ||
+	flexible; array; member;
+	n = <opt_flex_array_member>;
+    ||
+	for; decl;
+	n = <opt_for_decl>;
     ||
 	forward; enum; decl;
 	n = <opt_enum_decl>;
@@ -1342,11 +1375,17 @@ check-spec: () -> (n: NUMBER) = {
 	function; pointer; as; pointer;
 	n = <opt_conv_ptr_func>;
     ||
+	hexadecimal; float; lit;
+	n = <opt_hex_float_lit>;
+    ||
 	ident; ellipsis-aux;
 	n = <opt_ellipsis_ident>;
     ||
 	ident; as; ellipsis-aux;
 	n = <opt_ellipsis_ident>;
+    ||
+	identif; func-id;
+	n = <opt_func_id>;
     ||
 	implicit; int; type;
 	n = implicit-spec;
@@ -1400,6 +1439,9 @@ check-spec: () -> (n: NUMBER) = {
 	no; nline; after; file; end;
 	n = <opt_eof_nline>;
     ||
+	no; space; after; macro;
+	n = <opt_macro_wspace>;
+    ||
 	no; token; definition;
 	n = <opt_token_undef>;
     ||
@@ -1442,8 +1484,15 @@ check-spec: () -> (n: NUMBER) = {
 	unreachable; code;
 	n = <opt_reached>;
     ||
+	variable; argument; macro;
+	n = <opt_va_macro>;
+    ||
 	variable; initialization;
 	n = <opt_init_dynamic>;
+    ||
+	variable; initialization; of; struct; div; union;
+	open-round; auto; close-round;
+	n = <opt_init_dynamic_aggr>;
     ||
 	weak; macro; equality;
 	n = <opt_macro_weak>;

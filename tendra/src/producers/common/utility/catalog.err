@@ -151,6 +151,7 @@ USAGE:
     decl_cond = error,
     decl_empty = error,
     decl_hide = wall,
+    decl_mixed = none | error,
     decl_none = none | error,
     decl_struct_anon = error,
     decl_unify = off,
@@ -173,6 +174,7 @@ USAGE:
     escape_overflow = error,
     escape_unknown = error,
     flex_array_member = error,
+    for_decl = none | error,
     for_scope = on,
     func_block = error,
     func_impl = error | wall,
@@ -186,6 +188,7 @@ USAGE:
     func_weak = none,
     gen_ptr_char = error,
     hash_ident = error,
+    hex_float_lit = error,
     include_full = wall,
     include_verbose = off,
     infer_int = new | wall, infer_int_cv = new | wall,
@@ -205,8 +208,10 @@ USAGE:
     lint_comment = error,
     longlong = error,
     macro_arg_dir = wall,
+    macro_arg_empty = error,
     macro_nest = error,
     macro_redef = error, macro_weak = error,
+    macro_wspace = none,
     member_incompat = error,
     name_limit = off,
     nest_comment = wall,
@@ -248,6 +253,8 @@ USAGE:
     token_undef = error,
     trigraph = wall,
     type_obj_incompl = none | error,
+    type_qual_dup = error,
+    type_qual_dup_typedef = wall | error,
     type_qual_incompat = error,
     type_redef = none | error,
     type_tag_ignore = error,
@@ -720,6 +727,7 @@ lex_fcon_large(FLOAT: f)
 
 lex_fcon_hex()
 {
+    USAGE:	hex_float_lit
     KEY (ISO)	"-" | "-, 6.4.4.2"
     KEY (STD)	"Hexadecimal floating point literal"
 }
@@ -3173,7 +3181,7 @@ stmt_for_init(IDENTIFIER: id)
 
 stmt_for_decl()
 {
-    USAGE:	none | error
+    USAGE:	for_decl
     KEY (ISO)	"???" | "-, 6.8.5.3"
     KEY (STD)	"Declaration in 'for' statement"
 }
@@ -3296,7 +3304,7 @@ stmt_goto_case(LEX: op)
 
 stmt_dcl_start()
 {
-    USAGE:	c_error
+    USAGE:	decl_mixed
     KEY (ISO)	"6.7" | "6.6.2, -"
     KEY (STD)	"Declaration statement should be at start of block"
 }
@@ -3651,13 +3659,14 @@ dcl_type_qual()
 
 dcl_type_cv_dup(CV_SPEC: cv)
 {
+    USAGE:	type_qual_dup
     KEY (ISO)	"7.1.5" | "6.5.3, -"
     KEY (STD)	"Duplicate type qualifier, '"cv" "cv"'"
 }
 
 dcl_type_type_cv(LONG_ID: id, CV_SPEC: cv)
 {
-    USAGE:	wall | error
+    USAGE:	type_qual_dup_typedef
     KEY (STD)	"Type '"id"' is already '"cv"' qualified"
 }
 
@@ -6957,7 +6966,7 @@ cpp_space_replace()
 
 cpp_space_replace2()
 {
-    USAGE:	none
+    USAGE:	macro_wspace
     KEY (ISO)	"-" | "-, 6.10.3"
     KEY (STD)	"White space required between macro identifier and
 		 replacement list"
@@ -7164,6 +7173,7 @@ cpp_replace_arg_none(HASHID: nm)
 
 cpp_replace_arg_empty(unsigned: n, HASHID: nm)
 {
+    USAGE:	macro_arg_empty
     KEY (STD)	"Argument "n" for macro '"nm"' is empty"
 }
 
