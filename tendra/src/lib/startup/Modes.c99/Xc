@@ -45,12 +45,6 @@
 /* Initialisers for aggregate or union objects don't have to be constant
  * expressions anymore. */
 #pragma TenDRA error "dcl_init_aggr_dynamic" off
-/* No restrictions on increment and decrement operators (both prefix and
- * postfix) for type _Bool in C99. */
-#pragma TenDRA error "expr_post_incr_bool_inc" off
-#pragma TenDRA error "expr_post_incr_bool_dec" off
-#pragma TenDRA error "expr_pre_incr_bool_inc" off
-#pragma TenDRA error "expr_pre_incr_bool_dec" off
 
 /* 6.4.2.2  */
 #pragma TenDRA option "func_id" allow

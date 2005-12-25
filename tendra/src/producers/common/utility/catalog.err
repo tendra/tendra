@@ -1932,12 +1932,13 @@ expr_post_incr_incompl(LEX: op)
 
 expr_post_incr_bool_inc(LEX: op, TYPE: t)
 {
-    USAGE:	int_operator
+    USAGE:	int_operator | none
     KEY (STD)	"Use of postfix '"op"' on type '"t"' is deprecated"
 }
 
 expr_post_incr_bool_dec(LEX: op, TYPE: t)
 {
+    USAGE:	cpp_error
     KEY (STD)	"Postfix '"op"' can't be applied to type '"t"'"
 }
 
@@ -2254,12 +2255,13 @@ expr_pre_incr_incompl(LEX: op)
 
 expr_pre_incr_bool_inc(LEX: op, TYPE: t)
 {
-    USAGE:	int_operator
+    USAGE:	int_operator | none
     KEY (STD)	"Use of prefix '"op"' on type '"t"' is deprecated"
 }
 
 expr_pre_incr_bool_dec(LEX: op, TYPE: t)
 {
+    USAGE:	cpp_error
     KEY (STD)	"Prefix '"op"' can't be applied to type '"t"'"
 }
 
