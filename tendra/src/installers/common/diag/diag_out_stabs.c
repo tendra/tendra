@@ -69,6 +69,7 @@
 #include "szs_als.h"
 #include "diagglob.h"
 #include "diag_fns.h"
+#include "readglob.h"
 #include "exp.h"
 #include "mark_scope.h"
 #include "externs.h"
@@ -946,8 +947,8 @@ stab_types(void)
 void
 stab_tagdefs(void)
 {
-    diag_tagdef **di = unit_ind_diagtags;
-    int i, n = unit_no_of_diagtags, istag;
+    diag_tagdef **di = cunit->u_ind_diagtags;
+    int i, n = cunit->u_ndiagtags, istag;
 
     for (i = 0; i < n; i++) {
 		diag_type d = di [i]->d_type;
