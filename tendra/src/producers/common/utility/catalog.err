@@ -191,6 +191,7 @@ USAGE:
     infer_int = new | wall, infer_int_cv = new | wall,
     init_aggregate = wall,
     init_dynamic = none | error,
+    init_dynamic_aggr = none | error,
     init_struct = none | wall,
     inline_internal = off,
     inline_c99 = none | error,
@@ -4470,7 +4471,7 @@ dcl_init_aggr_array_bad()
 
 dcl_init_aggr_dynamic()
 {
-    USAGE:	init_dynamic
+    USAGE:	init_dynamic_aggr
     KEY (STD)	"Expression in aggregate initializer should be constant"
 }
 
