@@ -3408,6 +3408,7 @@ init-declarator-list: (ds: DSPEC, bt: BTYPE, t: TYPE, r: ACCESSES) -> () = {
 <ctor_none> : (:EXP) -> (:EXP, :EXP);
 <ctor_initialise> : (:NAMESPACE, :IDENTIFIER, :EXP) -> ();
 <ctor_postlude> : (:EXP, :EXP) -> (:EXP);
+<func_id_declare> : () -> ();
 
 mem-initialiser: (cns: NAMESPACE) -> () = {
 	ns = any-nested-name-opt; aid = any-class-name;
@@ -3460,6 +3461,7 @@ ctor-initialiser-opt: (c: EXP) -> (e: EXP, d: EXP) = {
 
 function-body: (c: EXP) -> (e: EXP) = {
 	(b, d) = ctor-initialiser-opt (c);
+	<func_id_declare>;
 	open-brace;
 	<stmt_compound_block> (b);
 	a = statement-seq-opt (b);

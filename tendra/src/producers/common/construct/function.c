@@ -2602,7 +2602,10 @@ declare_func_id(void)
 			p->pp_data.id.hash = KEYWORD (lex_func_Hid);
 		} else if (p->tok == lex_string_Hlit) {
 			HASHID h = DEREF_hashid (id_name (crt_func_id));
-			string s = DEREF_string (hashid_name_text (h));
+			string s = ustrlit ("");
+			if (IS_hashid_name_etc (h)) {
+				s = DEREF_string (hashid_name_etc_text (h));
+			}
 			p->pp_data.str.start = s;
 			p->pp_data.str.end = s + ustrlen (s);
 		}
