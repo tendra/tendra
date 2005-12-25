@@ -38,27 +38,27 @@
 /* Implicit int type for functions lacking a return type was removed in C99. */
 #pragma TenDRA implicit int type for function return disallow
 /* C99 allows the same type qualifier to occur multiple times. */
-#pragma TenDRA error "dcl_type_cv_dup" off
-#pragma TenDRA error "dcl_type_type_cv" off
+#pragma TenDRA extra type qualifier allow
+#pragma TenDRA extra type qualifier (typedef) allow
 /* Declarations and statements can be mixed freely. */
-#pragma TenDRA error "stmt_dcl_start" off
+#pragma TenDRA declaration after code allow
 /* Initialisers for aggregate or union objects don't have to be constant
  * expressions anymore. */
-#pragma TenDRA error "dcl_init_aggr_dynamic" off
+#pragma TenDRA variable initialization of struct/union (auto) allow
 
 /* 6.4.2.2  */
-#pragma TenDRA option "func_id" allow
+#pragma TenDRA identifier __func__ allow
 /* 6.4.4.2 */
-#pragma TenDRA error "lex_fcon_hex" off
+#pragma TenDRA hexadecimal float literal allow
 /* 6.4.9#2 */
-#pragma TenDRA option "cpplus_comment" allow
+#pragma TenDRA line comment allow
 /* 6.7.2 */
 #pragma TenDRA keyword _Bool for keyword _Bool
 /* 6.7.2#2 */
 #pragma TenDRA implicit int type disallow
 #pragma TenDRA implicit int type for const / volatile disallow
 /* 6.7.2.1 */
-#pragma TenDRA option "flex_array_member" allow
+#pragma TenDRA flexible array member allow
 /* 6.7.2.2 */
 #pragma TenDRA extra , allow
 /* 6.7.3 */
@@ -67,13 +67,13 @@
 #pragma TenDRA keyword inline for inline
 #pragma TenDRA inline linkage external
 /* 6.8.5.3 */
-#pragma TenDRA error "stmt_for_decl" off
+#pragma TenDRA for declaration allow
 /* 6.8.6.4#1 */
 #pragma TenDRA incompatible void return disallow
 /* 6.10.3 */
-#pragma TenDRA error "cpp_space_replace2" on
-#pragma TenDRA error "cpp_replace_arg_empty" off
-#pragma TenDRA option "va_macro" allow
+#pragma TenDRA no space after macro disallow
+#pragma TenDRA empty macro argument allow
+#pragma TenDRA variable argument macro allow
 /* 6.10.4 */
 #pragma TenDRA option value "hash_line_number" 2147483647
 
