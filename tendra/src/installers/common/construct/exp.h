@@ -78,7 +78,6 @@
 #define size32			32L
 #define size16			16L
 #define size8			8L
-//efine Z				0L			/* deprecated */
 
 
 #ifndef EXP_MD_FIELDS
