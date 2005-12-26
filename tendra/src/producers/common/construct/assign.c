@@ -601,13 +601,6 @@ make_become_exp(int op, EXP a, EXP b)
 		cb = type_category (&tb);
     }
 	
-    /* Weed out booleans immediately */
-    if (IS_TYPE_INT (ca) && check_int_type (ta, btype_bool)) {
-		report (crt_loc, ERR_expr_ass_op (op, ta, tb));
-		e = make_error_exp (LANGUAGE_CPP);
-		return (e);
-    }
-	
     /* Find the operation type */
     switch (op) {
 	case lex_and_Heq_H1 : tag = exp_and_tag ; goto integral_lab;
