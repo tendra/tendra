@@ -953,6 +953,13 @@ multibyte           1
 
         <para>enables a check for the characters <literal>/*</literal> within
           C-style comments.</para>
+
+        <para>Whether <literal>//</literal> comments are recognised is
+          controlled by the pragma:
+<programlisting>
+#pragma TenDRA line comment <emphasis>allow</emphasis>
+</programlisting>
+          They are enabled for C++ code and in the C99 environment.
       </sect2>
 
       <sect2 id='identifier-names'>
@@ -1007,6 +1014,28 @@ multibyte           1
           mentioned above</link>. Identifiers
           which exceed this length raise an error or a warning, but are not
           truncated.</para>
+      </sect2>
+
+      <sect2 id='predefined-identifiers'>
+        <title>Predefined identifiers</title>
+
+        <para>The C99 standard introduces the concept of <emphasis>predefined
+          identifiers</emphasis>, the only one of which currently is
+          <literal>__func__ </literal>.  It behaves as if each function started
+          with the declaration
+<programlisting>
+static const char __func__[] = <emphasis>"func-name"</emphasis>;
+</programlisting>
+          where <emphasis>func-name</emphasis> is the name of the current
+          function.  The identifier <literal>__func__</literal> can be enabled
+          with the directive:</para>
+<programlisting>
+#pragma TenDRA identifier __func__ <emphasis>allow</emphasis>
+</programlisting>
+        <para>The identifier <literal>__func__</literal> can also be used in
+          C++ code with one limitation: within constructors, destructors,
+          conversion functions and overloaded operators
+          <literal>__func__</literal> is an empty string.</para>
       </sect2>
 
       <sect2 id='integer-literals'>
@@ -1406,6 +1435,38 @@ if ( cond ) {
 <programlisting>
 #pragma TenDRA directive as macro argument <emphasis>allow</emphasis>
 </programlisting>
+
+        <para>Empty macro arguments invoke undefined behaviour according to
+          the C90 and C++ standard.  The C99 standard allows them however.
+          They can be allowed with the directive:
+<programlisting>
+#pragma TenDRA empty macro argument <emphasis>allow</emphasis>
+</programlisting>
+
+        <para>The C99 standard requires white space between an object macro and
+          the replacement list in a macro definition (eg. the macro definition
+          <literal>#define A{}</literal> is invalid).  The directive
+<programlisting>
+#pragma TenDRA no space after macro <emphasis>allow</emphasis>
+</programlisting>
+          can be used to specify if an error should be reported.
+
+        <para>Another C99 feature are macros with a variable number of
+          arguments.  If the last parameter of a function-like macro is
+          <literal>...</literal>, it matches all remaining arguments (but there
+          has to be at least one).  The identifier
+          <literal>__VA_ARGS__</literal> can be used to refer to these
+          arguments in the replacement list.  For example:</para>
+<programlisting>
+#define debug(lvl, ...) do { \
+        if (lvl >= debuglvl) \
+                fprintf(stderr, __VA_ARGS__); \
+} while (0)
+</programlisting>
+        <para>Variadic macros are enabled with:</para>
+<programlisting>
+#pragma TenDRA variable argument macro <emphasis>allow</emphasis>
+</programlisting>
       </sect2>
 
       <sect2 id='empty-source-files'>
@@ -1619,6 +1680,19 @@ int ( *pf ) ( int ) = f ;       // error
           declaration statement.</para>
       </sect2>
 
+      <sect2 id='mixed-decl'>
+        <title>Mixed declarations and statements</title>
+
+        <para>C90 allowed declarations only at the beginning of a compound
+          statement.  In C++ and C99 code, declarations and statements can be
+          mixed freely.  The directive
+<programlisting>
+#pragma TenDRA declaration after code <emphasis>allow</emphasis>
+</programlisting>
+          is used to switch reporting errors for mixed declarations and
+          statements on or off.</para>
+      </sect2>
+
       <sect2 id='implicit-int'>
         <title>Implicit <literal>int</literal></title>
 
@@ -1714,6 +1788,30 @@ c = 3 ;         // error: not allowed in C++
           <literal>long long</literal> types.</para>
       </sect2>
 
+      <sect2 id='hex-float-lit'>
+        <title>Hexadecimal floating constants</title>
+
+        <para>The C99 standard allows floating point literals to be represented
+          in a hexadecimal notation.  The format for them is:</para>
+<programlisting>
+<emphasis>hex-float:</emphasis>
+        0x <emphasis>hex-digits<subscript>opt</subscript></emphasis> . <emphasis>hex-digits binary-exponent floating-suffix<subscript>opt</subscript></emphasis>
+        0x <emphasis>hex-digits</emphasis> . <emphasis>binary-exponent floating-suffix<subscript>opt</subscript></emphasis>
+        0x <emphasis>hex-digits binary-exponent floating-suffix<subscript>opt</subscript></emphasis>
+<emphasis>binary-exponent:</emphasis>
+        p <emphasis>sign<subscript>opt</subscript> digits</emphasis>
+        P <emphasis>sign<subscript>opt</subscript> digits</emphasis>
+</programlisting>
+        <para>Note that the exponent uses a decimal representation.  The value
+        of a hexadecimal float constant is <emphasis>sign * mantissa *
+        2<superscript>exponent</superscript></emphasis>.</para>
+
+        <para>This feature is controlled with the directive:</para>
+<programlisting>
+#pragma TenDRA hexadecimal float literal <emphasis>allow</emphasis>
+</programlisting>
+      </sect2>
+
       <sect2 id='bitfield-types-b'>
         <title>Bitfield types</title>
 
@@ -1769,6 +1867,31 @@ c = 3 ;         // error: not allowed in C++
 
         <para>can be used to enable a check that every class or union has been
           completed within each translation unit in which it is declared.</para>
+      </sect2>
+
+      <sect2 id='flex-array-members'>
+        <title>Flexible array members</title>
+
+        <para>The C99 standard introduces <emphasis>flexible array
+          members</emphasis>.  This means that the last member of a (otherwise
+          not empty) <literal>struct</literal> is allowed to be an array
+          without an actual array size.</para>
+<programlisting>
+struct s {
+        int i;
+        char fam[];
+};
+</programlisting>
+        <para>Additional memory following the <literal>i</literal> member
+          (eg. if a larger chunk of memory has been allocated with
+          <literal>malloc</literal>) can be legally accessed through the
+          <literal>fam</literal> member.</para>
+        <para>This feature is controlled with this directive:</para>
+<programlisting>
+#pragma TenDRA flexible array member <emphasis>on</emphasis>
+</programlisting>
+        <para>Note: Flexible array members have not really been tested yet with
+          C++ code.</para>
       </sect2>
 
       <sect2 id='implicit-function-decl'>
@@ -1891,6 +2014,33 @@ int sprintf ( char *, __printf_string, ... ) ;
 <programlisting>
 #pragma TenDRA extra type definition <emphasis>allow</emphasis>
 </programlisting>
+      </sect2>
+
+      <sect2 id='type-qualifiers'>
+        <title>Type qualifiers</title>
+
+        <para>The C99 standards allows multiple occurrences of the same
+          type qualifiers in a declaration, as in:</para>
+<programlisting>
+const const int i;
+</programlisting>
+        <para>Whether an error should be reported in such a case can be
+          controlled by:</para>
+<programlisting>
+#pragma TenDRA extra type qualifier <emphasis>allow</emphasis>
+</programlisting>
+
+        <para>Multiple occurrences of a type qualifier can also be caused
+          indirectly by the usage of a <literal>typedef</literal>:</para>
+<programlisting>
+typedef const int t;
+const t i;
+</programlisting>
+        <para>The directive
+<programlisting>
+#pragma TenDRA extra type qualifier (typedef) <emphasis>allow</emphasis>
+</programlisting>
+          is used to enable or disable this.</para>
       </sect2>
 
       <sect2 id='compat'>
@@ -2342,9 +2492,17 @@ char *p = 1 - 1 ;   // valid, but weird
           Conversely, it can be used in C++ to detect such dynamic
           initialisers.</para>
 
+        <para>C90 also requires the initialisers for aggregates to be constant
+          expressions, even for objects with automatic storage duration.  To
+          allow non-constant initialisers the following directive can be
+          used:</para>
+<programlisting>
+#pragma TenDRA variable initialization of struct/union (auto) <emphasis>allow</emphasis>
+</programlisting>
+
         <para>In older dialects of C it was not possible to initialise an
-          automatic variable of structure or union type. This can be checked for
-          using the directive:</para>
+          automatic variable of structure or union type at all. This can be
+          checked for using the directive:</para>
 <programlisting>
 #pragma TenDRA initialization of struct/union (auto) <emphasis>allow</emphasis>
 </programlisting>
@@ -2577,6 +2735,14 @@ return i ;  // OK in older dialects, error in ISO C++
           outside the corresponding <literal>for</literal> statement body. A
           program which does not give such warnings should compile correctly
           under either set of rules.</para>
+
+        <para>C++ always allowed using a declaration as the first part of a
+          for-statement.  The C99 standard introduces this usage also for the C
+          language.  Using the directive
+<programlisting>
+#pragma TenDRA++ for declaration <emphasis>allow</emphasis>
+</programlisting>
+          declarations in for-statements can be made legal in C code.</para>
       </sect2>
 
       <sect2 id='return-statements'>
@@ -10248,6 +10414,12 @@ bs = enc_exp ( bs, b ) ;
   
           <row>
             <entry></entry>
+            <entry><literal>declaration after code</literal></entry>
+            <entry><link linkend='mixed-decl'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
             <entry><literal>directive as macro argument</literal></entry>
             <entry><link linkend='macro-definitions'>Description</link></entry>
           </row>
@@ -10256,6 +10428,12 @@ bs = enc_exp ( bs, b ) ;
             <entry></entry>
             <entry><literal>dollar as ident</literal></entry>
             <entry><link linkend='identifier-names'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>empty macro argument</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
           </row>
   
           <row>
@@ -10302,8 +10480,32 @@ bs = enc_exp ( bs, b ) ;
   
           <row>
             <entry></entry>
+            <entry><literal>extra type qualifier</literal></entry>
+            <entry><link linkend='type-qualifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>extra type qualifier (typedef)</literal></entry>
+            <entry><link linkend='type-qualifiers'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
             <entry><literal>fall into case</literal></entry>
             <entry><link linkend='switch-statements'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>flexible array member</literal></entry>
+            <entry><link linkend='flex-array-members'>Description</link></entry>
+          </row>
+
+          <row>
+            <entry></entry>
+            <entry><literal>for declaration</literal></entry>
+            <entry><link linkend='for-statements'>Description</link></entry>
           </row>
   
           <row>
@@ -10320,8 +10522,20 @@ bs = enc_exp ( bs, b ) ;
   
           <row>
             <entry></entry>
+            <entry><literal>hexadecimal float literal</literal></entry>
+            <entry><link linkend='hex-float-lit'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
             <entry><literal>ident ...</literal></entry>
             <entry><link linkend='ellipsis-functions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>identifier __func__</literal></entry>
+            <entry><link linkend='predefined-identifiers'>Description</link></entry>
           </row>
   
           <row>
@@ -10400,6 +10614,12 @@ bs = enc_exp ( bs, b ) ;
   
           <row>
             <entry></entry>
+            <entry><literal>line comment</literal></entry>
+            <entry><link linkend='comments'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
             <entry><literal>longlong type</literal></entry>
             <entry><link linkend='extended-integral'>Description</link></entry>
           </row>
@@ -10426,6 +10646,12 @@ bs = enc_exp ( bs, b ) ;
             <entry></entry>
             <entry><literal>no nline after file end</literal></entry>
             <entry><link linkend='lexical-analysis'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>no space after macro</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
           </row>
   
           <row>
@@ -10514,7 +10740,20 @@ bs = enc_exp ( bs, b ) ;
   
           <row>
             <entry></entry>
+            <entry><literal>variable argument macro</literal></entry>
+            <entry><link linkend='macro-definitions'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
             <entry><literal>variable initialization</literal></entry>
+            <entry><link linkend='initialiser-expr'>Description</link></entry>
+          </row>
+  
+          <row>
+            <entry></entry>
+            <entry><literal>variable initialization of struct/union
+              (auto)</literal></entry>
             <entry><link linkend='initialiser-expr'>Description</link></entry>
           </row>
   
