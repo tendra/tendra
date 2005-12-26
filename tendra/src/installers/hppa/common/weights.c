@@ -94,7 +94,6 @@
 
 #include "common_types.h"
 #include "exptypes.h"
-#include "expmacs.h"
 #include "codetypes.h"
 #include "installtypes.h"
 #include "const.h"

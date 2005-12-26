@@ -69,7 +69,6 @@
 #include "common_types.h"
 #include "exptypes.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"

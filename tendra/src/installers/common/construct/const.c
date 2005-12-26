@@ -88,7 +88,6 @@
 #include "consttypes.h"
 #include "constmacs.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "check.h"
 #include "install_fns.h"

@@ -56,7 +56,6 @@
 
 #include "config.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 
 

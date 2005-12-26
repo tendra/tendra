@@ -76,7 +76,6 @@
 
 #include "config.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "proctypes.h"
 #include "procrec.h"

@@ -78,8 +78,6 @@
 #include "shapemacs.h"
 
 /* machine dependent */
-#include "expmacs.h"
-
 #include "basicread.h"
 
 #include "dwarf_types.h"

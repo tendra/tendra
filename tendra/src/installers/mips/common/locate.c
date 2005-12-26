@@ -64,7 +64,6 @@
 
 #include "config.h"
 #include "addrtypes.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "inst_fmt.h"
 #include "mips_ins.h"

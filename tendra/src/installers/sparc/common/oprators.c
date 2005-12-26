@@ -59,7 +59,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "codehere.h"
-#include "expmacs.h"
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"

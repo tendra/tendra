@@ -62,7 +62,6 @@
 #include "bitsmacs.h"
 #include "common_types.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "procrec.h"
 #include "tags.h"
 #include "addrtypes.h"

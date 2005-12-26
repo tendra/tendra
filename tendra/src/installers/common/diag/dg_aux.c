@@ -63,7 +63,6 @@
 #include "common_types.h"
 #include "basicread.h"
 #include "sortmacs.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "externs.h"
 #include "check.h"

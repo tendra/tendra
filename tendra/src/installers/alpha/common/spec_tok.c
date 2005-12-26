@@ -60,7 +60,6 @@
 #include "basicread.h"
 #include "tags.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
 #include "check.h"

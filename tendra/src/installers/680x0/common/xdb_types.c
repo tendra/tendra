@@ -58,7 +58,6 @@
 #include "config.h"
 #include <time.h>
 #include "common_types.h"
-#include "expmacs.h"
 #include "externs.h"
 #include "instrs.h"
 #include "mach.h"

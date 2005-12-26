@@ -61,7 +61,6 @@
 #define HPPATRANS_CODE
 #include "config.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "misc.h"
 #include "shapemacs.h"
 #include "regable.h"

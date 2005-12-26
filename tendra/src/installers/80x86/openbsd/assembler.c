@@ -63,7 +63,6 @@
 #include "common_types.h"
 #include "instr.h"
 #include "out.h"
-#include "expmacs.h"
 #include "operand.h"
 #include "machine.h"
 #include "localflags.h"

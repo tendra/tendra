@@ -59,7 +59,6 @@
 #include "common_types.h"
 #include "assembler.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "tags.h"
 #include "tests.h"

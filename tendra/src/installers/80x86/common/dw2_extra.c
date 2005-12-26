@@ -74,7 +74,6 @@
 #include "operand.h"
 #include "machine.h"
 #include "instr386.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "instr.h"
 #include "basicread.h"

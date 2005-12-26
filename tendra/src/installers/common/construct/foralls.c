@@ -61,7 +61,6 @@
 
 #include "common_types.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "check.h"
 #include "shapemacs.h"
@@ -74,8 +73,6 @@
 #include "basicread.h"
 #include "externs.h"
 #include "foralls.h"
-
-#define subvar 0x100
 
 #define false 0
 #define true  1

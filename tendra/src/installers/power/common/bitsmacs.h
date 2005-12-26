@@ -105,16 +105,14 @@
 
 /*
  * props of ident 
- * (16 bits available, lower 8 used by common code) 
+ * (16 bits available, lower 10 used by common code) 
  */
-/* #define subvar       0x0100  redefined as this in foralls.c*/
 #define inreg_bits   0x0800
 #define infreg_bits  0x1000
 #define inanyreg     0x1800
 #define defer_bit    0x2000
 #define notparreg    0x4000
 #define notresreg    0x8000
-#define inlined      0x0200
 #define vararg_bit   0x0400 /* Set for the last ident param if vararg */
 /*
  * props of real operations 

@@ -61,7 +61,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "out.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "localflags.h"
 #include "shapemacs.h"

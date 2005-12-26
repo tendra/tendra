@@ -79,7 +79,6 @@
 #include "common_types.h"
 #include "basicread.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "main_reads.h"
 #include "tags.h"
 #include "flags.h"

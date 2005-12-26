@@ -62,7 +62,6 @@
 #include "common_types.h"
 #include "basicread.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "installglob.h"
 #include "externs.h"

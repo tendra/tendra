@@ -67,7 +67,6 @@
 #include "addrtypes.h"
 #include "tags.h"
 #include "new_tags.h"
-#include "expmacs.h"
 #include "installtypes.h"
 #include "exp.h"
 #include "exptypes.h"

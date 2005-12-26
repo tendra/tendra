@@ -89,7 +89,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "check.h"
 #include "tags.h"

@@ -86,14 +86,9 @@
 #include "frames.h"
 #include "new_tags.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "flags.h"
 #include "eval.h"
 #include "labels.h"
-
-#define name(x) ((x)->namef)
-#define sh(x) ((x)->shf)
-#define son(x) ((x)->sonf.e)
 
 #define GAP "                                                                "
 #define prokhd 24

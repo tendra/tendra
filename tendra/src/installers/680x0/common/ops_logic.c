@@ -61,7 +61,6 @@
 #include "basicread.h"
 #include "check.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "externs.h"
 #include "install_fns.h"
 #include "shapemacs.h"

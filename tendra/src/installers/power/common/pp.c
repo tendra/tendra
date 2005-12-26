@@ -85,7 +85,6 @@
 #ifdef DEBUG_POWERTRANS
 #include "common_types.h"
 #include "exptypes.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "tags.h"
 #include "shapemacs.h"

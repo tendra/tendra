@@ -67,7 +67,6 @@
 #include "dw2_basic.h"
 #include "szs_als.h"
 #include "addrtypes.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "bitsmacs.h"
 #include "tags.h"

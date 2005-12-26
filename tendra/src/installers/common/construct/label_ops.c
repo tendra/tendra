@@ -60,7 +60,6 @@
 
 #include "config.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "label_ops.h"
 #include "check.h"

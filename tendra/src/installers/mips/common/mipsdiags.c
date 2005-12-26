@@ -82,7 +82,6 @@
 #include "symtab.h"
 #include "exptypes.h"
 #include "shapemacs.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "procrectypes.h"
 #include "tags.h"

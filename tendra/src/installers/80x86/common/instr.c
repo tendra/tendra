@@ -66,7 +66,6 @@
 #include "out.h"
 #include "operand.h"
 #include "instrmacs.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "instr386.h"
 #include "flags.h"

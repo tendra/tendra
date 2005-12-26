@@ -65,7 +65,6 @@
 
 #include "common_types.h"
 #include "cv_types.h"
-#include "expmacs.h"
 #include "out.h"
 
 

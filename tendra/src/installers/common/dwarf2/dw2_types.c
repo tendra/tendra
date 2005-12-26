@@ -66,7 +66,6 @@
 #include "dw2_info.h"
 #include "shapemacs.h"
 #include "diag_fns.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "check.h"
 #include "externs.h"

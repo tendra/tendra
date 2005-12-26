@@ -62,7 +62,6 @@
 /**/
 
 #include "config.h"
-#include "expmacs.h"
 #include "addresstypes.h"
 #include "tags.h"
 #include "move.h"

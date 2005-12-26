@@ -58,7 +58,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "install_fns.h"
 #include "externs.h"
 #include "shapemacs.h"

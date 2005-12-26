@@ -86,7 +86,6 @@
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "makecode.h"
 #include "exp.h"

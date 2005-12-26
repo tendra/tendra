@@ -61,37 +61,4 @@
 #include "diaginfo.h"
 
 
-typedef unsigned short prop;
-
-
-struct dec_t; 
-struct aldef_t;
-
-struct exp_t
-{
-    union expno_u {
-		struct exp_t * e;
-		char * str;
-		int l;
-		float f;
-		struct dec_t * glob;
-		diag_info * d;
-		struct aldef_t * ald;
-		unsigned int ui;
-    } brof; 
-    union expno_u numf;
-    union expno_u ptf;
-    union expno_u sonf;
-    struct exp_t * shf;
-    prop propsf;    
-    unsigned char namef;
-    unsigned int lastf : 1;
-    unsigned int park : 1;
-};
-
-typedef struct exp_t * exp;
-
-typedef union expno_u expno;
-
-
 #endif

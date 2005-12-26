@@ -67,7 +67,6 @@
 #include "basicread.h"
 #include "sortmacs.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "main_reads.h"
 #include "externs.h"
 #include "spec_tok.h"

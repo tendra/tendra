@@ -64,7 +64,6 @@
  
 #include "config.h"
 #include "addresstypes.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"

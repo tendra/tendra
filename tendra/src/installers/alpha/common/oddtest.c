@@ -69,7 +69,6 @@
 #include "config.h"
 #include "tags.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "comp_eq_exp.h"

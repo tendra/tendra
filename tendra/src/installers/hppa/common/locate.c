@@ -70,7 +70,6 @@
 #include "common_types.h"
 #include "myassert.h"
 #include "addrtypes.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "inst_fmt.h"
 #include "regmacs.h"

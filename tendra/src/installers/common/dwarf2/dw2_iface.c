@@ -63,7 +63,6 @@
 #include "basicread.h"
 #include "dg_globs.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "dw2_config.h"
 #include "dw2_iface.h"
 #include "dw2_types.h"

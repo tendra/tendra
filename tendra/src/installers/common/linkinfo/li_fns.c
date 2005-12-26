@@ -80,7 +80,6 @@ extern weak_cell *weak_list;
 #include "read_fns.h"
 #include "basicread.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "machine.h"
 

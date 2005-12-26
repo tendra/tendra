@@ -66,12 +66,10 @@
 #include "proctypes.h"
 #include "exptypes.h"
 #include "procrec.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "bitsmacs.h"
 #include "getregs.h"
 

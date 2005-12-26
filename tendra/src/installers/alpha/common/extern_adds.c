@@ -60,7 +60,6 @@
 #include "common_types.h"
 #include "tags.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "externs.h"
 #include "scan.h"

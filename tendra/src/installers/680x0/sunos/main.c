@@ -66,7 +66,6 @@
 #include "weights.h"
 #include "instrs.h"
 #include "installglob.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "externs.h"
 #include "flags.h"

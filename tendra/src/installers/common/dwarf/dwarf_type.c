@@ -69,7 +69,6 @@
 #include "machine.h"
 #include "out.h"
 #include "shapemacs.h"
-#include "expmacs.h"
 #include "basicread.h"
 
 #include "dwarf_types.h"

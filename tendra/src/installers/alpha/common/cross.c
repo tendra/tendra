@@ -71,7 +71,6 @@
 #include "fail.h"
 #include "flpt.h"
 #include "f64.h"
-#include "expmacs.h"
 
 #if FS_64_BIT
 

@@ -75,7 +75,6 @@
 #include "instr.h"
 #include "machine.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "instr386.h"
 #include "localflags.h"
 #include "messages_8.h"

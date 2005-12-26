@@ -60,7 +60,6 @@
 #include "codex.h"
 #include "diag_fns.h"
 #include "diagglob.h"
-#include "expmacs.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

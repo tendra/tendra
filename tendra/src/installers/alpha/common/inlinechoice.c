@@ -60,7 +60,6 @@
 #include "common_types.h"
 #include "installglob.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "flags.h"
 #include "shapemacs.h"

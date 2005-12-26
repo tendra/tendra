@@ -72,7 +72,6 @@ static char vcid[] = "handle_sregs.c,v 1.3 1995/08/21 08:44:43 john Exp";
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addresstypes.h"
-#include "expmacs.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "maxminmacs.h"

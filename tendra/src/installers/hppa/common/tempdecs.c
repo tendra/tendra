@@ -71,7 +71,6 @@
 #include "common_types.h"
 #include "exp.h"
 #include "const.h"
-#include "expmacs.h"
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"

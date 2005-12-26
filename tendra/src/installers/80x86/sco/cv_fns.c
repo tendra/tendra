@@ -66,7 +66,6 @@
 #include "machine.h"
 #include "cv_types.h"
 #include "cv_outtype.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "diag_fns.h"
 #include "diagglob.h"

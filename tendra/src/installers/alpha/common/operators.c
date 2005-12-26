@@ -66,7 +66,6 @@
 
 #include "config.h"
 #include "code_here.h"
-#include "expmacs.h"
 #include "addresstypes.h"
 #include "inst_fmt.h"
 #include "move.h"

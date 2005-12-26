@@ -88,8 +88,7 @@
 #define defer_bit		0x2000
 #define notparreg		0x4000
 #define notresreg		0x8000
-#define sreguse			0x0200
-#define inlined			0x0400
+#define sreguse			0x0400
 
 /*
  *    PROPERTIES OF REAL OPERATIONS
@@ -98,15 +97,6 @@
 #define SetRev(e)		pset (e, 0x1000)
 #define IsRev(e)		ptst (e, 0x1000)
 #define ClearRev(e)		pclr (e, 0x1000)
-
-/*
- *    LABST PROPERTIES
- */
-
-#define set_dg_labmark(e)	pset (e, 0x800)
-#define dg_labmark(e)		ptst (e, 0x800)
-#define clear_dg_labmark(e)	pclr (e, 0x800)
-
 
 /*
  *    MISCELLANEOUS MACROS

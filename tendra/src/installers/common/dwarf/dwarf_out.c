@@ -79,8 +79,6 @@
 #include "basicread.h"
 
 /* machine dependant */
-#include "expmacs.h"
-
 #include "shapemacs.h"
 
 #include "dwarf_types.h"

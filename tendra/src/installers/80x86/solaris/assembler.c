@@ -60,7 +60,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "out.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "operand.h"
 #include "instr.h"

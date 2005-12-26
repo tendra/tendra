@@ -72,7 +72,6 @@
 #include "common_types.h"
 #include "symtab.h"
 #include "flags.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "syms.h"
 #include "tags.h"

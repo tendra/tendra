@@ -70,7 +70,6 @@
 #include "dw2_lines.h"
 #include "dw2_iface.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "basicread.h"
 #include "flags.h"

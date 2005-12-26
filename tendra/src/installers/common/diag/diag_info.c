@@ -67,7 +67,6 @@
 #include "sortmacs.h"
 #ifdef NEWDIAGS
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "externs.h"
 #include "dg_aux.h"

@@ -62,7 +62,6 @@
 #include "common_types.h"
 #include "flpttypes.h"
 #include "flpt.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "tags.h"
 #include "float.h"

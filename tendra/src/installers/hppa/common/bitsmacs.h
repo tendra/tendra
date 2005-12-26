@@ -91,9 +91,7 @@
 #define defer_bit 		0x2000
 #define notparreg 		0x4000
 #define notresreg 		0x8000
-#define sreguse 		0x0200
-#define inlined			0x0200
-/* #define subvar 			0x0100 */
+#define sreguse 		0x0400
 
 /*
  *    PROPERTIES OF REAL OPERATIONS

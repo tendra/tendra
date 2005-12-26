@@ -65,7 +65,6 @@
 #include "common_types.h"
 #include "externs.h"
 #include "installglob.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "table_fns.h"
 #include "shapemacs.h"

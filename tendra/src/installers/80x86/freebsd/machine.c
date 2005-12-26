@@ -62,7 +62,6 @@
 
 #include "common_types.h"
 #include "installglob.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "shapemacs.h"
 #include "out.h"

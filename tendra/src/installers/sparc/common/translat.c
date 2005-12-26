@@ -140,7 +140,6 @@
 #include "common_types.h"
 #include "myassert.h"
 #include "flpt.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "exptypes.h"
 #include "exp.h"

@@ -64,7 +64,6 @@
 #include "common_types.h"
 #include "assembler.h"
 #include "basicread.h"
-#include "expmacs.h"
 #include "instrs.h"
 #include "shapemacs.h"
 #include "fbase.h"

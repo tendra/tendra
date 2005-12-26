@@ -60,7 +60,6 @@
 #include "operand.h"
 #include "tags.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "instr386.h"
 #include "shapemacs.h"
 #include "codermacs.h"

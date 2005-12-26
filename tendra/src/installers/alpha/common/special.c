@@ -63,7 +63,6 @@
 /**/
 
 #include "config.h"
-#include "expmacs.h"
 #include "addresstypes.h"
 #include "shapemacs.h"
 #include "move.h"

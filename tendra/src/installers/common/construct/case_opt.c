@@ -66,7 +66,6 @@
 #include "common_types.h"
 #include "installglob.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "check.h"
 #include "flags.h"

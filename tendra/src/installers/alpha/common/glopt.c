@@ -58,7 +58,6 @@
 #include "common_types.h"
 #include "tags.h"
 #include "externs.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "exp.h"
 #include "basicread.h"

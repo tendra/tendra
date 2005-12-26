@@ -141,7 +141,6 @@
 #include "myassert.h"
 #include "flpt.h"
 #include "frames.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "exptypes.h"
 #include "exp.h"

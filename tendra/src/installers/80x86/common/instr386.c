@@ -69,7 +69,6 @@
 #include "tags.h"
 #include "exp.h"
 #include "basicread.h"
-#include "expmacs.h"
 #include "flpt.h"
 #include "flpttypes.h"
 #include "coder.h"

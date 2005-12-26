@@ -66,7 +66,6 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 
 #include "flags.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "shapemacs.h"
 #include "syms.h"
 #include "tags.h"

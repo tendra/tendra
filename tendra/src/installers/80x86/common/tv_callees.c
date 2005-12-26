@@ -62,7 +62,6 @@
 #include "flags.h"
 #include "install_fns.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "tv_callees.h"
 

@@ -63,7 +63,6 @@
 #include "dw2_codes.h"
 #include "dw2_iface.h"
 #include "szs_als.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "basicread.h"
 #include "dw2_abbrev_vn.h"

@@ -57,7 +57,6 @@
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "expmacs.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "move.h"

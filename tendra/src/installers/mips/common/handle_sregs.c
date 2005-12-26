@@ -69,7 +69,6 @@
 #include "mips_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
-#include "expmacs.h"
 #include "frames.h"
 #include "basicread.h"
 #include "handle_sregs.h"

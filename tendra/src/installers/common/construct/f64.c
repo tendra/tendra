@@ -64,7 +64,6 @@
 #include "messages_c.h"
 #include "flpt.h"
 #include "basicread.h"
-#include "expmacs.h"
 #include "exp.h"
 
 #include "f64.h"

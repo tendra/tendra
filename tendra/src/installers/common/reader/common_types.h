@@ -70,7 +70,7 @@
 #include "dg_first.h"
 
 #include "diaginfo.h"
-#include "exptypes.h"
+#include "exp.h"
 #include "installtypes.h"
 #include "dg_types.h"		/* NEW DIAGS */
 #include "diagtypes.h"		/* OLD DIAGS */

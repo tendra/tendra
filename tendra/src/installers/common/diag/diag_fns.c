@@ -69,7 +69,6 @@
 #include "basicread.h"
 #include "sortmacs.h"
 #include "shapemacs.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "main_reads.h"
 #include "natmacs.h"

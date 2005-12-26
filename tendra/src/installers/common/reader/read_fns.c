@@ -73,7 +73,6 @@
 #include "basicread.h"
 #include "toktypes.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "main_reads.h"
 #include "tags.h"
 #include "flags.h"

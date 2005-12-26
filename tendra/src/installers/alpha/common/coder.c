@@ -64,7 +64,6 @@
 #include "common_types.h"
 #include "addresstypes.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "exptypes.h"
 #include "externs.h"

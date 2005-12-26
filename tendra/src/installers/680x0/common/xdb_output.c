@@ -60,7 +60,6 @@
 #include "assembler.h"
 #include "codex.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

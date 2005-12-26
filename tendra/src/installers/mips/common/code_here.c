@@ -79,7 +79,6 @@
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "new_code.h"
 #include "exp.h"

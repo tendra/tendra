@@ -61,7 +61,6 @@
 #include "common_types.h"
 #include "tags.h"
 #include "basicread.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "shapemacs.h"
 #include "flpt.h"

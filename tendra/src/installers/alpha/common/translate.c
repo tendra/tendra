@@ -63,7 +63,6 @@
 #include "installglob.h"
 #include "tags.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "optimise.h"
 #include "flags.h"
 #include "shapemacs.h"

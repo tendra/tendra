@@ -66,7 +66,6 @@
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "coder.h"
 #include "exp.h"

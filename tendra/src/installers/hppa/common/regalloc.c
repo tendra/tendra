@@ -78,7 +78,6 @@
 
 
 #include "config.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "proctypes.h"
 #include "procrec.h"

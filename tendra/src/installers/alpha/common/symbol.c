@@ -79,7 +79,6 @@ static char vcid[] = "nil";
 #include "makesymtab.h"
 #include "common_types.h"
 #include "diagtypes.h"
-#include "expmacs.h"
 #include "symbol.h"
 #include "type_to_aux.h"
 #include "flags.h"

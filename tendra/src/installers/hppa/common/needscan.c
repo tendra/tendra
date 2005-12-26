@@ -78,7 +78,6 @@
 #include "myassert.h"
 #include "exptypes.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "new_tags.h"
 #include "check.h"

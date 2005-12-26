@@ -62,7 +62,6 @@
 #include "basicread.h"
 #include "check.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "externs.h"
 #include "install_fns.h"
 #include "shapemacs.h"
@@ -100,7 +99,7 @@ set_overflow(exp e)
 		if (pt (e)) {
 			overflow_jump = no(son (pt (e))) ; /* error jump on overflow */
 			overflow_jump = ptno(pt(son(pt(e))));
-			overflow_jump = e->ptf.expr->sonf.expr->ptf.expr->ptf.l;
+			overflow_jump = e->ptf.e->sonf.e->ptf.e->ptf.l;
 			
 		}
 		else {

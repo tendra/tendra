@@ -70,7 +70,6 @@
 /**/
 
 #include "config.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "procrectypes.h"
 #include "procrecs.h"

@@ -71,8 +71,6 @@
 
 /* machine dep headers */
 #include "out.h"
-#include "expmacs.h"
-
 #include "tags.h"
 
 #include "main_reads.h"

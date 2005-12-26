@@ -65,7 +65,6 @@
 #include "out.h"
 #include "machine.h"
 #include "shapemacs.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "szs_als.h"
 #include "exp.h"

@@ -57,7 +57,6 @@
 
 #include "config.h"
 #include "common_types.h"
-#include "expmacs.h"
 #include "externs.h"
 #include "instrs.h"
 #include "mach.h"

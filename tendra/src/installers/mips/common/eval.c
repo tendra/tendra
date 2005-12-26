@@ -67,7 +67,6 @@
 #include "common_types.h"
 #include "addrtypes.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"

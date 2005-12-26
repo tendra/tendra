@@ -75,7 +75,6 @@
 #include "common_types.h"
 #include "shapemacs.h"
 #include "exp.h"
-#include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
 #include "main.h"

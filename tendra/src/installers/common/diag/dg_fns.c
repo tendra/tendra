@@ -67,7 +67,6 @@
 #include "basicread.h"
 #include "install_fns.h"
 #include "sortmacs.h"
-#include "expmacs.h"
 #include "tags.h"
 #include "main_reads.h"
 #include "natmacs.h"

@@ -60,7 +60,6 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
 #include "config.h"
 #include "tags.h"
-#include "expmacs.h"
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "common_types.h"
