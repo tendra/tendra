@@ -129,7 +129,7 @@ typedef struct exp_t {
 	unsigned char	e_name;			/* expression type */
 	unsigned int	e_last:1;		/* is last argument */
 	unsigned int	e_park:1;
-	EXP_MD_FIELDS;					/* machine dependent fields */
+	EXP_MD_FIELDS					/* machine dependent fields */
 } *exp;
 
 /*
