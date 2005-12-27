@@ -76,6 +76,8 @@
 #define has_float(x)	(props(x)&0x1000)
 #define set_has_float(x) props(x)|=0x1000
 
+#define	call_has_vcallers(e)		ptst(e, 0x01)
+
 #endif
 
 

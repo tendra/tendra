@@ -70,6 +70,7 @@
 /**/
 
 #include "config.h"
+#include "common_types.h"
 #include "tags.h"
 #include "procrectypes.h"
 #include "procrecs.h"
@@ -77,7 +78,6 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
-#include "common_types.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "coder.h"

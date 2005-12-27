@@ -65,6 +65,7 @@
 /**/
 
 #include "config.h"
+#include "common_types.h"
 #include "code_here.h"
 #include "addresstypes.h"
 #include "inst_fmt.h"
@@ -75,7 +76,6 @@
 #include "tags.h"
 #include "shapemacs.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "alpha_ins.h"
 #include "f64.h"
 #include "reg_defs.h"

@@ -63,6 +63,7 @@
 
 
 #include "config.h"
+#include "common_types.h"
 #include "fail.h"
 #include "procrecs.h"
 #include "addresstypes.h"
