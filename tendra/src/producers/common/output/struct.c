@@ -686,14 +686,28 @@ enc_dyn_cast(BITSTREAM *bs, EXP e)
 	CLASS_TYPE ct;
 	BITSTREAM *ts, *us;
 	ulong r = LINK_NONE;
+	ulong lab, n;
 	TYPE t = DEREF_type (exp_type (e));
 	EXP a = DEREF_exp (exp_dyn_cast_arg (e));
 	TYPE s = DEREF_type (exp_type (a));
 	EXP a1 = DEREF_exp (exp_dummy_value (a));
 	EXP b = DEREF_exp (exp_dyn_cast_except (e));
 
+	/* Null pointer test */
+	lab = unit_no (bs, NULL_id, VAR_label, 1);
+	ENC_conditional (bs);
+	ENC_make_label (bs, lab);
+	ENC_SEQ_SMALL (bs, 1);
+	ENC_pointer_test (bs);
+	ENC_OFF (bs);
+	ENC_equal (bs);
+	ENC_make_label (bs, lab);
+	bs = enc_exp (bs, a1);
+	bs = enc_null_exp (bs, s);
+	bs = enc_null_exp (bs, s);
+
 	/* Introduce identity for argument */
-	ulong n = unit_no (bs, NULL_id, VAR_tag, 1);
+	n = unit_no (bs, NULL_id, VAR_tag, 1);
 	ENC_identify (bs);
 	bs = enc_access (bs, dspec_none);
 	ENC_make_tag (bs, n);
