@@ -2522,6 +2522,7 @@ base-clause-opt: () -> (t: BOOL) = {
  */
 
 <is_class_spec> : () -> (:BOOL);
+<access_check_base> : (:IDENTIFIER) -> ();
 <access_check_class> : () -> ();
 <access_check> : () -> ();
 <template_decl> : (:TYPE) -> ();
@@ -2545,6 +2546,7 @@ class-specifier: (q: TYPE) -> (c: IDENTIFIER) = {
 	(p, f) = <type_class_begin> (id, key, q);
 	s = base-clause-opt;
 	<class_base_end> (s);
+	<access_check_base> (p);
 	ds = <dspec_none>;
 	t = <type_none>;
 	open-brace; member-specification-opt (t, ds); close-brace;

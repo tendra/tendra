@@ -1557,6 +1557,17 @@ complex-type: () -> (t) = @{
     }
 @};
 
+<access_check_base> : (id) -> () = @{
+    if (crt_access_list.pending) {
+	NAMESPACE ns = DEREF_nspace (id_parent (@id));
+	IDENTIFIER p = NULL;
+	if (!EQ_nspace (ns, global_namespace)) {
+	    p = DEREF_id (nspace_name (ns));
+	}
+	IGNORE report_access (p);
+    }
+@};
+
 <access_check_class> : () -> () = @{
     if (crt_access_list.pending) {
 	IDENTIFIER id = DEREF_id (ctype_name (crt_class));
