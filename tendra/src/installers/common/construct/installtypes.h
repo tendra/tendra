@@ -101,25 +101,22 @@ typedef int access_option;
 typedef int transfer_mode;
 
 
-typedef struct alignment_t {
-	int al_n;	/* code describing the state
-				 *			1 - defined in al_val.al
-				 *			2 - the join of al_val.al_join.a and b
-				 *			3 - in al_val.al_join.a
-				 */
-	int sh_hd;
-	struct alignment_u
-	{
-		int al;
-		int al_frame;
-		struct join_t {struct aldef_t * a; struct aldef_t * b;}
-		al_join;
-	} al_val;
-} alignment_cell;
+/*
+ * State of the alignment (al_n)
+ */
+#define	ALDS_INVALID	0			/* no valid data presented */
+#define	ALDS_SOLVED		1			/* "al" field */
+#define	ALDS_AB			2			/* the join of "a" and "b" alignments */
+#define	ALDS_A			3			/* defined in "a" field */
 
 typedef struct aldef_t {
-	struct aldef_t * next_aldef;	/* keeps a list of all aldefs */
-	alignment_cell al;
+	struct aldef_t	*next_aldef;	/* keeps a list of all aldefs */
+	int				al_n;			/* state */
+	int				sh_hd;
+	int				al;				/* alignment */
+	int				al_frame;
+	struct aldef_t	*a;
+	struct aldef_t	*b;
 } aldef;
 
 typedef aldef * alignment;

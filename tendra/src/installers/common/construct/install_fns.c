@@ -549,10 +549,10 @@ init_frame_als()
 {
 	int i;
 	for (i=0; i<32; i++) {
-		frame_als[i].al.sh_hd = 0;
-		frame_als[i].al.al_n = 1;
-		frame_als[i].al.al_val.al = 64;
-		frame_als[i].al.al_val.al_frame = i+1;
+		frame_als[i].sh_hd = 0;
+		frame_als[i].al_n = ALDS_SOLVED;
+		frame_als[i].al = 64;
+		frame_als[i].al_frame = i+1;
 	}
 }
 
@@ -752,11 +752,11 @@ alignment
 f_obtain_al_tag(al_tag a1)
 {
 	alignment j;
-	if (a1->al.al_n == 1)
-		return long_to_al(a1->al.al_val.al);
+	if (a1->al_n == ALDS_SOLVED)
+		return long_to_al(a1->al);
 	j = (alignment)calloc(1, sizeof(aldef));
-	j -> al.al_n = 3;
-	j -> al.al_val.al_join.a = a1;
+	j -> al_n = ALDS_A;
+	j -> a = a1;
 	j -> next_aldef = top_aldef;
 	top_aldef = j;
 	return j;
@@ -766,28 +766,28 @@ alignment
 f_unite_alignments(alignment a1, alignment a2)
 {
 	alignment j;
-	if (a1->al.al_n == 1 && a2->al.al_n == 1)
+	if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED)
 	{
-		if (a1->al.al_val.al_frame == a2->al.al_val.al_frame) {
-			if (a1->al.al_val.al > a2->al.al_val.al) {
+		if (a1->al_frame == a2->al_frame) {
+			if (a1->al > a2->al) {
 				return a1;
 			} else {
 				return a2;
 			}
-		} else if (a1->al.al_val.al_frame ==0) {
+		} else if (a1->al_frame ==0) {
 			return a2;
-		} else if (a2->al.al_val.al_frame == 0) {
+		} else if (a2->al_frame == 0) {
 			return a1;
 		} else {
-			return (&frame_als[(a1->al.al_val.al_frame | a2->al.al_val.al_frame)-1]);
+			return (&frame_als[(a1->al_frame | a2->al_frame)-1]);
 		}
 		
 	}
 	
 	j = (alignment)calloc(1, sizeof(aldef));
-	j -> al.al_n = 2;
-	j -> al.al_val.al_join.a = a1;
-	j -> al.al_val.al_join.b = a2;
+	j -> al_n = ALDS_AB;
+	j -> a = a1;
+	j -> b = a2;
 	j -> next_aldef = top_aldef;
 	top_aldef = j;
 	return j;
@@ -831,30 +831,30 @@ cache_pals;
 void
 init_alignment()
 {
-	const_al1->al.al_n = 1;
-	const_al1->al.al_val.al = 1;
-	const_al1->al.al_val.al_frame = 0;
-	const_al1->al.sh_hd = 0;
-	const_al8->al.al_n = 1;
-	const_al8->al.al_val.al = 8;
-	const_al8->al.al_val.al_frame = 0;
-	const_al8->al.sh_hd = 0;
-	const_al16->al.al_n = 1;
-	const_al16->al.al_val.al = 16;
-	const_al16->al.al_val.al_frame = 0;
-	const_al16->al.sh_hd = 0;
-	const_al32->al.al_n = 1;
-	const_al32->al.al_val.al = 32;
-	const_al32->al.al_val.al_frame = 0;
-	const_al32->al.sh_hd = 0;
-	const_al64->al.al_n = 1;
-	const_al64->al.al_val.al = 64;
-	const_al64->al.al_val.al_frame = 0;
-	const_al64->al.sh_hd = 0;
-	const_al512->al.al_n = 1;
-	const_al512->al.al_val.al = 512;
-	const_al512->al.al_val.al_frame = 0;
-	const_al512->al.sh_hd = 0;
+	const_al1->al_n = ALDS_SOLVED;
+	const_al1->al = 1;
+	const_al1->al_frame = 0;
+	const_al1->sh_hd = 0;
+	const_al8->al_n = ALDS_SOLVED;
+	const_al8->al = 8;
+	const_al8->al_frame = 0;
+	const_al8->sh_hd = 0;
+	const_al16->al_n = ALDS_SOLVED;
+	const_al16->al = 16;
+	const_al16->al_frame = 0;
+	const_al16->sh_hd = 0;
+	const_al32->al_n = ALDS_SOLVED;
+	const_al32->al = 32;
+	const_al32->al_frame = 0;
+	const_al32->sh_hd = 0;
+	const_al64->al_n = ALDS_SOLVED;
+	const_al64->al = 64;
+	const_al64->al_frame = 0;
+	const_al64->sh_hd = 0;
+	const_al512->al_n = ALDS_SOLVED;
+	const_al512->al = 512;
+	const_al512->al_frame = 0;
+	const_al512->sh_hd = 0;
 	
 	cache_pals = (struct CAL *)0;
 	
@@ -878,7 +878,7 @@ get_pal(alignment a, int sh_hd, int al)
 	}
 	res = (alignment)xmalloc(sizeof(aldef));
 	*res = *a;
-	res -> al.sh_hd = sh_hd;
+	res -> sh_hd = sh_hd;
 	c = (struct CAL*)xmalloc(sizeof(struct CAL));
 	c->sh_hd = sh_hd; c->al = al; c->res = res; c->rest = cache_pals;
 	cache_pals = c;
@@ -1028,11 +1028,11 @@ f_add_to_ptr(exp arg1, exp arg2)
 #endif
 	
 #if issparc || ishppa
-	if ((al1_of(sh(arg2))->al.al_val.al_frame & 6) != 0 &&
+	if ((al1_of(sh(arg2))->al_frame & 6) != 0 &&
 #else
-	if ((al1_of(sh(arg2))->al.al_val.al_frame & 4) != 0 &&
+	if ((al1_of(sh(arg2))->al_frame & 4) != 0 &&
 #endif
-		al2_of(sh(arg2))->al.sh_hd > nofhd) {
+		al2_of(sh(arg2))->sh_hd > nofhd) {
 			/* indirect varargs param */
 		exp z = me_b3(f_pointer(f_alignment(sh(arg1))), arg1, arg2, addptr_tag);
 		return f_contents(sh(arg1), z);
@@ -1894,7 +1894,7 @@ f_contents_with_mode(transfer_mode md, shape s,
 	if (!doing_aldefs &&
 		(name(sh(arg1)) != ptrhd ||
 		 (al1(sh(arg1)) < shape_align(s)
-		  && al1_of(sh(arg1))-> al.sh_hd != doublehd)))
+		  && al1_of(sh(arg1))-> sh_hd != doublehd)))
 		failer(CHSH_CONTENTS_VOL);
 #endif
 #ifdef no_trap_on_nil_contents
@@ -2393,7 +2393,7 @@ f_make_compound(exp arg1, exp_list arg2)
 #ifdef promote_pars
 		for (i = 0; i < arg2.number; i+=2)  {
 			alignment a = al2_of(sh(arr[i]));
-			if (a->al.sh_hd !=0) {
+			if (a->sh_hd !=0) {
 				shape s = sh(arr[i+1]);
 				if (name(s)>=scharhd && name(s)<=uwordhd) {
 					shape ns = (is_signed(s))? slongsh:ulongsh;
@@ -3873,10 +3873,10 @@ f_offset_add(exp arg1, exp arg2)
 #endif
 	sres = f_offset(al1_of(sh(arg1)), al2_of(sh(arg2)));
 #if 0
-	if ((al1_of(sh(arg1))->al.al_val.al_frame & 4) != 0 &&
-		al2_of(sh(arg2))->al.sh_hd != 0) {
+	if ((al1_of(sh(arg1))->al_frame & 4) != 0 &&
+		al2_of(sh(arg2))->sh_hd != 0) {
 		exp ne;
-		if (al2_of(sh(arg2))->al.sh_hd > nofhd) {
+		if (al2_of(sh(arg2))->sh_hd > nofhd) {
 			shape ps = f_pointer(f_alignment(sh(arg1)));
 			ne = hold_check(
 				f_offset_pad(f_alignment(ps), f_shape_offset(ps))
@@ -3942,20 +3942,20 @@ f_offset_max(exp arg1, exp arg2)
 		failer(CHSH_OFFSETMAX);
 #endif
 	
-	if (a1->al.al_n != 1 || a2->al.al_n != 1) {
+	if (a1->al_n != ALDS_SOLVED || a2->al_n != ALDS_SOLVED) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs)
 			failer(CHSH_OFFSETMAX);
-		ares->al.al_n = 2;
-		ares->al.al_val.al_join.a = a1;
-		ares->al.al_val.al_join.b = a2;
+		ares->al_n = ALDS_AB;
+		ares->a = a1;
+		ares->b = a2;
 		ares->next_aldef = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a3);
 	}
 	else
-		sha = f_offset(long_to_al(max(a1->al.al_val.al,
-									  a2->al.al_val.al)),
+		sha = f_offset(long_to_al(max(a1->al,
+									  a2->al)),
 					   a3);
 	
 	return me_b3(sha, arg1, arg2, offset_max_tag);
@@ -4017,21 +4017,21 @@ f_offset_pad(alignment a, exp arg1)
 		failer(CHSH_OFFSETPAD);
 #endif
 	
-	if (a->al.al_n != 1 || al1_of(sh(arg1))->al.al_n != 1) {
+	if (a->al_n != ALDS_SOLVED || al1_of(sh(arg1))->al_n != ALDS_SOLVED) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs)
 			failer(ILL_OFFSETPAD);
-		ares->al.al_n = 2;
-		ares->al.al_val.al_join.a = a;
-		ares->al.al_val.al_join.b = al1_of(sh(arg1));
+		ares->al_n = ALDS_AB;
+		ares->a = a;
+		ares->b = al1_of(sh(arg1));
 		ares->next_aldef = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a);
 	}
-	else if (al1_of(sh(arg1))->al.al_val.al_frame != 0)
+	else if (al1_of(sh(arg1))->al_frame != 0)
 		sha = f_offset(al1_of(sh(arg1)), a);
 	else
-		sha = f_offset(long_to_al(max(a->al.al_val.al,
+		sha = f_offset(long_to_al(max(a->al,
 									  al1(sh(arg1)))),
 					   a);
 	
@@ -4880,16 +4880,16 @@ shape
 f_offset(alignment arg1, alignment arg2)
 {
     /* use values pre-computed by init since we never alter shapes */
-	if (arg1->al.al_n != 1 || arg2->al.al_n != 1 ||
-		arg1->al.sh_hd != 0 || arg2->al.sh_hd != 0
-		|| arg1->al.al_val.al_frame !=0 || arg2->al.al_val.al_frame != 0)
+	if (arg1->al_n != ALDS_SOLVED || arg2->al_n != ALDS_SOLVED ||
+		arg1->sh_hd != 0 || arg2->sh_hd != 0
+		|| arg1->al_frame !=0 || arg2->al_frame != 0)
 		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ, offsethd);
 	
 	/* use values pre-computed by init since we never alter shapes */
-	switch (arg1->al.al_val.al)
+	switch (arg1->al)
 	{
 	case 512:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 512: return f_off512_512;
 		case 64: return f_off512_64;
@@ -4900,7 +4900,7 @@ f_offset(alignment arg1, alignment arg2)
 		default: failer(ILLOFF2); return f_off64_8;
         }
 	case 64:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 64: return f_off64_64;
 		case 32: return f_off64_32;
@@ -4910,7 +4910,7 @@ f_offset(alignment arg1, alignment arg2)
 		default: failer(ILLOFF2); return f_off64_8;
         }
 	case 32:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 32: return f_off32_32;
 		case 16: return f_off32_16;
@@ -4919,7 +4919,7 @@ f_offset(alignment arg1, alignment arg2)
 		default: failer(ILLOFF2); return f_off32_8;
         }
 	case 16:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 16: return f_off16_16;
 		case 8: return f_off16_8;
@@ -4927,14 +4927,14 @@ f_offset(alignment arg1, alignment arg2)
 		default: failer(ILLOFF2); return f_off16_8;
         }
 	case 8:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 8: return f_off8_8;
 		case 1: return f_off8_1;
 		default: failer(ILLOFF2); return f_off8_8;
         }
 	case 1:
-		switch (arg2->al.al_val.al)
+		switch (arg2->al)
         {
 		case 1: return f_off1_1;
 		default: failer(ILLOFF2); return f_off1_1;
@@ -4951,8 +4951,8 @@ shape
 f_pointer(alignment arg)
 {
     /* use values pre-computed by init since we never alter shapes */
-	int af = arg->al.al_val.al_frame;
-	if (arg->al.al_n != 1 && af == 0)
+	int af = arg->al_frame;
+	if (arg->al_n != ALDS_SOLVED && af == 0)
 		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
 	if (af != 0) {
 		if (frame_ptrs[af] == (shape)0) {
@@ -4961,7 +4961,7 @@ f_pointer(alignment arg)
 		}
 		return frame_ptrs[af];
 	}
-	if (arg->al.sh_hd !=0) {
+	if (arg->sh_hd !=0) {
 		struct SAL * c = cache_pashs;
 		shape res;
 		while (c != (struct SAL*)0) {
@@ -4975,7 +4975,7 @@ f_pointer(alignment arg)
 		return res;
 	}
 	
-	switch (arg->al.al_val.al)
+	switch (arg->al)
 	{
 	case 1: return f_ptr1;
 	case 8: return f_ptr8;

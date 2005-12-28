@@ -670,7 +670,7 @@ evalaux(exp e, bool isconst, long al)
 		val = bro (offe);
 		if (! last (val)) {
 			offe = bro (val);
-			if (offe->shf->sonf.ald->al.al_val.al == 32) {
+			if (offe->shf->sonf.ald->al == 32) {
 				param_aligned = 1;
 			}
 		}

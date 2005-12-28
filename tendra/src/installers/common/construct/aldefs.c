@@ -102,32 +102,32 @@ process_aldefs()
 		complete = 1;
 		while (my_aldef != (aldef *)0)
 		{
-			switch (my_aldef -> al.al_n)
+			switch (my_aldef -> al_n)
 			{
-			case 1: break;
-			case 2: {
+			case ALDS_SOLVED: break;
+			case ALDS_AB: {
 				alignment a1;
 				alignment a2;
-				a2 = my_aldef -> al.al_val.al_join.b;
-				a1 = my_aldef -> al.al_val.al_join.a;
-				if (a1->al.al_n == 1 && a2->al.al_n == 1)
+				a2 = my_aldef -> b;
+				a1 = my_aldef -> a;
+				if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED)
 				{
-					my_aldef -> al.al_n = 1;
-					my_aldef -> al.al_val.al =
-						max(a1->al.al_val.al, a2->al.al_val.al);
+					my_aldef -> al_n = ALDS_SOLVED;
+					my_aldef -> al =
+						max(a1->al, a2->al);
 					changed = 1;
 				}
 				else
 					complete = 0;
 				break;
 			}
-			case 3: {
+			case ALDS_A: {
 				alignment a1;
-				a1 = my_aldef -> al.al_val.al_join.a;
-				if (a1->al.al_n == 1)
+				a1 = my_aldef -> a;
+				if (a1->al_n == ALDS_SOLVED)
 				{
-					my_aldef -> al.al_n = 1;
-					my_aldef -> al.al_val.al = a1->al.al_val.al;
+					my_aldef -> al_n = ALDS_SOLVED;
+					my_aldef -> al = a1->al;
 					changed = 1;
 				}
 				else

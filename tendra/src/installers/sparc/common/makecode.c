@@ -114,7 +114,7 @@
 /*
  *  Check for parameter access via add_to_ptr (env, off)
  */
-#define param_aligned(off) (al1_of(sh(off))->al.al_val.al_frame & 6)
+#define param_aligned(off) (al1_of(sh(off))->al_frame & 6)
 
 
 /*

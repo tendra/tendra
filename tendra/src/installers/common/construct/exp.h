@@ -180,11 +180,11 @@ typedef struct exp_t {
  * Components of shapes
 */
 #define	shape_size(x)	((x)->numf.l)
-#define	shape_align(x)	((unsigned long)(x)->brof.ald->al.al_val.al)
+#define	shape_align(x)	((unsigned long)(x)->brof.ald->al)
 #define	align_of(x)		((x)->brof.ald)
-#define	al1(x)			((unsigned long)(x)->sonf.ald->al.al_val.al)
+#define	al1(x)			((unsigned long)(x)->sonf.ald->al)
 #define	al1_of(x)		((x)->sonf.ald)
-#define	al2(x)			((unsigned long)(x)->ptf.ald->al.al_val.al)
+#define	al2(x)			((unsigned long)(x)->ptf.ald->al)
 #define	al2_of(x)		((x)->ptf.ald)
 #define	is_signed(x)	(int)((x)->e_last)
 
@@ -467,8 +467,8 @@ typedef struct exp_t {
 
 
 /* These are used in TDF 3.1 for general_env_offset */
-#define frame_al_of_ptr(x)			(x)->sonf.ald->al.al_val.al_frame
-#define frame_al1_of_offset(x)		(x)->sonf.ald->al.al_val.al_frame
+#define frame_al_of_ptr(x)			(x)->sonf.ald->al_frame
+#define frame_al1_of_offset(x)		(x)->sonf.ald->al_frame
 #define al_includes_vcallees		16
 #define al_includes_caller_args		6
 #define includes_vcallees(x)		(((x) & 16) != 0)

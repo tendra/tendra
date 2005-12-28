@@ -585,7 +585,7 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	for (i = 0; i < cap.c_naltags; ++i) {
 		aldef *ap = &cap.c_altags[i];
 
-		ap->al.al_n = 0;
+		ap->al_n = ALDS_INVALID;
 	}
 
 	init_capsule_diagtags();	/* OLD DIAGS */
@@ -2065,9 +2065,9 @@ f_make_al_tagdef(tdfint t, alignment a)
 {
 	aldef * ap = get_aldef(natint(t));
 
+	*ap = *a;
 	ap->next_aldef = top_aldef;
 	top_aldef = ap;
-	ap->al = a->al;
 	return 0;
 }
 
@@ -2325,7 +2325,7 @@ new_link_list(int n)
 		cunit->u_altags = (aldef *)xcalloc(cunit->u_naltags - n, sizeof(aldef));
 		for (i = 0; i < cunit->u_naltags - n; ++i) {
 			aldef * ap = &cunit->u_altags[i];
-			ap->al.al_n = 0;
+			ap->al_n = ALDS_INVALID;
 		}
 		return 0;
 	case DIAGTAG_TYPE:		/* OLD DIAGS */

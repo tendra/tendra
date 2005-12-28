@@ -2072,10 +2072,10 @@ check(exp e, exp scope)
 				int al = al2(sh(e));
 				if (al == 0)
 					al = 1;
-				if (al2_of(sh(e))->al.sh_hd > nofhd)
+				if (al2_of(sh(e))->sh_hd > nofhd)
 					al = shape_align(f_pointer(al2_of(sh(e))));
 #if ishppa
-				if ((al1_of(sh(e))->al.al_val.al_frame & 4)!=0) {
+				if ((al1_of(sh(e))->al_frame & 4)!=0) {
 					no(son(e)) = -rounder(-no(son(e)),al);
 				}
 				else
@@ -2395,8 +2395,8 @@ check(exp e, exp scope)
 #if isAlpha
 			{ exp ptr = son(e);
 			exp off = bro(ptr);
-			if ((al1_of(sh(off))->al.al_val.al_frame & 4) != 0 &&
-				!is_floating(al2_of(sh(off))->al.sh_hd)) {
+			if ((al1_of(sh(off))->al_frame & 4) != 0 &&
+				!is_floating(al2_of(sh(off))->sh_hd)) {
 				exp r = getexp (sh(ptr), off, 0, ptr, nilexp,
 								0, 6*64, reff_tag);
 				sh(off) = f_offset(al1_of(sh(off)), long_to_al(al2(sh(off))));
@@ -3595,7 +3595,7 @@ check(exp e, exp scope)
 		}
 		case cont_tag:
 #ifdef promote_pars
-		{ int x = al1_of(sh(son(e)))->al.sh_hd;
+		{ int x = al1_of(sh(son(e)))->sh_hd;
 		
 		if (x >= scharhd && x <= uwordhd && !little_end) {
 			int disp = shape_size(ulongsh)-((x>=swordhd)?16:8);
@@ -4301,7 +4301,7 @@ check(exp e, exp scope)
 		}
 #endif
 #ifdef promote_pars
-		{ int x = al1_of(sh(son(e)))->al.sh_hd;
+		{ int x = al1_of(sh(son(e)))->sh_hd;
 		
 		if (x >= scharhd && x <= uwordhd && !little_end) {
 	        exp b = bro(son(e));
