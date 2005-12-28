@@ -75,6 +75,6 @@ extern shape shrealsh;
 extern shape realsh;
 extern shape doublesh;
 
-extern alignment frame_alignment;
+#include "aldefs.h"
 
 #endif  /* !INSTALL_FNS_INCLUDED */

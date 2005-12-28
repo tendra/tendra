@@ -56,16 +56,281 @@
 
 
 #include "config.h"
+#include "fmm.h"
 #include "msgcat.h"
 
 #include "common_types.h"
 #include "installglob.h"
+#include "externs.h"
+#include "flags.h"
+#include "global_opt.h"
 #include "basicread.h"
 #include "messages_c.h"
+#include "szs_als.h"
 
 #include "aldefs.h"
 
 #define max(x,y) ((x)>(y)) ? (x) : (y)
+
+
+/*
+ * frame_als array provides storage for stack frame based alignments.
+ * Specially crafted placement of respective alignments provides
+ * simple mechanism for comparing them.
+ */
+static struct aldef_t frame_als[32];
+
+alignment f_locals_alignment    = frame_als + 0;
+alignment nv_callers_alignment  = frame_als + 1;
+alignment var_callers_alignment = frame_als + 3;
+alignment nv_callees_alignment  = frame_als + 7;
+alignment var_callees_alignment = frame_als + 15;
+
+/*
+ * Common alignments
+ */
+static struct aldef_t const_aldefs[6];
+
+alignment const_al1   = const_aldefs + 0;
+alignment const_al8   = const_aldefs + 1;
+alignment const_al16  = const_aldefs + 2;
+alignment const_al32  = const_aldefs + 3;
+alignment const_al64  = const_aldefs + 4;
+alignment const_al512 = const_aldefs + 5;
+
+alignment frame_alignment;
+
+/*
+ * Hardcoded and platform dependent alignments.
+ */
+alignment f_alloca_alignment;
+alignment f_var_param_alignment;
+alignment f_code_alignment;
+
+
+static struct CAL {
+	int			sh_hd;
+	int			al;
+	alignment	res;
+	struct CAL	*next;
+} *cache_pals;
+
+
+static alignment
+get_pal(alignment a, int sh_hd, int al)
+{
+	struct CAL *cp = cache_pals;
+	alignment ap;
+
+	for (cp = cache_pals; cp != NULL; cp = cp->next) {
+		if (cp->sh_hd == sh_hd && cp->al == al)
+			return cp->res;
+	}
+	ap = xmalloc(sizeof(*ap));
+	*ap = *a;
+	ap->sh_hd = sh_hd;
+	cp = xmalloc(sizeof(*cp));
+	cp->sh_hd = sh_hd;
+	cp->al = al;
+	cp->res = ap;
+	cp->next = cache_pals;
+	cache_pals = cp;
+	return ap;
+}
+
+/*
+ * Initialise alignments framework.  Called before d_capsule().
+ */
+void
+init_alignment(void)
+{
+	int i;
+
+	const_al1->al_n = ALDS_SOLVED;
+	const_al1->al = 1;
+	const_al1->al_frame = 0;
+	const_al1->sh_hd = 0;
+	const_al8->al_n = ALDS_SOLVED;
+	const_al8->al = 8;
+	const_al8->al_frame = 0;
+	const_al8->sh_hd = 0;
+	const_al16->al_n = ALDS_SOLVED;
+	const_al16->al = 16;
+	const_al16->al_frame = 0;
+	const_al16->sh_hd = 0;
+	const_al32->al_n = ALDS_SOLVED;
+	const_al32->al = 32;
+	const_al32->al_frame = 0;
+	const_al32->sh_hd = 0;
+	const_al64->al_n = ALDS_SOLVED;
+	const_al64->al = 64;
+	const_al64->al_frame = 0;
+	const_al64->sh_hd = 0;
+	const_al512->al_n = ALDS_SOLVED;
+	const_al512->al = 512;
+	const_al512->al_frame = 0;
+	const_al512->sh_hd = 0;
+	
+	cache_pals = (struct CAL *)0;
+	
+	for (i = 0; i < 32; i++) {
+		frame_als[i].sh_hd = 0;
+		frame_als[i].al_n = ALDS_SOLVED;
+		frame_als[i].al = 64;
+		frame_als[i].al_frame = i + 1;
+	}
+	f_alloca_alignment = ALLOCA_ALIGN;
+	f_var_param_alignment = VAR_PARAM_ALIGN;
+	f_code_alignment = CODE_ALIGN;
+	stack_align = max(param_align, double_align);
+	return;
+}
+
+
+/*
+ * Allocate and initialise table of alignment tags
+ */
+struct aldef_t*
+aldef_newtable(long n)
+{
+	struct aldef_t *tbl, *ap;
+	long i;
+
+	tbl = xalloc(sizeof(*ap) * n);
+
+	for (i = 0, ap = tbl; i < n; i++, ap++)
+		ap->al_n = ALDS_INVALID;
+	return tbl;
+}
+
+/*
+ * Dispose table of alignmet tags
+ */
+void
+aldef_freetable(struct aldef_t *tbl)
+{
+	xfree(tbl);
+}
+
+static struct aldef_t*
+aldef_new(void)
+{
+	struct aldef_t *ap;
+
+	ap = xalloc(sizeof(*ap));
+	ap->al_n = ALDS_INVALID;
+	ap->next_aldef = top_aldef;
+	top_aldef = ap;
+	return ap;
+}
+
+/*
+ * Return an alignment for something of which the
+ * addresses must be divisible by n bits
+ */
+alignment
+long_to_al(int n)
+{
+	switch (n) {
+	case 0:
+	case 1: return const_al1;
+	case 8: return const_al8;
+	case 16: return const_al16;
+	case 32: return const_al32;
+	case 64: return const_al64;
+	case 512: return const_al512;
+	}
+	MSG_fatal_illegal_value_for_alignment(n);
+	return NULL; /* NOTREACHED */
+}
+
+
+/*
+ * Process alignment construct.
+ * Return alignment of object of the given shape.
+ */
+alignment
+f_alignment(shape sha)
+{
+	return align_of(sha);
+}
+
+/*
+ * Process obtain_al_tag construct.
+ */
+alignment
+f_obtain_al_tag(al_tag a1)
+{
+	alignment ap;
+
+	if (a1->al_n == ALDS_SOLVED)
+		return long_to_al(a1->al);
+	/*
+	 * The actual value of the aligment is not known at this time, so
+	 * we have to put a reference and resolve it later.
+	 */
+	ap = aldef_new();
+	ap->al_n = ALDS_A;
+	ap->a = a1;
+	return ap;
+}
+
+/*
+ * Process parameter_alignment construct.
+ * Return alignment of a parameter of a procedure of shape sha.
+ */
+alignment
+f_parameter_alignment(shape sha)
+{
+	int n = name(sha);
+	alignment t =
+#if issparc
+		MIN_PAR_ALIGNMENT;
+#else
+	f_unite_alignments(MIN_PAR_ALIGNMENT, f_alignment(sha));
+#endif
+
+#if ishppa
+	if (shape_size(sha) > 64)
+		n = nofhd + 1;
+#endif
+#if issparc
+	if (sparccpd(sha))
+		n = nofhd + 1;
+#endif
+
+	return get_pal(t, n, shape_align(sha));
+}
+
+/*
+ * Process unite_alignments construct.
+ * The resulting alignment should be correct for placing any of the
+ * a1 or a2 objects.
+ */
+alignment
+f_unite_alignments(alignment a1, alignment a2)
+{
+	alignment ap;
+
+	if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED) {
+		if (a1->al_frame == a2->al_frame) {
+			if (a1->al > a2->al)
+				return a1;
+			return a2;
+		} else if (a1->al_frame == 0) {
+			return a2;
+		} else if (a2->al_frame == 0) {
+			return a1;
+		}
+		return (&frame_als[(a1->al_frame | a2->al_frame) - 1]);
+	}
+
+	ap = aldef_new();
+	ap->al_n = ALDS_AB;
+	ap->a = a1;
+	ap->b = a2;
+	return ap;
+}
 
 
 /* The alignment definitions form a set of simultaneous equations

@@ -548,7 +548,7 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 	cap.c_tokens = (tok_define*)xcalloc(cap.c_ntokens,
 										  sizeof(tok_define));
 	cap.c_tags = (dec*)xcalloc(cap.c_ntags, sizeof(dec));
-	cap.c_altags = (aldef*)xcalloc(cap.c_naltags, sizeof(aldef));
+	cap.c_altags = aldef_newtable(cap.c_naltags);
 	cap.c_diagtags = (diag_tagdef*)xcalloc(cap.c_ndiagtags,
 												sizeof(diag_tagdef));	/* OLD DIAGS */
 	cap.c_dgtags = (dgtag_struct*)xcalloc(cap.c_ndgtags,
@@ -579,13 +579,6 @@ start_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking)
 		dp->dec_u.dec_val.dec_shape = nilexp;
 		dp->dec_u.dec_val.processed = 0;
 		dp->dec_u.dec_val.isweak = 0;
-	}
-
-	/* initialise the table of alignment tags */
-	for (i = 0; i < cap.c_naltags; ++i) {
-		aldef *ap = &cap.c_altags[i];
-
-		ap->al_n = ALDS_INVALID;
 	}
 
 	init_capsule_diagtags();	/* OLD DIAGS */
@@ -1566,7 +1559,7 @@ unit_destroy(void)
 	xfree(up->u_labels);
 	xfree(up->u_tokens);
 	xfree(up->u_tags);
-	xfree(up->u_altags);
+	aldef_freetable(up->u_altags);
 
 	cunit = NULL;
 	xfree(up);
@@ -2322,11 +2315,7 @@ new_link_list(int n)
 		}
 		return 0;
 	case AL_TYPE:
-		cunit->u_altags = (aldef *)xcalloc(cunit->u_naltags - n, sizeof(aldef));
-		for (i = 0; i < cunit->u_naltags - n; ++i) {
-			aldef * ap = &cunit->u_altags[i];
-			ap->al_n = ALDS_INVALID;
-		}
+		cunit->u_altags = aldef_newtable(cunit->u_naltags - n);
 		return 0;
 	case DIAGTAG_TYPE:		/* OLD DIAGS */
 		init_unit_diagtags(n);

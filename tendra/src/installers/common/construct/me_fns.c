@@ -305,24 +305,6 @@ note_repeat(exp r)
 	return;
 }
 
-/* the result is an alignment for something of which the
- *     addresses must be divisible by n bits */
-alignment
-long_to_al(int n)
-{
-	switch (n) {
-    case 0:
-    case 1: return const_al1;
-    case 8: return const_al8;
-    case 16: return const_al16;
-    case 32: return const_al32;
-    case 64: return const_al64;
-    case 512: return const_al512;
-    default: failer(BAD_LONG_AL);
-		return const_al32;
-	}
-}
-
 /* the shape describes an integer */
 int
 is_integer(shape s)

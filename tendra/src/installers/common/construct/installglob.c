@@ -103,15 +103,7 @@ int in_proc_def = 0;
 int flpt_const_overflow_fail = 1;
 /* flag can be cleared */
 
-aldef const_aldefs[6];
 int doing_aldefs; /* cleared in start_make_capsule */
-
-alignment const_al1 = &const_aldefs[0];
-alignment const_al8 = &const_aldefs[1];
-alignment const_al16 = &const_aldefs[2];
-alignment const_al32 = &const_aldefs[3];
-alignment const_al64 = &const_aldefs[4];
-alignment const_al512 = &const_aldefs[5];
 
 int ptr_null = 0;
 int proc_null = 0;

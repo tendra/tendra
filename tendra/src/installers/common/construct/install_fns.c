@@ -536,26 +536,6 @@ promote_formals(exp bdy)
 #endif
 
 
-aldef frame_als[32];
-
-alignment f_locals_alignment = &frame_als[0];
-alignment nv_callers_alignment = &frame_als[1];
-alignment var_callers_alignment = &frame_als[3];
-alignment nv_callees_alignment = &frame_als[7];
-alignment var_callees_alignment = &frame_als[15];
-
-void
-init_frame_als()
-{
-	int i;
-	for (i=0; i<32; i++) {
-		frame_als[i].sh_hd = 0;
-		frame_als[i].al_n = ALDS_SOLVED;
-		frame_als[i].al = 64;
-		frame_als[i].al_frame = i+1;
-	}
-}
-
 error_treatment
 f_trap(error_code_list ec)
 {
@@ -680,8 +660,6 @@ clear_exp_list(exp_list el)
 }
 
 
-alignment frame_alignment;
-
 /* ntest codes */
 ntest f_equal = 5;
 ntest f_greater_than = 1;
@@ -737,64 +715,6 @@ transfer_mode f_complete = 4;
 /* careful: use simple arguments! */
 
 
-
-alignment
-f_alignment(shape sha)
-{
-	return align_of(sha);
-}
-
-/* we may not yet know the actual values for the alignments,
- *     merely that they are computed from other alignments by unite.
- *     So we have to set up equations which are solved at the end of aldefs
- */
-alignment
-f_obtain_al_tag(al_tag a1)
-{
-	alignment j;
-	if (a1->al_n == ALDS_SOLVED)
-		return long_to_al(a1->al);
-	j = (alignment)calloc(1, sizeof(aldef));
-	j -> al_n = ALDS_A;
-	j -> a = a1;
-	j -> next_aldef = top_aldef;
-	top_aldef = j;
-	return j;
-}
-
-alignment
-f_unite_alignments(alignment a1, alignment a2)
-{
-	alignment j;
-	if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED)
-	{
-		if (a1->al_frame == a2->al_frame) {
-			if (a1->al > a2->al) {
-				return a1;
-			} else {
-				return a2;
-			}
-		} else if (a1->al_frame ==0) {
-			return a2;
-		} else if (a2->al_frame == 0) {
-			return a1;
-		} else {
-			return (&frame_als[(a1->al_frame | a2->al_frame)-1]);
-		}
-		
-	}
-	
-	j = (alignment)calloc(1, sizeof(aldef));
-	j -> al_n = ALDS_AB;
-	j -> a = a1;
-	j -> b = a2;
-	j -> next_aldef = top_aldef;
-	top_aldef = j;
-	return j;
-}
-
-
-
 void
 init_access()
 {
@@ -819,93 +739,6 @@ f_add_accesses(access a1, access a2)
 	return a1 | a2;
 }
 
-
-alignment f_alloca_alignment;
-alignment f_var_param_alignment;
-alignment f_code_alignment;
-
-static struct CAL { short sh_hd; short al; alignment res; struct CAL * rest;}*
-cache_pals;
-
-
-void
-init_alignment()
-{
-	const_al1->al_n = ALDS_SOLVED;
-	const_al1->al = 1;
-	const_al1->al_frame = 0;
-	const_al1->sh_hd = 0;
-	const_al8->al_n = ALDS_SOLVED;
-	const_al8->al = 8;
-	const_al8->al_frame = 0;
-	const_al8->sh_hd = 0;
-	const_al16->al_n = ALDS_SOLVED;
-	const_al16->al = 16;
-	const_al16->al_frame = 0;
-	const_al16->sh_hd = 0;
-	const_al32->al_n = ALDS_SOLVED;
-	const_al32->al = 32;
-	const_al32->al_frame = 0;
-	const_al32->sh_hd = 0;
-	const_al64->al_n = ALDS_SOLVED;
-	const_al64->al = 64;
-	const_al64->al_frame = 0;
-	const_al64->sh_hd = 0;
-	const_al512->al_n = ALDS_SOLVED;
-	const_al512->al = 512;
-	const_al512->al_frame = 0;
-	const_al512->sh_hd = 0;
-	
-	cache_pals = (struct CAL *)0;
-	
-	init_frame_als();
-	f_alloca_alignment = ALLOCA_ALIGN;
-	f_var_param_alignment = VAR_PARAM_ALIGN;
-	f_code_alignment = CODE_ALIGN;
-	stack_align = max(param_align, double_align);
-	return;
-}
-
-
-static alignment
-get_pal(alignment a, int sh_hd, int al)
-{
-	struct CAL * c = cache_pals;
-	alignment res;
-	while (c != (struct CAL*)0) {
-		if (c->sh_hd == sh_hd && c->al == al) return c->res;
-		c = c->rest;
-	}
-	res = (alignment)xmalloc(sizeof(aldef));
-	*res = *a;
-	res -> sh_hd = sh_hd;
-	c = (struct CAL*)xmalloc(sizeof(struct CAL));
-	c->sh_hd = sh_hd; c->al = al; c->res = res; c->rest = cache_pals;
-	cache_pals = c;
-	return res;
-}
-
-alignment
-f_parameter_alignment(shape sha)
-{
-	int n = name(sha);
-	alignment t =
-#if issparc
-		MIN_PAR_ALIGNMENT;
-#else
-	f_unite_alignments(MIN_PAR_ALIGNMENT, f_alignment(sha));
-#endif
-#if ishppa
-	if (shape_size(sha) > 64)
-		n = nofhd+1;
-#endif
-#if issparc
-	if (sparccpd(sha))
-		n = nofhd+1;
-#endif
-	
-	return get_pal(t,n,shape_align(sha));
-}
 
 bitfield_variety
 f_bfvar_bits(bool issigned, nat bits)

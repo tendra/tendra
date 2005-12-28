@@ -155,7 +155,6 @@
 #define ILLOFF1 "illegal offset first arg"
 #define ILLALIGN "illegal alignment"
 #define ILLCOMPSNAT "illegal computed signed nat"
-#define BAD_LONG_AL "illegal value for alignment"
 #define ILL_OFFSETPAD "unknown alignment in offset_pad"
 #define BASE_NOT_10 "flpt base not 10"
 #define WRONG_VERSION "Wrong TDF version for this installer"

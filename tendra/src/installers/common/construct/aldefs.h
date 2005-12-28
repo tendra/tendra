@@ -54,10 +54,22 @@
  * $TenDRA$
  */
 
+#ifndef	ALDEFS_INCLUDED
+#define	ALDEFS_INCLUDED
 
 
+extern alignment frame_alignment;
+extern alignment f_locals_alignment;
+extern alignment nv_callers_alignment;
+extern alignment var_callers_alignment;
+extern alignment nv_callees_alignment;
+extern alignment var_callees_alignment;
 
+struct aldef_t;
 
+alignment long_to_al(int);
+void process_aldefs(void);
+struct aldef_t*aldef_newtable(long);
+void aldef_freetable(struct aldef_t *);
 
-extern void process_aldefs(void) ;
-
+#endif  /* !ALDEFS_INCLUDED */

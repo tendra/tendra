@@ -42,6 +42,12 @@ fatal_illegal_alignment_state(int: state)
 
 }
 
+fatal_illegal_value_for_alignment(int: value)
+{
+	USAGE: FATAL
+	KEY(STD)	"Illegal value for alignment: "value
+}
+
 fatal_tdf_illegal_code(tdf_stream: sp, long: code, ccp: construct)
 {
 	USAGE: FATAL
