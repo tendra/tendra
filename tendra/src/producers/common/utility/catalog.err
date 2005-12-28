@@ -5285,6 +5285,11 @@ class_friend_def()
     KEY (STD)	"Can't apply 'friend' to a class definition"
 }
 
+class_friend_qual()
+{
+    KEY (STD)	"Can't define a qualified 'friend' function"
+}
+
 class_friend_local()
 {
     KEY (STD)	"Can't define a 'friend' function in a local class"

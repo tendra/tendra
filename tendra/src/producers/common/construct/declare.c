@@ -2280,7 +2280,12 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			ns = DEREF_nspace (id_parent (id));
 			ens = ns;
 			/* QUERY: Any other restrictions? */
-			if (IS_id_undef (id)) {
+			if (def) {
+				/* Can't define qualified friend functions */
+				report (crt_loc, ERR_class_friend_qual ());
+				mem = NULL_member;
+				old_id = NULL_id;
+			} else if (IS_id_undef (id)) {
 				report (crt_loc, ERR_lookup_qual_undef (nm, ns));
 				if (IS_nspace_ctype (ns)) itag = id_mem_func_tag;
 				mem = search_member (ns, nm, 1);
