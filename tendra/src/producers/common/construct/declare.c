@@ -2308,9 +2308,14 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 		}
 	}
 
-	/* Can't define function in local class */
-	if (def && really_in_function_defn) {
-		report (crt_loc, ERR_class_friend_local ());
+	if (really_in_function_defn) {
+		if (def) {
+			/* Can't define function in local class */
+			report (crt_loc, ERR_class_friend_local ());
+		} else if (IS_NULL_id (old_id)) {
+			/* Need prior declaration */
+			report (crt_loc, ERR_class_friend_local_undecl ());
+		}
 	}
 
 	/* Allow for special functions */

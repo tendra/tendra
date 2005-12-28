@@ -5295,6 +5295,12 @@ class_friend_local()
     KEY (STD)	"Can't define a 'friend' function in a local class"
 }
 
+class_friend_local_undecl()
+{
+    KEY (STD)	"A 'friend' function in a local class needs a prior
+		 declaration in the enclosing scope"
+}
+
 class_friend_pre(IDENTIFIER: id)
 {
     USAGE:	wall
