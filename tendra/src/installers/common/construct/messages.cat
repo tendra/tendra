@@ -29,6 +29,19 @@
 
 ENTRIES:
 
+fatal_incomplete_alignment_eqs()
+{
+	USAGE: FATAL
+	KEY(STD)	"Incomplete alignment equations."
+}
+
+fatal_illegal_alignment_state(int: state)
+{
+	USAGE: FATAL
+	KEY(STD)	"Illegal alignment state: "state
+
+}
+
 fatal_tdf_illegal_code(tdf_stream: sp, long: code, ccp: construct)
 {
 	USAGE: FATAL

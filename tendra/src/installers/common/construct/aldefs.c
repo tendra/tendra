@@ -55,10 +55,9 @@
  */
 
 
-
-
-
 #include "config.h"
+#include "msgcat.h"
+
 #include "common_types.h"
 #include "installglob.h"
 #include "basicread.h"
@@ -85,62 +84,49 @@
  *   no further change occurs. Unite_sets is represented here by max.
  */
 
-/* PROCEDURES */
-
 void
-process_aldefs()
+process_aldefs(void)
 {
-	aldef * my_aldef;
-	int changed; /* records whether a change has been made */
-	int complete;
+	struct aldef_t *ap, *a1, *a2;
+	int changed, complete;
 	
-	
-	do  /* iterate max until no change */
-	{
-		my_aldef = top_aldef;
+
+	/* iterate until there will be no changes */	
+	do {
+		ap = top_aldef;
 		changed = 0;
 		complete = 1;
-		while (my_aldef != (aldef *)0)
-		{
-			switch (my_aldef -> al_n)
-			{
-			case ALDS_SOLVED: break;
-			case ALDS_AB: {
-				alignment a1;
-				alignment a2;
-				a2 = my_aldef -> b;
-				a1 = my_aldef -> a;
-				if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED)
-				{
-					my_aldef -> al_n = ALDS_SOLVED;
-					my_aldef -> al =
-						max(a1->al, a2->al);
+		while (ap != NULL) {
+			switch (ap->al_n) {
+			case ALDS_SOLVED:
+				break;
+			case ALDS_AB:
+				a1 = ap->a;
+				a2 = ap->b;
+				if (a1->al_n == ALDS_SOLVED && a2->al_n == ALDS_SOLVED) {
+					ap->al_n = ALDS_SOLVED;
+					ap->al = max(a1->al, a2->al);
 					changed = 1;
-				}
-				else
+				} else
 					complete = 0;
 				break;
-			}
-			case ALDS_A: {
-				alignment a1;
-				a1 = my_aldef -> a;
-				if (a1->al_n == ALDS_SOLVED)
-				{
-					my_aldef -> al_n = ALDS_SOLVED;
-					my_aldef -> al = a1->al;
+			case ALDS_A:
+				a1 = ap->a;
+				if (a1->al_n == ALDS_SOLVED) {
+					ap->al_n = ALDS_SOLVED;
+					ap->al = a1->al;
 					changed = 1;
-				}
-				else
+				} else
 					complete = 0;
 				break;
+			default:
+				MSG_fatal_illegal_alignment_state(ap->al_n);
 			}
-			default: failer(ILLEGAL_ALIGNMENT);
-			}
-			my_aldef = my_aldef -> next_aldef;
+			ap = ap->next_aldef;
 		}
 	} while (changed);
-	
+
 	if (!complete)
-		failer(INCOMPLETE_ALIGNMENT_EQS);
+		MSG_fatal_incomplete_alignment_eqs();
 	return;
 }

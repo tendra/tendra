@@ -60,8 +60,6 @@
 
 
 
-#define ILLEGAL_ALIGNMENT "illegal alignment"
-#define INCOMPLETE_ALIGNMENT_EQS "incomplete alignment equations"
 #define ILLEGAL_FLADD "illegal floating add constants"
 #define ILLEGAL_FLMULT "illegal floating mult constants"
 #define ADD_OUT_OF_BOUNDS "constant addition out of bounds, consider using -nepc"
