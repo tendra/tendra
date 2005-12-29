@@ -177,6 +177,10 @@ use_id(IDENTIFIER id, int suppress)
 		}
 	}
 
+	if (DEREF_int (id_invisible (id))) {
+		report (crt_loc, ERR_dcl_nspace_hidden_friend (id));
+	}
+
 	if (do_usage) dump_use (id, &crt_loc, 1);
 	return;
 }
@@ -254,6 +258,10 @@ use_func_id(IDENTIFIER id, int expl, int suppress)
 		if (IS_NULL_id (DEREF_id (id_function_etc_static_ref (fn)))) {
 			COPY_id (id_function_etc_static_ref (fn), id);
 		}
+	}
+
+	if (DEREF_int (id_invisible (id))) {
+		report (crt_loc, ERR_dcl_nspace_hidden_friend (id));
 	}
 
 	if (do_usage) dump_call (id, &crt_loc, expl);

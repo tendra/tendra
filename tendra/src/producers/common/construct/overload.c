@@ -167,7 +167,11 @@ add_candidates(CANDIDATE_LIST *p, IDENTIFIER id, int over, int kind)
 	    /* Functions */
 	    while (!IS_NULL_id (id)) {
 			IDENTIFIER bid = DEREF_id (id_alias (id));
-			add_candidate (p, id, bid, kind);
+			/* Ignore functions that are only declared by a friend
+			 * declaration */
+			if (!DEREF_int (id_invisible (bid))) {
+				add_candidate (p, id, bid, kind);
+			}
 			if (!over) break;
 			id = DEREF_id (id_function_etc_over (id));
 	    }

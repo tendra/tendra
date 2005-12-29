@@ -963,6 +963,7 @@ copy_id(IDENTIFIER id, int type)
 	TYPE t;
 	ulong no;
 	ulong dno;
+	int inv;
 	HASHID nm;
 	unsigned tag;
 	LOCATION loc;
@@ -984,7 +985,7 @@ copy_id(IDENTIFIER id, int type)
 		/* Types */
 		BASE_TYPE bt;
 		DECONS_id_class_name_etc (nm, ds, ns, loc, lid, no,
-								  dno, t, bt, cid);
+								  dno, inv, t, bt, cid);
 		if (type) {
 			t = copy_typedef (cid, t, cv_none);
 			if (type == 2) {
@@ -1028,7 +1029,7 @@ copy_id(IDENTIFIER id, int type)
 	case id_stat_member_tag : {
 		/* Objects */
 		EXP a, b;
-		DECONS_id_variable_etc (nm, ds, ns, loc, lid, no, dno, t,
+		DECONS_id_variable_etc (nm, ds, ns, loc, lid, no, dno, inv, t,
 								a, b, cid);
 		if (type) {
 			t = copy_typedef (cid, t, cv_none);
@@ -1050,7 +1051,7 @@ copy_id(IDENTIFIER id, int type)
 		LIST (CLASS_TYPE) fr;
 		int idef;
 		IDENTIFIER sdef, sref;
-		DECONS_id_function_etc (nm, ds, ns, loc, lid, no, dno, t,
+		DECONS_id_function_etc (nm, ds, ns, loc, lid, no, dno, inv, t,
 								over, form, fr, idef, sdef, sref, a, cid);
 		if (type) {
 			t = copy_typedef (cid, t, cv_none);
@@ -1081,7 +1082,7 @@ copy_id(IDENTIFIER id, int type)
 		/* Members */
 		GRAPH gr;
 		OFFSET off;
-		DECONS_id_member (nm, ds, ns, loc, lid, no, dno, t, off,
+		DECONS_id_member (nm, ds, ns, loc, lid, no, dno, inv, t, off,
 						  gr, cid);
 		if (type) {
 			t = copy_typedef (cid, t, cv_none);
@@ -1104,7 +1105,7 @@ copy_id(IDENTIFIER id, int type)
 		/* Enumerators */
 		EXP a;
 		ERROR err = NULL_err;
-		DECONS_id_enumerator (nm, ds, ns, loc, lid, no, dno,
+		DECONS_id_enumerator (nm, ds, ns, loc, lid, no, dno, inv,
 							  t, a, cid);
 		if (type == 2) {
 			/* Copy enumerator value */
@@ -1125,7 +1126,7 @@ copy_id(IDENTIFIER id, int type)
 		/* Tokens */
 		TOKEN sort;
 		IDENTIFIER alt;
-		DECONS_id_token (nm, ds, ns, loc, lid, no, dno,
+		DECONS_id_token (nm, ds, ns, loc, lid, no, dno, inv,
 						 sort, alt, cid);
 		if (type == 2) {
 			/* Expand token sort */
@@ -1144,6 +1145,7 @@ copy_id(IDENTIFIER id, int type)
 		COPY_id (id_alias (cid), lid);
 		COPY_ulong (id_no (cid), no);
 		COPY_ulong (id_dump (cid), dno);
+		COPY_int (id_invisible (cid), inv);
 	}
 	return (cid);
 }

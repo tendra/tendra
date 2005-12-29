@@ -739,6 +739,7 @@ union IDENTIFIER (id) = {
     IDENTIFIER alias = "%0";
     ulong_type no = "LINK_NONE";
     ulong_type dump = "LINK_NONE";
+    int invisible = "0";
 } + {
     dummy -> {
 	/* Undefined identifier */

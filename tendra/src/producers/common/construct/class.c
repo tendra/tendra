@@ -1826,6 +1826,9 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 				ns = DEREF_nspace (id_parent (tid));
 				check_decl_nspace (tid, ns, 0, crt_namespace);
 			}
+			if (!(mode & dspec_friend)) {
+				COPY_int (id_invisible (tid), 0);
+			}
 			found_elaborate_type = 1;
 			return (tid);
 		}
@@ -1870,6 +1873,9 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 				err = ERR_dcl_type_elab_bad (key, prev, tid, ploc);
 				report (crt_loc, err);
 			}
+			if (!(mode & dspec_friend)) {
+				COPY_int (id_invisible (tid), 0);
+			}
 			found_elaborate_type = 1;
 			return (tid);
 		}
@@ -1911,6 +1917,10 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 	if (mode & dspec_friend) {
 		/* Warn about potential friend problems */
 		report (decl_loc, ERR_class_friend_pre (tid));
+		/* The type is invisible until really declared */
+		COPY_int (id_invisible (tid), 1);
+	} else {
+		COPY_int (id_invisible (tid), 0);
 	}
 	decl_loc = loc;
 	return (tid);

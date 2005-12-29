@@ -1289,6 +1289,9 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			if (IS_nspace_ctype (ns)) itag = id_mem_func_tag;
 			over_id = NULL_id;
 		}
+		if (!IS_NULL_id (old_id)) {
+			COPY_int (id_invisible (id), 0);
+		}
 	}
 	object_type (t, itag);
 	if (IS_NULL_id (old_id)) {
@@ -2402,6 +2405,8 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 		MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
 		id = unify_subsequent (id, t, def);
 		set_member (mem, id);
+		/* The function is invisible until really declared */
+		COPY_int (id_invisible (id), 1);
 		decl_func_type (id, t, def);
 		report (decl_loc, ERR_class_friend_pre (id));
 

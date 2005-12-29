@@ -3824,6 +3824,12 @@ dcl_nspace_memdef_scope(LONG_ID: id)
     KEY (STD)	"'"id"' can only be defined in an enclosing namespace scope"
 }
 
+dcl_nspace_hidden_friend(IDENTIFIER: id)
+{
+    KEY (STD)	"'"id"' was first declared in a 'friend' declaration, it is
+		 not found by simple name lookup without another declaration"
+}
+
 
 /*  --------------------------------------------------------------------
     7.3.2	Namespace or class alias
