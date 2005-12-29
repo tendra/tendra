@@ -219,6 +219,9 @@ aldef_new(void)
 
 	ap = xalloc(sizeof(*ap));
 	ap->al_n = ALDS_INVALID;
+	ap->al_frame = 0;
+	ap->al = 0;
+	ap->sh_hd = 0;
 	ap->next_aldef = top_aldef;
 	top_aldef = ap;
 	return ap;
