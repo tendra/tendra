@@ -25,7 +25,7 @@
  *
  *
  *  		 Crown Copyright (c) 1997, 1998
- *  
+ *
  *  This TenDRA(r) Computer Program is subject to Copyright
  *  owned by the United Kingdom Secretary of State for Defence
  *  acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *  to other parties and amendment for any purpose not excluding
  *  product development provided that any such use et cetera
  *  shall be deemed to be acceptance of the following conditions:-
- *  
+ *
  *      (1) Its Recipients shall ensure that this Notice is
  *      reproduced upon any copies or amended versions of it;
- *  
+ *
  *      (2) Any amended version of it shall be clearly marked to
  *      show both the nature of and the organisation responsible
  *      for the relevant amendment or amendments;
- *  
+ *
  *      (3) Its onward transfer from a recipient to another
  *      party shall be deemed to be that party's acceptance of
  *      these conditions;
- *  
+ *
  *      (4) DERA gives no warranty or assurance as to its
  *      quality or suitability for any purpose and DERA accepts
  *      no liability whatsoever in relation to any use to which
@@ -125,32 +125,32 @@ static int apply_rshift_hack = 0;
  *    initial '<' and the matching closing '>'.
  */
 
-static PPTOKEN
-*skip_template(IDENTIFIER id)
+static PPTOKEN *
+skip_template(IDENTIFIER id)
 {
-    PPTOKEN *q;
-    LOCATION loc;
-    int templ = 0;
-    int angles = 1;
-    int brackets = 0;
-    int t = crt_lex_token;
-    PPTOKEN *p = crt_token;
-    loc = crt_loc;
-    do {
+	PPTOKEN *q;
+	LOCATION loc;
+	int templ = 0;
+	int angles = 1;
+	int brackets = 0;
+	int t = crt_lex_token;
+	PPTOKEN *p = crt_token;
+	loc = crt_loc;
+	do {
 		switch (t) {
-	    case lex_less : {
+		case lex_less : {
 			/* Open angle brackets */
 			if (!brackets && templ) angles++;
 			templ = 0;
 			break;
-	    }
-	    case lex_greater : {
+		}
+		case lex_greater : {
 			/* Close angle brackets */
 			if (!brackets) angles--;
 			templ = 0;
 			break;
-	    }
-	    case lex_rshift : {
+		}
+		case lex_rshift : {
 			/* Map '>>' to '> >' */
 			if (!brackets && apply_rshift_hack) {
 				PPTOKEN *r = new_pptok ();
@@ -163,39 +163,39 @@ static PPTOKEN
 			}
 			templ = 0;
 			break;
-	    }
-	    case lex_open_Hround :
-	    case lex_open_Hbrace_H1 :
-	    case lex_open_Hbrace_H2 :
-	    case lex_open_Hsquare_H1 :
-	    case lex_open_Hsquare_H2 : {
+		}
+		case lex_open_Hround :
+		case lex_open_Hbrace_H1 :
+		case lex_open_Hbrace_H2 :
+		case lex_open_Hsquare_H1 :
+		case lex_open_Hsquare_H2 : {
 			/* Open brackets */
 			brackets++;
 			templ = 0;
 			break;
-	    }
-	    case lex_close_Hround :
-	    case lex_close_Hbrace_H1 :
-	    case lex_close_Hbrace_H2 :
-	    case lex_close_Hsquare_H1 :
-	    case lex_close_Hsquare_H2 : {
+		}
+		case lex_close_Hround :
+		case lex_close_Hbrace_H1 :
+		case lex_close_Hbrace_H2 :
+		case lex_close_Hsquare_H1 :
+		case lex_close_Hsquare_H2 : {
 			/* Close brackets */
 			if (brackets) brackets--;
 			templ = 0;
 			break;
-	    }
-	    case lex_identifier :
-	    case lex_template :
-	    case lex_const_Hcast :
-	    case lex_static_Hcast :
-	    case lex_dynamic_Hcast :
-	    case lex_reinterpret_Hcast : {
+		}
+		case lex_identifier :
+		case lex_template :
+		case lex_const_Hcast :
+		case lex_static_Hcast :
+		case lex_dynamic_Hcast :
+		case lex_reinterpret_Hcast : {
 			/* These may be followed by '<' */
 			/* NOT YET IMPLEMENTED - but are they? */
 			templ = 1;
 			break;
-	    }
-	    case lex_eof : {
+		}
+		case lex_eof : {
 			/* End of file */
 			if (IS_NULL_id (id)) {
 				report (loc, ERR_temp_param_eof ());
@@ -204,19 +204,19 @@ static PPTOKEN
 			}
 			angles = 0;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other tokens */
 			templ = 0;
 			break;
-	    }
+		}
 		}
 		q = crt_token;
 		t = expand_preproc (EXPAND_AHEAD);
-    } while (angles);
-    q->tok = lex_close_Htemplate;
-    snip_tokens (p, q);
-    return (p);
+	} while (angles);
+	q->tok = lex_close_Htemplate;
+	snip_tokens (p, q);
+	return (p);
 }
 
 
@@ -231,30 +231,30 @@ static PPTOKEN
  *    on the value of started.
  */
 
-PPTOKEN
-*skip_template_args(IDENTIFIER id, int started)
+PPTOKEN *
+skip_template_args(IDENTIFIER id, int started)
 {
-    PPTOKEN *q;
-    PPTOKEN *p = crt_token;
-    int t = crt_lex_token;
-    if (started) {
+	PPTOKEN *q;
+	PPTOKEN *p = crt_token;
+	int t = crt_lex_token;
+	if (started) {
 		/* Patch in dummy preprocessing token */
 		q = patch_tokens (1);
 		q->tok = t;
 		t = lex_ignore_token;
 		p->tok = t;
-    }
-    IGNORE expand_preproc (EXPAND_AHEAD);
-    crt_lex_token = lex_open_Htemplate;
-    crt_token->tok = lex_open_Htemplate;
-    q = skip_template (id);
-    crt_lex_token = t;
-    crt_token = p;
-    if (started) {
+	}
+	IGNORE expand_preproc (EXPAND_AHEAD);
+	crt_lex_token = lex_open_Htemplate;
+	crt_token->tok = lex_open_Htemplate;
+	q = skip_template (id);
+	crt_lex_token = t;
+	crt_token = p;
+	if (started) {
 		/* Advance to following token */
 		ADVANCE_LEXER;
-    }
-    return (q);
+	}
+	return (q);
 }
 
 
@@ -269,24 +269,24 @@ PPTOKEN
 static LIST (TOKEN)
 parse_template_args(PPTOKEN *p)
 {
-    int t;
-    PARSE_STATE st;
-    LIST (TOKEN) args = NULL_list (TOKEN);
-    if (p == NULL) return (args);
-	
-    /* Initialise parser */
-    save_state (&st, 1);
-    init_parser (p);
-    ADVANCE_LEXER;
-    t = crt_lex_token;
-    if (t == lex_open_Htemplate) {
+	int t;
+	PARSE_STATE st;
+	LIST (TOKEN) args = NULL_list (TOKEN);
+	if (p == NULL) return (args);
+
+	/* Initialise parser */
+	save_state (&st, 1);
+	init_parser (p);
+	ADVANCE_LEXER;
+	t = crt_lex_token;
+	if (t == lex_open_Htemplate) {
 		/* Step over open bracket */
 		ADVANCE_LEXER;
 		t = crt_lex_token;
-    }
-	
-    /* Scan through arguments */
-    if (t != lex_close_Htemplate) {
+	}
+
+	/* Scan through arguments */
+	if (t != lex_close_Htemplate) {
 		for (;;) {
 			TOKEN arg;
 			if (predict_typeid (2)) {
@@ -325,16 +325,16 @@ parse_template_args(PPTOKEN *p)
 				break;
 			}
 		}
-    }
-	
-    /* Restore state */
-    restore_state (&st);
-    p = restore_parser ();
-    free_tok_list (p);
-	
-    /* Return result */
-    args = REVERSE_list (args);
-    return (args);
+	}
+
+	/* Restore state */
+	restore_state (&st);
+	p = restore_parser ();
+	free_tok_list (p);
+
+	/* Return result */
+	args = REVERSE_list (args);
+	return (args);
 }
 
 
@@ -347,16 +347,16 @@ parse_template_args(PPTOKEN *p)
 static void
 templ_param_type(IDENTIFIER id, TYPE t)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_floating_tag :
 	case type_top_tag :
 	case type_bottom_tag : {
-	    /* Illegal parameter types */
-	    report (crt_loc, ERR_temp_param_type (id, t));
-	    break;
+		/* Illegal parameter types */
+		report (crt_loc, ERR_temp_param_type (id, t));
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -369,10 +369,10 @@ templ_param_type(IDENTIFIER id, TYPE t)
 static int
 define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 {
-    int ok = 1;
-    TOKEN sort = DEREF_tok (id_token_sort (id));
-    unsigned tag = TAG_tok (sort);
-    if (tag == tok_type_tag) {
+	int ok = 1;
+	TOKEN sort = DEREF_tok (id_token_sort (id));
+	unsigned tag = TAG_tok (sort);
+	if (tag == tok_type_tag) {
 		/* Type parameter */
 		TYPE t;
 		if (IS_tok_type (arg)) {
@@ -392,8 +392,8 @@ define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 			ok = 0;
 		}
 		COPY_type (tok_type_value (sort), t);
-		
-    } else if (tag == tok_exp_tag) {
+
+	} else if (tag == tok_exp_tag) {
 		/* Expression parameter */
 		EXP e;
 		if (IS_tok_exp (arg)) {
@@ -479,8 +479,8 @@ define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 			ok = 0;
 		}
 		COPY_exp (tok_exp_value (sort), e);
-		
-    } else {
+
+	} else {
 		/* Template class parameter */
 		IDENTIFIER sid;
 		if (IS_tok_class (arg)) {
@@ -503,9 +503,9 @@ define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 			ok = 0;
 		}
 		COPY_id (tok_class_value (sort), sid);
-		
-    }
-    return (ok);
+
+	}
+	return (ok);
 }
 
 
@@ -530,22 +530,22 @@ int allow_templ_dargs = 1;
 static LIST (TOKEN)
 check_templ_args(TOKEN tok, LIST (TOKEN) args, IDENTIFIER tid)
 {
-    int s;
-    int reported = 0;
-    LIST (TOKEN) a = args;
-    LIST (TOKEN) b = NULL_list (TOKEN);
-    LIST (TOKEN) d = DEREF_list (tok_templ_dargs (tok));
-    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
-    LIST (IDENTIFIER) qids = pids;
-    if (in_template_decl && depends_on_args (args, pids, 0, 1)) {
+	int s;
+	int reported = 0;
+	LIST (TOKEN) a = args;
+	LIST (TOKEN) b = NULL_list (TOKEN);
+	LIST (TOKEN) d = DEREF_list (tok_templ_dargs (tok));
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
+	LIST (IDENTIFIER) qids = pids;
+	if (in_template_decl && depends_on_args (args, pids, 0, 1)) {
 		/* Be extra careful in this case */
 		tok = expand_sort (tok, 1, 1);
 		args = check_templ_args (tok, args, tid);
 		return (args);
-    }
-    s = save_token_args (qids, NULL_list (TOKEN));
-    if (!allow_templ_dargs) d = NULL_list (TOKEN);
-    while (!IS_NULL_list (pids)) {
+	}
+	s = save_token_args (qids, NULL_list (TOKEN));
+	if (!allow_templ_dargs) d = NULL_list (TOKEN);
+	while (!IS_NULL_list (pids)) {
 		TOKEN arg = NULL_tok;
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		if (!IS_NULL_list (a)) {
@@ -581,18 +581,18 @@ check_templ_args(TOKEN tok, LIST (TOKEN) args, IDENTIFIER tid)
 		if (!IS_NULL_list (d)) d = TAIL_list (d);
 		if (!IS_NULL_list (a)) a = TAIL_list (a);
 		pids = TAIL_list (pids);
-    }
-    if (!IS_NULL_list (a)) {
+	}
+	if (!IS_NULL_list (a)) {
 		/* Too many arguments */
 		report (crt_loc, ERR_temp_arg_more (tid));
-    }
-    if (!IS_NULL_list (b)) {
+	}
+	if (!IS_NULL_list (b)) {
 		/* Add default arguments to list */
 		b = REVERSE_list (b);
 		args = APPEND_list (args, b);
-    }
-    restore_token_args (qids, s);
-    return (args);
+	}
+	restore_token_args (qids, s);
+	return (args);
 }
 
 
@@ -606,14 +606,14 @@ check_templ_args(TOKEN tok, LIST (TOKEN) args, IDENTIFIER tid)
 void
 check_deduced_args(IDENTIFIER tid, LIST (IDENTIFIER) pids, LIST (TOKEN) args)
 {
-    while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
+	while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		TOKEN arg = DEREF_tok (HEAD_list (args));
 		IGNORE define_templ_param (pid, arg, tid, 0);
 		args = TAIL_list (args);
 		pids = TAIL_list (pids);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -627,8 +627,8 @@ check_deduced_args(IDENTIFIER tid, LIST (IDENTIFIER) pids, LIST (TOKEN) args)
 static int
 match_template_args(TOKEN tok, LIST (TOKEN) args)
 {
-    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
-    while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
+	while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		TOKEN sort = DEREF_tok (id_token_sort (pid));
 		TOKEN arg = DEREF_tok (HEAD_list (args));
@@ -638,12 +638,12 @@ match_template_args(TOKEN tok, LIST (TOKEN) args)
 		}
 		args = TAIL_list (args);
 		pids = TAIL_list (pids);
-    }
-    if (!IS_NULL_list (args)) {
+	}
+	if (!IS_NULL_list (args)) {
 		/* Too many arguments */
 		return (0);
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -660,9 +660,9 @@ match_template_args(TOKEN tok, LIST (TOKEN) args)
 static IDENTIFIER
 apply_func_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 {
-    int force = 0;
-    IDENTIFIER tid = NULL_id;
-    do {
+	int force = 0;
+	IDENTIFIER tid = NULL_id;
+	do {
 		/* Build up result */
 		IDENTIFIER fid = id;
 		while (!IS_NULL_id (fid)) {
@@ -688,8 +688,8 @@ apply_func_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 			/* Try again allowing for mismatches */
 			force = 1;
 		}
-    } while (IS_NULL_id (tid));
-    return (tid);
+	} while (IS_NULL_id (tid));
+	return (tid);
 }
 
 
@@ -702,8 +702,8 @@ apply_func_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 static TYPE
 apply_typedef_templ(IDENTIFIER id, LIST (TOKEN) args)
 {
-    TYPE t = DEREF_type (id_class_name_etc_defn (id));
-    if (IS_type_templ (t)) {
+	TYPE t = DEREF_type (id_class_name_etc_defn (id));
+	if (IS_type_templ (t)) {
 		int td = in_template_decl;
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
@@ -722,11 +722,11 @@ apply_typedef_templ(IDENTIFIER id, LIST (TOKEN) args)
 			t = s;
 		}
 		in_template_decl = td;
-    } else {
+	} else {
 		report (crt_loc, ERR_temp_names_not (id));
 		t = copy_typedef (id, t, cv_none);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -739,7 +739,7 @@ apply_typedef_templ(IDENTIFIER id, LIST (TOKEN) args)
 static IDENTIFIER
 apply_type_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 {
-    if (IS_id_class_name (id)) {
+	if (IS_id_class_name (id)) {
 		/* Class template */
 		TYPE t;
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -758,7 +758,7 @@ apply_type_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 		} else {
 			report (crt_loc, ERR_temp_names_not (id));
 		}
-    } else {
+	} else {
 		/* Type alias template */
 		TYPE t = apply_typedef_templ (id, args);
 		if (IS_type_compound (t)) {
@@ -771,8 +771,8 @@ apply_type_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 			decl_loc = crt_loc;
 			id = make_typedef (ns, nm, t, dspec_none);
 		}
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -785,14 +785,14 @@ apply_type_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 IDENTIFIER
 apply_template(IDENTIFIER id, LIST (TOKEN) args, int def, int force)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (ds & dspec_template) {
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (ds & dspec_template) {
 		if (IS_id_function_etc (id)) {
 			id = apply_func_templ (id, args, def);
 		} else {
 			id = apply_type_templ (id, args, def);
 		}
-    } else {
+	} else {
 		TYPE form;
 		MAKE_type_token (cv_none, id, args, form);
 		if (force || is_templ_depend (form)) {
@@ -804,8 +804,8 @@ apply_template(IDENTIFIER id, LIST (TOKEN) args, int def, int force)
 		} else {
 			report (crt_loc, ERR_temp_names_not (id));
 		}
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -820,9 +820,9 @@ apply_template(IDENTIFIER id, LIST (TOKEN) args, int def, int force)
 IDENTIFIER
 parse_id_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
-    LIST (TOKEN) args = parse_template_args (p);
-    id = apply_template (id, args, def, 1);
-    return (id);
+	LIST (TOKEN) args = parse_template_args (p);
+	id = apply_template (id, args, def, 1);
+	return (id);
 }
 
 
@@ -836,9 +836,9 @@ parse_id_template(IDENTIFIER id, PPTOKEN *p, int def)
 IDENTIFIER
 parse_type_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
-    LIST (TOKEN) args = parse_template_args (p);
-    id = apply_type_templ (id, args, def);
-    return (id);
+	LIST (TOKEN) args = parse_template_args (p);
+	id = apply_type_templ (id, args, def);
+	return (id);
 }
 
 
@@ -852,9 +852,9 @@ parse_type_template(IDENTIFIER id, PPTOKEN *p, int def)
 TYPE
 parse_typedef_templ(IDENTIFIER id, PPTOKEN *p)
 {
-    LIST (TOKEN) args = parse_template_args (p);
-    TYPE t = apply_typedef_templ (id, args);
-    return (t);
+	LIST (TOKEN) args = parse_template_args (p);
+	TYPE t = apply_typedef_templ (id, args);
+	return (t);
 }
 
 
@@ -871,8 +871,8 @@ parse_typedef_templ(IDENTIFIER id, PPTOKEN *p)
 TYPE
 deduce_type_template(IDENTIFIER id, int used)
 {
-    TYPE t = DEREF_type (id_class_name_etc_defn (id));
-    if (used) {
+	TYPE t = DEREF_type (id_class_name_etc_defn (id));
+	if (used) {
 		TYPE s = t;
 		while (IS_type_templ (s)) {
 			s = DEREF_type (type_templ_defn (s));
@@ -885,8 +885,8 @@ deduce_type_template(IDENTIFIER id, int used)
 			}
 		}
 		report (crt_loc, ERR_temp_local_not (t));
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -907,8 +907,8 @@ NAMESPACE templ_namespace = NULL_nspace;
  *    parameters and all template or token parameters.
  */
 
-LIST (IDENTIFIER) any_templ_param = NULL_list (IDENTIFIER);
-LIST (IDENTIFIER) any_token_param = NULL_list (IDENTIFIER);
+LIST(IDENTIFIER) any_templ_param = NULL_list (IDENTIFIER);
+LIST(IDENTIFIER) any_token_param = NULL_list (IDENTIFIER);
 
 
 /*
@@ -922,53 +922,53 @@ LIST (IDENTIFIER) any_token_param = NULL_list (IDENTIFIER);
 TOKEN
 template_params(int ex)
 {
-    int t;
-    TOKEN tok;
-    PPTOKEN *p;
-    NAMESPACE ns;
-    LOCATION loc;
-    PARSE_STATE s;
-    int have_darg = 0;
-    unsigned long npars = 0;
-    DECL_SPEC use = dspec_none;
-    LIST (TOKEN) dargs = NULL_list (TOKEN);
-    LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
-	
-    /* Can't have template declarations inside blocks */
-    if (in_function_defn) {
+	int t;
+	TOKEN tok;
+	PPTOKEN *p;
+	NAMESPACE ns;
+	LOCATION loc;
+	PARSE_STATE s;
+	int have_darg = 0;
+	unsigned long npars = 0;
+	DECL_SPEC use = dspec_none;
+	LIST (TOKEN) dargs = NULL_list (TOKEN);
+	LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
+
+	/* Can't have template declarations inside blocks */
+	if (in_function_defn) {
 		report (crt_loc, ERR_temp_decl_scope ());
-    } else if (in_class_defn && really_in_function_defn) {
+	} else if (in_class_defn && really_in_function_defn) {
 		report (crt_loc, ERR_temp_mem_local ());
-    }
-	
-    /* Mark exported templates */
-    if (ex || option (OPT_templ_export)) use |= dspec_extern;
-	
-    /* Check for initial '<' */
-    if (crt_lex_token != lex_less) {
+	}
+
+	/* Mark exported templates */
+	if (ex || option (OPT_templ_export)) use |= dspec_extern;
+
+	/* Check for initial '<' */
+	if (crt_lex_token != lex_less) {
 		/* Explicit instantiation */
 		MAKE_tok_templ (use, NULL_nspace, tok);
 		return (tok);
-    }
-	
-    /* Start template parameter namespace */
-    ns = make_namespace (NULL_id, nspace_templ_tag, 0);
-    push_namespace (ns);
-    in_template_decl++;
-    record_location++;
-	
-    /* Prepare to parse template parameters */
-    ADVANCE_LEXER;
-    loc = crt_loc;
-    p = skip_template (NULL_id);
-    save_state (&s, 1);
-    crt_loc = loc;
-    init_parser (p);
-    ADVANCE_LEXER;
-    t = crt_lex_token;
-	
-    /* Parse template parameters */
-    if (t != lex_close_Htemplate) {
+	}
+
+	/* Start template parameter namespace */
+	ns = make_namespace (NULL_id, nspace_templ_tag, 0);
+	push_namespace (ns);
+	in_template_decl++;
+	record_location++;
+
+	/* Prepare to parse template parameters */
+	ADVANCE_LEXER;
+	loc = crt_loc;
+	p = skip_template (NULL_id);
+	save_state (&s, 1);
+	crt_loc = loc;
+	init_parser (p);
+	ADVANCE_LEXER;
+	t = crt_lex_token;
+
+	/* Parse template parameters */
+	if (t != lex_close_Htemplate) {
 		for (;;) {
 			/* Declare parameter */
 			IDENTIFIER pid = NULL_id;
@@ -984,7 +984,7 @@ template_params(int ex)
 				}
 				parse_param (NULL_type, CONTEXT_TEMPL_PARAM, &pid);
 			}
-			
+
 			/* Add parameter to list */
 			if (!IS_NULL_id (pid)) {
 				DECL_SPEC ds = DEREF_dspec (id_storage (pid));
@@ -993,7 +993,7 @@ template_params(int ex)
 				if (do_dump) dump_token_param (pid);
 				tok = DEREF_tok (id_token_sort (pid));
 				switch (TAG_tok (tok)) {
-					
+
 				case tok_exp_tag : {
 					/* Expression parameter */
 					int c;
@@ -1011,7 +1011,7 @@ template_params(int ex)
 					}
 					break;
 				}
-					
+
 				case tok_type_tag : {
 					/* Type parameter */
 					TYPE r = DEREF_type (tok_type_value (tok));
@@ -1025,7 +1025,7 @@ template_params(int ex)
 					}
 					break;
 				}
-					
+
 				case tok_class_tag : {
 					/* Template class parameter */
 					TYPE r = DEREF_type (tok_class_type (tok));
@@ -1040,7 +1040,7 @@ template_params(int ex)
 					}
 					break;
 				}
-					
+
 				default : {
 					/* Shouldn't occur */
 					tok = NULL_tok;
@@ -1055,7 +1055,7 @@ template_params(int ex)
 				CONS_id (pid, pids, pids);
 				npars++;
 			}
-			
+
 			/* Check for next parameter */
 			t = crt_lex_token;
 			if (t == lex_close_Htemplate) {
@@ -1073,21 +1073,21 @@ template_params(int ex)
 				break;
 			}
 		}
-    }
-	
-    /* Restore parser */
-    restore_state (&s);
-    p = restore_parser ();
-    free_tok_list (p);
-	
-    /* Construct the result */
-    MAKE_tok_templ (use, crt_namespace, tok);
-    if (IS_NULL_list (pids)) {
+	}
+
+	/* Restore parser */
+	restore_state (&s);
+	p = restore_parser ();
+	free_tok_list (p);
+
+	/* Construct the result */
+	MAKE_tok_templ (use, crt_namespace, tok);
+	if (IS_NULL_list (pids)) {
 		/* Explicit specialisation */
 		IGNORE pop_namespace ();
 		in_template_decl--;
 		record_location--;
-    } else {
+	} else {
 		IGNORE check_value (OPT_VAL_template_pars, npars);
 		pids = REVERSE_list (pids);
 		dargs = REVERSE_list (dargs);
@@ -1095,8 +1095,8 @@ template_params(int ex)
 		COPY_list (tok_templ_dargs (tok), dargs);
 		set_proc_token (pids);
 		templ_namespace = ns;
-    }
-    return (tok);
+	}
+	return (tok);
 }
 
 
@@ -1111,14 +1111,14 @@ template_params(int ex)
 TYPE
 make_template_type(TOKEN tok, TYPE t)
 {
-    TYPE s;
-    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
-    if (!IS_NULL_list (pids)) {
+	TYPE s;
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
+	if (!IS_NULL_list (pids)) {
 		/* Remove template parameters */
 		IGNORE restore_namespace ();
-    }
-    MAKE_type_templ (cv_none, tok, NULL_type, 0, s);
-    if (!IS_NULL_type (t)) {
+	}
+	MAKE_type_templ (cv_none, tok, NULL_type, 0, s);
+	if (!IS_NULL_type (t)) {
 		unsigned tag = TAG_type (t);
 		NAMESPACE ns = DEREF_nspace (tok_templ_pars (tok));
 		if (IS_NULL_nspace (ns)) {
@@ -1145,8 +1145,8 @@ make_template_type(TOKEN tok, TYPE t)
 			COPY_cv (type_func_mqual (t), cv);
 		}
 		s = inject_pre_type (t, s, 0);
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -1160,8 +1160,8 @@ make_template_type(TOKEN tok, TYPE t)
 void
 end_template(TOKEN tok)
 {
-    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
-    if (!IS_NULL_list (pids)) {
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (tok));
+	if (!IS_NULL_list (pids)) {
 		remove_namespace ();
 		templ_namespace = NULL_nspace;
 		in_template_decl--;
@@ -1178,9 +1178,9 @@ end_template(TOKEN tok)
 				lns = TAIL_list (lns);
 			}
 		}
-    }
-    if (!in_template_decl) clear_templates (1);
-    return;
+	}
+	if (!in_template_decl) clear_templates (1);
+	return;
 }
 
 
@@ -1194,7 +1194,7 @@ end_template(TOKEN tok)
 void
 template_decl(TYPE t)
 {
-    while (!IS_NULL_type (t) && IS_type_templ (t)) {
+	while (!IS_NULL_type (t) && IS_type_templ (t)) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		DECL_SPEC ds = DEREF_dspec (tok_templ_usage (sort));
 		if (ds & dspec_used) {
@@ -1204,8 +1204,8 @@ template_decl(TYPE t)
 		ds |= dspec_used;
 		COPY_dspec (tok_templ_usage (sort), ds);
 		t = DEREF_type (type_templ_defn (t));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1219,7 +1219,7 @@ template_decl(TYPE t)
 static TYPE
 export_instances(TYPE t, int def)
 {
-    while (IS_type_templ (t)) {
+	while (IS_type_templ (t)) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		INSTANCE apps = DEREF_inst (tok_templ_apps (sort));
 		while (!IS_NULL_inst (apps)) {
@@ -1233,8 +1233,8 @@ export_instances(TYPE t, int def)
 			apps = DEREF_inst (inst_next (apps));
 		}
 		t = DEREF_type (type_templ_defn (t));
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1249,26 +1249,26 @@ export_instances(TYPE t, int def)
 void
 export_template(IDENTIFIER id, int def)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (ds & (dspec_inherit | dspec_implicit)) return;
-    if (ds & (dspec_inline | dspec_static)) return;
-    if (def == 0 && (ds & dspec_typedef)) {
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (ds & (dspec_inherit | dspec_implicit)) return;
+	if (ds & (dspec_inline | dspec_static)) return;
+	if (def == 0 && (ds & dspec_typedef)) {
 		/* Already exported */
 		return;
-    }
-    ds |= dspec_typedef;
-    COPY_dspec (id_storage (id), ds);
-    if (def == 2 && !has_linkage (id)) {
+	}
+	ds |= dspec_typedef;
+	COPY_dspec (id_storage (id), ds);
+	if (def == 2 && !has_linkage (id)) {
 		/* Can't export anonymous identifiers */
 		report (crt_loc, ERR_temp_decl_export (id));
-    }
-    switch (TAG_id (id)) {
+	}
+	switch (TAG_id (id)) {
 	case id_class_name_tag :
 	case id_class_alias_tag : {
-	    /* Template classes */
-	    TYPE t = DEREF_type (id_class_name_etc_defn (id));
-	    t = export_instances (t, def);
-	    if (IS_type_compound (t)) {
+		/* Template classes */
+		TYPE t = DEREF_type (id_class_name_etc_defn (id));
+		t = export_instances (t, def);
+		if (IS_type_compound (t)) {
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 			IDENTIFIER cid = DEREF_id (ctype_name (ct));
 			if (EQ_id (id, cid)) {
@@ -1287,25 +1287,25 @@ export_template(IDENTIFIER id, int def)
 					mem = DEREF_member (member_next (mem));
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Template functions */
-	    TYPE t = DEREF_type (id_function_etc_type (id));
-	    IGNORE export_instances (t, def);
-	    update_tag (id, 0);
-	    break;
+		/* Template functions */
+		TYPE t = DEREF_type (id_function_etc_type (id));
+		IGNORE export_instances (t, def);
+		update_tag (id, 0);
+		break;
 	}
 	case id_stat_member_tag : {
-	    /* Static data members */
-	    update_tag (id, 0);
-	    break;
+		/* Static data members */
+		update_tag (id, 0);
+		break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1318,20 +1318,20 @@ export_template(IDENTIFIER id, int def)
 int
 is_exported(IDENTIFIER id)
 {
-    TYPE form;
-    int def = 0;
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if (ds & dspec_typedef) return (1);
-    form = find_form (id, &def);
-    if (!IS_NULL_type (form) && IS_type_instance (form)) {
+	TYPE form;
+	int def = 0;
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if (ds & dspec_typedef) return (1);
+	form = find_form (id, &def);
+	if (!IS_NULL_type (form) && IS_type_instance (form)) {
 		IDENTIFIER tid = DEREF_id (type_instance_id (form));
 		ds = DEREF_dspec (id_storage (tid));
 		if (ds & dspec_typedef) {
 			export_template (id, 0);
 			return (1);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1342,17 +1342,17 @@ is_exported(IDENTIFIER id)
  *    to the template parameters pids.
  */
 
-LIST (TOKEN)
+LIST(TOKEN)
 make_primary_args(LIST (IDENTIFIER) pids)
 {
-    LIST (TOKEN) args = NULL_list (TOKEN);
-    while (!IS_NULL_list (pids)) {
+	LIST (TOKEN) args = NULL_list (TOKEN);
+	while (!IS_NULL_list (pids)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
 		TOKEN arg = apply_token (pid, NULL_list (TOKEN));
 		CONS_tok (arg, args, args);
 		pids = TAIL_list (pids);
-    }
-    return (REVERSE_list (args));
+	}
+	return (REVERSE_list (args));
 }
 
 
@@ -1367,9 +1367,9 @@ make_primary_args(LIST (IDENTIFIER) pids)
 TYPE
 check_templ_params(TYPE t, IDENTIFIER id)
 {
-    int depth = 0;
-    unsigned tag = TAG_type (t);
-    while (tag == type_templ_tag) {
+	int depth = 0;
+	unsigned tag = TAG_type (t);
+	while (tag == type_templ_tag) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		NAMESPACE ns = DEREF_nspace (tok_templ_pars (sort));
 		DECL_SPEC use = DEREF_dspec (tok_templ_usage (sort));
@@ -1414,12 +1414,12 @@ check_templ_params(TYPE t, IDENTIFIER id)
 		if (use & dspec_extern) export_template (id, 2);
 		depth++;
 		t = s;
-    }
-    if (depth > 1) {
+	}
+	if (depth > 1) {
 		/* More than one level of templates */
 		report (decl_loc, ERR_temp_decl_bad ());
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1432,7 +1432,7 @@ check_templ_params(TYPE t, IDENTIFIER id)
 int
 check_templ_dargs(TYPE t)
 {
-    if (IS_type_templ (t)) {
+	if (IS_type_templ (t)) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		LIST (TOKEN) dargs = DEREF_list (tok_templ_dargs (sort));
 		while (!IS_NULL_list (dargs)) {
@@ -1440,8 +1440,8 @@ check_templ_dargs(TYPE t)
 			if (!IS_NULL_tok (darg)) return (1);
 			dargs = TAIL_list (dargs);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1455,9 +1455,9 @@ check_templ_dargs(TYPE t)
 IDENTIFIER
 find_template(IDENTIFIER id, int force)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
-	    case id_class_name_tag : {
+		case id_class_name_tag : {
 			/* Template classes */
 			CLASS_TYPE ct;
 			int templ = 0;
@@ -1477,10 +1477,10 @@ find_template(IDENTIFIER id, int force)
 				return (id);
 			}
 			break;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_mem_func_tag :
+		case id_stat_mem_func_tag : {
 			/* Template functions */
 			TYPE t = DEREF_type (id_function_etc_form (id));
 			if (!IS_NULL_type (t) && IS_type_token (t)) {
@@ -1495,8 +1495,8 @@ find_template(IDENTIFIER id, int force)
 				}
 			}
 			break;
-	    }
-	    case id_ambig_tag : {
+		}
+		case id_ambig_tag : {
 			/* Ambiguous identifiers */
 			LIST (IDENTIFIER) pids;
 			pids = DEREF_list (id_ambig_ids (id));
@@ -1516,10 +1516,10 @@ find_template(IDENTIFIER id, int force)
 				}
 			}
 			break;
-	    }
 		}
-    }
-    return (NULL_id);
+		}
+	}
+	return (NULL_id);
 }
 
 
@@ -1532,16 +1532,16 @@ find_template(IDENTIFIER id, int force)
 static IDENTIFIER
 redecl_templ_param(IDENTIFIER id)
 {
-    HASHID nm = DEREF_hashid (id_name (id));
-    MEMBER mem = search_member (crt_namespace, nm, 1);
-    IDENTIFIER pid = DEREF_id (member_id (mem));
-    if (!IS_NULL_id (pid)) {
+	HASHID nm = DEREF_hashid (id_name (id));
+	MEMBER mem = search_member (crt_namespace, nm, 1);
+	IDENTIFIER pid = DEREF_id (member_id (mem));
+	if (!IS_NULL_id (pid)) {
 		/* Parameter already defined */
 		report (crt_loc, ERR_temp_param_dup (nm));
 		nm = lookup_anon ();
 		id = DEREF_id (hashid_id (nm));
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -1554,11 +1554,11 @@ redecl_templ_param(IDENTIFIER id)
 IDENTIFIER
 make_type_param(IDENTIFIER id)
 {
-    TOKEN tok;
-    MAKE_tok_type (btype_template, NULL_type, tok);
-    id = redecl_templ_param (id);
-    id = make_token_decl (tok, 0, id, NULL_id);
-    return (id);
+	TOKEN tok;
+	MAKE_tok_type (btype_template, NULL_type, tok);
+	id = redecl_templ_param (id);
+	id = make_token_decl (tok, 0, id, NULL_id);
+	return (id);
 }
 
 
@@ -1572,11 +1572,11 @@ make_type_param(IDENTIFIER id)
 void
 init_type_param(IDENTIFIER id, TYPE t)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    COPY_dspec (id_storage (id), (ds & ~dspec_pure));
-    IGNORE define_type_token (id, t, 0);
-    COPY_dspec (id_storage (id), ds);
-    return;
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	COPY_dspec (id_storage (id), (ds & ~dspec_pure));
+	IGNORE define_type_token (id, t, 0);
+	COPY_dspec (id_storage (id), ds);
+	return;
 }
 
 
@@ -1590,11 +1590,11 @@ init_type_param(IDENTIFIER id, TYPE t)
 IDENTIFIER
 make_exp_param(TYPE t, IDENTIFIER id)
 {
-    TOKEN tok;
-    t = rvalue_type (t);
-    MAKE_tok_exp (t, 1, NULL_exp, tok);
-    id = make_token_decl (tok, 0, id, NULL_id);
-    return (id);
+	TOKEN tok;
+	t = rvalue_type (t);
+	MAKE_tok_exp (t, 1, NULL_exp, tok);
+	id = make_token_decl (tok, 0, id, NULL_id);
+	return (id);
 }
 
 
@@ -1608,11 +1608,11 @@ make_exp_param(TYPE t, IDENTIFIER id)
 void
 init_exp_param(IDENTIFIER id, EXP e)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    COPY_dspec (id_storage (id), (ds & ~dspec_pure));
-    IGNORE define_exp_token (id, e, 1);
-    COPY_dspec (id_storage (id), ds);
-    return;
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	COPY_dspec (id_storage (id), (ds & ~dspec_pure));
+	IGNORE define_exp_token (id, e, 1);
+	COPY_dspec (id_storage (id), ds);
+	return;
 }
 
 
@@ -1625,11 +1625,11 @@ init_exp_param(IDENTIFIER id, EXP e)
 IDENTIFIER
 make_template_param(TYPE t, IDENTIFIER id)
 {
-    TOKEN tok;
-    MAKE_tok_class (t, NULL_id, tok);
-    id = redecl_templ_param (id);
-    id = make_token_decl (tok, 0, id, NULL_id);
-    return (id);
+	TOKEN tok;
+	MAKE_tok_class (t, NULL_id, tok);
+	id = redecl_templ_param (id);
+	id = make_token_decl (tok, 0, id, NULL_id);
+	return (id);
 }
 
 
@@ -1644,7 +1644,7 @@ make_template_param(TYPE t, IDENTIFIER id)
 void
 init_template_param(IDENTIFIER id, IDENTIFIER tid)
 {
-    if (!IS_NULL_id (tid)) {
+	if (!IS_NULL_id (tid)) {
 		if (IS_id_class_name_etc (tid)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			COPY_dspec (id_storage (id), (ds & ~dspec_pure));
@@ -1653,8 +1653,8 @@ init_template_param(IDENTIFIER id, IDENTIFIER tid)
 		} else {
 			report (crt_loc, ERR_temp_arg_templ_not (id, tid));
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1678,10 +1678,10 @@ static LIST (IDENTIFIER) dummy_types = NULL_list (IDENTIFIER);
 static TYPE
 make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST (TOKEN) args)
 {
-    TYPE t;
-    HASHID nm = DEREF_hashid (id_name (id));
-    LIST (IDENTIFIER) p = dummy_types;
-    while (!IS_NULL_list (p)) {
+	TYPE t;
+	HASHID nm = DEREF_hashid (id_name (id));
+	LIST (IDENTIFIER) p = dummy_types;
+	while (!IS_NULL_list (p)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (p));
 		HASHID pnm = DEREF_hashid (id_name (pid));
 		NAMESPACE pns = DEREF_nspace (id_parent (pid));
@@ -1694,8 +1694,8 @@ make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST (TOKEN) args)
 			}
 		}
 		p = TAIL_list (p);
-    }
-    if (IS_NULL_list (p)) {
+	}
+	if (IS_NULL_list (p)) {
 		/* Create new parameter */
 		TOKEN tok;
 		DECL_SPEC ds = (dspec_template | dspec_token | dspec_auto |
@@ -1704,9 +1704,9 @@ make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST (TOKEN) args)
 		MAKE_id_token (nm, ds, ns, crt_loc, tok, NULL_id, id);
 		COPY_id (id_token_alt (id), id);
 		CONS_id (id, dummy_types, dummy_types);
-    }
-    MAKE_type_token (cv_none, id, args, t);
-    return (t);
+	}
+	MAKE_type_token (cv_none, id, args, t);
+	return (t);
 }
 
 
@@ -1720,14 +1720,14 @@ make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST (TOKEN) args)
 int
 is_templ_spec(TYPE t)
 {
-    while (!IS_NULL_type (t) && IS_type_templ (t)) {
+	while (!IS_NULL_type (t) && IS_type_templ (t)) {
 		LIST (IDENTIFIER) pids;
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		pids = DEREF_list (tok_templ_pids (sort));
 		if (IS_NULL_list (pids)) return (1);
 		t = DEREF_type (type_templ_defn (t));
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1741,11 +1741,11 @@ is_templ_spec(TYPE t)
 int
 is_templ_type(TYPE t)
 {
-    if (!IS_NULL_type (t) && IS_type_token (t)) {
+	if (!IS_NULL_type (t) && IS_type_token (t)) {
 		IDENTIFIER id = DEREF_id (type_token_tok (t));
 		if (is_templ_param (id)) return (in_template_decl);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1759,11 +1759,11 @@ is_templ_type(TYPE t)
 int
 is_templ_depend(TYPE t)
 {
-    if (in_template_decl) {
+	if (in_template_decl) {
 		/* Only need to check in a template declaration */
 		return (depends_on (t, any_templ_param));
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1777,9 +1777,9 @@ is_templ_depend(TYPE t)
 int
 is_templ_param(IDENTIFIER id)
 {
-    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-    if ((ds & dspec_template) && (ds & dspec_auto)) return (1);
-    return (0);
+	DECL_SPEC ds = DEREF_dspec (id_storage (id));
+	if ((ds & dspec_template) && (ds & dspec_auto)) return (1);
+	return (0);
 }
 
 
@@ -1793,22 +1793,22 @@ is_templ_param(IDENTIFIER id)
 int
 is_templ_alias(IDENTIFIER id)
 {
-    unsigned tag = TAG_id (id);
-    if (tag == id_type_alias_tag) {
+	unsigned tag = TAG_id (id);
+	if (tag == id_type_alias_tag) {
 		TYPE t = DEREF_type (id_type_alias_defn (id));
 		if (IS_type_token (t)) {
 			id = DEREF_id (type_token_tok (t));
 			tag = TAG_id (id);
 		}
-    } else if (tag == id_token_tag) {
+	} else if (tag == id_token_tag) {
 		id = DEREF_id (id_token_alt (id));
 		tag = TAG_id (id);
-    }
-    if (tag == id_token_tag && is_templ_param (id)) {
+	}
+	if (tag == id_token_tag && is_templ_param (id)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (!(ds & dspec_implicit)) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1823,12 +1823,12 @@ is_templ_alias(IDENTIFIER id)
 int
 is_templ_decl(IDENTIFIER id, TYPE t)
 {
-    if (crt_templ_qualifier) {
+	if (crt_templ_qualifier) {
 		/* Declaration is a template-id */
 		IDENTIFIER tid = find_template (id, 0);
 		if (!IS_NULL_id (tid)) return (1);
-    }
-    if (!IS_NULL_type (t) && crt_id_qualifier != qual_none) {
+	}
+	if (!IS_NULL_type (t) && crt_id_qualifier != qual_none) {
 		/* Function declarator is a qualified-id */
 		int eq = 0;
 		LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
@@ -1837,8 +1837,8 @@ is_templ_decl(IDENTIFIER id, TYPE t)
 			IDENTIFIER tid = find_template (pid, 0);
 			if (!IS_NULL_id (tid)) return (1);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1853,15 +1853,15 @@ is_templ_decl(IDENTIFIER id, TYPE t)
 int
 is_templ_nspace(NAMESPACE ns)
 {
-    while (!IS_NULL_nspace (ns)) {
+	while (!IS_NULL_nspace (ns)) {
 		IDENTIFIER tid;
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
 		if (IS_NULL_id (id)) break;
 		tid = find_template (id, 1);
 		if (!IS_NULL_id (tid)) return (1);
 		ns = DEREF_nspace (id_parent (id));
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1877,8 +1877,8 @@ is_templ_nspace(NAMESPACE ns)
 TYPE
 check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 {
-    TYPE s = NULL_type;
-    if (in_template_decl) {
+	TYPE s = NULL_type;
+	if (in_template_decl) {
 		if (!IS_NULL_nspace (ns) && IS_nspace_ctype (ns)) {
 			IDENTIFIER tid = DEREF_id (nspace_name (ns));
 			TYPE t = DEREF_type (id_class_name_etc_defn (tid));
@@ -1921,8 +1921,8 @@ check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 				}
 			}
 		}
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -1938,8 +1938,8 @@ check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 TYPE
 make_typename(NAMESPACE ns, IDENTIFIER id)
 {
-    TYPE s = check_typename (ns, id, btype_none);
-    if (IS_NULL_type (s)) {
+	TYPE s = check_typename (ns, id, btype_none);
+	if (IS_NULL_type (s)) {
 		int templ = 0;
 		LIST (TOKEN) args = NULL_list (TOKEN);
 		report (crt_loc, ERR_temp_res_qual ());
@@ -1966,8 +1966,8 @@ make_typename(NAMESPACE ns, IDENTIFIER id)
 			/* Return the error type */
 			s = type_error;
 		}
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -1994,10 +1994,10 @@ static LIST (IDENTIFIER) non_typenames = NULL_list (IDENTIFIER);
 TYPE
 find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 {
-    TYPE t = NULL_type;
-    NAMESPACE ns = DEREF_nspace (id_parent (id));
-    NAMESPACE cns = rescan_nspace (ns);
-    if (!EQ_nspace (cns, ns)) {
+	TYPE t = NULL_type;
+	NAMESPACE ns = DEREF_nspace (id_parent (id));
+	NAMESPACE cns = rescan_nspace (ns);
+	if (!EQ_nspace (cns, ns)) {
 		/* Rescan type name */
 		LIST (IDENTIFIER) p;
 		HASHID nm = DEREF_hashid (id_name (id));
@@ -2017,7 +2017,7 @@ find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 			use_id (tid, 0);
 			return (t);
 		}
-		
+
 		/* Check for template parameters */
 		if (in_template_decl) {
 			if (!IS_NULL_nspace (cns) && IS_nspace_ctype (cns)) {
@@ -2032,7 +2032,7 @@ find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 				}
 			}
 		}
-		
+
 		/* Report error */
 		p = non_typenames;
 		t = type_error;
@@ -2051,8 +2051,8 @@ find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 			CONS_id (tid, non_typenames, non_typenames);
 			report (crt_loc, ERR_temp_res_type (cns, nm));
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -2066,8 +2066,8 @@ find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 int
 eq_templ_params(LIST (IDENTIFIER) ps, LIST (IDENTIFIER) pt)
 {
-    int ok = 1;
-    while (!IS_NULL_list (ps) && !IS_NULL_list (pt)) {
+	int ok = 1;
+	while (!IS_NULL_list (ps) && !IS_NULL_list (pt)) {
 		IDENTIFIER is = DEREF_id (HEAD_list (ps));
 		IDENTIFIER it = DEREF_id (HEAD_list (pt));
 		if (!EQ_id (is, it)) {
@@ -2109,9 +2109,9 @@ eq_templ_params(LIST (IDENTIFIER) ps, LIST (IDENTIFIER) pt)
 		}
 		pt = TAIL_list (pt);
 		ps = TAIL_list (ps);
-    }
-    if (!EQ_list (ps, pt)) ok = 0;
-    return (ok);
+	}
+	if (!EQ_list (ps, pt)) ok = 0;
+	return (ok);
 }
 
 
@@ -2125,12 +2125,12 @@ eq_templ_params(LIST (IDENTIFIER) ps, LIST (IDENTIFIER) pt)
 void
 restore_templ_params(LIST (IDENTIFIER) ps)
 {
-    while (!IS_NULL_list (ps)) {
+	while (!IS_NULL_list (ps)) {
 		IDENTIFIER is = DEREF_id (HEAD_list (ps));
 		COPY_id (id_alias (is), is);
 		ps = TAIL_list (ps);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2146,12 +2146,12 @@ restore_templ_params(LIST (IDENTIFIER) ps)
 int
 eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 {
-    TOKEN as = DEREF_tok (type_templ_sort (s));
-    TOKEN at = DEREF_tok (type_templ_sort (t));
-    LIST (IDENTIFIER) ps = DEREF_list (tok_templ_pids (as));
-    LIST (IDENTIFIER) pt = DEREF_list (tok_templ_pids (at));
-    int eq = eq_templ_params (ps, pt);
-    if (eq && def) {
+	TOKEN as = DEREF_tok (type_templ_sort (s));
+	TOKEN at = DEREF_tok (type_templ_sort (t));
+	LIST (IDENTIFIER) ps = DEREF_list (tok_templ_pids (as));
+	LIST (IDENTIFIER) pt = DEREF_list (tok_templ_pids (at));
+	int eq = eq_templ_params (ps, pt);
+	if (eq && def) {
 		/* Check for equality of definitions */
 		int ft = force_template;
 		TYPE ds = DEREF_type (type_templ_defn (s));
@@ -2159,9 +2159,9 @@ eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 		force_template = 0;
 		eq = eq_func_type (ds, dt, mq, rf);
 		force_template = ft;
-    }
-    restore_templ_params (ps);
-    return (eq);
+	}
+	restore_templ_params (ps);
+	return (eq);
 }
 
 
@@ -2175,7 +2175,7 @@ eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 static TYPE
 rename_templ_params(TOKEN sort, TYPE t, int rec)
 {
-    if (rec) {
+	if (rec) {
 		int d;
 		LIST (TOKEN) args;
 		LIST (IDENTIFIER) pids;
@@ -2187,9 +2187,9 @@ rename_templ_params(TOKEN sort, TYPE t, int rec)
 		d = save_token_args (pids, args);
 		t = expand_type (t, 1);
 		restore_token_args (pids, d);
-    }
-    MAKE_type_templ (cv_none, sort, t, 1, t);
-    return (t);
+	}
+	MAKE_type_templ (cv_none, sort, t, 1, t);
+	return (t);
 }
 
 
@@ -2203,17 +2203,17 @@ rename_templ_params(TOKEN sort, TYPE t, int rec)
 int
 deduce_template(TYPE s, TYPE t, int qu)
 {
-    int eq;
-    TYPE r = DEREF_type (type_templ_defn (s));
-    TOKEN sort = DEREF_tok (type_templ_sort (s));
-    LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
-    if (in_template_decl && depends_on (t, pids)) {
+	int eq;
+	TYPE r = DEREF_type (type_templ_defn (s));
+	TOKEN sort = DEREF_tok (type_templ_sort (s));
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
+	if (in_template_decl && depends_on (t, pids)) {
 		/* Rename parameters if necessary */
 		CV_SPEC cv = DEREF_cv (type_qual (s));
 		s = rename_templ_params (sort, r, 1);
 		COPY_cv (type_qual (s), cv);
 		eq = deduce_template (s, t, qu);
-    } else {
+	} else {
 		/* Perform argument deduction */
 		int d;
 		force_template++;
@@ -2222,8 +2222,8 @@ deduce_template(TYPE s, TYPE t, int qu)
 		if (eq == 3) eq = 0;
 		restore_token_args (pids, d);
 		force_template--;
-    }
-    return (eq);
+	}
+	return (eq);
 }
 
 
@@ -2239,12 +2239,12 @@ deduce_template(TYPE s, TYPE t, int qu)
 void
 redecl_template(TYPE *ps, TYPE *pt, IDENTIFIER id)
 {
-    TYPE s = *ps;
-    TYPE t = *pt;
-    while (IS_type_templ (s)) {
+	TYPE s = *ps;
+	TYPE t = *pt;
+	while (IS_type_templ (s)) {
 		s = DEREF_type (type_templ_defn (s));
-    }
-    while (IS_type_templ (t)) {
+	}
+	while (IS_type_templ (t)) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		DECL_SPEC use = DEREF_dspec (tok_templ_usage (sort));
 		if (use & dspec_extern) export_template (id, 1);
@@ -2253,10 +2253,10 @@ redecl_template(TYPE *ps, TYPE *pt, IDENTIFIER id)
 			report (decl_loc, ERR_temp_param_redecl ());
 		}
 		t = DEREF_type (type_templ_defn (t));
-    }
-    *pt = t;
-    *ps = s;
-    return;
+	}
+	*pt = t;
+	*ps = s;
+	return;
 }
 
 
@@ -2271,9 +2271,9 @@ redecl_template(TYPE *ps, TYPE *pt, IDENTIFIER id)
 void
 reset_primary_templ(TYPE s, TYPE t)
 {
-    unsigned ns = TAG_type (s);
-    unsigned nt = TAG_type (t);
-    while (ns == type_templ_tag && nt == type_templ_tag) {
+	unsigned ns = TAG_type (s);
+	unsigned nt = TAG_type (t);
+	while (ns == type_templ_tag && nt == type_templ_tag) {
 		TOKEN as = DEREF_tok (type_templ_sort (s));
 		TOKEN at = DEREF_tok (type_templ_sort (t));
 		LIST (IDENTIFIER) ps = DEREF_list (tok_templ_pids (as));
@@ -2306,8 +2306,8 @@ reset_primary_templ(TYPE s, TYPE t)
 		t = DEREF_type (type_templ_defn (t));
 		ns = TAG_type (s);
 		nt = TAG_type (t);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2321,7 +2321,7 @@ reset_primary_templ(TYPE s, TYPE t)
 int
 depends_on_param(IDENTIFIER id, LIST (IDENTIFIER) pids)
 {
-    if (IS_id_token (id)) {
+	if (IS_id_token (id)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (!(ds & dspec_ignore)) {
 			if (EQ_list (pids, any_templ_param)) {
@@ -2342,8 +2342,8 @@ depends_on_param(IDENTIFIER id, LIST (IDENTIFIER) pids)
 				pids = TAIL_list (pids);
 			}
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2359,10 +2359,10 @@ depends_on_param(IDENTIFIER id, LIST (IDENTIFIER) pids)
 static int
 depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		NAMESPACE ns;
 		switch (TAG_id (id)) {
-	    case id_class_name_tag : {
+		case id_class_name_tag : {
 			/* Check for template classes */
 			TYPE form;
 			CLASS_TYPE ct;
@@ -2376,10 +2376,10 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 				if (depends_on (form, pids)) return (1);
 			}
 			break;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_mem_func_tag :
+		case id_stat_mem_func_tag : {
 			/* Check for template functions */
 			TYPE form = DEREF_type (id_function_etc_form (id));
 			if (!IS_NULL_type (form)) {
@@ -2388,13 +2388,13 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 			}
 			if (use) reuse_id (id, 0);
 			break;
-	    }
-	    case id_token_tag : {
+		}
+		case id_token_tag : {
 			/* Check for template parameters */
 			if (depends_on_param (id, pids)) return (1);
 			break;
-	    }
-	    case id_ambig_tag : {
+		}
+		case id_ambig_tag : {
 			/* Check ambiguous identifiers */
 			LIST (IDENTIFIER) qids;
 			qids = DEREF_list (id_ambig_ids (id));
@@ -2404,12 +2404,12 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 				qids = TAIL_list (qids);
 			}
 			break;
-	    }
-	    case id_stat_member_tag : {
+		}
+		case id_stat_member_tag : {
 			/* Mark static data members */
 			if (use) reuse_id (id, 0);
 			break;
-	    }
+		}
 		}
 		ns = DEREF_nspace (id_parent (id));
 		if (!IS_NULL_nspace (ns)) {
@@ -2417,8 +2417,8 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 			IDENTIFIER cid = DEREF_id (nspace_name (ns));
 			return (depends_on_id (cid, pids, 0));
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2435,7 +2435,7 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 int
 depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids, int use, int next)
 {
-    while (!IS_NULL_list (args)) {
+	while (!IS_NULL_list (args)) {
 		TOKEN tok = DEREF_tok (HEAD_list (args));
 		if (next) {
 			/* Move on to next parameter */
@@ -2477,8 +2477,8 @@ depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids, int use, int next)
 			}
 		}
 		args = TAIL_list (args);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2492,22 +2492,22 @@ depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids, int use, int next)
 int
 depends_on_nat(NAT n, LIST (IDENTIFIER) pids, int use)
 {
-    if (!IS_NULL_nat (n)) {
+	if (!IS_NULL_nat (n)) {
 		switch (TAG_nat (n)) {
-	    case nat_calc_tag : {
+		case nat_calc_tag : {
 			EXP e = DEREF_exp (nat_calc_value (n));
 			return (depends_on_exp (e, pids, use));
-	    }
-	    case nat_token_tag : {
+		}
+		case nat_token_tag : {
 			IDENTIFIER tid = DEREF_id (nat_token_tok (n));
 			LIST (TOKEN) args = DEREF_list (nat_token_args (n));
 			if (depends_on_param (tid, pids)) return (2);
 			if (depends_on_args (args, pids, use, 0)) return (1);
 			break;
-	    }
 		}
-    }
-    return (0);
+		}
+	}
+	return (0);
 }
 
 
@@ -2521,12 +2521,12 @@ depends_on_nat(NAT n, LIST (IDENTIFIER) pids, int use)
 static int
 depends_on_exp_list(LIST (EXP) p, LIST (IDENTIFIER) pids, int use)
 {
-    while (!IS_NULL_list (p)) {
+	while (!IS_NULL_list (p)) {
 		EXP a = DEREF_exp (HEAD_list (p));
 		if (depends_on_exp (a, pids, use)) return (1);
 		p = TAIL_list (p);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2541,7 +2541,7 @@ depends_on_exp_list(LIST (EXP) p, LIST (IDENTIFIER) pids, int use)
 int
 depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		unsigned tag = TAG_exp (e);
 		TYPE t = DEREF_type (exp_type (e));
 		if (tag == exp_token_tag) {
@@ -2554,212 +2554,212 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 		if (depends_on (t, pids)) return (1);
 		ASSERT (ORDER_exp == 88);
 		switch (tag) {
-	    case exp_identifier_tag :
-	    case exp_member_tag :
-	    case exp_ambiguous_tag :
-	    case exp_undeclared_tag : {
+		case exp_identifier_tag :
+		case exp_member_tag :
+		case exp_ambiguous_tag :
+		case exp_undeclared_tag : {
 			IDENTIFIER id = DEREF_id (exp_identifier_etc_id (e));
 			if (depends_on_id (id, pids, use)) return (1);
 			break;
-	    }
-	    case exp_int_lit_tag : {
+		}
+		case exp_int_lit_tag : {
 			NAT n = DEREF_nat (exp_int_lit_nat (e));
 			return (depends_on_nat (n, pids, use));
-	    }
-	    case exp_paren_tag :
-	    case exp_copy_tag : {
+		}
+		case exp_paren_tag :
+		case exp_copy_tag : {
 			EXP a = DEREF_exp (exp_paren_etc_arg (e));
 			return (depends_on_exp (a, pids, use));
-	    }
-	    case exp_assign_tag : {
+		}
+		case exp_assign_tag : {
 			EXP a = DEREF_exp (exp_assign_ref (e));
 			EXP b = DEREF_exp (exp_assign_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_init_tag : {
+		}
+		case exp_init_tag : {
 			IDENTIFIER id = DEREF_id (exp_init_id (e));
 			EXP a = DEREF_exp (exp_init_arg (e));
 			if (depends_on_id (id, pids, use)) return (1);
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_preinc_tag : {
+		}
+		case exp_preinc_tag : {
 			EXP a = DEREF_exp (exp_preinc_op (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_postinc_tag : {
+		}
+		case exp_postinc_tag : {
 			EXP a = DEREF_exp (exp_postinc_op (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_indir_tag : {
+		}
+		case exp_indir_tag : {
 			EXP a = DEREF_exp (exp_indir_ptr (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_contents_tag : {
+		}
+		case exp_contents_tag : {
 			EXP a = DEREF_exp (exp_contents_ptr (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_address_tag : {
+		}
+		case exp_address_tag : {
 			EXP a = DEREF_exp (exp_address_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_address_mem_tag : {
+		}
+		case exp_address_mem_tag : {
 			EXP a = DEREF_exp (exp_address_mem_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_func_tag : {
+		}
+		case exp_func_tag : {
 			EXP a = DEREF_exp (exp_func_fn (e));
 			LIST (EXP) p = DEREF_list (exp_func_args (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_func_id_tag : {
+		}
+		case exp_func_id_tag : {
 			IDENTIFIER id = DEREF_id (exp_func_id_id (e));
 			LIST (EXP) p = DEREF_list (exp_func_id_args (e));
 			if (depends_on_id (id, pids, use)) return (1);
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_call_tag : {
+		}
+		case exp_call_tag : {
 			EXP a = DEREF_exp (exp_call_ptr (e));
 			EXP b = DEREF_exp (exp_call_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_negate_tag :
-	    case exp_compl_tag :
-	    case exp_not_tag :
-	    case exp_abs_tag : {
+		}
+		case exp_negate_tag :
+		case exp_compl_tag :
+		case exp_not_tag :
+		case exp_abs_tag : {
 			EXP a = DEREF_exp (exp_negate_etc_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_plus_tag :
-	    case exp_minus_tag :
-	    case exp_mult_tag :
-	    case exp_div_tag :
-	    case exp_rem_tag :
-	    case exp_and_tag :
-	    case exp_or_tag :
-	    case exp_xor_tag :
-	    case exp_log_and_tag :
-	    case exp_log_or_tag :
-	    case exp_lshift_tag :
-	    case exp_rshift_tag :
-	    case exp_max_tag :
-	    case exp_min_tag : {
+		}
+		case exp_plus_tag :
+		case exp_minus_tag :
+		case exp_mult_tag :
+		case exp_div_tag :
+		case exp_rem_tag :
+		case exp_and_tag :
+		case exp_or_tag :
+		case exp_xor_tag :
+		case exp_log_and_tag :
+		case exp_log_or_tag :
+		case exp_lshift_tag :
+		case exp_rshift_tag :
+		case exp_max_tag :
+		case exp_min_tag : {
 			EXP a = DEREF_exp (exp_plus_etc_arg1 (e));
 			EXP b = DEREF_exp (exp_plus_etc_arg2 (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_test_tag : {
+		}
+		case exp_test_tag : {
 			EXP a = DEREF_exp (exp_test_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_compare_tag : {
+		}
+		case exp_compare_tag : {
 			EXP a = DEREF_exp (exp_compare_arg1 (e));
 			EXP b = DEREF_exp (exp_compare_arg2 (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_cast_tag : {
+		}
+		case exp_cast_tag : {
 			EXP a = DEREF_exp (exp_cast_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_base_cast_tag : {
+		}
+		case exp_base_cast_tag : {
 			EXP a = DEREF_exp (exp_base_cast_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_dyn_cast_tag : {
+		}
+		case exp_dyn_cast_tag : {
 			EXP a = DEREF_exp (exp_dyn_cast_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_add_ptr_tag : {
+		}
+		case exp_add_ptr_tag : {
 			EXP a = DEREF_exp (exp_add_ptr_ptr (e));
 			OFFSET off = DEREF_off (exp_add_ptr_off (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_off (off, pids, use)) return (1);
 			break;
-	    }
-	    case exp_offset_size_tag : {
+		}
+		case exp_offset_size_tag : {
 			OFFSET off = DEREF_off (exp_offset_size_off (e));
 			TYPE s = DEREF_type (exp_offset_size_step (e));
 			if (depends_on_off (off, pids, use)) return (1);
 			if (depends_on (s, pids)) return (1);
 			break;
-	    }
-	    case exp_constr_tag : {
+		}
+		case exp_constr_tag : {
 			EXP a = DEREF_exp (exp_constr_call (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_destr_tag : {
+		}
+		case exp_destr_tag : {
 			EXP a = DEREF_exp (exp_destr_call (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_alloc_tag : {
+		}
+		case exp_alloc_tag : {
 			EXP a = DEREF_exp (exp_alloc_call (e));
 			EXP b = DEREF_exp (exp_alloc_init (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_dealloc_tag : {
+		}
+		case exp_dealloc_tag : {
 			EXP a = DEREF_exp (exp_dealloc_term (e));
 			EXP b = DEREF_exp (exp_dealloc_call (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_rtti_tag : {
+		}
+		case exp_rtti_tag : {
 			EXP a = DEREF_exp (exp_rtti_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_rtti_type_tag : {
+		}
+		case exp_rtti_type_tag : {
 			TYPE s = DEREF_type (exp_rtti_type_arg (e));
 			if (depends_on (s, pids)) return (1);
 			break;
-	    }
-	    case exp_rtti_no_tag : {
+		}
+		case exp_rtti_no_tag : {
 			TYPE s = DEREF_type (exp_rtti_no_arg (e));
 			if (depends_on (s, pids)) return (1);
 			break;
-	    }
-	    case exp_dynamic_tag : {
+		}
+		case exp_dynamic_tag : {
 			EXP a = DEREF_exp (exp_dynamic_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_aggregate_tag : {
+		}
+		case exp_aggregate_tag : {
 			LIST (EXP) p = DEREF_list (exp_aggregate_args (e));
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_initialiser_tag : {
+		}
+		case exp_initialiser_tag : {
 			LIST (EXP) p = DEREF_list (exp_initialiser_args (e));
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_nof_tag : {
+		}
+		case exp_nof_tag : {
 			EXP a = DEREF_exp (exp_nof_start (e));
 			EXP b = DEREF_exp (exp_nof_pad (e));
 			EXP c = DEREF_exp (exp_nof_end (e));
@@ -2767,28 +2767,28 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 			if (depends_on_exp (b, pids, use)) return (1);
 			if (depends_on_exp (c, pids, use)) return (1);
 			break;
-	    }
-	    case exp_comma_tag : {
+		}
+		case exp_comma_tag : {
 			LIST (EXP) p = DEREF_list (exp_comma_args (e));
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_set_tag : {
+		}
+		case exp_set_tag : {
 			EXP a = DEREF_exp (exp_set_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_unused_tag : {
+		}
+		case exp_unused_tag : {
 			EXP a = DEREF_exp (exp_unused_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_sequence_tag : {
+		}
+		case exp_sequence_tag : {
 			LIST (EXP) p = DEREF_list (exp_sequence_first (e));
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_if_stmt_tag : {
+		}
+		case exp_if_stmt_tag : {
 			EXP c = DEREF_exp (exp_if_stmt_cond (e));
 			EXP a = DEREF_exp (exp_if_stmt_true_code (e));
 			EXP b = DEREF_exp (exp_if_stmt_false_code (e));
@@ -2796,42 +2796,42 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_try_block_tag : {
+		}
+		case exp_try_block_tag : {
 			EXP a = DEREF_exp (exp_try_block_body (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_exception_tag : {
+		}
+		case exp_exception_tag : {
 			EXP a = DEREF_exp (exp_exception_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_op_tag : {
+		}
+		case exp_op_tag : {
 			EXP a = DEREF_exp (exp_op_arg1 (e));
 			EXP b = DEREF_exp (exp_op_arg2 (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case exp_opn_tag : {
+		}
+		case exp_opn_tag : {
 			LIST (EXP) p = DEREF_list (exp_opn_args (e));
 			if (depends_on_exp_list (p, pids, use)) return (1);
 			break;
-	    }
-	    case exp_location_tag : {
+		}
+		case exp_location_tag : {
 			EXP a = DEREF_exp (exp_location_arg (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case exp_dummy_tag : {
+		}
+		case exp_dummy_tag : {
 			EXP a = DEREF_exp (exp_dummy_value (e));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
 		}
-    }
-    return (0);
+		}
+	}
+	return (0);
 }
 
 
@@ -2845,86 +2845,86 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 int
 depends_on_off(OFFSET off, LIST (IDENTIFIER) pids, int use)
 {
-    if (!IS_NULL_off (off)) {
+	if (!IS_NULL_off (off)) {
 		ASSERT (ORDER_off == 13);
 		switch (TAG_off (off)) {
-	    case off_zero_tag : {
+		case off_zero_tag : {
 			TYPE t = DEREF_type (off_zero_type (off));
 			if (depends_on (t, pids)) return (1);
 			break;
-	    }
-	    case off_type_tag : {
+		}
+		case off_type_tag : {
 			TYPE t = DEREF_type (off_type_type (off));
 			if (depends_on (t, pids)) return (1);
 			break;
-	    }
-	    case off_array_tag : {
+		}
+		case off_array_tag : {
 			TYPE t = DEREF_type (off_array_type (off));
 			if (depends_on (t, pids)) return (1);
 			break;
-	    }
-	    case off_extra_tag : {
+		}
+		case off_extra_tag : {
 			TYPE t = DEREF_type (off_extra_type (off));
 			if (depends_on (t, pids)) return (1);
 			break;
-	    }
+		}
 #if 0
-	    case off_base_tag : {
+		case off_base_tag : {
 			GRAPH graph = DEREF_graph (off_base_graph (off));
 			break;
-	    }
-	    case off_deriv_tag : {
+		}
+		case off_deriv_tag : {
 			GRAPH graph = DEREF_graph (off_deriv_graph (off));
 			OFFSET direct = DEREF_off (off_deriv_direct (off));
 			OFFSET indirect = DEREF_off (off_deriv_indirect (off));
 			break;
-	    }
-	    case off_member_tag : {
+		}
+		case off_member_tag : {
 			IDENTIFIER id = DEREF_id (off_member_id (off));
 			break;
-	    }
+		}
 #endif
-	    case off_ptr_mem_tag : {
+		case off_ptr_mem_tag : {
 			EXP a = DEREF_exp (off_ptr_mem_arg (off));
 			if (depends_on_exp (a, pids, use)) return (1);
 			break;
-	    }
-	    case off_negate_tag : {
+		}
+		case off_negate_tag : {
 			OFFSET a = DEREF_off (off_negate_arg (off));
 			if (depends_on_off (a, pids, use)) return (1);
 			break;
-	    }
-	    case off_plus_tag : {
+		}
+		case off_plus_tag : {
 			OFFSET a = DEREF_off (off_plus_arg1 (off));
 			OFFSET b = DEREF_off (off_plus_arg2 (off));
 			if (depends_on_off (a, pids, use)) return (1);
 			if (depends_on_off (b, pids, use)) return (1);
 			break;
-	    }
-	    case off_mult_tag : {
+		}
+		case off_mult_tag : {
 			OFFSET a = DEREF_off (off_mult_arg1 (off));
 			EXP b = DEREF_exp (off_mult_arg2 (off));
 			if (depends_on_off (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case off_ptr_diff_tag : {
+		}
+		case off_ptr_diff_tag : {
 			EXP a = DEREF_exp (off_ptr_diff_ptr1 (off));
 			EXP b = DEREF_exp (off_ptr_diff_ptr2 (off));
 			if (depends_on_exp (a, pids, use)) return (1);
 			if (depends_on_exp (b, pids, use)) return (1);
 			break;
-	    }
-	    case off_token_tag : {
+		}
+		case off_token_tag : {
 			IDENTIFIER tid = DEREF_id (off_token_tok (off));
 			LIST (TOKEN) args = DEREF_list (off_token_args (off));
 			if (depends_on_param (tid, pids)) return (2);
 			if (depends_on_args (args, pids, use, 0)) return (1);
 			break;
-	    }
 		}
-    }
-    return (0);
+		}
+	}
+	return (0);
 }
 
 
@@ -2938,22 +2938,22 @@ depends_on_off(OFFSET off, LIST (IDENTIFIER) pids, int use)
 int
 depends_on(TYPE t, LIST (IDENTIFIER) pids)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		case type_ptr_tag :
+		case type_ref_tag : {
 			TYPE s = DEREF_type (type_ptr_etc_sub (t));
 			return (depends_on (s, pids));
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			TYPE s = DEREF_type (type_ptr_mem_sub (t));
 			CLASS_TYPE cr = DEREF_ctype (type_ptr_mem_of (t));
 			TYPE r = DEREF_type (ctype_form (cr));
 			if (depends_on (s, pids)) return (1);
 			return (depends_on (r, pids));
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			TYPE r = DEREF_type (type_func_ret (t));
 			LIST (TYPE) p = DEREF_list (type_func_mtypes (t));
 			if (depends_on (r, pids)) return (1);
@@ -2963,31 +2963,31 @@ depends_on(TYPE t, LIST (IDENTIFIER) pids)
 				p = TAIL_list (p);
 			}
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			TYPE s = DEREF_type (type_array_sub (t));
 			NAT n = DEREF_nat (type_array_size (t));
 			if (depends_on (s, pids)) return (1);
 			return (depends_on_nat (n, pids, 0));
-	    }
-	    case type_bitfield_tag : {
+		}
+		case type_bitfield_tag : {
 			INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
 			TYPE s = DEREF_type (itype_bitfield_sub (it));
 			NAT n = DEREF_nat (itype_bitfield_size (it));
 			if (depends_on (s, pids)) return (1);
 			return (depends_on_nat (n, pids, 0));
-	    }
-	    case type_compound_tag : {
+		}
+		case type_compound_tag : {
 			CLASS_TYPE cs = DEREF_ctype (type_compound_defn (t));
 			IDENTIFIER cid = DEREF_id (ctype_name (cs));
 			return (depends_on_id (cid, pids, 0));
-	    }
-	    case type_enumerate_tag : {
+		}
+		case type_enumerate_tag : {
 			ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
 			IDENTIFIER eid = DEREF_id (etype_name (et));
 			return (depends_on_id (eid, pids, 0));
-	    }
-	    case type_token_tag : {
+		}
+		case type_token_tag : {
 			IDENTIFIER tid = DEREF_id (type_token_tok (t));
 			LIST (TOKEN) args = DEREF_list (type_token_args (t));
 			if (depends_on_param (tid, pids)) return (1);
@@ -3004,8 +3004,8 @@ depends_on(TYPE t, LIST (IDENTIFIER) pids)
 				}
 			}
 			break;
-	    }
-	    case type_templ_tag : {
+		}
+		case type_templ_tag : {
 			int dep;
 			LIST (IDENTIFIER) qids;
 			TYPE s = DEREF_type (type_templ_defn (t));
@@ -3030,10 +3030,10 @@ depends_on(TYPE t, LIST (IDENTIFIER) pids)
 				qids = TAIL_list (qids);
 			}
 			return (dep);
-	    }
 		}
-    }
-    return (0);
+		}
+	}
+	return (0);
 }
 
 
@@ -3047,7 +3047,7 @@ depends_on(TYPE t, LIST (IDENTIFIER) pids)
 int
 dependent_call(IDENTIFIER id, LIST (EXP) args)
 {
-    if (in_template_decl) {
+	if (in_template_decl) {
 		/* Only check in a template declaration */
 		LIST (IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id (id, pids, 0)) return (1);
@@ -3067,8 +3067,8 @@ dependent_call(IDENTIFIER id, LIST (EXP) args)
 			}
 			args = TAIL_list (args);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -3082,13 +3082,13 @@ dependent_call(IDENTIFIER id, LIST (EXP) args)
 int
 dependent_cast(IDENTIFIER id, TYPE t)
 {
-    if (in_template_decl) {
+	if (in_template_decl) {
 		/* Only check in a template declaration */
 		LIST (IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id (id, pids, 0)) return (1);
 		if (depends_on (t, pids)) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -3102,7 +3102,7 @@ dependent_cast(IDENTIFIER id, TYPE t)
 int
 dependent_conv(TYPE t, LIST (EXP) args)
 {
-    if (in_template_decl) {
+	if (in_template_decl) {
 		/* Only check in a template declaration */
 		LIST (IDENTIFIER) pids = any_templ_param;
 		if (depends_on (t, pids)) return (1);
@@ -3115,8 +3115,8 @@ dependent_conv(TYPE t, LIST (EXP) args)
 			}
 			args = TAIL_list (args);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -3130,12 +3130,12 @@ dependent_conv(TYPE t, LIST (EXP) args)
 int
 dependent_id(IDENTIFIER id)
 {
-    if (in_template_decl) {
+	if (in_template_decl) {
 		/* Only check in a template declaration */
 		LIST (IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id (id, pids, 0)) return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -3150,10 +3150,10 @@ dependent_id(IDENTIFIER id)
 void
 mark_used(EXP e)
 {
-    if (!suppress_usage) {
+	if (!suppress_usage) {
 		IGNORE depends_on_exp (e, NULL_list (IDENTIFIER), 1);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -3168,9 +3168,9 @@ mark_used(EXP e)
 TYPE
 injected_type(TYPE t, int rec)
 {
-    IDENTIFIER pid = NULL_id;
-    LIST (NAMESPACE) lns = LIST_stack (namespace_stack);
-    while (!IS_NULL_list (lns)) {
+	IDENTIFIER pid = NULL_id;
+	LIST (NAMESPACE) lns = LIST_stack (namespace_stack);
+	while (!IS_NULL_list (lns)) {
 		NAMESPACE ns = DEREF_nspace (HEAD_list (lns));
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
 		if (!IS_NULL_id (id)) {
@@ -3201,8 +3201,8 @@ injected_type(TYPE t, int rec)
 			}
 		}
 		lns = TAIL_list (lns);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -3225,16 +3225,16 @@ TYPE type_templ_param;
  */
 
 void
-init_templates()
+init_templates(void)
 {
-    string s = ustrlit ("<type>");
-    unsigned long h = hash (s);
-    HASHID nm = lookup_name (s, h, 0, lex_identifier);
-    IDENTIFIER id = DEREF_id (hashid_id (nm));
-    LIST (TOKEN) args = NULL_list (TOKEN);
-    TYPE t = make_dummy_type (crt_namespace, id, btype_template, args);
-    type_templ_param = t;
-    CONS_id (NULL_id, NULL_list (IDENTIFIER), any_templ_param);
-    CONS_id (NULL_id, NULL_list (IDENTIFIER), any_token_param);
-    return;
+	string s = ustrlit ("<type>");
+	unsigned long h = hash (s);
+	HASHID nm = lookup_name (s, h, 0, lex_identifier);
+	IDENTIFIER id = DEREF_id (hashid_id (nm));
+	LIST (TOKEN) args = NULL_list (TOKEN);
+	TYPE t = make_dummy_type (crt_namespace, id, btype_template, args);
+	type_templ_param = t;
+	CONS_id (NULL_id, NULL_list (IDENTIFIER), any_templ_param);
+	CONS_id (NULL_id, NULL_list (IDENTIFIER), any_token_param);
+	return;
 }
