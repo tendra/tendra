@@ -1919,6 +1919,8 @@ check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 						s = make_dummy_class (id, args, key);
 					}
 				}
+			} else {
+				s = t;
 			}
 		}
 	}
