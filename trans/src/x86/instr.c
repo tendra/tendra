@@ -412,19 +412,22 @@ void ldisp
 void label_operand
 (exp e)
 {
-  punner l;
-  l.e = pt(e);
-  asm_printf("$%sV0x%x", local_prefix, l.i);
+  exp labst = pt(e);
+
+  if (ptno(labst) == 0)
+    ptno(labst) = next_lab();
+  asm_printf("$%sV0x%x", local_prefix, ptno(labst));
 }
 
 void set_lv_label
 (exp e)
 {
-  punner l;
-  l.e = e;
+  if (ptno(e) == 0)
+    ptno(e) = next_lab();
+
   min_rfree |= 0x78;  /* save all callee registers */
 
-  asm_label("%sV0x%x", local_prefix, l.i);
+  asm_label("%sV0x%x", local_prefix, ptno(e));
 }
 
 void set_env_off
