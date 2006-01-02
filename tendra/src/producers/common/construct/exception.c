@@ -934,7 +934,7 @@ make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int n)
 		report (crt_loc, ERR_dcl_meaning_id (qual_nested, id));
     }
     if (n) report (crt_loc, ERR_except_handle_typedef ());
-    t = make_param_type (t, CONTEXT_PARAMETER);
+    t = make_param_type (t);
     id = make_object_decl (ds, t, id, 0);
 	
     /* The initialising value is the current exception */

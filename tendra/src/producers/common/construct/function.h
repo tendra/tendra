@@ -73,7 +73,7 @@ extern void begin_param(IDENTIFIER);
 extern void end_param(void);
 extern void adjust_param(TYPE);
 extern int function_params(TYPE);
-extern TYPE make_param_type(TYPE, int);
+extern TYPE make_param_type(TYPE);
 extern TYPE make_func_type(TYPE, int, CV_SPEC, LIST (TYPE));
 extern CV_SPEC func_linkage(CV_SPEC);
 extern void member_func_type(CLASS_TYPE, unsigned, TYPE);

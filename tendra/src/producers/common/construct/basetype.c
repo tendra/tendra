@@ -1715,9 +1715,9 @@ accept_argument(TYPE t, TYPE s)
 	TYPE pt, ps;
 	LIST (TYPE) p;
 	t = qualify_type (t, cv_none, 0);
-	t = make_param_type (t, CONTEXT_PARAMETER);
+	t = make_param_type (t);
 	s = qualify_type (s, cv_none, 0);
-	s = make_param_type (s, CONTEXT_PARAMETER);
+	s = make_param_type (s);
 	pt = find_arg_type (t);
 	ps = find_arg_type (s);
 	if (IS_NULL_type (ps)) ps = s;
@@ -1758,7 +1758,7 @@ accept_ellipsis(TYPE t)
 {
 	TYPE r;
 	t = qualify_type (t, cv_none, 0);
-	t = make_param_type (t, CONTEXT_PARAMETER);
+	t = make_param_type (t);
 	r = eq_ellipsis (t);
 	if (IS_NULL_type (r)) {
 		CONS_type (t, ell_types, ell_types);

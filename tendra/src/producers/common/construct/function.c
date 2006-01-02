@@ -1406,12 +1406,12 @@ func_type_defn(int par)
  *    CREATE A PARAMETER TYPE
  *
  *    This routine creates the parameter type for a function or template
- *    parameter (as indicated by loc) declared with type t.  Thus functions
- *    and, for function parameters, arrays are converted to pointers.
+ *    parameter declared with type t.  Thus functions and arrays are
+ *    converted to pointers.
  */
 
 TYPE
-make_param_type(TYPE t, int loc)
+make_param_type(TYPE t)
 {
 	switch (TAG_type (t)) {
 	case type_func_tag : {
@@ -1423,10 +1423,8 @@ make_param_type(TYPE t, int loc)
 	}
 	case type_array_tag : {
 		/* Array parameters are adjusted to pointers */
-		if (loc == CONTEXT_PARAMETER || loc == CONTEXT_WEAK_PARAM) {
-			t = DEREF_type (type_array_sub (t));
-			MAKE_type_ptr (cv_none, t, t);
-		}
+		t = DEREF_type (type_array_sub (t));
+		MAKE_type_ptr (cv_none, t, t);
 		break;
 	}
 	}

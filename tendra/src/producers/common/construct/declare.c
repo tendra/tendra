@@ -1418,7 +1418,7 @@ make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 	IGNORE check_func_spec (ds, loc);
 
 	/* Create the parameter declaration */
-	t = make_param_type (t, loc);
+	t = make_param_type (t);
 	rs = (ds & dspec_other);
 	ds = (st | rs | dspec_defn);
 	if (!IS_NULL_id (old_id)) {
