@@ -349,6 +349,7 @@ templ_param_type(IDENTIFIER id, TYPE t)
 {
 	switch (TAG_type (t)) {
 	case type_floating_tag :
+	case type_compound_tag :
 	case type_top_tag :
 	case type_bottom_tag : {
 		/* Illegal parameter types */
