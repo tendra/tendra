@@ -735,7 +735,7 @@ declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def, int force)
 				/* Previously declared as class name */
 				int hide_prev = check_key (id, key);
 				int prev_def = is_defined (id, &t, 1);
-				if (!IS_NULL_type (q) || IS_type_templ (t)) {
+				if ((!IS_NULL_type (q) || IS_type_templ (t)) && !hide_prev) {
 					/* Redeclaration of template type */
 					q = redecl_templ_class (q, t, &id);
 				}
