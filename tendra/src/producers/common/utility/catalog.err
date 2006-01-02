@@ -6220,6 +6220,11 @@ temp_param_func()
     KEY (STD)	"Can't have default arguments in template function"
 }
 
+temp_param_friend()
+{
+    KEY (STD)	"Can't have default arguments in friend declaration"
+}
+
 temp_param_redecl()
 {
     KEY (STD)	"Can't have default arguments in template redeclaration"

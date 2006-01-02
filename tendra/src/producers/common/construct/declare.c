@@ -2723,6 +2723,10 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 		}
 		if (ds & dspec_friend) {
 			/* Allow for friend declarations */
+			if (check_templ_dargs (t)) {
+				/* Can't have default arguments */
+				report (crt_loc, ERR_temp_param_friend ());
+			}
 			while (IS_type_templ (t)) {
 				t = DEREF_type (type_templ_defn (t));
 			}
