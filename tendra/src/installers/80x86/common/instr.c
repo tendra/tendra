@@ -520,25 +520,28 @@ ldisp()
 void
 label_operand(exp e)
 {
-	punner l;
-	l.e = pt(e);
+	exp labst = pt(e);
+
+	if (ptno(labst) == 0)
+		ptno(labst) = next_lab();
 	outs("$");
 	outs(local_prefix);
 	outs("V");
-	outn((long)l.i);
+	outn((long)ptno(labst));
 	return;
 }
 
 void
 set_lv_label(exp e)
 {
-	punner l;
-	l.e = e;
+	if (ptno(e) == 0)
+		ptno(e) = next_lab();
+
 	min_rfree |= 0x78;  /* save all callee registers */
 
 	outs(local_prefix);
 	outs("V");
-	outn((long)l.i);
+	outn((long)ptno(e));
 	outs(":");
 	outnl();
 	return;
