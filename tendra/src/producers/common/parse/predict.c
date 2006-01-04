@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -116,13 +116,13 @@
 #define TOK_ASM				TOK_STATEMENT
 #endif
 
-#define lookup_token(T)		((int) tokens [ (T) ])
+#define lookup_token(T)		((int) tokens [(T)])
 
 static unsigned char tokens [] = {
 #define LEX_TOKEN(A, B, C)		(C),
 #include "symbols.h"
 #undef LEX_TOKEN
-    TOK_NONE
+	TOK_NONE
 };
 
 
@@ -204,33 +204,33 @@ static int predict_declarator(int, int, int);
 static int
 skip_brackets(void)
 {
-    int n = 0;
-    int brackets = 1;
-    for (;;) {
+	int n = 0;
+	int brackets = 1;
+	for (;;) {
 		int t = next_token ();
 		n++;
 		switch (t) {
-	    case lex_open_Hround :
-	    case lex_open_Hsquare_H1 :
-	    case lex_open_Hbrace_H1 : {
+		case lex_open_Hround :
+		case lex_open_Hsquare_H1 :
+		case lex_open_Hbrace_H1 : {
 			/* Open bracket */
 			brackets++;
 			break;
-	    }
-	    case lex_close_Hround :
-	    case lex_close_Hsquare_H1 :
-	    case lex_close_Hbrace_H1 : {
+		}
+		case lex_close_Hround :
+		case lex_close_Hsquare_H1 :
+		case lex_close_Hbrace_H1 : {
 			/* Close bracket */
 			if (--brackets == 0) return (n);
 			break;
-	    }
-	    case lex_eof : {
+		}
+		case lex_eof : {
 			/* Premature end of file */
 			return (n);
-	    }
 		}
-    }
-    /* NOTREACHED */
+		}
+	}
+	/* NOTREACHED */
 }
 
 #endif
@@ -253,24 +253,24 @@ skip_brackets(void)
 static int
 skip_operator(void)
 {
-    int t, c;
-    int go = 1;
-    int have_type = 0;
-	
-    /* Check for conversion function names */
-    do {
+	int t, c;
+	int go = 1;
+	int have_type = 0;
+
+	/* Check for conversion function names */
+	do {
 		t = next_token ();
 		c = lookup_token (t);
 		switch (c) {
-	    case TOK_SIMPLE_TYPE :
-	    case TOK_TYPE_SPEC :
-	    case TOK_TYPE : {
+		case TOK_SIMPLE_TYPE :
+		case TOK_TYPE_SPEC :
+		case TOK_TYPE : {
 			/* These are type-specifiers */
 			have_type = 1;
 			break;
-	    }
-	    case TOK_NESTED_NAME :
-	    case TOK_FULL_NAME : {
+		}
+		case TOK_NESTED_NAME :
+		case TOK_FULL_NAME : {
 			/* Look for nested type names */
 			PPTOKEN *p = crt_token;
 			NAMESPACE np = crt_lookup;
@@ -283,57 +283,57 @@ skip_operator(void)
 			}
 			have_type = 1;
 			break;
-	    }
-	    case TOK_TYPE_KEY : {
+		}
+		case TOK_TYPE_KEY : {
 			/* These are elaborated-type-specifiers */
 			t = next_token ();
 			switch (t) {
-		    case lex_identifier :
-		    case lex_type_Hname :
-		    case lex_namespace_Hname :
-		    case lex_statement_Hname :
-		    case lex_template_Htype : {
+			case lex_identifier :
+			case lex_type_Hname :
+			case lex_namespace_Hname :
+			case lex_statement_Hname :
+			case lex_template_Htype : {
 				/* Name present */
 				t = next_token ();
 				break;
-		    }
-		    case lex_full_Hname :
-		    case lex_nested_Hname :
-		    case lex_colon_Hcolon : {
+			}
+			case lex_full_Hname :
+			case lex_nested_Hname :
+			case lex_colon_Hcolon : {
 				/* Allow for nested names */
 				t = next_token ();
 				switch (t) {
-			    case lex_identifier :
-			    case lex_type_Hname :
-			    case lex_namespace_Hname :
-			    case lex_statement_Hname :
-			    case lex_template_Htype : {
+				case lex_identifier :
+				case lex_type_Hname :
+				case lex_namespace_Hname :
+				case lex_statement_Hname :
+				case lex_template_Htype : {
 					break;
-			    }
-			    default : {
+				}
+				default : {
 					return (t);
-			    }
+				}
 				}
 				break;
-		    }
-		    default : {
+			}
+			default : {
 				/* Other characters */
 				return (t);
-		    }
+			}
 			}
 			have_type = 1;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other characters */
 			go = 0;
 			break;
-	    }
 		}
-    } while (go);
-	
-    /* Step over any conversion function declarators */
-    if (have_type) {
+		}
+	} while (go);
+
+	/* Step over any conversion function declarators */
+	if (have_type) {
 		go = 1;
 		do {
 			switch (t) {
@@ -355,35 +355,35 @@ skip_operator(void)
 			}
 		} while (go);
 		return (t);
-    }
-	
-    /* Check for overloaded operator function names */
-    switch (t) {
+	}
+
+	/* Check for overloaded operator function names */
+	switch (t) {
 	case lex_open_Hround : {
-	    /* Check for 'operator ()' */
-	    t = next_token ();
-	    if (t == lex_close_Hround) t = next_token ();
-	    break;
+		/* Check for 'operator ()' */
+		t = next_token ();
+		if (t == lex_close_Hround) t = next_token ();
+		break;
 	}
 	case lex_open_Hsquare_H1 : {
-	    /* Check for 'operator []' */
-	    t = next_token ();
-	    if (t == lex_close_Hsquare_H1) {
+		/* Check for 'operator []' */
+		t = next_token ();
+		if (t == lex_close_Hsquare_H1) {
 			t = next_token ();
-	    }
-	    break;
+		}
+		break;
 	}
 	case lex_question : {
-	    /* Check for 'operator ?:' */
-	    t = next_token ();
-	    if (t == lex_colon) t = next_token ();
-	    break;
+		/* Check for 'operator ?:' */
+		t = next_token ();
+		if (t == lex_colon) t = next_token ();
+		break;
 	}
 	case lex_new :
 	case lex_delete : {
-	    /* Check for 'operator new []' and 'operator delete []' */
-	    t = next_token ();
-	    if (t == lex_open_Hsquare_H1) {
+		/* Check for 'operator new []' and 'operator delete []' */
+		t = next_token ();
+		if (t == lex_open_Hsquare_H1) {
 			PPTOKEN *p = crt_token;
 			NAMESPACE np = crt_lookup;
 			int t2 = next_token ();
@@ -393,11 +393,11 @@ skip_operator(void)
 				crt_token = p;
 				crt_lookup = np;
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 #endif
@@ -419,49 +419,49 @@ skip_operator(void)
 static int
 predict_func_params(int t, int empty, int depth)
 {
-    int c = lookup_token (t);
-    switch (c) {
+	int c = lookup_token (t);
+	switch (c) {
 	case TOK_DECLARATION :
 	case TOK_DECL_SPEC :
 	case TOK_EXTERN :
 	case TOK_TYPE_KEY :
 	case TOK_TYPE_SPEC : {
-	    /* These are all obviously parameter declarations */
-	    return (1);
+		/* These are all obviously parameter declarations */
+		return (1);
 	}
 	case TOK_SIMPLE_TYPE :
 	case TOK_TYPE : {
-	    /* These are simple-type-specifiers */
-	    t = next_token ();
-	    if (t == lex_open_Hround) {
+		/* These are simple-type-specifiers */
+		t = next_token ();
+		if (t == lex_open_Hround) {
 			t = next_token ();
 			return (predict_func_params (t, 1, 1));
-	    }
-	    return (1);
+		}
+		return (1);
 	}
 	case TOK_NESTED_NAME :
 	case TOK_FULL_NAME : {
-	    /* Look for nested type-names */
-	    t = next_token ();
-	    c = lookup_token (t);
-	    if (c == TOK_TYPE) {
+		/* Look for nested type-names */
+		t = next_token ();
+		c = lookup_token (t);
+		if (c == TOK_TYPE) {
 			t = next_token ();
 			if (t == lex_open_Hround) {
 				t = next_token ();
 				return (predict_func_params (t, 1, 1));
 			}
 			return (1);
-	    }
-	    return (0);
+		}
+		return (0);
 	}
-    }
-    if (t == lex_ellipsis) return (1);
-    if (t == lex_ellipsis_Hexp) return (1);
-    if (t == lex_close_Hround) {
+	}
+	if (t == lex_ellipsis) return (1);
+	if (t == lex_ellipsis_Hexp) return (1);
+	if (t == lex_close_Hround) {
 		/* Empty pair of brackets */
 		return (empty);
-    }
-    if (depth) {
+	}
+	if (depth) {
 		int d = predict_declarator (t, 2, 1);
 		if (d == 0) return (0);
 		if (d == 2) {
@@ -471,8 +471,8 @@ predict_func_params(int t, int empty, int depth)
 		}
 		if (d == 3) return (2);
 		return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 #endif
@@ -497,16 +497,16 @@ predict_func_params(int t, int empty, int depth)
 static int
 predict_declarator(int t, int loc, int depth)
 {
-    int go = 1;
-    int res = -1;
-    int have_init = 0;
-    NAMESPACE ns = NULL_nspace;
-	
-    /* Step over open brackets and pointer operations */
-    while (go) {
+	int go = 1;
+	int res = -1;
+	int have_init = 0;
+	NAMESPACE ns = NULL_nspace;
+
+	/* Step over open brackets and pointer operations */
+	while (go) {
 		switch (t) {
-	    case lex_and_H1 :
-	    case lex_star : {
+		case lex_and_H1 :
+		case lex_star : {
 			/* Can be a pointer or reference or a unary operator */
 			t = next_token ();
 			if (t == lex_const || t == lex_volatile) {
@@ -514,71 +514,71 @@ predict_declarator(int t, int loc, int depth)
 				return (1);
 			}
 			break;
-	    }
-	    case lex_full_Hname_Hstar :
-	    case lex_nested_Hname_Hstar : {
+		}
+		case lex_full_Hname_Hstar :
+		case lex_nested_Hname_Hstar : {
 			/* Definitely a pointer to member */
 			return (1);
-	    }
-	    case lex_open_Hround : {
+		}
+		case lex_open_Hround : {
 			/* Nested declarator brackets */
 			depth++;
 			t = next_token ();
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other tokens */
 			go = 0;
 			break;
-	    }
 		}
-    }
-	
-    /* Check for declarator-id */
-    if (loc != 1) {
+		}
+	}
+
+	/* Check for declarator-id */
+	if (loc != 1) {
 		switch (t) {
-	    case lex_nested_Hname :
-	    case lex_full_Hname :
-	    case lex_colon_Hcolon : {
+		case lex_nested_Hname :
+		case lex_full_Hname :
+		case lex_colon_Hcolon : {
 			/* Allow for qualified identifiers */
 			ns = crt_lookup;
 			t = next_token ();
 			break;
-	    }
+		}
 		}
 		switch (t) {
-	    case lex_identifier :
-	    case lex_type_Hname :
-	    case lex_namespace_Hname :
-	    case lex_statement_Hname :
-	    case lex_destructor_Hname :
-	    case lex_template_Hid :
-	    case lex_template_Htype : {
+		case lex_identifier :
+		case lex_type_Hname :
+		case lex_namespace_Hname :
+		case lex_statement_Hname :
+		case lex_destructor_Hname :
+		case lex_template_Hid :
+		case lex_template_Htype : {
 			/* Identifiers and destructors */
 			t = next_token ();
 			break;
-	    }
-	    case lex_operator : {
+		}
+		case lex_operator : {
 			/* Operator function identifiers */
 			t = skip_operator ();
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Anything else isn't a declarator-id */
 			if (loc == 0 || !IS_NULL_nspace (ns)) return (0);
 			break;
-	    }
 		}
-    }
-	
-    /* Check for declarator tail and initialiser */
-    if (!IS_NULL_nspace (ns)) {
+		}
+	}
+
+	/* Check for declarator tail and initialiser */
+	if (!IS_NULL_nspace (ns)) {
 		IGNORE add_nested_nspace (ns);
-    }
-    for (;;) {
+	}
+	for (;;) {
 		switch (t) {
-			
-	    case lex_open_Hround : {
+
+		case lex_open_Hround : {
 			/* Function parameters, function call or initialiser */
 			int d;
 			PPTOKEN *p = crt_token;
@@ -601,9 +601,9 @@ predict_declarator(int t, int loc, int depth)
 				}
 			}
 			break;
-	    }
-			
-	    case lex_open_Hsquare_H1 : {
+		}
+
+		case lex_open_Hsquare_H1 : {
 			/* Array dimension or index expression */
 			int d = skip_brackets ();
 			if (d == 1) {
@@ -611,9 +611,9 @@ predict_declarator(int t, int loc, int depth)
 				res = 1;
 			}
 			break;
-	    }
-			
-	    case lex_assign : {
+		}
+
+		case lex_assign : {
 			/* Initialiser or assignment expression */
 			int brackets = 0;
 			if (loc == 1 || depth > 0) {
@@ -684,16 +684,16 @@ predict_declarator(int t, int loc, int depth)
 				t = next_token ();
 			}
 			break;
-	    }
-			
-	    case lex_semicolon :
-	    case lex_close_Htemplate : {
+		}
+
+		case lex_semicolon :
+		case lex_close_Htemplate : {
 			/* End of declaration (don't worry about depth) */
 			res = 3;
 			break;
-	    }
-			
-	    case lex_comma : {
+		}
+
+		case lex_comma : {
 			/* Comma */
 			if (depth <= 0) {
 				/* Check rest of declaration */
@@ -709,10 +709,10 @@ predict_declarator(int t, int loc, int depth)
 				res = 0;
 			}
 			break;
-	    }
-			
-	    case lex_ellipsis :
-	    case lex_ellipsis_Hexp : {
+		}
+
+		case lex_ellipsis :
+		case lex_ellipsis_Hexp : {
 			/* Ellipsis */
 			if (depth <= 0 && loc == 2) {
 				res = 1;
@@ -720,9 +720,9 @@ predict_declarator(int t, int loc, int depth)
 				res = 0;
 			}
 			break;
-	    }
-			
-	    case lex_close_Hround : {
+		}
+
+		case lex_close_Hround : {
 			/* Declarator close bracket */
 			depth--;
 			if (depth < 0) {
@@ -733,21 +733,21 @@ predict_declarator(int t, int loc, int depth)
 				}
 			}
 			break;
-	    }
-			
-	    default : {
+		}
+
+		default : {
 			/* Nothing else can appear in a declaration */
 			res = 0;
 			break;
-	    }
+		}
 		}
 		if (res != -1) break;
 		t = next_token ();
-    }
-    if (!IS_NULL_nspace (ns)) {
+	}
+	if (!IS_NULL_nspace (ns)) {
 		IGNORE remove_nested_nspace (ns);
-    }
-    return (res);
+	}
+	return (res);
 }
 
 #endif
@@ -761,56 +761,56 @@ predict_declarator(int t, int loc, int depth)
  *    statements.  The disambiguation rule is that anything which looks like
  *    a declaration is a declaration.  Note that the empty statement is
  *    classified as an expression-statement.  Actually the real answer to
- *    questions like is 'int (a) ;' a declaration or an expression is,
+ *    questions like is 'int (a);' a declaration or an expression is,
  *    are flying pigs kosher?
  */
 
 int
 predict_decl(void)
 {
-    int t = crt_lex_token;
-    int c = lookup_token (t);
-    switch (c) {
+	int t = crt_lex_token;
+	int c = lookup_token (t);
+	switch (c) {
 	case TOK_DECLARATION :
 	case TOK_DECL_SPEC :
 	case TOK_EXTERN :
 	case TOK_TYPE_KEY :
 	case TOK_TYPE_SPEC : {
-	    /* These are all obviously declarations */
-	    return (1);
+		/* These are all obviously declarations */
+		return (1);
 	}
 	case TOK_SIMPLE_TYPE :
 	case TOK_TYPE : {
-	    /* These are simple-type-specifiers */
-	    int d = 1;
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
+		/* These are simple-type-specifiers */
+		int d = 1;
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
 #if LANGUAGE_CPP
-	    if (t == lex_open_Hround) {
+		if (t == lex_open_Hround) {
 			/* This is the tricky case, 'T (...' */
 			t = next_token ();
 			d = predict_declarator (t, 0, 1);
-	    } else /* continued ... */
+		} else /* continued ... */
 #endif
 			if (t == lex_colon) {
 				/* Check for labels */
 				if (c == TOK_TYPE) d = 0;
 			}
-	    crt_lookup = np;
-	    crt_token = p;
-	    return (d);
+		crt_lookup = np;
+		crt_token = p;
+		return (d);
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME :
 	case TOK_FULL_NAME : {
-	    /* Look for nested type-names */
-	    int d = 0;
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    c = lookup_token (t);
-	    if (c == TOK_TYPE) {
+		/* Look for nested type-names */
+		int d = 0;
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		c = lookup_token (t);
+		if (c == TOK_TYPE) {
 			d = 1;
 			t = next_token ();
 			if (t == lex_open_Hround) {
@@ -818,15 +818,15 @@ predict_decl(void)
 				t = next_token ();
 				d = predict_declarator (t, 0, 1);
 			}
-	    }
-	    crt_lookup = np;
-	    crt_token = p;
-	    return (d);
+		}
+		crt_lookup = np;
+		crt_token = p;
+		return (d);
 	}
 #endif
-    }
-    /* Nothing else is a declaration */
-    return (0);
+	}
+	/* Nothing else is a declaration */
+	return (0);
 }
 
 
@@ -841,68 +841,68 @@ predict_decl(void)
 static int
 predict_undecl_type(int t, int force)
 {
-    switch (t) {
+	switch (t) {
 	case lex_identifier :
 	case lex_type_Hname :
 	case lex_namespace_Hname :
 	case lex_statement_Hname : {
-	    int d = force;
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    if (!d) {
+		int d = force;
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		if (!d) {
 			t = next_token ();
 			switch (t) {
 #if LANGUAGE_CPP
-		    case lex_and_H1 :
-		    case lex_full_Hname_Hstar :
-		    case lex_nested_Hname_Hstar :
+			case lex_and_H1 :
+			case lex_full_Hname_Hstar :
+			case lex_nested_Hname_Hstar :
 #endif
-		    case lex_star : {
+			case lex_star : {
 				/* These are ptr-operators */
 				d = 1;
 				break;
-		    }
-		    case lex_open_Hround : {
+			}
+			case lex_open_Hround : {
 				/* This is stretching the bounds of possibility */
 				break;
-		    }
-		    case lex_identifier :
-		    case lex_type_Hname :
-		    case lex_namespace_Hname :
-		    case lex_statement_Hname :
-		    case lex_template_Htype :
-		    case lex_template_Hid :
-		    case lex_full_Hname :
-		    case lex_nested_Hname : {
+			}
+			case lex_identifier :
+			case lex_type_Hname :
+			case lex_namespace_Hname :
+			case lex_statement_Hname :
+			case lex_template_Htype :
+			case lex_template_Hid :
+			case lex_full_Hname :
+			case lex_nested_Hname : {
 				/* The identifier can't be a declarator */
 				d = 1;
 				break;
-		    }
-		    default : {
+			}
+			default : {
 				/* Check for further declaration specifiers */
 				int c = lookup_token (t);
 				switch (c) {
-			    case TOK_DECL_SPEC :
-			    case TOK_SIMPLE_TYPE :
-			    case TOK_TYPE_KEY :
-			    case TOK_TYPE_SPEC :
-			    case TOK_EXTERN :
-			    case TOK_TYPE : {
+				case TOK_DECL_SPEC :
+				case TOK_SIMPLE_TYPE :
+				case TOK_TYPE_KEY :
+				case TOK_TYPE_SPEC :
+				case TOK_EXTERN :
+				case TOK_TYPE : {
 					d = 1;
 					break;
-			    }
+				}
 				}
 				break;
-		    }
 			}
-	    }
-	    if (d) p->tok = lex_type_Hname;
-	    crt_lookup = np;
-	    crt_token = p;
-	    return (d);
+			}
+		}
+		if (d) p->tok = lex_type_Hname;
+		crt_lookup = np;
+		crt_token = p;
+		return (d);
 	}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -931,38 +931,38 @@ predict_undecl_type(int t, int force)
 int
 predict_dspec(int force)
 {
-    int d = 0;
-    int t = crt_lex_token;
-    int c = lookup_token (t);
+	int d = 0;
+	int t = crt_lex_token;
+	int c = lookup_token (t);
 #if LANGUAGE_CPP
-    is_constructor_next = 0;
+	is_constructor_next = 0;
 #endif
-    switch (c) {
+	switch (c) {
 	case TOK_DECL_SPEC :
 	case TOK_SIMPLE_TYPE :
 	case TOK_TYPE_KEY :
 	case TOK_TYPE_SPEC : {
-	    /* These are declaration-specifiers */
-	    d = 1;
-	    break;
+		/* These are declaration-specifiers */
+		d = 1;
+		break;
 	}
 	case TOK_EXTERN : {
 #if LANGUAGE_CPP
-	    /* Explicitly check for linkage-specifications */
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    if (t != lex_string_Hexp && t != lex_wstring_Hexp) d = 1;
-	    crt_lookup = np;
-	    crt_token = p;
+		/* Explicitly check for linkage-specifications */
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		if (t != lex_string_Hexp && t != lex_wstring_Hexp) d = 1;
+		crt_lookup = np;
+		crt_token = p;
 #else
-	    d = 1;
+		d = 1;
 #endif
-	    break;
+		break;
 	}
 	case TOK_TYPE : {
-	    /* Only the first type name is counted */
-	    if (t == lex_type_Hname || t == lex_template_Htype) {
+		/* Only the first type name is counted */
+		if (t == lex_type_Hname || t == lex_template_Htype) {
 			if (!have_type_specifier) {
 #if LANGUAGE_CPP
 				PPTOKEN *p = crt_token;
@@ -983,16 +983,16 @@ predict_dspec(int force)
 				d = 1;
 #endif
 			}
-	    } else {
+		} else {
 			d = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME :
 	case TOK_FULL_NAME : {
-	    /* Look for nested type names */
-	    if (!have_type_specifier) {
+		/* Look for nested type names */
+		if (!have_type_specifier) {
 			PPTOKEN *p = crt_token;
 			NAMESPACE np = crt_lookup;
 			t = next_token ();
@@ -1016,20 +1016,20 @@ predict_dspec(int force)
 			}
 			crt_lookup = np;
 			crt_token = p;
-	    }
-	    break;
+		}
+		break;
 	}
 #endif
 	default : {
-	    /* Check for undefined types */
-	    if (!have_type_specifier) {
+		/* Check for undefined types */
+		if (!have_type_specifier) {
 			d = predict_undecl_type (t, force);
 			if (d) crt_lex_token = lex_type_Hname;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (d);
+	}
+	return (d);
 }
 
 
@@ -1043,48 +1043,48 @@ predict_dspec(int force)
 int
 predict_tspec(int force)
 {
-    int d = 0;
-    int t = crt_lex_token;
-    int c = lookup_token (t);
-    switch (c) {
+	int d = 0;
+	int t = crt_lex_token;
+	int c = lookup_token (t);
+	switch (c) {
 	case TOK_SIMPLE_TYPE :
 	case TOK_TYPE_KEY :
 	case TOK_TYPE_SPEC :
 	case TOK_TYPE : {
-	    /* These are type-specifiers */
-	    d = 1;
-	    break;
+		/* These are type-specifiers */
+		d = 1;
+		break;
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME :
 	case TOK_FULL_NAME : {
-	    /* Look for nested type names */
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    c = lookup_token (t);
-	    if (c == TOK_TYPE) {
+		/* Look for nested type names */
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		c = lookup_token (t);
+		if (c == TOK_TYPE) {
 			d = 1;
-	    } else {
+		} else {
 			if (!have_type_specifier) {
 				d = predict_undecl_type (t, force);
 			}
-	    }
-	    crt_lookup = np;
-	    crt_token = p;
-	    break;
+		}
+		crt_lookup = np;
+		crt_token = p;
+		break;
 	}
 #endif
 	default : {
-	    /* Check for undefined types */
-	    if (!have_type_specifier) {
+		/* Check for undefined types */
+		if (!have_type_specifier) {
 			d = predict_undecl_type (t, force);
 			if (d) crt_lex_token = lex_type_Hname;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (d);
+	}
+	return (d);
 }
 
 
@@ -1103,13 +1103,13 @@ predict_tspec(int force)
 static int
 predict_qual(int t, int e)
 {
-    switch (t) {
+	switch (t) {
 	case lex_const :
 	case lex_volatile :
 	case lex_throw : {
-	    /* Function qualifiers */
-	    e = 1;
-	    break;
+		/* Function qualifiers */
+		e = 1;
+		break;
 	}
 	case lex_and_H1 :
 	case lex_and_Heq_H1 :
@@ -1150,17 +1150,17 @@ predict_qual(int t, int e)
 	case lex_abs :
 	case lex_max :
 	case lex_min : {
-	    /* Binary expression operators */
-	    e = 0;
-	    break;
+		/* Binary expression operators */
+		e = 0;
+		break;
 	}
 	case lex_comma : {
-	    /* Comma operators */
-	    if (e == 1) e = 0;
-	    break;
+		/* Comma operators */
+		if (e == 1) e = 0;
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 #endif
@@ -1180,23 +1180,23 @@ predict_qual(int t, int e)
 int
 predict_typeid(int e)
 {
-    int t = crt_lex_token;
-    int c = lookup_token (t);
-    switch (c) {
+	int t = crt_lex_token;
+	int c = lookup_token (t);
+	switch (c) {
 	case TOK_TYPE_KEY :
 	case TOK_TYPE_SPEC : {
-	    /* These are type-specifiers */
-	    return (1);
+		/* These are type-specifiers */
+		return (1);
 	}
 	case TOK_SIMPLE_TYPE :
 	case TOK_TYPE : {
-	    /* These are simple-type-specifiers */
-	    int d = 1;
+		/* These are simple-type-specifiers */
+		int d = 1;
 #if LANGUAGE_CPP
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    if (t == lex_open_Hround) {
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		if (t == lex_open_Hround) {
 			/* This is the tricky case 'T (...' */
 			PPTOKEN *q;
 			NAMESPACE nq;
@@ -1214,24 +1214,24 @@ predict_typeid(int e)
 					d = predict_declarator (t, 1, 1);
 				}
 			}
-	    }
-	    crt_lookup = np;
-	    crt_token = p;
+		}
+		crt_lookup = np;
+		crt_token = p;
 #else
-	    UNUSED (e);
+		UNUSED (e);
 #endif
-	    return (d);
+		return (d);
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME :
 	case TOK_FULL_NAME : {
-	    /* Look for nested type-names */
-	    int d = 0;
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    c = lookup_token (t);
-	    if (c == TOK_TYPE) {
+		/* Look for nested type-names */
+		int d = 0;
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		c = lookup_token (t);
+		if (c == TOK_TYPE) {
 			d = 1;
 			t = next_token ();
 			if (t == lex_open_Hround) {
@@ -1253,14 +1253,14 @@ predict_typeid(int e)
 					}
 				}
 			}
-	    }
-	    crt_lookup = np;
-	    crt_token = p;
-	    return (d);
+		}
+		crt_lookup = np;
+		crt_token = p;
+		return (d);
 	}
 #endif
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1274,16 +1274,16 @@ predict_typeid(int e)
 int
 predict_typename(void)
 {
-    int d = 0;
-    int t = crt_lex_token;
-    if (t == lex_type_Hname) {
+	int d = 0;
+	int t = crt_lex_token;
+	if (t == lex_type_Hname) {
 		/* Unqualified type names */
 		IDENTIFIER id = crt_token->pp_data.id.use;
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (ds & dspec_template) d = 1;
-    }
+	}
 #if LANGUAGE_CPP
-    if (t == lex_full_Hname || t == lex_nested_Hname || t == lex_colon_Hcolon) {
+	if (t == lex_full_Hname || t == lex_nested_Hname || t == lex_colon_Hcolon) {
 		PPTOKEN *p = crt_token;
 		NAMESPACE np = crt_lookup;
 		t = next_token ();
@@ -1295,9 +1295,9 @@ predict_typename(void)
 		}
 		crt_lookup = np;
 		crt_token = p;
-    }
+	}
 #endif
-    return (d);
+	return (d);
 }
 
 
@@ -1316,13 +1316,13 @@ int
 predict_init(void)
 {
 #if LANGUAGE_CPP
-    PPTOKEN *p = crt_token;
-    NAMESPACE np = crt_lookup;
-    int t = crt_lex_token;
-    int d = predict_func_params (t, 1, 0);
-    crt_lookup = np;
-    crt_token = p;
-    if (d == 0) {
+	PPTOKEN *p = crt_token;
+	NAMESPACE np = crt_lookup;
+	int t = crt_lex_token;
+	int d = predict_func_params (t, 1, 0);
+	crt_lookup = np;
+	crt_token = p;
+	if (d == 0) {
 		/* Definitely doesn't look like a function declarator */
 		if (t == lex_open_Hround) {
 			t = lex_open_Hinit;
@@ -1330,14 +1330,14 @@ predict_init(void)
 			p->tok = t;
 		}
 		return (1);
-    }
-    if (t == lex_ellipsis_Hexp) {
+	}
+	if (t == lex_ellipsis_Hexp) {
 		t = lex_ellipsis;
 		crt_lex_token = t;
 		p->tok = t;
-    }
+	}
 #endif
-    return (0);
+	return (0);
 }
 
 
@@ -1356,43 +1356,43 @@ int
 predict_destr(NAMESPACE ns)
 {
 #if LANGUAGE_CPP
-    int d = 1;
-    int t = last_lex_token;
-    if (!IS_NULL_nspace (ns)) {
+	int d = 1;
+	int t = last_lex_token;
+	if (!IS_NULL_nspace (ns)) {
 		if (EQ_nspace (ns, global_namespace)) {
 			t = lex_colon_Hcolon;
 		} else {
 			t = lex_nested_Hname;
 		}
-    }
-    switch (t) {
+	}
+	switch (t) {
 	case lex_nested_Hname :
 	case lex_full_Hname : {
-	    /* Always have destructor names after these */
-	    if (cache_lookup) {
+		/* Always have destructor names after these */
+		if (cache_lookup) {
 			d = 2;
-	    } else {
+		} else {
 			/* Can only happen after '.' or '->' */
 			d = 3;
-	    }
-	    break;
+		}
+		break;
 	}
 	case lex_colon_Hcolon : {
-	    /* Never have destructor name after this */
-	    d = 0;
-	    break;
+		/* Never have destructor name after this */
+		d = 0;
+		break;
 	}
 	case lex_arrow :
 	case lex_dot : {
-	    /* Always have destructor names after these */
-	    d = 3;
-	    break;
+		/* Always have destructor names after these */
+		d = 3;
+		break;
 	}
 	default : {
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    if (t == lex_open_Hround) {
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		if (t == lex_open_Hround) {
 			t = next_token ();
 			if (t == lex_close_Hround) {
 				/* This is the commonest case */
@@ -1401,16 +1401,16 @@ predict_destr(NAMESPACE ns)
 				d = predict_func_params (t, 1, 0);
 				if (d) d = 1;
 			}
-	    }
-	    crt_lookup = np;
-	    crt_token = p;
-	    break;
+		}
+		crt_lookup = np;
+		crt_token = p;
+		break;
 	}
-    }
-    return (d);
+	}
+	return (d);
 #else
-    UNUSED (ns);
-    return (0);
+	UNUSED (ns);
+	return (0);
 #endif
 }
 
@@ -1426,41 +1426,41 @@ predict_destr(NAMESPACE ns)
 int
 predict_param(void)
 {
-    int t = crt_lex_token;
-    switch (t) {
+	int t = crt_lex_token;
+	switch (t) {
 	case lex_identifier :
 	case lex_namespace_Hname :
 	case lex_statement_Hname :
 	case lex_destructor_Hname :
 	case lex_template_Hid :
 	case lex_operator : {
-	    /* These are all unqualified-ids */
-	    return (1);
+		/* These are all unqualified-ids */
+		return (1);
 	}
 	case lex_type_Hname :
 	case lex_template_Htype : {
-	    /* Check for type names */
-	    if (last_lex_token != lex_open_Hround) return (1);
-	    break;
+		/* Check for type names */
+		if (last_lex_token != lex_open_Hround) return (1);
+		break;
 	}
 #if LANGUAGE_CPP
 	case lex_full_Hname :
 	case lex_nested_Hname :
 	case lex_colon_Hcolon : {
-	    /* Check token after a nested name */
-	    int d;
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    crt_lex_token = next_token ();
-	    d = predict_param ();
-	    crt_lex_token = t;
-	    crt_lookup = np;
-	    crt_token = p;
-	    return (d);
+		/* Check token after a nested name */
+		int d;
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		crt_lex_token = next_token ();
+		d = predict_param ();
+		crt_lex_token = t;
+		crt_lookup = np;
+		crt_token = p;
+		return (d);
 	}
 #endif
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1478,59 +1478,59 @@ predict_param(void)
 int
 predict_class(int col)
 {
-    int t = crt_lex_token;
-	
-    /* Examine the name */
-    switch (t) {
+	int t = crt_lex_token;
+
+	/* Examine the name */
+	switch (t) {
 	case lex_identifier :
 	case lex_type_Hname :
 	case lex_namespace_Hname :
 	case lex_statement_Hname :
 	case lex_template_Htype : {
-	    /* Name present */
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    crt_lookup = np;
-	    crt_token = p;
-	    break;
+		/* Name present */
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		crt_lookup = np;
+		crt_token = p;
+		break;
 	}
 #if LANGUAGE_CPP
 	case lex_full_Hname :
 	case lex_nested_Hname :
 	case lex_colon_Hcolon : {
-	    /* Allow for nested names */
-	    PPTOKEN *p = crt_token;
-	    NAMESPACE np = crt_lookup;
-	    t = next_token ();
-	    switch (t) {
+		/* Allow for nested names */
+		PPTOKEN *p = crt_token;
+		NAMESPACE np = crt_lookup;
+		t = next_token ();
+		switch (t) {
 		case lex_identifier :
 		case lex_type_Hname :
 		case lex_namespace_Hname :
 		case lex_statement_Hname :
 		case lex_template_Htype : {
-		    /* Nested name present */
-		    t = next_token ();
-		    crt_lookup = np;
-		    crt_token = p;
-		    break;
+			/* Nested name present */
+			t = next_token ();
+			crt_lookup = np;
+			crt_token = p;
+			break;
 		}
 		default : {
-		    /* Invalid name */
-		    crt_lookup = np;
-		    crt_token = p;
-		    return (0);
+			/* Invalid name */
+			crt_lookup = np;
+			crt_token = p;
+			return (0);
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 #endif
-    }
-	
-    /* Examine the token following the name */
-    if (t == lex_open_Hbrace_H1) return (1);
-    if (t == lex_colon && !in_token_decl) return (col);
-    return (0);
+	}
+
+	/* Examine the token following the name */
+	if (t == lex_open_Hbrace_H1) return (1);
+	if (t == lex_colon && !in_token_decl) return (col);
+	return (0);
 }
 
 
@@ -1547,13 +1547,13 @@ predict_class(int col)
 int
 predict_func_defn(void)
 {
-    int t = crt_lex_token;
-    if (t == lex_open_Hbrace_H1) return (1);
+	int t = crt_lex_token;
+	if (t == lex_open_Hbrace_H1) return (1);
 #if LANGUAGE_CPP
-    if (t == lex_try) return (1);
-    if (t == lex_colon && !in_token_decl) return (1);
+	if (t == lex_try) return (1);
+	if (t == lex_colon && !in_token_decl) return (1);
 #endif
-    return (0);
+	return (0);
 }
 
 
@@ -1568,12 +1568,12 @@ predict_func_defn(void)
 int
 predict_obj_defn(void)
 {
-    int t = crt_lex_token;
-    if (t == lex_assign) return (1);
+	int t = crt_lex_token;
+	if (t == lex_assign) return (1);
 #if LANGUAGE_CPP
-    if (t == lex_open_Hround) return (1);
+	if (t == lex_open_Hround) return (1);
 #endif
-    return (0);
+	return (0);
 }
 
 
@@ -1590,15 +1590,15 @@ predict_obj_defn(void)
 int
 predict_ptr(int ref)
 {
-    int t = crt_lex_token;
-    if (t == lex_star) return (1);
+	int t = crt_lex_token;
+	if (t == lex_star) return (1);
 #if LANGUAGE_CPP
-    if (t == lex_full_Hname_Hstar || t == lex_nested_Hname_Hstar) return (1);
-    if (t == lex_and_H1) return (ref);
+	if (t == lex_full_Hname_Hstar || t == lex_nested_Hname_Hstar) return (1);
+	if (t == lex_and_H1) return (ref);
 #else
-    UNUSED (ref);
+	UNUSED (ref);
 #endif
-    return (0);
+	return (0);
 }
 
 
@@ -1613,10 +1613,10 @@ int
 predict_operator(void)
 {
 #if LANGUAGE_CPP
-    int t = crt_lex_token;
-    if (t == lex_operator) return (1);
+	int t = crt_lex_token;
+	if (t == lex_operator) return (1);
 #endif
-    return (0);
+	return (0);
 }
 
 
@@ -1632,17 +1632,17 @@ predict_operator(void)
 int
 predict_array(void)
 {
-    PPTOKEN *p;
-    NAMESPACE np;
-    int t = crt_lex_token;
-    if (t != lex_open_Hsquare_H1) return (0);
-    p = crt_token;
-    np = crt_lookup;
-    t = next_token ();
-    crt_lookup = np;
-    crt_token = p;
-    if (t != lex_close_Hsquare_H1) return (0);
-    return (1);
+	PPTOKEN *p;
+	NAMESPACE np;
+	int t = crt_lex_token;
+	if (t != lex_open_Hsquare_H1) return (0);
+	p = crt_token;
+	np = crt_lookup;
+	t = next_token ();
+	crt_lookup = np;
+	crt_token = p;
+	if (t != lex_close_Hsquare_H1) return (0);
+	return (1);
 }
 
 
@@ -1656,21 +1656,21 @@ predict_array(void)
 int
 predict_template(void)
 {
-    int d = 0;
-    int t = crt_lex_token;
-    if (t == lex_class || t == lex_typename) {
+	int d = 0;
+	int t = crt_lex_token;
+	if (t == lex_class || t == lex_typename) {
 		int have_id = 0;
 		PPTOKEN *p = crt_token;
 		int s = next_token ();
 		switch (s) {
-	    case lex_identifier :
-	    case lex_type_Hname :
-	    case lex_namespace_Hname :
-	    case lex_statement_Hname : {
+		case lex_identifier :
+		case lex_type_Hname :
+		case lex_namespace_Hname :
+		case lex_statement_Hname : {
 			s = next_token ();
 			have_id = 1;
 			break;
-	    }
+		}
 		}
 		if (s == lex_comma || s == lex_close_Htemplate) {
 			d = 1;
@@ -1685,8 +1685,8 @@ predict_template(void)
 		}
 		crt_lex_token = t;
 		crt_token = p;
-    } else if (t == lex_template) {
+	} else if (t == lex_template) {
 		d = 1;
-    }
-    return (d);
+	}
+	return (d);
 }
