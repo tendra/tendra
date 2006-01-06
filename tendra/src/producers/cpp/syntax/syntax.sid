@@ -204,7 +204,7 @@ using; virtual; wchar-t;
 !preserve; !printf; !proc-cap; !promote; !promoted; !prototype;
 ptrdiff-t; !qualifier; !quote; reachable; !reference; !reject;
 !representation; !reset; !resolution; !rvalue; !scalar-cap; !scanf;
-set; size-t; !size-t-2; !space; !sort; !std; !stmt-cap; !string;
+set; size-t; !size-t-2; !sort; !space; !std; !stmt-cap; !string;
 !struct-cap; !suspend; !tag; !tag-cap; !tendra; !text; !this-name;
 !token; !type; !type-cap; !typeof; !un-known; !unassert; !undef;
 !unify; !union-cap; !unmatched; !unpostpone; unreachable; unused;
