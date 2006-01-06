@@ -500,7 +500,7 @@
 	LEX_TOKEN (lex_value, "value", TOK_NONE)
 	LEX_TOKEN (lex_variable, "variable", TOK_NONE)
 	LEX_TOKEN (lex_variety_Hcap, "VARIETY", TOK_NONE)
-	LEX_TOKEN (lex_va__args, "__VA_ARGS__", TOK_NONE)
+	LEX_TOKEN (lex_va_Hargs, "__VA_ARGS__", TOK_NONE)
 	LEX_TOKEN (lex_volatile_Ht, "volatile_t", TOK_NONE)
 	LEX_TOKEN (lex_vtable, "vtable", TOK_EXP)
 	LEX_TOKEN (lex_warning, "warning", TOK_NONE)
@@ -545,6 +545,7 @@
  * They are tokens for OpenMP 2.0 compliance.
  */
 
+#if 0
 	LEX_TOKEN (lex_omp_omp, "omp", TOK_NONE)
 	LEX_TOKEN (lex_omp_parallel, "parallel", TOK_NONE)
 	LEX_TOKEN (lex_omp_sections, "sections", TOK_NONE)
@@ -564,6 +565,7 @@
 	LEX_TOKEN (lex_omp_reduction, "reduction", TOK_NONE)
 	LEX_TOKEN (lex_omp_copyin, "copyin", TOK_NONE)
 	LEX_TOKEN (lex_omp_copyprivate, "copyprivate", TOK_NONE)
+#endif
 
 #endif /* LEX_TOKEN */
 
