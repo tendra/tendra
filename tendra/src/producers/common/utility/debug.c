@@ -1669,6 +1669,7 @@ list_errors(void)
 {
 	FILE *f = DEBUG_file;
 	ERR_DATA *p = ERR_CATALOG;
+	init_hash ();
 	init_option (0);
 	while (p->name) {
 		fprintf_v (f, "%s\n", p->name);
