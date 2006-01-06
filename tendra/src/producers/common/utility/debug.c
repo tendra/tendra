@@ -1744,7 +1744,7 @@ define_options()
 /*
  *    HANDLE DEBUGGING OPTIONS
  *
- *    This routine is called to handle the debug option '-d arg'.
+ *    This routine is called to handle the debug option '-x arg'.
  */
 
 void
@@ -1761,7 +1761,7 @@ debug_option(char *arg)
     } else if (streq (arg, "sid")) {
 		sid_terminals (1);
     } else {
-		error (ERROR_WARNING, "Unknown option, '-d%s'", arg);
+		error (ERROR_WARNING, "Unknown option, '-x%s'", arg);
     }
     return;
 }
