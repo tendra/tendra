@@ -83,7 +83,7 @@
  */
 
 	LEX_TOKEN (lex_unknown, "<unknown>", TOK_NONE)
-	
+
 	LEX_TOKEN (lex_identifier, "<id>", TOK_EXP)
 	LEX_TOKEN (lex_type_Hname, "<type>", TOK_TYPE)
 	LEX_TOKEN (lex_namespace_Hname, "<namespace>", TOK_NONE)
@@ -91,45 +91,45 @@
 	LEX_TOKEN (lex_destructor_Hname, "<destructor>", TOK_EXP)
 	LEX_TOKEN (lex_template_Hid, "<id>", TOK_EXP)
 	LEX_TOKEN (lex_template_Htype, "<type>", TOK_TYPE)
-	
+
 	LEX_TOKEN (lex_nested_Hname, "<name>::", TOK_NESTED_NAME)
 	LEX_TOKEN (lex_full_Hname, "::<name>::", TOK_FULL_NAME)
 	LEX_TOKEN (lex_nested_Hname_Hstar, "<class>::*", TOK_NONE)
 	LEX_TOKEN (lex_full_Hname_Hstar, "::<class>::*", TOK_NONE)
-	
+
 	LEX_TOKEN (lex_char_Hlit, "<char>", TOK_EXP)
 	LEX_TOKEN (lex_wchar_Hlit, "<wchar>", TOK_EXP)
 	LEX_TOKEN (lex_string_Hlit, "<string>", TOK_EXP)
 	LEX_TOKEN (lex_wstring_Hlit, "<wstring>", TOK_EXP)
 	LEX_TOKEN (lex_integer_Hlit, "<int>", TOK_EXP)
-	
+
 	LEX_TOKEN (lex_char_Hexp, "<char>", TOK_EXP)
 	LEX_TOKEN (lex_wchar_Hexp, "<wchar>", TOK_EXP)
 	LEX_TOKEN (lex_string_Hexp, "<string>", TOK_EXP)
 	LEX_TOKEN (lex_wstring_Hexp, "<wstring>", TOK_EXP)
 	LEX_TOKEN (lex_integer_Hexp, "<int>", TOK_EXP)
 	LEX_TOKEN (lex_floating_Hexp, "<float>", TOK_EXP)
-	
+
 	LEX_TOKEN (lex_complex_Hexp, "<exp>", TOK_EXP)
 	LEX_TOKEN (lex_complex_Hstmt, "<stmt>", TOK_STATEMENT)
 	LEX_TOKEN (lex_complex_Htype, "<type>", TOK_TYPE)
-	
+
 	LEX_TOKEN (lex_hash_Hif, "#if", TOK_STATEMENT)
 	LEX_TOKEN (lex_hash_Helif, "#elif", TOK_STATEMENT)
 	LEX_TOKEN (lex_hash_Helse, "#else", TOK_STATEMENT)
 	LEX_TOKEN (lex_hash_Hendif, "#endif", TOK_STATEMENT)
 	LEX_TOKEN (lex_hash_Hpragma, "#pragma", TOK_DECLARATION)
-	
+
 	LEX_TOKEN (lex_newline, "<newline>", TOK_NONE)
 	LEX_TOKEN (lex_eof, "<eof>", TOK_NONE)
-	
-	
+
+
 /*
  *  C SYMBOL TOKENS
  *
  *  These tokens describe the C symbols and punctuation.
  */
-	
+
 	LEX_TOKEN (lex_and_H1, "&", TOK_EXP)
 	LEX_TOKEN (lex_and_Heq_H1, "&=", TOK_NONE)
 	LEX_TOKEN (lex_arrow, "->", TOK_NONE)
@@ -179,50 +179,50 @@
 	LEX_TOKEN (lex_star_Heq, "*=", TOK_NONE)
 	LEX_TOKEN (lex_xor_H1, "^", TOK_NONE)
 	LEX_TOKEN (lex_xor_Heq_H1, "^=", TOK_NONE)
-	
-	
+
+
 /*
  *  ADDITIONAL C++ SYMBOL TOKENS
  *
  *  These tokens describe the additional C++ symbols.
  */
-	
+
 	LEX_TOKEN (lex_arrow_Hstar, "->*", TOK_NONE)
 	LEX_TOKEN (lex_colon_Hcolon, "::", TOK_FULL_NAME)
 	LEX_TOKEN (lex_dot_Hstar, ".*", TOK_NONE)
-	
-	
+
+
 /*
  *  ADDITIONAL SYMBOL TOKENS
  *
  *  These tokens describe the additional extension symbols.
  */
-	
+
 	LEX_TOKEN (lex_abs, "+?", TOK_EXP)
 	LEX_TOKEN (lex_max, ">?", TOK_NONE)
 	LEX_TOKEN (lex_min, "<?", TOK_NONE)
-	
-	
+
+
 /*
  *  DIGRAPH TOKENS
  *
  *  These tokens describe the digraphs.
  */
-	
+
 	LEX_TOKEN (lex_close_Hbrace_H2, "%>", TOK_NONE)
 	LEX_TOKEN (lex_close_Hsquare_H2, ":>", TOK_NONE)
 	LEX_TOKEN (lex_hash_H2, "%:", TOK_NONE)
 	LEX_TOKEN (lex_hash_Hhash_H2, "%:%:", TOK_NONE)
 	LEX_TOKEN (lex_open_Hbrace_H2, "<%", TOK_NONE)
 	LEX_TOKEN (lex_open_Hsquare_H2, "<:", TOK_NONE)
-	
-	
+
+
 /*
  *  C KEYWORD TOKENS
  *
  *  These tokens describe the C keywords.
  */
-	
+
 	LEX_TOKEN (lex_auto, "auto", TOK_DECL_SPEC)
 	LEX_TOKEN (lex_break, "break", TOK_STATEMENT)
 	LEX_TOKEN (lex_case, "case", TOK_STATEMENT)
@@ -255,14 +255,14 @@
 	LEX_TOKEN (lex_void, "void", TOK_SIMPLE_TYPE)
 	LEX_TOKEN (lex_volatile, "volatile", TOK_TYPE_SPEC)
 	LEX_TOKEN (lex_while, "while", TOK_STATEMENT)
-	
+
 
 /*
  *  ADDITIONAL C99 KEYWORD TOKENS
  *
  *  These tokens describe the additional C99 keywords.
  */
-	
+
 	LEX_TOKEN (lex_restrict, "restrict", TOK_TYPE_SPEC)
 
 
@@ -271,7 +271,7 @@
  *
  *  These tokens describe the additional C++ keywords.
  */
-	
+
 	LEX_TOKEN (lex_asm, "asm", TOK_ASM)
 #if LANGUAGE_CPP
 	LEX_TOKEN (lex_bool, "bool", TOK_SIMPLE_TYPE)
@@ -307,15 +307,15 @@
 	LEX_TOKEN (lex_using, "using", TOK_DECLARATION)
 	LEX_TOKEN (lex_virtual, "virtual", TOK_DECL_SPEC)
 	LEX_TOKEN (lex_wchar_Ht, "wchar_t", TOK_SIMPLE_TYPE)
-	
-	
+
+
 /*
  *  ISO KEYWORD TOKENS
  *
  *  These tokens describe the ISO keywords which give alternative
  *  representations of various symbols.
  */
-	
+
 	LEX_TOKEN (lex_and_H2, "bitand", TOK_EXP)
 	LEX_TOKEN (lex_and_Heq_H2, "and_eq", TOK_NONE)
 	LEX_TOKEN (lex_compl_H2, "compl", TOK_EXP)
@@ -327,14 +327,14 @@
 	LEX_TOKEN (lex_or_Heq_H2, "or_eq", TOK_NONE)
 	LEX_TOKEN (lex_xor_H2, "xor", TOK_NONE)
 	LEX_TOKEN (lex_xor_Heq_H2, "xor_eq", TOK_NONE)
-	
-	
+
+
 /*
  *  NON-STANDARD KEYWORD TOKENS
  *
  *  These keywords represent the non-standard keywords.
  */
-	
+
 	LEX_TOKEN (lex_accept, "accept", TOK_NONE)
 	LEX_TOKEN (lex_after, "after", TOK_NONE)
 	LEX_TOKEN (lex_alignof, "alignof", TOK_EXP)
@@ -507,15 +507,15 @@
 	LEX_TOKEN (lex_weak, "weak", TOK_NONE)
 	LEX_TOKEN (lex_writeable, "writeable", TOK_NONE)
 	LEX_TOKEN (lex_zzzz, "<dummy>", TOK_NONE)
-	
-	
+
+
 /*
  *  MISCELLANEOUS SYMBOLS
  *
  *  These tokens describe certain symbols which are used in various
  *  circumstances.
  */
-	
+
 	LEX_TOKEN (lex_array_Hop, "[]", TOK_NONE)
 	LEX_TOKEN (lex_builtin_Hfile, "#file", TOK_NONE)
 	LEX_TOKEN (lex_builtin_Hline, "#line", TOK_NONE)
@@ -536,15 +536,15 @@
 	LEX_TOKEN (lex_open_Hinit, "(", TOK_NONE)
 	LEX_TOKEN (lex_open_Htemplate, "<", TOK_NONE)
 	LEX_TOKEN (lex_zzzzzz, "<dummy>", TOK_NONE)
-	
-	
+
+
 /*
  * OMP PRAGMA DIRECTIVES
  *
  * These directives include and are for '#pragma omp' directives.
  * They are tokens for OpenMP 2.0 compliance.
  */
-	
+
 	LEX_TOKEN (lex_omp_omp, "omp", TOK_NONE)
 	LEX_TOKEN (lex_omp_parallel, "parallel", TOK_NONE)
 	LEX_TOKEN (lex_omp_sections, "sections", TOK_NONE)
@@ -564,58 +564,58 @@
 	LEX_TOKEN (lex_omp_reduction, "reduction", TOK_NONE)
 	LEX_TOKEN (lex_omp_copyin, "copyin", TOK_NONE)
 	LEX_TOKEN (lex_omp_copyprivate, "copyprivate", TOK_NONE)
-	
+
 #endif /* LEX_TOKEN */
-	
-	
+
+
 /*
  *  TOKEN GROUPS
  *
  *  These macros give the bounds for the various groups of tokens.
  */
-	
+
 #ifndef FIRST_TOKEN
-	
+
 #define FIRST_TOKEN	lex_unknown
 #define LAST_TOKEN	lex_zzzzzz
-	
+
 #define FIRST_SYMBOL	lex_and_H1
 #define LAST_SYMBOL	lex_open_Hsquare_H2
-	
+
 #define FIRST_C_SYMBOL	lex_and_H1
 #define LAST_C_SYMBOL	lex_xor_Heq_H1
-	
+
 #define FIRST_CPP_SYMBOL	lex_arrow_Hstar
 #define LAST_CPP_SYMBOL		lex_dot_Hstar
-	
+
 #define FIRST_EXTRA_SYMBOL	lex_abs
 #define LAST_EXTRA_SYMBOL	lex_min
-	
+
 #define FIRST_DIGRAPH	lex_close_Hbrace_H2
 #define LAST_DIGRAPH	lex_open_Hsquare_H2
-	
+
 #define FIRST_C_KEYWORD		lex_auto
 #define LAST_C_KEYWORD		lex_while
-	
+
 #define FIRST_C99_KEYWORD	lex_restrict
 #define LAST_C99_KEYWORD	lex_restrict
-	
+
 #define FIRST_CPP_KEYWORD	lex_asm
 #define LAST_CPP_KEYWORD	lex_wchar_Ht
-	
+
 #define FIRST_ISO_KEYWORD	lex_and_H2
 #define LAST_ISO_KEYWORD	lex_xor_Heq_H2
-	
+
 #define FIRST_PP_KEYWORD	lex_hash_Hif
 #define LAST_PP_KEYWORD		lex_hash_Hpragma
-	
+
 #define FIRST_KEYWORD	lex_auto
 #define LAST_KEYWORD	lex_zzzz
-	
+
 #define FIRST_COMPLEX_TOKEN	lex_unknown
 #define LAST_COMPLEX_TOKEN	lex_hash_Hpragma
-	
+
 #define FIRST_OMP_DIRECTIVE	lex_omp
 #define LAST_OMP_DIRECTIVE	lex_omp_copyprivate
-	
+
 #endif /* FIRST_TOKEN */
