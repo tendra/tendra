@@ -47,38 +47,18 @@ config-create:
 .else
 	@echo "===> Verifying required binaries"
 	@echo "Adjust to correct path in ${SRC_DIR}/mk/def/def.${.TARGETS}.mk if any test fails."
-	@echo ${BIN_AR}
-	@${BIN_TEST} -x "${BIN_AR}"
-	@echo ${BIN_AWK}
-	@${BIN_TEST} -x "${BIN_AWK}"
-	@echo ${BIN_CAT}
-	@${BIN_TEST} -x "${BIN_CAT}"
-	@echo ${BIN_CC}
-	@${BIN_TEST} -x "${BIN_CC}"
-	@echo ${BIN_CHMOD}
-	@${BIN_TEST} -x "${BIN_CHMOD}"
-	@echo ${BIN_CP}
-	@${BIN_TEST} -x "${BIN_CP}"
-	@echo ${BIN_ECHO}
-	@${BIN_TEST} -x "${BIN_ECHO}"
-	@echo ${BIN_GREP}
-	@${BIN_TEST} -x "${BIN_GREP}"
-	@echo ${BIN_GZIP}
-	@${BIN_TEST} -x "${BIN_GZIP}"
-	@echo ${BIN_MKDIR}
-	@${BIN_TEST} -x "${BIN_MKDIR}"
+
+.for BIN in ${BIN_AR} ${BIN_AWK} ${BIN_CAT} ${BIN_CC} ${BIN_CHMOD} ${BIN_CP} ${BIN_GREP} \
+			${BIN_GZIP} ${BIN_MKDIR} ${BIN_RM} ${BIN_SED} ${BIN_SH} ${BIN_UNAME}
+	@${BIN_ECHO} ${BIN}
+	@${BIN_TEST} -x "${BIN}"
+.endfor 
+
 .if !defined(NO_RANLIB)
-	@echo ${BIN_RANLIB}
+	@${BIN_ECHO} ${BIN_RANLIB}
 	@${BIN_TEST} -x "${BIN_RANLIB}"
 .endif
-	@echo ${BIN_RM}
-	@${BIN_TEST} -x "${BIN_RM}"
-	@echo ${BIN_SED}
-	@${BIN_TEST} -x "${BIN_SED}"
-	@echo ${BIN_SH}
-	@${BIN_TEST} -x "${BIN_SH}"
-	@echo ${BIN_UNAME}
-	@${BIN_TEST} -x "${BIN_UNAME}"
+
 	@echo "===> Writing configuration"
 	@${BIN_SED} ${SED_OPT_VAR} ${SRC_DIR}/mk/misc/default.config.mk \
 	> ${SRC_DIR}/config.mk
