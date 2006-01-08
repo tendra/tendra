@@ -1138,7 +1138,7 @@ scan(exp * e, exp * *at)
 		for (;;) 
 		{
 			exp sc = *atsc;
-			if (name(sc) == cond_tag && name(sh(son(sc)))==bothd
+			if (name(sc) == cond_tag && name(sh(son(sc)))==SH_BOT
 				&& name(bro(son(bro(son(sc))))) == top_tag) 
 			{
 				/* sc is cond(... goto | make_top); can replace
@@ -1311,7 +1311,7 @@ scan(exp * e, exp * *at)
 			{		
 				/* ... floating pt result */
 				x.propsneeds |= realresult_bit;
-				if (name(s) != shrealhd)
+				if (name(s) != SH_REAL_SHORT)
 				{
 					x.propsneeds |= longrealresult_bit;
 				}
@@ -1470,7 +1470,7 @@ scan(exp * e, exp * *at)
     {
 		exp s = sh(*e);
 		
-		if (name(s) == offsethd && al2(s) >= 8)
+		if (name(s) == SH_OFFSET && al2(s) >= 8)
 		{
 			/* express disps in bytes */
 			no(*e) = no(*e) >> 3;
@@ -1953,7 +1953,7 @@ scan(exp * e, exp * *at)
 		exp *arg = &son(*e);
 		
 		nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
-		if (name(sh(son(*(e)))) == ulonghd)
+		if (name(sh(son(*(e)))) == SH_ULONG)
 		{
 			if (nds.floatneeds < 2)
 				nds.floatneeds = 2;
@@ -1974,7 +1974,7 @@ scan(exp * e, exp * *at)
 		exp op1 = son(*e);
 		exp op2 = bro(op1);
 		shape s = sh(op2);
-		if (name(op2)==val_tag  && name(s)==offsethd 
+		if (name(op2)==val_tag  && name(s)==SH_OFFSET 
 			&& al2(s) >= 8) {
 			int n = no(op2)/8;
 			if (n == 1) {
@@ -2450,7 +2450,7 @@ scan_cond(exp * e, exp outer_id)
 	
 	ASSERT(name(ste)==cond_tag);
 	
-	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
+	if (name(second)==top_tag && name(sh(first))==SH_BOT && no(son(labst))==1
 		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
 		/* cond is { ... test(L); ? ; goto X | L:make_top}
 		 *       if ? empty can replace by seq { ... not-test(X); make_top }

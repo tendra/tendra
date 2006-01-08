@@ -182,7 +182,7 @@ iskept(exp e)
 	/* reg tracking of unions unsafe, as views of location can differ */
 	/* +++ track on fields */
 	/* +++ safe to allow structs but not unions */
-	if (name(sh(e)) == cpdhd)
+	if (name(sh(e)) == SH_COMPOUND)
 	{
 		return nilans;
 	}

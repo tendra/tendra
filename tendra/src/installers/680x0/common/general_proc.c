@@ -1125,7 +1125,7 @@ test_push_args(exp args, ash* args_size)
 		formal = (name (arg) == caller_tag) ? son (arg) : arg;
 		
 		if (cpd_param (sh (formal))) use_push = 0;
-		if ((name(sh(formal)) == s64hd) || (name(sh(formal)) == u64hd)) use_push = 0;
+		if ((name(sh(formal)) == SH_S64) || (name(sh(formal)) == SH_U64)) use_push = 0;
 		if (! push_arg (formal)) use_push = 0;
 		
 		stack_add_res = add_shape_to_stack (stack, sh (formal));
@@ -1168,9 +1168,9 @@ place_arguments(exp args, ash stack, long start)
 		exp formal = (name (arg) == caller_tag) ? son (arg) : arg;
 		
 		char nc = name (sh (formal));
-		if (nc == scharhd || nc == ucharhd) adj = 24;
+		if (nc == SH_SCHAR || nc == SH_UCHAR) adj = 24;
 		else
-			if (nc == swordhd || nc == uwordhd) adj = 16;
+			if (nc == SH_SWORD || nc == SH_UWORD) adj = 16;
 			else adj = 0;
 		
 		stack_pointer = mw (SP_p.wh_exp, st + adj);

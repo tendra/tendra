@@ -265,7 +265,7 @@ scan_cond(exp * e, exp outer_id)
 	
 	Assert(name(ste)==cond_tag);
 	
-	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
+	if (name(second)==top_tag && name(sh(first))==SH_BOT && no(son(labst))==1
 		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
 		/* cond is { ... test(L); ? ; goto X | L:make_top}
 		 *			if ? empty can replace by seq { ... not-test(X); make_top }
@@ -883,7 +883,7 @@ chase(exp sel, exp * e)
 		} /* ... continue to default */
 	}
 	default: {
-		if (son(sel)!= *e && name(sh(*e)) != bothd) {
+		if (son(sel)!= *e && name(sh(*e)) != SH_BOT) {
 			/* only change if not outer */
     	    exp stare = *e;
 			exp newsel = getexp (sh (sel), bro (stare), last (stare), stare, nilexp,
@@ -1366,7 +1366,7 @@ scan(exp * e, exp ** at)
 		exp * atsc = &son(son(*e));
 		for (;;) {
 			exp sc = *atsc;
-			if (name(sc) == cond_tag && name(sh(son(sc)))==bothd
+			if (name(sc) == cond_tag && name(sh(son(sc)))==SH_BOT
 				&& name(bro(son(bro(son(sc))))) == top_tag) {
 				/* sc is cond(... goto | make_top); can replace
 				 *				make_top by next exp in sequence */
@@ -1509,7 +1509,7 @@ scan(exp * e, exp ** at)
 		/* scan result exp ... */
 		if (is_floating (name (s))) {/* ... floating pt result */
 			x.propsneeds |= realresult_bit;
-			if (name (s) != shrealhd) {
+			if (name (s) != SH_REAL_SHORT) {
 				x.propsneeds |= longrealresult_bit;
 			}
 		}
@@ -1801,7 +1801,7 @@ scan(exp * e, exp ** at)
 	
     case val_tag: {
     	exp s = sh(*e);
-    	if (name(s)==offsethd && al2(s) >= 8) {
+    	if (name(s)==SH_OFFSET && al2(s) >= 8) {
     		/* express disps in bytes */
     		no(*e) = no(*e) >>3;
     	}
@@ -2049,13 +2049,13 @@ scan(exp * e, exp ** at)
 			 *				   doesn't need sign adjustment */
 			long  n = no (r);
 			switch (name (sh (l))) {
-			case scharhd:
+			case SH_SCHAR:
 			{
 				if (n >= 0 && n <= 127) {
 					sh (l) = ucharsh;
 				} break;
 			}
-			case swordhd:
+			case SH_SWORD:
 			{
 				if (n >= 0 && n <= 0xffff) {
 					sh (l) = uwordsh;
@@ -2283,7 +2283,7 @@ scan(exp * e, exp ** at)
 		needs nds;
 		exp * arg = &son(*e);
 		nds = maxneeds (scan (arg, at), shapeneeds (sh (* (e))));
-		if (name(sh(son(*(e)))) == ulonghd) {
+		if (name(sh(son(*(e)))) == SH_ULONG) {
 			if (nds.floatneeds <2) nds.floatneeds =2;
 		}
 		return nds;
@@ -2305,7 +2305,7 @@ scan(exp * e, exp ** at)
 		exp op1 = son(*e);
     	exp op2 = bro(op1);
     	shape s = sh(op2);
-    	if (name(op2)==val_tag  && name(s)==offsethd
+    	if (name(op2)==val_tag  && name(s)==SH_OFFSET
 			&& al2(s) >= 8) {
 			int n = no(op2)/8;
 			if (n == 1) {

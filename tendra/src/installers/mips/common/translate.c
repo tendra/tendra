@@ -154,7 +154,7 @@ not_reserved(char *id)
 char
 varsize(shape sha)
 {
-	return (name(sha)==nofhd);
+	return (name(sha)==SH_NOF);
 }
 
 int current_symno;
@@ -241,7 +241,7 @@ code_it(dec * my_def)
 			sh(son(tg));
 		size = (shape_size(s) + 7) >> 3;
 		
-		if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
+		if ((isvar(tg) || name(s) != SH_PROC) && not_reserved (id)) {
 			if ((son(tg) != nilexp && is_comm(son(tg)))
 				|| (son(tg)==nilexp && varsize(sh(tg)))) {
 				if (size !=0) { /* ? ? ! ? */

@@ -385,14 +385,14 @@ weightsv(exp e, explist *el)
 			
 #if 0
 			/* Correct producer bug */
-			if (name (sha) == slonghd && name (d) == val_tag &&
+			if (name (sha) == SH_SLONG && name (d) == val_tag &&
 				no (d) == 0) {
 				bool fix = 0;
 				t = pt (e);
 				while (t != nilexp) {
 					exp f = father (t);
 					if (name (f) == cont_tag &&
-						name (sh (f)) == ptrhd) fix = 1;
+						name (sh (f)) == SH_PTR) fix = 1;
 					t = (last (t) ? nilexp : pt (t));
 				}
 				if (fix) {

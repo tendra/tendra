@@ -123,11 +123,11 @@ regable(exp e)
 	
     sha = sh (son (e));
     n = name (sha);
-    if (n == realhd || n == doublehd) return (1);
+    if (n == SH_REAL || n == SH_DOUBLE) return (1);
 	
     sz = shape_size (sha);
 	
-    return (n != cpdhd && n != nofhd && sz <= 32);
+    return (n != SH_COMPOUND && n != SH_NOF && sz <= 32);
 }
 
 
@@ -193,7 +193,7 @@ is_ptr_void(shape sha)
     if (t == nilexp) return (0);
     do {
 		go = (last (t) ? 0 : 1);
-		if (name (sh (t)) != ptrhd) return (0);
+		if (name (sh (t)) != SH_PTR) return (0);
 		ptrs++;
 		t = bro (t);
     } while (go);
@@ -219,13 +219,13 @@ bool
 cpd_param(shape sha)
 {
     char n = name (sha);
-    if (!cc_conventions || n == bitfhd) {
+    if (!cc_conventions || n == SH_BITFIELD) {
 		long sz = shape_size (sha);
 		if (sz <= 32) return (0);
     }
-    return (n == cpdhd || n == nofhd || n == bitfhd
+    return (n == SH_COMPOUND || n == SH_NOF || n == SH_BITFIELD
 			
-            || n == s64hd || n == u64hd
+            || n == SH_S64 || n == SH_U64
 			
 		);
 }
@@ -249,7 +249,7 @@ reg_result(shape sha)
     char n = name (sha);
     if (cc_conventions) {
 		/* HP cc doesn't return any tuples, unions etc in a register */
-		return (n != cpdhd && n != nofhd);
+		return (n != SH_COMPOUND && n != SH_NOF);
     } else {
 		/* Return anything of size <= 32 or 64 in a register */
 		long sz = shape_size (sha);
@@ -267,7 +267,7 @@ reg_result(shape sha)
 bool
 varsize(shape sha)
 {
-    return (name (sha) == nofhd ? 1 : 0);
+    return (name (sha) == SH_NOF ? 1 : 0);
 }
 
 #if 0
@@ -284,7 +284,7 @@ bool
 issigned(shape sha)
 {
     char n = name (sha);
-    if (n == ucharhd || n == uwordhd || n == ulonghd) return (0);
+    if (n == SH_UCHAR || n == SH_UWORD || n == SH_ULONG) return (0);
     return (1);
 }
 #endif
@@ -326,5 +326,5 @@ is_worth(exp c)
 			(cnam == cont_tag && name (son (c)) == cont_tag &&
 			 name (son (son (c)))  == name_tag) ||
 			(cnam == name_tag && isparam (son (c)) && !isvar (son (c)) &&
-			 shape_size (sh (c)) <= 32 && name (sh (c)) != shrealhd));
+			 shape_size (sh (c)) <= 32 && name (sh (c)) != SH_REAL_SHORT));
 }

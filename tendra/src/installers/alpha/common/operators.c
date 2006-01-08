@@ -88,11 +88,11 @@ tidyshort(int r, shape s)
 {
   /* corrects possible overflows of chars
      and shorts in reg r */
-  if (name (s) == ucharhd) {
+  if (name (s) == SH_UCHAR) {
     operate_fmt_immediate (i_and, r,255,r);
   }
   else
-    if (name (s) == uwordhd) {
+    if (name (s) == SH_UWORD) {
       operate_fmt_immediate (i_and, r,0xffff,r);
     }
 }

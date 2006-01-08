@@ -97,9 +97,9 @@ int
 shtype(shape sha)
 {
     char n = name (sha);
-    if (n >= scharhd && n <= ulonghd) return (Dreg);
-    if (n >= shrealhd && n <= doublehd) return (Freg);
-    if (n != bitfhd && n != nofhd && n != cpdhd) return (Areg);
+    if (n >= SH_SCHAR && n <= SH_ULONG) return (Dreg);
+    if (n >= SH_REAL_SHORT && n <= SH_DOUBLE) return (Freg);
+    if (n != SH_BITFIELD && n != SH_NOF && n != SH_COMPOUND) return (Areg);
     return (shape_size (sha) <= 32 ? Dreg : Areg);
 }
 
@@ -210,7 +210,7 @@ find_where(exp e)
 	case name_tag : {
 	    exp id = son (e);
 #if 0
-	    if ((name(sh(e)) == prokhd) &&
+	    if ((name(sh(e)) == SH_PROC) &&
 			((son(id) == nilexp) || (name(son(id)) == proc_tag) ||
 			 (name(son(id)) == general_proc_tag))){
 			exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,
@@ -254,7 +254,7 @@ find_where(exp e)
 		    long pt_id = ptno (id);
 		    if (isvar (id)) return (find_where (r));
 		    if (isglob (id)) {
-				if (name (sh (e)) == prokhd) return (External);
+				if (name (sh (e)) == SH_PROC) return (External);
 				return (Other);
 		    }
 		    switch (pt_id) {
@@ -409,7 +409,7 @@ mw(exp e, long d)
 	where w;
 #if 0
 	
-	if ((name(e)==name_tag && name(sh(e)) == prokhd) &&
+	if ((name(e)==name_tag && name(sh(e)) == SH_PROC) &&
 		!(((son (son(e)) == nilexp || name (son (son(e))) == proc_tag ||
 			name(son(son(e))) == apply_tag ||
 			name(son(son(e))) == apply_general_tag)))) {

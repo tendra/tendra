@@ -192,7 +192,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 		*done = 1;
 
 		if (shape_size(sha2) > 64) {
-			al2_of(sh(tkv.tk_exp))->sh_hd = nofhd + 1;
+			al2_of(sh(tkv.tk_exp))->sh_hd = SH_NOF + 1;
 		}
 
 		return tkv;

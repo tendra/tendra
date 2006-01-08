@@ -428,17 +428,17 @@ diag_type
 f_diag_floating_variety(floating_variety var)
 {
 	switch (var) {
-    case shrealfv:
+    case FV_REAL_SHORT:
 		return (f_dg_named_type (dg_tag_float));
-    case realfv:
+    case FV_REAL:
 		return (f_dg_named_type (dg_tag_double));
-    case doublefv:
+    case FV_DOUBLE:
 		return (f_dg_named_type (dg_tag_long_double));
-    case shcomplexfv:
+    case FV_COMPLEX_SHORT:
 		return (f_dg_named_type (dg_tag_complex));
-    case complexfv:
+    case FV_COMPLEX:
 		return (f_dg_named_type (dg_tag_double_complex));
-    case complexdoublefv:
+    case FV_COMPLEX_DOUBLE:
 		return (f_dg_named_type (dg_tag_long_double_complex));
 	}
 	failer ("bad variety");
@@ -524,21 +524,21 @@ diag_type
 f_diag_variety(variety var)
 {
 	switch (name(var)) {
-    case scharhd:
+    case SH_SCHAR:
 		return (f_dg_named_type (dg_tag_signed_char));
-    case ucharhd:
+    case SH_UCHAR:
 		return (f_dg_named_type (dg_tag_unsigned_char));
-    case swordhd:
+    case SH_SWORD:
 		return (f_dg_named_type (dg_tag_short));
-    case uwordhd:
+    case SH_UWORD:
 		return (f_dg_named_type (dg_tag_unsigned_short));
-    case slonghd:
+    case SH_SLONG:
 		return (f_dg_named_type (dg_tag_int));
-    case ulonghd:
+    case SH_ULONG:
 		return (f_dg_named_type (dg_tag_unsigned_int));
-    case s64hd:
+    case SH_S64:
 		return (f_dg_named_type (dg_tag_long_long));
-    case u64hd:
+    case SH_U64:
 		return (f_dg_named_type (dg_tag_unsigned_long_long));
 	}
 	failer ("bad variety");

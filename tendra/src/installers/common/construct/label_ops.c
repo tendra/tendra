@@ -79,7 +79,7 @@ label_is_next(exp lab, exp e)
 		return 0;
 	while (last(e)) {
 		e = bro(e);
-		if (e == nilexp || name(e) >= ass_tag || name(sh(e)) != bothd)
+		if (e == nilexp || name(e) >= ass_tag || name(sh(e)) != SH_BOT)
 			return 0;
 	}
 	if (name(bro(e)) == labst_tag)

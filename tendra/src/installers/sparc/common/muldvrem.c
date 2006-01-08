@@ -205,7 +205,7 @@ call_muldivrem(exp lhs, exp rhs, space sp,
 	int rhs_reg = -1;
 	if (err_t) {
 		/* division has error treatment, so check -MAXINT-1/-1 */
-		if ((name(sh(lhs)) == slonghd) &&
+		if ((name(sh(lhs)) == SH_SLONG) &&
 			((name(lhs) !=val_tag) || (no(lhs) == -0x80000000)) &&
 			((name(rhs) != val_tag) || (no(rhs) == -1))) {
 			int ok_lab = new_label();
@@ -892,7 +892,7 @@ is_muldivrem_call(exp e)
     case chfl_tag:
     case round_tag: {
 		exp s = son (e);
-		if (name (sh (s)) == doublehd) return (1);
+		if (name (sh (s)) == SH_DOUBLE) return (1);
 		/* FALL THROUGH */
     }
     case fplus_tag:
@@ -902,7 +902,7 @@ is_muldivrem_call(exp e)
     case fneg_tag:
     case fabs_tag:
     case float_tag: {
-		if (name (sh (e)) == doublehd) return (1);
+		if (name (sh (e)) == SH_DOUBLE) return (1);
 		return (0);
     }
 #endif

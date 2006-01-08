@@ -293,7 +293,7 @@ out_class_data(class_data * cd)
 				cm->d.cm_fn.fn->mor && cm->d.cm_fn.fn->mor->virt) {
 				exp a, b, c;
 				if (!vtable_exp || !cm->d.cm_fn.slot ||
-					name(sh(son(cm->d.cm_fn.slot))) != offsethd)
+					name(sh(son(cm->d.cm_fn.slot))) != SH_OFFSET)
 					failer ("wrong virtual function data");
 				a = copy (son(vtable_exp));
 				b = copy (son(cm->d.cm_fn.slot));

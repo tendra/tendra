@@ -110,8 +110,8 @@ needs scan(exp *, exp **);
   identifies integer varieties which require more work to manipulate
   (because of a lack of appropriate instructions)
 */
-#define is_awkward_variety(vname) ((vname == scharhd || vname == ucharhd \
-				  || vname == swordhd || vname == uwordhd))
+#define is_awkward_variety(vname) ((vname == SH_SCHAR || vname == SH_UCHAR \
+				  || vname == SH_SWORD || vname == SH_UWORD))
 
 
 
@@ -227,7 +227,7 @@ shapeneeds(shape s)
   else{
     ash as;
     as = ashof(s);
-    if((as.ashalign==8) /*&& (name(s)==ptrhd)*/){
+    if((as.ashalign==8) /*&& (name(s)==SH_PTR)*/){
       return fourfix;
     }
     if((as.ashalign==16)) {
@@ -291,7 +291,7 @@ scan_cond(exp *e, exp outer_id)
   
   Assert(name(ste)==cond_tag);
   
-  if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
+  if (name(second)==top_tag && name(sh(first))==SH_BOT && no(son(labst))==1
       && name(first)==seq_tag && name(bro(son(first))) == goto_tag){
     /* cond is { ... test(L); ? ; goto X | L:make_top}
        if ? empty can replace by seq { ... not-test(X); make_top }
@@ -715,7 +715,7 @@ chase(exp sel, exp *e)
     }
       FALL_THROUGH;
     default: {
-      if ((son(sel)!= *e) &&(name(sh(*e))!=bothd)){
+      if ((son(sel)!= *e) &&(name(sh(*e))!=SH_BOT)){
 	/* only change if not outer */
 	exp stare = *e;
 	exp newsel = getexp (sh (sel), bro (stare), last (stare), stare, 
@@ -741,7 +741,7 @@ vascan(exp *e)
   for(tr=son(*e); (name(tr)==ident_tag)&&(isparam(tr))&&(!result); 
 		  tr = bro(son(tr))){
     s2 = shape_size(sh(son(tr)));
-    result = (name(sh(son(tr)))==cpdhd)&&last_param(tr)&&(s2==0);
+    result = (name(sh(son(tr)))==SH_COMPOUND)&&last_param(tr)&&(s2==0);
   }
   return result;
 }	
@@ -964,7 +964,7 @@ scan(exp *e, exp **at)
 	stparam = rounder(n+sizep, 64 );	/* calculate the offset */
 	fixparam = 16+(stparam>>6);	/* >> 6, was >>5 */
 	floatparam=16+(stparam>>6);
-	if(((isvis(stare) && props(son(stare))!=0 && (name(sh(son(stare)))==cpdhd)) || in_vcallers_proc) && last_param(stare)){
+	if(((isvis(stare) && props(son(stare))!=0 && (name(sh(son(stare)))==SH_COMPOUND)) || in_vcallers_proc) && last_param(stare)){
 	  numparams=12*REG_SIZE;	/* must allow space for all
 					   parameter registers for 
 					   varargs function */
@@ -1243,7 +1243,7 @@ scan(exp *e, exp **at)
       /* scan result exp ... */
       if (is_floating (name (s))) {/* ... floating pt result */
 	x.propsneeds |= realresult_bit;
-	if (name (s) != shrealhd) {
+	if (name (s) != SH_REAL_SHORT) {
 	  x.propsneeds |= longrealresult_bit;
 	}
       }
@@ -1520,7 +1520,7 @@ scan(exp *e, exp **at)
 
     case val_tag : {
       exp s = sh(*e);
-      if (name(s)==offsethd && al2(s) >= 8) {
+      if (name(s)==SH_OFFSET && al2(s) >= 8) {
 	/* express disps in bytes */
 	no(*e) = no(*e) >>3;
       }
@@ -1751,12 +1751,12 @@ scan(exp *e, exp **at)
 	   doesn't need sign adjustment */
 	long  n = no (r);
 	switch (name (sh (l))) {
-	  case scharhd : {
+	  case SH_SCHAR : {
 	    if (n >= 0 && n <= 127) {
 	      sh (l) = ucharsh;
 	    } break;
 	  }
-	  case swordhd : {
+	  case SH_SWORD : {
 	    if (n >= 0 && n <= 0xffff) {
 	      sh (l) = uwordsh;
 	    } break;
@@ -1926,7 +1926,7 @@ scan(exp *e, exp **at)
       needs nds;	
       exp * arg = &son(*e);
       nds = maxneeds (scan (arg, at), shapeneeds (sh (* (e))));
-      if ((name(sh(son(*(e)))) == ulonghd)||(name(sh(son(*(e))))==u64hd)) {
+      if ((name(sh(son(*(e)))) == SH_ULONG)||(name(sh(son(*(e))))==SH_U64)) {
 	if (nds.floatneeds <2) nds.floatneeds =2;	/* remove */
       }
       has_float = 1;
@@ -1954,7 +1954,7 @@ scan(exp *e, exp **at)
     case offset_div_tag : {
       exp op2 = bro(son(*e));
       shape s = sh(op2);
-      if (name(op2)==val_tag && no(op2) == 8 && name(s)==offsethd && al2(s) >= 8) {
+      if (name(op2)==val_tag && no(op2) == 8 && name(s)==SH_OFFSET && al2(s) >= 8) {
 	/* offset is one  byte */
 	exp op1 = son(*e);
 	bro(op1) = bro(*e);

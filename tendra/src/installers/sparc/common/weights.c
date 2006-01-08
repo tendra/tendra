@@ -313,7 +313,7 @@ weightsv(double scale, exp e)
 		exp s = son (e);
 		if (name (s) == ident_tag && !isglob (s)) {
 			if (is_floating (name (sh (e))) &&
-				name (sh (e)) != shrealhd) {
+				name (sh (e)) != SH_REAL_SHORT) {
 				fno (s) += scale * 2.0;
 			}
 			else {
@@ -338,7 +338,7 @@ weightsv(double scale, exp e)
 			else {
 				/* maybe needs a store to initialise */
 				if (is_floating (name (sh (son (e)))) &&
-					name (sh (son (e))) != shrealhd) {
+					name (sh (son (e))) != SH_REAL_SHORT) {
 					fno (e) = scale * 2.0;
 				} else {
 					fno (e) = scale;

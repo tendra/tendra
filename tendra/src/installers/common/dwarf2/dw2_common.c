@@ -128,17 +128,17 @@ make_basic_types()
 	make_bastype ("__D_unsigned_long_long", f_dg_integer_type (
 					  m_id ("unsigned long long"), u64sh));
 	make_bastype ("__D_float", f_dg_float_type (
-					  m_id ("float"), shrealfv));
+					  m_id ("float"), FV_REAL_SHORT));
 	make_bastype ("__D_double", f_dg_float_type (
-					  m_id ("double"), realfv));
+					  m_id ("double"), FV_REAL));
 	make_bastype ("__D_long_double", f_dg_float_type (
-					  m_id ("long double"), doublefv));
+					  m_id ("long double"), FV_DOUBLE));
 	make_bastype ("__D_complex", f_dg_complex_float_type (
-					  m_id ("complex"), shcomplexfv));
+					  m_id ("complex"), FV_COMPLEX_SHORT));
 	make_bastype ("__D_double_complex", f_dg_complex_float_type (
-					  m_id ("double complex"), complexfv));
+					  m_id ("double complex"), FV_COMPLEX));
 	make_bastype ("__D_long_double_complex", f_dg_complex_float_type (
-					  m_id ("long double complex"), complexdoublefv));
+					  m_id ("long double complex"), FV_COMPLEX_DOUBLE));
 }
 
 

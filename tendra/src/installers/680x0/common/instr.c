@@ -202,7 +202,7 @@ mach_op
 	    long d2 = no (id);
 		
 	    if (isglob (id)) {
-			if (name(sh(w)) == prokhd){
+			if (name(sh(w)) == SH_PROC){
 #if 1
 				if ((son (id) == nilexp ||
 					 name (son (id)) == proc_tag ||
@@ -250,7 +250,7 @@ mach_op
 		    if (!isvar (id)) {
 				if (isglob (id)) {
 					int ra;
-					if (name (sh (w)) == prokhd) {
+					if (name (sh (w)) == SH_PROC) {
 						if (off) error (illegal_operand, 2);
 						return (make_ext_ind (id, no (r)));
 					}

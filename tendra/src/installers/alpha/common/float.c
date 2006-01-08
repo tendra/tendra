@@ -112,16 +112,16 @@ is_denormal(exp e)
 {
   int fraction;
   int exponent;
-  int fv = name(sh(e)) - shrealhd;
+  int fv = name(sh(e)) - SH_REAL_SHORT;
   bool result;
   r2l ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
   Assert(name(e) == real_tag);
   switch(name(sh(e))){
-  case shrealhd:
+  case SH_REAL_SHORT:
     exponent = ieeeflt.i1 & 0x7f800000;
     fraction = ieeeflt.i1 & ~0xff800000;
     break;
-  case realhd:
+  case SH_REAL:
     exponent = ieeeflt.i2 &  0x7ff00000;
     fraction = (ieeeflt.i2 & ~0xfff00000) | ieeeflt.i1;
     break;

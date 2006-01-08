@@ -166,7 +166,7 @@ void
 outreal(exp e)
 {
 	flt * f = &flptnos[no(e)];
-	int sw = name(sh(e)) - shrealhd;
+	int sw = name(sh(e)) - SH_REAL_SHORT;
 	r2l longs;
 
 	longs = real2longs_IEEE(f, sw);
@@ -806,7 +806,7 @@ static char* xnse = ">0";
 static char
 *out_branch(int sg, int test_no, int shnm)
 {
-	if (shnm >= shrealhd && shnm <= doublehd) {
+	if (shnm >= SH_REAL_SHORT && shnm <= SH_DOUBLE) {
 		switch (test_no) {
 		case 1:
 			return (jne);
@@ -936,7 +936,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 		/* floating point stack or call stack need attention */
 		int  nl = next_lab ();
 		int inv_test_no = (flpt_always_comparable ||
-						   (shnm < shrealhd || shnm > doublehd))
+						   (shnm < SH_REAL_SHORT || shnm > SH_DOUBLE))
 			? (int)int_inverse_ntest[test_no]
 			: (int)real_inverse_ntest[test_no];
 
@@ -958,7 +958,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 
 		if (cmp_64hilab >= 0) {
 			int nl2 = ptno (jr);
-			if (shnm != s64hd)
+			if (shnm != SH_S64)
 				failer ("uncompleted 64-bit comparison");
 			if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon) {
 				nl2 = next_lab ();
@@ -1005,13 +1005,13 @@ setcc(int test_no, int sg, int shnm)
 	if (cmp_64hilab >= 0) {
 		int chl = cmp_64hilab;
 		int nl = next_lab ();
-		if (shnm != s64hd)
+		if (shnm != SH_S64)
 			failer ("uncompleted 64-bit comparison");
 		cmp_64hilab = -1;
-		setcc (test_no, 0, ulonghd);
+		setcc (test_no, 0, SH_ULONG);
 		simple_branch (jmp, nl);
 		simplest_set_lab (chl);
-		setcc (test_no, sg, slonghd);
+		setcc (test_no, sg, SH_SLONG);
 		simplest_set_lab (nl);
 	}
 
@@ -1129,7 +1129,7 @@ test_trap(int test_no, int sg, int shnm)
 {
 	int nl = next_lab ();
 	int inv_test_no = (flpt_always_comparable ||
-					   (shnm < shrealhd || shnm > doublehd))
+					   (shnm < SH_REAL_SHORT || shnm > SH_DOUBLE))
 		? (int)int_inverse_ntest[test_no]
 		: (int)real_inverse_ntest[test_no];
 	simple_branch (out_branch (sg, inv_test_no, shnm), nl);

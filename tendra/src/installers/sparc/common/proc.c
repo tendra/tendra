@@ -151,7 +151,7 @@ int aritherr_lab = 0;
 int stackerr_lab = 0;
 int local_stackerr_lab = 0;
 
-#define is64(X) ((name(X)==u64hd)||(name(X)==s64hd))
+#define is64(X) ((name(X)==SH_U64)||(name(X)==SH_S64))
 
 
 void
@@ -491,18 +491,18 @@ make_proc_tag_code(exp e, space sp, where dest,
 								!floatregable (par));
 					}
 					else if (no (par) == r) {
-						if (name (sh (son (par))) == ucharhd) {
+						if (name (sh (son (par))) == SH_UCHAR) {
 							rir_ins (i_and, r, 255, no (par));
 						}
-						else if (name (sh (son (par))) == uwordhd) {
+						else if (name (sh (son (par))) == SH_UWORD) {
 							rir_ins (i_and, r, 65535, no (par));
 						}
 					}
 					else {
-						if (name (sh (son (par))) == ucharhd) {
+						if (name (sh (son (par))) == SH_UCHAR) {
 							rir_ins (i_and, r, 255, no (par));
 						}
-						else if (name (sh (son (par))) == uwordhd) {
+						else if (name (sh (son (par))) == SH_UWORD) {
 							rir_ins (i_and, r, 65535, no (par));
 						}
 						else {
@@ -781,8 +781,8 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 	int param_regs_used ;	 /* how many were used */
 	ash ansash;
 	space nsp;
-	int void_result = ((name (sh (e)) == tophd) ||
-					   (name (sh (e)) == bothd));
+	int void_result = ((name (sh (e)) == SH_TOP) ||
+					   (name (sh (e)) == SH_BOT));
 
 	int reg_res = reg_result (sh (e));
 	int guarded_dest_reg = R_NO_REG ;/* reg used to address tuple result */
@@ -886,7 +886,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 				param_reg++;
 				param_offset += 32;
 
-				if (hd != shrealhd) {
+				if (hd != SH_REAL_SHORT) {
 					/* double */
 					if (param_reg <= R_O5) {
 						/* double whose second word can go in reg */
@@ -1018,7 +1018,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 		if (is_floating (hda)) {
 			freg frg;
 			frg.fr = 0;
-			frg.dble = (bool) (hda != shrealhd);
+			frg.dble = (bool) (hda != SH_REAL_SHORT);
 			setfregalt (aa, frg);
 			/* move floating point result of application to destination */
 			(void) move (aa, dest, sp.fixed, 1);
@@ -1091,7 +1091,7 @@ do_callers(exp list, space sp, int* param_reg,
 			is.adval = 1;
 			setinsalt(w.answhere,is);
 			(void)code_here (par, sp, w);
-			if (hd == doublehd){
+			if (hd == SH_DOUBLE){
 				rir_ins(i_add,is.b.base,is.b.offset,*param_reg);
 			}
 			else {
@@ -1100,7 +1100,7 @@ do_callers(exp list, space sp, int* param_reg,
 			sp = guardreg (*param_reg, sp);
 			(*param_reg)++;
 			param_offset += 32;
-			if (hd == realhd) {
+			if (hd == SH_REAL) {
 				/* double */
 				if (*param_reg <= last_reg) {
 					/* double whose second word can go in reg */
@@ -1154,8 +1154,8 @@ do_callers(exp list, space sp, int* param_reg,
 				baseoff curr_pos;
 				curr_pos.base = R_SP;
 				curr_pos.offset = start_offset;
-				if (is64(sh(list)) || (name(sh(list)) == cpdhd) ||
-					(name(sh(list)) == nofhd)){
+				if (is64(sh(list)) || (name(sh(list)) == SH_COMPOUND) ||
+					(name(sh(list)) == SH_NOF)){
 					rir_ins(i_add,curr_pos.base,curr_pos.offset,*param_reg);
 					(*param_reg)++;
 					block_size -=32;
@@ -1289,8 +1289,8 @@ make_apply_general_tag_code(exp e, space sp,
 	int param_regs_used;
 	ash ansash;
 	space nsp;
-	int void_result = ((name (sh (e)) == tophd) ||
-					   (name (sh (e)) == bothd));
+	int void_result = ((name (sh (e)) == SH_TOP) ||
+					   (name (sh (e)) == SH_BOT));
 
 	int reg_res = reg_result (sh (e));
 	int guarded_dest_reg = R_NO_REG; /* reg used to address tuple result */
@@ -1518,7 +1518,7 @@ make_apply_general_tag_code(exp e, space sp,
 		if (is_floating (hda)) {
 			freg frg;
 			frg.fr = 0;
-			frg.dble = (bool) (hda != shrealhd);
+			frg.dble = (bool) (hda != SH_REAL_SHORT);
 			setfregalt (aa, frg);
 			/* move floating point result of application to destination */
 			(void) move (aa, dest, sp.fixed, 1);
@@ -1569,7 +1569,7 @@ make_apply_general_tag_code(exp e, space sp,
 				if (name(x) == caller_tag) {
 					no(x) += proc_state.maxargs;
 #if 0
-					if (name(sh(x)) == realhd){
+					if (name(sh(x)) == SH_REAL){
 						no(x) -=32;
 					}
 #endif
@@ -1969,7 +1969,7 @@ make_tail_call_tag(exp e, space sp, where dest,
 			if (is_floating(name(sh(sbdy)))){
 				freg fr;
 				fr.fr = no(bdy);
-				fr.dble = (name(sh(sbdy)) == realhd);
+				fr.dble = (name(sh(sbdy)) == SH_REAL);
 				stf_ins (i_st, fr.fr<<1, mem_temp (0));
 				ld_ro_ins (i_ld, mem_temp (0), props(sbdy));
 				if (fr.dble) {

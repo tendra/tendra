@@ -91,7 +91,7 @@ is_crc(exp e)
 			return (!isglob(son(e)) || PIC_code);
 
 		return (son(son(e)) == nilexp ||
-				(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
+				(isglob(son(e)) && PIC_code && name(sh(son(e))) == SH_PROC &&
 				 !(brog(son(e)) -> dec_u.dec_val.extnamed)) ||
 				(name(son(son(e))) == ident_tag && isparam(son(son(e)))));
 	}
@@ -874,7 +874,7 @@ codec(where dest, ash stack, exp e)
 		failer("integer power not implemented");
 		return;
 	case cont_tag:
-		if (!newcode && name(sh(e)) == bitfhd) {
+		if (!newcode && name(sh(e)) == SH_BITFIELD) {
 			mem_to_bits(e, sh(e), dest, stack);
 			return;
 		}
@@ -936,7 +936,7 @@ codec(where dest, ash stack, exp e)
 		if ((name (e) == name_tag && isvar (son (e))) ||
 			name (e) == reff_tag ||
 			(PIC_code && name(e) == name_tag && isglob(son(e)) &&
-			 name(sh(son(e))) == prokhd &&
+			 name(sh(son(e))) == SH_PROC &&
 			 !brog(son(e)) ->  dec_u.dec_val.extnamed)) {
 			if (ptno(son(e)) != nowhere_pl)
 				mova (mw (e, 0), dest);
@@ -944,7 +944,7 @@ codec(where dest, ash stack, exp e)
 		}
 
 		if (name(e) == clear_tag) {
-			if ((name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd &&
+			if ((name (sh (e)) >= SH_REAL_SHORT && name (sh (e)) <= SH_DOUBLE &&
 				 !inmem(dest)) || name (dest.where_exp) == apply_tag)
 				move(sh(e), fzero, dest);
 			return;

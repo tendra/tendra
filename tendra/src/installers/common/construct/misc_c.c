@@ -124,7 +124,7 @@ take_out_of_line(exp first, exp alt, int in_repeat,
 	int extract;
 	extract = in_repeat &&
 		name(first) == seq_tag &&
-		name(sh(first)) == bothd &&
+		name(sh(first)) == SH_BOT &&
 		no(son(alt)) == 1 &&
 		((is_tester(son(son(first)), 0) &&
 		  pt(son(son(first))) == alt) ||

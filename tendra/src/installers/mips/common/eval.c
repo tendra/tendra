@@ -133,17 +133,17 @@ mm
 maxmin(shape s)
 {
 	switch (name (s)) {
-    case scharhd:
+    case SH_SCHAR:
 		return scmm;
-    case ucharhd:
+    case SH_UCHAR:
 		return uscmm;
-    case swordhd:
+    case SH_SWORD:
 		return shmm;
-    case uwordhd:
+    case SH_UWORD:
 		return ushmm;
-    case slonghd:
+    case SH_SLONG:
 		return swmm;
-    case ulonghd:
+    case SH_ULONG:
 		return uswmm;
     default: {
 		
@@ -191,7 +191,7 @@ evalexp(exp e)
 {
 	switch (name(e)) {
     case  val_tag: case null_tag: case top_tag:{
-		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8) {
 			return (no(e)>>3);
 		}
         return (no (e));

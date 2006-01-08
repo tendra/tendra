@@ -109,22 +109,22 @@ tidyshort(int r, exp e)
 	case and_tag:
     {
 		exp r = bro(son(e));/* could be a val_tag */
-		if (name(s)==ucharhd && name(r)==val_tag && ((no(r) & 0xff) == no(r)))
+		if (name(s)==SH_UCHAR && name(r)==val_tag && ((no(r) & 0xff) == no(r)))
 		{
 			return;
 		}
-		if (name(s)==uwordhd && name(r)==val_tag && ((no(r) & 0xffff) == no(r)))
+		if (name(s)==SH_UWORD && name(r)==val_tag && ((no(r) & 0xffff) == no(r)))
 		{
 			return;
 		}
     }
 	}
 	
-	if (name(s) == ucharhd)
+	if (name(s) == SH_UCHAR)
 	{
 		rir_ins(i_and, r, 255, r);
 	}
-	else if (name(s) == uwordhd)
+	else if (name(s) == SH_UWORD)
 	{
 		rir_ins(i_and, r, 0xffff, r);
 	}

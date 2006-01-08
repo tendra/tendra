@@ -353,7 +353,7 @@ scan_cond(exp* e, exp outer_id)
 
 	assert(name(ste)==cond_tag);
 
-	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
+	if (name(second)==top_tag && name(sh(first))==SH_BOT && no(son(labst))==1
 		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
 		/* cond is { ... test(L); ?; goto X | L:make_top}
 		 *       if ? empty can replace by seq { ... not-test(X); make_top }
@@ -619,7 +619,7 @@ fpop(exp * e, exp ** at)
 	pcl = (prop) (l.prps & hasproccall);
 
 #if use_long_double
-	if (name (sh (son (op))) == doublehd) {
+	if (name (sh (son (op))) == SH_DOUBLE) {
 		ClearRev (op);
 		arg = &son (op);
 		if (!is_o (name (*arg)) || pcl) cca (at, arg);
@@ -784,7 +784,7 @@ chase(exp sel, exp * e)
     }
 
     default : {
-		if ((son (sel) != *e) && (name (sh(*e)) != bothd)) {
+		if ((son (sel) != *e) && (name (sh(*e)) != SH_BOT)) {
 			/* only change if not outer */
 			exp stare = *e;
 			exp newsel = getexp (sh (sel), bro (stare),
@@ -1412,12 +1412,12 @@ scan(exp * e, exp ** at)
 		if (is_floating (name (s)) && a.ashsize <= 64) {
 			/* ... floating pt result */
 			pnset (x, realresult_bit);
-			if (name (s) != shrealhd) {
+			if (name (s) != SH_REAL_SHORT) {
 				pnset (x, longrealresult_bit);
 			}
 		}
 		else {
-			if (!valregable (s) && name (s) != tophd) {
+			if (!valregable (s) && name (s) != SH_TOP) {
 				/* ... result does not fit into reg */
 				pnset (x, long_result_bit);
 			}
@@ -1531,7 +1531,7 @@ scan(exp * e, exp ** at)
 				pnset (nds, hasproccall);
 		}
 		else if (name(bro(bro(bro(son(application))))) != top_tag && valregable(sh(application))
-				 && name(sh(application)) != tophd && name(sh(application)) != bothd) {
+				 && name(sh(application)) != SH_TOP && name(sh(application)) != SH_BOT) {
 			cca (at, ptr_position (application));
 			pnset (nds, usesproccall);
 		}
@@ -1787,7 +1787,7 @@ scan(exp * e, exp ** at)
 
     case val_tag : {
 		exp s = sh (*e);
-		if (name (s) == offsethd && al2 (s) >= 8) {
+		if (name (s) == SH_OFFSET && al2 (s) >= 8) {
 			/* express disps in bytes */
 			no (*e) = no (*e) >> 3;
 		}
@@ -1855,7 +1855,7 @@ scan(exp * e, exp ** at)
 				clearlast (son (lst));
 			}
 			*pos = son (lst);
-			for (t = father (*pos); name (sh (t)) == bothd;
+			for (t = father (*pos); name (sh (t)) == SH_BOT;
 				 t = father (t)) {
 				/* adjust ancestors to correct shape */
 				sh (t) = sh (*pos);
@@ -1911,8 +1911,8 @@ scan(exp * e, exp ** at)
 #if use_long_double
 		{
 			exp op = *pste;
-			if (name (sh (op)) == doublehd ||
-				name (sh (son (op))) == doublehd) {
+			if (name (sh (op)) == SH_DOUBLE ||
+				name (sh (son (op))) == SH_DOUBLE) {
 #if 0
 				if (name(*e) == fabs_tag){
 					replace_fabs(ste);
@@ -1989,7 +1989,7 @@ scan(exp * e, exp ** at)
 		s = scan (arg, at);
 		pste = ptr_position(ste);
 		s.fixneeds = MAX_OF (s.fixneeds, 2);
-		if (rm < 3 || name (sh (*pste)) == ulonghd) {
+		if (rm < 3 || name (sh (*pste)) == SH_ULONG) {
 			s.floatneeds = MAX_OF (s.floatneeds, 3);
 		}
 		else {
@@ -1999,7 +1999,7 @@ scan(exp * e, exp ** at)
 		{
 			exp op = *pste;
 
-			if (name (sh (son (op))) == doublehd) {
+			if (name (sh (son (op))) == SH_DOUBLE) {
 				if (!is_o (name (son (op))) ||
 					pntst (s, hasproccall)) {
 					cca (at, &son (op));
@@ -2106,13 +2106,13 @@ scan(exp * e, exp ** at)
 			 *	   sign adjustment */
 			long n = no (r);
 			switch (name (sh (l))) {
-			case scharhd : {
+			case SH_SCHAR : {
 				if (n >= 0 && n <= 127) {
 					sh (l) = ucharsh;
 				}
 				break;
 			}
-			case swordhd : {
+			case SH_SWORD : {
 				if (n >= 0 && n <= 0xffff) {
 					sh (l) = uwordsh;
 				}
@@ -2322,7 +2322,7 @@ scan(exp * e, exp ** at)
 		{
 			exp op = *pste;
 
-			if (name (sh (op)) == doublehd) {
+			if (name (sh (op)) == SH_DOUBLE) {
 				pnset (nds, hasproccall);
 			}
 		}
@@ -2353,7 +2353,7 @@ scan(exp * e, exp ** at)
 		exp op2 = bro (op1);
 		shape s = sh (op2);
 		if (name (op2) == val_tag && no (op2) == 8 &&
-			name (s) == offsethd && al2 (s) >= 8) {
+			name (s) == SH_OFFSET && al2 (s) >= 8) {
 			/* offset is one byte */
 			bro (op1) = bro (*e);
 			if (last (*e)) {

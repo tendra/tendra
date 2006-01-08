@@ -1054,7 +1054,7 @@ is_muldivrem_call(exp e)
 	case round_tag:
 	{
 		exp s = son(e);
-		if (name(sh(s))==doublehd)
+		if (name(sh(s))==SH_DOUBLE)
 			return (1);
 		/* FALL THROUGH */
 	}
@@ -1067,7 +1067,7 @@ is_muldivrem_call(exp e)
 	case fabs_tag:
 	case float_tag:
 	{
-		if (name(sh(e))==doublehd)
+		if (name(sh(e))==SH_DOUBLE)
 			return (1);
 		else
 			return (0);

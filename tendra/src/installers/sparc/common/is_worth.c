@@ -85,7 +85,7 @@ is_worth(exp c)
     unsigned char cnam = name (c);
     bool isflt = (bool) is_floating (name (sh (c)));
 
-    if (name (sh (c)) == ptrhd && al1 (sh (c)) == 1) {
+    if (name (sh (c)) == SH_PTR && al1 (sh (c)) == 1) {
 		/* Pointers to bits aren't */
 		return (false);
     }
@@ -122,7 +122,7 @@ is_worth(exp c)
 		exp dad;
 		long n = no (c);
 		if (n == 0) return (false);
-		if (name(sh(c)) == u64hd || name(sh(c)) == s64hd) return (false);
+		if (name(sh(c)) == SH_U64 || name(sh(c)) == SH_S64) return (false);
 		dad = father (c);
 
 		if (dad == nilexp)

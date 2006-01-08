@@ -148,8 +148,8 @@ out_dot_comm(char * id, shape sha)
 	outs (",");
 	outn((long)shape_size(sha)/ 8);
 	outs (",");
-	if (is80486 && (name(sha) == realhd ||
-					(name(sha) == nofhd && ptno(sha) == realhd) ||
+	if (is80486 && (name(sha) == SH_REAL ||
+					(name(sha) == SH_NOF && ptno(sha) == SH_REAL) ||
 					shape_size(sha) >= 512))
 		/* the pt field of an nof is used to hold the
 		 * shapemacs.h hd description of the shape and is set in
@@ -175,8 +175,8 @@ out_dot_lcomm(char * id, shape sha)
 	outs (",");
 	outn((long)shape_size(sha)/ 8);
 	outs (",");
-	if (is80486 && (name(sha) == realhd ||
-					(name(sha) == nofhd && ptno(sha) == realhd) ||
+	if (is80486 && (name(sha) == SH_REAL ||
+					(name(sha) == SH_NOF && ptno(sha) == SH_REAL) ||
 					shape_size(sha) >= 512))
 		/* the pt field of an nof is used to hold the
 		 *		   shapemacs.h hd description of the shape and is set in

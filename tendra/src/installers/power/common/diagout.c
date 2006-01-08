@@ -553,8 +553,8 @@ init_diag()
 	files_stabbed = 0;
 	first_fileno = -100;
 	stab_file(mainfile_fd);
-	voidsh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, tophd);/* very dubious */
-	tokensh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, bothd);/* very dubious */
+	voidsh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, SH_TOP);/* very dubious */
+	tokensh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, SH_BOT);/* very dubious */
 	stab_types();
 	return;
 }
@@ -986,18 +986,18 @@ TypeNo_of_shape(shape s)
 	
 	switch (name(s))
 	{
-	case bothd:		/*FALLTHROUGH*/
-	case tophd:		return TYPEID_VOID;
-	case scharhd:	return TYPEID_SCHAR;
-	case ucharhd:       	return TYPEID_UCHAR;
-	case swordhd:       	return TYPEID_SWORD;
-	case uwordhd:       	return TYPEID_UWORD;
-	case sizehd:		/*FALLTHROUGH*/
-	case slonghd:       	return TYPEID_SLONG;
-	case ulonghd:	return TYPEID_ULONG;
-	case shrealhd:	return TYPEID_SHREAL;
-	case realhd:		return TYPEID_REAL;
-	case doublehd:	return TYPEID_DOUBLE;
+	case SH_BOT:		/*FALLTHROUGH*/
+	case SH_TOP:		return TYPEID_VOID;
+	case SH_SCHAR:	return TYPEID_SCHAR;
+	case SH_UCHAR:       	return TYPEID_UCHAR;
+	case SH_SWORD:       	return TYPEID_SWORD;
+	case SH_UWORD:       	return TYPEID_UWORD;
+	case SH_SIZE:		/*FALLTHROUGH*/
+	case SH_SLONG:       	return TYPEID_SLONG;
+	case SH_ULONG:	return TYPEID_ULONG;
+	case SH_REAL_SHORT:	return TYPEID_SHREAL;
+	case SH_REAL:		return TYPEID_REAL;
+	case SH_DOUBLE:	return TYPEID_DOUBLE;
 		
 	default:
     {

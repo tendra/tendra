@@ -907,23 +907,23 @@ safe_arg(exp e, exp esc)
 	
 	/* make the unsafe value for this shape */
 	switch (name (sh (e))) {
-	case ptrhd:
+	case SH_PTR:
 		konst = me_null(sh(e), ptr_null, null_tag);
 		break;
-	case scharhd:
-	case ucharhd:
-	case swordhd:
-	case uwordhd:
-	case slonghd:
-	case ulonghd:
-	case s64hd:
-	case u64hd:
+	case SH_SCHAR:
+	case SH_UCHAR:
+	case SH_SWORD:
+	case SH_UWORD:
+	case SH_SLONG:
+	case SH_ULONG:
+	case SH_S64:
+	case SH_U64:
 		konst = getexp (sh (e), nilexp, 0, nilexp, nilexp,
 						0,  0, val_tag);
 		break;
-	case shrealhd:
-	case realhd:
-	case doublehd:{
+	case SH_REAL_SHORT:
+	case SH_REAL:
+	case SH_DOUBLE:{
 		flpt f = new_flpt ();
 		int i;
 		for (i = 0; i < MANT_SIZE; ++i)
@@ -934,7 +934,7 @@ safe_arg(exp e, exp esc)
 						0, f, real_tag);
 		break;
     }
-	case offsethd:
+	case SH_OFFSET:
 		konst = f_offset_zero (f_alignment (sh (e)));
 		break;
 	default: {
@@ -1257,7 +1257,7 @@ extract_consts(int issn, exp rf, exp list_head)
 					if (force || ismips)
 						setusereg (newdec);
 				
-				if (name(sh(konst)) == ptrhd)
+				if (name(sh(konst)) == SH_PTR)
 					look_for_caonly(konst);
 				
 				bro (konst) = val;

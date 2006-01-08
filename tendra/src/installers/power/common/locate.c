@@ -370,7 +370,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			/* ... it is in memory */
 			instore is;
 			
-			if (var|| (name(sh(e)) == prokhd &&
+			if (var|| (name(sh(e)) == SH_PROC &&
 					   (son(dc) == nilexp || IS_A_PROC(son(dc)))))
 			{
 				is.adval = 1;
@@ -385,7 +385,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			is.b.offset += (no(e) / 8);
 			
 #if 1
-			if (var && name(sh(e)) != prokhd && !IS_FIXREG(is.b.base) && is.b.offset == 0)
+			if (var && name(sh(e)) != SH_PROC && !IS_FIXREG(is.b.base) && is.b.offset == 0)
 			{
 				/*
 				 * A global which has to be accessed via TOC.
@@ -569,7 +569,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		
 		wans = locate(son(e), sp, sh(son(e)), 0);
 		
-		bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
+		bitfield = ((name(sh(e)) == SH_PTR) && (al1(sh(e)) == 1));
 		
 		switch (wans.answhere.discrim)
 		{

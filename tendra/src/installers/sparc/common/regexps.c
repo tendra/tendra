@@ -203,7 +203,7 @@ iskept(exp e)
     return (nilans);
 #endif
 
-    if (name (sh (e)) == cpdhd) {
+    if (name (sh (e)) == SH_COMPOUND) {
 		/* Tracking of unions is unsafe */
 		return (nilans);
     }

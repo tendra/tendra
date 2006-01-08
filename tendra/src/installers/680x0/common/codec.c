@@ -561,7 +561,7 @@ codec(where dest, ash stack, exp e)
 	    /* Multiply is treated as a logical operation */
 	    int prev_ov = set_overflow (e);
 	    logop (mult, e, dest, stack);
-	    if (!optop(e)&&(name(sh(e))!=slonghd)&&(name(sh(e))!=ulonghd)) {
+	    if (!optop(e)&&(name(sh(e))!=SH_SLONG)&&(name(sh(e))!=SH_ULONG)) {
 			check_unset_overflow(dest,sh(e));
 	    }
 	    clear_overflow (prev_ov);
@@ -574,7 +574,7 @@ codec(where dest, ash stack, exp e)
 		int prev_ov = set_overflow(e);
 		bop (div2, sh (e), bro (son (e)), son (e),
 			 dest, stack);
-		if (!optop(e)&&(name(sh(e))!=slonghd)&&(name(sh(e))!=ulonghd)) {
+		if (!optop(e)&&(name(sh(e))!=SH_SLONG)&&(name(sh(e))!=SH_ULONG)) {
 			check_unset_overflow(dest,sh(e));
 		}
 		clear_overflow(prev_ov);
@@ -586,7 +586,7 @@ codec(where dest, ash stack, exp e)
 		int prev_ov = set_overflow(e);
 		bop (div1, sh (e), bro (son (e)), son (e),
 			 dest, stack);
-		if (!optop(e)&&(name(sh(e))!=slonghd)&&(name(sh(e))!=ulonghd)) {
+		if (!optop(e)&&(name(sh(e))!=SH_SLONG)&&(name(sh(e))!=SH_ULONG)) {
 			check_unset_overflow(dest,sh(e));
 		}
 		clear_overflow(prev_ov);
@@ -936,7 +936,7 @@ codec(where dest, ash stack, exp e)
 	case offset_div_tag :
 	case offset_div_by_int_tag : {
 		/* Offset division is a binary operation */
-		if (name(sh(bro(son(e)))) < slonghd){
+		if (name(sh(bro(son(e)))) < SH_SLONG){
 			exp changer = me_u3(slongsh,bro(son(e)),chvar_tag);
 			bro(son(e)) = changer;
 		}
@@ -1027,7 +1027,7 @@ codec(where dest, ash stack, exp e)
 	case cont_tag : {
 		make_comment("cont_tag ...");
 		
-		if (name (sh (e)) == bitfhd) {
+		if (name (sh (e)) == SH_BITFIELD) {
 			bitf_to_int (e, sh (e), dest, stack);
 			return;
 		}
@@ -1110,7 +1110,7 @@ codec(where dest, ash stack, exp e)
 	    if (name (e) == clear_tag) {
 			/* Deal with clear shapes */
 			char sn = name (sh (e));
-			if (sn >= shrealhd && sn <= doublehd) {
+			if (sn >= SH_REAL_SHORT && sn <= SH_DOUBLE) {
 				move (sh (e), fzero, dest);
 			}
 #ifndef tdf3
@@ -1123,8 +1123,8 @@ codec(where dest, ash stack, exp e)
 			return;
 	    }
 		
-	    if (name(e) == val_tag && ((name(sh(e)) == s64hd) ||
-								   name(sh(e)) == u64hd)){
+	    if (name(e) == val_tag && ((name(sh(e)) == SH_S64) ||
+								   name(sh(e)) == SH_U64)){
 			flt64 bval;
 			where w;
 			bval = exp_to_f64(e);

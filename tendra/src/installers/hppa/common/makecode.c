@@ -108,7 +108,7 @@
 #include "loc_signal.h"
 
 #define outp fprintf
-#define isdbl(e) ((bool) (name (e) != shrealhd))
+#define isdbl(e) ((bool) (name (e) != SH_REAL_SHORT))
 
 int repeat_level;                 /* init by proc */
 outofline *odd_bits;             /* init by proc */
@@ -172,25 +172,25 @@ void
 test_if_outside_of_var(unsigned char v, int r,
 					   int trap)
 {
-	if (v==ucharhd)
+	if (v==SH_UCHAR)
 	{
 		riir_ins(i_extru,c_,r,31,8,1);
 		cj_ins(c_neq,1,r,trap);
 	}
 	else
-		if (v==scharhd)
+		if (v==SH_SCHAR)
 		{
 			riir_ins(i_extrs,c_,r,31,8,1);
 			cj_ins(c_neq,1,r,trap);
 		}
 		else
-			if (v==uwordhd)
+			if (v==SH_UWORD)
 			{
 				riir_ins(i_extru,c_,r,31,16,1);
 				cj_ins(c_neq,1,r,trap);
 			}
 			else
-				if (v==swordhd)
+				if (v==SH_SWORD)
 				{
 					riir_ins(i_extrs,c_,r,31,16,1);
 					cj_ins(c_neq,1,r,trap);
@@ -419,7 +419,7 @@ fix_nonbitfield(exp e)
 		e = son(e);
 		while (1)
 		{
-			if (name(e) == val_tag && name(sh(e)) == offsethd && al2(sh(e)) >= 8)
+			if (name(e) == val_tag && name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8)
 				no(e) = no(e) << 3;	/* fix it */
 
 			fix_nonbitfield(bro(e));	/* recursively fix the rest of the struct */
@@ -528,7 +528,7 @@ do_callers(exp list, space sp, char *stub)
 			freg frg;
 			ans ansfr;
 			frg.fr = (fltpar = (off>>5)-5);
-			if (hd==shrealhd)
+			if (hd==SH_REAL_SHORT)
 			{
 				frg.dble = 0;
 				sprintf(s,"ARGW%d=FR,",fltpar-4);
@@ -553,7 +553,7 @@ do_callers(exp list, space sp, char *stub)
 			 *   is neccessary to ensure that possible varargs are correctly
 			 *   dumped on the stack.  */
 			fixpar = ARG0+(off>>5)-9;
-			if (hd == shrealhd)
+			if (hd == SH_REAL_SHORT)
 			{
 				stf_ins(i_fstw,(frg.fr*3),is.b);
 				ld_ins(i_ldw,1,is.b,fixpar);
@@ -997,7 +997,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		int hda = name(sh(e));
 		int special;
 		space nsp;
-		int void_result = (name(sh(e))==tophd);
+		int void_result = (name(sh(e))==SH_TOP);
 		int reg_res = reg_result(sh(e));
 		makeans mka;
 		exp dad = father(e);
@@ -1090,7 +1090,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				freg frg;
 				frg.fr = R_FR4;
-				frg.dble = (hda==shrealhd ? 0 : 1);
+				frg.dble = (hda==SH_REAL_SHORT ? 0 : 1);
 				setfregalt(aa,frg);
 				move(aa,dest,sp.fixed,1);
 				/* move floating point result of application to destination */
@@ -1136,7 +1136,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 
 		(void) make_code(cees,nsp,nowhere,0);
 
-		if (!reg_result(sh(e)) && name(sh(e))!=tophd && shape_size(sh(e))>64)
+		if (!reg_result(sh(e)) && name(sh(e))!=SH_TOP && shape_size(sh(e))>64)
 		{
 			/* Must be a structure or union result, pass address in RET0 */
 			instore is;
@@ -1174,7 +1174,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				freg frg;
 				frg.fr = R_FR4;
-				frg.dble = (hda != shrealhd);
+				frg.dble = (hda != SH_REAL_SHORT);
 				setfregalt (aa, frg);
 				move (aa, dest, sp.fixed, 1);
 				/* move floating point result of application to destination */
@@ -1188,7 +1188,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 		}
 		else
-			if (name(sh(e))!=tophd && (shape_size(sh(e))<65))
+			if (name(sh(e))!=SH_TOP && (shape_size(sh(e))<65))
 			{
 				/* 64 bit structure or union result returned in RET0 and RET1 */
 				instore is;
@@ -1614,7 +1614,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 										st_ins(i_sw,pr-1,stkpos);
 									}
 						}
-						if (name(sh(se)) != cpdhd && name(sh(se)) != nofhd)
+						if (name(sh(se)) != SH_COMPOUND && name(sh(se)) != SH_NOF)
 							remember = 0;
 					}
 					else
@@ -1770,7 +1770,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				rec->jr=jr;
 				pt(son(alt)) = record;
 				test_n = (int)test_number(tst);
-				if (name(sha) < shrealhd || name(sha) > doublehd)
+				if (name(sha) < SH_REAL_SHORT || name(sha) > SH_DOUBLE)
 					test_n = (int)int_inverse_ntest[test_n];
 				else
 					test_n = (int)real_inverse_ntest[test_n];
@@ -1782,7 +1782,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				p = getexp(sha, nilexp, 0, s, nilexp, 0, 0, 0);
 				pt(tst) = p;
 				mka = make_code(t,sp,dest,0);
-				if (name(sh(first)) != bothd)
+				if (name(sh(first)) != SH_BOT)
 				{
 					outlab("L$$",ptno(jr));
 					clear_all();
@@ -1946,7 +1946,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		int n = (int) test_number(e);	/* could have Rev bit in props */
 
 #if use_long_double
-		if (name(sh(l)) == doublehd)
+		if (name(sh(l)) == SH_DOUBLE)
 		{
 			quad_op(e, sp, dest);
 			cj_ins(c_eq,0,RET0,lab);
@@ -1957,7 +1957,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		if (is_floating(name(sh(l))))
 		{
 			/* float test */
-			bool dble = ((name(shl)==shrealhd) ? 0 : 1);
+			bool dble = ((name(shl)==SH_REAL_SHORT) ? 0 : 1);
 			int a1;
 			const char *branch = fbranches(n);
 			/* choose branch and compare instructions */
@@ -2003,7 +2003,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 
 			/* choose branch instruction */
-			unsgn = (bool)(!is_signed(shl) && name(shl)!=ptrhd);
+			unsgn = (bool)(!is_signed(shl) && name(shl)!=SH_PTR);
 			branch = unsgn ? usbranches(n) : sbranches(n);
 
 			/* Generally, anding with an immediate requires 2 instructions. But,
@@ -2120,7 +2120,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		bool is_float = is_floating(hdrhs);
 
 #if use_long_double
-		if (hdrhs == doublehd)
+		if (hdrhs == SH_DOUBLE)
 			is_float = 0;
 #endif
 
@@ -2147,7 +2147,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				freg frg;
 				frg.fr = R_FR4;
-				frg.dble = (hdrhs!=shrealhd);
+				frg.dble = (hdrhs!=SH_REAL_SHORT);
 				setfregalt(apply_res.answhere, frg);
 			}
 			else
@@ -2243,7 +2243,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			freg frg;
 			ans aa;
 			frg.fr = f;
-			frg.dble = (hdrhs!=shrealhd);
+			frg.dble = (hdrhs!=SH_REAL_SHORT);
 			setfregalt(aa, frg);
 			nsp = guardfreg(f, nsp);
 			move(aa, assdest, nsp.fixed, 1);
@@ -2662,7 +2662,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				/* jump to end of solve */
 				if (l == 0)
 					l = new_label();
-				if (name(sh(m)) != bothd)
+				if (name(sh(m)) != SH_BOT)
 				{
 					ub_ins(cmplt_,l);
 				}
@@ -3103,7 +3103,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		}
 		from = (int) name(sh(arg));
 #if 1
-		if (from == bitfhd)
+		if (from == SH_BITFIELD)
 		{
 			switch (shape_size(sh(arg)))
 			{
@@ -3122,7 +3122,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 		}
 
-		if (to == bitfhd)
+		if (to == SH_BITFIELD)
 		{
 			switch (shape_size(sh(e)))
 			{
@@ -3144,10 +3144,10 @@ make_code(exp e, space sp, where dest, int exitlab)
 		/*
 		 *   Small to large conversions.
 		 */
-		if (from == to || (to == uwordhd && from == ucharhd) ||
-			(to == ulonghd && (from == ucharhd || from == uwordhd)) ||
-			(to == swordhd && (from == scharhd || from == ucharhd)) ||
-			(to == slonghd && from != ulonghd))
+		if (from == to || (to == SH_UWORD && from == SH_UCHAR) ||
+			(to == SH_ULONG && (from == SH_UCHAR || from == SH_UWORD)) ||
+			(to == SH_SWORD && (from == SH_SCHAR || from == SH_UCHAR)) ||
+			(to == SH_SLONG && from != SH_ULONG))
 		{
 			ans aa;
 			if (discrim(dest.answhere)==inreg)
@@ -3176,16 +3176,16 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				if (signt)
 				{
-					if (to == scharhd)
+					if (to == SH_SCHAR)
 						riir_ins(i_extrs,c_,sreg,31,8,GR1);
 					else
-						if (to == swordhd)
+						if (to == SH_SWORD)
 							riir_ins(i_extrs,c_,sreg,31,16,GR1);
 					cj_ins(c_neq,sreg,GR1,trap);
 				}
 				else
 				{
-					if (from == scharhd)
+					if (from == SH_SCHAR)
 					{
 						if (OPTIM)
 							bb_in(bit_is_1,sreg,24,trap);
@@ -3196,9 +3196,9 @@ make_code(exp e, space sp, where dest, int exitlab)
 						}
 					}
 					else
-						if (from == swordhd)
+						if (from == SH_SWORD)
 						{
-							if (to == ucharhd)
+							if (to == SH_UCHAR)
 							{
 								riir_ins(i_extru,c_eq,sreg,23,24,0);
 								ub_ins(cmplt_,trap);
@@ -3216,13 +3216,13 @@ make_code(exp e, space sp, where dest, int exitlab)
 						}
 						else
 						{
-							if (to == ucharhd)
+							if (to == SH_UCHAR)
 							{
 								riir_ins(i_extru,c_eq,sreg,23,24,0);
 								ub_ins(cmplt_,trap);
 							}
 							else
-								if (to == uwordhd)
+								if (to == SH_UWORD)
 								{
 									riir_ins(i_extru,c_eq,sreg,15,16,0);
 									ub_ins(cmplt_,trap);
@@ -3244,13 +3244,13 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				if (signt)
 				{
-					if (to == scharhd)
+					if (to == SH_SCHAR)
 					{
 						riir_ins(i_extru,c_eq,sreg,24,25,0);
 						ub_ins(cmplt_,trap);
 					}
 					else
-						if (to == swordhd)
+						if (to == SH_SWORD)
 						{
 							riir_ins(i_extru,c_eq,sreg,16,17,0);
 							ub_ins(cmplt_,trap);
@@ -3268,7 +3268,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				}
 				else
 				{
-					if (to == ucharhd)
+					if (to == SH_UCHAR)
 						riir_ins(i_extru,c_,sreg,31,8,GR1);
 					else
 						riir_ins(i_extru,c_,sreg,31,16,GR1);
@@ -3314,7 +3314,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			/* from != to */
 
 			/* Shorten type if needed */
-			if (to==ucharhd)
+			if (to==SH_UCHAR)
 			{
 				if (dreg==sreg)
 					riir_ins(i_dep,c_,0,23,24,dreg);
@@ -3322,14 +3322,14 @@ make_code(exp e, space sp, where dest, int exitlab)
 					riir_ins(i_zdep,c_,sreg,31,8,dreg);
 			}
 			else
-				if (to==scharhd)
+				if (to==SH_SCHAR)
 				{
 					riir_ins(i_extrs,c_,sreg,31,8,dreg);
 				}
 				else
-					if (to==uwordhd)
+					if (to==SH_UWORD)
 					{
-						if (from!=ucharhd)
+						if (from!=SH_UCHAR)
 						{
 							if (dreg==sreg)
 								riir_ins(i_dep,c_,0,15,16,dreg);
@@ -3341,9 +3341,9 @@ make_code(exp e, space sp, where dest, int exitlab)
 								rr_ins(i_copy,sreg,dreg);
 					}
 					else
-						if (to == swordhd)
+						if (to == SH_SWORD)
 						{
-							if (from!=scharhd && from!=ucharhd)
+							if (from!=SH_SCHAR && from!=SH_UCHAR)
 							{
 								riir_ins(i_extrs,c_,sreg,31,16,dreg);
 							}
@@ -3619,7 +3619,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			d = getreg(sp.fixed);
 		nsp = guardreg(d,sp);
 		a = reg_operand(l,nsp);
-		if (nshl==scharhd || nshl==swordhd || nshl==slonghd || nshl==offsethd)
+		if (nshl==SH_SCHAR || nshl==SH_SWORD || nshl==SH_SLONG || nshl==SH_OFFSET)
 			cond = (name(e)==min_tag ? c_geq : c_leq);
 		else
 			cond = (name(e)==min_tag ? c_gequ : c_lequ);
@@ -3880,12 +3880,12 @@ make_code(exp e, space sp, where dest, int exitlab)
 	case fneg_tag:
 	{
 		int a1,r1;
-		int dble = (name(sh(e))==shrealhd ? 0 : 1);
+		int dble = (name(sh(e))==SH_REAL_SHORT ? 0 : 1);
 		freg frg;
 		baseoff b;
 
 #if use_long_double
-		if (name(sh(e)) == doublehd)
+		if (name(sh(e)) == SH_DOUBLE)
 		{
 			quad_op(e, sp, dest);
 			return (mka);
@@ -3950,7 +3950,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		baseoff b;
 
 #if use_long_double
-		if (name(sh(e)) == doublehd)
+		if (name(sh(e)) == SH_DOUBLE)
 		{
 			quad_op (e, sp, dest);
 			return (mka);
@@ -4036,7 +4036,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		 */
 
 #if use_long_double
-		if (name(sh(e))==doublehd)
+		if (name(sh(e))==SH_DOUBLE)
 		{
 			quad_op(e, sp, dest);
 			return (mka);
@@ -4061,7 +4061,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			st_ins(i_sw, r, mem_temp(0));
 			ldf_ins(i_fldw, mem_temp(0), (3*f)+2);
 			rrf_ins(i_fcpy,f_sgl,"",0,3*f+1);
-			if (name(sh(e))==shrealhd)
+			if (name(sh(e))==SH_REAL_SHORT)
 				rrf_ins(i_fcnvxf,f_dbl,f_sgl,3*f+1,3*f);
 			else
 				rrf_ins(i_fcnvxf,f_dbl,f_dbl,3*f+1,3*f+1);
@@ -4078,7 +4078,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			setfregalt(w.answhere, fint);
 			w.ashwhere = ashof(sh(in));
 			code_here(in, sp, w);
-			if (name(sh(e))==shrealhd)
+			if (name(sh(e))==SH_REAL_SHORT)
 				rrf_ins(i_fcnvxf,f_sgl,f_sgl,3*f,3*f);
 			else
 				rrf_ins(i_fcnvxf,f_sgl,f_dbl,3*f,3*f+1);
@@ -4091,7 +4091,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			/* store and load to move to float reg */
 			st_ins(i_sw, r, mem_temp(0));
 			ldf_ins(i_fldw,mem_temp(0),3*f);
-			if (name(sh(e))==shrealhd)
+			if (name(sh(e))==SH_REAL_SHORT)
 				rrf_ins(i_fcnvxf,f_sgl,f_sgl,3*f,3*f);
 			else
 				rrf_ins(i_fcnvxf,f_sgl,f_dbl,3*f,3*f+1);
@@ -4114,9 +4114,9 @@ make_code(exp e, space sp, where dest, int exitlab)
 		where w;
 		baseoff b;
 #if use_long_double
-		if (to==doublehd)
+		if (to==SH_DOUBLE)
 		{
-			if (from==doublehd)
+			if (from==SH_DOUBLE)
 			{
 				/* no change in representation */
 				return (make_code(son(e),sp,dest,exitlab));
@@ -4125,7 +4125,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			return (mka);
 		}
 		else
-			if (from==doublehd)
+			if (from==SH_DOUBLE)
 			{
 				quad_op(e, sp, dest);
 				frg.fr = 4;
@@ -4725,7 +4725,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		}
 		a = ashof(sh(son(e)));
 		s = shape_size(sh(son(e)));
-		if (name(sh(son(e)))==doublehd && use_long_double)
+		if (name(sh(son(e)))==SH_DOUBLE && use_long_double)
 		{
 			if (rm==3 && errhandle(e)<2)  /* can't risk calling
 										   *  "_U_Qfcnvfxt_dbl_to_sgl" if
@@ -4733,16 +4733,16 @@ make_code(exp e, space sp, where dest, int exitlab)
 										   */
 			{
 				quad_op(e, nsp, dest);
-				if (nm == ucharhd && !inmem)
+				if (nm == SH_UCHAR && !inmem)
 					riir_ins(i_dep,c_,0,23,24,RET0);
 				else
-					if (nm == scharhd)
+					if (nm == SH_SCHAR)
 						riir_ins(i_extrs,c_,RET0,31,8,RET0);
 					else
-						if (nm == uwordhd && !inmem)
+						if (nm == SH_UWORD && !inmem)
 							riir_ins(i_dep,c_,0,15,16,RET0);
 						else
-							if (nm == swordhd)
+							if (nm == SH_SWORD)
 								riir_ins(i_extrs,c_,RET0,31,16,RET0);
 				setregalt(aa, RET0);
 				mka.regmove = move(aa, dest, nsp.fixed, 1);
@@ -4869,32 +4869,32 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 			ld_ins(i_lw,1,b,r);
 			test_if_outside_of_var(nm,r,trap);
-			if (nm!=slonghd && nm!=ulonghd)
+			if (nm!=SH_SLONG && nm!=SH_ULONG)
 				rr_ins(i_copy,GR1,r);
 		}
 		else
 		{
 			stf_ins(i_fstw,(f2.fr*3)+2,b);
 			/*   Load and shorten to type if needed.   */
-			if (nm == ucharhd)
+			if (nm == SH_UCHAR)
 			{
 				b.offset += 3;
 				ld_ins(i_lb,0,b,r);
 			}
 			else
-				if (nm == scharhd)
+				if (nm == SH_SCHAR)
 				{
 					ld_ins(i_lw,1,b,r);
 					riir_ins(i_extrs,c_,r,31,8,r);
 				}
 				else
-					if (nm == uwordhd)
+					if (nm == SH_UWORD)
 					{
 						b.offset += 2;
 						ld_ins(i_lh,0,b,r);
 					}
 					else
-						if (nm == swordhd)
+						if (nm == SH_SWORD)
 						{
 							ld_ins(i_lw,1,b,r);
 							riir_ins(i_extrs,c_,r,31,16,r);

@@ -517,8 +517,8 @@ prop notbranch [] = {
 #define obranch(i)	(notbranch [i])
 
 
-#define is_char_variety(v) ((name(v) == scharhd) || (name(v) == ucharhd))
-#define is_short_variety(v) ((name(v) == swordhd) || (name(v) == uwordhd))
+#define is_char_variety(v) ((name(v) == SH_SCHAR) || (name(v) == SH_UCHAR))
+#define is_short_variety(v) ((name(v) == SH_SWORD) || (name(v) == SH_UWORD))
 
 /*
  *  MOVE A FLOATING POINT CONSTANT INTO A REGISTER
@@ -687,7 +687,7 @@ fix_nonbitfield(exp e)
 	if (name (e) == compound_tag) {
 		e = son (e);
 		while (1) {
-			if (name (e) == val_tag && name (sh (e)) == offsethd
+			if (name (e) == val_tag && name (sh (e)) == SH_OFFSET
 				&& al2 (sh (e)) >= 8) {
 				no (e) = no (e) << 3;
 			}
@@ -707,9 +707,9 @@ fix_nonbitfield(exp e)
 
 #define issgn(s)	is_signed (s)
 
-#define isdbl(s)	((bool) (name (s) != shrealhd))
+#define isdbl(s)	((bool) (name (s) != SH_REAL_SHORT))
 
-#define is_long_double(s) ((bool) (name(s) == doublehd))
+#define is_long_double(s) ((bool) (name(s) == SH_DOUBLE))
 
 #define fregno(d, f)	((d) ? -((f) + 32) : ((f) + 32))
 
@@ -757,7 +757,7 @@ check_range_and_do_error_jump(shape rep_var,
 	int ftmp = getfreg(sp.flt);
 	int to_small = (rmode == (int)f_toward_smaller);
 	switch (name(rep_var)) {
-    case ulonghd : {
+    case SH_ULONG : {
 		/* check    0 <= value <= (unsigned)-1 */
 		/* fconst(ftmp,1106247679,-2097152); */
 
@@ -780,7 +780,7 @@ check_range_and_do_error_jump(shape rep_var,
 		fbr_ins(i_fbl,lab);
 		break;
     }
-    case slonghd : {
+    case SH_SLONG : {
 		/* check -0x80000000 =< value <= 0x7fffffff */
 		if (to_small) {
 			fconst(ftmp,-1042284544,0);
@@ -801,7 +801,7 @@ check_range_and_do_error_jump(shape rep_var,
 		fbr_ins(i_fbg,lab);
 		break;
     }
-    case uwordhd : {
+    case SH_UWORD : {
 		/* check 0 <= value <= 0xffff */
 		if (to_small) {
 			fconst(ftmp,0,0);
@@ -821,7 +821,7 @@ check_range_and_do_error_jump(shape rep_var,
 		fbr_ins(i_fbg,lab);
 		break;
     }
-    case swordhd : {
+    case SH_SWORD : {
 		/* check -0x8000 <= value <= 0x7fff */
 		if (to_small) {
 			fconst(ftmp,-1059061760,0);
@@ -842,7 +842,7 @@ check_range_and_do_error_jump(shape rep_var,
 		fbr_ins(i_fbg,lab);
 		break;
     }
-    case scharhd : {
+    case SH_SCHAR : {
 		if (to_small) {
 			fconst(ftmp,-1067450368,0);
 		}
@@ -861,7 +861,7 @@ check_range_and_do_error_jump(shape rep_var,
 		fbr_ins(i_fbg,lab);
 		break;
     }
-    case ucharhd : {
+    case SH_UCHAR : {
 		if (to_small) {
 			fconst(ftmp,0,0);
 		}
@@ -1139,7 +1139,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 
 #if use_long_double
-				if (name (sh (l)) == doublehd) {
+				if (name (sh (l)) == SH_DOUBLE) {
 					if (IsRev (e)) {
 						quad_op (r, l, sp, dest, -n);
 					}
@@ -1202,7 +1202,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					bool unsgn;
 					assert(name(l) != val_tag); /* now in common section */
 					/* Choose branch instruction */
-					unsgn = (bool)(!is_signed(shl) || name(shl)==ptrhd);
+					unsgn = (bool)(!is_signed(shl) || name(shl)==SH_PTR);
 					branch = (unsgn ? usbranches (n) : sbranches (n));
 					a1 = reg_operand (l, sp);
 					if (name (r) == val_tag) {
@@ -1297,7 +1297,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					if (!last (m)) {
 						/* jump to end of solve */
 						if (l == 0) l = new_label ();
-						if (name (sh (m)) != bothd) uncond_ins (i_b, l);
+						if (name (sh (m)) != SH_BOT) uncond_ins (i_b, l);
 					}
 					if (last (m)) {
 						mka.lab = l;
@@ -1324,7 +1324,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 				from = (int) name (sh (arg));
 #if 1
-				if (from == bitfhd) {
+				if (from == SH_BITFIELD) {
 					switch (shape_size(sh(arg))) {
 					case 8:
 						sh(arg) = is_signed(sh(arg)) ? scharsh : ucharsh;
@@ -1341,7 +1341,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					}
 				}
 
-				if (to == bitfhd){
+				if (to == SH_BITFIELD){
 					switch (shape_size(sh(e))){
 					case 8:
 						sh(e) = is_signed(sh(e)) ? scharsh : ucharsh;
@@ -1360,10 +1360,10 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 #endif
 				/* Small to large conversions */
-				if (from == to || to == slonghd || to == ulonghd ||
-					(to == uwordhd && from == ucharhd) ||
-					(to == swordhd && from == scharhd) ||
-					(to == swordhd && from == ucharhd)) {
+				if (from == to || to == SH_SLONG || to == SH_ULONG ||
+					(to == SH_UWORD && from == SH_UCHAR) ||
+					(to == SH_SWORD && from == SH_SCHAR) ||
+					(to == SH_SWORD && from == SH_UCHAR)) {
 					ans aa;
 					switch (discrim (dest.answhere)) {
 					case inreg : {
@@ -1387,7 +1387,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					}
 					if (!optop(e)){
 						switch (to) {
-						case ucharhd : {
+						case SH_UCHAR : {
 							if (is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1401,7 +1401,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							}
 							break;
 						}
-						case scharhd : {
+						case SH_SCHAR : {
 							if (!is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1415,7 +1415,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							}
 							break;
 						}
-						case uwordhd : {
+						case SH_UWORD : {
 							if (is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1429,7 +1429,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							}
 							break;
 						}
-						case swordhd : {
+						case SH_SWORD : {
 							if (!is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1443,7 +1443,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							}
 							break;
 						}
-						case ulonghd :{
+						case SH_ULONG :{
 							if (is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1457,7 +1457,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							}
 							break;
 						}
-						case slonghd :{
+						case SH_SLONG :{
 							if (!is_signed(sh(son(e)))){
 								if (error_treatment_is_trap(e)){
 									int oklab = new_label();
@@ -1525,7 +1525,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 				/* Shorten type if needed */
 				switch (to) {
-				case ucharhd : {
+				case SH_UCHAR : {
 					if (!optop(e)){
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(sreg,255,f_overflow);
@@ -1537,7 +1537,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					rir_ins (i_and, sreg, 0xff, dreg);
 					break;
 				}
-				case scharhd : {
+				case SH_SCHAR : {
 					if (!optop(e)){
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(sreg,-128,127,f_overflow);
@@ -1550,7 +1550,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					rir_ins (i_sra, dreg, 24, dreg);
 					break;
 				}
-				case uwordhd : {
+				case SH_UWORD : {
 					if (!optop(e)){
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(sreg,0xffff,f_overflow);
@@ -1559,14 +1559,14 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							test_unsigned(sreg,0xffff,no(son(pt(e))));
 						}
 					}
-					if (from != ucharhd) {
+					if (from != SH_UCHAR) {
 						rir_ins (i_and, sreg, 0xffff, dreg);
 					} else if (sreg != dreg) {
 						rr_ins (i_mov, sreg, dreg);
 					}
 					break;
 				}
-				case swordhd : {
+				case SH_SWORD : {
 					if (!optop(e)){
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(sreg,-0x8000,0x7fff,f_overflow);
@@ -1575,7 +1575,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							test_signed(sreg,-0x8000,0x7fff,no(son(pt(e))));
 						}
 					}
-					if (from != scharhd && from != ucharhd) {
+					if (from != SH_SCHAR && from != SH_UCHAR) {
 						rir_ins (i_sll, sreg, 16, dreg);
 						rir_ins (i_sra, dreg, 16, dreg);
 						break;
@@ -1637,10 +1637,10 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 					newdest.answhere.val.regans = res_reg;
 					nsp = guardreg(res_reg,sp);
-					/*       if (name(sh(e)) != ulonghd && name(sh(e)) != slonghd)*/
+					/*       if (name(sh(e)) != SH_ULONG && name(sh(e)) != SH_SLONG)*/
 					mka.regmove = comm_op (e, sp, newdest,(optop(e))?i_add:i_addcc);
 					switch (name(sh(e))){
-					case ulonghd: {
+					case SH_ULONG: {
 						int l,r;
 						/*int newlab = new_label();*/
 						int rt;
@@ -1660,11 +1660,11 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						break;
 					}
 
-					case slonghd: {
+					case SH_SLONG: {
 						check_integer_exception(e);
 						break;
 					}
-					case swordhd:{
+					case SH_SWORD:{
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-0x8000,0x7fff,f_overflow);
 						}
@@ -1673,7 +1673,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case uwordhd:{
+					case SH_UWORD:{
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,0xffff,f_overflow);
 						}
@@ -1682,7 +1682,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case scharhd:{
+					case SH_SCHAR:{
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-128,127,f_overflow);
 						}
@@ -1691,7 +1691,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case ucharhd:{
+					case SH_UCHAR:{
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,255,f_overflow);
 						}
@@ -1744,7 +1744,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					mka.regmove = comm_op (e, sp, newdest,(optop(e))?i_sub:i_subcc);
 
 					switch (name(sh(e))){
-					case ulonghd:{
+					case SH_ULONG:{
 						int l,r;
 						l = reg_operand(son(e),nsp);
 						r = reg_operand(bro(son(e)),nsp);
@@ -1759,11 +1759,11 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case slonghd:{
+					case SH_SLONG:{
 						check_integer_exception(e);
 						break;
 					}
-					case swordhd: {
+					case SH_SWORD: {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-0x8000,0x7fff,f_overflow);
 						}
@@ -1772,7 +1772,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case uwordhd: {
+					case SH_UWORD: {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,0xffff,f_overflow);
 						}
@@ -1781,7 +1781,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case scharhd: {
+					case SH_SCHAR: {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-128,127,f_overflow);
 						}
@@ -1790,7 +1790,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case ucharhd: {
+					case SH_UCHAR: {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,255,f_overflow);
 						}
@@ -1840,12 +1840,12 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					mka.regmove = do_mul_comm_op (e, sp, newdest, sgned);
 
 					switch (name(sh(e))){
-					case ulonghd :
-					case slonghd :{
+					case SH_ULONG :
+					case SH_SLONG :{
 						check_integer_multiply_exception(e,sp,res_reg);
 						break;
 					}
-					case swordhd : {
+					case SH_SWORD : {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-0x8000,0x7fff,f_overflow);
 						}
@@ -1854,7 +1854,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case uwordhd : {
+					case SH_UWORD : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,0xffff,f_overflow);
 						}
@@ -1863,7 +1863,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case scharhd : {
+					case SH_SCHAR : {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-128,127,f_overflow);
 						}
@@ -1872,7 +1872,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case ucharhd : {
+					case SH_UCHAR : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,255,f_overflow);
 						}
@@ -1907,7 +1907,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 
 				/* Choose branch instruction */
-				unsgn = (bool) (name (shl) >= ptrhd || !issgn (shl));
+				unsgn = (bool) (name (shl) >= SH_PTR || !issgn (shl));
 				branch = fbranches (n);
 
 				d.fr = GETFREG(dest, sp);
@@ -1945,7 +1945,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 
 				/* Choose branch instruction */
-				unsgn = (bool) (name (shl) >= ptrhd || !issgn (shl));
+				unsgn = (bool) (name (shl) >= SH_PTR || !issgn (shl));
 				branch = (unsgn ? usbranches (n) : sbranches (n));
 
 				d = GETREG(dest, sp);
@@ -1999,12 +1999,12 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					/* note : mka.regmove should always be a valid register if the
 					 *	 division has an error treatment */
 					switch (name(sh(e))) {
-					case slonghd :
-					case ulonghd :{
+					case SH_SLONG :
+					case SH_ULONG :{
 						break;
 					}
 
-					case swordhd :{
+					case SH_SWORD :{
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-0x800,0x7fff,f_overflow);
 						}
@@ -2013,7 +2013,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case uwordhd :{
+					case SH_UWORD :{
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,0xffff,f_overflow);
 						}
@@ -2022,7 +2022,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case scharhd : {
+					case SH_SCHAR : {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(res_reg,-128,127,f_overflow);
 						}
@@ -2031,7 +2031,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case ucharhd : {
+					case SH_UCHAR : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(res_reg,255,f_overflow);
 						}
@@ -2077,7 +2077,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 				if (!optop(e) /* && !error_treatment_is_trap(e)*/) {
 					switch (name(sh(e))) {
-					case ulonghd : {
+					case SH_ULONG : {
 						if (!error_treatment_is_trap(e)){
 							condrr_ins(i_blt,rd,R_G0,no(son(pt(e))));
 						}
@@ -2089,11 +2089,11 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case slonghd : {
+					case SH_SLONG : {
 						check_integer_exception(e);
 						break;
 					}
-					case uwordhd : {
+					case SH_UWORD : {
 						if (!error_treatment_is_trap(e)){
 							condrr_ins(i_blt,rd,R_G0,no(son(pt(e))));
 						}
@@ -2105,7 +2105,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case swordhd : {
+					case SH_SWORD : {
 						if (error_treatment_is_trap(e)){
 							test_signed_and_trap(rd,-0x8000,0x7fff,f_overflow);
 						}
@@ -2114,7 +2114,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case ucharhd : {
+					case SH_UCHAR : {
 						if (!error_treatment_is_trap(e)){
 							condrr_ins(i_blt,rd,R_G0,no(son(pt(e))));
 						}
@@ -2127,7 +2127,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 						break;
 					}
-					case scharhd : {
+					case SH_SCHAR : {
 						if (!error_treatment_is_trap(e)){
 							test_signed(rd,-128,127,no(son(pt(e))));
 						}
@@ -2149,7 +2149,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				mka.regmove = absop (e, sp, dest);
 				if (!optop(e) && is_signed(sh(e))) {
 					switch (name(sh(e))) {
-					case slonghd : {
+					case SH_SLONG : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(mka.regmove,0x7fffffff,f_overflow);
 						}
@@ -2158,7 +2158,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case swordhd : {
+					case SH_SWORD : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(mka.regmove,0x7fff,f_overflow);
 						}
@@ -2167,7 +2167,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						}
 						break;
 					}
-					case scharhd : {
+					case SH_SCHAR : {
 						if (error_treatment_is_trap(e)){
 							test_unsigned_and_trap(mka.regmove,127,f_overflow);
 						}
@@ -2358,7 +2358,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 
 #if use_long_double
-				if (name (sh (e)) == doublehd) {
+				if (name (sh (e)) == SH_DOUBLE) {
 					if (name(e) != fabs_tag){
 						quad_op (son (e), nilexp, sp, dest, (int) name (e));
 					}
@@ -2438,7 +2438,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 
 #if use_long_double
-				if (name (sh (e)) == doublehd) {
+				if (name (sh (e)) == SH_DOUBLE) {
 					quad_op (son (e), nilexp, sp, dest, float_tag);
 					return (mka);
 				}
@@ -2510,14 +2510,14 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				}
 
 #if use_long_double
-				if (name (sh (e)) == doublehd) {
-					if (name (sh (son (e))) == doublehd) {
+				if (name (sh (e)) == SH_DOUBLE) {
+					if (name (sh (son (e))) == SH_DOUBLE) {
 						/* no change in representation */
 						return (make_code (son (e), sp, dest, exitlab));
 					}
 					quad_op (son (e), nilexp, sp, dest, chfl_tag);
 					return (mka);
-				} else if (name (sh (son (e))) == doublehd) {
+				} else if (name (sh (son (e))) == SH_DOUBLE) {
 					int o = (dto ? 100 : 101);
 					quad_op (son (e), nilexp, sp, dest, o);
 					frg.fr = 0;
@@ -2619,7 +2619,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				/* Load constant */
 				int r;
 				space nsp;
-				if (name(sh(e)) == u64hd || name(sh(e)) == s64hd){
+				if (name(sh(e)) == SH_U64 || name(sh(e)) == SH_S64){
 					instore is;
 					flt64 bval;
 					ans aa;
@@ -2722,7 +2722,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					turn_off_trap_on_exceptions(sp);
 				}
 				/* Get two floating registers */
-				if (use_long_double && name (sh (son (e))) == doublehd) {
+				if (use_long_double && name (sh (son (e))) == SH_DOUBLE) {
 					quad_op (son (e), nilexp, sp, dest, 100);
 					sfr = getfreg (sp.flt);
 					rrf_ins (i_fmovd, 0, sfr << 1);
@@ -2733,7 +2733,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				dfr = getfreg (nsp.flt);
 
 				/* Apart from round signed to zero we need an extra register */
-				if (rm != f_toward_zero || name (sh (e)) == ulonghd) {
+				if (rm != f_toward_zero || name (sh (e)) == SH_ULONG) {
 					nsp = guardfreg (dfr, nsp);
 					tfr = getfreg (nsp.flt);
 					if (s == 32) {
@@ -2785,7 +2785,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 				for (li = 0 ; li < ln ; li++) {
 					/* For each case ... */
-					if (name (sh (e)) == ulonghd) {
+					if (name (sh (e)) == SH_ULONG) {
 						/* Floating to unsigned conversion is tricky */
 						int ulab1 = new_label ();
 						int ulab2 = new_label ();
@@ -2824,7 +2824,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					} else {
 						/* Floating to signed conversion is easy */
 						ins_p ins = (s == 32 ? i_fstoi : i_fdtoi);
-						if (check_ranges && (name(sh(e))==slonghd || name(sh(e))==ulonghd)) {
+						if (check_ranges && (name(sh(e))==SH_SLONG || name(sh(e))==SH_ULONG)) {
 							check_range_and_do_error_jump(sh(e),tfr,error_lab,
 														  guardfreg(tfr,sp),rm);
 						}
@@ -2844,7 +2844,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 							rrf_ins (i_fcmpd, tfr << 1, dfr << 1);
 							fbr_ins (i_fbe, lab2);
 							/* If not adjust the result by one */
-							if (!optop(e) & name(sh(e)) == ulonghd) {
+							if (!optop(e) & name(sh(e)) == SH_ULONG) {
 								/* watch out for unwanted wrap on addition */
 								condri_ins(i_be,r,-1,error_lab);
 							}
@@ -2863,14 +2863,14 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 				/* Shorten to type if needed */
 				switch (name (sh (e))) {
-				case ucharhd : {
+				case SH_UCHAR : {
 					if (check_ranges){
 						test_unsigned(r,255,error_lab);
 					}
 					rir_ins (i_and, r, 0xff, r);
 					break;
 				}
-				case scharhd : {
+				case SH_SCHAR : {
 					if (check_ranges){
 						test_signed(r,-128,127,error_lab);
 					}
@@ -2878,14 +2878,14 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					rir_ins (i_sra, r, 24, r);
 					break;
 				}
-				case uwordhd : {
+				case SH_UWORD : {
 					if (check_ranges){
 						test_unsigned(r,0xffff,error_lab);
 					}
 					rir_ins (i_and, r, 0xffff, r);
 					break;
 				}
-				case swordhd : {
+				case SH_SWORD : {
 					if (check_ranges){
 						test_signed(r,-0x8000,0x7fff,error_lab);
 					}
@@ -3000,7 +3000,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				exp off = bro(s);
 				fprintf(as_file,"!local free tag \n");
 				if (name(off) == val_tag){
-					assert(name(sh(off)) == offsethd);
+					assert(name(sh(off)) == SH_OFFSET);
 					rir_ins(i_add,r,((no(off)>>3)+7)&~7,r);
 				}
 				else{
@@ -3272,7 +3272,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 				int r = NOREG;
 				bool remember = 0;
 
-				if (name (sh (son (e))) == ptrhd &&
+				if (name (sh (son (e))) == SH_PTR &&
 					name (son (e)) != cont_tag) {
 					/* we should never be identifying a pointer to bits */
 					if (al1 (sh (son (e))) == 1) {
@@ -3519,7 +3519,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 									;
 								else
 #endif
-									if (isvar (e) && name(sh(nm)) == ptrhd &&
+									if (isvar (e) && name(sh(nm)) == SH_PTR &&
 										al1(sh(nm)) == shape_align(sh(son(e)))) {
 										keepcont (nm, r);
 										break;
@@ -3608,7 +3608,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						{
 							int l = (fl != 0) ? fl :
 								((exitlab != 0) ? exitlab : new_label ());
-							if (name(sh(first))!=bothd) uncond_ins (i_b, l);
+							if (name(sh(first))!=SH_BOT) uncond_ins (i_b, l);
 							clear_all ();
 							make_code (second, sp, dest, l);
 							mka.lab = l;
@@ -3627,7 +3627,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 					int hdrhs = (int) name (sh (rhs));
 					bool is_float = (bool) is_floating (hdrhs);
 #if use_long_double
-					if (hdrhs == doublehd) is_float = 0;
+					if (hdrhs == SH_DOUBLE) is_float = 0;
 #endif
 
 					/* lose chvar_tag on rhs if no res, remember to invalidate reg */
@@ -3651,7 +3651,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						if (is_float) {
 							freg frg;
 							frg.fr = 0;
-							frg.dble = (bool) (hdrhs != shrealhd);
+							frg.dble = (bool) (hdrhs != SH_REAL_SHORT);
 							setfregalt (apply_res.answhere, frg);
 						}
 						else {
@@ -3795,7 +3795,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 						ans aa;
 
 						frg.fr = f;
-						frg.dble = (bool) (hdrhs != shrealhd);
+						frg.dble = (bool) (hdrhs != SH_REAL_SHORT);
 						setfregalt (aa, frg);
 
 						nsp = guardfreg (f, nsp);

@@ -843,13 +843,13 @@ void
 dw2_offset_exp(exp e)
 {
 	long block_end = next_dwarf_label ();
-	if (name(sh(e)) != offsethd)
+	if (name(sh(e)) != SH_OFFSET)
 		failer ("wrong shape for offset expression");
 	dw_at_form (DW_FORM_block2); d_outnl();
 	out16 (); out_dwf_dist_to_label (block_end); d_outnl();
 	if (dw_eval_exp (e, 0))
 		d_outnl();
-	if (name(sh(e)) == offsethd && al2(sh(e)) < 8) {
+	if (name(sh(e)) == SH_OFFSET && al2(sh(e)) < 8) {
 		out8 (); outn((long)(DW_OP_lit0 + 8)); outsep();
 		outn((long)DW_OP_mul); d_outnl();
 	}

@@ -487,7 +487,7 @@ check_id(exp e, exp scope)
 	
 #if load_ptr_pars
 	if (!is_vis && is_var && isparam(e) && no(e) > 1 &&
-		name(sh(def)) == ptrhd
+		name(sh(def)) == SH_PTR
 #if is68000
 		&& check_anyway(e)
 #endif
@@ -563,7 +563,7 @@ check_id(exp e, exp scope)
 		(name (def) == val_tag ||
 #if load_ptr_pars
 		 (name (def) == name_tag &&
-		  (!isparam(son(def)) || name(sh(def)) == ptrhd))
+		  (!isparam(son(def)) || name(sh(def)) == SH_PTR))
 #else
          name (def) == name_tag
 #endif
@@ -571,7 +571,7 @@ check_id(exp e, exp scope)
 #if is80x86
 		 (name(def) == name_tag && isparam(son(def)) && !isvar(son(def)) &&
 		  shape_size(sh(def)) < shape_size(sh(son(son(def)))) &&
-		  name(sh(def)) <= ulonghd) ||
+		  name(sh(def)) <= SH_ULONG) ||
 #endif
 		 
 		 (/* substitute the definitions of identity declarations into
@@ -621,7 +621,7 @@ check_id(exp e, exp scope)
 					if (name (cp) == name_tag)
 						no (cp) += no (mem);
 					if (sh(cp) != sh(mem)) {
-						if (name(sh(cp)) <= u64hd)
+						if (name(sh(cp)) <= SH_U64)
 							cp = hold_check(me_u3(sh(mem), cp, chvar_tag));
 						else
 							sh (cp) = sh (mem);
@@ -682,7 +682,7 @@ check_id(exp e, exp scope)
 		exp t = pt (e);
 		int all_chars = 1;
 		while (1) {
-			if (name (sh (t)) > ucharhd) {
+			if (name (sh (t)) > SH_UCHAR) {
 				all_chars = 0;
 				break;
 			}
@@ -699,7 +699,7 @@ check_id(exp e, exp scope)
 				exp n = bro (t);
 				int  v = str[no (t) / 8];
 				exp c;
-				if (name (sh (t)) == ucharhd)
+				if (name (sh (t)) == SH_UCHAR)
 					v = v & 0xff;
 				c = getexp (sh (t), nilexp, 0, nilexp, nilexp, 0, v, val_tag);
 				replace (t, c, c);
@@ -776,14 +776,14 @@ check_id(exp e, exp scope)
 #ifdef NEWDIAGS
 						!isdiaginfo(tc) &&
 #endif
-						(name(sh(bro(tc)))<shrealhd || name(sh(bro(tc)))>doublehd ||
-						 (name(sh(def)) >= shrealhd && name(sh(def)) <= doublehd))) {
+						(name(sh(bro(tc)))<SH_REAL_SHORT || name(sh(bro(tc)))>SH_DOUBLE ||
+						 (name(sh(def)) >= SH_REAL_SHORT && name(sh(def)) <= SH_DOUBLE))) {
 						int qq = shape_size(sh(bro (tc)));
 						all_a = 0;		/* contents op so not all assignments */
 						if (name(father(bro(tc))) != test_tag)
 							conversion = -1;
 						if ((defsize != qq) &&
-							(name(sh(def)) < shrealhd))
+							(name(sh(def)) < SH_REAL_SHORT))
 						{
 #if is80x86
 							if (!isparam(e) || no(e) != 1) {
@@ -819,7 +819,7 @@ check_id(exp e, exp scope)
 							}
 							else
 								if (name(assd_val) == chvar_tag &&
-									name(sh(son(assd_val))) <= uwordhd &&
+									name(sh(son(assd_val))) <= SH_UWORD &&
 									is_signed(sh(son(assd_val)))) {
 									int sz1 = shape_size(sh(son(assd_val)));
 									if (conversion == 0)
@@ -875,10 +875,10 @@ check_id(exp e, exp scope)
 										  ((!last (dad) && last (bro (dad)) &&
 											name (bro (bro (dad))) == ass_tag) ||
 										   (last (dad) && name (bro (dad)) == cont_tag))) ||
-										(name (sh (def)) == realhd &&
-										 name (sh (bro (dad))) != realhd) ||
-										(name (sh (def)) == doublehd &&
-										 name (sh (bro (dad))) != doublehd))
+										(name (sh (def)) == SH_REAL &&
+										 name (sh (bro (dad))) != SH_REAL) ||
+										(name (sh (def)) == SH_DOUBLE &&
+										 name (sh (bro (dad))) != SH_DOUBLE))
 										/* not an assignment to element of array */
 										not_aliased = 0;
 									else
@@ -948,7 +948,7 @@ check_id(exp e, exp scope)
 			
 #if is80x86 || ishppa
 			/* look for places where we can avoid sign extending */
-			if (not_aliased && name(sh(def)) == slonghd &&
+			if (not_aliased && name(sh(def)) == SH_SLONG &&
 				conversion == 16 && /* not 8 because of 80x86 regs */
 				(biggest_assigned_const &
 				 ((conversion == 8) ? (int)0xffffff80 : (int)0xffff8000)) == 0 &&
@@ -986,7 +986,7 @@ check_id(exp e, exp scope)
 #endif
 			
 			if (not_aliased && no(e) < 1000 &&
-				(name(sh(def)) < shrealhd || name(sh(def)) > doublehd) &&
+				(name(sh(def)) < SH_REAL_SHORT || name(sh(def)) > SH_DOUBLE) &&
 				(ca || vardecass || name (def) == val_tag ||
 				 name (son (e)) == real_tag || name (def) == null_tag)) {
 				/* propagate constant assignment forward from the place where they

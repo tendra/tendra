@@ -112,11 +112,11 @@ add_shape_to_stack(ash p, shape s)
     char n = name (s);
     long sz = shape_size (s);
     long adj = 0;
-    if (n == scharhd || n == ucharhd || n == swordhd || n == uwordhd) {
+    if (n == SH_SCHAR || n == SH_UCHAR || n == SH_SWORD || n == SH_UWORD) {
 		adj = SLONG_SZ - sz;
 		sz = SLONG_SZ;
     }
-    if (n == bitfhd) sz = SLONG_SZ;
+    if (n == SH_BITFIELD) sz = SLONG_SZ;
     res.astoff = round (p, param_align);
     res.astadj = adj;
     res.astash = round (res.astoff + sz, param_align);
@@ -319,7 +319,7 @@ alloc_variable(exp e, exp def, ash stack)
     dc.new_stack = stack;
     dc.is_new = 1;
 
-    if (name (sh (def)) == tophd && !isvis(e)) {
+    if (name (sh (def)) == SH_TOP && !isvis(e)) {
 		dc.place = nowhere_pl;
 		dc.num = 0;
 		return (dc);
@@ -545,7 +545,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
     do {
 		regsinuse = r1;
-		if (name (sh (t)) != bothd) make_jump (m_bra, ptno (jr));
+		if (name (sh (t)) != SH_BOT) make_jump (m_bra, ptno (jr));
 		t = bro (t);
 		if (no (son (t)) > 0) {
 			make_label (ptno (pt (son (t))));
@@ -908,7 +908,7 @@ coder(where dest, ash stack, exp e)
 	    exp t = son (son (e));
 	    /* Code each sub-expression */
 	    while (coder (zero, stack, t),
-			   no_bottom = (name (sh (t)) != bothd),
+			   no_bottom = (name (sh (t)) != SH_BOT),
 			   !last (t)) t = bro (t);
 	    /* Code the result expression if necessary */
 	    if (no_bottom) coder (dest, stack, bro (son (e)));
@@ -950,7 +950,7 @@ coder(where dest, ash stack, exp e)
 	    /* If first is just a jump to alt, just encode alt */
 	    if (name (first) == goto_tag && pt (first) == alt &&
 			son (first) != nilexp &&
-			name (sh (son (first))) == tophd) {
+			name (sh (son (first))) == SH_TOP) {
 			coder (dest, stack, bro (son (alt)));
 			return;
 	    }
@@ -977,7 +977,7 @@ coder(where dest, ash stack, exp e)
 	    if (is_condgoto) return;
 
 	    /* If first doesn't end with a jump, add one */
-	    if (name (sh (first)) != bothd) {
+	    if (name (sh (first)) != SH_BOT) {
 			long lb2 = next_lab ();
 			jr = simple_exp (0);
 			ptno (jr) = lb2;
@@ -992,7 +992,7 @@ coder(where dest, ash stack, exp e)
 	    reusables = 0;
 
 	    /* Output the label for the jump added to first if necessary */
-	    if (name (sh (first)) != bothd) {
+	    if (name (sh (first)) != SH_BOT) {
 			make_label (ptno (jr));
 			retcell (jr);
 	    }
@@ -1166,13 +1166,13 @@ coder(where dest, ash stack, exp e)
 		shn = name (sh (arg1));
 
 	    switch (shn) {
-		case ucharhd :
-		case uwordhd :
-		case ulonghd :
-		case u64hd   :  sg = 0; break;
-		case shrealhd :
-		case realhd :
-		case doublehd : sg = 0; sf = 1; break;
+		case SH_UCHAR :
+		case SH_UWORD :
+		case SH_ULONG :
+		case SH_U64   :  sg = 0; break;
+		case SH_REAL_SHORT :
+		case SH_REAL :
+		case SH_DOUBLE : sg = 0; sf = 1; break;
 	    }
 
 	    /* Certain comparisons with 1 or -1 can be changed */
@@ -1228,7 +1228,7 @@ coder(where dest, ash stack, exp e)
 				}
 			}
 	    }
-		if (shn == u64hd || shn == s64hd) {
+		if (shn == SH_U64 || shn == SH_S64) {
 			where w1, w2;
 			w1 = zw (arg1);
 			w2 = zw (arg2);
@@ -1302,7 +1302,7 @@ coder(where dest, ash stack, exp e)
 	    exp assdest = son (e);
 	    exp assval = bro (assdest);
 		make_comment("assign ...");
-	    if (name (sh (assval)) == bitfhd) {
+	    if (name (sh (assval)) == SH_BITFIELD) {
 
 			int_to_bitf (assval, e, stack);
 			return;
@@ -1452,7 +1452,7 @@ coder(where dest, ash stack, exp e)
 			while (t != nilexp) {
 				ast a;
 				if (cpd_param (sh (t))) use_push = 0;
-				if ((name(sh(t)) == s64hd) || (name(sh(t)) == u64hd)){
+				if ((name(sh(t)) == SH_S64) || (name(sh(t)) == SH_U64)){
 					use_push = 0;
 				}
 				if (!push_arg (t)) use_push = 0;
@@ -1502,8 +1502,8 @@ coder(where dest, ash stack, exp e)
 				where stp;
 				long adj = 0;
 				char nc = name (sh (t));
-				if (nc == scharhd || nc == ucharhd) adj = 24;
-				if (nc == swordhd || nc == uwordhd) adj = 16;
+				if (nc == SH_SCHAR || nc == SH_UCHAR) adj = 24;
+				if (nc == SH_SWORD || nc == SH_UWORD) adj = 16;
 				stp = mw (SP_p.wh_exp, st + adj);
 				coder (stp, stack, t);
 				a = add_shape_to_stack (st, sh (t));
@@ -1732,7 +1732,7 @@ coder(where dest, ash stack, exp e)
 #endif
 				}
 				/* Jump to the return label */
-				if (name (rsha) != bothd) {
+				if (name (rsha) != SH_BOT) {
 #ifndef tdf3
 					if (name (e) == untidy_return_tag) {
 						untidy_return ();

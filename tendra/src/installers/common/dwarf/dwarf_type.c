@@ -147,28 +147,28 @@ out_plain_fund_attr(diag_type t)
    case DIAG_TYPE_VARIETY:
     switch(name(t->data.var))
     {
-     case scharhd:
+     case SH_SCHAR:
       dwarf2c(FT_signed_char);
       break;
-     case ucharhd:
+     case SH_UCHAR:
       dwarf2c(FT_unsigned_char);
       break;
-     case swordhd:
+     case SH_SWORD:
       dwarf2c(FT_signed_short);
       break;
-     case uwordhd:
+     case SH_UWORD:
       dwarf2c(FT_unsigned_short);
       break;
-     case slonghd:
+     case SH_SLONG:
       dwarf2c(FT_signed_integer);
       break;
-     case ulonghd:
+     case SH_ULONG:
       dwarf2c(FT_unsigned_integer);
       break;
-     case s64hd:
+     case SH_S64:
       dwarf2c(gcc_FT_long_long);
       break;
-     case u64hd:
+     case SH_U64:
       dwarf2c(gcc_FT_unsigned_long_long);
       break;
      default:

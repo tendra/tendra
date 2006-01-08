@@ -216,7 +216,7 @@ varsize(shape sha)
 {
 	switch (name(sha))
 	{
-	case cpdhd:
+	case SH_COMPOUND:
 	{
 		shape t = son(sha);
 
@@ -233,7 +233,7 @@ varsize(shape sha)
 		return 0;
 	}
 
-	case nofhd:
+	case SH_NOF:
 		return 1;
 
 	default:
@@ -634,7 +634,7 @@ translate_capsule(void)
 		{
 			outs("\t.IMPORT\t");
 			outs(id);
-			outs(name(sh(tg))==prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
+			outs(name(sh(tg))==SH_PROC ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
 		}
 		else
 			if (son(tg) != nilexp && (extnamed || no(tg) != 0))

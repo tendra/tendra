@@ -180,8 +180,8 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     
   if(!strcmp(t->tok_name, "__builtin_va_start")){
     /* builtin function taking 3 arguments: a va_list, a va_alist,
-       and an integer i.e a compound(ptrhd,slonghd),
-       an integer(s64shd) and an integer(slonghd).
+       and an integer i.e a compound(SH_PTR,SH_SLONG),
+       an integer(s64shd) and an integer(SH_SLONG).
        The pointer field of the compound is set equal to the 64
        bit integer, and the integer field is set to 8.
        */
@@ -204,9 +204,9 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     set_vararg(arg1);
     copy_of_compound = copyexp(arg1);
     component1 = get_component(arg1,const_al64,PTR_ALIGN,PTR_SZ,
-			       ptrhd,f_off64_64,0);
+			       SH_PTR,f_off64_64,0);
     component2 = get_component(copy_of_compound,const_al32,SLONG_ALIGN,
-			       SLONG_SZ,slonghd,f_off32_32,64);
+			       SLONG_SZ,SH_SLONG,f_off32_32,64);
     assignment1 = f_assign(component1,arg2);
     assignment2 = f_assign(component2,getexp(f_off32_32,nilexp,0,nilexp,nilexp,
 					     0,0,val_tag));

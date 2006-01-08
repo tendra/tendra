@@ -116,17 +116,17 @@ maxmin(shape s)
 {
 	switch (name(s))
 	{
-	case scharhd:
+	case SH_SCHAR:
 		return scmm;
-	case ucharhd:
+	case SH_UCHAR:
 		return uscmm;
-	case swordhd:
+	case SH_SWORD:
 		return shmm;
-	case uwordhd:
+	case SH_UWORD:
 		return ushmm;
-	case slonghd:
+	case SH_SLONG:
 		return swmm;
-	case ulonghd:
+	case SH_ULONG:
 		return uswmm;
 	default:
 	{
@@ -325,7 +325,7 @@ evalexp(exp e)
 		return 0;
 	case val_tag: case null_tag:
 	{
-		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8)
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8)
 		{
 			return (no(e)>>3);
 		}
@@ -342,7 +342,7 @@ evalexp(exp e)
 		unsigned long w = evalexp(son(e));
 
 		a = ashof(sh(e));
-		if (a.ashalign != 1 && !(name(sh(e)) == cpdhd && a.ashalign == 32))
+		if (a.ashalign != 1 && !(name(sh(e)) == SH_COMPOUND && a.ashalign == 32))
 		{
 			fail("should be align 1");
 		}

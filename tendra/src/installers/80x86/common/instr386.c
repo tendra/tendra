@@ -874,7 +874,7 @@ flinmem(where w)
 	}
 
 	if (ptno (id) == reg_pl &&
-		(name (sh (son (id))) > ucharhd || no (id) < 0x10))/* 0x10 is edi */
+		(name (sh (son (id))) > SH_UCHAR || no (id) < 0x10))/* 0x10 is edi */
 		return (0);  /* there are no char versions of edi, esi */
 
 	return (1);
@@ -1192,13 +1192,13 @@ add_plus(shape sha, where a1, where a2, where dest,
 	int  boff = a2.where_off;
 	sz = shape_size(sha);
 
-	if (name(a) == val_tag && name(sh(a)) == offsethd && al2(sh(a)) != 1) {
-		if (name(sha) == offsethd && al2(sha) != 1)
+	if (name(a) == val_tag && name(sh(a)) == SH_OFFSET && al2(sh(a)) != 1) {
+		if (name(sha) == SH_OFFSET && al2(sha) != 1)
 			no(a) = no(a) / 8;
 		sh(a) = slongsh;
 	}
-	if (name(b) == val_tag && name(sh(b)) == offsethd && al2(sh(b)) != 1) {
-		if (name(sha) == offsethd && al2(sha) != 1)
+	if (name(b) == val_tag && name(sh(b)) == SH_OFFSET && al2(sh(b)) != 1) {
+		if (name(sha) == SH_OFFSET && al2(sha) != 1)
 			no(b) = no(b) / 8;
 		sh(b) = slongsh;
 	}
@@ -1454,7 +1454,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 					  dest);
 				return;
 			}
-			if (name(sh(a)) == offsethd)
+			if (name(sh(a)) == SH_OFFSET)
 				n = 1;
 			else
 				n = 8;
@@ -1475,7 +1475,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 			}
 		}
 		if (name (b) == val_tag) {
-			if (name(sh(b)) == offsethd)
+			if (name(sh(b)) == SH_OFFSET)
 				n = 1;
 			else
 				n = 8;
@@ -1580,13 +1580,13 @@ sub(shape sha, where a1, where a2, where dest)
 	exp b = a2.where_exp;
 	sz = shape_size(sha);
 
-	if (name(a) == val_tag && name(sh(a)) == offsethd && al2(sh(a)) != 1) {
-		if (name(sha) == offsethd && al2(sha) != 1)
+	if (name(a) == val_tag && name(sh(a)) == SH_OFFSET && al2(sh(a)) != 1) {
+		if (name(sha) == SH_OFFSET && al2(sha) != 1)
 			no(a) = no(a) / 8;
 		sh(a) = slongsh;
 	}
-	if (name(b) == val_tag && name(sh(b)) == offsethd && al2(sh(b)) != 1) {
-		if (name(sha) == offsethd && al2(sha) != 1)
+	if (name(b) == val_tag && name(sh(b)) == SH_OFFSET && al2(sh(b)) != 1) {
+		if (name(sha) == SH_OFFSET && al2(sha) != 1)
 			no(b) = no(b) / 8;
 		sh(b) = slongsh;
 	}
@@ -2010,14 +2010,14 @@ move(shape sha, where from, where to)
 	if (name(fe) == reff_tag ||
 		(PIC_code && name(fe) == name_tag &&
 		 isglob(son (fe)) &&
-		 (name (sha) == offsethd) &&
+		 (name (sha) == SH_OFFSET) &&
 		 !brog(son(fe)) ->  dec_u.dec_val.extnamed))
     {
 		mova(from, to);
 		return;
     }
 
-	if (name (sha) >= shrealhd && name (sha) <= doublehd) {
+	if (name (sha) >= SH_REAL_SHORT && name (sha) <= SH_DOUBLE) {
 		/* moving a float or double */
 		int  f1 = in_fl_reg (from.where_exp);
 		int  f2 = in_fl_reg (to.where_exp);
@@ -2031,10 +2031,10 @@ move(shape sha, where from, where to)
 				if (flinmem (to)) {	/* are going to pop the floating point
 									 *				   stack */
 					contop (te, 0, reg0);	/* compute address of to if necessary */
-					if (name (sha) == shrealhd)
+					if (name (sha) == SH_REAL_SHORT)
 						ins1 (fsts, 32, to);
 					else
-						if (name (sha) == realhd)
+						if (name (sha) == SH_REAL)
 							ins1 (fstl, 64, to);
 						else {
 							ins1 (fstpt, 96, to);
@@ -2056,10 +2056,10 @@ move(shape sha, where from, where to)
 			if (flinmem (to)) {	/* store from fstack0 into memory and pop
 								 */
 				contop (te, 0, reg0);
-				if (name (sha) == shrealhd)
+				if (name (sha) == SH_REAL_SHORT)
 					ins1 (fstps, 32, to);
 				else
-					if (name (sha) == realhd)
+					if (name (sha) == SH_REAL)
 						ins1 (fstpl, 64, to);
 					else
 						ins1 (fstpt, 96, to);
@@ -2091,10 +2091,10 @@ move(shape sha, where from, where to)
 				if (flinmem (from)) {	/* push from into fstack0 from memory */
 					contop (fe, 0, reg0);	/* put address of from into reg0 if
 											 *				   necessary */
-					if (name (sha) == shrealhd)
+					if (name (sha) == SH_REAL_SHORT)
 						ins1 (flds, 32, from);
 					else
-						if (name (sha) == realhd)
+						if (name (sha) == SH_REAL)
 							ins1 (fldl, 64, from);
 						else
 							ins1 (fldt, 96, from);
@@ -2111,10 +2111,10 @@ move(shape sha, where from, where to)
 			push_fl;			/* we necessarily did a push */
 			if (flinmem (to)) {	/* pop fstack0 to to (in memory) */
 				contop (te, 0, reg0);
-				if (name (sha) == shrealhd)
+				if (name (sha) == SH_REAL_SHORT)
 					ins1 (fstps, 32, to);
 				else
-					if (name (sha) == realhd)
+					if (name (sha) == SH_REAL)
 						ins1 (fstpl, 64, to);
 					else
 						ins1 (fstpt, 96, to);
@@ -2147,7 +2147,7 @@ move(shape sha, where from, where to)
 	if (name (to.where_exp) == apply_tag) {	/* pushing */
 		where reg_w;
 		if (name(fe) == real_tag) {
-			int fv = name(sh(fe)) - shrealhd;
+			int fv = name(sh(fe)) - SH_REAL_SHORT;
 			r2l fint;
 			fint = real2longs_IEEE(&flptnos[no(fe)], fv);
 			if (sz >= 96)
@@ -2177,7 +2177,7 @@ move(shape sha, where from, where to)
 			if (name (fe) == val_tag) {	/* moving a constant integer */
 				if (!isbigval(fe)) {
 					c = no (fe) + from.where_off;
-					c1 = (name(sha) == s64hd && c < 0) ? -1 : 0;
+					c1 = (name(sha) == SH_S64 && c < 0) ? -1 : 0;
 				}
 				else {
 					flt64 x;
@@ -2247,7 +2247,7 @@ move(shape sha, where from, where to)
 
 
 	if (inmem (from) && inmem (to) && ((sz <= 32 && sz != 24)
-									   || name(sha) == u64hd || name(sha) == s64hd)) {
+									   || name(sha) == SH_U64 || name(sha) == SH_S64)) {
 		/* from and to are both in memory */
 		move (sha, from, reg0);
 		move (sha, reg0, to);
@@ -2257,7 +2257,7 @@ move(shape sha, where from, where to)
 	}
 
 	if (name(fe) == real_tag) {
-		int fv = name(sh(fe)) - shrealhd;
+		int fv = name(sh(fe)) - SH_REAL_SHORT;
 		r2l fint;
 		fint = real2longs_IEEE(&flptnos[no(fe)], fv);
 		contop(te, 0, to);
@@ -2278,7 +2278,7 @@ move(shape sha, where from, where to)
 		if (!isbigval(fe)) {
 			c = no (fe) + from.where_off;
 			if (sz == 64)
-				c1 = (name(sha) == s64hd && c < 0) ? -1 : 0;
+				c1 = (name(sha) == SH_S64 && c < 0) ? -1 : 0;
 		}
 		else {
 			flt64 x;
@@ -2522,7 +2522,7 @@ move(shape sha, where from, where to)
 		return;
 	}
 
-	if (name(sha) == realhd && might_overlap(sha, from, to)) {
+	if (name(sha) == SH_REAL && might_overlap(sha, from, to)) {
 		if ((regsinuse & REG_ALL_EXCEPT_EAX) != REG_ALL_EXCEPT_EAX) {
 			int  foff = from.where_off;
 			int  toff = to.where_off;
@@ -2626,7 +2626,7 @@ move(shape sha, where from, where to)
 		return;
 	}
 
-	if (name(sha) == realhd) {
+	if (name(sha) == SH_REAL) {
 		move(sha, from, flstack);
 		move(sha, flstack, to);
 		son(fe) = holdfe;
@@ -3173,7 +3173,7 @@ cmp(shape sha, where from, where min, int nt,
 			}
 
 			if ((inmem (from) && inmem (min)) ||
-				(name (sha) == prokhd && !PIC_code && !eq_where(min, reg0)) ||
+				(name (sha) == SH_PROC && !PIC_code && !eq_where(min, reg0)) ||
 				(name (from.where_exp) == name_tag &&
 				 isvar (son (from.where_exp))) ||
 				(name(from.where_exp) == reff_tag &&
@@ -3184,7 +3184,7 @@ cmp(shape sha, where from, where min, int nt,
 					   ptno (son (from.where_exp)) <= par_pl) ||
 					  (PIC_code &&
 					   isglob(son (from.where_exp)) &&
-					   (name (sha) == prokhd || name(sha) == ptrhd) &&
+					   (name (sha) == SH_PROC || name(sha) == SH_PTR) &&
 					   !brog(son(from.where_exp)) ->  dec_u.dec_val.extnamed))) ||
 					name(from.where_exp) == reff_tag)
 					mova (from, reg0);
@@ -3223,7 +3223,7 @@ cmp(shape sha, where from, where min, int nt,
 			if ((name (me) == name_tag && isvar (son (me)) &&
 				 ptno (son (me)) <= par_pl) ||
 				(PIC_code && name (me) == name_tag && isglob(son(me)) &&
-				 (name(sha) == prokhd || name(sha) == ptrhd) &&
+				 (name(sha) == SH_PROC || name(sha) == SH_PTR) &&
 				 !brog(son(me)) ->  dec_u.dec_val.extnamed) ||
 				(name(me) == reff_tag && name(son(me)) == name_tag &&
 				 !isvar(son(son(me))))){
@@ -3401,35 +3401,35 @@ change_var_sh(shape sha, shape fsh, where from,
 
 	/* set szt and sgt */
 	switch (name (sha)) {
-    case scharhd:
+    case SH_SCHAR:
 		szt = 8;
 		sgt = 1;
 		break;
-    case ucharhd:
+    case SH_UCHAR:
 		szt = 8;
 		sgt = 0;
 		break;
-    case swordhd:
+    case SH_SWORD:
 		szt = 16;
 		sgt = 1;
 		break;
-    case uwordhd:
+    case SH_UWORD:
 		szt = 16;
 		sgt = 0;
 		break;
-    case slonghd:
+    case SH_SLONG:
 		szt = 32;
 		sgt = 1;
 		break;
-    case s64hd:
+    case SH_S64:
 		szt = 64;
 		sgt = 1;
 		break;
-    case u64hd:
+    case SH_U64:
 		szt = 64;
 		sgt = 0;
 		break;
-    case bitfhd:
+    case SH_BITFIELD:
 		szt = 32;
 		sgt = is_signed(sha);
 		sha = (sgt) ? slongsh: ulongsh;
@@ -3471,7 +3471,7 @@ change_var_sh(shape sha, shape fsh, where from,
 	}
 
 
-	if (name(fsh) == bitfhd) {
+	if (name(fsh) == SH_BITFIELD) {
 		if (szf < 8) {
 			if (sgf && !sgt) {
 				and (scharsh, from, mw (zeroe, (1 << szf) - 1), reg0);
@@ -3870,7 +3870,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 								int c, c1;
 								if (!isbigval(b)) {
 									c = no(b) + boff;
-									c1 = (name(sha) == s64hd && c < 0) ? -1 : 0;
+									c1 = (name(sha) == SH_S64 && c < 0) ? -1 : 0;
 								}
 								else {
 									flt64 x;
@@ -3946,7 +3946,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 						int c, c1;
 						if (!isbigval(a)) {
 							c = no(a) + aoff;
-							c1 = (name(sha) == s64hd && c < 0) ? -1 : 0;
+							c1 = (name(sha) == SH_S64 && c < 0) ? -1 : 0;
 						}
 						else {
 							flt64 x;
@@ -4527,7 +4527,7 @@ longc_mult(where a1, where a2, where dest,
 	shape sha = slongsh;
 	exp holdd = son(dest.where_exp);
 
-	if (name(sh(a2.where_exp)) == offsethd && al2(sh(a2.where_exp)) != 1)
+	if (name(sh(a2.where_exp)) == SH_OFFSET && al2(sh(a2.where_exp)) != 1)
 		n = n / 8;
 
 	cond1_set = 0;
@@ -5105,7 +5105,7 @@ divit(shape sha, where bottom, where top,
 	shape shb = sh(bottom.where_exp);
 	d = bottom;
 
-	if (name(sh(top.where_exp)) == offsethd)
+	if (name(sh(top.where_exp)) == SH_OFFSET)
 		sg = 1;  /* fudge because some systems have ptrdiff_t as unsigned
 				  *                though ANSI C says it must be signed
 				  */
@@ -5128,7 +5128,7 @@ divit(shape sha, where bottom, where top,
 		int  c = 0;
 		int  m = 1;
 		where rw;
-		if (name(shb) == offsethd &&
+		if (name(shb) == SH_OFFSET &&
 			al2(shb) != 1)
 			v = v / 8;
 		while (m != v) {
@@ -6007,7 +6007,7 @@ fopm(shape sha, unsigned char op, int rev,
 {
 	exp hold = son(wh.where_exp);
 	contop (wh.where_exp, 0, reg0);
-	if (name (sha) == shrealhd) {	/* floats */
+	if (name (sha) == SH_REAL_SHORT) {	/* floats */
 		switch (op) {
 		case fplus_tag:
 			ins1 (fadds,  32, wh);
@@ -6164,7 +6164,7 @@ fl_binop(unsigned char op, shape sha, where arg1,
 	int   m3 = flinmem (dest);
 	int tst = (m1 << 2) + (m2 << 1) + m3;
 
-	if (name(sha) == doublehd && tst > 1)
+	if (name(sha) == SH_DOUBLE && tst > 1)
 	{
 		move(sha, arg1, flstack);
 		move(sha, arg2, flstack);
@@ -6433,7 +6433,7 @@ static void
 roundit(shape sha, where from, where to, int mode)
 {
 	shape shfrom = sh (from.where_exp);
-	int ul = (name (sha) == ulonghd || name (sha) == u64hd);
+	int ul = (name (sha) == SH_ULONG || name (sha) == SH_U64);
 	int sz = (shape_size (sha) == 64) ? 64 : 32;
 
 	cond1_set = 0;
@@ -6553,7 +6553,7 @@ floater(shape sha, where from, where to)
 	holdfe = son(from.where_exp);
 	contop (from.where_exp, 0, reg0);
 	ins1 ((szf == 64 ? fildll : fildl), szf, from);
-	if (name (shfrom) == ulonghd || name (shfrom) == u64hd) {
+	if (name (shfrom) == SH_ULONG || name (shfrom) == SH_U64) {
 		int  lab = next_lab ();
 		ins2 (cmpl, szf, szf, zero, from);
 		simple_branch (jge, lab);
@@ -6780,7 +6780,7 @@ setup_fl_ovfl(exp e)
 	int ival;
 	int eprmask = 0x300;
 	if (errhandle(e) == 0) {
-		if (name(sh(e)) == doublehd)
+		if (name(sh(e)) == SH_DOUBLE)
 			set_fpucon (eprmask, eprmask);
 		return;
 	}
@@ -6789,7 +6789,7 @@ setup_fl_ovfl(exp e)
 		fp_clear = 1;
 	}
 	ival = (istrap(e) ? 0 : traps);
-	if (name(sh(e)) == doublehd || name(sh(e)) == s64hd || name(sh(e)) == u64hd)
+	if (name(sh(e)) == SH_DOUBLE || name(sh(e)) == SH_S64 || name(sh(e)) == SH_U64)
 		set_fpucon ((eprmask | traps), (eprmask | ival));
 	else
 		set_fpucon (traps, ival);
@@ -6803,7 +6803,7 @@ test_fl_ovfl(exp e, where dest)
 	if (errhandle(e) == 0)
 		return;
 	r = in_fl_reg(dest.where_exp);
-	if (r && (name(sh(e)) == realhd || name(sh(e)) == shrealhd)) {
+	if (r && (name(sh(e)) == SH_REAL || name(sh(e)) == SH_REAL_SHORT)) {
 		/* overflow won't register until stored in memory */
 		where m;
 		int reqsize = 32 + shape_size(sh(e));
@@ -6812,7 +6812,7 @@ test_fl_ovfl(exp e, where dest)
 		m = mw(ferrmem,32);
 		if (get_reg_no(r) == fstack_pos && !optop(e)) {
 			/* avoid move, which pops the stack */
-			if (name(sh(e)) == realhd)
+			if (name(sh(e)) == SH_REAL)
 				ins1 (fstl, 64, m);
 			else
 				ins1 (fsts, 32, m);
@@ -6845,7 +6845,7 @@ test_fl_ovfl(exp e, where dest)
 				dw2_track_pop();
 #endif
 		}
-		branch(f_equal, pt(son(pt(e))), 0, scharhd);
+		branch(f_equal, pt(son(pt(e))), 0, SH_SCHAR);
 		invalidate_dest(reg0);
 	}
 	return;

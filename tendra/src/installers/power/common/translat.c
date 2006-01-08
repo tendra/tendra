@@ -370,7 +370,7 @@ translate_capsule()
 				}
 				else if (extnamed)
 				{
-					if (name(s) == prokhd)
+					if (name(s) == SH_PROC)
 					{
 						fprintf(as_file, "\t.extern\t%s\n", id);	/* proc descriptor */
 						fprintf(as_file, "\t.extern\t.%s\n", id);	/* proc entry point */
@@ -524,7 +524,7 @@ translate_capsule()
 			if (extnamed && son(tg) == nilexp)
 			{
 				/* extern from another module */
-				if (name(crt_def->dec_u.dec_val.dec_shape) == prokhd)
+				if (name(crt_def->dec_u.dec_val.dec_shape) == SH_PROC)
 					storage_class = "";	/* proc descriptor */
 				else
 					storage_class = "";	/* unknown data */

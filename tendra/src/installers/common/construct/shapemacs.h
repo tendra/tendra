@@ -55,51 +55,52 @@
  */
 
 
-#ifndef bothd
+#ifndef SHAPEMACS_H
+#define	SHAPEMACS_H
+
+/*
+ * Shapes names.
+ * Odd numbers used for signed shapes if applicable.
+ */
+#define	SH_BOT				1
+#define	SH_TOP				2
+#define	SH_SCHAR			3
+#define	SH_UCHAR			4
+#define	SH_SWORD			5
+#define	SH_UWORD			6
+#define	SH_SLONG			7
+#define	SH_ULONG			8
+#define	SH_S64				9
+#define	SH_U64				10
+
+#define	SH_COMPLEX_SHORT	17
+#define	SH_COMPLEX			18
+#define	SH_COMPLEX_DOUBLE	19
+#define	SH_REAL_SHORT		20
+#define	SH_REAL				21
+#define	SH_DOUBLE			22
+
+#define	SH_BITFIELD			23
+#define	SH_PROC				24
+#define	SH_PTR				25
+#define	SH_OFFSET			26
+#define	SH_SIZE				27
+#define	SH_COMPOUND			28
+
+#define	SH_NOF				29
+
+/*
+ * Floating varietes.
+ */
+#define	FV_REAL_SHORT		0
+#define	FV_REAL				1
+#define	FV_DOUBLE			2
+#define	FV_COMPLEX_SHORT	3
+#define	FV_COMPLEX			4
+#define	FV_COMPLEX_DOUBLE	5
 
 
-
-#define bothd  1
-#define tophd  2
-#define scharhd  3
-#define ucharhd  4
-#define swordhd  5
-#define uwordhd  6
-#define slonghd  7
-#define ulonghd  8
-#define s64hd 9
-#define u64hd 10
+#define	is_floating(x) ((x) >= SH_REAL_SHORT && (x) <= SH_DOUBLE)
 
 
-
-#define shcomplexhd  17
-#define complexhd  18
-#define complexdoublehd  19
-#define shrealhd  20
-#define realhd  21
-#define doublehd  22
-#define bitfhd 23
-#define prokhd  24
-#define ptrhd  25
-#define offsethd  26
-#define sizehd  27
-#define cpdhd  28
-
-
-#define nofhd  29
-#define tokhd  30
-
-
-#define shrealfv  0
-#define realfv  1
-#define doublefv  2
-#define shcomplexfv  3
-#define complexfv  4
-#define complexdoublefv  5
-
-
-#define is_floating(x) ((x)>=shrealhd && (x)<= doublehd)
-
-
-
-#endif
+#endif /* !SHAPEMACS_H */

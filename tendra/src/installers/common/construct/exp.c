@@ -410,9 +410,9 @@ lub_shape(shape a, shape b)
 {
 	int asz = shape_size(a);
 	int bsz = shape_size(b);
-	if (name(a) ==bothd)
+	if (name(a) ==SH_BOT)
 		return b;
-	if (name(b) == bothd)
+	if (name(b) == SH_BOT)
 		return a;
 	if (asz == bsz && shape_align(a) == shape_align(b))
 		return (a);
@@ -430,7 +430,7 @@ eq_shape(shape a, shape b)
 		shape_align(a)!=shape_align(b) ||
 		al1(a)!=al1(b))
 		return 0;
-	if (name(a) == nofhd)
+	if (name(a) == SH_NOF)
 		return 1;
 	else
 		return (al2(a)==al2(b));
@@ -1134,7 +1134,7 @@ is_comm(exp e)
 	    if (t == nilexp) return (1);
 	    while (1) {
 			t = bro (t);
-			if (name (sh (t)) != bitfhd) {
+			if (name (sh (t)) != SH_BITFIELD) {
 				if (!is_comm (t)) return (0);
 			} else {
 				if (name (t) == val_tag) {

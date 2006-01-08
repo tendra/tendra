@@ -885,7 +885,7 @@ exp_show(exp e, int depth, int depth_of_recursion,
 		if (l)
 			printf("%s:<%s> no=%d obtain {tag~%04d}\n",tagname,shape_name(name(sh(e))),no(e),l);
 #if 1
-		else if (name(sh(e))==prokhd &&(name(son(son(e)))==proc_tag||son(son(e))==nilexp||name(son(son(e)))==general_proc_tag) && done_scan==1)
+		else if (name(sh(e))==SH_PROC &&(name(son(son(e)))==proc_tag||son(son(e))==nilexp||name(son(son(e)))==general_proc_tag) && done_scan==1)
 		{
 			baseoff b = boff(son(e));
 			char *ext;
@@ -1045,7 +1045,7 @@ exp_show(exp e, int depth, int depth_of_recursion,
 		break;
 	case bfass_tag:
 	case bfcont_tag:
-		if (name(sh(e))==bitfhd)
+		if (name(sh(e))==SH_BITFIELD)
 		{
 			printf("%s:<%s> %s %d bit bitfield , bit_offset=%d\n",tagname,shape_name(name(sh(e))),is_signed(sh(e))?"Signed":"Unsigned",shape_size(sh(e)),no(e));
 		}
@@ -1057,7 +1057,7 @@ exp_show(exp e, int depth, int depth_of_recursion,
 		exp_show(son(e),depth+1,depth_of_recursion,0);
 		break;
 	case chvar_tag:
-		if (name(sh(e))==bitfhd)
+		if (name(sh(e))==SH_BITFIELD)
 		{
 			printf("%s:<%s> %s %d bit bitfield\n",tagname,shape_name(name(sh(e))),is_signed(sh(e))==0?"Unsigned":"Signed",shape_size(sh(e)));
 		}
@@ -1257,73 +1257,73 @@ char
 	switch (n)
 	{
 	case 1:
-		k="bothd";
+		k="SH_BOT";
 		break;
 	case 2:
-		k="tophd";
+		k="SH_TOP";
 		break;
 	case 3:
-		k="scharhd";
+		k="SH_SCHAR";
 		break;
 	case 4:
-		k="ucharhd";
+		k="SH_UCHAR";
 		break;
 	case 5:
-		k="swordhd";
+		k="SH_SWORD";
 		break;
 	case 6:
-		k="uwordhd";
+		k="SH_UWORD";
 		break;
 	case 7:
-		k="slonghd";
+		k="SH_SLONG";
 		break;
 	case 8:
-		k="ulonghd";
+		k="SH_ULONG";
 		break;
 	case 9:
-		k="s64hd";
+		k="SH_S64";
 		break;
 	case 10:
-		k="u64hd";
+		k="SH_U64";
 		break;
 	case 17:
-		k="shcomplexhd";
+		k="SH_COMPLEX_SHORT";
 		break;
 	case 18:
-		k="complexhd";
+		k="SH_COMPLEX";
 		break;
 	case 19:
-		k="complexdoublehd";
+		k="SH_COMPLEX_DOUBLE";
 		break;
 	case 20:
-		k="shrealhd";
+		k="SH_REAL_SHORT";
 		break;
 	case 21:
-		k="realhd";
+		k="SH_REAL";
 		break;
 	case 22:
-		k="doublehd";
+		k="SH_DOUBLE";
 		break;
 	case 23:
-		k="bitfhd";
+		k="SH_BITFIELD";
 		break;
 	case 24:
-		k="prokhd";
+		k="SH_PROC";
 		break;
 	case 25:
-		k="ptrhd";
+		k="SH_PTR";
 		break;
 	case 26:
-		k="offsethd";
+		k="SH_OFFSET";
 		break;
 	case 27:
-		k="sizehd";
+		k="SH_SIZE";
 		break;
 	case 28:
-		k="cpdhd";
+		k="SH_COMPOUND";
 		break;
 	case 29:
-		k="nofhd";
+		k="SH_NOF";
 		break;
 	case 30:
 		k="tokhd";

@@ -89,9 +89,9 @@
 void
 tidyshort(int r, shape s)
 {
-	if (name (s) == ucharhd) {
+	if (name (s) == SH_UCHAR) {
 		rir_ins (i_and, r, 0xff, r);
-	} else if (name (s) == uwordhd) {
+	} else if (name (s) == SH_UWORD) {
 		rir_ins (i_and, r, 0xffff, r);
 	}
 	return;
@@ -475,7 +475,7 @@ quad_op(exp a1, exp a2, space sp, where dest,
 	/* hack for float integer */
 	if (op == float_tag) {
 		int r = reg_operand (a1, sp);
-		if (name (sh (a1)) == ulonghd) s = "_Q_utoq,1";
+		if (name (sh (a1)) == SH_ULONG) s = "_Q_utoq,1";
 		if (r != R_O0) rr_ins (i_mov, r, R_O0);
 		a1 = nilexp;
 	}
@@ -485,7 +485,7 @@ quad_op(exp a1, exp a2, space sp, where dest,
 		where w;
 		freg frg;
 		frg.fr = getfreg (sp.flt);
-		if (name (sh (a1)) == realhd) {
+		if (name (sh (a1)) == SH_REAL) {
 			s = "_Q_dtoq,1";
 			frg.dble = 1;
 		}
@@ -539,7 +539,7 @@ fop(exp e, space sp, where dest, ins_p ins)
 	int a1, a2;
 
 #if use_long_double
-	if (name (sh (e)) == doublehd) {
+	if (name (sh (e)) == SH_DOUBLE) {
 		if (IsRev (e)) {
 			quad_op (r, l, sp, dest, (int) name (e));
 		}

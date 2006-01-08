@@ -80,7 +80,7 @@ valregable(shape s)
 			/* Reject anything too big */
 			return (0);
 		}
-		else if (name (s) == cpdhd || name (s) == nofhd) {
+		else if (name (s) == SH_COMPOUND || name (s) == SH_NOF) {
 			/* Compound shapes are not put in registers */
 			return (0);
 		}

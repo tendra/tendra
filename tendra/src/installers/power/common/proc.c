@@ -1062,7 +1062,7 @@ do_callers(int n, exp list, space sp)
 				/* store floating parameter on the stack */
 				frg.fr=(fr_param_reg<=FR_LAST_PARAM ? fr_param_reg : getfreg(nsp.flt));
 				
-				frg.dble = name(par_shape) != shrealhd;
+				frg.dble = name(par_shape) != SH_REAL_SHORT;
 				setfregalt(w.answhere, frg);
 				code_here(par, nsp, w);
 				
@@ -1280,7 +1280,7 @@ move_result_to_dest(exp e, space sp, where dest,
 		freg frg;
 		
 		frg.fr = FR_RESULT;
-		frg.dble = (hda != shrealhd);
+		frg.dble = (hda != SH_REAL_SHORT);
 		setfregalt(aa, frg);
 		COMMENT1("apply: is_floating result, dble=%d", frg.dble);
 		move(aa, dest, sp.fixed, 1);

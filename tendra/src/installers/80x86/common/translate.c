@@ -253,7 +253,7 @@ make_code(dec *my_def)
 				outnl();
 #endif
 			} else if (!PIC_code && !isvar(tg) && name(son(tg)) == null_tag &&
-						name(sh(son(tg))) == prokhd) {
+						name(sh(son(tg))) == SH_PROC) {
 				if (my_def->dec_u.dec_val.extnamed) {
 					outs(".globl ");
 					outs(id);
@@ -366,7 +366,7 @@ translate_capsule(void)
 				(idval == nilexp || ( name(idval) != val_tag && name(idval) != real_tag &&
 				name(idval) != null_tag)	/* optimised out in opt_all_exps/checkext */
 				) &&
-				(name(sh(crt_exp)) != prokhd ||
+				(name(sh(crt_exp)) != SH_PROC ||
 				(idval != nilexp && name(idval) != null_tag &&
 				 name(idval) != proc_tag && name(idval) != general_proc_tag)
 			  )) {

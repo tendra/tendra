@@ -231,7 +231,7 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 	
 	/* reg tracking of unions unsafe, as views of location can differ */
 	/* +++ improve this */
-	if (name(sh(e)) == cpdhd)
+	if (name(sh(e)) == SH_COMPOUND)
 	{
 		return aa;
 	}

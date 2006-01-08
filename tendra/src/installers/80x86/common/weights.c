@@ -353,7 +353,7 @@ regable(exp e)
   unsigned char  n;
   shape sha = sh (son (e));
   n = name (sha);
-  if (isvis (e) || n == cpdhd || n == nofhd || n == s64hd || n == u64hd)
+  if (isvis (e) || n == SH_COMPOUND || n == SH_NOF || n == SH_S64 || n == SH_U64)
     return (0);
   if (all_variables_visible && isvar(e))
     return 0;
@@ -364,7 +364,7 @@ int
 isflsh(shape s)
 {
   unsigned char  n = name (s);
-  return (n >= shrealhd && n <= doublehd);
+  return (n >= SH_REAL_SHORT && n <= SH_DOUBLE);
 }
 
 
@@ -414,7 +414,7 @@ weightsv(exp e, explist *el)
 	  exp def = son (e);
 	  exp body = bro (def);
 
-	  if (name(sh(def)) == u64hd || name(sh(def)) == s64hd)
+	  if (name(sh(def)) == SH_U64 || name(sh(def)) == SH_S64)
 	    markreg1(el);
 
 	  fno (e) = 0.0;	/* clear the accumulated value field */
@@ -462,7 +462,7 @@ weightsv(exp e, explist *el)
 	    return (add_weights (wdef, p.wp_weights));
 	  }
 
-	  if (name(sh(def)) == nofhd && ptno(sh(def)) == realhd &&
+	  if (name(sh(def)) == SH_NOF && ptno(sh(def)) == SH_REAL &&
 		shape_size(sh(def)) >= 640)
 	    useful_double = 1;
 
@@ -528,7 +528,7 @@ weightsv(exp e, explist *el)
     case apply_general_tag:
     case tail_call_tag:
       {
-        if (name(sh(e)) != bothd && !builtinproc(e))
+        if (name(sh(e)) != SH_BOT && !builtinproc(e))
 	  markcall (el);
 	return (add_weights (add_wlist (son (e), 0, el),
 	      applyregs));
@@ -540,7 +540,7 @@ weightsv(exp e, explist *el)
       unsigned char shn = name (sh (bro (son (e))));
       weights temp;
       temp = weightsv (bro (son (e)), el);
-      if (shn == u64hd || shn == s64hd)
+      if (shn == SH_U64 || shn == SH_S64)
 	markreg1 (el);
       return (add_weights (weightsv (son (e), el),
 	    try_mc3 (bro (son (e)), temp, el)
@@ -566,7 +566,7 @@ weightsv(exp e, explist *el)
 
     case test_tag:
      {weights wlarg;
-      if (name(sh(son(e))) == s64hd || name(sh(son(e))) == u64hd)
+      if (name(sh(son(e))) == SH_S64 || name(sh(son(e))) == SH_U64)
 	markreg1 (el);				/* use of reg0 can include reg1 */
       wlarg = add_wlist (son (e), 0, el);
       return (wlarg);
@@ -583,7 +583,7 @@ weightsv(exp e, explist *el)
 
     default:
       if (sh(e) != nilexp &&
-		(name(sh(e)) == s64hd || name(sh(e)) == u64hd))
+		(name(sh(e)) == SH_S64 || name(sh(e)) == SH_U64))
 	markreg1 (el);				/* use of reg0 can include reg1 */
       return (add_wlist (son (e), 1, el));
   }

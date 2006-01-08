@@ -81,7 +81,7 @@ valregable(shape s)
   else {
     ash a;
     a = ashof (s);		/* get ash corresponding to shape of e */
-    return (a.ashsize <=64 && n!=cpdhd && n!= nofhd);
+    return (a.ashsize <=64 && n!=SH_COMPOUND && n!= SH_NOF);
   }
 }
 

@@ -102,13 +102,13 @@ reg_result(shape sha)
 	unsigned char  n = name(sha);
 	if (gcc_compatible) {
 		int sz = shape_size(sha);
-		if (n == nofhd)
+		if (n == SH_NOF)
 			return 0;
-		if (n == cpdhd && sz != 8 && sz != 16 && sz != 32 && sz != 64)
+		if (n == SH_COMPOUND && sz != 8 && sz != 16 && sz != 32 && sz != 64)
 			return 0;
 		return 1;
 	}
-	if (n == cpdhd || n == nofhd)
+	if (n == SH_COMPOUND || n == SH_NOF)
 		return 0;
 	return 1;
 }

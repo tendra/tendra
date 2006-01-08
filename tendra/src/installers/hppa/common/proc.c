@@ -220,8 +220,8 @@ add_odd_bits(outofline *r)
 	outlab("L$$",r->labno);
 	sp=r->sp;
 	clear_all();
-	make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr) : res_label);
-	if (name(sh(r->body))!=bothd)
+	make_code(r->body,sp,r->dest, name(sh(r->body))!=SH_BOT ? ptno(r->jr) : res_label);
+	if (name(sh(r->body))!=SH_BOT)
 		ub_ins(cmplt_,ptno(r->jr));
 }
 

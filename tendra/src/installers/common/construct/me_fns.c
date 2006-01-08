@@ -309,23 +309,23 @@ note_repeat(exp r)
 int
 is_integer(shape s)
 {
-	return name(s) >= scharhd && name(s) <= u64hd;
+	return name(s) >= SH_SCHAR && name(s) <= SH_U64;
 }
 
 /* the shape describes a floating point number */
 int
 is_float(shape s)
 {
-	return name(s) >= shrealhd && name(s) <= doublehd;
+	return name(s) >= SH_REAL_SHORT && name(s) <= SH_DOUBLE;
 }
 
 int
 is_complex(shape s)
 {
 #if substitute_complex
-	return (name(s) == cpdhd);
+	return (name(s) == SH_COMPOUND);
 #else
-	return name(s) >= shcomplexhd && name(s) <= complexdoublehd;
+	return name(s) >= SH_COMPLEX_SHORT && name(s) <= SH_COMPLEX_DOUBLE;
 #endif
 }
 

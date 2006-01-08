@@ -142,7 +142,7 @@ add_odd_bits(outofline * r)
 	repeat_level = r->repeat_level;
 	scale = r->scale;
 	coder(r->dest, r->stack, r->body);
-	if (name(sh(r->body)) != bothd)  {
+	if (name(sh(r->body)) != SH_BOT)  {
 		clean_stack();
 		jump(r->jr, 0);
 	} else

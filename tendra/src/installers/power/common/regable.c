@@ -127,7 +127,7 @@ valregable(shape s)
 	}
 	else
 	{
-		return shape_size(s)<=32 && n!=tophd;
+		return shape_size(s)<=32 && n!=SH_TOP;
 	}
 }
 

@@ -78,7 +78,7 @@
 #include "oprators.h"
 #include "translat.h"
 
-#define isdbl(e) ((bool) (name (e) != shrealhd))
+#define isdbl(e) ((bool) (name (e) != SH_REAL_SHORT))
 
 
 #if use_long_double
@@ -102,9 +102,9 @@ int long_double_0 = 0;
 void
 tidyshort(int r, shape s)
 {
-	if (name(s) == ucharhd)
+	if (name(s) == SH_UCHAR)
 		riir_ins(i_dep,c_,0,23,24,r);
-	else if (name(s) == uwordhd)
+	else if (name(s) == SH_UWORD)
 		riir_ins(i_dep,c_,0,15,16,r);
 }
 
@@ -725,15 +725,15 @@ quad_op(exp e, space sp, where dest)
 		where w;
 		freg frg;
 		exp l;
-		if (name(sh(e)) == doublehd)
+		if (name(sh(e)) == SH_DOUBLE)
 		{
 			baseoff b;
 			b.base=SP;
 			l = son(e);
-			if (name(sh(l)) == doublehd)
+			if (name(sh(l)) == SH_DOUBLE)
 				return;
 			else
-				if  (name(sh(l))==realhd)
+				if  (name(sh(l))==SH_REAL)
 				{
 					s = "_U_Qfcnvff_dbl_to_quad";
 					long_double_lib[5].called=1;
@@ -791,7 +791,7 @@ quad_op(exp e, space sp, where dest)
 		exp l = son(e);
 		reg_operand_here(l,sp,ARG0);
 		sp = guardreg(ARG0,sp);
-		if (name(sh(l))==ulonghd)
+		if (name(sh(l))==SH_ULONG)
 		{
 			rr_ins(i_copy,0,ARG1);
 			long_double_lib[7].called=1;
@@ -999,7 +999,7 @@ fop(exp e, space sp, where dest, ins_p ins)
 	baseoff b;
 
 #if use_long_double
-	if (name(sh(e))==doublehd)
+	if (name(sh(e))==SH_DOUBLE)
 	{
 		/* i.e. quads */
 		quad_op(e, sp, dest);
@@ -1008,7 +1008,7 @@ fop(exp e, space sp, where dest, ins_p ins)
 #endif
 
 
-	dble=(name(sh(e))==realhd ? 1 : 0);
+	dble=(name(sh(e))==SH_REAL ? 1 : 0);
 	if (IsRev(e))
 	{
 		a2 = freg_operand(r, sp, getfreg(sp.flt));

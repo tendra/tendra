@@ -220,7 +220,7 @@ locate1(exp e, space sp, shape s, int dreg)
       }
       else {		/* ... it is in memory */
 	instore is;
-	if (var || (name (sh (e)) == prokhd &&
+	if (var || (name (sh (e)) == SH_PROC &&
 		    (son (decx) == nilexp || name (son (decx)) == proc_tag
 		     || name(son(decx)) == general_proc_tag))) {
 	  is.adval = 1;
@@ -422,7 +422,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	wans = locate (son (e), sp, sh (son (e)), NO_REG);
 	/* answer is going to be wans displaced by no(e) */
 
-	if (name (sh (e)) == ptrhd) {
+	if (name (sh (e)) == SH_PTR) {
 	  if (al1(sh(e))  == 1)
 	    bitfield = 1;
 	}

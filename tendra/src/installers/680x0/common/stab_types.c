@@ -239,8 +239,8 @@ test_type(diag_type dt)
 	case DIAG_TYPE_FLOAT : {
 	    shape sha = f_floating (dt->data.f_var);
 	    last_type_sz = shape_size (sha);
-	    if (name (sha) == shrealhd) return (STAB_FLOAT);
-	    if (name (sha) == realhd) return (STAB_DOUBLE);
+	    if (name (sha) == SH_REAL_SHORT) return (STAB_FLOAT);
+	    if (name (sha) == SH_REAL) return (STAB_DOUBLE);
 	    return (STAB_LDOUBLE);
 	}
 		
@@ -248,12 +248,12 @@ test_type(diag_type dt)
 	    shape sha = f_integer (dt->data.var);
 	    last_type_sz = shape_size (sha);
 	    switch (name (sha)) {
-		case scharhd : return (STAB_SCHAR);
-		case swordhd : return (STAB_SWORD);
-		case slonghd : return (STAB_SLONG);
-		case ucharhd : return (STAB_UCHAR);
-		case uwordhd : return (STAB_UWORD);
-		case ulonghd : return (STAB_ULONG);
+		case SH_SCHAR : return (STAB_SCHAR);
+		case SH_SWORD : return (STAB_SWORD);
+		case SH_SLONG : return (STAB_SLONG);
+		case SH_UCHAR : return (STAB_UCHAR);
+		case SH_UWORD : return (STAB_UWORD);
+		case SH_ULONG : return (STAB_ULONG);
 	    }
 	    break;
 	}

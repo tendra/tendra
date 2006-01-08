@@ -228,13 +228,13 @@ fix_unsigned(freg fr, space sp, int name)
   ftmp = getfreg(nsp.flt);
   fltval = new_flpt();
   switch(name){
-    case uwordhd:
+    case SH_UWORD:
     constval = alpha_word_max;
     break;
-    case ulonghd:
+    case SH_ULONG:
     constval =  alpha_long_max;
     break;
-    case u64hd:
+    case SH_U64:
     constval = alpha_quad_max;
     break;
   }
@@ -267,10 +267,10 @@ INT64
 unsigned_rep(INT64 val, shape dest_shape)
 {
   switch(name (dest_shape)){
-    case ucharhd: return val & 0xff;
-    case uwordhd: return val & 0xffff;
-    case ulonghd: return val & 0xffffffff;
-    case u64hd: return val;
+    case SH_UCHAR: return val & 0xff;
+    case SH_UWORD: return val & 0xffff;
+    case SH_ULONG: return val & 0xffffffff;
+    case SH_U64: return val;
   }
   return val;
 }
@@ -554,56 +554,56 @@ convert_shapes(int dest_shape, int src_shape, int reg, int dreg)
 {
   if(reg<32 && dreg<32){
     switch(dest_shape){
-      case s64hd:
-      case u64hd:
+      case SH_S64:
+      case SH_U64:
       switch(src_shape){
-	case ucharhd:
+	case SH_UCHAR:
 	operate_fmt_immediate(i_zapnot,reg,1,dreg);
 	/* clear all but the bottom byte */
 	return TRUE;
-	case uwordhd:
+	case SH_UWORD:
 	operate_fmt_immediate(i_zapnot,reg,3,dreg);
 	return TRUE;
-	case ulonghd:
+	case SH_ULONG:
 	operate_fmt_immediate(i_zapnot,reg,15,dreg);
 	return TRUE;
 	default: return FALSE;
       }
-      case slonghd:
+      case SH_SLONG:
       switch(src_shape){
-	case ucharhd:
+	case SH_UCHAR:
 	operate_fmt_immediate(i_zapnot,reg,1,dreg);
 	return TRUE;
-	case uwordhd:
+	case SH_UWORD:
 	operate_fmt_immediate(i_zapnot,reg,3,dreg);
 	return TRUE;
-	case ulonghd:
+	case SH_ULONG:
 /*	operate_fmt_immediate(i_addl,reg,0,dreg);
 	return TRUE;*/
 	return FALSE;
 	/* sign extend */
 #if 0
-	case s64hd: 
+	case SH_S64: 
 	operate_fmt_immediate(i_zapnot,reg,15,dreg);
 	/*operate_fmt_immediate(i_addl,reg,0,reg);*/
 	return TRUE;
 #endif
 	default:return FALSE;
       }
-      case ulonghd:
+      case SH_ULONG:
       switch(src_shape){
-	case scharhd:
+	case SH_SCHAR:
 	operate_fmt_immediate(i_zapnot,reg,1,dreg);
 	return TRUE;
-	case swordhd:
+	case SH_SWORD:
 	operate_fmt_immediate(i_zapnot,reg,3,dreg);
 	return TRUE;
-	case slonghd:
+	case SH_SLONG:
 /*	operate_fmt_immediate(i_zapnot,reg,15,dreg);
 	return TRUE;*/
 	return FALSE;
 #if 0
-	case s64hd:
+	case SH_S64:
 	operate_fmt_immediate(i_zapnot,reg,15,dreg);
 	return TRUE;
 #endif
@@ -1423,7 +1423,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
   }
   if(!optop(div)) {
     switch(name(sh(div))){
-      case ucharhd :{
+      case SH_UCHAR :{
 	if(error_treatment_is_trap(div)){
 	  test_unsigned_and_trap(r_result,255,f_overflow);
 	}
@@ -1432,7 +1432,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case scharhd :{
+      case SH_SCHAR :{
 	if(error_treatment_is_trap(div)){
 	  test_signed_and_trap(r_result,-128,127,f_overflow);
 	}
@@ -1441,7 +1441,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case uwordhd :{
+      case SH_UWORD :{
 	if(error_treatment_is_trap(div)){
 	  test_unsigned_and_trap(r_result,0xffff,f_overflow);
 	}
@@ -1450,7 +1450,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case swordhd : {
+      case SH_SWORD : {
 	if(error_treatment_is_trap(div)){
 	  test_signed_and_trap(r_result,-0x8000,0x7fff,f_overflow);
 	}
@@ -1459,7 +1459,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case ulonghd :{
+      case SH_ULONG :{
 	if(error_treatment_is_trap(div)){
 	  test_unsigned_and_trap(r_result,0xffffffff,f_overflow);
 	}
@@ -1468,7 +1468,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case slonghd :{
+      case SH_SLONG :{
 	if(error_treatment_is_trap(div)){
 	  test_signed_and_trap(r_result,-0x80000000L,0x7fffffff,f_overflow);
 	}
@@ -1477,7 +1477,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case s64hd :{
+      case SH_S64 :{
 	if(error_treatment_is_trap(div)){
 	  test_signed_and_trap(r_result,-0x8000000000000000L,0x7fffffffffffffffL
 			       ,f_overflow);  
@@ -1488,7 +1488,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	}
 	break;
       }
-      case u64hd :{
+      case SH_U64 :{
 	if(error_treatment_is_trap(div)){
 	  test_unsigned_and_trap(r_result,0xffffffffffffffffL,f_overflow);
 	}
@@ -1556,7 +1556,7 @@ do_callers(exp list, space sp, int *sizecallers)
       freg frg;
       ans ansfr;
       frg.fr = fpar++;
-      if(hd != shrealhd)
+      if(hd != SH_REAL_SHORT)
 	frg.type = IEEE_double;
       else
 	frg.type = IEEE_single;
@@ -1566,8 +1566,8 @@ do_callers(exp list, space sp, int *sizecallers)
       /* evaluate parameter into floating parameter register */
       sp = guardfreg(frg.fr, sp);
     }
-    else if(((valregable(sh(list)) || (name(sh(list))==cpdhd)) ||
-	     (name(sh(list))==nofhd)) && spar<=21){	
+    else if(((valregable(sh(list)) || (name(sh(list))==SH_COMPOUND)) ||
+	     (name(sh(list))==SH_NOF)) && spar<=21){	
       /* compound types are always passed in registers
 	 (given enough space). */
       ans ansr;
@@ -1683,7 +1683,7 @@ tailrecurse:
       bool remember = 0;
       placew = nowhere;
      
-      if (name (sh (son (e))) == ptrhd && name (son (e)) != cont_tag) {
+      if (name (sh (son (e))) == SH_PTR && name (son (e)) != cont_tag) {
 	/* We should never be identifying a pointer to bits */
 	if (al1(sh(son(e))) == 1) {
 #if 0
@@ -1841,7 +1841,7 @@ tailrecurse:
 	      is.b.offset = n;	
 	    }
 	    else{
-	      if((name(sh(son(e)))==cpdhd)&&(a.ashsize==64)){
+	      if((name(sh(son(e)))==SH_COMPOUND)&&(a.ashsize==64)){
 		/* the alignment of a complex shape is the 
 		   maximum of the alignments of its components.  
 		   This assignment overrides that rule in order 
@@ -1913,7 +1913,7 @@ tailrecurse:
 	  if (is_floating(name(sh(se))) ) {
 	    freg fr;
 	    fr.fr = props(se);
-	    if(name(sh(se))!=shrealhd)
+	    if(name(sh(se))!=SH_REAL_SHORT)
 	      fr.type = IEEE_double;
 	    else
 	      fr.type = IEEE_single;
@@ -1928,7 +1928,7 @@ tailrecurse:
 	  int tr = props(se);
 	  if (is_floating(name(sh(se))) ) {
 	    if ((fltdone & (1<<(sr))) != 0) {
-	      float_op( (name(sh(se)) != shrealhd) ? i_cpys: i_cpys,
+	      float_op( (name(sh(se)) != SH_REAL_SHORT) ? i_cpys: i_cpys,
 			(int)props(se),(int)(props(se)),no(d));
 	    }		
 	    else { 
@@ -2090,7 +2090,7 @@ tailrecurse:
 	fl = make_code (first, sp, dest, exitlab).lab;
 	{
 	  int l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label ());
-	  if(name(sh(first))!=bothd) integer_branch(i_br,31,l);
+	  if(name(sh(first))!=SH_BOT) integer_branch(i_br,31,l);
 	  make_code (second, sp, dest, l);
 	  clear_all ();
 	  mka.lab = l;
@@ -2405,7 +2405,7 @@ tailrecurse:
       int   n = (props (e)) & 127; /* could have Rev bit in props*/
       bool rev;
       bool is_compare = ((!is_signed(shl)) && ((n-5)<0) && 
-			 (name(shl)!=ptrhd))||((is64(shl)));
+			 (name(shl)!=SH_PTR))||((is64(shl)));
       is_compare = TRUE;
       if (is_floating (name (sh (l)))) {
 	instruction compare_ins;
@@ -2449,19 +2449,19 @@ tailrecurse:
 	  int rtemp;
 	  
 	  switch(name(sh(r))){
-	    case ucharhd :{
+	    case SH_UCHAR :{
 	      no(r) = (unsigned char)no(r);
 	      break;
 	    }
-	    case scharhd :{
+	    case SH_SCHAR :{
 	      no(r) = (char)no(r);
 	      break;
 	    }
-	    case swordhd :{
+	    case SH_SWORD :{
 	      no(r) = (short)no(r);
 	      break;
 	    }
-	    case uwordhd :{
+	    case SH_UWORD :{
 	      no(r) = (unsigned short)no(r);
 	      break;
 	    }
@@ -2481,7 +2481,7 @@ tailrecurse:
 	      integer_branch(rev?i_beq:i_bne,rtemp,lab);
 	    }
 	    else{
-	      if(name(shl)==ulonghd){
+	      if(name(shl)==SH_ULONG){
 		operate_fmt_immediate(i_addl,a1,0,a1);
 	      }
 	      if(isbigval(r)){
@@ -2960,7 +2960,7 @@ tailrecurse:
 	    freg frg;
 	    ans ansfr;
 	    frg.fr = fpar++;
-	    if(hd != shrealhd)
+	    if(hd != SH_REAL_SHORT)
 	      frg.type = IEEE_double;
 	    else
 	      frg.type = IEEE_single;
@@ -2970,8 +2970,8 @@ tailrecurse:
 	    /* eval parameter into floating parameter register */
 	    sp = guardfreg(frg.fr, sp);
 	  }
-	  else if(((valregable(sh(list)) || (name(sh(list))==cpdhd)) ||
-		   (name(sh(list))==nofhd)) && spar<=21){	
+	  else if(((valregable(sh(list)) || (name(sh(list))==SH_COMPOUND)) ||
+		   (name(sh(list))==SH_NOF)) && spar<=21){	
 	    /* compound types are always passed in registers
 	       (given enough space). */
 	    ans ansr;
@@ -3066,7 +3066,7 @@ tailrecurse:
 	if (is_floating (hda)) {
 	  freg frg;
 	  frg.fr = 0;
-	  if(hda != shrealhd)
+	  if(hda != SH_REAL_SHORT)
 	    frg.type = IEEE_double;
 	  else
 	    frg.type = IEEE_single;
@@ -3143,7 +3143,7 @@ tailrecurse:
 	if (is_floating (hda)) {
 	  freg frg;
 	  frg.fr = 0;
-	  if(hda != shrealhd)
+	  if(hda != SH_REAL_SHORT)
 	    frg.type = IEEE_double;
 	  else
 	    frg.type = IEEE_single;
@@ -3428,7 +3428,7 @@ tailrecurse:
 	    b.offset -= callee_size>>3;
 	    if(isvar(bdy)) {
 	      if(is_floating(name(sh(sbody)))) {
-		float_load_store((name(sh(sbody)) == shrealhd)?i_sts : i_stt,
+		float_load_store((name(sh(sbody)) == SH_REAL_SHORT)?i_sts : i_stt,
 				 no(bdy),b);
 	      }
 	      else {
@@ -3441,7 +3441,7 @@ tailrecurse:
 	  /* move from reg to store */
 	  if(isvar(bdy)){
 	    if(is_floating(name(sh(sbody)))){
-	      float_load_store((name(sh(sbody))==shrealhd)?i_sts:i_stt,
+	      float_load_store((name(sh(sbody))==SH_REAL_SHORT)?i_sts:i_stt,
 			       no(bdy),b);
 	    }
 	    else{
@@ -3452,7 +3452,7 @@ tailrecurse:
 	else if(props(sbody)!= 0 && (props(bdy) & inanyreg)==0){
 	  /* move from store to reg */
 	  if(is_floating(name(sh(sbody)))){
-	    float_load_store((name(sh(sbody))==shrealhd)?i_lds:i_ldt,
+	    float_load_store((name(sh(sbody))==SH_REAL_SHORT)?i_lds:i_ldt,
 			     props(sbody),b);
 	  }
 	  else{
@@ -3749,7 +3749,7 @@ tailrecurse:
 	if (!last (m)) {	/* jump to end of solve */
 	  if (l == 0)
 	    l = new_label ();
-	  if (name (sh (m)) != bothd) {
+	  if (name (sh (m)) != SH_BOT) {
 	    integer_branch(i_br,31,l);
 	  }
 	}
@@ -4030,8 +4030,8 @@ tailrecurse:
 	nsp = guardreg(r0, nsp);
 	operate_fmt(is64(sh(e))?i_addq:i_addl,r1,r2,r0);
 	switch(name(sh(e))){
-	  case s64hd :
-	  case slonghd :{
+	  case SH_S64 :
+	  case SH_SLONG :{
 	    int r3 = getreg(sp.fixed);
 	    operate_fmt(i_xor,r1,r2,r3);
 	    integer_branch(i_blt,r3,over);
@@ -4046,8 +4046,8 @@ tailrecurse:
 	    set_label(over);
 	    break;
 	  }
-	  case ulonghd :
-	  case u64hd :{
+	  case SH_ULONG :
+	  case SH_U64 :{
 	    int r3 = getreg(sp.fixed);
 	    operate_fmt(i_cmpult,r0,r1,r3);
 	    if(error_treatment_is_trap(e)){
@@ -4061,7 +4061,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case uwordhd :{
+	  case SH_UWORD :{
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,0xffff,f_overflow);
 	    }
@@ -4070,7 +4070,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case swordhd :{
+	  case SH_SWORD :{
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-0x8000L,0x7fff,f_overflow);
 	    }
@@ -4079,7 +4079,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case ucharhd :{
+	  case SH_UCHAR :{
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,255,f_overflow);
 	    }
@@ -4088,7 +4088,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case scharhd :{   
+	  case SH_SCHAR :{   
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-128,127,f_overflow);
 	    }
@@ -4147,7 +4147,7 @@ tailrecurse:
 	tmpreg = getreg(sp.fixed);
       }
 
-      if(nsh >= s64hd){
+      if(nsh >= SH_S64){
 	/* destination is 64 bits wide, the only thing we have 
 	   to worry about is the conversion of unsigned 
 	   values to signed, which can be avoided by the 
@@ -4158,7 +4158,7 @@ tailrecurse:
 	mka.regmove = move(aa,dest,sp,1);
 	return mka;
       }
-      if (sh (son (e)) == sh (e) /*|| nsh  >= slonghd*/) {
+      if (sh (son (e)) == sh (e) /*|| nsh  >= SH_SLONG*/) {
 	/* no changes required, so just move to dest*/
 	    
 	mka.regmove = move (aa, dest, sp, 1);
@@ -4186,7 +4186,7 @@ tailrecurse:
       if (d==NO_REG) return mka;
 /*       (void)convert_shapes(nsh,name(sh(son(e))),a,d);*/
       switch(nsh){
-	case ucharhd :{
+	case SH_UCHAR :{
 	  if(is_signed(sh(son(e))) && !optop(e)) {
 	    if(error_treatment_is_trap(e)){
 	      int new_lab = new_label();
@@ -4210,7 +4210,7 @@ tailrecurse:
 	  operate_fmt_immediate(i_and,a,255,d);
 	  break;
 	}
-	case scharhd :{
+	case SH_SCHAR :{
 	  if(!is_signed(sh(son(e))) && !optop(e)) {
 	    setnoat();
 	    operate_fmt_immediate(i_cmpule,a,0x7f,AT);
@@ -4237,7 +4237,7 @@ tailrecurse:
 	  operate_fmt_immediate(i_sra,d,REG_SIZE-8,d);
 	  break;
 	}
-	case uwordhd :{
+	case SH_UWORD :{
 	  if(is_signed(sh(son(e))) && !optop(e)) {
 	    if(error_treatment_is_trap(e)){
 	      int new_lab = new_label();
@@ -4260,7 +4260,7 @@ tailrecurse:
 	  operate_fmt_immediate(i_and,a,(1<<16)-1,d);
 	  break;
 	}
-	case swordhd : {
+	case SH_SWORD : {
 	  if(!is_signed(sh(son(e))) && !optop(e)) {
 	    setnoat();
 	    operate_fmt_immediate(i_cmpule,a,0x7fff,AT);
@@ -4287,7 +4287,7 @@ tailrecurse:
 	  operate_fmt_immediate(i_sra,d,48,d);
 	  break;
 	}
-	case ulonghd :{
+	case SH_ULONG :{
 	  if(is_signed(sh(son(e))) && !optop(e)) {
 	    if(error_treatment_is_trap(e)){
 	      int new_lab = new_label();
@@ -4311,7 +4311,7 @@ tailrecurse:
 	  /*operate_fmt_big_immediate(i_and,a,0xffffffff,d);*/
 	  break;
 	}
-	case slonghd :{
+	case SH_SLONG :{
 	  if(!is_signed(sh(son(e))) && !optop(e)) {
 	    setnoat();
 	    operate_fmt_big_immediate(i_cmpule,a,0x7fffffff,AT);
@@ -4338,7 +4338,7 @@ tailrecurse:
 	  operate_fmt_immediate(i_sra,d,32,d);
 	  break;
 	}
-	case s64hd : {
+	case SH_S64 : {
 	  if(!is_signed(sh(e)) && !optop(e)) {
 	    setnoat();
 	    operate_fmt_big_immediate(i_cmpule,a,0x7fffffffffffffffL,AT);
@@ -4367,7 +4367,7 @@ tailrecurse:
 	  break;
 	}
 	
-	case u64hd :{
+	case SH_U64 :{
 	  if(is_signed(sh(e)) && !optop(e)){
 	    if(error_treatment_is_trap(e)){
 	      int new_lab = new_label();
@@ -4385,18 +4385,18 @@ tailrecurse:
 	default:failer("Illegal shape in chvar");
       }
 #if 0       
-      if (nsh == ucharhd) {
+      if (nsh == SH_UCHAR) {
 	operate_fmt_immediate (i_and, a, 255,d);
       }
-      else if (nsh == uwordhd) {
+      else if (nsh == SH_UWORD) {
 	operate_fmt_immediate (i_and,a, (1 << 16) - 1,d);
 	}
-      else if (nsh == scharhd) {
+      else if (nsh == SH_SCHAR) {
 	/*	      operate_fmt_immediate (i_sll,a,REG_SIZE-8,d);*/
 	operate_fmt_immediate (i_extqh,a,1,d);
 	operate_fmt_immediate (i_sra,d,REG_SIZE-8,d);
       }
-      else if (nsh == swordhd) {
+      else if (nsh == SH_SWORD) {
 	operate_fmt_immediate (i_sll, a, 32,d);
 	operate_fmt_immediate (i_sra, d, 32,d);
       }
@@ -4432,8 +4432,8 @@ tailrecurse:
 	nsp = guardreg(r0,nsp);
 	operate_fmt((is64(sh(e)))?i_subq:i_subl, r1, r2,r0);  
 	switch(name(sh(e))) {
-	  case s64hd :  
-	  case slonghd : {
+	  case SH_S64 :  
+	  case SH_SLONG : {
 	    r3 = getreg(nsp.fixed);
 	    operate_fmt(i_xor,r1, r2,r3);
 	    integer_branch(i_bge,r3,over);
@@ -4448,8 +4448,8 @@ tailrecurse:
 	    set_label(over);
 	    break;
 	  }
-	  case u64hd :
-	  case ulonghd : {
+	  case SH_U64 :
+	  case SH_ULONG : {
 	    r3 = getreg(guardreg(r0, nsp).fixed);
 	    operate_fmt(i_cmpult,r1,r2,r3);
 	    if(error_treatment_is_trap(e)){
@@ -4463,7 +4463,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case scharhd : {
+	  case SH_SCHAR : {
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-128,127,f_overflow);
 	    }
@@ -4472,7 +4472,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case ucharhd : {
+	  case SH_UCHAR : {
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,255,f_overflow);
 	    }
@@ -4481,7 +4481,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case swordhd : {
+	  case SH_SWORD : {
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-0x8000L,0x7fff,f_overflow);
 	    }
@@ -4490,7 +4490,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case uwordhd : {
+	  case SH_UWORD : {
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,0xffff,f_overflow);
 	    }
@@ -4605,8 +4605,8 @@ tailrecurse:
 	  operate_fmt(i_mulq,r1,r2,r0);
 	}
 	switch(name(sh(e))){
-	  case u64hd :
-	  case s64hd :{
+	  case SH_U64 :
+	  case SH_S64 :{
 	    int r3 = getreg(sp.fixed);
 	    int oklab = new_label();
 	    integer_branch(i_beq,r1,oklab);
@@ -4636,7 +4636,7 @@ tailrecurse:
 	    /*set_label(over);*/
 	    break;
 	  }
-	  case slonghd : {
+	  case SH_SLONG : {
 	    if(!error_treatment_is_trap(e)){
 	      int r3 = getreg(sp.fixed);
 	      operate_fmt(i_xor,r1,r2,r3);
@@ -4658,7 +4658,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case ulonghd : {
+	  case SH_ULONG : {
 	    if(!error_treatment_is_trap(e)){
 	      int r3 = getreg(sp.fixed);
 	      operate_fmt(i_xor,r1,r2,r3);
@@ -4676,7 +4676,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case uwordhd :{
+	  case SH_UWORD :{
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,0xffff,f_overflow);
 	    }
@@ -4685,7 +4685,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case swordhd :{
+	  case SH_SWORD :{
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-0x8000L,0x7fff,f_overflow);
 	    }
@@ -4694,7 +4694,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case ucharhd :{
+	  case SH_UCHAR :{
 	    if(error_treatment_is_trap(e)){
 	      test_unsigned_and_trap(r0,255,f_overflow);
 	    }
@@ -4703,7 +4703,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case scharhd :{   
+	  case SH_SCHAR :{   
 	    if(error_treatment_is_trap(e)){
 	      test_signed_and_trap(r0,-128,127,f_overflow);
 	    }
@@ -4864,7 +4864,7 @@ tailrecurse:
 	r2 = getreg(nsp.fixed);
 	operate_fmt(i_subq,31,r1,r2);
 	switch(name(sh(e))){
-	  case ucharhd :{
+	  case SH_UCHAR :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_unsigned_and_trap(r2,255,f_overflow);
@@ -4875,7 +4875,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case scharhd :{
+	  case SH_SCHAR :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_signed_and_trap(r2,-128,127,f_overflow);
@@ -4886,7 +4886,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case uwordhd :{
+	  case SH_UWORD :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_unsigned_and_trap(r2,0xffff,f_overflow);
@@ -4897,7 +4897,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case swordhd : {
+	  case SH_SWORD : {
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_signed_and_trap(r2,-0x8000L,0x7fff,f_overflow);
@@ -4908,7 +4908,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case ulonghd :{
+	  case SH_ULONG :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_unsigned_and_trap(r2,0xffffffff,f_overflow);
@@ -4919,7 +4919,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case slonghd :{
+	  case SH_SLONG :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_signed_and_trap(r2,-0x80000000L,0x7fffffff,f_overflow);
@@ -4930,7 +4930,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case s64hd :{
+	  case SH_S64 :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		test_unsigned_and_trap(r1,0x7fffffffffffffffL,f_overflow);
@@ -4941,7 +4941,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  case u64hd :{
+	  case SH_U64 :{
 	    if(!optop(e)){
 	      if(error_treatment_is_trap(e)){
 		int new_lab = new_label();
@@ -5069,11 +5069,11 @@ tailrecurse:
      if(!is64(sh(son(e))) && !is_signed(sh(son(e))) 
 	 && ins_equal(i_srl,shnat)) {
 	src_reg = getreg(nsp.fixed);
-	if(name(sh(son(e))) == ulonghd)
+	if(name(sh(son(e))) == SH_ULONG)
 	  operate_fmt_immediate(i_zapnot,a,15,src_reg);
-	else if(name(sh(son(e))) == uwordhd) 
+	else if(name(sh(son(e))) == SH_UWORD) 
 	  operate_fmt_immediate(i_zapnot,a,3,src_reg);
-	else if (name(sh(son(e))) == ucharhd)
+	else if (name(sh(son(e))) == SH_UCHAR)
 	  operate_fmt_immediate(i_zapnot,a,1,src_reg);
       }
       else {
@@ -5379,8 +5379,8 @@ tailrecurse:
     }
     case fplus_tag :{
       mka.regmove =
-	fop (e, sp, dest, (name (sh (e)) != shrealhd) ? i_addt : i_adds);
-      if((name(sh(e))!=shrealhd) && 
+	fop (e, sp, dest, (name (sh (e)) != SH_REAL_SHORT) ? i_addt : i_adds);
+      if((name(sh(e))!=SH_REAL_SHORT) && 
 	 (fregalt(dest.answhere).type==IEEE_single) && 
 	 dest.answhere.discrim==infreg){
       }
@@ -5390,14 +5390,14 @@ tailrecurse:
 
     case fminus_tag :{
       mka.regmove =
-	fop (e, sp, dest, (name (sh (e)) != shrealhd) ? i_subt : i_subs);
+	fop (e, sp, dest, (name (sh (e)) != SH_REAL_SHORT) ? i_subt : i_subs);
       if (!optop(e)) check_exception(e,sp);	  
       return mka;
     }
 
     case fmult_tag :{
       instruction mult_ins;
-      mult_ins = (name(sh(e)) != shrealhd)?i_mult:i_muls;
+      mult_ins = (name(sh(e)) != SH_REAL_SHORT)?i_mult:i_muls;
       mka.regmove = fop (e, sp, dest, mult_ins);
       if (!optop(e) && !error_treatment_is_trap(e)) check_exception(e,sp);
       return mka;
@@ -5405,13 +5405,13 @@ tailrecurse:
 
     case fdiv_tag :{
       instruction div_ins;
-      div_ins = (name(sh(e)) != shrealhd)?i_divt:i_divs;
+      div_ins = (name(sh(e)) != SH_REAL_SHORT)?i_divt:i_divs;
       /*
 	if(!optop(e)){
-	div_ins = (name(sh(e)) != shrealhd)?i_divtsu:i_divssu;
+	div_ins = (name(sh(e)) != SH_REAL_SHORT)?i_divtsu:i_divssu;
 	}
 	else{
-	div_ins = (name(sh(e)) != shrealhd)?i_divt:i_divs;
+	div_ins = (name(sh(e)) != SH_REAL_SHORT)?i_divt:i_divs;
 	}
 	*/
       if(!optop(e) && !error_treatment_is_trap(e)){
@@ -5429,9 +5429,9 @@ tailrecurse:
       freg fr;
       int arg=freg_operand(son(e),sp);
       if(name(e) == fneg_tag){
-	if(optop(e)) ins = (name(sh(e)) != shrealhd)?i_subt:i_subs;
+	if(optop(e)) ins = (name(sh(e)) != SH_REAL_SHORT)?i_subt:i_subs;
 	else
-	  ins = (name(sh(e)) != shrealhd)?i_subtsu:i_subssu;
+	  ins = (name(sh(e)) != SH_REAL_SHORT)?i_subtsu:i_subssu;
       }
       else{
 	ins = i_cpys;
@@ -5487,12 +5487,12 @@ tailrecurse:
       }
       else{
 	switch(name(sh(in))){
-	  case swordhd :
-	  case uwordhd :
-	  case slonghd :
-	  case ulonghd :
-	  case s64hd :
-	  case u64hd :{
+	  case SH_SWORD :
+	  case SH_UWORD :
+	  case SH_SLONG :
+	  case SH_ULONG :
+	  case SH_S64 :
+	  case SH_U64 :{
 	    freg load_reg;
 	    load_reg.type = IEEE_double; /* so we load in an octaword */
 	    load_reg.fr=f;
@@ -5511,13 +5511,13 @@ tailrecurse:
       if(!quad){
 	float_convert(i_cvtlq,f,f);
       }
-      float_convert((name(sh(e))==shrealhd)?i_cvtqs:i_cvtqt,f,f);
-      if (name (sh (e)) != shrealhd) {
+      float_convert((name(sh(e))==SH_REAL_SHORT)?i_cvtqs:i_cvtqt,f,f);
+      if (name (sh (e)) != SH_REAL_SHORT) {
 	frg.type = IEEE_double;
       }
       setfregalt (aa, frg);
       move (aa, dest, sp, 1);
-      if(name(sh(in))==u64hd||(name(sh(in))==ulonghd)){
+      if(name(sh(in))==SH_U64||(name(sh(in))==SH_ULONG)){
 	fix_unsigned(frg,sp,name(sh(in)));
       }
       mka.regmove = (frg.type==IEEE_double) ? -(f + 32) : (f + 32);
@@ -5526,8 +5526,8 @@ tailrecurse:
     case chfl_tag :{
       int   to = name (sh (e));
       int   from = name (sh (son (e)));
-      bool dto = (to != shrealhd) ? 1 : 0;
-      bool dfrom = (from != shrealhd) ? 1 : 0;
+      bool dto = (to != SH_REAL_SHORT) ? 1 : 0;
+      bool dfrom = (from != SH_REAL_SHORT) ? 1 : 0;
       if (!dto && !dfrom) {	/* no change in representation */
 	return make_code (son (e), sp, dest, exitlab);
       }
@@ -5824,7 +5824,7 @@ tailrecurse:
 	if ((props(l) & inanyreg)!=0 && (tr !=sr) && sr != 0) {
 	  if ((props(l) & infreg_bits)!=0 && 
 	      (fld &(1<<(sr))) !=0 ) {
-	    if (name(sh(son(l))) != shrealhd) {
+	    if (name(sh(son(l))) != SH_REAL_SHORT) {
 	      float_op(i_cpys,tr,tr,sr);
 	    }
 	    else {
@@ -5861,7 +5861,7 @@ tailrecurse:
 	l = bro(son(l));
 	if (name(l)==dump_tag) l = son(l);
       }        
-      if (name(sh(e)) != bothd) {
+      if (name(sh(e)) != SH_BOT) {
 	restore_sregs(fxd, fld);
       }
       fixdone = old_fixdone;
@@ -6298,7 +6298,7 @@ null_tag_case : {
       }
 	
       /* we may have to cope with overflow a la C */
-      if (name (sh (e)) == ucharhd) {
+      if (name (sh (e)) == SH_UCHAR) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_unsigned(r,255,trap_label(e));
 	}
@@ -6307,7 +6307,7 @@ null_tag_case : {
 	}
 	operate_fmt_immediate (i_and, r, 255,r);
       }
-      else if (name (sh (e)) == uwordhd) {
+      else if (name (sh (e)) == SH_UWORD) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_unsigned(r,0xffff,trap_label(e));
 	}
@@ -6316,7 +6316,7 @@ null_tag_case : {
 	}
 	operate_fmt_immediate (i_and, r,(1 << 16) - 1,r);
       }
-      else if (name (sh (e)) == scharhd) {
+      else if (name (sh (e)) == SH_SCHAR) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_signed(r,-128,127,trap_label(e));
 	}
@@ -6326,7 +6326,7 @@ null_tag_case : {
 	operate_fmt_immediate (i_sll, r,56, r);
 	operate_fmt_immediate (i_sra, r, 56, r);
       }
-      else if (name (sh (e)) == swordhd) {
+      else if (name (sh (e)) == SH_SWORD) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_signed(r,-0x8000L,0x7fff,trap_label(e));
 	}
@@ -6336,7 +6336,7 @@ null_tag_case : {
 	operate_fmt_immediate (i_sll, r, 48,r);
 	operate_fmt_immediate (i_sra, r, 48,r);
       }
-      else if (name(sh(e)) == slonghd) {
+      else if (name(sh(e)) == SH_SLONG) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_signed(r,-0x80000000L,0x7fffffff,trap_label(e));
 	}
@@ -6346,7 +6346,7 @@ null_tag_case : {
 	operate_fmt_immediate(i_sll,r,32,r);
 	operate_fmt_immediate(i_sra,r,32,r);
       }
-      else if (name(sh(e)) == ulonghd) {
+      else if (name(sh(e)) == SH_ULONG) {
 	if(!optop(e) && !error_treatment_is_trap(e)){
 	  test_unsigned(r,0xffffffff,trap_label(e));
 	}
@@ -6462,7 +6462,7 @@ null_tag_case : {
 	 return make_code(ctest,sp,dest,exitlab);
        }
        if(is_floating(name(sh(ltest)))){
-	 bool fcompare = (name(sh(ltest)) != shrealhd);
+	 bool fcompare = (name(sh(ltest)) != SH_REAL_SHORT);
 	 instruction compare_ins;
 	 space nsp;
 	 int rdest  = getfreg(sp.flt);
@@ -6481,13 +6481,13 @@ null_tag_case : {
 	 nsp = guardreg(aarg1,sp);
 	 aarg2 = freg_operand(bro(son(cass)),nsp);
 	 frg.fr = aarg1;
-	 frg.type = (name(sh(ltest)) == shrealhd)?IEEE_single:IEEE_double;
+	 frg.type = (name(sh(ltest)) == SH_REAL_SHORT)?IEEE_single:IEEE_double;
 	 float_op(rev?i_fcmovne:i_fcmoveq,rdest,aarg2,aarg1);
 	 setfregalt(aa,frg);
        }
        else { /* integer */
 	 bool is_compare = ((!is_signed(sh(ltest))) && ((testid-5)<0) && 
-			    (name(sh(ltest))!=ptrhd))||((is64(sh(ltest))));      
+			    (name(sh(ltest))!=SH_PTR))||((is64(sh(ltest))));      
 	 instruction compare_ins;
 	 int rres;	/* the result of the test */
 	 if(is_compare){
@@ -6510,7 +6510,7 @@ null_tag_case : {
 	       }
 	     }
 	     else{
-	       if(name(sh(ltest)) == ulonghd){
+	       if(name(sh(ltest)) == SH_ULONG){
 		 operate_fmt_immediate(i_addl,targ1,0,targ1);
 	       }
 	       if(isbigval(rtest)){

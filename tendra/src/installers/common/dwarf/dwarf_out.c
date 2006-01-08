@@ -691,7 +691,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 #endif
 		
 		if (!isvar(brog(t)->dec_u.dec_val.dec_exp)
-			&& (name(brog(t)->dec_u.dec_val.dec_shape) == prokhd))
+			&& (name(brog(t)->dec_u.dec_val.dec_shape) == SH_PROC))
 /*	fprintf(stderr,"%s was a proc\n",TDFSTRING2CHAR(x->data.id.nme));*/
 			break;
 		else

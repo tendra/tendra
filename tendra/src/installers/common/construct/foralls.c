@@ -1403,7 +1403,7 @@ do_one_rep(exp loop)
 	incrs=nilexp; alteredset=nilexp;
 	assign_alias = false; jump_out = false;
 	scan_for_incr(body,loop, collect_incrs);
-	if (  !jump_out && name(sh(loop)) == tophd) {
+	if (  !jump_out && name(sh(loop)) == SH_TOP) {
 		for (z=alteredset;   z != nilexp; z = bro(z)) {
 			/* look to see if var assigned to in loop can be locally declared
 			   ie Rep f(z) => Var x := cont(z) in Rep f(x); z = cont x ni;

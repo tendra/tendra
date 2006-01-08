@@ -264,7 +264,7 @@ is_opnd(exp e)
 		if (isvar(son(e)))
 			return (isglob(son(e)) && !PIC_code);
 		return (son(son(e)) != nilexp &&
-				(!isglob(son(e)) || !PIC_code || name(sh(son(e))) != prokhd ||
+				(!isglob(son(e)) || !PIC_code || name(sh(son(e))) != SH_PROC ||
 				 (brog(son(e)) -> dec_u.dec_val.extnamed)) &&
 				(name(son(son(e))) != ident_tag || !isparam(son(son(e)))));
 	}
@@ -410,7 +410,7 @@ is_assable(exp e)
 {
 	return (is_a (name (e)) || name(e) == alloca_tag ||
 			((name (e) == apply_tag || name (e) == apply_general_tag) &&
-			 (name (sh (e)) <= ulonghd || name (sh (e)) == ptrhd)));
+			 (name (sh (e)) <= SH_ULONG || name (sh (e)) == SH_PTR)));
 }
 
 /* doit routine, is not an operand */
@@ -804,8 +804,8 @@ scan2(int sto, exp to, exp e, int usereg0)
     case test_tag:
     case absbool_tag:
 	{
-		if ((name (sh (son (e))) >= shrealhd &&
-			 name (sh (son (e))) <= doublehd))
+		if ((name (sh (son (e))) >= SH_REAL_SHORT &&
+			 name (sh (son (e))) <= SH_DOUBLE))
 			IGNORE all_opnd (sto, to, e, 0);/* all arguments must be operands */
 		else
 			IGNORE all_opnd (sto, to, e, usereg0);
@@ -820,7 +820,7 @@ scan2(int sto, exp to, exp e, int usereg0)
     case div2_tag:
     case div0_tag:
 	{
-		if (name (sh (e)) == u64hd) {
+		if (name (sh (e)) == SH_U64) {
 			exp * bottom = &bro(son(e));
 			if (name(*bottom) == chvar_tag && shape_size (sh (son(*bottom))) <= 32 &&
 				name (son(*bottom)) != val_tag && !is_signed (sh (son(*bottom)))) {
@@ -850,7 +850,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 
     case offset_div_by_int_tag:
 	{
-		if (name(sh(bro(son(e)))) != slonghd &&  name(sh(bro(son(e)))) != ulonghd) {
+		if (name(sh(bro(son(e)))) != SH_SLONG &&  name(sh(bro(son(e)))) != SH_ULONG) {
 			exp ch = getexp ((name(sh(bro(son(e))))&1 ? slongsh : ulongsh),
 							 e, 1, bro(son(e)), nilexp, 0, 0, chvar_tag);
 			setbro(bro(son(e)), ch);
@@ -949,7 +949,7 @@ scan2(int sto, exp to, exp e, int usereg0)
     case res_tag:
     case untidy_return_tag:
 	{
-		if ((name(sh(son(e))) == cpdhd) &&
+		if ((name(sh(son(e))) == SH_COMPOUND) &&
 			(name(son(e)) != cont_tag ||
 			 name(son(son(e))) != name_tag ||
 			 !isvar(son(son(son(e)))))) { /* gcc compatibility */

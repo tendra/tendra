@@ -211,7 +211,7 @@ specialneeds(int i, exp application, exp pars)
 			son (par2) = son (son (par2));
 			bro (son (par2)) = par2 ;		/* set father */
 
-			/* shape of eval_tag from ptrhd to nofhd */
+			/* shape of eval_tag from SH_PTR to SH_NOF */
 			sh (par2) = sh (son (par2));
 
 			return (twofixneeds);

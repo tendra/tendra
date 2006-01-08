@@ -518,17 +518,17 @@ out_sh_type(shape s, char* nm)
 {
 	last_type_sz = shape_size (s);
 	switch (name (s)) {
-    case scharhd : return (STAB_SCHAR);
-    case ucharhd : return (STAB_UCHAR);
-    case swordhd : return (STAB_SSHRT);
-    case uwordhd : return (STAB_USHRT);
-    case slonghd : return (strstr (nm, "long") ? STAB_SLONG : STAB_SINT);
-    case ulonghd : return (strstr (nm, "long") ? STAB_ULONG : STAB_UINT);
-    case s64hd : return (STAB_S64);
-    case u64hd : return (STAB_U64);
-    case shrealhd : return (STAB_FLOAT);
-    case realhd : return (STAB_DBL);
-    case doublehd : return (STAB_LDBL);
+    case SH_SCHAR : return (STAB_SCHAR);
+    case SH_UCHAR : return (STAB_UCHAR);
+    case SH_SWORD : return (STAB_SSHRT);
+    case SH_UWORD : return (STAB_USHRT);
+    case SH_SLONG : return (strstr (nm, "long") ? STAB_SLONG : STAB_SINT);
+    case SH_ULONG : return (strstr (nm, "long") ? STAB_ULONG : STAB_UINT);
+    case SH_S64 : return (STAB_S64);
+    case SH_U64 : return (STAB_U64);
+    case SH_REAL_SHORT : return (STAB_FLOAT);
+    case SH_REAL : return (STAB_DBL);
+    case SH_DOUBLE : return (STAB_LDBL);
 	}
 	return (STAB_VOID);
 }
@@ -564,17 +564,17 @@ out_sh_type(shape s)
 {
 	last_type_sz = shape_size (s);
 	switch (name (s)) {
-    case scharhd : return (STAB_SCHAR);
-    case ucharhd : return (STAB_UCHAR);
-    case swordhd : return (STAB_SSHRT);
-    case uwordhd : return (STAB_USHRT);
-    case slonghd : return (STAB_SINT);
-    case ulonghd : return (STAB_UINT);
-    case s64hd : return (STAB_S64);
-    case u64hd : return (STAB_U64);
-    case shrealhd : return (STAB_FLOAT);
-    case realhd : return (STAB_DBL);
-    case doublehd : return (STAB_LDBL);
+    case SH_SCHAR : return (STAB_SCHAR);
+    case SH_UCHAR : return (STAB_UCHAR);
+    case SH_SWORD : return (STAB_SSHRT);
+    case SH_UWORD : return (STAB_USHRT);
+    case SH_SLONG : return (STAB_SINT);
+    case SH_ULONG : return (STAB_UINT);
+    case SH_S64 : return (STAB_S64);
+    case SH_U64 : return (STAB_U64);
+    case SH_REAL_SHORT : return (STAB_FLOAT);
+    case SH_REAL : return (STAB_DBL);
+    case SH_DOUBLE : return (STAB_LDBL);
 	}
 	return (STAB_VOID);
 }

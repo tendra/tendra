@@ -499,13 +499,13 @@ check_seq(exp e, exp scope)
 	exp t, k, kk;
 	int changed = 0;
 	
-	if (name(sh(bro(son(e)))) == bothd && name(sh(e)) != bothd) {
+	if (name(sh(bro(son(e)))) == SH_BOT && name(sh(e)) != SH_BOT) {
 		sh(e) = f_bottom;
 		changed = 1;
 	}
 	
-	while (name (sh (son (z))) == bothd || nos (son (z))) {
-		if (name (sh (son (z))) == bothd) {
+	while (name (sh (son (z))) == SH_BOT || nos (son (z))) {
+		if (name (sh (son (z))) == SH_BOT) {
 			if (!last (son (z))) {
 				kk = bro (son (z));
 				while (kk != nilexp) {
@@ -558,7 +558,7 @@ check_seq(exp e, exp scope)
 	for (;;) {
 		if (name(t) == test_tag && name(bro(son(t))) == val_tag &&
 			!isbigval(bro(son(t))) &&
-			name(sh(son(t))) <= ulonghd) {
+			name(sh(son(t))) <= SH_ULONG) {
 			exp b;
 			exp bnds;
 			exp * ref;
@@ -623,7 +623,7 @@ check_seq(exp e, exp scope)
 				altered(e, scope);
 			return 0;
 		}
-		if (name (sh (bro (t))) == bothd) {
+		if (name (sh (bro (t))) == SH_BOT) {
 			if (!last (bro (t))) {
 				kk = bro (bro (t));
 				while (kk != nilexp) {
@@ -878,7 +878,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int),
 int
 dochvar(int i, shape t)
 {
-	if (name(t) == bitfhd) {
+	if (name(t) == SH_BITFIELD) {
 		int m = masks[shape_size(t)];
 		int x  = i & m;
 		if (is_signed(t)) {
@@ -984,7 +984,7 @@ fplus_fn(exp ap, exp b, int et)
 	status = flt_add (flptnos[a], flptnos[nob], &resval);
 	if (status == OKAY) {
 		flpt_round((int)f_to_nearest,
-				   flpt_bits((floating_variety)(name(sh(b))-shrealhd)),
+				   flpt_bits((floating_variety)(name(sh(b))-SH_REAL_SHORT)),
 				   &resval);
 		flptnos[nob] = resval;
 		no(ap) = nob;
@@ -1007,7 +1007,7 @@ fmult_fn(exp ap, exp b, int et)
 	status = flt_mul (flptnos[a], flptnos[nob], &resval);
 	if (status == OKAY) {
 		flpt_round((int)f_to_nearest,
-				   flpt_bits((floating_variety)(name(sh(b))-shrealhd)),
+				   flpt_bits((floating_variety)(name(sh(b))-SH_REAL_SHORT)),
 				   &resval);
 		flptnos[nob] = resval;
 		no(ap) = nob;
@@ -1601,7 +1601,7 @@ check_fp2(exp e, exp scope)
 		
 		if (status == OKAY) {
 			flpt_round((int)f_to_nearest,
-					   flpt_bits((floating_variety)(name(sh(e)) - shrealhd)),
+					   flpt_bits((floating_variety)(name(sh(e)) - SH_REAL_SHORT)),
 					   &resval);
 			flptnos[f1] = resval;
 			flpt_ret (f2);
@@ -1964,7 +1964,7 @@ check(exp e, exp scope)
 			n != proc_tag && n != general_proc_tag) {
 			exp temp = son(e);
 			while (1) {
-				if (name(sh(temp)) == bothd) {
+				if (name(sh(temp)) == SH_BOT) {
 					/* unordered; temp can be first, iwc all siblings unreachable */
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2072,7 +2072,7 @@ check(exp e, exp scope)
 				int al = al2(sh(e));
 				if (al == 0)
 					al = 1;
-				if (al2_of(sh(e))->sh_hd > nofhd)
+				if (al2_of(sh(e))->sh_hd > SH_NOF)
 					al = shape_align(f_pointer(al2_of(sh(e))));
 #if ishppa
 				if ((al1_of(sh(e))->al_frame & 4)!=0) {
@@ -2547,7 +2547,7 @@ check(exp e, exp scope)
 			}
 			if (name(son(e)) == chvar_tag &&
 				shape_size(sh(e)) == shape_size(sh(son(son(e)))) &&
-				name(sh(son(e))) == bitfhd) {
+				name(sh(son(e))) == SH_BITFIELD) {
 				exp res = hold_check(me_u3(sh(e), son(son(e)), chvar_tag));
 				replace(e, res, scope);
 				retcell(e);
@@ -2609,7 +2609,7 @@ check(exp e, exp scope)
 #if little_end & has_byte_ops
 			/* only for little enders with byte and short operations */
 			if (shape_size(sh(e)) <= shape_size(sh (son (e))) && optop(e) &&
-				name(sh(e)) != bitfhd &&
+				name(sh(e)) != SH_BITFIELD &&
 				(name (son (e)) == plus_tag ||
 				 name (son (e)) == minus_tag ||
 				 name (son (e)) == and_tag ||
@@ -2727,7 +2727,7 @@ check(exp e, exp scope)
 						else
 							sha = (sg) ? s64sh : u64sh;
 				
-				if (name(sh(temp)) == bitfhd && name(temp) == chvar_tag) {
+				if (name(sh(temp)) == SH_BITFIELD && name(temp) == chvar_tag) {
 					exp st = son(temp);
 					int n = name(st);
 					if ((n == cont_tag && szbf == shape_size(sh(st))) ||
@@ -3243,7 +3243,7 @@ check(exp e, exp scope)
 				if (name(sh(e)) < name(sh(son(e)))) {
 					flpt_round((int)f_to_nearest,
 							   flpt_bits((floating_variety)(name(sh(e)) -
-															shrealhd)),
+															SH_REAL_SHORT)),
 							   &flptnos[no(son(e))]);
 				}
 				sh (son (e)) = sh (e);
@@ -3353,7 +3353,7 @@ check(exp e, exp scope)
 					}
 				
 				flpt_round((int)f_to_nearest,
-						   flpt_bits((floating_variety)(name(sh(e))-shrealhd)),
+						   flpt_bits((floating_variety)(name(sh(e))-SH_REAL_SHORT)),
 						   &flptnos[no(son(e))]);
 				setname (son (e), real_tag);
 				sh (son (e)) = sh (e);
@@ -3403,7 +3403,7 @@ check(exp e, exp scope)
 				
 				
 				flpt_round((int)f_to_nearest,
-						   flpt_bits((floating_variety)(name(sh(e))-shrealhd)),
+						   flpt_bits((floating_variety)(name(sh(e))-SH_REAL_SHORT)),
 						   &flptnos[no(arg)]);
 				setname (arg, real_tag);
 				sh (arg) = sh (e);
@@ -3597,8 +3597,8 @@ check(exp e, exp scope)
 #ifdef promote_pars
 		{ int x = al1_of(sh(son(e)))->sh_hd;
 		
-		if (x >= scharhd && x <= uwordhd && !little_end) {
-			int disp = shape_size(ulongsh)-((x>=swordhd)?16:8);
+		if (x >= SH_SCHAR && x <= SH_UWORD && !little_end) {
+			int disp = shape_size(ulongsh)-((x>=SH_SWORD)?16:8);
 			exp r = getexp(f_pointer(f_alignment(sh(e))), nilexp,
 						   1, son(e), nilexp, 0, disp, reff_tag);
 			bro(son(r)) = r;
@@ -3968,7 +3968,7 @@ check(exp e, exp scope)
 		if (last(bse) && name(son(e)) == val_tag &&
 			no(son(e)) == 0 &&
 			shape_size(sh(e)) == shape_size(sh(bse)) &&
-			shn != prokhd && (shn < shrealhd || shn > doublehd)
+			shn != SH_PROC && (shn < SH_REAL_SHORT || shn > SH_DOUBLE)
 #if dont_unpad_apply
 			&& name(bse) != apply_tag
 #endif
@@ -3979,8 +3979,8 @@ check(exp e, exp scope)
 			*              place. */
 			if (name(bse) == name_tag && isvar(son(bse)) &&
                 !isglob(son(bse)) &&
-                name(sh(son(son(bse)))) >= shrealhd &&
-                name(sh(son(son(bse)))) <= doublehd)  {
+                name(sh(son(son(bse)))) >= SH_REAL_SHORT &&
+                name(sh(son(son(bse)))) <= SH_DOUBLE)  {
 				setvis(son(bse));
 				props(e) = (prop)(props(e) & ~0x08);
 			}
@@ -4020,7 +4020,7 @@ check(exp e, exp scope)
 			int end = (int)last(q);
 			exp ass, p, ap;
 			p = me_obtain(var);
-			if (name(sh(q)) != bitfhd || !newcode) {
+			if (name(sh(q)) != SH_BITFIELD || !newcode) {
 				ap = hold_check(f_add_to_ptr(p, t));  /* destination */
 				ass = hold_check(f_assign(ap, q));
 			}
@@ -4049,7 +4049,7 @@ check(exp e, exp scope)
     case prof_tag:
 		return 0;
     case ident_tag:
-		if (name(sh(son(e))) == bothd)
+		if (name(sh(son(e))) == SH_BOT)
         {
 			exp s = son(e);
 			exp b = bro(s);
@@ -4069,7 +4069,7 @@ check(exp e, exp scope)
 		if (!is80x86 || is80586) {
 			exp abst = absbool (e);
 			if (abst != nilexp &&
-				(!is80x86 || name(sh(son(abst))) <= u64hd)) {
+				(!is80x86 || name(sh(son(abst))) <= SH_U64)) {
 				/* check if we can use setcc */
 				exp a = copy (abst);
 				setname (a, absbool_tag);
@@ -4303,9 +4303,9 @@ check(exp e, exp scope)
 #ifdef promote_pars
 		{ int x = al1_of(sh(son(e)))->sh_hd;
 		
-		if (x >= scharhd && x <= uwordhd && !little_end) {
+		if (x >= SH_SCHAR && x <= SH_UWORD && !little_end) {
 	        exp b = bro(son(e));
-			int disp = shape_size(ulongsh)-((x>=swordhd)?16:8);
+			int disp = shape_size(ulongsh)-((x>=SH_SWORD)?16:8);
 			exp r = getexp(f_pointer(f_alignment(sh(b))), nilexp,
 						   1, son(e), nilexp, 0, disp, reff_tag);
 			bro(son(r)) = r; setlast(son(r));
@@ -4360,7 +4360,7 @@ check(exp e, exp scope)
 		arg2 = bro (arg1);
 		
         if (flpt_always_comparable ||
-			(name(sh(arg1)) < shrealhd || name(sh(arg1)) > doublehd)) {
+			(name(sh(arg1)) < SH_REAL_SHORT || name(sh(arg1)) > SH_DOUBLE)) {
 			switch (nt) {
             case 7: nt = f_greater_than;
 				break;
@@ -4453,7 +4453,7 @@ check(exp e, exp scope)
 			/* optimise if both args are result of sign extension removal */
 			if ((test_number(e) == f_equal ||
 				 test_number(e) == f_not_equal) &&
-				name(sh(arg1)) == slonghd &&
+				name(sh(arg1)) == SH_SLONG &&
 				name(son(arg1)) == cont_tag &&
 				name(son(arg2)) == cont_tag &&
 				shape_size(sh (son(arg1))) == 16 &&
@@ -4598,7 +4598,7 @@ check(exp e, exp scope)
 				
 				no(rf) -= pos;
 				sh(rf) = getshape(0, const_al32, const_al32, PTR_ALIGN,
-								  PTR_SZ, ptrhd);
+								  PTR_SZ, SH_PTR);
 				sh(c) = slongsh;
 				
 				if (no(rf) == 0)
@@ -4797,7 +4797,7 @@ check(exp e, exp scope)
     case movecont_tag:
 		return (0);
     case alloca_tag:
-		if (name(son(e)) == chvar_tag && name(sh(son(son(e)))) == ulonghd) {
+		if (name(son(e)) == chvar_tag && name(sh(son(son(e)))) == SH_ULONG) {
 			replace(son(e), son(son(e)), son(e));
 		}
 		return (0);

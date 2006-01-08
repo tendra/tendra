@@ -113,7 +113,7 @@ APPLYLIKE(exp e)
 	if (name(e)==apply_general_tag)
 		return 1;
 	if (name(e)==round_tag)
-		if (name(sh(e))==ulonghd||architecture!=POWERPC_CODE)
+		if (name(sh(e))==SH_ULONG||architecture!=POWERPC_CODE)
 			return 1;
 	return 0;
 }
@@ -131,7 +131,7 @@ RETURNS_R_RESULT(exp e)
 	}
 	if (name(e)==round_tag)
 	{
-		if (name(sh(e))==ulonghd||architecture!=POWERPC_CODE)
+		if (name(sh(e))==SH_ULONG||architecture!=POWERPC_CODE)
 			return 1;
 	}
 	return 0;

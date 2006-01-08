@@ -87,7 +87,7 @@ is_worth(exp c)
 	unsigned char cnam = name (c);
 	bool isflt = (bool) is_floating (name (sh (c)));
 
-	if (name (sh (c)) == ptrhd && al1 (sh (c)) == 1) {
+	if (name (sh (c)) == SH_PTR && al1 (sh (c)) == 1) {
 		/* Pointers to bits aren't */
 		return (false);
 	}
@@ -125,7 +125,7 @@ is_worth(exp c)
 	}
 
 #if 0
-	if (name (sh (c)) == ptrhd && isglob(son(c))) {
+	if (name (sh (c)) == SH_PTR && isglob(son(c))) {
 		return (true);
 	}
 #endif

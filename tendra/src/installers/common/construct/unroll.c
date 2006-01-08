@@ -138,7 +138,7 @@ unroll_complex(exp e, int n, exp control,
 	{
 		int t;
         setunroll(bro(son(e)));		/* mark internal label */
-		if (name(sh(son(e))) == bothd) {
+		if (name(sh(son(e))) == SH_BOT) {
 			t = unroll_complex(son(e), n - (4*decr), control, lia, ul, 0);
 			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
 		}

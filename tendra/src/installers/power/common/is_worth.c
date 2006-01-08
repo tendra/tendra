@@ -154,7 +154,7 @@ is_worth(exp c) /* used only in mc_list */
 		return false;			/* cannot go inreg, and anyway
 								 * too big to be worthwhile */
 	
-	if (name(s) == ptrhd && al1(s) == 1)
+	if (name(s) == SH_PTR && al1(s) == 1)
 		return false;			/* ptr bits */
 	
 	if (cnam == real_tag)
@@ -175,7 +175,7 @@ is_worth(exp c) /* used only in mc_list */
 		return is_worth_cont_aux(son(c));
 	}
 	
-	if (cnam == name_tag && isglob(son(c)) && name(s) != prokhd)
+	if (cnam == name_tag && isglob(son(c)) && name(s) != SH_PROC)
 	{
 		/* avoid load of TOC table entry in loops, except for params where there is no load delay */
 		return name(father(c)) != apply_tag;

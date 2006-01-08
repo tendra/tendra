@@ -161,7 +161,7 @@ translate_capsule()
     while (d != (dec *) 0) {
 		exp crt_exp = d -> dec_u.dec_val.dec_exp;
 		exp idval;
-		if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp)) != prokhd ||
+		if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp)) != SH_PROC ||
 											  (idval = son(crt_exp) ,
 											   idval != nilexp && name(idval) != null_tag &&
 											   name(idval) != proc_tag && name(idval) != general_proc_tag))){

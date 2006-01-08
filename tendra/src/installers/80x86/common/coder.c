@@ -188,7 +188,7 @@ push_arg(exp e)
 	if (name(e) == real_tag)
 		return 1;
 
-	if (is_floating (n) || n == cpdhd || n == nofhd)
+	if (is_floating (n) || n == SH_COMPOUND || n == SH_NOF)
 		return 0;
 
 	return (1);
@@ -560,7 +560,7 @@ alloc_fl_small(int rs, int br)
 static regu
 alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
 {
-	if (name (sha) >= shrealhd && name (sha) <= doublehd) {
+	if (name (sha) >= SH_REAL_SHORT && name (sha) <= SH_DOUBLE) {
 #ifdef NEWDIAGS
 	if (big_reg || diag_visible || round_after_flop ||
 #else
@@ -652,7 +652,7 @@ def_where(exp e, exp def, ash stack)
 	dc.dcl_new = 1;
 
 
-	if (name (sh (def)) == tophd && !isvis(e)) {
+	if (name (sh (def)) == SH_TOP && !isvis(e)) {
 		dc.dcl_pl = nowhere_pl;
 		dc.dcl_n = 0;
 		return (dc);
@@ -726,7 +726,7 @@ def_where(exp e, exp def, ash stack)
 		shape s = sh(def);
 
 		if (stack_aligned_8byte &&
-			(name(s) == realhd || (name(s) == nofhd && ptno(s) == realhd)))
+			(name(s) == SH_REAL || (name(s) == SH_NOF && ptno(s) == SH_REAL)))
 			a = 64;
 
 		locash.ashalign = 32;
@@ -781,7 +781,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		t = s;
 		do {
 			regsinuse = r1;
-			if (name (sh (t)) != bothd) {
+			if (name (sh (t)) != SH_BOT) {
 				jump (jr, in_fstack (dest.where_exp));
 			}
 			/* only put in jump if needed */
@@ -837,16 +837,16 @@ caser(exp arg, int exhaustive, exp case_exp)
 		;
 
 	switch (name (sh (arg))) EXHAUSTIVE {
-	case scharhd:
-	case ucharhd:
+	case SH_SCHAR:
+	case SH_UCHAR:
 		sz = 8;
 		break;
-	case swordhd:
-	case uwordhd:
+	case SH_SWORD:
+	case SH_UWORD:
 		sz = 16;
 		break;
-	case slonghd:
-	case ulonghd:
+	case SH_SLONG:
+	case SH_ULONG:
 		sz = 32;
 		break;
 	}
@@ -915,8 +915,8 @@ coder(where dest, ash stack, exp e)
 		ptno (e) = dc.dcl_pl;
 		no (e) = dc.dcl_n;
 
-		if (ptno (e) == reg_pl && name (sh (def)) >= shrealhd &&
-			name (sh (def)) <= doublehd) {
+		if (ptno (e) == reg_pl && name (sh (def)) >= SH_REAL_SHORT &&
+			name (sh (def)) <= SH_DOUBLE) {
 			/*
 			 * if the value being defined is going in the floating point
 			 * registers, record the floating point stack level, so that we
@@ -957,10 +957,10 @@ coder(where dest, ash stack, exp e)
 			 * allocation and restoration need not nest
 			 */
 			regsinuse &= ~dc.dcl_n;
-			if (name (sh (def)) >= shrealhd && name (sh (def)) <= doublehd &&
+			if (name (sh (def)) >= SH_REAL_SHORT && name (sh (def)) <= SH_DOUBLE &&
 				fstack_pos != (SET(old_fstack_pos) old_fstack_pos) &&
 				ptno (e) == reg_pl &&
-				name (sh (e)) != bothd) {
+				name (sh (e)) != SH_BOT) {
 
 				/* restore the floating point registers if necessary */
 				if (ptno (e) == reg_pl &&
@@ -999,7 +999,7 @@ coder(where dest, ash stack, exp e)
 
 		while (coder (zero, stack, t),
 			   /* code and discard the statements */
-			   no_bottom = (name (sh (t)) != bothd),
+			   no_bottom = (name (sh (t)) != SH_BOT),
 			   !last (t))
 			t = bro (t);
 
@@ -1082,7 +1082,7 @@ coder(where dest, ash stack, exp e)
 				pt (son (alt)) = record;
 
 				test_n = (int)test_number(tst);
-				if (name(sha) < shrealhd || name(sha) > doublehd)
+				if (name(sha) < SH_REAL_SHORT || name(sha) > SH_DOUBLE)
 					test_n = (int)int_inverse_ntest[test_n];
 				else
 					test_n = (int)real_inverse_ntest[test_n];
@@ -1096,7 +1096,7 @@ coder(where dest, ash stack, exp e)
 				p = getexp(sha, tst, 0, s, nilexp, 0, 0, 0);
 				pt(tst) = p;
 				coder(zero, stack, t);
-				if (name(sh(first)) != bothd) {
+				if (name(sh(first)) != SH_BOT) {
 					reset_fpucon();
 					set_label(jr);
 #ifdef NEWDWARF
@@ -1146,7 +1146,7 @@ coder(where dest, ash stack, exp e)
 
 		if (name (bro (son (alt))) == top_tag && !is_loaded_lv(alt)) {
 			/* if alt is only load top, do nothing but set the label */
-			if (name(sh(first)) == bothd && no(son(alt)) != 0)
+			if (name(sh(first)) == SH_BOT && no(son(alt)) != 0)
 				align_label(2, record);
 
 			if (name(first) == seq_tag &&
@@ -1163,7 +1163,7 @@ coder(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (name (sh (first)) != bothd &&
+		if (name (sh (first)) != SH_BOT &&
 			(no(son(alt)) != 0 || name(bro(son(alt))) != goto_tag)) {
 			/*
 			 * if the first did not end with jump or ret, put in a jump to
@@ -1184,13 +1184,13 @@ coder(where dest, ash stack, exp e)
 			coder (dest, stack, alt);
 			reset_fpucon();
 			regsinuse = r1;		/* restore regsinuse for end of construction */
-			if (name (sh (first)) != bothd) {
+			if (name (sh (first)) != SH_BOT) {
 				/*
 				 * Set the label for the end of the construction
 				 * if first needed it.
 				 */
 				SET(jr);
-				if (name(sh(alt)) == bothd)
+				if (name(sh(alt)) == SH_BOT)
 					align_label(2, jr);
 				set_label (jr);
 #ifdef NEWDWARF
@@ -1336,7 +1336,7 @@ coder(where dest, ash stack, exp e)
 				}
 				lab = temp;
 				pt(e) = lab;
-				if (name(sha) < shrealhd || name(sha) > doublehd)
+				if (name(sha) < SH_REAL_SHORT || name(sha) > SH_DOUBLE)
 					settest_number(e, (int)int_inverse_ntest[testno]);
 				else
 					settest_number(e, (int)real_inverse_ntest[testno]);
@@ -1443,7 +1443,7 @@ coder(where dest, ash stack, exp e)
 					}
 					lab = temp;
 					pt(e) = lab;
-					if (name(sha) < shrealhd || name(sha) > doublehd)
+					if (name(sha) < SH_REAL_SHORT || name(sha) > SH_DOUBLE)
 						settest_number(e, (int)int_inverse_ntest[testno]);
 					else
 						settest_number(e, (int)real_inverse_ntest[testno]);
@@ -1508,19 +1508,19 @@ coder(where dest, ash stack, exp e)
 #endif
 
 			switch (name (sh (arg1))) {
-			case scharhd:
-			case swordhd:
-			case slonghd:
-			case offsethd:
+			case SH_SCHAR:
+			case SH_SWORD:
+			case SH_SLONG:
+			case SH_OFFSET:
 				sg = 1;
 				break;
-			case ucharhd:
-			case uwordhd:
-			case ulonghd:
-			case shrealhd:
-			case realhd:
-			case doublehd:
-			case ptrhd:
+			case SH_UCHAR:
+			case SH_UWORD:
+			case SH_ULONG:
+			case SH_REAL_SHORT:
+			case SH_REAL:
+			case SH_DOUBLE:
+			case SH_PTR:
 				sg = 0;
 				break;
 			default:
@@ -1586,7 +1586,7 @@ coder(where dest, ash stack, exp e)
 		exp assdest = son (e);
 		exp assval = bro (assdest);
 
-		if (!newcode && name(sh(assval)) == bitfhd) {
+		if (!newcode && name(sh(assval)) == SH_BITFIELD) {
 			bits_to_mem(assval, e, stack);
 			return;
 		}
@@ -1749,7 +1749,7 @@ coder(where dest, ash stack, exp e)
 		cond2_set = 0;		/* we don't know the state of the conditions */
 		if (eq_where (dest, zero)) {
 			if (reg_result (sh (e))) {/* answer in register */
-				if (name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd) {
+				if (name (sh (e)) >= SH_REAL_SHORT && name (sh (e)) <= SH_DOUBLE) {
 					push_fl;
 					discard_fstack();
 				}
@@ -1764,7 +1764,7 @@ coder(where dest, ash stack, exp e)
 				temp_dest = pushdest;
 			}
 			if (reg_result (sh (e))) {	/* answer in register */
-				if (name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd) {
+				if (name (sh (e)) >= SH_REAL_SHORT && name (sh (e)) <= SH_DOUBLE) {
 					push_fl;
 					move (sh (e), flstack, temp_dest);
 				} else
@@ -1974,13 +1974,13 @@ coder(where dest, ash stack, exp e)
 		if (name(son(e)) == val_tag) {
 			int n = no(son(e));
 
-			if (name(sh(son(e))) != offsethd)
+			if (name(sh(son(e))) != SH_OFFSET)
 				n = 8 * n;
 			sz_where = mw(zeroe, rounder(n, stack_align) / 8);
 		} else {
 			exp temp = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
 
-			if (name(sh(son(e))) == offsethd && al2(sh(son(e))) == 1) {
+			if (name(sh(son(e))) == SH_OFFSET && al2(sh(son(e))) == 1) {
 				no(temp) = 31;
 				bop (add, ulongsh, temp, son(e), reg0, stack);
 				shiftr (ulongsh, mw(zeroe,3), reg0, reg0);
@@ -2017,7 +2017,7 @@ coder(where dest, ash stack, exp e)
 			int sz;
 			int n = no(bro(son(e)));
 
-			if (name(sh(bro(son(e)))) != offsethd)
+			if (name(sh(bro(son(e)))) != SH_OFFSET)
 				n = 8 * n;
 			sz = rounder(n, stack_align);
 			add(slongsh, mw(zeroe, sz/8), sp, sp);
@@ -2053,8 +2053,8 @@ coder(where dest, ash stack, exp e)
 
 				/* if (!simple_res) */
 				{
-					if (name (sh (son (e))) >= shrealhd &&
-						name (sh (son (e))) <= doublehd) {
+					if (name (sh (son (e))) >= SH_REAL_SHORT &&
+						name (sh (son (e))) <= SH_DOUBLE) {
 						coder (flstack, stack, son (e));
 						with_fl_reg = 1;
 					} else {
@@ -2062,7 +2062,7 @@ coder(where dest, ash stack, exp e)
 					}
 				}
 
-				if (name (sh (son (e))) != bothd) {
+				if (name (sh (son (e))) != SH_BOT) {
 					good_fs = fstack_pos;
 					if (with_fl_reg) {/* jumping with a floating value */
 						/* clear off any unwanted stack registers */
@@ -2152,7 +2152,7 @@ coder(where dest, ash stack, exp e)
 		fstack_pos_of(jr) = (prop)fstack_pos;
 		/* jump record for end */
 		solve (son (e), son (e), dest, jr, stack);
-		if (name (sh (e)) != bothd) {
+		if (name (sh (e)) != SH_BOT) {
 			align_label(0, jr);
 			set_label (jr);
 #ifdef NEWDWARF
@@ -2188,7 +2188,7 @@ coder(where dest, ash stack, exp e)
 
 		clean_stack();
 
-		IGNORE caser (arg1, name(sh(e)) == bothd, e);
+		IGNORE caser (arg1, name(sh(e)) == SH_BOT, e);
 
 		return;
 	}
@@ -2230,7 +2230,7 @@ coder(where dest, ash stack, exp e)
 		if (name(dest.where_exp) != val_tag)
 			codec (dest, stack, e);
 		else if (!optop(e)) {
-			if (name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd) {
+			if (name(sh(e)) >= SH_REAL_SHORT && name(sh(e)) <= SH_DOUBLE) {
 				codec (flstack, stack, e);
 				discard_fstack ();
 			} else

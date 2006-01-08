@@ -145,17 +145,17 @@ maxmin(shape s)
 {
 	switch (name(s))
 	{
-	case scharhd:
+	case SH_SCHAR:
 		return scmm;
-	case ucharhd:
+	case SH_UCHAR:
 		return uscmm;
-	case swordhd:
+	case SH_SWORD:
 		return shmm;
-	case uwordhd:
+	case SH_UWORD:
 		return ushmm;
-	case slonghd:
+	case SH_SLONG:
 		return swmm;
-	case ulonghd:
+	case SH_ULONG:
 		return uswmm;
 	default:
 		return uswmm;
@@ -189,7 +189,7 @@ evalexp(exp e)
     {
 		/* offsets appear as bits, but are converted to bytes if alignment 
 		 *       is not bits */
-		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) 
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8) 
 		{
 			return (no(e)>>3);
 		}
@@ -1089,22 +1089,22 @@ correct_shape(long n, int shpe)
 {
 	switch (shpe)
 	{
-	case scharhd:
+	case SH_SCHAR:
 		n = n<<24;
 		n = n>>24;
 		return n;
-	case ucharhd:
+	case SH_UCHAR:
 		n = n & 0xff;
 		return n;
-	case swordhd:
+	case SH_SWORD:
 		n = n<<16;
 		n = n>>16;
 		return n;
-	case uwordhd:
+	case SH_UWORD:
 		n = n & 0xffff;
 		return n;
-	case slonghd:
-	case ulonghd:
+	case SH_SLONG:
+	case SH_ULONG:
 		return n;
 	}
 	fail("Unknown shape in correct_shape");

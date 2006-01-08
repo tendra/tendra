@@ -112,12 +112,12 @@ mm
 maxmin(shape s)
 {
 	switch (name (s)) {
-    case scharhd : return (scmm);
-    case ucharhd : return (uscmm);
-    case swordhd : return (shmm);
-    case uwordhd : return (ushmm);
-    case slonghd : return (swmm);
-    case ulonghd : return (uswmm);
+    case SH_SCHAR : return (scmm);
+    case SH_UCHAR : return (uscmm);
+    case SH_SWORD : return (shmm);
+    case SH_UWORD : return (ushmm);
+    case SH_SLONG : return (swmm);
+    case SH_ULONG : return (uswmm);
 	}
 	return (uswmm);
 }
@@ -197,7 +197,7 @@ evalexp(exp e)
 {
 	switch (name (e)) {
     case val_tag : {
-		if (name(sh(e)) == offsethd && al2(sh(e))>=8) {
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e))>=8) {
 			return no(e)>>3;
 		}
 		else {
@@ -258,7 +258,7 @@ evalexp(exp e)
 		ash a;
 		unsigned long w = (unsigned long) evalexp (son (e));
 		a = ashof (sh (e));
-		if (a.ashalign != 1 && !(name (sh (e)) == cpdhd &&
+		if (a.ashalign != 1 && !(name (sh (e)) == SH_COMPOUND &&
 								 a.ashalign == 32)) {
 			fail ("Illegal bitfield constant");
 		}
@@ -737,14 +737,14 @@ evalone(exp e, int bitposn, bool ro)
 		/* Fall through */
     }
     case val_tag : {
-		if (name(sh(e)) == s64hd || name(sh(e)) == u64hd){
+		if (name(sh(e)) == SH_S64 || name(sh(e)) == SH_U64){
 			flt64 bval;
 			bval = exp_to_f64(e);
 			oneval(bval.small,32,1);
 			oneval(bval.big,32,1);
 		}
 		/* Integer constant */
-		if (al2(sh(e))>=8 && name(sh(e)) == offsethd){
+		if (al2(sh(e))>=8 && name(sh(e)) == SH_OFFSET){
 			no(e) = no(e)>>3;
 		}
 		if (al == 1) {

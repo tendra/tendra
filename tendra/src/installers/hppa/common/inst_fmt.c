@@ -91,11 +91,11 @@
 #include "labels.h"
 
 #define GAP "                                                                "
-#define prokhd 24
+#define SH_PROC 24
 
 #define plabel(X) ((X)<0 ?\
 	(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==nilexp ?\
-	name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==prokhd :\
+	name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==SH_PROC :\
 	(IS_A_PROC(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)))) : 0)
 
 #define globaldata(X) ((X)<0 ?\

@@ -225,9 +225,9 @@ shape_overlap(exp e1, exp e2)
 {
 	shape s1 = sh (e1);
 	shape s2 = sh (e2);
-	if (name (s1) <= doublehd && name (s1) > tophd && name (s2) == ptrhd)
+	if (name (s1) <= SH_DOUBLE && name (s1) > SH_TOP && name (s2) == SH_PTR)
 		return (0);
-	if (name (s2) <= doublehd && name (s2) > tophd && name (s1) == ptrhd)
+	if (name (s2) <= SH_DOUBLE && name (s2) > SH_TOP && name (s1) == SH_PTR)
 		return (0);
 	return (1);
 }
@@ -382,7 +382,7 @@ move_reg(where from, where to, shape sha)
 	int  regmask_to = in_reg (to.where_exp);
 	int  regmask_from = in_reg (from.where_exp);
 	int sz = shape_size(sha);
-	if (name(sha) == shrealhd)
+	if (name(sha) == SH_REAL_SHORT)
 		return;
 	if (regmask_from != 0 && regmask_to != 0)
 		return;

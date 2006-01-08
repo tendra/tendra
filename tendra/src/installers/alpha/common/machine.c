@@ -64,7 +64,7 @@ reg_result(shape sha)
 {
   /* is the result of a procedure delivering
      this shape produced in registers. */
-  return ( name (sha) != cpdhd && name(sha) != nofhd);
+  return ( name (sha) != SH_COMPOUND && name(sha) != SH_NOF);
 }
 
 char * local_prefix;

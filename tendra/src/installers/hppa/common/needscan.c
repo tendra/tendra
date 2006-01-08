@@ -489,7 +489,7 @@ scan_cond(exp * e, exp outer_id)
 
 	assert(name(ste)==cond_tag);
 
-	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
+	if (name(second)==top_tag && name(sh(first))==SH_BOT && no(son(labst))==1
 		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
 		/* cond is { ... test(L); ?; goto X | L:make_top}
 		 *			if ? empty can replace by seq { ... not-test(X); make_top }
@@ -769,7 +769,7 @@ fpop(exp * e, exp ** at)
 	}
 
 #if use_long_double
-	if (name(sh(son(op)))==doublehd)
+	if (name(sh(son(op)))==SH_DOUBLE)
 	{
 		ClearRev(op);
 		arg=&son(op);
@@ -940,7 +940,7 @@ chase(exp sel, exp * e)
 	}
 	default:
 	{
-		if ((son(sel) != *e) && (name(sh(*e)) != bothd))
+		if ((son(sel) != *e) && (name(sh(*e)) != SH_BOT))
 		{				/* only change if not outer */
 			exp stare = *e;
 			exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, nilexp,
@@ -1237,7 +1237,7 @@ scan(exp * e, exp ** at)
 			setcaonly(stare);
 			clearvar(stare);
 		}
-		if (diagnose && (name(shdef)!=bitfhd))
+		if (diagnose && (name(shdef)!=SH_BITFIELD))
 			setvis(stare);
 /*     if (!iscaonly(stare) || all_variables_visible)*/
 		if (isvar(stare) && (!iscaonly(stare) || all_variables_visible))
@@ -1293,7 +1293,7 @@ scan(exp * e, exp ** at)
 					{
 						/* param reg(s) free for the param */
 						props(def) = fixparam;
-						if (name(shdef)!=cpdhd && name(shdef)!=nofhd)
+						if (name(shdef)!=SH_COMPOUND && name(shdef)!=SH_NOF)
 							maxfix--;
 					}
 					else
@@ -1334,8 +1334,8 @@ scan(exp * e, exp ** at)
 			}
 			else
 			{
-				bool is_aggregate = (name(shdef)==cpdhd || name(shdef)==nofhd ||
-									 name(shdef)==s64hd || name(shdef)==u64hd);
+				bool is_aggregate = (name(shdef)==SH_COMPOUND || name(shdef)==SH_NOF ||
+									 name(shdef)==SH_S64 || name(shdef)==SH_U64);
 				if (!is_aggregate && !isvis(stare) &&
 					!isoutpar(stare) &&
 					((bdy.propsneeds & anyproccall) == 0 ||
@@ -1628,7 +1628,7 @@ scan(exp * e, exp ** at)
 		if (is_floating(name(s)) && a.ashsize <=64)  /* ... floating pt result */
 		{
 			x.propsneeds |= realresult_bit;
-			if (name(s) != shrealhd)
+			if (name(s) != SH_REAL_SHORT)
 			{
 				x.propsneeds |= longrealresult_bit;
 			}
@@ -1834,14 +1834,14 @@ scan(exp * e, exp ** at)
 		int i;
 		bool notinreg = !(
 #if use_long_double
-			name(sh(application))==shrealhd    ||
-			name(sh(application))==realhd      ||
+			name(sh(application))==SH_REAL_SHORT    ||
+			name(sh(application))==SH_REAL      ||
 #else
 			is_floating(name(sh(application))) ||
 #endif
 			valregable(sh(application)));
 
-		bool long_result_space_needed = notinreg && !(name(sh(*e)) == tophd);
+		bool long_result_space_needed = notinreg && !(name(sh(*e)) == SH_TOP);
 
 		nds = scan(fnexp, at);
 		/* scan the function exp ... */
@@ -1962,7 +1962,7 @@ scan(exp * e, exp ** at)
 	case val_tag:
 	{
 		exp s = sh(*e);
-		if (name(s) == offsethd && al2(s) >= 8)
+		if (name(s) == SH_OFFSET && al2(s) >= 8)
 		{
 			/* express disps in bytes */
 			no(*e) = no(*e) >> 3;
@@ -2023,7 +2023,7 @@ scan(exp * e, exp ** at)
 				clearlast(son(lst));
 			}
 			*pos = son(lst);
-			for (t = father(*pos); name(sh(t)) == bothd; t = father(t))
+			for (t = father(*pos); name(sh(t)) == SH_BOT; t = father(t))
 			{
 				sh(t) = sh(*pos);	/* adjust ancestors to correct shape */
 			}
@@ -2064,8 +2064,8 @@ scan(exp * e, exp ** at)
 #if use_long_double
 		{
 			exp op = *pste;
-			if (name (sh (op)) == doublehd ||
-				name (sh (son (op))) == doublehd) {
+			if (name (sh (op)) == SH_DOUBLE ||
+				name (sh (son (op))) == SH_DOUBLE) {
 				if (!is_o (name (son (op))) ||
 					pntst (nds, hasproccall)) {
 					cca (at, &son (op));
@@ -2142,7 +2142,7 @@ scan(exp * e, exp ** at)
 		s = scan(arg,at);
 		pste = ptr_position(ste);
 		s.fixneeds = MAX_OF(s.fixneeds,2);
-		if (rm < 3 || name (sh (*pste)) == ulonghd)
+		if (rm < 3 || name (sh (*pste)) == SH_ULONG)
 		{
 			s.floatneeds = MAX_OF (s.floatneeds, 3);
 		}
@@ -2153,7 +2153,7 @@ scan(exp * e, exp ** at)
 #if use_long_double
 		{
 			exp op = *pste;
-			if (name (sh (son (op))) == doublehd)
+			if (name (sh (son (op))) == SH_DOUBLE)
 			{
 				if (!is_o (name (son (op))) ||
 					pntst (s, hasproccall))
@@ -2251,14 +2251,14 @@ scan(exp * e, exp ** at)
 
 			switch (name(sh(l)))
 			{
-			case scharhd:
+			case SH_SCHAR:
 			{
 				if (n >= 0 && n <= 127)
 				{
 					sh(l) = ucharsh;
 				} break;
 			}
-			case swordhd:
+			case SH_SWORD:
 			{
 				if (n >= 0 && n <= 0xffff)
 				{
@@ -2489,7 +2489,7 @@ scan(exp * e, exp ** at)
 #if use_long_double
 		{
 			exp op = *pste;
-			if (name(sh(op))==doublehd)
+			if (name(sh(op))==SH_DOUBLE)
 			{
 				pnset (nds, hasproccall);
 			}
@@ -2522,7 +2522,7 @@ scan(exp * e, exp ** at)
 		shape s = sh (op2);
 
 		if (name (op2) == val_tag && no (op2) == 8 &&
-			name (s) == offsethd && al2 (s) >= 8) {
+			name (s) == SH_OFFSET && al2 (s) >= 8) {
 			/* offset is one byte */
 			exp op1 = son (*e);
 			bro (op1) = bro (*e);
@@ -2544,7 +2544,7 @@ scan(exp * e, exp ** at)
 		exp op1 = son(*e);
 		exp op2 = bro(op1);
 		shape s = sh(op2);
-		if (name(op2)==val_tag  && name(s)==offsethd
+		if (name(op2)==val_tag  && name(s)==SH_OFFSET
 			&& al2(s) >= 8) {
 			int n = no(op2)/8;
 			if (n == 1) {

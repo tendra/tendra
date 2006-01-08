@@ -113,7 +113,7 @@ symnoforext(dec * ex, int filen)
 	
 	
 	if (ex -> dec_u.dec_val.extnamed) {/* it is global */
-		if (name (s) == prokhd && !isvar (tg)
+		if (name (s) == SH_PROC && !isvar (tg)
 			&& (son(tg) == nilexp || name(son(tg))== proc_tag
 				|| name(son(tg)) == general_proc_tag))
 		{/* a declared procedure */
@@ -139,7 +139,7 @@ symnoforext(dec * ex, int filen)
 		return new_esym_d (id, v, symtype, symclass, dt, filen);
 	}
 	else {			/* statics */
-		if (name (s) == prokhd && !isvar (tg)
+		if (name (s) == SH_PROC && !isvar (tg)
 			&& (son(tg) == nilexp || name(son(tg))== proc_tag
 				|| name(son(tg)) == general_proc_tag))
 		{/* a procedure */

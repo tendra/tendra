@@ -113,7 +113,7 @@ evalexp(exp e)
     case null_tag:
     case top_tag:
 	{
-		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8) {
 			return (no(e)>>3);
 		}
         return (no (e));
@@ -245,7 +245,7 @@ evalval(exp e)
 	int ov;
 
 	if (n == val_tag) {
-		int k = (name(sh(e)) == offsethd && al2(sh(e)) != 1)
+		int k = (name(sh(e)) == SH_OFFSET && al2(sh(e)) != 1)
 			? no(e)/8 : no(e);
 		flt64 x;
 		if (isbigval(e)) {
@@ -403,7 +403,7 @@ evalaux(exp e, int isconst, int al)
 				crt_off = off & -8;
 			}
 
-			if (name(sh(val)) != bitfhd)
+			if (name(sh(val)) != SH_BITFIELD)
 			{
 				evalaux(val, isconst, (crt_off + al) & 56);
 				crt_off += shape_size(sh(val));
@@ -583,8 +583,8 @@ evaluate(exp c, int cname, char *s, int isconst,
 		outnl ();
 	}
 
-	if (name(sh(c)) == realhd ||
-        (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
+	if (name(sh(c)) == SH_REAL ||
+        (name(sh(c)) == SH_NOF && ptno(sh(c)) == SH_REAL) ||
 		shape_size(sh(c)) >= 512)
 		al = 64;
 

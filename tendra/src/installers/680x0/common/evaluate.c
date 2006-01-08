@@ -698,17 +698,17 @@ evalaux(exp e, bool isconst, long al)
 				crt_off = off;
 			}
 			
-			if (name (sh (val)) != bitfhd) {
+			if (name (sh (val)) != SH_BITFIELD) {
 				pad = 0;
 				if (param_aligned) {
 					switch (name (sh (val))) {
-					case scharhd:
-					case ucharhd:
+					case SH_SCHAR:
+					case SH_UCHAR:
 						clear_out (3, 1, al);
 						crt_off += 3*8;
 						break;
-					case swordhd:
-					case uwordhd:
+					case SH_SWORD:
+					case SH_UWORD:
 						clear_out (2, 1, al);
 						crt_off += 2*8;
 						break;
@@ -994,7 +994,7 @@ is_comm(exp e)
 	    if (t == nilexp) return (1);
 	    while (1) {
 			t = bro (t);
-			if (name (sh (t)) != bitfhd) {
+			if (name (sh (t)) != SH_BITFIELD) {
 				if (!is_comm (t)) return (0);
 			} else {
 				if (name (t) == val_tag) {

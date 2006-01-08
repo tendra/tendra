@@ -364,21 +364,21 @@ abs_error_treatment(exp e, space sp, where dest)
 	nsp = guardreg(destr,sp);
 	switch (name(sh(e)))
 	{
-	case ucharhd:
-	case uwordhd:
-	case ulonghd:
+	case SH_UCHAR:
+	case SH_UWORD:
+	case SH_ULONG:
 		break;
-	case scharhd:	
+	case SH_SCHAR:	
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0xffffff80,cr);
 		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
 		break;
-	case swordhd:
+	case SH_SWORD:
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0xffff8000,cr);
 		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
 		break;
-	case slonghd:
+	case SH_SLONG:
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0x80000000,cr);
 		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
@@ -406,7 +406,7 @@ chvar_error_treatment(exp e, space sp, where dest)
 	setregalt(aa,r);
 	switch (new_shpe)		/* switch on the new shape */
 	{
-	case scharhd:
+	case SH_SCHAR:
     {
 		if (sgned)
 		{
@@ -418,12 +418,12 @@ chvar_error_treatment(exp e, space sp, where dest)
 		}
 		break;
     }
-	case ucharhd:
+	case SH_UCHAR:
     {
 		test_unsigned(r,255,trap);
     }
     break;
-	case swordhd:
+	case SH_SWORD:
     {
 		if (sgned)
 		{
@@ -435,18 +435,18 @@ chvar_error_treatment(exp e, space sp, where dest)
 		}
     }
     break;
-	case uwordhd:
+	case SH_UWORD:
     {
 		test_unsigned(r,0xffff,trap);
     }
     break;
-	case slonghd:
+	case SH_SLONG:
 		if (!sgned)
 		{
 			test_unsigned(r,0x7fffffff,trap);
 		}
 		break;
-	case ulonghd:
+	case SH_ULONG:
 		if (sgned)
 		{
 			test_unsigned(r,0x7fffffff,trap);
@@ -484,9 +484,9 @@ div_error_treatment(int l, int r, exp e)
 		bc_ins(i_bne,creg2,lab,LIKELY_TO_JUMP);
 		switch (name(sh(e)))
 		{
-		case slonghd:minus_infinity = 0x80000000;break;
-		case swordhd:minus_infinity = 0xffff8000;break;
-		case scharhd:minus_infinity = 0xffffff80;break;
+		case SH_SLONG:minus_infinity = 0x80000000;break;
+		case SH_SWORD:minus_infinity = 0xffff8000;break;
+		case SH_SCHAR:minus_infinity = 0xffffff80;break;
 		default:fail("Should not get here\n");
 		}
 		cmp_ri_ins(i_cmp,l,minus_infinity,creg3);
@@ -515,39 +515,39 @@ minus_error_treatment(exp e, space sp, where dest)
 	/* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
 	switch (name(sh(e)))
 	{
-	case slonghd:
+	case SH_SLONG:
     {
 		rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
 		mf_ins(i_mcrxr,0);
 		long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
 		break;
     }
-	case ulonghd:
+	case SH_ULONG:
     {
 		rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
 		mf_ins(i_mcrxr,0);
 		long_bc_ins(i_bne,0,trap,UNLIKELY_TO_JUMP);
 		break;
     }
-	case swordhd:
+	case SH_SWORD:
     {
 		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
 		test_signed(destr,-0x8000,0x7fff,trap);
 		break;
     }
-	case uwordhd:
+	case SH_UWORD:
     {
 		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
 		test_unsigned(destr,0xffff,trap);
 		break;
     }
-	case scharhd:
+	case SH_SCHAR:
     {
 		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
 		test_signed(destr, -128, 127, trap);
 		break;
     }
-	case ucharhd:
+	case SH_UCHAR:
     {
 		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
 		test_unsigned(destr, 255, trap);
@@ -579,7 +579,7 @@ mult_error_treatment(exp e, space sp, where dest)
 	/* Both sides evaluated lhs in lhs_reg,rhs in rhs_reg*/
 	switch (name(sh(e)))
 	{
-	case slonghd:
+	case SH_SLONG:
     {
 		rrr_ins(i_mulso,lhs_reg,rhs_reg,destr);
 		/* This should set the SO and OV bits of XER both to 1 if there is
@@ -588,7 +588,7 @@ mult_error_treatment(exp e, space sp, where dest)
 		long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
 		break;
     }
-	case ulonghd:
+	case SH_ULONG:
     {
 		int creg=next_creg();
 		
@@ -633,25 +633,25 @@ mult_error_treatment(exp e, space sp, where dest)
 		/* if the high part of the answer is non-zero branch to trap */
 		break;
     }
-	case swordhd:
+	case SH_SWORD:
     {
 		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
 		test_signed(destr,-0x8000,0x7fff,trap);
 		break;
     }
-	case uwordhd:
+	case SH_UWORD:
     {
 		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
 		test_unsigned(destr,0xffff,trap);
 		break;
     }
-	case scharhd:
+	case SH_SCHAR:
     {
 		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
 		test_signed(destr, -128, 127, trap);
 		break;
     }
-	case ucharhd:
+	case SH_UCHAR:
     {
 		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
 		test_unsigned(destr, 255, trap);
@@ -680,7 +680,7 @@ plus_error_treatment(exp e, space sp, where dest)
 	setregalt(aa,destr);
 	switch (name(sh(e)))
 	{
-	case slonghd:
+	case SH_SLONG:
     {
 		rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
 		mf_ins(i_mcrxr,0);
@@ -688,32 +688,32 @@ plus_error_treatment(exp e, space sp, where dest)
 		break;
 		
     }
-	case ulonghd:
+	case SH_ULONG:
     {
 		rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
 		mf_ins(i_mcrxr,0);
 		long_bc_ins(i_beq,0,trap,UNLIKELY_TO_JUMP);
 		break;
     }
-	case swordhd:
+	case SH_SWORD:
     {
 		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
 		test_signed(destr,-0x8000,0x7fff,trap);
 		break;
     }
-	case uwordhd:
+	case SH_UWORD:
     {
 		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
 		test_unsigned(destr,0xffff,trap);
 		break;
     }
-	case scharhd:
+	case SH_SCHAR:
     {
 		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
 		test_signed(destr, -128, 127, trap);
 		break;
     }
-	case ucharhd:
+	case SH_UCHAR:
     {
 		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
 		test_unsigned(destr, 255, trap);
@@ -756,7 +756,7 @@ round_error_treatment(exp *e)
 	exp cond;
 	
 	ASSERT(shape_size(sh(round))==32);
-	if (name(sh(round))==ulonghd)
+	if (name(sh(round))==SH_ULONG)
 	{
 		lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)       ,float_tag);
 		upper_bound = me_u3(fl_shpe,me_shint(ulongsh,UINT_MAX),float_tag);
@@ -875,25 +875,25 @@ neg_error_treatment(exp e, space sp, where dest)
 	
 	switch (name(sh(e)))
 	{
-	case ucharhd:
-	case uwordhd:
-	case ulonghd:
+	case SH_UCHAR:
+	case SH_UWORD:
+	case SH_ULONG:
 		rr_ins(i_neg_cr,r,destr);
 		long_bc_ins(i_bne,CRF0,trap,LIKELY_TO_JUMP);
 		break;
-	case scharhd:
+	case SH_SCHAR:
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0xffffff80,cr);
 		rr_ins(i_neg,r,destr);
 		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
 		break;
-	case swordhd:
+	case SH_SWORD:
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0xffff8000,cr);
 		rr_ins(i_neg,r,destr);
 		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
 		break;
-	case slonghd:
+	case SH_SLONG:
 		cr = next_creg();
 		cmp_ri_ins(i_cmp,r,0x80000000,cr);
 		rr_ins(i_neg,r,destr);

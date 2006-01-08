@@ -74,7 +74,7 @@ is_worth(exp c)
   unsigned char cnam = name (c);
   bool isflt = is_floating(name(sh(c)));
   
-  if (name (sh (c)) == ptrhd && al1(sh(c))==1 )
+  if (name (sh (c)) == SH_PTR && al1(sh(c))==1 )
     return 0;			/* ptr bits */
   if (cnam == real_tag) return true;
   if (cnam==cont_tag&&isflt&&(name(son(c))!=name_tag||isglob(son(son(c))))){

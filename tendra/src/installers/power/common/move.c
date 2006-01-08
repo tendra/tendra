@@ -680,7 +680,7 @@ moveinstore(instore iss, instore isd, int size,
 				if (sgned && bits_per_step == 8)
 				{
 					/* POWER has no load signed byte instruction, so propagate sign */
-					adjust_to_size(ulonghd,r,scharhd,r,NO_ERROR_JUMP);
+					adjust_to_size(SH_ULONG,r,SH_SCHAR,r,NO_ERROR_JUMP);
 				}
 			}
 			
@@ -1134,7 +1134,7 @@ move(ans a, where dest, long regs, bool sgned)
 						/* +++ word aligned byte: load word then sra 24 */
 						/* +++ halfword aligned byte: lha then sra 8 */
 						/* +++ 0 offset: lsi 1 byte then sra 24 */
-						adjust_to_size(ulonghd,rd,scharhd,rd,NO_ERROR_JUMP);
+						adjust_to_size(SH_ULONG,rd,SH_SCHAR,rd,NO_ERROR_JUMP);
 					}
 				}
 			}

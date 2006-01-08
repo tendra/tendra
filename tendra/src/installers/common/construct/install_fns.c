@@ -464,7 +464,7 @@ promote_actuals(exp par)
 {
     for (;;) {
 		shape s = sh(par);
-		if (name(s)>=scharhd && name(s)<=uwordhd) {
+		if (name(s)>=SH_SCHAR && name(s)<=SH_UWORD) {
 			shape ns = (is_signed(s))? slongsh:ulongsh;
 			exp w = hold_check(f_change_variety(f_wrap,ns, copy(par)));
 			replace(par, w, nilexp);
@@ -486,7 +486,7 @@ promote_formals(exp bdy)
 		) {
 	    shape spar = sh(son(bdy));
 	    if (name(bdy)!=ident_tag) { bdy = son(bdy); continue; }
-	    if (name(spar)>=scharhd && name(spar)<= uwordhd) {
+	    if (name(spar)>=SH_SCHAR && name(spar)<= SH_UWORD) {
 			shape ns = (is_signed(spar))? slongsh: ulongsh;
 			exp u = pt(bdy);
 			exp w;
@@ -824,7 +824,7 @@ init_error_treatment()
 exp
 f_abs(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd || !is_signed(sh(arg1)))
+	if (name(sh(arg1)) == SH_BOT || !is_signed(sh(arg1)))
 		return arg1;
 	
 #if check_shape
@@ -832,7 +832,7 @@ f_abs(error_treatment ov_err, exp arg1)
 		failer(CHSH_ABS);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || ov_err.err_code > 2)) {
 		return TDFcallop1(ov_err,arg1,abs_tag);
 	}
@@ -844,14 +844,14 @@ f_abs(error_treatment ov_err, exp arg1)
 exp
 f_add_to_ptr(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != ptrhd || name(sh(arg2)) != offsethd ||
+		(name(sh(arg1)) != SH_PTR || name(sh(arg2)) != SH_OFFSET ||
 		 (al1(sh(arg1)) < al1(sh(arg2))
 #if issparc
 		  && al1_of(sh(arg2)) != REAL_ALIGN
@@ -865,7 +865,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 #else
 	if ((al1_of(sh(arg2))->al_frame & 4) != 0 &&
 #endif
-		al2_of(sh(arg2))->sh_hd > nofhd) {
+		al2_of(sh(arg2))->sh_hd > SH_NOF) {
 			/* indirect varargs param */
 		exp z = me_b3(f_pointer(f_alignment(sh(arg1))), arg1, arg2, addptr_tag);
 		return f_contents(sh(arg1), z);
@@ -878,9 +878,9 @@ f_add_to_ptr(exp arg1, exp arg2)
 exp
 f_and(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 	{ kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
 	{ kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -888,7 +888,7 @@ f_and(exp arg1, exp arg2)
 		failer(CHSH_AND);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)){
 		return TDFcallop3(arg1,arg2,and_tag);
 	}
@@ -903,11 +903,11 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 	exp res = getexp(result_shape, nilexp, 0, arg1, nilexp,
 					 0, 0, apply_tag);
 	int varhack = 0;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
-	if (name(sh(arg1)) != prokhd)
+	if (name(sh(arg1)) != SH_PROC)
 		failer(CHSH_APPLY);
 #endif
 	
@@ -954,15 +954,15 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		{
 			if ((varhack && last(param)) ||
 #if ishppa
-				((name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
-				  name(sh(param)) == doublehd) &&
+				((name(sh(param)) == SH_COMPOUND || name(sh(param)) == SH_NOF ||
+				  name(sh(param)) == SH_DOUBLE) &&
 				 (shape_size(sh(param))>64)))
 #else
 #if issparc
 				sparccpd(sh(param)))
 #else
-				name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
-				name(sh(param)) == doublehd)
+				name(sh(param)) == SH_COMPOUND || name(sh(param)) == SH_NOF ||
+				name(sh(param)) == SH_DOUBLE)
 #endif
 #endif
 			{
@@ -1076,9 +1076,9 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 exp
 f_assign(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 	{ kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
 	{ kill_exp(arg1,arg1); return arg2; }
 
 
@@ -1089,9 +1089,9 @@ exp
 f_assign_with_mode(transfer_mode md, exp arg1,
 				   exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	if (md & f_complete) {
@@ -1132,13 +1132,13 @@ exp
 f_bitfield_assign(exp p, exp off, exp val)
 {
 	exp res;
-	if (name(sh(p)) == bothd)
+	if (name(sh(p)) == SH_BOT)
 		return p;
-	if (name(sh(val)) == bothd)
+	if (name(sh(val)) == SH_BOT)
 		return val;
 	
 #if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
+	if (name(sh(p)) != SH_PTR || name(sh(off)) != SH_OFFSET)
 		failer(CHSH_BFASS);
 #endif
 	if (name(off) == val_tag) {
@@ -1221,16 +1221,16 @@ f_bitfield_assign_with_mode(transfer_mode md,
 							exp val)
 {
 	exp res;
-	if (name(sh(p)) == bothd)
+	if (name(sh(p)) == SH_BOT)
 		return p;
-	if (name(sh(val)) == bothd)
+	if (name(sh(val)) == SH_BOT)
 		return val;
 	
 	if (md == f_standard_transfer_mode)
 		return f_bitfield_assign (p, off, val);
 	
 #if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
+	if (name(sh(p)) != SH_PTR || name(sh(off)) != SH_OFFSET ||
 		name(off) != val_tag)
 		failer(CHSH_BFASS);
 #endif
@@ -1266,13 +1266,13 @@ f_bitfield_contents(bitfield_variety bf, exp p,
 					exp off)
 {
 	exp res;
-	if (name(sh(p)) == bothd)
+	if (name(sh(p)) == SH_BOT)
 		return off;
-	if (name(sh(off)) == bothd)
+	if (name(sh(off)) == SH_BOT)
 		return p;
 	
 #if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
+	if (name(sh(p)) != SH_PTR || name(sh(off)) != SH_OFFSET)
 		failer(CHSH_BFCONT);
 #endif
 	
@@ -1335,11 +1335,11 @@ f_bitfield_contents_with_mode(transfer_mode md,
 							  exp p, exp off)
 {
 	exp res;
-	if (name(sh(p)) == bothd)
+	if (name(sh(p)) == SH_BOT)
 		return p;
 	
 #if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
+	if (name(sh(p)) != SH_PTR || name(sh(off)) != SH_OFFSET ||
 		name(off) != val_tag)
 		failer(CHSH_BFCONT);
 #endif
@@ -1390,7 +1390,7 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 	
 /*  UNUSED(branches);
  */
-	if (name(sh(control)) == bothd)
+	if (name(sh(control)) == SH_BOT)
 		return control;
 	
 	
@@ -1466,10 +1466,10 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 	exp r, ht;
 	shape case_shape;
 /*  UNUSED(branches);
- *  if (name(sh(control)) == bothd || bro(global_case) == nilexp)
+ *  if (name(sh(control)) == SH_BOT || bro(global_case) == nilexp)
  *    return control;
  */
-	if (name(sh(control)) == bothd)
+	if (name(sh(control)) == SH_BOT)
 		return control;
 	
 	bro(global_case) = nilexp;
@@ -1528,11 +1528,11 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 exp
 f_change_bitfield_to_int(variety x, exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
-	if (name(sh(arg1)) != bitfhd)
+	if (name(sh(arg1)) != SH_BITFIELD)
 		failer(CHSH_CHBITFIELD);
 #endif
 #if !has64bits
@@ -1551,7 +1551,7 @@ exp
 f_change_int_to_bitfield(bitfield_variety x,
 						 exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -1572,7 +1572,7 @@ exp
 f_change_variety(error_treatment ov_err, variety r,
 				 exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -1581,7 +1581,7 @@ f_change_variety(error_treatment ov_err, variety r,
 #endif
 #if !has64bits
 	if ((name(arg1)!=val_tag || ov_err.err_code >2)
-		&&(shape_size(sh(arg1))> 32 || name(r)>=s64hd)
+		&&(shape_size(sh(arg1))> 32 || name(r)>=SH_S64)
 		&& name(sh(arg1)) != name(r)){
 		exp e = arg1;
 		int ss = is_signed(sh(arg1));
@@ -1594,7 +1594,7 @@ f_change_variety(error_treatment ov_err, variety r,
 							   (ss)?"__TDFUsuwiden":"__TDFUuuwiden", r);
 			return z;
 		}
-		else if (name(r) >= s64hd) {
+		else if (name(r) >= SH_S64) {
 			return TDFcallaux(ov_err, e, (sd)?"__TDFUu642s64":"__TDFUs642u64", r);
 		} else {
 			exp e = TDFcallaux(ov_err, arg1,
@@ -1615,14 +1615,14 @@ f_change_variety(error_treatment ov_err, variety r,
 exp
 f_component(shape sha, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg2)) != offsethd || name(sh(arg1)) != cpdhd ||
+		(name(sh(arg2)) != SH_OFFSET || name(sh(arg1)) != SH_COMPOUND ||
 		 shape_align(sh(arg1)) < al1(sh(arg2)) ||
 		 shape_align(sha) > al2(sh(arg2))))
 		failer(CHSH_COMPONENT);
@@ -1637,10 +1637,10 @@ f_concat_nof(exp arg1, exp arg2)
 	shape sha = getshape(0, const_al1, al2_of(sh(arg1)),
 						 align_of(sh(arg1)),
 						 shape_size(sh(arg1)) + shape_size(sh(arg2)),
-						 nofhd);
-	if (name(sh(arg1)) == bothd)
+						 SH_NOF);
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	/* al2_of(sh(arg1)) is the shapemacs.h hd of the nof shape */
@@ -1696,12 +1696,12 @@ start_conditional(label alt_label_intro)
 exp
 f_contents(shape s, exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != ptrhd ||
+		(name(sh(arg1)) != SH_PTR ||
 		 (al1(sh(arg1)) < shape_align(s)
 #if issparc
 		  && align_of(s) != REAL_ALIGN
@@ -1720,14 +1720,14 @@ exp
 f_contents_with_mode(transfer_mode md, shape s,
 					 exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != ptrhd ||
+		(name(sh(arg1)) != SH_PTR ||
 		 (al1(sh(arg1)) < shape_align(s)
-		  && al1_of(sh(arg1))-> sh_hd != doublehd)))
+		  && al1_of(sh(arg1))-> sh_hd != SH_DOUBLE)))
 		failer(CHSH_CONTENTS_VOL);
 #endif
 #ifdef no_trap_on_nil_contents
@@ -1812,7 +1812,7 @@ div0_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag
 		 || ov_err.err_code > 2)){
 		return TDFcallop2(ov_err,arg1,arg2,div0_tag);
@@ -1833,9 +1833,9 @@ exp
 f_div0(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -1850,7 +1850,7 @@ div1_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd  &&
+	if (name(sh(arg1)) >= SH_S64  &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag
 		 || ov_err.err_code > 2)){
 		return TDFcallop2(ov_err,arg1,arg2,div1_tag);
@@ -1863,9 +1863,9 @@ exp
 f_div1(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -1881,7 +1881,7 @@ div2_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag
 		 || ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,div2_tag);
@@ -1894,9 +1894,9 @@ exp
 f_div2(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	
@@ -1957,11 +1957,11 @@ f_goto(label dest)
 exp
 f_goto_local_lv(exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
-	if (name(sh(arg1)) != ptrhd)
+	if (name(sh(arg1)) != SH_PTR)
 		failer(CHSH_GOLOCALLV);
 #endif
 	
@@ -1975,7 +1975,7 @@ f_identify(access_option acc, tag name_intro,
 	exp i = get_tag(name_intro);
 	exp d = son(i);
 	UNUSED(acc);
-	if (name(sh(definition)) == bothd)
+	if (name(sh(definition)) == SH_BOT)
     { kill_exp(body,body); return definition; }
 	setsh(i, sh(body));
 	setbro(d, body);
@@ -2009,7 +2009,7 @@ start_identify(access_option acc, tag name_intro,
 exp
 f_ignorable(exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	return me_u2(arg1, ignorable_tag);
 }
@@ -2019,9 +2019,9 @@ exp
 f_integer_test(nat_option prob, ntest nt,
 			   label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -2029,7 +2029,7 @@ f_integer_test(nat_option prob, ntest nt,
 		failer(CHSH_INTTEST);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
@@ -2097,11 +2097,11 @@ exp
 f_local_alloc(exp arg1)
 {
 	alignment a;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
-	if (name(sh(arg1)) != offsethd)
+	if (name(sh(arg1)) != SH_OFFSET)
 		failer(CHSH_LOCALLOC);
 #endif
 	if (al2(sh(arg1)) <8) {
@@ -2125,13 +2125,13 @@ f_local_alloc_check(exp arg1)
 exp
 f_local_free(exp a, exp p)
 {
-	if (name(sh(a)) == bothd)
+	if (name(sh(a)) == SH_BOT)
     { kill_exp(p,p); return a; }
-	if (name(sh(p)) == bothd)
+	if (name(sh(p)) == SH_BOT)
     { kill_exp(a,a); return p; }
 	
 #if check_shape
-	if (name(sh(a)) != offsethd || name(sh(p)) != ptrhd)
+	if (name(sh(a)) != SH_OFFSET || name(sh(p)) != SH_PTR)
 		failer(CHSH_LOCFREE);
 #endif
 	if (al2(sh(a)) <8) {
@@ -2154,13 +2154,13 @@ f_local_free_all()
 exp
 f_long_jump(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
-	if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd)
+	if (name(sh(arg1)) != SH_PTR || name(sh(arg2)) != SH_PTR)
 		failer(CHSH_LONGJUMP);
 #endif
 	
@@ -2195,10 +2195,10 @@ f_make_compound(exp arg1, exp_list arg2)
 		exp t = first;
 		while (1)
 		{
-			if (t != arg2.end && name(sh(bro(t))) == bothd)
+			if (t != arg2.end && name(sh(bro(t))) == SH_BOT)
 				return bro(t);
 			if (t == arg2.end ||
-				name(sh(t)) != offsethd ||
+				name(sh(t)) != SH_OFFSET ||
 				(!doing_aldefs && al2(sh(t)) < shape_align(sh(bro(t)))))
 				failer(CHSH_MAKECPD);
 			if (bro(t) == arg2.end)
@@ -2228,7 +2228,7 @@ f_make_compound(exp arg1, exp_list arg2)
 			alignment a = al2_of(sh(arr[i]));
 			if (a->sh_hd !=0) {
 				shape s = sh(arr[i+1]);
-				if (name(s)>=scharhd && name(s)<=uwordhd) {
+				if (name(s)>=SH_SCHAR && name(s)<=SH_UWORD) {
 					shape ns = (is_signed(s))? slongsh:ulongsh;
 					exp w = hold_check(f_change_variety(f_wrap,ns, arr[i+1]));
 					arr[i+1] = w;
@@ -2356,7 +2356,7 @@ f_make_nof(exp_list arg1)
 	}
 #endif
 	
-	if (name(sh(first))==bitfhd) {
+	if (name(sh(first))==SH_BITFIELD) {
 		/* make make_nof bitbields into make-compound */
 		int sf = shape_size(sh(first));
 		int snof = shape_size(sh(r));
@@ -2537,9 +2537,9 @@ f_make_null_ptr(alignment a)
 exp
 f_maximum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -2547,7 +2547,7 @@ f_maximum(exp arg1, exp arg2)
 		failer(CHSH_MAX);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)) {
 		return TDFcallop3(arg1,arg2,max_tag);
 	}
@@ -2558,16 +2558,16 @@ f_maximum(exp arg1, exp arg2)
 exp
 f_minimum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
 		failer(CHSH_MIN);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
@@ -2650,7 +2650,7 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 	
 	if (vartag.present) {
 		shape sha = getshape(0, const_al1, const_al1,
-							 VAR_PARAM_ALIGN, 0, cpdhd);
+							 VAR_PARAM_ALIGN, 0, SH_COMPOUND);
 		exp d = getexp(sha, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
 		exp i = getexp(f_bottom, nilexp, 1, d, nilexp, 0, 0, ident_tag);
 		setvis(i);
@@ -2678,7 +2678,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 #endif
 	
 #if check_shape
-	if (name(sh(body)) != bothd)
+	if (name(sh(body)) != SH_BOT)
 		failer(CHSH_MAKE_PROC);
 #endif
 	
@@ -2747,15 +2747,15 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 			if (redo_structparams  &&
 #if ishppa
 				(varhack || ((shape_size(sh(son(param)))>64) &&
-							 (name(sh(son(param))) == cpdhd ||name(sh(son(param))) == nofhd ||
-							  name(sh(son(param))) == doublehd))))
+							 (name(sh(son(param))) == SH_COMPOUND ||name(sh(son(param))) == SH_NOF ||
+							  name(sh(son(param))) == SH_DOUBLE))))
 #else
 #if issparc
 				(varhack || sparccpd(sh(son(param)))))
 			
 #else
-			(varhack || name(sh(son(param))) == cpdhd||name(sh(son(param))) == nofhd ||
-			 name(sh(son(param))) == doublehd))
+			(varhack || name(sh(son(param))) == SH_COMPOUND||name(sh(son(param))) == SH_NOF ||
+			 name(sh(son(param))) == SH_DOUBLE))
 #endif
 #endif
 		
@@ -2945,7 +2945,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 {
 	exp res;
 #if check_shape
-	if (name(sh(body)) != bothd)
+	if (name(sh(body)) != SH_BOT)
 		failer(CHSH_MAKE_PROC);
 #endif
 	res = getexp(f_proc, nilexp, 0, caller_intro.id, result_shape,
@@ -3013,12 +3013,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 #if ishppa
 				shape_size(sh(son(param))) > 64)
 #else
-				(name(sh(son(param))) == cpdhd ||name(sh(son(param))) == nofhd ||
+				(name(sh(son(param))) == SH_COMPOUND ||name(sh(son(param))) == SH_NOF ||
 #if issparc
 				 sparccpd(sh(son(param))) ||
 #endif
 				 
-				 name(sh(son(param))) == doublehd))
+				 name(sh(son(param))) == SH_DOUBLE))
 #endif
 			{
 				/*
@@ -3182,8 +3182,8 @@ f_apply_general_proc(shape result_shape, procprops prcprops,
 	    for (i=0; i< caller_pars.number; i++) {
 	        exp ote = *plce;
 			exp param = (name(ote)==caller_tag)?son(ote):ote;
-			if ((name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
-				 name(sh(param)) == doublehd)
+			if ((name(sh(param)) == SH_COMPOUND || name(sh(param)) == SH_NOF ||
+				 name(sh(param)) == SH_DOUBLE)
 #if issparc
 				|| sparccpd(sh(param))
 				
@@ -3260,7 +3260,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops,
 		exp ote = caller_pars.start;
 		for (i = 0; i< caller_pars.number; i++) {
 			shape s = sh(ote);
-			if (name(s)>=scharhd && name(s)<=uwordhd) {
+			if (name(s)>=SH_SCHAR && name(s)<=SH_UWORD) {
 				shape ns = (is_signed(s))? slongsh:ulongsh;
 				exp par = (name(ote)==caller_tag)?son(ote):ote;
 				exp next = bro(ote);
@@ -3447,9 +3447,9 @@ exp
 f_minus(error_treatment ov_err, exp arg1,
 		exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -3457,7 +3457,7 @@ f_minus(error_treatment ov_err, exp arg1,
 		failer(CHSH_MINUS);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,minus_tag);
 	}
@@ -3471,16 +3471,16 @@ f_move_some(transfer_mode md, exp arg1, exp arg2,
 {
 	exp r = getexp(f_top, nilexp, 0, arg1, nilexp, 0, 0,
 				   movecont_tag);
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); kill_exp(arg3,arg3); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); kill_exp(arg3,arg3); return arg2; }
-	if (name(sh(arg3)) == bothd)
+	if (name(sh(arg3)) == SH_BOT)
     { kill_exp(arg1,arg1); kill_exp(arg2,arg2); return arg3; }
 	
 #if check_shape
-	if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd ||
-		name(sh(arg3)) != offsethd ||
+	if (name(sh(arg1)) != SH_PTR || name(sh(arg2)) != SH_PTR ||
+		name(sh(arg3)) != SH_OFFSET ||
 		al1(sh(arg1)) < al1(sh(arg3)) || al1(sh(arg2)) < al1(sh(arg3)))
 		failer(CHSH_MOVESOME);
 #endif
@@ -3530,9 +3530,9 @@ f_move_some(transfer_mode md, exp arg1, exp arg2,
 exp
 f_mult(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -3540,7 +3540,7 @@ f_mult(error_treatment ov_err, exp arg1, exp arg2)
 		failer(CHSH_MULT);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,mult_tag);
 	}
@@ -3553,7 +3553,7 @@ exp
 f_n_copies(nat n, exp arg1)
 {
 	exp r;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if !has64bits
@@ -3563,7 +3563,7 @@ f_n_copies(nat n, exp arg1)
 	
 	r = getexp(f_nof(n, sh(arg1)), nilexp, 0, arg1, nilexp,
 			   0, natint(n), ncopies_tag);
-	if (name(sh(arg1))==bitfhd) {
+	if (name(sh(arg1))==SH_BITFIELD) {
 		/* make ncopies bitfields into (ncopies) make-compound */
 		int sf = shape_size(sh(arg1));
 		int snof = shape_size(sh(r));
@@ -3607,7 +3607,7 @@ f_n_copies(nat n, exp arg1)
 exp
 f_negate(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -3618,7 +3618,7 @@ f_negate(error_treatment ov_err, exp arg1)
 		return f_minus(ov_err, me_shint(sh(arg1),0), arg1);
 	}
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop1(ov_err,arg1,neg_tag);
 	}
@@ -3630,7 +3630,7 @@ f_negate(error_treatment ov_err, exp arg1)
 exp
 f_not(exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -3638,7 +3638,7 @@ f_not(exp arg1)
 		failer(CHSH_NOT);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		name(arg1)!=val_tag){
 		return TDFcallop4(arg1,not_tag);
 	}
@@ -3688,15 +3688,15 @@ exp
 f_offset_add(exp arg1, exp arg2)
 {
 	shape sres;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	
 #if check_shape
 	if (!doing_aldefs &&
-		((name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		((name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET ||
 		  (al1(sh(arg2)) > al2(sh(arg1))
 #if issparc
 		   && al1_of(sh(arg2)) != REAL_ALIGN
@@ -3709,7 +3709,7 @@ f_offset_add(exp arg1, exp arg2)
 	if ((al1_of(sh(arg1))->al_frame & 4) != 0 &&
 		al2_of(sh(arg2))->sh_hd != 0) {
 		exp ne;
-		if (al2_of(sh(arg2))->sh_hd > nofhd) {
+		if (al2_of(sh(arg2))->sh_hd > SH_NOF) {
 			shape ps = f_pointer(f_alignment(sh(arg1)));
 			ne = hold_check(
 				f_offset_pad(f_alignment(ps), f_shape_offset(ps))
@@ -3727,12 +3727,12 @@ f_offset_add(exp arg1, exp arg2)
 exp
 f_offset_div(variety v, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 #if check_shape
-	if (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd)
+	if (name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET)
 		failer(CHSH_OFFSETDIV);
 #endif
 	
@@ -3742,14 +3742,14 @@ f_offset_div(variety v, exp arg1, exp arg2)
 exp
 f_offset_div_by_int(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != offsethd || !is_integer(sh(arg2)) ||
+		(name(sh(arg1)) != SH_OFFSET || !is_integer(sh(arg2)) ||
 		 (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1))!=1)))
 		failer(CHSH_OFFSETDIVINT);
 #endif
@@ -3764,14 +3764,14 @@ f_offset_max(exp arg1, exp arg2)
 	alignment a2 = al1_of(sh(arg2));
 	alignment a3 = al2_of(sh(arg1));
 	shape sha;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd))
+		(name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET))
 		failer(CHSH_OFFSETMAX);
 #endif
 	
@@ -3796,14 +3796,14 @@ f_offset_max(exp arg1, exp arg2)
 exp
 f_offset_mult(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != offsethd || !is_integer(sh(arg2))))
+		(name(sh(arg1)) != SH_OFFSET || !is_integer(sh(arg2))))
 		failer(CHSH_OFFSETMULT);
 #endif
 	
@@ -3821,12 +3821,12 @@ f_offset_mult(exp arg1, exp arg2)
 exp
 f_offset_negate(exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != offsethd ||
+		(name(sh(arg1)) != SH_OFFSET ||
 		 (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1
 #if issparc
 		  && al1_of(sh(arg1)) != REAL_ALIGN
@@ -3842,11 +3842,11 @@ exp
 f_offset_pad(alignment a, exp arg1)
 {
 	shape sha;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
-	if (name(sh(arg1)) != offsethd)
+	if (name(sh(arg1)) != SH_OFFSET)
 		failer(CHSH_OFFSETPAD);
 #endif
 	
@@ -3878,9 +3878,9 @@ f_offset_pad(alignment a, exp arg1)
 exp
 f_offset_subtract(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	return me_b3(f_offset(al2_of(sh(arg2)),
@@ -3892,14 +3892,14 @@ exp
 f_offset_test(nat_option prob, ntest nt, label dest,
 			  exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		(name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET ||
 		 /*    al1(sh(arg1)) != al1(sh(arg2)) || */
 		 al2(sh(arg1)) != al2(sh(arg2))))
 		failer(CHSH_OFFSETTEST);
@@ -3921,9 +3921,9 @@ f_offset_zero(alignment a)
 exp
 f_or(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -3931,7 +3931,7 @@ f_or(exp arg1, exp arg2)
 		failer(CHSH_OR);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)){
 		return TDFcallop3(arg1,arg2,or_tag);
 	}
@@ -3942,9 +3942,9 @@ f_or(exp arg1, exp arg2)
 exp
 f_plus(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -3952,7 +3952,7 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 		failer(CHSH_PLUS);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,plus_tag);
 	}
@@ -3964,14 +3964,14 @@ exp
 f_pointer_test(nat_option prob, ntest nt,
 			   label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 	if (!doing_aldefs &&
-		(name(sh(arg1)) != ptrhd || al1(sh(arg1)) != al1(sh(arg2))))
+		(name(sh(arg1)) != SH_PTR || al1(sh(arg1)) != al1(sh(arg2))))
 		failer(CHSH_PTRTEST);
 #endif
 	
@@ -3986,15 +3986,15 @@ exp
 f_proc_test(nat_option prob, ntest nt, label dest,
 			exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
 /*
  *  ONLY REMOVED TEMPORARILY!
- *  if (name(sh(arg1)) != prokhd || name(sh(arg2)) != prokhd)
+ *  if (name(sh(arg1)) != SH_PROC || name(sh(arg2)) != SH_PROC)
  *    failer(CHSH_PROCTEST);
  */
 #endif
@@ -4017,7 +4017,7 @@ rem1_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,mod_tag);
 	}
@@ -4029,9 +4029,9 @@ exp
 f_rem1(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4046,7 +4046,7 @@ rem0_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,rem0_tag);
 	}
@@ -4066,9 +4066,9 @@ exp
 f_rem0(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	
@@ -4086,7 +4086,7 @@ rem2_aux(error_treatment ov_err, exp arg1,
 		 exp arg2)
 {
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 		return TDFcallop2(ov_err,arg1,arg2,rem2_tag);
 	}
@@ -4098,9 +4098,9 @@ exp
 f_rem2(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4167,7 +4167,7 @@ start_repeat(label repeat_label_intro)
 exp
 f_return (exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	if (!reg_result(sh(arg1)))
 		proc_struct_res = 1;
@@ -4215,9 +4215,9 @@ f_return (exp arg1)
 exp
 f_rotate_left(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4258,9 +4258,9 @@ f_rotate_left(exp arg1, exp arg2)
 exp
 f_rotate_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4351,9 +4351,9 @@ exp
 f_shift_left(error_treatment ov_err, exp arg1,
 			 exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4361,7 +4361,7 @@ f_shift_left(error_treatment ov_err, exp arg1,
 		failer(CHSH_SHL);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag|| ov_err.err_code > 2)) {
 	    arg2 = hold_check(f_change_variety(ov_err, ulongsh, arg2));
 	    return TDFcallop2(ov_err,arg1,arg2,shl_tag);
@@ -4412,9 +4412,9 @@ f_shift_left(error_treatment ov_err, exp arg1,
 exp
 f_shift_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4422,7 +4422,7 @@ f_shift_right(exp arg1, exp arg2)
 		failer(CHSH_SHR);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
@@ -4436,9 +4436,9 @@ f_shift_right(exp arg1, exp arg2)
 exp
 f_subtract_ptrs(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	return me_b3(f_offset(al1_of(sh(arg2)),
 						  al1_of(sh(arg1))),
@@ -4490,9 +4490,9 @@ start_variable(access_option acc, tag name_intro,
 exp
 f_xor(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -4500,7 +4500,7 @@ f_xor(exp arg1, exp arg2)
 		failer(CHSH_XOR);
 #endif
 #if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (name(sh(arg1)) >= SH_S64 &&
 		(name(arg1)!=val_tag || name(arg2) != val_tag)){
 		return TDFcallop3(arg1,arg2,xor_tag);
 	}
@@ -4615,7 +4615,7 @@ shape
 f_bitfield(bitfield_variety bf_var)
 {
 	return getshape(bf_var.has_sign, const_al1, const_al1,
-					BF_ALIGN, bf_var.bits, bitfhd);
+					BF_ALIGN, bf_var.bits, SH_BITFIELD);
 	
 }
 
@@ -4631,7 +4631,7 @@ f_compound(exp off)
     }
 	return getshape(0, const_al1, const_al1,
 					al1_of(sh(off)),
-					sz, cpdhd);
+					sz, SH_COMPOUND);
 }
 
 shape
@@ -4639,17 +4639,17 @@ f_floating(floating_variety fv)
 {
 	switch (fv)
 	{
-	case shrealfv:
+	case FV_REAL_SHORT:
 		return shrealsh;
-	case realfv:
+	case FV_REAL:
 		return realsh;
-	case doublefv:
+	case FV_DOUBLE:
 		return doublesh;
-	case shcomplexfv:
+	case FV_COMPLEX_SHORT:
 		return shcomplexsh;
-	case complexfv:
+	case FV_COMPLEX:
 		return complexsh;
-	case complexdoublefv:
+	case FV_COMPLEX_DOUBLE:
 		return complexdoublesh;
 	}
 	return realsh;
@@ -4672,15 +4672,15 @@ f_nof(nat n, shape s)
 		int nm = (int)name(s);
 		int nofsz = natint(n)*sz;
 		shape res;
-		if (name(s) == nofhd)
+		if (name(s) == SH_NOF)
 			nm = ptno(s);
 #if !has64bits
 		if (!nat_issmall(n))
 			failer(TOO_BIG_A_VECTOR);
 #endif
-		if (name(s) == tophd) {
+		if (name(s) == SH_TOP) {
 			/* pathological - make it nof(0, char) */
-			res = getshape(0, const_al1, const_al1,align_of(ucharsh), 0, nofhd);
+			res = getshape(0, const_al1, const_al1,align_of(ucharsh), 0, SH_NOF);
 		} else if (al == 1) {
 			if ((sz &(sz-1)) != 0 && nofsz > BF_STORE_UNIT) {
 				IGNORE fprintf(stderr, "Warning: Bitfields of nof cannot all be variety enclosed \n");
@@ -4690,17 +4690,17 @@ f_nof(nat n, shape s)
 				int nsz = shape_align(news);
 				int newn = rounder(nofsz, nsz);
 				res = getshape(0, const_al1, const_al1, align_of(news),
-							   newn, nofhd);
+							   newn, SH_NOF);
 			}
 			else {
 				shape news = containedshape(nofsz,1);
 				res = getshape(0, const_al1, const_al1, align_of(news),
-							   shape_size(news), cpdhd);
+							   shape_size(news), SH_COMPOUND);
 				
 			}
 			
 		} else {
-			res = getshape(0, const_al1, const_al1, align_of(s), nofsz, nofhd);
+			res = getshape(0, const_al1, const_al1, align_of(s), nofsz, SH_NOF);
 		}
 		
 		ptno(res) = nm;	/* set the pt field of the shape to the
@@ -4716,7 +4716,7 @@ f_offset(alignment arg1, alignment arg2)
 	if (arg1->al_n != ALDS_SOLVED || arg2->al_n != ALDS_SOLVED ||
 		arg1->sh_hd != 0 || arg2->sh_hd != 0
 		|| arg1->al_frame !=0 || arg2->al_frame != 0)
-		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ, offsethd);
+		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	/* use values pre-computed by init since we never alter shapes */
 	switch (arg1->al)
@@ -4786,11 +4786,11 @@ f_pointer(alignment arg)
     /* use values pre-computed by init since we never alter shapes */
 	int af = arg->al_frame;
 	if (arg->al_n != ALDS_SOLVED && af == 0)
-		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 	if (af != 0) {
 		if (frame_ptrs[af] == (shape)0) {
 			frame_ptrs[af] =
-				getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+				getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 		}
 		return frame_ptrs[af];
 	}
@@ -4801,7 +4801,7 @@ f_pointer(alignment arg)
 			if (arg == c->al) return c->ptr_sh;
 			c = c->rest;
 		}
-		res = getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+		res = getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 		c = (struct SAL*)xmalloc(sizeof(struct SAL));
 		c->al = arg; c->ptr_sh = res; c->rest = cache_pashs;
 		cache_pashs = c;
@@ -4830,88 +4830,88 @@ init_shape()
 	for (i=0; i<32; i++) frame_ptrs[i] = (shape)0;
 	cache_pashs = (struct SAL*)0;
 	
-	f_bottom = getshape(0, const_al1, const_al1, const_al1, 0, bothd);
+	f_bottom = getshape(0, const_al1, const_al1, const_al1, 0, SH_BOT);
 	
-	f_top = getshape(0, const_al1, const_al1, TOP_ALIGN, TOP_SZ, tophd);
+	f_top = getshape(0, const_al1, const_al1, TOP_ALIGN, TOP_SZ, SH_TOP);
 	
-	f_proc = getshape(0, const_al1, const_al1, PROC_ALIGN, PROC_SZ, prokhd);
+	f_proc = getshape(0, const_al1, const_al1, PROC_ALIGN, PROC_SZ, SH_PROC);
 	
-	f_ptr1 = getshape(0, const_al1, const_al1, PTR_ALIGN, PTRBIT_SZ, ptrhd);
+	f_ptr1 = getshape(0, const_al1, const_al1, PTR_ALIGN, PTRBIT_SZ, SH_PTR);
 	
-	f_ptr8 = getshape(0, const_al8, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+	f_ptr8 = getshape(0, const_al8, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 	f_local_label_value = f_ptr8;
 	
-	f_ptr16 = getshape(0, const_al16, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+	f_ptr16 = getshape(0, const_al16, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 	
-	f_ptr32 = getshape(0, const_al32, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+	f_ptr32 = getshape(0, const_al32, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 	
-	f_ptr64 = getshape(0, const_al64, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
+	f_ptr64 = getshape(0, const_al64, const_al1, PTR_ALIGN, PTR_SZ, SH_PTR);
 	
 	f_off1_1 = getshape(1, const_al1, const_al1,
-                        OFFSET_ALIGN, OFFSET_SZ, offsethd);
+                        OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off0_0 = getshape(1, const_al1, const_al1,
-                        OFFSET_ALIGN, OFFSET_SZ, offsethd);
+                        OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off8_8 = getshape(1, const_al8, const_al8,
-                        OFFSET_ALIGN, OFFSET_SZ, offsethd);
+                        OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off8_1 = getshape(1, const_al8, const_al1,
-                        OFFSET_ALIGN, OFFSET_SZ, offsethd);
+                        OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off16_16 = getshape(1, const_al16, const_al16,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off16_8 = getshape(1, const_al16, const_al8,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off16_1 = getshape(1, const_al16, const_al1,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off32_32 = getshape(1, const_al32, const_al32,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off32_16 = getshape(1, const_al32, const_al16,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off32_8 = getshape(1, const_al32, const_al8,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off32_1 = getshape(1, const_al32, const_al1,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off64_64 = getshape(1, const_al64, const_al64,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off64_32 = getshape(1, const_al64, const_al32,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off64_16 = getshape(1, const_al64, const_al16,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off64_8 = getshape(1, const_al64, const_al8,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off64_1 = getshape(1, const_al64, const_al1,
-						 OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						 OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_512 = getshape(1, const_al512, const_al512,
-							OFFSET_ALIGN, OFFSET_SZ, offsethd);
+							OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_64 = getshape(1, const_al512, const_al64,
-						   OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						   OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_32 = getshape(1, const_al512, const_al32,
-						   OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						   OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_16 = getshape(1, const_al512, const_al16,
-						   OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						   OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_8 = getshape(1, const_al512, const_al8,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	f_off512_1 = getshape(1, const_al512, const_al1,
-						  OFFSET_ALIGN, OFFSET_SZ, offsethd);
+						  OFFSET_ALIGN, OFFSET_SZ, SH_OFFSET);
 	
 	return;
 }
@@ -5151,14 +5151,14 @@ f_var_width(bool sig, nat bits)
 void
 init_variety()
 {
-	ucharsh = getshape(0, const_al1, const_al1, UCHAR_ALIGN, UCHAR_SZ, ucharhd);
-	scharsh = getshape(1, const_al1, const_al1, SCHAR_ALIGN, SCHAR_SZ, scharhd);
-	uwordsh = getshape(0, const_al1, const_al1, UWORD_ALIGN, UWORD_SZ, uwordhd);
-	swordsh = getshape(1, const_al1, const_al1, SWORD_ALIGN, SWORD_SZ, swordhd);
-	ulongsh = getshape(0, const_al1, const_al1, ULONG_ALIGN, ULONG_SZ, ulonghd);
-	slongsh = getshape(1, const_al1, const_al1, SLONG_ALIGN, SLONG_SZ, slonghd);
-	u64sh = getshape(0, const_al1, const_al1, U64_ALIGN, U64_SZ, u64hd);
-	s64sh = getshape(1, const_al1, const_al1, S64_ALIGN, S64_SZ, s64hd);
+	ucharsh = getshape(0, const_al1, const_al1, UCHAR_ALIGN, UCHAR_SZ, SH_UCHAR);
+	scharsh = getshape(1, const_al1, const_al1, SCHAR_ALIGN, SCHAR_SZ, SH_SCHAR);
+	uwordsh = getshape(0, const_al1, const_al1, UWORD_ALIGN, UWORD_SZ, SH_UWORD);
+	swordsh = getshape(1, const_al1, const_al1, SWORD_ALIGN, SWORD_SZ, SH_SWORD);
+	ulongsh = getshape(0, const_al1, const_al1, ULONG_ALIGN, ULONG_SZ, SH_ULONG);
+	slongsh = getshape(1, const_al1, const_al1, SLONG_ALIGN, SLONG_SZ, SH_SLONG);
+	u64sh = getshape(0, const_al1, const_al1, U64_ALIGN, U64_SZ, SH_U64);
+	s64sh = getshape(1, const_al1, const_al1, S64_ALIGN, S64_SZ, SH_S64);
 	return;
 }
 

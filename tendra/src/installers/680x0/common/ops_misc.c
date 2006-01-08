@@ -380,7 +380,7 @@ cmp_zero(shape sha, long sz, where a)
 		/* This does work, despite the manual */
 		int instr = ins (sz, ml_tst);
 		ins1 (instr, sz, a, 0);
-    } else if (w == Freg || (w == External && name (sha) == prokhd)) {
+    } else if (w == Freg || (w == External && name (sha) == SH_PROC)) {
 		/* Moving to D0 sets the flags */
 		move (sha, a, D0);
     } else {
@@ -520,7 +520,7 @@ cmp(shape sha, where var, where limit, long ntst)
     long whl = whereis (limit);
 	
 #if 0
-    if (name(sha) == ptrhd) {
+    if (name(sha) == SH_PTR) {
 		make_comment("HACK shape size");
 		shape_size(sha) = 32;
 		sz = 32;
@@ -595,7 +595,7 @@ cmp(shape sha, where var, where limit, long ntst)
     }
 	
 #if 0
-    if (name (var.wh_exp) == name_tag && name(sha) == prokhd &&
+    if (name (var.wh_exp) == name_tag && name(sha) == SH_PROC &&
 		((son(son(var.wh_exp))==nilexp) ||
 		 (name(son(son(var.wh_exp))) == proc_tag))) {
 		exp proc_cont = getexp(sha,nilexp,0,var.wh_exp,nilexp,0,0,cont_tag);
@@ -1102,7 +1102,7 @@ move(shape sha, where from, where to)
     }
     sz = round (sz, shape_align (sha));
 	
-    if (name (sha) == bitfhd && sz != 8 && sz != 16) sz = 32;
+    if (name (sha) == SH_BITFIELD && sz != 8 && sz != 16) sz = 32;
 	
     if (rt == Freg || whfrom == Freg || whto == Freg) {
 		if (name (fe) == real_tag) whfrom = Value;
@@ -1300,7 +1300,7 @@ move(shape sha, where from, where to)
 			return;
 		}
 # if 0
-		if ((name(sha) == prokhd) && (whfrom == External) && (whto == Dreg)){
+		if ((name(sha) == SH_PROC) && (whfrom == External) && (whto == Dreg)){
 			/* We need the contents of this address */
 			move(sha,from,A0);
 			move(sha,A0_p,D0);
@@ -1414,12 +1414,12 @@ long
 range_max(shape shp)
 {
 	switch (name(shp)) {
-    case scharhd : return 0x7f;
-    case swordhd : return 0x7fff;
-    case slonghd : return 0x7fffffff;
-    case ucharhd : return 0xff;
-    case uwordhd : return 0xffff;
-    case ulonghd : return 0xffffffff;
+    case SH_SCHAR : return 0x7f;
+    case SH_SWORD : return 0x7fff;
+    case SH_SLONG : return 0x7fffffff;
+    case SH_UCHAR : return 0xff;
+    case SH_UWORD : return 0xffff;
+    case SH_ULONG : return 0xffffffff;
     default : fprintf(stderr,"Illegal shape in comparison");
 	}
 	return 0;
@@ -1429,10 +1429,10 @@ long
 range_min(shape shp)
 {
 	switch (name(shp)) {
-    case scharhd : return -0x80;
-    case swordhd : return -0x8000;
-    case slonghd : return -0x80000000;
-    case ucharhd : case uwordhd : case ulonghd : return 0;
+    case SH_SCHAR : return -0x80;
+    case SH_SWORD : return -0x8000;
+    case SH_SLONG : return -0x80000000;
+    case SH_UCHAR : case SH_UWORD : case SH_ULONG : return 0;
     default : fprintf(stderr,"Illegal shape in comparison");
 	}
 	return 0;
@@ -1463,7 +1463,7 @@ change_var_sh(shape sht, shape shf, where from,
     if (have_overflow()) {
 		if (whf == Value) {
 			if (((nw(from) < 0) && !is_signed(sht)) ||
-				((nw(from)) < 0 && (is_signed(sht) && name(shf)==ulonghd))) {
+				((nw(from)) < 0 && (is_signed(sht) && name(shf)==SH_ULONG))) {
 				test_overflow(UNCONDITIONAL);
 			}
 			if (is_signed(sht)) {
@@ -1486,7 +1486,7 @@ change_var_sh(shape sht, shape shf, where from,
 		return;
     }
 	
-    if (name (sht) == bitfhd) {
+    if (name (sht) == SH_BITFIELD) {
 		sgt = is_signed (sht);
 		switch (szt) {
 	    case 8 : {
@@ -1505,7 +1505,7 @@ change_var_sh(shape sht, shape shf, where from,
 		}
     }
 	
-    if (name (shf) == bitfhd) {
+    if (name (shf) == SH_BITFIELD) {
 		sgf = is_signed (shf);
 		switch (szf) {
 	    case 8 : {
@@ -1540,7 +1540,7 @@ change_var_sh(shape sht, shape shf, where from,
 			kill_exp(zero_exp,zero_exp);
 		}
 		
-		if (is_signed(sht) && (name(shf) == ulonghd)) {
+		if (is_signed(sht) && (name(shf) == SH_ULONG)) {
 			/* treat the unsigned value as signed and check .lt. zero */
 			int br_ins;
 			exp zero_exp = getexp(slongsh,nilexp,0,nilexp,nilexp,0,0,val_tag);

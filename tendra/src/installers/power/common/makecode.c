@@ -299,7 +299,7 @@ fix_nonbitfield(exp e)
 		e = son(e);
 		while (1)
 		{
-			if (name(e) == val_tag && name(sh(e)) == offsethd && al2(sh(e)) >= 8)
+			if (name(e) == val_tag && name(sh(e)) == SH_OFFSET && al2(sh(e)) >= 8)
 				no(e) = no(e) << 3;	/* fix it */
 			
 			fix_nonbitfield(bro(e));	/* recursively fix the rest of the struct */
@@ -1008,7 +1008,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			{
 				exp l = bro(son(e));		/* last exp of sequence */
 				
-				if (name(sh(t)) == bothd && name(l) == res_tag &&
+				if (name(sh(t)) == SH_BOT && name(l) == res_tag &&
 					(name(son(l)) == clear_tag || name(son(l)) == top_tag))
 				{
 					/*
@@ -1114,7 +1114,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			no(son(second)) = new_label();
 			fl = make_code(first, sp, dest, exitlab).lab;
 			l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label());
-			if (name(sh(first)) != bothd)
+			if (name(sh(first)) != SH_BOT)
 			{
 				uncond_ins(i_b, l);
 			}
@@ -1368,7 +1368,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				freg frg;
 				COMMENT("make_code: ass_tag: apply result special handling:float");
 				frg.fr = FR_RESULT;
-				frg.dble = (hdrhs != shrealhd);
+				frg.dble = (hdrhs != SH_REAL_SHORT);
 				setfregalt(apply_res.answhere, frg);
 			}
 			else
@@ -1499,7 +1499,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			ans aa;
 			
 			frg.fr = f;
-			frg.dble = (hdrhs != shrealhd);
+			frg.dble = (hdrhs != SH_REAL_SHORT);
 			setfregalt(aa, frg);
 			nsp = guardfreg(f, nsp);
 			move(aa, assdest, nsp.fixed, 1);
@@ -1944,7 +1944,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				{
 					l = new_label();
 				}
-				if (name(sh(m)) != bothd)
+				if (name(sh(m)) != SH_BOT)
 				{
 					uncond_ins(i_b, l);
 				}
@@ -2018,11 +2018,11 @@ make_code(exp e, space sp, where dest, int exitlab)
 		
 		from = name(sh(arg));
 		if (from == to ||
-			to == slonghd ||
-			to == ulonghd ||
-			(to == uwordhd && from == ucharhd) ||
-			(to == swordhd && (from == scharhd || from == ucharhd)) ||
-			(to>=slonghd)
+			to == SH_SLONG ||
+			to == SH_ULONG ||
+			(to == SH_UWORD && from == SH_UCHAR) ||
+			(to == SH_SWORD && (from == SH_SCHAR || from == SH_UCHAR)) ||
+			(to>=SH_SLONG)
 			)
 		{
 			/* 
@@ -2314,7 +2314,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			 * If doing a shift right we must sign extend 
 			 * or truncate prior to shifting
 			 */
-			adjust_to_size(ulonghd,a,name(sh(e)),a,NO_ERROR_JUMP);
+			adjust_to_size(SH_ULONG,a,name(sh(e)),a,NO_ERROR_JUMP);
 		}
 		if (name(e) == shr_tag)
 		{
@@ -2365,7 +2365,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			 * If doing a shift left we must sign extend 
 			 * or truncate after the shift
 			 */
-			adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
+			adjust_to_size(SH_ULONG,d,name(sh(e)),d,NO_ERROR_JUMP);
 		}
 		setregalt(aa, d);
 		move(aa, dest, nsp.fixed, 1);
@@ -2477,8 +2477,8 @@ make_code(exp e, space sp, where dest, int exitlab)
     {
 		int to = name(sh(e));
 		int from = name(sh(son(e)));
-		bool dto = (to != shrealhd);
-		bool dfrom = (from != shrealhd);
+		bool dto = (to != SH_REAL_SHORT);
+		bool dfrom = (from != SH_REAL_SHORT);
 		
 		if (dto==dfrom)
 		{
@@ -2496,7 +2496,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			w.answhere = aa;
 			w.ashwhere = ashof(sh(son(e)));
 			code_here(son(e), sp, w);
-			if (to==shrealhd)
+			if (to==SH_REAL_SHORT)
 			{
 				if (ERROR_TREATMENT(e))
 				{
@@ -2606,7 +2606,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		int d=regfrmdest(&dest,sp);
 		
 		rr_ins(i_not,a1,d);
-		adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
+		adjust_to_size(SH_ULONG,d,name(sh(e)),d,NO_ERROR_JUMP);
 		setregalt(aa,d);
 		move(aa,dest,guardreg(d,sp).fixed,1);
 		mka.regmove =d;
@@ -2678,7 +2678,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 					{
 						/* No load signed byte instruction, so propagate sign
 						 */
-						adjust_to_size(ulonghd,dreg,scharhd,dreg,NO_ERROR_JUMP);
+						adjust_to_size(SH_ULONG,dreg,SH_SCHAR,dreg,NO_ERROR_JUMP);
 					}
 					setregalt(aa, dreg);
 				}
@@ -2834,7 +2834,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			/* put it back to round_to_nearest */
 			mtfsb0_ins(30);mtfsb0_ins(31);
 		}
-		adjust_to_size(ulonghd,destr,name(sh(e)),destr,NO_ERROR_JUMP);
+		adjust_to_size(SH_ULONG,destr,name(sh(e)),destr,NO_ERROR_JUMP);
 		setregalt(aa, destr);     
 		mka.regmove = move(aa, dest, sp.fixed, 1);
 		return mka;
@@ -3617,10 +3617,10 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
  */
 	/* Perform the options on the above table */
 	if (src_shpe == dest_shpe || 
-		dest_shpe == slonghd  || 
-		dest_shpe == ulonghd  || 
-		(src_shpe == scharhd && dest_shpe == swordhd) || 
-		(src_shpe == ucharhd && dest_shpe != scharhd))
+		dest_shpe == SH_SLONG  || 
+		dest_shpe == SH_ULONG  || 
+		(src_shpe == SH_SCHAR && dest_shpe == SH_SWORD) || 
+		(src_shpe == SH_UCHAR && dest_shpe != SH_SCHAR))
 	{
 		/* Do no adjustment */
 		if (sreg!=dreg)
@@ -3635,7 +3635,7 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 	{
 		switch (dest_shpe)
 		{
-		case scharhd:
+		case SH_SCHAR:
 			if (architecture==POWERPC_CODE)
 			{
 				rr_ins(i_extsb,sreg,dreg);
@@ -3646,17 +3646,17 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 				rir_ins(i_sra, dreg, 24, dreg);
 			}
 			break;
-		case ucharhd:
+		case SH_UCHAR:
 			rir_ins(i_and, sreg, 0x000000ff, dreg);
 			break;
-		case swordhd:
+		case SH_SWORD:
 			rr_ins(i_exts, sreg, dreg);
 			break;
-		case uwordhd:
+		case SH_UWORD:
 			rir_ins(i_and, sreg, 0x0000ffff, dreg);
 			break;
-		case slonghd:
-		case ulonghd:
+		case SH_SLONG:
+		case SH_ULONG:
 			mov_rr_ins(sreg,dreg);comment(NULL);
 			break;
 		default:
@@ -3668,24 +3668,24 @@ adjust_to_size(int src_shpe, int sreg, int dest_shpe,
 	{
 		switch (dest_shpe)
 		{
-		case scharhd:
+		case SH_SCHAR:
 			testsigned(sreg, -128, 127, trap);
 			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
-		case ucharhd:
+		case SH_UCHAR:
 			testusigned(sreg,255,trap);
 			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
-		case swordhd:
+		case SH_SWORD:
 			testsigned(sreg,-0x8000,0x7fff,trap);
 			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
-		case uwordhd:
+		case SH_UWORD:
 			testusigned(sreg,0xffff,trap);
 			if (sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NULL); }
 			break;
-		case slonghd:
-		case ulonghd:
+		case SH_SLONG:
+		case SH_ULONG:
 			mov_rr_ins(sreg,dreg);comment(NULL);
 			break;
 		default:

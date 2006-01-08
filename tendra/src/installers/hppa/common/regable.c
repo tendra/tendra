@@ -85,11 +85,11 @@ valregable(shape s)
 		{
 			return (0); /* too big for a 32 bit register */
 		}
-		else if (n==cpdhd || n==nofhd)
+		else if (n==SH_COMPOUND || n==SH_NOF)
 		{
 			return 0; /* Compound shapes are not put in registers */
 		}
-		else if (n==tophd)
+		else if (n==SH_TOP)
 		{
 			return 0;
 		}

@@ -290,7 +290,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			/* ... it is in memory */
 			instore is;
 
-			if (var || (name(sh(e)) == prokhd &&
+			if (var || (name(sh(e)) == SH_PROC &&
 						(son(dc) == nilexp || IS_A_PROC(son(dc)))))
 			{
 				is.adval = 1;
@@ -301,7 +301,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			}
 			is.b = boff(dc);
 #if USE_BITAD
-			if (a.ashalign == 1 && (var || name(sh(e)) != ptrhd))
+			if (a.ashalign == 1 && (var || name(sh(e)) != SH_PTR))
 				/* some bit field */
 			{
 				is.b.offset = (is.b.offset << 3) + no(e);
@@ -499,7 +499,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		wans = locate(son(e), sp, sh(son(e)), 0);
 
 #if USE_BITAD
-		bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
+		bitfield = ((name(sh(e)) == SH_PTR) && (al1(sh(e)) == 1));
 #endif
 		switch (discrim (wans.answhere))
 		{

@@ -465,7 +465,7 @@ is_assable(exp e)
     if (n != apply_tag && n != apply_general_tag) return (0);
     n = name (sh (e));
     sz = shape_size (sh (e));
-    return (n <= ulonghd || (n == ptrhd && sz == 32));
+    return (n <= SH_ULONG || (n == SH_PTR && sz == 32));
 }
 
 
@@ -966,7 +966,7 @@ scan2(bool sto, exp to, exp e)
 	}
 #if 0
 	case val_tag :{
-		if (name(sh(e)) == offsethd && al2(sh(e))>=8){
+		if (name(sh(e)) == SH_OFFSET && al2(sh(e))>=8){
 			no(e) = no(e)>>3;
 		}
 		return;

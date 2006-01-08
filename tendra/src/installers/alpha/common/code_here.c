@@ -255,7 +255,7 @@ freg_operand(exp e, space sp)
       if(is_floating(name(sh(e)))) {
 	freg fr;
 	fr.fr = 0;
-	fr.type = (name(e)==realhd)?IEEE_double:IEEE_single;
+	fr.type = (name(e)==SH_REAL)?IEEE_double:IEEE_single;
 	setfregalt(aa,fr);
       }
       else{

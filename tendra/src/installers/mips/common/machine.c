@@ -67,7 +67,7 @@ bool
 reg_result(shape sha)
 {
 	return (is_floating(name(sha)) ||
-			(shape_size(sha) <= 32 && name (sha) != cpdhd && name(sha) != nofhd));
+			(shape_size(sha) <= 32 && name (sha) != SH_COMPOUND && name(sha) != SH_NOF));
 	
 }
 

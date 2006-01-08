@@ -171,21 +171,21 @@ mm
 maxmin(shape s)
 {
   switch (name (s)) {
-  case scharhd: 
+  case SH_SCHAR: 
     return scmm;
-  case ucharhd: 
+  case SH_UCHAR: 
     return uscmm;
-  case swordhd: 
+  case SH_SWORD: 
     return shmm;
-  case uwordhd: 
+  case SH_UWORD: 
     return ushmm;
-  case slonghd: 
+  case SH_SLONG: 
     return swmm;
-  case ulonghd: 
+  case SH_ULONG: 
     return uswmm;
-  case s64hd:
+  case SH_S64:
     return s64mm;
-  case u64hd:
+  case SH_U64:
     return u64mm;
   default: 	
     return uswmm;
@@ -255,7 +255,7 @@ outfloat(exp e, int rep, ash a)
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(80,sizeof(char));
 #endif
-  int fv = name(sh(e)) - shrealhd;
+  int fv = name(sh(e)) - SH_REAL_SHORT;
   r2l ieeeflt;
   ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
   switch(fv){
@@ -331,7 +331,7 @@ evalexp(exp e)
   
   switch (name(e)) {
     case  val_tag : {
-      if(al2(sh(e))>=8 && name(sh(e)) == offsethd) {
+      if(al2(sh(e))>=8 && name(sh(e)) == SH_OFFSET) {
 	return INT64_shift_right(flt64_to_INT64(exp_to_f64(e)),3,1);
       }
       return flt64_to_INT64(exp_to_f64(e));
@@ -709,7 +709,7 @@ evalone(exp e, int rep)
       oneval(flt64_to_INT64(exp_to_f64(e)),a.ashalign,rep);
     }	
     else{
-      if((al2(sh(e)) >= 8) && (name(sh(e)) == offsethd)){
+      if((al2(sh(e)) >= 8) && (name(sh(e)) == SH_OFFSET)){
 	no(e) = no(e)>>3;
       }
       if(is_signed(sh(e))){

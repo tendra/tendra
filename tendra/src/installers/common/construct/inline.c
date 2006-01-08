@@ -141,7 +141,7 @@ inline_exp(exp e)
 	exp res;
 	exp last_act;
 	
-	if (name(sha) == tophd) {	/* not returning a result, no ass needed */
+	if (name(sha) == SH_TOP) {	/* not returning a result, no ass needed */
 		var = nilexp;
 		cond_alt = f_make_top();
 	}
@@ -217,7 +217,7 @@ inline_exp(exp e)
         pt(last_act) == lab) {
 		/* there is only one (final) goto replacement for return */
 		if (name(res) == goto_tag) {
-			res = (name(sha)==tophd)?f_make_top():f_make_value(sha);
+			res = (name(sha)==SH_TOP)?f_make_top():f_make_value(sha);
 		}
 		else {
 			change_last_shapes(res, sh(bro(son(lab))));

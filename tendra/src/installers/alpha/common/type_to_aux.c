@@ -193,35 +193,35 @@ add_type_to_aux(diag_type dt, long ind)
       case DIAG_TYPE_VARIETY: {
 	switch (name(dt->data.var)) 
 	  {
-	  case scharhd:
+	  case SH_SCHAR:
 	    type->bt = btChar; 
 	    retaux.ti=(*type);
 	    break;
-	  case ucharhd: 
+	  case SH_UCHAR: 
 	    type->bt = btUChar; 
 	    retaux.ti=(*type);
 	    break;
-	  case swordhd: 
+	  case SH_SWORD: 
 	    type->bt = btShort; 
 	    retaux.ti=(*type);
 	    break;
-	  case uwordhd: 
+	  case SH_UWORD: 
 	    type->bt = btUShort; 
 	    retaux.ti=(*type);
 	    break;
-	  case slonghd: 
+	  case SH_SLONG: 
 	    type->bt = btInt32; 
 	    retaux.ti=(*type);
 	    break;
-	  case ulonghd: 
+	  case SH_ULONG: 
 	    type->bt = btUInt32; 
 	    retaux.ti=(*type);
 	    break;
-	  case s64hd:
+	  case SH_S64:
 	    type->bt = btLong64;
 	    retaux.ti=(*type);
 	    break;
-	  case u64hd:
+	  case SH_U64:
 	    type->bt = btULong64;
 	    retaux.ti=(*type);
 	    break;

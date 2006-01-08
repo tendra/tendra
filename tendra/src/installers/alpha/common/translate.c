@@ -180,7 +180,7 @@ not_reserved(char *id)
 bool
 varsize(shape sha)
 {
-  return (name(sha)==nofhd);
+  return (name(sha)==SH_NOF);
 }
 
 static int current_symno;
@@ -201,7 +201,7 @@ add_odd_bits(outofline *r)
   sp = r->sp;
   clear_all();
   make_code(r->body,sp,r->dest,ptno(r->jr));
-  if (name(sh(r->body)) != bothd)  {
+  if (name(sh(r->body)) != SH_BOT)  {
     integer_branch(i_br,31,ptno(r->jr));
   }
   return;
@@ -309,7 +309,7 @@ code_it(dec *my_def)
       shape s = my_def -> dec_u.dec_val.dec_shape;
       bool vs = son(tg)!=nilexp /* ie is_comm */;
       size = (shape_size(s) + 7) >> 3;
-      if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
+      if ((isvar(tg) || name(s) != SH_PROC) && not_reserved (id)) {
 	if (vs /*&& size != 0*/) {
 	  if (as_file){
 #if DO_SCHEDULE

@@ -194,15 +194,15 @@ static table_posn
     posn_t t = NULL_POSN;
     long sz = shape_size (sha);
     switch (name (sha)) {
-	case scharhd : t = CHAR_POSN + sz ; break;
-	case swordhd :
-	case slonghd : t = SIGNED_POSN + sz ; break;
-	case ucharhd :
-	case uwordhd :
-	case ulonghd : t = UNSIGNED_POSN + sz ; break;
-	case shrealhd :
-	case realhd :
-	case doublehd : t = FLOATING_POSN + sz ; break;
+	case SH_SCHAR : t = CHAR_POSN + sz ; break;
+	case SH_SWORD :
+	case SH_SLONG : t = SIGNED_POSN + sz ; break;
+	case SH_UCHAR :
+	case SH_UWORD :
+	case SH_ULONG : t = UNSIGNED_POSN + sz ; break;
+	case SH_REAL_SHORT :
+	case SH_REAL :
+	case SH_DOUBLE : t = FLOATING_POSN + sz ; break;
     }
     return (new_table_posn (t, sz));
 }

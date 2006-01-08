@@ -71,7 +71,7 @@ is_worth(exp c)
 	 *				   separately */
 	unsigned char cnam = name (c);
 
-	if (name(sh(c)) == realhd && cnam == cont_tag &&
+	if (name(sh(c)) == SH_REAL && cnam == cont_tag &&
 		name(son(c)) == name_tag && isvar(son(son(c))) &&
 		isglob(son(son(c))))
 		return 1;
@@ -91,7 +91,7 @@ is_worth(exp c)
 				!isvar(son(c)) &&
 				shape_size(sh(c)) <= 32
 
-				&& name(sh(c)) != shrealhd
+				&& name(sh(c)) != SH_REAL_SHORT
 
 				)
 			||  (cnam == cont_tag && name(son(c)) == name_tag &&

@@ -120,7 +120,7 @@ f_change_floating_variety(error_treatment flpt_err,
 						  floating_variety r,
 						  exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -160,7 +160,7 @@ f_change_floating_variety(error_treatment flpt_err,
 #if ishppa
 	{
 		exp t = me_c1(f_floating(r), flpt_err, arg1, chfl_tag);
-		if (!optop(t) && name(sh(t))==doublehd) {
+		if (!optop(t) && name(sh(t))==SH_DOUBLE) {
 			exp id = me_startid(sh(t),t,0);
 			exp tmp = me_complete_id(id,me_obtain(id));
 			return tmp;
@@ -177,7 +177,7 @@ f_change_floating_variety(error_treatment flpt_err,
 exp
 f_complex_conjugate(exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 #if check_shape
 	if (!is_complex(sh(arg1)))
@@ -217,7 +217,7 @@ exp
 f_float_int(error_treatment flpt_err, floating_variety f,
 			exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -244,7 +244,7 @@ f_float_int(error_treatment flpt_err, floating_variety f,
 		exp z = TDFcallaux(flpt_err, arg1,
 						   (is_signed(sh(arg1))?"__TDFUs_float":"__TDFUu_float"), doublesh);
 		z = hold_check(z);
-		if (f != doublefv) {
+		if (f != FV_DOUBLE) {
 			z = me_c1(f_floating(f), flpt_err, z, chfl_tag);
 		}
 		return z;
@@ -252,7 +252,7 @@ f_float_int(error_treatment flpt_err, floating_variety f,
 		exp z = TDFcallaux(flpt_err, arg1,
 						   (is_signed(sh(arg1))?"__TDFUs_float":"__TDFUu_float"), realsh);
 		z = hold_check(z);
-		if (f != realfv) {
+		if (f != FV_REAL) {
 			z = me_c1(f_floating(f), flpt_err, z, chfl_tag);
 		}
 		return z;
@@ -266,7 +266,7 @@ f_float_int(error_treatment flpt_err, floating_variety f,
 exp
 f_floating_abs(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -277,7 +277,7 @@ f_floating_abs(error_treatment ov_err, exp arg1)
 #if ishppa
 	{
 		exp r = me_u1(ov_err, arg1, fabs_tag);
-		if (!optop(r) && name(sh(r))==doublehd) {
+		if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 			exp id = me_startid(sh(r),r,0);
 			exp tmp = me_complete_id(id,me_obtain(id));
 			return tmp;
@@ -294,9 +294,9 @@ exp
 f_floating_div(error_treatment ov_err, exp arg1,
 			   exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -379,7 +379,7 @@ f_floating_div(error_treatment ov_err, exp arg1,
 #if ishppa
 	{
 		exp r = hold_check(me_b1(ov_err, arg1, arg2, fdiv_tag));
-		if (!optop(r) && name(sh(r))==doublehd) {
+		if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 			exp id = me_startid(sh(r),r,0);
 			exp tmp = me_complete_id(id,me_obtain(id));
 			return tmp;
@@ -396,9 +396,9 @@ exp
 f_floating_maximum(error_treatment flpt_err,
 				   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -413,9 +413,9 @@ exp
 f_floating_minimum(error_treatment flpt_err,
 				   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 	
@@ -456,9 +456,9 @@ exp
 f_floating_power(error_treatment ov_err, exp arg1,
 				 exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -807,9 +807,9 @@ exp
 f_floating_minus(error_treatment ov_err, exp arg1,
 				 exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -847,7 +847,7 @@ f_floating_minus(error_treatment ov_err, exp arg1,
 #if ishppa
 	{
 		exp r = hold_check(me_b1(ov_err, arg1, arg2, fminus_tag));
-		if (!optop(r) && name(sh(r))==doublehd) {
+		if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 			exp id = me_startid(sh(r),r,0);
 			exp tmp = me_complete_id(id,me_obtain(id));
 			return tmp;
@@ -867,7 +867,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 	exp r = getexp (sh(first), nilexp, 0, first,
 					nilexp,
 					0, 0, fmult_tag);
-	if (name(sh(first)) == bothd || arg1.number == 1)
+	if (name(sh(first)) == SH_BOT || arg1.number == 1)
 		return first;
 	clear_exp_list(arg1);
 	seterrhandle(r, ov_err.err_code);
@@ -883,7 +883,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 		if (t == arg1.end)
 			break;
 		t = bro(t);
-		if (name(sh(t)) == bothd)
+		if (name(sh(t)) == SH_BOT)
 			return t;
 	}
 	}
@@ -958,7 +958,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 #endif
 	setfather (r, arg1.end);
 #if ishppa
-	if (!optop(r) && name(sh(r))==doublehd) {
+	if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 		exp id = me_startid(sh(r),r,0);
 		exp tmp = me_complete_id(id,me_obtain(id));
 		return tmp;
@@ -973,7 +973,7 @@ exp
 f_floating_negate(error_treatment ov_err,
 				  exp arg1)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	
 #if check_shape
@@ -1010,7 +1010,7 @@ f_floating_negate(error_treatment ov_err,
 #if ishppa
 	{
 		exp r = hold_check(me_u1(ov_err, arg1, fneg_tag));
-		if (!optop(r) && name(sh(r))==doublehd) {
+		if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 			exp id = me_startid(sh(r),r,0);
 			exp tmp = me_complete_id(id,me_obtain(id));
 			return tmp;
@@ -1029,7 +1029,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 	exp first = arg1.start;
 	exp r = getexp (sh(first), nilexp, 0, first,
 					nilexp, 0, 0, fplus_tag);
-	if (name(sh(first)) == bothd || arg1.number == 1)
+	if (name(sh(first)) == SH_BOT || arg1.number == 1)
 		return first;
 	clear_exp_list(arg1);
 	seterrhandle(r, ov_err.err_code);
@@ -1045,7 +1045,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 		if (t == arg1.end)
 			break;
 		t = bro(t);
-		if (name(sh(t)) == bothd)
+		if (name(sh(t)) == SH_BOT)
 			return t;
 	}
 	}
@@ -1093,7 +1093,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 #endif
 	setfather (r, arg1.end);
 #if ishppa
-	if (!optop(r) && name(sh(r))==doublehd) {
+	if (!optop(r) && name(sh(r))==SH_DOUBLE) {
 		exp id = me_startid(sh(r),r,0);
 		exp tmp = me_complete_id(id,me_obtain(id));
 		return tmp;
@@ -1109,9 +1109,9 @@ f_floating_test(nat_option prob, error_treatment flpt_err,
 				ntest nt, label dest, exp arg1,
 				exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -1187,7 +1187,7 @@ f_imaginary_part(exp arg1)
 {
 	shape real_shape;
 	
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 #if check_shape
 	if (!is_complex(sh(arg1)))
@@ -1213,7 +1213,7 @@ f_real_part(exp arg1)
 {
 	shape real_shape;
 	
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 #if check_shape
 	if (!is_complex(sh(arg1)))
@@ -1239,9 +1239,9 @@ exp
 f_make_complex(floating_variety f, exp arg1,
 			   exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 	
 #if check_shape
@@ -1254,7 +1254,7 @@ f_make_complex(floating_variety f, exp arg1,
 /* PAB changes - 19 October 1994 */
 #if substitute_complex
 	switch (f) {
-	case shcomplexfv:
+	case FV_COMPLEX_SHORT:
 	{
 		shape off_set = f_offset(SHREAL_ALIGN, SHREAL_ALIGN);
 		exp val1 = me_shint(off_set, 0);
@@ -1271,7 +1271,7 @@ f_make_complex(floating_variety f, exp arg1,
 		setfather(r, arg2);
 		return hold_check(r);
 	}
-	case complexfv:
+	case FV_COMPLEX:
 	{
 		shape off_set = f_offset(REAL_ALIGN, REAL_ALIGN);
 		exp val1 = me_shint(off_set, 0);
@@ -1288,7 +1288,7 @@ f_make_complex(floating_variety f, exp arg1,
 		setfather(r, arg2);
 		return hold_check(r);
 	}
-	case complexdoublefv:
+	case FV_COMPLEX_DOUBLE:
 	{
 		shape off_set = f_offset(DOUBLE_ALIGN, DOUBLE_ALIGN);
 		exp val1 = me_shint(off_set, 0);
@@ -1460,9 +1460,9 @@ exp
 f_power(error_treatment ov_err, exp arg1,
 		exp arg2)
 {
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == bothd)
+	if (name(sh(arg2)) == SH_BOT)
     { kill_exp(arg1,arg1); return arg2; }
 #if check_shape
 	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2)))
@@ -1479,7 +1479,7 @@ f_round_with_mode(error_treatment flpt_err,
 				  exp arg1)
 {
 	exp res;
-	if (name(sh(arg1)) == bothd)
+	if (name(sh(arg1)) == SH_BOT)
 		return arg1;
 	if (is_complex(sh(arg1))) {
 		arg1 = f_real_part(arg1);
@@ -1559,9 +1559,9 @@ f_round_with_mode(error_treatment flpt_err,
 			int power_mode;
 			
 			/* Set up ident to hold arg1 */
-			if (name(sh(arg1))==shrealhd)
+			if (name(sh(arg1))==SH_REAL_SHORT)
 			{
-				arg1 = f_change_floating_variety(f_impossible,realfv,arg1);
+				arg1 = f_change_floating_variety(f_impossible,FV_REAL,arg1);
 			}
 			id = me_startid(f_top,arg1,0);
 			
@@ -1695,24 +1695,24 @@ void
 init_floating_variety()
 {
 	shrealsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN,
-						SHREAL_SZ, shrealhd);
-	realsh = getshape(0, const_al1, const_al1, REAL_ALIGN, REAL_SZ, realhd);
+						SHREAL_SZ, SH_REAL_SHORT);
+	realsh = getshape(0, const_al1, const_al1, REAL_ALIGN, REAL_SZ, SH_REAL);
 	doublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
-						DOUBLE_SZ, doublehd);
+						DOUBLE_SZ, SH_DOUBLE);
 #if substitute_complex
 	shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN,
-						   2*SHREAL_SZ, cpdhd);
+						   2*SHREAL_SZ, SH_COMPOUND);
 	complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN,
-						 2*REAL_SZ, cpdhd);
+						 2*REAL_SZ, SH_COMPOUND);
 	complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
-							   2*DOUBLE_SZ, cpdhd);
+							   2*DOUBLE_SZ, SH_COMPOUND);
 #else
 	shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN,
-						   2*SHREAL_SZ, shcomplexhd);
+						   2*SHREAL_SZ, SH_COMPLEX_SHORT);
 	complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN,
-						 2*REAL_SZ, complexhd);
+						 2*REAL_SZ, SH_COMPLEX);
 	complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
-							   2*DOUBLE_SZ, complexdoublehd);
+							   2*DOUBLE_SZ, SH_COMPLEX_DOUBLE);
 #endif
 	return;
 }
@@ -1721,9 +1721,9 @@ floating_variety
 f_float_of_complex(shape sha)
 {
 	int s = shape_size(sha)/2;
-	if (s==SHREAL_SZ) return shrealfv;
-	if (s==REAL_SZ) return realfv;
-	if (s==DOUBLE_SZ) return doublefv;
+	if (s==SHREAL_SZ) return FV_REAL_SHORT;
+	if (s==REAL_SZ) return FV_REAL;
+	if (s==DOUBLE_SZ) return FV_DOUBLE;
 	failer("Expecting a complex shape");
 	
 	return f_dummy_floating_variety;
@@ -1733,9 +1733,9 @@ floating_variety
 f_complex_of_float(shape sha)
 {
 	int s = shape_size(sha);
-	if (s==SHREAL_SZ) return shcomplexfv;
-	if (s==REAL_SZ) return complexfv;
-	if (s==DOUBLE_SZ) return complexdoublefv;
+	if (s==SHREAL_SZ) return FV_COMPLEX_SHORT;
+	if (s==REAL_SZ) return FV_COMPLEX;
+	if (s==DOUBLE_SZ) return FV_COMPLEX_DOUBLE;
 	failer("Expecting a floating shape");
 	return f_dummy_floating_variety;
 }
@@ -1744,9 +1744,9 @@ floating_variety
 fv_of_shape(shape sha)
 {
 	int s = shape_size(sha);
-	if (s==SHREAL_SZ) return shrealfv;
-	if (s==REAL_SZ) return realfv;
-	if (s==DOUBLE_SZ) return doublefv;
+	if (s==SHREAL_SZ) return FV_REAL_SHORT;
+	if (s==REAL_SZ) return FV_REAL;
+	if (s==DOUBLE_SZ) return FV_DOUBLE;
 	failer("Expecting a complex shape");
 	
 	return f_dummy_floating_variety;

@@ -687,8 +687,8 @@ bitf_to_int(exp e, shape sha, where dest,
 	case ident_tag : dsha = sh (son (t)) ; break;
 	case ass_tag : dsha = sh (bro (son (t))) ; break;
     }
-    if (name (dsha) == bitfhd) dsha = (extend ? slongsh : ulongsh);
-    if (name (dsha) == tophd) warning ("Top in bitfield assignment");
+    if (name (dsha) == SH_BITFIELD) dsha = (extend ? slongsh : ulongsh);
+    if (name (dsha) == SH_TOP) warning ("Top in bitfield assignment");
 	
     bf = mw (e, off);
 	

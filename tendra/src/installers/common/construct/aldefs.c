@@ -295,11 +295,11 @@ f_parameter_alignment(shape sha)
 
 #if ishppa
 	if (shape_size(sha) > 64)
-		n = nofhd + 1;
+		n = SH_NOF + 1;
 #endif
 #if issparc
 	if (sparccpd(sha))
-		n = nofhd + 1;
+		n = SH_NOF + 1;
 #endif
 
 	return get_pal(t, n, shape_align(sha));

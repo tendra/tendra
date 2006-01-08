@@ -320,7 +320,7 @@ operand(int le, where wh, int b, int addr)
 
 	if (n == val_tag && !isbigval(w)) {		/* integer constant */
 		int  k = no (w) + off;
-		if (name(sh(w)) == offsethd && al2(sh(w)) != 1)
+		if (name(sh(w)) == SH_OFFSET && al2(sh(w)) != 1)
 			k = k / 8;
 		int_operand (k, le);
 		return;
@@ -348,7 +348,7 @@ operand(int le, where wh, int b, int addr)
 		int  ni = no (ident);
 
 		if (isglob (ident)) {
-			if (name (sh (w)) == prokhd)	/* special treatment for procedures */
+			if (name (sh (w)) == SH_PROC)	/* special treatment for procedures */
 			{
 				const_extn (ident, noff);
 				return;
@@ -402,7 +402,7 @@ operand(int le, where wh, int b, int addr)
 					MSG_fatal_illegal_operand();
 				}
 				if (isglob (ident)) {
-					if (name (sh (w)) != prokhd)
+					if (name (sh (w)) != SH_PROC)
 						MSG_fatal_illegal_operand();
 
 					if (PIC_code)
@@ -461,7 +461,7 @@ operand(int le, where wh, int b, int addr)
 			if (ptno (ident) != reg_pl && off != 0)
 				MSG_fatal_illegal_operand();
 			if (isglob (ident)) {
-				if (name (sh (w)) != prokhd)
+				if (name (sh (w)) != SH_PROC)
 					MSG_fatal_illegal_operand();
 
 				extn (ident, no (son (ref)), b);
@@ -671,7 +671,7 @@ operand(int le, where wh, int b, int addr)
 
 	if (n == clear_tag) {
 		/* any legal operand will do! */
-		if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
+		if (name(sh(w)) >= SH_REAL_SHORT && name(sh(w)) <= SH_DOUBLE) {
 			outs("%st");
 			return;
 		}
