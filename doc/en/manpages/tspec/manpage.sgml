@@ -246,7 +246,7 @@
     <varlistentry>
       <term><option>-w</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Disables all warning messages.</para>
       </listitem>
     </varlistentry>
   </variablelist>
