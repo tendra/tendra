@@ -80,7 +80,7 @@ field_name_unique(ccp: string)
 ident_already_declared(ccp: string)
 {
 	USAGE: FATAL
-	KEY(STD) "Ident "string" already delcared"
+	KEY(STD) "Ident "string" already declared"
 }
 
 ident_not_declared(ccp: string)
@@ -98,7 +98,7 @@ label_not_declared(ccp: string)
 label_not_delcared(ccp: string)
 {
 	USAGE: FATAL
-	KEY(STD) "Label "string" not delcared"
+	KEY(STD) "Label "string" not declared"
 }
 
 label_set_twice(ccp: string)
@@ -218,7 +218,7 @@ tag_declared_as_variable(ccp: string)
 tag_declared_non_variable(ccp: string)
 {
 	USAGE: FATAL
-	KEY(STD) "Tag "string" delcared as non-variable"
+	KEY(STD) "Tag "string" declared as non-variable"
 }
 
 tag_declared_twice(ccp: string)
