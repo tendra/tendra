@@ -14,8 +14,9 @@
 <refsynopsisdiv id='pl-synopsis'>
   <cmdsynopsis>
     <command>pl</command>
-    <arg choice='opt'>-v</arg>
     <arg choice='opt'>-I <replaceable>path</replaceable></arg>
+    <arg choice='opt'>-g</arg>
+    <arg choice='opt'>-p</arg>
     <arg choice='opt'>-V</arg>
     <arg choice='plain'><replaceable>infile.pl</replaceable></arg>
     <arg choice='plain'><replaceable>outfile.j</replaceable></arg>
@@ -54,7 +55,8 @@
     <varlistentry>
       <term><option>-g</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Add debug information such as line number and source filename 
+          in the output TDF capsule.</para>
       </listitem>
     </varlistentry>
 
