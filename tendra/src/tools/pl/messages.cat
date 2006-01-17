@@ -95,12 +95,6 @@ label_not_declared(ccp: string)
 	KEY(STD) "Label "string" not declared"
 }
 
-label_not_delcared(ccp: string)
-{
-	USAGE: FATAL
-	KEY(STD) "Label "string" not declared"
-}
-
 label_set_twice(ccp: string)
 {
 	USAGE: FATAL
