@@ -285,7 +285,13 @@ usage()
 description_of_diag()
 {
 	USAGE: NONE
-	KEY(STD) "This option described elsewhere."
+	KEY(STD) "Add debug information in the output TDF capsule."
+}
+
+description_of_pp()
+{
+	USAGE: NONE
+	KEY(STD) "Pretty prints the TDF capsule to the standard out."
 }
 
 description_of_include()

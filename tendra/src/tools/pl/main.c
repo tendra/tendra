@@ -89,7 +89,7 @@ static ArgListT cmdl_opts[] = {
 	AP_OPT_EMPTY	(version,		'V', NULL, arg_std_version),
 	AP_OPT_SET		(diag,			'g', NULL, &diag),
 	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
-	AP_OPT_SET		(diag,			'p', NULL, &do_pp),
+	AP_OPT_SET		(pp,			'p', NULL, &do_pp),
 	AP_OPT_EOL
 };
 
