@@ -6225,9 +6225,10 @@ temp_param_friend()
     KEY (STD)	"Can't have default arguments in friend declaration"
 }
 
-temp_param_redecl()
+temp_param_redecl(IDENTIFIER: id)
 {
-    KEY (STD)	"Can't have default arguments in template redeclaration"
+    KEY (STD)	"Default argument for template parameter '"id"' already
+	    	 given in prior declaration"
 }
 
 temp_param_none(LONG_ID: id)

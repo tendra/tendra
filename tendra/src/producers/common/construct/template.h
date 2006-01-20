@@ -73,6 +73,7 @@ extern void end_template(TOKEN);
 extern void template_decl(TYPE);
 extern TYPE check_templ_params(TYPE, IDENTIFIER);
 extern int check_templ_dargs(TYPE);
+extern void check_missing_dargs(TYPE);
 extern void check_deduced_args(IDENTIFIER, LIST (IDENTIFIER), LIST (TOKEN));
 extern void redecl_template(TYPE *, TYPE *, IDENTIFIER);
 extern void reset_primary_templ(TYPE, TYPE);

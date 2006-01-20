@@ -816,6 +816,7 @@ declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def, int force)
 		if (crt_linkage == dspec_c) {
 			report (crt_loc, ERR_temp_decl_linkage ());
 		}
+		check_missing_dargs (q);
 	}
 
 	/* Construct the type declaration */

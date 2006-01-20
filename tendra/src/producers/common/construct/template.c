@@ -929,7 +929,6 @@ template_params(int ex)
 	NAMESPACE ns;
 	LOCATION loc;
 	PARSE_STATE s;
-	int have_darg = 0;
 	unsigned long npars = 0;
 	DECL_SPEC use = dspec_none;
 	LIST (TOKEN) dargs = NULL_list (TOKEN);
@@ -1003,12 +1002,10 @@ template_params(int ex)
 					DECONS_tok_exp (r, c, e, tok);
 					templ_param_type (pid, r);
 					if (IS_NULL_exp (e)) {
-						if (have_darg) have_darg = 2;
 						tok = NULL_tok;
 					} else {
 						COPY_exp (tok_exp_value (tok), NULL_exp);
 						MAKE_tok_exp (r, c, e, tok);
-						have_darg = 1;
 					}
 					break;
 				}
@@ -1017,12 +1014,10 @@ template_params(int ex)
 					/* Type parameter */
 					TYPE r = DEREF_type (tok_type_value (tok));
 					if (IS_NULL_type (r)) {
-						if (have_darg) have_darg = 2;
 						tok = NULL_tok;
 					} else {
 						COPY_type (tok_type_value (tok), NULL_type);
 						MAKE_tok_type (btype_lang, r, tok);
-						have_darg = 1;
 					}
 					break;
 				}
@@ -1032,12 +1027,10 @@ template_params(int ex)
 					TYPE r = DEREF_type (tok_class_type (tok));
 					IDENTIFIER cid = DEREF_id (tok_class_value (tok));
 					if (IS_NULL_id (cid)) {
-						if (have_darg) have_darg = 2;
 						tok = NULL_tok;
 					} else {
 						COPY_id (tok_class_value (tok), NULL_id);
 						MAKE_tok_class (r, cid, tok);
-						have_darg = 1;
 					}
 					break;
 				}
@@ -1047,10 +1040,6 @@ template_params(int ex)
 					tok = NULL_tok;
 					break;
 				}
-				}
-				if (have_darg == 2) {
-					/* Missing default argument */
-					report (crt_loc, ERR_temp_param_default (pid));
 				}
 				CONS_tok (tok, dargs, dargs);
 				CONS_id (pid, pids, pids);
@@ -2231,6 +2220,74 @@ deduce_template(TYPE s, TYPE t, int qu)
 
 
 /*
+ *    CHECK MISSING DEFAULT ARGUMENTS
+ *
+ *    This routing checks the default argument list of a template
+ *    declaration for missing entries.  Once a default argument is found,
+ *    all succeeding parameters must have default arguments too.  Note that
+ *    the arguments from prior template declarations must be merged first.
+ */
+
+void
+check_missing_dargs(TYPE t)
+{
+	if (IS_type_templ (t)) {
+		TOKEN sort = DEREF_tok (type_templ_sort (t));
+		LIST (TOKEN) dargs = DEREF_list (tok_templ_dargs (sort));
+		LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
+		int found = 0;
+		while (!IS_NULL_list (dargs)) {
+			TOKEN darg = DEREF_tok (HEAD_list (dargs));
+			if (!IS_NULL_tok (darg)) {
+				found = 1;
+			} else if (found) {
+				IDENTIFIER pid = DEREF_id (HEAD_list (pids));
+				report (crt_loc, ERR_temp_param_default (pid));
+			}
+			dargs = TAIL_list (dargs);
+			pids = TAIL_list (pids);
+		}
+	}
+}
+
+
+/*
+ *    MERGE DEFAULT ARGUMENT LISTS
+ *
+ *    This routine merges the default arguments from two template
+ *    declarations and reports any duplicate entries.
+ */
+
+static void
+merge_templ_dargs(TOKEN sort, TOKEN osort)
+{
+	LIST (TOKEN) dargs = DEREF_list (tok_templ_dargs (sort));
+	LIST (TOKEN) odargs = DEREF_list (tok_templ_dargs (osort));
+	LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
+
+	while (!IS_NULL_list (dargs) && !IS_NULL_list (odargs)) {
+		TOKEN darg = DEREF_tok (HEAD_list (dargs));
+		TOKEN odarg = DEREF_tok (HEAD_list (odargs));
+		/* Update both lists with new default arguments */
+		if (!IS_NULL_tok (odarg)) {
+			if (IS_NULL_tok (darg)) {
+				COPY_tok (HEAD_list (dargs), odarg);
+			} else {
+				/* Duplicate entry */
+				IDENTIFIER pid = DEREF_id (HEAD_list (pids));
+				report (crt_loc, ERR_temp_param_redecl (pid));
+			}
+		} else {
+			COPY_tok (HEAD_list (odargs), darg);
+		}
+		dargs = TAIL_list (dargs);
+		odargs = TAIL_list (odargs);
+		pids = TAIL_list (pids);
+	}
+}
+
+
+/*
  *    REDECLARE A TEMPLATE TYPE
  *
  *    This routine checks the redeclaration of the template id of type ps to
@@ -2244,17 +2301,19 @@ redecl_template(TYPE *ps, TYPE *pt, IDENTIFIER id)
 {
 	TYPE s = *ps;
 	TYPE t = *pt;
+	TOKEN osort = NULL_tok;
 	while (IS_type_templ (s)) {
+		if (IS_NULL_tok (osort)) {
+			osort = DEREF_tok (type_templ_sort (s));
+		}
 		s = DEREF_type (type_templ_defn (s));
 	}
 	while (IS_type_templ (t)) {
 		TOKEN sort = DEREF_tok (type_templ_sort (t));
 		DECL_SPEC use = DEREF_dspec (tok_templ_usage (sort));
+		merge_templ_dargs (sort, osort);
+		check_missing_dargs (t);
 		if (use & dspec_extern) export_template (id, 1);
-		if (check_templ_dargs (t)) {
-			/* Can't have default arguments in redeclaration */
-			report (decl_loc, ERR_temp_param_redecl ());
-		}
 		t = DEREF_type (type_templ_defn (t));
 	}
 	*pt = t;
