@@ -6662,8 +6662,9 @@
         <para>With all operands <literal>SHAPE</literal>s except
           <literal>FLOATING</literal>, this comparison is always false.</para>
       </sect2>
+    </sect1>
 
-      <sect2 id='otagexp'>
+      <sect1 id='otagexp'>
         <title>OTAGEXP</title>
 
         <simplelist type='horiz' columns='2'>
@@ -6673,7 +6674,6 @@
 
         <para>This is a auxilliary <literal>SORT</literal> used in
           <emphasis>apply_general_proc</emphasis>.</para>
-      </sect2>
 
       <sect2 id='make-otagexp'>
         <title>make_otagexp</title>
