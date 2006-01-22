@@ -2036,6 +2036,7 @@ find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 				/* Already reported */
 				break;
 			}
+			p = TAIL_list (p);
 		}
 		if (IS_NULL_list (p)) {
 			/* Report undefined type */
