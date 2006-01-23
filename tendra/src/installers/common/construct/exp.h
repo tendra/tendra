@@ -502,10 +502,6 @@ extern exp father(exp e);
 extern exp * refto(exp f, exp e);
 extern void retcell(exp e);
 extern int is_comm(exp e);
-extern void set_large_alloc(void);
-extern int first_alloc_size;
-extern exp freelist;
-extern int exps_left;
 extern int crt_labno;
 
 extern exp clean_labelled(exp starter, label_list placelabs_intro);

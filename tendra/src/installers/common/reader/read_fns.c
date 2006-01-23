@@ -1722,7 +1722,6 @@ start_make_tagdef_unit(int ntokens, int ntags, int naltags, int ndiagtags,
 {
 	if (separate_units)	{
 		++crt_tagdef_unit_no;
-		set_large_alloc();
 	}
 
 	allocate_unit(ntokens, ntags, naltags, ndiagtags, ndgtags);

@@ -383,9 +383,6 @@ main(int argc, char **argv)
     /* Check on separate units */
     if (do_sep_units) {
 		separate_units = 1;
-#if 0
-		current_alloc_size = first_alloc_size;
-#endif
     }
 
     do_pic = 0; /* TODO */

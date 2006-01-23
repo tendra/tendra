@@ -336,9 +336,6 @@ main(int argc, char ** argv)
 
 		case 'u' : {
 			separate_units = 1;
-#if 0
-			current_alloc_size = first_alloc_size;
-#endif
 		case 'n': {
 			do_dynamic_init = GET_0_1;
 		}

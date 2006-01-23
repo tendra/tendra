@@ -4511,8 +4511,6 @@ f_xor(exp arg1, exp arg2)
 void
 init_exp()
 {
-	freelist = nilexp;
-	exps_left = 0;
 	crt_labno = 0;
 	global_case = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 	in_initial_value = 0;

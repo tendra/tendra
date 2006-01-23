@@ -84,87 +84,19 @@
 /* All variables initialised */
 
 int crt_labno = 0;	/* init by init_exp */
-/* the list of unused returned cells */
-exp freelist;	/* init by init_exp */
-/* the number of unused cells in the block */
-int exps_left;	/* init by init_exp */
-
-/* the next free pointer in the block which is used if the freelist
- *     is empty */
-static exp next_exp_ptr;	/* no need to init */
-
-
-/* the types used to record a list of blocks for reuse, if
- *     separate_units is set */
-struct expalloc_cell_t {struct expalloc_cell_t * tl; exp hd;};
-typedef struct expalloc_cell_t expalloc_cell;
-
-static expalloc_cell * alloc_list = (expalloc_cell *)0;
-/* good init for the whole run */
-static expalloc_cell * alloc_freelist = (expalloc_cell *)0;
-/* good init for the whole run */
 
 
 static char  ic_buff[21];	/* no init needed */
 
-/* IDENTITY */
-
-static int current_alloc_size = 20000;
 
 /* PROCEDURES */
 
 void altered(exp, exp) ;
 
 exp
-next_exp()
+next_exp(void)
 {
-	exp res;
-	if (freelist != nilexp)
-    {  /* first try to allocate fron the freelist */
-		res = freelist;
-		freelist = son(freelist);
-		return res;
-    }
-	
-    /* if the freelist is empty we allocate from a block of exps */
-	if (exps_left == 0)
-	{  /* if the block is empty we must allocate another */
-		if (alloc_freelist)
-		{  /* if there is anything in this list of blocks we can reuse
-			*             it and we do not need to calloc */
-			exps_left = current_alloc_size;
-			next_exp_ptr = alloc_freelist -> hd;
-			alloc_freelist = alloc_freelist -> tl;
-		}
-		else
-		{  /* otherwise we must calloc a new block */
-			exps_left = current_alloc_size;
-			next_exp_ptr = (exp)xcalloc(exps_left, sizeof(struct exp_t));
-			{ /* and if we are after the start of tagdefs we put
-			   *               the block on to alloc_list so that it can be reused
-			   *               for the next unit */
-				expalloc_cell * temp =
-					(expalloc_cell *)xmalloc(sizeof(expalloc_cell));
-				temp -> tl = alloc_list;
-				temp -> hd = next_exp_ptr;
-				alloc_list = temp;
-			}
-		}
-	}
-	
-	--exps_left;
-	res = next_exp_ptr++;
-	return res;
-}
-
-void
-set_large_alloc()
-{
-	/* called at the start of tagdefs */
-	alloc_freelist = alloc_list;
-	freelist = nilexp;
-	exps_left = 0;
-	return;
+	return xcalloc(1, sizeof(struct exp_t));
 }
 
 /* create a new exp */
@@ -217,13 +149,13 @@ getshape(int l, alignment sn, alignment px,
 	return res;
 }
 
-/* return an exp cell to the freelist */
+/*
+ * Free memory occupied by an exp
+ */
 void
 retcell(exp e)
 {
-	son(e) = freelist;
-	freelist = (e);
-	return;
+	xfree(e);
 }
 
 
@@ -244,7 +176,7 @@ internal_to(exp whole, exp part)
 
 static void kill_el(exp e, exp scope);
 
-/* kill an exp, return it and its components to the freelist,
+/* kill an exp, free memory occupied by it,
  *     if necessary remove uses of tags and labels, and propagate
  *     changes to identity and variable declarations and to labels
  *     but not outside scope */
