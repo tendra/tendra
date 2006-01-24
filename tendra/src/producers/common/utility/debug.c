@@ -898,6 +898,7 @@ print_bitmask(unsigned long n, const char **s)
 static void
 print_bitstream(BITSTREAM *bs, FILE *f)
 {
+#if 0
 	if (bs) {
 		string s = bs->text;
 		unsigned i = bs->bits;
@@ -925,6 +926,7 @@ print_bitstream(BITSTREAM *bs, FILE *f)
 		}
 		fputs_v (" }\n", f);
 	}
+#endif
 	return;
 }
 
