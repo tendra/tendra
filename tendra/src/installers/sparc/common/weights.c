@@ -92,7 +92,6 @@
 #include "config.h"
 #include "common_types.h"
 #include "exptypes.h"
-#include "codetypes.h"
 #include "installtypes.h"
 #include "const.h"
 #include "exp.h"

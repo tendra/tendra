@@ -62,7 +62,6 @@
 #define COMMENT_INCLUDED
 
 #include "exptypes.h"
-#include "codetypes.h"
 #include "installtypes.h"
 
 

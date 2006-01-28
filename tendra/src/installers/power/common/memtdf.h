@@ -94,7 +94,6 @@
 #include "exptypes.h"
 #include "extratags.h"
 
-#include "codetypes.h"
 #include "installtypes.h"
 #include "install_fns.h"
 #include "exp.h"

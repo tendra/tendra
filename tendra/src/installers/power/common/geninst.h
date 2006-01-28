@@ -90,7 +90,6 @@
 /* needed by "addresstypes.h" */
 #include "config.h"
 #include "exptypes.h"
-#include "codetypes.h"
 #include "installtypes.h"
 #include "ash.h"
 

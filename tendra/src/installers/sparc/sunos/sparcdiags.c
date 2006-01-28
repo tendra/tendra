@@ -62,7 +62,6 @@
 #include "addrtypes.h"
 #include "exptypes.h"
 #include "shapemacs.h"
-#include "codetypes.h"
 #include "installtypes.h"
 #include "toktypes.h"
 #include "exp.h"

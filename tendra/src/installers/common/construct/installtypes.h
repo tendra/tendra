@@ -75,7 +75,13 @@ typedef exp callees;
 typedef int error_code;
 typedef int error_code_list;
 
+/* internal representation of the sort tdfstring  and tdfident */
+typedef TDFSTRING tdfstring;
 typedef tdfstring string;
+
+/* internal representation of the sort tdfbool */
+typedef char tdfbool;
+
 
 typedef int flpt;
 

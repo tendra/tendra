@@ -89,7 +89,6 @@
 
 
 #include "exptypes.h"
-#include "codetypes.h"
 #include "installtypes.h"			/* for bool */
 
 

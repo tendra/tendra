@@ -65,8 +65,6 @@
 
 #include "installer.h"
 
-#include "codetypes.h"
-
 #include "dg_first.h"
 
 #include "diaginfo.h"
