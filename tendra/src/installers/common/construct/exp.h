@@ -92,8 +92,8 @@ struct aldef_t;
 struct dg_info_t;
 typedef struct dg_info_t *_diaginfo;
 #else
-struct diaginfo_t;
-typedef struct diaginfo_t *_diaginfo;
+struct diag_info_t;
+typedef struct diag_info_t *_diaginfo;
 #endif
 
 typedef int prop;
