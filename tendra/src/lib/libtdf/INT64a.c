@@ -45,7 +45,6 @@
 
 
 #include <stdio.h>
-#include "ossg.h"
 
 #if defined (__TenDRA__)
 #include "abstract.h"
