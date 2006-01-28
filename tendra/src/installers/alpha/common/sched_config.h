@@ -27,6 +27,7 @@
         it may be put.
 */
 
+/* $TenDRA$ */
 
 /*
   sched_config.h
@@ -56,9 +57,6 @@
 #define FS_STACK_REGISTER	R30
 #define FS_FIXED_ZERO_REGISTER	R31
 #define FS_FLOAT_ZERO_REGISTER	F31
-
-#undef FS_ENUMERATION
-#define FS_ENUMERATION 1
 
 
 #define MAX_USES		5	/* maximum number of registers used by an instruction */
