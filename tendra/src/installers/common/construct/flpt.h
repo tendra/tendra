@@ -87,9 +87,7 @@ extern void flpt_round(int rdnmd, int pos, flt * res);
 extern int flpt_bits(floating_variety fv);
 extern int flpt_round_to_integer(int rndmd, flt * f);
 
-#if FBASE != 10
 extern r2l real2longs_IEEE(flt * f, int sw);
-#endif
 
 extern int fzero_no;
 extern int fone_no;

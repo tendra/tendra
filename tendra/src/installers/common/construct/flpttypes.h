@@ -65,50 +65,6 @@
 #include "fbase.h"
 
 
-
-#if FBASE == 10
-
-/* FBASE 10 is obsolete */
-
-# define MANT_SIZE 40
-
-#define Fdig unsigned char
-
-# define FNUM_SIZE 65		/* max size required by flt2str */
-/* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(null) */
-
-#define E_MIN	(-1000000)	/* (LONG_MIN/10) doesnt work on 80386 cc 
-							 */
-#define E_MAX	(LONG_MAX/10)
-
-/* Function status values:   */
-# define OKAY		0
-# define EXP2BIG	(-1)
-# define SYNTAX		(-2)
-# define DIVBY0		(-3)
-
-/* Rounding types:   */
-# define R2ZERO	0
-# define R2PINF	1
-# define R2NINF	2
-# define R2NEAR	3
-
-typedef struct _flt {
-	Fdig  mant[MANT_SIZE];
-	/* mantissa digit values [0-9] (NOT '0' to
-	 *				   '9') */
-	/* point is between 1st and 2nd digits */
-	int   sign;			/* -1: negative; +1: positive; 0: value is
-						 *				   zero */
-	int  exp;			/* signed exponent; in range E_MIN..E_MAX 
-						 */
-}                   flt;	/* floating point representation */
-
-
-#else
-
-/* all installers should use this definition */
-
 #ifndef MANT_SIZE
 #define MANT_SIZE 8
 #endif
@@ -153,7 +109,6 @@ typedef struct r2l_t {
 } r2l;
 
 
-#endif
 typedef struct flt64_t {
 	int big;		/* more significant 32 bits */
 	unsigned int small;	/* less significant 32 bits */
