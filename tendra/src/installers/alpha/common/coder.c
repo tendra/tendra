@@ -5663,9 +5663,7 @@ tailrecurse:
       return mka;
     } /* end cont */
 
-#if (FBASE != 10)
     case real_tag :
-#endif
     case string_tag :{
       instore isa;
       ans aa;
@@ -5701,58 +5699,6 @@ tailrecurse:
       mka.regmove=move(aa,dest,sp,sgned);
       return mka;
     }
-#if (FBASE == 10)	/* now defunct */
-    case real_tag :{
-      instore isa;
-      ans aa;
-      char *flt_string;	/* a string representing the real literal */
-      char *ld_ins;		
-      freg fr;
-      int use_fzero;		/* set if value of real is 0.0 */
-	
-      bool sgned = ((ashof (sh (e)).ashsize >= 32) || name (sh (e)) & 1) ? 1 : 0;
-      flt_string = floating_value(e);
-      use_fzero = !strcmp(flt_string,"0.0");
-      switch(dest.answhere.discrim){
-	case infreg :
-	fr.fr = regalt(dest.answhere);
-	fr.type = (dest.ashwhere.ashsize==32)?IEEE_single:IEEE_double;
-	break;
-	case insomefreg :
-	if(!use_fzero){
-	  fr.fr = getfreg(sp.flt);
-	  fr.type = (dest.ashwhere.ashsize==32)?IEEE_single:IEEE_double;
-	}
-	break;
-	case notinreg :
-	fr.fr=getfreg(sp.flt);
-	fr.type=(dest.ashwhere.ashsize==32)?IEEE_single:IEEE_double;
-	break;
-	default:
-	  failer("dubious target for real_tag ");
-	}
-      ld_ins = (fr.type==IEEE_single)?i_ldis:i_ldit;
-      if(use_fzero){
-	if(dest.answhere.discrim==insomefreg){
-	  *dest.answhere.val.somefregans.fr=31;
-	  return mka;
-	}
-	else
-	  float_op(i_cpys,31,31,fr.fr);
-      }
-      else
-	float_load_store_immediate(ld_ins,fr.fr,flt_string);
-      if(dest.answhere.discrim==insomefreg)
-	*dest.answhere.val.somefregans.fr = fr.fr;
-      if(dest.answhere.discrim==notinreg){
-	/* put reg contents into memory */
-	ans src;
-	setfregalt(src,fr);
-	mka.regmove=move(src,dest,sp,sgned);
-      }
-      return mka;
-    } /* end eval */
-#endif /* (FBASE==10) */
       
     case val_tag : {
       if (no (e) == 0 && !isbigval(e)) {

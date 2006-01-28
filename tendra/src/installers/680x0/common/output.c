@@ -282,19 +282,7 @@ out_scaled(mach_op *ptr)
 static void
 out_float(flt *f)
 {
-#if (FBASE == 10)
-    int i;
-    asm_fprefix;
-    if (f->sign < 0) outc ('-');
-    outc ('0' + f->mant [0]);
-    outc ('.');
-    for (i = 1 ; i < MANT_SIZE ; i++) outc ('0' + f->mant [i]);
-    outc ('e');
-    if (f->exp >= 0) outc ('+');
-    outn (f->exp);
-#else
     error ("Illegal floating point constant");
-#endif
     return;
 }
 

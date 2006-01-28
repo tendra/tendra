@@ -423,68 +423,6 @@ long
 		mant_bits = 96 /* or 112? */;
     }
 	
-#if (FBASE == 10)
-	
-    if (!convert_floats) return (NULL);
-	
-    if (name (e) == real_tag) {
-		/* Calculate value */
-		flt *f = flptnos + no (e);
-		char fbuff [100];
-		char *p = fbuff;
-		if (f->exp <= DBL_MIN_10_EXP || f->exp >= DBL_MAX_10_EXP) {
-			/* Reject anything that won't fit into a double */
-			return (NULL);
-		}
-		if (f->sign < 0) *(p++) = '-';
-		*(p++) = '0' + f->mant [0];
-		*(p++) = '.';
-		for (i = 1 ; i < MANT_SIZE ; i++) *(p++) = '0' + f->mant [i];
-		sprintf (p, "e%d", (int) f->exp);
-		d = atof (fbuff);
-		if (sz == 32) {
-			/* Round floats */
-			static float fd;
-			fd = (float) d;
-			d = (double) fd;
-		}
-    } else {
-		error ("Illegal floating-point constant");
-		return (NULL);
-    }
-	
-    /* Deal with 0 */
-    if (d == 0.0) {
-		for (i = 0 ; i < sz / 32 ; i++) longs [i] = 0;
-		return (longs);
-    }
-	
-    /* Fill in sign */
-    if (d < 0.0) {
-		bits [0] = 1;
-		d = -d;
-    } else {
-		bits [0] = 0;
-    }
-	
-    /* Work out mantissa and exponent */
-    m = frexp (d, &ex);
-    m = 2.0 * m - 1.0;
-    ex--;
-	
-    /* Fill in mantissa */
-    for (i = 1 ; i <= mant_bits ; i++) {
-		int j = exp_bits + i;
-		m *= 2.0;
-		if (m >= 1.0) {
-			m -= 1.0;
-			bits [j] = 1;
-		} else {
-			bits [j] = 0;
-		}
-    }
-	
-#else
 	
     if (name (e) == real_tag) {
 		int j, k = -1;
@@ -530,7 +468,6 @@ long
 		return (NULL);
     }
 	
-#endif
 	
     /* Fill in exponent */
     ex += (1 << (exp_bits - 1)) - 1;

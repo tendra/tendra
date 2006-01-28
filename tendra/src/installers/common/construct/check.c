@@ -142,10 +142,6 @@ ntest real_inverse_ntest[] = {0, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 ntest exchange_ntest[] = {0, 3, 4, 1, 2, 5, 6, 9, 10, 7, 8, 11, 12, 13,
 						  14};
 
-#if FBASE == 10
-static char maxdigs[] = "4294967296";
-#endif
-
 /* PROCEDURES */
 
 /***********************************************************************
@@ -3230,15 +3226,6 @@ check(exp e, exp scope)
 				retcell (e);
 				return (1);
 			}
-#if FBASE == 10
-			if (name (son (e)) == real_tag &&
-				name(sh(e)) < name(sh(son(e)))) {
-				sh (son (e)) = sh (e);
-				replace (e, son (e), scope);
-				retcell (e);
-				return (1);
-			}
-#else
 			if (name (son (e)) == real_tag) {
 				if (name(sh(e)) < name(sh(son(e)))) {
 					flpt_round((int)f_to_nearest,
@@ -3251,7 +3238,6 @@ check(exp e, exp scope)
 				retcell (e);
 				return (1);
 			}
-#endif
 			if (name (son (e)) == chfl_tag &&
 				name (sh (son (son (e)))) == name (sh (e)) &&
 				name (sh (e)) < name (sh (son (e)))) {
@@ -3270,28 +3256,6 @@ check(exp e, exp scope)
 			if (!optop(e))
 				return 0;
 			
-#if FBASE == 10
-			if (name (son (e)) == real_tag) {
-				/* apply if arg constant */
-				flpt f = no (son (e));
-				exp iexp = me_shint(sh(e), 0);
-				
-				int   i,
-					val = 0;
-				flt res;
-				if (round_number (e) == f_to_nearest)
-					flt_round (flptnos[f], &res);
-				else
-					flt_trunc (flptnos[f], &res);
-				
-				for (i = 0; i <= res.exp; ++i)
-					val = (10 * val + res.mant[i]);
-				no (iexp) = val * res.sign;
-				replace (e, iexp, scope);
-				kill_exp (e, scope);
-				return (1);
-			}
-#else
 			if (name (son (e)) == real_tag) {
 				/* apply if arg constant */
 				flpt f = no (son (e));
@@ -3309,7 +3273,6 @@ check(exp e, exp scope)
 				kill_exp (e, scope);
 				return (1);
 			}
-#endif
 			
 			return 0;
 		}
@@ -3318,50 +3281,6 @@ check(exp e, exp scope)
 			if (!optop(e))
 				return 0;
 			
-#if FBASE == 10
-			if (name (son (e)) == val_tag) {
-				/* apply if arg constant */
-				shape sha = sh (son (e));
-				int  k = no (son (e));
-				int  sz = shape_size(sha);
-				
-				if (PIC_code)
-					proc_externs = 1;
-				
-				if (sz == 8)
-					no(son(e)) = floatrep(k & 0xff);
-				else
-					if (sz == 16)
-						no(son(e)) = floatrep(k & 0xffff);
-					else  {
-						/* watch out for 64bits */
-						no (son (e)) = floatrep (k);
-						if (shape_size(sh(son(e))) == 32 && !is_signed(sh(son(e)))
-							&& (k & 0x80000000) != 0) {
-							flt flongmaxr;
-							int   i;
-							flt r;
-							flongmaxr.sign = 1;
-							flongmaxr.exp = 9;
-							for (i = 0; i < MANT_SIZE; i++) {
-								(flongmaxr.mant)[i] = (i < 10) ?
-									(maxdigs[i] - '0') : 0;
-							}
-							flt_add (flptnos[no (son (e))], flongmaxr, &r);
-							flptnos[no (son (e))] = r;
-						}
-					}
-				
-				flpt_round((int)f_to_nearest,
-						   flpt_bits((floating_variety)(name(sh(e))-SH_REAL_SHORT)),
-						   &flptnos[no(son(e))]);
-				setname (son (e), real_tag);
-				sh (son (e)) = sh (e);
-				replace (e, son (e), scope);
-				retcell (e);
-				return (1);
-			}
-#else
 			if (name (son (e)) == val_tag) {
 				/* apply if arg constant */
 				exp arg = son(e);
@@ -3411,7 +3330,6 @@ check(exp e, exp scope)
 				retcell (e);
 				return (1);
 			}
-#endif
 			return 0;
 		}
 		case fmult_tag:  		/* apply zero, unit and constant

@@ -452,11 +452,7 @@ mnw(long d)
  */
 
 where
-#if FBASE == 10
-mfw(int sg, char *v, int e)
-#else
 mfw(int sg, long *v, int e)
-#endif
 {
     where w;
     int i, lv;
@@ -466,17 +462,12 @@ mfw(int sg, long *v, int e)
     flt *f = &flptnos [ fm ];
     f->sign = sg;
     f->exp = e;
-#if (FBASE == 10)
-    lv = strlen (v);
-    for (i = 0 ; i < lv ; i++) f->mant [i] = v [i] - '0';
-#else
     i = 0;
     while (v [i] != -1) {
 		f->mant [i] = v [i];
 		i++;
     }
     lv = i;
-#endif
     for (i = lv ; i < MANT_SIZE ; i++) f->mant [i] = 0;
     fe = new_exp (realsh, nilexp, fm, real_tag);
     make_constant (lab, fe);
