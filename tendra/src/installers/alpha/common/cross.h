@@ -103,8 +103,8 @@ typedef unsigned int UINT32;
 #define int16 short
 #define int32 int
 
-#define is64(X)	((name(X)==u64hd)||(name(X)==s64hd)||(name(X)==ptrhd))
-#define is32(X) ((name(X)==slonghd)||(name(X)==ulonghd))
+#define is64(X)	((name(X)==SH_U64)||(name(X)==SH_S64)||(name(X)==SH_PTR))
+#define is32(X) ((name(X)==SH_SLONG)||(name(X)==SH_ULONG))
 
 /* some macros to access the fields of the flt64/INT64 type */
 #if FS_64_BIT /* 64 bit ints can be represented as longs */
