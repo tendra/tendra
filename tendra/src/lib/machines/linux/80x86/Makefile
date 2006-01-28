@@ -6,6 +6,7 @@ INSTALL_MACHINE=	linux/80x86
 
 # include
 DATA_INCLUDE=	include/alloca.h include/ctype.h include/float.h \
+		include/gconv.h \
 		include/langinfo.h include/limits.h include/math.h \
 		include/nl_types.h include/stdarg.h include/stddef.h \
 		include/ulimit.h include/unistd.h include/varargs.h \

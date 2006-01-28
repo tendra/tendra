@@ -90,4 +90,9 @@
 #define LDBL_MAX_EXP	16384
 #define LDBL_MAX_10_EXP	4932
 
+#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#define FLT_EVAL_METHOD	2
+#define DECIMAL_DIG	21
+#endif
+
 #endif
