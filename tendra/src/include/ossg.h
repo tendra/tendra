@@ -34,40 +34,6 @@
 #define OSSG_INCLUDED
 
 
-/*
-    OSSG STANDARD COMPILER HEADER, VERSION 1.1
-
-    This headers defines feature switch macros for various compiler
-    features.  These can be 1, if the feature is allowed, or 0, otherwise.
-    These switches are used to define the PROTO macros described in the
-    OSSG C coding standard.  Standard versions of the TenDRA keywords
-    are also provided.
-*/
-
-
-/* FS_CPLUSPLUS indicates a C++ compiler */
-
-#ifndef FS_CPLUSPLUS
-#ifdef __cplusplus
-#define FS_CPLUSPLUS		1
-#define FS_STDC			1
-#else
-#define FS_CPLUSPLUS		0
-#endif
-#endif
-
-
-/* FS_STDC indicates an ISO C compliant compiler */
-
-#ifndef FS_STDC
-#ifdef __STDC__
-#define FS_STDC			1
-#else
-#define FS_STDC			0
-#endif
-#endif
-
-
 /* FS_TENDRA indicates the TenDRA C compiler */
 
 #ifndef FS_TENDRA
@@ -75,17 +41,6 @@
 #define FS_TENDRA		1
 #else
 #define FS_TENDRA		0
-#endif
-#endif
-
-
-/* FS_GNUC indicates the GNU C compiler */
-
-#ifndef FS_GNUC
-#ifdef __GNUC__
-#define FS_GNUC			1
-#else
-#define FS_GNUC			0
 #endif
 #endif
 
@@ -99,71 +54,6 @@
 #define FS_LINT			0
 #endif
 #endif
-
-
-/* FS_PROTOTYPES indicates whether the compiler has prototypes */
-
-#ifndef FS_PROTOTYPES
-#define FS_PROTOTYPES		FS_STDC
-#endif
-
-
-/* FS_WEAK_PROTOTYPES indicates whether the compiler has weak prototypes */
-
-#ifndef FS_WEAK_PROTOTYPES
-#define FS_WEAK_PROTOTYPES	( FS_TENDRA && !FS_CPLUSPLUS )
-#endif
-
-
-/* Definitions of PROTO macros for weak prototypes */
-
-#if FS_WEAK_PROTOTYPES
-#ifndef PROTO_S
-#pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-#define PROTO_S( types )	KW_WEAK_PROTOTYPE types
-#define PROTO_N( names )	names
-#define PROTO_T( params )	params ;
-#define PROTO_Z()		()
-#define PROTO_X			;
-#endif
-#endif
-
-
-/* Definitions of PROTO macros for prototypes */
-
-#if FS_PROTOTYPES
-#ifndef PROTO_S
-#define PROTO_S( types )	types
-#define PROTO_N( names )
-#define PROTO_T( params )	( params )
-#define PROTO_Z()		( void )
-#define PROTO_X			,
-#endif
-#endif
-
-
-/* Definitions of PROTO macros for non-prototypes */
-
-#ifndef PROTO_S
-#define PROTO_S( types )	()
-#define PROTO_N( names )	names
-#define PROTO_T( params )	params ;
-#define PROTO_Z()		()
-#define PROTO_X			;
-#endif
-
-
-/* Definitions of PROTO_V macros */
-
-#if FS_STDARG
-#define PROTO_V( params )	params
-#define PROTO_W( types )	types
-#else
-#define PROTO_V( parms )	( va_alist ) va_dcl
-#define PROTO_W( types )	()
-#endif
-
-
 
 
 /* Definitions of TenDRA keywords */
@@ -205,128 +95,9 @@
 #endif
 
 
-/* FS_CONST indicates whether const is supported */
-
-#ifndef FS_CONST
-#define FS_CONST		FS_STDC
-#endif
-
-
-/* FS_VOLATILE indicates whether volatile is supported */
-
-#ifndef FS_VOLATILE
-#define FS_VOLATILE		FS_STDC
-#endif
-
-
 /* CONST is used in place of const */
 
-#if FS_CONST
 #define CONST			const
-#else
-#define CONST
-#endif
-
-
-/* VOLATILE is used in place of volatile */
-
-#if FS_VOLATILE
-#define VOLATILE		volatile
-#else
-#define VOLATILE
-#endif
-
-
-/* FS_STDC_HASH indicates whether # and ## are supported */
-
-#ifndef FS_STDC_HASH
-#define FS_STDC_HASH		FS_STDC
-#endif
-
-
-/* FS_STDC_IDENTIFIERS indicates __FILE__ etc. are defined */
-
-#ifndef FS_STDC_IDENTIFIERS
-#define FS_STDC_IDENTIFIERS	FS_STDC
-#endif
-
-
-/* FS_TRIGRAPH indicates whether trigraphs are supported */
-
-#ifndef FS_TRIGRAPH
-#define FS_TRIGRAPH		FS_STDC
-#endif
-
-
-/* FS_WIDE_STRING indicates whether wide strings are supported */
-
-#ifndef FS_WIDE_STRING
-#define FS_WIDE_STRING		FS_STDC
-#endif
-
-
-/* FS_NUMBER_SUFFIX indicates whether the L, U, F suffixes are supported */
-
-#ifndef FS_NUMBER_SUFFIX
-#define FS_NUMBER_SUFFIX	FS_STDC
-#endif
-
-
-/* FS_CONCAT_STRING indicates whether string concatenation is supported */
-
-#ifndef FS_CONCAT_STRING
-#define FS_CONCAT_STRING	FS_STDC
-#endif
-
-
-/* FS_PTR_VOID indicates whether void * is supported */
-
-#ifndef FS_PTR_VOID
-#define FS_PTR_VOID		FS_STDC
-#endif
-
-
-/* FS_SIGNED indicates whether signed is supported */
-
-#ifndef FS_SIGNED
-#define FS_SIGNED		FS_STDC
-#endif
-
-
-/* FS_LONG_DOUBLE indicates whether long double is supported */
-
-#ifndef FS_LONG_DOUBLE
-#define FS_LONG_DOUBLE		FS_STDC
-#endif
-
-
-/* FS_ENUMERATION indicates whether enumeration types are supported */
-
-#ifndef FS_ENUMERATION
-#define FS_ENUMERATION		FS_STDC
-#endif
-
-
-/* FS_TYPEDEF_VOID indicates whether typedef void is supported */
-
-#ifndef FS_TYPEDEF_VOID
-#define FS_TYPEDEF_VOID		FS_STDC
-#endif
-
-
-/* FS_UNION_INIT indicates whether initialisation of unions is supported */
-
-#ifndef FS_UNION_INIT
-#define FS_UNION_INIT		FS_STDC
-#endif
-
-
-/* FS_AUTO_STRUCT_INIT indicates whether initialisation of automatic
-   compound variables is allowed */
-
-#ifndef FS_AUTO_STRUCT_INIT
-#define FS_AUTO_STRUCT_INIT	FS_STDC
-#endif
 
 
 #endif
