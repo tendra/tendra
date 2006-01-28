@@ -46,17 +46,16 @@
 /*									*/
 /************************************************************************/
 
+/* $TenDRA$ */
 
 #include <stdio.h>
 #include <stddef.h>
 #include <limits.h>
-#include "ossg.h"
 /* Defined in '../../../../utilities/shared' */
 
 
-static void out_nat
-    PROTO_N ((name,value))
-    PROTO_T (char* name X int value)
+static void
+out_nat(char* name, int value)
 {
 #ifdef TNC_SRC
 	(void)printf("( make_tokdef .~%s nat %d )\n\n", name, value);
@@ -67,9 +66,8 @@ static void out_nat
 }
 
 
-static void out_bool
-    PROTO_N ((name,value))
-    PROTO_T (char* name X int value)
+static void
+out_bool(char* name, int value)
 {
 	char *str = ( value ? "true" : "false" );
 #ifdef TNC_SRC
@@ -81,9 +79,8 @@ static void out_bool
 }
 
 
-static int calc_width
-    PROTO_N ((s_max))
-    PROTO_T (unsigned long s_max)
+static int
+calc_width(unsigned long s_max)
 {
 	int i;
 	for (i=1;;i++) {
@@ -95,8 +92,8 @@ static int calc_width
 #define width(c)	calc_width((unsigned long)(c))
 
 
-int main
-    PROTO_Z ()
+int
+main(void)
 {
 	int c_width, s_width, i_width, l_width, sz_width;
 	int p_width, al_width, str_ch_width;

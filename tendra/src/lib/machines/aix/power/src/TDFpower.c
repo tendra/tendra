@@ -53,8 +53,7 @@
         it may be put.
 */
 
-
-#include "ossg.h"
+/* $TenDRA$ */
 
 /* from float.h */
 #define FP_RND_RZ		0
@@ -63,29 +62,28 @@
 #define FP_RND_RM		3
 
 typedef unsigned short fprnd_t ;
-extern fprnd_t fp_read_rnd PROTO_S ( ( void ) ) ;
-extern fprnd_t fp_swap_rnd PROTO_S ( ( fprnd_t ) ) ;
+extern fprnd_t fp_read_rnd(void);
+extern fprnd_t fp_swap_rnd(fprnd_t);
 
 /* from math.h */
-extern unsigned uitrunc PROTO_S ( ( double ) ) ;
-extern int itrunc PROTO_S ( ( double ) ) ;
-extern double rint PROTO_S ( ( double ) ) ;
+extern unsigned uitrunc(double);
+extern int itrunc(double);
+extern double rint(double);
 
 /* from limits.h */
 #define INT_MAX			( 2147483647 )
 #define INT_MIN			( -( INT_MAX + 1 ) ) 
 
 extern int __TDFrnd_error ;
-extern unsigned int __TDFrnd_unsgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern int __TDFrnd_sgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern void __TDFerr_rnd_unsgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern void __TDFerr_rnd_sgned PROTO_S ( ( double, fprnd_t ) ) ;
+extern unsigned int __TDFrnd_unsgned(double, fprnd_t);
+extern int __TDFrnd_sgned(double, fprnd_t);
+extern void __TDFerr_rnd_unsgned(double, fprnd_t);
+extern void __TDFerr_rnd_sgned(double, fprnd_t);
 
 int __TDFrnd_error = 0 ;
 
-unsigned int __TDFrnd_unsgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+unsigned int
+__TDFrnd_unsgned(double f, fprnd_t rnd_mode)
 {
     fprnd_t swap ;
     unsigned int ret_value ;
@@ -95,9 +93,8 @@ unsigned int __TDFrnd_unsgned
     return ( ret_value ) ;
 }
 
-int __TDFrnd_sgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+int
+__TDFrnd_sgned(double f, fprnd_t rnd_mode)
 {
     fprnd_t swap ;
     int ret_value ;
@@ -107,9 +104,8 @@ int __TDFrnd_sgned
     return ( ret_value );
 }
 
-void __TDFerr_rnd_unsgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+void
+__TDFerr_rnd_unsgned(double f, fprnd_t rnd_mode)
 {
     double fmin = 0.0 ;
     double fmax = 4294967295.0 ;
@@ -156,9 +152,8 @@ void __TDFerr_rnd_unsgned
     return ;
 }
 
-void __TDFerr_rnd_sgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+void
+__TDFerr_rnd_sgned(double f, fprnd_t rnd_mode)
 {
     double fmin = -2147483648.0 ;
     double fmax = 2147483647.0 ;

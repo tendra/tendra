@@ -53,19 +53,21 @@
         it may be put.
 */
 
+/* $TenDRA$ */
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <filehdr.h>
 #include <syms.h>
-#include "ossg.h"
 
 #define IS_BAD_MAGIC_NUMBER(x) ((x!=0x1df)?1:0)
-void output_assembler_file PROTO_S ((void));
-void scan_object_file PROTO_S ((void));
-void found_one PROTO_S ((char *));
-void fail PROTO_S ((char *));
-int main PROTO_S ((int,char **));
-FILE *open_file PROTO_S ((char *,char *));
+void output_assembler_file(void);
+void scan_object_file(void);
+void found_one(char *);
+void fail(char *);
+int main(int, char * *);
+FILE *open_file(char *, char *);
 
 char **names;
 long names_size = 0;
@@ -73,7 +75,8 @@ long names_found = 0;
 char *output_file;
 char *input_file;
 
-int main PROTO_N ((argc,argv)) PROTO_T (int argc X char ** argv)
+int
+main(int argc, char **argv)
 {
   int report_version = 0;
   if (!strcmp(argv[1],"-V") || !strcmp(argv[1],"-v"))
@@ -93,7 +96,8 @@ int main PROTO_N ((argc,argv)) PROTO_T (int argc X char ** argv)
   return 0;
 }
 
-FILE *open_file PROTO_N ((filename,option)) PROTO_T (char * filename X char *option)
+FILE *
+open_file(char *filename, char *option)
 {
   FILE * ret_fp;
   if(ret_fp = fopen(filename,option)){
@@ -105,14 +109,16 @@ FILE *open_file PROTO_N ((filename,option)) PROTO_T (char * filename X char *opt
   }
 }
 
-void fail PROTO_N ((message)) PROTO_T (char * message)
+void
+fail(char *message)
 {
   fprintf(stderr,"*fail* : %s\n",message);
   exit(1);
 }
 
 
-void found_one PROTO_N ((str)) PROTO_T (char *str)
+void
+found_one(char *str)
 {
   if (names_size == names_found)
   {
@@ -133,7 +139,8 @@ void found_one PROTO_N ((str)) PROTO_T (char *str)
   return;
 }
 
-void scan_object_file PROTO_Z ()
+void
+scan_object_file(void)
 {
   int i;
   struct filehdr header;
@@ -177,7 +184,8 @@ void scan_object_file PROTO_Z ()
   output_assembler_file();
 }
 
-void output_assembler_file PROTO_Z ()
+void
+output_assembler_file(void)
 {
   int i;
   FILE *of = fopen(output_file,"w");

@@ -44,22 +44,24 @@
 
 */
 
+/* $TenDRA$ */
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sun3/a.out.h>
-#include "ossg.h"
 
 #define MAJOR_VERSION		1
 #define MINOR_VERSION		1
 
-void fail PROTO_S((char *));
-FILE *open_file PROTO_S((char *,char *));
+void fail(char *);
+FILE *open_file(char *, char *);
 #define open_file_read(x)	open_file(x,"r")
 #define open_file_write(x)	open_file(x,"w")
 
 
-FILE *open_file
-    PROTO_N((filename,option))
-    PROTO_T(char *filename X char *option)
+FILE *
+open_file(char *filename, char *option)
 {
   FILE * ret_fp;
   if(ret_fp = fopen(filename,option)){
@@ -82,9 +84,8 @@ EXEC_STRUCT header;
 SYMBOL_STRUCT symbol;
 
 
-void fail
-    PROTO_N((message))
-    PROTO_T(char *message)
+void
+fail(char *message)
 {
   fprintf(stderr,"*fail* : %s\n",message);
   exit(1);
@@ -96,9 +97,8 @@ void fail
 #define is_function(x) 1
 
 
-void print_ass_preamble
-    PROTO_N((of))
-    PROTO_T(FILE *of)
+void
+print_ass_preamble(FILE *of)
 {
   fprintf(of,".text\n");
   fprintf(of,"\t.even\n");
@@ -107,17 +107,15 @@ void print_ass_preamble
   return;
 }
 
-void print_ass_postlude
-    PROTO_N((of))
-    PROTO_T(FILE *of)
+void
+print_ass_postlude(FILE *of)
 {
   fprintf(of,"\trts\n");
 }
 
-void construct_init_proc
-    PROTO_N((fp,symtab_pos,stringtab_pos,header,outname))
-    PROTO_T(FILE *fp X long symtab_pos X long stringtab_pos X
-	    EXEC_STRUCT header X char *outname)
+void
+construct_init_proc(FILE *fp, long symtab_pos, long stringtab_pos,
+    EXEC_STRUCT header, char *outname)
 {
   int i;
   char str[256];
@@ -144,9 +142,8 @@ void construct_init_proc
   return;
 }
 
-void process_flag
-    PROTO_N((option))
-    PROTO_T(char *option)
+void
+process_flag(char *option)
 {
   switch(option[1]) {
     case 'V':
@@ -163,9 +160,8 @@ void process_flag
 }
 
 
-int main
-    PROTO_N((argc,argv))
-    PROTO_T(int argc X char **argv)
+int
+main(int argc, char **argv)
 {
   FILE *fp;
   long symtab_pos,stringtab_pos;
