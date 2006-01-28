@@ -1,3 +1,3 @@
-#include "ansi.h"
+/* $TenDRA$ */
 
-#define __WRONG_ISO
+#include "ansi.h"
