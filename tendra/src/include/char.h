@@ -126,11 +126,7 @@ extern int is_ascii;
 #define char_vert_tab			'\v'
 #define char_sub			'\032'
 
-#if FS_STDC
 #define char_alert			'\a'
-#else
-#define char_alert			'\007'
-#endif
 
 #define char_ampersand			'&'
 #define char_asterix			'*'
