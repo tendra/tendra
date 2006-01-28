@@ -60,26 +60,11 @@
 
 
 
-typedef int flpt;
-
-/* the definition of the internal representation of the sort nat */
-union nat_u {int small_nat;
-	flpt big_nat;};
-struct nat_t {union nat_u nat_val;
-	char issmall;	/* 1 if small_nat, 0 if big_nat */
-};
-typedef struct nat_t nat;
-
-
-
 /* the definition of the internal representation of the sort tdfstring
  *    and tdfident */
 typedef TDFSTRING tdfstring;
 
 /* the definition of the internal representation of the sort tdfbool */
 typedef char tdfbool;
-
-/* the definition of the internal representation of the sort tdfint */
-typedef nat tdfint;
 
 #endif
