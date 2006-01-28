@@ -87,13 +87,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H		1
 
-/* The AIX cc compiler is weird */
-#ifdef _AIX
-#ifndef FS_STDC_HASH
-#define FS_STDC_HASH		1
-#endif
-#endif
-
 #include "ossg_api.h"
 
 #ifndef FS_LITTLE_ENDIAN

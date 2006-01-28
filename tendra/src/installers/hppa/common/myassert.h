@@ -64,12 +64,8 @@
 #include "comment.h"
 
 #ifdef DO_ASSERT
-#if FS_STDC_HASH
 #define a_fail(s)	fail ("Assertion '" s "' failed")
 #define assert(e)	if (!(e)) a_fail (#e)
-#else
-#define assert(e)	if (!(e)) fail ("Assertion failed")
-#endif
 #else /* DO_ASSERT */
 #define assert(e)	((void) 0)
 #endif /* DO_ASSERT */

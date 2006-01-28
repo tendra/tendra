@@ -62,19 +62,11 @@
 
 #ifdef DO_ASSERT
 
-#if FS_STDC_HASH
 #define a_fail(s,l,f)	fail ("Assertion '" s "' failed " #l " in " f)
 #define a_fail1(s,l,f) a_fail (s,l,f)
 #define assert(e)	if (!(e)) a_fail1 (#e, __LINE__ , __FILE__)
 #define assert_expr(e,v)	((e) ? (v) :\
 				 (a_fail1 (#e, __LINE__ , __FILE__), (v)))
-
-#else
-
-#define assert(e)	if (!(e)) fail ("Assertion failed")
-#define assert_expr(e,v)  ((e) ? (v) : (fail("expr assertion"), (v)))
-
-#endif
 
 #else /* DO_ASSERT */
 

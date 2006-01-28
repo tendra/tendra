@@ -131,7 +131,6 @@ typedef Instruction_T * Instruction_P;
  * INS_DEFINE only set in instruct.c before including this header.
  * This causes definition and initialisation rather than external declaration.
  */
-#if FS_STDC_HASH
 #ifdef INS_DEFINE
 /* define */
 #define INS(inst,com,ppc,pwr)	 Instruction_T INSTRUCTION_##inst = {com,ppc,pwr};\
@@ -140,17 +139,6 @@ typedef Instruction_T * Instruction_P;
 /* external declaration */
 #define INS(inst,com,ppc,pwr)	 extern Instruction_P inst;\
                                  extern Instruction_T INSTRUCTION_##inst
-#endif
-#else
-#ifdef INS_DEFINE
-/* define */
-#define INS(inst,com,ppc,pwr)	 Instruction_T INSTRUCTION_/* paste */inst = {com,ppc,pwr};\
-                                 Instruction_P inst = &INSTRUCTION_/* paste */inst
-#else
-/* external declaration */
-#define INS(inst,com,ppc,pwr)	 extern Instruction_P inst;\
-                                 extern Instruction_T INSTRUCTION_/* paste */inst
-#endif
 #endif
 
 #if 1

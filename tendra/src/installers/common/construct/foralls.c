@@ -80,11 +80,7 @@
 #define topsh f_top
 
 #ifndef Assert
-#if FS_STDC_HASH
 #define Assert(x) if(!(x)) failer(#x)
-#else
-#define Assert(x) if(!(x)) failer("x")
-#endif
 #endif
 
 exp
