@@ -28,8 +28,8 @@
 
 # 7.25.1
 
-+TYPE (int) wctrans_t;
-+TYPE (int) wctype_t;
++TYPE (scalar) wctrans_t;
++TYPE (scalar) wctype_t;
 
 # 7.25.2.1.1
 
