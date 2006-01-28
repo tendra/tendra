@@ -659,7 +659,7 @@ out_dt_shape(diag_type dt)
 			s = dt->data.t_union.tdf_shape;
 			su = 'u';
 	    }
-	    fprintf (dg_file, "%ld=%c%d", non, su, shape_size (s) / 8);
+	    fprintf (dg_file, "%ld=%c%ld", non, su, shape_size (s) / 8);
 
 	    for (i = fields->lastused - 1; i >= 0; i--) {
 			diag_field sf =  (fields->array) [i];
@@ -729,7 +729,7 @@ out_dt_shape(diag_type dt)
 	    fprintf (dg_file, "%ld=e", non);
 	    for (i = enumvals->lastused - 1; i >= 0; i--) {
 			enum_values ef =  (enumvals->array) [i];
-			fprintf (dg_file, "%s:%d,", ef->nme.ints.chars, no (ef->val));
+			fprintf (dg_file, "%s:%ld,", ef->nme.ints.chars, no (ef->val));
 	    }
 	    fprintf (dg_file, ";");
 	    last_type_sz = 32;
@@ -763,10 +763,10 @@ diag_val_begin(diag_global * d, int global,
 			 d->data.id.nme.ints.chars, (global ? 'G' : 'S'));
 	OUT_DT_SHAPE (d->data.id.new_type);
 	if (global)
-		fprintf (dg_file, "\",0x20,0,%d,0\n",
+		fprintf (dg_file, "\",0x20,0,%lu,0\n",
 				 d->data.id.whence.line_no.nat_val.small_nat);
 	else {
-		fprintf (dg_file, "\",0x28,0,%d,",
+		fprintf (dg_file, "\",0x28,0,%lu,",
 				 d->data.id.whence.line_no.nat_val.small_nat);
 		if (cname == -1) {
 			outs (pname);
