@@ -157,6 +157,9 @@ void assertion(const char *, const char *, int);
 # endif
 #endif
 
+/* Compile-time assertion */
+#define CT_ASSERT(A)	(IGNORE sizeof (int [(A) ? 1 : -1]))
+
 #ifndef __FILE__
 #define	__FILE__	"unknown"
 #endif
