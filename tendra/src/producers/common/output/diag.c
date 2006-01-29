@@ -586,7 +586,7 @@ BITSTREAM
 			return (bs);
 		}
     }
-    ASSERT (ORDER_type == 18);
+    CT_ASSERT (ORDER_type == 18);
     switch (TAG_type (t)) {
 	case type_integer_tag : {
 	    /* Integral types */

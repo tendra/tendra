@@ -1768,7 +1768,7 @@ object_type(TYPE t, unsigned tag)
 		depth = 2;
 	}
 	while (!IS_NULL_type (t)) {
-		ASSERT (ORDER_type == 18);
+		CT_ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
 		case type_func_tag : {
 			/* Function types */

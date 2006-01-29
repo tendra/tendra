@@ -1596,7 +1596,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 {
 	DECL_SPEC ua = (use & ~va_mask);
 	if (IS_NULL_off (off)) return (ua);
-	ASSERT (ORDER_off == 13);
+	CT_ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 
 	case off_member_tag : {
@@ -1731,7 +1731,7 @@ flow_exp(EXP e, VAR_INFO use)
 {
 	VAR_INFO ua = (use & ~va_mask);
 	if (IS_NULL_exp (e)) return (ua);
-	ASSERT (ORDER_exp == 88);
+	CT_ASSERT (ORDER_exp == 88);
 	switch (TAG_exp (e)) {
 
 	case exp_identifier_tag : {
@@ -2491,7 +2491,7 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 	/* Deal with statements */
 	VAR_INFO ua = (use & ~va_mask);
 	if (IS_NULL_exp (e)) return (ua);
-	ASSERT (ORDER_exp == 88);
+	CT_ASSERT (ORDER_exp == 88);
 	switch (TAG_exp (e)) {
 
 	case exp_sequence_tag : {

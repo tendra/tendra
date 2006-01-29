@@ -2277,7 +2277,7 @@ enc_exp(BITSTREAM *bs, EXP e)
 
 	/* Examine expression cases */
 	t = DEREF_type (exp_type (e));
-	ASSERT (ORDER_exp == 88);
+	CT_ASSERT (ORDER_exp == 88);
 	switch (TAG_exp (e)) {
 
 	case exp_identifier_tag : {

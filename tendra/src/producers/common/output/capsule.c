@@ -1305,7 +1305,7 @@ write_capsule(void)
 		bs = tdf_bs_create (f, TDFS_MODE_WRITE, NULL);
 
 		/* Encode the magic number (4.0 and later) */
-		ASSERT (TDF_VERSION == 100 * TDF_major + TDF_minor);
+		CT_ASSERT (TDF_VERSION == 100 * TDF_major + TDF_minor);
 #if (TDF_major >= 4)
 		ENC_BITS (bs, 8, ascii_T);
 		ENC_BITS (bs, 8, ascii_D);

@@ -343,7 +343,7 @@ eq_except(TYPE s, TYPE t)
     ns = TAG_type (s);
     nt = TAG_type (t);
     if (ns != nt) return (2);
-    ASSERT (ORDER_type == 18);
+    CT_ASSERT (ORDER_type == 18);
     switch (ns) {
 		
 	case type_func_tag : {

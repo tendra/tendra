@@ -111,7 +111,7 @@ eq_offset(OFFSET a, OFFSET b, int co)
     if (taga != tagb) return (0);
 	
     /* Check individual cases */
-    ASSERT (ORDER_off == 13);
+    CT_ASSERT (ORDER_off == 13);
     switch (TAG_off (a)) {
 	case off_zero_tag : {
 	    /* Zero offsets */
@@ -250,7 +250,7 @@ static int
 eq_exp_aux(EXP a, EXP b, int co)
 {
     /* Check expressions */
-    ASSERT (ORDER_exp == 88);
+    CT_ASSERT (ORDER_exp == 88);
     switch (TAG_exp (a)) {
 	case exp_identifier_tag :
 	case exp_member_tag :
@@ -984,7 +984,7 @@ is_const_token(IDENTIFIER id, LIST (TOKEN) args, int c)
 int
 is_const_offset(OFFSET off, int c, int virt)
 {
-    ASSERT (ORDER_off == 13);
+    CT_ASSERT (ORDER_off == 13);
     switch (TAG_off (off)) {
 	case off_zero_tag :
 	case off_type_tag :
@@ -1149,7 +1149,7 @@ is_const_exp(EXP e, int c)
 {
     TYPE t;
     if (IS_NULL_exp (e)) return (1);
-    ASSERT (ORDER_exp == 88);
+    CT_ASSERT (ORDER_exp == 88);
     switch (TAG_exp (e)) {
 	case exp_int_lit_tag :
 	case exp_char_lit_tag : {
@@ -1518,7 +1518,7 @@ DECL_SPEC
 find_exp_linkage(EXP e, EXP *pa, int vol)
 {
     if (!IS_NULL_exp (e)) {
-		ASSERT (ORDER_exp == 88);
+		CT_ASSERT (ORDER_exp == 88);
 		switch (TAG_exp (e)) {
 	    case exp_identifier_tag :
 	    case exp_member_tag : {
@@ -1635,7 +1635,7 @@ int
 is_zero_offset(OFFSET off)
 {
     if (IS_NULL_off (off)) return (1);
-    ASSERT (ORDER_off == 13);
+    CT_ASSERT (ORDER_off == 13);
     switch (TAG_off (off)) {
 	case off_zero_tag : {
 	    /* Zero offsets */

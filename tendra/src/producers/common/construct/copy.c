@@ -235,7 +235,7 @@ OFFSET
 copy_offset(OFFSET off, int op)
 {
 	if (IS_NULL_off (off)) return (NULL_off);
-	ASSERT (ORDER_off == 13);
+	CT_ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 	case off_zero_tag : {
 		/* Zero offsets */
@@ -969,7 +969,7 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 		t1 = t;
 		t2 = expand_type (t, 1);
 	}
-	ASSERT (ORDER_exp == 88);
+	CT_ASSERT (ORDER_exp == 88);
 	tag = TAG_exp (e);
 	switch (tag) {
 	case exp_identifier_tag :
@@ -1702,7 +1702,7 @@ eval_exp(EXP e, int ch)
 {
 	unsigned tag;
 	if (IS_NULL_exp (e)) return (NULL_exp);
-	ASSERT (ORDER_exp == 88);
+	CT_ASSERT (ORDER_exp == 88);
 	tag = TAG_exp (e);
 	switch (tag) {
 	case exp_int_lit_tag : {

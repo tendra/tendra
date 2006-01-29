@@ -214,7 +214,7 @@ eq_itype(INT_TYPE s, INT_TYPE t)
 	ns = TAG_itype (s);
 	nt = TAG_itype (t);
 	if (ns == nt) {
-		ASSERT (ORDER_itype == 6);
+		CT_ASSERT (ORDER_itype == 6);
 		switch (ns) {
 		case itype_basic_tag : {
 			/* Built-in types */
@@ -303,7 +303,7 @@ eq_ftype(FLOAT_TYPE s, FLOAT_TYPE t)
 	ns = TAG_ftype (s);
 	nt = TAG_ftype (t);
 	if (ns == nt) {
-		ASSERT (ORDER_ftype == 4);
+		CT_ASSERT (ORDER_ftype == 4);
 		switch (ns) {
 		case ftype_basic_tag : {
 			/* Built-in types */
@@ -702,7 +702,7 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 	}
 	
 	/* Check on type components */
-	ASSERT (ORDER_type == 18);
+	CT_ASSERT (ORDER_type == 18);
 	switch (ns) {
 		
 	case type_integer_tag : {
@@ -1863,7 +1863,7 @@ int
 is_global_type(TYPE t)
 {
 	if (!IS_NULL_type (t)) {
-		ASSERT (ORDER_type == 18);
+		CT_ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
 		case type_ptr_tag : {
 			TYPE s = DEREF_type (type_ptr_sub (t));

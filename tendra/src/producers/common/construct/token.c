@@ -1293,7 +1293,7 @@ expand_type(TYPE t, int rec)
 	if (rec < 0) return (t);
 	if (IS_NULL_type (t)) return (NULL_type);
 	cv = DEREF_cv (type_qual (t));
-	ASSERT (ORDER_type == 18);
+	CT_ASSERT (ORDER_type == 18);
 	switch (TAG_type (t)) {
 
 	case type_integer_tag : {
@@ -1984,7 +1984,7 @@ eq_tok(TOKEN a, TOKEN b)
 	if (na != nb) return (0);
 
 	/* Compare token components */
-	ASSERT (ORDER_tok == 10);
+	CT_ASSERT (ORDER_tok == 10);
 	switch (na) {
 
 	case tok_exp_tag : {

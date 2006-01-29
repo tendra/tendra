@@ -291,7 +291,7 @@ BITSTREAM
 		ENC_make_nat (bs);
 		ENC_INT_SMALL (bs, 0);
 	} else {
-		ASSERT (ORDER_nat == 5);
+		CT_ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
 		case nat_small_tag : {
 			unsigned v = DEREF_unsigned (nat_small_value (n));
@@ -353,7 +353,7 @@ BITSTREAM
 		ENC_OFF (bs);
 		ENC_INT_SMALL (bs, 0);
 	} else {
-		ASSERT (ORDER_nat == 5);
+		CT_ASSERT (ORDER_nat == 5);
 		switch (TAG_nat (n)) {
 		case nat_small_tag : {
 			unsigned v = DEREF_unsigned (nat_small_value (n));
@@ -789,7 +789,7 @@ static BITSTREAM
 {
 	ulong tok;
 	unsigned tag = TAG_itype (it);
-	ASSERT (ORDER_itype == 6);
+	CT_ASSERT (ORDER_itype == 6);
 	switch (tag) {
 	case itype_basic_tag : {
 		/* Built-in integral types */
@@ -904,7 +904,7 @@ BITSTREAM
 	unsigned tag = TAG_itype (it);
 	ulong tok = DEREF_ulong (itype_itok (it));
 	if (tok == LINK_NONE) {
-		ASSERT (ORDER_itype == 6);
+		CT_ASSERT (ORDER_itype == 6);
 		switch (tag) {
 		case itype_basic_tag : {
 			/* Built-in integral types */
@@ -1001,7 +1001,7 @@ static BITSTREAM
 {
 	ulong tok;
 	unsigned tag = TAG_ftype (ft);
-	ASSERT (ORDER_ftype == 4);
+	CT_ASSERT (ORDER_ftype == 4);
 	switch (tag) {
 	case ftype_basic_tag : {
 		/* Built-in floating types */
@@ -1429,7 +1429,7 @@ BITSTREAM
 		bs = enc_alignment (bs, type_sint);
 		return (bs);
 	}
-	ASSERT (ORDER_off == 13);
+	CT_ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 	case off_zero_tag : {
 		/* Zero offsets */
@@ -1614,7 +1614,7 @@ BITSTREAM
 		}
 		return (bs);
 	}
-	ASSERT (ORDER_off == 13);
+	CT_ASSERT (ORDER_off == 13);
 	switch (TAG_off (off)) {
 	case off_base_tag : {
 		/* Base class offsets */
@@ -1702,7 +1702,7 @@ BITSTREAM
 		/* This shouldn't happen */
 		t = type_sint;
 	}
-	ASSERT (ORDER_type == 18);
+	CT_ASSERT (ORDER_type == 18);
 	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {

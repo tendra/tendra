@@ -233,7 +233,7 @@ find_vocab(int t)
 void
 init_catalog()
 {
-    ASSERT (OPT_error == 0);
+    CT_ASSERT (OPT_error == 0);
     return;
 }
 

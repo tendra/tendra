@@ -712,6 +712,6 @@ init_hash(void)
     }
 	
     /* This is necessary for the definition of KEYWORD */
-    ASSERT (FIRST_KEYWORD == lex_auto);
+    CT_ASSERT (FIRST_KEYWORD == lex_auto);
     return;
 }

@@ -129,7 +129,7 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 	if (qual == cv && !force) return (t);
 
 	/* Copy the type otherwise */
-	ASSERT (ORDER_type == 18);
+	CT_ASSERT (ORDER_type == 18);
 	switch (tag) {
 	case type_pre_tag : {
 		BASE_TYPE rep;

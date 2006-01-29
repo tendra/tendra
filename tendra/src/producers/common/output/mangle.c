@@ -365,7 +365,7 @@ static void
 mangle_exp(BUFFER *bf, EXP e, int rec)
 {
 	if (!IS_NULL_exp (e)) {
-		ASSERT (ORDER_exp == 88);
+		CT_ASSERT (ORDER_exp == 88);
 		switch (TAG_exp (e)) {
 		case exp_identifier_tag :
 		case exp_member_tag :

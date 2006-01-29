@@ -2615,7 +2615,7 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 			if (depends_on_args (args, pids, use, 0)) return (1);
 		}
 		if (depends_on (t, pids)) return (1);
-		ASSERT (ORDER_exp == 88);
+		CT_ASSERT (ORDER_exp == 88);
 		switch (tag) {
 		case exp_identifier_tag :
 		case exp_member_tag :
@@ -2909,7 +2909,7 @@ int
 depends_on_off(OFFSET off, LIST (IDENTIFIER) pids, int use)
 {
 	if (!IS_NULL_off (off)) {
-		ASSERT (ORDER_off == 13);
+		CT_ASSERT (ORDER_off == 13);
 		switch (TAG_off (off)) {
 		case off_zero_tag : {
 			TYPE t = DEREF_type (off_zero_type (off));
@@ -3002,7 +3002,7 @@ int
 depends_on(TYPE t, LIST (IDENTIFIER) pids)
 {
 	if (!IS_NULL_type (t)) {
-		ASSERT (ORDER_type == 18);
+		CT_ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
 		case type_ptr_tag :
 		case type_ref_tag : {
