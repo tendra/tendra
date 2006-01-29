@@ -1062,12 +1062,13 @@ save_id(BITSTREAM *bs, IDENTIFIER id, NAMESPACE ns)
 			}
 
 			/* Save identifier dependent fields */
-			ASSERT (ORDER_id == 29);
+			ASSERT (ORDER_id == 30);
 			switch (tag) {
 			case id_dummy_tag : {
 				break;
 			}
 			case id_keyword_tag :
+			case id_c99_keyword_tag :
 			case id_iso_keyword_tag :
 			case id_reserved_tag : {
 				int key = (int) DEREF_ulong (id_no (id));
