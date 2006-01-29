@@ -1502,7 +1502,7 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 	}
 
 	/* Read identifier dependent information */
-	ASSERT (ORDER_id == 28);
+	ASSERT (ORDER_id == 29);
 	switch (tag) {
 
 	case id_dummy_tag : {
