@@ -177,7 +177,7 @@
           the TDF it reads. In particular it uses the external token and tag
           names whenever possible, following the token and tag bindings to
           find these, and makes up names for those tokens and tags which
-          do not have external names. The <option>-V</option> option
+          do not have external names. The <option>-r</option> option
           makes it not attempt any such rationalisation, but instead to output
           exactly what it reads.</para>
       </listitem>
