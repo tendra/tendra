@@ -740,7 +740,8 @@ EXP init_default
     }
 
     /* Everything else is alright in these cases */
-    if ( n == DEFAULT_COPY || n == DEFAULT_DESTR || n == DEFAULT_DELETE ) {
+    if ( n == DEFAULT_COPY || n == DEFAULT_DESTR || n == DEFAULT_DELETE
+	|| n == DEFAULT_PRELUDE ) {
 	return ( NULL_exp ) ;
     }
 

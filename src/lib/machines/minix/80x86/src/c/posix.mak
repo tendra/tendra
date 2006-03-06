@@ -23,12 +23,18 @@ OBJECTS	= \
 	$(LIBRARY)(_creat.o) \
 	$(LIBRARY)(_dup.o) \
 	$(LIBRARY)(_dup2.o) \
-	$(LIBRARY)(_exec.o) \
-	$(LIBRARY)(_execn.o) \
+	$(LIBRARY)(_execl.o) \
+	$(LIBRARY)(_execle.o) \
+	$(LIBRARY)(_execlp.o) \
+	$(LIBRARY)(_execv.o) \
+	$(LIBRARY)(_execve.o) \
+	$(LIBRARY)(_execvp.o) \
 	$(LIBRARY)(_fcntl.o) \
 	$(LIBRARY)(_fork.o) \
 	$(LIBRARY)(_fpathconf.o) \
 	$(LIBRARY)(_fstat.o) \
+	$(LIBRARY)(_fstatfs.o) \
+	$(LIBRARY)(_fsync.o) \
 	$(LIBRARY)(_getcwd.o) \
 	$(LIBRARY)(_getegid.o) \
 	$(LIBRARY)(_geteuid.o) \
@@ -46,7 +52,6 @@ OBJECTS	= \
 	$(LIBRARY)(_mkdir.o) \
 	$(LIBRARY)(_mkfifo.o) \
 	$(LIBRARY)(_mknod.o) \
-	$(LIBRARY)(_mktemp.o) \
 	$(LIBRARY)(_mount.o) \
 	$(LIBRARY)(_open.o) \
 	$(LIBRARY)(_opendir.o) \
@@ -59,6 +64,7 @@ OBJECTS	= \
 	$(LIBRARY)(_rename.o) \
 	$(LIBRARY)(_rewinddir.o) \
 	$(LIBRARY)(_rmdir.o) \
+	$(LIBRARY)(_select.o) \
 	$(LIBRARY)(_setgid.o) \
 	$(LIBRARY)(_setsid.o) \
 	$(LIBRARY)(_setuid.o) \
@@ -88,6 +94,13 @@ OBJECTS	= \
 	$(LIBRARY)(_wait.o) \
 	$(LIBRARY)(_waitpid.o) \
 	$(LIBRARY)(_write.o) \
+	$(LIBRARY)(gettimeofday.o) \
+	$(LIBRARY)(getopt.o) \
+	$(LIBRARY)(lstat.o) \
+	$(LIBRARY)(priority.o) \
+	$(LIBRARY)(readlink.o) \
+	$(LIBRARY)(symlink.o) \
+	$(LIBRARY)(usleep.o) \
 
 $(LIBRARY):	$(OBJECTS)
 	aal cr $@ *.o
@@ -141,11 +154,23 @@ $(LIBRARY)(_dup.o):	$(SRC)/_dup.c
 $(LIBRARY)(_dup2.o):	$(SRC)/_dup2.c
 	$(CC1) $(SRC)/_dup2.c
 
-$(LIBRARY)(_exec.o):	$(SRC)/_exec.c
-	$(CC1) $(SRC)/_exec.c
+$(LIBRARY)(_execl.o):	$(SRC)/_execl.c
+	$(CC1) $(SRC)/_execl.c
 
-$(LIBRARY)(_execn.o):	$(SRC)/_execn.c
-	$(CC1) $(SRC)/_execn.c
+$(LIBRARY)(_execle.o):	$(SRC)/_execle.c
+	$(CC1) $(SRC)/_execle.c
+
+$(LIBRARY)(_execlp.o):	$(SRC)/_execlp.c
+	$(CC1) $(SRC)/_execlp.c
+
+$(LIBRARY)(_execv.o):	$(SRC)/_execv.c
+	$(CC1) $(SRC)/_execv.c
+
+$(LIBRARY)(_execve.o):	$(SRC)/_execve.c
+	$(CC1) $(SRC)/_execve.c
+
+$(LIBRARY)(_execvp.o):	$(SRC)/_execvp.c
+	$(CC1) $(SRC)/_execvp.c
 
 $(LIBRARY)(_fcntl.o):	$(SRC)/_fcntl.c
 	$(CC1) $(SRC)/_fcntl.c
@@ -158,6 +183,12 @@ $(LIBRARY)(_fpathconf.o):	$(SRC)/_fpathconf.c
 
 $(LIBRARY)(_fstat.o):	$(SRC)/_fstat.c
 	$(CC1) $(SRC)/_fstat.c
+
+$(LIBRARY)(_fstatfs.o):	$(SRC)/_fstatfs.c
+	$(CC1) $(SRC)/_fstatfs.c
+
+$(LIBRARY)(_fsync.o):	$(SRC)/_fsync.c
+	$(CC1) $(SRC)/_fsync.c
 
 $(LIBRARY)(_getcwd.o):	$(SRC)/_getcwd.c
 	$(CC1) $(SRC)/_getcwd.c
@@ -210,9 +241,6 @@ $(LIBRARY)(_mkfifo.o):	$(SRC)/_mkfifo.c
 $(LIBRARY)(_mknod.o):	$(SRC)/_mknod.c
 	$(CC1) $(SRC)/_mknod.c
 
-$(LIBRARY)(_mktemp.o):	$(SRC)/_mktemp.c
-	$(CC1) $(SRC)/_mktemp.c
-
 $(LIBRARY)(_mount.o):	$(SRC)/_mount.c
 	$(CC1) $(SRC)/_mount.c
 
@@ -249,6 +277,9 @@ $(LIBRARY)(_rewinddir.o):	$(SRC)/_rewinddir.c
 $(LIBRARY)(_rmdir.o):	$(SRC)/_rmdir.c
 	$(CC1) $(SRC)/_rmdir.c
 
+$(LIBRARY)(_select.o):	$(SRC)/_select.c
+	$(CC1) $(SRC)/_select.c
+
 $(LIBRARY)(_setgid.o):	$(SRC)/_setgid.c
 	$(CC1) $(SRC)/_setgid.c
 
@@ -258,8 +289,8 @@ $(LIBRARY)(_setsid.o):	$(SRC)/_setsid.c
 $(LIBRARY)(_setuid.o):	$(SRC)/_setuid.c
 	$(CC1) $(SRC)/_setuid.c
 
-$(LIBRARY)(_sigaction.o):	$(SRC1)/_sigaction.c
-	$(CC1) $(SRC1)/_sigaction.c
+$(LIBRARY)(_sigaction.o):	$(SRC)/_sigaction.c
+	$(CC1) -f$(SRC1)/../pragma_fptr.h $(SRC)/_sigaction.c
 
 $(LIBRARY)(_sigpending.o):	$(SRC)/_sigpending.c
 	$(CC1) $(SRC)/_sigpending.c
@@ -335,3 +366,24 @@ $(LIBRARY)(_waitpid.o):	$(SRC)/_waitpid.c
 
 $(LIBRARY)(_write.o):	$(SRC)/_write.c
 	$(CC1) $(SRC)/_write.c
+
+$(LIBRARY)(gettimeofday.o):	$(SRC)/gettimeofday.c
+	$(CC1) $(SRC)/gettimeofday.c
+
+$(LIBRARY)(getopt.o):	$(SRC)/getopt.c
+	$(CC1) $(SRC)/getopt.c
+
+$(LIBRARY)(lstat.o):	$(SRC)/lstat.c
+	$(CC1) $(SRC)/lstat.c
+
+$(LIBRARY)(priority.o):	$(SRC)/priority.c
+	$(CC1) $(SRC)/priority.c
+
+$(LIBRARY)(readlink.o):	$(SRC)/readlink.c
+	$(CC1) $(SRC)/readlink.c
+
+$(LIBRARY)(symlink.o):	$(SRC)/symlink.c
+	$(CC1) $(SRC)/symlink.c
+
+$(LIBRARY)(usleep.o):	$(SRC)/usleep.c
+	$(CC1) $(SRC)/usleep.c

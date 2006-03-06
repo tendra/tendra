@@ -14,7 +14,7 @@ extern "C" {
 
 #include <sys/types.h>  /* sigset_t */
 
-typedef struct {
+typedef struct __jmp_buf_tag {
   int __regs[6];
   int __flag;
   sigset_t __mask;

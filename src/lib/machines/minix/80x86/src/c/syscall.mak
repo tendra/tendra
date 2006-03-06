@@ -10,6 +10,8 @@ OBJECTS	= \
 	$(LIBRARY)(_exit.o) \
 	$(LIBRARY)(access.o) \
 	$(LIBRARY)(alarm.o) \
+	$(LIBRARY)(allocmem.o) \
+	$(LIBRARY)(freemem.o) \
 	$(LIBRARY)(brk.o) \
 	$(LIBRARY)(cfgetispeed.o) \
 	$(LIBRARY)(cfgetospeed.o) \
@@ -22,25 +24,35 @@ OBJECTS	= \
 	$(LIBRARY)(close.o) \
 	$(LIBRARY)(closedir.o) \
 	$(LIBRARY)(creat.o) \
+	$(LIBRARY)(devctl.o) \
 	$(LIBRARY)(dup.o) \
 	$(LIBRARY)(dup2.o) \
 	$(LIBRARY)(execl.o) \
 	$(LIBRARY)(execle.o) \
+	$(LIBRARY)(execlp.o) \
 	$(LIBRARY)(execv.o) \
 	$(LIBRARY)(execve.o) \
+	$(LIBRARY)(execvp.o) \
 	$(LIBRARY)(fcntl.o) \
 	$(LIBRARY)(fork.o) \
 	$(LIBRARY)(fpathconf.o) \
 	$(LIBRARY)(fstat.o) \
+	$(LIBRARY)(fstatfs.o) \
 	$(LIBRARY)(getcwd.o) \
 	$(LIBRARY)(getegid.o) \
 	$(LIBRARY)(geteuid.o) \
 	$(LIBRARY)(getgid.o) \
 	$(LIBRARY)(getgroups.o) \
+	$(LIBRARY)(getnpid.o) \
+	$(LIBRARY)(getnprocnr.o) \
+	$(LIBRARY)(getpprocnr.o) \
 	$(LIBRARY)(getpgrp.o) \
 	$(LIBRARY)(getpid.o) \
 	$(LIBRARY)(getppid.o) \
 	$(LIBRARY)(getuid.o) \
+	$(LIBRARY)(getprocnr.o) \
+	$(LIBRARY)(getsysinfo.o) \
+	$(LIBRARY)(findproc.o) \
 	$(LIBRARY)(ioctl.o) \
 	$(LIBRARY)(isatty.o) \
 	$(LIBRARY)(kill.o) \
@@ -49,7 +61,6 @@ OBJECTS	= \
 	$(LIBRARY)(mkdir.o) \
 	$(LIBRARY)(mkfifo.o) \
 	$(LIBRARY)(mknod.o) \
-	$(LIBRARY)(mktemp.o) \
 	$(LIBRARY)(mount.o) \
 	$(LIBRARY)(open.o) \
 	$(LIBRARY)(opendir.o) \
@@ -82,6 +93,7 @@ OBJECTS	= \
 	$(LIBRARY)(stat.o) \
 	$(LIBRARY)(stime.o) \
 	$(LIBRARY)(sync.o) \
+	$(LIBRARY)(svrctl.o) \
 	$(LIBRARY)(tcdrain.o) \
 	$(LIBRARY)(tcflow.o) \
 	$(LIBRARY)(tcflush.o) \
@@ -111,6 +123,12 @@ $(LIBRARY)(access.o):	$(SRC)/access.s
 
 $(LIBRARY)(alarm.o):	$(SRC)/alarm.s
 	$(CC1) $(SRC)/alarm.s
+
+$(LIBRARY)(allocmem.o):	$(SRC)/allocmem.s
+	$(CC1) $(SRC)/allocmem.s
+
+$(LIBRARY)(freemem.o):	$(SRC)/freemem.s
+	$(CC1) $(SRC)/freemem.s
 
 $(LIBRARY)(brk.o):	$(SRC)/brk.s
 	$(CC1) $(SRC)/brk.s
@@ -148,6 +166,9 @@ $(LIBRARY)(closedir.o):	$(SRC)/closedir.s
 $(LIBRARY)(creat.o):	$(SRC)/creat.s
 	$(CC1) $(SRC)/creat.s
 
+$(LIBRARY)(devctl.o):	$(SRC)/devctl.s
+	$(CC1) $(SRC)/devctl.s
+
 $(LIBRARY)(dup.o):	$(SRC)/dup.s
 	$(CC1) $(SRC)/dup.s
 
@@ -160,11 +181,17 @@ $(LIBRARY)(execl.o):	$(SRC)/execl.s
 $(LIBRARY)(execle.o):	$(SRC)/execle.s
 	$(CC1) $(SRC)/execle.s
 
+$(LIBRARY)(execlp.o):	$(SRC)/execlp.s
+	$(CC1) $(SRC)/execlp.s
+
 $(LIBRARY)(execv.o):	$(SRC)/execv.s
 	$(CC1) $(SRC)/execv.s
 
 $(LIBRARY)(execve.o):	$(SRC)/execve.s
 	$(CC1) $(SRC)/execve.s
+
+$(LIBRARY)(execvp.o):	$(SRC)/execvp.s
+	$(CC1) $(SRC)/execvp.s
 
 $(LIBRARY)(fcntl.o):	$(SRC)/fcntl.s
 	$(CC1) $(SRC)/fcntl.s
@@ -174,6 +201,9 @@ $(LIBRARY)(fork.o):	$(SRC)/fork.s
 
 $(LIBRARY)(fpathconf.o):	$(SRC)/fpathconf.s
 	$(CC1) $(SRC)/fpathconf.s
+
+$(LIBRARY)(fstatfs.o):	$(SRC)/fstatfs.s
+	$(CC1) $(SRC)/fstatfs.s
 
 $(LIBRARY)(fstat.o):	$(SRC)/fstat.s
 	$(CC1) $(SRC)/fstat.s
@@ -193,6 +223,15 @@ $(LIBRARY)(getgid.o):	$(SRC)/getgid.s
 $(LIBRARY)(getgroups.o):	$(SRC)/getgroups.s
 	$(CC1) $(SRC)/getgroups.s
 
+$(LIBRARY)(getnpid.o):	$(SRC)/getnpid.s
+	$(CC1) $(SRC)/getnpid.s
+
+$(LIBRARY)(getnprocnr.o):	$(SRC)/getnprocnr.s
+	$(CC1) $(SRC)/getnprocnr.s
+
+$(LIBRARY)(getpprocnr.o):	$(SRC)/getpprocnr.s
+	$(CC1) $(SRC)/getpprocnr.s
+
 $(LIBRARY)(getpgrp.o):	$(SRC)/getpgrp.s
 	$(CC1) $(SRC)/getpgrp.s
 
@@ -204,6 +243,15 @@ $(LIBRARY)(getppid.o):	$(SRC)/getppid.s
 
 $(LIBRARY)(getuid.o):	$(SRC)/getuid.s
 	$(CC1) $(SRC)/getuid.s
+
+$(LIBRARY)(getprocnr.o):	$(SRC)/getprocnr.s
+	$(CC1) $(SRC)/getprocnr.s
+
+$(LIBRARY)(getsysinfo.o):	$(SRC)/getsysinfo.s
+	$(CC1) $(SRC)/getsysinfo.s
+
+$(LIBRARY)(findproc.o):	$(SRC)/findproc.s
+	$(CC1) $(SRC)/findproc.s
 
 $(LIBRARY)(ioctl.o):	$(SRC)/ioctl.s
 	$(CC1) $(SRC)/ioctl.s
@@ -228,9 +276,6 @@ $(LIBRARY)(mkfifo.o):	$(SRC)/mkfifo.s
 
 $(LIBRARY)(mknod.o):	$(SRC)/mknod.s
 	$(CC1) $(SRC)/mknod.s
-
-$(LIBRARY)(mktemp.o):	$(SRC)/mktemp.s
-	$(CC1) $(SRC)/mktemp.s
 
 $(LIBRARY)(mount.o):	$(SRC)/mount.s
 	$(CC1) $(SRC)/mount.s
@@ -327,6 +372,9 @@ $(LIBRARY)(stime.o):	$(SRC)/stime.s
 
 $(LIBRARY)(sync.o):	$(SRC)/sync.s
 	$(CC1) $(SRC)/sync.s
+
+$(LIBRARY)(svrctl.o):	$(SRC)/svrctl.s
+	$(CC1) $(SRC)/svrctl.s
 
 $(LIBRARY)(tcdrain.o):	$(SRC)/tcdrain.s
 	$(CC1) $(SRC)/tcdrain.s

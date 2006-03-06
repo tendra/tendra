@@ -12,7 +12,11 @@ extern "C" {
 #ifndef _STRING_H
 #define _STRING_H
 
+#ifdef __cplusplus
+#define NULL	(0)
+#else
 #define NULL    ((void *)0)
+#endif
 
 #ifndef _SIZE_T
 #define _SIZE_T
@@ -63,6 +67,11 @@ _PROTOTYPE( size_t strspn, (const char *_s1, const char *_s2)		);
 _PROTOTYPE( char *strtok, (char *_s1, const char *_s2)			);
 _PROTOTYPE( size_t strxfrm, (char *_s1, const char *_s2, size_t _n)	);
 
+#ifdef _POSIX_SOURCE
+/* Open Group Base Specifications Issue 6 (not complete) */
+ char *strdup(const char *_s1);
+#endif
+
 #ifdef _MINIX
 /* For backward compatibility. */
 _PROTOTYPE( char *index, (const char *_s, int _charwanted)		);
@@ -72,8 +81,11 @@ _PROTOTYPE( int bcmp, (const void *_s1, const void *_s2, size_t _length));
 _PROTOTYPE( void bzero, (void *_dst, size_t _length)			);
 _PROTOTYPE( void *memccpy, (char *_dst, const char *_src, int _ucharstop,
 						    size_t _size)	);
-/* BSD functions */
+/* Misc. extra functions */
 _PROTOTYPE( int strcasecmp, (const char *_s1, const char *_s2)		);
+_PROTOTYPE( int strncasecmp, (const char *_s1, const char *_s2,
+							size_t _len)	);
+_PROTOTYPE( size_t strnlen, (const char *_s, size_t _n)			);
 #endif
 
 #endif  /* _STRING_H */

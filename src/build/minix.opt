@@ -1,6 +1,113 @@
 #!/usr/bin/ash
-# this script sets stack+data size of some tools needed to build TenDRA-4.1.2
+# this script deals with the Minix-specific parts of the installation
+# and the differences between minor system versions
 
+cd ${BASE_DIR} || exit 1
+
+# fix the differences in API headers and system source files
+
+if [ -r src/build/patch.apis ]; then
+  ${COMMENT} patching API headers and system source files
+  case ${MACH_VERS} in
+    3.1.1) patch -p1 < src/build/patch.apis    ;;
+
+    2.0.4) patch -p1 < src/build/patch.apis    ;
+           patch -p1 < src/build/patch.311-204 ;;
+
+    2.0.3) patch -p1 < src/build/patch.apis    ;
+           patch -p1 < src/build/patch.311-204 ;
+           patch -p1 < src/build/patch.204-203 ;;
+
+    2.0.2) patch -p1 < src/build/patch.apis    ;
+           patch -p1 < src/build/patch.311-204 ;
+           patch -p1 < src/build/patch.204-203 ;
+           patch -p1 < src/build/patch.203-202 ;;
+
+    2.0.0) patch -p1 < src/build/patch.apis    ;
+           patch -p1 < src/build/patch.311-204 ;
+           patch -p1 < src/build/patch.204-203 ;
+           patch -p1 < src/build/patch.203-202 ;
+           patch -p1 < src/build/patch.202-200 ;;
+
+    *) ${COMMENT} unknown system release, exiting; exit 1 ;;
+  esac
+  rm -f src/build/patch.*
+  find src/lib/machines/minix/80x86 -type f -name '*~' | xargs rm -f
+fi
+
+# generate C/C++ runtime startup objects
+
+DST=${BASE_DIR}/src/lib/machines/minix/80x86/src
+SRC=/usr/src/lib/i386/rts
+
+if [ -r ${SRC}/crtso.s ]; then
+  if [ ! -r ${DST}/crtso.s ]; then
+    ${COMMENT} generating C runtime startup object
+    cp ${SRC}/crtso.s ${DST}
+  fi
+  if [ ! -r ${DST}/cpprtso.s ]; then
+    ${COMMENT} generating C++ runtime startup object
+    awk 'BEGIN { FS="\t"; } /[ \t][ \t]*call[ \t][ \t]*_main/ { printf("\tcall\t___TDF_main\t\t! static constructors (initial_value)\n"); } { print $0; }' \
+    ${SRC}/crtso.s > ${DST}/cpprtso.s
+    cmp -s ${SRC}/crtso.s ${DST}/cpprtso.s && rm ${DST}/cpprtso.s
+  fi
+else
+  ${COMMENT} can not find the source of the C runtime startup object, exiting
+  exit 1
+fi
+
+# generate the TenDRA private headers (essentially, these are extern "C"
+# wrappers for all the system headers)
+
+h_wrappers() {
+  mkdir -p $2
+  for FILE in $1/*; do
+    # ${COMMENT} processing $FILE...
+    FILENAME=`basename $FILE`
+    BASENAME=`basename $FILE .h`
+    CPPFILE="$2/$FILENAME"
+    UPPERCASE=`echo $3$BASENAME | tr '/[a-z].' '_[A-Z]_'`
+    if [ -d $FILE ]; then
+      # recurse into subdirectories
+      h_wrappers $FILE $CPPFILE "$3$FILENAME/"
+    else
+      # skip the files that have been written previously
+      if [ -f $CPPFILE ]; then
+        # ${COMMENT} "$CPPFILE has been written previously"
+        continue
+      fi
+      # create wrapper header file
+      cat > $CPPFILE << EOF
+#ifndef __HACKED_${UPPERCASE}_INCLUDED
+#define __HACKED_${UPPERCASE}_INCLUDED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include_next <${3}${FILENAME}>
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+EOF
+    fi
+  done
+}
+
+if [ -d /usr/include ]; then
+  ${COMMENT} generating TenDRA private headers
+  h_wrappers /usr/include ${BASE_DIR}/src/lib/machines/minix/80x86/include ""
+else
+  ${COMMENT} can not find system headers, exiting
+  exit 1
+fi
+
+# finally, set stack+data size of some tools needed to build TenDRA
+
+chmod u+w /usr/lib/em_opt
 chmod u+w /usr/lib/em_opt2
 chmod u+w /usr/lib/em_led
 chmod u+w /usr/lib/em_cemcom.ansi
@@ -13,10 +120,17 @@ chmod u+w /usr/lib/ego/ca
 chmod u+w /usr/lib/i386/cg
 chmod u+w /usr/lib/i386/as
 
-chmem =106496  /usr/bin/cc             # 104K
-chmem =163840  /usr/bin/make           # 160K
-chmem =196608  /usr/lib/em_opt2        # 192K
-chmem =196608  /usr/lib/em_led         # 192K
+case ${MACH_VERS} in
+  3.*.*) chmem =204800  /usr/bin/cc         # 200K
+         chmem =337920  /usr/bin/make       # 330K
+         chmem =180224  /usr/lib/em_opt     # 176K
+         chmem =250000  /usr/lib/em_opt2    # 244K
+         chmem =538122  /usr/lib/em_led  ;; # 525K
+  *)     chmem =106496  /usr/bin/cc         # 104K
+         chmem =163840  /usr/bin/make       # 160K
+         chmem =196608  /usr/lib/em_opt2    # 192K
+         chmem =196608  /usr/lib/em_led  ;; # 192K
+esac
 chmem =1310720 /usr/lib/em_cemcom.ansi # 1280K
 chmem =1179648 /usr/lib/ego/ic         # 1152K
 chmem =1114112 /usr/lib/ego/cf         # 1088K

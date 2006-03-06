@@ -6344,7 +6344,7 @@ void fopr
 	ins2 (fadd, 0, 0, wh, d);
       break;
     case fminus_tag:
-      if (!rev) {
+      if (rev) {
 	if (and_pop) {
 	  ins2 (fsubrp, 0, 0, wh, d);
 	  pop_fl;
@@ -6370,7 +6370,7 @@ void fopr
 	ins2 (fmul, 0, 0, wh, d);
       break;
     case fdiv_tag:
-      if (!rev) {
+      if (rev) {
 	if (and_pop) {
 	  ins2 (fdivrp, 0, 0, wh, d);/* (1,arg1-in-st0,arg2,1) -> arg2 */
 	  pop_fl;
@@ -6445,7 +6445,7 @@ void fl_binop
 	  return;
 	};
 	move (sha, arg1, flstack);
-	fopr (op, 1, flstack, dest, 1); /* 1: fdivrp st,st(2) */
+	fopr (op, 0, flstack, dest, 1);
 
 	return;
       };
@@ -6460,7 +6460,7 @@ void fl_binop
       };
 
       move (sha, arg1, flstack);
-      fopr (op, 1, arg2, flstack, 0); /* 2: fdivr st(2),st */
+      fopr (op, 1, arg2, flstack, 0);
 
       move (sha, flstack, dest);
       return;
@@ -6473,7 +6473,7 @@ void fl_binop
 	  return;
 	};
 	move (sha, arg2, flstack);
-	fopr (op, 0, flstack, dest, 1);/* 3: fdivp st,st(2) */
+	fopr (op, 1, flstack, dest, 1);
 
 	return;
       };
@@ -6487,7 +6487,7 @@ void fl_binop
       };
 
       move (sha, arg2, flstack);
-      fopr (op, 0, arg1, flstack, 0); /* 4: fdiv st(2),st */
+      fopr (op, 0, arg1, flstack, 0);
 
       move (sha, flstack, dest);
       return;
@@ -6504,11 +6504,11 @@ void fl_binop
 	  int  fd2 = get_reg_no(in_fl_reg (arg2.where_exp));
 
 	  if (up1 == 2 && fd2 != fstack_pos && eq_where(arg2, dest)) {
-	    fopr(op, 1, flstack, arg2, 1); /* 8: fdivrp st,st(3) */
+	    fopr(op, 0, flstack, arg2, 1);
 	    return;
 	  };
 	  if (up2 == 2 && fd1 != fstack_pos && eq_where(arg1, dest)) {
-	    fopr(op, 0, flstack, arg1, 1); /* 11:  fdivp st,st(3) */
+	    fopr(op, 1, flstack, arg1, 1);
 	    return;
 	  };
 	};
@@ -6519,13 +6519,13 @@ void fl_binop
 	    fd2 = in_fl_reg (arg2.where_exp);
 	    if (get_reg_no (fd2) != fstack_pos) {
 	      if (tst == 0) {
-	        fopr (op, 1, arg2, flstack, 0); /* 9: fdivr st(1),st */
+	        fopr (op, 1, arg2, flstack, 0);
 	        move (sha, flstack, dest);
 	        return;
 	      }
 	      else
 	      if (up2 == 1) {
-	        fopr (op, 1, flstack, arg2, 1); /* 7: divrp st,st(1) */
+	        fopr (op, 0, flstack, arg2, 1);
 	        move (sha, flstack, dest);
 	        return;
 	      };
@@ -6537,18 +6537,18 @@ void fl_binop
 	    fd1 = in_fl_reg (arg1.where_exp);
 	    if (get_reg_no (fd1) != fstack_pos) {
 	      if (tst == 0) {
-	        fopr (op, 0, arg1, flstack, 0); /* 10: fdiv st(2), st */
+	        fopr (op, 0, arg1, flstack, 0);
 	        move (sha, flstack, dest);
 	        return;
 	      }
 	      else
 	      if (up1 == 1) {
-	        fopr (op, 0, flstack, arg1, 1); /* untested */
+	        fopr (op, 1, flstack, arg1, 1);
 	        move (sha, flstack, dest);
 	        return;
 	      }
 	      else {
-		fopr(op, 0, arg1, flstack, 0); /* 6: fdiv st(2),st */
+		fopr(op, 0, arg1, flstack, 0);
 		move (sha, flstack, dest);
 		return;
 	      };
@@ -6558,7 +6558,7 @@ void fl_binop
 
 
 	move (sha, arg2, flstack);
-	fopr (op, 0, arg1, flstack, 0); /* 5: fdiv st(2),st */
+	fopr (op, 0, arg1, flstack, 0);
 
 	move (sha, flstack, dest);
 	return;

@@ -569,6 +569,9 @@
 #   define FS_VOLATILE
 #   define FS_CONST
 #   define FS_ENUM
+#   ifndef __ACK__
+#    define FS_UNION_INIT
+#   endif
 #   if __STDC__ == 1
 #    define FS_ANSI_ENVIRON
 #   endif /* __STDC__ == 1 */

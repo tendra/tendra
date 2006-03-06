@@ -1,0 +1,254 @@
+diff -cr orig/src/build/APIS 3.1.1/src/build/APIS
+*** orig/src/build/APIS	Wed Feb  4 10:43:22 1998
+--- 3.1.1/src/build/APIS	Fri Mar  3 09:05:53 2006
+***************
+*** 1,20 ****
+  ansi
+- iso
+  cpp
+  posix
+- posix1
+- posix2
+- xpg3
+- xpg4
+- svid3
+- unix95
+- x5/lib
+- x5/t
+- x5/aw
+- x5/mu
+- x5/proto
+- x5/ext
+- x5/mit
+- motif/1_2
+- gcc
+- bsd_extn
+--- 1,3 ----
+diff -cr orig/src/build/LIBRARIES 3.1.1/src/build/LIBRARIES
+*** orig/src/build/LIBRARIES	Wed Feb  4 10:43:22 1998
+--- 3.1.1/src/build/LIBRARIES	Sat Feb 25 06:34:33 2006
+***************
+*** 1,2 ****
+--- 1,11 ----
+  tdf:lib/libtdf
+  cpp:lib/cpp/src
++ c:lib/machines/MACH_OS/MACH_CPU/src/c
++ curses:lib/machines/MACH_OS/MACH_CPU/src/curses
++ edit:lib/machines/MACH_OS/MACH_CPU/src/edit
++ y:lib/machines/MACH_OS/MACH_CPU/src/y
++ sys:lib/machines/MACH_OS/MACH_CPU/src/sys
++ sysutil:lib/machines/MACH_OS/MACH_CPU/src/sysutil
++ timers:lib/machines/MACH_OS/MACH_CPU/src/timers
++ util:lib/machines/MACH_OS/MACH_CPU/src/util
++ z:lib/machines/MACH_OS/MACH_CPU/src/z
+diff -cr orig/src/lib/apis/ansi/stdio.h 3.1.1/src/lib/apis/ansi/stdio.h
+*** orig/src/lib/apis/ansi/stdio.h	Sat Jan 17 15:56:31 1998
+--- 3.1.1/src/lib/apis/ansi/stdio.h	Fri Feb 17 11:20:17 2006
+***************
+*** 87,93 ****
+  +IFNDEF __JUST_XPG3
+  +TYPE fpos_t ;
+  +FUNC int fgetpos ( FILE *, fpos_t * ) ;
+! +FUNC int fsetpos ( FILE *, const fpos_t * ) ;
+  +ENDIF
+  +FUNC int setvbuf ( FILE *, char *, int, size_t ) ;
+  +FUNC int vfprintf ( FILE *, const char *, ~va_list ) ;
+--- 87,93 ----
+  +IFNDEF __JUST_XPG3
+  +TYPE fpos_t ;
+  +FUNC int fgetpos ( FILE *, fpos_t * ) ;
+! +FUNC int fsetpos ( FILE *, fpos_t * ) ;
+  +ENDIF
+  +FUNC int setvbuf ( FILE *, char *, int, size_t ) ;
+  +FUNC int vfprintf ( FILE *, const char *, ~va_list ) ;
+diff -cr orig/src/lib/apis/posix/fcntl.h 3.1.1/src/lib/apis/posix/fcntl.h
+*** orig/src/lib/apis/posix/fcntl.h	Wed Feb  4 10:44:00 1998
+--- 3.1.1/src/lib/apis/posix/fcntl.h	Fri Feb 17 11:20:17 2006
+***************
+*** 68,71 ****
+  
+  +FUNC int open ( const char *, int, ... ) ;
+  +FUNC int fcntl ( int, int, ... ) ;
+! +FUNC int creat ( const char *, mode_t ) ;
+--- 68,71 ----
+  
+  +FUNC int open ( const char *, int, ... ) ;
+  +FUNC int fcntl ( int, int, ... ) ;
+! +FUNC int creat ( const char *, int ) ;
+diff -cr orig/src/lib/apis/posix/grp.h 3.1.1/src/lib/apis/posix/grp.h
+*** orig/src/lib/apis/posix/grp.h	Wed Feb  4 10:44:01 1998
+--- 3.1.1/src/lib/apis/posix/grp.h	Fri Feb 17 11:20:17 2006
+***************
+*** 54,57 ****
+  } ;
+  
+  +FUNC struct group *getgrnam ( const char * ) ;
+! +FUNC struct group *getgrgid ( gid_t ) ;
+--- 54,57 ----
+  } ;
+  
+  +FUNC struct group *getgrnam ( const char * ) ;
+! +FUNC struct group *getgrgid ( int ) ;
+diff -cr orig/src/lib/apis/posix/limits.h 3.1.1/src/lib/apis/posix/limits.h
+*** orig/src/lib/apis/posix/limits.h	Sat Jan 17 15:56:38 1998
+--- 3.1.1/src/lib/apis/posix/limits.h	Fri Feb 24 10:17:31 2006
+***************
+*** 27,38 ****
+  #
+  +IMPLEMENT "ansi", "limits.h" ;
+  
+  +DEFINE _POSIX_ARG_MAX 4096 ;
+  +DEFINE _POSIX_CHILD_MAX 6 ;
+  +DEFINE _POSIX_LINK_MAX 8 ;
+  +DEFINE _POSIX_MAX_CANON 255 ;
+  +DEFINE _POSIX_MAX_INPUT 255 ;
+! +DEFINE _POSIX_NAME_MAX 14 ;
+  +DEFINE _POSIX_NGROUPS_MAX 0 ;
+  +DEFINE _POSIX_OPEN_MAX 16 ;
+  +DEFINE _POSIX_PATH_MAX 255 ;
+--- 27,40 ----
+  #
+  +IMPLEMENT "ansi", "limits.h" ;
+  
++ +NAT DIRSIZ ;
++ 
+  +DEFINE _POSIX_ARG_MAX 4096 ;
+  +DEFINE _POSIX_CHILD_MAX 6 ;
+  +DEFINE _POSIX_LINK_MAX 8 ;
+  +DEFINE _POSIX_MAX_CANON 255 ;
+  +DEFINE _POSIX_MAX_INPUT 255 ;
+! +DEFINE _POSIX_NAME_MAX DIRSIZ ;
+  +DEFINE _POSIX_NGROUPS_MAX 0 ;
+  +DEFINE _POSIX_OPEN_MAX 16 ;
+  +DEFINE _POSIX_PATH_MAX 255 ;
+diff -cr orig/src/lib/apis/posix/pwd.h 3.1.1/src/lib/apis/posix/pwd.h
+*** orig/src/lib/apis/posix/pwd.h	Wed Feb  4 10:44:01 1998
+--- 3.1.1/src/lib/apis/posix/pwd.h	Fri Feb 17 11:20:17 2006
+***************
+*** 64,67 ****
+  } ;
+  
+  +FUNC struct passwd *getpwnam ( const char * ) ;
+! +FUNC struct passwd *getpwuid ( uid_t ) ;
+--- 64,67 ----
+  } ;
+  
+  +FUNC struct passwd *getpwnam ( const char * ) ;
+! +FUNC struct passwd *getpwuid ( int ) ;
+diff -cr orig/src/lib/apis/posix/sys/stat.h 3.1.1/src/lib/apis/posix/sys/stat.h
+*** orig/src/lib/apis/posix/sys/stat.h	Wed Feb  4 10:44:02 1998
+--- 3.1.1/src/lib/apis/posix/sys/stat.h	Fri Feb 17 11:20:17 2006
+***************
+*** 52,60 ****
+      dev_t st_dev ;
+      ino_t st_ino ;
+      ~stat_mode_t st_mode ;
+!     nlink_t st_nlink ;
+      uid_t st_uid ;
+!     gid_t st_gid ;
+      off_t st_size ;
+      time_t st_atime ;
+      time_t st_mtime ;
+--- 52,60 ----
+      dev_t st_dev ;
+      ino_t st_ino ;
+      ~stat_mode_t st_mode ;
+!     short st_nlink ;
+      uid_t st_uid ;
+!     short st_gid ;
+      off_t st_size ;
+      time_t st_atime ;
+      time_t st_mtime ;
+***************
+*** 72,78 ****
+  
+  +FUNC int fstat ( int, struct stat * ) ;
+  +FUNC int stat ( const char *, struct stat * ) ;
+! +FUNC int chmod ( const char *, mode_t ) ;
+! +FUNC int mkdir ( const char *, mode_t ) ;
+! +FUNC int mkfifo ( const char *, mode_t ) ;
+! +FUNC mode_t umask ( mode_t ) ;
+--- 72,78 ----
+  
+  +FUNC int fstat ( int, struct stat * ) ;
+  +FUNC int stat ( const char *, struct stat * ) ;
+! +FUNC int chmod ( const char *, int ) ;
+! +FUNC int mkdir ( const char *, int ) ;
+! +FUNC int mkfifo ( const char *, int ) ;
+! +FUNC mode_t umask ( int ) ;
+diff -cr orig/src/lib/apis/posix/sys/types.h 3.1.1/src/lib/apis/posix/sys/types.h
+*** orig/src/lib/apis/posix/sys/types.h	Sat Jan 17 15:56:39 1998
+--- 3.1.1/src/lib/apis/posix/sys/types.h	Fri Feb 17 11:20:17 2006
+***************
+*** 39,43 ****
+      +SUBSET "ino_t" := { +TYPE ( arith ) ino_t ; } ;
+      +SUBSET "mode_t" := { +TYPE ( arith ) mode_t ; } ;
+      +TYPE ( arith ) nlink_t ;
+!     +SUBSET "off_t" := { +TYPE ( signed ) off_t ; } ;
+  } ;
+--- 39,43 ----
+      +SUBSET "ino_t" := { +TYPE ( arith ) ino_t ; } ;
+      +SUBSET "mode_t" := { +TYPE ( arith ) mode_t ; } ;
+      +TYPE ( arith ) nlink_t ;
+!     +SUBSET "off_t" := { +TYPE ( unsigned ) off_t ; } ;
+  } ;
+diff -cr orig/src/lib/apis/posix/unistd.h 3.1.1/src/lib/apis/posix/unistd.h
+*** orig/src/lib/apis/posix/unistd.h	Wed Feb  4 10:44:01 1998
+--- 3.1.1/src/lib/apis/posix/unistd.h	Fri Feb 24 10:41:52 2006
+***************
+*** 39,45 ****
+  
+      +CONST int R_OK, W_OK, X_OK, F_OK ;
+  
+!     +CONST int _POSIX_JOB_CONTROL, _POSIX_SAVED_IDS ;
+  
+      +CONST int _SC_ARG_MAX, _SC_CHILD_MAX, _SC_CLK_TCK, _SC_JOB_CONTROL ;
+      +CONST int _SC_NGROUPS_MAX, _SC_OPEN_MAX, _SC_SAVED_IDS, _SC_VERSION ;
+--- 39,45 ----
+  
+      +CONST int R_OK, W_OK, X_OK, F_OK ;
+  
+!     #+CONST int _POSIX_JOB_CONTROL, _POSIX_SAVED_IDS ;
+  
+      +CONST int _SC_ARG_MAX, _SC_CHILD_MAX, _SC_CLK_TCK, _SC_JOB_CONTROL ;
+      +CONST int _SC_NGROUPS_MAX, _SC_OPEN_MAX, _SC_SAVED_IDS, _SC_VERSION ;
+***************
+*** 91,100 ****
+      +FUNC char *ttyname ( int ) ;
+      +FUNC int unlink ( const char * ) ;
+  
+!     +FUNC int chown ( const char *, uid_t, gid_t ) ;
+!     +FUNC int setgid ( gid_t ) ;
+      +FUNC int setpgid ( pid_t, pid_t ) ;
+!     +FUNC int setuid ( uid_t ) ;
+  } ;
+  
+  +SUBSET "tcpgrp" := {
+--- 91,100 ----
+      +FUNC char *ttyname ( int ) ;
+      +FUNC int unlink ( const char * ) ;
+  
+!     +FUNC int chown ( const char *, int, int ) ;
+!     +FUNC int setgid ( int ) ;
+      +FUNC int setpgid ( pid_t, pid_t ) ;
+!     +FUNC int setuid ( int ) ;
+  } ;
+  
+  +SUBSET "tcpgrp" := {
+***************
+*** 105,111 ****
+  
+  +IF 0
+  +SUBSET "getopt" := {
+!     +FUNC int getopt ( int, char * const [], const char * ) ;
+      +EXP (extern) char *optarg ;
+      +EXP (extern) int optind, opterr ;
+  } ;
+--- 105,111 ----
+  
+  +IF 0
+  +SUBSET "getopt" := {
+!     +FUNC int getopt ( int, char **, char * ) ;
+      +EXP (extern) char *optarg ;
+      +EXP (extern) int optind, opterr ;
+  } ;

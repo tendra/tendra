@@ -1576,7 +1576,8 @@ void compile_virtual
 		    IDENTIFIER fn = DEREF_id ( virt_func ( at ) ) ;
 		    DECL_SPEC ds = DEREF_dspec ( id_storage ( fn ) ) ;
 		    if ( !( ds & dspec_ignore_virtual ) ) {
-			if ( ds & dspec_defn ) {
+			EXP e = DEREF_exp ( id_function_etc_defn ( fn ) ) ;
+			if ( !IS_NULL_exp ( e ) ) {
 			    /* Define the table externally */
 			    define_vtable ( ct, 2, 1 ) ;
 			} else {

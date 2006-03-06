@@ -47,7 +47,7 @@
 +FUNC int sigdelset ( sigset_t *, int ) ;
 +FUNC int sigemptyset ( sigset_t * ) ;
 +FUNC int sigfillset ( sigset_t * ) ;
-+FUNC int sigismember ( sigset_t *, int ) ;
++FUNC int sigismember ( const sigset_t *, int ) ;
 +FUNC int sigpending ( sigset_t * ) ;
 +FUNC int sigprocmask ( int, const sigset_t *, sigset_t * ) ;
 +FUNC int sigsuspend ( const sigset_t * ) ;

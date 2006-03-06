@@ -219,7 +219,7 @@ void out_switch_jump
     PROTO_N ( (tab, a, min) )
     PROTO_T ( int tab X where a X int min )
 {
-  outs("jmp ");
+  outs("cseg jmp ");
   outs(local_prefix);
   outn((long)tab);
   outs("-");

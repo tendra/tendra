@@ -318,15 +318,32 @@ int touch_file
 
 #if !FS_TEMPNAM
 
+#ifdef __minix
+pid_t _getpid(void);
+char *_i_compute(unsigned long val, int base, char *s, int nrdigits);
+#endif
+
 char *like_tempnam
     PROTO_N ( ( dir, pfx ) )
     PROTO_T ( char *dir X char *pfx ) /* ARGSUSED */
 {
     static char letter = 'a' ;
     char *p = buffer ;
+#ifdef __minix
+    /* this is tmpnam inline */
+    static unsigned long count = 0;
+    IGNORE strcpy ( p, dir ) ;
+    p += strlen ( dir ) ;
+    *p++ = '/' ;
+    p = _i_compute ( (unsigned long)_getpid(), 10, p, 5 ) ;
+    *p++ = '_' ;
+    if (++count > TMP_MAX) count = 1;	/* wrap-around */
+    p = _i_compute ( count, 10, p, 3 ) ;
+#else
     UNUSED ( dir ) ;
     IGNORE tmpnam ( p ) ;
     p += strlen ( p ) ;
+#endif
     p [0] = letter ;
     p [1] = '.' ;
     IGNORE strcpy ( p + 2, pfx ) ;

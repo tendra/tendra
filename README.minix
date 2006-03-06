@@ -1,11 +1,10 @@
 TENDRA C/C++ FOR MINIX
 ----------------------
 
-This is a port of the TenDRA C/C++ compiler (version 4.1.2) for Minix 2.0.2,
-but it will probably compile under 2.0.0 and 2.0.3 without changes.
-Read the file COPYRIGHT for the original license (which is quite liberal).
+This is a port of the TenDRA C/C++ compiler (version 4.1.2) to the Minix
+operating system. Please read the file COPYRIGHT for the original license.
 Since I don't think changing "movl hola, %ebx" for "mov ebx, (hola)" needs
-a license, my modifications are public domain.
+a license, my modifications and additions are public domain.
 
 The original sources of TenDRA can be obtained from
 
@@ -24,16 +23,17 @@ http://tendra4minix.sourceforge.net
 INSTALLATION
 ------------
 
+This package will compile under versions 2.0.0/2/3/4 and 3.1.1 of Minix.
 You need at least an i486 processor (or i386+i387) and 4 MB of RAM to build
 this package. As bin user, type
 
 cd /usr/local/src
-zcat TenDRA412a.taz | tar xf -
+gzip -d -c TenDRA412b.tgz | tar xf -
 cd TenDRA-4.1.2
 ./INSTALL >> messages.build 2>&1
 
 The compilation and installation may take up to 8 hours on a slow
-machine (33 MHz). You can monitor the compilation process at another
+machine (33 MHz). You can monitor the compilation process on another
 virtual terminal,
 
 cd /usr/local/src/TenDRA-4.1.2
@@ -49,7 +49,7 @@ of failure are:
 
   - You have changed system headers in a way that affects their semantics
     (as the TenDRA frontend understands this). The TenDRA compilers don't
-    use system headers by default, but a library of headers codified in TDF
+    use system headers by default, but a library of headers encoded in TDF
     (intermediate language). This library is built from both the API
     specifications (in the src/lib/apis directory) and the system headers
     during the installation process. Deleting or adding a simple "const"
@@ -112,7 +112,7 @@ tcc -Ysystem -Wl:-i main.o module.o -lcurses
 IMPORTANT NOTES
 ---------------
 
-Of course, there is list of caveats about this program.
+Of course, there is a list of caveats about this program.
 
 1. No Standard C++ Library is included in the package (not even iostream).
    See the documentation for some advice on how to port GNU libio (although
@@ -132,9 +132,9 @@ Of course, there is list of caveats about this program.
    general. Two binary incompatibilities arise: (1) ACK uses ebx as a
    scratch register, this means it indulges in overwriting ebx without
    making a copy; (2) ACK returns float/double values in eax/edx, while
-   TenDRA uses st(0) for this. You may have noticed that libc and libcurses
-   are completely rebuilt with the TenDRA C compiler during installation.
-   You will have to do so for other libraries as well.
+   TenDRA uses st(0) for this. You may have noticed that libc and the
+   other system libraries are completely rebuilt with the TenDRA C compiler
+   during installation. You will have to do so for new libraries as well.
 
 5. If you are used to dirty C programming, then you will find that it is
    almost impossible to compile a "normal" program with TenDRA. The
@@ -153,11 +153,11 @@ Of course, there is list of caveats about this program.
 COMMENTS
 --------
 
-The principle underlying this port has been: do it the simplest way
-possible, no matter how inelegant it might result. Inelegant doesn't mean
-buggy. I have corrected two important bugs (bugs 17 and 18 of
-http://bugs.ten15.org), and I think that the compilers are now very safe
-(the original code, as I said before, is particularly stable and clean).
+The C++ frontend was not so good as I thought at the time of the first
+release, but with the bunch of bugs fixed for this new release (see
+http://tendra4minix.sourceforge.net/bugs.html), it should compile most
+freestanding C++ programs without problems.
+
 I have made some tests involving relatively complex inheritance hierarchies,
 with template classes, virtual bases, virtual tables, and exceptions, and
 everything has worked fine.

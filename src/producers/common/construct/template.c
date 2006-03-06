@@ -634,6 +634,33 @@ static int match_template_args
     result is an overloaded function.
 */
 
+static IDENTIFIER apply_func_templ_over
+    PROTO_N ( ( fid, args, force, def ) )
+    PROTO_T ( IDENTIFIER fid X LIST ( TOKEN ) args X int force X int def )
+{
+    if ( !IS_NULL_id ( fid ) ) {
+	TYPE t = DEREF_type ( id_function_etc_type ( fid ) ) ;
+	IDENTIFIER sid = DEREF_id ( id_function_etc_over ( fid ) ) ;
+	sid = apply_func_templ_over ( sid, args, force, def ) ;
+	if ( IS_type_templ ( t ) ) {
+	    TOKEN sort = DEREF_tok ( type_templ_sort ( t ) ) ;
+	    if ( force || match_template_args ( sort, args ) ) {
+		/* Argument sorts match */
+		int td = in_template_decl ;
+		args = check_templ_args ( sort, args, fid ) ;
+		fid = instance_func ( fid, args, 0, def ) ;
+		in_template_decl = td ;
+		if ( !IS_NULL_id ( fid ) ) {
+		    COPY_id ( id_function_etc_over ( fid ), sid ) ;
+		    return ( fid ) ;
+		}
+	    }
+	}
+	fid = sid ;
+    }
+    return ( fid ) ;
+}
+
 static IDENTIFIER apply_func_templ
     PROTO_N ( ( id, args, def ) )
     PROTO_T ( IDENTIFIER id X LIST ( TOKEN ) args X int def )
@@ -642,23 +669,7 @@ static IDENTIFIER apply_func_templ
     IDENTIFIER tid = NULL_id ;
     do {
 	/* Build up result */
-	IDENTIFIER fid = id ;
-	while ( !IS_NULL_id ( fid ) ) {
-	    TYPE t = DEREF_type ( id_function_etc_type ( fid ) ) ;
-	    if ( IS_type_templ ( t ) ) {
-		TOKEN sort = DEREF_tok ( type_templ_sort ( t ) ) ;
-		if ( force || match_template_args ( sort, args ) ) {
-		    /* Argument sorts match */
-		    IDENTIFIER sid = tid ;
-		    int td = in_template_decl ;
-		    args = check_templ_args ( sort, args, fid ) ;
-		    tid = instance_func ( fid, args, 0, def ) ;
-		    COPY_id ( id_function_etc_over ( tid ), sid ) ;
-		    in_template_decl = td ;
-		}
-	    }
-	    fid = DEREF_id ( id_function_etc_over ( fid ) ) ;
-	}
+	tid = apply_func_templ_over ( id, args, force, def ) ;
 	if ( force ) {
 	    /* Should have bound arguments by now */
 	    if ( IS_NULL_id ( tid ) ) tid = id ;
@@ -1229,6 +1240,28 @@ static TYPE export_instances
 
 
 /*
+    EXPORT AN OVERLOADED FUNCTION TEMPLATE IDENTIFIER
+
+    This routine marks the overloaded function template identifier id as
+    having been exported. def is 2 for the first explicit declaration of a
+    template, 1 for a redeclaration and 0 otherwise. This function is used
+    only by export_template, for recursing into lists of overloaded member
+    function identifiers.
+*/
+
+static void export_template_over
+    PROTO_N ( ( id, def ) )
+    PROTO_T ( IDENTIFIER id X int def )
+{
+    if ( IS_id_function_etc ( id ) ) {
+	IDENTIFIER oid = DEREF_id ( id_function_etc_over ( id ) ) ;
+	if ( !IS_NULL_id ( oid ) ) export_template_over ( oid, def ) ;
+    }
+    export_template ( id, def ) ;
+}
+
+
+/*
     EXPORT A TEMPLATE IDENTIFIER
 
     This routine marks the template identifier id as having been exported.
@@ -1270,10 +1303,10 @@ void export_template
 			IDENTIFIER pid = DEREF_id ( member_id ( mem ) ) ;
 			IDENTIFIER qid = DEREF_id ( member_alt ( mem ) ) ;
 			if ( !IS_NULL_id ( pid ) ) {
-			    export_template ( pid, def ) ;
+			    export_template_over ( pid, def ) ;
 			}
 			if ( !IS_NULL_id ( qid ) && !EQ_id ( qid, pid ) ) {
-			    export_template ( qid, def ) ;
+			    export_template_over ( qid, def ) ;
 			}
 			mem = DEREF_member ( member_next ( mem ) ) ;
 		    }

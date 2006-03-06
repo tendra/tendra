@@ -1,0 +1,803 @@
+#!/bin/sh
+#
+#   		 Crown Copyright (c) 1997, 1998
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+
+
+#
+# STANDARD DIRECTORIES
+#
+# These directories are used to configure where the release is to be
+# installed:
+#
+#	BASE_DIR	gives the directory in which the source has been
+#			installed (i.e. the directory containing this script).
+#
+#	PUBLIC_BIN	gives the directory in which the public executables
+#			(tcc, tchk and tspec) are to be installed.  If
+#			PUBLIC_BIN is left blank then the public executables
+#			will be installed in the private executables
+#			directory.
+#
+#	INSTALL_DIR	gives the directory in which the configuration files,
+#			include files, private executables, libraries etc.
+#			are to be installed.
+#
+#	COMMON_DIR	gives the sub-directory of INSTALL_DIR in which the
+#			target independent components are to be installed.
+#
+#	MACH_DIR	gives the sub-directory of INSTALL_DIR in which the
+#			target dependent components are to be installed.
+#
+#	MAN_DIR		gives the directory in which the manual pages are
+#			to be installed.
+#
+#	WORK_DIR	gives the working directory in which binary object
+#			files etc. created during the build process will
+#			be stored.
+#
+#	TMP_DIR		gives a temporary directory, used both by this
+#			script and by tcc (so make sure that there is
+#			plenty of free space).
+#
+
+BASE_DIR=/usr/local/src/TenDRA-4.1.2
+PUBLIC_BIN=/usr/local/bin
+INSTALL_DIR=/usr/local/lib/TenDRA
+COMMON_DIR=${INSTALL_DIR}/lib
+MACH_DIR=${INSTALL_DIR}/machines
+MAN_DIR=/usr/local/man
+WORK_DIR=${BASE_DIR}/work
+TEMP_DIR=/var/tmp
+
+
+#
+# BUILD OPTIONS
+#
+# These flags control which components of the release should be installed.
+#
+# If BUILD_UPDATE is true then the public executables and their configuration
+# files will be installed (this has to be done on every target platform).
+#
+# If BUILD_MACHINE is true then all the other target dependent components
+# will be installed (this also has to be done on every target platform).
+#
+# If BUILD_COMMON is true then the target independent components will be
+# installed (this only has to be done once, indeed if the release is being
+# built simultaneously on several platforms then the builds can conflict
+# with each other, so start the quickest machine off first to install
+# the complete release, and get the other machines to only install the
+# target dependent sections).
+#
+# BUILD_OK is set to false if an error occurs.
+#
+# COMMENT controls whether or not this script prints comments as it goes
+# along.
+#
+
+BUILD_UPDATE=true
+BUILD_MACHINE=true
+BUILD_COMMON=true
+BUILD_OK=true
+COMMENT=echo
+
+
+#
+# COMPILER INFORMATION
+#
+# These variables give information on the compiler to be used to install
+# the release.  CC gives the compiler. CCOPTS and LIBOPTS give any target
+# specific options required by the build, and are set by this script.  It
+# is recommended that any extra flags which the user requires are made
+# part of the definition of CC, so CC="gcc -O" would install using gcc
+# in optimising mode.  TCCOPTS controls the extra configuration options
+# required when bootstrapping the system using tcc.  It should be set to:
+#
+#	TCCOPTS=			for tcc,
+#	TCCOPTS="TCCOPTS="		for other compilers.
+#
+# To install the bootstrapped compiler, install first using cc or gcc.
+# Then remove the work directory (WORK_DIR), change the compiler to tcc,
+# and install again.  Bootstrapping is recommended (all our testing is
+# on the bootstrapped compiler).
+#
+# SYS_INCLUDES gives a list of include file directories to be searched
+# when building the TDF API libraries.
+#
+# STRIP may be set to "strip" in order to ensure that the installed
+# executables are stripped.
+#
+# RANLIB is used on those platforms on which system libraries need to be
+# ranlib-ed.
+#
+# EXEC_SUFFIX is used on those platforms where executable names need to
+# have a particular suffix, for example it may be set to ".exe".
+#
+
+CC=cc
+CCOPTS=
+LIBOPTS=
+TCCOPTS="TCCOPTS="
+SYS_INCLUDES="-I/usr/include"
+STRIP=:
+RANLIB=ranlib
+EXEC_SUFFIX=
+
+
+#
+# COMMAND LINE ARGUMENTS
+#
+# The easiest way of configuring this installation script is by direct
+# editing, however these command line options may be used to make minor
+# alterations.
+#
+
+for ARG in $*
+do
+    case ${ARG} in
+    -cc)		CC=cc ; TCCOPTS="TCCOPTS=" ;;
+    -gcc)		CC=gcc ; TCCOPTS="TCCOPTS=" ;;
+    -tcc)		CC=tcc ; TCCOPTS="" ;;
+    -g)			CC="${CC} -g" ;;
+    -O)			CC="${CC} -O" ;;
+    -exe)		EXEC_SUFFIX=".exe" ;;
+    -quiet)		COMMENT=":" ;;
+    -strip)		STRIP=strip ;;
+    -target)		BUILD_COMMON=false ;;
+    -update)		BUILD_COMMON=false ; BUILD_MACHINE=false ;;
+    *)			${COMMENT} "Unknown option, ${ARG}" ;;
+    esac
+done
+
+
+#
+# PRINT THE COPYRIGHT NOTICE
+#
+# The copyright notice is printed.  This also checks for the most common
+# error, running INSTALL before configuring it to the system.
+#
+
+if [ ! -f ${BASE_DIR}/COPYRIGHT ]
+then
+    ${COMMENT} "Please set BASE_DIR in the INSTALL script"
+    exit 1
+fi
+
+cat ${BASE_DIR}/COPYRIGHT
+
+
+#
+# FIND HOST TYPE
+#
+# The method for finding the operating system type, operating system version
+# and CPU type is decidedly dirty.  A program tuname, similar to uname, but
+# more uniform across platforms, is installed.  Feel free to hack tuname
+# around if it doesn't work properly.
+#
+
+${COMMENT} building host type determiner, tuname ...
+TUNAME=${TEMP_DIR}/tuname_$$${EXEC_SUFFIX}
+MACH_HEADER=${TEMP_DIR}/mach_$$.h
+SRC=${BASE_DIR}/src/utilities/tuname
+cd ${TEMP_DIR} || exit 1
+make -f ${SRC}/Makefile CC="${CC}" ${TCCOPTS}\
+    BASE=${BASE_DIR} NAME=${TUNAME} all
+if [ -f ${TUNAME} ]
+then
+    MACH_OS=`${TUNAME} -s`
+    MACH_VERS=`${TUNAME} -r`
+    MACH_CPU=`${TUNAME} -m`
+    MACH_EXEC=`${TUNAME} -e`
+    ${TUNAME} -D > ${MACH_HEADER}
+    rm -f ${TUNAME}
+    if [ "X${MACH_OS}X" = "XunknownX" ]
+    then
+	${COMMENT} Unknown machine type
+	exit 1
+    fi
+else
+    ${COMMENT} Unknown machine type
+    exit 1
+fi
+
+${COMMENT}
+${COMMENT} Operating system = ${MACH_OS}
+${COMMENT} Operating system version = ${MACH_VERS}
+${COMMENT} Processor type = ${MACH_CPU}
+${COMMENT} Executable type = ${MACH_EXEC}
+
+
+#
+# FIND MACHINE DEPENDENT FLAGS
+#
+# The target specific options required to build the system on the various
+# platforms are stored in separate configuration files.  Feel free to add
+# or modify these files as necessary.
+#
+
+MACH_OPTS=${BASE_DIR}/src/build/${MACH_OS}.opt
+if [ -f ${MACH_OPTS} ]
+then
+    . ${MACH_OPTS}
+fi
+
+
+#
+# CREATE DIRECTORIES
+#
+# All the directories required for the installation are created.  The PATH
+# is also set to pick up the private and public executables during
+# installation.
+#
+
+MACH_BASE=${MACH_DIR}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
+MACH_WORK=${WORK_DIR}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
+
+if [ "X${PUBLIC_BIN}X" = "XX" ]
+then
+	PUBLIC_BIN=${MACH_BASE}/bin
+fi
+
+PATH=${MACH_BASE}/bin:${PUBLIC_BIN}:/usr/ccs/bin:${PATH}
+export PATH
+
+if ${BUILD_UPDATE}
+then
+    CREATE_DIRS="${MACH_DIR}\
+		 ${MACH_DIR}/${MACH_OS}\
+		 ${MACH_DIR}/${MACH_OS}/${MACH_VERS}\
+		 ${MACH_BASE}\
+		 ${MACH_BASE}/bin\
+		 ${MACH_BASE}/env\
+		 ${MACH_BASE}/lib\
+		 ${MACH_BASE}/lib/diag\
+		 ${MACH_BASE}/lib/sys\
+		 ${PUBLIC_BIN}"
+else
+    CREATE_DIRS=
+fi
+
+if ${BUILD_MACHINE}
+then
+    MACH_DIRS="${WORK_DIR} ${WORK_DIR}/${MACH_OS}\
+	       ${WORK_DIR}/${MACH_OS}/${MACH_VERS}\
+	       ${MACH_WORK}"
+else
+    MACH_DIRS=
+fi
+
+if ${BUILD_COMMON}
+then
+    COMMON_DIRS="${INSTALL_DIR}\
+		 ${COMMON_DIR}\
+		 ${MAN_DIR}\
+		 ${MAN_DIR}/man1\
+		 ${MAN_DIR}/man5"
+else
+    COMMON_DIRS=
+fi
+
+for DIR in ${COMMON_DIRS} ${CREATE_DIRS} ${MACH_DIRS}
+do
+    if [ ! -d ${DIR} ]
+    then
+	${COMMENT} creating ${DIR} ...
+	mkdir ${DIR} || exit 1
+    fi
+done
+
+${COMMENT}
+
+
+#
+# BUILD PROGRAMS
+#
+# The various program executables are now built.  The list of executables
+# is stored in the PROGRAMS file.  Note that each executable has its own
+# Makefile which can be used to install the executable in isolation, or
+# during development work.
+#
+
+MACH_SED=${TEMP_DIR}/mach$$.sed
+cat > ${MACH_SED} << EOF
+1,\$s/MACH_OS/${MACH_OS}/g
+1,\$s/MACH_CPU/${MACH_CPU}/g
+EOF
+
+for PROG in `sed -f ${MACH_SED} ${BASE_DIR}/src/build/PROGRAMS`
+do
+    NAME=`echo ${PROG} | sed -e 's/:.*//'`
+    SRC=${BASE_DIR}/src/`echo ${PROG} | sed -e 's/.*://'`
+
+    #
+    # Build program
+    #
+
+    if ${BUILD_MACHINE}
+    then
+	${COMMENT} building ${NAME} ...
+	if [ ! -d ${MACH_WORK}/${NAME} ]
+	then
+	    ${COMMENT} creating ${MACH_WORK}/${NAME} ...
+	    mkdir ${MACH_WORK}/${NAME} || exit 1
+	fi
+	cd ${MACH_WORK}/${NAME} || exit 1
+	EXEC=${MACH_BASE}/bin/${NAME}${EXEC_SUFFIX}
+	make -f ${SRC}/Makefile CC="${CC} ${CCOPTS}" ${TCCOPTS}\
+	    BASE=${BASE_DIR} NAME=${EXEC} all || BUILD_OK=false
+	if [ -f ${EXEC} ]
+	then
+	    ${STRIP} ${EXEC}
+	else
+	    ${COMMENT} compilation failed ...
+	    BUILD_OK=false
+	fi
+	${COMMENT}
+    fi
+
+    #
+    # Copy manual pages
+    #
+
+    if ${BUILD_COMMON}
+    then
+	for SUFFIX in 1 5
+	do
+	    for MANPAGE in ${SRC}/*.${SUFFIX}
+	    do
+		if [ -f ${MANPAGE} ]
+		then
+		    NEWPAGE=${MAN_DIR}/man${SUFFIX}/`basename ${MANPAGE}`
+		    rm -f ${NEWPAGE}
+		    cp ${MANPAGE} ${NEWPAGE}
+		fi
+	    done
+	done
+    fi
+done
+
+rm -f ${MACH_SED}
+
+
+#
+# BUILD DYNAMIC LINKER
+#
+# On some platforms a dynamic linker is required to handle the TDF
+# initial_value construct (used by C++'s non-constant initialisation etc.).
+# This is built at this stage.
+#
+
+if ${BUILD_MACHINE}
+then
+    ${COMMENT} building machine dependent components ...
+    SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}/src
+    if [ -f ${SRC}/Makefile ]
+    then
+	cd ${MACH_BASE}/lib/sys || exit 1
+	make -f ${SRC}/Makefile CC="${CC} ${CCOPTS}" ${TCCOPTS}\
+	    BASE=${BASE_DIR} pre || BUILD_OK=false
+	${COMMENT}
+    fi
+fi
+
+
+#
+# INSTALL ENVIRONMENTS
+#
+# The user interfaces to the TenDRA compiler, tcc and tchk, use configuration
+# files called environments to configure them to the particular details of
+# the platform on which they are installed (including where the private
+# executables, libraries etc. are to be found).  If the release is moved
+# then only the environments need to be re-installed, by setting BUILD_UPDATE
+# to true, but BUILD_COMMON and BUILD_MACHINE to false.
+#
+
+if ${BUILD_UPDATE}
+then
+    ${COMMENT} installing tcc environments ...
+
+    ENV_SED=${TEMP_DIR}/env$$.sed
+    cat > ${ENV_SED} << EOF
+1,\$s%-MACH-%${MACH_OS}/${MACH_CPU}%g
+1,\$s%-MACHDIR-%${MACH_BASE}%g
+1,\$s%-BINDIR-%${MACH_BASE}/bin%g
+1,\$s%-ENVDIR-%${MACH_BASE}/env%g
+1,\$s%-LIBDIR-%${MACH_BASE}/lib%g
+1,\$s%-INCLDIR-%${COMMON_DIR}/include%g
+1,\$s%-STARTUPDIR-%${COMMON_DIR}/startup%g
+1,\$s%-TMPDIR-%${TEMP_DIR}%g
+EOF
+
+    cd ${MACH_BASE}/env || exit 1
+    SRC=${BASE_DIR}/src/lib/env
+    ENVIRON_DIRS="${SRC}/common\
+		  ${SRC}/${MACH_OS}/common/common\
+		  ${SRC}/${MACH_OS}/common/${MACH_CPU}\
+		  ${SRC}/${MACH_OS}/${MACH_EXEC}/common\
+		  ${SRC}/${MACH_OS}/${MACH_EXEC}/${MACH_CPU}\
+		  ${SRC}/${MACH_OS}/${MACH_VERS}/common\
+		  ${SRC}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}"
+
+    for DIR in ${ENVIRON_DIRS}
+    do
+	if [ -d ${DIR} ]
+	then
+	    for ENVFILE in ${DIR}/*
+	    do
+		if [ -f ${ENVFILE} ]
+		then
+		    NEWFILE=`basename ${ENVFILE}`
+		    ${COMMENT} ${ENVFILE} '->' ${NEWFILE}
+		    rm -f ${NEWFILE}
+		    sed -f ${ENV_SED} ${ENVFILE} > ${NEWFILE}
+		fi
+	    done
+	fi
+    done
+
+    ${COMMENT} default.extra '>>' default
+    rm -f default.new
+    cat default default.extra > default.new
+    rm -f default
+    mv default.new default
+    rm -f ${ENV_SED}
+    ${COMMENT}
+fi
+
+
+#
+# INSTALL WRAPPER FUNCTIONS
+#
+# The public executables are actually wrapper scripts which call the
+# actual programs from the private executables directory with the appropriate
+# configuration options.
+#
+
+if ${BUILD_UPDATE}
+then
+    ${COMMENT} installing tcc ...
+    rm -f ${PUBLIC_BIN}/tcc
+    cat > ${PUBLIC_BIN}/tcc << EOF
+#!/bin/sh
+exec ${MACH_BASE}/bin/tcc1${EXEC_SUFFIX} -Y${MACH_BASE}/env/default \${@+"\$@"}
+EOF
+    chmod +x ${PUBLIC_BIN}/tcc
+    ${COMMENT}
+
+    ${COMMENT} installing tchk ...
+    rm -f ${PUBLIC_BIN}/tchk
+    cat > ${PUBLIC_BIN}/tchk << EOF
+#!/bin/sh
+exec ${MACH_BASE}/bin/tcc1${EXEC_SUFFIX} -Y${MACH_BASE}/env/default -ch \${@+"\$@"}
+EOF
+    chmod +x ${PUBLIC_BIN}/tchk
+    ${COMMENT}
+
+    ${COMMENT} installing tspec ...
+    rm -f ${PUBLIC_BIN}/tspec
+    cat > ${PUBLIC_BIN}/tspec << EOF
+#!/bin/sh
+TSPEC_INPUT=${BASE_DIR}/src/lib/apis
+TSPEC_INCL_OUTPUT=${COMMON_DIR}/include
+TSPEC_SRC_OUTPUT=${COMMON_DIR}/building
+export TSPEC_INPUT TSPEC_INCL_OUTPUT TSPEC_SRC_OUTPUT
+exec ${MACH_BASE}/bin/tspec1${EXEC_SUFFIX} \${@+"\$@"}
+EOF
+    chmod +x ${PUBLIC_BIN}/tspec
+    ${COMMENT}
+fi
+
+
+#
+# INSTALL START-UP FILES
+#
+# The machine independent compiler configuration files are installed
+# (cp -r would do as well as tar, but not all machines support it).
+#
+
+if ${BUILD_COMMON}
+then
+    ${COMMENT} installing start-up files ...
+    cd ${BASE_DIR}/src/lib || exit 1
+    rm -f ${MACH_WORK}/startup.tar
+    tar cvf ${MACH_WORK}/startup.tar startup
+    cd ${COMMON_DIR} || exit 1
+    rm -rf startup
+    tar xvf ${MACH_WORK}/startup.tar
+    rm -f ${MACH_WORK}/startup.tar
+    ${COMMENT}
+fi
+
+
+#
+# INSTALL API DESCRIPTIONS
+#
+# The TenDRA API descriptions for the various supported APIs are installed
+# using the tspec executable built above.  The list of APIs is given in a
+# separate file, APIS.
+#
+
+if ${BUILD_COMMON}
+then
+    for API in `cat ${BASE_DIR}/src/build/APIS`
+    do
+	${COMMENT} installing API ${API} ...
+	${PUBLIC_BIN}/tspec -w -v ${API}
+	${COMMENT} all done
+	${COMMENT}
+    done
+fi
+
+
+#
+# INSTALL MACHINE DEPENDENT HEADERS
+#
+# The machine dependent include files and configuration files are now
+# installed.  These are used in particular during TDF API library building
+# and when the compiler is configured to use the system headers.
+#
+
+if ${BUILD_MACHINE}
+then
+    ${COMMENT} installing machine dependent headers ...
+    SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}
+    if [ -d ${SRC} ]
+    then
+	cd ${SRC} || exit 1
+	rm -f ${MACH_WORK}/machine.tar
+	tar cvf ${MACH_WORK}/machine.tar include startup
+	cd ${MACH_BASE} || exit 1
+	rm -rf include
+	rm -rf startup
+	tar xvf ${MACH_WORK}/machine.tar
+	rm -f ${MACH_WORK}/machine.tar
+	cp ${MACH_HEADER} startup/machine.h
+    fi
+    ${COMMENT}
+fi
+rm -f ${MACH_HEADER}
+
+
+#
+# BUILD MACHINE DEPENDENT COMPONENTS
+#
+# Any machine dependent libraries etc. are now built.  This includes the
+# basic TDF token definitions which describe the machine to the compiler.
+#
+
+if ${BUILD_MACHINE}
+then
+    ${COMMENT} building machine dependent components ...
+    SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}/src
+    if [ -f ${SRC}/Makefile ]
+    then
+	cd ${MACH_BASE}/lib/sys || exit 1
+	make -f ${SRC}/Makefile CC="${CC} ${CCOPTS}" ${TCCOPTS}\
+	    BASE=${BASE_DIR} all || BUILD_OK=false
+    fi
+    ${COMMENT}
+fi
+
+
+#
+# BUILD API LIBRARIES
+#
+# And now the tricky bit.  The TDF API libraries are built from the TenDRA
+# API descriptions and the implementation of the API as described in the
+# system headers.
+#
+# Although this has been tested to the operating system versions listed
+# in the supported platforms section of the release notes, it is possible
+# that it may fail for other operating system versions.  Provided the
+# ansi library builds, you have enough to play with, but to get other
+# libraries through, you may need to modify the machine dependent include
+# and start-up files in src/lib/machines/<os>/<cpu>, using the existing
+# files as a template.  If you get really stuck; you've read all the
+# documentation, and looked at all what I've done in similar circumstances,
+# you can email me (Rob) at the address on the web page, but make this a
+# last resort - I do have other things to do.
+#
+# Note that each library is built twice, firstly without diagnostic
+# information and secondly with.  Really only the ones with diagnostics
+# are required (the diagnostic information is ignored if not needed),
+# but building both is traditional.
+#
+
+DIAG_MSG=
+DIAG_CC=tcc
+
+for LIBDIR in lib lib/diag
+do
+
+    #
+    # Build basic token definitions
+    #
+
+    if ${BUILD_MACHINE}
+    then
+	${COMMENT} building basic C token definitions${DIAG_MSG} ...
+	if [ ! -d ${MACH_WORK}/${LIBDIR} ]
+	then
+	    ${COMMENT} creating ${MACH_WORK}/${LIBDIR} ...
+	    mkdir ${MACH_WORK}/${LIBDIR} || exit 1
+	fi
+	for API in `cat ${BASE_DIR}/src/build/APIS` ansi cpp
+	do
+	    API_NAME=`echo ${API} | sed -e 's%/%_%g'`
+	    if [ ! -d ${MACH_WORK}/${LIBDIR}/${API_NAME} ]
+	    then
+		${COMMENT} creating ${MACH_WORK}/${LIBDIR}/${API_NAME} ...
+		mkdir ${MACH_WORK}/${LIBDIR}/${API_NAME} || exit 1
+	    fi
+	done
+
+	SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}/tokens
+	if [ -d ${SRC} ]
+	then
+	    cd ${MACH_WORK}/${LIBDIR}/ansi || exit 1
+	    make -f ${SRC}/Makefile TCC="${DIAG_CC}" BASE=${BASE_DIR}\
+		basic || BUILD_OK=false
+	fi
+	${COMMENT}
+
+	SRC=${BASE_DIR}/src/lib/cpp/tokens
+	if [ -d ${SRC} ]
+	then
+	    ${COMMENT} building basic C++ token definitions${DIAG_MSG} ...
+	    cd ${MACH_WORK}/${LIBDIR}/cpp || exit 1
+	    make -f ${SRC}/Makefile TCC="${DIAG_CC}" BASE=${BASE_DIR}\
+		all || BUILD_OK=false
+	    ${COMMENT}
+	fi
+    fi
+
+
+    #
+    # Build API token libraries
+    #
+
+    if ${BUILD_MACHINE}
+    then
+	cd ${MACH_WORK}/${LIBDIR} || exit 1
+	for API in `cat ${BASE_DIR}/src/build/APIS`
+	do
+	    API_NAME=`echo ${API} | sed -e 's%/%_%g'`
+	    SRC=${COMMON_DIR}/building/${API}.api
+	    if [ -d ${SRC} ]
+	    then
+		${COMMENT} building ${API} API token library${DIAG_MSG} ...
+		rm -f ${API_NAME}/Makefile
+		cat > ${API_NAME}/Makefile << EOF
+BASE=${MACH_BASE}
+LIB=\${BASE}/${LIBDIR}/${API_NAME}.tl
+SRC=${COMMON_DIR}/building
+STARTUP=\${BASE}/startup
+WORK=.
+TLIB=tld -mc
+TDI=${DIAG_CC} -Fj -Ybuilding -Y32bit -I\${BASE}/include ${SYS_INCLUDES}
+TDP=echo
+EOF
+		cat ${SRC}/Makefile >> ${API_NAME}/Makefile
+		if [ -f ${MACH_BASE}/startup/${API_NAME}.h ]
+		then
+		    make -f ${API_NAME}/Makefile all || BUILD_OK=false
+		else
+		    ${COMMENT} skipped
+		fi
+		${COMMENT}
+	    fi
+	done
+    fi
+
+
+    #
+    # Build TDF standard token library
+    #
+
+    if ${BUILD_MACHINE}
+    then
+	SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}/tokens
+	if [ -d ${SRC} ]
+	then
+	    ${COMMENT} building TDF standard token library${DIAG_MSG} ...
+	    LIB=${MACH_BASE}/${LIBDIR}/target_tok.tl
+	    cd ${MACH_WORK}/${LIBDIR}/ansi || exit 1
+	    make -f ${SRC}/Makefile LIB=${LIB} TCC="${DIAG_CC}"\
+		BASE=${BASE_DIR} all || BUILD_OK=false
+	    ${COMMENT}
+	fi
+    fi
+
+
+    #
+    # Now build with diagnostics
+    #
+
+    DIAG_MSG=" (with diagnostics)"
+    DIAG_CC="tcc -g"
+done
+
+
+#
+# BUILD SUPPORT LIBRARIES
+#
+# The support libraries are now built.  The list of libraries to be built
+# is stored in a separate file, LIBRARIES.  It bears repeating that the
+# C++ support library only contains the minimum language support features.
+#
+
+if ${BUILD_MACHINE}
+then
+    SRC=${BASE_DIR}/src/lib/machines/common/src
+    if [ -f ${SRC}/Makefile ]
+    then
+	${COMMENT} building crtp_n.o ...
+	cd ${MACH_BASE}/lib/sys || exit 1
+	make -f ${SRC}/Makefile BASE=${BASE_DIR} all || BUILD_OK=false
+	${COMMENT}
+    fi
+    for PROG in `cat ${BASE_DIR}/src/build/LIBRARIES`
+    do
+	NAME=`echo ${PROG} | sed -e 's/:.*//'`
+	SRC=${BASE_DIR}/src/`echo ${PROG} | sed -e 's/.*://'`
+	if [ -f ${SRC}/Makefile ]
+	then
+	    ${COMMENT} building ${NAME} ...
+	    if [ ! -d ${MACH_WORK}/${NAME} ]
+	    then
+		${COMMENT} creating ${MACH_WORK}/${NAME} ...
+		mkdir ${MACH_WORK}/${NAME} || exit 1
+	    fi
+	    cd ${MACH_WORK}/${NAME} || exit 1
+	    LIB=${MACH_BASE}/lib/sys/lib${NAME}.a
+	    make -f ${SRC}/Makefile BASE=${BASE_DIR} NAME=${LIB}\
+		MACHOPTS="${LIBOPTS}" RANLIB="${RANLIB}" all || BUILD_OK=false
+	    if [ ! -f ${LIB} ]
+	    then
+		${COMMENT} compilation failed ...
+		BUILD_OK=false
+	    fi
+	    ${COMMENT}
+	fi
+    done
+fi
+
+
+#
+# END OF INSTALLATION SCRIPT
+#
+# Phew!
+#
+
+if ${BUILD_OK}
+then
+    ${COMMENT} installation completed successfully
+else
+    ${COMMENT} installation completed with errors
+fi
+exit 0

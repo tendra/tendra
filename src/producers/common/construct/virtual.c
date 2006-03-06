@@ -174,7 +174,7 @@ static VIRTUAL inherit_virtual
 		    if ( EQ_id ( bn, fn ) && eq_graph ( gr, gs ) ) {
 			unsigned long n = DEREF_ulong ( virt_no ( vr ) ) ;
 			vp = inherit_duplicate ( vr, vp ) ;
-			COPY_ulong ( virt_no ( vr ), n ) ;
+			COPY_ulong ( virt_no ( vp ), n ) ;
 			COPY_virt ( HEAD_list ( p ), vp ) ;
 			MAKE_virt_link ( bn, n, gr, HEAD_list ( p ), vp ) ;
 			return ( vp ) ;
@@ -188,7 +188,7 @@ static VIRTUAL inherit_virtual
 		    if ( EQ_id ( bn, fn ) && eq_graph ( gr, gs ) ) {
 			unsigned long n = DEREF_ulong ( virt_no ( vr ) ) ;
 			vp = inherit_duplicate ( vr, vp ) ;
-			COPY_ulong ( virt_no ( vr ), n ) ;
+			COPY_ulong ( virt_no ( vp ), n ) ;
 			COPY_virt ( HEAD_list ( p ), vp ) ;
 			MAKE_virt_link ( bn, n, gr, HEAD_list ( p ), vp ) ;
 			return ( vp ) ;
@@ -392,7 +392,8 @@ void end_virtual
 	    IDENTIFIER id = DEREF_id ( virt_func ( vf ) ) ;
 	    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
 	    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    if ( ds & dspec_pure ) ci |= cinfo_abstract ;
+	    if ( ds & dspec_pure && !IS_virt_link ( vf ) )
+		ci |= cinfo_abstract ;
 	    if ( IS_hashid_destr ( nm ) ) destr = 1 ;
 	    if ( IS_virt_override ( vf ) ) {
 		/* Check for non-trivial return conversions */
@@ -777,7 +778,8 @@ IDENTIFIER find_pure_function
 	    VIRTUAL vf = DEREF_virt ( HEAD_list ( p ) ) ;
 	    IDENTIFIER id = DEREF_id ( virt_func ( vf ) ) ;
 	    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    if ( ds & dspec_pure ) return ( id ) ;
+	    if ( ds & dspec_pure && !IS_virt_link ( vf ) )
+		return ( id ) ;
 	    p = TAIL_list ( p ) ;
 	}
     }

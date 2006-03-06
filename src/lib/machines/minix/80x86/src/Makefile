@@ -3,7 +3,7 @@ SRC=${BASE}/src/lib/machines/minix/80x86/src
 SRC2=${BASE}/src/lib/machines/common/src
 
 CC=tcc
-AS=/usr/lib/i386/as
+AS=/usr/lib/i386/as -
 TCCOPTS=-Ysystem
 REMOVE=rm -f
 MOVE=mv

@@ -1,0 +1,344 @@
+diff -cr 2.0.3/src/build/LIBRARIES 2.0.2/src/build/LIBRARIES
+*** 2.0.3/src/build/LIBRARIES	Fri Feb 24 17:22:28 2006
+--- 2.0.2/src/build/LIBRARIES	Fri Feb 24 17:21:53 2006
+***************
+*** 4,7 ****
+  curses:lib/machines/MACH_OS/MACH_CPU/src/curses
+  edit:lib/machines/MACH_OS/MACH_CPU/src/edit
+  y:lib/machines/MACH_OS/MACH_CPU/src/y
+- sys:lib/machines/MACH_OS/MACH_CPU/src/sys
+--- 4,6 ----
+diff -cr 2.0.3/src/lib/apis/posix/signal.h 2.0.2/src/lib/apis/posix/signal.h
+*** 2.0.3/src/lib/apis/posix/signal.h	Sat Jan 28 12:16:38 2006
+--- 2.0.2/src/lib/apis/posix/signal.h	Sat Jan 28 12:06:43 2006
+***************
+*** 47,53 ****
+  +FUNC int sigdelset ( sigset_t *, int ) ;
+  +FUNC int sigemptyset ( sigset_t * ) ;
+  +FUNC int sigfillset ( sigset_t * ) ;
+! +FUNC int sigismember ( const sigset_t *, int ) ;
+  +FUNC int sigpending ( sigset_t * ) ;
+  +FUNC int sigprocmask ( int, const sigset_t *, sigset_t * ) ;
+  +FUNC int sigsuspend ( const sigset_t * ) ;
+--- 47,53 ----
+  +FUNC int sigdelset ( sigset_t *, int ) ;
+  +FUNC int sigemptyset ( sigset_t * ) ;
+  +FUNC int sigfillset ( sigset_t * ) ;
+! +FUNC int sigismember ( sigset_t *, int ) ;
+  +FUNC int sigpending ( sigset_t * ) ;
+  +FUNC int sigprocmask ( int, const sigset_t *, sigset_t * ) ;
+  +FUNC int sigsuspend ( const sigset_t * ) ;
+diff -cr 2.0.3/src/lib/machines/minix/80x86/include/string.h 2.0.2/src/lib/machines/minix/80x86/include/string.h
+*** 2.0.3/src/lib/machines/minix/80x86/include/string.h	Sat Jan 28 12:23:43 2006
+--- 2.0.2/src/lib/machines/minix/80x86/include/string.h	Sat Jan 28 12:06:43 2006
+***************
+*** 76,86 ****
+  _PROTOTYPE( void bzero, (void *_dst, size_t _length)			);
+  _PROTOTYPE( void *memccpy, (char *_dst, const char *_src, int _ucharstop,
+  						    size_t _size)	);
+! /* Misc. extra functions */
+  _PROTOTYPE( int strcasecmp, (const char *_s1, const char *_s2)		);
+- _PROTOTYPE( int strncasecmp, (const char *_s1, const char *_s2,
+- 							size_t _len)	);
+- _PROTOTYPE( size_t strnlen, (const char *_s, size_t _n)			);
+  #endif
+  
+  #endif  /* _STRING_H */
+--- 76,83 ----
+  _PROTOTYPE( void bzero, (void *_dst, size_t _length)			);
+  _PROTOTYPE( void *memccpy, (char *_dst, const char *_src, int _ucharstop,
+  						    size_t _size)	);
+! /* BSD functions */
+  _PROTOTYPE( int strcasecmp, (const char *_s1, const char *_s2)		);
+  #endif
+  
+  #endif  /* _STRING_H */
+diff -cr 2.0.3/src/lib/machines/minix/80x86/src/c/Makefile 2.0.2/src/lib/machines/minix/80x86/src/c/Makefile
+*** 2.0.3/src/lib/machines/minix/80x86/src/c/Makefile	Thu Feb  2 10:45:26 2006
+--- 2.0.2/src/lib/machines/minix/80x86/src/c/Makefile	Sat Jan 28 12:06:43 2006
+***************
+*** 18,27 ****
+  	${MAKE} -f ${SRC}/posix.mak   NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/stdio.mak   NAME=${NAME}
+  	${MAKE} -f ${SRC}/syscall.mak NAME=${NAME}
+  	${MAKE} -f ${SRC}/misc.mak    NAME=${NAME}
+  	${MAKE} -f ${SRC}/rts.mak     NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/string.mak  NAME=${NAME}
+- 	${MAKE} -f ${SRC}/int64.mak   NAME=${NAME}
+  	@${ECHO} all done
+  
+  clean :
+--- 18,27 ----
+  	${MAKE} -f ${SRC}/posix.mak   NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/stdio.mak   NAME=${NAME}
+  	${MAKE} -f ${SRC}/syscall.mak NAME=${NAME}
++ 	${MAKE} -f ${SRC}/syslib.mak  NAME=${NAME}
+  	${MAKE} -f ${SRC}/misc.mak    NAME=${NAME}
+  	${MAKE} -f ${SRC}/rts.mak     NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/string.mak  NAME=${NAME}
+  	@${ECHO} all done
+  
+  clean :
+Only in 2.0.3/src/lib/machines/minix/80x86/src/c: int64.mak
+diff -cr 2.0.3/src/lib/machines/minix/80x86/src/c/ip.mak 2.0.2/src/lib/machines/minix/80x86/src/c/ip.mak
+*** 2.0.3/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.2/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 9,16 ****
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+- 	$(LIBRARY)(dhcp_gettag.o) \
+- 	$(LIBRARY)(dhcp_settag.o) \
+  	$(LIBRARY)(ether_line.o) \
+  	$(LIBRARY)(ethera2n.o) \
+  	$(LIBRARY)(ethere2a.o) \
+--- 9,14 ----
+***************
+*** 39,57 ****
+  	$(LIBRARY)(res_mkquery.o) \
+  	$(LIBRARY)(res_query.o) \
+  	$(LIBRARY)(res_send.o) \
+- 	$(LIBRARY)(servxcheck.o) \
+  	$(LIBRARY)(strcasecmp.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+  	rm *.o
+  
+- $(LIBRARY)(dhcp_gettag.o):	$(SRC)/dhcp_gettag.c
+- 	$(CC1) $(SRC)/dhcp_gettag.c
+- 
+- $(LIBRARY)(dhcp_settag.o):	$(SRC)/dhcp_settag.c
+- 	$(CC1) $(SRC)/dhcp_settag.c
+- 
+  $(LIBRARY)(ether_line.o):	$(SRC)/ether_line.c
+  	$(CC1) $(SRC)/ether_line.c
+  
+--- 37,48 ----
+***************
+*** 138,146 ****
+  
+  $(LIBRARY)(res_send.o):	$(SRC)/res_send.c
+  	$(CC1) $(SRC)/res_send.c
+- 
+- $(LIBRARY)(servxcheck.o):	$(SRC)/servxcheck.c
+- 	$(CC1) $(SRC)/servxcheck.c
+  
+  $(LIBRARY)(strcasecmp.o):	$(SRC)/strcasecmp.c
+  	$(CC1) $(SRC)/strcasecmp.c
+--- 129,134 ----
+diff -cr 2.0.3/src/lib/machines/minix/80x86/src/c/other.mak 2.0.2/src/lib/machines/minix/80x86/src/c/other.mak
+*** 2.0.3/src/lib/machines/minix/80x86/src/c/other.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.2/src/lib/machines/minix/80x86/src/c/other.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 13,26 ****
+  	$(LIBRARY)(_brk.o) \
+  	$(LIBRARY)(_reboot.o) \
+  	$(LIBRARY)(_seekdir.o) \
+- 	$(LIBRARY)(_svrctl.o) \
+  	$(LIBRARY)(asynchio.o) \
+- 	$(LIBRARY)(configfile.o) \
+  	$(LIBRARY)(crypt.o) \
+  	$(LIBRARY)(ctermid.o) \
+  	$(LIBRARY)(cuserid.o) \
+  	$(LIBRARY)(environ.o) \
+  	$(LIBRARY)(errno.o) \
+  	$(LIBRARY)(fdopen.o) \
+  	$(LIBRARY)(ffs.o) \
+  	$(LIBRARY)(fslib.o) \
+--- 13,25 ----
+  	$(LIBRARY)(_brk.o) \
+  	$(LIBRARY)(_reboot.o) \
+  	$(LIBRARY)(_seekdir.o) \
+  	$(LIBRARY)(asynchio.o) \
+  	$(LIBRARY)(crypt.o) \
+  	$(LIBRARY)(ctermid.o) \
+  	$(LIBRARY)(cuserid.o) \
+  	$(LIBRARY)(environ.o) \
+  	$(LIBRARY)(errno.o) \
++ 	$(LIBRARY)(execlp.o) \
+  	$(LIBRARY)(fdopen.o) \
+  	$(LIBRARY)(ffs.o) \
+  	$(LIBRARY)(fslib.o) \
+***************
+*** 43,48 ****
+--- 42,48 ----
+  	$(LIBRARY)(nlist.o) \
+  	$(LIBRARY)(peekpoke.o) \
+  	$(LIBRARY)(popen.o) \
++ 	$(LIBRARY)(printk.o) \
+  	$(LIBRARY)(putenv.o) \
+  	$(LIBRARY)(putw.o) \
+  	$(LIBRARY)(regexp.o) \
+***************
+*** 69,77 ****
+  $(LIBRARY)(_seekdir.o):	$(SRC)/_seekdir.c
+  	$(CC1) $(SRC)/_seekdir.c
+  
+- $(LIBRARY)(_svrctl.o):	$(SRC)/_svrctl.c
+- 	$(CC1) $(SRC)/_svrctl.c
+- 
+  $(LIBRARY)(asynchio.o):	$(SRC)/asynchio.c
+  	$(CC1) $(SRC)/asynchio.c
+  
+--- 69,74 ----
+***************
+*** 84,92 ****
+  $(LIBRARY)(bzero.o):	$(SRC)/bzero.c
+  	$(CC1) $(SRC)/bzero.c
+  
+- $(LIBRARY)(configfile.o):	$(SRC)/configfile.c
+- 	$(CC1) $(SRC)/configfile.c
+- 
+  $(LIBRARY)(crypt.o):	$(SRC)/crypt.c
+  	$(CC1) $(SRC)/crypt.c
+  
+--- 81,86 ----
+***************
+*** 102,107 ****
+--- 96,104 ----
+  $(LIBRARY)(errno.o):	$(SRC)/errno.c
+  	$(CC1) $(SRC)/errno.c
+  
++ $(LIBRARY)(execlp.o):	$(SRC)/execlp.c
++ 	$(CC1) $(SRC)/execlp.c
++ 
+  $(LIBRARY)(fdopen.o):	$(SRC)/fdopen.c
+  	$(CC1) $(SRC)/fdopen.c
+  
+***************
+*** 170,175 ****
+--- 167,175 ----
+  
+  $(LIBRARY)(popen.o):	$(SRC)/popen.c
+  	$(CC1) $(SRC)/popen.c
++ 
++ $(LIBRARY)(printk.o):	$(SRC)/printk.c
++ 	$(CC1) $(SRC)/printk.c
+  
+  $(LIBRARY)(putenv.o):	$(SRC)/putenv.c
+  	$(CC1) $(SRC)/putenv.c
+diff -cr 2.0.3/src/lib/machines/minix/80x86/src/c/posix.mak 2.0.2/src/lib/machines/minix/80x86/src/c/posix.mak
+*** 2.0.3/src/lib/machines/minix/80x86/src/c/posix.mak	Fri Feb 24 17:46:28 2006
+--- 2.0.2/src/lib/machines/minix/80x86/src/c/posix.mak	Fri Feb 24 17:45:53 2006
+***************
+*** 23,34 ****
+  	$(LIBRARY)(_creat.o) \
+  	$(LIBRARY)(_dup.o) \
+  	$(LIBRARY)(_dup2.o) \
+! 	$(LIBRARY)(_execl.o) \
+! 	$(LIBRARY)(_execle.o) \
+! 	$(LIBRARY)(_execlp.o) \
+! 	$(LIBRARY)(_execv.o) \
+! 	$(LIBRARY)(_execve.o) \
+! 	$(LIBRARY)(_execvp.o) \
+  	$(LIBRARY)(_fcntl.o) \
+  	$(LIBRARY)(_fork.o) \
+  	$(LIBRARY)(_fpathconf.o) \
+--- 23,30 ----
+  	$(LIBRARY)(_creat.o) \
+  	$(LIBRARY)(_dup.o) \
+  	$(LIBRARY)(_dup2.o) \
+! 	$(LIBRARY)(_exec.o) \
+! 	$(LIBRARY)(_execn.o) \
+  	$(LIBRARY)(_fcntl.o) \
+  	$(LIBRARY)(_fork.o) \
+  	$(LIBRARY)(_fpathconf.o) \
+***************
+*** 145,167 ****
+  $(LIBRARY)(_dup2.o):	$(SRC)/_dup2.c
+  	$(CC1) $(SRC)/_dup2.c
+  
+! $(LIBRARY)(_execl.o):	$(SRC)/_execl.c
+! 	$(CC1) $(SRC)/_execl.c
+  
+! $(LIBRARY)(_execle.o):	$(SRC)/_execle.c
+! 	$(CC1) $(SRC)/_execle.c
+! 
+! $(LIBRARY)(_execlp.o):	$(SRC)/_execlp.c
+! 	$(CC1) $(SRC)/_execlp.c
+! 
+! $(LIBRARY)(_execv.o):	$(SRC)/_execv.c
+! 	$(CC1) $(SRC)/_execv.c
+! 
+! $(LIBRARY)(_execve.o):	$(SRC)/_execve.c
+! 	$(CC1) $(SRC)/_execve.c
+! 
+! $(LIBRARY)(_execvp.o):	$(SRC)/_execvp.c
+! 	$(CC1) $(SRC)/_execvp.c
+  
+  $(LIBRARY)(_fcntl.o):	$(SRC)/_fcntl.c
+  	$(CC1) $(SRC)/_fcntl.c
+--- 141,151 ----
+  $(LIBRARY)(_dup2.o):	$(SRC)/_dup2.c
+  	$(CC1) $(SRC)/_dup2.c
+  
+! $(LIBRARY)(_exec.o):	$(SRC)/_exec.c
+! 	$(CC1) $(SRC)/_exec.c
+  
+! $(LIBRARY)(_execn.o):	$(SRC)/_execn.c
+! 	$(CC1) $(SRC)/_execn.c
+  
+  $(LIBRARY)(_fcntl.o):	$(SRC)/_fcntl.c
+  	$(CC1) $(SRC)/_fcntl.c
+diff -cr 2.0.3/src/lib/machines/minix/80x86/src/c/syscall.mak 2.0.2/src/lib/machines/minix/80x86/src/c/syscall.mak
+*** 2.0.3/src/lib/machines/minix/80x86/src/c/syscall.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.2/src/lib/machines/minix/80x86/src/c/syscall.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 26,35 ****
+  	$(LIBRARY)(dup2.o) \
+  	$(LIBRARY)(execl.o) \
+  	$(LIBRARY)(execle.o) \
+- 	$(LIBRARY)(execlp.o) \
+  	$(LIBRARY)(execv.o) \
+  	$(LIBRARY)(execve.o) \
+- 	$(LIBRARY)(execvp.o) \
+  	$(LIBRARY)(fcntl.o) \
+  	$(LIBRARY)(fork.o) \
+  	$(LIBRARY)(fpathconf.o) \
+--- 26,33 ----
+***************
+*** 84,90 ****
+  	$(LIBRARY)(stat.o) \
+  	$(LIBRARY)(stime.o) \
+  	$(LIBRARY)(sync.o) \
+- 	$(LIBRARY)(svrctl.o) \
+  	$(LIBRARY)(tcdrain.o) \
+  	$(LIBRARY)(tcflow.o) \
+  	$(LIBRARY)(tcflush.o) \
+--- 82,87 ----
+***************
+*** 163,180 ****
+  $(LIBRARY)(execle.o):	$(SRC)/execle.s
+  	$(CC1) $(SRC)/execle.s
+  
+- $(LIBRARY)(execlp.o):	$(SRC)/execlp.s
+- 	$(CC1) $(SRC)/execlp.s
+- 
+  $(LIBRARY)(execv.o):	$(SRC)/execv.s
+  	$(CC1) $(SRC)/execv.s
+  
+  $(LIBRARY)(execve.o):	$(SRC)/execve.s
+  	$(CC1) $(SRC)/execve.s
+  
+- $(LIBRARY)(execvp.o):	$(SRC)/execvp.s
+- 	$(CC1) $(SRC)/execvp.s
+- 
+  $(LIBRARY)(fcntl.o):	$(SRC)/fcntl.s
+  	$(CC1) $(SRC)/fcntl.s
+  
+--- 160,171 ----
+***************
+*** 336,344 ****
+  
+  $(LIBRARY)(sync.o):	$(SRC)/sync.s
+  	$(CC1) $(SRC)/sync.s
+- 
+- $(LIBRARY)(svrctl.o):	$(SRC)/svrctl.s
+- 	$(CC1) $(SRC)/svrctl.s
+  
+  $(LIBRARY)(tcdrain.o):	$(SRC)/tcdrain.s
+  	$(CC1) $(SRC)/tcdrain.s
+--- 327,332 ----
+Only in 2.0.3/src/lib/machines/minix/80x86/src: sys

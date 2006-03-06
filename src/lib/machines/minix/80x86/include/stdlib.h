@@ -2,6 +2,11 @@
 #define __HACKED_STDLIB_INCLUDED
 
 #ifdef __cplusplus
+
+#ifdef NULL
+#undef NULL
+#endif
+
 extern "C" {
 #endif
 
@@ -9,6 +14,12 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+
+#ifdef NULL
+#undef NULL
+#define NULL (0)
+#endif
+
 #endif
 
 #endif

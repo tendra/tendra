@@ -14,14 +14,15 @@ all :
 	${MAKE} -f ${SRC}/ansi.mak    NAME=${NAME}
 	${MAKE} -f ${SRC}/ip.mak      NAME=${NAME}
 	${MAKE} -f ${SRC}/math.mak    NAME=${NAME} SRC1=${SRC}
-	${MAKE} -f ${SRC}/other.mak   NAME=${NAME}
+	${MAKE} -f ${SRC}/other.mak   NAME=${NAME} SRC1=${SRC}
 	${MAKE} -f ${SRC}/posix.mak   NAME=${NAME} SRC1=${SRC}
 	${MAKE} -f ${SRC}/stdio.mak   NAME=${NAME}
 	${MAKE} -f ${SRC}/syscall.mak NAME=${NAME}
-	${MAKE} -f ${SRC}/syslib.mak  NAME=${NAME}
 	${MAKE} -f ${SRC}/misc.mak    NAME=${NAME}
 	${MAKE} -f ${SRC}/rts.mak     NAME=${NAME} SRC1=${SRC}
 	${MAKE} -f ${SRC}/string.mak  NAME=${NAME}
+	${MAKE} -f ${SRC}/int64.mak   NAME=${NAME}
+	${MAKE} -f ${SRC}/regex.mak   NAME=${NAME} MACH_BASE=${MACH_BASE}
 	@${ECHO} all done
 
 clean :

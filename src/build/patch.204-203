@@ -1,0 +1,179 @@
+diff -cr 2.0.4/src/lib/machines/minix/80x86/src/c/Makefile 2.0.3/src/lib/machines/minix/80x86/src/c/Makefile
+*** 2.0.4/src/lib/machines/minix/80x86/src/c/Makefile	Thu Feb  2 10:51:19 2006
+--- 2.0.3/src/lib/machines/minix/80x86/src/c/Makefile	Thu Feb  2 10:45:26 2006
+***************
+*** 22,28 ****
+  	${MAKE} -f ${SRC}/rts.mak     NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/string.mak  NAME=${NAME}
+  	${MAKE} -f ${SRC}/int64.mak   NAME=${NAME}
+- 	${MAKE} -f ${SRC}/regex.mak   NAME=${NAME} MACH_BASE=${MACH_BASE}
+  	@${ECHO} all done
+  
+  clean :
+--- 22,27 ----
+diff -cr 2.0.4/src/lib/machines/minix/80x86/src/c/ip.mak 2.0.3/src/lib/machines/minix/80x86/src/c/ip.mak
+*** 2.0.4/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.3/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 39,45 ****
+  	$(LIBRARY)(res_mkquery.o) \
+  	$(LIBRARY)(res_query.o) \
+  	$(LIBRARY)(res_send.o) \
+- 	$(LIBRARY)(ruserok.o) \
+  	$(LIBRARY)(servxcheck.o) \
+  	$(LIBRARY)(strcasecmp.o) \
+  
+--- 39,44 ----
+***************
+*** 139,147 ****
+  
+  $(LIBRARY)(res_send.o):	$(SRC)/res_send.c
+  	$(CC1) $(SRC)/res_send.c
+- 
+- $(LIBRARY)(ruserok.o):	$(SRC)/ruserok.c
+- 	$(CC1) $(SRC)/ruserok.c
+  
+  $(LIBRARY)(servxcheck.o):	$(SRC)/servxcheck.c
+  	$(CC1) $(SRC)/servxcheck.c
+--- 138,143 ----
+diff -cr 2.0.4/src/lib/machines/minix/80x86/src/c/misc.mak 2.0.3/src/lib/machines/minix/80x86/src/c/misc.mak
+*** 2.0.4/src/lib/machines/minix/80x86/src/c/misc.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.3/src/lib/machines/minix/80x86/src/c/misc.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 11,29 ****
+  	$(LIBRARY)(alloca.o) \
+  	$(LIBRARY)(get_bp.o) \
+  	$(LIBRARY)(getprocessor.o) \
+! 	$(LIBRARY)(io_inb.o) \
+! 	$(LIBRARY)(io_inl.o) \
+! 	$(LIBRARY)(io_insb.o) \
+! 	$(LIBRARY)(io_insl.o) \
+! 	$(LIBRARY)(io_insw.o) \
+! 	$(LIBRARY)(io_intr.o) \
+! 	$(LIBRARY)(io_inw.o) \
+! 	$(LIBRARY)(io_outb.o) \
+! 	$(LIBRARY)(io_outl.o) \
+! 	$(LIBRARY)(io_outsb.o) \
+! 	$(LIBRARY)(io_outsl.o) \
+! 	$(LIBRARY)(io_outsw.o) \
+! 	$(LIBRARY)(io_outw.o) \
+  	$(LIBRARY)(oneC_sum.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+--- 11,17 ----
+  	$(LIBRARY)(alloca.o) \
+  	$(LIBRARY)(get_bp.o) \
+  	$(LIBRARY)(getprocessor.o) \
+! 	$(LIBRARY)(iolib.o) \
+  	$(LIBRARY)(oneC_sum.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+***************
+*** 41,84 ****
+  $(LIBRARY)(getprocessor.o):	$(SRC)/getprocessor.s
+  	$(CC1) $(SRC)/getprocessor.s
+  
+! $(LIBRARY)(io_inb.o):	$(SRC)/io_inb.s
+! 	$(CC1) $(SRC)/io_inb.s
+! 
+! $(LIBRARY)(io_inl.o):	$(SRC)/io_inl.s
+! 	$(CC1) $(SRC)/io_inl.s
+! 
+! $(LIBRARY)(io_insb.o):	$(SRC)/io_insb.s
+! 	$(CC1) $(SRC)/io_insb.s
+! 
+! $(LIBRARY)(io_insl.o):	$(SRC)/io_insl.s
+! 	$(CC1) $(SRC)/io_insl.s
+! 
+! $(LIBRARY)(io_insw.o):	$(SRC)/io_insw.s
+! 	$(CC1) $(SRC)/io_insw.s
+! 
+! $(LIBRARY)(io_intr.o):	$(SRC)/io_intr.s
+! 	$(CC1) $(SRC)/io_intr.s
+! 
+! $(LIBRARY)(io_inw.o):	$(SRC)/io_inw.s
+! 	$(CC1) $(SRC)/io_inw.s
+! 
+! $(LIBRARY)(io_outb.o):	$(SRC)/io_outb.s
+! 	$(CC1) $(SRC)/io_outb.s
+! 
+! $(LIBRARY)(io_outl.o):	$(SRC)/io_outl.s
+! 	$(CC1) $(SRC)/io_outl.s
+! 
+! $(LIBRARY)(io_outsb.o):	$(SRC)/io_outsb.s
+! 	$(CC1) $(SRC)/io_outsb.s
+! 
+! $(LIBRARY)(io_outsl.o):	$(SRC)/io_outsl.s
+! 	$(CC1) $(SRC)/io_outsl.s
+! 
+! $(LIBRARY)(io_outsw.o):	$(SRC)/io_outsw.s
+! 	$(CC1) $(SRC)/io_outsw.s
+! 
+! $(LIBRARY)(io_outw.o):	$(SRC)/io_outw.s
+! 	$(CC1) $(SRC)/io_outw.s
+  
+  $(LIBRARY)(oneC_sum.o):	$(SRC)/oneC_sum.s
+  	$(CC1) $(SRC)/oneC_sum.s
+--- 29,36 ----
+  $(LIBRARY)(getprocessor.o):	$(SRC)/getprocessor.s
+  	$(CC1) $(SRC)/getprocessor.s
+  
+! $(LIBRARY)(iolib.o):	$(SRC)/iolib.s
+! 	$(CC1) $(SRC)/iolib.s
+  
+  $(LIBRARY)(oneC_sum.o):	$(SRC)/oneC_sum.s
+  	$(CC1) $(SRC)/oneC_sum.s
+diff -cr 2.0.4/src/lib/machines/minix/80x86/src/c/other.mak 2.0.3/src/lib/machines/minix/80x86/src/c/other.mak
+*** 2.0.4/src/lib/machines/minix/80x86/src/c/other.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.3/src/lib/machines/minix/80x86/src/c/other.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 45,50 ****
+--- 45,52 ----
+  	$(LIBRARY)(popen.o) \
+  	$(LIBRARY)(putenv.o) \
+  	$(LIBRARY)(putw.o) \
++ 	$(LIBRARY)(regexp.o) \
++ 	$(LIBRARY)(regsub.o) \
+  	$(LIBRARY)(stderr.o) \
+  	$(LIBRARY)(swab.o) \
+  	$(LIBRARY)(syscall.o) \
+***************
+*** 53,60 ****
+  	$(LIBRARY)(termcap.o) \
+  	$(LIBRARY)(ttyname.o) \
+  	$(LIBRARY)(ttyslot.o) \
+- 	$(LIBRARY)(v8regexp.o) \
+- 	$(LIBRARY)(v8regsub.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+--- 55,60 ----
+***************
+*** 177,182 ****
+--- 177,188 ----
+  $(LIBRARY)(putw.o):	$(SRC)/putw.c
+  	$(CC1) $(SRC)/putw.c
+  
++ $(LIBRARY)(regexp.o):	$(SRC)/regexp.c
++ 	$(CC1) $(SRC)/regexp.c
++ 
++ $(LIBRARY)(regsub.o):	$(SRC)/regsub.c
++ 	$(CC1) $(SRC)/regsub.c
++ 
+  $(LIBRARY)(rindex.o):	$(SRC)/rindex.c
+  	$(CC1) $(SRC)/rindex.c
+  
+***************
+*** 206,215 ****
+  
+  $(LIBRARY)(ttyslot.o):	$(SRC)/ttyslot.c
+  	$(CC1) $(SRC)/ttyslot.c
+- 
+- $(LIBRARY)(v8regexp.o):	$(SRC)/v8regexp.c
+- 	$(CC1) $(SRC)/v8regexp.c
+- 
+- $(LIBRARY)(v8regsub.o):	$(SRC)/v8regsub.c
+- 	$(CC1) $(SRC)/v8regsub.c
+- 
+--- 212,214 ----
+Only in 2.0.4/src/lib/machines/minix/80x86/src/c: regex.mak

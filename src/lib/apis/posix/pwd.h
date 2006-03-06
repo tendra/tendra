@@ -64,4 +64,4 @@
 } ;
 
 +FUNC struct passwd *getpwnam ( const char * ) ;
-+FUNC struct passwd *getpwuid ( int ) ;
++FUNC struct passwd *getpwuid ( uid_t ) ;

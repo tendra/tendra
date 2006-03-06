@@ -1540,6 +1540,8 @@ int is_bound_tok
 }
 
 
+extern TOKEN expand_sort1 PROTO_S ( ( TOKEN, int, int, ERROR * ) ) ;
+
 /*
     CONSTRUCT A LIST OF TOKEN ARGUMENTS
 
@@ -1565,7 +1567,7 @@ LIST ( TOKEN ) make_token_args
 		    add_error ( err, ERR_temp_deduct_undef ( pid, id ) ) ;
 		}
 	    }
-	    tok = expand_sort ( tok, 2, 1 ) ;
+	    tok = expand_sort1 ( tok, 2, 1, err ) ;
 	    CONS_tok ( tok, args, args ) ;
 	}
 	pids = TAIL_list ( pids ) ;

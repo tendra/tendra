@@ -1113,8 +1113,12 @@ EXP convert_lvalue
 		if ( qual == ( cv_const | cv_lvalue ) ) {
 		    /* Check for constants at this stage */
 		    if ( IS_exp_identifier ( a ) ) {
-			e = convert_const ( a ) ;
-			if ( !EQ_exp ( e, a ) ) return ( e ) ;
+			IDENTIFIER id = DEREF_id ( exp_identifier_id ( a ) ) ;
+			/* Exclude const parameters and their default args. */
+			if ( !IS_id_parameter ( id ) ) {
+			    e = convert_const ( a ) ;
+			    if ( !EQ_exp ( e, a ) ) return ( e ) ;
+			}
 		    }
 		}
 		t = qualify_type ( t, cv, 0 ) ;

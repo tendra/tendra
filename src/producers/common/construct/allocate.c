@@ -798,7 +798,7 @@ NAT make_new_array_dim
     CONSTRUCT A TEMPLATE DEPENDENT NEW EXPRESSION
 
     This routine constructs a new expression in the case where the object
-    type is a template parameter.  t gives the given type with array
+    type is a dependent type.  t gives the given type with array
     dimension d, while p is the pointer type.
 */
 
@@ -843,6 +843,7 @@ EXP make_new_exp
     int op = lex_new ;
     int opd = lex_delete ;
     LIST ( EXP ) placement = NULL_list ( EXP ) ;
+    int templ = is_templ_depend ( t ) ;
 
     /* Check for type definitions */
     if ( n ) report ( crt_loc, ERR_expr_new_typedef () ) ;
@@ -926,8 +927,8 @@ EXP make_new_exp
 	placement = place ;
     }
 
-    /* Check for template parameters */
-    if ( is_templ_type ( t ) ) {
+    /* Check for dependent types */
+    if ( templ ) {
 	e = make_templ_new ( u, v, ret, b, place, init ) ;
 	return ( e ) ;
     }
@@ -1004,6 +1005,7 @@ EXP make_new_init
 {
     EXP e ;
     int op = lex_new ;
+    int templ = is_templ_depend ( t ) ;
     ERROR err = check_complete ( t ) ;
     if ( !IS_NULL_err ( err ) ) {
 	/* Type should be complete */
@@ -1027,7 +1029,7 @@ EXP make_new_init
 	t = DEREF_type ( type_array_sub ( t ) ) ;
     }
     p = convert_args ( p ) ;
-    if ( is_templ_type ( t ) ) {
+    if ( templ ) {
 	if ( op == lex_new_Harray ) {
 	    /* Create dummy array type */
 	    NAT n = small_nat [1] ;

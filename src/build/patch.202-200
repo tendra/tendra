@@ -1,0 +1,99 @@
+diff -cr 2.0.2/src/lib/machines/minix/80x86/src/c/ip.mak 2.0.0/src/lib/machines/minix/80x86/src/c/ip.mak
+*** 2.0.2/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.0/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 18,26 ****
+  	$(LIBRARY)(gethnmadr.o) \
+  	$(LIBRARY)(gethostent.o) \
+  	$(LIBRARY)(gethostname.o) \
+- 	$(LIBRARY)(getnetent.o) \
+- 	$(LIBRARY)(getnetbyname.o) \
+- 	$(LIBRARY)(getnetbyaddr.o) \
+  	$(LIBRARY)(getproto.o) \
+  	$(LIBRARY)(getprotoent.o) \
+  	$(LIBRARY)(getservent.o) \
+--- 18,23 ----
+***************
+*** 28,36 ****
+  	$(LIBRARY)(getsrvbyport.o) \
+  	$(LIBRARY)(hton.o) \
+  	$(LIBRARY)(inet_addr.o) \
+- 	$(LIBRARY)(inet_network.o) \
+  	$(LIBRARY)(inet_ntoa.o) \
+  	$(LIBRARY)(memcspn.o) \
+  	$(LIBRARY)(rcmd.o) \
+  	$(LIBRARY)(res_comp.o) \
+  	$(LIBRARY)(res_init.o) \
+--- 25,33 ----
+  	$(LIBRARY)(getsrvbyport.o) \
+  	$(LIBRARY)(hton.o) \
+  	$(LIBRARY)(inet_addr.o) \
+  	$(LIBRARY)(inet_ntoa.o) \
+  	$(LIBRARY)(memcspn.o) \
++ 	$(LIBRARY)(oneC_sum.o) \
+  	$(LIBRARY)(rcmd.o) \
+  	$(LIBRARY)(res_comp.o) \
+  	$(LIBRARY)(res_init.o) \
+***************
+*** 70,84 ****
+  $(LIBRARY)(gethostname.o):	$(SRC)/gethostname.c
+  	$(CC1) $(SRC)/gethostname.c
+  
+- $(LIBRARY)(getnetent.o):	$(SRC)/getnetent.c
+- 	$(CC1) $(SRC)/getnetent.c
+- 
+- $(LIBRARY)(getnetbyname.o):	$(SRC)/getnetbyname.c
+- 	$(CC1) $(SRC)/getnetbyname.c
+- 
+- $(LIBRARY)(getnetbyaddr.o):	$(SRC)/getnetbyaddr.c
+- 	$(CC1) $(SRC)/getnetbyaddr.c
+- 
+  $(LIBRARY)(getproto.o):	$(SRC)/getproto.c
+  	$(CC1) $(SRC)/getproto.c
+  
+--- 67,72 ----
+***************
+*** 99,107 ****
+  
+  $(LIBRARY)(inet_addr.o):	$(SRC)/inet_addr.c
+  	$(CC1) $(SRC)/inet_addr.c
+- 
+- $(LIBRARY)(inet_network.o):	$(SRC)/inet_network.c
+- 	$(CC1) $(SRC)/inet_network.c
+  
+  $(LIBRARY)(inet_ntoa.o):	$(SRC)/inet_ntoa.c
+  	$(CC1) $(SRC)/inet_ntoa.c
+--- 87,92 ----
+diff -cr 2.0.2/src/lib/machines/minix/80x86/src/c/misc.mak 2.0.0/src/lib/machines/minix/80x86/src/c/misc.mak
+*** 2.0.2/src/lib/machines/minix/80x86/src/c/misc.mak	Sat Jan 28 12:06:43 2006
+--- 2.0.0/src/lib/machines/minix/80x86/src/c/misc.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 9,18 ****
+  
+  OBJECTS	= \
+  	$(LIBRARY)(alloca.o) \
+- 	$(LIBRARY)(get_bp.o) \
+  	$(LIBRARY)(getprocessor.o) \
+  	$(LIBRARY)(iolib.o) \
+- 	$(LIBRARY)(oneC_sum.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+--- 9,16 ----
+***************
+*** 23,36 ****
+  	$(CC1) alloca.s
+  	rm alloca.s
+  
+- $(LIBRARY)(get_bp.o):	$(SRC)/get_bp.s
+- 	$(CC1) $(SRC)/get_bp.s
+- 
+  $(LIBRARY)(getprocessor.o):	$(SRC)/getprocessor.s
+  	$(CC1) $(SRC)/getprocessor.s
+  
+  $(LIBRARY)(iolib.o):	$(SRC)/iolib.s
+  	$(CC1) $(SRC)/iolib.s
+- 
+- $(LIBRARY)(oneC_sum.o):	$(SRC)/oneC_sum.s
+- 	$(CC1) $(SRC)/oneC_sum.s
+--- 21,28 ----

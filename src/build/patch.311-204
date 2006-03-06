@@ -1,0 +1,1268 @@
+diff -cr 3.1.1/src/build/LIBRARIES 2.0.4/src/build/LIBRARIES
+*** 3.1.1/src/build/LIBRARIES	Sat Feb 25 06:34:33 2006
+--- 2.0.4/src/build/LIBRARIES	Fri Feb 24 17:22:56 2006
+***************
+*** 5,11 ****
+  edit:lib/machines/MACH_OS/MACH_CPU/src/edit
+  y:lib/machines/MACH_OS/MACH_CPU/src/y
+  sys:lib/machines/MACH_OS/MACH_CPU/src/sys
+- sysutil:lib/machines/MACH_OS/MACH_CPU/src/sysutil
+- timers:lib/machines/MACH_OS/MACH_CPU/src/timers
+- util:lib/machines/MACH_OS/MACH_CPU/src/util
+- z:lib/machines/MACH_OS/MACH_CPU/src/z
+--- 5,7 ----
+diff -cr 3.1.1/src/lib/apis/posix/limits.h 2.0.4/src/lib/apis/posix/limits.h
+*** 3.1.1/src/lib/apis/posix/limits.h	Fri Feb 24 10:17:31 2006
+--- 2.0.4/src/lib/apis/posix/limits.h	Thu Feb 23 17:05:26 2006
+***************
+*** 27,40 ****
+  #
+  +IMPLEMENT "ansi", "limits.h" ;
+  
+- +NAT DIRSIZ ;
+- 
+  +DEFINE _POSIX_ARG_MAX 4096 ;
+  +DEFINE _POSIX_CHILD_MAX 6 ;
+  +DEFINE _POSIX_LINK_MAX 8 ;
+  +DEFINE _POSIX_MAX_CANON 255 ;
+  +DEFINE _POSIX_MAX_INPUT 255 ;
+! +DEFINE _POSIX_NAME_MAX DIRSIZ ;
+  +DEFINE _POSIX_NGROUPS_MAX 0 ;
+  +DEFINE _POSIX_OPEN_MAX 16 ;
+  +DEFINE _POSIX_PATH_MAX 255 ;
+--- 27,38 ----
+  #
+  +IMPLEMENT "ansi", "limits.h" ;
+  
+  +DEFINE _POSIX_ARG_MAX 4096 ;
+  +DEFINE _POSIX_CHILD_MAX 6 ;
+  +DEFINE _POSIX_LINK_MAX 8 ;
+  +DEFINE _POSIX_MAX_CANON 255 ;
+  +DEFINE _POSIX_MAX_INPUT 255 ;
+! +DEFINE _POSIX_NAME_MAX 14 ;
+  +DEFINE _POSIX_NGROUPS_MAX 0 ;
+  +DEFINE _POSIX_OPEN_MAX 16 ;
+  +DEFINE _POSIX_PATH_MAX 255 ;
+diff -cr 3.1.1/src/lib/apis/posix/unistd.h 2.0.4/src/lib/apis/posix/unistd.h
+*** 3.1.1/src/lib/apis/posix/unistd.h	Fri Feb 24 10:41:52 2006
+--- 2.0.4/src/lib/apis/posix/unistd.h	Sat Jan 28 12:06:43 2006
+***************
+*** 105,111 ****
+  
+  +IF 0
+  +SUBSET "getopt" := {
+!     +FUNC int getopt ( int, char **, char * ) ;
+      +EXP (extern) char *optarg ;
+      +EXP (extern) int optind, opterr ;
+  } ;
+--- 105,111 ----
+  
+  +IF 0
+  +SUBSET "getopt" := {
+!     +FUNC int getopt ( int, char * const [], const char * ) ;
+      +EXP (extern) char *optarg ;
+      +EXP (extern) int optind, opterr ;
+  } ;
+diff -cr 3.1.1/src/lib/machines/minix/80x86/include/minix/type.h 2.0.4/src/lib/machines/minix/80x86/include/minix/type.h
+*** 3.1.1/src/lib/machines/minix/80x86/include/minix/type.h	Sun Mar  5 15:54:00 2006
+--- 2.0.4/src/lib/machines/minix/80x86/include/minix/type.h	Sun Mar  5 15:53:40 2006
+***************
+*** 3,15 ****
+  
+  #ifdef __cplusplus
+  extern "C" {
+- #define protected _protected
+  #endif
+  
+  #include_next <minix/type.h>
+  
+  #ifdef __cplusplus
+- #undef protected
+  }
+  #endif
+  
+--- 3,13 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/include/string.h 2.0.4/src/lib/machines/minix/80x86/include/string.h
+*** 3.1.1/src/lib/machines/minix/80x86/include/string.h	Thu Feb 23 11:37:05 2006
+--- 2.0.4/src/lib/machines/minix/80x86/include/string.h	Sat Jan 28 12:24:24 2006
+***************
+*** 67,77 ****
+  _PROTOTYPE( char *strtok, (char *_s1, const char *_s2)			);
+  _PROTOTYPE( size_t strxfrm, (char *_s1, const char *_s2, size_t _n)	);
+  
+- #ifdef _POSIX_SOURCE
+- /* Open Group Base Specifications Issue 6 (not complete) */
+-  char *strdup(const char *_s1);
+- #endif
+- 
+  #ifdef _MINIX
+  /* For backward compatibility. */
+  _PROTOTYPE( char *index, (const char *_s, int _charwanted)		);
+--- 67,72 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/include/unistd.h 2.0.4/src/lib/machines/minix/80x86/include/unistd.h
+*** 3.1.1/src/lib/machines/minix/80x86/include/unistd.h	Sun Mar  5 15:54:16 2006
+--- 2.0.4/src/lib/machines/minix/80x86/include/unistd.h	Sat Jan 28 12:06:43 2006
+***************
+*** 2,204 ****
+  #define __HACKED_UNISTD_INCLUDED
+  
+  #ifdef __cplusplus
+- extern "C" {
+- #endif
+- 
+- /* The <unistd.h> header contains a few miscellaneous manifest constants. */
+  
+! #ifndef _UNISTD_H
+! #define _UNISTD_H
+! 
+! #ifndef _TYPES_H
+! #include <sys/types.h>
+  #endif
+  
+! /* Values used by access().  POSIX Table 2-8. */
+! #define F_OK               0	/* test if file exists */
+! #define X_OK               1	/* test if file is executable */
+! #define W_OK               2	/* test if file is writable */
+! #define R_OK               4	/* test if file is readable */
+! 
+! /* Values used for whence in lseek(fd, offset, whence).  POSIX Table 2-9. */
+! #define SEEK_SET           0	/* offset is absolute  */
+! #define SEEK_CUR           1	/* offset is relative to current position */
+! #define SEEK_END           2	/* offset is relative to end of file */
+! 
+! /* This value is required by POSIX Table 2-10. */
+! #define _POSIX_VERSION 199009L	/* which standard is being conformed to */
+! 
+! /* These three definitions are required by POSIX Sec. 8.2.1.2. */
+! #define STDIN_FILENO       0	/* file descriptor for stdin */
+! #define STDOUT_FILENO      1	/* file descriptor for stdout */
+! #define STDERR_FILENO      2	/* file descriptor for stderr */
+! 
+! #ifdef _MINIX
+! /* How to exit the system or stop a server process. */
+! #define RBT_HALT	   0
+! #define RBT_REBOOT	   1
+! #define RBT_PANIC	   2	/* a server panics */
+! #define RBT_MONITOR	   3	/* let the monitor do this */
+! #define RBT_RESET	   4	/* hard reset the system */
+  #endif
+  
+! /* What system info to retrieve with sysgetinfo(). */
+! #define SI_KINFO	   0	/* get kernel info via PM */
+! #define SI_PROC_ADDR	   1	/* address of process table */
+! #define SI_PROC_TAB	   2	/* copy of entire process table */
+! #define SI_DMAP_TAB	   3	/* get device <-> driver mappings */
+! #define SI_MEM_ALLOC	   4	/* get memory allocation data */
+! #define SI_DATA_STORE	   5	/* get copy of data store */
+  
+- /* NULL must be defined in <unistd.h> according to POSIX Sec. 2.7.1. */
+  #ifdef __cplusplus
+! #define NULL (0)
+! #else
+! #define NULL    ((void *)0)
+! #endif
+! 
+! /* The following relate to configurable system variables. POSIX Table 4-2. */
+! #define _SC_ARG_MAX	   1
+! #define _SC_CHILD_MAX	   2
+! #define _SC_CLOCKS_PER_SEC 3
+! #define _SC_CLK_TCK	   3
+! #define _SC_NGROUPS_MAX	   4
+! #define _SC_OPEN_MAX	   5
+! #define _SC_JOB_CONTROL	   6
+! #define _SC_SAVED_IDS	   7
+! #define _SC_VERSION	   8
+! #define _SC_STREAM_MAX	   9
+! #define _SC_TZNAME_MAX    10
+! 
+! /* The following relate to configurable pathname variables. POSIX Table 5-2. */
+! #define _PC_LINK_MAX	   1	/* link count */
+! #define _PC_MAX_CANON	   2	/* size of the canonical input queue */
+! #define _PC_MAX_INPUT	   3	/* type-ahead buffer size */
+! #define _PC_NAME_MAX	   4	/* file name size */
+! #define _PC_PATH_MAX	   5	/* pathname size */
+! #define _PC_PIPE_BUF	   6	/* pipe size */
+! #define _PC_NO_TRUNC	   7	/* treatment of long name components */
+! #define _PC_VDISABLE	   8	/* tty disable */
+! #define _PC_CHOWN_RESTRICTED 9	/* chown restricted or not */
+! 
+! /* POSIX defines several options that may be implemented or not, at the
+!  * implementer's whim.  This implementer has made the following choices:
+!  *
+!  * _POSIX_JOB_CONTROL	    not defined:	no job control
+!  * _POSIX_SAVED_IDS 	    not defined:	no saved uid/gid
+!  * _POSIX_NO_TRUNC	    defined as -1:	long path names are truncated
+!  * _POSIX_CHOWN_RESTRICTED  defined:		you can't give away files
+!  * _POSIX_VDISABLE	    defined:		tty functions can be disabled
+!  */
+! #define _POSIX_NO_TRUNC       (-1)
+! #define _POSIX_CHOWN_RESTRICTED  1
+! 
+! /* Function Prototypes. */
+! _PROTOTYPE( void _exit, (int _status)					);
+! _PROTOTYPE( int access, (const char *_path, int _amode)			);
+! _PROTOTYPE( unsigned int alarm, (unsigned int _seconds)			);
+! _PROTOTYPE( int chdir, (const char *_path)				);
+! _PROTOTYPE( int fchdir, (int fd)					);
+! _PROTOTYPE( int chown, (const char *_path, _mnx_Uid_t _owner, _mnx_Gid_t _group)	);
+! _PROTOTYPE( int close, (int _fd)					);
+! _PROTOTYPE( char *ctermid, (char *_s)					);
+! _PROTOTYPE( char *cuserid, (char *_s)					);
+! _PROTOTYPE( int dup, (int _fd)						);
+! _PROTOTYPE( int dup2, (int _fd, int _fd2)				);
+! _PROTOTYPE( int execl, (const char *_path, const char *_arg, ...)	);
+! _PROTOTYPE( int execle, (const char *_path, const char *_arg, ...)	);
+! _PROTOTYPE( int execlp, (const char *_file, const char *arg, ...)	);
+! _PROTOTYPE( int execv, (const char *_path, char *const _argv[])		);
+! _PROTOTYPE( int execve, (const char *_path, char *const _argv[], 
+! 						char *const _envp[])	);
+! _PROTOTYPE( int execvp, (const char *_file, char *const _argv[])	);
+! _PROTOTYPE( pid_t fork, (void)						);
+! _PROTOTYPE( long fpathconf, (int _fd, int _name)			);
+! _PROTOTYPE( char *getcwd, (char *_buf, size_t _size)			);
+! _PROTOTYPE( gid_t getegid, (void)					);
+! _PROTOTYPE( uid_t geteuid, (void)					);
+! _PROTOTYPE( gid_t getgid, (void)					);
+! _PROTOTYPE( int getgroups, (int _gidsetsize, gid_t _grouplist[])	);
+! _PROTOTYPE( char *getlogin, (void)					);
+! _PROTOTYPE( pid_t getpgrp, (void)					);
+! _PROTOTYPE( pid_t getpid, (void)					);
+! _PROTOTYPE( pid_t getnpid, (int proc_nr)				);
+! _PROTOTYPE( pid_t getppid, (void)					);
+! _PROTOTYPE( uid_t getuid, (void)					);
+! _PROTOTYPE( int isatty, (int _fd)					);
+! _PROTOTYPE( int link, (const char *_existing, const char *_new)		);
+! _PROTOTYPE( off_t lseek, (int _fd, off_t _offset, int _whence)		);
+! _PROTOTYPE( long pathconf, (const char *_path, int _name)		);
+! _PROTOTYPE( int pause, (void)						);
+! _PROTOTYPE( int pipe, (int _fildes[2])					);
+! _PROTOTYPE( ssize_t read, (int _fd, void *_buf, size_t _n)		);
+! _PROTOTYPE( int rmdir, (const char *_path)				);
+! _PROTOTYPE( int setgid, (_mnx_Gid_t _gid)				);
+! _PROTOTYPE( int setpgid, (pid_t _pid, pid_t _pgid)			);
+! _PROTOTYPE( pid_t setsid, (void)					);
+! _PROTOTYPE( int setuid, (_mnx_Uid_t _uid)				);
+! _PROTOTYPE( unsigned int sleep, (unsigned int _seconds)			);
+! _PROTOTYPE( long sysconf, (int _name)					);
+! _PROTOTYPE( pid_t tcgetpgrp, (int _fd)					);
+! _PROTOTYPE( int tcsetpgrp, (int _fd, pid_t _pgrp_id)			);
+! _PROTOTYPE( char *ttyname, (int _fd)					);
+! _PROTOTYPE( int unlink, (const char *_path)				);
+! _PROTOTYPE( ssize_t write, (int _fd, const void *_buf, size_t _n)	);
+! 
+! /* Open Group Base Specifications Issue 6 (not complete) */
+! _PROTOTYPE( int symlink, (const char *path1, const char *path2)		);
+! _PROTOTYPE( int getopt, (int _argc, char **_argv, char *_opts)		);
+! extern char *optarg;
+! extern int optind, opterr, optopt;
+! _PROTOTYPE( int usleep, (useconds_t _useconds)				);
+! 
+! #ifdef _MINIX
+! #ifndef _TYPE_H
+! #include <minix/type.h>
+! #endif
+! _PROTOTYPE( int brk, (char *_addr)					);
+! _PROTOTYPE( int chroot, (const char *_name)				);
+! _PROTOTYPE( int mknod, (const char *_name, _mnx_Mode_t _mode, Dev_t _addr)	);
+! _PROTOTYPE( int mknod4, (const char *_name, _mnx_Mode_t _mode, Dev_t _addr,
+! 	    long _size)							);
+! _PROTOTYPE( char *mktemp, (char *_template)				);
+! _PROTOTYPE( int mount, (char *_spec, char *_name, int _flag)		);
+! _PROTOTYPE( long ptrace, (int _req, pid_t _pid, long _addr, long _data)	);
+! _PROTOTYPE( char *sbrk, (int _incr)					);
+! _PROTOTYPE( int sync, (void)						);
+! _PROTOTYPE( int fsync, (int fd)						);
+! _PROTOTYPE( int umount, (const char *_name)				);
+! _PROTOTYPE( int reboot, (int _how, ...)					);
+! _PROTOTYPE( int gethostname, (char *_hostname, size_t _len)		);
+! _PROTOTYPE( int getdomainname, (char *_domain, size_t _len)		);
+! _PROTOTYPE( int ttyslot, (void)						);
+! _PROTOTYPE( int fttyslot, (int _fd)					);
+! _PROTOTYPE( char *crypt, (const char *_key, const char *_salt)		);
+! _PROTOTYPE( int getsysinfo, (int who, int what, void *where)		);
+! _PROTOTYPE( int getprocnr, (void)					);
+! _PROTOTYPE( int getnprocnr, (pid_t pid)					);
+! _PROTOTYPE( int getpprocnr, (void)					);
+! _PROTOTYPE( int findproc, (char *proc_name, int *proc_nr)		);
+! _PROTOTYPE( int allocmem, (phys_bytes size, phys_bytes *base)		);
+! _PROTOTYPE( int freemem, (phys_bytes size, phys_bytes base)		);
+! #define DEV_MAP 1
+! #define DEV_UNMAP 2
+! #define mapdriver(driver, device, style) devctl(DEV_MAP, driver, device, style)
+! #define unmapdriver(device) devctl(DEV_UNMAP, 0, device, 0)
+! _PROTOTYPE( int devctl, (int ctl_req, int driver, int device, int style));
+! 
+! /* For compatibility with other Unix systems */
+! _PROTOTYPE( int getpagesize, (void)					);
+! _PROTOTYPE( int setgroups, (int ngroups, const gid_t *gidset)		);
+  
+  #endif
+  
+- _PROTOTYPE( int readlink, (const char *, char *, int));
+- 
+- #ifdef __cplusplus
+- }
+  #endif
+- 
+- #endif /* _UNISTD_H */
+  
+  #endif
+--- 2,26 ----
+  #define __HACKED_UNISTD_INCLUDED
+  
+  #ifdef __cplusplus
+  
+! #ifdef NULL
+! #undef NULL
+  #endif
+  
+! extern "C" {
+  #endif
+  
+! #include <sys/types.h>
+! #include_next <unistd.h>
+  
+  #ifdef __cplusplus
+! }
+  
++ #ifdef NULL
++ #undef NULL
++ #define NULL (0)
+  #endif
+  
+  #endif
+  
+  #endif
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/Makefile 2.0.4/src/lib/machines/minix/80x86/src/c/Makefile
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/Makefile	Fri Feb 24 10:08:13 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/Makefile	Thu Feb  2 10:51:19 2006
+***************
+*** 14,20 ****
+  	${MAKE} -f ${SRC}/ansi.mak    NAME=${NAME}
+  	${MAKE} -f ${SRC}/ip.mak      NAME=${NAME}
+  	${MAKE} -f ${SRC}/math.mak    NAME=${NAME} SRC1=${SRC}
+! 	${MAKE} -f ${SRC}/other.mak   NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/posix.mak   NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/stdio.mak   NAME=${NAME}
+  	${MAKE} -f ${SRC}/syscall.mak NAME=${NAME}
+--- 14,20 ----
+  	${MAKE} -f ${SRC}/ansi.mak    NAME=${NAME}
+  	${MAKE} -f ${SRC}/ip.mak      NAME=${NAME}
+  	${MAKE} -f ${SRC}/math.mak    NAME=${NAME} SRC1=${SRC}
+! 	${MAKE} -f ${SRC}/other.mak   NAME=${NAME}
+  	${MAKE} -f ${SRC}/posix.mak   NAME=${NAME} SRC1=${SRC}
+  	${MAKE} -f ${SRC}/stdio.mak   NAME=${NAME}
+  	${MAKE} -f ${SRC}/syscall.mak NAME=${NAME}
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/ip.mak 2.0.4/src/lib/machines/minix/80x86/src/c/ip.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/ip.mak	Wed Feb 22 17:25:26 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/ip.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 9,17 ****
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+- 	$(LIBRARY)(accept.o) \
+- 	$(LIBRARY)(bind.o) \
+- 	$(LIBRARY)(connect.o) \
+  	$(LIBRARY)(dhcp_gettag.o) \
+  	$(LIBRARY)(dhcp_settag.o) \
+  	$(LIBRARY)(ether_line.o) \
+--- 9,14 ----
+***************
+*** 26,76 ****
+  	$(LIBRARY)(getnetent.o) \
+  	$(LIBRARY)(getnetbyname.o) \
+  	$(LIBRARY)(getnetbyaddr.o) \
+- 	$(LIBRARY)(getpeername.o) \
+  	$(LIBRARY)(getproto.o) \
+  	$(LIBRARY)(getprotoent.o) \
+  	$(LIBRARY)(getservent.o) \
+- 	$(LIBRARY)(getsockname.o) \
+- 	$(LIBRARY)(getsockopt.o) \
+  	$(LIBRARY)(getsrvbyname.o) \
+  	$(LIBRARY)(getsrvbyport.o) \
+  	$(LIBRARY)(hton.o) \
+  	$(LIBRARY)(inet_addr.o) \
+  	$(LIBRARY)(inet_network.o) \
+  	$(LIBRARY)(inet_ntoa.o) \
+- 	$(LIBRARY)(listen.o) \
+  	$(LIBRARY)(memcspn.o) \
+  	$(LIBRARY)(rcmd.o) \
+- 	$(LIBRARY)(recv.o) \
+- 	$(LIBRARY)(recvfrom.o) \
+  	$(LIBRARY)(res_comp.o) \
+  	$(LIBRARY)(res_init.o) \
+  	$(LIBRARY)(res_mkquery.o) \
+  	$(LIBRARY)(res_query.o) \
+  	$(LIBRARY)(res_send.o) \
+  	$(LIBRARY)(ruserok.o) \
+- 	$(LIBRARY)(send.o) \
+- 	$(LIBRARY)(sendto.o) \
+  	$(LIBRARY)(servxcheck.o) \
+- 	$(LIBRARY)(sethostent.o) \
+- 	$(LIBRARY)(setsockopt.o) \
+- 	$(LIBRARY)(shutdown.o) \
+- 	$(LIBRARY)(socket.o) \
+  	$(LIBRARY)(strcasecmp.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+  	rm *.o
+  
+- $(LIBRARY)(accept.o):	$(SRC)/accept.c
+- 	$(CC1) $(SRC)/accept.c
+- 
+- $(LIBRARY)(bind.o):	$(SRC)/bind.c
+- 	$(CC1) $(SRC)/bind.c
+- 
+- $(LIBRARY)(connect.o):	$(SRC)/connect.c
+- 	$(CC1) $(SRC)/connect.c
+- 
+  $(LIBRARY)(dhcp_gettag.o):	$(SRC)/dhcp_gettag.c
+  	$(CC1) $(SRC)/dhcp_gettag.c
+  
+--- 23,52 ----
+***************
+*** 113,121 ****
+  $(LIBRARY)(getnetbyaddr.o):	$(SRC)/getnetbyaddr.c
+  	$(CC1) $(SRC)/getnetbyaddr.c
+  
+- $(LIBRARY)(getpeername.o):	$(SRC)/getpeername.c
+- 	$(CC1) $(SRC)/getpeername.c
+- 
+  $(LIBRARY)(getproto.o):	$(SRC)/getproto.c
+  	$(CC1) $(SRC)/getproto.c
+  
+--- 89,94 ----
+***************
+*** 125,136 ****
+  $(LIBRARY)(getservent.o):	$(SRC)/getservent.c
+  	$(CC1) $(SRC)/getservent.c
+  
+- $(LIBRARY)(getsockname.o):	$(SRC)/getsockname.c
+- 	$(CC1) $(SRC)/getsockname.c
+- 
+- $(LIBRARY)(getsockopt.o):	$(SRC)/getsockopt.c
+- 	$(CC1) $(SRC)/getsockopt.c
+- 
+  $(LIBRARY)(getsrvbyname.o):	$(SRC)/getsrvbyname.c
+  	$(CC1) $(SRC)/getsrvbyname.c
+  
+--- 98,103 ----
+***************
+*** 149,157 ****
+  $(LIBRARY)(inet_ntoa.o):	$(SRC)/inet_ntoa.c
+  	$(CC1) $(SRC)/inet_ntoa.c
+  
+- $(LIBRARY)(listen.o):	$(SRC)/listen.c
+- 	$(CC1) $(SRC)/listen.c
+- 
+  $(LIBRARY)(memcspn.o):	$(SRC)/memcspn.c
+  	$(CC1) $(SRC)/memcspn.c
+  
+--- 116,121 ----
+***************
+*** 161,172 ****
+  $(LIBRARY)(rcmd.o):	$(SRC)/rcmd.c
+  	$(CC1) $(SRC)/rcmd.c
+  
+- $(LIBRARY)(recvfrom.o):	$(SRC)/recvfrom.c
+- 	$(CC1) $(SRC)/recvfrom.c
+- 
+- $(LIBRARY)(recv.o):	$(SRC)/recv.c
+- 	$(CC1) $(SRC)/recv.c
+- 
+  $(LIBRARY)(res_comp.o):	$(SRC)/res_comp.c
+  	$(CC1) $(SRC)/res_comp.c
+  
+--- 125,130 ----
+***************
+*** 185,210 ****
+  $(LIBRARY)(ruserok.o):	$(SRC)/ruserok.c
+  	$(CC1) $(SRC)/ruserok.c
+  
+- $(LIBRARY)(send.o):	$(SRC)/send.c
+- 	$(CC1) $(SRC)/send.c
+- 
+- $(LIBRARY)(sendto.o):	$(SRC)/sendto.c
+- 	$(CC1) $(SRC)/sendto.c
+- 
+  $(LIBRARY)(servxcheck.o):	$(SRC)/servxcheck.c
+  	$(CC1) $(SRC)/servxcheck.c
+- 
+- $(LIBRARY)(sethostent.o):	$(SRC)/sethostent.c
+- 	$(CC1) $(SRC)/sethostent.c
+- 
+- $(LIBRARY)(setsockopt.o):	$(SRC)/setsockopt.c
+- 	$(CC1) $(SRC)/setsockopt.c
+- 
+- $(LIBRARY)(shutdown.o):	$(SRC)/shutdown.c
+- 	$(CC1) $(SRC)/shutdown.c
+- 
+- $(LIBRARY)(socket.o):	$(SRC)/socket.c
+- 	$(CC1) $(SRC)/socket.c
+  
+  $(LIBRARY)(strcasecmp.o):	$(SRC)/strcasecmp.c
+  	$(CC1) $(SRC)/strcasecmp.c
+--- 143,150 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/other.mak 2.0.4/src/lib/machines/minix/80x86/src/c/other.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/other.mak	Fri Feb 24 17:48:25 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/other.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 5,30 ****
+  
+  SRC=/usr/src/lib/other
+  LIBRARY=$(NAME)
+! CC1=tcc -Ysystem -c -I$(SRC) -I/usr/src/servers
+  
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+- 	$(LIBRARY)(_allocmem.o) \
+- 	$(LIBRARY)(_freemem.o) \
+  	$(LIBRARY)(_brk.o) \
+  	$(LIBRARY)(_reboot.o) \
+  	$(LIBRARY)(_seekdir.o) \
+  	$(LIBRARY)(_svrctl.o) \
+- 	$(LIBRARY)(_getsysinfo.o) \
+- 	$(LIBRARY)(_getprocnr.o) \
+- 	$(LIBRARY)(_getnpid.o) \
+- 	$(LIBRARY)(_getnprocnr.o) \
+- 	$(LIBRARY)(_getpprocnr.o) \
+- 	$(LIBRARY)(_devctl.o) \
+- 	$(LIBRARY)(_findproc.o) \
+  	$(LIBRARY)(asynchio.o) \
+- 	$(LIBRARY)(basename.o) \
+  	$(LIBRARY)(configfile.o) \
+  	$(LIBRARY)(crypt.o) \
+  	$(LIBRARY)(ctermid.o) \
+--- 5,20 ----
+  
+  SRC=/usr/src/lib/other
+  LIBRARY=$(NAME)
+! CC1=tcc -Ysystem -c -I$(SRC) -I/usr/src
+  
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+  	$(LIBRARY)(_brk.o) \
+  	$(LIBRARY)(_reboot.o) \
+  	$(LIBRARY)(_seekdir.o) \
+  	$(LIBRARY)(_svrctl.o) \
+  	$(LIBRARY)(asynchio.o) \
+  	$(LIBRARY)(configfile.o) \
+  	$(LIBRARY)(crypt.o) \
+  	$(LIBRARY)(ctermid.o) \
+***************
+*** 38,44 ****
+  	$(LIBRARY)(getgrent.o) \
+  	$(LIBRARY)(getlogin.o) \
+  	$(LIBRARY)(getopt.o) \
+- 	$(LIBRARY)(getpagesize.o) \
+  	$(LIBRARY)(getpass.o) \
+  	$(LIBRARY)(getpwent.o) \
+  	$(LIBRARY)(getttyent.o) \
+--- 28,33 ----
+***************
+*** 50,68 ****
+  	$(LIBRARY)(lrand.o) \
+  	$(LIBRARY)(lsearch.o) \
+  	$(LIBRARY)(memccpy.o) \
+- 	$(LIBRARY)(mstats.o) \
+  	$(LIBRARY)(mtab.o) \
+  	$(LIBRARY)(nlist.o) \
+  	$(LIBRARY)(peekpoke.o) \
+  	$(LIBRARY)(popen.o) \
+  	$(LIBRARY)(putenv.o) \
+  	$(LIBRARY)(putw.o) \
+- 	$(LIBRARY)(random.o) \
+- 	$(LIBRARY)(setgroups.o) \
+- 	$(LIBRARY)(settimeofday.o) \
+  	$(LIBRARY)(stderr.o) \
+- 	$(LIBRARY)(strdup.o) \
+- 	$(LIBRARY)(strtok_r.o) \
+  	$(LIBRARY)(swab.o) \
+  	$(LIBRARY)(syscall.o) \
+  	$(LIBRARY)(sysconf.o) \
+--- 39,51 ----
+***************
+*** 77,88 ****
+  	aal cr $@ *.o
+  	rm *.o
+  
+- $(LIBRARY)(_allocmem.o):	$(SRC)/_allocmem.c
+- 	$(CC1) $(SRC)/_allocmem.c
+- 
+- $(LIBRARY)(_freemem.o):	$(SRC)/_freemem.c
+- 	$(CC1) $(SRC)/_freemem.c
+- 
+  $(LIBRARY)(_brk.o):	$(SRC)/_brk.c
+  	$(CC1) $(SRC)/_brk.c
+  
+--- 60,65 ----
+***************
+*** 95,127 ****
+  $(LIBRARY)(_svrctl.o):	$(SRC)/_svrctl.c
+  	$(CC1) $(SRC)/_svrctl.c
+  
+- $(LIBRARY)(_getsysinfo.o):	$(SRC)/_getsysinfo.c
+- 	$(CC1) $(SRC)/_getsysinfo.c
+- 
+- $(LIBRARY)(_getprocnr.o):	$(SRC)/_getprocnr.c
+- 	$(CC1) $(SRC)/_getprocnr.c
+- 
+- $(LIBRARY)(_getnpid.o):	$(SRC)/_getnpid.c
+- 	$(CC1) $(SRC)/_getnpid.c
+- 
+- $(LIBRARY)(_getnprocnr.o):	$(SRC)/_getnprocnr.c
+- 	$(CC1) $(SRC)/_getnprocnr.c
+- 
+- $(LIBRARY)(_getpprocnr.o):	$(SRC)/_getpprocnr.c
+- 	$(CC1) $(SRC)/_getpprocnr.c
+- 
+- $(LIBRARY)(_devctl.o):	$(SRC)/_devctl.c
+- 	$(CC1) $(SRC)/_devctl.c
+- 
+- $(LIBRARY)(_findproc.o):	$(SRC)/_findproc.c
+- 	$(CC1) $(SRC)/_findproc.c
+- 
+  $(LIBRARY)(asynchio.o):	$(SRC)/asynchio.c
+  	$(CC1) $(SRC)/asynchio.c
+  
+- $(LIBRARY)(basename.o):	$(SRC)/basename.c
+- 	$(CC1) $(SRC)/basename.c
+- 
+  $(LIBRARY)(bcmp.o):	$(SRC)/bcmp.c
+  	$(CC1) $(SRC)/bcmp.c
+  
+--- 72,80 ----
+***************
+*** 170,178 ****
+  $(LIBRARY)(getopt.o):	$(SRC)/getopt.c
+  	$(CC1) $(SRC)/getopt.c
+  
+- $(LIBRARY)(getpagesize.o):	$(SRC)/getpagesize.c
+- 	$(CC1) $(SRC)/getpagesize.c
+- 
+  $(LIBRARY)(getpass.o):	$(SRC)/getpass.c
+  	$(CC1) $(SRC)/getpass.c
+  
+--- 123,128 ----
+***************
+*** 209,217 ****
+  $(LIBRARY)(memccpy.o):	$(SRC)/memccpy.c
+  	$(CC1) $(SRC)/memccpy.c
+  
+- $(LIBRARY)(mstats.o):	$(SRC)/mstats.c
+- 	$(CC1) $(SRC)/mstats.c
+- 
+  $(LIBRARY)(mtab.o):	$(SRC)/mtab.c
+  	$(CC1) $(SRC)/mtab.c
+  
+--- 159,164 ----
+***************
+*** 233,255 ****
+  $(LIBRARY)(rindex.o):	$(SRC)/rindex.c
+  	$(CC1) $(SRC)/rindex.c
+  
+- $(LIBRARY)(random.o):	$(SRC)/random.c
+- 	$(CC1) $(SRC)/random.c
+- 
+- $(LIBRARY)(setgroups.o):	$(SRC)/setgroups.c
+- 	$(CC1) $(SRC)/setgroups.c
+- 
+- $(LIBRARY)(settimeofday.o):	$(SRC)/settimeofday.c
+- 	$(CC1) -f$(SRC1)/../pragma_qual.h $(SRC)/settimeofday.c
+- 
+  $(LIBRARY)(stderr.o):	$(SRC)/stderr.c
+  	$(CC1) $(SRC)/stderr.c
+- 
+- $(LIBRARY)(strdup.o):	$(SRC)/strdup.c
+- 	$(CC1) $(SRC)/strdup.c
+- 
+- $(LIBRARY)(strtok_r.o):	$(SRC)/strtok_r.c
+- 	$(CC1) $(SRC)/strtok_r.c
+  
+  $(LIBRARY)(swab.o):	$(SRC)/swab.c
+  	$(CC1) $(SRC)/swab.c
+--- 180,187 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/posix.mak 2.0.4/src/lib/machines/minix/80x86/src/c/posix.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/posix.mak	Fri Feb 24 17:47:28 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/posix.mak	Fri Feb 24 17:46:58 2006
+***************
+*** 33,40 ****
+  	$(LIBRARY)(_fork.o) \
+  	$(LIBRARY)(_fpathconf.o) \
+  	$(LIBRARY)(_fstat.o) \
+- 	$(LIBRARY)(_fstatfs.o) \
+- 	$(LIBRARY)(_fsync.o) \
+  	$(LIBRARY)(_getcwd.o) \
+  	$(LIBRARY)(_getegid.o) \
+  	$(LIBRARY)(_geteuid.o) \
+--- 33,38 ----
+***************
+*** 52,57 ****
+--- 50,56 ----
+  	$(LIBRARY)(_mkdir.o) \
+  	$(LIBRARY)(_mkfifo.o) \
+  	$(LIBRARY)(_mknod.o) \
++ 	$(LIBRARY)(_mktemp.o) \
+  	$(LIBRARY)(_mount.o) \
+  	$(LIBRARY)(_open.o) \
+  	$(LIBRARY)(_opendir.o) \
+***************
+*** 64,70 ****
+  	$(LIBRARY)(_rename.o) \
+  	$(LIBRARY)(_rewinddir.o) \
+  	$(LIBRARY)(_rmdir.o) \
+- 	$(LIBRARY)(_select.o) \
+  	$(LIBRARY)(_setgid.o) \
+  	$(LIBRARY)(_setsid.o) \
+  	$(LIBRARY)(_setuid.o) \
+--- 63,68 ----
+***************
+*** 94,106 ****
+  	$(LIBRARY)(_wait.o) \
+  	$(LIBRARY)(_waitpid.o) \
+  	$(LIBRARY)(_write.o) \
+- 	$(LIBRARY)(gettimeofday.o) \
+- 	$(LIBRARY)(getopt.o) \
+- 	$(LIBRARY)(lstat.o) \
+- 	$(LIBRARY)(priority.o) \
+- 	$(LIBRARY)(readlink.o) \
+- 	$(LIBRARY)(symlink.o) \
+- 	$(LIBRARY)(usleep.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+--- 92,97 ----
+***************
+*** 184,195 ****
+  $(LIBRARY)(_fstat.o):	$(SRC)/_fstat.c
+  	$(CC1) $(SRC)/_fstat.c
+  
+- $(LIBRARY)(_fstatfs.o):	$(SRC)/_fstatfs.c
+- 	$(CC1) $(SRC)/_fstatfs.c
+- 
+- $(LIBRARY)(_fsync.o):	$(SRC)/_fsync.c
+- 	$(CC1) $(SRC)/_fsync.c
+- 
+  $(LIBRARY)(_getcwd.o):	$(SRC)/_getcwd.c
+  	$(CC1) $(SRC)/_getcwd.c
+  
+--- 175,180 ----
+***************
+*** 241,246 ****
+--- 226,234 ----
+  $(LIBRARY)(_mknod.o):	$(SRC)/_mknod.c
+  	$(CC1) $(SRC)/_mknod.c
+  
++ $(LIBRARY)(_mktemp.o):	$(SRC)/_mktemp.c
++ 	$(CC1) $(SRC)/_mktemp.c
++ 
+  $(LIBRARY)(_mount.o):	$(SRC)/_mount.c
+  	$(CC1) $(SRC)/_mount.c
+  
+***************
+*** 277,285 ****
+  $(LIBRARY)(_rmdir.o):	$(SRC)/_rmdir.c
+  	$(CC1) $(SRC)/_rmdir.c
+  
+- $(LIBRARY)(_select.o):	$(SRC)/_select.c
+- 	$(CC1) $(SRC)/_select.c
+- 
+  $(LIBRARY)(_setgid.o):	$(SRC)/_setgid.c
+  	$(CC1) $(SRC)/_setgid.c
+  
+--- 265,270 ----
+***************
+*** 366,389 ****
+  
+  $(LIBRARY)(_write.o):	$(SRC)/_write.c
+  	$(CC1) $(SRC)/_write.c
+- 
+- $(LIBRARY)(gettimeofday.o):	$(SRC)/gettimeofday.c
+- 	$(CC1) $(SRC)/gettimeofday.c
+- 
+- $(LIBRARY)(getopt.o):	$(SRC)/getopt.c
+- 	$(CC1) $(SRC)/getopt.c
+- 
+- $(LIBRARY)(lstat.o):	$(SRC)/lstat.c
+- 	$(CC1) $(SRC)/lstat.c
+- 
+- $(LIBRARY)(priority.o):	$(SRC)/priority.c
+- 	$(CC1) $(SRC)/priority.c
+- 
+- $(LIBRARY)(readlink.o):	$(SRC)/readlink.c
+- 	$(CC1) $(SRC)/readlink.c
+- 
+- $(LIBRARY)(symlink.o):	$(SRC)/symlink.c
+- 	$(CC1) $(SRC)/symlink.c
+- 
+- $(LIBRARY)(usleep.o):	$(SRC)/usleep.c
+- 	$(CC1) $(SRC)/usleep.c
+--- 351,353 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/rts.mak 2.0.4/src/lib/machines/minix/80x86/src/c/rts.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/rts.mak	Wed Feb 22 16:53:54 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/rts.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 9,15 ****
+  OBJECTS	= \
+  	$(LIBRARY)(setjmp.o) \
+  	$(LIBRARY)(__sigreturn.o) \
+! 	$(LIBRARY)(_ipc.o) \
+  	$(LIBRARY)(brksize.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+--- 9,15 ----
+  OBJECTS	= \
+  	$(LIBRARY)(setjmp.o) \
+  	$(LIBRARY)(__sigreturn.o) \
+! 	$(LIBRARY)(_sendrec.o) \
+  	$(LIBRARY)(brksize.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+***************
+*** 22,29 ****
+  $(LIBRARY)(__sigreturn.o):	$(SRC)/__sigreturn.s
+  	$(CC1) $(SRC)/__sigreturn.s
+  
+! $(LIBRARY)(_ipc.o):	$(SRC)/_ipc.s
+! 	$(CC1) $(SRC)/_ipc.s
+  
+  $(LIBRARY)(brksize.o):	$(SRC)/brksize.s
+  	$(CC1) $(SRC)/brksize.s
+--- 22,29 ----
+  $(LIBRARY)(__sigreturn.o):	$(SRC)/__sigreturn.s
+  	$(CC1) $(SRC)/__sigreturn.s
+  
+! $(LIBRARY)(_sendrec.o):	$(SRC)/_sendrec.s
+! 	$(CC1) $(SRC)/_sendrec.s
+  
+  $(LIBRARY)(brksize.o):	$(SRC)/brksize.s
+  	$(CC1) $(SRC)/brksize.s
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/stdio.mak 2.0.4/src/lib/machines/minix/80x86/src/c/stdio.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/stdio.mak	Wed Feb 22 19:29:46 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/stdio.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 37,43 ****
+  	$(LIBRARY)(getchar.o) \
+  	$(LIBRARY)(gets.o) \
+  	$(LIBRARY)(icompute.o) \
+- 	$(LIBRARY)(mktemp.o) \
+  	$(LIBRARY)(perror.o) \
+  	$(LIBRARY)(printf.o) \
+  	$(LIBRARY)(putc.o) \
+--- 37,42 ----
+***************
+*** 153,161 ****
+  
+  $(LIBRARY)(icompute.o):	$(SRC)/icompute.c
+  	$(CC1) $(SRC)/icompute.c
+- 
+- $(LIBRARY)(mktemp.o):	$(SRC)/mktemp.c
+- 	$(CC1) $(SRC)/mktemp.c
+  
+  $(LIBRARY)(perror.o):	$(SRC)/perror.c
+  	$(CC1) $(SRC)/perror.c
+--- 152,157 ----
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/c/syscall.mak 2.0.4/src/lib/machines/minix/80x86/src/c/syscall.mak
+*** 3.1.1/src/lib/machines/minix/80x86/src/c/syscall.mak	Fri Feb 24 10:45:07 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/c/syscall.mak	Sat Jan 28 12:06:43 2006
+***************
+*** 10,17 ****
+  	$(LIBRARY)(_exit.o) \
+  	$(LIBRARY)(access.o) \
+  	$(LIBRARY)(alarm.o) \
+- 	$(LIBRARY)(allocmem.o) \
+- 	$(LIBRARY)(freemem.o) \
+  	$(LIBRARY)(brk.o) \
+  	$(LIBRARY)(cfgetispeed.o) \
+  	$(LIBRARY)(cfgetospeed.o) \
+--- 10,15 ----
+***************
+*** 24,30 ****
+  	$(LIBRARY)(close.o) \
+  	$(LIBRARY)(closedir.o) \
+  	$(LIBRARY)(creat.o) \
+- 	$(LIBRARY)(devctl.o) \
+  	$(LIBRARY)(dup.o) \
+  	$(LIBRARY)(dup2.o) \
+  	$(LIBRARY)(execl.o) \
+--- 22,27 ----
+***************
+*** 37,58 ****
+  	$(LIBRARY)(fork.o) \
+  	$(LIBRARY)(fpathconf.o) \
+  	$(LIBRARY)(fstat.o) \
+- 	$(LIBRARY)(fstatfs.o) \
+  	$(LIBRARY)(getcwd.o) \
+  	$(LIBRARY)(getegid.o) \
+  	$(LIBRARY)(geteuid.o) \
+  	$(LIBRARY)(getgid.o) \
+  	$(LIBRARY)(getgroups.o) \
+- 	$(LIBRARY)(getnpid.o) \
+- 	$(LIBRARY)(getnprocnr.o) \
+- 	$(LIBRARY)(getpprocnr.o) \
+  	$(LIBRARY)(getpgrp.o) \
+  	$(LIBRARY)(getpid.o) \
+  	$(LIBRARY)(getppid.o) \
+  	$(LIBRARY)(getuid.o) \
+- 	$(LIBRARY)(getprocnr.o) \
+- 	$(LIBRARY)(getsysinfo.o) \
+- 	$(LIBRARY)(findproc.o) \
+  	$(LIBRARY)(ioctl.o) \
+  	$(LIBRARY)(isatty.o) \
+  	$(LIBRARY)(kill.o) \
+--- 34,48 ----
+***************
+*** 61,66 ****
+--- 51,57 ----
+  	$(LIBRARY)(mkdir.o) \
+  	$(LIBRARY)(mkfifo.o) \
+  	$(LIBRARY)(mknod.o) \
++ 	$(LIBRARY)(mktemp.o) \
+  	$(LIBRARY)(mount.o) \
+  	$(LIBRARY)(open.o) \
+  	$(LIBRARY)(opendir.o) \
+***************
+*** 124,135 ****
+  $(LIBRARY)(alarm.o):	$(SRC)/alarm.s
+  	$(CC1) $(SRC)/alarm.s
+  
+- $(LIBRARY)(allocmem.o):	$(SRC)/allocmem.s
+- 	$(CC1) $(SRC)/allocmem.s
+- 
+- $(LIBRARY)(freemem.o):	$(SRC)/freemem.s
+- 	$(CC1) $(SRC)/freemem.s
+- 
+  $(LIBRARY)(brk.o):	$(SRC)/brk.s
+  	$(CC1) $(SRC)/brk.s
+  
+--- 115,120 ----
+***************
+*** 166,174 ****
+  $(LIBRARY)(creat.o):	$(SRC)/creat.s
+  	$(CC1) $(SRC)/creat.s
+  
+- $(LIBRARY)(devctl.o):	$(SRC)/devctl.s
+- 	$(CC1) $(SRC)/devctl.s
+- 
+  $(LIBRARY)(dup.o):	$(SRC)/dup.s
+  	$(CC1) $(SRC)/dup.s
+  
+--- 151,156 ----
+***************
+*** 202,210 ****
+  $(LIBRARY)(fpathconf.o):	$(SRC)/fpathconf.s
+  	$(CC1) $(SRC)/fpathconf.s
+  
+- $(LIBRARY)(fstatfs.o):	$(SRC)/fstatfs.s
+- 	$(CC1) $(SRC)/fstatfs.s
+- 
+  $(LIBRARY)(fstat.o):	$(SRC)/fstat.s
+  	$(CC1) $(SRC)/fstat.s
+  
+--- 184,189 ----
+***************
+*** 223,237 ****
+  $(LIBRARY)(getgroups.o):	$(SRC)/getgroups.s
+  	$(CC1) $(SRC)/getgroups.s
+  
+- $(LIBRARY)(getnpid.o):	$(SRC)/getnpid.s
+- 	$(CC1) $(SRC)/getnpid.s
+- 
+- $(LIBRARY)(getnprocnr.o):	$(SRC)/getnprocnr.s
+- 	$(CC1) $(SRC)/getnprocnr.s
+- 
+- $(LIBRARY)(getpprocnr.o):	$(SRC)/getpprocnr.s
+- 	$(CC1) $(SRC)/getpprocnr.s
+- 
+  $(LIBRARY)(getpgrp.o):	$(SRC)/getpgrp.s
+  	$(CC1) $(SRC)/getpgrp.s
+  
+--- 202,207 ----
+***************
+*** 244,258 ****
+  $(LIBRARY)(getuid.o):	$(SRC)/getuid.s
+  	$(CC1) $(SRC)/getuid.s
+  
+- $(LIBRARY)(getprocnr.o):	$(SRC)/getprocnr.s
+- 	$(CC1) $(SRC)/getprocnr.s
+- 
+- $(LIBRARY)(getsysinfo.o):	$(SRC)/getsysinfo.s
+- 	$(CC1) $(SRC)/getsysinfo.s
+- 
+- $(LIBRARY)(findproc.o):	$(SRC)/findproc.s
+- 	$(CC1) $(SRC)/findproc.s
+- 
+  $(LIBRARY)(ioctl.o):	$(SRC)/ioctl.s
+  	$(CC1) $(SRC)/ioctl.s
+  
+--- 214,219 ----
+***************
+*** 276,281 ****
+--- 237,245 ----
+  
+  $(LIBRARY)(mknod.o):	$(SRC)/mknod.s
+  	$(CC1) $(SRC)/mknod.s
++ 
++ $(LIBRARY)(mktemp.o):	$(SRC)/mktemp.s
++ 	$(CC1) $(SRC)/mktemp.s
+  
+  $(LIBRARY)(mount.o):	$(SRC)/mount.s
+  	$(CC1) $(SRC)/mount.s
+diff -cr 3.1.1/src/lib/machines/minix/80x86/src/sys/Makefile 2.0.4/src/lib/machines/minix/80x86/src/sys/Makefile
+*** 3.1.1/src/lib/machines/minix/80x86/src/sys/Makefile	Thu Feb 23 11:14:31 2006
+--- 2.0.4/src/lib/machines/minix/80x86/src/sys/Makefile	Thu Feb  2 10:51:37 2006
+***************
+*** 1,64 ****
+  # Makefile for lib/syslib.
+  
+  SRC=/usr/src/lib/syslib
+  LIBRARY=$(NAME)
+  CC1=tcc -Ysystem -c -I$(SRC)
+  
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+! 	$(LIBRARY)(sys_times.o) \
+  	$(LIBRARY)(sys_abort.o) \
+  	$(LIBRARY)(sys_exec.o) \
+  	$(LIBRARY)(sys_fork.o) \
+! 	$(LIBRARY)(sys_int86.o) \
+  	$(LIBRARY)(sys_kill.o) \
+  	$(LIBRARY)(sys_newmap.o) \
+! 	$(LIBRARY)(sys_sigsend.o) \
+! 	$(LIBRARY)(sys_sigreturn.o) \
+! 	$(LIBRARY)(sys_endsig.o) \
+! 	$(LIBRARY)(sys_getsig.o) \
+! 	$(LIBRARY)(sys_svrctl.o) \
+  	$(LIBRARY)(sys_trace.o) \
+! 	$(LIBRARY)(sys_exit.o) \
+! 	$(LIBRARY)(sys_sdevio.o) \
+! 	$(LIBRARY)(sys_getinfo.o) \
+! 	$(LIBRARY)(sys_irqctl.o) \
+! 	$(LIBRARY)(sys_segctl.o) \
+! 	$(LIBRARY)(sys_nice.o) \
+! 	$(LIBRARY)(sys_umap.o) \
+! 	$(LIBRARY)(sys_physcopy.o) \
+! 	$(LIBRARY)(sys_vircopy.o) \
+! 	$(LIBRARY)(sys_in.o) \
+! 	$(LIBRARY)(sys_out.o) \
+! 	$(LIBRARY)(sys_vinb.o) \
+! 	$(LIBRARY)(sys_vinw.o) \
+! 	$(LIBRARY)(sys_vinl.o) \
+! 	$(LIBRARY)(sys_voutb.o) \
+! 	$(LIBRARY)(sys_voutw.o) \
+! 	$(LIBRARY)(sys_voutl.o) \
+! 	$(LIBRARY)(sys_setalarm.o) \
+! 	$(LIBRARY)(sys_memset.o) \
+  	$(LIBRARY)(taskcall.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+  	rm *.o
+  
+! $(LIBRARY)(sys_times.o):	$(SRC)/sys_times.c
+! 	$(CC1) $(SRC)/sys_times.c
+  
+  $(LIBRARY)(sys_abort.o):	$(SRC)/sys_abort.c
+  	$(CC1) $(SRC)/sys_abort.c
+  
+  $(LIBRARY)(sys_exec.o):	$(SRC)/sys_exec.c
+  	$(CC1) $(SRC)/sys_exec.c
+  
+  $(LIBRARY)(sys_fork.o):	$(SRC)/sys_fork.c
+  	$(CC1) $(SRC)/sys_fork.c
+  
+! $(LIBRARY)(sys_int86.o):	$(SRC)/sys_int86.c
+! 	$(CC1) $(SRC)/sys_int86.c
+  
+  $(LIBRARY)(sys_kill.o):	$(SRC)/sys_kill.c
+  	$(CC1) $(SRC)/sys_kill.c
+--- 1,71 ----
+  # Makefile for lib/syslib.
+  
+  SRC=/usr/src/lib/syslib
++ SRC1=${BASE}/src/lib/machines/minix/80x86/src/sys
+  LIBRARY=$(NAME)
+  CC1=tcc -Ysystem -c -I$(SRC)
+  
+  all: $(LIBRARY)
+  
+  OBJECTS	= \
+! 	$(LIBRARY)(kmalloc.o) \
+! 	$(LIBRARY)(kprintf.o) \
+! 	$(LIBRARY)(putk.o) \
+  	$(LIBRARY)(sys_abort.o) \
++ 	$(LIBRARY)(sys_copy.o) \
++ 	$(LIBRARY)(sys_endsig.o) \
+  	$(LIBRARY)(sys_exec.o) \
++ 	$(LIBRARY)(sys_findproc.o) \
+  	$(LIBRARY)(sys_fork.o) \
+! 	$(LIBRARY)(sys_getmap.o) \
+! 	$(LIBRARY)(sys_getsp.o) \
+  	$(LIBRARY)(sys_kill.o) \
+  	$(LIBRARY)(sys_newmap.o) \
+! 	$(LIBRARY)(sys_oldsig.o) \
+! 	$(LIBRARY)(sys_sendsig.o) \
+! 	$(LIBRARY)(sys_sigret.o) \
+! 	$(LIBRARY)(sys_sysctl.o) \
+! 	$(LIBRARY)(sys_times.o) \
+  	$(LIBRARY)(sys_trace.o) \
+! 	$(LIBRARY)(sys_xit.o) \
+  	$(LIBRARY)(taskcall.o) \
+  
+  $(LIBRARY):	$(OBJECTS)
+  	aal cr $@ *.o
+  	rm *.o
+  
+! $(LIBRARY)(kmalloc.o):	$(SRC1)/kmalloc.c
+! 	$(CC1) $(SRC1)/kmalloc.c
+! 
+! $(LIBRARY)(kprintf.o):	$(SRC)/kprintf.c
+! 	$(CC1) $(SRC)/kprintf.c
+! 
+! $(LIBRARY)(putk.o):	$(SRC)/putk.c
+! 	$(CC1) $(SRC)/putk.c
+  
+  $(LIBRARY)(sys_abort.o):	$(SRC)/sys_abort.c
+  	$(CC1) $(SRC)/sys_abort.c
+  
++ $(LIBRARY)(sys_copy.o):	$(SRC)/sys_copy.c
++ 	$(CC1) $(SRC)/sys_copy.c
++ 
++ $(LIBRARY)(sys_endsig.o):	$(SRC)/sys_endsig.c
++ 	$(CC1) $(SRC)/sys_endsig.c
++ 
+  $(LIBRARY)(sys_exec.o):	$(SRC)/sys_exec.c
+  	$(CC1) $(SRC)/sys_exec.c
+  
++ $(LIBRARY)(sys_findproc.o):	$(SRC)/sys_findproc.c
++ 	$(CC1) $(SRC)/sys_findproc.c
++ 
+  $(LIBRARY)(sys_fork.o):	$(SRC)/sys_fork.c
+  	$(CC1) $(SRC)/sys_fork.c
+  
+! $(LIBRARY)(sys_getmap.o):	$(SRC)/sys_getmap.c
+! 	$(CC1) $(SRC)/sys_getmap.c
+! 
+! $(LIBRARY)(sys_getsp.o):	$(SRC)/sys_getsp.c
+! 	$(CC1) $(SRC)/sys_getsp.c
+  
+  $(LIBRARY)(sys_kill.o):	$(SRC)/sys_kill.c
+  	$(CC1) $(SRC)/sys_kill.c
+***************
+*** 66,145 ****
+  $(LIBRARY)(sys_newmap.o):	$(SRC)/sys_newmap.c
+  	$(CC1) $(SRC)/sys_newmap.c
+  
+! $(LIBRARY)(sys_sigsend.o):	$(SRC)/sys_sigsend.c
+! 	$(CC1) $(SRC)/sys_sigsend.c
+  
+! $(LIBRARY)(sys_sigreturn.o):	$(SRC)/sys_sigreturn.c
+! 	$(CC1) $(SRC)/sys_sigreturn.c
+  
+! $(LIBRARY)(sys_endsig.o):	$(SRC)/sys_endsig.c
+! 	$(CC1) $(SRC)/sys_endsig.c
+  
+! $(LIBRARY)(sys_getsig.o):	$(SRC)/sys_getsig.c
+! 	$(CC1) $(SRC)/sys_getsig.c
+  
+! $(LIBRARY)(sys_svrctl.o):	$(SRC)/sys_svrctl.c
+! 	$(CC1) $(SRC)/sys_svrctl.c
+  
+  $(LIBRARY)(sys_trace.o):	$(SRC)/sys_trace.c
+  	$(CC1) $(SRC)/sys_trace.c
+  
+! $(LIBRARY)(sys_exit.o):	$(SRC)/sys_exit.c
+! 	$(CC1) $(SRC)/sys_exit.c
+! 
+! $(LIBRARY)(sys_sdevio.o):	$(SRC)/sys_sdevio.c
+! 	$(CC1) $(SRC)/sys_sdevio.c
+! 
+! $(LIBRARY)(sys_getinfo.o):	$(SRC)/sys_getinfo.c
+! 	$(CC1) $(SRC)/sys_getinfo.c
+! 
+! $(LIBRARY)(sys_irqctl.o):	$(SRC)/sys_irqctl.c
+! 	$(CC1) $(SRC)/sys_irqctl.c
+! 
+! $(LIBRARY)(sys_segctl.o):	$(SRC)/sys_segctl.c
+! 	$(CC1) $(SRC)/sys_segctl.c
+! 
+! $(LIBRARY)(sys_nice.o):	$(SRC)/sys_nice.c
+! 	$(CC1) $(SRC)/sys_nice.c
+! 
+! $(LIBRARY)(sys_umap.o):	$(SRC)/sys_umap.c
+! 	$(CC1) $(SRC)/sys_umap.c
+! 
+! $(LIBRARY)(sys_physcopy.o):	$(SRC)/sys_physcopy.c
+! 	$(CC1) $(SRC)/sys_physcopy.c
+! 
+! $(LIBRARY)(sys_vircopy.o):	$(SRC)/sys_vircopy.c
+! 	$(CC1) $(SRC)/sys_vircopy.c
+! 
+! $(LIBRARY)(sys_in.o):	$(SRC)/sys_in.c
+! 	$(CC1) $(SRC)/sys_in.c
+! 
+! $(LIBRARY)(sys_out.o):	$(SRC)/sys_out.c
+! 	$(CC1) $(SRC)/sys_out.c
+! 
+! $(LIBRARY)(sys_vinb.o):	$(SRC)/sys_vinb.c
+! 	$(CC1) $(SRC)/sys_vinb.c
+! 
+! $(LIBRARY)(sys_vinw.o):	$(SRC)/sys_vinw.c
+! 	$(CC1) $(SRC)/sys_vinw.c
+! 
+! $(LIBRARY)(sys_vinl.o):	$(SRC)/sys_vinl.c
+! 	$(CC1) $(SRC)/sys_vinl.c
+! 
+! $(LIBRARY)(sys_voutb.o):	$(SRC)/sys_voutb.c
+! 	$(CC1) $(SRC)/sys_voutb.c
+! 
+! $(LIBRARY)(sys_voutw.o):	$(SRC)/sys_voutw.c
+! 	$(CC1) $(SRC)/sys_voutw.c
+! 
+! $(LIBRARY)(sys_voutl.o):	$(SRC)/sys_voutl.c
+! 	$(CC1) $(SRC)/sys_voutl.c
+! 
+! $(LIBRARY)(sys_setalarm.o):	$(SRC)/sys_setalarm.c
+! 	$(CC1) $(SRC)/sys_setalarm.c
+! 
+! $(LIBRARY)(sys_memset.o):	$(SRC)/sys_memset.c
+! 	$(CC1) $(SRC)/sys_memset.c
+  
+  $(LIBRARY)(taskcall.o):	$(SRC)/taskcall.c
+  	$(CC1) $(SRC)/taskcall.c
+--- 73,98 ----
+  $(LIBRARY)(sys_newmap.o):	$(SRC)/sys_newmap.c
+  	$(CC1) $(SRC)/sys_newmap.c
+  
+! $(LIBRARY)(sys_oldsig.o):	$(SRC)/sys_oldsig.c
+! 	$(CC1) $(SRC)/sys_oldsig.c
+  
+! $(LIBRARY)(sys_sendsig.o):	$(SRC)/sys_sendsig.c
+! 	$(CC1) $(SRC)/sys_sendsig.c
+  
+! $(LIBRARY)(sys_sigret.o):	$(SRC)/sys_sigret.c
+! 	$(CC1) $(SRC)/sys_sigret.c
+  
+! $(LIBRARY)(sys_sysctl.o):	$(SRC)/sys_sysctl.c
+! 	$(CC1) $(SRC)/sys_sysctl.c
+  
+! $(LIBRARY)(sys_times.o):	$(SRC)/sys_times.c
+! 	$(CC1) $(SRC)/sys_times.c
+  
+  $(LIBRARY)(sys_trace.o):	$(SRC)/sys_trace.c
+  	$(CC1) $(SRC)/sys_trace.c
+  
+! $(LIBRARY)(sys_xit.o):	$(SRC)/sys_xit.c
+! 	$(CC1) $(SRC)/sys_xit.c
+  
+  $(LIBRARY)(taskcall.o):	$(SRC)/taskcall.c
+  	$(CC1) $(SRC)/taskcall.c
+Only in 3.1.1/src/lib/machines/minix/80x86/src: sysutil
+Only in 3.1.1/src/lib/machines/minix/80x86/src: timers
+Only in 3.1.1/src/lib/machines/minix/80x86/src: util
+Only in 3.1.1/src/lib/machines/minix/80x86/src: z

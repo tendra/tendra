@@ -9,7 +9,7 @@ all: $(LIBRARY)
 OBJECTS	= \
 	$(LIBRARY)(setjmp.o) \
 	$(LIBRARY)(__sigreturn.o) \
-	$(LIBRARY)(_sendrec.o) \
+	$(LIBRARY)(_ipc.o) \
 	$(LIBRARY)(brksize.o) \
 
 $(LIBRARY):	$(OBJECTS)
@@ -22,8 +22,8 @@ $(LIBRARY)(setjmp.o):	$(SRC1)/setjmp.s
 $(LIBRARY)(__sigreturn.o):	$(SRC)/__sigreturn.s
 	$(CC1) $(SRC)/__sigreturn.s
 
-$(LIBRARY)(_sendrec.o):	$(SRC)/_sendrec.s
-	$(CC1) $(SRC)/_sendrec.s
+$(LIBRARY)(_ipc.o):	$(SRC)/_ipc.s
+	$(CC1) $(SRC)/_ipc.s
 
 $(LIBRARY)(brksize.o):	$(SRC)/brksize.s
 	$(CC1) $(SRC)/brksize.s

@@ -222,6 +222,7 @@ void bfprintf
 		case 'c' : {
 		    /* '%c' -> character (passed as int) */
 		    int ac = va_arg ( args, int ) ;
+		    p = stretch_buffer ( bf, p, 1 ) ;
 		    *( p++ ) = ( character ) ac ;
 		    break ;
 		}
@@ -277,6 +278,7 @@ void bfprintf
 		}
 		case '%' : {
 		    /* '%%' -> percent */
+		    p = stretch_buffer ( bf, p, 1 ) ;
 		    *( p++ ) = ( character ) c ;
 		    break ;
 		}
@@ -288,6 +290,7 @@ void bfprintf
 		}
 	    }
 	} else {
+	    p = stretch_buffer ( bf, p, 1 ) ;
 	    *( p++ ) = ( character ) c ;
 	}
     }

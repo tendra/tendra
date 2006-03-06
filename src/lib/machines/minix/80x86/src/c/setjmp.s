@@ -32,7 +32,7 @@ ___setjmp:
 ___longjmp:
 
   mov eax, 4(esp)    ! address of sigjmp_buf structure, env
-  cmp 24(eax), 0     ! env[0].__flag == 0? (did we saved the signal mask?)
+  cmp 24(eax), 0     ! env[0].__flag == 0? (did we save the signal mask?)
   je .masknotsaved
   lea ecx, 28(eax)   ! address of env[0].__mask
   push ecx

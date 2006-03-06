@@ -2272,6 +2272,10 @@ void init_param
 			COPY_list ( ctype_nest ( ct ), ft ) ;
 		    }
 		    COPY_exp ( id_parameter_init ( id ), e ) ;
+		} else if ( in_template_decl &&
+		( is_templ_depend ( DEREF_type ( id_parameter_type ( id ) ) )
+		      || depends_on_exp ( e, any_templ_param, 0 ) ) ) {
+		    COPY_exp ( id_parameter_init ( id ), e ) ;
 		} else {
 		    in_default_arg++ ;
 		    IGNORE init_object ( id, e ) ;

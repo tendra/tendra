@@ -52,9 +52,9 @@
     dev_t st_dev ;
     ino_t st_ino ;
     ~stat_mode_t st_mode ;
-    short st_nlink ;
+    nlink_t st_nlink ;
     uid_t st_uid ;
-    short st_gid ;
+    gid_t st_gid ;
     off_t st_size ;
     time_t st_atime ;
     time_t st_mtime ;
@@ -72,7 +72,7 @@
 
 +FUNC int fstat ( int, struct stat * ) ;
 +FUNC int stat ( const char *, struct stat * ) ;
-+FUNC int chmod ( const char *, int ) ;
-+FUNC int mkdir ( const char *, int ) ;
-+FUNC int mkfifo ( const char *, int ) ;
-+FUNC mode_t umask ( int ) ;
++FUNC int chmod ( const char *, mode_t ) ;
++FUNC int mkdir ( const char *, mode_t ) ;
++FUNC int mkfifo ( const char *, mode_t ) ;
++FUNC mode_t umask ( mode_t ) ;

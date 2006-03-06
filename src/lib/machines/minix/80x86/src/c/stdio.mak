@@ -37,6 +37,7 @@ OBJECTS	= \
 	$(LIBRARY)(getchar.o) \
 	$(LIBRARY)(gets.o) \
 	$(LIBRARY)(icompute.o) \
+	$(LIBRARY)(mktemp.o) \
 	$(LIBRARY)(perror.o) \
 	$(LIBRARY)(printf.o) \
 	$(LIBRARY)(putc.o) \
@@ -152,6 +153,9 @@ $(LIBRARY)(gets.o):	$(SRC)/gets.c
 
 $(LIBRARY)(icompute.o):	$(SRC)/icompute.c
 	$(CC1) $(SRC)/icompute.c
+
+$(LIBRARY)(mktemp.o):	$(SRC)/mktemp.c
+	$(CC1) $(SRC)/mktemp.c
 
 $(LIBRARY)(perror.o):	$(SRC)/perror.c
 	$(CC1) $(SRC)/perror.c

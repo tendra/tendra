@@ -381,7 +381,11 @@ int main
 	    return ( 0 ) ;
 	}
 	if ( strcmp ( arg, "-r" ) == 0 ) {
+#ifdef __minix
+	    IGNORE printf ( "%s.%s\n", release, version ) ;
+#else
 	    IGNORE printf ( "%s\n", release ) ;
+#endif
 	    return ( 0 ) ;
 	}
 	if ( strcmp ( arg, "-s" ) == 0 ) {

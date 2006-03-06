@@ -1,4 +1,4 @@
-+MACHINE	"minix-2.0-80x86"
++MACHINE	"minix-*-80x86"
 +AS		"/usr/lib/i386/as -"
 +LD		"/usr/bin/ash /usr/local/bin/ld"
 +DYN_LINK	"-LIBDIR-/sys/dyninit"

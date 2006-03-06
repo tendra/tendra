@@ -1,0 +1,31 @@
+*** /usr/src/lib/zlib-1.2.3/crc32.c Fri Sep 23 22:39:00 2005
+--- crc32.c Fri Feb 24 15:13:49 2006
+***************
+*** 35,47 ****
+  #  ifdef STDC           /* need ANSI C limits.h to determine sizes */
+  #    include <limits.h>
+  #    define BYFOUR
+! #    if (UINT_MAX == 0xffffffffUL)
+!        typedef unsigned int u4;
+! #    else
+! #      if (ULONG_MAX == 0xffffffffUL)
+!          typedef unsigned long u4;
+! #      else
+! #        if (USHRT_MAX == 0xffffffffUL)
+             typedef unsigned short u4;
+  #        else
+  #          undef BYFOUR     /* can't find a four-byte integer type! */
+--- 35,47 ----
+  #  ifdef STDC           /* need ANSI C limits.h to determine sizes */
+  #    include <limits.h>
+  #    define BYFOUR
+! #    if (_EM_WSIZE == 4)
+!        typedef unsigned int u4;
+! #    else
+! #      if (_EM_LSIZE == 4)
+!          typedef unsigned long u4;
+! #      else
+! #        if (_EM_SSIZE == 4)
+             typedef unsigned short u4;
+  #        else
+  #          undef BYFOUR     /* can't find a four-byte integer type! */

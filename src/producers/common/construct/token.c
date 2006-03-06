@@ -536,6 +536,10 @@ TOKEN func_proc_token
 }
 
 
+extern TOKEN expand_sort1 PROTO_S ( ( TOKEN, int, int, ERROR * ) ) ;
+extern LIST ( TOKEN ) expand_args1 PROTO_S ( ( LIST ( TOKEN ), int, int, ERROR * ) ) ;
+extern TYPE expand_type1 PROTO_S ( ( TYPE, int, ERROR * ) ) ;
+
 /*
     EXPAND A TOKEN VALUE
 
@@ -547,6 +551,16 @@ TOKEN expand_sort
     PROTO_N ( ( tok, rec, force ) )
     PROTO_T ( TOKEN tok X int rec X int force )
 {
+    ERROR err = NULL_err ;
+    TOKEN s = expand_sort1 ( tok, rec, force, &err ) ;
+    report ( crt_loc, err ) ;
+    return ( s ) ;
+}
+
+TOKEN expand_sort1
+    PROTO_N ( ( tok, rec, force, err ) )
+    PROTO_T ( TOKEN tok X int rec X int force X ERROR *err )
+{
     if ( !IS_NULL_tok ( tok ) ) {
 	unsigned tag = TAG_tok ( tok ) ;
 	switch ( tag ) {
@@ -557,7 +571,7 @@ TOKEN expand_sort
 		if ( force || !eq_exp_exact ( a1, a2 ) ) {
 		    int c = DEREF_int ( tok_exp_constant ( tok ) ) ;
 		    TYPE t = DEREF_type ( tok_exp_type ( tok ) ) ;
-		    t = expand_type ( t, rec ) ;
+		    t = expand_type1 ( t, rec, err ) ;
 		    MAKE_tok_exp ( t, c, a2, tok ) ;
 		}
 		break ;
@@ -565,10 +579,8 @@ TOKEN expand_sort
 	    case tok_nat_tag :
 	    case tok_snat_tag : {
 		/* Integral constant tokens */
-		ERROR err = NULL_err ;
 		NAT n1 = DEREF_nat ( tok_nat_etc_value ( tok ) ) ;
-		NAT n2 = expand_nat ( n1, rec, 0, &err ) ;
-		if ( !IS_NULL_err ( err ) ) report ( crt_loc, err ) ;
+		NAT n2 = expand_nat ( n1, rec, 0, err ) ;
 		if ( force || !EQ_nat ( n1, n2 ) ) {
 		    MAKE_tok_nat_etc ( tag, n2, tok ) ;
 		}
@@ -592,8 +604,8 @@ TOKEN expand_sort
 		if ( force || !EQ_off ( a1, a2 ) ) {
 		    TYPE s = DEREF_type ( tok_member_of ( tok ) ) ;
 		    TYPE t = DEREF_type ( tok_member_type ( tok ) ) ;
-		    s = expand_type ( s, rec ) ;
-		    t = expand_type ( t, rec ) ;
+		    s = expand_type1 ( s, rec, err ) ;
+		    t = expand_type1 ( t, rec, err ) ;
 		    MAKE_tok_member ( s, t, a2, tok ) ;
 		}
 		break ;
@@ -601,7 +613,7 @@ TOKEN expand_sort
 	    case tok_type_tag : {
 		/* Type tokens */
 		TYPE t1 = DEREF_type ( tok_type_value ( tok ) ) ;
-		TYPE t2 = expand_type ( t1, rec ) ;
+		TYPE t2 = expand_type1 ( t1, rec, err ) ;
 		if ( force || !EQ_type ( t1, t2 ) ) {
 		    BASE_TYPE bs = DEREF_btype ( tok_type_kind ( tok ) ) ;
 		    MAKE_tok_type ( bs, t2, tok ) ;
@@ -675,11 +687,21 @@ LIST ( TOKEN ) expand_args
     PROTO_N ( ( p, rec, force ) )
     PROTO_T ( LIST ( TOKEN ) p X int rec X int force )
 {
+    ERROR err = NULL_err ;
+    LIST ( TOKEN ) s = expand_args1 ( p, rec, force, &err ) ;
+    report ( crt_loc, err ) ;
+    return ( s ) ;
+}
+
+LIST ( TOKEN ) expand_args1
+    PROTO_N ( ( p, rec, force, err ) )
+    PROTO_T ( LIST ( TOKEN ) p X int rec X int force X ERROR *err )
+{
     int changed = 0 ;
     LIST ( TOKEN ) q = NULL_list ( TOKEN ) ;
     while ( !IS_NULL_list ( p ) ) {
 	TOKEN a = DEREF_tok ( HEAD_list ( p ) ) ;
-	TOKEN b = expand_sort ( a, rec, force ) ;
+	TOKEN b = expand_sort1 ( a, rec, force, err ) ;
 	if ( !EQ_tok ( a, b ) ) changed = 1 ;
 	CONS_tok ( b, q, q ) ;
 	p = TAIL_list ( p ) ;
@@ -974,6 +996,8 @@ OFFSET expand_offset
     template types.
 */
 
+static TYPE expand_func_type PROTO_S ( ( TYPE, int, int ) ) ;
+
 static TYPE expand_templ_type
     PROTO_N ( ( t, rec ) )
     PROTO_T ( TYPE t X int rec )
@@ -985,6 +1009,9 @@ static TYPE expand_templ_type
     if ( IS_type_compound ( s ) ) {
 	/* Template classes */
 	s = copy_class ( s, dspec_instance ) ;
+    } else if ( IS_type_func ( s ) ) {
+	/* Template functions */
+	s = expand_func_type ( s, rec, IS_NULL_tok ( sort ) ) ;
     } else {
 	/* Other template types */
 	s = expand_type ( s, rec ) ;
@@ -1042,8 +1069,8 @@ LIST ( TYPE ) expand_exceptions
 */
 
 static TYPE expand_func_type
-    PROTO_N ( ( t, rec ) )
-    PROTO_T ( TYPE t X int rec )
+    PROTO_N ( ( t, rec, all_bound ) )
+    PROTO_T ( TYPE t X int rec X int all_bound )
 {
     int mf = 0 ;
     int expanded = 0 ;
@@ -1119,7 +1146,7 @@ static TYPE expand_func_type
 	    COPY_id ( id_alias ( id ), lid ) ;
 	    s = DEREF_type ( id_parameter_type ( id ) ) ;
 	    check_par_decl ( s, id, CONTEXT_WEAK_PARAM ) ;
-	    if ( !IS_NULL_exp ( e ) ) {
+	    if ( !IS_NULL_exp ( e ) && all_bound ) {
 		/* Copy default argument */
 		EXP d ;
 		e = expand_exp ( e, rec, 0 ) ;
@@ -1281,6 +1308,16 @@ TYPE expand_type
     PROTO_N ( ( t, rec ) )
     PROTO_T ( TYPE t X int rec )
 {
+    ERROR err = NULL_err ;
+    TYPE s = expand_type1 ( t, rec, &err ) ;
+    report ( crt_loc, err ) ;
+    return ( s ) ;
+}
+
+TYPE expand_type1
+    PROTO_N ( ( t, rec, err ) )
+    PROTO_T ( TYPE t X int rec X ERROR *err )
+{
     CV_SPEC cv ;
     int prom = 0 ;
     IDENTIFIER id ;
@@ -1300,9 +1337,9 @@ TYPE expand_type
 		INT_TYPE ir = DEREF_itype ( itype_arith_arg1 ( it ) ) ;
 		INT_TYPE is = DEREF_itype ( itype_arith_arg2 ( it ) ) ;
 		TYPE r1 = DEREF_type ( itype_prom ( ir ) ) ;
-		TYPE r2 = expand_type ( r1, rec ) ;
+		TYPE r2 = expand_type1 ( r1, rec, err ) ;
 		TYPE s1 = DEREF_type ( itype_prom ( is ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		if ( !EQ_type ( r1, r2 ) || !EQ_type ( s1, s2 ) ) {
 		    t = arith_type ( r2, s2, NULL_exp, NULL_exp ) ;
 		    if ( cv ) t = qualify_type ( t, cv, 0 ) ;
@@ -1341,9 +1378,9 @@ TYPE expand_type
 		FLOAT_TYPE fr = DEREF_ftype ( ftype_arith_arg1 ( ft ) ) ;
 		FLOAT_TYPE fs = DEREF_ftype ( ftype_arith_arg2 ( ft ) ) ;
 		TYPE r1 = make_ftype ( fr, NULL_ftype ) ;
-		TYPE r2 = expand_type ( r1, rec ) ;
+		TYPE r2 = expand_type1 ( r1, rec, err ) ;
 		TYPE s1 = make_ftype ( fs, NULL_ftype ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		if ( !EQ_type ( r1, r2 ) || !EQ_type ( s1, s2 ) ) {
 		    t = arith_type ( r2, s2, NULL_exp, NULL_exp ) ;
 		    if ( cv ) t = qualify_type ( t, cv, 0 ) ;
@@ -1368,7 +1405,7 @@ TYPE expand_type
 	    /* Pointer types */
 	    if ( rec ) {
 		TYPE s1 = DEREF_type ( type_ptr_sub ( t ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		if ( !EQ_type ( s1, s2 ) ) {
 		    if ( TAG_type ( s1 ) == TAG_type ( s2 ) ) {
 			/* Don't check in this case */
@@ -1386,7 +1423,7 @@ TYPE expand_type
 	    /* Reference types */
 	    if ( rec ) {
 		TYPE s1 = DEREF_type ( type_ref_sub ( t ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		if ( !EQ_type ( s1, s2 ) ) {
 		    MAKE_type_ref ( cv, NULL_type, t ) ;
 		    t = inject_pre_type ( t, s2, 0 ) ;
@@ -1402,11 +1439,11 @@ TYPE expand_type
 		CLASS_TYPE c1 = DEREF_ctype ( type_ptr_mem_of ( t ) ) ;
 		CLASS_TYPE c2 = expand_ctype ( c1, rec, &r2 ) ;
 		TYPE s1 = DEREF_type ( type_ptr_mem_sub ( t ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		if ( !EQ_ctype ( c1, c2 ) ) {
 		    if ( IS_NULL_ctype ( c2 ) ) {
 			/* Illegal class type expansion */
-			report ( crt_loc, ERR_dcl_mptr_class ( r2 ) ) ;
+			add_error ( err, ERR_dcl_mptr_class ( r2 ) ) ;
 			MAKE_type_ptr ( cv, NULL_type, t ) ;
 		    } else {
 			MAKE_type_ptr_mem ( cv, c2, NULL_type, t ) ;
@@ -1422,23 +1459,20 @@ TYPE expand_type
 
 	case type_func_tag : {
 	    /* Function types */
-	    if ( rec ) t = expand_func_type ( t, rec ) ;
+	    if ( rec ) t = expand_func_type ( t, rec, 1 ) ;
 	    break ;
 	}
 
 	case type_array_tag : {
 	    /* Array types */
 	    if ( rec ) {
-		ERROR err = NULL_err ;
 		TYPE s1 = DEREF_type ( type_array_sub ( t ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
 		NAT n1 = DEREF_nat ( type_array_size ( t ) ) ;
-		NAT n2 = expand_nat ( n1, rec, 0, &err ) ;
+		NAT n2 = expand_nat ( n1, rec, 0, err ) ;
 		if ( !EQ_nat ( n1, n2 ) ) {
-		    if ( !IS_NULL_err ( err ) ) {
-			ERROR err2 = ERR_dcl_array_dim_const () ;
-			err = concat_error ( err, err2 ) ;
-			report ( crt_loc, err ) ;
+		    if ( !IS_NULL_err ( *err ) ) {
+			add_error ( err, ERR_dcl_array_dim_const () ) ;
 		    }
 		    n2 = check_array_dim ( n2 ) ;
 		    MAKE_type_array ( cv, NULL_type, n2, t ) ;
@@ -1454,20 +1488,17 @@ TYPE expand_type
 	case type_bitfield_tag : {
 	    /* Bitfield types */
 	    if ( rec ) {
-		ERROR err = NULL_err ;
 		INT_TYPE it = DEREF_itype ( type_bitfield_defn ( t ) ) ;
 		TYPE s1 = DEREF_type ( itype_bitfield_sub ( it ) ) ;
 		NAT n1 = DEREF_nat ( itype_bitfield_size ( it ) ) ;
-		TYPE s2 = expand_type ( s1, rec ) ;
-		NAT n2 = expand_nat ( n1, rec, 0, &err ) ;
+		TYPE s2 = expand_type1 ( s1, rec, err ) ;
+		NAT n2 = expand_nat ( n1, rec, 0, err ) ;
 		if ( !EQ_type ( s1, s2 ) || !EQ_nat ( n1, n2 ) ) {
 		    BASE_TYPE rep ;
 		    int anon = expand_anon_bitfield ;
 		    rep = DEREF_btype ( itype_bitfield_rep ( it ) ) ;
-		    if ( !IS_NULL_err ( err ) ) {
-			ERROR err2 = ERR_class_bit_dim_const () ;
-			err = concat_error ( err, err2 ) ;
-			report ( crt_loc, err ) ;
+		    if ( !IS_NULL_err ( *err ) ) {
+			add_error ( err, ERR_class_bit_dim_const () ) ;
 		    }
 		    rep = get_bitfield_rep ( s2, rep ) ;
 		    t = check_bitfield_type ( cv, s2, rep, n2, anon ) ;
@@ -1487,8 +1518,8 @@ TYPE expand_type
 		    p = DEREF_list ( type_token_args ( s ) ) ;
 		    if ( IS_id_token ( id ) ) goto expand_label ;
 		    if ( rec ) {
-			p = expand_args ( p, rec, 0 ) ;
-			if ( !IS_NULL_list ( p ) ) {
+			p = expand_args1 ( p, rec, 0, err ) ;
+			if ( !IS_NULL_list ( p ) && IS_NULL_err ( *err ) ) {
 			    /* Template class instance */
 			    id = instance_type ( id, p, 0, 1 ) ;
 			    t = DEREF_type ( id_class_name_defn ( id ) ) ;
@@ -1506,7 +1537,7 @@ TYPE expand_type
 		    }
 		} else {
 		    /* Recursive template classes */
-		    t = expand_type ( s, rec ) ;
+		    t = expand_type1 ( s, rec, err ) ;
 		    if ( cv ) t = qualify_type ( t, cv, 0 ) ;
 		}
 	    } else {
@@ -1562,7 +1593,7 @@ TYPE expand_type
 		if ( tag == tok_proc_tag ) {
 		    if ( rec ) {
 			/* Expand token arguments */
-			p = expand_args ( p, rec, 0 ) ;
+			p = expand_args1 ( p, rec, 0, err ) ;
 			if ( !IS_NULL_list ( p ) ) {
 			    t = apply_type_token ( id, p, NULL_id ) ;
 			    changed = 1 ;
@@ -1574,7 +1605,7 @@ TYPE expand_type
 		/* if ( rec == 2 && !( ds & dspec_auto ) ) break ; */
 		if ( ds & dspec_temp ) {
 		    /* Check for recursive token expansions */
-		    report ( crt_loc, ERR_token_recursive ( id ) ) ;
+		    add_error ( err, ERR_token_recursive ( id ) ) ;
 		    return ( type_error ) ;
 		}
 		COPY_dspec ( id_storage ( id ), ( ds | dspec_temp ) ) ;
@@ -1583,11 +1614,13 @@ TYPE expand_type
 		    TYPE s = DEREF_type ( tok_type_value ( tok ) ) ;
 		    if ( !IS_NULL_type ( s ) ) {
 			/* Expand token definition */
-			t = expand_type ( s, rec ) ;
-			if ( ds & dspec_auto ) {
-			    COPY_type ( tok_type_value ( tok ), t ) ;
+			t = expand_type1 ( s, rec, err ) ;
+			if ( IS_NULL_err ( *err ) ) {
+			  if ( ds & dspec_auto ) {
+			      COPY_type ( tok_type_value ( tok ), t ) ;
+			  }
+			  changed = 1 ;
 			}
-			changed = 1 ;
 		    } else {
 			BASE_TYPE bt ;
 			bt = DEREF_btype ( tok_type_kind ( tok ) ) ;
@@ -1595,7 +1628,7 @@ TYPE expand_type
 			    /* Allow for typename */
 			    s = find_typename ( id, p, bt, 0 ) ;
 			    if ( !IS_NULL_type ( s ) ) {
-				t = expand_type ( s, rec ) ;
+				t = expand_type1 ( s, rec, err ) ;
 				changed = 1 ;
 			    }
 			}
@@ -1604,7 +1637,7 @@ TYPE expand_type
 		    /* Template template parameter */
 		    aid = DEREF_id ( tok_class_value ( tok ) ) ;
 		    if ( !IS_NULL_id ( aid ) && rec ) {
-			p = expand_args ( p, rec, 1 ) ;
+			p = expand_args1 ( p, rec, 1, err ) ;
 			aid = apply_template ( aid, p, 0, 0 ) ;
 			if ( IS_id_class_name_etc ( aid ) ) {
 			    t = DEREF_type ( id_class_name_etc_defn ( aid ) ) ;

@@ -478,7 +478,8 @@ static LIST ( EXP ) copy_func_args
 	    TYPE t ;
 	    ERROR err = NULL_err ;
 	    a = copy_exp ( a, NULL_type, NULL_type ) ;
-	    t = DEREF_type ( exp_type ( a ) ) ;
+	    t = DEREF_type ( exp_type ( e ) ) ;
+	    t = expand_type ( t, 1 ) ;
 	    e = init_assign ( t, cv_none, a, &err ) ;
 	    if ( !IS_NULL_err ( err ) ) {
 		err = init_error ( err, 0 ) ;
@@ -2111,9 +2112,11 @@ IDENTIFIER rescan_func_id
     PROTO_N ( ( id, qual ) )
     PROTO_T ( IDENTIFIER id X QUALIFIER qual )
 {
-    IDENTIFIER pid = rescan_id ( id, qual, 0 ) ;
-    IDENTIFIER qid = rescan_member ( id ) ;
-    NAMESPACE qns = DEREF_nspace ( id_parent ( qid ) ) ;
+    IDENTIFIER pid, qid;
+    NAMESPACE qns;
+    pid = rescan_id ( id, qual, 0 ) ;
+    suppress_usage++; qid = rescan_member ( id ) ; suppress_usage--;
+    qns = DEREF_nspace ( id_parent ( qid ) ) ;
     if ( !IS_NULL_nspace ( qns ) && IS_nspace_block ( qns ) ) {
 	qid = pid ;
     }
@@ -2178,6 +2181,11 @@ IDENTIFIER rescan_member
 		    args = DEREF_list ( type_token_args ( form ) ) ;
 		    args = expand_args ( args, 1, 1 ) ;
 		    id = apply_template ( tid, args, 0, 0 ) ;
+		    if ( !( ds & dspec_virtual && ds & dspec_pure )
+						&& !suppress_usage ) {
+			define_template ( id, 0 ) ;
+		    }
+		    ds = DEREF_dspec ( id_storage ( id ) ) ;
 		    ns = NULL_nspace ;
 		}
 	    }
@@ -2191,8 +2199,11 @@ IDENTIFIER rescan_member
 	    IDENTIFIER pid = DEREF_id ( nspace_name ( pns ) ) ;
 	    lid = find_copied ( pid, id, 1 ) ;
 	    if ( !EQ_id ( lid, id ) ) {
-		define_template ( lid, 0 ) ;
 		id = lid ;
+		if ( !( ds & dspec_virtual && ds & dspec_pure )
+						&& !suppress_usage ) {
+		    define_template ( id, 0 ) ;
+		}
 		ds = DEREF_dspec ( id_storage ( id ) ) ;
 	    }
 	}
@@ -2206,12 +2217,12 @@ IDENTIFIER rescan_member
     }
 
     /* Mark as used */
-    ds |= dspec_used ;
+    if ( !( ds & dspec_virtual ) && !suppress_usage ) ds |= dspec_used ;
     COPY_dspec ( id_storage ( id ), ds ) ;
     lid = DEREF_id ( id_alias ( id ) ) ;
     if ( !EQ_id ( lid, id ) ) {
 	ds = DEREF_dspec ( id_storage ( lid ) ) ;
-	ds |= dspec_used ;
+	if ( !( ds & dspec_virtual ) && !suppress_usage ) ds |= dspec_used ;
 	COPY_dspec ( id_storage ( lid ), ds ) ;
     }
     return ( id ) ;

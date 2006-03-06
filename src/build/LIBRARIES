@@ -1,4 +1,2 @@
 tdf:lib/libtdf
 cpp:lib/cpp/src
-c:lib/machines/MACH_OS/MACH_CPU/src/c
-curses:lib/machines/MACH_OS/MACH_CPU/src/curses

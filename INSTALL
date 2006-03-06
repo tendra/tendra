@@ -797,7 +797,8 @@ then
 	    cd ${MACH_WORK}/${NAME} || exit 1
 	    LIB=${MACH_BASE}/lib/sys/lib${NAME}.a
 	    make -f ${SRC}/Makefile BASE=${BASE_DIR} NAME=${LIB}\
-		MACHOPTS="${LIBOPTS}" RANLIB="${RANLIB}" all || BUILD_OK=false
+		MACHOPTS="${LIBOPTS}" RANLIB="${RANLIB}"\
+		MACH_BASE=${MACH_BASE} all || BUILD_OK=false
 	    if [ ! -f ${LIB} ]
 	    then
 		${COMMENT} compilation failed ...
