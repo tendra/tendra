@@ -3,22 +3,17 @@ $TenDRA$
 
 TenDRA Change Log.
 
- * Only significant changes are listed in this document, they're broken down 
-   into the following categories:
+Only significant changes are listed in this document, they're broken down into 
+the following categories:
 
-API         - Changes related to APIs, such as C99 and SUSv3.
-Arch        - Changes related to support of new architectures, such as Alpha and 
-              PPC.
-Behaviour   - Changes in the behaviour of a program or system, such as a change 
-              in the output produced by a utility.
-Bugfix      - Changes that fix known bugs.
-Build       - Changes to the build infrastructure, such as support for new 
-              platforms.
-Codebase    - General changes to the codebase, such as OSSG removal or imports 
-              of updated and/or new utilities.
-Enhancement - New features.
-OS support  - Changes in the operating systems supported, such as added support 
-              for  NetBSD and OpenBSD.
+ * API         - Changes related to APIs, such as C99 and SUSv3.
+ * Arch        - Changes related to support of new architectures.
+ * Behaviour   - Changes in the behaviour of a program or system. (eg. output), 
+ * Bugfix      - Changes that fix known bugs.
+ * Build       - Changes to the build infrastructure, (eg. nwe platforms)
+ * Codebase    - General changes to the codebase, (major source changs)
+ * Enhancement - New features.
+ * OS support  - Changes in the operating systems supported (add/remove)
 
 ----
 
