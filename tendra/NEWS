@@ -1,0 +1,25 @@
+2006-February-23
+ * Added  http://www.ten15.org/wiki/Ada - home for the Ada project
+
+2006-February-19
+ * Maxim Reznik (maxr@) joins the developers team. Welcome!
+
+2005-October-31
+ * Daniel Gustafson (dege@) joins the developers team. Welcome!
+
+2004-April-5
+ * Thanks to Boris' hard work on libten, perl is no longer a dependency. Thanks 
+   Boris!
+
+2004-March-30
+  * A new run of the documentation has been completed, with several changes: All 
+    cross-referencing has been fixed, revision numbers for documents have been 
+    added, and licenses / trademarks have been added.
+
+2004-March-28
+  * The default installation path for the toolchain has been changed. Please see 
+    http://www.ten15.org/changeset/1761 for more information.
+
+2004-March-18
+ * A full run of documentation will happen this weekend. Lots of changes: Fixed 
+   cross-referencing, document revision numbers etc.
