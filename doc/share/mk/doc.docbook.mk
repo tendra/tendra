@@ -1,66 +1,55 @@
 #
 # $TenDRA$
 
-DOCBOOKSUFFIX?= sgml
+DOCBOOKSUFFIX?= xml
 
 MASTERDOC?=	${.CURDIR}/${DOC}.${DOCBOOKSUFFIX}
 
 # general variables
 PREFIX?=	/usr/local
 
+XSL_HTML?=			${DOC_PREFIX}/share/xsl/html.xsl
+XSL_FO?=			${DOC_PREFIX}/share/xsl/fo.xsl
+XSL_CHUNK?=			${DOC_PREFIX}/share/xsl/chunk.xsl
+XSL_MAN?=			${DOC_PREFIX}/share/xsl/man.xsl
 
-# openjade settings
-JADE?=		${PREFIX}/bin/openjade
-JADECATALOG?=	${PREFIX}/share/sgml/openjade/catalog
-NSGMLS?=	${PREFIX}/bin/onsgmls
-JADEFLAGS+=	-V openjade
-SX?=		${PREFIX}/bin/osx
-DSLHTML?=	${DOC_PREFIX}/share/sgml/default.dsl
-DSLPRINT?=	${DOC_PREFIX}/share/sgml/default.dsl
-DSLPGP?=	${DOC_PREFIX}/share/sgml/pgp.dsl
-FREEBSDCATALOG=	${DOC_PREFIX}/share/sgml/catalog
-LANGUAGECATALOG=${DOC_PREFIX}/${LANGCODE}/share/sgml/catalog
-ISO8879CATALOG=	${PREFIX}/share/sgml/iso8879/catalog
-DOCBOOKCATALOG=	${PREFIX}/share/sgml/docbook/catalog
-DSSSLCATALOG=	${PREFIX}/share/sgml/docbook/dsssl/modular/catalog
-COLLATEINDEX=	${PREFIX}/share/sgml/docbook/dsssl/modular/bin/collateindex.pl
-CATALOGS=	-c ${LANGUAGECATALOG} -c ${FREEBSDCATALOG} \
-		-c ${DSSSLCATALOG} -c ${ISO8879CATALOG} \
-		-c ${DOCBOOKCATALOG} -c ${JADECATALOG} \
-		${EXTRA_CATALOGS:S/^/-c /g}
+XMLLINT?=			xmllint
+XMLLINT_FLAGS?=		--path ../../share/includes:../../share/ent:../../share/xsl --load-trace --nonet --xinclude
+XMLLINT_CATALOG?=	file:///${.CURDIR}/${DOC_PREFIX}/share/xsl/catalog.xml
+
+
+JAR_SAXON?=			/usr/local/share/java/classes/saxon.jar
+JAR_SAXON_EXT?=		/usr/local/share/xsl/docbook/extensions/saxon653.jar
+JAR_RESOLVER?=		/usr/local/share/java/classes/resolver.jar
+TENDRA_XSL_CP?=		${DOC_PREFIX}/share/xsl
+SAXON_EXT_OPTS?=	use.extensions=1 tablecolumns.extension=0 fop.extensions=1
+
+
+
+JAVA?=	java
+JAVA_FLAGS?=		-cp "${JAR_SAXON}:${JAR_SAXON_EXT}:${JAR_RESOLVER}:${TENDRA_XSL_CP}" \
+					com.icl.saxon.StyleSheet \
+					-x org.apache.xml.resolver.tools.ResolvingXMLReader \
+					-y org.apache.xml.resolver.tools.ResolvingXMLReader \
+					-r org.apache.xml.resolver.tools.CatalogResolver -u
+
+
 CSS_FILE?=	${DOC_PREFIX}/share/misc/docbook.css
-CSS_SHEET?=	${CSS_FILE:T}
-PDFTEX_DEF?=	${DOC_PREFIX}/share/web2c/pdftex.def
-JADEOPTS=	${JADEFLAGS} ${SGMLFLAGS} ${CATALOGS}
-KNOWN_FORMATS=	html html.tar html-split html-split.tar \
-		txt rtf ps pdf tex dvi tar pdb
-HTMLOPTS?=	-ioutput.html -d ${DSLHTML} ${HTMLFLAGS}
-PRINTOPTS?=	-ioutput.print -d ${DSLPRINT} ${PRINTFLAGS}
-# XXX: this a hack#, fix later.
-SGMLFLAGS+=	-D ${.CURDIR}
+CSS_SHEET?=	docbook.css
 
 
-JADETEX_FILE?=	${DOC_PREFIX}/share/misc/jadetex.cfg
-PDF_TITLE?=	not set
-PDF_SUBJECT?=	not set
+# fop -fo book.fo -pdf book.pdf
+FOP?=				fop
 
 
-# binaries
+RM?=		rm
 BZIP2?=		-9
 BZIP2_CMD?=	bzip2 -qf ${BZIP2}
-CAT?=		cat
-DVIPS?=		dvips
-GZIP?=		-9
-GZIP_CMD?=	gzip -qf ${GZIP}
-LATEX?=		latex
-PDFTEX?=	pdftex
-RM?=		rm
-SED?=		sed
 TAR?=		tar
-TEX?=		tex
 TIDY?=		tidy
 TIDYOPTS?=	-i -m -raw -preserve -f /dev/null ${TIDYFLAGS}
 XARGS?=		xargs
+
 ZIP?=		-9
 ZIP_CMD?=	zip -j ${ZIP}
 
@@ -77,46 +66,13 @@ HTML2TXT?=	links
 
 
 
-
-.if defined(BOOK_OUTPUT)
-NICE_HEADERS=1
-MIN_SECT_LABELS=0
-TWO_SIDE=1
-JUSTIFY=1
-#WITH_FOOTNOTES=1
-#GEN_INDEX=1
-.endif
-
-.if defined(JUSTIFY)
-TEXCMDS+=	\RequirePackage{url}
-PRINTOPTS+=	-ioutput.print.justify
-.endif
-
-.if defined(TWO_SIDE)
-PRINTOPTS+=	-V %two-side% -ioutput.print.twoside
-TEXCMDS+=	\def\PageTwoSide{1}
-.endif
-
-.if defined(NICE_HEADERS)
-PRINTOPTS+=    -ioutput.print.niceheaders
-.endif
-
-.if defined(MIN_SECT_LABELS)
-PRINTOPTS+=    -V minimal-section-labels
-.endif
-
-.if defined(TRACE)
-TEXCMDS+=	\tracingstats=${TRACE}
-.endif
-
-.if defined(RLE)
-PNMTOPSFLAGS+=	-rle
-.endif
+#.if defined(TWO_SIDE)
+#.endif
 
 
-.if defined(PAPERSIZE)
-DVIPSOPTS?=	-t ${PAPERSIZE:L} ${DVIPSFLAGS}
-.endif
+#.if defined(TRACE)
+#.endif
+
 
 
 .for _curformat in ${FORMATS}
@@ -149,43 +105,57 @@ CLEANFILES+=	${DOC}.html-text
 .elif ${_cf} == "dvi"
 CLEANFILES+=	${DOC}.aux ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
-.elif ${_cf} == "tex"
-CLEANFILES+=	${DOC}.aux ${DOC}.log ${IMAGES_EPS}
-
-.elif ${_cf} == "ps"
-CLEANFILES+=	${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
-
 .elif ${_cf} == "pdf"
-CLEANFILES+=	${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf \
-		${IMAGES_PDF} jadetex.cfg
-
-.elif ${_cf} == "pdb"
-_docs+=		${DOC}.pdb
-CLEANFILES+=	${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
+CLEANFILES+=	${DOC}.fo ${LOCAL_IMAGES_EPS}
 .endif
 
 .endfor
 
 
-#
-# Index generation
-#
-CLEANFILES+= 		${INDEX_SGML}
+all: ${DEPEND_SRC} ${_docs}
 
-.if defined(GEN_INDEX) && defined(HAS_INDEX)
-JADEFLAGS+=		-i chap.index
-HTML_SPLIT_INDEX?=	html-split.index
-HTML_INDEX?=		html.index
-PRINT_INDEX?=		print.index
-INDEX_SGML?=		index.sgml
+# All document sources need xinclude subsitution to create the master file.
+SRCS+=	${DOC}.xinc
+CLEANFILES+=	${DOC}.xinc
 
-CLEANFILES+= 		${HTML_SPLIT_INDEX} ${HTML_INDEX} ${PRINT_INDEX}
+
+# DEPENDANCY FILES.
+# Xinclude --------------------------------------------------------------
+${DOC}.xinc: ${DOC}.xml
+	XML_CATALOG_FILES="${XMLLINT_CATALOG}" \
+	${XMLLINT} ${XMLLINT_FLAGS} -o ${DOC}.xinc ${DOC}.xml
+
+# FO ---------------------------------------------------------------------
+${DOC}.fo: ${SRCS}
+	${JAVA} \
+	${JAVA_FLAGS} \
+	-u -o ${DOC}.fo ${DOC}.xinc ${XSL_FO} ${SAXON_EXT_OPTS}
+
+
+# TARGETS.
+# PDF --------------------------------------------------------------------
+${DOC}.pdf: ${LOCAL_IMAGES_EPS} ${DOC}.fo
+	${FOP} \
+	-fo ${DOC}.fo \
+	-pdf ${DOC}.pdf	
+
+
+# HTML -------------------------------------------------------------------
+${DOC}.html: ${SRCS} ${LOCAL_IMAGES_PNG} ${CSS_SHEET} ${DOC}.xinc
+	${JAVA} \
+	${JAVA_FLAGS} \
+	-u -o ${DOC}.html ${DOC}.xinc ${XSL_HTML} ${SAXON_EXT_OPTS}
+.if !defined(NO_TIDY)
+	-${TIDY} ${TIDYOPTS} ${.TARGET}
+	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
 
 
-
-
-all: ${DEPEND_SRC} ${_docs}
+# MAN -------------------------------------------------------------------
+${DOC}.man: ${SRCS} ${DOC}.xinc
+	${JAVA} \
+	${JAVA_FLAGS} \
+	-u -o ${DOC}.man ${DOC}.xinc ${XSL_MAN} ${SAXON_EXT_OPTS}
 
 
 # HTML-SPLIT -------------------------------------------------------------
@@ -196,32 +166,6 @@ index.html HTML.manifest: ${SRCS} ${LOCAL_IMAGES_PNG} \
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} $$(${XARGS} < HTML.manifest)
 	-${TIDY} ${TIDYOPTS} $$(${XARGS} < HTML.manifest)
-.endif
-
-
-
-# HTML -------------------------------------------------------------------
-${DOC}.html: ${SRCS} ${LOCAL_IMAGES_PNG} \
-	     ${INDEX_SGML} ${HTML_INDEX} ${CSS_SHEET}
-	${JADE} -V nochunks ${HTMLOPTS} -ioutput.html.images \
-		${JADEOPTS} -t sgml ${MASTERDOC} > ${.TARGET} || \
-		(${RM} -f ${.TARGET} && false)
-.if !defined(NO_TIDY)
-	-${TIDY} ${TIDYOPTS} ${.TARGET}
-	-${TIDY} ${TIDYOPTS} ${.TARGET}
-.endif
-
-
-
-# HTML-TEXT --------------------------------------------------------------
-# Special target to produce HTML with no images in it.
-${DOC}.html-text: ${SRCS} ${INDEX_SGML} ${HTML_INDEX}
-	${JADE} -V nochunks ${HTMLOPTS} \
-		${JADEOPTS} -t sgml ${MASTERDOC} > ${.TARGET} || \
-		(${RM} -f ${.TARGET} && false)
-.if !defined(NO_TIDY)
-	-${TIDY} ${TIDYOPTS} ${.TARGET}
-	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
 
 
@@ -241,73 +185,6 @@ ${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${CSS_SHEET}
 		-C ${.OBJDIR} ${IMAGES} ${CSS_SHEET:T}
 
 
-
-# TXT --------------------------------------------------------------------
-${DOC}.txt: ${DOC}.html-text
-	${HTML2TXT} ${HTML2TXTOPTS} ${.ALLSRC} > ${.TARGET}
-
-
-# PDB --------------------------------------------------------------------
-
-${DOC}.pdb: ${DOC}.html ${LOCAL_IMAGES_PNG}
-	${HTML2PDB} ${HTML2PDBOPTS} ${DOC}.html ${.TARGET}
-
-
-# RTF --------------------------------------------------------------------
-${DOC}.rtf: ${SRCS} ${LOCAL_IMAGES_EPS}
-	${JADE} -V rtf-backend ${PRINTOPTS} \
-		${JADEOPTS} -t rtf -o ${.TARGET} ${MASTERDOC}
-
-
-# TEX --------------------------------------------------------------------
-${DOC}.tex: ${SRCS} ${LOCAL_IMAGES_EPS} ${INDEX_SGML} ${PRINT_INDEX}
-	${JADE} -V tex-backend ${PRINTOPTS} \
-		${JADEOPTS} -t tex -o ${.TARGET} ${MASTERDOC}
-
-
-# PDF / DVI --------------------------------------------------------------
-${DOC}.tex-pdf: ${SRCS} ${IMAGES_PDF} ${INDEX_SGML} ${PRINT_INDEX}
-	${RM} -f ${.TARGET}
-	${CAT} ${PDFTEX_DEF} > ${.TARGET}
-	${JADE} -V tex-backend ${PRINTOPTS} -ioutput.print.pdf \
-		${JADEOPTS} -t tex -o /dev/stdout ${MASTERDOC} >> ${.TARGET}
-
-
-# DVI --------------------------------------------------------------------
-${DOC}.dvi: ${DOC}.tex ${LOCAL_IMAGES_EPS}
-	@${ECHO} "==> TeX pass 1/3"
-	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
-	@${ECHO} "==> TeX pass 2/3"
-	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
-	@${ECHO} "==> TeX pass 3/3"
-	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
-
-
-# PDF --------------------------------------------------------------------
-${DOC}.pdf: jadetex.cfg ${DOC}.tex-pdf ${IMAGES_PDF}
-	@${ECHO} "==> PDFTeX pass 1/3"
-	-${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
-	@${ECHO} "==> PDFTeX pass 2/3"
-	-${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
-	@${ECHO} "==> PDFTeX pass 3/3"
-	${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
-
-
-# PS ---------------------------------------------------------------------
-${DOC}.ps: ${DOC}.dvi
-	${DVIPS} ${DVIPSOPTS} -o ${.TARGET} ${.ALLSRC}
-
-
 # MISC --------------------------------------------------------------------
 ${CSS_SHEET}:
 	cat ${CSS_FILE} > ${.CURDIR}/${.TARGET} 
-	
-validate:
-	${NSGMLS} -s ${SGMLFLAGS} ${CATALOGS} ${MASTERDOC}
-
-jadetex.cfg:
-	${CAT} ${JADETEX_FILE} \
-		| ${SED} \
-			-e "s/%PDF_TITLE%/${PDF_TITLE}/g" \
-			-e "s/%PDF_SUBJECT%/${PDF_SUBJECT}/g" \
-		> ${.CURDIR}/${.TARGET}

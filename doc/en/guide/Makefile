@@ -9,7 +9,7 @@ IMAGES_OBJ?=	guide1.obj guide2.obj guide3.obj
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 .include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"

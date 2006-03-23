@@ -1,0 +1,8 @@
+<!--
+  Miscellaneous TenDRA Entities.
+
+  $TenDRA$
+-->
+
+<!ENTITY rel.current "5.0.0">
+<!ENTITY rel.current.date "<unreleased>">

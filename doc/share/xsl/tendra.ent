@@ -1,0 +1,7 @@
+<!ENTITY % authors PUBLIC "-//TenDRA//ENTITIES TenDRA Author Entities//EN" "http://svn.ten15.org/doc/share/ent/authors.ent">
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+<!ENTITY % lists PUBLIC "-//TenDRA//ENTITIES TenDRA Mailing List Entities//EN" "http://svn.ten15.org/doc/share/ent/lists.ent">
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+<!ENTITY % trademark PUBLIC "-//TenDRA//ENTITIES TenDRA Trademark Entities//EN" "http://svn.ten15.org/doc/share/ent/trademark.ent">
+<!ENTITY % misc PUBLIC "-//TenDRA//ENTITIES TenDRA Miscellanous Entities//EN" "http://svn.ten15.org/doc/share/ent/misc.ent">
+

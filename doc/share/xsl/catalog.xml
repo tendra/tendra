@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <rewriteSystem
+    systemIdStartString="http://www.oasis-open.org/docbook/xml/4.4/"
+    rewritePrefix="file:///usr/local/share/xml/docbook/4.4/" />
+
+  <rewriteSystem
+    systemIdStartString="http://www.w3.org/2003/entities/iso8879/"
+    rewritePrefix="file:///usr/local/share/xml/docbook/4.4/ent/" />
+
+  <rewriteSystem
+    systemIdStartString="http://svn.ten15.org/doc/"
+    rewritePrefix="file://../../" />
+
+  <rewriteURI
+    uriStartString="http://svn.ten15.org/doc/"
+    rewritePrefix="file://../../" />
+
+</catalog>
+
+<!--
+
+
+  <rewriteSystem
+    systemIdStartString="http://svn.ten15.org/doc/"
+    rewritePrefix="file://../../" />
+
+  <rewriteURI
+    uriStartString="http://svn.ten15.org/doc/"
+    rewritePrefix="file://../../" />
+
+
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+ <group  prefer="public" xml:base="file:///usr/local/share/xml/docbook/4.4/" >
+    <public 
+      publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+      uri="docbookx.dtd"/>
+
+    <system
+      systemId="http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+      uri="docbookx.dtd"/>
+</catalog>
+
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+ <group  prefer="public" xml:base="file:///usr/local/share/xml/" >
+    <public 
+      publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+      uri="docbook/4.4/docbookx.dtd"/>
+
+    <system
+      systemId="http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+      uri="docbook/4.4/docbookx.dtd"/>
+</catalog>
+
+<nextCatalog  catalog="docbook/4.2/catalog.xml" />
+-->

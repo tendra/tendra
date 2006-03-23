@@ -1,0 +1,32 @@
+<!--
+     Documentation entities, this allows us to easily reference our docmentation.
+
+     Please keep this list in alphabetical order by entity names.
+
+     IMPORTANT:  If you delete docs from this file you *must* ensure that
+                 all references to them have been removed from all documentation
+
+     $TenDRA: doc/en/share/sgml/docs.ent,v 1.3 2005/10/01 08:31:40 stefanf Exp $
+-->
+
+<!ENTITY doc.calculus '<ulink url="http://www.ten15.org/docs/calculus/">calculus User&#039;s Guide</ulink>'>
+<!ENTITY doc.contributors '<ulink url="http://www.ten15.org/docs/contributors/">Contributors to the TenDRA Project</ulink>'>
+<!ENTITY doc.diag '<ulink url="http://www.ten15.org/docs/diag/">TDF Diagnostic Specification</ulink>'>
+<!ENTITY doc.faq '<ulink url="http://www.ten15.org/docs/faq/">TenDRA Frequently Asked Questions</ulink>'>
+<!ENTITY doc.guide '<ulink url="http://www.ten15.org/docs/guide/">TDF Guide</ulink>'>
+<!ENTITY doc.make '<ulink url="http://www.ten15.org/docs/make/">PMake Tutorial</ulink>'>
+<!ENTITY doc.pl '<ulink url="http://www.ten15.org/docs/pl/">PL_TDF Definition</ulink>'>
+<!ENTITY doc.port '<ulink url="http://www.ten15.org/docs/port/">TDF Portability Guide</ulink>'>
+<!ENTITY doc.readme '<ulink url="http://www.ten15.org/docs/readme/">TenDRA README</ulink>'>
+<!ENTITY doc.reference '<ulink url="http://www.ten15.org/docs/reference/">TenDRA Manpage Reference</ulink>'>
+<!ENTITY doc.register '<ulink url="http://www.ten15.org/docs/register/">TDF Token Register</ulink>'>
+<!ENTITY doc.release '<ulink url="http://www.ten15.org/docs/release/">TenDRA Release Checklist</ulink>'>
+<!ENTITY doc.sid '<ulink url="http://www.ten15.org/docs/sid/">sid User&#039;s Guide</ulink>'>
+<!ENTITY doc.tcc '<ulink url="http://www.ten15.org/docs/tcc/">tcc User&#039;s Guide</ulink>'>
+<!ENTITY doc.tcpplus '<ulink url="http://www.ten15.org/docs/tcpplus/">C++ Producer Guide</ulink>'>
+<!ENTITY doc.tdf '<ulink url="http://www.ten15.org/docs/tdf/">TDF Specification</ulink>'>
+<!ENTITY doc.tdfc '<ulink url="http://www.ten15.org/docs/tdfc/">C Checker Reference Manual</ulink>'>
+<!ENTITY doc.team '<ulink url="http://www.ten15.org/docs/team/">TenDRA Team Members</ulink>'>
+<!ENTITY doc.tld '<ulink url="http://www.ten15.org/docs/tld/">TDF Linker</ulink>'>
+<!ENTITY doc.tnc '<ulink url="http://www.ten15.org/docs/tnc/">tnc User&#039;s Guide</ulink>'>
+<!ENTITY doc.original '<ulink url="ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2-doc.tar.gz">TenDRA 4.1.2 Documentation</ulink>'>

@@ -12,7 +12,7 @@ IMAGES_OBJ+=	trad_scheme.obj tdf_scheme.obj
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 .include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"

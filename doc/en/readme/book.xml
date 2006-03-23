@@ -1,0 +1,985 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+]>
+<book>
+  <bookinfo>
+    <title>TenDRA README</title>
+
+    <releaseinfo>
+      <literal>$TenDRA$</literal>
+    </releaseinfo>
+
+    <pubdate>This document was generated on <?dbtimestamp format="Y-m-d H:M:S"?></pubdate>
+
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+    <copyright>
+      <year>2002</year>
+      <year>2003</year>
+      <year>2004</year>
+      <year>2005</year>
+      <year>2006</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+    <copyright>
+      <year>1997</year>
+      <year>1998</year>
+      <holder>Defence Evaluation and Research Agency (DERA)</holder>
+    </copyright>
+
+    <abstract>
+      <para>Please email us at <email>docs@ten15.org</email> if you see any
+        errors</para>
+    </abstract>
+
+    <xi:include href="http://svn.ten15.org/doc/share/includes/legalnotice_bsdl.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </bookinfo>
+
+  <preface>
+    <title>Introduction</title>
+
+    <para>Please read the file COPYRIGHT for the DERA copyright notice. In
+      addition, the power installer (src/installers/power and its
+      subdirectories) are subject to the following copyright notice:</para>
+  </preface>
+
+  <chapter>
+    <title>Downloading</title>
+
+    <sect1>
+      <title>Source</title>
+
+      <para>The latest TenDRA release is available via the url:
+        <ulink url="http://www.ten15.org/download/">
+        http://www.ten15.org/download/</ulink>.</para> 
+
+      <para>It is also available from the main FTP site directly accessible
+        via HTTP or FTP: <ulink url="http://ftp.ten15.org/source/">
+        http://ftp.ten15.org/source/</ulink>,
+        <ulink url="ftp://ftp.ten15.org/pub/source/">
+        ftp://ftp.ten15.org/pub/source/</ulink>.</para>
+    </sect1>
+
+    <sect1>
+      <title>Documentation</title>
+
+      <para>TenDRA also has a comprehensive set of documentation you may
+        peruse in either HTML, TXT or PDF at:
+        <ulink url="http://www.ten15.org/docs/">http://www.ten15.org/docs/
+        </ulink>.</para>
+
+      <para>It is also available from the main FTP site directly accessible
+        via HTTP or FTP: <ulink url="http://ftp.ten15.org/docs/">
+        http://ftp.ten15.org/docs/</ulink>,
+        <ulink url="ftp://ftp.ten15.org/pub/docs/">
+        ftp://ftp.ten15.org/pub/docs/</ulink>.</para>
+    </sect1>
+
+    <sect1>
+      <title>CVS</title>
+
+      <para>The TenDRA CVS repository is accessible with the help of
+        <ulink url="http://www.cvsup.org/">John Polstra's CVSup
+        program</ulink>. An example
+        <ulink url="http://www.ten15.org/download/cvsupfile">cvsupfile
+        </ulink> is also available.</para>
+    </sect1>
+  </chapter>
+
+  <chapter id="install">
+    <title>Installation</title>
+
+    <para>Documentation to be completed.</para>
+
+    <sect1>
+      <title>Requirements</title>
+
+      <para>Documentation to be completed.</para>
+    </sect1>
+
+    <sect1>
+      <title>OS Specific Information</title>
+
+      <para>Documentation to be completed.</para>
+    </sect1>
+  </chapter>
+
+
+  <chapter>
+    <title>Known Installation Problems</title>
+
+    <para>Documentation to be completed.</para>
+  </chapter>
+
+  <chapter>
+    <title>Source Layout</title>
+
+    <sect1>
+      <title>Toplevel Directory</title>
+
+      <para>Documentation to be completed.</para>
+
+      <sect2>
+        <title>mk</title>
+
+        <para>Documentation to be completed.</para>
+      </sect2>
+
+      <sect2>
+        <title>obj</title>
+
+        <para>Documentation to be completed.</para>
+      </sect2>
+
+      <sect2>
+        <title>regression</title>
+
+        <para>Documentation to be completed.</para>
+      </sect2>
+
+      <sect2>
+        <title>src</title>
+
+        <para>See <xref linkend="src-dir"/></para>
+      </sect2>
+    </sect1>
+
+    <sect1 id="src-dir">
+      <title>src Directory</title>
+
+      <para>The src subdirectory, which contains the source code, is organised
+        into the following top-level directories:</para>
+
+      <sect2>
+        <title>installers</title>
+ 
+        <para>Contains the compiler back-ends, which translate the compiler
+          intermediate form, TDF, to the appropriate machine
+          instructions;</para>
+ 
+        <para>The installers directory is split into a common section,
+          containing code which is used by all the back ends, plus a directory
+          for each of the target CPUs:</para>
+ 
+        <informaltable frame="none">
+          <tgroup cols="3" align="left">
+ 
+          <thead>
+            <row>
+              <entry>Directory</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+ 
+          <tbody>
+            <row>
+              <entry><filename class="directory">680x0</filename></entry>
+
+              <entry>Motorola 68020, 68030 and 68040</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">80x86</filename></entry>
+
+              <entry>Intel i386, i486 and Pentium</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">alpha</filename></entry>
+
+              <entry>DEC Alpha,</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">hppa</filename></entry>
+
+              <entry>HP Precision Architecture</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">mips</filename></entry>
+
+              <entry>SGI/DEC MIPS</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">power</filename></entry>
+
+              <entry>POWER</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">ppc601</filename></entry>
+
+              <entry>POWER PC</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">sparc</filename></entry>
+
+              <entry>SPARC.</entry>
+            </row>
+          </tbody>
+          </tgroup>
+        </informaltable>
+ 
+        <para>Each CPU directory is also divided into a common section, plus a
+          directory for each of the target operating systems:</para>
+ 
+        <informaltable frame="none">
+          <tgroup cols="2" align="left">
+ 
+          <thead>
+            <row>
+              <entry>CPU</entry>
+
+              <entry>Directory</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+ 
+          <tbody>
+            <row>
+              <entry>680x0</entry>
+
+              <entry><filename class="directory">sunos</filename></entry>
+
+              <entry>SunOS 4</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">cygwin32</filename></entry>
+
+              <entry>Cygwin32</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">freebsd</filename></entry>
+
+              <entry>FreeBSD</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">linux</filename></entry>
+
+              <entry>Linux</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">sco</filename></entry>
+
+              <entry>SCO</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">solaris</filename></entry>
+
+              <entry>Solaris</entry>
+            </row>
+
+            <row>
+              <entry>80x86</entry>
+
+              <entry><filename class="directory">svr4.2</filename></entry>
+
+              <entry>Unixware</entry>
+            </row>
+
+            <row>
+              <entry>alpha</entry>
+
+              <entry><filename class="directory">osf1</filename></entry>
+
+              <entry>OSF/1,</entry>
+            </row>
+
+            <row>
+              <entry>hppa</entry>
+
+              <entry><filename class="directory">hpux</filename></entry>
+
+              <entry>HP-UX</entry>
+            </row>
+
+            <row>
+              <entry>mips</entry>
+
+              <entry><filename class="directory">irix</filename></entry>
+
+              <entry>Irix</entry>
+            </row>
+
+            <row>
+              <entry>mips</entry>
+
+              <entry><filename class="directory">ultrix</filename></entry>
+
+              <entry>Ultrix</entry>
+            </row>
+
+            <row>
+              <entry>power</entry>
+
+              <entry><filename class="directory">aix</filename></entry>
+
+              <entry>AIX</entry>
+            </row>
+
+            <row>
+              <entry>ppc601</entry>
+
+              <entry><filename class="directory">aix</filename></entry>
+
+              <entry>AIX</entry>
+            </row>
+
+            <row>
+              <entry>sparc</entry>
+
+              <entry><filename class="directory">solaris</filename></entry>
+
+              <entry>Solaris 2</entry>
+            </row>
+
+            <row>
+              <entry>sparc</entry>
+
+              <entry><filename class="directory">sunos</filename></entry>
+
+              <entry>SunOS 4</entry>
+            </row>
+          </tbody>
+         </tgroup>
+        </informaltable>
+ 
+ 
+        <para>The common installer directory is also subdivided, for
+          convenience, into a number of different subdirectories:</para>
+ 
+        <informaltable frame="none">
+          <tgroup cols="2" align="left">
+ 
+          <thead>
+            <row>
+              <entry>Directory</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+ 
+          <tbody>
+            <row>
+              <entry><filename class="directory">construct</filename></entry>
+
+              <entry>Main routines for transforming and optimising the internal
+                representation;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">diag</filename></entry>
+
+              <entry>Routines for reading and processing diagnostic information
+                contained within the TDF;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">dwarf</filename></entry>
+
+              <entry>Routines for writing out diagnostic information as DWARF
+                directives;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">dwarf2</filename></entry>
+
+              <entry>Routines for writing out diagnostic information as DWARF 2
+                directives;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">linkinfo</filename></entry>
+
+              <entry>Routines for reading linkage information contained within
+                the TDF;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">reader</filename></entry>
+
+              <entry>Main routine for reading the input TDF and building up the
+                internal representation;</entry>
+            </row>
+
+            <row>
+              <entry><filename class="directory">templ</filename></entry>
+
+              <entry>Template files used to generate the TDF reading
+                routines.</entry>
+            </row>
+          </tbody>
+         </tgroup>
+        </informaltable>
+      </sect2>
+ 
+      <sect2>
+        <title>lib</title>
+ 
+        <para>lib which contains everything not included in the other
+          directories;</para>
+ 
+        <para>The lib directory is divided into a number of
+          subdirectories:</para>
+ 
+        <para>apis containing the TenDRA API descriptions used in its API
+          checking facilities;</para>
+ 
+        <para>cpp containing the C++ support library (note that this is only a
+          minimal language support subset of the complete C++ standard
+          library);</para>
+ 
+        <para>env containing the compiler front-end configuration
+          files;</para>
+ 
+        <para>libtdf containing a support library certain aspects of TDF (such
+          as 64 bits integers);</para>
+ 
+        <para>machines containing machine specific tools, libraries and
+          configuration files;</para>
+ 
+        <para>startup containing the C and C++ producer configuration
+          files;</para>
+ 
+        <para>tdf containing a description of the TDF specification used by
+          make_tdf to generate TDF encoders and decoders.</para>
+      </sect2>
+ 
+      <sect2>
+        <title>producers</title>
+ 
+        <para>contains the compiler front-ends, which translate C and C++ to
+          the compiler intermediate form, TDF;</para>
+ 
+        <para>The producers subdirectory is divided into a common directory,
+          containing code shared by both the C and C++ producers, plus
+          directories c and cpp, containing the language specific components.
+          The differences between the languages are driven from the parser,
+          which is found in the syntax subdirectory of c and cpp. C merely
+          uses a subset of the routines available for the C++ producer, with a
+          number of run-time or compile-time flags to control the differences
+          between the languages.</para>
+ 
+        <para>The common producer directory is divided, for convenience into a
+          number of subdirectories:</para>
+ 
+        <para>construct which contains the main routines for building up and
+          checking the internal representation;</para>
+ 
+        <para>obj_c which contains macros describing the internal
+          representation;</para>
+ 
+        <para>obj_templ which contains various template files used in
+          automatic code generation;</para>
+ 
+        <para>obj_tok which contains TenDRA tokens describing the internal
+          representation;</para>
+ 
+        <para>output which contains the routines of writing the internal
+          representation to disk as TDF;</para>
+ 
+        <para>parse which contains routines for lexical analysis and
+          preprocessing;</para>
+ 
+        <para>utility which contains routines for error reporting, memory
+          allocation etc.</para>
+      </sect2>
+ 
+      <sect2>
+        <title>tools</title>
+ 
+        <para>contains various tools for manipulating, viewing and generating
+          TDF;</para>
+       
+        <para>The tools directory contains the source for a number of
+          different tools:</para>
+       
+        <para>disp translates TDF into a human readable form;</para>
+       
+        <para>pl is a structured TDF assembler;</para>
+       
+        <para>tcc is the front-end to the TenDRA compiler;</para>
+       
+        <para>tld links a number of TDF capsules into one;</para>
+       
+        <para>tnc is an unstructured TDF assember and disassembler;</para>
+       
+        <para>tspec is a specification tool used in the TenDRA API
+          descriptions.</para>
+      </sect2>
+       
+      <sect2>
+        <title>utilities</title>
+       
+        <para>contains various compiler generator utilities used in the
+          development of the TenDRA software.</para>
+       
+        <para>The utilities directory contains the source for a number of
+          different compiler generator tools:</para>
+       
+        <para>calculus is used to manage the complex type system used in the
+          producers;</para>
+       
+        <para>lexi is a simple lexical analyser generator (lex is not
+          used);</para>
+       
+        <para>make_err is used to manage the producer error catalogue;</para>
+       
+        <para>make_mf is a simple makefile generator;</para>
+       
+        <para>make_tdf is used to generate TDF encoding and decoding routines
+          from the TDF specification;</para>
+       
+        <para>shared contains code common to a number of tools;</para>
+       
+        <para>sid is a parser generator (yacc is not used);</para>
+       
+        <para>tuname is a uname-like utility used in the installation
+          process.</para>
+      </sect2>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Installed Layout</title>
+   
+    <para>The installation script creates three shell scripts in the public
+      binaries directory (/usr/local/bin in the default set-up). These are the
+      compiler, tcc, the stand-alone static checker, tchk, and the API
+      specification tool, tspec. The manual pages for these tools and those
+      which they invoke are installed in the manual page directory
+      (/usr/local/man in the default set-up). The remaining files are
+      installed into the TenDRA configuration directory (/usr/local/lib/TenDRA
+      in the default set-up). The remainder of this section describes the
+      files installed into this directory.</para>
+   
+    <para>For each target machine, a directory:</para>
+   
+    <para>machines/&lt;os&gt;/&lt;os_vers&gt;/&lt;cpu&gt;</para>
+   
+    <para>is created to hold the machine dependent files, where &lt;os&gt;
+      denotes the operating system name, &lt;os_vers&gt; denotes the operating
+      system version and &lt;cpu&gt; denotes the CPU type (as above). This
+      machine directory has five subdirectories:</para>
+   
+    <para>bin containing the compiled executables for this machine; advanced
+      users may wish to put this directory on their PATH, but the executables
+      in the public binaries directory should suffice for most users;</para>
+   
+    <para>env containing the tcc configuration files for this machine (see
+      above);</para>
+   
+    <para>include containing the modified system headers for this machine;
+      these are copied directly from the src/lib/machines directory in the
+      release;</para>
+   
+    <para>lib containing the API token libraries describing the implementation
+      of the various standard APIs on this machine; the generation of these
+      libraries from the API descriptions and the system headers is the most
+      complex part of the installation;</para>
+   
+    <para>startup containing the compiler configuration files describing how
+      to navigate through the system headers on this machine; these are copied
+      directly from the src/lib/machines directory in the release.</para>
+   
+    <para>The remainder of the directories created by the installation are
+      common to all machines. These are:</para>
+   
+    <para>building containing files automatically generated by tspec from the
+      API descriptions which are used to build the API token libraries; these
+      files are only used during installation and may be deleted if space is
+      short;</para>
+   
+    <para>include containing the include files automatically generated by
+      tspec from the API descriptions;</para>
+   
+    <para>startup containing the C and C++ producer configuration files copied
+      directly from the src/lib/startup directory in the release.</para>
+  </chapter>
+
+  <chapter>
+    <title>Build System</title>
+
+    <para>insert information on the build system here</para>
+  </chapter>
+
+
+  <chapter>
+    <title>Bug Reporting</title>
+
+    <para>bug reporting info here.</para>
+  </chapter>
+
+
+<chapter>
+<title>Contributors</title>
+
+<sect1 id='team'>
+<title>Current TenDRA Developers</title>
+
+    <informaltable frame="none">
+      <tgroup cols="3" align="left">
+      <colspec colwidth="2*"/>
+      <colspec colwidth="2*"/>
+      <colspec colwidth="6*"/>
+        <thead>
+          <row>
+            <entry>Developer</entry>
+            <entry>Contact</entry>
+            <entry>Area of Focus</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Munish Chopra</entry>
+            <entry valign="top"><email>chopra@ten15.org</email></entry>
+            <entry>Documentation, platform support, web content and other
+              all-around tasks.</entry>
+          </row>
+          <row>
+            <entry valign="top">Stefan Farfeleder</entry>
+            <entry valign="top"><email>stefanf@ten15.org</email></entry>
+            <entry>C producer in terms of bug fixes and C99 functionality, new
+              APIs (mainly C99 and SUSv3), as well as the Alpha
+              installer.</entry>
+          </row>
+          <row>
+            <entry valign="top">Samuel J. Greear</entry>
+            <entry valign="top"><email>sjg@ten15.org</email></entry>
+            <entry>Making FreeBSD TenDRA-friendly.</entry>
+          </row>
+          <row>
+            <entry valign="top">Amos B. Haven</entry>
+            <entry valign="top"><email>nonce@ten15.org</email></entry>
+            <entry>SSA transformations, data flow, dynamic slicing, and
+              related areas.</entry>
+          </row>
+          <row>
+            <entry valign="top">Boris Popov</entry>
+            <entry valign="top"><email>bp@ten15.org</email></entry>
+            <entry>Code cleanup, libten, extensible support for qualifiers in
+              the producers, inline assembly support in the
+              installers.</entry>
+          </row>
+          <row>
+            <entry valign="top">Amar Takhar</entry>
+            <entry valign="top"><email>verm@ten15.org</email></entry>
+            <entry>Build system, documentation, platform support, web site,
+              and a number of other areas.</entry>
+          </row>
+          <row>
+            <entry valign="top">Boris Popov</entry>
+            <entry valign="top"><email>bp@ten15.org</email></entry>
+            <entry>Code cleanup, libten, extensible support for qualifiers in
+              the producers, inline assembly support in the
+              installers.</entry>
+          </row>
+          <row>
+            <entry valign="top">Amar Takhar</entry>
+            <entry valign="top"><email>verm@ten15.org</email></entry>
+            <entry>Build system, documentation, platform support, web site,
+              and a number of other areas.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+  </sect1>
+
+  <sect1 id="previous">
+  <title>Previous TenDRA Developers</title>
+
+    <informaltable frame="none">
+      <tgroup cols="2" align="left">
+        <thead>
+          <row>
+            <entry>Developer</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Jeroen Ruigrok van der Werven</entry>
+            <entry>Jeroen left on August 20, 2003 to focus on other aspects of
+              ANDF technology. Thanks for the hard work, we'll miss you
+              asmo!</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+  </sect1>
+
+
+
+
+
+  <sect1 id="donations">
+    <title>Donations</title>
+
+    <para>The donations list holds the names of individuals and organizations
+      whom we thank very much for their donation of resources, such as
+      bandwidth, processing power, and/or hardware.  Without your donations we
+      could not have pulled off a lot of what we do now.  Thank you.</para>
+
+
+        <informaltable frame="all">
+          <tgroup cols="3" align="left">
+            <colspec colwidth='1*'/>
+            <colspec colwidth='1*'/>
+            <colspec colwidth='1*'/>
+
+            <thead>
+              <row>
+                <entry>Donator</entry>
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry><ulink url="http://www.stanford.edu/">Stanford University</ulink></entry>
+                <entry>Bandwidth and our central development machine 'spill'.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+
+  </sect1>
+
+  <sect1 id="individual">
+    <title>Individual Contributors</title>
+
+    <para>The following are individual's who have contributed to TenDRA.</para>
+
+
+    <informaltable frame="all">
+      <tgroup cols='3'>
+        <colspec colwidth='1*'/>
+        <colspec colwidth='1*'/>
+        <colspec colwidth='1*'/>
+
+        <thead>
+          <row>
+            <entry>Contributor</entry>
+            <entry>Email</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>Priit Piipuu</entry>
+            <entry><email>priit.piipuu@mail.ee</email></entry>
+            <entry>..</entry>
+          </row>
+
+          <row>
+            <entry>Jesper Louis Andersen</entry>
+            <entry><email>jlouis@mongers.org</email></entry>
+            <entry>..</entry>
+          </row>
+
+          <row>
+            <entry>Daniel Gustafson</entry>
+            <entry><email>daniel@hobbit.se</email></entry>
+            <entry>..</entry>
+          </row>
+
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </sect1>
+
+  <sect1 id="organisation">
+    <title>Organisational Contributors</title>
+
+    <para>The following are organisation's who have contributed to TenDRA.</para>
+
+
+    <informaltable frame="all">
+      <tgroup cols='3'>
+        <colspec colwidth='1*'/>
+        <colspec colwidth='1*'/>
+        <colspec colwidth='1*'/>
+
+        <thead>
+          <row>
+            <entry>Contributor</entry>
+            <entry>URL</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>Stanford University</entry>
+            <entry><ulink url="http://www.stanford.edu">http://www.stanford.edu</ulink></entry>
+            <entry>...</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+</sect1>
+
+
+</chapter>
+
+
+
+  <chapter>
+    <title>Licenses and Copyright Information</title>
+ 
+    <sect1>
+      <title>The TenDRA Project (BSDL)</title>
+ 
+      <para>All source code modifications to the original 4.1.2 release of
+        TenDRA are subject to the following copyright:</para>
+ 
+      <literallayout>
+Copyright (c) 2002, 2003, The TenDRA Project
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+      </literallayout>
+    </sect1>
+
+    <sect1>
+      <title>Crown Copyright</title>
+
+      <para>All source code from the original 4.1.2 release of TenDRA and
+        prior are subject to the following copyright:</para>
+
+      <literallayout>
+                Crown Copyright (c) 1997, 1998
+
+This TenDRA(r) Computer Program is subject to Copyright
+owned by the United Kingdom Secretary of State for Defence
+acting through the Defence Evaluation and Research Agency
+(DERA).  It is made available to Recipients with a
+royalty-free licence for its use, reproduction, transfer
+to other parties and amendment for any purpose not excluding
+product development provided that any such use et cetera
+shall be deemed to be acceptance of the following conditions:
+
+    (1) Its Recipients shall ensure that this Notice is
+    reproduced upon any copies or amended versions of it;
+
+    (2) Any amended version of it shall be clearly marked to
+    show both the nature of and the organisation responsible
+    for the relevant amendment or amendments;
+
+    (3) Its onward transfer from a recipient to another
+    party shall be deemed to be that party's acceptance of
+    these conditions;
+
+    (4) DERA gives no warranty or assurance as to its
+    quality or suitability for any purpose and DERA accepts
+    no liability whatsoever in relation to any use to which
+    it may be put.
+      </literallayout>
+    </sect1>
+
+
+    <sect1>
+      <title>Open Software Foundation, Inc.</title>
+
+      <para>The installers/power and it's subdirectories are subject to the
+        following copyright:</para>
+
+      <literallayout>
+Copyright (c) 1996 Open Software Foundation, Inc.
+
+All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appears in all copies and that both the
+copyright notice and this permission notice appear in supporting
+documentation.
+
+OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE.
+
+IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+      </literallayout>
+    </sect1>
+
+    <sect1>
+      <title>IXI Ltd.</title>
+
+      <para>The lib/apis/motif1.2 and it's subdirectories are subject to the
+        following copyright:</para>
+
+      <literallayout>
+COPYRIGHT NOTICE
+
+This program is the proprietary property of IXI Ltd, a subsidiary
+of the Santa Cruz Operation (SCO). Use, reproduction, production
+of amended versions and/or transfer of this program is permitted
+PROVIDED THAT:
+
+(a)  This legend be preserved on any such reproduction and amended
+     version.
+
+(b)  Any recipient of such reproduction or amended version accept
+     the conditions set out in this legend.
+
+IXI accepts no liability whatsoever in relation to any use to
+which this program may be put and gives no warranty as to the
+program's suitability for any purpose.
+
+All rights reserved.
+
+Copyright (c) 1995, 1996
+      </literallayout>
+    </sect1>
+  </chapter>
+</book>

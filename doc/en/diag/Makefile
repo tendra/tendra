@@ -5,7 +5,7 @@ PDF_SUBJECT=	TDF Diagnostic Specification
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 
 .include "../Makefile.inc"

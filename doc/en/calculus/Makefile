@@ -9,7 +9,7 @@ IMAGES_OBJ?=	calc.obj
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 
 .include "../Makefile.inc"

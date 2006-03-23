@@ -1,0 +1,48 @@
+<!--
+
+  TenDRA manpage references.
+
+  $TenDRA: doc/share/sgml/manref.ent,v 1.2 2004/07/03 15:00:46 stefanf Exp $
+
+-->
+
+<!--  TenDRA utilities  -->
+<!ENTITY man.tendra.calculus "<citerefentry><refentrytitle>calculus</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.make.err "<citerefentry><refentrytitle>make_err</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.make.tdf "<citerefentry><refentrytitle>make_tdf</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.sid "<citerefentry><refentrytitle>sid</refentrytitle><manvolnum>1</manvolnum>">
+<!ENTITY man.tendra.lexi "<citerefentry><refentrytitle>lexi<manvolnum/1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.make.mf "<citerefentry><refentrytitle>make_mf<manvolnum/1</manvolnum></citerefentry>">
+
+
+<!--  TenDRA tools  -->
+<!ENTITY man.tendra.disp "<citerefentry><refentrytitle>disp</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tcc "<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tnc "<citerefentry><refentrytitle>tnc</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.pl "<citerefentry><refentrytitle>pl</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tld "<citerefentry><refentrytitle>tld</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tspec "<citerefentry><refentrytitle>tspec</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+
+
+<!--  TenDRA misc  -->
+<!ENTITY man.tendra.tccenv "<citerefentry><refentrytitle>tccenv</refentrytitle><manvolnum>5</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tchk "<citerefentry><refentrytitle>tchk</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tcpplus "<citerefentry><refentrytitle>tcpplus</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.tdfc2 "<citerefentry><refentrytitle>tdfc2</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+
+
+<!--  TenDRA installers  -->
+<!ENTITY man.tendra.alphatrans "<citerefentry><refentrytitle>alphatrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.hppatrans "<citerefentry><refentrytitle>hppatrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.mipstrans "<citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.sparctrans "<citerefentry><refentrytitle>sparctrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.tendra.trans386 "<citerefentry><refentrytitle>trans386</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+
+
+<!--  FreeBSD  -->
+<!ENTITY man.freebsd.as "<citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.freebsd.awk "<citerefentry><refentrytitle>awk</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.freebsd.cc "<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.freebsd.ld "<citerefentry><refentrytitle>ld</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.freebsd.prof "<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>">
+<!ENTITY man.freebsd.tempnam "<citerefentry><refentrytitle>tempnam</refentrytitle><manvolnum>3</manvolnum></citerefentry>">

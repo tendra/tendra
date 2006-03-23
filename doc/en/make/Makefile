@@ -5,7 +5,7 @@ PDF_SUBJECT=	PMake Tutorial
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 .include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"

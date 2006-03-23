@@ -5,7 +5,7 @@ PDF_SUBJECT=	tnc User's Guide
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 .include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"

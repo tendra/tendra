@@ -1,0 +1,22 @@
+<!--
+     Names and email address of contributing authors and CVS committers.
+     Entity names for committers should be the same as their login names on
+     ten15.org.
+
+     Use these entities when referencing people.
+
+     Please keep this list in alphabetical order by entity names.
+
+     IMPORTANT:  If you delete names from this file you *must* ensure that
+                 all references to them have been removed from all documentation
+
+     $TenDRA: doc/en/share/sgml/authors.ent,v 1.2 2003/08/23 08:10:00 verm Exp $
+-->
+
+<!ENTITY a.asmodai "Jeroen Ruigrok van der Werven" <email>asmodai@tendra.org</email>">
+
+<!ENTITY a.nonce "Amos B. Haven" <email>nonce@ten15.org</email>">
+
+<!ENTITY a.verm "Amar Takhar" <email>verm@ten15.org</email>">
+
+<!ENTITY a.zwane "Zwane Mwaikambo" <email>zwane@ten15.org</email>">

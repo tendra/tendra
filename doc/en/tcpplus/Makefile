@@ -11,7 +11,7 @@ IMAGES_OBJ?=	class.obj classa.obj classb.obj classc.obj classd.obj \
 
 DOC?= book
 
-SRCS=   book.sgml
+SRCS=   book.xml
 
 .include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"
