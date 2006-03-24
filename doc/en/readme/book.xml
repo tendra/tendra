@@ -38,7 +38,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
     <para>Please read the file COPYRIGHT for the DERA copyright notice. In
@@ -46,10 +46,10 @@
       subdirectories) are subject to the following copyright notice:</para>
   </preface>
 
-  <chapter>
+  <chapter id='downloading'>
     <title>Downloading</title>
 
-    <sect1>
+    <sect1 id='dl-source'>
       <title>Source</title>
 
       <para>The latest TenDRA release is available via the url:
@@ -63,7 +63,7 @@
         ftp://ftp.ten15.org/pub/source/</ulink>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='dl-documentation'>
       <title>Documentation</title>
 
       <para>TenDRA also has a comprehensive set of documentation you may
@@ -78,14 +78,51 @@
         ftp://ftp.ten15.org/pub/docs/</ulink>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='dl-cvs'>
       <title>CVS</title>
 
-      <para>The TenDRA CVS repository is accessible with the help of
-        <ulink url="http://www.cvsup.org/">John Polstra's CVSup
-        program</ulink>. An example
-        <ulink url="http://www.ten15.org/download/cvsupfile">cvsupfile
-        </ulink> is also available.</para>
+      <para>The TenDRA CVS rpository is accessible with the help of
+        <ulink url='http://www.subversion.org'>SubVersion</ulink>.</para>
+
+       <sect2 id='repo'>
+         <title>Available Repositories</title>
+
+       <informaltable border='all'>
+         <tgroup cols='2'>
+           <colspec colwidth='2*'/>
+           <colspec colwidth='8*'/>
+           <thead>
+             <row>
+               <entry>Repository</entry>
+               <entry>Location</entry>
+             </row>
+           </thead>
+           <tbody>
+             <row>
+               <entry>Source</entry>
+               <entry>http://svn.ten15.org/trunk/tendra/</entry>
+             </row>
+             <row>
+               <entry>Documentation</entry>
+               <entry>http://svn.ten15.org/trunk/doc/</entry>
+             </row>
+             <row>
+               <entry>PMake</entry>
+               <entry>http://svn.ten15.org/trunk/contrib/make/</entry>
+             </row>
+             <row>
+               <entry>Contrib</entry>
+               <entry>http://svn.ten15.org/trunk/contrib/</entry>
+             </row>
+           </tbody>
+         </tgroup>
+       </informaltable>
+
+       <para>If you're looking for <emphasis>tags</emphasis> or <emphasis>branches</emphasis>
+         just browse to the root online <ulink url='http://svn.ten15.org/'>http://svn.ten15.org/</ulink>.</para>
+
+       <para>Online source browsing is available at <ulink url='http://www.ten15.org/browser'>http://www.ten15.org/browser</ulink>.</para>
+     </sect2>
     </sect1>
   </chapter>
 
@@ -94,13 +131,13 @@
 
     <para>Documentation to be completed.</para>
 
-    <sect1>
+    <sect1 id='install-requirements'>
       <title>Requirements</title>
 
       <para>Documentation to be completed.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='install-os'>
       <title>OS Specific Information</title>
 
       <para>Documentation to be completed.</para>
@@ -108,39 +145,39 @@
   </chapter>
 
 
-  <chapter>
+  <chapter id='problems'>
     <title>Known Installation Problems</title>
 
     <para>Documentation to be completed.</para>
   </chapter>
 
-  <chapter>
+  <chapter id='src-layout'>
     <title>Source Layout</title>
 
-    <sect1>
+    <sect1 id='src-top'>
       <title>Toplevel Directory</title>
 
       <para>Documentation to be completed.</para>
 
-      <sect2>
+      <sect2 id='src-mk'>
         <title>mk</title>
 
         <para>Documentation to be completed.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='src-obj'>
         <title>obj</title>
 
         <para>Documentation to be completed.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='src-regression'>
         <title>regression</title>
 
         <para>Documentation to be completed.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='src-src'>
         <title>src</title>
 
         <para>See <xref linkend="src-dir"/></para>
@@ -153,7 +190,7 @@
       <para>The src subdirectory, which contains the source code, is organised
         into the following top-level directories:</para>
 
-      <sect2>
+      <sect2 id='src-dir-installers'>
         <title>installers</title>
  
         <para>Contains the compiler back-ends, which translate the compiler
@@ -436,7 +473,7 @@
         </informaltable>
       </sect2>
  
-      <sect2>
+      <sect2 id='src-lib'>
         <title>lib</title>
  
         <para>lib which contains everything not included in the other
@@ -468,7 +505,7 @@
           make_tdf to generate TDF encoders and decoders.</para>
       </sect2>
  
-      <sect2>
+      <sect2 id='src-producers'>
         <title>producers</title>
  
         <para>contains the compiler front-ends, which translate C and C++ to
@@ -508,7 +545,7 @@
           allocation etc.</para>
       </sect2>
  
-      <sect2>
+      <sect2 id='src-tools'>
         <title>tools</title>
  
         <para>contains various tools for manipulating, viewing and generating
@@ -531,7 +568,7 @@
           descriptions.</para>
       </sect2>
        
-      <sect2>
+      <sect2 id='src-utilities'>
         <title>utilities</title>
        
         <para>contains various compiler generator utilities used in the
@@ -563,7 +600,7 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='layout'>
     <title>Installed Layout</title>
    
     <para>The installation script creates three shell scripts in the public
@@ -620,21 +657,21 @@
       directly from the src/lib/startup directory in the release.</para>
   </chapter>
 
-  <chapter>
+  <chapter id='build-system'>
     <title>Build System</title>
 
     <para>insert information on the build system here</para>
   </chapter>
 
 
-  <chapter>
+  <chapter id='bugs'>
     <title>Bug Reporting</title>
 
     <para>bug reporting info here.</para>
   </chapter>
 
 
-<chapter>
+<chapter id='contributors'>
 <title>Contributors</title>
 
 <sect1 id='team'>
@@ -850,10 +887,10 @@
 
 
 
-  <chapter>
+  <chapter id='license'>
     <title>Licenses and Copyright Information</title>
  
-    <sect1>
+    <sect1 id='license-bsdl'>
       <title>The TenDRA Project (BSDL)</title>
  
       <para>All source code modifications to the original 4.1.2 release of
@@ -886,7 +923,7 @@ SUCH DAMAGE.
       </literallayout>
     </sect1>
 
-    <sect1>
+    <sect1 id='license-crown'>
       <title>Crown Copyright</title>
 
       <para>All source code from the original 4.1.2 release of TenDRA and
@@ -923,7 +960,7 @@ shall be deemed to be acceptance of the following conditions:
     </sect1>
 
 
-    <sect1>
+    <sect1 id='license-osf'>
       <title>Open Software Foundation, Inc.</title>
 
       <para>The installers/power and it's subdirectories are subject to the
@@ -952,7 +989,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
       </literallayout>
     </sect1>
 
-    <sect1>
+    <sect1 id='license-ixi'>
       <title>IXI Ltd.</title>
 
       <para>The lib/apis/motif1.2 and it's subdirectories are subject to the
