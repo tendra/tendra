@@ -51,11 +51,6 @@ BODY DIV {
 	margin: 0;
 }
 
-DL {
-	margin: .8em 0;
-	line-height: 1.2;
-}
-
 BODY FORM {
 	margin: .6em 0;
 }
@@ -159,3 +154,13 @@ BODY H1, BODY H2, BODY H3, BODY H4, BODY H5, BODY H6 {
 	background-color: #F0F0F0;
 	text-decoration: underline;
 } 
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.programlisting {
+    margin: .7em 3em;
+    color: #1414ba;
+}
+

@@ -81,7 +81,7 @@
     <sect1 id='dl-cvs'>
       <title>CVS</title>
 
-      <para>The TenDRA CVS rpository is accessible with the help of
+      <para>The TenDRA CVS repository is accessible with the help of
         <ulink url='http://www.subversion.org'>SubVersion</ulink>.</para>
 
        <sect2 id='repo'>
@@ -689,54 +689,41 @@
             <entry>Area of Focus</entry>
           </row>
         </thead>
-        <tbody>
+        <tbody valign='top'>
           <row>
-            <entry valign="top">Munish Chopra</entry>
-            <entry valign="top"><email>chopra@ten15.org</email></entry>
+            <entry role='nowrap'>Munish Chopra</entry>
+            <entry><email>chopra@ten15.org</email></entry>
             <entry>Documentation, platform support, web content and other
               all-around tasks.</entry>
           </row>
           <row>
-            <entry valign="top">Stefan Farfeleder</entry>
-            <entry valign="top"><email>stefanf@ten15.org</email></entry>
+            <entry role='nowrap'>Stefan Farfeleder</entry>
+            <entry><email>stefanf@ten15.org</email></entry>
             <entry>C producer in terms of bug fixes and C99 functionality, new
               APIs (mainly C99 and SUSv3), as well as the Alpha
               installer.</entry>
           </row>
           <row>
-            <entry valign="top">Samuel J. Greear</entry>
-            <entry valign="top"><email>sjg@ten15.org</email></entry>
+            <entry role='nowrap'>Samuel J. Greear</entry>
+            <entry><email>sjg@ten15.org</email></entry>
             <entry>Making FreeBSD TenDRA-friendly.</entry>
           </row>
           <row>
-            <entry valign="top">Amos B. Haven</entry>
-            <entry valign="top"><email>nonce@ten15.org</email></entry>
+            <entry role='nowrap'>Amos B. Haven</entry>
+            <entry><email>nonce@ten15.org</email></entry>
             <entry>SSA transformations, data flow, dynamic slicing, and
               related areas.</entry>
           </row>
           <row>
-            <entry valign="top">Boris Popov</entry>
-            <entry valign="top"><email>bp@ten15.org</email></entry>
+            <entry role='nowrap'>Boris Popov</entry>
+            <entry><email>bp@ten15.org</email></entry>
             <entry>Code cleanup, libten, extensible support for qualifiers in
               the producers, inline assembly support in the
               installers.</entry>
           </row>
           <row>
-            <entry valign="top">Amar Takhar</entry>
-            <entry valign="top"><email>verm@ten15.org</email></entry>
-            <entry>Build system, documentation, platform support, web site,
-              and a number of other areas.</entry>
-          </row>
-          <row>
-            <entry valign="top">Boris Popov</entry>
-            <entry valign="top"><email>bp@ten15.org</email></entry>
-            <entry>Code cleanup, libten, extensible support for qualifiers in
-              the producers, inline assembly support in the
-              installers.</entry>
-          </row>
-          <row>
-            <entry valign="top">Amar Takhar</entry>
-            <entry valign="top"><email>verm@ten15.org</email></entry>
+            <entry role='nowrap'>Amar Takhar</entry>
+            <entry><email>verm@ten15.org</email></entry>
             <entry>Build system, documentation, platform support, web site,
               and a number of other areas.</entry>
           </row>
@@ -757,9 +744,9 @@
             <entry>Description</entry>
           </row>
         </thead>
-        <tbody>
+        <tbody valign='top'>
           <row>
-            <entry valign="top">Jeroen Ruigrok van der Werven</entry>
+            <entry role='nowrap'>Jeroen Ruigrok van der Werven</entry>
             <entry>Jeroen left on August 20, 2003 to focus on other aspects of
               ANDF technology. Thanks for the hard work, we'll miss you
               asmo!</entry>
@@ -796,9 +783,9 @@
               </row>
             </thead>
 
-            <tbody>
+            <tbody valign='top'>
               <row>
-                <entry><ulink url="http://www.stanford.edu/">Stanford University</ulink></entry>
+                <entry role='nowrap'><ulink url="http://www.stanford.edu/">Stanford University</ulink></entry>
                 <entry>Bandwidth and our central development machine 'spill'.</entry>
               </row>
             </tbody>
@@ -827,21 +814,21 @@
           </row>
         </thead>
 
-        <tbody>
+        <tbody valign='top'>
           <row>
-            <entry>Priit Piipuu</entry>
+            <entry role='nowrap'>Priit Piipuu</entry>
             <entry><email>priit.piipuu@mail.ee</email></entry>
             <entry>..</entry>
           </row>
 
           <row>
-            <entry>Jesper Louis Andersen</entry>
+            <entry role='nowrap'>Jesper Louis Andersen</entry>
             <entry><email>jlouis@mongers.org</email></entry>
             <entry>..</entry>
           </row>
 
           <row>
-            <entry>Daniel Gustafson</entry>
+            <entry role='nowrap'>Daniel Gustafson</entry>
             <entry><email>daniel@hobbit.se</email></entry>
             <entry>..</entry>
           </row>
@@ -871,9 +858,9 @@
           </row>
         </thead>
 
-        <tbody>
+        <tbody valign='top'>
           <row>
-            <entry>Stanford University</entry>
+            <entry role='nowrap'>Stanford University</entry>
             <entry><ulink url="http://www.stanford.edu">http://www.stanford.edu</ulink></entry>
             <entry>...</entry>
           </row>
