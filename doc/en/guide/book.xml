@@ -103,7 +103,8 @@
       ERROR_TREATMENT and two EXPs to make another EXP.</para>
 
     <para>At the moment, there are 58 different SORTS, from ACCESS to VARIETY
-      given in tables 1 and 2. Some of these have familiar analogues in standard
+      given in <xref linkend='first-class-sorts'/> and
+      <xref linkend='sorts-without-sortnames'/>. Some of these have familiar analogues in standard
       language construction as with EXP and TAG above. Others will be less
       familiar since TDF must concern itself with issues not normally addressed
       in language definitions. For example, the process of linking together TDF
@@ -150,7 +151,7 @@
         SORT by giving it a TOKEN as identification. Not all of the SORTs are
         available for this kind of encapsulation - only those which have a
         SORTNAME constructor (from access to variety). These are the
-        "first-class" SORTs given in table 1 on page 8. Each of these have an
+        "first-class" SORTs given in <xref linkend='first-class-sorts'/>. Each of these have an
         appropriate _apply_token constructor (e.g. exp_apply_token) give the
         expansion. Most of these also have _cond constructors (e.g.see exp_cond
         in <xref linkend='cond-constructors'/>) which allows translate
@@ -449,7 +450,7 @@ make_tokdef(C_plus, empty,
     <sect1 id='second-class-sorts'>
       <title>Second class SORTs</title> 
 
-      <para>Second class SORTs (given in table 2 on page 11) cannot be
+      <para>Second class SORTs given in <xref linkend='sorts-without-sortnames'/> cannot be
         TOKENised. These are the "syntactic units" of TDF which the user cannot
         extend; he can only produce them using the constructors defined in
         core-TDF.</para>
@@ -1175,7 +1176,7 @@ make_link(42, 4)
       <title>Shapes</title> 
 
       <para>There are ten different basic constructors for the SORT SHAPE from
-        bitfield to top as shown in table 3. SHAPEs arising from those
+        bitfield to top as shown in table 3 (FIXME: where is table 3?). SHAPEs arising from those
         constructors are used as qualifiers (just using an upper case version of
         the constructor name) to various SORTs in the definition; for example,
         EXP TOP is an expression with top SHAPE. This is just used for
