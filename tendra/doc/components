@@ -1,0 +1,85 @@
+Components
+==========
+
+This document describes the various libraries, modules and tools which
+are proposed to exist after the restructuring described by the
+./outlineplan document.
+
+
+Libraries
+---------
+
+After restructuring, we will be set to design APIs for two publicly-
+available libraries:
+
+ libTenDRA  The TenDRA compiler proper, providing an API interface.
+
+            This should not be aware of how each producer and
+            installer is implemented.
+
+ libTDF     This is a point of confusion. Our new libTDF is an API to
+            manipulate TDF; the original libTDF is a support library.
+
+These libraries should not execute external programs, to avoid
+configuations per-platform.
+
+
+Modules
+-------
+
+The following modules will hook into libTenDRA:
+
+ Installers Output from TDF to each machine's instructions.
+
+ Producers  Parsing from input languages to TDF.
+
+Each Installer and Producer is a dynamically-linked module, loaded at
+runtime. These use libTDF (the new API) for inputing or outputting TDF
+data
+
+
+Tools
+-----
+
+The following command-line interfaces are user-facing programs, which
+may be used separately from the TenDRA project:
+
+ disp       TDF pretty-printer.
+
+ tcc        An interface to libTenDRA, capable of loading various
+            producer and installer modules.
+
+ tld        The TDF Linker.
+
+ tnc        The TDF Notation Compiler (An unstructured TDF assembler
+            and disassembler).
+
+ tpl        The PL_TDF Compiler (a structured TDF assembler).
+
+ lexi       A lexical generator.
+
+ sid        Syntax Improving Device: a parser generator.
+
+ calculus   An algebraic type system tool.
+
+
+Utilities
+---------
+
+The following command-line interfaces are developer-facing programs,
+which are specific to development of the TenDRA project:
+
+ tspec      An API specification generation tool.
+
+ make_err   A tool to manage the producer's error catalogues.
+
+ make_tdf   A tool to generate TDF encoding and decoding routines.
+
+            This is for the new libTDF, and, confusingly, uses the old
+			lib/tdf.
+
+
+A transition from the previous directory structure to the new layout
+required for these components is described in the ./restructure
+document.
+
