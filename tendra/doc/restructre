@@ -40,9 +40,14 @@ Miscellany:
 /tendra/lib/libtdf          libTDF       /tdf/lib/libtdf
 /tendra/lib/startup         libTenDRA    /tendra/lib/startup
 
+See development/movingouttools for details of how we intend to go about
+moving the tools into their new paths, and how they relate to the
+shared components with the rest of the source tree.
+
 Within these directories, the structure is expected to remain as-is.
 
 Directories not mentioned here are special cases, and need splitting
 up according to their own specific requirements.
 
-This document does not cover the build system.
+This document does not cover the build system; see
+development/buildsystem instead.
