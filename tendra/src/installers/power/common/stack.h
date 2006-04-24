@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -75,8 +105,8 @@ $Log: stack.h,v $
 #ifndef STACK_H
 #define STACK_H  1
 
-#define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
-#define ALLOCA_ALIGNMENT(n) ((n+7) & ~7)
+#define ALIGNNEXT(bitposn, bitalign)	(((bitposn) + (bitalign) -1) & ~((bitalign) -1))
+#define ALLOCA_ALIGNMENT(n)((n+7) & ~7)
 
 /* Stack frame layout, from Assembler Reference manual page 4-19, in bytes */
 #define STACK_LINK_AREA_SIZE		24
@@ -90,7 +120,7 @@ $Log: stack.h,v $
 
 #define	STACK_FIXED_REG_DUMP_AREA_SIZE	(19*4)		/* 19 fixed point */
 #define	STACK_FLOAT_REG_DUMP_AREA_SIZE	((18*2)*4)	/* 18 doubles */
-#define	STACK_REG_DUMP_AREA_SIZE	(ALIGNNEXT(STACK_FIXED_REG_DUMP_AREA_SIZE,8) \
+#define	STACK_REG_DUMP_AREA_SIZE	(ALIGNNEXT(STACK_FIXED_REG_DUMP_AREA_SIZE,8)\
 						   +STACK_FLOAT_REG_DUMP_AREA_SIZE)
 #define	STACK_MIN_MAXARGS		(8*4)		/* 8 words of params */
 
@@ -119,15 +149,15 @@ extern bool p_has_tp;
 extern int p_return_label;
 extern ans p_result;/* what the result of the proc is */
 extern exp p_current;
-extern void generate_procedure_prologue PROTO_S ((void));
-extern void generate_procedure_epilogue PROTO_S ((void));
-extern void generate_untidy_procedure_epilogue PROTO_S ((void));
-extern void save_sp_on_stack PROTO_S ((void));
-extern void get_sp_from_stack PROTO_S ((void));
-extern void save_back_chain_using_frame_pointer PROTO_S ((void));
-extern void initialise_procedure PROTO_S ((procrec *));
-extern void restore_sregs PROTO_S ((int,int));
-extern void restore_link_register PROTO_S ((void));
+extern void generate_procedure_prologue(void);
+extern void generate_procedure_epilogue(void);
+extern void generate_untidy_procedure_epilogue(void);
+extern void save_sp_on_stack(void);
+extern void get_sp_from_stack(void);
+extern void save_back_chain_using_frame_pointer(void);
+extern void initialise_procedure(procrec *);
+extern void restore_sregs(int,int);
+extern void restore_link_register(void);
 #define EXTRA_CALLEE_BYTES 8 /* the number of bytes added on to the callees i.e 4 to hold saved chain*/
 
 #endif

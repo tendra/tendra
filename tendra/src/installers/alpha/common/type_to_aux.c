@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -31,12 +61,12 @@
 /*
   type_to_aux.c
 
-  contains procedure 
-  long add_type_to_aux (diag_type s, long ind) which converts a TDF 
-  shape into an AUXU (see sym.h) and adds it to the auxillary table 
-  for the file number given as parameter as required by the MIPS 
-  (and alpha) symbol table(s).  If the entry generated is greater 
-  than 1 AUXU in length the index corresponding to the first entry 
+  contains procedure
+  long add_type_to_aux (diag_type s, long ind) which converts a TDF
+  shape into an AUXU (see sym.h) and adds it to the auxillary table
+  for the file number given as parameter as required by the MIPS
+  (and alpha) symbol table(s).  If the entry generated is greater
+  than 1 AUXU in length the index corresponding to the first entry
   made is returned.
 */
 
@@ -77,15 +107,14 @@ $Log: type_to_aux.c,v $
 #endif
 
 
-extern long find_aux PROTO_S ((diag_type e));
-extern int add_aux PROTO_S ((AUXU,int));
+extern long find_aux(diag_type e);
+extern int add_aux(AUXU,int);
 
 int field=0;
 
 
 long set_tq
-    PROTO_N ( ( qual,type,ind ) )
-    PROTO_T ( int qual X TIR *type X long ind )
+(int qual, TIR *type, long ind)
 {
   AUXU retaux;
   long index=0;
@@ -113,9 +142,9 @@ long set_tq
       type->tq1=type->tq0;
       break;
     case 6:	type->continued=1;
-      retaux.ti=(*type);
+      retaux.ti= (*type);
       index=add_aux(retaux, ind);
-      type=(TIR*)xcalloc(1,sizeof(TIR));
+      type= (TIR*)xcalloc(1,sizeof(TIR));
       type->tq0=qual;
       field=1;
       return index;
@@ -126,10 +155,9 @@ long set_tq
 
 
 long type_size
-    PROTO_N ( ( dt ) )
-    PROTO_T ( diag_type dt )
+(diag_type dt)
 {
-  switch(dt->key) 
+  switch (dt->key)
     {
     case DIAG_TYPE_VARIETY: {
       return shape_size(dt->data.var);
@@ -138,24 +166,23 @@ long type_size
       return shape_size(dt->data.t_struct.tdf_shape);
     }
     case DIAG_TYPE_FLOAT: {
-      return ((dt->data.f_var)?64:32);
+      return((dt->data.f_var)?64:32);
     }
     case DIAG_TYPE_ARRAY: {
       long is = type_size(dt->data.array.element_type);
-      return (is *(dt->data.array.upper_b-dt->data.array.lower_b+1));
+      return(is *(dt->data.array.upper_b-dt->data.array.lower_b+1));
     }
     case DIAG_TYPE_ENUM: {
       return type_size(dt->data.t_enum.base_type);
     }
     default: return 32;
     }
-}	
+}
 
 long add_type_to_aux
-    PROTO_N ( ( dt,ind ) )
-    PROTO_T ( diag_type dt X long ind )
+(diag_type dt, long ind)
 {
-  TIR* type=(TIR*)xcalloc(1,sizeof(TIR));
+  TIR* type= (TIR*)xcalloc(1,sizeof(TIR));
   long firstind= -1;
   int dimension=0;
   int elemsize=0;
@@ -166,13 +193,13 @@ long add_type_to_aux
   field=0;
 
   type->bt=63;
-  while (type->bt==63){
+  while (type->bt==63) {
     if (dt == (diag_type)0) {
       type->bt = btNil;
-      retaux.ti=(*type);
+      retaux.ti= (*type);
       break;
     }
-    switch (dt->key) 
+    switch (dt->key)
       {
       case DIAG_TYPE_BITFIELD: {
 	type->bt=btUInt;
@@ -183,45 +210,45 @@ long add_type_to_aux
 	retaux.rndx.index=0;
 	add_aux(retaux, ind);
 	break;
-      }                     
+      }
       case DIAG_TYPE_UNINIT:  case DIAG_TYPE_NULL: case DIAG_TYPE_INITED:
 	type->bt = btNil;
-	retaux.ti=(*type);
+	retaux.ti= (*type);
 	break;
       case DIAG_TYPE_VARIETY: {
-	switch (name(dt->data.var)) 
+	switch (name(dt->data.var))
 	  {
 	  case scharhd:
-	    type->bt = btChar; 
-	    retaux.ti=(*type);
+	    type->bt = btChar;
+	    retaux.ti= (*type);
 	    break;
-	  case ucharhd: 
-	    type->bt = btUChar; 
-	    retaux.ti=(*type);
+	  case ucharhd:
+	    type->bt = btUChar;
+	    retaux.ti= (*type);
 	    break;
-	  case swordhd: 
-	    type->bt = btShort; 
-	    retaux.ti=(*type);
+	  case swordhd:
+	    type->bt = btShort;
+	    retaux.ti= (*type);
 	    break;
-	  case uwordhd: 
-	    type->bt = btUShort; 
-	    retaux.ti=(*type);
+	  case uwordhd:
+	    type->bt = btUShort;
+	    retaux.ti= (*type);
 	    break;
-	  case slonghd: 
-	    type->bt = btInt32; 
-	    retaux.ti=(*type);
+	  case slonghd:
+	    type->bt = btInt32;
+	    retaux.ti= (*type);
 	    break;
-	  case ulonghd: 
-	    type->bt = btUInt32; 
-	    retaux.ti=(*type);
+	  case ulonghd:
+	    type->bt = btUInt32;
+	    retaux.ti= (*type);
 	    break;
 	  case s64hd:
 	    type->bt = btLong64;
-	    retaux.ti=(*type);
+	    retaux.ti= (*type);
 	    break;
 	  case u64hd:
 	    type->bt = btULong64;
-	    retaux.ti=(*type);
+	    retaux.ti= (*type);
 	    break;
 	  default: failer("DIAGS - not variety ");
           }
@@ -233,15 +260,15 @@ long add_type_to_aux
 	}
 	else {
 	  type->bt = btDouble;
-	}             
-	retaux.ti=(*type);
+	}
+	retaux.ti= (*type);
 	break;
       }
-      case DIAG_TYPE_PROC: { 
+      case DIAG_TYPE_PROC: {
    /* ???  MIPS   ???  should use result type ???  */
 	set_tq(tqProc, type, ind);
 	type->bt = btUInt;
-	retaux.ti=(*type);
+	retaux.ti= (*type);
 	break;
       }
       case DIAG_TYPE_PTR: {
@@ -252,7 +279,7 @@ long add_type_to_aux
       case DIAG_TYPE_STRUCT: case DIAG_TYPE_UNION: {
 	type->bt = (dt->key == DIAG_TYPE_STRUCT)? btStruct:btUnion;
 	retaux.ti = *type;
-	if (firstind==-1){
+	if (firstind==-1) {
 	  firstind=add_aux(retaux, ind);
 	}
 	else{
@@ -272,22 +299,22 @@ long add_type_to_aux
 	xdt = dt;
 	while (ndt->key==DIAG_TYPE_ARRAY) {
 	  dimension++;
-	  ndt = ndt->data.array.element_type; 
+	  ndt = ndt->data.array.element_type;
 	}
 	dt = ndt;
-	elemsize = type_size(ndt)>>3;
+	elemsize = type_size(ndt) >>3;
 	break;
       }
       case DIAG_TYPE_ENUM: case DIAG_TYPE_LOC: {
 	dt = dt->data.t_enum.base_type;
 	break;
       }
-      default: 
-	failer ("bad diagnostics type");
+      default:
+	failer("bad diagnostics type");
 	break;
       }
-  }	
-  if (firstind==-1){
+  }
+  if (firstind==-1) {
     firstind=add_aux(retaux,ind);
   }
   else{
@@ -295,11 +322,11 @@ long add_type_to_aux
   }
   while (dimension--) {
     int i;
-    diag_type ndt = xdt; 
+    diag_type ndt = xdt;
     for (i=1;i<dimension;i++) {
       ndt = ndt->data.array.element_type;
     }
-    i = no(ndt->data.array.upper_b) - no(ndt->data.array.lower_b)-1;
+    i = no(ndt->data.array.upper_b) - no(ndt->data.array.lower_b) -1;
     retaux.rndx.rfd = 4095;
     retaux.rndx.index=4;
     add_aux(retaux,ind);
@@ -319,8 +346,8 @@ long add_type_to_aux
 }
 
 
-			
-		
+
+
 
 
 

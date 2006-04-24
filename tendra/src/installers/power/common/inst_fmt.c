@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -85,7 +115,7 @@ understood by the assembler.
 #include "config.h"
 #include "geninst.h"
 
-#include "proc.h"		
+#include "proc.h"
 #include "myassert.h"
 #include "flags.h"
 #include "comment.h"
@@ -95,19 +125,19 @@ understood by the assembler.
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
-#define IS_POW2(c)		((c) != 0 && ((c) & ((c)-1)) == 0)
+#define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
-#define CHECKREG(r)		ASSERT(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)) );
+#define CHECKREG(r)		ASSERT(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
 #define CHECKFREG(r)		ASSERT((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));
 
 extern FILE *as_file;
-char * get_instruction PROTO_S ((Instruction_P));
+char * get_instruction(Instruction_P);
 
-char *ext_name PROTO_N ((id)) PROTO_T (long id)
+char *ext_name(long id)
 {
   if (id < 0)
   {
-    char *ext = main_globals[(-id) - 1]->dec_u.dec_val.dec_id;
+    char *ext = main_globals[(-id) - 1] ->dec_u.dec_val.dec_id;
 
     return ext;
   }
@@ -124,7 +154,7 @@ char *ext_name PROTO_N ((id)) PROTO_T (long id)
 
 /* +++ do better for offset to R_SP too big, trace reg or load extra base reg */
 
-void ld_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int dest)
+void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
 {
   CHECKREG(dest); CHECKREG(a.base);
 
@@ -147,7 +177,7 @@ void ld_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X i
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(dest), (int)a.offset, reg_macro(a.base));
 #else
-    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), dest, (int)a.offset, a.base);
+    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
 #endif
   }
   else
@@ -161,7 +191,7 @@ void ld_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X i
 }
 
 
-void ld_rr_ins PROTO_N ((ins,reg1,reg2,dest)) PROTO_T (Instruction_P ins X int reg1 X int reg2 X int dest)
+void ld_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
 {
   CHECKREG(dest); CHECKREG(reg1); CHECKREG(reg2);
   ASSERT(reg1!=R_0);
@@ -175,7 +205,7 @@ void ld_rr_ins PROTO_N ((ins,reg1,reg2,dest)) PROTO_T (Instruction_P ins X int r
 }
 
 
-void set_ins PROTO_N ((a,dest)) PROTO_T (baseoff a X int dest)
+void set_ins(baseoff a, int dest)
 {
   char *extname = ext_name(a.base);
 
@@ -193,7 +223,7 @@ void set_ins PROTO_N ((a,dest)) PROTO_T (baseoff a X int dest)
 }
 
 
-void ld_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int dest)
+void ld_ins(Instruction_P ins, baseoff a, int dest)
 {
   /*
    * Not a single instruction. Load from baseoff, which may be a global
@@ -228,7 +258,7 @@ void ld_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int 
 }
 
 
-void st_ro_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X baseoff a)
+void st_ro_ins(Instruction_P ins, int src, baseoff a)
 {
   CHECKREG(src); CHECKREG(a.base);
 
@@ -253,7 +283,7 @@ void st_ro_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X base
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(src), (int)a.offset, reg_macro(a.base));
 #else
-    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), src, (int)a.offset, a.base);
+    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
 #endif
   }
   else
@@ -268,7 +298,7 @@ void st_ro_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X base
 }
 
 
-void st_rr_ins PROTO_N ((ins,src,reg1,reg2)) PROTO_T (Instruction_P ins X int src X int reg1 X int reg2)
+void st_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(src); CHECKREG(reg1); CHECKREG(reg2);
   ASSERT(reg1!=R_0);
@@ -280,7 +310,7 @@ void st_rr_ins PROTO_N ((ins,src,reg1,reg2)) PROTO_T (Instruction_P ins X int sr
 }
 
 
-void st_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X baseoff a)
+void st_ins(Instruction_P ins, int src, baseoff a)
 {
   /*
    * Not a single instruction. Store into baseoff, which may be a global
@@ -311,7 +341,7 @@ void st_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X baseoff
 
 
 /* 3 register operand instructions, source1, source2, destination */
-void rrr_ins PROTO_N ((ins,src1,src2,dest)) PROTO_T (Instruction_P ins X int src1 X int src2 X int dest)
+void rrr_ins(Instruction_P ins, int src1, int src2, int dest)
 {
   CHECKREG(dest); CHECKREG(src1); CHECKREG(src2);
 
@@ -334,15 +364,15 @@ void rrr_ins PROTO_N ((ins,src1,src2,dest)) PROTO_T (Instruction_P ins X int src
     fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
 #endif
   }
-  
+
 }
 
 
 /* source register, immediate, destination register instructions */
 
-void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X long imm X int dest)
+void rir_ins(Instruction_P ins, int src, long imm, int dest)
 {
-  bool logical = ins == i_and || ins == i_or || ins == i_xor|| 
+  bool logical = ins == i_and || ins == i_or || ins == i_xor||
     ins ==i_and_cr|| ins==i_or_cr || ins==i_xor_cr;
 
   CHECKREG(dest); CHECKREG(src);
@@ -359,23 +389,23 @@ void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X
   if (!logical && IMM_SIZE(imm))
   {
     Instruction_P imins;
-    if      (ins==i_a)       imins=i_ai;
-    else if (ins==i_a_cr)    imins=i_ai_cr;
-    else if (ins==i_sf)      imins=i_sfi;
-    else if (ins==i_sl)      imins=i_sli;
-    else if (ins==i_sl_cr)   imins=i_sli_cr;
-    else if (ins==i_sr)      imins=i_sri;
-    else if (ins==i_sr_cr)   imins=i_sri_cr;
-    else if (ins==i_sra)     imins=i_srai;
-    else if (ins==i_sra_cr)  imins=i_srai_cr;
-    else if (ins==i_muls)    imins=i_muli;
+    if     (ins==i_a)      imins=i_ai;
+    else if (ins==i_a_cr)   imins=i_ai_cr;
+    else if (ins==i_sf)     imins=i_sfi;
+    else if (ins==i_sl)     imins=i_sli;
+    else if (ins==i_sl_cr)  imins=i_sli_cr;
+    else if (ins==i_sr)     imins=i_sri;
+    else if (ins==i_sr_cr)  imins=i_sri_cr;
+    else if (ins==i_sra)    imins=i_srai;
+    else if (ins==i_sra_cr) imins=i_srai_cr;
+    else if (ins==i_muls)   imins=i_muli;
     else
     {
       printf("Unknown immediate instruction for %s\n",get_instruction(ins));
-      imins=ins;    
+      imins=ins;
     }
-    
-#ifdef DO_ASSEMBLER_MACROS 
+
+#ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file,"\t%s\t%s,%s,%ld\n",get_instruction(imins), reg_macro(dest), reg_macro(src), imm);
 #else
     fprintf(as_file,"\t%s\t%d,%d,%ld\n",get_instruction(imins), dest, src, imm);
@@ -395,7 +425,7 @@ void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X
     return;
   }
 
-  if ((ins == i_a || ins == i_s) && IMM_SIZE((imm/2)+1) && dest != R_SP)
+  if ((ins == i_a || ins == i_s) && IMM_SIZE((imm/2) +1) && dest != R_SP)
   {
     COMMENT1("rir_ins: special casing add/sub of constant %ld", imm);
     if (ins == i_s && imm == 0x8000)
@@ -456,15 +486,15 @@ void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X
       return;
     }
   }
-  
+
 
   if (logical && IMMLOGL_SIZE(imm))  /* Lower 16 bit load */
   {
     Instruction_P ilins;
-    if      (ins==i_and)  ilins = i_andil_cr;
-    else if (ins==i_or)   ilins = i_oril;
-    else if (ins==i_xor)  ilins = i_xoril;
-    else if (ins==i_and_cr) ilins = i_andil_cr;
+    if     (ins==i_and) ilins = i_andil_cr;
+    else if (ins==i_or)  ilins = i_oril;
+    else if (ins==i_xor) ilins = i_xoril;
+    else if (ins==i_and_cr)ilins = i_andil_cr;
     else fail("Should never reach here");
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
@@ -474,14 +504,14 @@ void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X
     return;
   }
 
-  if (logical && IMMLOGU_SIZE(imm))  /* Upper 16 bit load */ 
+  if (logical && IMMLOGU_SIZE(imm))  /* Upper 16 bit load */
   {
     unsigned long uimm = imm;
     Instruction_P iuins;
-    if      (ins==i_and)  iuins = i_andiu_cr;
-    else if (ins==i_or)   iuins = i_oriu;
-    else if (ins==i_xor)  iuins = i_xoriu;
-    else if (ins==i_and_cr) iuins = i_andiu_cr;
+    if     (ins==i_and) iuins = i_andiu_cr;
+    else if (ins==i_or)  iuins = i_oriu;
+    else if (ins==i_xor) iuins = i_xoriu;
+    else if (ins==i_and_cr)iuins = i_andiu_cr;
     else fail("Should never reach here");
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%s,%ld\n",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
@@ -515,7 +545,7 @@ void rir_ins PROTO_N ((ins,src,imm,dest)) PROTO_T (Instruction_P ins X int src X
 }
 
 /* register to register pseudo instruction */
-void rr_ins PROTO_N ((ins,src,dest)) PROTO_T (Instruction_P ins X int src X int dest)
+void rr_ins(Instruction_P ins, int src, int dest)
 {
   CHECKREG(dest); CHECKREG(src);
 
@@ -533,7 +563,7 @@ void rr_ins PROTO_N ((ins,src,dest)) PROTO_T (Instruction_P ins X int src X int 
 
 
 /* mov fixed point reg to another */
-void mov_rr_ins PROTO_N ((src,dest)) PROTO_T (int src X int dest)
+void mov_rr_ins(int src, int dest)
 {
   CHECKREG(dest); CHECKREG(src);
 
@@ -551,7 +581,7 @@ void mov_rr_ins PROTO_N ((src,dest)) PROTO_T (int src X int dest)
 
 
 /* load const into fixed point reg */
-void ld_const_ins PROTO_N ((imm,dest)) PROTO_T (long imm X int dest)
+void ld_const_ins(long imm, int dest)
 {
   CHECKREG(dest);
 
@@ -590,14 +620,14 @@ void ld_const_ins PROTO_N ((imm,dest)) PROTO_T (long imm X int dest)
 
 
 /* move from branch unit to fixed point reg */
-void mf_ins PROTO_N ((ins,dest)) PROTO_T (Instruction_P ins X int dest)
+void mf_ins(Instruction_P ins, int dest)
 {
   if (ins !=i_mffs)
   {
     CHECKREG(dest);
     clear_reg(dest);
   }
-  else 
+  else
   {
     CHECKFREG(dest);
     clear_freg(dest);
@@ -610,7 +640,7 @@ void mf_ins PROTO_N ((ins,dest)) PROTO_T (Instruction_P ins X int dest)
 }
 
 /* move to branch unit from fixed point reg */
-void mt_ins PROTO_N ((ins,src)) PROTO_T (Instruction_P ins X int src)
+void mt_ins(Instruction_P ins, int src)
 {
   CHECKREG(src);
 #ifdef DO_ASSEMBLER_MACROS
@@ -623,7 +653,7 @@ void mt_ins PROTO_N ((ins,src)) PROTO_T (Instruction_P ins X int src)
 
 
 /* zeroadic pseudo instruction */
-void z_ins PROTO_N ((ins)) PROTO_T (Instruction_P ins)
+void z_ins(Instruction_P ins)
 {
   fprintf(as_file, "\t%s\n", get_instruction(ins));
 }
@@ -634,7 +664,7 @@ Branch instructions. These have labels as destination.
 ******************************************************************************/
 
 /* unconditional branch */
-void uncond_ins PROTO_N ((ins,lab)) PROTO_T (Instruction_P ins X int lab)
+void uncond_ins(Instruction_P ins, int lab)
 {
   fprintf(as_file, "\t%s\tL.%d\n", get_instruction(ins), lab);
 }
@@ -647,14 +677,14 @@ void uncond_ins PROTO_N ((ins,lab)) PROTO_T (Instruction_P ins X int lab)
  */
 
 /* jump/call to external identifier */
-void extj_ins PROTO_N ((ins,b)) PROTO_T (Instruction_P ins X baseoff b)
+void extj_ins(Instruction_P ins, baseoff b)
 {
   char *ext;
 
-  FULLCOMMENT1("extj_ins: global proc no=%d", (-b.base) - 1);
-  ASSERT(((-b.base)-1)>=0);
+  FULLCOMMENT1("extj_ins: global proc no=%d",(-b.base) - 1);
+  ASSERT(((-b.base) -1) >=0);
 
-  ext = main_globals[(-b.base) - 1]->dec_u.dec_val.dec_id;
+  ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
 
   fprintf(as_file, "\t%s\t.%s\n", get_instruction(ins), ext);
 
@@ -665,15 +695,15 @@ void extj_ins PROTO_N ((ins,b)) PROTO_T (Instruction_P ins X baseoff b)
    *
    * We optimise by omitting the no-op where we know the call is intra-module.
    */
-  if (diagnose || !main_globals[(-b.base)-1]->dec_u.dec_val.have_def)
+  if (diagnose || !main_globals[(-b.base) -1] ->dec_u.dec_val.have_def)
   {
     fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
   }
-  
+
 }
 
 /* jump/call to compiler generated external identifier, eg .mul */
-void extj_special_ins PROTO_N ((ins,nm)) PROTO_T (Instruction_P ins X char *nm)
+void extj_special_ins(Instruction_P ins, char *nm)
 {
   fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), nm);
   fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
@@ -685,15 +715,15 @@ void extj_special_ins PROTO_N ((ins,nm)) PROTO_T (Instruction_P ins X char *nm)
  */
 
 /* branch conditional instruction */
-void bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins X int creg X int lab X int prediction)
+void bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 {
-  if(architecture == POWERPC_CODE)
+  if (architecture == POWERPC_CODE)
   {
-    
+
     int BI;
     int BO;
     BI=creg*4;
-    
+
     if (ins==i_ble)
     {
       BO  = 4;
@@ -706,15 +736,15 @@ void bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins X int
     }
     else if (ins == i_bge)
     {
-      BO  = 4 ;
+      BO  = 4;
       BI += 0;
-    } 
+    }
     else if (ins == i_bgt)
     {
       BO  = 12;
       BI += 1;
     }
-    else if(ins == i_bne)
+    else if (ins == i_bne)
     {
       BO  = 4;
       BI += 2;
@@ -724,12 +754,12 @@ void bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins X int
       BO  = 12;
       BI += 2;
     }
-    else 
+    else
     {
       fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
       return;
     }
-    if(prediction)
+    if (prediction)
     {
       BO+=1;
     }
@@ -745,32 +775,32 @@ void bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins X int
   }
 }
 /* branch conditional instruction */
-void long_bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins X int creg X int lab X int prediction)
+void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 {
   /* same as bc_ins only the test is reversed so that the lab is called directly so that there is no chance of the branch being out of range */
 
   long new_lab = lab;
   lab = new_label();
-  if      (ins==i_blt){ins = i_bge;}
-  else if (ins==i_ble){ins = i_bgt;}
-  else if (ins==i_bne){ins = i_beq;}
-  else if (ins==i_beq){ins = i_bne;}
-  else if (ins==i_bgt){ins = i_ble;}
-  else if (ins==i_bge){ins = i_blt;}
-  else if (ins==i_bso){ins = i_bns;}
-  else if (ins==i_bns){ins = i_bso;}
+  if     (ins==i_blt) {ins = i_bge;}
+  else if (ins==i_ble) {ins = i_bgt;}
+  else if (ins==i_bne) {ins = i_beq;}
+  else if (ins==i_beq) {ins = i_bne;}
+  else if (ins==i_bgt) {ins = i_ble;}
+  else if (ins==i_bge) {ins = i_blt;}
+  else if (ins==i_bso) {ins = i_bns;}
+  else if (ins==i_bns) {ins = i_bso;}
   else
   {
     fail("Don't know how to reverse this test");
   }
-  
-  if(architecture == POWERPC_CODE)
+
+  if (architecture == POWERPC_CODE)
   {
-    
+
     int BI;
     int BO;
     BI=creg*4;
-    
+
     if (ins==i_ble)
     {
       BO  = 4;
@@ -783,15 +813,15 @@ void long_bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins 
     }
     else if (ins == i_bge)
     {
-      BO  = 4 ;
+      BO  = 4;
       BI += 0;
-    } 
+    }
     else if (ins == i_bgt)
     {
       BO  = 12;
       BI += 1;
     }
-    else if(ins == i_bne)
+    else if (ins == i_bne)
     {
       BO  = 4;
       BI += 2;
@@ -801,14 +831,14 @@ void long_bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins 
       BO  = 12;
       BI += 2;
     }
-    else 
+    else
     {
       fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
       uncond_ins(i_b,new_lab);
       set_label(lab);
       return;
     }
-    if(prediction)
+    if (prediction)
     {
       BO+=1;
     }
@@ -833,7 +863,7 @@ void long_bc_ins PROTO_N ((ins,creg,lab,prediction)) PROTO_T (Instruction_P ins 
 
 
 /* cmp or cmpl instruction */
-void cmp_rr_ins PROTO_N ((ins,reg1,reg2,cr_dest)) PROTO_T (Instruction_P ins X int reg1 X int reg2 X int cr_dest)
+void cmp_rr_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKREG(reg1); CHECKREG(reg2);
 #ifdef DO_ASSEMBLER_MACROS
@@ -845,7 +875,7 @@ void cmp_rr_ins PROTO_N ((ins,reg1,reg2,cr_dest)) PROTO_T (Instruction_P ins X i
 
 
 /* for cmpi or cmpli instruction */
-void cmp_ri_ins PROTO_N ((ins,reg,imm,cr_dest)) PROTO_T (Instruction_P ins X int reg X long imm X int cr_dest)
+void cmp_ri_ins(Instruction_P ins, int reg, long imm, int cr_dest)
 {
   CHECKREG(reg);
 
@@ -884,7 +914,7 @@ void cmp_ri_ins PROTO_N ((ins,reg,imm,cr_dest)) PROTO_T (Instruction_P ins X int
  * Floating point instructions.
  */
 
-void ldf_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int dest)
+void ldf_ro_ins(Instruction_P ins, baseoff a, int dest)
 {
   CHECKREG(a.base); CHECKFREG(dest);
 
@@ -907,7 +937,7 @@ void ldf_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X 
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(dest), (int)a.offset, reg_macro(a.base));
 #else
-    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), dest, (int)a.offset, a.base);
+    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), dest,(int)a.offset, a.base);
 #endif
   }
   else
@@ -922,7 +952,7 @@ void ldf_ro_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X 
 }
 
 
-void ldf_rr_ins PROTO_N ((ins,reg1,reg2,dest)) PROTO_T (Instruction_P ins X int reg1 X int reg2 X int dest)
+void ldf_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
 {
   CHECKREG(reg1); CHECKREG(reg2); CHECKFREG(dest);
 
@@ -935,7 +965,7 @@ void ldf_rr_ins PROTO_N ((ins,reg1,reg2,dest)) PROTO_T (Instruction_P ins X int 
 }
 
 
-void ldf_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int dest)
+void ldf_ins(Instruction_P ins, baseoff a, int dest)
 {
   /*
    * Not a single instruction. Load from baseoff, which may be a global
@@ -962,7 +992,7 @@ void ldf_ins PROTO_N ((ins,a,dest)) PROTO_T (Instruction_P ins X baseoff a X int
 }
 
 
-void stf_ro_ins PROTO_N (( ins,src,a)) PROTO_T (Instruction_P ins X int src X baseoff a)
+void stf_ro_ins(Instruction_P ins, int src, baseoff a)
 {
   CHECKREG(a.base); CHECKFREG(src);
 
@@ -987,7 +1017,7 @@ void stf_ro_ins PROTO_N (( ins,src,a)) PROTO_T (Instruction_P ins X int src X ba
 #ifdef DO_ASSEMBLER_MACROS
     fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(src), (int)a.offset, reg_macro(a.base));
 #else
-    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), src, (int)a.offset, a.base);
+    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), src,(int)a.offset, a.base);
 #endif
   }
   else
@@ -1002,7 +1032,7 @@ void stf_ro_ins PROTO_N (( ins,src,a)) PROTO_T (Instruction_P ins X int src X ba
 }
 
 
-void stf_rr_ins PROTO_N ((ins,src,reg1,reg2)) PROTO_T (Instruction_P ins X int src X int reg1 X int reg2)
+void stf_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(reg1); CHECKREG(reg2);
 #ifdef DO_ASSEMBLER_MACROS
@@ -1013,7 +1043,7 @@ void stf_rr_ins PROTO_N ((ins,src,reg1,reg2)) PROTO_T (Instruction_P ins X int s
 }
 
 
-void stf_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X baseoff a)
+void stf_ins(Instruction_P ins, int src, baseoff a)
 {
   /*
    * Not a single instruction. Store into baseoff, which may be a global
@@ -1040,7 +1070,7 @@ void stf_ins PROTO_N ((ins,src,a)) PROTO_T (Instruction_P ins X int src X baseof
 }
 
 
-void rrf_cmp_ins PROTO_N ((ins,reg1,reg2,cr_dest)) PROTO_T (Instruction_P ins X int reg1 X int reg2 X int cr_dest)
+void rrf_cmp_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKFREG(reg1); CHECKFREG(reg2);
 #ifdef DO_ASSEMBLER_MACROS
@@ -1051,7 +1081,7 @@ void rrf_cmp_ins PROTO_N ((ins,reg1,reg2,cr_dest)) PROTO_T (Instruction_P ins X 
 }
 
 
-void rrf_ins PROTO_N ((ins,src,dest)) PROTO_T (Instruction_P ins X int src X int dest)
+void rrf_ins(Instruction_P ins, int src, int dest)
 {
   CHECKFREG(dest); CHECKFREG(src);
 
@@ -1064,7 +1094,7 @@ void rrf_ins PROTO_N ((ins,src,dest)) PROTO_T (Instruction_P ins X int src X int
 }
 
 
-void rrrf_ins PROTO_N ((ins,src1,src2,dest)) PROTO_T(Instruction_P ins X int src1 X int src2 X int dest)
+void rrrf_ins(Instruction_P ins, int src1, int src2, int dest)
 {
   CHECKFREG(dest); CHECKFREG(src1); CHECKFREG(src2);
 
@@ -1076,10 +1106,10 @@ void rrrf_ins PROTO_N ((ins,src1,src2,dest)) PROTO_T(Instruction_P ins X int src
 #endif
 }
 
-void rrrrf_ins PROTO_N ((ins,src1,src2,src3,dest)) PROTO_T (Instruction_P ins X int src1 X int src2 X int src3 X int dest )
+void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
 {
   CHECKFREG(dest); CHECKFREG(src1); CHECKFREG(src2); CHECKFREG(src3);
-  
+
   clear_freg(dest);
 #ifdef DO_ASSEMBLER_MACROS
   fprintf(as_file,"\t%s\t%s,%s,%s,%s\n",get_instruction(ins),freg_macro(dest),freg_macro(src1),freg_macro(src2),freg_macro(src3));
@@ -1087,7 +1117,7 @@ void rrrrf_ins PROTO_N ((ins,src1,src2,src3,dest)) PROTO_T (Instruction_P ins X 
   fprintf(as_file,"\t%s\t%d,%d,%d,%d\n",get_instruction(ins),dest,src1,src2,src3);
 #endif
 }
-void rlinm_ins PROTO_N ((ins,src1,sl,mask,dest)) PROTO_T (Instruction_P ins X int src1 X int sl X unsigned int mask X int dest )
+void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
 {
   CHECKREG(dest);CHECKREG(src1);
   ASSERT(ins==i_rlinm||ins==i_rlinm_cr);
@@ -1099,8 +1129,8 @@ void rlinm_ins PROTO_N ((ins,src1,sl,mask,dest)) PROTO_T (Instruction_P ins X in
 #endif
 }
 
-void mfspr_ins PROTO_N ((spr,dest)) PROTO_T (int spr X int dest )
-{  
+void mfspr_ins(int spr, int dest)
+{
   CHECKREG(dest);
   clear_reg(dest);
 #ifdef DO_ASSEMBLER_MACROS
@@ -1109,21 +1139,21 @@ void mfspr_ins PROTO_N ((spr,dest)) PROTO_T (int spr X int dest )
   fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mfspr),dest,spr);
 #endif
 }
-void mtfsfi_ins PROTO_N ((fld,imm)) PROTO_T (int fld X int imm )
+void mtfsfi_ins(int fld, int imm)
 {
   fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mtfsfi),fld,imm);
 }
-void mtfsb0_ins PROTO_N ((bit)) PROTO_T (int bit)
+void mtfsb0_ins(int bit)
 {
   ASSERT(bit>=0 && bit<=31);
   fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb0),bit);
 }
-void mtfsb1_ins PROTO_N ((bit)) PROTO_T (int bit)
+void mtfsb1_ins(int bit)
 {
   ASSERT(bit>=0 && bit<=31);
   fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb1),bit);
 }
-void mcrfs_ins PROTO_N ((a,b)) PROTO_T (int a X int b)
+void mcrfs_ins(int a, int b)
 {
   ASSERT(a>=0 && a<=7);
   ASSERT(b>=0 && b<=7);
@@ -1133,15 +1163,15 @@ void mcrfs_ins PROTO_N ((a,b)) PROTO_T (int a X int b)
   fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mcrfs),a,b);
 #endif
 }
-void lsi_ins PROTO_N ((src,dest,nb)) PROTO_T (int src X int dest X int nb)
+void lsi_ins(int src, int dest, int nb)
 {
   fprintf(as_file,"\t%s\t%d,%d,%d\n",get_instruction(i_lsi),dest,src,nb);
 }
-void stsi_ins PROTO_N ((src,dest,nb)) PROTO_T (int src X int dest X int nb)
+void stsi_ins(int src, int dest, int nb)
 {
   fprintf(as_file,"\t%s\t%d,%d,%d\n",get_instruction(i_stsi),src,dest,nb);
 }
-void comment PROTO_N ((p)) PROTO_T (char *p)
+void comment(char *p)
 {
 #ifdef DEBUG_POWERTRANS
   if (p==NIL)
@@ -1158,10 +1188,10 @@ void comment PROTO_N ((p)) PROTO_T (char *p)
   return;
 }
 
-char * get_instruction PROTO_N ((ins)) PROTO_T (Instruction_P ins)
+char * get_instruction(Instruction_P ins)
 {
   char *w;
-  switch(architecture)
+  switch (architecture)
   {
    case COMMON_CODE:
     w=ins->com;

@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -110,23 +140,23 @@ translat.c,v
  *
  * Revision 3.1  95/04/10  16:28:36  16:28:36  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:19:09  11:19:09  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:29:03  15:29:03  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.3  95/02/10  11:38:54  11:38:54  wfs (William Simmonds)
  * Rewrote the inner level initializations previously handled by calls
  * to evaluated().
- * 
+ *
  * Revision 1.2  95/01/17  17:31:02  17:31:02  wfs (William Simmonds)
  * Changed name of an included header file.
- * 
+ *
  * Revision 1.1  95/01/11  12:59:09  12:59:09  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -250,7 +280,7 @@ translat.c,v
 #include "oprators.h"
 #include "time.h"
 
-extern dec *diag_def ;
+extern dec *diag_def;
 
 
 
@@ -263,7 +293,7 @@ labexp current,first;
 
 int nexps;
 
-extern baseoff boff PROTO_S ( ( exp ) ) ;
+extern baseoff boff(exp);
 extern int res_label;
 
 FILE *outf = NULL;/* assembler output file */
@@ -274,12 +304,11 @@ procrec *procrecs,*cpr;
 
 dec *diag_def = NULL ;	/* diagnostics definition */
 
-#define is_zero( e ) is_comm( e )
+#define is_zero(e)is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
 
-ash ashof 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+ash ashof
+(shape s)
 {
   ash a;
 
@@ -290,9 +319,8 @@ ash ashof
 
 
 /* is shape 'sha' of unknown size? */
-static bool varsize 
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+static bool varsize
+(shape sha)
 {
   switch (name(sha))
   {
@@ -321,9 +349,8 @@ static bool varsize
   }
 }
 
-void insection 
-    PROTO_N ( ( s ) )
-    PROTO_T ( enum section s )
+void insection
+(enum section s)
 {
   static enum section current_section = no_section;
 
@@ -341,7 +368,7 @@ void insection
        }
        case data_section:
        {
-	 outs("\t.DATA\n");  
+	 outs("\t.DATA\n");
 	 return;
        }
        case text_section:
@@ -373,9 +400,8 @@ void insection
     failer("bad \".section\" name");
 }
 
-void mark_unaliased 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+void mark_unaliased
+(exp e)
 {
   exp p = pt(e);
   bool ca = 1;
@@ -400,27 +426,26 @@ void mark_unaliased
 }
 
 baseoff find_tg
-    PROTO_N ( (n) )
-    PROTO_T ( char *n )
+(char *n)
 {
    int i;
-   for(i=0;i<main_globals_index;i++) 
+   for (i=0;i<main_globals_index;i++)
    {
       exp tg = main_globals[i] -> dec_u.dec_val.dec_exp;
       char *id = main_globals[i] -> dec_u.dec_val.dec_id;
-      if ( strcmp(id,n)==0 )
+      if (strcmp(id,n) ==0)
       {
-	 return boff(tg); 
+	 return boff(tg);
       }
    }
    failer("Extension name not declared ");
    exit(EXIT_FAILURE);
-}	
+}
 
 
 /* translate the TDF */
-void translate_capsule 
-    PROTO_Z ()
+void translate_capsule
+(void)
 {
   int noprocs;
   int procno;
@@ -433,13 +458,13 @@ void translate_capsule
   capn++;
 
   /* mark the as output as TDF compiled */
-  outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ") ;
-  fprintf(outf,"%d.%d",MAJOR,MINOR) ;
+  outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");
+  fprintf(outf,"%d.%d",MAJOR,MINOR);
   outnl();
   outnl();
   outnl();
-  outs("\t.SPACE  $TEXT$,SORT=8\n" );
-  outs("\t.SUBSPA $CODE$,QUAD=0,ALIGN=8,ACCESS=44,CODE_ONLY,SORT=24\n" );
+  outs("\t.SPACE  $TEXT$,SORT=8\n");
+  outs("\t.SUBSPA $CODE$,QUAD=0,ALIGN=8,ACCESS=44,CODE_ONLY,SORT=24\n");
   outnl();
   outs("\t.SPACE  $PRIVATE$,SORT=16\n");
   outs("\t.SUBSPA $DATA$,QUAD=1,ALIGN=8,ACCESS=31,SORT=16\n\n");
@@ -459,11 +484,11 @@ void translate_capsule
 #endif
 
   /* Begin diagnostics if necessary. */
-  if ( diagnose )
+  if (diagnose)
   {
      outs("\t.CODE\n");
      outnl();
-     init_stab_aux() ;
+     init_stab_aux();
      outnl();
      outnl();
   }
@@ -472,23 +497,23 @@ void translate_capsule
   nowhere.ashwhere.ashsize = 0;
   nowhere.ashwhere.ashsize = 0;
 
-  if ( !diagnose )
+  if (!diagnose)
      opt_all_exps();  /* optimise */
   /* mark static unaliased; count procs */
   noprocs = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-    exp scexp = son( crt_exp );
-    if ( scexp != nilexp)
+    exp scexp = son(crt_exp);
+    if (scexp != nilexp)
     {
-      if ( !diagnose && !separate_units && 
+      if (!diagnose && !separate_units &&
 	  !crt_def->dec_u.dec_val.extnamed && isvar(crt_exp))
 	mark_unaliased(crt_exp);
-      if (name(scexp) == proc_tag || name(scexp)== general_proc_tag )
+      if (name(scexp) == proc_tag || name(scexp) == general_proc_tag)
       {
 	noprocs++;
-	if ( !strncmp("__I.TDF",crt_def->dec_u.dec_val.dec_id,7) )
+	if (!strncmp("__I.TDF",crt_def->dec_u.dec_val.dec_id,7))
 	{
 	   char *s;
 	   static char dyn = 0;
@@ -499,7 +524,7 @@ void translate_capsule
 	      outnl();
 	      dyn = 1;
 	   }
-	   s = (char*) xcalloc(64,sizeof(char));
+	   s = (char*)xcalloc(64,sizeof(char));
 	   sprintf(s,"_GLOBAL_$I%d",capn);
 	   strcat(s,crt_def->dec_u.dec_val.dec_id+7);
 	   crt_def->dec_u.dec_val.dec_id = s;
@@ -512,34 +537,34 @@ void translate_capsule
   outnl();
 
   /* alloc memory */
-  procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
+  procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
 
-  proc_def_trans_order = (dec**) xcalloc(noprocs, sizeof (dec*));
-  if ( xdb )
+  proc_def_trans_order = (dec**)xcalloc(noprocs, sizeof(dec*));
+  if (xdb)
   {
-     src_line = (int*) xcalloc(noprocs,sizeof(int));
+     src_line = (int*)xcalloc(noprocs,sizeof(int));
   }
 
   /* number proc defs */
   procno = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
-    if (son(crt_exp) != nilexp && ( name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp))== general_proc_tag ) )
+    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[procno];
-      proc_def_trans_order[procno] = crt_def; 
+      proc_def_trans_order[procno] = crt_def;
       if (xdb)
       {
 	 /* Retrieve diagnostic info neccessary to comply with xdb's
 	    requirement that procedures be compiled in source file order. */
 	 diag_descriptor * dd =  crt_def -> dec_u.dec_val.diag_info;
-	 if ( dd != (diag_descriptor*)0 )
+	 if (dd != (diag_descriptor*)0)
 	 {
 	    sourcemark *sm = &dd -> data.id.whence;
-	    src_line[procno] = sm->line_no.nat_val.small_nat; 
+	    src_line[procno] = sm->line_no.nat_val.small_nat;
 	 }
 	 else
 	    src_line[procno] = 0;
@@ -557,7 +582,7 @@ void translate_capsule
 
   /*
    *      First work out which fixed point t-regs, i.e. those not preserved
-   *  over calls, can be used. This needs to be done before scan() which 
+   *  over calls, can be used. This needs to be done before scan() which
    *  adds idents so temp reg needs are within available temp reg set.
    *
    */
@@ -589,11 +614,11 @@ void translate_capsule
 
   /* scan all the procs, to put everything in HP_PA form */
   nexps = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-    if (son(crt_exp) != nilexp && ( name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp))== general_proc_tag ) )
+    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[no(son(crt_exp))];
       exp *st = &son(crt_exp);
@@ -608,12 +633,12 @@ void translate_capsule
   }
 
   /* calculate the break points for register allocation */
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
-    if (son(crt_exp) != nilexp && ( name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp))== general_proc_tag ) )
+    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[no(son(crt_exp))];
       needs * ndpr = & pr->needsproc;
@@ -631,12 +656,12 @@ void translate_capsule
       freefixed = 16;
 
       if (Has_fp) /* Has frame pointer */
-      { 
+      {
 	 freefixed--;
 	 /* reserve GR3 as frame pointer (i.e. points to bottom of stack) */
       }
       if (Has_vsp) /* Has variable stack pointer */
-      { 
+      {
 	 freefixed--;
 	 /* reserve GR4 for use as copy of the original stack pointer */
       }
@@ -676,7 +701,7 @@ void translate_capsule
 
       /* +++ create float s regs for leaf? */
       freefloat = 0;		/* none, always the same */
-      
+
       /* estimate usage of tags in body of proc */
       if (!No_S)
 	 w = weightsv(UNITWEIGHT, bro(son(son(crt_exp))));
@@ -694,51 +719,51 @@ void translate_capsule
 
   /*  Set up main_globals and output global definitions. */
   i = 0;
-  for(crt_def=top_def; crt_def!=(dec*)0; crt_def=crt_def->def_next)
+  for (crt_def=top_def; crt_def!= (dec*)0; crt_def=crt_def->def_next)
   {
      i++;
   }
   main_globals_index = i;
-  main_globals = (dec**) xcalloc(main_globals_index,sizeof(dec*));
+  main_globals = (dec**)xcalloc(main_globals_index,sizeof(dec*));
   i = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
      main_globals[i] = crt_def;
-     main_globals[i]->dec_u.dec_val.sym_number = i;
+     main_globals[i] ->dec_u.dec_val.sym_number = i;
      i++;
   }
 
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
-     bool extnamed = (bool) crt_def->dec_u.dec_val.extnamed;
-     if ( son(tg)==nilexp && no(tg)!=0 && extnamed )
+     bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
+     if (son(tg) ==nilexp && no(tg)!=0 && extnamed)
      {
 	outs("\t.IMPORT\t");
 	outs(id);
-	outs( name(sh(tg))==prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n" );
+	outs(name(sh(tg)) ==prokhd ?(isvar(tg)? ",DATA\n" : ",CODE\n"): ",DATA\n");
      }
      else
-     if ( son(tg) != nilexp && (extnamed || no(tg) != 0))
+     if (son(tg)!= nilexp && (extnamed || no(tg)!= 0))
      {
-	if (name(son(tg)) != proc_tag && name(son(tg)) != general_proc_tag)
+	if (name(son(tg))!= proc_tag && name(son(tg))!= general_proc_tag)
 	{
 	   /* evaluate all outer level constants */
 	   instore is;
 	   long symdef = crt_def->dec_u.dec_val.sym_number + 1;
-	   if ( isvar ( tg ) )
-	      symdef = -symdef ;
+	   if (isvar(tg))
+	      symdef = -symdef;
 	   if (extnamed && !(is_zero(son(tg))))
 	   {
      	      outs("\t.EXPORT\t");
-	      outs(id ) ;
-	      outs(",DATA\n"); 
+	      outs(id);
+	      outs(",DATA\n");
 	   }
 	   is = evaluated(son(tg),symdef);
 	   if (diagnose)
 	   {
-	      diag_def = crt_def ;
+	      diag_def = crt_def;
 	      stab_global(son(tg), id, extnamed);
 	   }
 
@@ -746,19 +771,19 @@ void translate_capsule
 	   {
 	      setvar(tg);
 	   }
-	} 
+	}
      }
   }
 
 
   /* Uninitialized data local to module. */
 
-  for ( crt_def=top_def; crt_def != (dec *) 0; crt_def=crt_def->def_next )
+  for (crt_def=top_def; crt_def != (dec *)0; crt_def=crt_def->def_next)
   {
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
-     bool extnamed = (bool) crt_def->dec_u.dec_val.extnamed;
-     if (son(tg) == nilexp && no(tg)!=0 && !extnamed )
+     bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
+     if (son(tg) == nilexp && no(tg)!=0 && !extnamed)
      {
 	shape s = crt_def->dec_u.dec_val.dec_shape;
 	ash a;
@@ -766,16 +791,16 @@ void translate_capsule
 	int align;
 	a = ashof(s);
 	size = (a.ashsize + 7) >> 3;
-	align = ( ( a.ashalign > 32 || a.ashsize > 32 ) ? 8 : 4 ) ;
+	align = ((a.ashalign > 32 || a.ashsize > 32)? 8 : 4);
 	if (size>8)
-	   insection( bss_section );
+	   insection(bss_section);
 	else
-	   insection( shortbss_section );
+	   insection(shortbss_section);
 	outs("\t.ALIGN\t");
-	outn( align);
+	outn(align);
 	outs(id);
 	outs("\t.BLOCKZ\t");
-	outn( size) ;
+	outn(size);
      }
   }
 
@@ -789,7 +814,7 @@ void translate_capsule
      for (n=0; n<noprocs; n++)
 	for (j=n+1; j<noprocs; j++)
 	{
-	   if ( src_line[n] > src_line[j] )
+	   if (src_line[n] > src_line[j])
 	   {
 	      int srcl = src_line[n];
 	      dec *pdef;
@@ -798,22 +823,22 @@ void translate_capsule
 	      pdef = proc_def_trans_order[n];
 	      proc_def_trans_order[n] = proc_def_trans_order[j];
 	      proc_def_trans_order[j] = pdef;
-	      
+
 	   }
 	}
    }
    else
    {
 #if TRANSLATE_GLOBALS_FIRST
-      /*  Translate the global procedures first.  */  
+      /*  Translate the global procedures first.  */
       int fstat = 0, lglob = noprocs-1;
-      while ( fstat<lglob )
+      while (fstat<lglob)
       {
-	 while( fstat<noprocs && proc_def_trans_order[fstat]->dec_u.dec_val.extnamed )
+	 while (fstat<noprocs && proc_def_trans_order[fstat] ->dec_u.dec_val.extnamed)
 	    fstat++;
-	 while( lglob>0 && !proc_def_trans_order[lglob]->dec_u.dec_val.extnamed )
+	 while (lglob>0 && !proc_def_trans_order[lglob] ->dec_u.dec_val.extnamed)
 	    lglob--;
-	 if ( fstat<lglob )
+	 if (fstat<lglob)
 	 {
 	    dec *pdef;
 	    pdef = proc_def_trans_order[fstat];
@@ -826,7 +851,7 @@ void translate_capsule
 #endif
    }
 
-  for( next_proc_def=0; next_proc_def < procno; next_proc_def++ )
+  for (next_proc_def=0; next_proc_def < procno; next_proc_def++)
   {
      exp tg, crt_exp;
      char *id;
@@ -835,41 +860,41 @@ void translate_capsule
      crt_def = proc_def_trans_order[next_proc_def];
      tg = crt_def->dec_u.dec_val.dec_exp;
      id = crt_def->dec_u.dec_val.dec_id;
-     extnamed = (bool) crt_def->dec_u.dec_val.extnamed;
+     extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
 
-     if ( no(tg)!=0 || extnamed )
+     if (no(tg)!=0 || extnamed)
      {
 	crt_exp = crt_def->dec_u.dec_val.dec_exp;
 	pr = & procrecs[no(son(crt_exp))];
-	insection(text_section);    
+	insection(text_section);
 	outnl();
 	outnl();
 	if (diagnose)
 	{
-	   diag_def = crt_def ;
+	   diag_def = crt_def;
 	   stab_proc(son(tg), id, extnamed);
 	}
 	seed_label();		/* reset label sequence */
 	settempregs(son(tg));	/* reset getreg sequence */
 
-	first = (labexp) malloc(sizeof(struct labexp_t));
-	first->e = (exp) 0;
-	first->next = (labexp) 0;
+	first = (labexp)malloc(sizeof(struct labexp_t));
+	first->e = (exp)0;
+	first->next = (labexp)0;
 	current = first;
 
 	proc_name=id;
 	code_here(son(tg), tempregs, nowhere);
 
-	outs( "\t.PROCEND\n\t;" ) ;  
+	outs("\t.PROCEND\n\t;");
 	outs(id);
 	if (xdb)
 	{
 #if _SYMTAB_INCLUDED
 	   close_function_scope(res_label);
 	   outnl();
-	   outs("_" ) ;  
+	   outs("_");
 	   outs(id);
-	   outs("_end_" ) ;  
+	   outs("_end_");
 #endif
 	}
 	outnl();
@@ -884,8 +909,8 @@ void translate_capsule
 	   outnl();
 	   outnl();
 	}
-	if ( first->next != (labexp)0 )
-	{ 
+	if (first->next != (labexp)0)
+	{
 	   exp e,z;
 	   labexp p,next;
 	   ash a;
@@ -905,11 +930,11 @@ void translate_capsule
 		    insection(bss_section);
 		 else
 		    insection(shortbss_section);
-		 if (a.ashalign > 32 || a.ashsize > 32 )
+		 if (a.ashalign > 32 || a.ashsize > 32)
 		    set_align(64);
 		 else
 		    set_align(32);
-		 outs( ext_name(lab) );
+		 outs(ext_name(lab));
 		 outs("\t.BLOCK\t");
 		 outn(byte_size);
 		 outnl();
@@ -917,11 +942,11 @@ void translate_capsule
 	      else
 	      {
 		 insection(data_section);
-		 if (a.ashalign > 32 || a.ashsize > 32 )
+		 if (a.ashalign > 32 || a.ashsize > 32)
 		    set_align(64);
 		 else
 		    set_align(32);
-		 outs( ext_name(lab) );
+		 outs(ext_name(lab));
 		 outnl();
 		 evalone(z,0);
 		 if (a.ashalign>32)
@@ -942,20 +967,20 @@ void translate_capsule
 	}
 	else
 	   free(first);
-     } 
+     }
   }
 
   return;
 }
 
-void translate_tagdef 
-    PROTO_Z ()
+void translate_tagdef
+(void)
 {
   return;
 }
 
-void translate_unit 
-    PROTO_Z ()
+void translate_unit
+(void)
 {
   if (separate_units)
   {
@@ -963,7 +988,7 @@ void translate_unit
 
     translate_capsule();
     crt_def = top_def;
-    while (crt_def != (dec *) 0)
+    while (crt_def != (dec *)0)
     {
       exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
@@ -984,7 +1009,7 @@ void translate_unit
 */
 
 void exit_translator
-    PROTO_Z ()
+(void)
 {
     outnl();
     outnl();
@@ -1005,7 +1030,7 @@ void exit_translator
 #endif
     }
     outs("\t.END\n");
-    return ;
+    return;
 }
 
 

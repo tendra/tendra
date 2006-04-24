@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -107,8 +137,8 @@ Imported from DRA
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif
-extern dec *sort_decs PROTO_S ( ( dec * ) ) ;
-static void output_all_exps PROTO_S ( ( void ) ) ;
+extern dec *sort_decs(dec *);
+static void output_all_exps(void);
 
 /*
     INCLUDE DEBUGGING ROUTINES
@@ -120,29 +150,29 @@ static void output_all_exps PROTO_S ( ( void ) ) ;
 /*
 #include <misc/debug>
 */
-void breakpoint PROTO_Z () {}
+void breakpoint(void) {}
 #endif
 
 #ifndef tdf3
 #include "general_proc.h"
 #include "68k_globals.h"
-int need_dummy_double = 0 ;
+int need_dummy_double = 0;
 #endif
 
 /*
     LOCAL AND GLOBAL NAME PREFIXES
 */
 
-char *local_prefix = "L" ;
-char *name_prefix = "_" ;
+char *local_prefix = "L";
+char *name_prefix = "_";
 
 
 /*
     EXTERNAL POSITIONS
 */
 
-static long crt_ext_off = 64 ;
-static long crt_ext_pt = 10 ;
+static long crt_ext_off = 64;
+static long crt_ext_pt = 10;
 
 
 /*
@@ -150,24 +180,23 @@ static long crt_ext_pt = 10 ;
 */
 
 static void mark_unaliased
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+(exp e)
 {
-    exp p = pt ( e ) ;
-    bool ca = 1 ;
-    while ( p != nilexp && ca ) {
-	exp q = bro ( p ) ;
-	if ( q == nilexp ) {
-	    ca = 0 ;
-	} else if ( !( last ( p ) && name ( q ) == cont_tag ) &&
-		    !( !last ( p ) && last ( q ) &&
-		       name ( bro ( q ) ) == ass_tag ) ) {
-	    ca = 0 ;
+    exp p = pt(e);
+    bool ca = 1;
+    while (p != nilexp && ca) {
+	exp q = bro(p);
+	if (q == nilexp) {
+	    ca = 0;
+	} else if (!(last(p) && name(q) == cont_tag) &&
+		    !(!last(p) && last(q) &&
+		       name(bro(q)) == ass_tag)) {
+	    ca = 0;
 	}
-	p = pt ( p ) ;
+	p = pt(p);
     }
-    if ( ca ) setcaonly ( e ) ;
-    return ;
+    if (ca)setcaonly(e);
+    return;
 }
 
 
@@ -179,20 +208,20 @@ static void mark_unaliased
 */
 
 void translate_capsule
-    PROTO_Z ()
+(void)
 {
-    dec *d ;
+    dec *d;
 
     /* Fix procedure handling (copied from trans386) */
     d = top_def;
 #if 0
-    while (d != (dec *) 0) {
+    while (d != (dec *)0) {
     exp crt_exp = d -> dec_u.dec_val.dec_exp;
     exp idval;
-      if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp)) != prokhd ||
-           ( idval = son(crt_exp) ,
-             idval != nilexp && name(idval) != null_tag &&
-               name(idval) != proc_tag && name(idval) != general_proc_tag )) ){
+      if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp))!= prokhd ||
+          (idval = son(crt_exp),
+             idval != nilexp && name(idval)!= null_tag &&
+               name(idval)!= proc_tag && name(idval)!= general_proc_tag))) {
 	/* make variable, and change all uses to contents */
         exp p = pt(crt_exp);
         if (d -> dec_u.dec_val.extnamed)
@@ -201,14 +230,14 @@ void translate_capsule
           setvar(crt_exp);
         while (p != nilexp) {
           exp np = pt(p);
-          exp* ptr = refto (father(p), p);
-          exp c = getexp (sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
-          setfather (c, p);
-          if (no(p) != 0) {
-            exp r = getexp (sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
+          exp* ptr = refto(father(p), p);
+          exp c = getexp(sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
+          setfather(c, p);
+          if (no(p)!= 0) {
+            exp r = getexp(sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
             no(p) = 0;
             son(c) = r;
-            setfather (r, p);
+            setfather(r, p);
           }
           *ptr = c;
           p = np;
@@ -219,37 +248,37 @@ void translate_capsule
 #endif
 
 
-    make_transformations () ;
+    make_transformations();
 
 #ifndef EBUG
-    opt_all_exps () ;
+    opt_all_exps();
 #endif
 
     /* Mark static unaliases declarations */
-    if ( !separate_units ) {
-	for ( d = top_def ; d ; d = d->def_next ) {
-	    exp c = d->dec_u.dec_val.dec_exp ;
-	    if ( son ( c ) != nilexp &&
-		 !( d->dec_u.dec_val.extnamed ) && isvar ( c ) ) {
-		mark_unaliased ( c ) ;
+    if (!separate_units) {
+	for (d = top_def; d; d = d->def_next) {
+	    exp c = d->dec_u.dec_val.dec_exp;
+	    if (son(c)!= nilexp &&
+		 !(d->dec_u.dec_val.extnamed) && isvar(c)) {
+		mark_unaliased(c);
 	    }
 	}
     }
 
     /* Mark locations for all globals */
-    for ( d = top_def ; d ; d = d->def_next ) {
-	if ( d->dec_u.dec_val.processed ) {
-	    exp c = d->dec_u.dec_val.dec_exp ;
-	    ptno ( c ) = crt_ext_pt++ ;
-	    no ( c ) = crt_ext_off ;
-	    crt_ext_off += shape_size ( d->dec_u.dec_val.dec_shape ) ;
+    for (d = top_def; d; d = d->def_next) {
+	if (d->dec_u.dec_val.processed) {
+	    exp c = d->dec_u.dec_val.dec_exp;
+	    ptno(c) = crt_ext_pt++;
+	    no(c) = crt_ext_off;
+	    crt_ext_off += shape_size(d->dec_u.dec_val.dec_shape);
 	}
     }
 
     /* Output all code */
-    output_all_exps () ;
+    output_all_exps();
 
-    return ;
+    return;
 }
 
 
@@ -258,9 +287,9 @@ void translate_capsule
 */
 
 void translate_tagdef
-    PROTO_Z ()
+(void)
 {
-    return ;
+    return;
 }
 
 
@@ -269,22 +298,22 @@ void translate_tagdef
 */
 
 void translate_unit
-    PROTO_Z ()
+(void)
 {
-    if ( separate_units ) {
-	dec *d ;
-	translate_capsule () ;
-	d = top_def ;
-	while ( d ) {
-	    exp c = d->dec_u.dec_val.dec_exp ;
-	    no ( c ) = 0 ;
-	    pt ( c ) = nilexp ;
-	    d = d->def_next ;
+    if (separate_units) {
+	dec *d;
+	translate_capsule();
+	d = top_def;
+	while (d) {
+	    exp c = d->dec_u.dec_val.dec_exp;
+	    no(c) = 0;
+	    pt(c) = nilexp;
+	    d = d->def_next;
 	}
-	crt_repeat = nilexp ;
-	repeat_list = nilexp ;
+	crt_repeat = nilexp;
+	repeat_list = nilexp;
     }
-    return ;
+    return;
 }
 
 
@@ -296,26 +325,25 @@ void translate_unit
 */
 
 static void code_proc
-    PROTO_N ( ( d, id, c, s ) )
-    PROTO_T ( dec *d X char *id X exp c X exp s )
+(dec *d, char *id, exp c, exp s)
 {
-    diag_global *di = d->dec_u.dec_val.diag_info ;
-    int reg_res = ( has_struct_res ( s ) ? 0 : 1 ) ;
-    int is_ext = ( d->dec_u.dec_val.extnamed ? 1 : 0 ) ;
+    diag_global *di = d->dec_u.dec_val.diag_info;
+    int reg_res = (has_struct_res(s)? 0 : 1);
+    int is_ext = (d->dec_u.dec_val.extnamed ? 1 : 0);
 
-    area ( ptext ) ;
+    area(ptext);
 
-    cur_proc_dec = d ;
-    cur_proc_callees_size = 0 ;
-    cur_proc_has_vcallees = 0 ;
+    cur_proc_dec = d;
+    cur_proc_callees_size = 0;
+    cur_proc_has_vcallees = 0;
 
     /* Code procedure body */
 #if 0
-    if ( name ( s ) == proc_tag )
-    cproc ( s, id, -1, is_ext, reg_res, di ) ;
+    if (name(s) == proc_tag)
+    cproc(s, id, -1, is_ext, reg_res, di);
     else
 #endif
-    gcproc ( s, id, -1, is_ext, reg_res, di) ;
+    gcproc(s, id, -1, is_ext, reg_res, di);
 
 
     d -> dec_u.dec_val.index = cur_proc_env_size ; /* for use in constant evaluation */
@@ -332,19 +360,18 @@ static void code_proc
 */
 
 static void code_const
-    PROTO_N ( ( d ) )
-    PROTO_T ( dec *d )
+(dec *d)
 {
-   exp c = d->dec_u.dec_val.dec_exp ;
-   exp s = son ( c ) ;
-   char *id = d->dec_u.dec_val.dec_id ;
+   exp c = d->dec_u.dec_val.dec_exp;
+   exp s = son(c);
+   char *id = d->dec_u.dec_val.dec_id;
 
-   diag_global *di = d->dec_u.dec_val.diag_info ;
-   area ( isvar ( c ) ? pdata : ptext ) ;
+   diag_global *di = d->dec_u.dec_val.diag_info;
+   area(isvar(c)? pdata : ptext);
 #ifndef no_align_directives
-   make_instr ( m_as_align4, null, null, 0 ) ;
+   make_instr(m_as_align4, null, null, 0);
 #endif
-   evaluate ( s, L_1 , id, !isvar ( c ), 1, di ) ;
+   evaluate(s, L_1 , id, !isvar(c), 1, di);
 }
 
 
@@ -356,23 +383,23 @@ static void code_const
 */
 
 static void code_const_list
-    PROTO_Z ()
+(void)
 {
-    while ( const_list != nilexp ) {
-	exp t = const_list ;
-	exp s = son ( t ) ;
-	bool b = ( name ( s ) != res_tag ) ;
-	const_list = bro ( const_list ) ;
-	if ( name ( s ) == proc_tag || name ( s ) == general_proc_tag ) {
-	    char *id = alloc_nof ( char, 30 ) ;
-	    sprintf ( id, "%s%ld", local_prefix, no ( t ) ) ;
-	    gcproc ( s, null, no ( t ), 0, 1, null ) ;
+    while (const_list != nilexp) {
+	exp t = const_list;
+	exp s = son(t);
+	bool b = (name(s)!= res_tag);
+	const_list = bro(const_list);
+	if (name(s) == proc_tag || name(s) == general_proc_tag) {
+	    char *id = alloc_nof(char, 30);
+	    sprintf(id, "%s%ld", local_prefix, no(t));
+	    gcproc(s, null, no(t), 0, 1, null);
 	} else {
-	    area ( b ? pdata : ptext ) ;
-	    evaluate ( s, no ( t ), null, b, 0, null ) ;
+	    area(b ? pdata : ptext);
+	    evaluate(s, no(t), null, b, 0, null);
 	}
     }
-    return ;
+    return;
 }
 
 /*
@@ -382,14 +409,13 @@ static void code_const_list
 */
 
 static int const_ready
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   if (n == env_size_tag)
-    return (brog(son(son(e))) -> dec_u.dec_val.processed);
+    return(brog(son(son(e))) -> dec_u.dec_val.processed);
   if (n == env_offset_tag)
-    return (ismarked(son(e)));
+    return(ismarked(son(e)));
   if (n == name_tag || son(e) == nilexp)
     return 1;
   e = son(e);
@@ -398,26 +424,25 @@ static int const_ready
       return 0;
     e = bro(e);
   }
-  return (const_ready(e));
+  return(const_ready(e));
 }
 
 typedef struct delayedconst{
    dec* This;
    struct delayedconst* next;
-} delayed_const ;
+} delayed_const;
 
 static delayed_const* delayed_const_list = 0;
 
 static void eval_if_ready
-    PROTO_N ( ( d ) )
-    PROTO_T ( dec *d )
+(dec *d)
 {
-   exp c = d->dec_u.dec_val.dec_exp ;
-   if ( const_ready( c ) ) {
-      code_const ( d ) ;
+   exp c = d->dec_u.dec_val.dec_exp;
+   if (const_ready(c)) {
+      code_const(d);
    }
    else {
-      delayed_const* p = (delayed_const*)xmalloc (sizeof(delayed_const));
+      delayed_const* p = (delayed_const*)xmalloc(sizeof(delayed_const));
       p->This = d;
       p->next = delayed_const_list;
       delayed_const_list = p;
@@ -425,7 +450,7 @@ static void eval_if_ready
 }
 
 void eval_delayed_const_list
-    PROTO_Z ()
+(void)
 {
    delayed_const* p;
    bool done = 0;
@@ -433,11 +458,11 @@ void eval_delayed_const_list
       done = 1;
       for (p = delayed_const_list; p; p = p->next) {
          dec* d = p->This;
-         if ( !d->dec_u.dec_val.processed ) {
-            exp c = d->dec_u.dec_val.dec_exp ;
-            if ( const_ready( c ) ) {
-               code_const ( d ) ;
-               d->dec_u.dec_val.processed = 1 ;
+         if (!d->dec_u.dec_val.processed) {
+            exp c = d->dec_u.dec_val.dec_exp;
+            if (const_ready(c)) {
+               code_const(d);
+               d->dec_u.dec_val.processed = 1;
             }
             done = 0;
          }
@@ -453,80 +478,80 @@ void eval_delayed_const_list
 */
 
 static void output_all_exps
-    PROTO_Z ()
+(void)
 {
-    dec *d = top_def ;
-    if ( diagnose ) d = sort_decs ( d ) ;
+    dec *d = top_def;
+    if (diagnose)d = sort_decs(d);
 
-    area ( ptext ) ;
+    area(ptext);
 
     /* Clear any existing output */
-    output_all () ;
-    free_all_ins () ;
+    output_all();
+    free_all_ins();
 
     /* Scan through the declarations */
-    while ( d ) {
+    while (d) {
 
-	if ( !d->dec_u.dec_val.processed ) {
-	    exp c = d->dec_u.dec_val.dec_exp ;
-	    exp s = son ( c ) ;
-	    char *id = d->dec_u.dec_val.dec_id ;
+	if (!d->dec_u.dec_val.processed) {
+	    exp c = d->dec_u.dec_val.dec_exp;
+	    exp s = son(c);
+	    char *id = d->dec_u.dec_val.dec_id;
 
-	    init_output () ;
+	    init_output();
 
-	    if ( s != nilexp ) {
-		if ( name ( s ) == proc_tag ||
-                    name ( s ) == general_proc_tag) {
-		    code_proc ( d, id, c, s ) ;
-		    code_const_list () ;
-                    d->dec_u.dec_val.processed = 1 ;
+	    if (s != nilexp) {
+		if (name(s) == proc_tag ||
+                    name(s) == general_proc_tag) {
+		    code_proc(d, id, c, s);
+		    code_const_list();
+                    d->dec_u.dec_val.processed = 1;
 		} else {
-		    eval_if_ready ( d ) ;
-		    code_const_list () ;
+		    eval_if_ready(d);
+		    code_const_list();
 		}
 	    } else {
-		shape sha = d->dec_u.dec_val.dec_shape ;
-		long sz = round ( shape_size ( sha ) / 8, 4 ) ;
-		area ( ptext ) ;
-		if ( !is_local ( id ) && isvar ( c ) &&
-		     varsize ( sha ) && !reserved ( id ) ) {
-		    if ( sz ) {
-			mach_op *op1 = make_extern_data ( id, 0 ) ;
-			mach_op *op2 = make_int_data ( sz ) ;
-			make_instr ( m_as_common, op1, op2, 0 ) ;
+		shape sha = d->dec_u.dec_val.dec_shape;
+		long sz = round(shape_size(sha) / 8, 4);
+		area(ptext);
+		if (!is_local(id) && isvar(c) &&
+		     varsize(sha) && !reserved(id)) {
+		    if (sz) {
+			mach_op *op1 = make_extern_data(id, 0);
+			mach_op *op2 = make_int_data(sz);
+			make_instr(m_as_common, op1, op2, 0);
 		    }
 		} else {
-		    if ( is_local ( id ) && no ( c ) ) {
-			mach_op *op1 = make_extern_data ( id, 0 ) ;
-			mach_op *op2 = make_int_data ( sz ) ;
-			make_instr ( m_as_local, op1, op2, 0 ) ;
+		    if (is_local(id) && no(c)) {
+			mach_op *op1 = make_extern_data(id, 0);
+			mach_op *op2 = make_int_data(sz);
+			make_instr(m_as_local, op1, op2, 0);
 		    }
 		}
-                d->dec_u.dec_val.processed = 1 ;
+                d->dec_u.dec_val.processed = 1;
 	    }
 
-	    output_all () ;
-	    free_all_ins () ;
+	    output_all();
+	    free_all_ins();
 	}
-	d = d->def_next ;
+	d = d->def_next;
     }
 
     eval_delayed_const_list();
-    output_all () ;
-    free_all_ins () ;
+    output_all();
+    free_all_ins();
 
     /* Add final touches */
-    init_output () ;
-    if ( need_dummy_double )  {
-       mach_op *op1 = make_extern_data ("___m68k_dummy_double", 0 ) ;
-       mach_op *op2 = make_int_data ( 8 ) ;
-       make_instr ( m_as_common, op1, op2, 0 ) ;
+    init_output();
+    if (need_dummy_double) {
+       mach_op *op1 = make_extern_data("___m68k_dummy_double", 0);
+       mach_op *op2 = make_int_data(8);
+       make_instr(m_as_common, op1, op2, 0);
     }
 
-    if ( do_profile ) profile_hack () ;
+    if (do_profile)profile_hack();
 
-    area ( pdata ) ;
-    output_all () ;
-    free_all_ins () ;
-    return ;
+    area(pdata);
+    output_all();
+    free_all_ins();
+    return;
 }

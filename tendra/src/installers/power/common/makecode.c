@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -119,11 +149,11 @@ where nowhere;	/* no particular destination, init in translat.c */
 /* Function declarations */
 void move_dlts PROTO_S ((int,int,int,int));/* Used by movecont_tag */
 void move_dgts PROTO_S ((int,int,int,int));/* Used by movecont_tag */
-int regfrmdest PROTO_S ((where *,space));
-freg fregfrmdest PROTO_S ((bool,where *,space));
+int regfrmdest(where *,space);
+freg fregfrmdest(bool,where *,space);
 
-static int get_next_mlv_number PROTO_S ((void));
-void adjust_to_size PROTO_S ((int,int,int,int,int));
+static int get_next_mlv_number(void);
+void adjust_to_size(int,int,int,int,int);
 
 
 
@@ -146,7 +176,7 @@ static Instruction_P branch_tab[] ={
 
 						    /*  1  2  3  4  5  6 */
 /* used to invert TDF tests */			    /* le lt ge gt ne eq */
-prop notbranch[] = 
+prop notbranch[] =
 {
   0,				/* NOT USED */
   4,				/* opposite of le is gt */
@@ -158,8 +188,8 @@ prop notbranch[] =
 };
 						    /*  1  2  3  4  5  6 */
 /* used to change TDF test when args commuted */    /* le lt ge gt ne eq */
-prop combranch[] = 
-{ 
+prop combranch[] =
+{
   0,				/* NOT USED */
   3,				/* reverse of le is ge */
   4,				/* reverse of lt is gt */
@@ -170,7 +200,7 @@ prop combranch[] =
 };
 
 
-static void testsigned PROTO_N ((r,lower,upper,lab)) PROTO_T (int r X long lower X long upper X long lab)
+static void testsigned(int r, long lower, long upper, long lab)
 {
   int creg1=next_creg();
   int creg2=next_creg();
@@ -180,7 +210,7 @@ static void testsigned PROTO_N ((r,lower,upper,lab)) PROTO_T (int r X long lower
   bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
   return;
 }
-static void testusigned PROTO_N ((r,maxval,lab)) PROTO_T (int r X long maxval X long lab)
+static void testusigned(int r, long maxval, long lab)
 {
   int creg=next_creg();
   cmp_ri_ins(i_cmpl,r,maxval,creg);
@@ -190,15 +220,15 @@ static void testusigned PROTO_N ((r,maxval,lab)) PROTO_T (int r X long maxval X 
 
 
 /* find the last test in sequence e which is a branch to second, if any, otherwise nil */
-static exp testlast PROTO_N ((e,second)) PROTO_T (exp e X exp second)
+static exp testlast(exp e, exp second)
 {
   if (name(e) == test_tag && pt(e) == second)
   {
-    return (e);
+    return(e);
   }
   if (name(e) == seq_tag)
   {
-    
+
     if (name(bro(son(e))) == test_tag && pt(bro(son(e))) == second)
     {
       /* is the last one of the sequence a test_tag pointing to second */
@@ -235,7 +265,7 @@ static exp testlast PROTO_N ((e,second)) PROTO_T (exp e X exp second)
 
 /* Does e, or components of e contain a bitfield? */
 /* +++ should detect this earlier and record in props(e) once-and-for-all */
-static int has_bitfield PROTO_N ((e)) PROTO_T (exp e)
+static int has_bitfield(exp e)
 {
   if (e == nilexp)
     return 0;
@@ -267,7 +297,7 @@ static int has_bitfield PROTO_N ((e)) PROTO_T (exp e)
 
 	FULLCOMMENT4("has_bitfield: compound field sz=%d als=%d,%d,%d",
 		shape_size(s), shape_align(s), al1(s), al2(s));
-	return shape_size(s) != 0 && (shape_align(s) == 1 || al1(s) == 1 || al2(s) == 1);
+	return shape_size(s)!= 0 && (shape_align(s) == 1 || al1(s) == 1 || al2(s) == 1);
       }
     }
   }
@@ -281,7 +311,7 @@ static int has_bitfield PROTO_N ((e)) PROTO_T (exp e)
  *
  * NB must do this EXACTLY ONCE.
  */
-static void fix_nonbitfield PROTO_N ((e)) PROTO_T (exp e)
+static void fix_nonbitfield(exp e)
 {
   if (name(e) == compound_tag)
   {
@@ -290,12 +320,12 @@ static void fix_nonbitfield PROTO_N ((e)) PROTO_T (exp e)
     {
       if (name(e) == val_tag && name(sh(e)) == offsethd && al2(sh(e)) >= 8)
 	  no(e) = no(e) << 3;	/* fix it */
-      
+
       fix_nonbitfield(bro(e));	/* recursively fix the rest of the struct */
-      
+
       if (last(bro(e)))
 	  return;		/* all done */
-      
+
       e = bro(bro(e));		/* next offset */
     }
   }
@@ -316,7 +346,7 @@ static void fix_nonbitfield PROTO_N ((e)) PROTO_T (exp e)
 /* params of bc_ins() */
 typedef struct
 {
-  Instruction_P branch;	
+  Instruction_P branch;
   int	creg;
   int	lab;
 } bc_info;
@@ -331,7 +361,7 @@ static bc_info bqueue[NQUEUE];
 static int bqueuepos;		/* next free slot in queue */
 
 
-static void clear_branch_queue PROTO_Z ()
+static void clear_branch_queue(void)
 {
   int i;
 
@@ -345,18 +375,18 @@ static void clear_branch_queue PROTO_Z ()
 }
 
 
-static void issue_bc_ins PROTO_N ((i)) PROTO_T (int i)
+static void issue_bc_ins(int i)
 {
   ASSERT(i >= 0 && i < NQUEUE);
   bc_ins(bqueue[i].branch, bqueue[i].creg, bqueue[i].lab,LIKELY_TO_JUMP);
 }
 
 
-static void queue_bc_ins PROTO_N ((ins,creg,lab)) PROTO_T (Instruction_P ins X int creg X int lab)
+static void queue_bc_ins(Instruction_P ins, int creg, int lab)
 {
   int i;
 
-  COMMENT2("queue_bc_ins(%s,%d,lab)", (int)ins, creg);
+  COMMENT2("queue_bc_ins(%s,%d,lab)",(int)ins, creg);
 
 #ifdef DO_ASSERT
   /* check there is not a queued instruction using same creg (now corrupted) */
@@ -381,7 +411,7 @@ static void queue_bc_ins PROTO_N ((ins,creg,lab)) PROTO_T (Instruction_P ins X i
     bqueuepos = 0;		/* roll around to zero */
 }
 
-static void flush_branch_queue PROTO_Z ()
+static void flush_branch_queue(void)
 {
   int i;
 
@@ -402,7 +432,7 @@ static void flush_branch_queue PROTO_Z ()
 #endif
 
 #if do_case_transforms
-static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg X exp e X space sp)
+static void case_tag_code(int caseint_reg, exp e, space sp)
 {
 
   long u;
@@ -416,18 +446,18 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
   baseoff zeroveclab;
   int mr = getreg(sp.fixed);	/* no need to guardreg(caseint_reg) as mr not
 				 * used until after lase use of caseint_reg */
-    
+
   l=no(zt);
-  while(bro(zt)!=nilexp)
+  while (bro(zt)!=nilexp)
   {
     zt=bro(zt);
   }
-  u = (son(zt)==nilexp) ? no(zt) : no(son(zt));
-  
+  u = (son(zt) ==nilexp)? no(zt): no(son(zt));
+
 
   zeroveclab.offset = 0;
   zeroveclab.base = veclab;
-  
+
   if (l >= 0 && l <= 4)
   {
     /* between 0 and 4 dummy table entries used to avoid subtract */
@@ -453,16 +483,16 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
   veclabname = ext_name(veclab);
   fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s\n", veclabname, veclabname, veclabname);
   fprintf(as_file, "\t.csect\t[PR]\n");
-  
+
   /* build the jump vector, can be to .text or .data */
   fprintf(as_file, "%s:\n", veclabname);
   for (;;)
   {
-    for (; no(z) != n; n++)
+    for (; no(z)!= n; n++)
     {
       fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
     }
-    u = (son(z) == nilexp) ? n : no(son(z));
+    u = (son(z) == nilexp)? n : no(son(z));
     for (; u+1 != n; n++)	/* comparison independent of sign */
     {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
@@ -478,9 +508,9 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
 }
 
 
-  
+
 #else
-static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg X exp e X space sp)
+static void case_tag_code(int caseint_reg, exp e, space sp)
 {
   mm lims;
   exp z = bro(son(e));
@@ -497,16 +527,16 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
   l = no(zt);
   for (n = 1;; n++)
   {
-    if (u + 1 != no(zt) && son(zt) != nilexp)
+    if (u + 1 != no(zt) && son(zt)!= nilexp)
     {
       n++;
     }
     if (last(zt))
     {
-      u = (son(zt) != nilexp) ? no(son(zt)) : no(zt);
+      u = (son(zt)!= nilexp)? no(son(zt)): no(zt);
       break;
     }
-    if (son(zt) != nilexp)
+    if (son(zt)!= nilexp)
     {
       u = no(son(zt));
     }
@@ -525,14 +555,14 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
   if (u - l < 0)
     approx_range = 0x7fffffff;	/* u-l overflowed into -ve, use huge */
   else
-    approx_range = ( unsigned long ) ( u - l );
+    approx_range = (unsigned long)(u - l);
 
   if (approx_range < 16)
   {
     /* small jump vector needed, decide on instuctions executed only */
 #define	MTCR_B_DELAY		4	/* fixed point mtctr..bctr delay */
 #define	BR_TAKEN_DELAY		3	/* fixed point branch taken delay */
-    unsigned jump_vector_cnt = ((l >= 0 && l <= 4) ? 8 + MTCR_B_DELAY : 9 + MTCR_B_DELAY);
+    unsigned jump_vector_cnt = ((l >= 0 && l <= 4)? 8 + MTCR_B_DELAY : 9 + MTCR_B_DELAY);
 
     unsigned cmp_jmp_step_cnt = 2 + (!IMM_SIZE(l)) + (!IMM_SIZE(u));
 
@@ -540,7 +570,7 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
     /* +++ assume default used as often as case, is this good ??? */
     unsigned default_weight = 1;/* likelyhood of default against single case */
     unsigned total_case_test_chain_cnt =
-	((((n + 1) * cmp_jmp_step_cnt) * n) / 2) + BR_TAKEN_DELAY;
+	((((n + 1)* cmp_jmp_step_cnt)* n) / 2) + BR_TAKEN_DELAY;
     unsigned default_test_chain_cnt =
 	(n * cmp_jmp_step_cnt);
     unsigned average_test_chain_cnt =
@@ -558,16 +588,16 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
      * branches
      */
     unsigned long range_factor = approx_range + 9;
-    unsigned long n_factor = ((unsigned long) n * n) / 2;
+    unsigned long n_factor = ((unsigned long)n * n) / 2;
 
     use_jump_vector = range_factor <= n_factor;
   }
 
   COMMENT4("case_tag: n=%d l,u=%d,%d approx_range=%d", n, l, u, approx_range);
   if (is_signed(sh(son(e)))) {
-    ASSERT ( l <= u ) ;
+    ASSERT(l <= u);
   } else {
-    ASSERT ( (unsigned long) l <= (unsigned long) u ) ;
+    ASSERT((unsigned long)l <= (unsigned long)u);
   }
   ASSERT(n >= 0);
 
@@ -624,11 +654,11 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
     fprintf(as_file, "%s:\n", veclabname);
     for (;;)
     {
-      for (; no(z) != n; n++)
+      for (; no(z)!= n; n++)
       {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
       }
-      u = (son(z) == nilexp) ? n : no(son(z));
+      u = (son(z) == nilexp)? n : no(son(z));
       for (; u+1 != n; n++)
       {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
@@ -807,14 +837,14 @@ static void case_tag_code PROTO_N ((caseint_reg,e,sp)) PROTO_T (int caseint_reg 
  * Evaluate and generate the compare instruction for a test_tag,
  * and return a bcinfo describing the conditional branch required.
  */
-static bc_info make_test_tag_cmp PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+static bc_info make_test_tag_cmp(exp e, space sp)
 {
   exp l = son(e);
   exp r = bro(l);
   shape shl = sh(l);
   bc_info bcinfo;
 
-  bcinfo.lab = (ptno(e) < 0) ? -ptno(e) : no(son(pt(e)));
+  bcinfo.lab = (ptno(e) < 0)? -ptno(e): no(son(pt(e)));
 					/* see frig in cond_tag */
   /* generate compare */
   if (is_floating(name(sh(l))))
@@ -847,9 +877,9 @@ static bc_info make_test_tag_cmp PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
     int a1;
     int a2;
     Instruction_P cmp;
-    
+
     cmp = sgned ? i_cmp : i_cmpl;
-    
+
     cr0_set = 0;
     /* cr0_set is needed since l could be tracked by reg tracking and there
        fore not coded. In this case cr0_set should remain 0 */
@@ -886,7 +916,7 @@ static bc_info make_test_tag_cmp PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
  * given by sp. If non-zero, exitlab is the label of where the code is to
  * continue.
  */
-makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X where dest X int exitlab)
+makeans make_code(exp e, space sp, where dest, int exitlab)
 {
   long constval=0;
   makeans mka;
@@ -898,8 +928,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
    * 13500 exp nodes generate 8k words of instructions.
    * We play safe and allow 1 instruction per exp.
    */
-#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || absval(ptno(son(pt(e)))-exp_num) < 8192)
-  
+#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || absval(ptno(son(pt(e))) -exp_num) < 8192)
+
  tailrecurse:
   exp_num++;
   mka.lab = exitlab;
@@ -944,21 +974,21 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	 * Must choose a fixed register to contain answer to clear
 	 */
 	int *sr = someregalt(dest.answhere);
-	
-	if (*sr != -1){fail("somereg *2");}
+
+	if (*sr != -1) {fail("somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
-      else if(dest.answhere.discrim==insomefreg)
+      else if (dest.answhere.discrim==insomefreg)
       {
 	/*
 	 * Must choose a float register to contain answer to clear
 	 */
 	somefreg sfr;
 	freg fr;
-	
+
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1){fail("somefreg *2");}
+	if (*sfr.fr != -1) {fail("somefreg *2");}
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
@@ -971,10 +1001,10 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
    case seq_tag:
     {
       exp t = son(son(e));
-      
+
       for (;;)
       {
-	exp next = (last(t)) ? (bro(son(e))) : bro(t);
+	exp next = (last(t))?(bro(son(e))): bro(t);
 
 	if (name(next) == goto_tag)	/* gotos end sequences */
 	{
@@ -989,7 +1019,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  exp l = bro(son(e));		/* last exp of sequence */
 
 	  if (name(sh(t)) == bothd && name(l) == res_tag &&
-	      (name(son(l)) == clear_tag || name(son(l)) == top_tag))
+	     (name(son(l)) == clear_tag || name(son(l)) == top_tag))
 	  {
 	    /*
 	     * res_tag that cannot be reached.  Eg an extra one inserted at
@@ -1012,36 +1042,36 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       exp first = son(e);
       exp second = bro(son(e));
       exp test;
-      
+
       if (dest.answhere.discrim==insomereg)
       {
 	/*
-	 * Must choose a fixed register to contain answer to cond 
+	 * Must choose a fixed register to contain answer to cond
 	 */
 	int *sr = someregalt(dest.answhere);
-	
-	if (*sr != -1){fail("somereg *2");}
+
+	if (*sr != -1) {fail("somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
       else if (dest.answhere.discrim==insomefreg)
       {
 	/*
-	 * Must choose a float register to contain answer to cond 
+	 * Must choose a float register to contain answer to cond
 	 */
 	somefreg sfr;
 	freg fr;
-	
+
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1){fail("somefreg *2");}
+	if (*sfr.fr != -1) {fail("somefreg *2");}
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
 	setfregalt(dest.answhere, fr);
       }
 
-      /* 
-       * A few optimisations for cond_tag 
+      /*
+       * A few optimisations for cond_tag
        */
       if (name(first) == goto_tag && pt(first) == second)
       {
@@ -1054,7 +1084,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	/* second is empty */
 
-	int endl = (exitlab == 0) ? new_label() : exitlab;
+	int endl = (exitlab == 0)? new_label(): exitlab;
 
 	no(son(second)) = endl;
 	make_code(first, sp, dest, endl);
@@ -1075,7 +1105,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       if (test != nilexp && TEST_TAG_NEAR_BRANCH(test))
       {
 	/* effectively an empty then part */
-	int l = (exitlab != 0) ? exitlab : new_label();
+	int l = (exitlab != 0)? exitlab : new_label();
 
 	ptno(test) = -l;	/* make test jump to exitlab - see test_tag: */
 	settest_number(test,obranch(test_number(test)));
@@ -1090,11 +1120,11 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	int fl;
 	int l;
-	
+
 	no(son(second)) = new_label();
 	fl = make_code(first, sp, dest, exitlab).lab;
-	l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label());
-	if (name(sh(first)) != bothd)
+	l = (fl != 0)? fl :((exitlab != 0)? exitlab : new_label());
+	if (name(sh(first))!= bothd)
 	{
 	  uncond_ins(i_b, l);
 	}
@@ -1103,20 +1133,20 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	mka.lab = l;
 	return mka;
       }
-    }	
+    }
 /*****************************************************************************/
    case labst_tag:
     {
       ptno(son(e)) = exp_num;	/* update estimate made in scan() */
-      if (no(son(e)) != 0)
+      if (no(son(e))!= 0)
       {
 	clear_all();
 	set_label(no(son(e)));
-	
+
 	if (is_loaded_lv(e) && p_save_all_sregs)
 	{
 	  /* It is long jumpabble to (potentially)*/
-	  if(p_has_tp)
+	  if (p_has_tp)
 	  {
 	    /* restore tp */
 	    baseoff saved_tp;
@@ -1129,13 +1159,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    /* Variable frame size */
 	    get_sp_from_stack();
 	  }
-	  else 
+	  else
 	  {
 	    /* Fixed frame size */
 	    rir_ins(i_a,R_FP, - p_frame_size , R_SP);
 	  }
 	}
-	
+
       }
       return make_code(bro(son(e)), sp, dest, exitlab);
     }				/* end labst */
@@ -1144,17 +1174,17 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       exp first = son(e);
       exp second = bro(first);
-      
+
       code_here(first,sp,nowhere);
-      ASSERT(name(second)==labst_tag);
+      ASSERT(name(second) ==labst_tag);
       no(son(second)) = new_label();
 #if 1
       if (architecture != POWERPC_CODE)
       {
-	exp last_test;      
+	exp last_test;
 	/*
 	 * Rearrange test and branch instructions
-	 * to reduce RS/6000 branch delays 
+	 * to reduce RS/6000 branch delays
 	 */
 	/* look for last test_tag of repeat exp */
 	last_test = bro(son(second));	/* under labst_tag */
@@ -1163,13 +1193,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	{
 	  last_test = bro(son(last_test));
 	}
-	
-	
+
+
 	if (!diagnose && name(last_test) == test_tag)
 	{
 	  /* we found a test_tag, is it simple and jumps to rep_tag? */
-	  
-	  if (ptno(last_test) >= 0 && pt(last_test) == second 
+
+	  if (ptno(last_test) >= 0 && pt(last_test) == second
 	      && TEST_TAG_NEAR_BRANCH(last_test))
 	  {
 	    /*
@@ -1192,57 +1222,57 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    int rep_org_lab = 0;
 	    int end_rep_test_lab = new_label();
 	    int start_of_rep_lab = no(son(second));	/* labst_tag label */
-	    int end_rep_lab = (exitlab == 0) ? new_label() : exitlab;
+	    int end_rep_lab = (exitlab == 0)? new_label(): exitlab;
 	    bc_info bcinfo;
-	    
+
 	    COMMENT("make_code rep_tag: last exp is rep_tag test_tag - evaluate out of order");
-	    
+
 	    /* labst_tag label should be in use */
 	    ASSERT(start_of_rep_lab!=0);
-	    
+
 	    /* allocate new label number for use with .org: L.R%d and L.S%d */
 	    rep_org_lab = ++rep_org_labnos;
-	    
+
 	    uncond_ins(i_b, start_of_rep_lab);
-	    
+
 	    set_label(end_rep_test_lab);
-	    
+
 	    /* use .org to leave gap for brought forward bc ins */
 	    fprintf(as_file, "L.R%d:\n", rep_org_lab);
 	    fprintf(as_file, "\t.org\t$+4\t# loop bc ins\n");
-	    
+
 	    /* we will do test_tag ourselves, nuke it out of loop */
 	    name(last_test) = top_tag;
-	    
+
 	    /* set_label(start_of_rep_lab) done by labst_tag */
-	    
+
 	    mka = make_code(second, sp, dest, exitlab);
-	    
+
 	    /* reverse test, jump to end_rep_lab */
 	    ptno(last_test) = -end_rep_lab;
 	    settest_number(last_test,obranch(test_number(last_test)));
 	    /* generate compare */
 	    bcinfo = make_test_tag_cmp(last_test, sp);
-	    
+
 	    uncond_ins(i_b, end_rep_test_lab);
-	    
+
 	    if (end_rep_lab != exitlab)
 	      set_label(end_rep_lab);
-	    
+
 	    /* fill in gap above with bc_ins */
 	    fprintf(as_file, "L.S%d:\n", rep_org_lab);
 	    fprintf(as_file, ".org\tL.R%d\t# loop bc ins\n", rep_org_lab);
 	    bc_ins(bcinfo.branch, bcinfo.creg, bcinfo.lab,UNLIKELY_TO_JUMP);
-	    
+
 	    /* .org back */
 	    fprintf(as_file, ".org\tL.S%d\n", rep_org_lab);
-	    
+
 	    return mka;
 	  }
-	  
+
 	}
       }
-#endif 
+#endif
       /*
        * We could not find last simple test_tag, must be complicated.
        * Don't bother to move tests around.
@@ -1255,21 +1285,21 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       exp gotodest = pt(e);
       int lab;
-#if 0 
+#if 0
 /* This would be a lovely optimisation, however silly people give me test
    programs with L1:goto L1 so I despair */
-      while (name(bro(son(gotodest)))==goto_tag)
+      while (name(bro(son(gotodest))) ==goto_tag)
       {
 	/* goto to goto optimisation */
 	gotodest = pt(bro(son(gotodest)));
       }
-#endif	    
+#endif
       lab = no(son(gotodest));
       clear_all();
-      if (last(e)==0 || name(bro(e))!=seq_tag || last(bro(e)) ||
-	  bro(bro(e)) != gotodest) 
+      if (last(e) ==0 || name(bro(e))!=seq_tag || last(bro(e)) ||
+	  bro(bro(e))!= gotodest)
       {
-	uncond_ins (i_b, lab);
+	uncond_ins(i_b, lab);
       }/* otherwise dest is next in sequence */
       return mka;
     }				/* end goto */
@@ -1278,15 +1308,15 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       bc_info bcinfo;
       int branch_prediction=LIKELY_TO_JUMP;
-      
-      if(no(e)!=1000 && no(e)>=0 && no(e)<=100)
+
+      if (no(e)!=1000 && no(e) >=0 && no(e) <=100)
       {
-	branch_prediction = (no(e)>=50)?UNLIKELY_TO_JUMP:LIKELY_TO_JUMP;
+	branch_prediction = (no(e) >=50)?UNLIKELY_TO_JUMP:LIKELY_TO_JUMP;
       }
       try_record_bit(e);
       if (TEST_TAG_NEAR_BRANCH(e))
       {
-	/* 
+	/*
 	 * Estimate close enough for bc_ins
 	 */
 	bcinfo = make_test_tag_cmp(e, sp);
@@ -1298,7 +1328,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	int oldlab = no(son(pt(e)));
 
 	/*
-	 * Branch is too far away so we reverse branch to new label 
+	 * Branch is too far away so we reverse branch to new label
 	 * and use an unconditional branch to the target destination
 	 */
 	ptno(e) = -newlab;
@@ -1337,7 +1367,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       }
 
       if (name(e) == ass_tag && APPLYLIKE(rhs) &&
-	  ((is_float) || valregable(sh(rhs))))
+	 ((is_float) || valregable(sh(rhs))))
       {
 	where apply_res;
 	/* This is not an optimisation this is necessary */
@@ -1360,15 +1390,15 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 
 	code_here(rhs, sp, apply_res);
 	nsp = guard(apply_res, sp);
-	
+
 	assdest = locate(lhs, nsp, sh(rhs), 0);
 
 	move(apply_res.answhere, assdest, nsp.fixed, 1);
-	/* The evaluation of an assignment is the rhs so 
+	/* The evaluation of an assignment is the rhs so
 	   we move the rhs to dest as well */
 	move(apply_res.answhere, dest, nsp.fixed, 1);
 	clear_dep_reg(lhs);
-	
+
 #if 0
 	/* +++ remember that R_RESULT is lhs */
 	if (!is_float)
@@ -1417,7 +1447,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  else
 	  {
 	    int assreg;
-	    if(dest.answhere.discrim==inreg && 
+	    if (dest.answhere.discrim==inreg &&
 	       !IS_R_NO_REG(regalt(dest.answhere)))
 	    {
 	      assreg = regalt(dest.answhere);
@@ -1561,15 +1591,15 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	       */
 #endif
 #if 1
-	    if ( name ( lhs ) == name_tag ) {
-	      exp dc = son ( lhs ) ;
-	      if ( son ( dc ) != nilexp ) dc = son ( dc ) ;
-	      if ( shape_size ( sh ( dc ) ) ==
-		  shape_size ( sh ( rhs ) ) ) {
-		keepcont ( lhs, contreg ) ;
+	    if (name(lhs) == name_tag) {
+	      exp dc = son(lhs);
+	      if (son(dc)!= nilexp)dc = son(dc);
+	      if (shape_size(sh(dc)) ==
+		  shape_size(sh(rhs))) {
+		keepcont(lhs, contreg);
 	      }
-	    } else if ( !dependson ( lhs, 0, lhs ) )
-#endif	
+	    } else if (!dependson(lhs, 0, lhs))
+#endif
 	    {
 	      keepcont(lhs, contreg);
 	    }
@@ -1648,7 +1678,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    newis = str;
 	    newis.b.offset += no(t);
 
-	    FULLCOMMENT4("make_code compound_tag: name(t)=%d no(t)=%d al2=%d offset=%d",
+	    FULLCOMMENT4("make_code compound_tag: name(t) =%d no(t) =%d al2=%d offset=%d",
 		name(t), no(t), al2(sh(t)), newis.b.offset);
 	    ASSERT(name(t) == val_tag && al2(sh(t)) >= 8);
 
@@ -1681,8 +1711,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  code_here(bro(t), sp, dest);
 	  r = regalt(dest.answhere);
 	  ASSERT(name(t) == val_tag);
-	  if (no(t) != 0)
-	    rir_ins(i_sl, r, ((al2(sh(t)) >= 8) ? (no(t) << 3) : no(t)), r);
+	  if (no(t)!= 0)
+	    rir_ins(i_sl, r,((al2(sh(t)) >= 8)?(no(t) << 3): no(t)), r);
 	  nsp = guardreg(r, sp);
 	  while (!last(bro(t)))
 	  {
@@ -1691,9 +1721,9 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    t = bro(bro(t));
 	    ASSERT(name(t) == val_tag);
 	    z = reg_operand(bro(t), nsp);
-	    if (no(t) != 0)
+	    if (no(t)!= 0)
 	    {
-	      rir_ins(i_sl, z, ((al2(sh(t)) >= 8) ? (no(t) << 3) : no(t)), z);
+	      rir_ins(i_sl, z,((al2(sh(t)) >= 8)?(no(t) << 3): no(t)), z);
 	    }
 	    rrr_ins(i_or, r, z, r);
 	  }
@@ -1713,7 +1743,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       instore str;
       int r, disp = 0;
 #if 1
-      if(t==nilexp)
+      if (t==nilexp)
 	return mka;
 #endif
       nsp = sp;
@@ -1804,7 +1834,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  if (!str.adval)
 	  {
 	    int r = getreg(sp.fixed);
-	    
+
 	    nsp = guardreg(r, sp);
 	    ld_ins(i_l, str.b, r);
 	    str.adval = 1;
@@ -1815,7 +1845,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  {
 	    where newdest;
 	    instore newis;
-	    
+
 	    newis = str;
 	    newis.b.offset += disp;
 	    setinsalt(newdest.answhere, newis);
@@ -1873,12 +1903,12 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       exp m = bro(son(e));
       int l = exitlab;
-      
-      if(dest.answhere.discrim==insomereg)
+
+      if (dest.answhere.discrim==insomereg)
       {
 	/* Choose register for fixed result */
 	int *sr = someregalt(dest.answhere);
-	if (*sr != -1){fail("somereg *2");}
+	if (*sr != -1) {fail("somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
@@ -1888,13 +1918,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	somefreg sfr;
 	freg fr;
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) { fail ("somefreg *2"); }
+	if (*sfr.fr != -1) { fail("somefreg *2"); }
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
 	setfregalt(dest.answhere, fr);
       }
-      
+
       /* Set up all the labels in the component labst_tags */
       for (;;)
       {
@@ -1924,7 +1954,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  {
 	    l = new_label();
 	  }
-	  if (name(sh(m)) != bothd)
+	  if (name(sh(m))!= bothd)
 	  {
 	    uncond_ins(i_b, l);
 	  }
@@ -1952,7 +1982,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       if (!optop(e))
       {
 	mka.regmove = plus_error_treatment(e,sp,dest);
-      }  
+      }
       else
       {
 	if (isrecordbit(e))
@@ -1977,39 +2007,39 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       int sreg;			        /* source reg                        */
       int dreg;  			/* dest reg, or temp for memory dest */
       bool inmem_dest;		        /* is dest in memory ? */
-      
+
 
       /*
-       * For a series of chvar_tags, do large to small in one go 
+       * For a series of chvar_tags, do large to small in one go
        */
-      while (name(arg) == chvar_tag && 
+      while (name(arg) == chvar_tag &&
 	     ashof(sh(arg)).ashsize >= size_e && NO_ERROR_TREATMENT(arg))
       {
 	COMMENT1("make_code chvar_tag: skipping intermediate shape %d",name(sh(arg)));
 	arg = son(arg);
       }
-      
+
       if (ERROR_TREATMENT(e))
       {
 	mka.regmove = chvar_error_treatment(e,sp,dest);
 	return mka;
       }
-      
+
 
       from = name(sh(arg));
-      if ( from == to ||
+      if (from == to ||
 	  to == slonghd ||
 	  to == ulonghd ||
-	  (to == uwordhd && from == ucharhd) ||
-	  (to == swordhd && (from == scharhd || from == ucharhd)) ||
-	  (to>=slonghd)
-	  )
+	 (to == uwordhd && from == ucharhd) ||
+	 (to == swordhd && (from == scharhd || from == ucharhd)) ||
+	 (to>=slonghd)
+	 )
       {
-	/* 
-	 * No changes required, so just move handling dest insomereg well 
+	/*
+	 * No changes required, so just move handling dest insomereg well
 	 */
 	ans aa;
-	
+
 	COMMENT("make_code chvar_tag: no change");
 	switch (dest.answhere.discrim)
 	{
@@ -2022,13 +2052,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  }
 	  /* result being voided, treat as default */
 	  /*FALLTHROUGH*/
-	  
+
 	 default:
 	  sreg = reg_operand(arg, sp);
 	}
-	
+
 	setregalt(aa, sreg);
-	mka.regmove = move(aa, dest, sp.fixed, is_signed(sh(e)) );
+	mka.regmove = move(aa, dest, sp.fixed, is_signed(sh(e)));
 	return mka;
       }
 
@@ -2103,7 +2133,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 /*****************************************************************************/
    case minus_tag:
     {
-      if(ERROR_TREATMENT(e))
+      if (ERROR_TREATMENT(e))
       {
 	mka.regmove = minus_error_treatment(e,sp,dest);
       }
@@ -2146,7 +2176,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
    case rem2_tag:
     {
       bool sgned = is_signed(sh(e));
-      
+
       mka.regmove = do_rem_op(e, sp, dest, sgned);
       return mka;
     }				/* end rem */
@@ -2164,7 +2194,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	int destr = regfrmdest(&dest,sp);
 	space nsp;
 	ans aa;
-	
+
 	nsp = guardreg(destr,sp);
 	rr_ins(i_neg, r, destr);
 #if 0
@@ -2190,7 +2220,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	int destr = regfrmdest(&dest,sp);
 	space nsp;
 	ans aa;
-	
+
 	nsp = guardreg(destr,sp);
 	rr_ins(i_abs, r, destr);
 #if 0
@@ -2214,19 +2244,19 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       bool sgned = is_signed(sh(e));
       Instruction_P shift_ins;
       bool record_bit = isrecordbit(e);
-      
+
 
 #if 1
       int sz = shape_size(sh(s));
 #if 0
-      bool lded = ((name (s) == name_tag && regofval (s) >= 100)
-		   || (name (s) == cont_tag &&
-		       (name (son (s)) != name_tag || regofval (son (s)) > 0)
-		       )
-		   ); 
+      bool lded = ((name(s) == name_tag && regofval(s) >= 100)
+		   || (name(s) == cont_tag &&
+		      (name(son(s))!= name_tag || regofval(son(s)) > 0)
+		      )
+		  );
 #endif
       bool signok = (sz == 32); /* better safe than sorry for the time being */
-      if(name(son(e))==shl_tag && shape_size(sh(son(s)))!=32)
+      if (name(son(e)) ==shl_tag && shape_size(sh(son(s)))!=32)
       {
 	signok=1;
       }
@@ -2235,17 +2265,17 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	fail("Unexpected error treatment for shl");
       }
-      if(name(s)==and_tag && name(b)==val_tag &&
-	 name(bro(son(s)))==val_tag &&
+      if (name(s) ==and_tag && name(b) ==val_tag &&
+	 name(bro(son(s))) ==val_tag &&
 	 is_a_mask(no(bro(son(s)))) &&
-	 shape_size(sh(e))==32)
+	 shape_size(sh(e)) ==32)
       {
 	unsigned int mask= (unsigned int)no(bro(son(s)));
 	int mask_left = left_of_mask(mask);
 	int rotation_left;
 	bool use_rlinm_ins = 0;
-	
-	if (name(e)==shl_tag)
+
+	if (name(e) ==shl_tag)
 	{
 	  int shift_left = no(b);
 	  mask = mask<<shift_left;
@@ -2266,13 +2296,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    rotation_left = 32 - shift_right;
 	  }
 	}
-	
+
 	if (use_rlinm_ins==1)
 	{
 	  a = reg_operand(son(s),sp);
 	  d = regfrmdest(&dest,sp);
 
-	  if(isrecordbit(e))
+	  if (isrecordbit(e))
 	  {
 	    rlinm_ins(i_rlinm_cr,a,rotation_left,mask,d);
 	  }
@@ -2282,30 +2312,30 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  }
 	  setregalt(aa,d);
 	  move(aa,dest,sp.fixed,0);
-	  return mka; 
+	  return mka;
 	}
       }
-      
+
       a = reg_operand(s, sp);
 
-      if (!signok && name(e)==shr_tag) 
+      if (!signok && name(e) ==shr_tag)
       {
-	/* 
-	 * If doing a shift right we must sign extend 
+	/*
+	 * If doing a shift right we must sign extend
 	 * or truncate prior to shifting
 	 */
 	adjust_to_size(ulonghd,a,name(sh(e)),a,NO_ERROR_JUMP);
       }
       if (name(e) == shr_tag)
       {
-	if(record_bit==1)
+	if (record_bit==1)
 	{
-	  shift_ins = (sgned) ? i_sra_cr : i_sr_cr;
+	  shift_ins = (sgned)? i_sra_cr : i_sr_cr;
 	  cr0_set = 1;
 	}
 	else
 	{
-	  shift_ins = (sgned) ? i_sra : i_sr;
+	  shift_ins = (sgned)? i_sra : i_sr;
 	}
       }
       else
@@ -2314,7 +2344,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       }
       nsp = guardreg(a, sp);
       d = regfrmdest(&dest,nsp);
-      
+
       if (name(b) == val_tag)
       {
 	/* Only defined for shifts by 0..31 */
@@ -2332,17 +2362,17 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	else
 	{			/* Undefined, produce same effect as if */
 	  ld_const_ins(0, d);	/* not a constant,0 */
-	}				
+	}
       }
       else
       {
 	int ar = reg_operand(b, nsp);
 	rrr_ins(shift_ins, a, ar, d);
       }
-      if(!signok && name(e)==shl_tag)
+      if (!signok && name(e) ==shl_tag)
       {
-	/* 
-	 * If doing a shift left we must sign extend 
+	/*
+	 * If doing a shift left we must sign extend
 	 * or truncate after the shift
 	 */
 	adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
@@ -2363,49 +2393,49 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
    case fplus_tag:
     {
       mka.regmove =
-	fop(e, sp, dest, is_single_precision(sh(e)) ? i_fa : i_fa);
+	fop(e, sp, dest, is_single_precision(sh(e))? i_fa : i_fa);
       return mka;
     }
 /*****************************************************************************/
   case fminus_tag:
     {
       mka.regmove =
-	fop(e, sp, dest, is_single_precision(sh(e)) ? i_fs : i_fs);
+	fop(e, sp, dest, is_single_precision(sh(e))? i_fs : i_fs);
       return mka;
     }
 /*****************************************************************************/
   case fmult_tag:
     {
       mka.regmove =
-	fop(e, sp, dest, is_single_precision(sh(e)) ? i_fm : i_fm);
+	fop(e, sp, dest, is_single_precision(sh(e))? i_fm : i_fm);
       return mka;
     }
 /*****************************************************************************/
   case fdiv_tag:
     {
       mka.regmove =
-	fop(e, sp, dest, is_single_precision(sh(e)) ? i_fd : i_fd);
+	fop(e, sp, dest, is_single_precision(sh(e))? i_fd : i_fd);
       return mka;
     }
 /*****************************************************************************/
   case fneg_tag:
     {
       mka.regmove =
-	fmop(e, sp, dest, is_single_precision(sh(e)) ? i_fneg : i_fneg);
+	fmop(e, sp, dest, is_single_precision(sh(e))? i_fneg : i_fneg);
       return mka;
     }
 /*****************************************************************************/
   case fabs_tag:
     {
       mka.regmove =
-	fmop(e, sp, dest, is_single_precision(sh(e)) ? i_fabs : i_fabs);
+	fmop(e, sp, dest, is_single_precision(sh(e))? i_fabs : i_fabs);
       return mka;
     }
 /*****************************************************************************/
   case float_tag:
     {
       exp in = son(e);
-      int f = (dest.answhere.discrim == infreg) ?
+      int f = (dest.answhere.discrim == infreg)?
 		fregalt(dest.answhere).fr :
 		getfreg(sp.flt);
       freg frg;
@@ -2449,7 +2479,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 
       setfregalt(aa, frg);
       move(aa, dest, sp.fixed, 1);
-      mka.regmove = (frg.dble) ? -(f + 32) : (f + 32);
+      mka.regmove = (frg.dble)? - (f + 32):(f + 32);
       return mka;
     }
 /*****************************************************************************/
@@ -2459,7 +2489,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       int from = name(sh(son(e)));
       bool dto = (to != shrealhd);
       bool dfrom = (from != shrealhd);
-      
+
       if (dto==dfrom)
       {
 	/* no change in representation */
@@ -2476,7 +2506,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	w.answhere = aa;
 	w.ashwhere = ashof(sh(son(e)));
 	code_here(son(e), sp, w);
-	if ( to==shrealhd )
+	if (to==shrealhd)
 	{
 	  if (ERROR_TREATMENT(e))
 	  {
@@ -2490,7 +2520,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	frg.dble = dto;
 	setfregalt(aa, frg);
 	move(aa, dest, sp.fixed, 1);
-	mka.regmove = (frg.dble) ? -(frg.fr + 32) : (frg.fr + 32);
+	mka.regmove = (frg.dble)? - (frg.fr + 32):(frg.fr + 32);
 	return mka;
       }
     }
@@ -2499,20 +2529,20 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       exp arg1 = son(e);
       exp arg2 = bro(arg1);
-      
-      if (name(arg2)==val_tag &&
+
+      if (name(arg2) ==val_tag &&
 	  is_a_mask(no(arg2)) &&
-	  shape_size(sh(e))==32 &&
-	  (name(arg1)==shl_tag || name(arg1)==shr_tag) &&
-	  name(bro(son(arg1)))==val_tag)
+	  shape_size(sh(e)) ==32 &&
+	 (name(arg1) ==shl_tag || name(arg1) ==shr_tag) &&
+	  name(bro(son(arg1))) ==val_tag)
       {
 	unsigned int mask = (unsigned int)no(arg2);
 	int mask_left = left_of_mask(mask);
 	int mask_right = right_of_mask(mask);
 	bool use_rlinm_ins = 0;
 	long rotation_left;
-	
-	if (name(arg1)==shl_tag)
+
+	if (name(arg1) ==shl_tag)
 	{
 	  int shift_left = no(bro(son(arg1)));
 	  if (shift_left<=mask_right)
@@ -2521,23 +2551,23 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	    use_rlinm_ins=1;
 	  }
 	}
-	else if (name(arg1)==shr_tag )
+	else if (name(arg1) ==shr_tag)
 	{
 	  int shift_right = no(bro(son(arg1)));
-	  if (shift_right<=(31-mask_left))
+	  if (shift_right<= (31-mask_left))
 	  {
 	    rotation_left = 32 - shift_right;
 	    use_rlinm_ins=1;
 	  }
 	}
-	
+
 	if (use_rlinm_ins==1)
 	{
 	  int r = reg_operand(son(arg1),sp);
 	  int dr = regfrmdest(&dest,sp);
 	  ans aa;
-	  
-	  if(isrecordbit(e))
+
+	  if (isrecordbit(e))
 	  {
 	    rlinm_ins(i_rlinm_cr,r,rotation_left,mask,dr);
 	  }
@@ -2550,10 +2580,10 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  return mka;
 	}
       }
-      
-	
-	  
-      if(isrecordbit(e))
+
+
+
+      if (isrecordbit(e))
       {
 	mka.regmove = comm_op(e, sp, dest, i_and_cr);
 	cr0_set = 1;
@@ -2562,7 +2592,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	mka.regmove = comm_op(e, sp, dest, i_and);
       }
-      
+
       return mka;
     }
 /*****************************************************************************/
@@ -2589,8 +2619,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
       setregalt(aa,d);
       move(aa,dest,guardreg(d,sp).fixed,1);
-      mka.regmove =d ;
-      
+      mka.regmove =d;
+
       return mka;
     }
 /*****************************************************************************/
@@ -2608,8 +2638,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	clear_all();
       }
       /*
-       * Check to see if we can use 
-       * [reg+reg] addressing for this load 
+       * Check to see if we can use
+       * [reg+reg] addressing for this load
        */
       if (name(son(e)) == addptr_tag)
       {
@@ -2652,7 +2682,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  else
 	  {
 	    int dreg = regfrmdest(&dest,sp);
-	    
+
 	    ld_rr_ins(i_ld_sz(cont_size,sgned), lhsreg, rhsreg, dreg);
 	    if (sgned && cont_size==8)
 	    {
@@ -2679,11 +2709,11 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       where w;
       bool sgned;
-      int dr = (dest.answhere.discrim == inreg) ? dest.answhere.val.regans : 0;
+      int dr = (dest.answhere.discrim == inreg)? dest.answhere.val.regans : 0;
       w = locate(e, sp, sh(e), dr);		/* address of arg */
       sgned = (w.ashwhere.ashsize >= 32) || is_signed(sh(e));
       /* +++ load real into float reg, move uses fixed reg */
-      mka.regmove = move(w.answhere, dest, (guard(w, sp)).fixed, sgned);
+      mka.regmove = move(w.answhere, dest,(guard(w, sp)).fixed, sgned);
       if (name(e) == contvol_tag)
 	mka.regmove = NOREG;
       return mka;
@@ -2695,9 +2725,9 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       instore isa;
       ans aa;
       bool sgned = ((ashof(sh(e)).ashsize >= 32) || is_signed(sh(e)));
-      
+
       /*
-       * Place constant in appropriate data segment 
+       * Place constant in appropriate data segment
        */
       isa = evaluated_const(e);
       setinsalt(aa, isa);
@@ -2709,12 +2739,12 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       int size = shape_size(sh(e));
 
-      
-      if ( size == 64 )
+
+      if (size == 64)
       {
         /* could be evaluating into nowhere so check
            to see it is trying to evaluate into a genuine place */
-        if(dest.answhere.discrim==notinreg)
+        if (dest.answhere.discrim==notinreg)
         {
           flt64 temp;
           int ov;
@@ -2725,7 +2755,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  temp = flt_to_f64(no(e), 0, &ov);
           }
           else {
-            temp.big = (is_signed(sh(e)) && no(e)<0)?-1:0;
+            temp.big = (is_signed(sh(e)) && no(e) <0)?-1:0;
             temp.small = no(e);
           }
           nsp = guardreg(r, sp);
@@ -2739,8 +2769,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
           dest.answhere.val.instoreans.b.offset+=4;
           move(aa,dest,nsp.fixed,1);
         }
-        
-	return mka; 	
+
+	return mka;
       }
       else  if (no(e) == 0)
       {
@@ -2793,7 +2823,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 
       sfr = freg_operand(son(e), sp, getfreg(sp.flt));
       /* Doesn't matter if sfr and ifr same */
-      switch(round_number(e))
+      switch (round_number(e))
       {
         case R2ZERO:call_fctiwz=1;break;
         case R2NEAR:break;
@@ -2803,19 +2833,19 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
         default: fail("Unknown rounding mode");break;
       }
       /* can use fctiw command */
-	
+
       destr=regfrmdest(&dest,sp);
       rrf_ins(call_fctiwz?i_fctiwz:i_fctiw,sfr,ifr);
       stf_ins(i_stfd,ifr,mem_temp(0));
       ld_ro_ins(i_l,mem_temp(4),destr);comment(NIL);
 
-      if(changed_mode)
+      if (changed_mode)
       {
 	/* put it back to round_to_nearest */
 	mtfsb0_ins(30);mtfsb0_ins(31);
       }
       adjust_to_size(ulonghd,destr,name(sh(e)),destr,NO_ERROR_JUMP);
-      setregalt(aa, destr);     
+      setregalt(aa, destr);
       mka.regmove = move(aa, dest, sp.fixed, 1);
       return mka;
     }
@@ -2850,7 +2880,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  }
 	}
 
-	rir_ins(i_and, r, (1 << size_res) - 1, destr);
+	rir_ins(i_and, r,(1 << size_res) - 1, destr);
 	r = destr;
       }
 
@@ -2915,7 +2945,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	}
 	else
 	{
-	  rir_ins(i_and, r, ((1 << a.ashsize) - 1), r);
+	  rir_ins(i_and, r,((1 << a.ashsize) - 1), r);
 	}
       }
 
@@ -2933,32 +2963,32 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       space nsp;
       int bytemove;
       where w;
-            
+
       sr = getreg(sp.fixed);
       setregalt(w.answhere, sr);
       w.ashwhere = ashof(sh(son(e)));
-      make_code( son(e), sp, w, 0);
+      make_code(son(e), sp, w, 0);
       nsp = guardreg(sr,sp);
       dr = getreg(nsp.fixed);
       setregalt(w.answhere, dr);
-      make_code( bro(son(e)), nsp, w, 0);
+      make_code(bro(son(e)), nsp, w, 0);
       nsp = guardreg(dr,nsp);
       w.ashwhere = ashof(sh(bro(bro(son(e)))));
       szr = getreg(nsp.fixed);
       setregalt(w.answhere, szr);
-      (void)make_code(szarg, nsp, w, 0);
+     (void)make_code(szarg, nsp, w, 0);
       nsp = guardreg(szr, nsp);
-      bytemove = (al2(sh(szarg))>>3);
+      bytemove = (al2(sh(szarg)) >>3);
 #if 0
       clear_dep_reg(son(e));
       clear_dep_reg(bro(son(e)));
 #else
       clear_all();
 #endif
-      if(name(szarg) != val_tag || no(szarg) == 0) {
+      if (name(szarg)!= val_tag || no(szarg) == 0) {
 	cmp_ri_ins(i_cmp, szr, 0, creg);
 	bc_ins(i_beq, creg, lout,UNLIKELY_TO_JUMP);
-      }	
+      }
       if (isnooverlap(e)) {
 	move_dlts(dr,sr,szr, bytemove);
       }
@@ -2971,7 +3001,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	uncond_ins(i_b, lout);
 	set_label(gtlab);
 	move_dgts(dr,sr,szr, bytemove);
-      }  	
+      }
       set_label(lout);
       return mka;
     }
@@ -2981,31 +3011,31 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       int r;
       int v;
-      ans aa;	
-      if (al2(sh(son(e))) >= al2(sh(e))) 
+      ans aa;
+      if (al2(sh(son(e))) >= al2(sh(e)))
       {
-	if (al2(sh(e)) != 1 || al2(sh(son(e))) == 1) 
+	if (al2(sh(e))!= 1 || al2(sh(son(e))) == 1)
 	{
 	  /*
-	   * Is already aligned correctly, 
+	   * Is already aligned correctly,
 	   * whether as bit or byte-offset
 	   */
 	  e = son(e); goto tailrecurse;
 	}
 	r = regfrmdest(&dest, sp);
 	v = reg_operand(son(e), sp);
-	rir_ins(i_sl,  v, 3 ,r);  
+	rir_ins(i_sl,  v, 3 ,r);
       }
       else {
-	int al = (al2(sh(son(e)))==1)?al2(sh(e)):(al2(sh(e))/8);
+	int al = (al2(sh(son(e))) ==1)?al2(sh(e)):(al2(sh(e)) /8);
 	r = regfrmdest(&dest, sp);
-	v = reg_operand(son(e), sp); 
+	v = reg_operand(son(e), sp);
 	rir_ins(i_a, v, al-1, r);
 	rir_ins(i_and, r, -al ,r);
-	if (al2(sh(son(e)))==1) 
-	{ /* 
+	if (al2(sh(son(e))) ==1)
+	{ /*
 	   * operand is bit-offset,
-	   * byte-offset required 
+	   * byte-offset required
 	   */
 	  rir_ins(i_sra, r, 3 ,r);
 	}
@@ -3015,7 +3045,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       return mka;
     }
 /*****************************************************************************/
-    
+
    case min_tag:
    case max_tag:
    case offset_max_tag:
@@ -3026,7 +3056,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       int r=regfrmdest(&dest, sp);
       int creg;
       int lab;
-      
+
       space nsp;
       if (IsRev(e))
       {
@@ -3044,13 +3074,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       lab = new_label();
       cmp_rr_ins(i_cmp,left,right,creg);
       mov_rr_ins(left,r);comment(NIL);
-      if(name(e)==min_tag)
+      if (name(e) ==min_tag)
       {
 	bc_ins(i_blt,creg,lab,LIKELY_TO_JUMP);
       }
       else
       {
-	bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);  
+	bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);
       }
       mov_rr_ins(right,r);comment(NIL);
       set_label(lab);
@@ -3063,7 +3093,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
    case offset_add_tag:
     {
       /*
-       * byte offset + bit offset 
+       * byte offset + bit offset
        * all others converted to plus_tag by needscan
        * The byte offset must be converted into bits for
        * the addition
@@ -3077,15 +3107,15 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       ans aa;
       nsp = guardreg(destr, sp);
 
-      rir_ins( i_sl , byte_offset_reg , 3 , destr);
-      if ( name(bit_offset)==val_tag )
+      rir_ins(i_sl , byte_offset_reg , 3 , destr);
+      if (name(bit_offset) ==val_tag)
       {
-	if( no(bit_offset)!=0 )
+	if (no(bit_offset)!=0)
 	{
-	  rir_ins(i_a, destr , no(bit_offset) , destr);
+	  rir_ins(i_a, destr , no(bit_offset), destr);
 	}
       }
-      else 
+      else
       {
 	bit_offset_reg = reg_operand(bit_offset, nsp);
 	rrr_ins(i_a, destr , bit_offset_reg , destr);
@@ -3095,25 +3125,25 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       return mka;
     }
 /*****************************************************************************/
-   case offset_subtract_tag: 
-    { 
+   case offset_subtract_tag:
+    {
      /*
       * bit offset - byte offset
       * all others converted to minus_tag by needscan
       */
      exp bit_offset = son(e);
      exp byte_offset = bro(bit_offset);
-     int destr = regfrmdest(&dest, sp) ;
+     int destr = regfrmdest(&dest, sp);
      int byte_offset_reg = reg_operand(byte_offset, sp);
      int bit_offset_reg;
      space nsp;
      ans aa;
-     nsp = guardreg( destr,sp);
-     
+     nsp = guardreg(destr,sp);
+
      rir_ins(i_sl, byte_offset_reg , 3 , destr);
-     if(name(bit_offset)==val_tag)
+     if (name(bit_offset) ==val_tag)
      {
-       if(no(bit_offset)!=0)
+       if (no(bit_offset)!=0)
        {
 	 rir_ins(i_s,destr,no(bit_offset),destr);
        }
@@ -3132,7 +3162,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       int r=regfrmdest(&dest, sp);
       ans aa;
-      if(p_has_fp)
+      if (p_has_fp)
       {
        	mov_rr_ins(R_FP,r);comment("move FP to register");
       }
@@ -3140,7 +3170,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	/* If we don't have a frame pointer we give the location
 	   of where the frame pointer would be anyway */
-	rir_ins(i_a , R_SP, p_frame_size , r );
+	rir_ins(i_a , R_SP, p_frame_size , r);
       }
       setregalt(aa, r);
       mka.regmove = move(aa, dest, sp.fixed, 0);
@@ -3189,8 +3219,8 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
      int fp = reg_operand(son(e), sp);
      int labval = reg_operand(bro(son(e)), sp);
-     /* 
-      * Long jumps are always done through the frame pointer 
+     /*
+      * Long jumps are always done through the frame pointer
       * since you cannot tell whether or not you are going in
       * to a proc which needs a frame pointer or not
       * so it is made sure that any procedure that has
@@ -3209,24 +3239,24 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       int dreg = regfrmdest(&dest,sp);
       ans aa;
-      int xdreg = (IS_R_TMP(dreg) && checkalloc(e)) ? getreg (sp.fixed) : dreg;
-      
+      int xdreg = (IS_R_TMP(dreg) && checkalloc(e))? getreg(sp.fixed): dreg;
+
       ASSERT(p_has_alloca);
       ASSERT(p_has_fp);
 
 
-      
-      if(name(son(e))==val_tag)
+
+      if (name(son(e)) ==val_tag)
       {
 	/* allocate constant number of bytes on stack*/
 	int no_of_bytes = ALLOCA_ALIGNMENT(no(son(e)));
-	if(checkalloc(e))
+	if (checkalloc(e))
 	{
-	  rir_ins(i_a,R_SP,-(long)no_of_bytes,xdreg);
+	  rir_ins(i_a,R_SP,- (long)no_of_bytes,xdreg);
 	}
 	else
 	{
-	  rir_ins(i_a,R_SP,-(long)no_of_bytes,R_SP);
+	  rir_ins(i_a,R_SP,- (long)no_of_bytes,R_SP);
 	}
       }
       else
@@ -3243,7 +3273,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	{
 	  rrr_ins(i_sf,R_TMP0,R_SP,R_SP);
 	}
-	
+
       }
       if (checkalloc(e))
       {
@@ -3252,15 +3282,15 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	int slab;
 	b = find_tg("__TDFstacklim");
 	cr = next_creg();
-	
+
 	slab = get_stack_overflow_lab();
 	ld_ins(i_l,b,R_TMP0);
 	cmp_rr_ins(i_cmp,xdreg,R_TMP0,cr);
 	bc_ins(i_blt,cr,slab,UNLIKELY_TO_JUMP);
 	mov_rr_ins(xdreg,R_SP);comment(NIL);
       }
-      
-      
+
+
 
       if (p_args_and_link_size==0)
       {
@@ -3270,11 +3300,11 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       {
 	rir_ins(i_a, R_SP, p_args_and_link_size,dreg);
       }
-      if(p_has_back_chain)
+      if (p_has_back_chain)
       {
 	save_back_chain_using_frame_pointer();
       }
-      if(p_has_saved_sp)
+      if (p_has_saved_sp)
       {
 	save_sp_on_stack();
       }
@@ -3289,13 +3319,13 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       ans aa;
       /* The last pointer returned by alloca is placed into r */
 
-      if(p_args_and_link_size !=0)
+      if (p_args_and_link_size !=0)
       {
 	rir_ins(i_a, R_SP, p_args_and_link_size, r);
       }
       else
       {
-	mov_rr_ins( R_SP , r );comment(NIL);
+	mov_rr_ins(R_SP , r);comment(NIL);
       }
       setregalt(aa, r);
       mka.regmove = move(aa, dest, sp.fixed, 1);
@@ -3304,7 +3334,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 /*****************************************************************************/
    case local_free_all_tag:
     {
-      if(p_has_alloca)
+      if (p_has_alloca)
       {
 	/* The stack pointer is returned to how it was before
 	   any calls to alloca were made */
@@ -3313,7 +3343,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	{
 	  save_back_chain_using_frame_pointer();
 	}
-	if(p_has_saved_sp)
+	if (p_has_saved_sp)
 	{
 	  save_sp_on_stack();
 	}
@@ -3326,16 +3356,16 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
       int r;
       int off;
       space nsp;
-      
+
       ASSERT(p_has_alloca);
-      r = reg_operand(son(e), sp); 
+      r = reg_operand(son(e), sp);
       /* r is a pointer returned by alloca
 	 off is the number of bytes to free up */
-      if (name(bro(son(e)))==val_tag)
+      if (name(bro(son(e))) ==val_tag)
       {
 	int displacement=ALLOCA_ALIGNMENT(no(bro(son(e))));
 	displacement -= p_args_and_link_size;
-	if(displacement!=0)
+	if (displacement!=0)
 	{
 	  rir_ins(i_a,r,displacement,R_SP);
 	}
@@ -3345,10 +3375,10 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	}
       }
       else
-      {    
+      {
 	nsp=guardreg(r,sp);
 	off = reg_operand(bro(son(e)),nsp);
-	
+
 	rir_ins(i_a,off,7,off);
 	rir_ins(i_and,off,~7,off);
 	rrr_ins(i_a,r,off,R_SP);
@@ -3357,11 +3387,11 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 	  rir_ins(i_a , R_SP , - p_args_and_link_size , R_SP);
 	}
       }
-      if(p_has_back_chain)
+      if (p_has_back_chain)
       {
 	save_back_chain_using_frame_pointer();
       }
-      if(p_has_saved_sp)
+      if (p_has_saved_sp)
       {
 	save_sp_on_stack();
       }
@@ -3372,7 +3402,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
 /**************************/
    case locptr_tag:
     {
-      /* this is the only way of accessing callers in a general proc 
+      /* this is the only way of accessing callers in a general proc
        when calculating general_env_offset using current_env */
       int destr = regfrmdest(&dest,sp);
       int pr = reg_operand(son(e),sp);
@@ -3403,7 +3433,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       make_callee_list_tag_code(e,sp);
       return mka;
-    }    
+    }
 /*****************************************************************************/
    case same_callees_tag:
     {
@@ -3441,7 +3471,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
     {
       exp tg = son(son(e));
       procrec * pr = &procrecs[no(son(tg))];
-      constval = ((pr->frame_size)>>3) + pr->max_callee_bytes;
+      constval = ((pr->frame_size) >>3) + pr->max_callee_bytes;
       goto moveconst;
     }
 /*****************************************************************************/
@@ -3476,7 +3506,7 @@ makeans make_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X wher
   }
 }				/* end make_code */
 
-void move_dlts PROTO_N ((dr,sr,szr,bytemove)) PROTO_T (int dr X int sr X int szr X int bytemove ) 
+void move_dlts(int dr, int sr, int szr, int bytemove)
   /* move szr bytes to dr from sr (using R_TMP0)- either nooverlap or dr<=sr */
 {
   baseoff sr_baseoff;
@@ -3502,13 +3532,13 @@ void move_dlts PROTO_N ((dr,sr,szr,bytemove)) PROTO_T (int dr X int sr X int szr
   return;
 }
 
-void move_dgts PROTO_N ((dr, sr, szr, bytemove)) PROTO_T (int dr X int sr X int szr X int bytemove)
+void move_dgts(int dr, int sr, int szr, int bytemove)
 	/* move szr bytes to dr from sr (using R_TMP0) with overlap and dr>sr */
-{ 
+{
   baseoff sr_baseoff;
   baseoff dr_baseoff;
   int lin = new_label();
-  
+
   sr_baseoff.base = sr;
   sr_baseoff.offset = -1;
   dr_baseoff.base = dr;
@@ -3524,24 +3554,24 @@ void move_dgts PROTO_N ((dr, sr, szr, bytemove)) PROTO_T (int dr X int sr X int 
   return;
 }
 
-int regfrmdest PROTO_N ((dest, sp)) PROTO_T(where * dest X space sp ) 
+int regfrmdest(where * dest, space sp)
 {
   switch (dest->answhere.discrim) {
-   case inreg: 
+   case inreg:
     {
-      return regalt (dest->answhere);
-      
+      return regalt(dest->answhere);
+
     }
-   default: 
+   default:
     {
-      return getreg (sp.fixed);
+      return getreg(sp.fixed);
     }
   }
-}	
-freg fregfrmdest PROTO_N ((dble,dest,sp)) PROTO_T (bool dble X where * dest X space sp )
+}
+freg fregfrmdest(bool dble, where * dest, space sp)
 {
   freg fr;
-  
+
   switch (dest->answhere.discrim)
   {
    case infreg:
@@ -3560,7 +3590,7 @@ freg fregfrmdest PROTO_N ((dble,dest,sp)) PROTO_T (bool dble X where * dest X sp
   }
 }
 
-static int get_next_mlv_number PROTO_Z ()
+static int get_next_mlv_number(void)
 {
   static next_lv_number=0;
   next_lv_number++;
@@ -3569,12 +3599,12 @@ static int get_next_mlv_number PROTO_Z ()
 
 
 
-void adjust_to_size PROTO_N ((src_shpe,sreg,dest_shpe,dreg,trap)) PROTO_T ( int src_shpe X int sreg X int dest_shpe X int dreg X int trap) 
+void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
 {
-  
-/*                 
+
+/*
    0 means nothing to be done
-   
+
                       d   e   s   t
 
                   s   u   s   u   s   u
@@ -3591,27 +3621,27 @@ void adjust_to_size PROTO_N ((src_shpe,sreg,dest_shpe,dreg,trap)) PROTO_T ( int 
       ulong       X   X   X   X   0   0
    */
   /* Perform the options on the above table */
-  if( src_shpe == dest_shpe || 
-      dest_shpe == slonghd  || 
-      dest_shpe == ulonghd  || 
-      (src_shpe == scharhd && dest_shpe == swordhd) || 
-      (src_shpe == ucharhd && dest_shpe != scharhd) )
+  if (src_shpe == dest_shpe ||
+      dest_shpe == slonghd  ||
+      dest_shpe == ulonghd  ||
+     (src_shpe == scharhd && dest_shpe == swordhd) ||
+     (src_shpe == ucharhd && dest_shpe != scharhd))
   {
     /* Do no adjustment */
-    if(sreg!=dreg)
+    if (sreg!=dreg)
     {
       mov_rr_ins(sreg,dreg);comment(NIL);
     }
     return;
   }
-  
-  
-  if(trap==NO_ERROR_JUMP)
+
+
+  if (trap==NO_ERROR_JUMP)
   {
-    switch(dest_shpe)
+    switch (dest_shpe)
     {
      case scharhd:
-      if(architecture==POWERPC_CODE)
+      if (architecture==POWERPC_CODE)
       {
 	rr_ins(i_extsb,sreg,dreg);
       }
@@ -3641,23 +3671,23 @@ void adjust_to_size PROTO_N ((src_shpe,sreg,dest_shpe,dreg,trap)) PROTO_T ( int 
   }
   else
   {
-    switch(dest_shpe)
+    switch (dest_shpe)
     {
      case scharhd:
       testsigned(sreg, -128, 127, trap);
-      if(sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+      if (sreg !=dreg) { mov_rr_ins(sreg,dreg);comment(NIL); }
       break;
      case ucharhd:
       testusigned(sreg,255,trap);
-      if(sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+      if (sreg !=dreg) { mov_rr_ins(sreg,dreg);comment(NIL); }
       break;
      case swordhd:
       testsigned(sreg,-0x8000,0x7fff,trap);
-      if(sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+      if (sreg !=dreg) { mov_rr_ins(sreg,dreg);comment(NIL); }
       break;
      case uwordhd:
       testusigned(sreg,0xffff,trap);
-      if(sreg !=dreg){ mov_rr_ins(sreg,dreg);comment(NIL); }
+      if (sreg !=dreg) { mov_rr_ins(sreg,dreg);comment(NIL); }
       break;
      case slonghd:
      case ulonghd:

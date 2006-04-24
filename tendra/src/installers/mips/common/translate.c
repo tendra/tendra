@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -117,7 +147,7 @@ extern long aritherr_lab;
 extern long stackerr_lab;
 
 
-extern exp find_named_tg PROTO_S ((char*, shape));
+extern exp find_named_tg(char*, shape);
 extern shape f_top;
 extern shape f_proc;
 
@@ -129,8 +159,7 @@ extern long fscopefile;
 extern bool do_extern_adds;
 
 ash ashof
-    PROTO_N ( (s) )
-    PROTO_T ( shape s )
+(shape s)
 {
 	ash a;
 	a.ashsize = shape_size(s);
@@ -140,29 +169,28 @@ ash ashof
 
 
 bool not_reserved
-    PROTO_N ( (id) )
-    PROTO_T ( char *id )
+(char *id)
 {
   /* various identifier reserved by MIPS */
-  if (!strcmp (id, "edata"))
-    return (0);
-  if (!strcmp (id, "etext"))
-    return (0);
-  if (!strcmp (id, "end"))
-    return (0);
-  if (!strcmp (id, "_ftext"))
-    return (0);
-  if (!strcmp (id, "_fdata"))
-    return (0);
-  if (!strcmp (id, "_fbss"))
-    return (0);
-  if (!strcmp (id, "_gp"))
-    return (0);
-  if (!strcmp (id, "_procedure_table"))
-    return (0);
-  if (!strcmp (id, "_procedure_string_table"))
-    return (0);
-  return (1);
+  if (!strcmp(id, "edata"))
+    return(0);
+  if (!strcmp(id, "etext"))
+    return(0);
+  if (!strcmp(id, "end"))
+    return(0);
+  if (!strcmp(id, "_ftext"))
+    return(0);
+  if (!strcmp(id, "_fdata"))
+    return(0);
+  if (!strcmp(id, "_fbss"))
+    return(0);
+  if (!strcmp(id, "_gp"))
+    return(0);
+  if (!strcmp(id, "_procedure_table"))
+    return(0);
+  if (!strcmp(id, "_procedure_string_table"))
+    return(0);
+  return(1);
 }
 
 
@@ -170,29 +198,26 @@ bool not_reserved
 
 
 char varsize
-    PROTO_N ( (sha) )
-    PROTO_T ( shape sha )
+(shape sha)
 {
-  return (name(sha)==nofhd);
+  return(name(sha) ==nofhd);
 }
 
 int current_symno;
 
 void globalise_name
-    PROTO_N ( (my_def) )
-    PROTO_T ( dec * my_def )
+(dec * my_def)
 {
 	char *id = my_def -> dec_u.dec_val.dec_id;
         if (!my_def -> dec_u.dec_val.extnamed) return;
 	if (as_file)
-	  fprintf (as_file, "\t.globl\t%s\n", id);
-	out_common (symnos[my_def->dec_u.dec_val.sym_number], iglobal);
+	  fprintf(as_file, "\t.globl\t%s\n", id);
+	out_common(symnos[my_def->dec_u.dec_val.sym_number], iglobal);
 
 }
 
 void code_it
-    PROTO_N ( (my_def) )
-    PROTO_T ( dec * my_def )
+(dec * my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
@@ -204,20 +229,20 @@ void code_it
     };
   if (symnos[symdef] <0) goto end; /* ? unused symbols */
 
-  if (son (tg) != nilexp && (!extnamed || !is_comm(son(tg)))) {
-    if (name (son (tg)) == proc_tag
+  if (son(tg)!= nilexp && (!extnamed || !is_comm(son(tg)))) {
+    if (name(son(tg)) == proc_tag
 		|| name(son(tg)) == general_proc_tag) {
         diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
 	/* compile code for proc */
 	if (as_file) {
-	  fprintf (as_file,"\t.text\n\t.align 3\n");
+	  fprintf(as_file,"\t.text\n\t.align 3\n");
 	}
 
 
-	out_common (0, itext);
-	out_value (0, ialign, 3, 0);
+	out_common(0, itext);
+	out_value(0, ialign, 3, 0);
 	if (diagnose) {
-	 if ( dd != (diag_descriptor*)0) {
+	 if (dd != (diag_descriptor*)0) {
 	    sourcemark *sm = &dd -> data.id.whence;
 	    stabd(fscopefile = find_file(sm->file->file.ints.chars),
 	               sm->line_no.nat_val.small_nat);
@@ -227,64 +252,64 @@ void code_it
 
 	globalise_name(my_def);
 
-	if (as_file) fprintf(as_file, "\t.ent\t%s\n%s:\n", id, id);
+	if (as_file)fprintf(as_file, "\t.ent\t%s\n%s:\n", id, id);
 
 	out_ent (current_symno = symnos[symdef], ient, 2);/* why 2? */
-	out_common (symnos[symdef], ilabel);
+	out_common(symnos[symdef], ilabel);
 	if (as_file) {
-		fprintf (as_file,
-			(diagnose) ? "\t.option O1\n" : "\t.option O2\n");
+		fprintf(as_file,
+			(diagnose)? "\t.option O1\n" : "\t.option O2\n");
 	}
 
-	out_option (1, (diagnose) ? 1 : 2);
+	out_option(1,(diagnose)? 1 : 2);
 
-	symnoforstart (symdef, currentfile);
-	settempregs (son(tg));
-	code_here (son (tg), tempspace, nowhere);
+	symnoforstart(symdef, currentfile);
+	settempregs(son(tg));
+	code_here(son(tg), tempspace, nowhere);
 	if (diagnose && dd != (diag_descriptor*)0) {
 		stabd(fscopefile, currentlno+1);
 	}
 	if (as_file)
-	  fprintf (as_file, "\t.end\t%s\n", id);
-	out_common (symnoforend (my_def, currentfile), iend);
+	  fprintf(as_file, "\t.end\t%s\n", id);
+	out_common(symnoforend(my_def, currentfile), iend);
     }
     else {			/* global values */
 
-	exp c = son (tg);
-	IGNORE evaluated (c, (isvar (tg)) ? (-symdef - 1) : symdef + 1, my_def);
+	exp c = son(tg);
+	IGNORE evaluated(c,(isvar(tg))?(-symdef - 1): symdef + 1, my_def);
 
 
     };
   }
   else {	/* global declarations but no definitions or is_comm */
       long  size;
-      shape s = (son(tg)==nilexp)?my_def -> dec_u.dec_val.dec_shape :
+      shape s = (son(tg) ==nilexp)?my_def -> dec_u.dec_val.dec_shape :
 				sh(son(tg));
       size = (shape_size(s) + 7) >> 3;
 
-      if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
-	if ((son(tg) != nilexp && is_comm(son(tg)))
-		|| (son(tg)==nilexp && varsize(sh(tg))) ) {
+      if ((isvar(tg) || name(s)!= prokhd) && not_reserved(id)) {
+	if ((son(tg)!= nilexp && is_comm(son(tg)))
+		|| (son(tg) ==nilexp && varsize(sh(tg)))) {
 	  if (size !=0) { /* ? ? ! ? */
 	     globalise_name(my_def);
 	     if (as_file)
-	        fprintf (as_file, "\t.comm\t%s %ld\n", id, size);
-	      out_value (symnos[symdef], icomm, size, 1);
+	        fprintf(as_file, "\t.comm\t%s %ld\n", id, size);
+	      out_value(symnos[symdef], icomm, size, 1);
 	  }
 	}
 	else {
 	  if (as_file)
-	    fprintf (as_file, "\t.extern\t%s %ld\n", id,
+	    fprintf(as_file, "\t.extern\t%s %ld\n", id,
 		size);
-	  out_value (symnos[symdef], iextern, size, 1);
+	  out_value(symnos[symdef], iextern, size, 1);
 	}
       }
       else
-	if (son (tg) == nilexp && !extnamed) {
+	if (son(tg) == nilexp && !extnamed) {
 	  if (size !=0) { /* ? ? ! ? */
 	      if (as_file)
-	        fprintf (as_file, "\t.lcomm\t%s %ld\n", id, size);
-	      out_value (symnos[symdef], ilcomm, size, 1);
+	        fprintf(as_file, "\t.lcomm\t%s %ld\n", id, size);
+	      out_value(symnos[symdef], ilcomm, size, 1);
 	  }
 	}
 
@@ -297,61 +322,60 @@ end:
 }
 
 void mark_unaliased
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-  exp p = pt (e);
+  exp p = pt(e);
   bool ca = 1;
   while (p != nilexp && ca) {
-    if (bro(p)==nilexp ||
-       (!(last (p) && name (bro (p)) == cont_tag) &&
-	!(!last (p) && last (bro (p)) && name (bro (bro (p))) == ass_tag)))
+    if (bro(p) ==nilexp ||
+      (!(last(p) && name(bro(p)) == cont_tag) &&
+	!(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)))
       ca = 0;
-    p = pt (p);
+    p = pt(p);
   };
   if (ca)
-    setcaonly (e);
+    setcaonly(e);
   return;
 }
 
 void remove_unused
-    PROTO_Z ()
+(void)
 { dec ** sdef = &top_def;
-  while (*sdef != (dec *) 0) {
+  while (*sdef != (dec *)0) {
     exp crt_exp = (*sdef) -> dec_u.dec_val.dec_exp;
     bool extnamed = (*sdef) -> dec_u.dec_val.extnamed;
     if (no(crt_exp) == 0 && !extnamed) {
-	*sdef = (*sdef)->def_next;
+	*sdef = (*sdef) ->def_next;
     }
-    else sdef = &((*sdef)->def_next);
+    else sdef = & ((*sdef) ->def_next);
   }
 }
 
 
 
 void translate_capsule
-    PROTO_Z ()
+(void)
 {
   dec * my_def;
   int noprocs;
   int i;
 
-  opt_all_exps ();
+  opt_all_exps();
   remove_unused();
 
 #ifdef INCLUDE_INITS
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
         exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 	char * id = my_def -> dec_u.dec_val.dec_id;
-	if (strcmp(id, "main")==0 && son(crt_exp)!= nilexp &&
+	if (strcmp(id, "main") ==0 && son(crt_exp)!= nilexp &&
 		name(son(crt_exp)) == proc_tag) {
 	   exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
 	   exp cll = getexp(f_top, nilexp, 0, fn, nilexp, 0, 0, apply_tag);
 	   exp * dm = &son(son(crt_exp));
 	   exp hld, seq;
 	   bro(fn) = cll; setlast(fn);
-	   while (name(*dm)==ident_tag && isparam(*dm)) dm = &bro(son(*dm));
+	   while (name(*dm) ==ident_tag && isparam(*dm))dm = &bro(son(*dm));
 	   /* dm is body of main after params */
 	   hld = getexp(f_top, *dm, 0, cll, nilexp, 0, 1, 0);
 	   seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, nilexp, 0, 0, seq_tag);
@@ -366,21 +390,21 @@ void translate_capsule
 
     /* mark static unaliased */
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp &&
+    if (son(crt_exp)!= nilexp &&
 	!my_def -> dec_u.dec_val.extnamed &&
-	isvar (crt_exp))
-      mark_unaliased (crt_exp);
+	isvar(crt_exp))
+      mark_unaliased(crt_exp);
     my_def = my_def -> def_next;
   };
 
   noprocs = 0;
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp
-        && (name (son (crt_exp)) == proc_tag ||
+    if (son(crt_exp)!= nilexp
+        && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
       noprocs++;
     }
@@ -388,15 +412,15 @@ void translate_capsule
   }
   /* count procs */
 
-  procrecs = (procrec *) xcalloc (noprocs, sizeof (procrec));
+  procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
   noprocs = 0;
 
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp &&
-	(name (son (crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
-      no (son (crt_exp)) = noprocs++;
+    if (son(crt_exp)!= nilexp &&
+	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
+      no(son(crt_exp)) = noprocs++;
       /* put index into procrecs in no(proc) */
     }
     my_def = my_def -> def_next;
@@ -405,9 +429,9 @@ void translate_capsule
   if (do_extern_adds) {
 	usages = (exp*)xcalloc(noprocs, sizeof(exp));
 	my_def = top_def;
-  	while (my_def != (dec *) 0) {
+  	while (my_def != (dec *)0) {
 		exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-		if (son(crt_exp) == nilexp && isvar(crt_exp) ) {
+		if (son(crt_exp) == nilexp && isvar(crt_exp)) {
 			global_usages(crt_exp, noprocs);
 			/* try to identify globals ptrs in procs */
 		}
@@ -416,31 +440,31 @@ void translate_capsule
   }
 
   if (diagnose && nofds !=0) {
-      init_table_space (nofds, noprocs);
-      add_dense_no (0, 0);
+      init_table_space(nofds, noprocs);
+      add_dense_no(0, 0);
       add_dense_no (0, 0);	/* dont know why!! */
-      symnosforfiles ();
+      symnosforfiles();
       stab_types();
   }
   else {
-    init_table_space (1,noprocs);
-    add_dense_no (0, 0);
+    init_table_space(1,noprocs);
+    add_dense_no(0, 0);
     add_dense_no (0, 0);	/* dont know why!! */
-    IGNORE new_lsym_d ("NOFILE.c", 0, stFile, scText, 0, 0);
+    IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
   };
 
   /* scan to put everything in MIPS form */
 
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp
-	&& (name (son (crt_exp)) == proc_tag ||
-		name(son(crt_exp))== general_proc_tag)) {
-      procrec * pr = &procrecs[no (son (crt_exp))];
+    if (son(crt_exp)!= nilexp
+	&& (name(son(crt_exp)) == proc_tag ||
+		name(son(crt_exp)) == general_proc_tag)) {
+      procrec * pr = &procrecs[no(son(crt_exp))];
       exp * st = &son(crt_exp);
-      pr -> needsproc = scan (st, &st);
-      pr->callee_size = (callee_size+63)&~63;
+      pr -> needsproc = scan(st, &st);
+      pr->callee_size = (callee_size+63) &~63;
     }
     my_def = my_def -> def_next;
   }
@@ -448,12 +472,12 @@ void translate_capsule
 
   /* calculate the break points for register allocation and do it */
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp
-        && ( name (son (crt_exp)) == proc_tag ||
-		name(son(crt_exp))== general_proc_tag)) {
-      procrec * pr = &procrecs[no (son (crt_exp))];
+    if (son(crt_exp)!= nilexp
+        && (name(son(crt_exp)) == proc_tag ||
+		name(son(crt_exp)) == general_proc_tag)) {
+      procrec * pr = &procrecs[no(son(crt_exp))];
       needs * ndpr = & pr->needsproc;
       long pprops = (ndpr->propsneeds);
       bool leaf = (pprops & anyproccall) == 0;
@@ -466,10 +490,10 @@ void translate_capsule
 
       if (Has_vcallees) { freefixed--; }
 
-      if (!No_S) IGNORE weightsv (1.0, bro (son (son (crt_exp))));
+      if (!No_S)IGNORE weightsv(1.0, bro(son(son(crt_exp))));
       /* estimate usage of tags in body of proc */
 
-      forrest = regalloc (bro (son (son (crt_exp))), freefixed, freefloat,
+      forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat,
 				(PIC_code && !leaf)?32:0);
       /* reg and stack allocation for tags */
 
@@ -483,14 +507,14 @@ void translate_capsule
   /* put defs in main globals and set up symnos*/
   my_def = top_def;
   main_globals_index = 0;
-  while (my_def != (dec*) 0) {
+  while (my_def != (dec*)0) {
   	main_globals_index++;
   	my_def = my_def -> def_next;
   }
 
   data_lab = (main_globals_index > 33)?main_globals_index:33;
   main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
-  symnos = (int *) xcalloc (main_globals_index, sizeof (int));
+  symnos = (int *)xcalloc(main_globals_index, sizeof(int));
 
   my_def = top_def;
   for (i=0; i < main_globals_index; i++) {
@@ -506,17 +530,17 @@ void translate_capsule
     bool extnamed = main_globals[i] -> dec_u.dec_val.extnamed;
     diag_descriptor * dinf = main_globals[i] -> dec_u.dec_val.diag_info;
     main_globals[i] ->dec_u.dec_val.sym_number = i;
-    if ( no (tg) != 0 || (extnamed && son(tg) != nilexp)
+    if (no(tg)!= 0 || (extnamed && son(tg)!= nilexp)
 		|| strcmp(id,"__TDFhandler") == 0
-		|| strcmp(id,"__TDFstacklim")==0
+		|| strcmp(id,"__TDFstacklim") ==0
 	) {
-     	if(no(tg)==1 && son(tg)==nilexp && dinf != (diag_descriptor *)0
+     	if (no(tg) ==1 && son(tg) ==nilexp && dinf != (diag_descriptor *)0
  		 /* diagnostics only! */ ) {
-    		symnos[i]= -1;
+    		symnos[i] = -1;
     	}
     	else {
-          no (tg) = (i + 1) * 64 + 32;
-          symnos[i] = symnoforext (main_globals[i], mainfile);
+          no(tg) = (i + 1)* 64 + 32;
+          symnos[i] = symnoforext(main_globals[i], mainfile);
         }
     }
     else
@@ -525,32 +549,32 @@ void translate_capsule
 
 
 
-  setregalt (nowhere.answhere, 0);
+  setregalt(nowhere.answhere, 0);
   nowhere.ashwhere.ashsize = 0;
   nowhere.ashwhere.ashsize = 0;
 
   if (as_file) {
-    fprintf (as_file, "\t.verstamp %d %d\n", majorno, minorno);
+    fprintf(as_file, "\t.verstamp %d %d\n", majorno, minorno);
 
     if (PIC_code) {
-	fprintf (as_file, "\t.option pic2\n");
+	fprintf(as_file, "\t.option pic2\n");
     }
     else {
-        fprintf (as_file, (diagnose) ? "\t.option O1\n" : "\t.option O2\n");
+        fprintf(as_file,(diagnose)? "\t.option O1\n" : "\t.option O2\n");
     }
   }
 
-  out_verstamp (majorno, minorno);
+  out_verstamp(majorno, minorno);
 				/* this is the only? use of these nos, to
 				   satisfy as1 */
   if (PIC_code) {
 	out_option(2, 2);
   }
   else
-  { out_option (1, (diagnose) ? 1 : 2); }
+  { out_option(1,(diagnose)? 1 : 2); }
 
   if (diagnose && nofds!=0) {
-    stab_file (0);
+    stab_file(0);
   }
   else
   {
@@ -580,9 +604,9 @@ void translate_capsule
 */
   my_def = top_def;
 
-  while (my_def != (dec *) 0) {
+  while (my_def != (dec *)0) {
     if (!my_def -> dec_u.dec_val.processed)
-       code_it (my_def);
+       code_it(my_def);
     my_def = my_def -> def_next;
   };
 
@@ -592,14 +616,14 @@ void translate_capsule
 
 }
 void translate_unit
-    PROTO_Z ()
+(void)
 {
   if (separate_units)
    {
      dec * my_def;
      translate_capsule();
      my_def = top_def;
-     while (my_def != (dec *) 0) {
+     while (my_def != (dec *)0) {
        exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
        no(crt_exp) = 0;
        pt(crt_exp) = nilexp;
@@ -613,7 +637,7 @@ void translate_unit
 
 
 void translate_tagdef
-    PROTO_Z ()
+(void)
 {
   return;
 }

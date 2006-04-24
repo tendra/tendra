@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -232,13 +262,13 @@ char *fl_reg_name[8] = {
 /* PROCEDURES */
 
 void temp_push_fl
-    PROTO_Z ()
+(void)
 {
   ++fstack_pos;
   return;
 }
 void temp_pop_fl
-    PROTO_Z ()
+(void)
 {
   --fstack_pos;
   return;
@@ -252,8 +282,7 @@ outreal outputs a floating point number
 ****************************************************************/
 
 void outreal
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   flt * f = &flptnos[no(e)];
   int sw = name(sh(e)) - shrealhd;
@@ -289,8 +318,7 @@ void outreal
    stack pointer  uses address relative to
    frame pointer if it might be shorter */
 void rel_sp
-    PROTO_N ( (i, b) )
-    PROTO_T ( int i X int b )
+(int i, int b)
 {
   int  n = i + (extra_stack / 8);
   if (!must_use_bp) {
@@ -298,75 +326,73 @@ void rel_sp
 				   displacements must be relative to frame
 				   pointer */
     if (n == 0) {
-      outs ("(%esp");
+      outs("(%esp");
       if (b)
-	outs (")");
+	outs(")");
       return;
     };
     if (n <= 127 || no_frame || stack_aligned_8byte) {
 				/* use stack pointer if displacement from
 				   it is small */
-      outn ((long)n);
-      outs ("(%esp");
+      outn((long)n);
+      outs("(%esp");
       if (b)
-	outs (")");
+	outs(")");
       return;
     };
   };
   /* otherwise use displacement from frame pointer */
-  outn ((long)(i + (stack_dec / 8)));
+  outn((long)(i + (stack_dec / 8)));
   outs("-");
   outs(local_prefix);
-  outs ("disp");
-  outn ((long)crt_proc_id);
-  outs ("(%ebp");
+  outs("disp");
+  outn((long)crt_proc_id);
+  outs("(%ebp");
   if (b)
-    outs (")");
+    outs(")");
   return;
 }
 
 /* output operand i (in bytes) relative to
    stack pointer */
 void rel_cp
-    PROTO_N ( (i, b) )
-    PROTO_T ( int i X int b )
+(int i, int b)
 {
   int  n = i + (extra_stack / 8);
   if (n == 0) {
-    outs ("(%esp");
+    outs("(%esp");
     if (b)
-      outs (")");
+      outs(")");
     return;
   };
-  outn ((long)n);
-  outs ("(%esp");
+  outn((long)n);
+  outs("(%esp");
   if (b)
-    outs (")");
+    outs(")");
   return;
 }
 
 /* output operand relative to frame
    pointer */
 void rel_ap
-    PROTO_N ( (i, b) )
-    PROTO_T ( int i X int b )
+(int i, int b)
 {
   if (no_frame) {
-    outn ((long)(i + ((extra_stack - stack_dec) / 8)));
+    outn((long)(i + ((extra_stack - stack_dec) / 8)));
     outs("+");
     outs(local_prefix);
-    outs ("disp");
-    outn ((long)crt_proc_id);
-    outs ("(%esp");
+    outs("disp");
+    outn((long)crt_proc_id);
+    outs("(%esp");
     if (b)
-      outs (")");
+      outs(")");
     return;
   }
   else {
-    outn ((long)i + 4);
-    outs ("(%ebp");
+    outn((long)i + 4);
+    outs("(%ebp");
     if (b)
-      outs (")");
+      outs(")");
     return;
   };
 }
@@ -374,43 +400,41 @@ void rel_ap
 /* output operand relative to frame
    pointer and push space*/
 void rel_ap1
-    PROTO_N ( (i, b) )
-    PROTO_T ( int i X int b )
+(int i, int b)
 {
   if (no_frame) {
-    outn ((long)(i + ((extra_stack - stack_dec) / 8)));
+    outn((long)(i + ((extra_stack - stack_dec) / 8)));
     outs("+");
     outs(local_prefix);
-    outs ("fcwdisp");
-    outn ((long)crt_proc_id);
-    outs ("(%esp");
+    outs("fcwdisp");
+    outn((long)crt_proc_id);
+    outs("(%esp");
     if (b)
-      outs (")");
+      outs(")");
     return;
   }
   else {
-    outn ((long)i);
+    outn((long)i);
     outs("-");
     outs(local_prefix);
-    outs ("fcwdisp");
-    outn ((long)crt_proc_id);
-    outs ("(%ebp");
+    outs("fcwdisp");
+    outn((long)crt_proc_id);
+    outs("(%ebp");
     if (b)
-      outs (")");
+      outs(")");
     return;
   };
 }
 
 int  get_reg_no
-    PROTO_N ( (regs) )
-    PROTO_T ( int regs )
+(int regs)
 {
   frr fr;
   /* find the registers associated with the bit pattern regs */
 
-  fr = first_reg (regs);
+  fr = first_reg(regs);
   if (regs == 0x10000 || fr.fr_no == (fstack_pos))
-    return (fstack_pos);
+    return(fstack_pos);
   return (fr.fr_no);		/* this is the register number */
 }
 
@@ -419,27 +443,26 @@ int  get_reg_no
    units. le tells us how to refer to the
    register (eg al or ax or eax) */
 void regn
-    PROTO_N ( (regs, rdisp, ldname, le) )
-    PROTO_T ( int regs X int rdisp X exp ldname X int le )
+(int regs, int rdisp, exp ldname, int le)
 {
   int  z;
   char **rn;
   UNUSED(rdisp);
-  z = get_reg_no (regs);
+  z = get_reg_no(regs);
 
-  if (name (ldname) == name_tag && islastuse(ldname))
+  if (name(ldname) == name_tag && islastuse(ldname))
     regsinuse = regsinuse & ~regs;
 
   if (z >= first_fl_reg) {
     if (z == first_fl_reg) {
-      outs (fl_reg_name[0]);
+      outs(fl_reg_name[0]);
       return;
     };
     if (fstack_pos > 16) {
-      failer (BAD_FSTACK);
+      failer(BAD_FSTACK);
       exit(EXIT_FAILURE);
     };
-    outs (fl_reg_name[fstack_pos - z]);
+    outs(fl_reg_name[fstack_pos - z]);
     /* variables held in the floating point registers have to be addressed
        relative to the current stack position, because the registers are a
        stack as well as a register bank */
@@ -464,58 +487,55 @@ void regn
 
 /* output a displacement from register operand */
 void ind_reg
-    PROTO_N ( (regs, rdisp, offset, ldname, b) )
-    PROTO_T ( int regs X int rdisp X int offset X exp ldname X int b )
+(int regs, int rdisp, int offset, exp ldname, int b)
 {
   if (regs == 128)
     offset += extra_stack;
 
   if (offset == 0) {
-    outs ("(");
-    regn (regs, rdisp, ldname, 32);
+    outs("(");
+    regn(regs, rdisp, ldname, 32);
     if (b)
-      outs (")");
+      outs(")");
   }
   else {
-    outn ((long)offset / 8);
-    outs ("(");
-    regn (regs, rdisp, ldname, 32);
+    outn((long)offset / 8);
+    outs("(");
+    regn(regs, rdisp, ldname, 32);
     if (b)
-      outs (")");
+      outs(")");
   };
   return;
 }
 
 /* use indexed addressing */
 void index_opnd
-    PROTO_N ( (whmain, wh, sc) )
-    PROTO_T ( where whmain X where wh X int sc )
+(where whmain, where wh, int sc)
 {
   exp m = whmain.where_exp;
-  if ((name (m) == name_tag && ptno (son (m)) == reg_pl) ||
-      (name (m) == cont_tag && name (son (m)) == name_tag &&
-	isvar (son (son (m))) && ptno (son (son (m))) == reg_pl))
-    outs ("(");
-  operand (32, whmain, 0, 0);
-  outs (",");
-  operand (32, wh, 1, 0);
+  if ((name(m) == name_tag && ptno(son(m)) == reg_pl) ||
+     (name(m) == cont_tag && name(son(m)) == name_tag &&
+	isvar(son(son(m))) && ptno(son(son(m))) == reg_pl))
+    outs("(");
+  operand(32, whmain, 0, 0);
+  outs(",");
+  operand(32, wh, 1, 0);
   if (sc != 1) {
-    outs (",");
-    outn ((long)sc);
+    outs(",");
+    outn((long)sc);
   };
-  outs (")");
+  outs(")");
   return;
 }
 
 
 /* output an external operand */
 void extn
-    PROTO_N ( (id, off, b) )
-    PROTO_T ( exp id X int off X int b )
+(exp id, int off, int b)
 {
   dec * et;
 
-  et = brog (id);
+  et = brog(id);
 
   if (PIC_code)
    {
@@ -524,13 +544,13 @@ void extn
         got = "GOT";
      else
         got = "GOTOFF";
-     outs (et -> dec_u.dec_val.dec_id);
+     outs(et -> dec_u.dec_val.dec_id);
      outs("@");
      outs(got);
      if (off != 0)
       {
-        outs ("+");
-        outn ((long)off / 8);
+        outs("+");
+        outn((long)off / 8);
       };
      outs("(%ebx");
      if (b)
@@ -539,21 +559,20 @@ void extn
    };
 
   if (off == 0)
-    outs (et -> dec_u.dec_val.dec_id);
+    outs(et -> dec_u.dec_val.dec_id);
   else {
-    outs (et -> dec_u.dec_val.dec_id);
-    outs ("+");
-    outn ((long)off / 8);
+    outs(et -> dec_u.dec_val.dec_id);
+    outs("+");
+    outn((long)off / 8);
   };
   if (!b)
-    outs ("(");
+    outs("(");
   return;
 }
 
 /* an integer constant */
 void int_operand
-    PROTO_N ( (k, l) )
-    PROTO_T ( int k X int l )
+(int k, int l)
 {
   int  mask;
   switch (l) {
@@ -566,53 +585,51 @@ void int_operand
     default:
       mask = 0xffffffff;
   };
-  outs ("$");
-  outn ((long)k & mask);
+  outs("$");
+  outn((long)k & mask);
   return;
 }
 
 
 /* an external literal */
 void const_extn
-    PROTO_N ( (ident, noff) )
-    PROTO_T ( exp ident X int noff )
+(exp ident, int noff)
 {
   if (!PIC_code)
-    outs ("$");
-  extn (ident, noff, 1);
+    outs("$");
+  extn(ident, noff, 1);
   return;
 }
 
 /* an external literal */
 void proc_extn
-    PROTO_N ( (id, off) )
-    PROTO_T ( exp id X int off )
+(exp id, int off)
 {
   if (PIC_code)
    {
      dec * et;
-     et = brog (id);
+     et = brog(id);
      if (off == 0)
-       outs (et -> dec_u.dec_val.dec_id);
+       outs(et -> dec_u.dec_val.dec_id);
      else {
-        outn ((long)off / 8);
-        outs ("+");
-        outs (et -> dec_u.dec_val.dec_id);
+        outn((long)off / 8);
+        outs("+");
+        outs(et -> dec_u.dec_val.dec_id);
      };
      if (et -> dec_u.dec_val.extnamed)
         outs("@PLT");
    }
   else
    {
-     outs ("$");
-     extn (id, off, 1);
+     outs("$");
+     extn(id, off, 1);
    };
 
   return;
 }
 
 void ldisp
-    PROTO_Z ()
+(void)
 {
    outs(local_prefix);
    outs("disp");
@@ -620,8 +637,7 @@ void ldisp
 }
 
 void label_operand
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   punner l;
   l.e = pt(e);
@@ -633,8 +649,7 @@ void label_operand
 }
 
 void set_lv_label
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   punner l;
   l.e = e;
@@ -649,8 +664,7 @@ void set_lv_label
 }
 
 void set_env_off
-    PROTO_N ( (s, n) )
-    PROTO_T ( int s X exp n )
+(int s, exp n)
 {
   punner l;
   l.e = n;
@@ -661,11 +675,11 @@ void set_env_off
   outs(",");
   if (s<4)
    {
-    outn((long)-s/8);
+    outn((long) -s/8);
     outs("-");
     outs(local_prefix);
-    outs ("disp");
-    outn ((long)crt_proc_id);
+    outs("disp");
+    outn((long)crt_proc_id);
    }
   else
    outn((long)s/8);
@@ -673,8 +687,7 @@ void set_env_off
 }
 
 void envoff_operand
-    PROTO_N ( (e, off) )
-    PROTO_T ( exp e X int off )
+(exp e, int off)
 {
   punner l;
   l.e = e;
@@ -690,114 +703,105 @@ void envoff_operand
 }
 
 void envsize_operand
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   dec * et = brog(e);
-  outs (local_prefix);
-  outs ("ESZ");
-  outs (et -> dec_u.dec_val.dec_id);
+  outs(local_prefix);
+  outs("ESZ");
+  outs(et -> dec_u.dec_val.dec_id);
   return;
 }
 
 /* 80386 instruction with no operands */
 void ins0
-    PROTO_N ( (i) )
-    PROTO_T ( char *i )
+(char *i)
 {
-  outs (margin);
-  outs (i);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outnl();
   return;
 }
 
 /* one operand */
 void ins1
-    PROTO_N ( (i, le1, a1) )
-    PROTO_T ( char *i X int le1 X where a1 )
+(char *i, int le1, where a1)
 {
-  outs (margin);
-  outs (i);
-  outs (spx);
-  operand (le1, a1, 1, 0);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outs(spx);
+  operand(le1, a1, 1, 0);
+  outnl();
   return;
 }
 
 /* one operand, which is indirect */
 void ins1ind
-    PROTO_N ( (i, le1, a1) )
-    PROTO_T ( char *i X int le1 X where a1 )
+(char *i, int le1, where a1)
 {
-  outs (margin);
-  outs (i);
-  outs (spx);
-  outs ("*");
-  operand (le1, a1, 1, 0);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outs(spx);
+  outs("*");
+  operand(le1, a1, 1, 0);
+  outnl();
   return;
 }
 
 /* one operand, which is immediate */
 void ins1lit
-    PROTO_N ( (i, le1, a1) )
-    PROTO_T ( char *i X int le1 X where a1 )
+(char *i, int le1, where a1)
 {
-  outs (margin);
-  outs (i);
-  outs (spx);
-  operand (le1, a1, 1, 1);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outs(spx);
+  operand(le1, a1, 1, 1);
+  outnl();
   return;
 }
 
 /* two operands */
 void ins2
-    PROTO_N ( (i, le1, le2, a1, a2) )
-    PROTO_T ( char *i X int le1 X int le2 X where a1 X where a2 )
+(char *i, int le1, int le2, where a1, where a2)
 {
-  outs (margin);
-  outs (i);
-  outs (spx);
-  operand (le1, a1, 1, 0);
-  outs (sep);
-  operand (le2, a2, 1, 0);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outs(spx);
+  operand(le1, a1, 1, 0);
+  outs(sep);
+  operand(le2, a2, 1, 0);
+  outnl();
   return;
 }
 
 /* three operands */
 void ins3
-    PROTO_N ( (i, le1, le2, le3, a1, a2, a3) )
-    PROTO_T ( char *i X int le1 X int le2 X int le3 X where a1 X where a2 X where a3 )
+(char *i, int le1, int le2, int le3, where a1, where a2, where a3)
 {
-  outs (margin);
-  outs (i);
-  outs (spx);
-  operand (le1, a1, 1, 0);
-  outs (sep);
-  operand (le2, a2, 1, 0);
-  outs (sep);
-  operand (le3, a3, 1, 0);
-  outnl ();
+  outs(margin);
+  outs(i);
+  outs(spx);
+  operand(le1, a1, 1, 0);
+  outs(sep);
+  operand(le2, a2, 1, 0);
+  outs(sep);
+  operand(le3, a3, 1, 0);
+  outnl();
   return;
 }
 
 
 void simplest_set_lab
-    PROTO_N ( (labno) )
-    PROTO_T ( int labno )
+(int labno)
 {
   outs(local_prefix);
-  outn ((long)labno);
-  outs (":");
-  outnl ();
+  outn((long)labno);
+  outs(":");
+  outnl();
 }
 
 
 void simple_set_label
-    PROTO_N ( (labno) )
-    PROTO_T ( int labno )
+(int labno)
 {
 #ifdef CHECKIMPROVE
   if (labno == last_jump_label)
@@ -806,11 +810,11 @@ void simple_set_label
 #ifndef NEWDIAGS
   int   st = 0;
   if (!diagnose && labno == last_jump_label) {
-    st = fseek (fpout, last_jump_pos, 0);
+    st = fseek(fpout, last_jump_pos, 0);
   };
   /* eliminate immediately previous jump to this label */
   if (st == -1) {
-    failer (SEEK_FAILURE);
+    failer(SEEK_FAILURE);
     exit(EXIT_FAILURE);
   };
 #endif
@@ -820,8 +824,8 @@ void simple_set_label
   outs(local_prefix);
   outn ((long)labno);		/* the label no is held in the ptr field
 				*/
-  outs (":");
-  outnl ();
+  outs(":");
+  outnl();
 /* Removed for experiments: improves compress?
   keep_short = 1;
 */
@@ -830,10 +834,9 @@ void simple_set_label
 
 /* set label described by the jump record jr */
 void set_label
-    PROTO_N ( (jr) )
-    PROTO_T ( exp jr )
+(exp jr)
 {
-  simple_set_label (ptno (jr));
+  simple_set_label(ptno(jr));
 }
 
 /*  jump record: exp
@@ -844,19 +847,19 @@ void set_label
 */
 
 void discard_fstack
-    PROTO_Z ()
+(void)
 {
-  outs (" fstp %st(0)");
-  outnl ();
+  outs(" fstp %st(0)");
+  outnl();
   pop_fl;
   return;
 }
 
 void discard_st1
-    PROTO_Z ()
+(void)
 {
-  outs (" fstp %st(1)");
-  outnl ();
+  outs(" fstp %st(1)");
+  outnl();
   pop_fl;
 }
 
@@ -864,29 +867,28 @@ void discard_st1
 /* output a jump to the label described by
    jump record jr */
 void jump
-    PROTO_N ( (jr, with_fl_reg) )
-    PROTO_T ( exp jr X int with_fl_reg )
+(exp jr, int with_fl_reg)
 {
-  int  fs_dest = (int)fstack_pos_of (jr);
+  int  fs_dest = (int)fstack_pos_of(jr);
   int  good_fs = fstack_pos;
   int  good_sd = stack_dec;
   if (fs_dest < first_fl_reg)
-    failer (FSTACK_UNSET);
+    failer(FSTACK_UNSET);
   if (with_fl_reg) {		/* jumping with a floating value */
     /* clear off any unwanted stack registers */
     while (fstack_pos > (fs_dest + 1))
-      discard_st1 ();
+      discard_st1();
     fstack_pos = good_fs - 1;
   }
   else {
     /* clear off any unwanted stack registers */
     while (fstack_pos > fs_dest)
-      discard_fstack ();
+      discard_fstack();
     fstack_pos = good_fs;
   };
 
   if (sonno(jr) > stack_dec) {
-    add(slongsh, mw (zeroe, (sonno(jr)-stack_dec) / 8), sp, sp);
+    add(slongsh, mw(zeroe,(sonno(jr) -stack_dec) / 8), sp, sp);
     stack_dec = sonno(jr);
   }
 
@@ -896,15 +898,15 @@ void jump
 #ifndef NEWDIAGS
   if (flush_before_tell)
     IGNORE fflush(fpout);
-  last_jump_pos = ftell (fpout);
+  last_jump_pos = ftell(fpout);
 #endif
-  outs (margin);
-  outs (jmp);
-  outs (spx);
+  outs(margin);
+  outs(jmp);
+  outs(spx);
   outs(local_prefix);
-  outn ((long)ptno (jr));
-  outnl ();
-  last_jump_label = ptno (jr);
+  outn((long)ptno(jr));
+  outnl();
+  last_jump_label = ptno(jr);
   return;
 }
 
@@ -916,118 +918,116 @@ static char* xnse = ">0";
    determined by test_no. The test is
    signed if sg is true */
 static char *out_branch
-    PROTO_N ( (sg, test_no, shnm) )
-    PROTO_T ( int sg X int test_no X int shnm )
+(int sg, int test_no, int shnm)
 {
   if (shnm >= shrealhd && shnm <= doublehd) {
     switch (test_no) {
       case 1:
-	return (jne);
+	return(jne);
 
       case 2:
-	return (jne);
+	return(jne);
 
       case 3:
-	return (jpe);
+	return(jpe);
 
       case 4:
-	return (jpe);
+	return(jpe);
 
       case 5:
-	return (jpe);
+	return(jpe);
 
       case 6:
-	return (jpo);
+	return(jpo);
 
       case 7:
-	return (jpo);
+	return(jpo);
 
       case 8:
-	return (jpo);
+	return(jpo);
 
       case 9:
-	return (je);
+	return(je);
 
       case 10:
-	return (je);
+	return(je);
 
       case 11:
-	return (jne);
+	return(jne);
 
       case 12:
-	return (je);
+	return(je);
 
       case 13:
-	return (jne);
+	return(jne);
 
       case 14:
-	return (je);
+	return(je);
 
       default:
-	failer (BAD_TESTNO);
+	failer(BAD_TESTNO);
     };
   };
 
   if (sg) {
     switch (test_no) {
       case 1:
-	return (sg<0 ? xse : jle);
+	return(sg<0 ? xse : jle);
       case 2:
-	return (sg<0 ? js : jl);
+	return(sg<0 ? js : jl);
 
       case 3:
-	return (sg<0 ? jns : jge);
+	return(sg<0 ? jns : jge);
 
       case 4:
-	return (sg<0 ? xnse : jg);
+	return(sg<0 ? xnse : jg);
 
       case 5:
-	return (jne);
+	return(jne);
 
       case 6:
-	return (je);
+	return(je);
 
       default:
-	failer (BAD_TESTNO);
+	failer(BAD_TESTNO);
     };
   }
   else {
     switch (test_no) {
       case 1:
-	return (jbe);
+	return(jbe);
 
       case 2:
-	return (jb);
+	return(jb);
 
       case 3:
-	return (jae);
+	return(jae);
 
       case 4:
-	return (ja);
+	return(ja);
 
       case 5:
-	return (jne);
+	return(jne);
 
       case 6:
-	return (je);
+	return(je);
 
       default:
-	failer (BAD_TESTNO);
+	failer(BAD_TESTNO);
     };
   };
-  return ((char *) 0);
+  return((char *)0);
 }
 
 void simple_branch
-    PROTO_N ( (j, labno) )
-    PROTO_T ( char *j X int labno )
+(char *j, int labno)
 {
-  outs (margin);
-  outs (j);
-  outs (spx);
+  outs(margin);
+  outs(j);
+  outs(spx);
   outs(local_prefix);
-  outn ((long)labno);
-  outnl ();
+  outn((long)labno);
+  outnl();
 
 }
 
@@ -1038,100 +1038,98 @@ void simple_branch
    signed vs zero (ignoring overflow).
    shnm name of shape */
 void branch
-    PROTO_N ( (test_no, jr, sg, shnm) )
-    PROTO_T ( int test_no X exp jr X int sg X int shnm )
+(int test_no, exp jr, int sg, int shnm)
 {
-  int  fs_dest = (int)fstack_pos_of (jr);
+  int  fs_dest = (int)fstack_pos_of(jr);
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    failer (FSTACK_UNSET);
-  if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon
+    failer(FSTACK_UNSET);
+  if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon
 	|| cmp_64hilab >= 0) {
 	/* floating point stack or call stack need attention */
-    int  nl = next_lab ();
+    int  nl = next_lab();
     int inv_test_no = (flpt_always_comparable ||
-			 (shnm < shrealhd || shnm > doublehd))
-				? (int)int_inverse_ntest[test_no]
-				: (int)real_inverse_ntest[test_no];
+			(shnm < shrealhd || shnm > doublehd))
+				?(int)int_inverse_ntest[test_no]
+				:(int)real_inverse_ntest[test_no];
 
-    char* cj = out_branch ((cmp_64hilab >= 0 ? 0 : sg), inv_test_no, shnm);
+    char* cj = out_branch((cmp_64hilab >= 0 ? 0 : sg), inv_test_no, shnm);
     if (*cj == 'j') {
-      simple_branch (cj, nl);
+      simple_branch(cj, nl);
     }
     else	/* compare with zero, ignoring overflow */
     if (*cj == '>') {
-      int nl1 = next_lab ();
-      simple_branch (js, nl1);
-      simple_branch (jne, nl);
-      simplest_set_lab (nl1);
+      int nl1 = next_lab();
+      simple_branch(js, nl1);
+      simple_branch(jne, nl);
+      simplest_set_lab(nl1);
     }
     else {
-      simple_branch (js, nl);
-      simple_branch (je, nl);
+      simple_branch(js, nl);
+      simple_branch(je, nl);
     }
 
     if (cmp_64hilab >= 0) {
-      int nl2 = ptno (jr);
+      int nl2 = ptno(jr);
       if (shnm != s64hd)
-	failer ("uncompleted 64-bit comparison");
-      if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon) {
-	nl2 = next_lab ();
-	simplest_set_lab (nl2);
+	failer("uncompleted 64-bit comparison");
+      if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
+	nl2 = next_lab();
+	simplest_set_lab(nl2);
       }
-      jump (jr, 0);
-      simplest_set_lab (cmp_64hilab);
-      simple_branch (out_branch (1, test_no, shnm), nl2);
+      jump(jr, 0);
+      simplest_set_lab(cmp_64hilab);
+      simple_branch(out_branch(1, test_no, shnm), nl2);
       cmp_64hilab = -1;
     }
     else
-      jump (jr, 0);
+      jump(jr, 0);
 
     fstack_pos = good_fs;
     fpucon = good_fpucon;
-    simplest_set_lab (nl);
+    simplest_set_lab(nl);
     return;
   };
 
   {
-    char* cj = out_branch (sg, test_no, shnm);
+    char* cj = out_branch(sg, test_no, shnm);
     if (*cj == 'j') {
-      simple_branch (cj, ptno (jr));
+      simple_branch(cj, ptno(jr));
     }
     else	/* compare with zero, ignoring overflow */
     if (*cj == '>') {
-      int nl1 = next_lab ();
-      simple_branch (js, nl1);
-      simple_branch (jne, ptno (jr));
-      simplest_set_lab (nl1);
+      int nl1 = next_lab();
+      simple_branch(js, nl1);
+      simple_branch(jne, ptno(jr));
+      simplest_set_lab(nl1);
     }
     else {
-      simple_branch (js, ptno (jr));
-      simple_branch (je, ptno (jr));
+      simple_branch(js, ptno(jr));
+      simple_branch(je, ptno(jr));
     }
   }
   return;
 }
 
 void setcc
-    PROTO_N ( (test_no, sg, shnm) )
-    PROTO_T ( int test_no X int sg X int shnm )
+(int test_no, int sg, int shnm)
 {
   char * b;
   if (cmp_64hilab >= 0) {
     int chl = cmp_64hilab;
-    int nl = next_lab ();
+    int nl = next_lab();
     if (shnm != s64hd)
-      failer ("uncompleted 64-bit comparison");
+      failer("uncompleted 64-bit comparison");
     cmp_64hilab = -1;
-    setcc (test_no, 0, ulonghd);
-    simple_branch (jmp, nl);
-    simplest_set_lab (chl);
-    setcc (test_no, sg, slonghd);
-    simplest_set_lab (nl);
+    setcc(test_no, 0, ulonghd);
+    simple_branch(jmp, nl);
+    simplest_set_lab(chl);
+    setcc(test_no, sg, slonghd);
+    simplest_set_lab(nl);
   }
 
-  b = out_branch (sg, test_no, shnm);
+  b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
     failer(NO_SETCC);
   outs(margin);
@@ -1146,25 +1144,24 @@ void setcc
 /* output conditional jump to jr if overflow
    sg is 1 if signed arithmetic, 0 unsigned */
 void jmp_overflow
-    PROTO_N ( (jr, sg, inv) )
-    PROTO_T ( exp jr X int sg X int inv )
+(exp jr, int sg, int inv)
 {
-  int  fs_dest = (int)fstack_pos_of (jr);
+  int  fs_dest = (int)fstack_pos_of(jr);
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    failer (FSTACK_UNSET);
-  if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon) {
+    failer(FSTACK_UNSET);
+  if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	/* floating point stack or call stack need attention */
-    int  nl = next_lab ();
+    int  nl = next_lab();
     if (sg)
       simple_branch(jno, nl);
     else
       simple_branch((inv ? jb : jae), nl);
-    jump (jr, 0);
+    jump(jr, 0);
     fstack_pos = good_fs;
     fpucon = good_fpucon;
-    simplest_set_lab (nl);
+    simplest_set_lab(nl);
     return;
   };
   if (sg)
@@ -1177,8 +1174,7 @@ void jmp_overflow
 
 /* software interrupt */
 void trap_ins
-    PROTO_N ( (s) )
-    PROTO_T ( int s )
+(int s)
 {
 #ifndef AVOID_INTOV
   if (s == f_overflow) {
@@ -1194,20 +1190,20 @@ void trap_ins
 #endif
 #endif
   if (cont_err_handler == nilexp) {
-    cont_err_handler = make_extn ("__trans386_errhandler", f_proc, 1);
+    cont_err_handler = make_extn("__trans386_errhandler", f_proc, 1);
     if (!PIC_code)
-      cont_err_handler = getexp (f_proc, nilexp, 1, cont_err_handler, nilexp, 0, 0, cont_tag);
+      cont_err_handler = getexp(f_proc, nilexp, 1, cont_err_handler, nilexp, 0, 0, cont_tag);
   }
-  ins1 (pushl, 32, mw (zeroe, s));
+  ins1(pushl, 32, mw(zeroe, s));
 #ifdef NEWDWARF
   if (diagnose && dwarf2 && no_frame)
     dw2_track_push();
 #endif
-  ins2 (movl, 32, 32, mw(cont_err_handler, 0), reg0);
+  ins2(movl, 32, 32, mw(cont_err_handler, 0), reg0);
   if (PIC_code)
-    ins1ind (call, 32, ind_reg0);
+    ins1ind(call, 32, ind_reg0);
   else
-    ins1ind (call, 32, reg0);
+    ins1ind(call, 32, reg0);
   return;
 }
 
@@ -1215,25 +1211,24 @@ void trap_ins
 /* output software interrupt if overflow
    sg is 1 if signed arithmetic, 0 unsigned */
 void trap_overflow
-    PROTO_N ( (sg, inv) )
-    PROTO_T ( int sg X int inv )
+(int sg, int inv)
 {
 #ifdef AVOID_INTOV
-    int nl = next_lab ();
+    int nl = next_lab();
     if (sg)
       simple_branch(jno, nl);
     else
       simple_branch((inv ? jb : jae), nl);
     trap_ins(f_overflow);
-    simplest_set_lab (nl);
+    simplest_set_lab(nl);
 #else
   if (sg)
     ins0(into);
   else {
-    int nl = next_lab ();
+    int nl = next_lab();
     simple_branch((inv ? jb : jae), nl);
     trap_ins(f_overflow);
-    simplest_set_lab (nl);
+    simplest_set_lab(nl);
   }
 #endif
   return;
@@ -1244,17 +1239,16 @@ void trap_overflow
    sg is 1 if signed arithmetic
    shnm name of shape */
 void test_trap
-    PROTO_N ( (test_no, sg, shnm) )
-    PROTO_T ( int test_no X int sg X int shnm )
+(int test_no, int sg, int shnm)
 {
-  int nl = next_lab ();
+  int nl = next_lab();
   int inv_test_no = (flpt_always_comparable ||
-			 (shnm < shrealhd || shnm > doublehd))
-				? (int)int_inverse_ntest[test_no]
-				: (int)real_inverse_ntest[test_no];
-  simple_branch (out_branch (sg, inv_test_no, shnm), nl);
+			(shnm < shrealhd || shnm > doublehd))
+				?(int)int_inverse_ntest[test_no]
+				:(int)real_inverse_ntest[test_no];
+  simple_branch(out_branch(sg, inv_test_no, shnm), nl);
   trap_ins(f_overflow);
-  simplest_set_lab (nl);
+  simplest_set_lab(nl);
   return;
 }
 
@@ -1263,68 +1257,66 @@ void test_trap
 /* special output for doing multiply by
    using index instructions */
 void mult_op
-    PROTO_N ( (inc, rmain, rind, sc, dest) )
-    PROTO_T ( int inc X where rmain X where rind X int sc X where dest )
+(int inc, where rmain, where rind, int sc, where dest)
 {
-  outs (margin);
-  outs ("leal");
-  outs (spx);
+  outs(margin);
+  outs("leal");
+  outs(spx);
   if (inc != 0)
-    outn ((long)inc);
-  outs ("(");
-  if (name (rmain.where_exp) != val_tag ||
-      (no (rmain.where_exp) + rmain.where_off) != 0)
-    operand (32, rmain, 1, 0);
-  outs (",");
-  operand (32, rind, 1, 0);
+    outn((long)inc);
+  outs("(");
+  if (name(rmain.where_exp)!= val_tag ||
+     (no(rmain.where_exp) + rmain.where_off)!= 0)
+    operand(32, rmain, 1, 0);
+  outs(",");
+  operand(32, rind, 1, 0);
   if (sc != 1) {
-    outs (",");
-    outn ((long)sc);
+    outs(",");
+    outn((long)sc);
   };
-  outs ("),");
+  outs("),");
 
-  if (inmem (dest)) {
-    operand (32, reg0, 1, 0);
-    outnl ();
-    invalidate_dest (reg0);
-    end_contop ();
-    move (slongsh, reg0, dest);
+  if (inmem(dest)) {
+    operand(32, reg0, 1, 0);
+    outnl();
+    invalidate_dest(reg0);
+    end_contop();
+    move(slongsh, reg0, dest);
   }
   else {
-    operand (32, dest, 1, 0);
-    outnl ();
-    end_contop ();
+    operand(32, dest, 1, 0);
+    outnl();
+    end_contop();
   };
   return;
 }
 
 /* output the case switch jump and the jump table */
 void caseins
-    PROTO_N ( (sz, arg, min, max, v, exhaustive, in_eax, case_exp) )
-    PROTO_T ( int sz X exp arg X int min X int max X int *v X int exhaustive X int in_eax X exp case_exp )
+(int sz, exp arg, int min, int max, int *v, int exhaustive, int in_eax, exp case_exp)
 {
   int tab;
   int absent;
   where a;
   int need_label_flag=0;
   exp next= short_next_jump(case_exp);
-  if (next != nilexp && name(next)==goto_tag)
+  if (next != nilexp && name(next) ==goto_tag)
   {
     exp lab=final_dest(pt(next));
     absent=ptno(pt(son(lab)));
   }
   else
   {
-    absent = (exhaustive) ? -1 : next_lab ();
+    absent = (exhaustive)? -1 : next_lab();
     need_label_flag=1;
   }
 
-  tab = next_lab ();
-  a = mw (arg, 0);
+  tab = next_lab();
+  a = mw(arg, 0);
 
-  if (inmem (mw (arg, 0)) || sz != 32) {
+  if (inmem(mw(arg, 0)) || sz != 32) {
     if (!in_eax)
-      change_var (slongsh, a, reg0);
+      change_var(slongsh, a, reg0);
     a = reg0;
   }
 
@@ -1337,11 +1329,11 @@ void caseins
   if (!exhaustive && need_label_flag==1) {
     /*  label for default of switch; continue here */
     outs(local_prefix);
-    outn ((long)absent);
-    outs (":");
-    outnl ();
+    outn((long)absent);
+    outs(":");
+    outnl();
 #ifdef NEWDWARF
-    START_BB ();
+    START_BB();
 #endif
   };
   return;
@@ -1349,17 +1341,16 @@ void caseins
 
 
 void const_intnl
-    PROTO_N ( (addr, lab, off) )
-    PROTO_T ( int addr X int lab X int off )
+(int addr, int lab, int off)
 {
   if (PIC_code)
    {
     outs(local_prefix);
-    outn ((long)lab);
+    outn((long)lab);
     outs("@GOTOFF");
     if (off != 0) {
-      outs ("+");
-      outn ((long)off / 8);
+      outs("+");
+      outn((long)off / 8);
     };
     outs("(%ebx)");
     return;
@@ -1367,52 +1358,51 @@ void const_intnl
   else
    {
     if (addr)
-      outs ("$");
+      outs("$");
     outs(local_prefix);
-    outn ((long)lab);
+    outn((long)lab);
     if (off != 0) {
-      outs ("+");
-      outn ((long)off / 8);
+      outs("+");
+      outn((long)off / 8);
     };
     return;
   };
 }
 
 void load_stack0
-    PROTO_Z ()
+(void)
 {
-  outs (" fld %st(0)");
-  outnl ();
+  outs(" fld %st(0)");
+  outnl();
   return;
 }
 
 void outbp
-    PROTO_Z ()
+(void)
 {
   outs("%ebp");
 }
 
 void set_stack_from_bp
-    PROTO_Z ()
+(void)
 {
-  outs (margin);
-  outs (leal);
-  outs (spx);
+  outs(margin);
+  outs(leal);
+  outs(spx);
   outn((long)stack_dec/8);
   outs("-");
   outs(local_prefix);
   outs("disp");
   outn((long)crt_proc_id);
-  outs ("(%ebp)");
-  outs (sep);
+  outs("(%ebp)");
+  outs(sep);
   outs("%esp");
-  outnl ();
+  outnl();
   return;
 }
 
 void testah
-    PROTO_N ( (mask) )
-    PROTO_T ( int mask )
+(int mask)
 {
   outs(" testb $");
   outn((long)mask);
@@ -1422,13 +1412,12 @@ void testah
 }
 
 exp make_extn
-    PROTO_N ( (n, s, v) )
-    PROTO_T ( char * n X shape s X int v )
+(char * n, shape s, int v)
 {
-  dec * g = (dec *) (xmalloc (sizeof(dec)));
-  exp id = getexp (s, nilexp, 1, nilexp, nilexp, 0, 0, ident_tag);
-  exp nme = getexp (s, nilexp, 1, id, nilexp, 0, 0, name_tag);
-  setglob (id);
+  dec * g = (dec *)(xmalloc(sizeof(dec)));
+  exp id = getexp(s, nilexp, 1, nilexp, nilexp, 0, 0, ident_tag);
+  exp nme = getexp(s, nilexp, 1, id, nilexp, 0, 0, name_tag);
+  setglob(id);
   if (v) {
 #if keep_PIC_vars
         setvar(id);
@@ -1441,9 +1430,9 @@ exp make_extn
   }
   brog(id) = g;
   if (prefix_length != 0) {
-    int nl = (int) strlen (n);
+    int nl = (int)strlen(n);
     int j;
-    char * newn = (char *) xcalloc ((nl + prefix_length + 1), sizeof (char));
+    char * newn = (char *)xcalloc((nl + prefix_length + 1), sizeof(char));
     for (j = 0; j < prefix_length; ++j)
       newn[j] = name_prefix[j];
     for (j = 0; j < nl; ++j)
@@ -1454,39 +1443,38 @@ exp make_extn
   g -> dec_u.dec_val.dec_exp = id;
   g -> dec_u.dec_val.dec_id = n;
   g -> dec_u.dec_val.extnamed = 1;
-  return (nme);
+  return(nme);
 }
 
 
 
 /* shift or rotate 64 bits in reg0/reg1 */
 void rotshift64
-    PROTO_N ( (shft, sig, wshift) )
-    PROTO_T ( int shft X int sig X where wshift )
+(int shft, int sig, where wshift)
 {
   if (name(wshift.where_exp) == val_tag) {	/* no of places is constant */
-    int places = no (wshift.where_exp) + wshift.where_off;
+    int places = no(wshift.where_exp) + wshift.where_off;
     if (places >= 32) {
       places -= 32;
       switch (shft) {
 	case 0:
 	  if (places)
-	    ins2 (shll, 8, 32, mw(zeroe,places), reg0);
-	  move (ulongsh, reg0, reg1);
-	  move (ulongsh, zero, reg0);
+	    ins2(shll, 8, 32, mw(zeroe,places), reg0);
+	  move(ulongsh, reg0, reg1);
+	  move(ulongsh, zero, reg0);
 	  return;
 	case 1:
-	  move (ulongsh, reg1, reg0);
+	  move(ulongsh, reg1, reg0);
 	  if (places)
-	    ins2 ((sig ? sarl : shrl), 8, 32, mw(zeroe,places), reg0);
+	    ins2((sig ? sarl : shrl), 8, 32, mw(zeroe,places), reg0);
 	  if (sig)
-	    ins2 (sarl, 8, 32, mw(zeroe,31), reg1);
+	    ins2(sarl, 8, 32, mw(zeroe,31), reg1);
 	  else
-	    move (ulongsh, zero, reg1);
+	    move(ulongsh, zero, reg1);
 	  return;
 	default: {
 	  if (!places) {
-	    ins2 (xchg, 32, 32, reg0, reg1);
+	    ins2(xchg, 32, 32, reg0, reg1);
 	    return;
 	  }
 	  places = 32 - places;
@@ -1498,147 +1486,147 @@ void rotshift64
       return;
     switch (shft) {	/* between 1 and 31 places */
       case 0:
-	ins3 (shldl, 8, 32, 32, mw(zeroe,places), reg0, reg1);
-	ins2 (shll, 8, 32, mw(zeroe,places), reg0);
+	ins3(shldl, 8, 32, 32, mw(zeroe,places), reg0, reg1);
+	ins2(shll, 8, 32, mw(zeroe,places), reg0);
 	return;
       case 1:
-	ins3 (shrdl, 8, 32, 32, mw(zeroe,places), reg1, reg0);
-	ins2 ((sig ? sarl : shrl), 8, 32, mw(zeroe,places), reg1);
+	ins3(shrdl, 8, 32, 32, mw(zeroe,places), reg1, reg0);
+	ins2((sig ? sarl : shrl), 8, 32, mw(zeroe,places), reg1);
 	return;
       default: {
 	char * dsh = (shft == 2 ? shrdl : shldl);
         extra_stack += 64;
 	check_stack_max;
-	ins0 (pushedx);
+	ins0(pushedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins0 (pusheax);
+	ins0(pusheax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins3 (dsh, 8, 32, 32, mw(zeroe,places),
+	ins3(dsh, 8, 32, 32, mw(zeroe,places),
 		reg1, mw(ind_sp.where_exp,-32));
-	ins3 (dsh, 8, 32, 32, mw(zeroe,places),
+	ins3(dsh, 8, 32, 32, mw(zeroe,places),
 		reg0, mw(ind_sp.where_exp,-64));
-	ins0 (popeax);
+	ins0(popeax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	ins0 (popedx);
+	ins0(popedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	invalidate_dest (ind_sp);
+	invalidate_dest(ind_sp);
         extra_stack -= 64;
 	return;
       }
     }
   };
   {				/* number of places in reg2 */
-    int lablow = next_lab ();
-    int labend = next_lab ();
-    ins2 (cmpl, 32, 32, mw(zeroe,32), reg2);
-    simple_branch (jl, lablow);
+    int lablow = next_lab();
+    int labend = next_lab();
+    ins2(cmpl, 32, 32, mw(zeroe,32), reg2);
+    simple_branch(jl, lablow);
     switch (shft) {
       case 0:
-	ins2 (subl, 32, 32, mw(zeroe,32), reg2);
-	ins2 (shll, 8, 32, reg2, reg0);
-	move (ulongsh, reg0, reg1);
-	move (ulongsh, zero, reg0);
+	ins2(subl, 32, 32, mw(zeroe,32), reg2);
+	ins2(shll, 8, 32, reg2, reg0);
+	move(ulongsh, reg0, reg1);
+	move(ulongsh, zero, reg0);
 	break;
       case 1:
-	ins2 (subl, 32, 32, mw(zeroe,32), reg2);
-	move (ulongsh, reg1, reg0);
-	ins2 ((sig ? sarl : shrl), 8, 32, reg2, reg0);
+	ins2(subl, 32, 32, mw(zeroe,32), reg2);
+	move(ulongsh, reg1, reg0);
+	ins2((sig ? sarl : shrl), 8, 32, reg2, reg0);
 	if (sig)
-	  ins2 (sarl, 8, 32, mw(zeroe,31), reg1);
+	  ins2(sarl, 8, 32, mw(zeroe,31), reg1);
 	else
-	  move (ulongsh, zero, reg1);
+	  move(ulongsh, zero, reg1);
 	break;
       default: {
-	int labx = next_lab ();
+	int labx = next_lab();
 	char * dsh = (shft == 2 ? shldl : shrdl);	/* reversed rotate */
-	simple_branch (je, labx);
-	ins2 (subl, 32, 32, mw(zeroe,64), reg2);
-	ins1 (negl, 32, reg2);
+	simple_branch(je, labx);
+	ins2(subl, 32, 32, mw(zeroe,64), reg2);
+	ins1(negl, 32, reg2);
         extra_stack += 64;
 	check_stack_max;
-	ins0 (pushedx);
+	ins0(pushedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins0 (pusheax);
+	ins0(pusheax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins3 (dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
-	ins3 (dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
-	ins0 (popeax);
+	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
+	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
+	ins0(popeax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	ins0 (popedx);
+	ins0(popedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	invalidate_dest (ind_sp);
+	invalidate_dest(ind_sp);
         extra_stack -= 64;
-	simple_branch (jmp, labend);
-	simplest_set_lab (labx);
-	ins2 (xchg, 32, 32, reg0, reg1);
+	simple_branch(jmp, labend);
+	simplest_set_lab(labx);
+	ins2(xchg, 32, 32, reg0, reg1);
       }
     }
-    simple_branch (jmp, labend);
-    simplest_set_lab (lablow);
+    simple_branch(jmp, labend);
+    simplest_set_lab(lablow);
     switch (shft) {	/* between 0 and 31 places */
       case 0:
-	ins3 (shldl, 8, 32, 32, reg2, reg0, reg1);
-	ins2 (shll, 8, 32, reg2, reg0);
+	ins3(shldl, 8, 32, 32, reg2, reg0, reg1);
+	ins2(shll, 8, 32, reg2, reg0);
 	break;
       case 1:
-	ins3 (shrdl, 8, 32, 32, reg2, reg1, reg0);
-	ins2 ((sig ? sarl : shrl), 8, 32, reg2, reg1);
+	ins3(shrdl, 8, 32, 32, reg2, reg1, reg0);
+	ins2((sig ? sarl : shrl), 8, 32, reg2, reg1);
 	break;
       default: {
 	char * dsh = (shft == 2 ? shrdl : shldl);
         extra_stack += 64;
 	check_stack_max;
-	ins0 (pushedx);
+	ins0(pushedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins0 (pusheax);
+	ins0(pusheax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_push();
 #endif
-	ins3 (dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
-	ins3 (dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
-	ins0 (popeax);
+	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
+	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
+	ins0(popeax);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	ins0 (popedx);
+	ins0(popedx);
 #ifdef NEWDWARF
 	if (diagnose && dwarf2 && no_frame)
 	  dw2_track_pop();
 #endif
-	invalidate_dest (ind_sp);
+	invalidate_dest(ind_sp);
         extra_stack -= 64;
       }
     }
-    simplest_set_lab (labend);
+    simplest_set_lab(labend);
   };
   return;
 }

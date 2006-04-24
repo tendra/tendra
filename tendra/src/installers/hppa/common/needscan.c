@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -129,19 +159,19 @@ $Log: needscan.c,v $
  *
  * Revision 3.1  95/04/10  16:27:33  16:27:33  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:18:27  11:18:27  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:28:17  15:28:17  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.2  95/01/17  17:29:49  17:29:49  wfs (William Simmonds)
- * 
- * 
+ *
+ *
  * Revision 1.1  95/01/11  13:13:54  13:13:54  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -191,8 +221,8 @@ the proc independent (common to other  translators)
 
 
 /* used by scan to set initial parameter positions */
-extern alignment long_to_al PROTO_S ( ( unsigned long ) ) ;
-extern int specialopt PROTO_S ((exp));
+extern alignment long_to_al(unsigned long);
+extern int specialopt(exp);
 
 extern long notbranch[];	/* in makecode.c */
 extern bool do_tlrecursion;
@@ -215,7 +245,7 @@ int maxfix, maxfloat;		/* the maximum number of t-regs */
 
 
 /* advance declaration of scan */
-needs scan PROTO_S ( ( exp *, exp ** ) ) ;
+needs scan(exp *, exp **);
 
 
 /*
@@ -233,9 +263,8 @@ needs field of the procrec (see proctypes.h).
 
 
 /* return ptrexp pointing to e */
-exp *ptr_position 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+exp *ptr_position
+(exp e)
 {
   exp *res;
   exp dad = father(e);
@@ -247,7 +276,7 @@ exp *ptr_position
   }
   else
   {
-    while (bro(sib) != e)
+    while (bro(sib)!= e)
     {
       sib = bro(sib);
     }
@@ -266,16 +295,15 @@ This procedure effectively inserts a new declaration into an exp. This
 is used to stop a procedure requiring more than the available number of
 registers.
 ****************************************************************/
-void tidy_ident PROTO_S ( ( exp ) ) ;
+void tidy_ident(exp);
 
 
 void cca
-    PROTO_N ( (to,x) )
-    PROTO_T ( exp **to X exp *x )
+(exp **to, exp *x)
 {
-  if (name((**to))==diagnose_tag)
+  if (name((**to)) ==diagnose_tag)
   {
-      *to = &(son((**to)));  
+      *to = & (son((**to)));
   }
   if (x == (*to))
   {
@@ -322,9 +350,8 @@ needs zeroneeds = {0, 0, 0, 0};	/* has no needs */
 
 
 #if 0		/* +++ optimise sharing of regs for idents */
-bool subvar_use 
-    PROTO_N ( ( uses ) )
-    PROTO_T ( exp uses )
+bool subvar_use
+(exp uses)
 {				/* check to see if any uses of id is
 				 * initialiser to subvar dec */
   for (; uses != nilexp; uses = pt(uses))
@@ -337,7 +364,7 @@ bool subvar_use
       {
 	exp id = bro(bro(c));
 
-	if ((props(id) & subvar) != 0 && (props(id) & inanyreg) != 0)
+	if ((props(id) & subvar)!= 0 && (props(id) & inanyreg)!= 0)
 	  return 1;
       }
     }
@@ -348,9 +375,8 @@ bool subvar_use
 
 
 /* this gives the needs for manipulating a value of shape s */
-needs shapeneeds 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+needs shapeneeds
+(shape s)
 {
   if (is_floating(name(s)))
     return onefloat;
@@ -373,20 +399,19 @@ needs shapeneeds
   Transform a non-bit offset into a bit offset.
   (borrowed from trans386)
 */
-static void make_bitfield_offset 
-    PROTO_N ( ( e, pe, spe, sha ) )
-    PROTO_T ( exp e X exp pe X int spe X shape sha ){
+static void make_bitfield_offset
+(exp e, exp pe, int spe, shape sha) {
   exp omul;
   exp val8;
-  if (name(e) == val_tag){
-    no(e) *= 8;
+  if (name(e) == val_tag) {
+    no(e)*= 8;
     return;
   }
-  omul = getexp (sha, bro(e), (int)(last (e)), e, nilexp, 0, 0, offset_mult_tag);
-  val8 = getexp (slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+  omul = getexp(sha, bro(e), (int)(last(e)), e, nilexp, 0, 0, offset_mult_tag);
+  val8 = getexp(slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
   clearlast(e);
   setbro(e, val8);
-  if(spe) {
+  if (spe) {
     son(pe) = omul;
   }
   else{
@@ -400,14 +425,13 @@ static void make_bitfield_offset
  * these are basicly the expressions which cannot be accessed by a simple
  * load or store instruction
  */
-bool complex 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool complex
+(exp e)
 {				/* these are basically the expressions which
 				 * cannot be accessed by a simple load or
 				 * store instruction */
   if (name(e) == name_tag ||
-      (name(e) == cont_tag && name(son(e)) == name_tag &&
+     (name(e) == cont_tag && name(son(e)) == name_tag &&
        isvar(son(son(e))))
       || name(e) == val_tag || name(e) == real_tag)
   {
@@ -420,13 +444,12 @@ bool complex
 }
 
 void change_to_var
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
 	/* change identity to variable definition */
 	exp p = pt(e);
 	shape ns;
-	assert(name(e)==ident_tag && !isvar(e));
+	assert(name(e) ==ident_tag && !isvar(e));
 	setvar(e);
 	setcaonly(e);
 	ns = f_pointer(f_alignment(sh(son(e))));
@@ -442,28 +465,26 @@ void change_to_var
 }
 
 void change_names
-    PROTO_N ( (f, t, except) )
-    PROTO_T ( exp f X exp t X exp except )
+(exp f, exp t, exp except)
 {
 	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
-	assert(name(f)==ident_tag && name(t)==ident_tag && name(except)==name_tag);
+	assert(name(f) ==ident_tag && name(t) ==ident_tag && name(except) ==name_tag);
 	while (py != nilexp) {
 		exp ppy = pt(py);
 		if (py != except) {
 			son(py) = t; /* change f to t */
 			pt(py) = pt(t);
-			pt(t) = py;   
+			pt(t) = py;
 			no(t)++;  /* maintain usage */
 		}
 		py = ppy;
 	}
-}			 
+}
 
 
 void tidy_ident
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
 	/* replace Var/Id x = Var y = e1 in { e2; contents(y)} in e3;
 	   by Var x = e1 in { e2/(y=>x); e3}
@@ -473,10 +494,10 @@ void tidy_ident
 	exp init; exp bdyinit; exp idy;
 	exp e1;
 	exp e3;
-	assert(name(e)==ident_tag);
+	assert(name(e) ==ident_tag);
 	init = son(e);
 	e3 = bro(init);
-	if ( name(init) != ident_tag || isparam(e)) { return ;}
+	if (name(init)!= ident_tag || isparam(e)) { return ;}
 	tidy_ident(init);
 	e1 = son(init);
 	bdyinit = bro(e1);
@@ -485,17 +506,17 @@ void tidy_ident
 	    	exp idy = bro(son(bdyinit));
 		exp broe3;
 		bool laste3;
-		if (name(idy) != name_tag || son(idy) != init || 
-			no(idy) !=0 || 
-			shape_size(sh(idy)) != shape_size(sh(e1)) ||
-			shape_align(sh(idy)) != shape_align(sh(e1)) ) {
+		if (name(idy)!= name_tag || son(idy)!= init ||
+			no(idy)!=0 ||
+			shape_size(sh(idy))!= shape_size(sh(e1)) ||
+			shape_align(sh(idy))!= shape_align(sh(e1))) {
 		    return;
 		}
 		if (isvar(e)) {
 			change_to_var(init);
 		}
-		change_names(init, e, idy);	  
-	
+		change_names(init, e, idy);
+
 		broe3 = bro(e3);
 		laste3 = last(e3);
 		bro(son(bdyinit)) = e3;
@@ -508,29 +529,29 @@ void tidy_ident
 		return;
 	  }
 	  else
-	  if (name(bdyinit)== name_tag && (idy = son(bdyinit))==init
-		&& no(idy)==0 && 		    
+	  if (name(bdyinit) == name_tag && (idy = son(bdyinit)) ==init
+		&& no(idy) ==0 &&
 		shape_size(sh(idy)) == shape_size(sh(e1)) &&
-		shape_align(sh(idy)) == shape_align(sh(e1)) ) {
-		/* form is Var/Id x = Id y = e1 in y in e3	
+		shape_align(sh(idy)) == shape_align(sh(e1))) {
+		/* form is Var/Id x = Id y = e1 in y in e3
 			=> Var x = e1 in e3 */
 		bro(e1) = e3;
 		son(e) = e1;
 	  }
-	  else return;			
+	  else return;
 	}
 	else {
 	  if (name(bdyinit) == seq_tag) {
 		exp cy = bro(son(bdyinit));
 		exp broe3;
 		bool laste3;
-		if (name(cy) != cont_tag) return;
-		
+		if (name(cy)!= cont_tag) return;
+
 		idy = son(cy);
-		if (name(idy) != name_tag || no(idy) != 0 ||
-			son(idy) != init ||
-			shape_size(sh(cy)) != shape_size(sh(e1)) ||
-			shape_align(sh(cy)) != shape_align(sh(e1)) ) {
+		if (name(idy)!= name_tag || no(idy)!= 0 ||
+			son(idy)!= init ||
+			shape_size(sh(cy))!= shape_size(sh(e1)) ||
+			shape_align(sh(cy))!= shape_align(sh(e1))) {
 			return;
 		}
 		if (!isvar(e)) {
@@ -538,9 +559,9 @@ void tidy_ident
 			if (isvis(init)) { setvis(e); }
 			if (!iscaonly(init)) { ClearCaonly(e); }
 		}
-		
+
 		change_names(init,e,idy);
-	
+
 		broe3 = bro(e3);
 		laste3 = last(e3);
 		bro(son(bdyinit)) = e3;
@@ -556,13 +577,13 @@ void tidy_ident
 	  if (name(bdyinit) == cont_tag) {
 		exp cy =  bro(son(bdyinit));
 		idy = son(cy);
-		if (name(idy) != name_tag || no(idy) != 0 ||
-			son(idy) != init ||
-			shape_size(sh(cy)) != shape_size(sh(e1)) ||
-			shape_align(sh(cy)) != shape_align(sh(e1)) ) {
+		if (name(idy)!= name_tag || no(idy)!= 0 ||
+			son(idy)!= init ||
+			shape_size(sh(cy))!= shape_size(sh(e1)) ||
+			shape_align(sh(cy))!= shape_align(sh(e1))) {
 			return;
 		}
-		/* form is Var x = Var y = e1 in cont(y) in e3	
+		/* form is Var x = Var y = e1 in cont(y) in e3
 			=> Var x = e1 in e3 */
 		if (!isvar(e)) {
 			change_to_var(e);
@@ -579,32 +600,31 @@ void tidy_ident
 
 
 int scan_cond
-    PROTO_N ( (e, outer_id) )
-    PROTO_T ( exp * e X exp outer_id )
+(exp * e, exp outer_id)
 {
 
 	exp ste = *e;
-	exp first = son (ste);
-	exp labst = bro (first);
-	exp second = bro (son (labst));
+	exp first = son(ste);
+	exp labst = bro(first);
+	exp second = bro(son(labst));
 
-	assert(name(ste)==cond_tag);
+	assert(name(ste) ==cond_tag);
 
-	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
-		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
+	if (name(second) ==top_tag && name(sh(first)) ==bothd && no(son(labst)) ==1
+		&& name(first) ==seq_tag && name(bro(son(first))) == goto_tag) {
 		/* cond is { ... test(L); ? ; goto X | L:make_top}
 			if ? empty can replace by seq { ... not-test(X); make_top }
 		*/
 		exp l = son(son(first));
-		while(!last(l)) { l = bro(l); }
-		while(name(l)==seq_tag) { l = bro(son(l)); }
-		if (name(l)==test_tag && pt(l)==labst) {
+		while (!last(l)) { l = bro(l); }
+		while (name(l) ==seq_tag) { l = bro(son(l)); }
+		if (name(l) ==test_tag && pt(l) ==labst) {
 		   settest_number(l, notbranch[test_number(l)]);
 		   pt(l) = pt(bro(son(first)));
 		   bro(son(first)) = second;
 		   bro(second) = first; setlast(second);
-		   bro(first) = bro(ste); 
-		   if(last(ste)) { setlast(first);} else { clearlast(first); }
+		   bro(first) = bro(ste);
+		   if (last(ste)) { setlast(first);} else { clearlast(first); }
 		   *e = first;
 		   return 1;
 		}
@@ -612,106 +632,106 @@ int scan_cond
 	}
 
 
-	if (name (first) == seq_tag && name (second) == cond_tag 
-	    && no(son(labst)) == 1 
-	    && name (son (son (first))) == test_tag 
-	    && pt (son (son (first))) == labst
-	    && name (son (second)) == seq_tag
-	    && name (son (son (son (second)))) == test_tag) {
-				/* cond is ( seq (test to L;....| 
+	if (name(first) == seq_tag && name(second) == cond_tag
+	    && no(son(labst)) == 1
+	    && name(son(son(first))) == test_tag
+	    && pt(son(son(first))) == labst
+	    && name(son(second)) == seq_tag
+	    && name(son(son(son(second)))) == test_tag) {
+				/* cond is ( seq (test to L;....|
 				   L:cond(seq(test;...),...) ) ..... */
-	  exp test1 = son (son (first));
-	  exp test2 = son (son (son (second)));
+	  exp test1 = son(son(first));
+	  exp test2 = son(son(son(second)));
 	  exp op11 = son(test1);
 	  exp op21 = bro(op11);
 	  exp op12 = son(test2);
 	  exp op22 = bro(op12);
-	  bool c1 = complex (op11);
-	  bool c2 = complex (op21);
+	  bool c1 = complex(op11);
+	  bool c2 = complex(op21);
 
-	  if (c1 && eq_exp (op11, op12)) {
+	  if (c1 && eq_exp(op11, op12)) {
 				/* ....if first operands of tests are
 				   same, identify them */
-	    exp newid = getexp (sh (ste), bro (ste), last (ste), op11, nilexp,
+	    exp newid = getexp(sh(ste), bro(ste), last(ste), op11, nilexp,
 		0, 2, ident_tag);
-	    exp tg1 = getexp (sh (op11), op21, 0, newid, nilexp, 0, 0, name_tag);
-	    exp tg2 = getexp (sh (op12), op22, 0, newid, nilexp, 0, 0, name_tag);
+	    exp tg1 = getexp(sh(op11), op21, 0, newid, nilexp, 0, 0, name_tag);
+	    exp tg2 = getexp(sh(op12), op22, 0, newid, nilexp, 0, 0, name_tag);
 
-	    pt (newid) = tg1;
+	    pt(newid) = tg1;
 	    pt (tg1) = tg2;	/* uses of newid */
 	    bro (op11) = ste; clearlast (op11);/* body of newid */
 	    /* forget son test2 = son test1 */
-	    bro (ste) = newid;
+	    bro(ste) = newid;
 	    setlast (ste);	/* father body = newid */
-	    son (test1) = tg1;
+	    son(test1) = tg1;
 	    son (test2) = tg2;	/* relace 1st operands of test */
-	    if (!complex(op21) ) { 
+	    if (!complex(op21)) {
 		/* if the second operand of 1st test is simple, then identification
 			could go in a t-teg (!!!NB overloading of inlined flag!!!).... */
-		setinlined(newid); 
+		setinlined(newid);
 	    }
 	    kill_exp(op12, op12);
-	    * (e) = newid;
-	    if( scan_cond (&bro(son(labst)), newid) == 2 && complex(op22)) {
-		/* ... however a further use of identification means that 
+	    *(e) = newid;
+	    if (scan_cond(&bro(son(labst)), newid) == 2 && complex(op22)) {
+		/* ... however a further use of identification means that
 		   the second operand of the second test must also be simple */
 		clearinlined(newid);
 	    }
 	    return 1;
 	  }
 	  else
-	  if (c2 && eq_exp (op21, op22)) {
+	  if (c2 && eq_exp(op21, op22)) {
 				/* ....if second operands of tests are
 				   same, identify them */
 
-	      exp newid = getexp (sh (ste), bro (ste), last (ste), op21,
+	      exp newid = getexp(sh(ste), bro(ste), last(ste), op21,
 		  nilexp, 0, 2, ident_tag);
-	      exp tg1 = getexp (sh (op21), test1, 1,
+	      exp tg1 = getexp(sh(op21), test1, 1,
 		  newid, nilexp, 0, 0, name_tag);
-	      exp tg2 = getexp (sh (op22), test2, 1, newid, nilexp,
+	      exp tg2 = getexp(sh(op22), test2, 1, newid, nilexp,
 		  0, 0, name_tag);
 
-	      pt (newid) = tg1;
+	      pt(newid) = tg1;
 	      pt (tg1) = tg2;	/* uses of newid */
-	      bro (op21) = ste; clearlast (op21);
+	      bro(op21) = ste; clearlast(op21);
 	      /* body of newid */
 	      /* forget bro son test2 = bro son test1 */
-	      bro (ste) = newid;
+	      bro(ste) = newid;
 	      setlast (ste);	/* father body = newid */
-	      bro (op11) = tg1;
-	      bro (op12) = tg2;
-	      if (!complex(op11) ) { setinlined(newid); }
+	      bro(op11) = tg1;
+	      bro(op12) = tg2;
+	      if (!complex(op11)) { setinlined(newid); }
 	      kill_exp(op22, op22);
 	      /* relace 2nd operands of test */
-	      * (e) = newid;
-	      if (scan_cond (&bro(son(labst)), newid) == 2 && complex(op12) ) { 
-			clearinlined(newid); 
+	      *(e) = newid;
+	      if (scan_cond(&bro(son(labst)), newid) == 2 && complex(op12)) {
+			clearinlined(newid);
 	      }
 	      return 1;
 	  }
 	  else
-	  if (name (op12) != name_tag
-		  && name (op11) == name_tag 
-		  && son (op11) == outer_id
-		  && eq_exp (son (outer_id), op12)
+	  if (name(op12)!= name_tag
+		  && name(op11) == name_tag
+		  && son(op11) == outer_id
+		  && eq_exp(son(outer_id), op12)
 		) {		/* 1st param of test1 is already identified with
 				   1st param of  test2 */
-		exp tg = getexp (sh (op12), op22, 0, outer_id,
-		    pt (outer_id), 0, 0, name_tag);
-		pt (outer_id) = tg;
-		no (outer_id) += 1;
-		if (complex(op21) ){ clearinlined(outer_id); }
+		exp tg = getexp(sh(op12), op22, 0, outer_id,
+		    pt(outer_id), 0, 0, name_tag);
+		pt(outer_id) = tg;
+		no(outer_id) += 1;
+		if (complex(op21)) { clearinlined(outer_id); }
 		/* update usage of ident */
-		son (test2) = tg;
+		son(test2) = tg;
 		kill_exp(op12, op12);
-		if (scan_cond (&bro(son(labst)), outer_id) == 2 && complex(op22)) {
+		if (scan_cond(&bro(son(labst)), outer_id) == 2 && complex(op22)) {
 			clearinlined(outer_id);
 		}
 		return 2;
 	      }
 
 
-	}			
+	}
 	return 0;
 }
 
@@ -719,9 +739,8 @@ int scan_cond
  * does the scan on commutative and associative operations and may perform
  * various transformations allowed by these properties
  */
-needs likeplus 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs likeplus
+(exp * e, exp ** at)
 {
   needs a1;
   needs a2;
@@ -729,7 +748,7 @@ needs likeplus
   exp *br = &son(*e);
   exp prev;
   bool commuted = 0;
-  exp dad = * (e);
+  exp dad = *(e);
 
   a1 = scan(br, at);
   /* scan the first operand - won't be a val_tag */
@@ -741,7 +760,7 @@ needs likeplus
     br = &bro(prev);
     a2 = scan(br, at);
     /* scan the next operand ... */
-    if (name(*(br)) != val_tag) {
+    if (name(*(br))!= val_tag) {
       a1.floatneeds = MAX_OF(a1.floatneeds, a2.floatneeds);
       pc = a2.propsneeds & hasproccall;
       if (a2.fixneeds < maxfix && pc == 0)
@@ -765,7 +784,7 @@ needs likeplus
 	bro(cop) = op1;
 	clearlast(cop);
 	son(dad) = cop;
-	br = (prev == op1) ? &bro(cop) : prevbr;
+	br = (prev == op1)? &bro(cop): prevbr;
 	op1->commuted=1;
 	cop->commuted=1;
 	commuted = 1;
@@ -805,9 +824,8 @@ needs likeplus
 
 
 /* scan non-commutative fix pt operation */
-needs likediv 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs likediv
+(exp * e, exp ** at)
 {
   needs l;
   needs r;
@@ -848,9 +866,8 @@ needs likediv
   return l;
 }
 
-needs fpop 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs fpop
+(exp * e, exp ** at)
 {
   /* scans diadic floating point operation  */
   needs l;
@@ -873,17 +890,17 @@ needs fpop
   }
 
 #if use_long_double
-    if ( name(sh(son(op)))==doublehd )
+    if (name(sh(son(op))) ==doublehd)
     {
-	ClearRev(op) ;
-	arg=&son(op) ;
-	if ( !is_o(name(*arg)) || pcl ) cca (at,arg) ;
-	arg = &bro(son(op)) ;
-	if ( !is_o(name(*arg)) || pcr ) cca ( at, arg ) ;
-	l.floatneeds = MAX_OF ( l.floatneeds, r.floatneeds ) ;
-	l.maxargs = MAX_OF ( l.maxargs, r.maxargs ) ;
-	pnset(l,hasproccall) ;
-	return(l) ;
+	ClearRev(op);
+	arg=&son(op);
+	if (!is_o(name(*arg)) || pcl)cca(at,arg);
+	arg = &bro(son(op));
+	if (!is_o(name(*arg)) || pcr)cca(at, arg);
+	l.floatneeds = MAX_OF(l.floatneeds, r.floatneeds);
+	l.maxargs = MAX_OF(l.maxargs, r.maxargs);
+	pnset(l,hasproccall);
+	return(l);
     }
 #endif
 
@@ -923,9 +940,8 @@ Calculates a needs value. Each element of which is the maximum of the
 corresponding elements in the two parameter needs
 **********************************************************************/
 
-needs maxneeds 
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( needs a X needs b )
+needs maxneeds
+(needs a, needs b)
 {
   needs an;
 
@@ -941,9 +957,8 @@ needs maxneeds
 
 **********************************************************************/
 
-needs maxtup 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp e X exp ** at )
+needs maxtup
+(exp e, exp ** at)
 {				/* calculates the needs of a tuple of
 				 * expressions; any new declarations required
 				 * by a component expression will replace the
@@ -959,9 +974,8 @@ needs maxtup
   return an;
 }
 
-bool unchanged 
-    PROTO_N ( ( usedname, ident ) )
-    PROTO_T ( exp usedname X exp ident )
+bool unchanged
+(exp usedname, exp ident)
 
  /*
   * finds if usedname is only used in cont operation or as result of ident
@@ -974,14 +988,14 @@ bool unchanged
   {
     if (intnl_to(ident, uses))
     {
-      if (!last(uses) || name(bro(uses)) != cont_tag)
+      if (!last(uses) || name(bro(uses))!= cont_tag)
       {
 	exp z = uses;
 
 	while (z != ident)
 	{
 	  if (!last(z) ||
-	      (name(bro(z)) != seq_tag && name(bro(z)) != ident_tag))
+	     (name(bro(z))!= seq_tag && name(bro(z))!= ident_tag))
 	  {
 	    return 0;
 	  }
@@ -1004,9 +1018,8 @@ bool unchanged
  * mechanism to determine whether it is necessary to insert a dummy
  * declaration to ensure that this space exists.
  */
-bool chase 
-    PROTO_N ( ( sel, e ) )
-    PROTO_T ( exp sel X exp * e )
+bool chase
+(exp sel, exp * e)
 {
   bool b = 0;
   exp *one;
@@ -1042,7 +1055,7 @@ bool chase
 	/* inner field has been distributed */
 	exp stare = *e;
 	exp ss = son(stare);
-	
+
 	if (!last(stare))
 	    clearlast(ss);
 	bro(ss) = bro(stare);
@@ -1053,7 +1066,7 @@ bool chase
     }
   default:
     {
-      if ( (son(sel) != *e) && (name(sh(*e)) != bothd) )
+      if ((son(sel)!= *e) && (name(sh(*e))!= bothd))
       {				/* only change if not outer */
 	exp stare = *e;
 	exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, nilexp,
@@ -1101,9 +1114,8 @@ of the exp in each case.
 ********************************************************************/
 
 
-needs scan 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs scan
+(exp * e, exp ** at)
 {
 
   /*
@@ -1120,12 +1132,12 @@ needs scan
   while (nstare == diag_tag || nstare == cscope_tag || nstare == fscope_tag)
   {
     e = &son(ste);
-    ste = * (e);
-    nstare = name (ste);
+    ste = *(e);
+    nstare = name(ste);
   }
 #endif
 
-  FULLCOMMENT1("scan: %s", (int)TAG_NAME(nstare));
+  FULLCOMMENT1("scan: %s",(int)TAG_NAME(nstare));
 
   switch (nstare)
   {
@@ -1148,11 +1160,11 @@ needs scan
 	bool cantdo;
 	exp dad;
 #if 1
-      if(nstare==nof_tag && son(ste)==nilexp)
+      if (nstare==nof_tag && son(ste) ==nilexp)
 	return zeroneeds;
 #endif
-	if (name(ste)==ncopies_tag && name(son(ste)) !=name_tag
-	    && name(son(ste)) != val_tag ) {
+	if (name(ste) ==ncopies_tag && name(son(ste))!=name_tag
+	    && name(son(ste))!= val_tag) {
 	  nl = scan(&son(*e), at);
 	  cca(at, &son(*e));
 	}
@@ -1160,7 +1172,7 @@ needs scan
 	ste = *e;
 	dad = father(ste);
 
-	if (name(dad)==compound_tag || name(dad) == nof_tag
+	if (name(dad) ==compound_tag || name(dad) == nof_tag
 	    || name(dad) == concatnof_tag)
 	{
 	  cantdo = 0;
@@ -1168,10 +1180,10 @@ needs scan
 	else
 	if (last(ste))
 	{
-	  if (name(bro(ste)) == ass_tag )
+	  if (name(bro(ste)) == ass_tag)
 	  {
 	    exp a = son(bro(ste));
-	    cantdo = (name(a) != name_tag || !isvar(son(a)) );
+	    cantdo = (name(a)!= name_tag || !isvar(son(a)));
 	  }
 	  else
 	  {
@@ -1179,9 +1191,9 @@ needs scan
 	  }
 	}
 	else
-	if (last(bro(ste)) )
+	if (last(bro(ste)))
 	{
-	  cantdo = (name(bro(bro(ste))) != ident_tag);
+	  cantdo = (name(bro(bro(ste)))!= ident_tag);
 	}
 	else
 	{
@@ -1198,14 +1210,14 @@ needs scan
 	  nl.propsneeds |= prps;
 	}
 
-	if (nl.fixneeds <2) nl.fixneeds = 2;
+	if (nl.fixneeds <2)nl.fixneeds = 2;
 	return nl;
       }
 
   case cond_tag:
     {
 #if 1
-      if (scan_cond(e, nilexp) !=0)
+      if (scan_cond(e, nilexp)!=0)
       {
 	 return scan(e, at);
       }
@@ -1213,7 +1225,7 @@ needs scan
 #else
       exp first = son(ste);
       exp labst = bro(first);
-      exp second = bro(son(labst));  
+      exp second = bro(son(labst));
       exp t, f, v;
       if (name(first) == seq_tag && name(second) == cond_tag &&
 	  name(son(son(first))) == test_tag && pt(son(son(first))) == labst
@@ -1274,12 +1286,12 @@ needs scan
 	  *(e) = newid;
 	  return scan(e, at);
 	}
-	else if (name(son(test2)) != name_tag
+	else if (name(son(test2))!= name_tag
 		 && name(son(test1)) == name_tag &&
 		 name(son(son(test1))) == ident_tag && !isvar(son(son(test1)))
 		 && !isglob(son(son(test1)))
 		 && eq_exp(son(son(son(test1))), son(test2))
-	  )
+	 )
 	  /* 1st param of test1 is identified with 1st param of  test2 */
 	{
 	  exp tg = getexp(sh(son(test1)), bro(son(test2)), 0, son(son(test1)),
@@ -1318,7 +1330,7 @@ needs scan
 	stat = &bro(*stat);
 	statat = stat;
       }
-      if ((an.propsneeds & usesproccall) != 0)
+      if ((an.propsneeds & usesproccall)!= 0)
       {
 	an.propsneeds |= hasproccall;
       }
@@ -1345,7 +1357,7 @@ ptr of ident exp is chain of uses
      bool flregble;
      bool old_nonevis = nonevis;
 
-     if ( pt(stare) == nilexp )
+     if (pt(stare) == nilexp)
      {
 	/* no uses, should have caonly flag and no var flag */
 	setcaonly(stare);
@@ -1373,26 +1385,26 @@ ptr of ident exp is chain of uses
 	   /* round up small (i.e. < 64 byte) structues to two words */
 	   else if (sz>32 && sz<64)
 	      sz=64;
-  
+
 	   /* parameters must be properly aligned */
 	   stparam = rounder(stparam+sz,sz);
 
-	   fixparam = ARG0+(stparam>>5)-1; 
-	   fltparam = 3*(3+(stparam>>5))+1;
+	   fixparam = ARG0+ (stparam>>5) -1;
+	   fltparam = 3*(3+ (stparam>>5)) +1;
 
-	   if ( valregable(shdef) && (shape_size(shdef)==8 ||
-				      shape_size(shdef)==16 ) )
+	   if (valregable(shdef) && (shape_size(shdef) ==8 ||
+				      shape_size(shdef) ==16))
 	      /* Right align bytes and halfwords. */
-	      no(def)= stparam-32+shape_size(shdef);
+	      no(def) = stparam-32+shape_size(shdef);
 	   else
-	      no(def) = stparam; 
+	      no(def) = stparam;
 
 	   if (is_floating(name(shdef)))
 	   {
-	      if (fltparam < (3*8)+1)
+	      if (fltparam < (3*8) +1)
 	      {
 		 /* floating paramter passed in registers */
-		 props(def) = fltparam;   
+		 props(def) = fltparam;
 		 maxfloat--;
 	      }
 	      else
@@ -1402,7 +1414,7 @@ ptr of ident exp is chain of uses
 	      }
 	   }
 	   else
-	   { 
+	   {
 	      if (fixparam<ARG3+1)
 	      {
  	         /* param reg(s) free for the param */
@@ -1420,7 +1432,7 @@ ptr of ident exp is chain of uses
 	  long n = rounder(callee_sz, alp);
 	  no(def) = n;
 	  callee_sz = rounder(n+sz,32);
-       }	  		  	
+       }
     }
 
     nonevis &= !isvis(stare);
@@ -1441,21 +1453,21 @@ ptr of ident exp is chain of uses
 
     if (isparam(stare))
     {
-       if ( name(son(stare))==formal_callee_tag )
+       if (name(son(stare)) ==formal_callee_tag)
        {
 	  /* IDENT is a callee parameter. */
 	  no(stare) = R_NO_REG;
        }
        else
        {
-	  bool is_aggregate = (name(shdef)==cpdhd || name(shdef)==nofhd ||
-			       name(shdef)==s64hd || name(shdef)==u64hd);
+	  bool is_aggregate = (name(shdef) ==cpdhd || name(shdef) ==nofhd ||
+			       name(shdef) ==s64hd || name(shdef) ==u64hd);
 	  if (!is_aggregate && !isvis(stare) &&
-	      !isoutpar(stare) &&  
-	      ((bdy.propsneeds & anyproccall) == 0 ||
-	       (!has_tail_call &&
-		tempdec(stare, (fxregble && bdy.fixneeds <= 2) ||
-	     	                 (flregble && bdy.floatneeds <= 1)))))
+	      !isoutpar(stare) &&
+	     ((bdy.propsneeds & anyproccall) == 0 ||
+	      (!has_tail_call &&
+		tempdec(stare,(fxregble && bdy.fixneeds <= 2) ||
+	     	                (flregble && bdy.floatneeds <= 1)))))
 	  {
 	     int x = props(son(stare)); /* param reg it comes in, or else 0 */
 	     if (x != 0 && (props(stare) & notparreg) == 0)
@@ -1468,7 +1480,7 @@ ptr of ident exp is chain of uses
 		if (flregble)
 		{
 		   /* props(stare) |= infreg_bits; */
-		   no(stare)=0;
+		   no(stare) =0;
 		}
 		else
 		{
@@ -1476,7 +1488,7 @@ ptr of ident exp is chain of uses
 		}
 	     }
 	     else
-	     if (fxregble && bdy.fixneeds<maxfix && (bdy.propsneeds & morefix)==0)
+	     if (fxregble && bdy.fixneeds<maxfix && (bdy.propsneeds & morefix) ==0)
 	     {
 		no(stare) = 0;
 		props(stare) |= inreg_bits;
@@ -1501,23 +1513,23 @@ ptr of ident exp is chain of uses
        /* NON PARAMETER */
        assert(!isparam(*e));			/* handled above */
        if (!isvis(*e) && !isparam(*e) &&
-	   (bdy.propsneeds & (anyproccall | uses_res_reg_bit)) == 0
+	  (bdy.propsneeds & (anyproccall | uses_res_reg_bit)) == 0
 	   && (fxregble /*|| flregble*/) &&
-	   (name(t) == apply_tag ||
-	    (name(s) == seq_tag && name(bro(son(s))) == res_tag &&
+	  (name(t) == apply_tag ||
+	   (name(s) == seq_tag && name(bro(son(s))) == res_tag &&
 	     name(son(bro(son(s)))) == cont_tag && isvar(stare) &&
 	     name(son(son(bro(son(s))))) == name_tag &&
 	     son(son(son(bro(son(s))))) == stare
 	     )			/* Let a := ..; return cont a */
-	    )
-	 )
+	   )
+	)
        {
 	  /* +++ integrate this with the block above, otherwise NOTREACHED */
 	  /* put tag in result reg if definition is call
 	   * of proc, or body ends with return tag,
 	   * provided result is not used other wise */
 	  FULLCOMMENT1("scan: ident_tag(%d): use result reg", EXP_NUM(stare));
-	  props(stare) |= (fxregble) ? inreg_bits : infreg_bits;
+	  props(stare) |= (fxregble)? inreg_bits : infreg_bits;
 	  if (fxregble)
 	  {
  	     props(stare) |= inreg_bits;
@@ -1532,10 +1544,10 @@ ptr of ident exp is chain of uses
 	}
 	else if (isenvoff(stare)) /* MUST go on stack */
 	{
-	   no ( stare ) = R_NO_REG ;
+	   no(stare) = R_NO_REG;
 	}
 	else if (!isvar(*e) && !isparam(*e) &&
-		 ((name(t) == reff_tag && name(son(t)) == cont_tag &&
+		((name(t) == reff_tag && name(son(t)) == cont_tag &&
 		   name(son(son(t))) == name_tag && isvar(son(son(son(t))))
 		   && !isvis(son(son(son(t)))) && !isglob(son(son(son(t))))
 		   && unchanged(son(son(son(t))), stare)
@@ -1543,17 +1555,17 @@ ptr of ident exp is chain of uses
 	  /*
 	   * reff cont variable-not assigned to in scope
 	   */
-		   ) ||
-		  (name(t) == cont_tag && name(son(t)) == name_tag &&
+		  ) ||
+		 (name(t) == cont_tag && name(son(t)) == name_tag &&
 	    isvar(son(son(t))) && !isvis(son(son(t))) && !isglob(son(son(t)))
 		   && unchanged(son(son(t)), stare)
 
 	  /*
 	   * cont variable - not assigned to in scope
 	   */
-		   )
 		  )
-	  )
+		 )
+	 )
 	{
 	  FULLCOMMENT1("scan: ident_tag(%d): dont take space for this dec", EXP_NUM(stare));
 	  props(stare) |= defer_bit;
@@ -1567,9 +1579,9 @@ ptr of ident exp is chain of uses
 	  /* dont take space for this dec */
 	}
 	else if (fxregble && bdy.fixneeds < maxfix &&
-		 (bdy.propsneeds & morefix) == 0 &&
-		 ((bdy.propsneeds & anyproccall) == 0
-		  || tempdec(stare, ((bdy.propsneeds & morefix) == 0 &&
+		(bdy.propsneeds & morefix) == 0 &&
+		((bdy.propsneeds & anyproccall) == 0
+		  || tempdec(stare,((bdy.propsneeds & morefix) == 0 &&
 				     bdy.fixneeds < maxfix_tregs - 2))))
 	{
 	  /*
@@ -1585,8 +1597,8 @@ ptr of ident exp is chain of uses
 	}
 	else if (bdy.floatneeds < maxfloat && (bdy.propsneeds & morefloat) == 0
 		 && flregble &&
-		 ((bdy.propsneeds & anyproccall) == 0
-		  || tempdec(stare, ((bdy.propsneeds & morefloat) == 0 &&
+		((bdy.propsneeds & anyproccall) == 0
+		  || tempdec(stare,((bdy.propsneeds & morefloat) == 0 &&
 				     bdy.floatneeds < MAXFLOAT_TREGS - 1))))
 	{
 
@@ -1610,7 +1622,7 @@ ptr of ident exp is chain of uses
 	}
       }
       bdy = maxneeds(bdy, def);
-      if ((bdy.propsneeds & usesproccall) != 0)
+      if ((bdy.propsneeds & usesproccall)!= 0)
       {
 	bdy.propsneeds |= hasproccall;
       }
@@ -1643,7 +1655,7 @@ son is sequence holder, son of this is list of voided statements.
 	an = maxneeds(an, stneeds);
 	if (last(*(stat)))
 	{
-	  if ((an.propsneeds & usesproccall) != 0)
+	  if ((an.propsneeds & usesproccall)!= 0)
 	  {
 	    an.propsneeds |= hasproccall;
 	  }
@@ -1690,11 +1702,11 @@ ptr is labelled exp
       }
 
       if (name(*(lhs)) == name_tag &&
-	  (isvar(son(*(lhs))) &&
-	   ((nr.propsneeds & (hasproccall | morefix)) == 0
+	 (isvar(son(*(lhs))) &&
+	  ((nr.propsneeds & (hasproccall | morefix)) == 0
 	    && nr.fixneeds < maxfix
-	    )
 	   )
+	  )
 	)			/* simple destination */
       {
 	return nr;
@@ -1706,7 +1718,7 @@ ptr is labelled exp
 
 	nl = scan(lhs, at);
 	if (name(*(rhs)) == apply_tag && nstare == ass_tag &&
-	    (nl.propsneeds & (uses_res_reg_bit | anyproccall)) == 0)
+	   (nl.propsneeds & (uses_res_reg_bit | anyproccall)) == 0)
 	{
 	  /* source is proc call, so assign result reg directly */
 	   /* SKIP */ ;
@@ -1742,7 +1754,7 @@ ptr is labelled exp
       if (is_floating(name(s)) && a.ashsize <=64)  /* ... floating pt result */
       {
 	x.propsneeds |= realresult_bit;
-	if (name(s) != shrealhd)
+	if (name(s)!= shrealhd)
 	{
 	  x.propsneeds |= longrealresult_bit;
 	}
@@ -1771,58 +1783,58 @@ ptr is labelled exp
 
     case apply_general_tag: {
 	exp application = *(e);
-	exp *fn = &son (application);
+	exp *fn = &son(application);
 	exp cers = bro(*fn);
 	exp *cerl = &son(cers);
 	long stpar = 0;
-	
+
 	needs nds;
 	needs plnds;
 	int i;
 
 	gen_call = 1;
-	
+
 	nds = scan(fn, at);
-	if ((nds.propsneeds & hasproccall) != 0) {
+	if ((nds.propsneeds & hasproccall)!= 0) {
 				/* .... it must be identified */
-	  cca (at, fn);
+	  cca(at, fn);
 	  nds.propsneeds &= ~hasproccall;
 	  nds.propsneeds |= usesproccall;
 	  fn = &son(application);
 	}
-		
-	for(i=0; i<no(cers); i++) {
+
+	for (i=0; i<no(cers); i++) {
 		needs onepar;
 		shape shonepar = sh(*cerl);
-		exp * par = (name(*cerl)==caller_tag)?&son(*cerl):cerl;
-		int n = rounder(stpar, shape_align(shonepar));  
+		exp * par = (name(*cerl) ==caller_tag)?&son(*cerl):cerl;
+		int n = rounder(stpar, shape_align(shonepar));
 		onepar = scan(par,at);
-	    	if ((i != 0 && (onepar.propsneeds & hasproccall) != 0) ||
-	  		onepar.fixneeds+(stpar>>5) > maxfix) {
+	    	if ((i != 0 && (onepar.propsneeds & hasproccall)!= 0) ||
+	  		onepar.fixneeds+ (stpar>>5) > maxfix) {
 				/* if it isn't the first parameter, and it
 				   calls a proc, identify it */
-	    	  cca (at, par);
+	    	  cca(at, par);
 	    	  nds.propsneeds |= usesproccall;
-	    	  nds = maxneeds (shapeneeds (sh (* (par))), nds);
+	    	  nds = maxneeds(shapeneeds(sh(*(par))), nds);
 	    	  nds.maxargs = MAX_OF(nds.maxargs, onepar.maxargs);
 	  	}
 	  	else {
-	  	  nds = maxneeds (onepar, nds);
+	  	  nds = maxneeds(onepar, nds);
 	  	}
-	  	if (name(*cerl)==caller_tag) { no(*cerl) = n; };
+	  	if (name(*cerl) ==caller_tag) { no(*cerl) = n; };
 	  	n = n + shape_size(shonepar);
 	  	stpar = rounder(n,32);
 	  	cerl = &bro(*cerl);
 	}
 	nds.maxargs = MAX_OF(nds.maxargs, stpar);
 	nds = maxneeds(scan(&bro(bro(son(application))), at), nds);
-	
+
 	plnds = scan(&bro(bro(bro(son(application)))), at);
-	
-	
-	
-	
-	if ((plnds.propsneeds & (anyproccall | uses2_bit)) != 0) {
+
+
+
+
+	if ((plnds.propsneeds & (anyproccall | uses2_bit))!= 0) {
 		props(application) = 1;
 		if (is_floating(name(sh(application))) || valregable(sh(application))) {
 			cca(at, ptr_position(application));
@@ -1830,12 +1842,12 @@ ptr is labelled exp
 		}
 	}
 	else { props(application) = 0; }
-	
+
 	nds = maxneeds(nds, plnds);
 	nds.propsneeds |= hasproccall;
 	return nds;
 	}
-	
+
    case make_callee_list_tag: {
    	exp cees = *e;
 	exp * par = &son(cees);
@@ -1843,21 +1855,21 @@ ptr is labelled exp
 	long stpar = 0;
 	int i;
 	nds = zeroneeds;
-	for(i=0; i<no(cees); i++) {
+	for (i=0; i<no(cees); i++) {
 		needs onepar;
 		shape shonepar = sh(*par);
-		int n = rounder(stpar, shape_align(shonepar));  
+		int n = rounder(stpar, shape_align(shonepar));
 		onepar = scan(par,at);
-	    	if (((onepar.propsneeds & hasproccall) != 0) ||
+	    	if (((onepar.propsneeds & hasproccall)!= 0) ||
 	  		onepar.fixneeds+1 > maxfix) {
 				/* if it calls a proc, identify it */
-	    	   cca (at, par);
+	    	   cca(at, par);
 	    	   nds.propsneeds |= usesproccall;
-	    	   nds = maxneeds (shapeneeds (sh (* (par))), nds);
+	    	   nds = maxneeds(shapeneeds(sh(*(par))), nds);
 	    	   nds.maxargs = MAX_OF(nds.maxargs, onepar.maxargs);
 	  	}
 	  	else {
-	  	  nds = maxneeds (onepar, nds);
+	  	  nds = maxneeds(onepar, nds);
 	  	}
 	  	n = n + shape_size(shonepar);
 	  	stpar = rounder(n,32);
@@ -1873,48 +1885,48 @@ ptr is labelled exp
 	needs nds;
 	nds = zeroneeds;
 	ndsp = scan(ptr, at);
-	if (((ndsp.propsneeds & hasproccall) != 0) ||
+	if (((ndsp.propsneeds & hasproccall)!= 0) ||
 	  		ndsp.fixneeds+1 > maxfix) {
-	    	 cca (at, ptr);
+	    	 cca(at, ptr);
 	    	 nds.propsneeds |= usesproccall;
-	    	 nds = maxneeds (shapeneeds (sh (* (ptr))), nds);
+	    	 nds = maxneeds(shapeneeds(sh(*(ptr))), nds);
 	    	 nds.maxargs =  MAX_OF(nds.maxargs, ndsp.maxargs);
 	}
 	else {
 	  	nds = ndsp;
 	}
 	ndsp = scan(&bro(son(*e)), at);
-	if (((ndsp.propsneeds & hasproccall) != 0) ||
+	if (((ndsp.propsneeds & hasproccall)!= 0) ||
 	  		ndsp.fixneeds+2 > maxfix) {
-	    	 cca (at, &bro(son(cees)));
+	    	 cca(at, &bro(son(cees)));
 	    	 nds.propsneeds |= usesproccall;
-	    	 nds = maxneeds (shapeneeds (sh (bro(son(*e)))), nds);
+	    	 nds = maxneeds(shapeneeds(sh(bro(son(*e)))), nds);
 	    	 nds.maxargs = MAX_OF(nds.maxargs, ndsp.maxargs);
 	}
 	else {
-	  	nds = maxneeds (ndsp, nds);
+	  	nds = maxneeds(ndsp, nds);
 	}
-	if (nds.fixneeds<5) nds.fixneeds = 5;
+	if (nds.fixneeds<5)nds.fixneeds = 5;
 	return nds;
     }
-    
+
     case same_callees_tag: {
     	needs nds;
     	nds = zeroneeds;
     	nds.fixneeds = 4;
     	return nds;
     }
-    
+
     case tail_call_tag: {
 	needs ndsp;
 	needs nds;
 	exp *fn = &son(*e);
 	ndsp =  scan(fn, at);
-	if (((ndsp.propsneeds & hasproccall) != 0) ||
+	if (((ndsp.propsneeds & hasproccall)!= 0) ||
 	  		ndsp.fixneeds+1 > maxfix) {
-	    	 cca (at, fn);
+	    	 cca(at, fn);
 	    	 nds.propsneeds |= usesproccall;
-	    	 nds = maxneeds (shapeneeds (sh (* (fn))), nds);
+	    	 nds = maxneeds(shapeneeds(sh(*(fn))), nds);
 	    	 nds.maxargs =  MAX_OF(nds.maxargs, ndsp.maxargs);
 	}
 	else {
@@ -1927,8 +1939,8 @@ ptr is labelled exp
 	nds = maxneeds(nds, ndsp);
 	return nds;
    }
-			   	 
-    
+
+
    case env_size_tag:
     {
       exp *arg = &son(*e);
@@ -1946,20 +1958,20 @@ ptr is labelled exp
       needs nds;
       bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
       int i;
-      bool notinreg = !( 
+      bool notinreg = !(
 #if use_long_double
-			 name(sh(application))==shrealhd    ||
-			 name(sh(application))==realhd      ||
+			 name(sh(application)) ==shrealhd    ||
+			 name(sh(application)) ==realhd      ||
 #else
 			 is_floating(name(sh(application))) ||
-#endif 
-			 valregable(sh(application)) );
+#endif
+			 valregable(sh(application)));
 
       bool long_result_space_needed = notinreg && !(name(sh(*e)) == tophd);
 
       nds = scan(fnexp, at);
       /* scan the function exp ... */
-      if ((nds.propsneeds & hasproccall) != 0)
+      if ((nds.propsneeds & hasproccall)!= 0)
       {
 	/* .... it must be identified */
 	cca(at, fnexp);
@@ -1969,8 +1981,8 @@ ptr is labelled exp
 	par = &bro(fn);
       }
 
-      if (name(fn) != name_tag ||
-	  (son(son(fn)) != nilexp && name(son(son(fn))) != proc_tag))
+      if (name(fn)!= name_tag ||
+	 (son(son(fn))!= nilexp && name(son(son(fn)))!= proc_tag))
       {
 	tlrecpos = 0;
       }
@@ -1982,7 +1994,7 @@ ptr is labelled exp
 
 	onepar = scan(par, at);
 
-	if ((i != 1 && (onepar.propsneeds & hasproccall) != 0) ||
+	if ((i != 1 && (onepar.propsneeds & hasproccall)!= 0) ||
 	    onepar.fixneeds + (parsize >> 5) > maxfix)
 	{
 
@@ -2003,7 +2015,7 @@ ptr is labelled exp
 	parsize = rounder(parsize + shape_size(shpar), 32);
 	/* round up bytes and halfwords */
 
-	parsize = rounder(parsize, shape_align(shpar)); 
+	parsize = rounder(parsize, shape_align(shpar));
 	/* parameters must be properly aligned on the stack */
 
 	if ((!valregable(shpar) && !is_floating(name(shpar))) || parsize > 128)
@@ -2019,7 +2031,7 @@ ptr is labelled exp
 
       if (specialopt(fn))
 	nds.propsneeds |= dont_optimise; /* eg vfork */
-      
+
       if ((i = specialfn(fn)) > 0)
       {				/* eg strlen */
 #if 0
@@ -2030,7 +2042,7 @@ ptr is labelled exp
       }
       else if (i == -1)
       {				/* call of strcpy .... */
-#if 0        
+#if 0
 	exp par2 = *(par);
 
 	/*
@@ -2059,8 +2071,8 @@ ptr is labelled exp
       {
 	/* find space for tuple result */
 	FULLCOMMENT("apply_tag: identifying notinreg result");
-	assert(name(*(ptr_position(application)))==apply_tag);
-	cca(at,ptr_position(application));  
+	assert(name(*(ptr_position(application))) ==apply_tag);
+	cca(at,ptr_position(application));
 	nds.propsneeds |= usesproccall;
       }
       else
@@ -2089,7 +2101,7 @@ ptr is labelled exp
   case null_tag:
   case real_tag:
   case string_tag:
-  case env_offset_tag: case general_env_offset_tag: 
+  case env_offset_tag: case general_env_offset_tag:
   case current_env_tag:
   case make_lv_tag:
   case last_local_tag:
@@ -2167,29 +2179,29 @@ ptr is labelled exp
       return scan(arg, at);
     };
 
-    case fneg_tag: case fabs_tag: 
+    case fneg_tag: case fabs_tag:
     case chfl_tag:
     {
       needs nds;
       exp *pste;
-      nds = scan ( &son( *e ), at );
+      nds = scan(&son(*e), at);
       pste = ptr_position(ste);
-      if ( !optop ( *pste ) && nds.fixneeds <2) nds.fixneeds = 2;
+      if (!optop(*pste) && nds.fixneeds <2)nds.fixneeds = 2;
 #if use_long_double
 	    {
-	      exp op = *pste ;
-	      if ( name ( sh ( op ) ) == doublehd ||
-		  name ( sh ( son ( op ) ) ) == doublehd ) {
-		if ( !is_o ( name ( son ( op ) ) ) ||
-		    pntst ( nds, hasproccall ) ) {
-		  cca ( at, &son ( op ) ) ;
+	      exp op = *pste;
+	      if (name(sh(op)) == doublehd ||
+		  name(sh(son(op))) == doublehd) {
+		if (!is_o(name(son(op))) ||
+		    pntst(nds, hasproccall)) {
+		  cca(at, &son(op));
 		}
-		pnset ( nds, hasproccall ) ;
+		pnset(nds, hasproccall);
 	      }
 	    }
 #endif
       return nds;
-    }   
+    }
 
   case bitf_to_int_tag:
     {
@@ -2204,17 +2216,17 @@ ptr is labelled exp
       stare = *(e);
       sizeb = ashof(sh(stararg)).ashsize;
       if ((name(stararg) == name_tag &&
-	   ((sizeb == 8 && (no(stararg) & 7) == 0)
+	  ((sizeb == 8 && (no(stararg) & 7) == 0)
 	    || (sizeb == 16 && (no(stararg) & 15) == 0)
 	    || (sizeb == 32 && (no(stararg) & 31) == 0)
-	    )
-	   ) || (name(stararg) == cont_tag &&
-	  ((name(son(stararg)) != name_tag && name(son(stararg)) != reff_tag)
+	   )
+	  ) || (name(stararg) == cont_tag &&
+	 ((name(son(stararg))!= name_tag && name(son(stararg))!= reff_tag)
 	   || (sizeb == 8 && (no(son(stararg)) & 7) == 0)
 	   || (sizeb == 16 && (no(son(stararg)) & 15) == 0)
 	   || (sizeb == 32 && (no(son(stararg)) & 31) == 0)
-	   )
-		 )
+	  )
+		)
 	)
 
 	/*
@@ -2223,8 +2235,8 @@ ptr is labelled exp
 	 */
       {
 	int sgned = is_signed(sh(stare));
-	shape ns = (sizeb == 8) ? ((sgned) ? scharsh : ucharsh)
-	: (sizeb == 16) ? ((sgned) ? swordsh : uwordsh)
+	shape ns = (sizeb == 8)?((sgned)? scharsh : ucharsh)
+	:(sizeb == 16)?((sgned)? swordsh : uwordsh)
 	: sh(stare);
 
 	/* can use short loads instead of bits extractions */
@@ -2251,30 +2263,30 @@ ptr is labelled exp
       needs s;
       exp *arg;
       exp *pste;
-      int rm = ( int ) round_number ( *e ) ;
-      arg = &son ( *e ) ;
+      int rm = (int)round_number(*e);
+      arg = &son(*e);
       s = scan(arg,at);
       pste = ptr_position(ste);
       s.fixneeds = MAX_OF(s.fixneeds,2);
-      if ( rm < 3 || name ( sh ( *pste ) ) == ulonghd )
+      if (rm < 3 || name(sh(*pste)) == ulonghd)
       {
-	 s.floatneeds = MAX_OF ( s.floatneeds, 3 ) ;
+	 s.floatneeds = MAX_OF(s.floatneeds, 3);
       }
       else
       {
-	 s.floatneeds = MAX_OF ( s.floatneeds, 2 ) ;
+	 s.floatneeds = MAX_OF(s.floatneeds, 2);
       }
 #if use_long_double
       {
-	 exp op = *pste ;
-	 if ( name ( sh ( son ( op ) ) ) == doublehd )
+	 exp op = *pste;
+	 if (name(sh(son(op))) == doublehd)
 	 {
-	    if ( !is_o ( name ( son ( op ) ) ) ||
-		    pntst ( s, hasproccall ) )
+	    if (!is_o(name(son(op))) ||
+		    pntst(s, hasproccall))
 	    {
-	       cca ( at, &son ( op ) ) ;
+	       cca(at, &son(op));
 	    }
-	    pnset ( s, hasproccall ) ;
+	    pnset(s, hasproccall);
 	 }
       }
 #endif
@@ -2289,9 +2301,9 @@ ptr is labelled exp
       exp *rhs = &bro(*lhs);
       needs nl, nr;
       prop prps;
-      if (name(*rhs)==val_tag)
+      if (name(*rhs) ==val_tag)
       {
-	 return scan (lhs, at);
+	 return scan(lhs, at);
       }
       nr = scan(rhs, at);
       nl = scan(lhs, at);
@@ -2357,8 +2369,8 @@ ptr is labelled exp
       }
 
       if (name(l) == bitf_to_int_tag && name(r) == val_tag &&
-	  (props(stare) == 5 || props(stare) == 6) &&
-	  (name(son(l)) == cont_tag || name(son(l)) == name_tag))
+	 (props(stare) == 5 || props(stare) == 6) &&
+	 (name(son(l)) == cont_tag || name(son(l)) == name_tag))
       {				/* equality of bits against +ve consts doesnt
 				 * need sign adjustment */
 	long n = no(r);
@@ -2549,7 +2561,7 @@ ptr is labelled exp
     }
     /* FALLTHROUGH */
 
-				
+
   case and_tag:
   case or_tag:
   case xor_tag:
@@ -2557,19 +2569,19 @@ ptr is labelled exp
       return likeplus(e, at);
     };
 
-  case addptr_tag:   
+  case addptr_tag:
     {
     	exp p = son(*e);
     	exp d = bro(p);
-    	int fal = frame_al_of_ptr(sh(p));    	
-    	if (fal!=0) {	
+    	int fal = frame_al_of_ptr(sh(p));
+    	if (fal!=0) {
     		int oal = frame_al1_of_offset(sh(d));
 #if 0
-    		if( ((oal-1)&oal) != 0) {
+    		if (((oal-1) &oal)!= 0) {
     			failer("can't cope with mixed frame offsets yet");
     		}
 #endif
-    		if ( includes_vcallees(fal) && ((oal & 20) != 0) ) {
+    		if (includes_vcallees(fal) && ((oal & 20)!= 0)) {
     			/* oal = callees and callers are offset relative to
 			   FP when there are variable callees */
     		   exp ne = getexp(sh(p), d, 0, p, nilexp, 0, 0,
@@ -2578,7 +2590,7 @@ ptr is labelled exp
     		   son(*e) = ne;
     		}
     	}
-    	/* ... and continue */  	  
+    	/* ... and continue */
     }
 
   case minus_tag:
@@ -2591,7 +2603,7 @@ ptr is labelled exp
   case reff_tag:
   case float_tag:
   case offset_pad_tag:
-  case locptr_tag: 
+  case locptr_tag:
   case chvar_tag:
     {
       exp *arg = &son(*e);
@@ -2602,14 +2614,14 @@ ptr is labelled exp
       pste = ptr_position(ste);
 #if use_long_double
 	    {
-	      exp op = *pste ;
-	      if ( name(sh(op))==doublehd )
+	      exp op = *pste;
+	      if (name(sh(op)) ==doublehd)
 	      {
-		 pnset ( nds, hasproccall ) ;
+		 pnset(nds, hasproccall);
 	      }
 	    }
 #endif
-      return (nds);	
+      return(nds);
     };
 
   case cont_tag:
@@ -2617,12 +2629,12 @@ ptr is labelled exp
   {
     exp *arg = &son(*e);
     needs nds;
-    
+
     nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
     nds.fixneeds = MAX_OF(nds.fixneeds, 2);
     return nds;
   };
-      
+
   mult_tag_case:
   case mult_tag:
   {
@@ -2632,23 +2644,23 @@ ptr is labelled exp
   case offset_mult_tag:
   case offset_div_tag:
   {
-	    exp op2 = bro ( son ( *e ) ) ;
-	    shape s = sh ( op2 ) ;
+	    exp op2 = bro(son(*e));
+	    shape s = sh(op2);
 
-	    if ( name ( op2 ) == val_tag && no ( op2 ) == 8 &&
-		 name ( s ) == offsethd && al2 ( s ) >= 8 ) {
+	    if (name(op2) == val_tag && no(op2) == 8 &&
+		 name(s) == offsethd && al2(s) >= 8) {
 		/* offset is one byte */
-		exp op1 = son ( *e ) ;
-		bro ( op1 ) = bro ( *e ) ;
-		if ( last ( *e ) ) {
-		    setlast ( op1 ) ;
+		exp op1 = son(*e);
+		bro(op1) = bro(*e);
+		if (last(*e)) {
+		    setlast(op1);
 		} else {
-		    clearlast ( op1 ) ;
+		    clearlast(op1);
 		}
-		*e = op1 ;
-		return ( scan ( e, at ) ) ;
+		*e = op1;
+		return(scan(e, at));
 	    }
-	    if ( nstare == offset_mult_tag ) goto mult_tag_case ;
+	    if (nstare == offset_mult_tag)goto mult_tag_case;
 	    /* FALL THROUGH */
 	}
 
@@ -2658,33 +2670,33 @@ ptr is labelled exp
      exp op1 = son(*e);
      exp op2 = bro(op1);
      shape s = sh(op2);
-     if (name(op2)==val_tag  && name(s)==offsethd 
+     if (name(op2) ==val_tag  && name(s) ==offsethd
 	 && al2(s) >= 8) {
-       int n = no(op2)/8;
+       int n = no(op2) /8;
        if (n == 1) {
 	 /* offset is one  byte */
 	 bro(op1) = bro(*e);
 	 if (last(*e)) { setlast(op1); } else {clearlast(op1); }
 	 *e = op1;
-	 return( scan(e, at));
+	 return(scan(e, at));
        }
-       else 
-	 if ( name(*e) == offset_mult_tag && n > 1 && (n&(n-1))== 0)
-	   if( name(op1) == and_tag 
-	      && name(son(op1))== shr_tag &&
-	      name(bro(son(op1)))==val_tag ) {
+       else
+	 if (name(*e) == offset_mult_tag && n > 1 && (n& (n-1)) == 0)
+	   if (name(op1) == and_tag
+	      && name(son(op1)) == shr_tag &&
+	      name(bro(son(op1))) ==val_tag) {
 	     exp shexp = son(op1);
 	     exp ac = bro(shexp);
 	     exp shop1 = son(shexp);
 	     exp shop2 = bro(shop1);
 	     int na = no(ac);
-	     if ((na&(na+1))==0 && name(shop2)==val_tag) {
+	     if ((na& (na+1)) ==0 && name(shop2) ==val_tag) {
 	       int pn = 0;
 	       int ns = no(shop2);
 	       int i = n;
 	       while (i>1) { i >>= 1; pn++; }
-	       
-	       if (ns > pn) 
+
+	       if (ns > pn)
 	       {
 		 /* can do transform:
 		    (((shop1>>ns) & na) * n) =>
@@ -2693,75 +2705,75 @@ ptr is labelled exp
 		 no(shop2) = ns-pn;
 		 no(ac) = na*n;
 		 bro(op1) = bro(*e);
-		 if (last(*e)) 
+		 if (last(*e))
 		 {
-		   setlast(op1); 
-		 } 
-		 else 
+		   setlast(op1);
+		 }
+		 else
 		 {
 		   clearlast(op1);
-		 }   
+		 }
 		 *e = op1;
-		 return( scan(e, at));
+		 return(scan(e, at));
 	       }
 	     }
 	   }
-	   else 
-	   { 
+	   else
+	   {
 	     /* will do this by literal shift */
 	     no(op2) = n;
 	     return scan(&son(*e), at);
-	   } 
+	   }
      }
-     if ( nstare == offset_mult_tag ) goto mult_tag_case ;
+     if (nstare == offset_mult_tag)goto mult_tag_case;
    }
 #endif
 
     case div0_tag:
-    case div2_tag :
-    case offset_div_by_int_tag :
+    case div2_tag:
+    case offset_div_by_int_tag:
     {
-	return ( divneeds ( e, at ) ) ;
+	return(divneeds(e, at));
     }
 
     case offset_add_tag:
     {
-	  if((al2(sh(son(*e))) == 1) && (al2(sh(bro(son(*e)))) != 1)){
+	  if ((al2(sh(son(*e))) == 1) && (al2(sh(bro(son(*e))))!= 1)) {
 	    make_bitfield_offset(bro(son(*e)),son(*e),0,sh(*e));
 	  }
-	  if((al2(sh(son(*e))) != 1) && (al2(sh(bro(son(*e)))) == 1)){
+	  if ((al2(sh(son(*e)))!= 1) && (al2(sh(bro(son(*e)))) == 1)) {
 	    make_bitfield_offset(son(*e),*e,1,sh(*e));
 	  }
     }
-    case offset_subtract_tag :
-    case component_tag :
+    case offset_subtract_tag:
+    case component_tag:
     {
-	return ( likediv ( e, at ) ) ;
+	return(likediv(e, at));
     }
 
-    case make_stack_limit_tag:   
+    case make_stack_limit_tag:
 	{ needs nd;
 	  nd = likediv(e, at);
 	  nd.fixneeds = MAX_OF(nd.fixneeds, 2);
 	  return nd;
-	} 
+	}
 
     case offset_max_tag: case max_tag: case min_tag:
 	{ needs nd;
 	  nd = likediv(e, at);
 	  nd.fixneeds = MAX_OF(nd.fixneeds, 3);
 	  return nd;
-	} 
- 
+	}
+
     case rem0_tag:
-    case rem2_tag :
+    case rem2_tag:
     {
-	return ( remneeds ( e, at ) ) ;
+	return(remneeds(e, at));
     }
 
     case div1_tag:
     {
-      if (is_signed(sh(*e))==0)
+      if (is_signed(sh(*e)) ==0)
       {
 	setname(*e, div2_tag);
       }
@@ -2770,7 +2782,7 @@ ptr is labelled exp
 
     case mod_tag:
     {
-    	if (is_signed(sh(*e))==0)
+    	if (is_signed(sh(*e)) ==0)
 	{
 	  setname(*e, rem2_tag);
 	}
@@ -2788,7 +2800,7 @@ ptr is labelled exp
 	flt inverse;
 	flt unitflt;
 
-	unitflt = flptnos [ fone_no ] ;
+	unitflt = flptnos[fone_no];
 	if (flt_div(unitflt, flptnos[no(a2)], &inverse) == OKAY)
 	{
 	  /* a/const => a* (1.0/const) */
@@ -2850,7 +2862,7 @@ ptr is labelled exp
 	bro(ss) = bro(stare);
 	sh(ss) = sh(stare);
 	*e = ss;
-	return (scan(e, at));
+	return(scan(e, at));
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));
@@ -2881,7 +2893,7 @@ number is number of proc (useful for indexing)
 		   !proc_has_alloca(stare) && !proc_has_lv(stare) &&
 		   !proc_uses_crt_env(stare);
 
-      gen_call = (name(stare)==general_proc_tag);
+      gen_call = (name(stare) ==general_proc_tag);
       has_tail_call = 0;
 
       callee_sz = 0;
@@ -2913,8 +2925,8 @@ number is number of proc (useful for indexing)
     nds = scan(&son(*e), at);
     if (nds.fixneeds < 2)
 	nds.fixneeds = 2;
-    builtin|=(1<<5);
-    return (nds);
+    builtin|= (1<<5);
+    return(nds);
   }
 
 
@@ -2925,35 +2937,35 @@ number is number of proc (useful for indexing)
 	needs nd;
 	needs ns;
 	needs nsz;
-	prop prps ;
+	prop prps;
 	nd = scan(d, at);
-	ns = scan (s, at);
+	ns = scan(s, at);
 	nsz = scan(sz, at);
 	prps = (ns.propsneeds & hasproccall) << 1;
 	if (ns.fixneeds >= maxfix || prps != 0) {
 			      /* if reg requirements overlap, identify
 				 second operand */
-	  cca (at, d);
-	  ns = shapeneeds (sh (* (s)));
+	  cca(at, d);
+	  ns = shapeneeds(sh(*(s)));
 	  ns.propsneeds |= morefix;
 	  ns.propsneeds &= ~(prps >> 1);
 	  ns.propsneeds |= prps;
 	}
 	nd.fixneeds += 1;
-	nd = maxneeds (nd, ns);
+	nd = maxneeds(nd, ns);
 	prps= (nsz.propsneeds & hasproccall) << 1;
 	if (nd.fixneeds +nsz.fixneeds >= maxfix || prps != 0) {
 			      /* if reg requirements overlap, identify
 				 last operand */
-	  cca (at, d);
-	  nsz = shapeneeds (sh (* (sz)));
+	  cca(at, d);
+	  nsz = shapeneeds(sh(*(sz)));
 	  nsz.propsneeds |= morefix;
 	  nsz.propsneeds &= ~(prps >> 1);
 	  nsz.propsneeds |= prps;
-	}                
+	}
 	nd.fixneeds+=1;
 	nd = maxneeds(nd,nsz);
-	if (nd.fixneeds < 4) nd.fixneeds = 3;
+	if (nd.fixneeds < 4)nd.fixneeds = 3;
 	return nd;
      }
 

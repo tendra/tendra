@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -91,16 +121,16 @@ $Log: hppatrans.c,v $
  *
  * Revision 3.1  95/04/10  16:26:49  16:26:49  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:17:27  11:17:27  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:27:34  15:27:34  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.1  95/01/17  13:58:43  13:58:43  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -138,7 +168,7 @@ extern int good_trans;
 int OPTIM=1;
 int gdb,xdb,gcc_assembler;
 
-#define GET_0_1 ( (arg[2]=='0') ? 0 : 1 )
+#define GET_0_1((arg[2] =='0')? 0 : 1)
 
 char *local_prefix, *name_prefix;
 
@@ -151,32 +181,31 @@ static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-d]
 
 static int init_trans PROTO_S ( ( char *, char * ) ) ; /* forward reference */
 
-int main 
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char ** argv )
+int main
+(int argc, char ** argv)
 {
   int a=1;
   char *arg;
   bool errflg = 0;
   bool versionflg = 0;
-  char *infname=(char*)0;
-  char *outfname=(char*)0;
- 
+  char *infname= (char*)0;
+  char *outfname= (char*)0;
+
 
   /* initialise output file */
-  outf = stdout ;
+  outf = stdout;
 
   /* errors messages are output on stdout, ensure they get out */
   setbuf(stdout, NULL);
 
    /* set defaults for options */
 
-   do_unroll = 1;                   /* do unroll loops */		
-   do_inlining = 1;                /* do inline */		
+   do_unroll = 1;                   /* do unroll loops */
+   do_inlining = 1;                /* do inline */
    do_special_fns = 1;            /* do special functions */
    do_loopconsts = 1;	         /* remove constants from loops */
    do_foralls = 1;	        /* do foralls optimisation */
-   gcc_assembler = 0; 
+   gcc_assembler = 0;
    xdb = 0;
    gdb = 0;
    OPTIM = 1;
@@ -199,35 +228,35 @@ int main
 
 
    /* process program args */
-   while ( a < argc && ( arg = argv[a], arg[0] == '-' ) )
+   while (a < argc && (arg = argv[a], arg[0] == '-'))
      {
-       switch ( arg[1] )
+       switch (arg[1])
 	 {
-	 case 'A' : do_alloca = GET_0_1; break;
-	 case 'B' : flpt_const_overflow_fail = GET_0_1; break;
-	 case 'C' : do_loopconsts = GET_0_1; break;
-	 case 'D' :
+	 case 'A': do_alloca = GET_0_1; break;
+	 case 'B': flpt_const_overflow_fail = GET_0_1; break;
+	 case 'C': do_loopconsts = GET_0_1; break;
+	 case 'D':
            {
              /* -D emulates cc's +Z flag */
              PIC_code = GET_0_1;
              plusZ = 1;
              break;
 	   }
-	 case 'd' :
+	 case 'd':
            {
              /* -d emulates cc's +z flag */
              PIC_code = GET_0_1;
              plusZ = 0;
              break;
 	   }
-	 case 'E' : extra_checks = 0; break;
-	 case 'F' : do_foralls = GET_0_1; break;
-	 case 'G' : gcc_assembler = GET_0_1; break;
-	 case 'H' :
+	 case 'E': extra_checks = 0; break;
+	 case 'F': do_foralls = GET_0_1; break;
+	 case 'G': gcc_assembler = GET_0_1; break;
+	 case 'H':
 	   {
 #ifdef _SYMTAB_INCLUDED
 	        diagnose = 1;
-                xdb = 1;  
+                xdb = 1;
 #else
 	        fprintf(stderr,"trans warning: XDB diagnostics not supported on this version of hppatrans, -H option ignored\n");
                 xdb = 0;
@@ -242,19 +271,19 @@ int main
               gcc_assembler = 1;
 	   }
 	 case 'I': do_inlining = GET_0_1; break;
-	 case 'K' : break;
-	 case 'M' : strict_fl_div = GET_0_1; break;
+	 case 'K': break;
+	 case 'M': strict_fl_div = GET_0_1; break;
 	 case 'O' : /* optim_level not applicable to hp_pa */ break;
-	 case 'P' :
+	 case 'P':
            {
 	     do_profile = 1;
 	     break;
            }
-	 case 'Q' : exit( EXIT_SUCCESS ); break;
-	 case 'R' : round_after_flop = GET_0_1; break;
+	 case 'Q': exit(EXIT_SUCCESS); break;
+	 case 'R': round_after_flop = GET_0_1; break;
 	 case 'T' : /* tempdecopt = 0, not applicable to hp_pa */ break;
-	 case 'U' : do_unroll = GET_0_1; break;
-	 case 'V' :
+	 case 'U': do_unroll = GET_0_1; break;
+	 case 'V':
 	   {
 	     /* print version number */
 	     fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: (TDF %d.%d)\nreader %d.%d:\nconstruct %d.%d:\ntranslator compilation date = %s\n ",
@@ -264,8 +293,8 @@ int main
 	     versionflg = 1;
 	     break;
 	   }
-	 case 'W' : break;
-	 case 'X' :
+	 case 'W': break;
+	 case 'X':
 	   {
 	     /* disable all optimisations */
 	     tempdecopt = 0;
@@ -276,36 +305,36 @@ int main
 	     do_unroll = 0;
 	     break;
 	   }
-	 case 'Z' : report_versions = 1; break;
-	 case '?' : default:
+	 case 'Z': report_versions = 1; break;
+	 case '?': default:
            {
-    	     fprintf ( stderr, "%s : unknown option, \"%s\"\n", "trans", arg );
+    	     fprintf(stderr, "%s : unknown option, \"%s\"\n", "trans", arg);
              errflg = 1; break;
            }
 	 }  /* switch */
        a++;
      }
-   
+
    /* we expect two further filename arguments */
-   if ( argc == a+2 )
+   if (argc == a+2)
      {
-       infname = argv[a] ;
-       outfname = argv[a+1] ;
+       infname = argv[a];
+       outfname = argv[a+1];
      }
-   else if ( argc == a+1 )
+   else if (argc == a+1)
      {
-       infname = argv [a] ;
-       outfname = "-" ;
+       infname = argv[a];
+       outfname = "-";
      }
-   else { errflg = 1; } ;
-   
+   else { errflg = 1; };
+
    if (errflg)
      {
        if (!versionflg)		/* no complaints for -v */
 	 fprintf(stderr, usage_mess);
-       exit ( EXIT_FAILURE ) ;
+       exit(EXIT_FAILURE);
      }
-   
+
    if (do_profile && PIC_code)
    {
       fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
@@ -326,7 +355,7 @@ int main
       if (gdb)
          gcc_assembler = 1;
    }
-   
+
    /* init nowhere */
   setregalt(nowhere.answhere, 0);
   nowhere.ashwhere.ashsize = 0;
@@ -340,34 +369,33 @@ int main
 
   init_flpt();			/* initialise the floating point array */
 #include "inits.h"		/* initialise common parts of translator */
-  top_def = (dec *) 0;
+  top_def = (dec *)0;
 
-  if ( diagnose )
+  if (diagnose)
   {
      init_stab();
   }
 
-  if ( init_trans(infname,outfname) || d_capsule() || good_trans)
-     exit ( EXIT_FAILURE ) ;
+  if (init_trans(infname,outfname) || d_capsule() || good_trans)
+     exit(EXIT_FAILURE);
 
   exit_translator();
 
   /* check for output errors and close the .s file */
-  if (ferror(outf) != 0 || fclose(outf) != 0)
+  if (ferror(outf)!= 0 || fclose(outf)!= 0)
   {
     fprintf(stderr, "hppatrans: error writing to output file %s\n", outfname);
-    exit ( EXIT_FAILURE ) ;
+    exit(EXIT_FAILURE);
   }
 
-  exit ( EXIT_SUCCESS ) ;
+  exit(EXIT_SUCCESS);
 }
 
 /*
  * Open input and output files.
  */
-static int init_trans 
-    PROTO_N ( ( infname, outfname ) )
-    PROTO_T ( char * infname X char * outfname )
+static int init_trans
+(char * infname, char * outfname)
 {
 
   /*
@@ -388,7 +416,7 @@ static int init_trans
   else
   {
     outf = fopen(outfname, "w+");
-    if (outf == (FILE *) 0)
+    if (outf == (FILE *)0)
     {
       fprintf(stderr, "hppatrans: cannot open output file %s\n", outfname);
       return 3;
@@ -398,10 +426,9 @@ static int init_trans
   return 0;			/* OK */
 }
 
-void out_rename 
-    PROTO_N ( ( oldid, newid ) )
-    PROTO_T ( char * oldid X char * newid )
+void out_rename
+(char * oldid, char * newid)
 {
-    comment2 ( "renamed %s as %s", oldid, newid ) ;
-    return ;
+    comment2("renamed %s as %s", oldid, newid);
+    return;
 }

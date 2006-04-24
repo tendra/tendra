@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -119,22 +149,22 @@ $Log: config.h,v $
  *
  * Revision 1.5  94/02/21  16:10:35  16:10:35  ra (Robert Andrews)
  * Move compiler stuff into compiler.h.
- * 
+ *
  * Revision 1.4  93/09/27  14:40:48  14:40:48  ra (Robert Andrews)
  * Make use_long_double and target_dbl_maxexp depend on the value of
  * SYSV_ABI.  Introduce use_link_stuff to control output of System V
  * .ident and .weak directives.
- * 
+ *
  * Revision 1.3  93/08/18  11:09:18  11:09:18  ra (Robert Andrews)
  * Changed method of specifying UNIX_SV and SOLARIS versions (just define
  * these macros).
- * 
+ *
  * Revision 1.2  93/07/08  18:18:57  18:18:57  ra (Robert Andrews)
  * Added keep_PIC_vars, necessary for position independent code.
- * 
+ *
  * Revision 1.1  93/06/24  14:58:06  14:58:06  ra (Robert Andrews)
  * Initial revision
- * 
+ *
 --------------------------------------------------------------------------
 */
 
@@ -168,15 +198,15 @@ $Log: config.h,v $
 #ifdef __GNUC__
 #ifdef __sun__
 /* SunOS 4.1.3 doesn't have these in stdio.h */
-extern int fputs PROTO_S((const char *, FILE*));
-extern int fputc PROTO_S((int , FILE*));
-extern int fprintf PROTO_W((FILE*,const char*, ...));
-extern size_t fread PROTO_S((void*, size_t, size_t, FILE*));
-extern int fflush PROTO_S((FILE *));
-extern int fclose PROTO_S((FILE *));
-extern int fgetc PROTO_S((FILE *));
-extern int remove PROTO_S((const char *));
-extern void setbuf PROTO_S((FILE *, char *));
+extern int fputs(const char *, FILE*);
+extern int fputc(int , FILE*);
+extern int fprintf(FILE*,const char*, ...);
+extern size_t fread(void*, size_t, size_t, FILE*);
+extern int fflush(FILE *);
+extern int fclose(FILE *);
+extern int fgetc(FILE *);
+extern int remove(const char *);
+extern void setbuf(FILE *, char *);
 #endif
 #endif
 
@@ -205,7 +235,7 @@ extern void setbuf PROTO_S((FILE *, char *));
 #define GENCOMPAT		1
 
 
-#define check_shape		1  /* interaction with parameter alignments is 
+#define check_shape		1  /* interaction with parameter alignments is
 				      now allowed for in install_fns */
 #define dont_unpad_apply	1
 #define has_byte_ops		0
@@ -232,8 +262,8 @@ extern void setbuf PROTO_S((FILE *, char *));
 #define remove_unused_counters 0
 #define remove_unused_index_counters 1
 
-#define good_index_factor(f) 0
-#define good_pointer_factor(f) 1
+#define good_index_factor(f)0
+#define good_pointer_factor(f)1
 
 #if SYSV_ABI
 #define target_dbl_maxexp	16384
@@ -255,7 +285,7 @@ extern void setbuf PROTO_S((FILE *, char *));
 #define has_rotate 0
 
 /* This shouldn't really be solaris specific.  It depends on whether or not
-   the processor correctly implements the sdivcc and udivcc instructions. 
+   the processor correctly implements the sdivcc and udivcc instructions.
    These are part of the SPARC v8 architecture but their implementation
    (via software) on some implementations does not meet the specification
    with respect to overflow detection.
@@ -269,8 +299,8 @@ extern void setbuf PROTO_S((FILE *, char *));
 #define promote_pars 1
 
 	/* condition for shape to be treated as a struct */
-#define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
-			name(s) == shcomplexhd || shape_size(s)>64 || \
+#define sparccpd(s)(name(s) == cpdhd || name(s) == nofhd || \
+			name(s) == shcomplexhd || shape_size(s) >64 || \
 			name(s) == u64hd || name(s) == s64hd)
 
 #endif /* CONFIG_INCLUDED */

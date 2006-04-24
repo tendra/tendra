@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -95,53 +125,53 @@ static long nil_access_lab=0;
 static long overflow_lab=0;
 static long stack_overflow_lab=0;
 
-void init_proc_errors PROTO_S ((exp));
-void output_error_labels PROTO_S ((void));
-long get_nil_access_lab PROTO_S ((void));
-long get_overflow_lab PROTO_S ((void));
-long get_stack_overflow_lab PROTO_S ((void));
+void init_proc_errors(exp);
+void output_error_labels(void);
+long get_nil_access_lab(void);
+long get_overflow_lab(void);
+long get_stack_overflow_lab(void);
 
 
-void test_signed PROTO_S ((int,long,long,long));
-void test_unsigned PROTO_S ((int,long,long));
-static long trap_label PROTO_S ((exp));
-static void do_exception PROTO_S ((int));
-static void call_TDFhandler PROTO_S ((void));
+void test_signed(int,long,long,long);
+void test_unsigned(int,long,long);
+static long trap_label(exp);
+static void do_exception(int);
+static void call_TDFhandler(void);
 
 
 /* integer error treatments */
-int abs_error_treatment PROTO_S ((exp,space,where));
-int chvar_error_treatment PROTO_S ((exp,space,where));
-void div_error_treatment PROTO_S ((int,int,exp));
-int minus_error_treatment PROTO_S ((exp,space,where));
-int mult_error_treatment PROTO_S ((exp,space,where));
-int plus_error_treatment PROTO_S ((exp,space,where));
-int neg_error_treatment PROTO_S ((exp,space,where));
-void rem_error_treatment PROTO_S ((int,int,exp));
-void round_error_treatment PROTO_S ((exp *));
+int abs_error_treatment(exp,space,where);
+int chvar_error_treatment(exp,space,where);
+void div_error_treatment(int,int,exp);
+int minus_error_treatment(exp,space,where);
+int mult_error_treatment(exp,space,where);
+int plus_error_treatment(exp,space,where);
+int neg_error_treatment(exp,space,where);
+void rem_error_treatment(int,int,exp);
+void round_error_treatment(exp *);
 
 /* floating error treatments */
-void chfl_error_treatment PROTO_S ((exp,int));
-void do_fmop_error_jump PROTO_S ((exp,int,int));
-void do_fop_error_jump PROTO_S ((exp,int,int,int));
+void chfl_error_treatment(exp,int);
+void do_fmop_error_jump(exp,int,int);
+void do_fop_error_jump(exp,int,int,int);
 
 
 /*
  * init_proc_errors: initialises variables used
  */
-void init_proc_errors PROTO_N ((e)) PROTO_T (exp e)
+void init_proc_errors(exp e)
 {
   /* clear the error code labels */
   nil_access_lab = 0;
   overflow_lab = 0;
   stack_overflow_lab = 0;
-  
+
   if (proc_has_checkstack(e))
   {
     baseoff b;
     int cr = next_creg();
     long err_lab = get_stack_overflow_lab();
-    
+
     b = find_tg("__TDFstacklim");
     ld_ins(i_l,b,R_TMP0);
     cmp_rr_ins(i_cmp,R_SP,R_TMP0,cr);
@@ -154,7 +184,7 @@ void init_proc_errors PROTO_N ((e)) PROTO_T (exp e)
  * Sets up the labels at the end of the proc to handle
  * the three error codes
  */
-void output_error_labels PROTO_Z ()
+void output_error_labels(void)
 {
   if (nil_access_lab != 0)
   {
@@ -179,7 +209,7 @@ void output_error_labels PROTO_Z ()
  * when a nil_access error_code is created
  * or sets it if it is un-initialized
  */
-long get_nil_access_lab PROTO_Z ()
+long get_nil_access_lab(void)
 {
   if (nil_access_lab == 0)
   {
@@ -192,7 +222,7 @@ long get_nil_access_lab PROTO_Z ()
  * when an overflow error_code is created
  * or sets it if it is un-initialized
  */
-long get_overflow_lab PROTO_Z ()
+long get_overflow_lab(void)
 {
   if (overflow_lab == 0)
   {
@@ -205,7 +235,7 @@ long get_overflow_lab PROTO_Z ()
  * when a stack_overflow error_code is created
  * or sets it if it is un-initialized
  */
-long get_stack_overflow_lab PROTO_Z ()
+long get_stack_overflow_lab(void)
 {
   if (stack_overflow_lab == 0)
   {
@@ -218,11 +248,11 @@ long get_stack_overflow_lab PROTO_Z ()
  * the corresponding error label depending on which
  * error code needs to be invoked
  */
-void do_trap PROTO_N ((e)) PROTO_T (exp e )
+void do_trap(exp e)
 {
   int err_code = no(e);
   long err_lab;
-  
+
   if (err_code == f_nil_access)
   {
     err_lab = get_nil_access_lab();
@@ -247,10 +277,9 @@ void do_trap PROTO_N ((e)) PROTO_T (exp e )
 /*
  * test_signed: tests whether a register lies
  * between two values and
- * jumps to label if it does not 
+ * jumps to label if it does not
  */
-void test_signed PROTO_N ((r,lower,upper,lab)) 
-    PROTO_T (int r X long lower X long upper X long lab)
+void test_signed(int r, long lower, long upper, long lab)
 {
   int creg1=next_creg();
   int creg2=next_creg();
@@ -263,7 +292,7 @@ void test_signed PROTO_N ((r,lower,upper,lab))
 /*
  * test_unsigned: tests whether a register is greater than an unsigned number
  */
-void test_unsigned PROTO_N ((r,maxval,lab)) PROTO_T (int r X long maxval X long lab)
+void test_unsigned(int r, long maxval, long lab)
 {
   int creg=next_creg();
   cmp_ri_ins(i_cmpl,r,maxval,creg);
@@ -274,7 +303,7 @@ void test_unsigned PROTO_N ((r,maxval,lab)) PROTO_T (int r X long maxval X long 
 /*
  * trap_label: Gives a label for the destination of the error
  */
-static long trap_label PROTO_N ((e)) PROTO_T (exp e)
+static long trap_label(exp e)
 {
   if (NO_ERROR_TREATMENT(e))
   {
@@ -291,21 +320,21 @@ static long trap_label PROTO_N ((e)) PROTO_T (exp e)
     return no(son(pt(e)));
   }
 }
-/* 
+/*
  * Generates a call to the TDFhandler for exceptions
  */
-static void do_exception PROTO_N ((ex)) PROTO_T (int ex)
+static void do_exception(int ex)
 {
   ld_const_ins(ex,R_FIRST_PARAM);/* __TDFhandler takes as its first parameter, the error code */
   call_TDFhandler();
   return;
 }
-static void call_TDFhandler PROTO_Z ()
+static void call_TDFhandler(void)
 {
   baseoff b;
   b = find_tg("__TDFhandler");
   ld_ins(i_l,b,R_TMP0);
-  
+
   b.base = R_TMP0;
   b.offset = 0;
   ld_ro_ins(i_l,b,R_TMP0);comment("Jump to error handler");
@@ -326,8 +355,7 @@ static void call_TDFhandler PROTO_Z ()
 /*
  * ABS
  */
-int abs_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest)
+int abs_error_treatment(exp e, space sp, where dest)
 {
   int r = reg_operand(son(e),sp);
   int destr = regfrmdest(&dest,sp);
@@ -336,13 +364,13 @@ int abs_error_treatment PROTO_N ((e,sp,dest))
   int cr;
   space nsp;
   nsp = guardreg(destr,sp);
-  switch(name(sh(e)))
+  switch (name(sh(e)))
   {
    case ucharhd:
    case uwordhd:
    case ulonghd:
     break;
-   case scharhd:	
+   case scharhd:
     cr = next_creg();
     cmp_ri_ins(i_cmp,r,0xffffff80,cr);
     long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
@@ -368,21 +396,20 @@ int abs_error_treatment PROTO_N ((e,sp,dest))
 /*
  * CHVAR
  */
-int chvar_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest)
+int chvar_error_treatment(exp e, space sp, where dest)
 {
   int r = reg_operand(son(e),sp);
   ans aa;
   int new_shpe = name(sh(e));
   long trap = trap_label(e);
   bool sgned = is_signed(sh(son(e)));
-  
+
   setregalt(aa,r);
   switch(new_shpe)		/* switch on the new shape */
   {
    case scharhd:
     {
-      if(sgned)
+      if (sgned)
       {
 	test_signed(r,-128,127,trap);
       }
@@ -399,7 +426,7 @@ int chvar_error_treatment PROTO_N ((e,sp,dest))
     break;
    case swordhd:
     {
-      if(sgned)
+      if (sgned)
       {
 	test_signed(r,-0x8000,0x7fff,trap);
       }
@@ -415,13 +442,13 @@ int chvar_error_treatment PROTO_N ((e,sp,dest))
     }
     break;
    case slonghd:
-    if(!sgned)
+    if (!sgned)
     {
       test_unsigned(r,0x7fffffff,trap);
     }
     break;
    case ulonghd:
-    if(sgned)
+    if (sgned)
     {
       test_unsigned(r,0x7fffffff,trap);
     }
@@ -434,29 +461,28 @@ int chvar_error_treatment PROTO_N ((e,sp,dest))
 /*
  * DIV0,DIV1,DIV2
  */
-void div_error_treatment PROTO_N ((l,r,e))
-    PROTO_T (int l X int r X exp e )
+void div_error_treatment(int l, int r, exp e)
 {
   int creg  = next_creg();
   int creg2 = next_creg();
   int creg3 = next_creg();
-  
+
   long trap = trap_label(e);
-  long lab ;
-  
+  long lab;
+
   long minus_infinity=0;
-  
+
   /* First test for division by zero */
-  cmp_ri_ins(i_cmp,r,0,creg);  
+  cmp_ri_ins(i_cmp,r,0,creg);
   long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
-  
+
   /* Test for -(infinity)/-1 for signed*/
   if (is_signed(sh(e)))
   {
     lab=new_label();
     cmp_ri_ins(i_cmp,r,-1,creg2);
     bc_ins(i_bne,creg2,lab,LIKELY_TO_JUMP);
-    switch(name(sh(e)))
+    switch (name(sh(e)))
     {
      case slonghd:minus_infinity = 0x80000000;break;
      case swordhd:minus_infinity = 0xffff8000;break;
@@ -475,8 +501,7 @@ void div_error_treatment PROTO_N ((l,r,e))
 /*
  * MINUS_TAG
  */
-int minus_error_treatment PROTO_N ((e,sp,dest)) 
-    PROTO_T (exp e X space sp X where dest)
+int minus_error_treatment(exp e, space sp, where dest)
 {
   int lhs_reg=reg_operand(son(e),sp);
   int rhs_reg;
@@ -487,7 +512,7 @@ int minus_error_treatment PROTO_N ((e,sp,dest))
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
-  switch(name(sh(e)))
+  switch (name(sh(e)))
   {
    case slonghd:
     {
@@ -536,7 +561,7 @@ int minus_error_treatment PROTO_N ((e,sp,dest))
 /*
  * MULT_TAG
  */
-int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where dest)
+int mult_error_treatment(exp e, space sp, where dest)
 {
   int lhs_reg=reg_operand(son(e),sp);
   int rhs_reg;
@@ -550,7 +575,7 @@ int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg,rhs in rhs_reg*/
-  switch(name(sh(e)))
+  switch (name(sh(e)))
   {
    case slonghd:
     {
@@ -564,8 +589,8 @@ int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where
    case ulonghd:
     {
       int creg=next_creg();
-      
-      if(architecture==POWERPC_CODE)
+
+      if (architecture==POWERPC_CODE)
       {
 	/* easy since we have mulhwu */
 	rrr_ins(i_mulhwu,lhs_reg,rhs_reg,R_TMP0);
@@ -581,7 +606,7 @@ int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where
 	int creg3 = next_creg();
 	nsp = guardreg(lhs_reg,sp);
 	nsp = guardreg(rhs_reg,nsp);
-	
+
 	tmp_reg=getreg(nsp.fixed);
 	ld_const_ins(0,tmp_reg);
 	cmp_ri_ins(i_cmp,lhs_reg,0,creg);
@@ -597,9 +622,9 @@ int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where
 	rrr_ins(i_a,R_TMP0,tmp_reg,tmp_reg);
 	cmp_ri_ins(i_cmp,tmp_reg,0,creg3);
 	long_bc_ins(i_bne,creg3,trap,UNLIKELY_TO_JUMP);
-	
+
       }
-      
+
       cmp_ri_ins(i_cmp,R_TMP0,0,creg);
       long_bc_ins(i_bne,creg,trap,UNLIKELY_TO_JUMP);
       rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
@@ -639,19 +664,18 @@ int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where
 /*
  * PLUS_TAG
  */
-int plus_error_treatment PROTO_N ((e,sp,dest)) 
-    PROTO_T (exp e X space sp X where dest )
+int plus_error_treatment(exp e, space sp, where dest)
 {
   int lhs_reg=reg_operand(son(e),sp);
   int rhs_reg;
   int destr;
   long trap = trap_label(e);
   ans aa;
-  
+
   rhs_reg = reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
-  switch(name(sh(e)))
+  switch (name(sh(e)))
   {
    case slonghd:
     {
@@ -698,11 +722,11 @@ int plus_error_treatment PROTO_N ((e,sp,dest))
   return move(aa, dest, sp.fixed, 0);
 }
 #if 0
-/* 
+/*
  * ROUND
- * This is now done in installl_fns.c 
+ * This is now done in installl_fns.c
  */
-void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
+void round_error_treatment(exp *e)
 {
   /* float --> int */
   exp round = *e;
@@ -726,11 +750,11 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
   exp seq1;
   exp seq2;
   exp cond;
-  
-  ASSERT(shape_size(sh(round))==32);
-  if (name(sh(round))==ulonghd)
+
+  ASSERT(shape_size(sh(round)) ==32);
+  if (name(sh(round)) ==ulonghd)
   {
-    lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)       ,float_tag);
+    lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)      ,float_tag);
     upper_bound = me_u3(fl_shpe,me_shint(ulongsh,UINT_MAX),float_tag);
   }
   else
@@ -738,7 +762,7 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
     lower_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MIN),float_tag);
     upper_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MAX),float_tag);
   }
-  switch(round_number(round))
+  switch (round_number(round))
   {
    case R2ZERO:/* -1+l < f < 1+u */
     {
@@ -754,7 +778,7 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
       exp minus_one;
       exp one;
       exp two;
-      
+
       minus_one = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
       two = me_u3(fl_shpe,me_shint(slongsh,2),float_tag);
       lower_adjustment = me_b3(fl_shpe,minus_one,two,fdiv_tag);
@@ -765,7 +789,7 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
       upper_strict = 1;
       break;
     }
-    
+
    case R2PINF:/* -1 +l < f =< u */
     {
       lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
@@ -774,7 +798,7 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
       upper_strict = 0;
       break;
     }
-    
+
    case R2NINF:/* l =< f < 1+u */
     {
       lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,0),float_tag);
@@ -784,15 +808,15 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
       break;
     }
   }
-  
+
   lower = me_b3(fl_shpe,lower_bound,lower_adjustment,fplus_tag);
   upper = me_b3(fl_shpe,upper_bound,upper_adjustment,fplus_tag);
-  
+
   id = me_startid(fl_shpe,fl,0);/* start ident */
-  
+
   clear = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,clear_tag);
 
-  if(trap)
+  if (trap)
   {
     exp t = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,f_overflow,trap_tag);
     lab = me_b3(f_bottom,clear,t,labst_tag);
@@ -802,7 +826,7 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
     exp g = getexp(f_bottom,nilexp,0,nilexp,pt(round),0,0,goto_tag);
     lab = me_b3(f_bottom,clear,g,labst_tag);
   }
-  
+
 
   test_lower = me_q1(no_nat_option,
 		     lower_strict?f_greater_than:f_greater_than_or_equal,
@@ -822,26 +846,25 @@ void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
   zero2 = me_u3(f_top,cond,0);
   seq2 = me_b3(fl_shpe,zero2,me_obtain(id),seq_tag);
   id = me_complete_id(id,seq2);
-  
+
   seterrhandle(round,0);
-  
+
   setlast(id);
   bro(id) = round;
   son(round) = id;
 }
 #endif
-  
+
 /*
  * NEG
  */
-int neg_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest )
+int neg_error_treatment(exp e, space sp, where dest)
 {
   int r = reg_operand(son(e),sp);
   int destr = regfrmdest(&dest,sp);
   long trap = trap_label(e);
   ans aa;
-  int cr; 
+  int cr;
   space nsp;
   nsp = guardreg(destr,sp);
 
@@ -880,13 +903,12 @@ int neg_error_treatment PROTO_N ((e,sp,dest))
 /*
  * REM0,REM1,REM2
  */
-void rem_error_treatment PROTO_N ((l,r,e))
-    PROTO_T (int l X int r X exp e )
+void rem_error_treatment(int l, int r, exp e)
 {
   int creg  = next_creg();
   long trap = trap_label(e);
 
-  cmp_ri_ins(i_cmp,r,0,creg);  
+  cmp_ri_ins(i_cmp,r,0,creg);
   long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
   return;
 }
@@ -896,11 +918,11 @@ void rem_error_treatment PROTO_N ((l,r,e))
 /* FLOATING error treatments */
 /*                           */
 /*****************************/
-void chfl_error_treatment PROTO_N ((e,f)) PROTO_T (exp e X int f)
+void chfl_error_treatment(exp e, int f)
 {
   long trap = trap_label(e);
-  
-  ASSERT(name(e)==chfl_tag);
+
+  ASSERT(name(e) ==chfl_tag);
   rrf_ins(i_frsp_cr,f,f);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
@@ -908,13 +930,12 @@ void chfl_error_treatment PROTO_N ((e,f)) PROTO_T (exp e X int f)
 }
 
 
-void do_fmop_error_jump PROTO_N ((e,fs,fd)) 
-    PROTO_T (exp e X int fs X int fd )
+void do_fmop_error_jump(exp e, int fs, int fd)
 {
   long trap = trap_label(e);
   Instruction_P ins;
 
-  switch(name(e))
+  switch (name(e))
   {
    case fabs_tag:ins=i_fabs;break;
    case fneg_tag:ins=i_fneg;break;
@@ -923,7 +944,7 @@ void do_fmop_error_jump PROTO_N ((e,fs,fd))
   rrf_ins(ins,fs,fd);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  if(is_single_precision(sh(e)))
+  if (is_single_precision(sh(e)))
   {
     rrf_ins(i_frsp,fd,fd);
     mcrfs_ins(CRF0,0);
@@ -931,12 +952,11 @@ void do_fmop_error_jump PROTO_N ((e,fs,fd))
   }
   return;
 }
-void do_fop_error_jump PROTO_N ((e,fs1,fs2,fd)) 
-    PROTO_T (exp e X int fs1 X int fs2 X int fd )
+void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
 {
   long trap = trap_label(e);
   Instruction_P ins;
-   
+
   switch (name(e))
   {
    case fplus_tag: ins = i_fa;break;
@@ -948,7 +968,7 @@ void do_fop_error_jump PROTO_N ((e,fs1,fs2,fd))
   rrrf_ins(ins,fs1,fs2,fd);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  switch(name(e))
+  switch (name(e))
   {
     /* div by 0 */
    case fdiv_tag:
@@ -957,7 +977,7 @@ void do_fop_error_jump PROTO_N ((e,fs1,fs2,fd))
       long_bc_ins(i_bgt,CRF0,trap,UNLIKELY_TO_JUMP);
     }
   }
-  if(is_single_precision(sh(e)))
+  if (is_single_precision(sh(e)))
   {
     rrf_ins(i_frsp,fd,fd);
     mcrfs_ins(CRF0,0);

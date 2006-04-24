@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -66,7 +96,7 @@ Imported from DRA
 #include "flags.h"
 #include "shapemacs.h"
 #include "inl_norm.h"
-static int complexity PROTO_S ( ( exp e, int count, int newdecs ) ) ;
+static int complexity(exp e, int count, int newdecs);
 
 
 /*
@@ -83,13 +113,12 @@ static int complexity PROTO_S ( ( exp e, int count, int newdecs ) ) ;
 */
 
 static int sbl
-    PROTO_N ( ( e, count, newdecs ) )
-    PROTO_T ( exp e X int count X int newdecs )
+(exp e, int count, int newdecs)
 {
-    int c = complexity ( e, count, newdecs ) ;
-    if ( c < 0 ) return ( c ) ;
-    if ( last ( e ) ) return ( c ) ;
-    return ( sbl ( bro ( e ), c, newdecs ) ) ;
+    int c = complexity(e, count, newdecs);
+    if (c < 0) return(c);
+    if (last(e)) return(c);
+    return(sbl(bro(e), c, newdecs));
 }
 
 
@@ -98,59 +127,58 @@ static int sbl
 */
 
 static int complexity
-    PROTO_N ( ( e, count, newdecs ) )
-    PROTO_T ( exp e X int count X int newdecs )
+(exp e, int count, int newdecs)
 {
-    unsigned char n = name ( e ) ;
-    if ( count < 0 || newdecs >= decs_allowed ) return ( -1 ) ;
-    if ( son ( e ) == nilexp ) return ( count ) ;
+    unsigned char n = name(e);
+    if (count < 0 || newdecs >= decs_allowed) return(-1);
+    if (son(e) == nilexp) return(count);
 
-    switch ( n ) {
+    switch (n) {
 
-	case apply_tag : {
-	    if ( newdecs > decs_with_apply ) return ( -1 ) ;
-	    return ( sbl ( son ( e ), count - 1, newdecs ) ) ;
+	case apply_tag: {
+	    if (newdecs > decs_with_apply) return(-1);
+	    return(sbl(son(e), count - 1, newdecs));
 	}
 
-	case res_tag : {
-	    return ( complexity ( son ( e ), count - 1, newdecs ) ) ;
+	case res_tag: {
+	    return(complexity(son(e), count - 1, newdecs));
 	}
 
-	case ident_tag : {
-	    if ( isloadparam ( son ( e ) ) ) {
-		return ( sbl ( son ( e ), count - 1, newdecs ) ) ;
+	case ident_tag: {
+	    if (isloadparam(son(e))) {
+		return(sbl(son(e), count - 1, newdecs));
 	    } else {
-		return ( sbl ( son ( e ), count - 1, newdecs + 1 ) ) ;
+		return(sbl(son(e), count - 1, newdecs + 1));
 	    }
 	}
 
-	case top_tag :
-	case clear_tag :
-	case prof_tag : {
-	    return ( count ) ;
+	case top_tag:
+	case clear_tag:
+	case prof_tag: {
+	    return(count);
 	}
 
-	case case_tag : {
-	    return ( complexity ( son ( e ), count - 1, newdecs ) ) ;
+	case case_tag: {
+	    return(complexity(son(e), count - 1, newdecs));
 	}
 
-	case name_tag :
-	case string_tag :
-	case env_offset_tag : {
-	    return ( count - 1 ) ;
+	case name_tag:
+	case string_tag:
+	case env_offset_tag: {
+	    return(count - 1);
 	}
 
-	case labst_tag : {
-	    return ( complexity ( bro ( son ( e ) ), count, newdecs ) ) ;
+	case labst_tag: {
+	    return(complexity(bro(son(e)), count, newdecs));
 	}
 
-	case solve_tag :
-	case seq_tag : {
-	    return ( sbl ( son ( e ), count, newdecs ) ) ;
+	case solve_tag:
+	case seq_tag: {
+	    return(sbl(son(e), count, newdecs));
 	}
 
 	default : {
-	    return ( sbl ( son ( e ), count - 1, newdecs ) ) ;
+	    return(sbl(son(e), count - 1, newdecs));
 	}
     }
 }
@@ -164,56 +192,55 @@ static int complexity
 */
 
 int inlinechoice
-    PROTO_N ( ( t, def, total_uses ) )
-    PROTO_T ( exp t X exp def X int total_uses )
+(exp t, exp def, int total_uses)
 {
-    exp apars ;
-    exp fpars ;
-    int newdecs = 0 ;
-    UNUSED ( total_uses ) ;
+    exp apars;
+    exp fpars;
+    int newdecs = 0;
+    UNUSED(total_uses);
 
     /* only uses are applications */
-    apars = bro ( t ) ;
-    fpars = son ( def ) ;
-    for ( ; ; ) {
-	if ( name ( fpars ) != ident_tag || !isparam ( fpars ) ) {
-	    if ( name ( apars ) != top_tag ) newdecs = 10 ;
-	    break ;
+    apars = bro(t);
+    fpars = son(def);
+    for (; ;) {
+	if (name(fpars)!= ident_tag || !isparam(fpars)) {
+	    if (name(apars)!= top_tag)newdecs = 10;
+	    break;
 	}
 
-	switch ( name ( apars ) ) {
-	    case val_tag :
-	    case real_tag :
-	    case string_tag :
-	    case name_tag : {
-		break ;
+	switch (name(apars)) {
+	    case val_tag:
+	    case real_tag:
+	    case string_tag:
+	    case name_tag: {
+		break;
 	    }
-	    case cont_tag : {
-		if ( name ( son ( apars ) ) == name_tag &&
-		     isvar ( son ( son ( apars ) ) ) &&
-		     !isvar ( fpars ) ) break ;
+	    case cont_tag: {
+		if (name(son(apars)) == name_tag &&
+		     isvar(son(son(apars))) &&
+		     !isvar(fpars))break;
 		/* ... else continue */
 	    }
 	    default : {
-		newdecs++ ;
+		newdecs++;
 	    }
 	}
 
-	fpars = bro ( son ( fpars ) ) ;
-	if ( last ( apars ) ) break ;
-	apars = bro ( apars ) ;
+	fpars = bro(son(fpars));
+	if (last(apars))break;
+	apars = bro(apars);
     }
 
     /* newdecs is now the number of declarations (which will not be
        optimised out) arising from actual parameters */
 #if is80x86
-    if ( !last ( bro ( t ) ) ) return ( 0 ) ;
+    if (!last(bro(t))) return(0);
 #endif
 
-    if ( complexity ( fpars, crit_inline, newdecs ) >= 0 ) {
-	return ( 2 ) ;
-    } else if ( newdecs == 0 ) {
-	return ( 0 ) ;
+    if (complexity(fpars, crit_inline, newdecs) >= 0) {
+	return(2);
+    } else if (newdecs == 0) {
+	return(0);
     }
-    return ( 1 ) ;
+    return(1);
 }

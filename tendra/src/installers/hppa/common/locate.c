@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -57,19 +87,19 @@ $Log: locate.c,v $
  *
  * Revision 3.1  95/04/10  16:27:08  16:27:08  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:18:03  11:18:03  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:27:51  15:27:51  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.2  95/01/17  17:26:13  17:26:13  wfs (William Simmonds)
  * Changed name of an included header file
- * 
+ *
  * Revision 1.1  95/01/11  13:11:08  13:11:08  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -109,9 +139,8 @@ $Log: locate.c,v $
 
 
 /* decodes x to give a baseoff suitable for xxxx_ins functions */
-baseoff boff 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+baseoff boff
+(exp e)
 {
 
   int n = no(e);
@@ -123,14 +152,14 @@ baseoff boff
     /* bro() is index in main_globals */
     dec *gl = brog(e);
     long sno = gl->dec_u.dec_val.sym_number;
-    an.base = -(sno + 1);
+    an.base = - (sno + 1);
     an.offset = 0;
   }
-  else if (name(son(e))==caller_name_tag)
+  else if (name(son(e)) ==caller_name_tag)
   {
      int n = no(e);
      an.base = SP;
-     an.offset = -(n>>3);
+     an.offset = - (n>>3);
   }
   else if (isparam(e))
   {
@@ -144,7 +173,7 @@ baseoff boff
      {
 	an.base = EP;
      }
-     if (name(son(e))==formal_callee_tag)
+     if (name(son(e)) ==formal_callee_tag)
      {
 	an.offset=(no(son(e))-callees_offset)>>3;/* outermost ()'s for gcc */
      }
@@ -156,8 +185,8 @@ baseoff boff
   else if (b == GR17)
   {
      /* locally declared */
-     an.base = EP; 
-     an.offset = ((n-b)>>4)-(locals_offset>>3); 
+     an.base = EP;
+     an.offset = ((n-b) >>4) - (locals_offset>>3);
   }
   else if (b == EP)
   {
@@ -176,7 +205,7 @@ baseoff boff
   else if (b == 32)
   {
     /* global names */
-    an.base = -((n - b) >> 6);
+    an.base = - ((n - b) >> 6);
     an.offset = 0;
   }
   else if (b == 33)
@@ -200,25 +229,24 @@ baseoff boff
   * locate differs from locate1 only in that it looks to see e has already
   * been evaluated somehow
   */
-where locate PROTO_S ( ( exp, space, shape, int ) ) ;
+where locate(exp, space, shape, int);
 
 
  /*
   * finds the address of e using shape s; sp gives available t-regs for any
   * inner evaluation. dreg is historical.
   */
-where locate1 
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg )
+where locate1
+(exp e, space sp, shape s, int dreg)
 {
   ash a;
   ans aa;
   where wans;
 #if 0				/* causes core dump spec/espresso/set.c */
-  FULLCOMMENT3("locate1: %s, %s, dreg=%d", (int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
-  FULLCOMMENT4("        space=(%ld,%ld) no(e)=%d no(son(e))=%d", sp.fixed, sp.flt, no(e), no(son(e)));
+  FULLCOMMENT3("locate1: %s, %s, dreg=%d",(int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
+  FULLCOMMENT4("        space= (%ld,%ld) no(e) =%d no(son(e)) =%d", sp.fixed, sp.flt, no(e), no(son(e)));
 #endif
-  
+
   a = ashof(s);
 
 /*
@@ -237,7 +265,7 @@ where locate1
       /* this a locally declared name ... */
       if (props(dc) & defer_bit)
       {
-	
+
 	/*
 	 * ... it has been identified with a simple expression which is better
 	 * evaluated every time
@@ -256,7 +284,7 @@ where locate1
 	{
 	  instore is;
 
-	  switch ( discrim ( w.answhere ) )
+	  switch (discrim(w.answhere))
 	  {
 	  case notinreg:
 	    {
@@ -275,7 +303,7 @@ where locate1
       {
 	/* ... it has been allocated in a fixed point reg */
 
-	FULLCOMMENT1("locate1: name_tag: fixed point reg%s", (int) (var?" var":""));
+	FULLCOMMENT1("locate1: name_tag: fixed point reg%s",(int)(var?" var":""));
 
 	if (var)
 	{
@@ -300,7 +328,7 @@ where locate1
 	FULLCOMMENT("locate1: name_tag: fixed point reg");
 
 	fr.fr = no(dc);
-	fr.dble = ( a.ashsize==64 ? 1 : 0 );
+	fr.dble = (a.ashsize==64 ? 1 : 0);
 	setfregalt(aa, fr);
       }
       else
@@ -308,8 +336,8 @@ where locate1
 	/* ... it is in memory */
 	instore is;
 
-	if ( var || (name(sh(e)) == prokhd &&
-		    (son(dc) == nilexp || IS_A_PROC(son(dc)) )))
+	if (var || (name(sh(e)) == prokhd &&
+		   (son(dc) == nilexp || IS_A_PROC(son(dc)))))
 	{
 	  is.adval = 1;
 	}
@@ -319,7 +347,7 @@ where locate1
 	}
 	is.b = boff(dc);
 #if USE_BITAD
-	if (a.ashalign == 1 && (var || name(sh(e)) != ptrhd))
+	if (a.ashalign == 1 && (var || name(sh(e))!= ptrhd))
 	  /* some bit field */
 	{
 	  is.b.offset = (is.b.offset << 3) + no(e);
@@ -357,7 +385,7 @@ where locate1
        * bro(sum)
        */
 
-      switch (discrim ( asum ) )
+      switch (discrim(asum))
       {
       case notinreg:
 	{
@@ -383,12 +411,12 @@ where locate1
 	    nsp = guardreg(b.base, sp);
 
 	    shift=no(bro(son(bro(sum))));
-	    if ( name(bro(sum))==offset_mult_tag && name(bro(son(bro(sum))))==val_tag && ( shift==0 || shift==2 || shift==4 ) )
+	    if (name(bro(sum)) ==offset_mult_tag && name(bro(son(bro(sum)))) ==val_tag && (shift==0 || shift==2 || shift==4))
 	    {
 	       addend=reg_operand(son(bro(sum)),nsp);
 	       if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
-	       rrr_ins(shift==0 ? i_add : (shift==2 ? i_sh1add : i_sh2add),                           c_,addend,b.base,dreg);
+	       rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,b.base,dreg);
 	    }
 	    else
 	    {
@@ -443,16 +471,16 @@ where locate1
       {
 	  is.b.base = ind;
 	  is.b.offset = frame_offset(son(bro(sum)));
-      } 
+      }
       else
       {
 	 shift=no(bro(son(bro(sum))));
-	 if ( name(bro(sum))==offset_mult_tag && name(bro(son(bro(sum))))==val_tag && ( shift==0 || shift==2 || shift==4 ) )
+	 if (name(bro(sum)) ==offset_mult_tag && name(bro(son(bro(sum)))) ==val_tag && (shift==0 || shift==2 || shift==4))
 	 {
 	    addend=reg_operand(son(bro(sum)),nsp);
 	    if (dreg == 0)
 	       dreg = getreg(nsp.fixed);
-	    rrr_ins(shift==0 ? i_add : (shift==2 ? i_sh1add : i_sh2add),                           c_,addend,ind,dreg);
+	    rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,ind,dreg);
 	 }
 	 else
 	 {
@@ -519,7 +547,7 @@ where locate1
 #if USE_BITAD
       bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
 #endif
-      switch ( discrim ( wans.answhere ) )
+      switch (discrim(wans.answhere))
       {
       case notinreg:
 	{
@@ -555,7 +583,7 @@ where locate1
 	    setinsalt(wans.answhere, isa);
 	    keepexp(e, wans.answhere);
 	  }
-       	  break ;
+       	  break;
 	}
 #if USE_BITAD
       case bitad:
@@ -615,9 +643,9 @@ where locate1
        * answer is going to be the contents of address represented by fc
        */
 
-      FULLCOMMENT1("locate1: cont[vol]_tag: %s", (int)ANSDISCRIM_NAME( discrim ( ason ) ));
-      
-      switch ( discrim ( ason ) )
+      FULLCOMMENT1("locate1: cont[vol]_tag: %s",(int)ANSDISCRIM_NAME(discrim(ason)));
+
+      switch (discrim(ason))
       {
       case notinreg:
 	{
@@ -642,7 +670,7 @@ where locate1
 	    isa.b.base = reg;
 	    isa.b.offset = 0;
 	    setinsalt(aa, isa);
-	    if (name(e) != contvol_tag && fc.ashwhere.ashalign != 1)
+	    if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
 	      keepexp(e, aa);
 	  }
 #if USE_BITAD
@@ -731,7 +759,7 @@ where locate1
        * literal store address
        */
 
-      switch ( discrim ( wans.answhere ) )
+      switch (discrim(wans.answhere))
       {
       case notinreg:
 	{
@@ -793,15 +821,14 @@ where locate1
   }
 }
 
-where locate 
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg )
+where locate
+(exp e, space sp, shape s, int dreg)
 {
   ans ak;
   where w;
 
   ak = iskept(e);
-  if ( discrim ( ak ) == inreg && (regalt(ak) == 0))
+  if (discrim(ak) == inreg && (regalt(ak) == 0))
   {
     w = locate1(e, sp, s, dreg);
   }

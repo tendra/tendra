@@ -1137,6 +1137,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 	return t;
       }
     }
+  }
 #endif
 
 /* PAB changes - 18 October 1994 */

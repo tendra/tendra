@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -57,28 +87,26 @@ $Log: inlinechoice.c,v $
 #define decs_allowed 4
 #define decs_with_apply 0
 
-static int  complexity PROTO_S ((exp e, int count, int newdecs));
+static int  complexity(exp e, int count, int newdecs);
 
 /* applies complexity to the members of a list */
 static int  sbl
-    PROTO_N ( (e, count, newdecs) )
-    PROTO_T ( exp e X int count X int newdecs )
+(exp e, int count, int newdecs)
 {
-  int  c = complexity (e, count,newdecs);
+  int  c = complexity(e, count,newdecs);
   if (c < 0)
-    return (c);
-  if (last (e))
-    return (c);
-  return (sbl (bro (e), c, newdecs));
+    return(c);
+  if (last(e))
+    return(c);
+  return(sbl(bro(e), c, newdecs));
 }
 
 static int  complexity
-    PROTO_N ( (e, count, newdecs) )
-    PROTO_T ( exp e X int count X int newdecs )
+(exp e, int count, int newdecs)
 {
-  unsigned char  n = name (e);
+  unsigned char  n = name(e);
   if (count < 0 || newdecs >= decs_allowed)
-    return (-1);
+    return(-1);
   if (son(e) == nilexp) return count;
   switch (n) {
   	case apply_tag: {
@@ -93,20 +121,19 @@ static int  complexity
 	  else
 	    return sbl(son(e), count-1, newdecs+1);
         case top_tag: case clear_tag: case prof_tag: return count;
-	case case_tag: return (complexity (son (e), count - 1, newdecs));
+	case case_tag: return(complexity(son(e), count - 1, newdecs));
 	case name_tag: case string_tag: case env_offset_tag:
         case general_env_offset_tag:
-               return (count - 1);
-	case labst_tag: return (complexity (bro (son (e)), count,
+               return(count - 1);
+	case labst_tag: return(complexity(bro(son(e)), count,
                         newdecs));
 	case solve_tag: case seq_tag: return sbl(son(e), count, newdecs);
-	default: return (sbl (son (e), count - 1, newdecs));
+	default: return(sbl(son(e), count - 1, newdecs));
   }
 }
 
 int inlinechoice
-    PROTO_N ( (t, def, total) )
-    PROTO_T ( exp t X exp def X int total )
+(exp t, exp def, int total)
 {
 	/* delivers 0 if no uses of this proc can be inlined.
 	   delivers 1 if this use cannot be inlined
@@ -118,7 +145,7 @@ int inlinechoice
   shape shdef = pt(def) /* Oh, yes it is! */;
   UNUSED(total);
 
-  if (!eq_shape(sh(father(t)), shdef) ) {
+  if (!eq_shape(sh(father(t)), shdef)) {
       /* shape required by application is different from definition */
 	return 1;
   }
@@ -126,7 +153,7 @@ int inlinechoice
   apars = t; /* only uses are applications */
   fpars = son(def);
 
-  for(;;) {
+  for (;;) {
      if (name(fpars)!=ident_tag || !isparam(fpars)) {
 	if (!last(apars)) return 1;
       	break;
@@ -139,8 +166,8 @@ int inlinechoice
       case val_tag: case real_tag: case string_tag: case name_tag:
       	   break;
       case cont_tag: {
-      	   if (name(son(apars))==name_tag && isvar(son(son(apars))) &&
-      	        		!isvar(fpars) ) break;
+      	   if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+      	        		!isvar(fpars))break;
       	   } /* ... else continue */
       default: newdecs++;
      }

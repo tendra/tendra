@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -105,14 +135,14 @@ Checking in before merging with Input Baseline changes.
 
 /* externals */
 
-void scan2 PROTO_S ( ( bool sto, exp to, exp e ) ) ;
-extern bool just_ret ;
-extern mach_ins *prologue_ins ;
+void scan2(bool sto, exp to, exp e);
+extern bool just_ret;
+extern mach_ins *prologue_ins;
 
-static void code_postlude PROTO_S ((exp postlude, exp callers, ash stack, long post_offset)) ;
-static bool test_push_args PROTO_S ((exp args, ash* args_size )) ;
-static void push_args PROTO_S ((where w, ash stack, exp args )) ;
-static void place_arguments PROTO_S ((exp args, ash stack, long start )) ;
+static void code_postlude(exp postlude, exp callers, ash stack, long post_offset);
+static bool test_push_args(exp args, ash* args_size);
+static void push_args(where w, ash stack, exp args);
+static void place_arguments(exp args, ash stack, long start);
 
 /************************************************************************
     GCPROC
@@ -123,22 +153,21 @@ static void place_arguments PROTO_S ((exp args, ash stack, long start )) ;
  ************************************************************************/
 
 /* coder.c & codex.c */
-extern ast add_shape_to_stack PROTO_S ((ash stack, shape s ));
-extern void prologue PROTO_S ((void));
-extern void out_profile PROTO_S (( bool save_a1 ));
-extern int do_peephole ;
-extern int do_pic ;
+extern ast add_shape_to_stack(ash stack, shape s);
+extern void prologue(void);
+extern void out_profile(bool save_a1);
+extern int do_peephole;
+extern int do_pic;
 
 void gcproc
-    PROTO_N ( ( p, pname, cname, is_ext, reg_res, di) )
-    PROTO_T ( exp p X char *pname X long cname X int is_ext X int reg_res X diag_global *di )
+(exp p, char *pname, long cname, int is_ext, int reg_res, diag_global *di)
 {
-  exp t ;
-  ash stack ;
-  ash param_pos ;
+  exp t;
+  ash stack;
+  ash param_pos;
 
-  mach_op *op1, *op2 ;
-  static long crt_proc_no = 0 ;
+  mach_op *op1, *op2;
+  static long crt_proc_no = 0;
 
   bool has_callers = 0;
   bool has_checkstack = 0;
@@ -149,193 +178,193 @@ void gcproc
   cur_proc_has_tail_call = 0;
   cur_proc_use_same_callees = 0;
   scan2(1, p, p);
-  comp_weights ( p ) ;
+  comp_weights(p);
 
   /* Set up flags, register masks, stack etc. */
   has_alloca = proc_has_alloca(p);
-  must_use_bp = has_alloca || proc_has_lv(p) || proc_uses_crt_env (p) ;
-  bigregs = 0 ;
-  crt_ret_lab = next_lab () ;
-  extra_stack = 0 ;
-  have_cond = 0 ;
-  max_stack = 0 ;
-  no_calls = 0 ;
-  regsinproc = 0 ;
-  regsinuse = 0 ;
-  reuseables = 0 ;
-  regsindec = 0 ;
-  stack = 0 ;
-  special_no = crt_proc_no++ ;
-  stack_dec = 0 ;
-  stack_size = 0 ;
-  used_ldisp = 0 ;
-  used_stack = do_profile || diagnose || must_use_bp ;
+  must_use_bp = has_alloca || proc_has_lv(p) || proc_uses_crt_env(p);
+  bigregs = 0;
+  crt_ret_lab = next_lab();
+  extra_stack = 0;
+  have_cond = 0;
+  max_stack = 0;
+  no_calls = 0;
+  regsinproc = 0;
+  regsinuse = 0;
+  reuseables = 0;
+  regsindec = 0;
+  stack = 0;
+  special_no = crt_proc_no++;
+  stack_dec = 0;
+  stack_size = 0;
+  used_ldisp = 0;
+  used_stack = do_profile || diagnose || must_use_bp;
 
   /* Mark procedure body */
-  ptno ( p ) = par_pl ;
-  no ( p ) = 0 ;
+  ptno(p) = par_pl;
+  no(p) = 0;
 
   /* Mark procedure parameters */
-  param_pos = 0 ;
+  param_pos = 0;
 
   /* the callees are encoded first. Scan to first callee if any */
 
-  t = son ( p ) ;
-  while ( name ( t ) == ident_tag && isparam ( t ) &&
-          name ( son ( t ) ) != formal_callee_tag ) {
-    t = bro(son(t)) ;
-    has_callers = 1 ;
+  t = son(p);
+  while (name(t) == ident_tag && isparam(t) &&
+          name(son(t))!= formal_callee_tag) {
+    t = bro(son(t));
+    has_callers = 1;
   }
 
-  cur_proc_has_vcallees = proc_has_vcallees(p) ;
-  uses_callers_pointer = cur_proc_has_vcallees && has_callers ;
+  cur_proc_has_vcallees = proc_has_vcallees(p);
+  uses_callers_pointer = cur_proc_has_vcallees && has_callers;
 
   if (uses_callers_pointer) {
     /* ok callers are accessed by use of a5 */
-    regsinproc |= regmsk ( REG_A5 ) ;
-    regsinuse  |= regmsk ( REG_A5 ) ;
+    regsinproc |= regmsk(REG_A5);
+    regsinuse  |= regmsk(REG_A5);
   }
 
 
   /* do we have any callees? */
   if (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
-    while(name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
-      ast a ;
-      a = add_shape_to_stack ( param_pos, sh ( son ( t ) ) ) ;
-      no ( t ) = a.astoff + a.astadj + (cur_proc_has_vcallees ? 4*8 : 0);
-      param_pos = a.astash ;
-      ptno ( t ) = par_pl ;
+    while (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
+      ast a;
+      a = add_shape_to_stack(param_pos, sh(son(t)));
+      no(t) = a.astoff + a.astadj + (cur_proc_has_vcallees ? 4*8 : 0);
+      param_pos = a.astash;
+      ptno(t) = par_pl;
 
-      make_visible( t ) ;
+      make_visible(t);
 
-      t = bro ( son ( t ) ) ;
+      t = bro(son(t));
     }
-    cur_proc_callees_size = param_pos ;
+    cur_proc_callees_size = param_pos;
   }
 
 
   /* encode the caller parameters */
   {
-    exp caller = son ( p ) ;
-    int location_id = par_pl ;
-    if ( uses_callers_pointer ) {
-      location_id = par2_pl ;
-      param_pos = 0 ;
+    exp caller = son(p);
+    int location_id = par_pl;
+    if (uses_callers_pointer) {
+      location_id = par2_pl;
+      param_pos = 0;
     }
-    while (name(caller) == ident_tag && isparam (caller) &&
-           name(son(caller)) != formal_callee_tag ) {
+    while (name(caller) == ident_tag && isparam(caller) &&
+           name(son(caller))!= formal_callee_tag) {
 
       ast a;
-      a = add_shape_to_stack ( param_pos, sh ( son ( caller ) ) ) ;
-      ptno ( caller ) = location_id ;
-      no ( caller ) = a.astoff + a.astadj ;
-      param_pos = a.astash ;
+      a = add_shape_to_stack(param_pos, sh(son(caller)));
+      ptno(caller) = location_id;
+      no(caller) = a.astoff + a.astadj;
+      param_pos = a.astash;
 
-      make_visible( caller ) ;
+      make_visible(caller);
 
-      caller = bro ( son ( caller ) ) ;
+      caller = bro(son(caller));
     }
   }
 
   /* calculate callers size */
-  cur_proc_callers_size = param_pos ;
-  if ( ! uses_callers_pointer )
-  cur_proc_callers_size -= cur_proc_callees_size ;
+  cur_proc_callers_size = param_pos;
+  if (! uses_callers_pointer)
+  cur_proc_callers_size -= cur_proc_callees_size;
 
   /* Output procedure name(s) */
-  area ( ptext ) ;
-  make_instr ( m_as_align4, null, null, 0 ) ;
-  if ( is_ext && pname ) {
-     if ( strcmp ( pname, "_cmppt" ) == 0 ) {
+  area(ptext);
+  make_instr(m_as_align4, null, null, 0);
+  if (is_ext && pname) {
+     if (strcmp(pname, "_cmppt") == 0) {
         /* Hack to get alignments right */
-      make_instr ( m_nop, null, null, 0 ) ;
-      make_instr ( m_nop, null, null, 0 ) ;
+      make_instr(m_nop, null, null, 0);
+      make_instr(m_nop, null, null, 0);
     }
-    op1 = make_extern_data ( pname, 0 ) ;
-    make_instr ( m_as_global, op1, null, 0 ) ;
+    op1 = make_extern_data(pname, 0);
+    make_instr(m_as_global, op1, null, 0);
   }
-  if ( cname == -1 ) {
-    make_external_label ( pname ) ;
+  if (cname == -1) {
+    make_external_label(pname);
   } else {
-     make_label ( cname ) ;
+     make_label(cname);
   }
 
-  if (! strcmp (pname, "_main")) {
+  if (! strcmp(pname, "_main")) {
      make_comment("Do Dynamic Initialization");
      op1 = make_extern_ind("___TDF_main",0);
      make_instr(m_call,op1,null,0);
   }
 
   /* Output profiling information if required */
-  if ( do_profile ) {
-    out_profile ( !reg_res ) ;
-    used_stack = 1 ;
+  if (do_profile) {
+    out_profile(!reg_res);
+    used_stack = 1;
   }
 
-  if ( proc_has_checkstack(p) ) {
+  if (proc_has_checkstack(p)) {
      /* check that there is room for env_size(<this proc>) */
      /* since callers, callees & return address are pushed */
      /* we only check for the rest */
-     long already_allocated = cur_proc_callers_size + cur_proc_callees_size + 32 ;
+     long already_allocated = cur_proc_callers_size + cur_proc_callees_size + 32;
      where w;
-     w = mw (get_env_size(cur_proc_dec), - already_allocated);
-     checkalloc_stack (w, 0);
-     has_checkstack = 1 ;
+     w = mw(get_env_size(cur_proc_dec), - already_allocated);
+     checkalloc_stack(w, 0);
+     has_checkstack = 1;
   }
 
 
   /* Set up procedure prologue */
-  prologue () ;
+  prologue();
 
   /* Diagnostics for start of procedure */
 #if have_diagnostics
-  if ( di ) xdb_diag_proc_begin ( di, p, pname, cname, is_ext ) ;
+  if (di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
 #endif
 
   /* Allow for procedures which return compound results */
-  if ( !reg_res ) {
+  if (!reg_res) {
     /* Save A1 on the stack */
-    ast newstack ;
-    newstack = add_shape_to_stack ( stack, slongsh ) ;
-    stack = newstack.astash ;
-    max_stack = 32 ;
-    used_stack = 1 ;
-    op1 = make_register ( REG_A1 ) ;
-    op2 = make_indirect ( REG_AP, -4 ) ;
-    make_instr ( m_movl, op1, op2, 0 ) ;
+    ast newstack;
+    newstack = add_shape_to_stack(stack, slongsh);
+    stack = newstack.astash;
+    max_stack = 32;
+    used_stack = 1;
+    op1 = make_register(REG_A1);
+    op2 = make_indirect(REG_AP, -4);
+    make_instr(m_movl, op1, op2, 0);
   }
   need_preserve_stack = 0;
 
   if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca) {
-     need_preserve_stack = 1 ;
-     stack += 32 ;
-     max_stack += 32 ;
-     save_stack () ;
+     need_preserve_stack = 1;
+     stack += 32;
+     max_stack += 32;
+     save_stack();
   };
 
 
   /* Encode the procedure body */
 #if have_diagnostics
-  if ( diagnose ) {
-    dnt_begin () ;
-    coder ( zero, stack, t ) ;
-    dnt_end () ;
+  if (diagnose) {
+    dnt_begin();
+    coder(zero, stack, t);
+    dnt_end();
   } else
 #endif
-    coder ( zero, stack, t ) ;
+    coder(zero, stack, t);
 
   /* Output the procedure epilogue */
-  general_epilogue (uses_callers_pointer, has_checkstack) ;
+  general_epilogue(uses_callers_pointer, has_checkstack);
 
   /* Apply peephole optimizations and return */
-  if ( do_peephole ) peephole () ;
+  if (do_peephole)peephole();
 
   /* Diagnostics for end of procedure */
 #if have_diagnostics
-  if ( di ) xdb_diag_proc_end ( di ) ;
+  if (di)xdb_diag_proc_end(di);
 #endif
 
-  return  ;
+  return ;
 }
 
 
@@ -346,12 +375,12 @@ I If untidy is true, it means that sp shall not be restored.
 */
 
 typedef struct rrs_tag {
-  mach_ins* ins ;
-  restore_type_t restore_type  ;
-  struct rrs_tag* next ;
+  mach_ins* ins;
+  restore_type_t restore_type ;
+  struct rrs_tag* next;
 } rrs;
 
-rrs* restore_regs_subsribers = 0 ;
+rrs* restore_regs_subsribers = 0;
 
 
 /************************************************************************
@@ -362,28 +391,27 @@ rrs* restore_regs_subsribers = 0 ;
  ************************************************************************/
 
 void restore_regs
-    PROTO_N ( ( typ ) )
-    PROTO_T ( restore_type_t typ )
+(restore_type_t typ)
 {
-  rrs* p = (rrs*) xmalloc(sizeof(rrs)) ;
-  p->ins  = current_ins ;
-  p->next = restore_regs_subsribers ;
-  p->restore_type = typ ;
-  restore_regs_subsribers = p ;
+  rrs* p = (rrs*)xmalloc(sizeof(rrs));
+  p->ins  = current_ins;
+  p->next = restore_regs_subsribers;
+  p->restore_type = typ;
+  restore_regs_subsribers = p;
 }
 /************************************************************************/
 /* used by restore_regs_output below */
 
 rrs* pop_restore_regs_subsriber
-    PROTO_Z ()
+(void)
 {
-   rrs* p = restore_regs_subsribers ;
+   rrs* p = restore_regs_subsribers;
 
    if (p != 0) {
-      restore_regs_subsribers = p->next ;
+      restore_regs_subsribers = p->next;
    }
 
-   return p ;
+   return p;
 }
 
 /************************************************************************
@@ -402,50 +430,49 @@ rrs* pop_restore_regs_subsriber
  ************************************************************************/
 
 void restore_regs_output
-    PROTO_N ( ( rmsk, fmsk, st, st1, uses_link ) )
-    PROTO_T ( bitpattern rmsk X bitpattern fmsk X long st X long st1 X bool uses_link )
+(bitpattern rmsk, bitpattern fmsk, long st, long st1, bool uses_link)
 {
-   rrs* p ;
-   while ( ( p = pop_restore_regs_subsriber () ) ) {
-      mach_op *op1, *op2 ;
-      current_ins = p->ins ;
+   rrs* p;
+   while ((p = pop_restore_regs_subsriber())) {
+      mach_op *op1, *op2;
+      current_ins = p->ins;
 
-      make_comment("Restore Registers") ;
+      make_comment("Restore Registers");
 
       /* Restore floating-point registers from the stack */
-      if ( fmsk ) {
-         just_ret = 0 ;
-         op1 = make_indirect ( REG_AP, -st1 ) ;
-         op2 = make_hex_value ( fmsk ) ;
-         make_instr ( m_fmovemx, op1, op2, fmsk ) ;
+      if (fmsk) {
+         just_ret = 0;
+         op1 = make_indirect(REG_AP, -st1);
+         op2 = make_hex_value(fmsk);
+         make_instr(m_fmovemx, op1, op2, fmsk);
       }
 
       /* Restore registers from the stack */
-      if ( rmsk ) {
-         just_ret = 0 ;
-         if ( must_use_bp ) {
-            op1 = make_indirect ( REG_AP, -st ) ;
+      if (rmsk) {
+         just_ret = 0;
+         if (must_use_bp) {
+            op1 = make_indirect(REG_AP, -st);
          } else {
-            op1 = make_indirect ( REG_SP, 0 ) ;
+            op1 = make_indirect(REG_SP, 0);
          }
-         op2 = make_hex_value ( rmsk ) ;
-         make_instr ( m_moveml, op1, op2, rmsk ) ;
+         op2 = make_hex_value(rmsk);
+         make_instr(m_moveml, op1, op2, rmsk);
       }
 
-      if ( uses_link ) {
-         just_ret = 0 ;
+      if (uses_link) {
+         just_ret = 0;
 
-         switch ( p->restore_type ){
+         switch (p->restore_type) {
          case ALL:
             /* Output unlink instruction */
-            op1 = make_register ( REG_AP ) ;
-            make_instr ( m_unlk, op1, null, regmsk ( REG_AP ) ) ;
+            op1 = make_register(REG_AP);
+            make_instr(m_unlk, op1, null, regmsk(REG_AP));
             break;
          case NOT_SP:
             make_comment("untidy return => Restore A6, but not SP");
-            op1 = make_indirect ( REG_AP, 0 ) ;
-            op2 = make_register ( REG_AP ) ;
-            make_instr ( m_movl, op1, op2, regmsk ( REG_AP ) ) ;
+            op1 = make_indirect(REG_AP, 0);
+            op2 = make_register(REG_AP);
+            make_instr(m_movl, op1, op2, regmsk(REG_AP));
             break;
          case NOT_A6_OR_SP:
             make_comment("exit with long jump => Don't restore A6 or SP");
@@ -465,48 +492,47 @@ void restore_regs_output
   ************************************************************************/
 
 void cleanup_bt
-    PROTO_N ( ( save_ret, rg ) )
-    PROTO_T ( bool save_ret X int rg )
+(bool save_ret, int rg)
 {
-   mach_op *op1, *op2 ;
+   mach_op *op1, *op2;
 
-   make_comment ( "Cleanup before tail call ..." );
+   make_comment("Cleanup before tail call ...");
 
    /* save callees size in scratch register if needed */
    if (cur_proc_has_vcallees) {
-      make_comment ( "save old callees size" );
-      op1 = make_indirect ( REG_AP, 8 ) ;
-      op2 = make_register ( REG_D0 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_D0 ) ) ;
+      make_comment("save old callees size");
+      op1 = make_indirect(REG_AP, 8);
+      op2 = make_register(REG_D0);
+      make_instr(m_movl, op1, op2, regmsk(REG_D0));
    }
 
    /* subscribe on code to restore registers */
-   restore_regs(ALL) ;
+   restore_regs(ALL);
 
-   if ( save_ret ) {
-      make_comment ( "save return address in register" );
-      op1 = make_indirect ( REG_SP, 0 ) ;
-      op2 = make_register ( rg ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( rg ) ) ;
+   if (save_ret) {
+      make_comment("save return address in register");
+      op1 = make_indirect(REG_SP, 0);
+      op2 = make_register(rg);
+      make_instr(m_movl, op1, op2, regmsk(rg));
    }
 
-   if ( cur_proc_has_vcallees ) {
+   if (cur_proc_has_vcallees) {
       make_comment("cleanup variable callees and return address");
-      op1 = make_register ( REG_D0 ) ;
-      op2 = make_register ( REG_SP );
-      make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+      op1 = make_register(REG_D0);
+      op2 = make_register(REG_SP);
+      make_instr(m_addl, op1, op2, regmsk(REG_SP));
 
       op1 = make_value ( 8 ) ;  /* size of callers pointer & ret.addr. */
-      op2 = make_register ( REG_SP );
-      make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+      op2 = make_register(REG_SP);
+      make_instr(m_addl, op1, op2, regmsk(REG_SP));
    }
    else {
       make_comment("cleanup static callees and return address");
-      op1 = make_value ( cur_proc_callees_size / 8 + 4 ) ;
-      op2 = make_register ( REG_SP );
-      make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+      op1 = make_value(cur_proc_callees_size / 8 + 4);
+      op2 = make_register(REG_SP);
+      make_instr(m_addl, op1, op2, regmsk(REG_SP));
    }
-   make_comment ( "Cleanup before tail call done" );
+   make_comment("Cleanup before tail call done");
 }
 
 /************************************************************************
@@ -518,53 +544,53 @@ void cleanup_bt
   ************************************************************************/
 
 void cleanup
-    PROTO_Z ()
+(void)
 {
-   mach_op *op1, *op2 ;
-   bool callees_to_clean = cur_proc_has_vcallees || cur_proc_callees_size ;
+   mach_op *op1, *op2;
+   bool callees_to_clean = cur_proc_has_vcallees || cur_proc_callees_size;
 
-   make_comment ( "Cleanup before return ..." );
+   make_comment("Cleanup before return ...");
 
    /* save callees size in scratch register if needed */
-   if ( cur_proc_has_vcallees ) {
-      make_comment ( "save callees size" );
-      op1 = make_indirect ( REG_AP, 8 ) ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+   if (cur_proc_has_vcallees) {
+      make_comment("save callees size");
+      op1 = make_indirect(REG_AP, 8);
+      op2 = make_register(REG_A0);
+      make_instr(m_movl, op1, op2, regmsk(REG_A0));
    }
 
    /* subscribe on code to restore registers */
-   restore_regs(ALL) ;
+   restore_regs(ALL);
 
-   if ( callees_to_clean ) {
-      make_comment ( "save return address in register" );
-      op1 = make_indirect ( REG_SP, 0 ) ;
-      op2 = make_register ( REG_A1 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A1 ) ) ;
+   if (callees_to_clean) {
+      make_comment("save return address in register");
+      op1 = make_indirect(REG_SP, 0);
+      op2 = make_register(REG_A1);
+      make_instr(m_movl, op1, op2, regmsk(REG_A1));
 
-      if ( cur_proc_has_vcallees ) {
+      if (cur_proc_has_vcallees) {
          make_comment("cleanup variable callees and return address");
-         op1 = make_register ( REG_A0 ) ;
-         op2 = make_register ( REG_SP );
-         make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+         op1 = make_register(REG_A0);
+         op2 = make_register(REG_SP);
+         make_instr(m_addl, op1, op2, regmsk(REG_SP));
 
          op1 = make_value ( 4 ) ; /* size of callers pointer */
-         op2 = make_register ( REG_SP );
-         make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+         op2 = make_register(REG_SP);
+         make_instr(m_addl, op1, op2, regmsk(REG_SP));
       }
       else {
          make_comment("cleanup static callees");
-         op1 = make_value ( cur_proc_callees_size / 8 ) ;
-         op2 = make_register ( REG_SP );
-         make_instr ( m_addl, op1, op2, regmsk ( REG_SP ) );
+         op1 = make_value(cur_proc_callees_size / 8);
+         op2 = make_register(REG_SP);
+         make_instr(m_addl, op1, op2, regmsk(REG_SP));
       }
 
       make_comment("put return address back on the stack");
-      op1 = make_register ( REG_A1 ) ;
-      op2 = make_indirect ( REG_SP, 0 ) ;
-      make_instr ( m_movl, op1, op2, 0 ) ;
+      op1 = make_register(REG_A1);
+      op2 = make_indirect(REG_SP, 0);
+      make_instr(m_movl, op1, op2, 0);
    }
-   make_comment ( "Cleanup before return done" );
+   make_comment("Cleanup before return done");
 }
 
 /************************************************************************
@@ -575,26 +601,25 @@ void cleanup
   ************************************************************************/
 
 void push_range
-    PROTO_N ( ( start, end ) )
-    PROTO_T ( int start X int end )
+(int start, int end)
 {
-   mach_op *op1, *op2 ;
-   long lb ;
+   mach_op *op1, *op2;
+   long lb;
 
    make_comment("Push range");
 
-   lb = next_lab () ;
-   make_label ( lb ) ;
+   lb = next_lab();
+   make_label(lb);
 
-   op1 = make_predec ( start ) ;
-   op2 = make_dec_sp () ;
-   make_instr ( m_movw, op1, op2, regmsk ( REG_SP ) ) ;
+   op1 = make_predec(start);
+   op2 = make_dec_sp();
+   make_instr(m_movw, op1, op2, regmsk(REG_SP));
 
-   op1 = make_register ( start ) ;
-   op2 = make_register ( end ) ;
-   make_instr ( m_cmpl, op1, op2, 0 ) ;
+   op1 = make_register(start);
+   op2 = make_register(end);
+   make_instr(m_cmpl, op1, op2, 0);
 
-   make_jump ( m_bne, lb ) ;
+   make_jump(m_bne, lb);
 }
 
 /************************************************************************
@@ -605,14 +630,14 @@ void push_range
   ************************************************************************/
 
 mach_op* make_callees_size
-    PROTO_Z ()
+(void)
 {
    /* Is it a run time value ? */
-   if ( cur_proc_has_vcallees )
-   return make_indirect ( REG_AP, 8 ) ;
+   if (cur_proc_has_vcallees)
+   return make_indirect(REG_AP, 8);
 
    /* or compile time value ? */
-   return make_value ( cur_proc_callees_size / 8 ) ;
+   return make_value(cur_proc_callees_size / 8);
 }
 
 /************************************************************************
@@ -623,43 +648,42 @@ mach_op* make_callees_size
   ************************************************************************/
 
 void push_same_callees
-    PROTO_N ( ( var_callees ) )
-    PROTO_T ( bool var_callees )
+(bool var_callees)
 {
-   mach_op *op1, *op2 ;
+   mach_op *op1, *op2;
 
    /* do we have any callees to push ? */
-   if ( cur_proc_has_vcallees || cur_proc_callees_size ) {
+   if (cur_proc_has_vcallees || cur_proc_callees_size) {
       make_comment("Push same callees");
       make_comment("end of callees");
-      op1 = make_register ( REG_AP ) ;
-      op2 = make_register ( REG_D1 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_D1 ) ) ;
+      op1 = make_register(REG_AP);
+      op2 = make_register(REG_D1);
+      make_instr(m_movl, op1, op2, regmsk(REG_D1));
 
       /* add sizeof(ret-addr)+sizeof(preincrement) ?+sizeof(callees size)? */
-      op1 = make_value( ( cur_proc_has_vcallees )? 12 : 8 ) ;
-      op2 = make_register ( REG_D1 ) ;
-      make_instr ( m_addl, op1, op2, regmsk ( REG_D1 ) ) ;
+      op1 = make_value((cur_proc_has_vcallees)? 12 : 8);
+      op2 = make_register(REG_D1);
+      make_instr(m_addl, op1, op2, regmsk(REG_D1));
 
       make_comment("start of callees");
-      op1 = make_register ( REG_D1 ) ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+      op1 = make_register(REG_D1);
+      op2 = make_register(REG_A0);
+      make_instr(m_movl, op1, op2, regmsk(REG_A0));
 
-      op1 = make_callees_size() ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_addl, op1, op2, regmsk ( REG_A0 ) ) ;
+      op1 = make_callees_size();
+      op2 = make_register(REG_A0);
+      make_instr(m_addl, op1, op2, regmsk(REG_A0));
 
-      push_range ( REG_A0, REG_D1 ) ;
+      push_range(REG_A0, REG_D1);
    }
 
    if (var_callees) {
       make_comment("push size of callees on the stack");
-      op1 = make_callees_size () ;
+      op1 = make_callees_size();
       op2 = make_dec_sp();
-      make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+      make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-      stack_size -= 32 ;
+      stack_size -= 32;
    }
 }
 
@@ -672,71 +696,70 @@ void push_same_callees
   ************************************************************************/
 
 void push_dynamic_callees
-    PROTO_N ( ( pcallees, stack ) )
-    PROTO_T ( exp pcallees X ash stack )
+(exp pcallees, ash stack)
 {
-   mach_op *op1, *op2 ;
-   exp ptr = son ( pcallees ) ;
-   exp sze = bro ( ptr ) ;
-   exp ident, ident_def ;
-   bool const_compound_shape = 0 ;
-   long total_size = 0 ;
+   mach_op *op1, *op2;
+   exp ptr = son(pcallees);
+   exp sze = bro(ptr);
+   exp ident, ident_def;
+   bool const_compound_shape = 0;
+   long total_size = 0;
 
    make_comment("Push dynamic callees");
 
-   coder ( A1, stack, ptr ) ;
-   coder ( D1, stack, sze ) ;
+   coder(A1, stack, ptr);
+   coder(D1, stack, sze);
 
    /* are callees of compond shape ? */
-   if ( name ( ptr ) == name_tag) {
-      ident = son ( ptr ) ;
-      ident_def = son ( ident ) ;
-      if ( name ( ident_def ) == compound_tag ) {
-         const_compound_shape = ! ( isvar ( ident ) ) ;
+   if (name(ptr) == name_tag) {
+      ident = son(ptr);
+      ident_def = son(ident);
+      if (name(ident_def) == compound_tag) {
+         const_compound_shape = !(isvar(ident));
       }
    }
 
-   if ( const_compound_shape ) {
-      long value ;
-      exp pair = son ( ident_def ) ;
-      if ( pair ) for (;;) {
-         pair = bro ( pair ) ;
-         value = no ( pair ) ;
+   if (const_compound_shape) {
+      long value;
+      exp pair = son(ident_def);
+      if (pair) for (;;) {
+         pair = bro(pair);
+         value = no(pair);
 
-         op1 = make_value ( value ) ;
-         op2 = make_dec_sp () ;
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP ) ) ;
-         total_size += 4 ;
+         op1 = make_value(value);
+         op2 = make_dec_sp();
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
+         total_size += 4;
 
-         if ( last ( pair ) ) break ;
-         pair = bro ( pair ) ;
+         if (last(pair))break;
+         pair = bro(pair);
       }
    }
    else {
       /* Let A0 point to end of callees */
-      op1 = make_register ( REG_A1 ) ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+      op1 = make_register(REG_A1);
+      op2 = make_register(REG_A0);
+      make_instr(m_movl, op1, op2, regmsk(REG_A0));
 
-      op1 = make_register ( REG_D1 ) ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_addl, op1, op2, regmsk ( REG_A0 ) ) ;
+      op1 = make_register(REG_D1);
+      op2 = make_register(REG_A0);
+      make_instr(m_addl, op1, op2, regmsk(REG_A0));
 
-      push_range ( REG_A0, REG_A1 ) ;
+      push_range(REG_A0, REG_A1);
    }
 
-   if ( call_has_vcallees(pcallees) ) {
+   if (call_has_vcallees(pcallees)) {
       make_comment("push size of dynamic callees on the stack");
-      if ( const_compound_shape ) {
-         op1 = make_value ( total_size ) ;
+      if (const_compound_shape) {
+         op1 = make_value(total_size);
       }
       else {
-         op1 = make_register ( REG_D1 ) ;
+         op1 = make_register(REG_D1);
       }
       op2 = make_dec_sp();
-      make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+      make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-      stack_size -= 32 ;
+      stack_size -= 32;
    }
    else {
        debug_warning("call with dynamic callees requires var_callees PROCPROPS");
@@ -751,41 +774,40 @@ void push_dynamic_callees
   ************************************************************************/
 
 void push_dynamic_callees_bt
-    PROTO_N ( ( pcallees, stack ) )
-    PROTO_T ( exp pcallees X ash stack )
+(exp pcallees, ash stack)
 {
-   mach_op *op1, *op2 ;
+   mach_op *op1, *op2;
 
-   push_dynamic_callees ( pcallees, stack );
+   push_dynamic_callees(pcallees, stack);
 
    make_comment("push return address");
-   op1 = make_indirect ( REG_AP, 4 ) ;
+   op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
-   make_instr ( m_movl, op1, op2, regmsk ( REG_SP ) ) ;
+   make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
    make_comment("put end of callees, size & return address in A1");
-   op1 = make_register ( REG_SP ) ;
-   op2 = make_register ( REG_A1 ) ;
-   make_instr ( m_movl, op1, op2, regmsk ( REG_A1 ) ) ;
+   op1 = make_register(REG_SP);
+   op2 = make_register(REG_A1);
+   make_instr(m_movl, op1, op2, regmsk(REG_A1));
 
    make_comment("put start of callees in A0");
-   op1 = make_register ( REG_A1 ) ;
-   op2 = make_register ( REG_A0 ) ;
-   make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+   op1 = make_register(REG_A1);
+   op2 = make_register(REG_A0);
+   make_instr(m_movl, op1, op2, regmsk(REG_A0));
 
    /* add size of callee from D1 */
-   op1 = make_register ( REG_D1 ) ;
-   op2 = make_register ( REG_A0 ) ;
-   make_instr ( m_addl, op1, op2, regmsk ( REG_A0 ) ) ;
+   op1 = make_register(REG_D1);
+   op2 = make_register(REG_A0);
+   make_instr(m_addl, op1, op2, regmsk(REG_A0));
 
    /* add size of return address and size of callees size if needed */
-   op1 = make_value ((call_has_vcallees(pcallees)) ? 8 : 4) ;
-   op2 = make_register ( REG_A0 ) ;
-   make_instr ( m_addl, op1, op2, regmsk ( REG_A0 ) ) ;
+   op1 = make_value((call_has_vcallees(pcallees))? 8 : 4);
+   op2 = make_register(REG_A0);
+   make_instr(m_addl, op1, op2, regmsk(REG_A0));
 
-   cleanup_bt (0, 0) ;
+   cleanup_bt(0, 0);
 
-   push_range ( REG_A0, REG_A1 ) ;
+   push_range(REG_A0, REG_A1);
 }
 
 /************************************************************************
@@ -796,60 +818,59 @@ void push_dynamic_callees_bt
   ************************************************************************/
 
 void A1_result_pointer
-    PROTO_N ( ( comp_size, longs, start_stack, dest ) )
-    PROTO_T ( long comp_size X long longs X long start_stack X where dest )
+(long comp_size, long longs, long start_stack, where dest)
 {
-   if ( comp_size ) {
+   if (comp_size) {
       /* Find the space allocated for unwanted results */
-      where w ;
-      w = mnw ( longs / 8 ) ;
-      make_comment("let A1 point to unwanted compund result") ;
-      add ( slongsh, SP, w, A1 ) ;
+      where w;
+      w = mnw(longs / 8);
+      make_comment("let A1 point to unwanted compund result");
+      add(slongsh, SP, w, A1);
    } else {
-      long doff ;
+      long doff;
       /* Find the address of where the result is to be put */
-      tmp_reg_prefer = REG_A1 ;
-      if ( apply_tag_flag ) {
+      tmp_reg_prefer = REG_A1;
+      if (apply_tag_flag) {
          /* For recursive use of apply_proc or apply_general
             we need to be very careful if the result is itself
             to be a procedure argument to get the right stack offset. */
 
          /* push old value */
-         long ex = extra_stack ;
-         extra_stack += start_stack ;
+         long ex = extra_stack;
+         extra_stack += start_stack;
 
-         if ( (dest.wh_exp == SP_p.wh_exp) && (dest.wh_is == SP_p.wh_is) ) {
+         if ((dest.wh_exp == SP_p.wh_exp) && (dest.wh_is == SP_p.wh_is)) {
             /* Careful! */
 
             /* push where offset */
-            doff = dest.wh_off ;
+            doff = dest.wh_off;
 
-            dest.wh_off = doff + extra_stack ;
+            dest.wh_off = doff + extra_stack;
 
-            make_comment("let A1 point to compund result used as procedure argument") ;
-            mova ( dest, A1 ) ;
+            make_comment("let A1 point to compund result used as procedure argument");
+            mova(dest, A1);
 
             /* pop where offset */
-            dest.wh_off = doff ;
+            dest.wh_off = doff;
 
          } else {
             /* Easy */
-            make_comment("let A1 point to compund result from eval. of call par.") ;
-            mova ( dest, A1 ) ;
+            make_comment("let A1 point to compund result from eval. of call par.");
+            mova(dest, A1);
          }
 
          /* pop value after call */
-         extra_stack = ex  ;
+         extra_stack = ex ;
       }
       else {
          /* Otherwise (easy) ... */
-         make_comment("let A1 point to compund result") ;
-         mova ( dest, A1 ) ;
+         make_comment("let A1 point to compund result");
+         mova(dest, A1);
       }
    }
    /* Make sure we don't reuse A1 accidently */
-   avoid_tmp_reg ( REG_A1 ) ;
-   regsinproc |= regmsk ( REG_A1 ) ;
+   avoid_tmp_reg(REG_A1);
+   regsinproc |= regmsk(REG_A1);
 }
 
 /************************************************************************
@@ -859,13 +880,12 @@ void A1_result_pointer
   ************************************************************************/
 
 static bool postlude_has_code
-    PROTO_N ( ( postlude ) )
-    PROTO_T ( exp postlude )
+(exp postlude)
 {
-   while ( name( postlude ) == ident_tag && name(son( postlude )) == caller_name_tag) {
-      postlude = bro( son( postlude ) );
+   while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
+      postlude = bro(son(postlude));
    }
-   return ( name( postlude ) != top_tag ) ;
+   return(name(postlude)!= top_tag);
 }
 
 
@@ -876,213 +896,212 @@ static bool postlude_has_code
   ************************************************************************/
 
 void apply_general_proc
-    PROTO_N ( ( e, dest, stack ) )
-    PROTO_T ( exp e X where dest X ash stack )
+(exp e, where dest, ash stack)
 {
 
    /* Procedure applications */
-   exp t ;
-   ash st ;
+   exp t;
+   ash st;
    where tmp_dest;
-   mach_op *op1, *op2 ;
-   long comp_size = 0 ;
-   long longs = 0, stkdec ;
-   long start_stack = stack_dec ;
+   mach_op *op1, *op2;
+   long comp_size = 0;
+   long longs = 0, stkdec;
+   long start_stack = stack_dec;
    long callers_size = 0, callees_size = 0 ; /* size of parameters on the stack */
    long size_size = 0 ;                      /* size of callees size */
    long callees_size_total = 0 ;             /* size of callees and callees size */
    long result_size = 0 ;                    /* size of result */
 
-   bool push_result = 0, use_push = 1, reg_res ;
-   bool has_postlude = 0, has_checkstack = 0, is_untidy = 0 ;
+   bool push_result = 0, use_push = 1, reg_res;
+   bool has_postlude = 0, has_checkstack = 0, is_untidy = 0;
 
-   exp proc, caller_args, pcallees = 0, postlude = 0, callee_args = 0 ;
+   exp proc, caller_args, pcallees = 0, postlude = 0, callee_args = 0;
 
    make_comment("Apply Proc");
 
    /* Find the procedure and the arguments */
 
-   tmp_dest = dest ;
-   proc = son ( e ) ;
-   caller_args = (!last(proc)) ? bro (proc) : nilexp;
+   tmp_dest = dest;
+   proc = son(e);
+   caller_args = (!last(proc))? bro(proc): nilexp;
 
-   if ( name(e) == apply_general_tag) {
-      pcallees     = bro ( caller_args ) ;
-      postlude    = bro ( pcallees );
-      callee_args = son ( pcallees ) ;
-      caller_args = son ( caller_args );
+   if (name(e) == apply_general_tag) {
+      pcallees     = bro(caller_args);
+      postlude    = bro(pcallees);
+      callee_args = son(pcallees);
+      caller_args = son(caller_args);
 
       is_untidy = call_is_untidy(e);
       has_checkstack = call_has_checkstack(e);
-      has_postlude = postlude_has_code( postlude ) ;
+      has_postlude = postlude_has_code(postlude);
    }
 
    /* calculate length of callers and see if we can push them */
 
-   if (! test_push_args(caller_args, &callers_size) ) use_push = 0;
+   if (! test_push_args(caller_args, &callers_size))use_push = 0;
 
-   if ( pcallees ) {
-      if ( name( pcallees ) == make_callee_list_tag ) {
+   if (pcallees) {
+      if (name(pcallees) == make_callee_list_tag) {
          /* calculate length of callees and see if we can push them */
-         if (! test_push_args(callee_args, &callees_size) ) use_push = 0;
+         if (! test_push_args(callee_args, &callees_size))use_push = 0;
       }
-      size_size = ( ( call_has_vcallees(pcallees) )?32:0 ) ;
-      callees_size_total = callees_size + size_size ;
+      size_size = ((call_has_vcallees(pcallees))?32:0);
+      callees_size_total = callees_size + size_size;
    }
 
    /* total parameter space */
-   longs = callers_size + callees_size_total ;
+   longs = callers_size + callees_size_total;
 
    /* Does the result go into a register? */
-   reg_res = result_in_reg ( sh ( e ) ) ;
-   if ( !reg_res ) {
-      if ( eq_where ( dest, zero ) ) {
+   reg_res = result_in_reg(sh(e));
+   if (!reg_res) {
+      if (eq_where(dest, zero)) {
          /* Calculate size of ignored compound result */
-         comp_size = round ( shape_size ( sh ( e ) ), param_align ) ;
+         comp_size = round(shape_size(sh(e)), param_align);
       }
    }
 
    /* Find total amount of stack decrease */
-   stkdec = longs + comp_size ;
+   stkdec = longs + comp_size;
 
-   if ( has_checkstack ) {
+   if (has_checkstack) {
       /* check if there is room for parameters and return address on the stack */
-      checkalloc_stack( mnw( stkdec / 8 + 4 ), 0);
+      checkalloc_stack(mnw(stkdec / 8 + 4), 0);
    }
 
    /* Put arguments onto stack */
-   if ( use_push ) {
-      if ( comp_size ) {
+   if (use_push) {
+      if (comp_size) {
          /* Make room for unwanted compound result */
-         dec_stack ( comp_size ) ;
-         stack_dec -= comp_size ;
+         dec_stack(comp_size);
+         stack_dec -= comp_size;
       }
 
-      if ( caller_args ) {
+      if (caller_args) {
          make_comment("Push callers");
-         push_args ( zw ( e ), stack, caller_args ) ;
+         push_args(zw(e), stack, caller_args);
       }
 
-      if ( pcallees ) {
-         if ( name(pcallees) == make_dynamic_callee_tag ) {
-            push_dynamic_callees ( pcallees, stack ) ;
-            stack_dec -= callees_size_total ;
+      if (pcallees) {
+         if (name(pcallees) == make_dynamic_callee_tag) {
+            push_dynamic_callees(pcallees, stack);
+            stack_dec -= callees_size_total;
          }
-         else if ( name(pcallees) == same_callees_tag ) {
-            push_same_callees(call_has_vcallees(pcallees)) ;
-            stack_dec -= callees_size_total ;
+         else if (name(pcallees) == same_callees_tag) {
+            push_same_callees(call_has_vcallees(pcallees));
+            stack_dec -= callees_size_total;
          }
          else {
-            if ( callee_args ) {
+            if (callee_args) {
                make_comment("Push static callees");
-               push_args ( zw ( e ), stack, callee_args ) ;
+               push_args(zw(e), stack, callee_args);
             }
-            if ( call_has_vcallees(pcallees) ) {
+            if (call_has_vcallees(pcallees)) {
                make_comment("push size of callees on the stack");
-               stack_dec -= 32 ;
-               stack_size -= 32 ;
+               stack_dec -= 32;
+               stack_size -= 32;
 
-               op1 = make_value ( callees_size / 8 ) ;
+               op1 = make_value(callees_size / 8);
                op2 = make_dec_sp();
-               make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+               make_instr(m_movl, op1, op2, regmsk(REG_SP));
             }
          }
       }
    }
    else {
       /* Can't just use push => Decrease stack instead */
-      dec_stack ( stkdec ) ;
-      stack_dec -= stkdec ;
+      dec_stack(stkdec);
+      stack_dec -= stkdec;
 
-      if ( caller_args ) {
+      if (caller_args) {
          make_comment("Place callers on the stack");
          place_arguments(caller_args, stack, callees_size_total);
       }
-      if ( pcallees ) {
-         if ( name(pcallees) == make_dynamic_callee_tag ) {
-            push_dynamic_callees ( pcallees, stack ) ;
+      if (pcallees) {
+         if (name(pcallees) == make_dynamic_callee_tag) {
+            push_dynamic_callees(pcallees, stack);
          }
-         else if ( name(pcallees) == same_callees_tag ) {
-            push_same_callees(call_has_vcallees(pcallees)) ;
+         else if (name(pcallees) == same_callees_tag) {
+            push_same_callees(call_has_vcallees(pcallees));
          }
          else {
-            if ( callee_args ) {
+            if (callee_args) {
                make_comment("Place static callees on the stack");
                place_arguments(callee_args, stack, size_size);
             }
-            if ( call_has_vcallees(pcallees) ) {
+            if (call_has_vcallees(pcallees)) {
                make_comment("push size of callees on the stack");
-               op1 = make_value ( callees_size / 8 ) ;
-               op2 = make_indirect ( REG_SP, 0 ) ;
-               make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+               op1 = make_value(callees_size / 8);
+               op2 = make_indirect(REG_SP, 0);
+               make_instr(m_movl, op1, op2, regmsk(REG_SP));
             }
          }
       }
    }
 
-   start_stack -= stack_dec ;
+   start_stack -= stack_dec;
 
-   if ( !reg_res )
-   A1_result_pointer(comp_size, longs, start_stack, dest) ;
+   if (!reg_res)
+   A1_result_pointer(comp_size, longs, start_stack, dest);
 
    /* Output the call instruction */
-   callins ( 0, proc ) ;
+   callins(0, proc);
 
-   if ( is_untidy ) {
+   if (is_untidy) {
       stack_dec = 0; /* We can't keep track of it any longer */
       if (need_preserve_stack)
-      save_stack ();
+      save_stack();
    }
    else {
       /* callees has now been cleaned up by called proc. */
-      stack_dec += callees_size_total ;
-      stack_size += callees_size_total ;
+      stack_dec += callees_size_total;
+      stack_size += callees_size_total;
    }
 
    /* can we cleanup callers now ? */
-   if ( ! ( has_postlude || is_untidy ) ) {
+   if (!(has_postlude || is_untidy)) {
       /* Clean up of callers and room for ignored compund result. */
-      stack_dec += callers_size + comp_size ;
-      dec_stack ( - callers_size - comp_size );
+      stack_dec += callers_size + comp_size;
+      dec_stack(- callers_size - comp_size);
    }
 
    /* Move the result into place */
-   if ( comp_size ) {
+   if (comp_size) {
       make_comment("(unwanted compound result)");
    }
    else
-   if ( eq_where ( dest, zero ) ) {
+   if (eq_where(dest, zero)) {
       make_comment("(unwanted simple result)");
    }
    else {
       /* ok the result is needed */
-      if ( has_postlude ) {
+      if (has_postlude) {
          /* we need to preserve result on stack */
-         result_size = rounder (shape_size(sh(e)), param_align);
-         dec_stack ( result_size ) ;
+         result_size = rounder(shape_size(sh(e)), param_align);
+         dec_stack(result_size);
          stack_dec -= result_size;
-         tmp_dest = SP_p ;
-         push_result = 1 ;
+         tmp_dest = SP_p;
+         push_result = 1;
       }
-      if ( reg_res ) {
-         if ( shape_size ( sh ( e ) ) <= 32 ) {
+      if (reg_res) {
+         if (shape_size(sh(e)) <= 32) {
             /* Small register results are in D0 */
-            move ( sh ( e ), D0, tmp_dest ) ;
+            move(sh(e), D0, tmp_dest);
          } else {
             /* Larger register results are in D0 and D1 */
 #ifdef SYSV_ABI
-            move ( sh ( e ), FP0, tmp_dest ) ;
+            move(sh(e), FP0, tmp_dest);
 #else
-            move ( sh ( e ), D0_D1, tmp_dest ) ;
-            regsinproc |= regmsk ( REG_D1 ) ;
+            move(sh(e), D0_D1, tmp_dest);
+            regsinproc |= regmsk(REG_D1);
 #endif
          }
       } else {
          make_comment("(compound result)");
-         if ( has_postlude ) {
-            make_comment("save compound result before postlude...") ;
-            move ( sh ( e ), dest, tmp_dest ) ;
-            make_comment("save compound result before postlude done") ;
+         if (has_postlude) {
+            make_comment("save compound result before postlude...");
+            move(sh(e), dest, tmp_dest);
+            make_comment("save compound result before postlude done");
          }
 
          /* Compound results should already have been copied to
@@ -1091,32 +1110,32 @@ void apply_general_proc
             be required by the calling procedure.  Unfortunately
             cc doesn't always get this right for union results. */
 #ifdef OLD_SPEC
-         if ( cc_conventions && name ( sh ( e ) ) == unhd ) {
-            regsinproc |= regmsk ( REG_A0 ) ;
-            move ( slongsh, D0, A0 ) ;
-            move ( sh ( e ), A0_p, dest ) ;
+         if (cc_conventions && name(sh(e)) == unhd) {
+            regsinproc |= regmsk(REG_A0);
+            move(slongsh, D0, A0);
+            move(sh(e), A0_p, dest);
          }
 #endif
       }
    }
 
-   if ( has_postlude ) {
-      code_postlude(postlude, caller_args, stack, result_size ) ;
+   if (has_postlude) {
+      code_postlude(postlude, caller_args, stack, result_size);
 
       /* put return value back in register */
-      if ( push_result ) {
-         make_comment("restore result after postlude...") ;
+      if (push_result) {
+         make_comment("restore result after postlude...");
          move(sh(e), SP_p, dest);
-         make_comment("restore result after postlude done") ;
-         dec_stack ( -result_size ) ;
+         make_comment("restore result after postlude done");
+         dec_stack(-result_size);
          stack_dec += result_size;
       }
 
       /* Delayed clean up of callers and room for ignored compund result.
          callees are cleaned by the called proc. */
-      if ( ! is_untidy ) {
-         stack_dec += callers_size + comp_size ;
-         dec_stack ( - callers_size - comp_size );
+      if (! is_untidy) {
+         stack_dec += callers_size + comp_size;
+         dec_stack(- callers_size - comp_size);
       }
    }
 }
@@ -1133,38 +1152,37 @@ void apply_general_proc
   ************************************************************************/
 
 static bool test_push_args
-    PROTO_N ( (args, args_size) )
-    PROTO_T ( exp args X ash* args_size )
+(exp args, ash* args_size)
 {
 
    /* See if we can push all the arguments */
 
-   bool use_push = 1 ;
-   exp arg = args, formal ;
-   ash stack = 0 ;
+   bool use_push = 1;
+   exp arg = args, formal;
+   ash stack = 0;
    ast stack_add_res;
 
-   while ( arg != nilexp ) {
-      formal = ( name ( arg ) == caller_tag) ? son ( arg ) : arg ;
+   while (arg != nilexp) {
+      formal = (name(arg) == caller_tag)? son(arg): arg;
 
-      if ( cpd_param ( sh ( formal ) ) ) use_push = 0 ;
-      if ((name(sh(formal)) == s64hd) || (name(sh(formal)) == u64hd)) use_push = 0;
-      if (! push_arg ( formal ) ) use_push = 0 ;
+      if (cpd_param(sh(formal)))use_push = 0;
+      if ((name(sh(formal)) == s64hd) || (name(sh(formal)) == u64hd))use_push = 0;
+      if (! push_arg(formal))use_push = 0;
 
-      stack_add_res = add_shape_to_stack ( stack, sh ( formal ) ) ;
-      stack = stack_add_res.astash ;
+      stack_add_res = add_shape_to_stack(stack, sh(formal));
+      stack = stack_add_res.astash;
 
       /* information used by code_postlude */
-      if ( name ( arg ) == caller_tag)
-      no ( arg ) = stack_add_res.astoff + stack_add_res.astadj ;
+      if (name(arg) == caller_tag)
+      no(arg) = stack_add_res.astoff + stack_add_res.astadj;
 
-      arg = ( last ( arg ) ? nilexp : bro ( arg ) ) ;
+      arg = (last(arg)? nilexp : bro(arg));
    }
 
-   (* args_size) = stack ;
+  (* args_size) = stack;
 
 
-   return use_push ;
+   return use_push;
 }
 
 
@@ -1175,37 +1193,36 @@ static bool test_push_args
   ************************************************************************/
 
 static void place_arguments
-    PROTO_N ( (args, stack, start) )
-    PROTO_T ( exp args X ash stack X long start )
+(exp args, ash stack, long start)
 {
-   exp arg = args ;
-   ast stack_add_res ;
-   where stack_pointer ;
-   long adj ;
-   long st = start ;
+   exp arg = args;
+   ast stack_add_res;
+   where stack_pointer;
+   long adj;
+   long st = start;
 
    /* Indicate recursive calls */
-   apply_tag_flag ++ ;
+   apply_tag_flag ++;
 
    /* Encode the arguments onto the stack */
    while (arg != nilexp) {
-      exp formal = ( name ( arg ) == caller_tag) ? son ( arg ) : arg ;
+      exp formal = (name(arg) == caller_tag)? son(arg): arg;
 
-      char nc = name ( sh ( formal ) ) ;
-      if ( nc == scharhd || nc == ucharhd ) adj = 24 ;
+      char nc = name(sh(formal));
+      if (nc == scharhd || nc == ucharhd)adj = 24;
       else
-      if ( nc == swordhd || nc == uwordhd ) adj = 16 ;
-      else adj = 0 ;
+      if (nc == swordhd || nc == uwordhd)adj = 16;
+      else adj = 0;
 
-      stack_pointer = mw ( SP_p.wh_exp, st + adj ) ;
-      coder ( stack_pointer, stack, formal ) ;
-      stack_add_res = add_shape_to_stack ( st, sh ( formal ) ) ;
-      st = stack_add_res.astash ;
+      stack_pointer = mw(SP_p.wh_exp, st + adj);
+      coder(stack_pointer, stack, formal);
+      stack_add_res = add_shape_to_stack(st, sh(formal));
+      st = stack_add_res.astash;
 
-      arg = ( last ( arg ) ? nilexp : bro ( arg ) ) ;
+      arg = (last(arg)? nilexp : bro(arg));
    }
 
-   apply_tag_flag -- ;
+   apply_tag_flag --;
 }
 
 /************************************************************************
@@ -1216,26 +1233,25 @@ static void place_arguments
   ************************************************************************/
 
 static void push_args
-    PROTO_N ( ( w, stack, args ) )
-    PROTO_T ( where w X ash stack X exp args )
+(where w, ash stack, exp args)
 {
-   long sz = shape_size ( sh ( args ) ) ;
-   exp formal ;
+   long sz = shape_size(sh(args));
+   exp formal;
 
-   if ( last ( args ) ) {
+   if (last(args)) {
       /* Code last argument */
-      formal = ( name ( args ) == caller_tag) ? son ( args ) : args ;
-      coder ( w, stack, formal ) ;
-      stack_dec -= rounder ( sz, param_align ) ;
+      formal = (name(args) == caller_tag)? son(args): args;
+      coder(w, stack, formal);
+      stack_dec -= rounder(sz, param_align);
    } else {
       /* Code the following arguments */
-      push_args ( w, stack, bro ( args ) ) ;
+      push_args(w, stack, bro(args));
       /* And then this one */
-      formal = ( name ( args ) == caller_tag) ? son ( args ) : args ;
-      coder ( w, stack, formal ) ;
-      stack_dec -= rounder ( sz, param_align  ) ;
+      formal = (name(args) == caller_tag)? son(args): args;
+      coder(w, stack, formal);
+      stack_dec -= rounder(sz, param_align );
    }
-   return ;
+   return;
 }
 
 /************************************************************************
@@ -1245,118 +1261,117 @@ static void push_args
   ************************************************************************/
 
 void tail_call
-    PROTO_N ( ( e, dest, stack ) )
-    PROTO_T ( exp e X where dest X ash stack )
+(exp e, where dest, ash stack)
 {
-   exp proc        = son ( e );
-   exp pcallees     = bro( proc );
-   exp callee_args = son ( pcallees );
+   exp proc        = son(e);
+   exp pcallees     = bro(proc);
+   exp callee_args = son(pcallees);
    int longs;
-   mach_op *op1, *op2 ;
-   long new_callees_size ;
-   bool use_push = 1 ;
+   mach_op *op1, *op2;
+   long new_callees_size;
+   bool use_push = 1;
 
    make_comment("Tail Call");
 
-   update_stack() ;
+   update_stack();
 
-   if ( name(pcallees) == make_dynamic_callee_tag ) {
+   if (name(pcallees) == make_dynamic_callee_tag) {
       /* A0 and A1 are used by cleanup. We are just about to make the tail
          call with shape bottom, so they are free */
-      push_dynamic_callees_bt ( pcallees, stack ) ;
-      jmpins(proc) ;
-      return ;
+      push_dynamic_callees_bt(pcallees, stack);
+      jmpins(proc);
+      return;
    }
 
    /* same callees ? */
 
-   if ( name(pcallees) == same_callees_tag ) {
-      restore_regs(ALL) ;
+   if (name(pcallees) == same_callees_tag) {
+      restore_regs(ALL);
 
-      if ( ! cur_proc_has_vcallees  && call_has_vcallees(pcallees) ) {
+      if (! cur_proc_has_vcallees  && call_has_vcallees(pcallees)) {
          make_comment("push size of same static callees and ret.addr. on the stack");
-         op1 = make_indirect ( REG_SP, 0 ) ;
-         op2 = make_register ( REG_D0 );
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+         op1 = make_indirect(REG_SP, 0);
+         op2 = make_register(REG_D0);
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-         op1 = make_callees_size () ;
-         op2 = make_indirect ( REG_SP, 0 ) ;
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+         op1 = make_callees_size();
+         op2 = make_indirect(REG_SP, 0);
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-         op1 = make_register ( REG_D0 );
-         op2 = make_dec_sp () ;
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+         op1 = make_register(REG_D0);
+         op2 = make_dec_sp();
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
       }
-      else if ( cur_proc_has_vcallees  && ! call_has_vcallees(pcallees) ) {
+      else if (cur_proc_has_vcallees  && ! call_has_vcallees(pcallees)) {
          make_comment("remove size of same static callees from the stack");
-         op1 = make_inc_sp () ;
-         op2 = make_indirect ( REG_SP, 0 ) ;
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+         op1 = make_inc_sp();
+         op2 = make_indirect(REG_SP, 0);
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
       }
-      jmpins(proc) ;
-      return ;
+      jmpins(proc);
+      return;
    }
 
    /* nothing more than same calleers ? */
 
-   if (! (callee_args || cur_proc_has_vcallees || call_has_vcallees(pcallees))) {
-      restore_regs(ALL) ;
-      jmpins(proc) ;
-      return ;
+   if (!(callee_args || cur_proc_has_vcallees || call_has_vcallees(pcallees))) {
+      restore_regs(ALL);
+      jmpins(proc);
+      return;
    }
 
    /* no callees ? */
 
-   if ( ! callee_args ) {
+   if (! callee_args) {
       make_comment("save return address");
-      op1 = make_indirect ( REG_AP, 4 ) ;
-      op2 = make_register ( REG_A1 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_D0 ) ) ;
+      op1 = make_indirect(REG_AP, 4);
+      op2 = make_register(REG_A1);
+      make_instr(m_movl, op1, op2, regmsk(REG_D0));
 
       cleanup_bt(0,0);
 
-      if ( call_has_vcallees( pcallees ) ) {
+      if (call_has_vcallees(pcallees)) {
          make_comment("push zero size of callees on the stack");
-         op1 = make_value ( 0 ) ;
+         op1 = make_value(0);
          op2 = make_dec_sp();
-         make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+         make_instr(m_movl, op1, op2, regmsk(REG_SP));
       }
 
       make_comment("push return address back");
-      op1 = make_register ( REG_A1 ) ;
+      op1 = make_register(REG_A1);
       op2 = make_dec_sp();
-      make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+      make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-      jmpins(proc) ;
-      return ;
+      jmpins(proc);
+      return;
    }
 
    /* new callees ! */
 
-   if (! test_push_args(callee_args, &new_callees_size) ) use_push = 0;
+   if (! test_push_args(callee_args, &new_callees_size))use_push = 0;
 
-   if ( use_push ) {
+   if (use_push) {
       make_comment("Push callees");
-      push_args ( zw ( e ), stack, callee_args ) ;
+      push_args(zw(e), stack, callee_args);
    }
    else {
       /* Decrease stack */
-      dec_stack ( new_callees_size ) ;
-      stack_dec -= new_callees_size ;
-      place_arguments(callee_args, stack, 0) ;
+      dec_stack(new_callees_size);
+      stack_dec -= new_callees_size;
+      place_arguments(callee_args, stack, 0);
    }
 
-   if ( call_has_vcallees(pcallees) ) {
+   if (call_has_vcallees(pcallees)) {
       make_comment("push size of new callees on the stack");
-      op1 = make_value ( new_callees_size / 8 ) ;
+      op1 = make_value(new_callees_size / 8);
       op2 = make_dec_sp();
-      make_instr ( m_movl, op1, op2, regmsk ( REG_SP )) ;
+      make_instr(m_movl, op1, op2, regmsk(REG_SP));
    }
 
    make_comment("push return address");
-   op1 = make_indirect ( REG_AP, 4 ) ;
+   op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
-   make_instr ( m_movl, op1, op2, regmsk ( REG_SP ) ) ;
+   make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
    /*
       Setup source, dest and end mark for push_range
@@ -1364,27 +1379,27 @@ void tail_call
       */
 
    make_comment("save end of new callees and return address");
-   op1 = make_register ( REG_SP ) ;
-   op2 = make_register ( REG_D1 ) ;
-   make_instr ( m_movl, op1, op2, regmsk ( REG_D1 ) ) ;
+   op1 = make_register(REG_SP);
+   op2 = make_register(REG_D1);
+   make_instr(m_movl, op1, op2, regmsk(REG_D1));
 
    make_comment("save start of new callees and return address");
-   op1 = make_register ( REG_SP ) ;
-   op2 = make_register ( REG_A0 ) ;
-   make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+   op1 = make_register(REG_SP);
+   op2 = make_register(REG_A0);
+   make_instr(m_movl, op1, op2, regmsk(REG_A0));
 
    /* add sizeof(new calless) sizeof(ret-addr) + ?+sizeof(callees size)? */
-   op1 = make_value(new_callees_size/8+4+(call_has_vcallees(pcallees)?4:0));
-   op2 = make_register ( REG_A0 ) ;
-   make_instr ( m_addl, op1, op2, regmsk ( REG_A0 ) ) ;
+   op1 = make_value(new_callees_size/8+4+ (call_has_vcallees(pcallees)?4:0));
+   op2 = make_register(REG_A0);
+   make_instr(m_addl, op1, op2, regmsk(REG_A0));
 
-   cleanup_bt(0,0) ;
+   cleanup_bt(0,0);
 
    make_comment("push the new callees");
-   push_range ( REG_A0, REG_D1 ) ;
+   push_range(REG_A0, REG_D1);
 
    /* make the jump instruction */
-   jmpins(proc) ;
+   jmpins(proc);
 }
 
 
@@ -1398,243 +1413,242 @@ void tail_call
   ************************************************************************/
 
 void general_epilogue
-    PROTO_N ( ( uses_callers_pointer, has_checkstack ) )
-    PROTO_T ( bool uses_callers_pointer X bool has_checkstack )
+(bool uses_callers_pointer, bool has_checkstack)
 {
-   int r, instruction_id ;
-   bitpattern m ;
-   long st, st1 ;
-   mach_op *op1, *op2 ;
-   mach_ins * save_ins_pointer ;
+   int r, instruction_id;
+   bitpattern m;
+   long st, st1;
+   mach_op *op1, *op2;
+   mach_ins * save_ins_pointer;
 
-   int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1 ;
+   int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1;
 
-   bitpattern rmsk = regs ( regsinproc & save_msk ) ;
-   bitpattern smsk = rmsk ;
-   bitpattern cmsk = 0 ;
-   bitpattern fmsk = 0 ;
-   bitpattern fsmsk = fregs ( regsinproc & save_msk ) ;
-   bool d1_free ;
-   bool save_d1 = 0 ;
-   bool uses_link = 0 ;
+   bitpattern rmsk = regs(regsinproc & save_msk);
+   bitpattern smsk = rmsk;
+   bitpattern cmsk = 0;
+   bitpattern fmsk = 0;
+   bitpattern fsmsk = fregs(regsinproc & save_msk);
+   bool d1_free;
+   bool save_d1 = 0;
+   bool uses_link = 0;
 
    make_comment("Epilogue");
 
    /* restore the default floating point rounding mode */
    reset_round_mode();
 
-   for ( r = REG_FP7, m = 1 ; r >= REG_FP2 ; r--, m <<= 1 ) {
-      if ( regsinproc & regmsk ( r ) ) fmsk |= m ;
+   for (r = REG_FP7, m = 1; r >= REG_FP2; r--, m <<= 1) {
+      if (regsinproc & regmsk(r))fmsk |= m;
    }
 
    /* any calls? */
-   if ( no_calls > 0 ) {
+   if (no_calls > 0) {
       if (uses_callers_pointer) {
          /* Variable number of calles => A5 used as pointer to first caller */
-         smsk &= ~regmsk ( REG_A5 ) ;
+         smsk &= ~regmsk(REG_A5);
       }
 
-      smsk &= ~bigregs ;
-      fsmsk &= ~bigregs ;
+      smsk &= ~bigregs;
+      fsmsk &= ~bigregs;
    }
 
-   make_label ( crt_ret_lab ) ;
+   make_label(crt_ret_lab);
 
 #if have_diagnostics
-   if ( diagnose ) xdb_diag_proc_return () ;
+   if (diagnose)xdb_diag_proc_return();
 #endif
 
-   d1_free = !( regsinproc & regmsk ( REG_D1 ) ) ;
+   d1_free = !(regsinproc & regmsk(REG_D1));
 
    /* Use D1 if not already used */
-   if ( d1_free ) {
+   if (d1_free) {
       m = smsk & dreg_msk ;     /* m = set of D'regs */
-      if ( m ) {
+      if (m) {
          /* Replace a used D-register by D1 */
          r = reg ( m ) ;        /* get the first free register number in the set */
-         reg_names [r] = reg_names [ REG_D1 ] ;
-         rmsk &= ~regmsk ( r ) ;
-         smsk &= ~regmsk ( r ) ;
-         cmsk |= regmsk ( r ) ;
-         d1_free = 0 ;
+         reg_names[r] = reg_names[REG_D1];
+         rmsk &= ~regmsk(r);
+         smsk &= ~regmsk(r);
+         cmsk |= regmsk(r);
+         d1_free = 0;
       }
    }
 
    /* Use A0 if not already used */
-   if ( !( regsinproc & regmsk ( REG_A0 ) ) ) {
-      m = smsk & areg_msk ;
-      if ( m ) {
+   if (!(regsinproc & regmsk(REG_A0))) {
+      m = smsk & areg_msk;
+      if (m) {
          /* Replace a used A-register by A0 */
-         r = reg ( m ) ;
-         reg_names [r] = reg_names [ REG_A0 ] ;
-         rmsk &= ~regmsk ( r ) ;
-         smsk &= ~regmsk ( r ) ;
-         cmsk |= regmsk ( r ) ;
-      } else if ( no_calls == 0 ) {
-         m = rmsk & dreg_msk ;
-         if ( m ) {
+         r = reg(m);
+         reg_names[r] = reg_names[REG_A0];
+         rmsk &= ~regmsk(r);
+         smsk &= ~regmsk(r);
+         cmsk |= regmsk(r);
+      } else if (no_calls == 0) {
+         m = rmsk & dreg_msk;
+         if (m) {
             /* Move a used D-register into A0 */
-            tmp_a0 = reg ( m ) ;
-            rmsk &= ~regmsk ( tmp_a0 ) ;
-            smsk = rmsk ;
-            op1 = make_register ( REG_A0 ) ;
-            op2 = make_register ( tmp_a0 ) ;
-            make_instr ( m_movl, op1, op2, regmsk ( tmp_a0 ) ) ;
-            just_ret = 0 ;
+            tmp_a0 = reg(m);
+            rmsk &= ~regmsk(tmp_a0);
+            smsk = rmsk;
+            op1 = make_register(REG_A0);
+            op2 = make_register(tmp_a0);
+            make_instr(m_movl, op1, op2, regmsk(tmp_a0));
+            just_ret = 0;
          }
       }
    }
 
    /* Use A1 if not already used */
-   if ( !( regsinproc & regmsk ( REG_A1 ) ) ) {
-      m = smsk & areg_msk ;
-      if ( m ) {
+   if (!(regsinproc & regmsk(REG_A1))) {
+      m = smsk & areg_msk;
+      if (m) {
          /* Replace a used A-register by A1 */
-         r = reg ( m ) ;
-         reg_names [r] = reg_names [ REG_A1 ] ;
-         rmsk &= ~regmsk ( r ) ;
-         smsk &= ~regmsk ( r ) ;
-         cmsk |= regmsk ( r ) ;
-      } else if ( no_calls == 0 ) {
-         m = rmsk & dreg_msk ;
-         if ( m ) {
+         r = reg(m);
+         reg_names[r] = reg_names[REG_A1];
+         rmsk &= ~regmsk(r);
+         smsk &= ~regmsk(r);
+         cmsk |= regmsk(r);
+      } else if (no_calls == 0) {
+         m = rmsk & dreg_msk;
+         if (m) {
             /* Move a used D-register into A1 */
-            tmp_a1 = reg ( m ) ;
-            rmsk &= ~regmsk ( tmp_a1 ) ;
-            smsk = rmsk ;
-            op1 = make_register ( REG_A1 ) ;
-            op2 = make_register ( tmp_a1 ) ;
-            make_instr ( m_movl, op1, op2, regmsk ( tmp_a1 ) ) ;
-            just_ret = 0 ;
+            tmp_a1 = reg(m);
+            rmsk &= ~regmsk(tmp_a1);
+            smsk = rmsk;
+            op1 = make_register(REG_A1);
+            op2 = make_register(tmp_a1);
+            make_instr(m_movl, op1, op2, regmsk(tmp_a1));
+            just_ret = 0;
          }
       }
    }
 
    /* Use FP1 if not already used */
-   if ( fsmsk && !( regsinproc & regmsk ( REG_FP1 ) ) ) {
-      for ( r = REG_FP7, m = 1 ; r >= REG_FP2 ; r--, m <<= 1 ) {
-         if ( fsmsk & regmsk ( r ) ) {
-            reg_names [r] = reg_names [ REG_FP1 ] ;
-            fmsk &= ~m ;
-            fsmsk &= ~regmsk ( r ) ;
-            cmsk |= regmsk ( r ) ;
-            r = REG_FP1 ;
+   if (fsmsk && !(regsinproc & regmsk(REG_FP1))) {
+      for (r = REG_FP7, m = 1; r >= REG_FP2; r--, m <<= 1) {
+         if (fsmsk & regmsk(r)) {
+            reg_names[r] = reg_names[REG_FP1];
+            fmsk &= ~m;
+            fsmsk &= ~regmsk(r);
+            cmsk |= regmsk(r);
+            r = REG_FP1;
          }
       }
    }
 
-   if ( d1_free && no_calls == 0 ) {
-      m = rmsk & areg_msk ;
-      if ( m ) {
+   if (d1_free && no_calls == 0) {
+      m = rmsk & areg_msk;
+      if (m) {
          /* Move a used A-register into D1 */
-         tmp_d1 = reg ( m ) ;
-         rmsk &= ~regmsk ( tmp_d1 ) ;
-         op1 = make_register ( REG_D1 ) ;
-         op2 = make_register ( tmp_d1 ) ;
-         make_instr ( m_movl, op1, op2, regmsk ( tmp_d1 ) ) ;
-         just_ret = 0 ;
+         tmp_d1 = reg(m);
+         rmsk &= ~regmsk(tmp_d1);
+         op1 = make_register(REG_D1);
+         op2 = make_register(tmp_d1);
+         make_instr(m_movl, op1, op2, regmsk(tmp_d1));
+         just_ret = 0;
       }
    }
 
    /* Calculate stack displacements */
-   st1 = round ( max_stack, 32 ) / 8 + 16 * bits_in ( fmsk ) ;
-   st = st1 + 4 * bits_in ( rmsk ) ;
+   st1 = round(max_stack, 32) / 8 + 16 * bits_in(fmsk);
+   st = st1 + 4 * bits_in(rmsk);
 
-   if ( st1 || st || used_stack || must_use_bp || cur_proc_has_vcallees ) uses_link = 1 ;
+   if (st1 || st || used_stack || must_use_bp || cur_proc_has_vcallees)uses_link = 1;
 
-   cleanup() ;
+   cleanup();
 
    /* Output return instruction */
-   make_instr ( m_rts, null, null, 0 ) ;
+   make_instr(m_rts, null, null, 0);
 
    /* Output instructions to restore registers */
-   save_ins_pointer = current_ins ;
-   restore_regs_output(rmsk, fmsk, st, st1, uses_link) ;
+   save_ins_pointer = current_ins;
+   restore_regs_output(rmsk, fmsk, st, st1, uses_link);
 
    /* Go back to the prologue position */
-   current_ins = prologue_ins ;
+   current_ins = prologue_ins;
 
    /* Calculate the offset between procedure args and sp */
-   ldisp = (uses_link ? st + 4 : st ) ;
+   ldisp = (uses_link ? st + 4 : st);
 
    /* Calculate env_size ( ldisp + sizeof(return address) + sizeof(params) )*/
-   cur_proc_env_size = ldisp + 4 + (cur_proc_callers_size + cur_proc_callees_size)/8 ;
+   cur_proc_env_size = ldisp + 4 + (cur_proc_callers_size + cur_proc_callees_size) /8;
 #if 0
-   if ( has_checkstack )
+   if (has_checkstack)
    cur_proc_env_size += 1024 ; /* room for exception handler */
 #endif
 
-   if ( uses_link ) {
+   if (uses_link) {
       /* Output link instruction */
       /* push AP; AP = SP; sp=sp-st */
-      instruction_id = ( -st > 0x7fff ? m_linkl : m_linkw ) ;
-      op1 = make_register ( REG_AP ) ;
-      op2 = make_value ( -st ) ;
-      make_instr ( instruction_id, op1, op2, regmsk ( REG_AP ) | regmsk ( REG_SP ) ) ;
+      instruction_id = (-st > 0x7fff ? m_linkl : m_linkw);
+      op1 = make_register(REG_AP);
+      op2 = make_value(-st);
+      make_instr(instruction_id, op1, op2, regmsk(REG_AP) | regmsk(REG_SP));
    }
 
    /* Save register in D1 if necessary */
-   if ( tmp_d1 >= 0 ) {
-      op1 = make_register ( tmp_d1 ) ;
-      op2 = make_register ( REG_D1 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_D1 ) ) ;
+   if (tmp_d1 >= 0) {
+      op1 = make_register(tmp_d1);
+      op2 = make_register(REG_D1);
+      make_instr(m_movl, op1, op2, regmsk(REG_D1));
    }
 
    /* Save register in A0 if necessary */
-   if ( tmp_a0 >= 0 ) {
-      op1 = make_register ( tmp_a0 ) ;
-      op2 = make_register ( REG_A0 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+   if (tmp_a0 >= 0) {
+      op1 = make_register(tmp_a0);
+      op2 = make_register(REG_A0);
+      make_instr(m_movl, op1, op2, regmsk(REG_A0));
    }
 
    /* Save register in A1 if necessary */
-   if ( tmp_a1 >= 0 ) {
-      op1 = make_register ( tmp_a1 ) ;
-      op2 = make_register ( REG_A1 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A1 ) ) ;
+   if (tmp_a1 >= 0) {
+      op1 = make_register(tmp_a1);
+      op2 = make_register(REG_A1);
+      make_instr(m_movl, op1, op2, regmsk(REG_A1));
    }
 
    /* Put registers onto the stack */
-   if ( rmsk ) {
-      op1 = make_hex_value ( rmsk ) ;
-      op2 = make_indirect ( REG_SP, 0 ) ;
-      make_instr ( m_moveml, op1, op2, 0 ) ;
+   if (rmsk) {
+      op1 = make_hex_value(rmsk);
+      op2 = make_indirect(REG_SP, 0);
+      make_instr(m_moveml, op1, op2, 0);
    }
 
    /* Put floating-point registers onto the stack */
-   if ( fmsk ) {
-      op1 = make_hex_value ( fmsk ) ;
-      op2 = make_indirect ( REG_AP, -st1 ) ;
-      make_instr ( m_fmovemx, op1, op2, 0 ) ;
+   if (fmsk) {
+      op1 = make_hex_value(fmsk);
+      op2 = make_indirect(REG_AP, -st1);
+      make_instr(m_fmovemx, op1, op2, 0);
    }
 
-   if (uses_callers_pointer){
+   if (uses_callers_pointer) {
       make_comment("Variable callees => Get address of first caller");
 
-      regsinproc |= regmsk ( REG_A5 ) ;
+      regsinproc |= regmsk(REG_A5);
 
-      op1 = make_register ( REG_AP ) ;
-      op2 = make_register ( REG_A5 ) ;
-      make_instr ( m_movl, op1, op2, regmsk ( REG_A5 ) ) ;
+      op1 = make_register(REG_AP);
+      op2 = make_register(REG_A5);
+      make_instr(m_movl, op1, op2, regmsk(REG_A5));
 
       /* A5 = AP + cur_proc_callees_size */
       /* AP points to the first parameter, callees size is before */
-      op1 = make_callees_size () ;
-      op2 = make_register ( REG_A5 ) ;
-      make_instr ( m_addl, op1, op2, regmsk ( REG_A5 ) ) ;
+      op1 = make_callees_size();
+      op2 = make_register(REG_A5);
+      make_instr(m_addl, op1, op2, regmsk(REG_A5));
 
-      op1 = make_value ( 12 ) ;
-      op2 = make_register ( REG_A5 ) ;
-      make_instr ( m_addl, op1, op2, regmsk ( REG_A5 ) ) ;
+      op1 = make_value(12);
+      op2 = make_register(REG_A5);
+      make_instr(m_addl, op1, op2, regmsk(REG_A5));
    }
 
 
    /* Return to previous position */
-   current_ins = save_ins_pointer ;
+   current_ins = save_ins_pointer;
 
-   callmsk = cmsk ;
-   have_cond = 0 ;
-   return ;
+   callmsk = cmsk;
+   have_cond = 0;
+   return;
 }
 
 /************************************************************************
@@ -1644,30 +1658,29 @@ void general_epilogue
 
   ************************************************************************/
 static void code_postlude
-    PROTO_N ( ( postlude, callers, stack, post_offset ) )
-    PROTO_T ( exp postlude X exp callers X ash stack X long post_offset )
+(exp postlude, exp callers, ash stack, long post_offset)
 {
    make_comment("Postlude ...");
 
    /* mark parameters by use of the values calculated by gcproc */
-   while ( name( postlude ) == ident_tag && name(son( postlude )) == caller_name_tag) {
-      int n = no(son( postlude ));
+   while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
+      int n = no(son(postlude));
       exp a = callers;
       while (n != 0) {
          a = bro(a);
          n--;
       }
-      if (name(a) != caller_tag)
-      error("Bad postlude") ;
+      if (name(a)!= caller_tag)
+      error("Bad postlude");
 
-      ptno( postlude ) = par3_pl;
-      no( postlude ) = no(a) + stack_dec + post_offset ;
+      ptno(postlude) = par3_pl;
+      no(postlude) = no(a) + stack_dec + post_offset;
 
-      postlude = bro( son( postlude ) );
+      postlude = bro(son(postlude));
    }
 
    /* code the postlude */
-   coder ( zero, stack, postlude ) ;
+   coder(zero, stack, postlude);
 
    make_comment("Postlude done");
 }
@@ -1677,20 +1690,20 @@ static void code_postlude
   ************************************************************************/
 
 void untidy_return
-    PROTO_Z ()
+(void)
 {
-   mach_op *op1, *op2 ;
+   mach_op *op1, *op2;
 
-   make_comment("untidy return") ;
+   make_comment("untidy return");
 
    make_comment("push return address");
-   op1 = make_indirect ( REG_AP, 4 ) ;
+   op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
-   make_instr ( m_movl, op1, op2, regmsk ( REG_SP ) ) ;
+   make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-   restore_regs(NOT_SP) ;
+   restore_regs(NOT_SP);
    /* Output return instruction */
-   make_instr ( m_rts, null, null, 0 ) ;
+   make_instr(m_rts, null, null, 0);
 }
 
 /************************************************************************
@@ -1699,34 +1712,33 @@ void untidy_return
   ************************************************************************/
 
 void make_visible
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+(exp e)
 {
-   mach_op *op1, *op2 ;
-   long offval ;
+   mach_op *op1, *op2;
+   long offval;
 
    /* Does it need to be visible? */
 
-   if (! ((isvis(e)) || (isenvoff(e))) ) return ;
+   if (!((isvis(e)) || (isenvoff(e)))) return;
 
-   setismarked(e) ;
+   setismarked(e);
 
-   switch ( ptno( e ) ) {
+   switch (ptno(e)) {
    case var_pl:
-      offval = -no(e)/8;
+      offval = -no(e) /8;
       break;
    case par2_pl:
-      offval = no(e)/8;
+      offval = no(e) /8;
       break;
    case par3_pl:
    case par_pl:
    default:
-      offval = no(e)/8 + 4;
-      if(used_stack) offval += 4;
+      offval = no(e) /8 + 4;
+      if (used_stack)offval += 4;
    }
-   op1 = make_lab_data ((long)e, 0) ;
-   op2 = make_int_data (offval) ;
-   make_instr_aux ( m_as_assign, op1, op2, 0, 0 ) ;
+   op1 = make_lab_data((long)e, 0);
+   op2 = make_int_data(offval);
+   make_instr_aux(m_as_assign, op1, op2, 0, 0);
 }
 
 
@@ -1737,18 +1749,17 @@ void make_visible
   ************************************************************************/
 
 void fix_addptr
-    PROTO_N ( ( addptr ) )
-    PROTO_T ( exp addptr )
+(exp addptr)
 {
-   exp pointer  = son ( addptr ) ;
-   exp offset   = bro ( pointer ) ;
+   exp pointer  = son(addptr);
+   exp offset   = bro(pointer);
    exp E1,E2,E3,E4,E5;
    shape pc_sh;
 
    /* access of a caller param. relative to an environment with variable? */
 
-   if (! ((frame_al_of_ptr(sh(pointer)) & al_includes_vcallees) &&
-          (frame_al1_of_offset(sh(offset)) & al_includes_caller_args)) ) return;
+   if (!((frame_al_of_ptr(sh(pointer)) & al_includes_vcallees) &&
+         (frame_al1_of_offset(sh(offset)) & al_includes_caller_args))) return;
 
 
    /*
@@ -1781,40 +1792,39 @@ void fix_addptr
 
    pc_sh = f_pointer(f_callers_alignment(0));
 
-   E1 = copyexp(pointer) ;
-   E2 = getexp (pc_sh, 0, 0, E1, 0, 0, 8*8, reff_tag);
-   E3 = getexp (pc_sh, 0, 0, E2, 0, 0, 0, cont_tag);
-   E4 = getexp (pc_sh, 0, 0, pointer, 0, 0, 0, addptr_tag);
-   E5 = getexp (pc_sh, 0, 0, E4, 0, 0, 12*8, reff_tag);
+   E1 = copyexp(pointer);
+   E2 = getexp(pc_sh, 0, 0, E1, 0, 0, 8*8, reff_tag);
+   E3 = getexp(pc_sh, 0, 0, E2, 0, 0, 0, cont_tag);
+   E4 = getexp(pc_sh, 0, 0, pointer, 0, 0, 0, addptr_tag);
+   E5 = getexp(pc_sh, 0, 0, E4, 0, 0, 12*8, reff_tag);
    son(addptr) = E5;
 
    /* Terminate each bro list */
-   setfather (E2, E1);
-   setfather (E3, E2);
-   setfather (E4, E3);
-   setfather (E5, E4);
+   setfather(E2, E1);
+   setfather(E3, E2);
+   setfather(E4, E3);
+   setfather(E5, E4);
 
-   bro (pointer) = E3;
-   bro (E5) = offset;
+   bro(pointer) = E3;
+   bro(E5) = offset;
 }
 
 /************************************************************************
   Transforms an entire exp recursively.
   ************************************************************************/
 static void transform
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+(exp e)
 {
-   exp s = son(e) ;
+   exp s = son(e);
 
    /* Transform the childs (if any) */
-   if ( s && (name(e) != name_tag) && (name(e) != env_offset_tag) && (name(e) != case_tag) )
+   if (s && (name(e)!= name_tag) && (name(e)!= env_offset_tag) && (name(e)!= case_tag))
    for (; s && s!=e; s=bro(s)) {
       transform(s);
    }
 
    /* Transform this one */
-   switch ( name( e ) ) {
+   switch (name(e)) {
    case addptr_tag:
       fix_addptr(e);
       break;
@@ -1829,14 +1839,14 @@ static void transform
   called from trans.
   ************************************************************************/
 void make_transformations
-    PROTO_Z ()
+(void)
 {
-   dec *d = top_def ;
+   dec *d = top_def;
 
-   while ( d ) {
-      exp e = son ( d->dec_u.dec_val.dec_exp ) ;
-      if ( e ) transform ( e ) ;
-      d = d->def_next ;
+   while (d) {
+      exp e = son(d->dec_u.dec_val.dec_exp);
+      if (e)transform(e);
+      d = d->def_next;
    }
 }
 /************************************************************************
@@ -1846,15 +1856,14 @@ void make_transformations
   ************************************************************************/
 
 void output_env_size
-    PROTO_N ( ( proc, envsize ) )
-    PROTO_T ( dec* proc X long envsize )
+(dec* proc, long envsize)
 {
-   mach_op *op1, *op2 ;
-   long offval ;
+   mach_op *op1, *op2;
+   long offval;
 
    make_comment("env_size comes here:");
-   op1 = make_lab_data ((long)proc, 0) ;
-   op2 = make_int_data (envsize) ;
-   make_instr_aux ( m_as_assign, op1, op2, 0, 0 ) ;
+   op1 = make_lab_data((long)proc, 0);
+   op2 = make_int_data(envsize);
+   make_instr_aux(m_as_assign, op1, op2, 0, 0);
 }
 

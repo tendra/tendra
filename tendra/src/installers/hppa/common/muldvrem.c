@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -72,22 +102,22 @@ $Log: muldvrem.c,v $
  *
  * Revision 3.1  95/04/10  16:27:27  16:27:27  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:18:22  11:18:22  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:28:11  15:28:11  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.3  95/02/02  15:45:02  15:45:02  wfs (William Simmonds)
  * Implemented rem1 and div1.
- * 
+ *
  * Revision 1.2  95/01/17  17:29:42  17:29:42  wfs (William Simmonds)
  * Changed name of an included header file.
- * 
+ *
  * Revision 1.1  95/01/11  13:13:34  13:13:34  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -134,18 +164,17 @@ $Log: muldvrem.c,v $
 #define NOT_MUL_CONST_SIMPLE	(MAX_MUL_POW2_OFFSET+1)
  /* any constant larger than permissable X offset in 2**n +- X */
 
-#define IS_POW2(c)		((c) != 0 && ((c) & ((c)-1)) == 0)
+#define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
-extern long trap_label PROTO_S ((exp));
-extern comib_ins PROTO_S ((ins_p,int,int,int));
+extern long trap_label(exp);
+extern comib_ins(ins_p,int,int,int);
 /*
  * Utility functions.
  */
 
 /* return bit number 0..31 from right of word of 'c' which has one bit set */
-static int bit_no 
-    PROTO_N ( ( c ) )
-    PROTO_T ( unsigned long c )
+static int bit_no
+(unsigned long c)
 {
   int shift_const;
   unsigned long mask;
@@ -162,7 +191,7 @@ static int bit_no
 
 
 void clear_t_regs
-    PROTO_Z ()
+(void)
 {
   /* clear t-regs, i.e. GR2,GR19,GR20..,GR31, which might be modified by a
      call */
@@ -176,9 +205,8 @@ void clear_t_regs
 
 
 /* call millicode library procedure for complicated operation */
-int call_muldivrem 
-    PROTO_N ( ( lhs, rhs, sp, proc ) )
-    PROTO_T ( exp lhs X exp rhs X space sp X int proc )
+int call_muldivrem
+(exp lhs, exp rhs, space sp, int proc)
 {
     char *stub="ARGW0=GR ARGW1=GR";
     reg_operand_here(lhs, sp, ARG0);
@@ -202,8 +230,7 @@ int call_muldivrem
 
 /* generate code for multiply by constant */
 static void mul_const_complex
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned )
+(int src, long constval, int dest, space sp, bool sgned)
 {
   struct
   {
@@ -233,7 +260,7 @@ static void mul_const_complex
       /*
        * only 2 non overflowing cases to consider 0 * ~0 == 0 1 * ~0 == ~0 ==
        * -1
-       * 
+       *
        * negate handles these two correctly
        */
       rrr_ins(i_sub,c_,0,src,dest);
@@ -264,7 +291,7 @@ static void mul_const_complex
 	  bsl_1_tab = bs_tab_len;
 	if (bsl > max_bsl)
 	  max_bsl = bsl;
-	comment4("mul_const_complex: bs_tab[%d]=%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
+	comment4("mul_const_complex: bs_tab[%d] =%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
 	bs_tab_len++;
 	bsl = 0;
       }
@@ -449,9 +476,8 @@ static void mul_const_complex
 }
 
 /* is constval +ve const 2**n or 2**(n +- X) where abs(X) <= MAX_MUL_POW2_OFFSET */
-static int offset_mul_const_simple 
-    PROTO_N ( ( constval, sgned ) )
-    PROTO_T ( long constval X bool sgned )
+static int offset_mul_const_simple
+(long constval, bool sgned)
 {
   int i;
 
@@ -489,8 +515,7 @@ static int offset_mul_const_simple
 
 /* generate code for multiply by constant */
 static void mul_const_simple
-    PROTO_N ( ( src, constval, dest, sgned ) )
-    PROTO_T ( int src X long constval X int dest X bool sgned )
+(int src, long constval, int dest, bool sgned)
 {
   int shift_const;
   long c;			/* power of two close to constval */
@@ -566,7 +591,7 @@ static void mul_const_simple
     assert(src != inter_reg);
 
     rrir_ins(i_shd,c_,src,0,32-shift_const,inter_reg);
-  
+
     if (i_add_sub==i_add)
     {
        i=1;
@@ -576,22 +601,22 @@ static void mul_const_simple
 	  {
 	     rrr_ins(i_sh3add,c_,src,inter_reg,inter_reg);
 	     i+=8;
-	  }   
+	  }
 	  else if (i+3<n)
 	  {
 	     rrr_ins(i_sh2add,c_,src,inter_reg,inter_reg);
 	     i+=4;
-	  }   
+	  }
 	  else if (i+1<n)
 	  {
 	     rrr_ins(i_sh1add,c_,src,inter_reg,inter_reg);
 	     i+=2;
-	  }   
-	  else 
+	  }
+	  else
 	  {
 	     rrr_ins(i_add,c_,src,inter_reg,inter_reg);
 	     i++;
-	  }   
+	  }
        }
     }
     else
@@ -607,8 +632,7 @@ static void mul_const_simple
 
 /* generate code for multiply by constant */
 static void mul_const
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned )
+(int src, long constval, int dest, space sp, bool sgned)
 {
   if (constval == 0)
      /* rare case not handled by mul_const_X() */
@@ -623,9 +647,8 @@ static void mul_const
 /*
  *   Generate code for multiply .
  */
-static int do_mul_comm 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int do_mul_comm
+(exp e, space sp, int final_reg, bool sgned)
 {
   exp seq = son(e);
   exp arg2 = bro(seq);
@@ -669,7 +692,7 @@ static int do_mul_comm
 
     FULLCOMMENT1("do_mul_comm: name(seq) = %d", name(seq));
 
-    if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned) != NOT_MUL_CONST_SIMPLE)
+    if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
     {
       /* const optim */
       assert(last(seq)); /* check() & scan() should move const to last */
@@ -678,7 +701,7 @@ static int do_mul_comm
       ld_ins(i_lw,SIGNED,b,ARG0);
 
       if (final_reg == R_NO_REG)
-	 final_reg = RET0;	
+	 final_reg = RET0;
 	 /* better code from mul_const if src != dest register */
 
       mul_const(ARG0, no(seq), final_reg, sp, sgned);
@@ -700,7 +723,7 @@ static int do_mul_comm
        else
 	  ldf_ins(i_fldw,b,12);
        rrrf_ins(i_xmpyu,f_,12,14,13);
-  
+
        clear_t_regs();
 
        if (last(seq))
@@ -709,7 +732,7 @@ static int do_mul_comm
 	  if (final_reg == R_NO_REG || final_reg == RET0)
 	  {
 	     ld_ins(i_lw,SIGNED,b,RET0);
- 	     final_reg = RET0;  
+ 	     final_reg = RET0;
 	  }
 	  else
 	     ld_ins(i_lw,SIGNED,b,final_reg);
@@ -725,9 +748,8 @@ static int do_mul_comm
  *   Generate code for div0, div1 and div2 by calling divI or divU unless
  *   dividing by a simple constant.
  */
-static int do_div 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int do_div
+(exp e, space sp, int final_reg, bool sgned)
 {
    exp seq = son(e);
    exp lhs = seq;
@@ -736,27 +758,27 @@ static int do_div
    int trap = 0;
    int sz = shape_size(sh(e));
    char *stub="ARGW0=GR ARGW1=GR";
-   if ( !optop(e) )
+   if (!optop(e))
       trap = trap_label(e);
    assert(last(rhs));
    /*
     *   ov_err can only occur when calculating p div1 q with p == variety's
-    *   minimum and q==-1 
+    *   minimum and q==-1
     */
-   if ( name(rhs)==val_tag )
+   if (name(rhs) ==val_tag)
    {
       /*   nb. div_by_zero_err handled by common code  */
       int n = no(rhs);
-      if ( n > 0 && IS_POW2(n) )
+      if (n > 0 && IS_POW2(n))
       {
 	 int lhs_reg = reg_operand(lhs, sp);
 	 int shift_const = bit_no(n);
 	 sp = guardreg(lhs_reg, sp);
-	 if ( final_reg == R_NO_REG )
+	 if (final_reg == R_NO_REG)
 	 {
 	   final_reg = getreg(sp.fixed);
 	 }
-	 if ( n==1)
+	 if (n==1)
 	 {
 	    /*
 	     *   div = lhs
@@ -764,12 +786,12 @@ static int do_div
  	    rr_ins(i_copy,lhs_reg,final_reg);
 	    return final_reg;
 	 }
-	 else 
+	 else
 	 if (sgned)
 	 {
 	   /* signed, adjust lhs before shift */
  	   assert(shift_const > 0);/* assumed below */
-	   if ( n==-1 && !optop(e) )
+	   if (n==-1 && !optop(e))
 	   {
 	      if (sz==8)
 		 iiir_ins(i_zdepi,c_,-1,24,25,GR1);
@@ -803,12 +825,12 @@ static int do_div
    reg_operand_here(rhs,nsp,ARG1);
 
 
-   if ( !optop(e) )
+   if (!optop(e))
    {
       cj_ins(c_eq,GR0,ARG1,trap);
       if (sgned)
       {
-	 comib_ins(c_neq,-1,ARG1,-16);        
+	 comib_ins(c_neq,-1,ARG1,-16);
 	 z_ins(i_nop);
 	 if (sz==8)
 	    iiir_ins(i_zdepi,c_,-1,24,25,GR1);
@@ -861,9 +883,8 @@ static int do_div
 /*
  *   Generate code for remainder using remI or remU unless  simple constant.
  */
-static int do_rem 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int do_rem
+(exp e, space sp, int final_reg, bool sgned)
 {
    exp seq = son(e);
    exp lhs = seq;
@@ -875,19 +896,19 @@ static int do_rem
    char *stub="ARGW0=GR ARGW1=GR";
    assert(last(rhs));
    b = mem_temp(0);
-   if ( !optop(e) )
+   if (!optop(e))
       trap = trap_label(e);
    if (name(rhs) == val_tag)
    {
       int n = no(rhs);
-      if ( n==0 )
+      if (n==0)
       {
-	 if ( !optop(e) )
-	    ub_ins(cmplt_N,trap);        
+	 if (!optop(e))
+	    ub_ins(cmplt_N,trap);
 	 return GR0;
       }
-      else 
-      if ( IS_POW2(n) )
+      else
+      if (IS_POW2(n))
       {
 	 int lhs_reg = reg_operand(lhs, sp);
 	 sp = guardreg(lhs_reg, sp);
@@ -903,7 +924,7 @@ static int do_rem
  	    rr_ins(i_copy,0,final_reg);
 	    return final_reg;
 	 }
-	 while (((1<<(++p)) & n)==0);
+	 while (((1<< (++p)) & n) ==0);
 	 if (sgned && name(bro(rhs)) == rem2_tag)
 	 {
 	    /*
@@ -933,7 +954,7 @@ static int do_rem
 	    /*
 	     *   Calculate lhs % n ( = 2**p ) by anding with mask.
 	     */
-	    if (lhs_reg==final_reg)   
+	    if (lhs_reg==final_reg)
 	       riir_ins(i_dep,c_,0,31-p,32-p,final_reg);
 	    else
 	       riir_ins(i_zdep,c_,lhs_reg,31,p,final_reg);
@@ -961,7 +982,7 @@ static int do_rem
 		     rrr_ins(i_comclr,c_leq,RET1,0,0);
 		  ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,RET1,RET1);
 	       }
-	       else 
+	       else
 	       {
 		  imm_to_r(n,ARG1);
 		  if (n>0)
@@ -987,7 +1008,7 @@ static int do_rem
    reg_operand_here(lhs, sp, ARG0);
    nsp = guardreg(ARG0, sp);
    reg_operand_here(rhs, nsp, ARG1);
-   if ( !optop(e) )
+   if (!optop(e))
       cj_ins(c_eq,GR0,ARG1,trap);
 
    if (name(bro(rhs)) == mod_tag && sgned)
@@ -1001,29 +1022,28 @@ static int do_rem
    }
    else
    {
-      call_millicode( sgned ? MILLI_REMI : MILLI_REMU, RP, stub,1 );
+      call_millicode(sgned ? MILLI_REMI : MILLI_REMU, RP, stub,1);
    }
    clear_t_regs();
    return RET1;  /* result left in RET1 */
 }
 
 
-typedef int ( *find_fn ) PROTO_S ( ( exp, space, int, bool ) ) ;
+typedef int(*find_fn)(exp, space, int, bool);
 
 /* choose regs and generate code using do_fn */
 static int find_reg_and_apply
-    PROTO_N ( ( e, sp, dest, sgned, do_fn ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned X find_fn do_fn )
+(exp e, space sp, where dest, bool sgned, find_fn do_fn)
 {
   ans a;
   int dest_reg;
 
   /* +++ mips has tidyshort(dest, sh(e)); check not needed on HPPA */
 
-  switch (discrim ( dest.answhere ) )
+  switch (discrim(dest.answhere))
   {
   case inreg:
-    dest_reg = (*do_fn) (e, sp, regalt(dest.answhere), sgned);
+    dest_reg = (*do_fn)(e, sp, regalt(dest.answhere), sgned);
     break;
 
   case insomereg:
@@ -1052,27 +1072,24 @@ static int find_reg_and_apply
 
 
 /* choose regs and generate code for multiply using multiply proc */
-int do_mul_comm_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int do_mul_comm_op
+(exp e, space sp, where dest, bool sgned)
 {
    return find_reg_and_apply(e, sp, dest, sgned, do_mul_comm);
 }
 
 
 /* choose regs and generate code for divide using divide proc */
-int do_div_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int do_div_op
+(exp e, space sp, where dest, bool sgned)
 {
   return find_reg_and_apply(e, sp, dest, sgned, do_div);
 }
 
 
 /* choose regs and generate code for rem using rem proc */
-int do_rem_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int do_rem_op
+(exp e, space sp, where dest, bool sgned)
 {
   return find_reg_and_apply(e, sp, dest, sgned, do_rem);
 }
@@ -1080,9 +1097,8 @@ int do_rem_op
 
 
 /* is exp mul, div or rem that may call */
-bool is_muldivrem_call 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool is_muldivrem_call
+(exp e)
 {
 
   switch (name(e))
@@ -1094,10 +1110,10 @@ bool is_muldivrem_call
      case round_tag:
      {
 	 exp s = son(e);
-	 if ( name(sh(s))==doublehd )
-	    return (1) ;
+	 if (name(sh(s)) ==doublehd)
+	    return(1);
 	 /* FALL THROUGH */
-     }      
+     }
 
      case fplus_tag:
      case fminus_tag:
@@ -1107,7 +1123,7 @@ bool is_muldivrem_call
      case fabs_tag:
      case float_tag:
      {
-	if ( name(sh(e))==doublehd)
+	if (name(sh(e)) ==doublehd)
 	   return(1);
 	else
 	   return(0);
@@ -1127,7 +1143,7 @@ bool is_muldivrem_call
 	  return 0;
 	}
 	return 1;
-      }    
+      }
 
     case div0_tag:
     case rem0_tag:
@@ -1136,7 +1152,7 @@ bool is_muldivrem_call
     case mod_tag:
     case rem2_tag:
     case offset_div_tag:
-    case offset_div_by_int_tag: 
+    case offset_div_by_int_tag:
       {
 	/*remneeds, divneeds - simple cases don't need a call */
 	exp arg2 = bro(son(e));
@@ -1162,11 +1178,10 @@ bool is_muldivrem_call
  */
 
 
-needs multneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs multneeds
+(exp * e, exp ** at)
 {
-  needs n ;
+  needs n;
   exp arg1 = son(*(e));
   exp arg2 = bro(arg1);
   n = likeplus(e, at);	/* has had comm_ass() treatment */
@@ -1192,11 +1207,10 @@ needs multneeds
 }
 
 
-needs divneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs divneeds
+(exp * e, exp ** at)
 {
-  needs n ;
+  needs n;
   exp lhs = son(*(e));
   exp rhs = bro(lhs);
   n = likediv(e, at);
@@ -1223,11 +1237,10 @@ needs divneeds
 }
 
 
-needs remneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs remneeds
+(exp * e, exp ** at)
 {
-  needs n ;
+  needs n;
   exp lhs = son(*(e));
   exp rhs = bro(lhs);
   n = likediv(e, at);

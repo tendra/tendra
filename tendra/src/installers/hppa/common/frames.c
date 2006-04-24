@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -115,8 +145,8 @@ $Log: frames.c,v $
 #include "frames.h"
 
 extern char *proc_name;
-extern int bitsin PROTO_S ((long));
-extern exp father PROTO_S ((exp));
+extern int bitsin(long);
+extern exp father(exp);
 extern int diagnose;
 extern int gdb;
 
@@ -250,26 +280,25 @@ baseoff FP_BOFF;
 
 
 void setframe_flags
-    PROTO_N ( (e,leaf) )
-    PROTO_T ( exp e X bool leaf )
+(exp e, bool leaf)
 {
    /* e is a proc_tag */
    unsigned char ne = name(e);
    Uses_crt_env = proc_uses_crt_env(e);
-   No_S = ( !leaf && Uses_crt_env && proc_has_lv(e)
-		  && (ne!=general_proc_tag || !proc_has_nolongj(e)) );
+   No_S = (!leaf && Uses_crt_env && proc_has_lv(e)
+		  && (ne!=general_proc_tag || !proc_has_nolongj(e)));
    Has_ll = procrecs[no(e)].Has_ll;
    Has_checkalloc = procrecs[no(e)].Has_checkalloc;
-   Has_vsp = ( proc_has_alloca(e) || No_S || ne==general_proc_tag  );
-   Has_tos = ( No_S && proc_has_alloca(e) );
-   Has_callees = ( ne==general_proc_tag );
-   Has_vcallees = ( ne==general_proc_tag && proc_has_vcallees(e) );
-   Has_no_vcallers = ( ne==proc_tag || !proc_has_vcallers(e) );
-   Has_fp = ( Has_vcallees || gdb );
+   Has_vsp = (proc_has_alloca(e) || No_S || ne==general_proc_tag );
+   Has_tos = (No_S && proc_has_alloca(e));
+   Has_callees = (ne==general_proc_tag);
+   Has_vcallees = (ne==general_proc_tag && proc_has_vcallees(e));
+   Has_no_vcallers = (ne==proc_tag || !proc_has_vcallers(e));
+   Has_fp = (Has_vcallees || gdb);
    /*  n.b. gdb, apparently, tracks all locals and parameters via +ve
        offsets relative to a frame pointer = %r3. We comply by putting
        Has_fp=1  */
-   is_PIC_and_calls = ( PIC_code && !leaf );
+   is_PIC_and_calls = (PIC_code && !leaf);
 
 #ifdef Try_No_S
    No_S = 1;
@@ -284,8 +313,7 @@ void setframe_flags
 
 
 void set_up_frame
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
     procrec * pr = & procrecs[no(e)];
     needs * ndpr = & pr->needsproc;
@@ -331,7 +359,7 @@ void set_up_frame
     st+=(2<<5);       /* 2 words of temporary memory */
     if (!simpleans)  /*  + 2 words in which to store address of long result */
     {
-       st+=(2<<5);
+       st+= (2<<5);
     }
     if (Has_tos)
     {
@@ -341,7 +369,7 @@ void set_up_frame
     /*   HP PA reserved stack area. c.f. p 3-13 of HP PA reference manual */
     if (!leaf)
     {
-       if (ma<(4<<5))
+       if (ma< (4<<5))
 	  ma = (4<<5);	 /* 4 words for parameter dump */
        ma+=(8<<5);  	/*  + 8 word frame marker     */
     }
@@ -374,14 +402,14 @@ void set_up_frame
        {
 	  nos = bitsin(fixdump); /* = number of s regs used in body of proc */
        }
-       st+=(nos<<5);
+       st+= (nos<<5);
     }
 
     if (!Has_vcallees)
     {
        /* adjust st so that ma + st + cs is a multiple of 16 words
 	* according to convention */
-       st = ((ma+st+cs+511) & (~511)) - ma -cs ;
+       st = ((ma+st+cs+511) & (~511)) - ma -cs;
     }
 
     pr->locals_space = st;
@@ -390,7 +418,7 @@ void set_up_frame
     {
        /* relative to FP */
        pr->params_offset = (8<<5);
-       pr->callees_offset = -(18<<5);
+       pr->callees_offset = - (18<<5);
     }
     else
     {
@@ -401,9 +429,9 @@ void set_up_frame
     pr->leaf = leaf;
     pr->max_args = ma;
 
-    MEM_TEMP_BOFF.base = EP; MEM_TEMP_BOFF.offset = -(ma>>3)-(2<<2);
-    LONG_RESULT_BOFF.base = EP; LONG_RESULT_BOFF.offset = -(ma>>3)-(4<<2);
-    SP_BOFF.base = EP; SP_BOFF.offset = -(ma>>3)-(simpleans ? (3<<2) : (5<<2));
+    MEM_TEMP_BOFF.base = EP; MEM_TEMP_BOFF.offset = - (ma>>3) - (2<<2);
+    LONG_RESULT_BOFF.base = EP; LONG_RESULT_BOFF.offset = - (ma>>3) - (4<<2);
+    SP_BOFF.base = EP; SP_BOFF.offset = - (ma>>3) - (simpleans ?(3<<2):(5<<2));
     FP_BOFF.base = EP; FP_BOFF.offset = -4;
 
     stackerr_lab=0;
@@ -412,13 +440,12 @@ void set_up_frame
 
 
 long frame_offset
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
    exp p;
    procrec *pr;
    int eo,lo,po,co;
-   for (p = father(e); (name(p)!=proc_tag && name(p)!=general_proc_tag);                              p = father(p));
+   for (p = father(e);(name(p)!=proc_tag && name(p)!=general_proc_tag);                              p = father(p));
    pr = &procrecs[no(p)];
    lo = pr->locals_offset>>3;
    po = pr->params_offset>>3;
@@ -426,20 +453,20 @@ long frame_offset
    if (isparam(e))
    {
       int nse = no(son(e));
-      if (name(son(e))==formal_callee_tag)
+      if (name(son(e)) ==formal_callee_tag)
       {
-	 eo = -co+(nse>>3);
+	 eo = -co+ (nse>>3);
       }
       else
       {
-	 eo = -po-(nse>>3);
+	 eo = -po- (nse>>3);
       }
    }
    else
    {
       int  n = no(e);
       int  b = n & 0x3f;
-      eo = -lo+((n-b)>>4);
+      eo = -lo+ ((n-b) >>4);
    }
    return eo;
 }

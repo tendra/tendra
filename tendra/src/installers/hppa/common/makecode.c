@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -178,50 +208,50 @@ $Log: makecode.c,v $
  *
  * Revision 3.1  95/04/10  16:27:14  16:27:14  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:18:11  11:18:11  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:28:02  15:28:02  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.11  95/03/15  15:20:58  15:20:58  wfs (William Simmonds)
  * *** empty log message ***
- * 
+ *
  * Revision 1.10  95/02/22  11:30:29  11:30:29  wfs (William Simmonds)
  * Implemented last_local, local_free_all and local_free tags,
- * 
+ *
  * Revision 1.9  95/02/20  16:13:48  16:13:48  wfs (William Simmonds)
  * Implemented offset_pad_tag.
- * 
+ *
  * Revision 1.8  95/02/10  11:47:25  11:47:25  wfs (William Simmonds)
  * Removed calls to evaluated() - initialising expressions are now
  * stored in a linked list and written to outf after the procedure
  * body has been translated (c.f. translate_capsule).
- * 
+ *
  * Revision 1.7  95/01/27  16:30:17  16:30:17  wfs (William Simmonds)
  * Rather primitive first attempt at implementing chvar_tag error_jump.
  * It should be refined.
- * 
+ *
  * Revision 1.6  95/01/25  15:36:10  15:36:10  wfs (William Simmonds)
  * Installed fabs_tag's and fneg_tag's error_jump.
- * 
+ *
  * Revision 1.5  95/01/24  14:00:23  14:00:23  wfs (William Simmonds)
  * Implemented error_jump of abs_tag and neg_tag.
- * 
+ *
  * Revision 1.4  95/01/23  18:52:49  18:52:49  wfs (William Simmonds)
  * Implemented error_jump of plus_tag and minus_tag.
- * 
+ *
  * Revision 1.3  95/01/19  15:28:10  15:28:10  wfs (William Simmonds)
  * Dumped input registers on stack following find of a tdf vararg.
- * 
+ *
  * Revision 1.2  95/01/17  17:26:26  17:26:26  wfs (William Simmonds)
  * Changed the take_out_of_line code, real_inverse_ntest[] had to
  * be modified.
- * 
+ *
  * Revision 1.1  95/01/11  13:12:25  13:12:25  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -265,7 +295,7 @@ $Log: makecode.c,v $
 #include "frames.h"
 #include "out.h"
 #include "makecode.h"
-#include "extratags.h" 
+#include "extratags.h"
 #include "f64.h"
 #include "misc_c.h"
 #include "special.h"
@@ -273,7 +303,7 @@ $Log: makecode.c,v $
 #include "loc_signal.h"
 
 #define outp fprintf
-#define isdbl(e) ( ( bool ) ( name ( e ) != shrealhd ) )
+#define isdbl(e)((bool)(name(e)!= shrealhd))
 
 int repeat_level;                 /* init by proc */
 outofline *odd_bits;             /* init by proc */
@@ -286,38 +316,36 @@ extern char export[128];
 extern int leaf;
 extern labexp current,first;
 extern int RSCOPE_LEVEL,RSCOPE_LABEL;
-extern exp find_named_tg PROTO_S ((char *, shape));
-extern baseoff find_tg PROTO_S ((char* s));
-extern int reg_result PROTO_S ((shape));
+extern exp find_named_tg(char *, shape);
+extern baseoff find_tg(char* s);
+extern int reg_result(shape);
 
-#define GETREG( d, s )  ( discrim ( ( d ).answhere ) == inreg ?\
-			  regalt ( ( d ).answhere ) :\
-			  getreg ( ( s ).fixed ) )
+#define GETREG(d, s)(discrim((d).answhere) == inreg ?\
+			  regalt((d).answhere):\
+			  getreg((s).fixed))
 
-#define GETFREG( d, s ) ( discrim ( ( d ).answhere ) == infreg ?\
-			  regalt ( ( d ).answhere ) :\
-			  getfreg ( ( s ).flt ) )
+#define GETFREG(d, s)(discrim((d).answhere) == infreg ?\
+			  regalt((d).answhere):\
+			  getfreg((s).flt))
 
-#define TARGET( f ) ( main_globals[(-boff(son(f)).base)-1]->dec_u.dec_val.dec_id )
+#define TARGET(f)(main_globals[(-boff(son(f)).base) -1] ->dec_u.dec_val.dec_id)
 
 baseoff zero_exception_register
-    PROTO_N ( (sp) )
-    PROTO_T ( space sp )
+(space sp)
 {
    baseoff b;
    int r = getreg(sp.fixed);
-   ld_ins(i_lo,0,mem_temp(0),r);    
+   ld_ins(i_lo,0,mem_temp(0),r);
    b.base = r;  b.offset = 0;
    st_ins(i_sw,GR0,b);
-   ldf_ins(i_fldw,b,0);         
+   ldf_ins(i_fldw,b,0);
    return b;
 }
 
 void trap_handler
-    PROTO_N ( (b,trap,excep) )
-    PROTO_T ( baseoff b X int trap X int excep )
-{ 
-   stf_ins(i_fstw,0,b);         
+(baseoff b, int trap, int excep)
+{
+   stf_ins(i_fstw,0,b);
    ld_ins(i_lb,0,b,b.base);
    ir_ins(i_ldi,fs_,empty_ltrl,excep,GR1);
    rrr_ins(i_and,c_eq,b.base,GR1,0);
@@ -325,30 +353,28 @@ void trap_handler
 }
 
 long trap_label
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
-   if ( (errhandle(e)&3)==3 )
+   if ((errhandle(e) &3) ==3)
    {
-      if ( aritherr_lab==0 )
+      if (aritherr_lab==0)
 	 aritherr_lab = new_label();
       return aritherr_lab;
    }
    else
-      return no(son(pt(e))); 
+      return no(son(pt(e)));
 }
 
 void reset_tos
-    PROTO_Z ()
+(void)
 {
    st_ins(i_sw,SP,SP_BOFF);
 }
 
 void test_if_outside_of_var
-    PROTO_N ( (v,r,trap) )
-    PROTO_T ( unsigned char v X int r X int trap )
+(unsigned char v, int r, int trap)
 {
-   if ( v==ucharhd)
+   if (v==ucharhd)
    {
       riir_ins(i_extru,c_,r,31,8,1);
       cj_ins(c_neq,1,r,trap);
@@ -378,13 +404,12 @@ typedef struct postl_ {exp pl; struct postl_ * outer; } postl_chain;
 static postl_chain * old_pls;
 
 void update_plc
-    PROTO_N ( (ch,ma) )
-    PROTO_T ( postl_chain * ch X int ma )
+(postl_chain * ch, int ma)
 {
-   while (ch != (postl_chain*)0) 
+   while (ch != (postl_chain*)0)
    {
       exp pl= ch->pl;
-      while ( name(pl)==ident_tag && name(son(pl))==caller_name_tag )
+      while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag)
       {
 	 no(pl) += ma;
 	 pl = bro(son(pl));
@@ -395,9 +420,8 @@ void update_plc
 
 
 /* ensure everywhere has a checknan() that needs one (cf. mips) */
-void checknan 
-    PROTO_N ( ( e, fr ) )
-    PROTO_T ( exp e X int fr )
+void checknan
+(exp e, int fr)
 {
 #if 0
   long trap = no(son(pt(e)));
@@ -409,19 +433,19 @@ void checknan
 }
 
 /* start of volatile use */
-void setvolatile 
-    PROTO_Z ()
+void setvolatile
+(void)
 {
 /*    outs(";\t.volatile\n" ) ;  */
-    return ;
+    return;
 }
 
 /* end of volatile use */
-void setnovolatile 
-    PROTO_Z ()
+void setnovolatile
+(void)
 {
 /*    outs(";\t.nonvolatile\n" ) ;  */
-    return ;
+    return;
 }
 
 /* unsigned branch table */
@@ -438,7 +462,7 @@ static CONST char *(usbranch_tab[]) =
 
 
 
-#define usbranches(i) (usbranch_tab[i])
+#define usbranches(i)(usbranch_tab[i])
 
 /* signed branch table */
 CONST char *(sbranch_tab[]) =
@@ -453,7 +477,7 @@ CONST char *(sbranch_tab[]) =
    c_TR,
 };
 
-#define sbranches(i) (sbranch_tab[i])
+#define sbranches(i)(sbranch_tab[i])
 
 static CONST char *(fbranch_tab[]) =
 {
@@ -466,22 +490,21 @@ static CONST char *(fbranch_tab[]) =
    c_neq,
 };
 
-#define fbranches(i) (fbranch_tab[i])
+#define fbranches(i)(fbranch_tab[i])
 
 /* used to invert TDF tests */
-long notbranch[]={7,4,3,2,1,6,5,0};
+long notbranch[] ={7,4,3,2,1,6,5,0};
 
 
 int bitsin
-    PROTO_N ( (b) )
-    PROTO_T ( long b )
+(long b)
 {
    /* counts the bits in b */
    int n = 0;
    long mask = 1;
    for (; b != 0;)
    {
-      n += ((b & mask) != 0) ? 1 : 0;
+      n += ((b & mask)!= 0)? 1 : 0;
       b &= ~mask;
       mask = mask << 1;
    }
@@ -490,13 +513,12 @@ int bitsin
 
 
 /* find the last test in sequence e which is a branch to second, if any, otherwise nil */
-static exp testlast 
-    PROTO_N ( ( e, second ) )
-    PROTO_T ( exp e X exp second )
+static exp testlast
+(exp e, exp second)
 {
   if (name(e) == test_tag && pt(e) == second)
   {
-    return (e);
+    return(e);
   }
   if (name(e) == seq_tag)
   {
@@ -532,15 +554,14 @@ static exp testlast
 }
 
 
-bool last_param 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool last_param
+(exp e)
 {
   if (!isparam(e))
     return 0;
   e = bro(son(e));
 aa:if (name(e) == ident_tag && isparam(e)
-			    && name(son(e)) != formal_callee_tag )
+			    && name(son(e))!= formal_callee_tag)
     return 0;
   if (name(e) == diagnose_tag)
   {
@@ -552,9 +573,8 @@ aa:if (name(e) == ident_tag && isparam(e)
 
 /* Does e, or components of e, contain a bitfield? */
 /* +++ should detect this earlier && record in props(e) once-and-for-all */
-static int has_bitfield 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static int has_bitfield
+(exp e)
 {
   if (e == nilexp)
     return 0;
@@ -593,9 +613,8 @@ static int has_bitfield
  *
  * NB must do this EXACTLY ONCE.
  */
-static void fix_nonbitfield 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static void fix_nonbitfield
+(exp e)
 {
   if (name(e) == compound_tag)
   {
@@ -604,12 +623,12 @@ static void fix_nonbitfield
     {
       if (name(e) == val_tag && name(sh(e)) == offsethd && al2(sh(e)) >= 8)
 	  no(e) = no(e) << 3;	/* fix it */
-      
+
       fix_nonbitfield(bro(e));	/* recursively fix the rest of the struct */
-      
+
       if (last(bro(e)))
 	  return;		/* all done */
-      
+
       e = bro(bro(e));	/* next pair */
     }
   }
@@ -618,29 +637,29 @@ static void fix_nonbitfield
 
 
 void restore_callees
-    PROTO_Z ()
+(void)
 {
    /*    Puts back on the stack those callees, if any, which were kept in
    **  registers  **/
-  
+
    exp bdy = son(crt_proc);
-   while( name(bdy)==dump_tag || name(bdy)==diagnose_tag )
+   while (name(bdy) ==dump_tag || name(bdy) ==diagnose_tag)
        bdy = son(bdy);
-   while (name(bdy)==ident_tag && isparam(bdy) && name(son(bdy)) !=formal_callee_tag )  
+   while (name(bdy) ==ident_tag && isparam(bdy) && name(son(bdy))!=formal_callee_tag)
    {
       bdy = bro(son(bdy));
    }
-   while (name(bdy)==ident_tag && isparam(bdy) )  
+   while (name(bdy) ==ident_tag && isparam(bdy))
    {
       exp sbdy = son(bdy);
       baseoff b;
       b.base = Has_vcallees ? FP : EP;
-      b.offset = (no(sbdy)-callees_offset)>>3;
+      b.offset = (no(sbdy) -callees_offset) >>3;
       if (props(bdy) & infreg_bits)
       {
       }
       else
-      if (props(bdy)&inreg_bits)
+      if (props(bdy) &inreg_bits)
       {
 	 st_ins(i_sw,no(bdy),b);
       }
@@ -650,37 +669,34 @@ void restore_callees
 
 
 exp find_ote
-    PROTO_N ( (e, n) )
-    PROTO_T ( exp e X int n )
+(exp e, int n)
 {
    exp d = father(e);
-   while ( name(d)!=apply_general_tag )
+   while (name(d)!=apply_general_tag)
       d = father(d);
    d = son(bro(son(d))); /* list otagexps */
-   while ( n !=0 )
+   while (n !=0)
    {
       d = bro(d);
       n--;
    }
-   assert( name(d)==caller_tag );
+   assert(name(d) ==caller_tag);
    return d;
-}		
+}
 
 
 void do_exception
-    PROTO_N ( (e) )
-    PROTO_T ( int e )
+(int e)
 {
    baseoff b;
    ir_ins(i_ldi,fs_,"",e,ARG0);
-   b = boff( find_named_tg("__hppahandler",f_pointer(f_alignment(f_proc))));
-   ld_ins( i_lw, 1, b, GR22 ) ;
-   call_millicode( MILLI_DYNCALL, RP, "", 1 );
+   b = boff(find_named_tg("__hppahandler",f_pointer(f_alignment(f_proc))));
+   ld_ins(i_lw, 1, b, GR22);
+   call_millicode(MILLI_DYNCALL, RP, "", 1);
 }
 
 space do_callers
-    PROTO_N ( (list,sp,stub) )
-    PROTO_T ( exp list X space sp X char *stub )
+(exp list, space sp, char *stub)
 {
    int off = 8<<5;
    int fixpar,fltpar;
@@ -688,8 +704,8 @@ space do_callers
    instore is;
    is.b.base = SP;
    is.adval = 1;
-   stub[0]='\t';
-   stub[1]=0;
+   stub[0] ='\t';
+   stub[1] =0;
    for (;;)
    {
       /* Evaluate parameters in turn. */
@@ -697,24 +713,24 @@ space do_callers
       ash ap;
       int par_al;
       int par_sz;
-      exp par = (name(list)==caller_tag) ? son(list) : list;
-      int hd = name(sh(list)) ;
+      exp par = (name(list) ==caller_tag)? son(list): list;
+      int hd = name(sh(list));
       ap = ashof(sh(list));
       w.ashwhere = ap;
-      par_sz = (ap.ashsize > 32) ? 64 : 32;
+      par_sz = (ap.ashsize > 32)? 64 : 32;
       off+=par_sz;
-      if ( par_sz==64 && !is_floating(name(sh(list))) && !valregable(sh(list)) )
+      if (par_sz==64 && !is_floating(name(sh(list))) && !valregable(sh(list)))
 	 par_al = 64;
       else
-	 par_al = (ap.ashalign < 32) ? 32 : ap.ashalign;
+	 par_al = (ap.ashalign < 32)? 32 : ap.ashalign;
       off = rounder(off,par_al);
-      is.b.offset = -(off>>3);
-      if ( is_floating(hd) && off<(13<<5) )
+      is.b.offset = - (off>>3);
+      if (is_floating(hd) && off< (13<<5))
       {
 	 freg frg;
 	 ans ansfr;
-	 frg.fr = (fltpar = (off>>5)-5);
-	 if ( hd==shrealhd )
+	 frg.fr = (fltpar = (off>>5) -5);
+	 if (hd==shrealhd)
 	 {
 	    frg.dble = 0;
 	    sprintf(s,"ARGW%d=FR ",fltpar-4);
@@ -723,7 +739,7 @@ space do_callers
 	 else
 	 {
 	    frg.dble = 1;
-	    if (off==(10<<5))
+	    if (off== (10<<5))
 	       strcat(stub,"ARGW0=FR ARGW1=FU ");
 	    else
 	       strcat(stub,"ARGW2=FR ARGW3=FU ");
@@ -738,8 +754,8 @@ space do_callers
 	 *   point registers to the corresponding fixed point registers. It
 	 *   is neccessary to ensure that possible varargs are correctly
 	 *   dumped on the stack.  */
-	 fixpar = ARG0+(off>>5)-9;
-	 if ( hd == shrealhd )
+	 fixpar = ARG0+ (off>>5) -9;
+	 if (hd == shrealhd)
 	 {
 	    stf_ins(i_fstw,(frg.fr*3),is.b);
 	    ld_ins(i_ldw,1,is.b,fixpar);
@@ -747,7 +763,7 @@ space do_callers
 	 }
 	 else
 	 {
-	    stf_ins(i_fstd,(frg.fr*3)+1,is.b);
+	    stf_ins(i_fstd,(frg.fr*3) +1,is.b);
 	    ld_ins(i_ldw,1,is.b,fixpar);
 	    sp = guardreg(fixpar,sp);
 	    is.b.offset += 4;
@@ -757,11 +773,11 @@ space do_callers
 	 }
 #endif
       }
-      else 
-      if ( valregable(sh(list)) && off<(13<<5) )
+      else
+      if (valregable(sh(list)) && off< (13<<5))
       {
 	 ans ansr;
-	 setregalt(ansr,fixpar = ARG0+(off>>5)-9);
+	 setregalt(ansr,fixpar = ARG0+ (off>>5) -9);
 	 w.answhere = ansr;
 	 /* Evaluate parameter into fixed parameter register. */
 	 code_here(par,sp,w);
@@ -773,11 +789,11 @@ space do_callers
       {
 	 /* Evaluate parameter into argument space on stack. */
 #if 1
-	 if ( valregable(sh(list)) && ap.ashsize<32 )
+	 if (valregable(sh(list)) && ap.ashsize<32)
 	 {
  	     /*   Byte or 16bit scalar parameter - convert to integer.
 	    *   We must expand source to a full word to conform to HP PA
-	    *   conventions. We do this by loading into a reg. 
+	    *   conventions. We do this by loading into a reg.
 	     */
 	    int r = reg_operand(par,sp);
 	    st_ins(i_sw,r,is.b);
@@ -787,8 +803,8 @@ space do_callers
 	 {
 	    setinsalt(w.answhere,is);
 	    code_here(par,sp,w);
-	    fixpar = ARG0+((-is.b.offset)>>2)-9;
-	    while(par_sz)
+	    fixpar = ARG0+ ((-is.b.offset) >>2) -9;
+	    while (par_sz)
 	    {
 	       /*    Copy (parts of) compound paramater into vacant parameter
 	       *   registers.  */
@@ -805,10 +821,10 @@ space do_callers
 	    }
 	 }
       }
-      if ( name(list) == caller_tag ) 
+      if (name(list) == caller_tag)
       {
-#if 1    
-	 if (shape_size(sh(list))<32 && valregable(sh(list)))
+#if 1
+	 if (shape_size(sh(list)) <32 && valregable(sh(list)))
 	    no(list) = off-32+shape_size(sh(list));
 	 else
 #endif
@@ -824,8 +840,7 @@ space do_callers
 
 
 void do_callee_list
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+(exp e, space sp)
 {
    long disp = 18<<5;
    if (no(e)!= 0)
@@ -836,7 +851,7 @@ void do_callee_list
       instore is;
       is.b.base = SP;
       is.adval = 1;
-      for(;;)
+      for (;;)
       {
 	 ap = ashof(sh(list));
 	 disp = rounder(disp, ap.ashalign);
@@ -845,7 +860,7 @@ void do_callee_list
 	 setinsalt(w.answhere, is);
     	 code_here(list,sp,w);
 	 disp = rounder(disp+ap.ashsize,32);
-    	 if (last(list)) break;
+    	 if (last(list))break;
 	 list = bro(list);
       }
    }
@@ -853,8 +868,7 @@ void do_callee_list
 
 
 void load_reg
-    PROTO_N ( (e,r,sp) )
-    PROTO_T ( exp e X int r X space sp )
+(exp e, int r, space sp)
 {
    where w;
    w.ashwhere = ashof(sh(e));
@@ -868,15 +882,14 @@ void load_reg
  * given by sp. If non-zero, exitlab is the label of where the code is to
  * continue.
  */
-makeans make_code 
-    PROTO_N ( ( e, sp, dest, exitlab ) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans make_code
+(exp e, space sp, where dest, int exitlab)
 {
   long constval=0;
   makeans mka;
   FULLCOMMENT3("make_code: %s,\t%s,\tprops=%#x",
-	       (int)SH_NAME(name(sh(e))), (int)TAG_NAME(name(e)), props(e));
-  FULLCOMMENT3("           space=(%ld,%ld) (%s)", sp.fixed, sp.flt, (int)ANSDISCRIM_NAME( discrim ( dest.answhere ) ));
+	      (int)SH_NAME(name(sh(e))), (int)TAG_NAME(name(e)), props(e));
+  FULLCOMMENT3("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt,(int)ANSDISCRIM_NAME(discrim(dest.answhere)));
 
  tailrecurse:
   mka.lab = exitlab;
@@ -898,8 +911,8 @@ makeans make_code
      exp tg = son(son(e));
      procrec * pr = &procrecs[no(son(tg))];
      constval = (pr->frame_sz+0) >> 3;
-     goto moveconst;         		    		
-  }	
+     goto moveconst;
+  }
 
 
   case proc_tag: case general_proc_tag:
@@ -915,7 +928,7 @@ makeans make_code
   case return_to_label_tag:
 #endif
   case res_tag:
-  {		
+  {
      /* procedure result */
      return make_res_tag_code(e,sp,dest,exitlab);
   }
@@ -929,22 +942,22 @@ makeans make_code
      space nsp;
      nsp = sp;
 
-     if ( name(cees) == make_callee_list_tag )
-     { 
-	do_callee_list( cees, sp );
+     if (name(cees) == make_callee_list_tag)
+     {
+	do_callee_list(cees, sp);
      }
      else
-     if ( name(cees) == make_dynamic_callee_tag )
+     if (name(cees) == make_dynamic_callee_tag)
      {
 	baseoff b;
 	int r;
-	if ( Has_fp )
+	if (Has_fp)
 	{
 	   b.base = FP; b.offset = 68;
 	}
 	else
 	{
-	   b.base = SP; b.offset = -(frame_sz>>3) + 68;
+	   b.base = SP; b.offset = - (frame_sz>>3) + 68;
 	}
     	r = getreg(nsp.fixed);
     	load_reg(son(cees),r,nsp);
@@ -956,34 +969,34 @@ makeans make_code
 			   **  put on the stack.  **/
      }
      else
-     if ( name(cees) == same_callees_tag )
+     if (name(cees) == same_callees_tag)
      {
 	restore_callees();
      }
-     if ( !glob )
-     { 
-	 int r = getreg(nsp.fixed); 
-	 load_reg( fn, r, nsp ) ;
-	 st_ins( i_sw, r, mem_temp(0) ) ;
+     if (!glob)
+     {
+	 int r = getreg(nsp.fixed);
+	 load_reg(fn, r, nsp);
+	 st_ins(i_sw, r, mem_temp(0));
      }
 
      /**  Move the callers to the correct place if neccessary.  **/
      bdy = son(crt_proc);
-     while( name(bdy) == dump_tag || name(bdy) == diagnose_tag )
+     while (name(bdy) == dump_tag || name(bdy) == diagnose_tag)
 	bdy = son(bdy);
-     while( name(bdy) == ident_tag && isparam(bdy) 
-		 	           && name(son(bdy)) != formal_callee_tag )
+     while (name(bdy) == ident_tag && isparam(bdy)
+		 	           && name(son(bdy))!= formal_callee_tag)
      {
       	exp sbdy = son(bdy);
-	int pr =  props(sbdy) ;
+	int pr =  props(sbdy);
 #if 0
-	if ( pt(bdy) == nilexp && !diagnose )
+	if (pt(bdy) == nilexp && !diagnose)
 	{
 	   /**  Parameter never used.  **/
 	}
-	else 
+	else
 #endif
-	if ( pr == 0 && (props(bdy)&inanyreg) != 0 )
+	if (pr == 0 && (props(bdy) &inanyreg)!= 0)
 	{
 	   /*    Parameter is passed on stack, but is kept in reg given by
 	   **  no(bdy).  **/
@@ -991,9 +1004,9 @@ makeans make_code
 	   {
 	      baseoff b;
 	      b.base = SP;
-	      b.offset = -((no(sbdy)+params_offset)>>3);
+	      b.offset = - ((no(sbdy) +params_offset) >>3);
 	      if (is_floating(name(sh(sbdy))))
-	      {	
+	      {
 		 /**  Cannot occur whilst floats are kept on the stack.  **/
 	      }
 	      else
@@ -1003,58 +1016,58 @@ makeans make_code
 	   }
 	}
 	else
-	if ( pr && (props(bdy)&inanyreg) == 0 )
+	if (pr && (props(bdy) &inanyreg) == 0)
 	{
-	   /**  Parameter is passed in reg, but is kept on stack.  **/ 
+	   /**  Parameter is passed in reg, but is kept on stack.  **/
 	   if (Has_no_vcallers)
 	   {
 	      baseoff stkpos;
 	      int off,sz = shape_size(sh(sbdy));
-	      off = -((no(sbdy)+params_offset)>>3);
+	      off = - ((no(sbdy) +params_offset) >>3);
 	      stkpos.base = Has_vcallees ? FP : EP;
 	      stkpos.offset = off;
 	      if (is_floating(name(sh(sbdy))))
-	      {	
-		 ldf_ins( sz == 64 ? i_fldd : i_fldw, stkpos, pr ) ;
-	      }
-	      else 
 	      {
-		 ld_ins( i_lw, 1, stkpos, pr ) ;
-		 if ( sz > 32 )
+		 ldf_ins(sz == 64 ? i_fldd : i_fldw, stkpos, pr);
+	      }
+	      else
+	      {
+		 ld_ins(i_lw, 1, stkpos, pr);
+		 if (sz > 32)
 		 {
 		    /*    Parameter must be a compound passed by value with
 		    **  sz<=64, load the second half into register.  **/
 		    stkpos.offset+=4;
-		    ld_ins( i_lw, 1, stkpos, pr-1 ) ;
+		    ld_ins(i_lw, 1, stkpos, pr-1);
 		 }
 	      }
 	   }
 	}
-	else 
-	if ( pr != 0 && props(sbdy) != no(bdy) )
+	else
+	if (pr != 0 && props(sbdy)!= no(bdy))
 	{
 	   /*    Parameter is passed in a different register to that which
 	   **  it is kept in.  **/
-	   if ( is_floating( name(sh(sbdy))) )
+	   if (is_floating(name(sh(sbdy))))
 	   {
 	      /**  Cannot occur whilst floats are kept on the stack.  **/
 	   }
-	   else 
+	   else
 	   {
 	      if (Has_no_vcallers)
-		 rr_ins( i_copy, no(bdy), pr ) ;
+		 rr_ins(i_copy, no(bdy), pr);
 	      else
 	      {
 		 baseoff b;
 		 b.base = Has_vcallees ? FP : EP;
-		 b.offset = -((((pr-GR26)<<3)+params_offset)>>3);
+		 b.offset = - ((((pr-GR26) <<3) +params_offset) >>3);
 		 st_ins(i_sw,no(bdy),b);
 	      }
-	   }	
+	   }
 	}
 	bdy = bro(sbdy);
-     }        
-     if ( !Has_no_vcallers )
+     }
+     if (!Has_no_vcallers)
      {
 	int r;
 	baseoff b;
@@ -1062,69 +1075,69 @@ makeans make_code
 	b.offset = -36;
 	for (r=GR26;r<=GR23;r++)
 	{
-	   ld_ins( i_lw, 1, b, r ) ;
+	   ld_ins(i_lw, 1, b, r);
 	   b.offset-=4;
 	}
      }
 
-     if ( !glob )
+     if (!glob)
      {
-	ld_ins( i_ldw, 1, mem_temp(0), GR22 ) ;
+	ld_ins(i_ldw, 1, mem_temp(0), GR22);
      }
-     if ( name(cees) == make_callee_list_tag )
+     if (name(cees) == make_callee_list_tag)
      {
        	/** Copy callees from top of stack. **/
-	int i ;
-	baseoff b ;
-	b.offset = -(frame_sz>>3) ;
-	if ( !Has_fp )
+	int i;
+	baseoff b;
+	b.offset = - (frame_sz>>3);
+	if (!Has_fp)
 	{
-	   b.base = (Has_vsp ? EP : SP) ;
+	   b.base = (Has_vsp ? EP : SP);
 	   ld_ins(i_lo,0,b,T4);
 	}
-	if ( call_has_vcallees(cees) ) 
+	if (call_has_vcallees(cees))
 	{
 	   /**  Store the callee size.  **/
-	   ir_ins( i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1 ) ;
-	   st_ir_ins( i_stw, cmplt_, GR1, fs_, empty_ltrl, 64,                                       Has_fp ? FP : T4 ) ; 
+	   ir_ins(i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1);
+	   st_ir_ins(i_stw, cmplt_, GR1, fs_, empty_ltrl, 64,                                       Has_fp ? FP : T4);
 	}
-       	for( i = 0 ; i < (no(cees) >> 3) ; i += 4 )
+       	for (i = 0; i < (no(cees) >> 3); i += 4)
 	{
-	   b.base = SP ;
-       	   b.offset = i + (18 << 2) ;
-	   ld_ins( i_lw, 0, b, T3 ) ;
+	   b.base = SP;
+       	   b.offset = i + (18 << 2);
+	   ld_ins(i_lw, 0, b, T3);
 	   b.base = Has_fp ? FP : T4;
-       	   st_ins( i_sw, T3, b ) ;
+       	   st_ins(i_sw, T3, b);
        	}
-    	/* 
+    	/*
     	**	sp + 72 + 0  ->  sp -(frame size) + 72 + 0
     	**	sp + 72 + 4  ->  sp -(frame size) + 72 + 4
     	**	sp + 72 + 8  ->  sp -(frame size) + 72 + 8
-    	**                     ....     
-    	**                     ....     
+    	**                     ....
+    	**                     ....
     	*/
-	if ( Has_fp )
+	if (Has_fp)
 	{
-	   rr_ins( i_copy, FP, SP ) ;
+	   rr_ins(i_copy, FP, SP);
 	}
 	else
 	{
-	   rr_ins( i_copy, T4, SP ) ;
+	   rr_ins(i_copy, T4, SP);
 	}
      }
      else
-     if ( name(cees) == make_dynamic_callee_tag )
+     if (name(cees) == make_dynamic_callee_tag)
      {
 	int lb,le;
 	baseoff b;
 
-	if ( Has_fp )
-	   rr_ins( i_copy, FP, SP ) ;
+	if (Has_fp)
+	   rr_ins(i_copy, FP, SP);
 	else
 	{
 	   b.offset = - (frame_sz>>3);
-	   b.base = ( Has_vsp ? EP : SP ) ;
-	   ld_ins( i_lo, 0, b, SP ) ;
+	   b.base = (Has_vsp ? EP : SP);
+	   ld_ins(i_lo, 0, b, SP);
 	}
 	b.base = SP;  b.offset = 68;
 
@@ -1136,38 +1149,38 @@ makeans make_code
 
 	lb = new_label();
 	le = new_label();
-	cj_ins( c_eq, 0, T3, le ) ;
-	rrr_ins( i_add, c_, T2, T3, T4 ) ;
-	ld_ir_ins( i_ldo, cmplt_, fs_, empty_ltrl, 18<<2, SP, T3) ;   
-	outlab("L$$",lb) ;
-	ld_ir_ins( i_ldbs, cmplt_MA, fs_, empty_ltrl, 1, T2, GR1 ) ;
-	comb_ins( c_l, T2, T4, lb ) ;
-	st_ir_ins( i_stbs, cmplt_MA, GR1, fs_, empty_ltrl, 1, T3 ) ;
+	cj_ins(c_eq, 0, T3, le);
+	rrr_ins(i_add, c_, T2, T3, T4);
+	ld_ir_ins(i_ldo, cmplt_, fs_, empty_ltrl, 18<<2, SP, T3);
+	outlab("L$$",lb);
+	ld_ir_ins(i_ldbs, cmplt_MA, fs_, empty_ltrl, 1, T2, GR1);
+	comb_ins(c_l, T2, T4, lb);
+	st_ir_ins(i_stbs, cmplt_MA, GR1, fs_, empty_ltrl, 1, T3);
 	outlab("L$$",le);
      }
      else
      {
-	if ( Has_fp )
-	   rr_ins( i_copy, FP, SP ) ;
+	if (Has_fp)
+	   rr_ins(i_copy, FP, SP);
 	else
 	{
 	   baseoff b;
-	   b.offset = -(frame_sz>>3);
-	   b.base = ( Has_vsp ? EP : SP ) ;
-	   ld_ins( i_lo, 0, b, SP ) ;
+	   b.offset = - (frame_sz>>3);
+	   b.base = (Has_vsp ? EP : SP);
+	   ld_ins(i_lo, 0, b, SP);
 	}
-	if ( name(cees) == same_callees_tag && call_has_vcallees(cees)                     && !Has_vcallees )
+	if (name(cees) == same_callees_tag && call_has_vcallees(cees)                    && !Has_vcallees)
 	{
 	      /*  We must store the sum of the callee sizes - it hasn't
 	      **  yet been done.  **/
-	      ir_ins( i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1 ) ;
-	      st_ir_ins( i_stw, cmplt_, GR1, fs_, empty_ltrl, 64, SP );
+	      ir_ins(i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1);
+	      st_ir_ins(i_stw, cmplt_, GR1, fs_, empty_ltrl, 64, SP);
 	}
 
      }
      restore_sregs();  /**  Restore s-regs.  **/
-     ld_ir_ins( i_ldw, cmplt_, fs_, empty_ltrl, -20, SP, RP ) ;
-     if ( glob )
+     ld_ir_ins(i_ldw, cmplt_, fs_, empty_ltrl, -20, SP, RP);
+     if (glob)
      {
 	call_ins(cmplt_, TARGET(fn), 0, "");
      }
@@ -1177,7 +1190,7 @@ makeans make_code
      }
      return mka;
   }
-	  
+
 
   case apply_tag:		/* procedure call */
   {
@@ -1186,15 +1199,15 @@ makeans make_code
      int hda = name(sh(e));
      int special;
      space nsp;
-     int void_result = (name(sh(e))==tophd);
+     int void_result = (name(sh(e)) ==tophd);
      int reg_res = reg_result(sh(e));
      makeans mka;
      exp dad = father(e);
-     bool tlrecurse = RSCOPE_LEVEL==0 && (name(dad)==res_tag) && props(dad);
+     bool tlrecurse = RSCOPE_LEVEL==0 && (name(dad) ==res_tag) && props(dad);
      char stub[128];  /* relocation stub */
-     nsp = sp ;
-     stub[0]='\t';
-     stub[1]='\0';
+     nsp = sp;
+     stub[0] ='\t';
+     stub[1] ='\0';
 
      mka.lab = exitlab;
      mka.regmove = NOREG;
@@ -1209,11 +1222,11 @@ makeans make_code
      if (!last(fn))
 	nsp = do_callers(par,sp,stub);
 
-     if (!reg_res && !void_result && shape_size(sh(e))>64)
+     if (!reg_res && !void_result && shape_size(sh(e)) >64)
      {
 	/* structure or union result, address passed in %r28 (=RET0) */
 	instore is;
-	assert(discrim (dest.answhere) == notinreg);
+	assert(discrim(dest.answhere) == notinreg);
 	/* struct must be in memory */
 	is = insalt(dest.answhere);
 	if (is.adval)
@@ -1222,7 +1235,7 @@ makeans make_code
 	   if (IS_FIXREG(is.b.base))
 	      ld_ins(i_lo,SIGNED,is.b,RET0);
 	   else
- 	      set_ins("",is.b,RET0);   
+ 	      set_ins("",is.b,RET0);
 	}
 	else
 	   ld_ins(i_lw,SIGNED,is.b,RET0);
@@ -1247,7 +1260,7 @@ makeans make_code
 	call_millicode(MILLI_DYNCALL,RP,stub,1);
      }
 
-     if (!reg_res && !void_result && (shape_size(sh(e))<65))
+     if (!reg_res && !void_result && (shape_size(sh(e)) <65))
      {
 	/* 64 bit structure or union result returned in RET0 and RET1 */
 	instore is;
@@ -1287,10 +1300,10 @@ makeans make_code
 	else
 	{
 	   setregalt(aa,RET0);
-	   if ( discrim(dest.answhere)==inreg )
+	   if (discrim(dest.answhere) ==inreg)
 	   {
 	      int r = regalt(dest.answhere);
-	      if ( r!=RET0 && r!=GR0 )
+	      if (r!=RET0 && r!=GR0)
 	      {
 		 /* Move from RET0 */
 		 move(aa,dest,sp.fixed,1);
@@ -1315,21 +1328,21 @@ makeans make_code
       exp pl = bro(cees);
       space nsp;
       char stub[128];  /* relocation stub */
-      stub[0]='\t';
-      stub[1]='\0';
-    	  
-      if (no(cers) !=0)
+      stub[0] ='\t';
+      stub[1] ='\0';
+
+      if (no(cers)!=0)
 	 nsp = do_callers(son(cers),sp,stub);
       else
 	 nsp = sp;
 
-      (void) make_code(cees,nsp,nowhere,0);
-    	  
-      if (!reg_result(sh(e)) && name(sh(e))!=tophd && shape_size(sh(e))>64)
+     (void)make_code(cees,nsp,nowhere,0);
+
+      if (!reg_result(sh(e)) && name(sh(e))!=tophd && shape_size(sh(e)) >64)
       {
 	 /* Must be a structure or union result, pass address in RET0 */
 	 instore is;
-	 assert(discrim (dest.answhere) == notinreg);
+	 assert(discrim(dest.answhere) == notinreg);
 	 /* struct must be in memory */
 	 is = insalt(dest.answhere);
 	 if (is.adval)
@@ -1338,7 +1351,7 @@ makeans make_code
 	    if (IS_FIXREG(is.b.base))
 	       ld_ins(i_lo,SIGNED,is.b,RET0);
 	    else
- 	       set_ins("",is.b,RET0);   
+ 	       set_ins("",is.b,RET0);
 	 }
 	 else
 	    ld_ins(i_lw,SIGNED,is.b,RET0);
@@ -1346,9 +1359,9 @@ makeans make_code
       }
 
       if (is_fn_glob(fn))
-      { 
-	 call_ins(cmplt_,TARGET(fn),RP,stub);  
-      } 
+      {
+	 call_ins(cmplt_,TARGET(fn),RP,stub);
+      }
       else
       {
 	 reg_operand_here(fn,nsp,GR22);
@@ -1364,25 +1377,25 @@ makeans make_code
 	    freg frg;
 	    frg.fr = R_FR4;
 	    frg.dble = (hda != shrealhd);
-	    setfregalt (aa, frg);
-	    move (aa, dest, sp.fixed, 1);
+	    setfregalt(aa, frg);
+	    move(aa, dest, sp.fixed, 1);
 	    /* move floating point result of application to destination */
 	 }
 	 else
 	 {
-	    setregalt (aa, RET0);
+	    setregalt(aa, RET0);
 	    mka.regmove = RET0;
-	    move (aa, dest, sp.fixed, 1);
+	    move(aa, dest, sp.fixed, 1);
 	    /* move fixed point result of application to destination */
 	 }
       }
       else
-      if (name(sh(e))!=tophd && (shape_size(sh(e))<65))
+      if (name(sh(e))!=tophd && (shape_size(sh(e)) <65))
       {
 	 /* 64 bit structure or union result returned in RET0 and RET1 */
 	 instore is;
 	 is = insalt(dest.answhere);
-	 if (discrim(dest.answhere)==inreg && dest.answhere.val.regans==GR0)
+	 if (discrim(dest.answhere) ==inreg && dest.answhere.val.regans==GR0)
 	 {
 	    /* dest is nowhere, do nothing */
 	 }
@@ -1403,9 +1416,9 @@ makeans make_code
 	    st_ins(i_sw,RET1,b);
 	 }
       }
-      if ( call_is_untidy(cees) )
+      if (call_is_untidy(cees))
       {
-	 int ma = (max_args+511)&(~511);
+	 int ma = (max_args+511) & (~511);
 	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,(ma>>3),SP,SP);
 	 if (Has_tos)
 	    reset_tos();
@@ -1417,14 +1430,14 @@ makeans make_code
       {
 	 exp x = son(cers);
 	 postl_chain p;
-	 int ma = (max_args+511)&(~511);
-	 for(;x!=nilexp;)
+	 int ma = (max_args+511) & (~511);
+	 for (;x!=nilexp;)
 	 {
-	    if (name(x)==caller_tag) 
+	    if (name(x) ==caller_tag)
 	    {
 	       no(x) += ma;
-	    }      
-	    if ( last(x) )
+	    }
+	    if (last(x))
 	       break;
 	    else
 	       x = bro(x);
@@ -1435,16 +1448,16 @@ makeans make_code
 	 p.outer = old_pls;
 	 old_pls = &p;
 	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,ma>>3,SP,SP);
-	 (void) make_code(pl, sp, nowhere, 0);
-	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,-(ma>>3),SP,SP);
+	(void)make_code(pl, sp, nowhere, 0);
+	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,- (ma>>3),SP,SP);
 	 old_pls = p.outer;
 	 update_plc(old_pls,-ma);
       }
       else
-	 (void) make_code(pl, sp, nowhere, 0);
+	(void)make_code(pl, sp, nowhere, 0);
       return mka;
   }
-    
+
 
   case caller_name_tag:
   {
@@ -1460,10 +1473,10 @@ makeans make_code
   case make_callee_list_tag:
   {
      bool vc = call_has_vcallees(e);
-     do_callee_list( e, sp );    
+     do_callee_list(e, sp);
      if (vc)
      {
-	 ir_ins(i_ldi,fs_,empty_ltrl,no(e)>>3,GR1);
+	 ir_ins(i_ldi,fs_,empty_ltrl,no(e) >>3,GR1);
 	 st_ir_ins(i_stw,cmplt_,GR1,fs_,empty_ltrl,64,SP);
      }
      return mka;
@@ -1506,7 +1519,7 @@ makeans make_code
 	int csz = (callee_sz>>3);
 	if (csz)
 	{
-	   int co = -(callees_offset>>3);
+	   int co = - (callees_offset>>3);
 	   imm_to_r(csz,T4);
 	   if (vc)
 	   {
@@ -1516,7 +1529,7 @@ makeans make_code
 	   {
 	       /*  16 or fewer bytes to move - may as well move them word
 		   by word then finish off byte by byte.  */
-	      int nw = csz&(~3);
+	      int nw = csz& (~3);
 	      int o,base,off;
 	      if (SIMM14(co))
 	      {
@@ -1530,12 +1543,12 @@ makeans make_code
 		 base = T3;
 		 off = 0;
 	      }
-	      for(o=0;o<nw;o+=4)
+	      for (o=0;o<nw;o+=4)
 	      {
 		 ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,off+o,base,GR1);
 		 st_ir_ins(i_stw,cmplt_,GR1,fs_,empty_ltrl,72+o,SP);
 	      }
-	      for(;o<csz;o++)
+	      for (;o<csz;o++)
 	      {
 		 ld_ir_ins(i_ldb,cmplt_,fs_,empty_ltrl,off+o,base,GR1);
 		 st_ir_ins(i_stb,cmplt_,GR1,fs_,empty_ltrl,72+o,SP);
@@ -1569,7 +1582,7 @@ makeans make_code
 	}
      }
      return mka;
-  }	
+  }
 
 
     case make_dynamic_callee_tag:
@@ -1595,7 +1608,7 @@ makeans make_code
        st_ir_ins(i_stw,cmplt_,szr,fs_,empty_ltrl,64,SP);
        cj_ins(c_eq,0,szr,le);
        rrr_ins(i_add,c_,lower,szr,upper);  /*  `upper' is where we stop  */
-       ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,18<<2,SP,szr);   
+       ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,18<<2,SP,szr);
        outlab("L$$",lb);
        ld_ir_ins(i_ldbs,cmplt_MA,fs_,empty_ltrl,1,lower,GR1);
        comb_ins(c_l,lower,upper,lb);
@@ -1613,17 +1626,17 @@ makeans make_code
      bool remember = 0;
      exp se = son(e);
 
-     if ( props(e) & defer_bit )
+     if (props(e) & defer_bit)
      {
  	return make_code(bro(se), sp, dest, exitlab);
      }
-     if ( se == nilexp )
+     if (se == nilexp)
      {
 	/*  Historical - unused tags are now removed cleanly  */
 	placew = nowhere;
      }
      else
-     if ( name(son(e)) == caller_name_tag )
+     if (name(son(e)) == caller_name_tag)
      {
 	/* the ident of a caller in a postlude */
 	exp ote = find_ote(e,no(son(e)));
@@ -1632,21 +1645,21 @@ makeans make_code
      }
      else
      {
-	ash a ;
+	ash a;
 	int n = no(e);
 	a = ashof(sh(se));
-	if ( props(e) & inreg_bits )
+	if (props(e) & inreg_bits)
 	{
 	   /* tag is to be found in a fixed pt reg */
-	   if ( n == 0 )
+	   if (n == 0)
 	   {
  	      /*  We need to allocate a fixed t-reg  */
 	      int s = sp.fixed;
-	      if ( props(e) & notparreg )
+	      if (props(e) & notparreg)
 	      {
 		 s |= PARAM_TREGS;
 	      }
-	      if (props(e)&notresreg)
+	      if (props(e) &notresreg)
 	      {
 		 s |= RMASK(RET0);
 	      }
@@ -1654,7 +1667,7 @@ makeans make_code
 	      no(e) = n;
 	   }
 	   else
-	   if ( n == RET0 )
+	   if (n == RET0)
 	   {
 	      /* use result reg optimisation */
  	      assert(!(props(e) & notparreg));
@@ -1667,24 +1680,24 @@ makeans make_code
 	   setregalt(placew.answhere, n);
 	}
 	else
-	if ( props(e) & infreg_bits )
+	if (props(e) & infreg_bits)
 	{
 	   /* tag in some float reg */
 	   freg frg;
-	   if ( n == 0 )
+	   if (n == 0)
 	   {
 	      /*
 	       * if it hasn't been already allocated into a s-reg
 	       * allocate tag into float-reg ...
 	       */
 	      int s = sp.flt;
-	      if ( props(e) & notparreg )
-		 s |= PARAM_FLT_TREGS;	
+	      if (props(e) & notparreg)
+		 s |= PARAM_FLT_TREGS;
 	      n = getfreg(s);
 	      no(e) = n;
 	   }
 	   else
-	   if ( n == R_DEFER_FR4 )
+	   if (n == R_DEFER_FR4)
 	   {
 	      n = R_FR4;
 	      no(e) = R_FR4;
@@ -1697,34 +1710,34 @@ makeans make_code
 	   frg.dble = (a.ashsize==64 ? 1 : 0);
 	   setfregalt(placew.answhere, frg);
 	}
-	else 
-	if ( isparam(e) )
+	else
+	if (isparam(e))
 	{
  	   instore is;
 	   long n = no(se);  /* bit disp of param */
-	   if ( name(son(e)) != formal_callee_tag )
+	   if (name(son(e))!= formal_callee_tag)
 	   {
 	      /**  A caller parameter kept on the stack.  **/
     	      is.adval = 1;
 	      is.b.base = GR17;
-	      is.b.offset = -((n+params_offset)>>3);
+	      is.b.offset = - ((n+params_offset) >>3);
 	      setinsalt(placew.answhere, is);
 	      no(e) = n * 2 + GR17;
 	      remember = 1;
-	      if ( (last_param(e) && (!Has_no_vcallers ||
-				      (isvis(e) && props(se)!=0))) ||
-		   a.ashsize==0 )
+	      if ((last_param(e) && (!Has_no_vcallers ||
+				     (isvis(e) && props(se)!=0))) ||
+		   a.ashsize==0)
 	      {
  	         /*  possible varargs, dump remaining param regs on stack */
 		 int i = n >> 5; /* next offset */
-		 int off =- (params_offset>>3)-(i<<2);
+		 int off =- (params_offset>>3) - (i<<2);
 		 i--;
 		 while (i<4)
 		 {
 		    st_ir_ins(i_stw,cmplt_,ARG0+i,fs_,empty_ltrl,off, Has_vcallees ? FP : EP);
 		    strcat(export,i==0 ? ",ARGW0=GR" : i==1 ? ",ARGW1=GR" : i==2 ? ",ARGW2=GR" : ",ARGW3=GR");
 		    off-=4;
-		    i++;	
+		    i++;
 		 }
 	      }
 	   }
@@ -1746,7 +1759,7 @@ makeans make_code
 	   is.b = boff(e);
 	   is.adval = 1;
 #if USE_BITAD
-	   if ( a.ashalign != 1 )
+	   if (a.ashalign != 1)
 	   {
 	      setinsalt(placew.answhere, is);
 	      remember = 1;
@@ -1760,28 +1773,28 @@ makeans make_code
 	   setinsalt(placew.answhere, is);
 	   remember = 1;
 #endif
-	}  
+	}
 	placew.ashwhere = a;
      }
-     if ( isparam(e) )
+     if (isparam(e))
      {
-	if ( name(se) != formal_callee_tag )
+	if (name(se)!= formal_callee_tag)
 	{
 	   int off,sz = shape_size(sh(se));
 	   baseoff stkpos;
 	   int n = no(se);
 	   int pr = props(se); /* (pr == 0) ? (on stack) : (input reg) */
 	   stkpos.base = Has_vcallees ? FP : EP;
-	   off = -((n+params_offset)>>3);
+	   off = - ((n+params_offset) >>3);
 	   stkpos.offset = off;
 #if 0
-	   if ( pt(e)==nilexp && !diagnose )
+	   if (pt(e) ==nilexp && !diagnose)
 	   {
 	      /* parameter never used */
 	   }
 	   else
 #endif
-	   if ( pr && ( props(e) & inanyreg ) == 0 )
+	   if (pr && (props(e) & inanyreg) == 0)
 	   {
 	      /* param in reg pr, move to stack */
 	      if (is_floating(name(sh(se))))
@@ -1803,11 +1816,11 @@ makeans make_code
 		    st_ins(i_sw,pr-1,stkpos);
 		 }
 	      }
-	      if ( name(sh(se)) != cpdhd && name(sh(se)) != nofhd )
+	      if (name(sh(se))!= cpdhd && name(sh(se))!= nofhd)
 		 remember = 0;
 	    }
 	    else
-	    if ( pr==0 && (props(e)&inanyreg)!=0 )
+	    if (pr==0 && (props(e) &inanyreg)!=0)
 	    {
 	       /* param on stack, move to reg */
 	       int d = no(e);
@@ -1823,7 +1836,7 @@ makeans make_code
 	       r = d;
 	    }
 	    else
-	    if ( pr && pr!=no(e) )
+	    if (pr && pr!=no(e))
 	    {
 	       /* param passed in reg=pr, move to different reg=no(e) */
 	       int d = no(e);
@@ -1834,13 +1847,13 @@ makeans make_code
 	 }
 	 else
 	 {
-	    if ( props(e) & inanyreg )
+	    if (props(e) & inanyreg)
 	    {
 	       /* A callee parameter passed on stack but kept in register */
 	       instore is;
 	       ans aa;
 	       is.b.base = Has_vcallees ? FP : EP;
-	       is.b.offset = (no(se)-callees_offset)>>3;
+	       is.b.offset = (no(se) -callees_offset) >>3;
 	       is.adval = 0;
 	       setinsalt(aa,is);
 	       move(aa,placew,sp.fixed,is_signed(sh(se)));
@@ -1852,7 +1865,7 @@ makeans make_code
 	 r = code_here(son(e), sp, placew);
       }
 
-      if (remember && r != NOREG && pt(e) != nilexp && eq_sze(sh(son(e)), sh(pt(e))))
+      if (remember && r != NOREG && pt(e)!= nilexp && eq_sze(sh(son(e)), sh(pt(e))))
       {
  	 /*  Temporarily in a register, track it to optimise future access  */
  	 if (isvar(e))
@@ -1868,7 +1881,7 @@ makeans make_code
       /* and evaluate the body of the declaration */
       mka = make_code(bro(son(e)), guard(placew, sp), dest, exitlab);
       return mka;
-  } 
+  }
   /* ENDS ident_tag */
 
 /*****************************************************************************/
@@ -1878,7 +1891,7 @@ makeans make_code
      exp t = son(son(e));
      for (;;)
      {
-	exp next = (last(t)) ? (bro(son(e))) : bro(t);
+	exp next = (last(t))?(bro(son(e))): bro(t);
 	if ( name(next) == goto_tag )	/* gotos end sequences */
 	{
  	   make_code(t, sp, nowhere, no(son(pt(next))));
@@ -1887,7 +1900,7 @@ makeans make_code
 	{
 	   code_here(t, sp, nowhere);
 	}
-	if ( last(t) )
+	if (last(t))
 	{
 	   return make_code(bro(son(e)), sp, dest, exitlab);
 	}
@@ -1895,7 +1908,7 @@ makeans make_code
      }
   }
   /*  ENDS seq_tag  */
- 
+
 /*****************************************************************************/
 
   case cond_tag:
@@ -1906,7 +1919,7 @@ makeans make_code
      exp record;	 /* jump record for alt */
      exp jr = nilexp;   /* jump record for end of construction */
 
-     if ( discrim(dest.answhere) == insomereg )
+     if (discrim(dest.answhere) == insomereg)
      {
 	/* must make choice of register to contain answer to cond */
 	int *sr = someregalt(dest.answhere);
@@ -1915,18 +1928,18 @@ makeans make_code
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
      }
-     if ( name(first)==goto_tag && pt(first)==alt )
+     if (name(first) ==goto_tag && pt(first) ==alt)
      {
 	/* first is goto alt */
 	no(son(alt)) = 0;
 	return make_code(alt, sp, dest, exitlab);
      }
-#if 1 
+#if 1
      /*  "take_out_of_line" stuff  */
-     if ( name(bro(son(alt))) == top_tag && !diagnose )
+     if (name(bro(son(alt))) == top_tag && !diagnose)
      {
 	int extract = take_out_of_line(first, alt, repeat_level > 0, 1.0);
-	if ( extract )
+	if (extract)
 	{
 	   static ntest real_inverse_ntest[] = {
 		0, 4, 3, 2, 1, 6, 5, 0, 0, 0, 0, 0, 0, 0, 0
@@ -1936,9 +1949,9 @@ makeans make_code
 	   int test_n;
 	   shape sha;
 	   outofline * rec;
-	   exp tst = (is_tester(t, 0)) ? t : bro(son(t));
+	   exp tst = (is_tester(t, 0))? t : bro(son(t));
 	   record = getexp(f_bottom, nilexp, 0, nilexp, nilexp,0, 0, 0);
-	   if (pt(son(alt)) != nilexp)
+	   if (pt(son(alt))!= nilexp)
 	      ptno(record) = ptno(pt(son(alt)));
 	   else
 	      ptno(record) = new_label();
@@ -1950,7 +1963,7 @@ makeans make_code
 	   odd_bits = rec;
  	   rec->dest = dest;
 	   rec->labno = new_label();	/* label for outofline body */
-	   if ( last(t) )
+	   if (last(t))
 	      first = bro(son(first));
 	   else
 	      son(son(first)) = bro(son(son(first)));
@@ -1959,46 +1972,46 @@ makeans make_code
 	       rec->jr=jr;
 	   pt(son(alt)) = record;
 	   test_n = (int)test_number(tst);
-	   if ( name(sha) < shrealhd || name(sha) > doublehd )
+	   if (name(sha) < shrealhd || name(sha) > doublehd)
 	      test_n = (int)int_inverse_ntest[test_n];
 	   else
 	      test_n = (int)real_inverse_ntest[test_n];
 	   settest_number(tst, test_n);
-	   z = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	   z = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 	   ptno(z) = rec->labno;/* z->ptf.l */
 	   s = getexp(sha, nilexp, 0, nilexp, z, 0, 0, 0);
 	   no(s) = rec->labno;
 	   p = getexp(sha, nilexp, 0, s, nilexp, 0, 0, 0);
 	   pt(tst) = p;
   	   mka = make_code(t,sp,dest,0);
-	   if ( name(sh(first)) != bothd )
+	   if (name(sh(first))!= bothd)
 	   {
 	      outlab("L$$",ptno(jr));
 	      clear_all();
-	   };	  
+	   };
 	   return mka;
 	};
      };
 #endif
 
-     if ( name(first) == goto_tag && pt(first) == alt )
+     if (name(first) == goto_tag && pt(first) == alt)
      {
 	/* first is goto alt */
 	no(son(alt)) = 0;
 	return make_code(alt, sp, dest, exitlab);
      }
      else
-     if ( name(alt) == labst_tag && name(bro(son(alt))) == top_tag )
+     if (name(alt) == labst_tag && name(bro(son(alt))) == top_tag)
      {
 	/* alt is empty */
-	int endl = (exitlab == 0) ? new_label() : exitlab;
+	int endl = (exitlab == 0)? new_label(): exitlab;
 	no(son(alt)) = endl;
 	make_code(first, sp, dest, endl);
 	mka.lab = endl;
 	return mka;
      }
      else
-     if ( name(alt) == labst_tag && name(bro(son(alt))) == goto_tag )
+     if (name(alt) == labst_tag && name(bro(son(alt))) == goto_tag)
      {
 	/* alt is goto */
 	exp g = bro(son(alt));
@@ -2009,7 +2022,7 @@ makeans make_code
      if ( ( test = testlast(first, alt) ) ) /* I mean it */
      {
 	/* effectively an empty then part */
-	int l = (exitlab != 0) ? exitlab : new_label();
+	int l = (exitlab != 0)? exitlab : new_label();
 	bool rev = IsRev(test);
 	ptno(test) = -l;  /* make test jump to exitlab - see test_tag: */
 	props(test) = notbranch[props(test)];
@@ -2029,7 +2042,7 @@ makeans make_code
 	int fl, l;
 	no(son(alt)) = new_label();
 	fl = make_code(first, sp, dest, exitlab).lab;
- 	l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label());
+ 	l = (fl != 0)? fl :((exitlab != 0)? exitlab : new_label());
 	ub_ins(cmplt_,l);
 	clear_all();
 	make_code(alt, sp, dest, l);
@@ -2043,12 +2056,12 @@ makeans make_code
 
   case labst_tag:
   {
-     if ( no(son(e)) != 0 )
+     if (no(son(e))!= 0)
      {
 	clear_all();
 	outlab("L$$",no(son(e)));
      }
-     if ( is_loaded_lv(e) && No_S )
+     if (is_loaded_lv(e) && No_S)
      {
 	/* Could be the target of a long_jump - we must reset SP and FP */
 	if (Has_tos)
@@ -2065,9 +2078,9 @@ makeans make_code
 	      rr_ins(i_copy,GR19,GR5);
 	   }
 	}
-     }		
+     }
      return make_code(bro(son(e)), sp, dest, exitlab);
-  }				
+  }
   /*  ENDS labst_tag  */
 
 /*****************************************************************************/
@@ -2097,7 +2110,7 @@ makeans make_code
      return mka;
   }
   /*  ENDS goto_lv_tag  */
-    
+
 /*****************************************************************************/
 
   case goto_tag:
@@ -2110,7 +2123,7 @@ makeans make_code
 	ub_ins(cmplt_,lab);
      }
      return mka;
-  }				
+  }
   /*  ENDS goto_tag  */
 
 /*****************************************************************************/
@@ -2128,31 +2141,31 @@ makeans make_code
   {
      exp l = son(e);
      exp r = bro(l);
-     int lab = (ptno(e) < 0) ? -ptno(e) : no(son(pt(e)));
+     int lab = (ptno(e) < 0)? -ptno(e): no(son(pt(e)));
      /* see frig in cond_tag */
      shape shl = sh(l);
      CONST char *branch;
      int n = (int) test_number(e);	/* could have Rev bit in props */
 
 #if use_long_double
-     if ( name(sh(l)) == doublehd )
+     if (name(sh(l)) == doublehd)
      {
-	quad_op( e, sp, dest );
+	quad_op(e, sp, dest);
 	cj_ins(c_eq,0,RET0,lab);
 	return(mka);
      }
 #endif
 
-     if ( is_floating(name(sh(l))) )
+     if (is_floating(name(sh(l))))
      {
 	/* float test */
-	bool dble = ( (name(shl)==shrealhd) ? 0 : 1 );
+	bool dble = ((name(shl) ==shrealhd)? 0 : 1);
 	int a1;
 	CONST char *branch = fbranches(n);
 	/* choose branch and compare instructions */
 	int a2;
 	space nsp;
-	if ( IsRev(e) )
+	if (IsRev(e))
 	{
  	   a2 = freg_operand(r, sp, getfreg(sp.flt));
 	   nsp = guardfreg(a2, sp);
@@ -2165,9 +2178,9 @@ makeans make_code
 	   a2 = freg_operand(r, nsp, getfreg(nsp.flt));
 	}
 	if (dble)
-	   cmp_rrf_ins(i_fcmp,f_dbl,branch,(3*a1+1),(3*a2+1));
+	   cmp_rrf_ins(i_fcmp,f_dbl,branch,(3*a1+1), (3*a2+1));
 	else
-	   cmp_rrf_ins(i_fcmp,f_sgl,branch,(3*a1),(3*a2));
+	   cmp_rrf_ins(i_fcmp,f_sgl,branch,(3*a1), (3*a2));
 	z_ins(i_ftest);
 	ub_ins(cmplt_,lab);
 	return mka;
@@ -2178,41 +2191,41 @@ makeans make_code
 	int a1;
 	int a2;
 	bool unsgn;
-	if ( name(l) == val_tag )
-	{			
+	if (name(l) == val_tag)
+	{
 	   /* put literal operand on right */
 	   exp temp = l;
  	   l = r;
 	   r = temp;
-	   if ( n <= 2 )
+	   if (n <= 2)
  	     n += 2;
-	   else 
-	   if ( n <= 4 )
+	   else
+	   if (n <= 4)
  	     n -= 2;
 	}
 
 	/* choose branch instruction */
 	unsgn = (bool)(!is_signed(shl) && name(shl)!=ptrhd);
-	branch = unsgn ? usbranches(n) : sbranches(n);
+	branch = unsgn ? usbranches(n): sbranches(n);
 
 	/* Generally, anding with an immediate requires 2 instructions. But,
 	   if the and is only being compared to 0, we may be able to get by
 	   with one instruction */
-	if ( name(l) == and_tag && name(r)==val_tag && no(r)==0 &&
-	    ( branch == c_eq || branch == c_neq ) && !( unsgn && (n==2 || n==3) ) )
+	if (name(l) == and_tag && name(r) ==val_tag && no(r) ==0 &&
+	   (branch == c_eq || branch == c_neq) && !(unsgn && (n==2 || n==3)))
 	{
 	   exp sonl = son(l);
 	   exp bsonl = bro(sonl);
-	   if ( name(bsonl) == val_tag )
+	   if (name(bsonl) == val_tag)
 	   {
 	      int v = no(bsonl);
-	      if ( IS_POW2(v) ) 
+	      if (IS_POW2(v))
 	      {
 		 /* We can branch on bit */
 
 		 /* Which bit, b, to branch on ? */
 		 int b=0;
-		 while ( (v & (1<<b)) == 0 ) b++; 
+		 while ((v & (1<<b)) == 0)b++;
 		 b=31-b;
 		 a1 = reg_operand(sonl,sp);
 		 if (OPTIM)
@@ -2230,25 +2243,25 @@ makeans make_code
 	      {
 		 /* v = 00..0011..1100..00 or v = 11..1100..0011..11 ? */
 		 int pos = 0, len, next, m;
-		 if ( v & 1 )
+		 if (v & 1)
 		    m = ~v;
 		 else
 		    m = v;
-		 while ( pos < 32 && (m & (1<<pos))==0 ) pos++;
+		 while (pos < 32 && (m & (1<<pos)) ==0)pos++;
 		 len = pos;
-		 while ( len < 32 && (m & (1<<len)) ) len++;
+		 while (len < 32 && (m & (1<<len)))len++;
 		 next = len;
 		 len -= pos;
 		 pos = 31-pos;
-		 while ( next < 32 && (m & (1<<next))==0 ) next++;
-		 if ( next == 32 )
+		 while (next < 32 && (m & (1<<next)) ==0)next++;
+		 if (next == 32)
 		 {
 		    int d;
 		    space nsp;
 		    a1 = reg_operand(sonl,sp);
 		    nsp = guardreg(a1,sp);
 		    d = getreg(nsp.fixed);
-		    if ( v&1 )
+		    if (v&1)
 		    {
 		       /* 2 instructions! Is this worth implementing ? */
 		       rr_ins(i_copy,a1,d);
@@ -2264,11 +2277,11 @@ makeans make_code
 	}
 
 	a1 = reg_operand(l, sp);
-	if ( name(r) == val_tag )
+	if (name(r) == val_tag)
 	{
-	   if ( unsgn && (no(r)==0) && (n==2 || n==3) )
+	   if (unsgn && (no(r) ==0) && (n==2 || n==3))
 	   {
-	      if ( n==3 )
+	      if (n==3)
 		 ub_ins(cmplt_,lab);
 	   }
 	   else
@@ -2279,20 +2292,20 @@ makeans make_code
  	   space nsp;
  	   nsp = guardreg(a1, sp);
  	   a2 = reg_operand(r, nsp);
- 	   if ( (n != 5) && (n !=6) )
+ 	   if ((n != 5) && (n !=6))
 	   {
-	      if ( (name(l) == cont_tag) && (name(son(l)) == name_tag) &&
-		  isse_opt(son(son(l))) )
+	      if ((name(l) == cont_tag) && (name(son(l)) == name_tag) &&
+		  isse_opt(son(son(l))))
 		 riir_ins(i_extrs,c_, a1,31,shape_size(sh(l)),a1);
-	      if ( (name(r) == cont_tag) && (name(son(r)) == name_tag) &&
-		   isse_opt(son(son(r))) )
+	      if ((name(r) == cont_tag) && (name(son(r)) == name_tag) &&
+		   isse_opt(son(son(r))))
 		 riir_ins(i_extrs,c_, a2,31,shape_size(sh(r)),a2);
 	   }
 	   cj_ins(branch,a2,a1,lab);
 	}
 	return mka;
-     }				
-  }				
+     }
+  }
   /*  ENDS test_tag  */
 
 /*****************************************************************************/
@@ -2309,14 +2322,14 @@ makeans make_code
      bool is_float = is_floating(hdrhs);
 
 #if use_long_double
-     if ( hdrhs == doublehd )
-	is_float = 0 ;
+     if (hdrhs == doublehd)
+	is_float = 0;
 #endif
 
      /* +++ lose chvar_tag on rhs if no result, remember to invalidate reg */
      /* +++ remove name(e)==ass_tag tests now assbits_tag has gone */
 
-     if ( name(e) == assvol_tag )
+     if (name(e) == assvol_tag)
      {
 
 	/* Assign to volatile location. Disable register-location tracing. */
@@ -2326,9 +2339,9 @@ makeans make_code
 	setvolatile();
      }
 
-     if ( name(e) == ass_tag &&
-	  (name(rhs) == apply_tag || is_muldivrem_call(rhs)) &&
-	  ((is_float) || valregable(sh(rhs))) )
+     if (name(e) == ass_tag &&
+	 (name(rhs) == apply_tag || is_muldivrem_call(rhs)) &&
+	 ((is_float) || valregable(sh(rhs))))
       {
 	 where apply_res;
 	 /* set up apply_res */
@@ -2363,7 +2376,7 @@ makeans make_code
       {
  	 /* assignment of a bitfield, get address in proper form */
 	 instore is;
-	 switch ( discrim(assdest.answhere) )
+	 switch (discrim(assdest.answhere))
 	 {
 	    case inreg:
 	    {
@@ -2375,7 +2388,7 @@ makeans make_code
 	    case notinreg:
 	    {
 	       is = insalt(assdest.answhere);
-	       if ( !is.adval )
+	       if (!is.adval)
 	       {
 		  int r = getreg(nsp.fixed);
 		  ld_ins(i_lw,1,is.b,r);
@@ -2400,13 +2413,13 @@ makeans make_code
      }
      else
 #endif
-     if ( name(e) == ass_tag &&
+     if (name(e) == ass_tag &&
 	  discrim(assdest.answhere) == notinreg &&
-	  assdest.ashwhere.ashsize == assdest.ashwhere.ashalign )
+	  assdest.ashwhere.ashsize == assdest.ashwhere.ashalign)
      {
 	instore is;
 	is = insalt(assdest.answhere);
-	if ( !is.adval )
+	if (!is.adval)
 	{			/* this is an indirect assignment, so make it
 				 * direct by loading pointer into reg  (and
 				 * remember it) */
@@ -2421,7 +2434,7 @@ makeans make_code
 	}
      }
 #if 1
-     if ( name(e) == ass_tag && is_float && discrim(assdest.answhere) == notinreg )
+     if (name(e) == ass_tag && is_float && discrim(assdest.answhere) == notinreg)
      {
 	/*
 	 * Ensure floating point values assigned using floating point regs so
@@ -2445,7 +2458,7 @@ makeans make_code
      /* evaluate source into assignment destination .... */
      contreg = code_here(rhs, nsp, assdest);
      /* ... and move it into dest - could use assignment as value */
-     switch ( discrim ( assdest.answhere ) )
+     switch (discrim(assdest.answhere))
      {
 	case inreg:
 	{
@@ -2477,11 +2490,11 @@ makeans make_code
 	case bitad:
 #endif
 	{
-	   if ( contreg != NOREG && name(e) == ass_tag )
+	   if (contreg != NOREG && name(e) == ass_tag)
 	   {
 	      ans aa;
 	      space nnsp;
-	      if ( contreg > 0 && contreg < 31 )
+	      if (contreg > 0 && contreg < 31)
 	      {
 		 setregalt(aa, contreg);
 		 nnsp = guardreg(contreg, sp);
@@ -2494,23 +2507,23 @@ makeans make_code
 		 nnsp = nsp;
 		 setfregalt(aa, frg);
 	      }
-	      (void) move(aa, dest, nnsp.fixed, 1);
+	     (void)move(aa, dest, nnsp.fixed, 1);
 	      /* forget register dependencies on destination */
 	      clear_dep_reg(lhs);
 	      /* remember that dest contains source, provided that it is not
 	      * dependent on it */
-	      if ( name(lhs)==name_tag )
+	      if (name(lhs) ==name_tag)
 	      {
 		 exp dc = son(lhs);
-		 if ( son(dc)!=nilexp )
+		 if (son(dc)!=nilexp)
 		    dc = son(dc);
-		 if ( shape_size(sh(dc))==shape_size(sh(rhs)) )
+		 if (shape_size(sh(dc)) ==shape_size(sh(rhs)))
 		    keepcont(lhs,contreg);
 	      }
 	      else
-	      if ( !dependson(lhs,0,lhs) )
+	      if (!dependson(lhs,0,lhs))
 		 keepcont(lhs,contreg);
-	      return (mka);
+	      return(mka);
 	   }
 	   clear_dep_reg(lhs);
 	   /* forget register dependencies on destination */
@@ -2524,7 +2537,7 @@ makeans make_code
 	   move(assdest.answhere, dest, guard(assdest, sp).fixed, 1);
 	}
 	default:;
-	
+
      }				/* end sw on answhere */
      if (name(e) == assvol_tag)
 	setnovolatile();
@@ -2544,7 +2557,7 @@ makeans make_code
 
       /*  Initialse bitfield by constructing an appropriate constant. */
      /* Other compounds are initialised from register values below   */
-     if ( has_bitfield(e) )
+     if (has_bitfield(e))
      {
 	instore isa;
 	ans aa;
@@ -2556,10 +2569,10 @@ makeans make_code
 
 	/* generate constant value... */
 	fix_nonbitfield(e);	/* Ensure all offsets are BIT-offsets. */
-	next = (labexp) malloc( sizeof(struct labexp_t) );
+	next = (labexp)malloc(sizeof(struct labexp_t));
 	next->e = e;
 	next->lab = next_data_lab();
-	next->next = (labexp) 0;
+	next->next = (labexp)0;
 	current->next = next;
 	current = next;
 	isa.adval = 0;
@@ -2572,12 +2585,12 @@ makeans make_code
      }
 
      nsp = sp;
-     switch ( discrim(dest.answhere) )
+     switch (discrim(dest.answhere))
      {
 	case notinreg:
 	{
 	   str = insalt(dest.answhere);	/* it should be !! */
-	   if ( !str.adval )
+	   if (!str.adval)
 	   {
 	      int r = getreg(sp.fixed);
 	      nsp = guardreg(r, sp);
@@ -2597,7 +2610,7 @@ makeans make_code
 	      newdest.ashwhere = ashof(sh(bro(t)));
 	      assert(ashof(bro(t)).ashalign != 1); /* stray bitfield */
 	      code_here(bro(t), nsp, newdest);
-	      if ( last(bro(t)) )
+	      if (last(bro(t)))
 		 return mka;
 	      t = bro(bro(t));
 	   }
@@ -2605,7 +2618,7 @@ makeans make_code
 	case insomereg:
 	{
 	   int *sr = someregalt(dest.answhere);
-  	   if ( *sr != -1 )
+  	   if (*sr != -1)
 	      failer("Somereg *2");
  	   *sr = getreg(sp.fixed);
 	   setregalt(dest.answhere, *sr);
@@ -2616,17 +2629,17 @@ makeans make_code
 	  code_here(bro(t), sp, dest);
 	  r = regalt(dest.answhere);
 	  assert(name(t) == val_tag);
-	  if ( no(t) != 0 )
-	     rrir_ins(i_shd,c_,r,0,32-(((al2(sh(t)) >= 8) ? (no(t) << 3) : no(t))),r);
+	  if (no(t)!= 0)
+	     rrir_ins(i_shd,c_,r,0,32- (((al2(sh(t)) >= 8)?(no(t) << 3): no(t))),r);
 	  nsp = guardreg(r, sp);
-	  while ( !last(bro(t)) )
+	  while (!last(bro(t)))
 	  {
 	     int z;
  	     t = bro(bro(t));
 	     assert(name(t) == val_tag);
 	     z = reg_operand(bro(t), nsp);
-	     if (no(t) != 0)
-		rrir_ins(i_shd,c_,z,0,32-(((al2(sh(t)) >= 8) ? (no(t) << 3) : no(t))),z);
+	     if (no(t)!= 0)
+		rrir_ins(i_shd,c_,z,0,32- (((al2(sh(t)) >= 8)?(no(t) << 3): no(t))),z);
 	     rrr_ins(i_or,c_,r,z,r);
 	  }
 	  return mka;
@@ -2636,24 +2649,24 @@ makeans make_code
 	  somefreg sfr;
 	  freg fr;
    	  sfr = somefregalt(dest.answhere);
-	  if ( *sfr.fr != -1 )
-	     failer ("Somefreg *2");
+	  if (*sfr.fr != -1)
+	     failer("Somefreg *2");
 	  *sfr.fr = getfreg(sp.flt);
 	  fr.fr = *sfr.fr;
 	  fr.dble = sfr.dble;
 	  setfregalt(dest.answhere, fr);
-       }             		
+       }
        case infreg:
        {
 	  code_here(bro(t), sp, dest);
-	  if (!last(bro(t)) || name(t)!=val_tag || no(t) !=0)
+	  if (!last(bro(t)) || name(t)!=val_tag || no(t)!=0)
 	     failer("No Tuples in freg");
 	  return mka;
        }
        default:;
     }
 
-  }	
+  }
   /*  ENDS compound_tag  */
 
 /*****************************************************************************/
@@ -2666,16 +2679,16 @@ makeans make_code
      instore str;
      int r, disp = 0;
 #if 1
-     if( t==nilexp )
+     if (t==nilexp)
 	return mka;
 #endif
      nsp = sp;
-     switch ( discrim(dest.answhere) )
+     switch (discrim(dest.answhere))
      {
 	case notinreg:
 	{
 	   str = insalt(dest.answhere);	/* it should be !! */
-	   if ( !str.adval )
+	   if (!str.adval)
 	   {
 	      int r = getreg(sp.fixed);
 	      nsp = guardreg(r, sp);
@@ -2693,7 +2706,7 @@ makeans make_code
 	      setinsalt(newdest.answhere, newis);
 	      newdest.ashwhere = ashof(sh(t));
 	      code_here(t, nsp, newdest);
-	      if ( last(t) )
+	      if (last(t))
  	         return mka;
 	      disp += (rounder(shape_size(sh(t)), shape_align(sh(bro(t)))) >> 3);
 	      t = bro(t);
@@ -2741,7 +2754,7 @@ makeans make_code
      int i, r, disp = 0;
 
      nsp = sp;
-     switch ( discrim(dest.answhere) )
+     switch (discrim(dest.answhere))
      {
 	case notinreg:
 	{
@@ -2755,7 +2768,7 @@ makeans make_code
 	      str.b.base = r;
 	      str.b.offset = 0;
 	   }
-	   for ( i = 1; i <= no(e); i++ )
+	   for (i = 1; i <= no(e); i++)
 	   {
 	      where newdest;
 	      instore newis;
@@ -2771,7 +2784,7 @@ makeans make_code
 	case insomereg:
 	{
 	   int *sr = someregalt(dest.answhere);
- 	   if ( *sr != -1 )
+ 	   if (*sr != -1)
  	      failer("Somereg *2");
 	   *sr = getreg(sp.fixed);
 	   setregalt(dest.answhere, *sr);
@@ -2782,7 +2795,7 @@ makeans make_code
 	   code_here(t, sp, dest);
 	   r = regalt(dest.answhere);
 	   nsp = guardreg(r, sp);
-	   for ( i = 1; i <= no(e); i++ )
+	   for (i = 1; i <= no(e); i++)
 	   {
 	      int z;
  	      disp += rounder(shape_size(sh(t)), shape_align(sh(t)));
@@ -2800,14 +2813,14 @@ makeans make_code
 
 /*****************************************************************************/
 
-    case diagnose_tag :
+    case diagnose_tag:
     {
        /* Diagnostics */
        diag_info *d = dno(e);
        stab_begin(d,0,e);
        mka = make_code(son(e),sp,dest,exitlab);
        stab_end(d,e);
-       return (mka);
+       return(mka);
     }
     /*  ENDS diagnose_tag  */
 
@@ -2818,7 +2831,7 @@ makeans make_code
      exp m = bro(son(e));
      int l = exitlab;
 
-     if ( discrim(dest.answhere) == insomereg )
+     if (discrim(dest.answhere) == insomereg)
      {
 	int *sr = someregalt(dest.answhere);
 	if (*sr != -1)
@@ -2843,20 +2856,20 @@ makeans make_code
 	int fl = make_code(m, sp, dest, l).lab;
 
 	clear_all();
-	if ( fl != 0 )
+	if (fl != 0)
 	   l = fl;
 
-	if ( !last(m) )
+	if (!last(m))
 	{
  	   /* jump to end of solve */
-	   if ( l == 0 )
+	   if (l == 0)
 	      l = new_label();
-	   if (name(sh(m)) != bothd)
+	   if (name(sh(m))!= bothd)
 	   {
 	      ub_ins(cmplt_,l);
 	   }
 	}
-	if ( last(m) )
+	if (last(m))
 	{
 	   mka.lab = l;
 	   return mka;
@@ -2881,40 +2894,40 @@ makeans make_code
      unsigned long approx_range;  /* max(u-l, 0x7fffffff) avoiding overflow */
      bool use_jump_vector;
      l = no(zt);
-     for(n = 1;;n++)
+     for (n = 1;;n++)
      {
 	/* calculate crude criterion for using jump vector or branches */
-	if ( u + 1 != no(zt) && son(zt) != nilexp)
+	if (u + 1 != no(zt) && son(zt)!= nilexp)
 	   n++;
 	if (last(zt))
 	{
-	   u = (son(zt) != nilexp) ? no(son(zt)) : no(zt);
+	   u = (son(zt)!= nilexp)? no(son(zt)): no(zt);
 	   break;
 	}
-	if ( son(zt) != nilexp )
+	if (son(zt)!= nilexp)
 	{
 	   u = no(son(zt));
 	}
 	else
 	{
-	   if ( u + 1 == no(zt) )
+	   if (u + 1 == no(zt))
 	      u += 1;
 	}
 	zt = bro(zt);
      }
-     /* 
+     /*
      *    Now l is lowest controlling value, u is highest, and n is number of
       *   cases
        */
-     if ( u - l < 0 )
+     if (u - l < 0)
 	approx_range = 0x7fffffff;  /* u-l overflowed into -ve, use huge */
      else
 	approx_range = u - l;
-     if ( approx_range < 16 )
+     if (approx_range < 16)
      {
 	/* small jump vector needed, decide on instuctions executed only */
 
-	unsigned jump_vector_cnt = ((l >= 0 && l <= 4) ? 8 : 9);
+	unsigned jump_vector_cnt = ((l >= 0 && l <= 4)? 8 : 9);
 	unsigned cmp_jmp_step_cnt = 2 + (!SIMM13(l)) + (!SIMM13(u));
 
 	/* cmp & jmp, delay slot filled plus possibly load of large consts */
@@ -2941,7 +2954,7 @@ makeans make_code
 	 * branches
 	 */
 	unsigned long range_factor = approx_range + 9;
-	unsigned long n_factor = ((unsigned long) n * n) / 2;
+	unsigned long n_factor = ((unsigned long)n * n) / 2;
 
 	use_jump_vector = range_factor <= n_factor;
 
@@ -2950,7 +2963,7 @@ makeans make_code
      assert(l <= u);
      assert(n >= 0);
 
-     if ( use_jump_vector )
+     if (use_jump_vector)
      {
 	/* use jump vector, 8/9 insts overhead */
 	int endlab = new_label();
@@ -2961,9 +2974,9 @@ makeans make_code
 	if (!PIC_code)
 	{
 	   veclab = next_data_lab();
-	   sprintf(zeroveclab, "LD$%ld", (long)veclab);
+	   sprintf(zeroveclab, "LD$%ld",(long)veclab);
 	}
-	if ( l >= 0 && l <= 4 )
+	if (l >= 0 && l <= 4)
 	{
 	   /* between 0 and 4 dummy table entries used to avoid subtract */
 	   cij_ins(c_lu,u,r,endlab);
@@ -2984,7 +2997,7 @@ makeans make_code
 	else
 	{
 	   /* subtract to index jump vector */
-	   if SIMM11( -l )
+	   if SIMM11(-l)
 	      irr_ins(i_addi,c_,fs_,-l,r,mr);
 	   else
 	   {
@@ -3017,13 +3030,13 @@ makeans make_code
    	for (;;)
 	{
 	   char labl[48];
-	   for (; no(z) > n; n++ )
+	   for (; no(z) > n; n++)
 	   {
 	      sprintf(labl,"L$$%d",endlab);
 	      out_directive(".WORD",labl);
 	   }
-	   u = (son(z) == nilexp) ? n : no(son(z));
-	   for (; n <= u; n++ )
+	   u = (son(z) == nilexp)? n : no(son(z));
+	   for (; n <= u; n++)
 	   {
 	      sprintf(labl,"L$$%d",no(son(pt(z))));
 	      out_directive(".WORD",labl);
@@ -3044,42 +3057,42 @@ makeans make_code
 	int over = 0;
 	mm lims;
 	lims = maxmin(sh(son(e)));
-	if ( is_signed(sh(son(e))) )
+	if (is_signed(sh(son(e))))
 	{
 	   long u,l;
 	   for (;;)
 	   {
 	      int lab = no(son(pt(z)));
 	      l = no(z);
-	      if ( son(z) == nilexp )
+	      if (son(z) == nilexp)
 	      {
  	         /* only single test required */
 		 cij_ins(c_eq,l,r,lab);
-		 if ( l == lims.maxi )
+		 if (l == lims.maxi)
 		    lims.maxi -= 1;
 		 else
-		 if ( l == lims.mini )
+		 if (l == lims.mini)
 		    lims.mini += 1;
 	      }
 	      else
-	      if ( u = no(son(z)), l > lims.mini )
+	      if (u = no(son(z)), l > lims.mini)
 	      {
-		 if ( u >= lims.maxi )
+		 if (u >= lims.maxi)
 		 {
 		    cij_ins(c_leq,l,r,lab);
 		    lims.maxi = l - 1;
 		 }
 		 else
 		 {
-		    if ( over == 0 )
+		    if (over == 0)
 		       over = new_label();
 		    cij_ins(c_g,l,r,over);
 		    cij_ins(c_geq,u,r,lab);
 		    lims.mini = u + 1;
 		 }
 	      }
-	      else 
-	      if ( u < lims.maxi )
+	      else
+	      if (u < lims.maxi)
 	      {
 		 cij_ins(c_geq,u,r,lab);
 		 lims.mini = u + 1;
@@ -3088,9 +3101,9 @@ makeans make_code
 	      {
 		 ub_ins(cmplt_,lab);
 	      }
-	      if ( last(z) )
+	      if (last(z))
 	      {
-		 if ( over != 0 )
+		 if (over != 0)
 		 {
 		    clear_all();
 		    outlab("L$$",over);
@@ -3109,7 +3122,7 @@ makeans make_code
 	   {
 	      int lab = no(son(pt(z)));
 	      l = no(z);
-	      if ( son(z) == nilexp )
+	      if (son(z) == nilexp)
 	      {
 		 /* only single test required */
 		 cij_ins(c_eq,l,r,lab);
@@ -3120,16 +3133,16 @@ makeans make_code
 		    mini += 1;
 	      }
 	      else
-	      if ( u = no(son(z)), l > mini )
+	      if (u = no(son(z)), l > mini)
 	      {
-		 if ( u >= maxi) 
+		 if (u >= maxi)
 		 {
 		    cij_ins(c_lequ,l,r,lab);
 		    maxi = l - 1;
 		 }
 		 else
 		 {
-		    if ( over == 0 )
+		    if (over == 0)
 		    {
 		       over = new_label();
 		    }
@@ -3139,7 +3152,7 @@ makeans make_code
 		 }
 	      }
 	      else
-	      if ( u < maxi ) 
+	      if (u < maxi)
 	      {
 		 cij_ins(c_gequ,u,r,lab);
 		 mini = u + 1;
@@ -3148,9 +3161,9 @@ makeans make_code
 	      {
 		 ub_ins(cmplt_,lab);
  	      }
-	      if ( last(z) )
+	      if (last(z))
 	      {
-		 if ( over != 0 )
+		 if (over != 0)
 		 {
 		    clear_all();
 		    outlab("L$$",over);
@@ -3183,11 +3196,11 @@ makeans make_code
 	nsp = guardreg(l,sp);
 	r = reg_operand(bro(son(e)),guardreg(l,sp));
 	nsp = guardreg(r,sp);
-	if ( discrim(dest.answhere)!=inreg || (d=regalt((dest).answhere))==0 )
+	if (discrim(dest.answhere)!=inreg || (d=regalt((dest).answhere)) ==0)
 	   d = getreg(nsp.fixed);
-	if (shape_size(sh(e))==32)
+	if (shape_size(sh(e)) ==32)
 	{
-	   rrr_ins(i_add,is_signed(sh(e)) ? c_NSV : c_NUV,l,r,d);
+	   rrr_ins(i_add,is_signed(sh(e))? c_NSV : c_NUV,l,r,d);
 	   ub_ins(cmplt_N,trap);
 	}
 	else
@@ -3214,19 +3227,19 @@ makeans make_code
      int r,o;
      ans aa;
      space nsp;
-     if ( (al2(sh(son(e))) < al2(sh(e))) || (al1_of(sh(e))->al.al_val.al_frame & 4)!=0 )
+     if ((al2(sh(son(e))) < al2(sh(e))) || (al1_of(sh(e)) ->al.al_val.al_frame & 4)!=0)
      {
-	int al = (al2(sh(son(e)))==1) ? al2(sh(e)) : (al2(sh(e))/8);
+	int al = (al2(sh(son(e))) ==1)? al2(sh(e)):(al2(sh(e)) /8);
 	r = GETREG(dest,sp);
-	o = reg_operand(son(e),sp); 
-	if ((al1_of(sh(e))->al.al_val.al_frame & 4)==0)
+	o = reg_operand(son(e),sp);
+	if ((al1_of(sh(e)) ->al.al_val.al_frame & 4) ==0)
 	{
 	   irr_ins(i_addi,c_,fs_,al-1,o,r);
 	   logical_op(i_and,-al,r,r);
 	}
 	else
 	   logical_op(i_and,-al,o,r);
-	if ( al2(sh(son(e)))==1 )
+	if (al2(sh(son(e))) ==1)
 	{
 	   /*   Operand is bit-offset, byte-offset required.   */
 	   riir_ins(i_extrs,c_,r,28,29,r);
@@ -3234,7 +3247,7 @@ makeans make_code
      }
      else
      {
-	if ( al2(sh(e))!=1 || al2(sh(son(e)))==1 )
+	if (al2(sh(e))!=1 || al2(sh(son(e))) ==1)
 	{
 	   /*   Already aligned correctly, whether as bit or byte-offset.   */
 	   e = son(e);
@@ -3273,7 +3286,7 @@ makeans make_code
 
   case chvar_tag:
   {
-      /* 
+      /*
        *   Change integer variety.
        */
       exp arg = son(e); 		/* source of chvar, adjusted below */
@@ -3286,26 +3299,26 @@ makeans make_code
        /*
        *   For a series of chvar_tags, do large to small in one go.
       */
-      while (name(arg) == chvar_tag && shape_size(sh(arg)) >= size_e )
+      while (name(arg) == chvar_tag && shape_size(sh(arg)) >= size_e)
       {
   	 arg = son(arg);
       }
-      from = (int) name(sh(arg));
+      from = (int)name(sh(arg));
 #if 1
       if (from == bitfhd)
       {
 	 switch (shape_size(sh(arg)))
 	 {
 	     case 8:
-		sh(arg) = is_signed(sh(arg)) ? scharsh : ucharsh;
+		sh(arg) = is_signed(sh(arg))? scharsh : ucharsh;
 		from = name(sh(arg));
 		break;
 	     case 16:
-		sh(arg) = is_signed(sh(arg)) ? swordsh : uwordsh;
+		sh(arg) = is_signed(sh(arg))? swordsh : uwordsh;
 		from = name(sh(arg));
 		break;
 	     case 32:
-		sh(arg) = is_signed(sh(arg)) ? slongsh : ulongsh;
+		sh(arg) = is_signed(sh(arg))? slongsh : ulongsh;
 		from = name(sh(arg));
 		break;
 	 }
@@ -3316,16 +3329,16 @@ makeans make_code
 	 switch (shape_size(sh(e)))
 	 {
 	     case 8:
-		sh(e) = is_signed(sh(e)) ? scharsh : ucharsh;
-		to = name (sh(e));
+		sh(e) = is_signed(sh(e))? scharsh : ucharsh;
+		to = name(sh(e));
 		break;
 	     case 16:
-		sh(e) = is_signed(sh(e)) ? swordsh : uwordsh;
-		to = name (sh(e));
+		sh(e) = is_signed(sh(e))? swordsh : uwordsh;
+		to = name(sh(e));
 		break;
 	     case 32:
-		sh(e) = is_signed(sh(e)) ? slongsh : ulongsh;
-		to = name (sh(e));
+		sh(e) = is_signed(sh(e))? slongsh : ulongsh;
+		to = name(sh(e));
 		break;
 	  }
       }
@@ -3333,13 +3346,13 @@ makeans make_code
       /*
        *   Small to large conversions.
        */
-      if ( from == to || ( to == uwordhd && from == ucharhd ) ||
-	   ( to == ulonghd && ( from == ucharhd || from == uwordhd ) ) ||
-	   ( to == swordhd && ( from == scharhd || from == ucharhd ) ) ||
-	   ( to == slonghd && from != ulonghd ) )
+      if (from == to || (to == uwordhd && from == ucharhd) ||
+	  (to == ulonghd && (from == ucharhd || from == uwordhd)) ||
+	  (to == swordhd && (from == scharhd || from == ucharhd)) ||
+	  (to == slonghd && from != ulonghd))
       {
 	 ans aa;
-	 if ( discrim(dest.answhere)==inreg )
+	 if (discrim(dest.answhere) ==inreg)
 	 {
 	    sreg = regalt(dest.answhere);
 	    reg_operand_here(arg, sp, sreg);
@@ -3356,25 +3369,25 @@ makeans make_code
       sreg = reg_operand(arg,sp);
       nsp = guardreg(sreg,sp);
 
-      if ( !optop(e) )
+      if (!optop(e))
       {
 	 bool signf = is_signed(sh(arg));
 	 bool signt = is_signed(sh(e));
 	 int trap = trap_label(e);
-	 if ( signf )
+	 if (signf)
 	 {
-	    if ( signt )
+	    if (signt)
 	    {
-	       if ( to == scharhd )
+	       if (to == scharhd)
 		  riir_ins(i_extrs,c_,sreg,31,8,GR1);
 	       else
-	       if ( to == swordhd )
+	       if (to == swordhd)
 		  riir_ins(i_extrs,c_,sreg,31,16,GR1);
 	       cj_ins(c_neq,sreg,GR1,trap);
 	    }
 	    else
 	    {
-	       if ( from == scharhd )
+	       if (from == scharhd)
 	       {
 		  if (OPTIM)
 		     bb_in(bit_is_1,sreg,24,trap);
@@ -3385,9 +3398,9 @@ makeans make_code
 		  }
 	       }
 	       else
-	       if ( from == swordhd )
+	       if (from == swordhd)
 	       {
-		  if ( to == ucharhd )
+		  if (to == ucharhd)
 		  {
 		     riir_ins(i_extru,c_eq,sreg,23,24,0);
 		     ub_ins(cmplt_,trap);
@@ -3405,13 +3418,13 @@ makeans make_code
 	       }
 	       else
 	       {
-		  if ( to == ucharhd )
+		  if (to == ucharhd)
 		  {
 		     riir_ins(i_extru,c_eq,sreg,23,24,0);
 		     ub_ins(cmplt_,trap);
 		  }
 		  else
-		  if ( to == uwordhd )
+		  if (to == uwordhd)
 		  {
 		     riir_ins(i_extru,c_eq,sreg,15,16,0);
 		     ub_ins(cmplt_,trap);
@@ -3431,15 +3444,15 @@ makeans make_code
 	 }
 	 else
 	 {
-	    if ( signt )
+	    if (signt)
 	    {
-	       if ( to == scharhd )
+	       if (to == scharhd)
 	       {
 		  riir_ins(i_extru,c_eq,sreg,24,25,0);
 		  ub_ins(cmplt_,trap);
 	       }
 	       else
-	       if ( to == swordhd )
+	       if (to == swordhd)
 	       {
 		  riir_ins(i_extru,c_eq,sreg,16,17,0);
 		  ub_ins(cmplt_,trap);
@@ -3457,7 +3470,7 @@ makeans make_code
 	    }
 	    else
 	    {
-	       if ( to == ucharhd )
+	       if (to == ucharhd)
 		  riir_ins(i_extru,c_,sreg,31,8,GR1);
 	       else
 		  riir_ins(i_extru,c_,sreg,31,16,GR1);
@@ -3496,14 +3509,14 @@ makeans make_code
  	 /* going to smaller sized memory, store will truncate */
 	 ans aa;
 	 setregalt(aa, sreg);
-	 (void) move(aa, dest, nsp.fixed, 1);
+	(void)move(aa, dest, nsp.fixed, 1);
       }
       else
       {
 	 /* from != to */
 
 	 /* Shorten type if needed */
-	 if ( to==ucharhd )
+	 if (to==ucharhd)
 	 {
 	    if (dreg==sreg)
 	       riir_ins(i_dep,c_,0,23,24,dreg);
@@ -3511,38 +3524,38 @@ makeans make_code
 	       riir_ins(i_zdep,c_,sreg,31,8,dreg);
 	 }
 	 else
-	 if ( to==scharhd )
+	 if (to==scharhd)
 	 {
 	    riir_ins(i_extrs,c_,sreg,31,8,dreg);
 	 }
 	 else
-	 if ( to==uwordhd )
+	 if (to==uwordhd)
 	 {
-	    if ( from!=ucharhd )
+	    if (from!=ucharhd)
 	    {
-	       if ( dreg==sreg )
+	       if (dreg==sreg)
 		  riir_ins(i_dep,c_,0,15,16,dreg);
 	       else
 		  riir_ins(i_zdep,c_,sreg,31,16,dreg);
 	    }
 	    else
-	    if ( sreg!=dreg )
+	    if (sreg!=dreg)
 	       rr_ins(i_copy,sreg,dreg);
 	 }
 	 else
-	 if ( to == swordhd )
+	 if (to == swordhd)
 	 {
-	    if ( from!=scharhd && from!=ucharhd )
+	    if (from!=scharhd && from!=ucharhd)
 	    {
 	       riir_ins(i_extrs,c_,sreg,31,16,dreg);
 	    }
 	    else
-	    if ( sreg!=dreg )
+	    if (sreg!=dreg)
 	       rr_ins(i_copy,sreg,dreg);
 	 }
 	 else
 	 {
-	    if ( sreg!=dreg )
+	    if (sreg!=dreg)
 	       rr_ins(i_copy,sreg,dreg);
 	 }
 	 if (inmem_dest)
@@ -3557,7 +3570,7 @@ makeans make_code
 	 }
       }
       return mka;
-   }			
+   }
    /*  ENDS chvar_tag  */
 
 /*****************************************************************************/
@@ -3580,9 +3593,9 @@ makeans make_code
 	nsp = guardreg(l,sp);
 	r = reg_operand(bro(son(e)),guardreg(l,sp));
 	nsp = guardreg(r,sp);
-	if ( discrim(dest.answhere)!=inreg || (d=regalt((dest).answhere))==0 )
+	if (discrim(dest.answhere)!=inreg || (d=regalt((dest).answhere)) ==0)
 	   d = getreg(nsp.fixed);
-	if ( us || shape_size(sh(e))==32 )
+	if (us || shape_size(sh(e)) ==32)
 	{
 	   rrr_ins(i_sub,us ? c_gequ : c_NSV,l,r,d);
 	   ub_ins(cmplt_N,trap);
@@ -3602,7 +3615,7 @@ makeans make_code
      }
      return mka;
   }
-  /*  ENDS minus_tag and  
+  /*  ENDS minus_tag and
 	   offset_subtract_tag  */
 
 /*****************************************************************************/
@@ -3613,7 +3626,7 @@ makeans make_code
      bool sgned = is_signed(sh(e));
      if (optop(e))
      {
-	FULLCOMMENT2("mult_tag: name(sh(e))=%d sgned=%d", name(sh(e)), sgned);
+	FULLCOMMENT2("mult_tag: name(sh(e)) =%d sgned=%d", name(sh(e)), sgned);
 	mka.regmove = do_mul_comm_op(e, sp, dest, sgned);
 	return mka;
      }
@@ -3647,12 +3660,12 @@ makeans make_code
 	   rrr_ins(i_sub,c_,0,ARG0,ARG0);
 	   rrr_ins(i_comclr,c_geq,ARG1,0,0);
 	   rrr_ins(i_sub,c_,0,ARG1,ARG1);
-	   st_ins(i_sw,ARG1,b);     
+	   st_ins(i_sw,ARG1,b);
 	   b.offset = 0;
-	   st_ins(i_sw,ARG0,b);     
+	   st_ins(i_sw,ARG0,b);
 	   ldf_ins(i_fldd,b,13);
 	   rrrf_ins(i_xmpyu,f_,12,14,13);
-	   cmp_rrf_ins(i_fcmp,f_sgl,c_eq,12,0);       
+	   cmp_rrf_ins(i_fcmp,f_sgl,c_eq,12,0);
 	   z_ins(i_ftest);
 	   ub_ins(cmplt_N,trap);
 	   stf_ins(i_fstw,14,b);
@@ -3668,12 +3681,12 @@ makeans make_code
 	   ld_ins(i_lo,1,b,GR1);
 	   b.base = GR1;
 	   b.offset = 4;
-	   st_ins(i_sw,ARG1,b);     
+	   st_ins(i_sw,ARG1,b);
 	   b.offset = 0;
-	   st_ins(i_sw,ARG0,b);     
+	   st_ins(i_sw,ARG0,b);
 	   ldf_ins(i_fldd,b,13);
 	   rrrf_ins(i_xmpyu,f_,12,14,13);
-	   cmp_rrf_ins(i_fcmp,f_sgl,c_eq,12,0);       
+	   cmp_rrf_ins(i_fcmp,f_sgl,c_eq,12,0);
 	   z_ins(i_ftest);
 	   ub_ins(cmplt_N,trap);
 	   stf_ins(i_fstw,14,b);
@@ -3683,9 +3696,9 @@ makeans make_code
 	setregalt(aa,RET0);
 	mka.regmove = move(aa, dest, nsp.fixed, 0);
 	clear_t_regs();
-	return mka;          	
+	return mka;
      }
-  }				
+  }
   /*  ENDS mult_tag and
 	   offset_mult_tag  */
 
@@ -3764,14 +3777,14 @@ makeans make_code
 	reg_operand_here(son(e),sp,d);
 	if (sz==32)
 	{
-	   cj_ins(c_geq,d,0,lab);        
+	   cj_ins(c_geq,d,0,lab);
 	   rrr_ins(i_sub,c_NSV,0,d,d);
 	   ub_ins(cmplt_N,trap);
 	   outlab("L$$",lab);
 	}
 	else
 	{
-	   cj_ins(c_geq,d,0,lab);        
+	   cj_ins(c_geq,d,0,lab);
 	   if (sz==16)
 	      iiir_ins(i_zdepi,c_,-1,16,17,GR1);
 	   else
@@ -3792,8 +3805,8 @@ makeans make_code
 /*****************************************************************************/
 
   case max_tag:
-  case min_tag: 
-  case offset_max_tag: 
+  case min_tag:
+  case offset_max_tag:
   {
      int a,d;
      ans aa;
@@ -3802,17 +3815,17 @@ makeans make_code
      exp l = son(e);
      exp r = bro(son(e));
      int nshl = name(sh(l));
-     if  ( discrim(dest.answhere)==inreg )
+     if (discrim(dest.answhere) ==inreg)
 	 d = regalt(dest.answhere);
      else
 	 d = getreg(sp.fixed);
      nsp = guardreg(d,sp);
      a = reg_operand(l,nsp);
-     if ( nshl==scharhd || nshl==swordhd || nshl==slonghd || nshl==offsethd) 
-	cond = ( name(e)==min_tag ? c_geq : c_leq );
+     if (nshl==scharhd || nshl==swordhd || nshl==slonghd || nshl==offsethd)
+	cond = (name(e) ==min_tag ? c_geq : c_leq);
      else
-	cond = ( name(e)==min_tag ? c_gequ : c_lequ );
-     if ( name(r)==val_tag && SIMM11(no(r)) )
+	cond = (name(e) ==min_tag ? c_gequ : c_lequ);
+     if (name(r) ==val_tag && SIMM11(no(r)))
      {
 	int n=no(r);
 	rr_ins(i_copy,a,d);
@@ -3831,7 +3844,7 @@ makeans make_code
      setregalt(aa, d);
      mka.regmove = move(aa, dest, sp.fixed, 1);
      return mka;
-  } 
+  }
   /*  ENDS max_tag,
 	   min_tag and
 	   offset_max_tag  */
@@ -3844,38 +3857,38 @@ makeans make_code
      ans a;
      space nsp;
      char label_name[32];
-     if (discrim(dest.answhere)==inreg)
+     if (discrim(dest.answhere) ==inreg)
 	d = regalt(dest.answhere);
      else
 	d = getreg(sp.fixed);
      sprintf(label_name,"L$$%d",no(son(pt(e))));
      if (PIC_code)
      {
-	int n = next_PIC_pcrel_lab(); 
+	int n = next_PIC_pcrel_lab();
 	char s[64];
 	sprintf(s,"%s-$PIC_pcrel$%d",label_name,n);
 	bl_in(cmplt_,".+8",GR1);
 	iiir_ins(i_depi,c_,0,31,2,GR1);
 	outlab("$PIC_pcrel$",n);
-	ir_ins(i_addil,fs_L,s,0,GR1);     
+	ir_ins(i_addil,fs_L,s,0,GR1);
 	ld_ir_ins(i_ldo,cmplt_,fs_R,s,0,GR1,d);
      }
      else
      {
 	ir_ins(i_ldil,fs_L,label_name,0,d);
-	ld_ir_ins(i_ldo,cmplt_,fs_R,label_name,0,d,d); 
+	ld_ir_ins(i_ldo,cmplt_,fs_R,label_name,0,d,d);
      }
      setregalt(a, d);
      nsp=guardreg(d,sp);
      move(a, dest, nsp.fixed, 0);
-     mka.regmove = d; 
+     mka.regmove = d;
      return mka;
   }
 
 
   case long_jump_tag:
   {
-     int envr = reg_operand(son(e),sp);    
+     int envr = reg_operand(son(e),sp);
      int lab = reg_operand(bro(son(e)), guardreg(envr,sp));
      extj_reg_ins(i_bv,lab);
      rr_ins(i_copy,envr,GR4); /* GR4==EP in the enviroment we're jumping to */
@@ -3903,10 +3916,10 @@ makeans make_code
 	int trap = trap_label(e);
 	int d = GETREG(dest,sp);
 	int us = !is_signed(sh(e));
-	if ( d==0 )
+	if (d==0)
 	   d = getreg(sp.fixed);
 	reg_operand_here(son(e),sp,d);
-	if ( us || shape_size(sh(e))==32 )
+	if (us || shape_size(sh(e)) ==32)
 	{
 	   rrr_ins(i_sub,us ? c_gequ : c_NSV,0,d,d);
 	   ub_ins(cmplt_N,trap);
@@ -3942,9 +3955,9 @@ makeans make_code
       int sz = shape_size(sh(e));
       a = getreg(sp.fixed);
 
-      if (name(b)==val_tag)
+      if (name(b) ==val_tag)
       {
-	 int n = no(b)&(sz-1);
+	 int n = no(b) & (sz-1);
 	 reg_operand_here(s,sp,a);
 	 nsp = guardreg(a, sp);
 	 d = GETREG(dest,nsp);
@@ -3955,7 +3968,7 @@ makeans make_code
 	 }
 	 else
 	 {
-	    if (name(e)==shr_tag)
+	    if (name(e) ==shr_tag)
 	       riir_ins(sgned ? i_extrs : i_extru,c_,a,31-n,sz-n,d);
 	    else
 	       rrir_ins(i_shd,c_,a,0,32-n,d);
@@ -3964,7 +3977,7 @@ makeans make_code
       else
       {
 	 int ar;
-	 if ( name(s)==val_tag && SIMM5(no(s)) && name(e)==shl_tag )
+	 if (name(s) ==val_tag && SIMM5(no(s)) && name(e) ==shl_tag)
 	 {
 	    int n = no(s);
 	    nsp = sp;
@@ -3981,7 +3994,7 @@ makeans make_code
 	    nsp = guardreg(a, sp);
 	    d = GETREG(dest,nsp);
 	    ar = reg_operand(b, nsp);
-	    if (name(e)==shr_tag)
+	    if (name(e) ==shr_tag)
 	    {
 	       if (sgned)
 	       {
@@ -4006,7 +4019,7 @@ makeans make_code
 		   rr_ins(i_copy,0,d);
 		   r_ins(i_mtsar,GR1);
 		   rir_ins(i_zvdep,c_,d,32,d);
-	       } 
+	       }
 	       else
 	       {
 		  irr_ins(i_subi,c_lu,fs_,31,ar,GR1);
@@ -4017,7 +4030,7 @@ makeans make_code
 	    }
 	 }
        }
-       if ( !optop(e) && name(e)==shl_tag && sz<32 )
+       if (!optop(e) && name(e) ==shl_tag && sz<32)
        {
 	  int trap = trap_label(e);
 	  riir_ins(i_extru,c_eq,d,31-sz,32-sz,0);
@@ -4032,52 +4045,52 @@ makeans make_code
 
   case minptr_tag:
     {
-      mka.regmove = non_comm_op( e, sp, dest, i_sub );
+      mka.regmove = non_comm_op(e, sp, dest, i_sub);
       return mka;
     }
 
   case make_stack_limit_tag:
     {
-      mka.regmove = comm_op( e, sp, dest, i_add );
+      mka.regmove = comm_op(e, sp, dest, i_add);
       return mka;
     }
 
   case fplus_tag:
     {
-      mka.regmove = fop( e, sp, dest, i_fadd );
+      mka.regmove = fop(e, sp, dest, i_fadd);
       return mka;
     }
 
   case fminus_tag:
     {
-      mka.regmove = fop( e, sp, dest, i_fsub );
+      mka.regmove = fop(e, sp, dest, i_fsub);
       return mka;
     }
 
   case fmult_tag:
     {
-      mka.regmove = fop( e, sp, dest, i_fmpy );
+      mka.regmove = fop(e, sp, dest, i_fmpy);
       return mka;
     }
 
   case fdiv_tag:
     {
-      mka.regmove = fop( e, sp, dest, i_fdiv );
+      mka.regmove = fop(e, sp, dest, i_fdiv);
       return mka;
     }
 
   case fneg_tag:
   {
      int a1,r1;
-     int dble = (name(sh(e))==shrealhd ? 0 : 1);
+     int dble = (name(sh(e)) ==shrealhd ? 0 : 1);
      freg frg;
      baseoff b;
 
 #if use_long_double
-     if ( name(sh(e)) == doublehd )
+     if (name(sh(e)) == doublehd)
      {
-	quad_op( e, sp, dest );
-	return(mka) ;
+	quad_op(e, sp, dest);
+	return(mka);
      }
 #endif
 
@@ -4088,20 +4101,20 @@ makeans make_code
      {
 	b = zero_exception_register(sp);
      }
-     if ( discrim(dest.answhere)==infreg ) 
+     if (discrim(dest.answhere) ==infreg)
      {
 	frg = fregalt(dest.answhere);
 	clear_freg(frg.fr<<1);
 	if (dble)
 	{
-	   rrrf_ins(i_fsub,f_dbl,1,3*a1+1,3*(frg.fr)+1);
-	   clear_freg((frg.fr<<1)+1);
+	   rrrf_ins(i_fsub,f_dbl,1,3*a1+1,3*(frg.fr) +1);
+	   clear_freg((frg.fr<<1) +1);
 	}
 	else
 	   rrrf_ins(i_fsub,f_sgl,0,3*a1,3*(frg.fr));
 	if (!optop(e))
 	{
-	   trap_handler(b,trap_label(e),(OVERFLOW|UNDERFLOW));
+	   trap_handler(b,trap_label(e), (OVERFLOW|UNDERFLOW));
 	}
      }
      else
@@ -4114,23 +4127,23 @@ makeans make_code
 	if (dble)
 	{
 	   rrrf_ins(i_fsub,f_dbl,1,3*a1+1,3*r1+1);
-	   clear_freg((r1<<1)+1);
+	   clear_freg((r1<<1) +1);
 	}
 	else
 	   rrrf_ins(i_fsub,f_sgl,0,3*a1,3*r1);
 	if (!optop(e))
 	{
-	   trap_handler(b,trap_label(e),(OVERFLOW|UNDERFLOW));
+	   trap_handler(b,trap_label(e), (OVERFLOW|UNDERFLOW));
 	}
 	move(aa,dest,sp.fixed,1);
      }
 
-     mka.regmove = (dble ? -(frg.fr + 32) : (frg.fr + 32));
+     mka.regmove = (dble ? - (frg.fr + 32):(frg.fr + 32));
      if (!optop(e))
        checknan(e, mka.regmove);
      return mka;
   }
-  
+
   case fabs_tag:
     {
       freg frg;
@@ -4139,10 +4152,10 @@ makeans make_code
       baseoff b;
 
 #if use_long_double
-      if ( name(sh(e)) == doublehd )
+      if (name(sh(e)) == doublehd)
       {
-	 quad_op ( e, sp, dest );
-	 return(mka) ;
+	 quad_op(e, sp, dest);
+	 return(mka);
       }
 #endif
 
@@ -4154,7 +4167,7 @@ makeans make_code
       {
 	 b = zero_exception_register(sp);
       }
-      switch ( discrim ( dest.answhere ) )
+      switch (discrim(dest.answhere))
       {
       case infreg:
 	{
@@ -4162,8 +4175,8 @@ makeans make_code
 	  clear_freg(frg.fr<<1);
 	  if (dble)
 	  {
-	     rrf_ins(i_fabs,f_dbl,"",3*a1+1,3*(frg.fr)+1);
-	     clear_freg((frg.fr<<1)+1);
+	     rrf_ins(i_fabs,f_dbl,"",3*a1+1,3*(frg.fr) +1);
+	     clear_freg((frg.fr<<1) +1);
 	  }
 	  else
 	     rrf_ins(i_fabs,f_sgl,"",3*a1,3*(frg.fr));
@@ -4185,7 +4198,7 @@ makeans make_code
 	  if (dble)
 	  {
 	     rrf_ins(i_fabs,f_dbl,"",3*a1+1,3*r1+1);
-	     clear_freg((r1<<1)+1);
+	     clear_freg((r1<<1) +1);
 	  }
 	  else
 	     rrf_ins(i_fabs,f_sgl,"",3*a1,3*r1);
@@ -4197,7 +4210,7 @@ makeans make_code
 	}
       }
 
-      mka.regmove = (dble ? -(frg.fr + 32) : (frg.fr + 32));
+      mka.regmove = (dble ? - (frg.fr + 32):(frg.fr + 32));
       if (!optop(e))
 	checknan(e, mka.regmove);
       return mka;
@@ -4207,14 +4220,14 @@ makeans make_code
     {
       exp in = son(e);
       where w;
-      int f = ( discrim ( dest.answhere )  == infreg)
+      int f = (discrim(dest.answhere) == infreg)
       ? regalt(dest.answhere)	/* cheat */
       : getfreg(sp.flt);
       freg frg;
       ans aa;
-      ash ain ;
-      int from ;
-      bool from_sgned  ;
+      ash ain;
+      int from;
+      bool from_sgned ;
 
       ain = ashof(sh(in));
       from = name(sh(in));
@@ -4225,16 +4238,16 @@ makeans make_code
        */
 
 #if use_long_double
-      if ( name(sh(e))==doublehd ) 
+      if (name(sh(e)) ==doublehd)
       {
-	 quad_op( e, sp, dest );
-	 return(mka) ;
+	 quad_op(e, sp, dest);
+	 return(mka);
       }
 #endif
 
 
       frg.fr = f;
-      frg.dble = isdbl( sh(e) );
+      frg.dble = isdbl(sh(e));
 
       if (ain.ashsize == 32 && !from_sgned)
       {
@@ -4248,9 +4261,9 @@ makeans make_code
 	int r = reg_operand(in, sp);
 
 	st_ins(i_sw, r, mem_temp(0));
-	ldf_ins(i_fldw, mem_temp(0), (3*f)+2);
+	ldf_ins(i_fldw, mem_temp(0), (3*f) +2);
 	rrf_ins(i_fcpy,f_sgl,"",0,3*f+1);
-	if (name(sh(e))==shrealhd)
+	if (name(sh(e)) ==shrealhd)
 	   rrf_ins(i_fcnvxf,f_dbl,f_sgl,3*f+1,3*f);
 	else
 	   rrf_ins(i_fcnvxf,f_dbl,f_dbl,3*f+1,3*f+1);
@@ -4267,7 +4280,7 @@ makeans make_code
 	setfregalt(w.answhere, fint);
 	w.ashwhere = ashof(sh(in));
 	code_here(in, sp, w);
-	if (name(sh(e))==shrealhd)
+	if (name(sh(e)) ==shrealhd)
 	   rrf_ins(i_fcnvxf,f_sgl,f_sgl,3*f,3*f);
 	else
 	   rrf_ins(i_fcnvxf,f_sgl,f_dbl,3*f,3*f+1);
@@ -4280,7 +4293,7 @@ makeans make_code
 	/* store and load to move to float reg */
 	st_ins(i_sw, r, mem_temp(0));
 	ldf_ins(i_fldw,mem_temp(0),3*f);
-	if (name(sh(e))==shrealhd)
+	if (name(sh(e)) ==shrealhd)
 	   rrf_ins(i_fcnvxf,f_sgl,f_sgl,3*f,3*f);
 	else
 	   rrf_ins(i_fcnvxf,f_sgl,f_dbl,3*f,3*f+1);
@@ -4288,7 +4301,7 @@ makeans make_code
 
       setfregalt(aa, frg);
       move(aa, dest, sp.fixed, 1);
-      mka.regmove = ((frg.dble) ? -(f + 32) : (f + 32));
+      mka.regmove = ((frg.dble)? - (f + 32):(f + 32));
       return mka;
     }
 
@@ -4296,32 +4309,32 @@ makeans make_code
     {
       int to = name(sh(e));
       int from = name(sh(son(e)));
-      bool dto = isdbl( sh(e) );
-      bool dfrom = isdbl( sh(son(e)) );
+      bool dto = isdbl(sh(e));
+      bool dfrom = isdbl(sh(son(e)));
       freg frg;
       ans aa;
       where w;
       baseoff b;
 #if use_long_double
-      if ( to==doublehd )
+      if (to==doublehd)
       {
-	 if ( from==doublehd )
+	 if (from==doublehd)
 	 {
 	    /* no change in representation */
-	    return ( make_code(son(e),sp,dest,exitlab) ) ;
+	    return(make_code(son(e),sp,dest,exitlab));
 	 }
-	 quad_op( e, sp, dest ) ;
-	 return ( mka ) ;
+	 quad_op(e, sp, dest);
+	 return(mka);
       }
-      else 
-      if ( from==doublehd )
+      else
+      if (from==doublehd)
       {
-	 quad_op( e, sp, dest ) ;
-	 frg.fr = 4 ;
+	 quad_op(e, sp, dest);
+	 frg.fr = 4;
 	 frg.dble = dto;
-	 setfregalt(aa,frg) ;
-       	 (void) move(aa,dest,sp.fixed,1) ;
-	 return (mka) ;
+	 setfregalt(aa,frg);
+       	(void)move(aa,dest,sp.fixed,1);
+	 return(mka);
       }
 #endif
       if (!dto && !dfrom)
@@ -4335,7 +4348,7 @@ makeans make_code
       }
       else
       {
-	if ( discrim ( dest.answhere )  == infreg)
+	if (discrim(dest.answhere) == infreg)
 	{
 	  frg = fregalt(dest.answhere);
 	}
@@ -4353,17 +4366,17 @@ makeans make_code
 	   b = zero_exception_register(sp);
 	}
 	if (dfrom)
-	   rrf_ins(i_fcnvff,f_dbl,f_sgl,3*(frg.fr)+1,3*(frg.fr));
+	   rrf_ins(i_fcnvff,f_dbl,f_sgl,3*(frg.fr) +1,3*(frg.fr));
 	else
-	   rrf_ins(i_fcnvff,f_sgl,f_dbl,3*(frg.fr),3*(frg.fr)+1);
+	   rrf_ins(i_fcnvff,f_sgl,f_dbl,3*(frg.fr),3*(frg.fr) +1);
 	if (!optop(e))
 	{
-	   trap_handler(b,trap_label(e),(OVERFLOW|UNDERFLOW));
+	   trap_handler(b,trap_label(e), (OVERFLOW|UNDERFLOW));
 	}
 	frg.dble = dto;
 	setfregalt(aa, frg);
 	move(aa, dest, sp.fixed, 1);
-	mka.regmove = ((frg.dble) ? -(frg.fr + 32) : (frg.fr + 32));
+	mka.regmove = ((frg.dble)? - (frg.fr + 32):(frg.fr + 32));
 	return mka;
       }
     }
@@ -4379,21 +4392,21 @@ makeans make_code
       if (last(l) && name(l) == val_tag && (no(l) == 255 || no(l) == 0xffff)
 	  && ((name(r) == name_tag && regofval(r) == R_NO_REG)
 	      || (name(r) == cont_tag &&
-		  (name(son(r)) != name_tag
+		 (name(son(r))!= name_tag
 		   || regofval(son(r)) > 0
-		   )
 		  )
-	      )
-	  && (aa = iskept(r), ( discrim ( aa )  == inreg && regalt(aa) == 0))
+		 )
+	     )
+	  && (aa = iskept(r), (discrim(aa) == inreg && regalt(aa) == 0))
 	)
       {				/* can use load short instructions */
 	where w;
 	int dsize = dest.ashwhere.ashsize;
-	int asize = (no(l) == 255) ? 8 : 16;
+	int asize = (no(l) == 255)? 8 : 16;
 
 	w = locate(r, sp, sh(r), 0);
-	if ( discrim ( w.answhere )  == notinreg
-	    &&  discrim ( dest.answhere )  == notinreg && no(l) == 0xffff)
+	if (discrim(w.answhere) == notinreg
+	    &&  discrim(dest.answhere) == notinreg && no(l) == 0xffff)
 	{
 	  instore isw;
 	  instore isd;
@@ -4461,7 +4474,7 @@ makeans make_code
 #if DO_INDEXED_LOADS
       /* see if an indexed shift load is appropriate */
 
-      if (name(e)==cont_tag)
+      if (name(e) ==cont_tag)
       {
 	 exp sone,p,o;
 	 bool sgned=is_signed(sh(e));
@@ -4471,13 +4484,13 @@ makeans make_code
 	 int is_float = is_floating(name(sh(e)));
 	 ashe=ashof(sh(e));
 	 ashsize=ashe.ashsize;
-	 if ( name(son(e))==reff_tag && !no(son(e)) )
+	 if (name(son(e)) ==reff_tag && !no(son(e)))
 	    sone = son(son(e));
 	 else
 	    sone = son(e);
-	 if (son(sone)!=(exp)0)
+	 if (son(sone)!= (exp)0)
 	 {
-	    if (name(son(sone))==offset_mult_tag)
+	    if (name(son(sone)) ==offset_mult_tag)
 	    {
 	       o=son(sone);   /* an offset ? */
 	       p=bro(o);     /* a pointer ? */
@@ -4487,20 +4500,20 @@ makeans make_code
 	       p=son(sone);   /* a pointer ? */
 	       o=bro(p);     /* an offset ? */
 	    }
-	    if ( name(sone) == addptr_tag && name(o)==offset_mult_tag
-				          && name(bro(son(o)))==val_tag )
-	    { 
+	    if (name(sone) == addptr_tag && name(o) ==offset_mult_tag
+				          && name(bro(son(o))) ==val_tag)
+	    {
 	       long shift;
 	       shift=no(bro(son(o)));
-	       if ( ashe.ashalign==ashsize &&
-		    ((ashsize==16 && (shift==2 || shift==0)) ||
-		     (ashsize==32 && (shift==4 || shift==0)) ||
-		     (ashsize==64 && is_float && (shift==8 || shift==0))) )
+	       if (ashe.ashalign==ashsize &&
+		   ((ashsize==16 && (shift==2 || shift==0)) ||
+		    (ashsize==32 && (shift==4 || shift==0)) ||
+		    (ashsize==64 && is_float && (shift==8 || shift==0))))
 	       {
 		  space nsp;
 		  int lhs,rhs;
 		  CONST char *cmplt;
-		  if (son(sone)->commuted)
+		  if (son(sone) ->commuted)
 		  {
 		     lhs = reg_operand(son(o),sp);
 		     nsp = guardreg(lhs,sp);
@@ -4511,14 +4524,14 @@ makeans make_code
 		     rhs = reg_operand(p,sp);
 		     nsp = guardreg(rhs,sp);
 		     lhs = reg_operand(son(o),nsp);
-		  }            
+		  }
 		  /* register rhs contains the evaluation of pointer
 		     operand of addptr */
-		  cmplt = ( shift==0 ? cmplt_ : cmplt_S );
+		  cmplt = (shift==0 ? cmplt_ : cmplt_S);
 		  if (is_float)
   	          {
 		     freg dfreg;
-  	             if ( discrim ( dest.answhere )  == infreg)
+  	             if (discrim(dest.answhere) == infreg)
 			dfreg = fregalt(dest.answhere);
 		     else
 			dfreg.fr = getfreg(sp.flt);
@@ -4526,17 +4539,17 @@ makeans make_code
 		     dfreg.dble = (ashsize==64);
 
 		     if (dfreg.dble)
-			ldf_rr_ins(i_flddx,cmplt,lhs,rhs,(3*dfreg.fr)+1);
+			ldf_rr_ins(i_flddx,cmplt,lhs,rhs,(3*dfreg.fr) +1);
 		     else
 			ldf_rr_ins(i_fldwx,cmplt,lhs,rhs,3*dfreg.fr);
 	    	     setfregalt(aa, dfreg);
 		  }
 		  else
-		  {              
-		     dr = ( discrim ( dest.answhere )  == inreg) ? dest.answhere.val.regans : getreg(guardreg(lhs,nsp).fixed);
+		  {
+		     dr = (discrim(dest.answhere) == inreg)? dest.answhere.val.regans : getreg(guardreg(lhs,nsp).fixed);
 		     if (ashsize==32)
 			ld_rr_ins(i_ldwx,cmplt,lhs,rhs,dr);
-		     else 
+		     else
 		     {
 			ld_rr_ins(i_ldhx,cmplt,lhs,rhs,dr);
 			if (sgned)
@@ -4559,15 +4572,15 @@ makeans make_code
    {
       exp addptr_sons = son(son(e));
       /* see if we can use reg(reg) addressing for this load */
-      if ( name(son(e))==addptr_tag )
+      if (name(son(e)) ==addptr_tag)
       {
-	 ash ashe ;
-	 int ashsize ;
+	 ash ashe;
+	 int ashsize;
 	 bool is_float = is_floating(name(sh(e)));
 	 ashe = ashof(sh(e));
 	 ashsize = ashe.ashsize;
 	 if (last(bro(addptr_sons)) && ashe.ashalign==ashsize &&
-	     (ashsize==8 || ashsize==16 || ashsize==32 || is_float))
+	    (ashsize==8 || ashsize==16 || ashsize==32 || is_float))
 	 {
 	    int lhsreg;
 	    int rhsreg;
@@ -4590,7 +4603,7 @@ makeans make_code
  	    if (is_float)
 	    {
 	       freg dfreg;
-	       if ( discrim ( dest.answhere )  == infreg)
+	       if (discrim(dest.answhere) == infreg)
 		  dfreg = fregalt(dest.answhere);
 	       else
 		  dfreg.fr = getfreg(sp.flt);
@@ -4598,12 +4611,12 @@ makeans make_code
 	       if (ashsize==32)
 		  ldf_rr_ins(i_fldwx,cmplt_,lhsreg,rhsreg,3*dfreg.fr);
 	       else
-		  ldf_rr_ins(i_flddx,cmplt_,lhsreg,rhsreg,(3*dfreg.fr)+1);
+		  ldf_rr_ins(i_flddx,cmplt_,lhsreg,rhsreg,(3*dfreg.fr) +1);
 	       setfregalt(aa, dfreg);
 	    }
 	    else
 	    {
-	       int dreg = ( discrim(dest.answhere)==inreg) ? dest.answhere.val.regans : getreg(sp.fixed);
+	       int dreg = (discrim(dest.answhere) ==inreg)? dest.answhere.val.regans : getreg(sp.fixed);
 
 	       if (ashsize==8)
 	       {
@@ -4628,7 +4641,7 @@ makeans make_code
 	       setnovolatile();
 	    }
 	    return mka;
-	 } 
+	 }
       }
    }
 #endif /* NO_REGREG_LOADS */
@@ -4645,16 +4658,16 @@ makeans make_code
 
       where w;
       bool sgned;
-      int dr = (discrim(dest.answhere)==inreg) ? dest.answhere.val.regans : 0;
+      int dr = (discrim(dest.answhere) ==inreg)? dest.answhere.val.regans : 0;
       if (name(e) == contvol_tag)
       {
 	clear_all();
 	setvolatile();
       }
       w = locate(e, sp, sh(e), dr);	/* address of arg */
-      sgned = ((w.ashwhere.ashsize >= 32) || ((is_signed(sh(e))) ? 1 : 0));
+      sgned = ((w.ashwhere.ashsize >= 32) || ((is_signed(sh(e)))? 1 : 0));
       /* +++ load real into float reg, move uses fixed reg */
-      mka.regmove = move(w.answhere, dest, (guard(w, sp)).fixed, sgned);
+      mka.regmove = move(w.answhere, dest,(guard(w, sp)).fixed, sgned);
       if (name(e) == contvol_tag)
       {
 	setnovolatile();
@@ -4673,10 +4686,10 @@ makeans make_code
      bool sgned = ((ashof(sh(e)).ashsize >= 32) || is_signed(sh(e)));
      labexp next;
       /* place constant in appropriate data segment */
-     next  = (labexp) malloc( sizeof(struct labexp_t) );
+     next  = (labexp)malloc(sizeof(struct labexp_t));
      next->e = e;
      next->lab = next_data_lab();
-     next->next = (labexp) 0;
+     next->next = (labexp)0;
      current->next = next;
      current = next;
      isa.adval = 0;
@@ -4690,7 +4703,7 @@ makeans make_code
   case val_tag:
     {
       comment1("make_code val_tag: no(e) = %d", no(e));
-      if ( shape_size(sh(e))>32 ) 
+      if (shape_size(sh(e)) >32)
       {
 	 flt64 t;
 	 int ov;
@@ -4699,7 +4712,7 @@ makeans make_code
 	 int big;
 	 unsigned int small;
 	 ans aa;
-	 if ( discrim(dest.answhere)!=notinreg )
+	 if (discrim(dest.answhere)!=notinreg)
 	    return mka;
 	 if (isbigval(e))
 	 {
@@ -4707,7 +4720,7 @@ makeans make_code
 	 }
 	 else
 	 {
-	    t.big = (is_signed(sh(e)) && no(e)<0)?-1:0;
+	    t.big = (is_signed(sh(e)) && no(e) <0)?-1:0;
 	    t.small = no(e);
 	 }
 	 nsp = guardreg(r,sp);
@@ -4721,7 +4734,7 @@ makeans make_code
 	 imm_to_r(small,r);
 	 dest.answhere.val.instoreans.b.offset+=4;
 	 move(aa,dest,nsp.fixed,1);
-	 return mka; 	
+	 return mka;
       }
       if (no(e) == 0)
       {
@@ -4732,7 +4745,7 @@ makeans make_code
 	ash a;
 
 	a = ashof(sh(e));
-	if (a.ashsize == 32 || is_signed(sh(e))==0)
+	if (a.ashsize == 32 || is_signed(sh(e)) ==0)
  	   constval = no(e);
 	else if (a.ashsize == 8)
 	{
@@ -4754,12 +4767,12 @@ makeans make_code
   case clear_tag:
   {
      /* Do nothing */
-     if ( discrim(dest.answhere)==insomereg)
+     if (discrim(dest.answhere) ==insomereg)
      {
 	int *sr = someregalt(dest.answhere);
 	if (*sr!=-1)
-	   fail ( "Illegal register" );
-	*sr = GR0 ;
+	   fail("Illegal register");
+	*sr = GR0;
      }
      return mka;
   }
@@ -4819,7 +4832,7 @@ null_tag_case:
 	   reset_tos();
      }
      return mka;
-  }      
+  }
 
   case current_env_tag:
   {
@@ -4829,19 +4842,19 @@ null_tag_case:
      setregalt(aa, r);
      mka.regmove = move(aa, dest, sp.fixed, 1);
      return mka;
-  } 
+  }
 
   case env_offset_tag: case general_env_offset_tag:
   {
      constval = frame_offset(son(e));
      goto moveconst;
-  }  
+  }
 
-  
+
   case set_stack_limit_tag:
   {
-     baseoff b ;
-     int r = reg_operand( son(e), sp );
+     baseoff b;
+     int r = reg_operand(son(e), sp);
      exp stl = find_named_tg("__TDFstacklim",
 			     f_pointer(f_alignment(f_proc)));
      setvar(stl);
@@ -4867,21 +4880,21 @@ null_tag_case:
 
   case trap_tag:
   {
-     if ( no(e) == f_overflow )
+     if (no(e) == f_overflow)
      {
-	do_exception( SIGFPE );
+	do_exception(SIGFPE);
      }
      else
-     if ( no(e) == f_nil_access )
+     if (no(e) == f_nil_access)
      {
-	do_exception( SIGSEGV );
+	do_exception(SIGSEGV);
      }
      else
      {
 	do_exception(SIGUSR1);
      }
      return mka;
-  }	
+  }
 
   case round_tag:
   {
@@ -4896,9 +4909,9 @@ null_tag_case:
      baseoff b;
      space nsp;
      int us = !(is_signed(sh(e)));
-     int rm = (int) round_number(e); 
+     int rm = (int)round_number(e);
      unsigned char nm = name(sh(e));
-     int inmem = (discrim(dest.answhere)==notinreg);
+     int inmem = (discrim(dest.answhere) ==notinreg);
      int trap=0;
      int br;
      nsp = sp;
@@ -4910,28 +4923,28 @@ null_tag_case:
      if (r==0 && !optop(e))
      {
 	r = getreg(sp.fixed);
-	nsp = guardreg( r, sp );
+	nsp = guardreg(r, sp);
      }
      a = ashof(sh(son(e)));
      s = shape_size(sh(son(e)));
-     if ( name(sh(son(e)))==doublehd && use_long_double )
+     if (name(sh(son(e))) ==doublehd && use_long_double)
      {
 	if ( rm==3 && errhandle(e)<2 )  /* can't risk calling
 				        *  "_U_Qfcnvfxt_dbl_to_sgl" if
 				        *  error_treatment is continue
-				         */ 
+				         */
 	{
-     	   quad_op( e, nsp, dest) ;
-	   if ( nm == ucharhd && !inmem )
+     	   quad_op(e, nsp, dest);
+	   if (nm == ucharhd && !inmem)
 	      riir_ins(i_dep,c_,0,23,24,RET0);
 	   else
-	   if ( nm == scharhd )
+	   if (nm == scharhd)
 	      riir_ins(i_extrs,c_,RET0,31,8,RET0);
 	   else
-	   if ( nm == uwordhd && !inmem )
+	   if (nm == uwordhd && !inmem)
 	      riir_ins(i_dep,c_,0,15,16,RET0);
 	   else
-	   if ( nm == swordhd )
+	   if (nm == swordhd)
 	      riir_ins(i_extrs,c_,RET0,31,16,RET0);
 	   setregalt(aa, RET0);
 	   mka.regmove = move(aa, dest, nsp.fixed, 1);
@@ -4941,8 +4954,8 @@ null_tag_case:
 	}
 	else
 	{
-	   /*  Convert to double putting result in %fr4  */   
-      	   quad_op( e, nsp, dest) ;
+	   /*  Convert to double putting result in %fr4  */
+      	   quad_op(e, nsp, dest);
 	   f1.fr = 4;
 	   /* and treat as a double..  */
 	}
@@ -4954,20 +4967,20 @@ null_tag_case:
      b = mem_temp(0);
      br = getreg(nsp.fixed);
      ld_ins(i_lo,0,b,br);
-     b.base = br; b.offset = 0;        
-     if (!optop(e) && us && (shape_size(sh(e))<=32))
+     b.base = br; b.offset = 0;
+     if (!optop(e) && us && (shape_size(sh(e)) <=32))
      {
 	f2.fr = getfreg(guardfreg(f1.fr,nsp).flt);
-	rrf_ins(i_fcpy,f_dbl,"",(R_FR0*3)+1,(3*f2.fr)+1);
+	rrf_ins(i_fcpy,f_dbl,"",(R_FR0*3) +1,(3*f2.fr) +1);
      }
      else
 	f2.fr = f1.fr;
-     if ( rm < 3 )
+     if (rm < 3)
      {
-	if ( rm > 0 )
+	if (rm > 0)
 	{
 	   /* Set rounding mode bits in floating point status register      */
-	   if ( rm == 1 )
+	   if (rm == 1)
 	      iiir_ins(i_zdepi,c_,-1,22,2,r);
 	   else
 	      iiir_ins(i_zdepi,c_,-1,21,1,r);
@@ -4977,24 +4990,24 @@ null_tag_case:
 	/* Round and convert. */
 	if (us)
 	{
-	   if ( s > 32 )
+	   if (s > 32)
 	   {
-	      rrf_ins(i_fcnvfx,f_dbl,f_dbl,(f1.fr*3)+1,(f2.fr*3)+1);
+	      rrf_ins(i_fcnvfx,f_dbl,f_dbl,(f1.fr*3) +1,(f2.fr*3) +1);
 	   }
 	   else
 	   {
-	      rrf_ins(i_fcnvfx,f_sgl,f_dbl,(f1.fr*3)+1,(f2.fr*3)+1);
+	      rrf_ins(i_fcnvfx,f_sgl,f_dbl,(f1.fr*3) +1,(f2.fr*3) +1);
 	   }
 	}
-	else if ( s > 32 )
+	else if (s > 32)
 	{
-	   rrf_ins(i_fcnvfx,f_dbl,f_sgl,(f1.fr*3)+1,(f2.fr*3)+2);
+	   rrf_ins(i_fcnvfx,f_dbl,f_sgl,(f1.fr*3) +1,(f2.fr*3) +2);
 	}
 	else
-	   rrf_ins(i_fcnvfx,f_sgl,f_sgl,(f1.fr*3)+1,(f2.fr*3)+2);
+	   rrf_ins(i_fcnvfx,f_sgl,f_sgl,(f1.fr*3) +1,(f2.fr*3) +2);
 	if (!optop(e) && !us)
 	   stf_ins(i_fstd,1,b);
-	if ( rm > 0 )
+	if (rm > 0)
 	{
 	   /*
 	   *   Reset rounding mode to rm = nearest (without corrupting
@@ -5009,81 +5022,81 @@ null_tag_case:
      }
      else
      {
-	if ( (!optop(e)) && (!us) )
+	if ((!optop(e)) && (!us))
 	{
-	   /*  Zero exception register  */          
+	   /*  Zero exception register  */
 	   st_ins(i_sw,GR0,b);
-	   ldf_ins(i_fldw,b,0);         
+	   ldf_ins(i_fldw,b,0);
 	}
 	if (us)
 	{
-	   if ( s > 32 )
+	   if (s > 32)
 	   {
-	      rrf_ins(i_fcnvfxt,f_dbl,f_dbl,(f1.fr*3)+1,(f2.fr*3)+1);
+	      rrf_ins(i_fcnvfxt,f_dbl,f_dbl,(f1.fr*3) +1,(f2.fr*3) +1);
 	   }
 	   else
 	   {
-	      rrf_ins(i_fcnvfxt,f_sgl,f_dbl,(f1.fr*3)+1,(f2.fr*3)+1);
+	      rrf_ins(i_fcnvfxt,f_sgl,f_dbl,(f1.fr*3) +1,(f2.fr*3) +1);
 	   }
 	}
-	else if ( s > 32 )
+	else if (s > 32)
 	{
-	   rrf_ins(i_fcnvfxt,f_dbl,f_sgl,(f1.fr*3)+1,(f2.fr*3)+2);
+	   rrf_ins(i_fcnvfxt,f_dbl,f_sgl,(f1.fr*3) +1,(f2.fr*3) +2);
 	}
 	else
-	   rrf_ins(i_fcnvfxt,f_sgl,f_sgl,(f1.fr*3)+1,(f2.fr*3)+2);
-	if ( (!optop(e)) && (!us) )
+	   rrf_ins(i_fcnvfxt,f_sgl,f_sgl,(f1.fr*3) +1,(f2.fr*3) +2);
+	if ((!optop(e)) && (!us))
 	   stf_ins(i_fstd,1,b);
      }
      if (!optop(e))
      {
 	if (us)
 	{
-	   stf_ins(i_fstd,(f2.fr*3)+1,b);
+	   stf_ins(i_fstd,(f2.fr*3) +1,b);
 	   ld_ins(i_lw,1,b,r);
 	   cj_ins(c_neq,r,0,trap);
 	   b.offset=4;
 	}
 	else
 	{
-	   /* 
-	   *   If the unimplemented flag in the exception 
+	   /*
+	   *   If the unimplemented flag in the exception
 	   *   register was set, then jump to trap.
 	    */
 	   ld_ins(i_lw,0,b,r);
 	   imm_to_r(64,GR1);
 	   rrr_ins(i_and,c_eq,r,GR1,0);
 	   ub_ins(cmplt_N,trap);
-	   stf_ins(i_fstw,(f2.fr*3)+2,b);
+	   stf_ins(i_fstw,(f2.fr*3) +2,b);
 	}
 	ld_ins(i_lw,1,b,r);
 	test_if_outside_of_var(nm,r,trap);
-	if ( nm!=slonghd && nm!=ulonghd )
+	if (nm!=slonghd && nm!=ulonghd)
 	   rr_ins(i_copy,GR1,r);
      }
      else
      {
-	stf_ins(i_fstw,(f2.fr*3)+2,b);
+	stf_ins(i_fstw,(f2.fr*3) +2,b);
 	/*   Load and shorten to type if needed.   */
-	if ( nm == ucharhd )
+	if (nm == ucharhd)
 	{
 	   b.offset += 3;
 	   ld_ins(i_lb,0,b,r);
 	}
 	else
-	if ( nm == scharhd )
+	if (nm == scharhd)
 	{
 	   ld_ins(i_lw,1,b,r);
 	   riir_ins(i_extrs,c_,r,31,8,r);
 	}
 	else
-	if ( nm == uwordhd )
+	if (nm == uwordhd)
 	{
 	   b.offset += 2;
 	   ld_ins(i_lh,0,b,r);
 	}
 	else
-	if ( nm == swordhd )
+	if (nm == swordhd)
 	{
 	   ld_ins(i_lw,1,b,r);
 	   riir_ins(i_extrs,c_,r,31,16,r);
@@ -5104,17 +5117,17 @@ null_tag_case:
       int size_op = shape_size(sh(son(e)));
       ans aa;
       space nsp;
-      
+
       r = reg_operand(son(e), sp);
-      
+
       comment1("make_code int_to_bitf_tag: size=%d", size_res);
-      
+
       /* maybe this not needed if going to memory +++ */
       if (size_res != size_op && size_res != 32)
       {
 	int destr;
-	
-	switch ( discrim ( dest.answhere ) )
+
+	switch (discrim(dest.answhere))
 	{
       case inreg:
       {
@@ -5126,16 +5139,16 @@ null_tag_case:
     destr = getreg(sp.fixed);
   }
     }
-	
+
 	if (r==destr)
 	   riir_ins(i_dep,c_,0,31-size_res,32-size_res,destr);
 	else
 	   riir_ins(i_zdep,c_,r,31,size_res,destr);
 	r = destr;
       }
-      
+
       /* r is appropriately truncated operand */
-      
+
       nsp = guardreg(r, sp);
       setregalt(aa, r);
       move(aa, dest, nsp.fixed, 0);
@@ -5151,7 +5164,7 @@ null_tag_case:
       bool target_sgned = is_signed(sh(e));
 
       a = ashof(sh(son(e)));
-      switch ( discrim ( dest.answhere ) )
+      switch (discrim(dest.answhere))
       {
       case inreg:
 	{
@@ -5219,7 +5232,7 @@ null_tag_case:
      exp s=son(e);
      int maxargbytes=max_args>>3;
      ans aa;
-     int r = GETREG( dest, sp );
+     int r = GETREG(dest, sp);
      baseoff b;
      int n,t;
      if ( name(s)==val_tag )  /* n is a constant */
@@ -5238,17 +5251,17 @@ null_tag_case:
 	   /* alloca(n) = %sp - maxargbytes */
 	   b.base = SP; b.offset = -maxargbytes;
 	   ld_ins(i_lo,0,b,r);
-	   /* grow stack frame, i.e. %sp -> %sp + n */             
+	   /* grow stack frame, i.e. %sp -> %sp + n */
 	   b.offset = n;
-	   ld_ins( i_lo, 0, b, SP );
+	   ld_ins(i_lo, 0, b, SP);
 	}
      }
      else
      {
 	space nsp;
-	nsp = guardreg( r, sp );
+	nsp = guardreg(r, sp);
 	n = reg_operand(s, sp);
-	t = getreg( nsp.fixed );   
+	t = getreg(nsp.fixed);
 	/* adjust n so that stack stays 64 byte aligned */
 	if (Has_ll)
 	   ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,67,n,t);
@@ -5263,14 +5276,14 @@ null_tag_case:
 	/* %sp -> %sp + n */
 	rrr_ins(i_add,c_,SP,t,SP);
      }
-     if ( checkalloc(e) )
+     if (checkalloc(e))
      {
 	exp stl = find_named_tg("__TDFstacklim",
 	 	            f_pointer(f_alignment(f_proc)));
-	setvar( stl );
-	b = boff( stl );
+	setvar(stl);
+	b = boff(stl);
 	ld_ins(i_lw,1,b,GR1);
-	if ( stackerr_lab==0 )
+	if (stackerr_lab==0)
 	{
 	   stackerr_lab = new_label();
 	}
@@ -5288,19 +5301,19 @@ null_tag_case:
 	b.offset = -maxargbytes -4;
 	st_ins(i_sw,r,b);
      }
-     return (mka);
+     return(mka);
   }
 
   case movecont_tag:
   {
      exp szarg = bro(bro(son(e)));
-     int dr, sr, sz, szr, mr,alt=0,lab;	
+     int dr, sr, sz, szr, mr,alt=0,lab;
      int finish = new_label();
      space nsp;
      where w;
      nsp = sp;
      w.ashwhere = ashof(sh(bro(bro(son(e)))));
-     if (0 && name(szarg)==val_tag)
+     if (0 && name(szarg) ==val_tag)
      {
 	sz = evalexp(szarg);
 	if (sz==0)
@@ -5317,10 +5330,10 @@ null_tag_case:
 	setregalt(w.answhere, szr);
 	make_code(szarg, sp, w, 0);
 	nsp = guardreg(szr, sp);
-	if (name(szarg)==val_tag)
+	if (name(szarg) ==val_tag)
 	{
-	   if (no(szarg)==0) 
-	      return mka; 
+	   if (no(szarg) ==0)
+	      return mka;
 	}
 	else
 	   cj_ins(c_eq,0,szr,finish);
@@ -5340,10 +5353,10 @@ null_tag_case:
      {
 	alt = new_label();
 	cj_ins(c_l,sr,dr,alt);
-     }   
+     }
      /*  No overlap or dr<sr  */
      lab = new_label();
-     if (0 && name(szarg)==val_tag)
+     if (0 && name(szarg) ==val_tag)
      {
 	if (SIMM14(sz))
 	   ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,sz,sr,mr);
@@ -5356,7 +5369,7 @@ null_tag_case:
 	      ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,sz,sr,mr);
 	   }
 	   else
-	      rrr_ins(i_add,c_,szr,sr,mr);               
+	      rrr_ins(i_add,c_,szr,sr,mr);
 	}
      }
      else
@@ -5374,7 +5387,7 @@ null_tag_case:
 	outlab("L$$",alt);
 	lab = new_label();
 	rr_ins(i_copy,sr,mr);
-	if (0 && name(szarg)==val_tag && SIMM14(sz))
+	if (0 && name(szarg) ==val_tag && SIMM14(sz))
 	{
 	      ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,sz,sr,sr);
 	      ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,sz,dr,dr);
@@ -5407,7 +5420,7 @@ null_tag_case:
   moveconst:
   {
      int r;
-     if ( discrim(dest.answhere)==inreg )
+     if (discrim(dest.answhere) ==inreg)
      {
 	r = regalt(dest.answhere);
 	imm_to_r(constval,r);

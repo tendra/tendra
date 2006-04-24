@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -133,7 +163,7 @@ $Log: trans.c,v $
 #include "dw2_vsn.h"
 #include "dw2_abbrev.h"
 #include "dw2_common.h"
-static bool dump_abbrev = 0 ;
+static bool dump_abbrev = 0;
 #endif
 
 #if DWARF
@@ -145,7 +175,7 @@ extern int print_inlines;
 /* PROCEDURES */
 
 static void init_all
-    PROTO_Z ()
+(void)
 {
   init_flpt();
 #include "inits.h"
@@ -157,14 +187,13 @@ static void init_all
   extra_stack = 0;
   top_def = (dec*)0;
   init_weights();
-  initzeros ();
+  initzeros();
   const_list = nilexp;
   return;
 }
 
 int   main
-    PROTO_N ( (argc, argv) )
-    PROTO_T ( int argc X char **argv )
+(int argc, char **argv)
 {
   int i;
   char *outfname;
@@ -243,7 +272,7 @@ int   main
       case 'H':
 	diagnose = 1;
 #ifdef NEWDIAGS
-	if (s[2] != 'O')
+	if (s[2]!= 'O')
 #endif
 	{
 #ifdef NEWDIAGS
@@ -384,17 +413,17 @@ int   main
 	break;
 #if isdragonfly
       case 'k':
-        set_dragonfly_format (s[2] == '1');
+        set_dragonfly_format(s[2] == '1');
         break;
 #endif
 #if isfreebsd
       case 'k':
-        set_freebsd_format (s[2] == '1');
+        set_freebsd_format(s[2] == '1');
         break;
 #endif
 #if islinux
       case 'k':
-	set_linux_format (s[2] == '1');
+	set_linux_format(s[2] == '1');
 	break;
 #endif
 #if issco
@@ -404,7 +433,7 @@ int   main
 #endif
 
       default:
-	failer (BAD_FLAG);
+	failer(BAD_FLAG);
 	break;
     };
   };
@@ -425,43 +454,43 @@ int   main
   if (i == argc)
     i--;	/* BAD_COMMAND1 */
 
-  for (; i < argc ; i += 2) {
+  for (; i < argc; i += 2) {
     if (i == (argc-1))
       {
-        failer (BAD_COMMAND1);
-        return (1);
+        failer(BAD_COMMAND1);
+        return(1);
       };
 
 
     outfname = argv[i+1];
 
     /* initiate the output file */
-    if (!outinit (outfname)) {
-      failer (CANT_OPEN);
-      return (1);
+    if (!outinit(outfname)) {
+      failer(CANT_OPEN);
+      return(1);
     };
 
-    if (!initreader (argv[i])) {
-      failer (CANT_READ);
-      return (1);
+    if (!initreader(argv[i])) {
+      failer(CANT_READ);
+      return(1);
     };
 
     init_all();
 
 #ifdef NEWDWARF
     if (dwarf2) {
-      init_dwarf2 ();
+      init_dwarf2();
     } else
 #endif
-    if (diagnose) out_diagnose_prelude();
+    if (diagnose)out_diagnose_prelude();
 
 #ifdef NEWDWARF
     if (dump_abbrev) {
-      outs (".text\n");
-      do_abbreviations ();
-      dwarf2_prelude ();
-      make_dwarf_common ();
-      dwarf2_postlude ();
+      outs(".text\n");
+      do_abbreviations();
+      dwarf2_prelude();
+      make_dwarf_common();
+      dwarf2_postlude();
     } else
 #endif
 
@@ -479,10 +508,10 @@ int   main
 
 #ifdef NEWDWARF
     if (dwarf2) {
-      end_dwarf2 ();
+      end_dwarf2();
     } else
 #endif
-    if (diagnose) out_diagnose_postlude();
+    if (diagnose)out_diagnose_postlude();
 
     outend ();			/* close the .s file */
     endreader();

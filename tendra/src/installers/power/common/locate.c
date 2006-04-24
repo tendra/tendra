@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -90,10 +120,10 @@ $Log: locate.c,v $
 #include "frames.h"
 /******************************************************************************
 For non globals, boff encodes things in the following way.
-The number of bytes gives a displacement from different positions on 
+The number of bytes gives a displacement from different positions on
 the stack depending on whether it is relative to R_SP R_FP or R_TP
 
-The stack below gives the worst case of the stack i.e a general_proc with 
+The stack below gives the worst case of the stack i.e a general_proc with
 alloca
   |           |
   |           | #
@@ -132,7 +162,7 @@ alloca
 ******************************************************************************/
 
 /* decodes e to give a baseoff suitable for xxx_ins functions */
-baseoff boff PROTO_N ((e)) PROTO_T (exp e)
+baseoff boff(exp e)
 {
   baseoff an;
 
@@ -142,7 +172,7 @@ baseoff boff PROTO_N ((e)) PROTO_T (exp e)
     long sno = gl->dec_u.dec_val.sym_number;
 
     /* an.base is negated global sym number, positive used for base reg number */
-    an.base = -(sno + 1);
+    an.base = - (sno + 1);
     an.offset = 0;
   }
   else
@@ -151,16 +181,16 @@ baseoff boff PROTO_N ((e)) PROTO_T (exp e)
   }
   return an;
 }
-baseoff boff_location PROTO_N ((n)) PROTO_T (int n)
-{ 
+baseoff boff_location(int n)
+{
   baseoff an;
   int br = n & 0x3f;		/* base reg in bottom 6 bits */
   long off = (n>>6);		/* offset in bytes from br in rest */
-  
+
   ASSERT((n<0)==(off<0));	/* any sign propagated */
-  if(br<0)
+  if (br<0)
     br = -br;
-  
+
   /* There are three possiblilities for br */
   /* i.e R_TP R_FP R_SP */
   /* R_TP|
@@ -173,7 +203,7 @@ baseoff boff_location PROTO_N ((n)) PROTO_T (int n)
      R_SP|
      -----
      This is used for constructing argument lists for calling parameters
-     
+
      It is possible that all three are the same
      i.e they are all calculated from the stack pointer.
      However in a general_proc
@@ -185,9 +215,9 @@ baseoff boff_location PROTO_N ((n)) PROTO_T (int n)
     an.offset = off;
     ASSERT(off >= 0);
   }
-  else if(br == R_FP)
+  else if (br == R_FP)
   {
-    if(p_has_fp)
+    if (p_has_fp)
     {
       an.base = R_FP;
       an.offset = p_locals_offset + off - p_frame_size;
@@ -198,19 +228,19 @@ baseoff boff_location PROTO_N ((n)) PROTO_T (int n)
       an.offset = p_locals_offset + off;
     }
   }
-  else if(br == R_TP)
+  else if (br == R_TP)
   {
     if (p_has_tp)
     {
       an.base = R_TP;
       an.offset = off;
     }
-    else if(p_has_fp)
+    else if (p_has_fp)
     {
       an.base = R_FP;
       an.offset = off;
     }
-    else 
+    else
     {
       an.base = R_SP;
       an.offset = off + p_frame_size;
@@ -222,16 +252,16 @@ baseoff boff_location PROTO_N ((n)) PROTO_T (int n)
   }
   return an;
 }
-int ENCODE_FOR_BOFF PROTO_N ((off,type)) PROTO_T (int off X int type)
+int ENCODE_FOR_BOFF(int off, int type)
 {
-  
+
   /* type is either */
   /* INPUT_CALLER_PARAMETER, INPUT_CALLEE_PARAMETER, OUTPUT_CALLER_PARAMETER */
   /* offset shoulb be in bytes */
   int encode_offset;
   int encode_base;
-  
-  switch(type)
+
+  switch (type)
   {
    case INPUT_CALLER_PARAMETER:
     {
@@ -254,39 +284,39 @@ int ENCODE_FOR_BOFF PROTO_N ((off,type)) PROTO_T (int off X int type)
    default:
     fail("Unknown encodeing for ENCODE_FOR_BOFF");
   }
-  return (encode_offset<<6) + encode_base;
+  return(encode_offset<<6) + encode_base;
 }
 
-      
+
 
 /* mutual recursion between locate1() and locate() */
-where locate PROTO_S ((exp, space, shape, int));
+where locate(exp, space, shape, int);
 
 
  /*
   * finds the address of e using shape s; sp gives available t-regs for any
   * inner evaluation. dreg is historical.
   */
-static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s X int dreg)
+static where locate1(exp e, space sp, shape s, int dreg)
 {
   ash a;
   ans aa;
   where wans;
-  
-  FULLCOMMENT3("locate1: name(e)=%d, name(s)=%d, dreg=%d", name(e), name(s), dreg);
-  
+
+  FULLCOMMENT3("locate1: name(e) =%d, name(s) =%d, dreg=%d", name(e), name(s), dreg);
+
   a = ashof(s);
-  
+
   switch (name(e))
   {
     /***********************************************/
    case name_tag:
-    { 
+    {
       /* NAME_TAG */
       exp dc = son(e);
       bool var = isvar(dc);
 
-      FULLCOMMENT2("locate1 name_tag: name(dc)=%d, var=%d", name(dc), var);
+      FULLCOMMENT2("locate1 name_tag: name(dc) =%d, var=%d", name(dc), var);
 
       if (props(dc) & defer_bit)
       {
@@ -295,9 +325,9 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	 * better evaluated every time
 	 */
 	where w;
-	
+
 	w = locate(son(dc), sp, sh(son(dc)), dreg);
-	
+
 	if (no(e) == 0)
 	{
 	  aa = w.answhere;
@@ -305,7 +335,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	else
 	{
 	  instore is;
-	  
+
 	  switch (w.answhere.discrim)
 	  {
 	   case notinreg:
@@ -317,7 +347,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	   default:
 	    fail("name not deferable");
 	  }
-	  
+
 	  setinsalt(aa, is);
 	}
       }
@@ -331,7 +361,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	else
 	{
 	  instore b;
-	  
+
 	  b.b.base = no(dc);
 	  b.b.offset = 0;
 	  b.adval = 1;
@@ -342,18 +372,18 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
       {
 	/* ... it has been allocated in a floating point reg */
 	freg fr;
-	
+
 	fr.fr = no(dc);
-	fr.dble = (a.ashsize == 64) ? 1 : 0;
+	fr.dble = (a.ashsize == 64)? 1 : 0;
 	setfregalt(aa, fr);
       }
       else
       {
 	/* ... it is in memory */
 	instore is;
-	
+
 	if (var|| (name(sh(e)) == prokhd &&
-		      (son(dc) == nilexp || IS_A_PROC(son(dc)))))
+		     (son(dc) == nilexp || IS_A_PROC(son(dc)))))
 	{
 	  is.adval = 1;
 	  /* If it is a var tag you can get address of it */
@@ -363,11 +393,11 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	  is.adval = 0;
 	}
 	is.b = boff(dc);
-	
+
 	is.b.offset += (no(e) / 8);
-	
+
 #if 1
-	if (var && name(sh(e)) != prokhd && !IS_FIXREG(is.b.base) && is.b.offset == 0)
+	if (var && name(sh(e))!= prokhd && !IS_FIXREG(is.b.base) && is.b.offset == 0)
 	{
 	  /*
 	   * A global which has to be accessed via TOC.
@@ -380,7 +410,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	   */
 	  if (dreg == 0)
 	    dreg = getreg(sp.fixed);
-	  
+
 	  set_ins(is.b, dreg);
 	  keepreg(e, dreg);
 	  FULLCOMMENT3("locate1 name_tag: keepreg glob adval=%d bo={%d,%d}", is.adval, is.b.base, is.b.offset);
@@ -389,9 +419,9 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	}
 #endif
 	setinsalt(aa, is);
-	
+
       }
-      
+
       wans.answhere = aa;
       wans.ashwhere = a;
       return wans;
@@ -482,7 +512,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
       /* register ind contains the evaluation of 1st operand of addptr */
       nsp = guardreg(ind, sp);
 
-      if (name(bro(sum)) == env_offset_tag || name(bro(sum))==general_env_offset_tag)
+      if (name(bro(sum)) == env_offset_tag || name(bro(sum)) ==general_env_offset_tag)
       {
 	is.b.base = ind;
 	is.b.offset = frame_offset(son(bro(sum)));
@@ -600,7 +630,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
       wans.ashwhere = a;
       return wans;
     }				/* end reff */
-	
+
    case cont_tag:
    case contvol_tag:
     {
@@ -610,7 +640,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
       int reg;
       where fc;
 
-      fc = locate(p, sp, sh(e) , 0);
+      fc = locate(p, sp, sh(e), 0);
       ason = fc.answhere;
 
 
@@ -641,7 +671,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
 	    isa.b.base = reg;
 	    isa.b.offset = 0;
 	    setinsalt(aa, isa);
-	    if (name(e) != contvol_tag && fc.ashwhere.ashalign != 1)
+	    if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
 	      keepexp(e, aa);
 	  }
 	  goto breakson;
@@ -720,7 +750,7 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
   default:
     {
       /*
-       * general catch all; 
+       * general catch all;
        * evaluate e into register and deliver it as a literal
        * store address
        */
@@ -753,11 +783,11 @@ static where locate1 PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s
   * locate differs from locate1 only in that it looks to see if e has already
   * been evaluated and remembered by register contents tracking scheme
   */
-where locate PROTO_N ((e,sp,s,dreg)) PROTO_T (exp e X space sp X shape s X int dreg)
+where locate(exp e, space sp, shape s, int dreg)
 {
   ans ak;
   where w;
-  
+
   /* Check to see if e has already been evaluated and remembered */
   if (!IS_R_NO_REG(dreg))
   {

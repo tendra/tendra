@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -123,10 +153,10 @@ Imported from DRA
 #include "general_proc.h"
 #include "68k_globals.h"
 #endif
-extern bool have_cond ;
-extern int do_peephole ;
-extern int do_pic ;
-extern ast add_shape_to_stack PROTO_S ( ( ash, shape ) ) ;
+extern bool have_cond;
+extern int do_peephole;
+extern int do_pic;
+extern ast add_shape_to_stack(ash, shape);
 
 
 /*
@@ -137,14 +167,13 @@ extern ast add_shape_to_stack PROTO_S ( ( ash, shape ) ) ;
 */
 
 int ins
-    PROTO_N ( ( sz, opb, opw, opl ) )
-    PROTO_T ( long sz X int opb X int opw X int opl )
+(long sz, int opb, int opw, int opl)
 {
-    if ( sz <= 8 ) return ( opb ) ;
-    if ( sz <= 16 ) return ( opw ) ;
-    if ( sz <= 32 ) return ( opl ) ;
-    error ( "Illegal instruction size" ) ;
-    return ( opl ) ;
+    if (sz <= 8) return(opb);
+    if (sz <= 16) return(opw);
+    if (sz <= 32) return(opl);
+    error("Illegal instruction size");
+    return(opl);
 }
 
 
@@ -156,13 +185,12 @@ int ins
 */
 
 int insf
-    PROTO_N ( ( sz, ops, opd, opx ) )
-    PROTO_T ( long sz X int ops X int opd X int opx )
+(long sz, int ops, int opd, int opx)
 {
-    if ( sz == 32 ) return ( ops ) ;
-    if ( sz == 64 ) return ( opd ) ;
-    error ( "Illegal instruction size" ) ;
-    return ( opx ) ;
+    if (sz == 32) return(ops);
+    if (sz == 64) return(opd);
+    error("Illegal instruction size");
+    return(opx);
 }
 
 
@@ -174,27 +202,26 @@ int insf
 */
 
 void add_to_reg
-    PROTO_N ( ( r, d ) )
-    PROTO_T ( int r X long d )
+(int r, long d)
 {
-    if ( d ) {
-	int instr ;
-	mach_op *op1 ;
-	mach_op *op2 = make_register ( r ) ;
-	if ( d > 0 && d <= 8 ) {
-	    instr = m_addql ;
-	    op1 = make_value ( d ) ;
-	} else if ( d < 0 && d >= -8 ) {
-	    instr = m_subql ;
-	    op1 = make_value ( -d ) ;
+    if (d) {
+	int instr;
+	mach_op *op1;
+	mach_op *op2 = make_register(r);
+	if (d > 0 && d <= 8) {
+	    instr = m_addql;
+	    op1 = make_value(d);
+	} else if (d < 0 && d >= -8) {
+	    instr = m_subql;
+	    op1 = make_value(-d);
 	} else {
-	    instr = m_lea ;
-	    op1 = make_indirect ( r, d ) ;
+	    instr = m_lea;
+	    op1 = make_indirect(r, d);
 	}
-	make_instr ( instr, op1, op2, regmsk ( r ) ) ;
-	have_cond = 0 ;
+	make_instr(instr, op1, op2, regmsk(r));
+	have_cond = 0;
     }
-    return ;
+    return;
 }
 
 
@@ -205,17 +232,16 @@ void add_to_reg
 */
 
 bool reserved
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+(char *nm)
 {
-    int i ;
-    static char *rn [] = {
+    int i;
+    static char *rn[] = {
 	"_edata", "_etext", "_end", "__edata", "__etext", "__end"
-    } ;
-    for ( i = 0 ; i < array_size ( rn ) ; i++ ) {
-	if ( eq ( nm, rn [i] ) ) return ( 1 ) ;
+    };
+    for (i = 0; i < array_size(rn); i++) {
+	if (eq(nm, rn[i])) return(1);
     }
-    return ( 0 ) ;
+    return(0);
 }
 
 
@@ -229,33 +255,32 @@ bool reserved
 */
 
 speci special_fn
-    PROTO_N ( ( a1, a2, s ) )
-    PROTO_T ( exp a1 X exp a2 X shape s )
+(exp a1, exp a2, shape s)
 {
-    speci spec_fn ;
-    dec *d = brog ( son ( a1 ) ) ;
-    char *id = d->dec_u.dec_val.dec_id ;
-    spec_fn.is_special = 0 ;
+    speci spec_fn;
+    dec *d = brog(son(a1));
+    char *id = d->dec_u.dec_val.dec_id;
+    spec_fn.is_special = 0;
 
-    if ( id == null ) return ( spec_fn ) ;
+    if (id == null) return(spec_fn);
 
-    if ( eq ( id, "_setjmp" ) ) has_setjmp = 1 ;
-    if ( eq ( id, "_longjmp" ) ) has_setjmp = 1 ;
+    if (eq(id, "_setjmp"))has_setjmp = 1;
+    if (eq(id, "_longjmp"))has_setjmp = 1;
 
-    if ( !do_alloca ) return ( spec_fn ) ;
+    if (!do_alloca) return(spec_fn);
 
     if ( ( /* eq ( id, "_alloca" ) || */ eq ( id, "___builtin_alloca" ) ) &&
-	 a2 != nilexp && last ( a2 ) ) {
-	exp r = getexp ( s, nilexp, 0, a2, nilexp, 0, L0, alloca_tag ) ;
-	setfather ( r, son ( r ) ) ;
-	has_alloca = 1 ;
-	spec_fn.is_special = 1 ;
-	spec_fn.special_exp = r ;
-	kill_exp ( a1, a1 ) ;
-	return ( spec_fn ) ;
+	 a2 != nilexp && last(a2)) {
+	exp r = getexp(s, nilexp, 0, a2, nilexp, 0, L0, alloca_tag);
+	setfather(r, son(r));
+	has_alloca = 1;
+	spec_fn.is_special = 1;
+	spec_fn.special_exp = r;
+	kill_exp(a1, a1);
+	return(spec_fn);
     }
 
-    return ( spec_fn ) ;
+    return(spec_fn);
 }
 
 
@@ -283,13 +308,13 @@ speci special_fn
     true to indicate that this special label has been used.
 */
 
-bool used_stack = 0 ;
-long max_stack = 0 ;
-long stack_dec = 0 ;
-long stack_size = 0 ;
-long extra_stack = 0 ;
-bool used_ldisp = 0 ;
-long ldisp = 0 ;
+bool used_stack = 0;
+long max_stack = 0;
+long stack_dec = 0;
+long stack_size = 0;
+long extra_stack = 0;
+bool used_ldisp = 0;
+long ldisp = 0;
 
 
 /*
@@ -300,8 +325,8 @@ long ldisp = 0 ;
     has not been output as an instruction.
 */
 
-long stack_change = 0 ;
-int stack_direction = 0 ;
+long stack_change = 0;
+int stack_direction = 0;
 
 
 /*
@@ -311,18 +336,17 @@ int stack_direction = 0 ;
 */
 
 void dec_stack
-    PROTO_N ( ( d ) )
-    PROTO_T ( long d )
+(long d)
 {
-    if ( d ) {
-	stack_change -= d ;
-	stack_direction = ( d > 0 ? 1 : 0 ) ;
-	have_cond = 0 ;
+    if (d) {
+	stack_change -= d;
+	stack_direction = (d > 0 ? 1 : 0);
+	have_cond = 0;
 #ifdef EBUG
-        update_stack() ;
+        update_stack();
 #endif
     }
-    return ;
+    return;
 }
 
 
@@ -333,15 +357,15 @@ void dec_stack
 */
 
 void update_stack
-    PROTO_Z ()
+(void)
 {
-    if ( stack_change ) {
-	long d = stack_change / 8 ;
-	stack_size += stack_change ;
-	stack_change = 0 ;
-	add_to_reg ( REG_SP, d ) ;
+    if (stack_change) {
+	long d = stack_change / 8;
+	stack_size += stack_change;
+	stack_change = 0;
+	add_to_reg(REG_SP, d);
     }
-    return ;
+    return;
 }
 
 
@@ -353,27 +377,26 @@ void update_stack
 */
 
 void area
-    PROTO_N ( ( p ) )
-    PROTO_T ( int p )
+(int p)
 {
-    static int current_area = -1 ;
-    static int previous_area = -1 ;
-    if ( p == plast ) p = previous_area ;
-    if ( p != current_area ) {
-	int i ;
-	switch ( p ) {
-	    case ptext : i = m_as_text ; break ;
-	    case pdata : i = m_as_data ; break ;
-	    case pbss : i = m_as_bss ; break ;
-	    default : i = m_dont_know ; break ;
+    static int current_area = -1;
+    static int previous_area = -1;
+    if (p == plast)p = previous_area;
+    if (p != current_area) {
+	int i;
+	switch (p) {
+	    case ptext: i = m_as_text; break;
+	    case pdata: i = m_as_data; break;
+	    case pbss: i = m_as_bss; break;
+	    default : i = m_dont_know; break;
 	}
-	make_instr ( i, null, null, 0 ) ;
-	previous_area = current_area ;
-	current_area = p ;
+	make_instr(i, null, null, 0);
+	previous_area = current_area;
+	current_area = p;
     } else {
-	previous_area = current_area ;
+	previous_area = current_area;
     }
-    return ;
+    return;
 }
 
 
@@ -384,20 +407,19 @@ void area
 */
 
 void libcall
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+(char *nm)
 {
     int lab;
-    mach_op *p = make_extern_data ( nm, 0 ) ;
+    mach_op *p = make_extern_data(nm, 0);
 #if 0 /*float_to_unsigned*/
-    if((have_overflow() || have_continue())&& !strcmp(nm,float_to_unsigned)) {
+    if ((have_overflow() || have_continue()) && !strcmp(nm,float_to_unsigned)) {
       /* we need to ensure that the value in %fp0 is not outside the valid
 	 range for an unsigned int, otherwise there will be a floating
 	 point exception in the library routine. */
       bool sw;
       exp e = getexp(ulongsh,nilexp,0,nilexp,nilexp,0,1333788672,val_tag);
       exp loc = sim_exp(shrealsh,FP1);
-      lab = (have_continue())?next_lab() : overflow_jump;
+      lab = (have_continue())?next_lab(): overflow_jump;
       ins2(m_fmoves,shape_size(shrealsh),shape_size(shrealsh),zw(e),zw(loc));
       /*move(ulongsh,zw(e),zw(loc));  */
       sw = cmp(shrealsh,FP0,FP1,tst_gr);
@@ -407,15 +429,15 @@ void libcall
     }
 #endif
 
-    make_instr ( m_call, p, null, ~save_msk ) ;
-    no_calls++ ;
+    make_instr(m_call, p, null, ~save_msk);
+    no_calls++;
 #if 0
-    if(have_continue() && !strcmp(nm,float_to_unsigned)) {
+    if (have_continue() && !strcmp(nm,float_to_unsigned)) {
       make_label(lab);
     }
 #endif
-    have_cond = 0 ;
-    return ;
+    have_cond = 0;
+    return;
 }
 
 
@@ -430,11 +452,11 @@ void libcall
     calls.
 */
 
-bitpattern regsinuse ;
-bitpattern regsinproc ;
-bitpattern reuseables ;
-bitpattern regsindec ;
-bitpattern bigregs ;
+bitpattern regsinuse;
+bitpattern regsinproc;
+bitpattern reuseables;
+bitpattern regsindec;
+bitpattern bigregs;
 
 
 /*
@@ -446,9 +468,9 @@ bitpattern bigregs ;
     records the number of procedure calls in the current procedure.
 */
 
-long crt_ret_lab = 0 ;
-bool just_ret = 0 ;
-int no_calls = 0 ;
+long crt_ret_lab = 0;
+bool just_ret = 0;
+int no_calls = 0;
 
 
 /*
@@ -457,7 +479,7 @@ int no_calls = 0 ;
     This records the position of the prologue of the current procedure.
 */
 
-mach_ins *prologue_ins ;
+mach_ins *prologue_ins;
 
 
 /*
@@ -470,28 +492,28 @@ mach_ins *prologue_ins ;
 */
 
 void prologue
-    PROTO_Z ()
+(void)
 {
-    mach_op *op1, *op2 ;
-    have_cond = 0 ;
-    just_ret = 1 ;
-    if ( !output_immediately ) {
+    mach_op *op1, *op2;
+    have_cond = 0;
+    just_ret = 1;
+    if (!output_immediately) {
 	/* Just record position in this case */
-	prologue_ins = current_ins ;
-	return ;
+	prologue_ins = current_ins;
+	return;
     }
     /* Output generalized link and push instructions */
-    op1 = make_register ( REG_AP ) ;
-    op2 = make_special ( "PA" ) ;
-    make_instr ( m_linkl, op1, op2, 0 ) ;
-    op1 = make_special ( "PB" ) ;
-    op2 = make_indirect ( REG_SP, 0 ) ;
-    make_instr ( m_moveml, op1, op2, 0 ) ;
-    op1 = make_special ( "PC" ) ;
-    op2 = make_indirect ( REG_AP, 0 ) ;
-    op2->of->plus = make_special ( "PD" ) ;
-    make_instr ( m_fmovemx, op1, op2, 0 ) ;
-    return ;
+    op1 = make_register(REG_AP);
+    op2 = make_special("PA");
+    make_instr(m_linkl, op1, op2, 0);
+    op1 = make_special("PB");
+    op2 = make_indirect(REG_SP, 0);
+    make_instr(m_moveml, op1, op2, 0);
+    op1 = make_special("PC");
+    op2 = make_indirect(REG_AP, 0);
+    op2->of->plus = make_special("PD");
+    make_instr(m_fmovemx, op1, op2, 0);
+    return;
 }
 
 
@@ -507,132 +529,131 @@ void prologue
 */
 
 void epilogue
-    PROTO_N ( ( restore_only ) )
-    PROTO_T ( int restore_only )
+(int restore_only)
 {
-    int r ;
-    bitpattern m ;
-    long st, st1 ;
-    mach_op *op1, *op2 ;
+    int r;
+    bitpattern m;
+    long st, st1;
+    mach_op *op1, *op2;
 
-    int push_all = 0, use_link = 0 ;
-    int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1 ;
+    int push_all = 0, use_link = 0;
+    int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1;
 
-    bitpattern rmsk = regs ( regsinproc & save_msk ) ;
-    bitpattern smsk = rmsk ;
-    bitpattern cmsk = 0 ;
-    bitpattern fmsk = 0 ;
-    bitpattern fsmsk = fregs ( regsinproc & save_msk ) ;
+    bitpattern rmsk = regs(regsinproc & save_msk);
+    bitpattern smsk = rmsk;
+    bitpattern cmsk = 0;
+    bitpattern fmsk = 0;
+    bitpattern fsmsk = fregs(regsinproc & save_msk);
 
     reset_round_mode();  /* restore the default floating point rounding mode */
 
-    for ( r = REG_FP7, m = 1 ; r >= REG_FP2 ; r--, m <<= 1 ) {
-	if ( regsinproc & regmsk ( r ) ) fmsk |= m ;
+    for (r = REG_FP7, m = 1; r >= REG_FP2; r--, m <<= 1) {
+	if (regsinproc & regmsk(r))fmsk |= m;
     }
 
-    if ( no_calls ) {
-	smsk &= ~bigregs ;
-	fsmsk &= ~bigregs ;
+    if (no_calls) {
+	smsk &= ~bigregs;
+	fsmsk &= ~bigregs;
     }
-    if(!restore_only) {
-      make_label ( crt_ret_lab ) ;
+    if (!restore_only) {
+      make_label(crt_ret_lab);
     }
 
 #if have_diagnostics
-    if ( diagnose ) xdb_diag_proc_return () ;
+    if (diagnose)xdb_diag_proc_return();
 #endif
 
-    if ( !output_immediately ) {
-	bool d1_free = 0 ;
+    if (!output_immediately) {
+	bool d1_free = 0;
 
 	/* Use D1 if not already used */
-	if ( !( regsinproc & regmsk ( REG_D1 ) ) ) {
-	    m = smsk & dreg_msk ;
-	    if ( m ) {
+	if (!(regsinproc & regmsk(REG_D1))) {
+	    m = smsk & dreg_msk;
+	    if (m) {
 		/* Replace a used D-register by D1 */
-		r = reg ( m ) ;
-		reg_names [r] = reg_names [ REG_D1 ] ;
-		rmsk &= ~regmsk ( r ) ;
-		smsk &= ~regmsk ( r ) ;
-		cmsk |= regmsk ( r ) ;
+		r = reg(m);
+		reg_names[r] = reg_names[REG_D1];
+		rmsk &= ~regmsk(r);
+		smsk &= ~regmsk(r);
+		cmsk |= regmsk(r);
 	    } else {
-		d1_free = 1 ;
+		d1_free = 1;
 	    }
 	}
 
 	/* Use A0 if not already used */
-	if ( !( regsinproc & regmsk ( REG_A0 ) ) ) {
-	    m = smsk & areg_msk ;
-	    if ( m ) {
+	if (!(regsinproc & regmsk(REG_A0))) {
+	    m = smsk & areg_msk;
+	    if (m) {
 		/* Replace a used A-register by A0 */
-		r = reg ( m ) ;
-		reg_names [r] = reg_names [ REG_A0 ] ;
-		rmsk &= ~regmsk ( r ) ;
-		smsk &= ~regmsk ( r ) ;
-		cmsk |= regmsk ( r ) ;
-	    } else if ( no_calls == 0 ) {
-		m = rmsk & dreg_msk ;
-		if ( m ) {
+		r = reg(m);
+		reg_names[r] = reg_names[REG_A0];
+		rmsk &= ~regmsk(r);
+		smsk &= ~regmsk(r);
+		cmsk |= regmsk(r);
+	    } else if (no_calls == 0) {
+		m = rmsk & dreg_msk;
+		if (m) {
 		    /* Move a used D-register into A0 */
-		    tmp_a0 = reg ( m ) ;
-		    rmsk &= ~regmsk ( tmp_a0 ) ;
-		    smsk = rmsk ;
-		    op1 = make_register ( REG_A0 ) ;
-		    op2 = make_register ( tmp_a0 ) ;
-		    make_instr ( m_movl, op1, op2, regmsk ( tmp_a0 ) ) ;
-		    just_ret = 0 ;
+		    tmp_a0 = reg(m);
+		    rmsk &= ~regmsk(tmp_a0);
+		    smsk = rmsk;
+		    op1 = make_register(REG_A0);
+		    op2 = make_register(tmp_a0);
+		    make_instr(m_movl, op1, op2, regmsk(tmp_a0));
+		    just_ret = 0;
 		}
 	    }
 	}
 
 	/* Use A1 if not already used */
-	if ( !( regsinproc & regmsk ( REG_A1 ) ) ) {
-	    m = smsk & areg_msk ;
-	    if ( m ) {
+	if (!(regsinproc & regmsk(REG_A1))) {
+	    m = smsk & areg_msk;
+	    if (m) {
 		/* Replace a used A-register by A1 */
-		r = reg ( m ) ;
-		reg_names [r] = reg_names [ REG_A1 ] ;
-		rmsk &= ~regmsk ( r ) ;
-		smsk &= ~regmsk ( r ) ;
-		cmsk |= regmsk ( r ) ;
-	    } else if ( no_calls == 0 ) {
-		m = rmsk & dreg_msk ;
-		if ( m ) {
+		r = reg(m);
+		reg_names[r] = reg_names[REG_A1];
+		rmsk &= ~regmsk(r);
+		smsk &= ~regmsk(r);
+		cmsk |= regmsk(r);
+	    } else if (no_calls == 0) {
+		m = rmsk & dreg_msk;
+		if (m) {
 		    /* Move a used D-register into A1 */
-		    tmp_a1 = reg ( m ) ;
-		    rmsk &= ~regmsk ( tmp_a1 ) ;
-		    smsk = rmsk ;
-		    op1 = make_register ( REG_A1 ) ;
-		    op2 = make_register ( tmp_a1 ) ;
-		    make_instr ( m_movl, op1, op2, regmsk ( tmp_a1 ) ) ;
-		    just_ret = 0 ;
+		    tmp_a1 = reg(m);
+		    rmsk &= ~regmsk(tmp_a1);
+		    smsk = rmsk;
+		    op1 = make_register(REG_A1);
+		    op2 = make_register(tmp_a1);
+		    make_instr(m_movl, op1, op2, regmsk(tmp_a1));
+		    just_ret = 0;
 		}
 	    }
 	}
 
 	/* Use FP1 if not already used */
-	if ( !( regsinproc & regmsk ( REG_FP1 ) ) ) {
-	    for ( r = REG_FP7, m = 1 ; r >= REG_FP2 ; r--, m <<= 1 ) {
-		if ( fsmsk & regmsk ( r ) ) {
-		    reg_names [r] = reg_names [ REG_FP1 ] ;
-		    fmsk &= ~m ;
-		    fsmsk &= ~regmsk ( r ) ;
-		    cmsk |= regmsk ( r ) ;
-		    r = REG_FP1 ;
+	if (!(regsinproc & regmsk(REG_FP1))) {
+	    for (r = REG_FP7, m = 1; r >= REG_FP2; r--, m <<= 1) {
+		if (fsmsk & regmsk(r)) {
+		    reg_names[r] = reg_names[REG_FP1];
+		    fmsk &= ~m;
+		    fsmsk &= ~regmsk(r);
+		    cmsk |= regmsk(r);
+		    r = REG_FP1;
 		}
 	    }
 	}
 
-	if ( d1_free && no_calls == 0 ) {
-	    m = rmsk & areg_msk ;
-	    if ( m ) {
+	if (d1_free && no_calls == 0) {
+	    m = rmsk & areg_msk;
+	    if (m) {
 		/* Move a used A-register into D1 */
-		tmp_d1 = reg ( m ) ;
-		rmsk &= ~regmsk ( tmp_d1 ) ;
-		op1 = make_register ( REG_D1 ) ;
-		op2 = make_register ( tmp_d1 ) ;
-		make_instr ( m_movl, op1, op2, regmsk ( tmp_d1 ) ) ;
-		just_ret = 0 ;
+		tmp_d1 = reg(m);
+		rmsk &= ~regmsk(tmp_d1);
+		op1 = make_register(REG_D1);
+		op2 = make_register(tmp_d1);
+		make_instr(m_movl, op1, op2, regmsk(tmp_d1));
+		just_ret = 0;
 	    }
 	}
 
@@ -640,139 +661,139 @@ void epilogue
 
     /* Calculate stack displacements */
 /* todo use symbol instead of number */
-    st1 = round ( max_stack, 32 ) / 8 + 16 * bits_in ( fmsk ) ;
-    st = st1 + 4 * bits_in ( rmsk ) ;
-    if ( st1 || used_stack || !push_all || output_immediately ) use_link = 1 ;
+    st1 = round(max_stack, 32) / 8 + 16 * bits_in(fmsk);
+    st = st1 + 4 * bits_in(rmsk);
+    if (st1 || used_stack || !push_all || output_immediately)use_link = 1;
 
     /* Remove floating-point registers from the stack */
-    if ( fmsk ) {
-	just_ret = 0 ;
-	op1 = make_indirect ( REG_AP, -st1 ) ;
-	op2 = make_hex_value ( fmsk ) ;
-	make_instr ( m_fmovemx, op1, op2, 0 ) ;
+    if (fmsk) {
+	just_ret = 0;
+	op1 = make_indirect(REG_AP, -st1);
+	op2 = make_hex_value(fmsk);
+	make_instr(m_fmovemx, op1, op2, 0);
     }
 
     /* Remove registers from the stack */
-    if ( rmsk ) {
-	just_ret = 0 ;
-	if ( push_all ) {
-	    for ( r = REG_AP - 1 ; r > REG_D1 ; r-- ) {
-		if ( rmsk & regmsk ( r ) ) {
-		    op1 = make_inc_sp () ;
-		    op2 = make_register ( r ) ;
-		    make_instr ( m_movl, op1, op2, regmsk ( r ) ) ;
+    if (rmsk) {
+	just_ret = 0;
+	if (push_all) {
+	    for (r = REG_AP - 1; r > REG_D1; r--) {
+		if (rmsk & regmsk(r)) {
+		    op1 = make_inc_sp();
+		    op2 = make_register(r);
+		    make_instr(m_movl, op1, op2, regmsk(r));
 		}
 	    }
 	} else {
-	    if ( must_use_bp ) {
-		op1 = make_indirect ( REG_AP, -st ) ;
+	    if (must_use_bp) {
+		op1 = make_indirect(REG_AP, -st);
 	    } else {
-		op1 = make_indirect ( REG_SP, 0 ) ;
+		op1 = make_indirect(REG_SP, 0);
 	    }
-	    op2 = make_hex_value ( rmsk ) ;
-	    make_instr ( m_moveml, op1, op2, rmsk ) ;
-	    just_ret = 0 ;
+	    op2 = make_hex_value(rmsk);
+	    make_instr(m_moveml, op1, op2, rmsk);
+	    just_ret = 0;
 	}
     }
 
     /* Output unlink instruction */
-    if ( use_link ) {
-	just_ret = 0 ;
-	op1 = make_register ( REG_AP ) ;
-	make_instr ( m_unlk, op1, null, 0 ) ;
+    if (use_link) {
+	just_ret = 0;
+	op1 = make_register(REG_AP);
+	make_instr(m_unlk, op1, null, 0);
     }
-    if(!restore_only) {
+    if (!restore_only) {
       /* Output return instruction */
-      make_instr ( m_rts, null, null, 0 ) ;
+      make_instr(m_rts, null, null, 0);
     }
 
-    if ( output_immediately ) {
+    if (output_immediately) {
 
 	/* Output stack displacement value */
-	if ( used_ldisp ) {
-	    op1 = make_int_data ( use_link ? st + 4 : st ) ;
-	    set_special ( "S", op1 ) ;
+	if (used_ldisp) {
+	    op1 = make_int_data(use_link ? st + 4 : st);
+	    set_special("S", op1);
 	}
 
 	/* Output values used in prologue */
-	just_ret = 0 ;
-	op1 = make_int_data ( -st ) ;
-	set_special ( "PA", op1 ) ;
-	op1 = make_hex_data ( rmsk ) ;
-	set_special ( "PB", op1 ) ;
-	op1 = make_hex_data ( fmsk ) ;
-	set_special ( "PC", op1 ) ;
-	op1 = make_int_data ( -st1 ) ;
-	set_special ( "PD", op1 ) ;
+	just_ret = 0;
+	op1 = make_int_data(-st);
+	set_special("PA", op1);
+	op1 = make_hex_data(rmsk);
+	set_special("PB", op1);
+	op1 = make_hex_data(fmsk);
+	set_special("PC", op1);
+	op1 = make_int_data(-st1);
+	set_special("PD", op1);
 
-    } else if(!restore_only){
+    } else if (!restore_only) {
 
 	/* Go back to the prologue position */
-	mach_ins *p = current_ins ;
-	current_ins = prologue_ins ;
+	mach_ins *p = current_ins;
+	current_ins = prologue_ins;
 
-        cur_proc_env_size = ldisp = ( use_link ? st + 4 : st ) ;
+        cur_proc_env_size = ldisp = (use_link ? st + 4 : st);
 
 	/* Output link instruction */
-	if ( use_link ) {
-	    long c = ( push_all ? -st1 : -st ) ;
-	    int i = ( c < -0x7fff ? m_linkl : m_linkw ) ;
-	    op1 = make_register ( REG_AP ) ;
-	    op2 = make_value ( c ) ;
-	    make_instr ( i, op1, op2, 0 ) ;
+	if (use_link) {
+	    long c = (push_all ? -st1 : -st);
+	    int i = (c < -0x7fff ? m_linkl : m_linkw);
+	    op1 = make_register(REG_AP);
+	    op2 = make_value(c);
+	    make_instr(i, op1, op2, 0);
 	}
 
 	/* Save register in D1 if necessary */
-	if ( tmp_d1 >= 0 ) {
-	    op1 = make_register ( tmp_d1 ) ;
-	    op2 = make_register ( REG_D1 ) ;
-	    make_instr ( m_movl, op1, op2, regmsk ( REG_D1 ) ) ;
+	if (tmp_d1 >= 0) {
+	    op1 = make_register(tmp_d1);
+	    op2 = make_register(REG_D1);
+	    make_instr(m_movl, op1, op2, regmsk(REG_D1));
 	}
 
 	/* Save register in A0 if necessary */
-	if ( tmp_a0 >= 0 ) {
-	    op1 = make_register ( tmp_a0 ) ;
-	    op2 = make_register ( REG_A0 ) ;
-	    make_instr ( m_movl, op1, op2, regmsk ( REG_A0 ) ) ;
+	if (tmp_a0 >= 0) {
+	    op1 = make_register(tmp_a0);
+	    op2 = make_register(REG_A0);
+	    make_instr(m_movl, op1, op2, regmsk(REG_A0));
 	}
 
 	/* Save register in A1 if necessary */
-	if ( tmp_a1 >= 0 ) {
-	    op1 = make_register ( tmp_a1 ) ;
-	    op2 = make_register ( REG_A1 ) ;
-	    make_instr ( m_movl, op1, op2, regmsk ( REG_A1 ) ) ;
+	if (tmp_a1 >= 0) {
+	    op1 = make_register(tmp_a1);
+	    op2 = make_register(REG_A1);
+	    make_instr(m_movl, op1, op2, regmsk(REG_A1));
 	}
 
 	/* Put registers onto the stack */
-	if ( rmsk ) {
-	    if ( push_all ) {
-		for ( r = REG_D1 + 1 ; r < REG_AP ; r++ ) {
-		    if ( rmsk & regmsk ( r ) ) {
-			op1 = make_register ( r ) ;
-			op2 = make_dec_sp () ;
-			make_instr ( m_movl, op1, op2, 0 ) ;
+	if (rmsk) {
+	    if (push_all) {
+		for (r = REG_D1 + 1; r < REG_AP; r++) {
+		    if (rmsk & regmsk(r)) {
+			op1 = make_register(r);
+			op2 = make_dec_sp();
+			make_instr(m_movl, op1, op2, 0);
 		    }
 		}
 	    } else {
-		op1 = make_hex_value ( rmsk ) ;
-		op2 = make_indirect ( REG_SP, 0 ) ;
-		make_instr ( m_moveml, op1, op2, 0 ) ;
+		op1 = make_hex_value(rmsk);
+		op2 = make_indirect(REG_SP, 0);
+		make_instr(m_moveml, op1, op2, 0);
 	    }
 	}
 
 	/* Put floating-point registers onto the stack */
-	if ( fmsk ) {
-	    op1 = make_hex_value ( fmsk ) ;
-	    op2 = make_indirect ( REG_AP, -st1 ) ;
-	    make_instr ( m_fmovemx, op1, op2, 0 ) ;
+	if (fmsk) {
+	    op1 = make_hex_value(fmsk);
+	    op2 = make_indirect(REG_AP, -st1);
+	    make_instr(m_fmovemx, op1, op2, 0);
 	}
 
 	/* Return to previous position */
-	current_ins = p ;
+	current_ins = p;
     }
-    callmsk = cmsk ;
-    have_cond = 0 ;
-    return ;
+    callmsk = cmsk;
+    have_cond = 0;
+    return;
 }
 
 
@@ -800,7 +821,7 @@ void epilogue
     The flag used_my_mcount is set to be true if Lmcount is used.
 */
 
-static bool used_my_mcount = 0 ;
+static bool used_my_mcount = 0;
 
 
 /*
@@ -811,42 +832,41 @@ static bool used_my_mcount = 0 ;
 */
 
 void out_profile
-    PROTO_N ( ( save_a1 ) )
-    PROTO_T ( bool save_a1 )
+(bool save_a1)
 {
-    exp z ;
-    mach_op *op1, *op2 ;
+    exp z;
+    mach_op *op1, *op2;
     /* Make a new label */
-    long lb = next_lab () ;
+    long lb = next_lab();
 
-    if ( profiling_uses_lea ) {
-	op1 = make_lab_data ( lb, 0 ) ;
-	op2 = make_register ( profiling_reg ) ;
-	make_instr ( m_lea, op1, op2, regmsk ( profiling_reg ) ) ;
+    if (profiling_uses_lea) {
+	op1 = make_lab_data(lb, 0);
+	op2 = make_register(profiling_reg);
+	make_instr(m_lea, op1, op2, regmsk(profiling_reg));
     } else {
-	op1 = make_lab ( lb, 0 ) ;
-	op2 = make_register ( profiling_reg ) ;
-	make_instr ( m_movl, op1, op2, regmsk ( profiling_reg ) ) ;
+	op1 = make_lab(lb, 0);
+	op2 = make_register(profiling_reg);
+	make_instr(m_movl, op1, op2, regmsk(profiling_reg));
     }
 
-    if ( save_a1 ) {
+    if (save_a1) {
 	/* Call dummy version of mcount - see below */
-	libcall ( "Lmcount" ) ;
+	libcall("Lmcount");
 	/* Restore the value of A1 */
-	op1 = make_extern_ind ( "Lmstore", 0 ) ;
-	op2 = make_register ( REG_A1 ) ;
-	make_instr ( m_movl, op1, op2, regmsk ( REG_A1 ) ) ;
-	used_my_mcount = 1 ;
+	op1 = make_extern_ind("Lmstore", 0);
+	op2 = make_register(REG_A1);
+	make_instr(m_movl, op1, op2, regmsk(REG_A1));
+	used_my_mcount = 1;
     } else {
 	/* Call mcount */
-	libcall ( profiling_routine ) ;
+	libcall(profiling_routine);
     }
 
     /* Set up the label to point to 0 */
-    z = simple_exp ( val_tag ) ;
-    sh ( z ) = slongsh ;
-    make_constant ( lb, z ) ;
-    return ;
+    z = simple_exp(val_tag);
+    sh(z) = slongsh;
+    make_constant(lb, z);
+    return;
 }
 
 
@@ -858,22 +878,22 @@ void out_profile
 */
 
 void profile_hack
-    PROTO_Z ()
+(void)
 {
-    mach_op *op1, *op2 ;
-    if ( !used_my_mcount ) return ;
-    area ( ptext ) ;
-    make_external_label ( "Lmcount" ) ;
-    op1 = make_register ( REG_A1 ) ;
-    op2 = make_extern_ind ( "Lmstore", 0 ) ;
-    make_instr ( m_movl, op1, op2, 0 ) ;
-    op1 = make_extern_data ( profiling_routine, 0 ) ;
-    make_instr ( m_jmp, op1, null, 0 ) ;
-    area ( pdata ) ;
-    make_external_label ( "Lmstore" ) ;
-    op1 = make_int_data ( 0 ) ;
-    make_instr ( m_as_long, op1, null, 0 ) ;
-    return ;
+    mach_op *op1, *op2;
+    if (!used_my_mcount) return;
+    area(ptext);
+    make_external_label("Lmcount");
+    op1 = make_register(REG_A1);
+    op2 = make_extern_ind("Lmstore", 0);
+    make_instr(m_movl, op1, op2, 0);
+    op1 = make_extern_data(profiling_routine, 0);
+    make_instr(m_jmp, op1, null, 0);
+    area(pdata);
+    make_external_label("Lmstore");
+    op1 = make_int_data(0);
+    make_instr(m_as_long, op1, null, 0);
+    return;
 }
 
 #if 0
@@ -886,141 +906,140 @@ void profile_hack
 */
 
 void cproc
-    PROTO_N ( ( p, pname, cname, is_ext, reg_res, di ) )
-    PROTO_T ( exp p X char *pname X long cname X int is_ext X int reg_res X diag_global *di )
+(exp p, char *pname, long cname, int is_ext, int reg_res, diag_global *di)
 {
-    exp t ;
-    ash stack ;
-    ash param_pos ;
-    mach_op *op1, *op2 ;
-    static long crt_proc_no = 0 ;
+    exp t;
+    ash stack;
+    ash param_pos;
+    mach_op *op1, *op2;
+    static long crt_proc_no = 0;
 
 #ifndef tdf3
     cur_proc_has_tail_call = 0;
     cur_proc_use_same_callees = 0;
     scan2(1, p, p);
-    comp_weights ( p ) ;
+    comp_weights(p);
 #endif
 
     /* Set up flags, register masks, stack etc. */
-    bigregs = 0 ;
-    crt_ret_lab = next_lab () ;
-    extra_stack = 0 ;
-    have_cond = 0 ;
-    max_stack = 0 ;
-    no_calls = 0 ;
-    regsinproc = 0 ;
-    regsinuse = 0 ;
-    reuseables = 0 ;
-    regsindec = 0 ;
-    stack = 0 ;
-    special_no = crt_proc_no++ ;
-    stack_dec = 0 ;
-    stack_size = 0 ;
-    used_ldisp = 0 ;
-    used_stack = diagnose || must_use_bp ;
+    bigregs = 0;
+    crt_ret_lab = next_lab();
+    extra_stack = 0;
+    have_cond = 0;
+    max_stack = 0;
+    no_calls = 0;
+    regsinproc = 0;
+    regsinuse = 0;
+    reuseables = 0;
+    regsindec = 0;
+    stack = 0;
+    special_no = crt_proc_no++;
+    stack_dec = 0;
+    stack_size = 0;
+    used_ldisp = 0;
+    used_stack = diagnose || must_use_bp;
 
     /* Mark procedure body */
-    ptno ( p ) = par_pl ;
-    no ( p ) = 0 ;
+    ptno(p) = par_pl;
+    no(p) = 0;
 
     /* Mark procedure parameters */
-    param_pos = 0 ;
-    t = son ( p ) ;
-    while ( name ( t ) == ident_tag && isparam ( t ) ) {
-	ast a ;
-	a = add_shape_to_stack ( param_pos, sh ( son ( t ) ) ) ;
-	ptno ( t ) = par_pl ;
-	no ( t ) = a.astoff + a.astadj ;
-	param_pos = a.astash ;
+    param_pos = 0;
+    t = son(p);
+    while (name(t) == ident_tag && isparam(t)) {
+	ast a;
+	a = add_shape_to_stack(param_pos, sh(son(t)));
+	ptno(t) = par_pl;
+	no(t) = a.astoff + a.astadj;
+	param_pos = a.astash;
 
-        make_visible( t ) ;
+        make_visible(t);
 
-	t = bro ( son ( t ) ) ;
+	t = bro(son(t));
     }
 
     /* Output procedure name(s) */
-    area ( ptext ) ;
+    area(ptext);
 #ifndef no_align_directives
-    make_instr ( m_as_align4, null, null, 0 ) ;
+    make_instr(m_as_align4, null, null, 0);
 #endif
-    if ( is_ext && pname ) {
-	if ( strcmp ( pname, "_cmppt" ) == 0 ) {
+    if (is_ext && pname) {
+	if (strcmp(pname, "_cmppt") == 0) {
 	    /* Hack to get alignments right */
-	    make_instr ( m_nop, null, null, 0 ) ;
-	    make_instr ( m_nop, null, null, 0 ) ;
+	    make_instr(m_nop, null, null, 0);
+	    make_instr(m_nop, null, null, 0);
 	}
-	op1 = make_extern_data ( pname, 0 ) ;
-	make_instr ( m_as_global, op1, null, 0 ) ;
+	op1 = make_extern_data(pname, 0);
+	make_instr(m_as_global, op1, null, 0);
     }
-    if ( cname == -1 ) {
-	make_external_label ( pname ) ;
+    if (cname == -1) {
+	make_external_label(pname);
     } else {
-	make_label ( cname ) ;
+	make_label(cname);
     }
 
     /* Output profiling information if required */
-    if ( do_profile ) {
-	out_profile ( !reg_res ) ;
-	used_stack = 1 ;
+    if (do_profile) {
+	out_profile(!reg_res);
+	used_stack = 1;
     }
 
     /* Set up procedure prologue */
-    prologue () ;
+    prologue();
 
     /* Output PIC prologue if necessary */
-    if ( do_pic && proc_uses_external ( p ) ) {
-	regsinproc |= regmsk ( REG_A5 ) ;
-	regsinuse |= regmsk ( REG_A5 ) ;
-	bigregs |= regmsk ( REG_A5 ) ;
-	op1 = make_indirect ( REG_PC, 0 ) ;
-	op1->of->plus = make_extern_data ( "_GLOBAL_OFFSET_TABLE_@GOTPC", 0 ) ;
-	op2 = make_register ( REG_A5 ) ;
-	make_instr ( m_lea, op1, op2, regmsk ( REG_A5 ) ) ;
+    if (do_pic && proc_uses_external(p)) {
+	regsinproc |= regmsk(REG_A5);
+	regsinuse |= regmsk(REG_A5);
+	bigregs |= regmsk(REG_A5);
+	op1 = make_indirect(REG_PC, 0);
+	op1->of->plus = make_extern_data("_GLOBAL_OFFSET_TABLE_@GOTPC", 0);
+	op2 = make_register(REG_A5);
+	make_instr(m_lea, op1, op2, regmsk(REG_A5));
     }
 
     /* Diagnostics for start of procedure */
 #if have_diagnostics
-    if ( di ) xdb_diag_proc_begin ( di, p, pname, cname, is_ext ) ;
+    if (di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
 #endif
 
     /* Allow for procedures which return compound results */
-    if ( !reg_res ) {
+    if (!reg_res) {
 	/* Save A1 on the stack */
-	ast newstack ;
-	newstack = add_shape_to_stack ( stack, slongsh ) ;
-	stack = newstack.astash ;
-	max_stack = 32 ;
-	used_stack = 1 ;
-	op1 = make_register ( REG_A1 ) ;
-	op2 = make_indirect ( REG_AP, -4 ) ;
-	make_instr ( m_movl, op1, op2, 0 ) ;
+	ast newstack;
+	newstack = add_shape_to_stack(stack, slongsh);
+	stack = newstack.astash;
+	max_stack = 32;
+	used_stack = 1;
+	op1 = make_register(REG_A1);
+	op2 = make_indirect(REG_AP, -4);
+	make_instr(m_movl, op1, op2, 0);
     }
 
     /* Encode the procedure body */
 #if have_diagnostics
-    if ( diagnose ) {
-	dnt_begin () ;
-	coder ( zero, stack, t ) ;
-	dnt_end () ;
+    if (diagnose) {
+	dnt_begin();
+	coder(zero, stack, t);
+	dnt_end();
     } else
 #endif
-    coder ( zero, stack, t ) ;
+    coder(zero, stack, t);
 
     /* Output the procedure epilogue */
 #ifndef tdf3
-    general_epilogue ( 0, 0 );
+    general_epilogue(0, 0);
 #else
-    epilogue (0) ;
+    epilogue(0);
 #endif
     /* Apply peephole optimizations and return */
-    if ( do_peephole ) peephole () ;
+    if (do_peephole)peephole();
 
     /* Diagnostics for end of procedure */
 #if have_diagnostics
-    if ( di ) xdb_diag_proc_end ( di ) ;
+    if (di)xdb_diag_proc_end(di);
 #endif
-    return ;
+    return;
 }
 
 #endif

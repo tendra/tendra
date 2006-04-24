@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -147,7 +177,7 @@ $Log: diagout.c,v $
 #define CSTRING(tdfstring)	((tdfstring).ints.chars)
 
 /* tdf exp -> C int */
-#define EXPINT(exp)		(ASSERT(name(exp) == val_tag) , no(exp))
+#define EXPINT(exp)		(ASSERT(name(exp) == val_tag), no(exp))
 
 /* tdf nat -> C int */
 #define NATINT(n)		((n).nat_val.small_nat)
@@ -159,10 +189,10 @@ $Log: diagout.c,v $
  * stabstring TypeNo if type has already been output.
  */
 
-#define	CLR_OUTED_NO(dt)	((dt)->been_outed = (OUTPUT_REC)0)
-#define	SET_OUTED_NO(dt,i)	((dt)->been_outed = (OUTPUT_REC)(i))
-#define	OUTED_NO(dt)		((int)(dt)->been_outed)
-#define	IS_OUTED(dt)		((dt)->been_outed != 0)
+#define	CLR_OUTED_NO(dt)	((dt) ->been_outed = (OUTPUT_REC)0)
+#define	SET_OUTED_NO(dt,i)	((dt) ->been_outed = (OUTPUT_REC)(i))
+#define	OUTED_NO(dt)		((int)(dt) ->been_outed)
+#define	IS_OUTED(dt)		((dt) ->been_outed != 0)
 
 
 /*
@@ -200,7 +230,7 @@ static int nofds = 0;		/* how many are known */
  * (See function OUTPUT_DIAG_TAGS)
  */
 
-static diag_tagdef **su_diags = (diag_tagdef **) 0;
+static diag_tagdef **su_diags = (diag_tagdef **)0;
 static int no_of_sus = 0;
 static int leng_sus = 0;
 
@@ -209,7 +239,7 @@ static int leng_sus = 0;
  * (See function OUTPUT_GLOBALS_TAB)
  */
 
-static diag_descriptor **typedef_diags = (diag_descriptor ** ) 0;
+static diag_descriptor **typedef_diags = (diag_descriptor **)0;
 static int no_of_typedefs = 0;
 static int leng_typedefs = 0;
 
@@ -225,51 +255,51 @@ static shape tokensh;		/* shape for TDF tokenised type */
  * Static procs.
  */
 
-static diag_descriptor *find_dd PROTO_S ((exp));
-static int find_file PROTO_S ((char *));
-static void stab_relativeline PROTO_S ((CONST char *));
-static void stab_begin_block PROTO_S ((void));
-static void stab_end_block PROTO_S ((void));
-static void stabn PROTO_S ((int, int));
-static void stab_file PROTO_S ((int));
-static void diagbr_open PROTO_S ((int));
-static void diagbr_close PROTO_S ((int));
-static int next_typen PROTO_S ((void));
-static int TypeNo_of_shape PROTO_S ((shape));
-static bool eq_sutype PROTO_S ((diag_type, diag_type));
-static bool eq_typedef_type PROTO_S ((diag_descriptor *,diag_descriptor *));
-static int size_dt PROTO_S ((diag_type));
-static void out_dt_TypeDef_no_recurse PROTO_S ((diag_type));
-static void out_dt_TypeDef PROTO_S ((diag_type));
-static void out_dt_NewTypeId PROTO_S ((diag_type, int));
-static void out_dt_TypeId PROTO_S ((diag_type));
-static void stab_internal_types PROTO_S ((diag_type, bool));
-static void stab_types PROTO_S ((void));
+static diag_descriptor *find_dd(exp);
+static int find_file(char *);
+static void stab_relativeline(CONST char *);
+static void stab_begin_block(void);
+static void stab_end_block(void);
+static void stabn(int, int);
+static void stab_file(int);
+static void diagbr_open(int);
+static void diagbr_close(int);
+static int next_typen(void);
+static int TypeNo_of_shape(shape);
+static bool eq_sutype(diag_type, diag_type);
+static bool eq_typedef_type(diag_descriptor *,diag_descriptor *);
+static int size_dt(diag_type);
+static void out_dt_TypeDef_no_recurse(diag_type);
+static void out_dt_TypeDef(diag_type);
+static void out_dt_NewTypeId(diag_type, int);
+static void out_dt_TypeId(diag_type);
+static void stab_internal_types(diag_type, bool);
+static void stab_types(void);
 
-static void number_and_stab_basicshapes PROTO_S ((void));
-static void number_structs_and_unions PROTO_S ((void));
-static void stab_structs_and_unions PROTO_S ((void));
-static void number_typedefs PROTO_S ((void));
-static void stab_typedefs PROTO_S ((void));
-static void stab_basicshape PROTO_S ((shape,char * ,int,int));
+static void number_and_stab_basicshapes(void);
+static void number_structs_and_unions(void);
+static void stab_structs_and_unions(void);
+static void number_typedefs(void);
+static void stab_typedefs(void);
+static void stab_basicshape(shape,char * ,int,int);
 
-  
+
 /*(See diag_config.h)
  * remember a filename so that find_file() can map onto filename number
  */
-void INSPECT_FILENAME PROTO_N ((f)) PROTO_T (filename f)
+void INSPECT_FILENAME(filename f)
 {
-  FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds, (int) CSTRING(f->file));
-  
-  if (fds == (filename *) 0)
+  FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
+
+  if (fds == (filename *)0)
   {
-    fds = (filename *) xmalloc((szfds += 5) * sizeof (filename));
+    fds = (filename *)xmalloc((szfds += 5)* sizeof(filename));
   }
   else if (nofds >= szfds)
   {
-    fds = (filename *) xrealloc(fds, (szfds += 5) * sizeof (filename));
+    fds = (filename *)xrealloc(fds,(szfds += 5)* sizeof(filename));
   }
-  
+
   fds[nofds] = f;
 
   /*
@@ -280,9 +310,9 @@ void INSPECT_FILENAME PROTO_N ((f)) PROTO_T (filename f)
   {
     /* use heuristic to see if this is 'main source file' */
     char *lastdot = strrchr(CSTRING(f->file), '.');
-    
+
     /* XXX.h not considered 'main source file' */
-    if (lastdot != 0 && lastdot[1] != 'h')
+    if (lastdot != 0 && lastdot[1]!= 'h')
       mainfile_fd = nofds;
   }
 
@@ -293,28 +323,28 @@ void INSPECT_FILENAME PROTO_N ((f)) PROTO_T (filename f)
 /*(See diag_config.h)
  * outputs structs & unions from global level types
  */
-void OUTPUT_DIAG_TAGS PROTO_Z ()
+void OUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef **di = unit_ind_diagtags;
   unsigned int n = unit_no_of_diagtags;
   int i;
   int il = no_of_sus; /* There should be no clashes within a single unit so we save a bit of time here */
-  
+
   for (i = 0; i < n; ++i)
   {
-    diag_type d = di[i]->d_type;
-    
+    diag_type d = di[i] ->d_type;
+
     switch (d->key)
     {
      case DIAG_TYPE_STRUCT:
      case DIAG_TYPE_UNION:
       {
 	int j;
-	
+
 	for (j = 0; j < il; j++)
 	{
 	  /* Check we have not done already */
-	  if (eq_sutype(d, su_diags[j]->d_type))
+	  if (eq_sutype(d, su_diags[j] ->d_type))
 	  {
 	    break;
 	  }
@@ -325,13 +355,13 @@ void OUTPUT_DIAG_TAGS PROTO_Z ()
 	}
 	if (no_of_sus >= leng_sus)
 	{
-	  if (su_diags == (diag_tagdef **) 0)
+	  if (su_diags == (diag_tagdef **)0)
 	  {
-	    su_diags=(diag_tagdef**)xmalloc((leng_sus+=20)*sizeof(diag_tagdef*));
+	    su_diags= (diag_tagdef**)xmalloc((leng_sus+=20)*sizeof(diag_tagdef*));
 	  }
 	  else
 	  {
-	    su_diags=(diag_tagdef**)xrealloc(su_diags,(leng_sus+=20)*sizeof(diag_tagdef*));
+	    su_diags= (diag_tagdef**)xrealloc(su_diags,(leng_sus+=20)*sizeof(diag_tagdef*));
 	  }
 	}
 	/* Set up the appropriate member of the su_diags array */
@@ -347,49 +377,49 @@ void OUTPUT_DIAG_TAGS PROTO_Z ()
 /*
  * Collects information
  */
-void OUTPUT_GLOBALS_TAB PROTO_Z ()
+void OUTPUT_GLOBALS_TAB(void)
 {
   diag_descriptor * unit_typedef_array = unit_diagvar_tab.array;
   unsigned int no_of_typedefs_in_unit =unit_diagvar_tab.lastused;
   int i;
   int il = no_of_typedefs;
-  
-  for(i=0 ; i<=no_of_typedefs_in_unit ; i++)
+
+  for (i=0; i<=no_of_typedefs_in_unit; i++)
   {
     diag_descriptor * dd = unit_typedef_array + i;
-    
+
     switch (dd->key)
     {
      case DIAG_TYPEDEF_KEY:
       {
 	int j;
-	
+
 	/* Check that we have not done already */
-	for(j=0; j < il ; j++)
+	for (j=0; j < il; j++)
 	{
-	  if(eq_typedef_type(dd,typedef_diags[j]))
+	  if (eq_typedef_type(dd,typedef_diags[j]))
 	  {
 	    break;
 	  }
 	}
-	if( j != il )
+	if (j != il)
 	{
 	  break;
 	}
-	
+
 	/* We have a new one */
 	if (no_of_typedefs >= leng_typedefs)
-	{ 
-	  if(typedef_diags == (diag_descriptor **) 0)
+	{
+	  if (typedef_diags == (diag_descriptor **)0)
 	  {
-	    typedef_diags = (diag_descriptor **)xmalloc ((leng_typedefs+=20)*sizeof(diag_descriptor *));
+	    typedef_diags = (diag_descriptor **)xmalloc((leng_typedefs+=20)*sizeof(diag_descriptor *));
 	  }
 	  else
 	  {
 	    typedef_diags = (diag_descriptor **)xrealloc(typedef_diags,(leng_typedefs+=20)*sizeof(diag_descriptor *));
 	  }
 	}
-	typedef_diags[no_of_typedefs++]=dd;
+	typedef_diags[no_of_typedefs++] =dd;
       }
       break;
      default:
@@ -398,8 +428,8 @@ void OUTPUT_GLOBALS_TAB PROTO_Z ()
   }
 }
 
- 
-static void number_and_stab_basicshapes PROTO_Z ()
+
+static void number_and_stab_basicshapes(void)
 {
   /* NOTE: char is unsigned char */
   stab_basicshape(scharsh ,"signed char"   , TYPEID_SCHAR , TP_SCHAR);
@@ -437,45 +467,45 @@ static void number_and_stab_basicshapes PROTO_Z ()
 #endif
 }
 
-static void number_structs_and_unions PROTO_Z ()
+static void number_structs_and_unions(void)
 {
   int i;
-  
+
   for (i = 0; i < no_of_sus; ++i)
   {
-    SET_OUTED_NO(su_diags[i]->d_type, next_typen());
+    SET_OUTED_NO(su_diags[i] ->d_type, next_typen());
   }
 }
-static void number_typedefs PROTO_Z ()
+static void number_typedefs(void)
 {
   int i;
-  
+
   for (i=0;i<no_of_typedefs; i++)
   {
-    if (!IS_OUTED(typedef_diags[i]->data.typ.new_type))
+    if (!IS_OUTED(typedef_diags[i] ->data.typ.new_type))
     {
-      SET_OUTED_NO(typedef_diags[i]->data.typ.new_type,next_typen());
+      SET_OUTED_NO(typedef_diags[i] ->data.typ.new_type,next_typen());
     }
   }
 }
-  
-static void stab_structs_and_unions PROTO_Z ()
+
+static void stab_structs_and_unions(void)
 {
   int i;
-  
+
   for (i = 0; i < no_of_sus; ++i)
   {
     int non;
-    diag_type dt = su_diags[i]->d_type;
+    diag_type dt = su_diags[i] ->d_type;
     char *nme = (dt->key == DIAG_TYPE_STRUCT)
 			? CSTRING(dt->data.t_struct.nme)
 			: CSTRING(dt->data.t_union.nme);
 
-    COMMENT2("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT, (int) nme);
+    COMMENT2("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT,(int)nme);
 
     stab_internal_types(dt, 0);
 
-    if (nme == (char *) 0 || *nme == (char) 0)
+    if (nme == (char *)0 || *nme == (char)0)
     {
       /*
        * Output unnamed object here for 2 reasons:
@@ -498,11 +528,11 @@ static void stab_structs_and_unions PROTO_Z ()
 
     fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
-}  
-static void stab_typedefs PROTO_Z ()
+}
+static void stab_typedefs(void)
 {
   int i;
-  for(i=0;i<no_of_typedefs;i++)
+  for (i=0;i<no_of_typedefs;i++)
   {
     diag_descriptor * dd = typedef_diags[i];
     int non;
@@ -511,11 +541,11 @@ static void stab_typedefs PROTO_Z ()
     ASSERT(CSTRING(dd->data.typ.nme)[0]!=0);/* Not an empty string */
 
     fprintf(as_file, "\t.stabx\t\"%s:t", CSTRING(dd->data.typ.nme));
-    
+
     non = OUTED_NO(dt);
     CLR_OUTED_NO(dt);			/* avoid identity */
     out_dt_NewTypeId(dt, non);
-    
+
     fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
 }
@@ -523,10 +553,10 @@ static void stab_typedefs PROTO_Z ()
 /*
  * init_diag - used by translate_capsule() to initialise diagnostics.
  */
-void init_diag PROTO_Z ()
+void init_diag(void)
 {
-  /* 
-   * Initialisation of diagnostics 
+  /*
+   * Initialisation of diagnostics
    */
   current_fileno = UNKNOWN;
   current_procstart_lineno = NOT_IN_PROC;
@@ -549,7 +579,7 @@ void init_diag PROTO_Z ()
  * the name is already in use, eg possibly from nested C static
  * we change the name to "S.NNN.name" to add meaning, but stay unique.
  */
-void fixup_name PROTO_N ((global,top_def,crt_def)) PROTO_T (exp global X dec * top_def X dec * crt_def)
+void fixup_name(exp global, dec * top_def, dec * crt_def)
 {
   diag_descriptor *dd;
   dec *d;
@@ -561,14 +591,14 @@ void fixup_name PROTO_N ((global,top_def,crt_def)) PROTO_T (exp global X dec * t
    * Any name not starting with local_prefix is special, leave it.
    */
   if (crt_def->dec_u.dec_val.extnamed ||
-      id[0] != local_prefix[0] || id[1] != local_prefix[1])
+      id[0]!= local_prefix[0] || id[1]!= local_prefix[1])
   {
     return;			/* externs have correct name currently */
   }
 
   dd = find_dd(global);
 
-  if (dd == (diag_descriptor *) 0)
+  if (dd == (diag_descriptor *)0)
   {
     /* eg string constant or currently static within proc */
     FULLCOMMENT("correct_name: no descriptor");
@@ -578,7 +608,7 @@ void fixup_name PROTO_N ((global,top_def,crt_def)) PROTO_T (exp global X dec * t
   nm = CSTRING(dd->data.id.nme);
 
   /* search def chain to see if name is already used as assembler label */
-  for (d = top_def; d != crt_def && d != (dec *) 0; d = d->def_next)
+  for (d = top_def; d != crt_def && d != (dec *)0; d = d->def_next)
   {
     if (strcmp(nm, d->dec_u.dec_val.dec_id) == 0)
     {
@@ -608,12 +638,12 @@ void fixup_name PROTO_N ((global,top_def,crt_def)) PROTO_T (exp global X dec * t
 /*
  * output_diag - used by make_code() to implement "diagnose_tag".
  */
-void output_diag PROTO_N ((d,proc_no,e)) PROTO_T (diag_info * d X int proc_no X exp e)
+void output_diag(diag_info * d, int proc_no, exp e)
 {
   exp id;
-  
+
   FULLCOMMENT1("output_diag: key=%d", d->key);
-  
+
   if (d->key == DIAG_INFO_SOURCE)
   {
     sourcemark *s = &d->data.source.beg;
@@ -631,19 +661,19 @@ void output_diag PROTO_N ((d,proc_no,e)) PROTO_T (diag_info * d X int proc_no X 
 
   id = son(d->data.id_scope.access);
 
-  FULLCOMMENT3("output_diag: DIAG_INFO_ID %s isglob(id)=%d no(id)=%d",
-	       (int) CSTRING(d->data.id_scope.nme), isglob(id), no(id));
+  FULLCOMMENT3("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%d",
+	      (int)CSTRING(d->data.id_scope.nme), isglob(id), no(id));
 
   /* can't output global values as local names */
   if (isglob(id))
   {
     return;
   }
-  
+
   ASSERT(name(id) == ident_tag);
 
   mark_scope(e);
-  FULLCOMMENT1("output_diag: DIAG_INFO_ID mark_scope props(e)=%#x", props(e));
+  FULLCOMMENT1("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
 
   if (props(e) & 0x80)
   {
@@ -658,7 +688,7 @@ void output_diag PROTO_N ((d,proc_no,e)) PROTO_T (diag_info * d X int proc_no X 
   }
   stab_local(CSTRING(d->data.id_scope.nme), d->data.id_scope.typ,
 	     id, 0, current_fileno);
-  
+
   if (isparam(id) && last_caller_param(id))
   {
     if (block_depth == 0)
@@ -676,7 +706,7 @@ void output_diag PROTO_N ((d,proc_no,e)) PROTO_T (diag_info * d X int proc_no X 
 /*
  * output_end_scope - used by make_code() to make end of diagnose_tag scope.
  */
-void output_end_scope PROTO_N ((d,e)) PROTO_T (diag_info * d X exp e)
+void output_end_scope(diag_info * d, exp e)
 {
   FULLCOMMENT1("output_end_scope key=%d", d->key);
   if (d->key == DIAG_INFO_SOURCE)
@@ -697,28 +727,28 @@ void output_end_scope PROTO_N ((d,e)) PROTO_T (diag_info * d X exp e)
 /*
  * find_dd
  */
-static diag_descriptor *find_dd PROTO_N ((e)) PROTO_T (exp e)
+static diag_descriptor *find_dd(exp e)
 {
-  if (diag_def==NULL) 
+  if (diag_def==NULL)
   {
     return NULL;
   }
   return diag_def->dec_u.dec_val.diag_info;
 }
 
-  
+
 
 
 /*
  * get filename number
  */
-static int find_file PROTO_N ((f)) PROTO_T (char *f)
+static int find_file(char *f)
 {
   int i;
 
   for (i = 0; i < nofds; i++)
   {
-    if (strcmp(f, CSTRING(fds[i]->file)) == 0)
+    if (strcmp(f, CSTRING(fds[i] ->file)) == 0)
     {
       return i;
     }
@@ -737,7 +767,7 @@ static int find_file PROTO_N ((f)) PROTO_T (char *f)
 /*
  * output directive using proc start relative linenos
  */
-static void stab_relativeline PROTO_N ((directive)) PROTO_T (CONST char *directive)
+static void stab_relativeline(CONST char *directive)
 {
   int lineinproc = current_lineno - current_procstart_lineno;
 
@@ -759,7 +789,7 @@ static void stab_relativeline PROTO_N ((directive)) PROTO_T (CONST char *directi
 /*
  * output begin block directive
  */
-static void stab_begin_block PROTO_Z ()
+static void stab_begin_block(void)
 {
 #if 0
   if (MAX_BLOCK_DEPTH < 0 || block_depth < MAX_BLOCK_DEPTH)
@@ -774,7 +804,7 @@ static void stab_begin_block PROTO_Z ()
 /*
  * output end block directive
  */
-static void stab_end_block PROTO_Z ()
+static void stab_end_block(void)
 {
   if (block_depth >= 0)
   {
@@ -794,7 +824,7 @@ static void stab_end_block PROTO_Z ()
  * Generate stabs for current file and line number.
  * Note that line number stabs are relative to start of current proc.
  */
-static void stabn PROTO_N ((findex,lno)) PROTO_T (int findex X int lno)
+static void stabn(int findex, int lno)
 {
   if (findex == current_fileno && lno == current_lineno)
   {
@@ -808,21 +838,21 @@ static void stabn PROTO_N ((findex,lno)) PROTO_T (int findex X int lno)
   {
     return;
   }
-  
+
   current_lineno = lno;
   stab_relativeline(line_stab);
   return;
 }
 /*
- * stab_end_file ties up lose ends 
+ * stab_end_file ties up lose ends
  */
-void stab_end_file PROTO_Z ()
+void stab_end_file(void)
 {
   if (current_fileno != first_fileno)
   {
     COMMENT("stab_end_file: close the last include file with  a .ei");
     /* close the last include file */
-    fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno]->file));
+    fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno] ->file));
   }
   return;
 }
@@ -830,7 +860,7 @@ void stab_end_file PROTO_Z ()
 /*
  * output file name if changed
  */
-static void stab_file PROTO_N ((findex)) PROTO_T (int findex)
+static void stab_file(int findex)
 {
   bool stabbed = 0;
 
@@ -838,11 +868,11 @@ static void stab_file PROTO_N ((findex)) PROTO_T (int findex)
   {
     return;
   }
-  
+
   if (files_stabbed == 0)
   {
     /* .file */
-    fprintf(as_file, "\n\t.file\t\"%s\"\n", CSTRING(fds[findex]->file));
+    fprintf(as_file, "\n\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
     stabbed = 1;
     first_fileno = findex;
   }
@@ -858,20 +888,20 @@ static void stab_file PROTO_N ((findex)) PROTO_T (int findex)
 
     /* first end previous .bi if needed */
     if (current_fileno != first_fileno)
-    {  
-      fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno]->file));
+    {
+      fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno] ->file));
     }
-    
+
     /* .bi if not same as original .file */
     if (findex != first_fileno)
     {
-      fprintf(as_file, "\n\t.bi\t\"%s\"\n", CSTRING(fds[findex]->file));
+      fprintf(as_file, "\n\t.bi\t\"%s\"\n", CSTRING(fds[findex] ->file));
       stabbed = 1;
     }
     else
     {
       /* output a comment to indicate back to .file level */
-      fprintf(as_file, "\n#\t.file\t\"%s\"\n", CSTRING(fds[findex]->file));
+      fprintf(as_file, "\n#\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
     }
   }
 
@@ -880,15 +910,15 @@ static void stab_file PROTO_N ((findex)) PROTO_T (int findex)
   if (stabbed)
   {
     /* output TDF file machine */
-    char *mach = CSTRING(fds[findex]->machine);
-    time_t t = NATINT(fds[findex]->date);
+    char *mach = CSTRING(fds[findex] ->machine);
+    time_t t = NATINT(fds[findex] ->date);
 
     /* output machine name if given */
     if (mach != 0 && *mach != '\0')
     {
       fprintf(as_file, "#\tMachine: \"%s\"\n", mach);
     }
-    
+
     /* output TDF file time (ctime appends extra '\n') */
     if (t != 0)
     {
@@ -903,7 +933,7 @@ static void stab_file PROTO_N ((findex)) PROTO_T (int findex)
 /*
  * start of a new lex level
  */
-static void diagbr_open PROTO_N ((findex)) PROTO_T (int findex)
+static void diagbr_open(int findex)
 {
   stab_file(findex);
   stab_begin_block();
@@ -913,7 +943,7 @@ static void diagbr_open PROTO_N ((findex)) PROTO_T (int findex)
 /*
  * end of a lex level
  */
-static void diagbr_close PROTO_N ((findex)) PROTO_T (int findex)
+static void diagbr_close(int findex)
 {
   stab_file(findex);
   stab_end_block();
@@ -931,7 +961,7 @@ static void diagbr_close PROTO_N ((findex)) PROTO_T (int findex)
 /*
  * get the next type number to be used as a stabstring TypeId
  */
-static int next_typen PROTO_Z ()
+static int next_typen(void)
 {
   static int typeno = 0;	/* types are numbered from 1 */
 
@@ -942,14 +972,14 @@ static int next_typen PROTO_Z ()
 /*
  * return standard TypeNo output by stab_types() for simple shapes
  */
-static int TypeNo_of_shape PROTO_N ((s)) PROTO_T (shape s)
+static int TypeNo_of_shape(shape s)
 {
   /* tokensh is special to this module, cannot use name(tokensh) */
   if (s == tokensh)
   {
     return TYPEID_TOKEN;
   }
-  
+
   switch (name(s))
   {
    case bothd:		/*FALLTHROUGH*/
@@ -964,13 +994,13 @@ static int TypeNo_of_shape PROTO_N ((s)) PROTO_T (shape s)
    case shrealhd:	return TYPEID_SHREAL;
    case realhd:		return TYPEID_REAL;
    case doublehd:	return TYPEID_DOUBLE;
-    
+
    default:
     {
       ASSERT(0);		/* fail if debugging */
       return TYPEID_VOID;	/* return something that will work */
     }
-    /* NOTREACHED */ 
+    /* NOTREACHED */
   }
 }
 
@@ -979,7 +1009,7 @@ static int TypeNo_of_shape PROTO_N ((s)) PROTO_T (shape s)
  * Are two struct/union types structurally equivalent?
  * That is, the same stab TypeDef would be generated.
  */
-static bool eq_sutype PROTO_N ((a,b)) PROTO_T (diag_type a X diag_type b)
+static bool eq_sutype(diag_type a, diag_type b)
 {
   diag_field_list fa;
   diag_field_list fb;
@@ -997,7 +1027,7 @@ static bool eq_sutype PROTO_N ((a,b)) PROTO_T (diag_type a X diag_type b)
   {
     return 0;
   }
-  
+
   if (strcmp(CSTRING(a->data.t_struct.nme), CSTRING(b->data.t_struct.nme)))
   {
     return 0;
@@ -1020,14 +1050,14 @@ static bool eq_sutype PROTO_N ((a,b)) PROTO_T (diag_type a X diag_type b)
   }
   return eq_shape(a->data.t_struct.tdf_shape, b->data.t_struct.tdf_shape);
 }
-static bool eq_typedef_type PROTO_N ((a,b)) PROTO_T (diag_descriptor * a X diag_descriptor * b)
+static bool eq_typedef_type(diag_descriptor * a, diag_descriptor * b)
 {
-  if(a==b)
+  if (a==b)
   {
     return 1;
   }
-  
-  if (strcmp(CSTRING(a->data.typ.nme),CSTRING(b->data.typ.nme))==0)
+
+  if (strcmp(CSTRING(a->data.typ.nme),CSTRING(b->data.typ.nme)) ==0)
   {
     return 1;
   }
@@ -1039,7 +1069,7 @@ static bool eq_typedef_type PROTO_N ((a,b)) PROTO_T (diag_descriptor * a X diag_
 /*
  * size in bits of object represented by dt, or negative for unknown size
  */
-static int size_dt PROTO_N ((dt)) PROTO_T (diag_type dt)
+static int size_dt(diag_type dt)
 {
   switch (dt->key)
   {
@@ -1053,12 +1083,12 @@ static int size_dt PROTO_N ((dt)) PROTO_T (diag_type dt)
       int lwb = EXPINT(dt->data.array.lower_b);
       int upb = EXPINT(dt->data.array.upper_b);
       int nelements = upb - lwb + 1;
-      
+
       if (nelements < 0)
       {
 	return 0;		/* avoid negative size from "super-flat" arrays */
       }
-      
+
       if (stride > 0)
       {
 	ASSERT(stride >= size_dt(dt->data.array.element_type));
@@ -1124,7 +1154,7 @@ static int size_dt PROTO_N ((dt)) PROTO_T (diag_type dt)
 /*
  * output TypeDef, except as a INTEGER TypeId to avoid recursion
  */
-static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
+static void out_dt_TypeDef_no_recurse(diag_type dt)
 {
   switch (dt->key)
   {
@@ -1142,9 +1172,9 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
       int upb = EXPINT(dt->data.array.upper_b);
       diag_type index_type = dt->data.array.index_type;
       diag_type element_type = dt->data.array.element_type;
-      
+
       ASSERT(stride >= size_dt(element_type));
-      
+
 #if 0
       /* +++ maybe this works better thab Packed array with dbx/gdb, try it */
       if (stride == 1 && lwb == 0 && upb < 32)
@@ -1154,7 +1184,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
 	break;
       }
 #endif
-      
+
       /*
        * TypeDef:		 Array
        * Array:		a TypeDef ; TypeId		"Array"
@@ -1166,7 +1196,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
        */
       if (stride == 1)
       {
-	fprintf(as_file, "Pr");		/* Packed Array - should never happen for C */	
+	fprintf(as_file, "Pr");		/* Packed Array - should never happen for C */
       }
       else
       {
@@ -1184,7 +1214,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
       char su;
       diag_field_list fields;
       shape s;
-      
+
       /* TypeDef:	Record */
 
       if (dt->key == DIAG_TYPE_STRUCT)
@@ -1197,7 +1227,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
       }
       else
       {				/* dt->key == DIAG_TYPE_UNION */
-	fields = (diag_field_list) dt->data.t_union.fields;
+	fields = (diag_field_list)dt->data.t_union.fields;
 	s = dt->data.t_union.tdf_shape;
 	/* Record:	u NumBytes FieldList ;		"Union" */
 	su = 'u';
@@ -1233,7 +1263,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
 	  }
 	  else
 	  {
-	    next_start = EXPINT(((fields->array)[i - 1])->where);
+	    next_start = EXPINT(((fields->array)[i - 1]) ->where);
 	  }
 	  sizetonext = next_start - offset;
 
@@ -1249,7 +1279,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
 	  if (dt->key == DIAG_TYPE_UNION || i == 0)
 	    next_start = shape_size(s);
 	  else
-	    next_start = EXPINT(((fields->array)[i - 1])->where);
+	    next_start = EXPINT(((fields->array)[i - 1]) ->where);
 	  size = next_start - offset;
 	}
 
@@ -1257,7 +1287,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
 	{
 	  size = 32;		/* desperate guess */
 	}
-	
+
 	/*
 	 * BitOffset:	INTEGER		"Offset in bits from beginning of structure"
 	 * NumBits:	INTEGER		"Number of bits in item"
@@ -1433,7 +1463,7 @@ static void out_dt_TypeDef_no_recurse PROTO_N ((dt)) PROTO_T (diag_type dt)
 /*
  * generate TypeDef stabstring
  */
-static void out_dt_TypeDef PROTO_N ((dt)) PROTO_T (diag_type dt)
+static void out_dt_TypeDef(diag_type dt)
 {
   if (IS_OUTED(dt))
   {
@@ -1455,7 +1485,7 @@ static void out_dt_TypeDef PROTO_N ((dt)) PROTO_T (diag_type dt)
  * generate TypeId stabstring defining new type number
  * TypeId:	INTEGER = TypeDef	"New type number described by TypeDef"
  */
-static void out_dt_NewTypeId PROTO_N ((dt,non)) PROTO_T (diag_type dt X int non)
+static void out_dt_NewTypeId(diag_type dt, int non)
 {
   fprintf(as_file, "%d=", non);
 
@@ -1480,7 +1510,7 @@ static void out_dt_NewTypeId PROTO_N ((dt,non)) PROTO_T (diag_type dt X int non)
 /*
  * generate TypeId stabstring
  */
-static void out_dt_TypeId PROTO_N ((dt)) PROTO_T (diag_type dt)
+static void out_dt_TypeId(diag_type dt)
 {
   if (IS_OUTED(dt))
   {
@@ -1540,7 +1570,7 @@ static void out_dt_TypeId PROTO_N ((dt)) PROTO_T (diag_type dt)
  * for tags which have data initialisers.  If such stabs are output
  * outside .bs/.be gdb and dbx cannot locate tag.
  */
-void stab_bs PROTO_N ((sectname)) PROTO_T (char *sectname)
+void stab_bs(char *sectname)
 {
   fprintf(as_file, "\t.bs\t%s\n", sectname);
 }
@@ -1548,7 +1578,7 @@ void stab_bs PROTO_N ((sectname)) PROTO_T (char *sectname)
 /*
  * Output .es (end static block).
  */
-void stab_es PROTO_N ((sectname)) PROTO_T (char *sectname)
+void stab_es(char *sectname)
 {
   fprintf(as_file, "\t.es\n");
 }
@@ -1558,11 +1588,11 @@ void stab_es PROTO_N ((sectname)) PROTO_T (char *sectname)
  * Produce diagnostic for ident_tag variable "id" defined by "global";
  * called from translat().  "ext" tells whether "id" is "static".
  */
-void stab_global PROTO_N ((global,id,ext)) PROTO_T (exp global X char *id X bool ext)
+void stab_global(exp global, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(global);
 
-  if (dd == (diag_descriptor *) 0)
+  if (dd == (diag_descriptor *)0)
     return;
 
   /* +++ inefficient */
@@ -1577,11 +1607,11 @@ void stab_global PROTO_N ((global,id,ext)) PROTO_T (exp global X char *id X bool
   ASSERT(CSTRING(dd->data.id.nme)[0]!=0);
   fprintf(as_file, "\t.stabx\t\"%s:%c",
 	  CSTRING(dd->data.id.nme),
-	  (ext ? 'G' : 'S'));
+	 (ext ? 'G' : 'S'));
   out_dt_TypeId(dd->data.id.new_type);
   fprintf(as_file, "\",%s,%d,%d\n",
 	  id,
-	  (ext ? C_GSYM : C_STSYM),
+	 (ext ? C_GSYM : C_STSYM),
 	  0);
 }
 
@@ -1589,13 +1619,13 @@ void stab_global PROTO_N ((global,id,ext)) PROTO_T (exp global X char *id X bool
 /*
  * switch to correct file prior to proc prelude
  */
-void stab_proc1 PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
+void stab_proc1(exp proc, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(proc);
 
   block_depth = 0;
 
-  if (dd == (diag_descriptor *) 0)
+  if (dd == (diag_descriptor *)0)
   {
     COMMENT("stab_proc1: no descriptor");	/* should never happen */
     current_procstart_lineno = NOT_IN_PROC;
@@ -1614,13 +1644,13 @@ void stab_proc1 PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
 /*
  * stap proc, after label defined
  */
-void stab_proc2 PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
+void stab_proc2(exp proc, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(proc);
   char *nm;
   diag_type dt;
 
-  if (dd == (diag_descriptor *) 0)
+  if (dd == (diag_descriptor *)0)
   {
     COMMENT("stab_proc2: no descriptor");	/* should never happen */
     return;
@@ -1645,7 +1675,7 @@ void stab_proc2 PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
 
   /* +++ when gdb understands, maybe use "P" or "Q" for proc returning void */
 
-  fprintf(as_file, "\t.stabx\t\"%s:%c", nm, (ext ? 'F' : 'f'));
+  fprintf(as_file, "\t.stabx\t\"%s:%c", nm,(ext ? 'F' : 'f'));
 
   /*
    * The meaning of TypeId is not clear from the stabstring syntax document,
@@ -1692,7 +1722,7 @@ void stab_proc2 PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
 /*
  * diagnostics for proc end
  */
-void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ext)
+void stab_endproc(exp proc, char *id, bool ext)
 {
   /* end all open blocks */
   while (block_depth > 0)
@@ -1711,11 +1741,11 @@ void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ex
     char *nm;
     int i;
 
-    if (dd == (diag_descriptor *) 0)
+    if (dd == (diag_descriptor *)0)
     {
       COMMENT("stab_endproc: no descriptor");	/* should never happen */
       return;
-      
+
     }
 
     nm = CSTRING(dd->data.id.nme);	/* source proc name, id is just the
@@ -1736,11 +1766,11 @@ void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ex
     /* number of float regs saved */
     if (p_sfreg_first_save != FR_NO_REG)
       tbtable_sht.fpr_saved = FR_31 + 1 - p_sfreg_first_save;
-    
+
     /* number of fixed regs saved */
     if (p_sreg_first_save != R_NO_REG)
       tbtable_sht.gpr_saved = R_31 + 1 - p_sreg_first_save;
-    
+
     /* number of fixed and float params passed in regs */
     tbtable_sht.fixedparms = p_fixed_params;
     tbtable_sht.floatparms = p_float_params;
@@ -1753,9 +1783,9 @@ void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ex
 
     /* tbtable_sht as bytes */
     fprintf(as_file, "\t.byte\t");
-    for (i = 0; i < sizeof (tbtable_sht) - 1; i++)
-      fprintf(as_file, "%#x,", ((unsigned char *) (&tbtable_sht))[i]);
-    fprintf(as_file, "%#x\n", ((unsigned char *) (&tbtable_sht))[i]);
+    for (i = 0; i < sizeof(tbtable_sht) - 1; i++)
+      fprintf(as_file, "%#x,",((unsigned char *)(&tbtable_sht))[i]);
+    fprintf(as_file, "%#x\n",((unsigned char *)(&tbtable_sht))[i]);
 
     /* optional portions of traceback table */
 
@@ -1771,7 +1801,7 @@ void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ex
     ASSERT(!tbtable_sht.has_ctl);
 
     /* proc name */
-    fprintf(as_file, "\t.short\t%d\n", (int)strlen(nm));
+    fprintf(as_file, "\t.short\t%d\n",(int)strlen(nm));
     fprintf(as_file, "\t.byte\t\"%s\"\n", nm);
 
     /* alloca_reg */
@@ -1792,14 +1822,14 @@ void stab_endproc PROTO_N ((proc,id,ext)) PROTO_T (exp proc X char *id X bool ex
  * current translator, none are used by stab_local. I don't even know
  * whether dbx can actually use them.
  */
-void stab_local PROTO_N ((nm,dt,id,disp,findex)) PROTO_T (char *nm X diag_type dt X exp id X int disp X int findex)
+void stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
 {
-  FULLCOMMENT3("stab_local: %s disp=%d boff(id).offset=%d", (long) nm, disp, boff(id).offset);
+  FULLCOMMENT3("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
   disp += boff(id).offset;
 again:
   if (name(id) == ident_tag)
   {
-    FULLCOMMENT2("stab_local ident_tag: %s disp=%d", (long) nm, disp);
+    FULLCOMMENT2("stab_local ident_tag: %s disp=%d",(long)nm, disp);
     if ((props(id) & defer_bit) == 0)
     {
       if (isparam(id))
@@ -1860,7 +1890,7 @@ again:
  * output on the fly for the top level struct/union.
  * It also avoids dbx going recursive printing some types.
  */
-static void stab_internal_types PROTO_N ((dt,stabthislevel)) PROTO_T (diag_type dt X bool stabthislevel)
+static void stab_internal_types(diag_type dt, bool stabthislevel)
 {
   if (IS_OUTED(dt))
     return;				/* already been here */
@@ -1888,7 +1918,7 @@ static void stab_internal_types PROTO_N ((dt,stabthislevel)) PROTO_T (diag_type 
       if (dt->key == DIAG_TYPE_STRUCT)
 	fields = dt->data.t_struct.fields;
       else
-	fields = (diag_field_list) dt->data.t_union.fields;
+	fields = (diag_field_list)dt->data.t_union.fields;
 
       for (i = fields->lastused - 1; i >= 0; i--)
       {
@@ -1947,8 +1977,7 @@ static void stab_internal_types PROTO_N ((dt,stabthislevel)) PROTO_T (diag_type 
  * Generate stab for a basic type, for which there is a standard IBM AIX StabNo.
  */
 static void stab_basicshape
-    PROTO_N ((sha,typename,tdf_typeidnum,ibm_typeidnum))
-    PROTO_T (shape sha X char *typename X int tdf_typeidnum X int ibm_typeidnum)
+(shape sha, char *typename, int tdf_typeidnum, int ibm_typeidnum)
 {
   int n = next_typen();
 
@@ -1966,14 +1995,14 @@ static void stab_basicshape
  *
  * Must be called before any ".stabx" directive attempted.
  */
-static void stab_types PROTO_Z ()
+static void stab_types(void)
 {
   /* Numbering and outputing of basicshapes,structs,unions and typedefs */
-  (void)number_and_stab_basicshapes();
-  (void)number_structs_and_unions();
-  (void)number_typedefs();
-  (void)stab_structs_and_unions();
-  (void)stab_typedefs();
+ (void)number_and_stab_basicshapes();
+ (void)number_structs_and_unions();
+ (void)number_typedefs();
+ (void)stab_structs_and_unions();
+ (void)stab_typedefs();
 }
-  
+
 

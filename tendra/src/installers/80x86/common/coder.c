@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -337,7 +367,7 @@ int proc_has_asm = 0;	/* init by cproc */
 /* PROCEDURES */
 
 void clean_stack
-    PROTO_Z ()
+(void)
 {
   if (no_frame && not_in_params && not_in_postlude && stack_dec != 0)
     stack_return(-stack_dec);
@@ -346,28 +376,26 @@ void clean_stack
 
 /* is this a pushable proc argument ? */
 static int push_arg
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   shape sha = sh(e);
-  unsigned char  n = name (sha);
+  unsigned char  n = name(sha);
 
   if (name(e) == real_tag)
     return 1;
 
-  if (is_floating (n) || n == cpdhd || n == nofhd)
+  if (is_floating(n) || n == cpdhd || n == nofhd)
     return 0;
 
-  return (1);
+  return(1);
 }
 
 static void code_push
-    PROTO_N ( (stack, t) )
-    PROTO_T ( ash stack X exp t )
+(ash stack, exp t)
 {
   int n = (int)name(t);
   if (is_o(n))
-    coder (pushdest, stack, t);
+    coder(pushdest, stack, t);
   else {
     coder(reg0, stack, t);
     move(sh(t), reg0, pushdest);
@@ -378,38 +406,36 @@ static void code_push
 /* produce the code for proc params in
    order from last to first */
 static void code_pars
-    PROTO_N ( (stack, t) )
-    PROTO_T ( ash stack X exp t )
+(ash stack, exp t)
 {
   int tsize = shape_size(sh(t));
   if (last (t)) {		/* last parameter is pushed first */
-    code_push (stack, (name(t)==caller_tag) ? son(t) : t);
-    stack_dec -= rounder (tsize, param_align);
+    code_push(stack,(name(t) ==caller_tag)? son(t): t);
+    stack_dec -= rounder(tsize, param_align);
   }
   else {
     code_pars (stack, bro (t));/* encode the rest of the parameters */
     code_push (stack, (name(t)==caller_tag) ? son(t) : t);	/* code this parameter */
-    stack_dec -= rounder (tsize, param_align);
+    stack_dec -= rounder(tsize, param_align);
     /* allow for the size */
   };
 }
 
 /* stack parameters ready for apply_proc */
 static int procargs
-    PROTO_N ( (stack, arg, has_checkstack) )
-    PROTO_T ( ash stack X exp arg X int has_checkstack )
+(ash stack, exp arg, int has_checkstack)
 {
   int use_push = 1;
   int longs = 0, extra;
   exp t = arg;
   while (t != nilexp) {
-    if (name(t)==caller_tag) {
-      if (use_push && !push_arg (son(t)))
+    if (name(t) ==caller_tag) {
+      if (use_push && !push_arg(son(t)))
         use_push = 0;
       no(t) = longs;	/* needed for postlude */
     }
     else {
-      if (use_push && !push_arg (t))
+      if (use_push && !push_arg(t))
         use_push = 0;
     }
     longs = rounder(longs + shape_size(sh(t)), param_align);
@@ -417,7 +443,7 @@ static int procargs
       break;
     t = bro(t);
   };
-  extra = (longs - stack_dec) % stack_align;
+  extra = (longs - stack_dec)% stack_align;
   longs += extra;
 
   if (use_push) {
@@ -435,9 +461,9 @@ static int procargs
     if (arg != nilexp) {
       if (has_checkstack && longs > 160) {
 	/* check stack before pushing args if more than 5 words */
-	checkalloc_stack (mw (zeroe, longs/8), 0);
+	checkalloc_stack(mw(zeroe, longs/8), 0);
       }
-      code_pars (stack, arg);
+      code_pars(stack, arg);
     }
   }
   else {
@@ -445,9 +471,9 @@ static int procargs
 	     assemble the parameters in place. Again, adjust stack_dec. */
     int off = extra;
     if (has_checkstack)
-      checkalloc_stack (mw (zeroe, longs/8), 1);
+      checkalloc_stack(mw(zeroe, longs/8), 1);
     else
-      decstack (longs);
+      decstack(longs);
     cond1_set = 0;
     cond2_set = 0;
     stack_dec -= longs;
@@ -459,7 +485,7 @@ static int procargs
     t = arg;
     while (1)
      {
-	coder(mw(ind_sp.where_exp, off), stack, (name(t)==caller_tag ? son(t) : t));
+	coder(mw(ind_sp.where_exp, off), stack,(name(t) ==caller_tag ? son(t): t));
 	off = rounder(off + shape_size(sh(t)), param_align);
 	if (last(t))
 	  break;
@@ -472,92 +498,91 @@ static int procargs
 /* stack dynamic or same callees */
 /* %edx and %ecx don't need to be preserved */
 static int push_cees
-    PROTO_N ( (src, siz, vc, stack) )
-    PROTO_T ( exp src X exp siz X int vc X ash stack )
+(exp src, exp siz, int vc, ash stack)
 {
   int old_regsinuse = regsinuse;
   int longs = -1;
   if (siz == nilexp && callee_size >= 0)
     longs = callee_size;
   if (siz != nilexp && name(siz) == val_tag)
-    longs = rounder (no(siz), param_align);
+    longs = rounder(no(siz), param_align);
   if (longs == 0) {
     if (vc) {
-      ins2 (leal, 32, 32, mw(ind_sp.where_exp, longs), reg0);
-      ins0 (pusheax);
+      ins2(leal, 32, 32, mw(ind_sp.where_exp, longs), reg0);
+      ins0(pusheax);
       stack_dec -= 32;
-      return (32);
+      return(32);
     }
-    return (0);
+    return(0);
   }
   if (longs < 0) {
     must_use_bp = 1;	/* scan2 must ensure !no_frame */
     if (siz == nilexp) {
 	/* calculate size from calling proc callees */
-      outs (" movl 8(%ebp),%eax\n");
-      outs (" subl %ebp,%eax\n");
-      outs (" subl $12,%eax\n");
+      outs(" movl 8(%ebp),%eax\n");
+      outs(" subl %ebp,%eax\n");
+      outs(" subl $12,%eax\n");
     }
     else {
-      coder (reg0, stack, siz);
+      coder(reg0, stack, siz);
       if (al2(sh(siz)) < param_align) {
 	if (al2(sh(siz)) == 1) {
-	  outs (" addl $31,%eax\n");
-	  outs (" shrl $3,%eax\n");
+	  outs(" addl $31,%eax\n");
+	  outs(" shrl $3,%eax\n");
 	}
 	else
-	  outs (" addl $3,%eax\n");
-	outs (" andl $-4,%eax\n");
+	  outs(" addl $3,%eax\n");
+	outs(" andl $-4,%eax\n");
       }
     }
-    ins0 (pusheax);
+    ins0(pusheax);
     stack_dec -= 32;
   }
   if (src == nilexp) {
     if (callee_size >= 0)
-      outs (" leal 8(%ebp),%eax\n");
+      outs(" leal 8(%ebp),%eax\n");
     else
-      outs (" leal 12(%ebp),%eax\n");
+      outs(" leal 12(%ebp),%eax\n");
     }
   else
-    coder (reg0, stack, src);
-  move (slongsh, reg5, reg1);
-  move (slongsh, reg0, reg5);
+    coder(reg0, stack, src);
+  move(slongsh, reg5, reg1);
+  move(slongsh, reg0, reg5);
   if (longs < 0) {
-    ins0 (popecx);
+    ins0(popecx);
     stack_dec += 32;
     if (vc)
-      outs (" movl %esp,%eax\n");
-    outs (" subl %ecx,%esp\n");
-    outs (" shrl $2,%ecx\n");
+      outs(" movl %esp,%eax\n");
+    outs(" subl %ecx,%esp\n");
+    outs(" shrl $2,%ecx\n");
     if (vc)
-      outs (" pushl %eax\n");
+      outs(" pushl %eax\n");
   }
   else {
     sub(slongsh, mw(zeroe, longs/8), sp, sp);
     stack_dec -= longs;
     if (vc) {
-      ins2 (leal, 32, 32, mw(ind_sp.where_exp, longs), reg0);
-      ins0 (pusheax);
+      ins2(leal, 32, 32, mw(ind_sp.where_exp, longs), reg0);
+      ins0(pusheax);
       stack_dec -= 32;
     }
-    move (slongsh, mw(zeroe, longs/32), reg2);
+    move(slongsh, mw(zeroe, longs/32), reg2);
     if (vc)
       longs += 32;
   }
-  move (slongsh, reg4, reg0);
+  move(slongsh, reg4, reg0);
   if (vc)
-    outs (" leal 4(%esp),%edi\n");
+    outs(" leal 4(%esp),%edi\n");
   else
-    outs (" movl %esp,%edi\n");
-  outs (" rep\n movsl\n");
-  move (slongsh, reg0, reg4);
-  move (slongsh, reg1, reg5);
+    outs(" movl %esp,%edi\n");
+  outs(" rep\n movsl\n");
+  move(slongsh, reg0, reg4);
+  move(slongsh, reg1, reg5);
   regsinuse = old_regsinuse;
-  invalidate_dest (reg1);
-  invalidate_dest (reg2);
-  invalidate_dest (reg4);
-  invalidate_dest (reg5);
+  invalidate_dest(reg1);
+  invalidate_dest(reg2);
+  invalidate_dest(reg4);
+  invalidate_dest(reg5);
   return longs;
 }
 
@@ -579,8 +604,7 @@ int  bits_in[16] = {		/* number of bits in the index */
 /* allocate registers ebx esi edi,
    providing br registers are left */
 static regu alloc_reg_big
-    PROTO_N ( (rs, sha, br, byteuse) )
-    PROTO_T ( int rs X shape sha X int br X int byteuse )
+(int rs, shape sha, int br, int byteuse)
 {
   int  sz,
         nr,
@@ -599,13 +623,13 @@ static regu alloc_reg_big
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return (ru);
+    return(ru);
   };
 
   switch (nr) {			/* number of registers needed
 				   (consecutive) */
     case 1:
-      mask = (noshort == 0) ? bigmask1 : bigmask1ns;
+      mask = (noshort == 0)? bigmask1 : bigmask1ns;
       i = nobigreg - noshort;
       break;
     case 2:
@@ -615,11 +639,11 @@ static regu alloc_reg_big
     default: {
       SET(mask);
       SET(i);
-      failer (WRONG_REGSIZE);
+      failer(WRONG_REGSIZE);
     };
   };
 
-  while ((rs & mask) != 0 && i > 0) {
+  while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask >> 1);
     --i;
   };
@@ -633,14 +657,13 @@ static regu alloc_reg_big
   else
     ru.can_do = 0;
 
-  return (ru);
+  return(ru);
 }
 
 /* allocate registers ecx edx ebx esi edi
    if at least br registers are available */
 static regu alloc_reg_small
-    PROTO_N ( (rs, sha, br, byteuse) )
-    PROTO_T ( int rs X shape sha X int br X int byteuse )
+(int rs, shape sha, int br, int byteuse)
 {
   int  sz,
         nr,
@@ -659,7 +682,7 @@ static regu alloc_reg_small
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return (ru);
+    return(ru);
   };
 
   switch (nr) {			/* number of registers needed
@@ -675,11 +698,11 @@ static regu alloc_reg_small
     default: {
       SET(mask);
       SET(i);
-      failer (WRONG_REGSIZE);
+      failer(WRONG_REGSIZE);
      };
   };
 
-  while ((rs & mask) != 0 && i > 0) {
+  while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask << 1);
     --i;
   };
@@ -689,7 +712,7 @@ static regu alloc_reg_small
     ru.can_do = 1;
     ru.ru_regs = mask;
     ru.ru_reg_free = rs | mask;
-    return (ru);
+    return(ru);
   }
   else
     return alloc_reg_big(rs, sha, br, byteuse);
@@ -700,26 +723,25 @@ static regu alloc_reg_small
 /* allocate floating point registers, if
    at least br are available */
 static regu alloc_fl_small
-    PROTO_N ( (rs, br) )
-    PROTO_T ( int rs X int br )
+(int rs, int br)
 {
   int  mask,
         i,
         reg_left;
   regu ru;
-  reg_left = nofl - bits_in[((unsigned int)rs >> 8) & 0xf] 
+  reg_left = nofl - bits_in[((unsigned int)rs >> 8) & 0xf]
 		- bits_in[((unsigned int)rs >> 12) & 0xf];
 
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return (ru);
+    return(ru);
   };
 
   mask = smallflmask;
   i = nofl;
 
-  while ((rs & mask) != 0 && i > 0) {
+  while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask << 1);
     --i;
   };
@@ -732,15 +754,14 @@ static regu alloc_fl_small
   else
     ru.can_do = 0;		/* can't allocate */
 
-  return (ru);
+  return(ru);
 }
 
 /* allocate all registers */
 static regu alloc_reg
-    PROTO_N ( (rs, sha, br, big_reg, e) )
-    PROTO_T ( int rs X shape sha X int br X int big_reg X exp e )
+(int rs, shape sha, int br, int big_reg, exp e)
 {
-  if (name (sha) >= shrealhd && name (sha) <= doublehd) {
+  if (name(sha) >= shrealhd && name(sha) <= doublehd) {
 #ifdef NEWDIAGS
     if (big_reg || diag_visible || round_after_flop ||
 #else
@@ -749,15 +770,15 @@ static regu alloc_reg
 	(is80586 && isvar(e))) {
       regu ru;
       ru.can_do = 0;
-      return (ru);
+      return(ru);
     }
     else
-      return (alloc_fl_small (rs, br));
+      return(alloc_fl_small(rs, br));
   };
   if (big_reg)
-    return (alloc_reg_big (rs, sha, br, isbyteuse(e)));
+    return(alloc_reg_big(rs, sha, br, isbyteuse(e)));
   else
-    return (alloc_reg_small (rs, sha, br, isbyteuse(e)));
+    return(alloc_reg_small(rs, sha, br, isbyteuse(e)));
 }
 
 
@@ -782,134 +803,132 @@ static regu alloc_reg
 
 
 static dcl alloc_regable
-    PROTO_N ( (dc, def, e, big_reg) )
-    PROTO_T ( dcl dc X exp def X exp e X int big_reg )
+(dcl dc, exp def, exp e, int big_reg)
 {
   where alt;
   int defsize = shape_size(sh(def));
   regu ru;
-  alt = equiv_reg (mw (def, 0), defsize);
+  alt = equiv_reg(mw(def, 0), defsize);
 
   if (alt.where_exp != nilexp) {
-    int  mask = no (son (alt.where_exp));
+    int  mask = no(son(alt.where_exp));
     if (mask != 1 && (!big_reg || mask >= 0x8)) {
-      if ((mask & regsinuse) != 0 && !isvar (e) &&
-	  (defsize > 8 || mask < 0x10)) {
-	if (no_side (bro (son (e)))) {
+      if ((mask & regsinuse)!= 0 && !isvar(e) &&
+	 (defsize > 8 || mask < 0x10)) {
+	if (no_side(bro(son(e)))) {
 	  dc.dcl_pl = reg_pl;
 	  dc.dcl_n = mask;
 	  dc.dcl_new = 0;
-	  return (dc);
+	  return(dc);
 	};
       };
     };
   };
 
 
-  if (ru = alloc_reg (regsinuse, sh (def), no (e), big_reg, e),
+  if (ru = alloc_reg(regsinuse, sh(def), no(e), big_reg, e),
       ru.can_do) {
     if (alt.where_exp != nilexp) {
-      int  mask = no (son (alt.where_exp));
+      int  mask = no(son(alt.where_exp));
       if (mask != 1 && (!big_reg || mask >= 0x8)) {
 	if ((mask & regsinuse) == 0 &&
-	    (defsize > 8 || mask < 0x10)) {
+	   (defsize > 8 || mask < 0x10)) {
 	  dc.dcl_pl = reg_pl;
 	  dc.dcl_n = mask;
-	  return (dc);
+	  return(dc);
 	};
       };
     };
 
     dc.dcl_pl = reg_pl;
     dc.dcl_n = ru.ru_regs;
-    return (dc);
+    return(dc);
   };
   dc.dcl_pl = 0;
-  return (dc);
+  return(dc);
 }
 
 static dcl def_where
-    PROTO_N ( (e, def, stack) )
-    PROTO_T ( exp e X exp def X ash stack )
+(exp e, exp def, ash stack)
 {
   int big_reg = has_intnl_call(e);
   dcl dc;
   ash locash;
-  exp body = bro (def);
+  exp body = bro(def);
   dc.dcl_place = stack;
   dc.dcl_new = 1;
 
 
-  if (name (sh (def)) == tophd && !isvis(e)) {
+  if (name(sh(def)) == tophd && !isvis(e)) {
     dc.dcl_pl = nowhere_pl;
     dc.dcl_n = 0;
-    return (dc);
+    return(dc);
   };
 
   if (name(def) == name_tag && !isvar(son(def)) &&
         no(def) == 0 && isloadparam(def)) {
-    if (regable (e) && (name(son(son(def)))==formal_callee_tag ?
+    if (regable(e) && (name(son(son(def))) ==formal_callee_tag ?
 			 !has_same_callees : !has_tail_call)) {
 	dcl ndc;
-	ndc = alloc_regable (dc, def, e, big_reg);
+	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)		/* local copy of arg in register */
-	  return (ndc);
+	  return(ndc);
     };
-    dc.dcl_pl = ptno (son (def));
-    dc.dcl_n = no (son (def));
+    dc.dcl_pl = ptno(son(def));
+    dc.dcl_n = no(son(def));
     dc.dcl_new = 0;
     return dc;
   };
 
 
-  if (!isvar (e) &&
-      ((name (def) == name_tag && !isvar (son (def)) &&
-	  (!isglob (son (def)))
+  if (!isvar(e) &&
+     ((name(def) == name_tag && !isvar(son(def)) &&
+	 (!isglob(son(def)))
 	) ||
-	(name (def) == cont_tag && name (son (def)) == name_tag &&
-	  isvar (son (son (def))) &&
-	  (!isglob (son (son (def)))) &&
+	(name(def) == cont_tag && name(son(def)) == name_tag &&
+	  isvar(son(son(def))) &&
+	 (!isglob(son(son(def)))) &&
 
 	  no_side(body)))) {
     /* either we are identifying something already identified or the
        contents of a variable which is not altered by the body of the
        definition */
-    if (name (def) == name_tag) {
-      dc.dcl_pl = ptno (son (def));
-      dc.dcl_n = no (son (def)) + no (def);
+    if (name(def) == name_tag) {
+      dc.dcl_pl = ptno(son(def));
+      dc.dcl_n = no(son(def)) + no(def);
     }
     else {
-      dc.dcl_pl = ptno (son (son (def)));
-      dc.dcl_n = no (son (son (def))) + no (son (def));
+      dc.dcl_pl = ptno(son(son(def)));
+      dc.dcl_n = no(son(son(def))) + no(son(def));
     };
     /* we have the declaration */
 
     if (dc.dcl_pl == reg_pl) {	/* if the old one was in registers, reuse
 				   it. */
       dc.dcl_new = 0;
-      return (dc);
+      return(dc);
     };
 
-    if (regable (e)) {
+    if (regable(e)) {
 	dcl ndc;
-	ndc = alloc_regable (dc, def, e, big_reg);
+	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)
-	  return (ndc);
+	  return(ndc);
     };
 
     dc.dcl_new = 0;		/* if there was not room, reuse the old
 				   dec */
-    return (dc);
+    return(dc);
 
   };
 
   /* try to allocate in registers, except when narrowing fp variety */
-  if (regable (e) &&
-	(name(def) != chfl_tag || name(sh(def)) >= name(sh(son(def))))) {
+  if (regable(e) &&
+	(name(def)!= chfl_tag || name(sh(def)) >= name(sh(son(def))))) {
     dcl ndc;
-    ndc = alloc_regable (dc, def, e, big_reg);
+    ndc = alloc_regable(dc, def, e, big_reg);
     if (ndc.dcl_pl != 0)
-      return (ndc);
+      return(ndc);
   };
 
 
@@ -929,7 +948,7 @@ static dcl def_where
 
     dc.dcl_place = locash;
     dc.dcl_pl = local_pl;
-    return (dc);
+    return(dc);
   };
 
 }
@@ -945,12 +964,11 @@ static dcl def_where
 
 
 static void solve
-    PROTO_N ( (s, l, dest, jr, stack) )
-    PROTO_T ( exp s X exp l X where dest X exp jr X ash stack )
+(exp s, exp l, where dest, exp jr, ash stack)
 {
   while (!last (l)) {		/* not the last branch */
-    exp record = getexp (f_bottom, nilexp,
-        (bool)(props (son (bro (l))) & 2),
+    exp record = getexp(f_bottom, nilexp,
+       (bool)(props(son(bro(l))) & 2),
         nilexp,
 	nilexp, 0, 0, 0);
     sonno(record) = stack_dec;
@@ -959,34 +977,34 @@ static void solve
     /* record the floating point stack position, fstack_pos */
     /* record is jump record for the label */
     pt (son (bro (l))) = record;/* put it away */
-    l = bro (l);
+    l = bro(l);
   };
 
   {
     int  r1 = regsinuse;	/* record regsinuse for the start of each
 				   branch and for the end. */
     exp t;
-    if (name (s) != goto_tag || pt (s) != bro (s))
+    if (name(s)!= goto_tag || pt(s)!= bro(s))
       coder (dest, stack, s);	/* code the starting exp */
 #ifdef NEWDIAGS
     else
-      diag_arg (dest, stack, s);
+      diag_arg(dest, stack, s);
 #endif
     reset_fpucon();
     t = s;
     do {
       regsinuse = r1;
-      if (name (sh (t)) != bothd) {
-	jump (jr, in_fstack (dest.where_exp));
+      if (name(sh(t))!= bothd) {
+	jump(jr, in_fstack(dest.where_exp));
       };
       /* only put in jump if needed */
-      t = bro (t);
-      align_label(2, pt (son (t)));
-      set_label (pt (son (t)));
-      coder (dest, stack, t);
+      t = bro(t);
+      align_label(2, pt(son(t)));
+      set_label(pt(son(t)));
+      coder(dest, stack, t);
       reset_fpucon();
     }
-    while (!last (t));
+    while (!last(t));
     regsinuse = r1;
     return;
   }
@@ -998,8 +1016,7 @@ static void solve
  *************************************************************************/
 
 static void caser
-    PROTO_N ( (arg, exhaustive, case_exp) )
-    PROTO_T ( exp arg X int exhaustive X exp case_exp )
+(exp arg, int exhaustive, exp case_exp)
 {
   exp t = arg;
   int  n;
@@ -1015,27 +1032,27 @@ static void caser
     t=bro(t);
   }
   while (bro(t)!=nilexp);
-  max=((son(t)==nilexp) ? no(t) : no(son(t)));
+  max= ((son(t) ==nilexp)? no(t): no(son(t)));
 
 
   /* prepare to use jump table */
-  v = (int *) xcalloc (max - min + 1, sizeof (int));
+  v = (int *)xcalloc(max - min + 1, sizeof(int));
   for (i = 0; i < (max - min + 1); ++i)
     v[i] = -1;
   t = arg;
   do {
     exp lab;
-    t = bro (t);
+    t = bro(t);
     lab = final_dest(pt(t));
-    n = ptno (pt (son (lab)));
-    for (i = no (t);
-	i <= ((son (t) == nilexp) ? no (t) : no (son (t)));
+    n = ptno(pt(son(lab)));
+    for (i = no(t);
+	i <= ((son(t) == nilexp)? no(t): no(son(t)));
 	++i)
       v[i - min] = n;
   }
-  while (bro (t) != nilexp);
+  while (bro(t)!= nilexp);
 
-  switch (name (sh (arg))) EXHAUSTIVE {
+  switch (name(sh(arg)))EXHAUSTIVE {
     case scharhd:
     case ucharhd:
       sz = 8;
@@ -1050,7 +1067,7 @@ static void caser
       break;
   };
 
-  caseins (sz, arg, min, max,v, exhaustive, 0 , case_exp);
+  caseins(sz, arg, min, max,v, exhaustive, 0 , case_exp);
 		/* put in jump table */
   return;
 }
@@ -1064,12 +1081,11 @@ static void caser
  ********************************************************************/
 
 static ash stack_room
-    PROTO_N ( (stack, dest, off) )
-    PROTO_T ( ash stack X where dest X int off )
+(ash stack, where dest, int off)
 {
   if (name(dest.where_exp) == ident_tag)
    {
-     if (ptno(dest.where_exp) != local_pl)
+     if (ptno(dest.where_exp)!= local_pl)
        return stack;
      if ((no(dest.where_exp) + off) > stack.ashsize)
        stack.ashsize = no(dest.where_exp) + off;
@@ -1085,22 +1101,21 @@ static void coder1
 #else
 void coder
 #endif
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
+(where dest, ash stack, exp e)
 {
   float old_scale;
-  switch (name (e)) {
+  switch (name(e)) {
     case ident_tag:
       {
-	exp def = son (e);
-	exp body = bro (def);
+	exp def = son(e);
+	exp body = bro(def);
 	int  sz;
 	dcl dc;
 	int  old_fstack_pos;
 	if (isinlined(e) && dest.where_off == 0 &&
 		name(dest.where_exp) == ident_tag &&
-		(!has_intnl_call(e) || ptno(dest.where_exp) != reg_pl ||
-		   (no(dest.where_exp) > 4 && no(dest.where_exp) < smallflmask))) {
+		(!has_intnl_call(e) || ptno(dest.where_exp)!= reg_pl ||
+		  (no(dest.where_exp) > 4 && no(dest.where_exp) < smallflmask))) {
 	  dc.dcl_pl = ptno(dest.where_exp);
 	  dc.dcl_n = no(dest.where_exp);
 	  dc.dcl_place.ashsize = stack.ashsize + shape_size(sh(def));
@@ -1115,10 +1130,10 @@ void coder
 
 	ptno (e) = dc.dcl_pl;	/* record the allocation in pt and no for
 				   when the value is used. */
-	no (e) = dc.dcl_n;
+	no(e) = dc.dcl_n;
 
-	if (ptno (e) == reg_pl && name (sh (def)) >= shrealhd &&
-	    name (sh (def)) <= doublehd) {
+	if (ptno(e) == reg_pl && name(sh(def)) >= shrealhd &&
+	    name(sh(def)) <= doublehd) {
 	  /* if the value being defined is going in the floating point
 	     registers, record the floating point stack level, so that we
 	     can ensure that it is the same at the end of the construction
@@ -1132,18 +1147,18 @@ void coder
 
 	if (dc.dcl_new) {	/* if it is new we must evaluate the def
 				*/
-	  if (ptno (e) == nowhere_pl)
+	  if (ptno(e) == nowhere_pl)
 	    coder (zero, stack, def);/* discard the value */
 	  else
            {
-	    coder (mw (e, 0), stack, def);
+	    coder(mw(e, 0), stack, def);
            };
 
-	  if (ptno (e) == reg_pl) {
+	  if (ptno(e) == reg_pl) {
 	    /* modify regsinuse if a register is being used */
 	    regsinuse |= dc.dcl_n;
 	  };
-	  if (ptno (e) == local_pl) {
+	  if (ptno(e) == local_pl) {
 	    /* modify max_stack if the stack is being used */
 	    if (sz > max_stack)
 	      max_stack = sz;
@@ -1152,58 +1167,58 @@ void coder
 
 	coder (dest, dc.dcl_place, body);/* code the body */
 
-	if (dc.dcl_new && ptno (e) == reg_pl) {
+	if (dc.dcl_new && ptno(e) == reg_pl) {
 	  regsinuse &= ~dc.dcl_n;/* restore regsinuse. It is done by
 				   removing the bits of this allocation,
 				   rather than restoring the old value, so
 				   that allocation and restoration need
 				   not nest */
-	  if (name (sh (def)) >= shrealhd && name (sh (def)) <= doublehd &&
-	      fstack_pos != (SET(old_fstack_pos) old_fstack_pos) &&
-	      ptno (e) == reg_pl &&
-	      name (sh (e)) != bothd) {
+	  if (name(sh(def)) >= shrealhd && name(sh(def)) <= doublehd &&
+	      fstack_pos != (SET(old_fstack_pos)old_fstack_pos) &&
+	      ptno(e) == reg_pl &&
+	      name(sh(e))!= bothd) {
 	    /* restore the floating point registers if necessary */
 
-	    if (ptno (e) == reg_pl &&
-		!in_fstack (dest.where_exp)) {
-	      int   rn = get_reg_no (no (e));
+	    if (ptno(e) == reg_pl &&
+		!in_fstack(dest.where_exp)) {
+	      int   rn = get_reg_no(no(e));
 	      if (rn == fstack_pos)
-		discard_fstack ();
+		discard_fstack();
 	      else {
 		if (rn < fstack_pos)
-		  discard_st1 ();
+		  discard_st1();
 	      };
 	    };
 	  };
 	};
 
-	if (dc.dcl_new && ptno (e) == local_pl) {
-	  exp temp = getexp (f_top, nilexp, 1, e, nilexp, 0, 0, name_tag);
+	if (dc.dcl_new && ptno(e) == local_pl) {
+	  exp temp = getexp(f_top, nilexp, 1, e, nilexp, 0, 0, name_tag);
 	  if (isvar(e))
-	    temp = getexp (f_top, nilexp, 1, temp, nilexp, 0, 0, cont_tag);
-	  invalidate_dest ( mw ( temp, 0 ) );
+	    temp = getexp(f_top, nilexp, 1, temp, nilexp, 0, 0, cont_tag);
+	  invalidate_dest(mw(temp, 0));
 	  if (isvar(e))
-	    retcell (son(temp));
-	  retcell (temp);
+	    retcell(son(temp));
+	  retcell(temp);
 	}
 
 	if (isenvoff(e)) {	/* prepare for possible later constant evaluation */
-	  hasenvoff_list = getexp (f_bottom, hasenvoff_list, 0, e, nilexp, 0, 0, 0);
+	  hasenvoff_list = getexp(f_bottom, hasenvoff_list, 0, e, nilexp, 0, 0, 0);
 	}
 
 	return;
       };
     case seq_tag:
       {
-	exp t = son (son (e));
+	exp t = son(son(e));
 	int no_bottom;
-	while (coder (zero, stack, t),
+	while (coder(zero, stack, t),
 	/* code and discard the statements */
-	    no_bottom = (name (sh (t)) != bothd),
-	    !last (t))
-	  t = bro (t);
+	    no_bottom = (name(sh(t))!= bothd),
+	    !last(t))
+	  t = bro(t);
 	if (no_bottom)
-	  coder (dest, stack, bro (son (e)));
+	  coder(dest, stack, bro(son(e)));
 #ifdef NEWDIAGS
 	else
 	if (diagnose) {			/* Beware lost information !!! */
@@ -1217,13 +1232,13 @@ void coder
     case cond_tag:
       {
 	int  old_fstack_pos = fstack_pos;
-	exp first = son (e);
-	exp alt = bro (first);
+	exp first = son(e);
+	exp alt = bro(first);
 	exp record;	/* jump record for alt */
 	int  r1;
 	exp jr = nilexp;/* jump record for end of construction */
 
-	if ( no(son(alt)) == 0) {
+	if (no(son(alt)) == 0) {
 	  coder(dest, stack, first);
 #ifdef NEWDIAGS
 	  if (diagnose) {		/* Beware lost information !!! */
@@ -1238,18 +1253,18 @@ void coder
 	clean_stack();
 
 
-	record = getexp (f_bottom, nilexp, 0,
+	record = getexp(f_bottom, nilexp, 0,
 	      nilexp, nilexp,
 	      0, 0, 0);
         sonno(record) = stack_dec;
         fstack_pos_of(record) = (prop)fstack_pos;
-	if (pt(son(alt)) != nilexp)
+	if (pt(son(alt))!= nilexp)
 	    ptno(record) = ptno(pt(son(alt)));
 	else
             ptno(record) = next_lab();
 
 
-	if (name(bro(son(alt))) == top_tag && stack_dec == 0 && !is_loaded_lv(alt))  {
+	if (name(bro(son(alt))) == top_tag && stack_dec == 0 && !is_loaded_lv(alt)) {
 	  int extract = take_out_of_line(first, alt, repeat_level > 0, scale);
 
 	  if (extract) {
@@ -1258,8 +1273,8 @@ void coder
 	    int test_n;
 	    shape sha;
 	    outofline * rec;
-	    exp tst = (is_tester(t, 0)) ? t : bro(son(t));
-	      jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	    exp tst = (is_tester(t, 0))? t : bro(son(t));
+	      jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
 	        0, 0);
               sonno(jr) = stack_dec;
               ptno(jr) = next_lab();
@@ -1283,7 +1298,7 @@ void coder
 	      son(son(first)) = bro(son(son(first)));
 
 	    rec->body = first;
-	    pt (son (alt)) = record;
+	    pt(son(alt)) = record;
 
 	    test_n = (int)test_number(tst);
 	    if (name(sha) < shrealhd || name(sha) > doublehd)
@@ -1292,7 +1307,7 @@ void coder
 	      test_n = (int)real_inverse_ntest[test_n];
 
 	    settest_number(tst, test_n);
-	    z = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	    z = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 	    sonno(z) = stack_dec;
 	    fstack_pos_of(z) = (prop)fstack_pos;
 	    ptno(z) = rec->labno;
@@ -1300,11 +1315,11 @@ void coder
 	    p = getexp(sha, tst, 0, s, nilexp, 0, 0, 0);
 	    pt(tst) = p;
 	    coder(zero, stack, t);
-	    if (name(sh(first)) != bothd) {
+	    if (name(sh(first))!= bothd) {
 	      reset_fpucon();
 	      set_label(jr);
 #ifdef NEWDWARF
-	      START_BB ();
+	      START_BB();
 #endif
 	      clear_reg_record(crt_reg_record);
 	    };
@@ -1319,7 +1334,7 @@ void coder
 	    if (dwarf2) {
 	      rec->dw2_hi = next_dwarf_label();
 	      rec->dw2_slave = next_dwarf_label();
-	      dw2_extend_scope (rec->labno, rec->dw2_hi, rec->dw2_slave);
+	      dw2_extend_scope(rec->labno, rec->dw2_hi, rec->dw2_slave);
 	    }
 #endif
 #endif
@@ -1333,67 +1348,67 @@ void coder
 	/* record floating point stack position so that we can align the
 	   positions */
 	/* jump record set up for alt */
-	pt (son (alt)) = record;
+	pt(son(alt)) = record;
 	/* set the record in for use by jumps in first. */
 
 	r1 = regsinuse;		/* regsinuse is the same at the start of
 				   first and alt, and at the end of the
 				   construction. */
-	coder (dest, stack, first);
+	coder(dest, stack, first);
 	reset_fpucon();
 	clean_stack();
 
 	regsinuse = r1;		/* restore regsinuse for alt */
 
-	if (name (bro (son (alt))) == top_tag && !is_loaded_lv(alt)) {
+	if (name(bro(son(alt))) == top_tag && !is_loaded_lv(alt)) {
 	  /* if alt is only load top, do nothing but set the label */
-	  if (name(sh(first)) == bothd && no(son(alt)) != 0)
+	  if (name(sh(first)) == bothd && no(son(alt))!= 0)
 	    align_label(2, record);
 
 	  if (name(first) == seq_tag &&
 		  name(bro(son(first))) == seq_tag &&
 		  name(bro(son(bro(son(first))))) == apply_tag)
 	    align_label(0, record);
-	  set_label (record);
+	  set_label(record);
 #ifdef NEWDWARF
-	  START_BB ();
+	  START_BB();
 #endif
 	  fstack_pos = old_fstack_pos;
-	  clear_reg_record (crt_reg_record);
+	  clear_reg_record(crt_reg_record);
           scale = old_scale;
 	  return;
 	};
 
-	if (name (sh (first)) != bothd &&
-		(no(son(alt)) != 0 || name(bro(son(alt))) != goto_tag)) {
+	if (name(sh(first))!= bothd &&
+		(no(son(alt))!= 0 || name(bro(son(alt)))!= goto_tag)) {
 	  /* if the first did not end with jump or ret, put in a jump to
 	     the end of the construction, and make a jump record for it */
-	    jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	    jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
 	        0, 0);
             sonno(jr) = stack_dec;
             ptno(jr) = next_lab();
             fstack_pos_of(jr) = (prop)fstack_pos;
-	  jump (jr, in_fstack (dest.where_exp));
+	  jump(jr, in_fstack(dest.where_exp));
 	};
 
-	if (no(son(alt)) != 0 || name(bro(son(alt))) != goto_tag) {
-	if (no(son(alt)) != 0)
+	if (no(son(alt))!= 0 || name(bro(son(alt)))!= goto_tag) {
+	if (no(son(alt))!= 0)
           align_label(2, record);
 	set_label (record);	/* the label for the start of alt */
 	fstack_pos = old_fstack_pos;
-	coder (dest, stack, alt);
+	coder(dest, stack, alt);
 	reset_fpucon();
 	regsinuse = r1;		/* restore regsinuse for end of
 				   construction */
-	if (name (sh (first)) != bothd) {
+	if (name(sh(first))!= bothd) {
 	  /* set the label for the end of the construction if first needed
 	     it. */
 	  SET(jr);
 	  if (name(sh(alt)) == bothd)
 	    align_label(2, jr);
-	  set_label (jr);
+	  set_label(jr);
 #ifdef NEWDWARF
-	  START_BB ();
+	  START_BB();
 #endif
 	};
       };
@@ -1405,7 +1420,7 @@ void coder
       };
     case labst_tag: 		/* code a labelled statement */
       {
-	clear_reg_record (crt_reg_record);
+	clear_reg_record(crt_reg_record);
 	cond1_set = 0;
 	cond2_set = 0;
 	fpucon = normal_fpucon;
@@ -1413,7 +1428,7 @@ void coder
         if (is_loaded_lv(e)) {
 	  set_lv_label(e);
 	  if (need_preserve_stack)
-	    restore_stack ();
+	    restore_stack();
 	  else if (!has_alloca)
             set_stack_from_bp();
 	};
@@ -1422,26 +1437,26 @@ void coder
 
         old_scale = scale;
 #ifdef NEWDWARF
-	START_BB ();
+	START_BB();
 #endif
-	coder (dest, stack, bro (son (e)));
+	coder(dest, stack, bro(son(e)));
         scale = old_scale;
 
-	clear_reg_record (crt_reg_record);
+	clear_reg_record(crt_reg_record);
 	clean_stack();
 	return;
       };
     case rep_tag:
       {
-	exp start = son (e);
-	exp body = bro (start);
+	exp start = son(e);
+	exp body = bro(start);
 	exp record;		/* jump record for loop label */
         ++repeat_level;
-	coder (mw (body, 0), stack, start);
+	coder(mw(body, 0), stack, start);
 	/* code the starter of the loop */
 	reset_fpucon();
 	clean_stack();
-	record = getexp (f_bottom, nilexp, 1, nilexp,
+	record = getexp(f_bottom, nilexp, 1, nilexp,
 	    nilexp, 0, 0, 0);
         sonno(record) = stack_dec;
         ptno(record) = next_lab();
@@ -1450,11 +1465,11 @@ void coder
 	cond2_set = 0;
         align_label(1, record);
 	set_label (record);	/* set the label at the start of body */
-	pt (son (body)) = record;
+	pt(son(body)) = record;
         old_scale = scale;
         if (scale < 1e30)
 		scale = (float)20.0 * scale;
-	coder (dest, stack, body);
+	coder(dest, stack, body);
         scale = old_scale;
         --repeat_level;
 	return;
@@ -1469,21 +1484,21 @@ void coder
 	lab = final_dest(pt(e));
 #ifdef NEWDWARF
 	if (current_dg_info) {
-	  current_dg_info->data.i_tst.brk = set_dw_text_label ();
-	  current_dg_info->data.i_tst.jlab.u.l = ptno(pt (son (lab)));
+	  current_dg_info->data.i_tst.brk = set_dw_text_label();
+	  current_dg_info->data.i_tst.jlab.u.l = ptno(pt(son(lab)));
 	  current_dg_info->data.i_tst.jlab.k = LAB_CODE;
 	}
 #endif
 	if (label_is_next(lab, e)) {
-	  int  fs_dest = (int)fstack_pos_of (pt (son (lab)));
+	  int  fs_dest = (int)fstack_pos_of(pt(son(lab)));
 	  int  good_fs = fstack_pos;
 	  while (fstack_pos > fs_dest)
-	    discard_fstack ();
+	    discard_fstack();
 	  reset_fpucon();
 	  fstack_pos = good_fs;
 	  return;
 	};
-	jump (pt (son (lab)), 0);
+	jump(pt(son(lab)), 0);
 	return;
       };
     case goto_lv_tag:
@@ -1495,9 +1510,9 @@ void coder
       };
     case long_jump_tag:
       {
-	coder (pushdest, stack, bro(son(e)));
+	coder(pushdest, stack, bro(son(e)));
 	extra_stack += 32;
-	coder (pushdest, stack, son(e));
+	coder(pushdest, stack, son(e));
 	extra_stack += 32;
 	check_stack_max;
 	reset_fpucon();
@@ -1517,7 +1532,7 @@ void coder
 	  exp q = short_next_jump(e);
 	  if (q != nilexp &&
 		(name(q) == goto_tag ||
-		   (name(q) == res_tag && name(son(q)) == top_tag)) &&
+		  (name(q) == res_tag && name(son(q)) == top_tag)) &&
 		label_is_next(lab, q)) {
 	    shape sha = sh(son(e));
 	    if (name(q) == goto_tag) {
@@ -1525,7 +1540,7 @@ void coder
 	      pt(q) = lab;
 	    }
 	    else {
-              temp = getexp (f_bottom, nilexp, 0, nilexp,
+              temp = getexp(f_bottom, nilexp, 0, nilexp,
                                 nilexp, 0, 0, 0);
 	      ptno(temp) = crt_ret_lab;
 	      fstack_pos_of(temp) = (prop)first_fl_reg;
@@ -1541,9 +1556,9 @@ void coder
 	    lab = temp;
 	    pt(e) = lab;
 	    if (name(sha) < shrealhd || name(sha) > doublehd)
-	      settest_number(e, (int)int_inverse_ntest[testno]);
+	      settest_number(e,(int)int_inverse_ntest[testno]);
 	    else
-	      settest_number(e, (int)real_inverse_ntest[testno]);
+	      settest_number(e,(int)real_inverse_ntest[testno]);
 #ifdef NEWDIAGS
 	    if (current_dg_info)
 	      current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
@@ -1566,43 +1581,43 @@ void coder
 	pt(e) = temp;
        {
 	where qw;
-	exp lab_exp = pt (e);
-	exp jr = pt (son (lab_exp));
-	exp arg1 = son (e);
-	exp arg2 = bro (arg1);
-	if (!is_o (name (arg1)) || is_crc(arg1)) {
+	exp lab_exp = pt(e);
+	exp jr = pt(son(lab_exp));
+	exp arg1 = son(e);
+	exp arg2 = bro(arg1);
+	if (!is_o(name(arg1)) || is_crc(arg1)) {
 	  /* arg1 is not a possible 80386 operand, precompute it in reg0
 	  */
-	  qw.where_exp = copyexp (reg0.where_exp);
-	  sh (qw.where_exp) = sh (arg1);
+	  qw.where_exp = copyexp(reg0.where_exp);
+	  sh(qw.where_exp) = sh(arg1);
 	  qw.where_off = 0;
-	  coder (qw, stack, arg1);
+	  coder(qw, stack, arg1);
 	  arg1 = qw.where_exp;
 	};
-	if (!is_o (name (arg2)) || is_crc(arg2)) {
+	if (!is_o(name(arg2)) || is_crc(arg2)) {
 	  /* arg2 is not a possible 80386 operand, precompute it in reg0
 	  */
-	  qw.where_exp = copyexp (reg0.where_exp);
-	  sh (qw.where_exp) = sh (arg2);
+	  qw.where_exp = copyexp(reg0.where_exp);
+	  sh(qw.where_exp) = sh(arg2);
 	  qw.where_off = 0;
-	  coder (qw, stack, arg2);
+	  coder(qw, stack, arg2);
 	  arg2 = qw.where_exp;
 	};
 
 	clean_stack();
 #ifdef NEWDWARF
 	if (current_dg_info) {
-	  current_dg_info->data.i_tst.brk = set_dw_text_label ();
+	  current_dg_info->data.i_tst.brk = set_dw_text_label();
 	  current_dg_info->data.i_tst.jlab.u.l = ptno(jr);
 	  current_dg_info->data.i_tst.jlab.k = LAB_CODE;
 	}
 #endif
-	test (sh (arg1), mw (arg1, 0), mw (arg2, 0));
-	branch ((int)test_number(e), jr, 1, (int)name(sh(arg1)));
+	test(sh(arg1), mw(arg1, 0), mw(arg2, 0));
+	branch((int)test_number(e), jr, 1,(int)name(sh(arg1)));
 #ifdef NEWDWARF
-	START_BB ();
+	START_BB();
 	if (current_dg_info)
-	  current_dg_info->data.i_tst.cont = set_dw_text_label ();
+	  current_dg_info->data.i_tst.cont = set_dw_text_label();
 #endif
 	return;
        };
@@ -1621,8 +1636,8 @@ void coder
 	  if (name(lab) == labst_tag) {
 	    exp q = short_next_jump(e);
 	    if (q != nilexp &&
-		  (name(q) == goto_tag ||
-		     (name(q) == res_tag && name(son(q)) == top_tag)) &&
+		 (name(q) == goto_tag ||
+		    (name(q) == res_tag && name(son(q)) == top_tag)) &&
 		  label_is_next(lab, q)) {
 	      shape sha = sh(son(e));
 	      if (name(q) == goto_tag) {
@@ -1630,7 +1645,7 @@ void coder
 	        pt(q) = lab;
 	      }
 	      else {
-                temp = getexp (f_bottom, nilexp, 0, nilexp,
+                temp = getexp(f_bottom, nilexp, 0, nilexp,
                                 nilexp, 0, 0, 0);
 		ptno(temp) = crt_ret_lab;
 		fstack_pos_of(temp) = (prop)first_fl_reg;
@@ -1646,9 +1661,9 @@ void coder
 	      lab = temp;
 	      pt(e) = lab;
 	      if (name(sha) < shrealhd || name(sha) > doublehd)
-	        settest_number(e, (int)int_inverse_ntest[testno]);
+	        settest_number(e,(int)int_inverse_ntest[testno]);
 	      else
-	        settest_number(e, (int)real_inverse_ntest[testno]);
+	        settest_number(e,(int)real_inverse_ntest[testno]);
 #ifdef NEWDIAGS
 	      if (current_dg_info)
 		current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
@@ -1672,42 +1687,42 @@ void coder
 	};
 	{
 	  where qw;
-	  exp arg1 = son (e);
-	  exp arg2 = bro (arg1);
-	  unsigned char  test_n = test_number (e);
-	  exp lab_exp = pt (e);
+	  exp arg1 = son(e);
+	  exp arg2 = bro(arg1);
+	  unsigned char  test_n = test_number(e);
+	  exp lab_exp = pt(e);
 	  exp jr;
 	  int sg;
-	  if (name(e)==test_tag)
-	    jr = pt (son (lab_exp));
-	  if (!is_o (name (arg1)) || is_crc(arg1)) {
+	  if (name(e) ==test_tag)
+	    jr = pt(son(lab_exp));
+	  if (!is_o(name(arg1)) || is_crc(arg1)) {
 	    /* arg1 is not a possible 80386 operand, precompute it in reg0
 	       */
-	    qw.where_exp = copyexp (reg0.where_exp);
-	    sh (qw.where_exp) = sh (arg1);
+	    qw.where_exp = copyexp(reg0.where_exp);
+	    sh(qw.where_exp) = sh(arg1);
 	    qw.where_off = 0;
-	    coder (qw, stack, arg1);
+	    coder(qw, stack, arg1);
 	    arg1 = qw.where_exp;
 	  }
 #ifdef NEWDIAGS
 	  else
-	    diag_arg (dest, stack, arg1);
+	    diag_arg(dest, stack, arg1);
 #endif
-	  if (!is_o (name (arg2)) || is_crc(arg2)) {
+	  if (!is_o(name(arg2)) || is_crc(arg2)) {
 	    /* arg2 is not a possible 80386 operand, precompute it in reg0
 	       */
-	    qw.where_exp = copyexp (reg0.where_exp);
-	    sh (qw.where_exp) = sh (arg2);
+	    qw.where_exp = copyexp(reg0.where_exp);
+	    sh(qw.where_exp) = sh(arg2);
 	    qw.where_off = 0;
-	    coder (qw, stack, arg2);
+	    coder(qw, stack, arg2);
 	    arg2 = qw.where_exp;
 	  }
 #ifdef NEWDIAGS
 	  else
-	    diag_arg (dest, stack, arg2);
+	    diag_arg(dest, stack, arg2);
 #endif
 
-	  switch (name (sh (arg1))) {
+	  switch (name(sh(arg1))) {
 	    case scharhd:
 	    case swordhd:
 	    case slonghd:
@@ -1728,8 +1743,8 @@ void coder
 	      break;
 	  };
 
-	  if (name (arg1) == val_tag || name (arg1) == env_offset_tag ||
-		(name (arg1) == name_tag && isvar(son(arg1)) && isglob(son(arg1)) )) {
+	  if (name(arg1) == val_tag || name(arg1) == env_offset_tag ||
+		(name(arg1) == name_tag && isvar(son(arg1)) && isglob(son(arg1)))) {
 		/* if only one constant, cmp expects it to be arg2 */
 	    exp holde = arg1;
 	    arg1 = arg2;
@@ -1741,7 +1756,7 @@ void coder
 #endif
 	  };
 
-	  if (name (arg1) == null_tag) {
+	  if (name(arg1) == null_tag) {
 	    failer("test_tag of wrong form");
 	  }
 	  else {
@@ -1750,7 +1765,7 @@ void coder
 		(test_n == f_greater_than || test_n == f_less_than_or_equal)) {
 	      cond1_set = 0;	/* avoid cmp(0) optimisation to clear overflow */
 	    }
-	    if (cmp (sh (arg1), mw (arg1, 0), mw (arg2, 0), (int)test_n, e)) {
+	    if (cmp(sh(arg1), mw(arg1, 0), mw(arg2, 0), (int)test_n, e)) {
 	      if (sg) {
 		sg = -1;   /* ignore overflow when testing sign bit */
 	      }
@@ -1759,22 +1774,22 @@ void coder
 	      SET(jr);
 #ifdef NEWDWARF
 	      if (current_dg_info) {
-		current_dg_info->data.i_tst.brk = set_dw_text_label ();
+		current_dg_info->data.i_tst.brk = set_dw_text_label();
 		current_dg_info->data.i_tst.jlab.u.l = ptno(jr);
 		current_dg_info->data.i_tst.jlab.k = LAB_CODE;
 	      }
 #endif
-	      branch ((int)test_n, jr, sg, (int)name(sh(arg1)));
+	      branch((int)test_n, jr, sg,(int)name(sh(arg1)));
 #ifdef NEWDWARF
-	      START_BB ();
+	      START_BB();
 	      if (current_dg_info)
-	        current_dg_info->data.i_tst.cont = set_dw_text_label ();
+	        current_dg_info->data.i_tst.cont = set_dw_text_label();
 #endif
 	    }
 	    else
-	    if (!eq_where (dest, zero)) {
+	    if (!eq_where(dest, zero)) {
 	      setcc((int)int_inverse_ntest[test_n], sg,
-			 (int)name(sh(arg1)));
+			(int)name(sh(arg1)));
 	      if (shape_size(sh(e)) > 8)
 	        and(slongsh, reg0, mw(zeroe, 0xff), reg0);
 	      move(sh(e), reg0, dest);
@@ -1787,8 +1802,8 @@ void coder
     case ass_tag:
     case assvol_tag:
       {
-	exp assdest = son (e);
-	exp assval = bro (assdest);
+	exp assdest = son(e);
+	exp assval = bro(assdest);
 
         if (!newcode && name(sh(assval)) == bitfhd)
          {
@@ -1796,7 +1811,7 @@ void coder
            return;
          };
 
-	coder (mw(e, 0), stack, assval);
+	coder(mw(e, 0), stack, assval);
 	/* set the destination and code the rest */
 	return;
       };
@@ -1816,7 +1831,7 @@ void coder
        if (no(e) == 0)
          return;
 
-       sz = shape_size(sh(e))/no(e);
+       sz = shape_size(sh(e)) /no(e);
        for (i = 0; i < no(e); ++i)
         {
           off = dest.where_off + i*sz;
@@ -1866,8 +1881,8 @@ void coder
     case apply_tag:
     case apply_general_tag:
       {
-	exp proc = son (e);
-	exp arg = (!last(proc)) ? bro (proc) : nilexp;
+	exp proc = son(e);
+	exp arg = (!last(proc))? bro(proc): nilexp;
 	exp cees = nilexp;
 	exp postlude = nilexp;
 	int untidy_call = 0;
@@ -1881,23 +1896,23 @@ void coder
 	int ret_stack_dec;
 
 	if (builtinproc(e)) {
-	  dec* dp = brog (son(proc));
+	  dec* dp = brog(son(proc));
 	  char *id = dp -> dec_u.dec_val.dec_id;
-	  special_ins (id + prefix_length, arg, dest);
+	  special_ins(id + prefix_length, arg, dest);
 	  return;
 	}
 
-	if (name(e)==apply_general_tag) {
+	if (name(e) ==apply_general_tag) {
 	  arg = son(arg);
 	  cees = bro(bro(proc));
-	  if (name(bro(cees)) != top_tag)
+	  if (name(bro(cees))!= top_tag)
 	    postlude = bro(cees);
 	  untidy_call = call_is_untidy(e);
 	  has_checkstack = call_has_checkstack(e);
 	}
 
 	not_in_params = 0;
-	longs = procargs (stack, arg, has_checkstack);
+	longs = procargs(stack, arg, has_checkstack);
 	ret_stack_dec = stack_dec;
 
 	prev_use_bp = must_use_bp;	/* may be altered by push_cees */
@@ -1907,10 +1922,10 @@ void coder
 	  switch (name(cees)) {
 	    case make_callee_list_tag:
 	      {
-		more_longs = procargs (stack, son(cees), has_checkstack);
+		more_longs = procargs(stack, son(cees), has_checkstack);
 		if (call_has_vcallees(cees)) {
-		  ins2 (leal, 32, 32, mw(ind_sp.where_exp, more_longs), reg0);
-		  ins0 (pusheax);
+		  ins2(leal, 32, 32, mw(ind_sp.where_exp, more_longs), reg0);
+		  ins0(pusheax);
 		  stack_dec -= 32;
 		  more_longs += 32;
 		}
@@ -1920,12 +1935,12 @@ void coder
 	      {
 		exp ptr = son(cees);
 		exp siz = bro(ptr);
-		more_longs = push_cees (ptr, siz, call_has_vcallees(cees), stack);
+		more_longs = push_cees(ptr, siz, call_has_vcallees(cees), stack);
 		break;
 	      }
 	    case same_callees_tag:
 	      {
-		more_longs = push_cees (nilexp, nilexp, call_has_vcallees(cees), stack);
+		more_longs = push_cees(nilexp, nilexp, call_has_vcallees(cees), stack);
 		break;
 	      }
 	  }
@@ -1943,7 +1958,7 @@ void coder
 	  old_regsinuse = regsinuse;
 	  if (multi_reg)
 	    regsinuse |= 0x2;	/* prevent callins using pop edx */
-	  callins (longs, son (e), ret_stack_dec);
+	  callins(longs, son(e), ret_stack_dec);
 	  regsinuse = old_regsinuse;
 	}
 	else {
@@ -1951,21 +1966,21 @@ void coder
 	  if (untidy_call) {
 	    stack_dec = 0;	/* as alloca, must_use_bp */
 	    if (need_preserve_stack)
-	      save_stack ();
+	      save_stack();
 	  };
 	}
 	must_use_bp = prev_use_bp;
 
-	invalidate_dest (mw (nilexp, 0));
+	invalidate_dest(mw(nilexp, 0));
 
-	clear_low_reg_record (crt_reg_record);
+	clear_low_reg_record(crt_reg_record);
 	cond1_set = 0;
 	cond2_set = 0;		/* we don't know the state of the
 				   conditions */
-	if (eq_where (dest, zero))
+	if (eq_where(dest, zero))
 	{
 	  if (reg_result (sh (e))) {/* answer in register */
-	    if (name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd) {
+	    if (name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd) {
 	      push_fl;
 	      discard_fstack();
 	    }
@@ -1980,19 +1995,19 @@ void coder
 	    temp_dest = pushdest;
 	  }
 	  if (reg_result (sh (e))) {/* answer in register */
-	    if (name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd) {
+	    if (name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd) {
 	      push_fl;
-	      move (sh (e), flstack, temp_dest);
+	      move(sh(e), flstack, temp_dest);
 	    }
 	    else
-	      move (sh (e), reg0, temp_dest);
+	      move(sh(e), reg0, temp_dest);
 	  }
 	  else
 	    failer(STRUCT_RES);  /* compound result */
 	}
 
 	if (postlude != nilexp) {
-	  int sz = rounder (shape_size(sh(e)), param_align);
+	  int sz = rounder(shape_size(sh(e)), param_align);
 	  old_nip = not_in_postlude;
 	  not_in_postlude = 0;
 	  while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
@@ -2002,7 +2017,7 @@ void coder
 	      a = bro(a);
 	      n--;
 	    }
-	    if (name(a) != caller_tag)
+	    if (name(a)!= caller_tag)
 	      failer(BAD_POSTLUDE);
 	    no(postlude) = no(a) + stack_dec - post_offset;
 	    ptno(postlude) = callstack_pl;
@@ -2012,9 +2027,9 @@ void coder
 	    stack_dec -= sz;
 	    check_stack_max;
 	  }
-	  coder (zero, stack, postlude);
+	  coder(zero, stack, postlude);
 	  if (push_result) {
-	    if (name (dest.where_exp) == apply_tag) {
+	    if (name(dest.where_exp) == apply_tag) {
 	      move(sh(e), ind_sp, dest);
 	      stack_dec += sz;
 	    }
@@ -2025,7 +2040,7 @@ void coder
 	      move(sh(e), ind_sp, dest);
 	    }
 	  }
-	  stack_return (longs);
+	  stack_return(longs);
 	  not_in_postlude = old_nip;
 	}
 
@@ -2033,7 +2048,7 @@ void coder
       };
     case tail_call_tag:
       {
-	exp proc = son (e);
+	exp proc = son(e);
 	exp cees = bro(proc);
 	int longs;
 	int prev_use_bp = must_use_bp;	/* may be altered by push_cees */
@@ -2044,13 +2059,13 @@ void coder
 	  case make_callee_list_tag:
 	    {
 	      not_in_params = 0;
-	      longs = procargs (stack, son(cees), call_has_checkstack(e));
+	      longs = procargs(stack, son(cees), call_has_checkstack(e));
 	      not_in_params = old_nip;
 	      break;
 	    }
 	  case make_dynamic_callee_tag:
 	    {
-	      longs = push_cees (son(cees), bro(son(cees)), 0, stack);
+	      longs = push_cees(son(cees), bro(son(cees)), 0, stack);
 	      break;
 	    }
 	  case same_callees_tag:
@@ -2065,66 +2080,66 @@ void coder
 	{
 	  int good_fs = fstack_pos;
 	  while (fstack_pos > first_fl_reg)
-	    discard_fstack ();
+	    discard_fstack();
 	  fstack_pos = good_fs;
 	  reset_fpucon();
 	}
 
 	if (longs == 0) {
 	  coder (reg0, stack, proc);	/* proc value to %eax */
-	  restore_callregs (0);
+	  restore_callregs(0);
 		/* stack reduced to old callees and return address */
 
 	  if (name(cees) == same_callees_tag) {
 	    if (callee_size < 0 && !call_has_vcallees(cees)) {
-	      outs (" popl %ecx\n");
-	      outs (" movl %ecx, (%esp)\n");
+	      outs(" popl %ecx\n");
+	      outs(" movl %ecx, (%esp)\n");
 	    }
 	    if (callee_size >= 0 && call_has_vcallees(cees)) {
-	      outs (" popl %ecx\n");
-	      outs (" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
-	      outs (" pushl %edx\n");
-	      outs (" pushl %ecx\n");
+	      outs(" popl %ecx\n");
+	      outs(" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
+	      outs(" pushl %edx\n");
+	      outs(" pushl %ecx\n");
 	    }
 	  }
 	  else {
 	    if (callee_size != 0 || call_has_vcallees(cees)) {
-	      outs (" popl %ecx\n");
+	      outs(" popl %ecx\n");
 	      if (callee_size < 0) {
-		outs (" popl %edx\n");
-		outs (" movl %edx,%esp\n");
+		outs(" popl %edx\n");
+		outs(" movl %edx,%esp\n");
 	      }
 	      else
 	      if (callee_size == 0)
-		outs (" movl %esp %edx\n");
+		outs(" movl %esp %edx\n");
 	      else {
-		outs (" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
-		outs (" movl %edx,%esp\n");
+		outs(" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
+		outs(" movl %edx,%esp\n");
 	      }
 	      if (call_has_vcallees(cees))
-		outs (" pushl %edx\n");
-	      outs (" pushl %ecx\n");
+		outs(" pushl %edx\n");
+	      outs(" pushl %ecx\n");
 	    }
 	  }
-	  outs (" jmp *%eax\n\n");
+	  outs(" jmp *%eax\n\n");
 	}
 	else {
 			/* callees have been pushed */
 	  if (call_has_vcallees(cees)) {
 	    if (callee_size >= 0) {
-	      outs (" leal ");
-	      rel_ap (4 + callee_size/8, 1);
-	      outs (",%eax\n");
-	      ins0 (pusheax);
+	      outs(" leal ");
+	      rel_ap(4 + callee_size/8, 1);
+	      outs(",%eax\n");
+	      ins0(pusheax);
 	    }
 	    else {
-	      outs (" pushl ");
-	      rel_ap (4, 1);
+	      outs(" pushl ");
+	      rel_ap(4, 1);
 	    }
 	    outnl();
 	    stack_dec -= 32;
 	  }
-	  outs (" pushl ");
+	  outs(" pushl ");
 	  rel_ap (0, 1);	/* push return address after callees */
 	  outnl();
 	  stack_dec -= 32;
@@ -2133,62 +2148,62 @@ void coder
 	  check_stack_max;
 	  if (longs < 0) {	/* must be dynamic_callees */
 	    exp sz = bro(son(cees));
-	    move (slongsh, mw(sz,0), reg2);
+	    move(slongsh, mw(sz,0), reg2);
 	    if (al2(sh(sz)) < param_align) {
 	      if (al2(sh(sz)) == 1) {
-		outs (" addl $31,%ecx\n");
-		outs (" shrl $3,%ecx\n");
+		outs(" addl $31,%ecx\n");
+		outs(" shrl $3,%ecx\n");
 	      }
 	      else
-		outs (" addl $3,%ecx\n");
-	      outs (" andl $-4,%ecx\n");
+		outs(" addl $3,%ecx\n");
+	      outs(" andl $-4,%ecx\n");
 	    }
 	  }
 	  if (!call_has_vcallees(cees)) {
 	    if (callee_size >= 0) {
-	      outs (" leal ");
-	      rel_ap (4 + callee_size/8, 1);
-	      outs (",%eax\n");
+	      outs(" leal ");
+	      rel_ap(4 + callee_size/8, 1);
+	      outs(",%eax\n");
 	    }
 	    else {
-	      outs (" movl ");
-	      rel_ap (4, 1);
-	      outs (",%eax\n");
+	      outs(" movl ");
+	      rel_ap(4, 1);
+	      outs(",%eax\n");
 	    }
 	  }
 
-	  restore_callregs (1);
+	  restore_callregs(1);
 
 		/* callees, return and proc to call are stacked */
 		/* size in %ecx if longs<0; callers at %eax unless stacked for vcallees */
-	  outs (" pushl %esi\n");
-	  outs (" pushl %edi\n");
+	  outs(" pushl %esi\n");
+	  outs(" pushl %edi\n");
 	  if (call_has_vcallees(cees))
-	    outs (" movl 16(%esp),%edi\n");
+	    outs(" movl 16(%esp),%edi\n");
 	  else
-	    outs (" movl %eax,%edi\n");
+	    outs(" movl %eax,%edi\n");
 	  if (longs < 0) {
-	    outs (" addl $");
-	    outn ((long)(call_has_vcallees(cees) ? 20 : 16));
-	    outs (", %ecx\n");
-	    outs (" leal -4(%esp),%esi\n");
-	    outs (" addl %ecx,%esi\n");
-	    outs (" shrl $2,%ecx\n");
+	    outs(" addl $");
+	    outn((long)(call_has_vcallees(cees)? 20 : 16));
+	    outs(", %ecx\n");
+	    outs(" leal -4(%esp),%esi\n");
+	    outs(" addl %ecx,%esi\n");
+	    outs(" shrl $2,%ecx\n");
 	  }
 	  else {
-	    outs (" movl $");
-	    outn ((long)(longs/32 + (call_has_vcallees(cees) ? 5 : 4)));
-	    outs (",%ecx\n");
-	    outs (" leal ");
-	    outn ((long)(longs/8 + (call_has_vcallees(cees) ? 16 : 12)));
-	    outs ("(%esp),%esi\n");
+	    outs(" movl $");
+	    outn((long)(longs/32 + (call_has_vcallees(cees)? 5 : 4)));
+	    outs(",%ecx\n");
+	    outs(" leal ");
+	    outn((long)(longs/8 + (call_has_vcallees(cees)? 16 : 12)));
+	    outs("(%esp),%esi\n");
 	  }
-	  outs (" subl $4,%edi\n");
-	  outs (" std\n rep\n movsl\n cld\n");
-	  outs (" leal 4(%edi),%esp\n");
-	  outs (" popl %edi\n");
-	  outs (" popl %esi\n");
-	  outs (" ret\n");
+	  outs(" subl $4,%edi\n");
+	  outs(" std\n rep\n movsl\n cld\n");
+	  outs(" leal 4(%edi),%esp\n");
+	  outs(" popl %edi\n");
+	  outs(" popl %esi\n");
+	  outs(" ret\n");
 	}
 
 	cond1_set = 0;
@@ -2203,44 +2218,44 @@ void coder
         if (name(son(e)) == val_tag)
           {
 	    int n = no(son(e));
-	    if (name(sh(son(e))) != offsethd)
+	    if (name(sh(son(e)))!= offsethd)
 	      n = 8 * n;
-	    sz_where = mw(zeroe, rounder(n, stack_align)/8);
+	    sz_where = mw(zeroe, rounder(n, stack_align) /8);
           }
         else {
 	  exp temp = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
           if (name(sh(son(e))) == offsethd && al2(sh(son(e))) == 1) {
 	    no(temp) = 31;
-	    bop (add, ulongsh, temp, son(e), reg0, stack);
-            shiftr (ulongsh, mw(zeroe,3), reg0, reg0);
-	    and (ulongsh, mw (zeroe, -4), reg0, reg0);
+	    bop(add, ulongsh, temp, son(e), reg0, stack);
+            shiftr(ulongsh, mw(zeroe,3), reg0, reg0);
+	    and(ulongsh, mw(zeroe, -4), reg0, reg0);
 	    sz_where = reg0;
           }
           else if (al2(sh(son(e))) < 32) {
 	    no(temp) = 3;
-	    bop (add, ulongsh, temp, son(e), reg0, stack);
-	    and (ulongsh, mw (zeroe, -4), reg0, reg0);
+	    bop(add, ulongsh, temp, son(e), reg0, stack);
+	    and(ulongsh, mw(zeroe, -4), reg0, reg0);
 	    sz_where = reg0;
           }
 	  else {
 	    sz_where = reg0;
-	    coder (sz_where, stack, son(e));
+	    coder(sz_where, stack, son(e));
 	  }
-	  retcell (temp);
+	  retcell(temp);
         };
 	if (checkalloc(e))
 	  checkalloc_stack(sz_where, 1);	/* uses reg1 */
 	else
-	  sub (ulongsh, sz_where, sp, sp);
-	if (!eq_where (dest, zero))
-	  move (sh (e), sp, dest);
+	  sub(ulongsh, sz_where, sp, sp);
+	if (!eq_where(dest, zero))
+	  move(sh(e), sp, dest);
 	if (need_preserve_stack)
-	  save_stack ();
+	  save_stack();
 	return;
       };
     case last_local_tag:
       {
-	move (sh (e), sp, dest);
+	move(sh(e), sp, dest);
 	return;
       };
     case local_free_tag:
@@ -2249,7 +2264,7 @@ void coder
           {
             int sz;
 	    int n = no(bro(son(e)));
-	    if (name(sh(bro(son(e)))) != offsethd)
+	    if (name(sh(bro(son(e))))!= offsethd)
 	      n = 8 * n;
 	    sz = rounder(n, stack_align);
             add(slongsh, mw(zeroe, sz/8), sp, sp);
@@ -2257,14 +2272,14 @@ void coder
 	else
 	    add(slongsh, mw(bro(son(e)), 0), sp, sp);
 	add(slongsh, mw(zeroe, 3), sp, sp);
-	and (slongsh, mw (zeroe, -stack_align/8), sp, sp);
+	and(slongsh, mw(zeroe, -stack_align/8), sp, sp);
 	if (need_preserve_stack)
-	  save_stack ();
+	  save_stack();
         return;
     case local_free_all_tag:
         set_stack_from_bp();
 	if (need_preserve_stack)
-	  save_stack ();
+	  save_stack();
         return;
     case ignorable_tag:
 	coder(dest, stack, son(e));
@@ -2287,68 +2302,68 @@ void coder
 
 	    /* if (!simple_res) */
 	    {
-	      if (name (sh (son (e))) >= shrealhd &&
-		  name (sh (son (e))) <= doublehd) {
-	        coder (flstack, stack, son (e));
+	      if (name(sh(son(e))) >= shrealhd &&
+		  name(sh(son(e))) <= doublehd) {
+	        coder(flstack, stack, son(e));
 	        with_fl_reg = 1;
 	      }
 	      else {
-	        coder (reg0, stack, son (e));
+	        coder(reg0, stack, son(e));
 	      };
 	    };
 
-	    if (name (sh (son (e))) != bothd) {
+	    if (name(sh(son(e)))!= bothd) {
 	      good_fs = fstack_pos;
 	      if (with_fl_reg) {/* jumping with a floating value */
 	        /* clear off any unwanted stack registers */
 	        while (fstack_pos > (first_fl_reg + 1))
-	          discard_st1 ();
+	          discard_st1();
 	        fstack_pos = good_fs - 1;
 	      }
 	      else {
 	        /* clear off any unwanted stack registers */
 	         while (fstack_pos > first_fl_reg)
-	          discard_fstack ();
+	          discard_fstack();
 	        fstack_pos = good_fs;
 	      };
 	      reset_fpucon();
-	      if (name(e)==untidy_return_tag) {
+	      if (name(e) ==untidy_return_tag) {
 		int old_regsinuse = regsinuse;
 		regsinuse &= ~0x6;	/* %ecx, %edx not preserved */
 		if (shape_size(sh(son(e))) > 32 && !with_fl_reg)
 		  regsinuse |= 0x2;	/* %edx used for return value */
 		if (stack_dec != 0)
-		  stack_return (- stack_dec);
+		  stack_return(- stack_dec);
 		regsinuse = old_regsinuse;
-		outs (" pushl ");
+		outs(" pushl ");
 		rel_ap (0, 1);	/* push return address for return after pops */
 		outnl();
 #ifdef NEWDWARF
 		if (diagnose && dwarf2)
-		  dw2_untidy_return ();
+		  dw2_untidy_return();
 #endif
 	      }
 #ifdef NEWDWARF
 	      if (diagnose && dwarf2) {
-		over_lab = next_dwarf_label ();
-		dw2_return_pos (over_lab);
+		over_lab = next_dwarf_label();
+		dw2_return_pos(over_lab);
 	      }
 #endif
-	      restore_callregs (name(e)==untidy_return_tag);
+	      restore_callregs(name(e) ==untidy_return_tag);
 #if 0
 	      if (simple_res) {	/* now done earlier for dw2_returns consistency */
-	        coder (reg0, stack, son (e));
+	        coder(reg0, stack, son(e));
 	      };
 #endif
 
-	      if (name(e)==untidy_return_tag)
+	      if (name(e) ==untidy_return_tag)
 		ins0(ret);
 	      else
 		retins();
 	      outnl();
 #ifdef NEWDWARF
 	      if (diagnose && dwarf2)
-		dw2_after_fde_exit (over_lab);
+		dw2_after_fde_exit(over_lab);
 #endif
 	    };
 	    stack_dec = old_stack_dec;
@@ -2363,38 +2378,38 @@ void coder
 	int good_fs = fstack_pos;
 		/* clear off any unwanted stack registers */
 	while (fstack_pos > first_fl_reg)
-	  discard_fstack ();
+	  discard_fstack();
 	fstack_pos = good_fs;
 	reset_fpucon();
 	move(slongsh, mw(son(e), 0), reg0);
 	restore_callregs(0);
-	ins0 ("jmp *%eax");
+	ins0("jmp *%eax");
 	return;
       };
     case movecont_tag:
       {
-	exp frome = son (e);
-	exp toe = bro (frome);
-	exp lengthe = bro (toe);
-	movecont (mw (frome, 0), mw (toe, 0), mw (lengthe, 0),
+	exp frome = son(e);
+	exp toe = bro(frome);
+	exp lengthe = bro(toe);
+	movecont(mw(frome, 0), mw(toe, 0), mw(lengthe, 0),
 		  isnooverlap(e));
 	return;
       };
     case solve_tag:
       {
-	exp jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	exp jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
 	    0, 0);
 	clean_stack();
         sonno(jr) = stack_dec;
         ptno(jr) = next_lab();
         fstack_pos_of(jr) = (prop)fstack_pos;
 	/* jump record for end */
-	solve (son (e), son (e), dest, jr, stack);
-	if (name (sh (e)) != bothd) {
+	solve(son(e), son(e), dest, jr, stack);
+	if (name(sh(e))!= bothd) {
 	  align_label(0, jr);
-	  set_label (jr);
+	  set_label(jr);
 #ifdef NEWDWARF
-	  START_BB ();
+	  START_BB();
 #endif
 	};
 	fpucon = normal_fpucon;
@@ -2405,34 +2420,34 @@ void coder
     case case_tag:
       {
 	where qw;
-	exp arg1 = son (e);
-	exp b = bro (arg1);
+	exp arg1 = son(e);
+	exp b = bro(arg1);
 	exp t = arg1;
-	while (!last (t))
-	  t = bro (t);
-	bro (t) = nilexp;
+	while (!last(t))
+	  t = bro(t);
+	bro(t) = nilexp;
 
-	if (!is_o (name (arg1)) || is_crc(arg1)) {
+	if (!is_o(name(arg1)) || is_crc(arg1)) {
 				/* argument is not a possible 80386
 				   operand, precompute it in reg0 */
-	  qw.where_exp = copyexp (reg0.where_exp);
-	  sh (qw.where_exp) = sh (arg1);
+	  qw.where_exp = copyexp(reg0.where_exp);
+	  sh(qw.where_exp) = sh(arg1);
 	  qw.where_off = 0;
-	  coder (qw, stack, arg1);
+	  coder(qw, stack, arg1);
 	  arg1 = qw.where_exp;
-	  bro (arg1) = b;
+	  bro(arg1) = b;
 	};
 
 	clean_stack();
 
-	IGNORE caser (arg1, name(sh(e)) == bothd, e);
+	IGNORE caser(arg1, name(sh(e)) == bothd, e);
 
 	return;
       };
 #ifndef NEWDIAGS
     case diagnose_tag:  {
 	diag_info * d = dno(e);
-	if (d->key == DIAG_INFO_SOURCE)  {
+	if (d->key == DIAG_INFO_SOURCE) {
 	  crt_lno = natint(d -> data.source.beg.line_no);
 	  crt_charno = natint(d -> data.source.beg.char_off);
 	  crt_flnm = d -> data.source.beg.file->file.ints.chars;
@@ -2444,43 +2459,43 @@ void coder
       };
 #endif
     case trap_tag: {
-	trap_ins (no(e));
+	trap_ins(no(e));
 	return;
       }
     case asm_tag: {
 	if (props(e))
-	  asm_ins (e);
+	  asm_ins(e);
 	else {
-	  start_asm ();
+	  start_asm();
           coder(dest, stack, son(e));
-	  end_asm ();
+	  end_asm();
 	}
-	clear_low_reg_record (crt_reg_record);
+	clear_low_reg_record(crt_reg_record);
 	return;
       }
     default:
-      if (!is_a (name (e))) {
-	failer (BADOP);
+      if (!is_a(name(e))) {
+	failer(BADOP);
 	return;
       };
 
-      if (name(dest.where_exp) != val_tag)
-	codec (dest, stack, e);
+      if (name(dest.where_exp)!= val_tag)
+	codec(dest, stack, e);
       else
       if (!optop(e)) {
 	if (name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd) {
-	  codec (flstack, stack, e);
-	  discard_fstack ();
+	  codec(flstack, stack, e);
+	  discard_fstack();
 	}
 	else
-	  codec (reg0, stack, e);
+	  codec(reg0, stack, e);
       }
       else
       if (name(e)!=name_tag && name(e)!=env_offset_tag && son(e)!=nilexp) {
 	exp l = son(e);		/* catch all discards with side-effects */
 	for (;;) {
-	  coder (dest, stack, l);
-	  if (last(l)) break;
+	  coder(dest, stack, l);
+	  if (last(l))break;
 	  l = bro(l);
 	}
       }
@@ -2496,72 +2511,68 @@ struct coder_args {
 };
 
 static void coder2
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+(void * args)
 {
-  struct coder_args * x = (struct coder_args *) args;
-  coder1 (x->dest, x->stack, x->e);
+  struct coder_args * x = (struct coder_args *)args;
+  coder1(x->dest, x->stack, x->e);
   return;
 }
 
 static dg_where dg_where_dest
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
   dg_where w;
   if (name(e) == name_tag || name(e) == reff_tag) {
-    w = dg_where_dest (son(e));
-    w.o += no(e)/8;
+    w = dg_where_dest(son(e));
+    w.o += no(e) /8;
     return w;
   }
-  if (name(e) != ident_tag)
-    failer ("bad dg_where");
-  if (isglob (e)) {
+  if (name(e)!= ident_tag)
+    failer("bad dg_where");
+  if (isglob(e)) {
     w.k = WH_STR;
-    w.u.s = (brog(e))->dec_u.dec_val.dec_id;
+    w.u.s = (brog(e)) ->dec_u.dec_val.dec_id;
     w.o = 0;
     return w;
   }
   if (ptno(e) < 0 || ptno(e) > 10)	/* contop case */
-    return (dg_where_dest (son(e)));
-  switch (ptno (e)) {
+    return(dg_where_dest(son(e)));
+  switch (ptno(e)) {
     case local_pl: {
       w.k = WH_REGOFF;
       w.u.l = -2;
-      w.o = no(e)/8;
+      w.o = no(e) /8;
       break;
     }
     case par_pl: {
       w.k = WH_REGOFF;
       w.u.l = -1;
-      w.o = (no(e)/8) + 4;
+      w.o = (no(e) /8) + 4;
       break;
     }
     case reg_pl: {
       w.k = WH_REG;
-      w.u.l = get_reg_no (no(e));
+      w.u.l = get_reg_no(no(e));
       break;
     }
     default:
-      failer ("bad dg_where");
+      failer("bad dg_where");
       SET(w);
   }
   return w;
 }
 
 static dg_where contop_where
-    PROTO_N ( (id) )
-    PROTO_T ( exp id )
+(exp id)
 {
-  return (dg_where_dest (bro(son(id))));
+  return(dg_where_dest(bro(son(id))));
 }
 
 
 dg_where find_diag_res
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+(void * args)
 {
-  struct coder_args * x = (struct coder_args *) args;
+  struct coder_args * x = (struct coder_args *)args;
   exp e = x->dest.where_exp;
   dg_where w;
   switch (name(e)) {
@@ -2571,49 +2582,48 @@ dg_where find_diag_res
     }
     case ident_tag:
     case name_tag: {
-      w = dg_where_dest (e);
+      w = dg_where_dest(e);
       break;
     }
     case ass_tag: {
       if (name(son(e)) == ident_tag)
-	w = contop_where (son(e));
+	w = contop_where(son(e));
       else
-	w = dg_where_dest (son(e));
+	w = dg_where_dest(son(e));
       break;
     }
     case apply_tag: {
       w.k = WH_REGOFF;
-      w.u.l = get_reg_no (no(son(sp.where_exp)));
+      w.u.l = get_reg_no(no(son(sp.where_exp)));
       w.o = 0;
       break;
     }
     default:
-      failer ("unexpected diag_res dest");
+      failer("unexpected diag_res dest");
       SET(w);
   }
   return w;
 }
 
 void coder
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
+(where dest, ash stack, exp e)
 {
   dg_info d;
   dg_info was_current = current_dg_info;
   current_dg_info = nildiag;
   if (extra_diags) {
-    switch (name (e)) {
+    switch (name(e)) {
       case apply_tag:
       case apply_general_tag: {
 	d = dgf(e);
 	while (d && d->key != DGA_CALL)
 	  d = d->more;
 	if (!d) {
-	  d = new_dg_info (DGA_CALL);
+	  d = new_dg_info(DGA_CALL);
 	  d->data.i_call.clnam = (char*)0;
 	  d->data.i_call.pos = no_short_sourcepos;
 	  d->data.i_call.ck = 0;
-	  dgf(e) = combine_diaginfo (dgf(e), d);
+	  dgf(e) = combine_diaginfo(dgf(e), d);
 	}
 	break;
       }
@@ -2624,10 +2634,10 @@ void coder
 	while (d && d->key != DGA_TEST)
 	  d = d->more;
 	if (!d) {
-	  d = new_dg_info (DGA_TEST);
+	  d = new_dg_info(DGA_TEST);
 	  d->data.i_tst.pos = no_short_sourcepos;
 	  d->data.i_tst.inv = 0;
-	  dgf(e) = combine_diaginfo (dgf(e), d);
+	  dgf(e) = combine_diaginfo(dgf(e), d);
 	}
 	break;
       }
@@ -2643,9 +2653,9 @@ void coder
 	  d = d->more;
 	}
 	if (!d) {
-	  d = new_dg_info (DGA_JUMP);
+	  d = new_dg_info(DGA_JUMP);
 	  d->data.i_tst.pos = p;
-	  dgf(e) = combine_diaginfo (dgf(e), d);
+	  dgf(e) = combine_diaginfo(dgf(e), d);
 	}
 	break;
       }
@@ -2659,9 +2669,9 @@ void coder
 	while (d && d->key != DGA_LJ)
 	  d = d->more;
 	if (!d) {
-	  d = new_dg_info (DGA_LJ);
+	  d = new_dg_info(DGA_LJ);
 	  d->data.i_tst.pos = no_short_sourcepos;
-	  dgf(e) = combine_diaginfo (dgf(e), d);
+	  dgf(e) = combine_diaginfo(dgf(e), d);
 	}
 	break;
       }
@@ -2675,11 +2685,11 @@ void coder
     args.stack = stack;
     current_dg_exp = args.e = e;
     while (d != nildiag) {
-      if (d->key == DGA_SRC && d->data.i_src.startpos.file)  {
+      if (d->key == DGA_SRC && d->data.i_src.startpos.file) {
 	crt_lno = d->data.i_src.startpos.line;
 	crt_charno = d->data.i_src.startpos.column;
 	crt_flnm = d->data.i_src.startpos.file->file_name;
-        if (d->data.i_src.endpos.file)  {
+        if (d->data.i_src.endpos.file) {
 	  dpos = d;
 	  break;
 	}
@@ -2687,9 +2697,9 @@ void coder
       d = d->more;
     };
 #ifdef NEWDWARF
-    CODE_DIAG_INFO (dgf(e), crt_proc_id, coder2, (void*)&args);
+    CODE_DIAG_INFO(dgf(e), crt_proc_id, coder2,(void*) &args);
 #else
-    code_diag_info (dgf(e), crt_proc_id, coder2, (void*)&args);
+    code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
 #endif
     if (dpos) {
       crt_lno = dpos->data.i_src.endpos.line;
@@ -2698,7 +2708,7 @@ void coder
     };
   }
   else
-    coder1 (dest, stack, e);
+    coder1(dest, stack, e);
   current_dg_info = was_current;
   return;
 }
@@ -2706,16 +2716,14 @@ void coder
 
 
 static void done_arg
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+(void * args)
 {
-  UNUSED (args);
+  UNUSED(args);
   return;
 }
 
 void diag_arg
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
+(where dest, ash stack, exp e)
 {
   if (dgf(e)) {
     struct coder_args args;
@@ -2723,9 +2731,9 @@ void diag_arg
     args.stack = stack;
     current_dg_exp = args.e = e;
 #ifdef NEWDWARF
-    CODE_DIAG_INFO (dgf(e), crt_proc_id, done_arg, (void*)&args);
+    CODE_DIAG_INFO(dgf(e), crt_proc_id, done_arg,(void*) &args);
 #else
-    code_diag_info (dgf(e), crt_proc_id, done_arg, (void*)&args);
+    code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
 #endif
   }
   return;

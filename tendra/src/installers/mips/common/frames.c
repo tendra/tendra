@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -63,7 +93,7 @@ $Log: frames.c,v $
 #include "frames.h"
 #include "new_code.h"
 
-extern exp father PROTO_S ((exp));
+extern exp father(exp);
 extern  procrec * procrecs;
 
 bool Has_fp = 0;
@@ -81,18 +111,17 @@ long callee_size;
 
 
 void setframe_flags
-    PROTO_N ( (e, leaf) )
-    PROTO_T ( exp e X bool leaf )
+(exp e, bool leaf)
 {
       /* e is proc_tag */
 
       No_S = (!leaf && (name(e)!=general_proc_tag || !proc_has_nolongj(e))
 		&& proc_uses_crt_env(e)
-      			&& proc_has_lv(e) );
+      			&& proc_has_lv(e));
       Has_fp = (No_S || proc_has_alloca(e) || name(e) == general_proc_tag);
 
       Has_tos = (No_S && proc_has_alloca(e));
-      Has_vcallees = (name(e)==general_proc_tag && proc_has_vcallees(e));
+      Has_vcallees = (name(e) ==general_proc_tag && proc_has_vcallees(e));
       Has_no_vcallers = (name(e) == proc_tag || !proc_has_vcallers(e));
 
 #ifdef Try_No_S
@@ -107,8 +136,7 @@ void setframe_flags
 }
 
 void setframe_info
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+(exp e)
 {
 	procrec * pr = & procrecs[no(e)];
 	needs * ndpr = & pr->needsproc;
@@ -128,7 +156,7 @@ void setframe_info
 	pr->max_args = ma;
 
 	pr->fixdump = (No_S)?0x40ff0000 :((sppr->fixdump) << 16);
-	if (!leaf ) {
+	if (!leaf) {
 	  pr->fixdump |= 1 << 31;
 	}	/* space for link */
 
@@ -139,7 +167,7 @@ void setframe_info
 
 	pr->floatdump = (No_S)?0xffc00000 :((sppr->fltdump) << 20);
 
-	nofixdump = bitsin (pr->fixdump);
+	nofixdump = bitsin(pr->fixdump);
 	/* no of fixed s-regs to be dumped */
 		ma += (nofixdump + bitsin(pr->floatdump))*32;
 	ma = (ma + 32) & ~63;
@@ -160,17 +188,16 @@ void setframe_info
 }
 
 long frame_offset
-    PROTO_N ( (id) )
-    PROTO_T ( exp id )
+(exp id)
 {
 	exp p;
 	procrec * pr;
-	int  x = no (id);
+	int  x = no(id);
     	int  b = x & 0x3f;
     	int lo; int fs; int cs;
 
 	Assert(name(id) == ident_tag);
-	for (p = father(id); (name(p)!=proc_tag && name(p) !=
+	for (p = father(id);(name(p)!=proc_tag && name(p)!=
 		general_proc_tag); p = father(p));
 	pr = & procrecs[no(p)];
 
@@ -180,24 +207,24 @@ long frame_offset
 
 
 	if (b==29 || b == 30) {
-		return ( ((x - b) >> 4) +lo -(fs+cs));
+		return(((x - b) >> 4) +lo - (fs+cs));
 	}
 	else
 	if (b==local_reg) {
-	 	return ( ((x - b) >> 4) +lo -fs);
+	 	return(((x - b) >> 4) +lo -fs);
 	}
 	else {
 		/* may not be allocated yet */
 
-           bool Has_vcallees = (name(p)==general_proc_tag &&
+           bool Has_vcallees = (name(p) ==general_proc_tag &&
            					proc_has_vcallees(p));
-           int n = no(son(id))>>3;
+           int n = no(son(id)) >>3;
            if (isparam(id) && name(son(id))!=formal_callee_tag) {
            	return n;
            }
            else
-	   if (isparam(id) && name(son(id))==formal_callee_tag) {
-           	return  ((Has_vcallees)? n:(cs-n));
+	   if (isparam(id) && name(son(id)) ==formal_callee_tag) {
+           	return ((Has_vcallees)? n:(cs-n));
            }
            else { failer("Wrong env_offset"); return 0; }
        }

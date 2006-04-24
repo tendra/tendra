@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -93,24 +123,23 @@ $Log: proc.c,v $
 #include "parameter.h"
 #include "error.h"
 #include "dynamic_init.h"
-space do_callers PROTO_S ((int,exp,space));
-void do_function_call PROTO_S ((exp,space));
-void do_general_function_call PROTO_S ((exp,space));
-makeans move_result_to_dest PROTO_S ((exp,space,where,int));
-void restore_callers PROTO_S ((int));
-void restore_callees PROTO_S ((void));
-static exp find_ote PROTO_S ((exp,int));
+space do_callers(int,exp,space);
+void do_function_call(exp,space);
+void do_general_function_call(exp,space);
+makeans move_result_to_dest(exp,space,where,int);
+void restore_callers(int);
+void restore_callees(void);
+static exp find_ote(exp,int);
 
 typedef struct postl_ {exp pl; struct postl_ * outer; } postl_chain;
 static postl_chain * old_pls;
 
-void update_plc PROTO_N ((ch, ma))
-    PROTO_T (postl_chain * ch X int ma)
-{	
+void update_plc(postl_chain * ch, int ma)
+{
 	while (ch != (postl_chain*)0) {
 	  exp pl= ch->pl;
-	  while (name(pl)==ident_tag && name(son(pl))==caller_name_tag) {
-		no(pl)+= (ma<<6);
+	  while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag) {
+		no(pl) += (ma<<6);
 		pl = bro(son(pl));
 	  }
 	  ch = ch->outer;
@@ -121,13 +150,13 @@ void update_plc PROTO_N ((ch, ma))
  * in short instruction sequence, such as move between float and fixed regs.
  * Initialised at procedure prelude, for that procedure.
  */
-baseoff mem_temp PROTO_N ((byte_offset)) PROTO_T (int byte_offset)
+baseoff mem_temp(int byte_offset)
 {
   baseoff b;
 
   b.base = R_SP;
   b.offset = -8;
-  
+
   /*
    * Only 2 words of temp allocated
    */
@@ -141,7 +170,7 @@ baseoff mem_temp PROTO_N ((byte_offset)) PROTO_T (int byte_offset)
 /*
  * Implement -p option, by calling mcount with static location address as param.
  */
-static void call_mcount PROTO_Z ()
+static void call_mcount(void)
 {
   static int p_lab = 0;
 
@@ -169,7 +198,7 @@ static void call_mcount PROTO_Z ()
 
 
 /* is param ident e the last param, or for a proc no params? */
-bool last_caller_param PROTO_N ((e)) PROTO_T (exp e)
+bool last_caller_param(exp e)
 {
   exp next;
 
@@ -185,13 +214,13 @@ bool last_caller_param PROTO_N ((e)) PROTO_T (exp e)
   }
 
   /* Skip diagnose_tag which may be before next param */
-  while(name(next) == diagnose_tag)
+  while (name(next) == diagnose_tag)
   {
     next = son(next);
   }
-  
-  if (name(next) == ident_tag 
-      && isparam(next) 
+
+  if (name(next) == ident_tag
+      && isparam(next)
       && name(son(next))!=formal_callee_tag)
   {
     return 0;			/* another caller param */
@@ -212,23 +241,23 @@ bool last_caller_param PROTO_N ((e)) PROTO_T (exp e)
 
 
 /* procedure definition */
-void make_proc_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+void make_proc_tag_code(exp e, space sp)
 {
   procrec *pr = &procrecs[no(e)];
   long pprops = pr->needsproc.propsneeds;
 
   clear_all();
-  
+
   suspected_varargs = 0;
-  
+
   old_pls = (postl_chain *)0;
-  
+
   p_current = e;
-  
+
   initialise_procedure(pr);
 
   generate_procedure_prologue();
-  
+
   output_parameters(e);
 #ifdef DO_DYNAMIC_INITIALISATION
   if (proc_is_main(e))
@@ -244,19 +273,19 @@ void make_proc_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
       have been called,so we call it here */
     call_mcount();
   }
-  
+
   /*
    * Setup p_result
    */
   if ((pprops & realresult_bit) != 0)	/* proc has real result */
   {
     freg frg;
-    
+
     frg.fr = FR_RESULT;
-    frg.dble = (pprops & longrealresult_bit) ? 1 : 0;
+    frg.dble = (pprops & longrealresult_bit)? 1 : 0;
     setfregalt(p_result, frg);
   }
-  else if ((pprops & has_result_bit) != 0)
+  else if ((pprops & has_result_bit)!= 0)
   {
     setregalt(p_result, R_RESULT);
   }
@@ -267,18 +296,18 @@ void make_proc_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   p_return_label = 0;
 
   init_proc_errors(e);
-  
+
   make_code(son(e), sp, nowhere, 0);
 
   output_error_labels();
-  
+
   /* epilogue created at make_res_tag_code */
   return;
 }
 
 
 /* ident/param definition within proc */
-makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X where dest X int exitlab)
+makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 {
   exp init_exp = son(e);			/* initialisation exp */
   int ident_size = shape_size(sh(init_exp));
@@ -288,27 +317,27 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
   int r = R_NO_REG;
   bool remember = 0;
   makeans mka;
-  
+
   if (props(e) & defer_bit)
   {
     return make_code(bro(init_exp), sp, dest, exitlab);
   }
 
   /**************Is it an identification of a caller in a postlude?***********/
-  if ( name(init_exp)==caller_name_tag )
+  if (name(init_exp) ==caller_name_tag)
   {
     exp ote = find_ote(e,no(init_exp));
-    long caller_disp = no(ote)>>3;
-    
-    no(e) = ENCODE_FOR_BOFF(caller_disp , OUTPUT_CALLER_PARAMETER );
+    long caller_disp = no(ote) >>3;
+
+    no(e) = ENCODE_FOR_BOFF(caller_disp , OUTPUT_CALLER_PARAMETER);
     set_coded_caller(ote); /* Used in apply_general*/
 
-    ASSERT((props(e) & inanyreg )==0);
+    ASSERT((props(e) & inanyreg) ==0);
     /* Should not have been allocated a register by regalloc or scan */
     placew = nowhere;
   }
   /**************Is it in a fixed point register?***************/
-  else if (props(e)&inreg_bits)
+  else if (props(e) &inreg_bits)
   {
     if (ident_no==R_NO_REG)	/* Need to allocate a t-reg */
     {
@@ -334,7 +363,7 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
     if (ident_no==FR_NO_REG)	/* Need to allocate a t-reg */
     {
       int s = sp.flt;
-      
+
       if (props(e) & notparreg)
       {
 	s |= PARAM_FLT_TREGS;
@@ -354,12 +383,12 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
   else if (isparam(e))
   {
     instore is;
-    
-    if(name(init_exp) != formal_callee_tag)
+
+    if (name(init_exp)!= formal_callee_tag)
     {
       /* Caller parameter living on stack */
-      long caller_offset = no(init_exp)>>3;
-      no(e) = ENCODE_FOR_BOFF( caller_offset , INPUT_CALLER_PARAMETER ); 
+      long caller_offset = no(init_exp) >>3;
+      no(e) = ENCODE_FOR_BOFF(caller_offset , INPUT_CALLER_PARAMETER);
       if (isvarargparam(e))
       {
 	if (ident_size == 0)
@@ -370,11 +399,11 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
 	}
       }
     }
-    else 
+    else
     {
       /* Callee parameter living on stack */
-      long callee_offset = no(init_exp)>>3;
-      no(e) = ENCODE_FOR_BOFF( callee_offset , INPUT_CALLEE_PARAMETER );
+      long callee_offset = no(init_exp) >>3;
+      no(e) = ENCODE_FOR_BOFF(callee_offset , INPUT_CALLEE_PARAMETER);
     }
     is.b = boff(e);
     is.adval = 1;
@@ -385,25 +414,25 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
   {
     /* It is a local living on the stack */
     instore is;
-    
+
     is.b = boff(e);
     is.adval = 1;
     setinsalt(placew.answhere, is);
     remember = 1;
   }
-  
+
   placew.ashwhere.ashsize  = ident_size;
   placew.ashwhere.ashalign = ident_align;
 
-  if( isparam(e))
+  if (isparam(e))
   {
-    if(name(init_exp)==formal_callee_tag && (props(e) & inanyreg) )
+    if (name(init_exp) ==formal_callee_tag && (props(e) & inanyreg))
     {
       instore is;
       ans aa;
       ASSERT(p_has_fp);
       is.b.base = R_FP;
-      is.b.offset = EXTRA_CALLEE_BYTES + (no(init_exp)>>3);
+      is.b.offset = EXTRA_CALLEE_BYTES + (no(init_exp) >>3);
       is.adval = 0;
       setinsalt(aa,is);
       move(aa,placew,sp.fixed,is_signed(sh(init_exp)));
@@ -413,10 +442,10 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
   {
     r = code_here(init_exp, sp, placew);
   }
-  
-  COMMENT1("make_ident_tag_code end_init: no(e)=%d", no(e));
-  
-  if (remember && r != R_NO_REG && pt(e) != nilexp 
+
+  COMMENT1("make_ident_tag_code end_init: no(e) =%d", no(e));
+
+  if (remember && r != R_NO_REG && pt(e)!= nilexp
       && keep_eq_size(sh(init_exp), sh(pt(e))))
   {
     /* It was temporarily in a register, track it to optimise future access */
@@ -433,33 +462,33 @@ makeans make_ident_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
   /* and evaluate the body of the declaration */
   mka = make_code(bro(init_exp), guard(placew, sp), dest, exitlab);
 
-  COMMENT1("make_ident_tag_code end_range: no(e)=%d", no(e));
+  COMMENT1("make_ident_tag_code end_range: no(e) =%d", no(e));
 
   return mka;
 }
 
 
-/* 
+/*
  * Delivers the procedure result
  * with either a normal or an untidy return
  */
-void make_res_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+void make_res_tag_code(exp e, space sp)
 {
   where w;
-  bool untidy = (name(e)==untidy_return_tag) ? 1 : 0 ;
-  
+  bool untidy = (name(e) ==untidy_return_tag)? 1 : 0;
+
   w.answhere = p_result;
   w.ashwhere = ashof(sh(son(e)));
-  
+
   code_here(son(e), sp, w);	/* Evaluation of result value */
-  
-  
-  if ( p_leaf
+
+
+  if (p_leaf
       && p_sreg_first_save == R_NO_REG
       && p_sfreg_first_save == FR_NO_REG)
   {
     /* Short return sequence so generate everytime */
-    if(untidy)
+    if (untidy)
     {
       generate_untidy_procedure_epilogue();
     }
@@ -471,7 +500,7 @@ void make_res_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   else
   {
     /* jump to the end of proc for long return sequence */
-    if(p_return_label == 0)
+    if (p_return_label == 0)
     {
       /* For diagnostics always produce return code */
       if (p_no_of_returns>1 && !diagnose)
@@ -479,7 +508,7 @@ void make_res_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
 	p_return_label = new_label();
 	set_label(p_return_label);
       }
-      if(untidy)
+      if (untidy)
       {
 	generate_untidy_procedure_epilogue();
       }
@@ -494,38 +523,38 @@ void make_res_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
       uncond_ins(i_b, p_return_label);
     }
   }
-    
-  clear_all();			
+
+  clear_all();
   return;
 }
 
 
 /* procedure call */
-makeans make_apply_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X where dest X int exitlab)
+makeans make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 {
   exp fn = son(e);		/* Function */
   exp par = bro(fn);		/* Parameters list */
   space nsp;
   nsp=sp;
-  
+
   /* Structure results are assumed to be transformed */
   ASSERT(redo_structfns);
   ASSERT(reg_result(sh(e)));
-  
+
   /* Callers evaluated to usual place relative to sp */
-  if(!last(fn)){nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
-  
+  if (!last(fn)) {nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
+
   /* Function call */
-  (void) do_function_call(fn,nsp);
-  
+ (void) do_function_call(fn,nsp);
+
   /* Clear all treg associations */
   clear_all();
-  
+
   /* Move the result to correct destination */
   return move_result_to_dest(e,sp,dest,exitlab);
 }
 
-makeans make_apply_general_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X where dest X int exitlab )
+makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 {
   exp fn = son(e);
   exp cers = bro(fn);
@@ -537,29 +566,29 @@ makeans make_apply_general_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e
 
   /* Callers evaluated to usual place relative to sp */
   /* Any params with caller_tag are marked with offset */
-  if(no(cers) !=0)  { nsp = do_callers(GENERAL_PROC_PARAM_REGS,son(cers),sp);}
+  if (no(cers)!=0) { nsp = do_callers(GENERAL_PROC_PARAM_REGS,son(cers),sp);}
 
   /* Callees */
-  (void)make_code(cees,nsp,nowhere,0);
+ (void)make_code(cees,nsp,nowhere,0);
 
   /* Function */
-  (void)do_general_function_call(fn,nsp);
+ (void) do_general_function_call(fn,nsp);
 
-  
-  /* This code works on the assumption that the stack pointer is returned to 
-     where it was initially 
+
+  /* This code works on the assumption that the stack pointer is returned to
+     where it was initially
      i.e no untidy returns from the general_proc */
-  /* The postlude also works on the assumption that no calls to alloca are 
+  /* The postlude also works on the assumption that no calls to alloca are
      done within it */
 
   /* clear all register associations */
   clear_all();
-  
+
   /* move the result to the destination */
   mka = move_result_to_dest(e,sp,dest,exitlab);
 
   /* Possibility here that the function is untidy
-   * In this case we must ensure that there is room to construct 
+   * In this case we must ensure that there is room to construct
    * subsequent parameter lists within this procedure
    * The only way to guarantee this is to pull down the stack pointer by
    * an extra p_args_and_link_size
@@ -572,18 +601,18 @@ makeans make_apply_general_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e
       save_sp_on_stack();
     }
   }
-    
+
   if (postlude_has_call(e))
   {
     exp x = son(cers);
     postl_chain p;
-    for(;x != nilexp;)
+    for (;x != nilexp;)
     {
-      if(name(x)==caller_tag)
+      if (name(x) ==caller_tag)
       {
 	no(x) += p_args_and_link_size<<3;
       }
-      if(last(x))
+      if (last(x))
       {
 	break;
       }
@@ -594,8 +623,8 @@ makeans make_apply_general_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e
     p.outer = old_pls;
     old_pls = &p;
 
-    rir_ins(i_a,R_SP,-p_args_and_link_size,R_SP);    
-    (void)make_code(pl,sp,nowhere,0);
+    rir_ins(i_a,R_SP,-p_args_and_link_size,R_SP);
+   (void)make_code(pl,sp,nowhere,0);
     rir_ins(i_a,R_SP,p_args_and_link_size,R_SP);
 
     old_pls = p.outer;
@@ -604,15 +633,15 @@ makeans make_apply_general_tag_code PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e
   }
   else
   {
-    (void)make_code(pl,sp,nowhere,0);
+   (void)make_code(pl,sp,nowhere,0);
   }
   return mka;
 }
-void make_return_to_label_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+void make_return_to_label_tag_code(exp e, space sp)
 {
   int r = reg_operand(son(e),sp);
 
-  mt_ins(i_mtlr,r);  
+  mt_ins(i_mtlr,r);
   /* See generate_procedure_epilogue in stack.c for similarity */
   if (p_frame_size != 0)
   {
@@ -621,7 +650,7 @@ void make_return_to_label_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
       /* Use the frame pointer to collapse the frame */
       mov_rr_ins(R_FP,R_SP);comment("collapse frame using FP");
     }
-    else if ( p_has_back_chain )
+    else if (p_has_back_chain)
     {
       /* Use the back chain to collapse the stack frame */
       baseoff back_chain;
@@ -654,25 +683,25 @@ void make_return_to_label_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   return;
 }
 
-void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+void make_tail_call_tag_code(exp e, space sp)
 {
   exp fn =son(e);
   exp cees = bro(fn);
   baseoff callee_pointer;
-  bool direct_call = (name(fn) == name_tag 
+  bool direct_call = (name(fn) == name_tag
 		      && name(son(fn)) == ident_tag
 		      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn)))));
   static int identification = 0;
   identification++;
   fprintf(as_file,"# Begin tail call no %d\n",identification);
-  
-  
+
+
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
   ASSERT(p_has_fp);
-  
 
-  if(name(cees)==make_callee_list_tag || name(cees)==make_dynamic_callee_tag)
+
+  if (name(cees) ==make_callee_list_tag || name(cees) ==make_dynamic_callee_tag)
   {
     /* +++ This is a bit of a long winded way to do the tail call for
        make_dynamic_callee_tag since the callees are copied twice. */
@@ -682,7 +711,7 @@ void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
       /* dynamic call */
       int desc_base = reg_operand(fn,sp);
       baseoff b;
-      
+
       b.base = desc_base;
       b.offset = 0;
       ld_ro_ins(i_l,b,R_TMP0);comment(NIL);
@@ -706,15 +735,15 @@ void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
     restore_sregs(R_TEMP_FP,0);
 
     /* At this point R_TP is R_TEMP_TP and R_FP is R_TEMP_FP */
-    
+
     /* Pull down R_TEMP_TP by the size of the callees */
-    if(name(cees)==make_callee_list_tag)
+    if (name(cees) ==make_callee_list_tag)
     {
-      int size_of_callee_list=ALIGNNEXT((no(cees)>>3)+EXTRA_CALLEE_BYTES , 8);
+      int size_of_callee_list=ALIGNNEXT((no(cees) >>3) +EXTRA_CALLEE_BYTES , 8);
       st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NIL);
-      
+
       mov_rr_ins(R_SP,R_TEMP_FP);comment(NIL);
-      rir_ins(i_a,R_TEMP_TP,-(long)(size_of_callee_list),R_TEMP_TP);
+      rir_ins(i_a,R_TEMP_TP,- (long)(size_of_callee_list),R_TEMP_TP);
       reverse_static_memory_copy(R_TEMP_FP,R_TEMP_TP,size_of_callee_list);
       mov_rr_ins(R_TEMP_TP,R_SP);comment(NIL);
     }
@@ -734,16 +763,16 @@ void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
     /* Finally put the stack pointer at the bottom of the callees */
 
   }
-  else if(name(cees)==same_callees_tag)
+  else if (name(cees) ==same_callees_tag)
   {
-    if (name(p_current)==general_proc_tag)
+    if (name(p_current) ==general_proc_tag)
     {
       if (direct_call ==0)
       {
 	/* dynamic call */
 	int desc_base = reg_operand(fn,sp);
 	baseoff b;
-	
+
 	b.base = desc_base;
 	b.offset = 0;
 	ld_ro_ins(i_l,b,R_TMP0);comment(NIL);
@@ -770,7 +799,7 @@ void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
       mov_rr_ins(R_TEMP_FP,R_SP);comment("collapse frame using TEMP_FP");
     }
   }
-  
+
   /* Function */
   if (direct_call)
   {
@@ -794,7 +823,7 @@ void make_tail_call_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   return;
 }
 
-void make_same_callees_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+void make_same_callees_tag_code(exp e, space sp)
 {
   int roldsp;
   int rfrom;
@@ -805,8 +834,8 @@ void make_same_callees_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
 
-  ASSERT(name(p_current)==general_proc_tag);
-  
+  ASSERT(name(p_current) ==general_proc_tag);
+
   rfrom = getreg(nsp.fixed);nsp = guardreg(rfrom,nsp);
   rto = getreg(nsp.fixed);nsp = guardreg(rto,nsp);
   roldsp = getreg(nsp.fixed);nsp = guardreg(roldsp,nsp);
@@ -814,7 +843,7 @@ void make_same_callees_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
   restore_callees();
   mov_rr_ins(R_FP,rfrom);comment(NIL);
   mov_rr_ins(R_SP,roldsp);comment(NIL);
-  
+
   if (p_has_vcallees)
   {  /* We use the difference between R_TP and R_FP to
      calculate the size of the vcallees and then pulls the
@@ -824,19 +853,19 @@ void make_same_callees_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
      the top of the newly constructed callee list */
     int rsize;
     rsize = getreg(nsp.fixed);nsp = guardreg(rsize,nsp);
-    
+
 
     rrr_ins(i_s,R_TP,R_FP,rsize);
     rrr_ins(i_s,R_SP,rsize,R_SP);
     mov_rr_ins(R_SP,rto);comment(NIL);
-    
+
     dynamic_word_memory_copy(rfrom,rto,rsize); /* copy the callees */
   }
   else
   {
     /* We can do slightly better since we know the size of the callees */
     long csize = ALIGNNEXT(p_callee_size + EXTRA_CALLEE_BYTES,8);
-    
+
     rir_ins(i_a,R_SP,-csize,R_SP);
     mov_rr_ins(R_SP,rto);comment(NIL);
     static_memory_copy(rfrom,rto,csize);
@@ -846,37 +875,37 @@ void make_same_callees_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
 }
 
 
-    
 
-void make_callee_list_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
+
+void make_callee_list_tag_code(exp e, space sp)
 {
-  long x; 
+  long x;
   exp list = son(e);
   long disp;
   where w;
   instore is;
   baseoff new_stackpos;
-  
-  /* This is an explicit creation of the callee list on the bottom 
+
+  /* This is an explicit creation of the callee list on the bottom
      of the stack. no(e) contains the total size in bits required
-     to create the callee list.  The EXTRA_CALLEE_BYTES are the 
+     to create the callee list.  The EXTRA_CALLEE_BYTES are the
      bytes needed to store the extra info on the bottom of the callee
      list. At present only 4 bytes are required to hold a pointer which
      points to the top of the list.*/
-  
-  x = ALIGNNEXT( (no(e)>>3) + EXTRA_CALLEE_BYTES  , 8 );
+
+  x = ALIGNNEXT((no(e) >>3) + EXTRA_CALLEE_BYTES  , 8);
   new_stackpos.base = R_SP;
   new_stackpos.offset = -x;
   st_ro_ins(i_stu , R_SP , new_stackpos);comment(NIL);
-  
+
   disp = EXTRA_CALLEE_BYTES * 8;/* start coding them here */
   update_plc(old_pls,x);
-  if(no(e)!=0)
+  if (no(e)!=0)
   {
-    for(;;)
+    for (;;)
     {
       ash ap;
-      
+
       ap = ashof(sh(list));
       disp = ALIGNNEXT(disp, ap.ashalign);
       is.b.offset = disp>>3;
@@ -886,16 +915,16 @@ void make_callee_list_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
       setinsalt(w.answhere,is);
       code_here(list,sp,w);
       disp = ALIGNNEXT(disp + ap.ashsize,32);
-      if(last(list))
+      if (last(list))
 	break;
       list = bro(list);
     }
   }
   update_plc(old_pls,-x);
-  return ;
+  return;
 }
 
-void make_dynamic_callee_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
+void make_dynamic_callee_tag_code(exp e, space sp)
 {
   int rfrom;
   int rto;
@@ -906,7 +935,7 @@ void make_dynamic_callee_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
 
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
-  
+
   rfrom = reg_operand(son(e),sp);nsp = guardreg(rfrom,sp);
   rsize = reg_operand(bro(son(e)),nsp);nsp = guardreg(rsize,nsp);
   if (al2(sh(bro(son(e)))) < 32)
@@ -914,16 +943,16 @@ void make_dynamic_callee_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
     rir_ins(i_a, rsize, 3, rsize);
     rir_ins(i_and, rsize, ~3, rsize);
   }
-  
+
   rto = getreg(nsp.fixed);nsp = guardreg(rto,nsp);
   rsize_adjusted = getreg(nsp.fixed);nsp = guardreg(rsize_adjusted,nsp);
-  
-    
+
+
   rir_ins(i_a,rsize , EXTRA_CALLEE_BYTES + 7 , rsize_adjusted);
-  rir_ins(i_and ,rsize_adjusted ,~7 , rsize_adjusted );
+  rir_ins(i_and ,rsize_adjusted ,~7 , rsize_adjusted);
   /* Pull down the stack frame by rsize_adjusted bytes */
   rrr_ins(i_s, R_SP, rsize_adjusted , R_SP);
-  
+
   rir_ins(i_a, R_SP , EXTRA_CALLEE_BYTES , rto); /* copy to here */
   /* copy rsize bytes from rfrom to rto */
   /* +++ Can we do this word at a time */
@@ -935,9 +964,9 @@ void make_dynamic_callee_tag_code PROTO_N ((e,sp)) PROTO_T (exp e X space sp )
   return;
 }
 
-space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
+space do_callers(int n, exp list, space sp)
 {
-  /* Evaluates parameters into fixed registers or float registers or stack 
+  /* Evaluates parameters into fixed registers or float registers or stack
    according to the calling convention */
   int disp = 0;
   int param_reg = R_FIRST_PARAM;
@@ -946,33 +975,33 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
   space nsp;
   int final_param = n + R_FIRST_PARAM - 1;
   nsp =sp;
-  
+
   for (;;)
   {
-    exp par = name(list)==caller_tag ?son(list):list;
+    exp par = name(list) ==caller_tag ?son(list):list;
     shape par_shape = sh(par);
     ash ap;
     where w;
     ap = ashof(sh(par));
     w.ashwhere = ap;
-    
+
     if (is_floating(name(par_shape)) && param_reg <= final_param)
     {
       bool dble = is_double_precision(par_shape);
       instore is;
       freg frg;
-      
+
       is.b = boff_location(ENCODE_FOR_BOFF((disp>>3),OUTPUT_CALLER_PARAMETER));
       is.adval = 1;
-      
-      frg.fr=(fr_param_reg<=FR_LAST_PARAM?fr_param_reg:getfreg(nsp.flt));
+
+      frg.fr= (fr_param_reg<=FR_LAST_PARAM?fr_param_reg:getfreg(nsp.flt));
       frg.dble = dble;
       setfregalt(w.answhere, frg);
 
       /* The floating parameter is evaluated into a floating parameter t-reg
 	 (If we have not filled them all up ) else a spare t-reg */
       code_here(par, nsp, w);
-      
+
       if (frg.fr == fr_param_reg)
       {
 	/* The floatind paramter is in a floating parameter t-reg so
@@ -988,12 +1017,12 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 
       param_reg++;
       last_param_reg = param_reg;
-      
+
       if (dble && param_reg <= final_param)
       {
 	/* Double whose second half can be loaded into fixed param t-reg */
 	is.b.offset += 4;
-	ld_ro_ins(i_l, is.b, param_reg);comment("it was a double so we load other half"); 
+	ld_ro_ins(i_l, is.b, param_reg);comment("it was a double so we load other half");
 	nsp = guardreg(param_reg, nsp);
 	param_reg++;
 	last_param_reg = param_reg;
@@ -1018,7 +1047,7 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
       int param_size = ap.ashsize;
       instore is;
       is.adval = 1;
-      
+
       is.b= boff_location(ENCODE_FOR_BOFF((disp >> 3),OUTPUT_CALLER_PARAMETER));
       if (param_size == 0)
       {
@@ -1031,31 +1060,31 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
       {
 	freg frg;
 	/* store floating parameter on the stack */
-	frg.fr=(fr_param_reg<=FR_LAST_PARAM ? fr_param_reg : getfreg(nsp.flt));
-	
-	frg.dble = name(par_shape) != shrealhd;
+	frg.fr= (fr_param_reg<=FR_LAST_PARAM ? fr_param_reg : getfreg(nsp.flt));
+
+	frg.dble = name(par_shape)!= shrealhd;
 	setfregalt(w.answhere, frg);
 	code_here(par, nsp, w);
-	
+
 	if (frg.fr == fr_param_reg)
 	{
 	  nsp = guardfreg(frg.fr, nsp);
 	}
-	
+
 	stf_ro_ins((frg.dble ? i_stfd : i_stfs), frg.fr, is.b);
-	
+
 	fr_param_reg++;
       }
       else if (param_reg <= final_param)
       {
-	/* By elimination it must be an aggregrate whose 
+	/* By elimination it must be an aggregrate whose
 	   whole or part is to be passed in regs */
 	int last_ld_reg;
 	int r;
 	bool allinreg;
 	int dolastoffset;
 
-	last_ld_reg = param_reg + (ALIGNNEXT(param_size, 32)/32) - 1;
+	last_ld_reg = param_reg + (ALIGNNEXT(param_size, 32) /32) - 1;
 	if (last_ld_reg > final_param)
 	{
 	  last_ld_reg = final_param;
@@ -1065,17 +1094,17 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 	{
 	  allinreg = 1;
 	}
-	
+
 	if (allinreg && name(par) == cont_tag)
 	{
 	  /* a small simple ident, which we can load easily */
 	  where w;
 	  w = locate(par, nsp, sh(par), 0);
-	  
+
 	  ASSERT(w.answhere.discrim==notinreg);
-	  
+
 	  is = insalt(w.answhere);
-	  
+
 	  COMMENT3("apply: simple aggregate parameter: adval=%d reg=%d off=%d",
 		   is.adval, is.b.base, is.b.offset);
 	  ASSERT(!is.adval);
@@ -1087,7 +1116,7 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 	    is.b.base = last_ld_reg;
 	    is.b.offset = 0;
 	  }
-	  
+
 	}
 	else
 	{
@@ -1097,11 +1126,11 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 	  /* Get that horrible thing written directly into the stack */
 	  code_here(par, nsp, w);
 	}
-	
+
 	/* now load as many regs as required */
-	
+
 	dolastoffset = -1;
-	
+
 	for (r = param_reg; r <= last_ld_reg; r++)
 	{
 	  if (r == is.b.base)
@@ -1113,11 +1142,11 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 	  {
 	    ld_ro_ins(i_l, is.b, r);comment("copy struct param from stack into param regs");
 	  }
-	  
+
 	  nsp = guardreg(r, nsp);
 	  is.b.offset += 4;
 	}
-	
+
 	if (dolastoffset != -1)
 	{
 	  /* do ld that clashed with base reg */
@@ -1130,33 +1159,33 @@ space do_callers PROTO_N ((n,list,sp)) PROTO_T (int n X exp list X space sp )
 	setinsalt(w.answhere, is);
 	code_here(par, nsp, w);
       }
-      
+
       /* move param_reg on by size */
       param_reg += (param_size + 31) / 32;
     }
-    
-    if(name(list)==caller_tag)
+
+    if (name(list) ==caller_tag)
     {
-      no(list)=disp;
+      no(list) =disp;
     }
-    
+
     if (last(list))
       break;
     list = bro(list);
-    
+
     disp = ALIGNNEXT(disp + ap.ashsize, 32);
   }				/* end for */
 
   ASSERT(last_param_reg >= R_FIRST_PARAM && last_param_reg <= final_param + 1);
   return nsp;
-  
+
 }
-void do_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
+void do_function_call(exp fn, space sp)
 {
-  if ( name(fn) == name_tag 
+  if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
-      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn)))) 
-      )
+      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn))))
+     )
   {
     /* direct call */
     baseoff b;
@@ -1168,9 +1197,9 @@ void do_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
     /* proc ptr call */
     int desc_base = reg_operand(fn, sp);
     baseoff b;
-    
+
     COMMENT("proc ptr call");
-    
+
     b.base = desc_base;
     b.offset = 0;
     ld_ro_ins(i_l, b, R_TMP0);comment("load function address to R_TMP0");
@@ -1189,12 +1218,12 @@ void do_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
     ld_ro_ins(i_l, b, R_TOC);comment("restore toc pointer");
   }
 }
-void do_general_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
+void do_general_function_call(exp fn, space sp)
 {
-  if ( name(fn) == name_tag 
+  if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
-      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn)))) 
-      )
+      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn))))
+     )
   {
     /* direct call */
     baseoff b;
@@ -1208,10 +1237,10 @@ void do_general_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
     baseoff b;
     baseoff saved_toc;
     int r;
-    
+
     COMMENT("proc ptr call");
     r = getreg(guardreg(desc_base,sp).fixed);
-    
+
     b.base = desc_base;
     b.offset = 0;
     ld_ro_ins(i_l, b, R_TMP0);comment("load function address to R_TMP0");
@@ -1233,19 +1262,19 @@ void do_general_function_call PROTO_N ((fn,sp)) PROTO_T (exp fn X space sp)
     ld_ro_ins(i_l, b, R_TOC);comment("restore toc pointer");
   }
 }
-makeans move_result_to_dest PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space sp X where dest X int exitlab )
+makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
 {
   makeans mka;
   int hda = name(sh(e));	/* Shape of result */
   ans aa;
   mka.regmove=R_NO_REG;
   mka.lab = exitlab;
-  
+
   /* move result of application to destination */
   if (is_floating(hda))
   {
     freg frg;
-    
+
     frg.fr = FR_RESULT;
     frg.dble = (hda != shrealhd);
     setfregalt(aa, frg);
@@ -1273,12 +1302,12 @@ makeans move_result_to_dest PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
       {
 	COMMENT("apply: dest R_RESULT, no move");
       }
-    }  
+    }
     else if (dest.answhere.discrim == insomereg)
     {
       int *dr = someregalt(dest.answhere);
       COMMENT("apply: dest insomereg set to R_RESULT");
-      if(*dr != -1 ) 
+      if (*dr != -1)
       {
 	fail("somereg been set up");
       }
@@ -1291,28 +1320,28 @@ makeans move_result_to_dest PROTO_N ((e,sp,dest,exitlab)) PROTO_T (exp e X space
     }
   }
   return mka;
-}  
-void restore_callers PROTO_N ((n)) PROTO_T (int n)
+}
+void restore_callers(int n)
 {
   /* finds all the callers and puts them into there correct register */
   exp bdy = son(p_current);
   int final_param = n + R_FIRST_PARAM - 1;
-  
+
   COMMENT("restore callers");
-  while(name(bdy)==diagnose_tag)
+  while (name(bdy) ==diagnose_tag)
   {
     bdy = son(bdy);
   }
-  while (name(bdy)==ident_tag && isparam(bdy)
-	 && name(son(bdy)) !=formal_callee_tag )
+  while (name(bdy) ==ident_tag && isparam(bdy)
+	 && name(son(bdy))!=formal_callee_tag)
   {
     exp sbdy = son(bdy);
     baseoff parampos;
-    bool ident_in_register = (props(bdy) & inanyreg) !=0;
+    bool ident_in_register = (props(bdy) & inanyreg)!=0;
     bool is_aggregate = IS_AGGREGATE(sh(sbdy));
     int param_reg = props(sbdy);
     int ident_size = shape_size(sh(sbdy));
-    
+
     if (p_has_tp)
     {
       parampos.base = R_TP;
@@ -1322,19 +1351,19 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
       /* Non general proc */
       parampos.base = R_FP;
     }
-    
-    parampos.offset = (no(sbdy)>>3) + STACK_ARG_AREA;
-    
-    
-    if( param_reg==0 && ident_in_register)
+
+    parampos.offset = (no(sbdy) >>3) + STACK_ARG_AREA;
+
+
+    if (param_reg==0 && ident_in_register)
     {
       /* Parameter which was passed by stack and allocated into
 	 a register */
       ASSERT(!is_aggregate);/* +++ allow 32 bit aggregates */
-      if(isvar(bdy))
+      if (isvar(bdy))
       {
 	/* somebody has assigned to it so it must be reloaded */
-	if(is_floating(name(sh(sbdy))))
+	if (is_floating(name(sh(sbdy))))
 	{
 	  bool dble = is_double_precision(sh(sbdy));
 	  stf_ro_ins(dble ? i_stfd :i_stfs,no(bdy),parampos);
@@ -1345,10 +1374,10 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
 	}
       }
     }
-    else if( param_reg != 0 && ! ident_in_register)
+    else if (param_reg != 0 && ! ident_in_register)
     {
       /* should be in reg is in store */
-      if(is_aggregate)
+      if (is_aggregate)
       {
 	/* this is an aggregate which was passed partially or
 	   totally in register
@@ -1357,10 +1386,10 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
 	int r;
 	baseoff bo;
 	bo = boff(bdy);
-	
+
 	if (last_st_reg > final_param)
 	  last_st_reg = final_param;
-	
+
 	for (r = param_reg;r<=last_st_reg;r++)
 	{
 	  ld_ro_ins(i_l,bo,r);comment("restore struct into caller param regs");
@@ -1380,7 +1409,7 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
     else if (props(sbdy)!=0 && props(sbdy)!=no(bdy))
     {
       /* in wrong register */
-      if(is_floating(name(sh(sbdy))))
+      if (is_floating(name(sh(sbdy))))
       {
 	rrf_ins(i_fmr,no(bdy),param_reg);
       }
@@ -1391,9 +1420,9 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
     }
     bdy = bro(sbdy);
   }
-  if(suspected_varargs)
+  if (suspected_varargs)
   {
-    baseoff v ;
+    baseoff v;
     int r;
     if (p_has_tp)
     {
@@ -1404,7 +1433,7 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
       v.base = R_FP;
     }
     v.offset = saved_varargs_offset;
-    for(r = saved_varargs_register ; r<= final_param ;r++)
+    for (r = saved_varargs_register; r<= final_param ;r++)
     {
       ld_ro_ins(i_l,v,r);comment("restore all params since varargs");
       v.offset += 4;
@@ -1412,28 +1441,28 @@ void restore_callers PROTO_N ((n)) PROTO_T (int n)
   }
   return;
 }
-void restore_callees PROTO_Z ()
+void restore_callees(void)
 {
   /* It is possible that callees are allocated s-regs in which case they must
      be moved back on to their proper place on the stack */
   exp bdy = son(p_current);
   COMMENT("restore callees");
-  
-  while(name(bdy)==diagnose_tag)
+
+  while (name(bdy) ==diagnose_tag)
   {
     bdy = son(bdy);
-  }  
-  while (name(bdy)==ident_tag && isparam(bdy)
-	 && name(son(bdy)) !=formal_callee_tag )  
+  }
+  while (name(bdy) ==ident_tag && isparam(bdy)
+	 && name(son(bdy))!=formal_callee_tag)
   {
     bdy = bro(son(bdy));
   }
-  while (name(bdy)==ident_tag && isparam(bdy) )  
+  while (name(bdy) ==ident_tag && isparam(bdy))
   {
     exp sbdy = son(bdy);
     baseoff stackpos;
     stackpos.base = R_FP;
-    stackpos.offset = EXTRA_CALLEE_BYTES + (no(sbdy)>>3);
+    stackpos.offset = EXTRA_CALLEE_BYTES + (no(sbdy) >>3);
     if (props(bdy) & infreg_bits)
     {
       bool dble = is_double_precision(sh(sbdy));
@@ -1449,12 +1478,12 @@ void restore_callees PROTO_Z ()
   }
   return;
 }
-static exp find_ote PROTO_N ((e,n)) PROTO_T (exp e X int n)
+static exp find_ote(exp e, int n)
 {
   exp d = father(e);
-  while (name(d)!=apply_general_tag) d = father(d);
+  while (name(d)!=apply_general_tag)d = father(d);
   d = son(bro(son(d))); /* list otagexps */
-  while(n !=0) { d = bro(d); n--;}
-  ASSERT(name(d)==caller_tag);
+  while (n !=0) { d = bro(d); n--;}
+  ASSERT(name(d) ==caller_tag);
   return d;
-}		
+}

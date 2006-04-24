@@ -204,19 +204,18 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		/* is this the control variable? */
 		if (son(e) == control) {
 			exp t;
-			if (!last(e) || name(bro(e)) != cont_tag) {
+			if (!last(e) || name(bro(e))!= cont_tag) {
 				/* any use but contents -> no test elim */
 				allow_double = 0;
 			} else {
 				/* it is a cont */
 				t = bro(e);
-			}
 #if isalpha
-				if (!last(t) || name(bro(t)) != chvar_tag ||
+				if (!last(t) || name(bro(t))!= chvar_tag ||
 				    last(bro(t)) ||
-				    name(bro(bro(t))) != val_tag ||
+				    name(bro(bro(t)))!= val_tag ||
 				    !last(bro(bro(t))) ||
-				    name(bro(bro(bro(t)))) != offset_mult_tag) {
+				    name(bro(bro(bro(t))))!= offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
@@ -224,9 +223,9 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 					names[names_index++] = bro(e);
 				}
 #else
-				if (last(t) || name(bro(t)) != val_tag ||
+				if (last(t) || name(bro(t))!= val_tag ||
 				    !last(bro(t)) ||
-				    name(bro(bro(t))) != offset_mult_tag) {
+				    name(bro(bro(t)))!= offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
@@ -266,7 +265,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 	case fmin_tag:
 	case float_tag:
 	case chfl_tag:
-		return uc_list (son(e), n - (16 * decr), control, lia, ul,
+		return uc_list(son(e), n - (16 * decr), control, lia, ul,
 				decr);	/* heavy flpt ops */
 	default:
 		return uc_list (son(e), n - decr, control, lia, ul, decr);	/* other ops decrease complexity by 1 */
@@ -295,7 +294,7 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	float freq = fno(bro(son(candidate)));
 
 	/* decrease label count (increased by copy(te)) */
-	no(son(bro(son(candidate))))--;
+	no(son(bro(son(candidate)))) --;
 
 	setlast(second_inc);
 	bro(second_inc) = z;
@@ -328,7 +327,7 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	son(cond_labst) = cl1;
 
 	pt(second_test) = cond_labst;
-	settest_number(second_test, (int)int_inverse_ntest[test_number(te)]);
+	settest_number(second_test,(int)int_inverse_ntest[test_number(te)]);
 
 	cond = getexp(f_top, bro(candidate), (int)(last(candidate)), candidate,
 		      nilexp, 0, 0, cond_tag);
@@ -406,20 +405,20 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 	float freq = fno(bro(son(candidate)));
 	if (allow_double && no(konst) == 1 &&
 	    /* allow_double==0 prevents test elimination */
-	    (nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
+	  (nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
 	    /* the permitted tests - we are counting upwards */
-	    ((name(limit) == name_tag && !isvar(son(limit))) ||
+	  ((name(limit) == name_tag && !isvar(son(limit))) ||
 	     name(limit) == val_tag ||
-	     (name(limit) == cont_tag && name(son(limit)) == name_tag &&
+	   (name(limit) == cont_tag && name(son(limit)) == name_tag &&
 	      isvar(son(son(limit)))))	/* permitted forms of limit */
-	   ) {
+	 ) {
 		/* unroll and remove the internal increment and test */
 
 		int i;
 		shape sha = sh(konst);
 		/* 0 - (times - 2) are preliminaries (times - 1) is test out
 		 * times is the loop (times + 1) is the end */
-		exp branches [UNROLL_MAX + 2];
+		exp branches[UNROLL_MAX + 2];
 		/* used to jump out after < times */
 		exp test_out = copy(te);
 		exp temp, temp1, bc, repeater, lrep, res, id, temp2;
@@ -427,13 +426,13 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		exp new_c = me_shint(sha, times * no(konst));
 
 		settest_number(test_out,
-			       (int)int_inverse_ntest[test_number(test_out)]);
+			     (int)int_inverse_ntest[test_number(test_out)]);
 
 		for (i = 0; i < times + 2; ++i) {
 			/* set up labst for branches */
-			exp lia = me_shint(sha, (((i > 1) &&
-						  (i < (times - 1))) ||
-						 i >= times) ? 2 : 1);
+			exp lia = me_shint(sha,(((i > 1) &&
+						(i < (times - 1))) ||
+						 i >= times)? 2 : 1);
 			exp li = getexp(f_bottom, nilexp, 0, lia, nilexp, 0, 0,
 					labst_tag);
 			fno(li) = (float)(freq / 20.0);
@@ -603,7 +602,7 @@ unroller(void)
 
 
   while (reps != nilexp) {
-    if (no(reps) == 0 && son(reps) != nilexp && name(son(reps)) == rep_tag) {
+    if (no(reps) == 0 && son(reps)!= nilexp && name(son(reps)) == rep_tag) {
       /* this is a leaf repeat node */
       candidate = son(reps);		/* this is the repeat */
       labst = bro(son(candidate));	/* the repeated statement */

@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -88,32 +118,31 @@ $Log: spec.c,v $
 /* PROCEDURES */
 
 speci special_fn
-    PROTO_N ( (a1, a2, s) )
-    PROTO_T ( exp a1 X exp a2 X shape s )
+(exp a1, exp a2, shape s)
 {
 				/* look for special functions */
   speci spr;
-  dec* dp = brog (son (a1));
+  dec* dp = brog(son(a1));
   char *id = dp -> dec_u.dec_val.dec_id;
   spr.is_special = 0;
-  if (id == (char *) 0)
-    return (spr);
+  if (id == (char *)0)
+    return(spr);
   id += prefix_length;
 
-  if (a2 != nilexp && last(a2) && !strcmp (id, "__trans386_special")) {
+  if (a2 != nilexp && last(a2) && !strcmp(id, "__trans386_special")) {
     exp r = me_b3(s, a1, a2, apply_tag);
     setbuiltin(r);	/* dummy proc, so ignore state of do_special_fns */
     spr.is_special = 1;
     spr.special_exp = r;
-    return (spr);
+    return(spr);
   };
 
-  if (!strcmp (id, "setjmp")) {
+  if (!strcmp(id, "setjmp")) {
     has_setjmp = 1;
     module_has_setjmp = 1;
   };
 
-  if (!strcmp (id, "longjmp")) {
+  if (!strcmp(id, "longjmp")) {
     exp r = getexp(f_bottom, nilexp, 0, a1, nilexp, 0, 0,apply_tag);
     has_setjmp = 1;
     if (last(a2) || bro(a2) == nilexp)
@@ -136,30 +165,30 @@ speci special_fn
   if (!do_special_fns)
     return spr;
 
-  if (a2 != nilexp && last(a2) && !strcmp (id, "__builtin_alloca")) {
-    exp r = getexp (s, nilexp, 0, a2, nilexp, 0,
+  if (a2 != nilexp && last(a2) && !strcmp(id, "__builtin_alloca")) {
+    exp r = getexp(s, nilexp, 0, a2, nilexp, 0,
 	0, alloca_tag);
     setfather(r, son(r));
     has_alloca = 1;
     spr.is_special = 1;
     spr.special_exp = r;
-    kill_exp (a1, a1);
-    return (spr);
+    kill_exp(a1, a1);
+    return(spr);
   };
 
-  if (a2 != nilexp && last(a2) && !strcmp (id, "exit")) {
+  if (a2 != nilexp && last(a2) && !strcmp(id, "exit")) {
     exp r = me_b3(f_bottom, a1, a2, apply_tag);
     spr.is_special = 1;
     spr.special_exp = r;
-    return (spr);
+    return(spr);
   };
 
-  if (a2 == nilexp && !strcmp (id, "abort")) {
+  if (a2 == nilexp && !strcmp(id, "abort")) {
     exp r = me_u3(f_bottom, a1, apply_tag);
     spr.is_special = 1;
     spr.special_exp = r;
-    return (spr);
+    return(spr);
   };
 
-  return (spr);
+  return(spr);
 }

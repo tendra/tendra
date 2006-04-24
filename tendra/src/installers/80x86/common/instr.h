@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -84,70 +114,67 @@ $Log: instr.h,v $
 
 
 
-extern  void ins0 PROTO_S ((char *i));
-extern  void ins1 PROTO_S ((char *i, int s1, where a1));
-extern  void ins1lit PROTO_S ((char *i, int s1, where a1));
-extern  void ins1ind PROTO_S ((char *i, int s1, where a1));
-extern  void ins2 PROTO_S ((char *i, int s1, int s2, where a1, where a2));
-extern  void ins3 PROTO_S((char *i, int s1, int s2, int s3, where a1,
-          where a2, where a3));
-extern  void set_label PROTO_S ((exp jr));
-extern  void simplest_set_lab PROTO_S ((int labno));
-extern  void simple_set_label PROTO_S ((int labno));
-extern  void jump PROTO_S ((exp jr, int with_fl_reg));
-extern  void branch PROTO_S ((int test_no, exp jr, int sg, int shnm));
-extern  void simple_branch PROTO_S ((char * j, int labno));
-extern  void jmp_overflow PROTO_S ((exp jr, int sg, int inv));
-extern  void trap_overflow PROTO_S ((int sg, int inv));
-extern  void test_trap PROTO_S ((int test_no, int sg, int shnm));
-extern  void trap_ins PROTO_S ((int s));
-extern  void set_env_off PROTO_S ((int stack_pos, exp id));
-extern  void envoff_operand PROTO_S ((exp id, int off));
-extern  void envsize_operand PROTO_S ((exp id));
-extern  void ldisp PROTO_S ((void));
+extern  void ins0(char *i);
+extern  void ins1(char *i, int s1, where a1);
+extern  void ins1lit(char *i, int s1, where a1);
+extern  void ins1ind(char *i, int s1, where a1);
+extern  void ins2(char *i, int s1, int s2, where a1, where a2);
+extern  void ins3 (char *i, int s1, int s2, int s3, where a1, where a2, where a3);
+extern  void set_label(exp jr);
+extern  void simplest_set_lab(int labno);
+extern  void simple_set_label(int labno);
+extern  void jump(exp jr, int with_fl_reg);
+extern  void branch(int test_no, exp jr, int sg, int shnm);
+extern  void simple_branch(char * j, int labno);
+extern  void jmp_overflow(exp jr, int sg, int inv);
+extern  void trap_overflow(int sg, int inv);
+extern  void test_trap(int test_no, int sg, int shnm);
+extern  void trap_ins(int s);
+extern  void set_env_off(int stack_pos, exp id);
+extern  void envoff_operand(exp id, int off);
+extern  void envsize_operand(exp id);
+extern  void ldisp(void);
 extern  char *margin;
 extern  char *spx;
 extern  char *sep;
-extern  void outreal PROTO_S ((exp e));
-extern  void rel_sp PROTO_S ((int i, int b));
-extern  void rel_cp PROTO_S ((int i, int b));
-extern  void rel_ap PROTO_S ((int i, int b));
-extern  void rel_ap1 PROTO_S ((int i, int b));
-extern  void regn PROTO_S ((int regs, int rdisp, exp ldname, int le));
-extern  void ind_reg PROTO_S((int regs, int rdisp, int offset,
-          exp ldname, int b));
-extern  void extn PROTO_S ((exp id, int off, int b));
-extern  void int_operand PROTO_S ((int k, int le));
-extern  void const_extn PROTO_S ((exp ident, int noff));
-extern  void proc_extn PROTO_S ((exp ident, int noff));
-extern  void label_operand PROTO_S ((exp e));
-extern  void index_opnd PROTO_S ((where whmain, where wh, int scale));
-extern  void mult_op PROTO_S((int inc, where rmain,
-          where rind, int scale, where dest));
-extern  void caseins PROTO_S((int sz, exp arg, int min, int max, int *v,
-	 int exhaustive, int in_eax, exp case_exp));
-extern int get_reg_no PROTO_S ((int regs));
+extern  void outreal(exp e);
+extern  void rel_sp(int i, int b);
+extern  void rel_cp(int i, int b);
+extern  void rel_ap(int i, int b);
+extern  void rel_ap1(int i, int b);
+extern  void regn(int regs, int rdisp, exp ldname, int le);
+extern  void ind_reg (int regs, int rdisp, int offset, exp ldname, int b);
+extern  void extn(exp id, int off, int b);
+extern  void int_operand(int k, int le);
+extern  void const_extn(exp ident, int noff);
+extern  void proc_extn(exp ident, int noff);
+extern  void label_operand(exp e);
+extern  void index_opnd(where whmain, where wh, int scale);
+extern  void mult_op (int inc, where rmain, where rind, int scale, where dest);
+extern  void caseins (int sz, exp arg, int min, int max, int *v,
+	 int exhaustive, int in_eax, exp case_exp);
+extern int get_reg_no(int regs);
 extern int extra_stack;
 extern int max_extra_stack;
-extern  void const_intnl PROTO_S ((int addr, int lab, int off));
-extern  void discard_fstack PROTO_S ((void));
-extern  void discard_st1 PROTO_S ((void));
-extern  void load_stack0 PROTO_S ((void));
+extern  void const_intnl(int addr, int lab, int off);
+extern  void discard_fstack(void);
+extern  void discard_st1(void);
+extern  void load_stack0(void);
 extern  int no_frame;
-extern  void outbp PROTO_S ((void));
-extern  void set_stack_from_bp PROTO_S ((void));
+extern  void outbp(void);
+extern  void set_stack_from_bp(void);
 extern  int last_jump_label;
-extern  void set_lv_label PROTO_S ((exp e));
-extern void setcc PROTO_S ((int test_no, int sg, int shnm));
+extern  void set_lv_label(exp e);
+extern void setcc(int test_no, int sg, int shnm);
 
-extern void testah PROTO_S ((int mask));
-extern exp make_extn PROTO_S ((char * n, shape s, int v));
+extern void testah(int mask);
+extern exp make_extn(char * n, shape s, int v);
 
-extern void rotshift64 PROTO_S ((int shft, int sig, where wshift));
+extern void rotshift64(int shft, int sig, where wshift);
 
 /* temporary */
-extern  void temp_push_fl PROTO_S ((void));
-extern  void temp_pop_fl PROTO_S ((void));
+extern  void temp_push_fl(void);
+extern  void temp_pop_fl(void);
 
 
 #endif

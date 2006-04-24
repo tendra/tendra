@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -28,43 +58,43 @@
 */
 
 
-/* 	$Id: weights.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $	 */
+/* 	$Id$	 */
 
 #ifndef lint
-static char vcid[] = "$Id: weights.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
+static char vcid[] = "$Id$";
 #endif /* lint */
 
 /*
    weights.c
 
-   The main procedure here is weightsv which determines the 
-   allocation of s regs. It considers which of those tags not 
-   already allocated to a t reg by scan, are best put in an s 
-   register. The same conditions as for t regs apply as to the 
-   suitability of the tags for registers.  Weights estimates the 
-   usage of each tag and hence the amount that would be saved if 
+   The main procedure here is weightsv which determines the
+   allocation of s regs. It considers which of those tags not
+   already allocated to a t reg by scan, are best put in an s
+   register. The same conditions as for t regs apply as to the
+   suitability of the tags for registers.  Weights estimates the
+   usage of each tag and hence the amount that would be saved if
    it were held in an s reg. Thus it computes break points for
-   register allocation for later use by reg_alloc.  The type 
-   weights consists of two arrays of integers. In the first array 
+   register allocation for later use by reg_alloc.  The type
+   weights consists of two arrays of integers. In the first array
    each integer corresponds to a fixpnt reg and the second arrays'
-   integers correspond to floating point regs.  At the end of a 
-   call of weights on an ident exp the props field of the ident 
-   may still contain inreg_bits or infreg_bits, set by scan, to 
-   indicate that a t reg should be used. Otherwise number of ident 
-   is set up to represent the break point for allocation. A similar 
-   process occurs for proc parameters which have the break value 
-   in the forweights field of the parapair of the corresponding 
+   integers correspond to floating point regs.  At the end of a
+   call of weights on an ident exp the props field of the ident
+   may still contain inreg_bits or infreg_bits, set by scan, to
+   indicate that a t reg should be used. Otherwise number of ident
+   is set up to represent the break point for allocation. A similar
+   process occurs for proc parameters which have the break value
+   in the forweights field of the parapair of the corresponding
    procrec. This value has three meanings:
 
    1) The ident (or parameter) defines a fixpnt value and number
-   of ident (forweights of parpair) is an integer brk with the 
-   interpretation that if there are at least brk fixpt s registers 
-   unallocated at this point then one will be used for this tag 
+   of ident (forweights of parpair) is an integer brk with the
+   interpretation that if there are at least brk fixpt s registers
+   unallocated at this point then one will be used for this tag
    (parameter).
 
    2) As 1 but for floating point values.
-	
-   3) number of ident = 100 in which case allocate value on the 
+
+   3) number of ident = 100 in which case allocate value on the
    stack, (this is obviously always available for parameters).
 
 */
@@ -118,22 +148,21 @@ weights zeroweights =
 }
 };
 
-weights weightsv PROTO_S ((double scale, exp e));
+weights weightsv(double scale, exp e);
 
 weights add_weights
-    PROTO_N ( ( w1,w2 ) )
-    PROTO_T ( weights *w1 X weights *w2 )
+(weights *w1, weights *w2)
 {
   /* sum of weights*/
   weights r;
   long  i;
   for (i = 0; i < wfixno; ++i) {
-    (r.fix)[i] = (w1->fix)[i]+(w2->fix)[i];
+   (r.fix)[i] = (w1->fix)[i] + (w2->fix)[i];
   };
   for (i = 0; i < wfloatno; ++i) {
-    (r.floating)[i] = (w1->floating)[i]+(w2->floating)[i];
+   (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
   };
-  return (r);
+  return(r);
 }
 
 
@@ -151,8 +180,7 @@ weights add_weights
    loc may be negative since using a s-reg
    will involve a dump and restore  */
 wp max_weights
-    PROTO_N ( ( loc, ws, fix ) )
-    PROTO_T ( double loc X weights * ws X bool fix )
+(double loc, weights * ws, bool fix)
 {
 
   long  bk = wfixno + 1;
@@ -161,7 +189,7 @@ wp max_weights
   float *w = (ws -> fix);
   /*  w[i] = greatest usage of (i+1) inner fixed tags  */
   wp res;
-  float *pw = &(((res.wp_weights).fix)[0]);
+  float *pw = & (((res.wp_weights).fix)[0]);
   if (fix) {
     for (i = 0; i < wfixno; ++i) {
       if (i == 0) {
@@ -175,7 +203,7 @@ wp max_weights
       }
       else {
 	if ((loc + w[i - 1]) > w[i]) {
-	  /* this tag and i inner ones have higher usage than any other 
+	  /* this tag and i inner ones have higher usage than any other
 	     (i+1) inner ones ... */
 	  pw[i] = loc + w[i - 1];
 	  if (i < bk)
@@ -200,7 +228,7 @@ wp max_weights
 
   bk = wfloatno + 1;
   w = (ws -> floating);
-  pw = &(((res.wp_weights).floating)[0]);
+  pw = & (((res.wp_weights).floating)[0]);
   if (!fix) {			/* same algorithm for float regs as fixed
 				   regs */
     for (i = 0; i < wfloatno; ++i) {
@@ -228,36 +256,34 @@ wp max_weights
       pw[i] = w[i];
     }
   }
- 
+
   res.float_break = bk;
   return res;
 }
 
 weights mult_weights
-    PROTO_N ( ( m,ws ) )
-    PROTO_T ( double m X weights *ws )
+(double m, weights *ws)
 {
   /* multiply weights by scalar - non
      overflowing */
   weights res;
-  float *r = &(res.fix)[0];
+  float *r = & (res.fix)[0];
   float *w = ws -> fix;
   long  i;
   for (i = 0; i < wfixno; ++i) {
-      r[i] = w[i] * m;
+      r[i] = w[i]* m;
   };
 
-  r = &(res.floating)[0];
+  r = & (res.floating)[0];
   w = ws -> floating;
   for (i = 0; i < wfloatno; ++i) {
-      r[i] = w[i] * m;
+      r[i] = w[i]* m;
   };
-  return (res);
+  return(res);
 }
 
 weights add_wlist
-    PROTO_N ( ( scale, re ) )
-    PROTO_T ( double scale X exp re )
+(double scale, exp re)
 {
   weights w, w1;
   exp r = re;
@@ -265,17 +291,17 @@ weights add_wlist
     return zeroweights;
   }
   else
-    if (last (r)) {
-      return (weightsv (scale, r));
+    if (last(r)) {
+      return(weightsv(scale, r));
     }
     else {
-      w = weightsv (scale, r);
+      w = weightsv(scale, r);
       Assert(r != bro(r));
       do {
-	r = bro (r);
-	w1 = weightsv (scale, r);
-	w = add_weights (&w, &w1);
-      } while (!last (r));
+	r = bro(r);
+	w1 = weightsv(scale, r);
+	w = add_weights(&w, &w1);
+      } while (!last(r));
       return w;
     }
 }
@@ -285,114 +311,113 @@ weights add_wlist
 /*
    weightsv
 
-   This procedure estimates the usage of tags and parameters to 
-   help determine whether they can advantageously be placed in 
-   s registers.  The parameter scale allows more importance to 
-   be placed on usage inside 'for' loops for example. The 
-   procedure reg_alloc in reg_alloc.c finally determines the 
-   actual choice of s reg and recodes the number field of an ident. 
+   This procedure estimates the usage of tags and parameters to
+   help determine whether they can advantageously be placed in
+   s registers.  The parameter scale allows more importance to
+   be placed on usage inside 'for' loops for example. The
+   procedure reg_alloc in reg_alloc.c finally determines the
+   actual choice of s reg and recodes the number field of an ident.
 */
 weights weightsv
-    PROTO_N ( ( scale, e ) )
-    PROTO_T ( double scale X exp e )
+(double scale, exp e)
 {
  unsigned char  n;
- tailrecurse: 
-  n = name (e);
+ tailrecurse:
+  n = name(e);
   switch (n) {
-    case name_tag: 
+    case name_tag:
       {
-	exp s = son (e);
-	if (name (s) == ident_tag && !isglob (s)) {
-	  if (is_floating(name(sh(e))) && name(sh(e)) != shrealhd) {
+	exp s = son(e);
+	if (name(s) == ident_tag && !isglob(s)) {
+	  if (is_floating(name(sh(e))) && name(sh(e))!= shrealhd) {
 	  	fno(s) += scale*2.0;
-	  } else fno (s) += scale;
+	  } else fno(s) += scale;
 	}
 	/* usage of tag stored in number of son of load_name (decl) */
 	return zeroweights;
       }
 
-    case ident_tag: 
+    case ident_tag:
       {
-	if (son (e) != nilexp) {
+	if (son(e)!= nilexp) {
 	  weights wdef;
 	  weights wbody;
 	  long  noe = no (e) /* set by scan */ ;
-	  if ((name (son (e)) == clear_tag) || (props (e) & defer_bit)) {
+	  if ((name(son(e)) == clear_tag) || (props(e) & defer_bit)) {
 	    wdef = zeroweights;
-	    fno(e)= 0.0;
+	    fno(e) = 0.0;
 	  }
 	  else {
-	    /* maybe needs a store to initialise */ 
-	    if (is_floating(name(sh(son(e)))) && name(sh(son(e))) != shrealhd) {
+	    /* maybe needs a store to initialise */
+	    if (is_floating(name(sh(son(e)))) && name(sh(son(e)))!= shrealhd) {
 	  		fno(e) = scale*2.0;
-	    } else fno (e) = scale;	    	    
-	    wdef = weightsv (scale, son (e));
+	    } else fno(e) = scale;
+	    wdef = weightsv(scale, son(e));
 	  }
 	  /* weights for initialisation of dec */
 
-	  wbody = weightsv (scale, bro (son (e)));
+	  wbody = weightsv(scale, bro(son(e)));
 	  /* weights of body of scan */
-	  
+
 	  if (props (e) & defer_bit) {/* declaration will be treated
 				   transparently in code production */
-	    exp t = son (e);
+	    exp t = son(e);
 	    exp s;
-	    if (name (t) == val_tag || name(t) == real_tag) {
+	    if (name(t) == val_tag || name(t) == real_tag) {
 	      return wbody;
 	    }
-	    while (name (t) != name_tag) {
-	      t = son (t);
+	    while (name(t)!= name_tag) {
+	      t = son(t);
 	    }
 
-	    s = son (t);
-	    if (name (s) == ident_tag && !isglob (t)){
+	    s = son(t);
+	    if (name(s) == ident_tag && !isglob(t)) {
 	      fno (s) = fno (e);	/* is this correct */
 	    }
-	    /* usage of tag stored in number of son of 
+	    /* usage of tag stored in number of son of
 	     load_name (decl) */
 
 	    return wbody;
 	  }			/* end deferred */
 
-	  if ((props (e) & inreg_bits) == 0 && fixregable (e)) {
+	  if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
 	    wp p;
-	    p = max_weights (fno (e) - 2.0*scale , &wbody, 1);
-	    /* usage decreased by 2 because of dump and 
-	       restore of s-reg 
+	    p = max_weights(fno(e) - 2.0*scale , &wbody, 1);
+	    /* usage decreased by 2 because of dump and
+	       restore of s-reg
 	    */
-	    no (e) = p.fix_break;
-	    return (add_weights (&wdef, &p.wp_weights));
+	    no(e) = p.fix_break;
+	    return(add_weights(&wdef, &p.wp_weights));
 	  }
-	  else if ((props (e) & infreg_bits) == 0 && floatregable (e)) {
+	  else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
 	    wp p;
-	    p = max_weights (fno (e) - 2 * scale, &wbody, 0);
-	    /* usage decreased by 4(on mips) because of dump 
+	    p = max_weights(fno(e) - 2 * scale, &wbody, 0);
+	    /* usage decreased by 4(on mips) because of dump
 	       and restore of double s-reg */
-	    no (e) = p.float_break;
-	    return (add_weights (&wdef, &p.wp_weights));
+	    no(e) = p.float_break;
+	    return(add_weights(&wdef, &p.wp_weights));
 	  }
 	  else {
 	    no (e) = noe /* restore to value given by scan */ ;
-	    return add_weights (&wdef, &wbody);
+	    return add_weights(&wdef, &wbody);
 	  }
-	}	
+	}
 	else
 	  return zeroweights;
       };
     case rep_tag: {
-	e = bro (son (e));
+	e = bro(son(e));
 	goto tailrecurse;
       }
 
     case case_tag: {
-	e = son (e);
+	e = son(e);
 	goto tailrecurse;
       };
 
     case labst_tag: {
       scale = fno(e);
-      e = bro (son (e));
+      e = bro(son(e));
       goto tailrecurse;
     }
 
@@ -411,7 +436,7 @@ weights weightsv
       exp r = bro(son(e));
       weights w,w1;
       w = weightsv(scale,l);
-      while(!last(l)){
+      while (!last(l)) {
 	l = bro(l);
 	w1 = weightsv(scale,l);
 	w = add_weights(&w,&w1);
@@ -420,17 +445,17 @@ weights weightsv
       w = add_weights(&w,&w1);
       return w;
     }
-      
+
      default: {
-       if (son (e) == nilexp || n == env_offset_tag || 
+       if (son(e) == nilexp || n == env_offset_tag ||
 	   n == general_env_offset_tag) {
 	 return zeroweights;
 	}
-       if (last (son (e))) {
-	 e = son (e);
+       if (last(son(e))) {
+	 e = son(e);
 	 goto tailrecurse;
        }
-       return (add_wlist (scale, son (e)));
+       return(add_wlist(scale, son(e)));
      }
     }
 }

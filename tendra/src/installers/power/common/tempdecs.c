@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -91,46 +121,46 @@ $Log: tempdecs.c,v $
 bool tempdecopt;	/* flag to allow this optimisation, set in main() */
 static int nouses;
 static bool useinpar;
-static int param_uses PROTO_S ((exp));
-static int locate_param PROTO_S ((exp));
-  
-bool APPLYLIKE PROTO_N ((e)) PROTO_T (exp e)
+static int param_uses(exp);
+static int locate_param(exp);
+
+bool APPLYLIKE(exp e)
 {
-  if(name(e)==apply_tag )
+  if (name(e) ==apply_tag)
     return 1;
-  if(name(e)==apply_general_tag)
+  if (name(e) ==apply_general_tag)
     return 1;
-  if(name(e)==round_tag)
-    if(name(sh(e))==ulonghd||architecture!=POWERPC_CODE)
+  if (name(e) ==round_tag)
+    if (name(sh(e)) ==ulonghd||architecture!=POWERPC_CODE)
       return 1;
   return 0;
 }
 /* RETURNS_R_RESULT returns 1 if the exp returns R_RESULT when evaluated */
-bool RETURNS_R_RESULT PROTO_N ((e)) PROTO_T (exp e )
+bool RETURNS_R_RESULT(exp e)
 {
-  if(name(e)==apply_tag && valregable(sh(e)))
+  if (name(e) ==apply_tag && valregable(sh(e)))
   {
     return 1;
   }
-  if(name(e)==apply_general_tag && valregable(sh(e)))
+  if (name(e) ==apply_general_tag && valregable(sh(e)))
   {
     return 1;
   }
-  if(name(e)==round_tag)
+  if (name(e) ==round_tag)
   {
-    if(name(sh(e))==ulonghd||architecture!=POWERPC_CODE)
+    if (name(sh(e)) ==ulonghd||architecture!=POWERPC_CODE)
       return 1;
   }
   return 0;
 }
 /* RETURNS_FR_RESULT returns 1 if the exp returns FR_RESULT when evaluated */
-bool RETURNS_FR_RESULT PROTO_N ((e)) PROTO_T (exp e)
+bool RETURNS_FR_RESULT(exp e)
 {
-  if(name(e)==apply_tag && is_floating(name(sh(e))))
+  if (name(e) ==apply_tag && is_floating(name(sh(e))))
   {
     return 1;
   }
-  if(name(e)==apply_general_tag && is_floating(name(sh(e))))
+  if (name(e) ==apply_general_tag && is_floating(name(sh(e))))
   {
     return 1;
   }
@@ -138,26 +168,26 @@ bool RETURNS_FR_RESULT PROTO_N ((e)) PROTO_T (exp e)
 }
 
 
-int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
+int trace_uses(exp e, exp id)
 {
   /*
    * reduces nouses for each non-assignment use of id encountered in e; sets
    * useinpar if use in actual parameter (or function) posn terminates with 0 on
    * applications or jumps terminates with 2 on assignment to id otherwise
    * delivers 1
-   * 0 is returned if trace_uses runs into a dead end 
+   * 0 is returned if trace_uses runs into a dead end
    * 2 is returned if trace_uses runs into another assignment
-   * 1 is returned if still searching ok so as soon as 0 or 2 is returned 
+   * 1 is returned if still searching ok so as soon as 0 or 2 is returned
    * the recursion ends quickly
    */
-  
-  if(APPLYLIKE(e))
+
+  if (APPLYLIKE(e))
   {
     /* u is nouses before we start to scan the parameters */
     int u = nouses;
     int p = 1;
     exp l = son(e);
-      
+
     while (p == 1)
     {
       p = trace_uses(l, id);
@@ -166,7 +196,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 	/* We found a use of the ident or we found an assignment to it */
 	useinpar = 1;
       }
-      
+
       if (p == 0)
 	nouses = u;
       if (last(l))
@@ -186,19 +216,19 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
    case name_tag:
     {
       nouses -= (son(e) == id);
-      return (1);
+      return(1);
     }
-  
+
    case ident_tag:
     {
       exp f = son(e);
       exp s = bro(f);
       int a;
-      
-      if ((props(e) & defer_bit) != 0)
+
+      if ((props(e) & defer_bit)!= 0)
       {
 	exp t = f;
-	
+
 	f = s;
 	s = t;
       }
@@ -220,7 +250,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
     {
       int el;
 
-      /* Cond tags are not treated like the default since we know 
+      /* Cond tags are not treated like the default since we know
 	 that the first argument will be coded first */
       el = trace_uses(son(e),id);
       if (el != 1)
@@ -232,7 +262,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
    case seq_tag:
     {
       exp s = son(son(e));
-      
+
       for (;;)
       {
 	int el = trace_uses(s, id);
@@ -244,7 +274,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 	s = bro(s);
       }
     }
-    
+
    case ass_tag:
     {
       if (isvar(id) && name(son(e)) == name_tag && son(son(e)) == id)
@@ -262,14 +292,14 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
     {
       exp s = son(e);
       int nu = nouses;
-      int bad_arguments = 0; 
+      int bad_arguments = 0;
       /* A bad argument is one which contains an assignment or something to stop flow */
       int good_arguments = 0;
       /* A good_argument is one which contains one or more uses of id, but doesn't have
 	 any assignments or things to stop flow */
       int ret_value = 0;
-      
-      if(s==nilexp)
+
+      if (s==nilexp)
       {
 	/*no arguments */
 	return 1;
@@ -277,7 +307,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
       for (;;)
       {
 	int monitor_uses;
-	int el; 
+	int el;
 	monitor_uses = nouses;
 	el = trace_uses(s, id);
 	if (el==1  && nouses < monitor_uses)
@@ -286,7 +316,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 	  good_arguments ++;
 	}
 	if (el != 1)
-	{	
+	{
 	  /* An argument corrupts the flow */
 	  bad_arguments++;
 	  ret_value = el;
@@ -300,7 +330,7 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 	return 1;
 	/* No problems */
       }
-      
+
       if (bad_arguments==1 && good_arguments==0)
       {
 	/* one bad one */
@@ -314,12 +344,12 @@ int trace_uses PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 }
 
 
-void after_a PROTO_N ((a,id)) PROTO_T (exp a X exp id)
+void after_a(exp a, exp id)
 {
   /* apply trace_uses to dynamic successors of a */
   exp dad;
   exp l;
-  
+
 tailrecurse:
   dad = father(a);
   if (nouses == 0)
@@ -351,7 +381,7 @@ tailrecurse:
   if (dad != id)
     goto tailrecurse;
 }
-bool simple_seq PROTO_N ((e,id)) PROTO_T (exp e X exp id)
+bool simple_seq(exp e, exp id)
 {
 #if 0
   exp dad = father(e);
@@ -373,7 +403,7 @@ bool simple_seq PROTO_N ((e,id)) PROTO_T (exp e X exp id)
 #endif
 }
 
-int tempdec PROTO_N ((e,enoughs)) PROTO_T (exp e X bool enoughs)
+int tempdec(exp e, bool enoughs)
 {
   /*
    * e is a local declaration; 'enoughs' is a misnomer to say whether there
@@ -412,7 +442,7 @@ int tempdec PROTO_N ((e,enoughs)) PROTO_T (exp e X bool enoughs)
    * id)
    */
 
-  if (name(son(e)) != clear_tag || isparam(e))
+  if (name(son(e))!= clear_tag || isparam(e))
   {
     after_a(son(e), e);
   }
@@ -439,22 +469,22 @@ int tempdec PROTO_N ((e,enoughs)) PROTO_T (exp e X bool enoughs)
       {
 	return param_uses(e);
       }
-      else 
+      else
 	return 100;
     }
     return 100;
   }
   return 0;
 }
-static int param_uses PROTO_N ((id)) PROTO_T (exp id)
+static int param_uses(exp id)
 {
   exp p;
   ASSERT(isparam(id));
   ASSERT(useinpar);
   ASSERT(nouses==0);
   /* We found all the uses of the ident and we found one of them in a parameter list */
-  
-  for(p=pt(id) ; p!=nilexp;p = pt(p))
+
+  for (p=pt(id); p!=nilexp;p = pt(p))
   {
     if (APPLYLIKE(father(p)))
     {
@@ -464,18 +494,18 @@ static int param_uses PROTO_N ((id)) PROTO_T (exp id)
   /* not a simple use in a parameter list */
   return 100;
 }
-static int locate_param PROTO_N ((e)) PROTO_T (exp e)
+static int locate_param(exp e)
 {
   exp f = father(e);
   bool is_float = is_floating(name(sh(e)));
   exp par;
-  
-  
+
+
   ASSERT(APPLYLIKE(f));
   switch (name(f))
   {
    case apply_general_tag:
-    par =  son(bro(son(f))); 
+    par =  son(bro(son(f)));
     break;
    case apply_tag:
     par = bro(son(f));
@@ -490,11 +520,11 @@ static int locate_param PROTO_N ((e)) PROTO_T (exp e)
     int fxparam = R_FIRST_PARAM;
     int flparam = FR_FIRST_PARAM;
     int stparam = 0;
-    
-    for(;;)
+
+    for (;;)
     {
       int par_size = shape_size(sh(par));
-      
+
       if (par==e)
       {
 	/* We have found it */
@@ -507,7 +537,7 @@ static int locate_param PROTO_N ((e)) PROTO_T (exp e)
 	}
 	else
 	{
-	  if(fxparam>end_param)
+	  if (fxparam>end_param)
 	    return 0;
 	  else
 	    return fxparam;
@@ -519,15 +549,15 @@ static int locate_param PROTO_N ((e)) PROTO_T (exp e)
       {
 	flparam++;
       }
-      if(last(par))
+      if (last(par))
 	break;
       par = bro(par);
     }
     return 0;
   }
-}  
+}
 
-  
+
 
 
 

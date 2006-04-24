@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -102,27 +132,25 @@ weights zeroweights =
 /* NB scale, throughout,  should be a float but mips cc V2.10 compiles calls and
 		proc body inconsistently !! */
 
-weights weightsv PROTO_S ((double scale, exp e));
+weights weightsv(double scale, exp e);
 
 weights add_weights
-    PROTO_N ( (w1,w2) )
-    PROTO_T ( weights * w1 X weights * w2 )
+(weights * w1, weights * w2)
 {
 				/* sum of weights*/
   weights r;
   long  i;
   for (i = 0; i < wfixno; ++i) {
-      (r.fix)[i] = (w1->fix)[i]+(w2->fix)[i];
+     (r.fix)[i] = (w1->fix)[i] + (w2->fix)[i];
   };
   for (i = 0; i < wfloatno; ++i) {
-      (r.floating)[i] = (w1->floating)[i]+(w2->floating)[i];
+     (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
   };
-  return (r);
+  return(r);
 }
 
 wp max_weights
-    PROTO_N ( (loc, ws, fix) )
-    PROTO_T ( double loc X weights * ws X bool fix )
+(double loc, weights * ws, bool fix)
 {
 				/* loc is the usage count of a tag, ws is
 				   the weights computed for the scope of
@@ -142,7 +170,7 @@ wp max_weights
   float *w = (ws -> fix);
   /*  w[i] = greatest usage of (i+1) inner fixed tags  */
   wp res;
-  float *pw = &(((res.wp_weights).fix)[0]);
+  float *pw = & (((res.wp_weights).fix)[0]);
   if (fix) {
     for (i = 0; i < wfixno; ++i) {
       if (i == 0) {
@@ -181,7 +209,7 @@ wp max_weights
 
   bk = wfloatno + 1;
   w = (ws -> floating);
-  pw = &(((res.wp_weights).floating)[0]);
+  pw = & (((res.wp_weights).floating)[0]);
   if (!fix) {			/* same algorithm for float regs as fixed
 				   regs */
     for (i = 0; i < wfloatno; ++i) {
@@ -215,30 +243,28 @@ wp max_weights
 }
 
 weights mult_weights
-    PROTO_N ( (m, ws) )
-    PROTO_T ( double m X weights * ws )
+(double m, weights * ws)
 {
 				/* multiply weights by scalar - non
 				   overflowing */
   weights res;
-  float *r = &(res.fix)[0];
+  float *r = & (res.fix)[0];
   float *w = ws -> fix;
   long  i;
   for (i = 0; i < wfixno; ++i) {
-      r[i] = w[i] * m;
+      r[i] = w[i]* m;
   };
 
-  r = &(res.floating)[0];
+  r = & (res.floating)[0];
   w = ws -> floating;
   for (i = 0; i < wfloatno; ++i) {
-      r[i] = w[i] * m;
+      r[i] = w[i]* m;
   };
-  return (res);
+  return(res);
 }
 
 weights add_wlist
-    PROTO_N ( (scale, re) )
-    PROTO_T ( double scale X exp re )
+(double scale, exp re)
 {/* sum of  weights of list re */
   weights w, w1;
   exp r = re;
@@ -246,16 +272,16 @@ weights add_wlist
     return zeroweights;
   }
   else
-    if (last (r)) {
-      return (weightsv (scale, r));
+    if (last(r)) {
+      return(weightsv(scale, r));
     }
     else {
-      w = weightsv (scale, r);
+      w = weightsv(scale, r);
       do {
-	r = bro (r);
-	w1 = weightsv (scale, r);
-	w = add_weights (&w, &w1);
-      } while (!last (r));
+	r = bro(r);
+	w1 = weightsv(scale, r);
+	w = add_weights(&w, &w1);
+      } while (!last(r));
       return w;
     }
 }
@@ -274,21 +300,20 @@ field of an ident.
 
 ******************************************************************/
 weights weightsv
-    PROTO_N ( (scale, e) )
-    PROTO_T ( double scale X exp e )
+(double scale, exp e)
 {
  unsigned char  n;
 tailrecurse:
-  n = name (e);
+  n = name(e);
   switch (n) {
     case name_tag:
       {
-	exp s = son (e);
+	exp s = son(e);
 
-	if (name (s) == ident_tag && !isglob (s)) {
-	  if (is_floating(name(sh(e))) && name(sh(e)) != shrealhd) {
+	if (name(s) == ident_tag && !isglob(s)) {
+	  if (is_floating(name(sh(e))) && name(sh(e))!= shrealhd) {
 	  	fno(s) += scale*2.0;
-	  } else fno (s) += scale;
+	  } else fno(s) += scale;
 	}
 	/* usage of tag stored in number of son of load_name (decl) */
 	return zeroweights;
@@ -296,85 +321,85 @@ tailrecurse:
 
     case ident_tag:
       {
-	if (son (e) != nilexp) {
+	if (son(e)!= nilexp) {
 	  weights wdef;
 	  weights wbody;
 	  long  noe = no (e) /* set by scan */ ;
 
-	  if (name (son (e)) == clear_tag || props (e) & defer_bit) {
+	  if (name(son(e)) == clear_tag || props(e) & defer_bit) {
 	    wdef = zeroweights;
-	    fno(e)= 0.0;
+	    fno(e) = 0.0;
 	  }
 	  else {
 	    /* maybe needs a store to initialise */
-	    if (is_floating(name(sh(son(e)))) && name(sh(son(e))) != shrealhd) {
+	    if (is_floating(name(sh(son(e)))) && name(sh(son(e)))!= shrealhd) {
 	  		fno(e) = scale*2.0;
-	    } else fno (e) = scale;
-	    wdef = weightsv (scale, son (e));
+	    } else fno(e) = scale;
+	    wdef = weightsv(scale, son(e));
 	  }
 	  /* weights for initialisation of dec */
 
-	  wbody = weightsv (scale, bro (son (e)));
+	  wbody = weightsv(scale, bro(son(e)));
 	  /* weights of body of scan */
 
 	  if (props (e) & defer_bit) {/* declaration will be treated
 				   transparently in code production */
-	    exp t = son (e);
+	    exp t = son(e);
 	    exp s;
-	    if (name (t) == val_tag || name(t) == real_tag) {
+	    if (name(t) == val_tag || name(t) == real_tag) {
 	      return wbody;
 	    }
-	    while (name (t) != name_tag) {
-	      t = son (t);
+	    while (name(t)!= name_tag) {
+	      t = son(t);
 	    }
 
-	    s = son (t);
-	    if (name (s) == ident_tag && !isglob (t)) {
-	      fno (s) += fno (e);
+	    s = son(t);
+	    if (name(s) == ident_tag && !isglob(t)) {
+	      fno(s) += fno(e);
 	    }
 	    /* usage of tag stored in number of son of load_name (decl) */
 
 	    return wbody;
 	  }			/* end deferred */
 
-	  if ((props (e) & inreg_bits) == 0 && fixregable (e)) {
+	  if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
 	    wp p;
-	    p = max_weights (fno (e) - 2.0*scale , &wbody, 1);
+	    p = max_weights(fno(e) - 2.0*scale , &wbody, 1);
 	    /* usage decreased by 2 because of dump and restore of s-reg
 	    */
-	    no (e) = p.fix_break;
-	    return (add_weights (&wdef, &p.wp_weights));
+	    no(e) = p.fix_break;
+	    return(add_weights(&wdef, &p.wp_weights));
 	  }
 	  else
-	    if ((props (e) & infreg_bits) == 0 && floatregable (e)) {
+	    if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
 	      wp p;
-	      p = max_weights (fno (e) - 4 * scale, &wbody, 0);
+	      p = max_weights(fno(e) - 4 * scale, &wbody, 0);
 	      /* usage decreased by 4 because of dump and restore of
 	         double s-reg */
-	      no (e) = p.float_break;
-	      return (add_weights (&wdef, &p.wp_weights));
+	      no(e) = p.float_break;
+	      return(add_weights(&wdef, &p.wp_weights));
 	    }
 	    else {
 	      no (e) = noe /* restore to value given by scan */ ;
-	      return add_weights (&wdef, &wbody);
+	      return add_weights(&wdef, &wbody);
 	    }
 	}
 	else
 	  return zeroweights;
       };
     case rep_tag: {
-	e = bro (son (e));
+	e = bro(son(e));
 	goto tailrecurse;
       }
 
     case case_tag: {
-	e = son (e);
+	e = son(e);
 	goto tailrecurse;
       };
 
     case labst_tag:
       { scale = fno(e);
-	e = bro (son (e));
+	e = bro(son(e));
 	goto tailrecurse;
       }
 
@@ -394,7 +419,7 @@ tailrecurse:
 	exp r = bro(son(e));
 	weights w, w1;
         w = weightsv(scale, l);
-	while(!last(l)) {
+	while (!last(l)) {
 		l = bro(l);
 		w1 = weightsv(scale, l);
 		w = add_weights(&w, &w1);
@@ -406,15 +431,15 @@ tailrecurse:
 
 
     default: {
-	if (son (e) == nilexp || n == env_offset_tag
-		|| n == general_env_offset_tag ) {
+	if (son(e) == nilexp || n == env_offset_tag
+		|| n == general_env_offset_tag) {
 	  return zeroweights;
 	}
-	if (last (son (e))) {
-	  e = son (e);
+	if (last(son(e))) {
+	  e = son(e);
 	  goto tailrecurse;
 	}
-	return (add_wlist (scale, son (e)));
+	return(add_wlist(scale, son(e)));
       }
   }
 }

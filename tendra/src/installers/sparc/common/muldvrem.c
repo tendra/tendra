@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -95,24 +125,24 @@ $Log: muldvrem.c,v $
  * clear_sun_call_divrem_regs is now global rather than static.  Extended
  * is_muldivrem_call to deal with those long double operations which
  * are implemented using system calls.
- * 
+ *
  * Revision 1.5  93/08/27  11:32:37  11:32:37  ra (Robert Andrews)
  * Added a number of explicit integer casts.  Use pnset etc to set
  * needs properties.
- * 
+ *
  * Revision 1.4  93/08/18  11:13:26  11:13:26  ra (Robert Andrews)
  * Only the whitespace has changed ...
- * 
+ *
  * Revision 1.3  93/08/13  14:41:32  14:41:32  ra (Robert Andrews)
  * Reformatted.
- * 
+ *
  * Revision 1.2  93/07/12  15:15:41  15:15:41  ra (Robert Andrews)
  * Added partial support for div1 and rem1.  Changed system calls to use
  * call_special_routine.
- * 
+ *
  * Revision 1.1  93/06/24  14:58:50  14:58:50  ra (Robert Andrews)
  * Initial revision
- * 
+ *
 --------------------------------------------------------------------------
 */
 
@@ -160,20 +190,20 @@ $Log: muldvrem.c,v $
 
 /*
   MULTIPLICATION LIMITS
-  MAX_MUL_POW2_OFFSET is the maximum m such that 2**n +/- m is a 
-  simple multiplication.  NOT_MUL_CONST_SIMPLE is any value larger 
+  MAX_MUL_POW2_OFFSET is the maximum m such that 2**n +/- m is a
+  simple multiplication.  NOT_MUL_CONST_SIMPLE is any value larger
   than this and is used as an error return.
 */
 
 #define MAX_MUL_POW2_OFFSET	2
-#define NOT_MUL_CONST_SIMPLE	( MAX_MUL_POW2_OFFSET + 1 )
+#define NOT_MUL_CONST_SIMPLE	(MAX_MUL_POW2_OFFSET + 1)
 
 
 /*
   IS c A POWER OF TWO?
 */
 
-#define IS_POW2( c )	( ( c ) != 0 && ( ( c ) & ( ( c ) - 1 ) ) == 0 )
+#define IS_POW2(c)	((c)!= 0 && ((c) & ((c) - 1)) == 0)
 
 
 /*
@@ -182,29 +212,28 @@ $Log: muldvrem.c,v $
 
 #define IS_TRAP 1
 
-static int bit_no 
-    PROTO_N ( ( c ) )
-    PROTO_T ( long c ){
-  int n ;
-  unsigned long m ;
-  assert ( IS_POW2 ( c ) ) ;
-  for ( m = 1, n = 0 ; m != ( unsigned long ) c ; m = m << 1 ) n++ ;
-  return ( n ) ;
-}	
+static int bit_no
+(long c) {
+  int n;
+  unsigned long m;
+  assert(IS_POW2(c));
+  for (m = 1, n = 0; m != (unsigned long)c; m = m << 1)n++;
+  return(n);
+}
 
 
 /*
   VERSION OF rir_ins WITH CAST
 */
 
-#define rcr_ins( a, b, c, d )	rir_ins ( a, b, ( long ) ( c ), d )
+#define rcr_ins(a, b, c, d)	rir_ins(a, b,(long)(c), d)
 
 
 #if 0
 /*
   CLEAR REGISTERS USED BY MULTIPLICATION SYSTEM CALL ETC
 
-  According to the System V ABI only registers %o0,...,%o7 are 
+  According to the System V ABI only registers %o0,...,%o7 are
   clobbered by the system calls .mul, .div etc.  However :
   1.  SunOS 4.1.1 does not follow SPARC ABI.
   2.  Even if it did, the assembler -O optimiser does not regard
@@ -213,46 +242,44 @@ static int bit_no
   Note that it does regard float regs alive after a call.
 */
 
-static void clear_abi_call_muldivrem_regs 
-    PROTO_N ( ( sp ) )
-    PROTO_T ( space sp ){
-  int r ;
-  for ( r = R_O0 ; r != R_O7 + 1 ; r++ ) {
+static void clear_abi_call_muldivrem_regs
+(space sp) {
+  int r;
+  for (r = R_O0; r != R_O7 + 1; r++) {
     /* grab remaining param regs for safety test for bad code */
-    if ( !( r == R_O0 || r == R_TMP || r == R_SP ) ) {
+    if (!(r == R_O0 || r == R_TMP || r == R_SP)) {
       /* already done or special */
-      sp = needreg ( r, sp ) ;
+      sp = needreg(r, sp);
     }
     /* clear regs modified by .mul/.umul */
-    clear_reg ( r ) ;
+    clear_reg(r);
   }
-  return ;
+  return;
 }
 #endif
 
 
 /*
   CLEAR REGISTERS ACTUALLY USED BY MULTIPLICATION SYSTEM CALL ETC
-  
+
   This is the version of the routine above which reflect reality.
   Registers %o0,...,%o7 and %g1,...,%g_reg_max are clobbered.
 */
 
-void clear_sun_call_divrem_regs 
-    PROTO_N ( ( sp ) )
-    PROTO_T ( space sp ){
-  int r ;
-  for ( r = R_G1 ; r != R_O7 + 1 ;
-	  r = ( ( r == R_G0 + g_reg_max ) ? R_O0 : r + 1 ) ) {
+void clear_sun_call_divrem_regs
+(space sp) {
+  int r;
+  for (r = R_G1; r != R_O7 + 1;
+	  r = ((r == R_G0 + g_reg_max)? R_O0 : r + 1)) {
 	/* grab remaining param regs for safety test for bad code */
-    if ( !( r == R_O0 || r == R_TMP || r == R_SP ) ) {
+    if (!(r == R_O0 || r == R_TMP || r == R_SP)) {
       /* already done or special */
-      sp = needreg ( r, sp ) ;
+      sp = needreg(r, sp);
     }
     /* clear regs modified by .mul/.umul */
-    clear_reg ( r ) ;
+    clear_reg(r);
   }
-  return ;
+  return;
 }
 
 
@@ -260,32 +287,31 @@ void clear_sun_call_divrem_regs
   CALL A MULTIPLICATION/DIVISION/REMAINDER SYSTEM ROUTINE
 */
 
-int call_muldivrem 
-    PROTO_N ( ( lhs, rhs, sp, proc, err_t ) )
-    PROTO_T ( exp lhs X exp rhs X space sp X int proc X int err_t ){
+int call_muldivrem
+(exp lhs, exp rhs, space sp, int proc, int err_t) {
   int lhs_reg = -1;
   int rhs_reg = -1;
-  if(err_t) {
+  if (err_t) {
     /* division has error treatment, so check -MAXINT-1/-1 */
-    if((name(sh(lhs)) == slonghd) &&
-       ( (name(lhs) !=val_tag) || (no(lhs) == -0x80000000)) &&
-       ( (name(rhs) != val_tag) || (no(rhs) == -1))) {
+    if ((name(sh(lhs)) == slonghd) &&
+      ((name(lhs)!=val_tag) || (no(lhs) == -0x80000000)) &&
+      ((name(rhs)!= val_tag) || (no(rhs) == -1))) {
       int ok_lab = new_label();
       lhs_reg = reg_operand(lhs,sp);
       rhs_reg = reg_operand(rhs,guardreg(lhs_reg,sp));
-      if(name(rhs) == val_tag) {
-	if(no(rhs) != -1) {
+      if (name(rhs) == val_tag) {
+	if (no(rhs)!= -1) {
 	  uncond_ins(i_b,ok_lab);
 	}
       }
-      if(name(lhs) == val_tag) {
-	if(no(lhs) != -0x80000000) {
+      if (name(lhs) == val_tag) {
+	if (no(lhs)!= -0x80000000) {
 	  uncond_ins(i_b,ok_lab);
 	}
       }
       condri_ins(i_bne,rhs_reg,-1,ok_lab);
       condri_ins(i_bne,lhs_reg,-0x80000000,ok_lab);
-      if(err_t == IS_TRAP){
+      if (err_t == IS_TRAP) {
 	do_exception(f_overflow);
       }
       else{
@@ -294,13 +320,13 @@ int call_muldivrem
       set_label(ok_lab);
     }
   }
-  if (lhs_reg != R_O0) reg_operand_here ( lhs, sp, R_O0 ) ;
-  sp = needreg ( R_O0, sp ) ;
-  if (rhs_reg != R_O1) reg_operand_here ( rhs, sp, R_O1 ) ;
-  call_special_routine ( proc ) ;
-  clear_sun_call_divrem_regs ( sp ) ;
+  if (lhs_reg != R_O0)reg_operand_here(lhs, sp, R_O0);
+  sp = needreg(R_O0, sp);
+  if (rhs_reg != R_O1)reg_operand_here(rhs, sp, R_O1);
+  call_special_routine(proc);
+  clear_sun_call_divrem_regs(sp);
   /* result left in R_O0 */
-  return ( R_O0 ) ;
+  return(R_O0);
 }
 
 
@@ -309,192 +335,190 @@ int call_muldivrem
   This algorithm is not optimal, but it's not bad.
 */
 
-static void mul_const_complex 
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned ){
+static void mul_const_complex
+(int src, long constval, int dest, space sp, bool sgned) {
   struct {
     unsigned char bsl ;		/* bit-string of 1's length */
     unsigned char shift ;		/* shift from right of word */
-  } bs_tab [ BITS_PER_WORD / 2 ] ;
+  } bs_tab[BITS_PER_WORD / 2];
 
-  int bs_tab_len = 0 ;
-  int bsl_1_tab = -1 ;
-  int max_bsl = 0 ;
+  int bs_tab_len = 0;
+  int bsl_1_tab = -1;
+  int max_bsl = 0;
   /* special case ~0 cannot be handled by the general algorithm */
-  if ( constval == ~0 ) {
-    if ( sgned ) {
+  if (constval == ~0) {
+    if (sgned) {
       /* X * -1 => -X */
-      assert ( constval == -1 ) ;
-      rr_ins ( i_neg, src, dest ) ;
-    } 
-    else {
-      rr_ins ( i_neg, src, dest ) ;
+      assert(constval == -1);
+      rr_ins(i_neg, src, dest);
     }
-    return ;
+    else {
+      rr_ins(i_neg, src, dest);
+    }
+    return;
   }
   /* set up bs_tab from constval */
   {
-    unsigned long c = ( unsigned long ) constval ;
-    int bsl = 0, sby ;
-    for ( sby = 0 ; sby <= BITS_PER_WORD ; sby++, c >>= 1 ) {
-      if ( c & 1 ) {
-	bsl++ ;
-      } 
-      else if ( bsl != 0 ) {
+    unsigned long c = (unsigned long)constval;
+    int bsl = 0, sby;
+    for (sby = 0; sby <= BITS_PER_WORD; sby++, c >>= 1) {
+      if (c & 1) {
+	bsl++;
+      }
+      else if (bsl != 0) {
 	/* a complete all-1's bit-string */
-	assert ( bs_tab_len < BITS_PER_WORD / 2 ) ;
-	bs_tab [ bs_tab_len ].bsl = ( unsigned char ) bsl ;
-	bs_tab [ bs_tab_len ].shift = ( unsigned char ) ( sby - bsl ) ;
-	if ( bsl == 1 ) bsl_1_tab = bs_tab_len ;
-	if ( bsl > max_bsl ) max_bsl = bsl ;
-	bs_tab_len++ ;
-	bsl = 0 ;
+	assert(bs_tab_len < BITS_PER_WORD / 2);
+	bs_tab[bs_tab_len].bsl = (unsigned char)bsl;
+	bs_tab[bs_tab_len].shift = (unsigned char)(sby - bsl);
+	if (bsl == 1)bsl_1_tab = bs_tab_len;
+	if (bsl > max_bsl)max_bsl = bsl;
+	bs_tab_len++;
+	bsl = 0;
       }
     }
   }
   assert ( bs_tab_len > 0 ) ;	/* shouldn't be here otherwise */
-  assert ( max_bsl >= 1 ) ;
+  assert(max_bsl >= 1);
   assert ( max_bsl <= 31 ) ;	/* shifts by 32 don't work */
 
     /* generate the code */
   {
-    int bsl ;
-    int bsl_laststep_tab ;
-    int tmp = R_TMP ;
-    int accum ;
-    bool accum_init = 0 ;
-    
+    int bsl;
+    int bsl_laststep_tab;
+    int tmp = R_TMP;
+    int accum;
+    bool accum_init = 0;
+
     /* allocate regs */
-    assert ( src != R_TMP ) ;
-    assert ( dest != R_TMP ) ;
-    
-    if ( src != dest ) {
-      accum = dest ;
-    } 
-    else {
-      accum = getreg ( sp.fixed ) ;
+    assert(src != R_TMP);
+    assert(dest != R_TMP);
+
+    if (src != dest) {
+      accum = dest;
     }
-    assert ( src != accum ) ;
-    
+    else {
+      accum = getreg(sp.fixed);
+    }
+    assert(src != accum);
+
     /* init accum if useful */
-    if ( bsl_1_tab >= 0 && bs_tab [ bsl_1_tab ].shift != 0 ) {
+    if (bsl_1_tab >= 0 && bs_tab[bsl_1_tab].shift != 0) {
       /* Usefully do one of the 1 bit strings with simple shift to
 	 accum.  If left to general algorithm 2 instructions, shift
 	 and move/add, would often be used */
-      assert ( bs_tab [ bsl_1_tab ].bsl == 1 ) ;
-      rcr_ins ( i_sll, src, bs_tab [ bsl_1_tab ].shift, accum ) ;
-      bs_tab [ bsl_1_tab ].bsl = 0 ;
-      accum_init = 1 ;
+      assert(bs_tab[bsl_1_tab].bsl == 1);
+      rcr_ins(i_sll, src, bs_tab[bsl_1_tab].shift, accum);
+      bs_tab[bsl_1_tab].bsl = 0;
+      accum_init = 1;
     }
-    
+
     /* find last cond generation step, so we can move to dest then */
-    bsl_laststep_tab = -1 ;
-    for ( bsl = max_bsl ; bsl > 0 ; bsl-- ) {
-      int i ;
-      for ( i = 0 ; i < bs_tab_len ; i++ ) {
-	if ( bs_tab [i].bsl == (unsigned char)bsl ) bsl_laststep_tab = i ;
+    bsl_laststep_tab = -1;
+    for (bsl = max_bsl; bsl > 0; bsl--) {
+      int i;
+      for (i = 0; i < bs_tab_len; i++) {
+	if (bs_tab[i].bsl == (unsigned char)bsl)bsl_laststep_tab = i;
       }
     }
-    assert ( bsl_laststep_tab != -1 ) ;
+    assert(bsl_laststep_tab != -1);
 
     /* accumulate handle all bit strings of same length together, so
        'src * ( ( 2 ** bsl ) - 1 )' can be shared */
-    for ( bsl = max_bsl ; bsl > 0 ; bsl-- ) {
-      int i ;
-      int tmp_shifted ;
-      bool found_bsl = 0 ;
-      for ( i = 0 ; i < bs_tab_len ; i++ ) {
-	if ( bs_tab [i].bsl == (unsigned char)bsl ) {
-	  int to_accum_reg ;
-	  int step_accum_dest = ( i == bsl_laststep_tab ?
-				  dest : accum ) ;
-	  assert ( accum != R_NO_REG ) ;
+    for (bsl = max_bsl; bsl > 0; bsl--) {
+      int i;
+      int tmp_shifted;
+      bool found_bsl = 0;
+      for (i = 0; i < bs_tab_len; i++) {
+	if (bs_tab[i].bsl == (unsigned char)bsl) {
+	  int to_accum_reg;
+	  int step_accum_dest = (i == bsl_laststep_tab ?
+				  dest : accum);
+	  assert(accum != R_NO_REG);
 	  /* amount to accum into tmp reg */
-	  if ( bsl == 1 ) {
+	  if (bsl == 1) {
 	    /* accumulate src << shift */
-	    if ( bs_tab [i].shift == 0 ) {
+	    if (bs_tab[i].shift == 0) {
 	      /* simple add */
-	      to_accum_reg = src ;
-	    } 
+	      to_accum_reg = src;
+	    }
 	    else {
 	      /* simple shift and add */
-	      rcr_ins ( i_sll, src, bs_tab [i].shift, tmp ) ;
-	      to_accum_reg = tmp ;
+	      rcr_ins(i_sll, src, bs_tab[i].shift, tmp);
+	      to_accum_reg = tmp;
 	    }
-	  } 
+	  }
 	  else {
 	    /* accumulate ( src * ( ( 2**bsl ) - 1 ) ) << shift */
-	    if ( !found_bsl ) {
-	      rcr_ins ( i_sll, src, bsl, tmp ) ;
-	      rrr_ins ( i_sub, tmp, src, tmp ) ;
-	      tmp_shifted = 0 ;
-	      found_bsl = 1 ;
+	    if (!found_bsl) {
+	      rcr_ins(i_sll, src, bsl, tmp);
+	      rrr_ins(i_sub, tmp, src, tmp);
+	      tmp_shifted = 0;
+	      found_bsl = 1;
 	    }
-	    if ( bs_tab [i].shift != (unsigned char)tmp_shifted ) {
-	      int extra_shift = bs_tab [i].shift - (unsigned char)tmp_shifted ;
-	      assert ( extra_shift > 0 && extra_shift <= 31 ) ;
-	      rcr_ins ( i_sll, tmp, extra_shift, tmp ) ;
-	      tmp_shifted += extra_shift ;
+	    if (bs_tab[i].shift != (unsigned char)tmp_shifted) {
+	      int extra_shift = bs_tab[i].shift - (unsigned char)tmp_shifted;
+	      assert(extra_shift > 0 && extra_shift <= 31);
+	      rcr_ins(i_sll, tmp, extra_shift, tmp);
+	      tmp_shifted += extra_shift;
 	    }
 	    /* else tmp already shifted to correct position */
-	    to_accum_reg = tmp ;
+	    to_accum_reg = tmp;
 	  }
 	  /* accumulate into accum, or on last step to dest */
-	  if ( accum_init ) {
-	    rrr_ins ( i_add, accum, to_accum_reg,step_accum_dest ) ;
-	  } 	
-	  else {
-	    rr_ins ( i_mov, to_accum_reg, step_accum_dest ) ;
-	    accum_init = 1 ;
+	  if (accum_init) {
+	    rrr_ins(i_add, accum, to_accum_reg,step_accum_dest);
 	  }
-	  if ( i == bsl_laststep_tab ) {
+	  else {
+	    rr_ins(i_mov, to_accum_reg, step_accum_dest);
+	    accum_init = 1;
+	  }
+	  if (i == bsl_laststep_tab) {
 	    /* error check */
-	    accum = R_NO_REG ;
+	    accum = R_NO_REG;
 	  }
 	}
       }
     }
-    assert ( accum_init ) ;
-    assert ( accum == R_NO_REG ) ;
+    assert(accum_init);
+    assert(accum == R_NO_REG);
     /* result in dest, due to step_accum_dest above */
   }
-  return ;
+  return;
 }
 
 
 /*
   IS A CONSTANT SIMPLE FOR MULTIPLICATION?
-  
-  A simple constant is one of the form +/- 2**n +/- m where m is at 
-  most MAX_MUL_POW2_OFFSET.  If constval is of this form, m is 
+
+  A simple constant is one of the form +/- 2**n +/- m where m is at
+  most MAX_MUL_POW2_OFFSET.  If constval is of this form, m is
   returned, otherwise NOT_MUL_CONST_SIMPLE is returned.
 */
 
-static int offset_mul_const_simple 
-    PROTO_N ( ( constval, sgned ) )
-    PROTO_T ( long constval X bool sgned ){
-  int i ;
-  if ( constval < 0 ) {
-    if ( sgned ) {
-      constval = -constval ;
-    } 
+static int offset_mul_const_simple
+(long constval, bool sgned) {
+  int i;
+  if (constval < 0) {
+    if (sgned) {
+      constval = -constval;
+    }
     else {
       /* very rare case */
-      return ( NOT_MUL_CONST_SIMPLE ) ;
+      return(NOT_MUL_CONST_SIMPLE);
     }
   }
-  for ( i = 0 ; i <= MAX_MUL_POW2_OFFSET ; i++ ) {
+  for (i = 0; i <= MAX_MUL_POW2_OFFSET; i++) {
     long c ;	/* power of two close to constval */
     /* check for add offsets, avoiding overflow confusion */
-    c = constval - i ;
-    if ( IS_POW2 ( c ) && c + i == constval ) return ( i ) ;
+    c = constval - i;
+    if (IS_POW2(c) && c + i == constval) return(i);
     /* check for sub offset of 1 only, avoiding overflow confusion */
-    if ( i == 1 ) {
-      c = constval + i ;
-      if ( IS_POW2 ( c ) && c - i == constval ) return ( -i ) ;
+    if (i == 1) {
+      c = constval + i;
+      if (IS_POW2(c) && c - i == constval) return(-i);
     }
   }
-  return ( NOT_MUL_CONST_SIMPLE ) ;
+  return(NOT_MUL_CONST_SIMPLE);
 }
 
 
@@ -502,78 +526,77 @@ static int offset_mul_const_simple
   MULTIPLICATION BY A SIMPLE CONSTANT
 */
 
-static void mul_const_simple 
-    PROTO_N ( ( src, constval, dest, sgned ) )
-    PROTO_T ( int src X long constval X int dest X bool sgned ){
+static void mul_const_simple
+(int src, long constval, int dest, bool sgned) {
   long c ;		/* power of two close to constval */
   int add_sub ;	/* difference from power of two */
-  int shift_const ;
+  int shift_const;
 
-  if ( sgned && constval < 0 ) {
-    if ( constval == -1 ) {
+  if (sgned && constval < 0) {
+    if (constval == -1) {
       /* X * -1 => -X */
-      rr_ins ( i_neg, src, dest ) ;
-      return ;
+      rr_ins(i_neg, src, dest);
+      return;
     }
-    constval = -constval ;
+    constval = -constval;
     /* incorrect to modify source */
-    rr_ins ( i_neg, src, R_TMP ) ;
-    src = R_TMP ;
+    rr_ins(i_neg, src, R_TMP);
+    src = R_TMP;
   }
-  
-  if ( constval == 1 ) {
-    if ( src != dest ){
-      rr_ins ( i_mov, src, dest ) ;
+
+  if (constval == 1) {
+    if (src != dest) {
+      rr_ins(i_mov, src, dest);
     }
-    return ;
-  } 
-  else if ( constval == 2 ) {
-    /* use add, which can be peephole optimised to addcc later */
-    rrr_ins ( i_add, src, src, dest ) ;
-    return ;
+    return;
   }
-  add_sub = offset_mul_const_simple ( constval, sgned ) ;
-  c = constval - add_sub ;
-  
-  assert ( constval == c + add_sub ) ;
-  shift_const = bit_no ( c ) ;
-  assert ( constval == ( 1 << shift_const ) + add_sub ) ;
-  if ( add_sub == 0 ) {
-    rcr_ins ( i_sll, src, shift_const, dest ) ;
-  } 
+  else if (constval == 2) {
+    /* use add, which can be peephole optimised to addcc later */
+    rrr_ins(i_add, src, src, dest);
+    return;
+  }
+  add_sub = offset_mul_const_simple(constval, sgned);
+  c = constval - add_sub;
+
+  assert(constval == c + add_sub);
+  shift_const = bit_no(c);
+  assert(constval == (1 << shift_const) + add_sub);
+  if (add_sub == 0) {
+    rcr_ins(i_sll, src, shift_const, dest);
+  }
   else {
     /* add_sub != 0 */
-    int i ;
+    int i;
     int n ;		/* number of add_sub instructions */
     int inter_reg ;	/* for partial result */
-    ins_p i_add_sub ;
-    
-    if ( add_sub > 0 ) {
-      i_add_sub = i_add ;
-      n = add_sub ;
-    } 
-    else {
-      i_add_sub = i_sub ;
-      n = -add_sub ;
+    ins_p i_add_sub;
+
+    if (add_sub > 0) {
+      i_add_sub = i_add;
+      n = add_sub;
     }
-    if ( src == dest ) {
+    else {
+      i_add_sub = i_sub;
+      n = -add_sub;
+    }
+    if (src == dest) {
       /* must preserve src for add/sub */
-      inter_reg = R_TMP ;
-    } 
+      inter_reg = R_TMP;
+    }
     else {
-      inter_reg = dest ;
+      inter_reg = dest;
     }
-    assert ( src != inter_reg ) ;
-    rcr_ins ( i_sll, src, shift_const, inter_reg ) ;
+    assert(src != inter_reg);
+    rcr_ins(i_sll, src, shift_const, inter_reg);
     /* all but final add_sub */
-    for ( i = 1 ; i < n ; i++ ) {
-      rrr_ins ( i_add_sub, inter_reg, src, inter_reg ) ;
+    for (i = 1; i < n; i++) {
+      rrr_ins(i_add_sub, inter_reg, src, inter_reg);
     }
-    
+
     /* final add_sub to dest reg */
-    rrr_ins ( i_add_sub, inter_reg, src, dest ) ;
+    rrr_ins(i_add_sub, inter_reg, src, dest);
   }
-  return ;
+  return;
 }
 
 
@@ -581,90 +604,88 @@ static void mul_const_simple
   CODE GENERATION ROUTINE FOR MULTIPLICATION BY A CONSTANT
 */
 
-static void mul_const 
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned ){
-  if ( constval == 0 ) {
+static void mul_const
+(int src, long constval, int dest, space sp, bool sgned) {
+  if (constval == 0) {
     /* rare case not handled by mul_const_X () */
-    ir_ins ( i_mov, 0, dest ) ;
-  } 
-  else if ( offset_mul_const_simple ( constval, sgned ) ==
-	    NOT_MUL_CONST_SIMPLE ) {
-    mul_const_complex ( src, constval, dest, sp, sgned ) ;
-  } 
-  else {
-    mul_const_simple ( src, constval, dest, sgned ) ;
+    ir_ins(i_mov, 0, dest);
   }
-  return ;
+  else if (offset_mul_const_simple(constval, sgned) ==
+	    NOT_MUL_CONST_SIMPLE) {
+    mul_const_complex(src, constval, dest, sp, sgned);
+  }
+  else {
+    mul_const_simple(src, constval, dest, sgned);
+  }
+  return;
 }
 
 
 /*
   CODE GENERATION ROUTINE FOR MULTIPLICATION OPERATIONS
 */
-static int do_mul_comm 
-    PROTO_N ( ( seq, sp, final_reg, sgned ) )
-    PROTO_T ( exp seq X space sp X int final_reg X bool sgned ){
-  space nsp ;	
-  int mul_proc ;
-  exp arg2 = bro ( seq ) ;
+static int do_mul_comm
+(exp seq, space sp, int final_reg, bool sgned) {
+  space nsp;
+  int mul_proc;
+  exp arg2 = bro(seq);
   int has_error_treatment = !optop(father(seq));
-  if ( name ( arg2 ) == val_tag && !has_error_treatment) {
+  if (name(arg2) == val_tag && !has_error_treatment) {
     /* const optim */
-    int lhs_reg = reg_operand ( seq, sp ) ;
-    sp = guardreg ( lhs_reg, sp ) ;
+    int lhs_reg = reg_operand(seq, sp);
+    sp = guardreg(lhs_reg, sp);
     /* check () & scan () should move const to last */
-    assert ( last ( arg2 ) ) ;
-    if ( final_reg == R_NO_REG || final_reg == R_G0) {
+    assert(last(arg2));
+    if (final_reg == R_NO_REG || final_reg == R_G0) {
       /* better code from mul_const if src != dest reg */
-      final_reg = getreg ( sp.fixed ) ;
-      sp = guardreg ( final_reg, sp ) ;
+      final_reg = getreg(sp.fixed);
+      sp = guardreg(final_reg, sp);
     }
-    mul_const ( lhs_reg, ( long ) no ( arg2 ), final_reg, sp, sgned ) ;
-    return ( final_reg ) ;
+    mul_const(lhs_reg,(long)no(arg2), final_reg, sp, sgned);
+    return(final_reg);
   }
   /* need to call .mul/.umul */
-  mul_proc = ( sgned ? SPECIAL_MUL : SPECIAL_UMUL ) ;
-  reg_operand_here ( seq, sp, R_O0 ) ;
-  nsp = needreg ( R_O0, sp ) ;
-  for ( ; ; ) {
+  mul_proc = (sgned ? SPECIAL_MUL : SPECIAL_UMUL);
+  reg_operand_here(seq, sp, R_O0);
+  nsp = needreg(R_O0, sp);
+  for (; ;) {
     /* should have break out below by now */
-    assert ( !last ( seq ) ) ;
-    seq = bro ( seq ) ;
-    if ( !has_error_treatment && name ( seq ) == val_tag &&
-	 offset_mul_const_simple ( ( long ) no ( seq ), sgned ) !=
+    assert(!last(seq));
+    seq = bro(seq);
+    if (!has_error_treatment && name(seq) == val_tag &&
+	 offset_mul_const_simple((long)no(seq), sgned)!=
 	 NOT_MUL_CONST_SIMPLE) {
       /* const optim */
       /* check () & scan () should move const to last */
-      assert ( last ( seq ) ) ;
-      if ( final_reg == R_NO_REG ) {
+      assert(last(seq));
+      if (final_reg == R_NO_REG) {
 	/* better code from mul_const if src != dest reg */
-	final_reg = R_O1 ;
+	final_reg = R_O1;
       }
-      mul_const ( R_O0, ( long ) no ( seq ), final_reg, nsp, sgned ) ;
-      break ;
-    } 
+      mul_const(R_O0,(long)no(seq), final_reg, nsp, sgned);
+      break;
+    }
     else {
-      reg_operand_here ( seq, nsp, R_O1 ) ;
-      if(has_error_treatment){
+      reg_operand_here(seq, nsp, R_O1);
+      if (has_error_treatment) {
 	rrr_ins(sgned?i_smulcc:i_umulcc,R_O0,R_O1,R_O0);
       }
       else{
-	call_special_routine ( mul_proc ) ;
+	call_special_routine(mul_proc);
       }
-      clear_sun_call_divrem_regs ( nsp ) ;
-      if ( last ( seq ) ) {
-	if ( final_reg == R_NO_REG || final_reg == R_G0 ) {
-	  final_reg = R_O0 ;
-	} 
-	else {
-	  rr_ins ( i_mov, R_O0, final_reg ) ;
+      clear_sun_call_divrem_regs(nsp);
+      if (last(seq)) {
+	if (final_reg == R_NO_REG || final_reg == R_G0) {
+	  final_reg = R_O0;
 	}
-	break ;
+	else {
+	  rr_ins(i_mov, R_O0, final_reg);
+	}
+	break;
       }
     }
   }
-  return ( final_reg ) ;
+  return(final_reg);
 }
 
 
@@ -677,7 +698,7 @@ static int do_mul_comm
   flag is set to indicate that the first form should be used.
 */
 
-/* using a flag is unsafe, lest the lhs itself contains a div. 
+/* using a flag is unsafe, lest the lhs itself contains a div.
    Instead recompute otherdiv when needed*/
 /*static bool other_div = 0 ;*/
 
@@ -686,63 +707,62 @@ static int do_mul_comm
   CODE GENERATION ROUTINE FOR DIVISION OPERATIONS
 */
 
-static int do_div 
-    PROTO_N ( ( seq, sp, final_reg, sgned ) )
-    PROTO_T ( exp seq X space sp X int final_reg X bool sgned ){
-  int p ;
-  exp lhs = seq ;
-  exp rhs = bro ( lhs ) ;
+static int do_div
+(exp seq, space sp, int final_reg, bool sgned) {
+  int p;
+  exp lhs = seq;
+  exp rhs = bro(lhs);
   int has_error_treatment = !optop(father(seq)) && !error_treatment_is_trap(father(seq));
   int et;
   assert ( last ( rhs ) ) ;	/* so bro(rhs) == the div exp  */
-  if ( !has_error_treatment && name ( rhs ) == val_tag && 
-       IS_POW2 ( no ( rhs )) && no(rhs) > 0)  {
-    long constval = no ( rhs ) ;
+  if (!has_error_treatment && name(rhs) == val_tag &&
+       IS_POW2(no(rhs)) && no(rhs) > 0) {
+    long constval = no(rhs);
     /* const optim, replace div by 2**n by shift right */
-    int lhs_reg = reg_operand ( lhs, sp ) ;
-    int shift_const = bit_no ( constval ) ;
-    sp = guardreg ( lhs_reg, sp ) ;
-    if ( final_reg == R_NO_REG ) {
-      final_reg = getreg ( sp.fixed ) ;
-      sp = guardreg ( final_reg, sp ) ;
-    }	
-    if ( constval == 1 ) {
+    int lhs_reg = reg_operand(lhs, sp);
+    int shift_const = bit_no(constval);
+    sp = guardreg(lhs_reg, sp);
+    if (final_reg == R_NO_REG) {
+      final_reg = getreg(sp.fixed);
+      sp = guardreg(final_reg, sp);
+    }
+    if (constval == 1) {
       /* result always lhs */
-      rr_ins ( i_mov, lhs_reg, final_reg ) ;
-      return ( final_reg ) ;
+      rr_ins(i_mov, lhs_reg, final_reg);
+      return(final_reg);
     }
 
     if (!sgned) {
 				/* unsigned, easy, just shift */
-      rcr_ins ( i_srl, lhs_reg, shift_const, final_reg ) ;
-      return ( final_reg ) ;
+      rcr_ins(i_srl, lhs_reg, shift_const, final_reg);
+      return(final_reg);
     }
 
     if (name(bro(rhs)) == div2_tag) /* shift and fix up for sgned div2 */
     {
       /* signed, adjust lhs before shift */
-      int tmp_reg = R_TMP ;
+      int tmp_reg = R_TMP;
       assert ( shift_const > 0 ) ; /* assumed below */
-      if ( shift_const - 1 != 0 ) {
-	rcr_ins ( i_sra, lhs_reg, shift_const - 1, tmp_reg ) ;
-	rcr_ins ( i_srl, tmp_reg, 32 - shift_const, tmp_reg ) ;
+      if (shift_const - 1 != 0) {
+	rcr_ins(i_sra, lhs_reg, shift_const - 1, tmp_reg);
+	rcr_ins(i_srl, tmp_reg, 32 - shift_const, tmp_reg);
       } else {
-	rcr_ins ( i_srl, lhs_reg, 32 - shift_const, tmp_reg ) ;
+	rcr_ins(i_srl, lhs_reg, 32 - shift_const, tmp_reg);
       }
-      rrr_ins ( i_add, lhs_reg, tmp_reg, tmp_reg ) ;
-      rcr_ins ( i_sra, tmp_reg, shift_const, final_reg ) ;
-      return (final_reg);
-    } 
+      rrr_ins(i_add, lhs_reg, tmp_reg, tmp_reg);
+      rcr_ins(i_sra, tmp_reg, shift_const, final_reg);
+      return(final_reg);
+    }
 				/* must be signed div1, a simple shift */
-    rcr_ins ( i_sra, lhs_reg, shift_const, final_reg ) ;
-    return ( final_reg ) ;
+    rcr_ins(i_sra, lhs_reg, shift_const, final_reg);
+    return(final_reg);
   }
   if(0 /*has_error_treatment*/) {
     ins_p dop;
     reg_operand_here(lhs,sp,R_O0);
     reg_operand_here(rhs,sp,R_O1);
-    if(error_treatment_is_trap(father(seq))){
-      if(sgned){
+    if (error_treatment_is_trap(father(seq))) {
+      if (sgned) {
 	dop = i_sdiv;
       }
       else{
@@ -750,7 +770,7 @@ static int do_div
       }
     }
     else{
-      if(sgned){
+      if (sgned) {
 	dop = i_sdivcc;
       }
       else{
@@ -761,22 +781,22 @@ static int do_div
     return R_O0;
     /* otherwise need to call .div/.udiv */
   }
-  else if ( sgned && name(bro(rhs)) == div1_tag ) {
-    p = SPECIAL_DIV1 ;
-  } 
-  else {
-    p = ( sgned ? SPECIAL_DIV2 : SPECIAL_UDIV2 ) ;
+  else if (sgned && name(bro(rhs)) == div1_tag) {
+    p = SPECIAL_DIV1;
   }
-  if(error_treatment_is_trap(father(seq))) {
+  else {
+    p = (sgned ? SPECIAL_DIV2 : SPECIAL_UDIV2);
+  }
+  if (error_treatment_is_trap(father(seq))) {
     et = IS_TRAP;
   }
-  else if(has_error_treatment) {
+  else if (has_error_treatment) {
     et = -no(son(pt(father(seq))));
   }
   else {
     et = 0;
   }
-  return ( call_muldivrem ( lhs, rhs, sp, p, et ) ) ;
+  return(call_muldivrem(lhs, rhs, sp, p, et));
 }
 
 
@@ -784,70 +804,69 @@ static int do_div
   CODE GENERATION ROUTINE FOR REMAINDER OPERATIONS
 */
 
-static int do_rem 
-    PROTO_N ( ( seq, sp, final_reg, sgned ) )
-    PROTO_T ( exp seq X space sp X int final_reg X bool sgned ){
-  int p ;
-  exp lhs = seq ;
-  exp rhs = bro ( lhs ) ;
-  
-  assert ( last ( rhs ) ) ;
-  
-  if ( name ( rhs ) == val_tag && IS_POW2 ( no ( rhs ) ) && (no(rhs) > 0) ) {
-    long constval = no ( rhs ) ;
-    
+static int do_rem
+(exp seq, space sp, int final_reg, bool sgned) {
+  int p;
+  exp lhs = seq;
+  exp rhs = bro(lhs);
+
+  assert(last(rhs));
+
+  if (name(rhs) == val_tag && IS_POW2(no(rhs)) && (no(rhs) > 0)) {
+    long constval = no(rhs);
+
     /* const optim, replace rem by 2**n by and with mask */
-    int lhs_reg = reg_operand ( lhs, sp ) ;
-    sp = guardreg ( lhs_reg, sp ) ;
-    
-    if ( final_reg == R_NO_REG ) {
-      final_reg = getreg ( sp.fixed ) ;
+    int lhs_reg = reg_operand(lhs, sp);
+    sp = guardreg(lhs_reg, sp);
+
+    if (final_reg == R_NO_REG) {
+      final_reg = getreg(sp.fixed);
     }
-    
-    if ( constval == 1 ) {
+
+    if (constval == 1) {
       /* result always 0 */
-      ir_ins ( i_mov, 0, final_reg ) ;
+      ir_ins(i_mov, 0, final_reg);
       return final_reg;
     }
-    if ( !sgned ) {
+    if (!sgned) {
 		/* unsigned by mask */
-      rcr_ins ( i_and, lhs_reg, constval - 1, final_reg ) ;
+      rcr_ins(i_and, lhs_reg, constval - 1, final_reg);
       return final_reg;
     }
-    if (name(bro(rhs)) == rem2_tag){
+    if (name(bro(rhs)) == rem2_tag) {
       /* signed, need to allow for negative lhs. Treat l % c
 	 as l - ( l / c ) * c */
-      int tmp_reg = R_TMP ;
-      int shift_const = bit_no ( constval ) ;
+      int tmp_reg = R_TMP;
+      int shift_const = bit_no(constval);
       assert ( shift_const > 0 ) ; /* assumed below */
       /* do the divide, as in do_div */
-      if ( shift_const - 1 != 0 ) {
-	rcr_ins ( i_sra, lhs_reg, shift_const - 1, tmp_reg ) ;
-	rcr_ins ( i_srl, tmp_reg, 32 - shift_const, tmp_reg ) ;
-      } 
-      else {
-	rcr_ins ( i_srl, lhs_reg, 32 - shift_const, tmp_reg ) ;
+      if (shift_const - 1 != 0) {
+	rcr_ins(i_sra, lhs_reg, shift_const - 1, tmp_reg);
+	rcr_ins(i_srl, tmp_reg, 32 - shift_const, tmp_reg);
       }
-      rrr_ins ( i_add, lhs_reg, tmp_reg, tmp_reg ) ;
-      rcr_ins ( i_sra, tmp_reg, shift_const, tmp_reg ) ;
+      else {
+	rcr_ins(i_srl, lhs_reg, 32 - shift_const, tmp_reg);
+      }
+      rrr_ins(i_add, lhs_reg, tmp_reg, tmp_reg);
+      rcr_ins(i_sra, tmp_reg, shift_const, tmp_reg);
 		/* multiply */
-      rcr_ins ( i_sll, tmp_reg, shift_const, tmp_reg ) ;
+      rcr_ins(i_sll, tmp_reg, shift_const, tmp_reg);
       /* subtract */
-      rrr_ins ( i_sub, lhs_reg, tmp_reg, final_reg ) ;
+      rrr_ins(i_sub, lhs_reg, tmp_reg, final_reg);
       return final_reg;
     }
-    rcr_ins ( i_and, lhs_reg, constval - 1, final_reg ) ;
+    rcr_ins(i_and, lhs_reg, constval - 1, final_reg);
     return final_reg;
   }
-  
+
   /* otherwise need to call .rem/.urem */
-  if ( sgned && name(bro(rhs)) == mod_tag) {
-    p = SPECIAL_REM1 ;
-  } 
-  else {
-    p = ( sgned ? SPECIAL_REM2 : SPECIAL_UREM2 ) ;
+  if (sgned && name(bro(rhs)) == mod_tag) {
+    p = SPECIAL_REM1;
   }
-  return ( call_muldivrem ( lhs, rhs, sp, p, 0 ) ) ;
+  else {
+    p = (sgned ? SPECIAL_REM2 : SPECIAL_UREM2);
+  }
+  return(call_muldivrem(lhs, rhs, sp, p, 0));
 }
 
 
@@ -855,44 +874,43 @@ static int do_rem
   FUNCTION TYPE
 */
 
-typedef int ( *find_fn ) PROTO_S ( ( exp, space, int, bool ) ) ;
+typedef int(*find_fn)(exp, space, int, bool);
 
 
 /*
   GENERATE CODE FOR e USING do_fn
 */
 
-static int find_reg_and_apply 
-    PROTO_N ( ( e, sp, dest, sgned, do_fn ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned X find_fn do_fn ){
-  ans a ;
-  int dest_reg ;
-  exp seq = son ( e ) ;
+static int find_reg_and_apply
+(exp e, space sp, where dest, bool sgned, find_fn do_fn) {
+  ans a;
+  int dest_reg;
+  exp seq = son(e);
   /* tidyshort ( dest, sh ( e ) ) ; ??? */
-  switch ( discrim ( dest.answhere ) ) {
-    case inreg : {
-      dest_reg = ( *do_fn ) ( seq, sp, regalt ( dest.answhere ),
-			    sgned ) ;
-      break ;
+  switch (discrim(dest.answhere)) {
+    case inreg: {
+      dest_reg = (*do_fn)(seq, sp, regalt(dest.answhere),
+			    sgned);
+      break;
     }
-    case insomereg : {
+    case insomereg: {
       /* leave ( *do_fn ) () to allocate reg */
-      int *dr = someregalt ( dest.answhere ) ;
-      *dr = ( *do_fn ) ( seq, sp, R_NO_REG, sgned ) ;
+      int *dr = someregalt(dest.answhere);
+      *dr = (*do_fn)(seq, sp, R_NO_REG, sgned);
       /* no need for move */
-      return ( *dr ) ;
+      return(*dr);
     }
     default : {
       /* leave ( *do_fn ) () to allocate reg */
-      dest_reg = ( *do_fn ) ( seq, sp, R_NO_REG, sgned ) ;
-      break ;
+      dest_reg = (*do_fn)(seq, sp, R_NO_REG, sgned);
+      break;
     }
   }
-  assert ( dest_reg != R_NO_REG ) ;
-  setregalt ( a, dest_reg ) ;
-  sp = guardreg ( dest_reg, sp ) ;
-  ( void ) move ( a, dest, sp.fixed, sgned ) ;
-  return ( dest_reg ) ;
+  assert(dest_reg != R_NO_REG);
+  setregalt(a, dest_reg);
+  sp = guardreg(dest_reg, sp);
+ (void)move(a, dest, sp.fixed, sgned);
+  return(dest_reg);
 }
 
 
@@ -900,10 +918,9 @@ static int find_reg_and_apply
   GENERATE CODE FOR A MULTIPLICATION OPERATION
 */
 
-int do_mul_comm_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned ){
-  return ( find_reg_and_apply ( e, sp, dest, sgned, do_mul_comm ) ) ;
+int do_mul_comm_op
+(exp e, space sp, where dest, bool sgned) {
+  return(find_reg_and_apply(e, sp, dest, sgned, do_mul_comm));
 }
 
 
@@ -911,11 +928,10 @@ int do_mul_comm_op
   GENERATE CODE FOR A DIVISION OPERATION
 */
 
-int do_div_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned ){
+int do_div_op
+(exp e, space sp, where dest, bool sgned) {
 /*    other_div = ( bool ) ( ( name ( e ) == div1_tag && sgned ) ? 1 : 0 ) ;*/
-  return ( find_reg_and_apply ( e, sp, dest, sgned, do_div ) ) ;
+  return(find_reg_and_apply(e, sp, dest, sgned, do_div));
 }
 
 
@@ -923,11 +939,10 @@ int do_div_op
   GENERATE CODE FOR A REMAINDER OPERATION
 */
 
-int do_rem_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned ){
+int do_rem_op
+(exp e, space sp, where dest, bool sgned) {
 /*    other_div = ( bool ) ( ( name ( e ) == mod_tag && sgned ) ? 1 : 0 ) ;*/
-  return ( find_reg_and_apply ( e, sp, dest, sgned, do_rem ) ) ;
+  return(find_reg_and_apply(e, sp, dest, sgned, do_rem));
 }
 
 
@@ -938,17 +953,16 @@ int do_rem_op
   an expression represents one of these calls.
 */
 
-bool is_muldivrem_call 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
-  switch ( name ( e ) ) {
+bool is_muldivrem_call
+(exp e) {
+  switch (name(e)) {
 
 #if use_long_double
     case test_tag:
     case chfl_tag:
     case round_tag: {
-      exp s = son ( e ) ;
-      if ( name ( sh ( s ) ) == doublehd ) return ( 1 ) ;
+      exp s = son(e);
+      if (name(sh(s)) == doublehd) return(1);
       /* FALL THROUGH */
     }
     case fplus_tag:
@@ -958,19 +972,19 @@ bool is_muldivrem_call
     case fneg_tag:
     case fabs_tag:
     case float_tag: {
-      if ( name ( sh ( e ) ) == doublehd ) return ( 1 ) ;
-      return ( 0 ) ;
+      if (name(sh(e)) == doublehd) return(1);
+      return(0);
     }
 #endif
-    
+
     case mult_tag:
     case offset_mult_tag: {
       /*multneeds - simple cases don't need a call */
-      exp arg2 = bro ( son ( e ) ) ;
-      if ( last ( arg2 ) && name ( arg2 ) == val_tag && optop(e) ) {
-	return ( 0 ) ;
-      }	
-      return ( 1 ) ;
+      exp arg2 = bro(son(e));
+      if (last(arg2) && name(arg2) == val_tag && optop(e)) {
+	return(0);
+      }
+      return(1);
     }
     case div0_tag:
     case rem0_tag:
@@ -981,18 +995,18 @@ bool is_muldivrem_call
     case offset_div_tag:
     case offset_div_by_int_tag: {
       /*remneeds, divneeds - simple cases don't need a call */
-      exp arg2 = bro ( son ( e ) ) ;
-      if ( last ( arg2 ) && name ( arg2 ) == val_tag && optop(e) ) {
-	long constval = no ( arg2 ) ;
-	if ( constval > 0 && IS_POW2 ( constval ))
-	  return ( 0 ) ;
+      exp arg2 = bro(son(e));
+      if (last(arg2) && name(arg2) == val_tag && optop(e)) {
+	long constval = no(arg2);
+	if (constval > 0 && IS_POW2(constval))
+	  return(0);
       }
-      return ( 1 ) ;
+      return(1);
     }
     case movecont_tag:
     return 1;			/* at present */
     default: {
-      return ( 0 ) ;
+      return(0);
     }
   }
 }
@@ -1002,75 +1016,72 @@ bool is_muldivrem_call
   ESTIMATE NEEDS FOR MULTIPLICATION
 */
 
-needs multneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
-  needs n ;
-  exp arg1 = son ( *e ) ;
-  exp arg2 = bro ( arg1 ) ;
-  n = likeplus ( e, at ) ;
+needs multneeds
+(exp * e, exp ** at) {
+  needs n;
+  exp arg1 = son(*e);
+  exp arg2 = bro(arg1);
+  n = likeplus(e, at);
 
-  /* remember that mult may have more than two args after 
+  /* remember that mult may have more than two args after
      optimisation */
-  if ( last ( arg2 ) && name ( arg2 ) == val_tag && optop(*e) ) {
+  if (last(arg2) && name(arg2) == val_tag && optop(*e)) {
     /* const optim, additional reg only needed where src and dest are
        same reg, in which case it has already been allowed for */
-    return ( n ) ;
+    return(n);
   }
   /* default, call .mul */
-  n.fixneeds = maxfix ;
-  pnset ( n, hasproccall ) ;
-  return ( n ) ;
+  n.fixneeds = maxfix;
+  pnset(n, hasproccall);
+  return(n);
 }
 
 
 /*
   ESTIMATE NEEDS FOR DIVISION
 */
-needs divneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
-  needs n ;
-  exp lhs = son ( *e ) ;
-  exp rhs = bro ( lhs ) ;
+needs divneeds
+(exp * e, exp ** at) {
+  needs n;
+  exp lhs = son(*e);
+  exp rhs = bro(lhs);
 
   assert ( last ( rhs ) ) ;	/* after likediv may not be so */
 
-  n = likediv ( e, at ) ;
-  if ( name ( rhs ) == val_tag && optop(*e) ) {
-    long constval = no ( rhs ) ;
-    if ( constval > 0 && IS_POW2 ( constval ) ) {
+  n = likediv(e, at);
+  if (name(rhs) == val_tag && optop(*e)) {
+    long constval = no(rhs);
+    if (constval > 0 && IS_POW2(constval)) {
       /* const optim, replace div by shift */
-      return ( n ) ;
+      return(n);
     }
   }
   /* default, call .div */
-  n.fixneeds = maxfix ;
-  pnset ( n, hasproccall ) ;
-  return ( n ) ;
+  n.fixneeds = maxfix;
+  pnset(n, hasproccall);
+  return(n);
 }
 
 
 /*
   ESTIMATE NEEDS FOR REMAINDER
 */
-needs remneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
-  needs n ;
-  exp lhs = son ( *e ) ;
-  exp rhs = bro ( lhs ) ;
+needs remneeds
+(exp * e, exp ** at) {
+  needs n;
+  exp lhs = son(*e);
+  exp rhs = bro(lhs);
   assert ( last ( rhs ) ) ;	/* after likediv may not be so */
-  n = likediv ( e, at ) ;
-  if ( name ( rhs ) == val_tag && optop(*e) ) {
-    long constval = no ( rhs ) ;
-    if ( constval > 0 && IS_POW2 ( constval ) ) {
+  n = likediv(e, at);
+  if (name(rhs) == val_tag && optop(*e)) {
+    long constval = no(rhs);
+    if (constval > 0 && IS_POW2(constval)) {
       /* const optim of rem by positive, non-zero, 2**n */
-      return ( n ) ;
+      return(n);
     }
   }
   /* default, call .rem */
-  n.fixneeds = maxfix ;
-  pnset ( n, hasproccall ) ;
-  return ( n ) ;
+  n.fixneeds = maxfix;
+  pnset(n, hasproccall);
+  return(n);
 }

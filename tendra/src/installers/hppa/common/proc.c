@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -194,12 +224,12 @@ extern int line;
 extern char export[128];
 extern int firstlab,labno;
 int leaf;
-extern baseoff find_tg PROTO_S ((char* s));
-extern exp find_named_tg PROTO_S ((char *,shape));
-extern shape f_pointer PROTO_S ((alignment));
-extern alignment f_alignment PROTO_S ((shape));
+extern baseoff find_tg(char* s);
+extern exp find_named_tg(char *,shape);
+extern shape f_pointer(alignment);
+extern alignment f_alignment(shape);
 extern shape f_proc;
-extern void do_exception PROTO_S ((int));
+extern void do_exception(int);
 
 int res_label;
 static int untidy_return_label,return_to_label_label;
@@ -212,8 +242,7 @@ int RSCOPE_LEVEL,RSCOPE_LABEL;
 *   sequences, the space is initialised by each procedure prelude.
  */
 baseoff mem_temp
-    PROTO_N ( (byte_offset) )
-    PROTO_T ( int byte_offset )
+(int byte_offset)
 {
    baseoff b;
    b = MEM_TEMP_BOFF;
@@ -229,16 +258,16 @@ baseoff mem_temp
 
 /* Save callee-saves ("s") registers on the stack. */
 void save_sregs
-    PROTO_Z ()
+(void)
 {
    if (fixdump==0)
       return;
    else
    {
       int o=0,r;
-      for(r=16;r<32;r++)
+      for (r=16;r<32;r++)
       {
-	 if (fixdump&(1<<r))
+	 if (fixdump& (1<<r))
 	 {
 	    st_ir_ins(i_stw,cmplt_,r,fs_,empty_ltrl,o,SP);
 	    o+=4;
@@ -250,16 +279,16 @@ void save_sregs
 
 /* Restore the callee-saves ("s") registers saved on the stack. */
 void restore_sregs
-    PROTO_Z ()
+(void)
 {
    if (fixdump==0)
       return;
    else
    {
       int o=0,r;
-      for(r=16;r<32;r++)
+      for (r=16;r<32;r++)
       {
-	 if (fixdump&(1<<r))
+	 if (fixdump& (1<<r))
 	 {
 	    ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,o,SP,r);
 	    o+=4;
@@ -274,8 +303,7 @@ void restore_sregs
 *   untidy_return.
  */
 static void code_for_ret
-    PROTO_N ( (which_ret) )
-    PROTO_T ( int which_ret )
+(int which_ret)
 {
    if (which_ret==UNTIDY)
       rr_ins(i_copy,SP,T2);
@@ -284,7 +312,7 @@ static void code_for_ret
    else
    {
       baseoff b;
-      b.base=(Has_vsp ? EP : SP); b.offset=-(frame_sz>>3);
+      b.base= (Has_vsp ? EP : SP); b.offset=- (frame_sz>>3);
       ld_ins(i_lo,0,b,SP);
    }
    restore_sregs();
@@ -299,14 +327,13 @@ static void code_for_ret
 
 
 static void add_odd_bits
-    PROTO_N ( (r) )
-    PROTO_T ( outofline *r )
+(outofline *r)
 {
    space sp;
-   if (r!=(outofline*)nilexp)
+   if (r!= (outofline*)nilexp)
    {
       add_odd_bits(r->next);
-      if (r->next==(outofline*)nilexp)
+      if (r->next== (outofline*)nilexp)
 	 last_odd_bit=1;
    }
    else
@@ -314,7 +341,7 @@ static void add_odd_bits
    outlab("L$$",r->labno);
    sp=r->sp;
    clear_all();
-   make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr) : res_label);
+   make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr): res_label);
    if (name(sh(r->body))!=bothd)
       ub_ins(cmplt_,ptno(r->jr));
 }
@@ -332,13 +359,12 @@ static void add_odd_bits
 *    Procedure definition
  */
 makeans make_proc_tag_code
-    PROTO_N ( (e,sp,dest,exitlab) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+(exp e, space sp, where dest, int exitlab)
 {
    static int p_lab = 0;
    procrec *pr=&procrecs[no(e)];
    needs *ndpr=&pr->needsproc;
-   long pprops=(long) (ndpr->propsneeds);
+   long pprops= (long)(ndpr->propsneeds);
    makeans mka;
    bool is_main=STRCMP(proc_name,"main");
    bool save_sp;
@@ -358,18 +384,18 @@ makeans make_proc_tag_code
    callee_sz = pr->callee_sz;
    simpleans = (pprops & long_result_bit) == 0;
 
-   save_sp = ( ((Has_fp && (No_S || (Uses_crt_env && Has_vcallees)))) ||
-	       (Uses_crt_env && (!leaf || proc_has_checkstack(e)
+   save_sp = (((Has_fp && (No_S || (Uses_crt_env && Has_vcallees)))) ||
+	      (Uses_crt_env && (!leaf || proc_has_checkstack(e)
 				       || Has_checkalloc)));
 
    if (OPTIM)
    {
       lines=BLOCK;
-      pCode = (pIn*) malloc(BLOCK*sizeof(pIn));
+      pCode = (pIn*)malloc(BLOCK*sizeof(pIn));
       nLabels=4096;
-      labIntro = (int*) malloc(nLabels*sizeof(int));
-      for(line=0;line<4096;line++)
-	 labIntro[line]=-1;
+      labIntro = (int*)malloc(nLabels*sizeof(int));
+      for (line=0;line<4096;line++)
+	 labIntro[line] =-1;
       line=0;
    }
    odd_bits = (outofline*)0;
@@ -380,7 +406,7 @@ makeans make_proc_tag_code
 
    assert(name(e) == proc_tag);	/* procedure definition */
 
-   export[0]=0;
+   export[0] =0;
    outnl();
    if (is_main)
    {
@@ -494,14 +520,14 @@ makeans make_proc_tag_code
 	 ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,(16<<2),SP,GR1);
 	 rrr_ins(i_add,c_,SP,GR1,R);
 	 /* ...and ensure the stack pointer stays 16 word (64 byte) aligned */
-	 if (SIMM14((frame_sz>>3)+63))
+	 if (SIMM14((frame_sz>>3) +63))
 	 {
-	    ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,(frame_sz>>3)+63,R,R);
+	    ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,(frame_sz>>3) +63,R,R);
 	 }
 	 else
 	 {
-	    ir_ins(i_addil,fs_L,empty_ltrl,(frame_sz>>3)+63,R);
-	    ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,(frame_sz>>3)+63,GR1,R);
+	    ir_ins(i_addil,fs_L,empty_ltrl,(frame_sz>>3) +63,R);
+	    ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,(frame_sz>>3) +63,GR1,R);
 	 }
 	 riir_ins(i_dep,c_,0,31,6,R);
       }
@@ -556,7 +582,7 @@ makeans make_proc_tag_code
       int n = new_label();
       int end = new_label();
       baseoff b;
-      b.base = 0; b.offset = (gcc_assembler ? 0 : 4 );
+      b.base = 0; b.offset = (gcc_assembler ? 0 : 4);
       set_ins((gcc_assembler ? "__CTOR_LIST__" : "__TDF_CTOR_LIST__"),b,GR4);
       b.base = GR4;
       b.offset = 4;
@@ -567,7 +593,7 @@ makeans make_proc_tag_code
 	 rrr_ins(i_sh2add,c_,GR5,GR4,GR5);
 	 outlab("L$$",n);
 	 ld_ins(i_lwm,1,b,GR22);
-	 call_millicode( MILLI_DYNCALL, RP, "",0 );
+	 call_millicode(MILLI_DYNCALL, RP, "",0);
 	 cj_ins(c_l,GR4,GR5,n);
 	 outlab("L$$",end);
 	 if (is_PIC_and_calls)
@@ -579,7 +605,7 @@ makeans make_proc_tag_code
 	 ld_ins(i_lwm,1,b,GR22);
 	 cj_ins(c_eq,GR0,GR22,end);
 	 outlab("L$$",n);
-	 call_millicode( MILLI_DYNCALL, RP, "",0 );
+	 call_millicode(MILLI_DYNCALL, RP, "",0);
 	 ld_ins(i_lwm,1,b,GR22);
 	 cj_ins(c_neq,GR0,GR22,n);
 	 outlab("L$$",end);
@@ -590,7 +616,7 @@ makeans make_proc_tag_code
       rr_ins(i_copy,SP,EP);
    if (Has_tos)
       st_ins(i_sw,SP,SP_BOFF);
-   if ( (Has_fp && (No_S || (Uses_crt_env && Has_vcallees))) )
+   if ((Has_fp && (No_S || (Uses_crt_env && Has_vcallees))))
       st_ins(i_sw,FP,FP_BOFF);
 
    if (!simpleans)
@@ -603,15 +629,15 @@ makeans make_proc_tag_code
       setinsalt(procans,is);
       st_ins(i_sw,RET0,is.b);
    }
-   else if ((pprops & realresult_bit) != 0)
+   else if ((pprops & realresult_bit)!= 0)
    {
       /* real result */
       freg frg;
       frg.fr = R_FR4;
-      frg.dble = (pprops & longrealresult_bit) ? 1 : 0;
+      frg.dble = (pprops & longrealresult_bit)? 1 : 0;
       setfregalt(procans,frg);
    }
-   else if ((pprops & has_result_bit) != 0)
+   else if ((pprops & has_result_bit)!= 0)
    {
       /* fixed register result */
       setregalt(procans,RET0);
@@ -668,80 +694,80 @@ makeans make_proc_tag_code
      char *hit;
      FILE_POSN Pos;
      GET_FILE_POSN(outf,Pos);
-     hit = (char*) malloc( (nLabels+8)*sizeof(char) );
-     for(i=0;i<line;i++)
+     hit = (char*)malloc((nLabels+8)*sizeof(char));
+     for (i=0;i<line;i++)
      {
 	char s[65];
 	int lab,to=0,jump;
-	lab=pCode[i]->lab;
+	lab=pCode[i] ->lab;
 	if (lab==res_label && lab>0)
 	   to=labIntro[lab-firstlab];
 	else
-	if (lab>NA && lab != res_label && pCode[i]->ins != i_lab)
+	if (lab>NA && lab != res_label && pCode[i] ->ins != i_lab)
 	{
 	   for (j=0;j<nLabels+8;j++)
-	       hit[j]=0;
+	       hit[j] =0;
 	   to=labIntro[lab-firstlab];
-	   while(to+1<line && lab!=res_label && pCode[to+1]->lab>NA
-			   && pCode[to+1]->ins==i_ub && hit[lab-firstlab]==0)
+	   while (to+1<line && lab!=res_label && pCode[to+1] ->lab>NA
+			   && pCode[to+1] ->ins==i_ub && hit[lab-firstlab] ==0)
 	   {
-	      hit[lab-firstlab]=1;
-	      lab=pCode[to+1]->lab;
+	      hit[lab-firstlab] =1;
+	      lab=pCode[to+1] ->lab;
 	      to=labIntro[lab-firstlab];
 	   }
 	}
-	if (pCode[i]->ins==i_bb)
+	if (pCode[i] ->ins==i_bb)
 	{
-	   jump = i-to ;
+	   jump = i-to;
 	   if (SIMM11(jump*4))
 	   {
 	      ins_p cc;
 	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
+	      cc=pCode[i] ->cc;
+	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      a=pCode[i] ->op[0];
+	      b=pCode[i] ->op[1];
 	      IGNORE sprintf(s,"\tbb%s,N\t%s,%d,L$$%d\n\tnop",cc,RN(a),b,lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] =0;
 	      fprintf(outf,"%s\n",s);
 	   }
 	   else
 	   {
 	      ins_p cc;
 	      int a,b;
-	      if (pCode[i]->cc==bit_is_0)
+	      if (pCode[i] ->cc==bit_is_0)
 		 cc=c_OD;
 	      else
 		 cc=c_EV;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
+	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      a=pCode[i] ->op[0];
+	      b=pCode[i] ->op[1];
 	      IGNORE sprintf(s,"\textru%s\t%s,%d,1,0\n\tb\tL$$%d\n\tnop",cc,RN(a),b,lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] =0;
 	      fprintf(outf,"%s\n",s);
 	   }
 	}
 	else
-	if (pCode[i]->ins==i_ub)
+	if (pCode[i] ->ins==i_ub)
 	{
-	   jump = i-to ;
-	   SET_FILE_POSN(outf,(pCode[i]->fpos));
+	   jump = i-to;
+	   SET_FILE_POSN(outf,(pCode[i] ->fpos));
 #if 0
 	   if (SIMM19(jump*4))
 	   {
 #endif
 	      IGNORE sprintf(s,"\tb\tL$$%d\n\tnop",lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]='\n';
-	      s[64]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] ='\n';
+	      s[64] =0;
 	      fprintf(outf,"%s",s);
 #if 0
 	   }
@@ -751,35 +777,35 @@ makeans make_proc_tag_code
 #endif
 	}
 	else
-	if (pCode[i]->ins==i_cj || pCode[i]->ins==i_cij)
+	if (pCode[i] ->ins==i_cj || pCode[i] ->ins==i_cij)
 	{
-	   jump = i-to ;
+	   jump = i-to;
 	   if (SIMM11(jump*4))
 	   {
 	      ins_p cc;
 	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
+	      cc=pCode[i] ->cc;
+	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      a=pCode[i] ->op[0];
+	      b=pCode[i] ->op[1];
 	      if (jump<0 && line>i)
 	      {
-	      if (pCode[i]->ins==i_cj)
+	      if (pCode[i] ->ins==i_cj)
 		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n",cc,RN(a),RN(b),lab);
 	      else
 		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n",cc,a,RN(b),lab);
 	      }
 	      else
 	      {
-	      if (pCode[i]->ins==i_cj)
+	      if (pCode[i] ->ins==i_cj)
 		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n\tnop",cc,RN(a),RN(b),lab);
 	      else
 		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n\tnop",cc,a,RN(b),lab);
 	      }
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] =0;
 	      fprintf(outf,"%s\n",s);
 	   }
 	   else
@@ -789,18 +815,18 @@ makeans make_proc_tag_code
 	   {
 	      ins_p cc;
 	      int a,b;
-	      cc=opp(pCode[i]->cc);
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      if (pCode[i]->ins==i_cj)
+	      cc=opp(pCode[i] ->cc);
+	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      a=pCode[i] ->op[0];
+	      b=pCode[i] ->op[1];
+	      if (pCode[i] ->ins==i_cj)
 		 IGNORE sprintf(s,"\tcomclr%s\t%s,%s,0\n\tb\tL$$%d\n\tnop",cc,RN(a),RN(b),lab);
 	      else
 		 IGNORE sprintf(s,"\tcomiclr%s\t%d,%s,0\n\tb\tL$$%d\n\tnop",cc,a,RN(b),lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] =0;
 	      fprintf(outf,"%s\n",s);
 	   }
 #if 0
@@ -808,18 +834,18 @@ makeans make_proc_tag_code
 	   {
 	      ins_p cc;
 	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      if (pCode[i]->ins==i_cj)
+	      cc=pCode[i] ->cc;
+	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      a=pCode[i] ->op[0];
+	      b=pCode[i] ->op[1];
+	      if (pCode[i] ->ins==i_cj)
 		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,RN(a),RN(b),lab);
 	      else
 		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,a,RN(b),lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
+	      j= (int)strlen(s);
+	      for (;j<63;j++)
+		 s[j] =' ';
+	      s[63] =0;
 	      fprintf(outf,"%s\n",s);
 	   }
 #endif
@@ -833,7 +859,7 @@ makeans make_proc_tag_code
 
 {
    int i;
-   for(i=0;i<line;i++)
+   for (i=0;i<line;i++)
    {
       pIn j=pCode[line];
       free(j);
@@ -854,20 +880,19 @@ makeans make_proc_tag_code
  */
 
 makeans make_res_tag_code
-    PROTO_N ( (e,sp,dest,exitlab) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+(exp e, space sp, where dest, int exitlab)
 {
    makeans mka;
    int nm,*ret_label;
    mka.lab = exitlab;
    mka.regmove = NOREG;
-   if (name(e)==res_tag)
+   if (name(e) ==res_tag)
    {
       nm=RES;
       ret_label=&res_label;
    }
    else
-   if (name(e)==return_to_label_tag)
+   if (name(e) ==return_to_label_tag)
    {
       nm=TO_LAB;
       ret_label=&return_to_label_label;

@@ -204,6 +204,7 @@ find_glob(exp e)
 /************************************************************************
  *  ret_constlist returns the elements of a constants-list
  ************************************************************************/
+static void ret_constlist(exp head);
 
 void
 ret_constlist(exp head)
@@ -242,7 +243,7 @@ static maxconst max_const(exp, exp, int);
  ************************************************************************/
 
 static
-maxconstmc_list(exp whole, exp e, int ass_ok, int good)
+maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 {
   exp t = e;
   int contin = true;
@@ -304,8 +305,8 @@ intnl_to(exp whole, exp part)
 {
   exp q = part;
 
-  while (q != whole && q != nilexp && name(q) != hold_tag &&
-	 name(q) != hold2_tag && (name(q)!= ident_tag || !isglob(q))) {
+  while (q != whole && q != nilexp && name(q)!= hold_tag &&
+	 name(q)!= hold2_tag && (name(q)!= ident_tag || !isglob(q))) {
     q = father(q);
   }
 
@@ -358,7 +359,7 @@ not_ass2(exp vardec, exp piece)
         return false;
       }
       if (!last(t) && last(bro(t)) &&
-	 (name(bro(bro(t))) == ass_tag || name(bro(bro(t))) == assvol_tag)) {
+	(name(bro(bro(t))) == ass_tag || name(bro(bro(t))) == assvol_tag)) {
 	return false;		/* the use was an assignment */
       }
       if (!last(t) && last(bro(t)) && name(bro(bro(t))) == ident_tag) {
@@ -371,7 +372,7 @@ not_ass2(exp vardec, exp piece)
 	if (name(dad) == addptr_tag && son(dad) == t) {
 	  /* use in subscript .... */
 	  if (!last(dad) && last(bro(dad)) &&
-	      (name(bro(bro(dad))) == ass_tag ||
+	     (name(bro(bro(dad))) == ass_tag ||
 	       name(bro(bro(dad))) == assvol_tag)) {
 	    return false;		/* the use was an assignment */
 	  }
@@ -420,8 +421,8 @@ not_assigned_to(exp vardec, exp body)
 	int i;
 	*fpp = (memlist *)xcalloc(MEMINC, sizeof(memlist));
 	for (i = 0; i < MEMINC; ++i) {
-	  (*fpp)->next = (*fpp) + 1;
-	  fpp = &((*fpp)->next);
+	 (*fpp) ->next = (*fpp) + 1;
+	  fpp = & ((*fpp) ->next);
 	}
 	*fpp = nilmem;
       }
@@ -815,6 +816,8 @@ max_const(exp whole, exp e, int ass_ok)
  *        limit   last constant holder in list
  ************************************************************************/
 
+void do_this_k(exp kdec, exp patn, exp list, exp limit);
+
 void
 do_this_k(exp kdec, exp patn, exp list, exp limit)
 {
@@ -866,7 +869,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 	    ap = arglist;
 
 	    while (ap != nilexp &&
-		   (pt(ap)!= nilexp || !eq_exp(son(t2), son(ap)))) {
+		  (pt(ap)!= nilexp || !eq_exp(son(t2), son(ap)))) {
 	      ap = bro(ap);
 	    }
 
@@ -1103,7 +1106,7 @@ safe_eval(exp e, exp escape_route)
   case cont_tag: {
       exp arg = son(e);
       if (name(arg) == name_tag &&
-	 (isglob(son(arg)) || isvar(son(arg))))
+	(isglob(son(arg)) || isvar(son(arg))))
 	res = copy(e);
       else {
 	arg = safe_eval(arg, esc_lab);
@@ -1222,7 +1225,7 @@ extract_consts(int issn, exp rf, exp list_head)
     } else {
       val = bro(rf);
     }
-    if (no(t) != 0) {
+    if (no(t)!= 0) {
       /* this has been dealt with previously - just * check for end */
       contin = (t != limit);
     } else {
@@ -1307,7 +1310,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	  konst = e;
 	}
 	newdec = getexp(sh(val), bro(val),
-		 (int)(last(val)), konst, nilexp, 0,  0, ident_tag);
+		(int)(last(val)), konst, nilexp, 0,  0, ident_tag);
 	if (has_lj_dest) {
 	  setvis(newdec);
 	}
@@ -1370,6 +1373,8 @@ extract_consts(int issn, exp rf, exp list_head)
  *
  ************************************************************************/
 
+int named_dest(exp dest);
+
 int
 named_dest(exp dest)
 {
@@ -1412,7 +1417,7 @@ assigns_alias(exp e)
 
       if (!named_dest(son(e))) {
 	/* LHS may be aliassed */
-	return (true);
+	return(true);
       } else {
 	/* check RHS for assignments */
 	return(assigns_alias(bro(dest)));

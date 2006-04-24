@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -66,16 +96,16 @@ $Log: regexps.c,v $
  *
  * Revision 3.1  95/04/10  16:28:04  16:28:04  wfs (William Simmonds)
  * Apr95 tape version.
- * 
+ *
  * Revision 3.0  95/03/30  11:18:54  11:18:54  wfs (William Simmonds)
  * Mar95 tape version with CRCR95_178 bug fix.
- * 
+ *
  * Revision 2.0  95/03/15  15:28:43  15:28:43  wfs (William Simmonds)
  * spec 3.1 changes implemented, tests outstanding.
- * 
+ *
  * Revision 1.1  95/01/11  13:16:12  13:16:12  wfs (William Simmonds)
  * Initial revision
- * 
+ *
 */
 
 
@@ -111,40 +141,37 @@ int line;
 
 regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
 
-bool sim_exp PROTO_S ( ( exp, exp ) ) ;
+bool sim_exp(exp, exp);
 
 /* Same size and alignment and "both float or both fixed". */
-bool eq_sze 
-    PROTO_N ( ( as, bs ) )
-    PROTO_T ( shape as X shape bs )
+bool eq_sze
+(shape as, shape bs)
 {
   if (is_floating(name(as)))
-    return (name(as) == name(bs));
+    return(name(as) == name(bs));
   if (is_floating(name(bs)))
     return 0;
-  return (shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs));
+  return(shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs));
 }
 
-bool sim_explist 
-    PROTO_N ( ( al, bl ) )
-    PROTO_T ( exp al X exp bl )
+bool sim_explist
+(exp al, exp bl)
 {
   if (al == nilexp && bl == nilexp)
-    return (1);
+    return(1);
   if (al == nilexp || bl == nilexp)
-    return (0);
+    return(0);
   if (!sim_exp(al, bl))
-    return (0);
+    return(0);
   if (last(al) && last(bl))
-    return (1);
+    return(1);
   if (last(al) || last(bl))
-    return (0);
-  return (sim_explist(bro(al), bro(bl)));
+    return(0);
+  return(sim_explist(bro(al), bro(bl)));
 }
 
-bool sim_exp 
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( exp a X exp b )
+bool sim_exp
+(exp a, exp b)
 
  /*
   * basically eq_exp except equal shapes requirement  is weakened to equal
@@ -155,23 +182,23 @@ bool sim_exp
    {
       if (name(a) == name_tag)
       {
-	 return (son(a) == son(b) && no(a) == no(b) &&
+	 return(son(a) == son(b) && no(a) == no(b) &&
 	      eq_sze(sh(a), sh(b)));
       }
       if (!is_a(name(a)) || !eq_sze(sh(a), sh(b)))
-	 return (0);
+	 return(0);
       if(name(a)==float_tag)/* NEW bit */
       {
 	return eq_exp(son(a),son(b));
       }
-      return (no(a) == no(b) && sim_explist(son(a), son(b)));
+      return(no(a) == no(b) && sim_explist(son(a), son(b)));
   };
-  return (0);
+  return(0);
 }
 
 /* forget all register - exp associations */
-void clear_all 
-    PROTO_Z ()
+void clear_all
+(void)
 {
   int i;
 
@@ -185,9 +212,8 @@ void clear_all
 
 
 /* forget reg i - exp association */
-void clear_reg 
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+void clear_reg
+(int i)
 {
   i = ABS_OF(i);
   if (i >= 0 && i < 48)
@@ -199,9 +225,8 @@ void clear_reg
 
 
 /* find if e has already been evaluated into a register */
-ans iskept 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+ans iskept
+(exp e)
 {
   int i;
   ans nilans;
@@ -230,23 +255,23 @@ ans iskept
     {
       /* there is an accociation with reg i */
       if (
-	  ((!isc && sim_exp(ke, e)) ||
-	   (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))
+	 ((!isc && sim_exp(ke, e)) ||
+	  (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))
 	    && sim_exp(ke, son(e)))
-	   )
+	  )
 	)
       {
-	ans aa ;
+	ans aa;
 	aa = (regexps[i].inans);
 
 #if 0
-	FULLCOMMENT4("iskept found: reg=%d isc=%d name(e)=%d name(son(e))=%d", i, isc, name(e), name(son(e)));
-	FULLCOMMENT3("	hd(e)=%d hd(son(e))=%d hd(ke)=%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
-	FULLCOMMENT3("	sim_exp(ke, e)=%d sim_exp(ke, son(e))=%d eq_size(sh(ke), sh(e))=%d",
+	FULLCOMMENT4("iskept found: reg=%d isc=%d name(e) =%d name(son(e)) =%d", i, isc, name(e), name(son(e)));
+	FULLCOMMENT3("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
+	FULLCOMMENT3("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
 		sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
 #endif
 
-	switch (discrim ( aa ))
+	switch (discrim(aa))
 	{
 	case notinreg:
 	  {
@@ -271,7 +296,7 @@ ans iskept
 	ans aq;
 
 	aq = regexps[i].inans;
-	if (discrim ( aq ) == notinreg)
+	if (discrim(aq) == notinreg)
 	{
 	  instore is;
 
@@ -291,7 +316,7 @@ ans iskept
 	ans aq;
 
 	aq = regexps[i].inans;
-	if (discrim ( aq ) == notinreg)
+	if (discrim(aq) == notinreg)
 	{
 	  instore is;
 
@@ -314,13 +339,12 @@ ans iskept
 }
 
 /* set up exp - address association */
-void keepexp 
-    PROTO_N ( ( e, loc ) )
-    PROTO_T ( exp e X ans loc )
+void keepexp
+(exp e, ans loc)
 {
   int reg=0;
 
-  switch (discrim ( loc ))
+  switch (discrim(loc))
   {
   case insomereg:
   case insomefreg:
@@ -362,9 +386,8 @@ void keepexp
 }
 
 /* set up cont(e)-reg association */
-void keepcont 
-    PROTO_N ( ( e, regcode ) )
-    PROTO_T ( exp e X int regcode )
+void keepcont
+(exp e, int regcode)
 {
   freg fr;
   int reg = ABS_OF(regcode);
@@ -374,7 +397,7 @@ void keepcont
 
   if (reg > 31)
   {
-    fr.dble = ((regcode < 0) ? 1 : 0);
+    fr.dble = ((regcode < 0)? 1 : 0);
     fr.fr = reg - 32;
     setfregalt(regexps[reg].inans, fr);
   }
@@ -393,9 +416,8 @@ void keepcont
 }
 
 /* set up e-reg association */
-void keepreg 
-    PROTO_N ( ( e, regcode ) )
-    PROTO_T ( exp e X int regcode )
+void keepreg
+(exp e, int regcode)
 {
   freg fr;
   int reg = ABS_OF(regcode);
@@ -405,7 +427,7 @@ void keepreg
 
   if (reg > 31)
   {
-    fr.dble = ((regcode < 0) ? 1 : 0);
+    fr.dble = ((regcode < 0)? 1 : 0);
     fr.fr = reg - 32;
     setfregalt(regexps[reg].inans, fr);
   }
@@ -424,13 +446,12 @@ void keepreg
 }
 
 
-bool couldeffect PROTO_S ( ( exp, exp ) ) ;
+bool couldeffect(exp, exp);
 
 
 /* could e be lhs */
-bool couldbe 
-    PROTO_N ( ( e, lhs ) )
-    PROTO_T ( exp e X exp lhs )
+bool couldbe
+(exp e, exp lhs)
 {
   int ne = name(e);
   exp s = son(e);
@@ -443,19 +464,19 @@ bool couldbe
     }
     if (isvar(s))
     {
-      return (lhs == 0 && (isvis(s) || isglob(s)));
+      return(lhs == 0 && (isvis(s) || isglob(s)));
     }
     if (IS_A_PROC(s))
-      return (lhs == 0);
+      return(lhs == 0);
     if (son(s) == nilexp)
       return 1;
     return couldbe(son(s), lhs);
   }
   if (ne == cont_tag)
   {
-    if (lhs != 0 && name(s) == name_tag && son(s) != nilexp)
+    if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp)
     {
-      return (son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s)));
+      return(son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s)));
     }
     return 1;
   }
@@ -465,7 +486,7 @@ bool couldbe
   }
   if (ne == addptr_tag || ne == subptr_tag)
   {
-    return (couldbe(s, lhs) || couldeffect(bro(s), lhs));
+    return(couldbe(s, lhs) || couldeffect(bro(s), lhs));
   }
 
   return 1;
@@ -473,7 +494,7 @@ bool couldbe
 }
 
 /* could alteration to z effect e? */
-bool couldeffect 
+bool couldeffect
     PROTO_N ( ( e, z /* a name or zero */ ) )
     PROTO_T ( exp e X exp z /* a name or zero */ )
 {
@@ -485,8 +506,8 @@ bool couldeffect
   if (ne == name_tag)
   {
     if (isvar(son(e)))
-      return (z == 0 && isvis(son(e)));
-    if ( IS_A_PROC(son(e)) )
+      return(z == 0 && isvis(son(e)));
+    if (IS_A_PROC(son(e)))
       return 0;
     if (son(son(e)) == nilexp)
       return 1 /* could it happen? */ ;
@@ -510,9 +531,8 @@ bool couldeffect
   return 0;
 }
 
-bool dependson 
-    PROTO_N ( ( e, isc, z ) )
-    PROTO_T ( exp e X bool isc X exp z )
+bool dependson
+(exp e, bool isc, exp z)
 {				/* does e depend on z */
   if (e == nilexp)
   {
@@ -526,9 +546,9 @@ bool dependson
       z = son(z);
     }
 
-    if (name(z) != name_tag)
+    if (name(z)!= name_tag)
     {
-      if (name(z) != cont_tag)
+      if (name(z)!= cont_tag)
 	return 1;
       z = 0;
       break;
@@ -536,7 +556,7 @@ bool dependson
 
     if (isvar(son(z)))
       break;
-    if ( IS_A_PROC(son(z)) )
+    if (IS_A_PROC(son(z)))
     {
       z = 0;
       break;
@@ -548,14 +568,13 @@ bool dependson
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return ((isc) ? couldbe(e, z) : couldeffect(e, z));
+  return((isc)? couldbe(e, z): couldeffect(e, z));
 }
 
 
 /* remove association of any register which depends on lhs */
-void clear_dep_reg 
-    PROTO_N ( ( lhs ) )
-    PROTO_T ( exp lhs )
+void clear_dep_reg
+(exp lhs)
 {
   int i;
 

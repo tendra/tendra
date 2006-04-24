@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -112,24 +142,24 @@ long floatfree;
 TREG fixed_array[13];
 TREG float_array[14];
 
-static void do_fixed_params PROTO_S ((void));
-static void do_float_params PROTO_S ((void));
-static void copy_fixed PROTO_S ((int));
-static void copy_float PROTO_S ((int));
-static void clear_fixed PROTO_S ((void));
-static void clear_float PROTO_S ((void));
-static void set_fixed PROTO_S ((exp,int,int));
-static void set_float PROTO_S ((exp,int,int));
-static int getspare PROTO_S ((long));
-void track_fixed PROTO_S ((int,exp));
-void track_float PROTO_S ((int,exp));
+static void do_fixed_params(void);
+static void do_float_params(void);
+static void copy_fixed(int);
+static void copy_float(int);
+static void clear_fixed(void);
+static void clear_float(void);
+static void set_fixed(exp,int,int);
+static void set_float(exp,int,int);
+static int getspare(long);
+void track_fixed(int,exp);
+void track_float(int,exp);
 static int end_param;
 
-void output_parameters PROTO_N ((e)) PROTO_T (exp e)
+void output_parameters(exp e)
 {
   exp par;
 
-  if (name(e)==general_proc_tag)
+  if (name(e) ==general_proc_tag)
   {
     end_param = GENERAL_PROC_PARAM_REGS + R_FIRST_PARAM - 1;
   }
@@ -137,31 +167,31 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
   {
     end_param = PROC_PARAM_REGS + R_FIRST_PARAM - 1;
   }
-  
+
   /* Outputs the code for the parameters */
   fixedfree = PROC_TREGS;
   floatfree = PROC_FLT_TREGS;
   clear_fixed();
   clear_float();
-  
+
   par = son(e);
-  
-  for(;;)
+
+  for (;;)
   {
     int param_reg;
     exp init_exp;
     int param_size;
     int param_align;
     int param_offset;
-    bool is_float ;
+    bool is_float;
     bool src_in_reg;
     bool dest_in_reg;
     baseoff stackpos;
     where dest;
-    
+
     if ((!isparam(par)) ||
 	(name(par)!=ident_tag) ||
-	(name(son(par))==formal_callee_tag))
+	(name(son(par)) ==formal_callee_tag))
       break;
 
     init_exp = son(par);
@@ -169,14 +199,14 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
     param_reg = props(init_exp);
     param_size = shape_size(sh(init_exp));
     param_align = shape_align(sh(init_exp));
-    param_offset = no(init_exp)>>3;
+    param_offset = no(init_exp) >>3;
     src_in_reg = param_reg !=0;
     dest_in_reg = (props(par) & inanyreg)!=0;
 
-    
+
     if (src_in_reg==1)
     {
-      if(is_float)
+      if (is_float)
       {
 	p_float_params++;
       }
@@ -186,15 +216,15 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
       }
     }
 
-    stackpos=boff_location(ENCODE_FOR_BOFF(param_offset,INPUT_CALLER_PARAMETER));    
+    stackpos=boff_location(ENCODE_FOR_BOFF(param_offset,INPUT_CALLER_PARAMETER));
 
-      
+
     clearvarargparam(par);
-    
-    if (dest_in_reg==0 
-	&& !p_has_no_vcallers 
+
+    if (dest_in_reg==0
+	&& !p_has_no_vcallers
 	&& isvis(par)
-	&& props(init_exp)!=0 
+	&& props(init_exp)!=0
 	&& last_caller_param(par))
     {
       /* VARARGS */
@@ -204,17 +234,17 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
       v = stackpos;
 
       setvarargparam(par);
-      
+
       if (param_size == 0)
       {
 	/* void from <varargs.h> */
 	param_size = 32;
 	param_align = 32;
       }
-      
+
       last_size = param_size;
       pr = R_FIRST_PARAM + ALIGNNEXT(no(init_exp) + last_size, 32) / 32;
-      
+
       v.offset += ALIGNNEXT(last_size, 32) / 8;
       /* now word align to allow for non word aligned last param */
       v.offset &= ~3;
@@ -227,7 +257,7 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 	pr++;
 	v.offset += 4;
       }
-    }    
+    }
     /* Set up dest */
     if (dest_in_reg==1)
     {
@@ -242,10 +272,10 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
     }
     dest.ashwhere.ashsize  = param_size;
     dest.ashwhere.ashalign = param_align;
-    
+
 
     /* Work out how the parameter is passed and where it will live */
-    if (src_in_reg==0 && dest_in_reg==1) 
+    if (src_in_reg==0 && dest_in_reg==1)
     {
       /* STACK  --->  REGISTER */
       /* Use move for consistency */
@@ -266,7 +296,7 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 	int last_st_reg;
 	int r;
 
-	last_st_reg = param_reg + (ALIGNNEXT(param_size, 32)/32) - 1;
+	last_st_reg = param_reg + (ALIGNNEXT(param_size, 32) /32) - 1;
 	if (last_st_reg > end_param)
 	{
 	  last_st_reg = end_param;
@@ -276,14 +306,14 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 	  st_ro_ins(i_st, r, stackpos);comment("copy param struct onto stack");
 	  stackpos.offset += 4;
 	}
-	p_fixed_params +=(last_st_reg - param_reg);
+	p_fixed_params += (last_st_reg - param_reg);
       }
       else
       {
 	ans a;
 	freg fr;
-	
-	if(is_float)
+
+	if (is_float)
 	{
 	  fr.dble = is_double_precision((sh(init_exp)));
 	  fr.fr = param_reg;
@@ -291,12 +321,12 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 	}
 	else
 	{
-	  setregalt( a, param_reg);
+	  setregalt(a, param_reg);
 	}
 	move(a,dest,PROC_TREGS|PARAM_TREGS,0);
       }
     }
-    else if(src_in_reg==1 && dest_in_reg==1)
+    else if (src_in_reg==1 && dest_in_reg==1)
     {
       /* REGISTER  --->  REGISTER */
       int dest_reg = no(par);
@@ -320,7 +350,7 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 	if (IS_FLT_SREG(dest_reg))
 	{
 	  /* FLOAT REGISTER --> FLOAT S-REG */
-	  rrf_ins(i_fmr,param_reg , dest_reg );
+	  rrf_ins(i_fmr,param_reg , dest_reg);
 	  track_float(param_reg,par);
 	}
 	else
@@ -343,36 +373,36 @@ void output_parameters PROTO_N ((e)) PROTO_T (exp e)
 }
 
 
-static void do_fixed_params PROTO_Z ()
+static void do_fixed_params(void)
 {
   int r;
 
-  spare_fixed = getspare(fixedfree) ;
+  spare_fixed = getspare(fixedfree);
   copying_fixed = spare_fixed;
   copy_fixed(spare_fixed);
-  
-  for(r=R_FIRST_PARAM;r<=end_param;r++)
+
+  for (r=R_FIRST_PARAM;r<=end_param;r++)
   {
     remember = 0;
     copying_fixed = r;
     copy_fixed(r);
     if (remember==1)
     {
-      mov_rr_ins( spare_fixed , copying_fixed );comment("move param to its new reg");
-      track_fixed( spare_fixed , fixed_array[copying_fixed].par);
+      mov_rr_ins(spare_fixed , copying_fixed);comment("move param to its new reg");
+      track_fixed(spare_fixed , fixed_array[copying_fixed].par);
     }
   }
   return;
-}  
-static void do_float_params PROTO_Z ()
+}
+static void do_float_params(void)
 {
   int r;
-  
+
   spare_float = getspare(floatfree);
   copying_float = spare_float;
   copy_float(spare_float);
-  
-  for(r=FR_FIRST_PARAM;r<=FR_LAST_PARAM;r++)
+
+  for (r=FR_FIRST_PARAM;r<=FR_LAST_PARAM;r++)
   {
     remember = 0;
     copying_float = r;
@@ -384,19 +414,19 @@ static void do_float_params PROTO_Z ()
     }
   }
   return;
-} 
-static void copy_fixed PROTO_N ((reg)) PROTO_T (int reg)
+}
+static void copy_fixed(int reg)
 {
-  if(fixed_array[reg].copied==1)
+  if (fixed_array[reg].copied==1)
   {
     return;
   }
-  if(fixed_array[reg].dest==reg)
+  if (fixed_array[reg].dest==reg)
   {
     fixed_array[reg].copied=1;
     return;
   }
-  if(fixed_array[reg].dest==copying_fixed)
+  if (fixed_array[reg].dest==copying_fixed)
   {
     /* We have gone round in a loop */
     remember = 1;
@@ -410,18 +440,18 @@ static void copy_fixed PROTO_N ((reg)) PROTO_T (int reg)
   fixed_array[reg].copied=1;
   return;
 }
-static void copy_float PROTO_N ((reg)) PROTO_T (int reg)
+static void copy_float(int reg)
 {
-  if(float_array[reg].copied==1)
+  if (float_array[reg].copied==1)
   {
     return;
   }
-  if(float_array[reg].dest==reg)
+  if (float_array[reg].dest==reg)
   {
     float_array[reg].copied=1;
     return;
   }
-  if(float_array[reg].dest==copying_float)
+  if (float_array[reg].dest==copying_float)
   {
     /* We have gone round in a loop */
     remember = 1;
@@ -434,14 +464,14 @@ static void copy_float PROTO_N ((reg)) PROTO_T (int reg)
   track_float(reg,float_array[reg].par);
   float_array[reg].copied=1;
   return;
-} 
+}
 
 
 
-static void clear_fixed PROTO_Z ()
+static void clear_fixed(void)
 {
   int r;
-  for(r=0;r<=12;r++)
+  for (r=0;r<=12;r++)
   {
     fixed_array[r].par = nilexp;
     fixed_array[r].dest = 0;
@@ -449,7 +479,7 @@ static void clear_fixed PROTO_Z ()
   }
   return;
 }
-static void clear_float PROTO_Z ()
+static void clear_float(void)
 {
   int r;
   for (r=0;r<=13;r++)
@@ -461,7 +491,7 @@ static void clear_float PROTO_Z ()
   return;
 }
 
-static void set_fixed PROTO_N ((p,from,to)) PROTO_T (exp p X int from X int to )
+static void set_fixed(exp p, int from, int to)
 {
   ASSERT(IS_PARAM_REG(from));
   ASSERT(IS_TREG(to));
@@ -471,7 +501,7 @@ static void set_fixed PROTO_N ((p,from,to)) PROTO_T (exp p X int from X int to )
   fixed_array[from].copied = 0;
   fixedfree |= RMASK(to);
 }
-static void set_float PROTO_N ((p,from,to)) PROTO_T (exp p X int from X int to )
+static void set_float(exp p, int from, int to)
 {
   ASSERT(IS_FLT_PARAM_REG(from));
   ASSERT(IS_FLT_TREG(to));
@@ -480,12 +510,12 @@ static void set_float PROTO_N ((p,from,to)) PROTO_T (exp p X int from X int to )
   float_array[from].copied = 0;
   floatfree |= RMASK(to);
 }
-static int getspare PROTO_N ((s)) PROTO_T (long s)
+static int getspare(long s)
 {
   int r;
-  for(r=0;r<=31;r++)
+  for (r=0;r<=31;r++)
   {
-    if ((s & RMASK(r))==0)
+    if ((s & RMASK(r)) ==0)
     {
       return r;
     }
@@ -494,16 +524,16 @@ static int getspare PROTO_N ((s)) PROTO_T (long s)
   return 100;
 }
 
-void track_fixed PROTO_N ((reg,id)) PROTO_T (int reg X exp id)
+void track_fixed(int reg, exp id)
 {
   exp def = son(id);
-  
-  if(pt(id)!=nilexp && keep_eq_size(sh(def),sh(pt(id))))
+
+  if (pt(id)!=nilexp && keep_eq_size(sh(def),sh(pt(id))))
   {
-    if(isvar(id))
+    if (isvar(id))
     {
       keepcont(pt(id),reg);
-    } 
+    }
     else
     {
       keepreg(pt(id),reg);
@@ -512,7 +542,7 @@ void track_fixed PROTO_N ((reg,id)) PROTO_T (int reg X exp id)
   return;
 }
 
-void track_float PROTO_N ((reg,id)) PROTO_T (int reg X exp id)
+void track_float(int reg, exp id)
 {
   return;
 }

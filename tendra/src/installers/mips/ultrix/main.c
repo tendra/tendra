@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -70,14 +100,13 @@ $Log: main.c,v $
 #include "dump_distr.h"
 #include "construct_v.h"
 #include "reader_v.h"
-extern void output_symtab PROTO_S (( char* ));
+extern void output_symtab(char*);
 
 
 /* extern int bytes_allocated; */
 
 void out_rename
-    PROTO_N ( (oldid, newid) )
-    PROTO_T ( char * oldid X char * newid )
+(char * oldid, char * newid)
 {
 	/* ??? this may be wrong with diagnostics */
 	return;
@@ -100,15 +129,13 @@ bool BIGEND = (little_end == 0);
 bool do_tlrecursion = 1;
 
 bool opt
-    PROTO_N ( (c) )
-    PROTO_T ( char c )
+(char c)
 { if (c == '0' || c == 0) return 0;
   else return 1;
 }
 
 int   main
-    PROTO_N ( (argc, argv) )
-    PROTO_T ( int argc X char **argv )
+(int argc, char **argv)
 {
   long  i;
   char *nm;
@@ -119,7 +146,7 @@ int   main
   bool override_diags = 0;
 /*  bool show_size = 0; */
 
-  as_file = (FILE *) 0;
+  as_file = (FILE *)0;
   do_inlining = 1;
   redo_structfns = 1;
   do_unroll = 1;
@@ -203,7 +230,7 @@ int   main
 		  }
 		}
 
-		if (s[ind] != '.') {
+		if (s[ind]!= '.') {
 		  fprintf(stderr,
                 "DRA TDF Mips Ultrix (as:3.x) translator %d.%d: (TDF version %d.%d)\n",
                  mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
@@ -243,7 +270,7 @@ int   main
         report_versions = 1;
         break;
       default:
-	failer ("Illegal flag");
+	failer("Illegal flag");
 	break;
     };
   };
@@ -260,7 +287,7 @@ int   main
 	}
 #endif
 
-  if (override_diags) diagnose = 0;
+  if (override_diags)diagnose = 0;
   if (diagnose || no_opts) {		/* line numbering goes to hell with
 				   optimisations */
 
@@ -275,9 +302,9 @@ int   main
 
   if (withs) {			/* requires assembler text */
     aname = argv[argc - 1];
-    as_file = fopen (aname, "w");
-    if (as_file == (FILE *) 0) {
-      failer ("can't find .s file");
+    as_file = fopen(aname, "w");
+    if (as_file == (FILE *)0) {
+      failer("can't find .s file");
       return 1;
     }
     argc--;
@@ -286,16 +313,16 @@ int   main
 
   dname = argv[argc - 1];	/* the .T file */
   nm = argv[argc - 2];		/* the .G file */
-  ba_file = fopen (nm, "w");
-  if (ba_file == (FILE *) 0) {
-    printf ("install: can't open output file %s\n", nm);
-    return (1);
+  ba_file = fopen(nm, "w");
+  if (ba_file == (FILE *)0) {
+    printf("install: can't open output file %s\n", nm);
+    return(1);
   }
 
 
-  if (!initreader (argv[argc - 3])) {
-    failer ("cant read .t file");
-    return (1);
+  if (!initreader(argv[argc - 3])) {
+    failer("cant read .t file");
+    return(1);
   };
 
   init_flpt();

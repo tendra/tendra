@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +56,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +65,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -93,7 +123,7 @@ static char * spr_dec = "SPR_DEC";
 static char * spr_lr = "SPR_LR";
 static char * spr_ctr = "SPR_CTR";
 
-static char * number_array[32]={
+static char * number_array[32] ={
     "0","1","2","3","4","5","6","7","8","9","10","11","12","13","14",
     "15","16","17","18","19","20","21","22","23","24","25","26","27",
     "28","29","30","31"
@@ -116,21 +146,21 @@ static char * cr_array[8] = {
     "cr0","cr1","cr2","cr3","cr4","cr5","cr6","cr7"
 };
 
-static void init_spr_macros PROTO_S ((void));
+static void init_spr_macros(void);
 
 int do_macros = 0;
-void init_macros  PROTO_Z ()
+void init_macros(void)
 {
   int r;
   int number_per_line =0;
   fprintf(as_file,"#\tRegister macros for easier reading and debugging\n");
-  
+
 #define NUMBER_OF_MACROS_PER_LINE 5
   for (r = 0;r<=31;r++)
   {
     fprintf(as_file,".set %s,%d",reg_array[r],r);
     number_per_line ++;
-    if(number_per_line ==NUMBER_OF_MACROS_PER_LINE)
+    if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
       fprintf(as_file,"\n");
       number_per_line = 0;
@@ -141,14 +171,14 @@ void init_macros  PROTO_Z ()
     }
   }
   fprintf(as_file,"\n");
-  
+
   number_per_line=0;
-  
-  for(r = 0;r<=31;r++)
+
+  for (r = 0;r<=31;r++)
   {
     fprintf(as_file,".set %s,%d",freg_array[r],r);
     number_per_line ++;
-    if(number_per_line ==NUMBER_OF_MACROS_PER_LINE)
+    if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
       fprintf(as_file,"\n");
       number_per_line = 0;
@@ -160,12 +190,12 @@ void init_macros  PROTO_Z ()
   }
   fprintf(as_file,"\n");
   number_per_line=0;
-  
-  for(r = 0;r<=7;r++)
+
+  for (r = 0;r<=7;r++)
   {
     fprintf(as_file,".set %s,%d",cr_array[r],r);
     number_per_line ++;
-    if(number_per_line ==NUMBER_OF_MACROS_PER_LINE)
+    if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
       fprintf(as_file,"\n");
       number_per_line = 0;
@@ -184,7 +214,7 @@ void init_macros  PROTO_Z ()
   return;
 }
 
-char * reg_macro PROTO_N ((reg)) PROTO_T (int reg)
+char * reg_macro(int reg)
 {
   if (!do_macros)
     return number_array[reg];
@@ -200,21 +230,21 @@ char * reg_macro PROTO_N ((reg)) PROTO_T (int reg)
   }
 }
 
-char * freg_macro PROTO_N ((reg)) PROTO_T (int reg)
-{    
+char * freg_macro(int reg)
+{
   if (!do_macros)
     return number_array[reg];
   else
     return freg_array[reg];
 }
-char * cr_macro PROTO_N ((creg)) PROTO_T (int creg)
-{ 
+char * cr_macro(int creg)
+{
   if (!do_macros)
     return number_array[creg];
   else
     return cr_array[creg];
 }
-char * spr_macro PROTO_N ((spr)) PROTO_T (int spr)
+char * spr_macro(int spr)
 {
   if (!do_macros)
     return number_array[spr];
@@ -236,7 +266,7 @@ char * spr_macro PROTO_N ((spr)) PROTO_T (int spr)
   return 0;
 }
 
-static void init_spr_macros PROTO_Z ()
+static void init_spr_macros(void)
 {
   fprintf(as_file,".set %s,%d;",spr_mq,SPR_MQ);
   fprintf(as_file,".set %s,%d;",spr_xer,SPR_XER);
@@ -248,4 +278,4 @@ static void init_spr_macros PROTO_Z ()
   return;
 }
 
-  
+
