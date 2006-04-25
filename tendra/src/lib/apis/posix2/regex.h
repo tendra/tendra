@@ -36,7 +36,7 @@
     size_t re_nsub ;
 } ;
 
-+TYPE ( int ) regoff_t ;
++TYPE ( signed ) regoff_t ;
 
 +FIELD ( struct ) regmatch_t {
     regoff_t rm_so ;
