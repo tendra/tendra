@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background: #555577;
   color: white;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   margin: 0px;
@@ -15,7 +15,7 @@ body {
 }
 
 div.container {
-  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background: #555577;
   color: #eeddcc;
   margin: 8px 0px 0px 0px;
   padding: 0px;
@@ -53,13 +53,13 @@ a:visited {
 }
 
 code, pre {
-  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background: #555577;
   color: #eeddcc;
   font: 110% monospace;
 }
 
 div#content {
-  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background: #555577;
   border: solid #ffcc99;
   color: #eeddcc;
   font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -80,9 +80,6 @@ div#content h1 {
 
 div#content h1 span {
   display:                block;
-  background-image:       url(tendra-small.png);
-  background-repeat:      no-repeat;
-  background-position:    0px 0%;
 }
 
 div#content p {
@@ -104,7 +101,7 @@ div#content pre {
 }
 
 div.menus {
-  background:             #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background:             #555577;
   color:                  #eeddcc;
   margin:                 0px 8px 0px 8px;
   padding:                0px;
@@ -124,7 +121,7 @@ div.menus ul {
 }
 
 div.menu {
-  background:             #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  background:             #555577;
   border:                 solid #ffcc99;
   color:                  #eeddcc;
   margin:                 0px 0px 8px 0px;
