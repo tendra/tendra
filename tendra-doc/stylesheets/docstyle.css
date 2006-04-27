@@ -1,22 +1,46 @@
-/* $Id$ */
+/* Document CSS */
 
-html {
-  background-color:       #555577;
-  margin:                 0px;
-  padding:                0px;
+html body {
+  color:        black;
+  font-family:  sans-serif, Verdana, Arial, Helvetica;
+  font-size:    1em;
+  margin:       1em 5% 1em 5%;
+  padding:      0;
 }
 
-body {
-  background: #555577;
-  color: white;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  margin: 0px;
-  padding: 0px;
+h1, h2, h3, h4, h5, h6 {
+  color:  #23819c;
+}
+
+.acronym {
+  font-variant: small-caps;
+}
+
+.ERROR {
+  background: #ff0000;
+  border:     1px solid black;
+  color:      white;
+  margin:     0px 1px 0px 1px;
+  padding:    0px 2px 0px 2px;
+}
+
+.note {
+  background: #dddddd;
+  border:     1px solid black;
+  color:      black;
+  margin:     1px 1px 1px 1px;
+  padding:    2px 2px 2px 2px;
+}
+
+.programlisting {
+  background: #ffffcc;
+  border:     1px solid black;
+  color:      black;
+  margin:     1px 1px 1px 1px;
+  padding:    2px 2px 2px 2px;
 }
 
 div.container {
-  background: #555577;
-  color: #eeddcc;
   margin: 8px 0px 0px 0px;
   padding: 0px;
   position: relative;
@@ -24,53 +48,42 @@ div.container {
 
 a {
   background:             transparent;
-  color:                  #eeddcc;
   text-decoration:        none;
 }
 
 a:active {
   background:             transparent;
-  color:                  #998888;
   text-decoration:        underline;
 }
 
 a:hover {
   background:             transparent;
-  color:                  #eeddcc;
   text-decoration:        none;
 }
 
 a:link {
   background:             transparent;
-  color:                  #ffcc99;
   text-decoration:        underline;
 }
 
 a:visited {
   background:             transparent;
-  color:                  #cc9966;
   text-decoration:        underline;
 }
 
 code, pre {
-  background: #555577;
-  color: #eeddcc;
   font: 110% monospace;
 }
 
 div#content {
-  background: #555577;
-  border: solid #ffcc99;
-  color: #eeddcc;
+  border: 2px solid #23819c;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   margin: 0px 8px 0px 216px;
   padding: 1px 1px 1px 1px;
 }
 
 div#content h1 {
-  background:             #aaaadd;
-  border-bottom:          2px solid #8888aa;
-  color:                  #002244;
+  border-bottom:          1px solid #23819c;
   font:                   bold 25px sans-serif;
   letter-spacing:         0.5em;
   margin:                 0px;
@@ -83,26 +96,21 @@ div#content h1 span {
 }
 
 div#content p {
-  color:                  #eeddcc;
   margin:                 0.5em 0.5em 0.5em 0.5em;
   padding:                2px;
 }
 
 div#content p span {
-  color:                  #ffcc99;
   margin:                 0px;
   padding:                2px;
 }
 
 div#content pre {
-  color:                  #eeddcc;
   margin:                 0.5em 0.5em 0.5em 1em;
   padding:                2px;
 }
 
 div.menus {
-  background:             #555577;
-  color:                  #eeddcc;
   margin:                 0px 8px 0px 8px;
   padding:                0px;
   position:               absolute;
@@ -121,17 +129,13 @@ div.menus ul {
 }
 
 div.menu {
-  background:             #555577;
-  border:                 solid #ffcc99;
-  color:                  #eeddcc;
+  border:                 2px solid #23819c;
   margin:                 0px 0px 8px 0px;
   padding:                1px 1px 1px 1px;
 }
 
 div.menu h3 {
-  background:             #aaaadd;
-  border-bottom:          2px solid #8888aa;
-  color:                  #002244;
+  border-bottom:          1px solid #23819c;
   font-size:              1.0em;
   margin:                 0px;
   padding:                2px 2px 0px 2px;
