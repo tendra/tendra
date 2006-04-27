@@ -83,6 +83,7 @@ div#content {
 }
 
 div#content h1 {
+  background:             #ffffcc;
   border-bottom:          1px solid #23819c;
   font:                   bold 25px sans-serif;
   letter-spacing:         0.5em;
@@ -135,6 +136,7 @@ div.menu {
 }
 
 div.menu h3 {
+  background:             #ffffcc;
   border-bottom:          1px solid #23819c;
   font-size:              1.0em;
   margin:                 0px;
