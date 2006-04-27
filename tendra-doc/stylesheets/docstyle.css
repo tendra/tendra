@@ -114,7 +114,6 @@ div#content pre {
 }
 
 div.menus {
-  background:             #ffffff;
   margin:                 0px 8px 0px 8px;
   padding:                0px;
   position:               absolute;
@@ -133,6 +132,7 @@ div.menus ul {
 }
 
 div.menu {
+  background:             #ffffff;
   border:                 2px solid #23819c;
   margin:                 0px 0px 8px 0px;
   padding:                1px 1px 1px 1px;
