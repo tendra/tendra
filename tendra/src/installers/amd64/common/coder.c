@@ -615,7 +615,7 @@ push_cees(exp src, exp siz, int vc, ash stack)
 /* number of bits in the index */
 int bits_in[16] = {
 	0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
-}
+};
 
 /* allocate registers ebx esi edi, providing br registers are left */
 static regu
@@ -1607,6 +1607,7 @@ coder(where dest, ash stack, exp e)
 				} else {
 					settest_number(e,
 					    (int)real_inverse_ntest[testno]);
+				}
 #ifdef NEWDIAGS
 					if (current_dg_info) {
 					    current_dg_info->data.i_tst.inv =
