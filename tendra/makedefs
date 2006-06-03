@@ -99,6 +99,17 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="freebsd"
 			OSVER="FREEBSD5"
 			;;
+	FreeBSD.6*)	# Use the system supplied GCC for CC.
+			# System definition is __FreeBSD__
+			check_cc
+			LD="ld"
+			CFLAGS=${CFLAGS}
+			LDOPTS=
+			LDCRT="/usr/lib/crt1.o"
+			LIBS="-L/usr/lib -lc"
+			OSFAM="freebsd"
+			OSVER="FREEBSD6"
+			;;
 	Linux.2.4*)	# Use the system supplied GCC for CC.
 			# System definition is __linux
 			check_cc
