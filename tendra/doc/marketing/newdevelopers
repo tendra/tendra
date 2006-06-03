@@ -26,4 +26,9 @@ Components that spring to mind:
  * ANDF and TDF
  * tspec and the abstract APIs (now that would be a good band title)
  * Error message reporting. Everybody loves this!
+ * lexi and sid: in particular, sid's LR -> LL approach
+
+The emphasis here is on introducing new concepts, rather than explaining
+details of how they're used (that reference detail can be in usage
+guides instead).
 
