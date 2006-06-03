@@ -1,0 +1,17 @@
+Developer Guides
+================
+
+See tendra/doc/website - Developer Documentation - Developer Guides
+
+ - Porting
+   See porting
+
+   A guide to the process of porting to a new operating system.
+
+ - Adding a new API
+
+ - Adding a new Installer
+
+ - Adding a new Producer
+
+

@@ -57,11 +57,13 @@ Contact
 
  - IRC
 
-   Where we may be found and how to connect.
+   Where we may be found and how to connect us.
 
 
 User Documentation
 ------------------
+
+See tendra-doc/user
 
  - Suite purpose overview
 
@@ -89,8 +91,10 @@ Download
    An archive of previous releases.
 
 
-Development Documentation
--------------------------
+Developer Documentation
+-----------------------
+
+See tendra-doc/developer
 
  - Subversion organisation
 
@@ -104,6 +108,9 @@ Development Documentation
    not deal with how information flows, rather how the source depends
    on various parts.
 
+   For details of how each component is written, see the Component
+   Guides.
+
  - High level design documents
 
    These design documents show block-level information flow within each
@@ -116,6 +123,12 @@ Development Documentation
    These are introductory task-orientated guides on how to go about
    common procedures, such as adding a new tspec API. See the
    developersguides document for details.
+
+ - Component Guides
+
+   Guides on the technical internals of each component. Each of these
+   are roughly grouped into the interfaces implemented, and a tour of
+   the implementation.
 
  - Source code browsing and implementation documentation
 
@@ -139,6 +152,19 @@ Development Documentation
    One of the longer-term intentions is for TenDRA to provide a
    platform for research. This includes some of the more academic
    projects, and the results of investigations making use of them.
+
+
+Reference Documentation
+-----------------------
+
+Reference materials are the common protocols and APIs which bridge the
+user and development documentation. This includes references for the
+languages such as the TDF and PL_TDF specifications, but is not usage
+references for any particular programs that deal with them.
+
+ - TDF
+
+ - PL_TDF
 
 
 Development
