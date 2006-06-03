@@ -1,0 +1,87 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+  
+<book>
+  <bookinfo>
+    <title>Adding new APIs with tspec</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+
+	<!-- (to be filled out by whoever writes this...)
+    <author>
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+    </author>
+    <authorinitials>JRvdW</authorinitials>
+    <pubdate>2005</pubdate>
+
+    <copyright>
+      <year>2004</year>
+      <year>2005</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+
+      <holder>DERA</holder>
+    </copyright>
+	-->
+  </bookinfo>
+
+	<!--
+		A guide to the process of adding a new API with tspec.
+
+		This is not a generic tspec guide; it's specific to how we use
+	    tspec within TenDRA. For the general usage guide, see
+		user/guides/tspec.
+
+		Topics to cover:
+
+		 * Explain that this is tedious, pedantic, difficult to get
+		   right, and also very important that it *is* done correctly.
+		   That's pretty much the worst case for a task on all parts.
+
+		 * How our inheritance is structured at the directory level
+		  (with +IMPLEMENT), and what qualifies for this.
+
+		 * How our inheritence is structured within files (with +USE),
+		   and what qualifies for this.
+
+		 * When to inherit, and when to write from scratch (i.e. write
+		   from scratch if the specification independantly states the
+		   same thing as another by coincidence, as opposed to
+		   explicitly stating that it should correlate with (and defer
+		   to!) a parent specification)
+
+		 * What APIs are suitable for inclusion into the base, and what
+		   aren't (i.e. if it's important enough to come with your OS's
+		   base, and has a stable standard, we should probably include
+		   it - if it's a moving target or work in progress, we probably
+		   shouldn't). This should also mention something about which
+		   language are supported.
+
+		 * How not to be overwhelmed by the sheer size of something
+		   like posix3.
+
+		   One thing that's helping me here is to tackle strictly only
+		   the really simple files first, leaving the complex ones for
+		   later. The rough pattern there is to finish working on lots
+		   of simple ones all at once, and then to spend a longer time
+		   working through each complex file individually. This also
+		   helps keep up motivation by cutting down the list of incoming
+		   things!
+
+		 * How to test your abstract implementation.
+
+		- kate
+	-->
+
+</book>
+
