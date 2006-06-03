@@ -147,11 +147,13 @@ See tendra-doc/developer
    to the process of splitting up the source, various refactorings, and
    library designs.
 
- - Papers and research articles
 
-   One of the longer-term intentions is for TenDRA to provide a
-   platform for research. This includes some of the more academic
-   projects, and the results of investigations making use of them.
+Papers and research articles
+----------------------------
+
+One of the longer-term intentions is for TenDRA to provide a platform
+for research. This includes some of the more academic projects, and the
+results of investigations making use of them.
 
 
 Reference Documentation

@@ -1,0 +1,14 @@
+Papers and research articles
+============================
+
+ - Validation of TenDRA Capability to Implement
+   a UNIX-like Operating System
+   See unix-validation
+
+ - Validation of TenDRA Capability to Implement a Set of Commands for
+   the Linux Operating System
+   See linux-validation
+
+ - TDF and Portability
+   See porting
+
