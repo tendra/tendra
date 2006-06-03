@@ -122,7 +122,7 @@ $Log: expmacs.h,v $
 #define expmacs_key 1
 
 
-#define nilexp(exp)0
+#define nilexp (exp)0
 
 /* main components of exp */
 
