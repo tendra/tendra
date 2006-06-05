@@ -2822,214 +2822,214 @@ check(exp e, exp scope)
 					setbigval(son(e));
 				} else {
 					clearbigval(son(e));
-					sh(son(e)) = sha;
+				}
+				sh(son(e)) = sha;
 #ifdef NEWDIAGS
-					if (diagnose)
-						dg_whole_comp(e, son(e));
+				if (diagnose)
+					dg_whole_comp(e, son(e));
 #endif
-					replace(e, son(e), scope);
-					retcell(e);
-					return(1);
-				}
-				if (eq_shape(sh(e), sh(son(e)))) {
-					/* replace identity chvar by argument */
+				replace(e, son(e), scope);
+				retcell(e);
+				return(1);
+			}
+			if (eq_shape(sh(e), sh(son(e)))) {
+				/* replace identity chvar by argument */
 #ifdef NEWDIAGS
-					if (diagnose) {
-						dg_whole_comp(e, son(e));
-					}
+				if (diagnose) {
+					dg_whole_comp(e, son(e));
+				}
 #endif
-					replace(e, son(e), scope);
-					retcell(e);
-					return(1);
-				}
-				if (name(son(e)) == chvar_tag &&
-				    shape_size(sh(e)) ==
-				    shape_size(sh(son(son(e)))) &&
-				    name(sh(son(e))) == bitfhd) {
-					exp res = hold_check(me_u3(sh(e),
-								   son(son(e)),
-								   chvar_tag));
-					replace(e, res, scope);
-					retcell(e);
-					return 1;
-				}
-				if (name(son(e)) == chvar_tag &&
-				    !is_signed(sh(e)) &&
-				    shape_size(sh(e)) ==
-				    shape_size(sh(son(e)))) {
-					replace(e, hold_check(me_u3(sh(e),
-					    son(son(e)), chvar_tag)), scope);
-					retcell(e);
-					return 1;
-				}
-				if (name(son(e)) == chvar_tag &&
-				    !is_signed(sh(e)) &&
-				    shape_size(sh(e)) <
-				    shape_size(sh(son(e))) &&
-				    shape_size(sh(e)) ==
-				    shape_size(sh(son(son(e))))) {
-					replace(e, hold_check(me_u3(sh(e),
-						son(son(e)), chvar_tag)),
+				replace(e, son(e), scope);
+				retcell(e);
+				return(1);
+			}
+			if (name(son(e)) == chvar_tag &&
+					shape_size(sh(e)) ==
+					shape_size(sh(son(son(e)))) &&
+					name(sh(son(e))) == bitfhd) {
+				exp res = hold_check(me_u3(sh(e),
+							son(son(e)),
+							chvar_tag));
+				replace(e, res, scope);
+				retcell(e);
+				return 1;
+			}
+			if (name(son(e)) == chvar_tag &&
+					!is_signed(sh(e)) &&
+					shape_size(sh(e)) ==
+					shape_size(sh(son(e)))) {
+				replace(e, hold_check(me_u3(sh(e),
+								son(son(e)), chvar_tag)), scope);
+				retcell(e);
+				return 1;
+			}
+			if (name(son(e)) == chvar_tag &&
+					!is_signed(sh(e)) &&
+					shape_size(sh(e)) <
+					shape_size(sh(son(e))) &&
+					shape_size(sh(e)) ==
+					shape_size(sh(son(son(e))))) {
+				replace(e, hold_check(me_u3(sh(e),
+								son(son(e)), chvar_tag)),
 						scope);
-					retcell(e);
-					return 1;
-				}
+				retcell(e);
+				return 1;
+			}
 #if little_end & has_byte_regs
-				/* only for little enders which have byte
-				 * registers */
-				if ((shape_size(sh(e)) <=
-				     shape_size(sh(son(e)))) && optop(e) &&
-				    (name(son(e)) == name_tag ||
-				     name(son(e)) == cont_tag ||
-				     name(son(e)) == cond_tag)) {
-					/* if the chvar operation never needs
-					 * any action for a little end machine,
-					 * eliminate it */
+			/* only for little enders which have byte
+			 * registers */
+			if ((shape_size(sh(e)) <=
+						shape_size(sh(son(e)))) && optop(e) &&
+					(name(son(e)) == name_tag ||
+					 name(son(e)) == cont_tag ||
+					 name(son(e)) == cond_tag)) {
+				/* if the chvar operation never needs
+				 * any action for a little end machine,
+				 * eliminate it */
 #if is80x86
-					if (shape_size(sh(e)) == 8) {
-						if (name(son(e)) == name_tag) {
-							setvis(son(son(e)));
-						}
-						if (name(son(e)) == cont_tag &&
-						    name(son(son(e))) ==
-						    name_tag) {
-						       setvis(son(son(son(e))));
-						}
+				if (shape_size(sh(e)) == 8) {
+					if (name(son(e)) == name_tag) {
+						setvis(son(son(e)));
 					}
+					if (name(son(e)) == cont_tag &&
+							name(son(son(e))) ==
+							name_tag) {
+						setvis(son(son(son(e))));
+					}
+				}
 #endif
-					sh(son(e)) = sh(e);
-					replace(e, son(e), scope);
-					/* should this retcell(e) ? */
-					return(1);
-				}
-				/* only for little enders which have byte
-				 * registers */
-				if (name(son(e)) == chvar_tag &&
-				    shape_size(sh(e)) <=
-				    shape_size(sh(son(e)))) {
-					/* if the chvar operation never needs
-					 * any action for a little end machine,
-					 * eliminate it */
-					exp w;
-					sh(son(e)) = sh(e);
-					w = hold(son(e));
-					IGNORE check(son(w), son(w));
-					replace(e, son(w), scope);
-					retcell(e);
-					retcell(w);
-					return(1);
-				}
+				sh(son(e)) = sh(e);
+				replace(e, son(e), scope);
+				/* should this retcell(e) ? */
+				return(1);
+			}
+			/* only for little enders which have byte
+			 * registers */
+			if (name(son(e)) == chvar_tag &&
+					shape_size(sh(e)) <=
+					shape_size(sh(son(e)))) {
+				/* if the chvar operation never needs
+				 * any action for a little end machine,
+				 * eliminate it */
+				exp w;
+				sh(son(e)) = sh(e);
+				w = hold(son(e));
+				IGNORE check(son(w), son(w));
+				replace(e, son(w), scope);
+				retcell(e);
+				retcell(w);
+				return(1);
+			}
 #endif
 #if little_end & has_byte_ops
-				/* only for little enders with byte and short
-				 * operations */
-				if (shape_size(sh(e)) <=
-				    shape_size(sh(son(e))) && optop(e) &&
-				    name(sh(e)) != bitfhd &&
-				    (name(son(e)) == plus_tag ||
-				     name(son(e)) == minus_tag ||
-				     name(son(e)) == and_tag ||
-				     name(son(e)) == or_tag ||
-				     name(son(e)) == neg_tag)) {
-					/* replace chvar(op(a ...)) by
-					 * op(chvar(a)...) if the changevar
-					 * requires no action on a little end
-					 * machine */
+			/* only for little enders with byte and short
+			 * operations */
+			if (shape_size(sh(e)) <=
+					shape_size(sh(son(e))) && optop(e) &&
+					name(sh(e)) != bitfhd &&
+					(name(son(e)) == plus_tag ||
+					 name(son(e)) == minus_tag ||
+					 name(son(e)) == and_tag ||
+					 name(son(e)) == or_tag ||
+					 name(son(e)) == neg_tag)) {
+				/* replace chvar(op(a ...)) by
+				 * op(chvar(a)...) if the changevar
+				 * requires no action on a little end
+				 * machine */
 #if only_lengthen_ops
-					exp p = son(e);
-					exp r;
-					exp a = son(p);
-					exp n = bro(a);
-					int l = (int)last(a);
+				exp p = son(e);
+				exp r;
+				exp a = son(p);
+				exp n = bro(a);
+				int l = (int)last(a);
 
-					/* if (shape_size(sh(e)) >= 16) */
-					/* this is to avoid allocating bytes to
-					 * edi/esi in 80386 !!! bad
-					 */
+				/* if (shape_size(sh(e)) >= 16) */
+				/* this is to avoid allocating bytes to
+				 * edi/esi in 80386 !!! bad
+				 */
 #endif
-					{
-						exp sha = sh(e);
-						exp t = varchange(sha, a);
-						exp q = t;
+				{
+					exp sha = sh(e);
+					exp t = varchange(sha, a);
+					exp q = t;
 
-						while (!l) {
-							l = (int)last(n);
-							a = n;
-							n = bro(n);
-							setbro(q, varchange(sha,
-									    a));
-							clearlast(q);
-							q = bro(q);
-						}
+					while (!l) {
+						l = (int)last(n);
+						a = n;
+						n = bro(n);
+						setbro(q, varchange(sha,
+									a));
+						clearlast(q);
+						q = bro(q);
+					}
 
-						r = getexp(sha, nilexp, 0, t,
-							   pt(p), 0, no(p),
-							   name(p));
-						seterrhandle(r, errhandle(e));
-						replace(e, hc(r, q), scope);
-						retcell(e);
-						return(1);
-					}
-				}
-#endif
-				if (name(son(e)) == ident_tag &&
-				    isvar(son(e))) {
-					/* distribute chvar into variable declaration of simple form
-					 */
-					exp vardec = son(e);
-					exp def = son(vardec);
-					exp body = bro(def);
-					exp res;
-					bool go = 1;
-					exp t, u, v;
-					if (name(body) != seq_tag)
-						return(0);
-					res = bro(son(body));
-					if (name(res) != cont_tag ||
-					    name(son(res)) != name_tag ||
-					    son(son(res)) != vardec)
-						return(0);
-					t = pt(vardec);
-					while (t != nilexp && go) {
-						if (t == son(res) ||
-						    (!last(t) &&
-						     name(bro(bro(t))) ==
-						     ass_tag)) {
-							t = pt(t);
-						} else {
-							go = 0;
-						}
-					}
-					if (!go) {
-						return(0);
-					}
-					if (name(def) == clear_tag) {
-						u = copy(def);
-						sh(u) = sh(e);
-					} else {
-						u = varchange(sh(e), copy(def));
-					}
-					replace(def, u, u);
-					kill_exp(def, def);
-					sh(res) = sh(e);
-					sh(body) = sh(e);
-					t = pt(vardec);
-					while (t != nilexp) {
-						if (t != son(res)) {
-							v = bro(t);
-							u = varchange(sh(e), copy(v));
-							replace(v, u, u);
-							kill_exp(v, def);
-						}
-						t = pt(t);
-					}
-					sh(vardec) = sh(e);
-					replace(e, vardec, scope);
+					r = getexp(sha, nilexp, 0, t,
+							pt(p), 0, no(p),
+							name(p));
+					seterrhandle(r, errhandle(e));
+					replace(e, hc(r, q), scope);
 					retcell(e);
 					return(1);
 				}
-				return 0;
 			}
+#endif
+			if (name(son(e)) == ident_tag &&
+					isvar(son(e))) {
+				/* distribute chvar into variable declaration of simple form
+				*/
+				exp vardec = son(e);
+				exp def = son(vardec);
+				exp body = bro(def);
+				exp res;
+				bool go = 1;
+				exp t, u, v;
+				if (name(body) != seq_tag)
+					return(0);
+				res = bro(son(body));
+				if (name(res) != cont_tag ||
+						name(son(res)) != name_tag ||
+						son(son(res)) != vardec)
+					return(0);
+				t = pt(vardec);
+				while (t != nilexp && go) {
+					if (t == son(res) ||
+							(!last(t) &&
+							 name(bro(bro(t))) ==
+							 ass_tag)) {
+						t = pt(t);
+					} else {
+						go = 0;
+					}
+				}
+				if (!go) {
+					return(0);
+				}
+				if (name(def) == clear_tag) {
+					u = copy(def);
+					sh(u) = sh(e);
+				} else {
+					u = varchange(sh(e), copy(def));
+				}
+				replace(def, u, u);
+				kill_exp(def, def);
+				sh(res) = sh(e);
+				sh(body) = sh(e);
+				t = pt(vardec);
+				while (t != nilexp) {
+					if (t != son(res)) {
+						v = bro(t);
+						u = varchange(sh(e), copy(v));
+						replace(v, u, u);
+						kill_exp(v, def);
+					}
+					t = pt(t);
+				}
+				sh(vardec) = sh(e);
+				replace(e, vardec, scope);
+				retcell(e);
+				return(1);
+			}
+			return 0;
 
 		case bitf_to_int_tag:
 			if (newcode) {
@@ -3569,6 +3569,7 @@ check(exp e, exp scope)
 				return 1;
 			}
 			return 0;
+			      }
 
 		case chfl_tag:
 			if (!optop(e)) {
@@ -5432,5 +5433,4 @@ check(exp e, exp scope)
 	default:
 		return(0);
 	}
-  }
 }
