@@ -19,9 +19,6 @@ SRCS=		alignment.c analyser.c bitstream.c check.c de_capsule.c\
 		help.c high.c main.c node.c read.c read_cap.c shape.c table.c\
 		tdf.c utility.c write.c
 
-${NAME} : ${OFILES}
-	${LINK_CC} -o ${NAME} ${OFILES} ${LIBS}
-
 #MAKE_TDF=make_tdf
 #
 #auto : ${SRC}/tdf.c ${SRC}/tdf.h ${SRC}/check_exp.h
