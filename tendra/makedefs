@@ -126,7 +126,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS=${CFLAGS}
-			LDOPTS="--dynamic-linker /lib/ld-linux.so.2"
+			LDOPTS=""
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="linux"
