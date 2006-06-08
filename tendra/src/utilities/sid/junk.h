@@ -4,7 +4,7 @@
  * and
  *	parser.act
  * by:
- *	./obj/sid
+ *	./sid
  */
 
 /* BEGINNING OF HEADER */
@@ -43,7 +43,7 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void sid_parse_grammar (void);
+extern void sid_parse_grammar(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
