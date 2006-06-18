@@ -147,6 +147,12 @@ See tendra-doc/developer
    to the process of splitting up the source, various refactorings, and
    library designs.
 
+ - A "todo" list of relativley major items
+
+   These would generally be too large for single tickets, and might make
+   suitable candidates for Google's Summer of Code projects.
+
+   See development/features for examples.
 
 Papers and research articles
 ----------------------------
