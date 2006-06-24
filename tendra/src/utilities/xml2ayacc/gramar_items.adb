@@ -125,7 +125,7 @@ package body Gramar_Items is
    function Get_Item
      (Object : Sequence;
       Index  : Positive)
-      return Item'Class
+      return Item_Ptr
    is
       use Item_Lists;
       Result : Item_Ptr := First (Object.List);
@@ -134,7 +134,7 @@ package body Gramar_Items is
          Result := Next (Object.List, Result);
       end loop;
 
-      return Result.all;
+      return Result;
    end Get_Item;
 
    --------------
@@ -510,7 +510,7 @@ package body Gramar_Items is
             I : constant Natural := Find_First_Reference (Item);
          begin
             if I /= 0 then
-               return Node_Name (Get_Item (Item, I));
+               return Node_Name (Get_Item (Item, I).all);
             else
                return "";
             end if;
@@ -565,7 +565,7 @@ package body Gramar_Items is
       if Separate_Option (Object) then
          return Compound_Name (Items (Object)) & "option";
       else
-         return Item_Name (Get_Item (Items (Object), 1));
+         return Item_Name (Get_Item (Items (Object), 1).all);
       end if;
    end Item_Name;
 
@@ -586,7 +586,7 @@ package body Gramar_Items is
 
    function Separate_Option (Item : in Option) return Boolean is
       Seq   : constant Sequence := Items (Item);
-      Child : Gramar_Items.Item'Class renames Get_Item (Seq, 1);
+      Child : Gramar_Items.Item'Class renames Get_Item (Seq, 1).all;
    begin
       if Count (Seq) = 1 and then
         (Child in Reference or
@@ -610,7 +610,7 @@ package body Gramar_Items is
    end Compound_Name;
 
    function Compound_Name (Item : Sequence; Part : Positive ) return String is
-      Child : Gramar_Items.Item'Class renames Get_Item (Item, Part);
+      Child : Gramar_Items.Item'Class renames Get_Item (Item, Part).all;
    begin
       if Child in Option then
          return Compound_Name (Items (Option (Child)));
@@ -684,7 +684,7 @@ package body Gramar_Items is
    begin
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in Reference then
 
@@ -699,7 +699,7 @@ package body Gramar_Items is
    function Choise_Item_Index (Item : Sequence) return Natural  is
    begin
       for I in 1 .. Count (Item) loop
-         if Choise (Get_Item (Item, I)) /= "" then
+         if Choise (Get_Item (Item, I).all) /= "" then
             return I;
          end if;
       end loop;
@@ -710,7 +710,7 @@ package body Gramar_Items is
    begin
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in List then
 
@@ -759,14 +759,14 @@ package body Gramar_Items is
    begin
       for I in 1 .. Count (Seq) loop
          declare
-            The_List : Gramar_Items.Item'Class renames Get_Item (Seq, I);
+            The_List : Gramar_Items.Item'Class renames Get_Item (Seq, I).all;
          begin
             if The_List in List then
                if List_Item_Node_Name (List (The_List)) /= "" then
                   for J in 1 .. Count (Seq) loop
                      declare
                         The_Ref : Gramar_Items.Item'Class renames
-                          Get_Item (Seq, J);
+                          Get_Item (Seq, J).all;
                      begin
                         if The_Ref in Reference and then
                           Node_Name (The_Ref) =
@@ -792,7 +792,7 @@ package body Gramar_Items is
       Ref_Index : constant Natural := Find_First_Reference (Seq);
    begin
       if Ref_Index > 0 then
-         return Node_Name (Get_Item (Seq, Ref_Index));
+         return Node_Name (Get_Item (Seq, Ref_Index).all);
       else
          return "";
       end if;
@@ -888,7 +888,7 @@ package body Gramar_Items is
          if Is_Item_And_List (Seq) then
             declare
                List_Index : constant Natural := List_For_Item_Index (Seq);
-               The_List   : Item'Class renames Get_Item (Seq, List_Index);
+               The_List   : Item'Class renames Get_Item (Seq, List_Index).all;
                List_Name  : constant String  := Node_Name (The_List);
                Wrap       : constant String  := Node_Name (Seq);
             begin
@@ -961,7 +961,7 @@ package body Gramar_Items is
          return 0;
       end if;
       for I in 1 .. Count (Seq) loop
-         if Item_Name (Get_Item (Seq, I)) = Name then
+         if Item_Name (Get_Item (Seq, I).all) = Name then
             if Cnt = 1 then
                return I;
             else

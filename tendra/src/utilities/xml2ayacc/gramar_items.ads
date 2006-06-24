@@ -21,6 +21,7 @@ package Gramar_Items is
    ----------
 
    type Item is abstract tagged limited private;
+   type Item_Ptr is access all Item'Class;
 
    function Item_Name (Object : Item) return String is abstract;
    function Node_Name (Object : Item) return String;
@@ -41,7 +42,7 @@ package Gramar_Items is
    function Get_Item
      (Object : Sequence;
       Index  : Positive)
-      return Item'Class;
+      return Item_Ptr;
 
    function Pass_Through (Item : Sequence) return Boolean;
    function Node_Name    (Item : Sequence) return String;
@@ -154,8 +155,6 @@ private
 
    type Sequence_Node;
    type Sequence is access all Sequence_Node'Class;
-
-   type Item_Ptr is access all Item'Class;
 
    type Item is abstract tagged limited record
       Next      : Item_Ptr;

@@ -245,7 +245,7 @@ package body Generate is
    begin
       for I in Start_From .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in List or Child in Option then
 
@@ -271,7 +271,7 @@ package body Generate is
 
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
             Print : Boolean := False;
          begin
             if (Child in List or Child in Option) then
@@ -306,7 +306,7 @@ package body Generate is
    begin
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in List or Child in Option then
                Counted := Counted + 1;
@@ -353,7 +353,7 @@ package body Generate is
    begin
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in List then
                Print_List (List (Child));
@@ -444,7 +444,8 @@ package body Generate is
          begin
             if First_Reference = 0 and Count (Item) > 1 then
                declare
-                  Child : Gramar_Items.Item'Class renames Get_Item (Item, 2);
+                  Child : Gramar_Items.Item'Class
+                    renames Get_Item (Item, 2).all;
                begin
                   if Child in Option and Include (Processed_Positions, 2) then
                      Put_Line ("{$$ := $2;}");
@@ -466,7 +467,7 @@ package body Generate is
       if True_Node (Item) /= "" then
          declare
             Index : constant Natural := Choise_Item_Index (Item);
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, Index);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, Index).all;
          begin
             if Child not in Option or else
               Include (Processed_Positions, Index) then
@@ -508,7 +509,7 @@ package body Generate is
          end if;
          for I in 1 .. Count (Item) loop
             declare
-               Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+               Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
             begin
                if Child in Option and then
                  Include (Processed_Positions, I) and then
@@ -577,7 +578,8 @@ package body Generate is
 
       for I in 1 .. Count (Item) loop
          declare
-            Child       : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child       : Gramar_Items.Item'Class
+              renames Get_Item (Item, I).all;
             Wrap        : constant Wrapper := Parent (Child);
             Parent_Node : constant String := Get_Node_Name (Wrap);
             Parent_Name : constant String := Object_Name (Wrap);
@@ -846,7 +848,7 @@ package body Generate is
    begin
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
          begin
             if Child in Option then
                if not Just_Keywords (Items (Option (Child))) then
@@ -871,7 +873,7 @@ package body Generate is
       Index     : Positive := 1;
       Node      : constant String := Node_Name (Item);
       Node_Ptr  : constant String := Nodes.Get_Pointer_Name (Node);
-      Create    : constant String := Create_Node (Get_Item (Item, 1));
+      Create    : constant String := Create_Node (Get_Item (Item, 1).all);
       Crt_Ptr   : constant String := Nodes.Get_Pointer_Name (Create);
       Proc      : constant String := Find_Procedure (Node, "");
    begin
@@ -906,7 +908,7 @@ package body Generate is
 
       for I in 1 .. Count (Item) loop
          declare
-            Child : Gramar_Items.Item'Class renames Get_Item (Item, I);
+            Child : Gramar_Items.Item'Class renames Get_Item (Item, I).all;
             Print : Boolean := True;
          begin
             if (Child in List or Child in Option) then
@@ -941,7 +943,7 @@ package body Generate is
       Processed_Positions : in Positions_List;
       Name_Of_List        : in String)
    is
-      First : Item'Class renames Get_Item (Seq, 1);
+      First : Item'Class renames Get_Item (Seq, 1).all;
    begin
       if Count (Seq) = 5 then
          Print_Infix_Code5 (Seq, Rule_Name, Processed_Positions, Name_Of_List);
@@ -955,7 +957,7 @@ package body Generate is
          Print_Infix_Code6 (Seq, Name_Of_List);
       else
          declare
-            Second : Item'Class renames Get_Item (Seq, 2);
+            Second : Item'Class renames Get_Item (Seq, 2).all;
          begin
             if Second in Reference then
                Print_Infix_Code7 (Seq, Name_Of_List);
@@ -974,7 +976,7 @@ package body Generate is
       Processed_Positions : in Positions_List;
       Name_Of_List        : in String)
    is
-      Child : Item'Class renames Get_Item (Seq, 2);
+      Child : Item'Class renames Get_Item (Seq, 2).all;
    begin
       if Include (Processed_Positions, 4) then
          Put_Line ("{");
@@ -1121,7 +1123,7 @@ package body Generate is
      (Seq                 : in Sequence;
       Name_Of_List        : in String)
    is
-      First : Item'Class renames Get_Item (Seq, 1);
+      First : Item'Class renames Get_Item (Seq, 1).all;
       Name  : constant String := Item_Name (First);
    begin
       if Name_Of_List = "" then
@@ -1374,7 +1376,7 @@ package body Generate is
       Index   : constant Natural := Choise_Item_Index (Seq);
       R_Ind   : constant Natural :=
         Real_Index (Seq, Processed_Positions, Index, "");
-      Ch_Name : constant String := Choise (Get_Item (Seq, Index));
+      Ch_Name : constant String := Choise (Get_Item (Seq, Index).all);
    begin
 
       Put_Line ("{");
@@ -1398,7 +1400,7 @@ package body Generate is
       Processed_Positions : in Positions_List;
       Index               : Positive) return Boolean
    is
-      Child : Item'Class renames Get_Item (Seq, Index);
+      Child : Item'Class renames Get_Item (Seq, Index).all;
    begin
       if (Child in Option or Child in List) and then
          not Include (Processed_Positions, Index) then
@@ -1529,13 +1531,13 @@ package body Generate is
       Index               : in Positive;
       Processed_Positions : in Positions_List) return Boolean
    is
-      Child : Item'Class renames Get_Item (Seq, Index);
+      Child : Item'Class renames Get_Item (Seq, Index).all;
       Wrap  : Wrapper := Parent (Child);
    begin
       for I in 1 .. Index - 1 loop
          if Processed (Seq, Processed_Positions, I) then
             declare
-               Child_I : Item'Class renames Get_Item (Seq, I);
+               Child_I : Item'Class renames Get_Item (Seq, I).all;
                Wrap_I  : Wrapper := Parent (Child_I);
             begin
                if Wrap_I = Wrap then
@@ -1552,13 +1554,13 @@ package body Generate is
       Index               : in Positive;
       Processed_Positions : in Positions_List) return Boolean
    is
-      Child : Item'Class renames Get_Item (Seq, Index);
+      Child : Item'Class renames Get_Item (Seq, Index).all;
       Wrap  : Wrapper := Parent (Child);
    begin
       for I in Index + 1 .. Count (Seq) loop
          if Processed (Seq, Processed_Positions, I) then
             declare
-               Child_I : Item'Class renames Get_Item (Seq, I);
+               Child_I : Item'Class renames Get_Item (Seq, I).all;
                Wrap_I  : Wrapper := Parent (Child_I);
             begin
                if Wrap_I = Wrap then

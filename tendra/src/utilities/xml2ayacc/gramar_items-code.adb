@@ -344,7 +344,7 @@ package body Gramar_Items.Code is
       end if;
       for I in 1 .. Count (Seq) loop
          declare
-            Child : Item'Class renames Get_Item (Seq, I);
+            Child : Item'Class renames Get_Item (Seq, I).all;
          begin
             if Child in Reference then
                Ref_Count := Ref_Count + 1;
@@ -381,7 +381,7 @@ package body Gramar_Items.Code is
    begin
       for I in 1 .. Count (Seq) loop
          declare
-            Child_Name : constant String := Item_Name (Get_Item (Seq, I));
+            Child_Name : constant String := Item_Name (Get_Item (Seq, I).all);
          begin
             if Name = Child_Name then
                return True;
