@@ -1,0 +1,105 @@
+ Copyright (c) 1990 Regents of the University of California.
+ All rights reserved.
+
+ This software was developed by the Arcadia project
+ at the University of California, Irvine.
+
+-- Redistribution and use in source and binary forms are permitted,
+-- subject to the restriction noted below, provided that the above
+-- copyright notice and this paragraph and the following paragraphs are
+-- duplicated in all such forms and that any documentation, advertising
+-- materials, and other materials related to such distribution and use
+-- acknowledge that the software was developed by the University of
+-- California, Irvine.  The name of the University may not be used to
+-- endorse or promote products derived from this software without
+-- specific prior written permission.  THIS SOFTWARE IS PROVIDED ``AS
+-- IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT
+-- LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+-- A PARTICULAR PURPOSE.
+--
+-- Use of this software in any way or in any form, source or binary,
+-- and redistribution of such is not allowed in any country which
+-- prohibits disclaimers of any implied warranties of merchantability
+-- or fitness for a particular purpose or any disclaimers of a similar
+-- nature.
+--
+-- IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY
+-- FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+-- ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION
+-- (INCLUDING, BUT NOT LIMITED TO, LOST PROFITS) EVEN IF THE UNIVERSITY
+-- OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+**********************************************************************
+
+This is the IRUS (Irvine Research Unit in Software) aflex/ayacc public
+distribution.  Aflex and ayacc are similar to the Unix tools lex and
+yacc, but they are written in Ada and generate Ada output.  They were
+developed by the Arcadia Project at the University of California,
+Irvine.  Aflex is based on the tool 'flex' written by Vern Paxson.
+These tools are copyrighted, but are freely redistributable.  There is
+no warranty of any kind (see the copyright notice above.)  However we
+do ask that you report any problems you encounter as we use these
+tools ourselves and we want to fix any bugs that are found.
+
+You may give this software to others, but we prefer that those who can
+get it directly from us to insure that all users are running the
+latest version.  We also ask that you send electronic mail to the
+address irus-software-request@ics.uci.edu giving your name, your
+organization, a paper mail address, and your e-mail address (either an
+Internet address or a UUCP path relative to a well-known site such as
+uunet.)  A form is provided below for your convenience.  We will use
+this information to set up a mailing list to announce new versions of
+aflex and ayacc, as well as new software that is expected to be made
+available.
+
+The distribution is currently available on the machine
+liege.ics.uci.edu in ~ftp/pub/irus/aflex-ayacc_1.4a.tar.Z.  Full
+instructions for retrieving and unpacking are enclosed below.  If you
+have trouble retrieving or unpacking the distribution send mail to
+irus-software-request@ics.uci.edu (or via UUCP to
+uunet!sdcsvax!ucivax!irus-software-request) If you have trouble with
+the tools information on how to report bugs is present within their
+directories.
+
+------------------------------- cut here -------------------------------
+IRUS software user registration form
+
+1. Your Name:
+
+2. Your Organization:
+
+3. Mailing Address:
+
+4. E-mail address for contact person:
+
+------------------------------- cut here -------------------------------
+How to obtain aflex and ayacc via anonymous FTP
+
+1.  FTP to the machine liege.ics.uci.edu (internet address 128.195.1.5)
+
+2.  When asked for a username use 'anonymous'
+
+3.  When asked for a password use your username on your local machine.
+
+4.  Change directory (cd) into the pub/irus directory.
+
+5.  Set a file transfer mode that will allow you to transfer binary
+    files.  One way to do this that usually works is to issue the
+    command 'type tenex'
+
+6.  Type the command 'get aflex-ayacc_1.4a.tar.Z'
+
+7.  Quit FTP.
+
+8.  You now have a compressed tar file containing the source for aflex.
+
+9.  You need to uncompress the file by typing 
+    'uncompress aflex-ayacc_1.4a.tar.Z' 
+
+10. Now untar the file to create the source and documentation tree by
+    typing 'tar xvf aflex-ayacc_1.4a.tar' at the Unix prompt.
+
+11. Read the README files in the aflex/README and ayacc/src/READ_ME to
+    find out how to compile the tools.  If you are using the Verdix Ada
+    Developemnt System Version 6 be sure to read the VADS6.README files
+    in the aflex and ayacc directories before building them.
+

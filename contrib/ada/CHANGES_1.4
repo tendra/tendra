@@ -1,0 +1,15 @@
+AFLEX and AYACC
+---------------
+AYACC was updated with additional automatic error recovery features via the
+Error_Recovery command line switch (see the documentation for details.)
+
+IMPORTANT:  AYACC had the default values of Error_Code and Accept_Code
+increased.  This is important is you are generating parsers for very large
+grammars, and have had to increase Max_Rules beyond 1_000.  If you have had
+to do this in the past you should regenerate your parsers.   The problem
+shows up in incorrect behavior is the rules number 1000 or 1001 are
+reduced in a running parser.
+
+AFLEX was modified, with a -E switch added to generate additional information
+needed by AYACC when the Error_Recovery switch is on.
+

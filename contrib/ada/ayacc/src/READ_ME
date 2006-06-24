@@ -1,0 +1,84 @@
+Porting Ayacc to Other Machines
+-------------------------------
+
+    Appendix 6 of the Ayacc User's Manual describes the details of porting
+      Ayacc to other Compilers/Operating Systems.
+
+
+File Descriptions
+-----------------
+
+COMPILE_AYACC          
+
+    C-Shell Script file which will build ayacc under Unix with Verdix.
+      This file can be modified to suit the needs of your particular
+      Compiler/Operating System.
+
+Compilation Order
+---------------
+    The required compilation order for Ayacc is given below.  This file 
+      order list can be used to construct a command file for whatever host 
+      system you are building Ayacc to run on.
+ 
+    The source files for Ayacc are listed below: 
+
+          command_line_interface_.a
+          command_line_interface.a
+          cli__read_command_line.a/cli__read_command_line_vax.a
+          str_pack.a/str_pack_vads5.41.a 
+          file_names.a
+          actions_file.a
+          actions_file_body.a
+          source_file.a
+          symbol_table.a
+          rule_table.a
+          parse_table.a
+          output_file.a
+          tokens_file.a
+          parser.a
+          options.a
+          ayacc.a
+          ayacc_separates.a
+          set_pack.a
+          set_pack_body.a
+          lr0_machine.a
+          symbol_info.a
+          stack.a
+          ragged.a
+          lalr_symbol_info.a
+          lalr_symbol_info_body.a
+          lexical_analyzer.a
+          lexical_analyzer_body.a
+          lr0_machine_body.a
+          parse_template_file_.a
+          output_file_body.a
+          parser_body.a
+          shift_reduce_file.a
+          goto_file.a
+          verbose_file.a
+          parse_table_body.a
+          parse_template_file.a
+          rule_table_body.a
+          source_file_body.a
+          symbol_info_body.a
+          symbol_table_body.a
+          tokens_file_body.a
+          verbose_file_body.a
+          
+
+-- NOTE : vads 5.41 users should compile package the alternate package
+	  'str_pack_vads5.41.a' in place of 'str_pack.a'.  this is 
+	  necessary due to a verdix compiler bug in discriminants.
+
+Parsing extremely large grammars
+--------------------------------
+If your grammar has more than 1_000 productions you may need to build
+a version of ayacc that uses larger tables.  Ayacc is currently ungraceful
+in handling this condition, and may raise an exception when the generator
+is run, printing out an error message saying "Internal Error, Submit an LCR"
+If this happens increase the constant Max_Rules found on line 50 of
+rule_table.a to reflect the number of rules you need.  This number is currently kept small to minimize the memory usage of generated parsers.  If you raise
+this number beyond 3000 (quite unlikely) you will also need to change
+the definitions of Error_Code and Accept_Code in the files parse_table_body.a
+(line 112) and parse_template_file.a (line 93)
+

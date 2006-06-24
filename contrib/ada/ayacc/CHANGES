@@ -1,0 +1,23 @@
+        AYACC would generate illegal package names given certain input
+        file names.  This was previously corrected in the VADS6 version,
+        but the change wasn't propogated to the main sources due to an
+        error in configuration management.  Thank you to Michael Schwartz
+        for pointing this out.
+
+        AYACC wouldn't work under some versions of the ALSYS compiler due
+        to an erroneous construct involving order of parameter evaluation
+        in the file lalr_symbol_info_body.a.  Thank you to
+        delaunay@ensisun.imag.fr for this fix.
+
+        Added checks and error messages for parse stack overflow in
+        generated parsers.  Thank you to Susan Eilers <suef@kaman.COM>
+        for these patches.
+
+        AYACC would fail silently if it couldn't open it's output files.
+
+        The ada_parser example (which is very frequently used as a basis
+        for tools) had some errors which caused it to reject legal code.
+        S A McConnell <sam@iberia.cca.cr.rockwell.COM> contributed a
+        set of revisions which allow the ada_parser to parse the entire
+        ACVC 1.11 collection.
+

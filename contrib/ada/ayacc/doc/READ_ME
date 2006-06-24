@@ -1,0 +1,4 @@
+ayacc_user_man.tex
+    The current documentation for ayacc.  Run latex on it twice to
+    get the references correct.
+

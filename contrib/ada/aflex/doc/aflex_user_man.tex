@@ -1,0 +1,1080 @@
+\documentstyle[12pt]{article}
+%\documentstyle[12pt,my]{article}
+\addtolength{\oddsidemargin}{0in}
+\addtolength{\textwidth}{+0.5in}
+\addtolength{\topmargin}{-0.5in}       % slightly longer page
+\addtolength{\textheight}{0.5in}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.05}  %should make [h] work as desired
+\parindent 0pt
+
+%%%\renewcommand{baselinestretch}{1.2}
+
+\newcommand{\mysk}{\vspace{0.5cm}}
+
+\title{\vspace{2cm}\goodbreak 
+\bf {\sl Aflex} \rm -- An Ada Lexical Analyzer Generator
+\\ \vspace{1cm} Version 1.1 \vspace{1cm}
+}
+\author{\large \rm John Self \\
+\ \\
+Arcadia Environment Research Project \\
+Department of Information and Computer Science\\
+University of California, Irvine \\
+\\UCI-90-18\\
+\medskip\\
+Adapted for the GNU Ada Compiler GNAT\\
+by the ``Ada for Linux Team (ALT)'', Feb 1999\\
+\\
+\thanks{This work was supported in
+part by the National Science Foundation under grants CCR--8704311
+and CCR--8451421 with cooperation from the Defense Advanced Research
+Projects Agency, and by the National Science Foundation under Award
+No. CCR-8521398.}
+}
+
+\date{May 1990}
+
+\begin{document}
+
+\maketitle
+
+\begin{titlepage}
+\tableofcontents
+\end{titlepage}
+
+\section{Introduction}
+\label{intro}
+{\sl Aflex} is a lexical analyzer generating tool written in Ada
+designed for lexical 
+processing of character input streams.
+It is a successor to the {\sl Alex}\cite{alex} tool from UCI.  {\sl Aflex}
+is upwardly compatible with {\sl alex 1.0}, but is significantly
+faster at generating scanners, and produces smaller scanners for
+equivalent specifications.  Internally {\sl aflex} is patterned after the
+{\sl flex} tool from the GNU project.
+{\sl Aflex} accepts high level rules  written in regular expressions
+for character string matching, and generates Ada source code comprising a
+lexical analyzer along with two auxiliary Ada packages.  The main file
+includes a routine that partitions the input text stream into strings 
+matching the expressions.  Associated with each rule is an 
+action block composed of program fragments.  Whenever a rule is recognized 
+in the input stream, the corresponding program fragment is executed.
+This feature, combined with the powerful string pattern matching capability,
+allows the user to implement a lexical analyzer for any type of application
+efficiently and quickly.
+For instance, {\sl aflex} can be used alone for simple lexical analysis and 
+statistics, or with {\sl ayacc} \cite{ayacc} to generate a parser front-end.  
+{\sl Ayacc} is an Ada parser generator that accepts context-free grammars.
+
+\mysk
+{\sl Aflex} is a successor to the Arcadia tool {\sl Alex}\cite{alex} which
+was inspired by the popular Unix operating system tool, {\it lex} 
+\cite{lex},.  Consequently, most of {\it lex}'s features and conventions are 
+retained in {\sl aflex}; however, a few important differences are discussed 
+in section \ref{lexdiff}.  There are also a few minor differences
+between {\sl aflex} and {\sl alex} which will be discussed in
+section \ref{alexdiff}.
+
+\mysk
+This paper is intended to serve as both the reference manual and the
+user manual for {\sl aflex}.  Some knowledge of {\it lex}, while not
+required, would be very useful in understanding the use of{\sl aflex.}
+A good introduction to {\it lex}, as well as lexical and syntactic analysis, 
+can be found in \cite{dragon}, frequently referred to as ``the Dragon Book.''
+Topics to be covered in this paper include the usage of
+{\sl aflex}, the operators' description, the source file format,
+the generated output, the necessary interfaces with {\sl ayacc},
+and ambiguity among rules.
+The appendices provide a simple example, {\sl aflex} dependencies,
+the differences between {\sl aflex},{\sl alex}, and {\it lex}, known bugs and
+limitations, and references.
+
+\newpage
+\section{Command Line Options}
+Command line options are given in a different format than in the
+old UCI alex.  Aflex options are as follows
+\begin{description}
+\item[-t]
+Write the scanner output to the standard output rather than to a file.
+The default names of the scanner files for base.l are base.ads and base.adb.
+Note that this option is not as useful with aflex because in addition 
+to the scanner file there are files for the externally visible dfa functions
+(base-dfa.ad[sb]) and the external IO functions (base-io.ad[sb])
+\item[-b]
+Generate backtracking information to
+{\it} aflex.backtrack.
+This is a list of scanner states which require backtracking
+and the input characters on which they do so.  By adding rules one
+can remove backtracking states.  If all backtracking states
+are eliminated and
+{\bf -f}
+is used, the generated scanner will run faster (see the
+{\bf -p}
+flag).  Only users who wish to squeeze every last cycle out of their
+scanners need worry about this option.
+\item[-d]
+makes the generated scanner run in
+{\it debug}
+mode.  Whenever a pattern is recognized the scanner will
+write to
+{\it stderr}
+a line of the form:
+\begin{verbatim}
+
+    --accepting rule #n
+
+\end{verbatim}
+Rules are numbered sequentially with the first one being 1.  Rule \#0
+is executed when the scanner backtracks; Rule \#(n+1) (where
+{\it n}
+is the number of rules) indicates the default action; Rule \#(n+2) indicates
+that the input buffer is empty and needs to be refilled and then the scan
+restarted.  Rules beyond (n+2) are end-of-file actions.
+\item[-f]
+has the same effect as lex's -f flag (do not compress the scanner
+tables); the mnemonic changes from
+{\it fast compilation}
+to (take your pick)
+{\it full table}
+or
+{\it fast scanner.}
+The actual compilation takes
+{\it longer,}
+since aflex is I/O bound writing out the big table.
+The compilation of the Ada file containing the scanner is also likely
+to take a long time because of the large arrays generated.
+\item[-i]
+instructs aflex to generate a
+{\it case-insensitive}
+scanner.  The case of letters given in the aflex input patterns will
+be ignored, and the rules will be matched regardless of case.  The
+matched text given in
+{\it yytext}
+will have the preserved case (i.e., it will not be folded).
+\item[-p]
+generates a performance report to stderr.  The report
+consists of comments regarding features of the aflex input file
+which will cause a loss of performance in the resulting scanner.
+Note that the use of
+the
+{\bf \verb|^|}
+operator
+and the
+{\bf -I}
+flag entail minor performance penalties.
+\item[-s]
+causes the
+{\it default rule}
+(that unmatched scanner input is echoed to
+{\it stdout)}
+to be suppressed.  If the scanner encounters input that does not
+match any of its rules, it aborts with an error.  This option is
+useful for finding holes in a scanner's rule set.
+\item[-v]
+has the same meaning as for lex (print to
+{\it stderr}
+a summary of statistics of the generated scanner).  Many more statistics
+are printed, though, and the summary spans several lines.  Most
+of the statistics are meaningless to the casual aflex user, but the
+first line identifies the version of aflex, which is useful for figuring
+out where you stand with respect to patches and new releases.
+\item[-E]
+instructs aflex to generate additional information about each token,
+including line and column numbers.  This is needed for the advanced
+automatic error option correction in ayacc.
+\item[-I]
+instructs aflex to generate an
+{\it interactive}
+scanner.  Normally, scanners generated by aflex always look ahead one
+character before deciding that a rule has been matched.  At the cost of
+some scanning overhead, aflex will generate a scanner which only looks ahead
+when needed.  Such scanners are called
+{\it interactive}
+because if you want to write a scanner for an interactive system such as a
+command shell, you will probably want the user's input to be terminated
+with a newline, and without
+{\bf -I}
+the user will have to type a character in addition to the newline in order
+to have the newline recognized.  This leads to dreadful interactive
+performance.
+
+If all this seems to confusing, here's the general rule: if a human will
+be typing in input to your scanner, use
+{\bf -I,}
+otherwise don't; if you don't care about how fast your scanners run and
+don't want to make any assumptions about the input to your scanner,
+always use
+{\bf -I.}
+
+Note,
+{\bf -I}
+cannot be used in conjunction with
+{\it full}
+i.e., the
+{\bf -f}
+flag.
+\item[-L]
+instructs aflex to not generate
+{\bf \#line}
+directives (see below).
+\item[-T]
+makes aflex run in
+{\it trace}
+mode.  It will generate a lot of messages to stdout concerning
+the form of the input and the resultant non-deterministic and deterministic
+finite automatons.  This option is mostly for use in maintaining aflex.
+\item[-Sskeleton\_file]
+overrides the default internal skeleton from which aflex constructs
+its scanners.  You'll probably never need this option unless you are doing
+aflex maintenance or development.
+\end{description}
+\section{{\sl Aflex} Output}
+{\sl Aflex} generates a file containing a lexical analyzer function along
+with two auxiliary packages, all of which are written in Ada.  
+The context in which the lexical analyzer function is defined is flexible 
+and may be specified by the user.  For instance,  the file may only 
+contain the lexical analyzer function as a single compilation unit which 
+may be called by {\sl ayacc},  
+or it may be placed within a package body or embedded within a driver 
+routine.  This scanner function, when invoked, partitions the character stream 
+into tokens as specified by the regular expressions defined in the rules 
+section of the source file.  The name of the lexical analyzer 
+function is {\sl yylex}. Note that it returns values of type {\it token}.  
+Type {\it token} must be defined as an enumeration type which contains, 
+at a minimum, ({\it End\_of\_Input, Error}). It is up to the user to make 
+sure that this type is visible (see Section \ref{alexayacc}). The general 
+format of the output file which contains this function is found in
+Figure 3.
+
+\mysk
+The auxiliary packages include a DFA and an IO package.  The DFA
+package contains externally visible functions and variables from the
+scanner.  Many of the variables in this package should not be modified
+by normal user programs, but they are provided here to allow the user to
+modify the internal behavior of aflex to match specific needs.  Only
+the functions YYText and YYLength will be needed by most programs. The
+{\sl GNAT} port of {\sl aflex} generates the DFA package as child packages
+of the base package. For portability and conveniance the previously
+used flat package names  {\sl base}\_DFA and {\sl base}\_IO are generated
+as renames of these child packages.
+
+\mysk
+The IO package contains
+routines which allow {\sl yylex} to scan the input source file.
+These include the unput, input, output, and yywrap functions
+from {\it lex},\\
+plus Open\_Input, Create\_Output, Close\_Input and Close\_Output
+provided for compatibility with {\sl alex.}
+\mysk
+It is also possible to write your own IO and DFA packages.  Redefining
+input is possible by changing the YY\_INPUT procedure.  As an example
+you might wish to take input from an array instead of from a file.  By
+changing the calls to the TEXT\_IO routines to access elements of the
+array you can change the input strategy.  If you change the IO or DFA
+packages you should make a copy of the generated files under a
+different name and change that, because {\sl aflex} will overwrite
+them whenever you rerun {\sl aflex}.
+
+\newpage
+\small
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+
+    \>\>    \>{\bf with} $<$rootname$>$\.DFA; \\
+    \>\>    \>{\bf with} $<$rootname$>$\.IO; \\
+    \>\>    \>{\bf with} TEXT\_IO; \\
+\\
+    \>\>    \>\verb|--| User Specified Context\\
+\\
+    \>\>    \>    \>{\bf function} yylex {\bf return} Token {\bf is} \\
+    \>\>    \>    \>{\bf begin} \\
+    \>\>    \>    \>    \>\verb|--| Analysis of expressions \\
+    \>\>    \>    \>    \>\verb|--| Execution of user-defined actions \\
+    \>\>    \>    \>{\bf end} yylex; \\
+\\
+    \>\>  \>\verb|--| User Specified Context\\
+\end{tabbing}
+\centerline{Figure 3: Example of File Containing Lexical Analyzer}
+
+\mysk
+Before showing the general layout of the specification file, we will
+describe the specification language of {\sl aflex}, namely, regular expressions.
+
+
+\section{Regular Expressions}
+{\sl Aflex} distinguishes two types  of  character  sets  used  to
+define regular expressions: text characters and operator characters.
+A regular expression specifies how a set of strings from the input
+string can be recognized.  It contains text characters  (which  match  the
+corresponding characters in  the  strings  being  compared)  and
+operator  characters  (which  specify  repetitions, choices, and
+other features).  The letters of the alphabet  and  the  digits  are
+always text characters.
+
+\mysk
+A rule specifies a  sequence of  characters  to  be  matched. It 
+{\bf must} begin in column one. 
+The set of {\sl aflex} operators consists of 
+the following:
+
+\begin{verbatim}
+      " \ { } [ ] ^ $ < > ? . * + | ( ) /   
+\end{verbatim}
+
+The meaning of each operator is summarized below:
+
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+  \>\verb|x|     \>\>\verb|--| the character ``x" \\
+  \>\verb|"x"|   \>\>\verb|--| an ``x", even if x is an operator. \\
+  \>\verb|\x|    \>\>\verb|--| an ``x", even if x is an operator. \\
+  \>\verb|^x|    \>\>\verb|--| an x at the beginning of a line. \\
+  \>\verb|x$|    \>\>\verb|--| an x at the end of line. \\
+  \>\verb|x+|    \>\>\verb|--| 1 or more instances of x. \\
+  \>\verb|x*|    \>\>\verb|--| 0 or more instances of x. \\
+  \>\verb|x?|    \>\>\verb|--| an optional x. \\
+  \>\verb|(x)|   \>\>\verb|--| an x. \\
+  \>\verb|.|     \>\>\verb|--| any character but newline. \\
+  \>\verb"x|y"   \>\>\verb|--| an x or y. \\
+  \>\verb|[xy]|  \>\>\verb|--| the character x or the character y. \\
+  \>\verb|[x-z]| \>\>\verb|--| the character x, y or z. \\
+  \>\verb|[^x]|  \>\>\verb|--| any character but x. \\
+  \>\verb|<y>x|  \>\>\verb|--| an x when {\sl aflex} is in start condition y. \\
+  \>\verb|{xx}|  \>\>\verb|--| the translation of xx from the definitions section. \\
+\end{tabbing}
+
+If any of these operators is used in a regular expression as a character
+literal, it must be either preceded by an escape character or surrounded by
+double quotes.  For example, to recognize a dollar sign \verb|$|, the correct
+expression is either \verb|\$| or \verb|"$"|.
+Note a quote cannot be quoted and should therefore be escaped.
+
+\mysk
+A regular expression may {\bf not} contain any spaces
+unless they are within in a quoted string or character class 
+or they are preceded by the \verb|"\"| operator. 
+
+\mysk
+When in doubt, use parentheses.  When an {\sl aflex} operator needs to be 
+embedded in a string, it is often neater to quote the entire string rather 
+than just the operator, e.g. the string \verb|"what?"| is more readable 
+than both \verb|What"?"|, and \verb|What\?|.
+
+\small
+\begin{verbatim}
+Rules              Interpretations
+-----              ---------------
+a or "a"           The character a
+Begin or "Begin"   The string Begin
+\"Begin\"          The string "Begin"
+^\t or ^"\t"       The tab character \t at the beginning of line.
+\n$                The newline character \n at the end of line.
+\end{verbatim}
+\normalsize
+
+There are a few special characters which can be specified in a regular
+expression:
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+  \>\verb|\n|     \>\>\verb|--| newline \\
+  \>\verb|\b|     \>\>\verb|--| backspace \\
+  \>\verb|\t|     \>\>\verb|--| tab \\
+  \>\verb|\r|     \>\>\verb|--| carriage return \\
+  \>\verb|\f|     \>\>\verb|--| form feed \\
+  \>\verb|\ddd|   \>\>\verb|--| octal ASCII code \\
+\end{tabbing}
+Here is the precedence of the above  operators  that  have  precedence. 
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+  \>\verb|"  []  ()|            \>\>\>\>Highest \\
+  \>\verb|+  *  ?|		\>\>\>\>\hspace{0.5cm}$\vdots$ \\
+  \>\verb|concatenation|	\>\>\>\>\hspace{0.5cm}$\vdots$ \\
+  \>\verb"|"                    \>\>\>\>Lowest \\
+\end{tabbing}
+
+\begin{description}
+  \item[Character Classes:]  Classes of characters can be specified using
+      the  operator pair {\bf []}.  Within these square brackets, the operator
+      meanings are ignored except for three special characters:  \verb|\|
+      and $-$ and \verb|^|.
+
+\small
+\begin{verbatim}
+Rules       Interpretations
+-----       ---------------
+[^abc]      Any character except a, b, or c.
+[abc]       The single character a, b, or c.
+[-+0-9]     The - or + sign or any digit from 0 to 9.
+[\t\n\b]    The tab, newline, or backspace character.
+\end{verbatim}
+\normalsize
+
+  \item[Arbitrary and Optional Characters:]  The dot, ``$.$", operator 
+  matches all characters except newline.  The  operator  ?  indicates  an
+  optional character of an expression.
+
+\small
+\begin{verbatim}
+Rules     Interpretations
+-----     ---------------
+ab?c      Matches either abc or ac.
+ab.c      Matches all strings of length 4 having a, b and
+          c as the first, second and fourth letter where the
+          third character is not a newline.
+\end{verbatim}
+\normalsize
+
+
+  \item[Repeated Expressions:]  Repetitions of classes are  indicated  by
+      the operators $*$ and $+$.
+
+\small
+\begin{verbatim}
+Rules                  Interpretations
+-----                  ---------------
+[a-z]+                 Matches all strings of lower case letters.
+[A-Za-z][A-Za-z0-9]*   Indicates all alphanumeric strings with a
+                       leading alphabetic character.
+\end{verbatim}
+\normalsize
+
+
+  \item[Alternation and Grouping:]  The operator \verb"|" indicates  alternation
+      and parentheses are used for grouping complex expressions.
+
+\small
+\begin{verbatim}
+Rules           Interpretations
+-----           ---------------
+ab|cd           Matches either ab or cd.
+(ab|cd+)?(ef)*  Matches such strings as abefef, efefef, cdef,
+                or cddd; but not abc, abcd, or abcdef.
+\end{verbatim}
+\normalsize
+
+
+  \item[Context Sensitivity:]  {\sl aflex} will recognize a small amount of
+      surrounding context.  Two simple operators for this are \verb|^| and
+      \$.  If the first character of an expression is \verb|^|, the expression
+      will  only  be  matched at the beginning of a line.  If the very
+      last character is \$, the expression will only be matched at  the
+      end  of  a line.  
+
+\small
+\begin{verbatim}
+Rules          Interpretations
+-----          ---------------
+^ab            Matches ab at the beginning of line.
+ab$            Matches ab at the end of line.
+\end{verbatim}
+\normalsize
+
+
+  \item[Definitions:]  The operators  \{ \}  enclosing a name
+      specify a macro definition expansion.
+
+\small
+\begin{verbatim}
+Rules          Interpretations
+-----          ---------------
+{INTEGER}      If INTEGER is defined in the macro definition
+               section, then it will be expanded here.
+\end{verbatim}
+\normalsize
+\end{description}
+
+
+\subsection{Predefined Variables \& Routines}
+\label {routines}
+Once a token is matched, the textual string representation of the token
+may be obtained by a call to the function {\sl yytext} which is located
+in the {\sl dfa package}.  This function returns type string.
+
+\mysk
+The IO package contains
+routines which allow {\sl yylex} to scan the input source file.
+These include the input, output, unput and yywrap functions
+from lex,\\ plus Open\_Input, Create\_Output, Close\_Input and Close\_Output
+provided for compatibility with {\sl alex.}  Note that in {\sl alex
+1.0} it was mandatory to call the {\it Open\_Input} and {\it
+Create\_Output} routines before calling {\it YYLex.}  This is not
+required in {\sl Aflex.}  The default input and output are attached to
+the files that Ada considers to be the {\sc standard\_input} and
+{\sc standard\_output. }
+
+The following routines must be used in lieu of the normal {\sc
+text\_io} routines because of internal buffering and read-ahead done by
+{\sl aflex.} 
+
+\begin{description}
+\item[input] function input return character -- inputs a character from the
+current {\sl aflex} input stream.
+\item[unput] procedure unput(c : character) -- returns a character
+already read by input to the input stream.  Note that attempting to
+push back more than one character at a time can cause {\sl aflex} to\\
+raise the exception {\sc pushback\_overflow.}
+\item[output] procedure output(c : character) -- outputs a character to the
+current {\sl aflex} output stream.
+\item[yywrap] function yywrap return boolean -- This function is
+called when {\sl aflex} reaches the end of file.  If {\it yywrap}
+returns true, {\sl aflex} continues with normal wrapup at end of
+input.  If you wish to arrange for more input to arrive from a new
+source then you provide a yywrap which returns false.  The default
+yywrap return true.
+\item[Open\_Input] Open\_Input(fname : in String) -- Uses the file named
+fname as the source for input to {\it YYLex.}  If this function is not
+called then the default input is the Ada {\sc standard\_input.}
+\item[Open\_Input] Create\_Output(fname : in String) -- Uses the file named
+fname as output for {\it YYLex.}  If this function is not
+called then the default output is the Ada {\sc standard\_output}.
+\item[Close\_Input and Close\_Output]  These functions have null
+bodies in {\sl aflex} and are provided only for compatibility with
+{\sl alex.}
+\end{description}
+
+\mysk
+There are a few predefined subroutines that may be used once a token
+is matched.  In many lexical processing applications, the printing of
+the string returned by {\sl yytext}, i.e. {\tt put(yytext)}, is desired 
+and this action is so common that it may be written as {\tt ECHO}.
+
+\newpage
+\section{{\sl Aflex} Source Specification}
+\label {specformat}
+
+The general format of the source file is
+
+\small
+\begin{verbatim}
+    definitions section
+    %% 
+    rules section
+    %% 
+    user defined section copied before package statement of SPEC file
+    ##
+    user defined section copied after package statement of SPEC file
+    ##
+    user defined section copied before package statement of BODY file
+    ##
+    user defined section copied after  package statement of BODY file
+    but before YYLex
+    ##  --  here goes YYLex
+    section copied after YYLex and before end of BODY package 
+\end{verbatim}
+\normalsize
+
+where \verb|%%| is used as a delimiter between sections  and \verb|##| 
+indicates where the user supplied code and where function {\sl yylex} 
+will be placed.  Both \verb|%%| 
+and \verb|##| {\it must} occur in column one.
+
+\mysk
+The definitions section is used to define macros which appear in the rules 
+section and also to define start conditions.  The rules section defines the 
+regular expressions with their corresponding actions.  These regular 
+expressions, in turn, define the tokens to be identified by the scanner.
+The user defined sections allows the user to define the context in which the 
+{\sl yylex} function will be located.  The user can include routines which
+may be executed when a certain token or condition is recognized.  
+
+
+\subsection{Definitions Section}
+
+The definitions section may contain both macro definitions and
+start condition definitions.  Macro and start condition definitions
+must begin in column one and may be interspersed.
+
+\subsubsection{Macros}
+Macro definitions take the form:
+
+\small
+\begin{verbatim}
+    name   expression
+\end{verbatim}
+\normalsize
+
+where {\tt name} must begin with a letter and contain only letters,
+digits and underscores, and {\tt expression} is
+any string of characters that {\tt name} will be textually substituted to 
+if found in the rule section.  At least one space must separate {\tt name} 
+from {\tt expression} in the definition.  No syntax checking is done in 
+the expression, instead the whole rule is parsed after expansion.
+The macro facility is very useful in writing regular expressions which
+have common substrings, and in defining often-used ranges like {\it digit} 
+and {\it letter}.
+Perhaps its best advantage is to give a mnemonic name to a rather strange
+regular expression -- making it easier for the programmer to debug the
+expressions.  These macros, once defined, can be used in the
+regular expression by surrounding them with \{ and \}, e.g., \verb|{DIGIT}|.
+For example, the rule
+
+\small
+\begin{verbatim}
+[a-zA-Z]([0-9a-zA-Z])*   {put_line ("Found an identifier");}
+[0-9]+                   {put_line ("Found a number");}
+\end{verbatim}
+\normalsize
+
+defines identifiers and integer numbers.  With macros, the source file is
+
+\small
+\begin{verbatim}
+LETTER [a-zA-Z]
+DIGIT  [0-9]
+%%
+{LETTER}({DIGIT}|{LETTER})*   {put_line ("Found an identifier");}
+{DIGIT}+                      {put_line ("Found a number");}
+\end{verbatim}
+\normalsize
+
+\mysk
+It is customary, although not necessary, to use all capital letters
+for macro names. This allows macros to be easily identified in complex rules.
+Macro names are case sensitive, e.g., \verb|{DIGIT}| and \verb|{Digit}| are
+two different macro names.
+
+\subsubsection{Start Conditions}
+Left context is handled in {\sl aflex} by start conditions that are defined 
+in the macro definition section.  Start conditions are declared as follows,
+
+\begin{verbatim}
+      %Start cond1 cond2 ...
+\end{verbatim}
+
+where cond1 and cond2 indicate start conditions.
+Note that \%Start may be abbreviated as \%S or \%s.
+
+\mysk
+A condition is set only when  the  {\sl aflex}  command  {\tt ENTER}  in  the
+action  part  is executed, e.g. {\tt ENTER cond1};. Thus the expression 
+which  has  the  form \verb|<condition>rule| will only be matched 
+when {\tt condition} is set.  Note that {\sl aflex} uses {\tt ENTER}
+instead of {\tt BEGIN} which is used in {\it lex.}  This is done
+because {\tt BEGIN} is a keyword in Ada.  The {\tt ENTER} command must
+have parentheses surrounding its argument.
+\begin{verbatim}
+      ENTER(cond1);
+\end{verbatim}
+
+{\sl Aflex} also provides {\it exclusive start conditions.}  These are
+similar to normal start conditions except they have the property that
+when they are active no other rules are active.  Exclusive start
+conditions are declared and used like normal start conditions except
+that the declaration is done with \%x instead of \%s.
+
+\subsection{Rules Section}
+
+Contained in the rule section are regular expressions which define the
+format of each token to be recognized by the scanner.
+Each rule has the following format:
+
+\begin{verbatim}
+pattern  {action}
+\end{verbatim}
+
+where {\tt pattern} is a regular expression and {\tt action} is an Ada 
+code fragment enclosed between \{ and \}.  A {\tt pattern} must 
+always begin in column one.
+
+\mysk
+While a pattern defines the format of the token, the action portion
+defines
+the operation to be performed by the scanner each time the corresponding
+token is recognized.  Therefore, the user must provide a syntactically
+correct Ada code fragment.  {\sl aflex} does not check for the validity of the
+program portion, but rather copies it to the output package and leaves it to
+the Ada compiler to detect syntax and semantics errors.  There can be more 
+than one Ada statement in the code fragment.  For example, the rule
+
+\small
+\begin{verbatim}
+%%
+begin|BEGIN     {copy (yytext, buffer);
+                 Install (yytext,symbol_table);
+                 return RESERVED;}
+\end{verbatim}
+\normalsize
+
+recognizes the reserved word ``begin" or ``BEGIN", copies the
+token string into the buffer, inserts it in the symbol table and returns 
+the value, RESERVED.  
+
+Note that the user must provide the procedures
+{\tt copy} and {\tt install} along with all necessary types and variables
+in the user defined sections.
+
+\subsection{User Defined Sections}
+The user defined sections allows the user to specify the context surrounding
+the {\sl yylex} function.  \verb|##| is used to separate the various parts
+of user defined code and where the {\sl yylex} function should be placed. 
+It must be present in this section and must occur in the first column.  
+Any text following \verb|##| on the same line is ignored. This method of
+using multiple user defined sections that go to specific places in the
+generated .ads and .adb files is specific for the {\sl GNAT} port of 
+{\sl aflex}.
+
+\section{Ambiguous Source Rules}
+When a set of regular expressions is ambiguous, {\sl aflex} uses the
+following rules to choose among the regular expressions that match
+the input.
+\begin{enumerate}
+    \item The longest string is matched.
+    \item If the strings are of the same length, the rule given
+	  {\bf first} is matched.
+\end{enumerate}
+
+For example, if input \verb|"aabb"| matches both \verb|"a*"| and
+\verb|"aab*"| the action associated with \verb|"aab*"| is executed
+because it matches four as opposed to two characters.
+
+\section{{\sl Aflex} and {\sl Ayacc}}
+\label{alexayacc}
+As briefly mentioned in Section \ref{intro}, {\sl aflex} can be integrated with
+{\sl ayacc} to produce a parser.
+
+\mysk
+Since the parser generated by {\sl ayacc} expects a value of type {\it token},
+each {\sl aflex} rule should end with 
+
+\begin{verbatim}
+     return (token_val);
+\end{verbatim}
+
+to return the appropriate token value.  {\sl Ayacc} creates a package
+defining this token type from its specification file, which in turn 
+should be {\it with}'ed at the beginning of the user defined section.
+Thus, this token package must be compiled before the lexical analyzer.
+The user is encouraged to read the Ayacc User Manual \cite{ayacc} for 
+more information on the interaction between {\sl aflex} and {\sl ayacc}.
+
+
+\newpage
+\section{Appendix A: A Detailed Example}
+
+This section shows a complete {\sl aflex} specification file for translating all
+characters to uppercase.  The following file,
+{\it example.l}, defines rules for recognizing lowercase and uppercase words.
+If a word is in lowercase, the scanner converts it to uppercase.
+In addition, the frequencies of lower and uppercase words
+are retained in the two variables defined in the global section.
+All other characters (spaces, tabs, punctuation) remain the same.
+
+\small
+\begin{verbatim}
+LOWER    [a-z]
+UPPER    [A-Z]
+
+%%
+
+{LOWER}+       { Lower_Case := Lower_Case + 1; 
+                 TEXT_IO.PUT(To_Upper_Case(Example_DFA.YYText)); }
+
+		  -- convert all alphabetic words in lower case
+		  -- to upper case
+
+{UPPER}+       { Upper_Case := Upper_Case + 1;
+                 TEXT_IO.PUT(Example_DFA.YYText); }
+
+		  -- write uppercase word as is
+
+\n             { TEXT_IO.NEW_LINE;}
+
+.              { TEXT_IO.PUT(Example_DFA.YYText); }
+                 -- write anything else as is
+
+%% -- The next section will go to example.ads before the package statement
+with Ada.Command_Line;
+## -- The next section will go to example.ads after  the package statement
+procedure Sample;
+## -- The next section will go to example.adb before the package statement
+
+## -- The next section will go to example.adb after  the package statement
+procedure Sample is
+
+  type Token is (End_of_Input, Error);
+
+  Tok        : Token;
+  Lower_Case : NATURAL := 0;   -- frequency of lower case words
+  Upper_Case : NATURAL := 0;   -- frequency of upper case words
+
+  function To_Upper_Case (Word : STRING) return STRING is
+  Temp : STRING(1..Word'LENGTH);
+  begin
+    for i in 1.. Word'LENGTH loop
+      Temp(i) := CHARACTER'VAL(CHARACTER'POS(Word(i)) - 32); 
+    end loop;
+    return Temp;
+  end To_Upper_Case;  
+##  -- function YYLex will go here, the follwing lines after YYLex
+begin  -- Sample
+
+  Example_IO.Open_Input     (Ada.Command_Line.Argument (1));
+
+  Read_Input :
+  loop
+    Tok := YYLex;
+    exit Read_Input
+      when Tok = End_of_Input;
+  end loop Read_Input;
+
+  TEXT_IO.NEW_LINE;
+  TEXT_IO.PUT_LINE("Number of lowercase words is => " & 
+		   INTEGER'IMAGE(Lower_Case));
+  TEXT_IO.PUT_LINE("Number of uppercase words is => " & 
+		   INTEGER'IMAGE(Upper_Case));
+end Sample;
+\end{verbatim}
+\normalsize
+
+This source file is run through {\sl aflex} using the command
+
+\small
+\begin{verbatim}
+% aflex example.l
+\end{verbatim}
+\normalsize
+   
+{\sl aflex} produces output files called {\it example.ads} and {\it example.adb}
+along with two packages, {\it example\-dfa.ads}, {\it example\-dfa.adb}, 
+{\it example\-io.ads} and {\it example\-io.adb}.
+Assuming that the main procedure, {\sl Sample}, is used to construct
+an object file called {\it sample}, the Unix command
+
+\small
+\begin{verbatim}
+% sample example.l
+\end{verbatim}
+\normalsize
+
+prints to the screen the exact file {\it example.l} with letters in 
+uppercase, i.e. the output to the screen is
+
+\newpage
+\small
+\begin{verbatim}
+LOWER    [A-Z]
+UPPER    [A-Z]
+
+%%
+
+{LOWER}+       { LOWER_CASE := LOWER_CASE + 1; 
+                 TEXT_IO.PUT(TO_UPPER_CASE(EXAMPLE_DFA.YYTEXT)); }
+
+		  -- CONVERT ALL ALPHABETIC WORDS IN LOWER CASE
+		  -- TO UPPER CASE
+
+{UPPER}+       { UPPER_CASE := UPPER_CASE + 1;
+                 TEXT_IO.PUT(EXAMPLE_DFA.YYTEXT); }
+
+		  -- WRITE UPPERCASE WORD AS IS
+
+\N             { TEXT_IO.NEW_LINE;}
+
+.              { TEXT_IO.PUT(EXAMPLE_DFA.YYTEXT); }
+                 -- WRITE ANYTHING ELSE AS IS
+
+%% -- THE NEXT SECTION WILL GO TO EXAMPLE.ADS BEFORE THE PACKAGE STATEMENT
+WITH ADA.COMMAND_LINE;
+## -- THE NEXT SECTION WILL GO TO EXAMPLE.ADS AFTER  THE PACKAGE STATEMENT
+PROCEDURE SAMPLE;
+## -- THE NEXT SECTION WILL GO TO EXAMPLE.ADB BEFORE THE PACKAGE STATEMENT
+
+## -- THE NEXT SECTION WILL GO TO EXAMPLE.ADB AFTER  THE PACKAGE STATEMENT
+PROCEDURE SAMPLE IS
+
+  TYPE TOKEN IS (END_OF_INPUT, ERROR);
+
+  TOK        : TOKEN;
+  LOWER_CASE : NATURAL := 0;   -- FREQUENCY OF LOWER CASE WORDS
+  UPPER_CASE : NATURAL := 0;   -- FREQUENCY OF UPPER CASE WORDS
+
+  FUNCTION TO_UPPER_CASE (WORD : STRING) RETURN STRING IS
+  TEMP : STRING(1..WORD'LENGTH);
+  BEGIN
+    FOR I IN 1.. WORD'LENGTH LOOP
+      TEMP(I) := CHARACTER'VAL(CHARACTER'POS(WORD(I)) - 32); 
+    END LOOP;
+    RETURN TEMP;
+  END TO_UPPER_CASE;  
+##  -- FUNCTION YYLEX WILL GO HERE, THE FOLLWING LINES AFTER YYLEX
+BEGIN  -- SAMPLE
+
+  EXAMPLE_IO.OPEN_INPUT     (ADA.COMMAND_LINE.ARGUMENT (1));
+
+  READ_INPUT :
+  LOOP
+    TOK := YYLEX;
+    EXIT READ_INPUT
+      WHEN TOK = END_OF_INPUT;
+  END LOOP READ_INPUT;
+
+  TEXT_IO.NEW_LINE;
+  TEXT_IO.PUT_LINE("NUMBER OF LOWERCASE WORDS IS => " & 
+		   INTEGER'IMAGE(LOWER_CASE));
+  TEXT_IO.PUT_LINE("NUMBER OF UPPERCASE WORDS IS => " & 
+		   INTEGER'IMAGE(UPPER_CASE));
+END SAMPLE;
+
+Number of lowercase words is =>  199
+Number of uppercase words is =>  127
+\end{verbatim}
+\normalsize
+
+
+\newpage
+\section{Appendix B: {\sl Aflex} Dependencies}
+
+This release of {\sl aflex} was successfully compiled by GNAT-3.11p
+running under Linux 2.2.x and glibc-2.0 by the Ada for Linux Team (ALT).
+
+\subsection{Command Line Interface}
+The following files are host dependent : 
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+    \>    \>{\sl command\_lineS.a}\\
+    \>    \>{\sl command\_lineB.a}\\
+    \>    \>{\sl file\_managerS.a}\\
+    \>    \>{\sl file\_managerB.a}\\
+\end{tabbing}
+The command\_line package function {\sc initialize\_command\_line}
+breaks up the command line into a vector containing
+the arguments passed to the program.  Note that modifications may need
+to be made to this file if the host system doesn't allow differentiation
+of upper and lower case on the command line.
+\mysk
+The external\_file\_manager package is host dependent in that it chooses
+the names and suffixes for the generated files.  It also sets up the
+file\_type {\sc standard\_error} to allow error output to appear on the
+screen.
+
+\mysk
+If {\sl aflex} is to be rehosted, only these files should need modification.
+For more detailed information see the file PORTING in the {\sl aflex}
+distribution.
+\newpage
+\section{Appendix C: Differences between {\sl Aflex} and {\sl Lex}}
+\label{lexdiff}
+
+Although {\sl aflex} supports most of the
+conventions and features of {\sl lex}, there are some differences
+that the user should be aware of in order to port a {\sl lex} specification
+to an {\sl aflex} specification.
+
+\begin{itemize}
+ \item Source file's format:
+   \small
+   \begin{verbatim}
+       definitions section
+       %% 
+       rules section
+       %% 
+       user defined section
+       ## 
+       user defined section
+       ##
+       user defined section
+       ##
+       user defined section
+       ##
+       user defined section
+   \end{verbatim}
+   \normalsize
+
+
+ \item Although {\sl aflex} supports most {\sl lex}'s constructs, it does not
+	implement the following features of {\sl lex}.
+\begin{tabbing}
+1234\=1234\=1234\=1234\=1234\=1234 \kill
+   \>-- REJECT \\
+   \>-- \%x \>\>\>---  changes to the internal array sizes, but see below.
+ \end{tabbing}
+    
+ \item  Ada style comments are supported instead of C style comments.
+
+ \item  All template files are internalized.
+
+ \item  The input source file name must end with a ``.l" extension.
+
+ \item	In start conditions ENTER is used instead of BEGIN.  This is
+	done because BEGIN is a keyword in Ada.
+\end{itemize}
+
+\section{Appendix D: Differences between {\sl Aflex} and {\sl Alex}}
+\label{alexdiff}
+While {\sl aflex} is intended to be upwardly compatible with {\sl
+Alex}, there are a few minor differences.  Any major inconsistencies
+with {\sl alex} should be considered bugs and reported.
+\begin{itemize}
+ \item  The {\tt ENTER} calls must have parentheses around their
+arguments.  Parentheses were optional in {\sl alex.}
+
+ \item  It is no longer mandatory to call Open\_Input and Create\_Output
+before calling YYLex.  Previously if output was to be directed to
+Standard\_Output it was recommended that a call of
+\begin{verbatim}
+Create_Output("/dev/tty");
+\end{verbatim}
+be made.  This will still work but because of differences in
+implementation this may cause difficulties in redirecting output using
+the {\sc unix} shell pipes and redirection.  Instead just don't call
+Open\_Input and output will go to the default {\sc standard\_output.}
+
+ \item	Compilation order.  With GNAT the compilation order of the
+generated modules doesn't matter.
+\end{itemize}
+
+\newpage
+\section{Appendix E: Known Bugs and Limitations}
+\begin{itemize}
+
+\item Some trailing context
+patterns cannot be properly matched and generate
+warning messages ("Dangerous trailing context").  These are
+patterns where the ending of the
+first part of the rule matches the beginning of the second
+part, such as "zx*/xy*", where the 'x*' matches the 'x' at
+the beginning of the trailing context.  (Lex doesn't get these
+patterns right either.)
+
+\item {\it variable}
+trailing context (where both the leading and trailing parts do not have
+a fixed length) entails a substantial performance loss.
+
+\item For some trailing context rules, parts which are actually
+fixed-length are not recognized as such, leading to the abovementioned
+performance loss.  In particular, parts using '|' or {n} are always
+considered variable-length.
+
+\item Nulls are not allowed in aflex inputs or in the inputs to
+scanners generated by aflex.  Their presence generates fatal
+errors.
+
+\item Pushing back definitions enclosed in ()'s can \\result in nasty,
+difficult-to-understand problems like:
+\begin{verbatim}
+
+	{DIG}  [0-9] -- a digit
+
+\end{verbatim}
+In which the pushed-back text is "([0-9] -- a digit)".
+
+\item Due to both buffering of input and read-ahead, you cannot intermix
+calls to text\_io routines, such as, for example,
+{\bf text\_io.get()}
+with aflex rules and expect it to work.  Call
+{\bf input()}
+instead.
+
+\item There are still more features that could be 
+implemented (especially REJECT.)  Also the speed of the compressed
+scanners could be improved. 
+
+\item The utility needs more complete documentation, especially more
+information on modifying the internals.
+\end{itemize}
+
+\newpage
+\bibliographystyle{alpha}
+\bibliography{aflex_user_man}
+\end{document}

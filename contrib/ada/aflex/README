@@ -1,0 +1,107 @@
+*************************************************************************** 
+                              aflex
+                          version 1.4a
+***************************************************************************
+                            Arcadia Project
+               Department of Information and Computer Science
+                        University of California
+                        Irvine, California 92717
+ Copyright (c) 1990 Regents of the University of California.
+ All rights reserved.
+
+ This software was developed by John Self of the Arcadia project
+ at the University of California, Irvine.
+
+ Redistribution and use in source and binary forms are permitted
+ provided that the above copyright notice and this paragraph are
+ duplicated in all such forms and that any documentation,
+ advertising materials, and other materials related to such
+ distribution and use acknowledge that the software was developed
+ by the University of California, Irvine.  The name of the
+ University may not be used to endorse or promote products derived
+ from this software without specific prior written permission.
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+    This program is based on the flex program written by Vern Paxson.
+
+    The following is the copyright notice from flex, from which aflex is
+    derived.
+	Copyright (c) 1989 The Regents of the University of California.
+	All rights reserved.
+
+	This code is derived from software contributed to Berkeley by
+	Vern Paxson.
+
+        The United States Government has rights in this work pursuant to
+	contract no. DE-AC03-76SF00098 between the United States Department of
+	Energy and the University of California.
+
+	Redistribution and use in source and binary forms are permitted
+	provided that the above copyright notice and this paragraph are
+	duplicated in all such forms and that any documentation,
+	advertising materials, and other materials related to such
+	distribution and use acknowledge that the software was developed
+	by the University of California, Berkeley.  The name of the
+	University may not be used to endorse or promote products derived
+	from this software without specific prior written permission.
+	THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+	IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+***************************************************************************
+
+Aflex is a lexical analyzer generating tool similar to the Unix tool lex.
+It is upwardly compatible with alex 1.0.
+
+CONTENTS:
+The aflex directory contains the following files
+
+./PORTING - Information on how to port aflex to a new Ada system.
+./README - this informational file.
+./RELEASE.NOTES - miscellaneous information about this version of aflex.
+
+./doc/aflex.man - a manual page for aflex.  Format with the command
+	 nroff -man aflex.man
+
+./doc/aflex_user_man.tex - a user manual for aflex.  Format with latex.
+
+./src - this directory contains the source code for aflex
+
+COMPILING:
+
+1. Create an ada library using the appropriate development system command
+(for Verdix this is a.mklib, for Telesoft use acr) in the src directory.
+
+2. *  If you are using Verdix you only need to type 'source compile'
+     Edit the compile file to match the location of you Ada compiler if
+     necessary.  If you are running under VADS version 6.0 you should use
+     the VADS6.compile script to prevent optimization of a few files, since
+     the optimizer breaks aflex.  If you are using this compiler you should
+     also compile any output files that aflex generates (for file.l these
+     would be file_dfa.a, file_io.a and file.a) using the -O0 (that's 
+     dash-oh-zero) switch to prevent problems.
+
+   * If you are using SunAda 1.0 you should also use follow the directions
+     given above for VADS6.
+ 
+   * If you are using Telesoft you need to use the change_suffix shell
+     script to change the suffix on ada source files from .a to .ada.
+     You now need to copy in the sources found in the src/telesoft
+     directory, including the compile script.  You must also create a
+     liblst.alb file.  Then 'source compile'.
+   * If you are using a system listed above, go into that directory.
+     See the README file for some information.   Any files you see
+     there should be copied in the main source directory.  Compile
+     scripts are also in this directory if the author included one.
+
+   * If you are using another system read the PORTING file.
+
+3.  You should now have an executable file.  Save copies of the
+    distributed ascan_io.a, ascan_dfa.a and ascan.a.  Now use the
+    executable to generate new versions of these files using the command
+    aflex -is ascan.l. Check to make sure the generated files are the
+    same as the distributed ones.  On a Unix system you can use the
+    'diff' command to compare these files.
+

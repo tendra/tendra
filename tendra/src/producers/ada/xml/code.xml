@@ -1,0 +1,1709 @@
+<?xml version="1.0"?>
+<!DOCTYPE gramar SYSTEM "code.dtd">
+
+<gramar>
+
+ <rule name="comma_pragma_argument_association_list">
+   <seq node="Primary_Association_Lists.List"/>
+ </rule>
+
+ <rule name="full_type_declaration">
+   <seq contains_name="type" node="Ordinary_Type_Declaration">
+     <item name="type_definition" attr="Type_Declaration_View"/>
+   </seq>
+ </rule>
+
+ <rule name="subtype_declaration">
+   <seq>
+     <item name="subtype_indication" attr="Type_Declaration_View"/>
+   </seq>
+ </rule>
+
+ <rule name="subtype_indication">
+   <seq>
+     <item name="scalar_constraint" attr="Subtype_Constraint"/>
+   </seq>
+ </rule>
+
+ <rule name="defining_identifier">
+   <seq/>
+ </rule>
+
+ <rule name="number_declaration">
+   <seq node="Integer_Number_Declaration"/>
+ </rule>
+
+ <rule name="object_declaration">
+   <seq contains_name="defining_identifier_list" node="Variable_Declaration">
+     <item name="constant" on-option-node="Constant_Declaration"/>
+     <item name="subtype_indication" attr="Object_Declaration_View"/>
+     <item name="array_type_definition" attr="Object_Declaration_View"/>
+     <item name="assignment_expression_option" attr="Initialization_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="comma_defining_identifier_list">
+   <seq node="Primary_Defining_Name_Lists.List"/>
+ </rule>
+
+ <rule name="derived_type_definition">
+   <seq>
+     <item name="record_extension_part"
+           attr="Record_Definition"
+           on-option-node="Derived_Record_Extension"/>
+   </seq>
+ </rule>
+
+ <rule name="range">
+   <seq contains_name="simple_expression" node="Simple_Expression_Range">
+     <item name="simple_expression" attr="Lower_Bound"/>
+     <item name="simple_expression" instance="2" attr="Upper_Bound"/>
+   </seq>
+ </rule>
+
+ <rule name="comma_enumeration_literal_specification_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="enumeration_literal_specification">
+   <seq contains_name="defining_character_literal"
+        node="Enumeration_Literal_Specification">
+     <item name="defining_character_literal" attr="Name"/>
+   </seq>
+   <seq>
+     <wrap node="Enumeration_Literal_Specification">
+       <wrap node="Defining_Enumeration_Literal" attr="Name" pos="both">
+         <item name="defining_identifier" attr="Defining_Name_Image"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="defining_character_literal">
+   <seq node="Defining_Character_Literal">
+     <item name="character_literal" attr="Defining_Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="signed_integer_type_definition">
+   <seq/>
+ </rule>
+
+ <rule name="modular_type_definition">
+   <seq/>
+ </rule>
+
+ <rule name="floating_point_definition">
+   <seq>
+     <item name="real_range_specification" attr="Real_Range_Constraint"/>
+   </seq>
+ </rule>
+
+ <rule name="real_range_specification">
+   <seq contains_name="simple_expression" node="Simple_Expression_Range">
+     <item name="simple_expression" attr="Lower_Bound"/>
+     <item name="simple_expression" instance="2" attr="Upper_Bound"/>
+   </seq>
+ </rule>
+
+ <rule name="ordinary_fixed_point_definition">
+   <seq>
+     <item name="real_range_specification" attr="Real_Range_Constraint"/>
+   </seq>
+ </rule>
+
+ <rule name="decimal_fixed_point_definition">
+   <seq>
+     <item name="expression" attr="Delta_Expression"/>
+     <item name="expression" instance="2" attr="Digits_Expression"/>
+     <item name="real_range_specification" attr="Real_Range_Constraint"/>
+   </seq>
+ </rule>
+
+ <rule name="comma_index_subtype_definition_list">
+   <seq node="Primary_Identifier_Lists.List"/>
+ </rule>
+
+ <rule name="comma_discrete_subtype_definition_list">
+   <seq node="Primary_Definition_Lists.List"/>
+ </rule>
+
+ <rule name="comma_discrete_range_list">
+   <seq node="Primary_Definition_Lists.List"/>
+ </rule>
+
+ <rule name="discrete_subtype_definition">
+   <seq contains_name="subtype_indication" node="S_Discrete_Subtype_Indication">
+     <item name="subtype_indication" attr="Subtype_Mark"/>
+   </seq>
+   <seq contains_name="range_attribute_reference" node="S_Discrete_Range_Attribute_Reference">
+     <item name="range_attribute_reference" attr="Range_Attribute"/>
+   </seq>
+   <seq node="S_Discrete_Simple_Expression_Range">
+     <item name="simple_expression" attr="Lower_Bound"/>
+     <item name="simple_expression" instance="2" attr="Upper_Bound"/>
+   </seq>
+ </rule>
+
+ <rule name="discrete_range">
+   <seq contains_name="name" node="Discrete_Subtype_Indication">
+     <item name="name" attr="Subtype_Mark"/>
+     <item name="range_constraint" attr="Subtype_Constraint"/>
+   </seq>
+   <seq contains_name="range_attribute_reference" node="Discrete_Range_Attribute_Reference">
+     <item name="range_attribute_reference" attr="Range_Attribute"/>
+   </seq>
+   <seq node="Discrete_Simple_Expression_Range">
+     <item name="simple_expression" attr="Lower_Bound"/>
+     <item name="simple_expression" instance="2" attr="Upper_Bound"/>
+   </seq>
+ </rule>
+
+ <rule name="semicolon_discriminant_specification_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="discriminant_specification">
+   <seq>
+     <item name="subtype_mark" attr="Declaration_Subtype_Mark"/>
+     <item name="access_definition" attr="Declaration_Subtype_Mark" trait="Access_Definition"/>
+     <item name="assignment_default_expression_option" attr="Initialization_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="record_type_definition">
+   <seq>
+     <item name="abstract_tagged_option" on-option-node="Tagged_Record_Type"/>
+   </seq>
+ </rule>
+
+ <rule name="record_definition">
+   <seq contains_name="null" node="Null_Record_Definition"/>
+   <seq>
+      <item name="component_list" attr="Record_Components"/>
+   </seq>
+ </rule>
+
+ <rule name="component_list">
+   <seq contains_name="null">
+     <wrap node="Primary_Declaration_Lists.List">
+       <wrap node="Null_Component">
+         <item name="pragma_list" attr="Pragmas"/>
+         <item name="null"/>
+         <item name="semicolon"/>
+       </wrap>
+     </wrap>
+   </seq>
+   <seq>
+     <wrap node="Primary_Declaration_Lists.List" item="component_item_list"/>
+   </seq>
+ </rule>
+
+ <rule name="component_declaration">
+   <seq>
+     <item name="component_definition" attr="Object_Declaration_View"/>
+     <item name="assignment_default_expression_option" attr="Initialization_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="variant">
+   <seq>
+     <item name="discrete_choice_list" attr="Variant_Choices"/>
+   </seq>
+ </rule>
+
+ <rule name="vertical_line_discrete_choice_list">
+   <seq node="Primary_Choise_Lists.List" />
+ </rule>
+
+ <rule name="discrete_choice">
+   <seq contains_name="others" node="Others_Choice"/>
+ </rule>
+
+ <rule name="access_to_object_definition">
+   <seq node="Access_Type"/>
+ </rule>
+
+ <rule name="access_to_subprogram_definition">
+   <seq contains_name="procedure">
+    <wrap node="Access_Type">
+     <item name="protected" attr="General_Access_Modifier"/>
+ 
+     <wrap pos="end"
+           node="Primary_Parameter_Lists.List"
+           attr="Access_To_Subprogram_Parameter_Profile"
+           item="parameter_profile">
+       <item name="procedure"/>
+       <item name="parameter_profile"/>
+     </wrap>
+
+     <!--item name="parameter_profile" 
+         attr="Access_To_Subprogram_Parameter_Profile"/-->
+    </wrap>
+   </seq>
+   <seq node="Access_Type">
+     <item name="protected" attr="General_Access_Modifier"/>
+     <item name="parameter_and_result_profile" attr="Access_To_Function_Result_Profile"/>
+   </seq>
+ </rule>
+
+ <rule name="explicit_dereference">
+   <seq/>
+ </rule>
+
+ <rule name="selected_component">
+   <seq>
+     <item name="selector_name" attr="Selector"/>
+   </seq>
+ </rule>
+
+ <rule name="attribute_reference">
+   <seq>
+     <item name="attribute_designator" attr="Attribute_Designator_Identifier"/>
+   </seq>
+ </rule>
+
+ <rule name="attribute_designator">
+   <seq contains_name="identifier" pass-through="y"/>
+   <seq>
+      <wrap node="Identifier">
+         <item name="access" attr="Name_Image"/>
+         <item name="delta" attr="Name_Image"/>
+         <item name="digits" attr="Name_Image"/>
+      </wrap>
+   </seq>
+ </rule>
+
+ <rule name="range_attribute_reference">
+   <seq>
+     <wrap node="range_attribute_reference">
+        <wrap pos="both"
+              node="Attribute_Reference"
+              attr="Range_Attribute"
+              item="range_attribute_designator">
+           <item name="prefix"/>
+           <item name="apostrophe"/>
+           <item name="range_attribute_designator"/>
+        </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="range_attribute_designator">
+   <seq>
+     <wrap node="Attribute_Reference">
+        <wrap pos="both"
+              node="Identifier"
+              attr="Attribute_Designator_Identifier">
+           <item name="range"
+                 attr="Name_Image"/>
+        </wrap>
+        <wrap node="Primary_Expression_Lists.List"
+              attr="Attribute_Designator_Expressions">
+           <item name="left_parenthesis_expression_option"/>
+        </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="record_aggregate">
+   <seq>
+     <item name="record_component_association_list" attr="Record_Component_Associations"/>
+   </seq>
+ </rule>
+
+ <rule name="record_component_association_list">
+   <seq contains_name="null" node="Primary_Association_Lists.List"/>
+ </rule>
+
+ <rule name="comma_record_component_association_list">
+   <seq node="Primary_Association_Lists.List"/>
+ </rule>
+
+ <rule name="record_component_association">
+   <seq>
+     <item name="discrete_choice_list_arrow_option" attr="Record_Component_Choices"/>
+     <item name="discrete_range" attr="Component_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="extension_aggregate">
+   <seq>
+     <item name="ancestor_part" attr="Extension_Aggregate_Expression"/>
+     <item name="record_component_association_list" attr="Record_Component_Associations"/>
+   </seq>
+ </rule>
+
+ <rule name="expression">
+   <seq contains_name="then" node="And_Then_Short_Circuit" infix="y"/>
+   <seq contains_name="else" node="Or_Else_Short_Circuit"  infix="y"/>
+   <seq contains_name="and" infix="y"/>
+   <seq contains_name="xor" infix="y"/>
+   <seq contains_name="or"  infix="y"/>
+ </rule>
+
+ <rule name="relation">
+   <seq contains_name="relational_operator_simple_expression_option" infix="y"/>
+   <seq contains_name="range" node="In_Range_Membership_Test">
+     <item name="not" on-option-node="Not_In_Range_Membership_Test"/>
+     <item name="simple_expression" attr="Membership_Test_Expression"/>
+     <item name="range" attr="Membership_Test_Range"/>
+   </seq>
+   <seq contains_name="in" node="In_Type_Membership_Test">
+     <item name="not" on-option-node="Not_In_Type_Membership_Test"/>
+     <item name="simple_expression" attr="Membership_Test_Expression"/>
+     <item name="simple_expression" instance="2" attr="Membership_Test_Subtype_Mark"/>
+   </seq>
+ </rule>
+
+ <rule name="primary">
+   <seq contains_name="null" node="Null_Literal"/>
+ </rule>
+
+ <rule name="term">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="simple_expression">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="factor">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="and_relation_list">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="and_then_list">
+   <seq infix="y" node="And_Then_Short_Circuit"/>
+ </rule>
+
+ <rule name="or_relation_list">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="or_else_list">
+   <seq infix="y" node="Or_Else_Short_Circuit"/>
+ </rule>
+
+ <rule name="xor_relation_list">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="relational_operator_simple_expression_option">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="double_star_primary_option">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="binary_adding_operator_term_list">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="multiplying_operator_factor_list">
+   <seq infix="y"/>
+ </rule>
+
+ <rule name="relational_operator">
+   <seq node="Operator_Symbol">
+      <item name="equal"            attr="Name_Image"/>
+      <item name="inequality"       attr="Name_Image"/>
+      <item name="less"             attr="Name_Image"/>
+      <item name="less_or_equal"    attr="Name_Image"/>
+      <item name="greater"          attr="Name_Image"/>
+      <item name="greater_or_equal" attr="Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="binary_adding_operator">
+   <seq node="Operator_Symbol">
+      <item name="plus"      attr="Name_Image"/>
+      <item name="hyphen"    attr="Name_Image"/>
+      <item name="ampersand" attr="Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="unary_adding_operator">
+   <seq node="Operator_Symbol">
+      <item name="plus"      attr="Name_Image"/>
+      <item name="hyphen"    attr="Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="multiplying_operator">
+   <seq node="Operator_Symbol">
+      <item name="star"  attr="Name_Image"/>
+      <item name="slash" attr="Name_Image"/>
+      <item name="mod" attr="Name_Image"/>
+      <item name="rem" attr="Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="qualified_expression">
+   <seq>
+     <item name="prefix" attr="Converted_Or_Qualified_Subtype_Mark"/>
+     <item name="aggregate" attr="Converted_Or_Qualified_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="allocator">
+   <seq contains_name="name" node="Allocation_From_Subtype">
+     <wrap node="Allocation_From_Subtype">
+       <wrap node="subtype_indication" 
+             attr="Allocator_Subtype_Indication" pos="end">
+         <item name="name" attr="Subtype_Mark"/>
+       </wrap>
+       <item name="new"/>
+     </wrap>
+   </seq>
+   <seq contains_name="qualified_expression"
+        node="Allocation_From_Qualified_Expression">
+     <item name="qualified_expression" attr="Allocator_Qualified_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="statement">
+   <seq node="Null_Statement">
+     <item name="label_list" attr="Label_Names"/>
+   </seq>
+ </rule>
+
+ <rule name="statement_list">
+   <seq node="Primary_Statement_Lists.List"/>
+ </rule>
+
+ <rule name="assignment_statement">
+   <seq>
+     <item name="name" attr="Assignment_Variable_Name"/>
+     <item name="expression" attr="Assignment_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="loop_statement">
+   <seq true-node="While_Loop_Statement" false-node="For_Loop_Statement">
+     <item name="iteration_scheme" attr="While_Condition"
+           choise="Expression_Node'Class"/>
+     <item name="statement_identifier_colon_option" attr="Statement_Identifier"/>
+     <item name="sequence_of_statements" attr="Loop_Statements"/>
+   </seq>
+ </rule>
+
+ <rule name="iteration_scheme">
+   <seq pass-through="y" node="Loop_Parameter_Specification"/>
+ </rule>
+
+ <rule name="block_statement">
+   <seq>
+     <item name="statement_identifier_colon_option" attr="Statement_Identifier"/>
+     <item name="declare_declarative_part_option" attr="Block_Declarative_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="if_statement">
+   <seq>
+     <wrap node="if_statement">
+       <wrap node="Primary_Path_Lists.List" 
+             item="elsif_condition_list"
+             pos="start">
+          <wrap node="If_Path">
+            <item name="if"/>
+            <item name="condition" attr="Condition_Expression"/>
+            <item name="then"/>
+            <item name="sequence_of_statements"/>
+          </wrap>
+          <item name="elsif_condition_list"/>
+          <item name="else_sequence_of_statements_option"/>
+       </wrap>
+       <item name="if" instance="2"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="case_statement_alternative">
+   <seq node="Case_Path">
+     <item name="discrete_choice_list"
+           attr="Case_Statement_Alternative_Choices"/>
+   </seq>
+ </rule>
+
+ <rule name="exit_statement">
+   <seq>
+     <item name="name" attr="Exit_Loop_Name"/>
+     <item name="when_condition_option" attr="Exit_Condition"/>
+   </seq>
+ </rule>
+
+ <rule name="goto_statement">
+   <seq>
+     <item name="name" attr="Goto_Label"/>
+   </seq>
+ </rule>
+
+ <rule name="subprogram_specification">
+   <seq contains_name="procedure" node="Procedure_Specification">
+     <item name="defining_program_unit_name" attr="Names"/>
+     <item name="parameter_profile" attr="Profile"/>
+   </seq>
+   <seq contains_name="function" node="Function_Specification">
+     <item name="defining_designator" attr="Names"/>
+     <item name="parameter_and_result_profile" attr="Profile"/>
+   </seq>
+ </rule>
+
+ <rule name="subprogram_declaration">
+   <seq true-node="Procedure_Declaration" false-node="Function_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+   </seq>
+ </rule>
+
+ <rule name="abstract_subprogram_declaration">
+   <seq true-node="Procedure_Declaration" false-node="Function_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+   </seq>
+ </rule>
+
+ <rule name="operator_symbol">
+   <seq node="Operator_Symbol">
+      <item name="string_literal" attr="Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="defining_operator_symbol">
+   <seq node="Defining_Operator_Symbol">
+     <item name="string_literal" attr="Defining_Name_Image"/>
+   </seq>
+ </rule>
+
+ <rule name="semicolon_parameter_specification_list">
+   <seq node="Primary_Parameter_Lists.List"/>
+ </rule>
+
+ <rule name="parameter_specification">
+   <seq>
+     <item name="subtype_mark" attr="Declaration_Subtype_Mark"/>
+     <item name="access_definition" 
+           attr="Declaration_Subtype_Mark"
+           trait="access_definition"/>
+     <item name="mode" attr="Mode_Element"/>
+     <item name="assignment_default_expression_option"
+           attr="Initialization_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="mode">
+   <seq node="Primary_Token_Lists.List"/>
+ </rule>
+
+ <rule name="subprogram_body">
+   <seq true-node="Procedure_Body_Declaration"
+        false-node="Function_Body_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+     <item name="declarative_part" attr="Body_Declarative_Items"/>
+     <item name="designator" attr="Compound_Name"/>
+   </seq>
+ </rule>
+
+ <rule name="entry_call_statement">
+   <seq node="Procedure_Call_Statement">
+     <item name="name" attr="Called_Name"/>
+   </seq>
+ </rule>
+
+ <rule name="exception_handler_list">
+   <seq node="Primary_Handler_Lists.List"/>
+ </rule>
+
+ <rule name="case_statement_alternative_list">
+   <seq node="Primary_Path_Lists.List"/>
+ </rule>
+
+ <rule name="handled_sequence_of_statements">
+   <seq node="Handled_Statements">
+     <item name="sequence_of_statements" attr="Statements"/>
+     <item name="exception_pragma_option" attr="Exception_Handlers"/>
+   </seq>
+ </rule>
+
+ <rule name="parameter_and_result_profile">
+   <seq node="Function_Profile">
+     <item name="formal_part" attr="Parameter_Profile"/>
+     <item name="subtype_mark" attr="Result_Profile"/>
+   </seq>
+ </rule>
+
+ <rule name="package_declaration">
+   <seq/>
+ </rule>
+
+ <rule name="package_specification">
+   <seq node="Package_Specification">
+     <item name="defining_program_unit_name"
+           attr="Names"/>
+     <item name="basic_declarative_item_list"
+           attr="Visible_Part_Declarative_Items"/>
+     <item name="private_basic_declarative_item_option"
+           attr="Private_Part_Declarative_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="package_body">
+   <seq node="Package_Body_Declaration">
+     <item name="defining_program_unit_name"
+           attr="Name"/>
+     <item name="declarative_part"
+           attr="Body_Declarative_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="private_type_declaration">
+   <seq>
+     <wrap node="private_type_declaration">
+       <wrap node="Private_Type_Definition" attr="Type_Declaration_View">
+         <item name="abstract_tagged_option"
+               on-option-node="Tagged_Private_Type_Definition"/>
+         <item name="limited"/>
+         <item name="private" trait="x"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="private_extension_declaration">
+   <seq>
+     <wrap node="private_extension_declaration">
+       <wrap node="Private_Extension_Definition" attr="Type_Declaration_View">
+         <item name="abstract"/>
+         <item name="new"/>
+         <item name="subtype_indication"/>
+         <item name="with"/>
+         <item name="private" trait="x"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="name">
+   <seq pass-through="y" node="Identifier"/>
+ </rule>
+
+ <rule name="comma_name_list">
+   <seq node="Primary_Expression_Lists.List"/>
+ </rule>
+
+ <rule name="comma_subtype_mark_list">
+   <seq node="Primary_Expression_Lists.List"/>
+ </rule>
+
+ <rule name="object_renaming_declaration">
+   <seq>
+     <item name="subtype_mark"
+           attr="Declaration_Subtype_Mark"/>
+     <item name="name"
+           attr="Renamed_Entity"/>
+   </seq>
+ </rule>
+
+ <rule name="exception_renaming_declaration">
+   <seq>
+     <item name="name"
+           attr="Renamed_Entity"/>
+   </seq>
+ </rule>
+
+ <rule name="package_renaming_declaration">
+   <seq>
+     <item name="defining_program_unit_name"
+           attr="Name"/>
+     <item name="name"
+           attr="Renamed_Entity"/>
+   </seq>
+ </rule>
+
+ <rule name="subprogram_renaming_declaration">
+   <seq  true-node="Procedure_Renaming_Declaration"
+        false-node="Function_Renaming_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+     <item name="name"
+           attr="Renamed_Entity"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_renaming_declaration">
+   <seq contains_name="subprogram_specification"
+        true-node="Generic_Procedure_Renaming_Declaration"
+        false-node="Generic_Function_Renaming_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+     <item name="name"
+           attr="Renamed_Entity"/>
+     <item name="generic_formal_part"
+           attr="Empty_Generic_Part"/>
+   </seq>
+   <seq node="Generic_Package_Renaming_Declaration">
+     <item name="defining_program_unit_name"
+           attr="Name"/>
+     <item name="name"
+           attr="Renamed_Entity"/>
+     <item name="generic_formal_part"
+           attr="Empty_Generic_Part"/>
+   </seq>
+ </rule>
+
+ <rule name="task_type_declaration">
+   <seq>
+     <item name="is_task_definition_option"
+           attr="Type_Declaration_View"/>
+     <item name="known_discriminant_part"
+           attr="Discriminant_Part"/>
+   </seq>
+ </rule>
+
+ <rule name="single_task_declaration">
+   <seq>
+     <item name="is_task_definition_option"
+           attr="Object_Declaration_View"/>
+   </seq>
+ </rule>
+
+ <rule name="task_definition">
+   <seq>
+     <item name="task_item_list"
+           attr="Visible_Part_Items"/>
+     <item name="private_task_item_option"
+           attr="Private_Part_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="protected_type_declaration">
+   <seq>
+     <item name="protected_definition"
+           attr="Type_Declaration_View"/>
+     <item name="known_discriminant_part"
+           attr="Discriminant_Part"/>
+   </seq>
+ </rule>
+
+ <rule name="single_protected_declaration">
+   <seq>
+     <item name="protected_definition"
+           attr="Object_Declaration_View"/>
+   </seq>
+ </rule>
+
+ <rule name="protected_definition">
+   <seq>
+     <item name="protected_operation_declaration_list"
+           attr="Visible_Part_Items"/>
+     <item name="private_protected_element_declaration_option"
+           attr="Private_Part_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="task_body">
+   <seq node="Task_Body_Declaration">
+     <item name="declarative_part"
+           attr="Body_Declarative_Items"/>
+     <item name="handled_sequence_of_statements"
+           attr="Handled_Statements"/>
+     <item name="identifier"
+           attr="Compound_Name"/>
+   </seq>
+ </rule>
+
+ <rule name="protected_body">
+   <seq node="Protected_Body_Declaration">
+     <item name="protected_operation_item_list"
+           attr="Protected_Operation_Items"/>
+   </seq>
+ </rule>
+
+ <rule name="accept_statement">
+   <seq>
+     <item name="direct_name"
+           attr="Accept_Entry_Direct_Name"/>
+     <item name="left_parenthesis_entry_index_option"
+           attr="Accept_Entry_Index"/>
+     <item name="parameter_profile"
+           attr="Accept_Parameters"/>
+     <item name="do_handled_sequence_of_statements_option"
+           attr="Handled_Statements"/>
+   </seq>
+ </rule>
+
+ <rule name="accept_alternative">
+   <seq>
+     <wrap node="Primary_Statement_Lists.List" item="sequence_of_statements">
+       <item name="accept_statement"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="delay_alternative">
+   <seq>
+     <wrap node="Primary_Statement_Lists.List" item="sequence_of_statements">
+       <item name="delay_statement"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="terminate_alternative">
+   <seq>
+     <wrap node="Primary_Statement_Lists.List" item="pragma_list">
+       <wrap node="Terminate_Alternative_Statement">
+         <item name="terminate" />
+         <item name="semicolon" />
+         <item name="pragma_list" />
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="entry_call_alternative">
+   <seq>
+     <wrap node="Primary_Statement_Lists.List" item="sequence_of_statements">
+       <item name="entry_call_statement"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="entry_body">
+   <seq>
+     <wrap node="Entry_Body_Declaration">
+        <wrap node="Function_Specification"
+              item="entry_body_formal_part"
+              attr="Specification">
+          <item name="entry_body_formal_part"
+                attr="Specification"/>
+          <item name="defining_identifier"/>
+        </wrap>
+        <item name="declarative_part"
+              attr="Body_Declarative_Items"/>
+        <item name="identifier"
+              attr="Compound_Name"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="entry_body_formal_part">
+   <seq>
+     <wrap node="Function_Specification">
+        <wrap node="Function_Profile" pos="both" attr="Profile">
+           <item name="left_parenthesis_entry_index_specification_option"
+                 attr="Result_Profile"/>
+           <item name="parameter_profile"/>
+        </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="requeue_statement">
+   <seq>
+     <item name="with_abort_option"
+           on-option-node="Requeue_Statement_With_Abort"/>
+   </seq>
+ </rule>
+
+ <rule name="delay_until_statement">
+   <seq/>
+ </rule>
+
+ <rule name="delay_relative_statement">
+   <seq/>
+ </rule>
+
+ <rule name="selective_accept">
+   <seq>
+     <wrap node="Selective_Accept_Statement">
+       <wrap node="Primary_Path_Lists.List" item="or_guard_list" pos="start">
+         <wrap node="Select_Path">
+           <item name="select"/>
+           <item name="guard"/>
+           <item name="pragma_list" attr="Pragmas"/>
+           <item name="select_alternative"/>
+         </wrap>
+         <item name="or_guard_list"/>
+         <item name="else_sequence_of_statements_option"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="asynchronous_select">
+   <seq>
+     <wrap node="Asynchronous_Select_Statement">
+       <wrap node="Primary_Path_Lists.List" pos="start">
+         <wrap node="Select_Path">
+           <item name="select"/>
+           <item name="pragma_list" attr="Pragmas"/>
+           <item name="select_alternative"/>
+         </wrap>
+         <wrap node="Then_Abort_Path">
+           <item name="then"/>
+           <item name="abort"/>
+           <item name="abortable_part" attr="Sequence_Of_Statements"/>
+         </wrap>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="compilation">
+   <seq>
+     <wrap node="Primary_Unit_Lists.List" item="compilation_unit_list"/>
+   </seq>
+ </rule>
+
+ <rule name="compilation_unit">
+   <seq contains_name="library_item">
+     <wrap node="Any_Compilation_Unit" item="library_item">
+        <item name="context_clause" attr="Context_Clause_Elements"/>
+        <item name="library_item"/>
+     </wrap>
+   </seq>
+   <seq contains_name="subunit">
+     <wrap node="Any_Compilation_Unit" item="subunit">
+        <item name="context_clause" attr="Context_Clause_Elements"/>
+        <item name="subunit"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="library_item">
+   <seq node="Any_Compilation_Unit">
+     <item name="library_unit_declaration" attr="Unit_Declaration"/>
+     <item name="library_unit_body"        attr="Unit_Declaration"/>
+     <item name="library_unit_renaming_declaration" attr="Unit_Declaration"/>
+     <item name="private" attr="Private_Token"/>
+   </seq>
+ </rule>
+
+ <rule name="subprogram_body_stub">
+   <seq true-node="Procedure_Body_Stub" false-node="Function_Body_Stub">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+   </seq>
+ </rule>
+
+ <rule name="package_body_stub">
+   <seq>
+      <item name="defining_program_unit_name" attr="Name"/>
+   </seq>
+ </rule>
+
+ <rule name="task_body_stub">
+   <seq/>
+ </rule>
+
+ <rule name="protected_body_stub">
+   <seq/>
+ </rule>
+
+ <rule name="subunit">
+   <seq node="Any_Compilation_Unit">
+      <item name="compound_name" attr="Separate_Name"/>
+      <item name="proper_body"   attr="Unit_Declaration"/>
+   </seq>
+ </rule>
+
+ <rule name="exception_declaration">
+   <seq/>
+ </rule>
+
+ <rule name="exception_handler">
+   <seq>
+     <wrap node="exception_handler">
+      <wrap node="Primary_Choise_Lists.List"
+            item="vertical_line_exception_choice_list">
+         <item name="vertical_line_exception_choice_list"/>
+         <item name="exception_choice"/>
+      </wrap>
+      <item name="choice_parameter_specification_colon_option"
+            attr="Choice_Parameter_Specification"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="choice_parameter_specification">
+   <seq node="Choice_Parameter_Specification">
+     <item name="defining_identifier" attr="Name"/>
+   </seq>
+ </rule>
+
+ <rule name="exception_choice">
+   <seq contains_name="others" node="Others_Choice"/>
+ </rule>
+
+ <rule name="raise_statement">
+   <seq>
+     <item name="name" attr="Raised_Exception"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_subprogram_declaration">
+   <seq true-node="Generic_Procedure_Declaration"
+        false-node="Generic_Function_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_package_declaration">
+   <seq>
+     <item name="package_specification" attr="Specification"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_formal_part">
+   <seq>
+    <wrap node="Primary_Declaration_Lists.List" 
+          item="generic_formal_part_item_list"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_instantiation">
+   <seq contains_name="subprogram_specification"
+        true-node="Procedure_Instantiation"
+        false-node="Function_Instantiation">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+     <item name="compound_name" attr="Generic_Unit_Name"/>
+   </seq>
+   <seq node="Package_Instantiation">
+     <item name="compound_name" attr="Generic_Unit_Name"/>
+     <item name="defining_program_unit_name" attr="Name"/>
+   </seq>
+ </rule>
+
+ <rule name="generic_association">
+   <seq>
+     <item name="selector_name_arrow_option" attr="Formal_Parameter"/>
+     <item name="explicit_generic_actual_parameter" attr="Actual_Parameter"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_object_declaration">
+   <seq>
+     <item name="subtype_mark" attr="Declaration_Subtype_Mark"/>
+     <item name="mode" attr="Mode_Element"/>
+     <item name="assignment_default_expression_option"
+           attr="Initialization_Expression"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_type_declaration">
+   <seq>
+     <item name="formal_type_definition" attr="Type_Declaration_View"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_private_type_definition">
+   <seq>
+     <item name="abstract_tagged_option"
+           on-option-node="Formal_Tagged_Private_Type"/>
+     <item name="private" trait="x"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_derived_type_definition">
+   <seq>
+     <item name="abstract_tagged_option"
+           on-option-node="Formal_Tagged_Private_Type"/>
+     <item name="with_private_option" attr="With_Private"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_array_type_definition">
+   <seq true-node="Formal_Unconstrained_Array"
+        false-node="Formal_Constrained_Array">
+     <item name="array_type_definition" attr="Array_Definition"
+           choise="Unconstrained_Array_Node"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_access_type_definition">
+   <seq>
+     <item name="access_type_definition" attr="Access_Definition"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_subprogram_declaration">
+   <seq true-node="Formal_Procedure_Declaration"
+        false-node="Formal_Function_Declaration">
+     <item name="subprogram_specification" attr="Specification"
+           choise="Procedure_Specification_Node"/>
+     <item name="is_subprogram_default_option"
+           attr="Formal_Subprogram_Default"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_package_declaration">
+   <seq true-node="Formal_Package_Declaration"
+        false-node="Formal_Package_Declaration_With_Box">
+     <item name="formal_package_actual_part" attr="Generic_Actual_Part"
+           choise="Primary_Association_Lists.List_Node"/>
+     <item name="compound_name"
+           attr="Generic_Unit_Name"/>
+   </seq>
+ </rule>
+
+ <rule name="formal_package_actual_part">
+   <seq contains_name="box" pass-through="y"/>
+   <seq>
+     <wrap node="Primary_Association_Lists.List"
+           item="generic_actual_part"/>
+   </seq>
+ </rule>
+
+ <rule name="local_name">
+   <seq contains_name="apostrophe" node="Attribute_Reference">
+     <item name="local_name" attr="Prefix"/>
+     <item name="attribute_designator" attr="Attribute_Designator_Identifier"/>
+   </seq>
+ </rule>
+
+ <rule name="attribute_definition_clause">
+   <seq>
+     <item name="at" on-option-node="At_Clause"/>
+     <item name="local_name" attr="Representation_Clause_Name"/>
+   </seq>
+ </rule>
+
+ <rule name="record_representation_clause">
+   <seq>
+     <item name="local_name" attr="Representation_Clause_Name"/>
+     <item name="component_clause_list" attr="Component_Clauses"/>
+   </seq>
+ </rule>
+
+ <rule name="component_clause">
+   <seq contains_name="at">
+     <wrap node="component_clause">
+         <wrap node="Discrete_Simple_Expression_Range" 
+               attr="Component_Clause_Range">
+           <item name="range"/>
+           <item name="first_bit" attr="Lower_Bound"/>
+           <item name="last_bit"  attr="Upper_Bound"/>
+         </wrap>
+       <item name="local_name" attr="Representation_Clause_Name"/>
+       <item name="position"   attr="Component_Clause_Position"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="code_statement">
+   <seq/>
+ </rule>
+
+ <rule name="mod_clause">
+   <seq node="Record_Representation_Clause">
+     <item name="expression" attr="Mod_Clause_Expression"/>
+   </seq>
+ </rule>
+
+  <!--  Item_And_List -->
+
+ <rule name="abort_statement">
+   <seq>
+     <wrap node="abort_statement">
+       <wrap node="Primary_Expression_Lists.List" item="comma_name_list">
+          <item name="comma_name_list"/>
+          <item name="name"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="case_statement">
+   <seq>
+     <wrap node="case_statement">
+       <wrap node="Primary_Path_Lists.List"
+             item="case_statement_alternative_list">
+          <item name="case_statement_alternative_list"/>
+          <wrap node="Case_Path"
+                item="case_statement_alternative">
+             <item name="case_statement_alternative"/>
+             <item name="pragma_list" attr="Pragmas"/>
+          </wrap>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="compound_name">
+   <seq>
+     <wrap node="Primary_Identifier_Lists.List"
+           item="dot_identifier_list">
+        <item name="dot_identifier_list"/>
+        <item name="identifier"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="defining_identifier_list">
+   <seq>
+     <wrap node="Primary_Defining_Name_Lists.List"
+           item="comma_defining_identifier_list">
+        <item name="comma_defining_identifier_list"/>
+        <item name="defining_identifier"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="constrained_array_definition">
+   <seq>
+     <wrap node="constrained_array_definition">
+       <wrap node="Primary_Definition_Lists.List"
+             item="comma_discrete_subtype_definition_list">
+          <item name="comma_discrete_subtype_definition_list"/>
+          <item name="discrete_subtype_definition"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="enumeration_type_definition">
+   <seq>
+     <wrap node="enumeration_type_definition">
+       <wrap node="Primary_Declaration_Lists.List"
+             item="comma_enumeration_literal_specification_list">
+          <item name="comma_enumeration_literal_specification_list"/>
+          <item name="enumeration_literal_specification"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="exception_pragma_option">
+   <seq>
+     <wrap node="Primary_Handler_Lists.List"
+           item="exception_handler_list">
+       <wrap node="Exception_Handler"
+             item="exception_handler">
+          <item name="exception_handler"/>
+          <item name="pragma_list" attr="Pragmas"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="formal_part">
+   <seq>
+     <wrap node="Primary_Parameter_Lists.List"
+           item="semicolon_parameter_specification_list">
+        <item name="semicolon_parameter_specification_list"/>
+        <item name="parameter_specification"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="generic_actual_part">
+   <seq>
+     <wrap node="Primary_Association_Lists.List"
+           item="comma_generic_association_list">
+        <item name="comma_generic_association_list"/>
+        <item name="generic_association"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="known_discriminant_part">
+   <seq>
+     <wrap node="known_discriminant_part">
+       <wrap node="Primary_Declaration_Lists.List"
+             item="semicolon_discriminant_specification_list">
+          <item name="semicolon_discriminant_specification_list"/>
+          <item name="discriminant_specification"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="left_parenthesis_pragma_argument_association_option">
+   <seq>
+     <wrap node="Primary_Association_Lists.List"
+           item="comma_pragma_argument_association_list">
+        <item name="comma_pragma_argument_association_list"/>
+        <item name="pragma_argument_association"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="record_component_association_list">
+   <seq>
+     <wrap node="Primary_Association_Lists.List"
+           item="comma_record_component_association_list">
+        <item name="comma_record_component_association_list"/>
+        <item name="record_component_association"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="sequence_of_statements">
+   <seq>
+     <wrap node="Primary_Statement_Lists.List"
+           item="statement_list">
+        <item name="statement_list"/>
+        <item name="statement"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="unconstrained_array_definition">
+   <seq>
+     <wrap node="unconstrained_array_definition">
+       <wrap node="Primary_Identifier_Lists.List"
+             item="comma_index_subtype_definition_list">
+          <item name="comma_index_subtype_definition_list"/>
+          <item name="index_subtype_definition"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="use_package_clause">
+   <seq>
+     <wrap node="use_package_clause">
+       <wrap node="Primary_Expression_Lists.List"
+             item="comma_name_list">
+          <item name="comma_name_list"/>
+          <item name="name"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="use_type_clause">
+   <seq>
+     <wrap node="use_type_clause">
+       <wrap node="Primary_Expression_Lists.List"
+             item="comma_subtype_mark_list">
+          <item name="comma_subtype_mark_list"/>
+          <item name="subtype_mark"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="variant_part">
+   <seq>
+     <wrap node="variant_part">
+       <wrap node="Primary_Variant_Lists.List"
+             item="variant_list">
+          <item name="variant_list"/>
+          <item name="variant"/>
+       </wrap>
+       <item name="direct_name" attr="Discriminant_Direct_Name"/>
+       <item name="pragma_list" attr="Pragmas"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="with_clause">
+   <seq>
+     <wrap node="with_clause">
+       <wrap node="Primary_Expression_Lists.List"
+             item="comma_name_list">
+          <item name="comma_name_list"/>
+          <item name="name"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="variant_part_pragma_list">
+   <seq>
+     <wrap node="variant_part" item="variant_part">
+       <item name="pragma_list" attr="End_Pragmas"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="abstract_tagged_option">
+   <seq node="Primary_Token_Lists.List"/>
+ </rule>
+
+ <rule name="component_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="pragma_list">
+   <seq node="Primary_Statement_Lists.List"/>
+ </rule>
+
+ <rule name="variant_list">
+   <seq node="Primary_Variant_Lists.List"/>
+ </rule>
+
+ <rule name="declarative_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="label_list">
+   <seq node="Primary_Defining_Name_Lists.List"/>
+ </rule>
+
+ <rule name="elsif_condition_list">
+   <seq>
+     <wrap node="Primary_Path_Lists.List">
+       <wrap node="Elsif_Path">
+         <item name="elsif"/>
+         <item name="condition" attr="Condition_Expression"/>
+         <item name="than"/>
+         <item name="sequence_of_statements"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="else_sequence_of_statements_option">
+   <seq node="Else_Path"/>
+ </rule>
+
+ <rule name="basic_declarative_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="private_basic_declarative_item_option">
+   <seq>
+    <wrap node="Primary_Declaration_Lists.List"
+          item="basic_declarative_item_list"/>
+   </seq>
+ </rule>
+
+ <rule name="task_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="private_task_item_option">
+   <seq>
+    <wrap node="Primary_Declaration_Lists.List"
+          item="task_item_list"/>
+   </seq>
+ </rule>
+
+ <rule name="protected_operation_declaration_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="protected_element_declaration_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="private_protected_element_declaration_option">
+   <seq>
+    <wrap node="Primary_Declaration_Lists.List"
+          item="protected_element_declaration_list"/>
+   </seq>
+ </rule>
+
+ <rule name="protected_operation_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="do_handled_sequence_of_statements_option">
+   <seq>
+     <wrap node="Handled_Statements" item="handled_sequence_of_statements"/>
+   </seq>
+ </rule>
+
+ <rule name="or_guard_list">
+   <seq>
+     <wrap node="Primary_Path_Lists.List">
+       <wrap node="Or_Path">
+         <item name="or"/>
+         <item name="guard"/>
+         <item name="pragma_list" attr="Pragmas"/>
+         <item name="select_alternative"/>
+       </wrap>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="compilation_unit_list">
+   <seq node="Primary_Unit_Lists.List"/>
+ </rule>
+
+ <rule name="context_clause">
+   <seq>
+      <wrap node="Primary_Clause_Lists.List"
+            item="context_item_or_pragma_list"/>
+   </seq>
+ </rule>
+
+ <rule name="context_item_context_item_or_pragma_option">
+   <seq>
+      <wrap node="Primary_Clause_Lists.List"
+            item="context_item_or_pragma_list"/>
+   </seq>
+ </rule>
+
+ <rule name="context_item_or_pragma_list">
+   <seq node="Primary_Clause_Lists.List"/>
+ </rule>
+
+ <rule name="vertical_line_exception_choice_list">
+   <seq node="Primary_Choise_Lists.List"/>
+ </rule>
+
+ <rule name="generic_formal_part_item_list">
+   <seq node="Primary_Declaration_Lists.List"/>
+ </rule>
+
+ <rule name="comma_generic_association_list">
+   <seq node="Primary_Association_Lists.List"/>
+ </rule>
+
+ <rule name="component_clause_list">
+   <seq node="Primary_Clause_Lists.List"/>
+ </rule>
+
+ <rule name="dot_identifier_list">
+   <seq node="Primary_Identifier_Lists.List"/>
+ </rule>
+
+ <rule name="discrete_choice_list">
+   <seq>
+     <wrap node="Primary_Choise_Lists.List"
+           item="vertical_line_discrete_choice_list"/>
+   </seq>
+ </rule>
+
+ <rule name="declarative_part">
+   <seq>
+     <wrap node="Primary_Declaration_Lists.List"
+           item="declarative_item_list"/>
+   </seq>
+ </rule>
+
+ <rule name="parameter_profile">
+   <seq>
+     <wrap node="Primary_Parameter_Lists.List"
+           item="formal_part"/>
+   </seq>
+ </rule>
+
+ <rule name="range_constraint">
+   <seq>
+     <wrap node="Constraint"
+           item="range"
+           instance="2">
+         <item name="range"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <rule name="entry_declaration">
+   <seq>
+     <item name="left_parenthesis_discrete_subtype_definition_option"
+           attr="Entry_Family_Definition"/>
+   </seq>
+ </rule>
+
+ <rule name="declare_declarative_part_option">
+   <seq>
+     <wrap node="Primary_Declaration_Lists.List"
+           item="declarative_part">
+         <item name="declare"/>
+     </wrap>
+   </seq>
+ </rule>
+
+ <!-- unreacheable rules -->
+
+ <rule name="actual_parameter_part">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="array_aggregate">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="array_component_association">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="at_clause">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="component_choice_list">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="composite_constraint">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="conditional_entry_call">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="constraint">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="discriminant_association">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="discriminant_constraint">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="enumeration_aggregate">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="enumeration_representation_clause">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="explicit_actual_parameter">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="highest_precedence_operator">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="implicit_dereference">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="index_constraint">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="indexed_component">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="logical_operator">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="named_array_aggregate">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="parameter_association">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="parent_unit_name">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="positional_array_aggregate">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="procedure_call_statement">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="restriction">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="slice">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="timed_entry_call">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="triggering_alternative">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="triggering_statement">
+   <seq pass-through="y"/>
+ </rule>
+ <rule name="type_conversion">
+   <seq pass-through="y"/>
+ </rule>
+
+</gramar>

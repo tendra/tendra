@@ -1,0 +1,33 @@
+                                              Georgenhausen, 06-Mar-1999
+
+
+This is the Ada for Linux Teams (ALT) port of aflex and ayacc to the 
+GNU Ada compiler (GNAT). For the license terms of aflex and ayacc please
+read the original README file in this directory.
+
+We have made some changes to the implementation to more smoothly integrate
+aflex and ayacc with Ada95 and the way GNAT handles source code. The most
+visible change is, that we give you more control to which location in the
+generated code the user code sections should go.
+
+The original implementation of aflex and ayacc put the generated code
+into one single file (spec and body) and allows you to put your own
+code in front and after the generated procedure (YYLex or YYParse).
+Of course together with gnatchop this would work also for gnat.
+
+We decided to modify aflex and ayacc so that they generate directly the
+.ads and .adb files required by GNAT. We give you the control to specify
+which parts of the user defined code should go to the context part of the
+source, which should go to the declarative part and which should go
+before and after the generated procedures.
+
+We have modified the documentation according to this changes. If you
+have used aflex and ayacc before it is quite probable that you have to
+modify your input files to aflex and ayacc, but those changes are marginal
+and straightforward. Please consult the documentation and study the
+examples provided in the documentation directory.
+
+Have fun!
+
+Jürgen Pfeifer <juergen.pfeifer@gmx.net>
+for the Ada for Linux Team

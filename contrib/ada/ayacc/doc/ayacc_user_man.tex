@@ -1,0 +1,2218 @@
+\documentstyle[12pt,titlepage]{article}
+\title{{\bf Ayacc User's Manual}\\
+\medskip
+Version 1.1\\
+Arcadia Document UCI-94-01\\
+March 1994}
+\author{
+{\it Designed by}\\
+David Taback and Deepak Tolani\\
+\medskip\\
+{\it Enhanced by}\\
+Ronald J. Schmalz\\
+Yidong Chen\\
+\medskip\\
+Arcadia Environment Research Project\\
+Department of Information and Computer Science\\
+University of California, Irvine
+\medskip\\
+Adapted for the GNU Ada Compiler GNAT\\
+by the ``Ada for Linux Team (ALT)'', Feb 1999}
+\date{}
+\newcommand{\ayacc}{\bf Ayacc\rm\  }
+
+   \addtolength{\oddsidemargin}{-0.5in} % 0.5 inch wider than default
+   \addtolength{\textwidth}{1.0in}
+   \addtolength{\topmargin}{-0.5in}   
+   \addtolength{\textheight}{1.25in}
+   \renewcommand{\baselinestretch}{1.0} % normal linespacing
+   \renewcommand{\topfraction}{0.95}
+   \renewcommand{\textfraction}{0.05}  %should make [h] work as desired
+
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\section{Introduction}
+\pagenumbering{arabic}
+\ayacc provides Ada programmers with a tool for the
+automatic construction of parsers.  The parsers are constructed
+from a high level description
+of a context free grammar.  The input to \ayacc consists of a
+BNF style specification of a grammar accompanied by a set of
+Ada program statements to be executed as each rule is
+recognized.  \ayacc generates a set of Ada program units that act as
+a parser for the specified grammar.  These program units
+may be interfaced to additional user supplied routines to produce a
+functional program.  \ayacc was inspired by the popular UNIX
+utility, {\bf Yacc}, and it closely mimics the features and conventions
+of its C counterpart.  The error recovery features are similar to
+those of eyacc.
+\section{Description}
+
+The following chapter is intended to serve as a
+tutorial and reference guide to {\bf Ayacc\rm}.  No previous knowledge
+of {\bf Yacc} is assumed although basic principles of compiler
+theory such as context-free grammars, lexical analysis,
+and parsing are taken for granted.  For the
+sake of clarity, a consistent set of terminology is
+adopted in this chapter.  The term {\bf token} denotes a structure
+recognized by a lexical analyzer and {\bf nonterminal}
+refers to a structure recognized by a parser.  {\bf Grammar symbols}
+collectively refers to nonterminals and tokens.
+
+\ayacc generates four Ada program units that may be compiled and
+interfaced to other Ada code provided by the user.  To enable
+the compilation of \ayacc output, the user
+must provide a minimum of two routines: a lexical analyzer
+function
+and an error reporting procedure.  These routines may be
+kept inside the specification file or provided as
+external modules.
+
+\ayacc generates a total of five files.  Assuming that the original
+specification file is named
+{\it base.y},
+the corresponding \ayacc output files would be:
+{\it base-tokens.ads},\\
+{\it base-shift\_reduce.ads},
+{\it base-goto\_table.ads},
+{\it base.ads} and {\it base.adb}.  If the {\it Error\_Recovery} command line parameter is
+on then two additional files named {\it base-error\_report.ads} and
+{\it base-error\_report.adb} are also generated.
+In addition, \ayacc also generates a temporary file,
+{\it base.accs},
+which is automatically deleted upon completion and should not be of concern
+to the user.  A brief description of these files follows:
+\smallskip\\
+\noindent{\bf base}.adb {\bf base}.ads
+
+The primary output of {\bf Ayacc}.  Procedure {\it YYParse} is generated into\\
+\indent this file along with any Ada code provided in the
+declaration section at\\
+\indent the end of the specification file.
+\newpage
+\noindent{\bf base}-tokens.ads
+
+\indent The {\it tokens} package that provides the type and variable
+declarations\\
+\indent  needed by both {\it YYParse} and the user supplied lexical
+analyzer.  The\\
+\indent  package is named {\it Base.Tokens}.
+
+\noindent {\bf base}-shift\_reduce.ads  {\bf base}-goto\_table.ads
+
+\indent The parse tables used by {\it YYParse}.  They are generated as separate\\
+\indent  packages rather than nested within {\it YYParse}
+to prevent them from \\
+ \indent being pushed onto the stack with each invocation of {\it YYParse}.\\
+\indent Strictly speaking, the tables could be placed within a single
+package,\\
+\indent however some Ada compilers may have problems
+compiling the large\\
+\indent  preinitialized arrays which comprise the tables.  The
+parse table\\
+\indent packages are named {\it Base.Goto\_Table} and
+{\it Base.Shift\_Reduce} respectively.\\
+\\
+The packages {\it Base.Tokens}, {\it Base.Goto\_Table} and 
+{\it Base.Shift\_Reduce} are put automatically into with/use
+statements in the {\it Base} body file {\it Base.adb}. For
+compatibility and conveniance we provide renames of these
+packages as {\it Base\_Tokens}, {\it Base\_Goto} and
+{\it Base\_Shift\_Reduce}. 
+\section{Command Line Interface}
+{\samepage
+When the \ayacc command is entered without arguments, the following
+specification is displayed on the user's terminal.
+\begin{tabbing}
+123\=1234567890123456789\=123\=1234567890123\= \kill
+
+\>   $--${\it Ayacc: An Ada Parser Generator.}\\
+\>  {\bf type} Switch {\bf is} (On, Off);\\
+\\
+\>  {\bf procedure} Ayacc (\>File  \> \>{\bf : in} String;\\
+\>\>                      C\_Lex \>\>     : {\bf in} Switch := Off;\\
+\>\>                      Debug  \>\>    : {\bf in} Switch := Off;\\
+\>\>                      Summary \>\>   : {\bf in} Switch := On;\\
+\>\>                      Verbose \>\>   : {\bf in} Switch := Off;\\
+\>\>                      Error\_Recovery\>\> :  {\bf in} Switch := Off);\\
+\\
+\>   $--$ File \>Specifies the Ayacc Input Source File.\\
+\>   $--$ C\_Lex\> Specifies the Generation of a 'C' Lex Interface.\\
+\>   $--$ Debug\>      Specifies the Production of Debugging Output\\
+\>   $--$ \>\>           By the Generated Parser.\\
+\>   $--$ Summary\>    Specifies the Printing of Statistics About the\\
+\>   $--$\>\>              Generated Parser.\\
+\>   $--$ Verbose\>    Specifies the Production of a Human Readable\\
+\>   $--$ \>\>             Report of States in the Generated Parser.\\
+\>   $--$ Error\_Recovery\>   Specifies the Generation of Automatic\\
+\>   $--$ \>\>             Error Recovery in the Generated Parser.
+\end{tabbing}
+\centerline{{\bf Figure 1.} Ayacc Command Line Specification}
+}
+\addcontentsline{lof}{figure}{1 -- Ayacc Command Line Specification}
+\newpage
+\subsection{Overview}
+The \ayacc command line interface is modeled after the syntax and
+semantics of Ada procedure
+calls.  Both {\it Named} and {\it Positional} parameter associations and
+{\it Default Parameters} are supported.
+\footnote{
+A complete discussion of this topic can be found in the Ada Language
+Reference Manual, \S 6.4-6.4.2.
+}
+Although the command line 
+interface does follow the syntax and semantics of Ada, the
+strictness of these rules has been relaxed to improve the user
+interface.  The nature of these relaxations is discussed in the
+following section.
+\subsection{Command Format}
+The command line interface has several relaxations to promote friendlier
+usage.  A summary of these relaxations are listed in {\bf Figure 2.}
+
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{enumerate}
+\item Final Semicolon on the procedure call is optional.
+\item Outermost Parentheses are optional.
+\item Parentheses around aggregate parameters are optional when the aggregate
+consists of only one component.
+\item Commas in the parameter list are optional.
+\item Quotes around string literals are optional.
+\end{enumerate}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 2.} Syntactic Relaxations in the Command Line Interface}
+\addcontentsline{lof}{figure}{2 -- Syntactic Relaxations in the Command Line Interface}
+\subsection{Invoking Ayacc}
+When \ayacc is invoked, the command line interface analyzes the
+command line for the correct number and types of parameters.  If no errors
+are detected, the command line is echoed to the terminal in the form of
+an Ada procedure call with all parameters displayed as Named Associations.
+A typical invocation is shown in Figure 3.
+Once the command line is analyzed,
+the parameters are passed on to the tool for processing.  {\bf Note:} Some
+Operating Systems, for example {\it Unix}, may
+interpret the {\bf $=>$} prior to passing the argument to the tool.  As a
+result, any OS special characters should be {\it escaped} on the command
+line to prevent interpretation.
+\newpage
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+{\it ayacc  parser.y debug $=>$ \footnotemark on}\\
+\footnotetext{
+In Unix, {\bf $=>$} should be replaced with {\bf $=\backslash>$}.
+}
+
+\begin{tabbing}
+1234\=12345678\=12345678\= \kill
+\>  Ayacc (\>File\>      $=>$ "parser.y",\\
+\>\>         C\_Lex     $=>$ Off,\\
+\>\>         Debug     $=>$ On,\\
+\>\>         Summary   $=>$ On,\\
+\>\>         Verbose   $=>$ Off,\\
+\>\>         Error\_Recovery   $=>$ Off);\\
+\end{tabbing}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 3.} Echoed Command Line Following Invocation}
+\addcontentsline{lof}{figure}{3 -- Echoed Command Line Following Invocation}
+\subsection{Command Line Errors}
+{\bf
+\begin{enumerate}
+\item Invalid Named Association.
+\item Invalid Parameter, {\it Bad\_Parameter} is not a legal value for type \
+{\it Parameter\_Type}.
+\item Invalid Parameter Association, {\it Bad\_Formal} is not a valid Formal \
+Parameter.
+\item Invalid Parameter Order, Positional arguments must precede Named.
+\item Missing Positional Argument.
+\item Unbalanced Parentheses.
+\end{enumerate}
+}
+\section{Input to the Tool}
+\subsection{Command Line Options}
+{\it Input} specifies the Ayacc specification file which will be translated
+into an appropriate parser.  The format of the file is described in the
+{\it Ayacc Specification File} section.
+
+{\it C\_Lex} specifies the generation of an Ada interface 
+to a lexical analyzer written in C.  When run
+with the {\it C\_Lex} option, \ayacc will generate a file called
+{\it base.h}
+which contains a sequence of \#define's for the tokens
+(analogous to the file created by {\bf Yacc} when run with the -d option)
+and a package "Base.C\_Lex" that converts integers returned by the C lexical
+analyzer into their corresponding Ada enumeration type.  This feature
+is particularly suited to interfacing to
+lexical analyzers generated
+by the popular UNIX tool {\bf Lex} or any lexical analyzer that adheres
+to the conventions expected by {\bf Yacc}.
+
+When using the {\it C\_Lex} option, the user must supply a C function called
+{ \it get\_token}
+which returns an integer corresponding to a token recognized by the
+lexical analyzer.  The values returned by the lexical analyzer must
+adhere to the following conventions: {\it Character literals have the
+same value as their ASCII representation}, and {\it All other tokens
+have the value are as defined in the
+{\it base.h}
+file.  It is the user's responsibility to insure that the C lexical analyzer
+always returns an integer corresponding to a valid token or
+character literal.}
+
+The package
+{\it Base\_C\_Lex}
+contains the Ada function
+{\it YYLex}
+which converts the integer returned by
+{\it get\_token}
+into the token enumeration type  expected by the parser.  The user will
+have to make minor changes to
+{\it YYLex}
+if it is necessary for the lexical analyzer to set the value of YYLVal or
+to perform actions when specific tokens are recognized.
+
+{\it Debug} specifies that \ayacc should generate a version of
+{\it YYParse}
+that prints the shift, reduce, error, and accept actions as they are
+executed by the parser.  Figure 4 lists the messages produced by \ayacc in
+{\it Debug} mode.
+
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+{\bf
+\begin{enumerate}
+\item Accepting Grammar...
+\item Can't Discard End\_Of\_Input, Quitting...
+\item Error Recovery Clobbers {\it Token}.
+\item Error Recovery Popped Entire Stack, Aborting...
+\item Examining State {\it State}.
+\item Looking for State with Error as Valid Shift.
+\item Reduce by Rule {\it Rule} Goto State {\it State}.
+\item Shifted Error Token in State {\it State}.
+\item Shift {\it State} on Input Symbol {\it Token}.
+\end{enumerate}
+}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 4.} Debug Option Informative Messages}
+\addcontentsline{lof}{figure}{4 -- Debug Option Informative Messages}
+The output may be used with the {\it Verbose} option
+output file to debug grammar specifications by identifying states
+where the parser behaves incorrectly.  The debugging output
+is also useful for observing error recovery mechanisms taken by the
+parser.
+
+{\it Verbose} specifies that \ayacc should generate a file called
+{\it base.verbose}
+which contains a readable form of the parser.  This is very useful when
+the user wants to see the finite state machine associated with the
+parser.  A detailed example of using the {\it Debug} and {\it Verbose}
+option can be found in Appendix 2.
+\subsection{Ayacc Specification File}
+
+{\it Error\_Recovery} specifies that a parser which does automatic
+syntax error recovery is to be generated.  The generated parser will
+create a file named {\it base.lis} when run which records the parsed
+lines of the input text and specifies where errors occurred.  Further
+explanation of this option can be found in Appendix C.
+
+An Ayacc specification  consists of three parts: the
+{\it token declarations}, {\it grammar rules}, and an {\it optional user
+declarations}.  A double percent
+{\it \%\%}
+delimits
+each of these sections.  Ada style comments may appear
+anywhere in the specification file.  A sample input
+file for a calculator grammar is shown in {\bf Figure 5.}
+An optional fourth part is added if the {\it Error\_Recovery} option
+is used.  See Appendix C for more information.
+\newpage
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{tabbing}
+1234\=1234\=1\=234\=1234\=1234\=12\=1234\=1234\=1234\=1234 \kill
+$--$ Declarations Section\\
+\\
+\%token IDENTIFIER         --  Tokens which will be returned\\
+\%token NUMBER             --  by the lexical analyzer.\\
+\\
+\{\\
+\\
+\>  --{\it  Declarations that will be}\\
+\>  --{\it  written to the tokens package.}\\
+\>  {\bf subtype} YYSType {\bf is} Integer;\\
+\}\\
+\\
+\%\% -------------------------------------------------------------\\
+$--$ Rules section\\
+\\
+$--$ Rules specifying the syntax of arithmetic expressions.\\
+$--$ "expression", "term", and "factor" are the nonterminals\\
+$--$ recognized by the parser.\\
+\\
+expression : term\\
+\>\>\>           $|$ expression '+' term\\
+\>\>\>           $|$ expression '-' term\\
+\>\>\>           ;\\
+\\
+term       : factor\\
+\>\>\>           $|$ term '*' factor\\
+\>\>\>           $|$ term '/' factor\\
+\>\>\>           ;\\
+\\
+factor     : IDENTIFIER\\
+\>\>\>           $|$ NUMBER\\
+\>\>\>           $|$ '(' expression ')'\\
+\>\>\>           ;\\
+\%\% ------------------------------------------------------\\
+\\
+$--$ User declarations\\
+$--$ Empty in this case\\
+\end{tabbing}
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 5.} Sample Calculator Grammar}
+\addcontentsline{lof}{figure}{5 -- Sample Calculator Grammar}
+\subsubsection{Token Declarations Section}
+\ayacc requires tokens of the grammar to be explicitly declared
+in the token declarations section.  A token declaration consists of a
+{\it \%token}
+keyword followed  by a list of identifiers that may
+optionally be separated by commas.  All token names must follow
+Ada enumeration type naming conventions as the tokens are directly
+translated into an enumeration type.  An example of a
+tokens declaration is shown in Figure 6.
+
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{verbatim}
+%token identifier , number
+%token if_statement while_loop  -- comma is optional
+%token ','  '''         -- literals are allowed
+\end{verbatim}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 6.} Legal Ayacc Token Declarations}
+\addcontentsline{lof}{figure}{6 -- Legal Ayacc Token Declarations}
+\ayacc also allows the user to place declarations in the tokens package by
+enclosing a collection of Ada declarations in braces
+in the tokens declaration section.
+\subsubsection{Associating Ada Types with Grammar Symbols}
+
+\ayacc also provides a way to associate an Ada data type
+to nonterminals and tokens.  The data type is
+defined by associating an Ada type declaration to the identifier
+{\it YYSType.}
+Once this type is defined, actions can access the values associated with
+the grammar symbols.  This declaration must appear in the tokens
+declarations section or the Ayacc output will fail to compile.  For
+example, a declaration of the form
+
+\begin{tabbing}
+123\=1234\=1\=234\=1234\=1234\=12\=1234\=1234\=1234\=1234 \kill
+\%token a b d e\\
+\{\\
+\\
+\>  {\bf subtype} YYSType {\bf is} Integer;\\
+\\
+\}\\
+\%\%
+\end{tabbing}
+
+\noindent allows the grammar symbols to have integer values
+that can be accessed and set by the user-defined actions.
+
+Since the types declared in the Tokens Declaration section may require the
+visibility of types and operations defined in other packages, \ayacc provides
+a mechanism for specifying a {\it Context Clause} for the generated tokens
+package.  The keywords defined for this purpose are {\bf \%with} and
+{\bf \%use}.  Although these keywords are used with the same syntax as
+{\bf \%token} keyword, they may only be used prior to the Ada declarations
+section.  An example of their usage is shown in Figure 7.
+\newpage
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{tabbing}
+123\=123\=123\=234\=1234\=1234\=12\=1234\=1234\=1234\=1234 \kill
+\%token  '='\ \ '+'\ \ '-'\ \ '/'\ \ '*'\ \ NUMBER  IDENTIFIER\\
+\\
+\%with    Binary\_Operator\_Manager       $--$ These MUST precede the Ada\\
+\%use     Binary\_Operator\_Manager       $--$ declarations section.\\
+\\
+\{\\
+\>  {\bf type} YYSType {\bf is}\\
+\>\>    {\bf record}\\
+\>\>\>      Operation  : Binary\_Operator\_Manager.Operator\_Expression\_Type;\\
+\>\>\>      Precedence : Binary\_Operator\_Manager.Precedence\_Type;\\
+\>    {\bf end} {\bf record};\\
+\}\\
+\%\%\\
+$--$ The Tokens package generated by \ayacc is shown below:\\
+\\
+{\bf with}  Binary\_Operator\_Manager;\\
+{\bf use}   Binary\_Operator\_Manager;\\
+{\bf package} Test\_Tokens {\bf is}\\
+\\
+\>  {\bf type} YYSType {\bf is}\\
+\>\>    {\bf record}\\
+\>\>\>      Operation  : Binary\_Operator\_Manager.Operator\_Expression\_Type;\\
+\>\>\>      Precedence : Binary\_Operator\_Manager.Precedence\_Type;\\
+\>\>    {\bf end} {\bf record};\\
+\\
+\>\>    YYLVal, YYVal : YYSType;\\
+\>\>    {\bf type} Token {\bf is} (\>\>\>\>End\_Of\_Input, Error,\\
+\>\>\>\>\>\>                   '=',\ \ '+',\ \ '-',\ \ '/',\ \ '*',\ \ Number, Identifier );\\
+\\
+\>\>    Syntax\_Error : {\bf exception};\\
+\\
+{\bf end} Test\_Tokens;\\
+\end{tabbing}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 7.} Specifying a Context Clause for the Tokens Package}
+\addcontentsline{lof}{figure}{7 -- Specifying a Context Clause for the Tokens Package}
+\newpage
+\subsubsection{Rules Section}
+The rules
+define the grammar to be parsed.  Each rule consists of a
+nonterminal symbol followed by a colon and
+a list of grammar symbols
+terminated by a semicolon.  For example, a rule corresponding
+to a street address could be represented as:
+
+{\centerline{\it Address : Street City\ \ ','\ \ State Zip ;}}
+
+{\it Street}, {\it City}, {\it State}, and {\it Zip} must be either
+nonterminal or token symbols that are defined elsewhere within the
+specification file.  Characters enclosed in single quotes, such
+as the comma in the example above, are tokens that appear
+as character literals in the input.  Unlike other tokens, character
+literals do not have to be explicitly declared in the
+declarations section.  Unlike {\bf Yacc}, \ayacc does not allow escape
+characters to be entered as literals.
+
+For convenience, the vertical bar may be used to factor rules
+with identical left hand sides.  When using the vertical bar
+notation, the semicolon is used only at the end of the last rule.  For
+example,
+
+\begin{verbatim}
+A : B C D ;
+A : E F;
+A : G ;
+\end{verbatim}
+can be abbreviated as
+\begin{verbatim}
+A : B C D
+  | E F
+  | G
+  ;
+\end{verbatim}
+Nonterminal names consist of a sequence of alphanumeric characters
+as well as periods and underscores.  Ada reserved words may be used
+as nonterminal identifiers.  Some examples are shown in Figure 8.
+
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{center}
+pragma\\
+..parameter\_list..\\
+\_system\\
+\_\\
+.\\
+\end{center}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 8.} Typical Nonterminals}
+\addcontentsline{lof}{figure}{8 -- Typical Nonterminals}
+Unlike token symbols, nonterminals are not explicitly declared;
+they are  implicitly defined by appearing on the left hand side
+of a rule.  However, one nonterminal, the start symbol, has
+such significance that a provision exists for explicitly
+declaring it.  The start symbol is the most general
+structure described by the grammar and it may be declared in
+the declarations section by preceding it with the
+{\it \%start}
+keyword.  In the absence of a
+{\it \%start}
+construct, \ayacc
+uses the left hand side of the first grammar rule as
+the start symbol.
+
+Unlike {\bf Yacc} identifiers, all token and nonterminal names
+are case insensitive.  Thus,
+{\it ABC}
+and
+{\it aBc}
+denote the same
+grammar symbol in an Ayacc specification file.
+\subsubsection{Actions}
+It is often necessary for the parser to take some action
+when certain syntactic structures are recognized.  For example,
+it may be necessary to generate code as an
+arithmetic expression is parsed or to update a symbol
+table as keywords appear in the input.  \ayacc allows each grammar
+rule to have associated actions
+which are executed whenever the rule is recognized by the
+parser.  An action consists of a sequence of Ada statements
+enclosed in braces and placed after the body of a rule.  Some
+examples follow:
+\begin{verbatim}
+N : x y z
+  { count := count + 1; } -- Counts the occurrences of N
+  ;
+
+A : B  C  D
+  { Put_Line("hello"); }  -- Prints Hello whenever A is parsed
+  ;
+\end{verbatim}
+
+The user may need to provide declarations of types and variables
+used in actions.  These declarations can be provided in separate
+packages used by
+{\it YYParse}
+or they may be provided within the user declarations section at
+the end of the specification file.
+
+\ayacc uses a pseudo-variable notation to denote the values
+associated with nonterminal and token symbols.  The left hand side
+of a rule may be set to a specific value by an assignment to the variable
+{\it \$\$.}
+For example, if YYSType is an integer, the action:
+
+\begin{center}
+{\it A : B C D \{ \$\$ := 1; \}}
+\end{center}
+
+\noindent sets the value of A to 1.  To use the values of symbols on
+the right hand side of the rule, the action may use the
+pseudo-variables $1..$n, where n refers to the nth
+element of the right hand side of the rule.  For example,
+
+\begin{center}
+{\it A : B\ \ '+'\ \ C \{ \$\$ := \$1 + \$3; \}}
+\end{center}
+
+\noindent sets A to the sum of the values of B and C.
+\newpage
+Sometimes it is necessary to execute actions before a rule is fully
+parsed.  \ayacc permits actions to appear in the middle of a rule
+as well at the end.  These {\it nested} actions are assumed to return
+a value accessible through the usual
+{\it \$\$}
+notation.  A nested
+action may access values returned by symbols to its left.  For
+example,
+\begin{verbatim}
+A : B
+    { $$ := $1 + 1; }   -- The reference to $$ refers to the value
+                        -- of the the action not the value of A
+    C
+    { x := $2; }        -- The reference to $2 is the value of the
+                        -- previous action.  A reference to $$ here
+                        -- would refer to the value of A.
+    ;
+\end{verbatim}
+has the effect of setting x to the value of B plus 1.  Nested actions
+cause \ayacc to manufacture a new rule
+that matches the  empty string.  For example, the rule
+\begin{verbatim}
+   A : B { $$ := 1; } C ;
+\end{verbatim}
+is treated as if it were written
+\begin{verbatim}
+   $act : { $$ := 1; }
+
+   A : B $act C;
+\end{verbatim}
+\vspace{-0.3in}\hspace{1.3in}\footnotemark\vspace{0.3in}
+\footnotetext{
+Note: The `\$' in {\it \$act} is used to prevent collision
+with other nonterminals and is not permitted in a legal nonterminal
+name.
+}
+\subsubsection{User Declarations}
+By default, \ayacc generates a parameterless procedure,
+{\it YYParse},
+that automatically does a {\it with} of the Tokens package, the
+Goto\_Table package and the Shift\_Reduce package. It will call
+the user supplied routines,
+{\it YYLex}
+and
+{\it YYError}.
+If the user desires, the procedure
+may be incorporated within a package by providing a package
+declaration in the last section of the specification file.  This last
+section of the specfication file is divided into several subsections
+separated by {\it \#\#} markers. These subsections correspond to various
+locations in the generated {\it Base}.ads and {\it Base}.adb files.
+See Figure 9 for an example.
+
+The user is responsible for providing the with and use clauses for the Text\_IO 
+packages used by the parser.  An
+example of the user declarations section is shown in {\bf Figure 9.}  The filename
+associated with this specification is {\bf example\_parser.y}.
+\newpage
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{tabbing}
+123\=12\=123\=234\=1234\=1234\=12\=1234\=1234\=1234\=1234 \kill
+$--${\it  Token Declarations and Rules Section would be up here.}\\
+\%\% $--$ The next section goes before package statement of SPEC file\\
+\\
+\#\# $--$ The next section goes after package statement of SPEC file\\
+\>  {\bf procedure} YYParse;\\
+\>  Syntax\_Error : {\bf exception};\\
+\#\# $--$ The next section goes before package statement of BODY file\\
+{\bf with} Text\_IO;\\
+{\bf use}  Text\_IO;\\
+\#\# $--$ The next section goes after package statement of BODY file\\
+\\
+\>  {\bf function} YYLex {\bf return} Token {\bf is}\\
+\>  {\bf begin}\\
+\>\>    .\ .\ .\\
+\>  {\bf end} YYLex;\\
+\\
+\>  {\bf procedure} YYError(S : {\bf in} string) {\bf is}\\
+\>  {\bf begin}\\
+\>\>    Put\_Line(S);\\
+\>\>    {\bf raise} Syntax\_Error;\\
+\>  {\bf end} YYError;\\
+\\
+\>  $--${\it  Miscellaneous declarations and subprograms}\\
+\>  . . .\\
+\\
+\#\#  $--${\it  YYParse will be inserted here.}\\
+\\
+\>  $--${\it  Miscellaneous declaration and subprograms}\\
+\\
+\end{tabbing}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 9.} Sample User Declarations Section}
+\addcontentsline{lof}{figure}{9 -- Sample User Declarations Section}
+\subsubsection{User Supplied Routines}
+The user must provide a lexical analyzer to read the input and to send
+the appropriate tokens along with their values to the parser
+generated by {\bf Ayacc}.  The lexical analyzer must be declared as an
+Ada function
+{\it YYLex}
+that returns an enumeration type value corresponding
+to a token in the grammar.  The enumeration type is declared in the
+{\it tokens}
+package generated by \ayacc for use by the lexical analyzer.
+
+For example, given the input
+\begin{verbatim}
+%token a b
+{
+    subtype YYSType is Integer;
+}
+%%
+S : a ',' b;
+%%
+\end{verbatim}
+
+\ayacc will generate a file,
+{\it base-tokens.ads},
+containing the following package declaration:
+\begin{tabbing}
+1234567\=123\=123\=234\=1234\=1234\=12\=1234\=1234\=1234\=1234 \kill
+\>{\bf package} Base.Tokens {\bf is}\\
+\\
+\>\>  {\bf subtype} YYSType {\bf is} Integer;\\
+\\
+\>\>  YYLVal,YYVal : YYSType;\\
+\\
+\>\>  {\bf type} Token {\bf is} (Error, End\_of\_Input, A, B, ',');\\
+\\
+\>\>  Syntax\_Error : {\bf exception};\\
+\\
+{\bf end} Base.Tokens;\\
+\end{tabbing}
+\newpage
+\noindent The user's corresponding lexical analyzer might look like:
+\begin{tabbing}
+123\=123\=123\=123\=123\=123 \kill
+{\bf with} Text\_IO, Tokens;\\
+{\bf use}  Text\_IO, Tokens;\\
+{\bf function} YYLex {\bf return} Token {\bf is}\\
+\>  Char : Character;\\
+{\bf begin}\\
+\\
+\>  {\bf if} End\_of\_File {\bf then}\\
+\>\>    {\bf return} End\_of\_Input;\\
+\>  {\bf end} {\bf if};\\
+\\
+\>  {\bf loop}\\
+\>\>    Get(Char);\\
+\>\>    {\bf case} Char {\bf is}\\
+\>\>\>      {\bf when} 'A' $|$ 'a' $=>$\\
+\>\>\>\>        YYLVal := 1;\\
+\>\>\>\>        {\bf return} a;\\
+\>\>\>      {\bf when} 'B' $|$ 'b' $=>$\\
+\>\>\>\>        YYLVal := 2;\\
+\>\>\>\>        {\bf return} b;\\
+\>\>\>      {\bf when} ','       $=>$\\
+\>\>\>\>        YYLVal := 0;\\
+\>\>\>\>        {\bf return} ',';\\
+\>\>\>      {\bf when} {\bf others}    $=>$\\
+\>\>\>\>        {\bf return} Error;\\
+\>\>    {\bf end} {\bf case};\\
+\>  {\bf end} {\bf loop};\\
+{\bf end} YYLex;\\
+\end{tabbing}
+
+The tokens {\it Error} and {\it End\_of\_Input} are special predefined tokens
+that should not be declared by the user.  The {\it End\_of\_Input} token
+should be returned by the lexical analyzer after all the lexical
+input has been read.  The {\it Error} token is used for error recovery
+and is discussed later.  If tokens have values associated with them,
+the lexical analyzer may return these values by assigning them to the
+variable,
+{\it YYLVal}.
+In the example above, token `A' will have a value of 1
+and token `B' will have a value of 2.
+{\it YYVal}
+may be used to
+access the current value associated with the last symbol recognized
+by the parser.  For example, at the end of the parse
+{\it YYVal}
+contains the value associated with the start symbol.  {\it Although the
+user can assign values to YYVal,
+{\bf it is not recommended since it will overwrite assignments
+made by previous actions}}.
+
+\newpage
+In addition to the lexical analyzer, the user must provide an
+error reporting procedure,
+{\it YYError},
+that takes a string, corresponding to an error message, as an argument.
+{\it YYError}
+is automatically called by the parser when it detects a syntax error.
+
+\subsection{Advanced Topics}
+\subsubsection{Ambiguity and Conflicts}
+
+A grammar is ambiguous if the parser can reach a configuration where
+it has a choice between a shift or one or more reduce actions or
+a choice among several reduce actions.  There is never a shift/shift
+conflict.  \ayacc detects and reports ambiguous grammars and provides two
+default rules for resolving ambiguity:
+
+\begin{enumerate}
+
+\item In a shift/reduce conflict, the shift is chosen.
+\item In a reduce/reduce conflict, the reduce involving the earlier rule
+is chosen.
+\end{enumerate}
+
+The verbose file reports ambiguities in the grammar and shows how they have
+been resolved.  For example, consider the infamous {\it dangling else} grammar:
+\newpage
+\begin{verbatim}
+%token IF_TOKEN  COND THEN_TOKEN  ELSE_TOKEN  ID
+%%
+
+stat : ID
+     | if_statement
+     ;
+
+if_statement  : IF_TOKEN COND THEN_TOKEN stat
+              | IF_TOKEN COND THEN_TOKEN stat ELSE_TOKEN stat
+                  ;
+%%
+\end{verbatim}
+
+The grammar causes a shift/reduce conflict reported in state
+8 of the verbose file
+
+\begin{verbatim}
+------------------
+State  8
+
+Kernel
+( 3)  IF_STATEMENT      : IF_TOKEN  COND THEN_TOKEN  STAT _
+( 4)  IF_STATEMENT      : IF_TOKEN  COND THEN_TOKEN  STAT _
+                          ELSE_TOKEN STAT
+
+Closure
+( 3)  IF_STATEMENT      : IF_TOKEN  COND THEN_TOKEN  STAT _
+( 4)  IF_STATEMENT      : IF_TOKEN  COND THEN_TOKEN  STAT _
+                          ELSE_TOKEN  STAT
+
+
+*** Conflict on input ELSE_TOKEN
+        Reduce  3       or      Shift  9
+
+        ELSE_TOKEN      shift  9
+        default         reduce  4
+------------------
+\end{verbatim}
+
+The verbose entry states that if the parser sees an ELSE\_TOKEN in state 8,
+it has a choice between shifting the token and entering state 9 or reducing
+by rule 3.  In other words, an expression of the form:
+
+\begin{verbatim}
+        if cond1 then if cond2 then statement else statement
+
+\end{verbatim}
+can be parsed as,
+\begin{verbatim}
+        if cond1 then statement else statement
+\end{verbatim}
+or as,
+\begin{verbatim}
+        if cond1 then statement
+
+\end{verbatim}
+
+The default action taken by \ayacc is to shift the ELSE\_TOKEN;
+this has the effect of matching an {\it else} with the nearest {\it if}
+token.
+\subsubsection{Precedence and Associativity}
+Rewriting a grammar to eliminate ambiguities will often result
+in an unnatural looking grammar and a less efficient parser.  For example,
+consider the original calculator grammar :
+\begin{verbatim}
+    expression : term
+               | expression '+' term
+               | expression '-' term
+               ;
+
+    term       : factor
+               | term '*' factor
+               | term '/' factor
+               ;
+
+    factor     : IDENTIFIER
+               | NUMBER
+               | '(' expression ')'
+               ;
+
+\end{verbatim}
+
+In the above grammar, the productions:
+\begin{verbatim}
+
+    expression : expression '+' term
+               | expression '-' term
+
+\end{verbatim}
+exist only to enforce the precedence of multiplicative
+operators over additive operators.  For example, the input:
+\newpage
+\begin{verbatim}
+    a * b + c
+\end{verbatim}
+is parsed as,
+\begin{verbatim}
+    Factor * b + c
+    Term * b + c
+    Term * Factor + c
+    Term + c
+    Expression + c
+    Expression + Factor
+    Expression + Term
+    Expression
+\end{verbatim}
+
+Similarly,
+\begin{verbatim}
+    a + b * c
+\end{verbatim}
+is parsed as,
+\begin{verbatim}
+    a + b * c
+    Factor + b * c
+    Term + b * c
+    Expression + b * c
+    Expression + Term * c
+    Expression + Term * Factor
+    Expression + Term
+    Expression
+\end{verbatim}
+
+Ideally we would prefer to represent the grammar using the more natural
+but ambiguous specification:
+\begin{verbatim}
+
+    expression : expression '+' expression
+               | expression '-' expression
+               | expression '*' expression
+               | expression '/' expression
+               | '(' expression ')'
+               | IDENTIFIER
+               | NUMBER
+               ;
+\end{verbatim}
+
+Note that the grammar above also contains fewer
+productions and may result in a faster parser.  However, the grammar
+is ambiguous because inputs of the form
+\newpage
+\begin{verbatim}
+      a op1 b op2 c
+\end{verbatim}
+can be parsed as,
+\begin{verbatim}
+      (a op1 b) op2 c
+\end{verbatim}
+or as,
+\begin{verbatim}
+      a op1 (b op2 c).
+\end{verbatim}
+
+Moreover, the default resolution scheme used by \ayacc will result in an
+incorrect parser.
+
+Fortunately, \ayacc provides a scheme to allow the user to assign precedence
+and associativity to tokens and productions when the default
+disambiguating rules are inadequate.  The notion of precedence
+and associativity is particularly useful for grammars involving
+arithmetic expressions as in the example above.  For example, the
+shift-reduce conflicts shown below:
+\begin{verbatim}
+( 1)  EXPRESSION        : EXPRESSION _ '+' EXPRESSION
+( 3)  EXPRESSION        : EXPRESSION '*' EXPRESSION _
+
+*** Conflict on input '+'
+        Reduce  3       or      Shift  6
+
+( 1)  EXPRESSION        : EXPRESSION '+' EXPRESSION _
+( 3)  EXPRESSION        : EXPRESSION _ '*' EXPRESSION
+
+*** Conflict on input '*'
+        Reduce  1       or      Shift  8
+
+\end{verbatim}
+can be resolved by giving priority to the action involving the token with
+the highest precedence.  Since '*' has higher precedence
+than '+', the first conflict will be resolved in favor of a
+reduce and the second in favor of a shift.
+
+In addition, shift-reduce conflicts  also exist for
+\newpage
+\begin{verbatim}
+( 1)  EXPRESSION        : EXPRESSION _ '+' EXPRESSION
+( 1)  EXPRESSION        : EXPRESSION '+' EXPRESSION _
+
+*** Conflict on input '+'
+        Reduce  1       or      Shift  6
+
+( 3)  EXPRESSION        : EXPRESSION _ '*' EXPRESSION
+( 3)  EXPRESSION        : EXPRESSION '*' EXPRESSION _
+
+*** Conflict on input '*'
+        Reduce  3       or      Shift  8
+
+\end{verbatim}
+
+In these cases, precedence is of no help since the conflicts
+involve the same tokens.  However, conflicts involving tokens
+with the same precedence may be resolved using associativity rules.  Left
+associative operators imply a reduce.  Conversely, right
+associative operators imply a shift.  In the above example,
+both '*' and '+' are left associative, and therefore the
+conflicts should be resolved in favor of the reduce action.
+
+Precedence and associativity is assigned to tokens in the
+declarations section using the keywords,
+{\it \%left},
+{\it \%right},
+and
+{\it \%nonassoc},
+followed by a list of tokens.
+{\it \%nonassoc}
+denotes nonassociative
+tokens such as the Ada relational operators.  Precedence declarations
+are listed in order of increasing precedence with tokens on the
+same line having identical precedence and associativity.  For example,
+an Ayacc specification of an
+arithmetic expression  grammar might look like:
+\newpage
+\begin{verbatim}
+%token number   -- No prec/assoc
+
+%right '='
+%left  '+' '-'
+%left  '*' '/'
+%left  DUMMY    -- This token is not used by
+                -- the lexical analyzer
+
+exp : exp '=' exp
+    | exp '+' exp
+    | exp '-' exp
+    | exp '*' exp
+    | exp '/' exp
+    | '-' exp   %prec dummy  -- changes the default precedence of
+                         -- this rule to that of token dummy;
+    | NUMBER
+    ;
+%%
+
+\end{verbatim}
+
+The precedence and associativity rules used by \ayacc to resolve
+conflicts are summarized below :
+
+\begin{enumerate}
+\item A grammar rule inherits the precedence and associativity of
+the last token or literal in its body.
+\item If either the grammar rule or the token has no precedence
+and associativity, \ayacc uses its default scheme for
+resolving conflicts.  Reduce/reduce conflicts are always resolved
+according to the rule that appears first in the specification file.
+\item If there is a shift/reduce conflict and the rule and token
+have precedence associated with them, the conflict is
+resolved in favor of the rule/token with the highest
+precedence.  If the precedences are equal, left
+associativity implies a reduce, right associativity implies
+a shift, and nonassociativity implies an error.
+\item The precedence of a grammar rule may be explicitly set by
+the keyword
+{\it \%prec}
+and a trailing token that specifies
+that the rule inherits the precedence of the token.  The
+example above uses a dummy token to give unary minus
+the highest precedence for arithmetic operators.
+\end{enumerate}
+
+\subsubsection{Error Recovery}
+By default, the Ayacc generated parser calls
+{\it YYError}
+and aborts
+as soon as a syntax error is encountered.  Although this behavior is
+adequate for some applications, it is often useful for the parser
+to continue parsing so that further syntax errors can be detected.  To
+accomplish this, \ayacc provides a simple method
+to indicate where error recovery should be attempted.  The parser
+makes no attempt to repair incorrect input.  Instead, it attempts
+to reduce the phrase containing the syntax error to
+a user specified nonterminal.  After the reduction, parsing resumes as usual.
+\subsubsection{Error Productions}
+Certain user-specified nonterminals form the basis of error
+recovery.  These nonterminals are specified by adding rules to the grammar
+of the form
+
+     $A : \alpha\ error\ \beta$
+
+
+Where $\alpha$ and $\beta$ are possibly empty strings of terminals and
+nonterminals.  The token
+{\it Error}
+is predefined and should not be used for any other purposes.  As with
+other rules, an action may be associated with any error
+production.
+\subsubsection{The Error Recovery Algorithm}
+When a syntax error is detected, the parser calls procedure
+{\it YYError}
+with the message
+{\it Syntax Error}
+and then attempts to recover.  The error recovery process
+can be broken down into three steps.
+\begin{enumerate}
+\item The parser pops the stack zero or more times, until
+it finds the top most state where a shift on
+{\it error}
+is legal.
+This state will be associated with some item of the form
+
+       $A : \alpha\ \_\ error\ \beta$
+
+If the stack contains no such state, the parser raises the exception
+{\it Syntax\_Error}
+after popping the entire stack.
+
+\item Next, the parser executes a shift on
+{\it Error}
+pushing the state associated with the item
+
+       $A : \alpha\ error\ \_\ \beta$
+
+onto the stack.
+
+\item The parser then attempts to resume parsing with the current lookahead
+token set to the token that caused the error.  All new tokens
+that would cause an error are quietly discarded
+until one token is shifted.  If the parser discards the
+{\it End\_of\_Input}
+token it will raise a
+{\it Syntax\_Error}
+exception; otherwise,
+parsing resumes normally after the first token is shifted.
+\end{enumerate}
+
+If a new syntax error is detected before three valid shifts,
+error recovery is reinitiated without reporting a syntax error.  This
+prevents an avalanche of error messages caused by incomplete
+error recovery.
+\subsubsection{An Example of Error Recovery}
+A rule designed to recover from syntax errors in Ada statements might
+have the form:
+
+\centerline{{\it statement : error ;}}
+
+This identifies
+{\it statement}
+as a location where errors are expected and will cause the parser to
+attempt to skip over statements containing syntax errors.
+
+Now suppose that the parser was parsing the following statement:
+
+\centerline{{\it$i := 5 + + j - f(1) + 1$;}}
+
+When the parser detects the syntax error,  it will have already
+pushed a sequence of states on top of the stack corresponding
+to the input up to the second plus sign.  These states would
+be popped one at a time until a state that had an action shift on
+{\it Error}
+was encountered.  Since a statement was being parsed, this
+state would be associated with the item:
+
+\centerline{{\it statement : \_ error}}
+
+The parser will now perform a shift on input
+{\it Error}
+and enter a state associated with the item:
+
+\centerline{\it statement : error \_}
+
+The remaining input would be:
+
+\centerline{\it + j - f(1) + 1;}
+
+Now the parser would attempt to resume parsing, discarding any
+tokens that would cause an error, until a shift action is
+executed.  Since the parser will reduce the
+{\it Error}
+token to a statement, the only token that would allow a shift to
+occur would be one that could follow a statement.  The plus sign
+would be discarded because it could not follow a statement,
+but because identifier
+{\it j}
+could follow a statement,
+the parser would shift the identifier
+{\it j}
+and resume parsing as if
+{\it j}
+was at the start of a new statement.  The minus sign
+would cause a new error since no statement can begin with:
+
+\centerline{\it j -}
+
+Although error recovery will occur again, a new syntax error would not
+be reported because three tokens have not been successfully shifted.  After
+popping the stack and shifting the
+{\it Error}
+token,
+the parser would again enter the state associated with:
+
+\centerline{\it statement : error \_}
+
+and the remaining input would be:
+
+\centerline{\it - f(1) + 1;}
+
+The parser would discard tokens again until it found one
+that could follow a statement.  Parsing would resume with the identifier
+{\it f}
+, since
+{\it f}
+could be the start of a new statement.  The parser would shift
+{\it f},
+the left parenthesis, the integer, and the right parenthesis.  When it
+reads the plus sign it would think it encountered a new
+syntax error.  This time it would report
+a syntax error since three tokens have been successfully shifted.  After
+the states are popped and the
+{\it Error}
+token has been shifted the parser would continue discarding
+tokens up to and including the semicolon.  If the input following the
+semicolon is a legal statement, parsing would resume normally.
+\subsubsection{More Control over Error Recovery}
+In the previous example we saw how the error recovery scheme might
+cause the parser to incorrectly resume parsing while it was still
+in the phrase that caused the error.  It is possible to exert more
+control over error recovery by placing tokens after the
+{\it Error}
+token.  For example, if a syntax error was detected while parsing
+a statement, the production:
+
+\centerline{\it statement : error ';'}
+
+would cause the parser to discard tokens until a semicolon is read
+because
+after simulating the shift on
+the
+{\it Error}
+token, the parser would enter a state associated with the item:
+
+\centerline{\it statement : error \_ ';'}
+
+Since the only legal action is shift on semicolon, all tokens would
+be discarded until a semicolon was encountered.  This would prevent
+the false starts of the previous example.
+
+Another way of obtaining more control over error recovery is
+to place tokens before the Error token.  Consider the following
+rules taken from an Ada grammar.
+\begin{verbatim}
+
+        loop_statement : ..iteration_scheme..
+                           LOOP_TOKEN
+                           sequence_of_statements
+                           END_TOKEN
+                           ';'
+                        ;
+
+        ..iteration_scheme.. :  -- empty
+                           | FOR_TOKEN    loop_param_spec
+                           | WHILE_TOKEN  condition
+                           | FOR_TOKEN    error
+                           | WHILE_TOKEN  error
+                           ;
+
+\end{verbatim}
+
+Here,
+{\it ..iteration\_scheme..}
+would not be reduced if an error was detected
+unless either a FOR\_TOKEN or a WHILE\_TOKEN was seen on the input.  Given
+the following production:
+
+\centerline{\it ..iteration\_scheme.. : error ;}
+
+\noindent it is possible that
+{\it error}
+could be reduced to
+{\it ..iteration\_scheme..}
+even though a syntax error was detected when the parser was in a state
+where it could expect a string derived from
+{\it ..iteration\_scheme..}.
+If this happened,
+error recovery would discard tokens until a
+{\it LOOP\_TOKEN}
+(the only token that can follow an
+{\it ..iteration\_scheme..}
+),
+was encountered.  This is clearly unacceptable if
+the next string was really a statement.
+
+Sometimes it is useful for the parser to report errors before correctly
+shifting
+three tokens.  The procedure
+{\it YYErrOK}
+will force the parser to believe it has fully recovered from
+any syntax error causing it to report errors in the following
+vthree tokens.  For example, an interactive application might have the
+rules
+\begin{verbatim}
+
+        lists : lists list END_OF_LINE
+                        {
+                           -- print the value of $1
+                        }
+             | list END_OF_LINE
+                        {
+                           -- print the value of $1
+                        }
+             | error END_OF_LINE
+                        {
+                            YYErrOK;
+                            Put_Line("Reenter previous line");
+                        }
+             ;
+
+\end{verbatim}
+
+The call to YYErrOK will tell the parser it has correctly shifted
+three tokens causing the next syntax error to be reported.  If the
+call to YYErrOK was not in the action,
+a syntax error in the next three tokens would not be reported.
+
+The user could provide an action in an error production that
+decides what tokens to discard.  Here, the old lookahead token must be
+cleared.  To accomplish this, the parser provides the procedure
+{\it YYClearIn}
+which will force the parser to read the next token.
+\subsubsection{Automatic Error Recovery}
+See Appendix C for information on how to generate parsers that will
+attempt to automatically recover from syntax errors.
+\section{Error Messages}
+This section describes the error messages which may be displayed by\\
+\ayacc.  The error messages are divided into three categories:
+{\it Internal, Fatal, and Non Fatal.}
+The error message text is presented in {\bf Bold} type with
+variable items in {\it Italics}.
+\newpage
+\subsection{Internal Error Messages}
+The following error message will always be displayed
+when an error is detected within the tool, and may be preceded by additional
+descriptive messages.
+
+\begin{enumerate}
+\item {\bf Unexpected Error, Terminating...}
+\end{enumerate}
+\subsection{Fatal Error Messages}
+The following error messages are produced when a fatal error condition is
+detected which can be resolved by the tool user.  Where appropriate, the error
+message will be followed by the associated file specification, and the context
+and column
+location of the error.
+\begin{enumerate}
+\item {\bf Can't Open {\it Source\_Filename}.}
+\item {\bf Too Many Parameters.}
+\end{enumerate}
+An excessive number of parameters were specified on the command line.
+\subsection{Non Fatal Error Messages}
+The following error messages display conditions which may be of interest to
+the tool user.  However, the displayed condition will not cause the tool to
+terminate execution.  Where appropriate, the error
+message will be followed by the associated file specification, and the context
+and column
+location of the error.
+
+\begin{enumerate}
+\item {\bf Attempt to Define Terminal as Start\_Symbol.}
+\item {\bf Attempt to Redefine Precedence.}
+\item {\bf Context Clause Specifications May Not Appear After Ada Declarations.}
+\item {\bf Expecting a Colon after the Lefthand Side of the Rule.}
+\item {\bf Expecting Identifier.}
+\item {\bf Expecting Next Section.}
+\item {\bf Expecting Package Name.}
+\item {\bf Expecting a Semicolon.}
+\item {\bf Expecting a Terminal after \%prec.}
+\item {\bf Expecting Token Declaration.}
+\item {\bf Illegal Context Clause Specification.}
+\item {\bf Illegal Filename.}
+\item {\bf Illegal Symbol Following \$.}
+\item {\bf Illegal Symbol as Token.}
+\item {\bf Illegal Token.}
+\item {\bf Illegal Token Following \%prec.}
+\item {\bf Illegal use of \${\it Integer}.}
+\item {\bf {\it Integer} Shift/Reduce Conflicts.}
+In a shift/reduce conflict, the shift is chosen.
+\item {\bf {\it Integer} Reduce/Reduce Conflicts.}
+In a reduce/reduce conflict, the reduce involving the earlier rule is chosen.
+\item {\bf Nonterminal {\it Symbol Name} Does Not Appear on the Left Hand
+Side of Any Rule.}
+\item {\bf Nonterminal {\it Symbol Name} Does Not Derive a Terminal String.}
+\item {\bf \%prec Cannot be Preceded by an Action.}
+\item {\bf Syntax Error detected in {\it File Spec}.}
+\item {\bf The Start Symbol has been Defined Already.}
+\item {\bf Terminals Cannot be on the Lefthand Side of a Rule.}
+\item {\bf Terminal Following \%prec has no Precedence.}
+\item {\bf Unexpected End of File before First '\%\%'.}
+The {\bf Ayacc} input specification should consist of three (four if
+{\it Error\_Recovery} is used) parts delimited by {\bf \%\%}. 
+\item {\bf Unexpected Symbol.}
+\item {\bf Use Verbose Option.}
+\end{enumerate}
+\section{Known Deficiencies}
+\ayacc has no known deficiencies.
+\section{Release Notes}
+\ayacc was designed and developed by David Taback and Deepak Tolani at
+UC Irvine in support of the {\it Arcadia Research Project}.
+
+Enhancements made by Ronald J. Schmalz are summarized below.
+\begin{enumerate}
+\item Addition of {\it \%with} and {\it \%use} directives which
+permits automatic insertion of a context clause information on the
+generated token package. 
+
+\item Unique unit name generation; the units created by \ayacc are now
+created as a function of the input file specification.  This allows
+the user to have multiple \ayacc generated parsers within the same
+library.
+\end{enumerate}
+
+Yidong Chen of the Arcadia Project at the University of Massachusetts
+in Amherst added the advanced automatic error recovery described in
+appendix C.
+
+
+The ``Ada for Linux Team (ALT)'' provided the adaption of the sources
+and this manual to the GNU Ada Compiler GNAT.
+
+\newpage
+\appendix
+\section{A Detailed Example}
+Below is a full Ayacc specification for an integer desk calculator and
+a {\bf Lex} specification of the corresponding lexical analyzer.  The Ayacc
+specification file is named {\it calc.y}.  The calculator
+has 26 variables labeled `A' through `Z' and supports most of the Ada
+integer arithmetic operators.  The example illustrates most of the
+advanced features of \ayacc including precedence, associativity,
+error recovery, and interfacing to {\bf aflex}.
+
+\begin{tabbing}
+123\=123\=123\=123\=123\=123 \kill
+\>\>\>\>                 $--$ The Ayacc specification file  $--$\\
+\end{tabbing}
+
+\small
+\begin{verbatim}
+%token '(' ')' NUMBER IDENTIFIER NEW_LINE
+
+%right     '='
+%left      '+' '-' 
+%left      '*' '/' 
+%right     DUMMY
+%nonassoc  EXP
+
+{
+type key_type is (cval, ival, noval); 
+
+type yystype is record
+  register : character;
+  value    : integer; 
+end record;
+        
+}
+
+%% 
+
+statements : statements statement 
+           | 
+           ;
+
+statement  : expr end
+               { put_line(integer'image($1.value)); }
+           | error end 
+               { put_line("Try again"); 
+                 yyerrok; -- yyclearin;
+               }
+             statement
+           ; 
+
+expr       : id '=' expr 
+               { registers($1.register) := $3.value; 
+                 $$.value := $3.value; }
+           | expr '+' expr 
+               { $$.value :=  $1.value + $3.value; }
+           | expr '-' expr 
+               { $$.value :=  $1.value - $3.value; }
+           | expr '*' expr 
+               { $$.value :=  $1.value * $3.value; }
+           | expr '/' expr 
+               { $$.value :=  $1.value / $3.value; }
+           | expr exp expr  
+               { $$.value :=  integer(float($1.value) ** $3.value); }
+           | '-' expr  %prec DUMMY 
+               { $$.value := - $2.value; }
+           | '(' expr ')' 
+               { $$.value :=  $2.value; }
+           | NUMBER
+               { $$.value :=  character'pos(calc_lex_dfa.yytext(1)) -
+                              character'pos('0'); } 
+           | id 
+               { $$.value :=  registers($1.register); }
+           ; 
+
+id         : IDENTIFIER
+               { $$.register := to_upper(calc_lex_dfa.yytext(1)); }
+           ;
+
+end        : NEW_LINE
+           | end_of_input 
+           ;
+
+%% --  next section will go before package statement in SPEC file
+
+## --  next section will go after package statement in SPEC file 
+   procedure YYParse;
+## --  next section will go before package statement in BODY file
+with calc_lex.dfa, calc_lex.IO, calc.error_report, Text_IO;
+use  text_io, calc_lex, calc_lex.IO;
+## --  next section will go after package statement in BODY file
+    package calc_lex_dfa renames calc_lex.dfa;   
+    package calc_lex_io  renames calc_lex.IO;   
+
+    registers : array(Character'('A') .. Character'('Z')) of integer; 
+
+    function to_upper(ch : in character) return character is
+    begin
+      if ch in 'a'..'z' then
+        return character'val( character'pos(ch) - (character'pos('a') -
+                                                   character'pos('A')) );
+      else
+        return ch;
+      end if;
+    end to_upper;
+
+    procedure yyerror(s: string) is 
+    begin 
+        put_line(s); 
+    end;
+## --  yyparse will be inserted here follwed by the final section
+--  Actually we just insert a comment for demonstration
+\end{verbatim}
+\normalsize
+\newpage
+\begin{tabbing}
+123\=123\=123\=123\=123\=123 \kill
+\>\>\>\>                 $--$ The Aflex specification file  $--$\\
+\end{tabbing}
+\small
+\begin{verbatim}
+%% 
+[A-Z]       { return IDENTIFIER; }
+[a-z]       { return IDENTIFIER; }
+[0-9]+      { return NUMBER; }
+"**"        { return EXP; }
+"("         { return '('; }
+")"         { return ')'; }
+"+"         { return '+'; }
+"/"         { return '/'; }
+"*"         { return '*'; }
+"="         { return '='; }
+"-"         { return '-'; }
+\n          { return NEW_LINE; }
+[\t ]+      { null;} 
+%%
+-- Added to the with list of SPEC
+with calc.Tokens; use  calc.Tokens;
+##
+   function YYLex return Token;
+##
+--  Added to the with list of BODY
+##
+--  Added before YYLex start
+##
+--  Appended after YYLex end
+\end{verbatim}
+\normalsize
+\newpage
+\newpage
+\section{Using the Verbose and Debug Options}
+We will introduce the concept of an {\bf item} to describe the output file
+created by the {\it Verbose} option.  An item consists of a rule with
+an underscore at some position on the right side.  The underscore denotes
+the amount of input seen by the parser.  For example, an item of the form
+\begin{verbatim}
+    X   : A B _ C
+\end{verbatim}
+shows that the parser is examining input corresponding to the rule
+{\it X : A B C}.
+The underscore states that the parser has has already seen
+{\it A B}
+and is expecting input that will match
+{\it C}.
+
+Items provide a means of finitely representing the possible
+legal inputs to the parser.  Each state contains a set of items corresponding
+to configurations indistinguishable to the parser.  For technical reasons,
+the set of items associated with a state fall into two categories termed
+the kernel and closure.  Users familiar with LR parsers
+may be interested in both the kernel and closure items, however the
+typical user need only be concerned with items in the closure.
+
+The verbose file contains a list of the states along with their corresponding
+item sets and parse actions.  A sample verbose file for the simple
+grammar,
+\begin{verbatim}
+%token id
+%%
+E : E '+' T
+  | T
+  ;
+
+T : T '*' id
+  | id
+  ;
+\end{verbatim}
+is shown below.
+\newpage
+\begin{verbatim}
+------------------
+State  0
+
+Kernel
+( 0)  $accept   : _ E END_OF_INPUT
+
+Closure
+( 0)  $accept   : _ E END_OF_INPUT
+( 1)  E : _ E '+' T
+( 2)  E : _ T
+( 3)  T : _ T '*' ID
+( 4)  T : _ ID
+
+
+       T    goto   2
+       E    goto   1
+       ID   shift  3
+       default     error
+------------------
+
+State  1
+
+Kernel
+( 0)  $accept   : E _ END_OF_INPUT
+( 1)  E : E _ '+' T
+
+Closure
+( 0)  $accept   : E _ END_OF_INPUT
+( 1)  E : E _ '+' T
+
+
+       END_OF_INPUT    accept
+       '+'     shift  5
+       default     error
+------------------
+\end{verbatim}
+\newpage
+\begin{verbatim}
+State  2
+
+Kernel
+( 2)  E : T _
+( 3)  T : T _ '*' ID
+
+Closure
+( 2)  E : T _
+( 3)  T : T _ '*' ID
+
+
+       '*'    shift  6
+       default    reduce  2
+------------------
+
+State  3
+
+Kernel
+( 4)  T : ID _
+
+Closure
+( 4)  T : ID _
+
+
+       default    reduce  4
+------------------
+
+State  4
+
+Kernel
+( 0)  $accept   : E END_OF_INPUT _
+
+Closure
+( 0)  $accept   : E END_OF_INPUT _
+
+
+       default    error
+------------------
+\end{verbatim}
+\newpage
+\begin{verbatim}
+State  5
+
+Kernel
+( 1)  E : E '+' _ T
+
+Closure
+( 1)  E : E '+' _ T
+( 3)  T : _ T '*' ID
+( 4)  T : _ ID
+
+
+       T    goto   7
+       ID   shift  3
+       default      error
+------------------
+
+State  6
+
+Kernel
+( 3)  T : T '*' _ ID
+
+Closure
+( 3)  T : T '*' _ ID
+
+
+        ID  shift  8
+        default     error
+------------------
+\end{verbatim}
+\newpage
+\begin{verbatim}
+State  7
+
+Kernel
+( 1)  E : E '+' T _
+( 3)  T : T _ '*' ID
+
+Closure
+( 1)  E : E '+' T _
+( 3)  T : T _ '*' ID
+
+
+       '*'    shift   6
+       default         reduce  1
+------------------
+
+State  8
+
+Kernel
+( 3)  T : T '*' ID _
+
+Closure
+( 3)  T : T '*' ID _
+
+
+       default      reduce  3
+
+\end{verbatim}
+
+Using the verbose file it is possible to trace how the parser will
+process a string of tokens.  For example the string `ID * ID + ID' would
+be treated as follows:
+\begin{verbatim}
+
+State Stack       Input
+    0          ID * ID + ID END_OF_INPUT
+\end{verbatim}
+The verbose entry for state 0 shows that on a lookahead token of
+ID the action is a shift and the new state is 3.  Thus, the new
+configuration of the parser becomes
+
+\begin{verbatim}
+State Stack     Input
+    3
+    0           * ID + ID END_OF_INPUT
+
+\end{verbatim}
+
+For state 3, there is no explicit action associated with the lookahead
+token and therefore the default action is consulted.  The default
+action associated
+with state 3 is a reduction by rule 4) T : ID.  Recall that a reduction
+consists of two steps.  First state 3 is popped leaving state 0
+on top of the stack.  Next the parser determines a new state
+by consulting the current top of
+the stack and the right hand side of the rule.  This new state is
+signified by a
+{\it goto}
+entry in the current state.  The verbose entry
+for state 0 and symbol T is a goto to state 2 producing the
+new configuration:
+\begin{verbatim}
+State Stack     Input
+    2
+    0           * ID + ID END_OF_INPUT
+
+\end{verbatim}
+
+The remaining configurations in the parse are shown below:
+
+\begin{verbatim}
+Shift 6
+
+State Stack    Input
+    6
+    2
+    0           ID + ID END_OF_INPUT
+
+Shift 8
+
+State Stack    Input
+    8
+    6
+    2
+    0           + ID END_OF_INPUT
+
+Default Reduce 3) T : T '*' ID
+Pop 8 6 2
+Goto state 2
+
+State Stack    Input
+    2
+    0           + ID END_OF_INPUT
+
+Default Reduce 2) E : T
+Pop 2
+Goto state 1
+
+State Stack    Input
+    1
+    0           + ID END_OF_INPUT
+
+Shift 5
+
+State Stack    Input
+    5
+    1
+    0           ID END_OF_INPUT
+
+Shift 3
+
+State Stack    Input
+    3
+    5
+    1
+    0           END_OF_INPUT
+
+Default reduce 4) T : ID
+Pop  3
+Goto 7
+
+State Stack    Input
+    7
+    5
+    1
+    0           END_OF_INPUT
+
+Default reduce 1) E : E +  T
+Pop  7 3 5
+Goto 1
+
+State Stack    Input
+    1
+    0           END_OF_INPUT
+
+Accept END_OF_INPUT
+Parse completes successfully
+\end{verbatim}
+\newpage
+\section{Automatic Error Recovery}
+If the {\it Error\_Recovery} command line parameter is set to {\it On}
+then \ayacc will generate an extension for automated syntax error
+correction.  Note that the lexical analyzer must contain additional
+functions which give the line number and column for each token.  This
+can be done by giving the {\it -E} option to {\it Aflex}.
+\ayacc generates  additional files named 
+{\it base}-error\_report.ads and {\it base}-error\_report.adb and 
+the user may specify another optional
+section in the user specification file.  Here is a description of that
+section.
+
+\subsection{User Error-correction Messages section}
+This is a section for the user to supply routines if he/she wishes to
+control the reporting of correction messages. Ayacc-extension supports
+automatic correction of some syntactic errors, as explained later.
+Along with each correction, a message is printed. In addition to the
+default message printed, the user is able to report a message of
+his/her own. Here is the spec of the message-reporting procedure which
+is generated:
+\begin{verbatim}
+   procedure Report_Continuable_Error(Line_Number : in Natural;
+                          Offset  : in Natural;
+                          Finish  : in Natural;
+                          Message : in String;
+                          Error   : in Boolean);
+\end{verbatim}
+
+Line\_Number is the line at which the error occurred; Offset is the index
+into the line of the start of the error; Finish is the index into the 
+line of the end of the error; Message is a string describing the error.
+Error is true for all genuine syntax errors, when it is false it indicates 
+a syntax warning.
+
+This section resembles the Token and Stack Element section syntactically
+in that its entries begin with the '\%' character. There are the options
+available in this section:
+\begin{enumerate}
+\item \%with ....;\\
+Generates a line 'With ....;' in the error report file (package body)\\
+\item \%use ....;\\
+Generates a line 'Use ....;' in the error report file (package body)\\
+\item \%initialize\_error\_report\\
+Following this line there should be the body of a no-argument procedure
+which will be called once at the beginning of yyparse. It can be used to
+initialize any data structures used by the user's error report.\\
+\item \%terminate\_error\_report\\
+Following this line there should be the body of a no-argument procedure
+which will be called once at the end of yyparse. It can be used to close
+any data ports utilized by the user's error reporting mechanism.\\
+\item \%report\_error\\
+Following this line there should be the body of the procedure 
+Report\_Continuable\_Error described above (i.e. with those arguments).
+\end{enumerate}
+
+The \%with and \%use lines, if present, should precede the others. An example
+is shown below.
+
+\begin{verbatim}
+   -- The other declarations would go up here.
+   %%
+   
+   %with text_io;
+
+   %initialize_error_report
+   begin
+     text_io.put_line("Initializing Error Report...");
+   end;
+
+   %terminate_error_report
+   begin
+     text_io.put_line("Finishing Error Report...");
+   end;
+
+   %report_error
+   begin
+     text_io.put_line("Error at line" & natural'image(line_number)
+                      & ": " & message);
+   end;
+\end{verbatim}
+
+\subsection{Change in running the Parser}
+If {\it Error\_Recovery} is set to {\it On}, the generated parser has more power
+in error recovery. Here is the additional power:
+\subsubsection{Output}
+A run of YYParse will produce a listing file which records the parsed lines
+of the input text and indicates where errors occurred. If the specification file
+is named {\it base}.y, then the listing file will be named {\it base}.lis. The rest of the
+output of the program is dependent on the action routines; as arbitrary code
+these are free to perform output operations.\\
+
+\subsubsection{Error Recovery}
+When the Ayacc generated parser encounters a syntax error, it tries to
+correct it. To correct the error it will try either to insert a legal
+token before the error, to change the error to a legal token, or to
+delete the error from the token stream. When a correction can be made,
+a message is printed describing the correction. Even when it is
+possible to correct an error, the correction will only be syntactic.
+For example, say the user is parsing a Pascal program and the input is
+missing a semicolon at the end of a statement. The parser may be able
+to detect that and insert the semicolon. In all likelihood, the
+semicolon has no semantic value, and the grammar rule in which it
+appears would not reference it in its semantic action. However,
+consider a case where the parser decides to insert an identifier token
+in order to correct a syntax error. It is very likely that an action
+routine for the grammar rule using the identifier would reference it
+semantically, to find out what characters are in the string making up
+the identifier. However, the parser has no way of knowing which
+identifier would be best to insert at the point of insertion, so it
+cannot provide this information. The action routine would therefore
+probably make a mistake, since it relies on the semantic information
+being present. If executing an action routine following a syntax error
+raises an exception, YYParse handles the exception and stops
+performing the code in action routines for the remainder of the parse.
+Even before action routines are stopped, any actions following a
+syntax error should not be trusted. To emphasize the abortive nature
+of a run of YYParse with syntax error, the parser raises the exception
+Syntax\_Error at the end of an input with syntax errors, even if all
+have been corrected. Here is a sample listing file from a two line
+calculator program.
+
+\begin{verbatim}
+   -----------------------------------------------------------------------
+
+
+   1    1 * 2 * 3  * 2 3
+   Error               ^
+   token deleted
+
+   2    4 + 28 / 14 + 2
+
+   Ayacc.YYParse : 1 syntax error found.
+
+  
+   -----------------------------------------------------------------------
+\end{verbatim}
+
+In the listing file, non-blank lines of text are listed with their
+line number at the left. The last token of the first line is a
+syntactic error; evidently an infix notation was specified in this
+grammar. Errors are indicated by a line that begins "Error" and then
+contains a caret character "\^" underneath the start of the erroneous
+token. YYParse can continue its parse if it deletes this token from
+the token stream.
+
+
+\subsubsection{User Error Messages}
+As previously mentioned, in addition to the default messages produced during
+error recovery, the user, in the last section of the specification file, can
+provide routines for reporting error messages in his/her own way. Also, the
+user is given an interface to those routines which he/she can use even when
+there is no syntactic error as defined by the grammar rules. This is useful in
+cases where there is input which parses properly but which "really" represents a
+syntax error in the input file. For this the following package is provided:
+
+\begin{verbatim}
+    package user_defined_errors is
+          procedure parser_error(Message : in String);
+          procedure parser_warning(Message : in String);
+    end user_defined_errors;
+\end{verbatim}
+
+This package is automatically visible to code in the user's action
+routines.  Calling user\_defined\_errors.parser\_error will increase the
+count of total syntax errors and call the procedure
+report\_continuable\_error, from the "User Error-correction Messages"
+section. The Message argument to parser\_error becomes the Message
+argument to\\
+report\_continuable\_error, and the Error argument to
+report\_continuable\_error is given the value True. The rest of the
+arguments to report\_continuable\_error are taken from context.
+User\_defined\_errors.parser\_warning is similar, except that the Error
+argument in the generated call to report\_continuable\_error is False.
+It also increments a counter of syntax warnings rather than syntax
+errors. There is an exception Syntax\_Warning like Syntax\_Error
+mentioned above which will be raised if during the parse there is no
+syntax errors but there are warnings.  Note that the procedures from
+package user\_defined\_errors can be called even if the procedure
+report\_continuable\_error is not defined by the user; in that case
+there will be no reporting of the Message, but the incrementing of the
+proper counter will still take place.
+\newpage
+\section{Differences between Yacc and Ayacc}
+
+\ayacc was modeled after {\bf Yacc} and adheres to most of the conventions and
+features of its C analogue.  Most of the differences between the
+two programs are minor, but some differences will make it difficult
+to convert Yacc specifications into \ayacc
+counterparts.  Some of the most important differences
+are listed below:
+
+\begin{enumerate}
+\item Ayacc identifiers are case insensitive.
+\item \ayacc does not provide a feature analogous to the \%union and \%type
+constructs of {\bf Yacc}.  At some sacrifice of convenience, similar
+functionality may be obtained by declaring YYSType as a
+variant record.
+\item \ayacc requires the user to define YYSType.
+\item There are no default actions in \ayacc.
+\item \ayacc does not support the old and discouraged features of {\bf
+Yacc}.  In particular, \%binary and \%term are not allowed, actions
+cannot be specified using the {\it =\{}
+delimiter and all rules must end in a
+semicolon.  In addition, \ayacc uses braces rather than,
+{\it \%\{} and
+{\it \%\}},
+to denote declarations that should be written to the tokens package.
+\item In \ayacc the tokens are an enumeration type rather than integers.
+\item \ayacc does not permit escape characters to be entered as literals.
+\item {\bf Yacc} generates a file containing the
+parser and parse tables and another file containing the
+macro definitions of the tokens declaration.  \ayacc generates four
+separate files corresponding to
+the parser, the two parse tables, and the tokens package.  In addition,
+\ayacc can generate the parser as a procedure
+or as a package depending on the user's specification
+file.
+\end{enumerate}
+\newpage
+\section{Ayacc Specification File Guidelines}
+The key to preparing efficient and readable Ayacc specification files is
+to make each part of the specification distinguishable from the rest.  This
+appendix is provided to give the new \ayacc user suggestions on how to
+prepare specification files which are:
+
+\begin{center}
+\begin{enumerate}
+\item Efficient.
+\item Easy to read.
+\item Easy to modify.
+\end{enumerate}
+\end{center}
+
+{\bf Specification File Format}
+\medskip
+\begin{enumerate}
+\item Group grammar rules with a common left hand side together, and line up the
+right hand sides with the `:', `$|$', and `;'.  This enhances readability and
+makes adding new rules or actions easier.
+\item Use upper case for {\it Tokens} returned by the lexical analyzer and lower
+case for {\it Non-Terminals} of the grammar.  This makes the distinction
+between terminals and non-terminals very clear.
+\item Place grammar rules and their corresponding actions on separate
+lines.  This enhances readability and maintainability.
+\end{enumerate}
+
+The rule fragment shown in {\bf Figure 10} defines the rules/actions for Ada
+identifier lists and is intended to exemplify the guidelines
+listed above.
+\newpage
+\noindent\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\vspace{-0.2in}
+\begin{verbatim}
+identifier_list  :  IDENTIFIER
+                      {
+                        $$ := (Tag  => Identifier_List,
+                               List => Empty_List);
+                        Insert (Item => $1,
+                                Into => $$.List);
+                      }
+                 |  identifier_list ',' IDENTIFIER
+                      {
+                        $$ := $1;
+                        Insert (Item => $3,
+                                Into => $$.List);
+                      }
+                 ;
+\end{verbatim}
+\hspace{-0.05in}\hrulefill\hspace{0.0in}\\
+\centerline{{\bf Figure 10.} Identifier List Grammar and Actions}
+\addcontentsline{lof}{figure}{10 -- Identifier List Grammar and Actions}
+\newpage
+\section{How the Parser Works}
+The parser generated by \ayacc belongs to the class of parsers technically
+known as LALR(1).  Although the use of \ayacc does not require extensive
+knowledge of LALR grammars, an intuitive understanding of
+how the parser works will help the user to resolve ambiguities in the
+grammar specification and to write more efficient parsers.
+
+The parser generated by \ayacc can be seen as a finite state
+machine with a stack of states.  The current state is always on the
+top of the stack; initially the stack contains state 0.  At any given
+moment during the parse, the parser uses its current state  and the
+value of the next lookahead token (obtained by calling
+{\it YYLex})
+to determine its next action.  Based on the current state and
+lookahead token, the parser performs one of four actions:
+
+\begin{tabbing}
+1234\=\kill
+ACCEPT\\
+\\
+\>The parser accepts the grammar, completing the parse.\\
+\\
+ERROR\\
+\\
+\>The parser detects a syntax error and calls {\it YYError}. If no error recovery\\
+\>is specified the parser aborts.\\
+\\
+SHIFT\\
+\\
+\>The parser uses the current state and the lookahead token to choose a new\\
+\>state that is pushed onto the stack.  The lookahead token is advanced\\
+\>to the next token in the input.\\
+\\
+REDUCE\\
+\\
+\>Reduce actions occur when the parser recognizes the right hand side of a\\
+\>rule.  In a reduce action, the parser pops a state for every symbol on the\\
+\>right hand side of the rule.  The parser then uses the current state\\
+\>uncovered by the succession of pops and the nonterminal on the left hand\\
+\>side of the rule to choose a new state that is pushed onto the stack.  The\\
+\>lookahead token is unaffected by a reduce action.\\
+\end{tabbing}
+\newpage
+\section{Porting Ayacc to Other Systems}
+
+\noindent{\bf Installing Ayacc}
+\addcontentsline{toc}{section}{\numberline{} Installing Ayacc\hfill}
+
+\ayacc was developed using the Verdix Ada compiler (version v04.06) 
+running under UNIX 4.2 BSD and enhanced using the Dec Ada Compiler
+(version 1.2-15) running under VAX/VMS 4.3.  If you are using a different
+system, you may have to make a minor change to the \ayacc source.
+
+Current \ayacc development is done using the SunAda (version 1.1i) on
+Sun workstations.  Ports done by users for many other compilers are
+included in the distribution.
+
+\vspace{0.25in}
+\noindent{\bf Reading arguments from the command line}
+\addcontentsline{toc}{section}{\numberline{} Reading arguments from
+the command line \hfill}
+
+The Verdix compiler uses a
+library package {\it U\_Env}
+to provide C-like facilities for reading arguments from the command
+line.  If your machine uses a different mechanism for passing parameters to
+the program, you will have to modify the subunit\\
+{\it Command\_Line\_Interface.Read\_Command\_Line}
+from the Command\_Line\_Interface package.
+\end{document}

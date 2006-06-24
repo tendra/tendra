@@ -1,0 +1,43 @@
+Porting Notes:
+
+The following items are known to be operating systems and compiler
+dependent and may need to be modified to work on your system.
+
+External file management: 
+
+The file file_managerB.a contain the code to open the files for the
+main scanner, IO and DFA packages.  You may need to modify this file
+to match the conventions for ada source file names on your system.
+
+Command Line Processing: 
+
+The file command_lineB.a contains code which loads the argument vector
+ARGV and argument count argc with the appropriate information.  ARGV
+should be set to the total number of arguments to the program plus one
+for the name of the program.  ARGV(0) should contain the program name
+if available, if not it may contain any string.  The elements
+ARGV(1..argc-1) should contain the arguments given to the program.  If
+your systems does not allow differentiation of upper and lower case
+on the command line you may have to modify this module to use a
+different strategy.
+
+Error Output:
+
+Aflex uses the FILE_TYPE variable STANDARD_ERROR as the destination
+for all error output.  This is a predefined file on the Verdix
+compiler.  On other compilers this variable should be defined in the
+file_managerS.a file, and the procedure initialize_files package
+should be modified to create standard_error and point it at an
+appropriate place for error messages to go.  This SHOULD NOT be the
+default output because aflex redirects this to the generated file.
+Thus all error messages will disappear into the generated Ada file.
+
+Templates:
+
+This version of aflex has the scanner skeleton and IO/DFA templates
+internalized.  This eliminates the need to keep copies of files containing
+these in a know location.  However this significantly increases the size
+of the executable.  On a machine with no virtual memory and limited
+physical memory it may be desirable to use external templates.  This
+can easily be done by deleting the internal templates and use the
+code from skeleton_manager that deals with external skeletons.

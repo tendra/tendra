@@ -1,0 +1,70 @@
+Release 1.4a
+
+This version is compatible with ayacc 1.1, which supports better error
+handling in generated parsers.
+
+Release 1.3a
+
+This version has a revised I/O package, which should eliminate problems
+that users were having with Standard_Input and Standard_Output not
+ending up where they thought they should be.
+
+Release 1.2a
+
+Fixed a few minor bugs, and a major one involving interactive mode (bug
+reported by Andrew Dunstan.)  A variety of new ports were added, see
+the README files for the individual ports directories for the
+contributors.  A few minor bugs remain, and are listed in the
+KNOWN_BUGS file.
+
+Release 1.1d
+
+Fixed a bug which generated illegal package name if a full pathname was
+given for the input file.  aflex /a/b/example.l now generates package names
+starting with example rather than /a/b/example_dfa.a.  (bug reported by
+Michael Schwartz, schwartz@pogo.den.mmc.com)
+
+Additional system specific files for the Alsys V5 compiler on the SPARCstation 
+are now included.  These were donated by Rolf Ebert, re@spinoza.enpc.fr
+
+Release 1.1c
+
+First freely redistributable version of aflex.
+
+Release 1.1b
+
+A bug in the check for NULL characters in the input was fixed.  Before
+it checked to see if we were exactly at the end of the buffer, the
+corrected check is to see if we are beyond the end of the buffer.  If the
+file is a multiple of the buffer size the old check failed when everything
+was okay.
+
+Release 1.1
+
+Made interactive mode work as it should (it wasn't stopping at the end of
+line as it should.)
+
+Release 1.0
+
+Fixed a bug in the input buffering algorithm that occurred if character
+pushback occurred immediately after a new buffer of input was read.
+
+Beta 0.3
+
+Add a missing yy_init := true in Open_Input so having the scanner
+read a new file will work as in alex.
+
+Beta 0.2
+
+Fixed nuisance bugs requiring that tstrings and int_io be in the
+current library.  Also add subprograms open_input and create_output
+for compatibility with alex.
+
+Beta 0.1
+
+This version of aflex is based very closely on the C version of flex.
+By closely following the structure of this program future fixes to
+flex can be easily integrated into aflex.  Since flex is widely used,
+and will replace the AT&T version of lex in the next Berkeley Unix
+distribution, it is hoped that this will result in future improvements
+to the algorithms underlying aflex also.

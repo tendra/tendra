@@ -1,0 +1,2379 @@
+<?xml version='1.0' ?>
+<gramar><rule name='character' label='2.1:'><seq><ref name='graphic_character'/>
+</seq>
+<seq><ref name='format_effector'/>
+</seq>
+<seq><ref name='other_control_function'/>
+</seq>
+</rule>
+<rule name='graphic_character' label='2.1:'><seq><ref name='identifier_letter'/>
+</seq>
+<seq><ref name='digit'/>
+</seq>
+<seq><ref name='space_character'/>
+</seq>
+<seq><ref name='special_character'/>
+</seq>
+</rule>
+<rule name='identifier' label='2.3:'><seq><ref name='identifier_letter'/>
+<list><seq><opt><seq><ref name='underline'/>
+</seq>
+</opt>
+<ref name='letter_or_digit'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='letter_or_digit' label='2.3:'><seq><ref name='identifier_letter'/>
+</seq>
+<seq><ref name='digit'/>
+</seq>
+</rule>
+<rule name='numeric_literal' label='2.4:'><seq><ref name='decimal_literal'/>
+</seq>
+<seq><ref name='based_literal'/>
+</seq>
+</rule>
+<rule name='decimal_literal' label='2.4.1:'><seq><ref name='numeral'/>
+<opt><seq><delim text='.'/>
+<ref name='numeral'/>
+</seq>
+</opt>
+<opt><seq><ref name='exponent'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='numeral' label='2.4.1:'><seq><ref name='digit'/>
+<list><seq><opt><seq><ref name='underline'/>
+</seq>
+</opt>
+<ref name='digit'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='exponent' label='2.4.1:'><seq><delim text='E'/>
+<opt><seq><delim text='+'/>
+</seq>
+</opt>
+<ref name='numeral'/>
+</seq>
+<seq><delim text='E'/>
+<delim text='-'/>
+<ref name='numeral'/>
+</seq>
+</rule>
+<rule name='based_literal' label='2.4.2:'><seq><ref name='base'/>
+<delim text='#'/>
+<ref name='based_numeral'/>
+<opt><seq><delim text='.'/>
+<ref name='based_numeral'/>
+</seq>
+</opt>
+<delim text='#'/>
+<opt><seq><ref name='exponent'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='base' label='2.4.2:'><seq><ref name='numeral'/>
+</seq>
+</rule>
+<rule name='based_numeral' label='2.4.2:'><seq><ref name='extended_digit'/>
+<list><seq><opt><seq><ref name='underline'/>
+</seq>
+</opt>
+<ref name='extended_digit'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='extended_digit' label='2.4.2:'><seq><ref name='digit'/>
+</seq>
+<seq><delim text='A'/>
+</seq>
+<seq><delim text='B'/>
+</seq>
+<seq><delim text='C'/>
+</seq>
+<seq><delim text='D'/>
+</seq>
+<seq><delim text='E'/>
+</seq>
+<seq><delim text='F'/>
+</seq>
+</rule>
+<rule name='character_literal' label='2.5:'><seq><delim text="'"/>
+<ref name='graphic_character'/>
+<delim text="'"/>
+</seq>
+</rule>
+<rule name='string_literal' label='2.6:'><seq><delim text='"'/>
+<list><seq><ref name='string_element'/>
+</seq>
+</list>
+<delim text='"'/>
+</seq>
+</rule>
+<rule name='string_element' label='2.6:'><seq><delim text='""'/>
+</seq>
+<seq><ref name='graphic_character' italic='non_quotation_mark_'/>
+</seq>
+</rule>
+<rule name='comment' label='2.7:'><seq><delim text='--'/>
+<list><seq><ref name='character' italic='non_end_of_line_'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='pragma' label='2.8:'><seq><keyword text='pragma'/>
+<ref name='identifier'/>
+<opt><seq><delim text='('/>
+<ref name='pragma_argument_association'/>
+<list><seq><delim text=','/>
+<ref name='pragma_argument_association'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='pragma_argument_association' label='2.8:'><seq><opt><seq><ref name='identifier' italic='pragma_argument_'/>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='name'/>
+</seq>
+<seq><opt><seq><ref name='identifier' italic='pragma_argument_'/>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='expression'/>
+</seq>
+</rule>
+<rule name='basic_declaration' label='3.1:'><seq><ref name='type_declaration'/>
+</seq>
+<seq><ref name='subtype_declaration'/>
+</seq>
+<seq><ref name='object_declaration'/>
+</seq>
+<seq><ref name='number_declaration'/>
+</seq>
+<seq><ref name='subprogram_declaration'/>
+</seq>
+<seq><ref name='abstract_subprogram_declaration'/>
+</seq>
+<seq><ref name='package_declaration'/>
+</seq>
+<seq><ref name='renaming_declaration'/>
+</seq>
+<seq><ref name='exception_declaration'/>
+</seq>
+<seq><ref name='generic_declaration'/>
+</seq>
+<seq><ref name='generic_instantiation'/>
+</seq>
+</rule>
+<rule name='defining_identifier' label='3.1:'><seq><ref name='identifier'/>
+</seq>
+</rule>
+<rule name='type_declaration' label='3.2.1:'><seq><ref name='full_type_declaration'/>
+</seq>
+<seq><ref name='incomplete_type_declaration'/>
+</seq>
+<seq><ref name='private_type_declaration'/>
+</seq>
+<seq><ref name='private_extension_declaration'/>
+</seq>
+</rule>
+<rule name='full_type_declaration' label='3.2.1:'><seq><keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='known_discriminant_part'/>
+</seq>
+</opt>
+<keyword text='is'/>
+<ref name='type_definition'/>
+<delim text=';'/>
+</seq>
+<seq><ref name='task_type_declaration'/>
+</seq>
+<seq><ref name='protected_type_declaration'/>
+</seq>
+</rule>
+<rule name='type_definition' label='3.2.1:'><seq><ref name='enumeration_type_definition'/>
+</seq>
+<seq><ref name='integer_type_definition'/>
+</seq>
+<seq><ref name='real_type_definition'/>
+</seq>
+<seq><ref name='array_type_definition'/>
+</seq>
+<seq><ref name='record_type_definition'/>
+</seq>
+<seq><ref name='access_type_definition'/>
+</seq>
+<seq><ref name='derived_type_definition'/>
+</seq>
+</rule>
+<rule name='subtype_declaration' label='3.2.2:'><seq><keyword text='subtype'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<ref name='subtype_indication'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subtype_indication' label='3.2.2:'><seq><ref name='subtype_mark'/>
+<opt><seq><ref name='constraint'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='subtype_mark' label='3.2.2:'><seq><ref name='name' italic='subtype_'/>
+</seq>
+</rule>
+<rule name='constraint' label='3.2.2:'><seq><ref name='scalar_constraint'/>
+</seq>
+<seq><ref name='composite_constraint'/>
+</seq>
+</rule>
+<rule name='scalar_constraint' label='3.2.2:'><seq><ref name='range_constraint'/>
+</seq>
+<seq><ref name='digits_constraint'/>
+</seq>
+<seq><ref name='delta_constraint'/>
+</seq>
+</rule>
+<rule name='composite_constraint' label='3.2.2:'><seq><ref name='index_constraint'/>
+</seq>
+<seq><ref name='discriminant_constraint'/>
+</seq>
+</rule>
+<rule name='object_declaration' label='3.3.1:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<opt><seq><keyword text='aliased'/>
+</seq>
+</opt>
+<opt><seq><keyword text='constant'/>
+</seq>
+</opt>
+<ref name='subtype_indication'/>
+<opt><seq><delim text=':='/>
+<ref name='expression'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+<seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<opt><seq><keyword text='aliased'/>
+</seq>
+</opt>
+<opt><seq><keyword text='constant'/>
+</seq>
+</opt>
+<ref name='array_type_definition'/>
+<opt><seq><delim text=':='/>
+<ref name='expression'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+<seq><ref name='single_task_declaration'/>
+</seq>
+<seq><ref name='single_protected_declaration'/>
+</seq>
+</rule>
+<rule name='defining_identifier_list' label='3.3.1:'><seq><ref name='defining_identifier'/>
+<list><seq><delim text=','/>
+<ref name='defining_identifier'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='number_declaration' label='3.3.2:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<keyword text='constant'/>
+<delim text=':='/>
+<ref name='expression' italic='static_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='derived_type_definition' label='3.4:'><seq><opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='new'/>
+<ref name='subtype_indication' italic='parent_'/>
+<opt><seq><ref name='record_extension_part'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='range_constraint' label='3.5:'><seq><keyword text='range'/>
+<ref name='range'/>
+</seq>
+</rule>
+<rule name='range' label='3.5:'><seq><ref name='range_attribute_reference'/>
+</seq>
+<seq><ref name='simple_expression'/>
+<delim text='..'/>
+<ref name='simple_expression'/>
+</seq>
+</rule>
+<rule name='enumeration_type_definition' label='3.5.1:'><seq><delim text='('/>
+<ref name='enumeration_literal_specification'/>
+<list><seq><delim text=','/>
+<ref name='enumeration_literal_specification'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='enumeration_literal_specification' label='3.5.1:'><seq><ref name='defining_identifier'/>
+</seq>
+<seq><ref name='defining_character_literal'/>
+</seq>
+</rule>
+<rule name='defining_character_literal' label='3.5.1:'><seq><ref name='character_literal'/>
+</seq>
+</rule>
+<rule name='integer_type_definition' label='3.5.4:'><seq><ref name='signed_integer_type_definition'/>
+</seq>
+<seq><ref name='modular_type_definition'/>
+</seq>
+</rule>
+<rule name='signed_integer_type_definition' label='3.5.4:'><seq><keyword text='range'/>
+<ref name='simple_expression' italic='static_'/>
+<delim text='..'/>
+<ref name='simple_expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='modular_type_definition' label='3.5.4:'><seq><keyword text='mod'/>
+<ref name='expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='real_type_definition' label='3.5.6:'><seq><ref name='floating_point_definition'/>
+</seq>
+<seq><ref name='fixed_point_definition'/>
+</seq>
+</rule>
+<rule name='floating_point_definition' label='3.5.7:'><seq><keyword text='digits'/>
+<ref name='expression' italic='static_'/>
+<opt><seq><ref name='real_range_specification'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='real_range_specification' label='3.5.7:'><seq><keyword text='range'/>
+<ref name='simple_expression' italic='static_'/>
+<delim text='..'/>
+<ref name='simple_expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='fixed_point_definition' label='3.5.9:'><seq><ref name='ordinary_fixed_point_definition'/>
+</seq>
+<seq><ref name='decimal_fixed_point_definition'/>
+</seq>
+</rule>
+<rule name='ordinary_fixed_point_definition' label='3.5.9:'><seq><keyword text='delta'/>
+<ref name='expression' italic='static_'/>
+<ref name='real_range_specification'/>
+</seq>
+</rule>
+<rule name='decimal_fixed_point_definition' label='3.5.9:'><seq><keyword text='delta'/>
+<ref name='expression' italic='static_'/>
+<keyword text='digits'/>
+<ref name='expression' italic='static_'/>
+<opt><seq><ref name='real_range_specification'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='digits_constraint' label='3.5.9:'><seq><keyword text='digits'/>
+<ref name='expression' italic='static_'/>
+<opt><seq><ref name='range_constraint'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='array_type_definition' label='3.6:'><seq><ref name='unconstrained_array_definition'/>
+</seq>
+<seq><ref name='constrained_array_definition'/>
+</seq>
+</rule>
+<rule name='unconstrained_array_definition' label='3.6:'><seq><keyword text='array'/>
+<delim text='('/>
+<ref name='index_subtype_definition'/>
+<list><seq><delim text=','/>
+<ref name='index_subtype_definition'/>
+</seq>
+</list>
+<delim text=')'/>
+<keyword text='of'/>
+<ref name='component_definition'/>
+</seq>
+</rule>
+<rule name='index_subtype_definition' label='3.6:'><seq><ref name='subtype_mark'/>
+<keyword text='range'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='constrained_array_definition' label='3.6:'><seq><keyword text='array'/>
+<delim text='('/>
+<ref name='discrete_subtype_definition'/>
+<list><seq><delim text=','/>
+<ref name='discrete_subtype_definition'/>
+</seq>
+</list>
+<delim text=')'/>
+<keyword text='of'/>
+<ref name='component_definition'/>
+</seq>
+</rule>
+<rule name='discrete_subtype_definition' label='3.6:'><seq><ref name='subtype_indication' italic='discrete_'/>
+</seq>
+<seq><ref name='range'/>
+</seq>
+</rule>
+<rule name='component_definition' label='3.6:'><seq><opt><seq><keyword text='aliased'/>
+</seq>
+</opt>
+<ref name='subtype_indication'/>
+</seq>
+</rule>
+<rule name='index_constraint' label='3.6.1:'><seq><delim text='('/>
+<ref name='discrete_range'/>
+<list><seq><delim text=','/>
+<ref name='discrete_range'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='discrete_range' label='3.6.1:'><seq><ref name='subtype_indication' italic='discrete_'/>
+</seq>
+<seq><ref name='range'/>
+</seq>
+</rule>
+<rule name='discriminant_part' label='3.7:'><seq><ref name='unknown_discriminant_part'/>
+</seq>
+<seq><ref name='known_discriminant_part'/>
+</seq>
+</rule>
+<rule name='unknown_discriminant_part' label='3.7:'><seq><delim text='('/>
+<delim text='&lt;>'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='known_discriminant_part' label='3.7:'><seq><delim text='('/>
+<ref name='discriminant_specification'/>
+<list><seq><delim text=';'/>
+<ref name='discriminant_specification'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='discriminant_specification' label='3.7:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='subtype_mark'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+</seq>
+<seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='access_definition'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='default_expression' label='3.7:'><seq><ref name='expression'/>
+</seq>
+</rule>
+<rule name='discriminant_constraint' label='3.7.1:'><seq><delim text='('/>
+<ref name='discriminant_association'/>
+<list><seq><delim text=','/>
+<ref name='discriminant_association'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='discriminant_association' label='3.7.1:'><seq><opt><seq><ref name='selector_name' italic='discriminant_'/>
+<list><seq><delim text='|'/>
+<ref name='selector_name' italic='discriminant_'/>
+</seq>
+</list>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='expression'/>
+</seq>
+</rule>
+<rule name='record_type_definition' label='3.8:'><seq><opt><seq><opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='tagged'/>
+</seq>
+</opt>
+<opt><seq><keyword text='limited'/>
+</seq>
+</opt>
+<ref name='record_definition'/>
+</seq>
+</rule>
+<rule name='record_definition' label='3.8:'><seq><keyword text='record'/>
+<ref name='component_list'/>
+<keyword text='end'/>
+<keyword text='record'/>
+</seq>
+<seq><keyword text='null'/>
+<keyword text='record'/>
+</seq>
+</rule>
+<rule name='component_list' label='3.8:'><seq><ref name='component_item'/>
+<list><seq><ref name='component_item'/>
+</seq>
+</list>
+</seq>
+<seq><list><seq><ref name='component_item'/>
+</seq>
+</list>
+<ref name='variant_part'/>
+</seq>
+<seq><keyword text='null'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='component_item' label='3.8:'><seq><ref name='component_declaration'/>
+</seq>
+<seq><ref name='representation_clause'/>
+</seq>
+</rule>
+<rule name='component_declaration' label='3.8:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='component_definition'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='variant_part' label='3.8.1:'><seq><keyword text='case'/>
+<ref name='direct_name' italic='discriminant_'/>
+<keyword text='is'/>
+<ref name='variant'/>
+<list><seq><ref name='variant'/>
+</seq>
+</list>
+<keyword text='end'/>
+<keyword text='case'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='variant' label='3.8.1:'><seq><keyword text='when'/>
+<ref name='discrete_choice_list'/>
+<delim text='=>'/>
+<ref name='component_list'/>
+</seq>
+</rule>
+<rule name='discrete_choice_list' label='3.8.1:'><seq><ref name='discrete_choice'/>
+<list><seq><delim text='|'/>
+<ref name='discrete_choice'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='discrete_choice' label='3.8.1:'><seq><ref name='expression'/>
+</seq>
+<seq><ref name='discrete_range'/>
+</seq>
+<seq><keyword text='others'/>
+</seq>
+</rule>
+<rule name='record_extension_part' label='3.9.1:'><seq><keyword text='with'/>
+<ref name='record_definition'/>
+</seq>
+</rule>
+<rule name='access_type_definition' label='3.10:'><seq><ref name='access_to_object_definition'/>
+</seq>
+<seq><ref name='access_to_subprogram_definition'/>
+</seq>
+</rule>
+<rule name='access_to_object_definition' label='3.10:'><seq><keyword text='access'/>
+<opt><seq><ref name='general_access_modifier'/>
+</seq>
+</opt>
+<ref name='subtype_indication'/>
+</seq>
+</rule>
+<rule name='general_access_modifier' label='3.10:'><seq><keyword text='all'/>
+</seq>
+<seq><keyword text='constant'/>
+</seq>
+</rule>
+<rule name='access_to_subprogram_definition' label='3.10:'><seq><keyword text='access'/>
+<opt><seq><keyword text='protected'/>
+</seq>
+</opt>
+<keyword text='procedure'/>
+<ref name='parameter_profile'/>
+</seq>
+<seq><keyword text='access'/>
+<opt><seq><keyword text='protected'/>
+</seq>
+</opt>
+<keyword text='function'/>
+<ref name='parameter_and_result_profile'/>
+</seq>
+</rule>
+<rule name='access_definition' label='3.10:'><seq><keyword text='access'/>
+<ref name='subtype_mark'/>
+</seq>
+</rule>
+<rule name='incomplete_type_declaration' label='3.10.1:'><seq><keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='discriminant_part'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='declarative_part' label='3.11:'><seq><list><seq><ref name='declarative_item'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='declarative_item' label='3.11:'><seq><ref name='basic_declarative_item'/>
+</seq>
+<seq><ref name='body'/>
+</seq>
+</rule>
+<rule name='basic_declarative_item' label='3.11:'><seq><ref name='basic_declaration'/>
+</seq>
+<seq><ref name='representation_clause'/>
+</seq>
+<seq><ref name='use_clause'/>
+</seq>
+</rule>
+<rule name='body' label='3.11:'><seq><ref name='proper_body'/>
+</seq>
+<seq><ref name='body_stub'/>
+</seq>
+</rule>
+<rule name='proper_body' label='3.11:'><seq><ref name='subprogram_body'/>
+</seq>
+<seq><ref name='package_body'/>
+</seq>
+<seq><ref name='task_body'/>
+</seq>
+<seq><ref name='protected_body'/>
+</seq>
+</rule>
+<rule name='name' label='4.1:'><seq><ref name='direct_name'/>
+</seq>
+<seq><ref name='explicit_dereference'/>
+</seq>
+<seq><ref name='indexed_component'/>
+</seq>
+<seq><ref name='slice'/>
+</seq>
+<seq><ref name='selected_component'/>
+</seq>
+<seq><ref name='attribute_reference'/>
+</seq>
+<seq><ref name='type_conversion'/>
+</seq>
+<seq><ref name='function_call'/>
+</seq>
+<seq><ref name='character_literal'/>
+</seq>
+</rule>
+<rule name='direct_name' label='4.1:'><seq><ref name='identifier'/>
+</seq>
+<seq><ref name='operator_symbol'/>
+</seq>
+</rule>
+<rule name='prefix' label='4.1:'><seq><ref name='name'/>
+</seq>
+<seq><ref name='implicit_dereference'/>
+</seq>
+</rule>
+<rule name='explicit_dereference' label='4.1:'><seq><ref name='name'/>
+<delim text='.'/>
+<keyword text='all'/>
+</seq>
+</rule>
+<rule name='implicit_dereference' label='4.1:'><seq><ref name='name'/>
+</seq>
+</rule>
+<rule name='indexed_component' label='4.1.1:'><seq><ref name='prefix'/>
+<delim text='('/>
+<ref name='expression'/>
+<list><seq><delim text=','/>
+<ref name='expression'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='slice' label='4.1.2:'><seq><ref name='prefix'/>
+<delim text='('/>
+<ref name='discrete_range'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='selected_component' label='4.1.3:'><seq><ref name='prefix'/>
+<delim text='.'/>
+<ref name='selector_name'/>
+</seq>
+</rule>
+<rule name='selector_name' label='4.1.3:'><seq><ref name='identifier'/>
+</seq>
+<seq><ref name='character_literal'/>
+</seq>
+<seq><ref name='operator_symbol'/>
+</seq>
+</rule>
+<rule name='attribute_reference' label='4.1.4:'><seq><ref name='prefix'/>
+<delim text="'"/>
+<ref name='attribute_designator'/>
+</seq>
+</rule>
+<rule name='attribute_designator' label='4.1.4:'><seq><ref name='identifier'/>
+<opt><seq><delim text='('/>
+<ref name='expression' italic='static_'/>
+<delim text=')'/>
+</seq>
+</opt>
+</seq>
+<seq><keyword text='access'/>
+</seq>
+<seq><keyword text='delta'/>
+</seq>
+<seq><keyword text='digits'/>
+</seq>
+</rule>
+<rule name='range_attribute_reference' label='4.1.4:'><seq><ref name='prefix'/>
+<delim text="'"/>
+<ref name='range_attribute_designator'/>
+</seq>
+</rule>
+<rule name='range_attribute_designator' label='4.1.4:'><seq><keyword text='range'/>
+<opt><seq><delim text='('/>
+<ref name='expression' italic='static_'/>
+<delim text=')'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='aggregate' label='4.3:'><seq><ref name='record_aggregate'/>
+</seq>
+<seq><ref name='extension_aggregate'/>
+</seq>
+<seq><ref name='array_aggregate'/>
+</seq>
+</rule>
+<rule name='record_aggregate' label='4.3.1:'><seq><delim text='('/>
+<ref name='record_component_association_list'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='record_component_association_list' label='4.3.1:'><seq><ref name='record_component_association'/>
+<list><seq><delim text=','/>
+<ref name='record_component_association'/>
+</seq>
+</list>
+</seq>
+<seq><keyword text='null'/>
+<keyword text='record'/>
+</seq>
+</rule>
+<rule name='record_component_association' label='4.3.1:'><seq><opt><seq><ref name='component_choice_list'/>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='expression'/>
+</seq>
+</rule>
+<rule name='component_choice_list' label='4.3.1:'><seq><ref name='selector_name' italic='component_'/>
+<list><seq><delim text='|'/>
+<ref name='selector_name' italic='component_'/>
+</seq>
+</list>
+</seq>
+<seq><keyword text='others'/>
+</seq>
+</rule>
+<rule name='extension_aggregate' label='4.3.2:'><seq><delim text='('/>
+<ref name='ancestor_part'/>
+<keyword text='with'/>
+<ref name='record_component_association_list'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='ancestor_part' label='4.3.2:'><seq><ref name='expression'/>
+</seq>
+<seq><ref name='subtype_mark'/>
+</seq>
+</rule>
+<rule name='array_aggregate' label='4.3.3:'><seq><ref name='positional_array_aggregate'/>
+</seq>
+<seq><ref name='named_array_aggregate'/>
+</seq>
+</rule>
+<rule name='positional_array_aggregate' label='4.3.3:'><seq><delim text='('/>
+<ref name='expression'/>
+<delim text=','/>
+<ref name='expression'/>
+<list><seq><delim text=','/>
+<ref name='expression'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+<seq><delim text='('/>
+<ref name='expression'/>
+<list><seq><delim text=','/>
+<ref name='expression'/>
+</seq>
+</list>
+<delim text=','/>
+<keyword text='others'/>
+<delim text='=>'/>
+<ref name='expression'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='named_array_aggregate' label='4.3.3:'><seq><delim text='('/>
+<ref name='array_component_association'/>
+<list><seq><delim text=','/>
+<ref name='array_component_association'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='array_component_association' label='4.3.3:'><seq><ref name='discrete_choice_list'/>
+<delim text='=>'/>
+<ref name='expression'/>
+</seq>
+</rule>
+<rule name='expression' label='4.4:'><seq><ref name='relation'/>
+<list><seq><keyword text='and'/>
+<ref name='relation'/>
+</seq>
+</list>
+</seq>
+<seq><ref name='relation'/>
+<list><seq><keyword text='and'/>
+<keyword text='then'/>
+<ref name='relation'/>
+</seq>
+</list>
+</seq>
+<seq><ref name='relation'/>
+<list><seq><keyword text='or'/>
+<ref name='relation'/>
+</seq>
+</list>
+</seq>
+<seq><ref name='relation'/>
+<list><seq><keyword text='or'/>
+<keyword text='else'/>
+<ref name='relation'/>
+</seq>
+</list>
+</seq>
+<seq><ref name='relation'/>
+<list><seq><keyword text='xor'/>
+<ref name='relation'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='relation' label='4.4:'><seq><ref name='simple_expression'/>
+<opt><seq><ref name='relational_operator'/>
+<ref name='simple_expression'/>
+</seq>
+</opt>
+</seq>
+<seq><ref name='simple_expression'/>
+<opt><seq><keyword text='not'/>
+</seq>
+</opt>
+<keyword text='in'/>
+<ref name='range'/>
+</seq>
+<seq><ref name='simple_expression'/>
+<opt><seq><keyword text='not'/>
+</seq>
+</opt>
+<keyword text='in'/>
+<ref name='subtype_mark'/>
+</seq>
+</rule>
+<rule name='simple_expression' label='4.4:'><seq><opt><seq><ref name='unary_adding_operator'/>
+</seq>
+</opt>
+<ref name='term'/>
+<list><seq><ref name='binary_adding_operator'/>
+<ref name='term'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='term' label='4.4:'><seq><ref name='factor'/>
+<list><seq><ref name='multiplying_operator'/>
+<ref name='factor'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='factor' label='4.4:'><seq><ref name='primary'/>
+<opt><seq><delim text='**'/>
+<ref name='primary'/>
+</seq>
+</opt>
+</seq>
+<seq><keyword text='abs'/>
+<ref name='primary'/>
+</seq>
+<seq><keyword text='not'/>
+<ref name='primary'/>
+</seq>
+</rule>
+<rule name='primary' label='4.4:'><seq><ref name='numeric_literal'/>
+</seq>
+<seq><keyword text='null'/>
+</seq>
+<seq><ref name='string_literal'/>
+</seq>
+<seq><ref name='aggregate'/>
+</seq>
+<seq><ref name='name'/>
+</seq>
+<seq><ref name='qualified_expression'/>
+</seq>
+<seq><ref name='allocator'/>
+</seq>
+<seq><delim text='('/>
+<ref name='expression'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='logical_operator' label='4.5:'><seq><keyword text='and'/>
+</seq>
+<seq><keyword text='or'/>
+</seq>
+<seq><keyword text='xor'/>
+</seq>
+</rule>
+<rule name='relational_operator' label='4.5:'><seq><delim text='='/>
+</seq>
+<seq><delim text='/='/>
+</seq>
+<seq><delim text='&lt;'/>
+</seq>
+<seq><delim text='&lt;='/>
+</seq>
+<seq><delim text='>'/>
+</seq>
+<seq><delim text='>='/>
+</seq>
+</rule>
+<rule name='binary_adding_operator' label='4.5:'><seq><delim text='+'/>
+</seq>
+<seq><delim text='-'/>
+</seq>
+<seq><delim text='&amp;'/>
+</seq>
+</rule>
+<rule name='unary_adding_operator' label='4.5:'><seq><delim text='+'/>
+</seq>
+<seq><delim text='-'/>
+</seq>
+</rule>
+<rule name='multiplying_operator' label='4.5:'><seq><delim text='*'/>
+</seq>
+<seq><delim text='/'/>
+</seq>
+<seq><keyword text='mod'/>
+</seq>
+<seq><keyword text='rem'/>
+</seq>
+</rule>
+<rule name='highest_precedence_operator' label='4.5:'><seq><delim text='**'/>
+</seq>
+<seq><keyword text='abs'/>
+</seq>
+<seq><keyword text='not'/>
+</seq>
+</rule>
+<rule name='type_conversion' label='4.6:'><seq><ref name='subtype_mark'/>
+<delim text='('/>
+<ref name='expression'/>
+<delim text=')'/>
+</seq>
+<seq><ref name='subtype_mark'/>
+<delim text='('/>
+<ref name='name'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='qualified_expression' label='4.7:'><seq><ref name='subtype_mark'/>
+<delim text="'"/>
+<delim text='('/>
+<ref name='expression'/>
+<delim text=')'/>
+</seq>
+<seq><ref name='subtype_mark'/>
+<delim text="'"/>
+<ref name='aggregate'/>
+</seq>
+</rule>
+<rule name='allocator' label='4.8:'><seq><keyword text='new'/>
+<ref name='subtype_indication'/>
+</seq>
+<seq><keyword text='new'/>
+<ref name='qualified_expression'/>
+</seq>
+</rule>
+<rule name='sequence_of_statements' label='5.1:'><seq><ref name='statement'/>
+<list><seq><ref name='statement'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='statement' label='5.1:'><seq><list><seq><ref name='label'/>
+</seq>
+</list>
+<ref name='simple_statement'/>
+</seq>
+<seq><list><seq><ref name='label'/>
+</seq>
+</list>
+<ref name='compound_statement'/>
+</seq>
+</rule>
+<rule name='simple_statement' label='5.1:'><seq><ref name='null_statement'/>
+</seq>
+<seq><ref name='assignment_statement'/>
+</seq>
+<seq><ref name='exit_statement'/>
+</seq>
+<seq><ref name='goto_statement'/>
+</seq>
+<seq><ref name='procedure_call_statement'/>
+</seq>
+<seq><ref name='return_statement'/>
+</seq>
+<seq><ref name='entry_call_statement'/>
+</seq>
+<seq><ref name='requeue_statement'/>
+</seq>
+<seq><ref name='delay_statement'/>
+</seq>
+<seq><ref name='abort_statement'/>
+</seq>
+<seq><ref name='raise_statement'/>
+</seq>
+<seq><ref name='code_statement'/>
+</seq>
+</rule>
+<rule name='compound_statement' label='5.1:'><seq><ref name='if_statement'/>
+</seq>
+<seq><ref name='case_statement'/>
+</seq>
+<seq><ref name='loop_statement'/>
+</seq>
+<seq><ref name='block_statement'/>
+</seq>
+<seq><ref name='accept_statement'/>
+</seq>
+<seq><ref name='select_statement'/>
+</seq>
+</rule>
+<rule name='null_statement' label='5.1:'><seq><keyword text='null'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='label' label='5.1:'><seq><delim text='&lt;&lt;'/>
+<ref name='statement_identifier' italic='label_'/>
+<delim text='>>'/>
+</seq>
+</rule>
+<rule name='statement_identifier' label='5.1:'><seq><ref name='direct_name'/>
+</seq>
+</rule>
+<rule name='assignment_statement' label='5.2:'><seq><ref name='name' italic='variable_'/>
+<delim text=':='/>
+<ref name='expression'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='if_statement' label='5.3:'><seq><keyword text='if'/>
+<ref name='condition'/>
+<keyword text='then'/>
+<ref name='sequence_of_statements'/>
+<list><seq><keyword text='elsif'/>
+<ref name='condition'/>
+<keyword text='then'/>
+<ref name='sequence_of_statements'/>
+</seq>
+</list>
+<opt><seq><keyword text='else'/>
+<ref name='sequence_of_statements'/>
+</seq>
+</opt>
+<keyword text='end'/>
+<keyword text='if'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='condition' label='5.3:'><seq><ref name='expression' italic='boolean_'/>
+</seq>
+</rule>
+<rule name='case_statement' label='5.4:'><seq><keyword text='case'/>
+<ref name='expression'/>
+<keyword text='is'/>
+<ref name='case_statement_alternative'/>
+<list><seq><ref name='case_statement_alternative'/>
+</seq>
+</list>
+<keyword text='end'/>
+<keyword text='case'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='case_statement_alternative' label='5.4:'><seq><keyword text='when'/>
+<ref name='discrete_choice_list'/>
+<delim text='=>'/>
+<ref name='sequence_of_statements'/>
+</seq>
+</rule>
+<rule name='loop_statement' label='5.5:'><seq><opt><seq><ref name='statement_identifier' italic='loop_'/>
+<delim text=':'/>
+</seq>
+</opt>
+<opt><seq><ref name='iteration_scheme'/>
+</seq>
+</opt>
+<keyword text='loop'/>
+<ref name='sequence_of_statements'/>
+<keyword text='end'/>
+<keyword text='loop'/>
+<opt><seq><ref name='identifier' italic='loop_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='iteration_scheme' label='5.5:'><seq><keyword text='while'/>
+<ref name='condition'/>
+</seq>
+<seq><keyword text='for'/>
+<ref name='loop_parameter_specification'/>
+</seq>
+</rule>
+<rule name='loop_parameter_specification' label='5.5:'><seq><ref name='defining_identifier'/>
+<keyword text='in'/>
+<opt><seq><keyword text='reverse'/>
+</seq>
+</opt>
+<ref name='discrete_subtype_definition'/>
+</seq>
+</rule>
+<rule name='block_statement' label='5.6:'><seq><opt><seq><ref name='statement_identifier' italic='block_'/>
+<delim text=':'/>
+</seq>
+</opt>
+<opt><seq><keyword text='declare'/>
+<ref name='declarative_part'/>
+</seq>
+</opt>
+<keyword text='begin'/>
+<ref name='handled_sequence_of_statements'/>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='block_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='exit_statement' label='5.7:'><seq><keyword text='exit'/>
+<opt><seq><ref name='name' italic='loop_'/>
+</seq>
+</opt>
+<opt><seq><keyword text='when'/>
+<ref name='condition'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='goto_statement' label='5.8:'><seq><keyword text='goto'/>
+<ref name='name' italic='label_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subprogram_declaration' label='6.1:'><seq><ref name='subprogram_specification'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='abstract_subprogram_declaration' label='6.1:'><seq><ref name='subprogram_specification'/>
+<keyword text='is'/>
+<keyword text='abstract'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subprogram_specification' label='6.1:'><seq><keyword text='procedure'/>
+<ref name='defining_program_unit_name'/>
+<ref name='parameter_profile'/>
+</seq>
+<seq><keyword text='function'/>
+<ref name='defining_designator'/>
+<ref name='parameter_and_result_profile'/>
+</seq>
+</rule>
+<rule name='designator' label='6.1:'><seq><opt><seq><ref name='parent_unit_name'/>
+<delim text='.'/>
+</seq>
+</opt>
+<ref name='identifier'/>
+</seq>
+<seq><ref name='operator_symbol'/>
+</seq>
+</rule>
+<rule name='defining_designator' label='6.1:'><seq><ref name='defining_program_unit_name'/>
+</seq>
+<seq><ref name='defining_operator_symbol'/>
+</seq>
+</rule>
+<rule name='defining_program_unit_name' label='6.1:'><seq><opt><seq><ref name='parent_unit_name'/>
+<delim text='.'/>
+</seq>
+</opt>
+<ref name='defining_identifier'/>
+</seq>
+</rule>
+<rule name='operator_symbol' label='6.1:'><seq><ref name='string_literal'/>
+</seq>
+</rule>
+<rule name='defining_operator_symbol' label='6.1:'><seq><ref name='operator_symbol'/>
+</seq>
+</rule>
+<rule name='parameter_profile' label='6.1:'><seq><opt><seq><ref name='formal_part'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='parameter_and_result_profile' label='6.1:'><seq><opt><seq><ref name='formal_part'/>
+</seq>
+</opt>
+<keyword text='return'/>
+<ref name='subtype_mark'/>
+</seq>
+</rule>
+<rule name='formal_part' label='6.1:'><seq><delim text='('/>
+<ref name='parameter_specification'/>
+<list><seq><delim text=';'/>
+<ref name='parameter_specification'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='parameter_specification' label='6.1:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='mode'/>
+<ref name='subtype_mark'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+</seq>
+<seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='access_definition'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='mode' label='6.1:'><seq><opt><seq><keyword text='in'/>
+</seq>
+</opt>
+</seq>
+<seq><keyword text='in'/>
+<keyword text='out'/>
+</seq>
+<seq><keyword text='out'/>
+</seq>
+</rule>
+<rule name='subprogram_body' label='6.3:'><seq><ref name='subprogram_specification'/>
+<keyword text='is'/>
+<ref name='declarative_part'/>
+<keyword text='begin'/>
+<ref name='handled_sequence_of_statements'/>
+<keyword text='end'/>
+<opt><seq><ref name='designator'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='procedure_call_statement' label='6.4:'><seq><ref name='name' italic='procedure_'/>
+<delim text=';'/>
+</seq>
+<seq><ref name='prefix' italic='procedure_'/>
+<ref name='actual_parameter_part'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='function_call' label='6.4:'><seq><ref name='name' italic='function_'/>
+</seq>
+<seq><ref name='prefix' italic='function_'/>
+<ref name='actual_parameter_part'/>
+</seq>
+</rule>
+<rule name='actual_parameter_part' label='6.4:'><seq><delim text='('/>
+<ref name='parameter_association'/>
+<list><seq><delim text=','/>
+<ref name='parameter_association'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='parameter_association' label='6.4:'><seq><opt><seq><ref name='selector_name' italic='formal_parameter_'/>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='explicit_actual_parameter'/>
+</seq>
+</rule>
+<rule name='explicit_actual_parameter' label='6.4:'><seq><ref name='expression'/>
+</seq>
+<seq><ref name='name' italic='variable_'/>
+</seq>
+</rule>
+<rule name='return_statement' label='6.5:'><seq><keyword text='return'/>
+<opt><seq><ref name='expression'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='package_declaration' label='7.1:'><seq><ref name='package_specification'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='package_specification' label='7.1:'><seq><keyword text='package'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='is'/>
+<list><seq><ref name='basic_declarative_item'/>
+</seq>
+</list>
+<opt><seq><keyword text='private'/>
+<list><seq><ref name='basic_declarative_item'/>
+</seq>
+</list>
+</seq>
+</opt>
+<keyword text='end'/>
+<opt><seq><opt><seq><ref name='parent_unit_name'/>
+<delim text='.'/>
+</seq>
+</opt>
+<ref name='identifier'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='package_body' label='7.2:'><seq><keyword text='package'/>
+<keyword text='body'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='is'/>
+<ref name='declarative_part'/>
+<opt><seq><keyword text='begin'/>
+<ref name='handled_sequence_of_statements'/>
+</seq>
+</opt>
+<keyword text='end'/>
+<opt><seq><opt><seq><ref name='parent_unit_name'/>
+<delim text='.'/>
+</seq>
+</opt>
+<ref name='identifier'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='private_type_declaration' label='7.3:'><seq><keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='discriminant_part'/>
+</seq>
+</opt>
+<keyword text='is'/>
+<opt><seq><opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='tagged'/>
+</seq>
+</opt>
+<opt><seq><keyword text='limited'/>
+</seq>
+</opt>
+<keyword text='private'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='private_extension_declaration' label='7.3:'><seq><keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='discriminant_part'/>
+</seq>
+</opt>
+<keyword text='is'/>
+<opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='new'/>
+<ref name='subtype_indication' italic='ancestor_'/>
+<keyword text='with'/>
+<keyword text='private'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='use_clause' label='8.4:'><seq><ref name='use_package_clause'/>
+</seq>
+<seq><ref name='use_type_clause'/>
+</seq>
+</rule>
+<rule name='use_package_clause' label='8.4:'><seq><keyword text='use'/>
+<ref name='name' italic='package_'/>
+<list><seq><delim text=','/>
+<ref name='name' italic='package_'/>
+</seq>
+</list>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='use_type_clause' label='8.4:'><seq><keyword text='use'/>
+<keyword text='type'/>
+<ref name='subtype_mark'/>
+<list><seq><delim text=','/>
+<ref name='subtype_mark'/>
+</seq>
+</list>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='renaming_declaration' label='8.5:'><seq><ref name='object_renaming_declaration'/>
+</seq>
+<seq><ref name='exception_renaming_declaration'/>
+</seq>
+<seq><ref name='package_renaming_declaration'/>
+</seq>
+<seq><ref name='subprogram_renaming_declaration'/>
+</seq>
+<seq><ref name='generic_renaming_declaration'/>
+</seq>
+</rule>
+<rule name='object_renaming_declaration' label='8.5.1:'><seq><ref name='defining_identifier'/>
+<delim text=':'/>
+<ref name='subtype_mark'/>
+<keyword text='renames'/>
+<ref name='name' italic='object_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='exception_renaming_declaration' label='8.5.2:'><seq><ref name='defining_identifier'/>
+<delim text=':'/>
+<keyword text='exception'/>
+<keyword text='renames'/>
+<ref name='name' italic='exception_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='package_renaming_declaration' label='8.5.3:'><seq><keyword text='package'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='renames'/>
+<ref name='name' italic='package_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subprogram_renaming_declaration' label='8.5.4:'><seq><ref name='subprogram_specification'/>
+<keyword text='renames'/>
+<ref name='name' italic='callable_entity_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='generic_renaming_declaration' label='8.5.5:'><seq><keyword text='generic'/>
+<keyword text='package'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='renames'/>
+<ref name='name' italic='generic_package_'/>
+<delim text=';'/>
+</seq>
+<seq><keyword text='generic'/>
+<keyword text='procedure'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='renames'/>
+<ref name='name' italic='generic_procedure_'/>
+<delim text=';'/>
+</seq>
+<seq><keyword text='generic'/>
+<keyword text='function'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='renames'/>
+<ref name='name' italic='generic_function_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='task_type_declaration' label='9.1:'><seq><keyword text='task'/>
+<keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='known_discriminant_part'/>
+</seq>
+</opt>
+<opt><seq><keyword text='is'/>
+<ref name='task_definition'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='single_task_declaration' label='9.1:'><seq><keyword text='task'/>
+<ref name='defining_identifier'/>
+<opt><seq><keyword text='is'/>
+<ref name='task_definition'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='task_definition' label='9.1:'><seq><list><seq><ref name='task_item'/>
+</seq>
+</list>
+<opt><seq><keyword text='private'/>
+<list><seq><ref name='task_item'/>
+</seq>
+</list>
+</seq>
+</opt>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='task_'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='task_item' label='9.1:'><seq><ref name='entry_declaration'/>
+</seq>
+<seq><ref name='representation_clause'/>
+</seq>
+</rule>
+<rule name='task_body' label='9.1:'><seq><keyword text='task'/>
+<keyword text='body'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<ref name='declarative_part'/>
+<keyword text='begin'/>
+<ref name='handled_sequence_of_statements'/>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='task_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='protected_type_declaration' label='9.4:'><seq><keyword text='protected'/>
+<keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='known_discriminant_part'/>
+</seq>
+</opt>
+<keyword text='is'/>
+<ref name='protected_definition'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='single_protected_declaration' label='9.4:'><seq><keyword text='protected'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<ref name='protected_definition'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='protected_definition' label='9.4:'><seq><list><seq><ref name='protected_operation_declaration'/>
+</seq>
+</list>
+<opt><seq><keyword text='private'/>
+<list><seq><ref name='protected_element_declaration'/>
+</seq>
+</list>
+</seq>
+</opt>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='protected_'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='protected_operation_declaration' label='9.4:'><seq><ref name='subprogram_declaration'/>
+</seq>
+<seq><ref name='entry_declaration'/>
+</seq>
+<seq><ref name='representation_clause'/>
+</seq>
+</rule>
+<rule name='protected_element_declaration' label='9.4:'><seq><ref name='protected_operation_declaration'/>
+</seq>
+<seq><ref name='component_declaration'/>
+</seq>
+</rule>
+<rule name='protected_body' label='9.4:'><seq><keyword text='protected'/>
+<keyword text='body'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<list><seq><ref name='protected_operation_item'/>
+</seq>
+</list>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='protected_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='protected_operation_item' label='9.4:'><seq><ref name='subprogram_declaration'/>
+</seq>
+<seq><ref name='subprogram_body'/>
+</seq>
+<seq><ref name='entry_body'/>
+</seq>
+<seq><ref name='representation_clause'/>
+</seq>
+</rule>
+<rule name='entry_declaration' label='9.5.2:'><seq><keyword text='entry'/>
+<ref name='defining_identifier'/>
+<opt><seq><delim text='('/>
+<ref name='discrete_subtype_definition'/>
+<delim text=')'/>
+</seq>
+</opt>
+<ref name='parameter_profile'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='accept_statement' label='9.5.2:'><seq><keyword text='accept'/>
+<ref name='direct_name' italic='entry_'/>
+<opt><seq><delim text='('/>
+<ref name='entry_index'/>
+<delim text=')'/>
+</seq>
+</opt>
+<ref name='parameter_profile'/>
+<opt><seq><keyword text='do'/>
+<ref name='handled_sequence_of_statements'/>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='entry_'/>
+</seq>
+</opt>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='entry_index' label='9.5.2:'><seq><ref name='expression'/>
+</seq>
+</rule>
+<rule name='entry_body' label='9.5.2:'><seq><keyword text='entry'/>
+<ref name='defining_identifier'/>
+<ref name='entry_body_formal_part'/>
+<ref name='entry_barrier'/>
+<keyword text='is'/>
+<ref name='declarative_part'/>
+<keyword text='begin'/>
+<ref name='handled_sequence_of_statements'/>
+<keyword text='end'/>
+<opt><seq><ref name='identifier' italic='entry_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='entry_body_formal_part' label='9.5.2:'><seq><opt><seq><delim text='('/>
+<ref name='entry_index_specification'/>
+<delim text=')'/>
+</seq>
+</opt>
+<ref name='parameter_profile'/>
+</seq>
+</rule>
+<rule name='entry_barrier' label='9.5.2:'><seq><keyword text='when'/>
+<ref name='condition'/>
+</seq>
+</rule>
+<rule name='entry_index_specification' label='9.5.2:'><seq><keyword text='for'/>
+<ref name='defining_identifier'/>
+<keyword text='in'/>
+<ref name='discrete_subtype_definition'/>
+</seq>
+</rule>
+<rule name='entry_call_statement' label='9.5.3:'><seq><ref name='name' italic='entry_'/>
+<opt><seq><ref name='actual_parameter_part'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='requeue_statement' label='9.5.4:'><seq><keyword text='requeue'/>
+<ref name='name' italic='entry_'/>
+<opt><seq><keyword text='with'/>
+<keyword text='abort'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='delay_statement' label='9.6:'><seq><ref name='delay_until_statement'/>
+</seq>
+<seq><ref name='delay_relative_statement'/>
+</seq>
+</rule>
+<rule name='delay_until_statement' label='9.6:'><seq><keyword text='delay'/>
+<keyword text='until'/>
+<ref name='expression' italic='delay_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='delay_relative_statement' label='9.6:'><seq><keyword text='delay'/>
+<ref name='expression' italic='delay_'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='select_statement' label='9.7:'><seq><ref name='selective_accept'/>
+</seq>
+<seq><ref name='timed_entry_call'/>
+</seq>
+<seq><ref name='conditional_entry_call'/>
+</seq>
+<seq><ref name='asynchronous_select'/>
+</seq>
+</rule>
+<rule name='selective_accept' label='9.7.1:'><seq><keyword text='select'/>
+<opt><seq><ref name='guard'/>
+</seq>
+</opt>
+<ref name='select_alternative'/>
+<list><seq><keyword text='or'/>
+<opt><seq><ref name='guard'/>
+</seq>
+</opt>
+<ref name='select_alternative'/>
+</seq>
+</list>
+<opt><seq><keyword text='else'/>
+<ref name='sequence_of_statements'/>
+</seq>
+</opt>
+<keyword text='end'/>
+<keyword text='select'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='guard' label='9.7.1:'><seq><keyword text='when'/>
+<ref name='condition'/>
+<delim text='=>'/>
+</seq>
+</rule>
+<rule name='select_alternative' label='9.7.1:'><seq><ref name='accept_alternative'/>
+</seq>
+<seq><ref name='delay_alternative'/>
+</seq>
+<seq><ref name='terminate_alternative'/>
+</seq>
+</rule>
+<rule name='accept_alternative' label='9.7.1:'><seq><ref name='accept_statement'/>
+<opt><seq><ref name='sequence_of_statements'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='delay_alternative' label='9.7.1:'><seq><ref name='delay_statement'/>
+<opt><seq><ref name='sequence_of_statements'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='terminate_alternative' label='9.7.1:'><seq><keyword text='terminate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='timed_entry_call' label='9.7.2:'><seq><keyword text='select'/>
+<ref name='entry_call_alternative'/>
+<keyword text='or'/>
+<ref name='delay_alternative'/>
+<keyword text='end'/>
+<keyword text='select'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='entry_call_alternative' label='9.7.2:'><seq><ref name='entry_call_statement'/>
+<opt><seq><ref name='sequence_of_statements'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='conditional_entry_call' label='9.7.3:'><seq><keyword text='select'/>
+<ref name='entry_call_alternative'/>
+<keyword text='else'/>
+<ref name='sequence_of_statements'/>
+<keyword text='end'/>
+<keyword text='select'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='asynchronous_select' label='9.7.4:'><seq><keyword text='select'/>
+<ref name='triggering_alternative'/>
+<keyword text='then'/>
+<keyword text='abort'/>
+<ref name='abortable_part'/>
+<keyword text='end'/>
+<keyword text='select'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='triggering_alternative' label='9.7.4:'><seq><ref name='triggering_statement'/>
+<opt><seq><ref name='sequence_of_statements'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='triggering_statement' label='9.7.4:'><seq><ref name='entry_call_statement'/>
+</seq>
+<seq><ref name='delay_statement'/>
+</seq>
+</rule>
+<rule name='abortable_part' label='9.7.4:'><seq><ref name='sequence_of_statements'/>
+</seq>
+</rule>
+<rule name='abort_statement' label='9.8:'><seq><keyword text='abort'/>
+<ref name='name' italic='task_'/>
+<list><seq><delim text=','/>
+<ref name='name' italic='task_'/>
+</seq>
+</list>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='compilation' label='10.1.1:'><seq><list><seq><ref name='compilation_unit'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='compilation_unit' label='10.1.1:'><seq><ref name='context_clause'/>
+<ref name='library_item'/>
+</seq>
+<seq><ref name='context_clause'/>
+<ref name='subunit'/>
+</seq>
+</rule>
+<rule name='library_item' label='10.1.1:'><seq><opt><seq><keyword text='private'/>
+</seq>
+</opt>
+<ref name='library_unit_declaration'/>
+</seq>
+<seq><ref name='library_unit_body'/>
+</seq>
+<seq><opt><seq><keyword text='private'/>
+</seq>
+</opt>
+<ref name='library_unit_renaming_declaration'/>
+</seq>
+</rule>
+<rule name='library_unit_declaration' label='10.1.1:'><seq><ref name='subprogram_declaration'/>
+</seq>
+<seq><ref name='package_declaration'/>
+</seq>
+<seq><ref name='generic_declaration'/>
+</seq>
+<seq><ref name='generic_instantiation'/>
+</seq>
+</rule>
+<rule name='library_unit_renaming_declaration' label='10.1.1:'><seq><ref name='package_renaming_declaration'/>
+</seq>
+<seq><ref name='generic_renaming_declaration'/>
+</seq>
+<seq><ref name='subprogram_renaming_declaration'/>
+</seq>
+</rule>
+<rule name='library_unit_body' label='10.1.1:'><seq><ref name='subprogram_body'/>
+</seq>
+<seq><ref name='package_body'/>
+</seq>
+</rule>
+<rule name='parent_unit_name' label='10.1.1:'><seq><ref name='name'/>
+</seq>
+</rule>
+<rule name='context_clause' label='10.1.2:'><seq><list><seq><ref name='context_item'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='context_item' label='10.1.2:'><seq><ref name='with_clause'/>
+</seq>
+<seq><ref name='use_clause'/>
+</seq>
+</rule>
+<rule name='with_clause' label='10.1.2:'><seq><keyword text='with'/>
+<ref name='name' italic='library_unit_'/>
+<list><seq><delim text=','/>
+<ref name='name' italic='library_unit_'/>
+</seq>
+</list>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='body_stub' label='10.1.3:'><seq><ref name='subprogram_body_stub'/>
+</seq>
+<seq><ref name='package_body_stub'/>
+</seq>
+<seq><ref name='task_body_stub'/>
+</seq>
+<seq><ref name='protected_body_stub'/>
+</seq>
+</rule>
+<rule name='subprogram_body_stub' label='10.1.3:'><seq><ref name='subprogram_specification'/>
+<keyword text='is'/>
+<keyword text='separate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='package_body_stub' label='10.1.3:'><seq><keyword text='package'/>
+<keyword text='body'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<keyword text='separate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='task_body_stub' label='10.1.3:'><seq><keyword text='task'/>
+<keyword text='body'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<keyword text='separate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='protected_body_stub' label='10.1.3:'><seq><keyword text='protected'/>
+<keyword text='body'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<keyword text='separate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subunit' label='10.1.3:'><seq><keyword text='separate'/>
+<delim text='('/>
+<ref name='parent_unit_name'/>
+<delim text=')'/>
+<ref name='proper_body'/>
+</seq>
+</rule>
+<rule name='exception_declaration' label='11.1:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<keyword text='exception'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='handled_sequence_of_statements' label='11.2:'><seq><ref name='sequence_of_statements'/>
+<opt><seq><keyword text='exception'/>
+<ref name='exception_handler'/>
+<list><seq><ref name='exception_handler'/>
+</seq>
+</list>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='exception_handler' label='11.2:'><seq><keyword text='when'/>
+<opt><seq><ref name='choice_parameter_specification'/>
+<delim text=':'/>
+</seq>
+</opt>
+<ref name='exception_choice'/>
+<list><seq><delim text='|'/>
+<ref name='exception_choice'/>
+</seq>
+</list>
+<delim text='=>'/>
+<ref name='sequence_of_statements'/>
+</seq>
+</rule>
+<rule name='choice_parameter_specification' label='11.2:'><seq><ref name='defining_identifier'/>
+</seq>
+</rule>
+<rule name='exception_choice' label='11.2:'><seq><ref name='name' italic='exception_'/>
+</seq>
+<seq><keyword text='others'/>
+</seq>
+</rule>
+<rule name='raise_statement' label='11.3:'><seq><keyword text='raise'/>
+<opt><seq><ref name='name' italic='exception_'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='generic_declaration' label='12.1:'><seq><ref name='generic_subprogram_declaration'/>
+</seq>
+<seq><ref name='generic_package_declaration'/>
+</seq>
+</rule>
+<rule name='generic_subprogram_declaration' label='12.1:'><seq><ref name='generic_formal_part'/>
+<ref name='subprogram_specification'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='generic_package_declaration' label='12.1:'><seq><ref name='generic_formal_part'/>
+<ref name='package_specification'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='generic_formal_part' label='12.1:'><seq><keyword text='generic'/>
+<list><seq><ref name='generic_formal_part_item'/>
+</seq>
+</list>
+</seq>
+</rule>
+<rule name='generic_formal_part_item' label='0.0:'><seq><ref name='generic_formal_parameter_declaration'/>
+</seq>
+<seq><ref name='use_clause'/>
+</seq>
+</rule>
+<rule name='generic_formal_parameter_declaration' label='12.1:'><seq><ref name='formal_object_declaration'/>
+</seq>
+<seq><ref name='formal_type_declaration'/>
+</seq>
+<seq><ref name='formal_subprogram_declaration'/>
+</seq>
+<seq><ref name='formal_package_declaration'/>
+</seq>
+</rule>
+<rule name='generic_instantiation' label='12.3:'><seq><keyword text='package'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='is'/>
+<keyword text='new'/>
+<ref name='name' italic='generic_package_'/>
+<opt><seq><ref name='generic_actual_part'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+<seq><keyword text='procedure'/>
+<ref name='defining_program_unit_name'/>
+<keyword text='is'/>
+<keyword text='new'/>
+<ref name='name' italic='generic_procedure_'/>
+<opt><seq><ref name='generic_actual_part'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+<seq><keyword text='function'/>
+<ref name='defining_designator'/>
+<keyword text='is'/>
+<keyword text='new'/>
+<ref name='name' italic='generic_function_'/>
+<opt><seq><ref name='generic_actual_part'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='generic_actual_part' label='12.3:'><seq><delim text='('/>
+<ref name='generic_association'/>
+<list><seq><delim text=','/>
+<ref name='generic_association'/>
+</seq>
+</list>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='generic_association' label='12.3:'><seq><opt><seq><ref name='selector_name' italic='generic_formal_parameter_'/>
+<delim text='=>'/>
+</seq>
+</opt>
+<ref name='explicit_generic_actual_parameter'/>
+</seq>
+</rule>
+<rule name='explicit_generic_actual_parameter' label='12.3:'><seq><ref name='expression'/>
+</seq>
+<seq><ref name='name' italic='variable_'/>
+</seq>
+<seq><ref name='name' italic='subprogram_'/>
+</seq>
+<seq><ref name='name' italic='entry_'/>
+</seq>
+<seq><ref name='subtype_mark'/>
+</seq>
+<seq><ref name='name' italic='package_instance_'/>
+</seq>
+</rule>
+<rule name='formal_object_declaration' label='12.4:'><seq><ref name='defining_identifier_list'/>
+<delim text=':'/>
+<ref name='mode'/>
+<ref name='subtype_mark'/>
+<opt><seq><delim text=':='/>
+<ref name='default_expression'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='formal_type_declaration' label='12.5:'><seq><keyword text='type'/>
+<ref name='defining_identifier'/>
+<opt><seq><ref name='discriminant_part'/>
+</seq>
+</opt>
+<keyword text='is'/>
+<ref name='formal_type_definition'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='formal_type_definition' label='12.5:'><seq><ref name='formal_private_type_definition'/>
+</seq>
+<seq><ref name='formal_derived_type_definition'/>
+</seq>
+<seq><ref name='formal_discrete_type_definition'/>
+</seq>
+<seq><ref name='formal_signed_integer_type_definition'/>
+</seq>
+<seq><ref name='formal_modular_type_definition'/>
+</seq>
+<seq><ref name='formal_floating_point_definition'/>
+</seq>
+<seq><ref name='formal_ordinary_fixed_point_definition'/>
+</seq>
+<seq><ref name='formal_decimal_fixed_point_definition'/>
+</seq>
+<seq><ref name='formal_array_type_definition'/>
+</seq>
+<seq><ref name='formal_access_type_definition'/>
+</seq>
+</rule>
+<rule name='formal_private_type_definition' label='12.5.1:'><seq><opt><seq><opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='tagged'/>
+</seq>
+</opt>
+<opt><seq><keyword text='limited'/>
+</seq>
+</opt>
+<keyword text='private'/>
+</seq>
+</rule>
+<rule name='formal_derived_type_definition' label='12.5.1:'><seq><opt><seq><keyword text='abstract'/>
+</seq>
+</opt>
+<keyword text='new'/>
+<ref name='subtype_mark'/>
+<opt><seq><keyword text='with'/>
+<keyword text='private'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='formal_discrete_type_definition' label='12.5.2:'><seq><delim text='('/>
+<delim text='&lt;>'/>
+<delim text=')'/>
+</seq>
+</rule>
+<rule name='formal_signed_integer_type_definition' label='12.5.2:'><seq><keyword text='range'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='formal_modular_type_definition' label='12.5.2:'><seq><keyword text='mod'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='formal_floating_point_definition' label='12.5.2:'><seq><keyword text='digits'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='formal_ordinary_fixed_point_definition' label='12.5.2:'><seq><keyword text='delta'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='formal_decimal_fixed_point_definition' label='12.5.2:'><seq><keyword text='delta'/>
+<delim text='&lt;>'/>
+<keyword text='digits'/>
+<delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='formal_array_type_definition' label='12.5.3:'><seq><ref name='array_type_definition'/>
+</seq>
+</rule>
+<rule name='formal_access_type_definition' label='12.5.4:'><seq><ref name='access_type_definition'/>
+</seq>
+</rule>
+<rule name='formal_subprogram_declaration' label='12.6:'><seq><keyword text='with'/>
+<ref name='subprogram_specification'/>
+<opt><seq><keyword text='is'/>
+<ref name='subprogram_default'/>
+</seq>
+</opt>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='subprogram_default' label='12.6:'><seq><ref name='default_name'/>
+</seq>
+<seq><delim text='&lt;>'/>
+</seq>
+</rule>
+<rule name='default_name' label='12.6:'><seq><ref name='name'/>
+</seq>
+</rule>
+<rule name='formal_package_declaration' label='12.7:'><seq><keyword text='with'/>
+<keyword text='package'/>
+<ref name='defining_identifier'/>
+<keyword text='is'/>
+<keyword text='new'/>
+<ref name='name' italic='generic_package_'/>
+<ref name='formal_package_actual_part'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='formal_package_actual_part' label='12.7:'><seq><delim text='('/>
+<delim text='&lt;>'/>
+<delim text=')'/>
+</seq>
+<seq><opt><seq><ref name='generic_actual_part'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='representation_clause' label='13.1:'><seq><ref name='attribute_definition_clause'/>
+</seq>
+<seq><ref name='enumeration_representation_clause'/>
+</seq>
+<seq><ref name='record_representation_clause'/>
+</seq>
+<seq><ref name='at_clause'/>
+</seq>
+</rule>
+<rule name='local_name' label='13.1:'><seq><ref name='direct_name'/>
+</seq>
+<seq><ref name='direct_name'/>
+<delim text="'"/>
+<ref name='attribute_designator'/>
+</seq>
+<seq><ref name='name' italic='library_unit_'/>
+</seq>
+</rule>
+<rule name='attribute_definition_clause' label='13.3:'><seq><keyword text='for'/>
+<ref name='local_name'/>
+<delim text="'"/>
+<ref name='attribute_designator'/>
+<keyword text='use'/>
+<ref name='expression'/>
+<delim text=';'/>
+</seq>
+<seq><keyword text='for'/>
+<ref name='local_name'/>
+<delim text="'"/>
+<ref name='attribute_designator'/>
+<keyword text='use'/>
+<ref name='name'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='enumeration_representation_clause' label='13.4:'><seq><keyword text='for'/>
+<ref name='local_name' italic='first_subtype_'/>
+<keyword text='use'/>
+<ref name='enumeration_aggregate'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='enumeration_aggregate' label='13.4:'><seq><ref name='array_aggregate'/>
+</seq>
+</rule>
+<rule name='record_representation_clause' label='13.5.1:'><seq><keyword text='for'/>
+<ref name='local_name' italic='first_subtype_'/>
+<keyword text='use'/>
+<keyword text='record'/>
+<opt><seq><ref name='mod_clause'/>
+</seq>
+</opt>
+<list><seq><ref name='component_clause'/>
+</seq>
+</list>
+<keyword text='end'/>
+<keyword text='record'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='component_clause' label='13.5.1:'><seq><ref name='local_name' italic='component_'/>
+<keyword text='at'/>
+<ref name='position'/>
+<keyword text='range'/>
+<ref name='first_bit'/>
+<delim text='..'/>
+<ref name='last_bit'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='position' label='13.5.1:'><seq><ref name='expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='first_bit' label='13.5.1:'><seq><ref name='simple_expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='last_bit' label='13.5.1:'><seq><ref name='simple_expression' italic='static_'/>
+</seq>
+</rule>
+<rule name='code_statement' label='13.8:'><seq><ref name='qualified_expression'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='restriction' label='13.12:'><seq><ref name='identifier' italic='restriction_'/>
+</seq>
+<seq><ref name='identifier' italic='restriction_parameter_'/>
+<delim text='=>'/>
+<ref name='expression'/>
+</seq>
+</rule>
+<rule name='delta_constraint' label='J.3:'><seq><keyword text='delta'/>
+<ref name='expression' italic='static_'/>
+<opt><seq><ref name='range_constraint'/>
+</seq>
+</opt>
+</seq>
+</rule>
+<rule name='at_clause' label='J.7:'><seq><keyword text='for'/>
+<ref name='direct_name'/>
+<keyword text='use'/>
+<keyword text='at'/>
+<ref name='expression'/>
+<delim text=';'/>
+</seq>
+</rule>
+<rule name='mod_clause' label='J.8:'><seq><keyword text='at'/>
+<keyword text='mod'/>
+<ref name='expression' italic='static_'/>
+<delim text=';'/>
+</seq>
+</rule>
+</gramar>
