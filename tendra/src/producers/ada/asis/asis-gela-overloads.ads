@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 --  Purpose:
 --  Implement name resolution rules.
 --  Fix Element_Kinds and cleanup Corresponding_Name_Definition_List

@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 --  Purpose:
 --  Implement permanent element Id on unmodified sources.
 --  For Id we use hash of an element concatenated with unit unique name.

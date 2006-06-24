@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 --  Purpose:
 --  Storage pool for compilation.
 --  Using this storage pool we can deallocate whole compilation

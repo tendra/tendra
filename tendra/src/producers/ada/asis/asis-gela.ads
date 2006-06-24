@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 --  Purpose:
 --  Asis.Gela starts package hierarhy where implemented Object-Oriented Asis.
 --  Standard procedural Asis implemented as set of wrappers over dispatching

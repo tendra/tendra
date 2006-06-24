@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 
 package System.Storage_Elements is
    pragma Preelaborate (System.Storage_Elements);

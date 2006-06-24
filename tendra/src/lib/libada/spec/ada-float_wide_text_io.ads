@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments.adb 2270 2005-11-04 19:51:32Z maxr $
+--  $TenDRA$
 
 with Ada.Wide_Text_IO;
 package Ada.Float_Wide_Text_IO is new Ada.Wide_Text_IO.Float_IO (Float);
