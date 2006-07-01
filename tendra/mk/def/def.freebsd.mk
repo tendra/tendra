@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: def.freebsd.mk 2307 2005-11-12 22:49:08Z dege $
 #
 # Binary / variable definitions for the FreeBSD operating system.
 
@@ -83,3 +83,14 @@ BIN_TYPE?=		type		#builtin
 BIN_UNAME?=		/usr/bin/uname
 BIN_WC?=		/usr/bin/wc
 BIN_XARGS?=		/usr/bin/xargs
+
+# Ada related binaries  
+BIN_GNATMAKE?=  /usr/local/bin/gnatmake
+BIN_GNATCHOP?=  /usr/local/bin/gnatchop
+BIN_AFLEX?=     /usr/local/bin/aflex
+BIN_AYACC?=     /usr/local/bin/ayacc
+BIN_XSLTPROC?=  /usr/local/bin/xsltproc
+
+# Where to place *.ali files and Gela ASIS library for gnat
+# This is directory under lib/TenDRA/lib
+LIB_GNAT?= 	gnat

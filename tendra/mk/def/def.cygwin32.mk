@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: def.cygwin32.mk 2341 2005-11-14 21:07:23Z stefanf $
 #
 # Binary / variable definitions for the cygwin32 environment.
 
@@ -87,3 +87,14 @@ BIN_TYPE?=	type		# Shell builtin
 BIN_UNAME?=	/bin/uname
 BIN_WC?=	/bin/wc
 BIN_XARGS?=	/bin/xargs
+
+# Ada related binaries
+BIN_GNATMAKE?=	/bin/gnatmake
+BIN_GNATCHOP?=	/bin/gnatchop
+BIN_AFLEX?=	/usr/local/bin/aflex
+BIN_AYACC?=	/usr/local/bin/ayacc
+BIN_XSLTPROC?=	/bin/xsltproc
+
+# Where to place *.ali files and Gela ASIS library for gnat
+# This is directory under lib/TenDRA/lib
+LIB_GNAT?= 	gnat

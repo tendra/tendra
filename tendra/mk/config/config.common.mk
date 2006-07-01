@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: config.common.mk 2409 2006-01-07 00:04:10Z dege $
 #
 # This holds the actual target for creating the config file.
 # Since this will always be common for all OS's I moved it to it's own
@@ -30,6 +30,9 @@ SED_OPT_VAR=	\
 	-e "s|@MAN_INSTALL@|${MAN_INSTALL}|g" \
 	-e "s|@PREFIX@|${PREFIX}|g"
 
+.if defined(WITH_ADA)
+SED_OPT_VAR+= -e "s|^\#WITH_ADA|WITH_ADA|"
+.endif
 
 .if defined(NO_RANLIB)
 SED_OPT_COND=	-s "^\#NO_RANLIB|NO_RANLIB|"
@@ -53,6 +56,14 @@ config-create:
 	@${BIN_ECHO} ${BIN}
 	@${BIN_TEST} -x "${BIN}"
 .endfor 
+
+.if defined(WITH_ADA)
+.for BIN in ${BIN_GNATMAKE} ${BIN_GNATCHOP} ${BIN_AFLEX} ${BIN_AYACC} \
+			${BIN_XSLTPROC}
+	@${BIN_ECHO} ${BIN}
+	@${BIN_TEST} -x "${BIN}"
+.endfor 
+.endif
 
 .if !defined(NO_RANLIB)
 	@${BIN_ECHO} ${BIN_RANLIB}

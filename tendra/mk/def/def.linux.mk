@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: def.linux.mk 2341 2005-11-14 21:07:23Z stefanf $
 #
 # Binary / variable definitions for the Linux operating system.
 
@@ -107,3 +107,14 @@ BIN_TYPE?=	type		# shell builtin.
 BIN_UNAME?=	/bin/uname
 BIN_WC?=	/usr/bin/wc
 BIN_XARGS?=	/usr/bin/xargs
+
+# Ada related binaries 
+BIN_GNATMAKE?=  /usr/bin/gnatmake
+BIN_GNATCHOP?=  /usr/bin/gnatchop
+BIN_AFLEX?=     /usr/local/bin/aflex
+BIN_AYACC?=     /usr/local/bin/ayacc
+BIN_XSLTPROC?=  /usr/bin/xsltproc
+
+# Where to place *.ali files and Gela ASIS library for gnat
+# This is directory under lib/TenDRA/lib
+LIB_GNAT?= 	gnat

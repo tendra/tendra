@@ -1,8 +1,16 @@
-# $TenDRA$
+# $TenDRA: Makefile 2151 2005-10-17 11:14:32Z stefanf $
 #
 # We re-write our suffixes and have the suffix rule in this file.
 # since it's a special case (sh scripts) there was no point in placing
 # this into tendra.sys.mk
+
+.if !defined(SRC_DIR)
+SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
+.endif
+
+.if exists (${SRC_DIR}/config.mk)
+.include "${SRC_DIR}/config.mk"
+.endif
 
 .SUFFIXES:	.sh
 
@@ -14,6 +22,11 @@ WRAPPERS+=	calculus.sh lexi.sh sid.sh
 
 # The rest
 WRAPPERS+=	tdfc2.sh trans.sh
+
+.if defined(WITH_ADA)
+# Ada producer
+WRAPPERS+=	tdfada.sh
+.endif
 
 DEPEND_SRC=	${WRAPPERS:R} tcc-special tchk-special
 

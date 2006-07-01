@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: tendra.prog.mk 2257 2005-10-31 21:09:03Z stefanf $
 
 CFLAGS+=${COPTS} ${DEBUG_FLAGS}
 
@@ -38,6 +38,10 @@ make-subdir: ${MAIN_TARGETS}
 .include "tendra.lib.mk"
 .endif
 
+.if defined(ADA_PROG) || defined(ADA_LIB)
+.include "tendra.ada.mk"
+.endif
+
 # All our nifty targets.
 
 
@@ -45,7 +49,7 @@ all:
 	env MAKEOBJDIR=${OBJ_DIR} ${MAKE} make-all
 
 
-MAKE_ALL=	${PROG} ${TL} ${SHLIB}
+MAKE_ALL=	${PROG} ${TL} ${SHLIB} ${ADA_PROG} ${ADA_LIB}
 
 make-all: ${MAKE_ALL}
 

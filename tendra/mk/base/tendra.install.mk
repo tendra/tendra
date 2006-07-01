@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: tendra.install.mk 2151 2005-10-17 11:14:32Z stefanf $
 
 
 # Various settings.
@@ -19,6 +19,12 @@ INSTALL_SUB+=		lib/machines ${MAKEDIR:C/^/lib\/machines\//}
 .endif
 
 .if defined(PROG)
+INSTALL_TARGETS+=	install-bin
+INSTALL_SUB+=		bin
+.endif
+
+.if defined(ADA_PROG) && !defined(DONT_INSTALL)
+PROG=                   ${ADA_PROG}
 INSTALL_TARGETS+=	install-bin
 INSTALL_SUB+=		bin
 .endif
