@@ -4,6 +4,7 @@
 #pragma TenDRA directive include_next allow
 #pragma TenDRA longlong type allow
 #pragma TenDRA no external declaration allow
+#pragma TenDRA directive warning allow
 
 #ifndef __NO_BUILTIN_ASSERTIONS
 #assert machine(i386)
