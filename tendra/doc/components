@@ -21,7 +21,7 @@ available libraries:
             manipulate TDF; the original libTDF is a support library.
 
 These libraries should not execute external programs, to avoid
-configuations per-platform.
+configurations per-platform.
 
 
 Modules
@@ -76,7 +76,7 @@ which are specific to development of the TenDRA project:
  make_tdf   A tool to generate TDF encoding and decoding routines.
 
             This is for the new libTDF, and, confusingly, uses the old
-			lib/tdf.
+	    lib/tdf.
 
 
 A transition from the previous directory structure to the new layout
