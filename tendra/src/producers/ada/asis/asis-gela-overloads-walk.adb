@@ -211,6 +211,10 @@ package body Asis.Gela.Overloads.Walk is
                   raise Unimplemented;
             end case;
 
+         when A_Defining_Name =>
+            --  Labels as child of statements
+            null;
+
          when others =>
             Ada.Wide_Text_IO.Put_Line ("After : " &
               Asis.Elements.Debug_Image (Element));
@@ -525,6 +529,10 @@ package body Asis.Gela.Overloads.Walk is
                when others =>
                   raise Unimplemented;
             end case;
+
+         when A_Defining_Name =>
+            --  Labels as child of statements
+            null;
 
          when others =>
             Ada.Wide_Text_IO.Put_Line ("Before : " &
