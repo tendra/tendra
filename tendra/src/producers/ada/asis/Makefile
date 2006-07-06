@@ -1,4 +1,5 @@
 # $TenDRA:  $
+.SUFFIXES       : .adb .ads
 
 ADA_LIB = libasis.a
 ADA_SRC = ${.CURDIR}/asis-[^g]*.adb
@@ -8,6 +9,14 @@ XML   = ${ADA_DIR}/xml
 AFLEX = ${XML}/aflex
 AYACC = ${XML}/ayacc
 ASIS  = ${XML}/asis
+
+CFLAGS=-m -g -O
+CFLAGS+= -I.
+CFLAGS+= -I${ADA_DIR}/libgela
+CFLAGS+= -I${ADA_DIR}/xasis
+
+.PATH.ads	: ${.CURDIR} ${ADA_DIR}/libgela ${ADA_DIR}/xasis
+.PATH.adb	: ${.CURDIR} ${ADA_DIR}/libgela ${ADA_DIR}/xasis
 
 #  Lexer part
 
@@ -86,12 +95,7 @@ gela-asis-install: libasis.a *.ali
 	$(BIN_CP) ${ADA_DIR}/libgela/* ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 	$(BIN_CP) ${ADA_DIR}/xasis/*   ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 
-DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} ${ASIS_SRC}
-
-CFLAGS=-m -g -O
-CFLAGS+= -I.
-CFLAGS+= -I${ADA_DIR}/libgela
-CFLAGS+= -I${ADA_DIR}/xasis
+DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} *.ads *.adb
 
 CLEANFILES=*
 
