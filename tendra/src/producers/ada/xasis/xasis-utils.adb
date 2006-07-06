@@ -10,6 +10,7 @@ with Asis.Declarations;
 with Asis.Compilation_Units;
 
 with Ada.Wide_Text_IO;
+with Ada.Strings.Wide_Fixed;
 with Ada.Strings.Wide_Unbounded;
 
 package body XASIS.Utils is
@@ -320,13 +321,26 @@ package body XASIS.Utils is
            & "]";
       end Span_Image;
 
+      function File_Name return Wide_String is
+         use Ada.Strings;
+         Name  : constant Wide_String :=
+           Compilation_Units.Text_Name (Enclosing_Compilation_Unit (Element));
+         Slash : Natural := Wide_Fixed.Index (Name, "/", Backward);
+      begin
+         if Slash = 0 then
+            return Name;
+         else
+            return Name (Slash + 1 .. Name'Last);
+         end if;
+      end  File_Name;
+
    begin
       if not Is_Nil (Element) then
          return Kind_Image
            & " "
            & Image
            & " at "
-           & Compilation_Units.Text_Name (Enclosing_Compilation_Unit (Element))
+           & File_Name
            & Span_Image;
       else
          return "[Not_An_Element]";
