@@ -6,9 +6,7 @@ OUT_DIR =	${SRC_DIR}/obj/${NAME}
 .SUFFIXES:	.${NAME} .${NAME}.out
 
 run: *.${NAME}
-.for TEST in ${.ALLSRC}
-	${MAKE} ${TEST}.out
-.endfor 
+	${MAKE} ${.ALLSRC:S/${NAME}/${NAME}.out/g}
 
 .${NAME}.${NAME}.out :
 	if [ -f ${.IMPSRC:R}.adb ]; then \
