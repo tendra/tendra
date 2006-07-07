@@ -336,12 +336,28 @@ package body XASIS.Utils is
 
    begin
       if not Is_Nil (Element) then
-         return Kind_Image
-           & " "
-           & Image
-           & " at "
-           & File_Name
-           & Span_Image;
+         if Is_Part_Of_Implicit (Element) then
+            declare
+               Parent : Asis.Element := Enclosing_Element (Element);
+            begin
+               while Is_Part_Of_Implicit (Parent) loop
+                  Parent := Enclosing_Element (Parent);
+               end loop;
+
+               return Kind_Image
+                 & " "
+                 & Image
+                 & " implicit of "
+                 & Debug_Image (Parent);
+            end;
+         else
+            return Kind_Image
+              & " "
+              & Image
+              & " at "
+              & File_Name
+              & Span_Image;
+         end if;
       else
          return "[Not_An_Element]";
       end if;
