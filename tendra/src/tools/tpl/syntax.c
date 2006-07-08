@@ -4,7 +4,7 @@
  * and
  *	syntax.act
  * by:
- *	sid
+ *	obj/../../utilities/sid/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -12,7 +12,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -21,18 +21,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
 	(1) Its Recipients shall ensure that this Notice is
 	reproduced upon any copies or amended versions of it;
-    
+
 	(2) Any amended version of it shall be clearly marked to
 	show both the nature of and the organisation responsible
 	for the relevant amendment or amendments;
-    
+
 	(3) Its onward transfer from a recipient to another
 	party shall be deemed to be that party's acceptance of
 	these conditions;
-    
+
 	(4) DERA gives no warranty or assurance as to its
 	quality or suitability for any purpose and DERA accepts
 	no liability whatsoever in relation to any use to which
@@ -60,20 +60,20 @@
 #pragma TenDRA variable analysis off
 #endif
 
-static int saved = 0 ;
-#define CURRENT_TERMINAL (unsigned)lex_v.t
-#define ADVANCE_LEXER lex_v = reader ()
-#define SAVE_LEXER(e) ((saved = lex_v.t), (lex_v.t = (e)))
-#define RESTORE_LEXER (lex_v.t = saved)
+static int saved = 0;
+#define CURRENT_TERMINAL(unsigned)lex_v.t
+#define ADVANCE_LEXER lex_v = reader()
+#define SAVE_LEXER(e)((saved = lex_v.t), (lex_v.t = (e)))
+#define RESTORE_LEXER(lex_v.t = saved)
 
-typedef Al_tagdec *PTR_Al_tagdec ;
-typedef Labdec *PTR_Labdec ;
-typedef char *PTR_char ;
-typedef Tagdec *PTR_Tagdec ;
-typedef TDF *PTR_TDF ;
-typedef Tokdec *PTR_Tokdec ;
-typedef Tokpar *PTR_Tokpar ;
-typedef unsigned long unsigned_long ;
+typedef Al_tagdec *PTR_Al_tagdec;
+typedef Labdec *PTR_Labdec;
+typedef char *PTR_char;
+typedef Tagdec *PTR_Tagdec;
+typedef TDF *PTR_TDF;
+typedef Tokdec *PTR_Tokdec;
+typedef Tokpar *PTR_Tokpar;
+typedef unsigned long unsigned_long;
 
 
 static Tokpar * g_tokpars;
@@ -85,7 +85,7 @@ static Tokdec * g_tokformals;
 static int g_lastfield;
 static TDF g_shape;
 static TDF g_lastshape;
- 
+
 static Name * g_shtokname;
 static int g_has_vis = 0;
 static Bool issigned;
@@ -105,10 +105,9 @@ static int g_unt;
 static Tagdec * g_app_tags;
 
 static void do_procprops
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+(int i)
 {
-    switch(i) {
+    switch (i) {
        case 0: return;
        case 1: OPTION(o_var_callers); return;
        case 2: OPTION(o_var_callees); return;
@@ -116,7 +115,7 @@ static void do_procprops
        case 4: OPTION(o_untidy); return;
        case 5: OPTION(o_add_procprops(o_var_callers, o_untidy)); return;
        case 6: OPTION(o_add_procprops(o_var_callees, o_untidy)); return;
-       case 7: OPTION(o_add_procprops(o_var_callers, 
+       case 7: OPTION(o_add_procprops(o_var_callers,
 		      o_add_procprops(o_var_callees, o_untidy))); return;
        case 8: OPTION(o_check_stack); return;
        case 9: OPTION(o_add_procprops(o_var_callers,o_check_stack)); return;
@@ -129,7 +128,7 @@ static void do_procprops
        case 14: OPTION(o_add_procprops(o_check_stack,
 		       o_add_procprops(o_var_callees, o_untidy))); return;
        case 15: OPTION(o_add_procprops(o_check_stack,
-		       o_add_procprops(o_var_callers, 
+		       o_add_procprops(o_var_callers,
 		       o_add_procprops(o_var_callees, o_untidy)))); return;
     }
 }
@@ -139,7 +138,7 @@ static TDF g_lablist;
 int do_pp = 0;
 
 static void success
-    PROTO_Z ()
+(void)
 {
     IGNORE printf("Reached end\n");
     print_res();
@@ -325,7 +324,7 @@ read_label(void)
 
     char * n =lex_v.val.name;
     Labdec * x = find_lab(n);
-    if (x==(Labdec*)0) {
+    if (x== (Labdec*)0) {
 	x = MALLOC(Labdec);
 	x->idname.id = n; x->idname.name.unit_name = next_label();
 	x->declared = 0;
@@ -552,7 +551,7 @@ ZR643(int *ZI642)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(*ZI642)].f)();
+   (constructs[(*ZI642)].f)();
 	    }
 	}
 	break;
@@ -564,7 +563,7 @@ ZR643(int *ZI642)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(*ZI642)].f)();
+   (constructs[(*ZI642)].f)();
 	    }
 	    {
 
@@ -886,7 +885,7 @@ read_variety(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -1279,7 +1278,7 @@ ZR648(void)
 	    {
 
     RESET_TDF((ZId));
-    switch((ZIe)) {
+    switch ((ZIe)) {
 	case lex_query:
 	    o_integer_test({}, append_TDF(&(ZIb),1), append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
@@ -1290,11 +1289,11 @@ ZR648(void)
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_ptr__query:
-	    o_pointer_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_pointer_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_proc__query:
-	    o_proc_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_proc_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1)
 	   		);
 	    break;
@@ -1591,7 +1590,7 @@ ZR655(TDF *ZIa, PTR_TDF *ZIb)
     x->isvar = 1;
     x->next = g_app_tags; g_app_tags = x;
     RESET_TDF((*ZIb));
-    o_make_otagexp( OPTION(make_tag(&x->idname.name)),append_TDF(&(*ZIa),1));
+    o_make_otagexp(OPTION(make_tag(&x->idname.name)),append_TDF(&(*ZIa),1));
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 54:
@@ -1607,7 +1606,7 @@ ZR655(TDF *ZIa, PTR_TDF *ZIb)
 	    {
 
     RESET_TDF((*ZIb));
-    o_make_otagexp( {}, append_TDF(&(*ZIa),1));
+    o_make_otagexp({}, append_TDF(&(*ZIa),1));
 	    }
 	}
 	break;
@@ -1714,7 +1713,7 @@ read_shape(void)
 	}
 	{
 
-    if (!(ZIc) ) {
+    if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
@@ -1814,7 +1813,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
     o_apply_proc(append_TDF(&(*ZIb),1), append_TDF(&(*ZIa),1),
 	    { append_TDF(&(*ZIc), 1); current_TDF->no = (*ZIc).no; },
 	      if ((*ZId).no !=0) { OPTION(append_TDF(&(*ZId),1)); }
-	    );
+	   );
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 29:
@@ -2024,7 +2023,7 @@ ZRlabdest__opt(void)
 
     TDF * hold;
     SET_TDF(hold, &optlab);
-    if (defaultlab==-1) defaultlab = next_label();
+    if (defaultlab==-1)defaultlab = next_label();
     o_make_label(out_tdfint32(UL(defaultlab)));
     RESET_TDF(hold);
 	    }
@@ -2115,7 +2114,7 @@ ZRalignment__list__opt(void)
 	    }
 	    {
 
-    if (!(ZIc) ) {
+    if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
@@ -2273,7 +2272,7 @@ read_string(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -2613,25 +2612,25 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if(strcmp((*ZId), "*+.")==0) {
+    if (strcmp((*ZId), "*+.") ==0) {
 	o_add_to_ptr(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), "*-*")==0) {
+    } else if (strcmp((*ZId), "*-*") ==0) {
 	o_subtract_ptrs(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), ".*")==0) {
+    } else if (strcmp((*ZId), ".*") ==0) {
 	o_offset_mult(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), ".+.")==0) {
+    } else if (strcmp((*ZId), ".+.") ==0) {
 	o_offset_add(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), ".-.")==0) {
+    } else if (strcmp((*ZId), ".-.") ==0) {
 	o_offset_subtract(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), "./")==0) {
+    } else if (strcmp((*ZId), "./") ==0) {
 	o_offset_div_by_int(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), "./.")==0) {
+    } else if (strcmp((*ZId), "./.") ==0) {
 	o_offset_div(
 	    o_var_limits(
 		o_make_signed_nat(out_tdfbool(1), out_tdfint32(UL(MINSI))),
 		o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(MAXSI)))),
 	    append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), ".max.")==0) {
+    } else if (strcmp((*ZId), ".max.") ==0) {
 	o_offset_max(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not an addrop", (*ZId)); }
 	    }
@@ -2665,11 +2664,11 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if(strcmp((*ZId), "And")==0) {
+    if (strcmp((*ZId), "And") ==0) {
 	o_and(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), "Or")==0) {
+    } else if (strcmp((*ZId), "Or") ==0) {
 	o_or(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if(strcmp((*ZId), "Xor")==0) {
+    } else if (strcmp((*ZId), "Xor") ==0) {
 	o_xor(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not a logop", (*ZId)); }
 	    }
@@ -2707,40 +2706,40 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if (strcmp((*ZId),"%")==0) {
+    if (strcmp((*ZId),"%") ==0) {
 	o_rem2(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"%1")==0) {
+    } else if (strcmp((*ZId),"%1") ==0) {
 	o_rem1(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"*")==0) {
+    } else if (strcmp((*ZId),"*") ==0) {
 	o_mult(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"+")==0) {
+    } else if (strcmp((*ZId),"+") ==0) {
 	o_plus(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"-")==0) {
+    } else if (strcmp((*ZId),"-") ==0) {
 	o_minus(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"/")==0) {
+    } else if (strcmp((*ZId),"/") ==0) {
 	o_div2(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"/1")==0) {
+    } else if (strcmp((*ZId),"/1") ==0) {
 	o_div1(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"<<")==0) {
+    } else if (strcmp((*ZId),"<<") ==0) {
 	o_shift_left(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F*")==0) {
+    } else if (strcmp((*ZId),"F*") ==0) {
 	o_floating_mult(o_continue,
 	    { LIST_ELEM(append_TDF(&(*ZIa),1));
-	    LIST_ELEM(append_TDF(&(*ZIb),1)) });
-    } else if (strcmp((*ZId),">>")==0) {
+	    LIST_ELEM(append_TDF(&(*ZIb),1))});
+    } else if (strcmp((*ZId),">>") ==0) {
 	o_shift_right(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F+")==0) {
+    } else if (strcmp((*ZId),"F+") ==0) {
 	o_floating_plus(o_continue,
 	    { LIST_ELEM(append_TDF(&(*ZIa),1));
-	    LIST_ELEM(append_TDF(&(*ZIb),1)) });
-    } else if (strcmp((*ZId),"F-")==0) {
+	    LIST_ELEM(append_TDF(&(*ZIb),1))});
+    } else if (strcmp((*ZId),"F-") ==0) {
 	o_floating_minus(o_continue, append_TDF(&(*ZIa),1),
 			 append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F/")==0) {
+    } else if (strcmp((*ZId),"F/") ==0) {
 	o_floating_div(o_continue, append_TDF(&(*ZIa),1),
 		       append_TDF(&(*ZIb),1));
     } else { fail("%s not an arithop", (*ZId)); }
@@ -3077,7 +3076,7 @@ ZRnat__not__int(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -3186,7 +3185,7 @@ ZRshape__body(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -3262,7 +3261,7 @@ ZR674(void)
 	{
 	    {
 
-    if(g_sname.sort == token_sort) {
+    if (g_sname.sort == token_sort) {
 	fail("Token pars require result and parameter sorts");
     }
     g_sname.toksort= (TokSort*)0;
@@ -3343,7 +3342,7 @@ ZRfield__list(void)
     char * n = lex_v.val.name;
     (ZIb) = find_tok(dotn);
     (ZIc) = find_tok(n);
-    if ((ZIb)!=(Tokdec*)0 || (ZIc)!=(Tokdec*)0)
+    if ((ZIb)!= (Tokdec*)0 || (ZIc)!= (Tokdec*)0)
 	    fail("Field name %s must be unique", dotn);
     (ZIb) = MALLOC(Tokdec); NEW_IDNAME((ZIb)->idname, dotn, tok_ent);
     (ZIb)->isdeffed = 1; (ZIb)->isused=0; (ZIb)->iskept = 0;
@@ -3585,7 +3584,7 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if (!(*ZId)->hassh) fail("No declaration shape for %s", (*ZIe));
+    if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
 	    }
 	    ADVANCE_LEXER;
@@ -3611,7 +3610,7 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if ((*ZId)->hassh) fail("Two declaration shapes for %s", (*ZIe));
+    if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
 	    }
 	    ADVANCE_LEXER;
@@ -3681,7 +3680,7 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if (!(*ZId)->hassh) fail("No declaration shape for %s", (*ZIe));
+    if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
 	    }
 	    ADVANCE_LEXER;
@@ -3707,7 +3706,7 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if ((*ZId)->hassh) fail("Two declaration shapes for %s", (*ZIe));
+    if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
 	    }
 	    ADVANCE_LEXER;
@@ -3763,7 +3762,7 @@ ZRnonst__shape(void)
 	}
 	{
 
-    if (!(ZIc) ) {
+    if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
@@ -3786,7 +3785,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if (!(*ZId)->hassh) fail("No declaration shape for %s", (*ZIe));
+    if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
 	    }
 	    read_exp ();
@@ -3810,7 +3809,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	    {
 
     RESET_TDF((*ZIc));
-    if ((*ZId)->hassh) fail("Two declaration shapes for %s", (*ZIe));
+    if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
 	    }
 	    ADVANCE_LEXER;
@@ -3919,7 +3918,7 @@ read_error_code(void)
 	ADVANCE_LEXER;
 	{
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	}
     }
     return;
@@ -3980,14 +3979,14 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     RESET_TDF((*ZIc));
     o_make_var_tagdef(out_tdfint32(UL(local_name(&(*ZId)->idname.name, tag_ent))),
 	{},
-	if ((*ZIb).no !=0 ) { OPTION(append_TDF(&(*ZIb), (*ZIf))); },
+	if ((*ZIb).no !=0) { OPTION(append_TDF(&(*ZIb), (*ZIf))); },
 	append_TDF(&(*ZIa), 1));
     INC_LIST;
     SELECT_UNIT(tagdec_unit);
     if (!(*ZIf)) {
 	o_make_var_tagdec(out_tdfint32(UL(non_local(&(*ZId)->idname.name,tag_ent))),
 	    {},
-	    if ((*ZIb).no !=0 ) { OPTION(append_TDF(&(*ZIb), 1)); },
+	    if ((*ZIb).no !=0) { OPTION(append_TDF(&(*ZIb), 1)); },
 	    o_shape_apply_token(make_tok(&(*ZId)->sh.shtok), {}));
 	INC_LIST;
     }
@@ -4007,14 +4006,14 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     RESET_TDF((*ZIc));
     o_make_var_tagdef(out_tdfint32(UL(local_name(&(*ZId)->idname.name, tag_ent))),
 	{},
-	if ((*ZIb).no !=0 ) { OPTION(append_TDF(&(*ZIb), (*ZIf))); },
+	if ((*ZIb).no !=0) { OPTION(append_TDF(&(*ZIb), (*ZIf))); },
 	append_TDF(&(*ZIa), 1));
     INC_LIST;
     SELECT_UNIT(tagdec_unit);
     if (!(*ZIf)) {
 	o_make_var_tagdec(out_tdfint32(UL(non_local(&(*ZId)->idname.name,tag_ent))),
 	    {},
-	    if ((*ZIb).no !=0 ) { OPTION(append_TDF(&(*ZIb), 1)); },
+	    if ((*ZIb).no !=0) { OPTION(append_TDF(&(*ZIb), 1)); },
 	    o_shape_apply_token(make_tok(&(*ZId)->sh.shtok), {}));
 	INC_LIST;
     }
@@ -4191,7 +4190,7 @@ ZRclosed__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    o_labelled( { append_TDF(&g_lablist,1);
+    o_labelled({ append_TDF(&g_lablist,1);
 		  current_TDF->no = g_lablist.no;},
 		  append_TDF(&(ZIa), 1),
 		  { append_TDF(&(ZIb),1);
@@ -4392,11 +4391,11 @@ ZRclosed__exp(void)
 
     RESET_TDF((ZIe));
     if ((ZIg)) {
-	o_variable( if((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
+	o_variable(if ((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     } else {
-	o_identify( if((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
+	o_identify(if ((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     }
@@ -4523,7 +4522,7 @@ read_bool(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -4711,18 +4710,18 @@ read_ntest(void)
 	    {
 
     char * n = lex_v.val.name;
-    if (strcmp(n,"!<")==0) { o_not_less_than; }
-    else if (strcmp(n,"!<=")==0) { o_not_less_than_or_equal; }
-    else if (strcmp(n,"!=")==0) { o_not_equal; }
-    else if (strcmp(n,"!>")==0) { o_not_greater_than; }
-    else if (strcmp(n,"!>=")==0) { o_not_greater_than_or_equal; }
-    else if (strcmp(n,"!Comparable")==0) { o_not_comparable; }
-    else if (strcmp(n,"<")==0) { o_less_than; }
-    else if (strcmp(n,"<=")==0) { o_less_than_or_equal; }
-    else if (strcmp(n,"==")==0) { o_equal; }
-    else if (strcmp(n,">")==0) { o_greater_than; }
-    else if (strcmp(n,">=")==0) { o_greater_than_or_equal; }
-    else if (strcmp(n,"Comparable")==0) { o_comparable; }
+    if (strcmp(n,"!<") ==0) { o_not_less_than; }
+    else if (strcmp(n,"!<=") ==0) { o_not_less_than_or_equal; }
+    else if (strcmp(n,"!=") ==0) { o_not_equal; }
+    else if (strcmp(n,"!>") ==0) { o_not_greater_than; }
+    else if (strcmp(n,"!>=") ==0) { o_not_greater_than_or_equal; }
+    else if (strcmp(n,"!Comparable") ==0) { o_not_comparable; }
+    else if (strcmp(n,"<") ==0) { o_less_than; }
+    else if (strcmp(n,"<=") ==0) { o_less_than_or_equal; }
+    else if (strcmp(n,"==") ==0) { o_equal; }
+    else if (strcmp(n,">") ==0) { o_greater_than; }
+    else if (strcmp(n,">=") ==0) { o_greater_than_or_equal; }
+    else if (strcmp(n,"Comparable") ==0) { o_comparable; }
     else { fail("%s is not a comparison", n); }
 	    }
 	    ADVANCE_LEXER;
@@ -4882,7 +4881,7 @@ read_bitfield_variety(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -5047,7 +5046,7 @@ ZRsigned__nat__body(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -5084,7 +5083,7 @@ ZRsigned__nat__body(void)
 	    {
 
     SET_TDF((ZIb), &(ZIa));
-    if (strcmp(lex_v.val.name, "+")) fail("Only + or - on NATs");
+    if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
 	    }
 	    ADVANCE_LEXER;
 	    ZRnat__not__int ();
@@ -5120,7 +5119,7 @@ ZRlabset__opt(void)
 
     TDF * hold;
     SET_TDF(hold, &optlab);
-    if (defaultlab==-1) defaultlab = next_label();
+    if (defaultlab==-1)defaultlab = next_label();
     o_make_label(out_tdfint32(UL(defaultlab)));
     RESET_TDF(hold);
 	    }
@@ -5282,7 +5281,7 @@ ZRkeep__item(void)
 
     char * n = lex_v.val.name;
     Tagdec * t = find_tag(n);
-    if (t != (Tagdec*)0){
+    if (t != (Tagdec*)0) {
 	t->iskept = 1;
      } else {
 	Al_tagdec * a = find_al_tag(n);
@@ -5327,7 +5326,7 @@ ZRstruct__def(void)
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
     SELECT_UNIT(tokdef_unit);
-    if ((ZIa)!=(Tokdec*)0) fail("Struct name %s must be unique", n);
+    if ((ZIa)!= (Tokdec*)0)fail("Struct name %s must be unique", n);
     (ZIa) = MALLOC(Tokdec); NEW_IDNAME((ZIa)->idname, n, tok_ent);
     (ZIa)->sort.ressort.sort = shape_sort; (ZIa)->sort.pars = (Tokpar*)0;
     (ZIa)->isdeffed = 1; (ZIa)->isused=0; (ZIa)->iskept=0;
@@ -5425,7 +5424,7 @@ ZRnonst__shape__body(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -5485,7 +5484,7 @@ read_tag(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -5775,7 +5774,7 @@ read_floating_variety(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -5827,7 +5826,7 @@ ZRtagshacc(void)
     /* (ZId) uninitialised */
     char * n =lex_v.val.name;
     (ZIc) = find_tag(n);
-    if ((ZIc) != (Tagdec*)0) fail("Ident %s already declared", n);
+    if ((ZIc) != (Tagdec*)0)fail("Ident %s already declared", n);
     (ZIc) = MALLOC(Tagdec);
     (ZIc)->hassh = 2; (ZIc)->isvar =1; (ZIc)->isdeffed = 1; (ZIc)->iskept=0;
     NEW_IDNAME((ZIc)->idname, n, tag_ent);
@@ -5867,8 +5866,8 @@ ZRtagshacc(void)
 	{
 
     RESET_TDF((ZIb));
-    o_make_tagshacc( append_TDF(&(ZIc)->sh.tdfsh, 0),
-	if((ZIa).no != 0) {OPTION(append_TDF(&(ZIa),1));},
+    o_make_tagshacc(append_TDF(&(ZIc)->sh.tdfsh, 0),
+	if ((ZIa).no != 0) {OPTION(append_TDF(&(ZIa),1));},
 	make_tag(&(ZIc)->idname.name));
     if ((ZId)) {
 	Tagdec * y = MALLOC(Tagdec);
@@ -6104,7 +6103,7 @@ read_alignment(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -6232,9 +6231,9 @@ ZRproc__def(void)
     (ZIe) =lex_v.val.name;
     (ZId) = find_tag((ZIe));
     SELECT_UNIT(tagdef_unit);
-    if((ZId)!= (Tagdec*)0) {
-	if ((ZId)->isdeffed && !(ZId)->iscommon) fail("Tag %s defined twice", (ZIe));
-	if ((ZId)->isvar) fail("Tag %s declared as variable", (ZIe));
+    if ((ZId)!= (Tagdec*)0) {
+	if ((ZId)->isdeffed && !(ZId)->iscommon)fail("Tag %s defined twice", (ZIe));
+	if ((ZId)->isvar)fail("Tag %s declared as variable", (ZIe));
 	(ZIf) = 1;
     } else {
 	(ZId) = MALLOC(Tagdec);
@@ -6369,7 +6368,7 @@ ZRtag__dec(void)
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
     (ZId) = find_tag(n);
-    if ((ZId) != (Tagdec*)0) fail("Tag %s declared twice", n);
+    if ((ZId) != (Tagdec*)0)fail("Tag %s declared twice", n);
     SELECT_UNIT(tagdec_unit);
     (ZId) = MALLOC(Tagdec); NEW_IDNAME((ZId)->idname, n, tag_ent);
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
@@ -6442,7 +6441,7 @@ ZRtag__dec(void)
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
     (ZId) = find_tag(n);
-    if ((ZId) != (Tagdec*)0) fail("Tag %s declared twice", n);
+    if ((ZId) != (Tagdec*)0)fail("Tag %s declared twice", n);
     SELECT_UNIT(tagdec_unit);
     (ZId) = MALLOC(Tagdec); NEW_IDNAME((ZId)->idname, n, tag_ent);
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
@@ -6514,7 +6513,7 @@ ZRtag__dec(void)
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
     (ZId) = find_tag(n);
-    if ((ZId) != (Tagdec*)0) fail("Tag %s declared twice", n);
+    if ((ZId) != (Tagdec*)0)fail("Tag %s declared twice", n);
     SELECT_UNIT(tagdec_unit);
     (ZId) = MALLOC(Tagdec); NEW_IDNAME((ZId)->idname, n, tag_ent);
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
@@ -6778,9 +6777,9 @@ ZRtag__def(void)
     (ZIe) =lex_v.val.name;
     (ZId) = find_tag((ZIe));
     SELECT_UNIT(tagdef_unit);
-    if((ZId)!= (Tagdec*)0) {
-	if ((ZId)->isdeffed && !(ZId)->iscommon) fail("Tag %s defined twice", (ZIe));
-	if (!(ZId)->isvar) fail("Tag %s declared as non-variable", (ZIe));
+    if ((ZId)!= (Tagdec*)0) {
+	if ((ZId)->isdeffed && !(ZId)->iscommon)fail("Tag %s defined twice", (ZIe));
+	if (!(ZId)->isvar)fail("Tag %s declared as non-variable", (ZIe));
 	(ZIf) = 1;
     } else {
 	(ZId) = MALLOC(Tagdec);
@@ -6822,9 +6821,9 @@ ZRtag__def(void)
     (ZIe) =lex_v.val.name;
     (ZId) = find_tag((ZIe));
     SELECT_UNIT(tagdef_unit);
-    if((ZId)!= (Tagdec*)0) {
-	if ((ZId)->isdeffed && !(ZId)->iscommon) fail("Tag %s defined twice", (ZIe));
-	if ((ZId)->isvar) fail("Tag %s declared as variable", (ZIe));
+    if ((ZId)!= (Tagdec*)0) {
+	if ((ZId)->isdeffed && !(ZId)->iscommon)fail("Tag %s defined twice", (ZIe));
+	if ((ZId)->isvar)fail("Tag %s declared as variable", (ZIe));
 	(ZIf) = 1;
     } else {
 	(ZId) = MALLOC(Tagdec);
@@ -6868,9 +6867,9 @@ ZRtag__def(void)
     (ZIe) =lex_v.val.name;
     (ZId) = find_tag((ZIe));
     SELECT_UNIT(tagdef_unit);
-    if((ZId)!= (Tagdec*)0) {
-	if ((ZId)->isdeffed && !(ZId)->iscommon) fail("Tag %s defined twice", (ZIe));
-	if (!(ZId)->isvar) fail("Tag %s declared as non-variable", (ZIe));
+    if ((ZId)!= (Tagdec*)0) {
+	if ((ZId)->isdeffed && !(ZId)->iscommon)fail("Tag %s defined twice", (ZIe));
+	if (!(ZId)->isvar)fail("Tag %s declared as non-variable", (ZIe));
 	(ZIf) = 1;
     } else {
 	(ZId) = MALLOC(Tagdec);
@@ -6912,11 +6911,11 @@ ZRtag__def(void)
 	    {
 
     (ZIh) = lex_v.val.name;
-    if ((ZId)->hassh) fail("Two declaration shapes for %s", (ZIe));
+    if ((ZId)->hassh)fail("Two declaration shapes for %s", (ZIe));
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIa));
     o_make_nof_int(append_TDF(&(ZIg), 0),
-	o_make_string(out_tdfstring_bytes((ZIh), 8, UI(strlen((ZIh))+1))));
+	o_make_string(out_tdfstring_bytes((ZIh), 8, UI(strlen((ZIh)) +1))));
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 85:
@@ -6935,7 +6934,7 @@ ZRtag__def(void)
     if (!(ZIf)) {
 	o_make_var_tagdec(out_tdfint32(UL(non_local(&(ZId)->idname.name,tag_ent))),
 	    {}, {},
-	    o_nof(o_make_nat(out_tdfint32(UL(strlen((ZIh))+1))),
+	    o_nof(o_make_nat(out_tdfint32(UL(strlen((ZIh)) +1))),
 		o_integer(append_TDF(&(ZIg), 0))));
        INC_LIST;
     }
@@ -6960,9 +6959,9 @@ ZRtag__def(void)
     (ZIe) =lex_v.val.name;
     (ZId) = find_tag((ZIe));
     SELECT_UNIT(tagdef_unit);
-    if((ZId)!= (Tagdec*)0) {
-	if ((ZId)->isdeffed && !(ZId)->iscommon) fail("Tag %s defined twice", (ZIe));
-	if (!(ZId)->isvar) fail("Tag %s declared as non-variable", (ZIe));
+    if ((ZId)!= (Tagdec*)0) {
+	if ((ZId)->isdeffed && !(ZId)->iscommon)fail("Tag %s defined twice", (ZIe));
+	if (!(ZId)->isvar)fail("Tag %s declared as non-variable", (ZIe));
 	(ZIf) = 1;
     } else {
 	(ZId) = MALLOC(Tagdec);
@@ -7049,7 +7048,7 @@ ZRtok__formal__list(void)
 
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
-    if ((ZIa)!=(Tokdec*)0) fail("Token parameter name %s must be unique", n);
+    if ((ZIa)!= (Tokdec*)0)fail("Token parameter name %s must be unique", n);
     (ZIa) = MALLOC(Tokdec); NEW_IDNAME((ZIa)->idname, n, tok_ent);
     (ZIa)->isdeffed = 1; (ZIa)->isused = 0; (ZIa)->iskept=0;
     (ZIa)->next = (Tokdec*)0;
@@ -7264,7 +7263,7 @@ ZRproc__def__body(void)
 			{ append_TDF(&(ZIc),1);
 			  current_TDF->no = (ZIc).no;},
 			append_TDF(&(ZId),1))
-    while (labdecs != (Labdec *)0 ) {
+    while (labdecs != (Labdec *)0) {
 	if (!labdecs->declared) {
 	    fail("Label %s not declared", labdecs->idname.id);
 	}
@@ -7352,7 +7351,7 @@ ZRproc__def__body(void)
 		{ append_TDF(&(ZIa),1); current_TDF->no = (ZIa).no;},
 		if ((ZIb).no !=0) {OPTION(append_TDF(&(ZIb),1)); },
 		append_TDF(&(ZIc),1);)
-    while (labdecs != (Labdec *)0 ) {
+    while (labdecs != (Labdec *)0) {
 	if (!labdecs->declared) {
 	    fail("Label %s not declared", labdecs->idname.id);
 	}
@@ -7530,7 +7529,7 @@ ZRtok__dec(void)
 
     char *n = lex_v.val.name;
     (ZIc) = find_tok(n);
-    if ((ZIc) != (Tokdec *)0) fail("Token %s declared twice", n);
+    if ((ZIc) != (Tokdec *)0)fail("Token %s declared twice", n);
     SELECT_UNIT(tokdec_unit);
     (ZIc) = MALLOC(Tokdec);
     NEW_IDNAME((ZIc)->idname, n, tok_ent);
@@ -7685,7 +7684,7 @@ ZRtok__def(void)
     SELECT_UNIT(tokdef_unit);
     search_for_toks = 1;
     if ((ZId) != (Tokdec *)0) {
-	if ((ZId)->isdeffed) fail("Token %s defined twice", n);
+	if ((ZId)->isdeffed)fail("Token %s defined twice", n);
 	(ZIe) = 1;
     } else {
 	(ZId) = MALLOC(Tokdec);
@@ -7994,7 +7993,7 @@ ZRunary__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    switch((ZIe)) {
+    switch ((ZIe)) {
 	case lex_query:
 	    o_integer_test({}, append_TDF(&(ZIb),1), append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
@@ -8005,11 +8004,11 @@ ZRunary__exp(void)
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_ptr__query:
-	    o_pointer_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_pointer_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_proc__query:
-	    o_proc_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_proc_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1)
 	   		);
 	    break;
@@ -8094,7 +8093,7 @@ ZRunary__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    o_labelled( { append_TDF(&g_lablist,1);
+    o_labelled({ append_TDF(&g_lablist,1);
 		  current_TDF->no = g_lablist.no;},
 		  append_TDF(&(ZIa), 1),
 		  { append_TDF(&(ZIb),1);
@@ -8185,7 +8184,7 @@ ZRunary__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    switch((ZIe)) {
+    switch ((ZIe)) {
 	case lex_query:
 	    o_integer_test({}, append_TDF(&(ZIb),1), append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
@@ -8196,11 +8195,11 @@ ZRunary__exp(void)
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_ptr__query:
-	    o_pointer_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_pointer_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_proc__query:
-	    o_proc_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_proc_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1)
 	   		);
 	    break;
@@ -8348,7 +8347,7 @@ ZRunary__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    switch((ZIe)) {
+    switch ((ZIe)) {
 	case lex_query:
 	    o_integer_test({}, append_TDF(&(ZIb),1), append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
@@ -8359,11 +8358,11 @@ ZRunary__exp(void)
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_ptr__query:
-	    o_pointer_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_pointer_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_proc__query:
-	    o_proc_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_proc_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1)
 	   		);
 	    break;
@@ -8439,7 +8438,7 @@ ZRunary__exp(void)
 	    {
 
     RESET_TDF((ZId));
-    switch((ZIe)) {
+    switch ((ZIe)) {
 	case lex_query:
 	    o_integer_test({}, append_TDF(&(ZIb),1), append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
@@ -8450,11 +8449,11 @@ ZRunary__exp(void)
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_ptr__query:
-	    o_pointer_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_pointer_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1));
 	    break;
 	case lex_proc__query:
-	    o_proc_test( {}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
+	    o_proc_test({}, append_TDF(&(ZIb),1),append_TDF(&optlab,1),
 	   		append_TDF(&(ZIa), 1), append_TDF(&(ZIc),1)
 	   		);
 	    break;
@@ -8745,11 +8744,11 @@ ZRunary__exp(void)
 
     RESET_TDF((ZIe));
     if ((ZIg)) {
-	o_variable( if((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
+	o_variable(if ((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     } else {
-	o_identify( if((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
+	o_identify(if ((ZIb).no!=0) { OPTION(append_TDF(&(ZIb),1)); },
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     }
@@ -8961,7 +8960,7 @@ ZRunary__exp(void)
 	    {
 
     SET_TDF((ZI638), &(ZI637));
-    if (strcmp(lex_v.val.name, "+")) fail("Only + or - on NATs");
+    if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
 	    }
 	    ADVANCE_LEXER;
 	    ZRnat__not__int ();
@@ -9304,7 +9303,7 @@ read_error_treatment(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -9424,7 +9423,7 @@ ZRcallee(void)
 	    {
 
     RESET_TDF((ZIb));
-    o_make_callee_list( { append_TDF(&(ZIa),1); current_TDF->no = (ZIa).no;} );
+    o_make_callee_list({ append_TDF(&(ZIa),1); current_TDF->no = (ZIa).no;});
 	    }
 	}
 	break;
@@ -9461,7 +9460,7 @@ read_al_tag(void)
 
     char * n =lex_v.val.name;
     Al_tagdec * x = find_al_tag(n);
-    if (x==(Al_tagdec*)0) {
+    if (x== (Al_tagdec*)0) {
 	x= MALLOC(Al_tagdec);
 	x->isdeffed =0; x->iskept=0;
 	NEW_IDNAME(x->idname, n, al_tag_ent);
@@ -9708,9 +9707,9 @@ ZRtok__def__body(void)
     sn = g_sname;
     current_TDF = &g_tok_defn;
     INIT_TDF(current_TDF);
-    o_token_def( out_sort(&sn),
+    o_token_def(out_sort(&sn),
 	{
-	    while(tfrev != (Tokdec*)0) {
+	    while (tfrev != (Tokdec*)0) {
 		Tokdec * x = tfrev->next;
 		LIST_ELEM(
 		    o_make_tokformals(
@@ -9883,7 +9882,7 @@ read_transfer_mode(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -10023,7 +10022,7 @@ read_rounding_mode(void)
 	    ADVANCE_LEXER;
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -10073,7 +10072,7 @@ ZR625(void)
 	    }
 	    {
 
-    current_TDF->no ++;
+    current_TDF->no++;
 	    }
 	    goto ZL2_625;
 	}
@@ -10227,11 +10226,11 @@ read_access(void)
 	    ADVANCE_LEXER;
 	    {
 
-    if (strcmp(constructs[(ZIa)].name, "visible")==0) { g_has_vis = 1; }
+    if (strcmp(constructs[(ZIa)].name, "visible") ==0) { g_has_vis = 1; }
 	    }
 	    {
 
-    (constructs[(ZIa)].f)();
+   (constructs[(ZIa)].f)();
 	    }
 	}
 	break;
@@ -10415,7 +10414,7 @@ ZR629(void)
 
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
-    if ((ZIa)!=(Tokdec*)0) fail("Token parameter name %s must be unique", n);
+    if ((ZIa)!= (Tokdec*)0)fail("Token parameter name %s must be unique", n);
     (ZIa) = MALLOC(Tokdec); NEW_IDNAME((ZIa)->idname, n, tok_ent);
     (ZIa)->isdeffed = 1; (ZIa)->isused = 0; (ZIa)->iskept=0;
     (ZIa)->next = (Tokdec*)0;
@@ -10470,14 +10469,14 @@ ZR630(void)
 	    {
 
     int i;
-    for(i=0; i<NO_OF_ENTITIES; i++) {
+    for (i=0; i<NO_OF_ENTITIES; i++) {
 	INIT_TDF(lk_externs+i);
     }
 	    }
 	    {
 
     CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(1)));
-    if(line_no_tok != -1) {
+    if (line_no_tok != -1) {
 	current_TDF = lk_externs+tok_ent;
 	o_make_linkextern(
 	    out_tdfint32(UL(line_no_tok)),
@@ -10543,7 +10542,7 @@ ZR630(void)
 	add_extra_toks();
 	INIT_TDF(&caps);
 	RESET_TDF(&caps);
-	if (do_pp) success();
+	if (do_pp)success();
 	if (HAS_MAGIC) {
 	    out_basic_int(UL('T'), UI(8));
 	    out_basic_int(UL('D'), UI(8));
@@ -10555,8 +10554,8 @@ ZR630(void)
 	}
 	o_make_capsule(
 	    {
-		for(i=0; i<NO_OF_UNITS; i++) {
-		    if(units[i].present) {
+		for (i=0; i<NO_OF_UNITS; i++) {
+		    if (units[i].present) {
 			char* n;
 			n = unit_names[i];
 			LIST_ELEM({ out_tdfident_bytes(n); });
@@ -10564,7 +10563,7 @@ ZR630(void)
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_ENTITIES; i++) {
+		for (i=0; i<NO_OF_ENTITIES; i++) {
 		    char* n;
 		    n = ent_names[i];
 		    LIST_ELEM(
@@ -10574,17 +10573,17 @@ ZR630(void)
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_ENTITIES; i++) {
+		for (i=0; i<NO_OF_ENTITIES; i++) {
 		    TDF * lks = lk_externs+i;
 		    LIST_ELEM(
 			o_make_extern_link(
 			    { append_TDF(lks,1); current_TDF->no = lks->no; });
-		    )
+		   )
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_UNITS; i++) {
-		    if(units[i].present) {
+		for (i=0; i<NO_OF_UNITS; i++) {
+		    if (units[i].present) {
 			LIST_ELEM(
 			    o_make_group(LIST_ELEM(make_unit(i))););
 		    }
@@ -10609,7 +10608,7 @@ ZR630(void)
 	    {
 
     int i;
-    for(i=0; i<NO_OF_ENTITIES; i++) {
+    for (i=0; i<NO_OF_ENTITIES; i++) {
 	INIT_TDF(lk_externs+i);
     }
 	    }
@@ -10634,7 +10633,7 @@ ZR630(void)
 	    {
 
     CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(1)));
-    if(line_no_tok != -1) {
+    if (line_no_tok != -1) {
 	current_TDF = lk_externs+tok_ent;
 	o_make_linkextern(
 	    out_tdfint32(UL(line_no_tok)),
@@ -10700,7 +10699,7 @@ ZR630(void)
 	add_extra_toks();
 	INIT_TDF(&caps);
 	RESET_TDF(&caps);
-	if (do_pp) success();
+	if (do_pp)success();
 	if (HAS_MAGIC) {
 	    out_basic_int(UL('T'), UI(8));
 	    out_basic_int(UL('D'), UI(8));
@@ -10712,8 +10711,8 @@ ZR630(void)
 	}
 	o_make_capsule(
 	    {
-		for(i=0; i<NO_OF_UNITS; i++) {
-		    if(units[i].present) {
+		for (i=0; i<NO_OF_UNITS; i++) {
+		    if (units[i].present) {
 			char* n;
 			n = unit_names[i];
 			LIST_ELEM({ out_tdfident_bytes(n); });
@@ -10721,7 +10720,7 @@ ZR630(void)
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_ENTITIES; i++) {
+		for (i=0; i<NO_OF_ENTITIES; i++) {
 		    char* n;
 		    n = ent_names[i];
 		    LIST_ELEM(
@@ -10731,17 +10730,17 @@ ZR630(void)
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_ENTITIES; i++) {
+		for (i=0; i<NO_OF_ENTITIES; i++) {
 		    TDF * lks = lk_externs+i;
 		    LIST_ELEM(
 			o_make_extern_link(
 			    { append_TDF(lks,1); current_TDF->no = lks->no; });
-		    )
+		   )
 		}
 	    },
 	    {
-		for(i=0; i<NO_OF_UNITS; i++) {
-		    if(units[i].present) {
+		for (i=0; i<NO_OF_UNITS; i++) {
+		    if (units[i].present) {
 			LIST_ELEM(
 			    o_make_group(LIST_ELEM(make_unit(i))););
 		    }
@@ -10951,7 +10950,7 @@ ZRal__tag__def(void)
     char * n =lex_v.val.name;
     (ZIa) = find_al_tag(n);
     SELECT_UNIT(al_tagdef_unit);
-    if ((ZIa)==(Al_tagdec*)0) {
+    if ((ZIa)== (Al_tagdec*)0) {
 	(ZIa)= MALLOC(Al_tagdec); (ZIa)->isdeffed =0; (ZIa)->iskept=0; (ZIa)->isused=0;
 	NEW_IDNAME((ZIa)->idname, n, al_tag_ent);
 	(ZIa)->next = al_tagdecs; al_tagdecs = (ZIa);
@@ -10984,7 +10983,7 @@ ZRal__tag__def(void)
 	{
 
     RESET_TDF((ZIc));
-    o_make_al_tagdef( if ((ZId)) {
+    o_make_al_tagdef(if ((ZId)) {
 			  out_tdfint32(UL(non_local(&(ZIa)->idname.name,al_tag_ent)));
 			  } else {
 			      out_tdfint32(LOCNAME((ZIa)->idname));
