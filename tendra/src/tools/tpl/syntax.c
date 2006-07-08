@@ -61,10 +61,10 @@
 #endif
 
 static int saved = 0;
-#define CURRENT_TERMINAL(unsigned)lex_v.t
-#define ADVANCE_LEXER lex_v = reader()
-#define SAVE_LEXER(e)((saved = lex_v.t), (lex_v.t = (e)))
-#define RESTORE_LEXER(lex_v.t = saved)
+#define CURRENT_TERMINAL	(unsigned)lex_v.t
+#define ADVANCE_LEXER		lex_v = reader()
+#define SAVE_LEXER(e)		((saved = lex_v.t), (lex_v.t = (e)))
+#define RESTORE_LEXER		(lex_v.t = saved)
 
 typedef Al_tagdec *PTR_Al_tagdec;
 typedef Labdec *PTR_Labdec;
@@ -76,20 +76,20 @@ typedef Tokpar *PTR_Tokpar;
 typedef unsigned long unsigned_long;
 
 
-static Tokpar * g_tokpars;
+static Tokpar *g_tokpars;
 static Sort g_sname;
 static TDF g_tok_defn;
 static TokSort g_toksort;
 int search_for_toks = 1;
-static Tokdec * g_tokformals;
+static Tokdec *g_tokformals;
 static int g_lastfield;
 static TDF g_shape;
 static TDF g_lastshape;
 
-static Name * g_shtokname;
+static Name *g_shtokname;
 static int g_has_vis = 0;
 static Bool issigned;
-static Labdec * g_labdec;
+static Labdec *g_labdec;
 static unsigned long intvalue;
 static TDF optlab;
 static TDF g_lower;
@@ -102,10 +102,10 @@ static int query_t;
 static int g_cr_v;
 static int g_ce_v;
 static int g_unt;
-static Tagdec * g_app_tags;
+static Tagdec *g_app_tags;
 
-static void do_procprops
-(int i)
+static void
+do_procprops(int i)
 {
     switch (i) {
        case 0: return;
@@ -137,8 +137,8 @@ static int defaultlab = -1;
 static TDF g_lablist;
 int do_pp = 0;
 
-static void success
-(void)
+static void
+success(void)
 {
     IGNORE printf("Reached end\n");
     print_res();
