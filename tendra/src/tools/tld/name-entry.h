@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -104,89 +134,89 @@ typedef struct NameEntryT {
 /*--------------------------------------------------------------------------*/
 
 extern NameEntryP		name_entry_create_direct
-	PROTO_S ((NameKeyP, struct ShapeEntryT *));
+(NameKeyP, struct ShapeEntryT *);
 extern NameEntryP		name_entry_create_indirect
-	PROTO_S ((NameKeyP, NameEntryP));
+(NameKeyP, NameEntryP);
 extern NameEntryP		name_entry_create_place
-	PROTO_S ((NameKeyP));
+(NameKeyP);
 extern void			name_entry_make_direct
-	PROTO_S ((NameEntryP, struct ShapeEntryT *));
+(NameEntryP, struct ShapeEntryT *);
 extern void			name_entry_make_indirect
-	PROTO_S ((NameEntryP, NameEntryP));
+(NameEntryP, NameEntryP);
 extern NameEntryP		name_entry_resolve_renames
-	PROTO_S ((NameEntryP, NStringP, BoolT));
+(NameEntryP, NStringP, BoolT);
 extern NameKeyP			name_entry_key
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP		name_entry_next
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP	       *name_entry_next_ref
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern BoolT			name_entry_is_direct
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern BoolT			name_entry_is_indirect
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern BoolT			name_entry_is_place
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern unsigned			name_entry_id
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern void			name_entry_merge_use
-	PROTO_S ((NameEntryP, unsigned));
+(NameEntryP, unsigned);
 extern unsigned			name_entry_get_use
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern void			name_entry_hide
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern void			name_entry_unhide
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern BoolT			name_entry_is_hidden
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern void			name_entry_set_definition
-	PROTO_S ((NameEntryP, struct CapsuleT *));
+(NameEntryP, struct CapsuleT *);
 extern struct CapsuleT	       *name_entry_get_definition
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern void			name_entry_set_lib_definition
-	PROTO_S ((NameEntryP, struct LibCapsuleT *));
+(NameEntryP, struct LibCapsuleT *);
 extern struct LibCapsuleT      *name_entry_get_lib_definition
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP		name_entry_list_next
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP	       *name_entry_list_next_ref
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP		name_entry_get_indirect
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 extern NameEntryP		name_entry_deallocate
-	PROTO_S ((NameEntryP));
+(NameEntryP);
 
 extern void			name_entry_do_count
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_write_name
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_compute_tld_size
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_write_tld
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_check_multi_defs
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_do_lib_count
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_do_lib_write
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_suppress
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_builder_suppress
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern BoolT			name_entry_resolve_undefined
-	PROTO_S ((NameEntryP, struct NameTableT *, struct UnitTableT *,
-	       struct ShapeTableT *, NStringP));
+	(NameEntryP, struct NameTableT *, struct UnitTableT *,
+	       struct ShapeTableT *, NStringP);
 extern void			name_entry_hide_defd
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_keep
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_suppress_mult
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_lib_suppress_mult
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 extern void			name_entry_show_content
-	PROTO_S ((NameEntryP, GenericP));
+(NameEntryP, GenericP);
 
 #endif /* !defined (H_NAME_ENTRY) */
 

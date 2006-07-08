@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -66,62 +96,56 @@
 /*--------------------------------------------------------------------------*/
 
 MapTableP
-map_table_create PROTO_Z ()
+map_table_create(void)
 {
-    MapTableP table = ALLOCATE (MapTableT);
+    MapTableP table = ALLOCATE(MapTableT);
     unsigned  i;
 
-    for (i = 0; i < MAP_TABLE_SIZE; i ++) {
-	table->contents [i] = NIL (MapEntryP);
+    for (i = 0; i < MAP_TABLE_SIZE; i++) {
+	table->contents[i] = NIL(MapEntryP);
     }
-    return (table);
+    return(table);
 }
 
 MapEntryP
-map_table_add PROTO_N ((table, key, count))
-	      PROTO_T (MapTableP table X
-		       NStringP  key X
+map_table_add(MapTableP table,		       NStringP  key, 
 		       unsigned  count)
 {
-    unsigned  hash_value = (nstring_hash_value (key) % MAP_TABLE_SIZE);
-    MapEntryP next       = (table->contents [hash_value]);
-    MapEntryP entry      = map_entry_create (key, next, count);
+    unsigned  hash_value = (nstring_hash_value(key)% MAP_TABLE_SIZE);
+    MapEntryP next       = (table->contents[hash_value]);
+    MapEntryP entry      = map_entry_create(key, next, count);
 
-    table->contents [hash_value] = entry;
-    return (entry);
+    table->contents[hash_value] = entry;
+    return(entry);
 }
 
 MapEntryP
-map_table_get PROTO_N ((table, key))
-	      PROTO_T (MapTableP table X
-		       NStringP  key)
+map_table_get(MapTableP table,		       NStringP  key)
 {
-    unsigned  hash_value = (nstring_hash_value (key) % MAP_TABLE_SIZE);
-    MapEntryP entry      = (table->contents [hash_value]);
+    unsigned  hash_value = (nstring_hash_value(key)% MAP_TABLE_SIZE);
+    MapEntryP entry      = (table->contents[hash_value]);
 
     while (entry) {
-	if (nstring_equal (key, map_entry_key (entry))) {
-	    return (entry);
+	if (nstring_equal(key, map_entry_key(entry))) {
+	    return(entry);
 	}
-	entry = map_entry_next (entry);
+	entry = map_entry_next(entry);
     }
-    return (NIL (MapEntryP));
+    return(NIL(MapEntryP));
 }
 
 void
-map_table_iter PROTO_N ((table, proc, closure))
-	       PROTO_T (MapTableP table X
-			void    (*proc) PROTO_S ((MapEntryP, GenericP)) X
+map_table_iter(MapTableP table,			void   (*proc)(MapEntryP, GenericP),
 			GenericP  closure)
 {
     unsigned i;
 
-    for (i = 0; i < MAP_TABLE_SIZE; i ++) {
-	MapEntryP entry = (table->contents [i]);
+    for (i = 0; i < MAP_TABLE_SIZE; i++) {
+	MapEntryP entry = (table->contents[i]);
 
 	while (entry) {
-	    (*proc) (entry, closure);
-	    entry = map_entry_next (entry);
+	   (*proc)(entry, closure);
+	    entry = map_entry_next(entry);
 	}
     }
 }

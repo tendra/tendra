@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -67,157 +97,157 @@
 /*--------------------------------------------------------------------------*/
 
 extern void			debug_set_file
-	PROTO_S ((OStreamP));
+(OStreamP);
 
 extern void			debug_info_u_name
-	PROTO_S ((NStringP));
+(NStringP);
 
 extern void			debug_info_r_start_capsule
-	PROTO_S ((CStringP));
+(CStringP);
 extern void			debug_info_r_versions
-	PROTO_S ((unsigned, unsigned));
+(unsigned, unsigned);
 extern void			debug_info_r_start_unit_decs
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_unit_dec
-	PROTO_S ((NStringP));
+(NStringP);
 extern void			debug_info_r_start_shapes
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_shape
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_start_names
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_shape_names
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_name
-	PROTO_S ((NameKeyP, unsigned, unsigned, NameKeyP));
+(NameKeyP, unsigned, unsigned, NameKeyP);
 extern void			debug_info_r_start_unit_sets
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_units
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_start_unit
-	PROTO_S ((NStringP, unsigned, unsigned));
+(NStringP, unsigned, unsigned);
 extern void			debug_info_r_start_counts
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_count
-	PROTO_S ((unsigned, NStringP));
+(unsigned, NStringP);
 extern void			debug_info_r_start_maps
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_shape_maps
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_map
-	PROTO_S ((unsigned, unsigned, unsigned));
+(unsigned, unsigned, unsigned);
 extern void			debug_info_r_unit_body
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_tld_version
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_usages
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_usage
-	PROTO_S ((unsigned, unsigned, NameKeyP));
+(unsigned, unsigned, NameKeyP);
 extern void			debug_info_r_end_capsule
-	PROTO_S ((void));
+(void);
 extern void			debug_info_r_abort_capsule
-	PROTO_S ((void));
+(void);
 
 extern void			debug_info_w_start_capsule
-	PROTO_S ((CStringP));
+(CStringP);
 extern void			debug_info_w_versions
-	PROTO_S ((unsigned, unsigned));
+(unsigned, unsigned);
 extern void			debug_info_w_start_unit_decs
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_unit_dec
-	PROTO_S ((NStringP));
+(NStringP);
 extern void			debug_info_w_start_shapes
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_shape
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_w_start_names
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_shape_names
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_w_name
-	PROTO_S ((NameKeyP, unsigned));
+(NameKeyP, unsigned);
 extern void			debug_info_w_start_unit_sets
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_units
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_w_start_unit
-	PROTO_S ((NStringP, unsigned, unsigned));
+(NStringP, unsigned, unsigned);
 extern void			debug_info_w_start_counts
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_count
-	PROTO_S ((unsigned, NStringP));
+(unsigned, NStringP);
 extern void			debug_info_w_start_maps
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_shape_maps
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_w_map
-	PROTO_S ((unsigned, unsigned));
+(unsigned, unsigned);
 extern void			debug_info_w_unit_body
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_tld_version
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_usages
-	PROTO_S ((NStringP));
+(NStringP);
 extern void			debug_info_w_usage
-	PROTO_S ((unsigned, NameKeyP));
+(unsigned, NameKeyP);
 extern void			debug_info_w_end_capsule
-	PROTO_S ((void));
+(void);
 
 extern void			debug_info_r_start_library
-	PROTO_S ((CStringP));
+(CStringP);
 extern void			debug_info_r_lib_versions
-	PROTO_S ((unsigned, unsigned));
+(unsigned, unsigned);
 extern void			debug_info_r_library_version
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_capsules
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_capsule
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_start_index
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_r_start_shape_index
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_r_index_entry
-	PROTO_S ((NameKeyP, unsigned, unsigned, NameKeyP, CStringP));
+(NameKeyP, unsigned, unsigned, NameKeyP, CStringP);
 extern void			debug_info_r_end_library
-	PROTO_S ((void));
+(void);
 extern void			debug_info_r_abort_library
-	PROTO_S ((void));
+(void);
 
 extern void			debug_info_w_start_library
-	PROTO_S ((CStringP));
+(CStringP);
 extern void			debug_info_w_lib_versions
-	PROTO_S ((unsigned, unsigned));
+(unsigned, unsigned);
 extern void			debug_info_w_library_version
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_capsules
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_capsule
-	PROTO_S ((CStringP, unsigned));
+(CStringP, unsigned);
 extern void			debug_info_w_start_index
-	PROTO_S ((unsigned));
+(unsigned);
 extern void			debug_info_w_start_shape_index
-	PROTO_S ((NStringP, unsigned));
+(NStringP, unsigned);
 extern void			debug_info_w_index_entry
-	PROTO_S ((NameKeyP, unsigned, CStringP, unsigned));
+(NameKeyP, unsigned, CStringP, unsigned);
 extern void			debug_info_w_end_library
-	PROTO_S ((void));
+(void);
 
 extern void			debug_info_l_not_needed
-	PROTO_S ((NameKeyP, NStringP, unsigned));
+(NameKeyP, NStringP, unsigned);
 extern void			debug_info_l_not_found
-	PROTO_S ((NameKeyP, NStringP, unsigned));
+(NameKeyP, NStringP, unsigned);
 extern void			debug_info_l_found
-	PROTO_S ((NameKeyP, NStringP, unsigned, CStringP));
+(NameKeyP, NStringP, unsigned, CStringP);
 extern void			debug_info_l_hide
-	PROTO_S ((NStringP, NameKeyP));
+(NStringP, NameKeyP);
 extern void			debug_info_l_keep
-	PROTO_S ((NStringP, NameKeyP));
+(NStringP, NameKeyP);
 extern void			debug_info_l_suppress
-	PROTO_S ((NStringP, NameKeyP));
+(NStringP, NameKeyP);
 extern void			debug_info_l_rename
-	PROTO_S ((NStringP, NameKeyP, NameKeyP));
+(NStringP, NameKeyP, NameKeyP);
 
 #endif /* !defined (H_DEBUG) */
 

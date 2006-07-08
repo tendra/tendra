@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -78,173 +108,159 @@ typedef struct RenameClosureT {
 /*--------------------------------------------------------------------------*/
 
 static void
-linker_rename_1 PROTO_N ((shape, names, gclosure))
-		PROTO_T (NStringP         shape X
-			 NameKeyPairListP names X
+linker_rename_1(NStringP         shape,			 NameKeyPairListP names, 
 			 GenericP         gclosure)
 {
-    RenameClosureP        closure    = (RenameClosureP) gclosure;
+    RenameClosureP        closure    = (RenameClosureP)gclosure;
     ShapeTableP           shapes     = closure->shapes;
     ShapeTableP           lib_shapes = closure->lib_shapes;
-    ShapeEntryP           entry      = shape_table_add (shapes, shape);
-    ShapeEntryP           lib_entry  = shape_table_add (lib_shapes, shape);
-    NameTableP            table      = shape_entry_name_table (entry);
-    NameTableP            lib_table  = shape_entry_name_table (lib_entry);
-    NameKeyPairListEntryP name       = name_key_pair_list_head (names);
+    ShapeEntryP           entry      = shape_table_add(shapes, shape);
+    ShapeEntryP           lib_entry  = shape_table_add(lib_shapes, shape);
+    NameTableP            table      = shape_entry_name_table(entry);
+    NameTableP            lib_table  = shape_entry_name_table(lib_entry);
+    NameKeyPairListEntryP name       = name_key_pair_list_head(names);
 
-    for (; name; name = name_key_pair_list_entry_next (name)) {
-	NameKeyP from = name_key_pair_list_entry_from (name);
-	NameKeyP to   = name_key_pair_list_entry_to (name);
+    for (; name; name = name_key_pair_list_entry_next(name)) {
+	NameKeyP from = name_key_pair_list_entry_from(name);
+	NameKeyP to   = name_key_pair_list_entry_to(name);
 
-	debug_info_l_rename (shape, from, to);
-	name_table_add_rename (table, from, to);
-	name_table_add_rename (lib_table, from, to);
+	debug_info_l_rename(shape, from, to);
+	name_table_add_rename(table, from, to);
+	name_table_add_rename(lib_table, from, to);
     }
-    name_table_resolve_renames (table, shape, TRUE);
-    name_table_resolve_renames (lib_table, shape, FALSE);
+    name_table_resolve_renames(table, shape, TRUE);
+    name_table_resolve_renames(lib_table, shape, FALSE);
 }
 
 static void
-linker_rename PROTO_N ((arg_data, shapes, lib_shapes))
-	      PROTO_T (ArgDataP    arg_data X
-		       ShapeTableP shapes X
+linker_rename(ArgDataP    arg_data,		       ShapeTableP shapes, 
 		       ShapeTableP lib_shapes)
 {
     RenameClosureT closure;
 
     closure.shapes     = shapes;
     closure.lib_shapes = lib_shapes;
-    rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
-			 (GenericP) &closure);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    rename_control_iter(arg_data_get_renames(arg_data), linker_rename_1,
+			(GenericP) &closure);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_read_capsules PROTO_N ((arg_data, units, shapes))
-		     PROTO_T (ArgDataP    arg_data X
-			      UnitTableP  units X
+linker_read_capsules(ArgDataP    arg_data,			      UnitTableP  units, 
 			      ShapeTableP shapes)
 {
-    unsigned  num_input_files = arg_data_get_num_files (arg_data);
-    CStringP *input_files     = arg_data_get_files (arg_data);
+    unsigned  num_input_files = arg_data_get_num_files(arg_data);
+    CStringP *input_files     = arg_data_get_files(arg_data);
     unsigned  i;
 
-    for (i = 0; i < num_input_files; i ++) {
+    for (i = 0; i < num_input_files; i++) {
 	CapsuleP capsule;
 
-	if ((capsule = capsule_create_stream_input (input_files [i])) !=
-	    NIL (CapsuleP)) {
-	    capsule_read (capsule, units, shapes);
-	    capsule_close (capsule);
+	if ((capsule = capsule_create_stream_input(input_files[i])) !=
+	    NIL(CapsuleP)) {
+	    capsule_read(capsule, units, shapes);
+	    capsule_close(capsule);
 	} else {
-	    E_cannot_open_input_file (input_files [i]);
+	    E_cannot_open_input_file(input_files[i]);
 	}
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_load_libraries PROTO_N ((arg_data, lib_shapes))
-		      PROTO_T (ArgDataP    arg_data X
-			       ShapeTableP lib_shapes)
+linker_load_libraries(ArgDataP    arg_data,			       ShapeTableP lib_shapes)
 {
-    CStringP   *files     = arg_data_library_files (arg_data);
-    CStringP   *paths     = arg_data_library_paths (arg_data);
-    unsigned    num_files = arg_data_num_library_files (arg_data);
-    unsigned    num_paths = arg_data_num_library_paths (arg_data);
+    CStringP   *files     = arg_data_library_files(arg_data);
+    CStringP   *paths     = arg_data_library_paths(arg_data);
+    unsigned    num_files = arg_data_num_library_files(arg_data);
+    unsigned    num_paths = arg_data_num_library_paths(arg_data);
     unsigned    i;
 
-    for (i = 0; i < num_files; i ++) {
-	LibraryP library = NIL (LibraryP);
+    for (i = 0; i < num_files; i++) {
+	LibraryP library = NIL(LibraryP);
 
-	if (file_name_is_basename (files [i])) {
+	if (file_name_is_basename(files[i])) {
 	    unsigned j;
 
-	    for (j = 0; j < num_paths; j ++) {
-		CStringP name = file_name_expand (paths [j], files [i], "tl");
+	    for (j = 0; j < num_paths; j++) {
+		CStringP name = file_name_expand(paths[j], files[i], "tl");
 
-		if ((library = library_create_stream_input (name)) !=
-		    NIL (LibraryP)) {
+		if ((library = library_create_stream_input(name)) !=
+		    NIL(LibraryP)) {
 		    goto found;
 		} else {
-		    DEALLOCATE (name);
+		    DEALLOCATE(name);
 		}
 	    }
-	    E_cannot_open_library_file (files [i]);
+	    E_cannot_open_library_file(files[i]);
 	} else {
-	    if ((library = library_create_stream_input (files [i])) ==
-		NIL (LibraryP)) {
-		E_cannot_open_library_file (files [i]);
+	    if ((library = library_create_stream_input(files[i])) ==
+		NIL(LibraryP)) {
+		E_cannot_open_library_file(files[i]);
 	    }
 	}
       found:
 	if (library) {
-	    library_read (library, lib_shapes);
-	    library_close (library);
+	    library_read(library, lib_shapes);
+	    library_close(library);
 	}
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_suppress_1 PROTO_N ((shape, all, names, gclosure))
-		  PROTO_T (NStringP     shape X
-			   BoolT        all X
-			   NameKeyListP names X
+linker_suppress_1(NStringP     shape,			   BoolT        all, 
+			   NameKeyListP names, 
 			   GenericP     gclosure)
 {
-    ShapeTableP lib_shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
+    ShapeTableP lib_shapes = (ShapeTableP)gclosure;
+    ShapeEntryP entry      = shape_table_get(lib_shapes, shape);
 
     if (entry) {
-	NameTableP        table = shape_entry_name_table (entry);
-	NameKeyListEntryP name  = name_key_list_head (names);
+	NameTableP        table = shape_entry_name_table(entry);
+	NameKeyListEntryP name  = name_key_list_head(names);
 
 	if (all) {
-	    name_table_iter (table, name_entry_suppress, (GenericP) shape);
+	    name_table_iter(table, name_entry_suppress,(GenericP)shape);
 	}
-	for (; name; name = name_key_list_entry_next (name)) {
-	    NameKeyP   key        = name_key_list_entry_key (name);
-	    NameEntryP name_entry = name_table_get (table, key);
+	for (; name; name = name_key_list_entry_next(name)) {
+	    NameKeyP   key        = name_key_list_entry_key(name);
+	    NameEntryP name_entry = name_table_get(table, key);
 
 	    if (name_entry) {
-		debug_info_l_suppress (shape, key);
-		name_entry_set_lib_definition (name_entry, NIL (LibCapsuleP));
+		debug_info_l_suppress(shape, key);
+		name_entry_set_lib_definition(name_entry, NIL(LibCapsuleP));
 	    }
 	}
     }
 }
 
 static void
-linker_suppress PROTO_N ((arg_data, lib_shapes))
-		PROTO_T (ArgDataP    arg_data X
-			 ShapeTableP lib_shapes)
+linker_suppress(ArgDataP    arg_data,			 ShapeTableP lib_shapes)
 {
-    if (arg_data_get_suppress_mult (arg_data)) {
-	shape_table_iter (lib_shapes, shape_entry_lib_suppress_mult,
-			  NIL (GenericP));
+    if (arg_data_get_suppress_mult(arg_data)) {
+	shape_table_iter(lib_shapes, shape_entry_lib_suppress_mult,
+			  NIL(GenericP));
     }
-    shape_control_iter (arg_data_get_suppresses (arg_data), linker_suppress_1,
-			(GenericP) lib_shapes);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    shape_control_iter(arg_data_get_suppresses(arg_data), linker_suppress_1,
+			(GenericP)lib_shapes);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_resolve_undefined PROTO_N ((units, shapes, lib_shapes))
-			 PROTO_T (UnitTableP  units X
-				  ShapeTableP shapes X
+linker_resolve_undefined(UnitTableP  units,				  ShapeTableP shapes, 
 				  ShapeTableP lib_shapes)
 {
     ShapeLibClosureT closure;
@@ -254,120 +270,112 @@ linker_resolve_undefined PROTO_N ((units, shapes, lib_shapes))
     closure.shapes     = shapes;
     do {
 	closure.did_define = FALSE;
-	shape_table_iter (shapes, shape_entry_resolve_undefined,
-			  (GenericP) &closure);
+	shape_table_iter(shapes, shape_entry_resolve_undefined,
+			 (GenericP) &closure);
     } while (closure.did_define);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_hide PROTO_N ((shape, all, names, gclosure))
-	    PROTO_T (NStringP     shape X
-		     BoolT        all X
-		     NameKeyListP names X
+linker_hide(NStringP     shape,		     BoolT        all, 
+		     NameKeyListP names, 
 		     GenericP     gclosure)
 {
-    ShapeTableP shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry  = shape_table_get (shapes, shape);
+    ShapeTableP shapes = (ShapeTableP)gclosure;
+    ShapeEntryP entry  = shape_table_get(shapes, shape);
 
-    if (entry == NIL (ShapeEntryP)) {
-	E_cannot_hide_shape (shape);
+    if (entry == NIL(ShapeEntryP)) {
+	E_cannot_hide_shape(shape);
     } else {
-	NameTableP        table = shape_entry_name_table (entry);
-	NameKeyListEntryP name  = name_key_list_head (names);
+	NameTableP        table = shape_entry_name_table(entry);
+	NameKeyListEntryP name  = name_key_list_head(names);
 
 	if (all) {
-	    name_table_iter (table, name_entry_hide_defd, (GenericP) shape);
+	    name_table_iter(table, name_entry_hide_defd,(GenericP)shape);
 	}
-	for (; name; name = name_key_list_entry_next (name)) {
-	    NameKeyP   key        = name_key_list_entry_key (name);
-	    NameEntryP name_entry = name_table_get (table, key);
+	for (; name; name = name_key_list_entry_next(name)) {
+	    NameKeyP   key        = name_key_list_entry_key(name);
+	    NameEntryP name_entry = name_table_get(table, key);
 
-	    if (name_entry == NIL (NameEntryP)) {
-		E_cannot_hide (shape, key);
-	    } else if (name_entry_get_use (name_entry) & U_DEFD) {
-		debug_info_l_hide (shape, key);
-		name_entry_hide (name_entry);
+	    if (name_entry == NIL(NameEntryP)) {
+		E_cannot_hide(shape, key);
+	    } else if (name_entry_get_use(name_entry) & U_DEFD) {
+		debug_info_l_hide(shape, key);
+		name_entry_hide(name_entry);
 	    } else {
-		E_cannot_hide_undefined (shape, key);
+		E_cannot_hide_undefined(shape, key);
 	    }
 	}
     }
 }
 
 static void
-linker_keep PROTO_N ((shape, all, names, gclosure))
-	    PROTO_T (NStringP     shape X
-		     BoolT        all X
-		     NameKeyListP names X
+linker_keep(NStringP     shape,		     BoolT        all, 
+		     NameKeyListP names, 
 		     GenericP     gclosure)
 {
-    ShapeTableP shapes = (ShapeTableP) gclosure;
-    ShapeEntryP entry  = shape_table_get (shapes, shape);
+    ShapeTableP shapes = (ShapeTableP)gclosure;
+    ShapeEntryP entry  = shape_table_get(shapes, shape);
 
-    if (entry == NIL (ShapeEntryP)) {
-	E_cannot_keep_shape (shape);
+    if (entry == NIL(ShapeEntryP)) {
+	E_cannot_keep_shape(shape);
     } else {
-	NameTableP        table = shape_entry_name_table (entry);
-	NameKeyListEntryP name  = name_key_list_head (names);
+	NameTableP        table = shape_entry_name_table(entry);
+	NameKeyListEntryP name  = name_key_list_head(names);
 
 	if (all) {
-	    name_table_iter (table, name_entry_keep, (GenericP) shape);
+	    name_table_iter(table, name_entry_keep,(GenericP)shape);
 	}
-	for (; name; name = name_key_list_entry_next (name)) {
-	    NameKeyP   key        = name_key_list_entry_key (name);
-	    NameEntryP name_entry = name_table_get (table, key);
+	for (; name; name = name_key_list_entry_next(name)) {
+	    NameKeyP   key        = name_key_list_entry_key(name);
+	    NameEntryP name_entry = name_table_get(table, key);
 
-	    if (name_entry == NIL (NameEntryP)) {
-		E_cannot_keep (shape, key);
+	    if (name_entry == NIL(NameEntryP)) {
+		E_cannot_keep(shape, key);
 	    } else {
-		debug_info_l_keep (shape, key);
-		name_entry_unhide (name_entry);
+		debug_info_l_keep(shape, key);
+		name_entry_unhide(name_entry);
 	    }
 	}
     }
 }
 
 static void
-linker_hide_and_keep PROTO_N ((arg_data, shapes))
-		     PROTO_T (ArgDataP    arg_data X
-			      ShapeTableP shapes)
+linker_hide_and_keep(ArgDataP    arg_data,			      ShapeTableP shapes)
 {
-    if (arg_data_get_all_hide_defd (arg_data)) {
-	shape_table_iter (shapes, shape_entry_hide_all_defd, NIL (GenericP));
+    if (arg_data_get_all_hide_defd(arg_data)) {
+	shape_table_iter(shapes, shape_entry_hide_all_defd, NIL(GenericP));
     }
-    shape_control_iter (arg_data_get_hides (arg_data), linker_hide,
-			(GenericP) shapes);
-    shape_control_iter (arg_data_get_keeps (arg_data), linker_keep,
-			(GenericP) shapes);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    shape_control_iter(arg_data_get_hides(arg_data), linker_hide,
+			(GenericP)shapes);
+    shape_control_iter(arg_data_get_keeps(arg_data), linker_keep,
+			(GenericP)shapes);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-linker_write_capsule PROTO_N ((arg_data, units, shapes))
-		     PROTO_T (ArgDataP    arg_data X
-			      UnitTableP  units X
+linker_write_capsule(ArgDataP    arg_data,			      UnitTableP  units, 
 			      ShapeTableP shapes)
 {
-    CStringP output_file = arg_data_get_output_file (arg_data);
+    CStringP output_file = arg_data_get_output_file(arg_data);
     CapsuleP capsule;
 
-    if ((capsule = capsule_create_stream_output (output_file)) !=
-	NIL (CapsuleP)) {
-	capsule_write (capsule, units, shapes);
-	capsule_close (capsule);
+    if ((capsule = capsule_create_stream_output(output_file)) !=
+	NIL(CapsuleP)) {
+	capsule_write(capsule, units, shapes);
+	capsule_close(capsule);
     } else {
-	E_cannot_open_output_file (output_file);
+	E_cannot_open_output_file(output_file);
 	UNREACHED;
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
@@ -375,20 +383,19 @@ linker_write_capsule PROTO_N ((arg_data, units, shapes))
 /*--------------------------------------------------------------------------*/
 
 void
-linker_main PROTO_N ((arg_data))
-	    PROTO_T (ArgDataP arg_data)
+linker_main(ArgDataP arg_data)
 {
-    UnitTableP  units      = unit_table_create ();
-    ShapeTableP shapes     = shape_table_create ();
-    ShapeTableP lib_shapes = shape_table_create ();
+    UnitTableP  units      = unit_table_create();
+    ShapeTableP shapes     = shape_table_create();
+    ShapeTableP lib_shapes = shape_table_create();
 
-    linker_rename (arg_data, shapes, lib_shapes);
-    linker_read_capsules (arg_data, units, shapes);
-    linker_load_libraries (arg_data, lib_shapes);
-    linker_suppress (arg_data, lib_shapes);
-    linker_resolve_undefined (units, shapes, lib_shapes);
-    linker_hide_and_keep (arg_data, shapes);
-    linker_write_capsule (arg_data, units, shapes);
+    linker_rename(arg_data, shapes, lib_shapes);
+    linker_read_capsules(arg_data, units, shapes);
+    linker_load_libraries(arg_data, lib_shapes);
+    linker_suppress(arg_data, lib_shapes);
+    linker_resolve_undefined(units, shapes, lib_shapes);
+    linker_hide_and_keep(arg_data, shapes);
+    linker_write_capsule(arg_data, units, shapes);
 }
 
 /*

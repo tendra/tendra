@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -117,10 +147,10 @@
 /*--------------------------------------------------------------------------*/
 
 #define USAGE "\
-\tusage: [mode] [option ...] file ...\n\
-\twhere mode is one of: '-mc' (create library), '-ml' (link capsules),\n\
-\t'-mt' (library table of contents) or '-mx' (extract from library),\n\
-\tand option (for the current mode - default '-ml') is one of:"
+\tusage:[mode][option ...]file ...\n\
+\twhere mode is one of: '-mc'(create library), '-ml'(link capsules),\n\
+\t'-mt'(library table of contents)or '-mx'(extract from library),\n\
+\tand option(for the current mode - default '-ml')is one of:"
 #ifndef VERSION
 #define VERSION "tld version 4.0#7"
 #endif /* !defined (VERSION) */
@@ -157,396 +187,344 @@ static ArgDataT main_arg_data;
 /*--------------------------------------------------------------------------*/
 
 static void
-main_print_version PROTO_Z ()
+main_print_version(void)
 {
-    write_cstring (ostream_error, VERSION);
-    write_cstring (ostream_error, " (");
-    write_cstring (ostream_error, RELEASE);
-    write_cstring (ostream_error, ")");
-    write_cstring (ostream_error, BANNER);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
+    write_cstring(ostream_error, VERSION);
+    write_cstring(ostream_error, " (");
+    write_cstring(ostream_error, RELEASE);
+    write_cstring(ostream_error, ")");
+    write_cstring(ostream_error, BANNER);
+    write_newline(ostream_error);
+    ostream_flush(ostream_error);
 }
 
 static void
-main_handle_all PROTO_N ((option, usage, gclosure, enable))
-		PROTO_T (CStringP  option X
-			 ArgUsageP usage X
-			 GenericP  gclosure X
+main_handle_all(CStringP  option,			 ArgUsageP usage, 
+			 GenericP  gclosure, 
 			 BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_extract_all (&main_arg_data, enable);
+    arg_data_set_extract_all(&main_arg_data, enable);
 }
 
 static void
-main_handle_all_hide_defd PROTO_N ((option, usage, gclosure, enable))
-			  PROTO_T (CStringP  option X
-				   ArgUsageP usage X
-				   GenericP  gclosure X
+main_handle_all_hide_defd(CStringP  option,				   ArgUsageP usage, 
+				   GenericP  gclosure, 
 				   BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_all_hide_defd (&main_arg_data, enable);
+    arg_data_set_all_hide_defd(&main_arg_data, enable);
 }
 
 static void
-main_handle_basename PROTO_N ((option, usage, gclosure, enable))
-		     PROTO_T (CStringP  option X
-			      ArgUsageP usage X
-			      GenericP  gclosure X
+main_handle_basename(CStringP  option,			      ArgUsageP usage, 
+			      GenericP  gclosure, 
 			      BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_extract_basename (&main_arg_data, enable);
+    arg_data_set_extract_basename(&main_arg_data, enable);
 }
 
 static void
-main_handle_debug_file PROTO_N ((option, usage, gclosure, debug_file))
-		       PROTO_T (CStringP  option X
-				ArgUsageP usage X
-				GenericP  gclosure X
+main_handle_debug_file(CStringP  option,				ArgUsageP usage, 
+				GenericP  gclosure, 
 				CStringP  debug_file)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_debug_file (&main_arg_data, debug_file);
+    arg_data_set_debug_file(&main_arg_data, debug_file);
 }
 
 static void
-main_handle_help PROTO_N ((option, usage, gclosure))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
+main_handle_help(CStringP  option,			  ArgUsageP usage, 
 			  GenericP  gclosure)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(gclosure);
     main_used_one_off = TRUE;
-    write_arg_usage (ostream_error, usage);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
+    write_arg_usage(ostream_error, usage);
+    write_newline(ostream_error);
+    ostream_flush(ostream_error);
 }
 
 static void
-main_handle_hide PROTO_N ((option, usage, gclosure, shape, name))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
-			  GenericP  gclosure X
-			  CStringP  shape X
+main_handle_hide(CStringP  option,			  ArgUsageP usage, 
+			  GenericP  gclosure, 
+			  CStringP  shape, 
 			  CStringP  name)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_hide (&main_arg_data, shape, name);
+    arg_data_add_hide(&main_arg_data, shape, name);
 }
 
 static void
-main_handle_hide_defined PROTO_N ((option, usage, gclosure, shape))
-			 PROTO_T (CStringP  option X
-				  ArgUsageP usage X
-				  GenericP  gclosure X
+main_handle_hide_defined(CStringP  option,				  ArgUsageP usage, 
+				  GenericP  gclosure, 
 				  CStringP  shape)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_hide_defined (&main_arg_data, shape);
+    arg_data_add_hide_defined(&main_arg_data, shape);
 }
 
 static void
-main_handle_index PROTO_N ((option, usage, gclosure, enable))
-		  PROTO_T (CStringP  option X
-			   ArgUsageP usage X
-			   GenericP  gclosure X
+main_handle_index(CStringP  option,			   ArgUsageP usage, 
+			   GenericP  gclosure, 
 			   BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_content_index (&main_arg_data, enable);
+    arg_data_set_content_index(&main_arg_data, enable);
 }
 
 static void
-main_handle_info PROTO_N ((option, usage, gclosure, enable))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
-			  GenericP  gclosure X
+main_handle_info(CStringP  option,			  ArgUsageP usage, 
+			  GenericP  gclosure, 
 			  BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
     if (enable) {
-	error_set_min_report_severity (ERROR_SEVERITY_INFORMATION);
+	error_set_min_report_severity(ERROR_SEVERITY_INFORMATION);
     } else {
-	error_set_min_report_severity (ERROR_SEVERITY_ERROR);
+	error_set_min_report_severity(ERROR_SEVERITY_ERROR);
     }
 }
 
 static void
-main_handle_keep PROTO_N ((option, usage, gclosure, shape, name))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
-			  GenericP  gclosure X
-			  CStringP  shape X
+main_handle_keep(CStringP  option,			  ArgUsageP usage, 
+			  GenericP  gclosure, 
+			  CStringP  shape, 
 			  CStringP  name)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_keep (&main_arg_data, shape, name);
+    arg_data_add_keep(&main_arg_data, shape, name);
 }
 
 static void
-main_handle_keep_all PROTO_N ((option, usage, gclosure, shape))
-		     PROTO_T (CStringP  option X
-			      ArgUsageP usage X
-			      GenericP  gclosure X
+main_handle_keep_all(CStringP  option,			      ArgUsageP usage, 
+			      GenericP  gclosure, 
 			      CStringP  shape)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_keep_all (&main_arg_data, shape);
+    arg_data_add_keep_all(&main_arg_data, shape);
 }
 
 static void
-main_handle_library_file PROTO_N ((option, usage, gclosure, library_file))
-			 PROTO_T (CStringP  option X
-				  ArgUsageP usage X
-				  GenericP  gclosure X
+main_handle_library_file(CStringP  option,				  ArgUsageP usage, 
+				  GenericP  gclosure, 
 				  CStringP  library_file)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_library_file (&main_arg_data, library_file);
+    arg_data_add_library_file(&main_arg_data, library_file);
 }
 
 static void
-main_handle_match_base PROTO_N ((option, usage, gclosure, enable))
-		       PROTO_T (CStringP  option X
-				ArgUsageP usage X
-				GenericP  gclosure X
+main_handle_match_base(CStringP  option,				ArgUsageP usage, 
+				GenericP  gclosure, 
 				BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_extract_match_base (&main_arg_data, enable);
+    arg_data_set_extract_match_base(&main_arg_data, enable);
 }
 
 static void
-main_handle_output_file PROTO_N ((option, usage, gclosure, output_file))
-			PROTO_T (CStringP  option X
-				 ArgUsageP usage X
-				 GenericP  gclosure X
+main_handle_output_file(CStringP  option,				 ArgUsageP usage, 
+				 GenericP  gclosure, 
 				 CStringP  output_file)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_output_file (&main_arg_data, output_file);
+    arg_data_set_output_file(&main_arg_data, output_file);
 }
 
 static void
-main_handle_library_path PROTO_N ((option, usage, gclosure, directory))
-			 PROTO_T (CStringP  option X
-				  ArgUsageP usage X
-				  GenericP  gclosure X
+main_handle_library_path(CStringP  option,				  ArgUsageP usage, 
+				  GenericP  gclosure, 
 				  CStringP  directory)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_library_path (&main_arg_data, directory);
+    arg_data_add_library_path(&main_arg_data, directory);
 }
 
 static void
-main_handle_rename PROTO_N ((option, usage, gclosure, shape, from, to))
-		   PROTO_T (CStringP  option X
-			    ArgUsageP usage X
-			    GenericP  gclosure X
-			    CStringP  shape X
-			    CStringP  from X
+main_handle_rename(CStringP  option,			    ArgUsageP usage, 
+			    GenericP  gclosure, 
+			    CStringP  shape, 
+			    CStringP  from, 
 			    CStringP  to)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_parse_rename (&main_arg_data, shape, from, to);
+    arg_data_parse_rename(&main_arg_data, shape, from, to);
 }
 
 static void
-main_handle_rename_file PROTO_N ((option, usage, gclosure, name))
-			PROTO_T (CStringP  option X
-				 ArgUsageP usage X
-				 GenericP  gclosure X
+main_handle_rename_file(CStringP  option,				 ArgUsageP usage, 
+				 GenericP  gclosure, 
 				 CStringP  name)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    rename_file_parse (name, &main_arg_data);
+    rename_file_parse(name, &main_arg_data);
 }
 
 static void
-main_handle_show_errors PROTO_N ((option, usage, gclosure))
-			PROTO_T (CStringP  option X
-				 ArgUsageP usage X
+main_handle_show_errors(CStringP  option,				 ArgUsageP usage, 
 				 GenericP  gclosure)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_one_off = TRUE;
-    write_error_file (ostream_output);
-    ostream_flush (ostream_output);
+    write_error_file(ostream_output);
+    ostream_flush(ostream_output);
 }
 
 static void
-main_handle_size PROTO_N ((option, usage, gclosure, enable))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
-			  GenericP  gclosure X
+main_handle_size(CStringP  option,			  ArgUsageP usage, 
+			  GenericP  gclosure, 
 			  BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_content_size (&main_arg_data, enable);
+    arg_data_set_content_size(&main_arg_data, enable);
 }
 
 static void
-main_handle_suppress PROTO_N ((option, usage, gclosure, shape, name))
-		     PROTO_T (CStringP  option X
-			      ArgUsageP usage X
-			      GenericP  gclosure X
-			      CStringP  shape X
+main_handle_suppress(CStringP  option,			      ArgUsageP usage, 
+			      GenericP  gclosure, 
+			      CStringP  shape, 
 			      CStringP  name)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_suppress (&main_arg_data, shape, name);
+    arg_data_add_suppress(&main_arg_data, shape, name);
 }
 
 static void
-main_handle_suppress_all PROTO_N ((option, usage, gclosure, shape))
-			 PROTO_T (CStringP  option X
-				  ArgUsageP usage X
-				  GenericP  gclosure X
+main_handle_suppress_all(CStringP  option,				  ArgUsageP usage, 
+				  GenericP  gclosure, 
 				  CStringP  shape)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_add_suppress_all (&main_arg_data, shape);
+    arg_data_add_suppress_all(&main_arg_data, shape);
 }
 
 static void
-main_handle_suppress_mult PROTO_N ((option, usage, gclosure, enable))
-			  PROTO_T (CStringP  option X
-				   ArgUsageP usage X
-				   GenericP  gclosure X
+main_handle_suppress_mult(CStringP  option,				   ArgUsageP usage, 
+				   GenericP  gclosure, 
 				   BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_suppress_mult (&main_arg_data, enable);
+    arg_data_set_suppress_mult(&main_arg_data, enable);
 }
 
 static void
-main_handle_tdf_version PROTO_N ((option, usage, gclosure, enable))
-    			PROTO_T (CStringP  option X
-				 ArgUsageP usage X
-				 GenericP  gclosure X
+main_handle_tdf_version(CStringP  option,				 ArgUsageP usage, 
+				 GenericP  gclosure, 
 				 BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_content_version (&main_arg_data, enable);
+    arg_data_set_content_version(&main_arg_data, enable);
 }
 
 static void
-main_handle_unit_file PROTO_N ((option, usage, gclosure, unit_file))
-		      PROTO_T (CStringP  option X
-			       ArgUsageP usage X
-			       GenericP  gclosure X
+main_handle_unit_file(CStringP  option,			       ArgUsageP usage, 
+			       GenericP  gclosure, 
 			       CStringP  unit_file)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
-    arg_data_set_unit_file (&main_arg_data, unit_file);
+    arg_data_set_unit_file(&main_arg_data, unit_file);
 }
 
 static void
-main_handle_version PROTO_N ((option, usage, gclosure))
-		    PROTO_T (CStringP  option X
-			     ArgUsageP usage X
+main_handle_version(CStringP  option,			     ArgUsageP usage, 
 			     GenericP  gclosure)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_one_off = TRUE;
-    main_print_version ();
+    main_print_version();
 }
 
 static void
-main_handle_warning PROTO_N ((option, usage, gclosure, enable))
-		    PROTO_T (CStringP  option X
-			     ArgUsageP usage X
-			     GenericP  gclosure X
+main_handle_warning(CStringP  option,			     ArgUsageP usage, 
+			     GenericP  gclosure, 
 			     BoolT     enable)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_used_other = TRUE;
     if (enable) {
-	error_set_min_report_severity (ERROR_SEVERITY_WARNING);
+	error_set_min_report_severity(ERROR_SEVERITY_WARNING);
     } else {
-	error_set_min_report_severity (ERROR_SEVERITY_ERROR);
+	error_set_min_report_severity(ERROR_SEVERITY_ERROR);
     }
 }
 
 /*--------------------------------------------------------------------------*/
 
-static EStringDataT main_description_strings [] = {
+static EStringDataT main_description_strings[] = {
     UB {
 	"description of all",
 	"\n\tEnable/disable extraction of all capsules."
@@ -594,7 +572,7 @@ static EStringDataT main_description_strings [] = {
 	"\n\tEnable/disable matching capsules by their basename"
     } UE, UB {
 	"description of output-file",
-	" FILE\n\tWrite output to FILE (default 'library.tl')."
+	" FILE\n\tWrite output to FILE(default 'library.tl')."
     } UE, UB {
 	"description of path",
 	" DIRECTORY\n\tAppend DIRECTORY to library search path."
@@ -640,205 +618,205 @@ static EStringDataT main_description_strings [] = {
 #ifdef __TenDRA__
 /* Some conversions to ArgProcP are slightly suspect */
 #pragma TenDRA begin
-#pragma TenDRA conversion analysis (pointer-pointer) off
+#pragma TenDRA conversion analysis(pointer-pointer)off
 #endif
 
-static ArgListT main_builder_arg_list [] = {
+static ArgListT main_builder_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP) main_handle_debug_file,	NIL (GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP) main_handle_help,		NIL (GenericP),
+	(ArgProcP)main_handle_help,		NIL(GenericP),
 	UB "description of help" UE
     }, {
 	"include-library", 'i',			AT_FOLLOWING,
-	(ArgProcP) main_handle_library_file,	NIL (GenericP),
+	(ArgProcP)main_handle_library_file,	NIL(GenericP),
 	UB "description of include-library" UE
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP) main_handle_output_file,	NIL (GenericP),
+	(ArgProcP)main_handle_output_file,	NIL(GenericP),
 	UB "description of output-file" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP) main_handle_show_errors,	NIL (GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
 	UB "description of show-errors" UE
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP) main_handle_suppress,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress,	NIL(GenericP),
 	UB "description of suppress" UE
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress_all,	NIL(GenericP),
 	UB "description of suppress-all" UE
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress_mult,	NIL(GenericP),
 	UB "description of suppress-mult" UE
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP) main_handle_unit_file,	NIL (GenericP),
+	(ArgProcP)main_handle_unit_file,	NIL(GenericP),
 	UB "description of unit-file" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP) main_handle_version,		NIL (GenericP),
+	(ArgProcP)main_handle_version,		NIL(GenericP),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
 
-static ArgListT main_contents_arg_list [] = {
+static ArgListT main_contents_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP) main_handle_debug_file,	NIL (GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP) main_handle_help,		NIL (GenericP),
+	(ArgProcP)main_handle_help,		NIL(GenericP),
 	UB "description of help" UE
     }, {
 	"index", 'i',				AT_PROC_SWITCH,
-	(ArgProcP) main_handle_index,		NIL (GenericP),
+	(ArgProcP)main_handle_index,		NIL(GenericP),
 	UB "description of index" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP) main_handle_show_errors,	NIL (GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
 	UB "description of show-errors" UE
     }, {
 	"size", 's',				AT_PROC_SWITCH,
-	(ArgProcP) main_handle_size,		NIL (GenericP),
+	(ArgProcP)main_handle_size,		NIL(GenericP),
 	UB "description of size" UE
     }, {
 	"tdf-version", 't',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_tdf_version,	NIL (GenericP),
+	(ArgProcP)main_handle_tdf_version,	NIL(GenericP),
 	UB "description of tdf-version" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP) main_handle_version,		NIL (GenericP),
+	(ArgProcP)main_handle_version,		NIL(GenericP),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
 
-static ArgListT main_extract_arg_list [] = {
+static ArgListT main_extract_arg_list[] = {
     {
 	"all", 'a',				AT_PROC_SWITCH,
-	(ArgProcP) main_handle_all,		NIL (GenericP),
+	(ArgProcP)main_handle_all,		NIL(GenericP),
 	UB "description of all" UE
     }, {
 	"basename", 'b',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_basename,	NIL (GenericP),
+	(ArgProcP)main_handle_basename,	NIL(GenericP),
 	UB "description of basename" UE
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP) main_handle_debug_file,	NIL (GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
 	UB "description of debug-file" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP) main_handle_show_errors,	NIL (GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
 	UB "description of show-errors" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP) main_handle_help,		NIL (GenericP),
+	(ArgProcP)main_handle_help,		NIL(GenericP),
 	UB "description of help" UE
     }, {
 	"info", 'i',				AT_PROC_SWITCH,
-	(ArgProcP) main_handle_info,		NIL (GenericP),
+	(ArgProcP)main_handle_info,		NIL(GenericP),
 	UB "description of info" UE
     }, {
 	"match-basename", 'm',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_match_base,	NIL (GenericP),
+	(ArgProcP)main_handle_match_base,	NIL(GenericP),
 	UB "description of match-basename" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP) main_handle_version,		NIL (GenericP),
+	(ArgProcP)main_handle_version,		NIL(GenericP),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
 
-static ArgListT main_linker_arg_list [] = {
+static ArgListT main_linker_arg_list[] = {
     {
 	"all-hide-defined", 'a',		AT_PROC_SWITCH,
-	(ArgProcP) main_handle_all_hide_defd,	NIL (GenericP),
+	(ArgProcP)main_handle_all_hide_defd,	NIL(GenericP),
 	UB "description of all-hide-defined" UE
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP) main_handle_debug_file,	NIL (GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP) main_handle_help,		NIL (GenericP),
+	(ArgProcP)main_handle_help,		NIL(GenericP),
 	UB "description of help" UE
     }, {
 	"hide", 'h',				AT_FOLLOWING2,
-	(ArgProcP) main_handle_hide,		NIL (GenericP),
+	(ArgProcP)main_handle_hide,		NIL(GenericP),
 	UB "description of hide" UE
     }, {
 	"hide-defined", 'H',			AT_FOLLOWING,
-	(ArgProcP) main_handle_hide_defined,	NIL (GenericP),
+	(ArgProcP)main_handle_hide_defined,	NIL(GenericP),
 	UB "description of hide-defined" UE
     }, {
 	"keep", 'k',				AT_FOLLOWING2,
-	(ArgProcP) main_handle_keep,		NIL (GenericP),
+	(ArgProcP)main_handle_keep,		NIL(GenericP),
 	UB "description of keep" UE
     }, {
 	"keep-all", 'K',			AT_FOLLOWING,
-	(ArgProcP) main_handle_keep_all,	NIL (GenericP),
+	(ArgProcP)main_handle_keep_all,	NIL(GenericP),
 	UB "description of keep-all" UE
     }, {
 	"library", '\0',			AT_FOLLOWING,
-	(ArgProcP) main_handle_library_file,	NIL (GenericP),
+	(ArgProcP)main_handle_library_file,	NIL(GenericP),
 	UB "description of library-file" UE
     }, {
-	NIL (CStringP), 'l',			AT_EITHER,
-	(ArgProcP) main_handle_library_file,	NIL (GenericP),
+	NIL(CStringP), 'l',			AT_EITHER,
+	(ArgProcP)main_handle_library_file,	NIL(GenericP),
 	UB "description of l" UE
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP) main_handle_output_file,	NIL (GenericP),
+	(ArgProcP)main_handle_output_file,	NIL(GenericP),
 	UB "description of output-file" UE
     }, {
 	"path", '\0',				AT_FOLLOWING,
-	(ArgProcP) main_handle_library_path,	NIL (GenericP),
+	(ArgProcP)main_handle_library_path,	NIL(GenericP),
 	UB "description of path" UE
     }, {
-	NIL (CStringP), 'L',			AT_EITHER,
-	(ArgProcP) main_handle_library_path,	NIL (GenericP),
+	NIL(CStringP), 'L',			AT_EITHER,
+	(ArgProcP)main_handle_library_path,	NIL(GenericP),
 	UB "description of L" UE
     }, {
 	"rename", 'r',				AT_FOLLOWING3,
-	(ArgProcP) main_handle_rename,		NIL (GenericP),
+	(ArgProcP)main_handle_rename,		NIL(GenericP),
 	UB "description of rename" UE
     }, {
 	"rename-file", 'R',			AT_FOLLOWING,
-	(ArgProcP) main_handle_rename_file,	NIL (GenericP),
+	(ArgProcP)main_handle_rename_file,	NIL(GenericP),
 	UB "description of rename-file" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP) main_handle_show_errors,	NIL (GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
 	UB "description of show-errors" UE
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP) main_handle_suppress,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress,	NIL(GenericP),
 	UB "description of suppress" UE
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress_all,	NIL(GenericP),
 	UB "description of suppress-all" UE
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
+	(ArgProcP)main_handle_suppress_mult,	NIL(GenericP),
 	UB "description of suppress-mult" UE
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP) main_handle_unit_file,	NIL (GenericP),
+	(ArgProcP)main_handle_unit_file,	NIL(GenericP),
 	UB "description of unit-file" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP) main_handle_version,		NIL (GenericP),
+	(ArgProcP)main_handle_version,		NIL(GenericP),
 	UB "description of version" UE
     }, {
 	"warnings", 'w',			AT_PROC_SWITCH,
-	(ArgProcP) main_handle_warning,		NIL (GenericP),
+	(ArgProcP)main_handle_warning,		NIL(GenericP),
 	UB "description of warning" UE
     }, ARG_PARSE_END_LIST
 };
@@ -850,125 +828,121 @@ static ArgListT main_linker_arg_list [] = {
 /*--------------------------------------------------------------------------*/
 
 static ModeT
-main_init PROTO_N ((argc, argv))
-	  PROTO_T (int    argc X
-		   char **argv)
+main_init(int    argc,		   char **argv)
 {
-    EStringP  usage_estring = error_define_string ("tld usage message", USAGE);
+    EStringP  usage_estring = error_define_string("tld usage message", USAGE);
     ModeT     mode          = MODE_LINKER;
     ArgListP  arg_list      = main_linker_arg_list;
     CStringP  error_file;
     int       skip;
 
-    error_init (argv [0], gen_errors_init_errors);
-    error_intern_strings (main_description_strings);
-    if ((error_file = getenv ("TLD_ERROR_FILE")) != NIL (CStringP)) {
-	error_file_parse (error_file, FALSE);
+    error_init(argv[0], gen_errors_init_errors);
+    error_intern_strings(main_description_strings);
+    if ((error_file = getenv("TLD_ERROR_FILE")) != NIL(CStringP)) {
+	error_file_parse(error_file, FALSE);
     }
-    argc --;
-    argv ++;
+    argc--;
+    argv++;
   retry:
-    if ((argc > 0) && (argv [0][0] == '-') && (argv [0][1] == 'm')) {
-	char c = argv [0][2];
+    if ((argc > 0) && (argv[0][0] == '-') && (argv[0][1] == 'm')) {
+	char c = argv[0][2];
 
-	argc --;
-	argv ++;
+	argc--;
+	argv++;
 	switch (c) {
 	  case 'c':
 	    mode     = MODE_BUILDER;
 	    arg_list = main_builder_arg_list;
-	    arg_data_init (&main_arg_data, "library.tl");
+	    arg_data_init(&main_arg_data, "library.tl");
 	    break;
 	  case 't':
 	    mode     = MODE_CONTENTS;
 	    arg_list = main_contents_arg_list;
-	    arg_data_init (&main_arg_data, NIL (CStringP));
+	    arg_data_init(&main_arg_data, NIL(CStringP));
 	    break;
 	  case 'x':
 	    mode     = MODE_EXTRACT;
 	    arg_list = main_extract_arg_list;
-	    arg_data_init (&main_arg_data, NIL (CStringP));
+	    arg_data_init(&main_arg_data, NIL(CStringP));
 	    break;
 	  case 'l':
 	    goto linker_case;
 	  case 'v':
 	    main_used_one_off = TRUE;
 	    main_used_other   = FALSE;
-	    main_print_version ();
+	    main_print_version();
 	    goto retry;
 	  default:
-	    E_bad_mode (argv [0][2]);
+	    E_bad_mode(argv[0][2]);
 	    UNREACHED;
 	}
     } else {
       linker_case:
-	arg_data_init (&main_arg_data, "capsule.j");
+	arg_data_init(&main_arg_data, "capsule.j");
     }
-    arg_parse_intern_descriptions (arg_list);
-    skip = arg_parse_arguments (arg_list, usage_estring, argc, argv);
+    arg_parse_intern_descriptions(arg_list);
+    skip = arg_parse_arguments(arg_list, usage_estring, argc, argv);
     argc -= skip;
     argv += skip;
     if (main_used_one_off && (!main_used_other) && (argc == 0)) {
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 	UNREACHED;
     } else if (argc == 0) {
-	E_missing_files ();
+	E_missing_files();
 	UNREACHED;
     }
-    arg_data_set_files (&main_arg_data, argc, argv);
-    arg_data_vector_libraries (&main_arg_data);
-    debug_set_file (arg_data_get_debug_file (&main_arg_data));
-    return (mode);
+    arg_data_set_files(&main_arg_data, argc, argv);
+    arg_data_vector_libraries(&main_arg_data);
+    debug_set_file(arg_data_get_debug_file(&main_arg_data));
+    return(mode);
 }
 
 /*--------------------------------------------------------------------------*/
 
 int
-main PROTO_N ((argc, argv))
-     PROTO_T (int    argc X
-	      char **argv)
+main(int    argc,	      char **argv)
 {
     HANDLE {
-	istream_setup ();
-	ostream_setup ();
-	switch (main_init (argc, argv)) EXHAUSTIVE {
+	istream_setup();
+	ostream_setup();
+	switch (main_init(argc, argv))EXHAUSTIVE {
 	  case MODE_BUILDER:
-	    builder_main (&main_arg_data);
+	    builder_main(&main_arg_data);
 	    break;
 	  case MODE_CONTENTS:
-	    contents_main (&main_arg_data);
+	    contents_main(&main_arg_data);
 	    break;
 	  case MODE_EXTRACT:
-	    extract_main (&main_arg_data);
+	    extract_main(&main_arg_data);
 	    break;
 	  case MODE_LINKER:
-	    linker_main (&main_arg_data);
+	    linker_main(&main_arg_data);
 	    break;
 	}
     } WITH {
-	ExceptionP exception = EXCEPTION_EXCEPTION ();
+	ExceptionP exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
-	    E_no_memory ();
+	    E_no_memory();
 	    UNREACHED;
 	} else if ((exception == XX_istream_read_error) ||
-		   (exception == XX_bistream_read_error)) {
-	    CStringP file = (CStringP) EXCEPTION_VALUE ();
+		  (exception == XX_bistream_read_error)) {
+	    CStringP file = (CStringP)EXCEPTION_VALUE();
 
-	    E_read_error (file);
+	    E_read_error(file);
 	    UNREACHED;
 	} else if ((exception == XX_ostream_write_error) ||
-		   (exception == XX_bostream_write_error)) {
-	    CStringP file = (CStringP) EXCEPTION_VALUE ();
+		  (exception == XX_bostream_write_error)) {
+	    CStringP file = (CStringP)EXCEPTION_VALUE();
 
-	    E_write_error (file);
+	    E_write_error(file);
 	    UNREACHED;
 	} else {
-	    RETHROW ();
+	    RETHROW();
 	    UNREACHED;
 	}
     } END_HANDLE
-    exit (EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
     UNREACHED;
 }
 

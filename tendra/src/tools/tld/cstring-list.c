@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -59,63 +89,55 @@
 /*--------------------------------------------------------------------------*/
 
 void
-cstring_list_init PROTO_N ((list))
-		  PROTO_T (CStringListP list)
+cstring_list_init(CStringListP list)
 {
-    list->head = NIL (CStringListEntryP);
-    list->tail = &(list->head);
+    list->head = NIL(CStringListEntryP);
+    list->tail = & (list->head);
 }
 
 void
-cstring_list_append PROTO_N ((list, string))
-		    PROTO_T (CStringListP list X
-			     CStringP     string)
+cstring_list_append(CStringListP list,			     CStringP     string)
 {
-    CStringListEntryP entry = ALLOCATE (CStringListEntryT);
+    CStringListEntryP entry = ALLOCATE(CStringListEntryT);
 
-    entry->next   = NIL (CStringListEntryP);
+    entry->next   = NIL(CStringListEntryP);
     entry->string = string;
     *(list->tail) = entry;
-    list->tail    = &(entry->next);
+    list->tail    = & (entry->next);
 }
 
 BoolT
-cstring_list_contains PROTO_N ((list, string))
-		      PROTO_T (CStringListP list X
-			       CStringP     string)
+cstring_list_contains(CStringListP list,			       CStringP     string)
 {
     CStringListEntryP entry = list->head;
-    while (entry != NIL (CStringListEntryP)) {
-	if (cstring_equal (string, entry->string)) {
-	    return (TRUE);
+    while (entry != NIL(CStringListEntryP)) {
+	if (cstring_equal(string, entry->string)) {
+	    return(TRUE);
 	}
 	entry = entry->next;
     }
-    return (FALSE);
+    return(FALSE);
 }
 
 CStringListEntryP
-cstring_list_head PROTO_N ((list))
-		  PROTO_T (CStringListP list)
+cstring_list_head(CStringListP list)
 {
-    return (list->head);
+    return(list->head);
 }
 
 CStringP
-cstring_list_entry_string PROTO_N ((entry))
-			  PROTO_T (CStringListEntryP entry)
+cstring_list_entry_string(CStringListEntryP entry)
 {
-    return (entry->string);
+    return(entry->string);
 }
 
 CStringListEntryP
-cstring_list_entry_deallocate PROTO_N ((entry))
-			      PROTO_T (CStringListEntryP entry)
+cstring_list_entry_deallocate(CStringListEntryP entry)
 {
     CStringListEntryP next = entry->next;
 
-    DEALLOCATE (entry);
-    return (next);
+    DEALLOCATE(entry);
+    return(next);
 }
 
 /*

@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -65,21 +95,18 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void			istream_setup
- *			PROTO_S ((void))
+ ** Function:	void istream_setup(void)
  ** Exceptions:
  *
  * This function initialises the input stream facility.  It should be called
  * before any other istream manipulation function.
  *
- ** Function:	void			istream_init
- *			PROTO_S ((IStreamP istream))
+ ** Function:	void istream_init(IStreamP istream)
  ** Exceptions:
  *
  * This function initialises the specified istream not to read from any file.
  *
- ** Function:	BoolT			istream_open
- *			PROTO_S ((IStreamP istream, CStringP name))
+ ** Function:	BoolT istream_open(IStreamP istream, CStringP name)
  ** Exceptions: XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function initialises the specified istream to read from the file with
@@ -88,21 +115,18 @@
  * returns false. If the file is opened successfully, the function returns
  * true.
  *
- ** Function:	void			istream_assign
- *			PROTO_S ((IStreamP to, IStreamP from))
+ ** Function:	void istream_assign(IStreamP to, IStreamP from)
  ** Exceptions:
  *
  * This function assigns the from istream to the to istream.  The from istream
  * should not be used again.
  *
- ** Function:	BoolT			istream_is_open
- *			PROTO_S ((IStreamP istream))
+ ** Function:	BoolT istream_is_open(IStreamP istream)
  *
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  *
- ** Function:	BoolT			istream_read_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ ** Function:	BoolT istream_read_char(IStreamP istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (and
@@ -111,8 +135,7 @@
  * the end of file is reached, the function returns false.  If the character
  * read is a newline, then the istream's line count is incremented.
  *
- ** Function:	BoolT			istream_peek_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ ** Function:	BoolT istream_peek_char(IStreamP istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (but does
@@ -120,8 +143,8 @@
  * character is assigned to the reference argument, and the function returns
  * true.  If the end of file is reached, the function returns false.
  *
- ** Function:	IStreamStatusT		istream_read_escaped_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ ** Function:	IStreamStatusT istream_read_escaped_char(IStreamP istream,
+ *							 char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads a character sequence from the specified istream, and
@@ -134,30 +157,26 @@
  * are newline characters, then the istream's line counter will be incremented
  * for each newline.
  *
- ** Function:	void			istream_inc_line
- *			PROTO_S ((IStreamP istream))
+ ** Function:	void istream_inc_line(IStreamP istream)
  ** Exceptions:
  *
  * This function increments the specified istream's line counter.  It should
  * only really be called as specified in the documentation for the
  * ``ISTREAM_READ_CHAR'' macro.
  *
- ** Function:	unsigned		istream_line
- *			PROTO_S ((IStreamP istream))
+ ** Function:	unsigned istream_line(IStreamP istream)
  ** Exceptions:
  *
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  *
- ** Function:	CStringP		istream_name
- *			PROTO_S ((IStreamP istream))
+ ** Function:	CStringP istream_name(IStreamP istream)
  ** Exceptions:
  *
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  *
- ** Function:	void			istream_close
- *			PROTO_S ((IStreamP istream))
+ ** Function:	void istream_close(IStreamP istream)
  ** Exceptions:
  *
  * This function closes the specified istream.
@@ -264,60 +283,60 @@ extern IStreamT		 *const istream_input;
 /*--------------------------------------------------------------------------*/
 
 extern void			istream_setup
-	PROTO_S ((void));
+(void);
 extern void			istream_init
-	PROTO_S ((IStreamP));
+(IStreamP);
 extern BoolT			istream_open
-	PROTO_S ((IStreamP, CStringP));
+(IStreamP, CStringP);
 extern void			istream_assign
-	PROTO_S ((IStreamP, IStreamP));
+(IStreamP, IStreamP);
 extern BoolT			istream_is_open
-	PROTO_S ((IStreamP));
+(IStreamP);
 extern BoolT			istream_read_char
-	PROTO_S ((IStreamP, char *));
+(IStreamP, char *);
 extern BoolT			istream_peek_char
-	PROTO_S ((IStreamP, char *));
+(IStreamP, char *);
 extern IStreamStatusT		istream_read_escaped_char
-	PROTO_S ((IStreamP, char *));
+(IStreamP, char *);
 extern void			istream_inc_line
-	PROTO_S ((IStreamP));
+(IStreamP);
 extern unsigned			istream_line
-	PROTO_S ((IStreamP));
+(IStreamP);
 extern CStringP			istream_name
-	PROTO_S ((IStreamP));
+(IStreamP);
 extern void			istream_close
-	PROTO_S ((IStreamP));
+(IStreamP);
 
 /*--------------------------------------------------------------------------*/
 
 extern void			X__istream_fill_buffer
-	PROTO_S ((IStreamP));
+(IStreamP);
 
 /*--------------------------------------------------------------------------*/
 
-#define ISTREAM_READ_CHAR(istream) \
-(((istream)->read_last = TRUE), (*((istream)->current) ++))
+#define ISTREAM_READ_CHAR(istream)\
+    (((istream)->read_last = TRUE), (*((istream)->current)++))
 
-#define ISTREAM_PEEK_CHAR(istream) \
-(((istream)->read_last = FALSE), (*((istream)->current)))
+#define ISTREAM_PEEK_CHAR(istream)\
+    (((istream)->read_last = FALSE), (*((istream)->current)))
 
-#define ISTREAM_HANDLE_NULL(istream,redo,eof) \
+#define ISTREAM_HANDLE_NULL(istream,redo,eof)\
 { \
     IStreamP X___is = (istream); \
     if (X___is->read_last) { \
 	if (X___is->current == X___is->end) { \
 	    if (X___is->end == X___is->limit) { \
-		X__istream_fill_buffer (X___is); \
+		X__istream_fill_buffer(X___is); \
 		goto redo; \
 	    } else { \
-		X___is->current --; \
+		X___is->current--; \
 		goto eof; \
 	    } \
 	} \
     } else { \
 	if (X___is->current == (X___is->end - 1)) { \
 	    if (X___is->end == X___is->limit) { \
-		X__istream_fill_buffer (X___is); \
+		X__istream_fill_buffer(X___is); \
 		goto redo; \
 	    } else { \
 		goto eof; \
@@ -329,11 +348,11 @@ extern void			X__istream_fill_buffer
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define istream_init(is) ((is)->name = NIL (CStringP))
-#define istream_is_open(is) ((is)->name != NIL (CStringP))
-#define istream_inc_line(is) ((is)->line ++)
-#define istream_line(is) ((is)->line)
-#define istream_name(is) ((is)->name)
+#define istream_init(is)	((is)->name = NIL(CStringP))
+#define istream_is_open(is)	((is)->name != NIL(CStringP))
+#define istream_inc_line(is)	((is)->line++)
+#define istream_line(is)	((is)->line)
+#define istream_name(is)	((is)->name)
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_ISTREAM) */

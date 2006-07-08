@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -125,100 +155,100 @@ typedef struct ArgDataT {
 /*--------------------------------------------------------------------------*/
 
 extern void			shape_control_iter
-	PROTO_S ((ShapeControlP, void (*) (NStringP, BoolT, NameKeyListP,
-					   GenericP), GenericP));
+	(ShapeControlP, void(*)(NStringP, BoolT, NameKeyListP,
+					   GenericP), GenericP);
 extern void			rename_control_iter
-	PROTO_S ((RenameControlP, void (*) (NStringP, NameKeyPairListP,
-					    GenericP), GenericP));
+	(RenameControlP, void(*)(NStringP, NameKeyPairListP,
+					    GenericP), GenericP);
 
 extern void			arg_data_init
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern void			arg_data_set_all_hide_defd
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_all_hide_defd
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_suppress_mult
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_suppress_mult
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_add_hide
-	PROTO_S ((ArgDataP, CStringP, CStringP));
+(ArgDataP, CStringP, CStringP);
 extern void			arg_data_add_hide_defined
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern ShapeControlP		arg_data_get_hides
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_add_keep
-	PROTO_S ((ArgDataP, CStringP, CStringP));
+(ArgDataP, CStringP, CStringP);
 extern void			arg_data_add_keep_all
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern ShapeControlP		arg_data_get_keeps
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_add_suppress
-	PROTO_S ((ArgDataP, CStringP, CStringP));
+(ArgDataP, CStringP, CStringP);
 extern void			arg_data_add_suppress_all
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern ShapeControlP		arg_data_get_suppresses
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_add_rename
-	PROTO_S ((ArgDataP, NStringP, NameKeyP, NameKeyP));
+(ArgDataP, NStringP, NameKeyP, NameKeyP);
 extern void			arg_data_parse_rename
-	PROTO_S ((ArgDataP, CStringP, CStringP, CStringP));
+(ArgDataP, CStringP, CStringP, CStringP);
 extern RenameControlP		arg_data_get_renames
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_extract_all
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_extract_all
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_extract_basename
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_extract_basename
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_extract_match_base
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_extract_match_base
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_content_index
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_content_index
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_content_size
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_content_size
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_content_version
-	PROTO_S ((ArgDataP, BoolT));
+(ArgDataP, BoolT);
 extern BoolT			arg_data_get_content_version
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_debug_file
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern OStreamP			arg_data_get_debug_file
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_output_file
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern CStringP			arg_data_get_output_file
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_add_library_file
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern void			arg_data_add_library_path
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern void			arg_data_vector_libraries
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern unsigned			arg_data_num_library_files
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern unsigned			arg_data_num_library_paths
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern CStringP		       *arg_data_library_files
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern CStringP		       *arg_data_library_paths
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern void			arg_data_set_unit_file
-	PROTO_S ((ArgDataP, CStringP));
+(ArgDataP, CStringP);
 extern void			arg_data_set_files
-	PROTO_S ((ArgDataP, int, CStringP *));
+(ArgDataP, int, CStringP *);
 extern unsigned			arg_data_get_num_files
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 extern CStringP		       *arg_data_get_files
-	PROTO_S ((ArgDataP));
+(ArgDataP);
 
 #endif /* !defined (H_ARG_DATA) */
 
