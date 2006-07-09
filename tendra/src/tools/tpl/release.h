@@ -32,4 +32,4 @@
 #define RELEASE		"TenDRA-4.1.2"
 #endif
 
-char tendra_release [] = RELEASE ;
+char tendra_release[] = RELEASE;

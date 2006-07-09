@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -49,56 +79,57 @@ $Log: includes.c,v $
 #include "errors.h"
 
 
-char * file_name;
-static Path * inc_paths;
+char *file_name;
+static Path *inc_paths;
 
 
-void init_includes
-    PROTO_Z ()
+void
+init_includes(void)
 {
-    inc_paths = MALLOC(Path);
-    inc_paths->name = "";
-    inc_paths->next = (Path*)0;
-}
-
-void add_include
-    PROTO_N ( (p) )
-    PROTO_T ( char * p )
-{
-    Path * x = MALLOC(Path);
-    Path ** n = &inc_paths->next;
-    x->name = append_string(p,"/");
-    x->next = (Path*)0;
-    while (*n != (Path*)0) n = &((*n)->next);
-    *n = x;
+	inc_paths = MALLOC(Path);
+	inc_paths->name = "";
+	inc_paths->next = (Path *)0;
 }
 
 
-FILE * open_include
-    PROTO_N ( (a) )
-    PROTO_T ( char * a )
+void
+add_include(char *p)
 {
-    char * fn;
-    Path * p = inc_paths;
-    FILE * ans;
-    int i;
-    while(*a != '"') a++;
-    a++;
-    for(i=0; ; i++) {
-	if (a[i]=='"' || a[i]==0) {
-	    a[i] = 0;
-	    break;
+	Path *x = MALLOC(Path);
+	Path **n = &inc_paths->next;
+	x->name = append_string(p, "/");
+	x->next = (Path *)0;
+	while (*n != (Path *)0)n = &((*n)->next);
+	*n = x;
+}
+
+
+FILE *
+open_include(char * a)
+{
+	char *fn;
+	Path *p = inc_paths;
+	FILE *ans;
+	int i;
+	while (*a != '"') {
+		a++;
 	}
-    }
-    while (p != (Path*)0) {
-	fn = append_string(p->name, a);
-	ans = fopen(fn,"r");
-	if (ans != (FILE*)0) {
-	    file_name = fn;
-	    return ans;
+	a++;
+	for (i = 0;; i++) {
+		if (a[i] =='"' || a[i] ==0) {
+			a[i] = 0;
+			break;
+		}
 	}
-	p = p->next;
-    }
-    fail("Can't open include file %s", a);
-    return (FILE*)0;
+	while (p != (Path *)0) {
+		fn = append_string(p->name, a);
+		ans = fopen(fn, "r");
+		if (ans != (FILE *)0) {
+			file_name = fn;
+			return ans;
+		}
+		p = p->next;
+	}
+	fail("Can't open include file %s", a);
+	return(FILE *)0;
 }
