@@ -1,8 +1,7 @@
 # $Id$
 
 # Standard directories and files
-SRC2=${.CURDIR}/templ
-SPEC=${BASE}/src/lib/tdf/def_4_0.db
+TEMPL=${.CURDIR}/templ
 
 # Standard variables
 
@@ -15,6 +14,10 @@ PROG=		${.CURDIR:T}
 SRCS=		analyse_sort.c consfile.c decodings.c errors.c find_id.c\
 		fnsfile.c includes.c lex.c main.c readstreams.c standardsh.c\
 		streams.c syntax.c units.c util.c
+
+.include "../Makefile.inc"
+
+SPEC=${BASE_DIR}/src/lib/tdf/def_4_0.db
 
 #MAKE_TDF=make_tdf
 #SID?=		${.OBJDIR}/../../utilities/sid/sid
@@ -30,32 +33,31 @@ SRCS=		analyse_sort.c consfile.c decodings.c errors.c find_id.c\
 #	@${REMOVE} ${SID_OUT}
 #	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
 #
-#${SRC}/consfile.c : ${SRC2}/consfile.c ${SPEC}
-#	@${REMOVE} ${SRC}/consfile.c
-#	${MAKE_TDF} ${SPEC} ${SRC2}/consfile.c | ${SORT} > ${SRC}/consfile.c
-#
-#${SRC}/consfile.h : ${SRC2}/consfile.h ${SPEC}
-#	@${REMOVE} ${SRC}/consfile.h
-#	${MAKE_TDF} ${SPEC} ${SRC2}/consfile.h ${SRC}/consfile.h
-#
-#${SRC}/decodings.c : ${SRC2}/decodings.c ${SPEC}
-#	@${REMOVE} ${SRC}/decodings.c
-#	${MAKE_TDF} ${SPEC} ${SRC2}/decodings.c ${SRC}/decodings.c
-#
-#${SRC}/decodings.h : ${SRC2}/decodings.h ${SPEC}
-#	@${REMOVE} ${SRC}/decodings.h
-#	${MAKE_TDF} ${SPEC} ${SRC2}/decodings.h ${SRC}/decodings.h
-#
-#${SRC}/encodings.h : ${SRC2}/encodings.h ${SPEC}
-#	@${REMOVE} ${SRC}/encodings.h
-#	${MAKE_TDF} ${SPEC} ${SRC2}/encodings.h ${SRC}/encodings.h
-#
-#${SRC}/enc_nos.h : ${SRC2}/enc_nos.h ${SPEC}
-#	@${REMOVE} ${SRC}/enc_nos.h
-#	${MAKE_TDF} ${SPEC} ${SRC2}/enc_nos.h ${SRC}/enc_nos.h
-#
-#${SRC}/fnsfile.c : ${SRC2}/fnsfile.c ${SPEC}
-#	@${REMOVE} ${SRC}/fnsfile.c
-#	${MAKE_TDF} ${SPEC} ${SRC2}/fnsfile.c ${SRC}/fnsfile.c
+consfile.c : ${TEMPL}/consfile.c ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/consfile.c |\
+		${SORT} > ${.CURDIR}/${.TARGET}
 
-.include "../Makefile.inc"
+consfile.h : ${TEMPL}/consfile.h ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/consfile.h ${.CURDIR}/${.TARGET}
+
+decodings.c : ${TEMPL}/decodings.c ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/decodings.c ${.CURDIR}/${.TARGET}
+
+decodings.h : ${TEMPL}/decodings.h ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/decodings.h ${.CURDIR}/${.TARGET}
+
+encodings.h : ${TEMPL}/encodings.h ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/encodings.h ${.CURDIR}/${.TARGET}
+
+enc_nos.h : ${TEMPL}/enc_nos.h ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/enc_nos.h ${.CURDIR}/${.TARGET}
+
+fnsfile.c : ${TEMPL}/fnsfile.c ${SPEC}
+	@${REMOVE} ${.TARGET}
+	${MAKE_TDF} ${SPEC} ${TEMPL}/fnsfile.c ${.CURDIR}/${.TARGET}
