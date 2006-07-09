@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -58,7 +88,7 @@
     definitions in the system headers.
 */
 
-typedef unsigned char character ;
+typedef unsigned char character;
 #define ulong ulong_type
 #define CONST_S CONST
 
@@ -96,11 +126,11 @@ typedef unsigned char character ;
 
 #ifdef RUNTIME
 #if c_class_IMPLEMENTATION
-extern c_class *debug_c_class PROTO_S ( ( unsigned, unsigned ) ) ;
+extern c_class *debug_c_class(unsigned, unsigned);
 #undef GEN_c_class
-#define GEN_c_class( A, B )	debug_c_class ( ( unsigned ) ( A ), ( B ) )
-#define TYPEID( A )		( ( A ) [-1].ag_tag )
-#define TYPEID_free		( ( unsigned ) 42 )
+#define GEN_c_class(A, B)	debug_c_class((unsigned)(A), (B))
+#define TYPEID(A)		((A)[-1].ag_tag)
+#define TYPEID_free		((unsigned)42)
 #endif
 #endif
 
@@ -118,8 +148,8 @@ extern c_class *debug_c_class PROTO_S ( ( unsigned, unsigned ) ) ;
 #define cinfo_struct		cinfo_struct_
 #define cinfo_union		cinfo_union_
 #define destroy			destroy_c_class
-#define null_tag		( ( unsigned ) 0xffff )
-#define NULL_string		( ( string ) NULL )
+#define null_tag		((unsigned)0xffff)
+#define NULL_string		((string)NULL)
 
 #if LANGUAGE_C
 #define cv_lang			cv_c
@@ -143,15 +173,15 @@ extern c_class *debug_c_class PROTO_S ( ( unsigned, unsigned ) ) ;
 */
 
 #if FS_NUMBER_SUFFIX
-#define LINK_NONE		( ( ulong ) 0xffffffffUL )
-#define LINK_EXTERN		( ( ulong ) 0x80000000UL )
-#define LINK_ZERO		( ( ulong ) 0xfffffffeUL )
-#define LINK_TOKDEF		( ( ulong ) 0xfffffffdUL )
+#define LINK_NONE		((ulong)0xffffffffUL)
+#define LINK_EXTERN		((ulong)0x80000000UL)
+#define LINK_ZERO		((ulong)0xfffffffeUL)
+#define LINK_TOKDEF		((ulong)0xfffffffdUL)
 #else
-#define LINK_NONE		( ( ulong ) 0xffffffff )
-#define LINK_EXTERN		( ( ulong ) 0x80000000 )
-#define LINK_ZERO		( ( ulong ) 0xfffffffe )
-#define LINK_TOKDEF		( ( ulong ) 0xfffffffd )
+#define LINK_NONE		((ulong)0xffffffff)
+#define LINK_EXTERN		((ulong)0x80000000)
+#define LINK_ZERO		((ulong)0xfffffffe)
+#define LINK_TOKDEF		((ulong)0xfffffffd)
 #endif
 
 
@@ -166,17 +196,17 @@ extern c_class *debug_c_class PROTO_S ( ( unsigned, unsigned ) ) ;
     maintained.
 */
 
-typedef unsigned char OPTION ;
+typedef unsigned char OPTION;
 
 typedef struct opt_tag {
-    OPTION *opt ;
-    OPTION *set ;
-    DECL_SPEC lnk_opt [2] ;
-    unsigned long val_opt [1] ;
-    struct opt_tag *prev ;
-    HASHID name ;
-    struct opt_tag *next ;
-} OPTIONS ;
+	OPTION *opt;
+	OPTION *set;
+	DECL_SPEC lnk_opt[2];
+	unsigned long val_opt[1];
+	struct opt_tag *prev;
+	HASHID name;
+	struct opt_tag *next;
+} OPTIONS;
 
 
 /*
@@ -190,49 +220,49 @@ typedef struct opt_tag {
 */
 
 typedef struct pptok_tag {
-    int tok ;
-    struct pptok_tag *next ;
-    union {
-	/* Associated data */
-	int sint ;
-	string text ;
-	unsigned uint ;
-	character buff [8] ;
-	EXP exp ;
-	NAT nat ;
-	FLOAT flt ;
-	NAMESPACE ns ;
-	STRING strlit ;
-	TYPE type ;
-	struct {
-	    /* Identifier */
-	    HASHID hash ;
-	    IDENTIFIER use ;
-	} id ;
-	struct {
-	    /* String */
-	    string start ;
-	    string end ;
-	} str ;
-	struct {
-	    /* Macro parameter */
-	    HASHID hash ;
-	    unsigned long no ;
-	} par ;
-	struct {
-	    /* Location */
-	    unsigned long line ;
-	    PTR ( POSITION ) posn ;
-	} loc ;
-	struct {
-	    /* Token application */
-	    IDENTIFIER id ;
-	    struct pptok_tag *args ;
-	} tok ;
-    } pp_data ;
-    unsigned long pp_space ;
-    OPTIONS *pp_opts ;
-} PPTOKEN ;
+	int tok;
+	struct pptok_tag *next;
+	union {
+		/* Associated data */
+		int sint;
+		string text;
+		unsigned uint;
+		character buff[8];
+		EXP exp;
+		NAT nat;
+		FLOAT flt;
+		NAMESPACE ns;
+		STRING strlit;
+		TYPE type;
+		struct {
+			/* Identifier */
+			HASHID hash;
+			IDENTIFIER use;
+		} id;
+		struct {
+			/* String */
+			string start;
+			string end;
+		} str;
+		struct {
+			/* Macro parameter */
+			HASHID hash;
+			unsigned long no;
+		} par;
+		struct {
+			/* Location */
+			unsigned long line;
+			PTR(POSITION)posn;
+		} loc;
+		struct {
+			/* Token application */
+			IDENTIFIER id;
+			struct pptok_tag *args;
+		} tok;
+	} pp_data;
+	unsigned long pp_space;
+	OPTIONS *pp_opts;
+} PPTOKEN;
 
 
 /*
@@ -245,14 +275,14 @@ typedef struct pptok_tag {
 */
 
 typedef struct bits_tag {
-    string text ;
-    unsigned bytes ;
-    unsigned bits ;
-    unsigned size ;
-    FILE *file ;
-    gen_ptr link ;
-    struct bits_tag *prev ;
-} BITSTREAM ;
+	string text;
+	unsigned bytes;
+	unsigned bits;
+	unsigned size;
+	FILE *file;
+	gen_ptr link;
+	struct bits_tag *prev;
+} BITSTREAM;
 
 
 /*
@@ -263,13 +293,13 @@ typedef struct bits_tag {
 */
 
 typedef struct buff_tag {
-    string start ;
-    string posn ;
-    string end ;
-    FILE *file ;
-} BUFFER ;
+	string start;
+	string posn;
+	string end;
+	FILE *file;
+} BUFFER;
 
-#define NULL_buff		{ NULL, NULL, NULL, NULL }
+#define NULL_buff	{ NULL, NULL, NULL, NULL }
 
 
 #endif
