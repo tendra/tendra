@@ -1,0 +1,24 @@
+Expression_Kind:AN_IDENTIFIER Base_Type at a0003.adb [4:38..4:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Base_Type at a0003.ads [14:9..14:17]
+
+Expression_Kind:AN_IDENTIFIER Base_Type at a0003.adb [7:28..7:36]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Base_Type at a0003.ads [14:9..14:17]
+
+Expression_Kind:AN_IDENTIFIER Used_Defined at a0003.adb [7:56..7:67]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Used_Defined at a0003.ads [17:14..17:25]
+
+Expression_Kind:AN_IDENTIFIER Derived_Type at a0003.adb [8:28..8:39]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Derived_Type at a0003.ads [19:9..19:20]
+
+Expression_Kind:AN_IDENTIFIER Used_Defined at a0003.adb [8:56..8:67]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Used_Defined inherited in Type_Kind:A_DERIVED_TYPE_DEFINITION  at a0003.ads [19:25..19:37]
+
+Expression_Kind:AN_IDENTIFIER Local_Derived_Type at a0003.adb [9:28..9:45]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Local_Derived_Type at a0003.adb [4:12..4:29]
+
+Expression_Kind:AN_IDENTIFIER Used_Defined at a0003.adb [9:56..9:67]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Used_Defined inherited in Type_Kind:A_DERIVED_TYPE_DEFINITION  at a0003.adb [4:34..4:46]
+
+Expression_Kind:AN_IDENTIFIER Base_Type at a0003.adb [16:35..16:43]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Base_Type at a0003.ads [14:9..14:17]
+
