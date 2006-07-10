@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -44,19 +74,20 @@
     this file.  This routine allocates sz bytes of memory.
 */
 
-gen_ptr xmalloc
-    PROTO_N ( ( sz ) )
-    PROTO_T ( gen_size sz )
+gen_ptr
+xmalloc(gen_size sz)
 {
-    gen_ptr p ;
-    if ( sz == 0 ) sz = 1 ;
-    p = malloc ( ( size_t ) sz ) ;
-    if ( p == NULL ) {
-	max_errors = ULONG_MAX ;
-	error ( ERROR_INTERNAL, "Memory allocation error" ) ;
-	term_error ( 1 ) ;
-    }
-    return ( p ) ;
+	gen_ptr p;
+	if (sz == 0) {
+		sz = 1;
+	}
+	p = malloc((size_t)sz);
+	if (p == NULL) {
+		max_errors = ULONG_MAX;
+		error(ERROR_INTERNAL, "Memory allocation error");
+		term_error(1);
+	}
+	return (p);
 }
 
 
@@ -67,23 +98,24 @@ gen_ptr xmalloc
     p can be the result of a previous memory allocation routine, or NULL.
 */
 
-gen_ptr xrealloc
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( gen_ptr p X gen_size sz )
+gen_ptr
+xrealloc(gen_ptr p, gen_size sz)
 {
-    gen_ptr q ;
-    if ( sz == 0 ) sz = 1 ;
-    if ( p ) {
-	q = realloc ( p, ( size_t ) sz ) ;
-    } else {
-	q = malloc ( ( size_t ) sz ) ;
-    }
-    if ( q == NULL ) {
-	max_errors = ULONG_MAX ;
-	error ( ERROR_INTERNAL, "Memory allocation error" ) ;
-	term_error ( 1 ) ;
-    }
-    return ( q ) ;
+	gen_ptr q;
+	if (sz == 0) {
+		sz = 1;
+	}
+	if (p) {
+		q = realloc(p,(size_t)sz);
+	} else {
+		q = malloc((size_t)sz);
+	}
+	if (q == NULL) {
+		max_errors = ULONG_MAX;
+		error(ERROR_INTERNAL, "Memory allocation error");
+		term_error(1);
+	}
+	return (q);
 }
 
 
@@ -94,12 +126,13 @@ gen_ptr xrealloc
     previous memory allocation routine, or NULL.
 */
 
-void xfree
-    PROTO_N ( ( p ) )
-    PROTO_T ( gen_ptr p )
+void
+xfree(gen_ptr p)
 {
-    if ( p ) free ( p ) ;
-    return ;
+	if (p) {
+		free(p);
+	}
+	return;
 }
 
 
@@ -109,8 +142,8 @@ void xfree
     This buffer is used in the allocation of small strings.
 */
 
-static gen_size chars_left = 0 ;
-static string chars_free = NULL ;
+static gen_size chars_left = 0;
+static string chars_free = NULL;
 
 
 /*
@@ -120,25 +153,24 @@ static string chars_free = NULL ;
     is buffered except for very long strings.
 */
 
-string xustr
-    PROTO_N ( ( n ) )
-    PROTO_T ( gen_size n )
+string
+xustr(gen_size n)
 {
-    string r ;
-    if ( n < 1000 ) {
-	/* Small strings */
-	if ( n >= chars_left ) {
-	    chars_left = 5000 ;
-	    chars_free = xmalloc_nof ( character, chars_left ) ;
+	string r;
+	if (n < 1000) {
+		/* Small strings */
+		if (n >= chars_left) {
+			chars_left = 5000;
+			chars_free = xmalloc_nof(character, chars_left);
+		}
+		r = chars_free;
+		chars_free += n;
+		chars_left -= n;
+	} else {
+		/* Large strings */
+		r = xmalloc_nof(character, n);
 	}
-	r = chars_free ;
-	chars_free += n ;
-	chars_left -= n ;
-    } else {
-	/* Large strings */
-	r = xmalloc_nof ( character, n ) ;
-    }
-    return ( r ) ;
+	return (r);
 }
 
 
@@ -149,23 +181,22 @@ string xustr
     For small strings the memory is only freed for the last call to xustr.
 */
 
-void xufree
-    PROTO_N ( ( s, n ) )
-    PROTO_T ( string s X gen_size n )
+void
+xufree(string s, gen_size n)
 {
-    if ( s ) {
-	if ( n < 1000 ) {
-	    /* Small strings */
-	    if ( s + n == chars_free ) {
-		chars_free = s ;
-		chars_left += n ;
-	    }
-	} else {
-	    /* Large strings */
-	    xfree_nof ( s ) ;
+	if (s) {
+		if (n < 1000) {
+			/* Small strings */
+			if (s + n == chars_free) {
+				chars_free = s;
+				chars_left += n;
+			}
+		} else {
+			/* Large strings */
+			xfree_nof(s);
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -177,26 +208,25 @@ void xufree
     xustr is used to allocate the space.
 */
 
-string xustrncpy
-    PROTO_N ( ( s, n ) )
-    PROTO_T ( string s X gen_size n )
+string
+xustrncpy(string s, gen_size n)
 {
-    string r ;
-    if ( n < 2 ) {
-	/* Small strings */
-	static character buff [ NO_CHAR ] [2] ;
-	int c = ( int ) s [0] ;
-	if ( c < NO_CHAR ) {
-	    r = buff [c] ;
-	    r [0] = ( character ) c ;
-	    r [1] = 0 ;
-	    return ( r ) ;
+	string r;
+	if (n < 2) {
+		/* Small strings */
+		static character buff[NO_CHAR][2];
+		int c = (int)s[0];
+		if (c < NO_CHAR) {
+			r = buff[c];
+			r[0] = (character)c;
+			r[1] = 0;
+			return (r);
+		}
 	}
-    }
-    /* Large strings */
-    r = xustr ( n + 1 ) ;
-    ustrcpy_v ( r, s ) ;
-    return ( r ) ;
+	/* Large strings */
+	r = xustr(n + 1);
+	ustrcpy_v(r, s);
+	return (r);
 }
 
 
@@ -206,14 +236,15 @@ string xustrncpy
     This routine allocates space for a persistent copy of the string s.
 */
 
-string xustrcpy
-    PROTO_N ( ( s ) )
-    PROTO_T ( string s )
+string
+xustrcpy(string s)
 {
-    gen_size n ;
-    if ( s == NULL ) return ( NULL ) ;
-    n = ( gen_size ) ustrlen ( s ) ;
-    return ( xustrncpy ( s, n ) ) ;
+	gen_size n;
+	if (s == NULL) {
+		return (NULL);
+	}
+	n = (gen_size)ustrlen(s);
+	return (xustrncpy(s, n));
 }
 
 
@@ -224,20 +255,23 @@ string xustrcpy
     followed by the string t.  The memory is allocated using xustr.
 */
 
-string xustrcat
-    PROTO_N ( ( s, t ) )
-    PROTO_T ( string s X string t )
+string
+xustrcat(string s, string t)
 {
-    string r ;
-    gen_size n, m ;
-    if ( s == NULL ) return ( xustrcpy ( t ) ) ;
-    if ( t == NULL ) return ( xustrcpy ( s ) ) ;
-    n = ( gen_size ) ustrlen ( s ) ;
-    m = n + ( gen_size ) ustrlen ( t ) + 1 ;
-    r = xustr ( m ) ;
-    ustrcpy_v ( r, s ) ;
-    ustrcpy_v ( r + n, t ) ;
-    return ( r ) ;
+	string r;
+	gen_size n, m;
+	if (s == NULL) {
+		return (xustrcpy(t));
+	}
+	if (t == NULL) {
+		return (xustrcpy(s));
+	}
+	n = (gen_size)ustrlen(s);
+	m = n + (gen_size)ustrlen(t) + 1;
+	r = xustr(m);
+	ustrcpy_v(r, s);
+	ustrcpy_v(r + n, t);
+	return (r);
 }
 
 
@@ -247,12 +281,13 @@ string xustrcat
     This routine copies n characters from t to s.
 */
 
-void xumemcpy
-    PROTO_N ( ( s, t, n ) )
-    PROTO_T ( string s X string t X gen_size n )
+void
+xumemcpy(string s, string t, gen_size n)
 {
-    if ( n ) memcpy_v ( ( gen_ptr ) s, ( gen_ptr ) t, ( size_t ) n ) ;
-    return ;
+	if (n) {
+		memcpy_v((gen_ptr)s, (gen_ptr)t, (size_t)n);
+	}
+	return;
 }
 
 
@@ -262,10 +297,11 @@ void xumemcpy
     This routine compares the n characters given by s and t.
 */
 
-int xumemcmp
-    PROTO_N ( ( s, t, n ) )
-    PROTO_T ( string s X string t X gen_size n )
+int
+xumemcmp(string s, string t, gen_size n)
 {
-    if ( s == t || n == 0 ) return ( 0 ) ;
-    return ( memcmp ( ( gen_ptr ) s, ( gen_ptr ) t, ( size_t ) n ) ) ;
+	if (s == t || n == 0) {
+		return (0);
+	}
+	return (memcmp((gen_ptr)s,(gen_ptr)t,(size_t)n));
 }

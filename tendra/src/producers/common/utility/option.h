@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -43,22 +73,22 @@
 */
 
 typedef struct {
-    CONST char *name ;
-    int scoped ;
-    OPTION def [2] ;
-} OPT_DATA ;
+    CONST char *name;
+    int scoped;
+    OPTION def[2];
+} OPT_DATA;
 
 typedef struct {
-    CONST char *name ;
-    LOCATION *loc ;
-    unsigned long max_value ;
-    unsigned long min_value ;
-    unsigned long crt_value ;
-    int incr ;
-} OPT_VALUE_DATA ;
+    CONST char *name;
+    LOCATION *loc;
+    unsigned long max_value;
+    unsigned long min_value;
+    unsigned long crt_value;
+    int incr;
+} OPT_VALUE_DATA;
 
-extern OPT_DATA OPT_CATALOG [] ;
-extern OPT_VALUE_DATA OPT_VALUE_CATALOG [] ;
+extern OPT_DATA OPT_CATALOG[];
+extern OPT_VALUE_DATA OPT_VALUE_CATALOG[];
 
 
 /*
@@ -68,10 +98,10 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [] ;
     is zero is used extensively.
 */
 
-#define OPTION_OFF				( ( OPTION ) 0 )
-#define OPTION_WARN				( ( OPTION ) 1 )
-#define OPTION_ON				( ( OPTION ) 2 )
-#define OPTION_WHATEVER				( ( OPTION ) 3 )
+#define OPTION_OFF				((OPTION)0)
+#define OPTION_WARN				((OPTION)1)
+#define OPTION_ON				((OPTION)2)
+#define OPTION_WHATEVER				((OPTION)3)
 
 #define OPTION_ALLOW				OPTION_OFF
 #define OPTION_DISALLOW				OPTION_ON
@@ -133,31 +163,31 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [] ;
     options.
 */
 
-extern OPTION *crt_opt ;
-extern OPTIONS *crt_opts ;
-extern OPTIONS *real_opts ;
-extern void set_option PROTO_S ( ( int, unsigned ) ) ;
-extern void set_value PROTO_S ( ( int, EXP, unsigned long ) ) ;
-extern void set_link_opt PROTO_S ( ( DECL_SPEC ) ) ;
-extern ERROR set_severity PROTO_S ( ( ERROR, int, int ) ) ;
-extern int find_option_no PROTO_S ( ( STRING, int ) ) ;
-extern int find_value_no PROTO_S ( ( STRING, int ) ) ;
-extern int find_type_no PROTO_S ( ( STRING ) ) ;
-extern int check_value PROTO_W ( ( int, unsigned long, ... ) ) ;
-extern int incr_value PROTO_S ( ( int ) ) ;
-extern void decr_value PROTO_S ( ( int ) ) ;
-extern void use_option PROTO_S ( ( IDENTIFIER, unsigned ) ) ;
-extern void use_mode PROTO_S ( ( OPTIONS *, int ) ) ;
-extern void set_mode PROTO_S ( ( OPTIONS * ) ) ;
-extern void directory_option PROTO_S ( ( IDENTIFIER, IDENTIFIER ) ) ;
-extern void begin_option PROTO_S ( ( IDENTIFIER ) ) ;
-extern void end_option PROTO_S ( ( int ) ) ;
-extern void init_option PROTO_S ( ( int ) ) ;
-extern void term_option PROTO_S ( ( void ) ) ;
+extern OPTION *crt_opt;
+extern OPTIONS *crt_opts;
+extern OPTIONS *real_opts;
+extern void set_option(int, unsigned);
+extern void set_value(int, EXP, unsigned long);
+extern void set_link_opt(DECL_SPEC);
+extern ERROR set_severity(ERROR, int, int);
+extern int find_option_no(STRING, int);
+extern int find_value_no(STRING, int);
+extern int find_type_no(STRING);
+extern int check_value(int, unsigned long, ...);
+extern int incr_value(int);
+extern void decr_value(int);
+extern void use_option(IDENTIFIER, unsigned);
+extern void use_mode(OPTIONS *, int);
+extern void set_mode(OPTIONS *);
+extern void directory_option(IDENTIFIER, IDENTIFIER);
+extern void begin_option(IDENTIFIER);
+extern void end_option(int);
+extern void init_option(int);
+extern void term_option(void);
 
-#define option( A )		( crt_opt [ ( A ) ] )
-#define option_value( A )	( OPT_VALUE_CATALOG [ ( A ) ].max_value )
-#define crt_option_value( A )	( OPT_VALUE_CATALOG [ ( A ) ].crt_value )
+#define option(A)		(crt_opt[(A)])
+#define option_value(A)	(OPT_VALUE_CATALOG[(A)].max_value)
+#define crt_option_value(A)	(OPT_VALUE_CATALOG[(A)].crt_value)
 
 
 #endif
