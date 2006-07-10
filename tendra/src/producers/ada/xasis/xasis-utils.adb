@@ -334,22 +334,51 @@ package body XASIS.Utils is
          end if;
       end  File_Name;
 
+      function Explicit_Parent return Asis.Element is
+         Result : Asis.Element := Enclosing_Element (Element);
+      begin
+         while Is_Part_Of_Implicit (Result)
+           or Is_Part_Of_Inherited (Result)
+           or Is_Part_Of_Instance (Result)
+         loop
+            Result := Enclosing_Element (Result);
+         end loop;
+
+         return Result;
+      end Explicit_Parent;
+
+      function Generic_Element_Image return Wide_String is
+      begin
+         if Element_Kind (Element) = A_Defining_Name then
+            return "of "
+              & Debug_Image (Corresponding_Generic_Element (Element));
+         else
+            return "";
+         end if;
+      end Generic_Element_Image;
+
    begin
       if not Is_Nil (Element) then
-         if Is_Part_Of_Implicit (Element) then
-            declare
-               Parent : Asis.Element := Enclosing_Element (Element);
-            begin
-               while Is_Part_Of_Implicit (Parent) loop
-                  Parent := Enclosing_Element (Parent);
-               end loop;
-
-               return Kind_Image
-                 & " "
-                 & Image
-                 & " implicit of "
-                 & Debug_Image (Parent);
-            end;
+         if Is_Part_Of_Instance (Element) then
+            return Kind_Image
+              & " "
+              & Image
+              & " instance "
+              & Generic_Element_Image
+              & " in "
+              & Debug_Image (Explicit_Parent);
+         elsif Is_Part_Of_Inherited (Element) then
+            return Kind_Image
+              & " "
+              & Image
+              & " inherited in "
+              & Debug_Image (Explicit_Parent);
+         elsif Is_Part_Of_Implicit (Element) then
+            return Kind_Image
+              & " "
+              & Image
+              & " implicit of "
+              & Debug_Image (Explicit_Parent);
          else
             return Kind_Image
               & " "
