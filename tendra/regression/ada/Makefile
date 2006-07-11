@@ -2,7 +2,7 @@
 
 SRC_DIR =        ${.CURDIR:C/(.*)\/regression.*/\1/}
 
-SUBDIR= asis
+SUBDIR= asis tdfada
 
 .include "${SRC_DIR}/mk/base/tendra.subdir.mk"
 

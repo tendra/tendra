@@ -104,7 +104,7 @@ package body Type_Definition is
       Output.BITSTREAM (D, Empty);
       Output.TDF (D, c_make_signed_nat);
       Output.TDFBOOL (D, False);
-      Output.TDFINT (D, Small (Index));
+      Output.TDFINT (D, Small (Index) - 1);
 
       Inc (State.Length (TOKDEF));
       Output.TDF (T, c_make_tokdef);

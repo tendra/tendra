@@ -1,5 +1,12 @@
 # $TenDRA$
 
+ADA_DIR = ${.CURDIR:C/(.*)\/tdfada.*/\1/}
+
+.SUFFIXES : .adb .ads
+
+.PATH.ads : ${.CURDIR} ${ADA_DIR}/asis ${ADA_DIR}/libgela ${ADA_DIR}/xasis
+.PATH.adb : ${.CURDIR} ${ADA_DIR}/asis ${ADA_DIR}/libgela ${ADA_DIR}/xasis
+
 .if !defined(SRC_DIR)
 SRC_DIR = ${.CURDIR:C/(.*)\/src.*/\1/}
 .endif
@@ -23,7 +30,7 @@ CFLAGS+= -I${ADA_DIR}/asis
 CFLAGS+= -I${ADA_DIR}/xasis
 CFLAGS+= -I${ADA_DIR}/libgela
 
-DEPEND_SRC  = ${.CURDIR}/*.ad[sb] ${TENDRA_TYPES}
+DEPEND_SRC  = *.ad[sb] ${TENDRA_TYPES}
 
 CLEANFILES=*
 
