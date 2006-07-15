@@ -216,6 +216,7 @@ echo "Setting Makefile.defs environment to the following:"
 echo
 echo "PREFIX:		${PREFIX}"
 echo "CC:		${CC}"
+echo "CCVER:		${CCVER}"
 echo "LD:		${LD}"
 echo "CFLAGS:		${CFLAGS}"
 echo "LDOPTS:		${LDOPTS}"
@@ -230,6 +231,7 @@ echo "EXECFORMAT:	${EXECFORMAT}"
 cat > Makefile.defs <<EOF
 PREFIX=${PREFIX}
 CC?=${CC}
+CCVER=${CCVER}
 LD?=${LD}
 CFLAGS=${CFLAGS}
 LDOPTS=${LDOPTS}

@@ -1,6 +1,11 @@
 # $Id$
 # ex:filetype=sh
 
+# Wrap normal command utilities with env.
+AWK="/usr/bin/env awk"
+SED="/usr/bin/env sed"
+
+
 # Check if the CC environment variable is set.
 check_cc()
 {
@@ -20,6 +25,27 @@ check_cc()
 		echo "        not need that.  Setting CC to \"xlc\"."
 		echo
 	fi
+
+	check_cc_ver ${CC}
+}
+
+# Check to see if we can lift the version string from the cc call.
+check_cc_ver()
+{
+	CC=$1
+
+	case "${CC}" in
+		cc)
+		VERSIONSTRING=`${CC} --version`
+		if [ $? -eq 0 ]; then
+			TEMP=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.[[:digit:]][[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
+			CCVER=`echo ${TEMP} | ${SED} 's/\.//g'`
+		fi
+		;;
+		*)
+			CCVER=0
+		;;
+	esac
 }
 
 # Check to see which architecture the host is running on.
