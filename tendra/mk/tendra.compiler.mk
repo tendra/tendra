@@ -35,10 +35,23 @@ _TENDRA_COMPILER_MK_=1
 .if defined(BOOTSTRAP)
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
+
+CWARNFLAGS=-w
+
+.if defined(WARNS)
+. if ${WARNS} >= 1
+CWARNFLAGS=-ansi -std=c89
+. endif
+. if ${WARNS} >= 2
+CWARNFLAGS+=-pedantic -fno-builtin
+. endif
+. if ${WARNS} >= 3
+CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
+. endif
+.endif
+
   TCCOPTS=
-  WARNS= -W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
-  CCOPTS+= -ansi -pedantic -fno-builtin ${WARNS}
-  CCOPTS+= ${CFLAGS}
+  CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
 # The Intel C Compiler.
 .elif ${CC} == "icc"
   TCCOPTS=
