@@ -6,6 +6,8 @@ SPEC=${BASE_DIR}/src/lib/tdf/def_4_1.db
 
 # Standard variables
 
+WARNS?=		2
+
 TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS}
 LIBS=
