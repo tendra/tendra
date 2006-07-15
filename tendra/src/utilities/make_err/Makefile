@@ -1,6 +1,7 @@
 # $Id$
 
 # Standard directories and files
+
 SRCC=${.CURDIR}/obj_c
 SRCTOK=${.CURDIR}/obj_tok
 SRCX=${.CURDIR}/../shared

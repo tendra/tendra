@@ -1,6 +1,7 @@
 # $Id$
 
 # Standard directories and files
+
 SRCX=${.CURDIR}/../shared
 
 # Standard variables
