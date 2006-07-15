@@ -11,6 +11,8 @@ TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS}
 LIBS=
 
+# Dependencies and construction rules
+
 PROG=		${.CURDIR:T}
 
 SRCS=		analyse_sort.c consfile.c decodings.c errors.c find_id.c\
