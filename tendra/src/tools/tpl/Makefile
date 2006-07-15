@@ -1,6 +1,7 @@
 # $Id$
 
 # Standard directories and files
+
 TEMPL=${.CURDIR}/templ
 
 # Standard variables

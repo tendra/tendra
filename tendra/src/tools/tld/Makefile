@@ -1,6 +1,7 @@
 # $Id$
 
 # Standard directories and files
+
 SRC1=${.CURDIR}/errors
 
 # Standard variables

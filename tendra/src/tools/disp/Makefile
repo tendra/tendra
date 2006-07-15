@@ -1,6 +1,7 @@
 # $Id$
 
 # Standard directories and files
+
 SRC1=${SRC}/templ
 SPEC=${BASE}/src/lib/tdf/def_4_1.db
 
