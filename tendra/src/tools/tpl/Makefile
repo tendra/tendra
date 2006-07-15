@@ -5,6 +5,8 @@ TEMPL=${.CURDIR}/templ
 
 # Standard variables
 
+WARNS?=		2
+
 TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS}
 LIBS=
