@@ -2,6 +2,8 @@
 
 # Standard variables
 
+WARNS?=		0
+
 TCCOPTS=	-Yxpg4 -Xs
 CCOPTS=		${TCCOPTS} -I${.CURDIR}
 LIBS=
