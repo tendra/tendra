@@ -8,6 +8,8 @@ API_DIR=${BASE_DIR}/src/lib/apis
 
 # Standard variables
 
+WARNS?=		2
+
 TCCOPTS=	-Yposix1 -Xs
 CCOPTS=		${TCCOPTS} -I${.CURDIR}
 LIBS=
