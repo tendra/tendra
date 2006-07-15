@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -47,21 +77,20 @@
     bits will remain in the bitstream.
 */
 
-static void dump_bitstream
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+static void
+dump_bitstream(BITSTREAM *bs)
 {
-    size_t n = ( size_t ) bs->bytes ;
-    if ( n ) {
-	string t = bs->text ;
-	FILE *f = bs->file ;
-	if ( f ) {
-	    IGNORE fwrite ( ( gen_ptr ) t, sizeof ( character ), n, f ) ;
+	size_t n = (size_t)bs->bytes;
+	if (n) {
+		string t = bs->text;
+		FILE *f = bs->file;
+		if (f) {
+			IGNORE fwrite((gen_ptr)t, sizeof(character), n, f);
+		}
+		t[0] = t[n];
 	}
-	t [0] = t [n] ;
-    }
-    bs->bytes = 0 ;
-    return ;
+	bs->bytes = 0;
+	return;
 }
 
 
@@ -72,7 +101,7 @@ static void dump_bitstream
     are allocated.
 */
 
-static BITSTREAM *free_bitstreams = NULL ;
+static BITSTREAM *free_bitstreams = NULL;
 
 
 /*
@@ -82,24 +111,23 @@ static BITSTREAM *free_bitstreams = NULL ;
     linkage lnk.
 */
 
-BITSTREAM *start_bitstream
-    PROTO_N ( ( f, lnk ) )
-    PROTO_T ( FILE *f X gen_ptr lnk )
+BITSTREAM *
+start_bitstream(FILE *f, gen_ptr lnk)
 {
-    BITSTREAM *bs = free_bitstreams ;
-    if ( bs ) {
-	free_bitstreams = bs->prev ;
-    } else {
-	bs = xmalloc_one ( BITSTREAM ) ;
-	bs->text = xustr ( ( gen_size ) CHUNK_SIZE ) ;
-    }
-    bs->bytes = 0 ;
-    bs->bits = 0 ;
-    bs->size = 0 ;
-    bs->file = f ;
-    bs->link = lnk ;
-    bs->prev = NULL ;
-    return ( bs ) ;
+	BITSTREAM *bs = free_bitstreams;
+	if (bs) {
+		free_bitstreams = bs->prev;
+	} else {
+		bs = xmalloc_one(BITSTREAM);
+		bs->text = xustr((gen_size)CHUNK_SIZE);
+	}
+	bs->bytes = 0;
+	bs->bits = 0;
+	bs->size = 0;
+	bs->file = f;
+	bs->link = lnk;
+	bs->prev = NULL;
+	return (bs);
 }
 
 
@@ -110,20 +138,21 @@ BITSTREAM *start_bitstream
     for any file bitstream if w is true.
 */
 
-void end_bitstream
-    PROTO_N ( ( bs, w ) )
-    PROTO_T ( BITSTREAM *bs X int w )
+void
+end_bitstream(BITSTREAM *bs, int w)
 {
-    BITSTREAM *ps = bs ;
-    if ( w && ps->file ) {
-	/* Align bitstream and dump */
-	ps = enc_boundary ( ps ) ;
-	dump_bitstream ( ps ) ;
-    }
-    while ( ps->prev ) ps = ps->prev ;
-    ps->prev = free_bitstreams ;
-    free_bitstreams = bs ;
-    return ;
+	BITSTREAM *ps = bs;
+	if (w && ps->file) {
+		/* Align bitstream and dump */
+		ps = enc_boundary(ps);
+		dump_bitstream(ps);
+	}
+	while (ps->prev) {
+		ps = ps->prev;
+	}
+	ps->prev = free_bitstreams;
+	free_bitstreams = bs;
+	return;
 }
 
 
@@ -134,20 +163,19 @@ void end_bitstream
     file or linking it to a fresh chunk.
 */
 
-static BITSTREAM *extend_bitstream
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+static BITSTREAM *
+extend_bitstream(BITSTREAM *bs)
 {
-    bs->bytes = CHUNK_SIZE ;
-    bs->bits = 0 ;
-    if ( bs->file ) {
-	dump_bitstream ( bs ) ;
-    } else {
-	BITSTREAM *ps = start_bitstream ( NIL ( FILE ), bs->link ) ;
-	ps->prev = bs ;
-	bs = ps ;
-    }
-    return ( bs ) ;
+	bs->bytes = CHUNK_SIZE;
+	bs->bits = 0;
+	if (bs->file) {
+		dump_bitstream(bs);
+	} else {
+		BITSTREAM *ps = start_bitstream(NIL(FILE), bs->link);
+		ps->prev = bs;
+		bs = ps;
+	}
+	return (bs);
 }
 
 
@@ -158,46 +186,47 @@ static BITSTREAM *extend_bitstream
     always be at most 16.
 */
 
-BITSTREAM *enc_bits
-    PROTO_N ( ( bs, n, d ) )
-    PROTO_T ( BITSTREAM *bs X unsigned n X unsigned d )
+BITSTREAM *
+enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 {
-    if ( n ) {
-	unsigned long b = ( unsigned long ) d ;
-	string text = bs->text ;
-	unsigned bytes = bs->bytes ;
-	unsigned bits = bs->bits ;
-	if ( bits ) {
-	    /* Add existing bits */
-	    unsigned r = ( BYTE_SIZE - bits ) ;
-	    unsigned long c = ( unsigned long ) text [ bytes ] ;
-	    b |= ( ( c >> r ) << n ) ;
-	    n += bits ;
+	if (n) {
+		unsigned long b = (unsigned long)d;
+		string text = bs->text;
+		unsigned bytes = bs->bytes;
+		unsigned bits = bs->bits;
+		if (bits) {
+			/* Add existing bits */
+			unsigned r = (BYTE_SIZE - bits);
+			unsigned long c = (unsigned long)text[bytes];
+			b |= ((c >> r) << n);
+			n += bits;
+		}
+		bits = (n % BYTE_SIZE);
+		if (bits) {
+			/* Zero pad to a whole number of bytes */
+			unsigned r = (BYTE_SIZE - bits);
+			b <<= r;
+			n += r;
+		}
+		do {
+			/* Output each byte */
+			if (bytes >= CHUNK_SIZE) {
+				/* Start new chunk if necessary */
+				bs = extend_bitstream(bs);
+				text = bs->text;
+				bytes = 0;
+			}
+			n -= BYTE_SIZE;
+			text[bytes] = (character)((b >> n) & BYTE_MASK);
+			bytes++;
+		} while (n);
+		if (bits) {
+			bytes--;
+		}
+		bs->bytes = bytes;
+		bs->bits = bits;
 	}
-	bits = ( n % BYTE_SIZE ) ;
-	if ( bits ) {
-	    /* Zero pad to a whole number of bytes */
-	    unsigned r = ( BYTE_SIZE - bits ) ;
-	    b <<= r ;
-	    n += r ;
-	}
-	do {
-	    /* Output each byte */
-	    if ( bytes >= CHUNK_SIZE ) {
-		/* Start new chunk if necessary */
-		bs = extend_bitstream ( bs ) ;
-		text = bs->text ;
-		bytes = 0 ;
-	    }
-	    n -= BYTE_SIZE ;
-	    text [ bytes ] = ( character ) ( ( b >> n ) & BYTE_MASK ) ;
-	    bytes++ ;
-	} while ( n ) ;
-	if ( bits ) bytes-- ;
-	bs->bytes = bytes ;
-	bs->bits = bits ;
-    }
-    return ( bs ) ;
+	return (bs);
 }
 
 
@@ -208,16 +237,15 @@ BITSTREAM *enc_bits
     32 bits.
 */
 
-BITSTREAM *enc_long_bits
-    PROTO_N ( ( bs, n, d ) )
-    PROTO_T ( BITSTREAM *bs X unsigned n X unsigned long d )
+BITSTREAM *
+enc_long_bits(BITSTREAM *bs, unsigned n, unsigned long d)
 {
-    if ( n > 16 ) {
-	bs = enc_bits ( bs, n - 16, ( unsigned ) ( d >> 16 ) ) ;
-	n = 16 ;
-    }
-    bs = enc_bits ( bs, n, ( unsigned ) d ) ;
-    return ( bs ) ;
+	if (n > 16) {
+		bs = enc_bits(bs, n - 16,(unsigned)(d >> 16));
+		n = 16;
+	}
+	bs = enc_bits(bs, n,(unsigned)d);
+	return (bs);
 }
 
 
@@ -227,35 +255,34 @@ BITSTREAM *enc_long_bits
     This routine adds the n bytes given by s to the bitstream bs.
 */
 
-BITSTREAM *enc_bytes
-    PROTO_N ( ( bs, n, s ) )
-    PROTO_T ( BITSTREAM *bs X unsigned long n X string s )
+BITSTREAM *
+enc_bytes(BITSTREAM *bs, unsigned long n, string s)
 {
-    if ( bs->bits ) {
-	/* Unaligned bitstream */
-	unsigned long i ;
-	for ( i = 0 ; i < n ; i++ ) {
-	    unsigned c = ( unsigned ) s [i] ;
-	    bs = enc_bits ( bs, ( unsigned ) BYTE_SIZE, c ) ;
+	if (bs->bits) {
+		/* Unaligned bitstream */
+		unsigned long i;
+		for (i = 0; i < n; i++) {
+			unsigned c = (unsigned)s[i];
+			bs = enc_bits(bs,(unsigned)BYTE_SIZE, c);
+		}
+	} else {
+		/* Aligned bitstream */
+		unsigned long i;
+		string text = bs->text;
+		unsigned bytes = bs->bytes;
+		for (i = 0; i < n; i++) {
+			if (bytes >= CHUNK_SIZE) {
+				/* Start new chunk if necessary */
+				bs = extend_bitstream(bs);
+				text = bs->text;
+				bytes = 0;
+			}
+			text[bytes] = s[i];
+			bytes++;
+		}
+		bs->bytes = bytes;
 	}
-    } else {
-	/* Aligned bitstream */
-	unsigned long i ;
-	string text = bs->text ;
-	unsigned bytes = bs->bytes ;
-	for ( i = 0 ; i < n ; i++ ) {
-	    if ( bytes >= CHUNK_SIZE ) {
-		/* Start new chunk if necessary */
-		bs = extend_bitstream ( bs ) ;
-		text = bs->text ;
-		bytes = 0 ;
-	    }
-	    text [ bytes ] = s [i] ;
-	    bytes++ ;
-	}
-	bs->bytes = bytes ;
-    }
-    return ( bs ) ;
+	return (bs);
 }
 
 
@@ -265,44 +292,44 @@ BITSTREAM *enc_bytes
     This routine adds the n ASCII characters given by s to the bitstream bs.
 */
 
-BITSTREAM *enc_ascii
-    PROTO_N ( ( bs, n, s ) )
-    PROTO_T ( BITSTREAM *bs X unsigned long n X string s )
+BITSTREAM *
+enc_ascii(BITSTREAM *bs, unsigned long n, string s)
 {
-    if ( is_ascii ) {
-	bs = enc_bytes ( bs, n, s ) ;
-    } else {
-	if ( bs->bits ) {
-	    /* Unaligned bitstream */
-	    unsigned long i ;
-	    for ( i = 0 ; i < n ; i++ ) {
-		int ch = CHAR_SIMPLE ;
-		unsigned long c = ( unsigned long ) s [i] ;
-		c = to_ascii ( c, &ch ) ;
-		bs = enc_bits ( bs, ( unsigned ) BYTE_SIZE, ( unsigned ) c ) ;
-	    }
+	if (is_ascii) {
+		bs = enc_bytes(bs, n, s);
 	} else {
-	    /* Aligned bitstream */
-	    unsigned long i ;
-	    string text = bs->text ;
-	    unsigned bytes = bs->bytes ;
-	    for ( i = 0 ; i < n ; i++ ) {
-		int ch = CHAR_SIMPLE ;
-		unsigned long c = ( unsigned long ) s [i] ;
-		if ( bytes >= CHUNK_SIZE ) {
-		    /* Start new chunk if necessary */
-		    bs = extend_bitstream ( bs ) ;
-		    text = bs->text ;
-		    bytes = 0 ;
+		if (bs->bits) {
+			/* Unaligned bitstream */
+			unsigned long i;
+			for (i = 0; i < n; i++) {
+				int ch = CHAR_SIMPLE;
+				unsigned long c = (unsigned long)s[i];
+				c = to_ascii(c, &ch);
+				bs = enc_bits(bs, (unsigned)BYTE_SIZE,
+					      (unsigned)c);
+			}
+		} else {
+			/* Aligned bitstream */
+			unsigned long i;
+			string text = bs->text;
+			unsigned bytes = bs->bytes;
+			for (i = 0; i < n; i++) {
+				int ch = CHAR_SIMPLE;
+				unsigned long c = (unsigned long)s[i];
+				if (bytes >= CHUNK_SIZE) {
+					/* Start new chunk if necessary */
+					bs = extend_bitstream(bs);
+					text = bs->text;
+					bytes = 0;
+				}
+				c = to_ascii(c, &ch);
+				text[bytes] = (unsigned char)c;
+				bytes++;
+			}
+			bs->bytes = bytes;
 		}
-		c = to_ascii ( c, &ch ) ;
-		text [ bytes ] = ( unsigned char ) c ;
-		bytes++ ;
-	    }
-	    bs->bytes = bytes ;
 	}
-    }
-    return ( bs ) ;
+	return (bs);
 }
 
 
@@ -313,24 +340,23 @@ BITSTREAM *enc_ascii
     the bitstream fs.
 */
 
-static BITSTREAM *copy_bitstream
-    PROTO_N ( ( fs, bs ) )
-    PROTO_T ( BITSTREAM *fs X BITSTREAM *bs )
+static BITSTREAM *
+copy_bitstream(BITSTREAM *fs, BITSTREAM *bs)
 {
-    string text = bs->text ;
-    unsigned bits = bs->bits ;
-    unsigned bytes = bs->bytes ;
-    if ( bytes ) {
-	/* Copy any bytes */
-	fs = enc_bytes ( fs, ( unsigned long ) bytes, text ) ;
-    }
-    if ( bits ) {
-	/* Copy any spare bits */
-	unsigned c = ( unsigned ) text [ bytes ] ;
-	c >>= ( BYTE_SIZE - bits ) ;
-	fs = enc_bits ( fs, bits, c ) ;
-    }
-    return ( fs ) ;
+	string text = bs->text;
+	unsigned bits = bs->bits;
+	unsigned bytes = bs->bytes;
+	if (bytes) {
+		/* Copy any bytes */
+		fs = enc_bytes(fs,(unsigned long)bytes, text);
+	}
+	if (bits) {
+		/* Copy any spare bits */
+		unsigned c = (unsigned)text[bytes];
+		c >>= (BYTE_SIZE - bits);
+		fs = enc_bits(fs, bits, c);
+	}
+	return (fs);
 }
 
 
@@ -341,45 +367,58 @@ static BITSTREAM *copy_bitstream
     bs will not have an associated file.
 */
 
-BITSTREAM *join_bitstreams
-    PROTO_N ( ( fs, bs ) )
-    PROTO_T ( BITSTREAM *fs X BITSTREAM *bs )
+BITSTREAM *
+join_bitstreams(BITSTREAM *fs, BITSTREAM *bs)
 {
-    FILE *f ;
-    BITSTREAM *ps ;
-    if ( bs == NULL ) return ( fs ) ;
-    if ( fs == NULL ) return ( bs ) ;
-    if ( fs->link == NULL ) fs->link = bs->link ;
-
-    /* Copy bitstream to file */
-    ps = bs->prev ;
-    f = fs->file ;
-    if ( f ) {
-	if ( ps ) fs = join_bitstreams ( fs, ps ) ;
-	if ( fs->bits == 0 && bs->bytes ) {
-	    /* Dump any bytes to file */
-	    bs->file = f ;
-	    if ( fs->bytes ) dump_bitstream ( fs ) ;
-	    dump_bitstream ( bs ) ;
-	    bs->file = NULL ;
+	FILE *f;
+	BITSTREAM *ps;
+	if (bs == NULL) {
+		return (fs);
 	}
-	fs = copy_bitstream ( fs, bs ) ;
-	if ( ps == NULL ) end_bitstream ( bs, 0 ) ;
-	return ( fs ) ;
-    }
+	if (fs == NULL) {
+		return (bs);
+	}
+	if (fs->link == NULL) {
+		fs->link = bs->link;
+	}
 
-    /* Copy small bitstreams */
-    if ( ps == NULL && bs->bytes < CHUNK_COPY ) {
-	fs = copy_bitstream ( fs, bs ) ;
-	end_bitstream ( bs, 0 ) ;
-	return ( fs ) ;
-    }
+	/* Copy bitstream to file */
+	ps = bs->prev;
+	f = fs->file;
+	if (f) {
+		if (ps) {
+			fs = join_bitstreams(fs, ps);
+		}
+		if (fs->bits == 0 && bs->bytes) {
+			/* Dump any bytes to file */
+			bs->file = f;
+			if (fs->bytes) {
+				dump_bitstream(fs);
+			}
+			dump_bitstream(bs);
+			bs->file = NULL;
+		}
+		fs = copy_bitstream(fs, bs);
+		if (ps == NULL) {
+			end_bitstream(bs, 0);
+		}
+		return (fs);
+	}
 
-    /* Link larger bitstreams */
-    ps = bs ;
-    while ( ps->prev ) ps = ps->prev ;
-    ps->prev = fs ;
-    return ( bs ) ;
+	/* Copy small bitstreams */
+	if (ps == NULL && bs->bytes < CHUNK_COPY) {
+		fs = copy_bitstream(fs, bs);
+		end_bitstream(bs, 0);
+		return (fs);
+	}
+
+	/* Link larger bitstreams */
+	ps = bs;
+	while (ps->prev) {
+		ps = ps->prev;
+	}
+	ps->prev = fs;
+	return (bs);
 }
 
 
@@ -389,16 +428,15 @@ BITSTREAM *join_bitstreams
     This routine returns the length of the bitstream bs in bits.
 */
 
-unsigned length_bitstream
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+unsigned
+length_bitstream(BITSTREAM *bs)
 {
-    unsigned n = 0 ;
-    while ( bs ) {
-	n += ( BYTE_SIZE * bs->bytes + bs->bits ) ;
-	bs = bs->prev ;
-    }
-    return ( n ) ;
+	unsigned n = 0;
+	while (bs) {
+		n += (BYTE_SIZE * bs->bytes + bs->bits);
+		bs = bs->prev;
+	}
+	return (n);
 }
 
 
@@ -409,17 +447,16 @@ unsigned length_bitstream
     number of bytes.
 */
 
-BITSTREAM *enc_boundary
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+BITSTREAM *
+enc_boundary(BITSTREAM *bs)
 {
-    unsigned n = length_bitstream ( bs ) ;
-    unsigned r = ( n % BYTE_SIZE ) ;
-    if ( r ) {
-	/* Add extra bits if necessary */
-	bs = enc_bits ( bs, BYTE_SIZE - r, ( unsigned ) 0 ) ;
-    }
-    return ( bs ) ;
+	unsigned n = length_bitstream(bs);
+	unsigned r = (n % BYTE_SIZE);
+	if (r) {
+		/* Add extra bits if necessary */
+		bs = enc_bits(bs, BYTE_SIZE - r,(unsigned)0);
+	}
+	return (bs);
 }
 
 
@@ -430,19 +467,18 @@ BITSTREAM *enc_boundary
     extended encoding as n-bit packets.  Note that d cannot be zero.
 */
 
-BITSTREAM *enc_extn
-    PROTO_N ( ( bs, n, d ) )
-    PROTO_T ( BITSTREAM *bs X unsigned n X unsigned d )
+BITSTREAM *
+enc_extn(BITSTREAM *bs, unsigned n, unsigned d)
 {
-    unsigned e = ( ( unsigned ) 1 << n ) - 1 ;
-    while ( d > e ) {
-	/* Encode zero for each multiple of e */
-	bs = enc_bits ( bs, n, ( unsigned ) 0 ) ;
-	d -= e ;
-    }
-    /* Encode the remainder */
-    bs = enc_bits ( bs, n, d ) ;
-    return ( bs ) ;
+	unsigned e = ((unsigned)1 << n) - 1;
+	while (d > e) {
+		/* Encode zero for each multiple of e */
+		bs = enc_bits(bs, n,(unsigned)0);
+		d -= e;
+	}
+	/* Encode the remainder */
+	bs = enc_bits(bs, n, d);
+	return (bs);
 }
 
 
@@ -453,15 +489,16 @@ BITSTREAM *enc_extn
     except that the last digit is not marked.
 */
 
-BITSTREAM *enc_int_aux
-    PROTO_N ( ( bs, n ) )
-    PROTO_T ( BITSTREAM *bs X unsigned long n )
+BITSTREAM *
+enc_int_aux(BITSTREAM *bs, unsigned long n)
 {
-    unsigned m ;
-    if ( n >= 8 ) bs = enc_int_aux ( bs, n >> 3 ) ;
-    m = ( unsigned ) ( n & 0x7 ) ;
-    bs = enc_bits ( bs, ( unsigned ) 4, m ) ;
-    return ( bs ) ;
+	unsigned m;
+	if (n >= 8) {
+		bs = enc_int_aux(bs, n >> 3);
+	}
+	m = (unsigned)(n & 0x7);
+	bs = enc_bits(bs,(unsigned)4, m);
+	return (bs);
 }
 
 
@@ -472,15 +509,14 @@ BITSTREAM *enc_int_aux
     bitstream bs.  The last digit is marked by means of a set bit.
 */
 
-BITSTREAM *enc_int
-    PROTO_N ( ( bs, n ) )
-    PROTO_T ( BITSTREAM *bs X unsigned long n )
+BITSTREAM *
+enc_int(BITSTREAM *bs, unsigned long n)
 {
-    unsigned m ;
-    if ( n >= 8 ) bs = enc_int_aux ( bs, n >> 3 ) ;
-    m = ( unsigned ) ( ( n & 0x7 ) | 0x8 ) ;
-    bs = enc_bits ( bs, ( unsigned ) 4, m ) ;
-    return ( bs ) ;
+	unsigned m;
+	if (n >= 8)bs = enc_int_aux(bs, n >> 3);
+	m = (unsigned)((n & 0x7) | 0x8);
+	bs = enc_bits(bs,(unsigned)4, m);
+	return (bs);
 }
 
 
@@ -493,15 +529,14 @@ BITSTREAM *enc_int
     alignment, followed by the characters comprising the identifier.
 */
 
-BITSTREAM *enc_ident
-    PROTO_N ( ( bs, s, n ) )
-    PROTO_T ( BITSTREAM *bs X string s X unsigned long n )
+BITSTREAM *
+enc_ident(BITSTREAM *bs, string s, unsigned long n)
 {
-    bs = enc_int ( bs, ( unsigned long ) BYTE_SIZE ) ;
-    bs = enc_int ( bs, n ) ;
-    bs = enc_boundary ( bs ) ;
-    bs = enc_ascii ( bs, n, s ) ;
-    return ( bs ) ;
+	bs = enc_int(bs,(unsigned long)BYTE_SIZE);
+	bs = enc_int(bs, n);
+	bs = enc_boundary(bs);
+	bs = enc_ascii(bs, n, s);
+	return (bs);
 }
 
 
@@ -511,14 +546,13 @@ BITSTREAM *enc_ident
     This routine adds the string s of length n to the bitstream bs.
 */
 
-BITSTREAM *enc_tdfstring
-    PROTO_N ( ( bs, n, s ) )
-    PROTO_T ( BITSTREAM *bs X unsigned long n X string s )
+BITSTREAM *
+enc_tdfstring(BITSTREAM *bs, unsigned long n, string s)
 {
-    bs = enc_int ( bs, ( unsigned long ) BYTE_SIZE ) ;
-    bs = enc_int ( bs, n ) ;
-    bs = enc_ascii ( bs, n, s ) ;
-    return ( bs ) ;
+	bs = enc_int(bs,(unsigned long)BYTE_SIZE);
+	bs = enc_int(bs, n);
+	bs = enc_ascii(bs, n, s);
+	return (bs);
 }
 
 
@@ -529,15 +563,14 @@ BITSTREAM *enc_tdfstring
     used to calculate the length of the string.
 */
 
-BITSTREAM *enc_ustring
-    PROTO_N ( ( bs, s ) )
-    PROTO_T ( BITSTREAM *bs X string s )
+BITSTREAM *
+enc_ustring(BITSTREAM *bs, string s)
 {
-    unsigned long n = ( unsigned long ) ustrlen ( s ) ;
-    bs = enc_int ( bs, ( unsigned long ) BYTE_SIZE ) ;
-    bs = enc_int ( bs, n ) ;
-    bs = enc_ascii ( bs, n, s ) ;
-    return ( bs ) ;
+	unsigned long n = (unsigned long)ustrlen(s);
+	bs = enc_int(bs,(unsigned long)BYTE_SIZE);
+	bs = enc_int(bs, n);
+	bs = enc_ascii(bs, n, s);
+	return (bs);
 }
 
 
@@ -548,12 +581,11 @@ BITSTREAM *enc_ustring
     bitstream bs.
 */
 
-BITSTREAM *enc_bitstream
-    PROTO_N ( ( bs, ps ) )
-    PROTO_T ( BITSTREAM *bs X BITSTREAM *ps )
+BITSTREAM *
+enc_bitstream(BITSTREAM *bs, BITSTREAM *ps)
 {
-    unsigned n = length_bitstream ( ps ) ;
-    bs = enc_int ( bs, ( unsigned long ) n ) ;
-    bs = join_bitstreams ( bs, ps ) ;
-    return ( bs ) ;
+	unsigned n = length_bitstream(ps);
+	bs = enc_int(bs,(unsigned long)n);
+	bs = join_bitstreams(bs, ps);
+	return (bs);
 }

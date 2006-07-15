@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -46,26 +76,25 @@
     returns the number of bytes read.
 */
 
-static unsigned fill_bitstream
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+static unsigned
+fill_bitstream(BITSTREAM *bs)
 {
-    unsigned sz ;
-    FILE *f = bs->file ;
-    string text = bs->text ;
-    sz = ( unsigned ) fread ( ( gen_ptr ) text, sizeof ( character ),
-			      ( size_t ) CHUNK_SIZE, f ) ;
-    if ( sz == 0 ) {
-	/* No more characters in file */
-	bs->link = ( gen_ptr ) text ;
-	while ( sz < CHUNK_SIZE ) {
-	    /* Fill buffer with all ones */
-	    text [ sz ] = ( character ) BYTE_MASK ;
-	    sz++ ;
+	unsigned sz;
+	FILE *f = bs->file;
+	string text = bs->text;
+	sz = (unsigned)fread((gen_ptr)text, sizeof(character),
+			     (size_t)CHUNK_SIZE, f);
+	if (sz == 0) {
+		/* No more characters in file */
+		bs->link = (gen_ptr)text;
+		while (sz < CHUNK_SIZE) {
+			/* Fill buffer with all ones */
+			text[sz] = (character)BYTE_MASK;
+			sz++;
+		}
 	}
-    }
-    bs->size = sz ;
-    return ( sz ) ;
+	bs->size = sz;
+	return (sz);
 }
 
 
@@ -78,16 +107,19 @@ static unsigned fill_bitstream
     encountered.
 */
 
-int de_eof
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+int
+de_eof(BITSTREAM *bs)
 {
-    if ( bs->link ) return ( 0 ) ;
-    if ( bs->bytes >= bs->size ) {
-	IGNORE fill_bitstream ( bs ) ;
-	if ( bs->link ) return ( 1 ) ;
-    }
-    return ( 0 ) ;
+	if (bs->link) {
+		return (0);
+	}
+	if (bs->bytes >= bs->size) {
+		IGNORE fill_bitstream(bs);
+		if (bs->link) {
+			return (1);
+		}
+	}
+	return (0);
 }
 
 
@@ -97,20 +129,20 @@ int de_eof
     This array gives the bit masks for values up to 16 bits.
 */
 
-static unsigned long bit_mask [17] = {
-    0x0000,
+static unsigned long bit_mask[17] = {
+	0x0000,
 #if FS_NUMBER_SUFFIX
-    0x0001UL, 0x0003UL, 0x0007UL, 0x000fUL,
-    0x001fUL, 0x003fUL, 0x007fUL, 0x00ffUL,
-    0x01ffUL, 0x03ffUL, 0x07ffUL, 0x0fffUL,
-    0x1fffUL, 0x3fffUL, 0x7fffUL, 0xffffUL
+	0x0001UL, 0x0003UL, 0x0007UL, 0x000fUL,
+	0x001fUL, 0x003fUL, 0x007fUL, 0x00ffUL,
+	0x01ffUL, 0x03ffUL, 0x07ffUL, 0x0fffUL,
+	0x1fffUL, 0x3fffUL, 0x7fffUL, 0xffffUL
 #else
-    0x0001, 0x0003, 0x0007, 0x000f,
-    0x001f, 0x003f, 0x007f, 0x00ff,
-    0x01ff, 0x03ff, 0x07ff, 0x0fff,
-    0x1fff, 0x3fff, 0x7fff, 0xffff
+	0x0001, 0x0003, 0x0007, 0x000f,
+	0x001f, 0x003f, 0x007f, 0x00ff,
+	0x01ff, 0x03ff, 0x07ff, 0x0fff,
+	0x1fff, 0x3fff, 0x7fff, 0xffff
 #endif
-} ;
+};
 
 
 /*
@@ -120,50 +152,49 @@ static unsigned long bit_mask [17] = {
     at most 16.
 */
 
-unsigned de_bits
-    PROTO_N ( ( bs, n ) )
-    PROTO_T ( BITSTREAM *bs X unsigned n )
+unsigned
+de_bits(BITSTREAM *bs, unsigned n)
 {
-    unsigned long d = 0 ;
-    string text = bs->text ;
-    unsigned sz = bs->size ;
-    unsigned bytes = bs->bytes ;
-    unsigned bits = 0 ;
+	unsigned long d = 0;
+	string text = bs->text;
+	unsigned sz = bs->size;
+	unsigned bytes = bs->bytes;
+	unsigned bits = 0;
 
-    /* Build up result */
-    unsigned m = n + bs->bits ;
-    while ( m ) {
-	unsigned b ;
-	unsigned long c ;
+	/* Build up result */
+	unsigned m = n + bs->bits;
+	while (m) {
+		unsigned b;
+		unsigned long c;
 
-	/* Refill buffer from file if necessary */
-	if ( bytes >= sz ) {
-	    sz = fill_bitstream ( bs ) ;
-	    bytes = 0 ;
-	    bits = 0 ;
-	}
+		/* Refill buffer from file if necessary */
+		if (bytes >= sz) {
+			sz = fill_bitstream(bs);
+			bytes = 0;
+			bits = 0;
+		}
 
-	/* Get next character */
-	c = ( unsigned long ) text [ bytes ] ;
-	d = ( ( d << BYTE_SIZE ) | c ) ;
-	b = BYTE_SIZE - bits ;
-	if ( m < b ) {
-	    d >>= ( b - m ) ;
-	    bits += m ;
-	    m = 0 ;
-	} else {
-	    bits += b ;
-	    m -= b ;
+		/* Get next character */
+		c = (unsigned long)text[bytes];
+		d = ((d << BYTE_SIZE) | c);
+		b = BYTE_SIZE - bits;
+		if (m < b) {
+			d >>= (b - m);
+			bits += m;
+			m = 0;
+		} else {
+			bits += b;
+			m -= b;
+		}
+		if (bits == BYTE_SIZE) {
+			bits = 0;
+			bytes++;
+		}
 	}
-	if ( bits == BYTE_SIZE ) {
-	    bits = 0 ;
-	    bytes++ ;
-	}
-    }
-    bs->bytes = bytes ;
-    bs->bits = bits ;
-    d &= bit_mask [n] ;
-    return ( ( unsigned ) d ) ;
+	bs->bytes = bytes;
+	bs->bits = bits;
+	d &= bit_mask[n];
+	return ((unsigned)d);
 }
 
 
@@ -174,19 +205,18 @@ unsigned de_bits
     32 bits.
 */
 
-unsigned long de_long_bits
-    PROTO_N ( ( bs, n ) )
-    PROTO_T ( BITSTREAM *bs X unsigned n )
+unsigned long
+de_long_bits(BITSTREAM *bs, unsigned n)
 {
-    unsigned long a, b ;
-    if ( n > 16 ) {
-	a = ( unsigned long ) de_bits ( bs, n - 16 ) ;
-	n = 16 ;
-    } else {
-	a = 0 ;
-    }
-    b = ( unsigned long ) de_bits ( bs, n ) ;
-    return ( ( a << 16 ) | b ) ;
+	unsigned long a, b;
+	if (n > 16) {
+		a = (unsigned long)de_bits(bs, n - 16);
+		n = 16;
+	} else {
+		a = 0;
+	}
+	b = (unsigned long)de_bits(bs, n);
+	return ((a << 16) | b);
 }
 
 
@@ -197,18 +227,19 @@ unsigned long de_long_bits
     bitstream bs.
 */
 
-unsigned long de_int
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+unsigned long
+de_int(BITSTREAM *bs)
 {
-    unsigned long d, n = 0 ;
-    for ( ; ; ) {
-	d = ( unsigned long ) de_bits ( bs, ( unsigned ) 4 ) ;
-	if ( d & 0x8 ) break ;
-	n = ( ( n << 3 ) | d ) ;
-    }
-    n = ( ( n << 3 ) | ( d & 0x7 ) ) ;
-    return ( n ) ;
+	unsigned long d, n = 0;
+	for (;;) {
+		d = (unsigned long)de_bits(bs,(unsigned)4);
+		if (d & 0x8) {
+			break;
+		}
+		n = ((n << 3) | d);
+	}
+	n = ((n << 3) | (d & 0x7));
+	return (n);
 }
 
 
@@ -219,13 +250,14 @@ unsigned long de_int
     the next byte boundary.
 */
 
-void de_boundary
-    PROTO_N ( ( bs ) )
-    PROTO_T ( BITSTREAM *bs )
+void
+de_boundary(BITSTREAM *bs)
 {
-    unsigned bits = bs->bits ;
-    if ( bits ) IGNORE de_bits ( bs, BYTE_SIZE - bits ) ;
-    return ;
+	unsigned bits = bs->bits;
+	if (bits) {
+		IGNORE de_bits(bs, BYTE_SIZE - bits);
+	}
+	return;
 }
 
 
@@ -235,21 +267,20 @@ void de_boundary
     This routine reads a string from the bitstream bs into the buffer bf.
 */
 
-void de_tdfstring
-    PROTO_N ( ( bs, bf ) )
-    PROTO_T ( BITSTREAM *bs X BUFFER *bf )
+void
+de_tdfstring(BITSTREAM *bs, BUFFER *bf)
 {
-    unsigned m = ( unsigned ) de_int ( bs ) ;
-    unsigned long n = de_int ( bs ) ;
-    string p = stretch_buffer ( bf, bf->posn, ( gen_size ) n ) ;
-    bf->posn = p + n ;
-    while ( n ) {
-	int ch = CHAR_SIMPLE ;
-	unsigned long c = ( unsigned long ) de_bits ( bs, m ) ;
-	c = from_ascii ( c, &ch ) ;
-	*( p++ ) = ( character ) c ;
-	n-- ;
-    }
-    *p = 0 ;
-    return ;
+	unsigned m = (unsigned)de_int(bs);
+	unsigned long n = de_int(bs);
+	string p = stretch_buffer(bf, bf->posn,(gen_size)n);
+	bf->posn = p + n;
+	while (n) {
+		int ch = CHAR_SIMPLE;
+		unsigned long c = (unsigned long)de_bits(bs, m);
+		c = from_ascii(c, &ch);
+		*(p++) = (character)c;
+		n--;
+	}
+	*p = 0;
+	return;
 }
