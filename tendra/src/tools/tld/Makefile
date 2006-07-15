@@ -5,6 +5,8 @@ SRC1=${.CURDIR}/errors
 
 # Standard variables
 
+WARNS?=		2
+
 TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${OBJ_SDIR}
 LIBS=
