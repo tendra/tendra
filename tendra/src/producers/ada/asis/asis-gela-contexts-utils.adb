@@ -277,15 +277,12 @@ package body Asis.Gela.Contexts.Utils is
 
       use Asis.Gela.Compilations;
 
+      File        : constant Wide_String := Current_File (The_Context);
       New_Version : Compilation;
       Old_Version : constant Compilation :=
-        Get_Compilation (The_Context.Compilation_List,
-                         Current_File (The_Context));
+        Get_Compilation (The_Context.Compilation_List, File);
    begin
-      New_Compilation
-        (The_Context.Compilation_List,
-         Current_File (The_Context),
-         New_Version);
+      New_Compilation (The_Context.Compilation_List, File, New_Version);
 
       The_Context.Compilation  := List (Parser.Run (The_Context.This));
 

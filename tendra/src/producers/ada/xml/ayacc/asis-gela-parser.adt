@@ -44,6 +44,7 @@ with Asis.Gela.Elements.Helpers;       use Asis.Gela.Elements.Helpers;
 with Asis.Gela.Units;                  use Asis.Gela.Units;
 with Asis.Gela.Base_Lists;             use Asis.Gela.Base_Lists;
 with Asis.Gela.Lists;                  use Asis.Gela.Lists;
+with Asis.Gela.Library;
 
 with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
 
@@ -70,7 +71,8 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
 
 ##
 
-      File_Name : String := To_String (Current_File (The_Context.all));
+      File_Name : String :=
+        To_String (Library.Find_File (Current_File (The_Context.all)));
    begin
       Lexer.Set_Input (File_Name);
       YYParse;

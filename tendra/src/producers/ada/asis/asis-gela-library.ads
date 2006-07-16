@@ -27,6 +27,9 @@ package Asis.Gela.Library is
    function File_Exists (File_Name : Wide_String) return Boolean;
    --  Check if given file exists
 
+   function Find_File (File_Name : Wide_String) return Wide_String;
+   --  Find file in include directories
+
 end Asis.Gela.Library;
 
 

@@ -83,6 +83,22 @@ package body Asis.Gela.Library is
          return False;
    end File_Exists;
 
+   ----------------
+   --  Find_File --
+   ----------------
+
+   function Find_File (File_Name : Wide_String) return Wide_String is
+      use Ada.Characters.Handling;
+      Std  : constant Wide_String :=
+        To_Wide_String (Gela_Lib_Path) & File_Name;
+   begin
+      if File_Exists (Std) then
+         return Std;
+      else
+         return File_Name;
+      end if;
+   end Find_File;
+
    ------------------
    -- To_File_Name --
    ------------------
@@ -98,13 +114,8 @@ package body Asis.Gela.Library is
       Name : constant String            := To_Lower (To_String (Full_Name));
       Repl : constant Character_Mapping := To_Mapping (".","-");
       File : constant String            := Translate (Name, Repl) & Suffix;
-      Std  : constant String            := Gela_Lib_Path & File;
    begin
-      if File_Exists (To_Wide_String (Std)) then
-         return To_Wide_String (Std);
-      else
-         return To_Wide_String (File);
-      end if;
+      return Find_File (To_Wide_String (File));
    end To_File_Name;
 
 end Asis.Gela.Library;
