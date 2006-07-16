@@ -54,8 +54,23 @@ CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
 # The Intel C Compiler.
 .elif ${CC} == "icc"
+
+CWARNFLAGS=-no-gcc -w
+
+.if defined(WARNS)
+. if ${WARNS} >= 1
+CWARNFLAGS=-no-gcc -ansi -std=c89
+. endif
+. if ${WARNS} >= 2
+CWARNFLAGS+=
+. endif
+. if ${WARNS} >= 3
+CWARNFLAGS+=-Wall
+. endif
+.endif
+
   TCCOPTS=
-  CCOPTS+= ${CFLAGS}
+  CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
 .elif ${CC} == "tcc"
