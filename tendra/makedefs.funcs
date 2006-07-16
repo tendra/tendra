@@ -37,6 +37,12 @@ check_cc_ver()
 	CC=$1
 
 	case "${CC}" in
+		cc*)
+		VERSIONSTRING=`${CC} --version`
+		if [ $? -eq 0 ]; then
+			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
+		fi
+		;;
 		[gi]cc*)
 		VERSIONSTRING=`${CC} --version`
 		if [ $? -eq 0 ]; then
