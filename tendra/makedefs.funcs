@@ -3,6 +3,7 @@
 
 # Wrap normal command utilities with env.
 AWK="/usr/bin/env awk"
+CUT="/usr/bin/env cut"
 SED="/usr/bin/env sed"
 
 
@@ -21,6 +22,7 @@ check_cc()
 		# We are on AIX, and since we focus on ANSI as a compiler, use
 		# the right bootstrapping compiler: xlc (which implies ansi).
 		CC="xlc";
+		CCTYPE="AIX";
 		echo "NOTICE: Using xlc_r or cc_r creates POSIX threaded applications.  We do";
 		echo "        not need that.  Setting CC to \"xlc\"."
 		echo
@@ -35,17 +37,23 @@ check_cc_ver()
 	CC=$1
 
 	case "${CC}" in
-		cc)
+		[gi]cc*)
 		VERSIONSTRING=`${CC} --version`
 		if [ $? -eq 0 ]; then
-			TEMP=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.[[:digit:]][[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
-			CCVER=`echo ${TEMP} | ${SED} 's/\.//g'`
+			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
 		fi
 		;;
 		*)
 			CCVER=0
 		;;
 	esac
+
+	CCVER_MAJOR=`echo ${CCVER} | ${CUT} -d . -f 1`
+	CCVER_MINOR=`echo ${CCVER} | ${CUT} -d . -f 2`
+	CCVER_TINY=`echo ${CCVER} | ${CUT} -d . -f 3`
+	if [ -z ${CCVER_TINY} ]; then
+		CCVER_TINY=0
+	fi
 }
 
 # Check to see which architecture the host is running on.
