@@ -40,7 +40,11 @@ CWARNFLAGS=-w
 
 .if defined(WARNS)
 . if ${WARNS} >= 1
-CWARNFLAGS=-ansi -std=c89
+.  if (${CCVER_MAJOR} == 2 && ${CCVER_MINOR} >= 95) || ${CCVER_MAJOR} >= 3
+CWARNFLAGS=-ansi -std=c89 -Wno-traditional
+.  else
+CWARNFLAGS=-ansi -Wno-traditional
+.  endif
 . endif
 . if ${WARNS} >= 2
 CWARNFLAGS+=-pedantic -fno-builtin
