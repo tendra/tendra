@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 /*#define Ada_Main B0000 */
+#define APPLY(m) QUOTE(m)
+#define QUOTE(x) #x
 
 extern void Ada_Main();
 
@@ -14,6 +16,6 @@ void Report (char status)
 main ()
 {
   Ada_Main();
-  printf ("Result %d\n", Result);
+  printf ("Result %s %d\n", APPLY(Ada_Main), Result);
   return Result != 1;
 }

@@ -11,10 +11,10 @@ run: *.${NAME}
 .${NAME}.${NAME}.out :
 	if [ -f ${.IMPSRC:R}.adb ]; then \
 		${OUT_DIR}/${NAME} ${.IMPSRC:R}.adb body ${.IMPSRC:R} \
-		>  ${OUT_DIR}/${.TARGET};\
-	else\
+		>  ${OUT_DIR}/${.TARGET}; \
+	else \
 		${OUT_DIR}/${NAME} ${.IMPSRC:R}.ads spec ${.IMPSRC:R} \
-		>  ${OUT_DIR}/${.TARGET};\
+		>  ${OUT_DIR}/${.TARGET}; \
 	fi
 	diff ${.IMPSRC} ${OUT_DIR}/${.TARGET}
 
