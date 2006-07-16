@@ -15,11 +15,15 @@ package States is
 
    type Linkage_Kinds is
      (Tag, Proc_Tag, Shape_Token, Variety_Token,
-      Name_Token, Support_Token, Subtype_Attribute_Token);
+      Name_Token, Support_Token, Type_Param_Token,
+      Subtype_Attribute_Token);
 
    type Support_Kinds is
      (Compare_Integer_Value, Boolean_Jump, Boolean_Value,
       Generic_Name);
+
+   type Type_Param_Kinds is
+     (Lower, Upper);
 
    Nil      : constant TenDRA.Small := TenDRA.Small'Last;
 
@@ -40,8 +44,15 @@ package States is
       case Kind is
          when Tag | Proc_Tag | Name_Token =>
             Name    : Asis.Defining_Name;
-         when Shape_Token | Variety_Token =>
+         when Shape_Token | Variety_Token | Type_Param_Token =>
             Tipe    : XASIS.Classes.Type_Info;
+
+            case Kind is
+               when Type_Param_Token =>
+                  Param   : Type_Param_Kinds;
+               when others =>
+                  null;
+            end case;
          when Support_Token =>
             Support : Support_Kinds;
          when Subtype_Attribute_Token =>
@@ -119,6 +130,20 @@ package States is
    function Find_Variety
      (Object : access State;
       Tipe   : in     XASIS.Classes.Type_Info;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small;
+
+   function Find_Type_Param
+     (Object : access State;
+      Tipe   : in     XASIS.Classes.Type_Info;
+      Param  : in     Type_Param_Kinds;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small;
+
+   function Find_Attribute
+     (Object : access State;
+      Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds;
       Unit   : in     Unit_Kinds := TAGDEF;
       Usage  : in     Boolean := True) return TenDRA.Small;
 

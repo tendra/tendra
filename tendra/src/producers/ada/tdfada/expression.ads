@@ -25,6 +25,11 @@ package Expression is
       Negative : in     Boolean;
       Label    : in     TenDRA.Small);
 
+   procedure Static_Signed_Nat
+     (State   : access States.State;
+      Element : in     Asis.Expression;
+      B       : in out TenDRA.Streams.Stream'Class);
+
    procedure Function_Call
      (State   : access States.State;
       Element : in     Asis.Element;

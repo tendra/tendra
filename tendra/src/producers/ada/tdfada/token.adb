@@ -100,6 +100,8 @@ package body Token is
             else
                raise Error;
             end if;
+         when Type_Param_Token =>
+            Output.TDF (O, c_signed_nat);
          when Name_Token =>
             Output.TDF (O, c_token);
             Output.TDF (O, c_exp);

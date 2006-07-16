@@ -5,15 +5,19 @@ with TenDRA.Streams;
 
 with XASIS.Types;
 with XASIS.Utils;
+with XASIS.Static;
 with XASIS.Classes;
 
 with Asis.Elements;
 with Asis.Statements;
+with Asis.Extensions;
 with Asis.Expressions;
 
 with Token;
 with Utils;
 with Intrinsic;
+
+with Ada.Wide_Text_IO;
 
 package body Expression is
    use Asis;
@@ -54,6 +58,11 @@ package body Expression is
 
    function Call_Parameters
      (Element : Asis.Element) return Asis.Association_List;
+
+   procedure Compile_Static
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info);
 
    --------------
    -- Ada_Call --
@@ -267,6 +276,11 @@ package body Expression is
       B     : TenDRA.Streams.Memory_Stream
         renames State.Units (TAGDEF).all;
    begin
+      if Asis.Extensions.Is_Static_Expression (Element) then
+         Compile_Static (State, Element, Tipe);
+         return;
+      end if;
+
       case Elements.Expression_Kind (Element) is
          when An_Integer_Literal =>
             declare
@@ -438,6 +452,31 @@ package body Expression is
       end case;
    end Compile_Boolean;
 
+   --------------------
+   -- Compile_Static --
+   --------------------
+
+   procedure Compile_Static
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info)
+   is
+      use States;
+
+      B       : TenDRA.Streams.Memory_Stream
+        renames State.Units (TAGDEF).all;
+
+      Var   : Small := Find_Variety (State, Tipe, TAGDEF);
+   begin
+      Output.TDF (B, c_make_int);
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, Empty);
+
+      Static_Signed_Nat (State, Element, B);
+   end Compile_Static;
+
    --------------------------
    -- Corresponding_Callee --
    --------------------------
@@ -466,6 +505,7 @@ package body Expression is
       Callee : Asis.Declaration := Corresponding_Callee (Element);
    begin
       if Asis.Elements.Is_Nil (Callee) then
+         Ada.Wide_Text_IO.Put_Line (Asis.Elements.Debug_Image (Element));
          null;  --  dispatch or attribute
          raise States.Error;
       else
@@ -688,6 +728,32 @@ package body Expression is
                           Label    => Label);
       end if;
    end Short_Circuit;
+
+   -----------------------
+   -- Static_Signed_Nat --
+   -----------------------
+
+   procedure Static_Signed_Nat
+     (State   : access States.State;
+      Element : in     Asis.Expression;
+      B       : in out Streams.Stream'Class)
+   is
+      Value : XASIS.Static.Value := XASIS.Static.Evaluate (Element);
+      Image : Wide_String := XASIS.Static.Image (Value);
+      Val   : Small;  --  TODO: Fix for values larger then Small
+   begin
+      Output.TDF (B, c_make_signed_nat);
+
+      if Image (Image'First) = '-' then
+         Output.TDFBOOL (B, True);
+         Val := Small'Wide_Value (Image (2 .. Image'Last));
+         Output.TDFINT (B, Val);
+      else
+         Output.TDFBOOL (B, False);
+         Val := Small'Wide_Value (Image);
+         Output.TDFINT (B, Val);
+      end if;
+   end Static_Signed_Nat;
 
    -----------------
    -- Target_Name --

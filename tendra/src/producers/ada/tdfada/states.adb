@@ -37,8 +37,10 @@ package body States is
          case Left.Kind is
             when Tag | Proc_Tag | Name_Token =>
                return Is_Equal (Left.Name, Right.Name);
-            when Shape_Token | Variety_Token  =>
-               return XASIS.Classes.Is_Equal (Left.Tipe, Right.Tipe);
+            when Shape_Token | Variety_Token | Type_Param_Token =>
+               return XASIS.Classes.Is_Equal (Left.Tipe, Right.Tipe)
+                 and then (Left.Kind /= Type_Param_Token
+                           or else Left.Param = Right.Param);
             when Support_Token =>
                return Left.Support = Right.Support;
             when Subtype_Attribute_Token =>
@@ -236,6 +238,8 @@ package body States is
          case Link.Kind is
             when Variety_Token => return ".V";
             when Name_Token    => return ".N";
+            when Type_Param_Token =>
+               return "." & Type_Param_Kinds'Image (Link.Param);
             when others        => return "";
          end case;
       end Suffix;
@@ -245,7 +249,7 @@ package body States is
          when Tag | Proc_Tag | Name_Token =>
             return To_String (XASIS.Utils.External_Name_Image (Link.Name))
                  & Suffix;
-         when Shape_Token | Variety_Token =>
+         when Shape_Token | Variety_Token | Type_Param_Token =>
             declare
                Decl : constant Asis.Declaration :=
                  XASIS.Classes.Get_Declaration (Link.Tipe);
@@ -288,6 +292,7 @@ package body States is
            | Support_Token
            | Name_Token
            | Subtype_Attribute_Token
+           | Type_Param_Token
            =>
             Kind := Token;
       end case;
@@ -362,6 +367,25 @@ package body States is
       return Found.Unit_Code (Unit);
    end Find;
 
+   --------------------
+   -- Find_Attribute --
+   --------------------
+
+   function Find_Attribute
+     (Object : access State;
+      Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small
+   is
+      Link : Linkage (Subtype_Attribute_Token);
+   begin
+      Link.Subtype_Name := Tipe;
+      Link.Attribute    := Attr;
+
+      return Find (Object, Link, Unit, Usage);
+   end Find_Attribute;
+
    ---------------
    -- Find_Name --
    ---------------
@@ -409,6 +433,24 @@ package body States is
       Link.Name := Name;
       return Find (Object, Link, Unit, Usage);
    end Find_Tag;
+
+   ---------------------
+   -- Find_Type_Param --
+   ---------------------
+
+   function Find_Type_Param
+     (Object : access State;
+      Tipe   : in     XASIS.Classes.Type_Info;
+      Param  : in     Type_Param_Kinds;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small
+   is
+      Link : Linkage (Type_Param_Token);
+   begin
+      Link.Tipe  := Tipe;
+      Link.Param := Param;
+      return Find (Object, Link, Unit, Usage);
+   end Find_Type_Param;
 
    ----------------
    -- Find_Shape --
@@ -494,7 +536,7 @@ package body States is
    begin
       case Result.Kind is
          when Shape_Token | Variety_Token | Support_Token | Name_Token
-           | Subtype_Attribute_Token =>
+           | Subtype_Attribute_Token | Type_Param_Token =>
             Standard.Token.New_Token (Object, Result);
          when Tag | Proc_Tag =>
             Declaration.New_Tag (Object, Result);
