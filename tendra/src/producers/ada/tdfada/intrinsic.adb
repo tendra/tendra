@@ -205,7 +205,7 @@ package body Intrinsic is
               | A_Not_Equal_Operator =>
 
                if Oper = An_Equal_Operator xor Negative then
-                  Output.TDF (B, c_not);
+                  Invert_Boolean (State);
                end if;
 
                Output.TDF (B, c_xor);

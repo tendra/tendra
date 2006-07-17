@@ -25,6 +25,9 @@ package Expression is
       Negative : in     Boolean;
       Label    : in     TenDRA.Small);
 
+   --  Output invert operator for boolean value
+   procedure Invert_Boolean (State : access States.State);
+
    procedure Static_Signed_Nat
      (State   : access States.State;
       Element : in     Asis.Expression;

@@ -21,8 +21,8 @@ DEPEND != test ! -f ${NAME} || grep "Dependencies::" ${NAME} |sed -e "s/.*:://"
 
 run:
 	tcc -M -o ${NAME:.adb=.exe} ${LIST}
-	@rm ${LIST}
 	./${NAME:.adb=.exe}
+	@rm ${LIST} ${NAME:.adb=.exe}
 
 depend: ${NAME} ${DEPEND} wrapper.c ada.j
 	${MAKE} ${.ALLSRC:C/\..*/.j/}

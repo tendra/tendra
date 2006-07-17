@@ -186,7 +186,7 @@ package body Expression is
                Tipe  : Type_Info := Type_Of_Declaration (Param);
             begin
                Output.TDF (B, c_assign);
-               Compile (State, Actual_Parameter (List (J)), Tipe);
+               Target_Name (State, Actual_Parameter (List (J)));
                Output.TDF (B, c_obtain_tag);
                Output.TDF (B, c_make_tag);
                Output.TDFINT (B, Tags (J));
@@ -375,7 +375,7 @@ package body Expression is
          when others =>
 
             if Negative then
-               Output.TDF (B, c_not);
+               Invert_Boolean (State);
             end if;
 
             Compile
@@ -550,7 +550,7 @@ package body Expression is
                  (State, Element, Callee, Negative);
             when Utils.Ada =>
                if Negative then
-                  Output.TDF (B, c_not);
+                  Invert_Boolean (State);
                end if;
 
                Ada_Call (State, Element, Callee);
@@ -644,6 +644,30 @@ package body Expression is
       end if;
    end Identifier;
 
+   --------------------
+   -- Invert_Boolean --
+   --------------------
+
+   procedure Invert_Boolean (State    : access States.State) is
+      use States;
+      use XASIS.Classes;
+
+      B      : TenDRA.Streams.Memory_Stream
+        renames State.Units (TAGDEF).all;
+      Tipe  : Type_Info := Type_From_Declaration (XASIS.Types.Boolean);
+      Var   : Small := Find_Variety (State, Tipe, TAGDEF);
+   begin
+      Output.TDF (B, c_xor);
+      Output.TDF (B, c_make_int);
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, Empty);
+      Output.TDF (B, c_make_signed_nat);
+      Output.TDFBOOL (B, False);
+      Output.TDFINT (B, 1);
+   end Invert_Boolean;
+
    -------------------
    -- Short_Circuit --
    -------------------
@@ -661,9 +685,8 @@ package body Expression is
       Params  : aliased Streams.Memory_Stream;
       Saved   : Stream_Access := State.Units (TAGDEF);
       Label   : Small;
-      Tok     : TenDRA.Small;
+      Tok     : TenDRA.Small := Find_Support (State, Boolean_Value);
    begin
-      Tok := Find_Support (State, Boolean_Value);
       Token.Initialize (Params, Boolean_Value);
       State.Units (TAGDEF) := Params'Unchecked_Access;
       Label := State.Labels (TAGDEF);
