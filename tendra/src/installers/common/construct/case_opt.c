@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -186,7 +186,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 			i--;
 		}
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z])!= nilexp) {
+			if (son(ELEMENTS[z]) != nilexp) {
 				if (is_signed(sh(control_expression))) {
 					node_weight_sum +=
 					    ((double)no(son(ELEMENTS[z])) -
@@ -221,7 +221,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		/* sets up the node_weight of the node */
 		node_weight[no_of_nodes] = 0.0;
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z])!= nilexp) {
+			if (son(ELEMENTS[z]) != nilexp) {
 				if (is_signed(sh(control_expression))) {
 					node_weight[no_of_nodes] +=
 					    ((double)no(son(ELEMENTS[z])) -

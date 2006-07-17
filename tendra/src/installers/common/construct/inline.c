@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -225,10 +225,10 @@ inline_exp(exp e)
 
 	while (!last(t)) {
 		/* check actual and formal shapes */
-		if (name(q)!= ident_tag || !isparam(q)) {
+		if (name(q) != ident_tag || !isparam(q)) {
 			return;  /* no inline if more actuals than formals */
 		}
-		if (shape_size(sh(bro(t)))!= shape_size(sh(son(q)))) {
+		if (shape_size(sh(bro(t))) != shape_size(sh(son(q)))) {
 			return;	/* no inlining if shapes do not match. */
 		}
 		t = bro(t);		/* next actual */

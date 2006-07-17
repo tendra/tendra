@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -236,7 +236,7 @@ normalised_inlining(void)
 	}
 #endif
 	while (k != nilexp && name(k) != hold_tag && name(k) != 102 &&
-	       name(k)!= proc_tag && name(k)!= general_proc_tag) {
+	       name(k) != proc_tag && name(k) != general_proc_tag) {
 	  k = bro(k);
 	}
 	if (k != nilexp && name(k) == proc_tag) {

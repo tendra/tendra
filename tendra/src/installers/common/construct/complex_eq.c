@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -99,7 +99,9 @@ complex_eq_explist(exp a, exp b, exp laba, exp labb)
 int
 complex_eq_exp(exp a, exp b, exp laba, exp labb)
 {
-	if (name(a)!= name(b) || !eq_shape(sh(a), sh(b))) return 0;
+	if (name(a) != name(b) || !eq_shape(sh(a), sh(b))) {
+		return 0;
+	}
 	if (name(a) == seq_tag) {
 		return(complex_eq_explist(son(son(a)), son(son(b)), laba,
 					  labb) &&

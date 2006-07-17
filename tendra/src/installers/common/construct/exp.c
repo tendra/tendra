@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -317,12 +317,12 @@ kill_exp(exp e, exp scope)
 #else
       --no(son(e));		/* decrease usage count */
 #endif
-      while (pt(q)!= e) {
+      while (pt(q) != e) {
 	q = pt(q);
       }
       pt(q) = pt(e);		/* remove from usage list */
-      if (no(son(e)) == 0 && son(son(e))!= nilexp &&
-	  bro(son(son(e)))!= nilexp &&
+      if (no(son(e)) == 0 && son(son(e)) != nilexp &&
+	  bro(son(son(e))) != nilexp &&
 	 (scope == nilexp || internal_to(scope, son(e)))) {
 	IGNORE check(son(e), scope);
       }
@@ -429,7 +429,7 @@ kill_exp(exp e, exp scope)
       if (p != nilexp && (props(son(p)) & 1) == 0) {
 	/* decrease label usage count */
 	--no(son(p));
-	if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p))!= nilexp &&
+	if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p)) != nilexp &&
 	   (scope == nilexp || internal_to(scope, p))) {
 	  /* process if now no use of label and not doing deadvar */
 	  altered (p, scope);
@@ -484,11 +484,11 @@ lub_shape(shape a, shape b)
 int
 eq_shape(shape a, shape b)
 {
-  if (name(a)!= name(b)) {
+  if (name(a) != name(b)) {
     return 0;
   }
-  if (shape_size(a) !=shape_size(b) || is_signed(a)!=is_signed(b) ||
-      shape_align(a)!=shape_align(b) || al1(a)!=al1(b)) {
+  if (shape_size(a) != shape_size(b) || is_signed(a) != is_signed(b) ||
+      shape_align(a) !=shape_align(b) || al1(a) !=al1(b)) {
     return 0;
   }
   if (name(a) == nofhd) {
@@ -540,7 +540,7 @@ case_item(exp i)
   exp thigh;
   exp nlow, nhigh;
 
-  while (go && bro(t)!= nilexp) {
+  while (go && bro(t) != nilexp) {
     exp j = bro(t);
     exp  highj = (son(j) == nilexp)? j : son(j);
     if (docmp_f((int)f_greater_than, i, highj)) {
@@ -556,7 +556,7 @@ case_item(exp i)
     SET(thigh);
   }
 
-  if (bro(t)!= nilexp) {
+  if (bro(t) != nilexp) {
     nlow = bro(t);
     nhigh = (son(bro(t)) == nilexp)? nlow : son(bro(t));
   } else {
@@ -578,9 +578,9 @@ case_item(exp i)
   }
 
   if (t != l && (no(i) -1) == no(thigh) && pt(i) == pt(t)) {
-    if (bro(t)!= nilexp && (no(newhigh) +1) == no(nlow) &&
+    if (bro(t) != nilexp && (no(newhigh) +1) == no(nlow) &&
 	pt(i) == pt(bro(t))) {
-      if (son(bro(t))!= nilexp) {
+      if (son(bro(t)) != nilexp) {
 	if (son(t) != nilexp) {
 	  retcell(son(t));
 	}
@@ -597,7 +597,7 @@ case_item(exp i)
       bro(t) = bro(bro(t));
       return;
     }
-    if (son(t)!= nilexp) {
+    if (son(t) != nilexp) {
       no(son(t)) = no(newhigh);
       return;
     }
@@ -605,13 +605,13 @@ case_item(exp i)
     return;
   }
 
-  if (bro(t)!= nilexp && (no(newhigh) + 1) == no(nlow) &&
+  if (bro(t) != nilexp && (no(newhigh) + 1) == no(nlow) &&
       pt(i) == pt(bro(t))) {
-    if (son(bro(t))!= nilexp) {
+    if (son(bro(t)) != nilexp) {
       no(bro(t)) = no(i);
       return;
     }
-    if (son(i)!= nilexp) {
+    if (son(i) != nilexp) {
       no(son(i)) = no(nhigh);
       bro(i) = bro(bro(t));
       bro(t) = i;
@@ -662,13 +662,13 @@ scan_solve(exp e)
 	return;
     }
     default:
-	if (pt(e)!= nilexp) {
+	if (pt(e) != nilexp) {
 	  exp s = son(pt(e));
 	  if (isvar(s)) {
 	    ++no(s);
 	  }
 	}
-	if (son(e)!= nilexp) {
+	if (son(e) != nilexp) {
 	  exp t = son(e);
 	  while (scan_solve(t), !last(t)) {
 	    t = bro(t);
@@ -1231,7 +1231,7 @@ is_comm(exp e)
     }
     while (1) {
       t = bro(t);
-      if (name(sh(t))!= bitfhd) {
+      if (name(sh(t)) != bitfhd) {
 	if (!is_comm(t)) {
 	  return(0);
 	}

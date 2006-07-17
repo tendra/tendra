@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -305,8 +305,8 @@ intnl_to(exp whole, exp part)
 {
   exp q = part;
 
-  while (q != whole && q != nilexp && name(q)!= hold_tag &&
-	 name(q)!= hold2_tag && (name(q)!= ident_tag || !isglob(q))) {
+  while (q != whole && q != nilexp && name(q) != hold_tag &&
+	 name(q) != hold2_tag && (name(q) != ident_tag || !isglob(q))) {
     q = father(q);
   }
 
@@ -330,7 +330,7 @@ not_ass2(exp vardec, exp piece)
   do {				/* test each use of the identifier */
     q = t;
     while (q != nilexp && q != piece && q != vardec &&
-	   name(q)!= rep_tag && (name(q)!= ident_tag || !isglob(q))) {
+	   name(q) != rep_tag && (name(q) != ident_tag || !isglob(q))) {
       upwards = q;
       q = bro(q);
     }
@@ -407,7 +407,7 @@ not_assigned_to(exp vardec, exp body)
     /* is this declaration known? */
     /* NOTE: memory is cleared after each repeat is processed */
     /* so any in memory refer to the current repeat */
-    while (ptr != nilmem && (ptr->dec)!= vardec)
+    while (ptr != nilmem && (ptr->dec) != vardec)
       ptr = ptr->next;
     if (ptr == nilmem) {
       memlist **pp = &mem;
@@ -567,7 +567,7 @@ max_const(exp whole, exp e, int ass_ok)
 
       mc = mc_list(whole, son(e), ass_ok, optop(e));
 
-      if (mc.cont != nilexp && pt(mc.cont)!= son(mc.cont) && optop(e)) {
+      if (mc.cont != nilexp && pt(mc.cont) != son(mc.cont) && optop(e)) {
 	/* more than 1 item in list */
 	exp limit = pt(mc.cont), h = son(mc.cont), arg, this, last_h;
 	int arg_count = 0;
@@ -826,7 +826,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
   exp arglist = nilexp, ap;
   int nargs = 0;
 
-  if (pt(list)!= nilexp) {
+  if (pt(list) != nilexp) {
     /* build required argument list */
     exp p = son(patn);
     while (p != nilexp) {
@@ -855,7 +855,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 	*(refto(f, e)) = tagt;
 	no(t) = -1;		/* dealt with */
 	kill_exp(son(t), son(t));
-      } else if (pt(t)!= nilexp && name(pt(t)) == name(patn)) {
+      } else if (pt(t) != nilexp && name(pt(t)) == name(patn)) {
 	/* try for complex match - at least the operator is correct */
 	/* check errtreat ??? */
 	int scan2 = true;
@@ -869,7 +869,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 	    ap = arglist;
 
 	    while (ap != nilexp &&
-		  (pt(ap)!= nilexp || !eq_exp(son(t2), son(ap)))) {
+		  (pt(ap) != nilexp || !eq_exp(son(t2), son(ap)))) {
 	      ap = bro(ap);
 	    }
 
@@ -899,7 +899,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 	  while (oparg != nilexp) {
 	    last_arg = (int)last(oparg);
 	    ap = arglist;
-	    while (ap != nilexp && son(pt(ap))!= oparg) {
+	    while (ap != nilexp && son(pt(ap)) != oparg) {
 	      ap = bro(ap);
 	    }
 	    if (ap == nilexp) {
@@ -1225,7 +1225,7 @@ extract_consts(int issn, exp rf, exp list_head)
     } else {
       val = bro(rf);
     }
-    if (no(t)!= 0) {
+    if (no(t) != 0) {
       /* this has been dealt with previously - just * check for end */
       contin = (t != limit);
     } else {
@@ -1394,7 +1394,7 @@ named_dest(exp dest)
 	  glob_dest[glob_index++] = son(dest);
 	  return true;
 	}
-      } else if (!isvar(son(dest)) && son(son(dest))!= nilexp) {
+      } else if (!isvar(son(dest)) && son(son(dest)) != nilexp) {
 	return named_dest(son(son(dest)));
       }
       return false;
@@ -1506,7 +1506,7 @@ repeat_consts(void)
   exp reps = get_repeats();
 
   while (reps != nilexp) {
-    if (son(reps)!= nilexp && name(son(reps)) == rep_tag
+    if (son(reps) != nilexp && name(son(reps)) == rep_tag
 	&& no(reps) < max_loop_depth) {
       exp loop = son(reps);
       exp sts = bro(son(loop));
@@ -1545,16 +1545,16 @@ repeat_consts(void)
 	} else {
 	  sn = 0;
 	  rr = son(fa);
-	  while (bro(rr)!= loop && !last(rr)) {
+	  while (bro(rr) != loop && !last(rr)) {
 	    rr = bro(rr);
 	  }
 	}
 	if (sn || bro(rr) == loop) {
-	  while (name(fa)!= proc_tag && name(fa)!= general_proc_tag
-		&& name(fa)!= hold_tag && name(fa)!= hold2_tag) {
+	  while (name(fa) != proc_tag && name(fa) != general_proc_tag &&
+		 name(fa) != hold_tag && name(fa) != hold2_tag) {
 	    fa = father(fa);
 	  }
-	  if (name(fa)!= hold_tag && name(fa)!= hold2_tag) {
+	  if (name(fa) != hold_tag && name(fa) != hold2_tag) {
 	    if (proc_uses_crt_env(fa)) {
 	      has_lj_dest = scan_for_lv(sts);
 	    } else {
@@ -1593,7 +1593,7 @@ get_repeats(void)
 	do {
 	  set_dist (sup);	/* no(x) is now max dist to leaf */
 	  no(sup) = dist;
-	  if (son(sup)!= nilexp && name(son(sup)) == rep_tag) {
+	  if (son(sup) != nilexp && name(son(sup)) == rep_tag) {
 	    ++dist;		/* only repeats are significant */
 	  }
 	  sup = bro(sup);	/* go to enclosing repeat */

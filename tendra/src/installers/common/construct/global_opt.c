@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,7 +132,7 @@ checkext(exp e)
 	if ((!PIC_code || brog(e)->dec_u.dec_val.dec_var == 0) && !isvar(e) &&
 	    (name(def) == val_tag || name(def) == real_tag ||
 	     name(def) == null_tag)) {
-		while (pt(e)!= nilexp) {
+		while (pt(e) != nilexp) {
 			/* substitute constants in */
 			exp q = pt(e);
 			if (bro(q) != nilexp) {

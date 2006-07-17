@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -235,7 +235,7 @@ dbl_mag_cmp (dbl d1, dbl d2)
     return((d1.exp < d2.exp) ? -1 : 1);
   }
   for (i = 0; i < (2 * MANT_SIZE); i++) {
-    if ((d1.mant[i])!= (d2.mant[i])) {
+    if ((d1.mant[i]) != (d2.mant[i])) {
       return(((d1.mant[i]) < (d2.mant[i]))? -1 : 1);
     }
   }
