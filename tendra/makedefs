@@ -164,6 +164,16 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="netbsd"
 			OSVER="NETBSD2"
 			;;
+	NetBSD.3*)	#
+			check_cc
+			LD="ld"
+			CFLAGS=${CFLAGS}
+			LDOPTS=
+			LDCRT=
+			LIBS="-lc"
+			OSFAM="netbsd"
+			OSVER="NETBSD3"
+			;;
 	OpenBSD.3*)	#
 			check_cc
 			LD="ld"
