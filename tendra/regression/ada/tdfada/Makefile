@@ -10,7 +10,7 @@ INCL =		${SRC_DIR}/obj/producers/ada/tdfada/lib
 
 .include "${SRC_DIR}/config.mk"
 
-.SUFFIXES:	.ads .adb .exe .out .c .pl .j
+.SUFFIXES:	.adb .ads .exe .out .c .pl .j
 .PATH.ads:	${.CURDIR} ${INCL}
 .PATH.pl:       ${SRC_DIR}/src/lib/libada/token
 .MAIN: make-subdir
@@ -37,10 +37,10 @@ depend: ${NAME} ${DEPEND} wrapper.c ada.j
 ada.j: ada.pl
 	tcc -Fj -Ypl_tdf ${.ALLSRC}
 
-.adb.j:
+.ads.j:
 	${TDFADA} ${.IMPSRC}
 
-.ads.j:
+.adb.j:
 	${TDFADA} ${.IMPSRC}
 
 make-subdir: obj-dir all-tests

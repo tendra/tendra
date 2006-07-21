@@ -3,7 +3,7 @@
 
 procedure B0001 is
    procedure Report (Status : Boolean);
-   pragma Import (C, Report, "report");
+   pragma Import (C, Report, "Report");
 begin
    Report (True);
 end B0001;

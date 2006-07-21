@@ -12,6 +12,7 @@
 with Asis.Elements;
 with Asis.Gela.Static;
 with Asis.Gela.Elements;
+with Asis.Gela.Visibility;
 
 package body Asis.Extensions is
 
@@ -47,6 +48,19 @@ package body Asis.Extensions is
          return False;
       end if;
    end Is_Static_Expression;
+
+   -----------------
+   -- Unique_Name --
+   -----------------
+
+   function Unique_Name (Name : Asis.Defining_Name) return Asis.Program_Text is
+   begin
+      if Asis.Elements.Element_Kind (Name) = A_Defining_Name then
+         return Asis.Gela.Visibility.Unique_Name (Name);
+      else
+         return "";
+      end if;
+   end Unique_Name;
 
 end Asis.Extensions;
 

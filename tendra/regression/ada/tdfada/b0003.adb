@@ -5,7 +5,7 @@ with b0003p;
 
 procedure B0003 is
    procedure Report (Status : Boolean);
-   pragma Import (C, Report);
+   pragma Import (C, Report, "Report");
 
    X : Boolean;
 begin

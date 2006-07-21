@@ -980,6 +980,95 @@ package body Asis.Gela.Visibility is
       Point : in Asis.Identifier) return Boolean
      renames Utils.Visible_From;
 
+   -----------------
+   -- Unique_Name --
+   -----------------
+
+   function Unique_Name (Name  : in Asis.Defining_Name) return Wide_String is
+      use Asis.Elements;
+
+      function Get_Parent (Reg : Region_Access) return Region_Access is
+      begin
+         if Reg = Utils.Top_Region'Access then
+            return null;
+         else
+            return Reg.Last_Part.Parent_Item.Part.Region;
+         end if;
+      end Get_Parent;
+
+      function Count_Siblings (Reg : Region_Access) return Positive is
+         Parent  : constant Region_Access := Get_Parent (Reg);
+         Current : Region_Access := Parent.First_Child;
+         Result  : Positive := 1;
+      begin
+         while Current /= Reg loop
+            Result := Result + 1;
+            Current := Current.Next;
+         end loop;
+
+         return Result;
+      end Count_Siblings;
+
+      function Region_Name (Reg : Region_Access) return Wide_String is
+         Parent  : constant Region_Access := Get_Parent (Reg);
+      begin
+         if Parent = null or Parent = Utils.Top_Region'Access then
+            return "";
+         elsif Element_Kind (Reg.First_Part.Element) = A_Declaration then
+            return Region_Name (Parent)
+              & XASIS.Utils.Declaration_Direct_Name (Reg.First_Part.Element)
+              & '.';
+         else
+            declare
+               Img : Wide_String := Positive'Wide_Image (Count_Siblings (Reg));
+            begin
+               Img (1) := '_';
+               return Region_Name (Parent) & Img & '.';
+            end;
+         end if;
+      end Region_Name;
+
+      use XASIS.Utils;
+
+      --  Go from completion to declaration
+      function Declaration_Name return Asis.Defining_Name is
+         Comp : Asis.Declaration := Enclosing_Element (Name);
+         Decl : Asis.Declaration;
+      begin
+         if Is_Completion (Comp) then
+            Decl := Declaration_For_Completion (Comp);
+            return Get_Defining_Name (Decl, Direct_Name (Name));
+         else
+            return Name;
+         end if;
+      end Declaration_Name;
+
+      Target   : Asis.Defining_Name := Declaration_Name;
+      Item     : Region_Item_Access := Utils.Get_Place (Target);
+      Reg      : Region_Access := Item.Part.Region;
+      Reg_Name : constant Wide_String := Region_Name (Reg);
+      Count    : Natural := 0;
+   begin
+      while Item /= null and then Item.Part.Region = Reg loop
+         if not Is_Completion (Enclosing_Element (Item.Defining_Name)) then
+            Count := Count + 1;
+         end if;
+
+         Item := Item.Prev;
+      end loop;
+
+      if Count = 1 then
+         return Reg_Name & XASIS.Utils.Direct_Name (Target);
+      else
+         declare
+            Img : Wide_String := Positive'Wide_Image (Count);
+         begin
+            Img (1) := '-';
+            return Reg_Name & XASIS.Utils.Direct_Name (Target) & Img;
+         end;
+      end if;
+   end Unique_Name;
+
 end Asis.Gela.Visibility;
 
 

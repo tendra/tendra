@@ -64,6 +64,10 @@ package body Expression is
       Element  : in     Asis.Expression;
       Tipe     : in     XASIS.Classes.Type_Info);
 
+   procedure Output_Boolean
+     (State    : access States.State;
+      Value    : in     Boolean);
+
    --------------
    -- Ada_Call --
    --------------
@@ -650,6 +654,22 @@ package body Expression is
 
    procedure Invert_Boolean (State    : access States.State) is
       use States;
+      B      : TenDRA.Streams.Memory_Stream
+        renames State.Units (TAGDEF).all;
+   begin
+      Output.TDF (B, c_xor);
+      Output_Boolean (State, True);
+   end Invert_Boolean;
+
+   --------------------
+   -- Output_Boolean --
+   --------------------
+
+   procedure Output_Boolean
+     (State    : access States.State;
+      Value    : in     Boolean)
+   is
+      use States;
       use XASIS.Classes;
 
       B      : TenDRA.Streams.Memory_Stream
@@ -657,7 +677,6 @@ package body Expression is
       Tipe  : Type_Info := Type_From_Declaration (XASIS.Types.Boolean);
       Var   : Small := Find_Variety (State, Tipe, TAGDEF);
    begin
-      Output.TDF (B, c_xor);
       Output.TDF (B, c_make_int);
       Output.TDF (B, c_var_apply_token);
       Output.TDF (B, c_make_tok);
@@ -665,8 +684,12 @@ package body Expression is
       Output.BITSTREAM (B, Empty);
       Output.TDF (B, c_make_signed_nat);
       Output.TDFBOOL (B, False);
-      Output.TDFINT (B, 1);
-   end Invert_Boolean;
+      if Value = True then
+         Output.TDFINT (B, 1);
+      else
+         Output.TDFINT (B, 0);
+      end if;
+   end Output_Boolean;
 
    -------------------
    -- Short_Circuit --
@@ -682,25 +705,21 @@ package body Expression is
 
       B       : TenDRA.Streams.Memory_Stream
         renames State.Units (TAGDEF).all;
-      Params  : aliased Streams.Memory_Stream;
-      Saved   : Stream_Access := State.Units (TAGDEF);
-      Label   : Small;
-      Tok     : TenDRA.Small := Find_Support (State, Boolean_Value);
+      Label   : Small := State.Labels (TAGDEF);
    begin
-      Token.Initialize (Params, Boolean_Value);
-      State.Units (TAGDEF) := Params'Unchecked_Access;
-      Label := State.Labels (TAGDEF);
       Inc (State.Labels (TAGDEF));
-      Output.TDF (Params, c_make_label);
-      Output.TDFINT (Params, Label);
+      Output.TDF (B, c_conditional);
+      Output.TDF (B, c_make_label);
+      Output.TDFINT (B, Label);
 
-      Short_Circuit (State, Element, Negative, Label);
+      begin
+         Output.TDF (B, c_sequence);
+         Output.List_Count (B, 1);
+         Short_Circuit (State, Element, Negative, Label);
+         Output_Boolean (State, True);
+      end;
 
-      State.Units (TAGDEF) := Saved;
-      Output.TDF (B, c_exp_apply_token);
-      Output.TDF (B, c_make_tok);
-      Output.TDFINT (B, Tok);
-      Output.BITSTREAM (B, Params);
+      Output_Boolean (State, False);
    end Short_Circuit;
 
    -------------------

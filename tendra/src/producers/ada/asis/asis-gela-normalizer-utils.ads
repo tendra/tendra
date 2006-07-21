@@ -29,6 +29,7 @@ private package Asis.Gela.Normalizer.Utils is
    procedure Normalize_Attribute_Reference (Element : Asis.Element);
    procedure Normalize_Qualified_Expression (Element : Asis.Element);
    procedure Normalize_Procedure_Call (Element : Asis.Element);
+   procedure Normalize_Pragma_Argument (Element : in out Asis.Expression);
 
    procedure Normalize_Function_Call
      (Element : in out Asis.Element;

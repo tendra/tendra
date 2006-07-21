@@ -23,7 +23,7 @@ Tokdef BOOLEAN_JUMP =
    Value  : EXP,
    Target : LABEL] EXP
 
-  ?(Value == + Inv(Boolean.V) | Target);
+  ?(Value != + Inv(Boolean.V) | Target);
 
 Tokdef BOOLEAN_VALUE =
   [Target : LABEL,

@@ -1,3 +1,4 @@
+with Asis.Elements;
 with Asis.Gela.Lists;
 with Asis.Gela.Errors;
 with Asis.Gela.Iterator;
@@ -831,6 +832,16 @@ package body Asis.Gela.Normalizer is
          when A_Record_Aggregate =>
             Utils.Normalize_Record_Aggregate (Element, Control, State);
 
+         when An_Operator_Symbol =>
+            declare
+               use Asis.Elements;
+               use type Asis.Association_Kinds;
+               Ass : constant Asis.Association := Enclosing_Element (Element);
+            begin
+               if Association_Kind (Ass) = A_Pragma_Argument_Association then
+                  Utils.Normalize_Pragma_Argument (Element);
+               end if;
+            end;
          when others =>
             null;
       end case;

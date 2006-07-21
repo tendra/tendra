@@ -4,7 +4,7 @@
 procedure B0000 is
    type Boolean is (False, True);
    procedure Report (Status : Boolean);
-   pragma Import (C, Report, "report");
+   pragma Import (C, Report, "Report");
 begin
    Report (True);
 end B0000;

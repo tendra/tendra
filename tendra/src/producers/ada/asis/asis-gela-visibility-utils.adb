@@ -14,9 +14,6 @@ with XASIS.Utils;
 
 package body Asis.Gela.Visibility.Utils is
 
-   function Get_Place
-     (Point : in Asis.Element) return Region_Item_Access;
-
    function Find_Body_Stub
      (Body_Decl : Asis.Declaration;
       Subunit   : Asis.Declaration) return Asis.Declaration;

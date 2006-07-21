@@ -10,6 +10,14 @@ package Asis.Extensions is
    --  Expected Element_Kinds:
    --      An_Expression
 
+   function Unique_Name (Name : Asis.Defining_Name) return Asis.Program_Text;
+   --  Name - Defining name to query
+   --
+   --  Return name unique between all defining names.
+   --
+   --  Expected Element_Kinds:
+   --      A_Defining_Name
+
 end Asis.Extensions;
 
 

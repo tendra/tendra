@@ -93,6 +93,10 @@ package Asis.Gela.Visibility is
 
    type Region_Item_Access is private;
 
+   function Unique_Name (Name  : in Asis.Defining_Name) return Wide_String;
+   --  Return unique name of region where Name declared and unique name of
+   --  defining name in this region
+
 private
 
    type Region_Node;

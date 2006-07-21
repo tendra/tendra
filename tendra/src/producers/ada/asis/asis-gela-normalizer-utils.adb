@@ -1,4 +1,6 @@
 with XASIS.Utils;
+with XASIS.Pragmas;
+with Asis.Elements;
 with Asis.Gela.Lists;
 with Asis.Gela.Errors;
 with Asis.Gela.Replace;
@@ -14,7 +16,6 @@ with Asis.Gela.Elements.Def_Names;
 with Asis.Gela.Elements.Defs.Types;
 with Asis.Gela.Elements.Defs.Formal;
 with Ada.Characters.Handling;
-
 
 package body Asis.Gela.Normalizer.Utils is
 
@@ -615,6 +616,33 @@ package body Asis.Gela.Normalizer.Utils is
          Index := Index + 1;
       end loop;
    end Normalize_Component_List;
+
+   -------------------------------
+   -- Normalize_Pragma_Argument --
+   -------------------------------
+
+   procedure Normalize_Pragma_Argument (Element : in out Asis.Expression) is
+      use Asis.Elements;
+      use XASIS.Pragmas;
+
+      Parent     : constant Asis.Element := Enclosing_Element (Element);
+      The_Pragma : constant Asis.Pragma_Element := Enclosing_Element (Parent);
+   begin
+      case Pragma_Kind (The_Pragma) is
+         when An_Export_Pragma | An_Import_Pragma =>
+            if Is_Equal (Element, Parameter (The_Pragma, External_Name))
+              or Is_Equal (Element, Parameter (The_Pragma, Link_Name))
+            then
+               Replace.Operator_Symbol_To_String_Literal (Element);
+            end if;
+
+         when A_Linker_Options_Pragma =>
+            Replace.Operator_Symbol_To_String_Literal (Element);
+
+         when others =>
+            null;
+      end case;
+   end Normalize_Pragma_Argument;
 
    ------------------------------
    -- Normalize_Procedure_Call --

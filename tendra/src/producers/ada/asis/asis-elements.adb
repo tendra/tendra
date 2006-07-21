@@ -87,7 +87,7 @@ package body Asis.Elements is
    is
    begin
       Check_Nil_Unit (Compilation_Unit, "Compilation_Pragmas");
-      return Compilation_Pragmas (Compilation_Unit.all);
+      return Compilation_Pragmas (Compilation_Unit.all, True);
    end Compilation_Pragmas;
 
    ---------------------------
@@ -143,7 +143,7 @@ package body Asis.Elements is
    is
    begin
       Check_Nil_Element (Element, "Corresponding_Pragmas");
-      return Corresponding_Pragmas (Element.all);
+      return Corresponding_Pragmas (Element.all, True);
    end Corresponding_Pragmas;
 
    -----------------

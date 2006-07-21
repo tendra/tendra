@@ -1,5 +1,9 @@
+with XASIS.Pragmas;
+
 with Asis.Elements;
 with Asis.Iterator;
+with Asis.Extensions;
+with Asis.Expressions;
 
 package body Utils is
 
@@ -29,6 +33,37 @@ package body Utils is
          return Ada;
       end if;
    end Convention;
+
+   --------------------------
+   --  External_Name_Image --
+   --------------------------
+
+   function External_Name_Image
+     (Name : Asis.Defining_Name)
+     return Asis.Program_Text
+   is
+      use XASIS.Pragmas;
+
+      Pragmas : constant Asis.Pragma_Element_List :=
+        Find_Pragmas (Name, (Asis.An_Export_Pragma, Asis.An_Import_Pragma));
+      Image   : Asis.Expression;
+   begin
+      if Pragmas'Length > 0 then
+         Image := Parameter (Pragmas (Pragmas'First), External_Name);
+
+         if not Asis.Elements.Is_Nil (Image) then
+            declare
+               Result : constant Asis.Program_Text :=
+                 Asis.Expressions.Value_Image (Image);
+            begin
+               --  Dequote:
+               return Result (Result'First + 1 .. Result'Last - 1);
+            end;
+         end if;
+      end if;
+
+      return Asis.Extensions.Unique_Name (Name);
+   end External_Name_Image;
 
    ---------------------
    -- Has_Nested_Proc --

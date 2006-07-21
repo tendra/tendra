@@ -7,6 +7,7 @@ with TenDRA.Output;
 with TenDRA.Streams;
 
 with Token;
+with Utils;
 with Declaration;
 
 package body States is
@@ -244,27 +245,35 @@ package body States is
          end case;
       end Suffix;
 
+      function External_Image
+        (Decl : Asis.Declaration)
+        return Asis.Program_Text
+      is
+         Name : constant Asis.Defining_Name :=
+           XASIS.Utils.Declaration_Name (Decl);
+      begin
+         return Utils.External_Name_Image (Name);
+      end External_Image;
+
    begin
       case Link.Kind is
          when Tag | Proc_Tag | Name_Token =>
-            return To_String (XASIS.Utils.External_Name_Image (Link.Name))
+            return To_String (Utils.External_Name_Image (Link.Name))
                  & Suffix;
          when Shape_Token | Variety_Token | Type_Param_Token =>
             declare
                Decl : constant Asis.Declaration :=
                  XASIS.Classes.Get_Declaration (Link.Tipe);
             begin
-               return To_String (XASIS.Utils.External_Image (Decl))
+               return To_String (External_Image (Decl))
                  & Suffix;
             end;
          when Support_Token =>
             return Support_Kinds'Image (Link.Support);
          when Subtype_Attribute_Token =>
-            return To_String
-              (XASIS.Utils.External_Image (Link.Subtype_Name))
+            return To_String (External_Image (Link.Subtype_Name))
               & '.' & Asis.Attribute_Kinds'Image (Link.Attribute);
       end case;
-
    end External_Image;
 
    ----------

@@ -15,6 +15,10 @@ package Utils is
 
    function Out_By_Copy_Parameter (Param : Asis.Declaration) return Boolean;
 
+   function External_Name_Image
+     (Name : Asis.Defining_Name)
+     return Asis.Program_Text;
+
 end Utils;
 
 

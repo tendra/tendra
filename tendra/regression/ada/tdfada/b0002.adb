@@ -3,7 +3,7 @@
 
 procedure B0002 is
    procedure Report (Status : Boolean);
-   pragma Import (C, Report);
+   pragma Import (C, Report, "Report");
 
    X : Boolean;
    Y : Boolean;
