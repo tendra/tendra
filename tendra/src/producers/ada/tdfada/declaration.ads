@@ -1,5 +1,6 @@
 with Asis;
 with States;
+with XASIS.Classes;
 
 package Declaration is
 
@@ -10,6 +11,10 @@ package Declaration is
    procedure New_Tag
      (State : access States.State;
       Link  : in     States.Linkage_Access);
+
+   procedure Output_Shape
+     (State   : access States.State;
+      Tipe    : in     XASIS.Classes.Type_Info);
 
 end Declaration;
 

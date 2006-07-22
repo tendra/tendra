@@ -8,6 +8,7 @@ with Asis.Statements;
 with Asis.Expressions;
 
 with Expression;
+with XASIS.Utils;
 with XASIS.Classes;
 
 package body Statement is
@@ -166,8 +167,22 @@ package body Statement is
             Expression.Function_Call (State, Stmt, XASIS.Classes.Not_A_Type);
 
          when A_Return_Statement =>
-            Output.TDF (B, c_return);
-            Output.TDF (B, c_make_top);
+            declare
+               Decl   : Asis.Declaration :=
+                 XASIS.Utils.Parent_Declaration (Stmt);
+               Result : Asis.Expression :=
+                 XASIS.Utils.Get_Result_Profile (Decl);
+               Tipe   : XASIS.Classes.Type_Info;
+            begin
+               Output.TDF (B, c_return);
+
+               if Asis.Elements.Is_Nil (Result) then
+                  Output.TDF (B, c_make_top);
+               else
+                  Tipe := XASIS.Classes.Type_From_Subtype_Mark (Result);
+                  Expression.Compile (State, Return_Expression (Stmt), Tipe);
+               end if;
+            end;
 
 --        An_Accept_Statement
 --        An_Entry_Call_Statement

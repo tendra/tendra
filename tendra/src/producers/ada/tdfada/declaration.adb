@@ -85,9 +85,8 @@ package body Declaration is
 --       | A_Procedure_Declaration
 --       | A_Function_Declaration
 --       | A_Parameter_Specification
-         when A_Procedure_Body_Declaration =>
+         when A_Procedure_Body_Declaration | A_Function_Body_Declaration =>
             Subroutine (State, Decl);
---       | A_Function_Body_Declaration
          when A_Package_Declaration =>
             declare
                List : Element_List :=
@@ -326,6 +325,25 @@ package body Declaration is
       end if;
    end New_Tag;
 
+   ------------------
+   -- Output_Shape --
+   ------------------
+
+   procedure Output_Shape
+     (State   : access States.State;
+      Tipe    : in     XASIS.Classes.Type_Info)
+   is
+      B     : TenDRA.Streams.Memory_Stream
+        renames State.Units (TAGDEF).all;
+
+      Shape : Small := Find_Shape (State, Tipe);
+   begin
+      Output.TDF (B, c_shape_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Shape);
+      Output.BITSTREAM (B, Empty);
+   end Output_Shape;
+
    ---------------
    -- Parameter --
    ---------------
@@ -343,16 +361,12 @@ package body Declaration is
 
       List  : Asis.Defining_Name_List := Names (Element);
       Tipe  : Type_Info := Type_Of_Declaration (Element);
-      Shape : Small := Find_Shape (State, Tipe);
       Tag   : TenDRA.Small;
    begin
       for K in List'Range loop
          Tag := Find_Tag (State, List (K), Usage => False);
          Output.TDF (B, c_make_tagshacc);
-         Output.TDF (B, c_shape_apply_token);
-         Output.TDF (B, c_make_tok);
-         Output.TDFINT (B, Shape);
-         Output.BITSTREAM (B, Empty);
+         Output_Shape (State, Tipe);
 
          if Write then
             Output.TDF (B, c_out_par);
@@ -384,6 +398,7 @@ package body Declaration is
       Name   : Asis.Defining_Name := XASIS.Utils.Declaration_Name (Element);
       Tag    : TenDRA.Small := Find_Proc (State, Name, Usage => False);
       Param  : Asis.Declaration_List := Parameter_Profile (Element);
+      Result : Asis.Expression := XASIS.Utils.Get_Result_Profile (Element);
       Decl   : Asis.Declaration_List := Body_Declarative_Items (Element);
       Stmt   : Asis.Statement_List   := Body_Statements (Element);
       Copy   : array (Param'Range) of Boolean := (others => False);
@@ -404,7 +419,13 @@ package body Declaration is
       Output.TDFINT (B, Tag);
       Output.No_Option (B);  --  signature
       Output.TDF (B, c_make_general_proc);
-      Output.TDF (B, c_top);
+
+      if Asis.Elements.Is_Nil (Result) then
+         Output.TDF (B, c_top);
+      else
+         Output_Shape (State, Type_From_Subtype_Mark (Result));
+      end if;
+
       Output.No_Option (B);
       Output.List_Count (B, Caller);  --  caller_intro
 

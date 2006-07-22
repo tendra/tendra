@@ -1010,14 +1010,15 @@ package body Asis.Gela.Visibility is
       end Count_Siblings;
 
       function Region_Name (Reg : Region_Access) return Wide_String is
+         use XASIS.Utils;
+
          Parent  : constant Region_Access := Get_Parent (Reg);
       begin
          if Parent = null or Parent = Utils.Top_Region'Access then
             return "";
          elsif Element_Kind (Reg.First_Part.Element) = A_Declaration then
-            return Region_Name (Parent)
-              & XASIS.Utils.Declaration_Direct_Name (Reg.First_Part.Element)
-              & '.';
+            return Unique_Name (Declaration_Name (Reg.First_Part.Element))
+              & ".";
          else
             declare
                Img : Wide_String := Positive'Wide_Image (Count_Siblings (Reg));
@@ -1028,10 +1029,10 @@ package body Asis.Gela.Visibility is
          end if;
       end Region_Name;
 
-      use XASIS.Utils;
-
       --  Go from completion to declaration
       function Declaration_Name return Asis.Defining_Name is
+         use XASIS.Utils;
+
          Comp : Asis.Declaration := Enclosing_Element (Name);
          Decl : Asis.Declaration;
       begin
@@ -1043,27 +1044,21 @@ package body Asis.Gela.Visibility is
          end if;
       end Declaration_Name;
 
-      Target   : Asis.Defining_Name := Declaration_Name;
-      Item     : Region_Item_Access := Utils.Get_Place (Target);
-      Reg      : Region_Access := Item.Part.Region;
+      Target   : constant Asis.Defining_Name := Declaration_Name;
+      Item     : constant Region_Item_Access := Utils.Get_Place (Target);
+      Point    : constant Visibility.Point := (Item => Item);
+      Reg      : constant Region_Access := Item.Part.Region;
       Reg_Name : constant Wide_String := Region_Name (Reg);
-      Count    : Natural := 0;
+      Result   : constant Asis.Defining_Name_List :=
+        Lookup_In_Region (Target, Point);
    begin
-      while Item /= null and then Item.Part.Region = Reg loop
-         if not Is_Completion (Enclosing_Element (Item.Defining_Name)) then
-            Count := Count + 1;
-         end if;
-
-         Item := Item.Prev;
-      end loop;
-
-      if Count = 1 then
+      if Result'Length = 1 then
          return Reg_Name & XASIS.Utils.Direct_Name (Target);
       else
          declare
-            Img : Wide_String := Positive'Wide_Image (Count);
+            Img : Wide_String := Positive'Wide_Image (Result'Length);
          begin
-            Img (1) := '-';
+            Img (1) := '$';
             return Reg_Name & XASIS.Utils.Direct_Name (Target) & Img;
          end;
       end if;

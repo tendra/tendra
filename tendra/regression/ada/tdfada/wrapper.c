@@ -6,7 +6,7 @@
 
 extern void Ada_Main();
 
-static int Result = 0;
+static int Result = 55;
 
 void Report (char status)
 {

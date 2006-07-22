@@ -16,6 +16,7 @@ with Asis.Expressions;
 with Token;
 with Utils;
 with Intrinsic;
+with Declaration;
 
 with Ada.Wide_Text_IO;
 
@@ -109,7 +110,15 @@ package body Expression is
       if Statement_Kind (Element) = A_Procedure_Call_Statement then
          Output.TDF (B, c_top);
       else
-         raise Error;
+         declare
+            use XASIS.Classes;
+
+            Result : constant Asis.Expression :=
+              XASIS.Utils.Get_Result_Profile (Callee);
+            Tipe   : constant Type_Info    := Type_From_Subtype_Mark (Result);
+         begin
+            Declaration.Output_Shape (State, Tipe);
+         end;
       end if;
 
       Output.No_Option (B);
@@ -136,7 +145,6 @@ package body Expression is
                Param : constant Asis.Declaration
                  := Enclosing_Element (Formal_Parameter (List (J)));
                Tipe  : Type_Info := Type_Of_Declaration (Param);
-               Shp   : TenDRA.Small := Find_Shape (State, Tipe);
             begin
                Output.TDF (B, c_make_otagexp);
                Output.TDF (B, c_make_tag);
@@ -144,10 +152,7 @@ package body Expression is
 
                if Mode_Kind (Param) = An_Out_Mode then
                   Output.TDF (B, c_make_value);
-                  Output.TDF (B, c_shape_apply_token);
-                  Output.TDF (B, c_make_tok);
-                  Output.TDFINT (B, Shp);
-                  Output.BITSTREAM (B, Empty);
+                  Declaration.Output_Shape (State, Tipe);
                else
                   Compile (State, Actual_Parameter (List (J)), Tipe);
                end if;
