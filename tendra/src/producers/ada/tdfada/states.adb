@@ -36,7 +36,7 @@ package body States is
    begin
       if Left.Kind = Right.Kind then
          case Left.Kind is
-            when Tag | Proc_Tag | Name_Token =>
+            when Tag | Proc_Tag | Name_Token | Value_Token =>
                return Is_Equal (Left.Name, Right.Name);
             when Shape_Token | Variety_Token | Type_Param_Token =>
                return XASIS.Classes.Is_Equal (Left.Tipe, Right.Tipe)
@@ -239,6 +239,7 @@ package body States is
          case Link.Kind is
             when Variety_Token => return ".V";
             when Name_Token    => return ".N";
+            when Value_Token   => return ".V";
             when Type_Param_Token =>
                return "." & Type_Param_Kinds'Image (Link.Param);
             when others        => return "";
@@ -257,7 +258,7 @@ package body States is
 
    begin
       case Link.Kind is
-         when Tag | Proc_Tag | Name_Token =>
+         when Tag | Proc_Tag | Name_Token | Value_Token =>
             return To_String (Utils.External_Name_Image (Link.Name))
                  & Suffix;
          when Shape_Token | Variety_Token | Type_Param_Token =>
@@ -300,6 +301,7 @@ package body States is
            | Variety_Token
            | Support_Token
            | Name_Token
+           | Value_Token
            | Subtype_Attribute_Token
            | Type_Param_Token
            =>
@@ -492,6 +494,22 @@ package body States is
       return Find (Object, Link, Unit);
    end Find_Support;
 
+   ----------------
+   -- Find_Value --
+   ----------------
+
+   function Find_Value
+     (Object : access State;
+      Name   : in     Asis.Defining_Name;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small
+   is
+      Link : Linkage (Value_Token);
+   begin
+      Link.Name := Name;
+      return Find (Object, Link, Unit, Usage);
+   end Find_Value;
+
    ------------------
    -- Find_Variety --
    ------------------
@@ -545,7 +563,7 @@ package body States is
    begin
       case Result.Kind is
          when Shape_Token | Variety_Token | Support_Token | Name_Token
-           | Subtype_Attribute_Token | Type_Param_Token =>
+           | Value_Token | Subtype_Attribute_Token | Type_Param_Token =>
             Standard.Token.New_Token (Object, Result);
          when Tag | Proc_Tag =>
             Declaration.New_Tag (Object, Result);

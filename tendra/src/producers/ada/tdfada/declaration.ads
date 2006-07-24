@@ -1,6 +1,7 @@
 with Asis;
 with States;
 with XASIS.Classes;
+with TenDRA.Streams;
 
 package Declaration is
 
@@ -14,7 +15,9 @@ package Declaration is
 
    procedure Output_Shape
      (State   : access States.State;
-      Tipe    : in     XASIS.Classes.Type_Info);
+      Tipe    : in     XASIS.Classes.Type_Info;
+      B       : in out TenDRA.Streams.Memory_Stream;
+      Unit    : in     States.Unit_Kinds := States.TAGDEF);
 
 end Declaration;
 

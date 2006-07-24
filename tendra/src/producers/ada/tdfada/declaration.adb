@@ -39,6 +39,10 @@ package body Declaration is
 
    procedure Make_Name_Token
      (State : access States.State;
+      Name  : in     Asis.Defining_Name);
+
+   procedure Make_Value_Token
+     (State : access States.State;
       Name  : in     Asis.Defining_Name;
       Tipe  : in     XASIS.Classes.Type_Info;
       Const : in     Boolean);
@@ -161,57 +165,24 @@ package body Declaration is
 
    procedure Make_Name_Token
      (State : access States.State;
-      Name  : in     Asis.Defining_Name;
-      Tipe  : in     XASIS.Classes.Type_Info;
-      Const : in     Boolean)
+      Name  : in     Asis.Defining_Name)
    is
       T    : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       D    : aliased Streams.Memory_Stream;
-      P    : aliased Streams.Memory_Stream;
       Tok  : TenDRA.Small := Find_Name (State, Name, TOKDEF, False);
-      Gen  : TenDRA.Small := Find_Support (State, Generic_Name, TOKDEF);
-      Shp  : TenDRA.Small := Find_Shape (State, Tipe, TOKDEF);
-      Addr : TenDRA.Small := State.Unit_Total (TOKDEF, States.Token);
       Tag  : TenDRA.Small := Find_Tag (State, Name, TOKDEF);
    begin
-      Inc (State.Unit_Total (TOKDEF, States.Token));
-
-      Token.Initialize (P, Generic_Name);
-
-      Output.TDF (P, c_nat_apply_token);  --  nat: addr
-      Output.TDF (P, c_make_tok);
-      Output.TDFINT (P, Addr);
-      Output.BITSTREAM (P, Empty);
-
-      Output.TDF (P, c_make_nat);         --  nat: const
-
-      if Const then
-         Output.TDFINT (P, 1);
-      else
-         Output.TDFINT (P, 0);
-      end if;
-
-      Output.TDF (P, c_make_tag);
-      Output.TDFINT (P, Tag);
-
-      Output.TDF (P, c_make_tok);
-      Output.TDFINT (P, Shp);
-
       Streams.Expect
         (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
                     (EXP_SORT, Singular, False)));
       Output.TDF (D, c_token_definition);
       Output.TDF (D, c_exp);
-      Output.List_Count (D, 1);
-      Output.TDF (D, c_make_tokformals);
-      Output.TDF (D, c_nat);
-      Output.TDFINT (D, Addr);
+      Output.List_Count (D, 0);
 
-      Output.TDF (D, c_exp_apply_token);
-      Output.TDF (D, c_make_tok);
-      Output.TDFINT (D, Gen);
-      Output.BITSTREAM (D, P);
+      Output.TDF (D, c_obtain_tag);
+      Output.TDF (D, c_make_tag);
+      Output.TDFINT (D, Tag);
 
       Inc (State.Length (TOKDEF));
       Output.TDF (T, c_make_tokdef);
@@ -219,6 +190,45 @@ package body Declaration is
       Output.No_Option (T);  --  signature
       Output.BITSTREAM (T, D);
    end Make_Name_Token;
+
+   ----------------------
+   -- Make_Value_Token --
+   ----------------------
+
+   procedure Make_Value_Token
+     (State : access States.State;
+      Name  : in     Asis.Defining_Name;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Const : in     Boolean)
+   is
+      T    : TenDRA.Streams.Memory_Stream
+        renames State.Units (TOKDEF).all;
+      D    : aliased Streams.Memory_Stream;
+      Tok  : TenDRA.Small := Find_Value (State, Name, TOKDEF, False);
+      Tag  : TenDRA.Small := Find_Tag (State, Name, TOKDEF);
+   begin
+      Streams.Expect
+        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
+                    (EXP_SORT, Singular, False)));
+      Output.TDF (D, c_token_definition);
+      Output.TDF (D, c_exp);
+      Output.List_Count (D, 0);
+
+      if not Const then
+         Output.TDF (D, c_contents);
+         Output_Shape (State, Tipe, D, TOKDEF);
+      end if;
+
+      Output.TDF (D, c_obtain_tag);
+      Output.TDF (D, c_make_tag);
+      Output.TDFINT (D, Tag);
+
+      Inc (State.Length (TOKDEF));
+      Output.TDF (T, c_make_tokdef);
+      Output.TDFINT (T, Tok);
+      Output.No_Option (T);  --  signature
+      Output.BITSTREAM (T, D);
+   end Make_Value_Token;
 
    -------------
    -- New_Tag --
@@ -331,12 +341,11 @@ package body Declaration is
 
    procedure Output_Shape
      (State   : access States.State;
-      Tipe    : in     XASIS.Classes.Type_Info)
+      Tipe    : in     XASIS.Classes.Type_Info;
+      B       : in out TenDRA.Streams.Memory_Stream;
+      Unit    : in     States.Unit_Kinds := States.TAGDEF)
    is
-      B     : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-
-      Shape : Small := Find_Shape (State, Tipe);
+      Shape : Small := Find_Shape (State, Tipe, Unit);
    begin
       Output.TDF (B, c_shape_apply_token);
       Output.TDF (B, c_make_tok);
@@ -366,7 +375,7 @@ package body Declaration is
       for K in List'Range loop
          Tag := Find_Tag (State, List (K), Usage => False);
          Output.TDF (B, c_make_tagshacc);
-         Output_Shape (State, Tipe);
+         Output_Shape (State, Tipe, B);
 
          if Write then
             Output.TDF (B, c_out_par);
@@ -377,7 +386,8 @@ package body Declaration is
 
          Output.TDF (B, c_make_tag);
          Output.TDFINT (B, Tag);
-         Make_Name_Token (State, List (K), Tipe, False);
+         Make_Name_Token (State, List (K));
+         Make_Value_Token (State, List (K), Tipe, False);
       end loop;
    end Parameter;
 
@@ -423,7 +433,7 @@ package body Declaration is
       if Asis.Elements.Is_Nil (Result) then
          Output.TDF (B, c_top);
       else
-         Output_Shape (State, Type_From_Subtype_Mark (Result));
+         Output_Shape (State, Type_From_Subtype_Mark (Result), B);
       end if;
 
       Output.No_Option (B);
@@ -571,7 +581,11 @@ package body Declaration is
             Expression.Compile (State, Init, Tipe);
          end if;
 
-         Make_Name_Token (State, List (J), Tipe, Const);
+         if not Const then
+            Make_Name_Token (State, List (J));
+         end if;
+
+         Make_Value_Token (State, List (J), Tipe, Const);
       end loop;
    end Variable;
 

@@ -134,7 +134,7 @@ package body Type_Definition is
       T     : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       Name  : Asis.Defining_Name := Declaration_Name (List (Index));
-      Tok   : Small := Find_Name (State, Name, TOKDEF, False);
+      Tok   : Small := Find_Value (State, Name, TOKDEF, False);
       Var   : Small := Find_Variety (State, Tipe, TOKDEF);
       Addr  : TenDRA.Small := State.Unit_Total (TOKDEF, States.Token);
    begin

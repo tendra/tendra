@@ -11,10 +11,6 @@ package Token is
      (Stream : in out TenDRA.Streams.Memory_Stream;
       Kind   : in     States.Support_Kinds);
 
-   procedure Initialize
-     (Stream : in out TenDRA.Streams.Memory_Stream;
-      Kind   : in     States.Linkage_Kinds);
-
 end Token;
 
 

@@ -117,7 +117,7 @@ package body Expression is
               XASIS.Utils.Get_Result_Profile (Callee);
             Tipe   : constant Type_Info    := Type_From_Subtype_Mark (Result);
          begin
-            Declaration.Output_Shape (State, Tipe);
+            Declaration.Output_Shape (State, Tipe, B);
          end;
       end if;
 
@@ -152,7 +152,7 @@ package body Expression is
 
                if Mode_Kind (Param) = An_Out_Mode then
                   Output.TDF (B, c_make_value);
-                  Declaration.Output_Shape (State, Tipe);
+                  Declaration.Output_Shape (State, Tipe, B);
                else
                   Compile (State, Actual_Parameter (List (J)), Tipe);
                end if;
@@ -236,22 +236,18 @@ package body Expression is
    is
       use States;
 
-      Tok    : TenDRA.Small := Find_Name (State, Name, Unit);
-      Params : aliased Streams.Memory_Stream;
+      Tok    : TenDRA.Small;
    begin
-      Token.Initialize (Params, Name_Token);
-      Output.TDF (Params, c_make_nat);
-
       if L_Value then
-         Output.TDFINT (Params, 1);
+         Tok := Find_Name (State, Name, Unit);
       else
-         Output.TDFINT (Params, 0);
+         Tok := Find_Value (State, Name, Unit);
       end if;
 
       Output.TDF (B, c_exp_apply_token);
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Tok);
-      Output.BITSTREAM (B, Params);
+      Output.BITSTREAM (B, Empty);
    end Apply_Defining_Name;
 
    ---------------------

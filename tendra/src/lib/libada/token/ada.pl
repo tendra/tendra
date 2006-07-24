@@ -10,6 +10,16 @@ Tokdef Character.UPPER =
 
   255;
 
+Tokdef Integer.LOWER =
+  [] SIGNED_NAT
+
+  -2147483648;
+
+Tokdef Integer.UPPER =
+  [] SIGNED_NAT
+
+  2147483647;
+
 
 Tokdef COMPARE_INTEGER_VALUE =
   [Test  : NTEST,
@@ -25,30 +35,11 @@ Tokdef BOOLEAN_JUMP =
 
   ?(Value != + Inv(Boolean.V) | Target);
 
-Tokdef BOOLEAN_VALUE =
-  [Target : LABEL,
-   Value  : EXP] EXP
-
-  ?{ Value; 1(Boolean.V) | :Target: 0(Boolean.V) };
-
-Tokdef GENERIC_NAME =
-  [Addr  : NAT,
-   Const : NAT,
-   Name  : TAG,
-   Type  : TOKEN [] SHAPE] EXP
-
-  EXP ? (+ Const(Boolean.V),
-    EXP ? (+ Addr(Boolean.V),
-             # "Can't get address of unaliased constant",
-             Name),
-    EXP ? (+ Addr(Boolean.V),
-             Name,
-             * (Type) Name));
 
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
-      BOOLEAN_VALUE,
-      GENERIC_NAME,
       Character.LOWER,
-      Character.UPPER)
+      Character.UPPER,
+      Integer.LOWER,
+      Integer.UPPER)
 

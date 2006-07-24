@@ -15,12 +15,11 @@ package States is
 
    type Linkage_Kinds is
      (Tag, Proc_Tag, Shape_Token, Variety_Token,
-      Name_Token, Support_Token, Type_Param_Token,
+      Name_Token, Value_Token, Support_Token, Type_Param_Token,
       Subtype_Attribute_Token);
 
    type Support_Kinds is
-     (Compare_Integer_Value, Boolean_Jump, Boolean_Value,
-      Generic_Name);
+     (Compare_Integer_Value, Boolean_Jump);
 
    type Type_Param_Kinds is
      (Lower, Upper);
@@ -42,7 +41,7 @@ package States is
       Extern    : Boolean;
 
       case Kind is
-         when Tag | Proc_Tag | Name_Token =>
+         when Tag | Proc_Tag | Name_Token | Value_Token =>
             Name    : Asis.Defining_Name;
          when Shape_Token | Variety_Token | Type_Param_Token =>
             Tipe    : XASIS.Classes.Type_Info;
@@ -159,6 +158,12 @@ package States is
       Usage  : in     Boolean := True) return TenDRA.Small;
 
    function Find_Name
+     (Object : access State;
+      Name   : in     Asis.Defining_Name;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small;
+
+   function Find_Value
      (Object : access State;
       Name   : in     Asis.Defining_Name;
       Unit   : in     Unit_Kinds := TAGDEF;

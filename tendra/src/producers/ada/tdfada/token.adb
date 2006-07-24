@@ -34,37 +34,6 @@ package body Token is
                             ((NAT_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (LABEL_SORT, Singular, False)));
-         when Boolean_Value =>
-            Streams.Expect (Stream, Dummy,
-                            ((LABEL_SORT, Singular, False),
-                             (EXP_SORT, Singular, False)));
-         when Generic_Name =>
-            Streams.Expect (Stream, Dummy,
-                            ((NAT_SORT, Singular, False),
-                             (NAT_SORT, Singular, False),
-                             (TAG_SORT, Singular, False),
-                             (TOKEN_SORT, Singular, False)));
-      end case;
-   end Initialize;
-
-   ----------------
-   -- Initialize --
-   ----------------
-
-   procedure Initialize
-     (Stream : in out TenDRA.Streams.Memory_Stream;
-      Kind   : in     States.Linkage_Kinds)
-   is
-      use States;
-      use TenDRA;
-      use TenDRA.Types;
-   begin
-      case Kind is
-         when Name_Token =>
-            Streams.Expect
-              (Stream, Dummy, (1 => (NAT_SORT, Singular, False)));
-         when others =>
-            raise Error;
       end case;
    end Initialize;
 
@@ -102,11 +71,8 @@ package body Token is
             end if;
          when Type_Param_Token =>
             Output.TDF (O, c_signed_nat);
-         when Name_Token =>
-            Output.TDF (O, c_token);
+         when Name_Token | Value_Token =>
             Output.TDF (O, c_exp);
-            Output.List_Count (O, 1);
-            Output.TDF (O, c_nat);
          when Support_Token =>
             case Link.Support is
                when Compare_Integer_Value =>
@@ -123,22 +89,6 @@ package body Token is
                   Output.TDF (O, c_nat);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_label);
-               when Boolean_Value =>
-                  Output.TDF (O, c_token);
-                  Output.TDF (O, c_exp);
-                  Output.List_Count (O, 2);
-                  Output.TDF (O, c_label);
-                  Output.TDF (O, c_exp);
-               when Generic_Name =>
-                  Output.TDF (O, c_token);
-                  Output.TDF (O, c_exp);
-                  Output.List_Count (O, 4);
-                  Output.TDF (O, c_nat);
-                  Output.TDF (O, c_nat);
-                  Output.TDF (O, c_tag);
-                  Output.TDF (O, c_token);
-                  Output.TDF (O, c_shape);
-                  Output.List_Count (O, 0);
             end case;
          when Subtype_Attribute_Token =>
             case Link.Attribute is
