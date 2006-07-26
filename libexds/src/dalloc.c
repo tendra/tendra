@@ -47,77 +47,6 @@ typedef struct DallocDataT {
 
 static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
 
-#ifdef __NeXT__
-
-#undef true
-#undef false
-#include <mach/mach.h>
-
-void *
-X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
-{
-	size_t real_size;
-	vm_address_t address;
-	DallocDataT *data;
-	ByteT *base;
-
-	assert(size != 0);
-	if (length == 0) {
-		return NULL;
-	}
-
-	real_size = (size * length) + dalloc_data_size;
-
-	if (vm_allocate(task_self(), &address, (vm_size_t) real_size, true)
-		!= KERN_SUCCESS) {
-
-		THROW(XX_dalloc_no_memory);
-		UNREACHED;
-	}
-
-	data        = (DallocDataT *) address;
-	base        = (ByteT *) address;
-	data->file  = file;
-	data->line  = line;
-	data->size  = real_size;
-	data->magic = DALLOC_MAGIC;
-
-	return base + dalloc_data_size;
-}
-
-void
-X__dalloc_deallocate(void *ptr, const char *file, unsigned line)
-{
-	ByteT *pointer;
-	DallocDataT *data;
-	vm_address_t address;
-	vm_size_t size;
-	kern_return_t result;
-
-	if (!ptr) {
-		return;
-	}
-
-	pointer = (ByteT *) ptr;
-	data    = (DallocDataT *) (pointer - dalloc_data_size);
-	address = (vm_address_t) data;
-	size    = data->size;
-
-	if (data->magic == 0) {
-		E_dalloc_multi_deallocate(ptr, file, line, data->file, data->line);
-		UNREACHED;
-	} else if (data->magic != DALLOC_MAGIC) {
-		E_dalloc_corrupt_block (ptr, file, line);
-		UNREACHED;
-	}
-
-	data->magic = 0;
-	result = vm_protect (task_self(), address, size, false, VM_PROT_NONE);
-	assert(result == KERN_SUCCESS);
-}
-
-#else
-
 void *
 X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
 {
@@ -172,8 +101,6 @@ X__dalloc_deallocate(void *ptr, const char *file, unsigned line)
 	data->magic = 0;
 	free(data);
 }
-
-#endif /* defined (__NeXT__) */
 
 #else
 
