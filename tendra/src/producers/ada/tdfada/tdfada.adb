@@ -1,3 +1,14 @@
+------------------------------------------------------------------------------
+--                             T D F   A d a                                --
+--         Ada compiler for TenDRA distribution format (TDF)                --
+--                     http://www.ten15.org/wiki/Ada                        --
+--                     - - - - - - - - - - - - - - -                        --
+--            Read copyright and license at the end of this file            --
+------------------------------------------------------------------------------
+--  $TenDRA$
+--  Purpose:
+--  Process command line options and initiate tree traversing
+
 with Ada.Exceptions;
 with Ada.Wide_Text_IO;
 with Ada.Command_Line;
