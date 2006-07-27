@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -110,28 +110,28 @@
 TYPE
 promote_type(TYPE t)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_integer_tag : {
-	    /* Retrieve the promotion of an integral type */
-	    INT_TYPE it = DEREF_itype (type_integer_rep (t));
-	    t = DEREF_type (itype_prom (it));
-	    break;
+		/* Retrieve the promotion of an integral type */
+		INT_TYPE it = DEREF_itype (type_integer_rep (t));
+		t = DEREF_type (itype_prom (it));
+		break;
 	}
 	case type_enumerate_tag : {
-	    /* Find the underlying type of an enumeration */
-	    ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
-	    t = DEREF_type (etype_rep (et));
-	    t = promote_type (t);
-	    break;
+		/* Find the underlying type of an enumeration */
+		ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
+		t = DEREF_type (etype_rep (et));
+		t = promote_type (t);
+		break;
 	}
 	case type_bitfield_tag : {
-	    /* Retrieve the promotion of a bitfield type */
-	    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-	    t = DEREF_type (itype_prom (it));
-	    break;
+		/* Retrieve the promotion of a bitfield type */
+		INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+		t = DEREF_type (itype_prom (it));
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -147,46 +147,46 @@ promote_type(TYPE t)
 TYPE
 arg_promote_type(TYPE t, ERROR *err)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag :
 	case type_bitfield_tag : {
-	    /* Promote integral types */
-	    t = promote_type (t);
-	    break;
+		/* Promote integral types */
+		t = promote_type (t);
+		break;
 	}
 	case type_floating_tag : {
-	    /* Retrieve the promotion of a floating point type */
-	    FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
-	    t = DEREF_type (ftype_arg_prom (ft));
-	    break;
+		/* Retrieve the promotion of a floating point type */
+		FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
+		t = DEREF_type (ftype_arg_prom (ft));
+		break;
 	}
 	case type_top_tag :
 	case type_bottom_tag : {
-	    /* Can't have 'void' arguments */
-	    add_error (err, ERR_basic_fund_void_exp (t));
-	    break;
+		/* Can't have 'void' arguments */
+		add_error (err, ERR_basic_fund_void_exp (t));
+		break;
 	}
 	case type_func_tag : {
-	    /* Apply function-to-pointer conversion */
-	    MAKE_type_ptr (cv_none, t, t);
-	    break;
+		/* Apply function-to-pointer conversion */
+		MAKE_type_ptr (cv_none, t, t);
+		break;
 	}
 	case type_array_tag : {
-	    /* Apply array-to-pointer conversion */
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    MAKE_type_ptr (cv_none, s, t);
-	    break;
+		/* Apply array-to-pointer conversion */
+		TYPE s = DEREF_type (type_array_sub (t));
+		MAKE_type_ptr (cv_none, s, t);
+		break;
 	}
 	case type_compound_tag : {
-	    /* Types with constructors are suspicious */
-	    if (pass_complex_type (t)) {
+		/* Types with constructors are suspicious */
+		if (pass_complex_type (t)) {
 			add_error (err, ERR_expr_call_struct (t));
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -200,12 +200,12 @@ arg_promote_type(TYPE t, ERROR *err)
 int
 is_arg_promote(TYPE t)
 {
-    int eq = 1;
-    if (!IS_NULL_type (t)) {
+	int eq = 1;
+	if (!IS_NULL_type (t)) {
 		t = expand_type (t, 1);
 		switch (TAG_type (t)) {
-	    case type_integer_tag :
-	    case type_floating_tag : {
+		case type_integer_tag :
+		case type_floating_tag : {
 			TYPE s = arg_promote_type (t, KILL_err);
 			if (!EQ_type (s, t)) {
 				int ft = force_tokdef;
@@ -214,10 +214,10 @@ is_arg_promote(TYPE t)
 				force_tokdef = ft;
 			}
 			break;
-	    }
 		}
-    }
-    return (eq);
+		}
+	}
+	return (eq);
 }
 
 
@@ -231,23 +231,23 @@ is_arg_promote(TYPE t)
 TYPE
 unpromote_type(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
-	    case type_integer_tag : {
+		case type_integer_tag : {
 			INT_TYPE it = DEREF_itype (type_integer_rep (t));
 			INT_TYPE is = DEREF_itype (type_integer_sem (t));
 			if (!EQ_itype (is, it)) t = make_itype (is, is);
 			break;
-	    }
-	    case type_floating_tag : {
+		}
+		case type_floating_tag : {
 			FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
 			FLOAT_TYPE fs = DEREF_ftype (type_floating_sem (t));
 			if (!EQ_ftype (fs, ft)) t = make_ftype (fs, fs);
 			break;
-	    }
 		}
-    }
-    return (t);
+		}
+	}
+	return (t);
 }
 
 
@@ -263,11 +263,11 @@ unpromote_type(TYPE t)
 TYPE
 arith_type(TYPE t, TYPE s, EXP a, EXP b)
 {
-    TYPE r;
-    if (EQ_type (t, s)) {
+	TYPE r;
+	if (EQ_type (t, s)) {
 		/* Equal types, promote the result */
 		r = promote_type (t);
-    } else {
+	} else {
 		unsigned nt = TAG_type (t);
 		unsigned ns = TAG_type (s);
 		if (nt == type_floating_tag) {
@@ -293,8 +293,8 @@ arith_type(TYPE t, TYPE s, EXP a, EXP b)
 				}
 			}
 		}
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -333,19 +333,19 @@ static CV_SPEC qualifier_diff = cv_none;
 unsigned
 check_qualifier(TYPE t, TYPE s, int safe)
 {
-    int j = 0;
-    int all_const = 1;
-    unsigned res = QUAL_EQUAL;
-    t = expand_type (t, 1);
-    s = expand_type (s, 1);
-    qualifier_depth = 0;
-    qualifier_diff = cv_none;
-    while (!EQ_type (t, s)) {
-        unsigned nt = TAG_type (t);
-        unsigned ns = TAG_type (s);
+	int j = 0;
+	int all_const = 1;
+	unsigned res = QUAL_EQUAL;
+	t = expand_type (t, 1);
+	s = expand_type (s, 1);
+	qualifier_depth = 0;
+	qualifier_diff = cv_none;
+	while (!EQ_type (t, s)) {
+		unsigned nt = TAG_type (t);
+		unsigned ns = TAG_type (s);
 		CV_SPEC qt = DEREF_cv (type_qual (t));
 		CV_SPEC qs = DEREF_cv (type_qual (s));
-		
+
 		/* Check qualifiers */
 		if (j == 0) {
 			/* Don't bother with top level qualifiers */
@@ -369,12 +369,12 @@ check_qualifier(TYPE t, TYPE s, int safe)
 			}
 			if (!(qt & cv_const)) all_const = 0;
 		}
-		
+
 		/* Check next type */
 		switch (nt) {
-			
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Pointer types */
 			if (ns != nt) goto error_lab;
 #if LANGUAGE_C
@@ -383,10 +383,10 @@ check_qualifier(TYPE t, TYPE s, int safe)
 			t = DEREF_type (type_ptr_etc_sub (t));
 			s = DEREF_type (type_ptr_etc_sub (s));
 			break;
-	    }
-			
+		}
+
 #if LANGUAGE_CPP
-	    case type_ptr_mem_tag : {
+		case type_ptr_mem_tag : {
 			/* Pointer to member types */
 			CLASS_TYPE cs, ct;
 			if (ns != nt) goto error_lab;
@@ -410,10 +410,10 @@ check_qualifier(TYPE t, TYPE s, int safe)
 			t = DEREF_type (type_ptr_mem_sub (t));
 			s = DEREF_type (type_ptr_mem_sub (s));
 			break;
-	    }
+		}
 #endif
-			
-	    case type_func_tag : {
+
+		case type_func_tag : {
 			/* Function types */
 			int eq;
 			if (ns != nt) goto error_lab;
@@ -429,23 +429,23 @@ check_qualifier(TYPE t, TYPE s, int safe)
 				res &= ~(QUAL_EXACT | QUAL_SIMILAR);
 			}
 			return (res);
-	    }
-			
-	    case type_top_tag :
-	    case type_bottom_tag :
-	    case type_compound_tag : {
+		}
+
+		case type_top_tag :
+		case type_bottom_tag :
+		case type_compound_tag : {
 			/* Don't trust 'safe' in these cases */
 			if (ns == nt && eq_type_unqual (t, s)) return (res);
 			goto error_lab;
-	    }
-			
-	    default : {
+		}
+
+		default : {
 			/* Check other types */
 			if (safe) return (res);
 			if (ns == nt && eq_type_unqual (t, s)) return (res);
 			goto error_lab;
-	    }
-			
+		}
+
 			error_lab : {
 				/* Unequal types */
 #if LANGUAGE_C
@@ -471,8 +471,8 @@ check_qualifier(TYPE t, TYPE s, int safe)
 			}
 		}
 		j++;
-    }
-    return (res);
+	}
+	return (res);
 }
 
 
@@ -494,16 +494,16 @@ check_qualifier(TYPE t, TYPE s, int safe)
 TYPE
 ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 {
-    CV_SPEC qt, qs;
-    TYPE r = NULL_type;
-    unsigned tag = TAG_type (t);
-    TYPE pt = DEREF_type (type_ptr_etc_sub (t));
-    TYPE ps = DEREF_type (type_ptr_etc_sub (s));
-    unsigned nt = TAG_type (pt);
-    unsigned ns = TAG_type (ps);
-	
-    /* Find the common type */
-    if (nt == ns) {
+	CV_SPEC qt, qs;
+	TYPE r = NULL_type;
+	unsigned tag = TAG_type (t);
+	TYPE pt = DEREF_type (type_ptr_etc_sub (t));
+	TYPE ps = DEREF_type (type_ptr_etc_sub (s));
+	unsigned nt = TAG_type (pt);
+	unsigned ns = TAG_type (ps);
+
+	/* Find the common type */
+	if (nt == ns) {
 		if (eq_type_unqual (pt, ps)) {
 			/* Pointers to the same type */
 			r = pt;
@@ -520,22 +520,22 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 				r = ps;
 			}
 		}
-    } else if (nt == type_top_tag || nt == type_bottom_tag) {
+	} else if (nt == type_top_tag || nt == type_bottom_tag) {
 		/* One pointer is 'void *' */
 		*suspect = 1;
 		r = pt;
-    } else if (ns == type_top_tag || ns == type_bottom_tag) {
+	} else if (ns == type_top_tag || ns == type_bottom_tag) {
 		/* One pointer is 'void *' */
 		*suspect = 1;
 		r = ps;
-    }
+	}
 #if LANGUAGE_C
-    if (IS_NULL_type (r)) {
+	if (IS_NULL_type (r)) {
 		/* In C, compatible types are allowed */
 		r = type_composite (pt, ps, 1, 0, KILL_err, 1);
-    }
+	}
 #endif
-    if (IS_NULL_type (r)) {
+	if (IS_NULL_type (r)) {
 		/* Can't bring to common pointer type */
 		if (is_templ_type (t) || is_templ_type (s)) {
 			*suspect = -1;
@@ -547,18 +547,18 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 			return (NULL_type);
 		}
 		r = type_void;
-    }
-	
-    /* Qualify the common type appropriately */
-    qt = find_cv_qual (pt);
-    qs = find_cv_qual (ps);
-    r = qualify_type (r, (qt | qs), 0);
-	
-    /* Form the result type */
-    if (EQ_type (r, pt)) return (t);
-    if (EQ_type (r, ps)) return (s);
-    MAKE_type_ptr_etc (tag, cv_none, r, r);
-    return (r);
+	}
+
+	/* Qualify the common type appropriately */
+	qt = find_cv_qual (pt);
+	qs = find_cv_qual (ps);
+	r = qualify_type (r, (qt | qs), 0);
+
+	/* Form the result type */
+	if (EQ_type (r, pt)) return (t);
+	if (EQ_type (r, ps)) return (s);
+	MAKE_type_ptr_etc (tag, cv_none, r, r);
+	return (r);
 }
 
 
@@ -576,11 +576,11 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 TYPE
 ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 {
-    /* Check for base class conversions */
-    CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
-    CLASS_TYPE cs = DEREF_ctype (type_ptr_mem_of (s));
-    CLASS_TYPE cr = compare_base_class (ct, cs, 1);
-    if (!IS_NULL_ctype (cr)) {
+	/* Check for base class conversions */
+	CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
+	CLASS_TYPE cs = DEREF_ctype (type_ptr_mem_of (s));
+	CLASS_TYPE cr = compare_base_class (ct, cs, 1);
+	if (!IS_NULL_ctype (cr)) {
 		TYPE pr;
 		TYPE pt = DEREF_type (type_ptr_mem_sub (t));
 		TYPE ps = DEREF_type (type_ptr_mem_sub (s));
@@ -591,7 +591,7 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 			cr = ct;
 			pr = pt;
 		}
-		
+
 		/* Check that underlying types are the same */
 		if (eq_type_unqual (pt, ps)) {
 			/* Form the result type */
@@ -605,15 +605,15 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 			MAKE_type_ptr_mem (cv_none, cr, pr, pr);
 			return (pr);
 		}
-    }
-	
-    /* Can't bring to common pointer member type */
-    if (is_templ_type (t) || is_templ_type (s)) {
+	}
+
+	/* Can't bring to common pointer member type */
+	if (is_templ_type (t) || is_templ_type (s)) {
 		*suspect = -1;
-    } else {
+	} else {
 		*suspect = 2;
-    }
-    return (type_error);
+	}
+	return (type_error);
 }
 
 
@@ -632,30 +632,30 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 TYPE
 common_type(TYPE t, TYPE s, int *suspect)
 {
-    unsigned nt, ns;
-    TYPE r = NULL_type;
-    if (IS_NULL_type (t)) return (s);
-    if (IS_NULL_type (s)) return (t);
-    nt = TAG_type (t);
-    ns = TAG_type (s);
-    if (nt == ns) {
+	unsigned nt, ns;
+	TYPE r = NULL_type;
+	if (IS_NULL_type (t)) return (s);
+	if (IS_NULL_type (s)) return (t);
+	nt = TAG_type (t);
+	ns = TAG_type (s);
+	if (nt == ns) {
 		switch (nt) {
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Common pointer or reference type */
 			r = ptr_common_type (t, s, 1, suspect);
 			if (*suspect != 2) return (r);
 			r = NULL_type;
 			break;
-	    }
-	    case type_ptr_mem_tag : {
+		}
+		case type_ptr_mem_tag : {
 			/* Common pointer to member type */
 			r = ptr_mem_common_type (t, s, suspect);
 			if (*suspect != 2) return (r);
 			r = NULL_type;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other types */
 			if (eq_type_unqual (t, s)) {
 				CV_SPEC qt = find_cv_qual (t);
@@ -667,36 +667,36 @@ common_type(TYPE t, TYPE s, int *suspect)
 				return (t);
 			}
 			break;
-	    }
 		}
-    }
-    switch (nt) {
+		}
+	}
+	switch (nt) {
 	case type_integer_tag :
 	case type_enumerate_tag :
 	case type_bitfield_tag :
 	case type_floating_tag : {
-	    switch (ns) {
+		switch (ns) {
 		case type_integer_tag :
 		case type_enumerate_tag :
 		case type_bitfield_tag :
 		case type_floating_tag : {
-		    /* Common arithmetic type */
-		    r = arith_type (t, s, NULL_exp, NULL_exp);
-		    return (r);
+			/* Common arithmetic type */
+			r = arith_type (t, s, NULL_exp, NULL_exp);
+			return (r);
 		}
-	    }
+		}
 	}
-    }
+	}
 #if LANGUAGE_C
-    if (IS_NULL_type (r)) {
+	if (IS_NULL_type (r)) {
 		r = type_composite (t, s, 1, 0, KILL_err, 1);
 		if (!IS_NULL_type (r)) return (r);
-    }
+	}
 #endif
-    if (nt == type_error_tag) return (s);
-    if (ns == type_error_tag) return (t);
-    *suspect = 2;
-    return (r);
+	if (nt == type_error_tag) return (s);
+	if (ns == type_error_tag) return (t);
+	*suspect = 2;
+	return (r);
 }
 
 
@@ -711,14 +711,14 @@ common_type(TYPE t, TYPE s, int *suspect)
 EXP
 convert_promote(TYPE t, EXP e)
 {
-    if (IS_type_integer (t)) {
+	if (IS_type_integer (t)) {
 		TYPE s = DEREF_type (exp_type (e));
 		if (!EQ_type (t, s)) {
 			/* Perform non-trivial integral promotions */
 			e = cast_int_int (t, e, KILL_err, CAST_IMPLICIT, 0);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -733,8 +733,8 @@ convert_promote(TYPE t, EXP e)
 EXP
 convert_arith(TYPE t, EXP e, int op, int n)
 {
-    TYPE s = DEREF_type (exp_type (e));
-    if (!EQ_type (t, s)) {
+	TYPE s = DEREF_type (exp_type (e));
+	if (!EQ_type (t, s)) {
 		ERROR err = NULL_err;
 		if (IS_type_floating (t)) {
 			unsigned tag = TAG_type (s);
@@ -755,8 +755,8 @@ convert_arith(TYPE t, EXP e, int op, int n)
 			err = concat_error (err, ERR_expr_convert_op (m, op));
 			report (crt_loc, err);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -771,8 +771,8 @@ convert_arith(TYPE t, EXP e, int op, int n)
 EXP
 convert_ptr_common(TYPE t, EXP e, int op, int n)
 {
-    TYPE s = DEREF_type (exp_type (e));
-    if (!EQ_type (t, s)) {
+	TYPE s = DEREF_type (exp_type (e));
+	if (!EQ_type (t, s)) {
 		ERROR err = NULL_err;
 		e = cast_ptr_ptr (t, e, &err, CAST_IMPLICIT, 1, 1);
 		if (!IS_NULL_err (err)) {
@@ -780,8 +780,8 @@ convert_ptr_common(TYPE t, EXP e, int op, int n)
 			err = concat_error (err, ERR_expr_convert_op (m, op));
 			report (crt_loc, err);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -796,8 +796,8 @@ convert_ptr_common(TYPE t, EXP e, int op, int n)
 EXP
 convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 {
-    TYPE s = DEREF_type (exp_type (e));
-    if (!EQ_type (t, s)) {
+	TYPE s = DEREF_type (exp_type (e));
+	if (!EQ_type (t, s)) {
 		ERROR err = NULL_err;
 		e = cast_ptr_mem_ptr_mem (t, e, &err, CAST_IMPLICIT, 1, 1);
 		if (!IS_NULL_err (err)) {
@@ -805,8 +805,8 @@ convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 			err = concat_error (err, ERR_expr_convert_op (m, op));
 			report (crt_loc, err);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -823,7 +823,7 @@ convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 static void
 boolean_assign(EXP a, unsigned tag)
 {
-    if (tag != exp_paren_tag && !suppress_quality) {
+	if (tag != exp_paren_tag && !suppress_quality) {
 		if (IS_exp_assign (a)) {
 			report (crt_loc, ERR_conv_bool_assign ());
 		} else if (IS_exp_preinc (a)) {
@@ -832,8 +832,8 @@ boolean_assign(EXP a, unsigned tag)
 				report (crt_loc, ERR_conv_bool_assign ());
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -849,74 +849,74 @@ boolean_assign(EXP a, unsigned tag)
 EXP
 convert_boolean(EXP a, unsigned tag, ERROR *err)
 {
-    EXP e;
-    TYPE t = DEREF_type (exp_type (a));
-    switch (TAG_exp (a)) {
+	EXP e;
+	TYPE t = DEREF_type (exp_type (a));
+	switch (TAG_exp (a)) {
 	case exp_int_lit_tag : {
-	    /* Check for integer literals */
-	    e = make_test_nat (a);
-	    return (e);
+		/* Check for integer literals */
+		e = make_test_nat (a);
+		return (e);
 	}
 	case exp_float_lit_tag : {
-	    /* Check for floating-point literals */
-	    FLOAT f = DEREF_flt (exp_float_lit_flt (a));
-	    unsigned v = BOOL_VALUE (!is_zero_float (f));
-	    e = make_bool_exp (v, exp_float_lit_tag);
-	    return (e);
+		/* Check for floating-point literals */
+		FLOAT f = DEREF_flt (exp_float_lit_flt (a));
+		unsigned v = BOOL_VALUE (!is_zero_float (f));
+		e = make_bool_exp (v, exp_float_lit_tag);
+		return (e);
 	}
 	case exp_contents_tag : {
-	    /* Check for assignment in boolean */
-	    EXP b = DEREF_exp (exp_contents_ptr (a));
-	    switch (TAG_exp (b)) {
+		/* Check for assignment in boolean */
+		EXP b = DEREF_exp (exp_contents_ptr (a));
+		switch (TAG_exp (b)) {
 		case exp_assign_tag :
 		case exp_preinc_tag :
 		case exp_postinc_tag : {
-		    boolean_assign (b, tag);
-		    break;
+			boolean_assign (b, tag);
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case exp_assign_tag :
 	case exp_preinc_tag :
 	case exp_postinc_tag : {
-	    /* Check for assignment in boolean */
-	    boolean_assign (a, tag);
-	    break;
+		/* Check for assignment in boolean */
+		boolean_assign (a, tag);
+		break;
 	}
-    }
-	
-    /* Perform the conversion */
-    switch (TAG_type (t)) {
+	}
+
+	/* Perform the conversion */
+	switch (TAG_type (t)) {
 	case type_integer_tag : {
-	    /* Integral types are allowed */
-	    if (check_int_type (t, btype_bool)) return (a);
-	    break;
+		/* Integral types are allowed */
+		if (check_int_type (t, btype_bool)) return (a);
+		break;
 	}
 	case type_bitfield_tag : {
-	    /* Convert bitfields to integers */
-	    a = convert_bitfield (a);
-	    break;
+		/* Convert bitfields to integers */
+		a = convert_bitfield (a);
+		break;
 	}
 	case type_enumerate_tag :
 	case type_floating_tag :
 	case type_ptr_tag :
 	case type_ptr_mem_tag : {
-	    /* These types are allowed */
-	    break;
+		/* These types are allowed */
+		break;
 	}
 	case type_error_tag : {
-	    /* Allow for error propagation */
-	    break;
+		/* Allow for error propagation */
+		break;
 	}
 	default : {
-	    /* These types are not allowed */
-	    add_error (err, ERR_conv_bool_cast (t));
-	    break;
+		/* These types are not allowed */
+		add_error (err, ERR_conv_bool_cast (t));
+		break;
 	}
-    }
-    MAKE_exp_test (type_bool, ntest_not_eq, a, e);
-    return (e);
+	}
+	MAKE_exp_test (type_bool, ntest_not_eq, a, e);
+	return (e);
 }
 
 
@@ -932,7 +932,7 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 static int
 is_overloaded(EXP e)
 {
-    if (!IS_NULL_exp (e) && IS_exp_identifier_etc (e)) {
+	if (!IS_NULL_exp (e) && IS_exp_identifier_etc (e)) {
 		IDENTIFIER id = DEREF_id (exp_identifier_etc_id (e));
 		if (IS_id_function_etc (id)) {
 			QUALIFIER q = DEREF_qual (exp_identifier_etc_qual (e));
@@ -948,8 +948,8 @@ is_overloaded(EXP e)
 				use_id (id, suppress_usage);
 			}
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -964,14 +964,14 @@ is_overloaded(EXP e)
 TYPE
 convert_qual_type(TYPE t)
 {
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (qual && !(qual & cv_lvalue)) {
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (qual && !(qual & cv_lvalue)) {
 #if LANGUAGE_CPP
 		if (IS_type_compound (t)) return (t);
 #endif
 		t = qualify_type (t, cv_none, 0);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -979,18 +979,18 @@ convert_qual_type(TYPE t)
  *    EVALUATE A CONST VARIABLE
  *
  *    This routine evaluates the 'const' variable expression a, so that
- *    for example, if 'const int c = 5 ;' then 'c' is evaluated to '5'.
+ *    for example, if 'const int c = 5;' then 'c' is evaluated to '5'.
  */
 
 EXP
 convert_const(EXP a)
 {
 #if LANGUAGE_CPP
-    IDENTIFIER id = DEREF_id (exp_identifier_id (a));
-    EXP e = DEREF_exp (id_variable_etc_init (id));
-    if (!IS_NULL_exp (e)) {
+	IDENTIFIER id = DEREF_id (exp_identifier_id (a));
+	EXP e = DEREF_exp (id_variable_etc_init (id));
+	if (!IS_NULL_exp (e)) {
 		switch (TAG_exp (e)) {
-	    case exp_int_lit_tag : {
+		case exp_int_lit_tag : {
 			/* Propagate simple constants */
 			NAT n;
 			TYPE t;
@@ -998,8 +998,8 @@ convert_const(EXP a)
 			DECONS_exp_int_lit (t, n, tag, e);
 			MAKE_exp_int_lit (t, n, tag, e);
 			return (e);
-	    }
-	    case exp_null_tag : {
+		}
+		case exp_null_tag : {
 			/* Propagate null constants */
 			TYPE t;
 			int ptr_const;
@@ -1007,11 +1007,11 @@ convert_const(EXP a)
 			MAKE_exp_null (t, e);
 			COPY_int (exp_null_ptr_const (e), ptr_const);
 			return (e);
-	    }
 		}
-    }
+		}
+	}
 #endif
-    return (a);
+	return (a);
 }
 
 
@@ -1027,9 +1027,9 @@ convert_const(EXP a)
 EXP
 convert_array(EXP a, int str, ERROR *err)
 {
-    TYPE t = DEREF_type (exp_type (a));
-    TYPE s = DEREF_type (type_array_sub (t));
-    if (str && IS_exp_string_lit (a)) {
+	TYPE t = DEREF_type (exp_type (a));
+	TYPE s = DEREF_type (type_array_sub (t));
+	if (str && IS_exp_string_lit (a)) {
 		/* Remove const from string literals */
 		CV_SPEC cv = DEREF_cv (type_qual (s));
 		if (cv & cv_const) {
@@ -1037,7 +1037,7 @@ convert_array(EXP a, int str, ERROR *err)
 			s = qualify_type (s, cv, 0);
 			if (str == 2) add_error (err, ERR_conv_array_string ());
 		}
-    } else if (option (OPT_addr_register) && used_register) {
+	} else if (option (OPT_addr_register) && used_register) {
 		/* Can't apply to a register variable in C */
 		EXP b = NULL_exp;
 		DECL_SPEC ds = find_exp_linkage (a, &b, 1);
@@ -1047,10 +1047,10 @@ convert_array(EXP a, int str, ERROR *err)
 				add_error (err, ERR_expr_unary_op_ref_register (id));
 			}
 		}
-    }
-    MAKE_type_ptr (cv_none, s, t);
-    MAKE_exp_address (t, a, a);
-    return (a);
+	}
+	MAKE_type_ptr (cv_none, s, t);
+	MAKE_exp_address (t, a, a);
+	return (a);
 }
 
 
@@ -1067,20 +1067,20 @@ convert_array(EXP a, int str, ERROR *err)
 EXP
 convert_lvalue(EXP a)
 {
-    EXP e = a;
-    TYPE t = DEREF_type (exp_type (a));
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (qual & cv_lvalue) {
+	EXP e = a;
+	TYPE t = DEREF_type (exp_type (a));
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (qual & cv_lvalue) {
 		CV_SPEC cv = cv_none;
 		switch (TAG_type (t)) {
-	    case type_array_tag : {
+		case type_array_tag : {
 			/* Array-to-pointer conversion */
 			ERROR err = NULL_err;
 			e = convert_array (a, 0, &err);
 			if (!IS_NULL_err (err)) report (crt_loc, err);
 			break;
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			/* Function-to-pointer conversion */
 			if (is_overloaded (a)) {
 				e = make_error_exp (0);
@@ -1090,23 +1090,23 @@ convert_lvalue(EXP a)
 			MAKE_type_ptr (cv_none, t, t);
 			MAKE_exp_address (t, a, e);
 			break;
-	    }
+		}
 #if LANGUAGE_CPP
-	    case type_compound_tag : {
+		case type_compound_tag : {
 			/* Classes preserve qualifiers in lvalue conversion */
 			cv = (qual & cv_qual);
 			goto default_lab;
-	    }
+		}
 #endif
-	    case type_templ_tag : {
+		case type_templ_tag : {
 			/* Can't have template expressions */
 			if (!is_overloaded (a)) {
 				report (crt_loc, ERR_temp_local_not (t));
 			}
 			e = make_error_exp (0);
 			break;
-	    }
-	    default :
+		}
+		default :
 			default_lab : {
 				/* Lvalue-to-rvalue conversion */
 				ERROR err;
@@ -1127,23 +1127,23 @@ convert_lvalue(EXP a)
 				break;
 			}
 		}
-		
-    } else {
+
+	} else {
 		/* Check rvalues for overloaded functions */
 		switch (TAG_exp (e)) {
-	    case exp_address_tag : {
+		case exp_address_tag : {
 			/* Address of object or function */
 			EXP b = DEREF_exp (exp_address_arg (a));
 			if (is_overloaded (b)) e = make_error_exp (0);
 			break;
-	    }
-	    case exp_address_mem_tag : {
+		}
+		case exp_address_mem_tag : {
 			/* Address of member or member function */
 			EXP b = DEREF_exp (exp_address_mem_arg (a));
 			if (is_overloaded (b)) e = make_error_exp (0);
 			break;
-	    }
-	    case exp_token_tag : {
+		}
+		case exp_token_tag : {
 			/* Check for tokenised arrays */
 			if (IS_type_array (t)) {
 				ERROR err = NULL_err;
@@ -1151,10 +1151,10 @@ convert_lvalue(EXP a)
 				if (!IS_NULL_err (err)) report (crt_loc, err);
 			}
 			break;
-	    }
 		}
-    }
-    return (e);
+		}
+	}
+	return (e);
 }
 
 
@@ -1170,23 +1170,23 @@ convert_lvalue(EXP a)
 int
 is_ambiguous_func(IDENTIFIER id)
 {
-    switch (TAG_id (id)) {
+	switch (TAG_id (id)) {
 	case id_ambig_tag : {
-	    /* Deal with ambiguous identifiers */
-	    LIST (IDENTIFIER) p = DEREF_list (id_ambig_ids (id));
-	    while (!IS_NULL_list (p)) {
+		/* Deal with ambiguous identifiers */
+		LIST (IDENTIFIER) p = DEREF_list (id_ambig_ids (id));
+		while (!IS_NULL_list (p)) {
 			id = DEREF_id (HEAD_list (p));
 			if (!is_ambiguous_func (id)) return (0);
 			p = TAIL_list (p);
-	    }
-	    return (1);
+		}
+		return (1);
 	}
 	case id_function_tag : {
-	    /* These are functions */
-	    return (1);
+		/* These are functions */
+		return (1);
 	}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1204,27 +1204,27 @@ is_ambiguous_func(IDENTIFIER id)
 EXP
 convert_reference(EXP a, int context)
 {
-    /* Remove parentheses */
-    TYPE t;
-    unsigned etag = TAG_exp (a);
-    if (etag == exp_paren_tag) {
+	/* Remove parentheses */
+	TYPE t;
+	unsigned etag = TAG_exp (a);
+	if (etag == exp_paren_tag) {
 		do {
 			DESTROY_exp_paren (destroy, t, a, a);
 			etag = TAG_exp (a);
 		} while (etag == exp_paren_tag);
-    } else {
+	} else {
 		t = DEREF_type (exp_type (a));
-    }
-	
-    /* Apply extra checks */
-    switch (etag) {
-		
+	}
+
+	/* Apply extra checks */
+	switch (etag) {
+
 	case exp_member_tag : {
-	    /* Non-static data members and all function members */
-	    if (context == REF_ADDRESS) {
+		/* Non-static data members and all function members */
+		if (context == REF_ADDRESS) {
 			/* Suppress reference conversions */
 			t = type_error;
-	    } else {
+		} else {
 			IDENTIFIER id = DEREF_id (exp_member_id (a));
 			if (context == REF_NORMAL || IS_id_member (id)) {
 				EXP b = make_this_field (id);
@@ -1238,63 +1238,63 @@ convert_reference(EXP a, int context)
 				t = DEREF_type (exp_type (a));
 				etag = TAG_exp (a);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_ambiguous_tag : {
-	    /* Ambiguous identifiers */
-	    IDENTIFIER id = DEREF_id (exp_ambiguous_id (a));
-	    if (context == REF_NORMAL || !is_ambiguous_func (id)) {
+		/* Ambiguous identifiers */
+		IDENTIFIER id = DEREF_id (exp_ambiguous_id (a));
+		if (context == REF_NORMAL || !is_ambiguous_func (id)) {
 			/* Report ambiguous identifier */
 			IGNORE report_ambiguous (id, 0, 1, 0);
 			a = make_error_exp (0);
 			t = DEREF_type (exp_type (a));
-	    } else {
+		} else {
 			/* Allow ambiguous functions */
 			t = type_func_void;
 			t = lvalue_type (t);
 			COPY_type (exp_type (a), t);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_undeclared_tag : {
-	    /* Undeclared identifiers */
-	    if (context == REF_FUNCTION || context == REF_ADDRESS) {
+		/* Undeclared identifiers */
+		if (context == REF_FUNCTION || context == REF_ADDRESS) {
 			/* Deal with undeclared functions later */
 			t = type_func_void;
 			t = lvalue_type (t);
 			COPY_type (exp_type (a), t);
-	    } else {
+		} else {
 			/* Report undeclared identifiers */
 			IDENTIFIER id = DEREF_id (exp_undeclared_id (a));
 			crt_id_qualifier = DEREF_qual (exp_undeclared_qual (a));
 			a = implicit_id_exp (id, 0);
 			t = DEREF_type (exp_type (a));
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_address_tag : {
-	    /* Address of object */
-	    EXP b = DEREF_exp (exp_address_arg (a));
-	    unsigned btag = TAG_exp (b);
-	    if (btag == exp_ambiguous_tag) {
+		/* Address of object */
+		EXP b = DEREF_exp (exp_address_arg (a));
+		unsigned btag = TAG_exp (b);
+		if (btag == exp_ambiguous_tag) {
 			if (context != REF_FUNCTION && context != REF_ASSIGN) {
 				/* Ambiguous function */
 				b = convert_reference (b, REF_NORMAL);
 				a = make_ref_exp (b, 1);
 				t = DEREF_type (exp_type (a));
 			}
-	    } else if (btag == exp_undeclared_tag) {
+		} else if (btag == exp_undeclared_tag) {
 			if (context != REF_FUNCTION) {
 				/* Undeclared function */
 				b = convert_reference (b, REF_NORMAL);
 				a = make_ref_exp (b, 1);
 				t = DEREF_type (exp_type (a));
 			}
-	    } else if (btag == exp_call_tag) {
+		} else if (btag == exp_call_tag) {
 			if (context != REF_ASSIGN) {
 				b = DEREF_exp (exp_call_ptr (b));
 				if (IS_exp_member (b)) {
@@ -1306,10 +1306,10 @@ convert_reference(EXP a, int context)
 					t = DEREF_type (exp_type (a));
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case exp_call_tag :
 		call_lab : {
 			/* All member function calls */
@@ -1340,10 +1340,10 @@ convert_reference(EXP a, int context)
 			}
 			break;
 		}
-    }
-	
-    /* Check for reference conversions */
-    if (IS_type_ref (t)) {
+	}
+
+	/* Check for reference conversions */
+	if (IS_type_ref (t)) {
 		/* Reference to t becomes lvalue t */
 		if (etag == exp_indir_tag) {
 			/* Can't have two indirections in a row */
@@ -1352,8 +1352,8 @@ convert_reference(EXP a, int context)
 		t = DEREF_type (type_ref_sub (t));
 		/* Note that t is already an lvalue */
 		MAKE_exp_indir (t, a, a);
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -1369,12 +1369,12 @@ convert_reference(EXP a, int context)
 EXP
 convert_bitfield(EXP a)
 {
-    TYPE t = DEREF_type (exp_type (a));
-    if (IS_type_bitfield (t)) {
+	TYPE t = DEREF_type (exp_type (a));
+	if (IS_type_bitfield (t)) {
 		t = promote_type (t);
 		a = convert_promote (t, a);
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -1389,7 +1389,7 @@ convert_bitfield(EXP a)
 EXP
 convert_none(EXP a)
 {
-    if (!IS_NULL_exp (a)) {
+	if (!IS_NULL_exp (a)) {
 		ERROR err = NULL_err;
 		if (IS_exp_constr (a)) {
 			TYPE t = DEREF_type (exp_type (a));
@@ -1400,8 +1400,8 @@ convert_none(EXP a)
 			a = resolve_cast (type_void, a, &err, 1, 0, pids);
 		}
 		if (!IS_NULL_err (err)) report (crt_loc, err);
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -1430,41 +1430,41 @@ convert_none(EXP a)
 static unsigned
 overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 {
-    /* Check arguments */
-    TYPE fn;
-    int eq = 0;
-    CV_SPEC cv;
-    unsigned conv = CONV_EXACT;
-    unsigned tag = TAG_type (t);
-    if (tag == type_ptr_tag) {
+	/* Check arguments */
+	TYPE fn;
+	int eq = 0;
+	CV_SPEC cv;
+	unsigned conv = CONV_EXACT;
+	unsigned tag = TAG_type (t);
+	if (tag == type_ptr_tag) {
 		fn = DEREF_type (type_ptr_sub (t));
-    } else {
+	} else {
 		fn = DEREF_type (type_ptr_mem_sub (t));
-    }
-    if (!IS_type_func (fn)) return (CONV_NONE);
-    cv = DEREF_cv (type_qual (fn));
-    cv &= cv_qual;
-    if (cv != cv_none) conv = CONV_QUAL;
-    p->qual = cv;
-	
-    /* Check for matching overload function */
-    id = resolve_func (id, fn, 1, 0, NULL_list (IDENTIFIER), &eq);
-    if (!IS_NULL_id (id) && eq == 3) {
+	}
+	if (!IS_type_func (fn)) return (CONV_NONE);
+	cv = DEREF_cv (type_qual (fn));
+	cv &= cv_qual;
+	if (cv != cv_none) conv = CONV_QUAL;
+	p->qual = cv;
+
+	/* Check for matching overload function */
+	id = resolve_func (id, fn, 1, 0, NULL_list (IDENTIFIER), &eq);
+	if (!IS_NULL_id (id) && eq == 3) {
 		switch (TAG_id (id)) {
-	    case id_mem_func_tag : {
+		case id_mem_func_tag : {
 			/* A member function gives a pointer to member */
 			if (tag == type_ptr_mem_tag) return (conv);
 			break;
-	    }
-	    case id_function_tag :
-	    case id_stat_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_stat_mem_func_tag : {
 			/* Other functions give pointers */
 			if (tag == type_ptr_tag) return (conv);
 			break;
-	    }
 		}
-    }
-    return (CONV_NONE);
+		}
+	}
+	return (CONV_NONE);
 }
 
 
@@ -1484,13 +1484,13 @@ overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 static unsigned
 ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 {
-    unsigned conv;
-    TYPE t = DEREF_type (type_ref_sub (p->to));
-    TYPE s = p->from;
-    unsigned nt = TAG_type (t);
-    unsigned ns = TAG_type (s);
-    CV_SPEC qs = DEREF_cv (type_qual (s));
-    if (qs & cv_lvalue) {
+	unsigned conv;
+	TYPE t = DEREF_type (type_ref_sub (p->to));
+	TYPE s = p->from;
+	unsigned nt = TAG_type (t);
+	unsigned ns = TAG_type (s);
+	CV_SPEC qs = DEREF_cv (type_qual (s));
+	if (qs & cv_lvalue) {
 		CV_SPEC cv = cv_compare (t, s);
 		if (cv == cv_none) {
 			/* Qualifiers are alright */
@@ -1536,28 +1536,28 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 				}
 			}
 		}
-    }
-    if (bind == 0) {
+	}
+	if (bind == 0) {
 		/* Default - only const references allowed */
 		CV_SPEC qt = find_cv_qual (t);
 		if (qt != (cv_lvalue | cv_const)) return (CONV_NONE);
 		qs = find_cv_qual (s);
 		if (qs & cv_volatile) return (CONV_NONE);
-    } else if (bind == 1) {
+	} else if (bind == 1) {
 		/* No references allowed */
 		return (CONV_NONE);
-    } else {
+	} else {
 		/* All references allowed */
 		std = 1;
-    }
-    p->to = t;
-    p->from = s;
-    if (std) {
+	}
+	p->to = t;
+	p->from = s;
+	if (std) {
 		conv = std_convert_seq (p, e, bind, 1);
-    } else {
+	} else {
 		conv = convert_seq (p, e, bind, 1);
-    }
-    if (bind == 2) {
+	}
+	if (bind == 2) {
 		/* Base class conversions match exactly */
 		if (conv == CONV_BASE) {
 			if (p->qual == cv_none) {
@@ -1566,8 +1566,8 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 				conv = CONV_QUAL;
 			}
 		}
-    }
-    return (conv);
+	}
+	return (conv);
 }
 
 
@@ -1587,43 +1587,43 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 unsigned
 std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 {
-    CV_SPEC qs;
-    int str = 0;
-    unsigned etag;
-    TYPE t = p->to;
-    TYPE s = p->from;
-    unsigned nt, ns;
-    unsigned conv = CONV_NONE;
-	
-    /* Conversion to the null type counts as exact */
-    if (IS_NULL_type (t)) return (CONV_EXACT);
-	
-    /* Conversion from the error type counts as ellipsis */
-    ns = TAG_type (s);
-    if (ns == type_error_tag) return (CONV_ELLIPSIS);
-    qs = DEREF_cv (type_qual (s));
-	
-    /* Reference conversion */
-    if (ns == type_ref_tag) {
+	CV_SPEC qs;
+	int str = 0;
+	unsigned etag;
+	TYPE t = p->to;
+	TYPE s = p->from;
+	unsigned nt, ns;
+	unsigned conv = CONV_NONE;
+
+	/* Conversion to the null type counts as exact */
+	if (IS_NULL_type (t)) return (CONV_EXACT);
+
+	/* Conversion from the error type counts as ellipsis */
+	ns = TAG_type (s);
+	if (ns == type_error_tag) return (CONV_ELLIPSIS);
+	qs = DEREF_cv (type_qual (s));
+
+	/* Reference conversion */
+	if (ns == type_ref_tag) {
 		s = DEREF_type (type_ref_sub (s));
 		p->from = s;
 		ns = TAG_type (s);
 		if (ns == type_error_tag) return (CONV_ELLIPSIS);
 		qs = DEREF_cv (type_qual (s));
-    }
-	
-    /* Deal with conversions to reference types */
-    nt = TAG_type (t);
-    if (nt == type_ref_tag) {
+	}
+
+	/* Deal with conversions to reference types */
+	nt = TAG_type (t);
+	if (nt == type_ref_tag) {
 		conv = ref_convert_seq (p, e, bind, 1);
 		return (conv);
-    }
-	
-    /* Examine expression */
-    etag = (IS_NULL_exp (e) ? null_tag : TAG_exp (e));
-	
-    /* Lvalue transformations */
-    if (qs & cv_lvalue) {
+	}
+
+	/* Examine expression */
+	etag = (IS_NULL_exp (e) ? null_tag : TAG_exp (e));
+
+	/* Lvalue transformations */
+	if (qs & cv_lvalue) {
 		if (ns == type_func_tag) {
 			/* Function to pointer conversion */
 			if (etag != exp_member_tag) {
@@ -1651,11 +1651,11 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 				}
 			}
 		}
-    }
-	
-    /* Promotions and conversions */
-    switch (ns) {
-		
+	}
+
+	/* Promotions and conversions */
+	switch (ns) {
+
 	case type_integer_tag :
 	case type_enumerate_tag :
 		integral_lab : {
@@ -1686,17 +1686,17 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 			}
 			break;
 		}
-		
+
 	case type_bitfield_tag : {
-	    /* Ignore any bitfield qualifiers */
-	    s = find_bitfield_type (s);
-	    ns = TAG_type (s);
-	    goto integral_lab;
+		/* Ignore any bitfield qualifiers */
+		s = find_bitfield_type (s);
+		ns = TAG_type (s);
+		goto integral_lab;
 	}
-		
+
 	case type_floating_tag : {
-	    /* Floating point arguments */
-	    if (nt == type_floating_tag) {
+		/* Floating point arguments */
+		if (nt == type_floating_tag) {
 			if (eq_type_unqual (t, s)) {
 				/* Exact match */
 				conv = CONV_EXACT;
@@ -1710,13 +1710,13 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 					conv = CONV_FLT_FLT;
 				}
 			}
-	    } else if (nt == type_integer_tag) {
+		} else if (nt == type_integer_tag) {
 			/* Floating-integer conversions (subsumes booleans) */
 			conv = CONV_FLT_INT;
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_ptr_tag :
 		pointer_lab : {
 			/* Pointer arguments */
@@ -1780,7 +1780,7 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 							goto pointer_lab;
 						}
 					}
-					
+
 					/* Check for overloaded functions */
 					if (etag == exp_address_tag) {
 						e = DEREF_exp (exp_address_arg (e));
@@ -1802,11 +1802,11 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 			}
 			break;
 		}
-		
+
 #if LANGUAGE_CPP
 	case type_ptr_mem_tag : {
-	    /* Pointer to member arguments */
-	    if (nt == type_ptr_mem_tag) {
+		/* Pointer to member arguments */
+		if (nt == type_ptr_mem_tag) {
 			unsigned qual;
 			int ctype_match = 0;
 			CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
@@ -1857,12 +1857,12 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 					}
 				}
 			}
-	    } else if (nt == type_integer_tag) {
+		} else if (nt == type_integer_tag) {
 			if (check_int_type (t, btype_bool)) {
 				/* Boolean conversions */
 				conv = CONV_BOOL;
 			}
-	    } else if (nt == type_ptr_tag) {
+		} else if (nt == type_ptr_tag) {
 			if (etag == exp_address_mem_tag) {
 				/* Check overloaded functions */
 				IDENTIFIER id;
@@ -1870,14 +1870,14 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 				id = DEREF_id (exp_member_id (e));
 				conv = overload_convert_seq (t, id, p);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 #endif
-		
+
 	case type_compound_tag : {
-	    /* Class arguments */
-	    if (nt == type_compound_tag) {
+		/* Class arguments */
+		if (nt == type_compound_tag) {
 			CV_SPEC cv = cv_compare (t, s);
 			if (cv == cv_none || !ref) {
 				CLASS_TYPE ct, cs;
@@ -1902,28 +1902,28 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 					}
 				}
 			}
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_func_tag : {
-	    /* Address of overloaded static member function */
-	    if (nt == type_ptr_tag && etag == exp_member_tag) {
+		/* Address of overloaded static member function */
+		if (nt == type_ptr_tag && etag == exp_member_tag) {
 			IDENTIFIER id = DEREF_id (exp_member_id (e));
 			conv = overload_convert_seq (t, id, p);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_token_tag : {
-	    /* Exact conversion on tokenised type */
-	    if (nt == ns && eq_type_unqual (t, s)) {
+		/* Exact conversion on tokenised type */
+		if (nt == ns && eq_type_unqual (t, s)) {
 			conv = CONV_EXACT;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (conv);
+	}
+	return (conv);
 }
 
 
@@ -1939,31 +1939,31 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 unsigned
 convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 {
-    int match = 0;
-    unsigned conv;
-    TYPE t = p->to;
-    TYPE s = p->from;
-    unsigned nt, ns;
-    CONVERSION user, best;
-    best.rank = CONV_NONE;
-	
-    /* Conversion to the null type counts as exact */
-    if (IS_NULL_type (t)) return (CONV_EXACT);
-    nt = TAG_type (t);
-	
-    /* Conversion from the error type counts as ellipsis */
-    ns = TAG_type (s);
-    if (ns == type_error_tag) return (CONV_ELLIPSIS);
-	
-    /* Reference conversion */
-    if (ns == type_ref_tag) {
+	int match = 0;
+	unsigned conv;
+	TYPE t = p->to;
+	TYPE s = p->from;
+	unsigned nt, ns;
+	CONVERSION user, best;
+	best.rank = CONV_NONE;
+
+	/* Conversion to the null type counts as exact */
+	if (IS_NULL_type (t)) return (CONV_EXACT);
+	nt = TAG_type (t);
+
+	/* Conversion from the error type counts as ellipsis */
+	ns = TAG_type (s);
+	if (ns == type_error_tag) return (CONV_ELLIPSIS);
+
+	/* Reference conversion */
+	if (ns == type_ref_tag) {
 		s = DEREF_type (type_ref_sub (s));
 		ns = TAG_type (s);
 		if (ns == type_error_tag) return (CONV_ELLIPSIS);
-    }
-	
-    /* Conversion to class type */
-    if (nt == type_compound_tag && bind != 1) {
+	}
+
+	/* Conversion to class type */
+	if (nt == type_compound_tag && bind != 1) {
 		IDENTIFIER id;
 		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 		complete_class (ct, 1);
@@ -2017,10 +2017,10 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 				id = DEREF_id (id_function_etc_over (id));
 			}
 		}
-    }
-	
-    /* Conversion from class type */
-    if (ns == type_compound_tag && bind != 1) {
+	}
+
+	/* Conversion from class type */
+	if (ns == type_compound_tag && bind != 1) {
 		/* Check for user-defined conversions */
 		LIST (IDENTIFIER) convs;
 		CLASS_TYPE cs = DEREF_ctype (type_compound_defn (s));
@@ -2068,24 +2068,24 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 			}
 			convs = TAIL_list (convs);
 		}
-    }
-	
-    /* User-defined conversion sequences */
-    if (match) {
+	}
+
+	/* User-defined conversion sequences */
+	if (match) {
 		*p = best;
 		if (match == 1) return (CONV_USER);
 		return (CONV_USER_MULTI);
-    }
-	
-    /* Deal with conversions to reference types */
-    if (nt == type_ref_tag) {
+	}
+
+	/* Deal with conversions to reference types */
+	if (nt == type_ref_tag) {
 		conv = ref_convert_seq (p, e, bind, 0);
 		return (conv);
-    }
-	
-    /* Standard conversion sequences */
-    conv = std_convert_seq (p, e, bind, ref);
-    return (conv);
+	}
+
+	/* Standard conversion sequences */
+	conv = std_convert_seq (p, e, bind, ref);
+	return (conv);
 }
 
 
@@ -2100,21 +2100,21 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 static int
 base_compare_seq(GRAPH p, GRAPH q)
 {
-    CLASS_TYPE ct;
-    CLASS_TYPE pa, pb;
-    CLASS_TYPE qa, qb;
-	
-    /* Decompose p into pa > pb */
-    pb = DEREF_ctype (graph_head (p));
-    p = DEREF_graph (graph_top (p));
-    pa = DEREF_ctype (graph_head (p));
-	
-    /* Decompose q into qa > qb */
-    qb = DEREF_ctype (graph_head (q));
-    q = DEREF_graph (graph_top (q));
-    qa = DEREF_ctype (graph_head (q));
-	
-    if (eq_ctype (pa, qa)) {
+	CLASS_TYPE ct;
+	CLASS_TYPE pa, pb;
+	CLASS_TYPE qa, qb;
+
+	/* Decompose p into pa > pb */
+	pb = DEREF_ctype (graph_head (p));
+	p = DEREF_graph (graph_top (p));
+	pa = DEREF_ctype (graph_head (p));
+
+	/* Decompose q into qa > qb */
+	qb = DEREF_ctype (graph_head (q));
+	q = DEREF_graph (graph_top (q));
+	qa = DEREF_ctype (graph_head (q));
+
+	if (eq_ctype (pa, qa)) {
 		/* Graph tops are equal, pa = qa */
 		if (eq_ctype (pb, qb)) {
 			/* Graphs are equal */
@@ -2129,7 +2129,7 @@ base_compare_seq(GRAPH p, GRAPH q)
 			/* pa = qa > pb > qb */
 			return (1);
 		}
-    } else if (eq_ctype (pb, qb)) {
+	} else if (eq_ctype (pb, qb)) {
 		/* Graph bottoms are equal, pb = qb */
 		ct = compare_base_class (pa, qa, 0);
 		if (EQ_ctype (ct, pa)) {
@@ -2140,8 +2140,8 @@ base_compare_seq(GRAPH p, GRAPH q)
 			/* pa > qa > pb = qb */
 			return (2);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2159,9 +2159,9 @@ base_compare_seq(GRAPH p, GRAPH q)
 static int
 qual_compare_seq(CONVERSION *p, CONVERSION *q)
 {
-    CV_SPEC cp = p->qual;
-    CV_SPEC cq = q->qual;
-    if (cp == cv_multi || cq == cv_multi) {
+	CV_SPEC cp = p->qual;
+	CV_SPEC cq = q->qual;
+	if (cp == cv_multi || cq == cv_multi) {
 		/* Qualifiers at more than one level */
 		TYPE t;
 		unsigned cmp;
@@ -2186,15 +2186,15 @@ qual_compare_seq(CONVERSION *p, CONVERSION *q)
 		r.to = t;
 		cmp = std_convert_seq (&r, NULL_exp, 0, 0);
 		if (cmp != CONV_NONE) return (2);
-    } else {
+	} else {
 		/* Qualifiers at only one level */
 		CV_SPEC cr;
 		if (cp == cq) return (3);
 		cr = (cp | cq);
 		if (cr == cq) return (1);
 		if (cr == cp) return (2);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -2212,17 +2212,17 @@ qual_compare_seq(CONVERSION *p, CONVERSION *q)
 int
 compare_seq(CONVERSION *p1, CONVERSION *p2)
 {
-    /* Compare the ranks of the conversions */
-    int cmp = 0;
-    unsigned a1 = p1->rank;
-    unsigned a2 = p2->rank;
-    unsigned b1 = CONV_RANK (a1);
-    unsigned b2 = CONV_RANK (a2);
-    if (b1 > b2) return (1);
-    if (b1 < b2) return (2);
-	
-    /* Check user-defined conversions */
-    if (a1 == CONV_USER && a2 == CONV_USER) {
+	/* Compare the ranks of the conversions */
+	int cmp = 0;
+	unsigned a1 = p1->rank;
+	unsigned a2 = p2->rank;
+	unsigned b1 = CONV_RANK (a1);
+	unsigned b2 = CONV_RANK (a2);
+	if (b1 > b2) return (1);
+	if (b1 < b2) return (2);
+
+	/* Check user-defined conversions */
+	if (a1 == CONV_USER && a2 == CONV_USER) {
 		if (!EQ_id (p1->usr, p2->usr)) return (0);
 		a1 = p1->std;
 		a2 = p2->std;
@@ -2230,13 +2230,13 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 		b2 = CONV_RANK (a2);
 		if (b1 > b2) return (1);
 		if (b1 < b2) return (2);
-    }
-	
-    /* Compare standard conversions */
-    switch (a1) {
+	}
+
+	/* Compare standard conversions */
+	switch (a1) {
 	case CONV_PTR_BASE : {
-	    /* Pointer conversions */
-	    if (a2 == a1) {
+		/* Pointer conversions */
+		if (a2 == a1) {
 			/* Compare base pointer conversions */
 			GRAPH g1 = p1->base;
 			GRAPH g2 = p2->base;
@@ -2245,33 +2245,33 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 			} else {
 				cmp = base_compare_seq (g1, g2);
 			}
-	    } else if (a2 == CONV_PTR_VOID || a2 == CONV_PTR_BOTTOM) {
+		} else if (a2 == CONV_PTR_VOID || a2 == CONV_PTR_BOTTOM) {
 			/* Base pointer conversion is better than 'void *' */
 			cmp = 1;
-	    } else if (a2 == CONV_BOOL) {
+		} else if (a2 == CONV_BOOL) {
 			/* Base pointer conversion is better than 'bool' */
 			cmp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_PTR_VOID :
 	case CONV_PTR_BOTTOM : {
-	    /* Pointer to 'void *' conversions */
-	    if (a2 == CONV_PTR_VOID || a2 == CONV_PTR_BOTTOM) {
+		/* Pointer to 'void *' conversions */
+		if (a2 == CONV_PTR_VOID || a2 == CONV_PTR_BOTTOM) {
 			/* Compare pointer conversions */
 			cmp = qual_compare_seq (p1, p2);
-	    } else if (a2 == CONV_PTR_BASE) {
+		} else if (a2 == CONV_PTR_BASE) {
 			/* Base pointer conversion is better than 'void *' */
 			cmp = 2;
-	    } else if (a2 == CONV_BOOL) {
+		} else if (a2 == CONV_BOOL) {
 			/* Pointer conversion is better than 'bool' */
 			cmp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_PTR_MEM_BASE : {
-	    /* Pointer member conversions */
-	    if (a2 == a1) {
+		/* Pointer member conversions */
+		if (a2 == a1) {
 			/* Compare base pointer member conversions */
 			GRAPH g1 = p1->base;
 			GRAPH g2 = p2->base;
@@ -2297,15 +2297,15 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 					}
 				}
 			}
-	    } else if (a2 == CONV_BOOL) {
+		} else if (a2 == CONV_BOOL) {
 			/* Pointer conversion is better than 'bool' */
 			cmp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_BASE : {
-	    /* Base class conversions */
-	    if (a2 == a1) {
+		/* Base class conversions */
+		if (a2 == a1) {
 			/* Compare base class conversions */
 			GRAPH g1 = p1->base;
 			GRAPH g2 = p2->base;
@@ -2314,38 +2314,38 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 			} else {
 				cmp = base_compare_seq (g1, g2);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_BOOL : {
-	    /* Boolean conversions */
-	    if (a2 == CONV_PTR_BASE || a2 == CONV_PTR_MEM_BASE ||
+		/* Boolean conversions */
+		if (a2 == CONV_PTR_BASE || a2 == CONV_PTR_MEM_BASE ||
 			a2 == CONV_PTR_VOID || a2 == CONV_PTR_BOTTOM) {
 			/* Pointer conversion is better than 'bool' */
 			cmp = 2;
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_STRING : {
-	    /* String literal conversions */
-	    if (a2 == a1) {
+		/* String literal conversions */
+		if (a2 == a1) {
 			cmp = qual_compare_seq (p1, p2);
-	    } else if (a2 == CONV_QUAL) {
+		} else if (a2 == CONV_QUAL) {
 			/* Qualification conversion is better than string */
 			cmp = 2;
-	    }
-	    break;
+		}
+		break;
 	}
 	case CONV_QUAL : {
-	    /* Qualification conversions */
-	    if (a2 == a1) {
+		/* Qualification conversions */
+		if (a2 == a1) {
 			cmp = qual_compare_seq (p1, p2);
-	    } else if (a2 == CONV_STRING) {
+		} else if (a2 == CONV_STRING) {
 			/* Qualification conversion is better than string */
 			cmp = 1;
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-    return (cmp);
+	}
+	return (cmp);
 }

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -112,16 +112,16 @@
 static EXP
 cast_exact(TYPE t, EXP a)
 {
-    EXP e;
-    if (IS_exp_cast (a)) {
+	EXP e;
+	if (IS_exp_cast (a)) {
 		/* Exact casts are idempotent */
 		unsigned conv = DEREF_unsigned (exp_cast_conv (a));
 		if (conv == CONV_EXACT) {
 			a = DEREF_exp (exp_cast_arg (a));
 		}
-    }
-    MAKE_exp_cast (t, CONV_EXACT, a, e);
-    return (e);
+	}
+	MAKE_exp_cast (t, CONV_EXACT, a, e);
+	return (e);
 }
 
 
@@ -136,38 +136,38 @@ cast_exact(TYPE t, EXP a)
 static int
 rank_int_int(TYPE t, TYPE s)
 {
-    int ct = 100, cr = 100;
-    INT_TYPE is = DEREF_itype (type_integer_sem (s));
-    INT_TYPE it = DEREF_itype (type_integer_sem (t));
-    INT_TYPE ir = DEREF_itype (type_integer_rep (t));
-	
-    /* Find the semantic conversion */
-    if (!EQ_itype (it, ir)) {
+	int ct = 100, cr = 100;
+	INT_TYPE is = DEREF_itype (type_integer_sem (s));
+	INT_TYPE it = DEREF_itype (type_integer_sem (t));
+	INT_TYPE ir = DEREF_itype (type_integer_rep (t));
+
+	/* Find the semantic conversion */
+	if (!EQ_itype (it, ir)) {
 		if (eq_itype (it, is)) return (0);
 		if (IS_itype_basic (ir) && IS_itype_basic (is)) {
 			BUILTIN_TYPE bt = DEREF_ntype (itype_basic_no (it));
 			BUILTIN_TYPE bs = DEREF_ntype (itype_basic_no (is));
 			ct = builtin_cast (bs, bt);
 		}
-    }
-	
-    /* Find the representational conversion */
-    while (IS_itype_promote (ir)) {
+	}
+
+	/* Find the representational conversion */
+	while (IS_itype_promote (ir)) {
 		/* Allow for integer promotion conversions */
 		ir = DEREF_itype (itype_promote_arg (ir));
-    }
-    if (eq_itype (ir, is)) return (0);
-    if (IS_itype_basic (ir) && IS_itype_basic (is)) {
+	}
+	if (eq_itype (ir, is)) return (0);
+	if (IS_itype_basic (ir) && IS_itype_basic (is)) {
 		BUILTIN_TYPE br = DEREF_ntype (itype_basic_no (ir));
 		BUILTIN_TYPE bs = DEREF_ntype (itype_basic_no (is));
 		cr = builtin_cast (bs, br);
-    } else {
+	} else {
 		TYPE ps = promote_type (s);
 		if (eq_type (ps, t)) return (0);
-    }
-	
-    /* Return the better conversion */
-    return (cr < ct ? cr : ct);
+	}
+
+	/* Return the better conversion */
+	return (cr < ct ? cr : ct);
 }
 
 
@@ -181,14 +181,14 @@ rank_int_int(TYPE t, TYPE s)
 static int
 rank_float_float(TYPE t, TYPE s)
 {
-    int ct = 0;
-    FLOAT_TYPE fs = DEREF_ftype (type_floating_rep (s));
-    FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
-    while (IS_ftype_arg_promote (ft)) {
+	int ct = 0;
+	FLOAT_TYPE fs = DEREF_ftype (type_floating_rep (s));
+	FLOAT_TYPE ft = DEREF_ftype (type_floating_rep (t));
+	while (IS_ftype_arg_promote (ft)) {
 		/* Allow for floating promotion conversions */
 		ft = DEREF_ftype (ftype_arg_promote_arg (ft));
-    }
-    if (!eq_ftype (ft, fs)) {
+	}
+	if (!eq_ftype (ft, fs)) {
 		if (IS_ftype_basic (ft) && IS_ftype_basic (fs)) {
 			BUILTIN_TYPE nt = DEREF_ntype (ftype_basic_no (ft));
 			BUILTIN_TYPE ns = DEREF_ntype (ftype_basic_no (fs));
@@ -197,8 +197,8 @@ rank_float_float(TYPE t, TYPE s)
 			TYPE ps = promote_type (s);
 			if (eq_type (ps, t)) return (0);
 		}
-    }
-    return (ct);
+	}
+	return (ct);
 }
 
 
@@ -217,14 +217,14 @@ rank_float_float(TYPE t, TYPE s)
 EXP
 cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 {
-    EXP e;
-    int opt;
-    TYPE s = DEREF_type (exp_type (a));
-    unsigned nt = TAG_type (t);
-    unsigned ns = TAG_type (s);
-	
-    /* Don't force unnecessary token definitions */
-    if (force_tokdef) {
+	EXP e;
+	int opt;
+	TYPE s = DEREF_type (exp_type (a));
+	unsigned nt = TAG_type (t);
+	unsigned ns = TAG_type (s);
+
+	/* Don't force unnecessary token definitions */
+	if (force_tokdef) {
 		TYPE t0 = t;
 		TYPE s0 = s;
 		t = expand_type (t0, 1);
@@ -243,10 +243,10 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				ns = TAG_type (s);
 			}
 		}
-    }
-	
-    /* Deal with bitfields */
-    if (ns == type_bitfield_tag) {
+	}
+
+	/* Deal with bitfields */
+	if (ns == type_bitfield_tag) {
 		TYPE r = find_bitfield_type (s);
 		MAKE_exp_cast (r, CONV_BITFIELD, a, a);
 		/* NOT YET IMPLEMENTED: find rank */
@@ -256,8 +256,8 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 			MAKE_exp_cast (t, CONV_INT_INT, e, e);
 		}
 		return (e);
-    }
-    if (nt == type_bitfield_tag) {
+	}
+	if (nt == type_bitfield_tag) {
 		TYPE r = find_bitfield_type (t);
 		/* NOT YET IMPLEMENTED: find rank */
 		rank = 0;
@@ -267,10 +267,10 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 		}
 		MAKE_exp_cast (t, (CONV_BITFIELD | CONV_REVERSE), e, e);
 		return (e);
-    }
-	
-    /* Deal with identity casts */
-    if (nt == ns) {
+	}
+
+	/* Deal with identity casts */
+	if (nt == ns) {
 		if (EQ_type (t, s)) {
 			if (IS_exp_int_lit (a) && cast != CAST_IMPLICIT) {
 				NAT n = DEREF_nat (exp_int_lit_nat (a));
@@ -294,19 +294,19 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				return (e);
 			}
 		}
-    }
-	
-    /* Find error severity level */
-    if (cast == CAST_IMPLICIT) {
+	}
+
+	/* Find error severity level */
+	if (cast == CAST_IMPLICIT) {
 		opt = OPT_conv_int_int_impl;
-    } else if (cast & CAST_STATIC) {
+	} else if (cast & CAST_STATIC) {
 		opt = OPT_conv_int_int_expl;
-    } else {
+	} else {
 		opt = OPT_error;
-    }
-	
-    /* Can't cast implicitly to enumeration type */
-    if (nt == type_enumerate_tag) {
+	}
+
+	/* Can't cast implicitly to enumeration type */
+	if (nt == type_enumerate_tag) {
 		ERROR err2;
 #if LANGUAGE_C
 		if (IS_exp_int_lit (a)) {
@@ -333,7 +333,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    } else if (opt == OPT_error) {
+	} else if (opt == OPT_error) {
 		ERROR err2 = ERR_conv_integral_cast (s, t);
 		err2 = set_severity (err2, opt, 0);
 		if (!IS_NULL_err (err2)) {
@@ -341,16 +341,16 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 			if (!IS_NULL_exp (e)) return (e);
 		}
 		opt = OPT_none;
-    }
-	
-    /* Deal with integral constants */
-    if (IS_exp_int_lit (a)) {
+	}
+
+	/* Deal with integral constants */
+	if (IS_exp_int_lit (a)) {
 		e = make_cast_nat (t, a, err, cast);
 		return (e);
-    }
-	
-    /* Check integer to integer conversions */
-    if (rank != 0 && option (opt)) {
+	}
+
+	/* Check integer to integer conversions */
+	if (rank != 0 && option (opt)) {
 		if (nt == type_integer_tag && ns == type_integer_tag) {
 			if (rank < 0) rank = rank_int_int (t, s);
 			if (rank >= max_builtin_cast) {
@@ -362,11 +362,11 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				}
 			}
 		}
-    }
-	
-    /* Construct the result */
-    MAKE_exp_cast (t, CONV_INT_INT, a, e);
-    return (e);
+	}
+
+	/* Construct the result */
+	MAKE_exp_cast (t, CONV_INT_INT, a, e);
+	return (e);
 }
 
 
@@ -380,30 +380,30 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 EXP
 cast_int_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    EXP e;
-    int opt;
-    TYPE s = DEREF_type (exp_type (a));
-	
-    /* Find error severity level */
-    if (cast == CAST_IMPLICIT) {
+	EXP e;
+	int opt;
+	TYPE s = DEREF_type (exp_type (a));
+
+	/* Find error severity level */
+	if (cast == CAST_IMPLICIT) {
 		opt = OPT_conv_int_int_impl;
-    } else if (cast & CAST_STATIC) {
+	} else if (cast & CAST_STATIC) {
 		opt = OPT_conv_int_int_expl;
-    } else {
+	} else {
 		opt = OPT_error;
-    }
-    if (option (opt)) {
+	}
+	if (option (opt)) {
 		ERROR err2 = ERR_conv_fpint_float (s, t);
 		err2 = set_severity (err2, opt, 0);
 		if (!IS_NULL_err (err2)) {
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-	
-    /* Construct the result */
-    MAKE_exp_cast (t, CONV_INT_FLT, a, e);
-    return (e);
+	}
+
+	/* Construct the result */
+	MAKE_exp_cast (t, CONV_INT_FLT, a, e);
+	return (e);
 }
 
 
@@ -418,12 +418,12 @@ cast_int_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 static EXP
 cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    EXP e;
-    int opt;
-    TYPE s = DEREF_type (exp_type (a));
-	
-    /* Find error severity level */
-    if (cast == CAST_IMPLICIT) {
+	EXP e;
+	int opt;
+	TYPE s = DEREF_type (exp_type (a));
+
+	/* Find error severity level */
+	if (cast == CAST_IMPLICIT) {
 		opt = OPT_conv_int_int_impl;
 		if (IS_type_enumerate (t)) {
 			/* Can't have enumeration type */
@@ -431,25 +431,25 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 				opt = OPT_conv_int_enum;
 			}
 		}
-    } else if (cast & CAST_STATIC) {
+	} else if (cast & CAST_STATIC) {
 		opt = OPT_conv_int_int_expl;
-    } else {
+	} else {
 		opt = OPT_error;
-    }
-    if (option (opt)) {
+	}
+	if (option (opt)) {
 		ERROR err2 = ERR_conv_fpint_trunc (s, t);
 		err2 = set_severity (err2, opt, 0);
 		if (!IS_NULL_err (err2)) {
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-	
-    /* Construct the result */
-    MAKE_exp_cast (t, CONV_FLT_INT, a, e);
-	
-    /* Deal with floating point literals */
-    if (IS_exp_float_lit (a)) {
+	}
+
+	/* Construct the result */
+	MAKE_exp_cast (t, CONV_FLT_INT, a, e);
+
+	/* Deal with floating point literals */
+	if (IS_exp_float_lit (a)) {
 		FLOAT f = DEREF_flt (exp_float_lit_flt (a));
 		NAT n = round_float_lit (f, crt_round_mode);
 		if (!IS_NULL_nat (n)) {
@@ -458,8 +458,8 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 		}
 		MAKE_nat_calc (e, n);
 		MAKE_exp_int_lit (t, n, exp_cast_tag, e);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -473,34 +473,34 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 EXP
 cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    EXP e;
-    int opt;
-    TYPE s = DEREF_type (exp_type (a));
-	
-    /* Don't force unnecessary token definitions */
-    if (force_tokdef) {
+	EXP e;
+	int opt;
+	TYPE s = DEREF_type (exp_type (a));
+
+	/* Don't force unnecessary token definitions */
+	if (force_tokdef) {
 		TYPE t0 = t;
 		TYPE s0 = s;
 		t = expand_type (t0, 1);
 		s = expand_type (s0, 1);
 		if (!IS_type_floating (t)) t = t0;
 		if (!IS_type_floating (s)) s = s0;
-    }
-	
-    /* Deal with identity casts */
-    if (eq_type (t, s)) {
+	}
+
+	/* Deal with identity casts */
+	if (eq_type (t, s)) {
 		if (cast != CAST_REINTERP) return (a);
-    }
-	
-    /* Find error severity level */
-    if (cast == CAST_IMPLICIT) {
+	}
+
+	/* Find error severity level */
+	if (cast == CAST_IMPLICIT) {
 		opt = OPT_conv_int_int_impl;
-    } else if (cast & CAST_STATIC) {
+	} else if (cast & CAST_STATIC) {
 		opt = OPT_conv_int_int_expl;
-    } else {
+	} else {
 		opt = OPT_error;
-    }
-    if (option (opt)) {
+	}
+	if (option (opt)) {
 		int c = rank_float_float (t, s);
 		if (c >= max_builtin_cast || opt == OPT_error) {
 			ERROR err2 = ERR_conv_double_cast (s, t);
@@ -510,11 +510,11 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 				if (!IS_NULL_exp (e)) return (e);
 			}
 		}
-    }
-	
-    /* Construct the result */
-    MAKE_exp_cast (t, CONV_FLT_FLT, a, e);
-    return (e);
+	}
+
+	/* Construct the result */
+	MAKE_exp_cast (t, CONV_FLT_FLT, a, e);
+	return (e);
 }
 
 
@@ -529,18 +529,18 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 EXP
 cast_templ_type(TYPE t, EXP a, unsigned cast)
 {
-    EXP e;
-    int op;
-    switch (cast) {
-	case CAST_IMPLICIT : op = lex_implicit ; break;
-	case CAST_STATIC : op = lex_static_Hcast ; break;
-	case CAST_REINTERP : op = lex_reinterpret_Hcast ; break;
-	case CAST_CONST : op = lex_const_Hcast ; break;
-	default : op = lex_cast ; break;
-    }
-    t = rvalue_type (t);
-    MAKE_exp_op (t, op, a, NULL_exp, e);
-    return (e);
+	EXP e;
+	int op;
+	switch (cast) {
+	case CAST_IMPLICIT : op = lex_implicit; break;
+	case CAST_STATIC : op = lex_static_Hcast; break;
+	case CAST_REINTERP : op = lex_reinterpret_Hcast; break;
+	case CAST_CONST : op = lex_const_Hcast; break;
+	default : op = lex_cast; break;
+	}
+	t = rvalue_type (t);
+	MAKE_exp_op (t, op, a, NULL_exp, e);
+	return (e);
 }
 
 
@@ -555,7 +555,7 @@ cast_templ_type(TYPE t, EXP a, unsigned cast)
 void
 cast_away_const(unsigned qual, ERROR *err, unsigned cast)
 {
-    if (!(cast & CAST_CONST)) {
+	if (!(cast & CAST_CONST)) {
 		CV_SPEC cv = cv_none;
 		if (!(qual & QUAL_CONST)) cv |= cv_const;
 		if (!(qual & QUAL_VOLATILE)) cv |= cv_volatile;
@@ -566,8 +566,8 @@ cast_away_const(unsigned qual, ERROR *err, unsigned cast)
 		} else {
 			add_error (err, ERR_conv_qual_cast (cv));
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -585,16 +585,16 @@ cast_away_const(unsigned qual, ERROR *err, unsigned cast)
 EXP
 make_base_cast(TYPE t, EXP a, OFFSET off)
 {
-    EXP e;
-    if (is_zero_offset (off) || know_type (a) == 1) {
+	EXP e;
+	if (is_zero_offset (off) || know_type (a) == 1) {
 		MAKE_exp_add_ptr (t, a, off, 0, e);
-    } else {
+	} else {
 		TYPE s = DEREF_type (exp_type (a));
 		if (!IS_type_ptr (s)) s = t;
 		MAKE_exp_dummy (s, a, LINK_NONE, NULL_off, 1, a);
 		MAKE_exp_base_cast (t, CONV_PTR_BASE, a, off, e);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -614,50 +614,50 @@ make_base_cast(TYPE t, EXP a, OFFSET off)
 EXP
 cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 {
-    EXP e;
-    int opt;
-    unsigned qual;
-    OFFSET off = NULL_off;
-    unsigned conv = CONV_NONE;
-    TYPE s = DEREF_type (exp_type (a));
-    TYPE pt = DEREF_type (type_ptr_sub (t));
-    TYPE ps = DEREF_type (type_ptr_sub (s));
-    unsigned nt = TAG_type (pt);
-    unsigned ns = TAG_type (ps);
-	
-    /* Allow for tokenised types */
-    if (nt == type_token_tag) {
+	EXP e;
+	int opt;
+	unsigned qual;
+	OFFSET off = NULL_off;
+	unsigned conv = CONV_NONE;
+	TYPE s = DEREF_type (exp_type (a));
+	TYPE pt = DEREF_type (type_ptr_sub (t));
+	TYPE ps = DEREF_type (type_ptr_sub (s));
+	unsigned nt = TAG_type (pt);
+	unsigned ns = TAG_type (ps);
+
+	/* Allow for tokenised types */
+	if (nt == type_token_tag) {
 		t = expand_type (t, 1);
 		pt = DEREF_type (type_ptr_sub (t));
 		nt = TAG_type (pt);
-    }
-    if (ns == type_token_tag) {
+	}
+	if (ns == type_token_tag) {
 		s = expand_type (s, 1);
 		ps = DEREF_type (type_ptr_sub (s));
 		ns = TAG_type (ps);
-    }
-	
-    /* Check for qualifier conversions */
-    qual = check_qualifier (t, s, safe);
-    if (qual == QUAL_EQUAL) {
+	}
+
+	/* Check for qualifier conversions */
+	qual = check_qualifier (t, s, safe);
+	if (qual == QUAL_EQUAL) {
 		/* Allow for type equality */
 		if (cast != CAST_IMPLICIT) a = cast_exact (t, a);
 		return (a);
-    }
-    if (qual == QUAL_EQ_FUNC) {
+	}
+	if (qual == QUAL_EQ_FUNC) {
 		/* Allow for equality of function types */
 		if (!(cast & CAST_REINTERP) && !eq_except (ps, pt)) {
 			add_error (err, ERR_except_spec_assign ());
 		}
 		e = cast_exact (t, a);
 		return (e);
-    }
-    if (qual & QUAL_TEMPL) {
+	}
+	if (qual & QUAL_TEMPL) {
 		/* Conversion depends on template parameter */
 		e = cast_templ_type (t, a, cast);
 		return (e);
-    }
-    if (!(qual & QUAL_CONST)) {
+	}
+	if (!(qual & QUAL_CONST)) {
 		/* Check for string literal conversions */
 		if (IS_exp_address (a) && ns == type_integer_tag) {
 			EXP b = DEREF_exp (exp_address_arg (a));
@@ -670,25 +670,25 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				return (e);
 			}
 		}
-    }
-    if (!(qual & QUAL_VOLATILE) && used_extern_volatile) {
+	}
+	if (!(qual & QUAL_VOLATILE) && used_extern_volatile) {
 		/* Check for implicitly volatile external objects */
 		EXP pa = NULL_exp;
 		DECL_SPEC ds = find_exp_linkage (a, &pa, 1);
 		if (ds & dspec_implicit) qual |= QUAL_VOLATILE;
-    }
-	
-    /* Check conversion */
-    if (qual & QUAL_SIMILAR) {
+	}
+
+	/* Check conversion */
+	if (qual & QUAL_SIMILAR) {
 		/* Simple qualification conversions */
 		opt = OPT_none;
 		conv = CONV_QUAL;
-    } else {
+	} else {
 		/* Other pointer conversions */
 		ERROR ferr = NULL_err;
 		switch (nt) {
-	    case type_top_tag :
-	    case type_bottom_tag :
+		case type_top_tag :
+		case type_bottom_tag :
 			generic_lab : {
 				if (ns == type_func_tag) {
 					/* Conversion from 'function *' to 'void *' */
@@ -727,7 +727,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				}
 				break;
 			}
-	    case type_compound_tag : {
+		case type_compound_tag : {
 			if (cast == CAST_CONST || cast == CAST_REINTERP) {
 				goto default_lab;
 			}
@@ -786,8 +786,8 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				}
 			}
 			goto default_lab;
-	    }
-	    case type_func_tag : {
+		}
+		case type_func_tag : {
 			if (ns != type_func_tag) {
 				/* Conversion from 'object *' to 'function *' */
 				ERROR err2 = ERR_expr_cast_reint_func_ptr2 (s, t);
@@ -805,15 +805,15 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 			}
 			conv = CONV_FUNC;
 			break;
-	    }
-	    case type_integer_tag : {
+		}
+		case type_integer_tag : {
 			/* Check for generic pointers */
 			TYPE r = type_void_star;
 			r = type_composite (t, r, 1, 0, &ferr, 0);
 			if (!IS_NULL_type (r)) goto generic_lab;
 			goto default_lab;
-	    }
-	    default :
+		}
+		default :
 			default_lab : {
 				if (ns == type_func_tag) {
 					/* Conversion from 'function *' to 'object *' */
@@ -857,7 +857,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				break;
 			}
 		}
-		
+
 		/* Add generic pointer errors */
 		if (!IS_NULL_err (ferr)) {
 			if (opt == OPT_none) {
@@ -866,45 +866,45 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				add_error (err, ferr);
 			}
 		}
-		
+
 		/* Check for function linkage conversions */
 		if ((qual & QUAL_FUNC) && opt == OPT_conv_ptr_ptr_impl) {
 			opt = OPT_func_linkage;
 		}
-    }
-	
-    /* Report any conversion errors */
-    if (option (opt)) {
+	}
+
+	/* Report any conversion errors */
+	if (option (opt)) {
 		ERROR err2;
 		switch (opt) {
-	    case OPT_func_linkage : {
+		case OPT_func_linkage : {
 			err2 = ERR_dcl_link_conv ();
 			break;
-	    }
-	    case OPT_conv_ptr_ptr_expl :
-	    case OPT_conv_ptr_ptr_impl : {
+		}
+		case OPT_conv_ptr_ptr_expl :
+		case OPT_conv_ptr_ptr_impl : {
 			err2 = ERR_basic_link_incompat (ps, pt);
 			err2 = concat_error (err2, ERR_conv_ptr_incompat ());
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			err2 = ERR_conv_ptr_cast (s, t);
 			break;
-	    }
+		}
 		}
 		err2 = set_severity (err2, opt, 0);
 		if (!IS_NULL_err (err2)) {
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-    if (qual != QUAL_OK) cast_away_const (qual, err, cast);
-	
-    /* Construct the result */
-    if (IS_exp_null (a)) {
+	}
+	if (qual != QUAL_OK) cast_away_const (qual, err, cast);
+
+	/* Construct the result */
+	if (IS_exp_null (a)) {
 		/* Deal with null pointers */
 		e = make_null_exp (t);
-    } else if (conv == CONV_PTR_BASE) {
+	} else if (conv == CONV_PTR_BASE) {
 		/* Deal with base class conversions */
 		e = make_base_cast (t, a, off);
 		if (force) {
@@ -912,7 +912,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 			conv = (CONV_PTR_PTR | CONV_REVERSE);
 			MAKE_exp_cast (t, conv, e, e);
 		}
-    } else if (conv == (CONV_PTR_BASE | CONV_REVERSE)) {
+	} else if (conv == (CONV_PTR_BASE | CONV_REVERSE)) {
 		/* Deal with reverse base class conversions */
 		MAKE_exp_cast (t, CONV_PTR_PTR, a, a);
 		if (is_zero_offset (off)) {
@@ -926,7 +926,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				MAKE_exp_cast (t, conv, e, e);
 			}
 		}
-    } else {
+	} else {
 		if (conv == CONV_NONE) {
 			if (eq_type_offset (pt, ps)) {
 				conv = CONV_PTR_PTR_ALIGN;
@@ -935,8 +935,8 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 			}
 		}
 		MAKE_exp_cast (t, conv, a, e);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -950,19 +950,19 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 static EXP
 cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 {
-    EXP e;
-    int opt;
-    if (nptr && (cast == CAST_IMPLICIT || (cast & CAST_STATIC))) {
+	EXP e;
+	int opt;
+	if (nptr && (cast == CAST_IMPLICIT || (cast & CAST_STATIC))) {
 		/* Deal with null pointers */
 		EXP b = make_null_ptr (a, t);
 		if (!IS_NULL_exp (b)) return (b);
-    }
-    if (cast & CAST_REINTERP) {
+	}
+	if (cast & CAST_REINTERP) {
 		opt = OPT_conv_int_ptr_expl;
-    } else {
+	} else {
 		opt = OPT_conv_int_ptr_impl;
-    }
-    if (option (opt)) {
+	}
+	if (option (opt)) {
 		TYPE s = DEREF_type (exp_type (a));
 		ERROR err2 = ERR_conv_ptr_nonzero (s, t);
 		err2 = set_severity (err2, opt, 0);
@@ -970,9 +970,9 @@ cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-    MAKE_exp_cast (t, CONV_INT_PTR, a, e);
-    return (e);
+	}
+	MAKE_exp_cast (t, CONV_INT_PTR, a, e);
+	return (e);
 }
 
 
@@ -986,29 +986,29 @@ cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 static EXP
 cast_ptr_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    EXP e;
-    int opt;
-    if (IS_exp_null (a)) {
+	EXP e;
+	int opt;
+	if (IS_exp_null (a)) {
 		if (cast & CAST_STATIC) {
 			MAKE_exp_cast (t, CONV_NULL, a, e);
 			return (e);
 		}
-    }
-    if (cast & CAST_REINTERP) {
+	}
+	if (cast & CAST_REINTERP) {
 		opt = OPT_conv_int_ptr_expl;
-    } else {
+	} else {
 		opt = OPT_conv_int_ptr_impl;
-    }
-    if (option (opt)) {
+	}
+	if (option (opt)) {
 		TYPE s = DEREF_type (exp_type (a));
 		ERROR err2 = ERR_expr_cast_reint_ptr_int (s, t);
 		if (!IS_NULL_err (err2)) {
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-    MAKE_exp_cast (t, CONV_PTR_INT, a, e);
-    return (e);
+	}
+	MAKE_exp_cast (t, CONV_PTR_INT, a, e);
+	return (e);
 }
 
 
@@ -1023,12 +1023,12 @@ EXP
 cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					 int force)
 {
-    EXP e;
-    int ok = 2;
-    unsigned conv = CONV_EXACT;
-    TYPE s = DEREF_type (exp_type (a));
-	
-    if (cast != CAST_REINTERP) {
+	EXP e;
+	int ok = 2;
+	unsigned conv = CONV_EXACT;
+	TYPE s = DEREF_type (exp_type (a));
+
+	if (cast != CAST_REINTERP) {
 		/* Check for base class conversions */
 		OFFSET off = NULL_off;
 		CLASS_TYPE ct = DEREF_ctype (type_ptr_mem_of (t));
@@ -1092,7 +1092,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					ok = 0;
 				}
 			}
-			
+
 			if (ok == 0 && in_template_decl) {
 				/* Allow for template parameter types */
 				TYPE ft = DEREF_type (ctype_form (ct));
@@ -1103,7 +1103,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 				}
 			}
 		}
-		
+
 		/* Check for qualification conversions */
 		if (ok) {
 			unsigned qual;
@@ -1156,11 +1156,11 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 			}
 			ok = 0;
 		}
-    }
-	
-    /* Check for reinterpret conversions */
-    conv = CONV_NONE;
-    if (cast & CAST_REINTERP) {
+	}
+
+	/* Check for reinterpret conversions */
+	conv = CONV_NONE;
+	if (cast & CAST_REINTERP) {
 		unsigned nt = TAG_type (t);
 		unsigned ns = TAG_type (s);
 		if (nt == type_func_tag) {
@@ -1175,18 +1175,18 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 			}
 			conv = CONV_PTR_MEM_PTR_MEM;
 		}
-    }
-	
-    /* Invalid cast expression */
-    if (!ok) {
+	}
+
+	/* Invalid cast expression */
+	if (!ok) {
 		ERROR err2 = ERR_conv_mem_cast (s, t);
 		if (!IS_NULL_err (err2)) {
 			e = cast_token (t, a, err, err2, cast);
 			if (!IS_NULL_exp (e)) return (e);
 		}
-    }
-    MAKE_exp_cast (t, conv, a, e);
-    return (e);
+	}
+	MAKE_exp_cast (t, conv, a, e);
+	return (e);
 }
 
 
@@ -1200,22 +1200,22 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 static EXP
 cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 {
-    EXP e;
-    TYPE s;
-    ERROR err2;
-    if (nptr && (cast == CAST_IMPLICIT || (cast & CAST_STATIC))) {
+	EXP e;
+	TYPE s;
+	ERROR err2;
+	if (nptr && (cast == CAST_IMPLICIT || (cast & CAST_STATIC))) {
 		/* Deal with null pointers */
 		EXP b = make_null_ptr (a, t);
 		if (!IS_NULL_exp (b)) return (b);
-    }
-    s = DEREF_type (exp_type (a));
-    err2 = ERR_conv_mem_nonzero (s, t);
-    if (!IS_NULL_err (err2)) {
+	}
+	s = DEREF_type (exp_type (a));
+	err2 = ERR_conv_mem_nonzero (s, t);
+	if (!IS_NULL_err (err2)) {
 		e = cast_token (t, a, err, err2, cast);
 		if (!IS_NULL_exp (e)) return (e);
-    }
-    MAKE_exp_cast (t, CONV_NONE, a, e);
-    return (e);
+	}
+	MAKE_exp_cast (t, CONV_NONE, a, e);
+	return (e);
 }
 
 
@@ -1230,15 +1230,15 @@ cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 static EXP
 cast_ptr_mem_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    if (IS_exp_null (a)) {
+	if (IS_exp_null (a)) {
 		if (cast & CAST_STATIC) {
 			EXP e;
 			MAKE_exp_cast (t, CONV_NULL, a, e);
 			return (e);
 		}
-    }
-    UNUSED (err);
-    return (NULL_exp);
+	}
+	UNUSED (err);
+	return (NULL_exp);
 }
 
 
@@ -1254,10 +1254,10 @@ cast_ptr_mem_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 static EXP
 cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    TYPE s = DEREF_type (exp_type (a));
-    TYPE p = DEREF_type (type_ptr_mem_sub (s));
-    TYPE q = DEREF_type (type_ptr_sub (t));
-    if (IS_type_func (p) && IS_type_func (q)) {
+	TYPE s = DEREF_type (exp_type (a));
+	TYPE p = DEREF_type (type_ptr_mem_sub (s));
+	TYPE q = DEREF_type (type_ptr_sub (t));
+	if (IS_type_func (p) && IS_type_func (q)) {
 		if (cast & CAST_REINTERP) {
 			EXP e;
 			ERROR err2 = ERR_expr_cast_reint_mem_func (s, t);
@@ -1268,8 +1268,8 @@ cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 			MAKE_exp_cast (t, CONV_PTR_MEM_FUNC, a, e);
 			return (e);
 		}
-    }
-    return (NULL_exp);
+	}
+	return (NULL_exp);
 }
 
 
@@ -1284,13 +1284,13 @@ cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 EXP
 cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 {
-    EXP e = NULL_exp;
-    TYPE s = DEREF_type (exp_type (a));
-    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-    CLASS_TYPE cs = DEREF_ctype (type_compound_defn (s));
-    if (eq_ctype (cs, ct)) {
+	EXP e = NULL_exp;
+	TYPE s = DEREF_type (exp_type (a));
+	CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+	CLASS_TYPE cs = DEREF_ctype (type_compound_defn (s));
+	if (eq_ctype (cs, ct)) {
 		e = a;
-    } else {
+	} else {
 		GRAPH gr = find_base_class (cs, ct, 1);
 		if (!IS_NULL_graph (gr)) {
 			/* Allow for base class conversions */
@@ -1315,8 +1315,8 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 			t = lvalue_type (t);
 			MAKE_exp_indir (t, e, e);
 		}
-    }
-    if (!IS_NULL_exp (e)) {
+	}
+	if (!IS_NULL_exp (e)) {
 		if (ref) {
 			/* Check cv-qualifiers */
 			CV_SPEC cv = cv_compare (t, s);
@@ -1328,8 +1328,8 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 			/* Can't have explicit cast in C */
 			*err = concat_error (ERR_expr_cast_expl_scalar (t), *err);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1344,25 +1344,25 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 EXP
 cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
-    TYPE s;
-    CV_SPEC cv;
-    unsigned ns;
-    EXP e = NULL_exp;
-    int usr = LANGUAGE_CPP;
-    unsigned nt = TAG_type (t);
-	
-    /* Deal with tokenised types */
-    if (nt == type_token_tag) {
+	TYPE s;
+	CV_SPEC cv;
+	unsigned ns;
+	EXP e = NULL_exp;
+	int usr = LANGUAGE_CPP;
+	unsigned nt = TAG_type (t);
+
+	/* Deal with tokenised types */
+	if (nt == type_token_tag) {
 		if (is_templ_type (t)) {
 			e = cast_templ_type (t, a, cast);
 			return (e);
 		}
 		t = expand_type (t, 0);
 		nt = TAG_type (t);
-    }
-	
-    /* Deal with reference conversions */
-    if (nt == type_ref_tag) {
+	}
+
+	/* Deal with reference conversions */
+	if (nt == type_ref_tag) {
 		/* Transform 'cast <t&> (a)' to '*cast <t*> (&a)' */
 		ERROR err2 = NULL_err;
 		TYPE p = DEREF_type (type_ref_sub (t));
@@ -1372,7 +1372,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		}
 		p = rvalue_type (p);
 		MAKE_type_ptr (cv_none, p, p);
-		
+
 		/* Construct the result */
 		a = make_ref_object (a, &err2);
 		s = DEREF_type (exp_type (a));
@@ -1387,38 +1387,38 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		}
 		e = cast_exact (t, e);
 		return (e);
-    }
-	
-    /* Check user-defined conversion status */
-    if (cast & CAST_STANDARD) {
+	}
+
+	/* Check user-defined conversion status */
+	if (cast & CAST_STANDARD) {
 		cast &= ~CAST_STANDARD;
 		usr = 0;
-    }
-	
-    /* Deal with function overloading */
-    a = resolve_cast (t, a, err, 1, 0, NULL_list (IDENTIFIER));
-	
-    /* Deal with casting to void */
-    if (nt == type_top_tag || nt == type_bottom_tag) {
+	}
+
+	/* Deal with function overloading */
+	a = resolve_cast (t, a, err, 1, 0, NULL_list (IDENTIFIER));
+
+	/* Deal with casting to void */
+	if (nt == type_top_tag || nt == type_bottom_tag) {
 		if (cast & CAST_STATIC) {
 			a = make_discard_exp (a);
 			MAKE_exp_cast (t, CONV_ELLIPSIS, a, e);
 			return (e);
 		}
-    }
-	
-    /* Find the operand type */
-    s = DEREF_type (exp_type (a));
-    ns = TAG_type (s);
-	
-    /* Check for template types */
-    if (ns == type_token_tag && is_templ_type (s)) {
+	}
+
+	/* Find the operand type */
+	s = DEREF_type (exp_type (a));
+	ns = TAG_type (s);
+
+	/* Check for template types */
+	if (ns == type_token_tag && is_templ_type (s)) {
 		e = cast_templ_type (t, a, cast);
 		return (e);
-    }
-	
-    /* Deal with user-defined conversions */
-    if (usr) {
+	}
+
+	/* Deal with user-defined conversions */
+	if (usr) {
 		if (nt == type_compound_tag) {
 			if (cast == CAST_IMPLICIT || (cast & CAST_STATIC)) {
 				ERROR err2 = check_incomplete (t);
@@ -1447,11 +1447,11 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 				return (e);
 			}
 		}
-    }
-	
-    /* Check for function casts */
+	}
+
+	/* Check for function casts */
 #if LANGUAGE_CPP
-    if (nt == type_func_tag && ns == type_func_tag) {
+	if (nt == type_func_tag && ns == type_func_tag) {
 		if (cast & CAST_STATIC) {
 			if (eq_type (t, s)) {
 				add_error (err, ERR_expr_cast_stat_func (t));
@@ -1460,33 +1460,33 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 				return (e);
 			}
 		}
-    }
+	}
 #endif
-	
-    /* Do lvalue conversion on conversion */
-    a = convert_lvalue (a);
-    s = DEREF_type (exp_type (a));
-    ns = TAG_type (s);
-	
-    /* Deal with tokenised types */
-    if (ns == type_token_tag) {
+
+	/* Do lvalue conversion on conversion */
+	a = convert_lvalue (a);
+	s = DEREF_type (exp_type (a));
+	ns = TAG_type (s);
+
+	/* Deal with tokenised types */
+	if (ns == type_token_tag) {
 		s = expand_type (s, 0);
 		ns = TAG_type (s);
-    }
-	
-    /* Ignore any qualifiers for destination type */
-    cv = DEREF_cv (type_qual (t));
-    if (cv != cv_none) {
+	}
+
+	/* Ignore any qualifiers for destination type */
+	cv = DEREF_cv (type_qual (t));
+	if (cv != cv_none) {
 #if LANGUAGE_CPP
 		if (nt != type_compound_tag) cv = cv_none;
 		t = qualify_type (t, cv, 0);
 #else
 		t = qualify_type (t, cv_none, 0);
 #endif
-    }
-	
-    /* Deal with casting to bool */
-    if (nt == type_integer_tag && check_int_type (t, btype_bool)) {
+	}
+
+	/* Deal with casting to bool */
+	if (nt == type_integer_tag && check_int_type (t, btype_bool)) {
 		if (ns == type_compound_tag) {
 			/* User-defined conversions already handled */
 			/* EMPTY */
@@ -1498,10 +1498,10 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 			if (cast == CAST_CONST && eq_type (s, t)) return (a);
 			ns = null_tag;
 		}
-    }
-	
-    /* Check simple conversions */
-    switch (ns) {
+	}
+
+	/* Check simple conversions */
+	switch (ns) {
 	case type_integer_tag :
 	case type_enumerate_tag :
 		integer_label : {
@@ -1529,56 +1529,56 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 			break;
 		}
 	case type_bitfield_tag : {
-	    /* Conversion from bitfield */
-	    switch (nt) {
+		/* Conversion from bitfield */
+		switch (nt) {
 		case type_integer_tag :
 		case type_bitfield_tag :
 		case type_enumerate_tag : {
-		    e = cast_int_int (t, a, err, cast, -1);
-		    break;
+			e = cast_int_int (t, a, err, cast, -1);
+			break;
 		}
 		default : {
-		    TYPE r = find_bitfield_type (s);
-		    a = cast_int_int (r, a, err, cast, -1);
-		    goto integer_label;
+			TYPE r = find_bitfield_type (s);
+			a = cast_int_int (r, a, err, cast, -1);
+			goto integer_label;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_floating_tag : {
-	    /* Conversion from floating */
-	    switch (nt) {
+		/* Conversion from floating */
+		switch (nt) {
 		case type_integer_tag :
 		case type_enumerate_tag : {
-		    e = cast_float_int (t, a, err, cast);
-		    break;
+			e = cast_float_int (t, a, err, cast);
+			break;
 		}
 		case type_bitfield_tag : {
-		    TYPE r = find_bitfield_type (t);
-		    a = cast_float_int (r, a, err, cast);
-		    e = cast_int_int (t, a, err, cast, -1);
-		    break;
+			TYPE r = find_bitfield_type (t);
+			a = cast_float_int (r, a, err, cast);
+			e = cast_int_int (t, a, err, cast, -1);
+			break;
 		}
 		case type_floating_tag : {
-		    e = cast_float_float (t, a, err, cast);
-		    break;
+			e = cast_float_float (t, a, err, cast);
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_tag : {
-	    /* Conversion from pointer */
-	    switch (nt) {
+		/* Conversion from pointer */
+		switch (nt) {
 		case type_integer_tag :
 		case type_enumerate_tag : {
-		    e = cast_ptr_int (t, a, err, cast);
-		    break;
+			e = cast_ptr_int (t, a, err, cast);
+			break;
 		}
 		case type_bitfield_tag : {
-		    TYPE r = find_bitfield_type (t);
-		    a = cast_ptr_int (r, a, err, cast);
-		    e = cast_int_int (t, a, err, cast, -1);
-		    break;
+			TYPE r = find_bitfield_type (t);
+			a = cast_ptr_int (r, a, err, cast);
+			e = cast_int_int (t, a, err, cast, -1);
+			break;
 		}
 		case type_ptr_tag : {
 			if (is_npc_exp (a)) {
@@ -1586,45 +1586,45 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 			} else {
 				e = cast_ptr_ptr (t, a, err, cast, 0, 0);
 			}
-		    break;
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_mem_tag : {
-	    /* Conversion from pointer to member */
-	    switch (nt) {
+		/* Conversion from pointer to member */
+		switch (nt) {
 		case type_integer_tag :
 		case type_enumerate_tag : {
-		    e = cast_ptr_mem_int (t, a, err, cast);
-		    break;
+			e = cast_ptr_mem_int (t, a, err, cast);
+			break;
 		}
 		case type_bitfield_tag : {
-		    TYPE r = find_bitfield_type (t);
-		    e = cast_ptr_mem_int (r, a, err, cast);
-		    a = cast_int_int (t, a, err, cast, -1);
-		    break;
+			TYPE r = find_bitfield_type (t);
+			e = cast_ptr_mem_int (r, a, err, cast);
+			a = cast_int_int (t, a, err, cast, -1);
+			break;
 		}
 		case type_ptr_tag : {
-		    e = cast_ptr_mem_ptr (t, a, err, cast);
-		    break;
+			e = cast_ptr_mem_ptr (t, a, err, cast);
+			break;
 		}
 		case type_ptr_mem_tag : {
-		    e = cast_ptr_mem_ptr_mem (t, a, err, cast, 0, 0);
-		    break;
+			e = cast_ptr_mem_ptr_mem (t, a, err, cast, 0, 0);
+			break;
 		}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_compound_tag : {
-	    if (nt == type_compound_tag && !usr) {
+		if (nt == type_compound_tag && !usr) {
 			e = cast_class_class (t, a, err, cast, 0);
-	    }
-	    break;
+		}
+		break;
 	}
-    }
-	
-    if (IS_NULL_exp (e)) {
+	}
+
+	if (IS_NULL_exp (e)) {
 		if (cast != CAST_IMPLICIT) {
 			switch (nt) {
 			case type_func_tag :
@@ -1663,8 +1663,8 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 				MAKE_exp_cast (t, CONV_NONE, a, e);
 			}
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1678,18 +1678,18 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 EXP
 make_cast_exp(TYPE t, EXP a, int n)
 {
-    EXP e;
-    ERROR err = NULL_err;
-    unsigned conv = (unsigned) option_value (OPT_VAL_cast_explicit);
-    report (crt_loc, ERR_expr_cast_expl_used ());
-    if (n) report (crt_loc, ERR_expr_cast_expl_typedef ());
-    a = convert_reference (a, REF_ASSIGN);
-    e = cast_exp (t, a, &err, conv);
-    if (!IS_NULL_err (err)) {
+	EXP e;
+	ERROR err = NULL_err;
+	unsigned conv = (unsigned) option_value (OPT_VAL_cast_explicit);
+	report (crt_loc, ERR_expr_cast_expl_used ());
+	if (n) report (crt_loc, ERR_expr_cast_expl_typedef ());
+	a = convert_reference (a, REF_ASSIGN);
+	e = cast_exp (t, a, &err, conv);
+	if (!IS_NULL_err (err)) {
 		err = concat_warning (err, ERR_expr_cast_expl_bad ());
 		report (crt_loc, err);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1703,16 +1703,16 @@ make_cast_exp(TYPE t, EXP a, int n)
 EXP
 make_static_cast_exp(TYPE t, EXP a, int n)
 {
-    EXP e;
-    ERROR err = NULL_err;
-    if (n) report (crt_loc, ERR_expr_cast_stat_typedef ());
-    a = convert_reference (a, REF_ASSIGN);
-    e = cast_exp (t, a, &err, CAST_STATIC);
-    if (!IS_NULL_err (err)) {
+	EXP e;
+	ERROR err = NULL_err;
+	if (n) report (crt_loc, ERR_expr_cast_stat_typedef ());
+	a = convert_reference (a, REF_ASSIGN);
+	e = cast_exp (t, a, &err, CAST_STATIC);
+	if (!IS_NULL_err (err)) {
 		err = concat_warning (err, ERR_expr_cast_stat_bad ());
 		report (crt_loc, err);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1726,16 +1726,16 @@ make_static_cast_exp(TYPE t, EXP a, int n)
 EXP
 make_reinterp_cast_exp(TYPE t, EXP a, int n)
 {
-    EXP e;
-    ERROR err = NULL_err;
-    if (n) report (crt_loc, ERR_expr_cast_reint_typedef ());
-    a = convert_reference (a, REF_ASSIGN);
-    e = cast_exp (t, a, &err, CAST_REINTERP);
-    if (!IS_NULL_err (err)) {
+	EXP e;
+	ERROR err = NULL_err;
+	if (n) report (crt_loc, ERR_expr_cast_reint_typedef ());
+	a = convert_reference (a, REF_ASSIGN);
+	e = cast_exp (t, a, &err, CAST_REINTERP);
+	if (!IS_NULL_err (err)) {
 		err = concat_warning (err, ERR_expr_cast_reint_bad ());
 		report (crt_loc, err);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1749,16 +1749,16 @@ make_reinterp_cast_exp(TYPE t, EXP a, int n)
 EXP
 make_const_cast_exp(TYPE t, EXP a, int n)
 {
-    EXP e;
-    ERROR err = NULL_err;
-    if (n) report (crt_loc, ERR_expr_cast_const_typedef ());
-    a = convert_reference (a, REF_ASSIGN);
-    e = cast_exp (t, a, &err, CAST_CONST);
-    if (!IS_NULL_err (err)) {
+	EXP e;
+	ERROR err = NULL_err;
+	if (n) report (crt_loc, ERR_expr_cast_const_typedef ());
+	a = convert_reference (a, REF_ASSIGN);
+	e = cast_exp (t, a, &err, CAST_CONST);
+	if (!IS_NULL_err (err)) {
 		err = concat_warning (err, ERR_expr_cast_const_bad ());
 		report (crt_loc, err);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1774,30 +1774,30 @@ make_const_cast_exp(TYPE t, EXP a, int n)
 EXP
 make_new_cast_exp(int op, TYPE t, EXP a, int n)
 {
-    EXP e;
-    switch (op) {
+	EXP e;
+	switch (op) {
 	case lex_static_Hcast : {
-	    e = make_static_cast_exp (t, a, n);
-	    break;
+		e = make_static_cast_exp (t, a, n);
+		break;
 	}
 	case lex_reinterpret_Hcast : {
-	    e = make_reinterp_cast_exp (t, a, n);
-	    break;
+		e = make_reinterp_cast_exp (t, a, n);
+		break;
 	}
 	case lex_const_Hcast : {
-	    e = make_const_cast_exp (t, a, n);
-	    break;
+		e = make_const_cast_exp (t, a, n);
+		break;
 	}
 	case lex_dynamic_Hcast : {
-	    e = make_dynamic_cast_exp (t, a, n);
-	    break;
+		e = make_dynamic_cast_exp (t, a, n);
+		break;
 	}
 	default : {
-	    e = make_cast_exp (t, a, n);
-	    break;
+		e = make_cast_exp (t, a, n);
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 #endif
@@ -1815,27 +1815,27 @@ make_new_cast_exp(int op, TYPE t, EXP a, int n)
 EXP
 make_func_cast_exp(TYPE t, LIST (EXP) args)
 {
-    EXP e;
-    ERROR err = NULL_err;
-    unsigned tag = TAG_type (t);
-    unsigned len = LENGTH_list (args);
-	
-    /* Do reference conversions on arguments */
-    args = convert_args (args);
-	
-    /* Check for template types */
-    if (tag == type_token_tag && is_templ_type (t)) {
+	EXP e;
+	ERROR err = NULL_err;
+	unsigned tag = TAG_type (t);
+	unsigned len = LENGTH_list (args);
+
+	/* Do reference conversions on arguments */
+	args = convert_args (args);
+
+	/* Check for template types */
+	if (tag == type_token_tag && is_templ_type (t)) {
 		MAKE_exp_opn (t, lex_cast, args, e);
 		return (e);
-    }
-	
-    /* Check for class type with more than one argument */
-    if (len > 1 && tag != type_compound_tag) {
+	}
+
+	/* Check for class type with more than one argument */
+	if (len > 1 && tag != type_compound_tag) {
 		report (crt_loc, ERR_expr_type_conv_many (t));
 		len = 1;
-    }
-	
-    if (len == 1) {
+	}
+
+	if (len == 1) {
 		/* A single argument is the same as a normal cast */
 		unsigned conv = (unsigned) option_value (OPT_VAL_cast_explicit);
 		EXP a = DEREF_exp (HEAD_list (args));
@@ -1849,9 +1849,9 @@ make_func_cast_exp(TYPE t, LIST (EXP) args)
 			report (crt_loc, err);
 		}
 		return (e);
-    }
-	
-    if (len == 0) {
+	}
+
+	if (len == 0) {
 		/* No arguments give a zero value */
 		if (IS_type_top_etc (t)) {
 			MAKE_exp_value (t, e);
@@ -1877,12 +1877,12 @@ make_func_cast_exp(TYPE t, LIST (EXP) args)
 			if (!IS_NULL_err (err)) report (crt_loc, err);
 		}
 		return (e);
-    }
-	
-    /* Now check constructor conversions */
-    e = convert_constr (t, args, &err, CAST_STATIC);
-    if (!IS_NULL_err (err)) report (crt_loc, err);
-    return (e);
+	}
+
+	/* Now check constructor conversions */
+	e = convert_constr (t, args, &err, CAST_STATIC);
+	if (!IS_NULL_err (err)) report (crt_loc, err);
+	return (e);
 }
 
 
@@ -1905,11 +1905,11 @@ static LIST (IDENTIFIER) conv_tokens = NULL_list (IDENTIFIER);
 void
 allow_conversion(IDENTIFIER id)
 {
-    IDENTIFIER tid = resolve_token (id, "EE", 1);
-    if (!IS_NULL_id (tid)) {
+	IDENTIFIER tid = resolve_token (id, "EE", 1);
+	if (!IS_NULL_id (tid)) {
 		CONS_id (tid, conv_tokens, conv_tokens);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1924,12 +1924,12 @@ allow_conversion(IDENTIFIER id)
 EXP
 cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 {
-    EXP e = NULL_exp;
-    int sev = ERROR_NONE;
-    if (!IS_NULL_err (err2)) {
+	EXP e = NULL_exp;
+	int sev = ERROR_NONE;
+	if (!IS_NULL_err (err2)) {
 		sev = DEREF_int (err_severity (err2));
-    }
-    if (sev == ERROR_SERIOUS) {
+	}
+	if (sev == ERROR_SERIOUS) {
 		/* Only check illegal conversions */
 		force_tokdef++;
 		if (cast == CAST_IMPLICIT || (cast & CAST_STATIC)) {
@@ -1951,17 +1951,17 @@ cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 					IDENTIFIER pid;
 					LIST (IDENTIFIER) bids;
 					LIST (IDENTIFIER) pids;
-					
+
 					/* Find result type */
 					TOKEN res = DEREF_tok (tok_proc_res (tok));
 					TYPE r = DEREF_type (tok_exp_type (res));
-					
+
 					/* Find parameter type */
 					pids = DEREF_list (tok_proc_pids (tok));
 					pid = DEREF_id (HEAD_list (pids));
 					par = DEREF_tok (id_token_sort (pid));
 					p = DEREF_type (tok_exp_type (par));
-					
+
 					/* Check conversion */
 					bids = DEREF_list (tok_proc_bids (tok));
 					d = save_token_args (bids, NULL_list (TOKEN));
@@ -1988,7 +1988,7 @@ cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 			}
 		}
 		force_tokdef--;
-    }
-    add_error (err, err2);
-    return (e);
+	}
+	add_error (err, err2);
+	return (e);
 }
