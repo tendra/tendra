@@ -199,7 +199,7 @@ using; virtual; wchar-t;
 !initialization; !integer; !interface; !internal; !into; !int-cap;
 !keyword; !limit; !line; !linkage; !lit; !longlong; !lvalue;
 !macro; !main; !member; !member-cap; !name; !nat-cap; !nested;
-!nline; !no; !no-def; !object; !octal; !of; !off; !on; !option;
+!nline; !no; !no-def; null; !object; !octal; !of; !off; !on; !option;
 !overflow; overload; !pointer; !postpone; !pragma; !pragma-2; !precedence;
 !preserve; !printf; !proc-cap; !promote; !promoted; !prototype;
 ptrdiff-t; !qualifier; !quote; reachable; !reference; !reject;
@@ -638,6 +638,7 @@ id-entry: () -> (id: IDENTIFIER) = {
  */
 
 <exp_this> : () -> (:EXP);
+<exp_null> : () -> (:EXP);
 <exp_ellipsis> : () -> (:EXP);
 <exp_paren_begin> : () -> ();
 <exp_paren_end> : (:EXP) -> (:EXP);
@@ -653,6 +654,9 @@ primary-expression: () -> (e: EXP) = {
     ||
 	id = id-expression;
 	e = <exp_identifier> (id);
+    ||
+	null;
+	e = <exp_null>;
     ||
 	ellipsis-exp;
 	e = <exp_ellipsis>;

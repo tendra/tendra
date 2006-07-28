@@ -1029,8 +1029,10 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 	case exp_null_tag : {
 		/* Null expressions */
 		int ptr_const = DEREF_int (exp_null_ptr_const (e));
+		int macro = DEREF_int (exp_null_macro (e));
 		MAKE_exp_null (t2, e);
 		COPY_int (exp_null_ptr_const (e), ptr_const);
+		COPY_int (exp_null_macro (e), macro);
 		break;
 	}
 	case exp_zero_tag : {

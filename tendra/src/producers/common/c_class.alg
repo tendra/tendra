@@ -1059,6 +1059,7 @@ union EXP (exp) = {
     null, zero -> {
 	/* Null value (null pointer, zero etc.) */
 	int ptr_const = "0";
+	int macro = "0";
     },
     paren, copy -> {
 	/* Identity operation (used for parentheses) */

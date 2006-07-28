@@ -756,6 +756,10 @@ convert_arith(TYPE t, EXP e, int op, int n)
 			report (crt_loc, err);
 		}
 	}
+	if (IS_exp_null (e) && DEREF_int (exp_null_macro (e))) {
+		report (crt_loc, ERR_conv_ptr_null_integer ());
+		MAKE_exp_int_lit (t, small_nat [0], exp_char_lit_tag, e);
+	}
 	return (e);
 }
 
@@ -1003,9 +1007,11 @@ convert_const(EXP a)
 			/* Propagate null constants */
 			TYPE t;
 			int ptr_const;
-			DECONS_exp_null (t, ptr_const, e);
+			int macro;
+			DECONS_exp_null (t, ptr_const, macro, e);
 			MAKE_exp_null (t, e);
 			COPY_int (exp_null_ptr_const (e), ptr_const);
+			/* Don't propagate exp_null_macro */
 			return (e);
 		}
 		}

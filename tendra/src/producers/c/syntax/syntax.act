@@ -656,6 +656,12 @@ complex-type: () -> (t) = @{
     @e = make_not_exp (@a);
 @};
 
+<exp_null> : () -> (e) = @{
+    MAKE_exp_null (type_void_star, @e);
+    COPY_int (exp_null_ptr_const (@e), 1);
+    COPY_int (exp_null_macro (@e), 1);
+@};
+
 <exp_or> : (a, b) -> (e) = @{
     @e = make_or_exp (@a, @b);
 @};

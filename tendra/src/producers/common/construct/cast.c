@@ -245,6 +245,10 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 		}
 	}
 
+	if (IS_exp_null (a) && DEREF_int (exp_null_macro (a))) {
+		report (crt_loc, ERR_conv_ptr_null_integer ());
+	}
+
 	/* Deal with bitfields */
 	if (ns == type_bitfield_tag) {
 		TYPE r = find_bitfield_type (s);

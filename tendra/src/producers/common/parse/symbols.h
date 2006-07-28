@@ -437,6 +437,7 @@
 	LEX_TOKEN (lex_nline, "nline", TOK_NONE)
 	LEX_TOKEN (lex_no, "no", TOK_NONE)
 	LEX_TOKEN (lex_no_Hdef, "no_def", TOK_NONE)
+	LEX_TOKEN (lex_null, "__null", TOK_NONE)
 	LEX_TOKEN (lex_object, "object", TOK_NONE)
 	LEX_TOKEN (lex_octal, "octal", TOK_NONE)
 	LEX_TOKEN (lex_of, "of", TOK_NONE)

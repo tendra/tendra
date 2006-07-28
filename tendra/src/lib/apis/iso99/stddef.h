@@ -76,7 +76,8 @@
 +SUBSET "null" := {
     $PROTECT = "";
     +IFNDEF NULL
-    +DEFINE NULL 0;
+    %% #pragma TenDRA keyword __null for keyword __null %%
+    +DEFINE NULL %% __null %%;
     +ENDIF
 };
 

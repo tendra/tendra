@@ -305,14 +305,18 @@ free_exp(EXP e, int force)
 	}
 	case exp_null_tag : {
 	    int ptr_const;
-	    DESTROY_exp_null (destroy, t, ptr_const, e);
+	    int macro;
+	    DESTROY_exp_null (destroy, t, ptr_const, macro, e);
 	    UNUSED (ptr_const);
+	    UNUSED (macro);
 	    break;
 	}
 	case exp_zero_tag : {
 	    int ptr_const;
-	    DESTROY_exp_zero (destroy, t, ptr_const, e);
+	    int macro;
+	    DESTROY_exp_zero (destroy, t, ptr_const, macro, e);
 	    UNUSED (ptr_const);
+	    UNUSED (macro);
 	    break;
 	}
 	case exp_paren_tag : {

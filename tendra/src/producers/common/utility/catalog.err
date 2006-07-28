@@ -215,6 +215,7 @@ USAGE:
     name_limit = off,
     nest_comment = wall,
     new_array = on,
+    null = warning,
     overload_ambig = error,
     overload_dep = wall,
     overload_expl = off,
@@ -1533,6 +1534,12 @@ conv_ptr_null_complex()
     KEY (STD)	"Complex null pointer constant"
 }
 
+conv_ptr_null_integer()
+{
+    USAGE:	null
+    KEY (STD)	"'NULL' used in an integer context"
+}
+
 conv_ptr_nonzero(TYPE: t1, TYPE: t2)
 {
     KEY (ISO)	"4.10" | "6.3.4, 6.5.4"
@@ -1754,6 +1761,12 @@ expr_call_ellipsis(unsigned: n)
 {
     USAGE:	whatever
     KEY (STD)	"Argument "n" is converted to its promotion type"
+}
+
+expr_call_null()
+{
+    USAGE:	null
+    KEY (STD)	"Default argument promotions applied to 'NULL'"
 }
 
 expr_call_weak_arg(unsigned: n, PTR_LOC: loc)

@@ -148,6 +148,11 @@ make_null_ptr(EXP a, TYPE t)
 				}
 			}
 #endif
+		} else if (IS_exp_null (a)) {
+			MAKE_exp_null (t, e);
+			if (DEREF_int (exp_null_macro (a))) {
+				COPY_int (exp_null_macro (e), 1);
+			}
 		} else {
 			if (in_template_decl && IS_exp_int_lit (a)) {
 				if (depends_on_exp (a, any_templ_param, 0)) {

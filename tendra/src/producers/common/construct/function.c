@@ -773,6 +773,9 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 			if (!EQ_type (s, t)) {
 				b = init_assign (s, cv_none, b, &err);
 			}
+			if (IS_exp_null (b) && DEREF_int (exp_null_macro (b))) {
+				err = concat_error (err, ERR_expr_call_null ());
+			}
 			if (!IS_NULL_err (err)) {
 				err = init_error (err, 0);
 				err = concat_error (err, ERR_expr_call_ellipsis (n));
