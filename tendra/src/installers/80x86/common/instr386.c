@@ -932,6 +932,7 @@ absop(shape sha, where a1, where dest)
 		ng = negl;
 		break;
     default:
+		op = ng = "?";
 		failer("unexpected size");
 	}
 
@@ -1011,6 +1012,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 		lab64 = next_lab();
 		break;	/* use cmpl instead of in */
     default:
+		in = "?";
 		failer("unexpected size");
 	}
 
@@ -3169,6 +3171,7 @@ cmp(shape sha, where from, where min, int nt,
 				in = cmpl;
 				break;
 			default:
+				in = "?";
 				failer("unexpected size");
 			}
 
