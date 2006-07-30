@@ -270,6 +270,12 @@ void	arg_std_version(char *, void *);
 #define	AP_OPTION(snm, lnm, type, proc, closure, msgid) \
 	{(lnm), (snm), (type), (ArgProcP)(proc), (closure), (msgid)}
 
+#define	AP_OPT_SWITCH(name, snm, lnm, var) \
+	AP_OPTION((snm), (lnm), AT_SWITCH, NULL, (var), MID_description_of_##name)
+
+#define	AP_OPT_NEG_SW(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_NEG_SWITCH, NULL, (var), MID_description_of_##name)
+
 #define	AP_OPT_EMPTY(name, snm, lnm, proc) \
 	AP_OPTION((snm), (lnm), AT_EMPTY, (proc), NULL, MID_description_of_##name)
 
