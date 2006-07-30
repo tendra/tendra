@@ -238,7 +238,7 @@ typedef enum {
 	AT_RESET
 } ArgTypeT;
 
-typedef void (*ArgProcP)(char *, void *, ...);
+typedef void (*ArgProcP)(void);
 
 typedef struct ArgListT {
 	const char *		name;
