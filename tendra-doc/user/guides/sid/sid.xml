@@ -43,48 +43,47 @@
       below:</para>
 
     <itemizedlist>
-      <listitem><code>sid</code> 1.0 - this was the first version of
-        <code>sid</code> to support attribute grammars. The output
-        language was C.</listitem>
+      <listitem><para><code>sid</code> 1.0 - this was the first version of
+        <code>sid</code> to support attribute grammars. The output language
+        was C.</para></listitem>
 
-      <listitem><code>sid</code> 1.1 - this was a bug fix version of
-        <code>sid</code> 1.0.</listitem>
+      <listitem><para><code>sid</code> 1.1 - this was a bug fix version of
+        <code>sid</code> 1.0.</para></listitem>
 
-      <listitem><code>sid</code> 1.2 - this version of <code>sid</code>
-        added predicates, exception handling, improved inlining
-        options, and a grammar test pseudo-language.</listitem>
+      <listitem><para><code>sid</code> 1.2 - this version of <code>sid</code>
+        added predicates, exception handling, improved inlining options, and a
+        grammar test pseudo-language.</para></listitem>
 
-      <listitem><code>sid</code> 1.3 - this version of <code>sid</code>
+      <listitem><para><code>sid</code> 1.3 - this version of <code>sid</code>
         added anonymous rules, and a better syntax for the C specific
-        information.</listitem>
+        information.</para></listitem>
 
-      <listitem><code>sid</code> 1.4 - this was a bug fix version of
-        <code>sid</code> 1.3.</listitem>
+      <listitem><para><code>sid</code> 1.4 - this was a bug fix version of
+        <code>sid</code> 1.3.</para></listitem>
 
-      <listitem><code>sid</code> 1.5 - this was a bug fix version of
-        <code>sid</code> 1.4. The command line option syntax changed in
-        this release as well.</listitem>
+      <listitem><para><code>sid</code> 1.5 - this was a bug fix version of
+        <code>sid</code> 1.4. The command line option syntax changed in this
+        release as well.</para></listitem>
 
-      <listitem><code>sid</code> 1.6 - this version of <code>sid</code>
-        changed the input syntax, added scoped rules, and removed
-        basics (replacing them with terminal symbols). It also added a
-        stricter ISO C language.</listitem>
+      <listitem><para><code>sid</code> 1.6 - this version of <code>sid</code>
+        changed the input syntax, added scoped rules, and removed basics
+        (replacing them with terminal symbols). It also added a stricter ISO C
+        language.</para></listitem>
 
-      <listitem><code>sid</code> 1.7 - The syntax of the actions file
-        changed slightly in this version. The error messages and
-        recovery from syntax errors were also improved in this version.
-        This version also added explicit call by reference support
-        (rather than the inconsistent function call semantics of
-        earlier versions). The command line options changed in this
-        version, to support language specific options, and the
-        <code>strict-ansi-c</code> language was dropped. Non-local
-        variables were also added.</listitem>
+      <listitem><para><code>sid</code> 1.7 - The syntax of the actions file
+        changed slightly in this version. The error messages and recovery from
+        syntax errors were also improved in this version.  This version also
+        added explicit call by reference support (rather than the inconsistent
+        function call semantics of earlier versions). The command line options
+        changed in this version, to support language specific options, and the
+        <code>strict-ansi-c</code> language was dropped. Non-local variables
+        were also added.</para></listitem>
 
-      <listitem><code>sid</code> 1.8 - Initialisers were added for
-        non-local variables. Assignment was added.</listitem>
+      <listitem><para><code>sid</code> 1.8 - Initialisers were added for
+        non-local variables. Assignment was added.</para></listitem>
 
-      <listitem><code>sid</code> 1.9 - this was a bug fix version of
-        <code>sid</code> 1.8.</listitem>
+      <listitem><para><code>sid</code> 1.9 - this was a bug fix version of
+        <code>sid</code> 1.8.</para></listitem>
     </itemizedlist>
 
     <para><code>sid</code> turns specifications of languages into
@@ -196,31 +195,32 @@ list-of-integers ;
         free grammars described above:</para>
 
       <orderedlist>
-        <listitem>There may be more than one entry point to the grammar.</listitem>
+        <listitem><para>There may be more than one entry point to the
+          grammar.</para></listitem>
 
-        <listitem>As well as being a rule or a terminal, an item may be an
-          action, a predicate or an identity. An action is just a user
-          supplied function. A predicate is a cross between a basic and
-          an action (it is a user defined function but it may alter the
-          control flow). An identity is like an assignment in a
-          conventional programming language.</listitem>
+        <listitem><para>As well as being a rule or a terminal, an item may be
+          an action, a predicate or an identity. An action is just a user
+          supplied function. A predicate is a cross between a basic and an
+          action (it is a user defined function but it may alter the control
+          flow). An identity is like an assignment in a conventional
+          programming language.</para></listitem>
 
-        <listitem>Rules may take parameters and return results (as may
+        <listitem><para>Rules may take parameters and return results (as may
           actions; terminals may only return results). These may be
-          passed between items using names.</listitem>
+          passed between items using names.</para></listitem>
 
-        <listitem>Each rule can have an exception handler associated with it.
-          Exception handlers are used for error recovery when the input
-          being parsed does not match the grammar.</listitem>
+        <listitem><para>Each rule can have an exception handler associated
+          with it.  Exception handlers are used for error recovery when the
+          input being parsed does not match the grammar.</para></listitem>
 
-        <listitem>Rules may be anonymous.</listitem>
+        <listitem><para>Rules may be anonymous.</para></listitem>
 
-        <listitem>Rules may have non-local names associated with them. These
-          names are in scope for that rule and any rules that are defined
-          inside it. The value of each non-local name is saved on entry
-          to the rule, and restored when the rule is exited.</listitem>
+        <listitem><para>Rules may have non-local names associated with them.
+          These names are in scope for that rule and any rules that are
+          defined inside it. The value of each non-local name is saved on
+          entry to the rule, and restored when the rule is
+          exited.</para></listitem>
       </orderedlist>
-
     </sect1>
   </chapter>
 
@@ -257,37 +257,39 @@ Xji = Bjk Xki, Yji
       must hold:
 
       <orderedlist>
-        <listitem>The parameter type for all <code>Ai</code> must be the
-          same.</listitem>
+        <listitem><para>The parameter type for all <code>Ai</code> must be the
+          same.</para></listitem>
 
-        <listitem>The result type for all <code>Ai</code> must be the
-          same.</listitem>
+        <listitem><para>The result type for all <code>Ai</code> must be the
+          same.</para></listitem>
 
-        <listitem>The exception handlers for all <code>Ai</code> must be the
-          same.</listitem>
+        <listitem><para>The exception handlers for all <code>Ai</code> must be
+          the same.</para></listitem>
 
-        <listitem>The parameters to each left recursive call to some
-          <code>Aj</code> must be exactly the formal parameters to the
-          calling rule <code>Ai</code>.</listitem>
+        <listitem><para>The parameters to each left recursive call to some
+          <code>Aj</code> must be exactly the formal parameters to the calling
+          rule <code>Ai</code>.</para></listitem>
 
-        <listitem>Any non-local name referenced by any rule must be in scope
-          for all rules.</listitem>
+        <listitem><para>Any non-local name referenced by any rule must be in
+          scope for all rules.</para></listitem>
 
-        <listitem>A rule may not define non-local variables unless it is the
-          only entry point into the cycle (i.e. there is only one named
-          rule in the cycle).</listitem>
-      </orderedlist><code>sid</code> will report an error if these conditions
+        <listitem><para>A rule may not define non-local variables unless it is
+          the only entry point into the cycle (i.e. there is only one named
+          rule in the cycle).</para></listitem>
+      </orderedlist>
+      
+      <code>sid</code> will report an error if these conditions
       are not met.</para>
     </sect1>
 
     <sect1 id="factoring">
       <title>Factoring</title>
 
-      <para>The second major transformation is to factor the grammar. It
-        is possible that this phase could go on for ever, so there is a
-        limit to the number of rules that can be generated. This limit
-        may be changed (see the <a href="#invoke">invocation
-          section</a>). In practice it is rare for this to happen.</para>
+      <para>The second major transformation is to factor the grammar. It is
+        possible that this phase could go on for ever, so there is a limit to
+        the number of rules that can be generated. This limit may be changed
+        (see the <link linkend="invoke">invocation section</link>). In
+        practice it is rare for this to happen.</para>
 
       <para>The factoring phase tries to increase the number of language
         specifications that <code>sid</code> can produce a parser for, by
@@ -313,181 +315,184 @@ b ;
 } ;
         </programlisting>
 
-        It will also expand calls to rules at the beginning of
-        alternatives if this is necessary to allow the parser to be
-        produced (this is the phase that the limit is needed for). The
-        expansions are done in the following cases:
+        It will also expand calls to rules at the beginning of alternatives if
+        this is necessary to allow the parser to be produced (this is the
+        phase that the limit is needed for). The expansions are done in the
+        following cases:
 
         <orderedlist>
-          <listitem>If the rule is see-through (i.e. there is an expansion of
-            the rule that does not contain any terminals or predicates) and
-            its first set contains terminals in the first set of the rest
-            of the alternative.</listitem>
+          <listitem><para>If the rule is see-through (i.e. there is an
+            expansion of the rule that does not contain any terminals or
+            predicates) and its first set contains terminals in the first set
+            of the rest of the alternative.</para></listitem>
 
-          <listitem>If the rule has a predicate in its first set.</listitem>
+          <listitem><para>If the rule has a predicate in its first
+            set.</para></listitem>
 
-          <listitem>If the rule has terminals in its first set that are also in
-            the first set of another alternative that does not begin with
-            the same rule.</listitem>
+          <listitem><para>If the rule has terminals in its first set that are
+            also in the first set of another alternative that does not begin
+            with the same rule.</para></listitem>
         </orderedlist>
 
-        If the rule being expanded contains an exception handler,
-        and it is not identical to the exception handler in the enclosing
-        rule, then an error will occur. Similarly if the rule being
-        expanded defines any non-local variables then an error will
-        occur.</para>
+        If the rule being expanded contains an exception handler, and it is
+        not identical to the exception handler in the enclosing rule, then an
+        error will occur. Similarly if the rule being expanded defines any
+        non-local variables then an error will occur.</para>
     </sect1>
 
     <sect1 id="optimise">
       <title>Optimisations</title>
 
-      <para>After these two transformations, <code>sid</code> performs
-        some optimisations on the grammar, such as reducing multiple
-        copies of identical rules, removing tail recursion, inlining all
-        basic rules, inlining single alternative rules, inling rules used
-        only once, and inlining everything that can be inlined. All of
-        the inlining is optional.</para>
+      <para>After these two transformations, <code>sid</code> performs some
+        optimisations on the grammar, such as reducing multiple copies of
+        identical rules, removing tail recursion, inlining all basic rules,
+        inlining single alternative rules, inling rules used only once, and
+        inlining everything that can be inlined. All of the inlining is
+        optional.</para>
 
-      <para>After these optimisations, <code>sid</code> checks the
-        language description to ensure that it is possible to produce a
-        parser for it, and if so it outputs the parser.</para>
-
+      <para>After these optimisations, <code>sid</code> checks the language
+        description to ensure that it is possible to produce a parser for it,
+        and if so it outputs the parser.</para>
     </sect1>
   </chapter>
 
   <chapter id="invoke">
     <title>Invocation</title>
 
-    <para><code>sid</code> should be invoked in the following
-      manner:
+    <para><code>sid</code> should be invoked in the following manner:
 
       <programlisting>
-sid <i>options input-files output-files</i>
+sid options input-files output-files
       </programlisting>
 
-      The options are described later. The input files should be a
-      number of input file names dependent upon the output language. The
-      first input file is the <code>sid</code> grammar file. In the case
-      of either C dialects there should be one other input file that
-      provides C specific information to <code>sid</code>. The number of
-      output files is also language specific. At present, two output
-      files should be specified for the C languages. The first should be
-      a <code>.c</code> file into which the parser is written; the second
-      should be a <code>.h</code> file into which the terminal
-      definitions and external function declarations are written.</para>
+      The options are described later. The input files should be a number of
+      input file names dependent upon the output language. The first input
+      file is the <code>sid</code> grammar file. In the case of either C
+      dialects there should be one other input file that provides C specific
+      information to <code>sid</code>. The number of output files is also
+      language specific. At present, two output files should be specified for
+      the C languages. The first should be a <code>.c</code> file into which
+      the parser is written; the second should be a <code>.h</code> file into
+      which the terminal definitions and external function declarations are
+      written.</para>
 
-    <para>The options list should consist of zero or more of the
-      following options. There are short forms for each of these
-      options as well; see the <code>sid</code> manual page for more
-      information on invocation.</para>
+    <para>The options list should consist of zero or more of the following
+      options. There are short forms for each of these options as well; see
+      the <code>sid</code> manual page for more information on
+      invocation.</para>
 
-    <segmentedlist>
-      <seglistitem>
-        <seg>--dump-file <i>FILE</i></seg>
+    <itemizedlist>
+      <listitem>
+        <para>--dump-file <filename>FILE</filename></para>
 
-        <seg>This option causes intermediate dumps of the grammar to be
-          written to the named file. The format of the dump files is
-          similar to the format of the grammar specification, with the
-          following exceptions:
+        <para>This option causes intermediate dumps of the grammar to be
+          written to the named file. The format of the dump files is similar
+          to the format of the grammar specification, with the following
+          exceptions:
 
           <orderedlist>
-            <listitem>Predicates are written with the predicate result
-              replaced by the predicate identifier (this will always be
-              zero), and the result is followed by a <code>?</code> to
-              indicate that it was a predicate. As an example, the
-              predicate:
-              <programlisting>
+            <listitem>
+              <para>Predicates are written with the predicate result replaced
+                by the predicate identifier (this will always be zero), and
+                the result is followed by a <code>?</code> to indicate that it
+                was a predicate. As an example, the predicate:
+
+                <programlisting>
 ( b, ? ) = &lt;pred&gt; ( a )
-              </programlisting>
+                </programlisting>
 
-              would be printed out as:
+                would be printed out as:
 
-              <programlisting>
+                <programlisting>
 ( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )
-              </programlisting>
+                </programlisting>
+              </para>
             </listitem>
 
-            <listitem>Items that are considered to be inlinable are prefixed
-              by a <code>+</code>. Items that are tail calls which will
-              be eliminated are prefixed by a <code>*</code>.</listitem>
+            <listitem><para>Items that are considered to be inlinable are
+              prefixed by a <code>+</code>. Items that are tail calls which
+              will be eliminated are prefixed by a
+              <code>*</code>.</para></listitem>
 
-            <listitem>Nested rules are written at the outer level, with names
-              of the form <code>outer-rule::....::inner-rule</code>.</listitem>
+            <listitem><para>Nested rules are written at the outer level, with
+              names of the form
+              <code>outer-rule::....::inner-rule</code>.</para></listitem>
 
-            <listitem>Types are provided on call parameter and result
-              tuples.</listitem>
+            <listitem><para>Types are provided on call parameter and result
+              tuples.</para></listitem>
 
-            <listitem>Inline rules are given a generated name, and are
-              written out as a call to the generated rule (and a
-              definition elsewhere).</listitem>
+            <listitem><para>Inline rules are given a generated name, and are
+              written out as a call to the generated rule (and a definition
+              elsewhere).</para></listitem>
           </orderedlist>
-      </seg></seglistitem>
+        </para>
+      </listitem>
 
-      <seglistitem><seg>--factor-limit <i>LIMIT</i></seg>
+      <listitem><para>--factor-limit <token>LIMIT</token></para>
 
-        <seg>This option limits the number of rules that can be created
+        <para>This option limits the number of rules that can be created
           during the factorisation process. It is probably best not to
-          change this.</seg></seglistitem>
+          change this.</para></listitem>
 
-      <seglistitem><seg>--help</seg>
+      <listitem><para>--help</para>
 
-        <seg>This option writes a summary of the command line options to
-          the standard error stream.</seg></seglistitem>
+        <para>This option writes a summary of the command line options to
+          the standard error stream.</para></listitem>
 
-      <seglistitem><seg>--inline <i>INLINES</i></seg>
+      <listitem><para>--inline <token>INLINES</token></para>
 
-        <seg>This option controls what inlining will be done in the output
+        <para>This option controls what inlining will be done in the output
           parser. The inlines argument should be a comma separated list
           of the following words:
 
-          <segmentedlist>
-            <seglistitem><seg><code>SINGLES</code></seg>
+          <itemizedlist>
+            <listitem><para><code>SINGLES</code></para>
 
-              <seg>This causes single alternative rules to be inlined.
+              <para>This causes single alternative rules to be inlined.
                 This inlining is no longer performed as a modification to
-                the grammar (it was in version 1.0).</seg></seglistitem>
+                the grammar (it was in version 1.0).</para></listitem>
 
-            <seglistitem><seg><code>BASICS</code></seg>
+            <listitem><para><code>BASICS</code></para>
 
-              <seg>This causes rules that contain only basics (and no
+              <para>This causes rules that contain only basics (and no
                 exception handlers or empty alternatives) to be inlined.
                 The restriction on exception handlers and empty
                 alternatives is rather arbitrary, and may be changed
-                later.</seg></seglistitem>
+                later.</para></listitem>
 
-            <seglistitem><seg><code>TAIL</code></seg>
+            <listitem><para><code>TAIL</code></para>
 
-              <seg>This causes tail recursive calls to be inlined. Without
+              <para>This causes tail recursive calls to be inlined. Without
                 this, tail recursion elimination will not be
-                performed.</seg></seglistitem>
+                performed.</para></listitem>
 
-            <seglistitem><seg><code>OTHER</code></seg>
+            <listitem><para><code>OTHER</code></para>
 
-              <seg>This causes other calls to be inlined wherever
+              <para>This causes other calls to be inlined wherever
                 possible. Unless the <code>MULTI</code> inlining is also
                 specified, this will be done only for productions that are
-                called once.</seg></seglistitem>
+                called once.</para></listitem>
 
-            <seglistitem><seg><code>MULTI</code></seg>
+            <listitem><para><code>MULTI</code></para>
 
-              <seg>This causes calls to be inlined, even if the rule being
+              <para>This causes calls to be inlined, even if the rule being
                 called is called more than once. Turning this inlining on
                 implies <code>OTHER</code>. Similarly turning off
                 <code>OTHER</code> inlining will turn off
                 <code>MULTI</code> inlining. For grammars of any size, this
                 is probably best avoided; if used the generated parser may
                 be huge (e.g. a C grammar has produced a file that was
-                several hundred MB in size).</seg></seglistitem>
+                several hundred MB in size).</para></listitem>
 
-            <seglistitem><seg><code>ALL</code></seg>
+            <listitem><para><code>ALL</code></para>
 
-              <seg>This turns on all inlining.</seg></seglistitem>
-          </segmentedlist>
+              <para>This turns on all inlining.</para></listitem>
+          </itemizedlist>
 
+          In addition, prefixing a word with <code>NO</code> turns off that
+          inlining phase. The words may be given in any case.  They are
+          evaluated in the order given, so:
 
-          <para>In addition, prefixing a word with <code>NO</code> turns
-            off that inlining phase. The words may be given in any case.
-            They are evaluated in the order given, so:</para>
           <programlisting>
 --inline noall,singles
           </programlisting>
@@ -498,50 +503,50 @@ sid <i>options input-files output-files</i>
 --inline singles,noall
           </programlisting>
 
-          would turn off all inlining. The default is as if <code>
-            sid</code> were invoked with the option:
+          would turn off all inlining. The default is as if <code>sid</code>
+          were invoked with the option:
 
           <programlisting>
 --inline noall,basics,tail
           </programlisting>
-      </seg></seglistitem>
+        </para>
+      </listitem>
 
-      <seglistitem>
-        <seg><a name="lang" id="lang"><b>--language
-              <i>LANGUAGE</i></b></a></seg>
+      <listitem>
+        <para id="lang">--language <token>LANGUAGE</token></para>
 
-        <seg>This option specifies the output language. Currently this
-          should be one of <code>ansi-c</code>, <code>pre-ansi-c</code>
-          and <code>test</code>. The default is <code>ansi-c</code>.
+        <para>This option specifies the output language. Currently this should
+          be one of <code>ansi-c</code>, <code>pre-ansi-c</code> and
+          <code>test</code>. The default is <code>ansi-c</code>.</para>
 
           <para>The <code>ansi-c</code> and <code>pre-ansi-c</code>
             languages are basically the same. The only difference is that
             <code>ansi-c</code> initially uses function prototypes, and
             <code>pre-ansi-c</code> doesn't. The C language specific
-            options are:</para>
+            options are:
 
-          <segmentedlist>
-            <seglistitem><seg><code>prototypes, proto, no-prototypes,
-                  no-proto</code></seg>
+          <itemizedlist>
+            <listitem><para><code>prototypes, proto, no-prototypes,
+                  no-proto</code></para>
 
-              <seg>These enable or disable the use of function prototypes.
+              <para>These enable or disable the use of function prototypes.
                 By default this is enabled for <code>ansi-c</code> and
-                disabled for <code>pre-ansi-c</code>.</seg></seglistitem>
+                disabled for <code>pre-ansi-c</code>.</para></listitem>
 
-            <seglistitem><seg><code>numeric-ids, numeric, no-numeric-ids,
-                  no-numeric</code></seg>
+            <listitem><para><code>numeric-ids, numeric, no-numeric-ids,
+                  no-numeric</code></para>
 
-              <seg>These enable or disable the use of numeric identifiers.
+              <para>These enable or disable the use of numeric identifiers.
                 Numeric identifiers replace the identifier name with a
                 number, which is mainly of use in stopping identifier names
                 getting too long. The disadvantage is that the code becomes
                 less readable, and more difficult to debug. Numeric
-                identifiers are not used by default.</seg></seglistitem>
+                identifiers are not used by default.</para></listitem>
 
-            <seglistitem><seg><a name="casts" id="casts"><code>casts, cast, no-casts,
-                    no-cast</code></a></seg>
+            <listitem><para id="casts"><code>casts, cast, no-casts,
+                no-cast</code></para>
 
-              <seg>These enable or disable casting of action and
+              <para>These enable or disable casting of action and
                 assignment operator immutable parameters. If enabled, a
                 parameter is cast to its own type when it is substituted
                 into the action. This will cause some compilers to complain
@@ -551,50 +556,49 @@ sid <i>options input-files output-files</i>
                 reject attempts at mutation, and that ISO C doesn't allow
                 casting to structure and union types, which means that some
                 code may be illegal. Parameter casting is disabled by
-                default.</seg></seglistitem>
+                default.</para></listitem>
 
-            <seglistitem><seg><code>unreachable-macros, unreachable-macro,
-                  unreachable-comments, unreachable-comment</code></seg>
+            <listitem><para><code>unreachable-macros, unreachable-macro,
+                  unreachable-comments, unreachable-comment</code></para>
 
-              <seg>These choose whether unreachable code is marked by a
+              <para>These choose whether unreachable code is marked by a
                 macro or a comment. The default is to mark unreachable code
                 with a comment <code>/*UNREACHED*/</code>, however a macro
                 <code>UNREACHED ;</code> may be used instead, if
-                desired.</seg></seglistitem>
-          </segmentedlist>
+                desired.</para></listitem>
+          </itemizedlist>
 
+          The <code>test</code> language only takes one input file, and
+          produces no output file. It may be used to check that a grammar is
+          valid. In conjunction with the dump file, it may be used to check
+          the transformations that would be applied to the grammar. There are
+          no language specific options for the <code>test</code>
+          language.</para>
+        </listitem>
 
-          <para>The <code>test</code> language only takes one input file,
-            and produces no output file. It may be used to check that a
-            grammar is valid. In conjunction with the dump file, it may
-            be used to check the transformations that would be applied to
-            the grammar. There are no language specific options for the
-            <code>test</code> language.</para>
-      </seg></seglistitem>
+      <listitem><para>--show-errors</para>
 
-      <seglistitem><seg>--show-errors</seg>
-
-        <seg>This option writes a copy of the current error messages to
+        <para>This option writes a copy of the current error messages to
           the standard output. See the manual entry for more details
-          about changing the error message content.</seg></seglistitem>
+          about changing the error message content.</para></listitem>
 
-      <seglistitem><seg>--switch <i>OPTION</i></seg>
+      <listitem><para>--switch <token>OPTION</token></para>
 
-        <seg>This passes through <i>OPTION</i> as a language specific
-          option. The valid options are described <a href=
-            "#lang">above</a>.</seg></seglistitem>
+        <para>This passes through <token>OPTION</token> as a language specific
+          option. The valid options are described <link linkend=
+            "lang">above</link>.</para></listitem>
 
-      <seglistitem><seg>--tab-width <i>NUMBER</i></seg>
+      <listitem><para>--tab-width <token>NUMBER</token></para>
 
-        <seg>This option specifies the number of spaces that a tab
+        <para>This option specifies the number of spaces that a tab
           occupies. It defaults to 8. It is only used when indenting
-          output.</seg></seglistitem>
+          output.</para></listitem>
 
-      <seglistitem><seg>--version</seg>
+      <listitem><para>--version</para>
 
-        <seg>This option causes the version number and supported
-          languages to be written to the standard error stream.</seg></seglistitem>
-    </segmentedlist>
+        <para>This option causes the version number and supported
+          languages to be written to the standard error stream.</para></listitem>
+    </itemizedlist>
   </chapter>
 
   <chapter id="grammar-file">
@@ -1074,145 +1078,178 @@ name1 : Type1T = &lt;action1&gt; ;
       a parser. There also needs to be output language specific
       information to allow the parser to interface with the program it
       is to be part of. In the case of the C output routines,
-      <code>sid</code> needs to know the following information:</para>
+      <code>sid</code> needs to know the following information:
 
-    <orderedlist>
-      <listitem>What code should precede and succeed the automatically
-        generated code.</listitem>
+      <orderedlist>
+        <listitem><para>What code should precede and succeed the automatically
+          generated code.</para></listitem>
 
-      <listitem>How to map the <code>sid</code> identifiers into C
-        identifiers.</listitem>
+        <listitem><para>How to map the <code>sid</code> identifiers into C
+          identifiers.</para></listitem>
 
-      <listitem>How to do assignments for each type.</listitem>
+        <listitem><para>How to do assignments for each type.</para></listitem>
 
-      <listitem>How to get the current terminal number.</listitem>
+        <listitem><para>How to get the current terminal
+          number.</para></listitem>
 
-      <listitem>How to get the result of the current terminal.</listitem>
+        <listitem><para>How to get the result of the current
+          terminal.</para></listitem>
 
-      <listitem>How to advance the lexical analyser, to get the next
-        terminal.</listitem>
+        <listitem><para>How to advance the lexical analyser, to get the next
+          terminal.</para></listitem>
 
-      <listitem>What the actions are defined as, and how to pass parameters
-        to them.</listitem>
+        <listitem><para>What the actions are defined as, and how to pass
+          parameters to them.</para></listitem>
 
-      <listitem>How to save and restore the current terminal when an error
-        occurs.</listitem>
-    </orderedlist>
+        <listitem><para>How to save and restore the current terminal when an
+          error occurs.</para></listitem>
+      </orderedlist>
+    </para>
 
-    Eventually almost all of this should be user suppliable. At
-    the moment, some of the information is supplied by the user in
-    the C information file, some through macros, and some is built
-    in. <code>sid</code> currently gets the information as
-    follows:
+    <para>Eventually almost all of this should be user suppliable. At the
+      moment, some of the information is supplied by the user in the C
+      information file, some through macros, and some is built in.
+      <code>sid</code> currently gets the information as follows:
 
-    <para>1. The C information file has a header and a trailer section,
-      which define code that precedes and succeeds the code that
-      <code>sid</code> generates.</para>
+      <orderedlist>
+        <listitem><para>The C information file has a header and a trailer
+          section, which define code that precedes and succeeds the code that
+          <code>sid</code> generates.</para></listitem>
 
-    <para>2. The C information file has a section that allows the user
-      to specify mappings from <code>sid</code> identifiers into C
-      identifiers. These are only valid for the following types of
-      identifiers: types, functions (implementations of rules) and
-      terminals. For other identifier types (or when no mapping is
-      supplied), <code>sid</code> uses some default rules:</para>
+        <listitem><para>The C information file has a section that allows the
+          user to specify mappings from <code>sid</code> identifiers into C
+          identifiers. These are only valid for the following types of
+          identifiers: types, functions (implementations of rules) and
+          terminals. For other identifier types (or when no mapping is
+          supplied), <code>sid</code> uses some default rules:</para>
 
-    <para>Firstly, <code>sid</code> applies a transform to the
-      <code>sid</code> identifier name, to make it a legal C
-      identifier. At present this maps <code>_</code> to
-      <code>__</code>, <code>-</code> to <code>_H</code> and
-      <code>:</code> (this occurs in scoped names) to <code>_C</code>.
-      All other characters are left unmodified. This transform cannot
-      be changed.</para>
+          <para>Firstly, <code>sid</code> applies a transform to the
+            <code>sid</code> identifier name, to make it a legal C identifier.
+            At present this maps <code>_</code> to <code>__</code>,
+            <code>-</code> to <code>_H</code> and <code>:</code> (this occurs
+            in scoped names) to <code>_C</code>.  All other characters are
+            left unmodified. This transform cannot be changed.</para>
 
-    <para><code>sid</code> also puts a prefix before all identifiers, to
-      try to prevent clashes (and also to make automatically generated
-      - i.e. numeric - identifiers legal). These prefixes can be
-      redefined for each class of identifier, in the C information
-      file. They should be chosen so as not to clash with any other
-      identifiers (i.e. no other identifiers should begin with that
-      prefix).</para>
+          <para><code>sid</code> also puts a prefix before all identifiers, to
+            try to prevent clashes (and also to make automatically generated
+            - i.e. numeric - identifiers legal). These prefixes can be
+            redefined for each class of identifier, in the C information file.
+            They should be chosen so as not to clash with any other
+            identifiers (i.e. no other identifiers should begin with that
+            prefix).</para>
 
-    <para>By default, the following prefixes are used:</para>
+          <para>By default, the following prefixes are used:
 
-    <segmentedlist>
-      <seglistitem><seg><code>ZT</code></seg>
+            <table id="identifier-prefixes">
+              <title>Identifier prefixes</title>
 
-        <seg>This prefix is used before type identifiers, for the type
-          name itself.</seg></seglistitem>
+              <tgroup cols="2">
+                <thead>
+                  <row>
+                    <entry>Prefix</entry>
 
-      <seglistitem><seg><code>ZR</code></seg>
+                    <entry>Meaning</entry>
+                  </row>
+                </thead>
 
-        <seg>This prefix is used before rule identifiers, for the rule's
-          implementation function.</seg></seglistitem>
+                <tbody>
+                  <row>
+                    <entry><code>ZT</code></entry>
 
-      <seglistitem><seg><code>ZL</code></seg>
+                    <entry>This prefix is used before type identifiers, for the
+                      type name itself.</entry>
+                  </row>
 
-        <seg>This prefix is used before rule identifiers, for the rule's
-          label when tail recursion is being eliminated. In this case, a
-          number is added to the suffix before the identifier name, to
-          prevent clashes when a rule is inlined twice in the same
-          function. It is also used before other labels that are
-          automatically generated and are just numbered.</seg></seglistitem>
+                  <row>
+                    <entry><code>ZR</code></entry>
 
-      <seglistitem><seg><code>ZI</code></seg>
+                    <entry>This prefix is used before rule identifiers, for the
+                      rule's implementation function.</entry>
+                  </row>
 
-        <seg>This prefix is used before name identifiers used as
-          parameters to functions, or in normal usage. It is also used by
-          non-local names (which doesn't cause a problem as they always
-          occur scoped, and local names never do).</seg></seglistitem>
+                  <row>
+                    <entry><code>ZL</code></entry>
 
-      <seglistitem><seg><code>ZO</code></seg>
+                    <entry>This prefix is used before rule identifiers, for the
+                      rule's label when tail recursion is being eliminated. In
+                      this case, a number is added to the suffix before the
+                      identifier name, to prevent clashes when a rule is inlined
+                      twice in the same function.  It is also used before other
+                      labels that are automatically generated and are just
+                      numbered.</entry>
+                  </row>
 
-        <seg>This prefix is used before name identifiers used as results
-          of functions. Results are passed as reference parameters, and
-          this suffix is used then. Another identifier with the
-          <code>ZI</code> prefix is also used within the function, and
-          the type reference assignment operator is used at the end of
-          the function to assign the results to the reference
-          parameters.</seg></seglistitem>
+                  <row>
+                    <entry><code>ZI</code></entry>
 
-      <seglistitem><seg><code>ZB</code></seg>
+                    <entry>This prefix is used before name identifiers used as
+                      parameters to functions, or in normal usage. It is also used
+                      by non-local names (which doesn't cause a problem as they
+                      always occur scoped, and local names never
+                      do).</entry>
+                  </row>
 
-        <seg>This prefix is used before the terminal symbol names in the
-          generated header file.</seg></seglistitem>
-    </segmentedlist>
+                  <row>
+                    <entry><code>ZO</code></entry>
 
+                    <entry>This prefix is used before name identifiers used as
+                      results of functions. Results are passed as reference
+                      parameters, and this suffix is used then. Another identifier
+                      with the <code>ZI</code> prefix is also used within the
+                      function, and the type reference assignment operator is used
+                      at the end of the function to assign the results to the
+                      reference parameters.</entry>
+                  </row>
 
-    <para>3. Normally, <code>sid</code> will do assignments using the C
-      assignment operator. Sometimes, this will not do the right thing,
-      so the user can define a set of assignment operations for any
-      type in the C information file.</para>
+                  <row>
+                    <entry><code>ZB</code></entry>
 
-    <para>4. <code>sid</code> expects the <code>CURRENT_TERMINAL</code>
-      macro to be defined, and its definition should return an integer
-      that is the current terminal. The macro should be an expression,
-      not a statement.</para>
+                    <entry>This prefix is used before the terminal symbol names in
+                      the generated header file.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </para>
+        </listitem>
 
-    <para>5. It is necessary to define how to extract the results of all
-      terminals in the C information file (if a terminal doesn't return
-      anything, then it is not necessary to define how to get the
-      result).</para>
+        <listitem><para>Normally, <code>sid</code> will do assignments using
+          the C assignment operator. Sometimes, this will not do the right
+          thing, so the user can define a set of assignment operations for any
+          type in the C information file.</para></listitem>
 
-    <para>6. <code>sid</code> expects the <code>ADVANCE_LEXER</code>
-      macro to be defined, and its definition should cause the lexical
-      analyser to read a new token. The new terminal number should be
-      accessible through the <code>CURRENT_TERMINAL</code> macro. On
-      entry into the parser <code>CURRENT_TERMINAL</code> should give
-      the first terminal number.</para>
+        <listitem><para><code>sid</code> expects the
+          <code>CURRENT_TERMINAL</code> macro to be defined, and its definition
+          should return an integer that is the current terminal. The macro
+          should be an expression, not a statement.</para></listitem>
 
-    <para>7. All actions, and their parameter and result names are
-      defined in the C information file.</para>
+        <listitem><para>It is necessary to define how to extract the results
+          of all terminals in the C information file (if a terminal doesn't
+          return anything, then it is not necessary to define how to get the
+          result).</para></listitem>
 
-    <para>8. <code>sid</code> expects the <code>SAVE_LEXER</code> and
-      <code>RESTORE_LEXER</code> macros to be defined. The first is
-      called with an argument which is the error terminal value. The
-      macro should save the current terminal's value, and set the
-      current terminal to be the error terminal value. The second macro
-      is called without arguments, and should restore the saved value
-      of the current terminal. <code>SAVE_LEXER</code> will never be
-      called more than once without a call to
-      <code>RESTORE_LEXER</code>, so the save stack only needs one
-      element.</para>
+        <listitem><para><code>sid</code> expects the
+          <code>ADVANCE_LEXER</code> macro to be defined, and its definition
+          should cause the lexical analyser to read a new token. The new
+          terminal number should be accessible through the
+          <code>CURRENT_TERMINAL</code> macro. On entry into the parser
+          <code>CURRENT_TERMINAL</code> should give the first terminal
+          number.</para></listitem>
+
+        <listitem><para>All actions, and their parameter and result names are
+          defined in the C information file.</para></listitem>
+
+        <listitem><para><code>sid</code> expects the <code>SAVE_LEXER</code>
+          and <code>RESTORE_LEXER</code> macros to be defined. The first is
+          called with an argument which is the error terminal value. The macro
+          should save the current terminal's value, and set the current terminal
+          to be the error terminal value. The second macro is called without
+          arguments, and should restore the saved value of the current terminal.
+          <code>SAVE_LEXER</code> will never be called more than once without a
+          call to <code>RESTORE_LEXER</code>, so the save stack only needs one
+          element.</para></listitem>
+      </orderedlist>
+    </para>
 
     <para>The remainder of this section describes the layout of the C
       information file. The lexical conventions are described first,
@@ -1233,87 +1270,91 @@ name1 : Type1T = &lt;action1&gt; ;
         by <code>@}</code>. The code block consists of all of the
         characters between the start and end of the code block, subject
         to substitutions. All substitutions begin with the <code>@</code>
-        character. The following substitutions are recognised:</para>
+        character. The following substitutions are recognised:
 
-      <segmentedlist>
-        <seglistitem><seg><code>@@</code></seg>
+        <itemizedlist>
+          <listitem>
+            <para><code>@@</code></para>
 
-          <seg>This substitutes the <code>@</code> character itself.</seg></seglistitem>
+            <para>This substitutes the <code>@</code> character itself.</para>
+          </listitem>
 
-        <seglistitem><seg><code>@:</code><i>label</i></seg>
+          <listitem><para><code>@:</code><token>label</token></para>
 
-          <seg>This form marks a label, which will be substituted for in
-            the output code. This is necessary, because an action may be
-            inlined into the same function more than once. If this happens,
-            then without doing label substitution there would be two
-            identical labels in the same scope. With label substitution,
-            this problem is avoided. In general, all references to a label
-            within an action should be prefixed with <code>@:</code>. This
-            substitution may not be used in header and trailer code
-            blocks.</seg></seglistitem>
+            <para>This form marks a label, which will be substituted for in
+              the output code. This is necessary, because an action may be
+              inlined into the same function more than once. If this happens,
+              then without doing label substitution there would be two
+              identical labels in the same scope. With label substitution,
+              this problem is avoided. In general, all references to a label
+              within an action should be prefixed with <code>@:</code>. This
+              substitution may not be used in header and trailer code
+              blocks.</para></listitem>
 
-        <seglistitem><seg><code>@</code><i>identifier</i></seg>
+          <listitem>
+            <para><code>@</code><token>identifier</token></para>
 
-          <seg>
-            This form marks a parameter or result identifier
-            substitution. If parameter and result identifiers are not
-            prefixed with an <code>@</code> character, then they will not
-            be substituted. It is an error if the identifier is not a
-            parameter or a result. Header and trailer code blocks have no
-            parameters or results, so it is always an error to use
-            identifier substitution in them. It is an error if any of the
-            result identifiers are not substituted at least once.
+            <para>This form marks a parameter or result identifier substitution.
+              If parameter and result identifiers are not prefixed with an
+              <code>@</code> character, then they will not be substituted. It is
+              an error if the identifier is not a parameter or a result. Header
+              and trailer code blocks have no parameters or results, so it is
+              always an error to use identifier substitution in them. It is an
+              error if any of the result identifiers are not substituted at
+              least once.</para>
 
-            <para>Result identifiers may be assigned to using this form of
-              identifier substitution, but parameter identifiers may not be
-              (nor may there address be taken - they are immutable). To try
-              to prevent this, parameters that are substituted may be cast
-              to their own type, which makes them unmodifiable in ISO C
-              (see the notes on the <a href="#casts"><code>casts</code>
-                language specific option</a>).</para>
-        </seg></seglistitem>
+              <para>Result identifiers may be assigned to using this form of
+                identifier substitution, but parameter identifiers may not be
+                (nor may there address be taken - they are immutable). To try to
+                prevent this, parameters that are substituted may be cast to
+                their own type, which makes them unmodifiable in ISO C (see the
+                notes on the <link linkend="casts"><code>casts</code> language
+                specific option</link>).</para>
+          </listitem>
 
-        <seglistitem><seg><code>@&amp;</code><i>identifier</i></seg>
+          <listitem>
+            <para><code>@&amp;</code><token>identifier</token></para>
 
-          <seg>This form marks a parameter identifier whose address is to
-            be substituted, but whose contents will not be modified. The
-            effects of modifying the identifier are undefined. It is an
-            error to use this in parameter assignment operator
-            definitions.</seg></seglistitem>
+            <para>This form marks a parameter identifier whose address is to
+              be substituted, but whose contents will not be modified. The
+              effects of modifying the identifier are undefined. It is an
+              error to use this in parameter assignment operator
+              definitions.</para></listitem>
 
-        <seglistitem><seg><code>@=</code><i>identifier</i></seg>
+          <listitem><para><code>@=</code><token>identifier</token></para>
 
-          <seg>This form marks a parameter identifier that will be
-            modified. For this to be useful, the parameter should be a call
-            by reference parameter, so that the effect of the modification
-            will be propagated. This substitution is only valid in actions
-            (assignment operators are not allowed to modify their
-            parameters).</seg></seglistitem>
+            <para>This form marks a parameter identifier that will be
+              modified. For this to be useful, the parameter should be a call
+              by reference parameter, so that the effect of the modification
+              will be propagated. This substitution is only valid in actions
+              (assignment operators are not allowed to modify their
+              parameters).</para></listitem>
 
-        <seglistitem><seg><code>@!</code></seg>
+          <listitem><para><code>@!</code></para>
 
-          <seg>This form marks an exception raise. In the generated code,
-            a jump to the current exception handler will be substituted.
-            This substitution is only valid in actions.</seg></seglistitem>
+            <para>This form marks an exception raise. In the generated code,
+              a jump to the current exception handler will be substituted.
+              This substitution is only valid in actions.</para></listitem>
 
-        <seglistitem><seg><code>@.</code></seg>
+          <listitem><para><code>@.</code></para>
 
-          <seg>This form marks an attempt to access the current terminal.
-            This substitution is only valid in actions.</seg></seglistitem>
+            <para>This form marks an attempt to access the current terminal.
+              This substitution is only valid in actions.</para></listitem>
 
-        <seglistitem><seg><code>@&gt;</code></seg>
+          <listitem><para><code>@&gt;</code></para>
 
-          <seg>This form marks an attempt to advance the lexical analyser.
-            This substitution is only valid in actions.</seg></seglistitem>
-      </segmentedlist>
-
+            <para>This form marks an attempt to advance the lexical analyser.
+              This substitution is only valid in actions.</para></listitem>
+        </itemizedlist>
+      </para>
 
       <para>All other forms are illegal. Note that in the case of labels
         and identifiers, no white space is allowed between the
         <code>@:</code>, <code>@</code>, <code>@&amp;</code> or
         <code>@=</code> and the identifier name. An example of a code
-        block is:</para>
-      <programlisting>
+        block is:
+
+        <programlisting>
 @{
 /* A code block */
 {
@@ -1332,7 +1373,8 @@ if ( @. == TOKEN_SEMI ) {
 }
 }
 @}
-      </programlisting>
+        </programlisting>
+      </para>
     </sect1>
 
     <sect1 id="prefixes">
@@ -1382,7 +1424,6 @@ calculator      -&gt; calculator ;
         rules have their names mapped in this section, although this is
         not necessary. If the names are not mapped, they will have funny
         names in the rest of the program.</para>
-
     </sect1>
 
     <sect1 id="header">
@@ -1651,7 +1692,8 @@ return 0 ;
     <para>During the factorisation process, rules that begin with
       predicates are expanded if necessary to ensure that predicates
       that may be used to select which alternative to go down always
-      begin the alternative, e.g.:</para>
+      begin the alternative, e.g.:
+
     <programlisting>
 rule1 = {
 rule2 ;
@@ -1695,12 +1737,13 @@ rule = {
 ||
 /* .... */
 } ;
-    </programlisting>When predicates begin a rule, they are executed (in some
-    arbitrary order) until one of them returns true. The alternative
-    that this predicate begins is then selected. If no predicates
-    return true, then one of the remaining alternatives is selected
-    based upon the current terminal (or an error occurs).
-
+    </programlisting>
+    
+      When predicates begin a rule, they are executed (in some
+      arbitrary order) until one of them returns true. The alternative
+      that this predicate begins is then selected. If no predicates
+      return true, then one of the remaining alternatives is selected
+      based upon the current terminal (or an error occurs).</para>
 
     <para>It is important that predicates do not contain dependencies
       upon the order of evaluation. In practice, predicates are likely
@@ -1795,112 +1838,156 @@ rule1 ( a, b, &amp;c, &amp;d ) ;
     <para>This section describes some of the terms used in the
       <code>sid</code> documentation.</para>
 
-    <segmentedlist>
-      <seglistitem><seg>Alternative</seg>
+    <glossary id="sid-glossary">
+      <glossentry>
+        <glossterm>Alternative</glossterm>
 
-        <seg>An alternative is a sequence of items.</seg></seglistitem>
+        <glossdef>
+          <para>An alternative is a sequence of items.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Exception handler</seg>
+      <glossentry>
+        <glossterm>Exception handler</glossterm>
 
-        <seg>An exception handler is a special type of alternative. Each
-          rule may have at most one exception handler. An exception
-          handler is invoked if the current terminal does not match any
-          of the expected terminals, if a predicate fails, or if an
-          action raises an exception, within the scope of the exception
-          handler.</seg></seglistitem>
+        <glossdef>
+          <para>An exception handler is a special type of alternative.  Each
+            rule may have at most one exception handler. An exception handler
+            is invoked if the current terminal does not match any of the
+            expected terminals, if a predicate fails, or if an action raises
+            an exception, within the scope of the exception
+            handler.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Expansion</seg>
+      <glossentry>
+        <glossterm>Expansion</glossterm>
 
-        <seg>This is the process of physically inlining a rule into
-          another rule. It is done during the factoring process to turn
-          the grammar into a form that a parser can be produced for. See
-          the entry for factoring.</seg></seglistitem>
+        <glossdef>
+          <para>This is the process of physically inlining a rule into another
+            rule. It is done during the factoring process to turn the grammar
+            into a form that a parser can be produced for. See the entry for
+            factoring.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Factoring</seg>
+      <glossentry>
+        <glossterm>Factoring</glossterm>
 
-        <seg>This is one of the transforms that <code>sid</code>
-          performs on the grammar. See the <a href="#overview">overview
-            section</a> for a description of the factoring process.</seg></seglistitem>
+        <glossdef>
+          <para>This is one of the transforms that <code>sid</code> performs
+            on the grammar. See the <link linkend="overview">overview
+            section</link> for a description of the factoring
+            process.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>First set</seg>
+      <glossentry>
+        <glossterm>First set</glossterm>
 
-        <seg>The first set of a rule (or alternative) is the set of
-          terminals and predicates that can start that rule (or
-          alternative).</seg></seglistitem>
+        <glossdef>
+          <para>The first set of a rule (or alternative) is the set of
+            terminals and predicates that can start that rule (or
+            alternative).</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Follow set</seg>
+      <glossentry>
+        <glossterm>Follow set</glossterm>
 
-        <seg>The follow set of a rule is the set of terminals and
-          predicates that can follow the rule in any of its
-          invocations.</seg></seglistitem>
+        <glossdef>
+          <para>The follow set of a rule is the set of terminals and
+            predicates that can follow the rule in any of its
+            invocations.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Inlining</seg>
+      <glossentry>
+        <glossterm>Inlining</glossterm>
 
-        <seg>This is the process of outputting the code for parsing one
-          rule within the function that parses another rule. This is
-          normally done as part of the output process. Expansion is a
-          form of inlining performed during the factoring process, but
-          the inlining is done by modifying the grammar, rather than as
-          part of the output phase.</seg></seglistitem>
+        <glossdef>
+          <para>This is the process of outputting the code for parsing one
+            rule within the function that parses another rule. This is
+            normally done as part of the output process. Expansion is a form
+            of inlining performed during the factoring process, but the
+            inlining is done by modifying the grammar, rather than as part of
+            the output phase.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Item</seg>
+      <glossentry>
+        <glossterm>Item</glossterm>
 
-        <seg>An item is the equivalent of a statement in a conventional
-          programming language. It can be an invocation of a rule,
-          terminal, action or predicate, or an identity operation
-          (assignment).</seg></seglistitem>
+        <glossdef>
+          <para>An item is the equivalent of a statement in a conventional
+            programming language. It can be an invocation of a rule, terminal,
+            action or predicate, or an identity operation (assignment).</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Name</seg>
+      <glossentry>
+        <glossterm>Name</glossterm>
 
-        <seg>A name is an identifier that is used to pass information
-          between rules and actions. Local names are defined within a
-          rule, and only exist within the rule itself. Non-local names
-          are defined in a rule's scoped definitions section and exists
-          in all of the rules in that scope. Non-local rules are also
-          saved and restored across calls to the rule that defines
-          them.</seg></seglistitem>
+        <glossdef>
+          <para>A name is an identifier that is used to pass information
+            between rules and actions. Local names are defined within a rule,
+            and only exist within the rule itself. Non-local names are defined
+            in a rule's scoped definitions section and exists in all of the
+            rules in that scope. Non-local rules are also saved and restored
+            across calls to the rule that defines them.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Recursion</seg>
+      <glossentry>
+        <glossterm>Recursion</glossterm>
 
-        <seg>
-          Recursion is where a rule invokes itself. Direct recursion is
-          where the rule invokes itself from one of its own
-          alternatives; indirect recursion is where a rule invokes
-          another rule (which invokes another rule etc.) which
-          eventually invokes the original rule.
-
+        <glossdef>
+          <para>Recursion is where a rule invokes itself. Direct recursion is
+            where the rule invokes itself from one of its own alternatives;
+            indirect recursion is where a rule invokes another rule (which
+            invokes another rule etc.) which eventually invokes the original
+            rule.</para>
 
           <para>Left recursion is a form of recursion where all of the
-            recursive calls occur as the first item in an alternative. It
-            is not possible to produce a parser for a grammar that
-            contains left recursions, so <code>sid</code> turns left
-            recursions into right recursions. This process is known as
-            left recursion elimination.</para>
+            recursive calls occur as the first item in an alternative. It is
+            not possible to produce a parser for a grammar that contains left
+            recursions, so <code>sid</code> turns left recursions into right
+            recursions. This process is known as left recursion
+            elimination.</para>
 
           <para>Right recursion is a form of recursion where all of the
             recursive calls occur as the last item in an alternative.</para>
-      </seg></seglistitem>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Production</seg>
+      <glossentry>
+        <glossterm>Production</glossterm>
 
-        <seg>See rule.</seg></seglistitem>
+        <glossdef>
+          <para>See rule.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>Rule</seg>
+      <glossentry>
+        <glossterm>Rule</glossterm>
 
-        <seg>A rule is a sequence of alternatives. A rule may contain a
-          special alternative that is used as an exception handler. A
-          rule is also referred to as a production; this term is normally
-          used when talking about the definition of a rule.</seg></seglistitem>
+        <glossdef>
+          <para>A rule is a sequence of alternatives. A rule may contain a
+            special alternative that is used as an exception handler.  A rule
+            is also referred to as a production; this term is normally used
+            when talking about the definition of a rule.</para>
+        </glossdef>
+      </glossentry>
 
-      <seglistitem><seg>See-through</seg>
+      <glossentry>
+        <glossterm>See-through</glossterm>
 
-        <seg>A rule is said to be see-through if there is an expansion
-          of the rule that does not contain any terminals or
-          predicates.</seg></seglistitem>
-    </segmentedlist>
-
-
-
+        <glossdef>
+          <para>A rule is said to be see-through if there is an expansion of
+            the rule that does not contain any terminals or predicates.</para>
+        </glossdef>
+      </glossentry>
+    </glossary>
   </chapter>
 
   <chapter id="errors">
@@ -1914,13 +2001,12 @@ rule1 ( a, b, &amp;c, &amp;d ) ;
     <sect1 id="left-errors">
       <title>Left recursion elimination errors</title>
 
-      <para><b>The parameter or result types of the left recursive calls
-          in the following productions do not match:
-          <i>PRODUCTIONS</i></b>: This means that there is a set of rules
-        which call each other left recursively (i.e. the first item in
-        some of the alternatives in each rule is a call to another rule
-        in the set), and they do not all have the same parameter and
-        result types, e.g.:
+      <para><errortext>The parameter or result types of the left recursive
+        calls in the following productions do not match:
+        PRODUCTIONS</errortext>: This means that there is a set of rules which
+        call each other left recursively (i.e. the first item in some of the
+        alternatives in each rule is a call to another rule in the set), and
+        they do not all have the same parameter and result types, e.g.:
 
         <programlisting>
 rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
@@ -1937,13 +2023,12 @@ terminal2 ;
         </programlisting>
       </para>
 
-
-      <para><b>The exception handlers in the left recursion involving the
-          following productions do not match: <i>PRODUCTIONS</i></b>: This
-        means that there is a set of productions which call each other
-        left recursively (i.e. the first item in an alternative is a call
-        to another production in the set), and they do not all have the
-        same exception handler, e.g.:
+      <para><errortext>The exception handlers in the left recursion involving
+        the following productions do not match: PRODUCTIONS</errortext>: This
+        means that there is a set of productions which call each other left
+        recursively (i.e. the first item in an alternative is a call to
+        another production in the set), and they do not all have the same
+        exception handler, e.g.:
 
         <programlisting>
 rule1 = {
@@ -1969,13 +2054,13 @@ terminal2 ;
         place.</para>
 
 
-      <para><b>The argument names of the left recursive calls in the
-          following productions do not match: <i>PRODUCTIONS</i></b>: This
-        means that there is a set of productions which call each other
-        left recursively (i.e. the first item in an alternative is a call
-        to another production in the set), and the arguments to one of
-        the left recursive calls are not the same as the parameters of
-        the calling rule, e.g.:
+      <para><errortext>The argument names of the left recursive calls in the
+        following productions do not match: PRODUCTIONS</errortext>: This
+        means that there is a set of productions which call each other left
+        recursively (i.e. the first item in an alternative is a call to
+        another production in the set), and the arguments to one of the left
+        recursive calls are not the same as the parameters of the calling
+        rule, e.g.:
 
         <programlisting>
 rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
@@ -1987,14 +2072,13 @@ terminal1 ;
       </para>
 
 
-      <para><b>A non-local name in the rule '<i>RULE</i>' is not in scope
-          in the rule '<i>RULE</i>' in the left recursive cycle involving
-          the following productions: <i>PRODUCTIONS</i></b>: This means
-        that there is a set of productions which call each other left
-        recursively (i.e. the first item in an alternative is a call to
-        another production in the set), and the first named rule uses a
-        non-local name that is not in scope in the second named rule,
-        e.g.:
+      <para><errortext>A non-local name in the rule 'RULE' is not in scope in
+        the rule 'RULE' in the left recursive cycle involving the following
+        productions: PRODUCTIONS</errortext>: This means that there is a set
+        of productions which call each other left recursively (i.e. the first
+        item in an alternative is a call to another production in the set),
+        and the first named rule uses a non-local name that is not in scope in
+        the second named rule, e.g.:
 
         <programlisting>
 rule1 [
@@ -2016,14 +2100,13 @@ rule1_1 ;
         </programlisting>
       </para>
 
-      <para><b>The rule '<i>RULE</i>' declares non-local names in the left
-          recursive cycle with more than one entry point involving the
-          following productions: <i>PRODUCTIONS</i></b>: This means that
-        there is a set of productions which call each other left
-        recursively (i.e. the first item in an alternative is a call to
-        another production in the set), and the named rule defines
-        non-local variables even though it is not the only entry point to
-        the cycle, e.g.:
+      <para><errortext>The rule 'RULE' declares non-local names in the left
+        recursive cycle with more than one entry point involving the following
+        productions: PRODUCTIONS</errortext>: This means that there is a set
+        of productions which call each other left recursively (i.e. the first
+        item in an alternative is a call to another production in the set),
+        and the named rule defines non-local variables even though it is not
+        the only entry point to the cycle, e.g.:
 
         <programlisting>
 rule1 [
@@ -2049,12 +2132,12 @@ terminal2 ;
       </para>
 
 
-      <para><b>No cycle termination for the left recursive set involving
-          the following rules: <i>RULES</i></b>: This means that there is a
-        set of productions which call each other left recursively (i.e.
-        the first item in an alternative is a call to another production
-        in the set), and they do not contain an alternative that begins
-        with a non-left recursive call, e.g.:
+      <para>No cycle termination for the left recursive set involving the
+        following rules: <token>RULES</token>: This means that there is a set
+        of productions which call each other left recursively (i.e.  the first
+        item in an alternative is a call to another production in the set),
+        and they do not contain an alternative that begins with a non-left
+        recursive call, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2081,11 +2164,10 @@ rule2 ;
     <sect1 id="first-errors">
       <title>First set computation errors</title>
 
-      <para><b>Cannot compute first set for <i>PRODUCTION</i></b>: This
-        means that <code>sid</code> cannot compute the set of terminals
-        and predicates that may start the production. This is normally
-        because there is a recursive call (or cycle) that contains no
-        terminals, e.g.:
+      <para>Cannot compute first set for <token>PRODUCTION</token>: This means
+        that <code>sid</code> cannot compute the set of terminals and
+        predicates that may start the production. This is normally because
+        there is a recursive call (or cycle) that contains no terminals, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2099,10 +2181,10 @@ terminal1 ;
         This is not removed by the left recursion elimination phase,
         as the call is not the leftmost item in the alternative.</para>
 
-      <para><b>Can see through to predicate '<i>PREDICATE</i>' in production
-          <i>PRODUCTION</i></b>: This means that there is a predicate that isn't
-        the first item in its alternative, but is preceded only by see-through
-        items, e.g.:
+      <para>Can see through to predicate '<token>PREDICATE</token>' in
+        production <token>PRODUCTION</token>: This means that there is a
+        predicate that isn't the first item in its alternative, but is
+        preceded only by see-through items, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2115,11 +2197,11 @@ terminal1 ;
       </para>
 
 
-      <para><b>Can see through to predicates in rule '<i>RULE</i>' in
-          production <i>PRODUCTION</i></b>: This means that the first rule has
-        at least one predicate in its first set, and the second rule calls it
-        in a position where it is not the first item in the alternative and is
-        preceded only by see-through items, e.g.:
+      <para>Can see through to predicates in rule '<token>RULE</token>' in
+        production <token>PRODUCTION</token>: This means that the first rule
+        has at least one predicate in its first set, and the second rule calls
+        it in a position where it is not the first item in the alternative and
+        is preceded only by see-through items, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2137,48 +2219,46 @@ terminal2 ;
         </programlisting>
       </para>
 
-      <para><b>The rule '<i>RULE</i>' has all terminals in its first set
-          and has a redundant see-through alternative</b>: This means that
-        the rule's first set (the set of all terminals that can start the
-        rule) includes all possible input terminals, and the rule also
-        has a see-through alternative. The see-through alternative will
-        never be used, as one of the other alternatives will always be
-        chosen.</para>
+      <para>The rule '<token>RULE</token>' has all terminals in its first set
+        and has a redundant see-through alternative: This means that the
+        rule's first set (the set of all terminals that can start the rule)
+        includes all possible input terminals, and the rule also has a
+        see-through alternative. The see-through alternative will never be
+        used, as one of the other alternatives will always be chosen.</para>
     </sect1>
 
     <sect1 id="factor-errors">
       <title>Factoring errors</title>
 
-      <para><b>Too many productions (<i>NUMBER</i>) created during
-          factorisation</b>: This normally means that <code>sid</code> cannot
-        factor the grammar. You will need to rewrite the offending part.
+      <para>Too many productions (<token>NUMBER</token>) created during
+        factorisation: This normally means that <code>sid</code> cannot factor
+        the grammar. You will need to rewrite the offending part.
         Unfortunately there is no easy way to do this. Start by looking at the
         dump file for a set of rules that seem to have been expanded a
         lot.</para>
 
-      <para><b>The rule '<i>RULE</i>' cannot be expanded into '<i>RULE</i>' as
-          the exception handlers don't match</b>: When <code>sid</code> performs
-        factoring, it needs to expand calls to certain rules into the rules
-        that calls them (this is described in the <a href="#overview">overview
-          section</a>). If the called rule has an exception handler and it is
-        not the same as the exception handler of the calling rule, then the
-        expansion will fail.</para>
+      <para>The rule '<token>RULE</token>' cannot be expanded into
+        '<token>RULE</token>' as the exception handlers don't match: When
+        <code>sid</code> performs factoring, it needs to expand calls to
+        certain rules into the rules that calls them (this is described in the
+        <link linkend="overview">overview section</link>). If the called rule has an
+        exception handler and it is not the same as the exception handler of
+        the calling rule, then the expansion will fail.</para>
 
-      <para><b>The rule '<i>RULE</i>' cannot be expanded into '<i>RULE</i>' as
-          it contains non-local name definitions</b>: When <code>sid</code>
-        performs factoring, it needs to expand calls to certain rules into the
-        rules that calls them (this is described in the
-        <a href="#overview">overview section</a>). If the called rule defines
+      <para>The rule '<token>RULE</token>' cannot be expanded into
+        '<token>RULE</token>' as it contains non-local name definitions:
+        When <code>sid</code> performs factoring, it needs to expand calls to
+        certain rules into the rules that calls them (this is described in the
+        <link linkend="overview">overview section</link>). If the called rule defines
         any non-local names, then the expansion will fail.</para>
     </sect1>
 
     <sect1 id="check-errors">
       <title>Checking errors</title>
 
-      <para><b>Collision of terminal(s) <i>TERMINALS</i> in rule
-          '<i>RULE</i>'</b>: This error means that more than one
-        alternative in the named rule begins with the named terminals,
-        e.g.:
+      <para><errortext>Collision of terminal(s) TERMINALS in rule
+        'RULE'</errortext>: This error means that more than one alternative in
+        the named rule begins with the named terminals, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2193,9 +2273,9 @@ terminal1 ;
         when something like the above happens to stop the factoring
         occurring, this error will be produced.</para>
 
-      <para><b>Collision of predicate '<i>PREDICATE</i>' in rule
-          '<i>RULE</i>'</b>: This error occurs when more than one alternative in
-        the named rule begins with the named predicate, e.g.:
+      <para><errortext>Collision of predicate 'PREDICATE' in rule
+        'RULE'</errortext>: This error occurs when more than one alternative
+        in the named rule begins with the named predicate, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2212,12 +2292,11 @@ rule1 = {
         predicate results in different alternatives, this error will be
         produced.</para>
 
-      <para><b>The terminal(s) <i>TERMINALS</i> can start rule
-          '<i>RULE</i>' which is see-through, and the same terminal(s) may
-          appear in the following situations: <i>ALTERNATIVES</i></b>: This
-        means that there are one or more terminals that can start the
-        named rule (which is see-through), and may also follow it,
-        e.g.:
+      <para>The terminal(s) <token>TERMINALS</token> can start rule
+        '<token>RULE</token>' which is see-through, and the same terminal(s)
+        may appear in the following situations: <token>ALTERNATIVES</token>:
+        This means that there are one or more terminals that can start the
+        named rule (which is see-through), and may also follow it, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2238,11 +2317,11 @@ terminal2 ;
         rule, and contain (some of) the named terminals after the call. The
         call is highlighted.</para>
 
-      <para><b>The predicate(s) <i>PREDICATES</i> can start rule '<i>RULE</i>'
-        which is see-through and the same predicate(s) may appear in the
-        following situations: <i>ALTERNATIVES</i></b>: This means that there
-        are one or more predicates that can start the named rule (which is
-        see-through), and may also follow it, e.g.:
+      <para>The predicate(s) <token>PREDICATES</token> can start rule
+        '<token>RULE</token>' which is see-through and the same predicate(s)
+        may appear in the following situations: <token>ALTERNATIVES</token>:
+        This means that there are one or more predicates that can start the
+        named rule (which is see-through), and may also follow it, e.g.:
 
         <programlisting>
 rule1 = {
@@ -2264,8 +2343,8 @@ terminal2 ;
         rule, and contain (some of) the named predicates after the call.
         The call is highlighted.</para>
 
-      <para><b>The rule '<i>RULE</i>' contains more than one see-through
-        alternative</b>: This error occurs if the rule has more than one
+      <para>The rule '<token>RULE</token>' contains more than one see-through
+        alternative: This error occurs if the rule has more than one
         alternative that doesn't need to read a terminal or a predicate, e.g.:
 
         <programlisting>
