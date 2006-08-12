@@ -92,7 +92,7 @@
  *
  *	ArgListT arg_list [] = {
  *		AP_OPT_PROC_SW(option_name, 'p', NULL, "option name", arg_proc),
- *	    AP_OPT_EOL
+ *		AP_OPT_EOL
  *	};
  *
  * If an option has only a short form, then the name should be NULL,
@@ -263,7 +263,7 @@ void	arg_std_version(char *, void *);
 #define	AP_OPT_SWITCH(name, snm, lnm, var) \
 	AP_OPTION((snm), (lnm), AT_SWITCH, NULL, (var), MID_description_of_##name)
 
-#define	AP_OPT_NEG_SW(name, snm, lnm, proc) \
+#define	AP_OPT_NEG_SW(name, snm, lnm, var) \
 	AP_OPTION((snm), (lnm), AT_NEG_SWITCH, NULL, (var), MID_description_of_##name)
 
 #define	AP_OPT_EMPTY(name, snm, lnm, proc) \
