@@ -1,0 +1,830 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<book>
+  <bookinfo>
+    <title>The TDF Linker</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+
+    <author>
+      <firstname>Jeroen</firstname>
+
+      <surname>Ruigrok van der Werven</surname>
+    </author>
+
+    <authorinitials>JRvdW</authorinitials>
+
+    <pubdate>2006</pubdate>
+
+    <copyright>
+      <year>2006</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+
+      <holder>DERA</holder>
+    </copyright>
+  </bookinfo>
+
+  <chapter id="introduction">
+    <title>Introduction</title>
+
+    <para>This document describes the formats of the files used by the TDF
+      linker and the linker's required behaviour. There are two file formats:
+      the capsule format and the library format. It also describes the format
+      of the linker information units within capsules. The capsule format is
+      described in more detail in the TDF specification.</para>
+  </chapter>
+
+  <chapter id="basic-tdf-structures">
+    <title>Basic TDF structures</title>
+
+    <para>The structure of a TDF capsule is defined properly in the TDF
+      specification. This section describes the basic components of the TDF
+      format that the linker uses, and the remaining sections describe the
+      format of a TDF capsule, a TDF library and a linker information unit in
+      terms of these components. The basic components are:
+
+      <table id="tdf-components-and-their-meanings">
+        <title>TDF components and their meanings</title>
+
+        <tgroup cols="2">
+          <tbody>
+            <row>
+              <entry><code>ALIGN</code></entry>
+
+              <entry>This is a byte alignment. It forces the next object to
+                begin on an eight bit boundary.</entry>
+            </row>
+
+            <row>
+              <entry><code>TDFINT</code></entry>
+
+              <entry>This is an unsigned number of unbounded size. Its
+                representation is described properly in the TDF specification.
+                It is a series of nibbles (four bits), with the high bit used
+                as a terminator and the low three bits used as an octal digit.
+                The terminator bit is set on the final octal digit. As an
+                example, the number ten would be represented (in binary) as:
+                0001 1010.</entry>
+            </row>
+
+            <row>
+              <entry><code>BYTE</code></entry>
+
+              <entry>This is an eight bit quantity. <code>BYTE</code>s are
+                always aligned on an eight bit boundary.</entry>
+            </row>
+
+            <row>
+              <entry><code>TDFIDENT</code></entry>
+
+              <entry>A <code>TDFIDENT</code> is a sequence of characters. It
+                is possible to change the size of the characters, although the
+                current implementation will produce an error for
+                <code>TDFIDENT</code> s with character sizes other than eight
+                bits. A <code>TDFIDENT</code> is represented by two
+                <code>TDFINT</code>s (the size of the characters in bits and
+                the number of characters in the <code>TDFIDENT</code>), and a
+                sequence of <code>BYTE</code>s.</entry>
+            </row>
+
+            <row>
+              <entry><code>UNIQUE</code></entry>
+
+              <entry>A <code>UNIQUE</code> is a list of <code>TDFIDENT</code>
+                s.  It is represented as a <code>TDFINT</code> specifying the
+                number of <code>TDFIDENT</code>s in the <code>UNIQUE</code>,
+                followed by that many <code>TDFIDENT</code>s.</entry>
+            </row>
+
+            <row>
+              <entry><code>EXTERNAL</code></entry>
+
+              <entry>An <code>EXTERNAL</code> is a mechanism for identifying
+                external identifiers. It is represented as a discriminating
+                tag, followed by a byte alignment, followed by either a
+                <code>TDFIDENT</code> or a <code>UNIQUE</code>. The tag is a
+                two bit number, where one represents a <code>TDFIDENT</code>,
+                two represents a <code>UNIQUE</code>, and zero and three are
+                currently illegal. <code>UNIQUE</code> s are only used as part
+                of an <code>EXTERNAL</code>; <code>TDFIDENT</code> s are used
+                as entities in their own right, as well as in
+                <code>EXTERNAL</code> s.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </para>
+
+    <para>In the following descriptions, the syntax <token>name: type</token>
+      is used to specify an object in the structure. The <token>name</token>
+      is used to describe the purpose of the object; the <token>type</token>
+      is used to describe what the object is. A <token>type</token> is one of
+      the following:
+
+      <table id="token-types">
+        <title>Token types</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Type</entry>
+
+              <entry>Meaning</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><token>basic_type</token></entry>
+
+              <entry>This represents one of the basic types listed
+                above.</entry>
+            </row>
+
+            <row>
+              <entry><token>type</token> * <token>integer</token></entry>
+
+              <entry>This represents a sequence of objects of the specified
+                type. The <token>integer</token> may be either an integer
+                literal, or a name that has been previously mentioned and is a
+                <code>TDFINT</code> object.</entry>
+            </row>
+
+            <row>
+              <entry>{ <token>name1</token>: <token>type1</token> ...
+                <token>nameN</token>: <token>typeN</token> }</entry>
+
+              <entry>This represents a structure composed of the elements
+                  <token>name1: type1</token> to <token>nameN: typeN</token>.
+                  It is used for sequences of objects where the objects are
+                  not of basic types.</entry>
+            </row>
+
+            <row>
+              <entry><token>type</token> = ( <token>value1</token> | ... |
+                <token>valueN</token> )</entry>
+
+              <entry>This represents a type with a constraint imposed upon it.
+                The object value must be one of <token>value1</token> to
+                <token>valueN</token>.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </para>
+  </chapter>
+
+  <chapter id="structure-of-a-tdf-capsule">
+    <title>Structure of a TDF Capsule</title>
+
+    <para>A TDF capsule has the following structure:
+
+      <programlisting>
+magic                               BYTE * 4 = "TDFC"
+major_version                       TDFINT
+minor_version                       TDFINT
+ALIGN
+num_prop_names:                     TDFINT
+prop_names:                         TDFIDENT * num_prop_names
+num_linkable_entities:              TDFINT
+linkable_entities: {
+name:                           TDFIDENT
+num_capsule_scope_identifiers:  TDFINT
+} * num_linkable_entities
+num_external_linkages:              TDFINT = num_linkable_entities
+external_linkages: {
+num_entries:                    TDFINT
+entries: {
+capsule_scope_id:           TDFINT
+external_name:              EXTERNAL
+} * num_entries
+} * num_external_linkages
+num_unit_groups:                    TDFINT = num_prop_names
+unit_groups: {
+num_units:                      TDFINT
+units: {
+num_counts:                 TDFINT = (num_linkable_entities | 0)
+counts:                     TDFINT * num_counts
+num_link_sets:              TDFINT = num_counts
+link_sets: {
+num_links:              TDFINT
+links: {
+internal:           TDFINT
+external:           TDFINT
+} * num_links
+} * num_link_sets
+num_bytes_tdf:              TDFINT
+tdf:                        BYTE * num_bytes_tdf
+} * num_units
+} * num_unit_groups
+      </programlisting>
+    
+      The rest of this section describes the format of a capsule.
+    </para>
+
+    <para>The capsule begins with a header that contains a four byte magic
+      number (<token>magic</token>: "TDFC"), followed by the major
+      (<token>major_version</token>) and minor (<token>minor_version</token>)
+      version numbers of the TDF in the capsule. This is then followed by a
+      byte alignment and then the the capsule body.</para>
+
+    <para>The first part of a capsule tells the linker how many types of unit
+      groups there are in the capsule (<token>num_prop_names</token>), and
+      what the names of these unit group types are
+      (<token>prop_names</token>).  There can be many unit group types, but
+      the linker must know what they are called, and the order in which they
+      should occur. At present the linker knows about <token>tld</token>,
+      <token>tld2</token>, <token>versions</token>, <token>tokdec</token>,
+      <token>tokdef</token>, <token>aldef</token>, <token>diagtype</token>,
+      <token>tagdec</token>, <token>diagdef</token>, <token>tagdef</token> and
+      <token>linkinfo</token> (this can be changed from the command line).
+      There is nothing special about any unit group type except for the
+      <token>tld</token> unit group type, which contains information that the
+      linker uses (and the <token>tld2</token> unit group type, which is
+      obsolete, but is treated as a special case of the <token>tld</token>
+      unit group type). The format of the <token>tld</token> unit group type
+      is described in a later section.</para>
+
+    <para>The second part of the capsule tells the linker how many linkable
+      entities it should be linking on (<token>num_linkable_entities</token>),
+      the name of each linkable entity (<token>name</token>), and the number
+      of identifiers of each linkable entity at capsule scope
+      (<token>num_capsule_scope_identifiers</token>).  Identifiers at capsule
+      scope should be numbers from zero to one less than
+      <token>num_capsule_scope_identifiers</token>. The identifier allocation
+      may be sparse, but the linker is optimized for continuous identifier
+      allocation.</para>
+
+    <para>The third part of the capsule tells the linker which external names
+      the capsule contains for each linkable entity. For each linkable entity
+      listed in the second part, the number of external names of that linkable
+      entity are listed in this part (<token>num_entries</token>), along with
+      each of the external names (<token>external_name</token>) and the
+      corresponding capsule scope identifiers
+      (<token>capsule_scope_id</token>). The ordering of the linkable entities
+      in part three must be identical to the ordering of linkable entities in
+      part two.</para>
+
+    <para>The fourth and final part of the capsule contains the unit groups
+      themselves. The unit groups occur in the same order as the unit group
+      types were listed in part one. For each unit group, there is a
+      <code>TDFINT</code> specifying the number of units in that unit group
+      (<token>num_units</token>), followed by that many units.</para>
+
+    <para>Each unit contains a list of counts (<token>counts</token>) and the
+      number of counts in that list (<token>num_counts</token>), which must be
+      either zero or the same as the number of linkable entities in the
+      capsule (<token>num_linkable_entities</token> ). Each count contains the
+      number of unit scope identifiers of the given linkable entity in the
+      unit. If the number of counts is non-zero, then the counts must be in
+      the same order as the linkable entity names.</para>
+
+    <para>After the counts come the unit scope identifier to capsule scope
+      identifier mapping tables. The number of these tables is specified by
+      <token>num_link_sets</token> and must be the same as the number of
+      counts (<token>num_counts</token>), which is either zero or the same as
+      the number of linkable entities in the capsule. There is one table for
+      each linkable entity (if <token>num_link_sets</token> is non-zero), and
+      each table contains <token>num_links</token> pairs of
+      <code>TDFINT</code>s. The <token>internal</token> <code>TDFINT</code> is
+      the unit scope identifier; the <token>external</token>
+      <code>TDFINT</code> is the capsule scope identifier.</para>
+
+    <para>After the mapping tables there is a length
+      (<token>num_bytes_tdf</token>), and that many bytes of TDF data
+      (<token>tdf</token>).</para>
+  </chapter>
+
+  <chapter id="linker-information-unit">
+    <title>Linker information unit groups</title>
+
+    <para>The <token>tld</token> unit group (if it exists in the capsule)
+      should contain one unit only. This unit should begin with two zeroes
+      (i.e. no counts, and no identifier mapping tables), a length (which must
+      be correct), and a sequence of bytes.</para>
+
+    <para>The bytes encode information useful to the linker. The first thing
+      in the byte sequence of a <token>tld</token> unit is a
+      <code>TDFINT</code> that is the type of the unit. What follows depends
+      upon the type. There are currently two types that are supported: zero
+      and one. Type zero units contain the same information as the old
+      <token>tld2</token> units (if a <token>tld2</token> unit is read, it is
+      treated as if it were a <token>tld</token> unit that began with a type
+      of zero; it is illegal for a capsule to contain both a
+      <token>tld</token> unit group and a <token>tld2</token> unit group).
+      Type one units contain more information (described below), and are what
+      the linker writes out in the generated capsule.</para>
+
+    <para>A version one unit contains a sequence of <code>TDFINT</code>s.
+      There is one <code>TDFINT</code> for each external name in part two of
+      the capsule. These <code>TDFINT</code>s should be in the same order as
+      the external names were. The <code>TDFINT</code>s are treated as a
+      sequence of bits, with the following meanings:
+
+      <table id="tdfint-bit-meanings">
+        <title>TDFINT bit meanings</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Bit</entry>
+
+              <entry>Meaning</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>0</entry>
+              
+              <entry>The name is used within this capsule.</entry>
+            </row>
+
+            <row>
+              <entry>1</entry>
+              
+              <entry>The name is declared within this capsule.</entry>
+            </row>
+
+            <row>
+              <entry>2</entry>
+              
+              <entry>The name is uniquely defined within this capsule. If this
+                bit is set for a tag, then the declared bit must also be set
+                (i.e. a declaration must exist).</entry>
+            </row>
+
+            <row>
+              <entry>3</entry>
+              
+              <entry>The name is defined in this capsule, but may have other
+                definitions provided by other capsules. This bit may not be
+                set for tokens. If a tag has this bit set, then the declared
+                bit must also be set (i.e. a declaration must exist).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </para>
+
+    <para>All of the other bits in the <code>TDFINT</code> are reserved.  The
+      linker uses the information provided by this unit to check that names do
+      not have multiple unique definitions, and to decide whether libraries
+      should be consulted to provide a definition for an external name. If a
+      capsule contains no linker information unit group, then the external
+      names in that capsule will have no information, and hence these checks
+      will not be made. A similar situation arises when the information for a
+      name has no bits set.</para>
+
+    <para>A version zero unit contains a sequence of <code>TDFINT</code>s.
+      There is one <code>TDFINT</code> for each external token name, and one
+      <code>TDFINT</code> for each external tag name. These
+      <code>TDFINT</code>s should be in the same order as the external names
+      were (but the tokens always come before the tags). The
+      <code>TDFINT</code>s are treated as a sequence of bits, with the same
+      meanings as above.</para>
+  </chapter>
+
+  <chapter id="structure-of-a-tdf-library">
+    <title>Structure of a TDF library</title>
+
+    <para>A TDF library begins with a header, followed by a
+      <code>TDFINT</code>, that is the type of the library. At present only
+      type zero libraries are supported. The format of a type zero library is
+      as follows:
+
+      <programlisting>
+magic:                              BYTE * 4 = "TDFL"
+major_version:                      TDFINT
+minor_version:                      TDFINT
+ALIGN
+type:                               TDFINT = 0
+num_capsules:                       TDFINT
+capsules: {
+capsule_name:                   TDFIDENT
+capsule_length:                 TDFINT
+capsule_body:                   BYTE * capsule_length
+} * num_capsules
+num_linkable_entities:              TDFINT
+linkable_entities: {
+linkable_entity_name:           TDFIDENT
+num_this_linkable_entity:       TDFINT
+this_linkable_entity_names: {
+name:                       EXTERNAL
+info:                       TDFINT
+capsule:                    TDFINT
+} * num_this_linkable_entity
+} * num_linkable_entities
+      </programlisting>
+    
+      The library begins with a four byte magic number (<token>magic</token>:
+      "TDFL"), followed by the major (<token>major_version</token>) and minor
+      (<token>minor_version</token>) versions of the TDF in the library (the
+      major version must be the same for each capsule in the library; the
+      minor version is the highest of the minor version numbers of all of the
+      the capsules contained in the library). This is followed by a byte
+      alignment, the type of the library (<token>type</token>: 0), and the
+      number of capsules in the library (<token>num_capsules</token>),
+      followed by that many capsules.</para>
+
+    <para>Each of the <token>capsules</token> has a name
+      (<token>capsule_name</token>), and the capsule content, which consists
+      of the length of the capsule (<token>capsule_length</token> ) and that
+      many bytes (<token>capsule_body</token>). The capsule name is the name
+      of the file from which the capsule was obtained when the library was
+      built.  The names of capsules within a library must all be
+      different.</para>
+
+    <para>The library is terminated by the index. This contains information
+      about where to find definitions for external names.  The index begins
+      with the number of linkable entities whose external names the library
+      will provide definitions for
+      (<token>num_linkable_entities</token>).</para>
+
+    <para>For each of these linkable entities, the linkable entity index
+      begins with the name of the linkable entity
+      (<token>linkable_entity_name</token>), followed by the number of
+      external names of the linkable entity that have entries in the index
+      (<token>num_this_linkable_entity</token>). This is followed by the index
+      information for each of the names.</para>
+
+    <para>For each name, the index contains the name (<token>name</token>); a
+      <code>TDFINT</code> that provides information about the name
+      (<token>info</token>) with the same meaning as the <code>TDFINT</code>s
+      in the linker information units; and the index of the capsule that
+      contains the definition for the name (<token>capsule</token>). The index
+      of the first capsule is zero.</para>
+  </chapter>
+
+  <chapter id="purpose">
+    <title>Purpose</title>
+
+    <para>The TDF linker has four uses:
+
+      <itemizedlist>
+        <listitem>To bind together a number of TDF capsules (including those in
+          libraries) to produce a single capsule.</listitem>
+
+        <listitem>To produce a TDF library from a set of capsules.</listitem>
+
+        <listitem>To list the contents of a TDF library.</listitem>
+
+        <listitem>To extract capsules from a TDF library.</listitem>
+      </itemizedlist>
+
+      The most complex part of the linker is the normal linking
+      process, which is described in the next section. Constructing
+      libraries is described in the section after the one on linking.
+      Listing the contents of a library, and extracting capsules from a
+      library are not very complicated so they aren't described in this
+      document.</para>
+  </chapter>
+
+  <chapter id="tdf-linking">
+    <title>TDF Linking</title>
+
+    <para>This section describes the requirements of linking capsules
+      together. The first sub-section describes the basic linking
+      requirements. Subsequent sub-sections detail the requirements of
+      some more advanced features.</para>
+
+    <para>Before the linking process is described in detail, here is an
+      outline of the stages of the link process:
+
+      <itemizedlist>
+        <listitem>
+          <para>The linker is invoked with the following inputs: a set of
+            input capsules, a set of libraries, a set of hiding rules, a set
+            of keeping rules, a set of renaming rules, and a set of link
+            suppression rules.</para>
+        </listitem>
+
+        <listitem>
+          <para>The first thing that the linker does is to enter the renaming
+            rules into the name hash table. The name entry lookup routines
+            will automatically pick up the new name when a renamed name is
+            looked up in a name table.</para>
+        </listitem>
+
+        <listitem>
+          <para>The next stage is to load the input capsules, and to bind them
+            together. As part of this binding process, the capsule scope
+            identifiers for all input capsules are mapped into a single
+            capsule scope (to be output to the final capsule). The rules for
+            this mapping are described below.</para>
+        </listitem>
+
+        <listitem>
+          <para>After binding the input capsules together, the linker tries to
+            provide definitions for undefined names using the specified
+            libraries. When a definition is found in a library (and it hasn't
+            been suppressed by the link suppression rules), the capsule that
+            contains it is loaded and bound to the input capsules as if it had
+            been one itself.</para>
+        </listitem>
+
+        <listitem>
+          <para>After the library capsules have been bound in, external names
+            are hidden according to the hiding rules, and kept according to
+            the keeping rules. Hiding means removing an entry from the
+            external name list of the output capsule. Keeping means forcing an
+            entry into the list, if it would otherwise be hidden. It is
+            illegal to hide names that have no definition.</para>
+        </listitem>
+
+        <listitem>
+          <para>Finally the output capsule is written to a file.</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <sect1 id="basic-linking">
+      <title>Basic linking</title>
+
+      <para>This sub-section describes the process of binding capsules
+        together in greater detail.</para>
+
+      <para>The first thing that the linker does when reading a capsule is to
+        read in the magic number, and the major and minor version numbers.
+        Capsules with an incorrect magic number are rejected.  The major
+        version number of each capsule read in must be at least four. In
+        addition, the major version numbers of all capsules that are read in
+        must be the same.</para>
+
+      <para>After this, the linker reads the unit group type names (also
+        called `prop names'), and checks that the they are known and that they
+        are in the correct order. There is a default list of names built into
+        the linker (the list specified in the TDF specification) and that
+        should be sufficient for most uses of the linker, but it is possible
+        to provide a new list by specifying a file containing the new list on
+        the command line.</para>
+
+      <para>The next thing the linker does is to read in the linkable entity
+        names and the capsule scope identifier limit for each linkable entity.
+        It checks that there are no duplicate names, and creates a mapping
+        vector for each linkable entity, to contain the mapping from the
+        capsule scope identifiers in the capsule being read in to the capsule
+        scope identifiers in the capsule that will be written out.</para>
+
+      <para>After reading the linkable entity names, the linker reads the
+        external names for each linkable entity. For each name, it checks that
+        its capsule scope identifier is in range, and maps that to the next
+        available capsule scope identifier (for the same linkable entity) in
+        the output capsule, unless a name with the same linkable entity and
+        the same name (subject to the renaming rules) has already been read
+        (in which case it is mapped to the same capsule scope identifier as
+        the identical name). The linker also checks to ensure that each
+        capsule scope identifier has no more than one external name bound to
+        it.</para>
+
+      <para>The final phase of reading a capsule is to read the unit groups.
+        For normal (i.e. not <token>tld</token> or <token>tld2</token>) unit
+        groups, the following occurs for each unit in the unit group:
+
+        <itemizedlist>
+          <listitem>
+            <para>The unit scope identifier limits for each linkable entity
+              are read and saved in the unit data structure (which is appended
+              to the list of units in that unit group for all input capsules).
+              When the unit is written out in the output capsule, it may be
+              necessary to add extra unit scope identifier limits (and extra
+              mapping tables) as other capsules may have different linkable
+              entities, which will also need entries (they will just be zero
+              length).</para>
+          </listitem>
+
+          <listitem>
+            <para>The capsule scope to unit scope identifier mapping tables
+              are read, and the old capsule scope identifier (which is first
+              checked to see if it is in range) is replaced by a new capsule
+              scope identifier. This information is also saved in the unit
+              data structure. The new capsule scope identifiers are either the
+              ones that were allocated when reading in the external names (if
+              the old identifier is bound to an external name), or the next
+              free capsule scope identifier of the required linkable
+              entity.</para>
+          </listitem>
+
+          <listitem>
+            <para>Finally, the unit body is read, and saved with the
+              unit.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+
+      <para>For <token>tld</token> and <token>tld2</token> unit groups, the
+        unit group count is checked to ensure that it is one, and the number
+        of unit scope identifier limits and identifier mapping tables are
+        checked to ensure that they are both zero. The size of the body is
+        read (and it must be correct as this is checked after reading the
+        unit), and then the body is read. If the unit is a <token>tld</token>
+        unit, then the type is read, and the body is read depending upon the
+        type; if the unit is a <token>tld2</token> unit, then the body is read
+        as if it where a type zero <token>tld</token> unit.</para>
+
+      <para>A type zero <token>tld</token> unit consists of a number of
+        integers: one for each external token name, followed by one for each
+        external tag name (in the same order as the external name tables, but
+        tokens always precede tags). A type one <token>tld</token> unit
+        consists of a number of integers: one for each external name (of all
+        linkable entities), in the same order as the external name
+        tables.</para>
+
+      <para>Each of the integers is interpreted as a series of bits, with the
+        bits having the following meanings:
+
+        <table id="type-zero-unit-integer-meanings">
+          <title>Type zero unit integer meanings</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Bit</entry>
+
+                <entry>Meaning</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>0</entry>
+                
+                <entry>The name is used within this capsule.</entry>
+              </row>
+
+              <row>
+                <entry>1</entry>
+                
+                <entry>The name is declared within this capsule.</entry>
+              </row>
+
+              <row>
+                <entry>2</entry>
+                
+                <entry>The name is uniquely defined within this capsule. If
+                  this bit is set for a tag, then the declared bit must also
+                  be set. It is illegal to have a name uniquely defined in
+                  more than one capsule. If this occurs, the linker will
+                  report an error.</entry>
+              </row>
+
+              <row>
+                <entry>3</entry>
+                
+                <entry>The name is defined in this capsule, but may have other
+                  definitions provided by other capsules. This bit may not be
+                  set for tokens. If a tag has this bit set, the declared bit
+                  must also be set. It is possible for a name to provide a
+                  unique definition, but still allow other non-unique
+                  definitions to be linked in from other capsules.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </para>
+
+      <para>All of the other bits in the integer are reserved.  The linker
+        uses the information provided by this unit to check that names do not
+        have multiple unique definitions, and to decide whether libraries
+        should be consulted to provide a definition for a name. If a capsule
+        contains no linker information unit group, then the names in that
+        capsule will have no information, and hence will not receive the extra
+        checking or library definition.</para>
+    </sect1>
+
+    <sect1 id="renaming">
+      <title>Renaming</title>
+
+      <para>Renaming just requires that any occurrence of the name being
+        renamed is treated as though it were an occurrence of the name it is
+        being renamed to. This includes names read from library
+        indices.</para>
+    </sect1>
+
+    <sect1 id="library-capsules">
+      <title>Library capsules</title>
+
+      <para>After reading in all of the specified capsules, the linker loads
+        the libraries. The library indices are read, and checked to ensure
+        that there is no more than one definition for any external name. If
+        there is no unique definition, but there is a single multiple
+        definition, then this is considered to be a definition (although this
+        can be turned off with a command line option).</para>
+
+      <para>Once the libraries have been loaded, each of the external names in
+        the bound capsules that are used, but not defined are looked up in the
+        library index. If a definition is found (and it hasn't been
+        suppressed) then the defining capsule is loaded from the library. This
+        process is repeated until definitions have been found for all external
+        names that need them (and that definitions exist for), including those
+        that are undefined in the capsules read in from the libraries.</para>
+    </sect1>
+
+    <sect1 id="hiding">
+      <title>Hiding</title>
+
+      <para>Hiding and keeping just require that all names which should be
+        hidden, and are not required to be kept, are not written to the
+        external name table of the output capsule.</para>
+    </sect1>
+
+    <sect1 id="writing-out-the-capsule">
+      <title>Writing out the capsule</title>
+
+      <para>The magic number is written out, followed by the major and minor
+        version numbers. The major version number is the same as that in each
+        of the loaded capsules. The minor version number is the largest of the
+        minor version numbers in the loaded capsules.</para>
+
+      <para>The unit group type names are written out first. Only those unit
+        groups that are non-empty are actually written out. They are written
+        out in the order specified by the current unit group name list.</para>
+
+      <para>The linkable entity names are written out next, followed by their
+        capsule scope identifier limit. Again, only those linkable entity
+        names that are non empty (i.e. have some unit scope or capsule scope
+        identifiers) are written out.</para>
+
+      <para>After the linkable entity names have been written out, the
+        external names are written out. These are written out in an arbitrary
+        order within their linkable entities, with the linkable entities being
+        written out in the same order as in the linkable entity name section
+        (which is itself arbitrary, but must be repeatable). The names are
+        written out with their new capsule scope identifiers. External names
+        that have been hidden must not be written out.</para>
+
+      <para>Finally the unit groups are written out in the same order as the
+        unit group type names in the first section. For normal units, the old
+        counts (plus some zero counts that may be necessary if there are new
+        linkable entities that weren't in the unit's original capsule) are
+        written out in the same order as the linkable entity names in section
+        two. The counts are followed by the new capsule scope to unit scope
+        identifier mapping tables, in the same order as the counts. Finally
+        the old unit content is written out.</para>
+
+      <para>For <token>tld</token> unit groups, a single version one
+        <token>tld</token> unit is written out containing the use information
+        for each of the external names, in the same order that the external
+        names were written out in.</para>
+    </sect1>
+  </chapter>
+
+  <chapter id="constructing-tdf-libraries">
+    <title>Constructing TDF Libraries</title>
+
+    <para>This section describes the requirements of building TDF libraries.
+      Here is an outline of the stages of the construction process:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>The linker is invoked with the following inputs: a set of input
+          capsules, a set of libraries, and a set of link suppression
+          rules.</para>
+      </listitem>
+
+      <listitem>
+        <para>The first thing that the linker does is to load the input capsules
+          (including all capsules that are included in any of the specified
+          libraries), and to extract their external name information into a
+          central index. The index is checked to ensure that there is only one
+          definition for any given name.  The capsules are read in in the same
+          way as for linking them (this checks them for validity).</para>
+      </listitem>
+
+      <listitem>
+        <para>The suppression rules are applied, to ensure that no suppressed
+          external name will end up in the index in the output library.</para>
+      </listitem>
+
+      <listitem>
+        <para>The library is written out. The library consists of a magic
+          number, and the major and minor version numbers of the TDF in the
+          library (calculated in the same way as for capsules), the type zero,
+          followed by the number of capsules. This is followed by that many
+          capsule name and capsule content pairs. Finally, the index is appended
+          to the library.</para>
+      </listitem>
+
+      <listitem>
+        <para>The index only contains entries for linkable entities that have
+          external names defined by the library. Only external names for which
+          there is a definition are written into the index, although this is not
+          a requirement (when linking, the linker will ignore index entries that
+          don't provide a definition).  Either a unique definition or a single
+          multiple definition are considered to be definitions (although the
+          latter can be disabled using a command line option).</para>
+      </listitem>
+    </itemizedlist>
+  </chapter>
+</book>
