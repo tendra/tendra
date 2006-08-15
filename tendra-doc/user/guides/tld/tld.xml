@@ -473,14 +473,22 @@ capsule:                    TDFINT
     <para>The TDF linker has four uses:
 
       <itemizedlist>
-        <listitem>To bind together a number of TDF capsules (including those in
-          libraries) to produce a single capsule.</listitem>
+        <listitem>
+          <para>To bind together a number of TDF capsules (including those in
+            libraries) to produce a single capsule.</para>
+        </listitem>
 
-        <listitem>To produce a TDF library from a set of capsules.</listitem>
+        <listitem>
+          <para>To produce a TDF library from a set of capsules.</para>
+        </listitem>
 
-        <listitem>To list the contents of a TDF library.</listitem>
+        <listitem>
+          <para>To list the contents of a TDF library.</para>
+        </listitem>
 
-        <listitem>To extract capsules from a TDF library.</listitem>
+        <listitem>
+          <para>To extract capsules from a TDF library.</para>
+        </listitem>
       </itemizedlist>
 
       The most complex part of the linker is the normal linking
