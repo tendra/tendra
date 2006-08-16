@@ -10,7 +10,7 @@ TIDYFLAGS= --doctype transitional\
 	   --output-xhtml yes\
 	   -im -wrap 78 -utf8
 
-XMLLINTFLAGS= --noout --valid
+XMLLINTFLAGS= --noout --postvalid --xinclude
 
 XSLTPROCFLAGS= --stringparam css.decoration 0\
 	       --stringparam html.stylesheet docstyle.css\
