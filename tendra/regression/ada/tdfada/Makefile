@@ -20,7 +20,7 @@ DEPEND != test ! -f ${NAME} || grep "Dependencies::" ${NAME} |sed -e "s/.*:://"
 .endif
 
 run:
-	tcc -M -o ${NAME:.adb=.exe} ${LIST}
+	tcc -M -Ytarget_tok -o ${NAME:.adb=.exe} ${LIST}
 	./${NAME:.adb=.exe}
 	@rm ${LIST} ${NAME:.adb=.exe}
 

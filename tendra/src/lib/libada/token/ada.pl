@@ -1,4 +1,6 @@
 Tokdec Boolean.V : [] VARIETY;
+Tokdec ~Set_signal_handler : [] EXP;
+Iddec TDF_Exception:proc;
 
 Tokdef Character.LOWER =
   [] SIGNED_NAT
@@ -35,11 +37,24 @@ Tokdef BOOLEAN_JUMP =
 
   ?(Value != + Inv(Boolean.V) | Target);
 
+Proc Ada_Init = top ()
+{
+  ~Set_signal_handler;
+  return(make_top)
+};
+
+Tokdef ~Throw = [x : NAT] EXP
+{
+  TDF_Exception[top](+ x(Int));
+};
 
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
       Character.LOWER,
       Character.UPPER,
       Integer.LOWER,
-      Integer.UPPER)
+      Integer.UPPER,
+      Ada_Init,
+      ~Throw
+      )
 
