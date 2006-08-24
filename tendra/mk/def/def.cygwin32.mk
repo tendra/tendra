@@ -9,16 +9,11 @@
 
 
 # Libraries
-
-LIB_CRT0?=	
-LIB_CRT1?=	
-LIB_CRTI?=	
-LIB_CRTN?=	
-LIB_GCRT0?=	
-LIB_GCRT1?=	
-LIB_MCRT0?=	
-LIB_AOUT_CRT0?=	/usr/i486-linuxaout/lib/crt0.o
-LIB_CRT0?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib/crt0.o
+LIB_GCC?=	/usr/lib/gcc-lib/i686-pc-cygwin/3.3.3
+LIB_CRTBEGIN?=	${LIB_GCC}/crtbegin.o 
+LIB_CRTEND?=	${LIB_GCC}/crtend.o 
+LIB_GCRT0?=	/usr/lib/gcrt0.o
+LIB_CRT0?=	/usr/lib/crt0.o
 
 
 # Arguments
@@ -32,11 +27,11 @@ ARGS_MKDIR?=	-p
 # Binaries
 
 BIN_AR?=	/bin/ar
-BIN_AS?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/bin/as
+BIN_AS?=	/bin/as
 BIN_AWK?=	/bin/awk
 BIN_BASENAME?=	/bin/basename
 BIN_CAT?=	/bin/cat
-BIN_CC?=	/gnuwin32/b18/H-i386-cygwin32/bin/gcc
+BIN_CC?=	/bin/gcc
 BIN_CHGRP?=	/bin/chgrp
 BIN_CHMOD?=	/bin/chmod
 BIN_CHOWN?=	/bin/chown
@@ -57,7 +52,7 @@ BIN_GZIP?=	/bin/gzip
 BIN_HEAD?=	/bin/head
 BIN_ID?=	/bin/id
 BIN_INSTALL?=	/usr/bin/install
-BIN_LD?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/bin/ld
+BIN_LD?=	/bin/ld
 BIN_LDCONFIG?=	echo		# nonexistent
 BIN_LN?=	/bin/ln
 BIN_LS?=	/bin/ls

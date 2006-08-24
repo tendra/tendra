@@ -1,7 +1,24 @@
 #ifndef __HACKED_LINUX_CTYPE_INCLUDED
 #define __HACKED_LINUX_CTYPE_INCLUDED
 
-#include_next <ctype.h>
+int isalnum(int);
+int isalpha(int);
+int iscntrl(int);
+int isdigit(int);
+int isgraph(int);
+int islower(int);
+int isprint(int);
+int ispunct(int);
+int isspace(int);
+int isupper(int);
+int isxdigit(int);
+int tolower(int);
+int toupper(int);
+
+#ifndef __STRICT_ANSI__
+int _tolower(int);
+int _toupper(int);
+#endif
 
 /*
  * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
@@ -29,7 +46,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * $TenDRA$
+ * $TenDRA: ctype.h 1389 2003-08-24 22:53:13Z nonce $
  * These are meant to be defined as macros */
 
 #ifndef _toupper

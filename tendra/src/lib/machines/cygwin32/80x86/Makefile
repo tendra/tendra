@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: Makefile 2282 2005-11-06 10:13:06Z stefanf $
 
 INSTALL_MACHINE=	cygwin32/80x86
 
@@ -11,7 +11,8 @@ DATA_INCLUDE=	include/alloca.h include/ctype.h include/float.h\
 		include/stdio.h include/unistd.h include/varargs.h
 
 # include/sys
-DATA_INCLUDE+=	include/sys/wait.h
+DATA_INCLUDE+=	include/sys/wait.h include/sys/_types.h\
+		include/sys/dirent.h include/sys/resource.h
 
 # startup
 DATA_STARTUP+=	startup/system.h

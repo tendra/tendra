@@ -1,5 +1,5 @@
 /* 
- * $TenDRA$
+ * $TenDRA: default.extra 1322 2003-08-17 20:41:44Z verm $
 */
 
 
@@ -8,14 +8,21 @@
 +BIN_AS			"-BIN_AS-"
 +BIN_LD			"-BIN_LD-"
 +BIN_CC			"-BIN_CC-"
-
++LIB_GCC		"-LIB_GCC-"
 
 /* Libraries */
 
 +CRT0			"-LIB_CRT0-"
-+LIB_AOUT_CRT0		"-LIB_AOUT_CRT0-"
-
++CRTBEGIN		"-LIB_CRTBEGIN-"
++CRTEND			"-LIB_CRTEND-"
 
 +MACHINE		"cygwin32-*-80x86"
-+SYS_LIB		"-ltdf -lcygwin -lkernel32"
-+SYS_LINK		"-L/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib -L<TENDRA_LIBDIR>/sys"
++SYS_LIB		"-ltdf -lgcc -lcygwin -luser32 -lkernel32 -ladvapi32 -lshell32"
++SYS_LINK		"-L<TENDRA_LIBDIR>/sys -L<LIB_GCC>"
+
++AS			"<BIN_AS>"
++LD			"<BIN_LD>"
++CC			"<BIN_CC>"
++CRT0			"<CRT0>"
++CRT1			"<CRTBEGIN>"
++CRTN			"<CRTEND>"

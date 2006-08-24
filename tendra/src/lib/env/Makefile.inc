@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: Makefile.inc 2338 2005-11-14 17:45:35Z stefanf $
 
 # default env file
 DATA_DEFAULT=	default
@@ -67,6 +67,7 @@ SED_DEFAULT_LIB= \
 		-e "s|-LIB_GCRT0-|${LIB_GCRT0}|g" \
 		-e "s|-LIB_GCRT1-|${LIB_GCRT1}|g" \
 		-e "s|-LIB_LD_LINUX-|${LIB_LD_LINUX}|g" \
+		-e "s|-LIB_GCC-|${LIB_GCC}|g" \
 		-e "s|-LIB_MCRT0-|${LIB_MCRT0}|g" \
 		-e "s|-LIB_MCRT1-|${LIB_MCRT1}|g" \
 		-e "s|-LIB_PCRT0-|${LIB_PCRT0}|g" \
