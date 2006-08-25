@@ -228,10 +228,9 @@ num_bytes_tdf:              TDFINT
 tdf:                        BYTE * num_bytes_tdf
 } * num_units
 } * num_unit_groups
-      </programlisting>
+      </programlisting></para>
     
-      The rest of this section describes the format of a capsule.
-    </para>
+    <para>The rest of this section describes the format of a capsule.</para>
 
     <para>The capsule begins with a header that contains a four byte magic
       number (<token>magic</token>: "TDFC"), followed by the major
@@ -426,17 +425,17 @@ info:                       TDFINT
 capsule:                    TDFINT
 } * num_this_linkable_entity
 } * num_linkable_entities
-      </programlisting>
+      </programlisting></para>
     
-      The library begins with a four byte magic number (<token>magic</token>:
-      "TDFL"), followed by the major (<token>major_version</token>) and minor
-      (<token>minor_version</token>) versions of the TDF in the library (the
-      major version must be the same for each capsule in the library; the
-      minor version is the highest of the minor version numbers of all of the
-      the capsules contained in the library). This is followed by a byte
-      alignment, the type of the library (<token>type</token>: 0), and the
-      number of capsules in the library (<token>num_capsules</token>),
-      followed by that many capsules.</para>
+    <para>The library begins with a four byte magic number
+      (<token>magic</token>: "TDFL"), followed by the major
+      (<token>major_version</token>) and minor (<token>minor_version</token>)
+      versions of the TDF in the library (the major version must be the same
+      for each capsule in the library; the minor version is the highest of the
+      minor version numbers of all of the the capsules contained in the
+      library). This is followed by a byte alignment, the type of the library
+      (<token>type</token>: 0), and the number of capsules in the library
+      (<token>num_capsules</token>), followed by that many capsules.</para>
 
     <para>Each of the <token>capsules</token> has a name
       (<token>capsule_name</token>), and the capsule content, which consists
@@ -489,14 +488,13 @@ capsule:                    TDFINT
         <listitem>
           <para>To extract capsules from a TDF library.</para>
         </listitem>
-      </itemizedlist>
+    </itemizedlist></para>
 
-      The most complex part of the linker is the normal linking
-      process, which is described in the next section. Constructing
-      libraries is described in the section after the one on linking.
-      Listing the contents of a library, and extracting capsules from a
-      library are not very complicated so they aren't described in this
-      document.</para>
+    <para>The most complex part of the linker is the normal linking process,
+      which is described in the next section. Constructing libraries is
+      described in the section after the one on linking.  Listing the contents
+      of a library, and extracting capsules from a library are not very
+      complicated so they aren't described in this document.</para>
   </chapter>
 
   <chapter id="tdf-linking">
@@ -554,8 +552,7 @@ capsule:                    TDFINT
         <listitem>
           <para>Finally the output capsule is written to a file.</para>
         </listitem>
-      </itemizedlist>
-    </para>
+      </itemizedlist></para>
 
     <sect1 id="basic-linking">
       <title>Basic linking</title>
@@ -628,8 +625,7 @@ capsule:                    TDFINT
             <para>Finally, the unit body is read, and saved with the
               unit.</para>
           </listitem>
-        </itemizedlist>
-      </para>
+        </itemizedlist></para>
 
       <para>For <token>tld</token> and <token>tld2</token> unit groups, the
         unit group count is checked to ensure that it is one, and the number
