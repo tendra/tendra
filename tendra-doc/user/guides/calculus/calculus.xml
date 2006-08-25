@@ -126,25 +126,27 @@
     <title>Input syntax</title>
 
     <para>The overall input file format is as follows:
+
       <programlisting>
-          algebra:
-                  ALGEBRA identifier version<subscript>opt</subscript>: item-list<subscript>opt</subscript>
+algebra:
+        ALGEBRA identifier version<subscript>opt</subscript>: item-list<subscript>opt</subscript>
 
-          version:
-                  (integer.integer)
+version:
+        (integer.integer)
 
-          item-list:
-                  item
-                  item-list item
+item-list:
+        item
+        item-list item
 
-          item:
-                  primitive
-                  identity
-                  enumeration
-                  structure
-                  union
-      </programlisting>
-        The initial identifier gives the overall name of the algebra.  A
+item:
+        primitive
+        identity
+        enumeration
+        structure
+        union
+      </programlisting></para>
+
+      <para>The initial identifier gives the overall name of the algebra.  A
         version number may also be associated with the algebra (if this is
         omitted the version is assumed to be 1.0). The main body of the
         algebra definition consists of a list of items describing the
@@ -167,33 +169,33 @@
         the algebra are built up. They are described as follows:
 
         <programlisting>
-          primitive:
-                  object-identifier = quoted-type;
+primitive:
+        object-identifier = quoted-type;
         </programlisting>
 
         where the primitive identifier is given by:
 
         <programlisting>
-          object-identifier:
-                  #<subscript>opt</subscript>:<subscript>opt</subscript> identifier
-                  #<subscript>opt</subscript>:<subscript>opt</subscript> identifier(identifier)
+object-identifier:
+        #<subscript>opt</subscript>:<subscript>opt</subscript> identifier
+        #<subscript>opt</subscript>:<subscript>opt</subscript> identifier(identifier)
         </programlisting>
 
         and the primitive definition is a string which gives the C type
         corresponding to this primitive:
 
         <programlisting>
-          quoted-type:
-                  string
-        </programlisting>
+quoted-type:
+        string
+        </programlisting></para>
 
-        Note that each primitive (and also each identity, each enumeration,
-        each structure and each union) has two names associated with it. The
-        second name is optional; if it is not given then it is assumed to be
-        the same as the first name. The first name is that which will be given
-        to the corresponding type in the output file. The second is a short
-        form of this name which will be used in forming constructor names etc.
-        in the output.</para>
+      <para>Note that each primitive (and also each identity, each
+        enumeration, each structure and each union) has two names associated
+        with it. The second name is optional; if it is not given then it is
+        assumed to be the same as the first name. The first name is that which
+        will be given to the corresponding type in the output file. The second
+        is a short form of this name which will be used in forming constructor
+        names etc. in the output.</para>
 
       <para>The optional hash and colon which may be used to qualify an object
         identifier are provided for backwards compatibility only and are not
@@ -208,8 +210,8 @@
         They are described as follows:
 
         <programlisting>
-          identity:
-                  object-identifier = type;
+identity:
+        object-identifier = type;
         </programlisting>
         
         where the definition type, <literal>type</literal>, is as described
@@ -223,16 +225,16 @@
         from some finite set. They are described as follows:
 
       <programlisting>
-          enumeration:
-                  enum !<subscript>opt</subscript> object-identifier = { enumerator-list };
-                  enum !<subscript>opt</subscript> object-identifier = base-enumeration + { enumerator-list };
+enumeration:
+        enum !<subscript>opt</subscript> object-identifier = { enumerator-list };
+        enum !<subscript>opt</subscript> object-identifier = base-enumeration + { enumerator-list };
       </programlisting>
 
       where:
 
       <programlisting>
-          base-enumeration:
-                  identifier
+base-enumeration:
+        identifier
       </programlisting>
 
       is the name of a previously defined enumeration type.  The latter form
@@ -244,17 +246,17 @@
         follows:
 
         <programlisting>
-          enumerator:
-                  identifier
-                  identifier = enumerator-value
+enumerator:
+        identifier
+        identifier = enumerator-value
 
-          enumerator-list:
-                  enumerator
-                  enumerator-list, enumerator
-        </programlisting>
+enumerator-list:
+        enumerator
+        enumerator-list, enumerator
+        </programlisting></para>
 
-        Each enumerator is assigned a value in an ascending sequence, starting
-        at zero. The next value to be assigned can be set using an
+      <para>Each enumerator is assigned a value in an ascending sequence,
+        starting at zero. The next value to be assigned can be set using an
         <literal>enumerator-value</literal>. This is an expression formed from
         <literal>integer</literal>s, <literal>identifier</literal>s
         representing previous enumerators from the same enumeration, and the
@@ -276,16 +278,16 @@
         as follows:
 
         <programlisting>
-          structure:
-                  struct object-identifier = component-group;
-                  struct object-identifier = base-structure + component-group;
+structure:
+        struct object-identifier = component-group;
+        struct object-identifier = base-structure + component-group;
         </programlisting>
 
         where:
 
         <programlisting>
-          base-structure:
-                  identifier
+base-structure:
+        identifier
         </programlisting>
                 
         is the name of a previously defined structure type.  The latter form
@@ -294,31 +296,31 @@
         structure.</para>
 
       <para>The structure components themselves are defined as follows:
+
         <programlisting>
-          component-group:
-                  { component-list<subscript>opt</subscript> }
+component-group:
+        { component-list<subscript>opt</subscript> }
 
-          component-list:
-                  component-declarations;
-                  component-list component-declarations;
+component-list:
+        component-declarations;
+        component-list component-declarations;
 
-          component-declarations:
-                  type component-declarators
+component-declarations:
+        type component-declarators
 
-          component-declarators:
-                  component-declarator
-                  component-declarators, component-declarator
+component-declarators:
+        component-declarator
+        component-declarators, component-declarator
 
-          component-declarator:
-                  identifier component-initialiser<subscript>opt</subscript>
+component-declarator:
+        identifier component-initialiser<subscript>opt</subscript>
 
-          component-initialiser:
-                  = string
-        </programlisting>
+component-initialiser:
+        = string
+        </programlisting></para>
         
-        The optional
-        <link linkend="outputstruct">component initialiser strings</link>
-        are explained below.</para>
+      <para>The optional <link linkend="outputstruct">component initialiser
+        strings</link> are explained below.</para>
 
       <para>Structures are the only algebra construct which prevent the input
         from being a general graph. Unions may be defined in terms of
@@ -334,16 +336,16 @@
         They are described as follows:
 
         <programlisting>
-          union:
-                  union object-identifier = component-group + field-group map-group<subscript>opt</subscript>;
-                  union object-identifier = base-union + field-group map-group<subscript>opt</subscript>;
+union:
+        union object-identifier = component-group + field-group map-group<subscript>opt</subscript>;
+        union object-identifier = base-union + field-group map-group<subscript>opt</subscript>;
         </programlisting>
 
         where:
 
         <programlisting>
-          base-union:
-                  identifier
+base-union:
+        identifier
         </programlisting>
                 
         is the name of a previously defined union type. The latter form is
@@ -357,30 +359,30 @@
         themselves are described as follows:
 
         <programlisting>
-          field-group:
-                  { field-list }
+field-group:
+        { field-list }
 
-          field:
-                  #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;component-group
-                  #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;base-field + component-group
+field:
+        #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;component-group
+        #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;base-field + component-group
 
-          base-field:
-                  identifier
+base-field:
+        identifier
 
-          field-list:
-                  field
-                  field-list, field
+field-list:
+        field
+        field-list, field
 
-          field-identifier:
-                  identifier
+field-identifier:
+        identifier
 
-          field-identifier-list:
-                  field-identifier
-                  field-identifier-list, field-identifier
-        </programlisting>
+field-identifier-list:
+        field-identifier
+        field-identifier-list, field-identifier
+        </programlisting></para>
 
-        The optional one or two hashes which may be used to qualify a list of
-        field identifiers are used to indicate
+      <para>The optional one or two hashes which may be used to qualify a list
+        of field identifiers are used to indicate
         <link linkend="diskalias">aliasing</link> in the disk reading and
         writing routines.  The <literal>base-field</literal> case is a
         notational convenience which allows one field in a union to inherit
@@ -397,65 +399,66 @@
         described as follows:
 
         <programlisting>
-          map-group:
-                  :[map-list<subscript>opt</subscript>]
+map-group:
+        :[map-list<subscript>opt</subscript>]
 
-          map:
-                  extended-type #<subscript>opt</subscript> identifier(parameter-list<subscript>opt</subscript>)
+map:
+        extended-type #<subscript>opt</subscript> identifier(parameter-list<subscript>opt</subscript>)
 
-          map-list:
-                  map
-                  map-list map
+map-list:
+        map
+        map-list map
         </programlisting>
                 
         where:
         
         <programlisting>
-          parameter-list:
-                  parameter-declarations
-                  parameter-list; parameter-declarations
+parameter-list:
+        parameter-declarations
+        parameter-list; parameter-declarations
 
-          parameter-declarations:
-                  extended-type parameter-declarators
+parameter-declarations:
+        extended-type parameter-declarators
 
-          parameter-declarators:
-                  identifier
-                  parameter-declarators, identifier
-        </programlisting>
+parameter-declarators:
+        identifier
+        parameter-declarators, identifier
+        </programlisting></para>
         
-        Note that the map parameter and return types are given by:
+      <para>Note that the map parameter and return types are given by:
 
         <programlisting>
           extended-type:
                   type
                   quoted-type
-        </programlisting>
+        </programlisting></para>
                   
-        In addition to the
+      <para>In addition to the
         <link linkend="inputtype">types derived from the algebra</link> it is
         possible to use quoted C types in this context.</para>
 
       <para>A map may be qualified by means of a hash. This means that the
         associated function also takes a
-        <link linkend="outputunionmaps">destructor function</link>
-        as a parameter.</para>
+        <link linkend="outputunionmaps">destructor function</link> as a
+        parameter.</para>
     </sect1>
 
     <sect1 id="inputtype">
       <title>Type constructors</title>
 
       <para>The types derived from the algebra may be described as follows:
+
         <programlisting>
-          type:
-                  identifier
-                  PTR type
-                  LIST type
-                  STACK type
-                  VEC type
-                  VEC_PTR type
-        </programlisting>
+type:
+        identifier
+        PTR type
+        LIST type
+        STACK type
+        VEC type
+        VEC_PTR type
+        </programlisting></para>
                 
-        The simple types correspond to primitive, identity, enumeration,
+      <para>The simple types correspond to primitive, identity, enumeration,
         structure or union names. It is possible for a type to be used before
         it is defined, but it must be defined at some point.</para>
 
@@ -477,10 +480,11 @@
 
       <para>Types may be imported from one algebra to another by means of
         commands of the form:
+
         <programlisting>
-          import:
-                  IMPORT identifier;
-                  IMPORT identifier::identifier;
+import:
+        IMPORT identifier;
+        IMPORT identifier::identifier;
         </programlisting>
                 
         which fit into the main syntax as an <literal>item</literal>. The
@@ -546,19 +550,19 @@
         returning a type, are specified as follows:
 
         <programlisting>
-          TYPE PTR(TYPE t);
-          TYPE LIST(TYPE t);
-          TYPE STACK(TYPE t);
-          TYPE VEC(TYPE t);
-          TYPE VEC_PTR(TYPE t);
-          TYPE SIZE(TYPE t);
-        </programlisting>
+TYPE PTR(TYPE t);
+TYPE LIST(TYPE t);
+TYPE STACK(TYPE t);
+TYPE VEC(TYPE t);
+TYPE VEC_PTR(TYPE t);
+TYPE SIZE(TYPE t);
+        </programlisting></para>
         
-        These represent a pointer to an object of type <literal>t</literal>, a
-        list of objects of type <literal>t</literal>, a stack of objects of
-        type <literal>t</literal>, a vector of objects of type
-        <literal>t</literal>, a pointer into a vector of objects of type
-        <literal>t</literal>, and an allocation block size for type
+      <para>These represent a pointer to an object of type
+        <literal>t</literal>, a list of objects of type <literal>t</literal>,
+        a stack of objects of type <literal>t</literal>, a vector of objects
+        of type <literal>t</literal>, a pointer into a vector of objects of
+        type <literal>t</literal>, and an allocation block size for type
         <literal>t</literal> respectively. (It is possible to suppress all
         constructs involving <code>VEC</code> or <code>VEC_PTR</code> by
         passing the <code>-x</code> command-line option to
@@ -570,7 +574,7 @@
         and those derived from them. For example, we may form the type:
 
         <programlisting>
-          LIST(PTR(int))
+LIST(PTR(int))
         </programlisting>
         
         representing a list of pointers to <code>int</code>.</para>
@@ -578,7 +582,7 @@
       <para>An integral type:
 
         <programlisting>
-          INT_TYPE name_dim;
+INT_TYPE name_dim;
         </programlisting>
         
         is specified, where <literal>name</literal> is the overall algebra
@@ -587,15 +591,15 @@
       <para>A function pointer type:
 
         <programlisting>
-          typedef void (*DESTROYER)();
+typedef void (*DESTROYER)();
         </programlisting>
         
         is specified, which represents a destructor function.  Two destructor
         functions are specified:
 
         <programlisting>
-          void destroy_name();
-          void dummy_destroy_name();
+void destroy_name();
+void dummy_destroy_name();
         </programlisting>
         
         where <literal>name</literal> is as above.
@@ -621,7 +625,7 @@
         union), there is a constant expression:
 
         <programlisting>
-          SIZE ( t ) SIZE_type;
+SIZE ( t ) SIZE_type;
         </programlisting>
         
         where <literal>t</literal> denotes the type itself, and
@@ -632,11 +636,11 @@
         expressions:
 
         <programlisting>
-          SIZE(PTR(t))      SIZE_ptr(TYPE t);
-          SIZE(LIST(t))     SIZE_list(TYPE t);
-          SIZE(STACK(t))    SIZE_stack(TYPE t);
-          SIZE(VEC(t))      SIZE_vec(TYPE t);
-          SIZE(VEC_PTR(t))  SIZE_vec_ptr(TYPE t);
+SIZE(PTR(t))      SIZE_ptr(TYPE t);
+SIZE(LIST(t))     SIZE_list(TYPE t);
+SIZE(STACK(t))    SIZE_stack(TYPE t);
+SIZE(VEC(t))      SIZE_vec(TYPE t);
+SIZE(VEC_PTR(t))  SIZE_vec_ptr(TYPE t);
       </programlisting>
       
       for any type <literal>t</literal>.</para>
@@ -647,7 +651,7 @@
         form:
 
         <programlisting>
-          SIZE(t) SCALE(SIZE(t), INT_TYPE itype);
+SIZE(t) SCALE(SIZE(t), INT_TYPE itype);
         </programlisting>
 
         for any type <literal>t</literal> and any integral type
@@ -669,18 +673,18 @@
           follows:
 
           <programlisting>
-          PTR(t) NULL_ptr(TYPE t);
-          int IS_NULL_ptr(PTR (t));
-          int EQ_ptr(PTR(t), PTR(t));
-          PTR(t) STEP_ptr(PTR(t), SIZE(t));
-          </programlisting>
+PTR(t) NULL_ptr(TYPE t);
+int IS_NULL_ptr(PTR (t));
+int EQ_ptr(PTR(t), PTR(t));
+PTR(t) STEP_ptr(PTR(t), SIZE(t));
+          </programlisting></para>
 
-          The construct <code>NULL_ptr</code> is used to form the null pointer
-          to <literal>t</literal> for a type <literal>t</literal>. This is a
-          constant expression.  <code>IS_NULL_ptr</code> can be used to test
-          whether a given pointer expression is a null pointer. Similarly
-          <code>EQ_ptr</code> checks whether two pointers are equal (note that
-          we can only compare pointers to the same type). Finally
+        <para>The construct <code>NULL_ptr</code> is used to form the null
+          pointer to <literal>t</literal> for a type <literal>t</literal>.
+          This is a constant expression.  <code>IS_NULL_ptr</code> can be used
+          to test whether a given pointer expression is a null pointer.
+          Similarly <code>EQ_ptr</code> checks whether two pointers are equal
+          (note that we can only compare pointers to the same type). Finally
           <code>STEP_ptr</code> can be used to add a scalar value to a
           pointer.</para>
       </sect2>
@@ -692,12 +696,12 @@
           pointers:
 
           <programlisting>
-          PTR(t) UNIQ_ptr(TYPE t);
-          void DESTROY_UNIQ_ptr(PTR(t));
-          </programlisting>
+PTR(t) UNIQ_ptr(TYPE t);
+void DESTROY_UNIQ_ptr(PTR(t));
+          </programlisting></para>
         
-          A unique pointer is guaranteed to be different from
-          all other undestroyed pointers. Dereferencing a unique pointer is
+        <para>A unique pointer is guaranteed to be different from all other
+          undestroyed pointers. Dereferencing a unique pointer is
           undefined.</para>
       </sect2>
 
@@ -705,9 +709,10 @@
         <title>Pointer construction and destruction</title>
 
         <para>The constructs:
+
           <programlisting>
-          PTR(t) MAKE_ptr(SIZE(t));
-          void DESTROY_ptr(PTR(t), SIZE(t));
+PTR(t) MAKE_ptr(SIZE(t));
+void DESTROY_ptr(PTR(t), SIZE(t));
           </programlisting>
 
           are used to respectively create and destroy a pointer to a given
@@ -723,8 +728,8 @@
           have the form:
 
           <programlisting>
-          void COPY_type(PTR(t), t);
-          t DEREF_type(PTR(t));
+void COPY_type(PTR(t), t);
+t DEREF_type(PTR(t));
           </programlisting>
 
           where <literal>t</literal> is the type involved and
@@ -735,13 +740,13 @@
           are specified to be statements as follows:
 
           <programlisting>
-          STATEMENT COPY_type(PTR(t), t);
-          STATEMENT DEREF_type(PTR(t), lvalue t);
-          </programlisting>
+STATEMENT COPY_type(PTR(t), t);
+STATEMENT DEREF_type(PTR(t), lvalue t);
+          </programlisting></para>
 
-          Here the <code>lvalue</code> type qualifier is used to indicate that
-          the statement argument is an assignable <code>lvalue</code>. In this
-          case it should give the location of an object of type
+        <para>Here the <code>lvalue</code> type qualifier is used to indicate
+          that the statement argument is an assignable <code>lvalue</code>. In
+          this case it should give the location of an object of type
           <literal>t</literal> into which the pointer will be
           dereferenced.</para>
 
@@ -751,20 +756,20 @@
           assignment and dereference constructs for pointer types, list types,
           stack types, vector types and vector pointer types.  The first three
           are of the first form above, whereas the second two have the second
-          form, as follows:</para>
+          form, as follows:
 
-        <programlisting>
-          void COPY_ptr(PTR(PTR(t)), PTR(t));
-          PTR(t) DEREF_ptr(PTR (PTR (t)));
-          void COPY_list(PTR(LIST(t)), LIST(t));
-          LIST(t) DEREF_list(PTR(LIST(t)));
-          void COPY_stack(PTR(STACK(t)), STACK(t));
-          STACK(t) DEREF_stack(PTR(STACK(t)));
-          STATEMENT COPY_vec(PTR(VEC(t)), VEC(t));
-          STATEMENT DEREF_vec(PTR(VEC(t)), lvalue VEC(t));
-          STATEMENT COPY_vec_ptr(PTR(VEC_PTR(t)), VEC_PTR(t));
-          STATEMENT DEREF_vec_ptr(PTR(VEC_PTR(t)), lvalue VEC_PTR(t));
-        </programlisting>
+          <programlisting>
+void COPY_ptr(PTR(PTR(t)), PTR(t));
+PTR(t) DEREF_ptr(PTR (PTR (t)));
+void COPY_list(PTR(LIST(t)), LIST(t));
+LIST(t) DEREF_list(PTR(LIST(t)));
+void COPY_stack(PTR(STACK(t)), STACK(t));
+STACK(t) DEREF_stack(PTR(STACK(t)));
+STATEMENT COPY_vec(PTR(VEC(t)), VEC(t));
+STATEMENT DEREF_vec(PTR(VEC(t)), lvalue VEC(t));
+STATEMENT COPY_vec_ptr(PTR(VEC_PTR(t)), VEC_PTR(t));
+STATEMENT DEREF_vec_ptr(PTR(VEC_PTR(t)), lvalue VEC_PTR(t));
+          </programlisting></para>
       </sect2>
     </sect1>
 
@@ -778,20 +783,21 @@
         <title>Simple list constructs</title>
 
         <para>There are several simple list constructs:
-          <programlisting>
-          LIST(t) NULL_list(TYPE t);
-          int IS_NULL_list(LIST(t));
-          int EQ_list(LIST(t), LIST(t));
-          unsigned LENGTH_list(LIST(t));
-          PTR(t) HEAD_list(LIST(t));
-          LIST(t) TAIL_list(LIST(t));
-          PTR(LIST(t)) PTR_TAIL_list(LIST(t));
-          LIST(t) END_list(LIST(t));
-          LIST(t) REVERSE_list(LIST(t));
-          LIST(t) APPEND_list(LST(t), LIST(t));
-          </programlisting>
 
-          Empty lists may be constructed or tested for.
+          <programlisting>
+LIST(t) NULL_list(TYPE t);
+int IS_NULL_list(LIST(t));
+int EQ_list(LIST(t), LIST(t));
+unsigned LENGTH_list(LIST(t));
+PTR(t) HEAD_list(LIST(t));
+LIST(t) TAIL_list(LIST(t));
+PTR(LIST(t)) PTR_TAIL_list(LIST(t));
+LIST(t) END_list(LIST(t));
+LIST(t) REVERSE_list(LIST(t));
+LIST(t) APPEND_list(LST(t), LIST(t));
+          </programlisting></para>
+
+        <para>Empty lists may be constructed or tested for.
           <code>NULL_list</code> is a constant expression. Two lists may be
           checked for equality (note that this is equality of lists, rather
           than element-wise equality).  The number of elements in a list can
@@ -808,11 +814,11 @@
           lists:
 
           <programlisting>
-          LIST(t) UNIQ_list(TYPE t);
-          void DESTROY_UNIQ_list(LIST(t));
-          </programlisting>
+LIST(t) UNIQ_list(TYPE t);
+void DESTROY_UNIQ_list(LIST(t));
+          </programlisting></para>
 
-          A unique lists is guaranteed to be different from all other
+        <para>A unique lists is guaranteed to be different from all other
           undestroyed lists. Taking the head or tail of a unique list is
           undefined.</para>
       </sect2>
@@ -825,9 +831,9 @@
           comprising the algebra these take the form:
 
           <programlisting>
-          STATEMENT CONS_type(t, LIST(t), lvalue LIST(t));
-          STATEMENT UN_CONS_type(lvalue t, lvalue LIST(t), LIST(t)) ;
-          STATEMENT DESTROY_CONS_type(DESTROYER, lvalue t, lvalue LIST(t), LIST(t));
+STATEMENT CONS_type(t, LIST(t), lvalue LIST(t));
+STATEMENT UN_CONS_type(lvalue t, lvalue LIST(t), LIST(t)) ;
+STATEMENT DESTROY_CONS_type(DESTROYER, lvalue t, lvalue LIST(t), LIST(t));
           </programlisting>
 
           where <literal>type</literal> is the short type name.</para>
@@ -850,12 +856,12 @@
           these have the form:
 
           <programlisting>
-          STATEMENT CONS_ptr(PTR(t), LIST(PTR(t)), lvalue LIST(PTR(t))) ;
-          STATEMENT UN_CONS_ptr(lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));
-          STATEMENT DESTROY_CONS_ptr(DESTROYER, lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));
-          </programlisting>
+STATEMENT CONS_ptr(PTR(t), LIST(PTR(t)), lvalue LIST(PTR(t))) ;
+STATEMENT UN_CONS_ptr(lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));
+STATEMENT DESTROY_CONS_ptr(DESTROYER, lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));
+          </programlisting></para>
 
-          There is also a generic list destruction construct:
+        <para>There is also a generic list destruction construct:
 
           <programlisting>
           STATEMENT DESTROY_list(LIST(t), SIZE(t));
@@ -873,17 +879,17 @@
         created and tested for:
 
         <programlisting>
-          STACK(t) NULL_stack(TYPE t);
-          int IS_NULL_stack(STACK(t));
-        </programlisting>
+STACK(t) NULL_stack(TYPE t);
+int IS_NULL_stack(STACK(t));
+        </programlisting></para>
 
-        For each type <literal>t</literal> there are operations for pushing
-        objects onto a stack and for popping elements off. For the basic types
-        comprising the algebra these take the form:
+      <para>For each type <literal>t</literal> there are operations for
+        pushing objects onto a stack and for popping elements off. For the
+        basic types comprising the algebra these take the form:
 
         <programlisting>
-          STATEMENT PUSH_type(t, lvalue STACK(t));
-          STATEMENT POP_type(lvalue t, lvalue STACK(t));
+STATEMENT PUSH_type(t, lvalue STACK(t));
+STATEMENT POP_type(lvalue t, lvalue STACK(t));
         </programlisting>
 
         where <literal>type</literal> is the short type name. There are also
@@ -897,8 +903,8 @@
         first element. There are constructs:
 
         <programlisting>
-          LIST(t) LIST_stack(STACK(t));
-          STACK(t) STACK_list(LIST(t));
+LIST(t) LIST_stack(STACK(t));
+STACK(t) STACK_list(LIST(t));
         </programlisting>
 
         for explicitly converting between lists and stacks.</para>
@@ -912,31 +918,32 @@
         operations on vectors:
 
         <programlisting>
-          VEC(t) NULL_vec(TYPE t);
-          name_dim DIM_vec(VEC(t));
-          name_dim DIM_ptr_vec(PTR(VEC(t)));
-          PTR(t) PTR_ptr_vec(PTR(VEC(t)));
-        </programlisting>
+VEC(t) NULL_vec(TYPE t);
+name_dim DIM_vec(VEC(t));
+name_dim DIM_ptr_vec(PTR(VEC(t)));
+PTR(t) PTR_ptr_vec(PTR(VEC(t)));
+        </programlisting></para>
 
-        An empty vector can be constructed (note that, unlike null pointers
-        and null lists, this is not a constant expression). The number of
-        elements in a vector (or in a vector given by a pointer) can be
-        determined (note how the type <literal>name</literal><code>_dim</code>
-        is used to represent vector sizes). A pointer to a vector can be
-        transformed into a pointer to the elements of the vector.</para>
+      <para>An empty vector can be constructed (note that, unlike null
+        pointers and null lists, this is not a constant expression). The
+        number of elements in a vector (or in a vector given by a pointer) can
+        be determined (note how the type
+        <literal>name</literal><code>_dim</code> is used to represent vector
+        sizes). A pointer to a vector can be transformed into a pointer to the
+        elements of the vector.</para>
 
       <para>In general a vector may be created or destroyed using the
         operators:
 
         <programlisting>
-          STATEMENT MAKE_vec(SIZE(t), name_dim, lvalue VEC(t));
-          STATEMENT DESTROY_vec(VEC(t), SIZE(t));
-        </programlisting>
+STATEMENT MAKE_vec(SIZE(t), name_dim, lvalue VEC(t));
+STATEMENT DESTROY_vec(VEC(t), SIZE(t));
+        </programlisting></para>
 
-        Finally a vector can be trimmed using:
+      <para>Finally a vector can be trimmed using:
 
         <programlisting>
-          STATEMENT TRIM_vec(VEC(t), SIZE(t), int, int, lvalue VEC(t));
+STATEMENT TRIM_vec(VEC(t), SIZE(t), int, int, lvalue VEC(t));
         </programlisting>
 
         the two integral arguments giving the lower and upper bounds for the
@@ -952,13 +959,13 @@
         mentioned, there are only two operations on vector pointers:
 
         <programlisting>
-          VEC_PTR(t) VEC_PTR_vec(VEC(t));
-          PTR(t) PTR_vec_ptr(VEC_PTR(t));
-        </programlisting>
+VEC_PTR(t) VEC_PTR_vec(VEC(t));
+PTR(t) PTR_vec_ptr(VEC_PTR(t));
+        </programlisting></para>
 
-        The first transforms a vector into a vector pointer (pointing to its
-        first argument). The second transforms a vector pointer into a normal
-        pointer.</para>
+      <para>The first transforms a vector into a vector pointer (pointing to
+        its first argument). The second transforms a vector pointer into a
+        normal pointer.</para>
     </sect1>
 
     <sect1 id="outputprim">
@@ -993,7 +1000,7 @@
         member of this enumeration maps onto a constant expression:
 
         <programlisting>
-          t enum_member;
+t enum_member;
         </programlisting>
 
         where <literal>t</literal> is the enumeration type,
@@ -1004,7 +1011,7 @@
         There is also a constant expression:
 
         <programlisting>
-          unsigned long ORDER_enum;
+unsigned long ORDER_enum;
         </programlisting>
 
         giving one more than the maximum enumerator in the enumeration.</para>
@@ -1025,14 +1032,14 @@
         Then there is an operation:
 
         <programlisting>
-          PTR(ctype) struct_comp(PTR(t));
+PTR(ctype) struct_comp(PTR(t));
         </programlisting>
 
         which transforms a pointer to the structure into a pointer to the
         component. There is also an operation:
 
         <programlisting>
-          STATEMENT MAKE_struct(ctype, ...., PTR(t));
+STATEMENT MAKE_struct(ctype, ...., PTR(t));
         </programlisting>
 
         where <literal>ctype</literal> ranges over all the component types
@@ -1053,7 +1060,7 @@
         <literal>btype</literal> then there is an operation:
 
         <programlisting>
-          PTR(btype) CONVERT_struct_base(PTR(t));
+PTR(btype) CONVERT_struct_base(PTR(t));
         </programlisting>
 
         where <literal>struct</literal> and <literal>base</literal> are the
@@ -1071,10 +1078,10 @@
         <literal>name</literal><code>.h</code>, namely:
 
         <programlisting>
-          unsigned int ORDER_union;
-          t NULL_union;
-          int IS_NULL_union(t);
-          int EQ_union(t, t);
+unsigned int ORDER_union;
+t NULL_union;
+int IS_NULL_union(t);
+int EQ_union(t, t);
         </programlisting>
 
         where <literal>t</literal> denotes the union type, and
@@ -1094,7 +1101,7 @@
           a construct:
 
           <programlisting>
-          unsigned int TAG_union(t);
+unsigned int TAG_union(t);
           </programlisting>
 
           for extracting the discriminant tag from a union.</para>
@@ -1104,7 +1111,7 @@
           an operator:
 
           <programlisting>
-          PTR(ctype) union_comp(t);
+PTR(ctype) union_comp(t);
           </programlisting>
 
           which extracts this component from the union.</para>
@@ -1113,8 +1120,8 @@
           constructs:
 
           <programlisting>
-          unsigned int union_field_tag;
-          int IS_union_field(t);
+unsigned int union_field_tag;
+int IS_union_field(t);
           </programlisting>
 
           giving the (constant) discriminant tag associated with this field,
@@ -1126,7 +1133,7 @@
           <literal>ctype</literal>, say, there is an operator:
 
           <programlisting>
-          PTR(ctype) union_field_comp(t);
+PTR(ctype) union_field_comp(t);
           </programlisting>
 
           which extracts this component from the union.</para>
@@ -1136,9 +1143,9 @@
           <literal>field</literal> given as follows:
 
           <programlisting>
-          STATEMENT MAKE_union_field(ctype, ...., lvalue t);
-          STATEMENT DECONS_union_field(lvalue ctype, ...., t);
-          STATEMENT DESTROY_union_field(DESTROYER, lvalue ctype, ...., t);
+STATEMENT MAKE_union_field(ctype, ...., lvalue t);
+STATEMENT DECONS_union_field(lvalue ctype, ...., t);
+STATEMENT DESTROY_union_field(DESTROYER, lvalue ctype, ...., t);
           </programlisting>
 
           The operation <code>MAKE_</code><literal>union_field</literal>
@@ -1171,12 +1178,12 @@
           the set. There are operations:
 
           <programlisting>
-          int IS_union_field_etc(t);
-          PTR(ctype) union_field_etc_comp(t);
-          STATEMENT MAKE_union_field_etc(unsigned int, ctype, ...., lvalue t);
-          STATEMENT MODIFY_union_field_etc(unsigned int, t);
-          STATEMENT DECONS_union_field_etc(lvalue ctype, ...., t);
-          STATEMENT DESTROY_union_field_etc(DESTROYER, lvalue ctype, ...., t);
+int IS_union_field_etc(t);
+PTR(ctype) union_field_etc_comp(t);
+STATEMENT MAKE_union_field_etc(unsigned int, ctype, ...., lvalue t);
+STATEMENT MODIFY_union_field_etc(unsigned int, t);
+STATEMENT DECONS_union_field_etc(lvalue ctype, ...., t);
+STATEMENT DESTROY_union_field_etc(DESTROYER, lvalue ctype, ...., t);
           </programlisting>
 
           defined on these sets. These are exactly analogous to the single
@@ -1193,13 +1200,14 @@
           two constants:
 
           <programlisting>
-          unsigned int union_field_tag;
-          unsigned int union_field_etc_tag;
-          </programlisting>
+unsigned int union_field_tag;
+unsigned int union_field_etc_tag;
+          </programlisting></para>
 
-          A union is a member of this set if its tag is greater than or equal
-          to <literal>union_field</literal><code>_tag</code> and strictly less
-          than <literal>union_field</literal><code>_etc_tag</code>.</para>
+        <para>A union is a member of this set if its tag is greater than or
+          equal to <literal>union_field</literal><code>_tag</code> and
+          strictly less than
+          <literal>union_field</literal><code>_etc_tag</code>.</para>
       </sect2>
 
       <sect2 id="inheritance-in-unions">
@@ -1210,7 +1218,7 @@
           <literal>btype</literal> then there is an operation:
 
           <programlisting>
-          btype CONVERT_union_base(t);
+btype CONVERT_union_base(t);
           </programlisting>
 
           where <literal>union</literal> and <literal>base</literal> are the
@@ -1226,7 +1234,7 @@
           <literal>union</literal><code>_ops.h</code> an operator:
 
           <programlisting>
-          map_ret map_union(t, map_par, ....);
+map_ret map_union(t, map_par, ....);
           </programlisting>
 
           where <literal>map_ret</literal> is the map return type and
@@ -1235,19 +1243,20 @@
           <link linkend="inputunion">hash symbol</link>) which have the form:
 
           <programlisting>
-          map_ret map_union(t, DESTROYER, map_par, ....);
-          </programlisting>
+map_ret map_union(t, DESTROYER, map_par, ....);
+          </programlisting></para>
 
-          These maps are implemented by having one function per field for each
-          map. The output file <literal>union</literal><code>_map.h</code>
-          contains tables of these functions. These have the form:
+        <para>These maps are implemented by having one function per field for
+          each map. The output file
+          <literal>union</literal><code>_map.h</code> contains tables of these
+          functions. These have the form:
 
           <programlisting>
-          map_ret(*map_union_table[ORDER_union])(t, map_par, ....) = {
-                  ....
-                  map_union_field,
-                  ....
-          } ;
+map_ret(*map_union_table[ORDER_union])(t, map_par, ....) = {
+        ....
+        map_union_field,
+        ....
+} ;
           </programlisting>
 
           where there is one entry per union field.</para>
@@ -1257,19 +1266,19 @@
           <literal>union</literal><code>_hdr.h</code>.  These take the form:
 
           <programlisting>
-          #define HDR_map_union_field\
-                  map_ret map_union_field(name_union, destroyer, par, ....)\
-                  t name_union;\
-                  DESTROYER destroyer; /* if required */\
-                  map_par par;\
-                  ....\
-                  {\
-                          ctype comp;\
-                          ....\
-                          DECONS_union_field(comp, ...., name_union);
-          </programlisting>
+#define HDR_map_union_field\
+        map_ret map_union_field(name_union, destroyer, par, ....)\
+        t name_union;\
+        DESTROYER destroyer; /* if required */\
+        map_par par;\
+        ....\
+        {\
+                ctype comp;\
+                ....\
+                DECONS_union_field(comp, ...., name_union);
+          </programlisting></para>
 
-          There is also an alternative function header,
+        <para>There is also an alternative function header,
           <code>HDR_</code><literal>map</literal>_d_<literal>union_field</literal>,
           which calls <code>DESTROY_</code><literal>union_field</literal>
           rather than <code>DECONS_</code><literal>union_field</literal>. The
@@ -1289,19 +1298,19 @@
       <para>The C implementation of the type system
         <link linkend="tokenoutput">specified above</link> is based on a
         single type, <literal>name</literal>, with the same name as the input
-        algebra. This is defined as follows:</para>
+        algebra. This is defined as follows:
 
       <programlisting>
-          typedef union name_tag {
-                  unsigned int ag_tag;
-                  union name_tag *ag_ptr;
-                  unsigned ag_enum;
-                  unsigned long ag_long_enum;
-                  name_dim ag_dim;
-                  t ag_prim_type;
-                  ....
-          } name;
-      </programlisting>
+typedef union name_tag {
+        unsigned int ag_tag;
+        union name_tag *ag_ptr;
+        unsigned ag_enum;
+        unsigned long ag_long_enum;
+        name_dim ag_dim;
+        t ag_prim_type;
+        ....
+} name;
+      </programlisting></para>
 
       <para>where <literal>t</literal> runs over all the primitive types.  All
         of the types in the algebra can be packed into a block of cells of
@@ -1379,27 +1388,28 @@
         defined as follows:
 
         <programlisting>
-          typedef unsigned int name_dim;
+typedef unsigned int name_dim;
 
-          typedef struct {
-                  name *vec;
-                  name *ptr;
-          } name_VEC_PTR;
+typedef struct {
+        name *vec;
+        name *ptr;
+} name_VEC_PTR;
 
-          typedef struct {
-                  name_dim dim;
-                  name_VEC_PTR elems;
-          } name_VEC;
-        </programlisting>
+typedef struct {
+        name_dim dim;
+        name_VEC_PTR elems;
+} name_VEC;
+        </programlisting></para>
 
-        The <code>vec</code> field of a vector pointer contains a pointer to a
-        block of cells containing the packed versions of the elements of the
-        vector. The <code>ptr</code> field is a pointer to the current element
-        of this block. A vector type also has a field giving the vector size.
-        A vector pointer type can be packed into a block of two cells, using
-        the <code>ag_ptr</code> field of each to hold its two components. A
-        vector type can similarly be packed into a block of three cells, the
-        first holding the vector size in its <code>ag_dim</code> field.</para>
+      <para>The <code>vec</code> field of a vector pointer contains a pointer
+        to a block of cells containing the packed versions of the elements of
+        the vector. The <code>ptr</code> field is a pointer to the current
+        element of this block. A vector type also has a field giving the
+        vector size.  A vector pointer type can be packed into a block of two
+        cells, using the <code>ag_ptr</code> field of each to hold its two
+        components. A vector type can similarly be packed into a block of
+        three cells, the first holding the vector size in its
+        <code>ag_dim</code> field.</para>
 
       <para>All size types are implemented as <code>int</code>.</para>
     </sect1>
@@ -1413,9 +1423,9 @@
         These are specified as follows:
 
         <programlisting>
-          name *gen_name(unsigned int);
-          void destroy_name(name *, unsigned int);
-          void dummy_destroy_name(name *, unsigned int);
+name *gen_name(unsigned int);
+void destroy_name(name *, unsigned int);
+void dummy_destroy_name(name *, unsigned int);
         </programlisting>
 
         where <code>gen_</code><literal>name</literal> allocates a block of
@@ -1429,10 +1439,10 @@
       <para>Certain generic list functions must also be provided, namely:
 
         <programlisting>
-          void destroy_name_list(name *, unsigned int);
-          name *reverse_name_list(name *);
-          name *append_name_list(name *, name *);
-          name *end_name_list(name *);
+void destroy_name_list(name *, unsigned int);
+name *reverse_name_list(name *);
+name *append_name_list(name *, name *);
+name *end_name_list(name *);
         </programlisting>
 
         which implement the constructs <code>DESTROY_list</code>,
@@ -1441,7 +1451,7 @@
 
       <para>Finally a dummy empty vector:
         <programlisting>
-          name_VEC empty_name_vec;
+name_VEC empty_name_vec;
         </programlisting>needs to be defined.</para>
 
       <para>Examples of these support routines can be found in the
@@ -1508,7 +1518,7 @@
         <filename>write_def.h</filename> consist of a function:
 
         <programlisting>
-          static void WRITE_type(t);
+static void WRITE_type(t);
         </programlisting>
         
         for each type <literal>t</literal> mentioned within the algebra
@@ -1523,14 +1533,14 @@
         it is defined recursively as follows:
 
         <programlisting>
-          LIST(t)-&gt;list_type
-          PTR(t)-&gt;ptr_type
-          STACK(t)-&gt;stack_type
-          VEC(t)-&gt;vec_type
-          VEC_PTR(t)-&gt;vptr_type
-        </programlisting>
+LIST(t)-&gt;list_type
+PTR(t)-&gt;ptr_type
+STACK(t)-&gt;stack_type
+VEC(t)-&gt;vec_type
+VEC_PTR(t)-&gt;vptr_type
+        </programlisting></para>
 
-        Such functions are defined for identity types and composite types
+      <para>Such functions are defined for identity types and composite types
         involving identity types by means of macros which define them in terms
         of the identity definitions.
         <code>WRITE_</code><literal>type</literal> functions for the primitive
@@ -1548,23 +1558,23 @@
         <literal>input</literal> is given by:
 
         <programlisting>
-          extra:
-                  type-list<subscript>opt</subscript>
+extra:
+        type-list<subscript>opt</subscript>
 
-          type-list:
-                  type;
-                  type-list type;
-        </programlisting>
+type-list:
+        type;
+        type-list type;
+        </programlisting></para>
 
-        The <code>WRITE_</code><literal>type</literal> functions are defined
-        recursively in an obvious fashion. The user needs to provide the
-        writing routines for the primitives already mentioned, plus support
-        routines (or macros):
+      <para>The <code>WRITE_</code><literal>type</literal> functions are
+        defined recursively in an obvious fashion. The user needs to provide
+        the writing routines for the primitives already mentioned, plus
+        support routines (or macros):
 
         <programlisting>
-          void WRITE_BITS(int, unsigned int);
-          void WRITE_DIM(name_dim);
-          void WRITE_ALIAS(unsigned int);
+void WRITE_BITS(int, unsigned int);
+void WRITE_DIM(name_dim);
+void WRITE_ALIAS(unsigned int);
         </programlisting>
 
         for writing a number of bits to disk, writing a vector dimension and
@@ -1589,7 +1599,7 @@
         primitives) there is a function or macro:
 
         <programlisting>
-          static t READ_type(void);
+static t READ_type(void);
         </programlisting>
 
         which reads an object of that type from disk. The user must provide
@@ -1597,9 +1607,9 @@
         primitive types, plus support routines:
 
         <programlisting>
-          unsigned int READ_BITS(int);
-          name_dim READ_DIM(void);
-          unsigned int READ_ALIAS(void);
+unsigned int READ_BITS(int);
+name_dim READ_DIM(void);
+unsigned int READ_ALIAS(void);
         </programlisting>
 
         for reading a number of bits from disk, reading a vector dimension and
@@ -1615,7 +1625,7 @@
         <filename>print_def.h</filename> consist of a function or macro:
 
         <programlisting>
-          static void PRINT_type(FILE *, t, char *, int);
+static void PRINT_type(FILE *, t, char *, int);
         </programlisting>
 
         for each type <literal>t</literal>, which prints an object of type
@@ -1624,7 +1634,7 @@
         routines:
 
         <programlisting>
-          void OUTPUT_type(FILE *, t);
+void OUTPUT_type(FILE *, t);
         </programlisting>
         
         for each primitive type. The
@@ -1635,12 +1645,12 @@
         defined as follows:
 
         <programlisting>
-          static int print_indent_step = 4;
-          static int print_ptr_depth = 1;
-          static int print_list_expand = 0;
-        </programlisting>
+static int print_indent_step = 4;
+static int print_ptr_depth = 1;
+static int print_list_expand = 0;
+        </programlisting></para>
 
-        These determine the indentation to be used in the output, to what
+      <para>These determine the indentation to be used in the output, to what
         depth pointers are to be dereferenced when printing, and whether lists
         and stacks are to be fully expanded into a sequence of elements or
         just split into a head and a tail.</para>
@@ -1655,7 +1665,7 @@
         <command>calculus</command> will generate functions:
         
         <programlisting>
-          void DEBUG_type(t);
+void DEBUG_type(t);
         </programlisting>
         
         defined in terms of <code>PRINT_</code><literal>type</literal>, for
@@ -1665,7 +1675,7 @@
         <code>DEBUG_</code><literal>type</literal> takes the form:
         
         <programlisting>
-          void DEBUG_type(t *);
+void DEBUG_type(t *);
         </programlisting>
         
         These debugging routines are only defined conditionally, if the macro
@@ -1705,7 +1715,7 @@
         user-defined routine, or macro:
 
         <programlisting>
-          ALIAS_union_field(comp, ...., x);
+ALIAS_union_field(comp, ...., x);
         </programlisting>
 
         (where <literal>comp</literal> ranges over all the union components)
@@ -1716,7 +1726,7 @@
         routine:
 
         <programlisting>
-          UNALIAS_union_field(x);
+UNALIAS_union_field(x);
         </programlisting>
 
         prior to reading the object components from disk. Each object
@@ -1724,7 +1734,7 @@
         Finally the user-defined routine:
 
         <programlisting>
-          UNIFY_union_field(comp, ...., x);
+UNIFY_union_field(comp, ...., x);
         </programlisting>
 
         (where <literal>comp</literal> ranges over all the union components)
@@ -1740,7 +1750,7 @@
         calling any such function the user should call the routine:
 
         <programlisting>
-          void clear_name_alias(void);
+void clear_name_alias(void);
         </programlisting>
 
         to clear all aliases.</para>
@@ -1753,9 +1763,9 @@
         user should provide support functions and variables:
 
         <programlisting>
-          unsigned int crt_name_alias;
-          void set_name_alias(name *, unsigned int);
-          name *find_name_alias(unsigned int);
+unsigned int crt_name_alias;
+void set_name_alias(name *, unsigned int);
+name *find_name_alias(unsigned int);
         </programlisting>
 
         giving the next alias number to be assigned, and routines for adding
@@ -1797,11 +1807,11 @@
       using the syntax:
       
       <programlisting>
-          calculus [ options ] input .... -Ttemplate output
-      </programlisting>
+calculus [ options ] input .... -Ttemplate output
+      </programlisting></para>
       
-      The template file consists of a list of either template directives or
-      source lines containing escape sequences which are expanded by
+    <para>The template file consists of a list of either template directives
+      or source lines containing escape sequences which are expanded by
       <command>calculus</command>. Template directive lines are distinguished
       by having <code>@</code> as their first character.  Escape sequences
       consist of <code>%</code> following by one or more characters.</para>
@@ -1809,27 +1819,27 @@
     <para>There are two template directives; loops take the form:
 
       <programlisting>
-          @loop control
-          ....
-          @end
+@loop control
+....
+@end
       </programlisting>
 
       and conditionals take the form:
 
       <programlisting>
-          @if condition
-          ....
-          @else
-          ....
-          @endif
+@if condition
+....
+@else
+....
+@endif
       </programlisting>
 
       or:
 
       <programlisting>
-          @if condition
-          ....
-          @endif
+@if condition
+....
+@endif
       </programlisting>
 
       where <code>....</code> stands for any sequence of template directives
@@ -1905,59 +1915,59 @@
       name and <code>%AT</code> gives the argument type.</para>
 
     <para>As an example, the following template file gives a simple algebra
-      pretty printer:</para>
+      pretty printer:
 
     <programlisting>
-          ALGEBRA %X (%V):
-          
-          /* PRIMITIVE TYPES */
-          @loop primitive
-          %PN (%PM) = "%PD";
-          @end
-          
-          /* IDENTITY TYPES */
-          @loop identity
-          %IN (%IM) = %IT;
-          @end
-          
-          /* ENUMERATION TYPES */
-          @loop enum
-          
-          enum %EN (%EM) = {
-          @loop enum.const
-                  %ES = %EV,
-          @end
-          };
-          @end
-          
-          /* STRUCTURE TYPES */
-          @loop struct
-          
-          struct %SN (%SM) = {
-          @loop struct.comp
-                  %CT %CN;
-          @end
-          };
-          @end
-          
-          /* UNION TYPES */
-          @loop union
-          
-          union %UN (%UM) = {
-          @loop union.comp
-                  %CT %CN;
-          @end
-          } + {
-          @loop union.field
-                  %FN-&gt;{
-          @loop union.field.comp
-                          %CT %CN;
-          @end
-                  };
-          @end
-          };
-          @end
-    </programlisting>
+ALGEBRA %X (%V):
+
+/* PRIMITIVE TYPES */
+@loop primitive
+%PN (%PM) = "%PD";
+@end
+
+/* IDENTITY TYPES */
+@loop identity
+%IN (%IM) = %IT;
+@end
+
+/* ENUMERATION TYPES */
+@loop enum
+
+enum %EN (%EM) = {
+@loop enum.const
+        %ES = %EV,
+@end
+};
+@end
+
+/* STRUCTURE TYPES */
+@loop struct
+
+struct %SN (%SM) = {
+@loop struct.comp
+        %CT %CN;
+@end
+};
+@end
+
+/* UNION TYPES */
+@loop union
+
+union %UN (%UM) = {
+@loop union.comp
+        %CT %CN;
+@end
+} + {
+@loop union.field
+        %FN-&gt;{
+@loop union.field.comp
+                %CT %CN;
+@end
+        };
+@end
+};
+@end
+    </programlisting></para>
   </chapter>
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
