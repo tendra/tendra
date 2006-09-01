@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -40,12 +70,12 @@
 */
 
 typedef struct {
-    LIST ( IDENTIFIER ) ids ;
-    LIST ( GRAPH ) bases ;
-    LIST ( int ) info ;
-    int pending ;
-    int inherit ;
-} ACCESS_LIST ;
+	LIST(IDENTIFIER) ids;
+	LIST(GRAPH) bases;
+	LIST(int) info;
+	int pending;
+	int inherit;
+} ACCESS_LIST;
 
 
 /*
@@ -54,24 +84,24 @@ typedef struct {
     The routines in this module are concerned with class member access.
 */
 
-extern IDENTIFIER access_decl PROTO_S ( ( IDENTIFIER ) ) ;
-extern void friend_function PROTO_S ( ( CLASS_TYPE, IDENTIFIER, int ) ) ;
-extern void friend_class PROTO_S ( ( CLASS_TYPE, IDENTIFIER, int ) ) ;
-extern DECL_SPEC join_access PROTO_S ( ( DECL_SPEC, DECL_SPEC ) ) ;
-extern void check_access PROTO_S ( ( IDENTIFIER, DECL_SPEC ) ) ;
-extern void check_base_access PROTO_S ( ( GRAPH ) ) ;
-extern void immediate_access PROTO_S ( ( IDENTIFIER, IDENTIFIER ) ) ;
-extern int clear_access PROTO_S ( ( IDENTIFIER, ACCESS_LIST * ) ) ;
-extern int report_access PROTO_S ( ( IDENTIFIER ) ) ;
-extern void adjust_access PROTO_S ( ( IDENTIFIER, DECL_SPEC, int ) ) ;
-extern void free_access PROTO_S ( ( ACCESS_LIST * ) ) ;
-extern void save_access PROTO_S ( ( ACCESS_LIST * ) ) ;
-extern int restore_access PROTO_S ( ( IDENTIFIER, ACCESS_LIST * ) ) ;
-extern ACCESS_LIST crt_access_list ;
-extern int do_access_checks ;
-extern DECL_SPEC crt_access ;
-extern DECL_SPEC prev_access ;
-extern int have_access_decl ;
+extern IDENTIFIER access_decl(IDENTIFIER);
+extern void friend_function(CLASS_TYPE, IDENTIFIER, int);
+extern void friend_class(CLASS_TYPE, IDENTIFIER, int);
+extern DECL_SPEC join_access(DECL_SPEC, DECL_SPEC);
+extern void check_access(IDENTIFIER, DECL_SPEC);
+extern void check_base_access(GRAPH);
+extern void immediate_access(IDENTIFIER, IDENTIFIER);
+extern int clear_access(IDENTIFIER, ACCESS_LIST *);
+extern int report_access(IDENTIFIER);
+extern void adjust_access(IDENTIFIER, DECL_SPEC, int);
+extern void free_access(ACCESS_LIST *);
+extern void save_access(ACCESS_LIST *);
+extern int restore_access(IDENTIFIER, ACCESS_LIST *);
+extern ACCESS_LIST crt_access_list;
+extern int do_access_checks;
+extern DECL_SPEC crt_access;
+extern DECL_SPEC prev_access;
+extern int have_access_decl;
 
 
 /*
@@ -81,8 +111,8 @@ extern int have_access_decl ;
     access values.
 */
 
-#define shadow_access( A )	( ( ( A ) & dspec_access ) << 2 )
-#define unshadow_access( A )	( ( ( A ) & dspec_access2 ) >> 2 )
+#define shadow_access(A)	(((A) & dspec_access) << 2)
+#define unshadow_access(A)	(((A) & dspec_access2) >> 2)
 
 
 #endif

@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -39,36 +69,37 @@
     and conversion functions.
 */
 
-extern NAMESPACE ctor_begin PROTO_S ( ( void ) ) ;
-extern EXP ctor_end PROTO_S ( ( NAMESPACE, EXP, int ) ) ;
-extern void ctor_initialise PROTO_S ( ( NAMESPACE, IDENTIFIER, EXP ) ) ;
-extern EXP ctor_none PROTO_S ( ( EXP, EXP * ) ) ;
-extern EXP ctor_postlude PROTO_S ( ( EXP, EXP ) ) ;
-extern EXP copy_ctor PROTO_S ( ( EXP, int ) ) ;
-extern EXP except_postlude PROTO_S ( ( IDENTIFIER ) ) ;
+extern NAMESPACE ctor_begin(void);
+extern EXP ctor_end(NAMESPACE, EXP, int);
+extern void ctor_initialise(NAMESPACE, IDENTIFIER, EXP);
+extern EXP ctor_none(EXP, EXP *);
+extern EXP ctor_postlude(EXP, EXP);
+extern EXP copy_ctor(EXP, int);
+extern EXP except_postlude(IDENTIFIER);
 
-extern TYPE check_constr PROTO_S ( ( TYPE, IDENTIFIER, NAMESPACE ) ) ;
-extern TYPE check_destr PROTO_S ( ( TYPE, IDENTIFIER, NAMESPACE ) ) ;
-extern TYPE check_conv PROTO_S ( ( TYPE, IDENTIFIER ) ) ;
-extern TYPE inferred_return PROTO_S ( ( TYPE, IDENTIFIER ) ) ;
+extern TYPE check_constr(TYPE, IDENTIFIER, NAMESPACE);
+extern TYPE check_destr(TYPE, IDENTIFIER, NAMESPACE);
+extern TYPE check_conv(TYPE, IDENTIFIER);
+extern TYPE inferred_return(TYPE, IDENTIFIER);
 
-extern IDENTIFIER find_operator PROTO_S ( ( CLASS_TYPE, int ) ) ;
-extern IDENTIFIER make_pseudo_destr PROTO_S ( ( IDENTIFIER, BASE_TYPE, IDENTIFIER, BASE_TYPE ) ) ;
-extern CLASS_INFO implicit_decl PROTO_S ( ( CLASS_TYPE, CLASS_INFO, DECL_SPEC ) ) ;
-extern void implicit_defn PROTO_S ( ( IDENTIFIER, int ) ) ;
+extern IDENTIFIER find_operator(CLASS_TYPE, int);
+extern IDENTIFIER make_pseudo_destr(IDENTIFIER, BASE_TYPE, IDENTIFIER,
+				    BASE_TYPE);
+extern CLASS_INFO implicit_decl(CLASS_TYPE, CLASS_INFO, DECL_SPEC);
+extern void implicit_defn(IDENTIFIER, int);
 
-extern EXP init_default PROTO_S ( ( TYPE, EXP *, int, int, ERROR * ) ) ;
-extern EXP convert_constr PROTO_S ( ( TYPE, LIST ( EXP ), ERROR *, unsigned ) ) ;
-extern EXP convert_conv_aux PROTO_S ( ( TYPE, EXP, ERROR *, unsigned ) ) ;
-extern EXP convert_conv PROTO_S ( ( TYPE, EXP, ERROR *, unsigned ) ) ;
-extern EXP convert_gen PROTO_S ( ( unsigned, EXP, ERROR * ) ) ;
-extern EXP apply_constr PROTO_S ( ( IDENTIFIER, LIST ( EXP ) ) ) ;
-extern EXP add_constr_args PROTO_S ( ( EXP, CLASS_TYPE, int ) ) ;
-extern unsigned extra_constr_args PROTO_S ( ( IDENTIFIER, CLASS_TYPE ) ) ;
-extern EXP apply_trivial_func PROTO_S ( ( IDENTIFIER, LIST ( EXP ) ) ) ;
-extern EXP trivial_destr PROTO_S ( ( EXP ) ) ;
-extern int have_constr_expl ;
-extern int have_conv_expl ;
+extern EXP init_default(TYPE, EXP *, int, int, ERROR *);
+extern EXP convert_constr(TYPE, LIST(EXP), ERROR *, unsigned);
+extern EXP convert_conv_aux(TYPE, EXP, ERROR *, unsigned);
+extern EXP convert_conv(TYPE, EXP, ERROR *, unsigned);
+extern EXP convert_gen(unsigned, EXP, ERROR *);
+extern EXP apply_constr(IDENTIFIER, LIST(EXP));
+extern EXP add_constr_args(EXP, CLASS_TYPE, int);
+extern unsigned extra_constr_args(IDENTIFIER, CLASS_TYPE);
+extern EXP apply_trivial_func(IDENTIFIER, LIST(EXP));
+extern EXP trivial_destr(EXP);
+extern int have_constr_expl;
+extern int have_conv_expl;
 
 
 /*
