@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
     
     This TenDRA(r) Computer Program is subject to Copyright
@@ -44,22 +74,22 @@
 #include "err_ops.h"
 @if token
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : int : sev,\
 	EXP : int : no,\
 	EXP : unsigned : sz,\
 	EXP lvalue : ERROR : e\
     ) STATEMENT MAKE_err_simple_args #
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : ERROR : e\
     ) STATEMENT DESTROY_err_simple_args #
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : ERROR : e,\
 	EXP : unsigned : n,\
 	TYPE t\
-    ) EXP : PTR ( t ) : err_arg #
+    ) EXP : PTR(t) : err_arg #
 
 #pragma interface MAKE_err_simple_args DESTROY_err_simple_args err_arg
 
@@ -67,26 +97,25 @@
 
 #define SIZE_err_simple		4
 
-#define MAKE_err_simple_args( A, B, C, E )\
+#define MAKE_err_simple_args(A, B, C, E)\
     {\
-	unsigned sz_ = ( C ) ;\
-	c_class *err_ = GEN_c_class ( SIZE_err_simple + sz_, TYPEID_err ) ;\
+	unsigned sz_ = (C);\
+	c_class *err_ = GEN_c_class(SIZE_err_simple + sz_, TYPEID_err);\
 	err_->ag_tag = err_simple_tag ;\
-	COPY_int ( err_severity ( err_ ), ( A ) ) ;\
-	COPY_int ( err_simple_number ( err_ ), ( B ) ) ;\
-	COPY_unsigned ( err_simple_size ( err_ ), sz_ ) ;\
-	( E ) = err_ ;\
+	COPY_int(err_severity(err_), (A));\
+	COPY_int(err_simple_number(err_), (B));\
+	COPY_unsigned(err_simple_size(err_), sz_);\
+	(E) = err_ ;\
     }
 
-#define DESTROY_err_simple_args( E )\
+#define DESTROY_err_simple_args(E)\
     {\
-	ERROR err_ = ( E ) ;\
-	unsigned sz_ = DEREF_unsigned ( err_simple_size ( err_ ) ) ;\
-	destroy_c_class ( err_, SIZE_err_simple + sz_ ) ;\
+	ERROR err_ = (E);\
+	unsigned sz_ = DEREF_unsigned(err_simple_size(err_));\
+	destroy_c_class(err_, SIZE_err_simple + sz_);\
     }
 
-#define err_arg( E, A, T )\
-	( ( E ) + ( SIZE_err_simple + ( A ) ) )
+#define err_arg(E, A, T)	((E) + (SIZE_err_simple + (A)))
 
 @endif
 
