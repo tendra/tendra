@@ -37,39 +37,39 @@
 
 /* Operations for union STRING */
 
-#pragma token PROC ( EXP : STRING : ) EXP : unsigned : TAG_str #
+#pragma token PROC(EXP : STRING :) EXP : unsigned : TAG_str #
 #pragma interface TAG_str
 
 
 /* Operations for component next of union STRING */
 
-#pragma token PROC ( EXP : STRING : )\
-    EXP : PTR ( STRING ) : str_next #
+#pragma token PROC(EXP : STRING :)\
+    EXP : PTR(STRING) : str_next #
 #pragma interface str_next
 
 /* Operations for field simple of union STRING */
 
 #pragma token EXP const : unsigned : str_simple_tag #
-#pragma token PROC ( EXP : STRING : ) EXP : int : IS_str_simple #
+#pragma token PROC(EXP : STRING :) EXP : int : IS_str_simple #
 #pragma interface str_simple_tag IS_str_simple
 
-#pragma token PROC ( EXP : STRING : )\
-    EXP : PTR ( ulong_type ) : str_simple_len #
+#pragma token PROC(EXP : STRING :)\
+    EXP : PTR(ulong_type) : str_simple_len #
 #pragma interface str_simple_len
 
-#pragma token PROC ( EXP : STRING : )\
-    EXP : PTR ( string ) : str_simple_text #
+#pragma token PROC(EXP : STRING :)\
+    EXP : PTR(string) : str_simple_text #
 #pragma interface str_simple_text
 
-#pragma token PROC ( EXP : STRING : )\
-    EXP : PTR ( unsigned ) : str_simple_kind #
+#pragma token PROC(EXP : STRING :)\
+    EXP : PTR(unsigned) : str_simple_kind #
 #pragma interface str_simple_kind
 
-#pragma token PROC ( EXP : STRING : )\
-    EXP : PTR ( ulong_type ) : str_simple_tok #
+#pragma token PROC(EXP : STRING :)\
+    EXP : PTR(ulong_type) : str_simple_tok #
 #pragma interface str_simple_tok
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : ulong_type :,\
 	EXP : string :,\
 	EXP : unsigned :,\
@@ -77,7 +77,7 @@
     ) STATEMENT MAKE_str_simple #
 #pragma interface MAKE_str_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : STRING :,\
 	EXP lvalue : ulong_type :,\
 	EXP lvalue : string :,\
@@ -87,7 +87,7 @@
     ) STATEMENT DECONS_str_simple #
 #pragma interface DECONS_str_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : STRING :,\
 	EXP lvalue : ulong_type :,\

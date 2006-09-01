@@ -37,38 +37,38 @@
 
 /* Operations for union ERROR */
 
-#pragma token PROC ( EXP : ERROR : ) EXP : unsigned : TAG_err #
+#pragma token PROC(EXP : ERROR :) EXP : unsigned : TAG_err #
 #pragma interface TAG_err
 
 
 /* Operations for component severity of union ERROR */
 
-#pragma token PROC ( EXP : ERROR : )\
-    EXP : PTR ( int ) : err_severity #
+#pragma token PROC(EXP : ERROR :)\
+    EXP : PTR(int) : err_severity #
 #pragma interface err_severity
 
 /* Operations for field simple of union ERROR */
 
 #pragma token EXP const : unsigned : err_simple_tag #
-#pragma token PROC ( EXP : ERROR : ) EXP : int : IS_err_simple #
+#pragma token PROC(EXP : ERROR :) EXP : int : IS_err_simple #
 #pragma interface err_simple_tag IS_err_simple
 
-#pragma token PROC ( EXP : ERROR : )\
-    EXP : PTR ( int ) : err_simple_number #
+#pragma token PROC(EXP : ERROR :)\
+    EXP : PTR(int) : err_simple_number #
 #pragma interface err_simple_number
 
-#pragma token PROC ( EXP : ERROR : )\
-    EXP : PTR ( unsigned ) : err_simple_size #
+#pragma token PROC(EXP : ERROR :)\
+    EXP : PTR(unsigned) : err_simple_size #
 #pragma interface err_simple_size
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : int :,\
 	EXP : int :,\
 	EXP lvalue : ERROR :\
     ) STATEMENT MAKE_err_simple #
 #pragma interface MAKE_err_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : int :,\
 	EXP lvalue : int :,\
 	EXP lvalue : unsigned :,\
@@ -76,7 +76,7 @@
     ) STATEMENT DECONS_err_simple #
 #pragma interface DECONS_err_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : int :,\
 	EXP lvalue : int :,\
@@ -89,18 +89,18 @@
 /* Operations for field compound of union ERROR */
 
 #pragma token EXP const : unsigned : err_compound_tag #
-#pragma token PROC ( EXP : ERROR : ) EXP : int : IS_err_compound #
+#pragma token PROC(EXP : ERROR :) EXP : int : IS_err_compound #
 #pragma interface err_compound_tag IS_err_compound
 
-#pragma token PROC ( EXP : ERROR : )\
-    EXP : PTR ( ERROR ) : err_compound_head #
+#pragma token PROC(EXP : ERROR :)\
+    EXP : PTR(ERROR) : err_compound_head #
 #pragma interface err_compound_head
 
-#pragma token PROC ( EXP : ERROR : )\
-    EXP : PTR ( ERROR ) : err_compound_tail #
+#pragma token PROC(EXP : ERROR :)\
+    EXP : PTR(ERROR) : err_compound_tail #
 #pragma interface err_compound_tail
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : int :,\
 	EXP : ERROR :,\
 	EXP : ERROR :,\
@@ -108,7 +108,7 @@
     ) STATEMENT MAKE_err_compound #
 #pragma interface MAKE_err_compound
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : int :,\
 	EXP lvalue : ERROR :,\
 	EXP lvalue : ERROR :,\
@@ -116,7 +116,7 @@
     ) STATEMENT DECONS_err_compound #
 #pragma interface DECONS_err_compound
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : int :,\
 	EXP lvalue : ERROR :,\

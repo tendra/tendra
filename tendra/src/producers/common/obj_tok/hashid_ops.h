@@ -37,45 +37,45 @@
 
 /* Operations for union HASHID */
 
-#pragma token PROC ( EXP : HASHID : ) EXP : unsigned : TAG_hashid #
+#pragma token PROC(EXP : HASHID :) EXP : unsigned : TAG_hashid #
 #pragma interface TAG_hashid
 
 
 /* Operations for component id of union HASHID */
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_id #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_id #
 #pragma interface hashid_id
 
 /* Operations for component cache of union HASHID */
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_cache #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_cache #
 #pragma interface hashid_cache
 
 /* Operations for component next of union HASHID */
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( HASHID ) : hashid_next #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(HASHID) : hashid_next #
 #pragma interface hashid_next
 
 /* Operations for component hash of union HASHID */
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( ulong_type ) : hashid_hash #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(ulong_type) : hashid_hash #
 #pragma interface hashid_hash
 
 /* Operations for field set name_etc of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_name_etc_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_name_etc #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_name_etc #
 #pragma interface hashid_name_etc_tag IS_hashid_name_etc
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( string ) : hashid_name_etc_text #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(string) : hashid_name_etc_text #
 #pragma interface hashid_name_etc_text
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : unsigned :,\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
@@ -84,13 +84,13 @@
     ) STATEMENT MAKE_hashid_name_etc #
 #pragma interface MAKE_hashid_name_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : unsigned :,\
 	EXP : HASHID :\
     ) STATEMENT MODIFY_hashid_name_etc #
 #pragma interface MODIFY_hashid_name_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -100,7 +100,7 @@
     ) STATEMENT DECONS_hashid_name_etc #
 #pragma interface DECONS_hashid_name_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -115,14 +115,14 @@
 /* Operations for field name of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_name_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_name #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_name #
 #pragma interface hashid_name_tag IS_hashid_name
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( string ) : hashid_name_text #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(string) : hashid_name_text #
 #pragma interface hashid_name_text
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : string :,\
@@ -130,7 +130,7 @@
     ) STATEMENT MAKE_hashid_name #
 #pragma interface MAKE_hashid_name
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -140,7 +140,7 @@
     ) STATEMENT DECONS_hashid_name #
 #pragma interface DECONS_hashid_name
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -155,14 +155,14 @@
 /* Operations for field ename of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_ename_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_ename #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_ename #
 #pragma interface hashid_ename_tag IS_hashid_ename
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( string ) : hashid_ename_text #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(string) : hashid_ename_text #
 #pragma interface hashid_ename_text
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : string :,\
@@ -170,7 +170,7 @@
     ) STATEMENT MAKE_hashid_ename #
 #pragma interface MAKE_hashid_ename
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -180,7 +180,7 @@
     ) STATEMENT DECONS_hashid_ename #
 #pragma interface DECONS_hashid_ename
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -195,18 +195,18 @@
 /* Operations for field set constr_etc of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_constr_etc_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_constr_etc #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_constr_etc #
 #pragma interface hashid_constr_etc_tag IS_hashid_constr_etc
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( TYPE ) : hashid_constr_etc_type #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(TYPE) : hashid_constr_etc_type #
 #pragma interface hashid_constr_etc_type
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_constr_etc_tid #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_constr_etc_tid #
 #pragma interface hashid_constr_etc_tid
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : unsigned :,\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
@@ -216,13 +216,13 @@
     ) STATEMENT MAKE_hashid_constr_etc #
 #pragma interface MAKE_hashid_constr_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : unsigned :,\
 	EXP : HASHID :\
     ) STATEMENT MODIFY_hashid_constr_etc #
 #pragma interface MODIFY_hashid_constr_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -233,7 +233,7 @@
     ) STATEMENT DECONS_hashid_constr_etc #
 #pragma interface DECONS_hashid_constr_etc
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -249,18 +249,18 @@
 /* Operations for field constr of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_constr_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_constr #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_constr #
 #pragma interface hashid_constr_tag IS_hashid_constr
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( TYPE ) : hashid_constr_type #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(TYPE) : hashid_constr_type #
 #pragma interface hashid_constr_type
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_constr_tid #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_constr_tid #
 #pragma interface hashid_constr_tid
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : TYPE :,\
@@ -269,7 +269,7 @@
     ) STATEMENT MAKE_hashid_constr #
 #pragma interface MAKE_hashid_constr
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -280,7 +280,7 @@
     ) STATEMENT DECONS_hashid_constr #
 #pragma interface DECONS_hashid_constr
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -296,18 +296,18 @@
 /* Operations for field destr of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_destr_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_destr #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_destr #
 #pragma interface hashid_destr_tag IS_hashid_destr
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( TYPE ) : hashid_destr_type #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(TYPE) : hashid_destr_type #
 #pragma interface hashid_destr_type
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_destr_tid #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_destr_tid #
 #pragma interface hashid_destr_tid
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : TYPE :,\
@@ -316,7 +316,7 @@
     ) STATEMENT MAKE_hashid_destr #
 #pragma interface MAKE_hashid_destr
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -327,7 +327,7 @@
     ) STATEMENT DECONS_hashid_destr #
 #pragma interface DECONS_hashid_destr
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -343,18 +343,18 @@
 /* Operations for field conv of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_conv_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_conv #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_conv #
 #pragma interface hashid_conv_tag IS_hashid_conv
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( TYPE ) : hashid_conv_type #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(TYPE) : hashid_conv_type #
 #pragma interface hashid_conv_type
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( IDENTIFIER ) : hashid_conv_tid #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(IDENTIFIER) : hashid_conv_tid #
 #pragma interface hashid_conv_tid
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : TYPE :,\
@@ -363,7 +363,7 @@
     ) STATEMENT MAKE_hashid_conv #
 #pragma interface MAKE_hashid_conv
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -374,7 +374,7 @@
     ) STATEMENT DECONS_hashid_conv #
 #pragma interface DECONS_hashid_conv
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -390,14 +390,14 @@
 /* Operations for field op of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_op_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_op #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_op #
 #pragma interface hashid_op_tag IS_hashid_op
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( int ) : hashid_op_lex #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(int) : hashid_op_lex #
 #pragma interface hashid_op_lex
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : int :,\
@@ -405,7 +405,7 @@
     ) STATEMENT MAKE_hashid_op #
 #pragma interface MAKE_hashid_op
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -415,7 +415,7 @@
     ) STATEMENT DECONS_hashid_op #
 #pragma interface DECONS_hashid_op
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
@@ -430,14 +430,14 @@
 /* Operations for field anon of union HASHID */
 
 #pragma token EXP const : unsigned : hashid_anon_tag #
-#pragma token PROC ( EXP : HASHID : ) EXP : int : IS_hashid_anon #
+#pragma token PROC(EXP : HASHID :) EXP : int : IS_hashid_anon #
 #pragma interface hashid_anon_tag IS_hashid_anon
 
-#pragma token PROC ( EXP : HASHID : )\
-    EXP : PTR ( ulong_type ) : hashid_anon_uniq #
+#pragma token PROC(EXP : HASHID :)\
+    EXP : PTR(ulong_type) : hashid_anon_uniq #
 #pragma interface hashid_anon_uniq
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : ulong_type :,\
 	EXP : ulong_type :,\
@@ -445,7 +445,7 @@
     ) STATEMENT MAKE_hashid_anon #
 #pragma interface MAKE_hashid_anon
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : HASHID :,\
@@ -455,7 +455,7 @@
     ) STATEMENT DECONS_hashid_anon #
 #pragma interface DECONS_hashid_anon
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : IDENTIFIER :,\
 	EXP lvalue : IDENTIFIER :,\

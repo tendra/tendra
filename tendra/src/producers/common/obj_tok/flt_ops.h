@@ -37,35 +37,35 @@
 
 /* Operations for union FLOAT */
 
-#pragma token PROC ( EXP : FLOAT : ) EXP : unsigned : TAG_flt #
+#pragma token PROC(EXP : FLOAT :) EXP : unsigned : TAG_flt #
 #pragma interface TAG_flt
 
 
 /* Operations for component tok of union FLOAT */
 
-#pragma token PROC ( EXP : FLOAT : )\
-    EXP : PTR ( ulong_type ) : flt_tok #
+#pragma token PROC(EXP : FLOAT :)\
+    EXP : PTR(ulong_type) : flt_tok #
 #pragma interface flt_tok
 
 /* Operations for field simple of union FLOAT */
 
 #pragma token EXP const : unsigned : flt_simple_tag #
-#pragma token PROC ( EXP : FLOAT : ) EXP : int : IS_flt_simple #
+#pragma token PROC(EXP : FLOAT :) EXP : int : IS_flt_simple #
 #pragma interface flt_simple_tag IS_flt_simple
 
-#pragma token PROC ( EXP : FLOAT : )\
-    EXP : PTR ( string ) : flt_simple_int_part #
+#pragma token PROC(EXP : FLOAT :)\
+    EXP : PTR(string) : flt_simple_int_part #
 #pragma interface flt_simple_int_part
 
-#pragma token PROC ( EXP : FLOAT : )\
-    EXP : PTR ( string ) : flt_simple_frac_part #
+#pragma token PROC(EXP : FLOAT :)\
+    EXP : PTR(string) : flt_simple_frac_part #
 #pragma interface flt_simple_frac_part
 
-#pragma token PROC ( EXP : FLOAT : )\
-    EXP : PTR ( NAT ) : flt_simple_exponent #
+#pragma token PROC(EXP : FLOAT :)\
+    EXP : PTR(NAT) : flt_simple_exponent #
 #pragma interface flt_simple_exponent
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : string :,\
 	EXP : string :,\
 	EXP : NAT :,\
@@ -73,7 +73,7 @@
     ) STATEMENT MAKE_flt_simple #
 #pragma interface MAKE_flt_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP lvalue : ulong_type :,\
 	EXP lvalue : string :,\
 	EXP lvalue : string :,\
@@ -82,7 +82,7 @@
     ) STATEMENT DECONS_flt_simple #
 #pragma interface DECONS_flt_simple
 
-#pragma token PROC (\
+#pragma token PROC(\
 	EXP : DESTROYER :,\
 	EXP lvalue : ulong_type :,\
 	EXP lvalue : string :,\
