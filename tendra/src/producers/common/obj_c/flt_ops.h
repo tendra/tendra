@@ -37,50 +37,50 @@
 
 /* Operations for union FLOAT */
 
-#define TAG_flt( P )			( ( unsigned ) 0 )
+#define TAG_flt(P)			((unsigned) 0)
 
 
 /* Operations for component tok of union FLOAT */
 
-#define flt_tok( P )			( CHECK_NULL ( P ) + 0 )
+#define flt_tok(P)			(CHECK_NULL(P) + 0)
 
 
 /* Operations for field simple of union FLOAT */
 
-#define flt_simple_tag			( ( unsigned ) 0 )
-#define IS_flt_simple( P )		1
+#define flt_simple_tag			((unsigned)0)
+#define IS_flt_simple(P)		1
 
-#define flt_simple_int_part( P )	( ( P ) + 1 )
-#define flt_simple_frac_part( P )	( ( P ) + 2 )
-#define flt_simple_exponent( P )	( ( P ) + 3 )
+#define flt_simple_int_part(P)		((P) + 1)
+#define flt_simple_frac_part(P)		((P) + 2)
+#define flt_simple_exponent(P)		((P) + 3)
 
-#define MAKE_flt_simple( int_part_, frac_part_, exponent_, c_class_flt )\
+#define MAKE_flt_simple(int_part_, frac_part_, exponent_, c_class_flt)\
     {\
-	c_class *x480_ = GEN_c_class ( 4, TYPEID_flt ) ;\
-	COPY_ulong ( x480_ + 0, LINK_NONE ) ;\
-	COPY_string ( x480_ + 1, ( int_part_ ) ) ;\
-	COPY_string ( x480_ + 2, ( frac_part_ ) ) ;\
-	COPY_nat ( x480_ + 3, ( exponent_ ) ) ;\
-	( c_class_flt ) = x480_ ;\
+	c_class *x480_ = GEN_c_class(4, TYPEID_flt);\
+	COPY_ulong(x480_ + 0, LINK_NONE);\
+	COPY_string(x480_ + 1, (int_part_));\
+	COPY_string(x480_ + 2, (frac_part_));\
+	COPY_nat(x480_ + 3, (exponent_));\
+	(c_class_flt) = x480_;\
     }
 
-#define DECONS_flt_simple( tok_, int_part_, frac_part_, exponent_, c_class_flt )\
+#define DECONS_flt_simple(tok_, int_part_, frac_part_, exponent_, c_class_flt)\
     {\
-	c_class *x481_ = ( c_class_flt ) ;\
-	( tok_ ) = DEREF_ulong ( x481_ + 0 ) ;\
-	( int_part_ ) = DEREF_string ( x481_ + 1 ) ;\
-	( frac_part_ ) = DEREF_string ( x481_ + 2 ) ;\
-	( exponent_ ) = DEREF_nat ( x481_ + 3 ) ;\
+	c_class *x481_ = (c_class_flt);\
+	(tok_) = DEREF_ulong(x481_ + 0);\
+	(int_part_) = DEREF_string(x481_ + 1);\
+	(frac_part_) = DEREF_string(x481_ + 2);\
+	(exponent_) = DEREF_nat(x481_ + 3);\
     }
 
-#define DESTROY_flt_simple( destroyer_, tok_, int_part_, frac_part_, exponent_, c_class_flt )\
+#define DESTROY_flt_simple(destroyer_, tok_, int_part_, frac_part_, exponent_, c_class_flt)\
     {\
-	c_class *x482_ = ( c_class_flt ) ;\
-	( tok_ ) = DEREF_ulong ( x482_ + 0 ) ;\
-	( int_part_ ) = DEREF_string ( x482_ + 1 ) ;\
-	( frac_part_ ) = DEREF_string ( x482_ + 2 ) ;\
-	( exponent_ ) = DEREF_nat ( x482_ + 3 ) ;\
-	( destroyer_ ) ( x482_, ( unsigned ) 4 ) ;\
+	c_class *x482_ = (c_class_flt);\
+	(tok_) = DEREF_ulong(x482_ + 0);\
+	(int_part_) = DEREF_string(x482_ + 1);\
+	(frac_part_) = DEREF_string(x482_ + 2);\
+	(exponent_) = DEREF_nat(x482_ + 3);\
+	(destroyer_)(x482_, (unsigned)4);\
     }
 
 

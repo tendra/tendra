@@ -38,41 +38,41 @@
 /* Assertion function definitions */
 
 #ifndef assert_c_class
-static void assert_c_class
-    PROTO_N ( ( s, fn, ln ) )
-    PROTO_T ( CONST_S char *s X CONST_S char *fn X int ln )
+static void
+assert_c_class
+(char *s, char *fn, int ln)
 {
-    ( void ) fprintf ( stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln ) ;
-    abort () ;
+    (void)fprintf(stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln);
+    abort();
 }
 #endif
 
-c_class *check_null_c_class
-    PROTO_N ( ( p, fn, ln ) )
-    PROTO_T ( c_class *p X CONST_S char *fn X int ln )
+c_class *
+check_null_c_class
+(c_class *p, char *fn, int ln)
 {
-    if ( p == NULL ) assert_c_class ( "Null pointer", fn, ln ) ;
-    return ( p ) ;
+    if (p == NULL) assert_c_class("Null pointer", fn, ln);
+    return(p);
 }
 
-c_class *check_tag_c_class
-    PROTO_N ( ( p, t, fn, ln ) )
-    PROTO_T ( c_class *p X unsigned t X CONST_S char *fn X int ln )
+c_class *
+check_tag_c_class
+(c_class *p, unsigned t, char *fn, int ln)
 {
-    p = check_null_c_class ( p, fn, ln ) ;
-    if ( p->ag_tag != t ) assert_c_class ( "Union tag", fn, ln ) ;
-    return ( p ) ;
+    p = check_null_c_class(p, fn, ln);
+    if (p->ag_tag != t) assert_c_class("Union tag", fn, ln);
+    return(p);
 }
 
-c_class *check_tag_etc_c_class
-    PROTO_N ( ( p, tl, tb, fn, ln ) )
-    PROTO_T ( c_class *p X unsigned tl X unsigned tb X CONST_S char *fn X int ln )
+c_class *
+check_tag_etc_c_class
+(c_class *p, unsigned tl, unsigned tb X char *fn X int ln)
 {
-    p = check_null_c_class ( p, fn, ln ) ;
-    if ( p->ag_tag < tl || p->ag_tag >= tb ) {
-	assert_c_class ( "Union tag", fn, ln ) ;
+    p = check_null_c_class(p, fn, ln);
+    if (p->ag_tag < tl || p->ag_tag >= tb) {
+	assert_c_class("Union tag", fn, ln);
     }
-    return ( p ) ;
+    return(p);
 }
 
 #endif
