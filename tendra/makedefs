@@ -184,6 +184,16 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="openbsd"
 			OSVER="OPENBSD3"
 			;;
+	OpenBSD.4*)	#
+			check_cc
+			LD="ld"
+			CFLAGS=${CFLAGS}
+			LDOPTS=
+			LDCRT="/usr/lib/crt0.o"
+			LIBS="-L/usr/lib -lc"
+			OSFAM="openbsd"
+			OSVER="OPENBSD4"
+			;;
 	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
 			# software package.
 			if [ "x${CC}" = "x" ]; then
