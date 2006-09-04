@@ -11,7 +11,7 @@
     <title>TenDRA Frequently Asked Questions</title>
 
     <releaseinfo>
-      <literal>$TenDRA$</literal>
+      <literal>$TenDRA: book.xml 2447 2006-03-23 21:15:51Z verm $</literal>
     </releaseinfo>
 
     <pubdate>This document was generated on <?dbtimestamp format="Y-m-d H:M:S"?></pubdate>
@@ -48,7 +48,7 @@
    
   </bookinfo>
 
-  <chapter>
+  <chapter id='tendra-history'>
     <title>TenDRA's History</title>
 
     <qandaset>
@@ -110,7 +110,7 @@
     </qandaset>
   </chapter>
 
-  <chapter>
+  <chapter id='tendra-devel'>
     <title>TenDRA Development</title>
 
     <qandaset>
@@ -163,7 +163,7 @@
     </qandaset>
   </chapter>
 
-   <chapter>
+   <chapter id='using-tendra'>
     <title>Using TenDRA</title>
 
     <qandaset>
@@ -257,7 +257,7 @@
     </qandaset>
   </chapter>
 
-  <chapter>
+  <chapter id='tendra-and-gcc'>
     <title>TenDRA and GCC</title>
 
     <qandaset>
@@ -287,7 +287,7 @@
     </qandaset>
   </chapter>
 
-  <chapter>
+  <chapter id='tendra-future'>
     <title>TenDRA's Future</title>
 
     <qandaset>
@@ -307,7 +307,7 @@
     </qandaset>
   </chapter>
 
-  <chapter>
+  <chapter id='contributing'>
     <title>Contributing to TenDRA</title>
 
     <qandaset>
@@ -364,7 +364,7 @@
     </qandaset>
   </chapter>
 
-  <chapter>
+  <chapter id='problems-tendra412'>
     <title>Problems related to TenDRA-4.1.2</title>
 
     <qandaset>
