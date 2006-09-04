@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: def.netbsd.mk 2307 2005-11-12 22:49:08Z dege $
 #
 # Binary / variable definitions for the NetBSD operating system.
 
@@ -29,6 +29,7 @@ ARGS_MKDIR?=	-p
 
 # Binaries
 
+BIN_CC?=	/usr/bin/cc
 BIN_AR?=	/usr/bin/ar
 BIN_AS?=	/bin/as
 BIN_AWK?=	/usr/bin/awk
