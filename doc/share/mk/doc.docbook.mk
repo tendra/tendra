@@ -1,5 +1,5 @@
 #
-# $TenDRA$
+# $TenDRA: doc.docbook.mk 2447 2006-03-23 21:15:51Z verm $
 
 DOCBOOKSUFFIX?= xml
 
@@ -14,7 +14,7 @@ XSL_CHUNK?=			${DOC_PREFIX}/share/xsl/chunk.xsl
 XSL_MAN?=			${DOC_PREFIX}/share/xsl/man.xsl
 
 XMLLINT?=			xmllint
-XMLLINT_FLAGS?=		--path ../../share/includes:../../share/ent:../../share/xsl --load-trace --nonet --xinclude
+XMLLINT_FLAGS?=		--path ${DOC_PREFIX}/share/includes:${DOC_PREFIX}/share/ent:${DOC_PREFIX}/share/xsl --load-trace --nonet --xinclude
 XMLLINT_CATALOG?=	file:///${.CURDIR}/${DOC_PREFIX}/share/xsl/catalog.xml
 
 
