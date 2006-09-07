@@ -4,7 +4,7 @@
   <bookinfo>
     <title>PMake Tutorial</title>
     <releaseinfo>
-      <literal>$TenDRA$</literal>
+      <literal>$TenDRA: book.xml 2447 2006-03-23 21:15:51Z verm $</literal>
     </releaseinfo>
 
     <pubdate>This document was generated on <?dbtimestamp format="Y-m-d H:M:S"?></pubdate>
@@ -2825,7 +2825,7 @@ $(PTR:S/^/\$(/:S/$/))
     <para>This chapter describes revisions to this document.</para>
 
     <para>Only major changes are listed in the revision history.  Please see
-      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/make/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/make/book.sgml</ulink>
+      <ulink url="http://www.ten15.org/log/trunk/doc/en/make/book.xml?action=follow_copy&amp;rev=&amp;stop_rev=1&amp;mode=follow_copy&amp;verbose=on">http://www.ten15.org/log/trunk/doc/en/make/book.xml?action=follow_copy&amp;rev=&amp;stop_rev=1&amp;mode=follow_copy&amp;verbose=on</ulink>
       for a complete list of changes.</para>
 
     <note><para>CVS revision numbers are located behind the date in the format
@@ -2835,7 +2835,7 @@ $(PTR:S/^/\$(/:S/$/))
     <revhistory>
       <revision>
         <revnumber>1.0</revnumber>
-        <date>2003/01/31 r1.1</date>
+        <date>2003/01/31 r1059</date>
         <authorinitials>verm</authorinitials>
         <revremark>Converted to SGML.  You can find the original documentation with the 
           original PMake, it's named tutorial.ms and is written 

@@ -19,7 +19,7 @@
     <title>TDF Guide</title>
 
     <releaseinfo>
-      <literal>$TenDRA$</literal>
+      <literal>$TenDRA: book.xml 2452 2006-03-24 04:04:50Z verm $</literal>
     </releaseinfo>
 
     <pubdate>This document was generated on <?dbtimestamp format="Y-m-d H:M:S"?></pubdate>
@@ -4243,7 +4243,7 @@ REPR[{pointer} ... {long_variety}] = TRUE
     <para>This chapter describes revisions to this document.</para>
 
     <para>Only major changes are listed in the revision history.  Please see
-      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/guide/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/guide/book.sgml</ulink>
+      <ulink url="http://www.ten15.org/log/trunk/doc/en/guide/book.xml?action=follow_copy&amp;rev=&amp;stop_rev=1&amp;mode=follow_copy&amp;verbose=on">http://www.ten15.org/log/trunk/doc/en/guide/book.xml?action=follow_copy&amp;rev=&amp;stop_rev=1&amp;mode=follow_copy&amp;verbose=on</ulink>
       for a complete list of changes.</para>
 
     <note><para>CVS revision numbers are located behind the date in the format
@@ -4253,14 +4253,14 @@ REPR[{pointer} ... {long_variety}] = TRUE
     <revhistory>
       <revision>
         <revnumber>1.1</revnumber>
-        <date>2004/03/08 r1.13</date>
+        <date>2004/03/08 r1627</date>
         <authorinitials>verm</authorinitials>
         <revremark>Cross references were fixed.</revremark>
       </revision>
 
       <revision>
         <revnumber>1.0</revnumber>
-        <date>2003/07/30 r1.1</date>
+        <date>2003/07/30 r1229</date>
         <authorinitials>verm</authorinitials>
         <revremark>Converted to SGML from the &doc.original;.</revremark>
       </revision>
