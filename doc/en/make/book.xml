@@ -86,7 +86,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='introduction'>
     <title>Introduction</title>
 
     <para>PMake is a program for creating other programs, or anything else you
@@ -124,7 +124,7 @@
 
   </preface>
 
-  <chapter>
+  <chapter id='basics-of-pmake'>
     <title>The Basics of PMake</title>
 
     <para>PMake takes as input a file that tells a) which files depend on
@@ -157,7 +157,7 @@
       on the following line are compressed into a single space before the
       input line is examined by PMake.</para>
 
-    <sect1>
+    <sect1 id='dependency-lines'>
       <title>Dependency Lines</title>
 
       <para>As mentioned in the introduction, in any system, there are
@@ -277,7 +277,7 @@ a.o depends on both defs.h and a.c.
 
     </sect1>
 
-    <sect1>
+    <sect1 id='shell-commands'>
       <title>Shell Commands</title>
 
       <para>``Isn't that nice,'' you say to yourself, ``but how are files
@@ -393,7 +393,7 @@ ci $(SRCS) &lt; /dev/tty
 
     </sect1>
 
-    <sect1>
+    <sect1 id='variables'>
       <title>Variables</title>
 
       <para>PMake, like Make before it, has the ability to save text in
@@ -522,7 +522,7 @@ CFLAGS = -I/sprite/src/lib/libc -O
         </listitem>
       </itemizedlist>
 
-      <sect2>
+      <sect2 id='variables-local'>
         <title>Local Variables</title>
 
         <para>Each target can have as many as seven local variables. These are
@@ -569,7 +569,7 @@ $(OBJS) : $(.PREFIX).c
 
       </sect2>
 
-      <sect2>
+      <sect2 id='variables-cli'>
         <title>Command-line Variables</title>
 
         <para>Command-line variables are set when PMake is first invoked by
@@ -599,7 +599,7 @@ pmake "CFLAGS = -I/sprite/src/lib/libc -O"
 
       </sect2>
 
-      <sect2>
+      <sect2 id='variables-global'>
         <title>Global Variables</title>
 
         <para>Global variables are those set or appended-to in the makefile.
@@ -636,7 +636,7 @@ well.
 
         </sect2>
 
-        <sect2>
+        <sect2 id='variables-environment'>
           <title>Environment Variables</title>
 
           <para>Environment variables are passed by the shell that invoked
@@ -671,7 +671,7 @@ cc -c c.c
         </sect2>
       </sect1>
 
-      <sect1>
+      <sect1 id='comments'>
         <title>Comments</title>
 
         <para>Comments in a makefile start with a `#' character and extend to
@@ -684,7 +684,7 @@ cc -c c.c
 
       </sect1>
 
-      <sect1>
+      <sect1 id='parallelism'>
         <title>Parallelism</title>
 
         <para>PMake was specifically designed to re-create several targets at
@@ -735,7 +735,7 @@ b               : d
 
       </sect1>
 
-      <sect1>
+      <sect1 id='writing-and-debugging'>
         <title>Writing and Debugging a Makefile</title>
 
         <para>Now you know most of what's in a makefile, what do you do next?
@@ -897,7 +897,7 @@ d         : a
 
       </sect1>
 
-      <sect1>
+      <sect1 id='invoking-pmake'>
         <title>Invoking PMake</title>
 
         <para>PMake comes with a wide variety of flags to choose from. They
@@ -1102,7 +1102,7 @@ v    Variable assignment.
 
       </sect1>
 
-      <sect1>
+      <sect1 id='summary'>
         <title>Summary</title>
 
         <para>A makefile is made of four types of lines:</para>
@@ -1157,7 +1157,7 @@ v    Variable assignment.
       </sect1>
     </chapter>
 
-    <chapter>
+    <chapter id='shortcuts'>
       <title>Shortcuts and Other Nice Things</title>
 
       <para>Based on what has been covered so far, you may have gotten the
@@ -1171,7 +1171,7 @@ v    Variable assignment.
         what you're using) than chapter 2, just so you're on your
         toes. So without further ado...</para>
 
-      <sect1>
+      <sect1 id='transformation-rules'>
         <title>Transformation Rules</title>
 
         <para>As you know, a file's name consists of two parts: a base name,
@@ -1412,7 +1412,7 @@ cc -o jive.out jive.o
 
         </sect1>
 
-        <sect1>
+        <sect1 id='includes'>
           <title>Including Other Makefiles</title>
 
         <para>Just as for programs, it is often useful to extract certain
@@ -1480,7 +1480,7 @@ SYSTEM = &lt;command.mk&gt;
 
       </sect1>
 
-      <sect1>
+      <sect1 id='saving-commands'>
         <title>Saving Commands</title>
 
         <para>There may come a time when you will want to save certain
@@ -1527,7 +1527,7 @@ ranlib $(.TARGET)
 
       </sect1>
 
-      <sect1>
+      <sect1 id='target-attributes'>
         <title>Target Attributes</title>
 
         <para>PMake allows you to give attributes to targets by means of
@@ -1727,7 +1727,7 @@ ranlib $(.TARGET)
 
       </sect1>
 
-      <sect1>
+      <sect1 id='special-targets'>
         <title>Special Targets</title>
 
         <para>As there were in Make, so there are certain targets that have
@@ -1952,7 +1952,7 @@ TAILS = $(OBJS:T)
 
       </sect1>
 
-      <sect1>
+      <sect1 id='excercises'>
         <title>More Exercises</title>
 
         <para>You've got a set programs, each of which is created from its own
@@ -1980,7 +1980,7 @@ $($(FOO))
       </sect1>
     </chapter>
 
-    <chapter>
+    <chapter id='pmake-for-gods'>
       <title>PMake for Gods</title>
 
       <para>This chapter is devoted to those facilities in PMake that allow
@@ -1991,7 +1991,7 @@ $($(FOO))
         mess. Once more, a greater familiarity with UNIX or Sprite is assumed
         than in the previous two chapters.</para>
 
-      <sect1>
+      <sect1 id='search-paths'>
         <title>Search Paths</title>
 
         <para>PMake supports the dispersal of files into multiple directories
@@ -2061,7 +2061,7 @@ $(CC) -o $(.TARGET) $(.ALLSRC)
 
       </sect1>
 
-      <sect1>
+      <sect1 id='archives-and-libaries'>
         <title>Archives and Libraries</title>
 
         <para>UNIX and Sprite allow you to merge files into an archive using
@@ -2196,7 +2196,7 @@ ranlib $(.TARGET)
 
       </sect1>
 
-      <sect1>
+      <sect1 id='on-the-condition'>
         <title>On the Condition...</title>
 
         <para>Like the C compiler before it, PMake allows you to configure the
@@ -2335,7 +2335,7 @@ FORMATTER = nroff -Pdot_matrix_printer
 
       </sect1>
 
-      <sect1>
+      <sect1 id='shell-shell-shell'>
         <title>A Shell is a Shell is a Shell</title>
 
         <para>In normal operation, the Bourne Shell (better known as ``sh'')
@@ -2530,7 +2530,7 @@ sh -c 'cmd || true'
           command) implies -V) The three levels are described in the following
           three sections.</para>
 
-        <sect2>
+        <sect2 id='defcon-3-variable-expansion'>
           <title>DEFCON 3 -- Variable Expansion</title>
 
           <para>As noted before, PMake will not expand a variable unless it
@@ -2551,7 +2551,7 @@ sh -c 'cmd || true'
 
         </sect2>
 
-        <sect2>
+        <sect2 id='defcon-2-number-of-the-beast'>
           <title>DEFCON 2 -- The Number of the Beast</title>
 
           <para>Then there are the makefiles that expect certain commands,
@@ -2578,7 +2578,7 @@ sh -c 'cmd || true'
 
         </sect2>
 
-        <sect2>
+        <sect2 id='defcon-1-imitation'>
           <title>DEFCON 1 -- Imitation is the Not the Highest Form of
             Flattery</title>
 
@@ -2627,7 +2627,7 @@ sh -c 'cmd || true'
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='way-things-work'>
       <title>The Way Things Work</title>
 
       <para>When PMake reads the makefile, it parses sources and targets into
@@ -2681,7 +2681,7 @@ sh -c 'cmd || true'
 
   </chapter>
 
-  <chapter>
+  <chapter id='answers'>
     <title>Answers to Exercises</title>
 
     <para>This is something of a trick question. The
@@ -2727,7 +2727,7 @@ $(PTR:S/^/\$(/:S/$/))
 
   </chapter>
 
-  <chapter>
+  <chapter id='glossary'>
     <title>Glossary of Jargon</title>
    
     <para>attribute: A property given to a target that causes PMake to treat

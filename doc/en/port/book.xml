@@ -82,7 +82,7 @@
       section. This deals with the TDF approach to portability.</para>
   </preface>
 
-  <bibliography>
+  <bibliography id='bibliography'>
     <title>Bibliography</title>
 
     <biblioentry>

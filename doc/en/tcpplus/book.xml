@@ -88,7 +88,7 @@
       system.</para>
   </preface>
 
-  <bibliography>
+  <bibliography id='bibliography'>
     <biblioentry>
       <title>Tdfc: The C to TDF Producer Issue 1.0
       (DRA/CIS3/OSSG/TR/95/102/1.0)</title>
@@ -7148,7 +7148,7 @@ delete this ;
             block variable.</para>
         </sect3>
 
-        <sect3>
+        <sect3 id='local-variables'>
           <title>Local variables</title>
 
           <para>The technique used to add a local variable with a non-trivial
