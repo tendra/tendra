@@ -30,13 +30,16 @@
 .\"
 .TH make_err 1
 .SH NAME
-make_err \- ... creation tool
+make_err \- error catalogue creation tool
 .SH SYNOPSIS
-\fBmake_err\fR [-d | -n | -u] \fIinput-file\fR [ \fIoutput-file\fR | \fI-\fR ]
+\fBmake_err\fR [-d | -n | -u] [ \fIinput-file\fR ] [ \fIoutput-file\fR ]
+.br
 \fBmake_err\fR -v
 .\" ----------------------------------------------------------------------
 .SH DESCRIPTION
-\fBmake_err\fR does something, now to see what it is.
+\fBmake_err\fR generates error catalogues. \fBmake_err\fR reads data from
+standard input and prints the results to standard output unless
+\fIinput-file\fR or \fIoutput-file\fR is specified.
 By default \fBmake_err\fR runs in declaration mode.
 .\" ----------------------------------------------------------------------
 .SH OPTIONS
