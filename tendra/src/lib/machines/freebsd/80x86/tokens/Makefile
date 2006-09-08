@@ -8,7 +8,7 @@ PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
 .include "../../../Makefile.inc"
 
-TCCOPTS=	-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap \
+TCCOPTS=	-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap\
 		-yTENDRA_BASEDIR="${OBJ_DIR}/src"
 
 all: ${TDFLIB} sys.j
