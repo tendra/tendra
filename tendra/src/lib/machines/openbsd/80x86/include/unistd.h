@@ -8,7 +8,9 @@
 #define _POSIX_JOB_CONTROL	1
 #endif
 
+#ifndef _POSIX_SAVED_IDS
 #define _POSIX_SAVED_IDS	0
+#endif
 
 #ifndef _SC_XOPEN_VERSION
 #define _SC_XOPEN_VERSION	0
