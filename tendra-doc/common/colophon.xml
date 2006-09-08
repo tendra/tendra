@@ -6,7 +6,7 @@
   $Id$
 -->
   
-<colophon>
+<colophon id="colophon">
   <para>This piece of documentation has been written using DocBook/XML using
     libxslt's xsltproc and the docbook-xsl stylesheets to generate
     XHTML.</para>

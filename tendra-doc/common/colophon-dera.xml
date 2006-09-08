@@ -6,7 +6,7 @@
   $Id$
 -->
   
-<colophon>
+<colophon id="historical-dera-note">
   <para>This piece of documentation is the result of the old DERA text that
     has been rewritten using DocBook/XML using libxslt's xsltproc and the
     docbook-xsl stylesheets to generate XHTML.</para>
