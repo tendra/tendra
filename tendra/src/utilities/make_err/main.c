@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <unistd.h>
 
 #include "config.h"
 #include "errors.h"
@@ -78,64 +79,44 @@ main(int argc, char **argv)
 {
 	int a;
 	int act = 0;
-	int too_many = 0;
+	int ch;
 	char *input = NULL;
 	char *output = NULL;
 
 	/* Process arguments */
 	set_progname(argv[0], "1.1");
-	for (a = 1; a < argc; a++) {
-		char *arg = argv[a];
-		if (arg[0] == '-' && arg[1]) {
-			int known = 0;
-			switch (arg[1]) {
-			case 'd':
-				if (arg[2]) {
-					break;
-				}
-				act = 1;
-				known = 1;
-				break;
-			case 'n':
-				if (arg[2]) {
-					break;
-				}
-				act = 2;
-				known = 1;
-				break;
-			case 'u':
-				if (arg[2]) {
-					break;
-				}
-				act = 3;
-				known = 1;
-				break;
-			case 'v':
-				if (arg[2]) {
-					break;
-				}
-				report_version();
-				known = 1;
-				break;
-			}
-			if (!known) {
-				error(ERROR_WARNING, "Unknown option, '%s'",
-				      arg);
-			}
-		} else {
-			if (input == NULL) {
-				input = arg;
-			} else if (output == NULL) {
-				output = arg;
-			} else {
-				too_many = 1;
-			}
+
+	while ((ch = getopt(argc, argv, "dnuv")) != -1) {
+		switch (ch) {
+		case 'd':
+			act = 1;
+			break;
+		case 'n':
+			act = 2;
+			break;
+		case 'u':
+			act = 3;
+			break;
+		case 'v':
+			report_version();
+			break;
+		default:
+			exit(1);
 		}
 	}
+	argc -= optind;
+	argv += optind;
 
 	/* Check arguments */
-	if (too_many) {
+	if (argc >= 1) {
+		input = argv[0];
+	}
+	if (argc >= 2) {
+		output = argv[1];
+	}
+	if (argc > 2) {
 		error(ERROR_WARNING, "Too many arguments");
+		exit(1);
 	}
 
 	/* Process the input */
