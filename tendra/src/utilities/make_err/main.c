@@ -76,63 +76,70 @@
 int
 main(int argc, char **argv)
 {
-    int a;
-    int act = 0;
-    int too_many = 0;
-    char *input = NULL;
-    char *output = NULL;
+	int a;
+	int act = 0;
+	int too_many = 0;
+	char *input = NULL;
+	char *output = NULL;
 
-    /* Process arguments */
-    set_progname(argv[0], "1.1");
-    for (a = 1; a < argc; a++) {
-	char *arg = argv[a];
-	if (arg[0] == '-' && arg[1]) {
-	    int known = 0;
-	    switch (arg[1]) {
-		case 'd': {
-		    if (arg[2]) break;
-		    act = 1;
-		    known = 1;
-		    break;
+	/* Process arguments */
+	set_progname(argv[0], "1.1");
+	for (a = 1; a < argc; a++) {
+		char *arg = argv[a];
+		if (arg[0] == '-' && arg[1]) {
+			int known = 0;
+			switch (arg[1]) {
+			case 'd':
+				if (arg[2]) {
+					break;
+				}
+				act = 1;
+				known = 1;
+				break;
+			case 'n':
+				if (arg[2]) {
+					break;
+				}
+				act = 2;
+				known = 1;
+				break;
+			case 'u':
+				if (arg[2]) {
+					break;
+				}
+				act = 3;
+				known = 1;
+				break;
+			case 'v':
+				if (arg[2]) {
+					break;
+				}
+				report_version();
+				known = 1;
+				break;
+			}
+			if (!known) {
+				error(ERROR_WARNING, "Unknown option, '%s'",
+				      arg);
+			}
+		} else {
+			if (input == NULL) {
+				input = arg;
+			} else if (output == NULL) {
+				output = arg;
+			} else {
+				too_many = 1;
+			}
 		}
-		case 'n': {
-		    if (arg[2]) break;
-		    act = 2;
-		    known = 1;
-		    break;
-		}
-		case 'u': {
-		    if (arg[2]) break;
-		    act = 3;
-		    known = 1;
-		    break;
-		}
-		case 'v': {
-		    if (arg[2]) break;
-		    report_version();
-		    known = 1;
-		    break;
-		}
-	    }
-	    if (!known) {
-		error(ERROR_WARNING, "Unknown option, '%s'", arg);
-	    }
-	} else {
-	    if (input == NULL) {
-		input = arg;
-	    } else if (output == NULL) {
-		output = arg;
-	    } else {
-		too_many = 1;
-	    }
 	}
-    }
 
-    /* Check arguments */
-    if (too_many) error(ERROR_WARNING, "Too many arguments");
+	/* Check arguments */
+	if (too_many) {
+		error(ERROR_WARNING, "Too many arguments");
+	}
 
-    /* Process the input */
-    process_file(input);
-    output_all(output, act);
-    return (exit_status);
+	/* Process the input */
+	process_file(input);
+	output_all(output, act);
+	return (exit_status);
 }

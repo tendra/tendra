@@ -128,16 +128,20 @@ static int read_string(void);
 static int
 read_char(void)
 {
-    int c;
-    if (pending != pending_buff) {
-	c = *(pending--);
-    } else {
-	c = fgetc(lex_input);
-	if (c == '\n') crt_line_no++;
-	if (c == EOF) return (LEX_EOF);
-	c &= 0xff;
-    }
-    return (c);
+	int c;
+	if (pending != pending_buff) {
+		c = *(pending--);
+	} else {
+		c = fgetc(lex_input);
+		if (c == '\n') {
+			crt_line_no++;
+		}
+		if (c == EOF) {
+			return (LEX_EOF);
+		}
+		c &= 0xff;
+	}
+	return (c);
 }
 
 
@@ -163,23 +167,25 @@ char *first_comment = NULL;
 static int
 read_identifier(int a)
 {
-    int c = a, cl;
-    char *t = token_buff;
-    do {
-	*(t++) = (char) c;
-	if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
-	c = read_char();
-	cl = lookup_char(c);
-    } while (is_alphanum(cl));
-    *t = 0;
-    unread_char(c);
+	int c = a, cl;
+	char *t = token_buff;
+	do {
+		*(t++) = (char) c;
+		if (t == token_end) {
+			error(ERROR_FATAL, "Buffer overflow");
+		}
+		c = read_char();
+		cl = lookup_char(c);
+	} while (is_alphanum(cl));
+	*t = 0;
+	unread_char(c);
 
-    /* Deal with keywords */
-    t = token_buff;
+	/* Deal with keywords */
+	t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (streq(t,(A))) return (B);
+	if (streq(t,(A))) return (B);
 #include "keyword.h"
-    return (lex_identifier);
+	return (lex_identifier);
 }
 
 
@@ -193,24 +199,28 @@ read_identifier(int a)
 static int
 read_string(void)
 {
-    int c;
-    int escaped = 0;
-    char *t = token_buff;
-    while (c = read_char(),(c != '"' || escaped)) {
-	if (c == LEX_EOF) {
-	    error(ERROR_SERIOUS, "Unexpected end of string");
-	    break;
+	int c;
+	int escaped = 0;
+	char *t = token_buff;
+	while (c = read_char(),(c != '"' || escaped)) {
+		if (c == LEX_EOF) {
+			error(ERROR_SERIOUS, "Unexpected end of string");
+			break;
+		}
+		*(t++) = (char) c;
+		if (t == token_end) {
+			error(ERROR_FATAL, "Buffer overflow");
+		}
+		if (escaped) {
+			escaped = 0;
+		} else {
+			if (c == '\\') {
+				escaped = 1;
+			}
+		}
 	}
-	*(t++) = (char) c;
-	if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
-	if (escaped) {
-	    escaped = 0;
-	} else {
-	    if (c == '\\') escaped = 1;
-	}
-    }
-    *t = 0;
-    return (lex_string);
+	*t = 0;
+	return (lex_string);
 }
 
 
@@ -225,28 +235,32 @@ read_string(void)
 static int
 read_comment(void)
 {
-    int state = 0;
-    char *t = token_buff;
-    *(t++) = '/';
-    *(t++) = '*';
-    while (state != 2) {
-	int c = read_char();
-	if (c == LEX_EOF) {
-	    error(ERROR_SERIOUS, "End of file in comment");
-	    return (lex_eof);
+	int state = 0;
+	char *t = token_buff;
+	*(t++) = '/';
+	*(t++) = '*';
+	while (state != 2) {
+		int c = read_char();
+		if (c == LEX_EOF) {
+			error(ERROR_SERIOUS, "End of file in comment");
+			return (lex_eof);
+		}
+		if (c == '*') {
+			state = 1;
+		} else if (state == 1 && c == '/') {
+			state = 2;
+		} else {
+			state = 0;
+		}
+		*(t++) = (char) c;
+		if (t == token_end) {
+			t = token_buff + 2;
+		}
 	}
-	if (c == '*') {
-	    state = 1;
-	} else if (state == 1 && c == '/') {
-	    state = 2;
-	} else {
-	    state = 0;
+	if (first_comment == NULL) {
+		first_comment = xstrcpy(token_buff);
 	}
-	*(t++) = (char) c;
-	if (t == token_end) t = token_buff + 2;
-    }
-    if (first_comment == NULL) first_comment = xstrcpy(token_buff);
-    return (read_token());
+	return (read_token());
 }
 
 
@@ -271,21 +285,23 @@ int saved_lex_token;
 void
 process_file(char *nm)
 {
-    crt_line_no = 1;
-    if (nm == NULL || streq(nm, "-")) {
-	crt_file_name = "stdin";
-	lex_input = stdin;
-	nm = NULL;
-    } else {
-	crt_file_name = nm;
-	lex_input = fopen(nm, "r");
-	if (lex_input == NULL) {
-	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
-	    return;
+	crt_line_no = 1;
+	if (nm == NULL || streq(nm, "-")) {
+		crt_file_name = "stdin";
+		lex_input = stdin;
+		nm = NULL;
+	} else {
+		crt_file_name = nm;
+		lex_input = fopen(nm, "r");
+		if (lex_input == NULL) {
+			error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			return;
+		}
 	}
-    }
-    ADVANCE_LEXER;
-    read_errors();
-    if (nm != NULL)fclose_v(lex_input);
-    return;
+	ADVANCE_LEXER;
+	read_errors();
+	if (nm != NULL) {
+		fclose_v(lex_input);
+	}
+	return;
 }
