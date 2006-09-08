@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -54,7 +84,7 @@
     the following variable.
 */
 
-NAMESPACE label_namespace = NULL_nspace ;
+NAMESPACE label_namespace = NULL_nspace;
 
 
 /*
@@ -81,14 +111,13 @@ NAMESPACE label_namespace = NULL_nspace ;
     This routine creates a label named nm with usage information info.
 */
 
-static IDENTIFIER make_label
-    PROTO_N ( ( nm, info, op ) )
-    PROTO_T ( HASHID nm X DECL_SPEC info X int op )
+static IDENTIFIER
+make_label(HASHID nm, DECL_SPEC info, int op)
 {
-    IDENTIFIER lab ;
-    NAMESPACE ns = label_namespace ;
-    MAKE_id_label ( nm, info, ns, crt_loc, op, lab ) ;
-    return ( lab ) ;
+	IDENTIFIER lab;
+	NAMESPACE ns = label_namespace;
+	MAKE_id_label(nm, info, ns, crt_loc, op, lab);
+	return (lab);
 }
 
 
@@ -127,64 +156,65 @@ static IDENTIFIER make_label
     except that the introduced block does not establish a scope.
 */
 
-EXP begin_label_stmt
-    PROTO_N ( ( lab, op ) )
-    PROTO_T ( IDENTIFIER lab X int op )
+EXP
+begin_label_stmt(IDENTIFIER lab, int op)
 {
-    EXP e ;
-    EXP seq ;
-    HASHID nm ;
-    MEMBER mem ;
-    DECL_SPEC def_info = ( dspec_defn | dspec_scope ) ;
+	EXP e;
+	EXP seq;
+	HASHID nm;
+	MEMBER mem;
+	DECL_SPEC def_info = (dspec_defn | dspec_scope);
 
-    /* Make up label name if necessary */
-    if ( IS_NULL_id ( lab ) ) {
-	nm = lookup_anon () ;
-	def_info |= dspec_anon ;
-	if ( op == lex_case || op == lex_default ) {
-	    /* Mark case and default labels */
-	    def_info |= ( dspec_used | dspec_goto ) ;
+	/* Make up label name if necessary */
+	if (IS_NULL_id(lab)) {
+		nm = lookup_anon();
+		def_info |= dspec_anon;
+		if (op == lex_case || op == lex_default) {
+			/* Mark case and default labels */
+			def_info |= (dspec_used | dspec_goto);
+		}
+	} else {
+		nm = DEREF_hashid(id_name(lab));
 	}
-    } else {
-	nm = DEREF_hashid ( id_name ( lab ) ) ;
-    }
 
-    /* Check for fall through */
-    if ( !unreached_code ) def_info |= dspec_fall_thru ;
-
-    /* Check if label has already been defined */
-    mem = search_member ( label_namespace, nm, 1 ) ;
-    lab = DEREF_id ( member_id ( mem ) ) ;
-    if ( !IS_NULL_id ( lab ) ) {
-	DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-	if ( info & dspec_defn ) {
-	    /* Already defined */
-	    IDENTIFIER fn = crt_func_id ;
-	    PTR ( LOCATION ) loc = id_loc ( lab ) ;
-	    report ( crt_loc, ERR_stmt_label_redef ( lab, fn, loc ) ) ;
-	    return ( NULL_exp ) ;
+	/* Check for fall through */
+	if (!unreached_code) {
+		def_info |= dspec_fall_thru;
 	}
-	/* Already used */
-	info |= def_info ;
-	COPY_dspec ( id_storage ( lab ), info ) ;
-	COPY_loc ( id_loc ( lab ), crt_loc ) ;
-    } else {
-	/* Not used or defined previously */
-	lab = make_label ( nm, def_info, op ) ;
-	COPY_id ( member_id ( mem ), lab ) ;
-    }
-    if ( do_local && !IS_hashid_anon ( nm ) ) {
-	dump_declare ( lab, &crt_loc, 1 ) ;
-    }
 
-    /* Create a labelled statement */
-    seq = begin_compound_stmt ( 0 ) ;
-    MAKE_exp_label_stmt ( type_void, lab, seq, e ) ;
-    COPY_exp ( exp_sequence_parent ( seq ), e ) ;
-    COPY_exp ( id_label_stmt ( lab ), e ) ;
-    unreached_code = 0 ;
-    unreached_last = 0 ;
-    return ( e ) ;
+	/* Check if label has already been defined */
+	mem = search_member(label_namespace, nm, 1);
+	lab = DEREF_id(member_id(mem));
+	if (!IS_NULL_id(lab)) {
+		DECL_SPEC info = DEREF_dspec(id_storage(lab));
+		if (info & dspec_defn) {
+			/* Already defined */
+			IDENTIFIER fn = crt_func_id;
+			PTR(LOCATION) loc = id_loc(lab);
+			report(crt_loc, ERR_stmt_label_redef(lab, fn, loc));
+			return (NULL_exp);
+		}
+		/* Already used */
+		info |= def_info;
+		COPY_dspec(id_storage(lab), info);
+		COPY_loc(id_loc(lab), crt_loc);
+	} else {
+		/* Not used or defined previously */
+		lab = make_label(nm, def_info, op);
+		COPY_id(member_id(mem), lab);
+	}
+	if (do_local && !IS_hashid_anon(nm)) {
+		dump_declare(lab, &crt_loc, 1);
+	}
+
+	/* Create a labelled statement */
+	seq = begin_compound_stmt(0);
+	MAKE_exp_label_stmt(type_void, lab, seq, e);
+	COPY_exp(exp_sequence_parent(seq), e);
+	COPY_exp(id_label_stmt(lab), e);
+	unreached_code = 0;
+	unreached_last = 0;
+	return (e);
 }
 
 
@@ -198,34 +228,35 @@ EXP begin_label_stmt
     to the compound statement which is labelled.
 */
 
-EXP end_label_stmt
-    PROTO_N ( ( prev, body ) )
-    PROTO_T ( EXP prev X EXP body )
+EXP
+end_label_stmt(EXP prev, EXP body)
 {
-    EXP seq ;
-    IDENTIFIER lab ;
-    DECL_SPEC info ;
-    if ( IS_NULL_exp ( prev ) ) return ( body ) ;
+	EXP seq;
+	IDENTIFIER lab;
+	DECL_SPEC info;
+	if (IS_NULL_exp(prev)) {
+		return (body);
+	}
 
-    /* Mark end of label scope */
-    lab = DEREF_id ( exp_label_stmt_label ( prev ) ) ;
-    info = DEREF_dspec ( id_storage ( lab ) ) ;
-    info &= ~dspec_scope ;
-    COPY_dspec ( id_storage ( lab ), info ) ;
+	/* Mark end of label scope */
+	lab = DEREF_id(exp_label_stmt_label(prev));
+	info = DEREF_dspec(id_storage(lab));
+	info &= ~dspec_scope;
+	COPY_dspec(id_storage(lab), info);
 
-    /* Check for consecutive labels */
-    if ( !IS_NULL_exp ( body ) && IS_exp_label_stmt ( body ) ) {
-	/* Two consecutive labels */
-	IDENTIFIER blab = DEREF_id ( exp_label_stmt_label ( body ) ) ;
-	blab = DEREF_id ( id_alias ( blab ) ) ;
-	COPY_id ( id_alias ( lab ), blab ) ;
-    }
+	/* Check for consecutive labels */
+	if (!IS_NULL_exp(body) && IS_exp_label_stmt(body)) {
+		/* Two consecutive labels */
+		IDENTIFIER blab = DEREF_id(exp_label_stmt_label(body));
+		blab = DEREF_id(id_alias(blab));
+		COPY_id(id_alias(lab), blab);
+	}
 
-    /* Assign to label body */
-    seq = DEREF_exp ( exp_label_stmt_body ( prev ) ) ;
-    seq = add_compound_stmt ( seq, body ) ;
-    COPY_exp ( exp_label_stmt_body ( prev ), seq ) ;
-    return ( prev ) ;
+	/* Assign to label body */
+	seq = DEREF_exp(exp_label_stmt_body(prev));
+	seq = add_compound_stmt(seq, body);
+	COPY_exp(exp_label_stmt_body(prev), seq);
+	return (prev);
 }
 
 
@@ -238,28 +269,29 @@ EXP end_label_stmt
     named labels.
 */
 
-EXP make_jump_stmt
-    PROTO_N ( ( lab, join ) )
-    PROTO_T ( IDENTIFIER lab X EXP join )
+EXP
+make_jump_stmt(IDENTIFIER lab, EXP join)
 {
-    DECL_SPEC info ;
-    EXP e = DEREF_exp ( id_label_gotos ( lab ) ) ;
+	DECL_SPEC info;
+	EXP e = DEREF_exp(id_label_gotos(lab));
 
-    /* Mark the label as used */
-    info = DEREF_dspec ( id_storage ( lab ) ) ;
-    info |= ( dspec_used | dspec_goto ) ;
-    if ( !unreached_code ) info |= dspec_reached ;
-    COPY_dspec ( id_storage ( lab ), info ) ;
+	/* Mark the label as used */
+	info = DEREF_dspec(id_storage(lab));
+	info |= (dspec_used | dspec_goto);
+	if (!unreached_code) {
+		info |= dspec_reached;
+	}
+	COPY_dspec(id_storage(lab), info);
 
-    /* Construct the jump statement */
-    if ( IS_NULL_exp ( join ) && ( info & dspec_scope ) ) {
-	join = DEREF_exp ( id_label_stmt ( lab ) ) ;
-    }
-    MAKE_exp_goto_stmt ( type_bottom, lab, join, e, e ) ;
-    COPY_exp ( id_label_gotos ( lab ), e ) ;
-    unreached_code = 1 ;
-    unreached_last = 0 ;
-    return ( e ) ;
+	/* Construct the jump statement */
+	if (IS_NULL_exp(join) && (info & dspec_scope)) {
+		join = DEREF_exp(id_label_stmt(lab));
+	}
+	MAKE_exp_goto_stmt(type_bottom, lab, join, e, e);
+	COPY_exp(id_label_gotos(lab), e);
+	unreached_code = 1;
+	unreached_last = 0;
+	return (e);
 }
 
 
@@ -271,39 +303,38 @@ EXP make_jump_stmt
     is defined.
 */
 
-EXP make_goto_stmt
-    PROTO_N ( ( lab ) )
-    PROTO_T ( IDENTIFIER lab )
+EXP
+make_goto_stmt(IDENTIFIER lab)
 {
-    /* Look up existing label */
-    EXP e ;
-    HASHID nm ;
-    MEMBER mem ;
-    if ( IS_NULL_id ( lab ) ) {
-	nm = lookup_anon () ;
-    } else {
-	nm = DEREF_hashid ( id_name ( lab ) ) ;
-    }
-    mem = search_member ( label_namespace, nm, 1 ) ;
-    lab = DEREF_id ( member_id ( mem ) ) ;
-    if ( IS_NULL_id ( lab ) ) {
-	/* Create new label */
-	DECL_SPEC info = ( dspec_used | dspec_goto ) ;
-	lab = make_label ( nm, info, lex_identifier ) ;
-	COPY_id ( member_id ( mem ), lab ) ;
-    } else {
-	DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-	if ( info & dspec_defn ) {
-	    /* Backward jump */
-	    info |= dspec_reserve ;
-	    COPY_dspec ( id_storage ( lab ), info ) ;
+	/* Look up existing label */
+	EXP e;
+	HASHID nm;
+	MEMBER mem;
+	if (IS_NULL_id(lab)) {
+		nm = lookup_anon();
+	} else {
+		nm = DEREF_hashid(id_name(lab));
 	}
-    }
-    if ( do_local && do_usage && !IS_hashid_anon ( nm ) ) {
-	dump_use ( lab, &crt_loc, 1 ) ;
-    }
-    e = make_jump_stmt ( lab, NULL_exp ) ;
-    return ( e ) ;
+	mem = search_member(label_namespace, nm, 1);
+	lab = DEREF_id(member_id(mem));
+	if (IS_NULL_id(lab)) {
+		/* Create new label */
+		DECL_SPEC info = (dspec_used | dspec_goto);
+		lab = make_label(nm, info, lex_identifier);
+		COPY_id(member_id(mem), lab);
+	} else {
+		DECL_SPEC info = DEREF_dspec(id_storage(lab));
+		if (info & dspec_defn) {
+			/* Backward jump */
+			info |= dspec_reserve;
+			COPY_dspec(id_storage(lab), info);
+		}
+	}
+	if (do_local && do_usage && !IS_hashid_anon(nm)) {
+		dump_use(lab, &crt_loc, 1);
+	}
+	e = make_jump_stmt(lab, NULL_exp);
+	return (e);
 }
 
 
@@ -314,7 +345,7 @@ EXP make_goto_stmt
     assigned when the first postlude label is created.
 */
 
-static HASHID postlude_name = NULL_hashid ;
+static HASHID postlude_name = NULL_hashid;
 
 
 /*
@@ -327,18 +358,18 @@ static HASHID postlude_name = NULL_hashid ;
     the postlude label.
 */
 
-IDENTIFIER postlude_label
-    PROTO_Z ()
+IDENTIFIER
+postlude_label(void)
 {
-    IDENTIFIER lab ;
-    HASHID nm = postlude_name ;
-    if ( IS_NULL_hashid ( nm ) ) {
-	/* Assign postlude label name */
-	nm = lookup_anon () ;
-	postlude_name = nm ;
-    }
-    lab = DEREF_id ( hashid_id ( nm ) ) ;
-    return ( lab ) ;
+	IDENTIFIER lab;
+	HASHID nm = postlude_name;
+	if (IS_NULL_hashid(nm)) {
+		/* Assign postlude label name */
+		nm = lookup_anon();
+		postlude_name = nm;
+	}
+	lab = DEREF_id(hashid_id(nm));
+	return (lab);
 }
 
 
@@ -349,18 +380,18 @@ IDENTIFIER postlude_label
     function or the null identifier if the function has no postlude.
 */
 
-IDENTIFIER find_postlude_label
-    PROTO_Z ()
+IDENTIFIER
+find_postlude_label(void)
 {
-    HASHID nm = postlude_name ;
-    if ( !IS_NULL_hashid ( nm ) ) {
-	MEMBER mem = search_member ( label_namespace, nm, 0 ) ;
-	if ( !IS_NULL_member ( mem ) ) {
-	    IDENTIFIER lab = DEREF_id ( member_id ( mem ) ) ;
-	    return ( lab ) ;
+	HASHID nm = postlude_name;
+	if (!IS_NULL_hashid(nm)) {
+		MEMBER mem = search_member(label_namespace, nm, 0);
+		if (!IS_NULL_member(mem)) {
+			IDENTIFIER lab = DEREF_id(member_id(mem));
+			return (lab);
+		}
 	}
-    }
-    return ( NULL_id ) ;
+	return (NULL_id);
 }
 
 
@@ -373,14 +404,17 @@ IDENTIFIER find_postlude_label
     statement (when it returns 2).
 */
 
-int used_label
-    PROTO_N ( ( lab ) )
-    PROTO_T ( IDENTIFIER lab )
+int
+used_label(IDENTIFIER lab)
 {
-    DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-    if ( info & dspec_reached ) return ( 1 ) ;
-    if ( info & dspec_fall_thru ) return ( 2 ) ;
-    return ( 0 ) ;
+	DECL_SPEC info = DEREF_dspec(id_storage(lab));
+	if (info & dspec_reached) {
+		return (1);
+	}
+	if (info & dspec_fall_thru) {
+		return (2);
+	}
+	return (0);
 }
 
 
@@ -392,67 +426,67 @@ int used_label
     It returns the number of named labels defined.
 */
 
-unsigned check_labels
-    PROTO_Z ()
+unsigned
+check_labels(void)
 {
     /* Scan through all labels */
-    unsigned no_labs = 0 ;
-    NAMESPACE ns = label_namespace ;
-    MEMBER mem = DEREF_member ( nspace_last ( ns ) ) ;
-    while ( !IS_NULL_member ( mem ) ) {
-	LOCATION loc ;
-	IDENTIFIER lab = DEREF_id ( member_id ( mem ) ) ;
-	if ( !IS_NULL_id ( lab ) ) {
+    unsigned no_labs = 0;
+    NAMESPACE ns = label_namespace;
+    MEMBER mem = DEREF_member(nspace_last(ns));
+    while (!IS_NULL_member(mem)) {
+	LOCATION loc;
+	IDENTIFIER lab = DEREF_id(member_id(mem));
+	if (!IS_NULL_id(lab)) {
 	    /* Check label information */
-	    DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-	    IDENTIFIER flab = DEREF_id ( id_alias ( lab ) ) ;
-	    if ( !EQ_id ( lab, flab ) ) {
+	    DECL_SPEC info = DEREF_dspec(id_storage(lab));
+	    IDENTIFIER flab = DEREF_id(id_alias(lab));
+	    if (!EQ_id(lab, flab)) {
 		/* Deal with label aliases */
-		DECL_SPEC finfo = DEREF_dspec ( id_storage ( flab ) ) ;
-		finfo |= ( info & dspec_used ) ;
-		COPY_dspec ( id_storage ( flab ), finfo ) ;
+		DECL_SPEC finfo = DEREF_dspec(id_storage(flab));
+		finfo |= (info & dspec_used);
+		COPY_dspec(id_storage(flab), finfo);
 	    }
-	    if ( info & dspec_anon ) {
+	    if (info & dspec_anon) {
 		/* Unnamed labels are ignored */
 		/* EMPTY */
-	    } else if ( info & dspec_defn ) {
+	    } else if (info & dspec_defn) {
 		/* Defined labels */
-		HASHID nm = DEREF_hashid ( id_name ( lab ) ) ;
-		if ( !IS_hashid_anon ( nm ) ) {
-		    if ( info & dspec_goto ) {
+		HASHID nm = DEREF_hashid(id_name(lab));
+		if (!IS_hashid_anon(nm)) {
+		    if (info & dspec_goto) {
 			/* Label used and defined */
 			/* EMPTY */
 		    } else {
 			/* Label defined but not used */
-			IDENTIFIER fn = crt_func_id ;
-			DEREF_loc ( id_loc ( lab ), loc ) ;
-			report ( loc, ERR_stmt_label_unused ( lab, fn ) ) ;
+			IDENTIFIER fn = crt_func_id;
+			DEREF_loc(id_loc(lab), loc);
+			report(loc, ERR_stmt_label_unused(lab, fn));
 		    }
-		    if ( info & ( dspec_reached | dspec_fall_thru ) ) {
+		    if (info & (dspec_reached | dspec_fall_thru)) {
 			/* Label reached */
 			/* EMPTY */
 		    } else {
 			/* Label unreached */
-			DEREF_loc ( id_loc ( lab ), loc ) ;
-			report ( loc, ERR_stmt_stmt_unreach () ) ;
+			DEREF_loc(id_loc(lab), loc);
+			report(loc, ERR_stmt_stmt_unreach());
 		    }
 		}
-		no_labs++ ;
+		no_labs++;
 	    } else {
 		/* Undefined labels */
-		HASHID nm = DEREF_hashid ( id_name ( lab ) ) ;
-		if ( !IS_hashid_anon ( nm ) ) {
-		    IDENTIFIER fn = crt_func_id ;
-		    DEREF_loc ( id_loc ( lab ), loc ) ;
-		    report ( loc, ERR_stmt_goto_undef ( lab, fn ) ) ;
+		HASHID nm = DEREF_hashid(id_name(lab));
+		if (!IS_hashid_anon(nm)) {
+		    IDENTIFIER fn = crt_func_id;
+		    DEREF_loc(id_loc(lab), loc);
+		    report(loc, ERR_stmt_goto_undef(lab, fn));
 		}
 	    }
 	}
 
 	/* Check next label */
-	mem = DEREF_member ( member_next ( mem ) ) ;
+	mem = DEREF_member(member_next(mem));
     }
-    return ( no_labs ) ;
+    return (no_labs);
 }
 
 
@@ -462,27 +496,26 @@ unsigned check_labels
     This routine determines the value associated with the case label lab.
 */
 
-NAT find_case_nat
-    PROTO_N ( ( lab ) )
-    PROTO_T ( IDENTIFIER lab )
+NAT
+find_case_nat(IDENTIFIER lab)
 {
-    EXP e = DEREF_exp ( id_label_gotos ( lab ) ) ;
-    if ( !IS_NULL_exp ( e ) && IS_exp_switch_stmt ( e ) ) {
-	LIST ( NAT ) p ;
-	LIST ( IDENTIFIER ) q ;
-	p = DEREF_list ( exp_switch_stmt_cases ( e ) ) ;
-	q = DEREF_list ( exp_switch_stmt_case_labs ( e ) ) ;
-	while ( !IS_NULL_list ( q ) ) {
-	    IDENTIFIER id = DEREF_id ( HEAD_list ( q ) ) ;
-	    if ( EQ_id ( id, lab ) ) {
-		NAT n = DEREF_nat ( HEAD_list ( p ) ) ;
-		return ( n ) ;
-	    }
-	    p = TAIL_list ( p ) ;
-	    q = TAIL_list ( q ) ;
+	EXP e = DEREF_exp(id_label_gotos(lab));
+	if (!IS_NULL_exp(e) && IS_exp_switch_stmt(e)) {
+		LIST(NAT) p;
+		LIST(IDENTIFIER) q;
+		p = DEREF_list(exp_switch_stmt_cases(e));
+		q = DEREF_list(exp_switch_stmt_case_labs(e));
+		while (!IS_NULL_list(q)) {
+			IDENTIFIER id = DEREF_id(HEAD_list(q));
+			if (EQ_id(id, lab)) {
+				NAT n = DEREF_nat(HEAD_list(p));
+				return (n);
+			}
+			p = TAIL_list(p);
+			q = TAIL_list(q);
+		}
 	}
-    }
-    return ( NULL_nat ) ;
+	return (NULL_nat);
 }
 
 
@@ -494,8 +527,8 @@ NAT find_case_nat
     try blocks.
 */
 
-LIST ( EXP ) all_solve_stmts = NULL_list ( EXP ) ;
-LIST ( EXP ) all_try_blocks = NULL_list ( EXP ) ;
+LIST(EXP) all_solve_stmts = NULL_list(EXP);
+LIST(EXP) all_try_blocks = NULL_list(EXP);
 
 
 /*
@@ -512,144 +545,132 @@ LIST ( EXP ) all_try_blocks = NULL_list ( EXP ) ;
     list ids.
 */
 
-static LIST ( IDENTIFIER ) jump_over_stmt
-    PROTO_N ( ( ids, e, lab, force ) )
-    PROTO_T ( LIST ( IDENTIFIER ) ids X EXP e X IDENTIFIER lab X int force )
+static LIST(IDENTIFIER)
+jump_over_stmt(LIST(IDENTIFIER) ids, EXP e, IDENTIFIER lab, int force)
 {
-    switch ( TAG_exp ( e ) ) {
-
-	case exp_decl_stmt_tag : {
-	    /* Jump into declaration body */
-	    IDENTIFIER id = DEREF_id ( exp_decl_stmt_id ( e ) ) ;
-	    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    if ( ds & dspec_auto ) {
-		if ( force == 2 ) {
-		    int init = 1 ;
-		    EXP d = DEREF_exp ( id_variable_init ( id ) ) ;
-		    if ( IS_NULL_exp ( d ) || IS_exp_null ( d ) ) {
-			if ( ds & dspec_reserve ) {
-			    /* Initialised in conditional */
-			    /* EMPTY */
-			} else {
-			    /* No initialiser */
-			    init = 0 ;
+	switch (TAG_exp(e)) {
+	case exp_decl_stmt_tag: {
+		/* Jump into declaration body */
+		IDENTIFIER id = DEREF_id(exp_decl_stmt_id(e));
+		DECL_SPEC ds = DEREF_dspec(id_storage(id));
+		if (ds & dspec_auto) {
+			if (force == 2) {
+				int init = 1;
+				EXP d = DEREF_exp(id_variable_init(id));
+				if (IS_NULL_exp(d) || IS_exp_null(d)) {
+					if (ds & dspec_reserve) {
+						/* Initialised in conditional */
+						/* EMPTY */
+					} else {
+						/* No initialiser */
+						init = 0;
+					}
+				}
+				if (init) {
+					/* Jump over initialiser */
+					ERROR err;
+					LOCATION loc;
+					int op = DEREF_int(id_label_op(lab));
+					if (op == lex_identifier) {
+						err = ERR_stmt_dcl_bypass_lab(lab, id);
+					} else if (op == lex_case) {
+						NAT n = find_case_nat(lab);
+						err = ERR_stmt_dcl_bypass_case(n, id);
+					} else {
+						err = ERR_stmt_dcl_bypass_default(id);
+					}
+					DEREF_loc(id_loc(id), loc);
+					report(loc, err);
+				}
 			}
-		    }
-		    if ( init ) {
-			/* Jump over initialiser */
-			ERROR err ;
-			LOCATION loc ;
-			int op = DEREF_int ( id_label_op ( lab ) ) ;
-			if ( op == lex_identifier ) {
-			    err = ERR_stmt_dcl_bypass_lab ( lab, id ) ;
-			} else if ( op == lex_case ) {
-			    NAT n = find_case_nat ( lab ) ;
-			    err = ERR_stmt_dcl_bypass_case ( n, id ) ;
-			} else {
-			    err = ERR_stmt_dcl_bypass_default ( id ) ;
-			}
-			DEREF_loc ( id_loc ( id ), loc ) ;
-			report ( loc, err ) ;
-		    }
+			CONS_id(id, ids, ids);
 		}
-		CONS_id ( id, ids, ids ) ;
-	    }
-	    break ;
+		break;
 	}
-
-	case exp_if_stmt_tag : {
-	    /* Jump into if statement */
-	    IDENTIFIER lb = DEREF_id ( exp_if_stmt_label ( e ) ) ;
-	    if ( !IS_NULL_id ( lb ) ) CONS_id ( lb, ids, ids ) ;
-	    break ;
+	case exp_if_stmt_tag: {
+		/* Jump into if statement */
+		IDENTIFIER lb = DEREF_id(exp_if_stmt_label(e));
+		if (!IS_NULL_id(lb)) {
+			CONS_id(lb, ids, ids);
+		}
+		break;
 	}
-
-	case exp_while_stmt_tag : {
-	    /* Jump into while loop */
-	    IDENTIFIER bk = DEREF_id ( exp_while_stmt_break_lab ( e ) ) ;
-	    IDENTIFIER cn = DEREF_id ( exp_while_stmt_cont_lab ( e ) ) ;
-	    IDENTIFIER lp = DEREF_id ( exp_while_stmt_loop_lab ( e ) ) ;
-	    CONS_id ( bk, ids, ids ) ;
-	    CONS_id ( cn, ids, ids ) ;
-	    CONS_id ( lp, ids, ids ) ;
-	    break ;
+	case exp_while_stmt_tag: {
+		/* Jump into while loop */
+		IDENTIFIER bk = DEREF_id(exp_while_stmt_break_lab(e));
+		IDENTIFIER cn = DEREF_id(exp_while_stmt_cont_lab(e));
+		IDENTIFIER lp = DEREF_id(exp_while_stmt_loop_lab(e));
+		CONS_id(bk, ids, ids);
+		CONS_id(cn, ids, ids);
+		CONS_id(lp, ids, ids);
+		break;
 	}
-
-	case exp_do_stmt_tag : {
-	    /* Jump into do loop */
-	    IDENTIFIER bk = DEREF_id ( exp_do_stmt_break_lab ( e ) ) ;
-	    IDENTIFIER cn = DEREF_id ( exp_do_stmt_cont_lab ( e ) ) ;
-	    IDENTIFIER lp = DEREF_id ( exp_do_stmt_loop_lab ( e ) ) ;
-	    CONS_id ( bk, ids, ids ) ;
-	    CONS_id ( cn, ids, ids ) ;
-	    CONS_id ( lp, ids, ids ) ;
-	    break ;
+	case exp_do_stmt_tag: {
+		/* Jump into do loop */
+		IDENTIFIER bk = DEREF_id(exp_do_stmt_break_lab(e));
+		IDENTIFIER cn = DEREF_id(exp_do_stmt_cont_lab(e));
+		IDENTIFIER lp = DEREF_id(exp_do_stmt_loop_lab(e));
+		CONS_id(bk, ids, ids);
+		CONS_id(cn, ids, ids);
+		CONS_id(lp, ids, ids);
+		break;
 	}
-
-	case exp_switch_stmt_tag : {
-	    /* Jump into switch statement */
-	    IDENTIFIER bk = DEREF_id ( exp_switch_stmt_break_lab ( e ) ) ;
-	    CONS_id ( bk, ids, ids ) ;
-	    break ;
+	case exp_switch_stmt_tag: {
+		/* Jump into switch statement */
+		IDENTIFIER bk = DEREF_id(exp_switch_stmt_break_lab(e));
+		CONS_id(bk, ids, ids);
+		break;
 	}
-
-	case exp_solve_stmt_tag : {
-	    /* Jump into solve statement */
-	    LIST ( IDENTIFIER ) lbs ;
-	    LIST ( IDENTIFIER ) vars ;
-	    lbs = DEREF_list ( exp_solve_stmt_labels ( e ) ) ;
-	    while ( !IS_NULL_list ( lbs ) ) {
-		IDENTIFIER lb = DEREF_id ( HEAD_list ( lbs ) ) ;
-		CONS_id ( lb, ids, ids ) ;
-		lbs = TAIL_list ( lbs ) ;
-	    }
-	    vars = DEREF_list ( exp_solve_stmt_vars ( e ) ) ;
-	    while ( !IS_NULL_list ( vars ) ) {
-		IDENTIFIER var = DEREF_id ( HEAD_list ( vars ) ) ;
-		CONS_id ( var, ids, ids ) ;
-		vars = TAIL_list ( vars ) ;
-	    }
-	    break ;
+	case exp_solve_stmt_tag: {
+		/* Jump into solve statement */
+		LIST(IDENTIFIER) lbs;
+		LIST(IDENTIFIER) vars;
+		lbs = DEREF_list(exp_solve_stmt_labels(e));
+		while (!IS_NULL_list(lbs)) {
+			IDENTIFIER lb = DEREF_id(HEAD_list(lbs));
+			CONS_id(lb, ids, ids);
+			lbs = TAIL_list(lbs);
+		}
+		vars = DEREF_list(exp_solve_stmt_vars(e));
+		while (!IS_NULL_list(vars)) {
+			IDENTIFIER var = DEREF_id(HEAD_list(vars));
+			CONS_id(var, ids, ids);
+			vars = TAIL_list(vars);
+		}
+		break;
 	}
-
-	case exp_label_stmt_tag : {
-	    /* Jump into labelled block */
-	    IDENTIFIER lb = DEREF_id ( exp_label_stmt_label ( e ) ) ;
-	    CONS_id ( lb, ids, ids ) ;
-	    break ;
+	case exp_label_stmt_tag: {
+		/* Jump into labelled block */
+		IDENTIFIER lb = DEREF_id(exp_label_stmt_label(e));
+		CONS_id(lb, ids, ids);
+		break;
 	}
-
-	case exp_try_block_tag : {
-	    /* Jump into try block */
-	    if ( force != 0 ) {
-		LOCATION loc ;
-		DEREF_loc ( id_loc ( lab ), loc ) ;
-		report ( loc, ERR_except_jump_into () ) ;
-	    }
-	    break ;
+	case exp_try_block_tag:
+		/* Jump into try block */
+		if (force != 0) {
+			LOCATION loc;
+			DEREF_loc(id_loc(lab), loc);
+			report(loc, ERR_except_jump_into());
+		}
+		break;
+	case exp_hash_if_tag:
+		/* Jump into target dependent '#if' */
+		if (force != 0) {
+			LOCATION loc;
+			DEREF_loc(id_loc(lab), loc);
+			report(loc, ERR_cpp_cond_if_jump_into());
+		}
+		break;
+	case exp_token_tag:
+		/* Jump into statement token */
+		if (force != 0) {
+			LOCATION loc;
+			DEREF_loc(id_loc(lab), loc);
+			report(loc, ERR_token_stmt_jump());
+		}
+		break;
 	}
-
-	case exp_hash_if_tag : {
-	    /* Jump into target dependent '#if' */
-	    if ( force != 0 ) {
-		LOCATION loc ;
-		DEREF_loc ( id_loc ( lab ), loc ) ;
-		report ( loc, ERR_cpp_cond_if_jump_into () ) ;
-	    }
-	    break ;
-	}
-
-	case exp_token_tag : {
-	    /* Jump into statement token */
-	    if ( force != 0 ) {
-		LOCATION loc ;
-		DEREF_loc ( id_loc ( lab ), loc ) ;
-		report ( loc, ERR_token_stmt_jump () ) ;
-	    }
-	    break ;
-	}
-    }
-    return ( ids ) ;
+	return (ids);
 }
 
 
@@ -660,18 +681,19 @@ static LIST ( IDENTIFIER ) jump_over_stmt
     is not already a member.
 */
 
-static LIST ( IDENTIFIER ) add_id
-    PROTO_N ( ( id, p ) )
-    PROTO_T ( IDENTIFIER id X LIST ( IDENTIFIER ) p )
+static LIST(IDENTIFIER)
+add_id(IDENTIFIER id, LIST(IDENTIFIER) p)
 {
-    LIST ( IDENTIFIER ) q = p ;
-    while ( !IS_NULL_list ( q ) ) {
-	IDENTIFIER qid = DEREF_id ( HEAD_list ( q ) ) ;
-	if ( EQ_id ( id, qid ) ) return ( p ) ;
-	q = TAIL_list ( q ) ;
-    }
-    CONS_id ( id, p, p ) ;
-    return ( p ) ;
+	LIST(IDENTIFIER) q = p;
+	while (!IS_NULL_list(q)) {
+		IDENTIFIER qid = DEREF_id(HEAD_list(q));
+		if (EQ_id(id, qid)) {
+			return (p);
+		}
+		q = TAIL_list(q);
+	}
+	CONS_id(id, p, p);
+	return (p);
 }
 
 
@@ -682,25 +704,24 @@ static LIST ( IDENTIFIER ) add_id
     and the variables ids.
 */
 
-static void extend_solve_stmt
-    PROTO_N ( ( a, lab, ids ) )
-    PROTO_T ( EXP a X IDENTIFIER lab X LIST ( IDENTIFIER ) ids )
+static void
+extend_solve_stmt(EXP a, IDENTIFIER lab, LIST(IDENTIFIER) ids)
 {
-    LIST ( IDENTIFIER ) vars = DEREF_list ( exp_solve_stmt_vars ( a ) ) ;
-    LIST ( IDENTIFIER ) labels = DEREF_list ( exp_solve_stmt_labels ( a ) ) ;
-    labels = add_id ( lab, labels ) ;
-    while ( !IS_NULL_list ( ids ) ) {
-	IDENTIFIER id = DEREF_id ( HEAD_list ( ids ) ) ;
-	if ( IS_id_label ( id ) ) {
-	    labels = add_id ( id, labels ) ;
-	} else {
-	    vars = add_id ( id, vars ) ;
+	LIST(IDENTIFIER) vars = DEREF_list(exp_solve_stmt_vars(a));
+	LIST(IDENTIFIER) labels = DEREF_list(exp_solve_stmt_labels(a));
+	labels = add_id(lab, labels);
+	while (!IS_NULL_list(ids)) {
+		IDENTIFIER id = DEREF_id(HEAD_list(ids));
+		if (IS_id_label(id)) {
+			labels = add_id(id, labels);
+		} else {
+			vars = add_id(id, vars);
+		}
+		ids = TAIL_list(ids);
 	}
-	ids = TAIL_list ( ids ) ;
-    }
-    COPY_list ( exp_solve_stmt_labels ( a ), labels ) ;
-    COPY_list ( exp_solve_stmt_vars ( a ), vars ) ;
-    return ;
+	COPY_list(exp_solve_stmt_labels(a), labels);
+	COPY_list(exp_solve_stmt_vars(a), vars);
+	return;
 }
 
 
@@ -722,89 +743,90 @@ static void extend_solve_stmt
     process.
 */
 
-EXP solve_labels
-    PROTO_N ( ( e ) )
-    PROTO_T ( EXP e )
+EXP
+solve_labels(EXP e)
 {
-    MEMBER mem = DEREF_member ( nspace_last ( label_namespace ) ) ;
-    while ( !IS_NULL_member ( mem ) ) {
-	IDENTIFIER lab = DEREF_id ( member_id ( mem ) ) ;
-	if ( !IS_NULL_id ( lab ) ) {
-	    DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-	    if ( info & dspec_anon ) {
+    MEMBER mem = DEREF_member(nspace_last(label_namespace));
+    while (!IS_NULL_member(mem)) {
+	IDENTIFIER lab = DEREF_id(member_id(mem));
+	if (!IS_NULL_id(lab)) {
+	    DECL_SPEC info = DEREF_dspec(id_storage(lab));
+	    if (info & dspec_anon) {
 		/* Unnamed labels are ignored */
 		/* EMPTY */
-	    } else if ( info & dspec_defn ) {
+	    } else if (info & dspec_defn) {
 		/* Only check defined labels */
-		int solve = 0 ;
-		EXP a = DEREF_exp ( id_label_stmt ( lab ) ) ;
-		EXP p = DEREF_exp ( id_label_gotos ( lab ) ) ;
-		LIST ( IDENTIFIER ) ids = NULL_list ( IDENTIFIER ) ;
-		for ( ; ; ) {
+		int solve = 0;
+		EXP a = DEREF_exp(id_label_stmt(lab));
+		EXP p = DEREF_exp(id_label_gotos(lab));
+		LIST(IDENTIFIER) ids = NULL_list(IDENTIFIER);
+		for (;;) {
 		    /* Scan for enclosing statement */
-		    EXP q = p ;
-		    int ok = 1 ;
-		    while ( !IS_NULL_exp ( q ) && IS_exp_goto_stmt ( q ) ) {
+		    EXP q = p;
+		    int ok = 1;
+		    while (!IS_NULL_exp(q) && IS_exp_goto_stmt(q)) {
 			/* Check each goto statement */
-			EXP b = q ;
-			PTR ( EXP ) pb = exp_goto_stmt_join ( b ) ;
-			if ( IS_NULL_exp ( DEREF_exp ( pb ) ) ) {
+			EXP b = q;
+			PTR(EXP) pb = exp_goto_stmt_join(b);
+			if (IS_NULL_exp(DEREF_exp(pb))) {
 			    /* Join statement not yet assigned */
-			    for ( ; ; ) {
-				if ( EQ_exp ( a, b ) ) {
+			    for (;;) {
+				if (EQ_exp(a, b)) {
 				    /* b is a sub-statement of a */
-				    COPY_exp ( pb, a ) ;
-				    break ;
+				    COPY_exp(pb, a);
+				    break;
 				}
-				b = get_parent_stmt ( b ) ;
-				if ( IS_NULL_exp ( b ) ) {
+				b = get_parent_stmt(b);
+				if (IS_NULL_exp(b)) {
 				    /* b is not a sub-statement of a */
-				    ok = 0 ;
-				    break ;
+				    ok = 0;
+				    break;
 				}
 			    }
 			}
-			q = DEREF_exp ( exp_goto_stmt_next ( q ) ) ;
+			q = DEREF_exp(exp_goto_stmt_next(q));
 		    }
 
 		    /* Check whether a encloses all the jumps to lab */
-		    if ( ok ) {
-			int force = 1 ;
-			while ( !IS_exp_solve_stmt ( a ) ) {
+		    if (ok) {
+			int force = 1;
+			while (!IS_exp_solve_stmt(a)) {
 			    /* Scan to enclosing solve statement */
-			    ids = jump_over_stmt ( ids, a, lab, force ) ;
-			    a = get_parent_stmt ( a ) ;
-			    if ( IS_NULL_exp ( a ) ) break ;
-			    force = 0 ;
+			    ids = jump_over_stmt(ids, a, lab, force);
+			    a = get_parent_stmt(a);
+			    if (IS_NULL_exp(a)) {
+				    break;
+			    }
+			    force = 0;
 			}
-			break ;
+			break;
 		    }
 
 		    /* Some jump to lab is from outside a */
-		    ids = jump_over_stmt ( ids, a, lab, 2 ) ;
-		    solve = 1 ;
+		    ids = jump_over_stmt(ids, a, lab, 2);
+		    solve = 1;
 
 		    /* Expand a to enclosing statement */
-		    a = get_parent_stmt ( a ) ;
-		    if ( IS_NULL_exp ( a ) ) {
+		    a = get_parent_stmt(a);
+		    if (IS_NULL_exp(a)) {
 			/* Can happen with statement tokens */
-			a = e ;
-			break ;
+			a = e;
+			break;
 		    }
 		}
 
 		/* Deal with unstructured labels */
-		if ( solve ) {
-		    info |= dspec_solve ;
-		    COPY_dspec ( id_storage ( lab ), info ) ;
-		    extend_solve_stmt ( a, lab, ids ) ;
+		if (solve) {
+		    info |= dspec_solve;
+		    COPY_dspec(id_storage(lab), info);
+		    extend_solve_stmt(a, lab, ids);
 		}
-		DESTROY_list ( ids, SIZE_id ) ;
+		DESTROY_list(ids, SIZE_id);
 	    }
 	}
-	mem = DEREF_member ( member_next ( mem ) ) ;
+	mem = DEREF_member(member_next(mem));
     }
-    return ( e ) ;
+    return (e);
 }
 
 
@@ -819,50 +841,51 @@ EXP solve_labels
     statement corresponding to lab.
 */
 
-static EXP solve_case
-    PROTO_N ( ( e, lab, prev ) )
-    PROTO_T ( EXP e X IDENTIFIER lab X EXP prev )
+static EXP
+solve_case(EXP e, IDENTIFIER lab, EXP prev)
 {
-    DECL_SPEC info = DEREF_dspec ( id_storage ( lab ) ) ;
-    if ( info & dspec_defn ) {
-	EXP b = DEREF_exp ( id_label_stmt ( lab ) ) ;
-	EXP a = b ;
-	LIST ( IDENTIFIER ) ids = NULL_list ( IDENTIFIER ) ;
-	while ( !EQ_exp ( a, e ) && !EQ_exp ( a, prev ) ) {
-	    ids = jump_over_stmt ( ids, a, lab, 2 ) ;
-	    a = get_parent_stmt ( a ) ;
-	    if ( IS_NULL_exp ( a ) ) break ;
-	}
-	if ( !IS_NULL_list ( ids ) ) {
-	    EXP s = DEREF_exp ( exp_switch_stmt_body ( e ) ) ;
-	    extend_solve_stmt ( s, lab, ids ) ;
-	    DESTROY_list ( ids, SIZE_id ) ;
-	}
-	prev = b ;
-    } else {
-	/* Case not defined */
-	EXP a, b ;
-	LOCATION loc ;
-	int uc = unreached_code ;
-	IDENTIFIER flab = NULL_id ;
-	int op = DEREF_int ( id_label_op ( lab ) ) ;
-	DEREF_loc ( id_loc ( lab ), loc ) ;
-	if ( op == lex_case ) {
-	    NAT n = find_case_nat ( lab ) ;
-	    report ( loc, ERR_stmt_switch_case_not ( n ) ) ;
-	    flab = DEREF_id ( exp_switch_stmt_default_lab ( e ) ) ;
+	DECL_SPEC info = DEREF_dspec(id_storage(lab));
+	if (info & dspec_defn) {
+		EXP b = DEREF_exp(id_label_stmt(lab));
+		EXP a = b;
+		LIST(IDENTIFIER) ids = NULL_list(IDENTIFIER);
+		while (!EQ_exp(a, e) && !EQ_exp(a, prev)) {
+			ids = jump_over_stmt(ids, a, lab, 2);
+			a = get_parent_stmt(a);
+			if (IS_NULL_exp(a)) {
+				break;
+			}
+		}
+		if (!IS_NULL_list(ids)) {
+			EXP s = DEREF_exp(exp_switch_stmt_body(e));
+			extend_solve_stmt(s, lab, ids);
+			DESTROY_list(ids, SIZE_id);
+		}
+		prev = b;
 	} else {
-	    report ( loc, ERR_stmt_switch_default_not () ) ;
+		/* Case not defined */
+		EXP a, b;
+		LOCATION loc;
+		int uc = unreached_code;
+		IDENTIFIER flab = NULL_id;
+		int op = DEREF_int(id_label_op(lab));
+		DEREF_loc(id_loc(lab), loc);
+		if (op == lex_case) {
+			NAT n = find_case_nat(lab);
+			report(loc, ERR_stmt_switch_case_not(n));
+			flab = DEREF_id(exp_switch_stmt_default_lab(e));
+		} else {
+			report(loc, ERR_stmt_switch_default_not());
+		}
+		if (IS_NULL_id(flab)) {
+			flab = DEREF_id(exp_switch_stmt_break_lab(e));
+		}
+		a = begin_label_stmt(lab, op);
+		b = make_jump_stmt(flab, e);
+		IGNORE end_label_stmt(a, b);
+		unreached_code = uc;
 	}
-	if ( IS_NULL_id ( flab ) ) {
-	    flab = DEREF_id ( exp_switch_stmt_break_lab ( e ) ) ;
-	}
-	a = begin_label_stmt ( lab, op ) ;
-	b = make_jump_stmt ( flab, e ) ;
-	IGNORE end_label_stmt ( a, b ) ;
-	unreached_code = uc ;
-    }
-    return ( prev ) ;
+	return (prev);
 }
 
 
@@ -873,26 +896,25 @@ static EXP solve_case
     bypass the initialisation of a variable.
 */
 
-EXP solve_switch
-    PROTO_N ( ( e ) )
-    PROTO_T ( EXP e )
+EXP
+solve_switch(EXP e)
 {
-    IDENTIFIER lab ;
-    EXP prev = NULL_exp ;
-    LIST ( IDENTIFIER ) cases ;
-    cases = DEREF_list ( exp_switch_stmt_case_labs ( e ) ) ;
-    while ( !IS_NULL_list ( cases ) ) {
-	/* Check each case statement */
-	lab = DEREF_id ( HEAD_list ( cases ) ) ;
-	prev = solve_case ( e, lab, prev ) ;
-	cases = TAIL_list ( cases ) ;
-    }
-    lab = DEREF_id ( exp_switch_stmt_default_lab ( e ) ) ;
-    if ( !IS_NULL_id ( lab ) ) {
-	/* Check any default statement */
-	IGNORE solve_case ( e, lab, prev ) ;
-    }
-    return ( e ) ;
+	IDENTIFIER lab;
+	EXP prev = NULL_exp;
+	LIST(IDENTIFIER) cases;
+	cases = DEREF_list(exp_switch_stmt_case_labs(e));
+	while (!IS_NULL_list(cases)) {
+		/* Check each case statement */
+		lab = DEREF_id(HEAD_list(cases));
+		prev = solve_case(e, lab, prev);
+		cases = TAIL_list(cases);
+	}
+	lab = DEREF_id(exp_switch_stmt_default_lab(e));
+	if (!IS_NULL_id(lab)) {
+		/* Check any default statement */
+		IGNORE solve_case(e, lab, prev);
+	}
+	return (e);
 }
 
 
@@ -905,52 +927,55 @@ EXP solve_switch
     null identifier is returned.
 */
 
-static IDENTIFIER follow_label
-    PROTO_N ( ( e, p ) )
-    PROTO_T ( EXP e X LIST ( EXP ) p )
+static IDENTIFIER
+follow_label(EXP e, LIST(EXP) p)
 {
-    EXP a, b, c ;
-    DECL_SPEC ds ;
-    IDENTIFIER lab ;
-    LIST ( EXP ) r ;
-    LIST ( EXP ) q = TAIL_list ( p ) ;
-    if ( IS_NULL_list ( q ) ) return ( NULL_id ) ;
-
-    /* Examine following statement */
-    a = DEREF_exp ( HEAD_list ( q ) ) ;
-    if ( !IS_NULL_exp ( a ) ) {
-	unsigned tag = TAG_exp ( a ) ;
-	if ( tag == exp_location_tag ) {
-	    a = DEREF_exp ( exp_location_arg ( a ) ) ;
-	    if ( !IS_NULL_exp ( a ) ) tag = TAG_exp ( a ) ;
-	    if ( tag == exp_label_stmt_tag ) {
-		/* Statement is already labelled */
-		lab = DEREF_id ( exp_label_stmt_label ( a ) ) ;
-		return ( lab ) ;
-	    }
+	EXP a, b, c;
+	DECL_SPEC ds;
+	IDENTIFIER lab;
+	LIST(EXP) r;
+	LIST(EXP) q = TAIL_list(p);
+	if (IS_NULL_list(q)) {
+		return (NULL_id);
 	}
-    }
 
-    /* Create new labelled statement */
-    b = begin_label_stmt ( NULL_id, lex_end ) ;
-    b = end_label_stmt ( b, NULL_exp ) ;
-    set_parent_stmt ( b, e ) ;
-    c = DEREF_exp ( exp_label_stmt_body ( b ) ) ;
-    r = DEREF_list ( exp_sequence_first ( c ) ) ;
-    IGNORE APPEND_list ( r, q ) ;
-    while ( !IS_NULL_list ( q ) ) {
-	a = DEREF_exp ( HEAD_list ( q ) ) ;
-	set_parent_stmt ( a, b ) ;
-	q = TAIL_list ( q ) ;
-    }
-    COPY_list ( PTR_TAIL_list ( p ), NULL_list ( EXP ) ) ;
-    CONS_exp ( b, NULL_list ( EXP ), q ) ;
-    IGNORE APPEND_list ( p, q ) ;
-    lab = DEREF_id ( exp_label_stmt_label ( b ) ) ;
-    ds = DEREF_dspec ( id_storage ( lab ) ) ;
-    ds |= ( dspec_goto | dspec_used ) ;
-    COPY_dspec ( id_storage ( lab ), ds ) ;
-    return ( lab ) ;
+	/* Examine following statement */
+	a = DEREF_exp(HEAD_list(q));
+	if (!IS_NULL_exp(a)) {
+		unsigned tag = TAG_exp(a);
+		if (tag == exp_location_tag) {
+			a = DEREF_exp(exp_location_arg(a));
+			if (!IS_NULL_exp(a)) {
+				tag = TAG_exp(a);
+			}
+			if (tag == exp_label_stmt_tag) {
+				/* Statement is already labelled */
+				lab = DEREF_id(exp_label_stmt_label(a));
+				return (lab);
+			}
+		}
+	}
+
+	/* Create new labelled statement */
+	b = begin_label_stmt(NULL_id, lex_end);
+	b = end_label_stmt(b, NULL_exp);
+	set_parent_stmt(b, e);
+	c = DEREF_exp(exp_label_stmt_body(b));
+	r = DEREF_list(exp_sequence_first(c));
+	IGNORE APPEND_list(r, q);
+	while (!IS_NULL_list(q)) {
+		a = DEREF_exp(HEAD_list(q));
+		set_parent_stmt(a, b);
+		q = TAIL_list(q);
+	}
+	COPY_list(PTR_TAIL_list(p), NULL_list(EXP));
+	CONS_exp(b, NULL_list(EXP), q);
+	IGNORE APPEND_list(p, q);
+	lab = DEREF_id(exp_label_stmt_label(b));
+	ds = DEREF_dspec(id_storage(lab));
+	ds |= (dspec_goto | dspec_used);
+	COPY_dspec(id_storage(lab), ds);
+	return (lab);
 }
 
 
@@ -962,113 +987,108 @@ static IDENTIFIER follow_label
     following code.
 */
 
-static IDENTIFIER end_solve_branch
-    PROTO_N ( ( lab, e ) )
-    PROTO_T ( IDENTIFIER lab X EXP e )
+static IDENTIFIER
+end_solve_branch(IDENTIFIER lab, EXP e)
 {
-    EXP a ;
-    IDENTIFIER nlab ;
-    int op = DEREF_int ( id_label_op ( lab ) ) ;
-    switch ( op ) {
-	case lex_continue :
-	case lex_while :
-	case lex_for :
-	case lex_do : {
+    EXP a;
+    IDENTIFIER nlab;
+    int op = DEREF_int(id_label_op(lab));
+    switch (op) {
+	case lex_continue:
+	case lex_while:
+	case lex_for:
+	case lex_do:
 	    /* Don't bother in these cases */
-	    return ( NULL_id ) ;
-	}
+	    return (NULL_id);
     }
-    a = DEREF_exp ( id_label_stmt ( lab ) ) ;
-    if ( IS_NULL_exp ( a ) ) {
+    a = DEREF_exp(id_label_stmt(lab));
+    if (IS_NULL_exp(a)) {
 	/* Ignore undefined labels */
-	return ( NULL_id ) ;
+	return (NULL_id);
     }
-    nlab = DEREF_id ( exp_label_stmt_next ( a ) ) ;
-    if ( IS_NULL_id ( nlab ) ) {
+    nlab = DEREF_id(exp_label_stmt_next(a));
+    if (IS_NULL_id(nlab)) {
 	/* Scan up to enclosing block */
-	EXP b = a ;
-	EXP c = DEREF_exp ( exp_label_stmt_parent ( b ) ) ;
-	while ( !EQ_exp ( c, e ) && !IS_NULL_exp ( c ) ) {
-	    int again ;
-	    EXP d = c ;
+	EXP b = a;
+	EXP c = DEREF_exp(exp_label_stmt_parent(b));
+	while (!EQ_exp(c, e) && !IS_NULL_exp(c)) {
+	    int again;
+	    EXP d = c;
 	    do {
-		again = 0 ;
-		switch ( TAG_exp ( d ) ) {
-		    case exp_sequence_tag : {
+		again = 0;
+		switch (TAG_exp(d)) {
+		    case exp_sequence_tag: {
 			/* Found enclosing block */
-			LIST ( EXP ) q ;
-			q = DEREF_list ( exp_sequence_first ( d ) ) ;
-			q = TAIL_list ( q ) ;
-			while ( !IS_NULL_list ( q ) ) {
-			    EXP f = DEREF_exp ( HEAD_list ( q ) ) ;
-			    if ( !IS_NULL_exp ( f ) ) {
-				if ( IS_exp_location ( f ) ) {
+			LIST(EXP) q;
+			q = DEREF_list(exp_sequence_first(d));
+			q = TAIL_list(q);
+			while (!IS_NULL_list(q)) {
+			    EXP f = DEREF_exp(HEAD_list(q));
+			    if (!IS_NULL_exp(f)) {
+				if (IS_exp_location(f)) {
 				    /* Allow for location statements */
-				    f = DEREF_exp ( exp_location_arg ( f ) ) ;
+				    f = DEREF_exp(exp_location_arg(f));
 				}
-				if ( EQ_exp ( f, b ) ) {
+				if (EQ_exp(f, b)) {
 				    /* Found labelled statement in block */
-				    nlab = follow_label ( d, q ) ;
-				    break ;
+				    nlab = follow_label(d, q);
+				    break;
 				}
 			    }
-			    q = TAIL_list ( q ) ;
+			    q = TAIL_list(q);
 			}
-			break ;
+			break;
 		    }
-		    case exp_while_stmt_tag : {
+		    case exp_while_stmt_tag: {
 			/* Found enclosing while statement */
-			IDENTIFIER blab ;
-			blab = DEREF_id ( exp_while_stmt_break_lab ( d ) ) ;
-			if ( !EQ_id ( blab, lab ) ) {
-			    nlab = DEREF_id ( exp_while_stmt_cont_lab ( d ) ) ;
+			IDENTIFIER blab;
+			blab = DEREF_id(exp_while_stmt_break_lab(d));
+			if (!EQ_id(blab, lab)) {
+			    nlab = DEREF_id(exp_while_stmt_cont_lab(d));
 			}
-			break ;
+			break;
 		    }
-		    case exp_do_stmt_tag : {
+		    case exp_do_stmt_tag: {
 			/* Found enclosing do statement */
-			IDENTIFIER blab ;
-			blab = DEREF_id ( exp_do_stmt_break_lab ( d ) ) ;
-			if ( !EQ_id ( blab, lab ) ) {
-			    nlab = DEREF_id ( exp_do_stmt_cont_lab ( d ) ) ;
+			IDENTIFIER blab;
+			blab = DEREF_id(exp_do_stmt_break_lab(d));
+			if (!EQ_id(blab, lab)) {
+			    nlab = DEREF_id(exp_do_stmt_cont_lab(d));
 			}
-			break ;
+			break;
 		    }
-		    case exp_switch_stmt_tag : {
+		    case exp_switch_stmt_tag:
 			/* Found enclosing switch statement */
-			nlab = DEREF_id ( exp_switch_stmt_break_lab ( d ) ) ;
-			if ( EQ_id ( nlab, lab ) ) nlab = NULL_id ;
-			break ;
-		    }
-		    case exp_decl_stmt_tag : {
+			nlab = DEREF_id(exp_switch_stmt_break_lab(d));
+			if (EQ_id(nlab, lab))nlab = NULL_id;
+			break;
+		    case exp_decl_stmt_tag:
 			/* Found enclosing declaration */
-			d = DEREF_exp ( exp_decl_stmt_body ( d ) ) ;
-			if ( !EQ_exp ( d, b ) ) again = 1 ;
-			break ;
-		    }
-		    case exp_label_stmt_tag : {
+			d = DEREF_exp(exp_decl_stmt_body(d));
+			if (!EQ_exp(d, b))again = 1;
+			break;
+		    case exp_label_stmt_tag:
 			/* Found enclosing label statement */
-			d = DEREF_exp ( exp_label_stmt_body ( d ) ) ;
-			if ( !EQ_exp ( d, b ) ) again = 1 ;
-			break ;
-		    }
+			d = DEREF_exp(exp_label_stmt_body(d));
+			if (!EQ_exp(d, b))again = 1;
+			break;
 		}
-	    } while ( again ) ;
-	    if ( !IS_NULL_id ( nlab ) ) {
+	    } while (again);
+	    if (!IS_NULL_id(nlab)) {
 		/* Label for next statement found */
-		nlab = DEREF_id ( id_alias ( nlab ) ) ;
-		if ( op == lex_break ) {
+		nlab = DEREF_id(id_alias(nlab));
+		if (op == lex_break) {
 		    /* Alias break labels */
-		    COPY_id ( id_alias ( lab ), nlab ) ;
+		    COPY_id(id_alias(lab), nlab);
 		}
-		break ;
+		break;
 	    }
-	    b = c ;
-	    c = get_parent_stmt ( b ) ;
+	    b = c;
+	    c = get_parent_stmt(b);
 	}
     }
-    COPY_id ( exp_label_stmt_next ( a ), nlab ) ;
-    return ( nlab ) ;
+    COPY_id(exp_label_stmt_next(a), nlab);
+    return (nlab);
 }
 
 
@@ -1079,38 +1099,38 @@ static IDENTIFIER end_solve_branch
     solve statements in the current function.
 */
 
-void end_solve_stmts
-    PROTO_Z ()
+void
+end_solve_stmts(void)
 {
-    LIST ( EXP ) p = all_solve_stmts ;
-    if ( !IS_NULL_list ( p ) ) {
-	while ( !IS_NULL_list ( p ) ) {
-	    int changed ;
-	    LIST ( IDENTIFIER ) q0 ;
-	    EXP e = DEREF_exp ( HEAD_list ( p ) ) ;
-	    q0 = DEREF_list ( exp_solve_stmt_labels ( e ) ) ;
+    LIST(EXP) p = all_solve_stmts;
+    if (!IS_NULL_list(p)) {
+	while (!IS_NULL_list(p)) {
+	    int changed;
+	    LIST(IDENTIFIER) q0;
+	    EXP e = DEREF_exp(HEAD_list(p));
+	    q0 = DEREF_list(exp_solve_stmt_labels(e));
 	    do {
-		LIST ( IDENTIFIER ) q = q0 ;
-		changed = 0 ;
-		while ( !IS_NULL_list ( q ) ) {
-		    IDENTIFIER lab = DEREF_id ( HEAD_list ( q ) ) ;
-		    IDENTIFIER nlab = end_solve_branch ( lab, e ) ;
-		    if ( !IS_NULL_id ( nlab ) ) {
+		LIST(IDENTIFIER) q = q0;
+		changed = 0;
+		while (!IS_NULL_list(q)) {
+		    IDENTIFIER lab = DEREF_id(HEAD_list(q));
+		    IDENTIFIER nlab = end_solve_branch(lab, e);
+		    if (!IS_NULL_id(nlab)) {
 			/* Add new label to list */
-			LIST ( IDENTIFIER ) q1 = add_id ( nlab, q0 ) ;
-			if ( !EQ_list ( q1, q0 ) ) {
-			    q0 = q1 ;
-			    changed = 1 ;
+			LIST(IDENTIFIER) q1 = add_id(nlab, q0);
+			if (!EQ_list(q1, q0)) {
+			    q0 = q1;
+			    changed = 1;
 			}
 		    }
-		    q = TAIL_list ( q ) ;
+		    q = TAIL_list(q);
 		}
-	    } while ( changed ) ;
-	    COPY_list ( exp_solve_stmt_labels ( e ), q0 ) ;
-	    p = TAIL_list ( p ) ;
+	    } while (changed);
+	    COPY_list(exp_solve_stmt_labels(e), q0);
+	    p = TAIL_list(p);
 	}
-	DESTROY_list ( all_solve_stmts, SIZE_exp ) ;
-	all_solve_stmts = NULL_list ( EXP ) ;
+	DESTROY_list(all_solve_stmts, SIZE_exp);
+	all_solve_stmts = NULL_list(EXP);
     }
-    return ;
+    return;
 }

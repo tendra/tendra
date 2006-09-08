@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -76,8 +106,8 @@
     by default it equals univ_type_set.
 */
 
-LIST ( TYPE ) univ_type_set = NULL_list ( TYPE ) ;
-LIST ( TYPE ) empty_type_set = NULL_list ( TYPE ) ;
+LIST(TYPE) univ_type_set = NULL_list(TYPE);
+LIST(TYPE) empty_type_set = NULL_list(TYPE);
 
 
 /*
@@ -86,17 +116,17 @@ LIST ( TYPE ) empty_type_set = NULL_list ( TYPE ) ;
     This routine initialises the set of all types to a dummy unique list.
 */
 
-void init_exception
-    PROTO_Z ()
+void
+init_exception(void)
 {
-    LIST ( TYPE ) p ;
-    CONS_type ( type_any, NULL_list ( TYPE ), p ) ;
-    p = uniq_type_set ( p ) ;
-    COPY_list ( type_func_except ( type_func_void ), p ) ;
-    COPY_list ( type_func_except ( type_temp_func ), p ) ;
-    empty_type_set = p ;
-    univ_type_set = p ;
-    return ;
+	LIST(TYPE)p;
+	CONS_type(type_any, NULL_list(TYPE), p);
+	p = uniq_type_set(p);
+	COPY_list(type_func_except(type_func_void), p);
+	COPY_list(type_func_except(type_temp_func), p);
+	empty_type_set = p;
+	univ_type_set = p;
+	return;
 }
 
 
@@ -107,22 +137,23 @@ void init_exception
     types listed as p.
 */
 
-int in_type_set
-    PROTO_N ( ( p, t ) )
-    PROTO_T ( LIST ( TYPE ) p X TYPE t )
+int
+in_type_set(LIST(TYPE)p, TYPE t)
 {
-    if ( EQ_list ( p, univ_type_set ) ) return ( 1 ) ;
-    expand_tokdef++ ;
-    while ( !IS_NULL_list ( p ) ) {
-	TYPE s = DEREF_type ( HEAD_list ( p ) ) ;
-	if ( EQ_type ( t, s ) || eq_type_unqual ( t, s ) ) {
-	    expand_tokdef-- ;
-	    return ( 1 ) ;
+	if (EQ_list(p, univ_type_set)) {
+		return (1);
 	}
-	p = TAIL_list ( p ) ;
-    }
-    expand_tokdef-- ;
-    return ( 0 ) ;
+	expand_tokdef++;
+	while (!IS_NULL_list(p)) {
+		TYPE s = DEREF_type(HEAD_list(p));
+		if (EQ_type(t, s) || eq_type_unqual(t, s)) {
+			expand_tokdef--;
+			return (1);
+		}
+		p = TAIL_list(p);
+	}
+	expand_tokdef--;
+	return (0);
 }
 
 
@@ -134,48 +165,50 @@ int in_type_set
     type, or the null type if no match is found.
 */
 
-static TYPE from_type_set
-    PROTO_N ( ( p, t ) )
-    PROTO_T ( LIST ( TYPE ) p X TYPE t )
+static TYPE
+from_type_set(LIST(TYPE)p, TYPE t)
 {
-    if ( EQ_list ( p, univ_type_set ) ) {
-	/* The universal set catches everything */
-	return ( t ) ;
-    }
-    expand_tokdef++ ;
-    if ( IS_type_ref ( t ) ) t = DEREF_type ( type_ref_sub ( t ) ) ;
-    while ( !IS_NULL_list ( p ) ) {
-	TYPE r = DEREF_type ( HEAD_list ( p ) ) ;
-	if ( !IS_NULL_type ( r ) ) {
-	    TYPE s = r ;
-	    unsigned rank ;
-	    CONVERSION conv ;
-	    if ( IS_type_ref ( s ) ) s = DEREF_type ( type_ref_sub ( s ) ) ;
-	    if ( eq_type_unqual ( t, s ) ) {
-		/* Exact match is allowed */
-		expand_tokdef-- ;
-		return ( r ) ;
-	    }
-	    conv.from = t ;
-	    conv.to = s ;
-	    rank = std_convert_seq ( &conv, NULL_exp, 0, 0 ) ;
-	    switch ( rank ) {
-		case CONV_EXACT :
-		case CONV_QUAL :
-		case CONV_BASE :
-		case CONV_PTR_BASE :
-		case CONV_PTR_VOID :
-		case CONV_PTR_BOTTOM : {
-		    /* These conversions are allowed */
-		    expand_tokdef-- ;
-		    return ( r ) ;
-		}
-	    }
+	if (EQ_list(p, univ_type_set)) {
+		/* The universal set catches everything */
+		return (t);
 	}
-	p = TAIL_list ( p ) ;
-    }
-    expand_tokdef-- ;
-    return ( NULL_type ) ;
+	expand_tokdef++;
+	if (IS_type_ref(t)) {
+		t = DEREF_type(type_ref_sub(t));
+	}
+	while (!IS_NULL_list(p)) {
+		TYPE r = DEREF_type(HEAD_list(p));
+		if (!IS_NULL_type(r)) {
+			TYPE s = r;
+			unsigned rank;
+			CONVERSION conv;
+			if (IS_type_ref(s)) {
+				s = DEREF_type(type_ref_sub(s));
+			}
+			if (eq_type_unqual(t, s)) {
+				/* Exact match is allowed */
+				expand_tokdef--;
+				return (r);
+			}
+			conv.from = t;
+			conv.to = s;
+			rank = std_convert_seq(&conv, NULL_exp, 0, 0);
+			switch (rank) {
+			case CONV_EXACT:
+			case CONV_QUAL:
+			case CONV_BASE:
+			case CONV_PTR_BASE:
+			case CONV_PTR_VOID:
+			case CONV_PTR_BOTTOM:
+				/* These conversions are allowed */
+				expand_tokdef--;
+				return (r);
+			}
+		}
+		p = TAIL_list(p);
+	}
+	expand_tokdef--;
+	return (NULL_type);
 }
 
 
@@ -191,39 +224,52 @@ static TYPE from_type_set
     checked for.
 */
 
-int eq_type_set
-    PROTO_N ( ( p, q, eq ) )
-    PROTO_T ( LIST ( TYPE ) p X LIST ( TYPE ) q X int eq )
+int
+eq_type_set(LIST(TYPE) p, LIST(TYPE) q, int eq)
 {
-    unsigned n, m ;
-    LIST ( TYPE ) r ;
+	unsigned n, m;
+	LIST(TYPE)r;
 
-    /* Deal with the set of all types */
-    if ( EQ_list ( p, q ) ) return ( 2 ) ;
-    if ( EQ_list ( q, univ_type_set ) && !eq ) return ( 1 ) ;
-    if ( EQ_list ( p, univ_type_set ) ) return ( 0 ) ;
-
-    /* Check whether p is larger than q */
-    n = LENGTH_list ( p ) ;
-    m = LENGTH_list ( q ) ;
-    if ( n > m ) return ( 0 ) ;
-    if ( n < m && eq ) return ( 0 ) ;
-
-    /* Check whether p is a subset of q */
-    r = q ;
-    while ( !IS_NULL_list ( p ) ) {
-	TYPE t = DEREF_type ( HEAD_list ( p ) ) ;
-	TYPE s = DEREF_type ( HEAD_list ( r ) ) ;
-	if ( !EQ_type ( t, s ) && !eq_type_unqual ( t, s ) ) {
-	    if ( !in_type_set ( q, t ) ) return ( 0 ) ;
+	/* Deal with the set of all types */
+	if (EQ_list(p, q)) {
+		return (2);
 	}
-	r = TAIL_list ( r ) ;
-	p = TAIL_list ( p ) ;
-    }
+	if (EQ_list(q, univ_type_set) && !eq) {
+		return (1);
+	}
+	if (EQ_list(p, univ_type_set)) {
+		return (0);
+	}
 
-    /* Check for equality using set sizes */
-    if ( n < m ) return ( 1 ) ;
-    return ( 2 ) ;
+	/* Check whether p is larger than q */
+	n = LENGTH_list(p);
+	m = LENGTH_list(q);
+	if (n > m) {
+		return (0);
+	}
+	if (n < m && eq) {
+		return (0);
+	}
+
+	/* Check whether p is a subset of q */
+	r = q;
+	while (!IS_NULL_list(p)) {
+		TYPE t = DEREF_type(HEAD_list(p));
+		TYPE s = DEREF_type(HEAD_list(r));
+		if (!EQ_type(t, s) && !eq_type_unqual(t, s)) {
+			if (!in_type_set(q, t)) {
+				return (0);
+			}
+		}
+		r = TAIL_list(r);
+		p = TAIL_list(p);
+	}
+
+	/* Check for equality using set sizes */
+	if (n < m) {
+		return (1);
+	}
+	return (2);
 }
 
 
@@ -234,14 +280,13 @@ int eq_type_set
     a member.
 */
 
-LIST ( TYPE ) cons_type_set
-    PROTO_N ( ( p, t ) )
-    PROTO_T ( LIST ( TYPE ) p X TYPE t )
+LIST(TYPE)
+cons_type_set(LIST(TYPE) p, TYPE t)
 {
-    if ( !IS_NULL_type ( t ) && !in_type_set ( p, t ) ) {
-	CONS_type ( t, p, p ) ;
-    }
-    return ( p ) ;
+	if (!IS_NULL_type(t) && !in_type_set(p, t)) {
+		CONS_type(t, p, p);
+	}
+	return (p);
 }
 
 
@@ -251,25 +296,26 @@ LIST ( TYPE ) cons_type_set
     This routine adds the elements of the type set q to the type set p.
 */
 
-LIST ( TYPE ) union_type_set
-    PROTO_N ( ( p, q ) )
-    PROTO_T ( LIST ( TYPE ) p X LIST ( TYPE ) q )
+LIST(TYPE)
+union_type_set(LIST(TYPE)p, LIST(TYPE)q)
 {
-    if ( !EQ_list ( p, univ_type_set ) ) {
-	if ( EQ_list ( q, univ_type_set ) ) {
-	    DESTROY_list ( p, SIZE_type ) ;
-	    p = q ;
-	} else {
-	    while ( !IS_NULL_list ( q ) ) {
-		TYPE t = DEREF_type ( HEAD_list ( q ) ) ;
-		if ( !IS_NULL_type ( t ) ) {
-		    if ( !in_type_set ( p, t ) ) CONS_type ( t, p, p ) ;
+	if (!EQ_list(p, univ_type_set)) {
+		if (EQ_list(q, univ_type_set)) {
+			DESTROY_list(p, SIZE_type);
+			p = q;
+		} else {
+			while (!IS_NULL_list(q)) {
+				TYPE t = DEREF_type(HEAD_list(q));
+				if (!IS_NULL_type(t)) {
+					if (!in_type_set(p, t)) {
+						CONS_type(t, p, p);
+					}
+				}
+				q = TAIL_list(q);
+			}
 		}
-		q = TAIL_list ( q ) ;
-	    }
 	}
-    }
-    return ( p ) ;
+	return (p);
 }
 
 
@@ -281,22 +327,21 @@ LIST ( TYPE ) union_type_set
     is added to the list.
 */
 
-LIST ( TYPE ) uniq_type_set
-    PROTO_N ( ( p ) )
-    PROTO_T ( LIST ( TYPE ) p )
+LIST(TYPE)
+uniq_type_set(LIST(TYPE)p)
 {
-    static LIST ( LIST ( TYPE ) ) sets = NULL_list ( LIST ( TYPE ) ) ;
-    LIST ( LIST ( TYPE ) ) s = sets ;
-    while ( !IS_NULL_list ( s ) ) {
-	LIST ( TYPE ) q = DEREF_list ( HEAD_list ( s ) ) ;
-	if ( eq_type_set ( p, q, 1 ) == 2 ) {
-	    DESTROY_list ( p, SIZE_type ) ;
-	    return ( q ) ;
+	static LIST(LIST(TYPE)) sets = NULL_list(LIST(TYPE));
+	LIST(LIST(TYPE))s = sets;
+	while (!IS_NULL_list(s)) {
+		LIST(TYPE)q = DEREF_list(HEAD_list(s));
+		if (eq_type_set(p, q, 1) == 2) {
+			DESTROY_list(p, SIZE_type);
+			return (q);
+		}
+		s = TAIL_list(s);
 	}
-	s = TAIL_list ( s ) ;
-    }
-    CONS_list ( p, sets, sets ) ;
-    return ( p ) ;
+	CONS_list(p, sets, sets);
+	return (p);
 }
 
 
@@ -308,82 +353,88 @@ LIST ( TYPE ) uniq_type_set
     than t, and 0 otherwise.
 */
 
-int eq_except
-    PROTO_N ( ( s, t ) )
-    PROTO_T ( TYPE s X TYPE t )
+int
+eq_except(TYPE s, TYPE t)
 {
-    unsigned ns, nt ;
-    if ( EQ_type ( s, t ) ) return ( 2 ) ;
-    if ( IS_NULL_type ( s ) ) return ( 0 ) ;
-    if ( IS_NULL_type ( t ) ) return ( 0 ) ;
-    ns = TAG_type ( s ) ;
-    nt = TAG_type ( t ) ;
-    if ( ns != nt ) return ( 2 ) ;
-    ASSERT ( ORDER_type == 18 ) ;
-    switch ( ns ) {
-
-	case type_func_tag : {
-	    /* Function types */
-	    LIST ( TYPE ) es = DEREF_list ( type_func_except ( s ) ) ;
-	    LIST ( TYPE ) et = DEREF_list ( type_func_except ( t ) ) ;
-	    int eq = eq_type_set ( es, et, 0 ) ;
-	    if ( eq ) {
-		TYPE rs, rt ;
-		LIST ( TYPE ) ps = DEREF_list ( type_func_ptypes ( s ) ) ;
-		LIST ( TYPE ) pt = DEREF_list ( type_func_ptypes ( t ) ) ;
-		while ( !IS_NULL_list ( ps ) && !IS_NULL_list ( pt ) ) {
-		    rs = DEREF_type ( HEAD_list ( ps ) ) ;
-		    rt = DEREF_type ( HEAD_list ( pt ) ) ;
-		    if ( eq_except ( rs, rt ) != 2 ) return ( 0 ) ;
-		    pt = TAIL_list ( pt ) ;
-		    ps = TAIL_list ( ps ) ;
+	unsigned ns, nt;
+	if (EQ_type(s, t)) {
+		return (2);
+	}
+	if (IS_NULL_type(s)) {
+		return (0);
+	}
+	if (IS_NULL_type(t)) {
+		return (0);
+	}
+	ns = TAG_type(s);
+	nt = TAG_type(t);
+	if (ns != nt) {
+		return (2);
+	}
+	ASSERT(ORDER_type == 18);
+	switch (ns) {
+	case type_func_tag: {
+		/* Function types */
+		LIST(TYPE)es = DEREF_list(type_func_except(s));
+		LIST(TYPE)et = DEREF_list(type_func_except(t));
+		int eq = eq_type_set(es, et, 0);
+		if (eq) {
+			TYPE rs, rt;
+			LIST(TYPE)ps = DEREF_list(type_func_ptypes(s));
+			LIST(TYPE)pt = DEREF_list(type_func_ptypes(t));
+			while (!IS_NULL_list(ps) && !IS_NULL_list(pt)) {
+				rs = DEREF_type(HEAD_list(ps));
+				rt = DEREF_type(HEAD_list(pt));
+				if (eq_except(rs, rt) != 2) {
+					return (0);
+				}
+				pt = TAIL_list(pt);
+				ps = TAIL_list(ps);
+			}
+			rs = DEREF_type(type_func_ret(s));
+			rt = DEREF_type(type_func_ret(t));
+			if (eq_except(rs, rt) != 2) {
+				return (0);
+			}
 		}
-		rs = DEREF_type ( type_func_ret ( s ) ) ;
-		rt = DEREF_type ( type_func_ret ( t ) ) ;
-		if ( eq_except ( rs, rt ) != 2 ) return ( 0 ) ;
-	    }
-	    return ( eq ) ;
+		return (eq);
 	}
-
-	case type_ptr_tag :
-	case type_ref_tag : {
-	    /* Pointer and reference types */
-	    TYPE ps = DEREF_type ( type_ptr_etc_sub ( s ) ) ;
-	    TYPE pt = DEREF_type ( type_ptr_etc_sub ( t ) ) ;
-	    return ( eq_except ( ps, pt ) ) ;
+	case type_ptr_tag:
+	case type_ref_tag: {
+		/* Pointer and reference types */
+		TYPE ps = DEREF_type(type_ptr_etc_sub(s));
+		TYPE pt = DEREF_type(type_ptr_etc_sub(t));
+		return (eq_except(ps, pt));
 	}
-
-	case type_ptr_mem_tag : {
-	    /* Pointer to member types */
-	    TYPE ps = DEREF_type ( type_ptr_mem_sub ( s ) ) ;
-	    TYPE pt = DEREF_type ( type_ptr_mem_sub ( t ) ) ;
-	    return ( eq_except ( ps, pt ) ) ;
+	case type_ptr_mem_tag: {
+		/* Pointer to member types */
+		TYPE ps = DEREF_type(type_ptr_mem_sub(s));
+		TYPE pt = DEREF_type(type_ptr_mem_sub(t));
+		return (eq_except(ps, pt));
 	}
-
-	case type_array_tag : {
-	    /* Array types */
-	    TYPE ps = DEREF_type ( type_array_sub ( s ) ) ;
-	    TYPE pt = DEREF_type ( type_array_sub ( t ) ) ;
-	    return ( eq_except ( ps, pt ) ) ;
+	case type_array_tag: {
+		/* Array types */
+		TYPE ps = DEREF_type(type_array_sub(s));
+		TYPE pt = DEREF_type(type_array_sub(t));
+		return (eq_except(ps, pt));
 	}
-
-	case type_templ_tag : {
-	    /* Template types */
-	    TOKEN as = DEREF_tok ( type_templ_sort ( s ) ) ;
-	    TOKEN at = DEREF_tok ( type_templ_sort ( t ) ) ;
-	    LIST ( IDENTIFIER ) qs = DEREF_list ( tok_templ_pids ( as ) ) ;
-	    LIST ( IDENTIFIER ) qt = DEREF_list ( tok_templ_pids ( at ) ) ;
-	    int eq = eq_templ_params ( qs, qt ) ;
-	    if ( eq ) {
-		TYPE ps = DEREF_type ( type_templ_defn ( s ) ) ;
-		TYPE pt = DEREF_type ( type_templ_defn ( t ) ) ;
-		eq = eq_except ( ps, pt ) ;
-	    }
-	    restore_templ_params ( qs ) ;
-	    return ( eq ) ;
+	case type_templ_tag: {
+		/* Template types */
+		TOKEN as = DEREF_tok(type_templ_sort(s));
+		TOKEN at = DEREF_tok(type_templ_sort(t));
+		LIST(IDENTIFIER) qs = DEREF_list(tok_templ_pids(as));
+		LIST(IDENTIFIER) qt = DEREF_list(tok_templ_pids(at));
+		int eq = eq_templ_params(qs, qt);
+		if (eq) {
+			TYPE ps = DEREF_type(type_templ_defn(s));
+			TYPE pt = DEREF_type(type_templ_defn(t));
+			eq = eq_except(ps, pt);
+		}
+		restore_templ_params(qs);
+		return (eq);
 	}
-    }
-    return ( 2 ) ;
+	}
+	return (2);
 }
 
 
@@ -397,51 +448,62 @@ int eq_except
     specifier and 0 otherwise.
 */
 
-TYPE exception_type
-    PROTO_N ( ( t, chk ) )
-    PROTO_T ( TYPE t X int chk )
+TYPE
+exception_type(TYPE t, int chk)
 {
-    if ( !IS_NULL_type ( t ) ) {
-	unsigned tag = TAG_type ( t ) ;
-	if ( tag == type_ref_tag ) {
-	    t = DEREF_type ( type_ref_sub ( t ) ) ;
-	    tag = TAG_type ( t ) ;
-	}
-	t = qualify_type ( t, cv_none, 0 ) ;
-	if ( chk ) {
-	    /* Check exception type */
-	    TYPE s = t ;
-	    if ( tag == type_ptr_tag ) {
-		s = DEREF_type ( type_ptr_sub ( s ) ) ;
-		tag = TAG_type ( s ) ;
-	    }
-	    if ( tag == type_compound_tag ) {
-		ERROR err = check_incomplete ( s ) ;
-		if ( !IS_NULL_err ( err ) ) {
-		    /* Can't have an incomplete class */
-		    ERROR err2 = NULL_err ;
-		    switch ( chk ) {
-			case 1 : err2 = ERR_except_throw_incompl () ; break ;
-			case 2 : err2 = ERR_except_handle_incompl () ; break ;
-			case 3 : err2 = ERR_except_spec_incompl () ; break ;
-		    }
-		    err = concat_error ( err, err2 ) ;
-		    report ( crt_loc, err ) ;
+	if (!IS_NULL_type(t)) {
+		unsigned tag = TAG_type(t);
+		if (tag == type_ref_tag) {
+			t = DEREF_type(type_ref_sub(t));
+			tag = TAG_type(t);
 		}
-		if ( chk == 1 ) {
-		    /* Can't throw a type with an ambiguous base */
-		    CLASS_TYPE cs = DEREF_ctype ( type_compound_defn ( s ) ) ;
-		    err = class_info ( cs, cinfo_ambiguous, 1 ) ;
-		    if ( !IS_NULL_err ( err ) ) {
-			ERROR err2 = ERR_except_throw_ambig () ;
-			err = concat_error ( err, err2 ) ;
-			report ( crt_loc, err ) ;
-		    }
+		t = qualify_type(t, cv_none, 0);
+		if (chk) {
+			/* Check exception type */
+			TYPE s = t;
+			if (tag == type_ptr_tag) {
+				s = DEREF_type(type_ptr_sub(s));
+				tag = TAG_type(s);
+			}
+			if (tag == type_compound_tag) {
+				ERROR err = check_incomplete(s);
+				if (!IS_NULL_err(err)) {
+					/* Can't have an incomplete class */
+					ERROR err2 = NULL_err;
+					switch (chk) {
+					case 1:
+						err2 =
+						    ERR_except_throw_incompl();
+						break;
+					case 2:
+						err2 =
+						    ERR_except_handle_incompl();
+						break;
+					case 3:
+						err2 =
+						    ERR_except_spec_incompl();
+						break;
+					}
+					err = concat_error(err, err2);
+					report(crt_loc, err);
+				}
+				if (chk == 1) {
+					/* Can't throw a type with an ambiguous base */
+					CLASS_TYPE cs =
+					    DEREF_ctype(type_compound_defn(s));
+					err = class_info(cs, cinfo_ambiguous,
+							 1);
+					if (!IS_NULL_err(err)) {
+						ERROR err2 =
+						    ERR_except_throw_ambig();
+						err = concat_error(err, err2);
+						report(crt_loc, err);
+					}
+				}
+			}
 		}
-	    }
 	}
-    }
-    return ( t ) ;
+	return (t);
 }
 
 
@@ -453,13 +515,14 @@ TYPE exception_type
     defined in t.
 */
 
-TYPE check_except_type
-    PROTO_N ( ( t, n ) )
-    PROTO_T ( TYPE t X int n )
+TYPE
+check_except_type(TYPE t, int n)
 {
-    if ( n ) report ( crt_loc, ERR_except_spec_typedef () ) ;
-    IGNORE exception_type ( t, 3 ) ;
-    return ( t ) ;
+	if (n) {
+		report(crt_loc, ERR_except_spec_typedef());
+	}
+	IGNORE exception_type(t, 3);
+	return (t);
 }
 
 
@@ -472,9 +535,9 @@ TYPE check_except_type
     try block.
 */
 
-STACK ( EXP ) crt_try_blocks = NULL_stack ( EXP ) ;
-static STACK ( STACK ( EXP ) ) past_try_blocks = NULL_stack ( STACK ( EXP ) ) ;
-int in_func_handler = 0 ;
+STACK(EXP) crt_try_blocks = NULL_stack(EXP);
+static STACK(STACK(EXP)) past_try_blocks = NULL_stack(STACK(EXP));
+int in_func_handler = 0;
 
 
 /*
@@ -486,58 +549,59 @@ int in_func_handler = 0 ;
     is caught by an enclosing handler.
 */
 
-int check_throw
-    PROTO_N ( ( t, expl ) )
-    PROTO_T ( TYPE t X int expl )
+int
+check_throw(TYPE t, int expl)
 {
-    IDENTIFIER fn ;
-    LIST ( EXP ) p = LIST_stack ( crt_try_blocks ) ;
-    while ( !IS_NULL_list ( p ) ) {
-	EXP e = DEREF_exp ( HEAD_list ( p ) ) ;
-	if ( IS_exp_try_block ( e ) ) {
-	    /* Add to list of thrown types */
-	    LIST ( TYPE ) q ;
-	    q = DEREF_list ( exp_try_block_ttypes ( e ) ) ;
-	    if ( !EQ_list ( q, univ_type_set ) ) {
-		LIST ( LOCATION ) ql ;
-		ql = DEREF_list ( exp_try_block_tlocs ( e ) ) ;
-		if ( IS_NULL_type ( t ) ) {
-		    DESTROY_list ( q, SIZE_type ) ;
-		    DESTROY_list ( ql, SIZE_loc ) ;
-		    q = univ_type_set ;
-		    ql = NULL_list ( LOCATION ) ;
-		    CONS_loc ( crt_loc, ql, ql ) ;
-		} else {
-		    if ( !in_type_set ( q, t ) ) {
-			CONS_type ( t, q, q ) ;
-			CONS_loc ( crt_loc, ql, ql ) ;
-		    }
+	IDENTIFIER fn;
+	LIST(EXP) p = LIST_stack(crt_try_blocks);
+	while (!IS_NULL_list(p)) {
+		EXP e = DEREF_exp(HEAD_list(p));
+		if (IS_exp_try_block(e)) {
+			/* Add to list of thrown types */
+			LIST(TYPE)q;
+			q = DEREF_list(exp_try_block_ttypes(e));
+			if (!EQ_list(q, univ_type_set)) {
+				LIST(LOCATION)ql;
+				ql = DEREF_list(exp_try_block_tlocs(e));
+				if (IS_NULL_type(t)) {
+					DESTROY_list(q, SIZE_type);
+					DESTROY_list(ql, SIZE_loc);
+					q = univ_type_set;
+					ql = NULL_list(LOCATION);
+					CONS_loc(crt_loc, ql, ql);
+				} else {
+					if (!in_type_set(q, t)) {
+						CONS_type(t, q, q);
+						CONS_loc(crt_loc, ql, ql);
+					}
+				}
+				COPY_list(exp_try_block_ttypes(e), q);
+				COPY_list(exp_try_block_tlocs(e), ql);
+			}
+			return (1);
 		}
-		COPY_list ( exp_try_block_ttypes ( e ), q ) ;
-		COPY_list ( exp_try_block_tlocs ( e ), ql ) ;
-	    }
-	    return ( 1 ) ;
+		if (IS_NULL_type(t) && expl && IS_exp_handler(e)) {
+			/* Can deduce type of 'throw' inside a handler */
+			IDENTIFIER ex = DEREF_id(exp_handler_except(e));
+			if (!IS_NULL_id(ex)) {
+				t = DEREF_type(id_variable_etc_type(ex));
+				t = exception_type(t, 0);
+			}
+		}
+		p = TAIL_list(p);
 	}
-	if ( IS_NULL_type ( t ) && expl && IS_exp_handler ( e ) ) {
-	    /* Can deduce type of 'throw' inside a handler */
-	    IDENTIFIER ex = DEREF_id ( exp_handler_except ( e ) ) ;
-	    if ( !IS_NULL_id ( ex ) ) {
-		t = DEREF_type ( id_variable_etc_type ( ex ) ) ;
-		t = exception_type ( t, 0 ) ;
-	    }
-	}
-	p = TAIL_list ( p ) ;
-    }
 
-    /* Exception not caught by any try block */
-    fn = crt_func_id ;
-    if ( IS_NULL_type ( t ) ) t = type_any ;
-    if ( IS_NULL_id ( fn ) ) {
-	report ( crt_loc, ERR_except_spec_throw ( t ) ) ;
-    } else {
-	report ( crt_loc, ERR_except_spec_call ( fn, t ) ) ;
-    }
-    return ( 0 ) ;
+	/* Exception not caught by any try block */
+	fn = crt_func_id;
+	if (IS_NULL_type(t)) {
+		t = type_any;
+	}
+	if (IS_NULL_id(fn)) {
+		report(crt_loc, ERR_except_spec_throw(t));
+	} else {
+		report(crt_loc, ERR_except_spec_call(fn, t));
+	}
+	return (0);
 }
 
 
@@ -550,54 +614,56 @@ int check_throw
     returns true if all the exceptions are handled by an enclosing block.
 */
 
-int check_try_block
-    PROTO_N ( ( e ) )
-    PROTO_T ( EXP e )
+int
+check_try_block(EXP e)
 {
-    int res = 1 ;
-    if ( IS_exp_try_block ( e ) ) {
-	LOCATION loc ;
-	LIST ( LOCATION ) ql ;
-	LIST ( TYPE ) p = DEREF_list ( exp_try_block_htypes ( e ) ) ;
-	LIST ( TYPE ) q = DEREF_list ( exp_try_block_ttypes ( e ) ) ;
-	EXP a = DEREF_exp ( exp_try_block_ellipsis ( e ) ) ;
-	if ( EQ_list ( p, univ_type_set ) ) {
-	    /* Have handlers for any type */
-	    return ( 1 ) ;
-	}
-	if ( !IS_NULL_exp ( a ) && IS_exp_handler ( a ) ) {
-	    /* Have a ... handler */
-	    return ( 1 ) ;
-	}
-	bad_crt_loc++ ;
-	loc = crt_loc ;
-	ql = DEREF_list ( exp_try_block_tlocs ( e ) ) ;
-	if ( EQ_list ( q, univ_type_set ) ) {
-	    /* Can throw any type */
-	    DEREF_loc ( HEAD_list ( ql ), crt_loc ) ;
-	    res = check_throw ( NULL_type, 0 ) ;
-	} else {
-	    /* Can throw a finite set of types */
-	    q = REVERSE_list ( q ) ;
-	    ql = REVERSE_list ( ql ) ;
-	    COPY_list ( exp_try_block_ttypes ( e ), q ) ;
-	    COPY_list ( exp_try_block_tlocs ( e ), ql ) ;
-	    while ( !IS_NULL_list ( q ) ) {
-		TYPE t = DEREF_type ( HEAD_list ( q ) ) ;
-		TYPE u = from_type_set ( p, t ) ;
-		if ( IS_NULL_type ( u ) ) {
-		    /* Throw uncaught type to enclosing block */
-		    DEREF_loc ( HEAD_list ( ql ), crt_loc ) ;
-		    if ( !check_throw ( t, 0 ) ) res = 0 ;
+	int res = 1;
+	if (IS_exp_try_block(e)) {
+		LOCATION loc;
+		LIST(LOCATION)ql;
+		LIST(TYPE)p = DEREF_list(exp_try_block_htypes(e));
+		LIST(TYPE)q = DEREF_list(exp_try_block_ttypes(e));
+		EXP a = DEREF_exp(exp_try_block_ellipsis(e));
+		if (EQ_list(p, univ_type_set)) {
+			/* Have handlers for any type */
+			return (1);
 		}
-		ql = TAIL_list ( ql ) ;
-		q = TAIL_list ( q ) ;
-	    }
+		if (!IS_NULL_exp(a) && IS_exp_handler(a)) {
+			/* Have a ... handler */
+			return (1);
+		}
+		bad_crt_loc++;
+		loc = crt_loc;
+		ql = DEREF_list(exp_try_block_tlocs(e));
+		if (EQ_list(q, univ_type_set)) {
+			/* Can throw any type */
+			DEREF_loc(HEAD_list(ql), crt_loc);
+			res = check_throw(NULL_type, 0);
+		} else {
+			/* Can throw a finite set of types */
+			q = REVERSE_list(q);
+			ql = REVERSE_list(ql);
+			COPY_list(exp_try_block_ttypes(e), q);
+			COPY_list(exp_try_block_tlocs(e), ql);
+			while (!IS_NULL_list(q)) {
+				TYPE t = DEREF_type(HEAD_list(q));
+				TYPE u = from_type_set(p, t);
+				if (IS_NULL_type(u)) {
+					/* Throw uncaught type to enclosing
+					 * block */
+					DEREF_loc(HEAD_list(ql), crt_loc);
+					if (!check_throw(t, 0)) {
+						res = 0;
+					}
+				}
+				ql = TAIL_list(ql);
+				q = TAIL_list(q);
+			}
+		}
+		crt_loc = loc;
+		bad_crt_loc--;
 	}
-	crt_loc = loc ;
-	bad_crt_loc-- ;
-    }
-    return ( res ) ;
+	return (res);
 }
 
 
@@ -610,32 +676,35 @@ int check_try_block
     try-block.
 */
 
-int check_func_throw
-    PROTO_N ( ( fn, fid ) )
-    PROTO_T ( TYPE fn X IDENTIFIER fid )
+int
+check_func_throw(TYPE fn, IDENTIFIER fid)
 {
-    int res = 1 ;
-    if ( IS_type_func ( fn ) ) {
-	LIST ( TYPE ) p = DEREF_list ( type_func_except ( fn ) ) ;
-	if ( IS_NULL_list ( p ) ) return ( 1 ) ;
-	if ( EQ_list ( p, univ_type_set ) ) {
-	    /* Can throw any type */
-	    res = check_throw ( NULL_type, 0 ) ;
-	} else {
-	    /* Can throw a finite set of types */
-	    while ( !IS_NULL_list ( p ) ) {
-		TYPE t = DEREF_type ( HEAD_list ( p ) ) ;
-		if ( !IS_NULL_type ( t ) ) {
-		    if ( !check_throw ( t, 0 ) ) res = 0 ;
+	int res = 1;
+	if (IS_type_func(fn)) {
+		LIST(TYPE)p = DEREF_list(type_func_except(fn));
+		if (IS_NULL_list(p)) {
+			return (1);
 		}
-		p = TAIL_list ( p ) ;
-	    }
+		if (EQ_list(p, univ_type_set)) {
+			/* Can throw any type */
+			res = check_throw(NULL_type, 0);
+		} else {
+			/* Can throw a finite set of types */
+			while (!IS_NULL_list(p)) {
+				TYPE t = DEREF_type(HEAD_list(p));
+				if (!IS_NULL_type(t)) {
+					if (!check_throw(t, 0)) {
+						res = 0;
+					}
+				}
+				p = TAIL_list(p);
+			}
+		}
+	} else {
+		res = check_throw(NULL_type, 0);
 	}
-    } else {
-	res = check_throw ( NULL_type, 0 ) ;
-    }
-    UNUSED ( fid ) ;
-    return ( res ) ;
+	UNUSED(fid);
+	return (res);
 }
 
 
@@ -646,17 +715,16 @@ int check_func_throw
     which throws the types p.
 */
 
-void start_try_check
-    PROTO_N ( ( p ) )
-    PROTO_T ( LIST ( TYPE ) p )
+void
+start_try_check(LIST(TYPE) p)
 {
-    EXP e ;
-    MAKE_exp_try_block ( type_void, NULL_exp, 0, e ) ;
-    COPY_list ( exp_try_block_htypes ( e ), p ) ;
-    PUSH_stack ( crt_try_blocks, past_try_blocks ) ;
-    crt_try_blocks = NULL_stack ( EXP ) ;
-    PUSH_exp ( e, crt_try_blocks ) ;
-    return ;
+	EXP e;
+	MAKE_exp_try_block(type_void, NULL_exp, 0, e);
+	COPY_list(exp_try_block_htypes(e), p);
+	PUSH_stack(crt_try_blocks, past_try_blocks);
+	crt_try_blocks = NULL_stack(EXP);
+	PUSH_exp(e, crt_try_blocks);
+	return;
 }
 
 
@@ -667,31 +735,30 @@ void start_try_check
     id with definition a.
 */
 
-EXP end_try_check
-    PROTO_N ( ( id, a ) )
-    PROTO_T ( IDENTIFIER id X EXP a )
+EXP
+end_try_check(IDENTIFIER id, EXP a)
 {
-    EXP e ;
-    POP_exp ( e, crt_try_blocks ) ;
-    POP_stack ( crt_try_blocks, past_try_blocks ) ;
-    if ( !IS_NULL_exp ( e ) && IS_exp_try_block ( e ) ) {
-	IDENTIFIER fid = crt_func_id ;
-	crt_func_id = id ;
-	IGNORE check_try_block ( e ) ;
-	if ( EQ_id ( fid, id ) ) {
-	    LIST ( TYPE ) p = DEREF_list ( exp_try_block_ttypes ( e ) ) ;
-	    if ( IS_NULL_list ( p ) && !in_template_decl ) {
-		/* Function can't throw an exception */
-		DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-		ds |= dspec_friend ;
-		COPY_dspec ( id_storage ( id ), ds ) ;
-	    }
+	EXP e;
+	POP_exp(e, crt_try_blocks);
+	POP_stack(crt_try_blocks, past_try_blocks);
+	if (!IS_NULL_exp(e) && IS_exp_try_block(e)) {
+		IDENTIFIER fid = crt_func_id;
+		crt_func_id = id;
+		IGNORE check_try_block(e);
+		if (EQ_id(fid, id)) {
+			LIST(TYPE)p = DEREF_list(exp_try_block_ttypes(e));
+			if (IS_NULL_list(p) && !in_template_decl) {
+				/* Function can't throw an exception */
+				DECL_SPEC ds = DEREF_dspec(id_storage(id));
+				ds |= dspec_friend;
+				COPY_dspec(id_storage(id), ds);
+			}
+		}
+		COPY_list(exp_try_block_htypes(e), NULL_list(TYPE));
+		free_exp(e, 1);
+		crt_func_id = fid;
 	}
-	COPY_list ( exp_try_block_htypes ( e ), NULL_list ( TYPE ) ) ;
-	free_exp ( e, 1 ) ;
-	crt_func_id = fid ;
-    }
-    return ( a ) ;
+	return (a);
 }
 
 
@@ -712,29 +779,29 @@ EXP end_try_check
     for a function-try-block.
 */
 
-EXP begin_try_stmt
-    PROTO_N ( ( func ) )
-    PROTO_T ( int func )
+EXP
+begin_try_stmt(int func)
 {
-    EXP e ;
-    if ( func ) {
-	/* Check function try blocks */
-	IDENTIFIER fn = crt_func_id ;
-	if ( !IS_NULL_id ( fn ) ) {
-	    HASHID nm = DEREF_hashid ( id_name ( fn ) ) ;
-	    unsigned tag = TAG_hashid ( nm ) ;
-	    if ( tag == hashid_constr_tag || tag == hashid_destr_tag ) {
-		/* Constructors and destructors are marked */
-		func = 2 ;
-	    }
-	} else {
-	    func = 0 ;
+	EXP e;
+	if (func) {
+		/* Check function try blocks */
+		IDENTIFIER fn = crt_func_id;
+		if (!IS_NULL_id(fn)) {
+			HASHID nm = DEREF_hashid(id_name(fn));
+			unsigned tag = TAG_hashid(nm);
+			if (tag == hashid_constr_tag ||
+			    tag == hashid_destr_tag) {
+				/* Constructors and destructors are marked */
+				func = 2;
+			}
+		} else {
+			func = 0;
+		}
 	}
-    }
-    MAKE_exp_try_block ( type_void, NULL_exp, func, e ) ;
-    CONS_exp ( e, all_try_blocks, all_try_blocks ) ;
-    PUSH_exp ( e, crt_try_blocks ) ;
-    return ( e ) ;
+	MAKE_exp_try_block(type_void, NULL_exp, func, e);
+	CONS_exp(e, all_try_blocks, all_try_blocks);
+	PUSH_exp(e, crt_try_blocks);
+	return (e);
 }
 
 
@@ -747,29 +814,28 @@ EXP begin_try_stmt
     is a function-try-block.
 */
 
-void inject_try_stmt
-    PROTO_N ( ( prev ) )
-    PROTO_T ( EXP prev )
+void
+inject_try_stmt(EXP prev)
 {
-    int func = DEREF_int ( exp_try_block_func ( prev ) ) ;
-    if ( func ) {
-	IDENTIFIER id = crt_func_id ;
-	if ( !IS_NULL_id ( id ) && IS_id_function_etc ( id ) ) {
-	    LIST ( IDENTIFIER ) pids ;
-	    NAMESPACE ns = crt_namespace ;
-	    TYPE t = DEREF_type ( id_function_etc_type ( id ) ) ;
-	    while ( IS_type_templ ( t ) ) {
-		t = DEREF_type ( type_templ_defn ( t ) ) ;
-	    }
-	    pids = DEREF_list ( type_func_pids ( t ) ) ;
-	    while ( !IS_NULL_list ( pids ) ) {
-		IDENTIFIER pid = DEREF_id ( HEAD_list ( pids ) ) ;
-		IGNORE redeclare_id ( ns, pid ) ;
-		pids = TAIL_list ( pids ) ;
-	    }
+	int func = DEREF_int(exp_try_block_func(prev));
+	if (func) {
+		IDENTIFIER id = crt_func_id;
+		if (!IS_NULL_id(id) && IS_id_function_etc(id)) {
+			LIST(IDENTIFIER)pids;
+			NAMESPACE ns = crt_namespace;
+			TYPE t = DEREF_type(id_function_etc_type(id));
+			while (IS_type_templ(t)) {
+				t = DEREF_type(type_templ_defn(t));
+			}
+			pids = DEREF_list(type_func_pids(t));
+			while (!IS_NULL_list(pids)) {
+				IDENTIFIER pid = DEREF_id(HEAD_list(pids));
+				IGNORE redeclare_id(ns, pid);
+				pids = TAIL_list(pids);
+			}
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -780,18 +846,19 @@ void inject_try_stmt
     filling in the given body statement.
 */
 
-EXP cont_try_stmt
-    PROTO_N ( ( prev, body ) )
-    PROTO_T ( EXP prev X EXP body )
+EXP
+cont_try_stmt(EXP prev, EXP body)
 {
-    EXP e ;
-    int func = DEREF_int ( exp_try_block_func ( prev ) ) ;
-    if ( func ) in_func_handler = func ;
-    COPY_exp ( exp_try_block_body ( prev ), body ) ;
-    set_parent_stmt ( body, prev ) ;
-    POP_exp ( e, crt_try_blocks ) ;
-    UNUSED ( e ) ;
-    return ( prev ) ;
+	EXP e;
+	int func = DEREF_int(exp_try_block_func(prev));
+	if (func) {
+		in_func_handler = func;
+	}
+	COPY_exp(exp_try_block_body(prev), body);
+	set_parent_stmt(body, prev);
+	POP_exp(e, crt_try_blocks);
+	UNUSED(e);
+	return (prev);
 }
 
 
@@ -803,64 +870,70 @@ EXP cont_try_stmt
     reachability of the following statement.
 */
 
-EXP end_try_stmt
-    PROTO_N ( ( prev, empty ) )
-    PROTO_T ( EXP prev X int empty )
+EXP
+end_try_stmt(EXP prev, int empty)
 {
-    EXP e ;
-    TYPE t ;
-    int all_bottom = 1 ;
-    int func = DEREF_int ( exp_try_block_func ( prev ) ) ;
+	EXP e;
+	TYPE t;
+	int all_bottom = 1;
+	int func = DEREF_int(exp_try_block_func(prev));
 
-    /* Check handler list */
-    EXP ell = DEREF_exp ( exp_try_block_ellipsis ( prev ) ) ;
-    LIST ( EXP ) hs = DEREF_list ( exp_try_block_handlers ( prev ) ) ;
-    LIST ( TYPE ) ps = DEREF_list ( exp_try_block_ttypes ( prev ) ) ;
-    unsigned nh = LENGTH_list ( hs ) ;
-    if ( IS_NULL_exp ( ell ) ) {
-	/* Create default handler if necessary */
-	if ( IS_NULL_list ( hs ) && !empty ) {
-	    /* Check that there is at least one handler */
-	    report ( crt_loc, ERR_except_handlers () ) ;
+	/* Check handler list */
+	EXP ell = DEREF_exp(exp_try_block_ellipsis(prev));
+	LIST(EXP)hs = DEREF_list(exp_try_block_handlers(prev));
+	LIST(TYPE)ps = DEREF_list(exp_try_block_ttypes(prev));
+	unsigned nh = LENGTH_list(hs);
+	if (IS_NULL_exp(ell)) {
+		/* Create default handler if necessary */
+		if (IS_NULL_list(hs) && !empty) {
+			/* Check that there is at least one handler */
+			report(crt_loc, ERR_except_handlers());
+		}
+		MAKE_exp_exception(type_bottom, ell, NULL_exp, NULL_exp, 0,
+				   ell);
+		COPY_exp(exp_try_block_ellipsis(prev), ell);
+	} else {
+		nh++;
 	}
-	MAKE_exp_exception ( type_bottom, ell, NULL_exp, NULL_exp, 0, ell ) ;
-	COPY_exp ( exp_try_block_ellipsis ( prev ), ell ) ;
-    } else {
-	nh++ ;
-    }
-    IGNORE check_value ( OPT_VAL_exception_handlers, ( ulong ) nh ) ;
+	IGNORE check_value(OPT_VAL_exception_handlers,(ulong)nh);
 
-    /* Do unreached code analysis */
-    e = DEREF_exp ( exp_try_block_body ( prev ) ) ;
-    t = DEREF_type ( exp_type ( e ) ) ;
-    if ( IS_type_bottom ( t ) ) {
-	/* Don't reach end of try block */
-	t = DEREF_type ( exp_type ( ell ) ) ;
-	if ( !IS_type_bottom ( t ) ) all_bottom = 0 ;
-	while ( !IS_NULL_list ( hs ) && all_bottom ) {
-	    /* Check the other handlers */
-	    e = DEREF_exp ( HEAD_list ( hs ) ) ;
-	    t = DEREF_type ( exp_type ( e ) ) ;
-	    if ( !IS_type_bottom ( t ) ) all_bottom = 0 ;
-	    hs = TAIL_list ( hs ) ;
+	/* Do unreached code analysis */
+	e = DEREF_exp(exp_try_block_body(prev));
+	t = DEREF_type(exp_type(e));
+	if (IS_type_bottom(t)) {
+		/* Don't reach end of try block */
+		t = DEREF_type(exp_type(ell));
+		if (!IS_type_bottom(t)) {
+			all_bottom = 0;
+		}
+		while (!IS_NULL_list(hs) && all_bottom) {
+			/* Check the other handlers */
+			e = DEREF_exp(HEAD_list(hs));
+			t = DEREF_type(exp_type(e));
+			if (!IS_type_bottom(t)) {
+				all_bottom = 0;
+			}
+			hs = TAIL_list(hs);
+		}
+	} else {
+		/* Reach end of try block */
+		all_bottom = 0;
 	}
-    } else {
-	/* Reach end of try block */
-	all_bottom = 0 ;
-    }
-    if ( all_bottom ) {
-	COPY_type ( exp_type ( prev ), type_bottom ) ;
-	unreached_code = 1 ;
-	unreached_last = 0 ;
-    } else {
-	unreached_code = unreached_prev ;
-    }
-    if ( IS_NULL_list ( ps ) && !empty && !in_template_decl ) {
-	report ( crt_loc, ERR_except_not () ) ;
-    }
-    if ( func ) in_func_handler = 0 ;
-    IGNORE check_try_block ( prev ) ;
-    return ( prev ) ;
+	if (all_bottom) {
+		COPY_type(exp_type(prev), type_bottom);
+		unreached_code = 1;
+		unreached_last = 0;
+	} else {
+		unreached_code = unreached_prev;
+	}
+	if (IS_NULL_list(ps) && !empty && !in_template_decl) {
+		report(crt_loc, ERR_except_not());
+	}
+	if (func) {
+		in_func_handler = 0;
+	}
+	IGNORE check_try_block(prev);
+	return (prev);
 }
 
 
@@ -871,36 +944,37 @@ EXP end_try_stmt
     contain a try block within their scope.
 */
 
-void end_try_blocks
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+void
+end_try_blocks(IDENTIFIER id)
 {
-    LIST ( EXP ) p = all_try_blocks ;
-    if ( !IS_NULL_list ( p ) ) {
-	if ( !IS_NULL_id ( id ) ) {
-	    /* Mark function */
-	    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    ds |= dspec_mutable ;
-	    COPY_dspec ( id_storage ( id ), ds ) ;
-	}
-	while ( !IS_NULL_list ( p ) ) {
-	    EXP a = DEREF_exp ( HEAD_list ( p ) ) ;
-	    while ( !IS_NULL_exp ( a ) ) {
-		if ( IS_exp_decl_stmt ( a ) ) {
-		    IDENTIFIER pid = DEREF_id ( exp_decl_stmt_id ( a ) ) ;
-		    DECL_SPEC ds = DEREF_dspec ( id_storage ( pid ) ) ;
-		    if ( ds & dspec_auto ) {
-			/* Mark local variable */
-			ds |= dspec_mutable ;
-			COPY_dspec ( id_storage ( pid ), ds ) ;
-		    }
+	LIST(EXP)p = all_try_blocks;
+	if (!IS_NULL_list(p)) {
+		if (!IS_NULL_id(id)) {
+			/* Mark function */
+			DECL_SPEC ds = DEREF_dspec(id_storage(id));
+			ds |= dspec_mutable;
+			COPY_dspec(id_storage(id), ds);
 		}
-		a = get_parent_stmt ( a ) ;
-	    }
-	    p = TAIL_list ( p ) ;
+		while (!IS_NULL_list(p)) {
+			EXP a = DEREF_exp(HEAD_list(p));
+			while (!IS_NULL_exp(a)) {
+				if (IS_exp_decl_stmt(a)) {
+					IDENTIFIER pid =
+					    DEREF_id(exp_decl_stmt_id(a));
+					DECL_SPEC ds =
+					    DEREF_dspec(id_storage(pid));
+					if (ds & dspec_auto) {
+						/* Mark local variable */
+						ds |= dspec_mutable;
+						COPY_dspec(id_storage(pid), ds);
+					}
+				}
+				a = get_parent_stmt(a);
+			}
+			p = TAIL_list(p);
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -912,28 +986,29 @@ void end_try_blocks
     the number of types defined in t.
 */
 
-IDENTIFIER make_except_decl
-    PROTO_N ( ( ds, t, id, n ) )
-    PROTO_T ( DECL_SPEC ds X TYPE t X IDENTIFIER id X int n )
+IDENTIFIER
+make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int n)
 {
-    /* Declare id as a local variable */
-    EXP e ;
-    if ( crt_id_qualifier == qual_nested || crt_templ_qualifier ) {
-	/* Other illegal identifiers are caught elsewhere */
-	report ( crt_loc, ERR_dcl_meaning_id ( qual_nested, id ) ) ;
-    }
-    if ( n ) report ( crt_loc, ERR_except_handle_typedef () ) ;
-    t = make_param_type ( t, CONTEXT_PARAMETER ) ;
-    id = make_object_decl ( ds, t, id, 0 ) ;
+	/* Declare id as a local variable */
+	EXP e;
+	if (crt_id_qualifier == qual_nested || crt_templ_qualifier) {
+		/* Other illegal identifiers are caught elsewhere */
+		report(crt_loc, ERR_dcl_meaning_id(qual_nested, id));
+	}
+	if (n) {
+		report(crt_loc, ERR_except_handle_typedef());
+	}
+	t = make_param_type(t, CONTEXT_PARAMETER);
+	id = make_object_decl(ds, t, id, 0);
 
-    /* The initialising value is the current exception */
-    if ( IS_type_ref ( t ) ) {
-	t = DEREF_type ( type_ref_sub ( t ) ) ;
-    }
-    t = lvalue_type ( t ) ;
-    MAKE_exp_thrown ( t, 0, e ) ;
-    IGNORE init_object ( id, e ) ;
-    return ( id ) ;
+	/* The initialising value is the current exception */
+	if (IS_type_ref(t)) {
+		t = DEREF_type(type_ref_sub(t));
+	}
+	t = lvalue_type(t);
+	MAKE_exp_thrown(t, 0, e);
+	IGNORE init_object(id, e);
+	return (id);
 }
 
 
@@ -946,54 +1021,53 @@ IDENTIFIER make_except_decl
     that the handler is '...'.
 */
 
-EXP begin_catch_stmt
-    PROTO_N ( ( block, ex ) )
-    PROTO_T ( EXP block X IDENTIFIER ex )
+EXP
+begin_catch_stmt(EXP block, IDENTIFIER ex)
 {
-    /* Construct the result */
-    EXP e, d ;
-    MAKE_exp_handler ( type_void, ex, NULL_exp, e ) ;
-    COPY_exp ( exp_handler_parent ( e ), block ) ;
-    unreached_code = 0 ;
-    unreached_last = 0 ;
+	/* Construct the result */
+	EXP e, d;
+	MAKE_exp_handler(type_void, ex, NULL_exp, e);
+	COPY_exp(exp_handler_parent(e), block);
+	unreached_code = 0;
+	unreached_last = 0;
 
-    /* Check for '...' handlers */
-    d = DEREF_exp ( exp_try_block_ellipsis ( block ) ) ;
-    if ( !IS_NULL_exp ( d ) ) {
-	/* Already have a '...' handler */
-	report ( crt_loc, ERR_except_handle_ellipsis () ) ;
-	unreached_code = 1 ;
-    } else if ( IS_NULL_id ( ex ) ) {
-	/* Set the '...' handler if necessary */
-	COPY_exp ( exp_try_block_ellipsis ( block ), e ) ;
-    } else {
-	/* Add to list of other handlers */
-	TYPE t0 ;
-	TYPE t, s ;
-	LIST ( EXP ) p, q ;
-	LIST ( TYPE ) u, v ;
+	/* Check for '...' handlers */
+	d = DEREF_exp(exp_try_block_ellipsis(block));
+	if (!IS_NULL_exp(d)) {
+		/* Already have a '...' handler */
+		report(crt_loc, ERR_except_handle_ellipsis());
+		unreached_code = 1;
+	} else if (IS_NULL_id(ex)) {
+		/* Set the '...' handler if necessary */
+		COPY_exp(exp_try_block_ellipsis(block), e);
+	} else {
+		/* Add to list of other handlers */
+		TYPE t0;
+		TYPE t, s;
+		LIST(EXP) p, q;
+		LIST(TYPE) u, v;
 
-	/* Check list of handler types */
-	u = DEREF_list ( exp_try_block_htypes ( block ) ) ;
-	t0 = DEREF_type ( id_variable_etc_type ( ex ) ) ;
-	t = exception_type ( t0, 2 ) ;
-	s = from_type_set ( u, t ) ;
-	if ( !IS_NULL_type ( s ) ) {
-	    report ( crt_loc, ERR_except_handle_unreach ( t0, s ) ) ;
-	    unreached_code = 1 ;
+		/* Check list of handler types */
+		u = DEREF_list(exp_try_block_htypes(block));
+		t0 = DEREF_type(id_variable_etc_type(ex));
+		t = exception_type(t0, 2);
+		s = from_type_set(u, t);
+		if (!IS_NULL_type(s)) {
+			report(crt_loc, ERR_except_handle_unreach(t0, s));
+			unreached_code = 1;
+		}
+		CONS_type(t, NULL_list(TYPE), v);
+		u = APPEND_list(u, v);
+		COPY_list(exp_try_block_htypes(block), u);
+
+		/* Add ex to list of handler expressions */
+		p = DEREF_list(exp_try_block_handlers(block));
+		CONS_exp(e, NULL_list(EXP), q);
+		p = APPEND_list(p, q);
+		COPY_list(exp_try_block_handlers(block), p);
 	}
-	CONS_type ( t, NULL_list ( TYPE ), v ) ;
-	u = APPEND_list ( u, v ) ;
-	COPY_list ( exp_try_block_htypes ( block ), u ) ;
-
-	/* Add ex to list of handler expressions */
-	p = DEREF_list ( exp_try_block_handlers ( block ) ) ;
-	CONS_exp ( e, NULL_list ( EXP ), q ) ;
-	p = APPEND_list ( p, q ) ;
-	COPY_list ( exp_try_block_handlers ( block ), p ) ;
-    }
-    PUSH_exp ( e, crt_try_blocks ) ;
-    return ( e ) ;
+	PUSH_exp(e, crt_try_blocks);
+	return (e);
 }
 
 
@@ -1004,31 +1078,30 @@ EXP begin_catch_stmt
     filling in the given body statement.
 */
 
-EXP end_catch_stmt
-    PROTO_N ( ( prev, body ) )
-    PROTO_T ( EXP prev X EXP body )
+EXP
+end_catch_stmt(EXP prev, EXP body)
 {
-    EXP e ;
-    if ( unreached_code ) {
-	/* Mark unreached statements */
-	COPY_type ( exp_type ( prev ), type_bottom ) ;
-    } else {
-	/* Control reaches end of handler */
-	int func ;
-	e = DEREF_exp ( exp_handler_parent ( prev ) ) ;
-	func = DEREF_int ( exp_try_block_func ( e ) ) ;
-	if ( func == 2 ) {
-	    /* Re-throw current exception */
-	    e = make_throw_exp ( NULL_exp, 0 ) ;
-	    body = add_compound_stmt ( body, e ) ;
-	    COPY_type ( exp_type ( prev ), type_bottom ) ;
+	EXP e;
+	if (unreached_code) {
+		/* Mark unreached statements */
+		COPY_type(exp_type(prev), type_bottom);
+	} else {
+		/* Control reaches end of handler */
+		int func;
+		e = DEREF_exp(exp_handler_parent(prev));
+		func = DEREF_int(exp_try_block_func(e));
+		if (func == 2) {
+			/* Re-throw current exception */
+			e = make_throw_exp(NULL_exp, 0);
+			body = add_compound_stmt(body, e);
+			COPY_type(exp_type(prev), type_bottom);
+		}
 	}
-    }
-    COPY_exp ( exp_handler_body ( prev ), body ) ;
-    set_parent_stmt ( body, prev ) ;
-    POP_exp ( e, crt_try_blocks ) ;
-    UNUSED ( e ) ;
-    return ( prev ) ;
+	COPY_exp(exp_handler_body(prev), body);
+	set_parent_stmt(body, prev);
+	POP_exp(e, crt_try_blocks);
+	UNUSED(e);
+	return (prev);
 }
 
 
@@ -1040,15 +1113,16 @@ EXP end_catch_stmt
     defined in t.
 */
 
-EXP make_throw_arg
-    PROTO_N ( ( t, n ) )
-    PROTO_T ( TYPE t X int n )
+EXP
+make_throw_arg(TYPE t, int n)
 {
-    EXP e ;
-    report ( crt_loc, ERR_except_throw_type () ) ;
-    if ( n ) report ( crt_loc, ERR_except_throw_typedef () ) ;
-    e = make_func_cast_exp ( t, NULL_list ( EXP ) ) ;
-    return ( e ) ;
+	EXP e;
+	report(crt_loc, ERR_except_throw_type());
+	if (n) {
+		report(crt_loc, ERR_except_throw_typedef());
+	}
+	e = make_func_cast_exp(t, NULL_list(EXP));
+	return (e);
 }
 
 
@@ -1060,45 +1134,47 @@ EXP make_throw_arg
     of its own type.
 */
 
-EXP make_throw_exp
-    PROTO_N ( ( a, expl ) )
-    PROTO_T ( EXP a X int expl )
+EXP
+make_throw_exp(EXP a, int expl)
 {
-    EXP e ;
-    EXP b = NULL_exp ;
-    EXP d = NULL_exp ;
-    if ( !IS_NULL_exp ( a ) ) {
-	/* Perform operand conversions on a */
-	TYPE t ;
-	ERROR err ;
-	a = convert_reference ( a, REF_NORMAL ) ;
-	t = DEREF_type ( exp_type ( a ) ) ;
-	if ( !IS_type_compound ( t ) ) {
-	    a = convert_lvalue ( a ) ;
-	    t = DEREF_type ( exp_type ( a ) ) ;
+	EXP e;
+	EXP b = NULL_exp;
+	EXP d = NULL_exp;
+	if (!IS_NULL_exp(a)) {
+		/* Perform operand conversions on a */
+		TYPE t;
+		ERROR err;
+		a = convert_reference(a, REF_NORMAL);
+		t = DEREF_type(exp_type(a));
+		if (!IS_type_compound(t)) {
+			a = convert_lvalue(a);
+			t = DEREF_type(exp_type(a));
+		}
+		t = exception_type(t, 1);
+		IGNORE check_throw(t, 1);
+		b = sizeof_exp(t);
+		err = check_complete(t);
+		if (IS_NULL_err(err)) {
+			/* Exception is assigned to temporary variable */
+			a = init_assign(t, cv_none, a, &err);
+			d = init_default(t, &d, DEFAULT_DESTR, EXTRA_DESTR,
+					 &err);
+			if (!IS_NULL_err(err)) {
+				err = init_error(err, 0);
+			}
+		}
+		if (!IS_NULL_err(err)) {
+			/* Report type errors */
+			err = concat_error(err, ERR_except_throw_copy());
+			report(crt_loc, err);
+		}
+		a = check_return_exp(a, lex_throw);
+	} else {
+		/* Check thrown type */
+		IGNORE check_throw(NULL_type, 1);
 	}
-	t = exception_type ( t, 1 ) ;
-	IGNORE check_throw ( t, 1 ) ;
-	b = sizeof_exp ( t ) ;
-	err = check_complete ( t ) ;
-	if ( IS_NULL_err ( err ) ) {
-	    /* Exception is assigned to temporary variable */
-	    a = init_assign ( t, cv_none, a, &err ) ;
-	    d = init_default ( t, &d, DEFAULT_DESTR, EXTRA_DESTR, &err ) ;
-	    if ( !IS_NULL_err ( err ) ) err = init_error ( err, 0 ) ;
-	}
-	if ( !IS_NULL_err ( err ) ) {
-	    /* Report type errors */
-	    err = concat_error ( err, ERR_except_throw_copy () ) ;
-	    report ( crt_loc, err ) ;
-	}
-	a = check_return_exp ( a, lex_throw ) ;
-    } else {
-	/* Check thrown type */
-	IGNORE check_throw ( NULL_type, 1 ) ;
-    }
-    MAKE_exp_exception ( type_bottom, a, b, d, expl, e ) ;
-    return ( e ) ;
+	MAKE_exp_exception(type_bottom, a, b, d, expl, e);
+	return (e);
 }
 
 

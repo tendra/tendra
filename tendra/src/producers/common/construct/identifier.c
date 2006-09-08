@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997, 1998
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -75,7 +105,7 @@
     expression or similar so that any usages should not be included.
 */
 
-int suppress_usage = 0 ;
+int suppress_usage = 0;
 
 
 /*
@@ -85,64 +115,66 @@ int suppress_usage = 0 ;
     any access controls.
 */
 
-void use_id
-    PROTO_N ( ( id, suppress ) )
-    PROTO_T ( IDENTIFIER id X int suppress )
+void
+use_id(IDENTIFIER id, int suppress)
 {
-    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-    DECL_SPEC acc = ( ds & dspec_access ) ;
-    if ( acc ) check_access ( id, acc ) ;
+	DECL_SPEC ds = DEREF_dspec(id_storage(id));
+	DECL_SPEC acc = (ds & dspec_access);
+	if (acc)check_access(id, acc);
 
-    /* Check usage */
-    if ( ds & dspec_main ) {
-	HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-	switch ( TAG_hashid ( nm ) ) {
-	    case hashid_name_tag : {
-		/* Can't take the address of 'main' */
-		report ( crt_loc, ERR_basic_start_main_addr ( id ) ) ;
-		break ;
-	    }
-	    case hashid_constr_tag : {
-		/* Can't take the address of a constructor */
-		report ( crt_loc, ERR_class_ctor_addr ( id ) ) ;
-		break ;
-	    }
-	    case hashid_destr_tag : {
-		/* Can't take the address of a destructor */
-		report ( crt_loc, ERR_class_dtor_addr ( id ) ) ;
-		break ;
-	    }
+	/* Check usage */
+	if (ds & dspec_main) {
+		HASHID nm = DEREF_hashid(id_name(id));
+		switch (TAG_hashid(nm)) {
+		case hashid_name_tag:
+			/* Can't take the address of 'main' */
+			report(crt_loc, ERR_basic_start_main_addr(id));
+			break;
+		case hashid_constr_tag:
+			/* Can't take the address of a constructor */
+			report(crt_loc, ERR_class_ctor_addr(id));
+			break;
+		case hashid_destr_tag:
+			/* Can't take the address of a destructor */
+			report(crt_loc, ERR_class_dtor_addr(id));
+			break;
+		}
 	}
-    }
 
-    /* Mark use */
-    if ( !( ds & dspec_used ) ) {
-	if ( !suppress ) {
-	    ds |= dspec_used ;
-	    COPY_dspec ( id_storage ( id ), ds ) ;
-	}
-	if ( ds & ( dspec_inherit | dspec_alias | dspec_extern ) ) {
-	    /* Check for inheritance */
-	    IDENTIFIER uid = DEREF_id ( id_alias ( id ) ) ;
-	    if ( !EQ_id ( uid, id ) ) {
-		ds = DEREF_dspec ( id_storage ( uid ) ) ;
-		if ( ds & dspec_used ) {
-		    if ( do_usage ) dump_use ( id, &crt_loc, 1 ) ;
-		    return ;
+	/* Mark use */
+	if (!(ds & dspec_used)) {
+		if (!suppress) {
+			ds |= dspec_used;
+			COPY_dspec(id_storage(id), ds);
 		}
-		if ( !suppress ) {
-		    ds |= dspec_used ;
-		    COPY_dspec ( id_storage ( uid ), ds ) ;
+		if (ds & (dspec_inherit | dspec_alias | dspec_extern)) {
+			/* Check for inheritance */
+			IDENTIFIER uid = DEREF_id(id_alias(id));
+			if (!EQ_id(uid, id)) {
+				ds = DEREF_dspec(id_storage(uid));
+				if (ds & dspec_used) {
+					if (do_usage) {
+						dump_use(id, &crt_loc, 1);
+					}
+					return;
+				}
+				if (!suppress) {
+					ds |= dspec_used;
+					COPY_dspec(id_storage(uid), ds);
+				}
+			}
 		}
-	    }
+		if (!(ds & dspec_defn) && (ds & dspec_instance)) {
+			/* Define template instance */
+			if (!suppress) {
+				define_template(id, 0);
+			}
+		}
 	}
-	if ( !( ds & dspec_defn ) && ( ds & dspec_instance ) ) {
-	    /* Define template instance */
-	    if ( !suppress ) define_template ( id, 0 ) ;
+	if (do_usage) {
+		dump_use(id, &crt_loc, 1);
 	}
-    }
-    if ( do_usage ) dump_use ( id, &crt_loc, 1 ) ;
-    return ;
+	return;
 }
 
 
@@ -154,66 +186,77 @@ void use_id
     to the first call of an identifier.  expl is true for explicit calls.
 */
 
-void use_func_id
-    PROTO_N ( ( id, expl, suppress ) )
-    PROTO_T ( IDENTIFIER id X int expl X int suppress )
+void
+use_func_id(IDENTIFIER id, int expl, int suppress)
 {
-    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-    DECL_SPEC acc = ( ds & dspec_access ) ;
-    if ( acc ) check_access ( id, acc ) ;
-    if ( !( ds & dspec_called ) ) {
-	/* Mark use */
-	if ( !suppress ) {
-	    if ( !( ds & dspec_virtual ) ) ds |= dspec_used ;
-	    ds |= dspec_called ;
-	    COPY_dspec ( id_storage ( id ), ds ) ;
+	DECL_SPEC ds = DEREF_dspec(id_storage(id));
+	DECL_SPEC acc = (ds & dspec_access);
+	if (acc) {
+		check_access(id, acc);
 	}
+	if (!(ds & dspec_called)) {
+		/* Mark use */
+		if (!suppress) {
+			if (!(ds & dspec_virtual)) {
+				ds |= dspec_used;
+			}
+			ds |= dspec_called;
+			COPY_dspec(id_storage(id), ds);
+		}
 
-	/* Check for inheritance */
-	if ( ds & ( dspec_inherit | dspec_alias | dspec_extern ) ) {
-	    IDENTIFIER uid = DEREF_id ( id_alias ( id ) ) ;
-	    if ( !EQ_id ( uid, id ) ) {
-		ds = DEREF_dspec ( id_storage ( uid ) ) ;
-		if ( ds & dspec_called ) {
-		    if ( do_usage ) dump_call ( id, &crt_loc, expl ) ;
-		    return ;
+		/* Check for inheritance */
+		if (ds & (dspec_inherit | dspec_alias | dspec_extern)) {
+			IDENTIFIER uid = DEREF_id(id_alias(id));
+			if (!EQ_id(uid, id)) {
+				ds = DEREF_dspec(id_storage(uid));
+				if (ds & dspec_called) {
+					if (do_usage) {
+						dump_call(id, &crt_loc, expl);
+					}
+					return;
+				}
+				if (!suppress) {
+					if (!(ds & dspec_virtual)) {
+						ds |= dspec_used;
+					}
+					ds |= dspec_called;
+					COPY_dspec(id_storage(uid), ds);
+				}
+			}
 		}
-		if ( !suppress ) {
-		    if ( !( ds & dspec_virtual ) ) ds |= dspec_used ;
-		    ds |= dspec_called ;
-		    COPY_dspec ( id_storage ( uid ), ds ) ;
-		}
-	    }
-	}
 
-	/* Check usage */
-	if ( ds & dspec_main ) {
-	    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-	    if ( IS_hashid_name ( nm ) ) {
-		/* Can't call 'main' */
-		report ( crt_loc, ERR_basic_start_main_call ( id ) ) ;
-	    }
-	}
-	if ( !( ds & dspec_defn ) && !suppress ) {
-	    if ( ds & dspec_implicit ) {
-		/* Define implicitly declared function */
-		implicit_defn ( id, DEFAULT_USR ) ;
-		ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    } else if ( ds & dspec_instance ) {
-		/* Define template function */
-		if ( !( ds & dspec_virtual ) ) {
-		    define_template ( id, 0 ) ;
-		    ds = DEREF_dspec ( id_storage ( id ) ) ;
+		/* Check usage */
+		if (ds & dspec_main) {
+			HASHID nm = DEREF_hashid(id_name(id));
+			if (IS_hashid_name(nm)) {
+				/* Can't call 'main' */
+				report(crt_loc, ERR_basic_start_main_call(id));
+			}
 		}
-	    }
-	    if ( ( ds & dspec_inline ) && !( ds & dspec_defn ) ) {
-		/* An inline function called before it is defined */
-		report ( crt_loc, ERR_dcl_fct_spec_inline_call ( id ) ) ;
-	    }
+		if (!(ds & dspec_defn) && !suppress) {
+			if (ds & dspec_implicit) {
+				/* Define implicitly declared function */
+				implicit_defn(id, DEFAULT_USR);
+				ds = DEREF_dspec(id_storage(id));
+			} else if (ds & dspec_instance) {
+				/* Define template function */
+				if (!(ds & dspec_virtual)) {
+					define_template(id, 0);
+					ds = DEREF_dspec(id_storage(id));
+				}
+			}
+			if ((ds & dspec_inline) && !(ds & dspec_defn)) {
+				/* An inline function called before it is
+				 * defined */
+				report(crt_loc,
+				       ERR_dcl_fct_spec_inline_call(id));
+			}
+		}
 	}
-    }
-    if ( do_usage ) dump_call ( id, &crt_loc, expl ) ;
-    return ;
+	if (do_usage) {
+		dump_call(id, &crt_loc, expl);
+	}
+	return;
 }
 
 
@@ -228,25 +271,24 @@ void use_func_id
     situations.
 */
 
-void reuse_id
-    PROTO_N ( ( id, suppress ) )
-    PROTO_T ( IDENTIFIER id X int suppress )
+void
+reuse_id(IDENTIFIER id, int suppress)
 {
-    DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-    if ( !( ds & dspec_used ) && !suppress ) {
-	ds |= dspec_used ;
-	COPY_dspec ( id_storage ( id ), ds ) ;
-	if ( !( ds & dspec_defn ) ) {
-	    if ( ds & dspec_implicit ) {
-		/* Define implicitly declared function */
-		implicit_defn ( id, DEFAULT_USR ) ;
-	    } else if ( ds & dspec_instance ) {
-		/* Instantiate template functions */
-		define_template ( id, 0 ) ;
-	    }
+	DECL_SPEC ds = DEREF_dspec(id_storage(id));
+	if (!(ds & dspec_used) && !suppress) {
+		ds |= dspec_used;
+		COPY_dspec(id_storage(id), ds);
+		if (!(ds & dspec_defn)) {
+			if (ds & dspec_implicit) {
+				/* Define implicitly declared function */
+				implicit_defn(id, DEFAULT_USR);
+			} else if (ds & dspec_instance) {
+				/* Instantiate template functions */
+				define_template(id, 0);
+			}
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -258,52 +300,52 @@ void reuse_id
     any alias of id.
 */
 
-void define_id
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+void
+define_id(IDENTIFIER id)
 {
-    IDENTIFIER lid = DEREF_id ( id_alias ( id ) ) ;
-    if ( !EQ_id ( lid, id ) ) {
-	/* Check for previous definition */
-	LOCATION loc ;
-	DECL_SPEC ds ;
-	DEREF_loc ( id_loc ( id ), loc ) ;
-	ds = DEREF_dspec ( id_storage ( lid ) ) ;
-	if ( ds & dspec_defn ) {
-	    EXP e = DEREF_exp ( id_variable_etc_init ( lid ) ) ;
-	    if ( IS_NULL_exp ( e ) || !IS_exp_zero ( e ) ) {
-		/* Exclude previous tentative definitions */
-		PTR ( LOCATION ) ploc = id_loc ( lid ) ;
-		ERROR err = ERR_basic_odr_def ( lid, ploc ) ;
-		if ( ds & dspec_c ) {
-		    /* Explain C linkage identifications */
-		    HASHID nm = DEREF_hashid ( id_name ( lid ) ) ;
-		    ERROR err2 = ERR_dcl_link_redecl ( nm, ploc ) ;
-		    err = concat_error ( err, err2 ) ;
+	IDENTIFIER lid = DEREF_id(id_alias(id));
+	if (!EQ_id(lid, id)) {
+		/* Check for previous definition */
+		LOCATION loc;
+		DECL_SPEC ds;
+		DEREF_loc(id_loc(id), loc);
+		ds = DEREF_dspec(id_storage(lid));
+		if (ds & dspec_defn) {
+			EXP e = DEREF_exp(id_variable_etc_init(lid));
+			if (IS_NULL_exp(e) || !IS_exp_zero(e)) {
+				/* Exclude previous tentative definitions */
+				PTR(LOCATION)ploc = id_loc(lid);
+				ERROR err = ERR_basic_odr_def(lid, ploc);
+				if (ds & dspec_c) {
+					/* Explain C linkage identifications */
+					HASHID nm = DEREF_hashid(id_name(lid));
+					ERROR err2 =
+					    ERR_dcl_link_redecl(nm, ploc);
+					err = concat_error(err, err2);
+				}
+				report(loc, err);
+			}
 		}
-		report ( loc, err ) ;
-	    }
-	}
 
-	/* Copy definition */
-	if ( IS_id_function_etc ( id ) ) {
-	    EXP e = DEREF_exp ( id_function_etc_defn ( id ) ) ;
-	    COPY_exp ( id_function_etc_defn ( lid ), e ) ;
-	} else if ( IS_id_variable_etc ( id ) ) {
-	    TYPE t = DEREF_type ( id_variable_etc_type ( id ) ) ;
-	    EXP e = DEREF_exp ( id_variable_etc_init ( id ) ) ;
-	    EXP d = DEREF_exp ( id_variable_etc_term ( id ) ) ;
-	    COPY_exp ( id_variable_etc_init ( lid ), e ) ;
-	    COPY_exp ( id_variable_etc_term ( lid ), d ) ;
-	    COPY_type ( id_variable_etc_type ( lid ), t ) ;
-	}
+		/* Copy definition */
+		if (IS_id_function_etc(id)) {
+			EXP e = DEREF_exp(id_function_etc_defn(id));
+			COPY_exp(id_function_etc_defn(lid), e);
+		} else if (IS_id_variable_etc(id)) {
+			TYPE t = DEREF_type(id_variable_etc_type(id));
+			EXP e = DEREF_exp(id_variable_etc_init(id));
+			EXP d = DEREF_exp(id_variable_etc_term(id));
+			COPY_exp(id_variable_etc_init(lid), e);
+			COPY_exp(id_variable_etc_term(lid), d);
+			COPY_type(id_variable_etc_type(lid), t);
+		}
 
-	/* Record definition */
-	ds |= dspec_defn ;
-	COPY_dspec ( id_storage ( lid ), ds ) ;
-	DEREF_loc ( id_loc ( lid ), loc ) ;
-    }
-    return ;
+		/* Record definition */
+		ds |= dspec_defn;
+		COPY_dspec(id_storage(lid), ds);
+		DEREF_loc(id_loc(lid), loc);
+	}
+	return;
 }
 
 
@@ -317,16 +359,17 @@ void define_id
     which is its own alias.
 */
 
-IDENTIFIER chase_alias
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+IDENTIFIER
+chase_alias(IDENTIFIER id)
 {
-    while ( !IS_NULL_id ( id ) ) {
-	IDENTIFIER lid = DEREF_id ( id_alias ( id ) ) ;
-	if ( EQ_id ( lid, id ) ) break ;
-	id = lid ;
-    }
-    return ( id ) ;
+	while (!IS_NULL_id(id)) {
+		IDENTIFIER lid = DEREF_id(id_alias(id));
+		if (EQ_id(lid, id)) {
+			break;
+		}
+		id = lid;
+	}
+	return (id);
 }
 
 
@@ -337,8 +380,8 @@ IDENTIFIER chase_alias
     qualified.
 */
 
-QUALIFIER crt_id_qualifier = qual_none ;
-int crt_templ_qualifier = 0 ;
+QUALIFIER crt_id_qualifier = qual_none;
+int crt_templ_qualifier = 0;
 
 
 /*
@@ -350,65 +393,67 @@ int crt_templ_qualifier = 0 ;
     legal identifiers.
 */
 
-ERROR check_id_name
-    PROTO_N ( ( id, loc ) )
-    PROTO_T ( IDENTIFIER id X int loc )
+ERROR
+check_id_name(IDENTIFIER id, int loc)
 {
-    /* Check on namespace component */
-    ERROR err = NULL_err ;
-    QUALIFIER cq = crt_id_qualifier ;
-    switch ( cq ) {
-	case qual_none : {
-	    /* No namespace specifier */
-	    if ( in_template_decl && is_templ_alias ( id ) ) {
-		/* Check for hiding of template parameters */
-		err = ERR_temp_local_hide ( id ) ;
-		if ( !IS_NULL_err ( err ) ) return ( err ) ;
-	    }
-	    if ( crt_templ_qualifier ) goto qualifier_lab ;
-	    break ;
+	/* Check on namespace component */
+	ERROR err = NULL_err;
+	QUALIFIER cq = crt_id_qualifier;
+	switch (cq) {
+	case qual_none: {
+		/* No namespace specifier */
+		if (in_template_decl && is_templ_alias(id)) {
+			/* Check for hiding of template parameters */
+			err = ERR_temp_local_hide(id);
+			if (!IS_NULL_err(err)) {
+				return (err);
+			}
+		}
+		if (crt_templ_qualifier) {
+			goto qualifier_lab;
+		}
+		break;
 	}
-	case qual_nested :
-	qualifier_lab : {
-	    /* Nested namespace specifier */
-	    if ( loc == CONTEXT_PARAMETER || loc == CONTEXT_TEMPL_PARAM ) {
-		err = ERR_dcl_meaning_id ( cq, id ) ;
-		if ( !IS_NULL_err ( err ) ) return ( err ) ;
-	    }
-	    break ;
+	case qual_nested:
+qualifier_lab:
+		/* Nested namespace specifier */
+		if (loc == CONTEXT_PARAMETER || loc == CONTEXT_TEMPL_PARAM) {
+			err = ERR_dcl_meaning_id(cq, id);
+			if (!IS_NULL_err(err)) {
+				return (err);
+			}
+		}
+		break;
+	case qual_full:
+	case qual_top:
+		/* Namespace specifier beginning with '::' */
+		err = ERR_dcl_meaning_full(cq, id);
+		if (!IS_NULL_err(err)) {
+			return (err);
+		}
+		goto qualifier_lab;
 	}
-	case qual_full :
-	case qual_top : {
-	    /* Namespace specifier beginning with '::' */
-	    err = ERR_dcl_meaning_full ( cq, id ) ;
-	    if ( !IS_NULL_err ( err ) ) return ( err ) ;
-	    goto qualifier_lab ;
-	}
-    }
 
-    /* Check on name component */
-    if ( loc != CONTEXT_FUNCTION && loc != CONTEXT_FUNC_MEMBER ) {
-	HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-	switch ( TAG_hashid ( nm ) ) {
-	    case hashid_constr_tag : {
-		/* A constructor must be a member function */
-		err = ERR_class_mem_ctor ( id ) ;
-		break ;
-	    }
-	    case hashid_destr_tag : {
-		/* A destructor must be a member function */
-		err = ERR_class_dtor_func ( nm ) ;
-		break ;
-	    }
-	    case hashid_conv_tag :
-	    case hashid_op_tag : {
-		/* These must be functions */
-		err = ERR_dcl_meaning_id ( cq, id ) ;
-		break ;
-	    }
+	/* Check on name component */
+	if (loc != CONTEXT_FUNCTION && loc != CONTEXT_FUNC_MEMBER) {
+		HASHID nm = DEREF_hashid(id_name(id));
+		switch (TAG_hashid(nm)) {
+		case hashid_constr_tag:
+			/* A constructor must be a member function */
+			err = ERR_class_mem_ctor(id);
+			break;
+		case hashid_destr_tag:
+			/* A destructor must be a member function */
+			err = ERR_class_dtor_func(nm);
+			break;
+		case hashid_conv_tag:
+		case hashid_op_tag:
+			/* These must be functions */
+			err = ERR_dcl_meaning_id(cq, id);
+			break;
+		}
 	}
-    }
-    return ( err ) ;
+	return (err);
 }
 
 
@@ -421,61 +466,62 @@ ERROR check_id_name
     It is used to declare implicit functions.
 */
 
-IDENTIFIER declare_func
-    PROTO_N ( ( ds, id, ret, p, ell, ex ) )
-    PROTO_T ( DECL_SPEC ds X IDENTIFIER id X TYPE ret X TYPE *p X
-	      int ell X LIST ( TYPE ) ex )
+IDENTIFIER
+declare_func(DECL_SPEC ds, IDENTIFIER id, TYPE ret, TYPE *p, int ell,
+	     LIST(TYPE) ex)
 {
-    /* Save certain information */
-    TYPE t ;
-    CV_SPEC cv ;
-    DECL_SPEC acc = crt_access ;
-    int td = have_type_declaration ;
-    QUALIFIER cq = crt_id_qualifier ;
-    int tq = crt_templ_qualifier ;
-    crt_access = dspec_public ;
-    crt_id_qualifier = qual_none ;
-    crt_templ_qualifier = 0 ;
-    have_type_declaration = TYPE_DECL_NONE ;
+	/* Save certain information */
+	TYPE t;
+	CV_SPEC cv;
+	DECL_SPEC acc = crt_access;
+	int td = have_type_declaration;
+	QUALIFIER cq = crt_id_qualifier;
+	int tq = crt_templ_qualifier;
+	crt_access = dspec_public;
+	crt_id_qualifier = qual_none;
+	crt_templ_qualifier = 0;
+	have_type_declaration = TYPE_DECL_NONE;
 
-    /* Declare parameters */
-    decl_loc = crt_loc ;
-    begin_param ( id ) ;
-    while ( !IS_NULL_type ( *p ) ) {
-	HASHID nm = lookup_anon () ;
-        IDENTIFIER pid = DEREF_id ( hashid_id ( nm ) ) ;
-        pid = make_param_decl ( dspec_none, *p, pid, CONTEXT_PARAMETER ) ;
-        init_param ( pid, NULL_exp ) ;
-	p++ ;
-    }
-    if ( IS_NULL_type ( ret ) ) ret = type_inferred ;
-    cv = func_linkage ( cv_none ) ;
-    t = make_func_type ( ret, ell, cv, ex ) ;
-    end_param () ;
-
-    /* Declare the function */
-    if ( in_class_defn ) {
-#if LANGUAGE_CPP
-	if ( ds & dspec_friend ) {
-	    id = make_friend_decl ( ds, t, id, 0, 1 ) ;
-	} else {
-	    id = make_func_mem_decl ( ds, t, id, 0 ) ;
+	/* Declare parameters */
+	decl_loc = crt_loc;
+	begin_param(id);
+	while (!IS_NULL_type(*p)) {
+		HASHID nm = lookup_anon();
+		IDENTIFIER pid = DEREF_id(hashid_id(nm));
+		pid = make_param_decl(dspec_none, *p, pid, CONTEXT_PARAMETER);
+		init_param(pid, NULL_exp);
+		p++;
 	}
+	if (IS_NULL_type(ret)) {
+		ret = type_inferred;
+	}
+	cv = func_linkage(cv_none);
+	t = make_func_type(ret, ell, cv, ex);
+	end_param();
+
+	/* Declare the function */
+	if (in_class_defn) {
+#if LANGUAGE_CPP
+		if (ds & dspec_friend) {
+			id = make_friend_decl(ds, t, id, 0, 1);
+		} else {
+			id = make_func_mem_decl(ds, t, id, 0);
+		}
 #else
-	id = make_member_decl ( ds, t, id, 0 ) ;
+		id = make_member_decl(ds, t, id, 0);
 #endif
-    } else {
-	id = make_func_decl ( ds, t, id, 0 ) ;
-    }
-    if ( do_dump ) {
-	dump_implicit = 1 ;
-	dump_declare ( id, &decl_loc, 0 ) ;
-    }
-    have_type_declaration = td ;
-    crt_templ_qualifier = tq ;
-    crt_id_qualifier = cq ;
-    crt_access = acc ;
-    return ( id ) ;
+	} else {
+		id = make_func_decl(ds, t, id, 0);
+	}
+	if (do_dump) {
+		dump_implicit = 1;
+		dump_declare(id, &decl_loc, 0);
+	}
+	have_type_declaration = td;
+	crt_templ_qualifier = tq;
+	crt_id_qualifier = cq;
+	crt_access = acc;
+	return (id);
 }
 
 
@@ -488,151 +534,156 @@ IDENTIFIER declare_func
     the corresponding identifier expression.
 */
 
-EXP implicit_id_exp
-    PROTO_N ( ( id, fn ) )
-    PROTO_T ( IDENTIFIER id X int fn )
+EXP
+implicit_id_exp(IDENTIFIER id, int fn)
 {
-    EXP e ;
-    ERROR err ;
-    LOCATION loc ;
-    DECL_SPEC ds ;
-    IDENTIFIER pid ;
-    DECL_SPEC cl = crt_linkage ;
-    QUALIFIER cq = crt_id_qualifier ;
-    int tq = crt_templ_qualifier ;
-    NAMESPACE cns = crt_namespace ;
-    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-    NAMESPACE ns = DEREF_nspace ( id_parent ( id ) ) ;
+	EXP e;
+	ERROR err;
+	LOCATION loc;
+	DECL_SPEC ds;
+	IDENTIFIER pid;
+	DECL_SPEC cl = crt_linkage;
+	QUALIFIER cq = crt_id_qualifier;
+	int tq = crt_templ_qualifier;
+	NAMESPACE cns = crt_namespace;
+	HASHID nm = DEREF_hashid(id_name(id));
+	NAMESPACE ns = DEREF_nspace(id_parent(id));
 
-    /* Check for implicit function declarations */
-    if ( fn == 2 && option ( OPT_func_impl ) == OPTION_DISALLOW ) fn = 1 ;
-
-    /* Allow for template dependent declarations */
-    if ( in_template_decl && is_templ_nspace ( cns ) ) {
-	int opt = OPT_templ_undecl ;
-	OPTION sev = option ( opt ) ;
-	if ( sev != OPTION_ALLOW ) {
-	    /* Implicit declarations for dependent identifiers */
-	    if ( dependent_id ( id ) ) {
-		opt = OPT_none ;
-		sev = OPTION_ALLOW ;
-	    }
+	/* Check for implicit function declarations */
+	if (fn == 2 && option(OPT_func_impl) == OPTION_DISALLOW) {
+		fn = 1;
 	}
-	if ( sev != OPTION_DISALLOW ) {
-	    if ( sev != OPTION_ALLOW && fn != 2 ) {
-		if ( cq == qual_none ) {
-		    err = ERR_lookup_unqual_undef ( nm ) ;
-		} else {
-		    err = ERR_lookup_qual_undef ( nm, ns ) ;
+
+	/* Allow for template dependent declarations */
+	if (in_template_decl && is_templ_nspace(cns)) {
+		int opt = OPT_templ_undecl;
+		OPTION sev = option(opt);
+		if (sev != OPTION_ALLOW) {
+			/* Implicit declarations for dependent identifiers */
+			if (dependent_id(id)) {
+				opt = OPT_none;
+				sev = OPTION_ALLOW;
+			}
 		}
-		err = set_severity ( err, opt, 0 ) ;
-		report ( crt_loc, err ) ;
-	    }
-	    MAKE_exp_undeclared ( type_templ_param, id, cq, e ) ;
-	    return ( e ) ;
-	}
-	if ( cq == qual_none ) ns = NULL_nspace ;
-    }
-
-    /* Check for previous declaration */
-    if ( IS_NULL_nspace ( ns ) ) {
-	OPTION sev = option ( OPT_decl_unify ) ;
-	if ( sev != OPTION_OFF ) {
-	    LIST ( IDENTIFIER ) p ;
-	    NAMESPACE pns = nonblock_namespace ;
-	    p = DEREF_list ( nspace_named_etc_extra ( pns ) ) ;
-	    pid = unify_extern ( id, NULL_type, pns, p ) ;
-	    if ( !IS_NULL_id ( pid ) ) {
-		if ( sev != OPTION_ON ) {
-		    err = ERR_lookup_unqual_vis ( pid ) ;
-		    err = set_severity ( err, OPT_decl_unify, 0 ) ;
-		    report ( crt_loc, err ) ;
+		if (sev != OPTION_DISALLOW) {
+			if (sev != OPTION_ALLOW && fn != 2) {
+				if (cq == qual_none) {
+					err = ERR_lookup_unqual_undef(nm);
+				} else {
+					err = ERR_lookup_qual_undef(nm, ns);
+				}
+				err = set_severity(err, opt, 0);
+				report(crt_loc, err);
+			}
+			MAKE_exp_undeclared(type_templ_param, id, cq, e);
+			return (e);
 		}
-		e = make_id_exp ( pid ) ;
-		return ( e ) ;
-	    }
+		if (cq == qual_none) {
+			ns = NULL_nspace;
+		}
 	}
-	ns = cns ;
-    }
 
-    /* Rescan identifier */
-    pid = search_id ( ns, nm, 0, 0 ) ;
-    if ( !IS_NULL_id ( pid ) ) {
-	switch ( TAG_id ( pid ) ) {
-	    case id_variable_tag :
-	    case id_function_tag : {
-		e = make_id_exp ( pid ) ;
-		return ( e ) ;
-	    }
+	/* Check for previous declaration */
+	if (IS_NULL_nspace(ns)) {
+		OPTION sev = option(OPT_decl_unify);
+		if (sev != OPTION_OFF) {
+			LIST(IDENTIFIER)p;
+			NAMESPACE pns = nonblock_namespace;
+			p = DEREF_list(nspace_named_etc_extra(pns));
+			pid = unify_extern(id, NULL_type, pns, p);
+			if (!IS_NULL_id(pid)) {
+				if (sev != OPTION_ON) {
+					err = ERR_lookup_unqual_vis(pid);
+					err = set_severity(err, OPT_decl_unify,
+							   0);
+					report(crt_loc, err);
+				}
+				e = make_id_exp(pid);
+				return (e);
+			}
+		}
+		ns = cns;
 	}
-    }
 
-    /* Find namespace for declaration */
-    crt_linkage = dspec_c ;
-    crt_id_qualifier = qual_none ;
-    crt_templ_qualifier = 0 ;
-    push_namespace ( ns ) ;
-    bad_crt_loc++ ;
-    loc = crt_loc ;
-    if ( crt_state_depth == 0 ) {
-	/* Find identifier location */
-	IDENTIFIER uid = underlying_id ( id ) ;
-	DEREF_loc ( id_loc ( uid ), crt_loc ) ;
-    }
+	/* Rescan identifier */
+	pid = search_id(ns, nm, 0, 0);
+	if (!IS_NULL_id(pid)) {
+		switch (TAG_id(pid)) {
+		case id_variable_tag:
+		case id_function_tag: {
+			e = make_id_exp(pid);
+			return (e);
+		}
+		}
+	}
 
-    if ( fn ) {
-	/* Implicit functions declarations */
-	int ell ;
-	TYPE ret = type_sint ;
-	TYPE pars = NULL_type ;
+	/* Find namespace for declaration */
+	crt_linkage = dspec_c;
+	crt_id_qualifier = qual_none;
+	crt_templ_qualifier = 0;
+	push_namespace(ns);
+	bad_crt_loc++;
+	loc = crt_loc;
+	if (crt_state_depth == 0) {
+		/* Find identifier location */
+		IDENTIFIER uid = underlying_id(id);
+		DEREF_loc(id_loc(uid), crt_loc);
+	}
+
+	if (fn) {
+		/* Implicit functions declarations */
+		int ell;
+		TYPE ret = type_sint;
+		TYPE pars = NULL_type;
 #if LANGUAGE_CPP
-	/* Type is 'int ( ... )' in C++ */
-	ell = FUNC_ELLIPSIS ;
-	if ( fn == 1 ) ret = type_error ;
+		/* Type is 'int ( ... )' in C++ */
+		ell = FUNC_ELLIPSIS;
+		if (fn == 1) {
+			ret = type_error;
+		}
 #else
-	/* Type is 'int ()' in C */
-	ell = FUNC_NO_PARAMS ;
+		/* Type is 'int ()' in C */
+		ell = FUNC_NO_PARAMS;
 #endif
-	ds = ( dspec_extern | dspec_ignore ) ;
-	id = declare_func ( ds, id, ret, &pars, ell, empty_type_set ) ;
-
-    } else {
-	/* Other implicit declarations */
-	decl_loc = crt_loc ;
-	id = make_object_decl ( dspec_none, type_error, id, 0 ) ;
-	IGNORE init_object ( id, NULL_exp ) ;
-    }
-
-    /* Report error */
-    crt_linkage = cl ;
-    crt_templ_qualifier = tq ;
-    crt_id_qualifier = cq ;
-    if ( fn == 2 ) {
-	pid = DEREF_id ( id_alias ( id ) ) ;
-	ds = DEREF_dspec ( id_storage ( pid ) ) ;
-	if ( ds & dspec_temp ) {
-	    /* Implicit declaration already reported */
-	    err = NULL_err ;
+		ds = (dspec_extern | dspec_ignore);
+		id = declare_func(ds, id, ret, &pars, ell, empty_type_set);
 	} else {
-	    err = ERR_expr_call_undecl ( id ) ;
-	    if ( !IS_NULL_err ( err ) ) {
-		ds |= dspec_temp ;
-		COPY_dspec ( id_storage ( pid ), ds ) ;
-	    }
+		/* Other implicit declarations */
+		decl_loc = crt_loc;
+		id = make_object_decl(dspec_none, type_error, id, 0);
+		IGNORE init_object(id, NULL_exp);
 	}
-    } else if ( cq == qual_none ) {
-	err = ERR_lookup_unqual_undef ( nm ) ;
-    } else {
-	err = ERR_lookup_qual_undef ( nm, ns ) ;
-    }
-    report ( crt_loc, err ) ;
 
-    /* Construct the result */
-    crt_loc = loc ;
-    bad_crt_loc-- ;
-    IGNORE pop_namespace () ;
-    e = make_id_exp ( id ) ;
-    return ( e ) ;
+	/* Report error */
+	crt_linkage = cl;
+	crt_templ_qualifier = tq;
+	crt_id_qualifier = cq;
+	if (fn == 2) {
+		pid = DEREF_id(id_alias(id));
+		ds = DEREF_dspec(id_storage(pid));
+		if (ds & dspec_temp) {
+			/* Implicit declaration already reported */
+			err = NULL_err;
+		} else {
+			err = ERR_expr_call_undecl(id);
+			if (!IS_NULL_err(err)) {
+				ds |= dspec_temp;
+				COPY_dspec(id_storage(pid), ds);
+			}
+		}
+	} else if (cq == qual_none) {
+		err = ERR_lookup_unqual_undef(nm);
+	} else {
+		err = ERR_lookup_qual_undef(nm, ns);
+	}
+	report(crt_loc, err);
+
+	/* Construct the result */
+	crt_loc = loc;
+	bad_crt_loc--;
+	IGNORE pop_namespace();
+	e = make_id_exp(id);
+	return (e);
 }
 
 
@@ -643,7 +694,7 @@ EXP implicit_id_exp
     its ambiguous identifier which match its type argument.
 */
 
-static LIST ( IDENTIFIER ) ambig_meanings = NULL_list ( IDENTIFIER ) ;
+static LIST(IDENTIFIER) ambig_meanings = NULL_list(IDENTIFIER);
 
 
 /*
@@ -653,58 +704,57 @@ static LIST ( IDENTIFIER ) ambig_meanings = NULL_list ( IDENTIFIER ) ;
     error list err.
 */
 
-static unsigned list_ambiguous
-    PROTO_N ( ( id, n, err, type, rec ) )
-    PROTO_T ( IDENTIFIER id X unsigned n X ERROR *err X int type X int rec )
+static unsigned
+list_ambiguous(IDENTIFIER id, unsigned n, ERROR *err, int type, int rec)
 {
-    if ( !IS_NULL_id ( id ) ) {
-	switch ( TAG_id ( id ) ) {
-	    case id_ambig_tag : {
-		/* Ambiguous identifiers */
-		LIST ( IDENTIFIER ) p = DEREF_list ( id_ambig_ids ( id ) ) ;
-		rec = DEREF_int ( id_ambig_over ( id ) ) ;
-		while ( !IS_NULL_list ( p ) ) {
-		    id = DEREF_id ( HEAD_list ( p ) ) ;
-		    n = list_ambiguous ( id, n, err, type, rec ) ;
-		    p = TAIL_list ( p ) ;
+	if (!IS_NULL_id(id)) {
+		switch (TAG_id(id)) {
+		case id_ambig_tag: {
+			/* Ambiguous identifiers */
+			LIST(IDENTIFIER) p = DEREF_list(id_ambig_ids(id));
+			rec = DEREF_int(id_ambig_over(id));
+			while (!IS_NULL_list(p)) {
+				id = DEREF_id(HEAD_list(p));
+				n = list_ambiguous(id, n, err, type, rec);
+				p = TAIL_list(p);
+			}
+			break;
 		}
-		break ;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
-		/* Functions */
-		if ( rec ) {
-		    IDENTIFIER over ;
-		    over = DEREF_id ( id_function_etc_over ( id ) ) ;
-		    n = list_ambiguous ( over, n, err, type, rec ) ;
+		case id_function_tag:
+		case id_mem_func_tag:
+		case id_stat_mem_func_tag: {
+			/* Functions */
+			if (rec) {
+				IDENTIFIER over;
+				over = DEREF_id(id_function_etc_over(id));
+				n = list_ambiguous(over, n, err, type, rec);
+			}
+			goto default_lab;
 		}
-		goto default_lab ;
-	    }
-	    case id_class_name_tag :
-	    case id_class_alias_tag :
-	    case id_enum_name_tag :
-	    case id_enum_alias_tag :
-	    case id_type_alias_tag : {
-		/* Types */
-		type = 0 ;
-		goto default_lab ;
-	    }
-	    default :
-	    default_lab : {
-		/* Other identifiers */
-		PTR ( LOCATION ) loc = id_loc ( id ) ;
-		n++ ;
-		add_error ( err, ERR_fail_list_item ( n, id, loc ) ) ;
-		break ;
-	    }
+		case id_class_name_tag:
+		case id_class_alias_tag:
+		case id_enum_name_tag:
+		case id_enum_alias_tag:
+		case id_type_alias_tag: {
+			/* Types */
+			type = 0;
+			goto default_lab;
+		}
+		default:
+default_lab: {
+		     /* Other identifiers */
+		     PTR(LOCATION) loc = id_loc(id);
+		     n++;
+		     add_error(err, ERR_fail_list_item(n, id, loc));
+		     break;
+	     }
+		}
+		if (type == 0) {
+			/* Add to list of meanings */
+			CONS_id(id, ambig_meanings, ambig_meanings);
+		}
 	}
-	if ( type == 0 ) {
-	    /* Add to list of meanings */
-	    CONS_id ( id, ambig_meanings, ambig_meanings ) ;
-	}
-    }
-    return ( n ) ;
+	return (n);
 }
 
 
@@ -718,40 +768,39 @@ static unsigned list_ambiguous
     first meaning is returned.  Otherwise the null identifier is returned.
 */
 
-IDENTIFIER report_ambiguous
-    PROTO_N ( ( id, type, rec, force ) )
-    PROTO_T ( IDENTIFIER id X int type X int rec X int force )
+IDENTIFIER
+report_ambiguous(IDENTIFIER id, int type, int rec, int force)
 {
-    ERROR err, err2 ;
-    LIST ( IDENTIFIER ) p ;
-    NAMESPACE ns = DEREF_nspace ( id_parent ( id ) ) ;
+	ERROR err, err2;
+	LIST(IDENTIFIER) p;
+	NAMESPACE ns = DEREF_nspace(id_parent(id));
 
-    /* List all meanings */
-    if ( !IS_NULL_nspace ( ns ) && IS_nspace_ctype ( ns ) ) {
-	err = ERR_lookup_ambig_mem ( id ) ;
-    } else {
-	err = ERR_lookup_ambig_id ( id ) ;
-    }
-    err2 = ERR_lookup_ambig_list () ;
-    if ( !IS_NULL_err ( err2 ) ) {
-	unsigned n = 0 ;
-	err = concat_error ( err, err2 ) ;
-	n = list_ambiguous ( id, n, &err, type, rec ) ;
-	err = concat_error ( err, ERR_fail_list_end ( n ) ) ;
-    }
-    report ( crt_loc, err ) ;
-
-    /* Check for resolved meaning */
-    id = NULL_id ;
-    p = ambig_meanings ;
-    if ( !IS_NULL_list ( p ) ) {
-	if ( IS_NULL_list ( TAIL_list ( p ) ) || force ) {
-	    id = DEREF_id ( HEAD_list ( p ) ) ;
+	/* List all meanings */
+	if (!IS_NULL_nspace(ns) && IS_nspace_ctype(ns)) {
+		err = ERR_lookup_ambig_mem(id);
+	} else {
+		err = ERR_lookup_ambig_id(id);
 	}
-	DESTROY_list ( p, SIZE_id ) ;
-	ambig_meanings = NULL_list ( IDENTIFIER ) ;
-    }
-    return ( id ) ;
+	err2 = ERR_lookup_ambig_list();
+	if (!IS_NULL_err(err2)) {
+		unsigned n = 0;
+		err = concat_error(err, err2);
+		n = list_ambiguous(id, n, &err, type, rec);
+		err = concat_error(err, ERR_fail_list_end(n));
+	}
+	report(crt_loc, err);
+
+	/* Check for resolved meaning */
+	id = NULL_id;
+	p = ambig_meanings;
+	if (!IS_NULL_list(p)) {
+		if (IS_NULL_list(TAIL_list(p)) || force) {
+			id = DEREF_id(HEAD_list(p));
+		}
+		DESTROY_list(p, SIZE_id);
+		ambig_meanings = NULL_list(IDENTIFIER);
+	}
+	return (id);
 }
 
 
@@ -763,20 +812,19 @@ IDENTIFIER report_ambiguous
     which all the cases share.
 */
 
-DECL_SPEC find_ambig_dspec
-    PROTO_N ( ( pids ) )
-    PROTO_T ( LIST ( IDENTIFIER ) pids )
+DECL_SPEC
+find_ambig_dspec(LIST(IDENTIFIER) pids)
 {
-    DECL_SPEC ds = ( dspec_implicit | dspec_template ) ;
-    while ( !IS_NULL_list ( pids ) ) {
-	IDENTIFIER pid = DEREF_id ( HEAD_list ( pids ) ) ;
-	if ( !IS_NULL_id ( pid ) ) {
-	    DECL_SPEC pds = DEREF_dspec ( id_storage ( pid ) ) ;
-	    ds &= pds ;
+	DECL_SPEC ds = (dspec_implicit | dspec_template);
+	while (!IS_NULL_list(pids)) {
+		IDENTIFIER pid = DEREF_id(HEAD_list(pids));
+		if (!IS_NULL_id(pid)) {
+			DECL_SPEC pds = DEREF_dspec(id_storage(pid));
+			ds &= pds;
+		}
+		pids = TAIL_list(pids);
 	}
-	pids = TAIL_list ( pids ) ;
-    }
-    return ( ds ) ;
+	return (ds);
 }
 
 
@@ -789,182 +837,171 @@ DECL_SPEC find_ambig_dspec
     out properly during overload resolution (see resolve_cast).
 */
 
-EXP make_id_exp
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+EXP
+make_id_exp(IDENTIFIER id)
 {
-    EXP e ;
-    unsigned tag = TAG_id ( id ) ;
-    QUALIFIER cq = crt_id_qualifier ;
-    switch ( tag ) {
-
-	case id_variable_tag :
-	case id_parameter_tag : {
-	    /* Variables and parameters */
-	    TYPE t ;
-	    DECL_SPEC ds ;
-	    use_id ( id, 0 ) ;
-	    ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    if ( ds & dspec_auto ) {
-		/* Check use of automatic variable */
-		NAMESPACE ns = crt_namespace ;
-		switch ( TAG_nspace ( ns ) ) {
-		    case nspace_block_tag :
-		    case nspace_dummy_tag : {
-			if ( really_in_function_defn > 1 ) {
-			    /* Used in nested function */
-			    IDENTIFIER fid ;
-			    ns = DEREF_nspace ( id_parent ( id ) ) ;
-			    fid = DEREF_id ( nspace_name ( ns ) ) ;
-			    if ( !EQ_id ( fid, crt_func_id ) ) {
-				ERROR err = ERR_class_local_auto ( id ) ;
-				report ( crt_loc, err ) ;
-			    }
+	EXP e;
+	unsigned tag = TAG_id(id);
+	QUALIFIER cq = crt_id_qualifier;
+	switch (tag) {
+	case id_variable_tag:
+	case id_parameter_tag: {
+		/* Variables and parameters */
+		TYPE t;
+		DECL_SPEC ds;
+		use_id(id, 0);
+		ds = DEREF_dspec(id_storage(id));
+		if (ds & dspec_auto) {
+			/* Check use of automatic variable */
+			NAMESPACE ns = crt_namespace;
+			switch (TAG_nspace(ns)) {
+			case nspace_block_tag:
+			case nspace_dummy_tag: {
+				if (really_in_function_defn > 1) {
+					/* Used in nested function */
+					IDENTIFIER fid;
+					ns = DEREF_nspace(id_parent(id));
+					fid = DEREF_id(nspace_name(ns));
+					if (!EQ_id(fid, crt_func_id)) {
+						ERROR err =
+						    ERR_class_local_auto(id);
+						report(crt_loc, err);
+					}
+				}
+				break;
 			}
-			break ;
-		    }
-		    case nspace_param_tag :
-		    case nspace_templ_tag : {
-			/* Used in default argument */
-			if ( in_default_arg ) {
-			    ERROR err = ERR_dcl_fct_default_param ( id ) ;
-			    report ( crt_loc, err ) ;
+			case nspace_param_tag:
+			case nspace_templ_tag: {
+				/* Used in default argument */
+				if (in_default_arg) {
+					ERROR err =
+					    ERR_dcl_fct_default_param(id);
+					report(crt_loc, err);
+				}
+				break;
 			}
-			break ;
-		    }
-		    default : {
-			/* Used in local class */
-			ERROR err = ERR_class_local_auto ( id ) ;
-			report ( crt_loc, err ) ;
-			break ;
-		    }
+			default: {
+				/* Used in local class */
+				ERROR err = ERR_class_local_auto(id);
+				report(crt_loc, err);
+				break;
+			}
+			}
 		}
-	    }
-	    t = DEREF_type ( id_variable_etc_type ( id ) ) ;
-	    if ( ( ds & dspec_extern ) && cv_extern ) {
-		CV_SPEC cv = DEREF_cv ( type_qual ( t ) ) ;
-		t = qualify_type ( t, ( cv | cv_extern ), 0 ) ;
-		used_extern_volatile = 1 ;
-	    }
-	    MAKE_exp_identifier ( t, id, cq, e ) ;
-	    break ;
-	}
-
-	case id_stat_member_tag : {
-	    /* Static data members */
-	    TYPE t ;
-	    DECL_SPEC ds ;
-	    use_id ( id, suppress_usage ) ;
-	    ds = DEREF_dspec ( id_storage ( id ) ) ;
-	    if ( ds & dspec_inherit ) id = DEREF_id ( id_alias ( id ) ) ;
-	    t = DEREF_type ( id_stat_member_type ( id ) ) ;
-	    if ( ( ds & dspec_extern ) && cv_extern ) {
-		CV_SPEC cv = DEREF_cv ( type_qual ( t ) ) ;
-		t = qualify_type ( t, ( cv | cv_extern ), 0 ) ;
-		used_extern_volatile = 1 ;
-	    }
-	    MAKE_exp_identifier ( t, id, cq, e ) ;
-	    break ;
-	}
-
-	case id_function_tag : {
-	    /* Normal functions */
-	    TYPE t = DEREF_type ( id_function_type ( id ) ) ;
-	    MAKE_exp_identifier ( t, id, cq, e ) ;
-	    break ;
-	}
-
-	case id_stat_mem_func_tag : {
-	    /* Static member functions */
-	    TYPE t = DEREF_type ( id_stat_mem_func_type ( id ) ) ;
-	    IDENTIFIER over = DEREF_id ( id_stat_mem_func_over ( id ) ) ;
-	    if ( IS_NULL_id ( over ) ) {
-		MAKE_exp_identifier ( t, id, cq, e ) ;
-	    } else {
-		MAKE_exp_member ( t, id, cq, e ) ;
-	    }
-	    break ;
-	}
-
-	case id_mem_func_tag : {
-	    /* Non-static member functions */
-	    TYPE t = DEREF_type ( id_mem_func_type ( id ) ) ;
-	    MAKE_exp_member ( t, id, cq, e ) ;
-	    break ;
-	}
-
-	case id_member_tag : {
-	    /* Non-static members */
-	    TYPE t = DEREF_type ( id_member_type ( id ) ) ;
-	    MAKE_exp_member ( t, id, cq, e ) ;
-	    break ;
-	}
-
-	case id_enumerator_tag : {
-	    /* Enumerators */
-	    NAT n ;
-	    TYPE t ;
-	    use_id ( id, 0 ) ;
-	    e = DEREF_exp ( id_enumerator_value ( id ) ) ;
-	    DECONS_exp_int_lit ( t, n, tag, e ) ;
-	    MAKE_exp_int_lit ( t, n, tag, e ) ;
-	    break ;
-	}
-
-	case id_token_tag : {
-	    /* Tokens */
-	    TOKEN tok = DEREF_tok ( id_token_sort ( id ) ) ;
-	    switch ( TAG_tok ( tok ) ) {
-		case tok_exp_tag :
-		case tok_nat_tag :
-		case tok_snat_tag :
-		case tok_stmt_tag : {
-		    /* Expression tokens */
-		    use_id ( id, 0 ) ;
-		    id = DEREF_id ( id_token_alt ( id ) ) ;
-		    e = apply_exp_token ( id, NULL_list ( TOKEN ), 0 ) ;
-		    break ;
+		t = DEREF_type(id_variable_etc_type(id));
+		if ((ds & dspec_extern) && cv_extern) {
+			CV_SPEC cv = DEREF_cv(type_qual(t));
+			t = qualify_type(t,(cv | cv_extern), 0);
+			used_extern_volatile = 1;
 		}
-		default : {
-		    /* Other tokens */
-		    goto default_lab ;
+		MAKE_exp_identifier(t, id, cq, e);
+		break;
+	}
+	case id_stat_member_tag: {
+		/* Static data members */
+		TYPE t;
+		DECL_SPEC ds;
+		use_id(id, suppress_usage);
+		ds = DEREF_dspec(id_storage(id));
+		if (ds & dspec_inherit) {
+			id = DEREF_id(id_alias(id));
 		}
-	    }
-	    break ;
+		t = DEREF_type(id_stat_member_type(id));
+		if ((ds & dspec_extern) && cv_extern) {
+			CV_SPEC cv = DEREF_cv(type_qual(t));
+			t = qualify_type(t,(cv | cv_extern), 0);
+			used_extern_volatile = 1;
+		}
+		MAKE_exp_identifier(t, id, cq, e);
+		break;
 	}
-
-	case id_class_name_tag :
-	case id_enum_name_tag :
-	case id_class_alias_tag :
-	case id_enum_alias_tag :
-	case id_type_alias_tag : {
-	    /* Type names */
-	    TYPE t = DEREF_type ( id_class_name_etc_defn ( id ) ) ;
-	    report ( crt_loc, ERR_expr_prim_type ( id ) ) ;
-	    MAKE_exp_value ( t, e ) ;
-	    break ;
+	case id_function_tag: {
+		/* Normal functions */
+		TYPE t = DEREF_type(id_function_type(id));
+		MAKE_exp_identifier(t, id, cq, e);
+		break;
 	}
-
-	case id_ambig_tag : {
-	    /* Ambiguous identifiers */
-	    MAKE_exp_ambiguous ( type_error, id, cq, e ) ;
-	    break ;
+	case id_stat_mem_func_tag: {
+		/* Static member functions */
+		TYPE t = DEREF_type(id_stat_mem_func_type(id));
+		IDENTIFIER over = DEREF_id(id_stat_mem_func_over(id));
+		if (IS_NULL_id(over)) {
+			MAKE_exp_identifier(t, id, cq, e);
+		} else {
+			MAKE_exp_member(t, id, cq, e);
+		}
+		break;
 	}
-
-	default :
-	default_lab : {
-	    /* Undefined identifiers */
-	    if ( cq == qual_none && in_template_decl ) {
-		/* Create a dummy identifier */
-		HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-		NAMESPACE ns = nonblock_namespace ;
-		MAKE_id_undef ( nm, dspec_none, ns, crt_loc, id ) ;
-	    }
-	    MAKE_exp_undeclared ( type_error, id, cq, e ) ;
-	    break ;
+	case id_mem_func_tag: {
+		/* Non-static member functions */
+		TYPE t = DEREF_type(id_mem_func_type(id));
+		MAKE_exp_member(t, id, cq, e);
+		break;
 	}
-    }
-    return ( e ) ;
+	case id_member_tag: {
+		/* Non-static members */
+		TYPE t = DEREF_type(id_member_type(id));
+		MAKE_exp_member(t, id, cq, e);
+		break;
+	}
+	case id_enumerator_tag: {
+		/* Enumerators */
+		NAT n;
+		TYPE t;
+		use_id(id, 0);
+		e = DEREF_exp(id_enumerator_value(id));
+		DECONS_exp_int_lit(t, n, tag, e);
+		MAKE_exp_int_lit(t, n, tag, e);
+		break;
+	}
+	case id_token_tag: {
+		/* Tokens */
+		TOKEN tok = DEREF_tok(id_token_sort(id));
+		switch (TAG_tok(tok)) {
+		case tok_exp_tag:
+		case tok_nat_tag:
+		case tok_snat_tag:
+		case tok_stmt_tag:
+			/* Expression tokens */
+			use_id(id, 0);
+			id = DEREF_id(id_token_alt(id));
+			e = apply_exp_token(id, NULL_list(TOKEN), 0);
+			break;
+		default:
+			/* Other tokens */
+			goto default_lab;
+		}
+		break;
+	}
+	case id_class_name_tag:
+	case id_enum_name_tag:
+	case id_class_alias_tag:
+	case id_enum_alias_tag:
+	case id_type_alias_tag: {
+		/* Type names */
+		TYPE t = DEREF_type(id_class_name_etc_defn(id));
+		report(crt_loc, ERR_expr_prim_type(id));
+		MAKE_exp_value(t, e);
+		break;
+	}
+	case id_ambig_tag: {
+		/* Ambiguous identifiers */
+		MAKE_exp_ambiguous(type_error, id, cq, e);
+		break;
+	}
+	default:
+default_lab:
+		/* Undefined identifiers */
+		if (cq == qual_none && in_template_decl) {
+			/* Create a dummy identifier */
+			HASHID nm = DEREF_hashid(id_name(id));
+			NAMESPACE ns = nonblock_namespace;
+			MAKE_id_undef(nm, dspec_none, ns, crt_loc, id);
+		}
+		MAKE_exp_undeclared(type_error, id, cq, e);
+		break;
+	}
+	return (e);
 }
 
 
@@ -975,26 +1012,25 @@ EXP make_id_exp
     If use is true then the parameter is marked as used.
 */
 
-IDENTIFIER this_param
-    PROTO_N ( ( fn, use ) )
-    PROTO_T ( IDENTIFIER fn X int use )
+IDENTIFIER
+this_param(IDENTIFIER fn, int use)
 {
-    NAMESPACE ns ;
-    IDENTIFIER pid ;
-    HASHID nm = KEYWORD ( lex_this_Hname ) ;
-    TYPE t = DEREF_type ( id_mem_func_type ( fn ) ) ;
-    while ( IS_type_templ ( t ) ) {
-	t = DEREF_type ( type_templ_defn ( t ) ) ;
-    }
-    ns = DEREF_nspace ( type_func_pars ( t ) ) ;
-    pid = search_id ( ns, nm, 0, 0 ) ;
-    if ( !IS_NULL_id ( pid ) && use ) {
-	/* Mark parameter as used */
-	DECL_SPEC ds = DEREF_dspec ( id_storage ( pid ) ) ;
-	ds |= dspec_used ;
-	COPY_dspec ( id_storage ( pid ), ds ) ;
-    }
-    return ( pid ) ;
+	NAMESPACE ns;
+	IDENTIFIER pid;
+	HASHID nm = KEYWORD(lex_this_Hname);
+	TYPE t = DEREF_type(id_mem_func_type(fn));
+	while (IS_type_templ(t)) {
+		t = DEREF_type(type_templ_defn(t));
+	}
+	ns = DEREF_nspace(type_func_pars(t));
+	pid = search_id(ns, nm, 0, 0);
+	if (!IS_NULL_id(pid) && use) {
+		/* Mark parameter as used */
+		DECL_SPEC ds = DEREF_dspec(id_storage(pid));
+		ds |= dspec_used;
+		COPY_dspec(id_storage(pid), ds);
+	}
+	return (pid);
 }
 
 
@@ -1007,29 +1043,29 @@ IDENTIFIER this_param
     with name given by lex_this_Hname.
 */
 
-EXP make_this_exp
-    PROTO_Z ()
+EXP
+make_this_exp(void)
 {
-    EXP e ;
-    TYPE t ;
-    IDENTIFIER fn = crt_func_id ;
-    if ( in_function_defn && IS_id_mem_func ( fn ) ) {
-	/* The current value of 'this' is returned */
-        IDENTIFIER pid = this_param ( fn, 1 ) ;
-	if ( in_default_arg ) {
-	    /* Can't use 'this' in default argument */
-	    ERROR err = ERR_dcl_fct_default_param ( pid ) ;
-	    report ( crt_loc, err ) ;
+	EXP e;
+	TYPE t;
+	IDENTIFIER fn = crt_func_id;
+	if (in_function_defn && IS_id_mem_func(fn)) {
+		/* The current value of 'this' is returned */
+		IDENTIFIER pid = this_param(fn, 1);
+		if (in_default_arg) {
+			/* Can't use 'this' in default argument */
+			ERROR err = ERR_dcl_fct_default_param(pid);
+			report(crt_loc, err);
+		}
+		e = DEREF_exp(id_parameter_init(pid));
+		t = DEREF_type(exp_type(e));
+		MAKE_exp_copy(t, e, e);
+	} else {
+		/* Must be inside a non-static member function */
+		report(crt_loc, ERR_expr_prim_this());
+		e = make_error_exp(0);
 	}
-	e = DEREF_exp ( id_parameter_init ( pid ) ) ;
-	t = DEREF_type ( exp_type ( e ) ) ;
-	MAKE_exp_copy ( t, e, e ) ;
-    } else {
-	/* Must be inside a non-static member function */
-	report ( crt_loc, ERR_expr_prim_this () ) ;
-	e = make_error_exp ( 0 ) ;
-    }
-    return ( e ) ;
+	return (e);
 }
 
 
@@ -1041,20 +1077,19 @@ EXP make_this_exp
     The null expression is returned if we are outside of a member function.
 */
 
-EXP make_this_ref
-    PROTO_N ( ( pns ) )
-    PROTO_T ( NAMESPACE *pns )
+EXP
+make_this_ref(NAMESPACE *pns)
 {
-    IDENTIFIER fn = crt_func_id ;
-    if ( in_function_defn && IS_id_mem_func ( fn ) ) {
-	EXP e ;
-        IDENTIFIER pid = this_param ( fn, 1 ) ;
-	TYPE t = DEREF_type ( id_parameter_type ( pid ) ) ;
-	MAKE_exp_identifier ( t, pid, qual_none, e ) ;
-	*pns = DEREF_nspace ( id_parent ( fn ) ) ;
-	return ( e ) ;
-    }
-    return ( NULL_exp ) ;
+	IDENTIFIER fn = crt_func_id;
+	if (in_function_defn && IS_id_mem_func(fn)) {
+		EXP e;
+		IDENTIFIER pid = this_param(fn, 1);
+		TYPE t = DEREF_type(id_parameter_type(pid));
+		MAKE_exp_identifier(t, pid, qual_none, e);
+		*pns = DEREF_nspace(id_parent(fn));
+		return (e);
+	}
+	return (NULL_exp);
 }
 
 
@@ -1069,51 +1104,50 @@ EXP make_this_ref
     the 'this' expression.
 */
 
-EXP make_this_decl
-    PROTO_N ( ( fn ) )
-    PROTO_T ( IDENTIFIER fn )
+EXP
+make_this_decl(IDENTIFIER fn)
 {
-    /* Look up identifier */
-    EXP e ;
-    TYPE t ;
-    IDENTIFIER pid ;
-    LIST ( TYPE ) mtypes ;
-    NAMESPACE ns = crt_namespace ;
-    HASHID nm = KEYWORD ( lex_this_Hname ) ;
-    MEMBER mem = search_member ( ns, nm, 1 ) ;
-    IDENTIFIER qid = DEREF_id ( member_id ( mem ) ) ;
-    DECL_SPEC ds = ( dspec_auto | dspec_defn | dspec_implicit ) ;
+	/* Look up identifier */
+	EXP e;
+	TYPE t;
+	IDENTIFIER pid;
+	LIST(TYPE) mtypes;
+	NAMESPACE ns = crt_namespace;
+	HASHID nm = KEYWORD(lex_this_Hname);
+	MEMBER mem = search_member(ns, nm, 1);
+	IDENTIFIER qid = DEREF_id(member_id(mem));
+	DECL_SPEC ds = (dspec_auto | dspec_defn | dspec_implicit);
 
-    /* Construct the type of the parameter */
-    TYPE f = DEREF_type ( id_mem_func_type ( fn ) ) ;
-    while ( IS_type_templ ( f ) ) {
-	f = DEREF_type ( type_templ_defn ( f ) ) ;
-    }
-    mtypes = DEREF_list ( type_func_mtypes ( f ) ) ;
-    t = DEREF_type ( HEAD_list ( mtypes ) ) ;
+	/* Construct the type of the parameter */
+	TYPE f = DEREF_type(id_mem_func_type(fn));
+	while (IS_type_templ(f)) {
+		f = DEREF_type(type_templ_defn(f));
+	}
+	mtypes = DEREF_list(type_func_mtypes(f));
+	t = DEREF_type(HEAD_list(mtypes));
 
-    /* Declare parameter */
-    MAKE_id_parameter ( nm, ds, ns, crt_loc, t, pid ) ;
-    if ( !IS_NULL_id ( qid ) ) {
-	qid = DEREF_id ( id_alias ( qid ) ) ;
-	COPY_id ( id_alias ( pid ), qid ) ;
-    }
-    COPY_id ( hashid_cache ( nm ), pid ) ;
-    COPY_id ( member_id ( mem ), pid ) ;
+	/* Declare parameter */
+	MAKE_id_parameter(nm, ds, ns, crt_loc, t, pid);
+	if (!IS_NULL_id(qid)) {
+		qid = DEREF_id(id_alias(qid));
+		COPY_id(id_alias(pid), qid);
+	}
+	COPY_id(hashid_cache(nm), pid);
+	COPY_id(member_id(mem), pid);
 
-    /* Construct the 'this' expression */
-    t = DEREF_type ( type_ref_sub ( t ) ) ;
-    t = rvalue_type ( t ) ;
-    if ( option ( OPT_this_lvalue ) == OPTION_ALLOW ) {
-	MAKE_type_ptr ( cv_lvalue, t, t ) ;
-	MAKE_exp_identifier ( t, pid, qual_none, e ) ;
-    } else {
-	MAKE_type_ptr ( cv_none, t, t ) ;
-	MAKE_exp_identifier ( t, pid, qual_none, e ) ;
-	MAKE_exp_contents ( t, e, e ) ;
-    }
-    COPY_exp ( id_parameter_init ( pid ), e ) ;
-    return ( e ) ;
+	/* Construct the 'this' expression */
+	t = DEREF_type(type_ref_sub(t));
+	t = rvalue_type(t);
+	if (option(OPT_this_lvalue) == OPTION_ALLOW) {
+		MAKE_type_ptr(cv_lvalue, t, t);
+		MAKE_exp_identifier(t, pid, qual_none, e);
+	} else {
+		MAKE_type_ptr(cv_none, t, t);
+		MAKE_exp_identifier(t, pid, qual_none, e);
+		MAKE_exp_contents(t, e, e);
+	}
+	COPY_exp(id_parameter_init(pid), e);
+	return (e);
 }
 
 
@@ -1123,35 +1157,36 @@ EXP make_this_decl
     This routine checks whether the expression e is a 'this' expression.
 */
 
-int is_this_exp
-    PROTO_N ( ( e ) )
-    PROTO_T ( EXP e )
+int
+is_this_exp(EXP e)
 {
-    if ( !IS_NULL_exp ( e ) ) {
-	unsigned tag = TAG_exp ( e ) ;
-	if ( tag == exp_indir_tag ) {
-	    e = DEREF_exp ( exp_indir_ptr ( e ) ) ;
-	    tag = TAG_exp ( e ) ;
+	if (!IS_NULL_exp(e)) {
+		unsigned tag = TAG_exp(e);
+		if (tag == exp_indir_tag) {
+			e = DEREF_exp(exp_indir_ptr(e));
+			tag = TAG_exp(e);
+		}
+		if (tag == exp_copy_tag) {
+			e = DEREF_exp(exp_copy_arg(e));
+			tag = TAG_exp(e);
+		}
+		if (tag == exp_contents_tag) {
+			e = DEREF_exp(exp_contents_ptr(e));
+			tag = TAG_exp(e);
+		}
+		if (tag == exp_copy_tag) {
+			e = DEREF_exp(exp_copy_arg(e));
+			tag = TAG_exp(e);
+		}
+		if (tag == exp_identifier_tag) {
+			IDENTIFIER id = DEREF_id(exp_identifier_id(e));
+			HASHID nm = DEREF_hashid(id_name(id));
+			if (EQ_KEYWORD(nm, lex_this_Hname)) {
+				return (1);
+			}
+		}
 	}
-	if ( tag == exp_copy_tag ) {
-	    e = DEREF_exp ( exp_copy_arg ( e ) ) ;
-	    tag = TAG_exp ( e ) ;
-	}
-	if ( tag == exp_contents_tag ) {
-	    e = DEREF_exp ( exp_contents_ptr ( e ) ) ;
-	    tag = TAG_exp ( e ) ;
-	}
-	if ( tag == exp_copy_tag ) {
-	    e = DEREF_exp ( exp_copy_arg ( e ) ) ;
-	    tag = TAG_exp ( e ) ;
-	}
-	if ( tag == exp_identifier_tag ) {
-	    IDENTIFIER id = DEREF_id ( exp_identifier_id ( e ) ) ;
-	    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-	    if ( EQ_KEYWORD ( nm, lex_this_Hname ) ) return ( 1 ) ;
-	}
-    }
-    return ( 0 ) ;
+	return (0);
 }
 
 
@@ -1161,23 +1196,22 @@ int is_this_exp
     This routine returns the ellipsis parameter of the function fn.
 */
 
-IDENTIFIER ellipsis_param
-    PROTO_N ( ( fn ) )
-    PROTO_T ( IDENTIFIER fn )
+IDENTIFIER
+ellipsis_param(IDENTIFIER fn)
 {
-    int ell ;
-    TYPE t = DEREF_type ( id_function_etc_type ( fn ) ) ;
-    while ( IS_type_templ ( t ) ) {
-	t = DEREF_type ( type_templ_defn ( t ) ) ;
-    }
-    ell = DEREF_int ( type_func_ellipsis ( t ) ) ;
-    if ( ell & FUNC_ELLIPSIS ) {
-	HASHID nm = KEYWORD ( lex_ellipsis_Hexp ) ;
-	NAMESPACE ns = DEREF_nspace ( type_func_pars ( t ) ) ;
-	IDENTIFIER pid = search_id ( ns, nm, 0, 0 ) ;
-	return ( pid ) ;
-    }
-    return ( NULL_id ) ;
+	int ell;
+	TYPE t = DEREF_type(id_function_etc_type(fn));
+	while (IS_type_templ(t)) {
+		t = DEREF_type(type_templ_defn(t));
+	}
+	ell = DEREF_int(type_func_ellipsis(t));
+	if (ell & FUNC_ELLIPSIS) {
+		HASHID nm = KEYWORD(lex_ellipsis_Hexp);
+		NAMESPACE ns = DEREF_nspace(type_func_pars(t));
+		IDENTIFIER pid = search_id(ns, nm, 0, 0);
+		return (pid);
+	}
+	return (NULL_id);
 }
 
 
@@ -1189,31 +1223,31 @@ IDENTIFIER ellipsis_param
     declared.
 */
 
-static TYPE find_ellipsis_type
-    PROTO_N ( ( force ) )
-    PROTO_T ( int force )
+static TYPE
+find_ellipsis_type(int force)
 {
-    TYPE t = type_ellipsis ;
-    if ( IS_NULL_type ( t ) ) {
-	/* Look up token if not already defined */
-	IDENTIFIER tid = get_special ( TOK_va_t, 1 ) ;
-	if ( !IS_NULL_id ( tid ) && IS_id_token ( tid ) ) {
-	    tid = DEREF_id ( id_token_alt ( tid ) ) ;
-	    if ( IS_id_class_name_etc ( tid ) ) {
-		t = DEREF_type ( id_class_name_etc_defn ( tid ) ) ;
-		type_ellipsis = t ;
-	    }
+	TYPE t = type_ellipsis;
+	if (IS_NULL_type(t)) {
+		/* Look up token if not already defined */
+		IDENTIFIER tid = get_special(TOK_va_t, 1);
+		if (!IS_NULL_id(tid) && IS_id_token(tid)) {
+			tid = DEREF_id(id_token_alt(tid));
+			if (IS_id_class_name_etc(tid)) {
+				t = DEREF_type(id_class_name_etc_defn(tid));
+				type_ellipsis = t;
+			}
+		}
+		if (IS_NULL_type(t)) {
+			if (force) {
+				/* Report if ellipsis type is undefined */
+				HASHID nm = KEYWORD(lex_ellipsis_Hexp);
+				report(crt_loc,
+				       ERR_lib_builtin(NULL_string, nm));
+			}
+			t = type_error;
+		}
 	}
-	if ( IS_NULL_type ( t ) ) {
-	    if ( force ) {
-		/* Report if ellipsis type is undefined */
-		HASHID nm = KEYWORD ( lex_ellipsis_Hexp ) ;
-		report ( crt_loc, ERR_lib_builtin ( NULL_string, nm ) ) ;
-	    }
-	    t = type_error ;
-	}
-    }
-    return ( t ) ;
+	return (t);
 }
 
 
@@ -1224,24 +1258,24 @@ static TYPE find_ellipsis_type
     ellipsis component of the function id.
 */
 
-void make_ellipsis_decl
-    PROTO_Z ()
+void
+make_ellipsis_decl(void)
 {
-    IDENTIFIER pid ;
-    NAMESPACE ns = crt_namespace ;
-    TYPE t = find_ellipsis_type ( 0 ) ;
-    HASHID nm = KEYWORD ( lex_ellipsis_Hexp ) ;
-    MEMBER mem = search_member ( ns, nm, 1 ) ;
-    IDENTIFIER qid = DEREF_id ( member_id ( mem ) ) ;
-    DECL_SPEC ds = ( dspec_auto | dspec_defn | dspec_implicit ) ;
-    MAKE_id_parameter ( nm, ds, ns, crt_loc, t, pid ) ;
-    if ( !IS_NULL_id ( qid ) ) {
-	qid = DEREF_id ( id_alias ( qid ) ) ;
-	COPY_id ( id_alias ( pid ), qid ) ;
-    }
-    COPY_id ( hashid_cache ( nm ), pid ) ;
-    COPY_id ( member_id ( mem ), pid ) ;
-    return ;
+	IDENTIFIER pid;
+	NAMESPACE ns = crt_namespace;
+	TYPE t = find_ellipsis_type(0);
+	HASHID nm = KEYWORD(lex_ellipsis_Hexp);
+	MEMBER mem = search_member(ns, nm, 1);
+	IDENTIFIER qid = DEREF_id(member_id(mem));
+	DECL_SPEC ds = (dspec_auto | dspec_defn | dspec_implicit);
+	MAKE_id_parameter(nm, ds, ns, crt_loc, t, pid);
+	if (!IS_NULL_id(qid)) {
+		qid = DEREF_id(id_alias(qid));
+		COPY_id(id_alias(pid), qid);
+	}
+	COPY_id(hashid_cache(nm), pid);
+	COPY_id(member_id(mem), pid);
+	return;
 }
 
 
@@ -1254,21 +1288,21 @@ void make_ellipsis_decl
     type_ellipsis.
 */
 
-EXP make_ellipsis_exp
-    PROTO_Z ()
+EXP
+make_ellipsis_exp(void)
 {
-    EXP e ;
-    if ( in_function_defn ) {
-	IDENTIFIER pid = ellipsis_param ( crt_func_id ) ;
-	if ( !IS_NULL_id ( pid ) ) {
-	    /* Form result */
-	    TYPE t = find_ellipsis_type ( 1 ) ;
-	    report ( crt_loc, ERR_expr_call_ell_exp () ) ;
-	    MAKE_exp_identifier ( t, pid, qual_none, e ) ;
-	    return ( e ) ;
+	EXP e;
+	if (in_function_defn) {
+		IDENTIFIER pid = ellipsis_param(crt_func_id);
+		if (!IS_NULL_id(pid)) {
+			/* Form result */
+			TYPE t = find_ellipsis_type(1);
+			report(crt_loc, ERR_expr_call_ell_exp());
+			MAKE_exp_identifier(t, pid, qual_none, e);
+			return (e);
+		}
 	}
-    }
-    report ( crt_loc, ERR_expr_call_ell_func () ) ;
-    e = make_error_exp ( 0 ) ;
-    return ( e ) ;
+	report(crt_loc, ERR_expr_call_ell_func());
+	e = make_error_exp(0);
+	return (e);
 }

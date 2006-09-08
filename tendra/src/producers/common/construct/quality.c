@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -45,7 +75,7 @@
     this module.
 */
 
-int suppress_quality = 0 ;
+int suppress_quality = 0;
 
 
 /*
@@ -59,17 +89,17 @@ int suppress_quality = 0 ;
 */
 
 static struct {
-    unsigned tag ;
-    int op ;
-} paren_ops [] = {
-    { exp_or_tag, lex_or_H1 },		/* PAREN_OR */
-    { exp_xor_tag, lex_xor_H1 },		/* PAREN_XOR */
-    { exp_and_tag, lex_and_H1 },		/* PAREN_AND */
-    { exp_compare_tag, lex_eq },	/* PAREN_EQUALITY */
-    { exp_test_tag, lex_eq },		/* PAREN_RELATION */
-    { exp_plus_tag, lex_plus },		/* PAREN_PLUS */
-    { exp_minus_tag, lex_minus }	/* PAREN_MINUS */
-} ;
+	unsigned tag;
+	int op;
+} paren_ops[] = {
+	{ exp_or_tag, lex_or_H1 },	/* PAREN_OR */
+	{ exp_xor_tag, lex_xor_H1 },	/* PAREN_XOR */
+	{ exp_and_tag, lex_and_H1 },	/* PAREN_AND */
+	{ exp_compare_tag, lex_eq },	/* PAREN_EQUALITY */
+	{ exp_test_tag, lex_eq },	/* PAREN_RELATION */
+	{ exp_plus_tag, lex_plus },	/* PAREN_PLUS */
+	{ exp_minus_tag, lex_minus }	/* PAREN_MINUS */
+};
 
 
 /*
@@ -81,16 +111,15 @@ static struct {
     level operation giving rise to this constant is held in the etag field.
 */
 
-static unsigned exp_tag
-    PROTO_N ( ( e ) )
-    PROTO_T ( EXP e )
+static unsigned
+exp_tag (EXP e)
 {
-    unsigned tag = TAG_exp ( e ) ;
-    if ( tag == exp_int_lit_tag ) {
-	/* Allow for evaluated constants */
-	tag = DEREF_unsigned ( exp_int_lit_etag ( e ) ) ;
-    }
-    return ( tag ) ;
+	unsigned tag = TAG_exp(e);
+	if (tag == exp_int_lit_tag) {
+		/* Allow for evaluated constants */
+		tag = DEREF_unsigned(exp_int_lit_etag(e));
+	}
+	return (tag);
 }
 
 
@@ -104,36 +133,39 @@ static unsigned exp_tag
     the table paren_ops.
 */
 
-void check_paren
-    PROTO_N ( ( n, op, a, b ) )
-    PROTO_T ( int n X int op X EXP a X EXP b )
+void
+check_paren(int n, int op, EXP a, EXP b)
 {
-    if ( !suppress_quality ) {
-	int i ;
+	if (!suppress_quality) {
+		int i;
 
-	/* Check first operand */
-	unsigned tag = exp_tag ( a ) ;
-	for ( i = n ; i < array_size ( paren_ops ) ; i++ ) {
-	    if ( tag == paren_ops [i].tag ) {
-		int op1 = paren_ops [i].op ;
-		if ( op1 == lex_eq ) op1 = op_token ( a, op1 ) ;
-		report ( crt_loc, ERR_expr_paren_left ( op1, op ) ) ;
-		break ;
-	    }
-	}
+		/* Check first operand */
+		unsigned tag = exp_tag(a);
+		for (i = n; i < array_size(paren_ops); i++) {
+			if (tag == paren_ops[i].tag) {
+				int op1 = paren_ops[i].op;
+				if (op1 == lex_eq) {
+					op1 = op_token(a, op1);
+				}
+				report(crt_loc, ERR_expr_paren_left(op1, op));
+				break;
+			}
+		}
 
-	/* Check second operand */
-	tag = exp_tag ( b ) ;
-	for ( i = n ; i < array_size ( paren_ops ) ; i++ ) {
-	    if ( tag == paren_ops [i].tag ) {
-		int op2 = paren_ops [i].op ;
-		if ( op2 == lex_eq ) op2 = op_token ( b, op2 ) ;
-		report ( crt_loc, ERR_expr_paren_right ( op, op2 ) ) ;
-		break ;
-	    }
+		/* Check second operand */
+		tag = exp_tag(b);
+		for (i = n; i < array_size(paren_ops); i++) {
+			if (tag == paren_ops[i].tag) {
+				int op2 = paren_ops[i].op;
+				if (op2 == lex_eq) {
+					op2 = op_token(b, op2);
+				}
+				report(crt_loc, ERR_expr_paren_right(op, op2));
+				break;
+			}
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -144,32 +176,31 @@ void check_paren
     do not have their mathematical meaning.
 */
 
-void check_relation
-    PROTO_N ( ( op, a, b ) )
-    PROTO_T ( int op X EXP a X EXP b )
+void
+check_relation(int op, EXP a, EXP b)
 {
-    if ( !suppress_quality ) {
-	/* Check first operand */
-	unsigned tag = exp_tag ( a ) ;
-	if ( tag == exp_compare_tag ) {
-	    int tst = op_token ( a, op ) ;
-	    report ( crt_loc, ERR_expr_rel_paren ( tst, op ) ) ;
-	} else if ( tag == exp_test_tag ) {
-	    int tst = op_token ( a, op ) ;
-	    report ( crt_loc, ERR_expr_rel_paren ( tst, op ) ) ;
-	}
+	if (!suppress_quality) {
+		/* Check first operand */
+		unsigned tag = exp_tag(a);
+		if (tag == exp_compare_tag) {
+			int tst = op_token(a, op);
+			report(crt_loc, ERR_expr_rel_paren(tst, op));
+		} else if (tag == exp_test_tag) {
+			int tst = op_token(a, op);
+			report(crt_loc, ERR_expr_rel_paren(tst, op));
+		}
 
-	/* Check second operand */
-	tag = exp_tag ( b ) ;
-	if ( tag == exp_compare_tag ) {
-	    int tst = op_token ( b, op ) ;
-	    report ( crt_loc, ERR_expr_rel_paren ( op, tst ) ) ;
-	} else if ( tag == exp_test_tag ) {
-	    int tst = op_token ( b, op ) ;
-	    report ( crt_loc, ERR_expr_rel_paren ( op, tst ) ) ;
+		/* Check second operand */
+		tag = exp_tag(b);
+		if (tag == exp_compare_tag) {
+			int tst = op_token(b, op);
+			report(crt_loc, ERR_expr_rel_paren(op, tst));
+		} else if (tag == exp_test_tag) {
+			int tst = op_token(b, op);
+			report(crt_loc, ERR_expr_rel_paren(op, tst));
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -180,21 +211,20 @@ void check_relation
     routine checks a logical or expression to see if it is of this form.
 */
 
-void check_logic
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( EXP a X EXP b )
+void
+check_logic(EXP a, EXP b)
 {
-    if ( !suppress_quality ) {
-	if ( exp_tag ( a ) == exp_log_and_tag ) {
-	    int op1 = lex_logical_Hand_H1 ;
-	    int op2 = lex_logical_Hor_H1 ;
-	    report ( crt_loc, ERR_expr_paren_left ( op1, op2 ) ) ;
+	if (!suppress_quality) {
+		if (exp_tag(a) == exp_log_and_tag) {
+			int op1 = lex_logical_Hand_H1;
+			int op2 = lex_logical_Hor_H1;
+			report(crt_loc, ERR_expr_paren_left(op1, op2));
+		}
+		if (exp_tag(b) == exp_log_and_tag) {
+			int op1 = lex_logical_Hor_H1;
+			int op2 = lex_logical_Hand_H1;
+			report(crt_loc, ERR_expr_paren_right(op1, op2));
+		}
 	}
-	if ( exp_tag ( b ) == exp_log_and_tag ) {
-	    int op1 = lex_logical_Hor_H1 ;
-	    int op2 = lex_logical_Hand_H1 ;
-	    report ( crt_loc, ERR_expr_paren_right ( op1, op2 ) ) ;
-	}
-    }
-    return ;
+	return;
 }
