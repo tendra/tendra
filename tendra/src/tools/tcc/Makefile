@@ -5,7 +5,7 @@
 WARNS?=		0
 
 TCCOPTS=	-Yxpg4 -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 LIBS=
 
 # Dependencies and construction rules

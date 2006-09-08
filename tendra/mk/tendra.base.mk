@@ -50,6 +50,7 @@ _TENDRA_BASE_MK_=1
 BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
+INCLUDE=	src/include
 STARTUP=	src/lib/startup
 STARTUP_MACH=	src/lib/machines/${OSFAM}/${BLDARCH}/startup
 TOKENS_COMMON=	src/lib/machines/common/tokens

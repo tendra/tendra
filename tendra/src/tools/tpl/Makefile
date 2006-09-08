@@ -9,7 +9,7 @@ TEMPL=${.CURDIR}/templ
 WARNS?=		2
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE}
 LIBS=
 
 # Dependencies and construction rules

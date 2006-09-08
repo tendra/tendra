@@ -9,7 +9,7 @@ SRC1=${.CURDIR}/errors
 WARNS?=		2
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${OBJ_SDIR}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${OBJ_SDIR}
 LIBS=
 
 # Dependencies and construction rules

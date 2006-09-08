@@ -9,7 +9,7 @@ SRCX=${.CURDIR}/../shared
 WARNS?=		3
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${SRCX}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCX}
 LIBS=
 
 # Dependencies and construction rules

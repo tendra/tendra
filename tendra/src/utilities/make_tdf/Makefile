@@ -11,7 +11,8 @@ SRCX=${.CURDIR}/../shared
 WARNS?=		2
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${SRCC} -I${SRCTOK} -I${SRCX}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC}\
+		-I${SRCTOK} -I${SRCX}
 LIBS=
 
 # Dependencies and construction rules

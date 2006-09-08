@@ -10,7 +10,8 @@ SPEC=${BASE}/src/lib/tdf/def_4_1.db
 WARNS?=		2
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE}
+
 LIBS=
 
 # Dependencies and construction rules

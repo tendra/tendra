@@ -11,7 +11,7 @@ API_DIR=${BASE_DIR}/src/lib/apis
 WARNS?=		2
 
 TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR}
+CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 LIBS=
 
 # Dependencies and construction rules
