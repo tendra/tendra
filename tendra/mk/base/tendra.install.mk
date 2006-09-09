@@ -8,6 +8,8 @@ INSTALL_PREFIX=		${INSTALL_DIR}/${VER_TENDRA}/${MACH_OS}/${MACH_VERS}/${MACH_CPU
 INSTALL_PREFIX=		${INSTALL_DIR}
 .endif
 
+MAN_INSTALL_DIR?=	${PREFIX}/man
+
 ARGS_CHMOD_BIN=		755
 ARGS_CHMOD_DATA=	644
 
@@ -187,12 +189,12 @@ install-wrapper:
 # man: our manpages.
 install-man:
 .for i in ${INSTALL_SUBMAN}
-	${BIN_MKDIR} ${ARGS_MKDIR} ${PREFIX}/man/man${i:C/.*(.)$/\1/}
+	${BIN_MKDIR} ${ARGS_MKDIR} ${MAN_INSTALL_DIR}/man${i:C/.*(.)$/\1/}
 .endfor
 .for i in ${MAN1} ${MAN5}
-	${BIN_CP} ${.OBJDIR}/${i} ${PREFIX}/man/man${i:C/.*(.)$/\1/}/${i}
-	${BIN_CHMOD} ${ARGS_CHMOD_DATA} ${PREFIX}/man/man${i:C/.*(.)$/\1/}/${i}
+	${BIN_CP} ${.OBJDIR}/${i} ${MAN_INSTALL_DIR}/man${i:C/.*(.)$/\1/}/${i}
+	${BIN_CHMOD} ${ARGS_CHMOD_DATA} ${MAN_INSTALL_DIR}/man${i:C/.*(.)$/\1/}/${i}
 .if ${MAN_COMPRESS} == "yes"
-	${BIN_GZIP} ${ARGS_GZIP} ${PREFIX}/man/man${i:C/.*(.)$/\1/}/${i}
+	${BIN_GZIP} ${ARGS_GZIP} ${MAN_INSTALL_DIR}/man${i:C/.*(.)$/\1/}/${i}
 .endif
 .endfor
