@@ -6,6 +6,7 @@
   $Id$
 -->
 
+
 <glossary>
 	<title>TenDRA Glossary</title>
 
@@ -24,16 +25,570 @@
 		in description.
 	-->
 
+	<!-- TODO
+		dredge out terms from existing documents
+		perhaps we should split this file up with xinclude
+	-->
+
+	<glossdiv>
+		<title>A</title>
+
+		<glossentry>
+			<glossterm>Application Programmer Interface</glossterm>
+			<acronym>API</acronym>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Architecture</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Assembling</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>B</title>
+
+		<glossentry>
+			<glossterm>bmake</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm><!-- TODO BSD --></glossterm>
+			<acronym>BSD</acronym>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>build</glossterm>
+
+			<glossdef>
+				<para><!-- TODO Compliation of things --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>C</title>
+
+		<glossentry>
+			<glossterm>Calculus</glossterm>
+
+			<glossdef>
+				<para><!-- TODO An algebraic type system tool --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>command line interface</glossterm>
+			<acronym>CLI</acronym>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Compiling</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Central Processing Unit</glossterm>
+			<acronym>CPU</acronym>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>D</title>
+
+		<glossentry>
+			<glossterm>DERA</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>disp</glossterm>
+
+			<glossdef>
+				<para><!-- TODO tdf pretty printer --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>G</title>
+
+		<glossentry>
+			<glossterm>GNU Compiler Collection</glossterm>
+			<acronym>GCC</acronym>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>I</title>
+
+		<glossentry>
+			<glossterm>ICC Intel C Compiler</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Installer</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>IRC</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>L</title>
+
+		<glossentry>
+			<glossterm>Lexer</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>lexi</glossterm>
+
+			<glossdef>
+				<para><!-- TODO A lexical generator --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Lexical Generation</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Linking</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Linux</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>M</title>
+
+		<glossentry>
+			<glossterm>Machine</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>make_err</glossterm>
+
+			<glossdef>
+				<para><!-- TODO A tool to generate TDF encoding and decoding routines --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>mk</glossterm>
+
+			<glossdef>
+				<para><!-- TODO suffix for makefiles --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>O</title>
+
+		<glossentry>
+			<glossterm>Object<!-- TODO obj for short --></glossterm>
+
+			<glossdef>
+				<para><!-- TODO Compiled thing --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>P</title>
+
+		<glossentry>
+			<glossterm>Parser</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Parser Generation</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Parsing</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>PL_TDF</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Producer</glossterm>
+		</glossentry>
+	</glossdiv>
+
 	<glossdiv>
 		<title>S</title>
+
+		<glossentry>
+			<glossterm>Source Code Management</glossterm>
+			<acronym>SCM</acronym>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Syntax Improving Device</glossterm>
+			<acronym>SID</acronym>
+
+			<glossdef>
+				<para><!-- TODO This is a parser generator --></para>
+			</glossdef>
+		</glossentry>
 
 		<glossentry id="startupfile">
 			<glossterm>Start-up File</glossterm>
 
 			<glossdef>
-				<para><!-- TODO --></para>
+				<para><!-- TODO TODO --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Structured TDF</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Subversion</glossterm>
+
+			<glossdef>
+				<para><!-- TODO Our SCM system of choice --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>svn</glossterm>
+
+			<glossdef>
+				<para><!-- TODO CLI to Subversion --></para>
 			</glossdef>
 		</glossentry>
 	</glossdiv>
+
+	<glossdiv>
+		<title>T</title>
+
+		<glossentry>
+			<glossterm>tcc</glossterm>
+
+			<glossdef>
+				<para><!-- TODO CLI --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>TDF</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Ten15</glossterm>
+
+			<glossdef>
+				<para><!-- TODO The concept, not the people --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Ten15.org</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>TenDRA</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>TenDRA.org</glossterm>
+
+			<glossdef>
+				<para><!-- TODO us --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Ticket</glossterm>
+
+			<glossdef>
+				<para><!-- TODO The thing you make on trac --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>tld</glossterm>
+
+			<glossdef>
+				<para><!-- TODO The TDF Linker --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>TDF Notation Compiler</glossterm>
+			<acronym>TNC</acronym>
+
+			<glossdef>
+				<para><!-- TODO This is an unstructured TDF assembler and disassembler --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>TPL</glossterm>
+
+			<glossdef>
+				<para><!-- TODO The PL_TDF Compiler. This is a structured TDF assembler. --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Trac</glossterm>
+
+			<glossdef>
+				<para><!-- TODO Our ticket and Wiki system of choice --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>tspec</glossterm>
+
+			<glossdef>
+				<para><!-- TODO An API specification generation tool --></para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Type system</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>U</title>
+
+		<glossentry>
+			<glossterm>Unstructured TDF</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>W</title>
+
+		<glossentry>
+			<glossterm>Wiki</glossterm>
+
+			<glossdef>
+				<para><!-- TODO The thing you create on trac --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>Languages</title>
+
+		<para>
+			<!-- TODO TODO These are all languages -->
+		</para>
+
+		<glossentry>
+			<glossterm>Assembly</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>C</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>CPP<!-- TODO also C++ --></glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Make</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>Architectures</title>
+
+		<para>
+			<!-- TODO TODO These are all architectures -->
+		</para>
+
+		<glossentry>
+			<glossterm>680x0</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>80x86</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Alpha</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>AMD64</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>HPPA</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Power</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>PPC601</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>SPARC</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>Machines</title>
+
+		<para>
+			<!-- TODO TODO These are all machines -->
+		</para>
+
+		<glossentry>
+			<glossterm>AIX</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>DragonflyBSD</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>HPUX</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>NetBSD</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Solaris</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Cygwin</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>IRIX</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>OpenBSD</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>SunOS</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>OSF1</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>SVR4.2</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>FreeBSD</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Minix</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>SCO</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Ultrix</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>APIs</title>
+
+		<para>
+			<!-- TODO These are all APIs -->
+		</para>
+
+		<glossentry>
+			<glossterm>ANSI</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>GCC</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>POSIX (1,2,3)</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>UNIX95</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>BSD Extn</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>ISO</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>X5</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>CPP</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Motif</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>XPG3/XPG4</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Dummy (Dummy API?)</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>SVID3</glossterm>
+		</glossentry>
+	</glossdiv>
+
+	<glossdiv>
+		<title>Legalities</title>
+
+		<para>
+			<!-- TODO These are all legal terms -->
+		</para>
+
+		<glossentry>
+			<glossterm>BSD Licence</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>Crown Copyright</glossterm>
+		</glossentry>
+
+		<glossentry>
+			<glossterm>GPL</glossterm>
+		</glossentry>
+	</glossdiv>
+
 </glossary>
 
