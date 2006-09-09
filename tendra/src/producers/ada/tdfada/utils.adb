@@ -1,3 +1,4 @@
+with XASIS.Static;
 with XASIS.Pragmas;
 
 with Asis.Elements;
@@ -125,24 +126,23 @@ package body Utils is
       return Result;
    end Has_Nested_Proc;
 
-   --------------------
-   -- Is_Static_Init --
-   --------------------
+   ---------------
+   -- Is_Static --
+   ---------------
 
-   function Is_Static_Init (Expr : Asis.Expression) return Boolean is
-      use Asis;
-      use Asis.Elements;
+   function Is_Static (Expr : Asis.Expression) return Boolean renames
+     Asis.Extensions.Is_Static_Expression;
+
+   ----------------
+   -- Is_Defined --
+   ----------------
+
+   function Is_Defined (Expr : Asis.Expression) return Boolean is
+      use XASIS.Static;
+      Val : Value := Evaluate (Expr);
    begin
-      case Expression_Kind (Expr) is
-         when An_Integer_Literal
-           | A_Real_Literal
-           | A_String_Literal
-           =>
-            return True;
-         when others =>
-            return False;
-      end case;
-   end Is_Static_Init;
+      return Val /= Undefined;
+   end Is_Defined;
 
    ---------------------------
    -- Out_By_Copy_Parameter --

@@ -890,6 +890,112 @@ package body XASIS.Classes is
       Info.Class_Wide := True;
    end Set_Class_Wide;
 
+   -------
+   -- T --
+   -------
+   
+   package body T is
+      function Universal_Integer return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Universal_Integer);
+      end;
+
+      function Universal_Real return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Universal_Real);
+      end Universal_Real;
+
+      function Universal_Fixed return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Universal_Fixed);
+      end Universal_Fixed;
+
+      function Root_Integer return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Root_Integer);
+      end Root_Integer;
+
+      function Root_Real return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Root_Real);
+      end Root_Real;
+
+      function System_Address return Type_Info is
+      begin
+         return Type_From_Declaration (Types.System_Address);
+      end System_Address;
+
+      function System_Bit_Order return Type_Info is
+      begin
+         return Type_From_Declaration (Types.System_Bit_Order);
+      end System_Bit_Order;
+
+      function Integer return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Integer);
+      end Integer;
+
+      function String return Type_Info is
+      begin
+         return Type_From_Declaration (Types.String);
+      end String;
+
+      function Wide_String return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Wide_String);
+      end Wide_String;
+
+      function Boolean return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Boolean);
+      end Boolean;
+
+      function Exception_Id return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Exception_Id);
+      end Exception_Id;
+
+      function Task_Id return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Task_Id);
+      end Task_Id;
+
+      function Root_Storage_Pool return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Root_Storage_Pool);
+      end Root_Storage_Pool;
+
+      function Tag return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Tag);
+      end Tag;
+
+      function Natural return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Natural);
+      end Natural;
+
+      function Duration return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Duration);
+      end Duration;
+
+      function Wide_Character return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Wide_Character);
+      end Wide_Character;
+
+      function Character return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Character);
+      end Character;
+
+      function Root_Stream_Type return Type_Info is
+      begin
+         return Type_From_Declaration (Types.Root_Stream_Type);
+      end Root_Stream_Type;
+   end T;
+
    ----------------
    -- Type_Class --
    ----------------

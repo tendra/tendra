@@ -1,5 +1,6 @@
 with XASIS.Utils;
 with Asis.Elements;
+with Asis.Declarations;
 with Ada.Characters.Handling;
 
 with TenDRA.Types;
@@ -250,10 +251,21 @@ package body States is
         (Decl : Asis.Declaration)
         return Asis.Program_Text
       is
-         Name : constant Asis.Defining_Name :=
-           XASIS.Utils.Declaration_Name (Decl);
+         List : constant Asis.Defining_Name_List :=
+           Asis.Declarations.Names (Decl);
       begin
-         return Utils.External_Name_Image (Name);
+         if List'Length > 0 then
+            return Utils.External_Name_Image (List (1));
+         else
+            declare
+               Def  : constant Asis.Definition :=
+                 Asis.Declarations.Type_Declaration_View (Decl);
+               Kind : constant Asis.Root_Type_Kinds :=
+                 Asis.Elements.Root_Type_Kind (Def);
+            begin
+               return Asis.Root_Type_Kinds'Wide_Image (Kind);
+            end;
+         end if;
       end External_Image;
 
    begin

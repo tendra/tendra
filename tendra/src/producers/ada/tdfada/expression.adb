@@ -12,6 +12,7 @@ with Asis.Elements;
 with Asis.Statements;
 with Asis.Extensions;
 with Asis.Expressions;
+with Asis.Declarations;
 
 with Token;
 with Utils;
@@ -26,66 +27,92 @@ package body Expression is
    use TenDRA.Types;
 
    procedure Identifier
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      L_Value : in     Boolean := False);
-
-   procedure Short_Circuit
      (State    : access States.State;
       Element  : in     Asis.Element;
-      Negative : in     Boolean);
+      L_Value  : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    procedure Short_Circuit
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small);
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
-   procedure Function_Call_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Negative : in     Boolean);
-
-   procedure Function_Call_Boolean
+   procedure Short_Circuit
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small);
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    procedure Ada_Call
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      Callee  : in     Asis.Declaration);
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Callee   : in     Asis.Declaration;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Attribute_Call
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    function Call_Parameters
      (Element : Asis.Element) return Asis.Association_List;
 
-   procedure Compile_Static
-     (State    : access States.State;
-      Element  : in     Asis.Expression;
-      Tipe     : in     XASIS.Classes.Type_Info);
-
    procedure Output_Boolean
      (State    : access States.State;
-      Value    : in     Boolean);
+      Value    : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Output_Universal_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Output_Change_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   function Corresponding_Callee
+     (Element : Asis.Element) return Asis.Declaration;
+
+   procedure Compile_Internal
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    --------------
    -- Ada_Call --
    --------------
 
    procedure Ada_Call
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      Callee  : in     Asis.Declaration)
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Callee   : in     Asis.Declaration;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use States;
       use Asis.Elements;
       use Asis.Expressions;
 
-
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
       Count  : TenDRA.Small := 0;
       List   : Asis.Association_List := Call_Parameters (Element);
       Caller : array (List'Range) of Boolean := (others => False);
@@ -98,8 +125,8 @@ package body Expression is
          begin
             if Utils.Out_By_Copy_Parameter (Param) then
                Caller (J) := True;
-               Tags (J) := State.Unit_Total (TAGDEF, Tag);
-               Inc (State.Unit_Total (TAGDEF, Tag));
+               Tags (J) := State.Unit_Total (Unit, Tag);
+               Inc (State.Unit_Total (Unit, Tag));
                Count := Count + 1;
             end if;
          end;
@@ -115,9 +142,9 @@ package body Expression is
 
             Result : constant Asis.Expression :=
               XASIS.Utils.Get_Result_Profile (Callee);
-            Tipe   : constant Type_Info    := Type_From_Subtype_Mark (Result);
+            Tipe   : constant Type_Info := Type_From_Subtype_Mark (Result);
          begin
-            Declaration.Output_Shape (State, Tipe, B);
+            Declaration.Output_Shape (State, Tipe, B, Unit);
          end;
       end if;
 
@@ -128,7 +155,7 @@ package body Expression is
       else
          declare
             Name : Asis.Defining_Name := XASIS.Utils.Declaration_Name (Callee);
-            Proc : TenDRA.Small := Find_Proc (State, Name);
+            Proc : TenDRA.Small := Find_Proc (State, Name, Unit);
          begin
             Output.TDF (B, c_obtain_tag);
             Output.TDF (B, c_make_tag);
@@ -152,9 +179,10 @@ package body Expression is
 
                if Mode_Kind (Param) = An_Out_Mode then
                   Output.TDF (B, c_make_value);
-                  Declaration.Output_Shape (State, Tipe, B);
+                  Declaration.Output_Shape (State, Tipe, B, Unit);
                else
-                  Compile (State, Actual_Parameter (List (J)), Tipe);
+                  Compile
+                    (State, Actual_Parameter (List (J)), Tipe, False, B, Unit);
                end if;
             end;
          end if;
@@ -167,12 +195,13 @@ package body Expression is
          if not Caller (J) then
             declare
                use XASIS.Classes;
-               Param : constant Asis.Declaration
-                 := Enclosing_Element (Formal_Parameter (List (J)));
+               Param : constant Asis.Declaration :=
+                 Enclosing_Element (Formal_Parameter (List (J)));
                Tipe  : Type_Info := Type_Of_Declaration (Param);
             begin
                --  State.Address := False;  --  TODO by ref
-               Compile (State, Actual_Parameter (List (J)), Tipe);
+               Compile
+                 (State, Actual_Parameter (List (J)), Tipe, False, B, Unit);
             end;
          end if;
       end loop;
@@ -190,12 +219,12 @@ package body Expression is
          if Caller (J) then
             declare
                use XASIS.Classes;
-               Param : constant Asis.Declaration
-                 := Enclosing_Element (Formal_Parameter (List (J)));
+               Param : constant Asis.Declaration :=
+                 Enclosing_Element (Formal_Parameter (List (J)));
                Tipe  : Type_Info := Type_Of_Declaration (Param);
             begin
                Output.TDF (B, c_assign);
-               Target_Name (State, Actual_Parameter (List (J)));
+               Target_Name (State, Actual_Parameter (List (J)), B, Unit);
                Output.TDF (B, c_obtain_tag);
                Output.TDF (B, c_make_tag);
                Output.TDFINT (B, Tags (J));
@@ -204,38 +233,176 @@ package body Expression is
       end loop;
    end Ada_Call;
 
+   --------------------
+   -- Attribute_Call --
+   --------------------
+
+   procedure Attribute_Call
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use States;
+      use XASIS.Utils;
+      use XASIS.Classes;
+
+      Attr        : Asis.Expression := Asis.Expressions.Prefix (Element);
+      Prefix      : Asis.Expression := Asis.Expressions.Prefix (Attr);
+      Kind        : Asis.Attribute_Kinds :=
+        Asis.Elements.Attribute_Kind (Attr);
+      Decl        : Asis.Declaration :=
+        Selected_Name_Declaration (Prefix, False);
+      Prefix_Type : Type_Info := Type_From_Declaration (Decl);
+      List        : Asis.Association_List := Call_Parameters (Element);
+      Types       : Asis.Declaration_List (List'Range) :=
+        Get_Attribute_Profile (Decl, Kind);
+      Param       : Streams.Memory_Stream;
+      Token       : Small;
+
+      procedure Compile_Arguments (Param : in out Stream'Class) is
+         use Asis.Expressions;
+         Tipe     : Type_Info;
+         Arg_Type : Asis.Declaration;
+      begin
+         for J in List'Range loop
+            Tipe := Type_From_Declaration (Types (J));
+
+            if Is_Universal (Tipe) then
+               Arg_Type := Corresponding_Expression_Type
+                 (Actual_Parameter (List (J)));
+               Tipe := Type_From_Declaration (Arg_Type);
+
+               if Is_Universal (Tipe) then
+                  if Is_Integer (Tipe) then
+                     Tipe := T.Root_Integer;
+                  elsif Is_Real (Tipe) then
+                     Tipe := T.Root_Real;
+                  else
+                     raise Error;
+                  end if;
+               end if;
+            end if;
+
+            Compile (State,
+                     Actual_Parameter (List (J)),
+                     Tipe,
+                     Static, Param, Unit);
+         end loop;
+      end Compile_Arguments;
+
+      procedure Static_Attribute_Call is
+      begin
+         case Kind is
+            when A_Min_Attribute =>
+               Output.TDF (B, c_minimum);
+               Compile_Arguments (B);
+            when A_Max_Attribute =>
+               Output.TDF (B, c_maximum);
+               Compile_Arguments (B);
+            when A_Succ_Attribute =>
+               Output.TDF (B, c_plus);
+               Output.TDF (B, c_impossible);
+               Compile_Arguments (B);
+               Output.TDF (B, c_make_int);
+               Output_Universal_Variety (State, Prefix_Type, B, Unit);
+               Output_Signed_Nat (B, 1);
+            when A_Pred_Attribute =>
+               Output.TDF (B, c_minus);
+               Output.TDF (B, c_impossible);
+               Compile_Arguments (B);
+               Output.TDF (B, c_make_int);
+               Output_Universal_Variety (State, Prefix_Type, B, Unit);
+               Output_Signed_Nat (B, 1);
+            when A_Pos_Attribute =>
+               if Is_Boolean (Prefix_Type) then
+                  Output.TDF (B, c_change_variety);
+                  Output.TDF (B, c_continue);
+                  Output_Universal_Variety (State, T.Root_Integer, B, Unit);
+               end if;
+
+               Compile_Arguments (B);
+            when A_Val_Attribute =>
+               if Is_Boolean (Prefix_Type) then
+                  Output_Change_Variety (State, Prefix_Type, B, Unit);
+               end if;
+
+               Compile_Arguments (B);
+            when others =>
+               raise States.Error;
+         end case;
+      end Static_Attribute_Call;
+   begin
+      if Static then
+         Static_Attribute_Call;
+         return;
+      end if;
+
+      case Kind is
+         when A_Val_Attribute
+           | A_Value_Attribute
+           | An_Adjacent_Attribute
+           | A_Ceiling_Attribute
+           | A_Compose_Attribute
+           | A_Copy_Sign_Attribute
+           | A_Floor_Attribute
+           | A_Fraction_Attribute
+           | A_Leading_Part_Attribute
+           | A_Machine_Attribute
+           | A_Max_Attribute
+           | A_Min_Attribute
+           | A_Model_Attribute
+           | A_Pred_Attribute
+           | A_Remainder_Attribute
+           | A_Round_Attribute
+           | A_Rounding_Attribute
+           | A_Scaling_Attribute
+           | A_Succ_Attribute
+           | A_Truncation_Attribute
+           | An_Unbiased_Rounding_Attribute
+           | A_Wide_Value_Attribute
+           =>
+            --  Attr result is the same as attr prefix
+            null;
+
+         when An_Exponent_Attribute
+           | A_Pos_Attribute =>
+            Output_Change_Variety (State, Tipe, B, Unit);
+
+         when others =>
+            raise States.Error;
+      end case;
+
+      Token := Find_Attribute (State, Decl, Kind, Unit);
+      Output.TDF (B, c_exp_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Token);
+
+      Streams.Expect
+        (Param, Dummy, (1 .. List'Length => (EXP_SORT, Singular, False)));
+
+      Compile_Arguments (Param);
+
+      Output.BITSTREAM (B, Param);
+   end Attribute_Call;
+
    ----------------
    -- Apply_Name --
    ----------------
 
    procedure Apply_Name
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      L_Value : in     Boolean := False)
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      L_Value  : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
 
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
       Name   : Asis.Defining_Name :=
         Asis.Expressions.Corresponding_Name_Definition (Element);
-   begin
-      Apply_Defining_Name (B, State, Name, L_Value);
-   end Apply_Name;
-
-   -------------------------
-   -- Apply_Defining_Name --
-   -------------------------
-
-   procedure Apply_Defining_Name
-     (B       : in out TenDRA.Streams.Memory_Stream;
-      State   : access States.State;
-      Name    : in     Asis.Defining_Name;
-      L_Value : in     Boolean := False;
-      Unit    : in     States.Unit_Kinds := States.TAGDEF)
-   is
-      use States;
-
       Tok    : TenDRA.Small;
    begin
       if L_Value then
@@ -248,7 +415,7 @@ package body Expression is
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Tok);
       Output.BITSTREAM (B, Empty);
-   end Apply_Defining_Name;
+   end Apply_Name;
 
    ---------------------
    -- Call_Parameters --
@@ -258,11 +425,15 @@ package body Expression is
      (Element : Asis.Element) return Asis.Association_List
    is
       use Asis;
+      use Asis.Elements;
+      use Asis.Expressions;
    begin
-      if Elements.Element_Kind (Element) = An_Expression then
-         return Asis.Expressions.Function_Call_Parameters (Element, True);
-      else
+      if Element_Kind (Element) /= An_Expression then
          return Asis.Statements.Call_Statement_Parameters (Element, True);
+      elsif Expression_Kind (Prefix (Element)) = An_Attribute_Reference then
+         return Function_Call_Parameters (Element, False);
+      else
+         return Function_Call_Parameters (Element, True);
       end if;
    end Call_Parameters;
 
@@ -273,54 +444,154 @@ package body Expression is
    procedure Compile
      (State    : access States.State;
       Element  : in     Asis.Expression;
-      Tipe     : in     XASIS.Classes.Type_Info)
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use States;
+      ---------------------------
+      -- Cross_Static_Boundary --
+      ---------------------------
+
+      procedure Cross_Static_Boundary is
+         Var   : Small := Find_Variety (State, Tipe, Unit);
+      begin
+         if not XASIS.Classes.Is_Boolean (Tipe) then
+            --  Convert from Universal_Integer to Tipe
+            Output.TDF (B, c_change_variety);
+            Output.TDF (B, c_continue);
+            Output.TDF (B, c_var_apply_token);
+            Output.TDF (B, c_make_tok);
+            Output.TDFINT (B, Var);
+            Output.BITSTREAM (B, Empty);
+         end if;
+      end Cross_Static_Boundary;
+
+   begin
+      if Utils.Is_Static (Element) then
+         if not Static then
+            Cross_Static_Boundary;
+         end if;
+
+         Computed_Static (State, Element, Tipe, B, Unit);
+      else
+         Compile_Internal (State, Element, Tipe, Static, B, Unit);
+      end if;
+   end Compile;
+
+   ----------------------
+   -- Compile_Internal --
+   ----------------------
+
+   procedure Compile_Internal
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use States;
       use Asis.Expressions;
-      B     : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-   begin
-      if Asis.Extensions.Is_Static_Expression (Element) then
-         Compile_Static (State, Element, Tipe);
-         return;
-      end if;
 
-      case Elements.Expression_Kind (Element) is
-         when An_Integer_Literal =>
-            declare
-               use XASIS.Classes;
+      procedure Attribute_Reference is
+         use XASIS.Utils;
+         use XASIS.Classes;
 
-               Var : TenDRA.Small := Find_Variety (State, Tipe);
-               Img : Wide_String  := Value_Image (Element);
-               Val : Small        := Small'Wide_Value (Img);
-            begin
-               Output.TDF (B, c_make_int);
-               Output.TDF (B, c_var_apply_token);
+         Decl        : Asis.Declaration;
+         Token       : Small;
+         Prefix_Type : Type_Info;
+         Root_Type   : Type_Info;
+         Param       : Streams.Memory_Stream;
+         Exps        : constant Asis.Expression_List :=
+           Attribute_Designator_Expressions (Element);
+      begin
+         case Asis.Elements.Attribute_Kind (Element) is
+            when A_First_Attribute | A_Last_Attribute =>
+               Decl := Selected_Name_Declaration (Prefix (Element), False);
+               Prefix_Type := Type_From_Declaration (Decl);
+
+               if Static and not Is_Boolean (Prefix_Type) then
+                  Output.TDF (B, c_change_variety);
+                  Output.TDF (B, c_continue);
+                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
+               end if;
+
+               Token := Find_Attribute (State, Decl, A_First_Attribute, Unit);
+               Output.TDF (B, c_exp_apply_token);
                Output.TDF (B, c_make_tok);
-               Output.TDFINT (B, Var);
-               Output.BITSTREAM (B, Empty);
-               Output.TDF (B, c_make_signed_nat);
-               Output.TDFBOOL (B, False);
-               Output.TDFINT (B, Val);
-            end;
---        | A_Real_Literal
---        | A_String_Literal
+               Output.TDFINT (B, Token);
+
+               Streams.Expect
+                 (Param, Dummy, (1 => (EXP_SORT, Singular, False)));
+
+               if Exps'Length > 0 then
+                  Root_Type := T.Root_Integer;
+                  Compile (State, Exps (1), Root_Type, True, Param, Unit);
+               else
+                  Output.TDF (Param, c_make_top);
+               end if;
+
+               Output.BITSTREAM (B, Param);
+            when others =>
+               raise States.Error;
+         end case;
+      end Attribute_Reference;
+
+   begin
+      case Elements.Expression_Kind (Element) is
+         when An_Integer_Literal
+           | A_Real_Literal
+           | A_String_Literal
+           | A_Character_Literal
+           | An_Enumeration_Literal
+           =>  --  expected to be static & defined
+            raise States.Error;
          when An_Identifier
 --        | An_Operator_Symbol
            =>
-            Identifier (State, Element);
---        | A_Character_Literal
-         when An_Enumeration_Literal =>
-            Apply_Name (State, Element);
+            if Static then
+               declare
+                  use Asis.Declarations;
+                  Decl : constant Asis.Declaration :=
+                    Corresponding_Name_Declaration (Element);
+               begin
+                  case Asis.Elements.Declaration_Kind (Decl) is
+                     when An_Object_Renaming_Declaration =>
+                        Compile (State,
+                                 Renamed_Entity (Decl),
+                                 XASIS.Classes.Type_From_Declaration (Decl),
+                                 Static, B, Unit);
+                     when A_Constant_Declaration =>
+                        Compile (State,
+                                 Initialization_Expression (Decl),
+                                 XASIS.Classes.Type_From_Declaration (Decl),
+                                 Static, B, Unit);
+                     when An_Integer_Number_Declaration
+                       | A_Real_Number_Declaration =>
+                        Compile (State,
+                                 Initialization_Expression (Decl),
+                                 Tipe,
+                                 Static, B, Unit);
+                     when others =>
+                        raise Error;
+                  end case;
+               end;
+            else
+               Identifier
+                 (State, Element, L_Value => False, B => B, Unit => Unit);
 
+            end if;
 --        | An_Explicit_Dereference
          when A_Function_Call =>
-            Function_Call (State, Element, Tipe);
+            Function_Call (State, Element, Tipe, Static, B, Unit);
 --        | An_Indexed_Component
 --        | A_Slice
 --        | A_Selected_Component
---        | An_Attribute_Reference
+         when An_Attribute_Reference =>
+            Attribute_Reference;
 --        | A_Record_Aggregate
 --        | An_Extension_Aggregate
 --        | A_Positional_Array_Aggregate
@@ -328,14 +599,15 @@ package body Expression is
          when An_And_Then_Short_Circuit
            | An_Or_Else_Short_Circuit
            =>
-            Short_Circuit (State, Element, False);
+            Short_Circuit (State, Element, False, Static, B, Unit);
 --        | An_In_Range_Membership_Test
 --        | A_Not_In_Range_Membership_Test
 --        | An_In_Type_Membership_Test
 --        | A_Not_In_Type_Membership_Test
 --        | A_Null_Literal
          when A_Parenthesized_Expression =>
-            Compile (State, Expression_Parenthesized (Element), Tipe);
+            Compile (State, Expression_Parenthesized (Element),
+                     Tipe, Static, B, Unit);
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
 --        | An_Allocation_From_Subtype
@@ -343,7 +615,7 @@ package body Expression is
          when others =>
             raise States.Error;
       end case;
-   end Compile;
+   end Compile_Internal;
 
    ---------------------
    -- Compile_Boolean --
@@ -352,27 +624,64 @@ package body Expression is
    procedure Compile_Boolean
      (State    : access States.State;
       Element  : in     Asis.Expression;
-      Negative : in     Boolean)
+      Negative : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
       use Asis.Expressions;
 
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
+      procedure Function_Call_Boolean;
+
+      Static   : constant Boolean := Utils.Is_Static (Element);
+
+      ---------------------------
+      -- Function_Call_Boolean --
+      ---------------------------
+
+      procedure Function_Call_Boolean is
+         Callee : Asis.Declaration := Corresponding_Callee (Element);
+      begin
+         if Asis.Elements.Is_Nil (Callee) then
+            --  dispatch or attribute
+
+            if Negative then
+               Invert_Boolean (State, B, Unit);
+            end if;
+
+            Attribute_Call
+              (State, Element, XASIS.Classes.T.Boolean, Static, B, Unit);
+         else
+            case Utils.Convention (Callee) is
+               when Utils.Intrinsic =>
+                  Intrinsic.Function_Call_Boolean
+                    (State, Element, Callee, Negative, Static, B, Unit);
+               when Utils.Ada =>
+                  if Negative then
+                     Invert_Boolean (State, B, Unit);
+                  end if;
+
+                  Ada_Call (State, Element, Callee, B, Unit);
+               when others =>
+                  raise States.Error;
+            end case;
+         end if;
+      end Function_Call_Boolean;
    begin
       case Elements.Expression_Kind (Element) is
          when A_Function_Call =>
-            Function_Call_Boolean (State, Element, Negative);
+            Function_Call_Boolean;
 
          when An_And_Then_Short_Circuit
            | An_Or_Else_Short_Circuit
            =>
-            Short_Circuit (State, Element, Negative);
+            Short_Circuit (State, Element, Negative, Static, B, Unit);
 
          when A_Parenthesized_Expression =>
             Compile_Boolean (State,
                              Expression_Parenthesized (Element),
-                             Negative);
+                             Negative,
+                             B, Unit);
 
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
@@ -380,13 +689,14 @@ package body Expression is
          when others =>
 
             if Negative then
-               Invert_Boolean (State);
+               Invert_Boolean (State, B, Unit);
             end if;
 
             Compile
               (State,
                Element,
-               XASIS.Classes.Type_From_Declaration (XASIS.Types.Boolean));
+               XASIS.Classes.T.Boolean,
+               Static, B, Unit);
       end case;
    end Compile_Boolean;
 
@@ -398,89 +708,136 @@ package body Expression is
      (State    : access States.State;
       Element  : in     Asis.Expression;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small)
+      Label    : in     TenDRA.Small;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
       use Asis.Expressions;
 
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-   begin
+      procedure Function_Call_Boolean;
+
+      Static   : constant Boolean := Utils.Is_Static (Element);
+
+      procedure Common_Jump is
+         Tok    : constant TenDRA.Small :=
+           Find_Support (State, Boolean_Jump, Unit);
+         Params : Streams.Memory_Stream;
+      begin
+         Token.Initialize (Params, Boolean_Jump);
+
+         Output.TDF (Params, c_make_nat);
+
+         if Negative then
+            Output.TDFINT (Params, 1);
+         else
+            Output.TDFINT (Params, 0);
+         end if;
+
+         Compile
+           (State,
+            Element,
+            XASIS.Classes.T.Boolean,
+            Static, Params, Unit);
+
+         Output.TDF (Params, c_make_label);
+         Output.TDFINT (Params, Label);
+         Output.TDF (B, c_exp_apply_token);
+         Output.TDF (B, c_make_tok);
+         Output.TDFINT (B, Tok);
+         Output.BITSTREAM (B, Params);
+      end Common_Jump;
+
+      ---------------------------
+      -- Function_Call_Boolean --
+      ---------------------------
+
+      procedure Function_Call_Boolean is
+         Callee : Asis.Declaration := Corresponding_Callee (Element);
+      begin
+         if Asis.Elements.Is_Nil (Callee) then
+            --  dispatch or attribute
+            Common_Jump;
+            raise States.Error;
+         else
+            case Utils.Convention (Callee) is
+               when Utils.Intrinsic =>
+                  Intrinsic.Function_Call_Boolean
+                    (State, Element, Callee, Negative, Label, Static, B, Unit);
+               when Utils.Ada =>
+                  Common_Jump;
+               when others =>
+                  raise States.Error;
+            end case;
+         end if;
+      end Function_Call_Boolean;
+
+   begin  --  Compile_Boolean (Label)
+      if Static and then Utils.Is_Defined (Element) then
+         Common_Jump;
+         return;
+      end if;
+
       case Elements.Expression_Kind (Element) is
          when A_Function_Call =>
-            Function_Call_Boolean (State, Element, Negative, Label);
+            Function_Call_Boolean;
 
          when An_And_Then_Short_Circuit
            | An_Or_Else_Short_Circuit
            =>
-            Short_Circuit (State, Element, Negative, Label);
+            Short_Circuit (State, Element, Negative, Label, Static, B, Unit);
 
          when A_Parenthesized_Expression =>
             Compile_Boolean
-              (State, Expression_Parenthesized (Element), Negative, Label);
+              (State, Expression_Parenthesized (Element),
+               Negative, Label, B, Unit);
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
 
          when others =>
-
-            declare
-               Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump);
-               Params : aliased Streams.Memory_Stream;
-               Saved  : Stream_Access := State.Units (TAGDEF);
-            begin
-               Token.Initialize (Params, Boolean_Jump);
-
-               Output.TDF (Params, c_make_nat);
-
-               if Negative then
-                  Output.TDFINT (Params, 1);
-               else
-                  Output.TDFINT (Params, 0);
-               end if;
-
-               State.Units (TAGDEF) := Params'Unchecked_Access;
-
-               Compile
-                 (State,
-                  Element,
-                  XASIS.Classes.Type_From_Declaration (XASIS.Types.Boolean));
-
-               State.Units (TAGDEF) := Saved;
-
-               Output.TDF (Params, c_make_label);
-               Output.TDFINT (Params, Label);
-               Output.TDF (B, c_exp_apply_token);
-               Output.TDF (B, c_make_tok);
-               Output.TDFINT (B, Tok);
-               Output.BITSTREAM (B, Params);
-            end;
+            Common_Jump;
       end case;
    end Compile_Boolean;
 
-   --------------------
-   -- Compile_Static --
-   --------------------
+   ---------------------
+   -- Computed_Static --
+   ---------------------
 
-   procedure Compile_Static
+   procedure Computed_Static
      (State    : access States.State;
       Element  : in     Asis.Expression;
-      Tipe     : in     XASIS.Classes.Type_Info)
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
 
-      B       : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
+      procedure Defined_Static is
+         Value : XASIS.Static.Value := XASIS.Static.Evaluate (Element);
+         Image : Wide_String := XASIS.Static.Image (Value);
+         Val   : Small;  --  TODO: Fix for values larger then Small
+      begin
+         Output.TDF (B, c_make_int);
+         Output_Universal_Variety (State, Tipe, B, Unit);
+         Output.TDF (B, c_make_signed_nat);
 
-      Var   : Small := Find_Variety (State, Tipe, TAGDEF);
+         if Image (Image'First) = '-' then
+            Output.TDFBOOL (B, True);
+            Val := Small'Wide_Value (Image (2 .. Image'Last));
+         else
+            Output.TDFBOOL (B, False);
+            Val := Small'Wide_Value (Image);
+         end if;
+
+         Output.TDFINT (B, Val);
+      end Defined_Static;
    begin
-      Output.TDF (B, c_make_int);
-      Output.TDF (B, c_var_apply_token);
-      Output.TDF (B, c_make_tok);
-      Output.TDFINT (B, Var);
-      Output.BITSTREAM (B, Empty);
-
-      Static_Signed_Nat (State, Element, B);
-   end Compile_Static;
+      if Utils.Is_Defined (Element) then
+         Defined_Static;
+      else
+         Compile_Internal (State, Element, Tipe, True, B, Unit);
+      end if;
+   end Computed_Static;
 
    --------------------------
    -- Corresponding_Callee --
@@ -503,133 +860,54 @@ package body Expression is
    -------------------
 
    procedure Function_Call
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      Tipe    : in     XASIS.Classes.Type_Info)
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       Callee : Asis.Declaration := Corresponding_Callee (Element);
+      Prefix : Asis.Expression;
    begin
       if Asis.Elements.Is_Nil (Callee) then
-         Ada.Wide_Text_IO.Put_Line (Asis.Elements.Debug_Image (Element));
-         null;  --  dispatch or attribute
-         raise States.Error;
+         Prefix := Asis.Expressions.Prefix (Element);
+         
+         if Asis.Elements.Expression_Kind (Prefix) = An_Attribute_Reference then
+            Attribute_Call (State, Element, Tipe, Static, B, Unit);
+         else
+            Ada.Wide_Text_IO.Put_Line (Asis.Elements.Debug_Image (Element));
+            null;  --  dispatch
+            raise States.Error;
+         end if;
       else
          case Utils.Convention (Callee) is
             when Utils.Intrinsic =>
                if XASIS.Classes.Is_Boolean (Tipe) then
                   Intrinsic.Function_Call_Boolean
-                    (State, Element, Callee, False);
+                    (State, Element, Callee, False, Static, B, Unit);
                else
                   Intrinsic.Function_Call
-                    (State, Element, Callee);
+                    (State, Element, Callee, Static, B, Unit);
                end if;
             when Utils.Ada =>
-               Ada_Call (State, Element, Callee);
+               Ada_Call (State, Element, Callee, B, Unit);
             when others =>
                raise States.Error;
          end case;
       end if;
    end Function_Call;
 
-   ---------------------------
-   -- Function_Call_Boolean --
-   ---------------------------
-
-   procedure Function_Call_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Negative : in     Boolean)
-   is
-      use States;
-      Callee : Asis.Declaration := Corresponding_Callee (Element);
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-   begin
-      if Asis.Elements.Is_Nil (Callee) then
-         null;  --  dispatch or attribute
-         raise States.Error;
-      else
-         case Utils.Convention (Callee) is
-            when Utils.Intrinsic =>
-               Intrinsic.Function_Call_Boolean
-                 (State, Element, Callee, Negative);
-            when Utils.Ada =>
-               if Negative then
-                  Invert_Boolean (State);
-               end if;
-
-               Ada_Call (State, Element, Callee);
-            when others =>
-               raise States.Error;
-         end case;
-      end if;
-   end Function_Call_Boolean;
-
-   ---------------------------
-   -- Function_Call_Boolean --
-   ---------------------------
-
-   procedure Function_Call_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Negative : in     Boolean;
-      Label    : in     TenDRA.Small)
-   is
-      use States;
-      Callee : Asis.Declaration := Corresponding_Callee (Element);
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-   begin
-      if Asis.Elements.Is_Nil (Callee) then
-         null;  --  dispatch or attribute
-         raise States.Error;
-      else
-         case Utils.Convention (Callee) is
-            when Utils.Intrinsic =>
-               Intrinsic.Function_Call_Boolean
-                 (State, Element, Callee, Negative, Label);
-            when Utils.Ada =>
-               declare
-                  use States;
-                  Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump);
-                  Params : aliased Streams.Memory_Stream;
-                  Saved  : Stream_Access := State.Units (TAGDEF);
-               begin
-                  Token.Initialize (Params, Boolean_Jump);
-
-                  Output.TDF (Params, c_make_nat);
-
-                  if Negative then
-                     Output.TDFINT (Params, 1);
-                  else
-                     Output.TDFINT (Params, 0);
-                  end if;
-
-                  State.Units (TAGDEF) := Params'Unchecked_Access;
-                  Ada_Call (State, Element, Callee);
-                  State.Units (TAGDEF) := Saved;
-
-                  Output.TDF (Params, c_make_label);
-                  Output.TDFINT (Params, Label);
-                  Output.TDF (B, c_exp_apply_token);
-                  Output.TDF (B, c_make_tok);
-                  Output.TDFINT (B, Tok);
-                  Output.BITSTREAM (B, Params);
-               end;
-            when others =>
-               raise States.Error;
-         end case;
-      end if;
-   end Function_Call_Boolean;
-
    ----------------
    -- Identifier --
    ----------------
 
    procedure Identifier
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      L_Value : in     Boolean := False)
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      L_Value  : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
       use Asis.Expressions;
@@ -643,7 +921,7 @@ package body Expression is
         --  or else Level = State.Level
         or True
       then
-         Apply_Name (State, Element, L_Value);
+         Apply_Name (State, Element, L_Value, B, Unit);
       else
          raise States.Error;
       end if;
@@ -653,14 +931,36 @@ package body Expression is
    -- Invert_Boolean --
    --------------------
 
-   procedure Invert_Boolean (State    : access States.State) is
+   procedure Invert_Boolean
+     (State    : access States.State;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
       use States;
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
    begin
       Output.TDF (B, c_xor);
-      Output_Boolean (State, True);
+      Output_Boolean (State, True, B, Unit);
    end Invert_Boolean;
+
+   ---------------------------
+   -- Output_Change_Variety --
+   ---------------------------
+
+   procedure Output_Change_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      Var   : constant Small := States.Find_Variety (State, Tipe, Unit);
+   begin
+      Output.TDF (B, c_change_variety);
+      Output.TDF (B, c_continue);
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, States.Empty);
+   end Output_Change_Variety;
 
    --------------------
    -- Output_Boolean --
@@ -668,29 +968,55 @@ package body Expression is
 
    procedure Output_Boolean
      (State    : access States.State;
-      Value    : in     Boolean)
+      Value    : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use States;
       use XASIS.Classes;
 
-      B      : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-      Tipe  : Type_Info := Type_From_Declaration (XASIS.Types.Boolean);
-      Var   : Small := Find_Variety (State, Tipe, TAGDEF);
+      Tipe  : Type_Info := T.Boolean;
+      Var   : Small := Find_Variety (State, Tipe, Unit);
    begin
       Output.TDF (B, c_make_int);
       Output.TDF (B, c_var_apply_token);
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Var);
       Output.BITSTREAM (B, Empty);
-      Output.TDF (B, c_make_signed_nat);
-      Output.TDFBOOL (B, False);
-      if Value = True then
-         Output.TDFINT (B, 1);
-      else
-         Output.TDFINT (B, 0);
-      end if;
+      Output_Signed_Nat (B, Boolean'Pos (Value));
    end Output_Boolean;
+
+   -----------------------
+   -- Output_Signed_Nat --
+   -----------------------
+
+   procedure Output_Signed_Nat
+     (B        : in out Stream'Class;
+      Value    : in     TenDRA.Small;
+      Negative : in     Boolean := False) is
+   begin
+      Output.TDF (B, c_make_signed_nat);
+      Output.TDFBOOL (B, Negative);
+      Output.TDFINT (B, Value);
+   end Output_Signed_Nat;
+
+   ------------------------------
+   -- Output_Universal_Variety --
+   ------------------------------
+
+   procedure Output_Universal_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      Var : constant Small := Universal_Variety (State, Tipe, Unit);
+   begin
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, States.Empty);
+   end Output_Universal_Variety;
 
    -------------------
    -- Short_Circuit --
@@ -699,16 +1025,17 @@ package body Expression is
    procedure Short_Circuit
      (State    : access States.State;
       Element  : in     Asis.Element;
-      Negative : in     Boolean)
+      Negative : in     Boolean;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use States;
 
-      B       : TenDRA.Streams.Memory_Stream
-        renames State.Units (TAGDEF).all;
-      Label   : Small := State.Labels (TAGDEF);
+      Label   : Small := State.Labels (Unit);
    begin
-      Inc (State.Labels (TAGDEF));
+      Inc (State.Labels (Unit));
       Output.TDF (B, c_conditional);
       Output.TDF (B, c_make_label);
       Output.TDFINT (B, Label);
@@ -716,11 +1043,11 @@ package body Expression is
       begin
          Output.TDF (B, c_sequence);
          Output.List_Count (B, 1);
-         Short_Circuit (State, Element, Negative, Label);
-         Output_Boolean (State, True);
+         Short_Circuit (State, Element, Negative, Label, Static, B, Unit);
+         Output_Boolean (State, True, B, Unit);
       end;
 
-      Output_Boolean (State, False);
+      Output_Boolean (State, False, B, Unit);
    end Short_Circuit;
 
    -------------------
@@ -731,7 +1058,10 @@ package body Expression is
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small)
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use States;
@@ -741,62 +1071,40 @@ package body Expression is
       Not_Label : TenDRA.Small;
    begin
       if Kind = An_And_Then_Short_Circuit xor Negative then
-         Output.TDF (State.Units (TAGDEF).all, c_sequence);
-         Output.List_Count (State.Units (TAGDEF).all, 1);
+         Output.TDF (B, c_sequence);
+         Output.List_Count (B, 1);
 
          Compile_Boolean (State,
                           Short_Circuit_Operation_Left_Expression (Element),
                           Negative => Negative,
-                          Label    => Label);
+                          Label    => Label,
+                          B => B, Unit => Unit);
 
          Compile_Boolean (State,
                           Short_Circuit_Operation_Right_Expression (Element),
                           Negative => Negative,
-                          Label    => Label);
+                          Label    => Label,
+                          B => B, Unit => Unit);
       else
-         Not_Label := State.Labels (TAGDEF);
-         Inc (State.Labels (TAGDEF));
-         Output.TDF (State.Units (TAGDEF).all, c_conditional);
-         Output.TDF (State.Units (TAGDEF).all, c_make_label);
-         Output.TDFINT (State.Units (TAGDEF).all, Not_Label);
+         Not_Label := State.Labels (Unit);
+         Inc (State.Labels (Unit));
+         Output.TDF (B, c_conditional);
+         Output.TDF (B, c_make_label);
+         Output.TDFINT (B, Not_Label);
 
          Compile_Boolean (State,
                           Short_Circuit_Operation_Left_Expression (Element),
                           Negative => Negative,
-                          Label    => Not_Label);
+                          Label    => Not_Label,
+                          B => B, Unit => Unit);
 
          Compile_Boolean (State,
                           Short_Circuit_Operation_Right_Expression (Element),
                           Negative => Negative,
-                          Label    => Label);
+                          Label    => Label,
+                          B => B, Unit => Unit);
       end if;
    end Short_Circuit;
-
-   -----------------------
-   -- Static_Signed_Nat --
-   -----------------------
-
-   procedure Static_Signed_Nat
-     (State   : access States.State;
-      Element : in     Asis.Expression;
-      B       : in out Streams.Stream'Class)
-   is
-      Value : XASIS.Static.Value := XASIS.Static.Evaluate (Element);
-      Image : Wide_String := XASIS.Static.Image (Value);
-      Val   : Small;  --  TODO: Fix for values larger then Small
-   begin
-      Output.TDF (B, c_make_signed_nat);
-
-      if Image (Image'First) = '-' then
-         Output.TDFBOOL (B, True);
-         Val := Small'Wide_Value (Image (2 .. Image'Last));
-         Output.TDFINT (B, Val);
-      else
-         Output.TDFBOOL (B, False);
-         Val := Small'Wide_Value (Image);
-         Output.TDFINT (B, Val);
-      end if;
-   end Static_Signed_Nat;
 
    -----------------
    -- Target_Name --
@@ -804,20 +1112,47 @@ package body Expression is
 
    procedure Target_Name
      (State    : access States.State;
-      Element  : in     Asis.Expression)
+      Element  : in     Asis.Expression;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis.Expressions;
    begin
       case Elements.Expression_Kind (Element) is
          when An_Identifier
            =>
-            Identifier (State, Element, L_Value => True);
+            Identifier (State, Element, True, B, Unit);
          when A_Parenthesized_Expression =>
-            Target_Name (State, Expression_Parenthesized (Element));
+            Target_Name (State, Expression_Parenthesized (Element), B, Unit);
          when others =>
             raise States.Error;
       end case;
    end Target_Name;
+
+   -----------------------
+   -- Universal_Variety --
+   -----------------------
+
+   function Universal_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Unit     : in     States.Unit_Kinds) return TenDRA.Small
+   is
+      use XASIS.Classes;
+      Var : TenDRA.Small;
+   begin
+      if Is_Boolean (Tipe) then
+         Var := States.Find_Variety (State, Tipe, Unit);
+      else
+         declare
+            Tipe  : constant Type_Info := T.Universal_Integer;
+         begin
+            Var := States.Find_Variety (State, Tipe, Unit);
+         end;
+      end if;
+
+      return Var;
+   end Universal_Variety;
 
 end Expression;
 

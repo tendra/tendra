@@ -144,6 +144,10 @@ package XASIS.Utils is
 
    function Is_Predefined_Operator (Decl : Asis.Declaration) return Boolean;
 
+   function Get_Attribute_Profile
+     (Tipe : Asis.Declaration;
+      Kind : Asis.Attribute_Kinds) return Asis.Element_List;
+
 end XASIS.Utils;
 
 

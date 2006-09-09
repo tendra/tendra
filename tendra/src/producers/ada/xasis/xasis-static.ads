@@ -34,10 +34,13 @@ package XASIS.Static is
    Static_True  : constant Value;
    Static_Zero  : constant Value;
    Static_One   : constant Value;
-   Undefined    : constant Value;
+
+   function Undefined return Value;
 
    function Attribute_Designator_Expression
      (Attr : Asis.Expression) return Value;
+
+   type Bound_Kinds is (Lower, Upper);
 
 private
    type Static_Value_Kinds is
@@ -71,8 +74,6 @@ private
          end case;
       end record;
 
-   Undefined    : constant Value := (Kind => Static_Undefined);
-
    Static_False : constant Value :=
      (Static_Discrete, XASIS.Integers.Literal ("0"));
 
@@ -86,7 +87,6 @@ private
      (Static_Discrete, XASIS.Integers.Literal ("1"));
 
    type Type_Class is abstract tagged record
-      Prefix : Asis.Expression;
       Info   : Classes.Type_Info;
    end record;
 
@@ -105,9 +105,7 @@ private
       Kind    : Asis.Attribute_Kinds;
       Element : Asis.Expression) return Value is abstract;
 
-   type Static_Range is record
-      Lower , Upper : Value;
-   end record;
+   type Static_Range is array (Bound_Kinds) of Value;
 
    function Static_Range_Attribute
      (Attr   : Asis.Expression) return Static_Range;

@@ -342,8 +342,8 @@ package body Declaration is
    procedure Output_Shape
      (State   : access States.State;
       Tipe    : in     XASIS.Classes.Type_Info;
-      B       : in out TenDRA.Streams.Memory_Stream;
-      Unit    : in     States.Unit_Kinds := States.TAGDEF)
+      B       : in out TenDRA.Streams.Stream'Class;
+      Unit    : in     States.Unit_Kinds)
    is
       Shape : Small := Find_Shape (State, Tipe, Unit);
    begin
@@ -375,7 +375,7 @@ package body Declaration is
       for K in List'Range loop
          Tag := Find_Tag (State, List (K), Usage => False);
          Output.TDF (B, c_make_tagshacc);
-         Output_Shape (State, Tipe, B);
+         Output_Shape (State, Tipe, B, TAGDEF);
 
          if Write then
             Output.TDF (B, c_out_par);
@@ -433,7 +433,7 @@ package body Declaration is
       if Asis.Elements.Is_Nil (Result) then
          Output.TDF (B, c_top);
       else
-         Output_Shape (State, Type_From_Subtype_Mark (Result), B);
+         Output_Shape (State, Type_From_Subtype_Mark (Result), B, TAGDEF);
       end if;
 
       Output.No_Option (B);
@@ -485,7 +485,7 @@ package body Declaration is
         and Utils.By_Copy_Type (Tipe)
       then
          if XASIS.Utils.Lexic_Level (Names (Element) (1)) /= 1
-           or Utils.Is_Static_Init (Init)
+           or Utils.Is_Static (Init)
          then
             return Trait_Kind (Element) /= An_Aliased_Trait;
          end if;
@@ -519,7 +519,7 @@ package body Declaration is
       if Declaration_Kind (Element) = A_Constant_Declaration
         and then Utils.By_Copy_Type (Tipe)
       then
-         if Level /= 1 or Utils.Is_Static_Init (Init) then
+         if Level /= 1 or Utils.Is_Static (Init) then
             Const := True;
          end if;
       end if;
@@ -578,7 +578,7 @@ package body Declaration is
             Output.TDFINT (B, Shape);
             Output.BITSTREAM (B, Empty);
          else
-            Expression.Compile (State, Init, Tipe);
+            Expression.Compile (State, Init, Tipe, False, B, TAGDEF);
          end if;
 
          if not Const then

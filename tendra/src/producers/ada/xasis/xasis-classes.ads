@@ -124,6 +124,29 @@ package XASIS.Classes is
 
    Not_A_Type : constant Type_Info;
 
+   package T is
+      function Universal_Integer return Type_Info;
+      function Universal_Real    return Type_Info;
+      function Universal_Fixed   return Type_Info;
+      function Root_Integer      return Type_Info;
+      function Root_Real         return Type_Info;
+      function System_Address    return Type_Info;
+      function System_Bit_Order  return Type_Info;
+      function Integer           return Type_Info;
+      function String            return Type_Info;
+      function Wide_String       return Type_Info;
+      function Boolean           return Type_Info;
+      function Exception_Id      return Type_Info;
+      function Task_Id           return Type_Info;
+      function Root_Storage_Pool return Type_Info;
+      function Tag               return Type_Info;
+      function Natural           return Type_Info;
+      function Duration          return Type_Info;
+      function Wide_Character    return Type_Info;
+      function Character         return Type_Info;
+      function Root_Stream_Type  return Type_Info;
+   end T;
+   
 private
 
    type Class_Kinds is

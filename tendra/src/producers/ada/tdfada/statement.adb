@@ -56,12 +56,13 @@ package body Statement is
             Output.TDF (B, c_assign);
 
             Expression.Target_Name
-              (State, Assignment_Variable_Name (Stmt));
+              (State, Assignment_Variable_Name (Stmt), B, TAGDEF);
 
             Expression.Compile
               (State,
                Assignment_Expression (Stmt),
-               XASIS.Classes.Type_From_Declaration (Tipe));
+               XASIS.Classes.Type_From_Declaration (Tipe),
+               False, B, TAGDEF);
 
          when An_If_Statement =>
             declare
@@ -85,7 +86,7 @@ package body Statement is
                           (State,
                            Condition_Expression (List (J)),
                            False,
-                           Label);
+                           Label, B, TAGDEF);
 
                         Compile
                           (State, Sequence_Of_Statements (List (J)), Loops);
@@ -130,7 +131,11 @@ package body Statement is
                if Kind = A_While_Loop_Statement then
                   Output.List_Count (B, 2);
                   Expression.Compile_Boolean
-                    (State, While_Condition (Stmt), False, Info.Exit_Label);
+                    (State,
+                     While_Condition (Stmt),
+                     False,
+                     Info.Exit_Label,
+                     B, TAGDEF);
                else
                   Output.List_Count (B, 1);
                end if;
@@ -159,12 +164,14 @@ package body Statement is
                     (State,
                      Exit_Condition (Stmt),
                      True,
-                     Info.Exit_Label);
+                     Info.Exit_Label,
+                     B, TAGDEF);
                end if;
             end;
 --        A_Goto_Statement
          when A_Procedure_Call_Statement =>
-            Expression.Function_Call (State, Stmt, XASIS.Classes.Not_A_Type);
+            Expression.Function_Call
+              (State, Stmt, XASIS.Classes.Not_A_Type, False, B, TAGDEF);
 
          when A_Return_Statement =>
             declare
@@ -180,7 +187,8 @@ package body Statement is
                   Output.TDF (B, c_make_top);
                else
                   Tipe := XASIS.Classes.Type_From_Subtype_Mark (Result);
-                  Expression.Compile (State, Return_Expression (Stmt), Tipe);
+                  Expression.Compile
+                    (State, Return_Expression (Stmt), Tipe, False, B, TAGDEF);
                end if;
             end;
 

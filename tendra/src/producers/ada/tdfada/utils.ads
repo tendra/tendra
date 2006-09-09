@@ -11,7 +11,8 @@ package Utils is
 
    function By_Copy_Type (Tipe : XASIS.Classes.Type_Info) return Boolean;
 
-   function Is_Static_Init (Expr : Asis.Expression) return Boolean;
+   function Is_Static (Expr : Asis.Expression) return Boolean;
+   function Is_Defined (Expr : Asis.Expression) return Boolean;
 
    function Out_By_Copy_Parameter (Param : Asis.Declaration) return Boolean;
 

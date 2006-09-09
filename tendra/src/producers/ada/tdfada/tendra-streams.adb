@@ -251,6 +251,7 @@ package body TenDRA.Streams is
          Object.Next := Result;
       end New_Buffer;
    begin
+--      Ada.Text_IO.Put_Line (Byte'Image(Value));
       if Object.Length = 0 or else Object.Next.Length = Bytes'Last then
          New_Buffer;
       end if;

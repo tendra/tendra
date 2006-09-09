@@ -2,26 +2,37 @@ with Asis;
 
 with States;
 with TenDRA;
+with TenDRA.Streams;
 
 package Intrinsic is
+   use TenDRA.Streams;
 
    procedure Function_Call
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      Callee  : in     Asis.Declaration);
-
-   procedure Function_Call_Boolean
      (State    : access States.State;
       Element  : in     Asis.Element;
       Callee   : in     Asis.Declaration;
-      Negative : in     Boolean);
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    procedure Function_Call_Boolean
      (State    : access States.State;
       Element  : in     Asis.Element;
       Callee   : in     Asis.Declaration;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small);
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Function_Call_Boolean
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Callee   : in     Asis.Declaration;
+      Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
 end Intrinsic;
 

@@ -6,48 +6,73 @@ with TenDRA.Streams;
 with XASIS.Classes;
 
 package Expression is
+   use TenDRA.Streams;
 
    procedure Compile
      (State    : access States.State;
       Element  : in     Asis.Expression;
-      Tipe     : in     XASIS.Classes.Type_Info);
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
-   --  Compile Boolean expression and return value
-   procedure Compile_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Expression;
-      Negative : in     Boolean);
-
-   --  Compile Boolean expression and jump to Label
    procedure Compile_Boolean
      (State    : access States.State;
       Element  : in     Asis.Expression;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small);
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+   --  Compile Boolean expression and return value
 
+   procedure Compile_Boolean
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+   --  Compile Boolean expression and jump to Label
+
+   procedure Invert_Boolean
+     (State    : access States.State;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
    --  Output invert operator for boolean value
-   procedure Invert_Boolean (State : access States.State);
-
-   procedure Static_Signed_Nat
-     (State   : access States.State;
-      Element : in     Asis.Expression;
-      B       : in out TenDRA.Streams.Stream'Class);
 
    procedure Function_Call
-     (State   : access States.State;
-      Element : in     Asis.Element;
-      Tipe    : in     XASIS.Classes.Type_Info);
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
    procedure Target_Name
      (State    : access States.State;
-      Element  : in     Asis.Expression);
+      Element  : in     Asis.Expression;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
 
-   procedure Apply_Defining_Name
-     (B       : in out TenDRA.Streams.Memory_Stream;
-      State   : access States.State;
-      Name    : in     Asis.Defining_Name;
-      L_Value : in     Boolean := False;
-      Unit    : in     States.Unit_Kinds := States.TAGDEF);
+   procedure Computed_Static
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+   --  Output computed static value of universal variety.
+   --  Universal variety for Boolean is just Boolean.V
+   --  Universal variety for other discrete types is universal
+   --  integer variety.
+
+   function Universal_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Unit     : in     States.Unit_Kinds) return TenDRA.Small;
+
+   procedure Output_Signed_Nat
+     (B        : in out Stream'Class;
+      Value    : in     TenDRA.Small;
+      Negative : in     Boolean := False);
 
 end Expression;
 

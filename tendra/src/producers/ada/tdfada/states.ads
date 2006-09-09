@@ -19,7 +19,9 @@ package States is
       Subtype_Attribute_Token);
 
    type Support_Kinds is
-     (Compare_Integer_Value, Boolean_Jump);
+     (Compare_Integer_Value, Boolean_Jump, Constraint_Error_If,
+      Enum_Succ_Pred_Attr, Signed_Succ_Pred_Attr,
+      Enum_Val_Attr, Signed_Val_Attr);
 
    type Type_Param_Kinds is
      (Lower, Upper);

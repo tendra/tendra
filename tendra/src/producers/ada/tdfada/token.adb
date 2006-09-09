@@ -34,6 +34,31 @@ package body Token is
                             ((NAT_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (LABEL_SORT, Singular, False)));
+         when Constraint_Error_If =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (LABEL_SORT, Singular, False)));
+         when Enum_Succ_Pred_Attr =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False),
+                             (NAT_SORT, Singular, False)));
+         when Signed_Succ_Pred_Attr =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False),
+                             (NAT_SORT, Singular, False)));
+         when Enum_Val_Attr =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
+         when Signed_Val_Attr =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -69,9 +94,7 @@ package body Token is
             else
                raise Error;
             end if;
-         when Type_Param_Token =>
-            Output.TDF (O, c_signed_nat);
-         when Name_Token | Value_Token =>
+         when Type_Param_Token | Name_Token | Value_Token =>
             Output.TDF (O, c_exp);
          when Support_Token =>
             case Link.Support is
@@ -89,15 +112,62 @@ package body Token is
                   Output.TDF (O, c_nat);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_label);
+               when Constraint_Error_If =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 2);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_label);
+               when Enum_Succ_Pred_Attr =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 4);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_nat);
+               when Signed_Succ_Pred_Attr =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_nat);
+               when Enum_Val_Attr =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 4);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+               when Signed_Val_Attr =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 2);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
             end case;
          when Subtype_Attribute_Token =>
             case Link.Attribute is
                when Asis.A_First_Attribute
                  | Asis.A_Last_Attribute
+                 | Asis.A_Succ_Attribute
+                 | Asis.A_Pred_Attribute
+                 | Asis.A_Pos_Attribute
+                 | Asis.A_Val_Attribute
                  =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 1);
+                  Output.TDF (O, c_exp);
+               when Asis.A_Min_Attribute
+                 | Asis.A_Max_Attribute
+                 =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 2);
+                  Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                when others =>
                   raise States.Error;

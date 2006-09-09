@@ -16,8 +16,8 @@ package Declaration is
    procedure Output_Shape
      (State   : access States.State;
       Tipe    : in     XASIS.Classes.Type_Info;
-      B       : in out TenDRA.Streams.Memory_Stream;
-      Unit    : in     States.Unit_Kinds := States.TAGDEF);
+      B       : in out TenDRA.Streams.Stream'Class;
+      Unit    : in     States.Unit_Kinds);
 
 end Declaration;
 

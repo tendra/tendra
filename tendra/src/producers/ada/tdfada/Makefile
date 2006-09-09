@@ -14,6 +14,7 @@ SRC_DIR = ${.CURDIR:C/(.*)\/src.*/\1/}
 ADA_DIR = ${.CURDIR:C/(.*)\/tdfada.*/\1/}
 
 ADA_PROG = tdfada
+LDFLAGS = -bargs -E
 TENDRA_TYPES = tendra-types.ads tendra-types.adb
 
 MAKE_TDF = ../../../make_tdf/make_tdf

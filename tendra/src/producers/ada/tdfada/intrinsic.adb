@@ -31,15 +31,16 @@ package body Intrinsic is
    procedure Function_Call
      (State   : access States.State;
       Element : in     Asis.Element;
-      Callee  : in     Asis.Declaration)
+      Callee  : in     Asis.Declaration;
+      Static  : in     Boolean;
+      B       : in out Stream'Class;
+      Unit    : in     States.Unit_Kinds)
    is
       use Asis;
       use Asis.Expressions;
 
       procedure Output_Overflow;
 
-      B     : TenDRA.Streams.Memory_Stream
-        renames State.Units (States.TAGDEF).all;
       Name  : Asis.Defining_Name :=
         XASIS.Utils.Declaration_Name (Callee);
       Oper  : Asis.Operator_Kinds :=
@@ -56,15 +57,20 @@ package body Intrinsic is
 
       procedure Output_Overflow is
       begin
-         Output.TDF (B, c_trap);
-         Output.List_Count (B, 1);
-         Output.TDF (B, c_overflow);
+         if Static then
+            Output.TDF (B, c_continue);
+         else
+            Output.TDF (B, c_trap);
+            Output.List_Count (B, 1);
+            Output.TDF (B, c_overflow);
+         end if;
       end Output_Overflow;
 
       procedure Each_Child (Bool_Value : Boolean := True) is
       begin
          for J in List'Range loop
-            Expression.Compile (State, Actual_Parameter (List (J)), Types (J));
+            Expression.Compile
+              (State, Actual_Parameter (List (J)), Types (J), Static, B, Unit);
          end loop;
       end Each_Child;
 
@@ -107,8 +113,7 @@ package body Intrinsic is
             when An_Exponentiate_Operator =>
                Output.TDF (B, c_power);
                Output_Overflow;
-               Types (2) :=
-                 XASIS.Classes.Type_From_Declaration (XASIS.Types.Integer);
+               Types (2) := XASIS.Classes.T.Integer;
                Each_Child;
             when An_Abs_Operator =>
                Output.TDF (B, c_abs);
@@ -130,14 +135,15 @@ package body Intrinsic is
      (State    : access States.State;
       Element  : in     Asis.Element;
       Callee   : in     Asis.Declaration;
-      Negative : in     Boolean)
+      Negative : in     Boolean;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use Expression;
       use Asis.Expressions;
 
-      B     : TenDRA.Streams.Memory_Stream
-        renames State.Units (States.TAGDEF).all;
       Name  : Asis.Defining_Name :=
         Asis.Declarations.Names (Callee) (1);
       Oper  : Asis.Operator_Kinds :=
@@ -154,18 +160,14 @@ package body Intrinsic is
          use States;
          Tok    : TenDRA.Small := Find_Support (State, Compare_Integer_Value);
          Params : aliased Streams.Memory_Stream;
-         Saved  : constant Stream_Access := State.Units (TAGDEF);
       begin
          Token.Initialize (Params, Compare_Integer_Value);
          Output.TDF (Params, Get_NTest (Oper, Negative));
 
-         State.Units (TAGDEF) := Params'Unchecked_Access;
-
          for J in List'Range loop
-            Compile (State, Actual_Parameter (List (J)), Info);
+            Compile
+              (State, Actual_Parameter (List (J)), Info, Static, Params, Unit);
          end loop;
-
-         State.Units (TAGDEF) := Saved;
 
          Output.TDF (B, c_exp_apply_token);
          Output.TDF (B, c_make_tok);
@@ -192,26 +194,42 @@ package body Intrinsic is
                   end if;
                end if;
 
-               Compile_Boolean (State, Actual_Parameter (List (1)), Negative);
-               Compile_Boolean (State, Actual_Parameter (List (2)), Negative);
+               Compile_Boolean
+                 (State,
+                  Actual_Parameter (List (1)),
+                  Negative, B, Unit);
+
+               Compile_Boolean
+                 (State,
+                  Actual_Parameter (List (2)),
+                  Negative, B, Unit);
 
             when An_Xor_Operator =>
                Output.TDF (B, c_xor);
 
-               Compile_Boolean (State, Actual_Parameter (List (1)), Negative);
-               Compile_Boolean (State, Actual_Parameter (List (2)), False);
+               Compile_Boolean
+                 (State,
+                  Actual_Parameter (List (1)),
+                  Negative, B, Unit);
+
+               Compile_Boolean
+                 (State,
+                  Actual_Parameter (List (2)),
+                  False, B, Unit);
 
             when An_Equal_Operator
               | A_Not_Equal_Operator =>
 
                if Oper = An_Equal_Operator xor Negative then
-                  Invert_Boolean (State);
+                  Invert_Boolean (State, B, Unit);
                end if;
 
                Output.TDF (B, c_xor);
 
-               Compile_Boolean (State, Actual_Parameter (List (1)), False);
-               Compile_Boolean (State, Actual_Parameter (List (2)), False);
+               Compile_Boolean
+                 (State, Actual_Parameter (List (1)), False, B, Unit);
+               Compile_Boolean
+                 (State, Actual_Parameter (List (2)), False, B, Unit);
 
             when A_Less_Than_Operator
               | A_Greater_Than_Or_Equal_Operator
@@ -219,12 +237,26 @@ package body Intrinsic is
 
                if Oper = A_Less_Than_Operator xor Negative then
                   Output.TDF (B, c_and);
-                  Compile_Boolean (State, Actual_Parameter (List (1)), True);
-                  Compile_Boolean (State, Actual_Parameter (List (2)), False);
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (1)),
+                     True, B, Unit);
+
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (2)),
+                     False, B, Unit);
                else
                   Output.TDF (B, c_or);
-                  Compile_Boolean (State, Actual_Parameter (List (1)), False);
-                  Compile_Boolean (State, Actual_Parameter (List (2)), True);
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (1)),
+                     False, B, Unit);
+
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (2)),
+                     True, B, Unit);
                end if;
 
             when A_Less_Than_Or_Equal_Operator
@@ -232,17 +264,33 @@ package body Intrinsic is
               =>
                if Oper = A_Greater_Than_Operator xor Negative then
                   Output.TDF (B, c_and);
-                  Compile_Boolean (State, Actual_Parameter (List (1)), False);
-                  Compile_Boolean (State, Actual_Parameter (List (2)), True);
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (1)),
+                     False, B, Unit);
+
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (2)),
+                     True, B, Unit);
                else
                   Output.TDF (B, c_or);
-                  Compile_Boolean (State, Actual_Parameter (List (1)), True);
-                  Compile_Boolean (State, Actual_Parameter (List (2)), False);
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (1)),
+                     True, B, Unit);
+
+                  Compile_Boolean
+                    (State,
+                     Actual_Parameter (List (2)),
+                     False, B, Unit);
                end if;
 
             when A_Not_Operator =>
                Compile_Boolean
-                 (State, Actual_Parameter (List (1)), not Negative);
+                 (State,
+                  Actual_Parameter (List (1)),
+                  not Negative, B, Unit);
 
             when others =>
                raise States.Error;
@@ -272,14 +320,15 @@ package body Intrinsic is
       Element  : in     Asis.Element;
       Callee   : in     Asis.Declaration;
       Negative : in     Boolean;
-      Label    : in     TenDRA.Small)
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
    is
       use Asis;
       use Expression;
       use Asis.Expressions;
 
-      B     : TenDRA.Streams.Memory_Stream
-        renames State.Units (States.TAGDEF).all;
       Name  : Asis.Defining_Name :=
         Asis.Declarations.Names (Callee) (1);
       Oper  : Asis.Operator_Kinds :=
@@ -296,7 +345,6 @@ package body Intrinsic is
          use States;
          Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump);
          Params : aliased Streams.Memory_Stream;
-         Saved  : constant Stream_Access := State.Units (TAGDEF);
       begin
          Token.Initialize (Params, Boolean_Jump);
          Output.TDF (Params, c_make_nat);
@@ -309,12 +357,10 @@ package body Intrinsic is
 
          Output.TDF (Params, Op);
 
-         State.Units (TAGDEF) := Params'Unchecked_Access;
-
-         Compile_Boolean (State, Actual_Parameter (List (1)), False);
-         Compile_Boolean (State, Actual_Parameter (List (2)), False);
-
-         State.Units (TAGDEF) := Saved;
+         Compile_Boolean
+           (State, Actual_Parameter (List (1)), False, Params, Unit);
+         Compile_Boolean
+           (State, Actual_Parameter (List (2)), False, Params, Unit);
 
          Output.TDF (Params, c_make_label);
          Output.TDFINT (Params, Label);
@@ -348,12 +394,18 @@ package body Intrinsic is
                Output.TDF (B, Get_NTest (Oper, Negative));
                Output.TDF (B, c_make_label);
                Output.TDFINT (B, Label);
-               Compile_Boolean (State, Actual_Parameter (List (1)), False);
-               Compile_Boolean (State, Actual_Parameter (List (2)), False);
+               Compile_Boolean
+                 (State, Actual_Parameter (List (1)), False, B, Unit);
+               Compile_Boolean
+                 (State, Actual_Parameter (List (2)), False, B, Unit);
 
             when A_Not_Operator =>
                Compile_Boolean
-                 (State, Actual_Parameter (List (1)), not Negative, Label);
+                 (State,
+                  Actual_Parameter (List (1)),
+                  not Negative,
+                  Label,
+                  B, Unit);
 
             when others =>
                raise States.Error;
@@ -372,8 +424,10 @@ package body Intrinsic is
                Output.TDF (B, Get_NTest (Oper, Negative));
                Output.TDF (B, c_make_label);
                Output.TDFINT (B, Label);
-               Compile (State, Actual_Parameter (List (1)), Info);
-               Compile (State, Actual_Parameter (List (2)), Info);
+               Compile
+                 (State, Actual_Parameter (List (1)), Info, Static, B, Unit);
+               Compile
+                 (State, Actual_Parameter (List (2)), Info, Static, B, Unit);
             when others =>
                raise States.Error;
          end case;

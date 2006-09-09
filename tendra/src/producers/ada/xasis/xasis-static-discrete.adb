@@ -219,14 +219,14 @@ package body XASIS.Static.Discrete is
             declare
                Rng : Static_Range := Static_Range_Attribute (Element);
             begin
-               return Rng.Lower;
+               return Rng (Lower);
             end;
 
          when A_Last_Attribute =>
             declare
                Rng : Static_Range := Static_Range_Attribute (Element);
             begin
-               return Rng.Upper;
+               return Rng (Upper);
             end;
 
          when others =>

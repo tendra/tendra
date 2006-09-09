@@ -12,6 +12,7 @@ with Asis.Compilation_Units;
 with Ada.Wide_Text_IO;
 with Ada.Strings.Wide_Fixed;
 with Ada.Strings.Wide_Unbounded;
+with XASIS.Types;
 
 package body XASIS.Utils is
 
@@ -599,6 +600,63 @@ package body XASIS.Utils is
    function External_Name_Image
      (Name : Asis.Defining_Name) return Asis.Program_Text
      renames Direct_Name;
+
+   ---------------------------
+   -- Get_Attribute_Profile --
+   ---------------------------
+
+   function Get_Attribute_Profile
+     (Tipe : Asis.Declaration;
+      Kind : Asis.Attribute_Kinds) return Asis.Element_List is
+   begin
+      case Kind is
+         when A_Val_Attribute =>
+            return (1 => XASIS.Types.Universal_Integer);
+         when A_Value_Attribute =>
+            return (1 => XASIS.Types.String);
+         when An_Adjacent_Attribute
+           | A_Copy_Sign_Attribute
+           | A_Max_Attribute
+           | A_Min_Attribute
+           | A_Remainder_Attribute
+           =>
+            return (1 | 2 => Tipe);
+         when A_Ceiling_Attribute
+           | An_Exponent_Attribute
+           | A_Floor_Attribute
+           | A_Fraction_Attribute
+           | An_Image_Attribute
+           | A_Machine_Attribute
+           | A_Model_Attribute
+           | A_Pos_Attribute
+           | A_Pred_Attribute
+           | A_Rounding_Attribute
+           | A_Succ_Attribute
+           | A_Truncation_Attribute
+           | An_Unbiased_Rounding_Attribute
+           | A_Wide_Image_Attribute
+           =>
+            return (1 => Tipe);
+         when A_Compose_Attribute
+           | A_Leading_Part_Attribute
+           | A_Scaling_Attribute
+           =>
+            return (1 => Tipe, 2 => XASIS.Types.Universal_Integer);
+         when A_Round_Attribute =>
+            return (1 => XASIS.Types.Universal_Real);
+         when A_Wide_Value_Attribute =>
+            return (1 => XASIS.Types.Wide_String);
+         when An_Input_Attribute =>
+            return (1 => XASIS.Types.Root_Stream_Type);
+         when A_Read_Attribute
+           | A_Write_Attribute
+           | An_Output_Attribute =>
+            return (1 => XASIS.Types.Root_Stream_Type,
+                    2 => Tipe);
+         when others =>
+            raise XASIS_Error;
+      end case;
+   end Get_Attribute_Profile;
 
    -----------------------
    -- Get_Defining_Name --
