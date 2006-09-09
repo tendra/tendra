@@ -140,18 +140,10 @@
     This table contains miscellaneous configuration items.
 */
 
-#if OPEN_NT
-#define PROGNAME_TCC			"openlint"
-#define PROGNAME_TCHK			"openlint"
-#define TCCENV_VAR			"OPENLINTENV"
-#define TCCOPT_VAR			"OPENLINTOPTS"
-#else
 #define PROGNAME_TCC			"tcc"
 #define PROGNAME_TCHK			"tchk"
 #define TCCENV_VAR			"TCCENV"
 #define TCCOPT_VAR			"TCCOPTS"
-#endif
-
 #define DIAG_ENV			"tcc_diag"
 #define PREPROC_ENV			"tcc_pp"
 #define PROF_ENV			"tcc_prof"
