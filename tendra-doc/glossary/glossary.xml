@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossary>
+	<title>TenDRA Glossary</title>
+
+	<para>
+		A glossary of major terms and concepts used by The TenDRA Project.
+	</para>
+
+	<!--
+		Certinaly all acronyms should be here, especially those used for
+		file extensions and other highly visible things.
+
+		Perhaps more importantly, this document is to be a reference for
+		the obscure terms which need clarifying. These are most often only
+		visible to developers who have nothing but the source code, if
+		something is unclear - and the source currently isn't very helpful
+		in description.
+	-->
+
+	<glossdiv>
+		<title>S</title>
+
+		<glossentry id="startupfile">
+			<glossterm>Start-up File</glossterm>
+
+			<glossdef>
+				<para><!-- TODO --></para>
+			</glossdef>
+		</glossentry>
+	</glossdiv>
+</glossary>
+
