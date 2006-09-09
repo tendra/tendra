@@ -61,6 +61,7 @@
 #ifndef ERROR_INCLUDED
 #define ERROR_INCLUDED
 
+#include "tendra.h"
 
 /*
     ERROR SEVERITY LEVELS

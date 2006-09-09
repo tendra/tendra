@@ -61,6 +61,7 @@
 #include "config.h"
 #include "char.h"
 #include "error.h"
+#include "tendra.h"
 #include "xalloc.h"
 
 

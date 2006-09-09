@@ -37,7 +37,7 @@
 */
 
 #include "ossg_api.h"
-#include "ossg.h"
+#include "tendra.h"
 
 
 /*
