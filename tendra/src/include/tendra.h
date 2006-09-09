@@ -63,7 +63,7 @@
 
 
 /*
-    TENDRA STANDARD COMPILER HEADER, VERSION 1.1
+    TENDRA STANDARD COMPILER HEADER
 
     This headers defines feature switch macros for various compiler
     features.  These can be 1, if the feature is allowed, or 0, otherwise.
