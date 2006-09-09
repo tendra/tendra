@@ -77,7 +77,6 @@
 int
 main(int argc, char **argv)
 {
-	int a;
 	int act = 0;
 	int ch;
 	char *input = NULL;
