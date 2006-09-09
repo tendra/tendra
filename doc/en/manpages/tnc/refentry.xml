@@ -1,8 +1,17 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+
+<refentry id="man-tnc">
 <refmeta>
   <refentrytitle>tnc</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 2186 2005-10-19 09:21:53Z stefanf $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
@@ -241,3 +250,5 @@
 
   <para>&man.tendra.disp;, &man.tendra.tcc;.</para>
 </refsect1>
+</refentry>
+

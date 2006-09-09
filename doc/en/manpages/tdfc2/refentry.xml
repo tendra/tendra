@@ -1,19 +1,28 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+
+<refentry id="man-tdfc2">
 <refmeta>
-  <refentrytitle>tcpplus</refentrytitle>
+  <refentrytitle>tdfc2</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 1914 2004-07-03 16:08:45Z stefanf $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='tcpplus-name'>
-  <refname>tcpplus</refname>
-  <refpurpose>C++ to TDF/ANDF producer</refpurpose>
+<refnamediv id='tdfc2-name'>
+  <refname>tdfc2</refname>
+  <refpurpose>C to TDF/ANDF producer</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='tcpplus-synopsis'>
+<refsynopsisdiv id='tdfc2-synopsis'>
   <cmdsynopsis>
-    <command>tcpplus</command>
+    <command>tdfc2</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='opt'><replaceable>input-file</replaceable></arg>
     <arg choice='opt'><replaceable>output-file</replaceable></arg>
@@ -21,11 +30,11 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='tcpplus-description'>
+<refsect1 id='tdfc2-description'>
   <title>DESCRIPTION</title>
 
-  <para>In its default action, <command>tcpplus</command> translates the
-    input C++ source file, <emphasis>input-file</emphasis>, into a TDF/ANDF
+  <para>In its default action, <command>tdfc2</command> translates the
+    input C source file, <emphasis>input-file</emphasis>, into a TDF/ANDF
     capsule, <emphasis>output-file</emphasis>. If the output file name is
     omitted or is <emphasis>-</emphasis>, the standard output is used. If the
     input file name is omitted or is <emphasis>-</emphasis>, the standard
@@ -33,35 +42,34 @@
 
   <para>By use of the
     <option>-s</option><replaceable>spec-file</replaceable> option,
-    <command>tcpplus</command> can additionally be made to output a C++ spec
-    file which contains information enabling intermodule analysis to be
-    performed. Alternatively usage and error information suitable for
-    processing by other tools can be output using the
+    <command>tdfc2</command> can additionally be made to output a C spec file
+    which contains information enabling intermodule analysis to be performed.
+    Alternatively usage and error information suitable for processing by
+    other tools can be output using the
     <option>-d</option><replaceable>opt</replaceable><emphasis>=</emphasis><emphasis>
     dump-file</emphasis> option.</para>
 
-  <para><command>tcpplus</command> also has a preprocessing action, when
-    invoked with the <option>-E</option> option, in which the input C++
-    source file, <emphasis>input-file</emphasis>, is preprocessed to an
-    output file, <emphasis>ouput-file</emphasis>.</para>
+  <para><command>tdfc2</command> also has a preprocessing action, when
+    invoked with the <option>-E</option> option, in which the input C source
+    file, <emphasis>input-file</emphasis>, is preprocessed to an output file,
+    <emphasis>ouput-file</emphasis>.</para>
 
-  <para>Finally <command>tcpplus</command> has a spec linker action, when
+  <para>Finally <command>tdfc2</command> has a spec linker action, when
     invoked with the <option>-S</option> option, in which any number of spec
     input files, <emphasis>input-file</emphasis>, are combined into a spec
     output file, which may be specified using the <option>-s</option> option.
     Any extra code generation resulting from this linking phase is written to
     the TDF capsule, <emphasis>output-file</emphasis>.</para>
 
-  <para>It is recommended that <command>tcpplus</command> is invoked via
-    &man.tendra.tcc;. The <option>-Yc++</option> option is required to enable
-    the C++ capabilities. Files with a <markup>.C</markup> suffix are
-    recognised as C++ source files. Options can be passed directly to
-    <command>tcpplus</command> using the
-    <option>-Wx,</option><replaceable>opt</replaceable> option to
+  <para>It is recommended that <command>tdfc2</command> is invoked via
+    &man.tendra.tcc;. Files with a <markup>.c</markup> suffix are
+    recognised as C source files. Options can be passed directly to
+    <command>tdfc2</command> using the
+    <option>-Wc,</option><replaceable>opt</replaceable> option to
     <emphasis>tcc</emphasis>.</para>
 </refsect1>
 
-<refsect1 id='tcpplus-options'>
+<refsect1 id='tdfc2-options'>
   <title>OPTIONS</title>
 
   <para>The command-line options can appear in any order and can be
@@ -70,8 +78,8 @@
     <option>-I</option><replaceable>dir</replaceable> and <option>-I</option>
     <replaceable>dir</replaceable> are equivalent. Most of the option
     handling required is handled by &man.tendra.tcc; when this is being used,
-    but options may be passed directly to <command>tcpplus</command> using
-    the <option>-Wx,</option><replaceable>opt</replaceable> option.</para>
+    but options may be passed directly to <command>tdfc2</command> using the
+    <option>-Wc,</option><replaceable>opt</replaceable> option.</para>
 
   <variablelist>
     <varlistentry>
@@ -103,7 +111,7 @@
     <varlistentry>
       <term><option>-E</option></term>
       <listitem>
-        <para>Enables preprocessing mode in which the input C++ source file
+        <para>Enables preprocessing mode in which the input C source file
           is preprocessed into the output file.</para>
       </listitem>
     </varlistentry>
@@ -120,7 +128,7 @@
       <term><option>-H</option></term>
       <listitem>
         <para>Enables verbose inclusion mode in which warnings are printed
-        at the start and the end of each included source file.</para>
+          at the start and the end of each included source file.</para>
       </listitem>
     </varlistentry>
 
@@ -128,8 +136,8 @@
       <term><option>-I</option><replaceable>directory</replaceable></term>
       <listitem>
         <para>Adds the given directory to the list searched by
-          <command>tcpplus</command> for included source files. No such
-          directories are built into <command>tcpplus</command>.</para>
+          <command>tdfc2</command> for included source files. No such
+          directories are built into <command>tdfc2</command>.</para>
       </listitem>
     </varlistentry>
 
@@ -140,7 +148,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tcpplus-bigN-option'>
+    <varlistentry>
       <term><option>-N</option><replaceable>name</replaceable><emphasis>:</emphasis><emphasis>
         directory</emphasis></term>
       <listitem>
@@ -158,9 +166,9 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term>
+      <term><option>-Q</option></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to quit immediately without
+        <para>Causes <command>tdfc2</command> to quit immediately without
           processing its input file. This is useful primarily in version
           and option queries.</para>
       </listitem>
@@ -176,8 +184,8 @@
     <varlistentry>
       <term><option>-S</option></term>
       <listitem>
-        <para>Enables spec linker mode in which any number of C++ spec
-          input files are linked into a single C++ spec output file.</para>
+        <para>Enables spec linker mode in which any number of C spec input
+          files are linked into a single C spec output file.</para>
       </listitem>
     </varlistentry>
 
@@ -188,25 +196,23 @@
           <option>-U-</option> undefines all the built-in macros. These are
           <emphasis>__FILE__</emphasis>, <emphasis>__LINE__</emphasis>,
           <emphasis>__TIME__</emphasis>, <emphasis>__DATE__</emphasis>,
-          <emphasis>__STDC__</emphasis>,
-          <emphasis>__STDC_VERSION__</emphasis>, and
-          <emphasis>__cplusplus</emphasis>.</para>
+          <emphasis>__STDC__</emphasis> and
+          <emphasis>__STDC_VERSION__</emphasis>.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
       <term><option>-V</option></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to print its version
+        <para>Causes <command>tdfc2</command> to print its version
           number.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
       <term><option>-W</option><replaceable>option</replaceable></term>
-
       <listitem>
-        <para>Causes <command>tcpplus</command> to print a warning in the
+        <para>Causes <command>tdfc2</command> to print a warning in the
           circumstances described by <emphasis>option</emphasis>. The special
           case <option>-Wall</option> enables a wide range of
           warnings.</para>
@@ -228,7 +234,7 @@
       <term><option>-Z</option><replaceable>number</replaceable></term>
       <listitem>
         <para>Sets the maximum number of errors printed by
-          <command>tcpplus</command> before bailing out to be
+          <command>tdfc2</command> before bailing out to be
           <emphasis>number</emphasis>. The default is 32.</para>
       </listitem>
     </varlistentry>
@@ -236,7 +242,7 @@
     <varlistentry>
       <term><option>-a</option></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to apply complete program
+        <para>Causes <command>tdfc2</command> to apply complete program
           analysis to its input files. That is it assumes that no other
           translation units need to be linked in order for the program to
           execute.</para>
@@ -259,12 +265,12 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tccplus-d-option'>
+    <varlistentry>
       <term><option>-d</option><replaceable>opt</replaceable><emphasis>=</emphasis><emphasis>
         dump-file</emphasis></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to dump information about
-          its input file into <emphasis>dump-file</emphasis>.
+        <para>Causes <command>tdfc2</command> to dump information about its
+          input file into <emphasis>dump-file</emphasis>.
           <emphasis>opt</emphasis> is a series of characters describing the
           information to be dumped; <emphasis>c</emphasis> for string
           literals, <emphasis>e</emphasis> for errors, <emphasis>h</emphasis>
@@ -276,7 +282,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tcpplus-e-option'>
+    <varlistentry>
       <term><option>-e</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as an end-up file. This is
@@ -285,7 +291,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tcpplus-f-option'>
+    <varlistentry>
       <term><option>-f</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as a start-up file. This is
@@ -306,7 +312,7 @@
     <varlistentry>
       <term><option>-h</option></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to print a full list of its
+        <para>Causes <command>tdfc2</command> to print a full list of its
           available command-line options. This includes a number not
           documented here which are unlikely to prove useful to the normal
           user.</para>
@@ -340,7 +346,7 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tcpplus-n-option'>
+    <varlistentry>
       <term><option>-n</option><replaceable>port-table</replaceable></term>
       <listitem>
         <para>Specifies that the given portability table should be used to
@@ -366,7 +372,7 @@
     <varlistentry>
       <term><option>-s</option><replaceable>spec-file</replaceable></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to write a C++ spec file
+        <para>Causes <command>tdfc2</command> to write a C spec file
           describing the input source file to
           <emphasis>spec-file</emphasis>.</para>
       </listitem>
@@ -375,17 +381,17 @@
     <varlistentry>
       <term><option>-t</option></term>
       <listitem>
-        <para>Specifies that <command>tcpplus</command> should include
-          token declarations in its output TDF capsule. While these are
-          strictly unnecessary, they help when pretty-printing the output.
-          This is equivalent to <option>-jt</option>.</para>
+        <para>Specifies that <command>tdfc2</command> should include token
+          declarations in its output TDF capsule. While these are strictly
+          unnecessary, they help when pretty-printing the output. This is
+          equivalent to <option>-jt</option>.</para>
       </listitem>
     </varlistentry>
 
-    <varlistentry id='tcpplus-u-option'>
-      <term><option>-u</option><replaceable> name ... name</replaceable></term>
+    <varlistentry>
+      <term><option>-u</option><replaceable> name ... name</replaceable></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to print the unmangle forms
+        <para>Causes <command>tdfc2</command> to print the unmangle forms
           of the given mangled identifier names.</para>
       </listitem>
     </varlistentry>
@@ -393,7 +399,7 @@
     <varlistentry>
       <term><option>-v</option></term>
       <listitem>
-        <para>Causes <command>tcpplus</command> to print the name of each
+        <para>Causes <command>tdfc2</command> to print the name of each
           function to the standard output as it is compiled.</para>
       </listitem>
     </varlistentry>
@@ -416,7 +422,7 @@
     <varlistentry>
       <term><option>-z</option></term>
       <listitem>
-        <para>Forces <command>tcpplus</command> to produce an output file
+        <para>Forces <command>tdfc2</command> to produce an output file
           even if compilation errors occur. The effect of installing a TDF
           capsule produced using this option is undefined. This is equivalent
           to <option>-mz</option>.</para>
@@ -425,7 +431,10 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='tcpplus-seealso'>
+<refsect1 id='tdfc2-seealso'>
   <title>SEE ALSO</title>
-  <para>&man.tendra.tcc;, &man.tendra.tdfc2;.</para>
+
+  <para>&man.tendra.tcc;, &man.tendra.tcpplus;.</para>
 </refsect1>
+</refentry>
+

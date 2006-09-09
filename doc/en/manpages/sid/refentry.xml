@@ -1,8 +1,18 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+
+<refentry id="man-sid">
+
 <refmeta>
   <refentrytitle>sid</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 2296 2005-11-10 11:53:06Z stefanf $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
@@ -231,7 +241,7 @@
           input files, a grammar file and an actions file, and produces two
           output files, a C source file containing the generated parser and
           a C header file containing the external declarations for the
-          parser. The C language specific options are:
+          parser. The C language specific options are:</para>
 
         <variablelist>
           <varlistentry>
@@ -304,6 +314,8 @@
           </varlistentry>
         </variablelist>
 
+    <varlistentry>
+     <listitem>
         <para>The "test" language only takes one input file, and produces no
           output file. It may be used to check that a grammar is valid. In
           conjunction with the dump file, it may be used to check the
@@ -343,6 +355,8 @@
           to be written to the standard error stream.</para>
       </listitem>
     </varlistentry>
+</listitem>
+</varlistentry>
   </variablelist>
 </refsect1>
 
@@ -351,3 +365,4 @@
 
   <para>SID users' guide.</para>
 </refsect1>
+</refentry>

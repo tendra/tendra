@@ -1,8 +1,17 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+
+<refentry id="man-tcc">
 <refmeta>
   <refentrytitle>tcc</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 2205 2005-10-20 12:52:51Z stefanf $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
@@ -655,14 +664,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-dn</option> or <option>-dy</option></term>
+      <term><option>-dn</option> or <option>-dy</option></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-do</option><replaceable>letter</replaceable> <emphasis>
+      <term><option>-do</option><replaceable>letter</replaceable> <emphasis>
       string</emphasis></term>
       <listitem>
         <para>Sets the name of the default output file of type
@@ -798,7 +807,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-message </option><replaceable>string</replaceable></term>
+      <term><option>-message </option><replaceable>string</replaceable></term>
       <listitem>
         <para>Causes <command>tcc</command> to print the message
           <emphasis>string</emphasis>.</para>
@@ -830,7 +839,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-o </option><replaceable>string</replaceable></term>
+      <term><option>-o </option><replaceable>string</replaceable></term>
       <listitem>
         <para>If a final executable is produced, call it
           <emphasis>string</emphasis> (the default is
@@ -858,7 +867,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option> or <option>-quiet</option></term>
+      <term><option>-q</option> or <option>-quiet</option></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should work silently.
           This is the default.</para>
@@ -913,14 +922,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-special </option><replaceable>string</replaceable></term>
+      <term><option>-special </option><replaceable>string</replaceable></term>
       <listitem>
         <para>Allows various internal options to be specified.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-startup </option><replaceable>string</replaceable></term>
+      <term><option>-startup </option><replaceable>string</replaceable></term>
       <listitem>
         <para>Causes <emphasis>string</emphasis> to be printed to the
           <command>tcc</command> built-in start-up file.</para>
@@ -935,7 +944,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-sym: </option><emphasis>string</emphasis></term>
+      <term><option>-sym: </option><emphasis>string</emphasis></term>
       <listitem>
         <para>Enables dump-linking (with mode specified by options in
           string).</para>
@@ -943,7 +952,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-target </option><replaceable>string</replaceable></term>
+      <term><option>-target </option><replaceable>string</replaceable></term>
       <listitem>
         <para>No effect (allowed for compatibility with &man.freebsd.cc; on
           some systems).</para>
@@ -951,7 +960,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-temp </option><replaceable>dir</replaceable></term>
+      <term><option>-temp </option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should use
           <emphasis>dir</emphasis> as its temporary directory.</para>
@@ -984,7 +993,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-v</option> or <option>-verbose</option></term>
+      <term><option>-v</option> or <option>-verbose</option></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should work in verbose
           mode, sending information on what system commands it is executing
@@ -1017,7 +1026,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-work </option><replaceable>string</replaceable></term>
+      <term><option>-work </option><replaceable>string</replaceable></term>
       <listitem>
         <para>Specifies that all preserved intermediate files are placed in
           the directory <emphasis>string</emphasis> rather than where they
@@ -1231,3 +1240,5 @@
   &man.tendra.hppatrans;, &man.tendra.mipstrans;, &man.tendra.sparctrans;,
   &man.tendra.tccenv;.</para>
 </refsect1>
+</refentry>
+

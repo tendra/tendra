@@ -1,8 +1,17 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+
+<refentry id="man-tspec">
 <refmeta>
   <refentrytitle>tspec</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 2411 2006-01-13 22:20:59Z dege $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
@@ -257,3 +266,5 @@
 
   <para>&man.tendra.tcc;, &man.tendra.tdfc2;.</para>
 </refsect1>
+</refentry>
+

@@ -1,8 +1,16 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % docs PUBLIC "-//TenDRA//ENTITIES TenDRA Document Entities//EN" "http://svn.ten15.org/doc/share/ent/docs.ent">
+%docs;
+<!ENTITY % manref PUBLIC "-//TenDRA//ENTITIES TenDRA Manpage Entities//EN" "http://svn.ten15.org/doc/share/ent/manref.ent">
+%manref;
+]>
+<refentry id="man-lexi">
 <refmeta>
   <refentrytitle>lexi</refentrytitle>
   <manvolnum>1</manvolnum>
   <refmiscinfo class="software">TenDRA</refmiscinfo>
-  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA: manpage.sgml 2184 2005-10-19 08:45:06Z stefanf $</refmiscinfo>
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
@@ -147,7 +155,7 @@
   <para>The first example is taken from <command>lexi</command> sources,
     this is snippet from input grammar specification.</para>
 
-  <programlisting linenumbering=unnumbered>
+  <programlisting linenumbering='unnumbered'>
 /* Character groups */
 
 /* These characters are silently ignored. */
@@ -171,14 +179,14 @@ KEYWORD "TOKEN" -> $token;
 
   <para>Next example illustrates some additional features of
     <command>lexi</command>.</para>
-  <programlisting>
+  <programlisting linenumbering='unnumbered'>
 /* Map ANSI trigraph sequence to the ordinary bracket. */
 MAPPING "??>" -> "}";
 
 /* Define conditionally some character groups and mappings. */
 IF (with_trigraphs) {
 	GROUP foo = "foo";
-	MAPPING "??<" -> "{";
+	MAPPING "??&lt;" -> "{";
 }
   </programlisting>
 </refsect1>
@@ -215,6 +223,7 @@ IF (with_trigraphs) {
         <para>This function is called by <function>read_token()</function>
           when an unknown token is found.</para>
       </listitem>
+    </varlistentry>
   </variablelist>
 </refsect1>
 
@@ -239,3 +248,5 @@ IF (with_trigraphs) {
     .
   </para>
 </refsect1>
+</refentry>
+
