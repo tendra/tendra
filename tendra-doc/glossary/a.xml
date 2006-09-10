@@ -14,7 +14,7 @@
 		<acronym>API</acronym>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="andf">
 		<glossterm>Architecture Neutral Distribution Format</glossterm>
 		<acronym>ANDF</acronym>
 <!-- see also wikipedia, ANDF home page (defunct?) -->

@@ -17,11 +17,21 @@
 		</glossdef>
 	</glossentry>
 
-	<glossentry>
-		<glossterm>TDF</glossterm>
+	<glossentry id="tdf">
+		<glossterm>TenDRA Distribution Format</glossterm>
+		<acronym>TDF</acronym>
 <!--
 Low-level Ten15: Ten15 Distribution Format
 Retrospectively renamed to TenDRA Distribution Format.
+-->
+
+		<glossseealso otherterm="andf"/>
+		<glossseealso otherterm="lowlevelten15"/>
+		<glossseealso otherterm="osf"/>
+
+<!--
+See also personal retrospective,
+wikipedia
 -->
 	</glossentry>
 
@@ -58,7 +68,8 @@ Retrospectively renamed to TenDRA Distribution Format.
 				it was created to provide all of the virtual machine's
 				abilities.
 			</para>
-			<!-- See also Ten15 system -->
+
+			<glossseealso otherterm="ten15system"/>
 		</glossdef>
 	</glossentry>
 
@@ -70,7 +81,7 @@ Retrospectively renamed to TenDRA Distribution Format.
 		</glossdef>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="ten15system">
 		<glossterm>The Ten15 system</glossterm>
 
 		<glossdef>
@@ -99,7 +110,7 @@ Retrospectively renamed to TenDRA Distribution Format.
 				typed. This was eventually provided for by TDF, instead.
 			</para>
 
-<!-- See also Low level Ten15.  -->
+			<glossseealso otherterm="lowlevelten15"/>
 		</glossdef>
 	</glossentry>
 
@@ -113,7 +124,8 @@ Retrospectively renamed to TenDRA Distribution Format.
 		<glossdef>
 			<para><!-- TODO for programs on the Ten15 system, using the Ten15 compiler. -->
 			</para>
-<!-- See also Ten15 system -->
+
+			<glossseealso otherterm="ten15system"/>
 		</glossdef>
 	</glossentry>
 

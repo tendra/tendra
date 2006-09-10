@@ -33,7 +33,7 @@
 		<glossterm>Linux</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="lowlevelten15">
 		<glossterm>Low-level Ten15</glossterm>
 
 		<glossdef>
@@ -61,8 +61,11 @@
 				proposal.
 			</para>
 
+			<glossseealso otherterm="andf"/>
+			<glossseealso otherterm="osf"/>
+			<glossseealso otherterm="tdf"/>
+
 <!--
-See also OSF, ANDF, TDF
 See also personal retrospective,
 wikipedia
 -->

@@ -17,7 +17,7 @@
 		</glossdef>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="osf">
 		<glossterm>Open Software Foundation</glossterm>
 		<acronym>OSF</acronym>
 	</glossentry>
