@@ -15,7 +15,7 @@
 	</para>
 
 	<!--
-		Certinaly all acronyms should be here, especially those used for
+		Certainly all acronyms should be here, especially those used for
 		file extensions and other highly visible things.
 
 		Perhaps more importantly, this document is to be a reference for
@@ -25,14 +25,14 @@
 		in description.
 
 		Be careful not to let this become an index of software. Is it
-		really appropiate to add entries for things like yacc? Or if we
-		do, keep them seperate (as for CPUs, etc). Perhaps we should remove
+		really appropriate to add entries for things like yacc? Or if we
+		do, keep them separate (as for CPUs, etc). Perhaps we should remove
 		CPUs and such.
 	-->
 
 	<!-- TODO
 		dredge out terms from existing documents
-		perhaps we should split this file up with xinclude
+		perhaps we should split this file up with include
 	-->
 
 	<glossdiv>
@@ -46,7 +46,7 @@
 		<glossentry>
 			<glossterm>Architecture Neutral Distribution Format</glossterm>
 			<acronym>ANDF</acronym>
-<!-- see also wikipedia, ANDF homepage (defunct?) -->
+<!-- see also wikipedia, ANDF home page (defunct?) -->
 		</glossentry>
 
 		<glossentry>
@@ -74,7 +74,7 @@
 			<glossterm>build</glossterm>
 
 			<glossdef>
-				<para><!-- TODO Compliation of things --></para>
+				<para><!-- TODO Compilation of things --></para>
 			</glossdef>
 		</glossentry>
 	</glossdiv>
@@ -110,7 +110,7 @@
 			<glossdef>
 				<para>
 					An architecture whereby programs do not exist
-					in flat memory ranges, but must request a heirachy
+					in flat memory ranges, but must request a hierarchy
 					of allocated memory ranges from the operating system.
 					The pointers to these ranges are called capabilities.
 				</para>
@@ -229,7 +229,7 @@
 
 				<para>
 					To make porting the Ten15 System easier, after
-					type checking had succeded and machine-independant
+					type checking had succeeded and machine-independent
 					optimisations made, the untyped output of the Ten15
 					compiler was provided: this became defined as Low-level
 					Ten15.
@@ -394,7 +394,7 @@ wikipedia
 			<glossterm>TDF</glossterm>
 <!--
 Low-level Ten15: Ten15 Distribution Format
-Retrospectivley renamed to TenDRA Distribution Format.
+Retrospectively renamed to TenDRA Distribution Format.
 -->
 		</glossentry>
 
@@ -468,7 +468,7 @@ Retrospectivley renamed to TenDRA Distribution Format.
 				</para>
 
 				<para>
-					Conspiciously, C was not supported as it is not strongly
+					Conspicuously, C was not supported as it is not strongly
 					typed. This was eventually provided for by TDF, instead.
 				</para>
 
@@ -577,7 +577,7 @@ Retrospectivley renamed to TenDRA Distribution Format.
 
 				<para>
 					Usually this term is used to imply that there
-					is no physically implementation of this machine.
+					is no physical implementation of this machine.
 				</para>
 			</glossdef>
 		</glossentry>
