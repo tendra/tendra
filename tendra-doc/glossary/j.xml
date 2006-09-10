@@ -9,7 +9,7 @@
 <glossdiv>
 	<title>J</title>
 
-	<glossentry>
+	<glossentry id="jit">
 		<glossterm>Just-in-time Compilation</glossterm>
 		<acronym>JIT</acronym>
 	</glossentry>

@@ -60,16 +60,15 @@
 				Distribution Format), and put forward as a (successful)
 				proposal.
 			</para>
-
-			<glossseealso otherterm="andf"/>
-			<glossseealso otherterm="osf"/>
-			<glossseealso otherterm="tdf"/>
+		</glossdef>
 
 <!--
 See also personal retrospective,
 wikipedia
 -->
-		</glossdef>
+		<glossseealso otherterm="andf"/>
+		<glossseealso otherterm="osf"/>
+		<glossseealso otherterm="tdf"/>
 	</glossentry>
 </glossdiv>
 

@@ -9,7 +9,7 @@
 <glossdiv>
 	<title>F</title>
 
-	<glossentry>
+	<glossentry id="flex">
 		<glossterm>Flex</glossterm>	<!-- TODO we probably shouldn't mention flex and bison -->
 
 		<glossdef>

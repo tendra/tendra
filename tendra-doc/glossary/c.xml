@@ -31,7 +31,7 @@
 		<acronym>CPU</acronym>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="capabilityarchitecture">
 		<glossterm>Capability Architecture</glossterm>
 
 		<glossdef>

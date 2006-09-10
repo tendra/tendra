@@ -17,7 +17,7 @@
 		<glossterm>Assembly</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="c">
 		<glossterm>C</glossterm>
 	</glossentry>
 

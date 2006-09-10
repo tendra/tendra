@@ -48,7 +48,7 @@ wikipedia
 		<glossterm>Ten15</glossterm>
 
 		<glossdef>
-			<para>Ten15 refers to:</para>
+			<para>Ten15 refers to several things:</para>
 <!--
 * The Ten15 system
 * The Ten15 language
@@ -56,9 +56,14 @@ wikipedia
 * ten15.org, who took their name from the above.
 -->
 		</glossdef>
+
+		<glosssee otherterm="ten15system"/>
+		<glosssee otherterm="ten15language"/>
+		<glosssee otherterm="ten15intermediaterepresentation"/>
+		<glosssee otherterm="ten15org"/>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="ten15language">
 		<glossterm>The Ten15 language</glossterm>
 
 		<glossdef>
@@ -68,17 +73,16 @@ wikipedia
 				it was created to provide all of the virtual machine's
 				abilities.
 			</para>
-
-			<glossseealso otherterm="ten15system"/>
 		</glossdef>
+
+		<glossseealso otherterm="ten15system"/>
+		<glossseealso otherterm="ten15notation"/>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="ten15notation">
 		<glossterm>Ten15 Notation</glossterm>
 
-		<glossdef>
-			<!-- See Ten15 Language -->
-		</glossdef>
+		<glosssee otherterm="ten15language"/>
 	</glossentry>
 
 	<glossentry id="ten15system">
@@ -109,24 +113,30 @@ wikipedia
 				Conspicuously, C was not supported as it is not strongly
 				typed. This was eventually provided for by TDF, instead.
 			</para>
-
-			<glossseealso otherterm="lowlevelten15"/>
 		</glossdef>
+
+		<glossseealso otherterm="capabilityarchitecture"/>
+		<glossseealso otherterm="flex"/>
+		<glossseealso otherterm="jit"/>
+		<glossseealso otherterm="lowlevelten15"/>
+		<glossseealso otherterm="tdf"/>
+		<glossseealso otherterm="vm"/>
+		<glossseealso otherterm="c"/>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="ten15org">
 		<glossterm>Ten15.org</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="ten15intermediaterepresentation">
 		<glossterm>The Ten15 intermediate representation</glossterm>
 
 		<glossdef>
 			<para><!-- TODO for programs on the Ten15 system, using the Ten15 compiler. -->
 			</para>
-
-			<glossseealso otherterm="ten15system"/>
 		</glossdef>
+
+		<glossseealso otherterm="ten15system"/>
 	</glossentry>
 
 	<glossentry>

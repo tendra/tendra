@@ -9,7 +9,7 @@
 <glossdiv>
 	<title>V</title>
 
-	<glossentry>
+	<glossentry id="vm">
 		<glossterm>Virtual Machine</glossterm>
 		<acronym>VM</acronym>
 
