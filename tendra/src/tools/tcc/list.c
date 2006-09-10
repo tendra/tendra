@@ -64,115 +64,124 @@
 
 
 /*
-    SPARE LISTS
-
-    This is a list of list structures which have been freed using
-    free_list.  new_list trys to allocate new list structures from
-    this list before using its internal array.
-*/
+ * SPARE LISTS
+ *
+ * This is a list of list structures which have been freed using free_list.
+ * new_list tries to allocate new list structures from this list before using
+ * its internal array.
+ */
 
 static list *spare_lists = null;
 
 
 /*
-    CREATE A NEW LIST
-
-    This routine allocates a new list structure.
-*/
+ * CREATE A NEW LIST
+ *
+ * This routine allocates a new list structure.
+ */
 
 static list *
 new_list(void)
 {
-    if (spare_lists) {
-	list *p = spare_lists;
-	spare_lists = p->next;
-	return(p);
-    } else {
-	static int no_free = 0;
-	static list *free_objs = null;
-	if (no_free == 0) {
-	    no_free = 1000;
-	    free_objs = alloc_nof(list, no_free);
+	if (spare_lists) {
+		list *p = spare_lists;
+		spare_lists = p->next;
+		return (p);
+	} else {
+		static int no_free = 0;
+		static list *free_objs = null;
+		if (no_free == 0) {
+			no_free = 1000;
+			free_objs = alloc_nof(list, no_free);
+		}
+		return (free_objs + (--no_free));
 	}
-	return(free_objs + (--no_free));
-    }
 }
 
 
 /*
-    FREE A LIST
-
-    This list returns p to free.
-*/
+ * FREE A LIST
+ *
+ * This list returns p to free.
+ */
 
 void
 free_list(list *p)
 {
-    spare_lists = add_list(p, spare_lists);
-    return;
+	spare_lists = add_list(p, spare_lists);
+	return;
 }
 
 
 /*
-    JOIN TWO LISTS
-
-    This routine joins two lists, p and q, and returns the result.
-*/
+ * JOIN TWO LISTS
+ *
+ * This routine joins two lists, p and q, and returns the result.
+ */
 
 list *
 add_list(list *p, list *q)
 {
-    list *r;
-    if (p == null) return(q);
-    if (q == null) return(p);
-    for ( r = p ; r->next != null ; r = r->next ) /* empty */ ;
-    r->next = q;
-    return(p);
+	list *r;
+	if (p == null) {
+		return (q);
+	}
+	if (q == null) {
+		return (p);
+	}
+	for (r = p ; r->next != null ; r = r->next) {
+		;	/* empty */
+	}
+	r->next = q;
+	return (p);
 }
 
 
 /*
-    ADD AN ITEM TO A LIST
-
-    This routine adds a new item, s, to the end of the list p and returns
-    the result.
-*/
+ * ADD AN ITEM TO A LIST
+ *
+ * This routine adds a new item, s, to the end of the list p and returns the
+ * result.
+ */
 
 list *
 add_item(list *p, char *s)
 {
-    list *q, *r;
-    q = new_list();
-    q->item = s;
-    q->next = null;
-    if (p == null) return(q);
-    for ( r = p ; r->next != null ; r = r->next ) /* empty */ ;
-    r->next = q;
-    return(p);
+	list *q, *r;
+	q = new_list();
+	q->item = s;
+	q->next = null;
+	if (p == null) {
+		return (q);
+	}
+	for ( r = p ; r->next != null ; r = r->next ) {
+		;	/* empty */
+	}
+	r->next = q;
+	return (p);
 }
 
 
 /*
-    INSERT AN ITEM INTO A LIST
-
-    This routine adds a new item, s, to the start of the list p and
-    returns the result.
-*/
+ * INSERT AN ITEM INTO A LIST
+ *
+ * This routine adds a new item, s, to the start of the list p and returns the
+ * result.
+ */
 
 list *
 insert_item(char *s, list *p)
 {
-    list *q = new_list();
-    q->item = s;
-    q->next = p;
-    return(q);
+	list *q = new_list();
+	q->item = s;
+	q->next = p;
+	return (q);
 }
 
 
 /*
- *  Insert a command item in ascending order, based on their rank.
- *  Items with a lower rank value are executed first.
- *
+ * Insert a command item in ascending order, based on their rank. Items with a
+ * lower rank value are executed first.
  */
 
 list*
@@ -208,22 +217,28 @@ insert_inorder(ordered_node* indata, list *inlst)
 
 
 /*
-    CONVERT A STRING TO A LIST
-
-    This routine converts a string to a list by breaking it at all white
-    spaces (spaces and tabs).
-*/
+ * CONVERT A STRING TO A LIST
+ *
+ * This routine converts a string to a list by breaking it at all white spaces
+ * (spaces and tabs).
+ */
 
 list *
 make_list(char *s)
 {
-    list *r = null;
-    char *p = string_copy(s);
-    while (1) {
-	while (*p == ' ' || *p == '\t')*(p++) = 0;
-	if (*p == 0)break;
-	r = add_item(r, p);
-	while (*p && *p != ' ' && *p != '\t')p++;
-    }
-    return(r);
+	list *r = null;
+	char *p = string_copy(s);
+	while (1) {
+		while (*p == ' ' || *p == '\t') {
+			*(p++) = 0;
+		}
+		if (*p == 0) {
+			break;
+		}
+		r = add_item(r, p);
+		while (*p && *p != ' ' && *p != '\t') {
+			p++;
+		}
+	}
+	return (r);
 }

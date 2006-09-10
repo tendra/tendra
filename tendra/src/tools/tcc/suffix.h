@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -33,12 +63,12 @@
 
 
 /*
-    SINGLE CHARACTER KEYS FOR FILE TYPES
-
-    Each file type has an associated identifying letter.  In most cases
-    this corresponds to the file suffix.  This is Table 2, which needs
-    to be kept in step with Table 1.
-*/
+ * SINGLE CHARACTER KEYS FOR FILE TYPES - Table 2
+ *
+ * Each file type has an associated identifying letter. In most cases this
+ * corresponds to the file suffix. This table needs to be kept in step with
+ * Table 1.
+ */
 
 #define C_SOURCE_KEY			'c'
 #define PREPROC_C_KEY			'i'
@@ -62,12 +92,11 @@
 
 
 /*
-    OTHER FILE TYPE INFORMATION
-
-    Most of the file suffixes can be deduced from the table above.  This
-    table gives a few other suffixes plus the default names for various
-    output files.  This is Table 3.
-*/
+ * OTHER FILE TYPE INFORMATION - Table 3
+ *
+ * Most of the file suffixes can be deduced from the table above. This table
+ * gives a few other suffixes plus the default names for various output files.
+ */
 
 #define CPP_1_SUFFIX			"cc"
 #define CPP_2_SUFFIX			"cpp"
@@ -107,10 +136,10 @@
 
 
 /*
-    SINGLE CHARACTER KEYS FOR EXECUTABLES
-
-    Each executable has an associated identifying letter.  This is Table 4.
-*/
+ * SINGLE CHARACTER KEYS FOR EXECUTABLES - Table 4
+ *
+ * Each executable has an associated identifying letter.
+ */
 
 #define PRODUCE_ID			'c'
 #define PREPROC_ID			'p'
@@ -135,10 +164,10 @@
 
 
 /*
-    OTHER MISCELLANEOUS INFORMATION
-
-    This table contains miscellaneous configuration items.
-*/
+ * OTHER MISCELLANEOUS INFORMATION
+ *
+ * This table contains miscellaneous configuration items.
+ */
 
 #define PROGNAME_TCC			"tcc"
 #define PROGNAME_TCHK			"tchk"

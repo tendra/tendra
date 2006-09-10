@@ -64,10 +64,10 @@
 #include "utility.h"
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with reading tcc environments.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with reading tcc environments.
+ */
 
 extern void	dump_env(void);
 extern void	read_env(char *);
@@ -91,16 +91,16 @@ int environ_count;		/* how many -Y env loads are attempted */
  * These macros identify various character types.
  */
 
-#define is_alphanum(X)  (((X) >= 'A' && (X) <= 'Z') ||\
-			 ((X) >= '0' && (X) <= '9') ||\
-			 ((X) == '_'))
-#define is_whitespace(X)        ((X) == ' ' || (X) == '\t')
-#define is_quote(X)             ((X) == '"')
-#define is_newline(X)           ((X) == '\n')
+#define is_alphanum(X)		(((X) >= 'A' && (X) <= 'Z') ||\
+				 ((X) >= '0' && (X) <= '9') ||\
+				 ((X) == '_'))
+#define is_whitespace(X)	((X) == ' ' || (X) == '\t')
+#define is_quote(X)		((X) == '"')
+#define is_newline(X)		((X) == '\n')
 
 
 /*
- * Use variable substitution for each env line read in
+ * Use variable substitution for each env line read in.
  */
 #define ENVIRONSUB
 

@@ -63,12 +63,12 @@
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines perform the main compilation tasks, one routine
-    corresponding to each compilation phase.  Each routine takes a
-    list of input files and returns a list of output files.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines perform the main compilation tasks, one routine corresponding
+ * to each compilation phase. Each routine takes a list of input files and
+ * returns a list of output files.
+ */
 
 extern filename *do_produce(filename *);
 extern filename *do_preproc(filename *);

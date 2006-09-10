@@ -62,23 +62,23 @@
 #define LIST_INCLUDED
 
 /*
- * A ranked instruction.  These structs are used to track commands
- * issues according to command line options.  Since the commands
- * must be sort, a priority ranking fields is used.
+ * A ranked instruction. These structs are used to track commands issues
+ * according to command line options. Since the commands must be sort, a
+ * priority ranking fields is used.
  */
 
 typedef struct _tag {
-    char *cmd;
-    int  rank;
+	char *cmd;
+	int  rank;
 } ordered_node;
 
 
 /*
-    TYPE REPRESENTING A LIST OF STRINGS
-
-    A list consists of a simple list of strings linked via their next
-    field. The string is either char * or ordered_node.
-*/
+ * TYPE REPRESENTING A LIST OF STRINGS
+ *
+ * A list consists of a simple list of strings linked via their next field. The
+ * string is either char * or ordered_node.
+ */
 
 typedef struct list_t {
     void *item;
@@ -87,10 +87,10 @@ typedef struct list_t {
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with creating and manipulating lists.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with creating and manipulating lists.
+ */
 
 extern list *add_list(list *, list *);
 extern list *add_item(list *, char *);

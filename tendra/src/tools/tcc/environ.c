@@ -69,73 +69,74 @@
 
 
 /*
-    THE CURRENT ENVIRONMENTS PATH
-
-    The environment path is a colon-separated list of directories which
-    are searched for tcc environments.
-*/
+ * THE CURRENT ENVIRONMENTS PATH
+ *
+ * The environment path is a colon-separated list of directories which are
+ * searched for tcc environments.
+ */
 
 static char *envpath = ".";
 
 
 /*
-    UPDATE THE ENVIRONMENTS PATH
-
-    This routine initialises and updates the environments path.  This is
-    given by the contents of the system variable TCCENV, plus the default
-    directory (environ_dir), plus the current directory.
-*/
+ * UPDATE THE ENVIRONMENTS PATH
+ *
+ * This routine initialises and updates the environments path. This is given by
+ * the contents of the system variable TCCENV, plus the default directory
+ * (environ_dir), plus the current directory.
+ */
 
 void
 find_envpath(void)
 {
-    char *p = buffer;
-    char *tcc_env = getenv(TCCENV_VAR);
-    if (tcc_env) {
-	IGNORE sprintf(p, "%s:", tcc_env);
-	p += strlen(p);
-    }
-    IGNORE sprintf(p, "%s:.", environ_dir);
-    if (!streq(buffer, envpath)) envpath = string_copy(buffer);
-    return;
+	char *p = buffer;
+	char *tcc_env = getenv(TCCENV_VAR);
+	if (tcc_env) {
+		IGNORE sprintf(p, "%s:", tcc_env);
+		p += strlen(p);
+	}
+	IGNORE sprintf(p, "%s:.", environ_dir);
+	if (!streq(buffer, envpath)) {
+		envpath = string_copy(buffer);
+	}
+	return;
 }
 
 
 /*
-    PRINT THE ENVIRONMENTS PATH
-
-    This routine prints the environment path.
-*/
+ * PRINT THE ENVIRONMENTS PATH
+ *
+ * This routine prints the environment path.
+ */
 
 void
 show_envpath(void)
 {
-    find_envpath();
-    error(INFO, "Environment path is '%s'", envpath);
-    return;
+	find_envpath();
+	error(INFO, "Environment path is '%s'", envpath);
+	return;
 }
 
 
 /*
  * READ AN ENVIRONMENT - AUXILIARY ROUTINE
  *
- * This routine reads the environment named nm, returning zero if it
- * is successful.  A return value of 1 indicates that the environment
- * could not be found, otherwise 2 is returned.
+ * This routine reads the environment named nm, returning zero if it is
+ * successful. A return value of 1 indicates that the environment could not be
+ * found, otherwise 2 is returned.
  *
- * In the revision to this function, the strategy is to minimize
- * copying chars.  This routine opens the file, and examines each env
- * file a line at a time.  Line analysis scans past the key, until
- * the first whitespace is found.  Then, the routine scans forward to
- * the start of the value, and cut the line buffer in half by making
- * the whitespace a '\0' character.  The routine continues scanning
- * the value, performing appropriate substitutions for <vars>.
+ * In the revision to this function, the strategy is to minimize copying chars.
+ * This routine opens the file, and examines each env file a line at a time.
+ * Line analysis scans past the key, until the first whitespace is found. Then,
+ * the routine scans forward to the start of the value, and cut the line buffer
+ * in half by making the whitespace a '\0' character. The routine continues
+ * scanning the value, performing appropriate substitutions for <vars>.
  *
- * TODO: The two resulting strings in the buffer (key and value) must
- * be strdup'd.  A future revision to this function may just read
- * entire file into memory, and convert key whitespace to NULL
- * characters, thereby breaking up the lines into appropriate tokens,
- * and avoiding copying strings around in memory.
+ * TODO: The two resulting strings in the buffer (key and value) must be
+ * strdup'd. A future revision to this function may just read entire file into
+ * memory, and convert key whitespace to NULL characters, thereby breaking up
+ * the lines into appropriate tokens, and avoiding copying strings around in
+ * memory.
 */
 
 int
@@ -147,7 +148,7 @@ read_env_aux(char *nm, hashtable *ht)
     int   line_num;
 
     if (*nm == 0) {
-	return(1);
+	return (1);
     } else if (*nm == '/') {
 	f = fopen(nm, "r");
     } else {
@@ -160,7 +161,9 @@ read_env_aux(char *nm, hashtable *ht)
 	    f = fopen(buffer, "r");
 	} while (f == null && *(p++));
     }
-    if (f == null) return(1);
+    if (f == null) {
+	    return (1);
+    }
 
     /*
      * Parse each line of the environment file
@@ -365,140 +368,143 @@ read_env_aux(char *nm, hashtable *ht)
 	} /* if the line is a +, >, < env action command */
     } /* for each line in the env file */
 
-    return(0);
+    return (0);
 } /* read_env_aux() */
 
 
 /*
- *  Lookup value for tccenv(5) variables.  This function takes in an
- *  escape sequence from an env file, and attempts to find a
- *  definition.  For example, <TENDRA_BASEDIR> may be passed in, and
- *  be mapped to the value supplied previously by -y arguments.
+ * Lookup value for tccenv(5) variables. This function takes in an escape
+ * sequence from an env file, and attempts to find a definition. For example,
+ * <TENDRA_BASEDIR> may be passed in, and be mapped to the value supplied
+ * previously by -y arguments.
  *
- *  The function looks up TENDRA_* variables first, since they are so
- *  common.  The TENDRA_* variable resolution also consults the shell
- *  environment, if no -y argument or +TENDRA_* declaration was given
- *  in an env file.  Failing that, the function consults the hash
- *  table of tccenv key/value mappings.  This function performs
- *  all error handling; it will return a valid char *, or fail.
+ * The function looks up TENDRA_* variables first, since they are so common.
+ * The TENDRA_* variable resolution also consults the shell environment, if no
+ * -y argument or +TENDRA_* declaration was given in an env file. Failing that,
+ * the function consults the hash table of tccenv key/value mappings. This
+ * function performs all error handling; it will return a valid char *, or
+ * fail.
  */
 char *
-dereference_var(char *esc_start, char *esc_end, hashtable *ht,
-		char *nm, int line_num)
+dereference_var(char *esc_start, char *esc_end, hashtable *ht, char *nm,
+		int line_num)
 {
-    htnode* hn;
-    char *sub = NULL;
-    /* temporarily replace '>' with '\0' to facilitate lookup */
-    char tmp = *esc_end;
-    *esc_end = '\0';
+	htnode* hn;
+	char *sub = NULL;
+	/* temporarily replace '>' with '\0' to facilitate lookup */
+	char tmp = *esc_end;
+	*esc_end = '\0';
 
-    /*
-     * Attempt to match TENDRA_* env arguments, which are most likely to
-     * occur.
-     */
-    if (!strncmp("TENDRA", esc_start, 6)) {
-	sub = find_path_subst(esc_start);
-    }
-
-    /* If we fail to find a TENDRA_* env match, look
-       up in hashtable */
-    if (!sub) {
-	hn = lookup_table(ht, esc_start);
-	if (hn == NULL) {
-	    *esc_end = tmp;
-	    error(FATAL, "Undefined variable <%s> in %s line %d",
-		   esc_start, nm, line_num);
+	/*
+	 * Attempt to match TENDRA_* env arguments, which are most likely to
+	 * occur.
+	 */
+	if (!strncmp("TENDRA", esc_start, 6)) {
+		sub = find_path_subst(esc_start);
 	}
-	sub = hn->val;
-    }
 
-    *esc_end = tmp;
-    return sub;
+	/* If we fail to find a TENDRA_* env match, look
+	   up in hashtable */
+	if (!sub) {
+		hn = lookup_table(ht, esc_start);
+		if (hn == NULL) {
+			*esc_end = tmp;
+			error(FATAL, "Undefined variable <%s> in %s line %d",
+			      esc_start, nm, line_num);
+		}
+		sub = hn->val;
+	}
+
+	*esc_end = tmp;
+	return sub;
 }
 
 
 /*
- * Reconcile the table of user-defined env options.  At present this
- * function just makes sure that non-tccenv(5) variables declared by
- * the user were used in the env files.  If not, it's likely a
- * subtle bug or typo, and a warning issues if the version -v switch
- * is used.
+ * Reconcile the table of user-defined env options. At present this function
+ * just makes sure that non-tccenv(5) variables declared by the user were used
+ * in the env files. If not, it's likely a subtle bug or typo, and a warning
+ * issues if the version -v switch is used.
  *
- * Future revisions may also attempt to supply definitions to hash
- * keys that were not found during the O(N) initial pass through the
- * env files.  (That is, the env reading would be O(2N), and attempt
- * to finding all possible definitions, including those out of
- * order.)
+ * Future revisions may also attempt to supply definitions to hash keys that
+ * were not found during the O(N) initial pass through the env files. (That is,
+ * the env reading would be O(2N), and attempt to finding all possible
+ * definitions, including those out of order.)
  */
 
 void
 reconcile_envopts(void)
 {
-    int i;
-    htnode *hn;
+	int i;
+	htnode *hn;
 
-    /* If no -Y args were given whatsoever, give a warning, since a
-     *  mysterious internal error ("tcc: Internal: The tool
-     *  'C_producer' is not available'") is about to follow during the
-     *  execute stage.  This mistake is so fundamental, we give a
-     *  warning even without verbose being set.
-     */
-    if (environ_count == 0) {
-	error(WARNING, "not invoked with any -Y env arguments");
-    }
-
-    /* All subsequent warnings require a verbose flag */
-    if (!verbose) {
-	return;
-    }
-
-    /*
-     * If the global env table is NULL, no -Y args succeeded, or none were
-     * given.
-     */
-    if (!environ_hashtable) {
-	/* -Y args given, but failed */
-
-	if (environ_count > 0) {
-	    error(WARNING, "failed to load any environment files");
-	    return;
+	/*
+	 * If no -Y args were given whatsoever, give a warning, since a
+	 * mysterious internal error ("tcc: Internal: The tool 'C_producer' is
+	 * not available'") is about to follow during the execute stage. This
+	 * mistake is so fundamental, we give a warning even without verbose
+	 * being set.
+	 */
+	if (environ_count == 0) {
+		error(WARNING, "not invoked with any -Y env arguments");
 	}
-    }
 
-    for (i = 0; i < TCC_TBLSIZE; i++) {
-	hn = environ_hashtable->node[i];
-
-	if (hn && (hn->flag & USR) && !(hn->flag & READ)) {
-	    error(WARNING, "%s, line %d: environment option %s declared"
-		  " but never used", hn->file, hn->line_num, hn->key);
+	/* All subsequent warnings require a verbose flag */
+	if (!verbose) {
+		return;
 	}
-    }
+
+	/*
+	 * If the global env table is NULL, no -Y args succeeded, or none were
+	 * given.
+	 */
+	if (!environ_hashtable) {
+		/* -Y args given, but failed */
+
+		if (environ_count > 0) {
+			error(WARNING, "failed to load any environment files");
+			return;
+		}
+	}
+
+	for (i = 0; i < TCC_TBLSIZE; i++) {
+		hn = environ_hashtable->node[i];
+
+		if (hn && (hn->flag & USR) && !(hn->flag & READ)) {
+			error(WARNING,
+			      "%s, line %d: environment option %s declared"
+			      " but never used", hn->file, hn->line_num,
+			      hn->key);
+		}
+	}
 }
 
 /*
-    READ AN ENVIRONMENT
-
-    This routine reads the environment named nm, reporting an error if
-    it is unsuccessful.
-*/
+ * READ AN ENVIRONMENT
+ *
+ * This routine reads the environment named nm, reporting an error if it is
+ * unsuccessful.
+ */
 
 void
 read_env(char *nm)
 {
-    int e;
-    static hashtable *ht;
+	int e;
+	static hashtable *ht;
 
-    /* note attempt to load -Y env file */
-    environ_count++;
+	/* note attempt to load -Y env file */
+	environ_count++;
 
-    if (ht == NULL) {
-	ht = init_table(TCC_TBLSIZE, TCC_KEYSIZE, &hash);
-	environ_hashtable = ht; /* hack */
-    }
+	if (ht == NULL) {
+		ht = init_table(TCC_TBLSIZE, TCC_KEYSIZE, &hash);
+		environ_hashtable = ht; /* hack */
+	}
 
-    e = read_env_aux(nm, ht);
-    if (e == 1) error(WARNING, "Can't find environment, '%s'", nm);
-    return;
+	e = read_env_aux(nm, ht);
+	if (e == 1) {
+		error(WARNING, "Can't find environment, '%s'", nm);
+	}
+	return;
 }
 
 void
@@ -507,12 +513,13 @@ dump_env(void)
 	htnode *hn;
 	int i;
 
-	if (environ_hashtable == NULL)
+	if (environ_hashtable == NULL) {
 		error(FATAL, "No environment information found\n");
+	}
 
 	printf("Environment dump:\n");
 	/* Traverse the hash tree and print all data in it */
-	for(i = 0; i < TCC_TBLSIZE; i++) {
+	for (i = 0; i < TCC_TBLSIZE; i++) {
 		hn = environ_hashtable->node[i];
 
 		if (hn) {

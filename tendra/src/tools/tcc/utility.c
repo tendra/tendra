@@ -74,12 +74,12 @@
 
 
 /*
-    ERROR VARIABLES
-
-    The value exit_status gives the overall status of the program.  It
-    can be EXIT_SUCCESS or EXIT_FAILURE.  The variable progname gives
-    the name of the program, which is used in error reports.
-*/
+ * ERROR VARIABLES
+ *
+ * The value exit_status gives the overall status of the program. It can be
+ * EXIT_SUCCESS or EXIT_FAILURE. The variable progname gives the name of the
+ * program, which is used in error reports.
+ */
 
 int exit_status = EXIT_SUCCESS;
 char *progname = PROGNAME_TCC;
@@ -93,337 +93,344 @@ static int	key_match(char *, char *);
 
 
 /*
-    PRINT AN ERROR MESSAGE
-
-    This routine prints an error message s (a printf-style string,
-    which may be followed by any number of arguments) of severity e
-    (see utility.h).
-*/
+ * PRINT AN ERROR MESSAGE
+ *
+ * This routine prints an error message s (a printf-style string, which may be
+ * followed by any number of arguments) of severity e (see utility.h).
+ */
 
 void
 error(int e, char *s, ...) /* VARARGS */
 {
-    va_list args;
-    char *errtype = null;
+	va_list args;
+	char *errtype = null;
 #if FS_STDARG
-    va_start(args, s);
+	va_start(args, s);
 #else
-    int e;
-    char *s;
-    va_start(args);
-    e = va_arg(args, int);
-    s = va_arg(args, char *);
+	int e;
+	char *s;
+	va_start(args);
+	e = va_arg(args, int);
+	s = va_arg(args, char *);
 #endif
-    switch (e) {
-	case FATAL: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Fatal";
-	    break;
+	switch (e) {
+	case FATAL:
+		exit_status = EXIT_FAILURE;
+		errtype = "Fatal";
+		break;
+	case INTERNAL:
+		exit_status = EXIT_FAILURE;
+		errtype = "Internal";
+		break;
+	case SERIOUS:
+		exit_status = EXIT_FAILURE;
+		errtype = "Error";
+		break;
+	case OPTION:
+		exit_status = EXIT_FAILURE;
+		errtype = "Option interpreter";
+		break;
+	case WARNING:
+		if (!warnings) {
+			va_end(args);
+			return;
+		}
+		errtype = "Warning";
+		break;
+	case INFO:
+		errtype = "Information";
+		break;
 	}
-	case INTERNAL: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Internal";
-	    break;
+
+	if (checker) {
+		progname = PROGNAME_TCHK;
 	}
-	case SERIOUS: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Error";
-	    break;
+	IGNORE fprintf(stderr, "%s: ", progname);
+	if (errtype) {
+		IGNORE fprintf(stderr, "%s: ", errtype);
 	}
-	case OPTION: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Option interpreter";
-	    break;
+	IGNORE vfprintf(stderr, s, args);
+	IGNORE fprintf(stderr, ".\n");
+	va_end(args);
+	if (e == FATAL) {
+		main_end();
 	}
-	case WARNING: {
-	    if (!warnings) {
-		va_end(args);
-		return;
-	    }
-	    errtype = "Warning";
-	    break;
-	}
-	case INFO: {
-	    errtype = "Information";
-	    break;
-	}
-    }
-    if (checker) progname = PROGNAME_TCHK;
-    IGNORE fprintf(stderr, "%s: ", progname);
-    if (errtype) IGNORE fprintf(stderr, "%s: ", errtype);
-    IGNORE vfprintf(stderr, s, args);
-    IGNORE fprintf(stderr, ".\n");
-    va_end(args);
-    if (e == FATAL) main_end();
-    return;
+	return;
 }
 
 
 /*
- *    HASH TABLE
+ * HASH TABLE
  *
- *    These functions provide access to a hash table of tccenv(5)
- *    keys and values.  When created, the hash table is populated
- *    with tccenv keys taken from the environ_optmap[] array, and
- *    flaged as tccenv-derived instead of user-created.
+ * These functions provide access to a hash table of tccenv(5) keys and values.
+ * When created, the hash table is populated with tccenv keys taken from the
+ * environ_optmap[] array, and flaged as tccenv-derived instead of
+ * user-created.
  */
 
 hashtable*
 init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 {
-    int i;
-    hashtable* ht;
-    htnode *hn;
-    optmap *t;
+	int i;
+	hashtable* ht;
+	htnode *hn;
+	optmap *t;
 
-    ht = malloc(sizeof(hashtable));
-    ht->tblsize = tblsize;
-    ht->keysize = keysize;
-    ht->hashfcn = hashfcn;
-    ht->node = malloc(sizeof(htnode*) * tblsize);
+	ht = malloc(sizeof(hashtable));
+	ht->tblsize = tblsize;
+	ht->keysize = keysize;
+	ht->hashfcn = hashfcn;
+	ht->node = malloc(sizeof(htnode*) * tblsize);
 
-    for (i = 0; i < tblsize; i++) {
-	ht->node[i] = NULL;
-    }
+	for (i = 0; i < tblsize; i++) {
+		ht->node[i] = NULL;
+	}
 
-    for (t = environ_optmap; t->in != NULL; t++) {
-	/* initialize hash table with tccenv keys */
-	hn = update_table(ht, t->in, NULL, TCCENV, NULL, -1);
-    }
+	for (t = environ_optmap; t->in != NULL; t++) {
+		/* initialize hash table with tccenv keys */
+		hn = update_table(ht, t->in, NULL, TCCENV, NULL, -1);
+	}
 
-    return ht;
+	return ht;
 }
 
 htnode *
 lookup_table(hashtable *ht, char *key)
 {
-    int  hashval;
-    htnode *hn;
-    char *v = NULL;
+	int  hashval;
+	htnode *hn;
+	char *v = NULL;
 
-    if (!key) {
-	error(WARNING, "Looking up null key in tccenv hashtable");
+	if (!key) {
+		error(WARNING, "Looking up null key in tccenv hashtable");
 
-	return NULL;
-    }
+		return NULL;
+	}
 
-    hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
-    hn = ht->node[hashval];
+	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
+	hn = ht->node[hashval];
 
-    if (hn) {
-	v = hn->key;
-    }
+	if (hn) {
+		v = hn->key;
+	}
 
-    while (hn != NULL && !key_match(key, hn->key)) {
-	hn = hn->next;
-    }
+	while (hn != NULL && !key_match(key, hn->key)) {
+		hn = hn->next;
+	}
 
-    if (hn) {
-	hn->flag |= READ;
-    }
+	if (hn) {
+		hn->flag |= READ;
+	}
 
-    return hn;
+	return hn;
 }
 
 static int
 key_match(char *key, char *keyfield)
 {
-    int i;
+	int i;
 
-    if (!key || !keyfield) {
-	return 0;
-    }
-
-    /* advance pointers past command chars */
-    while(key && !is_alphanum(*key)) {
-	key++;
-    }
-
-    while(keyfield && !is_alphanum(*keyfield)) {
-	keyfield++;
-    }
-
-    for (i = 0; i < strlen(key); i++) {
-	if (key[i] != keyfield[i]) {
-	    return 0;
+	if (!key || !keyfield) {
+		return 0;
 	}
-    }
 
-    return 1;
+	/* advance pointers past command chars */
+	while(key && !is_alphanum(*key)) {
+		key++;
+	}
+
+	while(keyfield && !is_alphanum(*keyfield)) {
+		keyfield++;
+	}
+
+	for (i = 0; i < strlen(key); i++) {
+		if (key[i] != keyfield[i]) {
+			return 0;
+		}
+	}
+
+	return 1;
 }
 
 htnode *
 update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 	     char *file, int line_num)
 {
-    int hashval;
-    htnode *hn;
-    hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
-    hn = ht->node[hashval];
+	int hashval;
+	htnode *hn;
+	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
+	hn = ht->node[hashval];
 
-    /* locate matching node */
-    while (hn != NULL && !key_match(key, hn->key)) {
-	hn = hn->next;
-    }
-
-    /* Case 1.  Node was not found; push */
-    if (hn == NULL) {
-	hn = malloc(sizeof(htnode));
-	hn->flag = flag;
-	hn->key = key;
-	hn->val = val;
-	hn->file = file;
-	hn->line_num = line_num;
-	hn->next = ht->node[hashval];
-	ht->node[hashval] = hn;
-    } else {
-	/* Case 2.  Update */
-	if (!val) {
-	    hn->val = NULL;
-	} else {
-	    switch (*key) {
-	    case '+': /* assignment */
-		hn->val = val;
-		break;
-	    case '>': /* append */
-		if (hn->val) {
-		    hn->val = string_append(hn->val, val, ' ');
-		}
-		hn->val = val;
-		break;
-	    case '<': /* prepend */
-		if (hn->val) {
-		    hn->val = string_append(val, hn->val, ' ');
-		}
-		hn->val = val;
-		break;
-	    default:
-		/*
-		 * This should never happen, since read_env_aux screens for
-		 * this.
-		 */
-		error(FATAL, "Attempt to update hashtable with "
-		      "invalid key %s\n", key);
-	    }
+	/* locate matching node */
+	while (hn != NULL && !key_match(key, hn->key)) {
+		hn = hn->next;
 	}
-    }
 
-    return hn;
+	/* Case 1.  Node was not found; push */
+	if (hn == NULL) {
+		hn = malloc(sizeof(htnode));
+		hn->flag = flag;
+		hn->key = key;
+		hn->val = val;
+		hn->file = file;
+		hn->line_num = line_num;
+		hn->next = ht->node[hashval];
+		ht->node[hashval] = hn;
+	} else {
+		/* Case 2.  Update */
+		if (!val) {
+			hn->val = NULL;
+		} else {
+			switch (*key) {
+			case '+':
+				/* assignment */
+				hn->val = val;
+				break;
+			case '>':
+				/* append */
+				if (hn->val) {
+					hn->val =
+					    string_append(hn->val, val, ' ');
+				}
+				hn->val = val;
+				break;
+			case '<':
+				/* prepend */
+				if (hn->val) {
+					hn->val =
+					    string_append(val, hn->val, ' ');
+				}
+				hn->val = val;
+				break;
+			default:
+				/*
+				 * This should never happen, since read_env_aux
+				 * screens for this.
+				 */
+				error(FATAL, "Attempt to update hashtable with"
+				      " invalid key %s\n", key);
+			}
+		}
+	}
+
+	return hn;
 }
 
 /*
- *  Hash function.  The function takes in a char * to a key,
- *  presumed to be in the form of <cmd><tccenv_var>, e.g.,
- *  "+AS /usr/bin/as".  The hash calculated skips over the
- *  leading command char, either +, <, >, or ?.
+ * Hash function. The function takes in a char * to a key, presumed to be in
+ * the form of <cmd><tccenv_var>, e.g., "+AS /usr/bin/as". The hash calculated
+ * skips over the leading command char, either +, <, >, or ?.
  */
 int
 hash(char *key, int tblsize, int keysize)
 {
-    int i = 1;
-    int hashval = 0;
+	int i = 1;
+	int hashval = 0;
 
-    /* skip leading +, <, >, ?, / chars */
-    while (key && !(is_alphanum(*key))) {
-	key++;
-    }
+	/* skip leading +, <, >, ?, / chars */
+	while (key && !(is_alphanum(*key))) {
+		key++;
+	}
 
-    if (!key) {
-	error(FATAL, "hash operation requested on empty key");
-    }
+	if (!key) {
+		error(FATAL, "hash operation requested on empty key");
+	}
 
-    while (*key && !is_whitespace(*key) && i < keysize) {
-	hashval += (hashval * 37) + (int) *key;
-	*key++;
-	i++;
-    }
+	while (*key && !is_whitespace(*key) && i < keysize) {
+		hashval += (hashval * 37) + (int) *key;
+		*key++;
+		i++;
+	}
 
-    hashval %= tblsize;
-    if (hashval < 0) {
-	hashval += tblsize;
-    }
+	hashval %= tblsize;
+	if (hashval < 0) {
+		hashval += tblsize;
+	}
 
-    return hashval;
+	return hashval;
 }
 
 
 /*
-    PRINT A COMMENT
-
-    This routine prints the comments (a printf-style string, which
-    may be followed by any number of arguments) to the standard output.
-*/
+ * PRINT A COMMENT
+ *
+ * This routine prints the comments (a printf-style string, which may be
+ * followed by any number of arguments) to the standard output.
+ */
 
 void
 comment(int e, char *s, ...) /* VARARGS */
 {
-    FILE *f;
-    va_list args;
+	FILE *f;
+	va_list args;
 #if FS_STDARG
-    va_start(args, s);
+	va_start(args, s);
 #else
-    int e;
-    char *s;
-    va_start(args);
-    e = va_arg(args, int);
-    s = va_arg(args, char *);
+	int e;
+	char *s;
+	va_start(args);
+	e = va_arg(args, int);
+	s = va_arg(args, char *);
 #endif
-    f = (e ? stdout : stderr);
-    IGNORE fflush(f);
-    IGNORE vfprintf(f, s, args);
-    IGNORE fflush(f);
-    va_end(args);
-    return;
+	f = (e ? stdout : stderr);
+	IGNORE fflush(f);
+	IGNORE vfprintf(f, s, args);
+	IGNORE fflush(f);
+	va_end(args);
+	return;
 }
 
 
 /*
-    ALLOCATE A BLOCK OF MEMORY
-
-    This routine allocates a block of memory of size sz and returns
-    the result.
-*/
+ * ALLOCATE A BLOCK OF MEMORY
+ *
+ * This routine allocates a block of memory of size sz and returns the result.
+ */
 
 pointer
 xalloc(int sz)
 {
-    pointer p = (pointer)malloc((size_t)sz);
-    if (p == null) error(FATAL, "Memory allocation error");
-    return(p);
+	pointer p = (pointer)malloc((size_t)sz);
+	if (p == null) {
+		error(FATAL, "Memory allocation error");
+	}
+	return (p);
 }
 
 
 /*
-    REALLOCATE A BLOCK OF MEMORY
-
-    This routine reallocates the block of memory p to have size sz.
-    xrealloc ( null, sz ) is equivalent to xalloc ( sz ).
-
-*/
+ * REALLOCATE A BLOCK OF MEMORY
+ *
+ * This routine reallocates the block of memory p to have size sz.
+ * xrealloc(*null, sz) is equivalent to xalloc(sz).
+ */
 
 pointer
 xrealloc(pointer p, int sz)
 {
     pointer q;
-    if (p == null) return(xalloc(sz));
+    if (p == null) {
+	    return (xalloc(sz));
+    }
     q = (pointer)realloc(p,(size_t)sz);
-    if (q == null) error(FATAL, "Memory reallocation error");
-    return(q);
+    if (q == null) {
+	    error(FATAL, "Memory reallocation error");
+    }
+    return (q);
 }
 
 
 /*
- *  Takes in a substitution variable as an argument, and returns its
- *  corresponding value.  This routine is used by the env substitution
- *  function (see format_path) to map variables to paths.
+ * Takes in a substitution variable as an argument, and returns its
+ * corresponding value. This routine is used by the env substitution function
+ * (see format_path) to map variables to paths.
  *
- *  For example, input is "<TCCDIR_BASE>", and return value
- *  is "/usr/local/share/".  Variable lookup is prioritized:
+ * For example, input is "<TCCDIR_BASE>", and return value is
+ * "/usr/local/share/". Variable lookup is prioritized:
  *
- *     a)  command line args have highest priority,
- *     b)  environment variables are used next,
- *     c)  for a select group of variables, sane defaults are
- *          used.
+ *   a) command line args have highest priority,
+ *   b) environment variables are used next,
+ *   c) for a select group of variables, sane defaults are used.
  */
 
 char *
@@ -436,104 +443,104 @@ find_path_subst(char *var)
 	i = 0;
 	subs = PATH_SUBS;
 	while (*subs){
-	    if (!strcmp(var, *subs)) {
-		if (env_paths[i] == NULL){
-		    error(FATAL, "The env variable <%s> is null.\n"
-			  "Check your environment or edit your env files",
-			  PATH_SUBS[i]);
+		if (!strcmp(var, *subs)) {
+			if (env_paths[i] == NULL){
+				error(FATAL, "The env variable <%s> is null.\n"
+				      "Check your environment or edit your env"
+				      " files", PATH_SUBS[i]);
+			}
+			return env_paths[i];
 		}
-		return env_paths[i];
-	    }
-	    i++;
-	    subs++;
+		i++;
+		subs++;
 	}
-        if (!*subs)
-	    error(WARNING,
-		  "Expected command line option -y%s=[value]; trying environment",
-		  var);
+	if (!*subs) {
+		error(WARNING, "Expected command line option -y%s=[value]; "
+		      "trying environment", var);
+	}
 	ret = getenv(var);
 
-        /* Perhaps this should not be fatal? */
-        if (!ret)
-	    error(FATAL, "Unknown environment variable %s", var);
-        return ret;
+	/* XXX: Perhaps this should not be fatal? */
+	if (!ret) {
+		error(FATAL, "Unknown environment variable %s", var);
+	}
+	return ret;
 }
 
 
 /*
-    ALLOCATE SPACE FOR A STRING
-
-    This routine allocates n characters of memory for use in the string
-    memory allocation routines.
-*/
+ * ALLOCATE SPACE FOR A STRING
+ *
+ * This routine allocates n characters of memory for use in the string memory
+ * allocation routines.
+ */
 
 static char *
 string_alloc(int n)
 {
-    char *r;
-    if (n >= 1000) {
-	/* Long strings are allocated space by alloc_nof */
-	r = alloc_nof(char, n);
-    } else {
-	/* Short strings are allocated space from a buffer */
-	static int no_free = 0;
-	static char *free_chars = null;
-	if (n >= no_free) {
-	    no_free = 4000;
-	    free_chars = alloc_nof(char, no_free);
+	char *r;
+	if (n >= 1000) {
+		/* Long strings are allocated space by alloc_nof */
+		r = alloc_nof(char, n);
+	} else {
+		/* Short strings are allocated space from a buffer */
+		static int no_free = 0;
+		static char *free_chars = null;
+		if (n >= no_free) {
+			no_free = 4000;
+			free_chars = alloc_nof(char, no_free);
+		}
+		r = free_chars;
+		no_free -= n;
+		free_chars += n;
 	}
-	r = free_chars;
-	no_free -= n;
-	free_chars += n;
-    }
-    return(r);
+	return (r);
 }
 
 
 /*
-    COPY A STRING
-
-    This routine allocates space for a copy of the string s and copies
-    the string into this space.  This copy is returned.
-*/
+ * COPY A STRING
+ *
+ * This routine allocates space for a copy of the string s and copies the
+ * string into this space. This copy is returned.
+ */
 
 char *
 string_copy(char *s)
 {
-    int n = (int)strlen(s);
-    char *r = string_alloc(n + 1);
-    IGNORE strcpy(r, s);
-    return(r);
+	int n = (int)strlen(s);
+	char *r = string_alloc(n + 1);
+	IGNORE strcpy(r, s);
+	return (r);
 }
 
 
 /*
-    COPY TWO STRINGS
-
-    This routine allocates space for a copy of the string s followed by
-    a copy of the string t and concatenates the strings into this space.
-    This copy is returned.
-*/
+ * COPY TWO STRINGS
+ *
+ * This routine allocates space for a copy of the string s followed by a copy
+ * of the string t and concatenates the strings into this space. This copy is
+ * returned.
+ */
 
 char *
 string_concat(char *s, char *t)
 {
-    int n = (int)strlen(s);
-    int m = (int)strlen(t);
-    char *r = string_alloc(n + m + 1);
-    IGNORE strcpy(r, s);
-    IGNORE strcpy(r + n, t);
-    return(r);
+	int n = (int)strlen(s);
+	int m = (int)strlen(t);
+	char *r = string_alloc(n + m + 1);
+	IGNORE strcpy(r, s);
+	IGNORE strcpy(r + n, t);
+	return (r);
 }
 
 
 /*	
  * APPEND TWO STRINGS	
  *   
- * This routine allocates space for a copy of the string s followed	
- * by a copy of the string t and concatenates the strings into this	
- * space, placing the delimiter character between them. The copy is	
- * returned.  E.g.,:	
+ * This routine allocates space for a copy of the string s followed by a copy
+ * of the string t and concatenates the strings into this space, placing the
+ * delimiter character between them. The copy is returned.  E.g.,:	
  *   
  * Given:    "foo" + "bar" + ':'	
  * Returns:  "foo:bar"	
@@ -542,21 +549,21 @@ string_concat(char *s, char *t)
 char *	
 string_append(char *s, char *t, char delimeter)	
 {	
-    int n = (int)strlen(s);	
-    int m = (int)strlen(t);	
-    char *r = string_alloc(n + m + 2);	
-    IGNORE strcpy(r, s);	
-    *(r + n) = delimeter;	
-    IGNORE strcpy(r + n + 1, t);	
-    return(r);
+	int n = (int)strlen(s);	
+	int m = (int)strlen(t);	
+	char *r = string_alloc(n + m + 2);	
+	IGNORE strcpy(r, s);	
+	*(r + n) = delimeter;	
+	IGNORE strcpy(r + n + 1, t);	
+	return (r);
 }
 
 
 /*
-    TEMPORARY WORK SPACE
-
-    This variable gives a temporary work space of size buffer_size
-    (see utility.h) which is used as a scratch work area.
-*/
+ * TEMPORARY WORK SPACE
+ *
+ * This variable gives a temporary work space of size buffer_size (see
+ * utility.h) which is used as a scratch work area.
+ */
 
 char *buffer;

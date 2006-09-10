@@ -63,10 +63,10 @@
 
 
 /*
-    PROCEDURE DECLARATION
-
-    This routine controls the overall compilation scheme.
-*/
+ *  PROCEDURE DECLARATION
+ *
+ *  This routine controls the overall compilation scheme.
+ */
 
 extern filename *apply_all(filename *);
 

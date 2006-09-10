@@ -63,11 +63,10 @@
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These procedures are concerned with the tcc startup and endup
-    files.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These procedures are concerned with the tcc startup and endup files.
+ */
 
 static void add_to_tokdef(char *s);
 
@@ -80,11 +79,11 @@ extern void add_token(char *);
 
 
 /*
-    COMMAND-LINE OPTIONS
-
-    These variables give the command-line options necessary to pass the
-    startup and endup files to the producer.
-*/
+ * COMMAND-LINE OPTIONS
+ *
+ * These variables give the command-line options necessary to pass the startup
+ * and endup files to the producer.
+ */
 
 extern char *startup_opt, *endup_opt;
 extern char *tokdef_name;

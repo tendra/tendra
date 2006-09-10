@@ -63,19 +63,19 @@
 
 
 /*
-    ENVIRONMENT
-
-    This variables gives the array of environmental variables.
-*/
+ * ENVIRONMENT
+ *
+ * This variables gives the array of environmental variables.
+ */
 
 extern char **environment;
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with what to do when an error occurs.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with what to do when an error occurs.
+ */
 
 extern void main_end(void);
 extern void handler(int);

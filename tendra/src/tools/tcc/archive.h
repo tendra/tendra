@@ -63,32 +63,31 @@
 
 
 /*
-    ARCHIVE OPTION MARKER
-
-    This is used to indicate the end of the archive files, and the
-    beginning of the archive options in build_archive.
-*/
+ * ARCHIVE OPTION MARKER
+ *
+ * This is used to indicate the end of the archive files, and the beginning of
+ * the archive options in build_archive.
+ */
 
 #define ARCHIVE_OPTION_START	"+"
 
 
 /*
-    ARCHIVE OPTIONS
-
-    These flags control the inclusion of certain information in the
-    archives.
-*/
+ * ARCHIVE OPTIONS
+ *
+ * These flags control the inclusion of certain information in the archives.
+ */
 
 extern int	archive_type;
 extern void	process_archive_opt(void);
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines include the general utilities for file manipulation
-    plus the procedures for building and splitting TDF archives.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines include the general utilities for file manipulation plus the
+ * procedures for building and splitting TDF archives.
+ */
 
 extern int	cat_file(char *);
 extern int	make_dir(char *);

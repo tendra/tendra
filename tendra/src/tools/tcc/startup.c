@@ -69,12 +69,11 @@
 
 
 /*
-    THE STARTUP AND ENDUP FILES
-
-    These variables give the names and file descriptors for the startup
-    and endup files, plus the command-line options to pass them to the
-    producer.
-*/
+ * THE STARTUP AND ENDUP FILES
+ *
+ * These variables give the names and file descriptors for the startup and
+ * endup files, plus the command-line options to pass them to the producer.
+ */
 
 static FILE *startup_file = null, *endup_file = null;
 static char *startup_name = null, *endup_name = null;
@@ -82,244 +81,251 @@ char *startup_opt = null, *endup_opt = null;
 
 
 /*
-    ADD A MESSAGE TO THE STARTUP FILE
-
-    This routine prints the message s to the tcc startup file.
-*/
+ * ADD A MESSAGE TO THE STARTUP FILE
+ *
+ * This routine prints the message s to the tcc startup file.
+ */
 
 void
 add_to_startup(char *s)
 {
-    if (startup_name == null) {
-	startup_name = temp_name(temporary_dir, "ts");
-	startup_opt = string_concat("-f", startup_name);
-    }
-    opt_startup = add_item(opt_startup, s);
-    if (dry_run) return;
-    if (startup_file == null) {
-	startup_file = fopen(startup_name, "a");
-	if (startup_file == null) {
-	    error(SERIOUS, "Can't open startup file, '%s'", startup_name);
-	    return;
+	if (startup_name == null) {
+		startup_name = temp_name(temporary_dir, "ts");
+		startup_opt = string_concat("-f", startup_name);
 	}
-	IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
-    }
-    IGNORE fputs(s, startup_file);
-    return;
+	opt_startup = add_item(opt_startup, s);
+	if (dry_run) {
+		return;
+	}
+	if (startup_file == null) {
+		startup_file = fopen(startup_name, "a");
+		if (startup_file == null) {
+			error(SERIOUS, "Can't open startup file, '%s'",
+			      startup_name);
+			return;
+		}
+		IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
+	}
+	IGNORE fputs(s, startup_file);
+	return;
 }
 
 
 /*
-    ADD A MESSAGE TO THE ENDUP FILE
-
-    This routine prints the message s to the tcc endup file.
-*/
+ * ADD A MESSAGE TO THE ENDUP FILE
+ *
+ * This routine prints the message s to the tcc endup file.
+ */
 
 void
 add_to_endup(char *s)
 {
-    if (endup_name == null) {
-	endup_name = temp_name(temporary_dir, "te");
-	startup_opt = string_concat("-e", endup_name);
-    }
-    opt_endup = add_item(opt_endup, s);
-    if (dry_run) return;
-    if (endup_file == null) {
-	endup_file = fopen(endup_name, "a");
-	if (endup_file == null) {
-	    error(SERIOUS, "Can't open endup file, '%s'", endup_name);
-	    return;
+	if (endup_name == null) {
+		endup_name = temp_name(temporary_dir, "te");
+		startup_opt = string_concat("-e", endup_name);
 	}
-	IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
-    }
-    IGNORE fputs(s, endup_file);
-    return;
+	opt_endup = add_item(opt_endup, s);
+	if (dry_run) {
+		return;
+	}
+	if (endup_file == null) {
+		endup_file = fopen(endup_name, "a");
+		if (endup_file == null) {
+			error(SERIOUS, "Can't open endup file, '%s'",
+			      endup_name);
+			return;
+		}
+		IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
+	}
+	IGNORE fputs(s, endup_file);
+	return;
 }
 
 
 /*
-    THE TOKEN DEFINITION FILE
-
-    This file is used to hold TDF notation for the definition of the
-    command-line tokens.
-*/
+ * THE TOKEN DEFINITION FILE
+ *
+ * This file is used to hold TDF notation for the definition of the
+ * command-line tokens.
+ */
 
 static FILE *tokdef_file = null;
 char *tokdef_name = null;
 
 
 /*
-    ADD A MESSAGE TO THE TOKEN DEFINITION FILE
-
-    This routine prints the message s to the tcc token definition file.
-*/
+ * ADD A MESSAGE TO THE TOKEN DEFINITION FILE
+ *
+ * This routine prints the message s to the tcc token definition file.
+ */
 
 static void
 add_to_tokdef(char *s)
 {
-    if (tokdef_name == null) {
-	tokdef_name = temp_name(temporary_dir, "td");
-    }
-    if (dry_run) return;
-    if (tokdef_file == null) {
-	tokdef_file = fopen(tokdef_name, "a");
-	if (tokdef_file == null) {
-	    error(SERIOUS, "Can't open token definition file, '%s'",
-		    tokdef_name);
-	    return;
+	if (tokdef_name == null) {
+		tokdef_name = temp_name(temporary_dir, "td");
 	}
-	IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
-	IGNORE fputs("( make_tokdec ~signed_int variety )\n\n",
-		       tokdef_file);
-    }
-    IGNORE fputs(s, tokdef_file);
-    return;
+	if (dry_run) {
+		return;
+	}
+	if (tokdef_file == null) {
+		tokdef_file = fopen(tokdef_name, "a");
+		if (tokdef_file == null) {
+			error(SERIOUS, "Can't open token definition file, '%s'",
+			      tokdef_name);
+			return;
+		}
+		IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
+		IGNORE fputs("( make_tokdec ~signed_int variety )\n\n",
+			     tokdef_file);
+	}
+	IGNORE fputs(s, tokdef_file);
+	return;
 }
 
 
 /*
-    CLOSE THE STARTUP AND ENDUP FILES
-
-    This routine closes the startup and endup files.
-*/
+ * CLOSE THE STARTUP AND ENDUP FILES
+ *
+ * This routine closes the startup and endup files.
+ */
 
 void
 close_startup(void)
 {
-    if (startup_file) {
-	IGNORE fclose(startup_file);
-	startup_file = null;
-    }
-    if (endup_file) {
-	IGNORE fclose(endup_file);
-	endup_file = null;
-    }
-    if (tokdef_file) {
-	IGNORE fclose(tokdef_file);
-	tokdef_file = null;
-    }
-    return;
+	if (startup_file) {
+		IGNORE fclose(startup_file);
+		startup_file = null;
+	}
+	if (endup_file) {
+		IGNORE fclose(endup_file);
+		endup_file = null;
+	}
+	if (tokdef_file) {
+		IGNORE fclose(tokdef_file);
+		tokdef_file = null;
+	}
+	return;
 }
 
 
 /*
-    CLEAN UP THE STARTUP AND ENDUP FILES
-
-    This routine is called before the program terminates either to
-    remove the tcc startup and endup files or to move them if they
-    are to be preserved.
-*/
+ * CLEAN UP THE STARTUP AND ENDUP FILES
+ *
+ * This routine is called before the program terminates either to remove the
+ * tcc startup and endup files or to move them if they are to be preserved.
+ */
 
 void
 remove_startup(void)
 {
-    if (keeps[STARTUP_FILE]) {
-	if (startup_name) {
-	    cmd_list(exec_move);
-	    cmd_string(startup_name);
-	    cmd_string(name_h_file);
-	    IGNORE execute(no_filename, no_filename);
+	if (keeps[STARTUP_FILE]) {
+		if (startup_name) {
+			cmd_list(exec_move);
+			cmd_string(startup_name);
+			cmd_string(name_h_file);
+			IGNORE execute(no_filename, no_filename);
+		}
+		if (endup_name) {
+			cmd_list(exec_move);
+			cmd_string(endup_name);
+			cmd_string(name_E_file);
+			IGNORE execute(no_filename, no_filename);
+		}
+		if (tokdef_name) {
+			cmd_list(exec_move);
+			cmd_string(tokdef_name);
+			cmd_string(name_p_file);
+			IGNORE execute(no_filename, no_filename);
+		}
+	} else {
+		if (startup_name) {
+			cmd_list(exec_remove);
+			cmd_string(startup_name);
+			IGNORE execute(no_filename, no_filename);
+		}
+		if (endup_name) {
+			cmd_list(exec_remove);
+			cmd_string(endup_name);
+			IGNORE execute(no_filename, no_filename);
+		}
+		if (tokdef_name) {
+			cmd_list(exec_remove);
+			cmd_string(tokdef_name);
+			IGNORE execute(no_filename, no_filename);
+		}
 	}
-	if (endup_name) {
-	    cmd_list(exec_move);
-	    cmd_string(endup_name);
-	    cmd_string(name_E_file);
-	    IGNORE execute(no_filename, no_filename);
-	}
-	if (tokdef_name) {
-	    cmd_list(exec_move);
-	    cmd_string(tokdef_name);
-	    cmd_string(name_p_file);
-	    IGNORE execute(no_filename, no_filename);
-	}
-    } else {
-	if (startup_name) {
-	    cmd_list(exec_remove);
-	    cmd_string(startup_name);
-	    IGNORE execute(no_filename, no_filename);
-	}
-	if (endup_name) {
-	    cmd_list(exec_remove);
-	    cmd_string(endup_name);
-	    IGNORE execute(no_filename, no_filename);
-	}
-	if (tokdef_name) {
-	    cmd_list(exec_remove);
-	    cmd_string(tokdef_name);
-	    IGNORE execute(no_filename, no_filename);
-	}
-    }
-    return;
+	return;
 }
 
 
 /*
-    DEAL WITH STARTUP PRAGMA OPTIONS
-
-    This routine translates command-line compilation mode options into
-    the corresponding pragma statements.
-*/
+ * DEAL WITH STARTUP PRAGMA OPTIONS
+ *
+ * This routine translates command-line compilation mode options into the
+ * corresponding pragma statements.
+ */
 
 void
 add_pragma(char *s)
 {
-    char *e;
-    char *level = "warning";
-    static char *start_scope = "#pragma TenDRA begin\n";
-    if (start_scope) {
-	add_to_startup(start_scope);
-	start_scope = null;
-    }
-    e = strchr(s, '=');
-    if (e) {
-	level = e + 1;
-	*e = 0;
-    }
+	char *e;
+	char *level = "warning";
+	static char *start_scope = "#pragma TenDRA begin\n";
+	if (start_scope) {
+		add_to_startup(start_scope);
+		start_scope = null;
+	}
+	e = strchr(s, '=');
+	if (e) {
+		level = e + 1;
+		*e = 0;
+	}
 
-    /* Write option to startup file */
-    add_to_startup("#pragma TenDRA option \"");
-    add_to_startup(s);
-    add_to_startup("\" ");
-    add_to_startup(level);
-    add_to_startup("\n");
-    return;
+	/* Write option to startup file */
+	add_to_startup("#pragma TenDRA option \"");
+	add_to_startup(s);
+	add_to_startup("\" ");
+	add_to_startup(level);
+	add_to_startup("\n");
+	return;
 }
 
 
 /*
-    DEAL WITH STARTUP TOKEN OPTIONS
-
-    This routine translates command-line token definition options into
-    the corresponding pragma statements.
-*/
+ * DEAL WITH STARTUP TOKEN OPTIONS
+ *
+ * This routine translates command-line token definition options into the
+ * corresponding pragma statements.
+ */
 
 void
 add_token(char *s)
 {
-    char *type = "int";
-    char *defn = "1";
-    char *e = strchr(s, '=');
-    if (e) {
-	defn = e + 1;
-	*e = 0;
-    }
+	char *type = "int";
+	char *defn = "1";
+	char *e = strchr(s, '=');
+	if (e) {
+		defn = e + 1;
+		*e = 0;
+	}
 
-    /* Write token description to startup file */
-    add_to_startup("#pragma token EXP const : ");
-    add_to_startup(type);
-    add_to_startup(" : ");
-    add_to_startup(s);
-    add_to_startup(" #\n");
-    add_to_startup("#pragma interface ");
-    add_to_startup(s);
-    add_to_startup("\n");
+	/* Write token description to startup file */
+	add_to_startup("#pragma token EXP const : ");
+	add_to_startup(type);
+	add_to_startup(" : ");
+	add_to_startup(s);
+	add_to_startup(" #\n");
+	add_to_startup("#pragma interface ");
+	add_to_startup(s);
+	add_to_startup("\n");
 
-    /* Write definition to token definition file */
-    add_to_tokdef("( make_tokdef ");
-    add_to_tokdef(s);
-    add_to_tokdef(" exp\n");
-    add_to_tokdef("  ( make_int ~signed_int ");
-    add_to_tokdef(defn);
-    add_to_tokdef(" ) )\n\n");
-    return;
+	/* Write definition to token definition file */
+	add_to_tokdef("( make_tokdef ");
+	add_to_tokdef(s);
+	add_to_tokdef(" exp\n");
+	add_to_tokdef("  ( make_int ~signed_int ");
+	add_to_tokdef(defn);
+	add_to_tokdef(" ) )\n\n");
+	return;
 }

@@ -63,12 +63,11 @@
 
 
 /*
-    EXTERNAL INTERFACE SPECIFICATION
-
-    This header describes the non-ANSI component of the program API.
-    The various components are controlled by the FS_* macros defined
-    in config.h.
-*/
+ * EXTERNAL INTERFACE SPECIFICATION
+ *
+ * This header describes the non-ANSI component of the program API. The
+ * various components are controlled by the FS_* macros defined in config.h.
+ */
 
 #include <sys/types.h>
 #if FS_DIRENT

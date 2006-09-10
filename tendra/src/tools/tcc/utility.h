@@ -63,10 +63,10 @@
 
 
 /*
-    TEMPORARY WORK SPACE
-
-    This is used as a scratch work area.
-*/
+ * TEMPORARY WORK SPACE
+ *
+ * This is used as a scratch work area.
+ */
 
 extern char *buffer;
 #define buffer_size	5000
@@ -98,11 +98,10 @@ typedef struct _hashtable {
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with error reporting and memory
-    allocation.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with error reporting and memory allocation.
+ */
 
 extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
@@ -120,10 +119,10 @@ extern htnode *update_table(hashtable *, char *, char *, unsigned int, char *,
 
 
 /*
-    ERROR VARIABLES
-
-    These variables are concerned with error reporting.
-*/
+ * ERROR VARIABLES
+ *
+ * These variables are concerned with error reporting.
+ */
 
 extern int exit_status;
 extern char *progname;
@@ -150,11 +149,11 @@ static char *PATH_SUBS[] = {
 
 
 /*
-    ERROR TYPES
-
-    These values give the severity levels for the error reporting
-    routine, error.
-*/
+ * ERROR TYPES
+ *
+ * These values give the severity levels for the error reporting routine,
+ * error.
+ */
 
 #define FATAL		0
 #define INTERNAL	1
@@ -165,19 +164,15 @@ static char *PATH_SUBS[] = {
 
 
 /*
-    UTILITY MACROS
+ * UTILITY MACROS
+ *
+ * These macros give convenient shorthands for various constructs.
+ */
 
-    These macros give convenient shorthands for various constructs.
-*/
-
-#define alloc_size(T, N)\
-   ((int)(N)*(int)sizeof(T))
-#define alloc_nof(T, N)\
-   (T *)xalloc(alloc_size(T, N))
-#define realloc_nof(P, T, N)\
-   (T *)xrealloc((pointer)(P), alloc_size(T, N))
-#define array_size(A)\
-   ((int)sizeof(A) / (int)sizeof(A[0]))
+#define alloc_size(T, N)	((int)(N) * (int)sizeof(T))
+#define alloc_nof(T, N)		(T *)xalloc(alloc_size(T, N))
+#define realloc_nof(P, T, N)	(T *)xrealloc((pointer)(P), alloc_size(T, N))
+#define array_size(A)		((int)sizeof(A) / (int)sizeof(A[0]))
 
 
 #endif

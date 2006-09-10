@@ -63,10 +63,10 @@
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with initialising and updating the
-    values of the various compilation options.
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with initialising and updating the values of
+ * the various compilation options.
 */
 
 extern void initialise_options(void);
@@ -76,10 +76,10 @@ extern void set_stage(int, int);
 
 
 /*
-    STRING VARIABLES
-
-    These variables give various compilation constants.
-*/
+ * STRING VARIABLES
+ *
+ * These variables give various compilation constants.
+ */
 
 extern char *api_info;
 extern char *api_output;
@@ -101,10 +101,10 @@ extern char **env_paths;
 
 
 /*
-    INTERNAL OPTIONS
-
-    These variables control the behaviour of tcc.
-*/
+ * INTERNAL OPTIONS
+ *
+ * These variables control the behaviour of tcc.
+ */
 
 extern boolean api_checks;
 extern boolean checker;
@@ -119,7 +119,7 @@ extern boolean suffix_overrides;
 extern boolean taciturn;
 extern boolean tidy_up;
 extern boolean time_commands;
-extern boolean tool_chain;	
+extern boolean tool_chain;
 extern boolean tool_chain_environ;
 extern boolean verbose;
 extern boolean warnings;
@@ -127,11 +127,10 @@ extern boolean no_shuffle;
 
 
 /*
-    COMPILATION CONTROL OPTIONS
-
-    These variables control the overall flow of the compilation.
-*/
-
+ * COMPILATION CONTROL OPTIONS
+ *
+ * These variables control the overall flow of the compilation.
+ */
 
 extern boolean make_archive;
 extern boolean make_complex;
@@ -152,12 +151,11 @@ extern boolean allow_specs;
 
 
 /*
-    FILE PRESERVATION AND CONSTRUCTION OPTIONS
-
-    These tables control whether output files of the various file types
-    should be kept and whether the compilation stops after they are
-    produced.
-*/
+ * FILE PRESERVATION AND CONSTRUCTION OPTIONS
+ *
+ * These tables control whether output files of the various file types should
+ * be kept and whether the compilation stops after they are produced.
+ */
 
 extern boolean keeps[];
 extern boolean keeps_aux[];
@@ -165,16 +163,16 @@ extern boolean stops[];
 
 
 /*
-    EXTRA FILE TYPES
-
-    These dummy file types are in addition to those listed in filename.h.
-    They are used in the keeps and stops arrays to resolve questions about,
-    for example, TDF building, which in terms of file types maps :
-
-		INDEP_TDF x ... x INDEP_TDF -> INDEP_TDF
-
-    By introducing a dummy type for the output we can refine the keeps and
-    stops information to, for example, keep the output but not the input.
+ * EXTRA FILE TYPES
+ *
+ * These dummy file types are in addition to those listed in filename.h. They
+ * are used in the keeps and stops arrays to resolve questions about, for
+ * example, TDF building, which in terms of file types maps :
+ *
+ *     INDEP_TDF x ... x INDEP_TDF -> INDEP_TDF
+ *
+ * By introducing a dummy type for the output we can refine the keeps and stops
+ * information to, for example, keep the output but not the input.
 */
 
 #define INDEP_TDF_COMPLEX	(UNKNOWN_TYPE + 1)
@@ -188,13 +186,13 @@ extern boolean stops[];
 
 
 /*
-    PRESERVATION AND CONSTRUCTION FLAGS
-
-    These identifiers are used by set_stage to set the keeps and stops
-    options for the various file types.  STOP_STAGE means "stop and keep",
-    STOP_ONLY_STAGE means "stop", KEEP_STAGE means "keep" and
-    DONT_KEEP_STAGE means "don't keep".
-*/
+ * PRESERVATION AND CONSTRUCTION FLAGS
+ *
+ * These identifiers are used by set_stage to set the keeps and stops options
+ * for the various file types. STOP_STAGE means "stop and keep",
+ * STOP_ONLY_STAGE means "stop", KEEP_STAGE means "keep" and DONT_KEEP_STAGE
+ * means "don't keep".
+ */
 
 #define STOP_STAGE		0
 #define STOP_ONLY_STAGE		1
@@ -203,11 +201,11 @@ extern boolean stops[];
 
 
 /*
-    INDIVIDUAL OPTIONS
-
-    These flags control those individual executable options which are
-    not easily integrated into the main scheme of things.
-*/
+ * INDIVIDUAL OPTIONS
+ *
+ * These flags control those individual executable options which are not easily
+ * integrated into the main scheme of things.
+ */
 
 extern boolean flag_diag;
 extern boolean flag_incl;
@@ -222,11 +220,11 @@ extern boolean flag_strip;
 
 
 /*
-    EXECUTABLES
-
-    These variables give the values of the various executables used by
-    the system.
-*/
+ * EXECUTABLES
+ *
+ * These variables give the values of the various executables used by the
+ * system.
+ */
 
 extern list *exec_produce;
 extern list *exec_preproc;
@@ -256,11 +254,11 @@ extern list *exec_dump_link;
 
 
 /*
-    BUILT-IN OPTIONS
-
-    These lists of options are built into the system, although they may
-    be altered by environments and command-line options.
-*/
+ * BUILT-IN OPTIONS
+ *
+ * These lists of options are built into the system, although they may be
+ * altered by environments and command-line options.
+ */
 
 extern list *std_prod_incldirs;
 extern list *std_prod_portfile;
@@ -282,10 +280,10 @@ extern list *std_link_entry;
 
 
 /*
-    COMMAND-LINE OPTIONS
-
-    These lists of options are those specified on the command-line.
-*/
+ * COMMAND-LINE OPTIONS
+ *
+ * These lists of options are those specified on the command-line.
+ */
 
 extern list *usr_prod_incldirs;
 extern list *usr_prod_foptions;
@@ -300,11 +298,11 @@ extern list *usr_link_libs;
 
 
 /*
-    EXECUTABLE OPTIONS
-
-    These lists record the command-line options which are passed
-    directly to the various executables.
-*/
+ * EXECUTABLE OPTIONS
+ *
+ * These lists record the command-line options which are passed directly to the
+ * various executables.
+ */
 
 extern list *opt_produce;
 extern list *opt_preproc;

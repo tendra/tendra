@@ -66,61 +66,61 @@
 #include "list.h"
 
 /*
-    TYPE REPRESENTING AN OPTION
-
-    An option consists of an input pattern, in, an output command, out,
-    and some explanitory text, explain.
-*/
+ * TYPE REPRESENTING AN OPTION
+ *
+ * An option consists of an input pattern, in, an output command, out, and some
+ * explanatory text, explain.
+ */
 
 typedef struct {
-    char *in;
-    char *out;
-    char *explain;
-    int   rank;
+	char *in;
+	char *out;
+	char *explain;
+	int   rank;
 } optmap;
 
 
 /*
-    TYPE REPRESENTING AN OPTION ACTION
-
-    The output commands of an optmap are stored as an args_out, which is
-    a simple array of strings.
-*/
+ * TYPE REPRESENTING AN OPTION ACTION
+ *
+ * The output commands of an optmap are stored as an args_out, which is a
+ * simple array of strings.
+ */
 
 #define max_var		100
 
 typedef struct {
-    int argc;
-    char *argv[max_var];
+	int argc;
+	char *argv[max_var];
 } args_out;
 
 
 /*
-    TABLES OF OPTIONS
-
-    These tables give the option mappings for the command-line options
-    and the environment options.
-*/
+ * TABLES OF OPTIONS
+ *
+ * These tables give the option mappings for the command-line options and the
+ * environment options.
+ */
 
 extern optmap main_optmap[];
 extern optmap environ_optmap[];
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with processing command-line options
-    and input files.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with processing command-line options and input
+ * files.
+ */
 
 extern void process_options(list *, optmap *, int);
 
 
 /*
-    THE LIST OF ALL INPUT FILES
-
-    All the input files are formed into this list.
-*/
+ * THE LIST OF ALL INPUT FILES
+ *
+ * All the input files are formed into this list.
+ */
 
 extern filename *input_files;
 

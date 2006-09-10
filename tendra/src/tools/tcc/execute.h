@@ -63,11 +63,11 @@
 
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with building up the current command
-    and then executing it.
-*/
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with building up the current command and then
+ * executing it.
+ */
 
 extern void	 enable_delayed_signal(void);
 extern void	 disable_delayed_signal(void);
@@ -82,10 +82,10 @@ extern filename	*execute(filename *, filename *);
 
 
 /*
-    LAST COMMAND
-
-    These variables give the details of the last command executed.
-*/
+ * LAST COMMAND
+ *
+ * These variables give the details of the last command executed.
+ */
 
 extern char	*last_command;
 extern int	 last_return;

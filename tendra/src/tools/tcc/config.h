@@ -63,12 +63,12 @@
 
 
 /*
-    BASIC API SPECIFICATION
-
-    The API for this program is ANSI plus a few extensions from POSIX
-    and XPG3.  The ANSI headers are included here, with the FS_* macros
-    being used to control inclusion of the additional features.
-*/
+ * BASIC API SPECIFICATION
+ *
+ * The API for this program is ANSI plus a few extensions from POSIX and XPG3.
+ * The ANSI headers are included here, with the FS_* macros being used to
+ * control inclusion of the additional features.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,32 +124,31 @@
 
 
 /*
-    CODING STANDARD MACROS
-
-    The program is written to conform to the local OSSG coding standard.
-    This header defines the standard macros used in the program.
-*/
+ * CODING STANDARD MACROS
+ *
+ * The program is written to conform to the local OSSG coding standard. This
+ * header defines the standard macros used in the program.
+ */
 
 
 #include "tendra.h"
 
 
 /*
-    BASIC TYPES
-
-    These types are so ubiquitous that this is the only suitable place
-    for them.
-*/
+ * BASIC TYPES
+ *
+ * These types are so ubiquitous that this is the only suitable place for them.
+ */
 
 typedef int boolean;
 typedef void *pointer;
 
 
 /*
-    UTILITY MACROS
-
-    These macros are just a matter of programming style.
-*/
+ * UTILITY MACROS
+ *
+ * These macros are just a matter of programming style.
+ */
 
 #define null		NULL
 #define streq(X, Y)	(strcmp((X), (Y)) == 0)
