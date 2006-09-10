@@ -120,19 +120,11 @@
 #define CPP_SPEC_COMPLEX_NAME		"a.K"
 #endif
 
-#if OPEN_NT
-#define STARTUP_NAME			"ol_startup.h"
-#define ENDUP_NAME			"ol_endup.h"
-#define TOKDEF_NAME			"ol_tokdef.p"
-#define MADE_UP_NAME			"_ol%04d"
-#define TEMP_NAME			"_ol"
-#else
 #define STARTUP_NAME			"tcc_startup.h"
 #define ENDUP_NAME			"tcc_endup.h"
 #define TOKDEF_NAME			"tcc_tokdef.p"
 #define MADE_UP_NAME			"_tcc%04d"
 #define TEMP_NAME			"_tcc"
-#endif
 
 
 /*
