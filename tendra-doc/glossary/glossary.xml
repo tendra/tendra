@@ -34,7 +34,6 @@
 	-->
 
 	<xi:include href="a.xml"/>
-	<xi:include href="a.xml"/>
 	<xi:include href="b.xml"/>
 	<xi:include href="c.xml"/>
 	<xi:include href="d.xml"/>
