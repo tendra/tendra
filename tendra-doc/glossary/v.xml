@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>V</title>
+
+	<glossentry>
+		<glossterm>Virtual Machine</glossterm>
+		<acronym>VM</acronym>
+
+		<glossdef>
+			<para>
+				<!-- TODO see machine -->
+			</para>
+
+			<para>
+				Usually this term is used to imply that there
+				is no physical implementation of this machine.
+			</para>
+		</glossdef>
+	</glossentry>
+</glossdiv>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>F</title>
+
+	<glossentry>
+		<glossterm>Flex</glossterm>	<!-- TODO we probably shouldn't mention flex and bison -->
+
+		<glossdef>
+			<para>
+				A capability architecture and operating system
+				developed at DERA during the 1980s.
+			</para>
+<!-- See Flex machine on wikipedia. -->
+		</glossdef>
+	</glossentry>
+</glossdiv>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>Languages</title>
+
+	<para>
+		<!-- TODO TODO These are all languages -->
+	</para>
+
+	<glossentry>
+		<glossterm>Assembly</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>C</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>CPP<!-- TODO also C++ --></glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Make</glossterm>
+	</glossentry>
+</glossdiv>
+

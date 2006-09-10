@@ -1,0 +1,184 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>T</title>
+
+	<glossentry>
+		<glossterm>tcc</glossterm>
+
+		<glossdef>
+			<para><!-- TODO CLI --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>TDF</glossterm>
+<!--
+Low-level Ten15: Ten15 Distribution Format
+Retrospectively renamed to TenDRA Distribution Format.
+-->
+	</glossentry>
+
+	<glossentry>
+		<glossterm>TDF Notation Compiler</glossterm>
+		<acronym>TNC</acronym>
+
+		<glossdef>
+			<para><!-- TODO This is an unstructured TDF assembler and disassembler --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Ten15</glossterm>
+
+		<glossdef>
+			<para>Ten15 refers to:</para>
+<!--
+* The Ten15 system
+* The Ten15 language
+* The Ten15 intermediate representation
+* ten15.org, who took their name from the above.
+-->
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>The Ten15 language</glossterm>
+
+		<glossdef>
+			<para>
+				The Ten15 language (usually called Ten15 Notation)
+				was the main language used to program the Ten15 system;
+				it was created to provide all of the virtual machine's
+				abilities.
+			</para>
+			<!-- See also Ten15 system -->
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Ten15 Notation</glossterm>
+
+		<glossdef>
+			<!-- See Ten15 Language -->
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>The Ten15 system</glossterm>
+
+		<glossdef>
+			<para>
+				This was a capability architecture which was created
+				as an equivalent to the Flex capability architecture
+				for the microcomputer, intended to make the work on Flex
+				available to modern machines lacking a microcode facility.
+			</para>
+
+			<para>
+				Ten15 provided this by way of a strongly typed virtual
+				machine. This differed from other virtual machines of
+				the time by making use of JIT (then yet to be named).
+			</para>
+
+			<para>
+				This machine acted as an abstract superset of several
+				high-level languages, and was intended to express these
+				(in much the same way as Microsoft's .Net virtual machine
+				expresses several languages today).
+			</para>
+
+			<para>
+				Conspicuously, C was not supported as it is not strongly
+				typed. This was eventually provided for by TDF, instead.
+			</para>
+
+<!-- See also Low level Ten15.  -->
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Ten15.org</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>The Ten15 intermediate representation</glossterm>
+
+		<glossdef>
+			<para><!-- TODO for programs on the Ten15 system, using the Ten15 compiler. -->
+			</para>
+<!-- See also Ten15 system -->
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>TenDRA</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>TenDRA.org</glossterm>
+
+		<glossdef>
+			<para><!-- TODO us --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Ticket</glossterm>
+
+		<glossdef>
+			<para><!-- TODO The thing you make on trac --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>tld</glossterm>
+
+		<glossdef>
+			<para><!-- TODO The TDF Linker --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>TPL</glossterm>
+
+		<glossdef>
+			<para><!-- TODO The PL_TDF Compiler. This is a structured TDF assembler. --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Trac</glossterm>
+
+		<glossdef>
+			<para><!-- TODO Our ticket and Wiki system of choice --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>tspec</glossterm>
+
+		<glossdef>
+			<para><!-- TODO An API specification generation tool --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Type</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Type checking</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Type system</glossterm>
+	</glossentry>
+</glossdiv>
+

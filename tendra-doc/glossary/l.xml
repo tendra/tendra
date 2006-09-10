@@ -1,0 +1,72 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>L</title>
+
+	<glossentry>
+		<glossterm>Lexer</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>lexi</glossterm>
+
+		<glossdef>
+			<para><!-- TODO A lexical generator --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Lexical Generation</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Linking</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Linux</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Low-level Ten15</glossterm>
+
+		<glossdef>
+			<para>
+				The format that became known as TDF.
+			</para>
+
+			<para>
+				To make porting the Ten15 System easier, after
+				type checking had succeeded and machine-independent
+				optimisations made, the untyped output of the Ten15
+				compiler was provided: this became defined as Low-level
+				Ten15.
+			</para>
+
+			<para>
+				Low-level Ten15, being untyped, was a viable target
+				for weakly-typed languages, including C.
+			</para>
+
+			<para>
+				At the OSF's <emphasis>request for technologies</emphasis>
+				for ANDF, Low-level Ten15 was renamed to TDF (Ten15
+				Distribution Format), and put forward as a (successful)
+				proposal.
+			</para>
+
+<!--
+See also OSF, ANDF, TDF
+See also personal retrospective,
+wikipedia
+-->
+		</glossdef>
+	</glossentry>
+</glossdiv>
+

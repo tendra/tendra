@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>D</title>
+
+	<glossentry>
+		<glossterm>DERA</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>disp</glossterm>
+
+		<glossdef>
+			<para><!-- TODO tdf pretty printer --></para>
+		</glossdef>
+	</glossentry>
+</glossdiv>
+

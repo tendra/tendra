@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>P</title>
+
+	<glossentry>
+		<glossterm>Parser</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Parser Generation</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Parsing</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Porting</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>PL_TDF</glossterm>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Producer</glossterm>
+	</glossentry>
+</glossdiv>
+

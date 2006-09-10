@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossdiv PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossdiv>
+	<title>O</title>
+
+	<glossentry>
+		<glossterm>Object<!-- TODO obj for short --></glossterm>
+
+		<glossdef>
+			<para><!-- TODO Compiled thing --></para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Open Software Foundation</glossterm>
+		<acronym>OSF</acronym>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Optimisation</glossterm>
+	</glossentry>
+</glossdiv>
+
