@@ -140,7 +140,8 @@ package body XASIS.Static.Iter is
                return Check_Range (Object, Arg, Bnd, Inv);
             end;
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
+            return Undefined (Object, Asis.Nil_Element);
       end case;
    end Evaluate;
 
@@ -179,7 +180,8 @@ package body XASIS.Static.Iter is
             return Evaluate (Object, Initialization_Expression (Element));
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
+            return Undefined (Object, Asis.Nil_Element);
       end case;
    end Evaluate_Static_Constant;
 
@@ -223,7 +225,8 @@ package body XASIS.Static.Iter is
          end;
       end if;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined (Object, Asis.Nil_Element);
    end Evaluate_Static_Function;
 
    --------------------
@@ -276,7 +279,8 @@ package body XASIS.Static.Iter is
             end if;
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
+            return Asis.Nil_Element;
       end case;
    end Statically_Denote;
 
@@ -378,19 +382,19 @@ package body XASIS.Static.Iter is
                   when A_Subtype_Indication =>
                      return Array_Subtype_Range (Object, Def, Index);
                   when others =>
-                     raise Evaluation_Error;
+                     Raise_Error (Internal_Error);
                end case;
             elsif Kind = A_Constant_Declaration and Index = 1 then
                return String_Constant_Range (Object, Decl);
             else
-               raise Evaluation_Error;
+               Raise_Error (Internal_Error);
             end if;
 
          when An_Object_Renaming_Declaration =>
             return String_Constant_Range (Object, Decl);
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
       end case;
 
       case Type_Kind (Def) is
@@ -402,8 +406,10 @@ package body XASIS.Static.Iter is
                return Get_Discrete_Range (Object, List (Index));
             end;
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
       end case;
+
+      raise Evaluation_Error;
    end Constrained_Array_Range;
 
    ------------------------
@@ -428,8 +434,10 @@ package body XASIS.Static.Iter is
                     Evaluate_Defined (Object, Upper_Bound (Element)));
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
       end case;
+
+      raise Evaluation_Error;
    end Get_Discrete_Range;
 
    ---------------
@@ -452,8 +460,10 @@ package body XASIS.Static.Iter is
                     Evaluate_Defined (Object, Upper_Bound (Element)));
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
       end case;
+
+      raise Evaluation_Error;
    end Get_Range;
 
    -----------------------------
@@ -523,7 +533,7 @@ package body XASIS.Static.Iter is
          if Attribute_Kind (Mark) = A_Base_Attribute then
             return Static_Subtype_Range (Object, Prefix (Mark), Base => True);
          else
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
          end if;
       end if;
 
@@ -569,12 +579,14 @@ package body XASIS.Static.Iter is
                   end;
 
                when others =>
-                  raise Evaluation_Error;
+                  Raise_Error (Internal_Error);
             end case;
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
       end case;
+
+      raise Evaluation_Error;
    end Static_Subtype_Range;
 
 end XASIS.Static.Iter;

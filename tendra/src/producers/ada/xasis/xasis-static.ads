@@ -42,6 +42,12 @@ package XASIS.Static is
 
    type Bound_Kinds is (Lower, Upper);
 
+   type Error_Reason is
+     (Not_Implemented, Internal_Error, Unexpected_Type,
+      Division_By_Zero, Exceed_Modulus);
+
+   procedure Last_Error (Reason  : out Error_Reason);
+
 private
    type Static_Value_Kinds is
      (Static_Undefined, Static_Discrete, Static_String, Static_Float);
@@ -109,6 +115,12 @@ private
 
    function Static_Range_Attribute
      (Attr   : Asis.Expression) return Static_Range;
+
+   Last_Error_Reason  : Error_Reason;
+
+   procedure Raise_Error (Reason  : Error_Reason);
+
+   procedure Check_Zero (Item : Value);
 
 end XASIS.Static;
 

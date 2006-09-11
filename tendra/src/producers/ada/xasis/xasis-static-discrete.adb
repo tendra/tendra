@@ -18,7 +18,8 @@ package body XASIS.Static.Discrete is
          when Static_Undefined =>
             return False;
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Unexpected_Type);
+            return False;
       end case;
    end Is_Discrete;
 
@@ -111,7 +112,8 @@ package body XASIS.Static.Discrete is
             end;
       end case;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined;
    end Evaluate;
 
    --------------
@@ -183,7 +185,8 @@ package body XASIS.Static.Discrete is
             null;
       end case;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined;
    end Evaluate;
 
    --------------
@@ -202,7 +205,7 @@ package body XASIS.Static.Discrete is
         and Kind /= A_Last_Attribute
         and Kind /= A_Length_Attribute
       then
-         raise Evaluation_Error;
+         Raise_Error (Internal_Error);
       end if;
 
       case Kind is
@@ -233,7 +236,8 @@ package body XASIS.Static.Discrete is
             null;
       end case;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined;
    end Evaluate;
 
 end XASIS.Static.Discrete;

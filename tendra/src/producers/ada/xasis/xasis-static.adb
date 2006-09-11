@@ -93,7 +93,8 @@ package body XASIS.Static is
       if Item.Kind = Static_Discrete then
          return Asis.ASIS_Integer'Value (XASIS.Integers.Image (Item.Pos));
       else
-         raise Evaluation_Error;
+         Raise_Error (Unexpected_Type);
+         return 0;
       end if;
    end "+";
 
@@ -134,6 +135,17 @@ package body XASIS.Static is
          return Static_One;
       end if;
    end Attribute_Designator_Expression;
+
+   ----------------
+   -- Check_Zero --
+   ----------------
+
+   procedure Check_Zero (Item : Value) is
+   begin
+      if Item = Static_Zero then
+         Raise_Error (Division_By_Zero);
+      end if;
+   end Check_Zero;
 
    -----------------
    -- Debug_Image --
@@ -183,12 +195,11 @@ package body XASIS.Static is
    function Image (Item : Value) return Wide_String is
       use Ada.Characters.Handling;
    begin
-      case Item.Kind is
-         when Static_Discrete =>
-            return To_Wide_String (XASIS.Integers.Image (Item.Pos));
-         when others =>
-            raise Evaluation_Error;
-      end case;
+      if Item.Kind /= Static_Discrete then
+         Raise_Error (Unexpected_Type);
+      end if;
+
+      return To_Wide_String (XASIS.Integers.Image (Item.Pos));
    end Image;
 
    --------------
@@ -238,7 +249,8 @@ package body XASIS.Static is
             return Discrete.Type_Class'(Info => Info);
          end if;
       else
-         raise Evaluation_Error;
+         Raise_Error (Not_Implemented);
+         return Get_Type_Class (Info);
       end if;
    end Get_Type_Class;
 
@@ -340,7 +352,8 @@ package body XASIS.Static is
             end;
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
+            return Undefined;
       end case;
    end Literal;
 
@@ -437,6 +450,15 @@ package body XASIS.Static is
       return Undefined;
    end Check_Range;
 
+   ----------------
+   -- Last_Error --
+   ----------------
+
+   procedure Last_Error (Reason  : out Error_Reason) is
+   begin
+      Reason  := Last_Error_Reason;
+   end Last_Error;
+
    ---------------
    -- Undefined --
    ---------------
@@ -448,6 +470,17 @@ package body XASIS.Static is
    begin
       return Undefined;
    end Undefined;
+
+   -----------------
+   -- Raise_Error --
+   -----------------
+
+   procedure Raise_Error (Reason  : Error_Reason) is
+   begin
+      Last_Error_Reason := Reason;
+
+      raise Evaluation_Error;
+   end Raise_Error;
 
    --------------------
    -- Range_Of_Array --
@@ -516,7 +549,8 @@ package body XASIS.Static is
             return (Undefined, Undefined);
 
          when others =>
-            raise Evaluation_Error;
+            Raise_Error (Internal_Error);
+            return (Undefined, Undefined);
       end case;
    end Range_Of_Type;
 
@@ -537,7 +571,8 @@ package body XASIS.Static is
       elsif Val.Kind = Static_String then
          return (I (Val.Lower), I (Val.Upper));
       else
-         raise Evaluation_Error;
+         Raise_Error (Unexpected_Type);
+         return (Undefined, Undefined);
       end if;
    end String_Constant_Range;
 

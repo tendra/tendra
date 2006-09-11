@@ -14,6 +14,31 @@ package body XASIS.Static.Unsigned is
      (Data   : XASIS.Integers.Value;
       Object : Type_Class) return Value;
 
+   function Eval
+     (Element : Asis.Expression;
+      Object  : Type_Class) return Value;
+
+   ----------
+   -- Eval --
+   ----------
+
+   function Eval
+     (Element : Asis.Expression;
+      Object  : Type_Class) return Value
+   is
+      Module : Value renames Modulus (Object);
+      Item   : Value renames Evaluate (Element);
+   begin
+      if Is_Discrete (Module)
+        and then Is_Discrete (Item)
+        and then Item.Pos >= Module.Pos
+      then
+         Raise_Error (Exceed_Modulus);
+      end if;
+
+      return Item;
+   end Eval;
+
    --------------
    -- Evaluate --
    --------------
@@ -27,12 +52,12 @@ package body XASIS.Static.Unsigned is
    begin
       case Kind is
          when A_Unary_Plus_Operator | An_Abs_Operator =>
-            return Evaluate (Actual_Parameter (Args (1)));
+            return Eval (Actual_Parameter (Args (1)), Object);
 
          when A_Unary_Minus_Operator | A_Not_Operator =>
             declare
                Item : Value renames
-                 Evaluate (Actual_Parameter (Args (1)));
+                 Eval (Actual_Parameter (Args (1)), Object);
             begin
                if not Is_Discrete (Item) then
                   return Undefined;
@@ -53,9 +78,9 @@ package body XASIS.Static.Unsigned is
            =>
             declare
                Left  : Value renames
-                 Evaluate (Actual_Parameter (Args (1)));
+                 Eval (Actual_Parameter (Args (1)), Object);
                Right : Value renames
-                 Evaluate (Actual_Parameter (Args (2)));
+                 Eval (Actual_Parameter (Args (2)), Object);
             begin
                if Is_Discrete (Left) and Is_Discrete (Right) then
                   case Kind is
@@ -66,10 +91,13 @@ package body XASIS.Static.Unsigned is
                      when A_Multiply_Operator =>
                         return U (Left.Pos * Right.Pos, Object);
                      when A_Divide_Operator =>
+                        Check_Zero (Right);
                         return U (Left.Pos / Right.Pos, Object);
                      when A_Mod_Operator =>
+                        Check_Zero (Right);
                         return U (Left.Pos mod Right.Pos, Object);
                      when A_Rem_Operator =>
+                        Check_Zero (Right);
                         return U (Left.Pos rem Right.Pos, Object);
                      when An_Exponentiate_Operator =>
                         return U (Left.Pos ** Right.Pos, Object);
@@ -85,7 +113,8 @@ package body XASIS.Static.Unsigned is
             return Evaluate (Discrete.Type_Class (Object), Kind, Args);
       end case;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined;
    end Evaluate;
 
    --------------

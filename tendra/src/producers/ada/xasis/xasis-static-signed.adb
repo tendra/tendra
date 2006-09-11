@@ -59,10 +59,13 @@ package body XASIS.Static.Signed is
                      when A_Multiply_Operator =>
                         return I (Left.Pos * Right.Pos);
                      when A_Divide_Operator =>
+                        Check_Zero (Right);
                         return I (Left.Pos / Right.Pos);
                      when A_Mod_Operator =>
+                        Check_Zero (Right);
                         return I (Left.Pos mod Right.Pos);
                      when A_Rem_Operator =>
+                        Check_Zero (Right);
                         return I (Left.Pos rem Right.Pos);
                      when An_Exponentiate_Operator =>
                         return I (Left.Pos ** Right.Pos);
@@ -78,7 +81,8 @@ package body XASIS.Static.Signed is
             return Evaluate (Discrete.Type_Class (Object), Kind, Args);
       end case;
 
-      raise Evaluation_Error;
+      Raise_Error (Internal_Error);
+      return Undefined;
    end Evaluate;
 
 end XASIS.Static.Signed;
