@@ -21,6 +21,8 @@ package body Declaration is
    use TenDRA;
    use TenDRA.Types;
 
+   type Variable_Kind is (Identity, Variable, Token);
+
    procedure Subroutine
      (State    : access States.State;
       Element  : in     Asis.Declaration);
@@ -33,9 +35,8 @@ package body Declaration is
      (State    : access States.State;
       Element  : in     Asis.Declaration);
 
-   function Variable_Is_Id
-     (State   : access States.State;
-      Element : Asis.Declaration) return Boolean;
+   function Variable_Is
+     (Element : Asis.Declaration) return Variable_Kind;
 
    procedure Make_Name_Token
      (State : access States.State;
@@ -45,7 +46,8 @@ package body Declaration is
      (State : access States.State;
       Name  : in     Asis.Defining_Name;
       Tipe  : in     XASIS.Classes.Type_Info;
-      Const : in     Boolean);
+      Const : in     Variable_Kind;
+      Init  : in     Asis.Expression := Asis.Nil_Element);
 
    procedure Parameter
      (State   : access States.State;
@@ -199,13 +201,14 @@ package body Declaration is
      (State : access States.State;
       Name  : in     Asis.Defining_Name;
       Tipe  : in     XASIS.Classes.Type_Info;
-      Const : in     Boolean)
+      Const : in     Variable_Kind;
+      Init  : in     Asis.Expression := Asis.Nil_Element)
    is
       T    : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       D    : aliased Streams.Memory_Stream;
       Tok  : TenDRA.Small := Find_Value (State, Name, TOKDEF, False);
-      Tag  : TenDRA.Small := Find_Tag (State, Name, TOKDEF);
+      Tag  : TenDRA.Small;
    begin
       Streams.Expect
         (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
@@ -214,14 +217,20 @@ package body Declaration is
       Output.TDF (D, c_exp);
       Output.List_Count (D, 0);
 
-      if not Const then
-         Output.TDF (D, c_contents);
-         Output_Shape (State, Tipe, D, TOKDEF);
-      end if;
+      if Const = Token then
+         Expression.Compile (State, Init, Tipe, False, D, TOKDEF);
+      else
+         Tag := Find_Tag (State, Name, TOKDEF);
 
-      Output.TDF (D, c_obtain_tag);
-      Output.TDF (D, c_make_tag);
-      Output.TDFINT (D, Tag);
+         if Const = Variable then
+            Output.TDF (D, c_contents);
+            Output_Shape (State, Tipe, D, TOKDEF);
+         end if;
+
+         Output.TDF (D, c_obtain_tag);
+         Output.TDF (D, c_make_tag);
+         Output.TDFINT (D, Tag);
+      end if;
 
       Inc (State.Length (TOKDEF));
       Output.TDF (T, c_make_tokdef);
@@ -238,6 +247,7 @@ package body Declaration is
      (State : access States.State;
       Link  : in     States.Linkage_Access)
    is
+      use Asis;
       use States;
       use TenDRA;
       use TenDRA.Types;
@@ -297,7 +307,10 @@ package body Declaration is
       Tag   : Small;
       Shape : Small;
    begin
-      if Link.Kind = States.Tag
+      if Elements.Declaration_Kind (Decl) = A_Constant_Declaration
+        and then Variable_Is (Decl) = Token then
+         return;
+      elsif Link.Kind = States.Tag
         and then XASIS.Utils.Lexic_Level (Link.Name) > 1
       then
          return;
@@ -311,7 +324,7 @@ package body Declaration is
          when Proc_Tag =>
             Output.TDF (S, c_make_id_tagdec);
          when States.Tag =>
-            if Variable_Is_Id (State, Decl) then
+            if Variable_Is (Decl) = Identity then
                Output.TDF (S, c_make_id_tagdec);
             else
                Output.TDF (S, c_make_var_tagdec);
@@ -387,10 +400,9 @@ package body Declaration is
          Output.TDF (B, c_make_tag);
          Output.TDFINT (B, Tag);
          Make_Name_Token (State, List (K));
-         Make_Value_Token (State, List (K), Tipe, False);
+         Make_Value_Token (State, List (K), Tipe, Variable);
       end loop;
    end Parameter;
-
 
    ----------------
    -- Subroutine --
@@ -466,33 +478,32 @@ package body Declaration is
       Output.TDF (B, c_make_top);
    end Subroutine;
 
-   --------------------
-   -- Variable_Is_Id --
-   --------------------
+   -----------------
+   -- Variable_Is --
+   -----------------
 
-   function Variable_Is_Id
-     (State   : access States.State;
-      Element : Asis.Declaration) return Boolean
-   is
+   function Variable_Is (Element : Asis.Declaration) return Variable_Kind is
       use Asis;
       use Asis.Elements;
       use XASIS.Classes;
       use Asis.Declarations;
-      Init  : Asis.Expression := Initialization_Expression (Element);
-      Tipe  : Type_Info := Type_Of_Declaration (Element);
+      Init  : constant Asis.Expression := Initialization_Expression (Element);
+      Tipe  : constant Type_Info := Type_Of_Declaration (Element);
    begin
       if Declaration_Kind (Element) = A_Constant_Declaration
         and Utils.By_Copy_Type (Tipe)
       then
-         if XASIS.Utils.Lexic_Level (Names (Element) (1)) /= 1
-           or Utils.Is_Static (Init)
-         then
-            return Trait_Kind (Element) /= An_Aliased_Trait;
+         if Trait_Kind (Element) = An_Aliased_Trait then
+            return Variable;
+         elsif Utils.Is_Static (Init) then
+            return Token;
+         elsif XASIS.Utils.Lexic_Level (Names (Element) (1)) /= 1 then
+            return Identity;
          end if;
       end if;
 
-      return False;
-   end Variable_Is_Id;
+      return Variable;
+   end Variable_Is;
 
    --------------
    -- Variable --
@@ -508,84 +519,87 @@ package body Declaration is
       use XASIS.Classes;
       B     : TenDRA.Streams.Memory_Stream
         renames State.Units (TAGDEF).all;
+
+      -------------------
+      -- Output_Access --
+      -------------------
+
+      procedure Output_Access is
+         Kind  : constant Declaration_Kinds := Declaration_Kind (Element);
+         Trait : constant Trait_Kinds := Trait_Kind (Element);
+      begin
+         if Kind = A_Constant_Declaration
+           and Trait /= An_Aliased_Trait
+         then
+            Output.TDF (B, c_add_accesses);
+            Output.TDF (B, c_constant);
+            Output.TDF (B, c_add_accesses);
+            Output.TDF (B, c_no_other_read);
+            Output.TDF (B, c_no_other_write);
+         elsif Kind = A_Constant_Declaration then
+            Output.TDF (B, c_constant);
+         elsif Trait /= An_Aliased_Trait then
+            Output.TDF (B, c_add_accesses);
+            Output.TDF (B, c_no_other_read);
+            Output.TDF (B, c_no_other_write);
+         else
+            Output.No_Option (B);  --  access
+         end if;
+      end Output_Access;
+
       Init  : Asis.Expression := Initialization_Expression (Element);
       Tipe  : Type_Info := Type_Of_Declaration (Element);
       Tag   : TenDRA.Small;
-      Shape : TenDRA.Small := Find_Shape (State, Tipe);
       List  : Asis.Defining_Name_List := Names (Element);
       Level : Positive := XASIS.Utils.Lexic_Level (List (1));
-      Const : Boolean := False;
+      Const : Variable_Kind := Variable_Is (Element);
    begin
-      if Declaration_Kind (Element) = A_Constant_Declaration
-        and then Utils.By_Copy_Type (Tipe)
-      then
-         if Level /= 1 or Utils.Is_Static (Init) then
-            Const := True;
-         end if;
-      end if;
-
       for J in List'Range loop
-         Tag := Find_Tag (State, List (J), TAGDEF, False);
+         if Const /= Token then
+            Tag := Find_Tag (State, List (J), TAGDEF, False);
+         end if;
 
-         --  make_id_tagdef/make_var_tagdef/identify/variable/ + access
-         if Level = 1 then
-            if Const and Trait_Kind (Element) /= An_Aliased_Trait then
-               Output.TDF (B, c_make_id_tagdef);
-               Output.TDFINT (B, Tag);
-            else
+         if Const = Variable then
+            if Level = 1 then
                Output.TDF (B, c_make_var_tagdef);
                Output.TDFINT (B, Tag);
-
-               if Const then
-                  Output.TDF (B, c_constant);
-               elsif Trait_Kind (Element) = An_Aliased_Trait then
-                  Output.No_Option (B);  --  access
-               else
-                  Output.TDF (B, c_add_accesses);
-                  Output.TDF (B, c_no_other_read);
-                  Output.TDF (B, c_no_other_write);
-               end if;
+               Output_Access;
+               Output.No_Option (B);  --  signature
+               Inc (State.Length (TAGDEF));
+            else  --  Level > 1
+               Output.TDF (B, c_variable);
+               Output_Access;
+               Output.TDF (B, c_make_tag);
+               Output.TDFINT (B, Tag);
             end if;
-            Output.No_Option (B);  --  signature
-            Inc (State.Length (TAGDEF));
-         else
-            if Const and Trait_Kind (Element) /= An_Aliased_Trait then
+         elsif Const = Identity then
+            if Level = 1 then
+               Output.TDF (B, c_make_id_tagdef);
+               Output.TDFINT (B, Tag);
+               Output.No_Option (B);  --  signature
+               Inc (State.Length (TAGDEF));
+            else  --  Level > 1
                Output.TDF (B, c_identify);
                Output.No_Option (B);  --  access
-            else
-               Output.TDF (B, c_variable);
-
-               if Const then
-                  Output.TDF (B, c_constant);
-               elsif Trait_Kind (Element) = An_Aliased_Trait then
-                  Output.No_Option (B);  --  access
-               else
-                  Output.TDF (B, c_add_accesses);
-                  Output.TDF (B, c_no_other_read);
-                  Output.TDF (B, c_no_other_write);
-               end if;
             end if;
-
-            Output.TDF (B, c_make_tag);
-            Output.TDFINT (B, Tag);
          end if;
 
-         --  exp
-         if Asis.Elements.Is_Nil (Init) then
-            Output.TDF (B, c_make_value);
-            Output.TDF (B, c_shape_apply_token);
-            Output.TDF (B, c_make_tok);
-            Output.TDFINT (B, Shape);
-            Output.BITSTREAM (B, Empty);
-         else
-            Expression.Compile (State, Init, Tipe, False, B, TAGDEF);
+         if Const /= Token then
+            if Asis.Elements.Is_Nil (Init) then
+               Output.TDF (B, c_make_value);
+               Output_Shape (State, Tipe, B, TAGDEF);
+            else
+               --  TODO: Variable elaboration if Init isn't static
+               Expression.Compile (State, Init, Tipe, False, B, TAGDEF);
+            end if;
          end if;
 
-         if not Const then
+         if Const = Variable then
             Make_Name_Token (State, List (J));
          end if;
 
-         Make_Value_Token (State, List (J), Tipe, Const);
+         Make_Value_Token (State, List (J), Tipe, Const, Init);
+
       end loop;
    end Variable;
 
