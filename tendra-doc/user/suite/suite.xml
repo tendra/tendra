@@ -37,7 +37,7 @@
     </copyright>
   </bookinfo>
 
-  <chapter id="tdf">
+  <chapter id="what-is-tdf">
     <title>What is TDF?</title>
 
     <para>TDF (standing for TenDRA Distribution Format) is the compiler
@@ -72,7 +72,7 @@
       hearts.</para>
   </chapter>
 
-  <chapter>
+  <chapter id="what-is-tendra">
     <title>What is TenDRA?</title>
 
     <para>TenDRA is the name of the compiler technology built around the TDF
@@ -91,7 +91,7 @@
       compiler could not.</para>
   </chapter>
 
-  <chapter id="tcc">
+  <chapter id="using-the-tendra-compiler">
     <title>Using the TenDRA Compiler</title>
 
     <para>The main user interface to the TenDRA compiler,
@@ -128,7 +128,7 @@
       <A HREF="../tcpplus/index.html">C++ producer guide</A>.</para>
   </chapter>
 
-  <chapter id="producer">
+  <chapter id="tdf-producers">
     <title>TDF Producers</title>
 
     <para>A tool which compiles a high-level language to TDF, is called a
@@ -191,7 +191,7 @@
       details.</para>
   </chapter>
 
-  <chapter id="installer">
+  <chapter id="tdf-installers">
     <title>TDF Installers</title>
 
     <para>A tool which compiles TDF to a machine language, is called an
@@ -240,7 +240,7 @@
       specification, as checked by the OSF AVS (ANDF Validation Suite).</para>
   </chapter>
 
-  <chapter id="tspec">
+  <chapter id="tdf-interface-tools">
     <title>TDF Interface Tools</title>
 
     <para>The API checking facilities of the TenDRA compiler are implemented
@@ -255,7 +255,7 @@
       headers.</para>
   </chapter>
 
-  <chapter id="tools">
+  <chapter id="other-tdf-tools">
     <title>Other TDF Tools</title>
 
     <para>There are various tools included within the software for viewing,
@@ -299,7 +299,7 @@
     </sect1>
   </chapter>
 
-  <chapter id="utilities">
+  <chapter id="compiler-writing-tools">
     <title>Compiler Writing Tools</title>
 
     <para>A number of compiler writing tools, which were used in the
