@@ -48,21 +48,22 @@
       to handle debugging in languages such as C++ and Ada (these extensions
       are not used by default).</para>
 
-    <para>The <A HREF="../tdf/spec1.html">TDF Specification (Issue 4.0)</A>
+    <para>The <ulink url="spec.html">TDF Specification (Issue 4.0)</ulink>
       gives a technical description of the TDF language. This is supplemented
-      by the <A HREF="../diag/diag1.html">TDF Diagnostic Extension
-      Specification (Issue 3.0)</A>. This is an extension to the core TDF
+      by the <ulink url="diagnostic.html">TDF Diagnostic Extension
+      Specification (Issue 3.0)</ulink>. This is an extension to the core TDF
       specification, which describes how information sufficient to allow for
       the debugging of C programs can be embedded into a TDF capsule (it is
       this that the experimental extensions mentioned above are intended to
       replace).</para>
 
-    <para>The companion document, the <A HREF="../tdf/register.html">TDF token
-      register</A>, describes the globally reserved, 'standard tokens'.</para>
+    <para>The companion document, the <ulink url="register.html">TDF token
+      register</ulink>, describes the globally reserved, 'standard
+      tokens'.</para>
 
-    <para>The <A HREF="../guide/guide1.html">Guide to the TDF
-      specification</A> gives an overview and commentary on the TDF language,
-      explaining some of the more difficult concepts.</para>
+    <para>The <ulink url="guide.html">Guide to the TDF specification</ulink>
+      gives an overview and commentary on the TDF language, explaining some of
+      the more difficult concepts.</para>
 
     <para>For those who know a bit of history, TDF was the technology adopted
       by OSF as their ANDF (Architecture Neutral Distribution Format), and TDF
@@ -97,8 +98,8 @@
     <para>The main user interface to the TenDRA compiler,
       <emphasis>tcc</emphasis>, can be used as a direct replacement for the
       system compiler, <emphasis>cc</emphasis>. This is described in the
-      <A HREF="../tcc/tcc1.html"><emphasis>tcc</emphasis> Users'
-        Guide</A>.</para>
+      <ulink url="tcc.html"><emphasis>tcc</emphasis> Users'
+      Guide</ulink>.</para>
 
     <para>There is an alternative user interface, <emphasis>tchk</emphasis>,
       which just applies the static program checks and disables code
@@ -123,9 +124,9 @@
       -Yansi.</code></para>
 
     <para>How to configure the C compiler checks is described in more detail
-      in the <A HREF="../tdfc/tdfc1.html">C Checker Reference Manual</A>. The
+      in the <ulink url="tdfc.html">C Checker Reference Manual</ulink>. The
       extra checks available in C++ are described in the
-      <A HREF="../tcpplus/index.html">C++ producer guide</A>.</para>
+      <ulink url="tcpplus.html">C++ producer guide</ulink>.</para>
   </chapter>
 
   <chapter id="tdf-producers">
@@ -141,7 +142,7 @@
     <para>The design of both producers has been guided by the goal of trying
       to ensure program portability by means of static program analysis. Some
       thoughts on this subject are set out in the document
-      <A HREF="../port/port1.html">TDF and portability</A>.</para>
+      <ulink url="port.html">TDF and portability</ulink>.</para>
 
     <para>The first component of this is by ensuring that the language
       implemented by the producer accurately reflects the corresponding
@@ -187,7 +188,7 @@
       <emphasis>&lt;exception&gt;</emphasis>) have been implemented. If a
       complete implementation of the standard C++ library is required, it must
       be obtained from elsewhere. See the
-      <A HREF="../tcpplus/index.html">C++ producer guide</A> for more
+      <ulink url="tcpplus.html">C++ producer guide</ulink> for more
       details.</para>
   </chapter>
 
@@ -197,7 +198,7 @@
     <para>A tool which compiles TDF to a machine language, is called an
       <emphasis>installer</emphasis>. TDF installers for a number of Unix
       systems and processors are included within the release (see the list of
-      <A HREF="install.html#platforms">supported platforms</A>). Each
+      <ulink url="install.html#platforms">supported platforms</ulink>). Each
       installer consists of code from three levels:</para>
 
     <orderedlist>
@@ -245,7 +246,7 @@
 
     <para>The API checking facilities of the TenDRA compiler are implemented
       by means of abstract interface specifications generated using the
-      <A HREF="../tools/tspec.html"><emphasis>tspec</emphasis></A> tool. This
+      <ulink url="tspec.html"><emphasis>tspec</emphasis></ulink> tool. This
       tool and specifications for a number of common APIs are included with
       the release. Part of the installation process consists of pre-compiling
       the implementations of those APIs implemented on the target machine into
@@ -266,7 +267,7 @@
     <sect1>
       <title>tld</title>
 
-      <para><A HREF="../tools/tld.html"><emphasis>tld</emphasis></A> is the
+      <para><ulink url="tld.html"><emphasis>tld</emphasis></ulink> is the
         TDF linker. It combines a number of TDF capsules into a single
         capsule. It also can be used to create and manipulate libraries of TDF
         capsules.</para>
@@ -283,7 +284,7 @@
     <sect1>
       <title>tnc</title>
 
-      <para><A HREF="../tools/tnc.html"><emphasis>tnc</emphasis></A> is the
+      <para><ulink url="tnc.html"><emphasis>tnc</emphasis></ulink> is the
         TDF notation compiler. It acts as a sort of TDF 'assembler', and can
         translate TDF capsules to and from a human readable form.</para>
     </sect1>
@@ -291,9 +292,9 @@
     <sect1>
       <title>pl</title>
 
-      <para><A HREF="../tools/pl.html"><emphasis>pl</emphasis></A> is the
+      <para><ulink url="pl.html"><emphasis>tpl</emphasis></ulink> is the
         PL_TDF compiler. It is a TDF 'structured assembler' in the lineage of
-        PL360. <emphasis>pl</emphasis> provides a more user-friendly way of
+        PL360. <emphasis>tpl</emphasis> provides a more user-friendly way of
         generating TDF capsules from scratch than that offered by
         <emphasis>tnc</emphasis>.</para>
     </sect1>
@@ -306,15 +307,15 @@
       development of the TenDRA compiler technology are also bundled with the
       TenDRA software release. These include the following:</para>
 
-    <para><A HREF="../tools/sid.html"><emphasis>sid</emphasis></A> is an LL(1)
+    <para><ulink url="sid.html"><emphasis>sid</emphasis></ulink> is an LL(1)
       parser generator with a long history (the original version dates back to
       the mid-sixties!). As well as the normal rule transformations it
       provides powerful techniques for call-outs in circumstances where a
       non-trivial look-ahead is required (essential for languages like C++),
       and for error recovery.</para>
 
-    <para><A HREF="../tools/calc.html"><emphasis>calculus</emphasis></A> is a
-      tool for managing complex C type systems. It uses the TenDRA interface
+    <para><ulink url="calculus.html"><emphasis>calculus</emphasis></ulink> is
+      a tool for managing complex C type systems. It uses the TenDRA interface
       checking techniques to enforce strong type checking and type
       encapsulation, and provides generic container types for lists, vectors
       etc.</para>
