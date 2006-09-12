@@ -16,6 +16,11 @@
 			into a human readable form.
 		</para>
 
+		<para>
+			This functionality is provided by <emphasis>tcc</emphasis>,
+			but <emphasis>disp</emphasis> may be called directly.
+		</para>
+
 		<glossseealso otherterm="tdf"/>
 		<glossseealso otherterm="tdfcapsule"/>
 	</glossdef>
