@@ -20,9 +20,9 @@
 			look-ahead is required (essential for languages like C++),
 			and for error recovery.
 		</para>
-
-		<!-- TODO see also: user/guides/sid -->
-		<glossseealso otherterm="parsergeneration"/>
 	</glossdef>
+
+	<!-- TODO see also: user/guides/sid -->
+	<glossseealso otherterm="parsergeneration"/>
 </glossentry>
 

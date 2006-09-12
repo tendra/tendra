@@ -22,13 +22,13 @@
 			This functionality is provided by <emphasis>tcc</emphasis>,
 			but <emphasis>tnc</emphasis> may be called directly.
 		</para>
-
-		<!-- TODO see also: user/guides/tnc -->
-		<glossseealso otherterm="tdf"/>
-		<glossseealso otherterm="tdfnotation"/>
-		<glossseealso otherterm="tdfcapsule"/>
-		<glossseealso otherterm="unstructuredtdf"/>
-		<glossseealso otherterm="tpl"/>
 	</glossdef>
+
+	<!-- TODO see also: user/guides/tnc -->
+	<glossseealso otherterm="tdf"/>
+	<glossseealso otherterm="tdfnotation"/>
+	<glossseealso otherterm="tdfcapsule"/>
+	<glossseealso otherterm="unstructuredtdf"/>
+	<glossseealso otherterm="tpl"/>
 </glossentry>
 

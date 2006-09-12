@@ -25,9 +25,9 @@
 			combine the <emphasis>tspec</emphasis> specification with
 			the implementation given in the system headers.
 		</para>
-
-		<!-- TODO see also: user/guides/tspec -->
-		<glossseealso otherterm="api"/>
 	</glossdef>
+
+	<!-- TODO see also: user/guides/tspec -->
+	<glossseealso otherterm="api"/>
 </glossentry>
 
