@@ -264,7 +264,7 @@
       integrated into the user interface, <emphasis>tcc</emphasis>, but they
       may also be called directly.</para>
 
-    <sect1>
+    <sect1 id="tld">
       <title>tld</title>
 
       <para><ulink url="tld.html"><emphasis>tld</emphasis></ulink> is the
@@ -273,7 +273,7 @@
         capsules.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id="disp">
       <title>disp</title>
 
       <para><emphasis>disp</emphasis> is the TDF pretty printer. It translates
@@ -281,7 +281,7 @@
         form.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id="tnc">
       <title>tnc</title>
 
       <para><ulink url="tnc.html"><emphasis>tnc</emphasis></ulink> is the
@@ -289,7 +289,7 @@
         translate TDF capsules to and from a human readable form.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id="tpl">
       <title>pl</title>
 
       <para><ulink url="pl.html"><emphasis>tpl</emphasis></ulink> is the
