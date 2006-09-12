@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossdiv>
+<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
 	<title>M</title>
 
 	<glossentry>
@@ -20,6 +20,8 @@
 			<para><!-- TODO A tool to generate TDF encoding and decoding routines --></para>
 		</glossdef>
 	</glossentry>
+
+	<xi:include href="entries/make_tdf.xml"/>
 
 	<glossentry>
 		<glossterm>mk</glossterm>

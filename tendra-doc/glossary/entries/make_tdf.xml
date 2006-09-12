@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossentry>
+	<glossterm>make_tdf</glossterm>
+
+	<glossdef>
+		<para>
+			<emphasis>make_tdf</emphasis> is a tool for generating
+			TDF decoders and encoders. It takes a compact description
+			of the TDF specification and a template file, and generates
+			code to read, write or transform a TDF capsule.
+		</para>
+
+		<glossseealso otherterm="tdf"/>
+		<glossseealso otherterm="tdfcapsule"/>
+	</glossdef>
+</glossentry>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossentry>
+	<glossterm>tpl</glossterm>
+
+	<glossdef>
+		<para>
+			<emphasis>tpl</emphasis> is the PL_TDF compiler. It is
+			a TDF 'structured assembler' in the lineage of PL360.
+			<emphasis>tpl</emphasis> provides a more user-friendly way
+			of generating TDF capsules from scratch than that offered
+			by <emphasis>tnc</emphasis>.
+		</para>
+
+		<!-- TODO see also: user/guides/tnc -->
+		<glossseealso otherterm="pltdf"/>
+		<glossseealso otherterm="tdfcapsule"/>
+		<glossseealso otherterm="structuredtdf"/>
+		<glossseealso otherterm="tnc"/>
+	</glossdef>
+</glossentry>
+

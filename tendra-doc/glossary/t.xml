@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossdiv>
+<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
 	<title>T</title>
 
 	<glossentry>
@@ -33,6 +33,14 @@ Retrospectively renamed to TenDRA Distribution Format.
 See also personal retrospective,
 wikipedia
 -->
+	</glossentry>
+
+	<glossentry id="tdfcapsule">
+		<glossterm>TDF Capsule</glossterm>
+	</glossentry>
+
+	<glossentry id="tdfnotation">
+		<glossterm>TDF Notation</glossterm>
 	</glossentry>
 
 	<glossentry>
@@ -159,21 +167,9 @@ wikipedia
 		</glossdef>
 	</glossentry>
 
-	<glossentry>
-		<glossterm>tld</glossterm>
+	<xi:include href="entries/tld.xml"/>
 
-		<glossdef>
-			<para><!-- TODO The TDF Linker --></para>
-		</glossdef>
-	</glossentry>
-
-	<glossentry>
-		<glossterm>TPL</glossterm>
-
-		<glossdef>
-			<para><!-- TODO The PL_TDF Compiler. This is a structured TDF assembler. --></para>
-		</glossdef>
-	</glossentry>
+	<xi:include href="entries/tpl.xml"/>
 
 	<glossentry>
 		<glossterm>Trac</glossterm>
@@ -183,13 +179,7 @@ wikipedia
 		</glossdef>
 	</glossentry>
 
-	<glossentry>
-		<glossterm>tspec</glossterm>
-
-		<glossdef>
-			<para><!-- TODO An API specification generation tool --></para>
-		</glossdef>
-	</glossentry>
+	<xi:include href="entries/tspec.xml"/>
 
 	<glossentry>
 		<glossterm>Type</glossterm>
@@ -199,7 +189,7 @@ wikipedia
 		<glossterm>Type checking</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="typesystem">
 		<glossterm>Type system</glossterm>
 	</glossentry>
 </glossdiv>

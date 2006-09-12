@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossentry>
+	<glossterm>disp</glossterm>
+
+	<glossdef>
+		<para>
+			<emphasis>disp</emphasis> is the TDF pretty printer.
+			It translates the bitstream comprising a TDF capsule
+			into a human readable form.
+		</para>
+
+		<glossseealso otherterm="tdf"/>
+		<glossseealso otherterm="tdfcapsule"/>
+	</glossdef>
+</glossentry>
+

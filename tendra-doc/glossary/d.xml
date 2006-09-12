@@ -6,19 +6,13 @@
   $Id$
 -->
 
-<glossdiv>
+<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
 	<title>D</title>
 
 	<glossentry>
 		<glossterm>DERA</glossterm>
 	</glossentry>
 
-	<glossentry>
-		<glossterm>disp</glossterm>
-
-		<glossdef>
-			<para><!-- TODO tdf pretty printer --></para>
-		</glossdef>
-	</glossentry>
+	<xi:include href="entries/disp.xml"/>
 </glossdiv>
 

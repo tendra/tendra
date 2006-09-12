@@ -13,7 +13,7 @@
 		<glossterm>Parser</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="parsergeneration">
 		<glossterm>Parser Generation</glossterm>
 	</glossentry>
 
@@ -25,7 +25,7 @@
 		<glossterm>Porting</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="pltdf">
 		<glossterm>PL_TDF</glossterm>
 	</glossentry>
 

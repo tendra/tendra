@@ -9,7 +9,7 @@
 <glossdiv>
 	<title>A</title>
 
-	<glossentry>
+	<glossentry id="api">
 		<glossterm>Application Programmer Interface</glossterm>
 		<acronym>API</acronym>
 	</glossentry>

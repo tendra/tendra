@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossentry>
+	<glossterm>tld</glossterm>
+
+	<glossdef>
+		<para>
+			<emphasis>tld</emphasis> is the TDF linker. It combines a
+			number of TDF capsules into a single capsule. It also can
+			be used to create and manipulate libraries of TDF capsules.
+		</para>
+
+		<para>
+			This functionality is provided by <emphasis>tcc</emphasis>,
+			but <emphasis>tld</emphasis> may be called directly.
+		</para>
+
+		<!-- TODO see also: user/guides/tld -->
+		<glossseealso otherterm="tcc"/>
+		<glossseealso otherterm="tdf"/>
+		<glossseealso otherterm="tdfcapsule"/>
+	</glossdef>
+</glossentry>
+

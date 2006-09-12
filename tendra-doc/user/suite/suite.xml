@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book>
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
   <bookinfo>
     <title>TenDRA Suite Purpose Overview</title>
 
@@ -241,63 +241,28 @@
       specification, as checked by the OSF AVS (ANDF Validation Suite).</para>
   </chapter>
 
-  <chapter id="tdf-interface-tools">
-    <title>TDF Interface Tools</title>
-
-    <para>The API checking facilities of the TenDRA compiler are implemented
-      by means of abstract interface specifications generated using the
-      <ulink url="tspec.html"><emphasis>tspec</emphasis></ulink> tool. This
-      tool and specifications for a number of common APIs are included with
-      the release. Part of the installation process consists of pre-compiling
-      the implementations of those APIs implemented on the target machine into
-      TDF libraries. This is performed automatically using
-      <emphasis>tcc</emphasis> to combine the <emphasis>tspec</emphasis>
-      specification with the implementation given in the system
-      headers.</para>
-  </chapter>
-
-  <chapter id="other-tdf-tools">
-    <title>Other TDF Tools</title>
+  <chapter id="tdf-tools">
+    <title>TDF Tools</title>
 
     <para>There are various tools included within the software for viewing,
-      generating and transforming TDF. The use of these components is
-      integrated into the user interface, <emphasis>tcc</emphasis>, but they
-      may also be called directly.</para>
+      generating and transforming TDF. <emphasis>tspec</emphasis> excepted,
+      the use of these components is integrated into the user interface,
+      <emphasis>tcc</emphasis>, but they may also be called directly.</para>
 
-    <sect1 id="tld">
-      <title>tld</title>
+    <!--
+         We should probably use glossary collections here, instead.
 
-      <para><ulink url="tld.html"><emphasis>tld</emphasis></ulink> is the
-        TDF linker. It combines a number of TDF capsules into a single
-        capsule. It also can be used to create and manipulate libraries of TDF
-        capsules.</para>
-    </sect1>
-
-    <sect1 id="disp">
-      <title>disp</title>
-
-      <para><emphasis>disp</emphasis> is the TDF pretty printer. It translates
-        the bitstream comprising a TDF capsule into a human readable
-        form.</para>
-    </sect1>
-
-    <sect1 id="tnc">
-      <title>tnc</title>
-
-      <para><ulink url="tnc.html"><emphasis>tnc</emphasis></ulink> is the
-        TDF notation compiler. It acts as a sort of TDF 'assembler', and can
-        translate TDF capsules to and from a human readable form.</para>
-    </sect1>
-
-    <sect1 id="tpl">
-      <title>tpl</title>
-
-      <para><ulink url="pl.html"><emphasis>tpl</emphasis></ulink> is the
-        PL_TDF compiler. It is a TDF 'structured assembler' in the lineage of
-        PL360. <emphasis>tpl</emphasis> provides a more user-friendly way of
-        generating TDF capsules from scratch than that offered by
-        <emphasis>tnc</emphasis>.</para>
-    </sect1>
+         Currently the "See Also" links will render missing; those
+         aren't appropiate for this document, though. Is there a way
+         to prevent those from being output entirely?
+      -->
+    <glosslist>
+      <xi:include href="../../glossary/entries/tspec.xml"/>
+      <xi:include href="../../glossary/entries/tld.xml"/>
+      <xi:include href="../../glossary/entries/disp.xml"/>
+      <xi:include href="../../glossary/entries/tnc.xml"/>
+      <xi:include href="../../glossary/entries/tpl.xml"/>
+    </glosslist>
   </chapter>
 
   <chapter id="compiler-writing-tools">
@@ -307,22 +272,12 @@
       development of the TenDRA compiler technology are also bundled with the
       TenDRA software release. These include the following:</para>
 
-    <para><ulink url="sid.html"><emphasis>sid</emphasis></ulink> is an LL(1)
-      parser generator with a long history (the original version dates back to
-      the mid-sixties!). As well as the normal rule transformations it
-      provides powerful techniques for call-outs in circumstances where a
-      non-trivial look-ahead is required (essential for languages like C++),
-      and for error recovery.</para>
-
-    <para><ulink url="calculus.html"><emphasis>calculus</emphasis></ulink> is
-      a tool for managing complex C type systems. It uses the TenDRA interface
-      checking techniques to enforce strong type checking and type
-      encapsulation, and provides generic container types for lists, vectors
-      etc.</para>
-
-    <para><emphasis>make_tdf</emphasis> is a tool for generating TDF decoders
-      and encoders. It takes a compact description of the TDF specification
-      and a template file, and generates code to read, write or transform a
-      TDF capsule.</para>
+    <glosslist>
+      <xi:include href="../../glossary/entries/sid.xml"/>
+      <xi:include href="../../glossary/entries/calculus.xml"/>
+      <xi:include href="../../glossary/entries/make_tdf.xml"/>
+      <!-- TODO make_err, lexi -->
+    </glosslist>
   </chapter>
 </book>
+

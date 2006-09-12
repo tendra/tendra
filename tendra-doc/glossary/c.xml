@@ -6,16 +6,10 @@
   $Id$
 -->
 
-<glossdiv>
+<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
 	<title>C</title>
 
-	<glossentry>
-		<glossterm>Calculus</glossterm>
-
-		<glossdef>
-			<para><!-- TODO An algebraic type system tool --></para>
-		</glossdef>
-	</glossentry>
+	<xi:include href="entries/calculus.xml"/>
 
 	<glossentry>
 		<glossterm>command line interface</glossterm>

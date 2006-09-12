@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<glossentry>
+	<glossterm>TDF Notation Compiler</glossterm>
+	<acronym>tnc</acronym>
+
+	<glossdef>
+		<para>
+			<emphasis>tnc</emphasis> is the TDF notation
+			compiler. It acts as a sort of TDF 'unstructured assembler',
+			and can translate TDF capsules to and from a human readable
+			form.
+		</para>
+
+		<!-- TODO see also: user/guides/tnc -->
+		<glossseealso otherterm="tdf"/>
+		<glossseealso otherterm="tdfnotation"/>
+		<glossseealso otherterm="tdfcapsule"/>
+		<glossseealso otherterm="unstructuredtdf"/>
+		<glossseealso otherterm="tpl"/>
+	</glossdef>
+</glossentry>
+

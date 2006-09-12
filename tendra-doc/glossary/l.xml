@@ -25,7 +25,7 @@
 		<glossterm>Lexical Generation</glossterm>
 	</glossentry>
 
-	<glossentry>
+	<glossentry id="linking">
 		<glossterm>Linking</glossterm>
 	</glossentry>
 

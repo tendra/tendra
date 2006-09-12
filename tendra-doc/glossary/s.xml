@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossdiv>
+<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
 	<title>S</title>
 
 	<glossentry>
@@ -14,14 +14,7 @@
 		<acronym>SCM</acronym>
 	</glossentry>
 
-	<glossentry>
-		<glossterm>Syntax Improving Device</glossterm>
-		<acronym>SID</acronym>
-
-		<glossdef>
-			<para><!-- TODO This is a parser generator --></para>
-		</glossdef>
-	</glossentry>
+	<xi:include href="entries/sid.xml"/>
 
 	<glossentry id="startupfile">
 		<glossterm>Start-up File</glossterm>
