@@ -290,7 +290,7 @@
     </sect1>
 
     <sect1 id="tpl">
-      <title>pl</title>
+      <title>tpl</title>
 
       <para><ulink url="pl.html"><emphasis>tpl</emphasis></ulink> is the
         PL_TDF compiler. It is a TDF 'structured assembler' in the lineage of
