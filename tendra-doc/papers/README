@@ -41,11 +41,28 @@ Also cited as: The Algebraic Specification of a Target Machine: Ten15,
 	J M Foster, Chapter 9 in ??(pages 198-225). Computer Systems Series.
 	Published by Pitman, London, 1989.
 
-"TDF Specification", Defence Research Agency/Electronics Division,
-	Great Malvern, England, +44 684 895314
-(This is reference/specification)
-
 N. E. Peeling, "The Ten15 project [software development]",
 	Royal Signals & Radar Establ., Malvern (1990). UK IT 1990
 	Conference, INSPEC Accession Number: 3649169
+
+Peeling, N.E. et al. "Frequently Asked Questions about ANDF", Defence
+	Research Agency, Malvern, UK. 1993.
+
+Toft, Jens-Ulrik. "Formal specification of ANDF semantics", ESPRIT
+	Project 6062 OMI/GLUE, DDC-I, 1995.
+
+DRA. "TDF Facts and Figures", Defence Research Agency, Malvern, UK.
+	1995.
+
+
+And we have already:
+
+Andrews. Robert. "TDF and Portability", Defence Research Agency,
+	Malvern, UK. 1994.
+(This is papers/porting)
+
+Edwards, Peter. Foster, Michael. Currie, Ian. "TDF Specification 4.0",
+	Defence Research Agency/Electronics Division, Great Malvern,
+	England, +44 684 895314
+(This is reference/specification)
 
