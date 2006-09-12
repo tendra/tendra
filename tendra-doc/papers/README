@@ -12,3 +12,36 @@ Papers and research articles
  - TDF and Portability
    See porting
 
+
+There have been numerous academic papers published which may be
+relevant; some relating to Ten15, some to TDF. If we can't reproduce
+these, we should at least give references to them on Citeseer.
+
+Here're a few:
+
+Ten15: An Overview", P. Core et al, Royal
+	Signals Radar Establishment TR 3977 (Sept 1986)
+
+Validating Microcode Algebraically, J. M. Foster. The Computer Journal
+	29(5): 416-422 (1986)
+
+Ten15: An Abstract Machine for Portable Environments, Ian F. Currie,
+	J. M. Foster, P. W. Core, in Proceedings of ESEC '87, 1st European
+	Software Engineering Conference, edited by Howard K. Nichols and Dan
+	Simpson, Strasbourg, France, September 9-11, 1987. No 289 in the
+	Lecture Notes in Computer Science series, published by Springer Verlag,
+	1987. ISBN 3-540-18712-X.
+
+Remote Capabilities, J. M. Foster, Ian F. Currie. The Computer Journal
+	30(5): 451-457 (1987)
+
+J. M. Foster, "The Algebraic Specification of a Target Machine: Ten15",
+	in High Integrity Software, ed. C.T. Sennett, Pitman (1988)
+Also cited as: The Algebraic Specification of a Target Machine: Ten15,
+	J M Foster, Chapter 9 in ??(pages 198-225). Computer Systems Series.
+	Published by Pitman, London, 1989.
+
+"TDF Specification", Defence Research Agency/Electronics Division,
+	Great Malvern, England, +44 684 895314
+(This is reference/specification)
+
