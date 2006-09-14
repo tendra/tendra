@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book xmlns:xi="http://www.w3.org/2001/XInclude">
+<book>
   <bookinfo>
     <title>TenDRA Suite Purpose Overview</title>
 
@@ -257,11 +257,16 @@
          to prevent those from being output entirely?
       -->
     <glosslist>
-      <xi:include href="../../glossary/entries/tspec.xml"/>
-      <xi:include href="../../glossary/entries/tld.xml"/>
-      <xi:include href="../../glossary/entries/disp.xml"/>
-      <xi:include href="../../glossary/entries/tnc.xml"/>
-      <xi:include href="../../glossary/entries/tpl.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/tspec.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/tld.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/disp.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/tnc.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/tpl.xml"/>
     </glosslist>
   </chapter>
 
@@ -273,9 +278,12 @@
       TenDRA software release. These include the following:</para>
 
     <glosslist>
-      <xi:include href="../../glossary/entries/sid.xml"/>
-      <xi:include href="../../glossary/entries/calculus.xml"/>
-      <xi:include href="../../glossary/entries/make_tdf.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/sid.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/calculus.xml"/>
+      <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="../../glossary/entries/make_tdf.xml"/>
       <!-- TODO make_err, lexi -->
     </glosslist>
   </chapter>
