@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossary xmlns:xi="http://www.w3.org/2001/XInclude">
+<glossary>
 	<title>TenDRA Glossary</title>
 
 	<para>
@@ -33,30 +33,35 @@
 		dredge out terms from existing documents
 	-->
 
-	<xi:include href="a.xml"/>
-	<xi:include href="b.xml"/>
-	<xi:include href="c.xml"/>
-	<xi:include href="d.xml"/>
-	<xi:include href="f.xml"/>
-	<xi:include href="g.xml"/>
-	<xi:include href="i.xml"/>
-	<xi:include href="j.xml"/>
-	<xi:include href="l.xml"/>
-	<xi:include href="m.xml"/>
-	<xi:include href="o.xml"/>
-	<xi:include href="p.xml"/>
-	<xi:include href="s.xml"/>
-	<xi:include href="t.xml"/>
-	<xi:include href="u.xml"/>
-	<xi:include href="v.xml"/>
-	<xi:include href="w.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="a.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="b.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="c.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="d.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="f.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="g.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="i.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="j.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="l.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="m.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="o.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="p.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="s.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="t.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="u.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="v.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="w.xml"/>
 
 	<!-- These are big self-similar things which we want to keep out of the way -->
-	<xi:include href="languages.xml"/>
-	<xi:include href="architectures.xml"/>
-	<xi:include href="machines.xml"/>
-	<xi:include href="apis.xml"/>
-	<xi:include href="legalities.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+          href="languages.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+          href="architectures.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+          href="machines.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+          href="apis.xml"/>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+          href="legalities.xml"/>
 
 </glossary>
 
