@@ -7,20 +7,19 @@
 -->
 
 <glossentry>
-	<glossterm>Calculus</glossterm>
+  <glossterm>Calculus</glossterm>
 
-	<glossdef>
-		<para>
-			<emphasis>calculus</emphasis> is an algebraic type
-			system tool, for managing complex C type systems. It uses
-			the TenDRA API checking techniques to enforce strong
-			type checking and type encapsulation, and provides generic
-			container types for lists, vectors etc.
-		</para>
-	</glossdef>
+  <glossdef>
+    <para>
+      <emphasis>calculus</emphasis> is an algebraic type
+      system tool, for managing complex C type systems. It uses
+      the TenDRA API checking techniques to enforce strong
+      type checking and type encapsulation, and provides generic
+      container types for lists, vectors etc.
+    </para>
+  </glossdef>
 
-	<!-- TODO see also: user/guides/calculus -->
-	<glossseealso otherterm="typesystem"/>
-	<glossseealso otherterm="api"/>
+  <!-- TODO see also: user/guides/calculus -->
+  <glossseealso otherterm="typesystem"/>
+  <glossseealso otherterm="api"/>
 </glossentry>
-

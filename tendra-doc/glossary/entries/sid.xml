@@ -7,22 +7,21 @@
 -->
 
 <glossentry>
-	<glossterm>Syntax Improving Device</glossterm>
-	<acronym>SID</acronym>
+  <glossterm>Syntax Improving Device</glossterm>
+  <acronym>SID</acronym>
 
-	<glossdef>
-		<para>
-			<emphasis>sid</emphasis> is an LL(1) parser generator
-			with a long history (the original version dates back to
-			the mid-sixties!). As well as the normal rule
-			transformations it provides powerful techniques for
-			call-outs in circumstances where a non-trivial
-			look-ahead is required (essential for languages like C++),
-			and for error recovery.
-		</para>
-	</glossdef>
+  <glossdef>
+    <para>
+      <emphasis>sid</emphasis> is an LL(1) parser generator
+      with a long history (the original version dates back to
+      the mid-sixties!). As well as the normal rule
+      transformations it provides powerful techniques for
+      call-outs in circumstances where a non-trivial
+      look-ahead is required (essential for languages like C++),
+      and for error recovery.
+    </para>
+  </glossdef>
 
-	<!-- TODO see also: user/guides/sid -->
-	<glossseealso otherterm="parsergeneration"/>
+  <!-- TODO see also: user/guides/sid -->
+  <glossseealso otherterm="parsergeneration"/>
 </glossentry>
-

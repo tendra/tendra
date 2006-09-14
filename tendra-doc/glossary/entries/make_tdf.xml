@@ -7,18 +7,17 @@
 -->
 
 <glossentry>
-	<glossterm>make_tdf</glossterm>
+  <glossterm>make_tdf</glossterm>
 
-	<glossdef>
-		<para>
-			<emphasis>make_tdf</emphasis> is a tool for generating
-			TDF decoders and encoders. It takes a compact description
-			of the TDF specification and a template file, and generates
-			code to read, write or transform a TDF capsule.
-		</para>
-	</glossdef>
+  <glossdef>
+    <para>
+      <emphasis>make_tdf</emphasis> is a tool for generating
+      TDF decoders and encoders. It takes a compact description
+      of the TDF specification and a template file, and generates
+      code to read, write or transform a TDF capsule.
+    </para>
+  </glossdef>
 
-	<glossseealso otherterm="tdf"/>
-	<glossseealso otherterm="tdfcapsule"/>
+  <glossseealso otherterm="tdf"/>
+  <glossseealso otherterm="tdfcapsule"/>
 </glossentry>
-

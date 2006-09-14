@@ -7,24 +7,23 @@
 -->
 
 <glossentry>
-	<glossterm>tld</glossterm>
+  <glossterm>tld</glossterm>
 
-	<glossdef>
-		<para>
-			<emphasis>tld</emphasis> is the TDF linker. It combines a
-			number of TDF capsules into a single capsule. It also can
-			be used to create and manipulate libraries of TDF capsules.
-		</para>
+  <glossdef>
+    <para>
+      <emphasis>tld</emphasis> is the TDF linker. It combines a
+      number of TDF capsules into a single capsule. It also can
+      be used to create and manipulate libraries of TDF capsules.
+    </para>
 
-		<para>
-			This functionality is provided by <emphasis>tcc</emphasis>,
-			but <emphasis>tld</emphasis> may be called directly.
-		</para>
-	</glossdef>
+    <para>
+      This functionality is provided by <emphasis>tcc</emphasis>,
+      but <emphasis>tld</emphasis> may be called directly.
+    </para>
+  </glossdef>
 
-	<!-- TODO see also: user/guides/tld -->
-	<glossseealso otherterm="tcc"/>
-	<glossseealso otherterm="tdf"/>
-	<glossseealso otherterm="tdfcapsule"/>
+  <!-- TODO see also: user/guides/tld -->
+  <glossseealso otherterm="tcc"/>
+  <glossseealso otherterm="tdf"/>
+  <glossseealso otherterm="tdfcapsule"/>
 </glossentry>
-

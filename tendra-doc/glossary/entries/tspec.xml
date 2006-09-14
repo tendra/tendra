@@ -7,27 +7,26 @@
 -->
 
 <glossentry>
-	<glossterm>tspec</glossterm>
+  <glossterm>tspec</glossterm>
 
-	<glossdef>
-		<para>
-			The API checking facilities of the TenDRA compiler are
-			implemented by means of abstract interface specifications
-			generated using the <emphasis>tspec</emphasis> tool.
-		</para>
+  <glossdef>
+    <para>
+      The API checking facilities of the TenDRA compiler are
+      implemented by means of abstract interface specifications
+      generated using the <emphasis>tspec</emphasis> tool.
+    </para>
 
-		<para>
-			This tool and specifications for a number of common APIs are
-			included with the release. Part of the installation process
-			consists of pre-compiling the implementations of those APIs
-			implemented on the target machine into TDF libraries. This
-			is performed automatically using <emphasis>tcc</emphasis> to
-			combine the <emphasis>tspec</emphasis> specification with
-			the implementation given in the system headers.
-		</para>
-	</glossdef>
+    <para>
+      This tool and specifications for a number of common APIs are
+      included with the release. Part of the installation process
+      consists of pre-compiling the implementations of those APIs
+      implemented on the target machine into TDF libraries. This
+      is performed automatically using <emphasis>tcc</emphasis> to
+      combine the <emphasis>tspec</emphasis> specification with
+      the implementation given in the system headers.
+    </para>
+  </glossdef>
 
-	<!-- TODO see also: user/guides/tspec -->
-	<glossseealso otherterm="api"/>
+  <!-- TODO see also: user/guides/tspec -->
+  <glossseealso otherterm="api"/>
 </glossentry>
-
