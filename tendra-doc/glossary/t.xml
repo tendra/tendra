@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
+<glossdiv>
   <title>T</title>
 
   <glossentry>
@@ -167,9 +167,11 @@
     </glossdef>
   </glossentry>
 
-  <xi:include href="entries/tld.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/tld.xml"/>
 
-  <xi:include href="entries/tpl.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/tpl.xml"/>
 
   <glossentry>
     <glossterm>Trac</glossterm>
@@ -179,7 +181,8 @@
     </glossdef>
   </glossentry>
 
-  <xi:include href="entries/tspec.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/tspec.xml"/>
 
   <glossentry>
     <glossterm>Type</glossterm>

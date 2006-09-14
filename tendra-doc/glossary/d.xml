@@ -6,12 +6,13 @@
   $Id$
 -->
 
-<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
+<glossdiv>
   <title>D</title>
 
   <glossentry>
     <glossterm>DERA</glossterm>
   </glossentry>
 
-  <xi:include href="entries/disp.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/disp.xml"/>
 </glossdiv>

@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
+<glossdiv>
   <title>M</title>
 
   <glossentry>
@@ -21,7 +21,8 @@
     </glossdef>
   </glossentry>
 
-  <xi:include href="entries/make_tdf.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/make_tdf.xml"/>
 
   <glossentry>
     <glossterm>mk</glossterm>

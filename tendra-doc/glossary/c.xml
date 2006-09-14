@@ -6,10 +6,11 @@
   $Id$
 -->
 
-<glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
+<glossdiv>
   <title>C</title>
 
-  <xi:include href="entries/calculus.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="entries/calculus.xml"/>
 
   <glossentry>
     <glossterm>command line interface</glossterm>
