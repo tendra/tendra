@@ -7,61 +7,58 @@
 -->
 
 <glossary>
-	<title>TenDRA Glossary</title>
+  <title>TenDRA Glossary</title>
 
-	<para>
-		A glossary of major terms and concepts used by The TenDRA Project.
-	</para>
+  <para>
+    A glossary of major terms and concepts used by The TenDRA Project.
+  </para>
 
-	<!--
-		Certainly all acronyms should be here, especially those used for
-		file extensions and other highly visible things.
+  <!--
+  Certainly all acronyms should be here, especially those used for
+  file extensions and other highly visible things.
 
-		Perhaps more importantly, this document is to be a reference for
-		the obscure terms which need clarifying. These are most often only
-		visible to developers who have nothing but the source code, if
-		something is unclear - and the source currently isn't very helpful
-		in description.
+  Perhaps more importantly, this document is to be a reference for
+  the obscure terms which need clarifying. These are most often only
+  visible to developers who have nothing but the source code, if
+  something is unclear - and the source currently isn't very helpful
+  in description.
 
-		Be careful not to let this become an index of software. Is it
-		really appropriate to add entries for things like yacc? Or if we
-		do, keep them separate (as for CPUs, etc). Perhaps we should remove
-		CPUs and such.
-	-->
+  Be careful not to let this become an index of software. Is it
+  really appropriate to add entries for things like yacc? Or if we
+  do, keep them separate (as for CPUs, etc). Perhaps we should remove
+  CPUs and such.
+  -->
 
-	<!-- TODO
-		dredge out terms from existing documents
-	-->
+  <!-- TODO
+  dredge out terms from existing documents
+  -->
 
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="a.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="b.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="c.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="d.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="f.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="g.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="i.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="j.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="l.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="m.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="o.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="p.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="s.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="t.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="u.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="v.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="w.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="a.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="b.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="c.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="d.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="f.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="g.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="i.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="j.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="l.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="m.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="o.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="p.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="s.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="t.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="u.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="v.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="w.xml"/>
 
-	<!-- These are big self-similar things which we want to keep out of the way -->
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="languages.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="architectures.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="machines.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="apis.xml"/>
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="legalities.xml"/>
+  <!-- These are big self-similar things which we want to keep out of the way -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="languages.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="architectures.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="machines.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apis.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="legalities.xml"/>
 
 </glossary>
-

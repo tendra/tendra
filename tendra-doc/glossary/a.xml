@@ -7,25 +7,24 @@
 -->
 
 <glossdiv>
-	<title>A</title>
+  <title>A</title>
 
-	<glossentry id="api">
-		<glossterm>Application Programmer Interface</glossterm>
-		<acronym>API</acronym>
-	</glossentry>
+  <glossentry id="api">
+    <glossterm>Application Programmer Interface</glossterm>
+    <acronym>API</acronym>
+  </glossentry>
 
-	<glossentry id="andf">
-		<glossterm>Architecture Neutral Distribution Format</glossterm>
-		<acronym>ANDF</acronym>
-<!-- see also wikipedia, ANDF home page (defunct?) -->
-	</glossentry>
+  <glossentry id="andf">
+    <glossterm>Architecture Neutral Distribution Format</glossterm>
+    <acronym>ANDF</acronym>
+    <!-- see also wikipedia, ANDF home page (defunct?) -->
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Architecture</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Architecture</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Assembling</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Assembling</glossterm>
+  </glossentry>
 </glossdiv>
-

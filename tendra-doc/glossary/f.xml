@@ -7,18 +7,17 @@
 -->
 
 <glossdiv>
-	<title>F</title>
+  <title>F</title>
 
-	<glossentry id="flex">
-		<glossterm>Flex</glossterm>	<!-- TODO we probably shouldn't mention flex and bison -->
+  <glossentry id="flex">
+    <glossterm>Flex</glossterm>	<!-- TODO we probably shouldn't mention flex and bison -->
 
-		<glossdef>
-			<para>
-				A capability architecture and operating system
-				developed at DERA during the 1980s.
-			</para>
-<!-- See Flex machine on wikipedia. -->
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para>
+        A capability architecture and operating system
+        developed at DERA during the 1980s.
+      </para>
+      <!-- See Flex machine on wikipedia. -->
+    </glossdef>
+  </glossentry>
 </glossdiv>
-

@@ -7,18 +7,17 @@
 -->
 
 <glossdiv>
-	<title>I</title>
+  <title>I</title>
 
-	<glossentry>
-		<glossterm>ICC Intel C Compiler</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>ICC Intel C Compiler</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Installer</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Installer</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>IRC</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>IRC</glossterm>
+  </glossentry>
 </glossdiv>
-

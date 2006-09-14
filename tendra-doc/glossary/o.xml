@@ -7,23 +7,22 @@
 -->
 
 <glossdiv>
-	<title>O</title>
+  <title>O</title>
 
-	<glossentry>
-		<glossterm>Object<!-- TODO obj for short --></glossterm>
+  <glossentry>
+    <glossterm>Object<!-- TODO obj for short --></glossterm>
 
-		<glossdef>
-			<para><!-- TODO Compiled thing --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO Compiled thing --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry id="osf">
-		<glossterm>Open Software Foundation</glossterm>
-		<acronym>OSF</acronym>
-	</glossentry>
+  <glossentry id="osf">
+    <glossterm>Open Software Foundation</glossterm>
+    <acronym>OSF</acronym>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Optimisation</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Optimisation</glossterm>
+  </glossentry>
 </glossdiv>
-

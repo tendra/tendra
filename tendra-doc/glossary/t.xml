@@ -7,190 +7,189 @@
 -->
 
 <glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
-	<title>T</title>
+  <title>T</title>
 
-	<glossentry>
-		<glossterm>tcc</glossterm>
+  <glossentry>
+    <glossterm>tcc</glossterm>
 
-		<glossdef>
-			<para><!-- TODO CLI --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO CLI --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry id="tdf">
-		<glossterm>TenDRA Distribution Format</glossterm>
-		<acronym>TDF</acronym>
-<!--
-Low-level Ten15: Ten15 Distribution Format
-Retrospectively renamed to TenDRA Distribution Format.
--->
+  <glossentry id="tdf">
+    <glossterm>TenDRA Distribution Format</glossterm>
+    <acronym>TDF</acronym>
+    <!--
+    Low-level Ten15: Ten15 Distribution Format
+    Retrospectively renamed to TenDRA Distribution Format.
+    -->
 
-		<glossseealso otherterm="andf"/>
-		<glossseealso otherterm="lowlevelten15"/>
-		<glossseealso otherterm="osf"/>
+    <glossseealso otherterm="andf"/>
+    <glossseealso otherterm="lowlevelten15"/>
+    <glossseealso otherterm="osf"/>
 
-<!--
-See also personal retrospective,
-wikipedia
--->
-	</glossentry>
+    <!--
+    See also personal retrospective,
+    wikipedia
+    -->
+  </glossentry>
 
-	<glossentry id="tdfcapsule">
-		<glossterm>TDF Capsule</glossterm>
-	</glossentry>
+  <glossentry id="tdfcapsule">
+    <glossterm>TDF Capsule</glossterm>
+  </glossentry>
 
-	<glossentry id="tdfnotation">
-		<glossterm>TDF Notation</glossterm>
-	</glossentry>
+  <glossentry id="tdfnotation">
+    <glossterm>TDF Notation</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>TDF Notation Compiler</glossterm>
-		<acronym>TNC</acronym>
+  <glossentry>
+    <glossterm>TDF Notation Compiler</glossterm>
+    <acronym>TNC</acronym>
 
-		<glossdef>
-			<para><!-- TODO This is an unstructured TDF assembler and disassembler --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO This is an unstructured TDF assembler and disassembler --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Ten15</glossterm>
+  <glossentry>
+    <glossterm>Ten15</glossterm>
 
-		<glossdef>
-			<para>Ten15 refers to several things:</para>
-<!--
-* The Ten15 system
-* The Ten15 language
-* The Ten15 intermediate representation
-* ten15.org, who took their name from the above.
--->
-		</glossdef>
+    <glossdef>
+      <para>Ten15 refers to several things:</para>
+      <!--
+      * The Ten15 system
+      * The Ten15 language
+      * The Ten15 intermediate representation
+      * ten15.org, who took their name from the above.
+      -->
+    </glossdef>
 
-		<glosssee otherterm="ten15system"/>
-		<glosssee otherterm="ten15language"/>
-		<glosssee otherterm="ten15intermediaterepresentation"/>
-		<glosssee otherterm="ten15org"/>
-	</glossentry>
+    <glosssee otherterm="ten15system"/>
+    <glosssee otherterm="ten15language"/>
+    <glosssee otherterm="ten15intermediaterepresentation"/>
+    <glosssee otherterm="ten15org"/>
+  </glossentry>
 
-	<glossentry id="ten15language">
-		<glossterm>The Ten15 language</glossterm>
+  <glossentry id="ten15language">
+    <glossterm>The Ten15 language</glossterm>
 
-		<glossdef>
-			<para>
-				The Ten15 language (usually called Ten15 Notation)
-				was the main language used to program the Ten15 system;
-				it was created to provide all of the virtual machine's
-				abilities.
-			</para>
-		</glossdef>
+    <glossdef>
+      <para>
+        The Ten15 language (usually called Ten15 Notation)
+        was the main language used to program the Ten15 system;
+        it was created to provide all of the virtual machine's
+        abilities.
+      </para>
+    </glossdef>
 
-		<glossseealso otherterm="ten15system"/>
-		<glossseealso otherterm="ten15notation"/>
-	</glossentry>
+    <glossseealso otherterm="ten15system"/>
+    <glossseealso otherterm="ten15notation"/>
+  </glossentry>
 
-	<glossentry id="ten15notation">
-		<glossterm>Ten15 Notation</glossterm>
+  <glossentry id="ten15notation">
+    <glossterm>Ten15 Notation</glossterm>
 
-		<glosssee otherterm="ten15language"/>
-	</glossentry>
+    <glosssee otherterm="ten15language"/>
+  </glossentry>
 
-	<glossentry id="ten15system">
-		<glossterm>The Ten15 system</glossterm>
+  <glossentry id="ten15system">
+    <glossterm>The Ten15 system</glossterm>
 
-		<glossdef>
-			<para>
-				This was a capability architecture which was created
-				as an equivalent to the Flex capability architecture
-				for the microcomputer, intended to make the work on Flex
-				available to modern machines lacking a microcode facility.
-			</para>
+    <glossdef>
+      <para>
+        This was a capability architecture which was created
+        as an equivalent to the Flex capability architecture
+        for the microcomputer, intended to make the work on Flex
+        available to modern machines lacking a microcode facility.
+      </para>
 
-			<para>
-				Ten15 provided this by way of a strongly typed virtual
-				machine. This differed from other virtual machines of
-				the time by making use of JIT (then yet to be named).
-			</para>
+      <para>
+        Ten15 provided this by way of a strongly typed virtual
+        machine. This differed from other virtual machines of
+        the time by making use of JIT (then yet to be named).
+      </para>
 
-			<para>
-				This machine acted as an abstract superset of several
-				high-level languages, and was intended to express these
-				(in much the same way as Microsoft's .Net virtual machine
-				expresses several languages today).
-			</para>
+      <para>
+        This machine acted as an abstract superset of several
+        high-level languages, and was intended to express these
+        (in much the same way as Microsoft's .Net virtual machine
+        expresses several languages today).
+      </para>
 
-			<para>
-				Conspicuously, C was not supported as it is not strongly
-				typed. This was eventually provided for by TDF, instead.
-			</para>
-		</glossdef>
+      <para>
+        Conspicuously, C was not supported as it is not strongly
+        typed. This was eventually provided for by TDF, instead.
+      </para>
+    </glossdef>
 
-		<glossseealso otherterm="capabilityarchitecture"/>
-		<glossseealso otherterm="flex"/>
-		<glossseealso otherterm="jit"/>
-		<glossseealso otherterm="lowlevelten15"/>
-		<glossseealso otherterm="tdf"/>
-		<glossseealso otherterm="vm"/>
-		<glossseealso otherterm="c"/>
-	</glossentry>
+    <glossseealso otherterm="capabilityarchitecture"/>
+    <glossseealso otherterm="flex"/>
+    <glossseealso otherterm="jit"/>
+    <glossseealso otherterm="lowlevelten15"/>
+    <glossseealso otherterm="tdf"/>
+    <glossseealso otherterm="vm"/>
+    <glossseealso otherterm="c"/>
+  </glossentry>
 
-	<glossentry id="ten15org">
-		<glossterm>Ten15.org</glossterm>
-	</glossentry>
+  <glossentry id="ten15org">
+    <glossterm>Ten15.org</glossterm>
+  </glossentry>
 
-	<glossentry id="ten15intermediaterepresentation">
-		<glossterm>The Ten15 intermediate representation</glossterm>
+  <glossentry id="ten15intermediaterepresentation">
+    <glossterm>The Ten15 intermediate representation</glossterm>
 
-		<glossdef>
-			<para><!-- TODO for programs on the Ten15 system, using the Ten15 compiler. -->
-			</para>
-		</glossdef>
+    <glossdef>
+      <para><!-- TODO for programs on the Ten15 system, using the Ten15 compiler. -->
+      </para>
+    </glossdef>
 
-		<glossseealso otherterm="ten15system"/>
-	</glossentry>
+    <glossseealso otherterm="ten15system"/>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>TenDRA</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>TenDRA</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>TenDRA.org</glossterm>
+  <glossentry>
+    <glossterm>TenDRA.org</glossterm>
 
-		<glossdef>
-			<para><!-- TODO us --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO us --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Ticket</glossterm>
+  <glossentry>
+    <glossterm>Ticket</glossterm>
 
-		<glossdef>
-			<para><!-- TODO The thing you make on trac --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO The thing you make on trac --></para>
+    </glossdef>
+  </glossentry>
 
-	<xi:include href="entries/tld.xml"/>
+  <xi:include href="entries/tld.xml"/>
 
-	<xi:include href="entries/tpl.xml"/>
+  <xi:include href="entries/tpl.xml"/>
 
-	<glossentry>
-		<glossterm>Trac</glossterm>
+  <glossentry>
+    <glossterm>Trac</glossterm>
 
-		<glossdef>
-			<para><!-- TODO Our ticket and Wiki system of choice --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO Our ticket and Wiki system of choice --></para>
+    </glossdef>
+  </glossentry>
 
-	<xi:include href="entries/tspec.xml"/>
+  <xi:include href="entries/tspec.xml"/>
 
-	<glossentry>
-		<glossterm>Type</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Type</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Type checking</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Type checking</glossterm>
+  </glossentry>
 
-	<glossentry id="typesystem">
-		<glossterm>Type system</glossterm>
-	</glossentry>
+  <glossentry id="typesystem">
+    <glossterm>Type system</glossterm>
+  </glossentry>
 </glossdiv>
-

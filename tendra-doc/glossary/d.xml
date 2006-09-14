@@ -7,12 +7,11 @@
 -->
 
 <glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
-	<title>D</title>
+  <title>D</title>
 
-	<glossentry>
-		<glossterm>DERA</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>DERA</glossterm>
+  </glossentry>
 
-	<xi:include href="entries/disp.xml"/>
+  <xi:include href="entries/disp.xml"/>
 </glossdiv>
-

@@ -7,58 +7,57 @@
 -->
 
 <glossdiv>
-	<title>APIs</title>
+  <title>APIs</title>
 
-	<para>
-		<!-- TODO These are all APIs -->
-	</para>
+  <para>
+    <!-- TODO These are all APIs -->
+  </para>
 
-	<glossentry>
-		<glossterm>ANSI</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>ANSI</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>GCC</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>GCC</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>POSIX (1,2,3)</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>POSIX (1,2,3)</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>UNIX95</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>UNIX95</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>BSD Extn</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>BSD Extn</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>ISO</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>ISO</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>X5</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>X5</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>CPP</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>CPP</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Motif</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Motif</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>XPG3/XPG4</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>XPG3/XPG4</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Dummy (Dummy API?)</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Dummy (Dummy API?)</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>SVID3</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>SVID3</glossterm>
+  </glossentry>
 </glossdiv>
-

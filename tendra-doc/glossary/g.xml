@@ -7,11 +7,10 @@
 -->
 
 <glossdiv>
-	<title>G</title>
+  <title>G</title>
 
-	<glossentry>
-		<glossterm>GNU Compiler Collection</glossterm>
-		<acronym>GCC</acronym>
-	</glossentry>
+  <glossentry>
+    <glossterm>GNU Compiler Collection</glossterm>
+    <acronym>GCC</acronym>
+  </glossentry>
 </glossdiv>
-

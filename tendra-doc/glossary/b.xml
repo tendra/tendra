@@ -7,23 +7,22 @@
 -->
 
 <glossdiv>
-	<title>B</title>
+  <title>B</title>
 
-	<glossentry>
-		<glossterm>bmake</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>bmake</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm><!-- TODO BSD --></glossterm>
-		<acronym>BSD</acronym>
-	</glossentry>
+  <glossentry>
+    <glossterm><!-- TODO BSD --></glossterm>
+    <acronym>BSD</acronym>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>build</glossterm>
+  <glossentry>
+    <glossterm>build</glossterm>
 
-		<glossdef>
-			<para><!-- TODO Compilation of things --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO Compilation of things --></para>
+    </glossdef>
+  </glossentry>
 </glossdiv>
-

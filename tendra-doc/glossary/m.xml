@@ -7,28 +7,27 @@
 -->
 
 <glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
-	<title>M</title>
+  <title>M</title>
 
-	<glossentry>
-		<glossterm>Machine</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Machine</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>make_err</glossterm>
+  <glossentry>
+    <glossterm>make_err</glossterm>
 
-		<glossdef>
-			<para><!-- TODO A tool to generate TDF encoding and decoding routines --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO A tool to generate TDF encoding and decoding routines --></para>
+    </glossdef>
+  </glossentry>
 
-	<xi:include href="entries/make_tdf.xml"/>
+  <xi:include href="entries/make_tdf.xml"/>
 
-	<glossentry>
-		<glossterm>mk</glossterm>
+  <glossentry>
+    <glossterm>mk</glossterm>
 
-		<glossdef>
-			<para><!-- TODO suffix for makefiles --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO suffix for makefiles --></para>
+    </glossdef>
+  </glossentry>
 </glossdiv>
-

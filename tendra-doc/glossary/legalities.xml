@@ -7,22 +7,21 @@
 -->
 
 <glossdiv>
-	<title>Legalities</title>
+  <title>Legalities</title>
 
-	<para>
-		<!-- TODO These are all legal terms -->
-	</para>
+  <para>
+    <!-- TODO These are all legal terms -->
+  </para>
 
-	<glossentry>
-		<glossterm>BSD Licence</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>BSD Licence</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Crown Copyright</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Crown Copyright</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>GPL</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>GPL</glossterm>
+  </glossentry>
 </glossdiv>
-

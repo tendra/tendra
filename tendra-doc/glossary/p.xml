@@ -7,30 +7,29 @@
 -->
 
 <glossdiv>
-	<title>P</title>
+  <title>P</title>
 
-	<glossentry>
-		<glossterm>Parser</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Parser</glossterm>
+  </glossentry>
 
-	<glossentry id="parsergeneration">
-		<glossterm>Parser Generation</glossterm>
-	</glossentry>
+  <glossentry id="parsergeneration">
+    <glossterm>Parser Generation</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Parsing</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Parsing</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Porting</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Porting</glossterm>
+  </glossentry>
 
-	<glossentry id="pltdf">
-		<glossterm>PL_TDF</glossterm>
-	</glossentry>
+  <glossentry id="pltdf">
+    <glossterm>PL_TDF</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Producer</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Producer</glossterm>
+  </glossentry>
 </glossdiv>
-

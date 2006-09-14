@@ -7,45 +7,44 @@
 -->
 
 <glossdiv xmlns:xi="http://www.w3.org/2001/XInclude">
-	<title>S</title>
+  <title>S</title>
 
-	<glossentry>
-		<glossterm>Source Code Management</glossterm>
-		<acronym>SCM</acronym>
-	</glossentry>
+  <glossentry>
+    <glossterm>Source Code Management</glossterm>
+    <acronym>SCM</acronym>
+  </glossentry>
 
-	<xi:include href="entries/sid.xml"/>
+  <xi:include href="entries/sid.xml"/>
 
-	<glossentry id="startupfile">
-		<glossterm>Start-up File</glossterm>
+  <glossentry id="startupfile">
+    <glossterm>Start-up File</glossterm>
 
-		<glossdef>
-			<para><!-- TODO TODO --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO TODO --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Strong typing</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Strong typing</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Structured TDF</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Structured TDF</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Subversion</glossterm>
+  <glossentry>
+    <glossterm>Subversion</glossterm>
 
-		<glossdef>
-			<para><!-- TODO Our SCM system of choice --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO Our SCM system of choice --></para>
+    </glossdef>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>svn</glossterm>
+  <glossentry>
+    <glossterm>svn</glossterm>
 
-		<glossdef>
-			<para><!-- TODO CLI to Subversion --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO CLI to Subversion --></para>
+    </glossdef>
+  </glossentry>
 </glossdiv>
-

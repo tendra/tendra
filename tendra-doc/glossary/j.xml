@@ -7,11 +7,10 @@
 -->
 
 <glossdiv>
-	<title>J</title>
+  <title>J</title>
 
-	<glossentry id="jit">
-		<glossterm>Just-in-time Compilation</glossterm>
-		<acronym>JIT</acronym>
-	</glossentry>
+  <glossentry id="jit">
+    <glossterm>Just-in-time Compilation</glossterm>
+    <acronym>JIT</acronym>
+  </glossentry>
 </glossdiv>
-

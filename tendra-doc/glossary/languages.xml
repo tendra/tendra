@@ -7,26 +7,25 @@
 -->
 
 <glossdiv>
-	<title>Languages</title>
+  <title>Languages</title>
 
-	<para>
-		<!-- TODO TODO These are all languages -->
-	</para>
+  <para>
+    <!-- TODO TODO These are all languages -->
+  </para>
 
-	<glossentry>
-		<glossterm>Assembly</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Assembly</glossterm>
+  </glossentry>
 
-	<glossentry id="c">
-		<glossterm>C</glossterm>
-	</glossentry>
+  <glossentry id="c">
+    <glossterm>C</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>CPP<!-- TODO also C++ --></glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>CPP<!-- TODO also C++ --></glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Make</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Make</glossterm>
+  </glossentry>
 </glossdiv>
-

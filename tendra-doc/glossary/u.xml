@@ -7,10 +7,9 @@
 -->
 
 <glossdiv>
-	<title>U</title>
+  <title>U</title>
 
-	<glossentry id="unstructuredtdf">
-		<glossterm>Unstructured TDF</glossterm>
-	</glossentry>
+  <glossentry id="unstructuredtdf">
+    <glossterm>Unstructured TDF</glossterm>
+  </glossentry>
 </glossdiv>
-

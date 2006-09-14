@@ -7,18 +7,17 @@
 -->
 
 <glossdiv>
-	<title>W</title>
+  <title>W</title>
 
-	<glossentry>
-		<glossterm>Weak typing</glossterm>
-	</glossentry>
+  <glossentry>
+    <glossterm>Weak typing</glossterm>
+  </glossentry>
 
-	<glossentry>
-		<glossterm>Wiki</glossterm>
+  <glossentry>
+    <glossterm>Wiki</glossterm>
 
-		<glossdef>
-			<para><!-- TODO The thing you create on trac --></para>
-		</glossdef>
-	</glossentry>
+    <glossdef>
+      <para><!-- TODO The thing you create on trac --></para>
+    </glossdef>
+  </glossentry>
 </glossdiv>
-
