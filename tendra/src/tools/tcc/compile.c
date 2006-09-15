@@ -126,7 +126,9 @@ preproc_c_lab:
 				}
 			}
 			if (stops[DEP_TDF]) {
-				if (ps != null)p = null;
+				if (ps != null) {
+					p = null;
+				}
 				break;
 			} else if (stops[AS_SOURCE]) {
 				p = do_cc(p, AS_SOURCE);
