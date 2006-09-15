@@ -17,11 +17,28 @@ available libraries:
             This should not be aware of how each producer and
             installer is implemented.
 
- libTDF     This is a point of confusion. Our new libTDF is an API to
-            manipulate TDF; the original libTDF is a support library.
+            The current tools (tcc, tnc, tld et al) then become simply
+            CLIs to this library - essentially as they are currently,
+            but with a formal interface instead of ad-hoc.
+
+ libANDF    This is a point of confusion. libANDF is to be an API to
+            manipulate ANDF (in much the same way as DOM and SAX
+            manipulate XML).
+
+            This was origionally to be called libTDF; unrelated to
+            the original libTDF, which is a support library that is
+            not visible to the user.
+
+            This library is to be used by anything that accesses TDF.
+            This includes the CLI tools (disp, tnc and such), the
+            producers, and installers.
+
 
 These libraries should not execute external programs, to avoid
 configurations per-platform.
+
+Both of these libraries are to be formed of existing code, with a new
+publically acessible API specified to access them.
 
 
 Modules
@@ -34,8 +51,7 @@ The following modules will hook into libTenDRA:
  Producers  Parsing from input languages to TDF.
 
 Each Installer and Producer is a dynamically-linked module, loaded at
-runtime. These use libTDF (the new API) for inputing or outputting TDF
-data
+runtime. These use libANDF for inputing or outputting TDF data.
 
 
 Tools
@@ -75,8 +91,7 @@ which are specific to development of the TenDRA project:
 
  make_tdf   A tool to generate TDF encoding and decoding routines.
 
-            This is for the new libTDF, and, confusingly, uses the old
-	    lib/tdf.
+            This is for libANDF, and, confusingly, uses the old lib/tdf.
 
 
 A transition from the previous directory structure to the new layout

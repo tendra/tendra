@@ -11,7 +11,7 @@ Old path                    Component    New path
 ========================================================================
 
 /tendra                     libTenDRA    /tendra
-/tdf                        libTDF       /tdf
+/tdf                        libANDF      /andf
 
 /tendra/installers          Installers   /tendra/installers
 /tendra/producers           Producers    /tendra/producers
@@ -29,15 +29,15 @@ Tools:
 Utilities:
 /tendra/tools/tspec         tspec        /tendra/utilities/tspec
 /tendra/utilities/make_err  make_err     /tendra/utilities/make_err
-/tendra/utilities/make_tdf  make_tdf     /tdf/utilities//make_tdf
+/tendra/utilities/make_tdf  make_tdf     /andf/utilities/make_tdf
 
 Miscellany:
 /tendra/lib/apis            Producers    /tendra/producers/lib/apis
 /tendra/lib/env             tcc          /tcc/lib/env
 /tendra/lib/machines        tcc          /tcc/lib/machines
-/tendra/lib/tdf             libTDF       /tdf/lib/tdf
+/tendra/lib/tdf             libANDF      /andf/lib/tdf
 /tendra/lib/cpp             tcc          /tcc/lib/cpp
-/tendra/lib/libtdf          libTDF       /tdf/lib/libtdf
+/tendra/lib/libtdf          libANDF      /andf/lib/libtdf
 /tendra/lib/startup         libTenDRA    /tendra/lib/startup
 
 See development/movingouttools for details of how we intend to go about
