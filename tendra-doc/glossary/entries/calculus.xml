@@ -17,9 +17,9 @@
       type checking and type encapsulation, and provides generic
       container types for lists, vectors etc.
     </para>
-  </glossdef>
 
-  <!-- TODO see also: user/guides/calculus -->
-  <glossseealso otherterm="typesystem"/>
-  <glossseealso otherterm="api"/>
+    <!-- TODO see also: user/guides/calculus -->
+    <glossseealso otherterm="typesystem"/>
+    <glossseealso otherterm="api"/>
+  </glossdef>
 </glossentry>

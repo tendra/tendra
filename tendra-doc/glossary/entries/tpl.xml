@@ -22,11 +22,11 @@
       This functionality is provided by <emphasis>tcc</emphasis>,
       but <emphasis>tpl</emphasis> may be called directly.
     </para>
-  </glossdef>
 
-  <!-- TODO see also: user/guides/tnc -->
-  <glossseealso otherterm="pltdf"/>
-  <glossseealso otherterm="tdfcapsule"/>
-  <glossseealso otherterm="structuredtdf"/>
-  <glossseealso otherterm="tnc"/>
+    <!-- TODO see also: user/guides/tnc -->
+    <glossseealso otherterm="pltdf"/>
+    <glossseealso otherterm="tdfcapsule"/>
+    <glossseealso otherterm="structuredtdf"/>
+    <glossseealso otherterm="tnc"/>
+  </glossdef>
 </glossentry>

@@ -20,10 +20,10 @@
       This functionality is provided by <emphasis>tcc</emphasis>,
       but <emphasis>tld</emphasis> may be called directly.
     </para>
-  </glossdef>
 
-  <!-- TODO see also: user/guides/tld -->
-  <glossseealso otherterm="tcc"/>
-  <glossseealso otherterm="tdf"/>
-  <glossseealso otherterm="tdfcapsule"/>
+    <!-- TODO see also: user/guides/tld -->
+    <glossseealso otherterm="tcc"/>
+    <glossseealso otherterm="tdf"/>
+    <glossseealso otherterm="tdfcapsule"/>
+  </glossdef>
 </glossentry>

@@ -20,8 +20,8 @@
       This functionality is provided by <emphasis>tcc</emphasis>,
       but <emphasis>disp</emphasis> may be called directly.
     </para>
-  </glossdef>
 
-  <glossseealso otherterm="tdf"/>
-  <glossseealso otherterm="tdfcapsule"/>
+    <glossseealso otherterm="tdf"/>
+    <glossseealso otherterm="tdfcapsule"/>
+  </glossdef>
 </glossentry>

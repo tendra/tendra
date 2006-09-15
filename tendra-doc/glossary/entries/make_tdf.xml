@@ -16,8 +16,8 @@
       of the TDF specification and a template file, and generates
       code to read, write or transform a TDF capsule.
     </para>
-  </glossdef>
 
-  <glossseealso otherterm="tdf"/>
-  <glossseealso otherterm="tdfcapsule"/>
+    <glossseealso otherterm="tdf"/>
+    <glossseealso otherterm="tdfcapsule"/>
+  </glossdef>
 </glossentry>
