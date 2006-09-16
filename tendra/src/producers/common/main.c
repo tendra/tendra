@@ -105,12 +105,11 @@
 #include "xalloc.h"
 
 
-/*
-    DEFAULT MACHINE OPTION
-
-    This macro is used to determine the machine dependent options to
-    be used.
-*/
+/**
+ * DEFAULT MACHINE OPTION
+ *
+ * This macro is used to determine the machine dependent options to be used.
+ */
 
 #ifndef FS_MACHINE
 #ifdef FS_DOS
@@ -122,11 +121,11 @@
 
 
 /*
-    COMMAND-LINE FLAGS
-
-    These flags may be set by command-line options to indicate various
-    actions to the compiler.
-*/
+ * COMMAND-LINE FLAGS
+ *
+ * These flags may be set by command-line options to indicate various actions
+ * to the compiler.
+ */
 
 static int builtin_asserts = 1;
 static int builtin_macros = 1;
@@ -145,13 +144,13 @@ static string table_name = NULL;
 
 
 /*
-    TABLE OF COMMAND-LINE ARGUMENTS
-
-    This table describes all the command-line options.  Each is given by
-    an option letter, followed by a flag indicating whether the option can
-    be split into two components, and a description of the second option
-    component.
-*/
+ * TABLE OF COMMAND-LINE ARGUMENTS
+ *
+ * This table describes all the command-line options. Each is given by an
+ * option letter, followed by a flag indicating whether the option can be
+ * split into two components, and a description of the second option
+ * component.
+ */
 
 typedef struct {
     char opt;
@@ -206,11 +205,11 @@ static PROGRAM_ARG prog_args[] = {
 #define no_prog_args	array_size(prog_args)
 
 
-/*
-    PRINT PROGRAM USAGE
-
-    This routine prints the program usage to the file f.
-*/
+/**
+ * PRINT PROGRAM USAGE
+ *
+ * This routine prints the program usage to the file f.
+ */
 
 static void
 report_usage(FILE *f)
@@ -230,13 +229,12 @@ report_usage(FILE *f)
 }
 
 
-/*
-    SET MACHINE DEPENDENT FLAGS
-
-    This routine sets the machine dependent options for the machine
-    described by mach.  The routine returns false for an unknown machine
-    descriptor.
-*/
+/**
+ * SET MACHINE DEPENDENT FLAGS
+ *
+ * This routine sets the machine dependent options for the machine described
+ * by mach. The routine returns false for an unknown machine descriptor.
+ */
 
 static int
 set_machine(CONST char *mach)
@@ -261,23 +259,23 @@ set_machine(CONST char *mach)
 }
 
 
-/*
-    PRE-SET A COMPILE-TIME OPTION
-
-    This routine pre-sets the value of option A to be B.
-*/
+/**
+ * PRE-SET A COMPILE-TIME OPTION
+ *
+ * This routine pre-sets the value of option A to be B.
+ */
 
 #define preset(A, B)\
     OPT_CATALOG[A].def[0] = (B);\
     OPT_CATALOG[A].def[1] = (B)
 
 
-/*
-    READ AN ARGUMENT FROM A FILE
-
-    This routine reads a command-line argument from the file f into the
-    buffer s of length n, returning the result.
-*/
+/**
+ * READ AN ARGUMENT FROM A FILE
+ *
+ * This routine reads a command-line argument from the file f into the buffer
+ * s of length n, returning the result.
+ */
 
 static char *
 read_arg(FILE *f, char *s, int n)
@@ -298,13 +296,13 @@ read_arg(FILE *f, char *s, int n)
 }
 
 
-/*
-    PROCESS A LIST OF ARGUMENTS
-
-    This routine is called by main to process the command-line arguments
-    given by argc and argv.  It returns a list of strings giving the
-    input and output files.
-*/
+/**
+ * PROCESS A LIST OF ARGUMENTS
+ *
+ * This routine is called by main to process the command-line arguments given
+ * by argc and argv. It returns a list of strings giving the input and output
+ * files.
+ */
 
 static LIST(string)
 process_args(int argc, char **argv)
@@ -763,11 +761,11 @@ process_args(int argc, char **argv)
 }
 
 
-/*
-    INITIALISE FILE LOCATIONS
-
-    This routine initialises the standard file locations.
-*/
+/**
+ * INITIALISE FILE LOCATIONS
+ *
+ * This routine initialises the standard file locations.
+ */
 
 static void
 init_loc(void)
@@ -782,13 +780,12 @@ init_loc(void)
 }
 
 
-/*
-    PERFORM LANGUAGE DEPENDENT INITIALISATION
-
-    This routine performs any language dependent initialisation not
-    covered in the main initialisation routines.  Note that the default
-    language is C++.
-*/
+/**
+ * PERFORM LANGUAGE DEPENDENT INITIALISATION
+ *
+ * This routine performs any language dependent initialisation not covered in
+ * the main initialisation routines. Note that the default language is C++.
+ */
 
 static void
 init_lang(int c)
@@ -802,11 +799,11 @@ init_lang(int c)
 }
 
 
-/*
-    CALL MAIN INITIALISATION ROUTINES
-
-    This routine calls all the initialisation routines.
-*/
+/**
+ * CALL MAIN INITIALISATION ROUTINES
+ *
+ * This routine calls all the initialisation routines.
+ */
 
 static void
 init_main(void)
@@ -850,11 +847,11 @@ init_main(void)
 }
 
 
-/*
-    CALL MAIN TERMINATION ROUTINES
-
-    This routine frees any memory unneeded after the parsing routines.
-*/
+/**
+ * CALL MAIN TERMINATION ROUTINES
+ *
+ * This routine frees any memory unneeded after the parsing routines.
+ */
 
 static void
 term_main(void)
@@ -870,13 +867,13 @@ term_main(void)
 }
 
 
-/*
-    CALL MAIN FILE PROCESSING ROUTINES
-
-    This routine calls the main routines for processing the given list
-    of files.  This will have at least two elements, the last of which is
-    the output file.
-*/
+/**
+ * CALL MAIN FILE PROCESSING ROUTINES
+ *
+ * This routine calls the main routines for processing the given list of
+ * files. This will have at least two elements, the last of which is the
+ * output file.
+ */
 
 static void
 process_files(LIST(string)files)
@@ -1005,12 +1002,11 @@ process_files(LIST(string)files)
 
 
 /*
-    MAIN ROUTINE
-
-    This is the main routine.  It processes the command-line options,
-    calls the initialisation routines and calls the main processing
-    routine.
-*/
+ * MAIN ROUTINE
+ *
+ * This is the main routine. It processes the command-line options, calls the
+ * initialisation routines and calls the main processing routine.
+ */
 
 int
 main(int argc, char **argv)
