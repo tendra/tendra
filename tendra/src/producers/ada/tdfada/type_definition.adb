@@ -40,6 +40,10 @@ package body Type_Definition is
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info);
 
+   procedure Make_Signed_Base
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info);
+
    procedure Make_Float_Variety
      (State  : access States.State;
       Tipe   : in     XASIS.Classes.Type_Info;
@@ -101,6 +105,7 @@ package body Type_Definition is
                  Type_From_Declaration (Elements.Enclosing_Element (Element));
             begin
                Make_Signed_Bounds (State, Tipe);
+               Make_Signed_Base (State, Tipe);
                Make_Signed_Variety (State, Tipe);
                Make_Shape_From_Variety (State, Tipe);
                Make_Attributes (State, Tipe);
@@ -639,6 +644,59 @@ package body Type_Definition is
          Make_Token (State, Tipe, Upper, Right);
       end if;
    end Make_Signed_Bounds;
+
+   ----------------------
+   -- Make_Signed_Base --
+   ----------------------
+
+   procedure Make_Signed_Base
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info)
+   is
+      use XASIS.Utils;
+      use XASIS.Classes;
+
+      Var   : constant Small := Find_Variety (State, Tipe, TOKDEF);
+
+      procedure Evaluate
+        (D      : in out Streams.Memory_Stream;
+         Kind   : in     Support_Kinds)
+      is
+         Param : Streams.Memory_Stream;
+         Macro : constant Small := Find_Support (State, Kind, TOKDEF);
+         Bound : Small;
+      begin
+         Token.Initialize (Param, Kind);
+
+         Bound := Find_Type_Param (State, Tipe, Lower, TOKDEF);
+         Output.TDF (Param, c_exp_apply_token);
+         Output.TDF (Param, c_make_tok);
+         Output.TDFINT (Param, Bound);
+         Output.BITSTREAM (Param, Empty);
+
+         Bound := Find_Type_Param (State, Tipe, Upper, TOKDEF);
+         Output.TDF (Param, c_exp_apply_token);
+         Output.TDF (Param, c_make_tok);
+         Output.TDFINT (Param, Bound);
+         Output.BITSTREAM (Param, Empty);
+
+         Output.TDF (Param, c_var_apply_token);
+         Output.TDF (Param, c_make_tok);
+         Output.TDFINT (Param, Var);
+         Output.BITSTREAM (Param, Empty);
+
+         Output.TDF (D, c_exp_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Macro);
+         Output.BITSTREAM (D, Param);
+      end Evaluate;
+      
+      procedure Make_Token is new Make_Param_Token (Support_Kinds, Evaluate);
+      
+   begin
+      Make_Token (State, Tipe, Base_Lower, Signed_Base_Lower);
+      Make_Token (State, Tipe, Base_Upper, Signed_Base_Upper);
+   end Make_Signed_Base;
 
    -----------------------------
    -- Make_Shape_From_Variety --

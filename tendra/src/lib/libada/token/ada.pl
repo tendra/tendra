@@ -1,5 +1,7 @@
 Tokdec Boolean.V : [] VARIETY;
 Tokdec ~Set_signal_handler : [] EXP;
+Tokdec .~rep_var_width : [NAT] NAT;
+
 Iddec TDF_Exception:proc;
 
 Tokdef A_UNIVERSAL_INTEGER_DEFINITION.V =
@@ -141,7 +143,8 @@ Tokdef SIGNED_VAL_ATTR =
    | :to_raise:
      make_value (integer (Type))
 };
-/*
+
+/*  Temporary until trans bug #80 fixed
 ?{ 
    change_variety (to_raise, Type, Value)
    | :to_raise:
@@ -149,6 +152,67 @@ Tokdef SIGNED_VAL_ATTR =
      make_value (integer (Type))
 };
 */
+
+Tokdef Bits =
+  [] VARIETY
+
+  var_width (false, 8);
+
+Tokdef ITEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp integer test */
+  ?{ ?(a comp b); 1(Bits) | 0(Bits) };
+
+Tokdef Is_Size_Supported =
+  [Size  : NAT] EXP
+
+  ITEST [+ Size (Bits), ==, + .~rep_var_width [Size] (Bits)];
+
+Tokdef Signed_Fits_Size =
+  [Value : EXP,
+   Size  : NAT,
+   Type  : VARIETY] EXP
+
+  ITEST [([Type] Value >> (+ Size (Bits) - 1 (Bits))),
+         ==,
+         EXP ?(ITEST [[Type] Value, <, 0(Type)], - 1(Type), 0(Type)) ];
+
+Tokdef Range_Fits_Size =
+  [Upper : EXP,
+   Lower : EXP,
+   Size  : NAT,
+   Type  : VARIETY] EXP
+
+  Is_Size_Supported [Size]
+  And
+  (Signed_Fits_Size [Upper, Size, Type]
+   And
+   Signed_Fits_Size [Lower, Size, Type]);
+
+Tokdef SIGNED_BASE_UPPER =
+  [Upper : EXP,
+   Lower : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ? (Range_Fits_Size [Upper, Lower, 8, Type], 16r7f(Type),
+    EXP ? (Range_Fits_Size [Upper, Lower, 16, Type], 16r7fff(Type),
+      EXP ? (Range_Fits_Size [Upper, Lower, 32, Type], 16r7fffffff(Type),
+        EXP ? (Range_Fits_Size [Upper, Lower, 64, Type],
+               16r7fffffffffffffff(Type),
+               # "Range too wide"
+  ))));
+
+Tokdef SIGNED_BASE_LOWER =
+  [Upper : EXP,
+   Lower : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ? (Range_Fits_Size [Upper, Lower, 8, Type], -16r80(Type),
+    EXP ? (Range_Fits_Size [Upper, Lower, 16, Type], -16r8000(Type),
+      EXP ? (Range_Fits_Size [Upper, Lower, 32, Type], -16r80000000(Type),
+        EXP ? (Range_Fits_Size [Upper, Lower, 64, Type],
+               -16r8000000000000000(Type),
+               # "Range too wide"
+  ))));
+
 
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
@@ -164,6 +228,8 @@ Keep (COMPARE_INTEGER_VALUE,
       ENUM_SUCC_PRED_ATTR,
       SIGNED_SUCC_PRED_ATTR,
       ENUM_VAL_ATTR,
-      SIGNED_VAL_ATTR
+      SIGNED_VAL_ATTR,
+      SIGNED_BASE_UPPER,
+      SIGNED_BASE_LOWER
       )
 

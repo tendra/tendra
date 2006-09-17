@@ -59,6 +59,11 @@ package body Token is
             Streams.Expect (Stream, Dummy,
                             ((EXP_SORT, Singular, False),
                              (VARIETY_SORT, Singular, False)));
+         when Signed_Base_Lower | Signed_Base_Upper =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -145,6 +150,13 @@ package body Token is
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 2);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+               when Signed_Base_Lower | Signed_Base_Upper =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
             end case;

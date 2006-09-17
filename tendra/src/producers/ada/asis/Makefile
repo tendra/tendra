@@ -95,7 +95,7 @@ gela-asis-install: libasis.a *.ali
 	$(BIN_CP) ${ADA_DIR}/libgela/* ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 	$(BIN_CP) ${ADA_DIR}/xasis/*   ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 
-DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} *.ads *.adb
+DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} *.ads *.adb ${ASIS_SRC}
 
 CLEANFILES=*
 

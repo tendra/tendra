@@ -507,10 +507,14 @@ package body Expression is
          Param       : Streams.Memory_Stream;
          Exps        : constant Asis.Expression_List :=
            Attribute_Designator_Expressions (Element);
+         Kind        : Attribute_Kinds :=
+           Asis.Elements.Attribute_Kind (Element);
+         Base        : constant array (Boolean)
+           of Type_Param_Kinds := (False => Base_Lower, True => Base_Upper);
       begin
-         case Asis.Elements.Attribute_Kind (Element) is
+         case Kind is
             when A_First_Attribute | A_Last_Attribute =>
-               Decl := Selected_Name_Declaration (Prefix (Element), False);
+               Decl := Selected_Name_Declaration (Prefix (Element), True);
                Prefix_Type := Type_From_Declaration (Decl);
 
                if Static and not Is_Boolean (Prefix_Type) then
@@ -519,22 +523,34 @@ package body Expression is
                   Output_Universal_Variety (State, Prefix_Type, B, Unit);
                end if;
 
-               Token := Find_Attribute (State, Decl, A_First_Attribute, Unit);
                Output.TDF (B, c_exp_apply_token);
                Output.TDF (B, c_make_tok);
-               Output.TDFINT (B, Token);
 
-               Streams.Expect
-                 (Param, Dummy, (1 => (EXP_SORT, Singular, False)));
+               if (Is_Signed_Integer (Prefix_Type)
+                 or Is_Float_Point (Prefix_Type))
+                 and then not Is_Constrained (Prefix (Element))
+               then
+                  Token := Find_Type_Param
+                    (State, Prefix_Type, Base (Kind = A_Last_Attribute), Unit);
 
-               if Exps'Length > 0 then
-                  Root_Type := T.Root_Integer;
-                  Compile (State, Exps (1), Root_Type, True, Param, Unit);
+                  Output.TDFINT (B, Token);
+                  Output.BITSTREAM (B, Empty);
                else
-                  Output.TDF (Param, c_make_top);
+                  Token := Find_Attribute (State, Decl, Kind, Unit);
+                  Output.TDFINT (B, Token);
+                  Streams.Expect
+                    (Param, Dummy, (1 => (EXP_SORT, Singular, False)));
+
+                  if Exps'Length > 0 then
+                     Root_Type := T.Root_Integer;
+                     Compile (State, Exps (1), Root_Type, True, Param, Unit);
+                  else
+                     Output.TDF (Param, c_make_top);
+                  end if;
+
+                  Output.BITSTREAM (B, Param);
                end if;
 
-               Output.BITSTREAM (B, Param);
             when others =>
                raise States.Error;
          end case;

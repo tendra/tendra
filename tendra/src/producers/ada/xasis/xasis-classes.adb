@@ -476,9 +476,130 @@ package body XASIS.Classes is
    function Is_Constant_Access (Info : Type_Info) return Boolean
       renames Constant_Access_Class.Is_Class;
 
-   ----------------
+   --------------------
+   -- Is_Constrained --
+   --------------------
+
+   --  Implemented for scalar types only
+
+   function Is_Constrained (Mark : Asis.Expression) return Boolean is
+      use Asis.Elements;
+      use Asis.Expressions;
+      use Asis.Definitions;
+      use Asis.Declarations;
+
+      ----------------------------
+      -- Is_Subtype_Constrained --
+      ----------------------------
+
+      function Is_Subtype_Constrained (Def : Asis.Subtype_Indication)
+         return Boolean is
+      begin
+         if not Is_Nil (Subtype_Constraint (Def)) then
+            return False;
+         end if;
+
+         return Is_Constrained (Asis.Definitions.Subtype_Mark (Def));
+      end Is_Subtype_Constrained;
+
+      ------------------------------
+      -- Is_Base_Type_Constrained --
+      ------------------------------
+
+      function Is_Base_Type_Constrained (Def : Asis.Type_Definition)
+         return Boolean is
+      begin
+         case Type_Kind (Def) is
+            when A_Derived_Type_Definition
+              | A_Derived_Record_Extension_Definition
+              =>
+               return Is_Subtype_Constrained (Parent_Subtype_Indication (Def));
+
+            when An_Enumeration_Type_Definition
+              | A_Signed_Integer_Type_Definition
+              | A_Modular_Type_Definition
+              | A_Root_Type_Definition
+              =>
+               return True;
+
+            when A_Floating_Point_Definition
+              | An_Ordinary_Fixed_Point_Definition
+              | A_Decimal_Fixed_Point_Definition
+              =>
+               return not Is_Nil (Real_Range_Constraint (Def));
+
+            when An_Unconstrained_Array_Definition
+              | A_Constrained_Array_Definition
+              | A_Record_Type_Definition
+              | A_Tagged_Record_Type_Definition
+              | An_Access_Type_Definition
+              | Not_A_Type_Definition
+              =>
+               return True;
+         end case;
+      end Is_Base_Type_Constrained;
+
+      Identifier  : Asis.Expression := Mark;
+      Kind        : Asis.Expression_Kinds;
+      Decl        : Asis.Declaration;
+      Def         : Asis.Definition;
+   begin
+      Kind := Expression_Kind (Identifier);
+
+      while Kind = An_Attribute_Reference loop
+         if Attribute_Kind (Identifier) = A_Base_Attribute then
+            return False;
+         elsif Attribute_Kind (Identifier) = A_Class_Attribute then
+            null;
+         else
+            --  This is not a subtype mark
+            return True;
+         end if;
+
+         Identifier := Prefix (Identifier);
+         Kind := Expression_Kind (Identifier);
+      end loop;
+
+      if Kind = A_Selected_Component then
+         Identifier := Selector (Identifier);
+         Kind := Expression_Kind (Identifier);
+      end if;
+
+      if Kind /= An_Identifier then
+         --  This is not a subtype mark
+         return True;
+      end if;
+
+      Decl := Corresponding_Name_Declaration (Identifier);
+
+      loop
+         case Declaration_Kind (Decl) is
+            when An_Ordinary_Type_Declaration =>
+               Def := Type_Declaration_View (Decl);
+               return Is_Base_Type_Constrained (Def);
+
+            when A_Task_Type_Declaration |
+              A_Protected_Type_Declaration =>
+               return True;
+
+            when A_Subtype_Declaration =>
+               Def := Type_Declaration_View (Decl);
+               return Is_Subtype_Constrained (Def);
+
+            when An_Incomplete_Type_Declaration
+              | A_Private_Type_Declaration
+              =>
+               Decl := Utils.Completion_For_Declaration (Decl);
+
+            when others =>
+               return True;
+         end case;
+      end loop;
+   end Is_Constrained;
+
+   ------------------
    -- Is_Covereded --
-   ----------------
+   ------------------
 
    function Is_Covered
      (Specific   : Type_Info;

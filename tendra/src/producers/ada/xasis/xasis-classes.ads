@@ -111,6 +111,7 @@ package XASIS.Classes is
 
    function Is_Subtype_Mark (Mark : Asis.Expression) return Boolean;
    function Is_Type_Declaration (Decl : Asis.Declaration) return Boolean;
+   function Is_Constrained (Mark : Asis.Expression) return Boolean;
 
    function Destination_Type (Info : Type_Info) return Type_Info;
 
