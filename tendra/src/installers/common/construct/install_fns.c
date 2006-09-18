@@ -6110,9 +6110,9 @@ f_var_limits(signed_nat lower_bound, signed_nat upper_bound)
 	}
 	if (l<= 32768 && h <= 32767) {
 		return swordsh;
-
-		return slongsh;
 	}
+
+	return slongsh;
 }
 
 
