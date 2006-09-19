@@ -93,13 +93,13 @@ extern int xumemcmp(string, string, gen_size);
 	((gen_size)(N)*(gen_size)sizeof(T))
 
 #define xmalloc_one(T)\
-	((T *)xmalloc(xalloc_scale(T, 1)))
+	xmalloc(xalloc_scale(T, 1))
 
 #define xmalloc_nof(T, N)\
-	((T *)xmalloc(xalloc_scale(T, N)))
+	xmalloc(xalloc_scale(T, N))
 
 #define xrealloc_nof(P, T, N)\
-	((T *)xrealloc((gen_ptr)(P), xalloc_scale(T, N)))
+	xrealloc((gen_ptr)(P), xalloc_scale(T, N))
 
 #define xfree_nof(P)\
 	xfree((gen_ptr)(P))
