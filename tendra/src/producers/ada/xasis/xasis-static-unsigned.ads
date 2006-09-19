@@ -21,6 +21,11 @@ private package XASIS.Static.Unsigned is
       Args   : Asis.Association_List) return Value;
 
    function Evaluate
+     (Object : Type_Class;
+      Kind   : Asis.Attribute_Kinds;
+      Args   : Asis.Association_List) return Value;
+
+   function Evaluate
      (Object  : Type_Class;
       Kind    : Asis.Attribute_Kinds;
       Element : Asis.Expression) return Value;

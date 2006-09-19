@@ -16,6 +16,7 @@ with Expression;
 
 package body Intrinsic is
    use Asis;
+   use States;
    use TenDRA;
    use TenDRA.Types;
 
@@ -41,10 +42,8 @@ package body Intrinsic is
 
       procedure Output_Overflow;
 
-      Name  : Asis.Defining_Name :=
-        XASIS.Utils.Declaration_Name (Callee);
-      Oper  : Asis.Operator_Kinds :=
-        Asis.Elements.Operator_Kind (Name);
+      Name  : Asis.Defining_Name   := XASIS.Utils.Declaration_Name (Callee);
+      Oper  : Asis.Operator_Kinds  := Asis.Elements.Operator_Kind (Name);
       Tipe  : Asis.Type_Definition :=
         Asis.Declarations.Corresponding_Type (Callee);
       Info  : XASIS.Classes.Type_Info :=
@@ -66,7 +65,7 @@ package body Intrinsic is
          end if;
       end Output_Overflow;
 
-      procedure Each_Child (Bool_Value : Boolean := True) is
+      procedure Each_Child (B : in out Stream'Class) is
       begin
          for J in List'Range loop
             Expression.Compile
@@ -74,54 +73,195 @@ package body Intrinsic is
          end loop;
       end Each_Child;
 
+      procedure Mod_Oper (Kind : Support_Kinds) is
+         Macro : constant Small := Find_Support (State, Kind, Unit);
+         Last  : constant Small := Find_Type_Param (State, Info, Upper, Unit);
+         Var   : Small := States.Find_Variety (State, Info, Unit);
+         Param : aliased Streams.Memory_Stream;
+      begin
+         Token.Initialize (Param, Kind);
+         Each_Child (Param);
+
+         Output.TDF (Param, c_exp_apply_token);
+         Output.TDF (Param, c_make_tok);
+         Output.TDFINT (Param, Last);
+         Output.BITSTREAM (Param, Empty);
+
+         Output.TDF (Param, c_var_apply_token);
+         Output.TDF (Param, c_make_tok);
+         Output.TDFINT (Param, Var);
+         Output.BITSTREAM (Param, Empty);
+
+         if Kind = Mod_Power then
+            Var := States.Find_Variety (State, Types (2), Unit);
+
+            Output.TDF (Param, c_var_apply_token);
+            Output.TDF (Param, c_make_tok);
+            Output.TDFINT (Param, Var);
+            Output.BITSTREAM (Param, Empty);
+         end if;
+
+         Output.TDF (B, c_exp_apply_token);
+         Output.TDF (B, c_make_tok);
+         Output.TDFINT (B, Macro);
+         Output.BITSTREAM (B, Param);
+      end Mod_Oper;
+
+      procedure Static_Mod_Oper (Kind : Construct) is
+         Tok : constant Small := Find_Attribute
+           (State, XASIS.Classes.Get_Declaration (Info),
+            A_Modulus_Attribute, Unit);
+      begin
+         Output.TDF (B, c_rem1);
+         Output.TDF (B, c_impossible);
+         Output.TDF (B, c_impossible);
+
+         Output.TDF (B, Kind);
+
+         if Kind = c_and or Kind = c_or or Kind = c_xor or Kind = C_Not then
+            null;
+         elsif Kind = c_div2 or Kind = c_rem2 or Kind = c_rem1 then
+            Output_Overflow;
+            Output_Overflow;
+         else
+            Output_Overflow;
+         end if;
+
+         Each_Child (B);
+
+         Output.TDF (B, c_exp_apply_token);
+         Output.TDF (B, c_make_tok);
+         Output.TDFINT (B, Tok);
+         Output.BITSTREAM (B, Empty);
+      end Static_Mod_Oper;
    begin
       if XASIS.Classes.Is_Signed_Integer (Info) then
          case Oper is
             when A_Plus_Operator =>
                Output.TDF (B, c_plus);
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Minus_Operator =>
                Output.TDF (B, c_minus);
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Unary_Plus_Operator =>
-               Each_Child;
+               Each_Child (B);
             when A_Unary_Minus_Operator =>
                Output.TDF (B, c_negate);
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Multiply_Operator =>
                Output.TDF (B, c_mult);
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Divide_Operator =>
                Output.TDF (B, c_div2);
                Output_Overflow;
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Mod_Operator =>
                Output.TDF (B, c_rem1);
                Output_Overflow;
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when A_Rem_Operator =>
                Output.TDF (B, c_rem2);
                Output_Overflow;
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when An_Exponentiate_Operator =>
                Output.TDF (B, c_power);
                Output_Overflow;
                Types (2) := XASIS.Classes.T.Integer;
-               Each_Child;
+               Each_Child (B);
             when An_Abs_Operator =>
                Output.TDF (B, c_abs);
                Output_Overflow;
-               Each_Child;
+               Each_Child (B);
             when others =>
                raise States.Error;
          end case;
+
+      elsif XASIS.Classes.Is_Modular_Integer (Info) then
+         if Static then
+            case Oper is
+               when A_Plus_Operator =>
+                  Static_Mod_Oper (c_plus);
+               when A_Minus_Operator =>
+                  Static_Mod_Oper (c_minus);
+               when A_Unary_Plus_Operator =>
+                  Each_Child (B);
+               when A_Unary_Minus_Operator =>
+                  Static_Mod_Oper (c_negate);
+               when A_Multiply_Operator =>
+                  Static_Mod_Oper (c_mult);
+               when A_Divide_Operator =>
+                  Static_Mod_Oper (c_div2);
+               when A_Mod_Operator =>
+                  Static_Mod_Oper (c_rem1);
+               when A_Rem_Operator =>
+                  Static_Mod_Oper (c_rem2);
+               when An_Exponentiate_Operator =>
+                  Types (2) := XASIS.Classes.T.Integer;
+                  Static_Mod_Oper (c_power);
+               when An_Abs_Operator =>
+                  Each_Child (B);
+               when An_And_Operator =>
+                  Static_Mod_Oper (c_and);
+               when An_Or_Operator =>
+                  Static_Mod_Oper (c_or);
+               when An_Xor_Operator =>
+                  Static_Mod_Oper (c_xor);
+               when A_Not_Operator =>
+                  Static_Mod_Oper (c_not);
+               when others =>
+                  raise States.Error;
+            end case;
+         else
+            case Oper is
+               when A_Plus_Operator =>
+                  Mod_Oper (Mod_Plus);
+               when A_Minus_Operator =>
+                  Mod_Oper (Mod_Minus);
+               when A_Unary_Plus_Operator =>
+                  Each_Child (B);
+               when A_Unary_Minus_Operator =>
+                  Mod_Oper (Mod_Negative);
+               when A_Multiply_Operator =>
+                  Mod_Oper (Mod_Multiply);
+               when A_Divide_Operator =>
+                  Output.TDF (B, c_div2);
+                  Output_Overflow;
+                  Output_Overflow;
+                  Each_Child (B);
+               when A_Mod_Operator =>
+                  Output.TDF (B, c_rem1);
+                  Output_Overflow;
+                  Output_Overflow;
+                  Each_Child (B);
+               when A_Rem_Operator =>
+                  Output.TDF (B, c_rem2);
+                  Output_Overflow;
+                  Output_Overflow;
+                  Each_Child (B);
+               when An_Exponentiate_Operator =>
+                  Types (2) := XASIS.Classes.T.Integer;
+                  Mod_Oper (Mod_Power);
+               when An_Abs_Operator =>
+                  Each_Child (B);
+               when An_And_Operator =>
+                  Mod_Oper (Mod_And);
+               when An_Or_Operator =>
+                  Mod_Oper (Mod_Or);
+               when An_Xor_Operator =>
+                  Mod_Oper (Mod_Xor);
+               when A_Not_Operator =>
+                  Mod_Oper (Mod_Not);
+               when others =>
+                  raise States.Error;
+            end case;
+         end if;
       else
          raise States.Error;
       end if;
@@ -157,8 +297,8 @@ package body Intrinsic is
         Function_Call_Parameters (Element, True);
 
       procedure Output_Compare_Value is
-         use States;
-         Tok    : TenDRA.Small := Find_Support (State, Compare_Integer_Value);
+         Tok    : constant TenDRA.Small :=
+           Find_Support (State, Compare_Integer_Value, Unit);
          Params : aliased Streams.Memory_Stream;
       begin
          Token.Initialize (Params, Compare_Integer_Value);
@@ -343,7 +483,7 @@ package body Intrinsic is
 
       procedure Output_Logic_Jump (Op : TenDRA.Types.Construct) is
          use States;
-         Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump);
+         Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump, Unit);
          Params : aliased Streams.Memory_Stream;
       begin
          Token.Initialize (Params, Boolean_Jump);

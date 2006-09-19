@@ -303,19 +303,59 @@ package body Expression is
                Output.TDF (B, c_maximum);
                Compile_Arguments (B);
             when A_Succ_Attribute =>
-               Output.TDF (B, c_plus);
-               Output.TDF (B, c_impossible);
-               Compile_Arguments (B);
-               Output.TDF (B, c_make_int);
-               Output_Universal_Variety (State, Prefix_Type, B, Unit);
-               Output_Signed_Nat (B, 1);
+               if Is_Modular_Integer (Tipe) then
+                  Output.TDF (B, c_rem1);
+                  Output.TDF (B, c_impossible);
+                  Output.TDF (B, c_impossible);
+
+                  Output.TDF (B, c_plus);
+                  Output.TDF (B, c_wrap);
+                  Compile_Arguments (B);
+                  Output.TDF (B, c_make_int);
+                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
+                  Output_Signed_Nat (B, 1);
+
+                  Token := Find_Attribute
+                    (State, Decl, A_Modulus_Attribute, Unit);
+                  Output.TDF (B, c_exp_apply_token);
+                  Output.TDF (B, c_make_tok);
+                  Output.TDFINT (B, Token);
+                  Output.BITSTREAM (B, Empty);
+               else
+                  Output.TDF (B, c_plus);
+                  Output.TDF (B, c_impossible);
+                  Compile_Arguments (B);
+                  Output.TDF (B, c_make_int);
+                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
+                  Output_Signed_Nat (B, 1);
+               end if;
             when A_Pred_Attribute =>
-               Output.TDF (B, c_minus);
-               Output.TDF (B, c_impossible);
-               Compile_Arguments (B);
-               Output.TDF (B, c_make_int);
-               Output_Universal_Variety (State, Prefix_Type, B, Unit);
-               Output_Signed_Nat (B, 1);
+               if Is_Modular_Integer (Tipe) then
+                  Output.TDF (B, c_rem1);
+                  Output.TDF (B, c_impossible);
+                  Output.TDF (B, c_impossible);
+
+                  Output.TDF (B, c_minus);
+                  Output.TDF (B, c_wrap);
+                  Compile_Arguments (B);
+                  Output.TDF (B, c_make_int);
+                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
+                  Output_Signed_Nat (B, 1);
+
+                  Token := Find_Attribute
+                    (State, Decl, A_Modulus_Attribute, Unit);
+                  Output.TDF (B, c_exp_apply_token);
+                  Output.TDF (B, c_make_tok);
+                  Output.TDFINT (B, Token);
+                  Output.BITSTREAM (B, Empty);
+               else
+                  Output.TDF (B, c_minus);
+                  Output.TDF (B, c_impossible);
+                  Compile_Arguments (B);
+                  Output.TDF (B, c_make_int);
+                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
+                  Output_Signed_Nat (B, 1);
+               end if;
             when A_Pos_Attribute =>
                if Is_Boolean (Prefix_Type) then
                   Output.TDF (B, c_change_variety);
@@ -888,7 +928,7 @@ package body Expression is
    begin
       if Asis.Elements.Is_Nil (Callee) then
          Prefix := Asis.Expressions.Prefix (Element);
-         
+
          if Asis.Elements.Expression_Kind (Prefix) = An_Attribute_Reference then
             Attribute_Call (State, Element, Tipe, Static, B, Unit);
          else
@@ -1001,6 +1041,28 @@ package body Expression is
       Output.BITSTREAM (B, Empty);
       Output_Signed_Nat (B, Boolean'Pos (Value));
    end Output_Boolean;
+
+   ----------------
+   -- Output_Int --
+   ----------------
+
+   procedure Output_Int
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Value    : in     TenDRA.Small;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds;
+      Negative : in     Boolean := False)
+   is
+      Var   : constant Small := States.Find_Variety (State, Tipe, Unit);
+   begin
+      Output.TDF (B, c_make_int);
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, States.Empty);
+      Output_Signed_Nat (B, Value, Negative);
+   end Output_Int;
 
    -----------------------
    -- Output_Signed_Nat --

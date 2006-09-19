@@ -74,6 +74,14 @@ package Expression is
       Value    : in     TenDRA.Small;
       Negative : in     Boolean := False);
 
+   procedure Output_Int
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Value    : in     TenDRA.Small;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds;
+      Negative : in     Boolean := False);
+
 end Expression;
 
 

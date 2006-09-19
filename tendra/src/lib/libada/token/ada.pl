@@ -9,6 +9,11 @@ Tokdef A_UNIVERSAL_INTEGER_DEFINITION.V =
 
   var_width (true, 64);
 
+Tokdef One =
+  [] EXP
+
+  1 (A_UNIVERSAL_INTEGER_DEFINITION.V);
+
 Tokdef A_ROOT_INTEGER_DEFINITION.V =
   [] VARIETY
 
@@ -27,8 +32,7 @@ Tokdef Character.UPPER =
 Tokdef Integer.LOWER =
   [] EXP
 
-  -2147483647(A_UNIVERSAL_INTEGER_DEFINITION.V)
-    - 1(A_UNIVERSAL_INTEGER_DEFINITION.V);
+  -2147483647(A_UNIVERSAL_INTEGER_DEFINITION.V) - One;
 /* Temporary until trans bug #79 fixed
   -2147483648(A_UNIVERSAL_INTEGER_DEFINITION.V);
 */
@@ -153,6 +157,8 @@ Tokdef SIGNED_VAL_ATTR =
 };
 */
 
+/* S'Base'First/Last related tokens */
+
 Tokdef Bits =
   [] VARIETY
 
@@ -213,6 +219,175 @@ Tokdef SIGNED_BASE_LOWER =
                # "Range too wide"
   ))));
 
+/* Mod integer related tokens */
+
+Tokdef Is_Non_Binary =
+  [Last  : EXP] EXP
+
+  ((Last + One) And Last);
+
+Tokdef Non_Binary_Mod_Oper =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY,
+   Oper  : TOKEN[EXP,EXP]EXP,
+   Wider : VARIETY] EXP
+
+  ([Type] (Oper [[Wider] Left, [Wider] Right] %1 [Wider] (Last + One)));
+
+Tokdef Binary_Mod_Oper =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY,
+   Oper  : TOKEN[EXP,EXP]EXP] EXP
+
+  (Oper [Left, Right] And [Type] Last);
+
+Tokdef MOD_PLUS =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a + b),
+                             0 : + computed_nat (Last + Last)],
+        Binary_Mod_Oper [Left, Right, Last, Type,
+                         Use [a:EXP, b:EXP] EXP (a + b)]);
+
+Tokdef MOD_MINUS =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a - b),
+                             - computed_nat (Last) : + computed_nat (Last)],
+        Binary_Mod_Oper [Left, Right, Last, Type,
+                         Use [a:EXP, b:EXP] EXP (a - b)]);
+
+Tokdef MOD_MULTIPLY =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a * b),
+                             0 : + computed_nat (Last * Last)],
+        Binary_Mod_Oper [Left, Right, Last, Type,
+                         Use [a:EXP, b:EXP] EXP (a * b)]);
+
+Tokdef MOD_OR =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a Or b),
+                             Type],
+        Left Or Right);
+
+Tokdef MOD_XOR =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a Xor b),
+                             Type],
+        Left Xor Right);
+
+Tokdef MOD_AND =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Oper [Left, Right, Last, Type,
+                             Use [a:EXP, b:EXP] EXP (a And b),
+                             Type],
+        Left And Right);
+
+Tokdef MOD_NOT =
+  [Left  : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        ([Type] Last) - Left,
+        Left Xor [Type] Last);
+
+Tokdef MOD_NEGATIVE =
+  [Left  : EXP,
+   Last  : EXP,
+   Type  : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        (([Type] (Last + One)) - Left) %1 [Type] (Last + One),
+        - (Left) And [Type] Last);
+
+Tokdef Non_Binary_Mod_Power =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY,
+   LType : VARIETY] EXP
+
+  Var r : integer (Type)  = 1 (Type)
+  Var x : integer (Type)  = Left
+  Var y : integer (LType) = Right
+  {
+    ?{  ?( * y <= 0 (LType));
+        |
+        Rep {
+            ?{ ?( * y And 1 (LType) != 0 (LType));
+               r = Non_Binary_Mod_Oper [* r, * x, Last, Type,
+                                        Use [a:EXP, b:EXP] EXP (a * b),
+                                        0 : + computed_nat (Last * Last)];
+               y = (* y  -  1 (LType))
+             |
+               x = Non_Binary_Mod_Oper [* x, * x, Last, Type,
+                                        Use [a:EXP, b:EXP] EXP (a * b),
+                                        0 : + computed_nat (Last * Last)];
+               y = (* y  >>  1 (LType))
+            };
+           ?( * y <= 0 (LType))
+        }
+    };
+    * r
+  };
+
+
+Tokdef MOD_POWER =
+  [Left  : EXP,
+   Right : EXP,
+   Last  : EXP,
+   Type  : VARIETY,
+   LType : VARIETY] EXP
+
+  EXP ?(Is_Non_Binary [Last],
+        Non_Binary_Mod_Power [Left, Right, Last, Type, LType],
+        Binary_Mod_Oper [Left, Right, Last, Type,
+                         Use [a:EXP, b:EXP] EXP (power (wrap, a, b))]);
+
+/*
+Tokdef T = [] VARIETY 0 : 9;
+
+Var x : Int = MOD_MINUS [3 (T), 8 (T),
+  9 (A_UNIVERSAL_INTEGER_DEFINITION.V), T];
+*/
 
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
@@ -230,6 +405,15 @@ Keep (COMPARE_INTEGER_VALUE,
       ENUM_VAL_ATTR,
       SIGNED_VAL_ATTR,
       SIGNED_BASE_UPPER,
-      SIGNED_BASE_LOWER
+      SIGNED_BASE_LOWER,
+      MOD_PLUS,
+      MOD_MINUS,
+      MOD_MULTIPLY,
+      MOD_OR,
+      MOD_XOR,
+      MOD_AND,
+      MOD_NOT,
+      MOD_NEGATIVE,
+      MOD_POWER
       )
 

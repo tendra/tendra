@@ -139,6 +139,14 @@ package body XASIS.Static.Iter is
             begin
                return Check_Range (Object, Arg, Bnd, Inv);
             end;
+         when A_Parenthesized_Expression =>
+            declare
+               Arg  : constant Asis.Expression :=
+                 Expression_Parenthesized (Element);
+            begin
+               return Evaluate (Object, Arg);
+            end;
+
          when others =>
             Raise_Error (Internal_Error);
             return Undefined (Object, Asis.Nil_Element);

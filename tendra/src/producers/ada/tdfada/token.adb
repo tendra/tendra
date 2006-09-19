@@ -64,6 +64,25 @@ package body Token is
                             ((EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (VARIETY_SORT, Singular, False)));
+         when Mod_Plus | Mod_Minus | Mod_Multiply
+           | Mod_Or | Mod_Xor | Mod_And =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
+         when Mod_Power =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
+         when Mod_Not | Mod_Negative =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (VARIETY_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -110,6 +129,7 @@ package body Token is
                   Output.TDF (O, c_ntest);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
+
                when Boolean_Jump =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -117,12 +137,14 @@ package body Token is
                   Output.TDF (O, c_nat);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_label);
+
                when Constraint_Error_If =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 2);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_label);
+
                when Enum_Succ_Pred_Attr =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -131,6 +153,7 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
                   Output.TDF (O, c_nat);
+
                when Signed_Succ_Pred_Attr =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -138,6 +161,7 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
                   Output.TDF (O, c_nat);
+
                when Enum_Val_Attr =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -146,13 +170,43 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
+
                when Signed_Val_Attr =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 2);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
+
                when Signed_Base_Lower | Signed_Base_Upper =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+
+               when Mod_Plus | Mod_Minus | Mod_Multiply
+                 | Mod_Or | Mod_Xor | Mod_And =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 4);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+
+               when Mod_Power =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 5);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_variety);
+
+               when Mod_Not | Mod_Negative =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 3);
@@ -180,6 +234,9 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 2);
                   Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+               when Asis.A_Modulus_Attribute
+                 =>
                   Output.TDF (O, c_exp);
                when others =>
                   raise States.Error;

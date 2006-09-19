@@ -122,6 +122,45 @@ package body XASIS.Static.Unsigned is
    --------------
 
    function Evaluate
+     (Object : Type_Class;
+      Kind   : Asis.Attribute_Kinds;
+      Args   : Asis.Association_List) return Value is
+   begin
+      case Kind is
+         when A_Pred_Attribute =>
+            declare
+               Left  : Value renames
+                 Eval (Actual_Parameter (Args (1)), Object);
+            begin
+               if Is_Discrete (Left) then
+                  return U (Left.Pos - XASIS.Integers.One, Object);
+               else
+                  return Undefined;
+               end if;
+            end;
+
+         when A_Succ_Attribute =>
+            declare
+               Left  : Value renames
+                 Eval (Actual_Parameter (Args (1)), Object);
+            begin
+               if Is_Discrete (Left) then
+                  return U (Left.Pos + XASIS.Integers.One, Object);
+               else
+                  return Undefined;
+               end if;
+            end;
+
+         when others =>
+            return Evaluate (Discrete.Type_Class (Object), Kind, Args);
+      end case;
+   end Evaluate;
+
+   --------------
+   -- Evaluate --
+   --------------
+
+   function Evaluate
      (Object  : Type_Class;
       Kind    : Asis.Attribute_Kinds;
       Element : Asis.Expression) return Value is
