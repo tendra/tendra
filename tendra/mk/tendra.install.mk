@@ -30,10 +30,12 @@ HAPIDIR=${API}.api
 SINSTDIR=${INSTALL_DIR}/lib/include/${SAPIDIR}
 HINSTDIR=${INSTALL_DIR}/lib/include/${HAPIDIR}
 CINSTDIR=${INSTALL_DIR}/lib/${CAPIDIR}
+LINSTDIR=${INSTALL_DIR}/lib
 
 _REALINSTALL: .USE
 	@${ECHO} "# Installing ${API} API"
-	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" ;
+	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" "${LINSTDIR}";
+	${INSTALL} -m 644 ${.OBJDIR}/${API}.tl ${LINSTDIR}
 . for file in ${:!${ECHO} ${CAPIDIR}/*.c ${CAPIDIR}/M_${API}!:T}
 	${INSTALL} -m 644 ${CAPIDIR}/${file} ${CINSTDIR}/${file}
 . endfor
