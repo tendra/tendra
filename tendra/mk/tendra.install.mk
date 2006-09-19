@@ -111,6 +111,7 @@ SMACH=${MACHSUBDIR}/startup
 _REALINSTALL: .USE
 	@${ECHO} "# Installing ${MACHSUBDIR} machine directories"
 	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
+	# XXX: ${IMACH}/sys/* is not installed
 . for file in ${:!${ECHO} ${IMACH}/*!:T}
 	if [ -f ${IMACH}/${file} ]; then \
 		${INSTALL} -m 644 ${IMACH}/${file} ${MACH_BASE}/include/${file}; \
