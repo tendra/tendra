@@ -10,7 +10,7 @@ SRCX=${.CURDIR}/../shared
 
 WARNS?=		2
 
-TCCOPTS=	-Yansi -Xs
+TCCOPTS=	-Yposix2 -Xs
 CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC}\
 		-I${SRCTOK} -I${SRCX}
 LIBS=
