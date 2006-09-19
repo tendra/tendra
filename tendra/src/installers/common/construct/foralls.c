@@ -1735,27 +1735,27 @@ do_one_rep(exp loop)
 				remove_incr2(bro(loop), son(tests), son(xincrs),
 					     stride);
 			}
+		}
 
-			/* avoid n-squared factor */
-			if (res && no(incrdec) < 10) {
-				IGNORE check_id(incrdec, bro(son(incrdec)));
-			}
+		/* avoid n-squared factor */
+		if (res && no(incrdec) < 10) {
+			IGNORE check_id(incrdec, bro(son(incrdec)));
+		}
 
-			xincrs=nincr;
-		}
-		while (incrs != nilexp) {
-			exp z = bro(incrs);
-			retcell(incrs);
-			incrs = z;
-		}
-		while (alteredset != nilexp) {
-			exp z = bro(alteredset);
-			retcell(son(alteredset));
-			retcell(alteredset);
-			alteredset = z;
-		}
-		return res;
+		xincrs=nincr;
 	}
+	while (incrs != nilexp) {
+		exp z = bro(incrs);
+		retcell(incrs);
+		incrs = z;
+	}
+	while (alteredset != nilexp) {
+		exp z = bro(alteredset);
+		retcell(son(alteredset));
+		retcell(alteredset);
+		alteredset = z;
+	}
+	return res;
 }
 
 
