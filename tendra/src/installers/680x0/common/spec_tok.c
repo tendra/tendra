@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -78,100 +108,99 @@ Imported from DRA
     INTERCEPT SPECIAL TOKENS
 */
 
-tokval special_token
-    PROTO_N ( ( t, pars, sortcode, done ) )
-    PROTO_T ( token t X bitstream pars X int sortcode X int *done )
+tokval
+special_token(token t, bitstream pars, int sortcode, int *done)
 {
-    tokval tkv ;
-    UNUSED ( sortcode ) ;
+	tokval tkv;
+	UNUSED(sortcode);
 
-    if ( t->tok_name == NULL ) {
+	if (t->tok_name == NULL) {
+		/* call looks at done to see if result is meaningful */
+		SET(tkv);
+		return (tkv);
+	}
+
+	/* alloca */
+	if (!strcmp(t->tok_name, "~alloca")) {
+		exp arg1;
+		place old_place;
+		old_place = keep_place();
+		set_place(pars);
+		arg1 = hold_check(d_exp());
+		set_place(old_place);
+		tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+					      arg1, alloca_tag));
+		*done = 1;
+		has_alloca = 1;
+		return (tkv);
+	}
+
+	/* diagnostic tokens */
+	if (!strcmp(t->tok_name, "~exp_to_source") ||
+	    !strcmp(t->tok_name, "~diag_id_scope") ||
+	    !strcmp(t->tok_name, "~diag_type_scope") ||
+	    !strcmp(t->tok_name, "~diag_tag_scope")) {
+		place old_place;
+		old_place = keep_place();
+		set_place(pars);
+		tkv.tk_exp = hold_check(d_exp());
+		*done = 1;
+		if (!diagnose) {
+			set_place(old_place);
+			return (tkv);
+		}
+		if (!strcmp(t->tok_name, "~exp_to_source")) {
+			exp r;
+			diag_info *di = read_exp_to_source();
+			crt_lno = natint(di->data.source.end.line_no);
+			crt_charno = natint(di->data.source.end.char_off);
+			crt_flnm = di->data.source.beg.file->file.ints.chars;
+			r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp,
+				   nilexp, 1, 0, diagnose_tag);
+			setfather(r, tkv.tk_exp);
+			dno(r) = di;
+			tkv.tk_exp = r;
+			set_place(old_place);
+			return (tkv);
+		}
+		if (!strcmp(t->tok_name, "~diag_id_scope")) {
+			exp r;
+			diag_info *di = read_diag_id_scope();
+			r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp,
+				   nilexp, 2, 0, diagnose_tag);
+			setfather(r, tkv.tk_exp);
+			dno(r) = di;
+			tkv.tk_exp = r;
+			set_place(old_place);
+			return (tkv);
+		}
+		if (!strcmp(t->tok_name, "~diag_type_scope")) {
+			exp r;
+			diag_info *di = read_diag_type_scope();
+			r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp,
+				   nilexp, 3, 0, diagnose_tag);
+			setfather(r, tkv.tk_exp);
+			dno(r) = di;
+			tkv.tk_exp = r;
+			set_place(old_place);
+			return (tkv);
+		}
+		if (!strcmp(t->tok_name, "~diag_tag_scope")) {
+			exp r;
+			diag_info *di = read_diag_tag_scope();
+			r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp,
+				   nilexp, 4, 0, diagnose_tag);
+			setfather(r, tkv.tk_exp);
+			dno(r) = di;
+			tkv.tk_exp = r;
+			set_place(old_place);
+			return (tkv);
+		}
+	}
+
 	/* call looks at done to see if result is meaningful */
-	SET ( tkv ) ;
-	return ( tkv ) ;
-    }
-
-    /* alloca */
-    if ( !strcmp ( t->tok_name, "~alloca" ) ) {
-	exp arg1 ;
-	place old_place ;
-	old_place = keep_place () ;
-	set_place ( pars ) ;
-	arg1 = hold_check ( d_exp () ) ;
-	set_place ( old_place ) ;
-	tkv.tk_exp = hold_check ( me_u3 ( f_pointer ( long_to_al ( 8 ) ),
-				  arg1, alloca_tag ) ) ;
-	*done = 1 ;
-	has_alloca = 1 ;
-	return ( tkv ) ;
-    }
-
-    /* diagnostic tokens */
-    if ( !strcmp ( t->tok_name, "~exp_to_source" ) ||
-	 !strcmp ( t->tok_name, "~diag_id_scope" ) ||
-	 !strcmp ( t->tok_name, "~diag_type_scope" ) ||
-	 !strcmp ( t->tok_name, "~diag_tag_scope" ) ) {
-	place old_place ;
-	old_place = keep_place () ;
-	set_place ( pars ) ;
-	tkv.tk_exp = hold_check ( d_exp () ) ;
-	*done = 1 ;
-	if ( !diagnose ) {
-	    set_place ( old_place ) ;
-	    return ( tkv ) ;
-	}
-	if ( !strcmp ( t->tok_name, "~exp_to_source" ) ) {
-	    exp r ;
-	    diag_info *di = read_exp_to_source () ;
-	    crt_lno = natint ( di->data.source.end.line_no ) ;
-	    crt_charno = natint ( di->data.source.end.char_off ) ;
-	    crt_flnm = di->data.source.beg.file->file.ints.chars ;
-	    r = getexp ( sh ( tkv.tk_exp ), nilexp, 0, tkv.tk_exp, nilexp,
-			 1, 0, diagnose_tag ) ;
-	    setfather ( r, tkv.tk_exp ) ;
-	    dno ( r ) = di ;
-	    tkv.tk_exp = r ;
-	    set_place ( old_place ) ;
-	    return ( tkv ) ;
-	}
-	if ( !strcmp ( t->tok_name, "~diag_id_scope" ) ) {
-	    exp r ;
-	    diag_info *di = read_diag_id_scope () ;
-	    r = getexp ( sh ( tkv.tk_exp ), nilexp, 0, tkv.tk_exp, nilexp,
-			 2, 0, diagnose_tag ) ;
-	    setfather ( r, tkv.tk_exp ) ;
-	    dno ( r ) = di ;
-	    tkv.tk_exp = r ;
-	    set_place ( old_place ) ;
-	    return ( tkv ) ;
-	}
-	if ( !strcmp ( t->tok_name, "~diag_type_scope" ) ) {
-	    exp r ;
-	    diag_info *di = read_diag_type_scope () ;
-	    r = getexp ( sh ( tkv.tk_exp ), nilexp, 0, tkv.tk_exp, nilexp,
-			 3, 0, diagnose_tag ) ;
-	    setfather ( r, tkv.tk_exp ) ;
-	    dno ( r ) = di ;
-	    tkv.tk_exp = r ;
-	    set_place ( old_place ) ;
-	    return ( tkv ) ;
-	}
-	if ( !strcmp ( t->tok_name, "~diag_tag_scope" ) ) {
-	    exp r ;
-	    diag_info *di = read_diag_tag_scope () ;
-	    r = getexp ( sh ( tkv.tk_exp ), nilexp, 0, tkv.tk_exp, nilexp,
-			 4, 0, diagnose_tag ) ;
-	    setfather ( r, tkv.tk_exp ) ;
-	    dno ( r ) = di ;
-	    tkv.tk_exp = r ;
-	    set_place ( old_place ) ;
-	    return ( tkv ) ;
-	}
-    }
-
-    /* call looks at done to see if result is meaningful */
-    SET ( tkv ) ;
-    return ( tkv ) ;
+	SET(tkv);
+	return (tkv);
 }
 
 
@@ -179,9 +208,8 @@ tokval special_token
     CHECK FOR MACHINE DEPENDENT TOKENS
 */
 
-int machine_toks
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+int
+machine_toks(char *s)
 {
-    return ( 0 ) ;
+	return (0);
 }

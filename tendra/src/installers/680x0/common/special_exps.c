@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -68,62 +98,60 @@ First version
   name n of shape s and variable if v.
  ************************************************************************/
 
-exp make_extn
-    PROTO_N ( ( n, s, v ) )
-    PROTO_T ( char* n X shape s X int v )
+exp
+make_extn(char* n, shape s, int v)
 {
-  dec * g = alloc_nof ( dec, 1 ) ;
-  exp id = getexp (s, 0, 1, 0, 0, 0, 0, ident_tag);
-  exp nme = getexp (s, 0, 1, id, 0, 0, 0, name_tag);
-  setglob (id);
-  if (v) {
-     setvar(id);
-  }
-  brog(id) = g;
-  g -> dec_u.dec_val.dec_exp = id;
-  g -> dec_u.dec_val.dec_id = n;
-  g -> dec_u.dec_val.extnamed = 1;
-  return (nme);
+	dec * g = alloc_nof(dec, 1);
+	exp id = getexp(s, 0, 1, 0, 0, 0, 0, ident_tag);
+	exp nme = getexp(s, 0, 1, id, 0, 0, 0, name_tag);
+	setglob(id);
+	if (v) {
+		setvar(id);
+	}
+	brog(id) = g;
+	g -> dec_u.dec_val.dec_exp = id;
+	g -> dec_u.dec_val.dec_id = n;
+	g -> dec_u.dec_val.extnamed = 1;
+	return (nme);
 }
 
 /************************************************************************
   Make an exp representing a dummy double destination used to force a
   floating point overflow (if any) for expression with zero destination.
  ************************************************************************/
-exp get_dummy_double_dest
-    PROTO_Z ()
+exp
+get_dummy_double_dest(void)
 {
-   return (make_extn("___m68k_dummy_double", doublesh, 1));
+	return (make_extn("___m68k_dummy_double", doublesh, 1));
 }
 
 
 /************************************************************************
   Make an exp representing the stack limit
  ************************************************************************/
-exp get_stack_limit
-    PROTO_Z ()
+exp
+get_stack_limit(void)
 {
-   return make_extn ("___m68k_stack_limit", ulongsh, 1);
+	return make_extn("___m68k_stack_limit", ulongsh, 1);
 }
 
 /************************************************************************
   Make an exp representing the error handler
  ************************************************************************/
-exp get_error_handler
-    PROTO_Z ()
+exp
+get_error_handler(void)
 {
-   return make_extn ("___m68k_errhandler", ulongsh, 1);
+	return make_extn("___m68k_errhandler", ulongsh, 1);
 }
 /************************************************************************
   Make an exp representing env_size
  ************************************************************************/
-exp get_env_size
-    PROTO_N ( ( decl ) )
-    PROTO_T ( dec *decl )
+exp
+get_env_size(dec *decl)
 {
-   /* allocate space for 10 digits 2 prefix characters and a null */
-   char* lab_name = alloc_nof ( char, 13 ) ;
-   sprintf(lab_name, "#%c%lu", LPREFIX, (unsigned long) decl);
-   return make_extn (lab_name, ulongsh, 1);
+	/* allocate space for 10 digits 2 prefix characters and a null */
+	char* lab_name = alloc_nof(char, 13);
+	sprintf(lab_name, "#%c%lu", LPREFIX,(unsigned long)decl);
+	return make_extn(lab_name, ulongsh, 1);
 }
 

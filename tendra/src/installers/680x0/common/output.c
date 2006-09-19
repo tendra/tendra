@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -91,7 +121,7 @@ Imported from DRA
     OUTPUT FILE
 */
 
-FILE *fpout ;
+FILE *fpout;
 
 
 /*
@@ -101,20 +131,19 @@ FILE *fpout ;
     name is null, the standard output is used.
 */
 
-void open_output
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+void
+open_output(char *nm)
 {
-    if ( nm == null ) {
-	fpout = stdout ;
-    } else {
-	fpout = fopen ( nm, "w" ) ;
-	if ( fpout == null ) {
-	    error ( "Can't open output file, %s", nm ) ;
-	    exit ( EXIT_FAILURE ) ;
+	if (nm == null) {
+		fpout = stdout;
+	} else {
+		fpout = fopen(nm, "w");
+		if (fpout == null) {
+			error("Can't open output file, %s", nm);
+			exit(EXIT_FAILURE);
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -133,9 +162,9 @@ void open_output
 #define INSTR_SET_1
 #endif /* asm_simple_instrs */
 
-char *instr_names [] = {
+char *instr_names[] = {
 #include "instr_aux.h"
-} ;
+};
 
 
 /*
@@ -153,9 +182,9 @@ char *instr_names [] = {
 #define REGISTER_SET_1
 #endif /* asm_simple_regs */
 
-static char *glob_reg_names [] = {
+static char *glob_reg_names[] = {
 #include "instr_aux.h"
-} ;
+};
 
 
 /*
@@ -166,7 +195,7 @@ static char *glob_reg_names [] = {
     names, but may be changed thereafter.
 */
 
-char *reg_names [ NO_OF_REGS ] ;
+char *reg_names[NO_OF_REGS];
 
 
 /*
@@ -176,7 +205,7 @@ char *reg_names [ NO_OF_REGS ] ;
     register number.
 */
 
-#define  out_reg_name( X )	outs ( reg_names [ ( X ) ] )
+#define  out_reg_name(X)	outs(reg_names[(X)])
 
 
 /*
@@ -186,90 +215,97 @@ char *reg_names [ NO_OF_REGS ] ;
     with ptr, and moving down the plus-chain.
 */
 
-static void out_data
-    PROTO_N ( ( ptr ) )
-    PROTO_T ( mach_op *ptr )
+static void
+out_data(mach_op *ptr)
 {
-    mach_op *p ;
-    bool neg_next = 0 ;
-    bool need_plus = 0 ;
-    for ( p = ptr ; p ; p = p->plus ) {
-	switch ( p->type ) {
-
-	    case MACH_EXT :
-	    case MACH_EXTQ : {
-		if ( need_plus || neg_next ) outc ( neg_next ? '-' : '+' ) ;
-		outs ( p->def.str ) ;
-		need_plus = 1 ;
-		neg_next = 0 ;
-		break ;
-	    }
-
-	    case MACH_LAB :
-	    case MACH_LABQ : {
-		if ( need_plus || neg_next ) outc ( neg_next ? '-' : '+' ) ;
-		outc ( LPREFIX ) ;
-		outn ( p->def.num ) ;
-		need_plus = 1 ;
-		neg_next = 0 ;
-		break ;
-	    }
-
-	    case MACH_SPEC :
-	    case MACH_SPECQ : {
-		if ( !output_immediately && p->def.str == special_str ) {
-		    /* The value of LSx is known, so use it */
-		    long n = ldisp ;
-		    if ( neg_next ) n = ( -n ) ;
-		    if ( p->plus && p->plus->type == MACH_VAL ) {
-			p->plus->def.num += n ;
-		    } else {
-			if ( need_plus && n >= 0 ) outc ( '+' ) ;
-			outn ( n ) ;
-			need_plus = 1 ;
-		    }
-		} else {
-		    if ( need_plus || neg_next ) outc ( neg_next ? '-' : '+' ) ;
-		    outc ( LPREFIX ) ;
-		    outs ( p->def.str ) ;
-		    outn ( ( long ) special_no ) ;
-		    need_plus = 1 ;
+	mach_op *p;
+	bool neg_next = 0;
+	bool need_plus = 0;
+	for (p = ptr; p; p = p->plus) {
+		switch (p->type) {
+		case MACH_EXT:
+		case MACH_EXTQ:
+			if (need_plus || neg_next) {
+				outc(neg_next ? '-' : '+');
+			}
+			outs(p->def.str);
+			need_plus = 1;
+			neg_next = 0;
+			break;
+		case MACH_LAB:
+		case MACH_LABQ:
+			if (need_plus || neg_next) {
+				outc(neg_next ? '-' : '+');
+			}
+			outc(LPREFIX);
+			outn(p->def.num);
+			need_plus = 1;
+			neg_next = 0;
+			break;
+		case MACH_SPEC:
+		case MACH_SPECQ:
+			if (!output_immediately && p->def.str == special_str) {
+				/* The value of LSx is known, so use it */
+				long n = ldisp;
+				if (neg_next) {
+					n = (-n);
+				}
+				if (p->plus && p->plus->type == MACH_VAL) {
+					p->plus->def.num += n;
+				} else {
+					if (need_plus && n >= 0) {
+						outc('+');
+					}
+					outn(n);
+					need_plus = 1;
+				}
+			} else {
+				if (need_plus || neg_next) {
+					outc(neg_next ? '-' : '+');
+				}
+				outc(LPREFIX);
+				outs(p->def.str);
+				outn((long)special_no);
+				need_plus = 1;
+			}
+			neg_next = 0;
+			break;
+		case MACH_VAL:
+		case MACH_VALQ: {
+			long n = p->def.num;
+			if (neg_next) {
+				n = (-n);
+			}
+			if (need_plus && n >= 0) {
+				outc('+');
+			}
+			outn(n);
+			need_plus = 1;
+			neg_next = 0;
+			break;
 		}
-		neg_next = 0 ;
-		break ;
-	    }
-
-	    case MACH_VAL :
-	    case MACH_VALQ : {
-		long n = p->def.num ;
-		if ( neg_next ) n = ( -n ) ;
-		if ( need_plus && n >= 0 ) outc ( '+' ) ;
-		outn ( n ) ;
-		need_plus = 1 ;
-		neg_next = 0 ;
-		break ;
-	    }
-
-	    case MACH_HEX :
-	    case MACH_HEXQ : {
-		long n = p->def.num ;
-		if ( neg_next ) n = ( -n ) ;
-		if ( need_plus && n >= 0 ) outc ( '+' ) ;
-		outh ( n ) ;
-		need_plus = 1 ;
-		neg_next = 0 ;
-		break ;
-	    }
-
-	    case MACH_NEG : {
-		neg_next = 1 ;
-		break ;
-	    }
-
-	    default : return ;
+		case MACH_HEX:
+		case MACH_HEXQ: {
+			long n = p->def.num;
+			if (neg_next) {
+				n = (-n);
+			}
+			if (need_plus && n >= 0) {
+				outc('+');
+			}
+			outh(n);
+			need_plus = 1;
+			neg_next = 0;
+			break;
+		}
+		case MACH_NEG:
+			neg_next = 1;
+			break;
+		default:
+			return;
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -279,20 +315,19 @@ static void out_data
     This routine outputs a scaled register operand.
 */
 
-static void out_scaled
-    PROTO_N ( ( ptr ) )
-    PROTO_T ( mach_op *ptr )
+static void
+out_scaled(mach_op *ptr)
 {
-    long sf = ptr->def.num ;
-    asm_scale_before ;
-    out_reg_name ( ptr->of->def.num ) ;
-    if ( sf == 1 ) {
-	asm_scale_1 ;
-    } else {
-	asm_scale ;
-	outn ( sf ) ;
-    }
-    return ;
+	long sf = ptr->def.num;
+	asm_scale_before;
+	out_reg_name(ptr->of->def.num);
+	if (sf == 1) {
+		asm_scale_1;
+	} else {
+		asm_scale;
+		outn(sf);
+	}
+	return;
 }
 
 
@@ -302,24 +337,29 @@ static void out_scaled
     This routine outputs a floating point number.
 */
 
-static void out_float
-    PROTO_N ( ( f ) )
-    PROTO_T ( flt *f )
+static void
+out_float(flt *f)
 {
-#if ( FBASE == 10 )
-    int i ;
-    asm_fprefix ;
-    if ( f->sign < 0 ) outc ( '-' ) ;
-    outc ( '0' + f->mant [0] ) ;
-    outc ( '.' ) ;
-    for ( i = 1 ; i < MANT_SIZE ; i++ ) outc ( '0' + f->mant [i] ) ;
-    outc ( 'e' ) ;
-    if ( f->exp >= 0 ) outc ( '+' ) ;
-    outn ( f->exp ) ;
+#if (FBASE == 10)
+	int i;
+	asm_fprefix;
+	if (f->sign < 0) {
+		outc('-');
+	}
+	outc('0' + f->mant[0]);
+	outc('.');
+	for (i = 1; i < MANT_SIZE; i++) {
+		outc('0' + f->mant[i]);
+	}
+	outc('e');
+	if (f->exp >= 0) {
+		outc('+');
+	}
+	outn(f->exp);
 #else
-    error ( "Illegal floating point constant" ) ;
+	error("Illegal floating point constant");
 #endif
-    return ;
+	return;
 }
 
 
@@ -329,225 +369,201 @@ static void out_float
 
 #ifdef asm_data_first
 
-#define  out_data_1( X )	if ( X ) out_data ( X )
-#define  out_data_1a( X )	if ( X ) { out_data ( X ) ; outc ( ',' ) ; }
-#define  out_data_1b( X )	if ( X ) { outc ( ',' ) ; out_data ( X ) ; }
-#define  out_sf_data( X, Y )	if ( Y ) out_scaled ( Y )
+#define  out_data_1(X)		if (X)out_data(X)
+#define  out_data_1a(X)		if (X) { out_data(X); outc(','); }
+#define  out_data_1b(X)		if (X) { outc(','); out_data(X); }
+#define  out_sf_data(X, Y)	if (Y)out_scaled(Y)
 
 #else /* asm_data_first */
 
 #define  out_data_1( X )	/* empty */
 #define  out_data_1a( X )	/* empty */
 #define  out_data_1b( X )	/* empty */
-#define  out_sf_data( X, Y )	\
-    if ( X ) {			\
-	outc ( '(' ) ;		\
-	out_data ( X ) ;	\
-	if ( Y ) {		\
-	    outc ( ',' ) ;	\
-	    out_scaled ( Y ) ;	\
-	}			\
-	outc ( ')' ) ;		\
-    } else {			\
-	if ( Y ) {		\
-	    outc ( '(' ) ;	\
-	    out_scaled ( Y ) ;	\
-	    outc ( ')' ) ;	\
-	}			\
+#define  out_sf_data(X, Y)		\
+    if (X) {				\
+	    outc('(');			\
+	    out_data(X);		\
+	    if (Y) {			\
+		    outc(',');		\
+		    out_scaled(Y);	\
+	    }				\
+	    outc(')');			\
+    } else {				\
+	    if (Y) {			\
+		    outc('(');		\
+		    out_scaled(Y);	\
+		    outc(')');		\
+	    }				\
     }
 
 #endif /* asm_data_first */
 
 
 /*
-    OUTPUT A MACHINE OPERAND
+   OUTPUT A MACHINE OPERAND
 
-    This routine prints a machine operand.
-*/
+   This routine prints a machine operand.
+ */
 
-static void out_mach_op
-    PROTO_N ( ( ptr ) )
-    PROTO_T ( mach_op *ptr )
+static void
+out_mach_op(mach_op *ptr)
 {
-    mach_op *p = ptr ;
-    switch ( p->type ) {
-
-	case MACH_BF : {
-	    /* Bitfield operands */
-	    long bf_off = p->def.num ;
-	    long bf_bits = p->plus->def.num ;
-	    out_mach_op ( p->of ) ;
-	    asm_bf_before ;
-	    asm_nprefix ;
-	    outn ( bf_off ) ;
-	    asm_bf_middle ;
-	    asm_nprefix ;
-	    outn ( bf_bits ) ;
-	    asm_bf_after ;
-	    return ;
+	mach_op *p = ptr;
+	switch (p->type) {
+	case MACH_BF: {
+		/* Bitfield operands */
+		long bf_off = p->def.num;
+		long bf_bits = p->plus->def.num;
+		out_mach_op(p->of);
+		asm_bf_before;
+		asm_nprefix;
+		outn(bf_off);
+		asm_bf_middle;
+		asm_nprefix;
+		outn(bf_bits);
+		asm_bf_after;
+		return;
 	}
-
-	case MACH_CONT : {
-	    p = p->of ;
-	    switch ( p->type ) {
-
-		case MACH_CONT : {
-		    /* Memory indirect (post- or pre-indexed) */
-		    mach_op *p1 = p->plus ;
-		    mach_op *p2 = null ;
-		    mach_op *q = p->of ;
-		    mach_op *q1 = q->plus ;
-		    mach_op *q2 = null ;
-		    if ( p1 && p1->type == MACH_SCALE ) {
-			p2 = p1 ;
-			p1 = p2->plus ;
-		    }
-		    if ( q1 && q1->type == MACH_SCALE ) {
-			if ( p2 ) {
-			    error ( "Illegal addressing mode" ) ;
-			    outs ( "error" ) ;
-			    return ;
+	case MACH_CONT:
+		p = p->of;
+		switch (p->type) {
+		case MACH_CONT: {
+			/* Memory indirect (post- or pre-indexed) */
+			mach_op *p1 = p->plus;
+			mach_op *p2 = null;
+			mach_op *q = p->of;
+			mach_op *q1 = q->plus;
+			mach_op *q2 = null;
+			if (p1 && p1->type == MACH_SCALE) {
+				p2 = p1;
+				p1 = p2->plus;
 			}
-			q2 = q1 ;
-			q1 = q2->plus ;
-		    }
-		    asm_mem_before ;
-		    out_data_1a ( q1 ) ;
-		    out_reg_name ( q->def.num ) ;
-		    asm_mem_second ;
-		    out_sf_data ( q1, q2 ) ;
-		    asm_mem_third ;
-		    out_sf_data ( p1, p2 ) ;
-		    if ( p2 ) out_scaled ( p2 ) ;
-		    out_data_1b ( p1 ) ;
-		    asm_mem_after ;
-		    return ;
-		}
-
-		case MACH_REG : {
-		    /* Register indirect (with displacement or index) */
-		    mach_op *p1 = p->plus ;
-		    mach_op *p2 = null ;
-		    if ( p1 ) {
-			if ( p1->type == MACH_SCALE ) {
-			    p2 = p1 ;
-			    p1 = p2->plus ;
+			if (q1 && q1->type == MACH_SCALE) {
+				if (p2) {
+					error("Illegal addressing mode");
+					outs("error");
+					return;
+				}
+				q2 = q1;
+				q1 = q2->plus;
 			}
-			out_data_1 ( p1 ) ;
-		    }
-		    asm_ind_before ;
-		    out_reg_name ( p->def.num ) ;
-		    asm_ind_middle ;
-		    out_sf_data ( p1, p2 ) ;
-		    asm_ind_after ;
-		    return ;
-		}
-
-		case MACH_EXTQ : {
-		    /* External indirect (with displacement or index) */
-		    mach_op *p1 = p->plus ;
-		    mach_op *p2 = null ;
-		    if ( p1 ) {
-			if ( p1->type == MACH_SCALE ) {
-			    p2 = p1 ;
-			    p1 = p2->plus ;
+			asm_mem_before;
+			out_data_1a(q1);
+			out_reg_name(q->def.num);
+			asm_mem_second;
+			out_sf_data(q1, q2);
+			asm_mem_third;
+			out_sf_data(p1, p2);
+			if (p2) {
+				out_scaled(p2);
 			}
-			out_data_1 ( p1 ) ;
-		    }
-		    asm_ind_before ;
-		    outs ( p->def.str ) ;
-		    asm_ind_middle ;
-		    out_sf_data ( p1, p2 ) ;
-		    asm_ind_after ;
-		    return ;
+			out_data_1b(p1);
+			asm_mem_after;
+			return;
 		}
-
-		case MACH_EXT :
-		case MACH_LAB :
-		case MACH_SPEC :
-		case MACH_VAL :
-		case MACH_HEX :
-		case MACH_NEG : {
-		    /* Contents of immediate data, externals, labels */
-		    out_data ( p ) ;
-		    return ;
+		case MACH_REG: {
+			/* Register indirect (with displacement or index) */
+			mach_op *p1 = p->plus;
+			mach_op *p2 = null;
+			if (p1) {
+				if (p1->type == MACH_SCALE) {
+					p2 = p1;
+					p1 = p2->plus;
+				}
+				out_data_1(p1);
+			}
+			asm_ind_before;
+			out_reg_name(p->def.num);
+			asm_ind_middle;
+			out_sf_data(p1, p2);
+			asm_ind_after;
+			return;
 		}
-	    }
-	    error ( "Illegal addressing mode" ) ;
-	    outs ( "error" ) ;
-	    return ;
+		case MACH_EXTQ: {
+			/* External indirect (with displacement or index) */
+			mach_op *p1 = p->plus;
+			mach_op *p2 = null;
+			if (p1) {
+				if (p1->type == MACH_SCALE) {
+					p2 = p1;
+					p1 = p2->plus;
+				}
+				out_data_1(p1);
+			}
+			asm_ind_before;
+			outs(p->def.str);
+			asm_ind_middle;
+			out_sf_data(p1, p2);
+			asm_ind_after;
+			return;
+		}
+		case MACH_EXT:
+		case MACH_LAB:
+		case MACH_SPEC:
+		case MACH_VAL:
+		case MACH_HEX:
+		case MACH_NEG:
+			/* Contents of immediate data, externals, labels */
+			out_data(p);
+			return;
+		}
+		error("Illegal addressing mode");
+		outs("error");
+		return;
 	}
-
-	case MACH_DEC : {
-	    /* Register indirect with predecrement */
-	    asm_predec_before ;
-	    out_reg_name ( p->def.num ) ;
-	    asm_predec_after ;
-	    return ;
+	case MACH_DEC:
+		/* Register indirect with predecrement */
+		asm_predec_before;
+		out_reg_name(p->def.num);
+		asm_predec_after;
+		return;
+	case MACH_INC:
+		/* Register indirect with postincrement */
+		asm_postinc_before;
+		out_reg_name(p->def.num);
+		asm_postinc_after;
+		return;
+	case MACH_REG:
+		/* Register direct */
+		out_reg_name(p->def.num);
+		return;
+	case MACH_RPAIR:
+		/* Register pair */
+		out_reg_name(p->def.num);
+		asm_rpair_sep;
+		out_reg_name(p->plus->def.num);
+		return;
+	case MACH_EXT:
+	case MACH_LAB:
+	case MACH_SPEC:
+	case MACH_VAL:
+	case MACH_HEX:
+		/* Immediate data, externals, labels */
+		asm_nprefix;
+		out_data(p);
+		return;
+	case MACH_EXTQ:
+	case MACH_LABQ:
+	case MACH_SPECQ:
+		/* Contents of externals, labels */
+		out_data(p);
+		return;
+	case MACH_FLOATQ:
+		/* Floating-point data */
+		out_float(p->def.fp);
+		return;
+	case MACH_VALQ:
+		/* Integer data */
+		outn(p->def.num);
+		return;
+	case MACH_HEXQ:
+		/* Integer data */
+		outh(p->def.num);
+		return;
 	}
-
-	case MACH_INC : {
-	    /* Register indirect with postincrement */
-	    asm_postinc_before ;
-	    out_reg_name ( p->def.num ) ;
-	    asm_postinc_after ;
-	    return ;
-	}
-
-	case MACH_REG : {
-	    /* Register direct */
-	    out_reg_name ( p->def.num ) ;
-	    return ;
-	}
-
-	case MACH_RPAIR : {
-	    /* Register pair */
-	    out_reg_name ( p->def.num ) ;
-	    asm_rpair_sep ;
-	    out_reg_name ( p->plus->def.num ) ;
-	    return ;
-	}
-
-	case MACH_EXT :
-	case MACH_LAB :
-	case MACH_SPEC :
-	case MACH_VAL :
-	case MACH_HEX : {
-	    /* Immediate data, externals, labels */
-	    asm_nprefix ;
-	    out_data ( p ) ;
-	    return ;
-	}
-
-	case MACH_EXTQ :
-	case MACH_LABQ :
-	case MACH_SPECQ : {
-	    /* Contents of externals, labels */
-	    out_data ( p ) ;
-	    return ;
-	}
-
-	case MACH_FLOATQ : {
-	    /* Floating-point data */
-	    out_float ( p->def.fp ) ;
-	    return ;
-	}
-
-	case MACH_VALQ : {
-	    /* Integer data */
-	    outn ( p->def.num ) ;
-	    return ;
-	}
-
-	case MACH_HEXQ : {
-	    /* Integer data */
-	    outh ( p->def.num ) ;
-	    return ;
-	}
-    }
-    error ( "Illegal addressing mode" ) ;
-    outs ( "error" ) ;
-    return ;
+	error("Illegal addressing mode");
+	outs("error");
+	return;
 }
 
 
@@ -558,130 +574,128 @@ static void out_mach_op
     operands (if any).
 */
 
-void output_all
-    PROTO_Z ()
+void
+output_all(void)
 {
-    int n ;
-    mach_ins *p ;
-    for ( p = all_mach_ins ; p ; p = p->next ) {
-	n = p->ins_no ;
+	int n;
+	mach_ins *p;
+	for (p = all_mach_ins; p; p = p->next) {
+		n = p->ins_no;
 #ifdef EBUG
 #if 1
-        if ( n != m_comment ) {
-           outs ( "#inst" ) ;
-           outn ( p->id ) ;
-           outnl () ;
-        }
-        if ( p->id == 4921 ) {
-           int found = 1 ;
-        }
+		if (n != m_comment) {
+			outs("#inst");
+			outn(p->id);
+			outnl();
+		}
+		if (p->id == 4921) {
+			int found = 1;
+		}
 #endif
 #endif
-	switch ( n ) {
+		switch (n) {
 #ifdef EBUG
-            case m_comment : {
-               outs ( "#" ) ;
-               outs ( p->op1->def.str ) ;
-               outnl () ;
-               break ;
-            }
+		case m_comment:
+			outs("#");
+			outs(p->op1->def.str);
+			outnl();
+			break;
 #endif
 
 #ifdef m_ignore_ins
-	    case m_ignore_ins : {
-		/* Ignore */
-		break ;
-	    }
+		case m_ignore_ins:
+			/* Ignore */
+			break;
 #endif /* m_ignore_ins */
 
-	    case m_label_ins : {
-		/* Labels */
-		outc ( LPREFIX ) ;
-		outn ( p->op1->def.num ) ;
-		outc ( ':' ) ;
-		outnl () ;
-		break ;
-	    }
-
-	    case m_extern_ins : {
-		/* Externals */
-		out_data ( p->op1 ) ;
-		outc ( ':' ) ;
-		outnl () ;
-		break ;
-	    }
-
+		case m_label_ins:
+			/* Labels */
+			outc(LPREFIX);
+			outn(p->op1->def.num);
+			outc(':');
+			outnl();
+			break;
+		case m_extern_ins:
+			/* Externals */
+			out_data(p->op1);
+			outc(':');
+			outnl();
+			break;
 #ifdef asm_uses_equals
-	    case m_as_assign : {
-		out_mach_op ( p->op1 ) ;
-		outc ( '=' ) ;
-		out_mach_op ( p->op2 ) ;
-		outnl () ;
-		break ;
-	    }
+		case m_as_assign:
+			out_mach_op(p->op1);
+			outc('=');
+			out_mach_op(p->op2);
+			outnl();
+			break;
 #endif /* asm_uses_equals */
-
-	    case m_as_byte :
-	    case m_as_short :
-	    case m_as_long :
-	    case m_stabs :
-	    case m_stabd :
-	    case m_stabn :
-	    case m_dd_special : {
-		/* Data */
-		mach_op *q ;
-		bool started = 0 ;
-		int c = 0 ;
-		for ( q = p->op1 ; q ; q = q->of ) {
-		    if ( c == 0 ) {
-			if ( started ) outnl () ;
-			outs ( instr_names [n] ) ;
-		    } else {
-			outc ( ',' ) ;
-		    }
-		    out_data ( q ) ;
-		    started = 1 ;
-		    if ( ++c == 8 ) c = 0 ;
+		case m_as_byte:
+		case m_as_short:
+		case m_as_long:
+		case m_stabs:
+		case m_stabd:
+		case m_stabn:
+		case m_dd_special: {
+			/* Data */
+			mach_op *q;
+			bool started = 0;
+			int c = 0;
+			for (q = p->op1; q; q = q->of) {
+				if (c == 0) {
+					if (started) {
+						outnl();
+					}
+					outs(instr_names[n]);
+				} else {
+					outc(',');
+				}
+				out_data(q);
+				started = 1;
+				if (++c == 8) {
+					c = 0;
+				}
+			}
+			outnl();
+			break;
 		}
-		outnl () ;
-		break ;
-	    }
-
-	    default : {
-		if ( is_jump ( n ) ) {
-		    /* Jumps */
+		default:
+			if (is_jump(n)) {
+				/* Jumps */
 #ifndef asm_does_jump_lens
-		    if ( is_unsized ( n ) ) n += long_jump ;
+				if (is_unsized(n)) {
+					n += long_jump;
+				}
 #endif /* !asm_does_jump_lens */
-		    outs ( instr_names [n] ) ;
-		    outc ( LPREFIX ) ;
-		    outn ( p->op1->def.num ) ;
-		    if ( n == m_bra || n == m_brab ||
-			 n == m_braw || n == m_bral ) {
-			/* Align after unconditional jumps */
-			outnl () ;
+				outs(instr_names[n]);
+				outc(LPREFIX);
+				outn(p->op1->def.num);
+				if (n == m_bra || n == m_brab ||
+				    n == m_braw || n == m_bral) {
+					/* Align after unconditional jumps */
+					outnl();
 #ifndef no_align_directives
-                        outs ( instr_names [ m_as_align4 ] ) ;
+					outs(instr_names[m_as_align4]);
 #endif
-		    }
-		} else {
-		    /* Simple instructions */
-		    outs ( instr_names [n] ) ;
-		    if ( p->op1 ) out_mach_op ( p->op1 ) ;
-		    if ( p->op2 ) {
-			outc ( ',' ) ;
+				}
+			} else {
+				/* Simple instructions */
+				outs(instr_names[n]);
+				if (p->op1) {
+					out_mach_op(p->op1);
+				}
+				if (p->op2) {
+					outc(',');
 #ifdef EBUG
-			outc ( ' ' ) ;
+					outc(' ');
 #endif /* EBUG */
-			out_mach_op ( p->op2 ) ;
-		    }
+					out_mach_op(p->op2);
+				}
+			}
+			outnl();
+			break;
 		}
-		outnl () ;
-		break ;
-	    }
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -691,14 +705,14 @@ void output_all
     Apply a couple of patches for odd instruction quirks.
 */
 
-void init_instructions
-    PROTO_Z ()
+void
+init_instructions(void)
 {
 #ifdef asm_no_btst_suffix
-    instr_names [ m_btstb ] = instr_names [ m_btst ] ;
-    instr_names [ m_btstl ] = instr_names [ m_btst ] ;
+	instr_names[m_btstb] = instr_names[m_btst];
+	instr_names[m_btstl] = instr_names[m_btst];
 #endif /* asm_no_btst_suffix */
-    return ;
+	return;
 }
 
 
@@ -709,27 +723,27 @@ void init_instructions
     table of global register names and
 */
 
-void init_output
-    PROTO_Z ()
+void
+init_output(void)
 {
-    memcpy ( reg_names, glob_reg_names, sizeof ( glob_reg_names ) ) ;
+	memcpy(reg_names, glob_reg_names, sizeof(glob_reg_names));
 #ifdef SYSV_ABI
-    {
-	char *r = reg_names [ REG_A0 ] ;
-	reg_names [ REG_A0 ] = reg_names [ REG_A1 ] ;
-	reg_names [ REG_A1 ] = r ;
-    }
+	{
+		char *r = reg_names[REG_A0];
+		reg_names[REG_A0] = reg_names[REG_A1];
+		reg_names[REG_A1] = r;
+	}
 #endif /* SYS_ABI */
-    all_mach_ins = null ;
-    current_ins = null ;
-    return ;
+	all_mach_ins = null;
+	current_ins = null;
+	return;
 }
 
 
 #ifdef EBUG
 
-extern bool seek_line ;
-extern int seek_line_no ;
+extern bool seek_line;
+extern int seek_line_no;
 
 
 /*
@@ -740,17 +754,17 @@ extern int seek_line_no ;
     outnl is a macro which just outputs a newline character.
 */
 
-void outnl
-    PROTO_Z ()
+void
+outnl(void)
 {
-    static int line_no = 0 ;
-    outc ( '\n' ) ;
-    line_no++ ;
-    if ( seek_line && line_no == seek_line_no ) {
-	warning ( "Line %d reached", line_no ) ;
-	breakpoint () ;
-    }
-    return ;
+	static int line_no = 0;
+	outc('\n');
+	line_no++;
+	if (seek_line && line_no == seek_line_no) {
+		warning("Line %d reached", line_no);
+		breakpoint();
+	}
+	return;
 }
 
 #endif /* EBUG */

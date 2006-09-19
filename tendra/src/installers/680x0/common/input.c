@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -72,44 +102,45 @@ Imported from DRA
     This routine is intended to replace initreader in basicread.c.
 */
 
-void open_input
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+void
+open_input(char *nm)
 {
-    crt_dot_t = nm ;
-    crt_lno = -1 ;
-    failer_count = 0 ;
+	crt_dot_t = nm;
+	crt_lno = -1;
+	failer_count = 0;
 
-    if ( strcmp ( nm, "-" ) ) {
-	fpin = fopen ( nm, "r" ) ;
-	if ( fpin == null ) {
-	    error ( "Can't open input file, %s", nm ) ;
-	    exit ( EXIT_FAILURE ) ;
+	if (strcmp(nm, "-")) {
+		fpin = fopen(nm, "r");
+		if (fpin == null) {
+			error("Can't open input file, %s", nm);
+			exit(EXIT_FAILURE);
+		}
+	} else {
+		int c;
+		fpin = tmpfile();
+		if (fpin == null) {
+			error("Can't open temporary file");
+			exit(EXIT_FAILURE);
+		}
+		while (c = fgetc(stdin), c != EOF) {
+			fputc(c, fpin);
+		}
+		rewind(fpin);
 	}
-    } else {
-	int c ;
-	fpin = tmpfile () ;
-	if ( fpin == null ) {
-	    error ( "Can't open temporary file" ) ;
-	    exit ( EXIT_FAILURE ) ;
-	}
-	while ( c = fgetc ( stdin ), c != EOF ) fputc ( c, fpin ) ;
-	rewind ( fpin ) ;
-    }
-    pkt_index = -1 ;
-    file_pkt = -1 ;
-    table_flag = 0 ;
-    getcode_bitposn = 0 ;
-    read_line ( 1 ) ;
-    crt_line = buff ;
-    crt_ptr = crt_line ;
-    end_ptr = crt_line + cppkt ;
+	pkt_index = -1;
+	file_pkt = -1;
+	table_flag = 0;
+	getcode_bitposn = 0;
+	read_line(1);
+	crt_line = buff;
+	crt_ptr = crt_line;
+	end_ptr = crt_line + cppkt;
 
 #if 0
-    bignat_work = alloc_nof ( unsigned short, 2 ) ;
-    bignat_work [0] = 0 ;
-    bignat_work [1] = 0 ;
-    bignat_len = 2 ;
+	bignat_work = alloc_nof(unsigned short, 2);
+	bignat_work[0] = 0;
+	bignat_work[1] = 0;
+	bignat_len = 2;
 #endif
-    return ;
+	return;
 }

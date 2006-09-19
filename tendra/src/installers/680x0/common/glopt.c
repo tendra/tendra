@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -77,53 +107,47 @@ Imported from DRA
 #include "glopt.h"
 
 
-void glopt
-    PROTO_N ( (dp) )
-    PROTO_T ( dec * dp )
+void
+glopt(dec *dp)
 {
-  if (!writable_strings && !strcmp(dp -> dec_u.dec_val.dec_id, "_strcpy"))
-   {
-     exp i = dp -> dec_u.dec_val.dec_exp;
+  if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "_strcpy")) {
+     exp i = dp->dec_u.dec_val.dec_exp;
      exp t = pt(i);
-     if (t == nilexp)
+     if (t == nilexp) {
        return;
+     }
 
-     while (1)
-      {
+     while (1) {
         if (!last(t) && !last(bro(t)) && last(bro(bro(t))) &&
             name(bro(bro(bro(t)))) == apply_tag &&
-            son(bro(bro(bro(t)))) == t)
-          {
+            son(bro(bro(bro(t)))) == t) {
             exp dest = bro(t);
             exp source = bro(dest);
 
             if (name(source) == name_tag && isglob(son(source)) &&
-                isvar(son(source)) && no(son(source)) == 1)
-              {
+                isvar(son(source)) && no(son(source)) == 1) {
                 dec * source_dec = brog(son(source));
-                if (!source_dec -> dec_u.dec_val.extnamed &&
-                    son(source_dec -> dec_u.dec_val.dec_exp) != nilexp)
-                  {
+                if (!source_dec->dec_u.dec_val.extnamed &&
+                    son(source_dec->dec_u.dec_val.dec_exp) != nilexp) {
                     exp source_def = son(son(source));
                     shape sha = sh(source_def);
                     if (name(source_def) == string_tag &&
-                         ptno(source_def) == 8)
-                     {
+                         ptno(source_def) == 8) {
                        char * s = nostr(source_def);
                        long n, j;
                        int l = shape_size(sha) / 8;
-                       for (j=0; j < l && s[j] != 0; ++j);
-                       if (j < l)
-                        {
+                       for (j=0; j < l && s[j] != 0; ++j){
+			       ;
+		       }
+                       if (j < l) {
 	                   exp q;
                            exp to_change = bro(source);
-	                   exp idsc = getexp(sh(bro(source)), nilexp, 0,
-                                              dest, nilexp,
-                                              0, 2, ident_tag);
-	                   exp n1 = getexp(sh(dest), nilexp, 0, idsc,
-                                             nilexp, 0, 0, name_tag);
-	                   exp n2 = getexp(sh(dest), nilexp, 0, idsc, n1,
-                                             0, 0, name_tag);
+			   exp idsc = getexp(sh(bro(source)), nilexp, 0, dest,
+					     nilexp, 0, 2, ident_tag);
+			   exp n1 = getexp(sh(dest), nilexp, 0, idsc, nilexp,
+					   0, 0, name_tag);
+			   exp n2 = getexp(sh(dest), nilexp, 0, idsc, n1, 0, 0,
+					   name_tag);
                            exp_list el;
 
                            pt(idsc) = n2;
@@ -139,70 +163,64 @@ void glopt
                            kill_exp(t, t);
                            replace(to_change, idsc, idsc);
                            t = i;
-                        };
-                     };
-                  };
-              };
-          };
+                        }
+                     }
+                  }
+              }
+          }
 
-        if (pt(t) == nilexp)
+        if (pt(t) == nilexp) {
           return;
+	}
         t = pt(t);
-      };
-   };
+      }
+   }
 
-  if (!writable_strings && !strcmp(dp -> dec_u.dec_val.dec_id, "_strlen"))
-   {
-     exp i = dp -> dec_u.dec_val.dec_exp;
+  if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "_strlen")) {
+     exp i = dp->dec_u.dec_val.dec_exp;
      exp t = pt(i);
-     if (t == nilexp)
+     if (t == nilexp) {
        return;
+     }
 
-     while (1)
-      {
-        if (!last(t) && last(bro(t)) &&
-            name(bro(bro(t))) == apply_tag &&
-            son(bro(bro(t))) == t)
-          {
+     while (1) {
+        if (!last(t) && last(bro(t)) && name(bro(bro(t))) == apply_tag &&
+	    son(bro(bro(t))) == t) {
             exp st = bro(t);
 
             if (name(st) == name_tag && isglob(son(st)) &&
-                isvar(son(st)) && no(son(st)) == 1)
-              {
+                isvar(son(st)) && no(son(st)) == 1) {
                 dec * source_dec = brog(son(st));
-                if (!source_dec -> dec_u.dec_val.extnamed &&
-                    son(source_dec -> dec_u.dec_val.dec_exp) != nilexp)
-                  {
+                if (!source_dec->dec_u.dec_val.extnamed &&
+                    son(source_dec->dec_u.dec_val.dec_exp) != nilexp) {
                     exp st_def = son(son(st));
                     shape sha = sh(st_def);
-                    if (name(st_def) == string_tag &&
-                         ptno(st_def) == 8)
-                     {
+                    if (name(st_def) == string_tag && ptno(st_def) == 8) {
                        char * s = nostr(st_def);
                        long n, j;
                        int l = shape_size(sha) / 8;
-                       for (j=0; j < l && s[j] != 0; ++j);
-                       if (j < l)
-                        {
+                       for (j=0; j < l && s[j] != 0; ++j) {
+			       ;
+		       }
+                       if (j < l) {
                            exp to_change = bro(st);
-                           exp res = getexp(sh(to_change), nilexp, 0,
-                               nilexp, nilexp, 0, j, val_tag);
+			   exp res = getexp(sh(to_change), nilexp, 0, nilexp,
+					    nilexp, 0, j, val_tag);
                            kill_exp(t, t);
                            replace(to_change, res, nilexp);
                            t = i;
-                        };
-                     };
-                  };
-              };
-          };
+                       }
+                    }
+                }
+            }
+        }
 
-        if (pt(t) == nilexp)
+        if (pt(t) == nilexp) {
           return;
+	}
         t = pt(t);
-      };
-   };
-
-
+     }
+  }
 
   return;
 }

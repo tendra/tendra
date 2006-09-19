@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -83,11 +113,11 @@ Imported from DRA
     DIAGNOSTICS INITIALIZATION ROUTINE
 */
 
-void diag_prologue
-    PROTO_Z ()
+void
+diag_prologue(void)
 {
-    init_diag () ;
-    return ;
+	init_diag();
+	return;
 }
 
 
@@ -95,19 +125,21 @@ void diag_prologue
     DIAGNOSTICS TERMINATION ROUTINE
 */
 
-void diag_epilogue
-    PROTO_Z ()
+void
+diag_epilogue(void)
 {
-    while ( dnt_end () ) /* empty */ ;
-    if ( diag_format == DIAG_STAB ) {
-	mach_op *op = make_extern_data ( "Letext", 0 ) ;
-	area ( ptext ) ;
-	make_stabs ( "\"\"", 100, 0, op ) ;
-	make_external_label ( "Letext" ) ;
-    }
-    output_all () ;
-    copy_diag () ;
-    return ;
+	while (dnt_end()) {
+		; /* empty */
+	}
+	if (diag_format == DIAG_STAB) {
+		mach_op *op = make_extern_data("Letext", 0);
+		area(ptext);
+		make_stabs("\"\"", 100, 0, op);
+		make_external_label("Letext");
+	}
+	output_all();
+	copy_diag();
+	return;
 }
 
 
@@ -115,14 +147,13 @@ void diag_epilogue
     OUTPUT A DIAGNOSTICS SOURCE MARK
 */
 
-static void diag_mark
-    PROTO_N ( ( sm ) )
-    PROTO_T ( sourcemark *sm )
+static void
+diag_mark(sourcemark *sm)
 {
-    char *nm = sm->file->file.ints.chars ;
-    long ln = sm->line_no.nat_val.small_nat ;
-    diag_source ( nm, ln, 1 ) ;
-    return ;
+	char *nm = sm->file->file.ints.chars;
+	long ln = sm->line_no.nat_val.small_nat;
+	diag_source(nm, ln, 1);
+	return;
 }
 
 
@@ -130,18 +161,17 @@ static void diag_mark
     DIAGNOSTICS FOR A LOCAL VARIABLE
 */
 
-static void diag_variable
-    PROTO_N ( ( di, e ) )
-    PROTO_T ( diag_info *di X exp e )
+static void
+diag_variable(diag_info *di, exp e)
 {
-    exp s = di->data.id_scope.access ;
-    diag_type t = di->data.id_scope.typ ;
-    char *nm = di->data.id_scope.nme.ints.chars ;
-    long p = ( no ( s ) + no ( son ( s ) ) ) / 8 ;
-    if ( !isparam ( son ( s ) ) ) {
-	diag_local_variable ( t, nm, p ) ;
-    }
-    return ;
+	exp s = di->data.id_scope.access;
+	diag_type t = di->data.id_scope.typ;
+	char *nm = di->data.id_scope.nme.ints.chars;
+	long p = (no(s) + no(son(s))) / 8;
+	if (!isparam(son(s))) {
+		diag_local_variable(t, nm, p);
+	}
+	return;
 }
 
 
@@ -149,30 +179,28 @@ static void diag_variable
     START OF A DIAGNOSTICS ITEM
 */
 
-void diag_start
-    PROTO_N ( ( di, e ) )
-    PROTO_T ( diag_info *di X exp e )
+void
+diag_start(diag_info *di, exp e)
 {
-    switch ( di->key ) {
-
-	case DIAG_INFO_SOURCE : {
-	    sourcemark *sm = &( di->data.source.beg ) ;
-	    diag_mark ( sm ) ;
-	    break ;
+	switch (di->key) {
+	case DIAG_INFO_SOURCE: {
+		sourcemark *sm = &(di->data.source.beg);
+		diag_mark(sm);
+		break;
 	}
-
-	case DIAG_INFO_ID : {
-	    mark_scope ( e ) ;
-	    if ( props ( e ) & 0x80 ) dnt_begin () ;
-	    if ( diag_format != DIAG_XDB_NEW ) diag_variable ( di, e ) ;
-	    break ;
+	case DIAG_INFO_ID:
+		mark_scope(e);
+		if (props(e) & 0x80) {
+			dnt_begin();
+		}
+		if (diag_format != DIAG_XDB_NEW) {
+			diag_variable(di, e);
+		}
+		break;
+	default:
+		break;
 	}
-
-	default : {
-	    break ;
-	}
-    }
-    return ;
+	return;
 }
 
 
@@ -180,15 +208,18 @@ void diag_start
     END OF A DIAGNOSTICS ITEM
 */
 
-void diag_end
-    PROTO_N ( ( di, e ) )
-    PROTO_T ( diag_info *di X exp e )
+void
+diag_end(diag_info *di, exp e)
 {
-    if ( di->key == DIAG_INFO_ID ) {
-	if ( diag_format == DIAG_XDB_NEW ) diag_variable ( di, e ) ;
-	if ( props ( e ) & 0x80 ) dnt_end () ;
-    }
-    return ;
+	if (di->key == DIAG_INFO_ID) {
+		if (diag_format == DIAG_XDB_NEW) {
+			diag_variable(di, e);
+		}
+		if (props(e) & 0x80) {
+			dnt_end();
+		}
+	}
+	return;
 }
 
 
@@ -196,16 +227,16 @@ void diag_end
     DIAGNOSTICS FOR THE START OF A PROCEDURE
 */
 
-void xdb_diag_proc_begin
-    PROTO_N ( ( di, p, pname, cname, is_ext ) )
-    PROTO_T ( diag_global *di X exp p X char *pname X long cname X int is_ext )
+void
+xdb_diag_proc_begin(diag_global *di, exp p, char *pname, long cname,
+		    int is_ext)
 {
-    char *nm = di->data.id.nme.ints.chars ;
-    diag_type t = di->data.id.new_type ;
-    sourcemark *sm = &( di->data.id.whence ) ;
-    diag_proc_main ( t, p, nm, !is_local ( pname ), pname ) ;
-    diag_mark ( sm ) ;
-    return ;
+	char *nm = di->data.id.nme.ints.chars;
+	diag_type t = di->data.id.new_type;
+	sourcemark *sm = & (di->data.id.whence);
+	diag_proc_main(t, p, nm, !is_local(pname), pname);
+	diag_mark(sm);
+	return;
 }
 
 
@@ -213,11 +244,13 @@ void xdb_diag_proc_begin
     DIAGNOSTICS FOR THE RETURN STATEMENT OF A PROCEDURE
 */
 
-void xdb_diag_proc_return
-    PROTO_Z ()
+void
+xdb_diag_proc_return(void)
 {
-    if ( diag_format == DIAG_XDB_NEW ) slt_exit () ;
-    return ;
+	if (diag_format == DIAG_XDB_NEW) {
+		slt_exit();
+	}
+	return;
 }
 
 
@@ -225,21 +258,20 @@ void xdb_diag_proc_return
     DIAGNOSTICS FOR THE END OF A PROCEDURE
 */
 
-void xdb_diag_proc_end
-    PROTO_N ( ( di ) )
-    PROTO_T ( diag_global *di )
+void
+xdb_diag_proc_end(diag_global *di)
 {
-    area ( ptext ) ;
-    if ( diag_format == DIAG_XDB_NEW ) {
-	mach_op *op1 = make_lab_data ( crt_diag_proc_lab, 0 ) ;
-	mach_op *op2 = make_extern_data ( ".-1", 0 ) ;
-	make_instr ( m_as_assign, op1, op2, 0 ) ;
-    } else if ( diag_format == DIAG_XDB_OLD ) {
-	make_label ( crt_diag_proc_lab ) ;
-    }
-    dnt_end () ;
-    area ( plast ) ;
-    return ;
+	area(ptext);
+	if (diag_format == DIAG_XDB_NEW) {
+		mach_op *op1 = make_lab_data(crt_diag_proc_lab, 0);
+		mach_op *op2 = make_extern_data(".-1", 0);
+		make_instr(m_as_assign, op1, op2, 0);
+	} else if (diag_format == DIAG_XDB_OLD) {
+		make_label(crt_diag_proc_lab);
+	}
+	dnt_end();
+	area(plast);
+	return;
 }
 
 
@@ -247,14 +279,13 @@ void xdb_diag_proc_end
     DIAGNOSTICS FOR THE START OF A VALUE
 */
 
-void xdb_diag_val_begin
-    PROTO_N ( ( di, pname, cname, is_ext ) )
-    PROTO_T ( diag_global *di X char *pname X long cname X int is_ext )
+void
+xdb_diag_val_begin(diag_global *di, char *pname, long cname, int is_ext)
 {
-    char *nm = di->data.id.nme.ints.chars ;
-    diag_type t = di->data.id.new_type ;
-    diag_globl_variable ( t, nm, !is_local ( pname ), pname, 1 ) ;
-    return ;
+	char *nm = di->data.id.nme.ints.chars;
+	diag_type t = di->data.id.new_type;
+	diag_globl_variable(t, nm, !is_local(pname), pname, 1);
+	return;
 }
 
 
@@ -262,19 +293,19 @@ void xdb_diag_val_begin
     OUTPUT GLOBAL TABLE
 */
 
-void OUTPUT_GLOBALS_TAB
-    PROTO_Z ()
+void
+OUTPUT_GLOBALS_TAB(void)
 {
-    diag_descriptor *di = unit_diagvar_tab.array ;
-    unsigned long i, n = unit_diagvar_tab.lastused ;
-    for ( i = 0 ; i < n ; i++ ) {
-	if ( di [i].key == DIAG_TYPEDEF_KEY ) {
-	    diag_type d = di [i].data.typ.new_type ;
-	    char *nm = di [i].data.typ.nme.ints.chars ;
-	    diag_type_defn ( nm, d ) ;
+	diag_descriptor *di = unit_diagvar_tab.array;
+	unsigned long i, n = unit_diagvar_tab.lastused;
+	for (i = 0; i < n; i++) {
+		if (di[i].key == DIAG_TYPEDEF_KEY) {
+			diag_type d = di[i].data.typ.new_type;
+			char *nm = di[i].data.typ.nme.ints.chars;
+			diag_type_defn(nm, d);
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -282,10 +313,10 @@ void OUTPUT_GLOBALS_TAB
     OUTPUT ALL DIAGNOSTIC TAGS
 */
 
-void OUTPUT_DIAG_TAGS
-    PROTO_Z ()
+void
+OUTPUT_DIAG_TAGS(void)
 {
-    return ;
+	return;
 }
 
 
@@ -293,13 +324,12 @@ void OUTPUT_DIAG_TAGS
     INSPECT FILENAME
 */
 
-void INSPECT_FILENAME
-    PROTO_N ( ( fn ) )
-    PROTO_T ( filename fn )
+void
+INSPECT_FILENAME(filename fn)
 {
-    char *nm = fn->file.ints.chars ;
-    diag_source ( nm, 1, 0 ) ;
-    return ;
+	char *nm = fn->file.ints.chars;
+	diag_source(nm, 1, 0);
+	return;
 }
 
 
@@ -307,28 +337,35 @@ void INSPECT_FILENAME
     COMPARE TWO DECLARATIONS
 */
 
-static bool cmp_dec
-    PROTO_N ( ( x, y ) )
-    PROTO_T ( dec *x X dec *y )
+static bool
+cmp_dec(dec *x, dec *y)
 {
-    int c ;
-    long lx, ly ;
-    char *fx, *fy ;
-    sourcemark *sx, *sy ;
-    diag_global *dx = x->dec_u.dec_val.diag_info ;
-    diag_global *dy = y->dec_u.dec_val.diag_info ;
-    if ( dy == null || dy->key != DIAG_ID_KEY ) return ( 0 ) ;
-    if ( dx == null || dx->key != DIAG_ID_KEY ) return ( 1 ) ;
-    sx = &( dx->data.id.whence ) ;
-    fx = sx->file->file.ints.chars ;
-    lx = sx->line_no.nat_val.small_nat ;
-    sy = &( dy->data.id.whence ) ;
-    fy = sy->file->file.ints.chars ;
-    ly = sy->line_no.nat_val.small_nat ;
-    c = strcmp ( (char*)sx, (char*)sy ) ;
-    if ( c < 0 ) return ( 0 ) ;
-    if ( c > 0 ) return ( 1 ) ;
-    return ( lx > ly ? 1 : 0 ) ;
+	int c;
+	long lx, ly;
+	char *fx, *fy;
+	sourcemark *sx, *sy;
+	diag_global *dx = x->dec_u.dec_val.diag_info;
+	diag_global *dy = y->dec_u.dec_val.diag_info;
+	if (dy == null || dy->key != DIAG_ID_KEY) {
+		return (0);
+	}
+	if (dx == null || dx->key != DIAG_ID_KEY) {
+		return (1);
+	}
+	sx = & (dx->data.id.whence);
+	fx = sx->file->file.ints.chars;
+	lx = sx->line_no.nat_val.small_nat;
+	sy = & (dy->data.id.whence);
+	fy = sy->file->file.ints.chars;
+	ly = sy->line_no.nat_val.small_nat;
+	c = strcmp((char *)sx, (char *)sy);
+	if (c < 0) {
+		return (0);
+	}
+	if (c > 0) {
+		return (1);
+	}
+	return (lx > ly ? 1 : 0);
 }
 
 
@@ -336,27 +373,28 @@ static bool cmp_dec
     SORT DECLARATION INTO ORDER
 */
 
-dec *sort_decs
-    PROTO_N ( ( p ) )
-    PROTO_T ( dec *p )
+dec *
+sort_decs(dec *p)
 {
-    dec *res = null ;
-    dec *x = p, *y ;
-    while ( x != null ) {
-	dec *nextx = x->def_next ;
-	dec *before = null ;
-	for ( y = res ; y != null ; y = y->def_next ) {
-	    if ( !cmp_dec ( x, y ) ) break ;
-	    before = y ;
+	dec *res = null;
+	dec *x = p, *y;
+	while (x != null) {
+		dec *nextx = x->def_next;
+		dec *before = null;
+		for (y = res; y != null; y = y->def_next) {
+			if (!cmp_dec(x, y)) {
+				break;
+			}
+			before = y;
+		}
+		if (before == null) {
+			x->def_next = res;
+			res = x;
+		} else {
+			x->def_next = before->def_next;
+			before->def_next = x;
+		}
+		x = nextx;
 	}
-	if ( before == null ) {
-	    x->def_next = res ;
-	    res = x ;
-	} else {
-	    x->def_next = before->def_next ;
-	    before->def_next = x ;
-	}
-	x = nextx ;
-    }
-    return ( res ) ;
+	return (res);
 }

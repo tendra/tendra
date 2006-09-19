@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -104,32 +134,31 @@ Imported from DRA
 */
 
 #ifdef hp_cc_conventions
-int cc_conventions = 1 ;
+int cc_conventions = 1;
 #else
-int cc_conventions = 0 ;
+int cc_conventions = 0;
 #endif
 
-bool reused_parameter
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+reused_parameter(exp e)
 {
-   bool reused = 0 ;
-   exp def, ident_exp ;
-   def = son ( e ) ;
-   if ( name ( def ) == name_tag ) {
-      ident_exp = son ( def ) ;
-      if ( ! isvar ( ident_exp ) ) {
-         /* This an obtain_tag of a parameter */
-         if ( name( son( ident_exp ) ) == formal_callee_tag) {
-            reused = cur_proc_use_same_callees ;
-         }
-         else {
-            /* caller parameter */
-            reused = cur_proc_has_tail_call ;
-         }
-      }
-   }
-   return reused ;
+	bool reused = 0;
+	exp def, ident_exp;
+	def = son(e);
+	if (name(def) == name_tag) {
+		ident_exp = son(def);
+		if (! isvar(ident_exp)) {
+			/* This an obtain_tag of a parameter */
+			if (name(son(ident_exp)) == formal_callee_tag) {
+				reused = cur_proc_use_same_callees;
+			}
+			else {
+				/* caller parameter */
+				reused = cur_proc_has_tail_call;
+			}
+		}
+	}
+	return reused;
 }
 
 /*
@@ -139,23 +168,26 @@ bool reused_parameter
     It has to have its visible flag false, and to be of a suitable shape.
 */
 
-bool regable
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+regable(exp e)
 {
-    shape sha ;
-    char n ;
-    long sz ;
+	shape sha;
+	char n;
+	long sz;
 
-    if ( isvis ( e ) ) return ( 0 ) ;
+	if (isvis(e)) {
+		return (0);
+	}
 
-    sha = sh ( son ( e ) ) ;
-    n = name ( sha ) ;
-    if ( n == realhd || n == doublehd ) return ( 1 ) ;
+	sha = sh(son(e));
+	n = name(sha);
+	if (n == realhd || n == doublehd) {
+		return (1);
+	}
 
-    sz = shape_size ( sha ) ;
+	sz = shape_size(sha);
 
-    return ( n != cpdhd && n != nofhd && sz <= 32 ) ;
+	return (n != cpdhd && n != nofhd && sz <= 32);
 }
 
 
@@ -165,19 +197,17 @@ bool regable
     This routine returns 1 if e has no side effects.
 */
 
-bool no_side
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+no_side(exp e)
 {
-    int n = name ( e ) ;
-    if ( n == ident_tag ) {
-	return ( no_side ( son ( e ) ) && (no_side ( bro ( son ( e ) ) ) ) ) ;
-    }
-    return ( is_a ( n ) || n == test_tag ||
-	     n == ass_tag || n == testbit_tag ) ;
+	int n = name(e);
+	if (n == ident_tag) {
+		return (no_side(son(e)) && (no_side(bro(son(e)))));
+	}
+	return (is_a(n) || n == test_tag || n == ass_tag || n == testbit_tag);
 }
 
-    char n ;
+    char n;
 
 /*
     IS AN EXP A PUSHABLE PROCEDURE ARGUMENT?
@@ -186,18 +216,21 @@ bool no_side
     the parameter of a procedure?
 */
 
-bool push_arg
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+push_arg(exp e)
 {
-    unsigned char n = name ( e ) ;
+	unsigned char n = name(e);
 
-    if ( is_a ( n ) ) return ( 1 ) ;
-    if ( n == apply_tag || n == apply_general_tag ) return ( reg_result ( sh ( e ) ) ) ;
-    if ( n == ident_tag ) {
-	return ( push_arg ( son ( e ) ) && push_arg ( bro ( son ( e ) ) ) ) ;
-    }
-    return ( 0 ) ;
+	if (is_a(n)) {
+		return (1);
+	}
+	if (n == apply_tag || n == apply_general_tag) {
+		return (reg_result(sh(e)));
+	}
+	if (n == ident_tag) {
+		return (push_arg(son(e)) && push_arg(bro(son(e))));
+	}
+	return (0);
 }
 
 
@@ -214,25 +247,32 @@ bool push_arg
 #define PTR_VOID_MIN	10
 #endif
 
-bool is_ptr_void
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+bool
+is_ptr_void(shape sha)
 {
-    bool go ;
-    int ptrs = 0 ;
-    exp t = son ( sha ) ;
-    if ( t == nilexp ) return ( 0 ) ;
-    do {
-	go = ( last ( t ) ? 0 : 1 ) ;
-	if ( name ( sh ( t ) ) != ptrhd ) return ( 0 ) ;
-	ptrs++ ;
-	t = bro ( t ) ;
-    } while ( go ) ;
-    if ( ptrs < PTR_VOID_MIN ) return ( 0 ) ;
+	bool go;
+	int ptrs = 0;
+	exp t = son(sha);
+	if (t == nilexp) {
+		return (0);
+	}
+	do {
+		go = (last(t) ? 0 : 1);
+		if (name(sh(t)) != ptrhd) {
+			return (0);
+		}
+		ptrs++;
+		t = bro(t);
+	} while (go);
+	if (ptrs < PTR_VOID_MIN) {
+		return (0);
+	}
 #ifdef PTR_VOID_MAX
-    if ( ptrs > PTR_VOID_MAX ) return ( 0 ) ;
+	if (ptrs > PTR_VOID_MAX) {
+		return (0);
+	}
 #endif
-    return ( 1 ) ;
+	return (1);
 }
 
 #endif
@@ -246,20 +286,18 @@ bool is_ptr_void
     procedure.
 */
 
-bool cpd_param
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+bool
+cpd_param(shape sha)
 {
-    char n = name ( sha ) ;
-    if ( !cc_conventions || n == bitfhd ) {
-	long sz = shape_size ( sha ) ;
-	if ( sz <= 32 ) return ( 0 ) ;
-    }
-    return ( n == cpdhd || n == nofhd || n == bitfhd
-
-            || n == s64hd || n == u64hd
-
-            ) ;
+	char n = name(sha);
+	if (!cc_conventions || n == bitfhd) {
+		long sz = shape_size(sha);
+		if (sz <= 32) {
+			return (0);
+		}
+	}
+	return (n == cpdhd || n == nofhd || n == bitfhd || n == s64hd ||
+		n == u64hd);
 }
 
 
@@ -275,19 +313,18 @@ bool cpd_param
 */
 
 
-int reg_result
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+int
+reg_result(shape sha)
 {
-    char n = name ( sha ) ;
-    if ( cc_conventions ) {
-	/* HP cc doesn't return any tuples, unions etc in a register */
-	return ( n != cpdhd && n != nofhd ) ;
-    } else {
-	/* Return anything of size <= 32 or 64 in a register */
-	long sz = shape_size ( sha ) ;
-	return ( sz <= 32 || sz == 64 ) ;
-    }
+	char n = name(sha);
+	if (cc_conventions) {
+		/* HP cc doesn't return any tuples, unions etc in a register */
+		return (n != cpdhd && n != nofhd);
+	} else {
+		/* Return anything of size <= 32 or 64 in a register */
+		long sz = shape_size(sha);
+		return (sz <= 32 || sz == 64);
+	}
 }
 
 
@@ -297,11 +334,10 @@ int reg_result
     This routine returns 1 if sha involves an array.
 */
 
-bool varsize
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+bool
+varsize(shape sha)
 {
-    return ( name ( sha ) == nofhd ? 1 : 0 ) ;
+	return (name(sha) == nofhd ? 1 : 0);
 }
 
 #if 0
@@ -314,13 +350,14 @@ Use is_signed macro instead
     and 0 otherwise.
 */
 
-bool issigned
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+bool
+issigned(shape sha)
 {
-    char n = name ( sha ) ;
-    if ( n == ucharhd || n == uwordhd || n == ulonghd ) return ( 0 ) ;
-    return ( 1 ) ;
+	char n = name(sha);
+	if (n == ucharhd || n == uwordhd || n == ulonghd) {
+		return (0);
+	}
+	return (1);
 }
 #endif
 
@@ -331,20 +368,21 @@ bool issigned
     for all its uses or not.
 */
 
-int do_sub_params = 1 ;
+int do_sub_params = 1;
 
-int check_anyway
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int
+check_anyway(exp e)
 {
 #ifndef tdf3
-   return 0 ;
+	return 0;
 #else
-    if ( do_sub_params ) {
-	setmarked ( e ) ;
-	if ( no ( e ) > 2 ) return ( 1 ) ;
-    }
-    return ( 0 ) ;
+	if (do_sub_params) {
+		setmarked(e);
+		if (no(e) > 2) {
+			return (1);
+		}
+	}
+	return (0);
 #endif
 }
 
@@ -353,15 +391,14 @@ int check_anyway
     IS IT WORTH EXTRACTING A CONSTANT?
 */
 
-int is_worth
-    PROTO_N ( ( c ) )
-    PROTO_T ( exp c )
+int
+is_worth(exp c)
 {
-  unsigned char cnam = name ( c ) ;
-  return ( ( !is_o ( cnam ) && cnam != clear_tag ) ||
-      /* ignore simple things unless ... */
-      ( cnam == cont_tag && name ( son ( c ) ) == cont_tag &&
-	name ( son ( son ( c ) ) )  == name_tag ) ||
-      ( cnam == name_tag && isparam ( son ( c ) ) && !isvar ( son ( c ) ) &&
-	shape_size ( sh ( c ) ) <= 32 && name ( sh ( c ) ) != shrealhd ) ) ;
+	unsigned char cnam = name(c);
+	return ((!is_o(cnam) && cnam != clear_tag) ||
+		/* ignore simple things unless ... */
+		(cnam == cont_tag && name(son(c)) == cont_tag &&
+		 name(son(son(c))) == name_tag) ||
+		(cnam == name_tag && isparam(son(c)) && !isvar(son(c)) &&
+		 shape_size(sh(c)) <= 32 && name(sh(c)) != shrealhd));
 }

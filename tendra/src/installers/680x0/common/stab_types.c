@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -83,17 +113,16 @@ Imported from DRA
     CREATE A STABS INSTRUCTION
 */
 
-void make_stabs
-    PROTO_N ( ( s, a, b, op ) )
-    PROTO_T ( char *s X int a X long b X mach_op *op )
+void
+make_stabs(char *s, int a, long b, mach_op *op)
 {
-    mach_op *p = make_extern_data ( s, 0 ) ;
-    p->of = make_int_data ( ( long ) a ) ;
-    p->of->of = make_int_data ( 0 ) ;
-    p->of->of->of = make_int_data ( b ) ;
-    p->of->of->of->of = ( op ? op : make_int_data ( 0 ) ) ;
-    make_instr ( m_stabs, p, null, 0 ) ;
-    return ;
+	mach_op *p = make_extern_data(s, 0);
+	p->of = make_int_data((long)a);
+	p->of->of = make_int_data(0);
+	p->of->of->of = make_int_data(b);
+	p->of->of->of->of = (op ? op : make_int_data(0));
+	make_instr(m_stabs, p, null, 0);
+	return;
 }
 
 
@@ -101,16 +130,15 @@ void make_stabs
     CREATE A STABN INSTRUCTION
 */
 
-void make_stabn
-    PROTO_N ( ( a, lab ) )
-    PROTO_T ( int a X long lab )
+void
+make_stabn(int a, long lab)
 {
-    mach_op *p = make_int_data ( ( long ) a ) ;
-    p->of = make_int_data ( 0 ) ;
-    p->of->of = make_int_data ( 0 ) ;
-    p->of->of->of = make_lab_data ( lab, 0 ) ;
-    make_instr ( m_stabn, p, null, 0 ) ;
-    return ;
+	mach_op *p = make_int_data((long)a);
+	p->of = make_int_data(0);
+	p->of->of = make_int_data(0);
+	p->of->of->of = make_lab_data(lab, 0);
+	make_instr(m_stabn, p, null, 0);
+	return;
 }
 
 
@@ -121,35 +149,35 @@ void make_stabn
 #define TSIZE 100
 
 typedef struct page_tag {
-    int index ;
-    char text [ TSIZE ] ;
-    struct page_tag *next ;
-} page ;
+	int index;
+	char text[TSIZE];
+	struct page_tag *next;
+} page;
 
 
 /*
     LIST OF FREE PAGES
 */
 
-static page *free_pages = null ;
+static page *free_pages = null;
 
 
 /*
     CREATE A NEW PAGE
 */
 
-static page *new_page
-    PROTO_Z ()
+static page *
+new_page(void)
 {
-    page *p = free_pages ;
-    if ( p == null ) {
-	p = alloc_nof ( page, 1 ) ;
-    } else {
-	free_pages = p->next ;
-    }
-    p->index = 0 ;
-    p->next = null ;
-    return ( p ) ;
+	page *p = free_pages;
+	if (p == null) {
+		p = alloc_nof(page, 1);
+	} else {
+		free_pages = p->next;
+	}
+	p->index = 0;
+	p->next = null;
+	return (p);
 }
 
 
@@ -157,23 +185,22 @@ static page *new_page
     ADD A STRING TO A PAGE
 */
 
-static page *sprint_string
-    PROTO_N ( ( p, s ) )
-    PROTO_T ( page *p X char *s )
+static page *
+sprint_string(page *p, char *s)
 {
-    int i = p->index ;
-    for ( ; *s ; s++ ) {
-	if ( i >= TSIZE ) {
-	    p->index = TSIZE ;
-	    p->next = new_page () ;
-	    p = p->next ;
-	    i = 0 ;
+	int i = p->index;
+	for (; *s; s++) {
+		if (i >= TSIZE) {
+			p->index = TSIZE;
+			p->next = new_page();
+			p = p->next;
+			i = 0;
+		}
+		p->text[i] = *s;
+		i++;
 	}
-	p->text [i] = *s ;
-	i++ ;
-    }
-    p->index = i ;
-    return ( p ) ;
+	p->index = i;
+	return (p);
 }
 
 
@@ -181,13 +208,12 @@ static page *sprint_string
     ADD A NUMBER TO A PAGE
 */
 
-static page *sprint_number
-    PROTO_N ( ( p, n ) )
-    PROTO_T ( page *p X long n )
+static page *
+sprint_number(page *p, long n)
 {
-    char buff [100] ;
-    ( void ) sprintf ( buff, "%ld", n ) ;
-    return ( sprint_string ( p, buff ) ) ;
+	char buff[100];
+	(void)sprintf(buff, "%ld", n);
+	return (sprint_string(p, buff));
 }
 
 
@@ -195,15 +221,16 @@ static page *sprint_number
     CREATE A NEW STAB TYPE
 */
 
-static char *new_stab_type
-    PROTO_N ( ( dt ) )
-    PROTO_T ( diag_type dt )
+static char *
+new_stab_type(diag_type dt)
 {
-    static long next_stab_type = 16 ;
-    char *res = alloc_nof ( char, 8 ) ;
-    sprintf ( res, "%ld", next_stab_type++ ) ;
-    if ( dt ) dt->been_outed = ( OUTPUT_REC ) res ;
-    return ( res ) ;
+	static long next_stab_type = 16;
+	char *res = alloc_nof(char, 8);
+	sprintf(res, "%ld", next_stab_type++);
+	if (dt) {
+		dt->been_outed = (OUTPUT_REC)res;
+	}
+	return (res);
 }
 
 
@@ -211,7 +238,7 @@ static char *new_stab_type
     SIZE OF LAST TYPE ANALYSED
 */
 
-static long last_type_sz = 0 ;
+static long last_type_sz = 0;
 
 
 /*
@@ -236,54 +263,57 @@ static long last_type_sz = 0 ;
     TABLE OF SIMPLE STAB TYPES
 */
 
-static char *stab_tab [] = {
-    "2", "11", "6", "8", "1", "4", "12", "13", "14", "15",
-    null, null, null, null, null, null, null, null, null, null
-} ;
+static char *stab_tab[] = {
+	"2", "11", "6", "8", "1", "4", "12", "13", "14", "15",
+	null, null, null, null, null, null, null, null, null, null
+};
 
 
 /*
     TEST IF A TYPE IS SIMPLE
 */
 
-static int test_type
-    PROTO_N ( ( dt ) )
-    PROTO_T ( diag_type dt )
+static int
+test_type(diag_type dt)
 {
-    switch ( dt->key ) {
-
-	case DIAG_TYPE_FLOAT : {
-	    shape sha = f_floating ( dt->data.f_var ) ;
-	    last_type_sz = shape_size ( sha ) ;
-	    if ( name ( sha ) == shrealhd ) return ( STAB_FLOAT ) ;
-	    if ( name ( sha ) == realhd ) return ( STAB_DOUBLE ) ;
-	    return ( STAB_LDOUBLE ) ;
+	switch (dt->key) {
+	case DIAG_TYPE_FLOAT: {
+		shape sha = f_floating(dt->data.f_var);
+		last_type_sz = shape_size(sha);
+		if (name(sha) == shrealhd) {
+			return (STAB_FLOAT);
+		}
+		if (name(sha) == realhd) {
+			return (STAB_DOUBLE);
+		}
+		return (STAB_LDOUBLE);
 	}
-
-	case DIAG_TYPE_VARIETY : {
-	    shape sha = f_integer ( dt->data.var ) ;
-	    last_type_sz = shape_size ( sha ) ;
-	    switch ( name ( sha ) ) {
-		case scharhd : return ( STAB_SCHAR ) ;
-		case swordhd : return ( STAB_SWORD ) ;
-		case slonghd : return ( STAB_SLONG ) ;
-		case ucharhd : return ( STAB_UCHAR ) ;
-		case uwordhd : return ( STAB_UWORD ) ;
-		case ulonghd : return ( STAB_ULONG ) ;
-	    }
-	    break ;
+	case DIAG_TYPE_VARIETY: {
+		shape sha = f_integer(dt->data.var);
+		last_type_sz = shape_size(sha);
+		switch (name(sha)) {
+		case scharhd:
+			return (STAB_SCHAR);
+		case swordhd:
+			return (STAB_SWORD);
+		case slonghd:
+			return (STAB_SLONG);
+		case ucharhd:
+			return (STAB_UCHAR);
+		case uwordhd:
+			return (STAB_UWORD);
+		case ulonghd:
+			return (STAB_ULONG);
+		}
+		break;
 	}
-
-	case DIAG_TYPE_NULL : {
-	    last_type_sz = 0 ;
-	    return ( STAB_VOID ) ;
+	case DIAG_TYPE_NULL:
+		last_type_sz = 0;
+		return (STAB_VOID);
+	default:
+		break;
 	}
-
-	default : {
-	    break ;
-	}
-    }
-    return ( STAB_COMPLEX ) ;
+	return (STAB_COMPLEX);
 }
 
 
@@ -291,187 +321,174 @@ static int test_type
     BUILD UP A STAB TYPE IN A BUFFER
 */
 
-static page *build_stab_type
-    PROTO_N ( ( dt, ptr ) )
-    PROTO_T ( diag_type dt X page *ptr )
+static page *
+build_stab_type(diag_type dt, page *ptr)
 {
-    switch ( dt->key ) {
-
-	case DIAG_TYPE_FLOAT :
-	case DIAG_TYPE_NULL :
-	case DIAG_TYPE_VARIETY : {
-	    /* Simple types */
-	    int t = test_type ( dt ) ;
-	    ptr = sprint_string ( ptr, stab_tab [t] ) ;
-	    break ;
+	switch (dt->key) {
+	case DIAG_TYPE_FLOAT:
+	case DIAG_TYPE_NULL:
+	case DIAG_TYPE_VARIETY: {
+		/* Simple types */
+		int t = test_type(dt);
+		ptr = sprint_string(ptr, stab_tab[t]);
+		break;
 	}
-
-	case DIAG_TYPE_ARRAY : {
-	    diag_type dtl = dt->data.array.element_type ;
-	    long lo = no ( dt->data.array.lower_b ) ;
-	    long hi = no ( dt->data.array.upper_b ) ;
-	    char *stl = analyse_stab_type ( dtl, null, null ) ;
-	    ptr = sprint_string ( ptr, new_stab_type ( dt ) ) ;
-	    ptr = sprint_string ( ptr, "=ar1;" ) ;
-	    ptr = sprint_number ( ptr, lo ) ;
-	    ptr = sprint_string ( ptr, ";" ) ;
-	    ptr = sprint_number ( ptr, hi ) ;
-	    ptr = sprint_string ( ptr, ";" ) ;
-	    ptr = sprint_string ( ptr, stl ) ;
-	    last_type_sz *= ( hi - lo + 1 ) ;
-	    break ;
+	case DIAG_TYPE_ARRAY: {
+		diag_type dtl = dt->data.array.element_type;
+		long lo = no(dt->data.array.lower_b);
+		long hi = no(dt->data.array.upper_b);
+		char *stl = analyse_stab_type(dtl, null, null);
+		ptr = sprint_string(ptr, new_stab_type(dt));
+		ptr = sprint_string(ptr, "=ar1;");
+		ptr = sprint_number(ptr, lo);
+		ptr = sprint_string(ptr, ";");
+		ptr = sprint_number(ptr, hi);
+		ptr = sprint_string(ptr, ";");
+		ptr = sprint_string(ptr, stl);
+		last_type_sz *= (hi - lo + 1);
+		break;
 	}
-
-	case DIAG_TYPE_BITFIELD : {
-	    long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat ;
-	    ptr = sprint_string ( ptr, "1" ) ;
-	    last_type_sz = sz ;
-	    break ;
+	case DIAG_TYPE_BITFIELD: {
+		long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat;
+		ptr = sprint_string(ptr, "1");
+		last_type_sz = sz;
+		break;
 	}
-
-	case DIAG_TYPE_ENUM : {
-	    /* Not yet supported */
-	    ptr = sprint_string ( ptr, "1" ) ;
-	    last_type_sz = 32 ;
-	    break ;
+	case DIAG_TYPE_ENUM:
+		/* Not yet supported */
+		ptr = sprint_string(ptr, "1");
+		last_type_sz = 32;
+		break;
+	case DIAG_TYPE_LOC: {
+		diag_type dtl = dt->data.loc.object;
+		ptr = build_stab_type(dtl, ptr);
+		break;
 	}
-
-	case DIAG_TYPE_LOC : {
-	    diag_type dtl = dt->data.loc.object ;
-	    ptr = build_stab_type ( dtl, ptr ) ;
-	    break ;
+	case DIAG_TYPE_PROC: {
+		diag_type dtl = dt->data.proc.result_type;
+		char *stl = analyse_stab_type(dtl, null, null);
+		ptr = sprint_string(ptr, new_stab_type(dt));
+		ptr = sprint_string(ptr, "=*");
+		ptr = sprint_string(ptr, new_stab_type(null));
+		ptr = sprint_string(ptr, "=f");
+		ptr = sprint_string(ptr, stl);
+		last_type_sz = 32;
+		break;
 	}
-
-	case DIAG_TYPE_PROC : {
-	    diag_type dtl = dt->data.proc.result_type ;
-	    char *stl = analyse_stab_type ( dtl, null, null ) ;
-	    ptr = sprint_string ( ptr, new_stab_type ( dt ) ) ;
-	    ptr = sprint_string ( ptr, "=*" ) ;
-	    ptr = sprint_string ( ptr, new_stab_type ( null ) ) ;
-	    ptr = sprint_string ( ptr, "=f" ) ;
-	    ptr = sprint_string ( ptr, stl ) ;
-	    last_type_sz = 32 ;
-	    break ;
-	}
-
-	case DIAG_TYPE_PTR : {
-	    diag_type dtl = dt->data.ptr.object ;
-	    int t = test_type ( dtl ) ;
-	    if ( t != STAB_COMPLEX ) {
-		char *st = stab_tab [ STAB_PTR + t ] ;
-		if ( st ) {
-		    ptr = sprint_string ( ptr, st ) ;
+	case DIAG_TYPE_PTR: {
+		diag_type dtl = dt->data.ptr.object;
+		int t = test_type(dtl);
+		if (t != STAB_COMPLEX) {
+			char *st = stab_tab[STAB_PTR + t];
+			if (st) {
+				ptr = sprint_string(ptr, st);
+			} else {
+				st = new_stab_type(null);
+				stab_tab[STAB_PTR + t] = st;
+				ptr = sprint_string(ptr, st);
+				ptr = sprint_string(ptr, "=*");
+				ptr = sprint_string(ptr, stab_tab[t]);
+			}
 		} else {
-		    st = new_stab_type ( null ) ;
-		    stab_tab [ STAB_PTR + t ] = st ;
-		    ptr = sprint_string ( ptr, st ) ;
-		    ptr = sprint_string ( ptr, "=*" ) ;
-		    ptr = sprint_string ( ptr, stab_tab [t] ) ;
+			char *stl = analyse_stab_type(dtl, null, null);
+			ptr = sprint_string(ptr, new_stab_type(dt));
+			ptr = sprint_string(ptr, "=*");
+			ptr = sprint_string(ptr, stl);
 		}
-	    } else {
-		char *stl = analyse_stab_type ( dtl, null, null ) ;
-		ptr = sprint_string ( ptr, new_stab_type ( dt ) ) ;
-		ptr = sprint_string ( ptr, "=*" ) ;
-		ptr = sprint_string ( ptr, stl ) ;
-	    }
-	    last_type_sz = 32 ;
-	    break ;
+		last_type_sz = 32;
+		break;
 	}
-
-	case DIAG_TYPE_STRUCT : {
-	    char *nm = dt->data.t_struct.nme.ints.chars ;
-	    if ( *nm ) {
-		char *res ;
-		dt->data.t_struct.nme.ints.chars = "" ;
-		res = analyse_stab_type ( dt, nm, "T" ) ;
-		dt->data.t_struct.nme.ints.chars = nm ;
-		make_stabs ( res, 128, L0, null ) ;
-		res = ( char * ) dt->been_outed ;
-		ptr = sprint_string ( ptr, res ) ;
-	    } else {
-		shape sha = dt->data.t_struct.tdf_shape ;
-		long sz = shape_size ( sha ) ;
+	case DIAG_TYPE_STRUCT: {
+		char *nm = dt->data.t_struct.nme.ints.chars;
+		if (*nm) {
+			char *res;
+			dt->data.t_struct.nme.ints.chars = "";
+			res = analyse_stab_type(dt, nm, "T");
+			dt->data.t_struct.nme.ints.chars = nm;
+			make_stabs(res, 128, L0, null);
+			res = (char *)dt->been_outed;
+			ptr = sprint_string(ptr, res);
+		} else {
+			shape sha = dt->data.t_struct.tdf_shape;
+			long sz = shape_size(sha);
 #if 0
-		struct_fields *fld = dt->data.t_struct.fields->array ;
+			struct_fields *fld = dt->data.t_struct.fields->array;
 #else
-		diag_field *fld = dt->data.t_struct.fields->array ;
+			diag_field *fld = dt->data.t_struct.fields->array;
 #endif
-		long i, n = ( long ) dt->data.t_struct.fields->lastused ;
+			long i, n = (long)dt->data.t_struct.fields->lastused;
 
-		ptr = sprint_string ( ptr, new_stab_type ( dt ) ) ;
-		ptr = sprint_string ( ptr, "=s" ) ;
-		ptr = sprint_number ( ptr, sz / 8 ) ;
+			ptr = sprint_string(ptr, new_stab_type(dt));
+			ptr = sprint_string(ptr, "=s");
+			ptr = sprint_number(ptr, sz / 8);
 
-		/* Deal with structure fields */
-		for ( i = n - 1 ; i >= 0 ; i-- ) {
-		    char *fnm = fld [i]->field_name.ints.chars ;
-		    long off = no ( fld [i]->where ) ;
-		    diag_type dtl = fld [i]->field_type ;
-		    char *q = analyse_stab_type ( dtl, null, null ) ;
-		    ptr = sprint_string ( ptr, fnm ) ;
-		    ptr = sprint_string ( ptr, ":" ) ;
-		    ptr = sprint_string ( ptr, q ) ;
-		    ptr = sprint_string ( ptr, "," ) ;
-		    ptr = sprint_number ( ptr, off ) ;
-		    ptr = sprint_string ( ptr, "," ) ;
-		    ptr = sprint_number ( ptr, last_type_sz ) ;
-		    ptr = sprint_string ( ptr, ";" ) ;
+			/* Deal with structure fields */
+			for (i = n - 1; i >= 0; i--) {
+				char *fnm = fld[i] ->field_name.ints.chars;
+				long off = no(fld[i] ->where);
+				diag_type dtl = fld[i] ->field_type;
+				char *q = analyse_stab_type(dtl, null, null);
+				ptr = sprint_string(ptr, fnm);
+				ptr = sprint_string(ptr, ":");
+				ptr = sprint_string(ptr, q);
+				ptr = sprint_string(ptr, ",");
+				ptr = sprint_number(ptr, off);
+				ptr = sprint_string(ptr, ",");
+				ptr = sprint_number(ptr, last_type_sz);
+				ptr = sprint_string(ptr, ";");
+			}
+			ptr = sprint_string(ptr, ";");
+			last_type_sz = sz;
 		}
-		ptr = sprint_string ( ptr, ";" ) ;
-		last_type_sz = sz ;
-	    }
-	    break ;
+		break;
 	}
-
-	case DIAG_TYPE_UNION : {
-	    char *nm = dt->data.t_union.nme.ints.chars ;
-	    if ( *nm ) {
-		char *res ;
-		dt->data.t_struct.nme.ints.chars = "" ;
-		res = analyse_stab_type ( dt, nm, "T" ) ;
-		dt->data.t_struct.nme.ints.chars = nm ;
-		make_stabs ( res, 128, L0, null ) ;
-		res = ( char * ) dt->been_outed ;
-		ptr = sprint_string ( ptr, res ) ;
-	    } else {
-		shape sha = dt->data.t_union.tdf_shape ;
-		long sz = shape_size ( sha ) ;
+	case DIAG_TYPE_UNION: {
+		char *nm = dt->data.t_union.nme.ints.chars;
+		if (*nm) {
+			char *res;
+			dt->data.t_struct.nme.ints.chars = "";
+			res = analyse_stab_type(dt, nm, "T");
+			dt->data.t_struct.nme.ints.chars = nm;
+			make_stabs(res, 128, L0, null);
+			res = (char *)dt->been_outed;
+			ptr = sprint_string(ptr, res);
+		} else {
+			shape sha = dt->data.t_union.tdf_shape;
+			long sz = shape_size(sha);
 #if 0
-		union_fields *fld = dt->data.t_union.fields->array ;
+			union_fields *fld = dt->data.t_union.fields->array;
 #else
-		diag_field *fld = dt->data.t_union.fields->array ;
+			diag_field *fld = dt->data.t_union.fields->array;
 #endif
-		long i, n = ( long ) dt->data.t_union.fields->lastused ;
+			long i, n = (long)dt->data.t_union.fields->lastused;
 
-		ptr = sprint_string ( ptr, new_stab_type ( dt ) ) ;
-		ptr = sprint_string ( ptr, "=u" ) ;
-		ptr = sprint_number ( ptr, sz / 8 ) ;
+			ptr = sprint_string(ptr, new_stab_type(dt));
+			ptr = sprint_string(ptr, "=u");
+			ptr = sprint_number(ptr, sz / 8);
 
-		/* Deal with union fields */
-		for ( i = n - 1 ; i >= 0 ; i-- ) {
-		    char *fnm = fld [i]->field_name.ints.chars ;
-		    diag_type dtl = fld [i]->field_type ;
-		    char *q = analyse_stab_type ( dtl, null, null ) ;
-		    ptr = sprint_string ( ptr, fnm ) ;
-		    ptr = sprint_string ( ptr, ":" ) ;
-		    ptr = sprint_string ( ptr, q ) ;
-		    ptr = sprint_string ( ptr, ",0," ) ;
-		    ptr = sprint_number ( ptr, last_type_sz ) ;
-		    ptr = sprint_string ( ptr, ";" ) ;
+			/* Deal with union fields */
+			for (i = n - 1; i >= 0; i--) {
+				char *fnm = fld[i] ->field_name.ints.chars;
+				diag_type dtl = fld[i] ->field_type;
+				char *q = analyse_stab_type(dtl, null, null);
+				ptr = sprint_string(ptr, fnm);
+				ptr = sprint_string(ptr, ":");
+				ptr = sprint_string(ptr, q);
+				ptr = sprint_string(ptr, ",0,");
+				ptr = sprint_number(ptr, last_type_sz);
+				ptr = sprint_string(ptr, ";");
+			}
+			ptr = sprint_string(ptr, ";");
+			last_type_sz = sz;
 		}
-		ptr = sprint_string ( ptr, ";" ) ;
-		last_type_sz = sz ;
-	    }
-	    break ;
+		break;
 	}
-
-	default : {
-	    ptr = sprint_string ( ptr, "15" ) ;
-	    last_type_sz = 0 ;
-	    break ;
+	default:
+		ptr = sprint_string(ptr, "15");
+		last_type_sz = 0;
+		break;
 	}
-    }
-    return ( ptr ) ;
+	return (ptr);
 }
 
 
@@ -479,46 +496,53 @@ static page *build_stab_type
     FIND A STAB TYPE
 */
 
-char *analyse_stab_type
-    PROTO_N ( ( dt, nm, cl ) )
-    PROTO_T ( diag_type dt X char *nm X char *cl )
+char *
+analyse_stab_type(diag_type dt, char *nm, char *cl)
 {
-    int n = 0 ;
-    page *ptr, *p ;
-    char *res = ( char * ) dt->been_outed ;
-    if ( res && nm == null && cl == null ) return ( res ) ;
-    p = ptr = new_page () ;
-    if ( nm ) {
-	p = sprint_string ( p, "\"" ) ;
-	p = sprint_string ( p, nm ) ;
-    }
-    if ( cl ) {
-	p = sprint_string ( p, ":" ) ;
-	p = sprint_string ( p, cl ) ;
-    }
-    if ( res ) {
-	p = sprint_string ( p, res ) ;
-    } else {
-	p = build_stab_type ( dt, p ) ;
-    }
-    if ( nm ) p = sprint_string ( p, "\"" ) ;
+	int n = 0;
+	page *ptr, *p;
+	char *res = (char *)dt->been_outed;
+	if (res && nm == null && cl == null) {
+		return (res);
+	}
+	p = ptr = new_page();
+	if (nm) {
+		p = sprint_string(p, "\"");
+		p = sprint_string(p, nm);
+	}
+	if (cl) {
+		p = sprint_string(p, ":");
+		p = sprint_string(p, cl);
+	}
+	if (res) {
+		p = sprint_string(p, res);
+	} else {
+		p = build_stab_type(dt, p);
+	}
+	if (nm) {
+		p = sprint_string(p, "\"");
+	}
 
-    /* Copy accumulated string */
-    for ( p = ptr ; p ; p = p->next ) n += p->index ;
-    res = alloc_nof ( char, n + 1 ) ;
-    n = 0 ;
-    for ( p = ptr ; p ; p = p->next ) {
-	strncpy ( res + n, p->text, p->index ) ;
-	n += p->index ;
-    }
-    res [n] = 0 ;
+	/* Copy accumulated string */
+	for (p = ptr; p; p = p->next) {
+		n += p->index;
+	}
+	res = alloc_nof(char, n + 1);
+	n = 0;
+	for (p = ptr; p; p = p->next) {
+		strncpy(res + n, p->text, p->index);
+		n += p->index;
+	}
+	res[n] = 0;
 
-    /* Free pages */
-    p =  ptr ;
-    while ( p->next ) p = p->next ;
-    p->next = free_pages ;
-    free_pages = ptr ;
-    return ( res ) ;
+	/* Free pages */
+	p =  ptr;
+	while (p->next) {
+		p = p->next;
+	}
+	p->next = free_pages;
+	free_pages = ptr;
+	return (res);
 }
 
 
@@ -526,29 +550,29 @@ char *analyse_stab_type
     INITIALIZE BASIC STAB TYPES
 */
 
-void init_stab_types
-    PROTO_Z ()
+void
+init_stab_types(void)
 {
-    static char *stab_types [] = {
-	"\"int:t1=r1;-2147483648;2147483647;\"",
-	"\"char:t2=r2;0;127;\"",
-	"\"long int:t3=r1;-2147483648;2147483647;\"",
-	"\"unsigned int:t4=r1;0;-1;\"",
-	"\"long unsigned int:t5=r1;0;-1;\"",
-	"\"short int:t6=r1;-32768;32767;\"",
-	"\"long long int:t7=r1;0;-1;\"",
-	"\"short unsigned int:t8=r1;0;65535;\"",
-	"\"long long unsigned int:t9=r1;0;-1;\"",
-	"\"signed char:t10=r1;-128;127;\"",
-	"\"unsigned char:t11=r1;0;255;\"",
-	"\"float:t12=r1;4;0;\"",
-	"\"double:t13=r1;8;0;\"",
-	"\"long double:t14=r1;8;0;\"",
-	"\"void:t15=15\""
-    } ;
-    int i ;
-    for ( i = 0 ; i < 15 ; i++ ) {
-	make_stabs ( stab_types [i], 128, L0, null ) ;
-    }
-    return ;
+	static char *stab_types[] = {
+		"\"int:t1=r1;-2147483648;2147483647;\"",
+		"\"char:t2=r2;0;127;\"",
+		"\"long int:t3=r1;-2147483648;2147483647;\"",
+		"\"unsigned int:t4=r1;0;-1;\"",
+		"\"long unsigned int:t5=r1;0;-1;\"",
+		"\"short int:t6=r1;-32768;32767;\"",
+		"\"long long int:t7=r1;0;-1;\"",
+		"\"short unsigned int:t8=r1;0;65535;\"",
+		"\"long long unsigned int:t9=r1;0;-1;\"",
+		"\"signed char:t10=r1;-128;127;\"",
+		"\"unsigned char:t11=r1;0;255;\"",
+		"\"float:t12=r1;4;0;\"",
+		"\"double:t13=r1;8;0;\"",
+		"\"long double:t14=r1;8;0;\"",
+		"\"void:t15=15\""
+	};
+	int i;
+	for (i = 0; i < 15; i++) {
+		make_stabs(stab_types[i], 128, L0, null);
+	}
+	return;
 }

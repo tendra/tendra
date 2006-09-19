@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1996
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -79,10 +109,10 @@ Imported from DRA
 #include "basicread.h"
 #include "instrs.h"
 #include "utility.h"
-extern long crt_line_num ;
-extern char *crt_fname ;
-extern char *progname ;
-long total_calloced ;
+extern long crt_line_num;
+extern char *crt_fname;
+extern char *progname;
+long total_calloced;
 #if 0
 /* Makes automatically generated makefile work */
 #include "xalloc.c"
@@ -96,13 +126,16 @@ long total_calloced ;
     last '/' is returned.
 */
 
-char *basename
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+char *
+basename(char *nm)
 {
-    char *bn = nm ;
-    for ( ; *nm ; nm++ ) if ( *nm == '/' ) bn = nm + 1 ;
-    return ( bn ) ;
+	char *bn = nm;
+	for (; *nm; nm++) {
+		if (*nm == '/') {
+			bn = nm + 1;
+		}
+	}
+	return (bn);
 }
 
 
@@ -113,14 +146,17 @@ char *basename
     bit in n.  For 0 it returns -1.
 */
 
-int bit_one
-    PROTO_N ( ( n ) )
-    PROTO_T ( bitpattern n )
+int
+bit_one(bitpattern n)
 {
-    int c = 0 ;
-    bitpattern m ;
-    for ( m = n ; m ; m >>= 1, c++ ) if ( m & 1 ) return ( c ) ;
-    return ( -1 ) ;
+	int c = 0;
+	bitpattern m;
+	for (m = n; m; m >>= 1, c++) {
+		if (m & 1) {
+			return (c);
+		}
+	}
+	return (-1);
 }
 
 
@@ -130,18 +166,17 @@ int bit_one
     The number of set bits in n is returned.
 */
 
-int bits_in
-    PROTO_N ( ( n ) )
-    PROTO_T ( bitpattern n )
+int
+bits_in(bitpattern n)
 {
-    /* Table of bits in : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F */
-    static int b [16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 } ;
-    int c = 0 ;
-    while ( n ) {
-	c += b [ n & 0xf ] ;
-	n >>= 4 ;
-    }
-    return ( c ) ;
+	/* Table of bits in : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F */
+	static int b[16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
+	int c = 0;
+	while (n) {
+		c += b[n & 0xf];
+		n >>= 4;
+	}
+	return (c);
 }
 
 
@@ -153,85 +188,89 @@ int bits_in
     zero.
 */
 
-bitpattern lo_bits [] = { 0,
-    0x00000001, 0x00000003, 0x00000007, 0x0000000f,
-    0x0000001f, 0x0000003f, 0x0000007f, 0x000000ff,
-    0x000001ff, 0x000003ff, 0x000007ff, 0x00000fff,
-    0x00001fff, 0x00003fff, 0x00007fff, 0x0000ffff,
-    0x0001ffff, 0x0003ffff, 0x0007ffff, 0x000fffff,
-    0x001fffff, 0x003fffff, 0x007fffff, 0x00ffffff,
-    0x01ffffff, 0x03ffffff, 0x07ffffff, 0x0fffffff,
-    0x1fffffff, 0x3fffffff, 0x7fffffff, 0xffffffff } ;
+bitpattern lo_bits[] = { 0,
+	0x00000001, 0x00000003, 0x00000007, 0x0000000f,
+	0x0000001f, 0x0000003f, 0x0000007f, 0x000000ff,
+	0x000001ff, 0x000003ff, 0x000007ff, 0x00000fff,
+	0x00001fff, 0x00003fff, 0x00007fff, 0x0000ffff,
+	0x0001ffff, 0x0003ffff, 0x0007ffff, 0x000fffff,
+	0x001fffff, 0x003fffff, 0x007fffff, 0x00ffffff,
+	0x01ffffff, 0x03ffffff, 0x07ffffff, 0x0fffffff,
+	0x1fffffff, 0x3fffffff, 0x7fffffff, 0xffffffff };
 
-bitpattern hi_bits [] = { 0,
-    0x80000000, 0xc0000000, 0xe0000000, 0xf0000000,
-    0xf8000000, 0xfc000000, 0xfe000000, 0xff000000,
-    0xff800000, 0xffc00000, 0xffe00000, 0xfff00000,
-    0xfff80000, 0xfffc0000, 0xfffe0000, 0xffff0000,
-    0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000,
-    0xfffff800, 0xfffffc00, 0xfffffe00, 0xffffff00,
-    0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0,
-    0xfffffff8, 0xfffffffc, 0xfffffffe, 0xffffffff } ;
+bitpattern hi_bits[] = { 0,
+	0x80000000, 0xc0000000, 0xe0000000, 0xf0000000,
+	0xf8000000, 0xfc000000, 0xfe000000, 0xff000000,
+	0xff800000, 0xffc00000, 0xffe00000, 0xfff00000,
+	0xfff80000, 0xfffc0000, 0xfffe0000, 0xffff0000,
+	0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000,
+	0xfffff800, 0xfffffc00, 0xfffffe00, 0xffffff00,
+	0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0,
+	0xfffffff8, 0xfffffffc, 0xfffffffe, 0xffffffff };
 
 
 /*
-    NUMBER OF ERRORS
+   NUMBER OF ERRORS
 
-    errors is the number of errors which have occurred.  max_errors is
-    the maximum number of errors that will be tolerated before exiting.
-*/
+   errors is the number of errors which have occurred.  max_errors is
+   the maximum number of errors that will be tolerated before exiting.
+ */
 
-int errors = 0 ;
+int errors = 0;
 #ifdef EBUG
-int max_errors = 10 ;
+int max_errors = 10;
 #else
-int max_errors = 1 ;
+int max_errors = 1;
 #endif
 
 
 /*
-    PRINT AN ERROR REPORT
+   PRINT AN ERROR REPORT
 
-    This routine prints the error report s together with any additional
-    arguments.
-*/
+   This routine prints the error report s together with any additional
+   arguments.
+ */
 
-void error
-    PROTO_V ( ( char *s, ... ) )
+void
+error(char *s, ...)
 {
-    char c ;
-    char *p ;
-    va_list args ;
+	char c;
+	char *p;
+	va_list args;
 #if FS_STDARG
-    va_start ( args, s ) ;
-    p = s ;
+	va_start(args, s);
+	p = s;
 #else
-    va_start ( args ) ;
-    p = va_arg ( args, char * ) ;
+	va_start(args);
+	p = va_arg(args, char *);
 #endif
-    if ( progname ) fprintf ( stderr, "%s : ", progname ) ;
-    fprintf ( stderr, "Error : " ) ;
-    c = *p ;
-    if ( c >= 'a' && c <= 'z' ) {
-	c += ( 'A' - 'a' ) ;
-	fputc ( c, stderr ) ;
-	p++ ;
-    }
-    vfprintf ( stderr, p, args ) ;
-    if ( crt_line_num != -1 && crt_fname ) {
-	fprintf ( stderr, ", %s, line %ld", crt_fname, crt_line_num ) ;
-    }
-    fprintf ( stderr, ".\n" ) ;
-    va_end ( args ) ;
+	if (progname) {
+		fprintf(stderr, "%s : ", progname);
+	}
+	fprintf(stderr, "Error : ");
+	c = *p;
+	if (c >= 'a' && c <= 'z') {
+		c += ('A' - 'a');
+		fputc(c, stderr);
+		p++;
+	}
+	vfprintf(stderr, p, args);
+	if (crt_line_num != -1 && crt_fname) {
+		fprintf(stderr, ", %s, line %ld", crt_fname, crt_line_num);
+	}
+	fprintf(stderr, ".\n");
+	va_end(args);
 #ifdef IGNORE_ERRORS
-    return ;
+	return;
 #endif
-    if ( max_errors == 0 ) exit ( EXIT_FAILURE ) ;
-    if ( ++errors > max_errors ) {
-	fprintf ( stderr, "%s : Too many errors.\n", progname ) ;
-	exit ( EXIT_FAILURE ) ;
-    }
-    return ;
+	if (max_errors == 0) {
+		exit(EXIT_FAILURE);
+	}
+	if (++errors > max_errors) {
+		fprintf(stderr, "%s : Too many errors.\n", progname);
+		exit(EXIT_FAILURE);
+	}
+	return;
 }
 
 /*
@@ -240,12 +279,11 @@ void error
     This routine prints the simple error report s.
 */
 
-void failer
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+void
+failer(char *s)
 {
-    error ( s ) ;
-    return ;
+	error(s);
+	return;
 }
 
 
@@ -256,31 +294,33 @@ void failer
     arguments.
 */
 
-void warning
-    PROTO_V ( ( char *s, ... ) )
+void
+warning(char *s, ...)
 {
-    char c ;
-    char *p ;
-    va_list args ;
+	char c;
+	char *p;
+	va_list args;
 #if FS_STDARG
-    va_start ( args, s ) ;
-    p = s ;
+	va_start(args, s);
+	p = s;
 #else
-    va_start ( args ) ;
-    p = va_arg ( args, char * ) ;
+	va_start(args);
+	p = va_arg(args, char *);
 #endif
-    if ( progname ) ( void ) fprintf ( stderr, "%s : ", progname ) ;
-    fprintf ( stderr, "Warning : " ) ;
-    c = *p ;
-    if ( c >= 'a' && c <= 'z' ) {
-	c += ( 'A' - 'a' ) ;
-	fputc ( c, stderr ) ;
-	p++ ;
-    }
-    ( void ) vfprintf ( stderr, p, args ) ;
-    ( void ) fprintf ( stderr, ".\n" ) ;
-    va_end ( args ) ;
-    return ;
+	if (progname) {
+		(void)fprintf(stderr, "%s : ", progname);
+	}
+	fprintf(stderr, "Warning : ");
+	c = *p;
+	if (c >= 'a' && c <= 'z') {
+		c += ('A' - 'a');
+		fputc(c, stderr);
+		p++;
+	}
+	(void)vfprintf(stderr, p, args);
+	(void)fprintf(stderr, ".\n");
+	va_end(args);
+	return;
 }
 
 
@@ -297,22 +337,23 @@ void warning
     allocate this memory gives an immediate fatal error.
 */
 
-voidstar xmalloc
-    PROTO_N ( ( sz ) )
-    PROTO_T ( size_t sz )
+voidstar
+xmalloc(size_t sz)
 {
-    voidstar res ;
-    if ( sz == 0 ) return ( null ) ;
-    res = ( voidstar ) malloc ( sz + memhack ) ;
-    if ( res == null ) {
-	error ( "Can't allocate memory" ) ;
-	exit ( EXIT_FAILURE ) ;
-    }
+	voidstar res;
+	if (sz == 0) {
+		return (null);
+	}
+	res = (voidstar)malloc(sz + memhack);
+	if (res == null) {
+		error("Can't allocate memory");
+		exit(EXIT_FAILURE);
+	}
 #ifdef MEM_DEBUG
-    printf ( "%d (malloc, %d bytes)\n", res, sz ) ;
-    fflush ( stdout ) ;
+	printf("%d (malloc, %d bytes)\n", res, sz);
+	fflush(stdout);
 #endif
-    return ( res ) ;
+	return (res);
 }
 
 
@@ -324,39 +365,40 @@ voidstar xmalloc
     immediate fatal error.
 */
 
-voidstar xcalloc
-    PROTO_N ( ( n, sz ) )
-    PROTO_T ( int n X size_t sz )
+voidstar
+xcalloc(int n, size_t sz)
 {
-    voidstar res ;
-    if ( n == 0 || sz == 0 ) return ( null ) ;
-    if ( sz == sizeof ( char ) && n < 100 ) {
-	/* Be careful not to free character arrays */
-	static char *cbuffer = null ;
-	static size_t cbuffsz = 0 ;
-	if ( n + memhack >= cbuffsz ) {
-	    cbuffsz = 2000 ;
-	    cbuffer = ( char * ) calloc ( cbuffsz, sizeof ( char ) ) ;
-	    if ( cbuffer == null ) {
-		error ( "Can't allocate memory" ) ;
-		exit ( EXIT_FAILURE ) ;
-	    }
+	voidstar res;
+	if (n == 0 || sz == 0) {
+		return (null);
 	}
-	res = ( voidstar ) cbuffer ;
-	cbuffer += ( n + memhack ) ;
-	cbuffsz -= ( n + memhack ) ;
-    } else {
-	res = ( voidstar ) calloc ( n + memhack, sz ) ;
-	if ( res == null ) {
-	    error ( "Can't allocate memory" ) ;
-	    exit ( EXIT_FAILURE ) ;
+	if (sz == sizeof(char) && n < 100) {
+		/* Be careful not to free character arrays */
+		static char *cbuffer = null;
+		static size_t cbuffsz = 0;
+		if (n + memhack >= cbuffsz) {
+			cbuffsz = 2000;
+			cbuffer = (char *)calloc(cbuffsz, sizeof(char));
+			if (cbuffer == null) {
+				error("Can't allocate memory");
+				exit(EXIT_FAILURE);
+			}
+		}
+		res = (voidstar)cbuffer;
+		cbuffer += (n + memhack);
+		cbuffsz -= (n + memhack);
+	} else {
+		res = (voidstar)calloc(n + memhack, sz);
+		if (res == null) {
+			error("Can't allocate memory");
+			exit(EXIT_FAILURE);
+		}
 	}
-    }
 #ifdef MEM_DEBUG
-    printf ( "%d (calloc, %d bytes)\n", res, n * sz ) ;
-    fflush ( stdout ) ;
+	printf("%d (calloc, %d bytes)\n", res, n * sz);
+	fflush(stdout);
 #endif
-    return ( res ) ;
+	return (res);
 }
 
 
@@ -368,23 +410,26 @@ voidstar xcalloc
     Failure to allocate memory gives an immediate fatal error.
 */
 
-voidstar xrealloc
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( voidstar p X size_t sz )
+voidstar
+xrealloc(voidstar p, size_t sz)
 {
-    voidstar res ;
-    if ( p == null ) return ( xmalloc ( sz ) ) ;
-    if ( sz == 0 ) return ( null ) ;
-    res = ( voidstar ) realloc ( p, sz + memhack ) ;
-    if ( res == null ) {
-	error ( "Can't reallocate memory" ) ;
-	exit ( EXIT_FAILURE ) ;
-    }
+	voidstar res;
+	if (p == null) {
+		return (xmalloc(sz));
+	}
+	if (sz == 0) {
+		return (null);
+	}
+	res = (voidstar)realloc(p, sz + memhack);
+	if (res == null) {
+		error("Can't reallocate memory");
+		exit(EXIT_FAILURE);
+	}
 #ifdef MEM_DEBUG
-    printf ( "%d (realloc, %d bytes)\n", res, sz ) ;
-    fflush ( stdout ) ;
+	printf("%d (realloc, %d bytes)\n", res, sz);
+	fflush(stdout);
 #endif
-    return ( res ) ;
+	return (res);
 }
 
 
@@ -395,12 +440,13 @@ voidstar xrealloc
     previously have been allocated using one of the routines above.
 */
 
-void xfree
-    PROTO_N ( ( p ) )
-    PROTO_T ( voidstar p )
+void
+xfree(voidstar p)
 {
-    if ( p == null ) return ;
-    free ( p ) ;
-    return ;
+	if (p == null) {
+		return;
+	}
+	free(p);
+	return;
 }
 
