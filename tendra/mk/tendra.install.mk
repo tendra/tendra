@@ -78,9 +78,13 @@ _REALINSTALL: .USE
 	${CONDCREATE} "${MACH_BASE}/env" \
 		${ENVSUBDIR:S/^/${MACH_BASE}\/startup\//g}
 . for envsub in ${ENVSUBDIR}
-.  for file in ${:!${ECHO} ${envsub}/*!:T}
-	${INSTALL} -m 644 ${envsub}/${file} ${MACH_BASE}/env/${file}
-.  endfor
+.  if exists(${envsub})
+.   for file in ${:!${ECHO} ${envsub}/*!:T}
+	if [ -f ${IMACH}/${file} ]; then \
+		${INSTALL} -m 644 ${envsub}/${file} ${MACH_BASE}/env/${file}; \
+	fi
+.   endfor
+.  endif
 . endfor
 .elif "${STARTUPSUBDIR}" != ""
 #
@@ -108,7 +112,9 @@ _REALINSTALL: .USE
 	@${ECHO} "# Installing ${MACHSUBDIR} machine directories"
 	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
 . for file in ${:!${ECHO} ${IMACH}/*!:T}
-	${INSTALL} -m 644 ${IMACH}/${file} ${MACH_BASE}/include/${file}
+	if [ -f ${IMACH}/${file} ]; then \
+		${INSTALL} -m 644 ${IMACH}/${file} ${MACH_BASE}/include/${file}; \
+	fi
 . endfor
 . for file in ${:!${ECHO} ${SMACH}/*!:T}
 	${INSTALL} -m 644 ${SMACH}/${file} ${MACH_BASE}/startup/${file}
