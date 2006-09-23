@@ -117,65 +117,65 @@ static void ZRexp_Hdeclarator_Hlist(int, SID_TYPE, int, SID_COMMAND *);
 static void ZRsubset_Hkey(SID_STRING *);
 static void ZRmacro_Hparam_Hdeclaration(SID_TYPE *);
 static void ZRifdef_Hmacro_Hname(SID_STRING *);
-static void ZR285(SID_TYPE *);
 static void ZRdefine_Hparam_Hlist(SID_STRING *);
+static void ZR287(SID_TYPE *);
 static void ZRdeclarator(SID_IDENTIFIER *, SID_TYPE *);
 static void ZRidentifier(SID_IDENTIFIER *);
 static void ZRsubset_Hcommand(SID_COMMAND *);
 static void ZRqualified_Htype(SID_TYPE *);
 static void ZRabstract_Hdeclarator(SID_STRING *, SID_TYPE *);
-static void ZR306(SID_STRING, SID_TYPE, SID_STRING *, SID_TYPE *);
 static void ZRparameter_Hlist(SID_TYPE *);
 static void ZRinternal_Hname(SID_STRING *, int *);
+static void ZR308(SID_STRING, SID_TYPE, SID_STRING *, SID_TYPE *);
 static void ZRmacro_Hoperator(SID_TYPE *);
 static void ZRenumerator_Hlist(SID_COMMAND *);
 static void ZRexternal_Hname(SID_STRING *, int *);
 static void ZRtype_Hqualifier(unsigned *);
-static void ZR316(SID_IDENTIFIER, SID_TYPE, SID_IDENTIFIER *, SID_TYPE *);
 static void ZRtype_Hkey(int *);
 static void ZRtype_Hqualifier_Hopt(unsigned *);
 static void ZRconstant_Hvalue(SID_STRING *);
-static void ZR318(SID_STRING *, SID_STRING *);
+static void ZR318(SID_IDENTIFIER, SID_TYPE, SID_IDENTIFIER *, SID_TYPE *);
 static void ZRspec_Hcommand(SID_COMMAND *);
-static void ZR319(SID_STRING *, SID_STRING *, SID_STRING *);
 static void ZRfunc_Hcommand(int *);
-static void ZR320(SID_COMMAND *);
-static void ZR321(int *, SID_COMMAND *);
+static void ZR320(SID_STRING *, SID_STRING *);
+static void ZR321(SID_STRING *, SID_STRING *, SID_STRING *);
 static void ZRarray_Hoperator(SID_TYPE *);
-static void ZR322(SID_STRING *, int *, SID_IDENTIFIER *);
-static void ZR323(SID_STRING *);
+static void ZR322(SID_COMMAND *);
+static void ZR323(int *, SID_COMMAND *);
 static void ZRmacro_Hparam_Hlist(SID_TYPE *);
-static void ZR326(SID_STRING *, SID_STRING *);
-static void ZR327(int *);
-static void ZR328(int *);
+static void ZR324(SID_STRING *, int *, SID_IDENTIFIER *);
+static void ZR325(SID_STRING *);
+static void ZR328(SID_STRING *, SID_STRING *);
 static void ZRenum_Hcommand(int *);
 static void ZRenumerator(SID_COMMAND *);
+static void ZR329(int *);
 static void ZRfield_Hdeclarator_Hlist(SID_TYPE, SID_TYPE, SID_COMMAND *);
-static void ZR331(SID_TYPE *, SID_TYPE *);
+static void ZR330(int *);
 static void ZRfield_Hexact(int *);
-static void ZR333(SID_TYPE *);
+static void ZR333(SID_TYPE *, SID_TYPE *);
+static void ZR335(SID_TYPE *);
 static void ZRcommand_Hlist(SID_COMMAND *);
-static void ZR336(SID_STRING *, SID_TYPE *, SID_STRING *, SID_TYPE *);
-static void ZR337(SID_TYPE *);
-static void ZR338(int *);
+static void ZR338(SID_STRING *, SID_TYPE *, SID_STRING *, SID_TYPE *);
+static void ZR339(SID_TYPE *);
+static void ZR340(int *);
 static void ZRdirect_Hdeclarator(SID_IDENTIFIER *, SID_TYPE *);
 static void ZRtype_Hcommand(int *);
 static void ZRtext_Hcommand(SID_COMMAND *);
-static void ZR345(SID_IDENTIFIER *, SID_IDENTIFIER *, SID_TYPE *);
-static void ZR346(int *);
-static void ZR347(int *);
+static void ZR347(SID_IDENTIFIER *, SID_IDENTIFIER *, SID_TYPE *);
 static void ZRname_Hversion(int *);
-static void ZR348(SID_TYPE *);
+static void ZR348(int *);
 static void ZRdirect_Habstract_Hdeclarator(SID_STRING *, SID_TYPE *);
 static void ZRfield_Hdeclarator(SID_IDENTIFIER *, SID_TYPE *);
 static void ZRvariable_Hcommand(void);
-static void ZR349(SID_STRING *);
-static void ZR350(SID_STRING *);
+static void ZR349(int *);
+static void ZR350(SID_TYPE *);
 static void ZR351(SID_STRING *);
 static void ZRdefine_Hparam_Hclause(SID_STRING *);
 static void ZRexp_Hcommand(int *);
 static void ZR352(SID_STRING *);
 static void ZRif_Hcommand(SID_COMMAND *, SID_STRING *);
+static void ZR353(SID_STRING *);
+static void ZR354(SID_STRING *);
 static void ZRbitfield_Hoperator(SID_TYPE *);
 static void ZRuse_Hsubset_Hname(SID_STRING *);
 extern void read_spec(SID_COMMAND *);
@@ -198,13 +198,13 @@ ZRsimple_Htype(SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 31: case 33: case 36: case 37: case 38:
-      case 41: case 42: case 45: case 46:
+      case 32: case 34: case 37: case 38: case 39:
+      case 42: case 43: case 46: case 47:
 	{
 	    unsigned ZIb;
 
 	    ZRbuiltin_Htype (&ZIb);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -214,7 +214,7 @@ ZRsimple_Htype(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 0: case 34: case 43: case 44:
+      case 0: case 35: case 44: case 45:
 	{
 	    int ZItag;
 	    SID_STRING ZInm;
@@ -226,7 +226,7 @@ ZRsimple_Htype(SID_TYPE *ZOt)
  ZInm = token_value ; 
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -239,14 +239,14 @@ ZRsimple_Htype(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -257,7 +257,7 @@ ZRparameter_Hdeclaration(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -267,7 +267,7 @@ ZRparameter_Hdeclaration(SID_TYPE *ZOt)
 
 	ZRqualified_Htype (&ZIs);
 	ZRabstract_Hdeclarator (&ZInm, &ZIp);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -282,7 +282,7 @@ ZRparameter_Hdeclaration(SID_TYPE *ZOt)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -293,7 +293,7 @@ ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -302,7 +302,7 @@ ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 	SID_COMMAND ZIb;
 
 	ZRidentifier (&ZIid);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -313,11 +313,11 @@ ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
 		    ZRnat_Hdeclarator_Hlist (&ZIb);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -340,7 +340,7 @@ ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -351,7 +351,7 @@ ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -362,7 +362,7 @@ ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 
 	ZRtype_Hcommand (&ZItag);
 	ZRidentifier (&ZIid);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -373,11 +373,11 @@ ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
 		    ZRtype_Hdeclarator_Hlist (&ZIb);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -400,7 +400,7 @@ ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -411,26 +411,26 @@ ZRfunction_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 55:
+	  case 56:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR333 (&ZIt);
-	if ((CURRENT_TERMINAL) == 74) {
+	ZR335 (&ZIt);
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -441,7 +441,7 @@ ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -453,7 +453,7 @@ ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
 	SID_COMMAND ZIb;
 
 	ZRdeclarator (&ZIid, &ZIp);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -473,11 +473,11 @@ ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
 		    ZRexp_Hdeclarator_Hlist (ZIcmd, ZIs, ZIlv, &ZIb);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -500,7 +500,7 @@ ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -512,11 +512,11 @@ ZRsubset_Hkey(SID_STRING *ZOkey)
     SID_STRING ZIkey;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    ADVANCE_LEXER;
-	    ZR349 (&ZIkey);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR351 (&ZIkey);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -529,12 +529,12 @@ ZRsubset_Hkey(SID_STRING *ZOkey)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOkey = ZIkey;
@@ -545,7 +545,7 @@ ZRmacro_Hparam_Hdeclaration(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -558,7 +558,7 @@ ZRmacro_Hparam_Hdeclaration(SID_TYPE *ZOt)
 	ZRobject_Hqualifier (&ZIlv);
 	ZRqualified_Htype (&ZIs);
 	ZRabstract_Hdeclarator (&ZInm, &ZIp);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -577,7 +577,7 @@ ZRmacro_Hparam_Hdeclaration(SID_TYPE *ZOt)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -589,7 +589,7 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
     SID_STRING ZIc;
 
     switch (CURRENT_TERMINAL) {
-      case 49:
+      case 50:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -606,14 +606,14 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 51:
+      case 52:
 	{
 	    SID_STRING ZIa;
 	    SID_STRING ZIb;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 55:
+	      case 56:
 		break;
 	      default:
 		goto ZL1;
@@ -630,7 +630,7 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		break;
 	      default:
 		goto ZL1;
@@ -647,7 +647,7 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -659,29 +659,64 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR285(SID_TYPE *ZOt)
+ZRdefine_Hparam_Hlist(SID_STRING *ZOp)
+{
+    SID_STRING ZIp;
+
+    if ((CURRENT_TERMINAL) == 75) {
+	return;
+    }
+    {
+	SID_STRING ZI326;
+
+	switch (CURRENT_TERMINAL) {
+	  case 0:
+	    {
+ ZI326 = token_value ; 
+	    }
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+	ZR328 (&ZI326, &ZIp);
+	if ((CURRENT_TERMINAL) == 75) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOp = ZIp;
+}
+
+static void
+ZR287(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    ZRmacro_Hoperator (&ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -695,50 +730,15 @@ ZR285(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
-}
-
-static void
-ZRdefine_Hparam_Hlist(SID_STRING *ZOp)
-{
-    SID_STRING ZIp;
-
-    if ((CURRENT_TERMINAL) == 74) {
-	return;
-    }
-    {
-	SID_STRING ZI324;
-
-	switch (CURRENT_TERMINAL) {
-	  case 0:
-	    {
- ZI324 = token_value ; 
-	    }
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	ZR326 (&ZI324, &ZIp);
-	if ((CURRENT_TERMINAL) == 74) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOp = ZIp;
 }
 
 static void
@@ -748,23 +748,23 @@ ZRdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 0: case 55:
+      case 0: case 56:
 	{
 	    ZRdirect_Hdeclarator (&ZIid, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 71:
+      case 72:
 	{
 	    SID_TYPE ZIp;
 	    SID_TYPE ZIs;
 
 	    ZRptr_Hoperator (&ZIp);
 	    ZRdeclarator (&ZIid, &ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -774,14 +774,14 @@ ZRdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
@@ -793,7 +793,7 @@ ZRidentifier(SID_IDENTIFIER *ZOid)
 {
     SID_IDENTIFIER ZIid;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -801,15 +801,15 @@ ZRidentifier(SID_IDENTIFIER *ZOid)
 	int ZIv;
 
 	ZRinternal_Hname (&ZInm, &ZIv);
-	ZR322 (&ZInm, &ZIv, &ZIid);
-	if ((CURRENT_TERMINAL) == 74) {
+	ZR324 (&ZInm, &ZIv, &ZIid);
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
@@ -820,7 +820,7 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -837,9 +837,9 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
 	ADVANCE_LEXER;
 	ZRsubset_Hname (&ZIs);
 	switch (CURRENT_TERMINAL) {
-	  case 59:
+	  case 60:
 	    break;
-	  case 74:
+	  case 75:
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -859,7 +859,7 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
     crt_object = p ;
 	}
 	switch (CURRENT_TERMINAL) {
-	  case 53:
+	  case 54:
 	    break;
 	  default:
 	    goto ZL1;
@@ -867,9 +867,9 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
 	ADVANCE_LEXER;
 	ZRcommand_Hlist (&ZIb);
 	switch (CURRENT_TERMINAL) {
-	  case 54:
+	  case 55:
 	    break;
-	  case 74:
+	  case 75:
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -887,7 +887,7 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -899,28 +899,28 @@ ZRqualified_Htype(SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 0: case 31: case 33: case 34: case 36:
-      case 37: case 38: case 41: case 42: case 43:
-      case 44: case 45: case 46:
+      case 0: case 32: case 34: case 35: case 37:
+      case 38: case 39: case 42: case 43: case 44:
+      case 45: case 46: case 47:
 	{
-	    SID_TYPE ZI329;
+	    SID_TYPE ZI331;
 
-	    ZRsimple_Htype (&ZI329);
-	    ZR331 (&ZI329, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZRsimple_Htype (&ZI331);
+	    ZR333 (&ZI331, &ZIt);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 32: case 47:
+      case 33: case 48:
 	{
 	    unsigned ZIcv;
 	    SID_TYPE ZIs;
 
 	    ZRtype_Hqualifier (&ZIcv);
 	    ZRsimple_Htype (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -931,14 +931,14 @@ ZRqualified_Htype(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -954,20 +954,20 @@ ZRabstract_Hdeclarator(SID_STRING *ZOnm, SID_TYPE *ZOt)
       default:
 	{
 	    ZRdirect_Habstract_Hdeclarator (&ZInm, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 71:
+      case 72:
 	{
 	    SID_TYPE ZIp;
 	    SID_TYPE ZIs;
 
 	    ZRptr_Hoperator (&ZIp);
 	    ZRabstract_Hdeclarator (&ZInm, &ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -977,12 +977,12 @@ ZRabstract_Hdeclarator(SID_STRING *ZOnm, SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOnm = ZInm;
@@ -990,58 +990,11 @@ ZRabstract_Hdeclarator(SID_STRING *ZOnm, SID_TYPE *ZOt)
 }
 
 static void
-ZR306(SID_STRING ZI302, SID_TYPE ZI303, SID_STRING *ZO304, SID_TYPE *ZO305)
-{
-    SID_STRING ZI304;
-    SID_TYPE ZI305;
-
-  ZL2_306:;
-    switch (CURRENT_TERMINAL) {
-      case 57:
-	{
-	    SID_STRING ZInm;
-	    SID_TYPE ZIs;
-	    SID_TYPE ZIt;
-
-	    ZInm = ZI302;
-	    ZRarray_Hoperator (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZIt) = inject_type ( (ZI303), (ZIs) ) ;
-	    }
-	    ZI302 = ZInm;
-	    ZI303 = ZIt;
-	    goto ZL2_306;
-	}
-	/*UNREACHED*/
-      default:
-	{
-	    ZI304 = ZI302;
-	    ZI305 = ZI303;
-	}
-	break;
-      case 74:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZO304 = ZI304;
-    *ZO305 = ZI305;
-}
-
-static void
 ZRparameter_Hlist(SID_TYPE *ZOp)
 {
     SID_TYPE ZIp;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -1051,11 +1004,11 @@ ZRparameter_Hlist(SID_TYPE *ZOp)
 	ZRparameter_Hdeclaration (&ZIt);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
-		    ZR337 (&ZIq);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    ZR339 (&ZIq);
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1069,7 +1022,7 @@ ZRparameter_Hlist(SID_TYPE *ZOp)
 		    }
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1082,7 +1035,7 @@ ZRparameter_Hlist(SID_TYPE *ZOp)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOp = ZIp;
@@ -1094,7 +1047,7 @@ ZRinternal_Hname(SID_STRING *ZOnm, int *ZOv)
     SID_STRING ZInm;
     int ZIv;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -1111,7 +1064,7 @@ ZRinternal_Hname(SID_STRING *ZOnm, int *ZOv)
 	}
 	ADVANCE_LEXER;
 	ZRname_Hversion (&ZIv);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1126,7 +1079,7 @@ ZRinternal_Hname(SID_STRING *ZOnm, int *ZOv)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOnm = ZInm;
@@ -1134,30 +1087,77 @@ ZRinternal_Hname(SID_STRING *ZOnm, int *ZOv)
 }
 
 static void
+ZR308(SID_STRING ZI304, SID_TYPE ZI305, SID_STRING *ZO306, SID_TYPE *ZO307)
+{
+    SID_STRING ZI306;
+    SID_TYPE ZI307;
+
+  ZL2_308:;
+    switch (CURRENT_TERMINAL) {
+      case 58:
+	{
+	    SID_STRING ZInm;
+	    SID_TYPE ZIs;
+	    SID_TYPE ZIt;
+
+	    ZInm = ZI304;
+	    ZRarray_Hoperator (&ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZIt) = inject_type ( (ZI305), (ZIs) ) ;
+	    }
+	    ZI304 = ZInm;
+	    ZI305 = ZIt;
+	    goto ZL2_308;
+	}
+	/*UNREACHED*/
+      default:
+	{
+	    ZI306 = ZI304;
+	    ZI307 = ZI305;
+	}
+	break;
+      case 75:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZO306 = ZI306;
+    *ZO307 = ZI307;
+}
+
+static void
 ZRmacro_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 55:
+	  case 56:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR348 (&ZIt);
-	if ((CURRENT_TERMINAL) == 74) {
+	ZR350 (&ZIt);
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -1168,7 +1168,7 @@ ZRenumerator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -1178,11 +1178,11 @@ ZRenumerator_Hlist(SID_COMMAND *ZOc)
 	ZRenumerator (&ZIa);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
 		    ZRenumerator_Hlist (&ZIb);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1196,7 +1196,7 @@ ZRenumerator_Hlist(SID_COMMAND *ZOc)
 		    }
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1208,7 +1208,7 @@ ZRenumerator_Hlist(SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -1231,7 +1231,7 @@ ZRexternal_Hname(SID_STRING *ZOnm, int *ZOv)
 	    }
 	    ADVANCE_LEXER;
 	    ZRname_Hversion (&ZIv);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1256,20 +1256,20 @@ ZRexternal_Hname(SID_STRING *ZOnm, int *ZOv)
 	    }
 	    ADVANCE_LEXER;
 	    ZRname_Hversion (&ZIv);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOnm = ZInm;
@@ -1282,13 +1282,13 @@ ZRtype_Hqualifier(unsigned *ZOcv)
     unsigned ZIcv;
 
     switch (CURRENT_TERMINAL) {
-      case 32:
+      case 33:
 	{
 	    unsigned ZIa;
 
 	    ADVANCE_LEXER;
 	    ZRtype_Hqualifier_Hopt (&ZIa);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1299,13 +1299,13 @@ ZRtype_Hqualifier(unsigned *ZOcv)
 	    }
 	}
 	break;
-      case 47:
+      case 48:
 	{
 	    unsigned ZIa;
 
 	    ADVANCE_LEXER;
 	    ZRtype_Hqualifier_Hopt (&ZIa);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1316,94 +1316,17 @@ ZRtype_Hqualifier(unsigned *ZOcv)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOcv = ZIcv;
-}
-
-static void
-ZR316(SID_IDENTIFIER ZI310, SID_TYPE ZI311, SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
-{
-    SID_IDENTIFIER ZI314;
-    SID_TYPE ZI315;
-
-  ZL2_316:;
-    switch (CURRENT_TERMINAL) {
-      case 55: case 57:
-	{
-	    SID_IDENTIFIER ZIid;
-
-	    ZIid = ZI310;
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 57:
-		    {
-			SID_TYPE ZIs;
-			SID_TYPE ZIt;
-
-			ZRarray_Hoperator (&ZIs);
-			if ((CURRENT_TERMINAL) == 74) {
-			    RESTORE_LEXER;
-			    goto ZL1;
-			}
-			{
-
-    (ZIt) = inject_type ( (ZI311), (ZIs) ) ;
-			}
-			ZI310 = ZIid;
-			ZI311 = ZIt;
-			goto ZL2_316;
-		    }
-		    /*UNREACHED*/
-		  case 55:
-		    {
-			SID_TYPE ZIs;
-			SID_TYPE ZIt;
-
-			ZRfunction_Hoperator (&ZIs);
-			if ((CURRENT_TERMINAL) == 74) {
-			    RESTORE_LEXER;
-			    goto ZL1;
-			}
-			{
-
-    (ZIt) = inject_type ( (ZI311), (ZIs) ) ;
-			}
-			ZI310 = ZIid;
-			ZI311 = ZIt;
-			goto ZL2_316;
-		    }
-		    /*UNREACHED*/
-		  default:
-		    goto ZL1;
-		}
-	    }
-	}
-	/*UNREACHED*/
-      default:
-	{
-	    ZI314 = ZI310;
-	    ZI315 = ZI311;
-	}
-	break;
-      case 74:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZO314 = ZI314;
-    *ZO315 = ZI315;
 }
 
 static void
@@ -1412,7 +1335,7 @@ ZRtype_Hkey(int *ZOtag)
     int ZItag;
 
     switch (CURRENT_TERMINAL) {
-      case 34:
+      case 35:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1420,7 +1343,7 @@ ZRtype_Hkey(int *ZOtag)
 	    }
 	}
 	break;
-      case 43:
+      case 44:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1428,7 +1351,7 @@ ZRtype_Hkey(int *ZOtag)
 	    }
 	}
 	break;
-      case 44:
+      case 45:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1443,7 +1366,7 @@ ZRtype_Hkey(int *ZOtag)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     *ZOtag = ZItag;
@@ -1455,10 +1378,10 @@ ZRtype_Hqualifier_Hopt(unsigned *ZOcv)
     unsigned ZIcv;
 
     switch (CURRENT_TERMINAL) {
-      case 32: case 47:
+      case 33: case 48:
 	{
 	    ZRtype_Hqualifier (&ZIcv);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1472,12 +1395,12 @@ ZRtype_Hqualifier_Hopt(unsigned *ZOcv)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOcv = ZIcv;
@@ -1489,13 +1412,13 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
     SID_STRING ZIs;
 
     switch (CURRENT_TERMINAL) {
-      case 66:
+      case 67:
 	{
 	    SID_STRING ZIa;
 
 	    ADVANCE_LEXER;
 	    ZRconstant_Hvalue (&ZIa);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1513,13 +1436,13 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 67:
+      case 68:
 	{
 	    SID_STRING ZIa;
 
 	    ADVANCE_LEXER;
 	    ZRconstant_Hvalue (&ZIa);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1557,64 +1480,94 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOs = ZIs;
 }
 
 static void
-ZR318(SID_STRING *ZIa, SID_STRING *ZOs)
+ZR318(SID_IDENTIFIER ZI312, SID_TYPE ZI313, SID_IDENTIFIER *ZO316, SID_TYPE *ZO317)
 {
-    SID_STRING ZIs;
+    SID_IDENTIFIER ZI316;
+    SID_TYPE ZI317;
 
+  ZL2_318:;
     switch (CURRENT_TERMINAL) {
-      case 61:
+      case 56: case 58:
 	{
-	    SID_STRING ZIb;
+	    SID_IDENTIFIER ZIid;
 
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 2:
-		{
- ZIb = token_value ; 
+	    ZIid = ZI312;
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 58:
+		    {
+			SID_TYPE ZIs;
+			SID_TYPE ZIt;
+
+			ZRarray_Hoperator (&ZIs);
+			if ((CURRENT_TERMINAL) == 75) {
+			    RESTORE_LEXER;
+			    goto ZL1;
+			}
+			{
+
+    (ZIt) = inject_type ( (ZI313), (ZIs) ) ;
+			}
+			ZI312 = ZIid;
+			ZI313 = ZIt;
+			goto ZL2_318;
+		    }
+		    /*UNREACHED*/
+		  case 56:
+		    {
+			SID_TYPE ZIs;
+			SID_TYPE ZIt;
+
+			ZRfunction_Hoperator (&ZIs);
+			if ((CURRENT_TERMINAL) == 75) {
+			    RESTORE_LEXER;
+			    goto ZL1;
+			}
+			{
+
+    (ZIt) = inject_type ( (ZI313), (ZIs) ) ;
+			}
+			ZI312 = ZIid;
+			ZI313 = ZIt;
+			goto ZL2_318;
+		    }
+		    /*UNREACHED*/
+		  default:
+		    goto ZL1;
 		}
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    ZR319 (ZIa, &ZIb, &ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
 	    }
 	}
-	break;
+	/*UNREACHED*/
       default:
 	{
-	    {
-
-    (ZIs) = subset_name ( (*ZIa), null_str, null_str ) ;
-	    }
+	    ZI316 = ZI312;
+	    ZI317 = ZI313;
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOs = ZIs;
+    *ZO316 = ZI316;
+    *ZO317 = ZI317;
 }
 
 static void
@@ -1642,7 +1595,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ZRidentifier (&ZIid);
 	    ZRdefine_Hparam_Hclause (&ZIp);
 	    ZRconstant_Hvalue (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1650,6 +1603,38 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 
     char *def ;
     object *p = make_exp ( (ZIid).iname, (ZIid).ivers, OBJ_DEFINE ) ;
+    if ( (ZIp) ) {
+	if ( *(ZIp) ) {
+	    def = string_printf ( "( %s ) %s", (ZIp), (ZIs) ) ;
+	} else {
+	    def = string_printf ( "() %s", (ZIs) ) ;
+	}
+    } else {
+	def = string_printf ( " %s", (ZIs) ) ;
+    }
+    p->u.u_str = def ;
+    (ZIc) = make_token ( (ZIid).ename, (ZIid).evers, p, OBJ_EXTERN ) ;
+	    }
+	}
+	break;
+      case 30:
+	{
+	    SID_IDENTIFIER ZIid;
+	    SID_STRING ZIp;
+	    SID_STRING ZIs;
+
+	    ADVANCE_LEXER;
+	    ZRidentifier (&ZIid);
+	    ZRdefine_Hparam_Hclause (&ZIp);
+	    ZRconstant_Hvalue (&ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    char *def ;
+    object *p = make_exp ( (ZIid).iname, (ZIid).ivers, OBJ_DEFMIN ) ;
     if ( (ZIp) ) {
 	if ( *(ZIp) ) {
 	    def = string_printf ( "( %s ) %s", (ZIp), (ZIs) ) ;
@@ -1674,9 +1659,9 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ZRenum_Hcommand (&ZItag);
 	    ZRidentifier (&ZIid);
 	    switch (CURRENT_TERMINAL) {
-	      case 59:
+	      case 60:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -1684,7 +1669,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 53:
+	      case 54:
 		break;
 	      default:
 		goto ZL1;
@@ -1692,9 +1677,9 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ADVANCE_LEXER;
 	    ZRenumerator_Hlist (&ZIe);
 	    switch (CURRENT_TERMINAL) {
-	      case 54:
+	      case 55:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -1722,7 +1707,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ZRtype_Hcommand (&ZItag);
 	    ZRidentifier (&ZIid);
 	    ZRfield_Hexact (&ZIe);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1751,7 +1736,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
     crt_field_name = (ZIt)->u.obj->name ;
 	    }
 	    switch (CURRENT_TERMINAL) {
-	      case 53:
+	      case 54:
 		break;
 	      default:
 		goto ZL1;
@@ -1759,9 +1744,9 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ADVANCE_LEXER;
 	    ZRfield_Hlist (ZIt, &ZIb);
 	    switch (CURRENT_TERMINAL) {
-	      case 54:
+	      case 55:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -1811,7 +1796,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    }
 	    ZRsubset_Hname (&ZIs);
 	    ZRsubset_Hkey (&ZIkey);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1839,7 +1824,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ZRobject_Hqualifier (&ZIlv);
 	    ZRqualified_Htype (&ZIs);
 	    ZRmacro_Hdeclarator (&ZIid, &ZIp);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1851,8 +1836,8 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 
     (ZIv) = make_subtype ( (ZIu), (ZIlv) ) ;
 	    }
-	    ZR285 (&ZIq);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR287 (&ZIq);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1875,7 +1860,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	{
 	    ADVANCE_LEXER;
 	    ZRnat_Hdeclarator_Hlist (&ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1888,8 +1873,8 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 
 	    ADVANCE_LEXER;
 	    ZRidentifier (&ZIid);
-	    ZR285 (&ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR287 (&ZIt);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1914,7 +1899,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
  ZIs = token_value ; 
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -1933,7 +1918,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	{
 	    ADVANCE_LEXER;
 	    ZRtype_Hdeclarator_Hlist (&ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1942,8 +1927,8 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
       case 28:
 	{
 	    ADVANCE_LEXER;
-	    ZR320 (&ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR322 (&ZIc);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1957,8 +1942,8 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    {
  (ZIcmd) = OBJ_USE ; 
 	    }
-	    ZR321 (&ZIcmd, &ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR323 (&ZIcmd, &ZIc);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1973,7 +1958,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 
 	    ZRexp_Hcommand (&ZIcmd);
 	    ZRobject_Hqualifier (&ZIlv1);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1992,7 +1977,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    }
 	    ZRqualified_Htype (&ZIt);
 	    ZRexp_Hdeclarator_Hlist (ZIcmd, ZIt, ZIlv, &ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2009,7 +1994,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ZRfunc_Hcommand (&ZIcmd);
 	    ZRqualified_Htype (&ZIs);
 	    ZRdeclarator (&ZIid, &ZIp);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2028,32 +2013,109 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
       case 23:
 	{
 	    ZRsubset_Hcommand (&ZIc);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR319(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
+ZRfunc_Hcommand(int *ZOcmd)
+{
+    int ZIcmd;
+
+    if ((CURRENT_TERMINAL) == 75) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 15:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+	ZR348 (&ZIcmd);
+	if ((CURRENT_TERMINAL) == 75) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOcmd = ZIcmd;
+}
+
+static void
+ZR320(SID_STRING *ZIa, SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
     switch (CURRENT_TERMINAL) {
-      case 61:
+      case 62:
+	{
+	    SID_STRING ZIb;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 2:
+		{
+ ZIb = token_value ; 
+		}
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    ZR321 (ZIa, &ZIb, &ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      default:
+	{
+	    {
+
+    (ZIs) = subset_name ( (*ZIa), null_str, null_str ) ;
+	    }
+	}
+	break;
+      case 75:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOs = ZIs;
+}
+
+static void
+ZR321(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
+{
+    SID_STRING ZIs;
+
+    switch (CURRENT_TERMINAL) {
+      case 62:
 	{
 	    SID_STRING ZIc;
 
@@ -2083,61 +2145,91 @@ ZR319(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOs = ZIs;
 }
 
 static void
-ZRfunc_Hcommand(int *ZOcmd)
+ZRarray_Hoperator(SID_TYPE *ZOt)
 {
-    int ZIcmd;
+    SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
+	SID_STRING ZIa;
+
 	switch (CURRENT_TERMINAL) {
-	  case 15:
+	  case 58:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR346 (&ZIcmd);
-	if ((CURRENT_TERMINAL) == 74) {
-	    RESTORE_LEXER;
+	{
+	    switch (CURRENT_TERMINAL) {
+	      case 0: case 1: case 5: case 67: case 68:
+		{
+		    ZRconstant_Hvalue (&ZIa);
+		    if ((CURRENT_TERMINAL) == 75) {
+			RESTORE_LEXER;
+			goto ZL1;
+		    }
+		}
+		break;
+	      default:
+		{
+		    {
+
+    (ZIa) = "" ;
+		    }
+		}
+		break;
+	    }
+	}
+	switch (CURRENT_TERMINAL) {
+	  case 59:
+	    break;
+	  default:
 	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+	{
+
+    (ZIt) = make_subtype ( ( type * ) null, TYPE_ARRAY ) ;
+    (ZIt)->v.str = (ZIa) ;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOcmd = ZIcmd;
+    *ZOt = ZIt;
 }
 
 static void
-ZR320(SID_COMMAND *ZOc)
+ZR322(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
     switch (CURRENT_TERMINAL) {
-      case 50:
+      case 51:
 	{
 	    SID_TYPE ZIt;
 	    SID_IDENTIFIER ZIid;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 55:
+	      case 56:
 		break;
 	      default:
 		goto ZL1;
@@ -2145,9 +2237,9 @@ ZR320(SID_COMMAND *ZOc)
 	    ADVANCE_LEXER;
 	    ZRqualified_Htype (&ZIt);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -2155,7 +2247,7 @@ ZR320(SID_COMMAND *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    ZRidentifier (&ZIid);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2179,7 +2271,7 @@ ZR320(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 52:
+      case 53:
 	{
 	    SID_STRING ZIs;
 	    SID_TYPE ZIt;
@@ -2187,7 +2279,7 @@ ZR320(SID_COMMAND *ZOc)
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 55:
+	      case 56:
 		break;
 	      default:
 		goto ZL1;
@@ -2204,7 +2296,7 @@ ZR320(SID_COMMAND *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -2215,7 +2307,7 @@ ZR320(SID_COMMAND *ZOc)
     (ZIt) = special_type ( (ZIs) ) ;
 	    }
 	    ZRidentifier (&ZIid);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2227,9 +2319,9 @@ ZR320(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 0: case 31: case 32: case 33: case 34:
-      case 36: case 37: case 38: case 41: case 42:
-      case 43: case 44: case 45: case 46: case 47:
+      case 0: case 32: case 33: case 34: case 35:
+      case 37: case 38: case 39: case 42: case 43:
+      case 44: case 45: case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIs;
 	    SID_IDENTIFIER ZIid;
@@ -2238,7 +2330,7 @@ ZR320(SID_COMMAND *ZOc)
 
 	    ZRqualified_Htype (&ZIs);
 	    ZRdeclarator (&ZIid, &ZIp);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2254,21 +2346,21 @@ ZR320(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR321(int *ZIcmd, SID_COMMAND *ZOc)
+ZR323(int *ZIcmd, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2280,7 +2372,7 @@ ZR321(int *ZIcmd, SID_COMMAND *ZOc)
 
 	    ZRsubset_Hname (&ZIs);
 	    ZRsubset_Hkey (&ZIkey);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2293,7 +2385,7 @@ ZR321(int *ZIcmd, SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 55:
+      case 56:
 	{
 	    SID_STRING ZIs;
 	    SID_STRING ZIkey1;
@@ -2301,7 +2393,7 @@ ZR321(int *ZIcmd, SID_COMMAND *ZOc)
 
 	    ZRuse_Hsubset_Hname (&ZIs);
 	    ZRsubset_Hkey (&ZIkey1);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2317,43 +2409,39 @@ ZR321(int *ZIcmd, SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZRarray_Hoperator(SID_TYPE *ZOt)
+ZRmacro_Hparam_Hlist(SID_TYPE *ZOp)
 {
-    SID_TYPE ZIt;
+    SID_TYPE ZIp;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
-	SID_STRING ZIa;
+	SID_TYPE ZIt;
+	SID_TYPE ZIq;
 
-	switch (CURRENT_TERMINAL) {
-	  case 57:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
+	ZRmacro_Hparam_Hdeclaration (&ZIt);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 0: case 1: case 5: case 66: case 67:
+	      case 62:
 		{
-		    ZRconstant_Hvalue (&ZIa);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    ADVANCE_LEXER;
+		    ZRmacro_Hparam_Hlist (&ZIq);
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -2363,47 +2451,43 @@ ZRarray_Hoperator(SID_TYPE *ZOt)
 		{
 		    {
 
-    (ZIa) = "" ;
+    (ZIq) = null ;
 		    }
 		}
 		break;
+	      case 75:
+		RESTORE_LEXER;
+		goto ZL1;
 	    }
 	}
-	switch (CURRENT_TERMINAL) {
-	  case 58:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
 	{
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_ARRAY ) ;
-    (ZIt)->v.str = (ZIa) ;
+    (ZIp) = make_subtype ( (ZIt), TYPE_LIST ) ;
+    (ZIp)->v.next = (ZIq) ;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOt = ZIt;
+    *ZOp = ZIp;
 }
 
 static void
-ZR322(SID_STRING *ZInm, int *ZIv, SID_IDENTIFIER *ZOid)
+ZR324(SID_STRING *ZInm, int *ZIv, SID_IDENTIFIER *ZOid)
 {
     SID_IDENTIFIER ZIid;
 
     switch (CURRENT_TERMINAL) {
-      case 68:
+      case 69:
 	{
 	    SID_STRING ZItnm;
 	    int ZItv;
 
 	    ADVANCE_LEXER;
 	    ZRexternal_Hname (&ZItnm, &ZItv);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2433,24 +2517,24 @@ ZR322(SID_STRING *ZInm, int *ZIv, SID_IDENTIFIER *ZOid)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
 }
 
 static void
-ZR323(SID_STRING *ZOp)
+ZR325(SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
     switch (CURRENT_TERMINAL) {
-      case 56:
+      case 57:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -2462,9 +2546,9 @@ ZR323(SID_STRING *ZOp)
 	{
 	    ZRdefine_Hparam_Hlist (&ZIp);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -2473,190 +2557,55 @@ ZR323(SID_STRING *ZOp)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOp = ZIp;
 }
 
 static void
-ZRmacro_Hparam_Hlist(SID_TYPE *ZOp)
-{
-    SID_TYPE ZIp;
-
-    if ((CURRENT_TERMINAL) == 74) {
-	return;
-    }
-    {
-	SID_TYPE ZIt;
-	SID_TYPE ZIq;
-
-	ZRmacro_Hparam_Hdeclaration (&ZIt);
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case 61:
-		{
-		    ADVANCE_LEXER;
-		    ZRmacro_Hparam_Hlist (&ZIq);
-		    if ((CURRENT_TERMINAL) == 74) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
-		}
-		break;
-	      default:
-		{
-		    {
-
-    (ZIq) = null ;
-		    }
-		}
-		break;
-	      case 74:
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	{
-
-    (ZIp) = make_subtype ( (ZIt), TYPE_LIST ) ;
-    (ZIp)->v.next = (ZIq) ;
-	}
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOp = ZIp;
-}
-
-static void
-ZR326(SID_STRING *ZI324, SID_STRING *ZOp)
+ZR328(SID_STRING *ZI326, SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
     switch (CURRENT_TERMINAL) {
-      case 61:
+      case 62:
 	{
 	    SID_STRING ZIq;
 
 	    ADVANCE_LEXER;
 	    ZRdefine_Hparam_Hlist (&ZIq);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZIp) = string_printf ( "%s, %s", (*ZI324), (ZIq) ) ;
+    (ZIp) = string_printf ( "%s, %s", (*ZI326), (ZIq) ) ;
 	    }
 	}
 	break;
       default:
 	{
-	    ZIp = *ZI324;
+	    ZIp = *ZI326;
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOp = ZIp;
-}
-
-static void
-ZR327(int *ZOcmd)
-{
-    int ZIcmd;
-
-    switch (CURRENT_TERMINAL) {
-      case 55:
-	{
-	    ADVANCE_LEXER;
-	    ZR328 (&ZIcmd);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      default:
-	{
-	    {
- (ZIcmd) = OBJ_EXP ; 
-	    }
-	}
-	break;
-      case 74:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOcmd = ZIcmd;
-}
-
-static void
-ZR328(int *ZOcmd)
-{
-    int ZIcmd;
-
-    switch (CURRENT_TERMINAL) {
-      case 32:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIcmd) = OBJ_CONST ; 
-	    }
-	}
-	break;
-      case 35:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIcmd) = OBJ_EXTERN ; 
-	    }
-	}
-	break;
-      case 74:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOcmd = ZIcmd;
 }
 
 static void
@@ -2665,7 +2614,7 @@ ZRenum_Hcommand(int *ZOtag)
     int ZItag;
 
     switch (CURRENT_TERMINAL) {
-      case 34:
+      case 35:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -2680,7 +2629,7 @@ ZRenum_Hcommand(int *ZOtag)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     *ZOtag = ZItag;
@@ -2691,7 +2640,7 @@ ZRenumerator(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -2701,11 +2650,11 @@ ZRenumerator(SID_COMMAND *ZOc)
 	ZRidentifier (&ZIid);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 65:
+	      case 66:
 		{
 		    ADVANCE_LEXER;
 		    ZRconstant_Hvalue (&ZIs);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -2719,7 +2668,7 @@ ZRenumerator(SID_COMMAND *ZOc)
 		    }
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2733,10 +2682,44 @@ ZRenumerator(SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
+}
+
+static void
+ZR329(int *ZOcmd)
+{
+    int ZIcmd;
+
+    switch (CURRENT_TERMINAL) {
+      case 56:
+	{
+	    ADVANCE_LEXER;
+	    ZR330 (&ZIcmd);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      default:
+	{
+	    {
+ (ZIcmd) = OBJ_EXP ; 
+	    }
+	}
+	break;
+      case 75:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOcmd = ZIcmd;
 }
 
 static void
@@ -2744,7 +2727,7 @@ ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -2755,7 +2738,7 @@ ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
 	SID_COMMAND ZIb;
 
 	ZRfield_Hdeclarator (&ZIid, &ZIp);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -2771,11 +2754,11 @@ ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 61:
+	      case 62:
 		{
 		    ADVANCE_LEXER;
 		    ZRfield_Hdeclarator_Hlist (ZIm, ZIs, &ZIb);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -2798,48 +2781,59 @@ ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR331(SID_TYPE *ZI329, SID_TYPE *ZOt)
+ZR330(int *ZOcmd)
 {
-    SID_TYPE ZIt;
+    int ZIcmd;
 
     switch (CURRENT_TERMINAL) {
-      case 32: case 47:
+      case 33:
 	{
-	    unsigned ZIcv;
-
-	    ZRtype_Hqualifier (&ZIcv);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
 		goto ZL1;
 	    }
+	    ADVANCE_LEXER;
 	    {
-
-    (ZIt) = make_subtype ( (*ZI329), TYPE_QUALIFIER ) ;
-    (ZIt)->v.str = cv_qualifier [ (ZIcv) ] ;
+ (ZIcmd) = OBJ_CONST ; 
 	    }
 	}
 	break;
-      default:
+      case 36:
 	{
-	    ZIt = *ZI329;
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (ZIcmd) = OBJ_EXTERN ; 
+	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
+      default:
+	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOt = ZIt;
+    *ZOcmd = ZIcmd;
 }
 
 static void
@@ -2848,7 +2842,7 @@ ZRfield_Hexact(int *ZOe)
     int ZIe;
 
     switch (CURRENT_TERMINAL) {
-      case 59:
+      case 60:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -2863,19 +2857,57 @@ ZRfield_Hexact(int *ZOe)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     *ZOe = ZIe;
 }
 
 static void
-ZR333(SID_TYPE *ZOt)
+ZR333(SID_TYPE *ZI331, SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 56:
+      case 33: case 48:
+	{
+	    unsigned ZIcv;
+
+	    ZRtype_Hqualifier (&ZIcv);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZIt) = make_subtype ( (*ZI331), TYPE_QUALIFIER ) ;
+    (ZIt)->v.str = cv_qualifier [ (ZIcv) ] ;
+	    }
+	}
+	break;
+      default:
+	{
+	    ZIt = *ZI331;
+	}
+	break;
+      case 75:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOt = ZIt;
+}
+
+static void
+ZR335(SID_TYPE *ZOt)
+{
+    SID_TYPE ZIt;
+
+    switch (CURRENT_TERMINAL) {
+      case 57:
 	{
 	    SID_TYPE ZIp;
 
@@ -2892,17 +2924,17 @@ ZR333(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 0: case 31: case 32: case 33: case 34:
-      case 36: case 37: case 38: case 41: case 42:
-      case 43: case 44: case 45: case 46: case 47:
+      case 0: case 32: case 33: case 34: case 35:
+      case 37: case 38: case 39: case 42: case 43:
+      case 44: case 45: case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIp;
 
 	    ZRparameter_Hlist (&ZIp);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -2916,14 +2948,14 @@ ZR333(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -2939,16 +2971,16 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
       case 7: case 8: case 9: case 12: case 13:
       case 14: case 15: case 19: case 21: case 22:
       case 23: case 24: case 26: case 27: case 28:
-      case 29:
+      case 29: case 30:
 	{
 	    SID_COMMAND ZIa;
 	    SID_COMMAND ZIb;
 
 	    ZRspec_Hcommand (&ZIa);
 	    switch (CURRENT_TERMINAL) {
-	      case 70:
+	      case 71:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -2956,7 +2988,7 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    ZRcommand_Hlist (&ZIb);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2974,7 +3006,7 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 
 	    ZRtext_Hcommand (&ZIa);
 	    ZRcommand_Hlist (&ZIb);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2988,9 +3020,9 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 	{
 	    ZRvariable_Hcommand ();
 	    switch (CURRENT_TERMINAL) {
-	      case 70:
+	      case 71:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -3008,40 +3040,40 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR336(SID_STRING *ZI334, SID_TYPE *ZI335, SID_STRING *ZO304, SID_TYPE *ZO305)
+ZR338(SID_STRING *ZI336, SID_TYPE *ZI337, SID_STRING *ZO306, SID_TYPE *ZO307)
 {
-    SID_STRING ZI304;
-    SID_TYPE ZI305;
+    SID_STRING ZI306;
+    SID_TYPE ZI307;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    SID_TYPE ZIs;
 	    SID_TYPE ZIt;
 
 	    ZRfunction_Hoperator (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZIt) = inject_type ( (*ZI335), (ZIs) ) ;
+    (ZIt) = inject_type ( (*ZI337), (ZIs) ) ;
 	    }
-	    ZR306 (*ZI334, ZIt, &ZI304, &ZI305);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR308 (*ZI336, ZIt, &ZI306, &ZI307);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3049,32 +3081,32 @@ ZR336(SID_STRING *ZI334, SID_TYPE *ZI335, SID_STRING *ZO304, SID_TYPE *ZO305)
 	break;
       default:
 	{
-	    ZR306 (*ZI334, *ZI335, &ZI304, &ZI305);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR308 (*ZI336, *ZI337, &ZI306, &ZI307);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZO304 = ZI304;
-    *ZO305 = ZI305;
+    *ZO306 = ZI306;
+    *ZO307 = ZI307;
 }
 
 static void
-ZR337(SID_TYPE *ZOq)
+ZR339(SID_TYPE *ZOq)
 {
     SID_TYPE ZIq;
 
     switch (CURRENT_TERMINAL) {
-      case 64:
+      case 65:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -3084,41 +3116,41 @@ ZR337(SID_TYPE *ZOq)
 	    }
 	}
 	break;
-      case 0: case 31: case 32: case 33: case 34:
-      case 36: case 37: case 38: case 41: case 42:
-      case 43: case 44: case 45: case 46: case 47:
+      case 0: case 32: case 33: case 34: case 35:
+      case 37: case 38: case 39: case 42: case 43:
+      case 44: case 45: case 46: case 47: case 48:
 	{
 	    ZRparameter_Hlist (&ZIq);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOq = ZIq;
 }
 
 static void
-ZR338(int *ZOtag)
+ZR340(int *ZOtag)
 {
     int ZItag;
 
     switch (CURRENT_TERMINAL) {
-      case 30:
+      case 31:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3129,11 +3161,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 36:
+      case 37:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3144,11 +3176,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 37:
+      case 38:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3159,11 +3191,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 40:
+      case 41:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3174,11 +3206,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 42:
+      case 43:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3189,11 +3221,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 43:
+      case 44:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3204,11 +3236,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 44:
+      case 45:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3219,11 +3251,11 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 45:
+      case 46:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
@@ -3234,27 +3266,27 @@ ZR338(int *ZOtag)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOtag = ZItag;
 }
 
 static void
-ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
+ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO316, SID_TYPE *ZO317)
 {
-    SID_IDENTIFIER ZI314;
-    SID_TYPE ZI315;
+    SID_IDENTIFIER ZI316;
+    SID_TYPE ZI317;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    SID_IDENTIFIER ZIid;
 	    SID_TYPE ZIt;
@@ -3262,17 +3294,17 @@ ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
 	    ADVANCE_LEXER;
 	    ZRdeclarator (&ZIid, &ZIt);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR316 (ZIid, ZIt, &ZI314, &ZI315);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR318 (ZIid, ZIt, &ZI316, &ZI317);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3284,7 +3316,7 @@ ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
 	    SID_TYPE ZIt;
 
 	    ZRidentifier (&ZIid);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3292,25 +3324,25 @@ ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
 
     (ZIt) = null ;
 	    }
-	    ZR316 (ZIid, ZIt, &ZI314, &ZI315);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR318 (ZIid, ZIt, &ZI316, &ZI317);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZO314 = ZI314;
-    *ZO315 = ZI315;
+    *ZO316 = ZI316;
+    *ZO317 = ZI317;
 }
 
 static void
@@ -3319,17 +3351,17 @@ ZRtype_Hcommand(int *ZOtag)
     int ZItag;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    ADVANCE_LEXER;
-	    ZR338 (&ZItag);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR340 (&ZItag);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 43:
+      case 44:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -3337,7 +3369,7 @@ ZRtype_Hcommand(int *ZOtag)
 	    }
 	}
 	break;
-      case 44:
+      case 45:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -3352,12 +3384,12 @@ ZRtype_Hcommand(int *ZOtag)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOtag = ZItag;
@@ -3426,7 +3458,7 @@ ZRtext_Hcommand(SID_COMMAND *ZOc)
 		    {
 			ADVANCE_LEXER;
 			ZRcommand_Hlist (&ZIb);
-			if ((CURRENT_TERMINAL) == 74) {
+			if ((CURRENT_TERMINAL) == 75) {
 			    RESTORE_LEXER;
 			    goto ZL1;
 			}
@@ -3440,7 +3472,7 @@ ZRtext_Hcommand(SID_COMMAND *ZOc)
 			}
 		    }
 		    break;
-		  case 74:
+		  case 75:
 		    RESTORE_LEXER;
 		    goto ZL1;
 		}
@@ -3468,144 +3500,61 @@ ZRtext_Hcommand(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
 }
 
 static void
-ZR345(SID_IDENTIFIER *ZI343, SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
+ZR347(SID_IDENTIFIER *ZI345, SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 {
     SID_IDENTIFIER ZIid;
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 60:
+      case 61:
 	{
 	    ZRbitfield_Hoperator (&ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
-	    ZIid = *ZI343;
+	    ZIid = *ZI345;
 	}
 	break;
       default:
 	{
-	    SID_TYPE ZI342;
+	    SID_TYPE ZI344;
 
 	    {
 
-    (ZI342) = null ;
+    (ZI344) = null ;
 	    }
-	    ZR316 (*ZI343, ZI342, &ZIid, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR318 (*ZI345, ZI344, &ZIid, &ZIt);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
     *ZOt = ZIt;
-}
-
-static void
-ZR346(int *ZOcmd)
-{
-    int ZIcmd;
-
-    switch (CURRENT_TERMINAL) {
-      case 55:
-	{
-	    ADVANCE_LEXER;
-	    ZR347 (&ZIcmd);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      default:
-	{
-	    {
- (ZIcmd) = OBJ_FUNC ; 
-	    }
-	}
-	break;
-      case 74:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOcmd = ZIcmd;
-}
-
-static void
-ZR347(int *ZOcmd)
-{
-    int ZIcmd;
-
-    switch (CURRENT_TERMINAL) {
-      case 35:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIcmd) = OBJ_EXTERN ; 
-	    }
-	}
-	break;
-      case 48:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIcmd) = OBJ_WEAK ; 
-	    }
-	}
-	break;
-      case 74:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOcmd = ZIcmd;
 }
 
 static void
@@ -3614,7 +3563,7 @@ ZRname_Hversion(int *ZOv)
     int ZIv;
 
     switch (CURRENT_TERMINAL) {
-      case 62:
+      case 63:
 	{
 	    SID_STRING ZIn;
 
@@ -3643,82 +3592,56 @@ ZRname_Hversion(int *ZOv)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOv = ZIv;
 }
 
 static void
-ZR348(SID_TYPE *ZOt)
+ZR348(int *ZOcmd)
 {
-    SID_TYPE ZIt;
+    int ZIcmd;
 
     switch (CURRENT_TERMINAL) {
       case 56:
 	{
-	    SID_TYPE ZIp;
-
 	    ADVANCE_LEXER;
-	    {
-
-    (ZIp) = null ;
-	    }
-	    {
-
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
-    (ZIt)->v.next = (ZIp) ;
-	    }
-	}
-	break;
-      case 0: case 31: case 32: case 33: case 34:
-      case 36: case 37: case 38: case 39: case 41:
-      case 42: case 43: case 44: case 45: case 46:
-      case 47:
-	{
-	    SID_TYPE ZIp;
-
-	    ZRmacro_Hparam_Hlist (&ZIp);
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      case 74:
+	    ZR349 (&ZIcmd);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
-
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
-    (ZIt)->v.next = (ZIp) ;
 	    }
 	}
 	break;
-      case 74:
-	return;
       default:
-	goto ZL1;
+	{
+	    {
+ (ZIcmd) = OBJ_FUNC ; 
+	    }
+	}
+	break;
+      case 75:
+	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOt = ZIt;
+    *ZOcmd = ZIcmd;
 }
 
 static void
-ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO304, SID_TYPE *ZO305)
+ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO306, SID_TYPE *ZO307)
 {
-    SID_STRING ZI304;
-    SID_TYPE ZI305;
+    SID_STRING ZI306;
+    SID_TYPE ZI307;
 
     switch (CURRENT_TERMINAL) {
       case 0:
@@ -3734,32 +3657,32 @@ ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO304, SID_TYPE *ZO305)
 
     (ZIt) = null ;
 	    }
-	    ZR306 (ZInm, ZIt, &ZI304, &ZI305);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR308 (ZInm, ZIt, &ZI306, &ZI307);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 55:
+      case 56:
 	{
-	    SID_STRING ZI334;
-	    SID_TYPE ZI335;
+	    SID_STRING ZI336;
+	    SID_TYPE ZI337;
 
 	    ADVANCE_LEXER;
-	    ZRabstract_Hdeclarator (&ZI334, &ZI335);
+	    ZRabstract_Hdeclarator (&ZI336, &ZI337);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR336 (&ZI334, &ZI335, &ZI304, &ZI305);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR338 (&ZI336, &ZI337, &ZI306, &ZI307);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3778,23 +3701,23 @@ ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO304, SID_TYPE *ZO305)
 
     (ZIt) = null ;
 	    }
-	    ZR306 (ZInm, ZIt, &ZI304, &ZI305);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR308 (ZInm, ZIt, &ZI306, &ZI307);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZO304 = ZI304;
-    *ZO305 = ZI305;
+    *ZO306 = ZI306;
+    *ZO307 = ZI307;
 }
 
 static void
@@ -3804,34 +3727,34 @@ ZRfield_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
-	    SID_IDENTIFIER ZI339;
-	    SID_TYPE ZI340;
+	    SID_IDENTIFIER ZI341;
+	    SID_TYPE ZI342;
 
 	    ADVANCE_LEXER;
-	    ZRdeclarator (&ZI339, &ZI340);
+	    ZRdeclarator (&ZI341, &ZI342);
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR316 (ZI339, ZI340, &ZIid, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR318 (ZI341, ZI342, &ZIid, &ZIt);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 60:
+      case 61:
 	{
 	    ZRbitfield_Hoperator (&ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3850,24 +3773,24 @@ ZRfield_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	break;
       case 0:
 	{
-	    SID_IDENTIFIER ZI343;
+	    SID_IDENTIFIER ZI345;
 
-	    ZRidentifier (&ZI343);
-	    ZR345 (&ZI343, &ZIid, &ZIt);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZRidentifier (&ZI345);
+	    ZR347 (&ZI345, &ZIid, &ZIt);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 71:
+      case 72:
 	{
 	    SID_TYPE ZIp;
 	    SID_TYPE ZIs;
 
 	    ZRptr_Hoperator (&ZIp);
 	    ZRdeclarator (&ZIid, &ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3877,14 +3800,14 @@ ZRfield_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
@@ -3921,116 +3844,137 @@ ZRvariable_Hcommand(void)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 65:
+	      case 66:
 		break;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR352 (&ZInm);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR354 (&ZInm);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
 }
 
 static void
-ZR349(SID_STRING *ZOkey)
+ZR349(int *ZOcmd)
 {
-    SID_STRING ZIkey;
+    int ZIcmd;
 
     switch (CURRENT_TERMINAL) {
-      case 66:
-	{
-	    ADVANCE_LEXER;
-	    ZR350 (&ZIkey);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case 69:
-	{
-	    ADVANCE_LEXER;
-	    ZR351 (&ZIkey);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case 74:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOkey = ZIkey;
-}
-
-static void
-ZR350(SID_STRING *ZOkey)
-{
-    SID_STRING ZIkey;
-
-    switch (CURRENT_TERMINAL) {
-      case 66:
+      case 36:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (ZIkey) = "11" ; 
+ (ZIcmd) = OBJ_EXTERN ; 
 	    }
 	}
 	break;
-      case 69:
+      case 49:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 56:
+	      case 57:
 		break;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (ZIkey) = "10" ; 
+ (ZIcmd) = OBJ_WEAK ; 
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
-    *ZOkey = ZIkey;
+    *ZOcmd = ZIcmd;
+}
+
+static void
+ZR350(SID_TYPE *ZOt)
+{
+    SID_TYPE ZIt;
+
+    switch (CURRENT_TERMINAL) {
+      case 57:
+	{
+	    SID_TYPE ZIp;
+
+	    ADVANCE_LEXER;
+	    {
+
+    (ZIp) = null ;
+	    }
+	    {
+
+    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt)->v.next = (ZIp) ;
+	    }
+	}
+	break;
+      case 0: case 32: case 33: case 34: case 35:
+      case 37: case 38: case 39: case 40: case 42:
+      case 43: case 44: case 45: case 46: case 47:
+      case 48:
+	{
+	    SID_TYPE ZIp;
+
+	    ZRmacro_Hparam_Hlist (&ZIp);
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      case 75:
+		RESTORE_LEXER;
+		goto ZL1;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+
+    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt)->v.next = (ZIp) ;
+	    }
+	}
+	break;
+      case 75:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOt = ZIt;
 }
 
 static void
@@ -4039,44 +3983,34 @@ ZR351(SID_STRING *ZOkey)
     SID_STRING ZIkey;
 
     switch (CURRENT_TERMINAL) {
-      case 66:
+      case 67:
 	{
 	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
+	    ZR352 (&ZIkey);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
 		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIkey) = "01" ; 
 	    }
 	}
 	break;
-      case 69:
+      case 70:
 	{
 	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 56:
-		break;
-	      default:
+	    ZR353 (&ZIkey);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
 		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (ZIkey) = "00" ; 
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOkey = ZIkey;
@@ -4088,11 +4022,11 @@ ZRdefine_Hparam_Hclause(SID_STRING *ZOp)
     SID_STRING ZIp;
 
     switch (CURRENT_TERMINAL) {
-      case 55:
+      case 56:
 	{
 	    ADVANCE_LEXER;
-	    ZR323 (&ZIp);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR325 (&ZIp);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4105,12 +4039,12 @@ ZRdefine_Hparam_Hclause(SID_STRING *ZOp)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOp = ZIp;
@@ -4133,31 +4067,195 @@ ZRexp_Hcommand(int *ZOcmd)
       case 13:
 	{
 	    ADVANCE_LEXER;
-	    ZR327 (&ZIcmd);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    ZR329 (&ZIcmd);
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOcmd = ZIcmd;
 }
 
 static void
-ZR352(SID_STRING *ZInm)
+ZR352(SID_STRING *ZOkey)
 {
+    SID_STRING ZIkey;
+
     switch (CURRENT_TERMINAL) {
       case 67:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (ZIkey) = "11" ; 
+	    }
+	}
+	break;
+      case 70:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (ZIkey) = "10" ; 
+	    }
+	}
+	break;
+      case 75:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOkey = ZIkey;
+}
+
+static void
+ZRif_Hcommand(SID_COMMAND *ZOc, SID_STRING *ZOs)
+{
+    SID_COMMAND ZIc;
+    SID_STRING ZIs;
+
+    switch (CURRENT_TERMINAL) {
+      case 16:
+	{
+	    ADVANCE_LEXER;
+	    ZRconstant_Hvalue (&ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
+    (ZIc)->u.u_num = CMD_IF ;
+	    }
+	}
+	break;
+      case 17:
+	{
+	    ADVANCE_LEXER;
+	    ZRifdef_Hmacro_Hname (&ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
+    (ZIc)->u.u_num = CMD_IFDEF ;
+	    }
+	}
+	break;
+      case 18:
+	{
+	    ADVANCE_LEXER;
+	    ZRifdef_Hmacro_Hname (&ZIs);
+	    if ((CURRENT_TERMINAL) == 75) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
+    (ZIc)->u.u_num = CMD_IFNDEF ;
+	    }
+	}
+	break;
+      case 75:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOc = ZIc;
+    *ZOs = ZIs;
+}
+
+static void
+ZR353(SID_STRING *ZOkey)
+{
+    SID_STRING ZIkey;
+
+    switch (CURRENT_TERMINAL) {
+      case 67:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (ZIkey) = "01" ; 
+	    }
+	}
+	break;
+      case 70:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 57:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (ZIkey) = "00" ; 
+	    }
+	}
+	break;
+      case 75:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (75);
+    return;
+  ZL0:;
+    *ZOkey = ZIkey;
+}
+
+static void
+ZR354(SID_STRING *ZInm)
+{
+    switch (CURRENT_TERMINAL) {
+      case 68:
 	{
 	    SID_STRING ZIs;
 
@@ -4206,81 +4304,15 @@ ZR352(SID_STRING *ZInm)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
-}
-
-static void
-ZRif_Hcommand(SID_COMMAND *ZOc, SID_STRING *ZOs)
-{
-    SID_COMMAND ZIc;
-    SID_STRING ZIs;
-
-    switch (CURRENT_TERMINAL) {
-      case 16:
-	{
-	    ADVANCE_LEXER;
-	    ZRconstant_Hvalue (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
-    (ZIc)->u.u_num = CMD_IF ;
-	    }
-	}
-	break;
-      case 17:
-	{
-	    ADVANCE_LEXER;
-	    ZRifdef_Hmacro_Hname (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
-    (ZIc)->u.u_num = CMD_IFDEF ;
-	    }
-	}
-	break;
-      case 18:
-	{
-	    ADVANCE_LEXER;
-	    ZRifdef_Hmacro_Hname (&ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZIc) = make_object ( (ZIs), OBJ_IF ) ;
-    (ZIc)->u.u_num = CMD_IFNDEF ;
-	    }
-	}
-	break;
-      case 74:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (74);
-    return;
-  ZL0:;
-    *ZOc = ZIc;
-    *ZOs = ZIs;
 }
 
 static void
@@ -4288,21 +4320,21 @@ ZRbitfield_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
 	SID_STRING ZIa;
 
 	switch (CURRENT_TERMINAL) {
-	  case 60:
+	  case 61:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
 	ZRconstant_Hvalue (&ZIa);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -4314,7 +4346,7 @@ ZRbitfield_Hoperator(SID_TYPE *ZOt)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -4325,7 +4357,7 @@ ZRuse_Hsubset_Hname(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -4333,7 +4365,7 @@ ZRuse_Hsubset_Hname(SID_STRING *ZOs)
 	SID_STRING ZIb;
 
 	switch (CURRENT_TERMINAL) {
-	  case 55:
+	  case 56:
 	    break;
 	  default:
 	    goto ZL1;
@@ -4350,14 +4382,14 @@ ZRuse_Hsubset_Hname(SID_STRING *ZOs)
 	}
 	ADVANCE_LEXER;
 	switch (CURRENT_TERMINAL) {
-	  case 56:
+	  case 57:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
 	switch (CURRENT_TERMINAL) {
-	  case 61:
+	  case 62:
 	    break;
 	  default:
 	    goto ZL1;
@@ -4380,7 +4412,7 @@ ZRuse_Hsubset_Hname(SID_STRING *ZOs)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOs = ZIs;
@@ -4391,15 +4423,15 @@ read_spec(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
 	ZRsubset_Hcommand (&ZIc);
 	switch (CURRENT_TERMINAL) {
-	  case 70:
+	  case 71:
 	    break;
-	  case 74:
+	  case 75:
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -4407,7 +4439,7 @@ read_spec(SID_COMMAND *ZOc)
 	}
 	ADVANCE_LEXER;
 	switch (CURRENT_TERMINAL) {
-	  case 72:
+	  case 73:
 	    break;
 	  default:
 	    goto ZL1;
@@ -4440,7 +4472,7 @@ ZRmacro_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
       case 0:
 	{
 	    ZRidentifier (&ZIid);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4450,14 +4482,14 @@ ZRmacro_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 71:
+      case 72:
 	{
 	    SID_TYPE ZIp;
 	    SID_TYPE ZIs;
 
 	    ZRptr_Hoperator (&ZIp);
 	    ZRmacro_Hdeclarator (&ZIid, &ZIs);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4467,14 +4499,14 @@ ZRmacro_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOid = ZIid;
@@ -4486,7 +4518,7 @@ ZRsubset_Hname(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -4502,15 +4534,15 @@ ZRsubset_Hname(SID_STRING *ZOs)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR318 (&ZIa, &ZIs);
-	if ((CURRENT_TERMINAL) == 74) {
+	ZR320 (&ZIa, &ZIs);
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOs = ZIs;
@@ -4521,7 +4553,7 @@ ZRbuiltin_Htype(unsigned *ZOb)
 {
     unsigned ZIb;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
@@ -4531,13 +4563,13 @@ ZRbuiltin_Htype(unsigned *ZOb)
 	ZRtype_Hkeyword (&ZIa);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 31: case 33: case 36: case 37: case 38:
-	      case 41: case 42: case 45: case 46:
+	      case 32: case 34: case 37: case 38: case 39:
+	      case 42: case 43: case 46: case 47:
 		{
 		    unsigned ZId;
 
 		    ZRbuiltin_Htype (&ZId);
-		    if ((CURRENT_TERMINAL) == 74) {
+		    if ((CURRENT_TERMINAL) == 75) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -4560,7 +4592,7 @@ ZRbuiltin_Htype(unsigned *ZOb)
 		    ZIc = ZIa;
 		}
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4569,7 +4601,7 @@ ZRbuiltin_Htype(unsigned *ZOb)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOb = ZIb;
@@ -4581,7 +4613,7 @@ ZRobject_Hqualifier(int *ZOlv)
     int ZIlv;
 
     switch (CURRENT_TERMINAL) {
-      case 39:
+      case 40:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4596,7 +4628,7 @@ ZRobject_Hqualifier(int *ZOlv)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     *ZOlv = ZIlv;
@@ -4625,7 +4657,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 		    {
 			ADVANCE_LEXER;
 			ZRfield_Hlist (ZIm, &ZIb);
-			if ((CURRENT_TERMINAL) == 74) {
+			if ((CURRENT_TERMINAL) == 75) {
 			    RESTORE_LEXER;
 			    goto ZL1;
 			}
@@ -4639,7 +4671,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 			}
 		    }
 		    break;
-		  case 74:
+		  case 75:
 		    RESTORE_LEXER;
 		    goto ZL1;
 		}
@@ -4666,7 +4698,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
     (ZIc1) = join_object ( p, q ) ;
 	    }
 	    ZRfield_Hlist (ZIm, &ZIc2);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4676,9 +4708,9 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 0: case 31: case 32: case 33: case 34:
-      case 36: case 37: case 38: case 41: case 42:
-      case 43: case 44: case 45: case 46: case 47:
+      case 0: case 32: case 33: case 34: case 35:
+      case 37: case 38: case 39: case 42: case 43:
+      case 44: case 45: case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIt;
 	    SID_COMMAND ZIa;
@@ -4687,9 +4719,9 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	    ZRqualified_Htype (&ZIt);
 	    ZRfield_Hdeclarator_Hlist (ZIm, ZIt, &ZIa);
 	    switch (CURRENT_TERMINAL) {
-	      case 70:
+	      case 71:
 		break;
-	      case 74:
+	      case 75:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -4697,7 +4729,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	    }
 	    ADVANCE_LEXER;
 	    ZRfield_Hlist (ZIm, &ZIb);
-	    if ((CURRENT_TERMINAL) == 74) {
+	    if ((CURRENT_TERMINAL) == 75) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4715,12 +4747,12 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -4731,21 +4763,21 @@ ZRptr_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
-    if ((CURRENT_TERMINAL) == 74) {
+    if ((CURRENT_TERMINAL) == 75) {
 	return;
     }
     {
 	unsigned ZIcv;
 
 	switch (CURRENT_TERMINAL) {
-	  case 71:
+	  case 72:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
 	ZRtype_Hqualifier_Hopt (&ZIcv);
-	if ((CURRENT_TERMINAL) == 74) {
+	if ((CURRENT_TERMINAL) == 75) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -4757,7 +4789,7 @@ ZRptr_Hoperator(SID_TYPE *ZOt)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOt = ZIt;
@@ -4769,7 +4801,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
     unsigned ZIb;
 
     switch (CURRENT_TERMINAL) {
-      case 31:
+      case 32:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4777,7 +4809,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 33:
+      case 34:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4785,7 +4817,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 36:
+      case 37:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4793,7 +4825,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 37:
+      case 38:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4801,7 +4833,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 38:
+      case 39:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4809,7 +4841,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 41:
+      case 42:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4817,7 +4849,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 42:
+      case 43:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4825,7 +4857,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 45:
+      case 46:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4833,7 +4865,7 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 46:
+      case 47:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4841,14 +4873,14 @@ ZRtype_Hkeyword(unsigned *ZOb)
 	    }
 	}
 	break;
-      case 74:
+      case 75:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (74);
+    SAVE_LEXER (75);
     return;
   ZL0:;
     *ZOb = ZIb;

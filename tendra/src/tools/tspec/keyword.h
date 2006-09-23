@@ -37,6 +37,7 @@
 MAKE_KEYWORD("+BASE_API", lex_base_Hapi);
 MAKE_KEYWORD("+CONST", lex_constant);
 MAKE_KEYWORD("+DEFINE", lex_define);
+MAKE_KEYWORD("+DEFMIN", lex_defmin);
 MAKE_KEYWORD("+ELSE", lex_else);
 MAKE_KEYWORD("+ENDIF", lex_endif);
 MAKE_KEYWORD("+ENUM", lex_enumerate);
