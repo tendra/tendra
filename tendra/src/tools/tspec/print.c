@@ -644,6 +644,18 @@ print_token(FILE *output, object *p, char *tnm)
 	    break;
 	}
 
+	case OBJ_DEFMIN: {
+	    /* Macro definitions */
+	    char *s = p->u.u_str;
+	    OUT(output, "#if defined(%s) && %s < %s\n", nm, nm, s);
+	    OUT(output, "/* Should probably me an #error */\n");
+	    OUT(output, "#define %s%s\n", nm, s);
+	    OUT(output, "#elif !defined(%s)\n", nm);
+	    OUT(output, "#define %s%s\n", nm, s);
+	    OUT(output, "#endif\n");
+	    break;
+	}
+
 	case OBJ_FIELD: {
 	    /* Field selectors */
 	    field *f = p->u.u_field;
@@ -896,6 +908,13 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    nm = null;
 	    break;
 	}
+
+	case OBJ_DEFMIN: {
+	    /* Macro definitions are not tokens */
+	    nm = null;
+	    break;
+	}
+
 
 	case OBJ_TYPE: {
 	    /* Deal with types */

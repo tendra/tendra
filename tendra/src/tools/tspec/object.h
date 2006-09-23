@@ -134,6 +134,7 @@ typedef struct object_tag {
 #define OBJ_USE			20	/* u_obj */
 #define OBJ_WEAK		21	/* u_type */
 #define OBJ_KEYWORD		22	/* u_num */
+#define OBJ_DEFMIN		23	/* u_str */
 
 
 /*

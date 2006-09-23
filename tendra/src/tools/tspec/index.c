@@ -488,6 +488,24 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    break;
 	}
 
+	case OBJ_DEFMIN: {
+	    char *s = q->u.u_str;
+	    if (*s == '(') {
+		print_field("defmin");
+		print_field("param");
+		for (; *s && *s != ')'; s++) {
+		    IGNORE putchar(*s);
+		}
+		if (*s == ')')s++;
+		IGNORE printf(")");
+	    } else {
+		print_s_v("defmin");
+	    }
+	    while (*s == ' ')s++;
+	    print_value(s);
+	    break;
+	}
+
 	case OBJ_FIELD: {
 	    field *f = q->u.u_field;
 	    print_field("member");
@@ -707,6 +725,22 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    }
 	    while (*s == ' ')s++;
 	    IGNORE printf("defined to be %s\n\n", s);
+	    break;
+	}
+
+	case OBJ_DEFMIN: {
+	    char *s = q->u.u_str;
+	    IGNORE printf("%s is a macro ", nm);
+	    if (*s == '(') {
+		IGNORE printf("with arguments ");
+		for (; *s && *s != ')'; s++) {
+		    IGNORE putchar(*s);
+		}
+		if (*s == ')')s++;
+		IGNORE printf(") ");
+	    }
+	    while (*s == ' ')s++;
+	    IGNORE printf("defined to be minimum %s\n\n", s);
 	    break;
 	}
 
