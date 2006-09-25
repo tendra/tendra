@@ -56,7 +56,7 @@ _REALINSTALL: .USE
 	@${ECHO} "# Installing ${ENVFILE} environments"
 	${CONDCREATE} "${MACH_BASE}/env" ;
 . for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${entry} ${MACH_BASE}/env/${entry}
+	${INSTALL} -m 644 ${.OBJDIR}/${entry} ${MACH_BASE}/env/${entry}
 . endfor
 .elif "${PROG}" != ""
 #
