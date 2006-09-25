@@ -16,6 +16,7 @@ with Asis.Declarations;
 
 with Token;
 with Utils;
+with Ranges;
 with Intrinsic;
 with Declaration;
 
@@ -37,11 +38,12 @@ package body Expression is
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
 
-   procedure Short_Circuit
+   procedure Range_Test
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
@@ -96,6 +98,58 @@ package body Expression is
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
+
+   generic 
+      with procedure Compile_Labeled
+        (State    : access States.State;
+         Element  : in     Asis.Element;
+         Negative : in     Boolean;
+         Label    : in     TenDRA.Small;
+         Static   : in     Boolean;
+         B        : in out Stream'Class;
+         Unit     : in     States.Unit_Kinds);
+   procedure Compile_To_Label
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Negative : in     Boolean;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   ----------------------
+   -- Compile_To_Label --
+   ----------------------
+
+   procedure Compile_To_Label
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Negative : in     Boolean;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use Asis;
+      use States;
+
+      Label   : Small := State.Labels (Unit);
+   begin
+      Inc (State.Labels (Unit));
+      Output.TDF (B, c_conditional);
+      Output.TDF (B, c_make_label);
+      Output.TDFINT (B, Label);
+
+      begin
+         Output.TDF (B, c_sequence);
+         Output.List_Count (B, 1);
+         Compile_Labeled (State, Element, Negative, Label, Static, B, Unit);
+         Output_Boolean (State, True, B, Unit);
+      end;
+
+      Output_Boolean (State, False, B, Unit);
+   end Compile_To_Label;
+
+   procedure Short_Circuit_Bool is new Compile_To_Label (Short_Circuit);
+   procedure Range_Test_Bool    is new Compile_To_Label (Range_Test);
 
    --------------
    -- Ada_Call --
@@ -520,6 +574,74 @@ package body Expression is
       end if;
    end Compile;
 
+   --------------------------
+   -- First_Last_Attribute --
+   --------------------------
+
+   procedure First_Last_Attribute
+     (State    : access States.State;
+      Prefix   : in     Asis.Expression;
+      Kind     : in     Asis.Attribute_Kinds;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds;
+      Exps     : in     Asis.Expression_List := Asis.Nil_Element_List)
+   is
+      use Asis;
+      use States;
+      use XASIS.Utils;
+      use XASIS.Classes;
+      use Asis.Expressions;
+
+      Decl        : constant Asis.Declaration :=
+        Selected_Name_Declaration (Prefix, True);
+      Token       : Small;
+      Prefix_Type : constant Type_Info := Type_From_Declaration (Decl);
+      Root_Type   : Type_Info;
+      Param       : Streams.Memory_Stream;
+      Base        : constant array (Boolean)
+        of Type_Param_Kinds := (False => Base_Lower, True => Base_Upper);
+   begin
+      if Kind /= A_First_Attribute and Kind /= A_Last_Attribute then
+         raise States.Error;
+      end if;
+
+      if Static and not Is_Boolean (Prefix_Type) then
+         Output.TDF (B, c_change_variety);
+         Output.TDF (B, c_continue);
+         Output_Universal_Variety (State, Prefix_Type, B, Unit);
+      end if;
+
+      Output.TDF (B, c_exp_apply_token);
+      Output.TDF (B, c_make_tok);
+
+      if (Is_Signed_Integer (Prefix_Type)
+        or Is_Float_Point (Prefix_Type))
+        and then not Is_Constrained (Prefix)
+      then
+         Token := Find_Type_Param
+           (State, Prefix_Type, Base (Kind = A_Last_Attribute), Unit);
+
+         Output.TDFINT (B, Token);
+         Output.BITSTREAM (B, Empty);
+      else
+         Token := Find_Attribute (State, Decl, Kind, Unit);
+         Output.TDFINT (B, Token);
+         Streams.Expect
+           (Param, Dummy, (1 => (EXP_SORT, Singular, False)));
+
+         if Exps'Length > 0 then
+            Root_Type := T.Root_Integer;
+            Compile (State, Exps (1), Root_Type, True, Param, Unit);
+         else
+            Output.TDF (Param, c_make_top);
+         end if;
+
+         Output.BITSTREAM (B, Param);
+      end if;
+   end First_Last_Attribute;
+
    ----------------------
    -- Compile_Internal --
    ----------------------
@@ -537,59 +659,15 @@ package body Expression is
       use Asis.Expressions;
 
       procedure Attribute_Reference is
-         use XASIS.Utils;
-         use XASIS.Classes;
-
-         Decl        : Asis.Declaration;
-         Token       : Small;
-         Prefix_Type : Type_Info;
-         Root_Type   : Type_Info;
-         Param       : Streams.Memory_Stream;
          Exps        : constant Asis.Expression_List :=
            Attribute_Designator_Expressions (Element);
          Kind        : Attribute_Kinds :=
            Asis.Elements.Attribute_Kind (Element);
-         Base        : constant array (Boolean)
-           of Type_Param_Kinds := (False => Base_Lower, True => Base_Upper);
       begin
          case Kind is
             when A_First_Attribute | A_Last_Attribute =>
-               Decl := Selected_Name_Declaration (Prefix (Element), True);
-               Prefix_Type := Type_From_Declaration (Decl);
-
-               if Static and not Is_Boolean (Prefix_Type) then
-                  Output.TDF (B, c_change_variety);
-                  Output.TDF (B, c_continue);
-                  Output_Universal_Variety (State, Prefix_Type, B, Unit);
-               end if;
-
-               Output.TDF (B, c_exp_apply_token);
-               Output.TDF (B, c_make_tok);
-
-               if (Is_Signed_Integer (Prefix_Type)
-                 or Is_Float_Point (Prefix_Type))
-                 and then not Is_Constrained (Prefix (Element))
-               then
-                  Token := Find_Type_Param
-                    (State, Prefix_Type, Base (Kind = A_Last_Attribute), Unit);
-
-                  Output.TDFINT (B, Token);
-                  Output.BITSTREAM (B, Empty);
-               else
-                  Token := Find_Attribute (State, Decl, Kind, Unit);
-                  Output.TDFINT (B, Token);
-                  Streams.Expect
-                    (Param, Dummy, (1 => (EXP_SORT, Singular, False)));
-
-                  if Exps'Length > 0 then
-                     Root_Type := T.Root_Integer;
-                     Compile (State, Exps (1), Root_Type, True, Param, Unit);
-                  else
-                     Output.TDF (Param, c_make_top);
-                  end if;
-
-                  Output.BITSTREAM (B, Param);
-               end if;
+               First_Last_Attribute
+                 (State, Prefix (Element), Kind, Tipe, Static, B, Unit, Exps);
 
             when others =>
                raise States.Error;
@@ -655,9 +733,11 @@ package body Expression is
          when An_And_Then_Short_Circuit
            | An_Or_Else_Short_Circuit
            =>
-            Short_Circuit (State, Element, False, Static, B, Unit);
---        | An_In_Range_Membership_Test
---        | A_Not_In_Range_Membership_Test
+            Short_Circuit_Bool (State, Element, False, Static, B, Unit);
+         when An_In_Range_Membership_Test =>
+            Range_Test_Bool (State, Element, False, Static, B, Unit);
+         when A_Not_In_Range_Membership_Test =>
+            Range_Test_Bool (State, Element, True, Static, B, Unit);
 --        | An_In_Type_Membership_Test
 --        | A_Not_In_Type_Membership_Test
 --        | A_Null_Literal
@@ -731,13 +811,18 @@ package body Expression is
          when An_And_Then_Short_Circuit
            | An_Or_Else_Short_Circuit
            =>
-            Short_Circuit (State, Element, Negative, Static, B, Unit);
+            Short_Circuit_Bool (State, Element, Negative, Static, B, Unit);
 
          when A_Parenthesized_Expression =>
             Compile_Boolean (State,
                              Expression_Parenthesized (Element),
                              Negative,
                              B, Unit);
+
+         when An_In_Range_Membership_Test =>
+            Range_Test_Bool (State, Element, Negative, Static, B, Unit);
+         when A_Not_In_Range_Membership_Test =>
+            Range_Test_Bool (State, Element, not Negative, Static, B, Unit);
 
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
@@ -847,6 +932,13 @@ package body Expression is
             Compile_Boolean
               (State, Expression_Parenthesized (Element),
                Negative, Label, B, Unit);
+
+         when An_In_Range_Membership_Test =>
+            Range_Test (State, Element, Negative, Label, Static, B, Unit);
+
+         when A_Not_In_Range_Membership_Test =>
+            Range_Test (State, Element, not Negative, Label, Static, B, Unit);
+
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
 
@@ -1096,37 +1188,56 @@ package body Expression is
       Output.BITSTREAM (B, States.Empty);
    end Output_Universal_Variety;
 
-   -------------------
-   -- Short_Circuit --
-   -------------------
+   ----------------
+   -- Range_Test --
+   ----------------
 
-   procedure Short_Circuit
+   procedure Range_Test
      (State    : access States.State;
       Element  : in     Asis.Element;
       Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds)
    is
-      use Asis;
       use States;
-
-      Label   : Small := State.Labels (Unit);
+      use XASIS.Static;
+      Expr    : constant Asis.Expression :=
+        Asis.Expressions.Membership_Test_Expression (Element);
+      Rng     : constant Asis.Range_Constraint :=
+        Asis.Expressions.Membership_Test_Range (Element);
+      Tok     : constant TenDRA.Small :=
+        Find_Support (State, Test_Range_Jump, Unit);
+      Tipe    : constant XASIS.Classes.Type_Info :=
+        Utils.Membership_Test_Type (Element);
+      Params  : Streams.Memory_Stream;
+      Context : Ranges.Range_Context;
    begin
-      Inc (State.Labels (Unit));
-      Output.TDF (B, c_conditional);
-      Output.TDF (B, c_make_label);
-      Output.TDFINT (B, Label);
+      Ranges.New_Context (State, Rng, Tipe, Static, B, Unit, Context);
 
-      begin
-         Output.TDF (B, c_sequence);
-         Output.List_Count (B, 1);
-         Short_Circuit (State, Element, Negative, Label, Static, B, Unit);
-         Output_Boolean (State, True, B, Unit);
-      end;
+      Token.Initialize (Params, Test_Range_Jump);
 
-      Output_Boolean (State, False, B, Unit);
-   end Short_Circuit;
+      Compile (State, Expr, Tipe, Static, Params, Unit);
+      Ranges.Compile (State, Rng, Tipe, Static, Params, Unit, Context, Lower);
+      Ranges.Compile (State, Rng, Tipe, Static, Params, Unit, Context, Upper);
+
+      Output.TDF (Params, c_make_nat);
+
+      if Negative then
+         Output.TDFINT (Params, 1);
+      else
+         Output.TDFINT (Params, 0);
+      end if;
+
+      Output.TDF (Params, c_make_label);
+      Output.TDFINT (Params, Label);
+
+      Output.TDF (B, c_exp_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Tok);
+      Output.BITSTREAM (B, Params);
+   end Range_Test;
 
    -------------------
    -- Short_Circuit --

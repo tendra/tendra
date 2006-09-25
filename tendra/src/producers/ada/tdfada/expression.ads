@@ -82,6 +82,16 @@ package Expression is
       Unit     : in     States.Unit_Kinds;
       Negative : in     Boolean := False);
 
+   procedure First_Last_Attribute
+     (State    : access States.State;
+      Prefix   : in     Asis.Expression;
+      Kind     : in     Asis.Attribute_Kinds;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds;
+      Exps     : in     Asis.Expression_List := Asis.Nil_Element_List);
+
 end Expression;
 
 

@@ -5,11 +5,13 @@ with TenDRA.Streams;
 
 with Token;
 with Utils;
+with Ranges;
 with Statement;
 with Expression;
 with Type_Definition;
 
 with XASIS.Utils;
+with XASIS.Static;
 with XASIS.Classes;
 
 with Asis.Elements;
@@ -160,6 +162,57 @@ package body Declaration is
    begin
       null;
    end Compile_Local;
+
+   --------------------
+   -- Loop_Parameter --
+   --------------------
+
+   procedure Loop_Parameter
+     (State    : access States.State;
+      Decl     : in     Asis.Declaration;
+      Def      :    out Asis.Discrete_Subtype_Definition;
+      Tag      :    out TenDRA.Small;
+      Incr     :    out Boolean;
+      Context  :    out Ranges.Range_Context)
+   is
+      use XASIS.Classes;
+      use Asis.Declarations;
+      use type Asis.Trait_Kinds;
+
+      B     : TenDRA.Streams.Memory_Stream
+        renames State.Units (TAGDEF).all;
+
+      Trait   : constant Asis.Trait_Kinds := Asis.Elements.Trait_Kind (Decl);
+      Tipe    : constant Type_Info := Type_Of_Declaration (Decl);
+      List    : constant Asis.Defining_Name_List := Names (Decl);
+      Lower   : XASIS.Static.Bound_Kinds;
+   begin
+      Tag := Find_Tag (State, List (1), TAGDEF, False);
+      Def := Specification_Subtype_Definition (Decl);
+
+      if Trait = Asis.A_Reverse_Trait then
+         Incr  := False;
+         Lower := XASIS.Static.Upper;
+      else
+         Incr  := True;
+         Lower := XASIS.Static.Lower;
+      end if;
+
+      Ranges.New_Context_Discrete
+        (State, Def, Tipe, False, B, TAGDEF, Context);
+
+      Output.TDF (B, c_variable);
+      Output.TDF (B, c_add_accesses);
+      Output.TDF (B, c_no_other_read);
+      Output.TDF (B, c_no_other_write);
+      Output.TDF (B, c_make_tag);
+      Output.TDFINT (B, Tag);
+
+      Ranges.Compile_Discrete
+        (State, Def, Tipe, False, B, TAGDEF, Context, Lower);
+
+      Make_Value_Token (State, List (1), Tipe, Variable);
+   end Loop_Parameter;
 
    ---------------------
    -- Make_Name_Token --

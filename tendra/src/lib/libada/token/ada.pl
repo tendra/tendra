@@ -19,6 +19,21 @@ Tokdef A_ROOT_INTEGER_DEFINITION.V =
 
   var_width (true, 64);
 
+Tokdef A_ROOT_INTEGER_DEFINITION =
+  [] SHAPE
+
+  integer (A_ROOT_INTEGER_DEFINITION.V);
+
+Tokdef A_ROOT_INTEGER_DEFINITION.A_SUCC_ATTRIBUTE =
+  [Left:EXP] EXP
+
+  (Left + 1 (A_ROOT_INTEGER_DEFINITION.V));
+
+Tokdef A_ROOT_INTEGER_DEFINITION.A_PRED_ATTRIBUTE =
+  [Left:EXP] EXP
+
+  (Left - 1 (A_ROOT_INTEGER_DEFINITION.V));
+
 Tokdef Character.LOWER =
   [] EXP
 
@@ -389,6 +404,23 @@ Var x : Int = MOD_MINUS [3 (T), 8 (T),
   9 (A_UNIVERSAL_INTEGER_DEFINITION.V), T];
 */
 
+Tokdef TEST_RANGE_JUMP =
+  [Value  : EXP,
+   Lower  : EXP,
+   Upper  : EXP,
+   Inv    : NAT,
+   Target : LABEL] EXP
+  EXP ?(+ Inv (Boolean.V),
+        ?{
+          ?(Value >= Lower);
+          ?(Value > Upper | Target)
+          | make_top
+        },
+        {
+          ?(Value >= Lower | Target);
+          ?(Value <= Upper | Target)
+        });
+
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
       Character.LOWER,
@@ -397,6 +429,9 @@ Keep (COMPARE_INTEGER_VALUE,
       Integer.UPPER,
       A_UNIVERSAL_INTEGER_DEFINITION.V,
       A_ROOT_INTEGER_DEFINITION.V,
+      A_ROOT_INTEGER_DEFINITION,
+      A_ROOT_INTEGER_DEFINITION.A_SUCC_ATTRIBUTE,
+      A_ROOT_INTEGER_DEFINITION.A_PRED_ATTRIBUTE,
       Ada_Init,
       ~Throw,
       CONSTRAINT_ERROR_IF,
@@ -414,6 +449,7 @@ Keep (COMPARE_INTEGER_VALUE,
       MOD_AND,
       MOD_NOT,
       MOD_NEGATIVE,
-      MOD_POWER
+      MOD_POWER,
+      TEST_RANGE_JUMP
       )
 

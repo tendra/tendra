@@ -23,7 +23,8 @@ package States is
       Enum_Succ_Pred_Attr, Signed_Succ_Pred_Attr,
       Enum_Val_Attr, Signed_Val_Attr, Signed_Base_Lower, Signed_Base_Upper,
       Mod_Plus, Mod_Minus, Mod_Multiply, Mod_Or, Mod_Xor, Mod_And,
-      Mod_Not, Mod_Negative, Mod_Power);
+      Mod_Not, Mod_Negative, Mod_Power,
+      Test_Range_Jump);
 
    type Type_Param_Kinds is
      (Lower, Upper, Base_Lower, Base_Upper);

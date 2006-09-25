@@ -348,6 +348,8 @@ package body Asis.Gela.Visibility.Create is
          Child.First_Part.Visible := Gela.Utils.In_Visible_Part (Element);
       end if;
 
+      Point.Item.Part.Region.First_Child := Child;
+
       Point  := (Item => Child.First_Part.Dummy_Item'Access);
    end Region;
 

@@ -969,7 +969,7 @@ package body XASIS.Integers is
          end if;
          Temp := Temp - Small (Carry);
          Result (Result'First + I) := X (Digit (Temp mod Digit'Modulus));
-         Carry := Digit (-Temp / Digit'Modulus);
+         Carry := -Digit (Temp / Digit'Modulus);
       end loop;
       Last := Result'First + Max - 1;
    end Subtract;

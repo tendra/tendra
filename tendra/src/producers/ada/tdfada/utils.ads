@@ -20,6 +20,8 @@ package Utils is
      (Name : Asis.Defining_Name)
      return Asis.Program_Text;
 
+   function Membership_Test_Type (Element : Asis.Expression)
+     return XASIS.Classes.Type_Info;
 end Utils;
 
 

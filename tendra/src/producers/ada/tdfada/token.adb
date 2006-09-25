@@ -83,6 +83,13 @@ package body Token is
                             ((EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (VARIETY_SORT, Singular, False)));
+         when Test_Range_Jump =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (NAT_SORT, Singular, False),
+                             (LABEL_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -213,6 +220,15 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
+               when Test_Range_Jump =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 5);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_nat);
+                  Output.TDF (O, c_label);
             end case;
          when Subtype_Attribute_Token =>
             case Link.Attribute is

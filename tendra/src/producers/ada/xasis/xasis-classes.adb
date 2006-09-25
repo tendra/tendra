@@ -1447,6 +1447,10 @@ package body XASIS.Classes is
             Element := Specification_Subtype_Definition (Decl);
             Result := Type_From_Discrete_Def (Element);
 
+            if Is_Universal (Result) then
+               Result := T.Root_Integer;
+            end if;
+
          when A_Discriminant_Specification |
            A_Parameter_Specification |
            An_Object_Renaming_Declaration |

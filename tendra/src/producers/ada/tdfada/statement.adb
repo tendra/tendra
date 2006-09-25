@@ -7,8 +7,11 @@ with Asis.Elements;
 with Asis.Statements;
 with Asis.Expressions;
 
+with Ranges;
 with Expression;
+with Declaration;
 with XASIS.Utils;
+with XASIS.Static;
 with XASIS.Classes;
 
 package body Statement is
@@ -106,9 +109,16 @@ package body Statement is
 --        A_Case_Statement
          when A_Loop_Statement
            | A_While_Loop_Statement
+           | A_For_Loop_Statement
            =>
             declare
-               Info : aliased Loop_Info;
+               Info     : aliased Loop_Info;
+               For_Inc  : Boolean;
+               For_Tag  : Small;
+               For_Def  : Asis.Discrete_Subtype_Definition;
+               For_Decl : Asis.Declaration;
+               For_Type : XASIS.Classes.Type_Info;
+               Context  : Ranges.Range_Context;
             begin
                Info.Next         := Loops;
                Info.Element      := Stmt;
@@ -116,6 +126,14 @@ package body Statement is
                Inc (State.Labels (TAGDEF));
                Info.Exit_Label   :=State.Labels (TAGDEF);
                Inc (State.Labels (TAGDEF));
+
+               if Kind = A_For_Loop_Statement then
+                  For_Decl := For_Loop_Parameter_Specification (Stmt);
+                  For_Type := XASIS.Classes.Type_Of_Declaration (For_Decl);
+
+                  Declaration.Loop_Parameter
+                    (State, For_Decl, For_Def, For_Tag, For_Inc, Context);
+               end if;
 
                Output.TDF (B, c_repeat);
                Output.TDF (B, c_make_label);
@@ -128,7 +146,38 @@ package body Statement is
 
                Output.TDF (B, c_sequence);
 
-               if Kind = A_While_Loop_Statement then
+               if Kind = A_For_Loop_Statement then
+                  Output.List_Count (B, 3);
+                  Output.TDF (B, c_integer_test);
+                  Output.No_Option (B);  --  prob
+
+                  if For_Inc then
+                     Output.TDF (B, c_less_than_or_equal);
+                  else
+                     Output.TDF (B, c_greater_than_or_equal);
+                  end if;
+
+                  Output.TDF (B, c_make_label);
+                  Output.TDFINT (B, Info.Exit_Label);
+
+                  Output.TDF (B, c_contents);
+                  Declaration.Output_Shape (State, For_Type, B, TAGDEF);
+
+                  Output.TDF (B, c_obtain_tag);
+                  Output.TDF (B, c_make_tag);
+                  Output.TDFINT (B, For_Tag);
+
+                  if For_Inc then
+                     Ranges.Compile_Discrete
+                       (State, For_Def, For_Type, False, B, TAGDEF, Context,
+                        XASIS.Static.Upper);
+                  else
+                     Ranges.Compile_Discrete
+                       (State, For_Def, For_Type, False, B, TAGDEF, Context,
+                        XASIS.Static.Lower);
+                  end if;
+
+               elsif Kind = A_While_Loop_Statement then
                   Output.List_Count (B, 2);
                   Expression.Compile_Boolean
                     (State,
@@ -141,13 +190,53 @@ package body Statement is
                end if;
 
                Compile (State, Loop_Statements (Stmt), Info'Unchecked_Access);
+
+               if Kind = A_For_Loop_Statement then
+                  declare
+                     Decl  : Asis.Declaration :=
+                       XASIS.Classes.Get_Declaration (For_Type);
+                     Arg   : Streams.Memory_Stream;
+                     Kind  : Asis.Attribute_Kinds;
+                     Next  : Small;
+                  begin
+                     if For_Inc then
+                        Kind := A_Succ_Attribute;
+                     else
+                        Kind := A_Pred_Attribute;
+                     end if;
+
+                     Next := Find_Attribute (State, Decl, Kind, TAGDEF);
+
+                     Output.TDF (B, c_assign);
+                     Output.TDF (B, c_obtain_tag);
+                     Output.TDF (B, c_make_tag);
+                     Output.TDFINT (B, For_Tag);
+
+                     Output.TDF (B, c_exp_apply_token);
+                     Output.TDF (B, c_make_tok);
+                     Output.TDFINT (B, Next);
+
+                     Streams.Expect
+                       (Arg, Dummy, (1 => (EXP_SORT, Singular, False)));
+
+                     Output.TDF (Arg, c_contents);
+                     Declaration.Output_Shape (State, For_Type, Arg, TAGDEF);
+
+                     Output.TDF (Arg, c_obtain_tag);
+                     Output.TDF (Arg, c_make_tag);
+                     Output.TDFINT (Arg, For_Tag);
+
+                     Output.BITSTREAM (B, Arg);
+                  end;
+               end if;
+
                Output.TDF (B, c_goto);
                Output.TDF (B, c_make_label);
                Output.TDFINT (B, Info.Repeat_Label);
 
                Output.TDF (B, c_make_top);
             end;
---        A_For_Loop_Statement
+
          when A_Block_Statement =>
             Compile (State, Block_Statements (Stmt), Loops);
 

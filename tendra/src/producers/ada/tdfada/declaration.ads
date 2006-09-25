@@ -1,4 +1,5 @@
 with Asis;
+with Ranges;
 with States;
 with XASIS.Classes;
 with TenDRA.Streams;
@@ -8,6 +9,14 @@ package Declaration is
    procedure Compile
      (State    : access States.State;
       Decl     : in     Asis.Declaration);
+
+   procedure Loop_Parameter
+     (State    : access States.State;
+      Decl     : in     Asis.Declaration;
+      Def      :    out Asis.Discrete_Subtype_Definition;
+      Tag      :    out TenDRA.Small;
+      Incr     :    out Boolean;
+      Context  :    out Ranges.Range_Context);
 
    procedure New_Tag
      (State : access States.State;

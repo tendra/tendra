@@ -4,6 +4,7 @@ with XASIS.Pragmas;
 with Asis.Elements;
 with Asis.Iterator;
 with Asis.Extensions;
+with Asis.Definitions;
 with Asis.Expressions;
 
 package body Utils is
@@ -143,6 +144,51 @@ package body Utils is
    begin
       return Val /= Undefined;
    end Is_Defined;
+
+   --------------------------
+   -- Membership_Test_Type --
+   --------------------------
+
+   function Membership_Test_Type (Element : Asis.Expression)
+     return XASIS.Classes.Type_Info
+   is
+      use Asis;
+      use XASIS.Classes;
+      use Asis.Elements;
+      use Asis.Definitions;
+      use Asis.Expressions;
+
+      Expr    : constant Asis.Expression :=
+        Membership_Test_Expression (Element);
+      Rng     : constant Asis.Range_Constraint :=
+        Membership_Test_Range (Element);
+      Decl    : constant Asis.Declaration :=
+        Corresponding_Expression_Type (Expr);
+      Tipe    : Type_Info := Type_From_Declaration (Decl);
+   begin
+      if not Is_Not_Type (Tipe) and not Is_Universal (Tipe) then
+         return Tipe;
+      end if;
+
+      case Constraint_Kind (Rng) is
+         when A_Range_Attribute_Reference =>
+            Tipe := Type_From_Subtype_Mark (Prefix (Range_Attribute (Rng)));
+
+         when A_Simple_Expression_Range =>
+            Tipe := Type_Of_Range (Lower_Bound (Rng), Upper_Bound (Rng));
+
+         when others =>
+            return Not_A_Type;
+      end case;
+
+      if not Is_Universal (Tipe) then
+         return Tipe;
+      elsif Is_Integer (Tipe) then
+         return T.Root_Integer;
+      else
+         return T.Root_Real;
+      end if;
+   end Membership_Test_Type;
 
    ---------------------------
    -- Out_By_Copy_Parameter --
