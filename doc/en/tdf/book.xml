@@ -9064,11 +9064,12 @@ INTEGER(0, 60000)  <emphasis>and</emphasis>  INTEGER(0, 30000)
 
         <para>If <emphasis>signed_width</emphasis> is <emphasis>true</emphasis>
           then this construction is equivalent to
-          <emphasis>var_limits</emphasis>(-2<emphasis>width</emphasis>-1,
-          2<emphasis>width</emphasis>-1-1). If <emphasis>signed_width</emphasis>
+          <emphasis>var_limits</emphasis>(-2<superscript><emphasis>width</emphasis>-1</superscript>,
+          2<superscript><emphasis>width</emphasis>-1</superscript>-1).
+           If <emphasis>signed_width</emphasis>
           is <emphasis>false</emphasis> then this construction is
           <emphasis>var_limits</emphasis> (0,
-          2<emphasis>width</emphasis>-1).</para>
+          2<superscript><emphasis>width</emphasis></superscript>-1).</para>
       </sect2>
     </sect1>
 
