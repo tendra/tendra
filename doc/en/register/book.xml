@@ -8,7 +8,7 @@
     <title>TDF Token Register</title>
 
     <releaseinfo>
-      <literal>$TenDRA: book.xml 2447 2006-03-23 21:15:51Z verm $</literal>
+      <literal>$TenDRA$</literal>
     </releaseinfo>
 
     <pubdate>This document was generated on <?dbtimestamp format="Y-m-d H:M:S"?></pubdate>
@@ -340,7 +340,8 @@
         <para><emphasis>.~rep_fv_min_exp</emphasis>(<emphasis>n</emphasis>)
           will be the maximum integer <emphasis>m</emphasis> such that
           (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))
-          <emphasis>-m</emphasis> is exactly representable (though not
+          <superscript><emphasis>-m</emphasis></superscript> is exactly
+          representable (though not
           necessarily normalised) by the <literal>FLOATING_VARIETY</literal>
           <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
        
@@ -359,7 +360,8 @@
         <para><emphasis>.~rep_fv_max_exp</emphasis>(<emphasis>n</emphasis>)
           will be the maximum integer <emphasis>m</emphasis> such that
           (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))
-          <emphasis>m</emphasis> is exactly representable by the
+          <superscript><emphasis>m</emphasis></superscript> is exactly
+          representable by the
           <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(
           <emphasis>n</emphasis>).</para>
        
