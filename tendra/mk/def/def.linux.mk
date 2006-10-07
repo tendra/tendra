@@ -10,7 +10,6 @@
 
 # Libraries
 
-.if ${MACH_EXEC} == "elf"
 LIB_CRT0?=		/usr/lib/crt0.o
 LIB_CRT1?=		/usr/lib/crt1.o
 LIB_CRTI?=		/usr/lib/crti.o
@@ -20,17 +19,6 @@ LIB_CRTN?=		/usr/lib/crtn.o
 LIB_LD_LINUX?=		/lib/ld-linux.so.2
 LIB_GCRT1?=		/usr/lib/gcrt1.o
 LIB_MCRT0?=		/usr/lib/Mcrt1.o
-.endif
-
-.if ${MACH_EXEC} == "aout"
-LIB_CRT0?=	/usr/i486-linuxaout/lib/crt0.o
-LIB_CRT1?=	/usr/lib/crt1.o
-LIB_CRTI?=	/usr/lib/crti.o
-LIB_CRTN?=	/usr/lib/crtn.o
-LIB_GCRT0?=	/usr/lib/gcrt0.o
-LIB_GCRT1?=	/usr/lib/gcrt1.o
-LIB_MCRT0?=	/usr/lib/Mcrt1.o
-.endif
 
 
 # Arguments
@@ -43,17 +31,8 @@ ARGS_MKDIR?=	-p
 
 # Binaries
 
-.if ${MACH_EXEC} == "elf"
-BIN_LD?=	/usr/bin/ld
-BIN_AS?=	/usr/bin/as
-.endif
-
-.if ${MACH_EXEC} == "aout"
-BIN_AS?=	/usr/i486-linuxaout/bin/as
-BIN_LD?=	/usr/i486-linuxaout/bin/ld
-.endif
-
 BIN_AR?=	/usr/bin/ar
+BIN_AS?=	/usr/bin/as
 BIN_AWK?=	/bin/awk
 #BIN_AS?=			# see above!
 BIN_BASENAME?=	/bin/basename
@@ -79,6 +58,7 @@ BIN_GZIP?=	/bin/gzip
 BIN_HEAD?=	/usr/bin/head
 BIN_ID?=	/usr/bin/id
 BIN_INSTALL?=
+BIN_LD?=	/usr/bin/ld
 BIN_LDCONFIG?=	
 #BIN_LD				# see above!
 BIN_LN?=	/bin/ln
