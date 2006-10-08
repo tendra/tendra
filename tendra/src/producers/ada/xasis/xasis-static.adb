@@ -10,6 +10,7 @@ with XASIS.Static.Iter;
 with XASIS.Static.Signed;
 with XASIS.Static.Discrete;
 with XASIS.Static.Unsigned;
+with XASIS.Static.Float;
 
 pragma Elaborate (XASIS.Static.Iter);
 
@@ -142,7 +143,7 @@ package body XASIS.Static is
 
    procedure Check_Zero (Item : Value) is
    begin
-      if Item = Static_Zero then
+      if Item = Static_Zero or Item = (Static_Float, Fractions.Zero) then
          Raise_Error (Division_By_Zero);
       end if;
    end Check_Zero;
@@ -188,6 +189,15 @@ package body XASIS.Static is
       end if;
    end Finalize;
 
+   --------------
+   -- Fraction --
+   --------------
+
+   function Fraction (Item : Value) return XASIS.Fractions.Fraction is
+   begin
+      return Item.Fraction;
+   end Fraction;
+
    -----------
    -- Image --
    -----------
@@ -218,6 +228,15 @@ package body XASIS.Static is
       return Check_Range (Object'Access, Item, Rng, False) = Static_True;
    end In_Range;
 
+   -------------
+   -- Integer --
+   -------------
+   
+   function Integer (Item : Value) return XASIS.Integers.Value is
+   begin
+      return Item.Pos;
+   end Integer;
+   
    ----------------------------
    -- Static_Range_Attribute --
    ----------------------------
@@ -248,6 +267,8 @@ package body XASIS.Static is
          else
             return Discrete.Type_Class'(Info => Info);
          end if;
+      elsif Classes.Is_Float_Point (Info) then
+         return Float.Type_Class'(Info => Info);
       else
          Raise_Error (Not_Implemented);
          return Get_Type_Class (Info);
@@ -284,13 +305,19 @@ package body XASIS.Static is
       case Kind is
          when An_Integer_Literal =>
             declare
-               Image : Wide_String := Value_Image (Element);
-               Text  : String :=
-                 Ada.Characters.Handling.To_String (Image);
+               Text  : constant String :=
+                 Ada.Characters.Handling.To_String (Value_Image (Element));
             begin
                return Discrete.I (XASIS.Integers.Literal (Text));
             end;
---         | A_Real_Literal
+         when A_Real_Literal =>
+            declare
+               Text  : constant String :=
+                 Ada.Characters.Handling.To_String (Value_Image (Element));
+            begin
+               return Float.V (XASIS.Fractions.Value(Text));
+            end;
+         
          when An_Enumeration_Literal | A_Character_Literal =>
             declare
                Name : constant Asis.Defining_Name :=

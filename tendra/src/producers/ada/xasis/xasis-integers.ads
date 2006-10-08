@@ -42,6 +42,8 @@ package XASIS.Integers is
 
    Zero : constant Value;
    One  : constant Value;
+   Two  : constant Value;
+   Ten  : constant Value;
 
 private
 
@@ -50,6 +52,8 @@ private
 
    Zero : constant Value := To_Unbounded_String ("+");
    One  : constant Value := To_Unbounded_String ('+' & Character'Val (1));
+   Two  : constant Value := To_Unbounded_String ('+' & Character'Val (2));
+   Ten  : constant Value := To_Unbounded_String ('+' & Character'Val (10));
 
 end XASIS.Integers;
 

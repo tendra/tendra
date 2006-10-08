@@ -24,10 +24,40 @@ package States is
       Enum_Val_Attr, Signed_Val_Attr, Signed_Base_Lower, Signed_Base_Upper,
       Mod_Plus, Mod_Minus, Mod_Multiply, Mod_Or, Mod_Xor, Mod_And,
       Mod_Not, Mod_Negative, Mod_Power,
-      Test_Range_Jump);
+      Test_Range_Jump,
+      Make_Float_Id, Make_Float_Range_Id, Rep_Fv, Rep_Fv_Max_Val,
+
+      Make_Denorm_Attribute,            Make_Machine_Emax_Attribute,
+      Make_Machine_Emin_Attribute,      Make_Machine_Mantissa_Attribute,
+      Make_Machine_Overflows_Attribute, Make_Machine_Radix_Attribute,
+      Make_Machine_Rounds_Attribute,    Make_Signed_Zeros_Attribute,
+
+      Make_Ceiling_Attribute,           Make_Floor_Attribute,
+      Make_Rounding_Attribute,          Make_Truncation_Attribute,
+      Make_Unbiased_Rounding_Attribute, Make_Exponent_Attribute, 
+      Make_Fraction_Attribute,          Make_Machine_Attribute,
+      Make_Model_Attribute,
+
+      Make_Adjacent_Attribute,          Make_Copy_Sign_Attribute,
+      Make_Remainder_Attribute,         Make_Leading_Part_Attribute,
+      Make_Compose_Attribute,           Make_Scaling_Attribute,
+
+      Compare_Float_Value);
+
+   --  Float point attributes (as value):
+   subtype Make_Float_Attr is Support_Kinds
+     range Make_Denorm_Attribute .. Make_Signed_Zeros_Attribute;
+
+   --  Float point attributes with 1 argument:
+   subtype Make_Float_Attr_1 is Support_Kinds
+     range Make_Ceiling_Attribute .. Make_Model_Attribute;
+
+   --  Float point attributes with 2 arguments:
+   subtype Make_Float_Attr_2 is Support_Kinds
+     range Make_Adjacent_Attribute .. Make_Scaling_Attribute;
 
    type Type_Param_Kinds is
-     (Lower, Upper, Base_Lower, Base_Upper);
+     (Lower, Upper, Base_Lower, Base_Upper, Float_Id);
 
    Nil      : constant TenDRA.Small := TenDRA.Small'Last;
 

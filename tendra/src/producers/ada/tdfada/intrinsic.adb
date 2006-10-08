@@ -25,6 +25,10 @@ package body Intrinsic is
       Invert : Boolean := False)
      return TenDRA.Types.Construct;
 
+   procedure Output_Overflow
+     (B      : in out Stream'Class;
+      Static : in     Boolean);
+
    -------------------
    -- Function_Call --
    -------------------
@@ -40,8 +44,6 @@ package body Intrinsic is
       use Asis;
       use Asis.Expressions;
 
-      procedure Output_Overflow;
-
       Name  : Asis.Defining_Name   := XASIS.Utils.Declaration_Name (Callee);
       Oper  : Asis.Operator_Kinds  := Asis.Elements.Operator_Kind (Name);
       Tipe  : Asis.Type_Definition :=
@@ -53,17 +55,6 @@ package body Intrinsic is
         Asis.Expressions.Function_Call_Parameters (Element, True);
       Types : array (List'Range) of XASIS.Classes.Type_Info :=
         (others => Info);
-
-      procedure Output_Overflow is
-      begin
-         if Static then
-            Output.TDF (B, c_continue);
-         else
-            Output.TDF (B, c_trap);
-            Output.List_Count (B, 1);
-            Output.TDF (B, c_overflow);
-         end if;
-      end Output_Overflow;
 
       procedure Each_Child (B : in out Stream'Class) is
       begin
@@ -121,10 +112,10 @@ package body Intrinsic is
          if Kind = c_and or Kind = c_or or Kind = c_xor or Kind = C_Not then
             null;
          elsif Kind = c_div2 or Kind = c_rem2 or Kind = c_rem1 then
-            Output_Overflow;
-            Output_Overflow;
+            Output_Overflow (B, Static);
+            Output_Overflow (B, Static);
          else
-            Output_Overflow;
+            Output_Overflow (B, Static);
          end if;
 
          Each_Child (B);
@@ -139,45 +130,84 @@ package body Intrinsic is
          case Oper is
             when A_Plus_Operator =>
                Output.TDF (B, c_plus);
-               Output_Overflow;
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Minus_Operator =>
                Output.TDF (B, c_minus);
-               Output_Overflow;
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Unary_Plus_Operator =>
                Each_Child (B);
             when A_Unary_Minus_Operator =>
                Output.TDF (B, c_negate);
-               Output_Overflow;
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Multiply_Operator =>
                Output.TDF (B, c_mult);
-               Output_Overflow;
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Divide_Operator =>
                Output.TDF (B, c_div2);
-               Output_Overflow;
-               Output_Overflow;
+               Output_Overflow (B, Static);
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Mod_Operator =>
                Output.TDF (B, c_rem1);
-               Output_Overflow;
-               Output_Overflow;
+               Output_Overflow (B, Static);
+               Output_Overflow (B, Static);
                Each_Child (B);
             when A_Rem_Operator =>
                Output.TDF (B, c_rem2);
-               Output_Overflow;
-               Output_Overflow;
+               Output_Overflow (B, Static);
+               Output_Overflow (B, Static);
                Each_Child (B);
             when An_Exponentiate_Operator =>
                Output.TDF (B, c_power);
-               Output_Overflow;
+               Output_Overflow (B, Static);
                Types (2) := XASIS.Classes.T.Integer;
                Each_Child (B);
             when An_Abs_Operator =>
                Output.TDF (B, c_abs);
-               Output_Overflow;
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when others =>
+               raise States.Error;
+         end case;
+
+      elsif XASIS.Classes.Is_Float_Point (Info) then
+         case Oper is
+            when A_Plus_Operator =>
+               Output.TDF (B, c_floating_plus);
+               Output_Overflow (B, Static);
+               Output.List_Count (B, 2);
+               Each_Child (B);
+            when A_Minus_Operator =>
+               Output.TDF (B, c_floating_minus);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when A_Unary_Plus_Operator =>
+               Each_Child (B);
+            when A_Unary_Minus_Operator =>
+               Output.TDF (B, c_floating_negate);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when A_Multiply_Operator =>
+               Output.TDF (B, c_floating_mult);
+               Output_Overflow (B, Static);
+               Output.List_Count (B, 2);
+               Each_Child (B);
+            when A_Divide_Operator =>
+               Output.TDF (B, c_floating_div);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when An_Exponentiate_Operator =>
+               Output.TDF (B, c_floating_power);
+               Output_Overflow (B, Static);
+               Types (2) := XASIS.Classes.T.Integer;
+               Each_Child (B);
+            when An_Abs_Operator =>
+               Output.TDF (B, c_floating_abs);
+               Output_Overflow (B, Static);
                Each_Child (B);
             when others =>
                raise States.Error;
@@ -232,18 +262,18 @@ package body Intrinsic is
                   Mod_Oper (Mod_Multiply);
                when A_Divide_Operator =>
                   Output.TDF (B, c_div2);
-                  Output_Overflow;
-                  Output_Overflow;
+                  Output_Overflow (B, Static);
+                  Output_Overflow (B, Static);
                   Each_Child (B);
                when A_Mod_Operator =>
                   Output.TDF (B, c_rem1);
-                  Output_Overflow;
-                  Output_Overflow;
+                  Output_Overflow (B, Static);
+                  Output_Overflow (B, Static);
                   Each_Child (B);
                when A_Rem_Operator =>
                   Output.TDF (B, c_rem2);
-                  Output_Overflow;
-                  Output_Overflow;
+                  Output_Overflow (B, Static);
+                  Output_Overflow (B, Static);
                   Each_Child (B);
                when An_Exponentiate_Operator =>
                   Types (2) := XASIS.Classes.T.Integer;
@@ -297,10 +327,15 @@ package body Intrinsic is
         Function_Call_Parameters (Element, True);
 
       procedure Output_Compare_Value is
-         Tok    : constant TenDRA.Small :=
-           Find_Support (State, Compare_Integer_Value, Unit);
+         Tok    : TenDRA.Small;
          Params : aliased Streams.Memory_Stream;
       begin
+         if XASIS.Classes.Is_Float_Point (Info) then
+            Tok := Find_Support (State, Compare_Float_Value, Unit);
+         else
+            Tok := Find_Support (State, Compare_Integer_Value, Unit);
+         end if;
+
          Token.Initialize (Params, Compare_Integer_Value);
          Output.TDF (Params, Get_NTest (Oper, Negative));
 
@@ -559,8 +594,15 @@ package body Intrinsic is
               | A_Greater_Than_Operator
               | A_Greater_Than_Or_Equal_Operator
               =>
-               Output.TDF (B, c_integer_test);
-               Output.No_Option (B);
+               if XASIS.Classes.Is_Float_Point (Info) then
+                  Output.TDF (B, c_floating_test);
+                  Output.No_Option (B);
+                  Output_Overflow (B, Static);
+               else
+                  Output.TDF (B, c_integer_test);
+                  Output.No_Option (B);
+               end if;
+
                Output.TDF (B, Get_NTest (Oper, Negative));
                Output.TDF (B, c_make_label);
                Output.TDFINT (B, Label);
@@ -619,6 +661,23 @@ package body Intrinsic is
          end case;
       end if;
    end Get_NTest;
+
+   ---------------------
+   -- Output_Overflow --
+   ---------------------
+
+   procedure Output_Overflow
+     (B      : in out Stream'Class;
+      Static : in     Boolean) is
+   begin
+      if Static then
+         Output.TDF (B, c_impossible);
+      else
+         Output.TDF (B, c_trap);
+         Output.List_Count (B, 1);
+         Output.TDF (B, c_overflow);
+      end if;
+   end Output_Overflow;
 
 end Intrinsic;
 

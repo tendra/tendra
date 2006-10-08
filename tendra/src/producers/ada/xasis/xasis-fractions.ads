@@ -7,33 +7,42 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Static expression evaluation
+--  Multyprecission fraction arithmetic
 
-private package XASIS.Static.Discrete is
+with XASIS.Integers;
 
-   type Type_Class is new XASIS.Static.Type_Class with null record;
+package XASIS.Fractions is
+   package I renames XASIS.Integers;
 
-   function Evaluate
-     (Object : Type_Class;
-      Kind   : Asis.Operator_Kinds;
-      Args   : Asis.Association_List) return Value;
+   type Fraction is record
+      Numerator   : I.Value;
+      Denominator : I.Value;
+      Exponent    : I.Value;
+   end record;
 
-   function Evaluate
-     (Object : Type_Class;
-      Kind   : Asis.Attribute_Kinds;
-      Args   : Asis.Association_List) return Value;
+   function "=" (Left, Right : Fraction) return Boolean;
+   function ">" (Left, Right : Fraction) return Boolean;
+   function "<" (Left, Right : Fraction) return Boolean;
+   function ">=" (Left, Right : Fraction) return Boolean;
+   function "<=" (Left, Right : Fraction) return Boolean;
 
-   function Evaluate
-     (Object  : Type_Class;
-      Kind    : Asis.Attribute_Kinds;
-      Element : Asis.Expression) return Value;
+   function "-" (Left : Fraction) return Fraction;
+   function "+" (Left, Right : Fraction) return Fraction;
+   function "-" (Left, Right : Fraction) return Fraction;
+   function "*" (Left, Right : Fraction) return Fraction;
+   function "/" (Left, Right : Fraction) return Fraction;
 
-   function Is_Discrete (Right : Value) return Boolean;
-   function I (Data : XASIS.Integers.Value) return Value;
-   function B (Data : Boolean) return Value;
+   function "**" (Left : Fraction; Right : I.Value) return Fraction;
+   function "abs" (Left : Fraction) return Fraction;
 
-end XASIS.Static.Discrete;
+   function Image (Left : Fraction) return String;
+   function Value (Text : String) return Fraction;
+   function Int   (Value : I.Value) return Fraction;
+   function Truncate (X : Fraction) return I.Value;
 
+   Zero : constant Fraction := (I.Zero, I.One, I.Zero);
+   One  : constant Fraction := (I.One, I.One, I.Zero);
+end XASIS.Fractions;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Maxim Reznik
@@ -60,3 +69,4 @@ end XASIS.Static.Discrete;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 ------------------------------------------------------------------------------
+

@@ -12,6 +12,7 @@
 with Asis;
 with XASIS.Classes;
 with XASIS.Integers;
+with XASIS.Fractions;
 with Ada.Finalization;
 
 package XASIS.Static is
@@ -29,6 +30,8 @@ package XASIS.Static is
    function Image (Item : Value) return Wide_String;
    function Debug_Image (Item : Value) return Wide_String;
    function "+" (Item : Value) return Asis.ASIS_Integer;
+   function Integer (Item : Value) return XASIS.Integers.Value;
+   function Fraction (Item : Value) return XASIS.Fractions.Fraction;
 
    Static_False : constant Value;
    Static_True  : constant Value;
@@ -74,7 +77,7 @@ private
                Upper  : XASIS.Integers.Value;
                String : Integer_Array_Node;
             when Static_Float =>
-               null;
+               Fraction : XASIS.Fractions.Fraction;
             when Static_Undefined =>
                null;
          end case;

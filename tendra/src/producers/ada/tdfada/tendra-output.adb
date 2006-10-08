@@ -160,7 +160,8 @@ package body TenDRA.Output is
       Value  : in     Small;
       Last   : in     Boolean := True;
       Check  : in     Boolean := True;
-      Align  : in     Boolean := False)
+      Align  : in     Boolean := False;
+      First  : in     Boolean := True)
    is
       use TenDRA.Streams;
 
@@ -194,7 +195,7 @@ package body TenDRA.Output is
                                       Integer (32 - Count)));
       end Fix_Count;
 
-      Starting : Boolean   := True;
+      Starting : Boolean   := First;
       Count    : Bit_Count := 30;
       Current  : Word      := Word (Value) * 4;
       Next     : Word;

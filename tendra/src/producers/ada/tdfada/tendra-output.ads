@@ -6,9 +6,10 @@ package TenDRA.Output is
    procedure TDFINT
      (Output : in out Streams.Stream'Class;
       Value  : in     Small;
-      Last   : in     Boolean := True;
-      Check  : in     Boolean := True;
-      Align  : in     Boolean := False);
+      Last   : in     Boolean := True;   --  Last part of larger INT
+      Check  : in     Boolean := True;   --  Check output syntax
+      Align  : in     Boolean := False;  --  Adjust writing to align Output
+      First  : in     Boolean := True);  --  First part of larger INT
 
    procedure TDFBOOL
      (Output : in out Streams.Stream'Class;

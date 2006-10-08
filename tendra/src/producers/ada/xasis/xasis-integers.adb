@@ -138,12 +138,12 @@ package body XASIS.Integers is
       Right_Text  : constant Buffer := Buffer (To_String (Right));
       Power       : Small := To_Small (Right_Text (2 .. Right_Text'Last));
       Last        : constant Positive :=
-        ((Length (Left) - 1) * Positive (Power)) + 1;
+        ((Length (Left) - 1) * Natural (Power)) + 1;
       Mult_Last   : Positive := Length (Left);
       Result_Last : Positive := 2;
-      Result_Text : Buffer (1 .. Last);
+      Result_Text : Buffer (1 .. Positive'Max (Last, 2));
       Temp_Text   : Buffer (1 .. Last);
-      Mult_Text   : Buffer (1 .. Last);
+      Mult_Text   : Buffer (1 .. Positive'Max (Last, Mult_Last));
    begin
       if Right_Text (1) = '-' then
          raise XASIS_Error;
@@ -434,7 +434,7 @@ package body XASIS.Integers is
       Carry  :    out Digit)
    is
       Temp  : Small;
-      Max   : constant Positive := Positive'Max (Left'Length, Right'Length);
+      Max   : constant Natural := Positive'Max (Left'Length, Right'Length);
    begin
       if Max > Result'Length then
          raise Buffer_Overflow;
@@ -549,23 +549,27 @@ package body XASIS.Integers is
       if Right_Text'Length = 1 then
          raise Buffer_Overflow;
       elsif Right_Text'Length = 2 then
-         Fast_Devide
-           (Left   => Left_Text (2 .. Left_Text'Last - 1),
-            Right  => X (Right_Text (2)),
-            Result => Result_Text,
-            Last   => Last,
-            Rest   => Temp);
+         declare
+            Result_Text : Buffer (Left_Text'Range);
+         begin
+            Fast_Devide
+              (Left   => Left_Text (2 .. Left_Text'Last),
+               Right  => X (Right_Text (2)),
+               Result => Result_Text,
+               Last   => Last,
+               Rest   => Temp);
 
-         if Rest then
-            Result_Text (1) := Left_Text (1);
-            Result_Text (2) := X (Temp);
-            Result := To_Value (Result_Text (1 .. 2));
-         else
-            Result_Text (1) := Get_Sign (Left_Text (1), Right_Text (1));
-            Result := To_Value (Result_Text (1 .. Last));
-         end if;
+            if Rest then
+               Result_Text (1) := Left_Text (1);
+               Result_Text (2) := X (Temp);
+               Result := To_Value (Result_Text (1 .. 2));
+            else
+               Result_Text (1) := Get_Sign (Left_Text (1), Right_Text (1));
+               Result := To_Value (Result_Text (1 .. Last));
+            end if;
 
-         return;
+            return;
+         end;
       end if;
 
       Normalize_For_Devide

@@ -210,7 +210,6 @@ package body XASIS.Static.Discrete is
 
       case Kind is
          when An_Alignment_Attribute
-           | A_Bit_Order_Attribute
            | A_Max_Size_In_Storage_Elements_Attribute
            | A_Size_Attribute
            | A_Wide_Width_Attribute

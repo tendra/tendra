@@ -7,6 +7,8 @@ with XASIS.Types;
 with XASIS.Utils;
 with XASIS.Static;
 with XASIS.Classes;
+with XASIS.Fractions;
+with XASIS.Integers;
 
 with Asis.Elements;
 with Asis.Statements;
@@ -115,6 +117,8 @@ package body Expression is
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
+
+   Small_Size : XASIS.Integers.Value := XASIS.Integers.Zero;
 
    ----------------------
    -- Compile_To_Label --
@@ -351,10 +355,20 @@ package body Expression is
       begin
          case Kind is
             when A_Min_Attribute =>
-               Output.TDF (B, c_minimum);
+               if Is_Float_Point (Tipe) then
+                  Output.TDF (B, c_floating_minimum);
+               else
+                  Output.TDF (B, c_minimum);
+               end if;
+
                Compile_Arguments (B);
             when A_Max_Attribute =>
-               Output.TDF (B, c_maximum);
+               if Is_Float_Point (Tipe) then
+                  Output.TDF (B, c_floating_maximum);
+               else
+                  Output.TDF (B, c_maximum);
+               end if;
+
                Compile_Arguments (B);
             when A_Succ_Attribute =>
                if Is_Modular_Integer (Tipe) then
@@ -375,13 +389,15 @@ package body Expression is
                   Output.TDF (B, c_make_tok);
                   Output.TDFINT (B, Token);
                   Output.BITSTREAM (B, Empty);
-               else
+               elsif Is_Discrete (Tipe) then
                   Output.TDF (B, c_plus);
                   Output.TDF (B, c_impossible);
                   Compile_Arguments (B);
                   Output.TDF (B, c_make_int);
                   Output_Universal_Variety (State, Prefix_Type, B, Unit);
                   Output_Signed_Nat (B, 1);
+               else
+                  raise States.Error;
                end if;
             when A_Pred_Attribute =>
                if Is_Modular_Integer (Tipe) then
@@ -402,13 +418,15 @@ package body Expression is
                   Output.TDF (B, c_make_tok);
                   Output.TDFINT (B, Token);
                   Output.BITSTREAM (B, Empty);
-               else
+               elsif Is_Discrete (Tipe) then
                   Output.TDF (B, c_minus);
                   Output.TDF (B, c_impossible);
                   Compile_Arguments (B);
                   Output.TDF (B, c_make_int);
                   Output_Universal_Variety (State, Prefix_Type, B, Unit);
                   Output_Signed_Nat (B, 1);
+               else
+                  raise States.Error;
                end if;
             when A_Pos_Attribute =>
                if Is_Boolean (Prefix_Type) then
@@ -551,7 +569,14 @@ package body Expression is
       procedure Cross_Static_Boundary is
          Var   : Small := Find_Variety (State, Tipe, Unit);
       begin
-         if not XASIS.Classes.Is_Boolean (Tipe) then
+         if XASIS.Classes.Is_Float_Point (Tipe) then
+            Output.TDF (B, c_change_floating_variety);
+            Output_Trap_Overflow (B);
+            Output.TDF (B, c_flvar_apply_token);
+            Output.TDF (B, c_make_tok);
+            Output.TDFINT (B, Var);
+            Output.BITSTREAM (B, Empty);
+         elsif not XASIS.Classes.Is_Boolean (Tipe) then
             --  Convert from Universal_Integer to Tipe
             Output.TDF (B, c_change_variety);
             Output.TDF (B, c_continue);
@@ -607,10 +632,16 @@ package body Expression is
          raise States.Error;
       end if;
 
-      if Static and not Is_Boolean (Prefix_Type) then
-         Output.TDF (B, c_change_variety);
-         Output.TDF (B, c_continue);
-         Output_Universal_Variety (State, Prefix_Type, B, Unit);
+      if Static then
+         if Is_Float_Point (Prefix_Type) then
+            Output.TDF (B, c_change_floating_variety);
+            Output.TDF (B, c_impossible);
+            Output_Universal_Variety (State, Prefix_Type, B, Unit);
+         elsif not Is_Boolean (Prefix_Type) then
+            Output.TDF (B, c_change_variety);
+            Output.TDF (B, c_continue);
+            Output_Universal_Variety (State, Prefix_Type, B, Unit);
+         end if;
       end if;
 
       Output.TDF (B, c_exp_apply_token);
@@ -669,6 +700,56 @@ package body Expression is
                First_Last_Attribute
                  (State, Prefix (Element), Kind, Tipe, Static, B, Unit, Exps);
 
+            when A_Modulus_Attribute
+              | A_Denorm_Attribute
+              | A_Machine_Emax_Attribute
+              | A_Machine_Emin_Attribute
+              | A_Machine_Mantissa_Attribute
+              | A_Machine_Overflows_Attribute
+              | A_Machine_Radix_Attribute
+              | A_Machine_Rounds_Attribute
+              | A_Max_Size_In_Storage_Elements_Attribute
+              | A_Model_Emin_Attribute
+              | A_Model_Epsilon_Attribute
+              | A_Model_Mantissa_Attribute
+              | A_Model_Small_Attribute
+              | A_Safe_First_Attribute
+              | A_Safe_Last_Attribute
+              | A_Signed_Zeros_Attribute
+              =>
+               declare
+                  Decl  : constant Asis.Declaration :=
+                    XASIS.Utils.Selected_Name_Declaration
+                      (Prefix (Element), True);
+                  Token : constant Small :=
+                    Find_Attribute (State, Decl, Kind, Unit);
+               begin
+                  if not Static then
+                     case Kind is
+                        when A_Modulus_Attribute
+                          | A_Machine_Emax_Attribute
+                          | A_Machine_Emin_Attribute
+                          | A_Machine_Mantissa_Attribute
+                          | A_Machine_Radix_Attribute
+                          | A_Max_Size_In_Storage_Elements_Attribute
+                          | A_Model_Emin_Attribute
+                          | A_Model_Epsilon_Attribute
+                          | A_Model_Mantissa_Attribute
+                          | A_Model_Small_Attribute
+                          | A_Safe_First_Attribute
+                          | A_Safe_Last_Attribute
+                          =>
+                           Output_Change_Variety (State, Tipe, B, Unit);
+                        when others =>
+                          null;
+                     end case;
+                  end if;
+
+                  Output.TDF (B, c_exp_apply_token);
+                  Output.TDF (B, c_make_tok);
+                  Output.TDFINT (B, Token);
+                  Output.BITSTREAM (B, Empty);
+               end;
             when others =>
                raise States.Error;
          end case;
@@ -696,12 +777,12 @@ package body Expression is
                      when An_Object_Renaming_Declaration =>
                         Compile (State,
                                  Renamed_Entity (Decl),
-                                 XASIS.Classes.Type_From_Declaration (Decl),
+                                 XASIS.Classes.Type_Of_Declaration (Decl),
                                  Static, B, Unit);
                      when A_Constant_Declaration =>
                         Compile (State,
                                  Initialization_Expression (Decl),
-                                 XASIS.Classes.Type_From_Declaration (Decl),
+                                 XASIS.Classes.Type_Of_Declaration (Decl),
                                  Static, B, Unit);
                      when An_Integer_Number_Declaration
                        | A_Real_Number_Declaration =>
@@ -960,28 +1041,92 @@ package body Expression is
    is
       use States;
 
+      procedure Output_Value (X : XASIS.Integers.Value) is
+         use XASIS.Integers;
+
+         procedure Write (Part  : Value; Last  : Boolean := True) is
+            Val  : Small;
+            Next : constant Value := Part / Small_Size;
+         begin
+            if Next = Zero then
+               Val := Small'Value (Image (Part));
+               Output.TDFINT (B, Val, Last => Last);
+            else
+               Write (Next, False);
+               Val := Small'Value (Image (Part mod Small_Size));
+               Output.TDFINT (B, Val, Last => Last, First => False);
+            end if;
+         end Write;
+
+      begin
+         if Small_Size = Zero then
+            Small_Size := Literal (Small'Image (Small'Last)) + One;
+         end if;
+
+         Output.TDF (B, c_make_signed_nat);
+         Output.TDFBOOL (B, X < Zero);
+         Write (abs X);
+      end Output_Value;
+      
       procedure Defined_Static is
-         Value : XASIS.Static.Value := XASIS.Static.Evaluate (Element);
-         Image : Wide_String := XASIS.Static.Image (Value);
-         Val   : Small;  --  TODO: Fix for values larger then Small
+         Value : constant XASIS.Integers.Value :=
+           XASIS.Static.Integer (XASIS.Static.Evaluate (Element));
       begin
          Output.TDF (B, c_make_int);
          Output_Universal_Variety (State, Tipe, B, Unit);
-         Output.TDF (B, c_make_signed_nat);
+         Output_Value (Value);
+      end Defined_Static;
 
-         if Image (Image'First) = '-' then
-            Output.TDFBOOL (B, True);
-            Val := Small'Wide_Value (Image (2 .. Image'Last));
-         else
-            Output.TDFBOOL (B, False);
-            Val := Small'Wide_Value (Image);
+      procedure Defined_Static_Float is
+         use XASIS.Fractions;
+         use type I.Value;
+
+         Result : constant Fraction :=
+           XASIS.Static.Fraction (XASIS.Static.Evaluate (Element));
+         Image  : constant String := I.Image (abs Result.Numerator);
+      begin
+         if Result.Denominator /= I.One then
+            Output.TDF (B, c_floating_div);
+            Output.TDF (B, c_impossible);
          end if;
 
-         Output.TDFINT (B, Val);
-      end Defined_Static;
+         Output.TDF (B, c_make_floating);
+         Output_Universal_Variety (State, Tipe, B, Unit);
+         Output.TDF (B, c_to_nearest);
+         
+         if Result < Zero then
+            Output.TDF (B, c_true);
+         else
+            Output.TDF (B, c_false);
+         end if;
+
+         Output.TDF (B, c_make_string);
+         Output.TDFSTRING (B, Image);
+         Output.TDF (B, c_make_nat);
+         Output.TDFINT (B, 10);
+         Output_Value (Result.Exponent);
+         
+         if Result.Denominator /= I.One then
+            Output.TDF (B, c_make_floating);
+            Output_Universal_Variety (State, Tipe, B, Unit);
+            Output.TDF (B, c_to_nearest);
+            Output.TDF (B, c_false);
+            Output.TDF (B, c_make_string);
+            Output.TDFSTRING (B, I.Image (Result.Denominator));
+            Output.TDF (B, c_make_nat);
+
+            Output.TDFINT (B, 10);
+            Output_Signed_Nat (B, 0);
+         end if;
+      end Defined_Static_Float;
+
    begin
       if Utils.Is_Defined (Element) then
-         Defined_Static;
+         if XASIS.Classes.Is_Float_Point (Tipe) then
+            Defined_Static_Float;
+         else
+            Defined_Static;
+         end if;
       else
          Compile_Internal (State, Element, Tipe, True, B, Unit);
       end if;
@@ -1170,6 +1315,17 @@ package body Expression is
       Output.TDFINT (B, Value);
    end Output_Signed_Nat;
 
+   --------------------------
+   -- Output_Trap_Overflow --
+   --------------------------
+   
+   procedure Output_Trap_Overflow (B : in out Stream'Class) is
+   begin
+         Output.TDF (B, c_trap);
+         Output.List_Count (B, 1);
+         Output.TDF (B, c_overflow);
+   end Output_Trap_Overflow;
+
    ------------------------------
    -- Output_Universal_Variety --
    ------------------------------
@@ -1182,7 +1338,12 @@ package body Expression is
    is
       Var : constant Small := Universal_Variety (State, Tipe, Unit);
    begin
-      Output.TDF (B, c_var_apply_token);
+      if XASIS.Classes.Is_Float_Point (Tipe) then
+         Output.TDF (B, c_flvar_apply_token);
+      else
+         Output.TDF (B, c_var_apply_token);
+      end if;
+      
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Var);
       Output.BITSTREAM (B, States.Empty);
@@ -1332,6 +1493,12 @@ package body Expression is
    begin
       if Is_Boolean (Tipe) then
          Var := States.Find_Variety (State, Tipe, Unit);
+      elsif Is_Float_Point (Tipe) then
+         declare
+            Tipe  : constant Type_Info := T.Universal_Real;
+         begin
+            Var := States.Find_Variety (State, Tipe, Unit);
+         end;
       else
          declare
             Tipe  : constant Type_Info := T.Universal_Integer;

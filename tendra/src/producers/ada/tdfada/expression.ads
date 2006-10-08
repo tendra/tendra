@@ -92,6 +92,8 @@ package Expression is
       Unit     : in     States.Unit_Kinds;
       Exps     : in     Asis.Expression_List := Asis.Nil_Element_List);
 
+   procedure Output_Trap_Overflow (B : in out Stream'Class);
+
 end Expression;
 
 

@@ -24,7 +24,7 @@ package body Token is
       use TenDRA.Types;
    begin
       case Kind is
-         when Compare_Integer_Value =>
+         when Compare_Integer_Value | Compare_Float_Value =>
             Streams.Expect (Stream, Dummy,
                             ((NTEST_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
@@ -90,6 +90,27 @@ package body Token is
                              (EXP_SORT, Singular, False),
                              (NAT_SORT, Singular, False),
                              (LABEL_SORT, Singular, False)));
+         when Make_Float_Id =>
+            Streams.Expect (Stream, Dummy,
+                            (1 => (EXP_SORT, Singular, False)));
+         when Make_Float_Range_Id =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False)));
+         when Rep_Fv | Rep_Fv_Max_Val 
+           | Make_Float_Attr =>
+            Streams.Expect (Stream, Dummy,
+                            (1 => (NAT_SORT, Singular, False)));
+         when Make_Float_Attr_1 =>
+            Streams.Expect (Stream, Dummy,
+                            ((NAT_SORT, Singular, False),
+                             (EXP_SORT, Singular, False)));
+         when Make_Float_Attr_2 =>
+            Streams.Expect (Stream, Dummy,
+                            ((NAT_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -119,17 +140,32 @@ package body Token is
       case Link.Kind is
          when Shape_Token =>
             Output.TDF (O, c_shape);
+
          when Variety_Token =>
-            if XASIS.Classes.Is_Discrete (Link.Tipe) then
-               Output.TDF (O, c_variety);
+            if XASIS.Classes.Is_Scalar (Link.Tipe) then
+               if XASIS.Classes.Is_Discrete (Link.Tipe) then
+                  Output.TDF (O, c_variety);
+               else
+                  Output.TDF (O, c_floating_variety);
+               end if;
             else
                raise Error;
             end if;
-         when Type_Param_Token | Name_Token | Value_Token =>
+
+         when Name_Token | Value_Token =>
             Output.TDF (O, c_exp);
+
+         when Type_Param_Token =>
+            case Link.Param is
+               when Float_Id =>
+                  Output.TDF (O, c_nat);
+               when Lower | Upper | Base_Lower | Base_Upper =>
+                  Output.TDF (O, c_exp);
+            end case;
+
          when Support_Token =>
             case Link.Support is
-               when Compare_Integer_Value =>
+               when Compare_Integer_Value | Compare_Float_Value =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 3);
@@ -220,6 +256,7 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
+
                when Test_Range_Jump =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -229,7 +266,50 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_nat);
                   Output.TDF (O, c_label);
+
+               when Make_Float_Id =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_nat);
+                  Output.List_Count (O, 1);
+                  Output.TDF (O, c_exp);
+
+               when Make_Float_Range_Id =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_nat);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+
+               when Rep_Fv =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_floating_variety);
+                  Output.List_Count (O, 1);
+                  Output.TDF (O, c_nat);
+
+               when Rep_Fv_Max_Val | Make_Float_Attr =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 1);
+                  Output.TDF (O, c_nat);
+
+               when Make_Float_Attr_1 =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 2);
+                  Output.TDF (O, c_nat);
+                  Output.TDF (O, c_exp);
+
+               when Make_Float_Attr_2 =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_nat);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+
             end case;
+
          when Subtype_Attribute_Token =>
             case Link.Attribute is
                when Asis.A_First_Attribute
@@ -238,6 +318,15 @@ package body Token is
                  | Asis.A_Pred_Attribute
                  | Asis.A_Pos_Attribute
                  | Asis.A_Val_Attribute
+                 | Asis.A_Ceiling_Attribute
+                 | Asis.A_Floor_Attribute
+                 | Asis.A_Rounding_Attribute
+                 | Asis.A_Truncation_Attribute
+                 | Asis.An_Unbiased_Rounding_Attribute
+                 | Asis.An_Exponent_Attribute
+                 | Asis.A_Fraction_Attribute
+                 | Asis.A_Machine_Attribute
+                 | Asis.A_Model_Attribute
                  =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -245,6 +334,12 @@ package body Token is
                   Output.TDF (O, c_exp);
                when Asis.A_Min_Attribute
                  | Asis.A_Max_Attribute
+                 | Asis.An_Adjacent_Attribute
+                 | Asis.A_Copy_Sign_Attribute
+                 | Asis.A_Remainder_Attribute
+                 | Asis.A_Leading_Part_Attribute
+                 | Asis.A_Compose_Attribute
+                 | Asis.A_Scaling_Attribute
                  =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
@@ -252,6 +347,21 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                when Asis.A_Modulus_Attribute
+                 | Asis.A_Denorm_Attribute
+                 | Asis.A_Machine_Emax_Attribute
+                 | Asis.A_Machine_Emin_Attribute
+                 | Asis.A_Machine_Mantissa_Attribute
+                 | Asis.A_Machine_Overflows_Attribute
+                 | Asis.A_Machine_Radix_Attribute
+                 | Asis.A_Machine_Rounds_Attribute
+                 | Asis.A_Max_Size_In_Storage_Elements_Attribute
+                 | Asis.A_Model_Emin_Attribute
+                 | Asis.A_Model_Epsilon_Attribute
+                 | Asis.A_Model_Mantissa_Attribute
+                 | Asis.A_Model_Small_Attribute
+                 | Asis.A_Safe_First_Attribute
+                 | Asis.A_Safe_Last_Attribute
+                 | Asis.A_Signed_Zeros_Attribute
                  =>
                   Output.TDF (O, c_exp);
                when others =>

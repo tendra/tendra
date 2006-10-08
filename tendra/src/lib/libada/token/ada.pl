@@ -1,6 +1,13 @@
 Tokdec Boolean.V : [] VARIETY;
 Tokdec ~Set_signal_handler : [] EXP;
-Tokdec .~rep_var_width : [NAT] NAT;
+Tokdec .~rep_var_width     : [NAT] NAT;
+Tokdec .~rep_fv            : [NAT] FLOATING_VARIETY;
+Tokdec .~rep_fv_width      : [NAT] NAT;
+Tokdec .~rep_fv_radix      : [NAT] NAT;
+Tokdec .~rep_fv_mantissa   : [NAT] NAT;
+Tokdec .~rep_fv_max_val    : [NAT] EXP;
+Tokdec .~rep_fv_min_exp    : [NAT] NAT;
+Tokdec .~rep_fv_max_exp    : [NAT] NAT;
 
 Iddec TDF_Exception:proc;
 
@@ -31,7 +38,7 @@ Tokdef A_ROOT_INTEGER_DEFINITION.A_SUCC_ATTRIBUTE =
 
 Tokdef A_ROOT_INTEGER_DEFINITION.A_PRED_ATTRIBUTE =
   [Left:EXP] EXP
-
+  
   (Left - 1 (A_ROOT_INTEGER_DEFINITION.V));
 
 Tokdef Character.LOWER =
@@ -65,6 +72,17 @@ Tokdef COMPARE_INTEGER_VALUE =
 
 ?{
    ?(Left Test Right);
+   1(Boolean.V)
+   | 0(Boolean.V)
+};
+
+Tokdef COMPARE_FLOAT_VALUE =
+  [Test  : NTEST,
+   Left  : EXP,
+   Right : EXP] EXP
+
+?{
+   F?(Left Test Right);
    1(Boolean.V)
    | 0(Boolean.V)
 };
@@ -181,6 +199,14 @@ Tokdef Bits =
 
 Tokdef ITEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp integer test */
   ?{ ?(a comp b); 1(Bits) | 0(Bits) };
+
+Tokdef FTEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp float test */
+  ?{ F? (a comp b); 1(Bits) | 0(Bits) };
+
+Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
+  ITEST [+ a (A_UNIVERSAL_INTEGER_DEFINITION.V),
+         comp,
+         + b (A_UNIVERSAL_INTEGER_DEFINITION.V)];
 
 Tokdef Is_Size_Supported =
   [Size  : NAT] EXP
@@ -421,6 +447,173 @@ Tokdef TEST_RANGE_JUMP =
           ?(Value <= Upper | Target)
         });
 
+/* Float point tokens */
+Tokdef A_UNIVERSAL_REAL_DEFINITION.V =
+  [] FLOATING_VARIETY
+
+  flvar_parms (2, 128, 16384, 32768);
+
+Tokdef Check_Float_Id =
+  [Id        : NAT,
+   Lower     : EXP,
+   Upper     : EXP,
+   Digits_10 : EXP,
+   Digits_2  : EXP] EXP
+
+  EXP ? (
+   NATTEST [.~rep_fv_width [Id], ==, 0],
+   # "no such float",
+    (NATTEST [.~rep_fv_radix [Id], ==, 2]
+     And
+     ITEST [Digits_2, <=,
+            + .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V)])
+    /*
+     this traps installer with signal 11
+     And
+     FTEST [Upper, <=, change_floating_variety
+             (imposible, A_UNIVERSAL_REAL_DEFINITION.V, .~rep_fv_max_val [Id])]
+    */
+    Or
+     (NATTEST [.~rep_fv_radix [Id], ==, 10]
+      And
+      ITEST [Digits_10, <=,
+             + .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V)])
+  )
+;
+
+Tokdef Check_Float_Id_10 =
+  [Id     : NAT,
+   Lower  : EXP,
+   Upper  : EXP,
+   Digits : EXP] EXP
+  Check_Float_Id
+    [Id,
+     Lower,
+     Upper,
+     Digits,
+     ((332 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits)
+       / 100 (A_UNIVERSAL_INTEGER_DEFINITION.V)) + One];
+
+Tokdef MAKE_FLOAT_RANGE_ID =
+  [Lower  : EXP,
+   Upper  : EXP,
+   Digits : EXP] NAT
+  NAT ?(Check_Float_Id_10 [1, Lower, Upper, Digits], 1,
+    NAT ?(Check_Float_Id_10 [2, Lower, Upper, Digits], 2,
+      NAT ?(Check_Float_Id_10 [3, Lower, Upper, Digits], 3, 4)));
+
+Tokdef MAKE_FLOAT_ID =
+  [Digits : EXP] NAT
+  MAKE_FLOAT_RANGE_ID /* -10 ** (4*D) .. 10 ** (4*D) */
+    [floating_power (impossible,
+                     10.0 (A_UNIVERSAL_REAL_DEFINITION.V),
+                     4 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits),
+     floating_negate (impossible,
+       floating_power (impossible,
+                       10.0 (A_UNIVERSAL_REAL_DEFINITION.V),
+                       4 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits)),
+     Digits];
+
+Tokdef MAKE_MACHINE_EMAX_ATTRIBUTE =
+  [Id : NAT] EXP
+  One + (+ .~rep_fv_max_exp [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+
+Tokdef MAKE_MACHINE_EMIN_ATTRIBUTE =
+  [Id : NAT] EXP
+  (- .~rep_fv_min_exp [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V))
+  +
+  (+ .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+
+Tokdef MAKE_MACHINE_MANTISSA_ATTRIBUTE =
+  [Id : NAT] EXP
+  (+ .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+
+Tokdef MAKE_MACHINE_RADIX_ATTRIBUTE =
+  [Id : NAT] EXP
+  (+ .~rep_fv_radix [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+
+/* x86 dependent: */
+Tokdef MAKE_DENORM_ATTRIBUTE =
+  [Id : NAT] EXP
+  1 (Boolean.V); /* Are Float & Double really Denorm? */
+
+Tokdef MAKE_MACHINE_OVERFLOWS_ATTRIBUTE =
+  [Id : NAT] EXP
+  1 (Boolean.V);
+
+Tokdef MAKE_MACHINE_ROUNDS_ATTRIBUTE =
+  [Id : NAT] EXP
+  1 (Boolean.V);
+
+Tokdef MAKE_SIGNED_ZEROS_ATTRIBUTE =
+  [Id : NAT] EXP
+  1 (Boolean.V);
+
+Tokdef Round =
+  [Value : EXP,
+   Width : NAT,
+   float : FLOATING_VARIETY,
+   Mode  : ROUNDING_MODE] EXP
+  ?{
+     float_int
+       (impossible,
+        float,
+        round_with_mode
+          (Target,
+           Mode,
+           var_width (false, Width),
+           Value))
+     | :Target: Value
+  };
+
+Tokdef MAKE_CEILING_ATTRIBUTE =
+  [Id    : NAT,
+   Value : EXP] EXP
+  Let X = Value
+  ?{
+     F?(X >= 0.0 (.~rep_fv [Id]));
+     Round [X, .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_larger]
+     | floating_negate (impossible,
+       Round [floating_negate (impossible, X),
+              .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_smaller])
+  };
+
+Tokdef MAKE_FLOOR_ATTRIBUTE =
+  [Id    : NAT,
+   Value : EXP] EXP
+  Let X = Value
+  ?{
+     F?(X >= 0.0 (.~rep_fv [Id]));
+     Round [X, .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_smaller]
+     | floating_negate (impossible,
+       Round [floating_negate (impossible, X),
+              .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_larger])
+  };
+
+Tokdef MAKE_ROUNDING_ATTRIBUTE =
+  [Id    : NAT,
+   Value : EXP] EXP
+  Let X = Value
+  ?{
+     F?(X >= 0.0 (.~rep_fv [Id]));
+     Round [X, .~rep_fv_mantissa [Id], .~rep_fv [Id], to_nearest]
+     | floating_negate (impossible,
+       Round [floating_negate (impossible, X),
+              .~rep_fv_mantissa [Id], .~rep_fv [Id], to_nearest])
+  };
+
+Tokdef MAKE_TRUNCATION_ATTRIBUTE =
+  [Id    : NAT,
+   Value : EXP] EXP
+  Let X = Value
+  ?{
+     F?(X >= 0.0 (.~rep_fv [Id]));
+     Round [X, .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_smaller]
+     | floating_negate (impossible,
+       Round [floating_negate (impossible, X),
+              .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_smaller])
+  };
+
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
       Character.LOWER,
@@ -450,6 +643,22 @@ Keep (COMPARE_INTEGER_VALUE,
       MOD_NOT,
       MOD_NEGATIVE,
       MOD_POWER,
-      TEST_RANGE_JUMP
+      TEST_RANGE_JUMP,
+      A_UNIVERSAL_REAL_DEFINITION.V,
+      MAKE_FLOAT_RANGE_ID,
+      MAKE_FLOAT_ID,
+      COMPARE_FLOAT_VALUE,
+      MAKE_DENORM_ATTRIBUTE,
+      MAKE_MACHINE_EMAX_ATTRIBUTE,
+      MAKE_MACHINE_EMIN_ATTRIBUTE,
+      MAKE_MACHINE_MANTISSA_ATTRIBUTE,
+      MAKE_MACHINE_OVERFLOWS_ATTRIBUTE,
+      MAKE_MACHINE_RADIX_ATTRIBUTE,
+      MAKE_MACHINE_ROUNDS_ATTRIBUTE,
+      MAKE_SIGNED_ZEROS_ATTRIBUTE,
+      MAKE_CEILING_ATTRIBUTE,
+      MAKE_FLOOR_ATTRIBUTE,
+      MAKE_ROUNDING_ATTRIBUTE,
+      MAKE_TRUNCATION_ATTRIBUTE
       )
 

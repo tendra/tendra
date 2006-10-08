@@ -282,7 +282,14 @@ package body States is
                  & Suffix;
             end;
          when Support_Token =>
-            return Support_Kinds'Image (Link.Support);
+            case Link.Support is
+               when Rep_Fv =>
+                  return ".~rep_fv";
+               when Rep_Fv_Max_Val =>
+                  return ".~rep_fv_max_val";
+               when others =>
+                  return Support_Kinds'Image (Link.Support);
+            end case;
          when Subtype_Attribute_Token =>
             return To_String (External_Image (Link.Subtype_Name))
               & '.' & Asis.Attribute_Kinds'Image (Link.Attribute);

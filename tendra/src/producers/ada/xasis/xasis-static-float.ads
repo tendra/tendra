@@ -9,7 +9,7 @@
 --  Purpose:
 --  Static expression evaluation
 
-private package XASIS.Static.Discrete is
+private package XASIS.Static.Float is
 
    type Type_Class is new XASIS.Static.Type_Class with null record;
 
@@ -28,11 +28,10 @@ private package XASIS.Static.Discrete is
       Kind    : Asis.Attribute_Kinds;
       Element : Asis.Expression) return Value;
 
-   function Is_Discrete (Right : Value) return Boolean;
-   function I (Data : XASIS.Integers.Value) return Value;
-   function B (Data : Boolean) return Value;
+   function Is_Float (Right : Value) return Boolean;
+   function V (Data : XASIS.Fractions.Fraction) return Value;
 
-end XASIS.Static.Discrete;
+end XASIS.Static.Float;
 
 
 ------------------------------------------------------------------------------

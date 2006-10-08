@@ -1,4 +1,4 @@
---  Purpose: check for loo statement.
+--  Purpose: check for loop statement.
 --  Dependencies:: standard.ads
 
 procedure B0014 is

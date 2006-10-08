@@ -26,6 +26,7 @@ package body Type_Definition is
       type User_Type is private;
       with procedure Evaluate (D     : in out Streams.Memory_Stream;
                                Data  : in     User_Type);
+      Result : in Construct := c_exp;
    procedure Make_Param_Token
         (State : access States.State;
          Tipe  : in     XASIS.Classes.Type_Info;
@@ -48,6 +49,7 @@ package body Type_Definition is
    procedure Make_Float_Variety
      (State  : access States.State;
       Tipe   : in     XASIS.Classes.Type_Info;
+      Digit  : in     Asis.Expression;
       Bounds : in     Asis.Range_Constraint);
 
    procedure Make_Enum_Bounds
@@ -74,11 +76,61 @@ package body Type_Definition is
       Tipe  : in     XASIS.Classes.Type_Info;
       Expr  : in     Asis.Expression);
 
+   procedure Make_Float_Base
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info);
+
+   procedure Make_Float_Attributes
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info);
+
    procedure Apply_Lower_Upper
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info;
       Param : in out Streams.Memory_Stream;
       Kind  : in     Type_Param_Kinds);
+
+   procedure Apply_Float_Id
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Streams.Memory_Stream);
+
+   type Arg_List  is array (Positive range <>) of Small;
+   type Arg_Types is array (Positive range <>) of Construct;
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out Streams.Memory_Stream;
+      Args   :    out Arg_List;
+      Types  : in     Arg_Types;
+      Result : in     Construct := c_exp);
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out Streams.Memory_Stream;
+      Result : in     Construct := c_exp);
+
+   procedure Close_Token_Def
+     (State : access States.State;
+      D     : in out Streams.Memory_Stream;
+      Tok   : in     Small);
+
+   --------------------
+   -- Apply_Float_Id --
+   --------------------
+
+   procedure Apply_Float_Id
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Streams.Memory_Stream)
+   is
+      Id : constant Small := Find_Type_Param (State, Tipe, Float_Id, TOKDEF);
+   begin
+      Output.TDF (Param, c_nat_apply_token);
+      Output.TDF (Param, c_make_tok);
+      Output.TDFINT (Param, Id);
+      Output.BITSTREAM (Param, Empty);
+   end Apply_Float_Id;
 
    -----------------------
    -- Apply_Lower_Upper --
@@ -97,6 +149,24 @@ package body Type_Definition is
       Output.TDFINT (Param, Limit);
       Output.BITSTREAM (Param, Empty);
    end Apply_Lower_Upper;
+
+   ---------------------
+   -- Close_Token_Def --
+   ---------------------
+
+   procedure Close_Token_Def
+     (State : access States.State;
+      D     : in out Streams.Memory_Stream;
+      Tok   : in     Small)
+   is
+      T     : TenDRA.Streams.Memory_Stream renames State.Units (TOKDEF).all;
+   begin
+      Inc (State.Length (TOKDEF));
+      Output.TDF (T, c_make_tokdef);
+      Output.TDFINT (T, Tok);
+      Output.No_Option (T);  --  signature
+      Output.BITSTREAM (T, D);
+   end Close_Token_Def;
 
    -------------
    -- Compile --
@@ -150,11 +220,15 @@ package body Type_Definition is
 
          when A_Floating_Point_Definition =>
             declare
+               Digit  : constant Asis.Expression :=
+                 Digits_Expression (Element);
                Bounds : constant Asis.Range_Constraint :=
                  Real_Range_Constraint (Element);
             begin
-               Make_Float_Variety (State, Tipe, Bounds);
-               -- Make_Shape_From_Variety (State, Tipe);
+               Make_Float_Variety (State, Tipe, Digit, Bounds);
+               Make_Shape_From_Variety (State, Tipe);
+               Make_Float_Base (State, Tipe);
+               Make_Float_Attributes (State, Tipe);
             end;
 
          when others =>
@@ -175,8 +249,6 @@ package body Type_Definition is
 
       Decl : constant Asis.Declaration := Get_Declaration (Tipe);
 
-      type Arg_List is array (Positive range <>) of Small;
-
       --------------------
       -- Open_Token_Def --
       --------------------
@@ -185,25 +257,9 @@ package body Type_Definition is
         (D    : in out Streams.Memory_Stream;
          Args :    out Arg_List)
       is
+         Types : constant Arg_Types (Args'Range) := (others => c_exp);
       begin
-         for J in Args'Range loop
-            Args (J) := State.Unit_Total (TOKDEF, States.Token);
-            Inc (State.Unit_Total (TOKDEF, States.Token));
-         end loop;
-
-         Streams.Expect
-           (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                       (EXP_SORT, Singular, False)));
-
-         Output.TDF (D, c_token_definition);
-         Output.TDF (D, c_exp);
-         Output.List_Count (D, Args'Length);
-
-         for J in Args'Range loop
-            Output.TDF (D, c_make_tokformals);
-            Output.TDF (D, c_exp);
-            Output.TDFINT (D, Args (J));
-         end loop;
+         Open_Token_Def (State, D, Args, Types);
       end Open_Token_Def;
 
       ---------------------
@@ -214,15 +270,10 @@ package body Type_Definition is
         (Kind : in     Asis.Attribute_Kinds;
          D    : in out Streams.Memory_Stream)
       is
-         T     : TenDRA.Streams.Memory_Stream
-           renames State.Units (TOKDEF).all;
-         Tok   : Small := Find_Attribute (State, Decl, Kind, TOKDEF, False);
+         Tok : constant Small :=
+           Find_Attribute (State, Decl, Kind, TOKDEF, False);
       begin
-         Inc (State.Length (TOKDEF));
-         Output.TDF (T, c_make_tokdef);
-         Output.TDFINT (T, Tok);
-         Output.No_Option (T);  --  signature
-         Output.BITSTREAM (T, D);
+         Close_Token_Def (State, D, Tok);
       end Close_Token_Def;
 
       ----------------------
@@ -546,6 +597,122 @@ package body Type_Definition is
       Make_Token (State, Tipe, Upper, List'Length - 1);
    end Make_Enum_Bounds;
 
+   ---------------------------
+   -- Make_Float_Attributes --
+   ---------------------------
+
+   procedure Make_Float_Attributes
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info)
+   is
+      Decl  : constant Asis.Declaration :=
+        XASIS.Classes.Get_Declaration (Tipe);
+
+      procedure Make_Attr
+        (Attr  : in Asis.Attribute_Kinds; 
+         Supp  : in Support_Kinds;
+         Count : in Natural := 0)
+      is
+         D     : Streams.Memory_Stream;
+         Param : Streams.Memory_Stream;
+         Args  : Arg_List (1 .. Count);
+         Types : Arg_Types (Args'Range) := (others => c_exp);
+         Tok   : constant Small :=
+           Find_Attribute (State, Decl, Attr, TOKDEF, False);
+         Macro : constant Small := Find_Support (State, Supp, TOKDEF);
+      begin
+         Open_Token_Def (State, D, Args, Types);
+
+         Token.Initialize (Param, Supp);
+         Apply_Float_Id (State, Tipe, Param);
+
+         for J in Args'Range loop
+            Output.TDF (Param, c_exp_apply_token);
+            Output.TDF (Param, c_make_tok);
+            Output.TDFINT (Param, Args (J));
+            Output.BITSTREAM (Param, Empty);
+         end loop;
+
+         Output.TDF (D, c_exp_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Macro);
+         Output.BITSTREAM (D, Param);
+
+         Close_Token_Def (State, D, Tok);
+      end;
+   begin
+      Make_Attr (A_Denorm_Attribute,           Make_Denorm_Attribute);
+      Make_Attr (A_Machine_Emax_Attribute,     Make_Machine_Emax_Attribute);
+      Make_Attr (A_Machine_Emin_Attribute,     Make_Machine_Emin_Attribute);
+      Make_Attr (A_Machine_Mantissa_Attribute, Make_Machine_Mantissa_Attribute);
+      Make_Attr (A_Machine_Overflows_Attribute,
+        Make_Machine_Overflows_Attribute);
+      Make_Attr (A_Machine_Radix_Attribute,    Make_Machine_Radix_Attribute);
+      Make_Attr (A_Machine_Rounds_Attribute,   Make_Machine_Rounds_Attribute);
+      Make_Attr (A_Signed_Zeros_Attribute,     Make_Signed_Zeros_Attribute);
+
+      Make_Attr (A_Ceiling_Attribute,           Make_Ceiling_Attribute, 1);
+      Make_Attr (A_Floor_Attribute,             Make_Floor_Attribute, 1);
+      Make_Attr (A_Rounding_Attribute,          Make_Rounding_Attribute, 1);
+      Make_Attr (A_Truncation_Attribute,        Make_Truncation_Attribute, 1);
+      Make_Attr
+        (An_Unbiased_Rounding_Attribute, Make_Unbiased_Rounding_Attribute, 1);
+      Make_Attr (An_Exponent_Attribute,         Make_Exponent_Attribute, 1);
+      Make_Attr (A_Fraction_Attribute,          Make_Fraction_Attribute, 1);
+      Make_Attr (A_Machine_Attribute,           Make_Machine_Attribute, 1);
+      Make_Attr (A_Model_Attribute,             Make_Model_Attribute, 1);
+
+      Make_Attr (An_Adjacent_Attribute,    Make_Adjacent_Attribute, 2);
+      Make_Attr (A_Copy_Sign_Attribute,    Make_Copy_Sign_Attribute, 2);
+      Make_Attr (A_Remainder_Attribute,    Make_Remainder_Attribute, 2);
+      Make_Attr (A_Leading_Part_Attribute, Make_Leading_Part_Attribute, 2);
+      Make_Attr (A_Compose_Attribute,      Make_Compose_Attribute, 2);
+      Make_Attr (A_Scaling_Attribute,      Make_Scaling_Attribute, 2);
+
+   end Make_Float_Attributes;
+
+   ---------------------
+   -- Make_Float_Base --
+   ---------------------
+
+   procedure Make_Float_Base
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info)
+   is
+      use XASIS.Utils;
+      use XASIS.Classes;
+
+      Var   : constant Small := Find_Variety (State, Tipe, TOKDEF);
+
+      procedure Evaluate
+        (D      : in out Streams.Memory_Stream;
+         Lower  : in     Boolean)
+      is
+         Param : Streams.Memory_Stream;
+         Macro : constant Small :=
+           Find_Support (State, Rep_Fv_Max_Val, TOKDEF);
+      begin
+         Token.Initialize (Param, Rep_Fv_Max_Val);
+         Apply_Float_Id (State, Tipe, Param);
+
+         if Lower then
+            Output.TDF (D, c_floating_negate);
+            Expression.Output_Trap_Overflow (D);
+         end if;
+
+         Output.TDF (D, c_exp_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Macro);
+         Output.BITSTREAM (D, Param);
+      end Evaluate;
+
+      procedure Make_Token is new Make_Param_Token (Boolean, Evaluate);
+
+   begin
+      Make_Token (State, Tipe, Base_Lower, True);
+      Make_Token (State, Tipe, Base_Upper, False);
+   end Make_Float_Base;
+
    ------------------------
    -- Make_Float_Variety --
    ------------------------
@@ -553,19 +720,97 @@ package body Type_Definition is
    procedure Make_Float_Variety
      (State  : access States.State;
       Tipe   : in     XASIS.Classes.Type_Info;
+      Digit  : in     Asis.Expression;
       Bounds : in     Asis.Range_Constraint)
    is
       use XASIS.Utils;
       use XASIS.Classes;
+      use Asis.Elements;
 
---      Prec  : Small := Find_Type_Param (State, Tipe, Precision, TOKDEF);
+      procedure Evaluate
+        (D     : in out Streams.Memory_Stream;
+         Dummy : in     Small)
+      is
+         use Asis.Definitions;
 
-      D     : aliased Streams.Memory_Stream;
-      T     : TenDRA.Streams.Memory_Stream
-        renames State.Units (TOKDEF).all;
---      Var   : Small := Find_Variety (State, Tipe, TOKDEF, False);
+         Make_Id : Small;
+         Param   : Streams.Memory_Stream;
+      begin
+         if Is_Nil (Bounds) then
+            Make_Id := Find_Support (State, Make_Float_Id, TOKDEF);
+            Token.Initialize (Param, Make_Float_Id);
+         else
+            Make_Id := Find_Support (State, Make_Float_Range_Id, TOKDEF);
+            Token.Initialize (Param, Make_Float_Range_Id);
+
+            Expression.Computed_Static
+              (State, Lower_Bound (Bounds), T.Root_Real, Param, TOKDEF);
+
+            Expression.Computed_Static
+              (State, Upper_Bound (Bounds), T.Root_Real, Param, TOKDEF);
+         end if;
+
+         Expression.Computed_Static
+           (State, Digit, T.Root_Integer, Param, TOKDEF);
+
+         Output.TDF (D, c_nat_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Make_Id);
+         Output.BITSTREAM (D, Param);
+      end Evaluate;
+
+      procedure Make_Token is new Make_Param_Token (Small, Evaluate, c_nat);
+
+      D     : Streams.Memory_Stream;
+      Var   : Small := Find_Variety (State, Tipe, TOKDEF, False);
    begin
-      null;
+      if not Elements.Is_Part_Of_Implicit (Digit) then
+         Make_Token (State, Tipe, Float_Id, 0);
+      end if;
+
+      Open_Token_Def (State, D, c_floating_variety);
+
+      declare
+         Param : Streams.Memory_Stream;
+         Rep   : constant Small := Find_Support (State, Rep_Fv, TOKDEF);
+         Id    : constant Small :=
+           Find_Type_Param (State, Tipe, Float_Id, TOKDEF);
+      begin
+         Token.Initialize (Param, Rep_Fv);
+         Apply_Float_Id (State, Tipe, Param);
+
+         Output.TDF (D, c_flvar_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Rep);
+         Output.BITSTREAM (D, Param);
+      end;
+
+      Close_Token_Def (State, D, Var);
+
+      if not Is_Nil (Bounds) then
+         declare
+            use Asis.Definitions;
+            Decl  : constant Asis.Declaration := Get_Declaration (Tipe);
+            Dummy : Arg_List (1 .. 1);
+            Tok   : Small;
+         begin
+            Streams.Reset (D);
+            Tok := Find_Attribute
+              (State, Decl, A_First_Attribute, TOKDEF, False);
+            Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Expression.Computed_Static
+              (State, Lower_Bound (Bounds), Tipe, D, TOKDEF);
+            Close_Token_Def (State, D, Tok);
+
+            Streams.Reset (D);
+            Tok := Find_Attribute
+              (State, Decl, A_Last_Attribute, TOKDEF, False);
+            Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Expression.Computed_Static
+              (State, Upper_Bound (Bounds), Tipe, D, TOKDEF);
+            Close_Token_Def (State, D, Tok);
+         end;
+      end if;
    end Make_Float_Variety;
 
    -------------------------
@@ -618,21 +863,9 @@ package body Type_Definition is
       D     : Streams.Memory_Stream;
       Token : Small := Find_Type_Param (State, Tipe, Param, TOKDEF, False);
    begin
-      Streams.Expect
-        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                     (EXP_SORT, Singular, False)));
-
-      Output.TDF (D, c_token_definition);
-      Output.TDF (D, c_exp);
-      Output.List_Count (D, 0);
-
+      Open_Token_Def (State, D, Result);
       Evaluate (D, Data);
-
-      Inc (State.Length (TOKDEF));
-      Output.TDF (T, c_make_tokdef);
-      Output.TDFINT (T, Token);
-      Output.No_Option (T);  --  signature
-      Output.BITSTREAM (T, D);
+      Close_Token_Def (State, D, Token);
    end Make_Param_Token;
 
    -------------------------
@@ -767,25 +1000,89 @@ package body Type_Definition is
       Var   : Small := Find_Variety (State, Tipe, TOKDEF);
       Shape : Small := Find_Shape (State, Tipe, TOKDEF, False);
    begin
-      Streams.Expect
-        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                    (SHAPE_SORT, Singular, False)));
+      Open_Token_Def (State, D, c_shape);
 
-      Output.TDF (D, c_token_definition);
-      Output.TDF (D, c_shape);
-      Output.List_Count (D, 0);
-      Output.TDF (D, c_integer);
-      Output.TDF (D, c_var_apply_token);
+      if Is_Float_Point (Tipe) then
+         Output.TDF (D, c_floating);
+         Output.TDF (D, c_flvar_apply_token);
+      elsif Is_Discrete (Tipe) then
+         Output.TDF (D, c_integer);
+         Output.TDF (D, c_var_apply_token);
+      else
+         raise States.Error;
+      end if;
+
       Output.TDF (D, c_make_tok);
       Output.TDFINT (D, Var);
       Output.BITSTREAM (D, Empty);
 
-      Inc (State.Length (TOKDEF));
-      Output.TDF (T, c_make_tokdef);
-      Output.TDFINT (T, Shape);
-      Output.No_Option (T);  --  signature
-      Output.BITSTREAM (T, D);
+      Close_Token_Def (State, D, Shape);
    end Make_Shape_From_Variety;
+
+   --------------------
+   -- Open_Token_Def --
+   --------------------
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out Streams.Memory_Stream;
+      Result : in     Construct := c_exp)
+   is
+      Args  : Arg_List (1 .. 0);
+      Types : Arg_Types (1 .. 0);
+   begin
+      Open_Token_Def (State, D, Args, Types, Result);
+   end Open_Token_Def;
+
+   --------------------
+   -- Open_Token_Def --
+   --------------------
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out Streams.Memory_Stream;
+      Args   :    out Arg_List;
+      Types  : in     Arg_Types;
+      Result : in     Construct := c_exp)
+
+   is
+      function To_Sort (C : Construct) return Sort_Kind is
+      begin
+         case C is
+            when c_exp =>
+               return EXP_SORT;
+            when c_floating_variety =>
+               return FLOATING_VARIETY_SORT;
+            when c_nat =>
+               return NAT_SORT;
+            when c_shape =>
+               return SHAPE_SORT;
+            when others =>
+               raise States.Error;
+         end case;
+      end To_Sort;
+
+      Kind : constant Sort_Kind := To_Sort (Result);
+   begin
+      for J in Args'Range loop
+         Args (J) := State.Unit_Total (TOKDEF, States.Token);
+         Inc (State.Unit_Total (TOKDEF, States.Token));
+      end loop;
+
+      Streams.Expect
+        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
+                    (Kind, Singular, False)));
+
+      Output.TDF (D, c_token_definition);
+      Output.TDF (D, Result);
+      Output.List_Count (D, Args'Length);
+
+      for J in Args'Range loop
+         Output.TDF (D, c_make_tokformals);
+         Output.TDF (D, Types (J));
+         Output.TDFINT (D, Args (J));
+      end loop;
+   end Open_Token_Def;
 
 end Type_Definition;
 
