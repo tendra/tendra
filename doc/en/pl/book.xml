@@ -706,7 +706,151 @@ Struct Complex (re: Double, im: Double)
           operators and assignment and are given in table 1. In this
           expansion, any error_treatments are taken to be wrap.</para>
 
-        <para>FIGURE BinaryOP - pltable1.png</para>
+        <table frame='all' id='binaryop'>
+          <title>BinaryOP</title>
+        
+          <tgroup cols='2'>
+            <colspec align='center' colname='c1'/>
+            <colspec colname='c2'/>
+
+            <thead>
+              <row>
+                <entry namest='c1'>&lt;BinaryOP&gt;</entry>
+
+                <entry namest='c2'>TDF Constructor</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>And</entry>
+                <entry>and</entry>
+              </row>
+
+              <row>
+                <entry>Xor</entry>
+                <entry>xor</entry>
+              </row>
+
+              <row>
+                <entry>*-*</entry>
+                <entry>subtract_ptrs</entry>
+              </row>
+
+              <row>
+                <entry>.+.</entry>
+                <entry>offset_add</entry>
+              </row>
+
+              <row>
+                <entry>./</entry>
+                <entry>offset_div_by_int</entry>
+              </row>
+
+              <row>
+                <entry>.max.</entry>
+                <entry>offset_max</entry>
+              </row>
+
+              <row>
+                <entry>%1</entry>
+                <entry>rem1</entry>
+              </row>
+
+              <row>
+                <entry>+</entry>
+                <entry>plus</entry>
+              </row>
+
+              <row>
+                <entry>/</entry>
+                <entry>div2</entry>
+              </row>
+
+              <row>
+                <entry>&lt;&lt;</entry>
+                <entry>shift_left</entry>
+              </row>
+
+              <row>
+                <entry>F*</entry>
+                <entry>floating_mult</entry>
+              </row>
+
+              <row>
+                <entry>F-</entry>
+                <entry>floating_minus</entry>
+              </row>
+
+              <row>
+                <entry>=</entry>
+                <entry>assign</entry>
+              </row>
+
+              <row>
+                <entry>Or</entry>
+                <entry>or</entry>
+              </row>
+
+              <row>
+                <entry>*+.</entry>
+                <entry>add_to_ptr</entry>
+              </row>
+
+              <row>
+                <entry>.*</entry>
+                <entry>offset_mult</entry>
+              </row>
+
+              <row>
+                <entry>.-.</entry>
+                <entry>offset_subtract</entry>
+              </row>
+
+              <row>
+                <entry>./.</entry>
+                <entry>offset_div</entry>
+              </row>
+
+              <row>
+                <entry>%</entry>
+                <entry>rem2</entry>
+              </row>
+
+              <row>
+                <entry>*</entry>
+                <entry>mult</entry>
+              </row>
+
+              <row>
+                <entry>-</entry>
+                <entry>minus</entry>
+              </row>
+
+              <row>
+                <entry>/1</entry>
+                <entry>div1</entry>
+              </row>
+
+              <row>
+                <entry>&gt;&gt;</entry>
+                <entry>shift_right</entry>
+              </row>
+
+              <row>
+                <entry>F+</entry>
+                <entry>floating_plus</entry>
+              </row>
+
+              <row>
+                <entry>F/</entry>
+                <entry>floating_div</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+
 
         <para>The names like *+. (i.e. add_to_ptr) do have a certain logic;
           the * indicates that the left operand must be a pointer expression
