@@ -956,7 +956,7 @@ cmpflpt(flpt a, flpt b, int testno)
 
 
 static flpt
-floatrep_aux(int n, int sign)
+floatrep_aux(long n, int sign)
 {
 	flpt res = new_flpt ();
 	flt fr;
@@ -989,7 +989,7 @@ floatrep_aux(int n, int sign)
 }
 
 flpt
-floatrep(int n)
+floatrep(long n)
 {
 	if (n < 0)
 		return floatrep_aux(-n, -1);
@@ -997,9 +997,9 @@ floatrep(int n)
 }
 
 flpt
-floatrep_unsigned(unsigned int n)
+floatrep_unsigned(unsigned long n)
 {
-	return floatrep_aux((int)n, 1);
+	return floatrep_aux((long)n, 1);
 }
 
 void

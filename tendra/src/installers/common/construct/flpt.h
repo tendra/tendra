@@ -67,8 +67,8 @@ extern  void more_flpts(void);
 extern  flpt new_flpt(void);
 extern  void flpt_ret(flpt f);
 extern  int cmpflpt(flpt a, flpt b, int testno);
-extern  flpt floatrep(int n);
-extern  flpt floatrep_unsigned(unsigned int n);
+extern  flpt floatrep(long);
+extern  flpt floatrep_unsigned(unsigned long);
 extern  flt * flptnos;
 
 /* floatingpoint functions - are these needed externally??? */
