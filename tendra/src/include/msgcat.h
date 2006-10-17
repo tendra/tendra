@@ -88,11 +88,15 @@ typedef void msg_uh_t (char, void *);
  */
 typedef void msg_on_message_t (MSG_DATA *);
 
+struct OStreamT;
+
+
 void  msg_init(void);
 void  msg_print(int, ...);
 const char *msg_get_raw(int);
 void  msg_simple(const char *s, ...);
 void  msg_sev_set(int, int);
+void  msg_sev_stream(int, struct OStreamT *);
 void  msg_append_char(char);
 void  msg_append_string(const char *);
 void  msg_append_nstring(const char *, size_t);
@@ -113,8 +117,6 @@ extern int msg_max_reported_severity;
  * User handler called before message is printed
  */
 extern msg_on_message_t *msg_on_message;
-
-struct OStreamT;
 
 extern struct OStreamT *msg_stream;
 

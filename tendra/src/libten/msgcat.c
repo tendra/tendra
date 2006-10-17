@@ -43,8 +43,9 @@
 #include "tenapp.h"
 
 struct msg_sev {
-	int	severity;
-	int	enabled;
+	int			severity;
+	int			enabled;
+	OStreamT	*stream;
 	struct msg_sev *next;
 };
 
@@ -58,6 +59,7 @@ struct msg_user_handler {
  * Stream used to report errors.
  */
 OStreamT *msg_stream = NULL;
+OStreamT *old_stream = NULL;
 
 int msgcat_show_progname = 1;
 
@@ -139,6 +141,16 @@ msg_sev_set(int severity, int enabled)
 	msp->enabled = enabled;
 }
 
+void
+msg_sev_stream(int severity, struct OStreamT *stream)
+{
+	struct msg_sev *msp;
+
+	msg_sev_set(severity, 1);
+	msp = msg_sev_lookup(severity);
+	msp->stream = stream;
+}
+
 
 static struct msg_user_handler*
 msg_uh_lookup(char type)
@@ -215,7 +227,7 @@ msg_get_raw(int n)
  * todo: make it public without the need to pull stdarg.h.
  */
 static MSG_DATA*
-msg_get(int n, va_list args)
+msg_get(int n, struct msg_sev **mspp, va_list args)
 {
 	MSG_DATA *mp, *sp;
 	struct msg_sev *msp;
@@ -224,6 +236,8 @@ msg_get(int n, va_list args)
 	const char *sig, *s;
 	char ch;
 	int sev;
+
+	*mspp = NULL;
 
 	if (msg_stream == NULL)
 		msg_init();
@@ -240,7 +254,11 @@ msg_get(int n, va_list args)
 	if (msp && msp->enabled == 0)
 		return NULL;
 
-	if (msgcat_show_progname) {
+	*mspp = msp;
+	if (msp->stream != NULL) {
+		old_stream = msg_stream;
+		msg_stream = msp->stream;
+	} else if (msgcat_show_progname) {
 		msg_append_string(progname);
 		msg_append_string(": ");
 	}
@@ -279,7 +297,7 @@ msg_get(int n, va_list args)
 	default:
 		sp = MSG_CATALOG + MID__prefix_info;
 	}
-	if (sp) {
+	if (msp->stream == NULL && sp) {
 		msg_append_string(sp->key_STD);
 		msg_append_string(": ");
 	}
@@ -429,10 +447,11 @@ void
 msg_print(int n, ...)
 {
 	MSG_DATA *mp;
+	struct msg_sev *msp;
 	va_list ap;
 
 	va_start(ap, n);
-	mp = msg_get(n, ap);
+	mp = msg_get(n, &msp, ap);
 	va_end(ap);
 	if (mp == NULL)
 		return;
@@ -440,6 +459,8 @@ msg_print(int n, ...)
 		msg_on_message(mp);
 	write_newline(msg_stream);
 	ostream_flush(msg_stream);
+	if (msp->stream != NULL)
+		msg_stream = old_stream;
 	if (mp->usage == MSG_SEV_FATAL || (mp->props & MSG_PROP_FATAL)) {
 		tenapp_exit();
 	}
