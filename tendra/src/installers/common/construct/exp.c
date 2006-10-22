@@ -179,139 +179,139 @@ static void kill_el(exp e, exp scope);
 void
 kill_exp(exp e, exp scope)
 {
-	if (e != NULL) {
-		unsigned char n = name(e);
+	unsigned char n;
 
-		if (n == name_tag) {
-			exp q = son(e);
+	if (e == NULL)
+		return;
+
+	n = name(e);
+
+	if (n == name_tag) {
+		exp q = son(e);
 
 #ifdef NEWDIAGS
-			if (!isdiaginfo(e))
-				--no(son(e));	/* decrease usage count */
+		if (!isdiaginfo(e))
+			--no(son(e));	/* decrease usage count */
 #else
-			--no(son(e));		/* decrease usage count */
+		--no(son(e));		/* decrease usage count */
 #endif
-			while (pt(q) != e)
-				q = pt(q);
-			pt (q) = pt(e);		/* remove from usage list */
-			if (no(son(e)) == 0 &&
-				son(son(e)) != NULL &&
-				bro(son(son(e))) != NULL &&
-				(scope == NULL || internal_to(scope, son(e))))
-				IGNORE check(son(e), scope);
-			/* check the declaration if now no use */
-			retcell (e);
-			return;
+		while (pt(q) != e)
+			q = pt(q);
+		pt (q) = pt(e);		/* remove from usage list */
+		if (no(son(e)) == 0 &&
+			son(son(e)) != NULL &&
+			bro(son(son(e))) != NULL &&
+			(scope == NULL || internal_to(scope, son(e))))
+			IGNORE check(son(e), scope);	/* check the declaration if now no use */
+		retcell (e);
+		return;
+	}
+
+	if (n == solve_tag) {
+		int looping;
+
+		if (!last(son(e))) {
+			exp t = bro(son(e));
+			do {
+				no(son(t)) = 0;
+				looping = !last(t);
+				t = bro(t);
+			} while (looping);
 		}
+		if (pt(e) != NULL)
+			son(pt(e)) = NULL;
+		kill_el(son(e), scope);
+		retcell(e);
+		return;
+	}
 
-		if (n == solve_tag) {
-			int looping;
-
-			if (!last(son(e))) {
-				exp t = bro(son(e));
-				do {
-					no(son(t)) = 0;
-					looping = !last(t);
-					t = bro(t);
-				}
-				while (looping);
-			}
-			if (pt(e) != NULL)
-				son(pt(e)) = NULL;
-			kill_el(son(e), scope);
-			retcell(e);
-			return;
-		}
-
-		if (n == ident_tag) {
-			++no(e);
-			kill_el(son(e), scope);
+	if (n == ident_tag) {
+		++no(e);
+		kill_el(son(e), scope);
 #ifdef NEWDIAGS
-			if (diagnose && pt(e))	/* allow diags to hold on to id */
-				diag_kill_id(e);
-			else
+		if (diagnose && pt(e))	/* allow diags to hold on to id */
+			diag_kill_id(e);
+		else
 #endif
-				retcell(e);
-			return;
-		}
-
-		if (n == labst_tag) {
-			++no(e);
-			--proc_label_count;
-			kill_el(bro(son(e)), scope);
-			retcell(son(e));
 			retcell(e);
-			return;
+		return;
+	}
+
+	if (n == labst_tag) {
+		++no(e);
+		--proc_label_count;
+		kill_el(bro(son(e)), scope);
+		retcell(son(e));
+		retcell(e);
+		return;
+	}
+
+	if (n == case_tag) {
+		exp b = bro(son(e));
+
+		while (b != NULL) {
+			exp nextb = bro(b);
+			int l = last(b);
+
+			--no(son(pt(b)));
+			if (son(b) != NULL)
+				retcell(son(b));
+			retcell(b);
+			if (l)
+				break;
+			b = nextb;
 		}
+		kill_exp(son(e), scope);
+		retcell(e);
+		return;
+	}
 
-		if (n == case_tag) {
-			exp b = bro(son(e));
+	if (n == cond_tag) {
+		no(son(bro(son(e)))) = 0;
+		kill_el(son(e), scope);
+		retcell(e);
+		return;
+	}
 
-			while (b != NULL) {
-				exp nextb = bro(b);
-				int l = last(b);
+	if (n == rep_tag) {
+		if (pt(e) != NULL)
+			son(pt (e)) = NULL;
+		no(son(bro(son(e)))) = 0;
+		kill_el(son(e), scope);
+		retcell(e);
+		return;
+	}
 
-				--no(son(pt(b)));
-				if (son(b) != NULL)
-					retcell(son(b));
-				retcell(b);
-				if (l)
-					break;
-				b = nextb;
-			}
-			kill_exp(son(e), scope);
-			retcell(e);
-			return;
+	if (n == real_tag || (n == val_tag && isbigval(e))) {
+		flpt_ret(no(e));
+		retcell(e);
+		return;
+	}
+
+	if (n == val_tag) {
+		retcell(e);
+		return;
+	}
+
+	if (n == env_offset_tag || n == string_tag || n==general_env_offset_tag) {
+		retcell(e);
+		return;
+	}
+
+	{
+		exp p = pt (e);
+		if (p != NULL && (props (son(p)) & 1) == 0) {
+			/* decrease label usage count */
+			--no(son(p));
+			/* process if now no use of label and not doing deadvar */
+			if (no(son(p)) == 0 && !is_loaded_lv(p) &&
+				bro(son(p)) != NULL &&
+				(scope == NULL || internal_to(scope, p)))
+				altered (p, scope);
 		}
-
-		if (n == cond_tag) {
-			no(son(bro(son(e)))) = 0;
-			kill_el(son(e), scope);
-			retcell(e);
-			return;
-		}
-
-		if (n == rep_tag) {
-			if (pt(e) != NULL)
-				son(pt (e)) = NULL;
-			no(son(bro(son(e)))) = 0;
-			kill_el(son(e), scope);
-			retcell(e);
-			return;
-		}
-
-		if (n == real_tag || (n == val_tag && isbigval(e))) {
-			flpt_ret(no(e));
-			retcell(e);
-			return;
-		}
-
-		if (n == val_tag) {
-			retcell(e);
-			return;
-		}
-
-		if (n == env_offset_tag || n == string_tag || n==general_env_offset_tag)
-		{
-			retcell(e);
-			return;
-		}
-
-		{
-			exp p = pt (e);
-			if (p != NULL && (props (son(p)) & 1) == 0) {
-				/* decrease label usage count */
-				--no(son(p));
-				/* process if now no use of label and not doing deadvar */
-				if (no(son(p)) == 0 && !is_loaded_lv(p) &&
-					bro(son(p)) != NULL &&
-					(scope == NULL || internal_to(scope, p)))
-					altered (p, scope);
-			}
-			kill_el(son(e), scope);
-			retcell(e);
-			return;
-		}
+		kill_el(son(e), scope);
+		retcell(e);
+		return;
 	}
 }
 
