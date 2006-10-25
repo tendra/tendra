@@ -1634,18 +1634,20 @@ f_component(shape sha, exp arg1, exp arg2)
 exp
 f_concat_nof(exp arg1, exp arg2)
 {
-	shape sha = getshape(0, const_al1, al2_of(sh(arg1)),
-						 align_of(sh(arg1)),
-						 shape_size(sh(arg1)) + shape_size(sh(arg2)),
-						 SH_NOF);
+	shape sha;
+
 	CHECK_BOT(arg1, arg2);
-	
+
 	/* al2_of(sh(arg1)) is the shapemacs.h hd of the nof shape */
 #if check_shape
 	if (!doing_aldefs &&
 		(shape_align(sh(arg1)) != shape_align(sh(arg2))))
 		failer(CHSH_CONCATNOF);
 #endif
+	sha = getshape(0, const_al1, al2_of(sh(arg1)),
+						 align_of(sh(arg1)),
+						 shape_size(sh(arg1)) + shape_size(sh(arg2)),
+						 SH_NOF);
 	
 	return me_b3(sha, arg1, arg2, concatnof_tag);
 }
