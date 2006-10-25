@@ -3441,8 +3441,8 @@ exp
 f_move_some(transfer_mode md, exp arg1, exp arg2,
 			exp arg3)
 {
-	exp r = getexp(f_top, nilexp, 0, arg1, nilexp, 0, 0,
-				   movecont_tag);
+	exp r;
+
 	if (name(sh(arg1)) == SH_BOT)
     { kill_exp(arg2,arg2); kill_exp(arg3,arg3); return arg1; }
 	if (name(sh(arg2)) == SH_BOT)
@@ -3488,7 +3488,8 @@ f_move_some(transfer_mode md, exp arg1, exp arg2,
 	if (al2(sh(arg3)) < 8) {
 		arg3 = hold_check(f_offset_pad(f_alignment(ucharsh), arg3));
 	}
-	
+
+	r = getexp(f_top, nilexp, 0, arg1, nilexp, 0, 0, movecont_tag);	
 	if (!(md & f_overlap))
 		setnooverlap(r);
 	clearlast(arg1);
