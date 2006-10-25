@@ -114,6 +114,22 @@
 
 #define MAX_ST_LENGTH 25
 
+
+/*
+ * Discard one of the arguments if another one is BOTTOM
+ */
+#define	CHECK_BOT(arg1, arg2)			\
+	do {								\
+		if (name(sh(arg1)) == SH_BOT) {	\
+			kill_exp(arg2, arg2);		\
+			return arg1;				\
+		}								\
+		if (name(sh(arg2)) == SH_BOT) {	\
+			kill_exp(arg1, arg1);		\
+			return arg2;				\
+		}								\
+	} while(0)
+
 /* All variables initialised */
 
 shape f_ptr1;
@@ -844,10 +860,7 @@ f_abs(error_treatment ov_err, exp arg1)
 exp
 f_add_to_ptr(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -878,10 +891,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 exp
 f_and(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-	{ kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-	{ kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -1076,11 +1086,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 exp
 f_assign(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-	{ kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-	{ kill_exp(arg1,arg1); return arg2; }
-
+	CHECK_BOT(arg1, arg2);
 
 	return me_b3(f_top, arg1, arg2, ass_tag);
 }
@@ -1089,10 +1095,7 @@ exp
 f_assign_with_mode(transfer_mode md, exp arg1,
 				   exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 	if (md & f_complete) {
 		exp d = me_startid(f_top, arg2, 0);
@@ -1615,10 +1618,7 @@ f_change_variety(error_treatment ov_err, variety r,
 exp
 f_component(shape sha, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -1638,10 +1638,7 @@ f_concat_nof(exp arg1, exp arg2)
 						 align_of(sh(arg1)),
 						 shape_size(sh(arg1)) + shape_size(sh(arg2)),
 						 SH_NOF);
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 	/* al2_of(sh(arg1)) is the shapemacs.h hd of the nof shape */
 #if check_shape
@@ -1833,10 +1830,7 @@ exp
 f_div0(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -1863,10 +1857,7 @@ exp
 f_div1(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -1894,11 +1885,7 @@ exp
 f_div2(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
-	
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -2019,10 +2006,7 @@ exp
 f_integer_test(nat_option prob, ntest nt,
 			   label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!is_integer(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2)))
@@ -2125,10 +2109,7 @@ f_local_alloc_check(exp arg1)
 exp
 f_local_free(exp a, exp p)
 {
-	if (name(sh(a)) == SH_BOT)
-    { kill_exp(p,p); return a; }
-	if (name(sh(p)) == SH_BOT)
-    { kill_exp(a,a); return p; }
+	CHECK_BOT(a, p);
 	
 #if check_shape
 	if (name(sh(a)) != SH_OFFSET || name(sh(p)) != SH_PTR)
@@ -2154,10 +2135,7 @@ f_local_free_all()
 exp
 f_long_jump(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (name(sh(arg1)) != SH_PTR || name(sh(arg2)) != SH_PTR)
@@ -2537,10 +2515,7 @@ f_make_null_ptr(alignment a)
 exp
 f_maximum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -2558,10 +2533,8 @@ f_maximum(exp arg1, exp arg2)
 exp
 f_minimum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
+
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
 		failer(CHSH_MIN);
@@ -3447,10 +3420,7 @@ exp
 f_minus(error_treatment ov_err, exp arg1,
 		exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -3530,10 +3500,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2,
 exp
 f_mult(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -3688,12 +3655,9 @@ exp
 f_offset_add(exp arg1, exp arg2)
 {
 	shape sres;
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
 	
-	
+	CHECK_BOT(arg1, arg2);
+
 #if check_shape
 	if (!doing_aldefs &&
 		((name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET ||
@@ -3727,10 +3691,8 @@ f_offset_add(exp arg1, exp arg2)
 exp
 f_offset_div(variety v, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
+
 #if check_shape
 	if (name(sh(arg1)) != SH_OFFSET || name(sh(arg2)) != SH_OFFSET)
 		failer(CHSH_OFFSETDIV);
@@ -3742,10 +3704,7 @@ f_offset_div(variety v, exp arg1, exp arg2)
 exp
 f_offset_div_by_int(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -3764,10 +3723,8 @@ f_offset_max(exp arg1, exp arg2)
 	alignment a2 = al1_of(sh(arg2));
 	alignment a3 = al2_of(sh(arg1));
 	shape sha;
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -3878,10 +3835,7 @@ f_offset_pad(alignment a, exp arg1)
 exp
 f_offset_subtract(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 	return me_b3(f_offset(al2_of(sh(arg2)),
 						  al2_of(sh(arg1))),
@@ -3892,10 +3846,7 @@ exp
 f_offset_test(nat_option prob, ntest nt, label dest,
 			  exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -3921,10 +3872,7 @@ f_offset_zero(alignment a)
 exp
 f_or(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -3942,10 +3890,7 @@ f_or(exp arg1, exp arg2)
 exp
 f_plus(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -3964,10 +3909,7 @@ exp
 f_pointer_test(nat_option prob, ntest nt,
 			   label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!doing_aldefs &&
@@ -3986,10 +3928,7 @@ exp
 f_proc_test(nat_option prob, ntest nt, label dest,
 			exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 /*
@@ -4029,10 +3968,7 @@ exp
 f_rem1(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -4066,11 +4002,7 @@ exp
 f_rem0(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
-	
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -4098,10 +4030,7 @@ exp
 f_rem2(error_treatment div0_err, error_treatment ov_err,
 	   exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
@@ -4215,10 +4144,7 @@ f_return (exp arg1)
 exp
 f_rotate_left(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2)))
@@ -4258,10 +4184,7 @@ f_rotate_left(exp arg1, exp arg2)
 exp
 f_rotate_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2)))
@@ -4351,10 +4274,7 @@ exp
 f_shift_left(error_treatment ov_err, exp arg1,
 			 exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2)))
@@ -4412,10 +4332,7 @@ f_shift_left(error_treatment ov_err, exp arg1,
 exp
 f_shift_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2)))
@@ -4436,10 +4353,8 @@ f_shift_right(exp arg1, exp arg2)
 exp
 f_subtract_ptrs(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
+
 	return me_b3(f_offset(al1_of(sh(arg2)),
 						  al1_of(sh(arg1))),
 				 arg1, arg2, minptr_tag);
@@ -4490,10 +4405,7 @@ start_variable(access_option acc, tag name_intro,
 exp
 f_xor(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 	
 #if check_shape
 	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
