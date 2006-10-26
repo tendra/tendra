@@ -3756,10 +3756,7 @@ f_offset_max(exp arg1, exp arg2)
 exp
 f_offset_mult(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == SH_BOT)
-    { kill_exp(arg2,arg2); return arg1; }
-	if (name(sh(arg2)) == SH_BOT)
-    { kill_exp(arg1,arg1); return arg2; }
+	CHECK_BOT(arg1, arg2);
 
 #if check_shape
 	if (!doing_aldefs &&
