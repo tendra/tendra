@@ -230,6 +230,10 @@ package Asis.Gela.Overloads.Types is
      (Set    : Up_Interpretation_Set;
       Mark   : Classes.Type_Info) return Boolean;
 
+   function Get_Type
+     (Set    : Up_Interpretation_Set;
+      Mark   : Classes.Type_Info) return Up_Interpretation;
+
    function Has_Interpretation
       (Set   : Up_Interpretation_Set;
        Item  : Asis.Element) return Boolean;
@@ -253,13 +257,20 @@ package Asis.Gela.Overloads.Types is
       A_Family,
       A_Type_Conversion);
 
+   type Type_Infos is array (List_Index range <>) of Classes.Type_Info;
+   type Type_Infos_Access is access Type_Infos;
+
    type Stored_Interpretation
       is record
          Kind        : Stored_Interpretation_Kinds;
          Down        : Up_Interpretation;
          Result_Type : Classes.Type_Info;
          Component   : Asis.Declaration;
+         Real_Types  : Type_Infos_Access;
       end record;
+
+   --  Think about Stored_Interpretation as a way to pass data from
+   --  Up pass to Down pass routine.
 
    ----------------
    -- Stored_Set --
@@ -334,7 +345,7 @@ private
       Length : Natural :=0;
       Index  : Natural :=0;
       Pos    : L.Cursor := L.No_Element;
-   end record; 
+   end record;
 
    package R is new Containers.Lists (Stored_Interpretation);
 

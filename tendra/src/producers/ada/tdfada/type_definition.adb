@@ -52,6 +52,12 @@ package body Type_Definition is
       Digit  : in     Asis.Expression;
       Bounds : in     Asis.Range_Constraint);
 
+   procedure Make_Fixed_Bounds
+     (State  : access States.State;
+      Tipe   : in     XASIS.Classes.Type_Info;
+      Delt   : in     Asis.Expression;
+      Bounds : in     Asis.Range_Constraint);
+
    procedure Make_Enum_Bounds
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info;
@@ -84,11 +90,17 @@ package body Type_Definition is
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info);
 
-   procedure Apply_Lower_Upper
+   procedure Apply_Type_Param
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info;
       Param : in out Streams.Memory_Stream;
       Kind  : in     Type_Param_Kinds);
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Decl  : in     Asis.Declaration;
+      Param : in out Streams.Memory_Stream;
+      Kind  : in     Asis.Attribute_Kinds);
 
    procedure Apply_Float_Id
      (State : access States.State;
@@ -115,6 +127,20 @@ package body Type_Definition is
       D     : in out Streams.Memory_Stream;
       Tok   : in     Small);
 
+   ---------------------
+   -- Apply_Attribute --
+   ---------------------
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Decl  : in     Asis.Declaration;
+      Param : in out Streams.Memory_Stream;
+      Kind  : in     Asis.Attribute_Kinds)
+   is
+   begin
+      Expression.Apply_Attribute (State, Decl, Param, TOKDEF, Kind);
+   end Apply_Attribute;
+
    --------------------
    -- Apply_Float_Id --
    --------------------
@@ -132,23 +158,19 @@ package body Type_Definition is
       Output.BITSTREAM (Param, Empty);
    end Apply_Float_Id;
 
-   -----------------------
-   -- Apply_Lower_Upper --
-   -----------------------
+   ----------------------
+   -- Apply_Type_Param --
+   ----------------------
 
-   procedure Apply_Lower_Upper
+   procedure Apply_Type_Param
      (State : access States.State;
       Tipe  : in     XASIS.Classes.Type_Info;
       Param : in out Streams.Memory_Stream;
       Kind  : in     Type_Param_Kinds)
    is
-      Limit : constant Small := Find_Type_Param (State, Tipe, Kind, TOKDEF);
    begin
-      Output.TDF (Param, c_exp_apply_token);
-      Output.TDF (Param, c_make_tok);
-      Output.TDFINT (Param, Limit);
-      Output.BITSTREAM (Param, Empty);
-   end Apply_Lower_Upper;
+      Expression.Apply_Type_Param (State, Tipe, Param, TOKDEF, Kind);
+   end Apply_Type_Param;
 
    ---------------------
    -- Close_Token_Def --
@@ -214,8 +236,7 @@ package body Type_Definition is
             Make_Attributes (State, Tipe);
 
          when A_Root_Type_Definition
-           | An_Unconstrained_Array_Definition
-           | An_Ordinary_Fixed_Point_Definition =>
+           | An_Unconstrained_Array_Definition =>
             null;
 
          when A_Floating_Point_Definition =>
@@ -229,6 +250,20 @@ package body Type_Definition is
                Make_Shape_From_Variety (State, Tipe);
                Make_Float_Base (State, Tipe);
                Make_Float_Attributes (State, Tipe);
+            end;
+
+         when An_Ordinary_Fixed_Point_Definition =>
+            declare
+               Delt   : constant Asis.Expression :=
+                 Delta_Expression (Element);
+               Bounds : constant Asis.Range_Constraint :=
+                 Real_Range_Constraint (Element);
+            begin
+               Make_Fixed_Bounds (State, Tipe, Delt, Bounds);
+               Make_Signed_Base (State, Tipe);
+               Make_Signed_Variety (State, Tipe);
+               Make_Shape_From_Variety (State, Tipe);
+               Make_Attributes (State, Tipe);
             end;
 
          when others =>
@@ -276,32 +311,23 @@ package body Type_Definition is
          Close_Token_Def (State, D, Tok);
       end Close_Token_Def;
 
-      ----------------------
-      -- Apply_First_Last --
-      ----------------------
+      ---------------------
+      -- Apply_Attribute --
+      ---------------------
 
-      procedure Apply_First_Last
+      procedure Apply_Attribute
         (Param : in out Streams.Memory_Stream;
-         Kind  : in     Asis.Attribute_Kinds)
-      is
-         Top   : Streams.Memory_Stream;
-         Limit : constant Small := Find_Attribute (State, Decl, Kind, TOKDEF);
+         Kind  : in     Asis.Attribute_Kinds) is
       begin
-         Output.TDF (Param, c_exp_apply_token);
-         Output.TDF (Param, c_make_tok);
-         Output.TDFINT (Param, Limit);
-
-         Streams.Expect (Top, Dummy, (1 => (EXP_SORT, Singular, False)));
-         Output.TDF (Top, c_make_top);
-         Output.BITSTREAM (Param, Top);
-      end Apply_First_Last;
+         Apply_Attribute (State, Decl, Param, Kind);
+      end Apply_Attribute;
 
       ---------------------
       -- Make_First_Last --
       ---------------------
 
       procedure Make_First_Last (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Dummy : Arg_List (1 .. 1);
       begin
@@ -315,9 +341,9 @@ package body Type_Definition is
          Output.BITSTREAM (D, Empty);
 
          if Kind = A_First_Attribute then
-            Apply_Lower_Upper (State, Tipe, D, Lower);
+            Apply_Type_Param (State, Tipe, D, Lower);
          else
-            Apply_Lower_Upper (State, Tipe, D, Upper);
+            Apply_Type_Param (State, Tipe, D, Upper);
          end if;
 
          Close_Token_Def (Kind, D);
@@ -328,7 +354,7 @@ package body Type_Definition is
       ------------------
 
       procedure Make_Min_Max (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Args  : Arg_List (1 .. 2);
       begin
@@ -358,7 +384,7 @@ package body Type_Definition is
       --------------------
 
       procedure Make_Succ_Pred (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Macro : Small;
          Param : Streams.Memory_Stream;
@@ -369,7 +395,7 @@ package body Type_Definition is
          if Is_Enumeration (Tipe) then
             Macro := Find_Support (State, Enum_Succ_Pred_Attr, TOKDEF);
             Token.Initialize (Param, Enum_Succ_Pred_Attr);
-         elsif Is_Signed_Integer (Tipe) then
+         elsif Is_Signed_Integer (Tipe) or Is_Fixed_Point (Tipe) then
             Macro := Find_Support (State, Signed_Succ_Pred_Attr, TOKDEF);
             Token.Initialize (Param, Signed_Succ_Pred_Attr);
          elsif Is_Modular_Integer (Tipe) then
@@ -395,13 +421,13 @@ package body Type_Definition is
 
          if Is_Enumeration (Tipe) then
             if Kind = A_Succ_Attribute then
-               Apply_First_Last (Param, A_Last_Attribute);
+               Apply_Attribute (Param, A_Last_Attribute);
             else
-               Apply_First_Last (Param, A_First_Attribute);
+               Apply_Attribute (Param, A_First_Attribute);
             end if;
          elsif Is_Modular_Integer (Tipe) then
             Expression.Output_Int (State, Tipe, 1, Param, TOKDEF);
-            Apply_Lower_Upper (State, Tipe, Param, Upper);
+            Apply_Type_Param (State, Tipe, Param, Upper);
          end if;
 
          Output.TDF (Param, c_var_apply_token);
@@ -429,7 +455,7 @@ package body Type_Definition is
       --------------
 
       procedure Make_Pos (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Arg   : Arg_List (1 .. 1);
       begin
@@ -457,7 +483,7 @@ package body Type_Definition is
       --------------
 
       procedure Make_Val (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Arg   : Arg_List (1 .. 1);
          Macro : Small;
@@ -485,8 +511,8 @@ package body Type_Definition is
          Output.BITSTREAM (Param, Empty);
 
          if Is_Enumeration (Tipe) or Is_Modular_Integer (Tipe) then
-            Apply_First_Last (Param, A_First_Attribute);
-            Apply_First_Last (Param, A_Last_Attribute);
+            Apply_Attribute (Param, A_First_Attribute);
+            Apply_Attribute (Param, A_Last_Attribute);
          end if;
 
          Output.TDF (Param, c_var_apply_token);
@@ -500,40 +526,64 @@ package body Type_Definition is
       end Make_Val;
 
       procedure Make_Modulus (Kind : Asis.Attribute_Kinds) is
-         D     : aliased Streams.Memory_Stream;
+         D     : Streams.Memory_Stream;
          Arg   : Arg_List (1 .. 0);
       begin
          Open_Token_Def (D, Arg);
 
          Output.TDF (D, c_plus);
          Output.TDF (D, c_impossible);
-         Apply_Lower_Upper (State, Tipe, D, Upper);
+         Apply_Type_Param (State, Tipe, D, Upper);
          Expression.Output_Int (State, T.Universal_Integer, 1, D, TOKDEF);
 
          Close_Token_Def (Kind, D);
       end Make_Modulus;
 
+      ----------------
+      -- Make_Small --
+      ----------------
+
+      procedure Make_Small (Kind : Asis.Attribute_Kinds) is
+         D     : Streams.Memory_Stream;
+         Param : Streams.Memory_Stream;
+         Arg   : Arg_List (1 .. 0);
+         Macro : constant Small :=
+           Find_Support (State, Make_Small_Attribute, TOKDEF);
+      begin
+         Open_Token_Def (D, Arg);
+         Token.Initialize (Param, Make_Small_Attribute);
+
+         Apply_Attribute (State, Decl, Param, A_Delta_Attribute);
+
+         Output.TDF (D, c_exp_apply_token);
+         Output.TDF (D, c_make_tok);
+         Output.TDFINT (D, Macro);
+         Output.BITSTREAM (D, Param);
+
+         Close_Token_Def (Kind, D);
+      end Make_Small;
+
    begin
-      if Is_Discrete (Tipe) then
+      if Is_Scalar (Tipe) then
          Make_First_Last (A_First_Attribute);
          Make_First_Last (A_Last_Attribute);
          Make_Min_Max (A_Min_Attribute);
          Make_Min_Max (A_Max_Attribute);
-         Make_Pos (A_Pos_Attribute);
-         Make_Val (A_Val_Attribute);
+         Make_Succ_Pred (A_Succ_Attribute);
+         Make_Succ_Pred (A_Pred_Attribute);
 
-         if Is_Enumeration (Tipe)
-           or Is_Signed_Integer (Tipe)
-           or Is_Modular_Integer (Tipe)
-         then
-            Make_Succ_Pred (A_Succ_Attribute);
-            Make_Succ_Pred (A_Pred_Attribute);
+         if Is_Discrete (Tipe) then
+            Make_Pos (A_Pos_Attribute);
+            Make_Val (A_Val_Attribute);
          end if;
 
          if Is_Modular_Integer (Tipe) then
             Make_Modulus (A_Modulus_Attribute);
          end if;
 
+         if Is_Fixed_Point (Tipe) then
+            Make_Small (A_Small_Attribute);
+         end if;
       end if;
    end Make_Attributes;
 
@@ -549,7 +599,7 @@ package body Type_Definition is
    is
       use XASIS.Utils;
       use XASIS.Classes;
-      D     : aliased Streams.Memory_Stream;
+      D     : Streams.Memory_Stream;
       T     : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       Name  : Asis.Defining_Name := Declaration_Name (List (Index));
@@ -597,6 +647,53 @@ package body Type_Definition is
       Make_Token (State, Tipe, Upper, List'Length - 1);
    end Make_Enum_Bounds;
 
+   -----------------------
+   -- Make_Fixed_Bounds --
+   -----------------------
+
+   procedure Make_Fixed_Bounds
+     (State  : access States.State;
+      Tipe   : in     XASIS.Classes.Type_Info;
+      Delt   : in     Asis.Expression;
+      Bounds : in     Asis.Range_Constraint)
+   is
+      use XASIS.Classes;
+      use Asis.Definitions;
+
+      Decl   : constant Asis.Declaration := Get_Declaration (Tipe);
+
+      procedure Evaluate
+        (D     : in out Streams.Memory_Stream;
+         Expr  : in     Asis.Expression) is
+      begin
+         Output.TDF (D, c_round_with_mode);
+         Output.TDF (D, c_impossible);
+         Output.TDF (D, c_toward_zero);
+         Expression.Output_Universal_Variety (State, Tipe, D, TOKDEF);
+         Output.TDF (D, c_floating_div);
+         Output.TDF (D, c_impossible);
+         Expression.Computed_Static (State, Expr, T.Root_Real, D, TOKDEF);
+         Apply_Attribute (State, Decl, D, A_Small_Attribute);
+      end Evaluate;
+
+      procedure Make_Token is new Make_Param_Token (Asis.Expression, Evaluate);
+
+      D     : Streams.Memory_Stream;
+      Tok   : constant Small :=
+        Find_Attribute (State, Decl, A_Delta_Attribute, TOKDEF, False);
+   begin
+      if Elements.Is_Part_Of_Implicit (Delt) then
+         return;
+      end if;
+
+      Make_Token (State, Tipe, Lower, Lower_Bound (Bounds));
+      Make_Token (State, Tipe, Upper, Upper_Bound (Bounds));
+
+      Open_Token_Def (State, D);
+      Expression.Computed_Static (State, Delt, T.Root_Real, D, TOKDEF);
+      Close_Token_Def (State, D, Tok);
+   end Make_Fixed_Bounds;
+
    ---------------------------
    -- Make_Float_Attributes --
    ---------------------------
@@ -609,7 +706,7 @@ package body Type_Definition is
         XASIS.Classes.Get_Declaration (Tipe);
 
       procedure Make_Attr
-        (Attr  : in Asis.Attribute_Kinds; 
+        (Attr  : in Asis.Attribute_Kinds;
          Supp  : in Support_Kinds;
          Count : in Natural := 0)
       is
@@ -879,7 +976,7 @@ package body Type_Definition is
       use XASIS.Utils;
       use XASIS.Classes;
 
-      D     : aliased Streams.Memory_Stream;
+      D     : Streams.Memory_Stream;
       T     : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       Var   : Small := Find_Variety (State, Tipe, TOKDEF, False);
@@ -895,11 +992,11 @@ package body Type_Definition is
 
       --  Lower boundary
       Output.TDF (D, c_computed_signed_nat);
-      Apply_Lower_Upper (State, Tipe, D, Lower);
+      Apply_Type_Param (State, Tipe, D, Lower);
 
       --  Upper boundary
       Output.TDF (D, c_computed_signed_nat);
-      Apply_Lower_Upper (State, Tipe, D, Upper);
+      Apply_Type_Param (State, Tipe, D, Upper);
 
       Inc (State.Length (TOKDEF));
       Output.TDF (T, c_make_tokdef);
@@ -963,8 +1060,8 @@ package body Type_Definition is
       begin
          Token.Initialize (Param, Kind);
 
-         Apply_Lower_Upper (State, Tipe, Param, Lower);
-         Apply_Lower_Upper (State, Tipe, Param, Upper);
+         Apply_Type_Param (State, Tipe, Param, Lower);
+         Apply_Type_Param (State, Tipe, Param, Upper);
 
          Output.TDF (Param, c_var_apply_token);
          Output.TDF (Param, c_make_tok);
@@ -994,7 +1091,7 @@ package body Type_Definition is
    is
       use XASIS.Utils;
       use XASIS.Classes;
-      D     : aliased Streams.Memory_Stream;
+      D     : Streams.Memory_Stream;
       T     : TenDRA.Streams.Memory_Stream
         renames State.Units (TOKDEF).all;
       Var   : Small := Find_Variety (State, Tipe, TOKDEF);
@@ -1005,7 +1102,7 @@ package body Type_Definition is
       if Is_Float_Point (Tipe) then
          Output.TDF (D, c_floating);
          Output.TDF (D, c_flvar_apply_token);
-      elsif Is_Discrete (Tipe) then
+      elsif Is_Discrete (Tipe) or Is_Fixed_Point (Tipe) then
          Output.TDF (D, c_integer);
          Output.TDF (D, c_var_apply_token);
       else
@@ -1053,6 +1150,8 @@ package body Type_Definition is
                return EXP_SORT;
             when c_floating_variety =>
                return FLOATING_VARIETY_SORT;
+            when c_variety =>
+               return VARIETY_SORT;
             when c_nat =>
                return NAT_SORT;
             when c_shape =>

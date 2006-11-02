@@ -33,6 +33,10 @@ package XASIS.Static is
    function Integer (Item : Value) return XASIS.Integers.Value;
    function Fraction (Item : Value) return XASIS.Fractions.Fraction;
 
+   function To_Fixed
+     (Item : Value;
+      Tipe : Classes.Type_Info) return XASIS.Integers.Value;
+
    Static_False : constant Value;
    Static_True  : constant Value;
    Static_Zero  : constant Value;
@@ -53,7 +57,8 @@ package XASIS.Static is
 
 private
    type Static_Value_Kinds is
-     (Static_Undefined, Static_Discrete, Static_String, Static_Float);
+     (Static_Undefined, Static_Discrete, Static_String,
+      Static_Float, Static_Fixed);
 
    type Integer_Array is
      array (Asis.ASIS_Positive range <>) of XASIS.Integers.Value;
@@ -78,6 +83,10 @@ private
                String : Integer_Array_Node;
             when Static_Float =>
                Fraction : XASIS.Fractions.Fraction;
+            when Static_Fixed =>
+               Fixed        : XASIS.Integers.Value;
+               Small        : XASIS.Integers.Value;
+               Invert_Small : Boolean;
             when Static_Undefined =>
                null;
          end case;

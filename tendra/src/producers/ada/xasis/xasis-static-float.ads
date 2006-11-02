@@ -7,7 +7,7 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Static expression evaluation
+--  Static expression evaluation, operations of float point types
 
 private package XASIS.Static.Float is
 

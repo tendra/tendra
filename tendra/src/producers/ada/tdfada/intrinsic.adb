@@ -13,6 +13,7 @@ with TenDRA.Streams;
 
 with Token;
 with Expression;
+with Declaration;
 
 package body Intrinsic is
    use Asis;
@@ -36,6 +37,7 @@ package body Intrinsic is
    procedure Function_Call
      (State   : access States.State;
       Element : in     Asis.Element;
+      Tipe    : in     XASIS.Classes.Type_Info;
       Callee  : in     Asis.Declaration;
       Static  : in     Boolean;
       B       : in out Stream'Class;
@@ -46,15 +48,10 @@ package body Intrinsic is
 
       Name  : Asis.Defining_Name   := XASIS.Utils.Declaration_Name (Callee);
       Oper  : Asis.Operator_Kinds  := Asis.Elements.Operator_Kind (Name);
-      Tipe  : Asis.Type_Definition :=
-        Asis.Declarations.Corresponding_Type (Callee);
-      Info  : XASIS.Classes.Type_Info :=
-        XASIS.Classes.Type_From_Declaration
-          (Asis.Elements.Enclosing_Element (Tipe));
       List  : Asis.Association_List :=
         Asis.Expressions.Function_Call_Parameters (Element, True);
       Types : array (List'Range) of XASIS.Classes.Type_Info :=
-        (others => Info);
+        (others => Tipe);
 
       procedure Each_Child (B : in out Stream'Class) is
       begin
@@ -66,9 +63,9 @@ package body Intrinsic is
 
       procedure Mod_Oper (Kind : Support_Kinds) is
          Macro : constant Small := Find_Support (State, Kind, Unit);
-         Last  : constant Small := Find_Type_Param (State, Info, Upper, Unit);
-         Var   : Small := States.Find_Variety (State, Info, Unit);
-         Param : aliased Streams.Memory_Stream;
+         Last  : constant Small := Find_Type_Param (State, Tipe, Upper, Unit);
+         Var   : Small := States.Find_Variety (State, Tipe, Unit);
+         Param : Streams.Memory_Stream;
       begin
          Token.Initialize (Param, Kind);
          Each_Child (Param);
@@ -100,7 +97,7 @@ package body Intrinsic is
 
       procedure Static_Mod_Oper (Kind : Construct) is
          Tok : constant Small := Find_Attribute
-           (State, XASIS.Classes.Get_Declaration (Info),
+           (State, XASIS.Classes.Get_Declaration (Tipe),
             A_Modulus_Attribute, Unit);
       begin
          Output.TDF (B, c_rem1);
@@ -125,8 +122,33 @@ package body Intrinsic is
          Output.TDFINT (B, Tok);
          Output.BITSTREAM (B, Empty);
       end Static_Mod_Oper;
+
+      procedure Fix_Types is
+         Profile : constant Asis.Parameter_Specification_List :=
+           XASIS.Utils.Get_Profile (Callee);
+         Info    : XASIS.Classes.Type_Info;
+         Expr    : Asis.Expression;
+         Decl    : Asis.Declaration;
+      begin
+         for J in Profile'Range loop
+            Info := XASIS.Classes.Type_Of_Declaration (Profile (J));
+
+            if XASIS.Classes.Is_Universal (Info) then
+               Expr := Actual_Parameter (List (J));
+               Decl := Asis.Expressions.Corresponding_Expression_Type (Expr);
+               Info := XASIS.Classes.Type_From_Declaration (Decl);
+
+               if XASIS.Classes.Is_Universal (Info) then
+                  Info := Tipe;
+               end if;
+            end if;
+
+            Types (J) := Info;
+         end loop;
+      end Fix_Types;
+
    begin
-      if XASIS.Classes.Is_Signed_Integer (Info) then
+      if XASIS.Classes.Is_Signed_Integer (Tipe) then
          case Oper is
             when A_Plus_Operator =>
                Output.TDF (B, c_plus);
@@ -174,7 +196,7 @@ package body Intrinsic is
                raise States.Error;
          end case;
 
-      elsif XASIS.Classes.Is_Float_Point (Info) then
+      elsif XASIS.Classes.Is_Float_Point (Tipe) then
          case Oper is
             when A_Plus_Operator =>
                Output.TDF (B, c_floating_plus);
@@ -213,7 +235,88 @@ package body Intrinsic is
                raise States.Error;
          end case;
 
-      elsif XASIS.Classes.Is_Modular_Integer (Info) then
+      elsif XASIS.Classes.Is_Fixed_Point (Tipe) then
+         case Oper is
+            when A_Plus_Operator =>
+               Output.TDF (B, c_plus);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when A_Minus_Operator =>
+               Output.TDF (B, c_minus);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when A_Unary_Plus_Operator =>
+               Each_Child (B);
+            when A_Unary_Minus_Operator =>
+               Output.TDF (B, c_negate);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when A_Multiply_Operator | A_Divide_Operator =>
+               declare
+                  Param : Streams.Memory_Stream;
+                  Macro : Small;
+               begin
+                  if Oper = A_Multiply_Operator then
+                     Macro := Find_Support (State, Fixed_Multiply, Unit);
+                     Token.Initialize (Param, Fixed_Multiply);
+                  else
+                     Macro := Find_Support (State, Fixed_Divide, Unit);
+                     Token.Initialize (Param, Fixed_Divide);
+                  end if;
+
+                  Fix_Types;
+                  Each_Child (Param);
+                  Declaration.Output_Variety (State, Tipe, Param, Unit);
+
+                  Expression.Apply_Type_Param
+                    (State, Types (1), Param, Unit, Base_Upper);
+
+                  Expression.Apply_Type_Param
+                    (State, Types (2), Param, Unit, Base_Upper);
+
+                  Expression.Apply_Attribute
+                    (State, Types (1), Param, Unit, A_Small_Attribute);
+
+                  if XASIS.Classes.Is_Fixed_Point (Types (2)) then
+                     Expression.Apply_Attribute
+                       (State, Types (2), Param, Unit, A_Small_Attribute);
+                  else
+                     Output.TDF (Param, c_make_floating);
+                     Expression.Output_Universal_Variety
+                       (State, XASIS.Classes.T.Root_Real, Param, Unit);
+                     Output.TDF (Param, c_to_nearest);
+                     Output.TDF (Param, c_false);
+                     Output.TDF (Param, c_make_string);
+                     Output.TDFSTRING (Param, "1");
+                     Output.TDF (Param, c_make_nat);
+                     Output.TDFINT (Param, 10);
+                     Expression.Output_Signed_Nat (Param, 0);
+                  end if;
+
+                  Expression.Apply_Attribute
+                    (State, Tipe, Param, Unit, A_Small_Attribute);
+
+                  Output_Overflow (Param, Static);
+
+                  Output.TDF (B, c_exp_apply_token);
+                  Output.TDF (B, c_make_tok);
+                  Output.TDFINT (B, Macro);
+                  Output.BITSTREAM (B, Param);
+               end;
+            when An_Exponentiate_Operator =>
+               Output.TDF (B, c_floating_power);
+               Output_Overflow (B, Static);
+               Types (2) := XASIS.Classes.T.Integer;
+               Each_Child (B);
+            when An_Abs_Operator =>
+               Output.TDF (B, c_abs);
+               Output_Overflow (B, Static);
+               Each_Child (B);
+            when others =>
+               raise States.Error;
+         end case;
+
+      elsif XASIS.Classes.Is_Modular_Integer (Tipe) then
          if Static then
             case Oper is
                when A_Plus_Operator =>
@@ -328,7 +431,7 @@ package body Intrinsic is
 
       procedure Output_Compare_Value is
          Tok    : TenDRA.Small;
-         Params : aliased Streams.Memory_Stream;
+         Params : Streams.Memory_Stream;
       begin
          if XASIS.Classes.Is_Float_Point (Info) then
             Tok := Find_Support (State, Compare_Float_Value, Unit);
@@ -519,7 +622,7 @@ package body Intrinsic is
       procedure Output_Logic_Jump (Op : TenDRA.Types.Construct) is
          use States;
          Tok    : TenDRA.Small := Find_Support (State, Boolean_Jump, Unit);
-         Params : aliased Streams.Memory_Stream;
+         Params : Streams.Memory_Stream;
       begin
          Token.Initialize (Params, Boolean_Jump);
          Output.TDF (Params, c_make_nat);

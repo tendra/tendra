@@ -8,8 +8,8 @@
 --  $TenDRA$
 --  Purpose:
 --  Two passes to resolve names:
---  First (down to) Up collects possible interpretations of an expression
---  Second (up to) Down fixes AST to correspond chosen interpretation
+--  First one (down to) Up collects possible interpretations of an expression
+--  Second one (up to) Down fixes AST to correspond chosen interpretation
 
 with Gela.Containers.Stacks;    use Gela;
 with Asis.Gela.Overloads.Types; use Asis.Gela.Overloads.Types;

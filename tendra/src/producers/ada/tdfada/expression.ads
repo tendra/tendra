@@ -69,6 +69,12 @@ package Expression is
       Tipe     : in     XASIS.Classes.Type_Info;
       Unit     : in     States.Unit_Kinds) return TenDRA.Small;
 
+   procedure Output_Universal_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
    procedure Output_Signed_Nat
      (B        : in out Stream'Class;
       Value    : in     TenDRA.Small;
@@ -93,6 +99,27 @@ package Expression is
       Exps     : in     Asis.Expression_List := Asis.Nil_Element_List);
 
    procedure Output_Trap_Overflow (B : in out Stream'Class);
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Decl  : in     Asis.Declaration;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     Asis.Attribute_Kinds);
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     Asis.Attribute_Kinds);
+
+   procedure Apply_Type_Param
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     States.Type_Param_Kinds);
 
 end Expression;
 

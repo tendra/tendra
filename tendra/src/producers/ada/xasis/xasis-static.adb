@@ -11,6 +11,7 @@ with XASIS.Static.Signed;
 with XASIS.Static.Discrete;
 with XASIS.Static.Unsigned;
 with XASIS.Static.Float;
+with XASIS.Static.Fixed;
 
 pragma Elaborate (XASIS.Static.Iter);
 
@@ -231,12 +232,12 @@ package body XASIS.Static is
    -------------
    -- Integer --
    -------------
-   
+
    function Integer (Item : Value) return XASIS.Integers.Value is
    begin
       return Item.Pos;
    end Integer;
-   
+
    ----------------------------
    -- Static_Range_Attribute --
    ----------------------------
@@ -269,6 +270,8 @@ package body XASIS.Static is
          end if;
       elsif Classes.Is_Float_Point (Info) then
          return Float.Type_Class'(Info => Info);
+      elsif Classes.Is_Fixed_Point (Info) then
+         return Fixed.Type_Class'(Info => Info);
       else
          Raise_Error (Not_Implemented);
          return Get_Type_Class (Info);
@@ -317,7 +320,7 @@ package body XASIS.Static is
             begin
                return Float.V (XASIS.Fractions.Value(Text));
             end;
-         
+
          when An_Enumeration_Literal | A_Character_Literal =>
             declare
                Name : constant Asis.Defining_Name :=
@@ -602,6 +605,17 @@ package body XASIS.Static is
          return (Undefined, Undefined);
       end if;
    end String_Constant_Range;
+
+   --------------
+   -- To_Fixed --
+   --------------
+
+   function To_Fixed
+     (Item : Value;
+      Tipe : Classes.Type_Info) return XASIS.Integers.Value is
+   begin
+      return Fixed.V (Item, Tipe).Fixed;
+   end To_Fixed;
 
 end XASIS.Static;
 

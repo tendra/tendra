@@ -912,10 +912,29 @@ package body Asis.Gela.Overloads.Walk.Up is
          Set     : Up_Interpretation_Set)
          return Boolean
       is
+         Item : Up_Interpretation;
+         Save : Boolean;
          Info : constant Type_Info :=
            Get_Parameter_Type (Name, Profile, Index, Element);
       begin
-         return Has_Type (Set, Info);
+         if Has_Type (Set, Info) then
+
+            if Is_Universal (Info) or Is_Class_Wide (Info) then
+               Item := Get_Type (Set, Info);
+
+               if Item.Kind = An_Expression then
+                  if Stored.Real_Types = null then
+                     Stored.Real_Types := new Type_Infos (Profile'Range);
+                  end if;
+
+                  Stored.Real_Types (Index) := Item.Expression_Type;
+               end if;
+            end if;
+
+            return True;
+         end if;
+
+         return False;
       end Check_Parameter;
 
       ----------------------
@@ -1201,6 +1220,8 @@ package body Asis.Gela.Overloads.Walk.Up is
                when others =>
                   raise Internal_Error;
             end case;
+
+            Stored.Real_Types := null;
 
          elsif Check_Array_Aggregate (Params) then
             if Check_Array (Name) then

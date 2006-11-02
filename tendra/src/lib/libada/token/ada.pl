@@ -16,10 +16,15 @@ Tokdef A_UNIVERSAL_INTEGER_DEFINITION.V =
 
   var_width (true, 64);
 
+Tokdef universal =     /* shortcut */
+  [] VARIETY
+
+  A_UNIVERSAL_INTEGER_DEFINITION.V;
+
 Tokdef One =
   [] EXP
 
-  1 (A_UNIVERSAL_INTEGER_DEFINITION.V);
+  1 (universal);
 
 Tokdef A_ROOT_INTEGER_DEFINITION.V =
   [] VARIETY
@@ -44,25 +49,25 @@ Tokdef A_ROOT_INTEGER_DEFINITION.A_PRED_ATTRIBUTE =
 Tokdef Character.LOWER =
   [] EXP
 
-  0(A_UNIVERSAL_INTEGER_DEFINITION.V);
+  0(universal);
 
 Tokdef Character.UPPER =
   [] EXP
 
-  255(A_UNIVERSAL_INTEGER_DEFINITION.V);
+  255(universal);
 
 Tokdef Integer.LOWER =
   [] EXP
 
-  -2147483647(A_UNIVERSAL_INTEGER_DEFINITION.V) - One;
+  -2147483647(universal) - One;
 /* Temporary until trans bug #79 fixed
-  -2147483648(A_UNIVERSAL_INTEGER_DEFINITION.V);
+  -2147483648(universal);
 */
 
 Tokdef Integer.UPPER =
   [] EXP
 
-  2147483647(A_UNIVERSAL_INTEGER_DEFINITION.V);
+  2147483647(universal);
 
 
 Tokdef COMPARE_INTEGER_VALUE =
@@ -204,9 +209,9 @@ Tokdef FTEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp float test */
   ?{ F? (a comp b); 1(Bits) | 0(Bits) };
 
 Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
-  ITEST [+ a (A_UNIVERSAL_INTEGER_DEFINITION.V),
+  ITEST [+ a (universal),
          comp,
-         + b (A_UNIVERSAL_INTEGER_DEFINITION.V)];
+         + b (universal)];
 
 Tokdef Is_Size_Supported =
   [Size  : NAT] EXP
@@ -427,7 +432,7 @@ Tokdef MOD_POWER =
 Tokdef T = [] VARIETY 0 : 9;
 
 Var x : Int = MOD_MINUS [3 (T), 8 (T),
-  9 (A_UNIVERSAL_INTEGER_DEFINITION.V), T];
+  9 (universal), T];
 */
 
 Tokdef TEST_RANGE_JUMP =
@@ -448,6 +453,7 @@ Tokdef TEST_RANGE_JUMP =
         });
 
 /* Float point tokens */
+
 Tokdef A_UNIVERSAL_REAL_DEFINITION.V =
   [] FLOATING_VARIETY
 
@@ -466,7 +472,7 @@ Tokdef Check_Float_Id =
     (NATTEST [.~rep_fv_radix [Id], ==, 2]
      And
      ITEST [Digits_2, <=,
-            + .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V)])
+            + .~rep_fv_mantissa [Id] (universal)])
     /*
      this traps installer with signal 11
      And
@@ -477,7 +483,7 @@ Tokdef Check_Float_Id =
      (NATTEST [.~rep_fv_radix [Id], ==, 10]
       And
       ITEST [Digits_10, <=,
-             + .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V)])
+             + .~rep_fv_mantissa [Id] (universal)])
   )
 ;
 
@@ -491,8 +497,8 @@ Tokdef Check_Float_Id_10 =
      Lower,
      Upper,
      Digits,
-     ((332 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits)
-       / 100 (A_UNIVERSAL_INTEGER_DEFINITION.V)) + One];
+     ((332 (universal) * Digits)
+       / 100 (universal)) + One];
 
 Tokdef MAKE_FLOAT_RANGE_ID =
   [Lower  : EXP,
@@ -507,30 +513,30 @@ Tokdef MAKE_FLOAT_ID =
   MAKE_FLOAT_RANGE_ID /* -10 ** (4*D) .. 10 ** (4*D) */
     [floating_power (impossible,
                      10.0 (A_UNIVERSAL_REAL_DEFINITION.V),
-                     4 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits),
+                     4 (universal) * Digits),
      floating_negate (impossible,
        floating_power (impossible,
                        10.0 (A_UNIVERSAL_REAL_DEFINITION.V),
-                       4 (A_UNIVERSAL_INTEGER_DEFINITION.V) * Digits)),
+                       4 (universal) * Digits)),
      Digits];
 
 Tokdef MAKE_MACHINE_EMAX_ATTRIBUTE =
   [Id : NAT] EXP
-  One + (+ .~rep_fv_max_exp [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+  One + (+ .~rep_fv_max_exp [Id] (universal));
 
 Tokdef MAKE_MACHINE_EMIN_ATTRIBUTE =
   [Id : NAT] EXP
-  (- .~rep_fv_min_exp [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V))
+  (- .~rep_fv_min_exp [Id] (universal))
   +
-  (+ .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+  (+ .~rep_fv_mantissa [Id] (universal));
 
 Tokdef MAKE_MACHINE_MANTISSA_ATTRIBUTE =
   [Id : NAT] EXP
-  (+ .~rep_fv_mantissa [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+  (+ .~rep_fv_mantissa [Id] (universal));
 
 Tokdef MAKE_MACHINE_RADIX_ATTRIBUTE =
   [Id : NAT] EXP
-  (+ .~rep_fv_radix [Id] (A_UNIVERSAL_INTEGER_DEFINITION.V));
+  (+ .~rep_fv_radix [Id] (universal));
 
 /* x86 dependent: */
 Tokdef MAKE_DENORM_ATTRIBUTE =
@@ -614,6 +620,213 @@ Tokdef MAKE_TRUNCATION_ATTRIBUTE =
               .~rep_fv_mantissa [Id], .~rep_fv [Id], toward_smaller])
   };
 
+/* Fixed point tokens */
+
+Tokdef A_UNIVERSAL_FIXED_DEFINITION.V =
+  [] VARIETY
+
+  var_width (true, 64);
+
+Tokdef To_Small =
+  [Power : SIGNED_NAT] EXP
+  floating_power (impossible,
+                  2.0 (A_UNIVERSAL_REAL_DEFINITION.V),
+                  Power (universal));
+
+Tokdef Check_Small =
+  [Delta : EXP,
+   Power : SIGNED_NAT] EXP
+  FTEST [Delta, >=, To_Small [Power]];
+
+/* Perhaps recursive tokens could help with this:
+*/
+
+Tokdef MAKE_SMALL_ATTRIBUTE =
+  [Delta : EXP] EXP
+  EXP ? (Check_Small [Delta, 8], To_Small [ 8],
+  EXP ? (Check_Small [Delta, 7], To_Small [ 7],
+  EXP ? (Check_Small [Delta, 6], To_Small [ 6],
+  EXP ? (Check_Small [Delta, 5], To_Small [ 5],
+  EXP ? (Check_Small [Delta, 4], To_Small [ 4],
+  EXP ? (Check_Small [Delta, 3], To_Small [ 3],
+  EXP ? (Check_Small [Delta, 2], To_Small [ 2],
+  EXP ? (Check_Small [Delta, 1], To_Small [ 1],
+  EXP ? (Check_Small [Delta, 0], To_Small [ 0],
+  EXP ? (Check_Small [Delta,-1], To_Small [-1],
+  EXP ? (Check_Small [Delta,-2], To_Small [-2],
+  EXP ? (Check_Small [Delta,-3], To_Small [-3],
+  EXP ? (Check_Small [Delta,-4], To_Small [-4],
+  EXP ? (Check_Small [Delta,-5], To_Small [-5],
+  EXP ? (Check_Small [Delta,-6], To_Small [-6],
+  EXP ? (Check_Small [Delta,-7], To_Small [-7],
+  EXP ? (Check_Small [Delta,-8], To_Small [-8],
+ # "Delta too small")))))))))))))))))
+;
+
+/*
+Tokdef Fixed_Fits_Size =
+  [Lower : EXP,
+   Upper : EXP,
+   Small : EXP,
+   Size  : NAT] EXP
+  Range_Fits_Size
+   [round_with_mode (impossible,
+                     toward_zero,
+                     A_UNIVERSAL_INTEGER_DEFINITION.V,
+                     floating_div (impossible, Lower, Small)),
+    round_with_mode (impossible,
+                     toward_zero,
+                     A_UNIVERSAL_INTEGER_DEFINITION.V,
+                     floating_div (impossible, Upper, Small)),
+    Size,
+    A_UNIVERSAL_INTEGER_DEFINITION.V];
+*/
+
+Tokdef Div_Scale =
+  [Left_Small  : EXP,
+   Right_Small : EXP,
+   Small       : EXP] EXP
+
+  EXP ? (FTEST [Left_Small, >=, Right_Small F* Small],
+         round_with_mode (impossible, to_nearest, universal,
+           Left_Small F/ (Right_Small F* Small)),
+         round_with_mode (impossible, to_nearest, universal,
+           (Right_Small F* Small) F/ Left_Small)
+         );
+
+Tokdef Fixed_Div =
+  [Left        : EXP,
+   Right       : EXP,
+   Cast        : VARIETY,
+   M_Scale     : EXP,
+   D_Scale     : EXP,
+   Raise       : ERROR_TREATMENT] EXP
+
+  (
+    div2 (Raise, Raise, ([Cast] Left * [Cast] M_Scale), [Cast] Right)
+      / [Cast] D_Scale
+  );
+
+Tokdef FIXED_DIVIDE =
+  [Left        : EXP,
+   Right       : EXP,
+   Result      : VARIETY,
+   Left_Upper  : EXP,
+   Right_Upper : EXP,
+   Left_Small  : EXP,
+   Right_Small : EXP,
+   Small       : EXP,
+   Raise       : ERROR_TREATMENT] EXP
+
+  EXP ? (FTEST [Left_Small, >=, Right_Small F* Small],
+
+    EXP ? (ITEST [[universal] Left_Upper
+                  * Div_Scale [Left_Small, Right_Small, Small],
+                  >=,
+                  [universal] Right_Upper],
+      [Result] Fixed_Div [Left, Right,
+         /* Cast => */    - computed_nat ([universal] Left_Upper
+                            * Div_Scale [Left_Small, Right_Small, Small])
+                          :
+                          + computed_nat ([universal] Left_Upper
+                            * Div_Scale [Left_Small, Right_Small, Small]),
+         /* M_Scale => */ Div_Scale [Left_Small, Right_Small, Small],
+                          1 (universal), Raise],
+
+    /* else: Left_Upper * Scale < Right_Upper */
+
+      [Result] Fixed_Div [Left, Right,
+         /* Cast => */    - computed_nat (Right_Upper)
+                          :
+                          + computed_nat (Right_Upper),
+         /* M_Scale => */ Div_Scale [Left_Small, Right_Small, Small],
+                          1 (universal), Raise]),
+
+  /* else: Left_Small < Right_Small * Small */
+
+    EXP ? (ITEST [Left_Upper, >=, Right_Upper],
+      [Result] Fixed_Div [Left, Right,
+                          - computed_nat (Left_Upper)
+                          :
+                          + computed_nat (Left_Upper),
+                          1 (universal),
+                          Div_Scale [Left_Small, Right_Small, Small],
+                          Raise],
+
+    /* else: Left_Upper < Right_Upper */
+
+      [Result] Fixed_Div [Left, Right,
+                          - computed_nat (Right_Upper)
+                          :
+                          + computed_nat (Right_Upper),
+                          1 (universal),
+                          Div_Scale [Left_Small, Right_Small, Small],
+                          Raise])
+  );
+
+
+Tokdef Mult_Scale =
+  [Left_Small  : EXP,
+   Right_Small : EXP,
+   Small       : EXP] EXP
+
+  EXP ? (FTEST [Left_Small F* Right_Small, >=, Small],
+         round_with_mode (impossible, to_nearest, universal,
+           (Left_Small F* Right_Small) F/ Small),
+         round_with_mode (impossible, to_nearest, universal,
+           Small F/ (Right_Small F* Left_Small))
+         );
+
+Tokdef Fixed_Mult =
+  [Left        : EXP,
+   Right       : EXP,
+   Cast        : VARIETY,
+   M_Scale     : EXP,
+   D_Scale     : EXP,
+   Raise       : ERROR_TREATMENT] EXP
+
+  (
+    mult (Raise,
+          mult (Raise, [Cast] Left, [Cast] Right),
+          [Cast] M_Scale)
+    / [Cast] D_Scale
+  );
+
+Tokdef FIXED_MULTIPLY =
+  [Left        : EXP,
+   Right       : EXP,
+   Result      : VARIETY,
+   Left_Upper  : EXP,
+   Right_Upper : EXP,
+   Left_Small  : EXP,
+   Right_Small : EXP,
+   Small       : EXP,
+   Raise       : ERROR_TREATMENT] EXP
+
+  EXP ? (FTEST [Left_Small F* Right_Small, >=, Small],
+
+    [Result] Fixed_Mult [Left, Right,
+       /* Cast => */    - computed_nat ([universal] Left_Upper
+                                        * [universal] Right_Upper)
+                        :
+                        + computed_nat ([universal] Left_Upper
+                                        * [universal] Right_Upper),
+       /* M_Scale => */ Mult_Scale [Left_Small, Right_Small, Small],
+                        1 (universal), Raise],
+
+  /* else: Left_Small < Right_Small * Small */
+
+    [Result] Fixed_Mult [Left, Right,
+       /* Cast => */    - computed_nat ([universal] Left_Upper
+                                        * [universal] Right_Upper)
+                        :
+                        + computed_nat ([universal] Left_Upper
+                                        * [universal] Right_Upper),
+                        1 (universal),
+       /* D_Scale => */ Mult_Scale [Left_Small, Right_Small, Small],
+                        Raise]
+  );
+
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
       Character.LOWER,
@@ -659,6 +872,10 @@ Keep (COMPARE_INTEGER_VALUE,
       MAKE_CEILING_ATTRIBUTE,
       MAKE_FLOOR_ATTRIBUTE,
       MAKE_ROUNDING_ATTRIBUTE,
-      MAKE_TRUNCATION_ATTRIBUTE
+      MAKE_TRUNCATION_ATTRIBUTE,
+      A_UNIVERSAL_FIXED_DEFINITION.V,
+      MAKE_SMALL_ATTRIBUTE,
+      FIXED_DIVIDE,
+      FIXED_MULTIPLY
       )
 

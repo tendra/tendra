@@ -419,6 +419,24 @@ package body Declaration is
       Output.BITSTREAM (B, Empty);
    end Output_Shape;
 
+   --------------------
+   -- Output_Variety --
+   --------------------
+
+   procedure Output_Variety
+     (State   : access States.State;
+      Tipe    : in     XASIS.Classes.Type_Info;
+      B       : in out TenDRA.Streams.Stream'Class;
+      Unit    : in     States.Unit_Kinds)
+   is
+      Var : constant Small := Find_Variety (State, Tipe, Unit);
+   begin
+      Output.TDF (B, c_var_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Var);
+      Output.BITSTREAM (B, Empty);
+   end Output_Variety;
+
    ---------------
    -- Parameter --
    ---------------

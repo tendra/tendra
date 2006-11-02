@@ -28,6 +28,12 @@ package Declaration is
       B       : in out TenDRA.Streams.Stream'Class;
       Unit    : in     States.Unit_Kinds);
 
+   procedure Output_Variety
+     (State   : access States.State;
+      Tipe    : in     XASIS.Classes.Type_Info;
+      B       : in out TenDRA.Streams.Stream'Class;
+      Unit    : in     States.Unit_Kinds);
+
 end Declaration;
 
 

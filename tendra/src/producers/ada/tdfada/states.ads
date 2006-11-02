@@ -34,7 +34,7 @@ package States is
 
       Make_Ceiling_Attribute,           Make_Floor_Attribute,
       Make_Rounding_Attribute,          Make_Truncation_Attribute,
-      Make_Unbiased_Rounding_Attribute, Make_Exponent_Attribute, 
+      Make_Unbiased_Rounding_Attribute, Make_Exponent_Attribute,
       Make_Fraction_Attribute,          Make_Machine_Attribute,
       Make_Model_Attribute,
 
@@ -42,7 +42,9 @@ package States is
       Make_Remainder_Attribute,         Make_Leading_Part_Attribute,
       Make_Compose_Attribute,           Make_Scaling_Attribute,
 
-      Compare_Float_Value);
+      Compare_Float_Value,
+
+      Make_Small_Attribute, Fixed_Divide, Fixed_Multiply);
 
    --  Float point attributes (as value):
    subtype Make_Float_Attr is Support_Kinds

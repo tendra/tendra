@@ -63,9 +63,9 @@ package body XASIS.Fractions is
       end if;
 
       if L.Exponent > Min_Exp then
-         L.Numerator := L.Numerator * Ten ** L.Exponent - Min_Exp;
+         L.Numerator := L.Numerator * Ten ** (L.Exponent - Min_Exp);
       elsif R.Exponent > Min_Exp then
-         R.Numerator := R.Numerator * Ten ** R.Exponent - Min_Exp;
+         R.Numerator := R.Numerator * Ten ** (R.Exponent - Min_Exp);
       end if;
 
       Result := (L.Numerator * R.Denominator + R.Numerator * L.Denominator,
@@ -100,7 +100,7 @@ package body XASIS.Fractions is
    ---------
 
    function "/" (Left, Right : Fraction) return Fraction is
-      Reciprocal : constant Fraction := 
+      Reciprocal : constant Fraction :=
         (Right.Denominator, abs Right.Numerator, -Right.Exponent);
    begin
       if Right.Numerator = I.Zero then

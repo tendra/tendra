@@ -1,42 +1,40 @@
-with Asis;
+------------------------------------------------------------------------------
+--                           G E L A   X A S I S                            --
+--       ASIS implementation for Gela project, a portable Ada compiler      --
+--                     http://www.ten15.org/wiki/Ada                        --
+--                     - - - - - - - - - - - - - - -                        --
+--            Read copyright and license at the end of this file            --
+------------------------------------------------------------------------------
+--  $TenDRA$
+--  Purpose:
+--  Static expression evaluation, operations of fixed point types
 
-with States;
-with TenDRA;
-with TenDRA.Streams;
-with XASIS.Classes;
+private package XASIS.Static.Fixed is
 
-package Intrinsic is
-   use TenDRA.Streams;
+   type Type_Class is new XASIS.Static.Type_Class with null record;
 
-   procedure Function_Call
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Tipe     : in     XASIS.Classes.Type_Info;
-      Callee   : in     Asis.Declaration;
-      Static   : in     Boolean;
-      B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds);
+   function Evaluate
+     (Object : Type_Class;
+      Kind   : Asis.Operator_Kinds;
+      Args   : Asis.Association_List) return Value;
 
-   procedure Function_Call_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Callee   : in     Asis.Declaration;
-      Negative : in     Boolean;
-      Static   : in     Boolean;
-      B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds);
+   function Evaluate
+     (Object : Type_Class;
+      Kind   : Asis.Attribute_Kinds;
+      Args   : Asis.Association_List) return Value;
 
-   procedure Function_Call_Boolean
-     (State    : access States.State;
-      Element  : in     Asis.Element;
-      Callee   : in     Asis.Declaration;
-      Negative : in     Boolean;
-      Label    : in     TenDRA.Small;
-      Static   : in     Boolean;
-      B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds);
+   function Evaluate
+     (Object  : Type_Class;
+      Kind    : Asis.Attribute_Kinds;
+      Element : Asis.Expression) return Value;
 
-end Intrinsic;
+   function Is_Fixed (Right : Value) return Boolean;
+
+   function V
+     (Item : Value;
+      Tipe : Classes.Type_Info) return Value;
+
+end XASIS.Static.Fixed;
 
 
 ------------------------------------------------------------------------------

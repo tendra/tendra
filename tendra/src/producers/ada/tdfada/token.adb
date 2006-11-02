@@ -90,7 +90,8 @@ package body Token is
                              (EXP_SORT, Singular, False),
                              (NAT_SORT, Singular, False),
                              (LABEL_SORT, Singular, False)));
-         when Make_Float_Id =>
+         when Make_Float_Id
+           | Make_Small_Attribute =>
             Streams.Expect (Stream, Dummy,
                             (1 => (EXP_SORT, Singular, False)));
          when Make_Float_Range_Id =>
@@ -98,7 +99,7 @@ package body Token is
                             ((EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False)));
-         when Rep_Fv | Rep_Fv_Max_Val 
+         when Rep_Fv | Rep_Fv_Max_Val
            | Make_Float_Attr =>
             Streams.Expect (Stream, Dummy,
                             (1 => (NAT_SORT, Singular, False)));
@@ -111,6 +112,17 @@ package body Token is
                             ((NAT_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False)));
+         when Fixed_Divide | Fixed_Multiply =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),        -- Left
+                             (EXP_SORT, Singular, False),        -- Right
+                             (VARIETY_SORT, Singular, False),    -- Result
+                             (EXP_SORT, Singular, False),        -- L Upper
+                             (EXP_SORT, Singular, False),        -- R Upper
+                             (EXP_SORT, Singular, False),        -- L Small
+                             (EXP_SORT, Singular, False),        -- R Small
+                             (EXP_SORT, Singular, False),        -- Small
+                             (ERROR_TREATMENT_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -143,10 +155,12 @@ package body Token is
 
          when Variety_Token =>
             if XASIS.Classes.Is_Scalar (Link.Tipe) then
-               if XASIS.Classes.Is_Discrete (Link.Tipe) then
-                  Output.TDF (O, c_variety);
-               else
+               if XASIS.Classes.Is_Real (Link.Tipe)
+                 and not XASIS.Classes.Is_Fixed_Point (Link.Tipe)
+               then
                   Output.TDF (O, c_floating_variety);
+               else
+                  Output.TDF (O, c_variety);
                end if;
             else
                raise Error;
@@ -308,6 +322,25 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
 
+               when Make_Small_Attribute =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 1);
+                  Output.TDF (O, c_exp);
+
+               when Fixed_Divide | Fixed_Multiply =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 9);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_error_treatment);
             end case;
 
          when Subtype_Attribute_Token =>
@@ -347,6 +380,7 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                when Asis.A_Modulus_Attribute
+                 | Asis.A_Delta_Attribute
                  | Asis.A_Denorm_Attribute
                  | Asis.A_Machine_Emax_Attribute
                  | Asis.A_Machine_Emin_Attribute
@@ -362,6 +396,7 @@ package body Token is
                  | Asis.A_Safe_First_Attribute
                  | Asis.A_Safe_Last_Attribute
                  | Asis.A_Signed_Zeros_Attribute
+                 | Asis.A_Small_Attribute
                  =>
                   Output.TDF (O, c_exp);
                when others =>

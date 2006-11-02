@@ -937,8 +937,14 @@ package body Asis.Gela.Overloads.Walk.Down is
                         raise Internal_Error;
                      end if;
 
-                     Tipe := Get_Parameter_Type
-                       (Name.Down, Profile, Formal, Element);
+                     if Name.Real_Types = null
+                       or else Is_Not_Type (Name.Real_Types (Index))
+                     then
+                        Tipe := Get_Parameter_Type
+                          (Name.Down, Profile, Formal, Element);
+                     else
+                        Tipe := Name.Real_Types (Index);
+                     end if;
 
                      Down := (An_Expression, Tipe);
                      D.Push (Resolver.Stack, Down);

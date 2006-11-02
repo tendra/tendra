@@ -60,11 +60,9 @@ package body Asis.Gela.Overloads is
    function Find_Subtype_Of_Constraint (Element : Asis.Definition)
      return Asis.Subtype_Indication;
 
-   function Is_Part_Of_Signed_Type (Element : Asis.Constraint)
-     return Boolean;
-
-   function Is_Part_Of_Float_Type (Element : Asis.Constraint)
-     return Boolean;
+   function Is_Part_Of_Signed_Type (Element : Asis.Constraint) return Boolean;
+   function Is_Part_Of_Float_Type (Element : Asis.Constraint) return Boolean;
+   function Is_Part_Of_Fixed_Type (Element : Asis.Constraint) return Boolean;
 
    function Resolve_Discriminant_Names
      (Info  : Type_Info;
@@ -227,21 +225,34 @@ package body Asis.Gela.Overloads is
 
    function Is_Part_Of_Signed_Type (Element : Asis.Constraint) return Boolean
    is
-      Parent : Asis.Element := Enclosing_Element (Element);
+      Parent : constant Asis.Element := Enclosing_Element (Element);
    begin
       return Type_Kind (Parent) = A_Signed_Integer_Type_Definition;
    end Is_Part_Of_Signed_Type;
 
-   ----------------------------
+   ---------------------------
    -- Is_Part_Of_Float_Type --
-   ----------------------------
+   ---------------------------
 
    function Is_Part_Of_Float_Type (Element : Asis.Constraint) return Boolean
    is
-      Parent : Asis.Element := Enclosing_Element (Element);
+      Parent : constant Asis.Element := Enclosing_Element (Element);
    begin
       return Type_Kind (Parent) = A_Floating_Point_Definition;
    end Is_Part_Of_Float_Type;
+
+   ---------------------------
+   -- Is_Part_Of_Fixed_Type --
+   ---------------------------
+
+   function Is_Part_Of_Fixed_Type (Element : Asis.Constraint) return Boolean
+   is
+      Parent : constant Asis.Element := Enclosing_Element (Element);
+      Kind   : constant Asis.Type_Kinds := Type_Kind (Parent);
+   begin
+      return Kind = An_Ordinary_Fixed_Point_Definition
+        or Kind = A_Decimal_Fixed_Point_Definition;
+   end Is_Part_Of_Fixed_Type;
 
    -------------------------------
    -- Is_Conditional_Entry_Call --
@@ -742,7 +753,9 @@ package body Asis.Gela.Overloads is
                         end if;
                      elsif Is_Part_Of_Signed_Type (Parent) then
                         Resolve_To (Element, Any_Integer_Type);
-                     elsif Is_Part_Of_Float_Type (Parent) then
+                     elsif Is_Part_Of_Float_Type (Parent)
+                       or Is_Part_Of_Fixed_Type (Parent)
+                     then
                         Resolve_To (Element, Any_Real_Type);
                      end if;
                   end;

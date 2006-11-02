@@ -78,12 +78,6 @@ package body Expression is
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
 
-   procedure Output_Universal_Variety
-     (State    : access States.State;
-      Tipe     : in     XASIS.Classes.Type_Info;
-      B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds);
-
    procedure Output_Change_Variety
      (State    : access States.State;
       Tipe     : in     XASIS.Classes.Type_Info;
@@ -101,7 +95,7 @@ package body Expression is
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
 
-   generic 
+   generic
       with procedure Compile_Labeled
         (State    : access States.State;
          Element  : in     Asis.Element;
@@ -119,6 +113,70 @@ package body Expression is
       Unit     : in     States.Unit_Kinds);
 
    Small_Size : XASIS.Integers.Value := XASIS.Integers.Zero;
+
+   ---------------------
+   -- Apply_Attribute --
+   ---------------------
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     Asis.Attribute_Kinds)
+   is
+      Decl : constant Asis.Declaration := XASIS.Classes.Get_Declaration (Tipe);
+   begin
+      Apply_Attribute (State, Decl, Param, Unit, Kind);
+   end Apply_Attribute;
+
+   ---------------------
+   -- Apply_Attribute --
+   ---------------------
+
+   procedure Apply_Attribute
+     (State : access States.State;
+      Decl  : in     Asis.Declaration;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     Asis.Attribute_Kinds)
+   is
+      use States;
+      Top   : Streams.Memory_Stream;
+      Limit : constant Small := Find_Attribute (State, Decl, Kind, Unit);
+   begin
+      Output.TDF (Param, c_exp_apply_token);
+      Output.TDF (Param, c_make_tok);
+      Output.TDFINT (Param, Limit);
+
+      if Kind = A_First_Attribute or Kind = A_Last_Attribute then
+         Streams.Expect (Top, Dummy, (1 => (EXP_SORT, Singular, False)));
+         Output.TDF (Top, c_make_top);
+         Output.BITSTREAM (Param, Top);
+      else
+         Output.BITSTREAM (Param, Empty);
+      end if;
+   end Apply_Attribute;
+
+   ----------------------
+   -- Apply_Type_Param --
+   ----------------------
+
+   procedure Apply_Type_Param
+     (State : access States.State;
+      Tipe  : in     XASIS.Classes.Type_Info;
+      Param : in out Stream'Class;
+      Unit  : in     States.Unit_Kinds;
+      Kind  : in     States.Type_Param_Kinds)
+   is
+      use States;
+      Limit : constant Small := Find_Type_Param (State, Tipe, Kind, Unit);
+   begin
+      Output.TDF (Param, c_exp_apply_token);
+      Output.TDF (Param, c_make_tok);
+      Output.TDFINT (Param, Limit);
+      Output.BITSTREAM (Param, Empty);
+   end Apply_Type_Param;
 
    ----------------------
    -- Compile_To_Label --
@@ -648,7 +706,8 @@ package body Expression is
       Output.TDF (B, c_make_tok);
 
       if (Is_Signed_Integer (Prefix_Type)
-        or Is_Float_Point (Prefix_Type))
+        or Is_Float_Point (Prefix_Type)
+        or Is_Fixed_Point (Prefix_Type))
         and then not Is_Constrained (Prefix)
       then
          Token := Find_Type_Param
@@ -1067,7 +1126,7 @@ package body Expression is
          Output.TDFBOOL (B, X < Zero);
          Write (abs X);
       end Output_Value;
-      
+
       procedure Defined_Static is
          Value : constant XASIS.Integers.Value :=
            XASIS.Static.Integer (XASIS.Static.Evaluate (Element));
@@ -1093,7 +1152,7 @@ package body Expression is
          Output.TDF (B, c_make_floating);
          Output_Universal_Variety (State, Tipe, B, Unit);
          Output.TDF (B, c_to_nearest);
-         
+
          if Result < Zero then
             Output.TDF (B, c_true);
          else
@@ -1105,7 +1164,7 @@ package body Expression is
          Output.TDF (B, c_make_nat);
          Output.TDFINT (B, 10);
          Output_Value (Result.Exponent);
-         
+
          if Result.Denominator /= I.One then
             Output.TDF (B, c_make_floating);
             Output_Universal_Variety (State, Tipe, B, Unit);
@@ -1120,9 +1179,22 @@ package body Expression is
          end if;
       end Defined_Static_Float;
 
+      procedure Defined_Static_Fixed is
+         use XASIS.Classes;
+         Result : constant XASIS.Static.Value :=
+           XASIS.Static.Evaluate (Element);
+         Value : constant XASIS.Integers.Value :=
+           XASIS.Static.To_Fixed (Result, Tipe);
+      begin
+         Output.TDF (B, c_make_int);
+         Output_Universal_Variety (State, Tipe, B, Unit);
+         Output_Value (Value);
+      end Defined_Static_Fixed;
    begin
       if Utils.Is_Defined (Element) then
-         if XASIS.Classes.Is_Float_Point (Tipe) then
+         if XASIS.Classes.Is_Fixed_Point (Tipe) then
+            Defined_Static_Fixed;
+         elsif XASIS.Classes.Is_Real (Tipe) then
             Defined_Static_Float;
          else
             Defined_Static;
@@ -1166,7 +1238,7 @@ package body Expression is
       if Asis.Elements.Is_Nil (Callee) then
          Prefix := Asis.Expressions.Prefix (Element);
 
-         if Asis.Elements.Expression_Kind (Prefix) = An_Attribute_Reference then
+         if Elements.Expression_Kind (Prefix) = An_Attribute_Reference then
             Attribute_Call (State, Element, Tipe, Static, B, Unit);
          else
             Ada.Wide_Text_IO.Put_Line (Asis.Elements.Debug_Image (Element));
@@ -1181,7 +1253,7 @@ package body Expression is
                     (State, Element, Callee, False, Static, B, Unit);
                else
                   Intrinsic.Function_Call
-                    (State, Element, Callee, Static, B, Unit);
+                    (State, Element, Tipe, Callee, Static, B, Unit);
                end if;
             when Utils.Ada =>
                Ada_Call (State, Element, Callee, B, Unit);
@@ -1318,7 +1390,7 @@ package body Expression is
    --------------------------
    -- Output_Trap_Overflow --
    --------------------------
-   
+
    procedure Output_Trap_Overflow (B : in out Stream'Class) is
    begin
          Output.TDF (B, c_trap);
@@ -1343,7 +1415,7 @@ package body Expression is
       else
          Output.TDF (B, c_var_apply_token);
       end if;
-      
+
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Var);
       Output.BITSTREAM (B, States.Empty);
@@ -1493,7 +1565,13 @@ package body Expression is
    begin
       if Is_Boolean (Tipe) then
          Var := States.Find_Variety (State, Tipe, Unit);
-      elsif Is_Float_Point (Tipe) then
+      elsif Is_Fixed_Point (Tipe) then
+         declare
+            Tipe  : constant Type_Info := T.Universal_Fixed;
+         begin
+            Var := States.Find_Variety (State, Tipe, Unit);
+         end;
+      elsif Is_Real (Tipe) then
          declare
             Tipe  : constant Type_Info := T.Universal_Real;
          begin

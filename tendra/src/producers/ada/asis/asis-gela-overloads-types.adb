@@ -587,7 +587,20 @@ package body Asis.Gela.Overloads.Types is
    procedure Destroy (Set : in out Stored_Set) is
       procedure Free is
          new Ada.Unchecked_Deallocation (Stored_Set_Node, Stored_Set);
+
+      procedure Free is
+         new Ada.Unchecked_Deallocation (Type_Infos, Type_Infos_Access);
+
+      Stored : Stored_Interpretation;
    begin
+      for I in 1 .. Length (Set) loop
+         Get (Set, I, Stored);
+
+         if Stored.Real_Types /= null then
+            Free (Stored.Real_Types);
+         end if;
+      end loop;
+
       R.Clear (Set.List);
       Free (Set);
    end Destroy;
@@ -1061,6 +1074,30 @@ package body Asis.Gela.Overloads.Types is
       end case;
       return Result;
    end Get_Result_Profile;
+
+   --------------
+   -- Get_Type --
+   --------------
+
+   function Get_Type
+     (Set    : Up_Interpretation_Set;
+      Mark   : Type_Info) return Up_Interpretation
+   is
+      Item  : Up_Interpretation;
+      Index : L.Cursor := L.First (Set.Items.all);
+   begin
+      while L.Has_Element (Index) loop
+         Item := L.Element (Index);
+
+         if Has_Type (Item, Mark) then
+            return Item;
+         end if;
+
+         Index := L.Next (Index);
+      end loop;
+
+      raise Internal_Error;
+   end Get_Type;
 
    ------------------------
    -- Has_Interpretation --
