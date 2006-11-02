@@ -30,6 +30,12 @@ package Asis.Gela.Library is
    function Find_File (File_Name : Wide_String) return Wide_String;
    --  Find file in include directories
 
+   procedure Clear_Search_Path;
+   --  Reset list of directories where look for source files
+
+   procedure Add_To_Search_Path (Path : Wide_String);
+   --  Add Path to list of directories where look for source files
+
 end Asis.Gela.Library;
 
 

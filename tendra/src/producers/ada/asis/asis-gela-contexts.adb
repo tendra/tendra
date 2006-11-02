@@ -38,7 +38,7 @@ package body Asis.Gela.Contexts is
       The_Context.Parameters   := U.To_Unbounded_Wide_String (Parameters);
       The_Context.Has_Associations := True;
       The_Context.Error            := Success;
-      The_Context.Current_File     := The_Context.Parameters;
+      --  The_Context.Current_File     := The_Context.Parameters;
       Compilations.Initialize (The_Context.Compilation_List);
    end Associate;
 
@@ -493,6 +493,7 @@ package body Asis.Gela.Contexts is
 
    procedure Open (The_Context : in out Concrete_Context_Node) is
    begin
+      Utils.Parse_Parameters (The_Context);
       Utils.Read_File_And_Supporters (The_Context);
 
       if The_Context.Error /= Success then

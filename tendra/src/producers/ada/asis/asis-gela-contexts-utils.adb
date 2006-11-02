@@ -11,6 +11,8 @@ with Asis.Gela.Unit_Utils;
 with Asis.Gela.Compilations;
 with Asis.Gela.Element_Utils;
 
+with Ada.Strings.Wide_Maps;
+
 package body Asis.Gela.Contexts.Utils is
 
    procedure Normalize (The_Context : in out Concrete_Context_Node);
@@ -228,6 +230,44 @@ package body Asis.Gela.Contexts.Utils is
          return "Standard";
       end if;
    end Parent_Name;
+
+   ----------------------
+   -- Parse_Parameters --
+   ----------------------
+
+   procedure Parse_Parameters (The_Context : in out Concrete_Context_Node) is
+      use Asis.Gela.Library;
+      use Ada.Strings.Wide_Maps;
+      Space  : constant Wide_Character_Set := To_Set (' ');
+      Params : U.Unbounded_Wide_String := The_Context.Parameters;
+      From   : Positive;
+      To     : Natural;
+   begin
+      Clear_Search_Path;
+      U.Find_Token (Params, Space, Ada.Strings.Outside, From, To);
+
+      while To > 0 loop
+         declare
+            Word : constant Wide_String := U.Slice (Params, From, To);
+         begin
+            U.Delete (Params, 1, To);
+            U.Find_Token (Params, Space, Ada.Strings.Outside, From, To);
+
+            if Word'Length >= 2 and then Word (1) = '-' then
+               case Word (2) is
+                  when 'I' =>
+                     Add_To_Search_Path (Word (3 .. Word'Last));
+
+                  when others =>
+                     null;
+               end case;
+            else
+               The_Context.Current_File := U.To_Unbounded_Wide_String (Word);
+            end if;
+         end;
+      end loop;
+
+   end Parse_Parameters;
 
    ----------------------
    -- Read_Declaration --

@@ -12,7 +12,8 @@
 with Ada.Exceptions;
 with Ada.Wide_Text_IO;
 with Ada.Command_Line;
-with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Characters.Handling;    use Ada.Characters.Handling;
+with Ada.Strings.Wide_Unbounded; use Ada.Strings.Wide_Unbounded;
 
 
 with Asis;
@@ -27,35 +28,49 @@ with TenDRA.Output;
 procedure TDFAda is
    function Process_Options return Boolean;
 
-   Input_File : Positive;
+   Input_File      : Positive;
+   ASIS_Parameters : Unbounded_Wide_String;
+
+   -----------
+   -- Usage --
+   -----------
 
    procedure Usage is
    begin
-      Ada.Wide_Text_IO.Put ("Usage: tdfada [-d] input-file");
+      Ada.Wide_Text_IO.Put ("Usage: tdfada [-d] [-Ipath] input-file");
    end Usage;
+
+   ---------------------
+   -- Process_Options --
+   ---------------------
 
    function Process_Options return Boolean is
       use Ada.Command_Line;
+      File_Found : Boolean := False;
    begin
-      if Argument_Count /= 1 and Argument_Count /= 2 then
+      for J in 1 .. Argument_Count loop
+         declare
+            Arg : constant String := Argument (J);
+         begin
+            if Arg = "-d" then
+               TenDRA.Output.Set_Debug (True);
+            else
+               if Arg (Arg'First) /= '-' then
+                  Input_File := J;
+                  File_Found := True;
+               end if;
+
+               ASIS_Parameters := ASIS_Parameters & To_Wide_String (Arg) & " ";
+            end if;
+         end;
+      end loop;
+
+      if File_Found then
+         return True;
+      else
          Usage;
          return False;
       end if;
-
-      if Argument_Count = 2 then
-         if Argument (1) = "-d" then
-            TenDRA.Output.Set_Debug (True);
-         else
-            Usage;
-            return False;
-         end if;
-
-         Input_File := 2;
-      else
-         Input_File := 1;
-      end if;
-
-      return True;
    end Process_Options;
 
    function Input_File_Name return Wide_String is
@@ -78,7 +93,7 @@ begin
    Asis.Ada_Environments.Associate
      (The_Context => My_Context,
       Name        => My_Context_Name,
-      Parameters  => Input_File_Name);
+      Parameters  => To_Wide_String (ASIS_Parameters));
 
    Asis.Ada_Environments.Open         (My_Context);
    Process_Context (The_Context => My_Context,

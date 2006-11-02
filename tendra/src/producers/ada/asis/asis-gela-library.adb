@@ -12,6 +12,19 @@ package body Asis.Gela.Library is
 
    function Gela_Lib_Path return String;
 
+   Search_Path    : Unbounded_Wide_String;
+   Path_Separator : constant Wide_String := (1 => Wide_Character'Val (10));
+
+   ------------------------
+   -- Add_To_Search_Path --
+   ------------------------
+
+   procedure Add_To_Search_Path (Path : Wide_String) is
+      use Ada.Strings.Wide_Unbounded;
+   begin
+      Search_Path := Search_Path & Path & Path_Separator;
+   end Add_To_Search_Path;
+
    ---------------
    -- Body_File --
    ---------------
@@ -23,6 +36,17 @@ package body Asis.Gela.Library is
    begin
       return To_File_Name (Full_Name, ".adb");
    end Body_File;
+
+   -----------------------
+   -- Clear_Search_Path --
+   -----------------------
+
+   procedure Clear_Search_Path is
+      use Ada.Characters.Handling;
+      Lib : constant Wide_String := To_Wide_String (Gela_Lib_Path);
+   begin
+      Search_Path := W.To_Unbounded_Wide_String (Lib & Path_Separator);
+   end Clear_Search_Path;
 
    ----------------------
    -- Declaration_File --
@@ -42,14 +66,15 @@ package body Asis.Gela.Library is
 
    function Gela_Lib_Path return String is
       use Ada.Strings;
-      Cmd   : constant String := Ada.Command_Line.Command_Name;
-      Slash : constant Natural :=
+      Cmd    : constant String := Ada.Command_Line.Command_Name;
+      Slash  : constant Natural :=
         Fixed.Index (Cmd, Maps.To_Set ("/\"), Going => Backward);
+      Suffix : constant String := "lib/"
    begin
       if Slash = 0 then
-         return "lib/";
+         return Suffix;
       else
-         return Cmd (Cmd'First .. Slash) & "lib/";
+         return Cmd (Cmd'First .. Slash) & Suffix;
       end if;
    end Gela_Lib_Path;
 
@@ -89,14 +114,28 @@ package body Asis.Gela.Library is
 
    function Find_File (File_Name : Wide_String) return Wide_String is
       use Ada.Characters.Handling;
-      Std  : constant Wide_String :=
-        To_Wide_String (Gela_Lib_Path) & File_Name;
+
+      Path : Unbounded_Wide_String := Search_Path;
+      Pos  : Natural;
    begin
-      if File_Exists (Std) then
-         return Std;
-      else
-         return File_Name;
-      end if;
+      loop
+         Pos := W.Index (Path, Path_Separator);
+
+         exit when Pos = 0;
+
+         declare
+            File : constant Wide_String :=
+              W.Slice (Path, 1, Pos - 1) & File_Name;
+         begin
+            W.Delete (Path, 1, Pos);
+
+            if File_Exists (File) then
+               return File;
+            end if;
+         end;
+      end loop;
+
+      return File_Name;
    end Find_File;
 
    ------------------

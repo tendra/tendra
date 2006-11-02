@@ -20,6 +20,9 @@ package Asis.Gela.Contexts.Utils is
    --  resulting Compilation_Unit to Library_Unit_Declarations or to
    --  Compilation_Unit_Bodies
 
+   procedure Parse_Parameters (The_Context : in out Concrete_Context_Node);
+   --  Read The_Context.Parameters and configure ASIS
+
 end Asis.Gela.Contexts.Utils;
 
 
