@@ -34,6 +34,7 @@ DEPEND_SRC=	${WRAPPERS:R} tcc-special tchk-special
 
 .sh:  
 	${BIN_CAT} ${.CURDIR}/common.sh | \
+	${BIN_SED} -e /^#-INCLUDE-/r${.IMPSRC} | \
 	${BIN_SED} ${SED_OPTS} | \
 	${BIN_SED} ${SED_OPTS_BIN} > \
 	${.OBJDIR}/${.TARGET}
@@ -56,7 +57,9 @@ tchk-special:
 SED_OPTS=	\
 		-e "s|-TENDRA_BASEDIR-|${INSTALL_DIR}|g" \
 		-e "s|-TENDRA_VERSION-|${VER_TENDRA}|g" \
-		-e "s|-BIN_RUN-|${.TARGET}|g"
+		-e "s|-BIN_RUN-|${.TARGET}|g" \
+		-e "/^.-INCLUDE-/d"
+                
 
 SED_OPTS_BIN=	\
 		-e "s|-BIN_SH-|${BIN_SH}|g" \

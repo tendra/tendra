@@ -2,7 +2,7 @@
 #
 # -BIN_RUN- wrapper script
 #
-# $TenDRA$
+# $TenDRA: common.sh 1397 2003-08-25 06:34:47Z nonce $
 #
 
 # TenDRA settings
@@ -14,7 +14,7 @@ TENDRA_VERSION="-TENDRA_VERSION-"
 BIN_RUN="${TENDRA_BASEDIR}/bin/-BIN_RUN-"
 OPTS_DEFAULT=""
 
-
+#-INCLUDE-
 
 # Execute -BIN_RUN- with our compiled options.
 
