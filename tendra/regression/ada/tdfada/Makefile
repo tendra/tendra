@@ -6,7 +6,7 @@
 SRC_DIR =	${.CURDIR:C/(.*)\/regression.*/\1/}
 OBJ_DIR =	${SRC_DIR}/obj/regression/tdfada
 TDFADA =	${SRC_DIR}/obj/producers/ada/tdfada/tdfada
-INCL =		${SRC_DIR}/obj/producers/ada/tdfada/lib
+INCL =		${SRC_DIR}/src/lib/libada/spec/
 
 .include "${SRC_DIR}/config.mk"
 
@@ -38,10 +38,10 @@ ada.j: ada.pl
 	tcc -Fj -Ypl_tdf ${.ALLSRC}
 
 .ads.j:
-	${TDFADA} ${.IMPSRC}
+	${TDFADA} -I${INCL} ${.IMPSRC}
 
 .adb.j:
-	${TDFADA} ${.IMPSRC}
+	${TDFADA} -I${INCL} ${.IMPSRC}
 
 make-subdir: obj-dir all-tests
 

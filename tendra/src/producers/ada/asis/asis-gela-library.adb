@@ -11,6 +11,7 @@ package body Asis.Gela.Library is
       Suffix    : String) return Wide_String;
 
    function Gela_Lib_Path return String;
+   function Env return String is separate;
 
    Search_Path    : Unbounded_Wide_String;
    Path_Separator : constant Wide_String := (1 => Wide_Character'Val (10));
@@ -65,17 +66,8 @@ package body Asis.Gela.Library is
    -------------------
 
    function Gela_Lib_Path return String is
-      use Ada.Strings;
-      Cmd    : constant String := Ada.Command_Line.Command_Name;
-      Slash  : constant Natural :=
-        Fixed.Index (Cmd, Maps.To_Set ("/\"), Going => Backward);
-      Suffix : constant String := "lib/"
    begin
-      if Slash = 0 then
-         return Suffix;
-      else
-         return Cmd (Cmd'First .. Slash) & Suffix;
-      end if;
+      return Env;
    end Gela_Lib_Path;
 
    ---------------------

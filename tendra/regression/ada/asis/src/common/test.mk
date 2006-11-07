@@ -14,11 +14,8 @@ CFLAGS+= -I${ADA_DIR}/libgela
 ADA_SRC ?= run.adb
 DONT_INSTALL = Y
 
-DEPEND_SRC = ${LIB_DIR}/libasis.a lib
+DEPEND_SRC = ${LIB_DIR}/libasis.a
 
 CLEANFILES=*
-
-lib:
-	ln -s ${SRC_DIR}/src/lib/libada/spec lib
 
 .include "${SRC_DIR}/mk/base/tendra.prog.mk"
