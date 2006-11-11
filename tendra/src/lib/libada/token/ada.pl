@@ -107,7 +107,7 @@ Proc Ada_Init = top ()
 
 Tokdef ~Throw = [x : NAT] EXP
 {
-  TDF_Exception[top](+ x(Int));
+  TDF_Exception[bottom](+ x(Int));
 };
 
 Tokdef CONSTRAINT_ERROR_IF =
@@ -116,7 +116,37 @@ Tokdef CONSTRAINT_ERROR_IF =
 
 ?{
    Value
-   | :Target: TDF_Exception[top](111(Int))
+   | :Target: TDF_Exception[bottom](111(Int))
+};
+
+
+Iddec printf:proc;
+String s1 = "%d is not in [%d,%d]\n";
+
+Tokdef IN_BOUNDS =
+  [First  : EXP,
+   Last   : EXP,
+   Value  : EXP] EXP
+
+Let Temp = Value
+?{
+   ?(First <= Temp);
+   ?(Temp  <= Last);
+   Temp
+ | TDF_Exception[bottom](111(Int))
+};
+
+Tokdef FLOAT_IN_BOUNDS =
+  [First  : EXP,
+   Last   : EXP,
+   Value  : EXP] EXP
+
+Let Temp = Value
+?{
+   F?(First <= Temp);
+   F?(Temp  <= Last);
+   Temp
+ | TDF_Exception[bottom](111(Int))
 };
 
 Tokdef ENUM_SUCC_PRED_ATTR =
@@ -127,8 +157,7 @@ Tokdef ENUM_SUCC_PRED_ATTR =
 
 ?{
    ?(Value NTEST ? (+ Is_Pred(Boolean.V), <= , >= ) Limit);
-   TDF_Exception[top](111(Int));
-   make_value (integer (Type))
+   TDF_Exception[bottom](111(Int))
    | plus (impossible,
            Value,
            EXP ? (+ Is_Pred(Boolean.V), -1(Type), 1(Type)))
@@ -144,19 +173,8 @@ Tokdef SIGNED_SUCC_PRED_ATTR =
          Value,
          EXP ? (+ Is_Pred(Boolean.V), -1(Type), 1(Type)))
    | :to_raise:
-     make_value (integer (Type))
+     TDF_Exception[bottom](111(Int))
 };
-
-/*  Temporary until trans bug #80 fixed
-?{
-   plus (to_raise,
-         Value,
-         EXP ? (+ Is_Pred(Boolean.V), -1(Type), 1(Type)))
-   | :to_raise:
-     TDF_Exception[top](111(Int));
-     make_value (integer (Type))
-};
-*/
 
 Tokdef ENUM_VAL_ATTR =
   [Value   : EXP,
@@ -172,8 +190,7 @@ Tokdef ENUM_VAL_ATTR =
      Temp
    }
    | :to_raise:
-     TDF_Exception[top](111(Int));
-     make_value (integer (Type))
+     TDF_Exception[bottom](111(Int))
 };
 
 Tokdef SIGNED_VAL_ATTR =
@@ -183,17 +200,9 @@ Tokdef SIGNED_VAL_ATTR =
 ?{ 
    change_variety (to_raise, Type, Value)
    | :to_raise:
-     make_value (integer (Type))
+     TDF_Exception[bottom](111(Int))
 };
 
-/*  Temporary until trans bug #80 fixed
-?{ 
-   change_variety (to_raise, Type, Value)
-   | :to_raise:
-     TDF_Exception[top](111(Int));
-     make_value (integer (Type))
-};
-*/
 
 /* S'Base'First/Last related tokens */
 
@@ -428,13 +437,6 @@ Tokdef MOD_POWER =
         Binary_Mod_Oper [Left, Right, Last, Type,
                          Use [a:EXP, b:EXP] EXP (power (wrap, a, b))]);
 
-/*
-Tokdef T = [] VARIETY 0 : 9;
-
-Var x : Int = MOD_MINUS [3 (T), 8 (T),
-  9 (universal), T];
-*/
-
 Tokdef TEST_RANGE_JUMP =
   [Value  : EXP,
    Lower  : EXP,
@@ -539,6 +541,10 @@ Tokdef MAKE_MACHINE_RADIX_ATTRIBUTE =
   (+ .~rep_fv_radix [Id] (universal));
 
 /* x86 dependent: */
+
+Tokdef Float.FLOAT_ID = [] NAT
+  1;
+
 Tokdef MAKE_DENORM_ATTRIBUTE =
   [Id : NAT] EXP
   1 (Boolean.V); /* Are Float & Double really Denorm? */
@@ -827,6 +833,81 @@ Tokdef FIXED_MULTIPLY =
                         Raise]
   );
 
+Tokdef FIXED_TO_FLOAT =
+  [Left        : EXP,
+   Left_Small  : EXP,
+   Left_Type   : VARIETY,
+   Result      : FLOATING_VARIETY,
+   Raise       : ERROR_TREATMENT] EXP
+
+   floating_mult (Raise,
+                  float_int (Raise, Result, Left),
+                  change_floating_variety (impossible, Result, Left_Small));
+
+Tokdef FIXED_TO_INT =
+  [Left        : EXP,
+   Left_Small  : EXP,
+   Left_Type   : VARIETY,
+   Result      : VARIETY,
+   Raise       : ERROR_TREATMENT] EXP
+
+  EXP ? (FTEST [Left_Small, <, 1.0 (A_UNIVERSAL_REAL_DEFINITION.V)],
+    change_variety (Raise, Result,
+      (Left
+       +
+       round_with_mode (impossible, to_nearest, Left_Type,
+                        0.5 (A_UNIVERSAL_REAL_DEFINITION.V) F/ Left_Small))
+      / round_with_mode (impossible, to_nearest, Left_Type,
+                         1.0 (A_UNIVERSAL_REAL_DEFINITION.V) F/ Left_Small)),
+    /* else: Small >= 1 */
+    mult (Raise,
+          change_variety (Raise, Result, Left),
+          round_with_mode (Raise, to_nearest, Result, Left_Small)));
+
+Tokdef INT_TO_FIXED =
+  [Left        : EXP,
+   Small       : EXP,
+   Left_Type   : VARIETY,
+   Result      : VARIETY,
+   Raise       : ERROR_TREATMENT] EXP
+
+  EXP ? (FTEST [Small, <, 1.0 (A_UNIVERSAL_REAL_DEFINITION.V)],
+    mult (Raise,
+          change_variety (Raise, Result, Left),
+          round_with_mode (Raise, to_nearest, Result,
+                           1.0 (A_UNIVERSAL_REAL_DEFINITION.V) F/ Small)),
+    /* else: Small >= 1 */
+    change_variety (Raise, Result,
+          Left / round_with_mode (Raise, to_nearest, Left_Type, Small)));
+         
+Tokdef FLOAT_TO_FIXED =
+  [Left        : EXP,
+   Small       : EXP,
+   Left_Type   : FLOATING_VARIETY,
+   Result      : VARIETY,
+   Raise       : ERROR_TREATMENT] EXP
+
+  round_with_mode (Raise, to_nearest, Result,
+    Left F/ change_floating_variety (impossible, Left_Type, Small));
+
+Tokdef FIXED_TO_FIXED =
+  [Left        : EXP,
+   Left_Small  : EXP,
+   Small       : EXP,
+   Left_Type   : VARIETY,
+   Result      : VARIETY,
+   Raise       : ERROR_TREATMENT] EXP
+
+  EXP ? (FTEST [Left_Small, <, Small],
+    change_variety (Raise, Result,
+       Left / round_with_mode (Raise, to_nearest, Left_Type,
+                               Small F/ Left_Small)),
+    /* else: Left_Small >=  Small */
+    mult (Raise,
+          change_variety (Raise, Result, Left),
+          round_with_mode (Raise, to_nearest, Result,
+                           Left_Small F/ Small)));
+
 Keep (COMPARE_INTEGER_VALUE,
       BOOLEAN_JUMP,
       Character.LOWER,
@@ -858,6 +939,7 @@ Keep (COMPARE_INTEGER_VALUE,
       MOD_POWER,
       TEST_RANGE_JUMP,
       A_UNIVERSAL_REAL_DEFINITION.V,
+      Float.FLOAT_ID,
       MAKE_FLOAT_RANGE_ID,
       MAKE_FLOAT_ID,
       COMPARE_FLOAT_VALUE,
@@ -876,6 +958,13 @@ Keep (COMPARE_INTEGER_VALUE,
       A_UNIVERSAL_FIXED_DEFINITION.V,
       MAKE_SMALL_ATTRIBUTE,
       FIXED_DIVIDE,
-      FIXED_MULTIPLY
+      FIXED_MULTIPLY,
+      FIXED_TO_FLOAT,
+      FIXED_TO_INT,
+      INT_TO_FIXED,
+      FLOAT_TO_FIXED,
+      FIXED_TO_FIXED,
+      IN_BOUNDS,
+      FLOAT_IN_BOUNDS
       )
 

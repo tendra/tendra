@@ -78,16 +78,18 @@ package body Expression is
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
 
-   procedure Output_Change_Variety
-     (State    : access States.State;
-      Tipe     : in     XASIS.Classes.Type_Info;
-      B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds);
-
    function Corresponding_Callee
      (Element : Asis.Element) return Asis.Declaration;
 
    procedure Compile_Internal
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Type_Conversion
      (State    : access States.State;
       Element  : in     Asis.Expression;
       Tipe     : in     XASIS.Classes.Type_Info;
@@ -638,6 +640,7 @@ package body Expression is
             --  Convert from Universal_Integer to Tipe
             Output.TDF (B, c_change_variety);
             Output.TDF (B, c_continue);
+            --  Output_Trap_Overflow (B);   TODO: why trap doesnt work?
             Output.TDF (B, c_var_apply_token);
             Output.TDF (B, c_make_tok);
             Output.TDFINT (B, Var);
@@ -884,6 +887,8 @@ package body Expression is
          when A_Parenthesized_Expression =>
             Compile (State, Expression_Parenthesized (Element),
                      Tipe, Static, B, Unit);
+         when A_Type_Conversion =>
+            Type_Conversion (State, Element, Tipe, Static, B, Unit);
 --        | A_Type_Conversion
 --        | A_Qualified_Expression
 --        | An_Allocation_From_Subtype
@@ -953,7 +958,9 @@ package body Expression is
            =>
             Short_Circuit_Bool (State, Element, Negative, Static, B, Unit);
 
-         when A_Parenthesized_Expression =>
+         when A_Parenthesized_Expression
+           | A_Type_Conversion
+           =>
             Compile_Boolean (State,
                              Expression_Parenthesized (Element),
                              Negative,
@@ -964,7 +971,6 @@ package body Expression is
          when A_Not_In_Range_Membership_Test =>
             Range_Test_Bool (State, Element, not Negative, Static, B, Unit);
 
---        | A_Type_Conversion
 --        | A_Qualified_Expression
 
          when others =>
@@ -1068,7 +1074,9 @@ package body Expression is
            =>
             Short_Circuit (State, Element, Negative, Label, Static, B, Unit);
 
-         when A_Parenthesized_Expression =>
+         when A_Parenthesized_Expression
+           | A_Type_Conversion
+           =>
             Compile_Boolean
               (State, Expression_Parenthesized (Element),
                Negative, Label, B, Unit);
@@ -1079,7 +1087,6 @@ package body Expression is
          when A_Not_In_Range_Membership_Test =>
             Range_Test (State, Element, not Negative, Label, Static, B, Unit);
 
---        | A_Type_Conversion
 --        | A_Qualified_Expression
 
          when others =>
@@ -1315,16 +1322,24 @@ package body Expression is
      (State    : access States.State;
       Tipe     : in     XASIS.Classes.Type_Info;
       B        : in out Stream'Class;
-      Unit     : in     States.Unit_Kinds)
+      Unit     : in     States.Unit_Kinds;
+      Trap     : in     Boolean := False)
    is
       Var   : constant Small := States.Find_Variety (State, Tipe, Unit);
    begin
-      Output.TDF (B, c_change_variety);
-      Output.TDF (B, c_continue);
-      Output.TDF (B, c_var_apply_token);
-      Output.TDF (B, c_make_tok);
-      Output.TDFINT (B, Var);
-      Output.BITSTREAM (B, States.Empty);
+      if XASIS.Classes.Is_Float_Point (Tipe) then
+         Output.TDF (B, c_change_floating_variety);
+      else
+         Output.TDF (B, c_change_variety);
+      end if;
+
+      if Trap then
+         Output_Trap_Overflow (B);
+      else
+         Output.TDF (B, c_continue);
+      end if;
+
+      Declaration.Output_Variety (State, Tipe, B, Unit);
    end Output_Change_Variety;
 
    --------------------
@@ -1550,6 +1565,230 @@ package body Expression is
             raise States.Error;
       end case;
    end Target_Name;
+
+   ---------------------
+   -- Type_Conversion --
+   ---------------------
+
+   procedure Type_Conversion
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use XASIS.Classes;
+      use Asis.Expressions;
+      Target    : constant Asis.Expression :=
+        Converted_Or_Qualified_Subtype_Mark (Element);
+      Expr      : constant Asis.Expression :=
+        Converted_Or_Qualified_Expression (Element);
+      Type_Decl : constant Asis.Declaration :=
+        Corresponding_Expression_Type (Expr);
+      Expr_Type : constant Type_Info := Type_From_Declaration (Type_Decl);
+
+      ------------------
+      -- Compile_Expr --
+      ------------------
+
+      procedure Compile_Expr (B : in out Stream'Class) is
+      begin
+         Compile
+           (State   => State,
+            Element => Expr,
+            Tipe    => Expr_Type,
+            Static  => Static,
+            B       => B,
+            Unit    => Unit);
+      end Compile_Expr;
+
+      -------------------
+      -- Apply_Support --
+      -------------------
+
+      procedure Apply_Support
+        (B    : in out Stream'Class;
+         Kind : in     States.Support_Kinds)
+      is
+         use States;
+         Tok    : constant TenDRA.Small := Find_Support (State, Kind, Unit);
+         Params : Streams.Memory_Stream;
+      begin
+         Token.Initialize (Params, Kind);
+         --  Left:
+         Compile_Expr (Params);
+         --  Small:
+
+         if Kind = Fixed_To_Fixed then
+            Apply_Attribute
+              (State, Expr_Type, Params, Unit, A_Small_Attribute);
+            Apply_Attribute
+              (State, Tipe, Params, Unit, A_Small_Attribute);
+         elsif Kind = Fixed_To_Int or Kind = Fixed_To_Float then
+            Apply_Attribute
+              (State, Expr_Type, Params, Unit, A_Small_Attribute);
+         else
+            Apply_Attribute
+              (State, Tipe, Params, Unit, A_Small_Attribute);
+         end if;
+
+         if Static then
+            Output_Universal_Variety (State, Expr_Type, Params, Unit);
+            Output_Universal_Variety (State, Tipe, Params, Unit);
+            Output.TDF (Params, c_continue);
+         else
+            Declaration.Output_Variety
+              (State, Expr_Type, Params, Unit);
+            Declaration.Output_Variety (State, Tipe, Params, Unit);
+            Output_Trap_Overflow (Params);
+         end if;
+
+         Output.TDF (B, c_exp_apply_token);
+         Output.TDF (B, c_make_tok);
+         Output.TDFINT (B, Tok);
+         Output.BITSTREAM (B, Params);
+      end Apply_Support;
+
+      -------------
+      -- Convert --
+      -------------
+
+      procedure Convert (B : in out Stream'Class) is
+      begin
+         if Is_Numeric (Tipe) then
+
+            if Is_Integer (Tipe) then
+
+               if Is_Integer (Expr_Type) then
+                  Output_Change_Variety
+                    (State, Tipe, B, Unit, Trap => not Static);
+                  Compile_Expr (B);
+               elsif Is_Float_Point (Expr_Type) then
+                  Output.TDF (B, c_round_with_mode);
+
+                  if Static then
+                     Output.TDF (B, c_continue);
+                     Output.TDF (B, c_to_nearest);
+                     Output_Universal_Variety (State, Tipe, B, Unit);
+                  else
+                     Output_Trap_Overflow (B);
+                     Output.TDF (B, c_to_nearest);
+                     Declaration.Output_Variety (State, Tipe, B, Unit);
+                  end if;
+
+                  Compile_Expr (B);
+               elsif Is_Fixed_Point (Expr_Type) then
+                  Apply_Support (B, States.Fixed_To_Int);
+               else
+                  --  should never happen
+                  raise States.Error;
+               end if;
+
+               --  end cast to Integer
+            elsif Is_Decimal_Fixed_Point (Tipe) then
+               --  Not implemented
+               raise States.Error;
+
+            elsif Is_Float_Point (Tipe) then
+
+               if Is_Integer (Expr_Type) then
+                  Output.TDF (B, c_float_int);
+
+                  if Static then
+                     Output.TDF (B, c_continue);
+                     Output_Universal_Variety (State, Tipe, B, Unit);
+                  else
+                     Output_Trap_Overflow (B);
+                     Declaration.Output_Variety (State, Tipe, B, Unit);
+                  end if;
+
+                  Compile_Expr (B);
+               elsif Is_Float_Point (Expr_Type) then
+                  Output_Change_Variety
+                    (State, Tipe, B, Unit, Trap => not Static);
+                  Compile_Expr (B);
+               elsif Is_Fixed_Point (Expr_Type) then
+                  Apply_Support (B, States.Fixed_To_Float);
+               else
+                  --  should never happen
+                  raise States.Error;
+               end if;
+
+               --  end cast to float point
+            elsif Is_Fixed_Point (Tipe) then
+               if Is_Integer (Expr_Type) then
+                  Apply_Support (B, States.Int_To_Fixed);
+               elsif Is_Float_Point (Expr_Type) then
+                  Apply_Support (B, States.Float_To_Fixed);
+               elsif Is_Fixed_Point (Expr_Type) then
+                  Apply_Support (B, States.Fixed_To_Fixed);
+               else
+                  --  should never happen
+                  raise States.Error;
+               end if;
+            else
+               --  should never happen
+               raise States.Error;
+            end if;
+         elsif Is_Enumeration (Tipe) then
+            -- TODO: to changed representation
+            Compile_Expr (B);
+         else
+            raise States.Error;
+         end if;
+      end Convert;
+
+   begin -- Type_Conversion
+      if Is_Constrained (Target) then
+         declare
+            use States;
+            Decl   : constant Asis.Declaration :=
+              XASIS.Utils.Selected_Name_Declaration (Target, True);
+            Tok    : TenDRA.Small;
+            Params : Streams.Memory_Stream;
+         begin
+            if Is_Float_Point (Tipe) then
+               Tok := Find_Support (State, Float_In_Bounds, Unit);
+               Token.Initialize (Params, Float_In_Bounds);
+            else
+               Tok := Find_Support (State, In_Bounds, Unit);
+               Token.Initialize (Params, In_Bounds);
+            end if;
+
+
+            Apply_Attribute (State, Decl, Params, Unit, A_First_Attribute);
+            Apply_Attribute (State, Decl, Params, Unit, A_Last_Attribute);
+            Convert (Params);
+
+            Output.TDF (B, c_exp_apply_token);
+            Output.TDF (B, c_make_tok);
+            Output.TDFINT (B, Tok);
+            Output.BITSTREAM (B, Params);
+         end;
+      elsif Is_Modular_Integer (Tipe) then  --  unconstrainer modular
+         declare
+            use States;
+            Tok    : constant TenDRA.Small :=
+              Find_Support (State, In_Bounds, Unit);
+            Params : Streams.Memory_Stream;
+         begin
+            Token.Initialize (Params, In_Bounds);
+
+            Apply_Attribute (State, Tipe, Params, Unit, A_First_Attribute);
+            Apply_Attribute (State, Tipe, Params, Unit, A_Last_Attribute);
+            Convert (Params);
+
+            Output.TDF (B, c_exp_apply_token);
+            Output.TDF (B, c_make_tok);
+            Output.TDFINT (B, Tok);
+            Output.BITSTREAM (B, Params);
+         end;
+      else
+         Convert (B);
+      end if;
+
+   end Type_Conversion;
 
    -----------------------
    -- Universal_Variety --

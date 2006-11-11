@@ -44,7 +44,11 @@ package States is
 
       Compare_Float_Value,
 
-      Make_Small_Attribute, Fixed_Divide, Fixed_Multiply);
+      Make_Small_Attribute, Fixed_Divide, Fixed_Multiply,
+      Fixed_To_Float, Fixed_To_Int, Int_To_Fixed, Float_To_Fixed,
+      Fixed_To_Fixed,
+
+      In_Bounds, Float_In_Bounds);
 
    --  Float point attributes (as value):
    subtype Make_Float_Attr is Support_Kinds

@@ -121,6 +121,13 @@ package Expression is
       Unit  : in     States.Unit_Kinds;
       Kind  : in     States.Type_Param_Kinds);
 
+   procedure Output_Change_Variety
+     (State    : access States.State;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds;
+      Trap     : in     Boolean := False);
+
 end Expression;
 
 

@@ -1014,7 +1014,7 @@ package body XASIS.Classes is
    -------
    -- T --
    -------
-   
+
    package body T is
       function Universal_Integer return Type_Info is
       begin

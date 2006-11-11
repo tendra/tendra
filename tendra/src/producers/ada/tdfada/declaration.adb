@@ -431,7 +431,12 @@ package body Declaration is
    is
       Var : constant Small := Find_Variety (State, Tipe, Unit);
    begin
-      Output.TDF (B, c_var_apply_token);
+      if XASIS.Classes.Is_Float_Point (Tipe) then
+         Output.TDF (B, c_flvar_apply_token);
+      else
+         Output.TDF (B, c_var_apply_token);
+      end if;
+
       Output.TDF (B, c_make_tok);
       Output.TDFINT (B, Var);
       Output.BITSTREAM (B, Empty);

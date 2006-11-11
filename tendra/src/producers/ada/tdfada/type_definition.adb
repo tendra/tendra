@@ -328,17 +328,11 @@ package body Type_Definition is
 
       procedure Make_First_Last (Kind : Asis.Attribute_Kinds) is
          D     : Streams.Memory_Stream;
-         Var   : Small := Find_Variety (State, Tipe, TOKDEF);
          Dummy : Arg_List (1 .. 1);
       begin
          Open_Token_Def (D, Dummy);
 
-         Output.TDF (D, c_change_variety);
-         Output.TDF (D, c_continue);
-         Output.TDF (D, c_var_apply_token);
-         Output.TDF (D, c_make_tok);
-         Output.TDFINT (D, Var);
-         Output.BITSTREAM (D, Empty);
+         Expression.Output_Change_Variety (State, Tipe, D, TOKDEF);
 
          if Kind = A_First_Attribute then
             Apply_Type_Param (State, Tipe, D, Lower);
@@ -895,6 +889,7 @@ package body Type_Definition is
             Tok := Find_Attribute
               (State, Decl, A_First_Attribute, TOKDEF, False);
             Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Expression.Output_Change_Variety (State, Tipe, D, TOKDEF);
             Expression.Computed_Static
               (State, Lower_Bound (Bounds), Tipe, D, TOKDEF);
             Close_Token_Def (State, D, Tok);
@@ -903,6 +898,7 @@ package body Type_Definition is
             Tok := Find_Attribute
               (State, Decl, A_Last_Attribute, TOKDEF, False);
             Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Expression.Output_Change_Variety (State, Tipe, D, TOKDEF);
             Expression.Computed_Static
               (State, Upper_Bound (Bounds), Tipe, D, TOKDEF);
             Close_Token_Def (State, D, Tok);

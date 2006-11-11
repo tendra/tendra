@@ -123,6 +123,40 @@ package body Token is
                              (EXP_SORT, Singular, False),        -- R Small
                              (EXP_SORT, Singular, False),        -- Small
                              (ERROR_TREATMENT_SORT, Singular, False)));
+         when Fixed_To_Float =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),        -- Left
+                             (EXP_SORT, Singular, False),        -- L Small
+                             (VARIETY_SORT, Singular, False),  -- L Type
+                             (FLOATING_VARIETY_SORT, Singular, False),  --  Res
+                             (ERROR_TREATMENT_SORT, Singular, False)));
+         when Fixed_To_Int | Int_To_Fixed =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),      -- Left
+                             (EXP_SORT, Singular, False),      -- L Small
+                             (VARIETY_SORT, Singular, False),  -- L Type
+                             (VARIETY_SORT, Singular, False),  -- Result
+                             (ERROR_TREATMENT_SORT, Singular, False)));
+         when Float_To_Fixed =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),      -- Left
+                             (EXP_SORT, Singular, False),      -- L Small
+                             (FLOATING_VARIETY_SORT, Singular, False),  -- L Tp
+                             (VARIETY_SORT, Singular, False),  -- Result
+                             (ERROR_TREATMENT_SORT, Singular, False)));
+         when Fixed_To_Fixed =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),      -- Left
+                             (EXP_SORT, Singular, False),      -- L Small
+                             (EXP_SORT, Singular, False),      -- Small
+                             (VARIETY_SORT, Singular, False),  -- L Type
+                             (VARIETY_SORT, Singular, False),  -- Result
+                             (ERROR_TREATMENT_SORT, Singular, False)));
+         when In_Bounds | Float_In_Bounds =>
+            Streams.Expect (Stream, Dummy,
+                            ((EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False),
+                             (EXP_SORT, Singular, False)));
       end case;
    end Initialize;
 
@@ -341,6 +375,50 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_error_treatment);
+               when Fixed_To_Float =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 5);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_floating_variety);
+                  Output.TDF (O, c_error_treatment);
+               when Fixed_To_Int | Int_To_Fixed =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 5);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_error_treatment);
+               when Float_To_Fixed =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 5);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_floating_variety);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_error_treatment);
+               when Fixed_To_Fixed =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 6);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_variety);
+                  Output.TDF (O, c_error_treatment);
+               when In_Bounds | Float_In_Bounds =>
+                  Output.TDF (O, c_token);
+                  Output.TDF (O, c_exp);
+                  Output.List_Count (O, 3);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
+                  Output.TDF (O, c_exp);
             end case;
 
          when Subtype_Attribute_Token =>
