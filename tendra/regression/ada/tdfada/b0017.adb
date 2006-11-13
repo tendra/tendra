@@ -121,5 +121,17 @@ begin
       return;
    end if;
 
+   --  static cast to signed integer
+   if Int (2 + 2) /= X_Int then
+      Report (False);
+      return;
+   end if;
+
+   --  qualified expr
+   if Int'(4) /= X_Int then
+      Report (False);
+      return;
+   end if;
+
    Report (True);
 end B0017;

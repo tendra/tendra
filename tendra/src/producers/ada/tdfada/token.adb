@@ -83,7 +83,7 @@ package body Token is
                             ((EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
                              (VARIETY_SORT, Singular, False)));
-         when Test_Range_Jump =>
+         when Test_Range_Jump | Float_Test_Range_Jump =>
             Streams.Expect (Stream, Dummy,
                             ((EXP_SORT, Singular, False),
                              (EXP_SORT, Singular, False),
@@ -305,7 +305,7 @@ package body Token is
                   Output.TDF (O, c_exp);
                   Output.TDF (O, c_variety);
 
-               when Test_Range_Jump =>
+               when Test_Range_Jump | Float_Test_Range_Jump =>
                   Output.TDF (O, c_token);
                   Output.TDF (O, c_exp);
                   Output.List_Count (O, 5);

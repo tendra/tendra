@@ -446,12 +446,29 @@ Tokdef TEST_RANGE_JUMP =
   EXP ?(+ Inv (Boolean.V),
         ?{
           ?(Value >= Lower);
-          ?(Value > Upper | Target)
+          ?(Value !<= Upper | Target)
           | make_top
         },
         {
           ?(Value >= Lower | Target);
           ?(Value <= Upper | Target)
+        });
+
+Tokdef FLOAT_TEST_RANGE_JUMP =
+  [Value  : EXP,
+   Lower  : EXP,
+   Upper  : EXP,
+   Inv    : NAT,
+   Target : LABEL] EXP
+  EXP ?(+ Inv (Boolean.V),
+        ?{
+          F?(Value >= Lower);
+          F?(Value !<= Upper | Target)
+          | make_top
+        },
+        {
+          F?(Value >= Lower | Target);
+          F?(Value <= Upper | Target)
         });
 
 /* Float point tokens */
@@ -938,6 +955,7 @@ Keep (COMPARE_INTEGER_VALUE,
       MOD_NEGATIVE,
       MOD_POWER,
       TEST_RANGE_JUMP,
+      FLOAT_TEST_RANGE_JUMP,
       A_UNIVERSAL_REAL_DEFINITION.V,
       Float.FLOAT_ID,
       MAKE_FLOAT_RANGE_ID,

@@ -24,7 +24,7 @@ package States is
       Enum_Val_Attr, Signed_Val_Attr, Signed_Base_Lower, Signed_Base_Upper,
       Mod_Plus, Mod_Minus, Mod_Multiply, Mod_Or, Mod_Xor, Mod_And,
       Mod_Not, Mod_Negative, Mod_Power,
-      Test_Range_Jump,
+      Test_Range_Jump, Float_Test_Range_Jump,
       Make_Float_Id, Make_Float_Range_Id, Rep_Fv, Rep_Fv_Max_Val,
 
       Make_Denorm_Attribute,            Make_Machine_Emax_Attribute,

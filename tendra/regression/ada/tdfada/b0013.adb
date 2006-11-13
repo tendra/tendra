@@ -12,6 +12,8 @@ procedure B0013 is
    Int_15 : constant Int := 15 + Int'Base'First - Int'Base'First;
    X_15   : Int := Int_15;
    Bool   : Boolean;
+   Flt_15 : constant Float := 15.0 + 0.0 * Float'First;
+   Y_15   : Float := 15.0;
 begin
    --  non-static expressions
    if One in 3 .. 5 then
@@ -41,6 +43,16 @@ begin
       return;
    end if;
 
+   if Y_15 not in 14.0 .. 16.0 then
+      Report (False);
+      return;
+   end if;
+
+   if Y_15 in 16.0 .. 17.0 then
+      Report (False);
+      return;
+   end if;
+
    --  static expressions
    if Zero in 3 .. 5 then
       Report (False);
@@ -63,6 +75,16 @@ begin
    end if;
 
    if Int_15 not in Int'Range then
+      Report (False);
+      return;
+   end if;
+
+   if Flt_15 not in 14.0 .. 16.0 then
+      Report (False);
+      return;
+   end if;
+
+   if Flt_15 in 16.0 .. 17.0 then
       Report (False);
       return;
    end if;

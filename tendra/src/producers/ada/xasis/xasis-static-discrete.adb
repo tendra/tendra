@@ -12,15 +12,7 @@ package body XASIS.Static.Discrete is
 
    function Is_Discrete (Right : Value) return Boolean is
    begin
-      case Right.Kind is
-         when Static_Discrete =>
-            return True;
-         when Static_Undefined =>
-            return False;
-         when others =>
-            Raise_Error (Unexpected_Type);
-            return False;
-      end case;
+      return Right.Kind = Static_Discrete;
    end Is_Discrete;
 
    -------

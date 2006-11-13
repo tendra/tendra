@@ -54,6 +54,15 @@ package body Expression is
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds);
 
+   procedure Subtype_Test
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
    procedure Ada_Call
      (State    : access States.State;
       Element  : in     Asis.Element;
@@ -90,6 +99,14 @@ package body Expression is
       Unit     : in     States.Unit_Kinds);
 
    procedure Type_Conversion
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds);
+
+   procedure Qualified_Expression
      (State    : access States.State;
       Element  : in     Asis.Expression;
       Tipe     : in     XASIS.Classes.Type_Info;
@@ -214,6 +231,7 @@ package body Expression is
 
    procedure Short_Circuit_Bool is new Compile_To_Label (Short_Circuit);
    procedure Range_Test_Bool    is new Compile_To_Label (Range_Test);
+   procedure Subtype_Test_Bool  is new Compile_To_Label (Subtype_Test);
 
    --------------
    -- Ada_Call --
@@ -881,16 +899,19 @@ package body Expression is
             Range_Test_Bool (State, Element, False, Static, B, Unit);
          when A_Not_In_Range_Membership_Test =>
             Range_Test_Bool (State, Element, True, Static, B, Unit);
---        | An_In_Type_Membership_Test
---        | A_Not_In_Type_Membership_Test
+         when An_In_Type_Membership_Test =>
+            Subtype_Test_Bool (State, Element, False, Static, B, Unit);
+         when A_Not_In_Type_Membership_Test =>
+            Subtype_Test_Bool (State, Element, True, Static, B, Unit);
 --        | A_Null_Literal
          when A_Parenthesized_Expression =>
             Compile (State, Expression_Parenthesized (Element),
                      Tipe, Static, B, Unit);
          when A_Type_Conversion =>
             Type_Conversion (State, Element, Tipe, Static, B, Unit);
---        | A_Type_Conversion
---        | A_Qualified_Expression
+
+         when A_Qualified_Expression =>
+            Qualified_Expression (State, Element, Tipe, Static, B, Unit);
 --        | An_Allocation_From_Subtype
 --        | An_Allocation_From_Qualified_Expression
          when others =>
@@ -959,7 +980,6 @@ package body Expression is
             Short_Circuit_Bool (State, Element, Negative, Static, B, Unit);
 
          when A_Parenthesized_Expression
-           | A_Type_Conversion
            =>
             Compile_Boolean (State,
                              Expression_Parenthesized (Element),
@@ -970,8 +990,17 @@ package body Expression is
             Range_Test_Bool (State, Element, Negative, Static, B, Unit);
          when A_Not_In_Range_Membership_Test =>
             Range_Test_Bool (State, Element, not Negative, Static, B, Unit);
+         when An_In_Type_Membership_Test =>
+            Subtype_Test_Bool (State, Element, Negative, Static, B, Unit);
+         when A_Not_In_Type_Membership_Test =>
+            Subtype_Test_Bool (State, Element, not Negative, Static, B, Unit);
 
---        | A_Qualified_Expression
+         when A_Type_Conversion
+           | A_Qualified_Expression =>
+            Compile_Boolean (State,
+                             Converted_Or_Qualified_Expression (Element),
+                             Negative,
+                             B, Unit);
 
          when others =>
 
@@ -1075,7 +1104,6 @@ package body Expression is
             Short_Circuit (State, Element, Negative, Label, Static, B, Unit);
 
          when A_Parenthesized_Expression
-           | A_Type_Conversion
            =>
             Compile_Boolean
               (State, Expression_Parenthesized (Element),
@@ -1087,7 +1115,18 @@ package body Expression is
          when A_Not_In_Range_Membership_Test =>
             Range_Test (State, Element, not Negative, Label, Static, B, Unit);
 
---        | A_Qualified_Expression
+         when An_In_Type_Membership_Test =>
+            Subtype_Test (State, Element, Negative, Label, Static, B, Unit);
+
+         when A_Not_In_Type_Membership_Test =>
+            Subtype_Test
+              (State, Element, not Negative, Label, Static, B, Unit);
+
+         when A_Type_Conversion
+           | A_Qualified_Expression =>
+            Compile_Boolean
+              (State, Converted_Or_Qualified_Expression (Element),
+               Negative, Label, B, Unit);
 
          when others =>
             Common_Jump;
@@ -1436,6 +1475,76 @@ package body Expression is
       Output.BITSTREAM (B, States.Empty);
    end Output_Universal_Variety;
 
+
+   --------------------------
+   -- Qualified_Expression --
+   --------------------------
+
+   procedure Qualified_Expression
+     (State    : access States.State;
+      Element  : in     Asis.Expression;
+      Tipe     : in     XASIS.Classes.Type_Info;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use XASIS.Classes;
+      use Asis.Expressions;
+      Target    : constant Asis.Expression :=
+        Converted_Or_Qualified_Subtype_Mark (Element);
+      Expr      : constant Asis.Expression :=
+        Converted_Or_Qualified_Expression (Element);
+      Type_Decl : constant Asis.Declaration :=
+        Corresponding_Expression_Type (Expr);
+      Expr_Type : constant Type_Info := Type_From_Declaration (Type_Decl);
+
+      ------------------
+      -- Compile_Expr --
+      ------------------
+
+      procedure Compile_Expr (B : in out Stream'Class) is
+      begin
+         Compile
+           (State   => State,
+            Element => Expr,
+            Tipe    => Expr_Type,
+            Static  => Static,
+            B       => B,
+            Unit    => Unit);
+      end Compile_Expr;
+
+   begin -- Qualified_Expression
+      if Is_Constrained (Target) then
+         declare
+            use States;
+            Decl   : constant Asis.Declaration :=
+              XASIS.Utils.Selected_Name_Declaration (Target, True);
+            Tok    : TenDRA.Small;
+            Params : Streams.Memory_Stream;
+         begin
+            if Is_Float_Point (Tipe) then
+               Tok := Find_Support (State, Float_In_Bounds, Unit);
+               Token.Initialize (Params, Float_In_Bounds);
+            else
+               Tok := Find_Support (State, In_Bounds, Unit);
+               Token.Initialize (Params, In_Bounds);
+            end if;
+
+
+            Apply_Attribute (State, Decl, Params, Unit, A_First_Attribute);
+            Apply_Attribute (State, Decl, Params, Unit, A_Last_Attribute);
+            Compile_Expr (Params);
+
+            Output.TDF (B, c_exp_apply_token);
+            Output.TDF (B, c_make_tok);
+            Output.TDFINT (B, Tok);
+            Output.BITSTREAM (B, Params);
+         end;
+      else --  unconstrained
+         Compile_Expr (B);
+      end if;
+   end Qualified_Expression;
+
    ----------------
    -- Range_Test --
    ----------------
@@ -1451,12 +1560,11 @@ package body Expression is
    is
       use States;
       use XASIS.Static;
+      Tok     : TenDRA.Small;
       Expr    : constant Asis.Expression :=
         Asis.Expressions.Membership_Test_Expression (Element);
       Rng     : constant Asis.Range_Constraint :=
         Asis.Expressions.Membership_Test_Range (Element);
-      Tok     : constant TenDRA.Small :=
-        Find_Support (State, Test_Range_Jump, Unit);
       Tipe    : constant XASIS.Classes.Type_Info :=
         Utils.Membership_Test_Type (Element);
       Params  : Streams.Memory_Stream;
@@ -1464,7 +1572,13 @@ package body Expression is
    begin
       Ranges.New_Context (State, Rng, Tipe, Static, B, Unit, Context);
 
-      Token.Initialize (Params, Test_Range_Jump);
+      if XASIS.Classes.Is_Float_Point (Tipe) then
+         Tok := Find_Support (State, Float_Test_Range_Jump, Unit);
+         Token.Initialize (Params, Float_Test_Range_Jump);
+      else
+         Tok := Find_Support (State, Test_Range_Jump, Unit);
+         Token.Initialize (Params, Test_Range_Jump);
+      end if;
 
       Compile (State, Expr, Tipe, Static, Params, Unit);
       Ranges.Compile (State, Rng, Tipe, Static, Params, Unit, Context, Lower);
@@ -1486,6 +1600,75 @@ package body Expression is
       Output.TDFINT (B, Tok);
       Output.BITSTREAM (B, Params);
    end Range_Test;
+
+   ------------------
+   -- Subtype_Test --
+   ------------------
+
+   procedure Subtype_Test
+     (State    : access States.State;
+      Element  : in     Asis.Element;
+      Negative : in     Boolean;
+      Label    : in     TenDRA.Small;
+      Static   : in     Boolean;
+      B        : in out Stream'Class;
+      Unit     : in     States.Unit_Kinds)
+   is
+      use States;
+      use XASIS.Static;
+      use XASIS.Classes;
+
+      Tok     : TenDRA.Small;
+      Expr    : constant Asis.Expression :=
+        Asis.Expressions.Membership_Test_Expression (Element);
+      Subtipe : constant Asis.Expression :=
+        Asis.Expressions.Membership_Test_Subtype_Mark (Element);
+      Tipe    : constant XASIS.Classes.Type_Info :=
+        Type_From_Subtype_Mark (Subtipe);
+      Params  : Streams.Memory_Stream;
+   begin
+      if Is_Float_Point (Tipe) then
+         Tok := Find_Support (State, Float_Test_Range_Jump, Unit);
+         Token.Initialize (Params, Float_Test_Range_Jump);
+      else
+         Tok := Find_Support (State, Test_Range_Jump, Unit);
+         Token.Initialize (Params, Test_Range_Jump);
+      end if;
+
+      Compile (State, Expr, Tipe, Static, Params, Unit);
+
+      if Is_Constrained (Subtipe) then
+         declare
+            Decl   : constant Asis.Declaration :=
+              XASIS.Utils.Selected_Name_Declaration (Subtipe, True);
+         begin
+            Apply_Attribute (State, Decl, Params, Unit, A_First_Attribute);
+            Apply_Attribute (State, Decl, Params, Unit, A_Last_Attribute);
+         end;
+      elsif Is_Signed_Integer (Tipe) or Is_Real (Tipe) then
+         Apply_Type_Param (State, Tipe, Params, Unit, Base_Lower);
+         Apply_Type_Param (State, Tipe, Params, Unit, Base_Upper);
+      else
+         Apply_Attribute (State, Tipe, Params, Unit, A_First_Attribute);
+         Apply_Attribute (State, Tipe, Params, Unit, A_Last_Attribute);
+      end if;
+
+      Output.TDF (Params, c_make_nat);
+
+      if Negative then
+         Output.TDFINT (Params, 1);
+      else
+         Output.TDFINT (Params, 0);
+      end if;
+
+      Output.TDF (Params, c_make_label);
+      Output.TDFINT (Params, Label);
+
+      Output.TDF (B, c_exp_apply_token);
+      Output.TDF (B, c_make_tok);
+      Output.TDFINT (B, Tok);
+      Output.BITSTREAM (B, Params);
+   end Subtype_Test;
 
    -------------------
    -- Short_Circuit --
@@ -1766,7 +1949,7 @@ package body Expression is
             Output.TDFINT (B, Tok);
             Output.BITSTREAM (B, Params);
          end;
-      elsif Is_Modular_Integer (Tipe) then  --  unconstrainer modular
+      elsif Is_Modular_Integer (Tipe) then  --  unconstrained modular
          declare
             use States;
             Tok    : constant TenDRA.Small :=
