@@ -11,6 +11,27 @@ package body Token is
 
    Error : exception;
 
+   ---------------------
+   -- Close_Token_Def --
+   ---------------------
+
+   procedure Close_Token_Def
+     (State : access States.State;
+      D     : in out TenDRA.Streams.Memory_Stream;
+      Tok   : in     TenDRA.Small)
+   is
+      use States;
+      use TenDRA;
+      use TenDRA.Types;
+      T     : TenDRA.Streams.Memory_Stream renames State.Units (TOKDEF).all;
+   begin
+      Inc (State.Length (TOKDEF));
+      Output.TDF (T, c_make_tokdef);
+      Output.TDFINT (T, Tok);
+      Output.No_Option (T);  --  signature
+      Output.BITSTREAM (T, D);
+   end Close_Token_Def;
+
    ----------------
    -- Initialize --
    ----------------
@@ -480,10 +501,80 @@ package body Token is
                when others =>
                   raise States.Error;
             end case;
-         when Tag | Proc_Tag =>
+         when Tag | Proc_Tag | Subtype_Attribute_Tag =>
             null;
       end case;
    end New_Token;
+
+   --------------------
+   -- Open_Token_Def --
+   --------------------
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out TenDRA.Streams.Memory_Stream;
+      Result : in     TenDRA.Types.Construct := TenDRA.Types.c_exp)
+   is
+      Args  : Arg_List (1 .. 0);
+      Types : Arg_Types (1 .. 0);
+   begin
+      Open_Token_Def (State, D, Args, Types, Result);
+   end Open_Token_Def;
+
+   --------------------
+   -- Open_Token_Def --
+   --------------------
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out TenDRA.Streams.Memory_Stream;
+      Args   :    out Arg_List;
+      Types  : in     Arg_Types;
+      Result : in     TenDRA.Types.Construct := TenDRA.Types.c_exp)
+   is
+      use States;
+      use TenDRA;
+      use TenDRA.Types;
+
+      function To_Sort (C : Construct) return Sort_Kind is
+      begin
+         case C is
+            when c_exp =>
+               return EXP_SORT;
+            when c_floating_variety =>
+               return FLOATING_VARIETY_SORT;
+            when c_variety =>
+               return VARIETY_SORT;
+            when c_nat =>
+               return NAT_SORT;
+            when c_shape =>
+               return SHAPE_SORT;
+            when others =>
+               raise States.Error;
+         end case;
+      end To_Sort;
+
+      Kind : constant Sort_Kind := To_Sort (Result);
+   begin
+      for J in Args'Range loop
+         Args (J) := State.Unit_Total (TOKDEF, States.Token);
+         Inc (State.Unit_Total (TOKDEF, States.Token));
+      end loop;
+
+      Streams.Expect
+        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
+                    (Kind, Singular, False)));
+
+      Output.TDF (D, c_token_definition);
+      Output.TDF (D, Result);
+      Output.List_Count (D, Args'Length);
+
+      for J in Args'Range loop
+         Output.TDF (D, c_make_tokformals);
+         Output.TDF (D, Types (J));
+         Output.TDFINT (D, Args (J));
+      end loop;
+   end Open_Token_Def;
 
 end Token;
 

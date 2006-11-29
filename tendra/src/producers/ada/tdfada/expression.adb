@@ -686,7 +686,6 @@ package body Expression is
      (State    : access States.State;
       Prefix   : in     Asis.Expression;
       Kind     : in     Asis.Attribute_Kinds;
-      Tipe     : in     XASIS.Classes.Type_Info;
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds;
@@ -778,7 +777,7 @@ package body Expression is
          case Kind is
             when A_First_Attribute | A_Last_Attribute =>
                First_Last_Attribute
-                 (State, Prefix (Element), Kind, Tipe, Static, B, Unit, Exps);
+                 (State, Prefix (Element), Kind, Static, B, Unit, Exps);
 
             when A_Modulus_Attribute
               | A_Denorm_Attribute

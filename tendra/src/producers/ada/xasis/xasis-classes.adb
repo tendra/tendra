@@ -18,32 +18,58 @@ package body XASIS.Classes is
 
    function First_Subtype (Info : Type_Info) return Type_Info;
 
+   function Base_Type (Decl : Asis.Declaration) return Asis.Declaration;
    function Base_Type (Info : Type_Info) return Type_Info;
 
    ---------------
    -- Base_Type --
    ---------------
 
-   function Base_Type (Info : Type_Info) return Type_Info is
+   function Base_Type (Decl : Asis.Declaration) return Asis.Declaration is
       use Asis.Elements;
+      use Asis.Declarations;
 
-      Result : Type_Info := Info;
-      Decl   : Asis.Declaration;
+      Result : Asis.Declaration := Corresponding_First_Subtype (Decl);
+      Kind   : Asis.Declaration_Kinds := Declaration_Kind (Result);
+      Temp   : Asis.Declaration;
    begin
-      if Is_Incomplete (Result) then
-         Result.Element := Utils.Completion_For_Declaration (Result.Element);
-         Result := Type_From_Declaration (Result.Element);
+      if Kind = An_Incomplete_Type_Declaration
+        or Kind = A_Private_Type_Declaration
+        or Kind = A_Private_Extension_Declaration
+      then
+         Temp := Utils.Completion_For_Declaration (Result);
+
+         if Is_Nil (Temp) then
+            return Result;
+         end if;
       end if;
 
-      while not Result.Definition
-        and then Utils.Is_Completion (Result.Element)
+      while XASIS.Utils.Is_Completion (Result)
       loop
-         Decl := Utils.Declaration_For_Completion (Result.Element);
-         exit when Declaration_Kind (Decl) = An_Incomplete_Type_Declaration;
-         Result := Type_From_Declaration (Decl);
+         Temp := XASIS.Utils.Declaration_For_Completion (Result);
+         Kind := Declaration_Kind (Result);
+
+         exit when Kind = An_Incomplete_Type_Declaration
+           or Kind = A_Private_Type_Declaration
+           or Kind = A_Private_Extension_Declaration;
+
+         Result := Temp;
       end loop;
 
       return Result;
+   end Base_Type;
+
+   ---------------
+   -- Base_Type --
+   ---------------
+
+   function Base_Type (Info : Type_Info) return Type_Info is
+   begin
+      if Info.Definition then
+         return Info;
+      else
+         return Type_From_Declaration (Base_Type (Info.Element));
+      end if;
    end Base_Type;
 
    -------------------
@@ -220,13 +246,15 @@ package body XASIS.Classes is
       if Info.Is_Access then
          Result := Info;
          Result.Is_Access := False;
+         return Result;
       elsif Is_Object_Access (Info) then
          Def    := Type_Declaration_View (Info.Element);
          Def    := Asis.Definitions.Access_To_Object_Definition (Def);
          Mark   := Asis.Definitions.Subtype_Mark (Def);
-         Result := Type_From_Subtype_Mark (Mark);
+         return Type_From_Subtype_Mark (Mark);
+      else
+         raise XASIS_Error;
       end if;
-      return Result;
    end Destination_Type;
 
    ----------------------------
@@ -236,17 +264,10 @@ package body XASIS.Classes is
    function Get_Array_Element_Type (Tipe : Type_Info) return Type_Info is
       use Asis.Definitions;
       use Asis.Declarations;
-      Def  : Asis.Definition;
-      Comp : Asis.Definition;
-      Ind  : Asis.Definition;
+      Def  : constant Asis.Definition := Get_Definition (Tipe);
+      Comp : constant Asis.Definition := Array_Component_Definition (Def);
+      Ind  : constant Asis.Definition := Component_Subtype_Indication (Comp);
    begin
-      if Tipe.Definition then
-         Def := Tipe.Element;
-      else
-         Def := Type_Declaration_View (Tipe.Element);
-      end if;
-      Comp := Array_Component_Definition (Def);
-      Ind  := Component_Subtype_Indication (Comp);
       return Type_From_Indication (Ind);
    end Get_Array_Element_Type;
 
@@ -261,26 +282,19 @@ package body XASIS.Classes is
       use Asis.Elements;
       use Asis.Definitions;
       use Asis.Declarations;
-      Def    : Asis.Definition;
-      Mark   : Asis.Expression;
-      Result : Type_Info;
+      Def  : Asis.Definition := Get_Definition (Info);
+      Mark : Asis.Expression;
    begin
-      if Info.Definition then
-         Def := Info.Element;
-      else
-         Def := Type_Declaration_View (Info.Element);
-      end if;
       case Type_Kind (Def) is
          when An_Unconstrained_Array_Definition =>
             Mark := Index_Subtype_Definitions (Def) (Index);
-            Result := Type_From_Subtype_Mark (Mark);
+            return Type_From_Subtype_Mark (Mark);
          when A_Constrained_Array_Definition =>
             Def := Discrete_Subtype_Definitions (Def) (Index);
-            Result := Type_From_Discrete_Def (Def);
+            return Type_From_Discrete_Def (Def);
          when others =>
             raise XASIS_Error;
       end case;
-      return Result;
    end Get_Array_Index_Type;
 
    ---------------------
@@ -371,14 +385,9 @@ package body XASIS.Classes is
       use Asis.Elements;
       use Asis.Definitions;
       use Asis.Declarations;
-      Def    : Asis.Definition;
+      Def  : constant Asis.Definition := Get_Definition (Info);
    begin
       if Is_Array (Info) then
-         if Info.Definition then
-            Def := Info.Element;
-         else
-            Def := Type_Declaration_View (Info.Element);
-         end if;
          case Type_Kind (Def) is
             when An_Unconstrained_Array_Definition =>
                return Length = Index_Subtype_Definitions (Def)'Length;
@@ -409,7 +418,7 @@ package body XASIS.Classes is
       use Asis.Elements;
       use Asis.Definitions;
       use Asis.Declarations;
-      Child_Type : Type_Info := First_Subtype (Child);
+      Child_Type : Type_Info := Child;
       Child_Def  : Asis.Definition;
    begin
       Child_Type.Class_Wide := False;
@@ -426,13 +435,14 @@ package body XASIS.Classes is
             Child_Type := Not_A_Type;
          else
             Child_Def := Type_Declaration_View (Child_Type.Element);
+
             if Type_Kind (Child_Def) not in A_Derived_Type_Definition ..
               A_Derived_Record_Extension_Definition
             then
                Child_Type := Not_A_Type;
             else
-               Child_Def := Parent_Subtype_Indication (Child_Def);
-               Child_Type := First_Subtype (Type_From_Indication (Child_Def));
+               Child_Def  := Parent_Subtype_Indication (Child_Def);
+               Child_Type := Type_From_Indication (Child_Def);
             end if;
          end if;
       end loop;
@@ -496,7 +506,7 @@ package body XASIS.Classes is
          return Boolean is
       begin
          if not Is_Nil (Subtype_Constraint (Def)) then
-            return False;
+            return True;
          end if;
 
          return Is_Constrained (Asis.Definitions.Subtype_Mark (Def));
@@ -691,17 +701,15 @@ package body XASIS.Classes is
 
    function Is_Equal (Left, Right : Type_Info) return Boolean is
       use Asis.Declarations;
-      Left_Base  : constant Type_Info := Base_Type (First_Subtype (Left));
-      Right_Base : constant Type_Info := Base_Type (First_Subtype (Right));
    begin
-      if Left_Base.Is_Access or Right_Base.Is_Access then
+      if Left.Is_Access or Right.Is_Access then
          return False;
-      elsif Left_Base.Definition or Right_Base.Definition then
+      elsif Left.Definition or Right.Definition then
          return False;
-      elsif Left_Base.Class_Wide xor Right_Base.Class_Wide then
+      elsif Left.Class_Wide xor Right.Class_Wide then
          return False;
       else
-         return Asis.Elements.Is_Equal (Left_Base.Element, Right_Base.Element);
+         return Asis.Elements.Is_Equal (Left.Element, Right.Element);
       end if;
    end Is_Equal;
 
@@ -932,7 +940,6 @@ package body XASIS.Classes is
 
    function Is_Subprogram_Access (Info : Type_Info) return Boolean
       renames Subprogram_Access_Class.Is_Class;
-
 
    ---------------------
    -- Is_Subtype_Mark --
@@ -1231,41 +1238,25 @@ package body XASIS.Classes is
       use Asis.Elements;
       use Asis.Declarations;
       use Asis.Definitions;
-      Def    : Asis.Definition;
-      Decl   : Asis.Declaration;
+      Decl   : Asis.Declaration := Base_Type (Tipe);
+      Def    : Asis.Definition  := Type_Declaration_View (Decl);
       Result : Type_Info;
-      Base   : Type_Info;
    begin
-      case Declaration_Kind (Tipe) is
-         when An_Ordinary_Type_Declaration =>
+      case Declaration_Kind (Decl) is
+         when An_Ordinary_Type_Declaration
+           | A_Task_Type_Declaration
+           | A_Protected_Type_Declaration
+           =>
 
-            Def := Type_Declaration_View (Tipe);
-            Result.Element := Tipe;
+            Result.Element := Base_Type (Tipe);
             Result.Class_Kind := Type_Class (Def);
 
-         when A_Task_Type_Declaration |
-           A_Protected_Type_Declaration =>
-
-            Result.Element := Tipe;
-            Result.Class_Kind := Type_Class (Type_Declaration_View (Tipe));
-
          when A_Subtype_Declaration =>
-            Def    := Type_Declaration_View (Tipe);
-            Result := Type_From_Indication (Def);
-            Base   := Type_From_Declaration (Result.Element);
-            Result.Element := Tipe;
-            Result.Class_Kind := Base.Class_Kind;
-            Result.Class_Wide := Result.Class_Wide or Base.Class_Wide;
+            raise XASIS_Error;
 
          when An_Incomplete_Type_Declaration =>
-            Decl := Utils.Completion_For_Declaration (Tipe);
-
-            if Is_Nil (Decl) then
-               Result.Element := Tipe;
-               Result.Class_Kind := An_Incomplete;
-            else
-               Result := Type_From_Declaration (Decl);
-            end if;
+            Result.Element := Tipe;
+            Result.Class_Kind := An_Incomplete;
 
          when A_Private_Type_Declaration =>
             Result.Element := Tipe;
@@ -1274,6 +1265,7 @@ package body XASIS.Classes is
          when others =>
             Result.Element := Asis.Nil_Element;
       end case;
+
       return Result;
    end Type_From_Declaration;
 
@@ -1294,6 +1286,7 @@ package body XASIS.Classes is
       if Definition_Kind (Def) /= A_Discrete_Subtype_Definition then
          raise XASIS_Error;
       end if;
+
       case Discrete_Range_Kind (Def) is
          when A_Discrete_Subtype_Indication =>
             Result := Type_From_Indication (Def);
@@ -1314,6 +1307,7 @@ package body XASIS.Classes is
          when Not_A_Discrete_Range =>
             raise XASIS_Error;
       end case;
+
       return Result;
    end Type_From_Discrete_Def;
 
@@ -1350,6 +1344,7 @@ package body XASIS.Classes is
          when others =>
             raise XASIS_Error;
       end case;
+
       return Result;
    end Type_From_Indication;
 
@@ -1377,6 +1372,7 @@ package body XASIS.Classes is
          else
             return Result;
          end if;
+
          Identifier := Prefix (Identifier);
          Kind := Expression_Kind (Identifier);
       end loop;
@@ -1389,9 +1385,11 @@ package body XASIS.Classes is
       if Kind /= An_Identifier then
          return Result;
       end if;
+
       Declaration := Corresponding_Name_Declaration (Identifier);
       Result := Type_From_Declaration (Declaration);
       Result.Class_Wide := Class_Wide;
+
       return Result;
    end Type_From_Subtype_Mark;
 
@@ -1448,7 +1446,7 @@ package body XASIS.Classes is
             Result := Type_From_Discrete_Def (Element);
 
             if Is_Universal (Result) then
-               Result := T.Root_Integer;
+               Result := T.Integer;
             end if;
 
          when A_Discriminant_Specification |

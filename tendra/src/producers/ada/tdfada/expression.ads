@@ -92,7 +92,6 @@ package Expression is
      (State    : access States.State;
       Prefix   : in     Asis.Expression;
       Kind     : in     Asis.Attribute_Kinds;
-      Tipe     : in     XASIS.Classes.Type_Info;
       Static   : in     Boolean;
       B        : in out Stream'Class;
       Unit     : in     States.Unit_Kinds;

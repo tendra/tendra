@@ -15,6 +15,8 @@ with XASIS.Static;
 with XASIS.Classes;
 
 with Asis.Elements;
+with Asis.Expressions;
+with Asis.Definitions;
 with Asis.Declarations;
 
 package body Declaration is
@@ -23,7 +25,7 @@ package body Declaration is
    use TenDRA;
    use TenDRA.Types;
 
-   type Variable_Kind is (Identity, Variable, Token);
+   type Variable_Kind is (Identity, Variable, Token_Var);
 
    procedure Subroutine
      (State    : access States.State;
@@ -34,6 +36,10 @@ package body Declaration is
       Element  : in     Asis.Declaration);
 
    procedure Variable
+     (State    : access States.State;
+      Element  : in     Asis.Declaration);
+
+   procedure Subtype_Declaration
      (State    : access States.State;
       Element  : in     Asis.Declaration);
 
@@ -78,7 +84,8 @@ package body Declaration is
 --       | An_Incomplete_Type_Declaration
 --       | A_Private_Type_Declaration
 --       | A_Private_Extension_Declaration
---       | A_Subtype_Declaration
+         when A_Subtype_Declaration =>
+            Subtype_Declaration (State, Decl);
          when A_Variable_Declaration | A_Constant_Declaration =>
             Variable (State, Decl);
 --       | A_Deferred_Constant_Declaration
@@ -222,28 +229,17 @@ package body Declaration is
      (State : access States.State;
       Name  : in     Asis.Defining_Name)
    is
-      T    : TenDRA.Streams.Memory_Stream
-        renames State.Units (TOKDEF).all;
       D    : aliased Streams.Memory_Stream;
       Tok  : TenDRA.Small := Find_Name (State, Name, TOKDEF, False);
       Tag  : TenDRA.Small := Find_Tag (State, Name, TOKDEF);
    begin
-      Streams.Expect
-        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                    (EXP_SORT, Singular, False)));
-      Output.TDF (D, c_token_definition);
-      Output.TDF (D, c_exp);
-      Output.List_Count (D, 0);
+      Token.Open_Token_Def (State, D);
 
       Output.TDF (D, c_obtain_tag);
       Output.TDF (D, c_make_tag);
       Output.TDFINT (D, Tag);
 
-      Inc (State.Length (TOKDEF));
-      Output.TDF (T, c_make_tokdef);
-      Output.TDFINT (T, Tok);
-      Output.No_Option (T);  --  signature
-      Output.BITSTREAM (T, D);
+      Token.Close_Token_Def (State, D, Tok);
    end Make_Name_Token;
 
    ----------------------
@@ -257,20 +253,13 @@ package body Declaration is
       Const : in     Variable_Kind;
       Init  : in     Asis.Expression := Asis.Nil_Element)
    is
-      T    : TenDRA.Streams.Memory_Stream
-        renames State.Units (TOKDEF).all;
       D    : aliased Streams.Memory_Stream;
       Tok  : TenDRA.Small := Find_Value (State, Name, TOKDEF, False);
       Tag  : TenDRA.Small;
    begin
-      Streams.Expect
-        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                    (EXP_SORT, Singular, False)));
-      Output.TDF (D, c_token_definition);
-      Output.TDF (D, c_exp);
-      Output.List_Count (D, 0);
+      Token.Open_Token_Def (State, D);
 
-      if Const = Token then
+      if Const = Token_Var then
          Expression.Compile (State, Init, Tipe, False, D, TOKDEF);
       else
          Tag := Find_Tag (State, Name, TOKDEF);
@@ -285,11 +274,7 @@ package body Declaration is
          Output.TDFINT (D, Tag);
       end if;
 
-      Inc (State.Length (TOKDEF));
-      Output.TDF (T, c_make_tokdef);
-      Output.TDFINT (T, Tok);
-      Output.No_Option (T);  --  signature
-      Output.BITSTREAM (T, D);
+      Token.Close_Token_Def (State, D, Tok);
    end Make_Value_Token;
 
    -------------
@@ -355,13 +340,10 @@ package body Declaration is
 
       S     : TenDRA.Streams.Memory_Stream
         renames State.Units (TAGDEC).all;
-      Decl  : Asis.Declaration :=
-        Asis.Elements.Enclosing_Element (Link.Name);
+      Decl  : Asis.Declaration;
       Tag   : Small;
-      Shape : Small;
    begin
-      if Elements.Declaration_Kind (Decl) = A_Constant_Declaration
-        and then Variable_Is (Decl) = Token then
+      if Link.Kind = Subtype_Attribute_Tag then
          return;
       elsif Link.Kind = States.Tag
         and then XASIS.Utils.Lexic_Level (Link.Name) > 1
@@ -377,6 +359,8 @@ package body Declaration is
          when Proc_Tag =>
             Output.TDF (S, c_make_id_tagdec);
          when States.Tag =>
+            Decl := Asis.Elements.Enclosing_Element (Link.Name);
+
             if Variable_Is (Decl) = Identity then
                Output.TDF (S, c_make_id_tagdec);
             else
@@ -393,11 +377,7 @@ package body Declaration is
       if Link.Kind = Proc_Tag then
          Output.TDF (S, c_proc);
       else
-         Shape := Find_Shape (State, Type_Of_Declaration (Decl), TAGDEC);
-         Output.TDF (S, c_shape_apply_token);
-         Output.TDF (S, c_make_tok);
-         Output.TDFINT (S, Shape);
-         Output.BITSTREAM (S, Empty);
+         Output_Shape (State, Type_Of_Declaration (Decl), S, TAGDEC);
       end if;
    end New_Tag;
 
@@ -554,6 +534,127 @@ package body Declaration is
       Output.TDF (B, c_make_top);
    end Subroutine;
 
+   -------------------------
+   -- Subtype_Declaration --
+   -------------------------
+
+   procedure Subtype_Declaration
+     (State    : access States.State;
+      Element  : in     Asis.Declaration)
+   is
+      use XASIS.Utils;
+      use XASIS.Classes;
+      use Asis.Definitions;
+      use Asis.Declarations;
+
+      Tipe       : constant Type_Info := Type_From_Declaration (Element);
+      View       : constant Asis.Definition := Type_Declaration_View (Element);
+      Constraint : constant Asis.Constraint := Subtype_Constraint (View);
+
+      ----------------
+      -- Define_Tag --
+      ----------------
+
+      procedure Define_Tag
+        (Expr : Asis.Expression;
+         Kind : Asis.Attribute_Kinds)
+      is
+         B     : TenDRA.Streams.Memory_Stream
+           renames State.Units (TAGDEF).all;
+         Level : constant Positive := Lexic_Level (Declaration_Name (Element));
+         Tag   : constant Small := Find_Attribute_Tag
+           (State, Element, Kind, TAGDEF, False);
+      begin
+         if Level = 1 then
+            Output.TDF (B, c_make_id_tagdef);
+            Output.TDFINT (B, Tag);
+            Output.No_Option (B);  --  signature
+            Inc (State.Length (TAGDEF));
+            raise States.Error;  --  TBD: elaboration
+         else  --  Level > 1
+            Output.TDF (B, c_identify);
+            Output.No_Option (B);  --  access
+            Output.TDF (B, c_make_tag);
+            Output.TDFINT (B, Tag);
+         end if;
+
+         Expression.Compile (State, Expr, Tipe, False, B, TAGDEF);
+      end Define_Tag;
+
+      ------------------
+      -- Define_Bound --
+      ------------------
+
+      procedure Define_Bound
+        (Expr : Asis.Expression;
+         Kind : Asis.Attribute_Kinds)
+      is
+         D      : aliased Streams.Memory_Stream;
+         Dummy  : Token.Arg_List (1 .. 1);
+         Static : constant Boolean := Utils.Is_Static (Expr);
+         Tok    : constant Small := Find_Attribute
+           (State, Element, Kind, TOKDEF, False);
+      begin
+         Token.Open_Token_Def (State, D, Dummy, (1 => c_exp));
+
+         if Static then
+            Expression.Compile (State, Expr, Tipe, False, D, TOKDEF);
+         else
+            declare
+               Tag : constant Small := Find_Attribute_Tag
+                 (State, Element, Kind, TOKDEF);
+            begin
+               Define_Tag (Expr, Kind);
+               Output.TDF (D, c_obtain_tag);
+               Output.TDF (D, c_make_tag);
+               Output.TDFINT (D, Tag);
+            end;
+         end if;
+
+         Token.Close_Token_Def (State, D, Tok);
+      end Define_Bound;
+
+      -----------------------
+      -- Define_Attr_Bound --
+      -----------------------
+
+      procedure Define_Attr_Bound
+        (Kind   : Asis.Attribute_Kinds;
+         Prefix : Asis.Expression)
+      is
+         D      : aliased Streams.Memory_Stream;
+         Dummy  : Token.Arg_List (1 .. 1);
+         Tok    : constant Small := Find_Attribute
+           (State, Element, Kind, TOKDEF, False);
+      begin
+         Token.Open_Token_Def (State, D, Dummy, (1 => c_exp));
+         Expression.First_Last_Attribute
+           (State, Prefix, Kind, False, D, TOKDEF);
+         Token.Close_Token_Def (State, D, Tok);
+      end Define_Attr_Bound;
+
+   begin
+      case Asis.Elements.Constraint_Kind (Constraint) is
+         when Asis.A_Range_Attribute_Reference =>
+            declare
+               Attr   : constant Asis.Expression :=
+                 Range_Attribute (Constraint);
+               Prefix : constant Asis.Expression :=
+                 Asis.Expressions.Prefix (Attr);
+            begin
+               Define_Attr_Bound (Asis.A_First_Attribute, Prefix);
+               Define_Attr_Bound (Asis.A_Last_Attribute, Prefix);
+            end;
+
+         when Asis.A_Simple_Expression_Range =>
+            Define_Bound (Lower_Bound (Constraint), Asis.A_First_Attribute);
+            Define_Bound (Upper_Bound (Constraint), Asis.A_Last_Attribute);
+
+         when others =>
+            null;
+      end case;
+   end Subtype_Declaration;
+
    -----------------
    -- Variable_Is --
    -----------------
@@ -572,7 +673,7 @@ package body Declaration is
          if Trait_Kind (Element) = An_Aliased_Trait then
             return Variable;
          elsif Utils.Is_Static (Init) then
-            return Token;
+            return Token_Var;
          elsif XASIS.Utils.Lexic_Level (Names (Element) (1)) /= 1 then
             return Identity;
          end if;
@@ -631,7 +732,7 @@ package body Declaration is
       Const : Variable_Kind := Variable_Is (Element);
    begin
       for J in List'Range loop
-         if Const /= Token then
+         if Const /= Token_Var then
             Tag := Find_Tag (State, List (J), TAGDEF, False);
          end if;
 
@@ -657,10 +758,12 @@ package body Declaration is
             else  --  Level > 1
                Output.TDF (B, c_identify);
                Output.No_Option (B);  --  access
+               Output.TDF (B, c_make_tag);
+               Output.TDFINT (B, Tag);
             end if;
          end if;
 
-         if Const /= Token then
+         if Const /= Token_Var then
             if Asis.Elements.Is_Nil (Init) then
                Output.TDF (B, c_make_value);
                Output_Shape (State, Tipe, B, TAGDEF);

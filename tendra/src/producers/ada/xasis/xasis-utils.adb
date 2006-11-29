@@ -1073,6 +1073,29 @@ package body XASIS.Utils is
         and then not Is_Part_Of_Inherited (Decl);
    end Is_Predefined_Operator;
 
+   ---------------------
+   -- Last_Constraint --
+   ---------------------
+
+   function Last_Constraint
+     (Decl : Asis.Declaration) return Asis.Declaration
+   is
+      use Asis.Elements;
+      use Asis.Definitions;
+      use Asis.Declarations;
+      View : constant Asis.Definition := Type_Declaration_View (Decl);
+   begin
+      if Definition_Kind (View) /= A_Subtype_Indication then
+         return Decl;
+      end if;
+
+      if Is_Nil (Subtype_Constraint (View)) then
+         return Corresponding_Last_Constraint (Decl);
+      else
+         return Decl;
+      end if;
+   end Last_Constraint;
+
    -----------------
    -- Lexic_Level --
    -----------------

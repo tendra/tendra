@@ -1,4 +1,5 @@
 with States;
+with TenDRA.Types;
 with TenDRA.Streams;
 
 package Token is
@@ -10,6 +11,26 @@ package Token is
    procedure Initialize
      (Stream : in out TenDRA.Streams.Memory_Stream;
       Kind   : in     States.Support_Kinds);
+
+   type Arg_List  is array (Positive range <>) of TenDRA.Small;
+   type Arg_Types is array (Positive range <>) of TenDRA.Types.Construct;
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out TenDRA.Streams.Memory_Stream;
+      Args   :    out Arg_List;
+      Types  : in     Arg_Types;
+      Result : in     TenDRA.Types.Construct := TenDRA.Types.c_exp);
+
+   procedure Open_Token_Def
+     (State  : access States.State;
+      D      : in out TenDRA.Streams.Memory_Stream;
+      Result : in     TenDRA.Types.Construct := TenDRA.Types.c_exp);
+
+   procedure Close_Token_Def
+     (State : access States.State;
+      D     : in out TenDRA.Streams.Memory_Stream;
+      Tok   : in     TenDRA.Small);
 
 end Token;
 

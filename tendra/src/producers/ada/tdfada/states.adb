@@ -27,6 +27,10 @@ package body States is
      (Object : access State;
       Result : in     Linkage_Access);
 
+   function Declaration_For_Attribute
+     (Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds) return Asis.Declaration;
+
    ---------
    -- "=" --
    ---------
@@ -45,7 +49,7 @@ package body States is
                            or else Left.Param = Right.Param);
             when Support_Token =>
                return Left.Support = Right.Support;
-            when Subtype_Attribute_Token =>
+            when Subtype_Attribute_Token | Subtype_Attribute_Tag =>
                return Is_Equal (Left.Subtype_Name, Right.Subtype_Name)
                  and then Left.Attribute = Right.Attribute;
          end case;
@@ -228,6 +232,25 @@ package body States is
       TenDRA.Streams.Flush_Byte (O);
    end Create_Capsule;
 
+   -------------------------------
+   -- Declaration_For_Attribute --
+   -------------------------------
+
+   function Declaration_For_Attribute
+     (Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds) return Asis.Declaration is
+   begin
+      case Attr is
+         when Asis.An_Aft_Attribute
+           | Asis.A_First_Attribute
+           | Asis.A_Last_Attribute
+           =>
+            return XASIS.Utils.Last_Constraint (Tipe);
+         when others =>
+            return Asis.Declarations.Corresponding_First_Subtype (Tipe);
+      end case;
+   end Declaration_For_Attribute;
+
    --------------------
    -- External_Image --
    --------------------
@@ -293,6 +316,9 @@ package body States is
          when Subtype_Attribute_Token =>
             return To_String (External_Image (Link.Subtype_Name))
               & '.' & Asis.Attribute_Kinds'Image (Link.Attribute);
+         when Subtype_Attribute_Tag =>
+            return To_String (External_Image (Link.Subtype_Name))
+              & '~' & Asis.Attribute_Kinds'Image (Link.Attribute);
       end case;
    end External_Image;
 
@@ -314,8 +340,8 @@ package body States is
       Result   : Linkage_Access;
    begin
       case Link.Kind is
-         when Tag | Proc_Tag =>
-           Kind := Tag;
+         when Tag | Proc_Tag | Subtype_Attribute_Tag =>
+            Kind := Tag;
          when Shape_Token
            | Variety_Token
            | Support_Token
@@ -410,11 +436,30 @@ package body States is
    is
       Link : Linkage (Subtype_Attribute_Token);
    begin
-      Link.Subtype_Name := Tipe;
+      Link.Subtype_Name := Declaration_For_Attribute (Tipe, Attr);
       Link.Attribute    := Attr;
 
       return Find (Object, Link, Unit, Usage);
    end Find_Attribute;
+
+   ------------------------
+   -- Find_Attribute_Tag --
+   ------------------------
+
+   function Find_Attribute_Tag
+     (Object : access State;
+      Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small
+   is
+      Link : Linkage (Subtype_Attribute_Tag);
+   begin
+      Link.Subtype_Name := Declaration_For_Attribute (Tipe, Attr);
+      Link.Attribute    := Attr;
+
+      return Find (Object, Link, Unit, Usage);
+   end Find_Attribute_Tag;
 
    ---------------
    -- Find_Name --
@@ -584,7 +629,7 @@ package body States is
          when Shape_Token | Variety_Token | Support_Token | Name_Token
            | Value_Token | Subtype_Attribute_Token | Type_Param_Token =>
             Standard.Token.New_Token (Object, Result);
-         when Tag | Proc_Tag =>
+         when Tag | Proc_Tag | Subtype_Attribute_Tag =>
             Declaration.New_Tag (Object, Result);
       end case;
    end On_New_Linkage;
@@ -672,7 +717,10 @@ package body States is
    function Visible (Link : Linkage) return Boolean is
       use XASIS.Utils;
    begin
-      if Link.Kind = Tag and then Lexic_Level (Link.Name) > 1 then
+      --  Keep in synch with Declaration.New_Tag and Token.New_Token
+      if Link.Kind = Subtype_Attribute_Tag then
+         return False;
+      elsif Link.Kind = Tag and then Lexic_Level (Link.Name) > 1 then
          return False;
       else
          return True;   --  TODO

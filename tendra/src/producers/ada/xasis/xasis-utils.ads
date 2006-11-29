@@ -148,6 +148,10 @@ package XASIS.Utils is
      (Tipe : Asis.Declaration;
       Kind : Asis.Attribute_Kinds) return Asis.Element_List;
 
+   function Last_Constraint (Decl : Asis.Declaration) return Asis.Declaration;
+   --  Like Corresponding_Last_Constraint but doen't unwind if an argument
+   --  declaration itself has a constraint.
+
 end XASIS.Utils;
 
 

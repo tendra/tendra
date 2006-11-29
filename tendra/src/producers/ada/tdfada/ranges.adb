@@ -35,7 +35,7 @@ package body Ranges is
    begin
       if Is_Scalar (Info) then
          Expression.First_Last_Attribute
-           (State, Prefix, Kind (Bound), Tipe, Static, B, Unit, Exps);
+           (State, Prefix, Kind (Bound), Static, B, Unit, Exps);
       else
          raise States.Error;
       end if;
@@ -113,7 +113,7 @@ package body Ranges is
                     (State, Cons, Tipe, Static, B, Unit, Context, Bound);
                elsif Expression_Kind (Mark) = An_Attribute_Reference then
                   Expression.First_Last_Attribute
-                    (State, Mark, Kind (Bound), Tipe, Static, B, Unit);
+                    (State, Mark, Kind (Bound), Static, B, Unit);
                end if;
             end;
 

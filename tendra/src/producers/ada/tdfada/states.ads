@@ -16,7 +16,7 @@ package States is
    type Linkage_Kinds is
      (Tag, Proc_Tag, Shape_Token, Variety_Token,
       Name_Token, Value_Token, Support_Token, Type_Param_Token,
-      Subtype_Attribute_Token);
+      Subtype_Attribute_Token, Subtype_Attribute_Tag);
 
    type Support_Kinds is
      (Compare_Integer_Value, Boolean_Jump, Constraint_Error_If,
@@ -95,7 +95,7 @@ package States is
             end case;
          when Support_Token =>
             Support : Support_Kinds;
-         when Subtype_Attribute_Token =>
+         when Subtype_Attribute_Token | Subtype_Attribute_Tag =>
             Subtype_Name : Asis.Declaration;
             Attribute    : Asis.Attribute_Kinds;
       end case;
@@ -181,6 +181,13 @@ package States is
       Usage  : in     Boolean := True) return TenDRA.Small;
 
    function Find_Attribute
+     (Object : access State;
+      Tipe   : in     Asis.Declaration;
+      Attr   : in     Asis.Attribute_Kinds;
+      Unit   : in     Unit_Kinds := TAGDEF;
+      Usage  : in     Boolean := True) return TenDRA.Small;
+
+   function Find_Attribute_Tag
      (Object : access State;
       Tipe   : in     Asis.Declaration;
       Attr   : in     Asis.Attribute_Kinds;

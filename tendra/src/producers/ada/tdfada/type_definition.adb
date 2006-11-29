@@ -107,25 +107,8 @@ package body Type_Definition is
       Tipe  : in     XASIS.Classes.Type_Info;
       Param : in out Streams.Memory_Stream);
 
-   type Arg_List  is array (Positive range <>) of Small;
-   type Arg_Types is array (Positive range <>) of Construct;
-
-   procedure Open_Token_Def
-     (State  : access States.State;
-      D      : in out Streams.Memory_Stream;
-      Args   :    out Arg_List;
-      Types  : in     Arg_Types;
-      Result : in     Construct := c_exp);
-
-   procedure Open_Token_Def
-     (State  : access States.State;
-      D      : in out Streams.Memory_Stream;
-      Result : in     Construct := c_exp);
-
-   procedure Close_Token_Def
-     (State : access States.State;
-      D     : in out Streams.Memory_Stream;
-      Tok   : in     Small);
+   subtype Arg_List  is Token.Arg_List;
+   subtype Arg_Types is Token.Arg_Types;
 
    ---------------------
    -- Apply_Attribute --
@@ -171,24 +154,6 @@ package body Type_Definition is
    begin
       Expression.Apply_Type_Param (State, Tipe, Param, TOKDEF, Kind);
    end Apply_Type_Param;
-
-   ---------------------
-   -- Close_Token_Def --
-   ---------------------
-
-   procedure Close_Token_Def
-     (State : access States.State;
-      D     : in out Streams.Memory_Stream;
-      Tok   : in     Small)
-   is
-      T     : TenDRA.Streams.Memory_Stream renames State.Units (TOKDEF).all;
-   begin
-      Inc (State.Length (TOKDEF));
-      Output.TDF (T, c_make_tokdef);
-      Output.TDFINT (T, Tok);
-      Output.No_Option (T);  --  signature
-      Output.BITSTREAM (T, D);
-   end Close_Token_Def;
 
    -------------
    -- Compile --
@@ -294,7 +259,7 @@ package body Type_Definition is
       is
          Types : constant Arg_Types (Args'Range) := (others => c_exp);
       begin
-         Open_Token_Def (State, D, Args, Types);
+         Token.Open_Token_Def (State, D, Args, Types);
       end Open_Token_Def;
 
       ---------------------
@@ -308,7 +273,7 @@ package body Type_Definition is
          Tok : constant Small :=
            Find_Attribute (State, Decl, Kind, TOKDEF, False);
       begin
-         Close_Token_Def (State, D, Tok);
+         Token.Close_Token_Def (State, D, Tok);
       end Close_Token_Def;
 
       ---------------------
@@ -683,9 +648,9 @@ package body Type_Definition is
       Make_Token (State, Tipe, Lower, Lower_Bound (Bounds));
       Make_Token (State, Tipe, Upper, Upper_Bound (Bounds));
 
-      Open_Token_Def (State, D);
+      Token.Open_Token_Def (State, D);
       Expression.Computed_Static (State, Delt, T.Root_Real, D, TOKDEF);
-      Close_Token_Def (State, D, Tok);
+      Token.Close_Token_Def (State, D, Tok);
    end Make_Fixed_Bounds;
 
    ---------------------------
@@ -712,7 +677,7 @@ package body Type_Definition is
            Find_Attribute (State, Decl, Attr, TOKDEF, False);
          Macro : constant Small := Find_Support (State, Supp, TOKDEF);
       begin
-         Open_Token_Def (State, D, Args, Types);
+         Token.Open_Token_Def (State, D, Args, Types);
 
          Token.Initialize (Param, Supp);
          Apply_Float_Id (State, Tipe, Param);
@@ -729,7 +694,7 @@ package body Type_Definition is
          Output.TDFINT (D, Macro);
          Output.BITSTREAM (D, Param);
 
-         Close_Token_Def (State, D, Tok);
+         Token.Close_Token_Def (State, D, Tok);
       end;
    begin
       Make_Attr (A_Denorm_Attribute,           Make_Denorm_Attribute);
@@ -859,7 +824,7 @@ package body Type_Definition is
          Make_Token (State, Tipe, Float_Id, 0);
       end if;
 
-      Open_Token_Def (State, D, c_floating_variety);
+      Token.Open_Token_Def (State, D, c_floating_variety);
 
       declare
          Param : Streams.Memory_Stream;
@@ -876,7 +841,7 @@ package body Type_Definition is
          Output.BITSTREAM (D, Param);
       end;
 
-      Close_Token_Def (State, D, Var);
+      Token.Close_Token_Def (State, D, Var);
 
       if not Is_Nil (Bounds) then
          declare
@@ -888,20 +853,20 @@ package body Type_Definition is
             Streams.Reset (D);
             Tok := Find_Attribute
               (State, Decl, A_First_Attribute, TOKDEF, False);
-            Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Token.Open_Token_Def (State, D, Dummy, (1 => c_exp));
             Expression.Output_Change_Variety (State, Tipe, D, TOKDEF);
             Expression.Computed_Static
               (State, Lower_Bound (Bounds), Tipe, D, TOKDEF);
-            Close_Token_Def (State, D, Tok);
+            Token.Close_Token_Def (State, D, Tok);
 
             Streams.Reset (D);
             Tok := Find_Attribute
               (State, Decl, A_Last_Attribute, TOKDEF, False);
-            Open_Token_Def (State, D, Dummy, (1 => c_exp));
+            Token.Open_Token_Def (State, D, Dummy, (1 => c_exp));
             Expression.Output_Change_Variety (State, Tipe, D, TOKDEF);
             Expression.Computed_Static
               (State, Upper_Bound (Bounds), Tipe, D, TOKDEF);
-            Close_Token_Def (State, D, Tok);
+            Token.Close_Token_Def (State, D, Tok);
          end;
       end if;
    end Make_Float_Variety;
@@ -954,11 +919,11 @@ package body Type_Definition is
    is
       T     : TenDRA.Streams.Memory_Stream renames State.Units (TOKDEF).all;
       D     : Streams.Memory_Stream;
-      Token : Small := Find_Type_Param (State, Tipe, Param, TOKDEF, False);
+      Tok   : Small := Find_Type_Param (State, Tipe, Param, TOKDEF, False);
    begin
-      Open_Token_Def (State, D, Result);
+      Token.Open_Token_Def (State, D, Result);
       Evaluate (D, Data);
-      Close_Token_Def (State, D, Token);
+      Token.Close_Token_Def (State, D, Tok);
    end Make_Param_Token;
 
    -------------------------
@@ -1093,7 +1058,7 @@ package body Type_Definition is
       Var   : Small := Find_Variety (State, Tipe, TOKDEF);
       Shape : Small := Find_Shape (State, Tipe, TOKDEF, False);
    begin
-      Open_Token_Def (State, D, c_shape);
+      Token.Open_Token_Def (State, D, c_shape);
 
       if Is_Float_Point (Tipe) then
          Output.TDF (D, c_floating);
@@ -1109,75 +1074,8 @@ package body Type_Definition is
       Output.TDFINT (D, Var);
       Output.BITSTREAM (D, Empty);
 
-      Close_Token_Def (State, D, Shape);
+      Token.Close_Token_Def (State, D, Shape);
    end Make_Shape_From_Variety;
-
-   --------------------
-   -- Open_Token_Def --
-   --------------------
-
-   procedure Open_Token_Def
-     (State  : access States.State;
-      D      : in out Streams.Memory_Stream;
-      Result : in     Construct := c_exp)
-   is
-      Args  : Arg_List (1 .. 0);
-      Types : Arg_Types (1 .. 0);
-   begin
-      Open_Token_Def (State, D, Args, Types, Result);
-   end Open_Token_Def;
-
-   --------------------
-   -- Open_Token_Def --
-   --------------------
-
-   procedure Open_Token_Def
-     (State  : access States.State;
-      D      : in out Streams.Memory_Stream;
-      Args   :    out Arg_List;
-      Types  : in     Arg_Types;
-      Result : in     Construct := c_exp)
-
-   is
-      function To_Sort (C : Construct) return Sort_Kind is
-      begin
-         case C is
-            when c_exp =>
-               return EXP_SORT;
-            when c_floating_variety =>
-               return FLOATING_VARIETY_SORT;
-            when c_variety =>
-               return VARIETY_SORT;
-            when c_nat =>
-               return NAT_SORT;
-            when c_shape =>
-               return SHAPE_SORT;
-            when others =>
-               raise States.Error;
-         end case;
-      end To_Sort;
-
-      Kind : constant Sort_Kind := To_Sort (Result);
-   begin
-      for J in Args'Range loop
-         Args (J) := State.Unit_Total (TOKDEF, States.Token);
-         Inc (State.Unit_Total (TOKDEF, States.Token));
-      end loop;
-
-      Streams.Expect
-        (D, Dummy, ((TOKEN_DEFN_SORT, Singular, False),
-                    (Kind, Singular, False)));
-
-      Output.TDF (D, c_token_definition);
-      Output.TDF (D, Result);
-      Output.List_Count (D, Args'Length);
-
-      for J in Args'Range loop
-         Output.TDF (D, c_make_tokformals);
-         Output.TDF (D, Types (J));
-         Output.TDFINT (D, Args (J));
-      end loop;
-   end Open_Token_Def;
 
 end Type_Definition;
 

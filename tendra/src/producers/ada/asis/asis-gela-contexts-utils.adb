@@ -248,7 +248,8 @@ package body Asis.Gela.Contexts.Utils is
 
       while To > 0 loop
          declare
-            Word : constant Wide_String := U.Slice (Params, From, To);
+            Slice : constant Wide_String := U.Slice (Params, From, To);
+            Word  : constant Wide_String (1 .. Slice'Length) := Slice;
          begin
             U.Delete (Params, 1, To);
             U.Find_Token (Params, Space, Ada.Strings.Outside, From, To);
