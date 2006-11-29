@@ -35,15 +35,15 @@ error "bad id substitution" {
     "${file name}: ${line number}: substituted identifier '${identifier name}' is not a parameter or result",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -52,15 +52,15 @@ error "bad mod id substitution" {
     "${file name}: ${line number}: substituted mutable identifier '${identifier name}' is not a parameter",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -69,15 +69,15 @@ error "mod id in assign" {
     "${file name}: ${line number}: substituted mutable identifier '${identifier name}' in assignment operator definition",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -86,15 +86,15 @@ error "bad ref id substitution" {
     "${file name}: ${line number}: substituted reference identifier '${identifier name}' is not a parameter",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -103,15 +103,15 @@ error "ref id in param op" {
     "${file name}: ${line number}: substituted address of identifier '${identifier name}' in parameter assignment operator definition",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -120,15 +120,15 @@ error "bad label substitution" {
     "${file name}: ${line number}: substituted label '${identifier name}' in unparameterised block",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };
@@ -137,11 +137,11 @@ error "bad exception substitution" {
     "${file name}: ${line number}: substituted exception call in unsuitable code block",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -150,11 +150,11 @@ error "bad advance substitution" {
     "${file name}: ${line number}: substituted lexer advance call in unsuitable code block",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -163,11 +163,11 @@ error "bad terminal substitution" {
     "${file name}: ${line number}: substituted current terminal call in unsuitable code block",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -176,19 +176,19 @@ error "code undefined result" ("code" : "GenericP") {
     "${file name}: ${line number}: code result '${identifier name}' is not defined",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = c_code_file ((CCodeP) code);
+	    closure.file_name = c_code_file((CCodeP)code);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = c_code_line ((CCodeP) code);
+	    closure.line_number = c_code_line((CCodeP)code);
 	]$
     }, {
 	"identifier name" : "EntryP" $[
-	    write_key (ostream, entry_key (closure->identifier_name));
+	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
 };

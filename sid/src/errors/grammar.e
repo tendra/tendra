@@ -36,7 +36,7 @@ error "rule not used" {
     "rule '${rule name}' is never used",
     {
 	"rule name" : "KeyP" $[
-	    write_key (ostream, closure->rule_name);
+	    write_key(ostream, closure->rule_name);
 	]$
     }
 };
@@ -45,7 +45,7 @@ error "basic not used" {
     "basic '${basic name}' is never used",
     {
 	"basic name" : "KeyP" $[
-	    write_key (ostream, closure->basic_name);
+	    write_key(ostream, closure->basic_name);
 	]$
     }
 };
@@ -54,7 +54,7 @@ error "action not used" {
     "action '${action name}' is never used",
     {
 	"action name" : "KeyP" $[
-	    write_key (ostream, closure->action_name);
+	    write_key(ostream, closure->action_name);
 	]$
     }
 };
@@ -63,7 +63,7 @@ error "type not used" {
     "type '${type name}' is never used",
     {
 	"type name" : "KeyP" $[
-	    write_key (ostream, closure->type_name);
+	    write_key(ostream, closure->type_name);
 	]$
     }
 };
@@ -72,7 +72,7 @@ error "non local not used" {
     "non local name '${non local name name}' is never used",
     {
 	"non local name name" : "KeyP" $[
-	    write_key (ostream, closure->non_local_name_name);
+	    write_key(ostream, closure->non_local_name_name);
 	]$
     }
 };
@@ -81,7 +81,7 @@ error "rule not defined" {
     "rule '${rule name}' is never defined",
     {
 	"rule name" : "KeyP" $[
-	    write_key (ostream, closure->rule_name);
+	    write_key(ostream, closure->rule_name);
 	]$
     }
 };

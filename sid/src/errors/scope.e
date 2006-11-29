@@ -36,31 +36,31 @@ error "shadows non local" {
     "${file name}: ${line number}: the name '${name name}' shadows the non local name '${non local name name}' in rule '${rule name}'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = lexer_stream_name (sid_current_stream);
+	    closure.file_name = lexer_stream_name(sid_current_stream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = lexer_stream_line (sid_current_stream);
+	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
 	"name name" : "KeyP" $[
-	    write_key (ostream, closure->name_name);
+	    write_key(ostream, closure->name_name);
 	]$
     }, {
 	"non local name name" : "KeyP" $[
-	    write_key (ostream, closure->non_local_name_name);
+	    write_key(ostream, closure->non_local_name_name);
 	]$
     }, {
 	"production" : "RuleP" $[
-	    write_rule (ostream, closure->production);
+	    write_rule(ostream, closure->production);
 	]$
     }, {
 	"rule name" : "RuleP" $[
-	    write_key (ostream, entry_key (rule_entry (closure->production)));
+	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }
 };
@@ -69,27 +69,27 @@ error "shadows global" {
     "${file name}: ${line number}: the name '${name name}' shadows a global name in rule '${rule name}'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = lexer_stream_name (sid_current_stream);
+	    closure.file_name = lexer_stream_name(sid_current_stream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = lexer_stream_line (sid_current_stream);
+	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
 	"name name" : "KeyP" $[
-	    write_key (ostream, closure->name_name);
+	    write_key(ostream, closure->name_name);
 	]$
     }, {
 	"production" : "RuleP" $[
-	    write_rule (ostream, closure->production);
+	    write_rule(ostream, closure->production);
 	]$
     }, {
 	"rule name" : "RuleP" $[
-	    write_key (ostream, entry_key (rule_entry (closure->production)));
+	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }
 };

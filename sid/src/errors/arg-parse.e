@@ -36,11 +36,11 @@ fatal "arg parse unknown option" {
 ${usage}",
     {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -50,15 +50,15 @@ fatal "arg parse unknown short opt" {
 ${usage}",
     {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"option location" : "CStringP" $[
-	    write_cstring (ostream, closure->option_location);
+	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -68,11 +68,11 @@ fatal "arg parse ambiguous option" {
 ${usage}",
     {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -82,11 +82,11 @@ fatal "arg parse missing argument" {
 ${usage}",
     {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -96,15 +96,15 @@ fatal "arg parse missing short arg" {
 ${usage}",
     {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"option location" : "CStringP" $[
-	    write_cstring (ostream, closure->option_location);
+	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };

@@ -37,9 +37,9 @@ error "left recursion type mismatch" {
 	"productions" : "RuleP" $[
 	    RuleP rule = closure->productions;
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		write_newline (ostream);
-		write_rule (ostream, rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		write_newline(ostream);
+		write_rule(ostream, rule);
 	    }
 	]$
     }, {
@@ -47,15 +47,15 @@ error "left recursion type mismatch" {
 	    RuleP    rule = closure->productions;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";
@@ -72,9 +72,9 @@ error "left rec handler mismatch" {
 	"productions" : "RuleP" $[
 	    RuleP rule = closure->productions;
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		write_newline (ostream);
-		write_rule (ostream, rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		write_newline(ostream);
+		write_rule(ostream, rule);
 	    }
 	]$
     }, {
@@ -82,15 +82,15 @@ error "left rec handler mismatch" {
 	    RuleP    rule = closure->productions;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";
@@ -107,9 +107,9 @@ error "left recursion name mismatch" {
 	"productions" : "RuleP" $[
 	    RuleP rule = closure->productions;
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		write_newline (ostream);
-		write_rule (ostream, rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		write_newline(ostream);
+		write_rule(ostream, rule);
 	    }
 	]$
     }, {
@@ -117,15 +117,15 @@ error "left recursion name mismatch" {
 	    RuleP    rule = closure->productions;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";
@@ -140,31 +140,31 @@ error "out of scope non local" {
     "a non local name in the rule '${using rule name}' is not in scope in the rule '${out of scope rule name}' in the left recursive cycle involving the following productions:\n${productions}",
     {
 	"using production" : "RuleP" $[
-	    write_rule (ostream, closure->using_production);
+	    write_rule(ostream, closure->using_production);
 	]$
     }, {
 	"using rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->using_production);
+	    EntryP entry = rule_entry(closure->using_production);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
 	"out of scope production" : "RuleP" $[
-	    write_rule (ostream, closure->out_of_scope_production);
+	    write_rule(ostream, closure->out_of_scope_production);
 	]$
     }, {
 	"out of scope rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->out_of_scope_production);
+	    EntryP entry = rule_entry(closure->out_of_scope_production);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
 	"productions" : "RuleP" $[
 	    RuleP rule = closure->productions;
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		write_newline (ostream);
-		write_rule (ostream, rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		write_newline(ostream);
+		write_rule(ostream, rule);
 	    }
 	]$
     }, {
@@ -172,15 +172,15 @@ error "out of scope non local" {
 	    RuleP    rule = closure->productions;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";
@@ -195,21 +195,21 @@ error "left recursion nl entry" {
     "the rule '${rule name}' declares non local names in the left recursive cycle with more than one entry point involving the following productions:\n${productions}",
     {
 	"production" : "RuleP" $[
-	    write_rule (ostream, closure->production);
+	    write_rule(ostream, closure->production);
 	]$
     }, {
 	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->production);
+	    EntryP entry = rule_entry(closure->production);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
 	"productions" : "RuleP" $[
 	    RuleP rule = closure->productions;
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		write_newline (ostream);
-		write_rule (ostream, rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		write_newline(ostream);
+		write_rule(ostream, rule);
 	    }
 	]$
     }, {
@@ -217,15 +217,15 @@ error "left recursion nl entry" {
 	    RuleP    rule = closure->productions;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";
@@ -243,15 +243,15 @@ error "cycle no terminator" {
 	    RuleP    rule = closure->rule_names;
 	    CStringP sep  = "";
 
-	    for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs (rule);
+	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
+		RuleP next = rule_get_next_in_reverse_dfs(rule);
 
-		write_cstring (ostream, sep);
-		write_char (ostream, '\'');
-		write_key (ostream, entry_key (rule_entry (rule)));
-		write_char (ostream, '\'');
-		if (next != NIL (RuleP)) {
-		    if (rule_get_next_in_reverse_dfs (next)) {
+		write_cstring(ostream, sep);
+		write_char(ostream, '\'');
+		write_key(ostream, entry_key(rule_entry(rule)));
+		write_char(ostream, '\'');
+		if (next != NIL(RuleP)) {
+		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
 			sep = " & ";

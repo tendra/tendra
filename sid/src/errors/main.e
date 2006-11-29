@@ -35,7 +35,7 @@ fatal "bad tab width" {
     "bad tab width '${tab width}'",
     {
 	"tab width" : "CStringP" $[
-	    write_cstring (ostream, closure->tab_width);
+	    write_cstring(ostream, closure->tab_width);
 	]$
     }
 };
@@ -44,7 +44,7 @@ fatal "bad factor limit" {
     "bad factor limit '${factor limit}'",
     {
 	"factor limit" : "CStringP" $[
-	    write_cstring (ostream, closure->factor_limit);
+	    write_cstring(ostream, closure->factor_limit);
 	]$
     }
 };
@@ -53,16 +53,16 @@ fatal "bad inlining phase" {
     "bad inlining phase '${phase}'",
     {
 	"phase" : "CStringP" $[
-	    write_cstring (ostream, closure->phase);
+	    write_cstring(ostream, closure->phase);
 	]$
     }
 };
 
 fatal "bad language" {
-    "unknown language '${language name}' (should be 'ansi-c', 'pre-ansi-c', 'ossg-c' or 'test')",
+    "unknown language '${language name}' (should be 'ansi-c', 'pre-ansi-c' or 'test')",
     {
 	"language name" : "CStringP" $[
-	    write_cstring (ostream, closure->language_name);
+	    write_cstring(ostream, closure->language_name);
 	]$
     }
 };
@@ -71,11 +71,11 @@ fatal "bad language option" {
     "language '${language name}' doesn't understand option '${option}'",
     {
 	"language name" : "CStringP" $[
-	    write_cstring (ostream, closure->language_name);
+	    write_cstring(ostream, closure->language_name);
 	]$
     }, {
 	"option" : "CStringP" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }
 };
@@ -84,7 +84,7 @@ fatal "bad split size" {
     "bad split size '${split size}'",
     {
 	"split size" : "CStringP" $[
-	    write_cstring (ostream, closure->split_size);
+	    write_cstring(ostream, closure->split_size);
 	]$
     }
 };
@@ -93,19 +93,19 @@ fatal "usage" {
     "language '${language name}' requires ${number input files} input files and ${number output files} output files\n${usage}",
     {
 	"language name" : "CStringP" $[
-	    write_cstring (ostream, closure->language_name);
+	    write_cstring(ostream, closure->language_name);
 	]$
     }, {
 	"number input files" : "unsigned" $[
-	    write_unsigned (ostream, closure->number_input_files);
+	    write_unsigned(ostream, closure->number_input_files);
 	]$
     }, {
 	"number output files" : "unsigned" $[
-	    write_unsigned (ostream, closure->number_output_files);
+	    write_unsigned(ostream, closure->number_output_files);
 	]$
     }, {
 	"usage" : "ArgUsageP" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -114,11 +114,11 @@ fatal "cannot open dump file" {
     "cannot open dump file '${file name}': ${system error}",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"system error" : "int" $[
-	    write_system_error (ostream);
+	    write_system_error(ostream);
 	]$ $[
 	]$
     }
@@ -132,11 +132,11 @@ fatal "cannot open output file" {
     "cannot open output file '${file name}': ${system error}",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"system error" : "int" $[
-	    write_system_error (ostream);
+	    write_system_error(ostream);
 	]$ $[
 	]$
     }
@@ -146,11 +146,11 @@ fatal "cannot open input file" {
     "cannot open input file '${file name}': ${system error}",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"system error" : "int" $[
-	    write_system_error (ostream);
+	    write_system_error(ostream);
 	]$ $[
 	]$
     }
@@ -164,11 +164,11 @@ fatal "read error" {
     "error reading from file '${file name}': ${system error}",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"system error" : "int" $[
-	    write_system_error (ostream);
+	    write_system_error(ostream);
 	]$ $[
 	]$
     }
@@ -178,11 +178,11 @@ fatal "write error" {
     "error writing to file '${file name}': ${system error}",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"system error" : "int" $[
-	    write_system_error (ostream);
+	    write_system_error(ostream);
 	]$ $[
 	]$
     }

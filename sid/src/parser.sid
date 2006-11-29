@@ -533,6 +533,11 @@ sid-parse-grammar [
 		id = identifier;
 		<add-ref-name> (&id);
 		<x-identity>;
+		{
+			terminator;
+		  ##
+			<expected-terminator>;
+		};
 	      ##
 		<expected-identifier>;
 		<skip-to-end-of-item>;

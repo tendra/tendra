@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -46,10 +76,10 @@
  * be provided:
  *
  *	void				E_dalloc_multi_deallocate
- *			PROTO_S ((GenericP, CStringP, unsigned, CStringP,
- *				  unsigned));
+ *			(GenericP, CStringP, unsigned, CStringP,
+ *				  unsigned);
  *	void				E_dalloc_corrupt_block
- *			PROTO_S ((GenericP, CStringP, unsigned));
+ *			(GenericP, CStringP, unsigned);
  *
  * The first function will be called if a block is deallocated more than once.
  * It takes the block's address, and the file and line number of the
@@ -119,19 +149,15 @@ extern ExceptionP		XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-extern void			E_dalloc_multi_deallocate
-	PROTO_S ((GenericP, CStringP, unsigned, CStringP, unsigned));
-extern void			E_dalloc_corrupt_block
-	PROTO_S ((GenericP, CStringP, unsigned));
-extern GenericP			X__dalloc_allocate
-	PROTO_S ((SizeT, SizeT, CStringP, unsigned));
-extern void			X__dalloc_deallocate
-	PROTO_S ((GenericP, CStringP, unsigned));
+extern void	E_dalloc_multi_deallocate(GenericP, CStringP, unsigned,
+					  CStringP, unsigned);
+extern void	E_dalloc_corrupt_block(GenericP, CStringP, unsigned);
+extern GenericP	X__dalloc_allocate(SizeT, SizeT, CStringP, unsigned);
+extern void	X__dalloc_deallocate(GenericP, CStringP, unsigned);
 
 #else
 
-extern GenericP			X__dalloc_allocate
-	PROTO_S ((SizeT, SizeT));
+extern GenericP	X__dalloc_allocate(SizeT, SizeT);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 
@@ -139,27 +165,27 @@ extern GenericP			X__dalloc_allocate
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-#define ALLOCATE(type) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) 1, __FILE__, \
-			      (unsigned) __LINE__))
+#define ALLOCATE(type)\
+((type *)X__dalloc_allocate(sizeof(type), (SizeT)1, __FILE__, \
+			     (unsigned)__LINE__))
 
-#define ALLOCATE_VECTOR(type,length) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) (length), __FILE__, \
-			      (unsigned) __LINE__))
+#define ALLOCATE_VECTOR(type,length)\
+((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length), __FILE__, \
+			     (unsigned)__LINE__))
 
-#define DEALLOCATE(pointer) \
-X__dalloc_deallocate ((GenericP) (pointer), __FILE__, (unsigned) __LINE__)
+#define DEALLOCATE(pointer)\
+X__dalloc_deallocate((GenericP)(pointer), __FILE__, (unsigned)__LINE__)
 
 #else
 
-#define ALLOCATE(type) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) 1))
+#define ALLOCATE(type)\
+((type *)X__dalloc_allocate(sizeof(type), (SizeT)1))
 
-#define ALLOCATE_VECTOR(type,length) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) (length)))
+#define ALLOCATE_VECTOR(type,length)\
+((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length)))
 
-#define DEALLOCATE(pointer) \
-if (pointer) {free ((GenericP) (pointer));}
+#define DEALLOCATE(pointer)\
+if (pointer) {free((GenericP)(pointer));}
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

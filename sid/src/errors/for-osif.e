@@ -35,15 +35,15 @@ internal "exception unhandled" {
     "unhandled exception '${except name}' thrown from line ${line number}, file '${file name}'",
     {
 	"except name" : "ExceptionP" $[
-	    write_cstring (ostream, exception_name (closure->except_name));
+	    write_cstring(ostream, exception_name(closure->except_name));
 	]$
     }, {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -52,11 +52,11 @@ internal "exception corrupt handler" {
     "corrupt exception handler installed at line ${line number}, file '${file name}'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -65,15 +65,15 @@ internal "assertion failed" {
     "assertion '${assertion}' failed at line ${line number}, file '${file name}'",
     {
 	"assertion" : "CStringP" $[
-	    write_cstring (ostream, closure->assertion);
+	    write_cstring(ostream, closure->assertion);
 	]$
     }, {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };
@@ -82,23 +82,23 @@ internal "dalloc multi deallocate" {
     "memory block ${block address} allocated at line ${allocation line number} in '${allocation file name}' is deallocated more than once (second deallocation at line ${line number} in file '${file name}'",
     {
 	"block address" : "GenericP" $[
-	    write_pointer (ostream, closure->block_address);
+	    write_pointer(ostream, closure->block_address);
 	]$
     }, {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
 	"allocation file name" : "CStringP" $[
-	    write_cstring (ostream, closure->allocation_file_name);
+	    write_cstring(ostream, closure->allocation_file_name);
 	]$
     }, {
 	"allocation line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->allocation_line_number);
+	    write_unsigned(ostream, closure->allocation_line_number);
 	]$
     }
 };
@@ -107,15 +107,15 @@ internal "dalloc corrupt block" {
     "memory block ${block address} is corrupt at deallocation (deallocation at line ${line number} in file '${file name}'",
     {
 	"block address" : "GenericP" $[
-	    write_pointer (ostream, closure->block_address);
+	    write_pointer(ostream, closure->block_address);
 	]$
     }, {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$
     }
 };

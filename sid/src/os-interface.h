@@ -197,7 +197,7 @@
  * This file also requires that one external function be provided:
  *
  *	void				E_assertion_failed
- *			PROTO_S ((CStringP, CStringP, unsigned))
+ *			(CStringP, CStringP, unsigned)
  *
  * This function will be called if an assertion fails.  It will be called with
  * the text of the assertion, the name of the file in which the assertion was
@@ -208,35 +208,35 @@
  * The following ANSI C functions are declared:
  *
  *	NoReturnT			abort
- *			PROTO_S ((void))
+ *			(void)
  *	GenericP			calloc
- *			PROTO_S ((SizeT length, SizeT size))
+ *			(SizeT length, SizeT size)
  *	GenericP			malloc
- *			PROTO_S ((SizeT size))
+ *			((SizeT size)
  *	NoReturnT			exit
- *			PROTO_S ((int exit_code))
+ *			(int exit_code)
  *	void				free
- *			PROTO_S ((GenericP pointer))
+ *			(GenericP pointer)
  *	CStringP			getenv
- *			PROTO_S ((CStringP name))
+ *			(CStringP name)
  *	int				memcmp
- *			PROTO_S ((GenericP ptr1, GenericP ptr2, SizeT length))
+ *			(GenericP ptr1, GenericP ptr2, SizeT length)
  *	GenericP			memcpy
- *			PROTO_S ((GenericP to, GenericP from, SizeT length))
+ *			(GenericP to, GenericP from, SizeT length)
  *	GenericP			memset
- *			PROTO_S ((GenericP ptr, int val, SizeT length))
+ *			(GenericP ptr, int val, SizeT length)
  *	GenericP			memchr
- *			PROTO_S ((GenericP ptr, int val, SizeT length))
+ *			(GenericP ptr, int val, SizeT length)
  *	SizeT				strlen
- *			PROTO_S ((CStringP string))
+ *			(CStringP string)
  *	int				strcmp
- *			PROTO_S ((CStringP string1, CStringP string2))
+ *			(CStringP string1, CStringP string2)
  *	CStringP			strcpy
- *			PROTO_S ((CStringP to, CStringP from))
+ *			(CStringP to, CStringP from)
  *	CStringP			strchr
- *			PROTO_S ((CStringP string, int c))
+ *			(CStringP string, int c)
  *	CStringP			strrchr
- *			PROTO_S ((CStringP string, int c))
+ *			(CStringP string, int c)
  *
  * Also everything in <setjmp.h> and <stdio.h> is included (hopefully this is
  * sufficiently common to be used even on non-ANSI platforms).  Where features
@@ -245,7 +245,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	int			mkdir
- *			PROTO_S ((CStringP path, int mode))
+ *			(CStringP path, int mode)
  ** Exceptions:
  *
  * This function is only declared if the ``FS_MKDIR'' macro is defined.  This
@@ -253,7 +253,7 @@
  * the POSIX directory creation function.
  *
  ** Function:	CStringP		strerror
- *			PROTO_S ((int error))
+ *			(int error)
  ** Exceptions:
  *
  * This function is only declared if the ``FS_STRERROR'' macro is defined.
@@ -403,48 +403,6 @@
  * This is the null pointer macro.  The argument is the type for which a null
  * pointer is required.
  *
- ** Macro:	PROTO_S (prototype)
- ** Exceptions:
- *
- * If prototypes are supported, this expands to the prototyped function
- * argument declaration provided.  If they are not supported, it expands to an
- * empty argument list.  It is necessary to use two sets of parentheses, as
- * the prototype may contain commas.  This macro should be used to declare all
- * functions within the program (see the function declarations later on in the
- * file for some examples of its use).
- *
- ** Macro:	PROTO_N (names)
- ** Macro:	PROTO_T (types)
- ** Macro:	X
- ** Macro:	PROTO_Z ()
- ** Exceptions:
- *
- * The "PROTO_N" and "PROTO_T" macros should be used for argument
- * specifications when defining functions.  If prototypes are supported, these
- * macros expand to a prototyped argument specification; if they are not
- * supported, the macros expand to an unprototyped argument specification.
- * The "PROTO_N" macro takes a comma separated list of argument names (in a
- * similar manner to the "PROTO_S" macro).  The "PROTO_T" macro takes a list
- * of declarations for those names, separated by an "X" macro.  If the
- * function takes no parameters, then the "PROTO_Z" macro should be used
- * instead.  An example of the definition of the ``main'' function in a
- * program is:
- *
- *	int
- *	main PROTO_N ((argc, argv))
- *	     PROTO_T (int argc X char **argv)
- *	{
- *	}
- *
- * An example of the definition of a function with no parameters is:
- *
- *	void
- *	no_args_proc PROTO_Z ()
- *	{
- *	}
- * 
- * Other functions should be defined in a similar manner.
- *
  ** Macro:	UNION
  ** Exceptions:
  *
@@ -585,33 +543,6 @@
 #  undef FS_STDC_HASH
 # endif /* defined (FS_NO_STDC_HASH) */
 
-# ifdef FS_NO_PROTOTYPES
-#  undef FS_PROTOTYPES
-# endif /* defined (FS_NO_PROTOTYPES) */
-# ifdef FS_PROTOTYPES
-#  define PROTO_S(ansi) ansi
-#  define PROTO_N(names)
-#  define PROTO_T(types) (types)
-#  define PROTO_X ,
-#  define PROTO_Z() (void)
-# else
-#  ifdef __TenDRA__
-#   pragma TenDRA weak prototype analysis on
-#   pragma TenDRA keyword KW_WEAK for weak
-#   define PROTO_S(ansi) KW_WEAK ansi
-#   define PROTO_N(names) names
-#   define PROTO_T(types) types;
-#   define PROTO_X ;
-#   define PROTO_Z() ()
-#  else
-#   define PROTO_S(ansi) ()
-#   define PROTO_N(names) names
-#   define PROTO_T(types) types;
-#   define PROTO_X ;
-#   define PROTO_Z() ()
-#  endif /* defined (__TenDRA__) */
-# endif /* defined (FS_PROTOTYPES) */
-
 # ifdef FS_NO_VOID_PTR
 #  undef FS_VOID_PTR
 # endif /* defined (FS_NO_VOID_PTR) */
@@ -679,7 +610,7 @@ typedef char *GenericP;
 # endif /* defined (FS_NO_MKDIR) */
 
 # ifdef __GNUC__
-typedef __volatile__ void NoReturnT;
+typedef void NoReturnT;
 # else
 #  ifdef __TenDRA__
 #   pragma TenDRA type NoReturnT for bottom
@@ -722,13 +653,11 @@ typedef enum {
 # endif /* defined (__GNUC__) */
 
 # ifdef FS_MKDIR
-extern int			mkdir
-	PROTO_S ((CStringP, int));
+extern int	mkdir(CStringP, int);
 # endif /* defined (FS_MKDIR) */
 
 # ifdef FS_ASSERT
-extern void			E_assertion_failed
-	PROTO_S ((CStringP, CStringP, unsigned));
+extern void	E_assertion_failed(CStringP, CStringP, unsigned);
 #  ifdef FS_STDC_HASH
 #   define ASSERT(a) \
 if (!(a)) { \
@@ -773,54 +702,37 @@ typedef PO_SIZE_T_TYPE SizeT, *SizeP;
 typedef unsigned SizeT, *SizeP;
 #  endif /* defined (PO_SIZE_T_TYPE) */
 
-extern NoReturnT		abort
-	PROTO_S ((void));
-extern GenericP			calloc
-	PROTO_S ((SizeT, SizeT));
-extern GenericP			malloc
-	PROTO_S ((SizeT));
-extern NoReturnT		exit
-	PROTO_S ((int));
-extern void			free
-	PROTO_S ((GenericP));
-extern CStringP			getenv
-	PROTO_S ((CStringP));
+extern NoReturnT	abort(void);
+extern GenericP		calloc(SizeT, SizeT);
+extern GenericP		malloc(SizeT);
+extern NoReturnT	exit(int);
+extern void		free(GenericP);
+extern CStringP		getenv(CStringP);
 #  ifndef __GNUC__
-extern int			memcmp
-	PROTO_S ((GenericP, GenericP, SizeT));
+extern int		memcmp(GenericP, GenericP, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern GenericP			memcpy
-	PROTO_S ((GenericP, GenericP, SizeT));
+extern GenericP		memcpy(GenericP, GenericP, SizeT);
 #  endif /* defined (__GNUC__) */
-extern GenericP			memset
-	PROTO_S ((GenericP, int, SizeT));
-extern GenericP			memchr
-	PROTO_S ((GenericP, int, SizeT));
+extern GenericP		memset(GenericP, int, SizeT);
+extern GenericP		memchr(GenericP, int, SizeT);
 #  ifndef __GNUC__
-extern SizeT			strlen
-	PROTO_S ((CStringP));
+extern SizeT		strlen(CStringP);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int			strcmp
-	PROTO_S ((CStringP, CStringP));
+extern int		strcmp(CStringP, CStringP);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int			strncmp
-	PROTO_S ((CStringP, CStringP, SizeT));
+extern int		strncmp(CStringP, CStringP, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern CStringP			strcpy
-	PROTO_S ((CStringP, CStringP));
+extern CStringP		strcpy(CStringP, CStringP);
 #  endif /* defined (__GNUC__) */
-extern CStringP			strchr
-	PROTO_S ((CStringP, int));
-extern CStringP			strrchr
-	PROTO_S ((CStringP, int));
-extern int			errno;
+extern CStringP		strchr(CStringP, int);
+extern CStringP		strrchr(CStringP, int);
+extern int		errno;
 #  ifdef FS_STRERROR
-extern CStringP			strerror
-	PROTO_S ((int));
+extern CStringP		strerror(int);
 #  endif /* defined (FS_STRERROR) */
 
 #  include <setjmp.h>
@@ -885,13 +797,8 @@ extern CStringP			strerror
 # endif /* !defined (SEEK_END) */
 
 # ifdef FS_SYS_ERRLIST
-extern int			sys_nerr;
-extern CStringP			sys_errlist [];
+extern int		sys_nerr;
+extern CStringP		sys_errlist[];
 # endif /* defined (FS_SYS_ERRLIST) */
-
-# ifdef X
-# undef X
-# endif
-# define X PROTO_X
 
 #endif /* !defined (H_OS_INTERFACE) */

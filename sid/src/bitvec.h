@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -51,7 +81,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			bitvec_set_size
- *			PROTO_S ((unsigned size))
+ *			(unsigned size)
  ** Exceptions:
  *
  * This function should be called once, before any bit vectors are
@@ -60,14 +90,14 @@
  * specified.
  *
  ** Function:	void			bitvec_init
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified bit vector.  Initially, all bits
  * are zero.
  *
  ** Function:	void			bitvec_copy
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the to bit vector from the from bit vector.  It
@@ -75,34 +105,34 @@
  * `bitvec_init' function previously.
  *
  ** Function:	void			bitvec_replace
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:
  *
  * This function copies the from bit vector into the to bit vector.  The to
  * bit vector must have been initialised previously.
  *
  ** Function:	void			bitvec_empty
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function sets all of the bits in the specified bit vector to zero.
  *
  ** Function:	BoolT			bitvec_is_empty
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are zero, and false otherwise.
  *
  ** Function:	BoolT			bitvec_is_full
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are set, and false otherwise.
  *
  ** Function:	void			bitvec_set
- *			PROTO_S ((BitVecP bitvec, unsigned bit))
+ *			(BitVecP bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function sets the specified bit in the specified bit vector to one.
@@ -110,7 +140,7 @@
  * of this function is undefined.
  *
  ** Function:	BoolT			bitvec_is_set
- *			PROTO_S ((BitVecP bitvec, unsigned bit))
+ *			(BitVecP bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function returns true if the specified bit in the specified bit vector
@@ -118,55 +148,55 @@
  * bit is out of range, the effect of this function is undefined.
  *
  ** Function:	void			bitvec_or
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:
  *
  * This function performs an in-place bitwise or of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_and
- *			PROTO_S ((BitVecP to, BitVecPfrom))
+ *			(BitVecP to, BitVecPfrom)
  ** Exceptions:
  *
  * This function performs an in-place bitwise and of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_not
- *			PROTO_S ((BitVecP to))
+ *			(BitVecP to)
  ** Exceptions:
  *
  * This function performs an in-place bitwise negation of the to bit vector.
  *
  ** Function:	BoolT			bitvec_equal
- *			PROTO_S ((BitVecP bitvec1, BitVecP bitvec2))
+ *			(BitVecP bitvec1, BitVecP bitvec2)
  ** Exceptions:
  *
  * This function returns true if both of the specified bit vectors are equal,
  * and false otherwise.
  *
  ** Function:	BoolT			bitvec_intersects
- *			PROTO_S ((BitVecP bitvec1, BitVecP bitvec2))
+ *			(BitVecP bitvec1, BitVecP bitvec2)
  ** Exceptions:
  *
  * This function returns true if the bitwise and of the specified bit vectors
  * contains at least one bit that is set to one, and false otherwise.
  *
  ** Function:	unsigned		bitvec_num_bits
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns the number of bits in the bit vector that are set to
  * one.
  *
  ** Function:	unsigned		bitvec_first_bit
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns the index of the first bit in the specified bit
  * vector that is set to one.
  *
  ** Function:	BoolT			bitvec_next_bit
- *			PROTO_S ((BitVecP bitvec, unsigned *next_ref))
+ *			(BitVecP bitvec, unsigned *next_ref)
  ** Exceptions:
  *
  * This function looks for the first bit set to one in the specified bit
@@ -176,14 +206,14 @@
  * found, then the function returns false.
  *
  ** Function:	void			bitvec_destroy
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function destroys the specified bit vector.  After this, it should be
  * reinitialised before it is used.
  *
  ** Function:	void			write_bitvec_indices
- *			PROTO_S ((OStreamP ostream, BitVecP bitvec))
+ *			(OStreamP ostream, BitVecP bitvec)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes out to the specified ostream the indices of all bits
@@ -220,45 +250,26 @@ typedef struct BitVecT {
 
 /*--------------------------------------------------------------------------*/
 
-extern void			bitvec_set_size
-	PROTO_S ((unsigned));
-extern void			bitvec_init
-	PROTO_S ((BitVecP));
-extern void			bitvec_copy
-	PROTO_S ((BitVecP, BitVecP));
-extern void			bitvec_replace
-	PROTO_S ((BitVecP, BitVecP));
-extern void			bitvec_empty
-	PROTO_S ((BitVecP));
-extern BoolT			bitvec_is_empty
-	PROTO_S ((BitVecP));
-extern BoolT			bitvec_is_full
-	PROTO_S ((BitVecP));
-extern void			bitvec_set
-	PROTO_S ((BitVecP, unsigned));
-extern BoolT			bitvec_is_set
-	PROTO_S ((BitVecP, unsigned));
-extern void			bitvec_or
-	PROTO_S ((BitVecP, BitVecP));
-extern void			bitvec_and
-	PROTO_S ((BitVecP, BitVecP));
-extern void			bitvec_not
-	PROTO_S ((BitVecP));
-extern BoolT			bitvec_equal
-	PROTO_S ((BitVecP, BitVecP));
-extern BoolT			bitvec_intersects
-	PROTO_S ((BitVecP, BitVecP));
-extern unsigned			bitvec_num_bits
-	PROTO_S ((BitVecP));
-extern unsigned			bitvec_first_bit
-	PROTO_S ((BitVecP));
-extern BoolT			bitvec_next_bit
-	PROTO_S ((BitVecP, unsigned *));
-extern void			bitvec_destroy
-	PROTO_S ((BitVecP));
+extern void		bitvec_set_size(unsigned);
+extern void		bitvec_init(BitVecP);
+extern void		bitvec_copy(BitVecP, BitVecP);
+extern void		bitvec_replace(BitVecP, BitVecP);
+extern void		bitvec_empty(BitVecP);
+extern BoolT		bitvec_is_empty(BitVecP);
+extern BoolT		bitvec_is_full(BitVecP);
+extern void		bitvec_set(BitVecP, unsigned);
+extern BoolT		bitvec_is_set(BitVecP, unsigned);
+extern void		bitvec_or(BitVecP, BitVecP);
+extern void		bitvec_and(BitVecP, BitVecP);
+extern void		bitvec_not(BitVecP);
+extern BoolT		bitvec_equal(BitVecP, BitVecP);
+extern BoolT		bitvec_intersects(BitVecP, BitVecP);
+extern unsigned		bitvec_num_bits(BitVecP);
+extern unsigned		bitvec_first_bit(BitVecP);
+extern BoolT		bitvec_next_bit(BitVecP, unsigned *);
+extern void		bitvec_destroy(BitVecP);
 
-extern void			write_bitvec_indices
-	PROTO_S ((OStreamP, BitVecP));
+extern void		write_bitvec_indices(OStreamP, BitVecP);
 
 #endif /* !defined (H_BITVEC) */
 

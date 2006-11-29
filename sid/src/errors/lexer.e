@@ -39,19 +39,19 @@ error "illegal character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }, {
 	"character" : "char" $[
-	    write_escaped_char (ostream, closure->character);
+	    write_escaped_char(ostream, closure->character);
 	]$
     }
 };
@@ -60,19 +60,19 @@ error "illegal comment character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }, {
 	"character" : "char" $[
-	    write_escaped_char (ostream, closure->character);
+	    write_escaped_char(ostream, closure->character);
 	]$
     }
 };
@@ -81,15 +81,15 @@ error "eof in comment" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in comment",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };
@@ -98,19 +98,19 @@ fatal "unknown builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }, {
 	"builtin" : "CStringP" $[
-	    write_cstring (ostream, closure->builtin);
+	    write_cstring(ostream, closure->builtin);
 	]$
     }
 };
@@ -119,15 +119,15 @@ error "null character in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: null character in builtin",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };
@@ -136,15 +136,15 @@ error "eof in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in builtin",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };
@@ -153,15 +153,15 @@ error "newline in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: newline in builtin",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };
@@ -170,15 +170,15 @@ error "expected hash" ("istream" : "IStreamP") {
     "${file name}: ${line number}: second character missing from '##' operator",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };
@@ -187,15 +187,15 @@ error "expected pipe" ("istream" : "IStreamP") {
     "${file name}: ${line number}: second character missing from '||' operator",
     {
 	"file name" : "CStringP" $[
-	    write_cstring (ostream, closure->file_name);
+	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = istream_name (istream);
+	    closure.file_name = istream_name(istream);
 	]$
     }, {
 	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
+	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = istream_line (istream);
+	    closure.line_number = istream_line(istream);
 	]$
     }
 };

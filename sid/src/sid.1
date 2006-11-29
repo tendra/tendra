@@ -191,14 +191,12 @@ with the option:
 \fB\-l\fR \fILANGUAGE\fR
 .IP
 This option specifies the output language.  Currently this should be
-either "ansi\-c", "pre\-ansi\-c", "ossg\-c", or "test".  The default is
+either "ansi\-c", "pre\-ansi\-c", or "test".  The default is
 "ansi\-c".
 .IP
 The "ansi\-c" and "pre\-ansi\-c" languages are basically the same.  The
 only difference is that "ansi\-c" initially uses function prototypes,
-and "pre\-ansi\-c" doesn't.  The "ossg\-c" language uses macros to
-declare and define functions which may be defined to give either
-prototypes or non-prototypes.  Each language takes two input files, a
+and "pre\-ansi\-c" doesn't.  Each language takes two input files, a
 grammar file and an actions file, and produces two output files, a C
 source file containing the generated parser and a C header file containing
 the external declarations for the parser.  The C language specific options
@@ -206,13 +204,10 @@ are:
 .RS
 prototypes
 proto
-ossg\-prototypes
-ossg\-proto
 no\-prototypes
 no\-proto
 .RS
-These enable or disable the use of function prototypes or the OSSG
-prototype macros.
+These enable or disable the use of function prototypes.
 .RE
 split
 split=\fINUMBER\fR

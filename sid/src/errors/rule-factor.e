@@ -31,7 +31,7 @@ fatal "too many factorisations" {
     "too many productions (${number productions}) created during factorisation",
     {
 	"number productions" : "unsigned" $[
-	    write_unsigned (ostream, closure->number_productions);
+	    write_unsigned(ostream, closure->number_productions);
 	]$
     }
 };
@@ -40,23 +40,23 @@ error "factor handler mismatch" {
     "the rule '${inner rule name}' cannot be expanded into '${outer rule name}' as the exception handlers don't match",
     {
 	"inner rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->inner_rule_name);
+	    EntryP entry = rule_entry(closure->inner_rule_name);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$
     }, {
 	"outer rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->outer_rule_name);
+	    EntryP entry = rule_entry(closure->outer_rule_name);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$
     }, {
 	"inner production" : "RuleP" $[
-	    write_rule (ostream, closure->inner_rule_name);
+	    write_rule(ostream, closure->inner_rule_name);
 	]$ $[]$
     }, {
 	"outer production" : "RuleP" $[
-	    write_rule (ostream, closure->outer_rule_name);
+	    write_rule(ostream, closure->outer_rule_name);
 	]$ $[]$
     }
 };
@@ -65,23 +65,23 @@ error "factor nl entry" {
     "the rule '${inner rule name}' cannot be expanded into '${outer rule name}' as it contains non local name definitions",
     {
 	"inner rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->inner_rule_name);
+	    EntryP entry = rule_entry(closure->inner_rule_name);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$
     }, {
 	"outer rule name" : "RuleP" $[
-	    EntryP entry = rule_entry (closure->outer_rule_name);
+	    EntryP entry = rule_entry(closure->outer_rule_name);
 
-	    write_key (ostream, entry_key (entry));
+	    write_key(ostream, entry_key(entry));
 	]$
     }, {
 	"inner production" : "RuleP" $[
-	    write_rule (ostream, closure->inner_rule_name);
+	    write_rule(ostream, closure->inner_rule_name);
 	]$ $[]$
     }, {
 	"outer production" : "RuleP" $[
-	    write_rule (ostream, closure->outer_rule_name);
+	    write_rule(ostream, closure->outer_rule_name);
 	]$ $[]$
     }
 };
