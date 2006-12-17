@@ -135,6 +135,7 @@ msg_sev_set(int severity, int enabled)
 	if (msp == NULL) {
 		msp = fmm_malloc(sizeof(*msp), memtype_msgcat);
 		msp->severity = severity;
+		msp->stream = NULL;
 		msp->next = msg_sev_list;
 		msg_sev_list = msp;
 	}
