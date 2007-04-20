@@ -1,0 +1,22 @@
+#!/bin/sh
+
+DIRS="\
+ installers/common/reader\
+ lib/libtdf\
+ lib/machines/common/src\
+ producers/common/utility\
+ tools/disp\
+ tools/pl\
+ tools/tcc\
+ tools/tld\
+ tools/tnc\
+ tools/tspec\
+ utilities/sid\
+"
+
+for DIR in ${DIRS}
+do
+	echo "updating ${DIR} ..."
+	cp ossg.h ../../${DIR}
+	cp release.h ../../${DIR}
+done

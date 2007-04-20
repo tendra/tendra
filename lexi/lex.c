@@ -58,11 +58,11 @@
 */
 
 
-#include "config.h"
-#include "error.h"
+#include "shared/config.h"
+#include "shared/error.h"
 #include "lex.h"
 #include "syntax.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*

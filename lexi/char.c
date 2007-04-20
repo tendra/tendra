@@ -58,11 +58,11 @@
 */
 
 
-#include "config.h"
+#include "shared/config.h"
 #include "char.h"
-#include "error.h"
-#include "tendra.h"
-#include "xalloc.h"
+#include "shared/error.h"
+#include "tendra/tendra.h"
+#include "shared/xalloc.h"
 
 
 /*

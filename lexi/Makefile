@@ -2,7 +2,7 @@
 
 # Standard directories and files
 
-SRCX=${.CURDIR}/../shared
+#SRCX=${.CURDIR}/../shared
 
 # Standard variables
 
@@ -40,4 +40,17 @@ SIDOPTS=-l ansi-c -s no-lines
 #auto_clobber :
 #	${REMOVE} ${SID_OUT} ${LEXI_OUT}
 
-.include "../Makefile.inc"
+#.include "../Makefile.inc"
+
+all: lexi
+
+# This is just until I have lexi moved out and cleaned up - kate
+lexi: char.o syntax.o lex.o main.o output.o \
+	shared/xalloc.c shared/error.c
+	$(CC) $(CFLAGS) -o lexi char.o syntax.o lex.o main.o output.o \
+		shared/error.c shared/xalloc.c
+
+clean:
+	rm -f char.o syntax.o lex.o main.o output.o \
+		lexi
+
