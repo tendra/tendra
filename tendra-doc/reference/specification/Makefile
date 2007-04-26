@@ -3,3 +3,6 @@
 DOC=	specification
 
 .include "../../share/doc.docbook.mk"
+
+STYLEDIR=../../stylesheets
+

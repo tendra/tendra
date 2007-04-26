@@ -3,3 +3,6 @@
 DOC=	register
 
 .include "../../share/doc.docbook.mk"
+
+STYLEDIR=../../stylesheets
+
