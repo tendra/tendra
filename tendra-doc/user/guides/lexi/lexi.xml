@@ -46,6 +46,11 @@ does it expect any #defines?
         program's grammar and described each command in turn, 3. begun
         integrating a manpage for invocation kevin reverse-engieered, and
         will 4. describe the algorithims and runtime it employs
+
+	  - Don't forget to explain that this was inspired by Kevin's manpage
+	  - (and indeed that we'll produce a new manpage from this guide),
+	  - although his text was completley rewritten for this guide, it
+	  - served as a helpful comparison.
 	  -->
 
 	<chapter id="introduction">
