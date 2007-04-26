@@ -18,5 +18,4 @@ for DIR in ${DIRS}
 do
 	echo "updating ${DIR} ..."
 	cp ossg.h ../../${DIR}
-	cp release.h ../../${DIR}
 done

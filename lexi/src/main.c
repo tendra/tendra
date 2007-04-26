@@ -113,8 +113,7 @@ main(int argc, char **argv)
 		case 'v': {
 		    if (arg [2])break;
 		    report_version();
-		    known = 1;
-		    break;
+		    return 0;
 		}
 		case 'h': {
 		    if (arg [2])break;

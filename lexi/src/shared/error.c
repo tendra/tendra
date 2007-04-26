@@ -60,7 +60,6 @@
 
 #include "config.h"
 #include "error.h"
-#include "../release/release.h"
 
 
 /*
@@ -74,17 +73,6 @@
 #include <stdarg.h>
 #else
 #include <varargs.h>
-#endif
-
-
-/*
-    RELEASE VERSION
-
-    This macro gives the release version, if known.
-*/
-
-#ifndef RELEASE
-#define RELEASE		"unknown"
 #endif
 
 
@@ -130,12 +118,11 @@ set_progname(CONST char *nm, CONST char *vers)
 void
 report_version(void)
 {
-    CONST char *r = RELEASE;
     CONST char *nm = progname;
     CONST char *vers = progvers;
     if (nm == NULL) nm = "unknown";
     if (vers == NULL) vers = "1.0";
-    fprintf_v(stderr, "%s: Version %s (Release %s)\n", nm, vers, r);
+    fprintf_v(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
     return;
 }
 
