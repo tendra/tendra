@@ -699,6 +699,7 @@ SRCS=   foo.c
     </programlisting>
   </sect1>
   
+	<!-- TODO this could be better done by an XSLT customisation layer -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-    href="../common/colophon.xml"/>
+    href="../../../common/colophon.xml"/>
 </article>
