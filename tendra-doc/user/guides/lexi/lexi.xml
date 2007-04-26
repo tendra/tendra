@@ -1,0 +1,1146 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<book>
+  <bookinfo>
+    <title>The lexi users' guide</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+
+	<author>
+		<firstname>Kate</firstname>
+		<surname>Flavel</surname>
+	</author>
+	<authorinitials>KF</authorinitials>
+	<pubdate>2007</pubdate>
+
+	<copyright>
+		<year>2007</year>
+
+		<holder>The TenDRA Project</holder>
+	</copyright>
+  </bookinfo>
+
+<!-- TODO
+where does lexi read input characters from?
+does it expect any #defines?
+-->
+<!-- TODO when writing manpage, we can take the oppertunity to declare as BUGS
+(or indeed as undefined) features which no .lxi file uses.
+-->
+
+	<!--
+	   - Any origional documentation lexi once had is lost. This guide has
+	   - been written by reading the source code, and figuring out what is
+	   - valid. It is difficult to distinguish between obscure features and
+	   - undefined beaviour. We are taking the oppertunity here to explicitly
+	   - state which features are undefined behaviour and which are
+	   - intentional. We try to maintain backwards compatibility.
+
+        i've 1. designed the structure of my document, 2. read the
+        program's grammar and described each command in turn, 3. begun
+        integrating a manpage for invocation kevin reverse-engieered, and
+        will 4. describe the algorithims and runtime it employs
+	  -->
+
+	<chapter id="introduction">
+		<title>Introduction</title>
+
+		<para>This document describes how to use the <code>lexi</code>
+			lexer generator. It was written for <code>lexi</code> version
+			1.3.<!-- TODO probably 1.3 when released --></para>
+
+		<!-- TODO talk a little about this version: what it's for,
+			and why things are depreciated. essentially it's out of
+			politeness for any possible users of old code who happened
+			to use these features. Since there was no documentation,
+			who knows what is legal? -->
+
+		<!-- TODO mostly similar to the lexi in TenDRS 4.whatever,
+			save for the addition of // comments, and what else? -->
+
+		<para><!-- TODO history --></para>
+
+		<para><code>lexi</code> translates a description of a lexical
+			analyser into C code implementing that analyser.<!-- TODO
+			briefly what lexi does, and its aims --></para>
+
+		<!-- TODO token stream diagram -->
+	</chapter>
+
+	<chapter id="lexing">
+		<title>Lexical Analysis</title>
+
+		<section>
+			<title>Overview</title>
+
+			<para><!-- TODO what lexical analysis is --></para>
+
+			<para><!-- TODO what it's used for --></para>
+		</section>
+
+		<section>
+			<title>Concepts Lexi Expresses</title>
+
+			<!-- TODO
+			<itemizedlist>
+				<listitem>
+					<para>Keywords</para>
+
+					<para>TODO</para>
+				</listitem>
+
+				<listitem>
+					<para>Pre-parse substitutions</para>
+
+					<para>TODO</para>
+				</listitem>
+
+				<listitem>
+					<para>Whitespace</para>
+
+					<para>TODO what it is, not how its specified</para>
+				</listitem>
+
+				<listitem>
+					<para>Groups</para>
+
+					<para>TODO</para>
+				</listitem>
+
+				<listitem>
+					<para>Tokens</para>
+
+					<para>TODO</para>
+				</listitem>
+
+				<listitem>
+					<para>Conditionals</para>
+
+					<para>TODO</para>
+				</listitem>
+			</itemizedlist>
+			-->
+
+			<para>Any other facilities are provided by matching the start of
+				a token and passing control to an externally defined function,
+				This seperation provides a general mechanism to allow the user
+				to handle situations unforseen by the authors, without making
+				<code>lexi</code> itself overcomplex by attempting to provide
+				built-in mechanisms to express every corner-case (for example,
+				switching to a "comment-parsing" mode). See the <!-- TODO -->
+				functioncalls section for details.</para>
+		</section>
+
+
+		<section>
+			<title>Lexi's Implementation</title>
+
+			<para>Here we talk about how the generated lexical analysers
+				work; how they use a look-up table for speed, etc. Note that
+				they read a byte at a time: perhaps mention the ignorance of
+				unicode.<!-- TODO feature request: perhaps set unicode (or other
+				chrset mapping) to UTF-8 as a pass phase --></para>
+
+			<para><!-- TODO talk about passes --></para>
+		</section>
+	</chapter>
+
+	<chapter id="invocation">
+		<title>Invocation</title>
+
+		<para><code>lexi</code> is invoked with the form: <code>lexi [options]
+			input-file [output-file]</code>. An implementation of the lexical
+			analyser described by the <code>input-file</code> is written to the
+			<code>output-file</code>, if present, or to <code>stdout</code>
+			otherwise.</para>
+
+		<para>The output file written is <!-- TODO explain we output to C in
+			a few places .. TODO explain interface to lexer written out--></para>
+
+		<para><!-- TODO explain -k, and the format of the keyword
+			output.--></para>
+
+		<para><!-- TODO explain -l --></para>
+
+		<para>For details of the options available, see the
+			<code>lexi(1)</code> manpage.</para>
+	</chapter>
+
+	<chapter id="interface">
+		<title>Interface</title>
+
+		<para><code>lexi</code> generates and outputs C89 code
+			implementing the specified lexical analyser. This code
+			is intended to be linked as part of a larger C program
+			by the user.</para>
+
+		<para>Input to the generated lexical analyser is by way of
+			two functions (or macros, if desired) that the user is
+			expected to provide. These read a character and un-read
+			a character respectivley:</para>
+
+		<programlisting>int read_char(void);
+void unread_char(int);</programlisting>
+
+		<para>Output from the lexical analyser is by way of a function
+			provided by <code>lexi</code> that returns the next
+			token to the user's program:<!-- TODO what does kevin mean
+			when he says with the -f option? sid? --></para>
+
+		<programlisting>int read_token(void);</programlisting>
+
+		<para>This is the user's primary interface to the lexical
+			analyser.
+			Calling this will result in the lexical analyser
+			making as many calls to <code>read_char()</code>
+			and <code>unread_char()</code> as are neccessary.
+			The <code>unread_char()</code> function will be called
+			consequtivley whilst matching tokens, and so a
+			buffer the size of the longest token is the
+			maximum length required.</para>
+		<!-- TODO state size limits of things -->
+
+		<para><code>lexi</code> does not define the values of
+			terminals in the generated code; these are expected to
+			be specified by the user (most usually from a
+			parser-generator such as <code>sid</code>). For example,
+			a token defined by:</para>
+
+		<programlisting>TOKEN "--" -> $dash ;</programlisting>
+		<para>Would return the value of <code>dash</code> from
+			<code>read_token()</code> when matched. These
+			identifier names may be prefixed by passing a prefix
+			with the <code>-l</code> option (conventionally
+			<code>lex_</code>).</para>	<!-- TODO lex_ is returned
+			for sid identifiers, not for others. check this. We can
+			peraps dissallow lack-of-$ entirely: does it do anything
+			other than prefix lex_? If not, there's no need. -->
+
+		<para>
+			<!-- TODO state the API. ditto sid. include macros etc. -->
+		</para>
+
+		<!-- TODO talk about how the actual values are returned
+			with tokens (tags); they're not. you're expected to
+			do so yourself -->
+
+		<para>Should the user wish to check if a character is
+			in a group, the generated code provides macros of
+			the form <code>is_groupname()</code>. These are
+			intended to be used as:</para>
+
+		<para>is_digit(lookup_char(c))</para>
+
+		<para>assuming a group named "digit" is defined. See the
+			<xref linkend="groupdefinitions" endterm="groupdefinitions.title"/>
+			and <xref linkend="whitespacedefinitions"
+			endterm="whitespacedefinitions.title"/> white sections for
+			further details on group names.</para>
+	</chapter>
+
+	<chapter id="file">
+		<title>The Lexi Specification</title>	<!-- TODO term -->
+
+		<para>There are several concepts common to multiple commands.
+			<!---TODO blah blah --></para>
+
+		<section>
+			<title>Lexical conventions</title>
+
+			<para><!-- TODO explain our BNF here. Standardise across
+				all documents. we can centralise this to some shared
+				document. Is there and RFC perhaps which defines a
+				BNF dialect we can use?--></para>
+
+			<para>The following productions are used throughout this
+				document:</para>
+
+			<programlisting>either-identifier := "$" + identifier | sid-identifier ;
+sid-identifier    := identifier + "(" + ")" ;</programlisting>
+			<!-- TODO rename either-identifier! -->
+		</section>
+
+		<section>
+			<title>Comments</title>
+
+			<para><code>lexi</code> permits comments in lexical analyser
+				specifications. These are C style comments, opening
+				<code>/*</code> and closing <code>*/</code>. They may not
+				nest, and they must close. For example:</para>
+
+			<!-- TODO did i add the // patch already? -->
+			<programlisting>/* This is a comment */
+/*
+ * And so is this.
+ */</programlisting>
+
+			<para>The first comment, intended for a copyright notice, is
+				written out at the beginning of the generated code.</para>
+		</section>
+
+		<section>
+			<title>Identifiers</title>
+
+			<para><!-- TODO explain what identifiers are used for --></para>
+
+			<para><!-- TODO somewhere we need a section to explain
+				identifiers and namespaces (i.e. where one may
+				conflict). List namespaces here.--></para>
+
+			<bridgehead>Literal identifiers</bridgehead>	<!-- TODO term -->
+
+			<para>An identifier is a sequence of alphanumeric characters
+				including the underscore beginning by an underscore or
+				an alphabetic character. A sid identifier may also
+				contain (but not begin by) a hyphen.</para>
+
+			<para><!-- TODO what they're for --></para>
+
+			<!-- TODO will we keep these and sid identifiers? -->
+
+			<bridgehead>Sid identifiers</bridgehead>	<!-- TODO term -->
+
+			<para>An identifier is a sequence of alphanumeric characters
+				including the underscore and hyphen beginning by an
+				underscore or an alphabetic character.</para>
+
+			<para><!-- TODO what they're for --></para>
+		</section>
+
+		<section>
+			<title>Function calls</title>
+
+			<para>The parameters specified to functions are stated as empty
+				(that is, an open bracket immediatley followed by a close breacket);
+				the actual parameters passed at runtime are the characters
+				read to match the token, as seperate <code>char</code> variables.
+				So for the above example, <code>get_comment()</code> would be
+				declared as:</para>
+
+			<programlisting>void get_comment(char c0, char c1);</programlisting>
+			<!-- TODO right? -->
+
+			<para>And called by <code>lexi</code> as:</para>
+
+			<programlisting>get_comment('/', '*')</programlisting>
+		</section>
+
+		<section id="charactersetslists">
+			<title id="charactersetslists.title">Character sets and lists</title>
+
+			<para>Sets and lists of characters are used by
+				<!-- TODO right? --> all <code>lexi</code> commands. <!--
+				TODO and possibly also pre-pass replacements? --> They share
+				the same syntax, but have different meanings: a set is an
+				unordered intersection of all characters specified, wheras
+				a list is a sequence which must be entirely present in
+				the order given, as per a string comparison. The syntax
+				is:</para>
+
+			<programlisting>chars       := item + { "+" item } * ;
+item        := string | range ;
+range       := "{0-9}" | "{a-z}" | "{A-Z}" ;
+string      := &lt;"&gt; + { CHAR | escapedchar | group } * + &lt;"&gt; ;
+escapedchar := "\" + ( "n" | "t" <!-- | "TODO etc" --> ) ;
+group       := "[" + GROUPNAME + "]" ;</programlisting>
+<!-- TODO standardised BNF -->
+
+			<bridgehead>Ranges</bridgehead>
+
+			<para>There are three available pre-defined ranges.
+				Note that these ranges are fixed, and that start points
+				or end points other than those given are invalid.
+				These ranges are:</para>
+
+			<table>
+				<title>Predefined character ranges</title>
+
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Range</entry>
+							<entry>Contents</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><code>{0-9}</code></entry>
+							<entry>The digits 0 to 9.</entry>
+						</row>
+						<row>
+							<entry><code>{a-z}</code></entry>
+							<entry>The lower case characters a to z.</entry>
+						</row>
+						<row>
+							<entry><code>{A-Z}</code></entry>
+							<entry>The upper case characters a to z.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<para>Ranges are inclusive. The numeric values of the
+				characters includes in ranges are of the
+				character set of the C implementation used to compile
+				<code>lexi</code> (it is reasonable to assume this is ASCII).
+				Note that the <code>range</code> production always
+				represents a set (as opposed to a list), even when used as
+				part of a <code>TOKEN</code>
+				command.<!-- TODO unclear and true? --></para>
+
+			<para>Strings are sequences of ASCII <!-- TODO right? -->
+				characters delimited by double-quotes (<code>"</code>).</para>
+
+			<bridgehead>Escaping special characters in strings</bridgehead>
+			<!-- TODO strings or lists and sets? -->
+
+			<para>The following special characters may be written by
+				backslash escapes:</para>
+
+			<table>
+				<title>Escaped characters</title>
+
+				<tgroup cols="3">
+					<thead>
+						<row>
+							<entry>Escape</entry>
+							<entry>ASCII Value</entry>
+							<entry>Name</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><code>\n</code></entry>
+							<entry>0x0A</entry>
+							<entry>New line</entry>
+						</row>
+
+						<row>
+							<entry><code>\t</code></entry>
+							<entry>0x09</entry>
+							<entry>Horizontal tab</entry>
+						</row>
+
+						<row>
+							<entry><code>\v</code></entry>
+							<entry>0x0B</entry>
+							<entry>Vertical tab</entry>
+						</row>
+
+						<row>
+							<entry><code>\f</code></entry>
+							<entry>0x0c</entry>
+							<entry>New page (form feed)</entry>
+						</row>
+
+						<!-- Why is this escaped? -->
+						<row>
+							<entry><code>\?</code></entry>
+							<entry>0x3F</entry>
+							<entry><!-- TODO -->Question mark</entry>
+						</row>
+
+						<!-- TODO order by numerical value -->
+						<row>
+							<entry><code>\r</code></entry>
+							<entry>0x0D</entry>
+							<entry>Carriage return</entry>
+						</row>
+
+						<row>
+							<entry><code>\"</code></entry>
+							<entry>0x22</entry>
+							<entry>Double quote</entry>
+						</row>
+
+						<row>
+							<entry><code>\[</code></entry>
+							<entry>0x5B</entry>
+							<entry>Left bracket<!-- TODO right? --></entry>
+						</row>
+
+						<row>
+							<entry><code>\\</code></entry>
+							<entry>0x5C</entry>
+							<entry>Backslash</entry>
+						</row>
+
+						<row>
+							<entry><code>\e</code></entry>
+							<entry><!-- TODO >TODO --><!-- TODO applicable here? --></entry>
+							<entry>End of file (EOF)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<para>For example, the string specifying the character "a",
+				a newline, the character "b", a backslash, a horizontal
+				tab, and the character "c" is:</para>
+
+			<programlisting>"a\nb\\\tc"</programlisting>
+
+			<para>Strings must contain at least one character, or
+				one character coded for by an escape sequence.</para>
+			<!-- TODO adjust grammar to error for empty strings -->
+			<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+
+			<para>These escape sequence may be used in any string.
+				Note that "[" requires escaping to distinguish from
+				the delimiter for a group name (see below).</para>
+
+			<bridgehead id="groupinclusion">Group inclusions in
+				strings</bridgehead>
+			<!-- TODO strings or lists and sets? -->
+
+			<para>A set of characters
+				defined by a GROUP command may
+				be included into a character set by specifying the
+				group name between "[" and "]" within a string.
+				For example:</para>
+
+			<programlisting>"[xyz]"
+"abc[def]hij[klm]nmo"</programlisting>
+
+			<para>These include the characters defined by the "xyz"
+				group to the first string, and from the "def" and "klm"
+				groups to the second string. Note that as strings with
+				group inclusions may only be used in <xref
+				linkend="groupdefinitions" endterm="groupdefinitions.title"/>,
+				the characters have no order.</para>
+
+			<para>The group to be included must
+				already have been defined at the point where it is
+				referenced. Note that this does not permit circular
+				references.</para>
+
+			<para>See <!-- TODO link --> the commands below for
+				further examples of character sets and
+				lists<!-- TODO terminology: sets and lists? --></para>
+
+			<bridgehead id="concaternation">String concaternation</bridgehead>
+
+			<para>Strings and ranges may be concatenated by the
+				plus operator.  For example:</para>
+
+			<programlisting>"abc" + "d" + "efg" + {0-9}</programlisting>
+
+			<para>is equivalent to the list:</para>
+
+			<programlisting>"abcdefg[digit]"</programlisting>
+
+			<para>(where the group "digit" is suitablly defined),
+				and to the set:</para>
+
+			<programlisting>"abcdefg0123456789"</programlisting>
+
+			<!-- TODO If string concaternation (TODO we can't call it
+				concaternation really) is applicable for *all* places
+				where a string is used,
+				then we need to talk about it here. -->
+		</section>
+	</chapter>
+
+	<chapter id="commands">
+		<title>Commands</title>	<!-- TODO term -->
+
+		<para>Lexical analysers are described to <code>lexi</code> by a
+			sequence of commands. This section provides an explanation of
+			each possible command, and explains their respective
+			intended uses.</para>
+
+		<section id="prepassreplacements">
+			<title>Pre-pass mappings</title>
+
+			<para>The lexical analysis runs in two passes. The first pass,
+				or "pre-pass" stage permits replacements to be substituted
+				before the main pass, under which tokenisation takes place.
+				This gives a convenient mechanism for expressing trigraph-like
+				substitutions as found in C. The syntax to define pre-pass
+				replacements is:</para>
+
+			<programlisting>MAPPING chars + "->" + chars ;</programlisting>
+			<!-- TODO chars on the right is wrong: it's one char (or escape) -->
+
+			<para>The string on the right (i.e. the value with which the
+				matched string is replaced) may only contain one character,
+				or an escape sequence which yields one character.</para>
+
+			<!-- TODO chars on the left is the same as a token? we should
+				make list a seperate symbol from set -->
+
+			<para>For example, to replace the trigraph "??=" with a single
+				"?":</para>
+
+			<programlisting>MAPPING "\?\?=" -> "#" ;</programlisting>
+			<!-- TODO test -->
+
+			<para>This would replace instances of "??=" with "#" before
+				any tokenisation takes place. So the input "a??=b" would
+				match the token definition:</para>
+
+			<programlisting>TOKEN "a#b" -> a ;</programlisting>
+
+			<para>Note that in this example, the "?" character is
+				escaped because it happens to be a special character.
+				See the <xref linkend="tokendefinitions"
+				endterm="tokendefinitions.title"/> section for more
+				details on defining tokens.</para>
+
+			<!-- TODO describe them -->
+
+			<para>A group may be included in the character list to
+				be replaced. For example:</para>
+
+			<programlisting>MAPPING "[alpha]" -> " " ;</programlisting>
+
+			<para>will replace any alphabetic character by a blank,
+				assuming the "alpha" group is suitablly defined at
+				that point<!-- TODO at that point, right? -->.
+				See the <xref linkend="groupinclusion" endterm="groupinclusion"/>
+				rules for details of including groups in lists.</para>
+
+			<!-- TODO tell kevin i found one error:
+				??? does not exist for good reason! -->
+			<para>Mappings are substituted repeatedly until no further
+				mappings match. The order of replacement for mappings
+				matching strings of equal length is undefined,
+				and so it is an error to define a mapping which produces
+				a character used at the start of any mapping, including
+				itself. For example:</para>
+			<!-- TODO new undefined behaviour -->
+
+			<programlisting>MAPPING "\?\?\?" -> "\?" ;</programlisting>
+
+			<para>is illegal. To see why, consider the input "aab" for
+				the (illegal) mappings:</para>
+
+			<programlisting>MAPPING "aa" -> "x" ;
+MAPPING "xb" -> y ;</programlisting>
+
+			<para>Since the order of substitution for mappings matching
+				strings of equal length is undefined, it is
+				unclear if this will result in "xb" or "y". Notice that
+				C does not demand a "???" trigraph - perhaps for this very
+				reason. This restriction applies no matter how the string
+				defining the characters to be mapped is formed: for
+				example, it is also illegal to define a mapping which maps
+				to a character present in a group included at the start
+				of another mapping.</para>
+
+			<para>Trigraphs bind from left to right. For example:</para>
+
+			<programlisting>MAPPING "ab" -> "d" ;
+MAPPING "bc" -> "d" ;</programlisting>
+
+			<para>For the input "abc" will produce "db", not "ad".</para>
+
+			<para>Mappings matching sequences <!-- TODO rename lists to
+				sequences --> of longer lengths are replaced with higher
+				precedance than mappings matching shorter lengths of the
+				same values beginning the longer sequences. For example:</para>
+
+			<programlisting>MAPPING "abcdef" -> "x" ;
+MAPPING "abcd" -> "y" ;</programlisting>
+
+			<para>for the input "abcdef" will produce "x", not "yef".</para>
+			<!-- TODO ditto tokens? -->
+		</section>
+<!-- TODO why is the look-up table an unsigned char? -->
+
+		<section id="groupdefinitions">
+			<title id="groupdefinitions.title">Character group definitions</title>
+
+			<para>A group is an unordered sets of characters; groups
+				name these sets for use in <!-- TODO which strings? -->
+				strings <!-- TODO think up a name for group inclusions -->.
+				The syntax of a group definition is:</para>
+
+			<programlisting>group-defn := "GROUP" + identifier + "=" + chars ;</programlisting>
+			<!-- TODO not identifier, but name (we don't want to include
+				sid-identifiers!) -->
+
+			<para>The <code>identifier</code> specified is the name
+				by which the group may be referenced.</para>
+
+			<para>For example, the following are valid group definitions:</para>
+
+			<programlisting>GROUP alpha    = {A-Z} + {a-z} + "_" ;
+GROUP digit    = {0-9} ;
+GROUP odds     = "13579" ;
+GROUP even     = "02468" ;
+GROUP vowels   = "aeiou" ;
+GROUP anything = "atrf" + "HGMP" + {0-9} ;</programlisting>
+
+			<para>Groups may include the sets of previously-defined
+				groups. Any character in the referenced set will be
+				included into the group definition. For example:</para>
+
+			<programlisting>GROUP hexdigit = "[digit]ABCDEFabcdef" ;
+GROUP alphanum = "[alpha]" + {0-9}</programlisting>
+
+			<para>assuming the groups "alpha" and "digit" have already
+				been defined at that point.
+				See <xref linkend="charactersetslists"
+				endterm="charactersetslists.title"/> for details of the
+				syntax for the chars production.</para>
+
+			<para>Groups may not contain characters which are present
+				in other groups (i.e. they may not overlap). See the
+				<xref linkend="tokendefinitions"
+				endterm="tokendefinitions.title"/> section for further
+				discussion of why this is so.</para>
+			<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+
+			<para>Macros to test if a character belongs to a group
+				are provided in the generated code, of the form
+				<code>is_groupname()</code>. These must be
+				passed the index into the look-up table containing
+				the given character, obtained by <code>lookup_char(c)</code>.
+				For example:</para>
+
+			<programlisting>is_alpha(lookup_char('a'))</programlisting>
+			<!-- TODO repetiion: this is in Interface -->
+
+			<para>would yield true, assuming the group "alpha"
+				is suitablly defined.</para>
+			<!-- TODO find out what happened to -m -->
+			<!-- TODO after our initial release, change this API.
+				The initial release is just incase there is anybody
+				using this (hah, likely...) -->
+			<!-- TODO since we know all changes in advance, state
+				which are depreciated -->
+			<!-- TODO state why we're changing our api: see the
+				"this is for version X" heading -->
+			<!-- TODO be sure to state the first release is for backwards
+				compatibility only. Make a list of API changes. Infact,
+				all releases for all products should have such a list
+				(i.e. a changelog), especially for APIs. -->
+
+			<!-- TODO explain what groups are legal, undefined, etc.
+				Overlapping, for example? -->
+
+			<para>The group name "white" may not be used for groups other
+				than the whitespace definition; see <!-- TODO ref -->
+				the Whitespace definition section for details.</para>
+
+			<!-- TODO groups may only be defined once? -->
+		</section>
+
+		<section id="whitespacedefinitions">
+			<title id="whitespacedefinitions.title">Whitespace definition</title>
+
+			<para>Consecuitive whitespace characters outside of strings
+				and comments <!-- TODO is this right? --> are skipped by
+				the lexical analyser, occuring with the semantics of a
+				single token delimiter. <code>lexi</code> specifies
+				whitespace by the special group name <code>white</code>,
+				which may not be used as an identifier to name other
+				groups. The syntax is the same as for any
+				<xref linkend="groupdefinitions"
+				endterm="groupdefinitions.title"/>, but with the
+				special group name <code>white</code>:</para>
+
+			<programlisting>white-defn := "GROUP" + "white" + "=" + chars ;</programlisting>
+
+			<para><!-- TODO what is this group used for?
+				(input or output: it is used
+				in output.c which is confusing)
+				-->
+			</para>
+
+			<para>The whitespace definition may be omitted, in which case
+				it defaults to space, horizontal tabulation and
+				newline. Therfore it is always present, even if the
+				declaration is implicit.</para>
+			<!-- TODO so is it an error to include multiple times?
+				checK; if not, we should raise an error -->
+
+			<para>For example:</para>
+
+			<programlisting>GROUP white = " \t\n\r";</programlisting>
+
+			<para>Aside from the additional semantics explained above,
+				the whitespace group is present as any other group:
+				it is present in the API as <code>is_white()</code>,
+				and may be included in <xref linkend="groupinclusion"
+				endterm="groupinclusion"/> as <code>[white]</code>.</para>
+		</section>
+
+		<section id="tokendefinitions">
+			<title id="tokendefinitions.title">Token definitions</title>
+
+			<para>Tokens are lists of characters read by the lexical analyser
+				and indicated as output. Each token as a unique identifier,
+				which is passed to code calling <code>lexi</code>, along with
+				the characters read which form the
+				token<!-- TODO is that true? -->.</para>
+
+			<para>Tokens are the main guts of a lexical analyser.
+				In <code>lexi</code>'s case, the only sitution in which
+				there would be no token declarations is if the lexical
+				analyser is to exclusivley perform pre-pass mappings.<!--
+				TODO so make it illegal to have no MAPPING or TOKENs? --></para>
+
+			<para>The syntax for specifiying tokens is:</para>
+
+			<programlisting>token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
+			<!-- TODO right? -->
+
+			<para><!-- TODO explain lots --></para>
+
+			<para><!-- TODO simple examples here --></para>
+
+
+			<para>For example, for comments in a C-style language, the lexical
+				analyser is expected to discard characters until the end
+				of the comment is found. In <code>lexi</code>, this is specified
+				as:</para>
+
+			<programlisting>TOKEN "/*" -> get_comment() ;</programlisting>
+			<!-- TODO right? -->
+
+			<para>Where <code>get_comment()</code> is an externally defined
+				function which simply reads characters until the corresponding
+				<code>*/</code> is found.</para>
+
+
+<!-- TODO manpage SEE ALSO to this guide, as for sid -->
+
+<!-- TODO actually this is pretty common. that could be specified with
+another token;
+modes are ways of "combining" two or more lexers. Draw an FSM. Perhaps we could
+add that feature without going insane. -->
+
+			<para><!--
+TODO kevin says:
+       lexi  basically  let you define tokens and the action to take when such
+       token is encountered. There are two forms of a token definition
+
+               TOKEN "token" -> $sid-identifier ;
+               TOKEN "token" -> get_identifier () ;
+
+		The first form of token definition tells lexi that upon finding
+       the token enclosed in double quotes the lexer should return the  termi-
+       nal  corresponding  to  sid-identifier (see sid documentation for the C
+       representation of sid terminals).
+
+		The second form tells lexi that  the
+       lexer should return the result of the call to function identifier. This
+       latter function takes some arguments. The example above would result in
+       the call to
+            get_identifier ('t','o',k','e','n') ;
+			-->
+			</para>
+
+			<para><!-- TODO kevin says:
+       A  token  can only be defined once in a file, but  different tokens can
+       share the same terminal to return or the same helper function.  In  the
+       latter  case,  there  is  a small problem, see the BUGS section in this
+       manpage. -->
+			</para>
+
+			<para><!-- TODO kevin says:
+       Tokens definition are not restricted to a fixed sequence  of  character
+       but can also use the concept of group.  For example:
+
+            TOKEN "[alpha]" ->  get_identifier ();
+            TOKEN "$[alpha]" -> get_sid_identifier ();
+
+       will match respectively any alphabetic character ( dollar sign followed
+       by an alphabetic character).  As long  as  the  alpha  group  has  been
+       defined, of course.
+			-->
+			</para>
+
+
+			<para><!-- TODO state ranges are undefined --></para>
+
+			<para><!-- TODO kevin says:
+	       Remember,  individual  characters  have  priority over groups. But lexi
+       doesn't handle subset analysis for groups. So
+
+            GROUP alpha     =  {A-Z}+{a-z} ;
+            GROUP lower     =  {a-z} ;
+            TOKEN "[alpha]" -> get_identifier ()
+            TOKEN "[lower]"  -> get_low_identifier () ;
+
+       may not work correctly. lexi doesn't look  for  ambiguities  if  groups
+       overlap.
+			TODO we defined overlap as illegal in the groups section;
+				this is just explaining rationalle -->
+		</para>
+
+		</section>
+
+		<section>
+			<title>Keyword definitions</title>
+
+			<para><!-- TODO! Especially, what are the semantics
+				for keywords? --></para>
+
+			<para><!-- TODO Present (only?) in output generated by -k.
+				Called by sid's
+				terminal definitions. Take care to keep this document independant
+				of sid. --></para>
+
+			<programlisting>keyword-defn := "KEYWORD" + string + "->" + either-identifier ;</programlisting>
+
+
+			<para><!-- TODO kevin says:
+       Usually  keywords are identifiers with special meaning.  Using the main
+       pass to identify keyword with the token constructs is possible but awk-
+       ward since keywords are usually just a subset of the much bigger set of
+       identifiers. The keyword construct gives tools to catch keywords  after
+       token identification.
+			-->
+			</para>
+
+			<para><!-- TODO kevin says:
+       The  syntax of keywords is simple and resembles the one used for tokens
+       :
+            KEYWORD "keyword" -> $key;
+            KEYWORD "special" -> get_special ();
+			</para>
+
+			<para>TODO kevin says:
+       The keyword's command doesn't  change  the  main  pass  analysis.   The
+       result  code  of  the  keyword's  command  is only obtained with the -k
+       option. It consists of a succession of calls to
+
+            MAKE_KEYWORD ( "keyword", "lex_key" )
+            MAKE_KEYWORD ( "special", "get_special ()" )
+			-->
+			</para>
+
+			<para><!-- TODO kevin says:
+       where identifier has been transformed according to sid's rules.  It  is
+       then  up to the user to implement MAKE_KEYWORD, usually by a macro. And
+       to decide where to include the keyword code by  an  include  directive.
+       For  example,  supposed that keyword.h contains the keyword code then a
+       possibility  for catching keywords is
+TODO mention MAKE_KEYWORD in Interface section
+
+            #define MAKE_KEYWORD(A, B)         if (streq (t, (A))) return (B);
+            #include "keyword.h"
+            return (lex_something) ;
+			-->
+			</para>
+
+		<!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
+			needs to deal with that :(
+			read_char_aux() is called in place of read_char().
+			But as this happens in a seperate pass, the buffer need only
+			be max(token, trigraph) (not including '\0')
+		-->
+		</section>
+
+<!--
+		<section>
+			<title>Blocks</title>
+
+			<para>TODO. what're these even for? just IFs, I think</para>
+		</section>
+-->
+
+		<section>
+			<title>Conditional commands</title>
+
+			<para><!-- Runtime or compiletime? TODO check --></para>
+
+			<para><!-- The command given may be in a block? TODO --></para>
+
+			<para><!-- TODO kevin says:
+       It is possible to use IF ELSE constructs around mappings,  keyword  and
+       token. Groups ignore them. The general syntax is
+TODO then define groups inside a block as undefined, and adjust the grammar
+
+            IF (identifier) {
+                 commands ....
+            } ELSE {
+                  commands ....
+            }
+			-->
+			</para>
+
+			<para><!-- TODO kevin says:
+       where identifier is a variable of the program.  For tokens, it seems to
+       mean that if the condition is fulfilled, upon finding  the  token,  the
+       corresponding terminal is returned.  If that is not the case, the token
+       is read and skipped.  For keywords, the MAKE_KEYWORD call  is  enclosed
+       by  the condition in the resulting C code.  For mappings, if the condi-
+       tion doesn't hold, the replacement doesn't occur.
+			-->
+			</para>
+
+			<para><!-- TODO kevin says: IF constructs can nest. --></para>
+		</section>
+	</chapter>
+
+	<chapter id="appendix">
+		<title id="appendix.title">Appendix</title>
+
+		<!-- TODO maybe not in the guide: in an examples/ directory
+			perhaps?
+
+		<section>
+			<title>Example descriptions</title>
+
+			<section>
+				<title>Comment stripping</title>
+
+				<para>A C comment stripper. It needs to be aware of
+					string literals (so it can avoid comment delimiters inside them),
+					characters constants (ditto) and comments (so it can strip
+					them).</para>
+			</section>
+
+			<section>
+				<title>RPN Calculator</title>
+			</section>
+
+			<section>
+				<title>Non-RPN Calculator</title>
+
+				<para>TODO joint example with sid.</para>
+			</section>
+			Perhaps a grade-2 braille system (pre-parse mappings would
+			work well) outputting tokens, ignoring whitespace. Punct can
+			also be a token.
+		</section>
+		-->
+
+		<section>
+			<title>Description grammar</title>
+	<!-- - Grammar (for reference) and list of keywords, reserved words, etc -->
+		</section>
+
+		<section>
+			<title>Undefined behaviour</title>
+
+			<!-- TODO list undefined behaviours -->
+		</section>
+
+		<section>
+			<title>Obscure Features</title>
+
+			<para><!-- TODO kevin says:
+       I put here some legal constructs of doubtful interest:
+
+            TOKEN "&amp;&amp;" -> and;
+
+       are legal tokens' definitions. The first one lacks the $ sign and is of
+       no  interest  if  you use the sid parser generator, and lexi is usually
+       meant to be used with sid.
+	TODO See above re lex_
+			-->
+			</para>
+
+			<para><!-- TODO kevin says:
+            TOKEN {A-Z} + "something" -> $x ;
+		The second one is a little ugly since  lit-
+       erals  are intended to be a set not a sequence of characters. It really
+       means:
+            TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $Am-I-Kidding ;
+       probably not the intended effect.
+		TODO dissalow ranges for tokens, then! eventually we can remove from
+		grammar. Possibly you mean something like:
+
+			GROUP alpha = {A-Z};
+			TOKEN "[alpha]someting" -> $x ;
+			-->
+			<!-- TODO dissalow after first release -->
+			</para>
+
+<!-- TODO stated as undefined behaviour in Strings section
+			<para>TODO kevin says:
+       An empty string can be a token,
+            TOKEN "" -> $default ;
+       It really mean that if no other token match, then the  lexer  will  eat
+       one  character  and  return  $default.   If  this  token is not present
+       lex_unknown woul have been returned.
+			</para>
+
+	TODO we should make a list of undefined behaviours and check
+	if anybody uses them (or indeed if anybody uses lexi...)
+-->
+
+			<para><!-- TODO kevin says:
+       The white groupo may be used in tokens and in keywords so
+
+            TOKEN "a[white]" -> $something ;
+            TOKEN "[white]ab" -> $neverscanned ;
+       are legals tokens' definitions. The second one will  never  be  scanned
+       since white characters are thrown away in front of tokens.
+			TODO what happens to whitespace? just thrown away in front,
+			but the first one is ok? odd TODO list precendence of these
+			things! that should be a section by itself perhaps
+			-->
+			</para>
+		</section>
+
+<!--
+			TODO we should define some legal things as undefined
+				behaviour and eliminate this section
+		<section>
+			<title>Bugs</title>
+
+
+			<para>TODO kevin says:
+       In  the  absence of documentation over the design of lexi, it is diffi-
+       cult to differentiate obscure features from bugs.  Here is what I  per-
+       sonally believe should be considered bugs.
+            TOKEN "/*" -> $get-comment ();
+       is a legal token definition. It results, upon finding "/*" in a call to
+            lex_get_Hcomment ( '/','*' );
+       which make little sense unless you want to obfuscate the code.
+			</para>
+
+			<para>TODO kevin says:
+       same helper function, for example
+            TOKEN "//" -> get_comment () ;
+            TOKEN "#"  -> get_comment () ;
+       will make respectivley call to
+            get_comment ('/','/');
+            get_comment ('#');
+       The difference in the number of arguments  may  cause  a  problem.  The
+       workaround is to call two macros that point to the same function.
+
+			TODO or we could change that to call get_comment(char *);
+				maybe a flag for old-style behaviour. But char * is
+				going to be slow, I suppose, since we'd need to
+				build a NULL-delimited string.
+
+			I think we should release immediatley after sid and lexi
+			are split out, and documented, and add features later.
+			Better make it a minor release, as kevin gave some bugfix.
+			Check history; maybe sid can keep the same version.
+			</para>
+
+		</section>
+-->
+	</chapter>
+
+	<chapter id="glossary">
+		<title>Glossary</title>
+
+<!--
+Token
+Group
+Set
+List
+Keyword
+String
+Range
+-->
+	</chapter>
+</book>
+
