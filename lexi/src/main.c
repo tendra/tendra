@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <stdio.h>
 
 #include "shared/config.h"
 #include "char.h"
@@ -64,6 +65,14 @@
 #include "lex.h"
 #include "output.h"
 #include "syntax.h"
+
+/*
+	USAGE
+*/
+static void
+report_usage(void) {
+	fputs("usage: lexi [-klvh] input-file [output-file]\n", stdout);
+}
 
 
 /*
@@ -83,6 +92,7 @@ main(int argc, char **argv)
     char *output = NULL;
 
     /* Process arguments */
+	/* TODO convert to getopt */
     set_progname(argv [0], "1.2");
     for (a = 1; a < argc; a++) {
 	char *arg = argv [a];
@@ -106,6 +116,11 @@ main(int argc, char **argv)
 		    known = 1;
 		    break;
 		}
+		case 'h': {
+		    if (arg [2])break;
+		    report_usage();
+		    return 1;
+		}
 	    }
 	    if (!known) {
 		error(ERROR_WARNING, "Unknown option, '%s'", arg);
@@ -123,7 +138,7 @@ main(int argc, char **argv)
 
     /* Check arguments */
     if (input == NULL)error(ERROR_FATAL, "Not enough arguments");
-    if (too_many)error(ERROR_WARNING, "Too many arguments");
+    if (too_many)error(ERROR_FATAL, "Too many arguments");
 
     /* Process input file */
     process_file(input);
