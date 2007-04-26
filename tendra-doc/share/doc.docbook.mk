@@ -4,7 +4,7 @@ TIDY= tidy
 XMLLINT= xmllint
 XSLTPROC= xsltproc
 
-STYLEDIR= ../../../stylesheets
+STYLEDIR= ../../../style
 
 TIDYFLAGS= --doctype transitional\
 	   --output-xhtml yes\
@@ -13,7 +13,7 @@ TIDYFLAGS= --doctype transitional\
 XMLLINTFLAGS= --noout --postvalid --xinclude
 
 XSLTPROCFLAGS= --stringparam css.decoration 0\
-	       --stringparam html.stylesheet ${STYLEDIR}/docstyle.css\
+	       --stringparam html.stylesheet ${STYLEDIR}/docbook.css\
 	       --stringparam paper.type A4\
 	       --stringparam section.autolabel 1\
 	       --stringparam section.label.includes.component.label 1\
