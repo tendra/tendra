@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= components guides papers
+SUBDIR= components guides
 
 .include "../share/doc.subdir.mk"

@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= tcpplus tdfc
+SUBDIR= tcpplus
 
 .include "../../share/doc.subdir.mk"

@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= diagnostic guide register specification tpl
+SUBDIR= diagnostic guide tpl
 
 .include "../share/doc.subdir.mk"

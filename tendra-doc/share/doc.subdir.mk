@@ -38,6 +38,8 @@
 #			combinations of ${FORMAT} values)
 #
 
+ECHODIR=echo
+
 .if !target(__initialized__)
 __initialized__:
 .endif

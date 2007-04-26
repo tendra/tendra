@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= calculus sid tcc tld tnc tspec
+SUBDIR= calculus sid tld tspec
 
 .include "../../share/doc.subdir.mk"
