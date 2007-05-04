@@ -1,0 +1,1175 @@
+%prefixes%
+
+terminal = lex_ ;
+
+
+%maps%
+
+
+/*
+    ENTRY POINT
+
+    The main entry point for the calculus is mapped onto a function
+    named read_calculus.
+*/
+
+unit -> read_calculus ;
+extra-unit -> extra_calculus ;
+
+
+/*
+    TYPE MAPPINGS
+
+    These maps give the relationship between the types used in the syntax
+    and in the C implementation.
+*/
+
+CLASS-ID -> CLASS_ID_P ;
+FLAG -> int ;
+IDENTIFIER -> string ;
+NUMBER -> number ;
+TYPE -> TYPE_P ;
+STRING -> string ;
+
+ARGUMENT -> ARGUMENT_P ;
+COMPONENT -> COMPONENT_P ;
+ECONST -> ECONST_P ;
+ENUM -> ENUM_P ;
+FIELD -> FIELD_P ;
+IDENTITY -> IDENTITY_P ;
+MAP -> MAP_P ;
+PRIMITIVE -> PRIMITIVE_P ;
+STRUCTURE -> STRUCTURE_P ;
+UNION -> UNION_P ;
+
+ARGUMENT-LIST -> ARGUMENT_P_LIST ;
+COMPONENT-LIST -> COMPONENT_P_LIST ;
+ECONST-LIST -> ECONST_P_LIST ;
+ENUM-LIST -> ENUM_P_LIST ;
+FIELD-LIST -> FIELD_P_LIST ;
+IDENTITY-LIST -> IDENTITY_P_LIST ;
+MAP-LIST -> MAP_P_LIST ;
+PRIMITIVE-LIST -> PRIMITIVE_P_LIST ;
+STRUCTURE-LIST -> STRUCTURE_P_LIST ;
+UNION-LIST -> UNION_P_LIST ;
+
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "calculus.h"
+#include "common.h"
+#include "error.h"
+#include "extra.h"
+#include "lex.h"
+#include "syntax.h"
+#include "type_ops.h"
+#include "xalloc.h"
+
+
+/*
+    PARSER TYPES
+
+    These types give the implementations of the various types used
+    in the syntax.
+*/
+
+typedef LIST ( ARGUMENT_P ) ARGUMENT_P_LIST ;
+typedef LIST ( COMPONENT_P ) COMPONENT_P_LIST ;
+typedef LIST ( ECONST_P ) ECONST_P_LIST ;
+typedef LIST ( ENUM_P ) ENUM_P_LIST ;
+typedef LIST ( FIELD_P ) FIELD_P_LIST ;
+typedef LIST ( IDENTITY_P ) IDENTITY_P_LIST ;
+typedef LIST ( MAP_P ) MAP_P_LIST ;
+typedef LIST ( PRIMITIVE_P ) PRIMITIVE_P_LIST ;
+typedef LIST ( STRUCTURE_P ) STRUCTURE_P_LIST ;
+typedef LIST ( UNION_P ) UNION_P_LIST ;
+
+
+/*
+    COUNTER VARIABLES
+
+    The variable enum_value is used to determine the value of enumerators.
+    enum_max is used to record the maximum value of enum_value.  Both are
+    reset to zero at the end of each enumeration type.  no_fields is used
+    to count the number of field in each union.  It is reset to zero at
+    the end of each union type.
+*/
+
+static number enum_value = 0 ;
+static number enum_max = 0 ;
+static int no_fields = 0 ;
+static LIST ( ECONST_P ) enum_list = NULL_list ( ECONST_P ) ;
+
+
+/*
+    COMPILATION MODE
+
+    We allow unreached code in the automatically generated sections.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#ifndef OLD_PRODUCER
+#pragma TenDRA unreachable code allow
+#endif
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+@} ;
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINAL
+
+    This action gives the terminal for identifiers.  The identifier text
+    is built up in token_buff by the lexical routines.
+*/
+
+identifier : () -> ( i : IDENTIFIER ) = @{
+    @i = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    NUMBER TERMINAL
+
+    This action gives the terminal for numbers.  The number value is built
+    up in token_value by the lexical routines.
+*/
+
+number : () -> ( n : NUMBER ) = @{
+    @n = token_value ;
+@} ;
+
+
+/*
+    STRING TERMINAL
+
+    This action gives the terminal for strings.  The string text is built
+    up in token_buff by the lexical routines.
+*/
+
+string : () -> ( s : STRING ) = @{
+    @s = xstrcpy ( token_buff ) ;
+@} ;
+
+
+%actions%
+
+
+/*
+    FLAG VALUES
+
+    These actions give the various flag values.
+*/
+
+<zero> : () -> ( f : FLAG ) =	@{ @f = 0 ; @} ;
+<one> : () -> ( f : FLAG ) =	@{ @f = 1 ; @} ;
+<two> : () -> ( f : FLAG ) =	@{ @f = 2 ; @} ;
+<three> : () -> ( f : FLAG ) =	@{ @f = 3 ; @} ;
+
+
+/*
+    NULL STRING
+
+    This action gives the null string.
+*/
+
+<null-string> : () -> ( s : STRING ) = @{
+    @s = NULL ;
+@} ;
+
+
+/*
+    SYNTAX ERROR
+
+    This action is used to print a syntax error.
+*/
+
+<syntax-error> : () -> () = @{
+    error ( ERROR_SERIOUS, "Syntax error" ) ;
+@} ;
+
+
+/*
+    DEFAULT CLASS IDENTIFIER NAME
+
+    The second name component of a class identifier is optional.  When
+    it is not present this action is used to derive a default second name
+    from the first name.
+*/
+
+<default-name> : ( n : IDENTIFIER ) -> ( i : IDENTIFIER ) = @{
+    @i = @n ;
+@} ;
+
+
+/*
+    CLASS IDENTIFIER
+
+    This action creates a class identifier from its various components.
+*/
+
+<make-class-id> : ( n1 : IDENTIFIER, n2 : IDENTIFIER, f : FLAG )
+		-> ( c : CLASS-ID ) = @{
+    @c = MAKE_ptr ( SIZE_cid ) ;
+    MAKE_cid ( @n1, @n2, @f, ( string ) crt_file_name, crt_line_no, @c ) ;
+@} ;
+
+
+/*
+    NULL IDENTIFIER
+
+    This action gives the null identifier.
+*/
+
+<null-identifier> : () -> ( i : IDENTIFIER ) = @{
+    @i = NULL ;
+@} ;
+
+
+/*
+    TYPE LOOK-UP
+
+    This action looks up a named type.
+*/
+
+<find-type> : ( i : IDENTIFIER ) -> ( t : TYPE ) = @{
+    @t = find_type ( algebra, @i ) ;
+@} ;
+
+
+/*
+    POINTER TYPE
+
+    This action creates the pointer type, PTR s.
+*/
+
+<ptr-type> : ( s : TYPE ) -> ( t : TYPE ) = @{
+    @t = compound_type ( type_ptr_tag, @s, 0 ) ;
+@} ;
+
+
+/*
+    LIST TYPE
+
+    This action creates the list type, LIST s.
+*/
+
+<list-type> : ( s : TYPE ) -> ( t : TYPE ) = @{
+    @t = compound_type ( type_list_tag, @s, 0 ) ;
+@} ;
+
+
+/*
+    STACK TYPE
+
+    This action creates the stack type, STACK s.
+*/
+
+<stack-type> : ( s : TYPE ) -> ( t : TYPE ) = @{
+    @t = compound_type ( type_stack_tag, @s, 0 ) ;
+@} ;
+
+
+/*
+    VECTOR TYPE
+
+    This action creates the vector type, VEC s.
+*/
+
+<vec-type> : ( s : TYPE ) -> ( t : TYPE ) = @{
+    @t = compound_type ( type_vec_tag, @s, 0 ) ;
+@} ;
+
+
+/*
+    VECTOR-POINTER TYPE
+
+    This action creates the vector-pointer type, VEC_PTR s.
+*/
+
+<vec-ptr-type> : ( s : TYPE ) -> ( t : TYPE ) = @{
+    @t = compound_type ( type_vec_ptr_tag, @s, 0 ) ;
+@} ;
+
+
+/*
+    QUOTED TYPE
+
+    This action creates a type corresponding to the quoted C type, s.
+*/
+
+<quoted-type> : ( s : STRING ) -> ( t : TYPE ) = @{
+    TYPE r ;
+    @t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_quote ( 0, @s, r ) ;
+    COPY_type ( @t, r ) ;
+@} ;
+
+
+/*
+    TYPE ERROR
+
+    This routine prints an error.
+*/
+
+<error-type> : () -> ( t : TYPE ) = @{
+    error ( ERROR_SERIOUS, "Type expected" ) ;
+    @t = find_type ( algebra, "ERROR!" ) ;
+@} ;
+
+
+/*
+    ENUMERATOR EXPRESSSIONS
+
+    These actions are used in the enumerator evaluation routines.
+*/
+
+<exp-crt> : () -> ( n : NUMBER ) = @{
+    @n = enum_value - 1 ;
+@} ;
+
+<exp-id> : ( e : IDENTIFIER ) -> ( n : NUMBER ) = @{
+    number n = 0 ;
+    LIST ( ECONST_P ) p = enum_list ;
+    while ( !IS_NULL_list ( p ) ) {
+	ECONST_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
+	string s = DEREF_string ( ec_name ( q ) ) ;
+	if ( streq ( s, @e ) ) {
+	    n = DEREF_number ( ec_value ( q ) ) ;
+	    break ;
+	}
+	p = TAIL_list ( p ) ;
+    }
+    if ( IS_NULL_list ( p ) ) {
+	error ( ERROR_SERIOUS, "Unknown enumerator '%s'", @e ) ;
+    }
+    @n = n ;
+@} ;
+
+<exp-neg> : ( a : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = -@a ;
+@} ;
+
+<exp-compl> : ( a : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = ~@a ;
+@} ;
+
+<exp-mult> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a * @b ;
+@} ;
+
+<exp-div> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    if ( @b == 0 ) {
+	error ( ERROR_SERIOUS, "Division by zero" ) ;
+	@n = 0 ;
+    } else {
+	@n = @a / @b ;
+    }
+@} ;
+
+<exp-rem> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    if ( @b == 0 ) {
+	error ( ERROR_SERIOUS, "Division by zero" ) ;
+	@n = 0 ;
+    } else {
+	@n = @a % @b ;
+    }
+@} ;
+
+<exp-plus> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a + @b ;
+@} ;
+
+<exp-minus> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a - @b ;
+@} ;
+
+<exp-lshift> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a << @b ;
+@} ;
+
+<exp-rshift> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a >> @b ;
+@} ;
+
+<exp-and> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a & @b ;
+@} ;
+
+<exp-xor> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a ^ @b ;
+@} ;
+
+<exp-or> : ( a : NUMBER, b : NUMBER ) -> ( n : NUMBER ) = @{
+    @n = @a | @b ;
+@} ;
+
+
+/*
+    EMPTY ENUMERATION CONSTANT LIST
+
+    This action creates an empty list of enumeration constants.
+*/
+
+<null-econst> : () -> ( p : ECONST-LIST ) = @{
+    @p = NULL_list ( ECONST_P ) ;
+@} ;
+
+
+/*
+    CREATE ENUMERATION CONSTANT
+
+    This action creates an enumeration constant from its various components.
+*/
+
+<make-econst> : ( s : IDENTIFIER ) -> ( p : ECONST ) = @{
+    number v = enum_value++ ;
+    if ( v > enum_max ) enum_max = v ;
+    @p = MAKE_ptr ( SIZE_ec ) ;
+    MAKE_ec ( @s, v, @p ) ;
+    CONS_ptr ( @p, enum_list, enum_list ) ;
+@} ;
+
+
+/*
+    ADD ENUMERATION CONSTANT TO LIST
+
+    This action adds the enumeration constant q to the start of the
+    enumeration constant list r.
+*/
+
+<join-econst> : ( q : ECONST, r : ECONST-LIST ) -> ( p : ECONST-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    SET ENUMERATOR VALUE
+
+    This actions sets the current enumerator value.
+*/
+
+<set-econst> : ( n : NUMBER ) -> () =	@{
+    enum_value = @n ;
+@} ;
+
+
+/*
+    EMPTY PRIMITIVE LIST
+
+    This action creates an empty list of primitives.
+*/
+
+<null-primitive> : () -> ( p : PRIMITIVE-LIST ) = @{
+    @p = NULL_list ( PRIMITIVE_P ) ;
+@} ;
+
+
+/*
+    CREATE PRIMITIVE
+
+    This action creates a primitive from its various components.
+*/
+
+<make-primitive> : ( c : CLASS-ID, s : STRING ) -> ( p : PRIMITIVE ) = @{
+    TYPE r ;
+    TYPE_P t ;
+    @p = MAKE_ptr ( SIZE_prim ) ;
+    MAKE_prim ( @c, @s, @p ) ;
+    t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_primitive ( 0, @p, r ) ;
+    COPY_type ( t, r ) ;
+    IGNORE register_type ( t ) ;
+@} ;
+
+
+/*
+    ADD PRIMITIVE TO LIST
+
+    This action adds the primitive q to the start of the primitive list r.
+*/
+
+<join-primitive> : ( q : PRIMITIVE, r : PRIMITIVE-LIST )
+		 -> ( p : PRIMITIVE-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    EMPTY IDENTITY LIST
+
+    This action creates an empty list of identities.
+*/
+
+<null-identity> : () -> ( p : IDENTITY-LIST ) = @{
+    @p = NULL_list ( IDENTITY_P ) ;
+@} ;
+
+
+/*
+    CREATE IDENTITY
+
+    This action creates an identity from its various components.
+*/
+
+<make-identity> : ( c : CLASS-ID, t : TYPE ) -> ( p : IDENTITY ) = @{
+    TYPE r ;
+    TYPE_P t ;
+    @p = MAKE_ptr ( SIZE_ident ) ;
+    MAKE_ident ( @c, @t, @p ) ;
+    t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_ident ( 0, @p, r ) ;
+    COPY_type ( t, r ) ;
+    IGNORE register_type ( t ) ;
+@} ;
+
+
+/*
+    ADD IDENTITY TO LIST
+
+    This action adds the identity q to the start of the identity list r.
+*/
+
+<join-identity> : ( q : IDENTITY, r : IDENTITY-LIST )
+		-> ( p : IDENTITY-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    EMPTY ENUMERATION LIST
+
+    This action creates an empty list of enumerations.
+*/
+
+<null-enum> : () -> ( p : ENUM-LIST ) = @{
+    @p = NULL_list ( ENUM_P ) ;
+@} ;
+
+
+/*
+    LOOK UP ENUMERATION
+
+    This action is used for the inheritance of enumeration types.  It
+    returns the list of enumerators associated with a base identifier.
+*/
+
+<get-enum> : ( j : IDENTIFIER ) -> ( p : ECONST-LIST ) = @{
+    string nm = @j ;
+    TYPE r = DEREF_type ( find_type ( algebra, nm ) ) ;
+    if ( IS_type_enumeration ( r ) ) {
+	ENUM_P en = DEREF_ptr ( type_enumeration_en ( r ) ) ;
+	@p = DEREF_list ( en_consts ( en ) ) ;
+	enum_value = DEREF_number ( en_order ( en ) ) ;
+	enum_max = enum_value ;
+    } else {
+	error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	@p = NULL_list ( ECONST_P ) ;
+    }
+@} ;
+
+
+/*
+    CREATE ENUMERATION
+
+    This action creates an enumeration from its various components.
+*/
+
+<make-enum> : ( c : CLASS-ID, l : FLAG, r : ECONST-LIST, s : ECONST-LIST )
+	    -> ( p : ENUM ) = @{
+    TYPE r ;
+    TYPE_P t ;
+    @s = ADD_list ( @r, @s, SIZE_ptr ( ECONST ) ) ;
+    @p = MAKE_ptr ( SIZE_en ) ;
+    MAKE_en ( @c, @s, enum_max + 1, @l, @p ) ;
+    enum_value = 0 ;
+    enum_max = 0 ;
+    DESTROY_list ( enum_list, SIZE_ptr ( ECONST ) ) ;
+    enum_list = NULL_list ( ECONST_P ) ;
+    t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_enumeration ( 0, @p, r ) ;
+    COPY_type ( t, r ) ;
+    IGNORE register_type ( t ) ;
+@} ;
+
+
+/*
+    ADD ENUMERATION TO LIST
+
+    This action adds the enumeration q to the start of the enumeration
+    list r.
+*/
+
+<join-enum> : ( q : ENUM, r : ENUM-LIST ) -> ( p : ENUM-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    EMPTY COMPONENT LIST
+
+    This action creates an empty list of components.
+*/
+
+<null-component> : () -> ( p : COMPONENT-LIST ) = @{
+    @p = NULL_list ( COMPONENT_P ) ;
+@} ;
+
+
+/*
+    CREATE COMPONENT
+
+    This action creates a structure component from its various components.
+*/
+
+<make-component> : ( i : IDENTIFIER, t : TYPE, v : STRING )
+		 -> ( p : COMPONENT ) = @{
+    @p = MAKE_ptr ( SIZE_cmp ) ;
+    MAKE_cmp ( @i, @t, @v, @p ) ;
+@} ;
+
+
+/*
+    ADD COMPONENT TO LIST
+
+    This action adds the component q to the start of the component list r.
+*/
+
+<join-component> : ( q : COMPONENT, r : COMPONENT-LIST )
+		 -> ( p : COMPONENT-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    LINK COMPONENT LISTS
+
+    This actions combines two component lists into a single list.
+*/
+
+<link-component> : ( q : COMPONENT-LIST, r : COMPONENT-LIST )
+		 -> ( p : COMPONENT-LIST ) = @{
+    @p = APPEND_list ( @q, @r ) ;
+@} ;
+
+
+/*
+    EMPTY STRUCTURE LIST
+
+    This action creates an empty list of structures.
+*/
+
+<null-structure> : () -> ( p : STRUCTURE-LIST ) = @{
+    @p = NULL_list ( STRUCTURE_P ) ;
+@} ;
+
+
+/*
+    CREATE STRUCTURE
+
+    This action creates a structure from its various components.
+*/
+
+<make-structure> : ( c : CLASS-ID, j : IDENTIFIER, s : COMPONENT-LIST )
+		 -> ( p : STRUCTURE ) = @{
+    TYPE r ;
+    TYPE_P t ;
+    string nm = @j ;
+    STRUCTURE_P str = NULL_ptr ( STRUCTURE ) ;
+    if ( nm ) {
+	r = DEREF_type ( find_type ( algebra, nm ) ) ;
+	if ( IS_type_structure ( r ) ) {
+	    str = DEREF_ptr ( type_structure_struc ( r ) ) ;
+	    @s = ADD_list ( DEREF_list ( str_defn ( str ) ), @s,
+			    SIZE_ptr ( COMPONENT ) ) ;
+	} else {
+	    error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	}
+    }
+    @p = MAKE_ptr ( SIZE_str ) ;
+    MAKE_str ( @c, str, @s, 0, @p ) ;
+    t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_structure ( 0, @p, r ) ;
+    COPY_type ( t, r ) ;
+    IGNORE register_type ( t ) ;
+@} ;
+
+
+/*
+    ADD STRUCTURE TO LIST
+
+    This action adds the structure q to the start of the structure list r.
+*/
+
+<join-structure> : ( q : STRUCTURE, r : STRUCTURE-LIST )
+		 -> ( p : STRUCTURE-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    EMPTY FIELD LIST
+
+    This action creates an empty list of fields.
+*/
+
+<null-field> : () -> ( p : FIELD-LIST ) = @{
+    @p = NULL_list ( FIELD_P ) ;
+@} ;
+
+
+/*
+    CREATE FIELD
+
+    This action creates a union field from its various components.
+*/
+
+<make-field> : ( i : IDENTIFIER, s : COMPONENT-LIST, f : FLAG )
+	     -> ( p : FIELD ) = @{
+    @p = MAKE_ptr ( SIZE_fld ) ;
+    MAKE_fld ( @i, 0, @f, 0, NULL_ptr ( FIELD ),  @s, @p ) ;
+    no_fields++ ;
+@} ;
+
+
+/*
+    ADD FIELD TO LIST
+
+    This action adds the field q to the start of the field list r.
+*/
+
+<join-field> : ( q : FIELD, r : FIELD-LIST ) -> ( p : FIELD-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    LINK FIELD LISTS
+
+    This actions combines two field lists into a single list.
+*/
+
+<link-field> : ( q : FIELD-LIST, r : FIELD-LIST ) -> ( p : FIELD-LIST ) = @{
+    @p = APPEND_list ( @q, @r ) ;
+@} ;
+
+
+/*
+    SET FIELD COMPONENTS
+
+    This action sets the definition of each of the fields in f to c.
+*/
+
+<set-field-cmp> : ( f : FIELD-LIST, j : IDENTIFIER, c : COMPONENT-LIST )
+		-> () = @{
+    int n = 0 ;
+    FIELD_P_LIST p = @f ;
+    FIELD_P b = NULL_ptr ( FIELD ) ;
+    if ( @j ) {
+	b = MAKE_ptr ( SIZE_fld ) ;
+	MAKE_fld ( @j, 0, 0, 0, NULL_ptr ( FIELD ),
+		   NULL_list ( COMPONENT_P ), b ) ;
+    }
+    while ( !IS_NULL_list ( p ) ) {
+	FIELD_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
+	COPY_ptr ( fld_base ( q ), b ) ;
+	COPY_list ( fld_defn ( q ), @c ) ;
+	p = TAIL_list ( p ) ;
+	n++ ;
+    }
+    if ( n >= 2 ) {
+	FIELD_P q = DEREF_ptr ( HEAD_list ( @f ) ) ;
+	COPY_int ( fld_set ( q ), n ) ;
+    }
+@} ;
+
+
+/*
+    EMPTY ARGUMENT LIST
+
+    This action creates an empty list of arguments.
+*/
+
+<null-argument> : () -> ( p : ARGUMENT-LIST ) = @{
+    @p = NULL_list ( ARGUMENT_P ) ;
+@} ;
+
+
+/*
+    CREATE ARGUMENT
+
+    This action creates a union map argument from its various components.
+*/
+
+<make-argument> : ( i : IDENTIFIER, t : TYPE ) -> ( p : ARGUMENT ) = @{
+    @p = MAKE_ptr ( SIZE_arg ) ;
+    MAKE_arg ( @i, @t, @p ) ;
+@} ;
+
+
+/*
+    ADD ARGUMENT TO LIST
+
+    This action adds the argument q to the start of the argument list r.
+*/
+
+<join-argument> : ( q : ARGUMENT, r : ARGUMENT-LIST )
+		-> ( p : ARGUMENT-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    LINK ARGUMENT LISTS
+
+    This actions combines two argument lists into a single list.
+*/
+
+<link-argument> : ( q : ARGUMENT-LIST, r : ARGUMENT-LIST )
+		-> ( p : ARGUMENT-LIST ) = @{
+    @p = APPEND_list ( @q, @r ) ;
+@} ;
+
+
+/*
+    EMPTY MAP LIST
+
+    This action creates an empty list of maps.
+*/
+
+<null-map> : () -> ( p : MAP-LIST ) = @{
+    @p = NULL_list ( MAP_P ) ;
+@} ;
+
+
+/*
+    CREATE MAP
+
+    This action creates a union map from its various components.
+*/
+
+<make-map> : ( i : IDENTIFIER, t : TYPE, a : ARGUMENT-LIST, f : FLAG )
+	   -> ( p : MAP ) = @{
+    @p = MAKE_ptr ( SIZE_map ) ;
+    MAKE_map ( @i, @f, @t, @a, @p ) ;
+@} ;
+
+
+/*
+    ADD MAP TO LIST
+
+    This action adds the map q to the start of the map list r.
+*/
+
+<join-map> : ( q : MAP, r : MAP-LIST ) -> ( p : MAP-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    EMPTY UNION LIST
+
+    This action creates an empty list of unions.
+*/
+
+<null-union> : () -> ( p : UNION-LIST ) = @{
+    @p = NULL_list ( UNION_P ) ;
+@} ;
+
+
+/*
+    CREATE UNION
+
+    This action creates a union from its various components.
+*/
+
+<make-union> : ( c : CLASS-ID, j : IDENTIFIER, s : COMPONENT-LIST,
+		 f : FIELD-LIST, m : MAP-LIST ) -> ( p : UNION ) = @{
+    TYPE r ;
+    TYPE_P t ;
+    int tag = 0 ;
+    string nm = @j ;
+    FIELD_P_LIST p = @f ;
+    UNION_P un = NULL_ptr ( UNION ) ;
+
+    /* Deal with overall inheritance */
+    if ( nm ) {
+	r = DEREF_type ( find_type ( algebra, nm ) ) ;
+	if ( IS_type_onion ( r ) ) {
+	    un = DEREF_ptr ( type_onion_un ( r ) ) ;
+	    @s = ADD_list ( DEREF_list ( un_s_defn ( un ) ), @s,
+			    SIZE_ptr ( COMPONENT ) ) ;
+	    @f = ADD_list ( DEREF_list ( un_u_defn ( un ) ), p,
+			    SIZE_ptr ( FIELD ) ) ;
+	    @m = ADD_list ( DEREF_list ( un_map ( un ) ), @m,
+			    SIZE_ptr ( MAP ) ) ;
+	    tag = DEREF_int ( un_no_fields ( un ) ) ;
+	    no_fields += tag ;
+	} else {
+	    error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	}
+    }
+
+    /* Deal with inheritance of fields and field tags */
+    while ( !IS_NULL_list ( p ) ) {
+	FIELD_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
+	FIELD_P b = DEREF_ptr ( fld_base ( q ) ) ;
+	if ( !IS_NULL_ptr ( b ) ) {
+	    int ok = 0 ;
+	    FIELD_P_LIST pp = @f ;
+	    string n = DEREF_string ( fld_name ( b ) ) ;
+	    while ( !IS_NULL_list ( pp ) ) {
+		FIELD_P qq = DEREF_ptr ( HEAD_list ( pp ) ) ;
+		string nn = DEREF_string ( fld_name ( qq ) ) ;
+		if ( streq ( n, nn ) ) {
+		    COMPONENT_P_LIST cc = DEREF_list ( fld_defn ( qq ) ) ;
+		    COMPONENT_P_LIST c = DEREF_list ( fld_defn ( q ) ) ;
+		    c = ADD_list ( cc, c, SIZE_ptr ( COMPONENT ) ) ;
+		    COPY_list ( fld_defn ( q ), c ) ;
+		    COPY_ptr ( fld_base ( q ), qq ) ;
+		    ok = 1 ;
+		    break ;
+		}
+		pp = TAIL_list ( pp ) ;
+	    }
+	    if ( !ok ) error ( ERROR_SERIOUS, "Can't find field %s", n ) ;
+	}
+	COPY_int ( fld_tag ( q ), tag++ ) ;
+	p = TAIL_list ( p ) ;
+    }
+
+    /* Construct output */
+    @p = MAKE_ptr ( SIZE_un ) ;
+    MAKE_un ( @c, un, @s, @f, @m, no_fields, @p ) ;
+    no_fields = 0 ;
+    t = MAKE_ptr ( SIZE_type ) ;
+    MAKE_type_onion ( 0, @p, r ) ;
+    COPY_type ( t, r ) ;
+    IGNORE register_type ( t ) ;
+@} ;
+
+
+/*
+    ADD UNION TO LIST
+
+    This action adds the union q to the start of the union list r.
+*/
+
+<join-union> : ( q : UNION, r : UNION-LIST ) -> ( p : UNION-LIST ) = @{
+    CONS_ptr ( @q, @r, @p ) ;
+@} ;
+
+
+/*
+    CREATE AN EXTRA TYPE
+
+    This action creates an extra type.  Actually this is done automatically
+    so no action is required.
+*/
+
+<make-extra> : ( t : TYPE ) -> () = @{
+    UNUSED ( @t ) ;
+@} ;
+
+
+/*
+    IMPORT AN ENTIRE ALGEBRA
+
+    This action imports an entire algebra.
+*/
+
+<import-all> : ( a : IDENTIFIER ) -> () = @{
+    import_algebra ( @a ) ;
+@} ;
+
+
+/*
+    IMPORT AN ITEM FROM AN ALGEBRA
+
+    This action imports a single type from an algebra.
+*/
+
+<import-one> : ( a : IDENTIFIER, i : IDENTIFIER ) -> () = @{
+    import_type ( @a, @i ) ;
+@} ;
+
+
+/*
+    OVERALL NAME
+
+    This action sets the overall algebra name to i.  It also prints a
+    warning if an old-style algebra is used.
+*/
+
+<set-main> : ( i : IDENTIFIER ) -> () = @{
+    string nm = @i ;
+    if ( !new_format ) error ( ERROR_WARNING, "Old style algebra syntax" ) ;
+    if ( find_algebra ( nm ) ) {
+	error ( ERROR_SERIOUS, "Algebra %s already defined", nm ) ;
+    }
+    algebra->name = nm ;
+@} ;
+
+
+/*
+    VERSION NUMBER
+
+    This action sets the overall algebra version number to a.b.
+*/
+
+<set-version> : ( a : NUMBER, b : NUMBER ) -> () = @{
+    algebra->major_no = ( int ) @a ;
+    algebra->minor_no = ( int ) @b ;
+@} ;
+
+
+/*
+    RECORD PRIMITIVES
+
+    This action adds a list of primitives to the list of all primitives.
+*/
+
+<add-primitive> : ( p : PRIMITIVE-LIST ) -> () = @{
+    algebra->primitives = APPEND_list ( algebra->primitives, @p ) ;
+@} ;
+
+
+/*
+    RECORD IDENTITIES
+
+    This action adds a list of identities to the list of all identities.
+*/
+
+<add-identity> : ( p : IDENTITY-LIST ) -> () = @{
+    algebra->identities = APPEND_list ( algebra->identities, @p ) ;
+@} ;
+
+
+/*
+    RECORD ENUMERATIONS
+
+    This action adds a list of enumerations to the list of all enumerations.
+*/
+
+<add-enum> : ( p : ENUM-LIST ) -> () = @{
+    algebra->enumerations = APPEND_list ( algebra->enumerations, @p ) ;
+@} ;
+
+
+/*
+    RECORD STRUCTURES
+
+    This action adds a list of structures to the list of all structures.
+*/
+
+<add-structure> : ( p : STRUCTURE-LIST ) -> () = @{
+    algebra->structures = APPEND_list ( algebra->structures, @p ) ;
+@} ;
+
+
+/*
+    RECORD UNIONS
+
+    This action adds a list of unions to the list of all unions.
+*/
+
+<add-union> : ( p : UNION-LIST ) -> () = @{
+    algebra->unions = APPEND_list ( algebra->unions, @p ) ;
+@} ;
+
+
+/*
+    OLD INPUT FORMAT
+
+    This action is used to indicate the old input format.
+*/
+
+<set-old-unit> : () -> () = @{
+    new_format = 0 ;
+@} ;
+
+
+/*
+    NEW INPUT FORMAT
+
+    This action is used to indicate the new input format.
+*/
+
+<set-new-unit> : () -> () = @{
+    new_format = 1 ;
+@} ;
+
+
+%trailer% @{
+@}, @{
+#endif
+@} ;
