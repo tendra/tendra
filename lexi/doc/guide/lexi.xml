@@ -35,47 +35,97 @@ does it expect any #defines?
 -->
 
 	<!--
-	   - Any origional documentation lexi once had is lost. This guide has
-	   - been written by reading the source code, and figuring out what is
-	   - valid. It is difficult to distinguish between obscure features and
-	   - undefined beaviour. We are taking the oppertunity here to explicitly
-	   - state which features are undefined behaviour and which are
-	   - intentional. We try to maintain backwards compatibility.
-
-        i've 1. designed the structure of my document, 2. read the
-        program's grammar and described each command in turn, 3. begun
-        integrating a manpage for invocation kevin reverse-engieered, and
-        will 4. describe the algorithims and runtime it employs
-
-	  - Don't forget to explain that this was inspired by Kevin's manpage
-	  - (and indeed that we'll produce a new manpage from this guide),
-	  - although his text was completley rewritten for this guide, it
-	  - served as a helpful comparison.
+	   - I have 1. designed the structure of my document, 2. read the
+	   - program's grammar and described each command in turn, 3. begun
+	   - integrating a manpage for invocation kevin reverse-engieered, and
+	   - will 4. describe the algorithims and runtime it employs
+	   -
+	   - Don't forget to explain that this was inspired by Kevin's manpage
+	   - (and indeed that we'll produce a new manpage from this guide),
+	   - although his text was completley rewritten for this guide, it
+	   - served as a helpful comparison.
 	  -->
 
 	<chapter id="introduction">
 		<title>Introduction</title>
 
-		<para>This document describes how to use the <code>lexi</code>
-			lexer generator. It was written for <code>lexi</code> version
-			1.3.<!-- TODO probably 1.3 when released --></para>
+		<para><literal>lexi</literal> translates a description of a lexical
+			analyser into C code implementing that analyser.<!-- TODO
+			briefly what lexi does, and its aims --></para>
 
-		<!-- TODO talk a little about this version: what it's for,
-			and why things are depreciated. essentially it's out of
-			politeness for any possible users of old code who happened
-			to use these features. Since there was no documentation,
-			who knows what is legal? -->
+		<para>This document describes how to use the <literal>lexi</literal>
+			lexer generator. It was written for <literal>lexi</literal> version
+			1.2.</para>
+		<!-- TODO 1.2 major change in output from 1.1 is lack of PROTO generation -->
+		<!-- TODO 1.3 for new API changes -->
+
+		<para>This version of <literal>lexi</literal> (1.2) is an interim to
+			mark a stable release before forthcoming <acronym>API</acronym>
+			changes scheduled for 1.3. This provides no features over 1.1 save
+			for some minor points (listed under the change history below); it
+			serves mostly to collate the restructuring of the codebase
+			during development; 1.2 is the first release of
+			<literal>lexi</literal> as a stand-alone product, seperate to the
+			TenDRA distribution.</para>
+
+		<para>Any origional documentation <literal>lexi</literal> once had
+			previous to version 1.2 is lost. Since there is no surviving
+			documentation, this guide has been written from scratch, based
+			from observations of the source code. It is
+			difficult to distinguish between obscure features and undefined
+			beaviour; we are taking the oppertunity here to explicitly
+			state which features are undefined behaviour and which are
+			intentional. We try to maintain backwards compatibility with
+			these features, based on the <literal>lexi</literal> files
+			present in the TenDRA repository.</para>
+
+		<para>Features of version 1.2 which are due to be changed for
+			version 1.3 are therfore marked depreciated.</para>
 
 		<!-- TODO mostly similar to the lexi in TenDRS 4.whatever,
 			save for the addition of // comments, and what else? -->
 
 		<para><!-- TODO history --></para>
 
-		<para><code>lexi</code> translates a description of a lexical
-			analyser into C code implementing that analyser.<!-- TODO
-			briefly what lexi does, and its aims --></para>
+		<section>
+			<title>Change History</title>
 
-		<!-- TODO token stream diagram -->
+			<para>The main feature changes of each version of
+				<literal>lexi</literal> are listed below:
+
+				<!-- TODO 1.3 - forthcoming API changes -->
+				<variablelist>
+					<title>Versions of <literal>lexi</literal></title>
+
+					<varlistentry>
+						<term>1.2</term>
+						<listitem>
+							<para>Interim convenience release.
+								<itemizedlist>
+									<listitem>
+										<para><code>PROTO</code> removed<!-- TODO --></para>
+									</listitem>
+									<listitem>
+										<para>Seperated from the TenDRA distribution<!-- TODO --></para>
+									</listitem>
+									<listitem>
+										<para>Various behaviours undefined<!-- TODO --></para>
+									</listitem>
+								</itemizedlist>
+							</para>
+						</listitem>
+					</varlistentry>
+
+					<varlistentry>
+						<term>1.1</term>
+						<listitem>
+							<para><!-- TODO -->The version provided in TenDRA 4.2.1?</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+
+			</para>
+		</section>
 	</chapter>
 
 	<chapter id="lexing">
@@ -86,13 +136,15 @@ does it expect any #defines?
 
 			<para><!-- TODO what lexical analysis is --></para>
 
+			<!-- TODO token stream diagram -->
+
 			<para><!-- TODO what it's used for --></para>
 		</section>
 
 		<section>
 			<title>Concepts Lexi Expresses</title>
 
-			<!-- TODO
+			<!-- TODO -->
 			<itemizedlist>
 				<listitem>
 					<para>Keywords</para>
@@ -130,13 +182,12 @@ does it expect any #defines?
 					<para>TODO</para>
 				</listitem>
 			</itemizedlist>
-			-->
 
 			<para>Any other facilities are provided by matching the start of
 				a token and passing control to an externally defined function,
 				This seperation provides a general mechanism to allow the user
 				to handle situations unforseen by the authors, without making
-				<code>lexi</code> itself overcomplex by attempting to provide
+				<literal>lexi</literal> itself overcomplex by attempting to provide
 				built-in mechanisms to express every corner-case (for example,
 				switching to a "comment-parsing" mode). See the <!-- TODO -->
 				functioncalls section for details.</para>
@@ -153,13 +204,15 @@ does it expect any #defines?
 				chrset mapping) to UTF-8 as a pass phase --></para>
 
 			<para><!-- TODO talk about passes --></para>
+
+			<para><!-- TODO -->see section on performance.</para>
 		</section>
 	</chapter>
 
 	<chapter id="invocation">
 		<title>Invocation</title>
 
-		<para><code>lexi</code> is invoked with the form: <code>lexi [options]
+		<para><literal>lexi</literal> is invoked with the form: <code>lexi [options]
 			input-file [output-file]</code>. An implementation of the lexical
 			analyser described by the <code>input-file</code> is written to the
 			<code>output-file</code>, if present, or to <code>stdout</code>
@@ -180,7 +233,7 @@ does it expect any #defines?
 	<chapter id="interface">
 		<title>Interface</title>
 
-		<para><code>lexi</code> generates and outputs C89 code
+		<para><literal>lexi</literal> generates and outputs C89 code
 			implementing the specified lexical analyser. This code
 			is intended to be linked as part of a larger C program
 			by the user.</para>
@@ -194,7 +247,7 @@ does it expect any #defines?
 void unread_char(int);</programlisting>
 
 		<para>Output from the lexical analyser is by way of a function
-			provided by <code>lexi</code> that returns the next
+			provided by <literal>lexi</literal> that returns the next
 			token to the user's program:<!-- TODO what does kevin mean
 			when he says with the -f option? sid? --></para>
 
@@ -211,7 +264,7 @@ void unread_char(int);</programlisting>
 			maximum length required.</para>
 		<!-- TODO state size limits of things -->
 
-		<para><code>lexi</code> does not define the values of
+		<para><literal>lexi</literal> does not define the values of
 			terminals in the generated code; these are expected to
 			be specified by the user (most usually from a
 			parser-generator such as <code>sid</code>). For example,
@@ -261,7 +314,7 @@ void unread_char(int);</programlisting>
 			<para><!-- TODO explain our BNF here. Standardise across
 				all documents. we can centralise this to some shared
 				document. Is there and RFC perhaps which defines a
-				BNF dialect we can use?--></para>
+				BNF dialect we can use? RFC 2234 looks to be it --></para>
 
 			<para>The following productions are used throughout this
 				document:</para>
@@ -274,7 +327,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 		<section>
 			<title>Comments</title>
 
-			<para><code>lexi</code> permits comments in lexical analyser
+			<para><literal>lexi</literal> permits comments in lexical analyser
 				specifications. These are C style comments, opening
 				<code>/*</code> and closing <code>*/</code>. They may not
 				nest, and they must close. For example:</para>
@@ -331,7 +384,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 			<programlisting>void get_comment(char c0, char c1);</programlisting>
 			<!-- TODO right? -->
 
-			<para>And called by <code>lexi</code> as:</para>
+			<para>And called by <literal>lexi</literal> as:</para>
 
 			<programlisting>get_comment('/', '*')</programlisting>
 		</section>
@@ -340,7 +393,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 			<title id="charactersetslists.title">Character sets and lists</title>
 
 			<para>Sets and lists of characters are used by
-				<!-- TODO right? --> all <code>lexi</code> commands. <!--
+				<!-- TODO right? --> all <literal>lexi</literal> commands. <!--
 				TODO and possibly also pre-pass replacements? --> They share
 				the same syntax, but have different meanings: a set is an
 				unordered intersection of all characters specified, wheras
@@ -394,7 +447,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<para>Ranges are inclusive. The numeric values of the
 				characters includes in ranges are of the
 				character set of the C implementation used to compile
-				<code>lexi</code> (it is reasonable to assume this is ASCII).
+				<literal>lexi</literal> (it is reasonable to assume this is ASCII).
 				Note that the <code>range</code> production always
 				represents a set (as opposed to a list), even when used as
 				part of a <code>TOKEN</code>
@@ -446,7 +499,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 							<entry>New page (form feed)</entry>
 						</row>
 
-						<!-- Why is this escaped? -->
+						<!-- TODO Why is this escaped? -->
 						<row>
 							<entry><code>\?</code></entry>
 							<entry>0x3F</entry>
@@ -557,7 +610,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 	<chapter id="commands">
 		<title>Commands</title>	<!-- TODO term -->
 
-		<para>Lexical analysers are described to <code>lexi</code> by a
+		<para>Lexical analysers are described to <literal>lexi</literal> by a
 			sequence of commands. This section provides an explanation of
 			each possible command, and explains their respective
 			intended uses.</para>
@@ -582,8 +635,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<!-- TODO chars on the left is the same as a token? we should
 				make list a seperate symbol from set -->
 
-			<para>For example, to replace the trigraph "??=" with a single
-				"?":</para>
+			<para>For example, to replace the trigraph <literal>??=</literal>
+				with a single <literal>?</literal>:</para>
 
 			<programlisting>MAPPING "\?\?=" -> "#" ;</programlisting>
 			<!-- TODO test -->
@@ -733,7 +786,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<!-- TODO explain what groups are legal, undefined, etc.
 				Overlapping, for example? -->
 
-			<para>The group name "white" may not be used for groups other
+			<para>The group name <quote>white</quote> may not be used for groups other
 				than the whitespace definition; see <!-- TODO ref -->
 				the Whitespace definition section for details.</para>
 
@@ -746,7 +799,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<para>Consecuitive whitespace characters outside of strings
 				and comments <!-- TODO is this right? --> are skipped by
 				the lexical analyser, occuring with the semantics of a
-				single token delimiter. <code>lexi</code> specifies
+				single token delimiter. <literal>lexi</literal> specifies
 				whitespace by the special group name <code>white</code>,
 				which may not be used as an identifier to name other
 				groups. The syntax is the same as for any
@@ -785,12 +838,12 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>Tokens are lists of characters read by the lexical analyser
 				and indicated as output. Each token as a unique identifier,
-				which is passed to code calling <code>lexi</code>, along with
+				which is passed to code calling <literal>lexi</literal>, along with
 				the characters read which form the
 				token<!-- TODO is that true? -->.</para>
 
 			<para>Tokens are the main guts of a lexical analyser.
-				In <code>lexi</code>'s case, the only sitution in which
+				In <literal>lexi</literal>'s case, the only sitution in which
 				there would be no token declarations is if the lexical
 				analyser is to exclusivley perform pre-pass mappings.<!--
 				TODO so make it illegal to have no MAPPING or TOKENs? --></para>
@@ -807,7 +860,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>For example, for comments in a C-style language, the lexical
 				analyser is expected to discard characters until the end
-				of the comment is found. In <code>lexi</code>, this is specified
+				of the comment is found. In <literal>lexi</literal>, this is specified
 				as:</para>
 
 			<programlisting>TOKEN "/*" -> get_comment() ;</programlisting>
@@ -988,6 +1041,14 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 
 			<para><!-- TODO kevin says: IF constructs can nest. --></para>
 		</section>
+	</chapter>
+
+	<chapter>
+		<title>Implementation</title>
+
+		<para><!-- TODO -->What is generated, and algorithims employed</para>
+
+		<para><!-- TODO -->Performance relative to other lexers</para>
 	</chapter>
 
 	<chapter id="appendix">
