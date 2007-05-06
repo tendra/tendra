@@ -227,8 +227,7 @@ external:           TDFINT
 num_bytes_tdf:              TDFINT
 tdf:                        BYTE * num_bytes_tdf
 } * num_units
-} * num_unit_groups
-      </programlisting></para>
+} * num_unit_groups</programlisting></para>
     
     <para>The rest of this section describes the format of a capsule.</para>
 
@@ -424,8 +423,7 @@ name:                       EXTERNAL
 info:                       TDFINT
 capsule:                    TDFINT
 } * num_this_linkable_entity
-} * num_linkable_entities
-      </programlisting></para>
+} * num_linkable_entities</programlisting></para>
     
     <para>The library begins with a four byte magic number
       (<token>magic</token>: "TDFL"), followed by the major

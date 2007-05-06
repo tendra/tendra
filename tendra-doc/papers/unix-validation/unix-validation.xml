@@ -826,14 +826,13 @@
         source will be:</para>
 
       <programlisting>
-      int f() { }
-      /* .... */
-      #ifndef __ANDF__
-      	f(1);
-      #else
-      	f();
-      #endif
-      </programlisting>
+int f() { }
+/* .... */
+#ifndef __ANDF__
+	f(1);
+#else
+	f();
+#endif</programlisting>
 
       <para>In other cases, we had to modify some Makefiles. In the DRA-NAT
         build, this was necessary for sources which contained assembly
@@ -891,20 +890,19 @@
         change we made is located in the main() function:</para>
 
       <programlisting>
-          init_all();
+init_all();
 
-          if (diagnose)
-             out_diagnose_prelude();
-          TRASH d_capsule();
+if (diagnose)
+	out_diagnose_prelude();
+TRASH d_capsule();
 
-          /* change start */
-          outs(``.ident \''@(#)/andf/bin/trans386:   (ANDF) 3.0 03/22/95\'''');
-          outnl();
-          /* change end */
+/* change start */
+outs(``.ident \''@(#)/andf/bin/trans386:   (ANDF) 3.0 03/22/95\'''');
+outnl();
+/* change end */
 
-          while (weak_list)
-              /* ... */
-      </programlisting>
+while (weak_list)
+	/* ... */</programlisting>
     </sect1>
 
     <sect1>
@@ -1383,8 +1381,7 @@
             defined in the file with the instruction:</para>
 
           <programlisting>
-  extern int errno;
-          </programlisting>
+extern int errno;</programlisting>
 
           <para>Since errno can be implemented in different ways on different
             architectures, it must not be declared as an int variable. This

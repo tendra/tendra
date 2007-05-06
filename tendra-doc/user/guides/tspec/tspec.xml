@@ -251,8 +251,7 @@
           <programlisting>
 tspec [options] api
 tspec [options] api header
-tspec [options] api header subset
-          </programlisting></para>
+tspec [options] api header subset</programlisting></para>
   
         <para>The valid options include:
           <itemizedlist>
@@ -349,8 +348,7 @@ tspec [options] api header subset
           corresponding <code>#pragma token</code> statements. The form:
 
           <programlisting>
-tspec [options] -l file
-          </programlisting>
+tspec [options] -l file</programlisting>
 
           processes the input file <code>file</code>, writing the include
           output file to the standard output.
@@ -384,9 +382,8 @@ tspec [options] -l file
 
           <programlisting>
 +SUBSET "name" := {
-    ....
-} ;
-          </programlisting>
+	....
+} ;</programlisting>
 
           where <code>name</code> is the subset name. These named subsets can
           be nested, but are still regarded as subsets of the parent
@@ -410,8 +407,7 @@ tspec [options] -l file
           <programlisting>
 +IMPLEMENT "api" ;
 +IMPLEMENT "api", "header" ;
-+IMPLEMENT "api", "header", "subset" ;
-          </programlisting></para>
++IMPLEMENT "api", "header", "subset" ;</programlisting></para>
 
         <para>The second construct is used to indicate that the objects are
           only used in the including header, and take one of the forms:
@@ -419,8 +415,7 @@ tspec [options] -l file
           <programlisting>
 +USE "api" ;
 +USE "api", "header" ;
-+USE "api", "header", "subset" ;
-          </programlisting></para>
++USE "api", "header", "subset" ;</programlisting></para>
 
         <para>For example, <code>posix:stdio.h</code> is an extension of
           <code>ansi:stdio.h</code> , so, rather than duplicate all the object
@@ -428,8 +423,7 @@ tspec [options] -l file
           clearer to use the construct:
 
           <programlisting>
-+IMPLEMENT "ansi", "stdio.h" ;
-          </programlisting>
++IMPLEMENT "ansi", "stdio.h" ;</programlisting>
 
           and just add the extra objects specified by POSIX. Note that this
           makes the relationship between the APIs <code>ansi</code> and
@@ -448,15 +442,13 @@ tspec [options] -l file
 
           <programlisting>
 +SUBSET "size_t" := {
-    +TYPE (unsigned) size_t ;
-} ;
-          </programlisting>
+	+TYPE (unsigned) size_t ;
+} ;</programlisting>
 
           and including this in each of the other headers:
 
           <programlisting>
-+IMPLEMENT "ansi", "stddef.h", "size_t" ;
-          </programlisting></para>
++IMPLEMENT "ansi", "stddef.h", "size_t" ;</programlisting></para>
   
         <para>Another use of <code>+IMPLEMENT</code> is in the
           <code>MASTER</code> file used to list the headers in an API (see
@@ -468,8 +460,7 @@ tspec [options] -l file
 +IMPLEMENT "ansi", "assert.h" ;
 +IMPLEMENT "ansi", "ctype.h" ;
 ....
-+IMPLEMENT "ansi", "time.h" ;
-          </programlisting></para>
++IMPLEMENT "ansi", "time.h" ;</programlisting></para>
   
         <para>To illustrate <code>+USE</code>, <code>posix:sys/stat.h</code>
           uses some types from <code>posix:sys/types.h</code> but does not
@@ -479,8 +470,7 @@ tspec [options] -l file
           This would be done using the construct:
 
           <programlisting>
-+USE "posix", "sys/types.h" ;
-          </programlisting></para>
++USE "posix", "sys/types.h" ;</programlisting></para>
   
         <para>On the command-line <code>tspec</code> is given one set of
           objects, be it an API, a header, or a subset of a header. This
@@ -557,8 +547,7 @@ tspec [options] -l file
             form to be specified. When the object is specified the form:
 
             <programlisting>
-iname | ename
-            </programlisting>
+iname | ename</programlisting>
 
             may be used to specify the internal name <code>iname</code> and
             the external name <code>ename</code>.</para>
@@ -568,8 +557,7 @@ iname | ename
 
             <programlisting>
 +TYPE struct stat | struct_stat ;
-+FUNC int stat ( const char *, struct stat * ) ;
-            </programlisting></para>
++FUNC int stat ( const char *, struct stat * ) ;</programlisting></para>
 
           <para>With simple token names the token corresponding to the
             structure would be called <code>struct_stat</code>, whereas that
@@ -582,8 +570,7 @@ iname | ename
             external token name. This can be done using the form:
 
             <programlisting>
-iname | "ename"
-            </programlisting>
+iname | "ename"</programlisting>
 
             which makes the object <code>iname</code> have external name
             <code>ename</code> regardless of the naming strategy used.</para>
@@ -606,8 +593,7 @@ iname | "ename"
 
             <programlisting>
 +TYPE ~t ;
-+TYPEDEF ~t *t ;
-            </programlisting></para>
++TYPEDEF ~t *t ;</programlisting></para>
   
           <para>Finally it is possible to cheat the <code>tspec</code>
             namespaces. It may actually be legal to have two objects of the
@@ -632,8 +618,7 @@ iname | "ename"
           done by means of:
 
           <programlisting>
-+FUNC prototype ;
-          </programlisting>
++FUNC prototype ;</programlisting>
 
           where <code>prototype</code> is the full C prototype of the
           procedure being declared. For example, <code>ansi:string.h</code>
@@ -642,8 +627,7 @@ iname | "ename"
           <programlisting>
 +FUNC char *strcpy ( char *, const char * ) ;
 +FUNC int strcmp ( const char *, const char * ) ;
-+FUNC size_t strlen ( const char * ) ;
-          </programlisting></para>
++FUNC size_t strlen ( const char * ) ;</programlisting></para>
   
         <para>Strictly speaking, <code>+FUNC</code> means that the procedure
           may be implemented by a macro, but that there is an underlying
@@ -651,22 +635,19 @@ iname | "ename"
           procedures which take a variable number of arguments, such as:
 
           <programlisting>
-+FUNC int fprintf ( FILE *, const char *, ... ) ;
-          </programlisting>
++FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
 
           which cannot be implemented by macros. Occasionally it may be
           necessary to specify that a procedure is only a library function,
           and cannot be implemented by a macro. In this case the form:
 
           <programlisting>
-+FUNC (extern) prototype ;
-          </programlisting>
++FUNC (extern) prototype ;</programlisting>
 
           should be used. Thus:
 
           <programlisting>
-+FUNC (extern) char *strcpy ( char *, const char * ) ;
-          </programlisting>
++FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
 
           would mean that <code>strcpy</code> was only a library function and
           not a macro.</para>
@@ -681,14 +662,12 @@ iname | "ename"
 
           <programlisting>
 void *malloc ( sz )
-size_t sz ;
-          </programlisting>
+size_t sz ;</programlisting>
 
           which is in general different from the prototype:
 
           <programlisting>
-void *malloc ( size_t ) ;
-          </programlisting></para>
+void *malloc ( size_t ) ;</programlisting></para>
 
         <para>In the first case the argument is passed as the integral
           promotion of <code>size_t</code>, whereas in the second it is passed
@@ -699,8 +678,7 @@ void *malloc ( size_t ) ;
           reference 3). The form:
 
           <programlisting>
-+FUNC (weak) void *malloc ( size_t ) ;
-          </programlisting>
++FUNC (weak) void *malloc ( size_t ) ;</programlisting>
 
           means that <code>malloc</code> is a library function returning
           <code>void *</code> which is declared using an old style declaration
@@ -716,16 +694,14 @@ void *malloc ( size_t ) ;
           They are specified by:
 
           <programlisting>
-+EXP type exp1, ..., expn ;
-          </programlisting>
++EXP type exp1, ..., expn ;</programlisting>
 
           where <code>type</code> is the base type of the expressions
           <code>expi</code> as in a normal C declaration list. For example, in
           <code>ansi:stdio.h</code>:
 
           <programlisting>
-+EXP FILE *stdin, *stdout, *stderr ;
-          </programlisting>
++EXP FILE *stdin, *stdout, *stderr ;</programlisting>
 
           specifies three expressions of type <code>FILE *</code>.</para>
   
@@ -739,8 +715,7 @@ void *malloc ( size_t ) ;
           follows:
 
           <programlisting>
-+EXP lvalue int errno ;
-          </programlisting></para>
++EXP lvalue int errno ;</programlisting></para>
 
         <para>On the other hand, <code>posix:errno.h</code> states that
           <code>errno</code> is an external value of type <code>int</code>.
@@ -748,8 +723,7 @@ void *malloc ( size_t ) ;
           to express this as:
 
           <programlisting>
-+EXP (extern) int errno ;
-          </programlisting>
++EXP (extern) int errno ;</programlisting>
 
           Note that this automatically means that <code>errno</code> is an
           lvalue, so the <code>lvalue</code> qualifier is optional in this
@@ -760,14 +734,12 @@ void *malloc ( size_t ) ;
 
           <programlisting>
 +EXP (const) type exp1, ..., expn ;
-+CONST type exp1, ..., expn ;
-          </programlisting>
++CONST type exp1, ..., expn ;</programlisting>
 
           should be used. For example, in <code>ansi:errno.h</code> we have:
 
           <programlisting>
-+CONST int EDOM, ERANGE ;
-          </programlisting></para>
++CONST int EDOM, ERANGE ;</programlisting></para>
       </sect1>
 
       <sect1 id="Macro">
@@ -780,8 +752,7 @@ void *malloc ( size_t ) ;
 
           <programlisting>
 +MACRO int _toupper ( int ) ;
-+MACRO int _tolower ( int ) ;
-          </programlisting>
++MACRO int _tolower ( int ) ;</programlisting>
 
           since these are explicitly stated to be macros and not functions. Of
           course the <code>(extern)</code> qualifier cannot be used with
@@ -798,8 +769,7 @@ void *malloc ( size_t ) ;
           variables. This may be expressed by:
 
           <programlisting>
-+MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;
-          </programlisting></para>
++MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting></para>
       </sect1>
 
       <sect1 id="Statement">
@@ -813,8 +783,7 @@ void *malloc ( size_t ) ;
 
           <programlisting>
 +STATEMENT stmt ;
-+STATEMENT stmt ( arg1, ..., argn ) ;
-          </programlisting>
++STATEMENT stmt ( arg1, ..., argn ) ;</programlisting>
 
           depending on whether or not it takes any arguments. (A <code>
           +MACRO</code> without any arguments is an <code>+EXP</code>, so the
@@ -832,15 +801,13 @@ void *malloc ( size_t ) ;
 
           <programlisting>
 +DEFINE name %% text %% ;
-+DEFINE name ( arg1, ..., argn ) %% text %% ;
-          </programlisting></para>
++DEFINE name ( arg1, ..., argn ) %% text %% ;</programlisting></para>
 
         <para>These translate directly into:
 
           <programlisting>
 #define name text
-#define name( arg1, ..., argn ) text
-          </programlisting></para>
+#define name( arg1, ..., argn ) text</programlisting></para>
   
         <para>The macro definition, <code>text</code>, consists of any string
           of characters delimited by double percents. If <code>text</code> is
@@ -848,8 +815,7 @@ void *malloc ( size_t ) ;
           be omitted. Thus in <code>ansi:stddef.h</code> we have:
 
           <programlisting>
-+DEFINE NULL 0 ;
-          </programlisting></para>
++DEFINE NULL 0 ;</programlisting></para>
       </sect1>
 
       <sect1 id="Type">
@@ -859,8 +825,7 @@ void *malloc ( size_t ) ;
           construct. This has the form:
 
           <programlisting>
-+TYPE type1, ..., typen ;
-          </programlisting>
++TYPE type1, ..., typen ;</programlisting>
 
           where each <code>typei</code> has one of the forms:
 
@@ -920,8 +885,7 @@ void *malloc ( size_t ) ;
           structure tags, if we have in C:
 
           <programlisting>
-typedef struct tag { int x, y ; } type ;
-          </programlisting>
+typedef struct tag { int x, y ; } type ;</programlisting>
 
           then <code>type</code> is a structure type and <code>tag</code> is a
           structure tag.</para>
@@ -935,8 +899,7 @@ typedef struct tag { int x, y ; } type ;
 +TYPE (signed) ptrdiff_t ;
 +TYPE (unsigned) size_t ;
 +TYPE (arith) time_t ;
-+TYPE (int) wchar_t ;
-          </programlisting></para>
++TYPE (int) wchar_t ;</programlisting></para>
       </sect1>
 
       <sect1 id="Typedef">
@@ -953,8 +916,7 @@ typedef struct tag { int x, y ; } type ;
 
           <programlisting>
 +TYPE struct entry ;
-+TYPEDEF struct entry ENTRY ;
-          </programlisting></para>
++TYPEDEF struct entry ENTRY ;</programlisting></para>
   
         <para>There are a couple of special forms. To understand the first,
           note that C uses <code>void</code> function returns for two
@@ -968,8 +930,7 @@ typedef struct tag { int x, y ; } type ;
 
           <programlisting>
 +TYPEDEF ~special ( "bottom" ) ~bottom ;
-+FUNC ~bottom exit ( int ) ;
-          </programlisting>
++FUNC ~bottom exit ( int ) ;</programlisting>
 
           meaning that the local type <code>~bottom</code> is the
           <code>BOTTOM</code> form of <code>void</code>. The procedure <code>
@@ -980,8 +941,7 @@ typedef struct tag { int x, y ; } type ;
         <para>The second special form:
 
           <programlisting>
-+TYPEDEF ~promote ( x ) y ;
-          </programlisting>
++TYPEDEF ~promote ( x ) y ;</programlisting>
 
           means that <code>y</code> is an integral type which is the integral
           promotion of <code>x</code>. <code>x</code> must have previously
@@ -991,8 +951,7 @@ typedef struct tag { int x, y ; } type ;
 
           <programlisting>
 void *malloc ( sz )
-size_t sz ;
-          </programlisting>
+size_t sz ;</programlisting>
 
           means that <code>malloc</code> has one argument which is passed as
           the integral promotion of <code>size_t</code>. This could be
@@ -1000,8 +959,7 @@ size_t sz ;
 
           <programlisting>
 +TYPEDEF ~promote ( size_t ) ~size_t ;
-+FUNC void *malloc ( ~size_t ) ;
-          </programlisting>
++FUNC void *malloc ( ~size_t ) ;</programlisting>
 
           introducing a local type to stand for the integral promotion of
           <code>size_t</code>.</para>
@@ -1016,11 +974,10 @@ size_t sz ;
           takes the form:
 
 <programlisting>
-          +FIELD type {
-              ftype field1, ..., fieldn ;
-              ....
-          } ;
-</programlisting>
++FIELD type {
+	ftype field1, ..., fieldn ;
+	....
+} ;</programlisting>
 
           where <code>type</code> is the structure or union type and
           <code>field1</code>, ..., <code>fieldn</code> are field selectors
@@ -1060,17 +1017,16 @@ size_t sz ;
 
           <programlisting>
 +FIELD struct tm {
-    int tm_sec ;
-    int tm_min ;
-    int tm_hour ;
-    int tm_mday ;
-    int tm_mon ;
-    int tm_year ;
-    int tm_wday ;
-    int tm_yday ;
-    int tm_isdst ;
-} ;
-          </programlisting>
+	int tm_sec ;
+	int tm_min ;
+	int tm_hour ;
+	int tm_mday ;
+	int tm_mon ;
+	int tm_year ;
+	int tm_wday ;
+	int tm_yday ;
+	int tm_isdst ;
+} ;</programlisting>
 
           meaning that there exists a structure with tag <code>tm</code> with
           various fields of type <code>int</code>. Any implementation must
@@ -1097,10 +1053,9 @@ size_t sz ;
 
           <programlisting>
 +FIELD type := {
-    ftype field1, ..., fieldn ;
-    ....
-} ;
-          </programlisting>
+	ftype field1, ..., fieldn ;
+	....
+} ;</programlisting>
 
           means that the type <code>type</code> is defined to be exactly the
           given structure or union type, with precisely the given fields in
@@ -1120,8 +1075,7 @@ size_t sz ;
           the form:
 
           <programlisting>
-+NAT nat1, ..., natn ;
-          </programlisting>
++NAT nat1, ..., natn ;</programlisting>
 
           where <code>nat1</code>, ..., <code>natn</code> are the array sizes
           to be declared. The example thus becomes:
@@ -1129,9 +1083,8 @@ size_t sz ;
           <programlisting>
 +NAT ~dirent_d_name_size ;
 +FIELD struct dirent {
-    char d_name [ ~dirent_d_name_size ] ;
-} ;
-          </programlisting>
+	char d_name [ ~dirent_d_name_size ] ;
+} ;</programlisting>
 
           Note the use of a local variable to stand for a value, namely the
           array size, which is invisible to the user (see
@@ -1146,8 +1099,7 @@ size_t sz ;
           <programlisting>
 +NAT ~jmp_buf_size ;
 +TYPE ~jmp_buf_elt ;
-+TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;
-          </programlisting></para>
++TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;</programlisting></para>
 
         <para>Again, local variables have been used for the introduced
           objects.</para>
@@ -1163,10 +1115,9 @@ size_t sz ;
 
           <programlisting>
 +ENUM etype := {
-    entry,
-    ....
-} ;
-          </programlisting>
+	entry,
+	....
+} ;</programlisting>
 
           where <code>etype</code> is the enumeration type being defined -
           either a type name or <code>enum etag</code> for some enumeration
@@ -1175,15 +1126,13 @@ size_t sz ;
 
           <programlisting>
 name
-name = number
-          </programlisting>
+name = number</programlisting>
 
           as in a C enumeration type. For example, in
           <code>xpg3:search.h</code> we have:
 
           <programlisting>
-+ENUM ACTION := { FIND, ENTER } ;
-          </programlisting></para>
++ENUM ACTION := { FIND, ENTER } ;</programlisting></para>
       </sect1>
 
       <sect1 id="Token">
@@ -1197,16 +1146,14 @@ name = number
           construct:
 
           <programlisting>
-+TOKEN name %% text %% ;
-          </programlisting>
++TOKEN name %% text %% ;</programlisting>
 
           where the token <code>name</code> is defined by the sequence of
           characters <code>text</code>, which is delimited by double percents.
           This is turned into the token description:
 
           <programlisting>
-#pragma token text name #
-          </programlisting></para>
+#pragma token text name #</programlisting></para>
   
         <para>No checks are applied to <code>text</code>. A more sophisticated
           mechanism for defining complex tokens may be introduced in a later
@@ -1218,8 +1165,7 @@ name = number
           of type <code>t</code>. This is given by:
 
           <programlisting>
-+TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;
-          </programlisting></para>
++TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting></para>
 
         <para>See reference 3 for more details on the token syntax.</para>
       </sect1>
@@ -1244,8 +1190,7 @@ name = number
 +IFDEF %% text %%
 +IFNDEF %% text %%
 +ELSE
-+ENDIF
-          </programlisting>
++ENDIF</programlisting>
 
           which are translated into:
 
@@ -1254,8 +1199,7 @@ name = number
 #ifdef text
 #ifndef text
 #else /* text */
-#endif /* text */
-          </programlisting>
+#endif /* text */</programlisting>
 
           respectively. If <code>text</code> is just a simple number or a
           single identifier the double percent delimiters may be
@@ -1267,8 +1211,7 @@ name = number
 
           <programlisting>
 +IFDEF ~building_libs
-+IFDEF ~protect ( "api", "header" )
-          </programlisting>
++IFDEF ~protect ( "api", "header" )</programlisting>
 
           The macros in these constructs expand respectively to <code>
           __BUILDING_LIBS</code> which, by convention is defined if and only
@@ -1288,14 +1231,12 @@ name = number
           for copying into the include output file in double percents:
 
           <programlisting>
-%% text %%
-          </programlisting>
+%% text %%</programlisting>
 
           and text for copying into the source output file in triple percents:
 
           <programlisting>
-%%% text %%%
-          </programlisting></para>
+%%% text %%%</programlisting></para>
   
         <para>In fact more percents may be used. An even number always
           indicates text for the include output file, and an odd number the
@@ -1311,8 +1252,7 @@ name = number
         <para>A special case of quoted text are C style comments:
 
           <programlisting>
-/* text */
-          </programlisting>
+/* text */</programlisting>
 
           which are copied directly into the include output file.</para>
       </sect1>
@@ -1325,14 +1265,12 @@ name = number
           form:
 
           <programlisting>
-$property = number ;
-          </programlisting>
+$property = number ;</programlisting>
 
           for numeric (or boolean) properties, and:
 
           <programlisting>
-$property = "string" ;
-          </programlisting>
+$property = "string" ;</programlisting>
 
           for string properties.</para>
   
@@ -1460,8 +1398,7 @@ $property = "string" ;
           <programlisting>
 +IMPLEMENT "api" (key) ;
 +IMPLEMENT "api", "header" (key) ;
-+IMPLEMENT "api", "header", "subset" (key) ;
-          </programlisting>
++IMPLEMENT "api", "header", "subset" (key) ;</programlisting>
 
           with corresponding forms for <code>+USE</code>.  <code>key</code>
           specifies which output files the inclusion commands should appear
@@ -1498,8 +1435,7 @@ $property = "string" ;
           by including the command:
 
           <programlisting>
-+BASE_API ;
-          </programlisting>
++BASE_API ;</programlisting>
 
           in their <code>MASTER</code> file. Occasionally, in an extension
           API, we may wish to include a version of a header from the base API,
@@ -1507,8 +1443,7 @@ $property = "string" ;
           <code>+USE</code> command. Instead the special form:
 
           <programlisting>
-+USE ( "api" ), "header" ;
-          </programlisting>
++USE ( "api" ), "header" ;</programlisting>
 
           is provided for this purpose (this is the only permitted form). It
           indicates that <code>tspec</code> should use the <code>api</code>
@@ -1526,8 +1461,7 @@ $property = "string" ;
 #ifndef MACRO
 #define MACRO
 ....
-#endif /* MACRO */
-          </programlisting>
+#endif /* MACRO */</programlisting>
 
           to protect it against multiple inclusions. Normally
           <code>tspec</code> will generate the macro name, <code>MACRO</code>,
@@ -1580,8 +1514,7 @@ $property = "string" ;
 
           <programlisting>
 #pragma implement interface &lt;../api/header&gt;
-#include &lt;header&gt;
-          </programlisting>
+#include &lt;header&gt;</programlisting>
 
           together with a makefile to compile all these programs to token
           definitions and to combine these token definitions into a token
@@ -1606,8 +1539,7 @@ $METHOD = "TNC" ;
 %%%
     ( make_tokdef fl_abs ( exp x ) exp
         ( floating_abs impossible x ) )
-%%%
-          </programlisting></para>
+%%%</programlisting></para>
   
         <para>The include output file will specify a token <code>fl_abs</code>
           which takes a <code>double</code> and returns a <code>double</code>.
@@ -1616,8 +1548,7 @@ $METHOD = "TNC" ;
 
           <programlisting>
 ( make_tokdef fl_abs ( exp x ) exp
-    ( floating_abs impossible x ) )
-          </programlisting>
+    ( floating_abs impossible x ) )</programlisting>
 
           is an input file for the TDF notation compiler, <code>tnc</code>
           (see reference 2). Thus we have defined a token which directly
