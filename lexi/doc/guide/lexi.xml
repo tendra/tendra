@@ -447,13 +447,14 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<para>Ranges are inclusive. The numeric values of the
 				characters includes in ranges are of the
 				character set of the C implementation used to compile
-				<literal>lexi</literal> (it is reasonable to assume this is ASCII).
+				<literal>lexi</literal> (it is reasonable to assume this
+				is <acronym>ASCII</acronym>).
 				Note that the <code>range</code> production always
 				represents a set (as opposed to a list), even when used as
 				part of a <code>TOKEN</code>
 				command.<!-- TODO unclear and true? --></para>
 
-			<para>Strings are sequences of ASCII <!-- TODO right? -->
+			<para>Strings are sequences of <acronym>ASCII</acronym> <!-- TODO right? -->
 				characters delimited by double-quotes (<code>"</code>).</para>
 
 			<bridgehead>Escaping special characters in strings</bridgehead>
@@ -469,7 +470,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 					<thead>
 						<row>
 							<entry>Escape</entry>
-							<entry>ASCII Value</entry>
+							<entry><acronym>ASCII</acronym> Value</entry>
 							<entry>Name</entry>
 						</row>
 					</thead>
@@ -1043,14 +1044,6 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 		</section>
 	</chapter>
 
-	<chapter>
-		<title>Implementation</title>
-
-		<para><!-- TODO -->What is generated, and algorithims employed</para>
-
-		<para><!-- TODO -->Performance relative to other lexers</para>
-	</chapter>
-
 	<chapter id="appendix">
 		<title id="appendix.title">Appendix</title>
 
@@ -1193,6 +1186,14 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 
 		</section>
 -->
+
+		<section>
+			<title>Implementation</title>
+
+			<para><!-- TODO -->What is generated, and algorithims employed</para>
+
+			<para><!-- TODO -->Performance relative to other lexers</para>
+		</section>
 	</chapter>
 
 	<chapter id="glossary">
