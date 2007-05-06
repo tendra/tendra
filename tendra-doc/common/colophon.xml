@@ -7,9 +7,10 @@
 -->
   
 <colophon id="colophon">
-  <para>This piece of documentation has been written using DocBook/XML using
+	<!-- TODO do we really need to say this in each document? it's showing off, and excessive -->
+  <para>This document has been written using DocBook/<acronym>XML</acronym> using
     libxslt's xsltproc and the docbook-xsl stylesheets to generate
-    XHTML.</para>
+    <acronym>XHTML</acronym>.</para>
 
   <para>This document was generated on
     <?dbtimestamp format="Y-m-d H:M"?>.</para>
