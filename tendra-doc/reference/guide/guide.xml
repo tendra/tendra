@@ -155,8 +155,7 @@
         <programlisting>
 token_value: TOKEN
 token_args:  BITSTREAM param_sorts(token_value)
-             -&gt; EXP x
-        </programlisting>
+             -&gt; EXP x</programlisting>
 
         <para>we are confronted by the mysterious BITSTREAM where one might
           expect to find the actual parameters of the TOKEN.</para>
@@ -202,8 +201,7 @@ token_args:  BITSTREAM param_sorts(token_value)
 result_sort: SORTNAME
 tok_params:  LIST(TOKFORMALS)
 body:        result_sort
-             -&gt; TOKEN_DEFN
-        </programlisting>
+             -&gt; TOKEN_DEFN</programlisting>
 
         <para>The <type>result_sort</type> is the SORT of the construction of
           <type> body</type>; e.g. if <type>result_sort</type> is formed from
@@ -216,8 +214,7 @@ body:        result_sort
         <programlisting>
 sn: SORTNAME
 tk: TDFINT
-    -&gt; TOKFORMALS
-        </programlisting>
+    -&gt; TOKFORMALS</programlisting>
 
         <para>The TDFINT <type>tk</type> will be the integer representation of
           the formal parameter expressed as a TOKEN whose result sort is
@@ -240,8 +237,7 @@ tk: TDFINT
 tok:       TDFINT
 signature: OPTION(STRING)
 def:       BITSTREAM TOKEN_DEFN
-           -&gt; TOKDEF
-        </programlisting>
+           -&gt; TOKDEF</programlisting>
 
         <para>Here, <type>tok</type> gives the name that will be used to
           identify the TOKEN whose expansion is given by <type>def</type>. Any
@@ -261,16 +257,14 @@ def:       BITSTREAM TOKEN_DEFN
 tok:       TDFINT
 signature: OPTION(STRING)
 s:         SORTNAME
-           -&gt; TOKDEC
-        </programlisting>
+           -&gt; TOKDEC</programlisting>
 
         <para>Here the SORTNAME, <type>s</type>, is given by token:</para>
 
         <programlisting>
 result: SORTNAME
 params: LIST(SORTNAME)
-        -&gt; SORTNAME
-        </programlisting>
+        -&gt; SORTNAME</programlisting>
 
         <para>which gives the result and parameter SORTs of
           <type>tok</type>.</para>
@@ -281,8 +275,7 @@ params: LIST(SORTNAME)
 
         <programlisting>
 tdef: BITSTREAM TOKEN_DEFN
-      -&gt; TOKEN
-        </programlisting>
+      -&gt; TOKEN</programlisting>
       </sect2>
 
       <sect2>
@@ -299,8 +292,7 @@ tdef: BITSTREAM TOKEN_DEFN
         <programlisting>
 make_tokdef(C_plus, empty, token_definition(exp(), (make_tokformals(exp(), l),
                                                     make_tokformals(exp(), r)),
-            plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r, ())))
-        </programlisting>
+            plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r, ())))</programlisting>
       </sect2>
 
       <sect2>
@@ -380,8 +372,7 @@ make_tokdef(C_plus, empty, token_definition(exp(), (make_tokformals(exp(), l),
           parameter of make_capsule:</para>
 
         <programlisting>
-capsule_linking: SLIST(CAPSULE_LINK)
-        </programlisting>
+capsule_linking: SLIST(CAPSULE_LINK)</programlisting>
 
         <para>In the most general case in core-TDF, there would be three
           entries in the list introducing limits using make_capsule_link for
@@ -391,8 +382,7 @@ capsule_linking: SLIST(CAPSULE_LINK)
         <programlisting>
 capsule_linking = (make_capsule_link("tag", 5),
                    make_capsule_link("token", 6),
-                   make_capsule_link("al_tag", 7))
-        </programlisting>
+                   make_capsule_link("al_tag", 7))</programlisting>
 
         <para>there are 5 CAPSULE "tag" names used within the CAPSULE, namely
           0, 1, 2, 3 and 4; similarly there are 6 "token" names and 7 "al_tag"
@@ -410,8 +400,7 @@ capsule_linking = (make_capsule_link("tag", 5),
             <type>external_linkage</type> parameter of make_capsule.</para>
 
           <programlisting>
-external_linkage: SLIST(EXTERN_LINK)
-          </programlisting>
+external_linkage: SLIST(EXTERN_LINK)</programlisting>
   
           <para>Each EXTERN_LINK is itself formed from an SLIST of LINKEXTERNs
             given by make_extern_link . The order of the EXTERN_LINKs
@@ -424,8 +413,7 @@ external_linkage: SLIST(EXTERN_LINK)
             for example one might be:</para>
 
           <programlisting>
-make_linkextern(4, string_extern("printf"))
-          </programlisting>
+make_linkextern(4, string_extern("printf"))</programlisting>
 
           <para>This would mean: identify the CAPSULE's "tag" 4 with an name
             called "printf", external to the module. The name "printf" would
@@ -444,8 +432,7 @@ make_linkextern(4, string_extern("printf"))
             make_capsule:</para>
 
           <programlisting>
-groups: SLIST(GROUP)
-          </programlisting>
+groups: SLIST(GROUP)</programlisting>
 
           <para>Each GROUP in the <type>groups</type> SLIST will be formed by
             sets of UNITs of the same kind. Once again, there are a
@@ -465,14 +452,12 @@ groups: SLIST(GROUP)
             CAPSULE:</para>
 
           <programlisting>
-prop_names: SLIST(TDFIDENT)
-          </programlisting>
+prop_names: SLIST(TDFIDENT)</programlisting>
 
           <para>Thus if:</para>
 
           <programlisting>
-prop_names = ("tagdecs", "tagdefs")
-          </programlisting>
+prop_names = ("tagdecs", "tagdefs")</programlisting>
 
           <para>then, the first element of <type>groups</type> would contain
             only "tagdecs" UNITs and and the second would contain only
@@ -504,8 +489,7 @@ prop_names = ("tagdecs", "tagdefs")
             the UNIT in the <type>local_vars</type> parameter:</para>
 
           <programlisting>
-local_vars: SLIST(TDFINT)
-          </programlisting>
+local_vars: SLIST(TDFINT)</programlisting>
   
           <para>Just in the same way as with <type>external_linkage</type>,
             the numbers in local_vars correspond (in the same order) to the
@@ -528,8 +512,7 @@ local_vars: SLIST(TDFINT)
             parameter of make_unit:</para>
     
           <programlisting>
-lks: SLIST(LINKS)
-          </programlisting>
+lks: SLIST(LINKS)</programlisting>
   
           <para>Once again, <type>lks</type> is effectively indexed by the
             kind of name-space a. Each LINKS is an SLIST of LINKs each of
@@ -538,8 +521,7 @@ lks: SLIST(LINKS)
             element of <type>lks</type> contains:</para>
           
           <programlisting>
-make_link(42, 4)
-          </programlisting>
+make_link(42, 4)</programlisting>
 
           <para>then, the UNIT "tag" 42 is identical to the CAPSULE "tag"
             4.</para>
@@ -570,16 +552,14 @@ make_link(42, 4)
           <programlisting>
 params: LIST(SORTNAME)
 result: SORTNAME
-        -&gt; SORTNAME
-          </programlisting>
+        -&gt; SORTNAME</programlisting>
 
           Taking make_tagdefs as a paradigm for PROPS, we have:
 
           <programlisting>
 no_labels: TDFINT
 tds:       SLIST(TAGDEF)
-           -&gt; TAGDEF_PROPS
-          </programlisting>
+           -&gt; TAGDEF_PROPS</programlisting>
 
           The <type>no_labels</type> parameter introduces the size of yet
           another name-space local to the PROPS, this time for the LABELs used
@@ -596,8 +576,7 @@ tds:       SLIST(TAGDEF)
 t:         TDFINT
 signature: OPTION(STRING)
 e:         EXP x
-           -&gt; TAGDEF
-        </programlisting>
+           -&gt; TAGDEF</programlisting>
 
         <para>Here, <type>t</type> is the tag name and the evaluation of
           <type>e</type> will be the value of SHAPE <type>x</type> of an
@@ -619,8 +598,7 @@ t:          TDFINT
 opt_access: OPTION(ACCESS)
 signature:  OPTION(STRING)
 e:          EXP x
-            -&gt; TAGDEF
-        </programlisting>
+            -&gt; TAGDEF</programlisting>
 
         <para>Once again <type>t</type> is tag name but now <type>e</type> is
           initialisation of the variable <type>t</type>. A use of
@@ -649,8 +627,7 @@ e:          EXP x
     
           <programlisting>
 init: EXP s
-      -&gt; EXP s
-          </programlisting>
+      -&gt; EXP s</programlisting>
 
           The translator will arrange that <type>init</type> will be evaluated
           once only before any procedure application, other than those
@@ -676,8 +653,7 @@ t_intro:   TDFINT
 acc:       OPTION(ACCESS)
 signature: OPTION(STRING)
 x:         SHAPE
-           -&gt; TAGDEC
-          </programlisting>
+           -&gt; TAGDEC</programlisting>
 
           Here the tagname is given by <type>t_intro</type>; the SHAPE
           <type>x</type> will defined the space and alignment required for the
@@ -752,16 +728,14 @@ x:         SHAPE
 
             <programlisting>
 arg: TDFSTRING(k, n)
-     -&gt; STRING(k, n)
-            </programlisting>
+     -&gt; STRING(k, n)</programlisting>
 
             STRINGs may be concatenated using concat_string:
 
             <programlisting>
 arg1: STRING(k, n)
 arg2: STRING(k,m)
-      -&gt; STRING(k, n + m)
-            </programlisting>
+      -&gt; STRING(k, n + m)</programlisting>
   
             Being able to compose strings, including token applications etc,
             means that late-binding is possible in <type>signature</type>
@@ -843,14 +817,12 @@ arg2: STRING(k,m)
             required for a 32 bit signed integer would be:
 
             <programlisting>
-integer(var_limits(-2<superscript>31</superscript>, 2<superscript>31</superscript> - 1))
-            </programlisting>
+integer(var_limits(-2<superscript>31</superscript>, 2<superscript>31</superscript> - 1))</programlisting>
 
             while an unsigned char is:
   
             <programlisting>
-integer(var_limits(0, 255))
-            </programlisting>
+integer(var_limits(0, 255))</programlisting>
 
             A translator should represent each integer variety by an object
             big enough (or bigger) to contain all the possible values with
@@ -866,8 +838,7 @@ integer(var_limits(0, 255))
             <programlisting>
 signed_width: BOOL
 width:        NAT
-              -&gt; VARIETY
-            </programlisting>
+              -&gt; VARIETY</programlisting>
           </para>
         </sect3>
 
@@ -885,8 +856,7 @@ base:              NAT
 mantissa_digits:   NAT
 minimum_exponent:  NAT
 maximum_exponent:: NAT
-                   -&gt; FLOATING_VARIETY
-          </programlisting>
+                   -&gt; FLOATING_VARIETY</programlisting>
 
           <para>A FLOATING_VARIETY specifies the base, number of mantissa
             digits, and maximum and minimum exponent. Once again, it is
@@ -1086,8 +1056,7 @@ maximum_exponent:: NAT
             <programlisting>
 a:    ALIGNMENT
 arg1: EXP OFFSET(z, t)
-      -&gt; EXP OFFSET(z xc8 a, a)
-            </programlisting>
+      -&gt; EXP OFFSET(z xc8 a, a)</programlisting>
 
             This gives the next OFFSET greater or equal to <type>arg1</type>
             at which an object of ALIGNMENT <parameter>a</parameter> can be
@@ -1115,8 +1084,7 @@ arg1: EXP OFFSET(z, t)
           <programlisting>
 n: NAT
 s: SHAPE
-   -&gt; SHAPE
-          </programlisting>
+   -&gt; SHAPE</programlisting>
       
           This SHAPE describes an array of <type>n</type> values all of SHAPE
           <type>s</type>; note that <type>n</type> is a natural number and
@@ -1129,8 +1097,7 @@ s: SHAPE
 
         <programlisting>
 sz: EXP OFFSET(x, y)
-    -&gt; SHAPE
-        </programlisting>
+    -&gt; SHAPE</programlisting>
   
         <para>The <type>sz</type> parameter gives the minimum size which can
           accommodate the SHAPE.</para>
@@ -1155,8 +1122,7 @@ sz: EXP OFFSET(x, y)
             <type>sz</type> would probably have been constructed like:</para>
 
           <programlisting>
-sz = offset_add(offset_pad(int_al, shape_offset(char)), shape_offset(int))
-          </programlisting>
+sz = offset_add(offset_pad(int_al, shape_offset(char)), shape_offset(int))</programlisting>
 
           <para>The various rules for the ALIGNMENT qualifiers of the OFFSETs
             give the required SHAPE; these rules also ensure that offset
@@ -1191,8 +1157,7 @@ sz = offset_add(offset_pad(int_al, shape_offset(char)), shape_offset(int))
             <programlisting>
 arg1: EXP OFFSET(x, x)
 arg2: EXP INTEGER(v)
-      -&gt; EXP OFFSET(x, x)
-            </programlisting>
+      -&gt; EXP OFFSET(x, x)</programlisting>
 
             and using add_to_ptr with a pointer expression giving the base of
             the array with the resulting OFFSET.</para>
@@ -1208,8 +1173,7 @@ arg2: EXP INTEGER(v)
             <programlisting>
 shape_offset(S) xb3  offset_zero(alignment(S))
 A xb3  B        iff offset_max(A,B) = A
-offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignment)
-            </programlisting>
+offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignment)</programlisting>
 
             In most machines, OFFSETs would be represented as single integer
             values with the OFFSET ordering corresponding to simple integer
@@ -1363,8 +1327,7 @@ result_shape: SHAPE
 params_intro: LIST(TAGSHACC)
 var_intro:    OPTION(TAGACC)
 body:         EXP BOTTOM
-              -&gt; EXP PROC
-          </programlisting>
+              -&gt; EXP PROC</programlisting>
   
           The <type>params_intro</type> and <type>var_intro</type> parameters
           introduce the formal parameters of the procedure which may be used
@@ -1382,8 +1345,7 @@ body:         EXP BOTTOM
 sha:        SHAPE
 opt_access: OPTION(LIST(ACCESS))
 tg_intro:   TAG POINTER(alignment(sha))
-            -&gt; TAGSHACC
-          </programlisting>
+            -&gt; TAGSHACC</programlisting>
         </para>
 
         <para>Within <type>body</type>, the formal will be accessed using
@@ -1396,8 +1358,7 @@ tg_intro:   TAG POINTER(alignment(sha))
           <varname>params_intro</varname> might be:
 
         <programlisting>
-params_intro = make_tagshacc(integer(v), empty, make_tag(13))
-        </programlisting>
+params_intro = make_tagshacc(integer(v), empty, make_tag(13))</programlisting>
 
         Then, TAG 13 from the enclosing UNIT's name-space is identified with
         the formal parameter with SHAPE POINTER(INTEGER(v)). Any use of
@@ -1412,8 +1373,7 @@ params_intro = make_tagshacc(integer(v), empty, make_tag(13))
 
         <programlisting>
 arg1: EXP x
-      -&gt; EXP BOTTOM
-        </programlisting>
+      -&gt; EXP BOTTOM</programlisting>
 
         Here <varname>x</varname> must be identical to the
         <type>result_shape</type> of the call of the procedure There may be
@@ -1435,8 +1395,7 @@ result_shape: SHAPE
 arg1:         EXP PROC
 arg2:         LIST(EXP)
 varparam:     OPTION(EXP)
-              -&gt; EXP result_shape
-      </programlisting>
+              -&gt; EXP result_shape</programlisting>
 
       <para>Here <type>arg1</type> is the procedure to be called and
         <type>arg2</type> gives the actual parameters. There must be at least
@@ -1498,8 +1457,7 @@ prcprops:     OPTION(PROCPROPS)
 caller_intro: LIST(TAGSHACC)
 callee_intro: LIST(TAGSHACC)
 body:         EXP BOTTOM
-              -&gt; EXP PROC
-          </programlisting>
+              -&gt; EXP PROC</programlisting>
       
           Here the formal parameters are split into two sets,
           <type>caller_intro</type> and <type>callee_intro</type>, each given
@@ -1532,8 +1490,7 @@ p:             EXP PROC
 caller_params: LIST(OTAGEXP)
 callee_params: CALLEES
 postlude:      EXP TOP
-               -&gt; EXP result_shape
-        </programlisting>
+               -&gt; EXP result_shape</programlisting>
 
         <para>The actual caller parameters are given by
           <type>caller_params</type> as a list of OTAGEXPs constructed using
@@ -1542,8 +1499,7 @@ postlude:      EXP TOP
         <programlisting>
 tgopt: OPTION(TAG x / i>)
 e:     EXP x / i>
-       -&gt; OTAGEXP
-        </programlisting>
+       -&gt; OTAGEXP</programlisting>
   
         <para>Here, <type>e</type> is the value of the parameter and
           <type>tgopt</type>, if present, is a TAG which will bound to the
@@ -1613,8 +1569,7 @@ e:     EXP x / i>
 prcprops:      OPTION(PROCPROPS)
 p:             EXP PROC
 callee_params: CALLEES
-               -&gt; EXP BOTTOM
-            </programlisting>
+               -&gt; EXP BOTTOM</programlisting>
 
             The procedure p will be called with the same caller parameters as
             the current procedure and the new <type>callee_params</type> and
@@ -1691,8 +1646,7 @@ opt_access: OPTION(ACCESS)
 name_intro: TAG x
 definition: EXP x
 body:       EXP y
-            -&gt; EXP y
-            </programlisting>
+            -&gt; EXP y</programlisting>
             
             The <type>definition</type> is evaluated and its result is
             identified with the TAG given by <type>name_intro</type> within
@@ -1709,8 +1663,7 @@ opt_access: OPTION(ACCESS)
 name_intro: TAG x
 init:       EXP x
 body:       EXP y
-            -&gt; EXP y
-            </programlisting>
+            -&gt; EXP y</programlisting>
             
             Here the <type>init</type> EXP is evaluated and its result serves
             as an initialisation of space of SHAPE <varname>x</varname> local
@@ -1828,8 +1781,7 @@ body:       EXP y
 fa: ALIGNMENT
 y:  ALIGNMENT
 t:  TAG x
-    -&gt; EXP OFFSET(fa, y)
-            </programlisting>
+    -&gt; EXP OFFSET(fa, y)</programlisting>
             
             The frame ALIGNMENT <type>fa</type> will be the appropriate one
             for the TAG <type>t</type>; i.e. if <type>t</type> is a local then
@@ -1844,6 +1796,7 @@ t:  TAG x
             and env_offset. They are effectively defined by the following
             identities:
 
+			<!-- TODO this is not one <programlisting> -->
             <programlisting>
     If TAG t is derived from a variable definition
             add_to_ptr(current_env(), env_offset(locals_alignment, A, t)) = obtain_tag(t)
@@ -1852,8 +1805,7 @@ t:  TAG x
     if TAG t is derived from a caller parameter:
             add_to_ptr(current_env(), env_offset(callers_alignment(b), A, t)) = obtain_tag(t)
     if TAG t is derived from a callee parameter:
-            add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t)
-            </programlisting>
+            add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t)</programlisting>
             
             These identities are valid throughout the extent of t, including
             in inner procedure calls. In other words, one can dynamically
@@ -1885,8 +1837,7 @@ t:  TAG x
 
             <programlisting>
 arg1: EXP OFFSET(x, y)
-      -&gt; EXP POINTER(alloca_alignment)
-            </programlisting>
+      -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
             The operand <token>arg1</token> gives the size of the new object
             required and the result is a pointer to the space for this object
@@ -1917,8 +1868,7 @@ arg1: EXP OFFSET(x, y)
             <programlisting>
 a: EXP OFFSET(x, y)
 p: EXP POINTER(alloca_alignment)
-   -&gt; EXP TOP
-            </programlisting>
+   -&gt; EXP TOP</programlisting>
 
             Here <type>p</type> must evaluate to a pointer generated either by
             local_alloc or last_local . The effect is to free all of the space
@@ -1962,8 +1912,7 @@ p: EXP POINTER(alloca_alignment)
             <programlisting>
 statements: LIST(EXP)
 result:     EXP x
-            -&gt; EXP x
-            </programlisting>
+            -&gt; EXP x</programlisting>
 
             Each of the <type>statements</type> are evaluated in order,
             throwing away their results. Then, <type>result</type> is
@@ -1998,8 +1947,7 @@ result:     EXP x
 placelabs_intro: LIST(LABEL)
 starter:         EXP x
 places:          LIST(EXP)
-                 -&gt; EXP w
-            </programlisting>
+                 -&gt; EXP w</programlisting>
 
             Each of the EXPs in <type>places</type> is labelled by the
             corresponding LABEL in <type>placelabs_intro</type>; these LABELs
@@ -2062,8 +2010,7 @@ nt:   NTEST
 dest: LABEL
 arg1: EXP INTEGER(v)
 arg2: EXP INTEGER(v)
-      -&gt; EXP TOP
-            </programlisting>
+      -&gt; EXP TOP</programlisting>
 
             The NTEST <type>nt</type> chooses a dyadic test (e.g. =, &gt;=,
             &lt;, etc.) that is to be applied to the results of evaluating
@@ -2093,8 +2040,7 @@ arg2: EXP INTEGER(v)
 exhaustive: BOOL
 control:    EXP INTEGER(v)
 branches:   LIST(CASELIM)
-            -&gt; EXP (exhaustive ? BOTTOM : TOP)
-            </programlisting>
+            -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
 
             Each CASELIM is constructed using make_caselim:
 
@@ -2102,8 +2048,7 @@ branches:   LIST(CASELIM)
 branch: LABEL
 lower:  SIGNED_NAT
 upper:  SIGNED_NAT
-        -&gt; CASELIM
-            </programlisting>
+        -&gt; CASELIM</programlisting>
 
             In the case construction, the <type>control</type> EXP is
             evaluated and tested to see whether its value lies inclusively
@@ -2132,8 +2077,7 @@ upper:  SIGNED_NAT
 alt_label_intro: LABEL
 first:           EXP x
 alt:             EXP y
-                 -&gt; EXP(LUB(x, y))
-            </programlisting>
+                 -&gt; EXP(LUB(x, y))</programlisting>
 
             Here <type>first</type> is evaluated; if it terminates normally,
             its result is the result of the conditional. If a jump to
@@ -2163,8 +2107,7 @@ alt:             EXP y
 repeat_label_intro: LABEL
 start:              EXP TOP
 body:               EXP y
-                    -&gt; EXP y
-            </programlisting>
+                    -&gt; EXP y</programlisting>
 
             The EXP <type>start</type> is evaluated, followed by
             <type>body</type> which is labelled by
@@ -2175,8 +2118,7 @@ body:               EXP y
             the same as:
 
             <programlisting>
-labelled((repeat_label_intro), sequence((start), goto(repeat_label_intro)), (body))
-            </programlisting>
+labelled((repeat_label_intro), sequence((start), goto(repeat_label_intro)), (body))</programlisting>
 
             except that no jumps to <type>repeat_label_intro</type> are
             allowed in <type>start</type> - a useful place to do
@@ -2248,8 +2190,7 @@ labelled((repeat_label_intro), sequence((start), goto(repeat_label_intro)), (bod
           in C), one must apply the contents operator to the pointer:
 
           <programlisting>
-contents(shape(v), obtain_tag(v))
-          </programlisting>
+contents(shape(v), obtain_tag(v))</programlisting>
 
           In general, the contents constructor takes a SHAPE and an
           expression delivering pointer:
@@ -2257,8 +2198,7 @@ contents(shape(v), obtain_tag(v))
           <programlisting>
 s:    SHAPE
 arg1: EXP POINTER(x)
-      -&gt; EXP s
-          </programlisting>
+      -&gt; EXP s</programlisting>
 
           It delivers the value of SHAPE <type>s</type>, pointed at by the
           evaluation of <type>arg1</type>. The alignment of <type>s</type>
@@ -2275,8 +2215,7 @@ arg1: EXP POINTER(x)
         <programlisting>
 arg1: EXP POINTER(x)
 arg2: EXP y
-      -&gt; EXP TOP
-        </programlisting>
+      -&gt; EXP TOP</programlisting>
 
         The EXPs <type>arg1</type> and <type>arg2</type> are evaluated (no
         ordering implied) and the value of SHAPE <varname>y</varname> given by
@@ -2292,8 +2231,7 @@ arg2: EXP y
         expressed as:
         
         <programlisting>
-identify(empty, newtag, exp, sequence((assign(obtain_tag(v), obtain_tag(newtag))), obtain_tag(newtag)))
-        </programlisting>
+identify(empty, newtag, exp, sequence((assign(obtain_tag(v), obtain_tag(newtag))), obtain_tag(newtag)))</programlisting>
 
         From the definition of assign, the destination argument,
         <type>arg1</type>, must have a POINTER shape. This means that given
@@ -2302,16 +2240,14 @@ identify(empty, newtag, exp, sequence((assign(obtain_tag(v), obtain_tag(newtag))
         example would be if id was defined:
         
         <programlisting>
-identify(empty, id, obtain_tag(v), assign(obtain_tag(id), lhs))
-        </programlisting>
+identify(empty, id, obtain_tag(v), assign(obtain_tag(id), lhs))</programlisting>
   
         This identifies id with the variable v which has a POINTER SHAPE, and
         assigns lhs to this pointer. Given that id does not occur in lhs, this
         is identical to:
   
         <programlisting>
-assign(obtain_tag(v), lhs).
-        </programlisting>
+assign(obtain_tag(v), lhs).</programlisting>
 
         Equivalences like this are widely used for transforming TDF in
         translators and other tools (see
@@ -2335,8 +2271,7 @@ md:   TRANSFER_MODE
 arg1: EXP POINTER x
 arg2: EXP POINTER y
 arg3: EXP OFFSET(z, t)
-      -&gt; EXP TOP
-          </programlisting>
+      -&gt; EXP TOP</programlisting>
 
           The EXP <type>arg1</type> is the destination pointer, and
           <type>arg2</type> is a source pointer. The amount moved is given by
@@ -2361,8 +2296,7 @@ arg3: EXP OFFSET(z, t)
 md:   TRANSFER_MODE
 s:    SHAPE
 arg1: EXP POINTER(x)
-      -&gt; EXP s
-          </programlisting>
+      -&gt; EXP s</programlisting>
 
           Here, the only significant TRANSFER_MODE constructors
           <type>md</type> are trap_on_nil and volatile. The latter is
@@ -2388,8 +2322,7 @@ arg1: EXP POINTER(x)
 v:    BITFIELD_VARIETY
 arg1: EXP POINTER(x)
 arg2: EXP OFFSET(y,z)
-      -&gt; EXP bitfield(v)
-          </programlisting>
+      -&gt; EXP bitfield(v)</programlisting>
 
           Here <type>arg1</type> is a pointer to an alignment
           <parameter>x</parameter> which includes <type>v</type>, the required
@@ -2440,8 +2373,7 @@ arg2: EXP OFFSET(y,z)
 arg1: EXP POINTER(x)
 arg2: EXP OFFSET(y,z)
 arg3: EXP BITFIELD_VARIETY(v)
-      -&gt; EXP TOP
-          </programlisting>
+      -&gt; EXP TOP</programlisting>
         </para>
       </sect2>
     </sect1>
@@ -2509,8 +2441,7 @@ arg3: EXP BITFIELD_VARIETY(v)
 ov_err: ERROR_TREATMENT
 arg1:   EXP INTEGER(v)
 arg2:   EXP INTEGER(v)
-        -&gt; EXP INTEGER(v)
-            </programlisting>
+        -&gt; EXP INTEGER(v)</programlisting>
 
             The result of the addition has the same integer VARIETY as its
             parameters.  If the representational bounds of
@@ -2534,8 +2465,7 @@ arg2:   EXP INTEGER(v)
   
             <programlisting>
 lab: LABEL
-     -&gt; ERROR_TREATMENT
-            </programlisting>
+     -&gt; ERROR_TREATMENT</programlisting>
 
             A branch to <type>lab</type> will occur if the result
             overflows.</para>
@@ -2558,8 +2488,7 @@ div_by_zero_error: ERROR_TREATMENT
 ov_err:            ERROR_TREATMENT
 arg1:              EXP INTEGER(v)
 arg2:              EXP INTEGER(v)
-                   -&gt; EXP INTEGER(v)
-          </programlisting>
+                   -&gt; EXP INTEGER(v)</programlisting>
 
           There are two different kinds of division operators (with
           corresponding remainder operators) defined. The operators div2 and
@@ -2588,8 +2517,7 @@ arg2:              EXP INTEGER(v)
 ov_err: ERROR_TREATMENT
 r:      VARIETY
 arg1:   EXP INTEGER(v)
-        -&gt; EXP INTEGER(r)
-          </programlisting>
+        -&gt; EXP INTEGER(r)</programlisting>
 
           If the value <type>arg1</type> is outside the limits of the
           representational variety of <type>r</type>, then the ERROR_TREATMENT
@@ -2651,8 +2579,7 @@ arg1:   EXP INTEGER(v)
           <programlisting>
 arg1: EXP OFFSET(base, y)
 arg2: LIST(EXP)
-      -&gt; EXP COMPOUND(sz)
-          </programlisting>
+      -&gt; EXP COMPOUND(sz)</programlisting>
 
           The OFFSET <type>arg1</type> is evaluated as a translate-time
           constant to give <parameter>sz</parameter>, the size of the compound
@@ -2729,8 +2656,7 @@ arg2: LIST(EXP)
 control: EXP INTEGER(v)
 e1:      BITSTREAM EXP x
 e2:      BITSTREAM EXP y
-         -&gt; EXP x or EXP y
-          </programlisting>
+         -&gt; EXP x or EXP y</programlisting>
   
           The constant, <type>control</type>, is evaluated at translate time.
           If it is not zero the entire construction is replaced by the EXP in
@@ -2740,8 +2666,7 @@ e2:      BITSTREAM EXP y
           construction is use extensively in C pre-processing directives e.g.:
   
           <programlisting>
-#if (sizeof(int) == sizeof(long)) ...
-          </programlisting>
+#if (sizeof(int) == sizeof(long)) ...</programlisting>
         </para>
       </sect2>
 
@@ -2753,8 +2678,7 @@ e2:      BITSTREAM EXP y
           <programlisting>
 v:     VARIETY
 value: SIGNED_NAT
-       -&gt; EXP INTEGER(v)
-          </programlisting>
+       -&gt; EXP INTEGER(v)</programlisting>
           
           The SIGNED_NAT <type>value</type> is an encoding of the binary value
           required for the integer; this value must lie within the limits
@@ -2769,8 +2693,7 @@ value: SIGNED_NAT
           <programlisting>
 v:   VARIETY
 str: STRING(k, n)
-     -&gt; EXP NOF(n, INTEGER(v))
-          </programlisting>
+     -&gt; EXP NOF(n, INTEGER(v))</programlisting>
 
           Each unsigned integer in <type>str</type> must lie in the variety
           <type>v</type> and the result is the constant array whose elements
@@ -2791,8 +2714,7 @@ sign:     BOOL
 mantissa: STRING(k, n)
 base:     NAT
 exponent: SIGNED_NAT
-          -&gt; EXP FLOATING(f)
-          </programlisting>
+          -&gt; EXP FLOATING(f)</programlisting>
 
           For a normal floating point number, each integer in
           <type>mantissa</type> is either the ASCII `.'-symbol or the ASCII
@@ -2851,15 +2773,13 @@ exponent: SIGNED_NAT
           T_FILE:
       
           <programlisting>
-make_tokdec(T_FILE, empty, shape())
-          </programlisting>
+make_tokdec(T_FILE, empty, shape())</programlisting>
           
           and anywhere that it wished to refer to the SHAPE of FILE it would
           do:
 
           <programlisting>
-shape_apply_token(make_tok(T_FILE), ())
-          </programlisting>
+shape_apply_token(make_tok(T_FILE), ())</programlisting>
 
           Before this program is translated on a given platform, the actual
           SHAPE of FILE must be supplied. This would be done by linking a TDF
@@ -2885,8 +2805,7 @@ shape_apply_token(make_tok(T_FILE), ())
           however the FILE* value stdin is sometimes expressed as:
 
           <programlisting>
-#define stdin &amp;_iob[0]
-          </programlisting>
+#define stdin &amp;_iob[0]</programlisting>
 
           which illustrates the point. It is better to have all of the
           interface of an API expressed as TOKENs to give both generality and
@@ -3038,14 +2957,12 @@ shape_apply_token(make_tok(T_FILE), ())
         always free to transform:
 
         <programlisting>
-assign(e1, e2)
-        </programlisting>
+assign(e1, e2)</programlisting>
 
   to:
 
         <programlisting>
-identify(empty, new_tag, e1, assign(obtain_tag(new_tag), e2))
-        </programlisting>
+identify(empty, new_tag, e1, assign(obtain_tag(new_tag), e2))</programlisting>
 
         i.e. identify the evaluation of the left-hand side of the assignment
         with a new TAG and use that TAG as the left-hand operand of a new
@@ -3078,8 +2995,7 @@ identify(empty, new_tag, e1, assign(obtain_tag(new_tag), e2))
         by:
 
         <programlisting>
-identify(empty, new_tag, X, F(obtain_tag(new_tag))).
-        </programlisting>
+identify(empty, new_tag, X, F(obtain_tag(new_tag))).</programlisting>
 
         This includes the extraction of expressions which are constant over a
         loop; if F was some repeat construction and one can show that the EXP
@@ -3125,8 +3041,7 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
           EXP constructor and E is one of the EXP operands of F, then:
 
           <programlisting>
-F(..., E, ...) xde identify(empty, newtag, E, F(..., obtain_tag(newtag), ...))
-          </programlisting>
+F(..., E, ...) xde identify(empty, newtag, E, F(..., obtain_tag(newtag), ...))</programlisting>
         </para>
           
         <para>If E is a non side-effecting
@@ -3148,8 +3063,7 @@ F(..., E, ...) xde identify(empty, newtag, E, F(..., obtain_tag(newtag), ...))
 variable(v, tg, E, B) xde identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \ obtain_tag(nt)])
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
          sequence((P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R) xdb
-         sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>, P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R)
-          </programlisting>
+         sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>, P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R)</programlisting>
         </para>
           
         <para>If S<subscript>i</subscript> =
@@ -3160,32 +3074,28 @@ sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), T) xdb
          sequence((S<subscript>1</subscript>, ...,
                   S<subscript>i-1</subscript>, P<subscript>1</subscript>, ..., P<subscript>m</subscript>, R,
-                  S<subscript>i+1</subscript>, ..., S<subscript>n</subscript>), T) E xdb sequence((), E)
-          </programlisting>
+                  S<subscript>i+1</subscript>, ..., S<subscript>n</subscript>), T) E xdb sequence((), E)</programlisting>
         </para>
           
         <para>If D is either identify or variable:
 
           <programlisting>
 D(v, tag, sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), B) xde
-                   sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), D(v, tag, R, B))
-          </programlisting>
+                   sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), D(v, tag, R, B))</programlisting>
         </para>
           
         <para>If S<subscript>i</subscript> is an EXP BOTTOM, then:
 
           <programlisting>
 sequence((S<subscript>1</subscript>, S<subscript>2</subscript>, ... S<subscript>n</subscript>), R) xde
-sequence((S<subscript>1</subscript>, ...  S<subscript>i - 1</subscript>), S<subscript>i</subscript>)
-          </programlisting>
+sequence((S<subscript>1</subscript>, ...  S<subscript>i - 1</subscript>), S<subscript>i</subscript>)</programlisting>
         </para>
           
           
         <para>If E is an EXP BOTTOM, and if D is either identify or variable:
 
           <programlisting>
-D(v, tag, E, B) xde E
-          </programlisting>
+D(v, tag, E, B) xde E</programlisting>
         </para>
           
         <para>If S<subscript>i</subscript> is make_top(), then:
@@ -3194,22 +3104,19 @@ D(v, tag, E, B) xde E
 sequence((S<subscript>1</subscript>,
 S<subscript>2</subscript>, ...  S<subscript>n</subscript>), R) xdb
 sequence((S<subscript>1</subscript>, ...  S<subscript>i - 1</subscript>,
-S<subscript>i + 1</subscript>, ...S<subscript>n</subscript>), R)
-          </programlisting>
+S<subscript>i + 1</subscript>, ...S<subscript>n</subscript>), R)</programlisting>
         </para>
           
         <para>If S<subscript>n</subscript> is an EXP TOP:
           <programlisting>
 sequence((S<subscript>1</subscript>, ...
           S<subscript>n</subscript>), make_top()) xdb sequence((S<subscript>1</subscript>, ...,
-          S<subscript>n - 1</subscript>), S<subscript>n</subscript>)
-          </programlisting>
+          S<subscript>n - 1</subscript>), S<subscript>n</subscript>)</programlisting>
         </para>
           
         <para>If E is an EXP TOP and E is not side-effecting then:
           <programlisting>
-E xde make_top()
-          </programlisting>
+E xde make_top()</programlisting>
         </para>
           
         <para>If C is some non order-specifying and non side-effecting
@@ -3218,16 +3125,14 @@ E xde make_top()
           <programlisting>
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R) xde
 sequence((S<subscript>1</subscript>, ..., S<subscript>i - 1</subscript>, P<subscript>1</subscript>,
-          ..., P<subscript>m</subscript>, S<subscript>i + 1</subscript>, ..., S<subscript>n</subscript>), R)
-          </programlisting>
+          ..., P<subscript>m</subscript>, S<subscript>i + 1</subscript>, ..., S<subscript>n</subscript>), R)</programlisting>
         </para>
           
         <para>If none of the S<subscript>i</subscript> use the label L:
           <programlisting>
 conditional(L,
             sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), A) xde
-            sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), conditional(L, R, A))
-          </programlisting>
+            sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), conditional(L, R, A))</programlisting>
         </para>
           
         <para>If there are no uses of L in X
@@ -3239,23 +3144,20 @@ conditional(L,
 
           :
           <programlisting>
-conditional(L, X, Y) xde X conditional(L, E, goto(Z)) xde E[L \ Z]
-          </programlisting>
+conditional(L, X, Y) xde X conditional(L, E, goto(Z)) xde E[L \ Z]</programlisting>
         </para>
           
         <para>If EXP X contains no use of the LABEL L:
           <programlisting>
 conditional(L, conditional(M, X, Y), Z) xde conditional(M, X, conditional(L, Y, Z))
 repeat(L, I, E) xde sequence((I), repeat(L, make_top(), E))
-repeat(L, make_top(), E) xde conditional(Z, E[L \ Z], repeat(L, make_top(), E))
-          </programlisting>
+repeat(L, make_top(), E) xde conditional(Z, E[L \ Z], repeat(L, make_top(), E))</programlisting>
         </para>
           
         <para>If there are no uses of L in E:
           <programlisting>
 repeat(L, make_top(), sequence((S, E), make_top())) xde
-    conditional(Z, S[L \ Z], repeat(L, make_top(), sequence((E, S), make_top())))
-          </programlisting>
+    conditional(Z, S[L \ Z], repeat(L, make_top(), sequence((E, S), make_top())))</programlisting>
         </para>
           
         <para>If f is a procedure defined
@@ -3269,14 +3171,12 @@ repeat(L, make_top(), sequence((S, E), make_top())) xde
           
           <programlisting>
 make_proc(rshape, formal<subscript>1 .. n</subscript>, vtg,
-          B(return R<subscript>1</subscript>, ..., return R<subscript>m</subscript>))
-          </programlisting>
+          B(return R<subscript>1</subscript>, ..., return R<subscript>m</subscript>))</programlisting>
           
           where:
 
           <programlisting>
-formal<subscript>i</subscript> = make_tagshacc(s<subscript>i</subscript>, vi, tgi)
-          </programlisting>
+formal<subscript>i</subscript> = make_tagshacc(s<subscript>i</subscript>, vi, tgi)</programlisting>
           
           and B is an EXP with all of its internal return constructors indicated
           parametrically then:
@@ -3298,8 +3198,7 @@ component(s, contents(COMPOUND(S), E), D) xde contents(s, add_to_ptr(E, D))
 make_compound(S, ((E1, D1), ..., (En, Dn))) xde variable(empty, nt, make_value(COMPOUND(S)),
     sequence((assign(add_to_ptr(obtain_tag(nt), D1), E1), ...,
               assign(add_to_ptr(obtain_tag(nt), Dn), En)),
-             contents(S, obtain_tag(nt))))
-          </programlisting>
+             contents(S, obtain_tag(nt))))</programlisting>
         </para>
 
         <sect3 id="examples-of-transformations">
@@ -3316,14 +3215,12 @@ make_compound(S, ((E1, D1), ..., (En, Dn))) xde variable(empty, nt, make_value(C
             expanded by applications of {A} to either:
       
             <programlisting>
-identify(empty, t1, exp1, identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))))
-            </programlisting>
+identify(empty, t1, exp1, identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
 
             or:
 
             <programlisting>
-identify(empty, t2, exp2, identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))))
-            </programlisting>
+identify(empty, t2, exp2, identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
 
             Both orderings of the evaluations of exp1 and exp2 are acceptable,
             regardless of any side-effects in them. There is no requirement
@@ -3354,8 +3251,7 @@ variable(empty, nt, make_shape(TOP),
 goto(L)) ...
          contents(TOP, obtain_tag(nt))
          )
-)
-            </programlisting>
+)</programlisting>
 
             The rules {V}, {W} and {X} allow this to be replaced by:
   
@@ -3365,8 +3261,7 @@ variable(empty, nt, make_top(),
          ... sequence((obtain_tag(nt)), goto(L)) ...
          sequence((obtain_tag(nt)), make_top())
          )
-)
-            </programlisting>
+)</programlisting>
   
             The obtain_tags can be eliminated by rule {M} and then the
             sequences by {F}. Sucessive applications of {C} and {B} then give:
@@ -3375,8 +3270,7 @@ variable(empty, nt, make_top(),
 labelled((L),
          ... goto(L) ...
          make_top()
-        )
-            </programlisting>
+        )</programlisting>
           </para>
         </sect3>
 
@@ -3413,39 +3307,33 @@ labelled((L),
       <para>Consider the C structure defined by:
 
         <programlisting>
-typedef struct{ int i; double d; char c;} mystruct;
-        </programlisting>
+typedef struct{ int i; double d; char c;} mystruct;</programlisting>
 
         Given that sh_int, sh_char and sh_double are the SHAPEs for int, char
         and double, the SHAPE of <type>mystruct</type> is constructed by:
 
         <programlisting>
-SH_mystruct = compound(S_c)
-        </programlisting>
+SH_mystruct = compound(S_c)</programlisting>
       
         where:
       
         <programlisting>
-S_c = offset_add(O_c, shape_offset(sh_char))
-        </programlisting>
+S_c = offset_add(O_c, shape_offset(sh_char))</programlisting>
       
         where:
       
         <programlisting>
-O_c = offset_pad(alignment(sh_char), S_d)
-        </programlisting>
+O_c = offset_pad(alignment(sh_char), S_d)</programlisting>
 
         where:
 
         <programlisting>
-S_d = offset_add(O_d, shape_offset(sh_double))
-        </programlisting>
+S_d = offset_add(O_d, shape_offset(sh_double))</programlisting>
 
         where:
 
         <programlisting>
-O_d = offset_pad(alignment(sh_double), S_i)
-        </programlisting>
+O_d = offset_pad(alignment(sh_double), S_i)</programlisting>
 
         where
         
@@ -3456,14 +3344,12 @@ O_d = offset_pad(alignment(sh_double), S_i)
         </footnote>:
 
         <programlisting>
-        S_i = offset_add(O_i, shape_offset(sh_int))
-        </programlisting>
+        S_i = offset_add(O_i, shape_offset(sh_int))</programlisting>
 
         and:
 
         <programlisting>
-        O_i = offset_zero(alignment(sh_int))
-        </programlisting>
+        O_i = offset_zero(alignment(sh_int))</programlisting>
         
         Each of S_c, S_d and S_i gives the minimum "size" of the space
         required to upto and including the field c, d and i respectively. Each
@@ -3473,8 +3359,7 @@ O_d = offset_pad(alignment(sh_double), S_i)
         
         <programlisting>
 mystruct s;
-.... s.d = 1.0; ...
-        </programlisting>
+.... s.d = 1.0; ...</programlisting>
         
         would translate to something like:
         
@@ -3484,8 +3369,7 @@ variable(empty, tag_s, make_value(compound(S_c)),
          assign(add_to_ptr(obtain_tag(tag_s), O_d), 1.0),
          ...
          )
-        )
-        </programlisting>
+        )</programlisting>
         
         Each of the OFFSET expressions above are ideal candidates for
         tokenisation; a producer would probably define tokens for each of them
@@ -3495,8 +3379,7 @@ variable(empty, tag_s, make_value(compound(S_c)),
 
         <programlisting>
 S_c = shape_offset(SH_mystruct)
-i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})
-        </programlisting>
+i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})</programlisting>
 
         This would not be the OFFSET required to describe
         <type>sizeof(mystruct)</type> in C, since this is defined to be the
@@ -3505,8 +3388,7 @@ i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_doubl
         pad S_c to the alignment of SH_mystruct:
   
         <programlisting>
-offset_pad(alignment(SH_mystruct), S_c)
-        </programlisting>
+offset_pad(alignment(SH_mystruct), S_c)</programlisting>
 
         This is the OFFSET that one would use to compute the displacement of
         an element of an array of <type>mystruct</type>s using offset_mult
@@ -3520,8 +3402,7 @@ offset_pad(alignment(SH_mystruct), S_c)
 arg1: EXP POINTER(y xc8 A)
 arg2: EXP OFFSET(y, z)
       -&gt; EXP POINTER(z)
-      ... for any ALIGNMENT A
-        </programlisting>
+      ... for any ALIGNMENT A</programlisting>
 
         one sees that <type>arg2</type> can measure an OFFSET from a value of
         a "smaller" alignment than the value pointed at by <type>arg1</type>.
@@ -3544,27 +3425,23 @@ arg2: EXP OFFSET(y, z)
           extract a bitfield by:
     
           <programlisting>
-bitfield_contents(v, p:POINTER(X), b:OFFSET(Y, B))
-          </programlisting>
+bitfield_contents(v, p:POINTER(X), b:OFFSET(Y, B))</programlisting>
   
           Y must be an alignment(I) where I is some integer SHAPE, contained
           in X. Further, this has to be equivalent to:
   
           <programlisting>
-bitfield_contents(v, add_ptr(p, d:OFFSET(Y,Y)), b':OFFSET(Y, B))
-          </programlisting>
+bitfield_contents(v, add_ptr(p, d:OFFSET(Y,Y)), b':OFFSET(Y, B))</programlisting>
           
           for some d and b' such that:
   
           <programlisting>
-offset_pad(v, shape_offset(I)) &gt;= b'
-          </programlisting>
+offset_pad(v, shape_offset(I)) &gt;= b'</programlisting>
           
           and
           
           <programlisting>
-offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
-          </programlisting>
+offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b</programlisting>
           
           Clearly, we have a limitation on the length of bitfields to the
           maximum integer variety available; in addition, we cannot have a
@@ -3604,8 +3481,7 @@ offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
 ~Bitfield_offset_zero:
 n:        NAT
 issigned: BOOL
-          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))
-          </programlisting>
+          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
           
           Here the result is a zero offset to the bitfield with `minimum'
           integer variety alignment A.
@@ -3615,8 +3491,7 @@ issigned: BOOL
 n:        NAT
 issigned: BOOL
 sh:       SHAPE
-          -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))
-          </programlisting>
+          -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))</programlisting>
           
           Here the result is the shape_offset of <type>sh</type> padded with
           the `minimum' alignment A so that it can accomodate the bitfield.
@@ -3629,8 +3504,7 @@ sh:       SHAPE
 n:        NAT
 issigned: BOOL
 ind:      EXP INTEGER(v)
-          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))
-          </programlisting>
+          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
           
           Here the result is an offset which gives the displacement of
           <type>ind</type>th element of an array of <type>n</type>-bit
@@ -3657,8 +3531,7 @@ ind:      EXP INTEGER(v)
           bitfield; instead it should be replaced by:
 
           <programlisting>
-S = compound(~Bitfield_offset_mult(M, b, N))
-          </programlisting>
+S = compound(~Bitfield_offset_mult(M, b, N))</programlisting>
   
           to give a shape, S, representing an array of N M-bit bitfields. This
           may not be just N*M bits; for example ~Bitfield_offset_mult may be
@@ -3670,8 +3543,7 @@ S = compound(~Bitfield_offset_mult(M, b, N))
 offset_add(~Bitfield_offset_pad(M, b, S), size(bitfield(bfvar_bits(b, N)))) =
     ~Bitfield_offset_mult(M, b, N + 1)
 
-where size(X) = offset_pad(alignment(X), shape_offset(X))
-          </programlisting>
+where size(X) = offset_pad(alignment(X), shape_offset(X))</programlisting>
         </para>
       </sect2>
     </sect1>
@@ -3688,8 +3560,7 @@ where size(X) = offset_pad(alignment(X), shape_offset(X))
         MAP[C] and the representation of a SORT, S, as REPR[S] then:
 
         <programlisting>
-REPR[C(P1, ..., Pn)] = MAP[C](REPR(P1), ..., REPR(Pn))
-        </programlisting>
+REPR[C(P1, ..., Pn)] = MAP[C](REPR(P1), ..., REPR(Pn))</programlisting>
 
         Any mapping has to preserve the equivalences of the abstract algebra,
         such as those exemplified by the transformations {A} - {Z} in
@@ -3742,27 +3613,23 @@ REPR[C(P1, ..., Pn)] = MAP[C](REPR(P1), ..., REPR(Pn))
 REPR[{ }] = 1
 REPR[{bitfield}] = 1
 REPR[{char_variety}] = 8
-REPR[{short_variety}] = 16
-            </programlisting>
+REPR[{short_variety}] = 16</programlisting>
             
             Otherwise, for all other primitive ALIGNMENTS a:
             
             <programlisting>
-REPR[{a}] = 32
-            </programlisting>
+REPR[{a}] = 32</programlisting>
             
             The representation of a compound ALIGNMENT is given by:
             
             <programlisting>
 REPR[A xc8 B] = Max(REPR[A], REPR[B])
-i.e. MAP[unite_alignment] = Max
-            </programlisting>
+i.e. MAP[unite_alignment] = Max</programlisting>
             
             while the ALIGNMENT inclusion predicate is given by:
             
             <programlisting>
-REPR[A ... B]= REPR[A] xb3 REPR[B]
-            </programlisting>
+REPR[A ... B]= REPR[A] xb3 REPR[B]</programlisting>
             
             All the constructions which make ALIGNMENTs are represented here
             and they will always reduce to an integer known at translate-time.
@@ -3810,8 +3677,7 @@ REPR[shape_offset(pointer(A))]= 32
 REPR[shape_offset(compound(E))] = REPR[E]
 REPR[shape_offset(bitfield(bfvar_bits(b, N)))] = N
 REPR[shape_offset(nof(N, S))] = N * REPR[offset_pad(alignment(S), shape_offset(S))]
-        where S is not a bitfield shape
-            </programlisting>
+        where S is not a bitfield shape</programlisting>
             
             Similar considerations apply to the other offset-arithmetic
             constructors. In general, we have:
@@ -3821,8 +3687,7 @@ REPR[offset_zero(A)] = 0             for all A
 
 REPR[offset_pad(A, X:OFFSET(C, D)) =
     ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A] / 8
-        if REPR[A] xb9 1 xd9 REPR[D] =1
-            </programlisting>
+        if REPR[A] xb9 1 xd9 REPR[D] =1</programlisting>
 
             Otherwise:
 
@@ -3831,8 +3696,7 @@ REPR[offset_pad(A, X:OFFSET(C, D)) =
     ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A]
 
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] * 8 + REPR[Y]
-        if REPR[B] xb9 1 xd9 REPR[D] = 1
-            </programlisting>
+        if REPR[B] xb9 1 xd9 REPR[D] = 1</programlisting>
 
             Otherwise:
 
@@ -3842,16 +3706,14 @@ REPR[offset_add(X, Y)] = REPR[X] + REPR[Y]
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(REPR[X], 8 * REPR[Y]
         if REPR[B] = 1 xd9 REPR[D] xb9 1
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(8 * REPR[X], REPR[Y]
-        if REPR[D] = 1 xd9 REPR[B] xb9 1
-            </programlisting>
+        if REPR[D] = 1 xd9 REPR[B] xb9 1</programlisting>
 
             Otherwise:
 
             <programlisting>
 REPR[offset_max(X, Y)] = Max(REPR[X], REPR[Y])
 
-REPR[offset_mult(X, E)] = REPR[X] * REPR[E]
-            </programlisting>
+REPR[offset_mult(X, E)] = REPR[X] * REPR[E]</programlisting>
 
             IA translator working to this model maps ALIGNMENTs into the
             integers and their inclusion constraints into numerical
@@ -3891,8 +3753,7 @@ REPR[offset_mult(X, E)] = REPR[X] * REPR[E]
             by:
       
             <programlisting>
-(s:alignment_of_scalars, b:has_blocks)
-            </programlisting>
+(s:alignment_of_scalars, b:has_blocks)</programlisting>
             
             We then have:
 
@@ -3902,20 +3763,17 @@ REPR[alignment({char_variety}) = (s:8, b:FALSE)
 ... etc. for other numerical and bitfield varieties.
 REPR[alignment({pointer})] = (s:32, b:TRUE)
 REPR[alignment({proc})] = (s:32, b:TRUE)
-REPR[alignment({local_label_value})] = (s:32, b:TRUE)
-            </programlisting>
+REPR[alignment({local_label_value})] = (s:32, b:TRUE)</programlisting>
 
             The representation of a compound ALIGNMENT is given by:
 
             <programlisting>
-REPR[A xc8 B] = (s:Max(REPR[A].s, REPR[B].s), b:REPR[A].b xda REPR[B].b)
-            </programlisting>
+REPR[A xc8 B] = (s:Max(REPR[A].s, REPR[B].s), b:REPR[A].b xda REPR[B].b)</programlisting>
   
             and their inclusion relationship is given by:
 
             <programlisting>
-REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)
-            </programlisting>
+REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)</programlisting>
           </para>
         </sect3>
 
@@ -3927,8 +3785,7 @@ REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)
             integer bit-displacement within that block.  Denote this by:
 
             <programlisting>
-(sb:scalar_block_address, sd:bit_displacement)
-            </programlisting>
+(sb:scalar_block_address, sd:bit_displacement)</programlisting>
 
             A value with SHAPE POINTER A where REPR[A].b is represented by a
             quad word consisting of two block-addresses and two
@@ -3939,8 +3796,7 @@ REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)
 
             <programlisting>
 (sb:scalar_block_address, ab:address_block_address,
- sd:scalar_displacement, ad:address_displacement)
-            </programlisting>
+ sd:scalar_displacement, ad:address_displacement)</programlisting>
           </para>
 
           <para>A value with SHAPE OFFSET(A, B) where REPR[A].b is represented
@@ -3951,8 +3807,7 @@ REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)
             the other to an address-block. Denote this by:
             
             <programlisting>
-(sd:scalar_displacement, ad:address_displacement)
-            </programlisting>
+(sd:scalar_displacement, ad:address_displacement)</programlisting>
           </para>
         </sect3>
 
@@ -3969,8 +3824,7 @@ REPR[shape_offset(offset(A, B))] = (REPR[A].b) ? 64 : 32)
 REPR[shape_offset(proc)] = (sd:32, ad:32)
 REPR[shape_offset(compound(E))] = REPR[E]
 REPR[shape_offset(nof(N, S))] = N * REPR[offset_pad(alignment(S)), shape_offset(S))]
-REPR[shape_offset(top)] = 0
-            </programlisting>
+REPR[shape_offset(top)] = 0</programlisting>
           </para>
         </sect3>
         
@@ -4019,22 +3873,19 @@ REPR[offset_subtract(X:OFFSET(A,B), Y:OFFSET(C, D))] =
         if REPR[A].b xd9 REPR[C].b
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X].sd - REPR[Y]
         if REPR[A].b xd9 REPR[C].b
-.... and so on.
-          </programlisting>
+.... and so on.</programlisting>
             
           <para>Unlike the previous one, this model of ALIGNMENTs would reject
             OFFSETs such as OFFSET({long_variety}, {pointer}) but not
             OFFSET({pointer}, {long_variety}) since:</para>
 
           <programlisting>
-REPR[{long_variety} ... {pointer}] = FALSE
-          </programlisting>
+REPR[{long_variety} ... {pointer}] = FALSE</programlisting>
 
           <para>but:</para>
 
           <programlisting>
-REPR[{pointer} ... {long_variety}] = TRUE
-          </programlisting>
+REPR[{pointer} ... {long_variety}] = TRUE</programlisting>
 
           <para>This just reflects the fact that there is no way that one can
             extract a block-address necessary for a pointer from a

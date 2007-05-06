@@ -151,8 +151,7 @@ src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 found_at:        EXP POINTER(al)
 type:            DIAG_TYPE
-                       -&gt; DIAG_DESCRIPTOR
-        </programlisting>
+                       -&gt; DIAG_DESCRIPTOR</programlisting>
 
         <para>Generates a descriptor for an identifier (of
           <code>DIAG_TYPE</code> <varname>type</varname>), whose source name
@@ -185,8 +184,7 @@ type:            DIAG_TYPE
 src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 new_type:        DIAG_TYPE
-                       -&gt; DIAG_DESCRIPTOR
-        </programlisting>
+                       -&gt; DIAG_DESCRIPTOR</programlisting>
 
         <para>Generates a descriptor whose source name was
           <varname>src_name</varname>.  <varname>new_type</varname> must be
@@ -213,12 +211,12 @@ new_type:        DIAG_TYPE
           </tgroup>
         </informaltable>
 
+		<!-- TODO perhaps these should be tables without headings? -->
         <programlisting>
 src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 new_type:        DIAG_TYPE
-                       -&gt; DIAG_DESCRIPTOR
-        </programlisting>
+                       -&gt; DIAG_DESCRIPTOR</programlisting>
         
         <para>Generates a descriptor for a type <varname>new_type</varname>
           whose source name was <varname>src_name</varname>. Note that
@@ -283,8 +281,7 @@ new_type:        DIAG_TYPE
         <programlisting>
 no_labels:       TDFINT
 descriptors:     SLIST(DIAG_DESCRIPTOR)
-           -&gt; DIAG_UNIT
-        </programlisting>
+           -&gt; DIAG_UNIT</programlisting>
 
         <para>Create a <code>DIAG_UNIT</code> containing
           <code>DIAG_DESCRIPTOR</code>s. <varname>no_labels</varname> is the
@@ -348,8 +345,7 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
     
         <programlisting>
 num:             TDFINT
-                       -&gt; DIAG_TAG
-        </programlisting>
+                       -&gt; DIAG_TAG</programlisting>
 
         <para>Create a <code>DIAG_TAG</code> from
           <varname>num</varname>.</para>
@@ -403,8 +399,7 @@ num:             TDFINT
       <programlisting>
 tno:             TDFINT
 dtype:           DIAG_TYPE
-                     -&gt; DIAG_TAGDEF
-      </programlisting>
+                     -&gt; DIAG_TAGDEF</programlisting>
 
       <para>Associates tag number <varname>tno</varname> with
         <varname>dtype</varname>.
@@ -464,8 +459,7 @@ dtype:           DIAG_TYPE
       <programlisting>
 no_labels:       TDFINT
 tagdefs: SLIST(DIAG_TAGDEF)
-                     -&gt; DIAG_TYPEUNIT
-      </programlisting>
+                     -&gt; DIAG_TYPEUNIT</programlisting>
 
       <para>Create a <code>DIAG_TYPEUNIT</code> containing
         <code>DIAG_TAGDEF</code>s. <varname>no_labels</varname> is the number
@@ -526,8 +520,7 @@ tagdefs: SLIST(DIAG_TAGDEF)
       <programlisting>
 token_value:     TOKEN
 token_args:      BITSTREAM
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>The token is applied to the arguments to give a
         <code>DIAG_TYPE</code>. If there is a definition for
@@ -561,8 +554,7 @@ stride:          EXP OFFSET(p,p)
 lower_bound:     EXP INTEGER(v)
 upper_bound:     EXP INTEGER(v)
 index_type:      DIAG_TYPE
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>An array of <varname>element_type</varname> objects.
         <varname>stride</varname> is the <code>OFFSET</code> between elements
@@ -595,8 +587,7 @@ index_type:      DIAG_TYPE
       <programlisting>
 type:            DIAG_TYPE
 number_of_bits:  NAT
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Describes <varname>number_of_bits</varname>, which when extracted
         will have <code>DIAG_TYPE</code> <varname>type</varname>.</para>
@@ -624,8 +615,7 @@ number_of_bits:  NAT
 base_type:       DIAG_TYPE
 enum_name:       TDFSTRING(k, n)
 values:          LIST(ENUM_VALUES) 
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>An enumeration to be stored in an object of type
         <varname>base_type</varname>.  If <varname>enum_name</varname> is a
@@ -652,8 +642,7 @@ values:          LIST(ENUM_VALUES)
 
       <programlisting>
 var:             FLOATING_VARIETY
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Creates a <code>DIAG_TYPE</code> to describe an
         <code>FLOATING_VARIETY</code> <varname>var</varname>.</para>
@@ -680,8 +669,7 @@ var:             FLOATING_VARIETY
       <programlisting>
 object:          DIAG_TYPE
 qualifier:       DIAG_TQ
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Records the existence of an item of <code>DIAG_TYPE</code>
         <varname>object</varname>, qualified by <varname>qualifier</varname>.
@@ -711,8 +699,7 @@ qualifier:       DIAG_TQ
 params:          LIST(DIAG_TYPE)
 optional_args:   BOOL
 result_type:     DIAG_TYPE
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Describes a procedure taking <varname>n</varname> parameters.
         <varname>optional_args</varname> is true if and only if the
@@ -740,8 +727,7 @@ result_type:     DIAG_TYPE
       <programlisting>
 object:          DIAG_TYPE
 qualifier:       DIAG_TQ
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Describes a pointer to an object of <code>DIAG_TYPE</code>
         <varname>object</varname>. The <code>DIAG_TQ</code> qualifier
@@ -771,8 +757,7 @@ qualifier:       DIAG_TQ
 tdf_shape:       SHAPE
 src_name:        TDFSTRING(k, n)
 fields:          LIST(DIAG_FIELD) 
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Describes a structure. If <varname>src_name</varname> is a string
         contining zero characters this signifies no source tag for the whole
@@ -798,8 +783,7 @@ fields:          LIST(DIAG_FIELD)
       </informaltable>
 
       <programlisting>
-                   -&gt; DIAG_TYPE
-      </programlisting>
+                   -&gt; DIAG_TYPE</programlisting>
 
       <para>A null <code>DIAG_TYPE</code>.</para>
     </sect2>
@@ -826,8 +810,7 @@ fields:          LIST(DIAG_FIELD)
 tdf_shape:       SHAPE
 src_name:        TDFSTRING(k, n)
 fields:          LIST(DIAG_FIELD)
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Describes a union. If <varname>src_name</varname> is a string
         contining zero characters this signifies no source tag for the whole
@@ -855,8 +838,7 @@ fields:          LIST(DIAG_FIELD)
 
       <programlisting>
 var:             VARIETY
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Creates a <code>DIAG_TYPE</code> to describe an integer
         <code>VARIETY</code> <varname>var</varname>.</para>
@@ -882,8 +864,7 @@ var:             VARIETY
 
       <programlisting>
 dtag:            DIAG_TAG
-                     -&gt; DIAG_TYPE
-      </programlisting>
+                     -&gt; DIAG_TYPE</programlisting>
 
       <para>Obtains the <code>DIAG_TYPE</code> associated with
         <code>DIAG_TAG</code> <varname>dtag</varname>.</para>
@@ -934,8 +915,7 @@ dtag:            DIAG_TAG
       <programlisting>
 value:           EXP <varname>sh</varname>
 src_name:        TDFSTRING(k, n)
-                   -&gt; ENUM_VALUES
-      </programlisting>
+                   -&gt; ENUM_VALUES</programlisting>
 
       <para><code>ENUM_VALUES</code> describe elements of an enumerated type.
         <varname>src_name</varname> is the source language name.
@@ -990,8 +970,7 @@ src_name:        TDFSTRING(k, n)
 field_name:      TDFSTRING(k, n)
 found_at:        EXP OFFSET(ALIGNMENT whole, ALIGNMENT this_field)
 field_type:      DIAG_TYPE
-                     -&gt; DIAG_FIELD
-      </programlisting>
+                     -&gt; DIAG_FIELD</programlisting>
 
       <para><code>DIAG_FIELD</code>s describe one field of a structure or
         union.  <varname>field_name</varname> is the source language name.
@@ -1049,8 +1028,7 @@ field_type:      DIAG_TYPE
 
       <programlisting>
           <varname>qual</varname>:            DIAG_TQ
-                     -&gt; DIAG_TQ
-      </programlisting>
+                     -&gt; DIAG_TQ</programlisting>
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
         <token>const</token> in the ANSI C sense.</para>
@@ -1076,8 +1054,7 @@ field_type:      DIAG_TYPE
 
       <programlisting>
           <varname>qual</varname>:            DIAG_TQ
-                     -&gt; DIAG_TQ
-      </programlisting>
+                     -&gt; DIAG_TQ</programlisting>
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
         <token>volatile</token> in the ANSI C sense.</para>
@@ -1102,8 +1079,7 @@ field_type:      DIAG_TYPE
       </informaltable>
 
       <programlisting>
-                     -&gt; DIAG_TQ
-      </programlisting>
+                     -&gt; DIAG_TQ</programlisting>
 
       <para>Create a null <code>DIAG_TQ</code> type qualifier.</para>
     </sect2>
@@ -1162,8 +1138,7 @@ field_type:      DIAG_TYPE
       <programlisting>
           <varname>token_value</varname>:     TOKEN
           <varname>token_args</varname>:      BITSTREAM
-                     -&gt; FILENAME
-      </programlisting>
+                     -&gt; FILENAME</programlisting>
 
       <para>The token is applied to the arguments to give a
         <code>FILENAME</code>.  If there is a definition for
@@ -1195,8 +1170,7 @@ field_type:      DIAG_TYPE
 <varname>date</varname>:    NAT
 <varname>machine</varname>: TDFSTRING(k1, n1)
 <varname>file</varname>:    TDFSTRING(k2, n2)
-         -&gt; FILENAME
-      </programlisting>
+         -&gt; FILENAME</programlisting>
 
       <para>Create a <code>FILENAME</code> for file <varname>file</varname>,
         dated <varname>date</varname> (a UNIX timestamp; seconds since 1 Jan
@@ -1254,8 +1228,7 @@ field_type:      DIAG_TYPE
 <varname>file</varname>:            FILENAME
 <varname>line_no</varname>: NAT
 <varname>char_offset</varname>:     NAT
-           -&gt; SOURCEMARK
-        </programlisting>
+           -&gt; SOURCEMARK</programlisting>
   
         <para>Create a <code>SOURCEMARK</code> referencing the
           <varname>char_offset</varname>'th character on line
@@ -1279,11 +1252,10 @@ field_type:      DIAG_TYPE
       <title>~exp_to_source</title>
   
       <programlisting>
-        <varname>body</varname>:            EXP sh
-        <varname>from</varname>:            SOURCEMARK
-        <varname>to</varname>:              SOURCEMARK
-                   -&gt; EXP sh
-      </programlisting>
+<varname>body</varname>:            EXP sh
+<varname>from</varname>:            SOURCEMARK
+<varname>to</varname>:              SOURCEMARK
+           -&gt; EXP sh</programlisting>
 
       <para>Records that the <code>EXP</code> <varname>body</varname> arose
         from translating program between <code>SOURCEMARK</code>
@@ -1295,12 +1267,11 @@ field_type:      DIAG_TYPE
       <title>~diag_id_source</title>
       
       <programlisting>
-        <varname>body</varname>:            EXP sh
-        <varname>name</varname>:            TDFSTRING(k, n)
-        <varname>access</varname>:          EXP POINTER(al)
-        <varname>type</varname>:            DIAG_TYPE
-                   -&gt; EXP sh
-      </programlisting>
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>access</varname>:          EXP POINTER(al)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
 
       <para>Within the <code>EXP</code> <varname>body</varname> a variable
         named <varname> name</varname> of <code>DIAG_TYPE</code>
@@ -1312,11 +1283,10 @@ field_type:      DIAG_TYPE
       <title>~diag_type_scope</title>
   
       <programlisting>
-        <varname>body</varname>:            EXP sh
-        <varname>name</varname>:            TDFSTRING(k, n)
-        <varname>type</varname>:            DIAG_TYPE
-                   -&gt; EXP sh
-      </programlisting>
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
   
       <para>Within the <code>EXP</code> <varname>body</varname> a source
         language type named <varname>name</varname> of <code>DIAG_TYPE</code>
@@ -1327,11 +1297,10 @@ field_type:      DIAG_TYPE
       <title>~diag_tag_scope</title>
   
       <programlisting>
-        <varname>body</varname>:            EXP sh
-        <varname>name</varname>:            TDFSTRING(k, n)
-        <varname>type</varname>:            DIAG_TYPE
-                   -&gt; EXP sh
-      </programlisting>
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
 
       <para><note>This <code>TOKEN</code> is obsolete.</note></para>
     </sect1>
@@ -1500,5 +1469,5 @@ field_type:      DIAG_TYPE
   </chapter>
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-    href="../common/colophon-dera.xml"/>
+    href="../../common/colophon-dera.xml"/>
 </book>

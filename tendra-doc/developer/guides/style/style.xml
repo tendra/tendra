@@ -26,6 +26,9 @@
     </copyright>
   </articleinfo>
 
+	<!-- TODO this needs to be less about FreeBSD and more about TenDRA. Also,
+	   - it needs to be more language-neutral; we use more than just C. -->
+
   <sect1 id="introduction">
     <title>Introduction</title>
 
@@ -35,21 +38,18 @@
     <title>Coding Style</title>
 
     <programlisting>
-/* Most single-line comments look like this. */
-    </programlisting>
+/* Most single-line comments look like this. */</programlisting>
 
     <programlisting>
 /*
  * VERY important single-line comments look like this.
- */
-    </programlisting>
+ */</programlisting>
 
     <programlisting>
 /*
  * Multi-line comments look like this.  Make them real sentences.  Fill
  * them so they look like real paragraphs.
- */
-    </programlisting>
+ */</programlisting>
 
     <para>The copyright header should be a multi-line comment:</para>
 
@@ -58,8 +58,7 @@
  * Copyright (c) 1984-2025 John Q. Public.  All Rights Reserved.
  *
  * Long, boring license goes here, but redacted for brevity
- */
-    </programlisting>
+ */</programlisting>
 
     <para>After any copyright header, there is a blank line, and the rcsid for
       source files.  Version control system ID tags should only exist once in
@@ -81,8 +80,7 @@ static char sccsid[] = "@(#)style       1.14 (Berkeley) 4/28/95";
 #endif
 
 #include &lt;sys/cdefs.h&gt;
-__FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 brueffer Exp $");
-    </programlisting>
+__FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 brueffer Exp $");</programlisting>
 
     <para>Leave another blank line before the header files.</para>
 
@@ -92,22 +90,19 @@ __FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 b
       depend on that.</para>
 
     <programlisting>
-#include &lt;sys/types.h&gt;  /* Non-local includes in angle brackets. */
-    </programlisting>
+#include &lt;sys/types.h&gt;  /* Non-local includes in angle brackets. */</programlisting>
 
     <para>Leave a blank line before the next group, the /usr/include files,
       which should be sorted alphabetically by name.</para>
 
      <programlisting>
-#include &lt;stdio.h&gt;
-     </programlisting>
+#include &lt;stdio.h&gt;</programlisting>
 
     <para>Global pathnames are defined in &lt;paths.h&gt;.  Pathnames local to
       the program go in "pathnames.h" in the local directory.</para>
 
     <programlisting>
-#include &lt;paths.h&gt;
-    </programlisting>
+#include &lt;paths.h&gt;</programlisting>
 
     <para>Leave another blank line before the user include files.</para>
 
@@ -133,8 +128,7 @@ __FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 b
 #define MACRO(x, y) do {                                                \
         variable = (x) + (y);                                           \
         (y) += 2;                                                       \
-} while (0)
-   </programlisting>
+} while (0)</programlisting>
 
     <para>When code is conditionally compiled using #ifdef or #if, a comment
       may be added following the matching #endif or #else to permit the reader
@@ -169,8 +163,7 @@ __FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 b
 /* Yet another large region here, or other conditional code. */
 #else /* COMPAT_43 */
 /* Or here. */
-#endif /* !COMPAT_43 */
-    </programlisting>
+#endif /* !COMPAT_43 */</programlisting>
 
     <para>The project is slowly moving to use the ISO/IEC 9899:1999 (ISO
       C99) unsigned integer identifiers of the form uintXX_t in preference to
@@ -183,8 +176,7 @@ __FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 b
     <para>Enumeration values are all uppercase.</para>
 
     <programlisting>
-enum enumtype { ONE, TWO } et;
-    </programlisting>
+enum enumtype { ONE, TWO } et;</programlisting>
 
     <para>In declarations, do not put any whitespace between asterisks and
       adjacent tokens, except for tokens that are identifiers related to
@@ -213,8 +205,7 @@ struct foo {
         int             bar;            /* Try to align the comments. */
         struct verylongtypename *baz;   /* Won't fit in 2 tabs. */
 };
-struct foo *foohead;                    /* Head of global foo list. */
-    </programlisting>
+struct foo *foohead;                    /* Head of global foo list. */</programlisting>
 
     <para>Use queue(3) macros rather than rolling your own lists, whenever
       possible.  Thus, the previous example would be better written:</para>
@@ -228,8 +219,7 @@ struct foo {
         int             bar;            /* Try to align the comments. */
         struct verylongtypename *baz;   /* Won't fit in 2 tabs. */
 };
-LIST_HEAD(, foo) foohead;               /* Head of global foo list. */
-    </programlisting>
+LIST_HEAD(, foo) foohead;               /* Head of global foo list. */</programlisting>
 
     <para>Avoid using typedefs for structure types.  Typedefs are problematic
       because they do not properly hide their underlying type; for example you
@@ -251,8 +241,7 @@ typedef struct bar {
         int     level;
 } BAR;
 typedef int             foo;            /* This is foo. */
-typedef const long      baz;            /* This is baz. */
-   </programlisting>
+typedef const long      baz;            /* This is baz. */</programlisting>
 
    <para>All functions are prototyped somewhere.</para>
 
@@ -279,14 +268,12 @@ typedef const long      baz;            /* This is baz. */
       protected names.  E.g., use:</para>
      
     <programlisting>
-void    function(int);
-    </programlisting>
+void    function(int);</programlisting>
 
     <para>or:</para>
 
     <programlisting>
-void    function(int _fd);
-    </programlisting>
+void    function(int _fd);</programlisting>
 
     <para>Prototypes may have an extra space after a tab to enable function
       names to line up:</para>
@@ -306,8 +293,7 @@ main(int argc, char *argv[])
 {
         char *ep;
         long num;
-        int ch;
-    </programlisting>
+        int ch;</programlisting>
 
     <para>For consistency, getopt(3) should be used to parse options.  Options
       should be sorted in the getopt(3) call and the switch statement, unless
@@ -342,8 +328,7 @@ while ((ch = getopt(argc, argv, "abNn:")) != 1)
                 /* NOTREACHED */
         }
 argc -= optind;
-argv += optind;
-    </programlisting>
+argv += optind;</programlisting>
 
     <para>Space after keywords (if, while, for, return, switch).  No braces
       ({ and }) are used for control statements with zero or only a single
@@ -366,8 +351,7 @@ for (;;) {
                 stmt;
 }
 if (val != NULL)
-        val = realloc(val, newsize);
-    </programlisting>
+        val = realloc(val, newsize);</programlisting>
 
     <para>Parts of a for loop may be left empty.  Do not put declarations
       inside blocks unless the routine is unusually complicated.</para>
@@ -376,8 +360,7 @@ if (val != NULL)
 for (; cnt &lt; 15; cnt++) {
         stmt1;
         stmt2;
-}
-    </programlisting>
+}</programlisting>
 
     <para>Indentation is an 8 character tab.  Second level indents are four
       spaces.  If you have to wrap a long statement, put the operator at the
@@ -388,8 +371,7 @@ while (cnt &lt; 20 &amp;&amp; this_variable_name_is_too_long &amp;&amp;
     ep != NULL)
         z = a + really + long + statement + that + needs +
             two + lines + gets + indented + four + spaces +
-            on + the + second + and + subsequent + lines;
-    </programlisting>
+            on + the + second + and + subsequent + lines;</programlisting>
 
     <para>Do not add whitespace at the end of a line, and only use tabs
       followed by spaces to form the indentation.  Do not use more spaces than
@@ -405,8 +387,7 @@ else if (bar) {
         stmt;
         stmt;
 } else
-        stmt;
-    </programlisting>
+        stmt;</programlisting>
 
     <para>No spaces after function names.  Commas have a space after them.  No
       spaces after ( or [ or preceding ] or ) characters.</para>
@@ -414,8 +395,7 @@ else if (bar) {
     <programlisting>
 error = function(a1, a2);
 if (error != 0)
-        exit(error);
-    </programlisting>
+        exit(error);</programlisting>
 
     <para>Unary operators do not require spaces, binary operators do.  Do not
       use parentheses unless they are required for precedence or unless the
@@ -424,8 +404,7 @@ if (error != 0)
      
     <programlisting>
 a = b-&gt;c[0] + ~d == (e || f) || g &amp;&amp; h ? i : j &gt;&gt; 1;
-k = !(l &amp; FLAGS);
-    </programlisting>
+k = !(l &amp; FLAGS);</programlisting>
 
     <para>Exits should be 0 on success, or according to the predefined values
       in sysexits(3).</para>
@@ -435,8 +414,7 @@ k = !(l &amp; FLAGS);
                          * Avoid obvious comments such as
                          * "Exit 0 on success."
                          */
-}
-    </programlisting>
+}</programlisting>
 
     <para>The function type should be on a line by itself preceding the
       function.  The opening brace of the function body should be on a line by
@@ -445,8 +423,7 @@ k = !(l &amp; FLAGS);
     <programlisting>
 static char *
 function(int a1, int a2, float fl, int a4)
-{
-    </programlisting>
+{</programlisting>
 
     <para>When declaring variables in functions declare them sorted by size,
       then in alphabetical order; multiple ones per line are okay.  If a line
@@ -462,8 +439,7 @@ double three;
 int *four, five;
 char *six, seven, eight, nine, ten, eleven, twelve;
 
-four = myfunction();
-    </programlisting>
+four = myfunction();</programlisting>
 
     <para>Do not declare functions inside other functions; ANSI C says that
       such declarations have file scope regardless of the nesting of the
@@ -484,26 +460,22 @@ four = myfunction();
        not be in scope.) Test pointers against NULL, e.g., use:</para>
      
     <programlisting>
-(p = f()) == NULL
-    </programlisting>
+(p = f()) == NULL</programlisting>
 
     <para>not:</para>
 
     <programlisting>
-!(p = f())
-    </programlisting>
+!(p = f())</programlisting>
 
     <para>Do not use !! for tests unless it is a boolean, e.g. use:</para>
 
     <programlisting>
-if (*p == '\0')
-    </programlisting>
+if (*p == '\0')</programlisting>
 
     <para>not:</para>
 
     <programlisting>
-if (!*p)
-    </programlisting>
+if (!*p)</programlisting>
 
     <para>Routines returning void * should not have their return values cast
       to any pointer type.</para>
@@ -519,8 +491,7 @@ if (!*p)
         if ((six = (int *)overflow()) == NULL)
                 errx(1, "number overflowed");
         return (eight);
-}
-    </programlisting>
+}</programlisting>
 
     <para>Old-style function declarations look like this:</para>
 
@@ -530,8 +501,7 @@ function(a1, a2, fl, a4)
         int a1, a2;     /* Declare ints, too, don't default them. */
         float fl;       /* Beware double vs. float prototype differences. */
         int a4;         /* List in order declared. */
-{
-    </programlisting>
+{</programlisting>
 
     <para>Use ANSI function declarations unless you explicitly need K&amp;R
       compatibility.  Long parameter lists are wrapped with a normal four
@@ -556,8 +526,7 @@ vaf(const char *fmt, ...)
 static void
 usage()
 {
-        /* Insert an empty line if the function has no local variables. */
-    </programlisting>
+        /* Insert an empty line if the function has no local variables. */</programlisting>
 
     <para>Use printf(3), not fputs(3), puts(3), putchar(3), whatever; it is
       faster and usually cleaner, not to mention avoiding stupid bugs.</para>
@@ -591,8 +560,7 @@ usage()
 
         (void)fprintf(stderr, "usage: f [-ab]\n");
         exit(EX_USAGE);
-}
-    </programlisting>
+}</programlisting>
 
     <para>Note that the manual page options description should list the
       options in pure alphabetical order.  That is, without regard to whether
@@ -611,8 +579,7 @@ usage()
       followed by a blank line.</para>
      
     <programlisting>
-# $FreeBSD$
-    </programlisting>
+# $FreeBSD$</programlisting>
 
     <para>.PATH: comes next if needed, and is spelled .PATH: , with a single
       ASCII space after a colon.  Do not use the VPATH variable.</para>
@@ -682,8 +649,7 @@ usage()
 
 PROG=   foo
 
-.include &lt;bsd.prog.mk&gt;
-    </programlisting>
+.include &lt;bsd.prog.mk&gt;</programlisting>
 
     <para>The simplest library Makefile is:</para>
 
@@ -695,8 +661,7 @@ SHLIB_MAJOR= 1
 MAN=    libfoo.3
 SRCS=   foo.c
 
-.include &lt;bsd.lib.mk&gt;
-    </programlisting>
+.include &lt;bsd.lib.mk&gt;</programlisting>
   </sect1>
   
 	<!-- TODO this could be better done by an XSLT customisation layer -->
