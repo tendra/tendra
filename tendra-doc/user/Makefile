@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= guides suite
+SUBDIR= guides suite man
 
 .include "../share/doc.subdir.mk"
