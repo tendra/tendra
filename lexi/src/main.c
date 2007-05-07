@@ -58,10 +58,10 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "shared/config.h"
 #include "char.h"
 #include "shared/error.h"
 #include "lex.h"
@@ -127,7 +127,7 @@ main(int argc, char **argv)
 
 	/* Open output file */
 	if (argc == 2) {
-		lex_output = streq(argv[1], "-") ? stdout : fopen(argv[1], "w");
+		lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
 
 		if (lex_output == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);

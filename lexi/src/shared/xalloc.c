@@ -60,7 +60,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "config.h"
 #include "error.h"
 #include "xalloc.h"
 
@@ -72,10 +71,10 @@
     this file.  This routine allocates sz bytes of memory.
 */
 
-gen_ptr
+void *
 xmalloc(long sz)
 {
-    gen_ptr p = malloc((size_t)sz);
+    void *p = malloc((size_t)sz);
     if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
     return(p);
 }
@@ -87,10 +86,10 @@ xmalloc(long sz)
     This routine allocates and initializes n objects of size sz bytes.
 */
 
-gen_ptr
+void *
 xcalloc(long n, long sz)
 {
-    gen_ptr p = calloc((size_t)sz,(size_t)n);
+    void *p = calloc((size_t)sz,(size_t)n);
     if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
     return(p);
 }
@@ -103,10 +102,10 @@ xcalloc(long n, long sz)
     p can be the result of a previous memory allocation routine, or NULL.
 */
 
-gen_ptr
-xrealloc(gen_ptr p, long sz)
+void *
+xrealloc(void *p, long sz)
 {
-    gen_ptr q;
+    void *q;
     if (p) {
 	q = realloc(p,(size_t)sz);
     } else {
@@ -125,7 +124,7 @@ xrealloc(gen_ptr p, long sz)
 */
 
 void
-xfree(gen_ptr p)
+xfree(void *p)
 {
     if (p)free(p);
     return;

@@ -59,7 +59,6 @@
 
 #include <stdio.h>
 
-#include "shared/config.h"
 #include "char.h"
 #include "shared/error.h"
 #include "lex.h"
@@ -466,7 +465,7 @@ output_keyword(FILE *output)
 				fprintf(lex_output, "if (%s) {\n\t", cond);
 				output_word(p);
 				for (q = p->next; q != NULL; q = q->next) {
-					if (q->cond && streq(q->cond, cond)) {
+					if (q->cond && !strcmp(q->cond, cond)) {
 						fputs("\t", lex_output);
 						output_word(q);
 					}

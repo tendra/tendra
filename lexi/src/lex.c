@@ -59,7 +59,6 @@
 
 #include <stdio.h>
 
-#include "shared/config.h"
 #include "shared/error.h"
 #include "lex.h"
 #include "syntax.h"
@@ -181,7 +180,7 @@ read_identifier(int a, int sid)
     if (sid) return(lex_sid_Hidentifier);
     t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (streq(t,(A))) return(B);
+    if (!strcmp(t,(A))) return(B);
 #include "keyword.h"
     return(lex_identifier);
 }
@@ -276,7 +275,7 @@ void
 process_file(char *nm)
 {
     crt_line_no = 1;
-    if (nm == NULL || streq(nm, "-")) {
+    if (nm == NULL || !strcmp(nm, "-")) {
 	crt_file_name = "<stdin>";
 	lex_input = stdin;
 	nm = NULL;

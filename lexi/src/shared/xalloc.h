@@ -63,20 +63,13 @@
 
 
 /*
-    GENERIC POINTER
-*/
-
-typedef void *gen_ptr;
-
-
-/*
     DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
 */
 
-extern gen_ptr xmalloc(long);
-extern gen_ptr xcalloc(long, long);
-extern gen_ptr xrealloc(gen_ptr, long);
-extern void xfree(gen_ptr);
+extern void *xmalloc(long);
+extern void *xcalloc(long, long);
+extern void *xrealloc(void *, long);
+extern void xfree(void *);
 extern char *xstr(long);
 extern char *xstrcpy(const char *);
 extern char *xstrcat(const char *, const char *);
@@ -95,10 +88,10 @@ extern char *xstrcat(const char *, const char *);
 #define xcalloc_nof(T, N)\
    ((T *)xcalloc((long)(N), (long)sizeof(T)))
 #define xrealloc_nof(P, T, N)\
-   ((T *)xrealloc((gen_ptr)(P),\
+   ((T *)xrealloc((void *)(P),\
 			(long)(N)*(long)sizeof(T)))
 #define xfree_nof(P)\
-    xfree((gen_ptr)(P))
+    xfree((void *)(P))
 
 
 #endif

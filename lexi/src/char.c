@@ -59,7 +59,6 @@
 
 #include <string.h>
 
-#include "shared/config.h"
 #include "char.h"
 #include "shared/error.h"
 #include "shared/xalloc.h"
@@ -184,7 +183,7 @@ make_group(char *nm, letter *s)
 {
     int i, n = no_groups;
     for (i = 0; i < n; i++) {
-	if (streq(nm, groups [i].name)) {
+	if (!strcmp(nm, groups [i].name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
 	    return;
 	}
