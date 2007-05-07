@@ -58,6 +58,8 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "shared/config.h"
 #include "char.h"
@@ -67,101 +69,94 @@
 #include "syntax.h"
 
 /*
-	USAGE
-*/
+ * Usage
+ */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-klvh] input-file [output-file]\n", stdout);
+	fputs("usage: lexi [-kvh] [-l sid-prefix] input-file [output-file]\n", stdout);
 }
 
 
 /*
-    MAIN ROUTINE
-
-    This is the main routine.  It processes the command-line options,
-    reads the input file, and writes the output files.
-*/
-
+ * Main routine
+ *
+ * This is the main routine.  It processes the command-line options,
+ * reads the input file, and writes the output files.
+ */
 int
 main(int argc, char **argv)
 {
-    int a;
-    int key = 0;
-    int too_many = 0;
-    char *input = NULL;
-    char *output = NULL;
+	int key = 0;
+	int too_many = 0;
+	int optc;
 
-    /* Process arguments */
-	/* TODO convert to getopt */
-    set_progname(argv [0], "1.2");
-    for (a = 1; a < argc; a++) {
-	char *arg = argv [a];
-	if (arg [0] == '-' && arg [1]) {
-	    int known = 0;
-	    switch (arg [1]) {
-		case 'k': {
-		    if (arg [2])break;
-		    key = 1;
-		    known = 1;
-		    break;
+	/* Process arguments */
+	set_progname(argv [0], "1.2");
+	while ((optc = getopt(argc, argv, "kl:vh")) != -1) {
+		switch(optc) {
+		case 'k':
+			key = 1;
+			break;
+
+		case 'l':
+			sid_prefix = optarg;
+			break;
+
+		case 'v':
+			report_version();
+			return EXIT_SUCCESS;
+
+		default:
+			/* getopt will report error */
+
+		case 'h':
+			report_usage();
+			return EXIT_FAILURE;
 		}
-		case 'l': {
-		    sid_prefix = arg + 2;
-		    known = 1;
-		    break;
-		}
-		case 'v': {
-		    if (arg [2])break;
-		    report_version();
-		    return 0;
-		}
-		case 'h': {
-		    if (arg [2])break;
-		    report_usage();
-		    return 1;
-		}
-	    }
-	    if (!known) {
-		error(ERROR_WARNING, "Unknown option, '%s'", arg);
-	    }
-	} else {
-	    if (input == NULL) {
-		input = arg;
-	    } else if (output == NULL) {
-		output = arg;
-	    } else {
-		too_many = 1;
-	    }
 	}
-    }
+	argc -= optind;
+	argv += optind;
 
-    /* Check arguments */
-    if (input == NULL)error(ERROR_FATAL, "Not enough arguments");
-    if (too_many)error(ERROR_FATAL, "Too many arguments");
+	/* Check arguments */
+	if (argc < 1)
+		error(ERROR_FATAL, "Not enough arguments");
 
-    /* Process input file */
-    process_file(input);
+	if (argc > 2)
+		error(ERROR_FATAL, "Too many arguments");
 
-    /* Generate output */
-    if (exit_status == EXIT_SUCCESS) {
-	if (white_space == NULL)white_space = make_string(" \t\n");
-	if (output == NULL || streq(output, "-")) {
-	    lex_output = stdout;
-	    output = NULL;
-	} else {
-	    lex_output = fopen(output, "w");
-	    if (lex_output == NULL) {
-		error(ERROR_FATAL, "Can't open output file, %s", output);
-	    }
+	/* Open output file */
+	lex_output = stdout;
+	if (argc == 2) {
+		lex_output = streq(argv[1], "-") ? stdout : fopen(argv[1], "w");
+
+		if (lex_output == NULL) {
+			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
+			/* TODO perror for cases like this */
+			return EXIT_FAILURE;
+		}
 	}
-	if (key) {
-	    output_keyword();
-	} else {
-	    output_all();
+
+	/* Process input file */
+	process_file(argv[0]);
+
+	if (exit_status != EXIT_SUCCESS) {
+		error(ERROR_FATAL, "Terminating due to previous errors");
+		return exit_status;
 	}
-	if (output)fclose_v(lex_output);
-    } else {
-	error(ERROR_FATAL, "Terminating due to previous errors");
-    }
-    return(exit_status);
+
+	/* Generate output */
+	if (white_space == NULL)
+		white_space = make_string(" \t\n");
+
+	/* TODO pass output fd here; remove globals */
+	if (key)
+		output_keyword();
+	else
+		output_all();
+
+	if (lex_output)
+		fclose_v(lex_output);
+
+	return exit_status;
 }
+
