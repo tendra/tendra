@@ -73,7 +73,6 @@
 */
 
 FILE *lex_output;
-#define out lex_output
 
 
 /*
@@ -86,8 +85,8 @@ static void
 output_indent(int d)
 {
     int n = 4 * d;
-    for (; n >= 8; n -= 8)fputc_v('\t', out);
-    for (; n; n--)fputc_v(' ', out);
+    for (; n >= 8; n -= 8)fputc_v('\t', lex_output);
+    for (; n; n--)fputc_v(' ', lex_output);
     return;
 }
 
@@ -165,40 +164,40 @@ output_pass(character *p, int n, int d)
 	int w1 = (n == 0 && !in_pre_pass);
 	int w2 = (n == 0 && in_pre_pass);
 	output_indent(d);
-	fprintf_v(out, "int c%d = %s()", n, read_name);
-	if (classes || w1)fprintf_v(out, ", t%d", n);
-	fputs_v(";\n", out);
+	fprintf_v(lex_output, "int c%d = %s()", n, read_name);
+	if (classes || w1)fprintf_v(lex_output, ", t%d", n);
+	fputs_v(";\n", lex_output);
 	if (w1) {
 	    output_indent(d);
-	    fputs_v("t0 = lookup_char(c0);\n", out);
+	    fputs_v("t0 = lookup_char(c0);\n", lex_output);
 	    output_indent(d);
-	    fputs_v("if (is_white(t0)) goto start;\n", out);
+	    fputs_v("if (is_white(t0)) goto start;\n", lex_output);
 	}
 	if (w2) {
 	    output_indent(d);
-	    fputs_v("restart: {\n", out);
+	    fputs_v("restart: {\n", lex_output);
 	    d++;
 	}
 
 	if (cases > 4) {
 	    /* Small number of cases */
 	    output_indent(d);
-	    fprintf_v(out, "switch (c%d) {\n", n);
+	    fprintf_v(lex_output, "switch (c%d) {\n", n);
 	    for (q = p->next; q != NULL; q = q->opt) {
 		letter c = q->ch;
 		if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
 		    output_indent(d + 1);
-		    fprintf_v(out, "case %s: {\n", char_lit(c));
+		    fprintf_v(lex_output, "case %s: {\n", char_lit(c));
 		    if (output_pass(q, n + 1, d + 2) == 0) {
 			output_indent(d + 2);
-			fputs_v("break;\n", out);
+			fputs_v("break;\n", lex_output);
 		    }
 		    output_indent(d + 1);
-		    fputs_v("}\n", out);
+		    fputs_v("}\n", lex_output);
 		}
 	    }
 	    output_indent(d);
-	    fputs_v("}\n", out);
+	    fputs_v("}\n", lex_output);
 	} else {
 	    /* Large number of cases */
 	    int started = 0;
@@ -206,8 +205,8 @@ output_pass(character *p, int n, int d)
 		letter c = q->ch;
 		if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
 		    output_indent(d);
-		    if (started)fputs_v("} else ", out);
-		    fprintf_v(out, "if (c%d == %s) {\n",
+		    if (started)fputs_v("} else ", lex_output);
+		    fprintf_v(lex_output, "if (c%d == %s) {\n",
 				n, char_lit(c));
 		    IGNORE output_pass(q, n + 1, d + 1);
 		    started = 1;
@@ -215,7 +214,7 @@ output_pass(character *p, int n, int d)
 	    }
 	    if (started) {
 		output_indent(d);
-		fputs_v("}\n", out);
+		fputs_v("}\n", lex_output);
 	    }
 	}
 
@@ -224,7 +223,7 @@ output_pass(character *p, int n, int d)
 	    int started = 0;
 	    if (!w1) {
 		output_indent(d);
-		fprintf_v(out, "t%d = lookup_char(c%d);\n", n, n);
+		fprintf_v(lex_output, "t%d = lookup_char(c%d);\n", n, n);
 	    }
 	    for (q = p->next; q != NULL; q = q->opt) {
 		letter c = q->ch;
@@ -237,23 +236,23 @@ output_pass(character *p, int n, int d)
 			gnm = groups [g].name;
 		    }
 		    output_indent(d);
-		    if (started)fputs_v("} else ", out);
-		    fprintf_v(out, "if (is_%s(t%d)) {\n", gnm, n);
+		    if (started)fputs_v("} else ", lex_output);
+		    fprintf_v(lex_output, "if (is_%s(t%d)) {\n", gnm, n);
 		    IGNORE output_pass(q, n + 1, d + 1);
 		    started = 1;
 		}
 	    }
 	    output_indent(d);
-	    fputs_v("}\n", out);
+	    fputs_v("}\n", lex_output);
 	}
 	if (w2) {
 	    d--;
 	    output_indent(d);
-	    fputs_v("}\n", out);
+	    fputs_v("}\n", lex_output);
 	}
 	if (n) {
 	    output_indent(d);
-	    fprintf_v(out, "unread_char(c%d);\n", n);
+	    fprintf_v(lex_output, "unread_char(c%d);\n", n);
 	}
     }
 
@@ -275,35 +274,35 @@ output_pass(character *p, int n, int d)
 		}
 		if (cond) {
 		    output_indent(d);
-		    fprintf_v(out, "if (%s) {\n", cond);
+		    fprintf_v(lex_output, "if (%s) {\n", cond);
 		    output_indent(d + 1);
-		    fprintf_v(out, "c0 = %s;\n", str);
+		    fprintf_v(lex_output, "c0 = %s;\n", str);
 		    output_indent(d + 1);
-		    fputs_v("goto restart;\n", out);
+		    fputs_v("goto restart;\n", lex_output);
 		    output_indent(d);
-		    fputs_v("}\n", out);
+		    fputs_v("}\n", lex_output);
 		} else {
 		    output_indent(d);
-		    fprintf_v(out, "c0 = %s;\n", str);
+		    fprintf_v(lex_output, "c0 = %s;\n", str);
 		    output_indent(d);
-		    fputs_v("goto restart;\n", out);
+		    fputs_v("goto restart;\n", lex_output);
 		}
 	    } else {
 		output_indent(d);
-		if (cond)fprintf_v(out, "if (%s) ", cond);
-		fputs_v("goto start;\n", out);
+		if (cond)fprintf_v(lex_output, "if (%s) ", cond);
+		fputs_v("goto start;\n", lex_output);
 	    }
 	} else {
 	    output_indent(d);
-	    if (cond)fprintf_v(out, "if (%s) ", cond);
-	    fprintf_v(out, "return(%s", ret);
+	    if (cond)fprintf_v(lex_output, "if (%s) ", cond);
+	    fprintf_v(lex_output, "return(%s", ret);
 	    if (args) {
 		int i;
-		fputs_v("(c0", out);
-		for (i = 1; i < n; i++)fprintf_v(out, ", c%d", i);
-		fputs_v(")", out);
+		fputs_v("(c0", lex_output);
+		for (i = 1; i < n; i++)fprintf_v(lex_output, ", c%d", i);
+		fputs_v(")", lex_output);
 	    }
-	    fputs_v(");\n", out);
+	    fputs_v(");\n", lex_output);
 	}
     }
     return((ret && (cond == NULL))? 1 : 0);
@@ -322,11 +321,11 @@ output_comment(void)
 {
     if (first_comment) {
 	/* Print copyright comment, if present */
-	fprintf_v(out, "%s\n\n", first_comment);
+	fprintf_v(lex_output, "%s\n\n", first_comment);
     }
-    fputs_v ( "/*\n *  AUTOMATICALLY GENERATED", out ) ;
-    fprintf_v ( out, " BY %s VERSION %s", progname, progvers ) ;
-    fputs_v ( "\n */\n\n\n", out ) ;
+    fputs_v ("/*\n *  AUTOMATICALLY GENERATED", lex_output);
+    fprintf_v (lex_output, " BY %s VERSION %s", progname, progvers);
+    fputs_v ("\n */\n\n\n", lex_output);
     return;
 }
 
@@ -338,16 +337,18 @@ output_comment(void)
 */
 
 void
-output_all(void)
+output_all(FILE *output)
 {
     int c, n;
+
+	lex_output = output;
 
     /* Initial comment */
     output_comment();
 
     /* Character look-up table */
-    fputs_v ( "/* LOOKUP TABLE */\n\n", out ) ;
-    fprintf_v(out, "static unsigned %s lookup_tab[257] = {\n",
+    fputs_v ("/* LOOKUP TABLE */\n\n", lex_output);
+    fprintf_v(lex_output, "static unsigned %s lookup_tab[257] = {\n",
 		(no_groups >= 8 ? "short" : "char"));
     for (c = 0; c <= 256; c++) {
 	unsigned int m = 0;
@@ -358,58 +359,58 @@ output_all(void)
 		m |= (unsigned int)(1 << (n + 1));
 	    }
 	}
-	if ((c % 8) == 0)fputs_v("    ", out);
-	fprintf_v(out, "0x%04x", m);
+	if ((c % 8) == 0)fputs_v("    ", lex_output);
+	fprintf_v(lex_output, "0x%04x", m);
 	if (c != 256) {
 	    if ((c % 8) == 7) {
-		fputs_v(",\n", out);
+		fputs_v(",\n", lex_output);
 	    } else {
-		fputs_v(", ", out);
+		fputs_v(", ", lex_output);
 	    }
 	}
     }
-    fputs_v("\n};\n\n", out);
+    fputs_v("\n};\n\n", lex_output);
 
     /* Macros for accessing table */
-    fputs_v("#ifndef LEX_EOF\n", out);
-    fputs_v("#define LEX_EOF\t\t256\n", out);
-    fputs_v("#endif\n\n", out);
-    fputs_v("#define lookup_char(C)\t", out);
-    fputs_v("((int)lookup_tab[(C)])\n", out);
-    fputs_v("#define is_white(T)\t((T) & 0x0001)\n", out);
+    fputs_v("#ifndef LEX_EOF\n", lex_output);
+    fputs_v("#define LEX_EOF\t\t256\n", lex_output);
+    fputs_v("#endif\n\n", lex_output);
+    fputs_v("#define lookup_char(C)\t", lex_output);
+    fputs_v("((int)lookup_tab[(C)])\n", lex_output);
+    fputs_v("#define is_white(T)\t((T) & 0x0001)\n", lex_output);
     for (n = 0; n < no_groups; n++) {
 	char *gnm = groups [n].name;
 	unsigned int m = (unsigned int)(1 << (n + 1));
-	fprintf_v(out, "#define is_%s(T)\t", gnm);
-	/*if ((int)strlen(gnm) < 8)fputc_v('\t', out);*/
-	fprintf_v(out, "((T) & 0x%04x)\n", m);
+	fprintf_v(lex_output, "#define is_%s(T)\t", gnm);
+	/*if ((int)strlen(gnm) < 8)fputc_v('\t', lex_output);*/
+	fprintf_v(lex_output, "((T) & 0x%04x)\n", m);
     }
-    fputs_v("\n\n", out);
+    fputs_v("\n\n", lex_output);
 
     /* Lexical pre-pass */
     if (pre_pass->next) {
 	in_pre_pass = 1;
-	fputs_v ( "/* PRE-PASS ANALYSER */\n\n", out ) ;
-	fputs_v("static int read_char_aux(void)\n", out);
-	fputs_v("{\n", out);
-	fputs_v("    start: {\n", out);
+	fputs_v ( "/* PRE-PASS ANALYSER */\n\n", lex_output);
+	fputs_v("static int read_char_aux(void)\n", lex_output);
+	fputs_v("{\n", lex_output);
+	fputs_v("    start: {\n", lex_output);
 	IGNORE output_pass(pre_pass, 0, 2);
-	fputs_v("\treturn(c0);\n", out);
-	fputs_v("    }\n", out);
-	fputs_v("}\n\n\n", out);
+	fputs_v("\treturn(c0);\n", lex_output);
+	fputs_v("    }\n", lex_output);
+	fputs_v("}\n\n\n", lex_output);
 	read_name = "read_char_aux";
     }
 
     /* Main pass */
     in_pre_pass = 0;
-    fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
-    fputs_v("int\nread_token(void)\n", out);
-    fputs_v("{\n", out);
-    fputs_v("    start: {\n", out);
+    fputs_v ( "/* MAIN PASS ANALYSER */\n\n", lex_output);
+    fputs_v("int\nread_token(void)\n", lex_output);
+    fputs_v("{\n", lex_output);
+    fputs_v("    start: {\n", lex_output);
     IGNORE output_pass(main_pass, 0, 2);
-    fputs_v("\treturn(unknown_token(c0));\n", out);
-    fputs_v("    }\n", out);
-    fputs_v("}\n", out);
+    fputs_v("\treturn(unknown_token(c0));\n", lex_output);
+    fputs_v("    }\n", lex_output);
+    fputs_v("}\n", lex_output);
     return;
 }
 
@@ -423,9 +424,9 @@ output_all(void)
 static void
 output_word(keyword *p)
 {
-    fprintf_v(out, "MAKE_KEYWORD(\"%s\", %s", p->name, p->defn);
-    if (p->args)fputs_v("()", out);
-    fputs_v(");\n", out);
+    fprintf_v(lex_output, "MAKE_KEYWORD(\"%s\", %s", p->name, p->defn);
+    if (p->args)fputs_v("()", lex_output);
+    fputs_v(");\n", lex_output);
     p->done = 1;
     return;
 }
@@ -438,24 +439,27 @@ output_word(keyword *p)
 */
 
 void
-output_keyword(void)
+output_keyword(FILE *output)
 {
     keyword *p, *q;
+
+	lex_output = output;
+
     output_comment();
-    fputs_v ( "/* KEYWORDS */\n\n", out ) ;
+    fputs_v ("/* KEYWORDS */\n\n", lex_output);
     for (p = keywords; p != NULL; p = p->next) {
 	if (p->done == 0) {
 	    char *cond = p->cond;
 	    if (cond) {
-		fprintf_v(out, "if (%s) {\n    ", cond);
+		fprintf_v(lex_output, "if (%s) {\n    ", cond);
 		output_word(p);
 		for (q = p->next; q != NULL; q = q->next) {
 		    if (q->cond && streq(q->cond, cond)) {
-			fputs_v("    ", out);
+			fputs_v("    ", lex_output);
 			output_word(q);
 		    }
 		}
-		fputs_v("}\n", out);
+		fputs_v("}\n", lex_output);
 	    } else {
 		output_word(p);
 		for (q = p->next; q != NULL; q = q->next) {

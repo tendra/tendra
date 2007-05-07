@@ -66,9 +66,8 @@
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern FILE *lex_output;
-extern void output_all(void);
-extern void output_keyword(void);
+extern void output_all(FILE *output);
+extern void output_keyword(FILE *output);
 
 
 #endif

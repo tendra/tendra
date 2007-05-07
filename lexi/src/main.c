@@ -86,6 +86,7 @@ report_usage(void) {
 int
 main(int argc, char **argv)
 {
+	FILE *lex_output = stdout;
 	int key = 0;
 	int too_many = 0;
 	int optc;
@@ -125,7 +126,6 @@ main(int argc, char **argv)
 		error(ERROR_FATAL, "Too many arguments");
 
 	/* Open output file */
-	lex_output = stdout;
 	if (argc == 2) {
 		lex_output = streq(argv[1], "-") ? stdout : fopen(argv[1], "w");
 
@@ -150,9 +150,9 @@ main(int argc, char **argv)
 
 	/* TODO pass output fd here; remove globals */
 	if (key)
-		output_keyword();
+		output_keyword(lex_output);
 	else
-		output_all();
+		output_all(lex_output);
 
 	if (lex_output)
 		fclose_v(lex_output);
