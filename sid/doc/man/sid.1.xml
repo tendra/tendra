@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+<!-- $Id -->
+<refentry id="sid1">
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+	
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+	
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+	
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+	
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+	
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>sid</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id="name">
+		<refname>sid</refname>
+		<refpurpose>Syntax Improving Device; parser generator.</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv id="synopsis">
+		<cmdsynopsis>
+			<command>lexi</command>
+
+			<group>
+				<arg choice="plain">-d <replaceable>FILE</replaceable></arg>
+				<arg choice="plain">--dump-file <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-f <replaceable>LIMIT</replaceable></arg>
+				<arg choice="plain">--factor-limit<replaceable>LIMIT</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-i <replaceable>INLINES</replaceable></arg>
+				<arg choice="plain">--inline <replaceable>INLINES</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-l <replaceable>LANGUAGE</replaceable></arg>
+				<arg choice="plain">--language <replaceable>LANGUAGE</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-s <replaceable>OPTION</replaceable></arg>
+				<arg choice="plain">--switch <replaceable>OPTION</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-t <replaceable>NUMBER</replaceable></arg>
+				<arg choice="plain">--tab-width <replaceable>NUMBER</replaceable></arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-?</arg>
+				<arg choice="plain">--help</arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-e</arg>
+				<arg choice="plain">--show-errors</arg>
+			</group>
+
+			<group>
+				<arg choice="plain">-v</arg>
+				<arg choice="plain">--version</arg>
+			</group>
+
+			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsection id="description">
+		<title>Description</title>
+		<para>The <command>sid</command> command is used to turn descriptions
+			of a language into a program for recognising that language.	This manual page
+			details the command line syntax; for more information, consult the <command>sid</command>
+			user documentation.<!-- TODO link to sid guide -->	The number of
+			files specified on the command line varies depending upon the output
+			language.	The description of the <option>--language</option> option
+			specifies the number of files for each language.</para>
+	</refsection>
+
+	<refsection id="switches">
+		<title>Switches</title>
+		<para><command>sid</command> accepts both short form and long form
+		command line switches.</para>
+	<!-- TODO remove these :) -->
+
+		<para>Short form switches are single characters, and begin with a '-' or '+'
+			character. They can be concatentated into a single command line word, e.g.:</para>
+
+		<para>
+			<option>-vdl</option>
+			<replaceable>dump-file</replaceable>
+			<literal>language-name</literal>
+		</para>
+
+		<para>which contains three different switches (<option>-v</option>, which
+			takes no arguments; <option>-d</option>, which takes one argument:
+			<literal>dump-file</literal>; and <option>-l</option>, which
+			takes one argument: <literal>language-name</literal>).</para>
+
+		<para>Long form switches are strings, and begin with <literal>--</literal>
+			or <literal>++</literal>.	With long form switches, only the shortest
+			unique prefix need be entered.	The long form of the above example
+			would be:</para>
+
+		<para>
+			<option>--version</option>
+			<option>--dump-file</option>
+			<replaceable>dump-file</replaceable>
+			<option>--language</option>
+			<replaceable>language-name</replaceable>
+		</para>
+
+		<para>In most cases the arguments to the switch should follow the switch as a
+			separate word.	In the case of short form switches, the arguments to the
+			short form switches in a single word should follow the word in the order of
+			the switches (as in the first example).	For some options, the argument may
+			be part of the same word as the switch (such options are shown without a
+			space between the switch and the argument in the switch summaries below).
+			In the case of short form switches, such a switch would terminate any
+			concatentation of switches (either a character would follow it, which would
+			be treated as its argument, or it would be the end of the word, and its
+			argument would follow as normal).</para>
+
+		<para>For binary switches, the <literal>-</literal> or <literal>--</literal>
+			switch prefixes set (enable) the switch, and the <literal>+</literal>
+			or <literal>++</literal> switch prefixes reset (disable) the switch.
+			This is probably back to front, but is in keeping with other programs. The
+			switches <literal>--</literal> or <literal>++</literal> by themselves
+			terminate option parsing.</para>
+	</refsection>
+
+	<refsection id="error_file_syntax">
+		<title>Error File Syntax</title>
+		<para>It is possible to change the error messages that <command>sid</command>
+			uses.	In order to do this, make the environment variable
+			<literal>SID_ERROR_FILE</literal> contain the name of a
+			file with the new error messages in.</para>
+
+		<para>The error file consists of zero or more sections.	Each section begins
+			with a section marker (one of <literal>%prefix%</literal>, <literal>%errors%</literal> or
+			<literal>%strings%</literal>).	The prefix section takes a single string (this is to
+			be the prefix for all error messages).	The other sections take zero or
+			more pairs of names and strings.	A name is a sequence of characters
+			surrounded by single quotes.	A string is a sequence of characters
+			surrounded by double quotes.	In the case of the prefix and error
+			sections, the strings may contain variables of the form <literal>${</literal><literal>variable
+			name</literal><literal>}</literal>.	These variables will be replaced by suitable information
+			when the error occurs.	The backslash character can be used to escape
+			characters.	The following C style escape sequences are recognized:
+			<!-- TODO quote -->
+			'<literal>\n</literal>', '<literal>\r</literal>', '<literal>\t</literal>',
+			'<literal>\&numsp;</literal>'.	Also, the sequence
+			'<literal>\x</literal><literal>NN</literal>' represents the
+			character with code <literal>NN</literal> in hex.	The hash
+			character acts as a comment to end of line character.</para>
+
+		<para>The <option>--show-errors</option> option may be used to
+			get a copy of the current error messages.</para>
+	</refsection>
+
+	<refsection id="options">
+		<title>Options</title>
+		<para><command>sid</command> accepts the following command line options:
+
+			<variablelist>
+				<varlistentry>
+					<term>
+						<option>--dump-file</option> <replaceable>FILE</replaceable>
+						<sbr/>
+						<option>-d</option> <replaceable>FILE</replaceable>
+					</term>
+					<listitem>
+						<para>This option causes intermediate dumps of
+							the grammar to be written to the file
+							<literal>FILE</literal>.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--factor-limit</option> <replaceable>LIMIT</replaceable>
+						<sbr/>
+						<option>-f</option> <replaceable>LIMIT</replaceable>
+					</term>
+					<listitem>
+						<para>This option limits the number of rules that
+							can be created during the factorisation process.
+							It is probably best not to change this.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--help</option>
+						<sbr/>
+						<option>-?</option>
+					</term>
+					<listitem>
+						<para>Write an option summary to the standard
+							error.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--inline</option> <replaceable>INLINES</replaceable>
+						<sbr/>
+						<option>-i</option> <replaceable>INLINES</replaceable>
+					</term>
+					<listitem>
+						<para>This option controls what inlining will
+							be done in the output parser.  The inlines argument
+							should be a comma seperated list of the following
+							words:
+
+							<variablelist>
+								<varlistentry>
+									<term><literal>SINGLES</literal></term>
+									<listitem>
+										<para>This causes single alternative rules
+											to be inlined.	This inlining is no
+											longer performed as a modification to the
+											grammar (it was in version 1.0).</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term><literal>BASICS</literal></term>
+									<listitem>
+										<para>This causes rules that contain only
+											basics (and no exception handlers or
+											empty alternatives) to be inlined.
+											The restriction on exception handlers
+											and empty alternatives is rather
+											arbitrary, and may be changed later.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term><literal>TAIL</literal></term>
+									<listitem>
+										<para>This causes tail recursive calls to
+											be inlined.	Without this, tail recursion
+											elimination will not be performed.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term><literal>OTHER</literal></term>
+									<listitem>
+										<para>This causes other calls to be inlined
+											wherever possible.	Unless the
+											<literal>MULTI</literal> inlining is
+											also specified, this will be done only for
+											productions that are called once.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term><literal>MULTI</literal></term>
+									<listitem>
+										<para>This causes calls to be inlined,
+											even if the rule being called is called
+											more than once.	Turning this inlining on
+											implies <literal>OTHER</literal>.	Similarly
+											turning off <literal>OTHER</literal> inlining
+											will turn off <literal>MULTI</literal> inlining.
+											For grammars of any size, this is probably
+											best avoided; if used the generated parser may
+											be huge (e.g. a C grammar has produced a file that
+											was several hundred MB in size).</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term><literal>ALL</literal></term>
+									<listitem>
+										<para>This turns on all inlining.</para>
+									</listitem>
+								</varlistentry>
+							</variablelist>
+						</para>
+
+						<para>In addition, prefixing a word with <quote>no</quote>
+							turns off that inlining phase.	The words may be
+							given in any case.	They are evaluated in
+							the order given, so:</para>
+
+						<para><literal>-inline noall,singles</literal></para>
+
+						<para>would turn on single alternative rule inlining
+							only, whilst:</para>
+
+						<para><literal>-inline singles,noall</literal></para>
+
+						<para>would turn off all inlining.	The default
+							is as if <command>sid</command> were invoked
+							with the option:</para>
+
+						<!-- TODO we use programlisting elsewhere for this -->
+						<para><literal>-inline noall,basics,tail</literal></para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--language</option> <envar>LANGUAGE</envar>
+						<sbr/>
+						<option>-l</option> <envar>LANGUAGE</envar>
+					</term>
+					<listitem>
+						<para>This option specifies the output language.
+							Currently this should be either <quote>ansi-c</quote>,
+							<quote>pre-ansi-c</quote>, or <quote>test</quote>.
+							The default is <quote>ansi-c</quote>.</para>
+
+						<para>The <quote>ansi-c</quote> and <quote>pre-ansi-c</quote>
+							languages are basically the same.	The only
+							difference is that <quote>ansi-c</quote> initially
+							uses function prototypes, and <quote>pre-ansi-c</quote>
+							doesn't.	Each language takes two input files, a
+							grammar file and an actions file, and produces two
+							output files, a C source file containing the
+							generated parser and a C header file containing
+							the external declarations for the parser.
+							The C language specific options are:
+
+							<!-- TODO possibly we could move these to a seperate
+								section, and save on some indenting -->
+							<variablelist>
+								<varlistentry>
+									<term>
+										<option>prototypes</option>
+										<sbr/>
+										<option>proto</option>
+										<sbr/>
+										<option>no-prototypes</option>
+										<sbr/>
+										<option>no-proto</option>
+									</term>
+									<listitem>
+										<para>These enable or disable the use of function
+											prototypes.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term>
+										<option>split split=<literal>NUMBER</literal></option>
+										<sbr/>
+										<option>no-split</option>
+									</term>
+									<listitem>
+										<para>These enable or disable the output file
+											split option.	The generated files can be
+											very large even without inlining.	This option
+											splits the main output file into a number of
+											components containing about <literal>NUMBER</literal>
+											lines each (the default being 50000).
+											These components are distinguished by successively
+											substituting 1, 2, 3, ... for the character
+											<literal>@</literal> in the output file name.</para>
+										<!-- That's an especially inspired option -->
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term>
+										<option>numeric-ids</option>
+										<sbr/>
+										<option>numeric</option>
+										<sbr/>
+										<option>no-numeric-ids</option>
+										<sbr/>
+										<option>no-numeric</option>
+									</term>
+									<listitem>
+										<para>These enable or disable the use of numeric
+											identifiers.	Numeric identifiers replace the
+											identifier name with a number, which is mainly
+											of use in stopping identifier names getting too
+											long.	The disadvantage is that the code becomes
+											less readable, and more difficult to debug.
+											Numeric identifiers are not used by default
+											and are never used for terminal numbers.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term>
+										<option>casts</option>
+										<sbr/>
+										<option>no-casts</option>
+										<sbr/>
+										<option>no-cast</option>
+									</term>
+									<listitem>
+										<para>These enable or disable casting of action
+											and assignment operator immutable parameters.
+											If enabled, a parameter is cast to its own type
+											when it is substituted into the action.	This
+											will cause some compilers to complain about
+											attempts to modify the parameter (which can help pick
+											out attempts at mutating parameters that should
+											not be mutated).	The disadvantage is that not
+											all compilers will reject attempts at mutation,
+											and that <acronym>ANSI</acronym> doesn't allow casting to
+											structure and union types, which
+											means that some code may be illegal.
+											Parameter casting is disabled by default.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term>
+										<option>unreachable-macros</option>
+										<sbr/>
+										<option>unreachable-macro</option>
+										<sbr/>
+										<option>unreachable-comments</option>
+										<sbr/>
+										<option>unreachable-comment</option>
+									</term>
+									<listitem>
+										<para>These choose whether unreachable code is marked by
+											a macro or a comment.  The default is to mark
+											unreachable code with a comment <code>/*UNREACHED*/</code>,
+											however a macro <code>UNREACHED;</code> may be used
+											instead, if desired.</para>
+									</listitem>
+								</varlistentry>
+
+								<varlistentry>
+									<term>
+										<option>lines</option>
+										<sbr/>
+										<option>line</option>
+										<sbr/>
+										<option>no-lines</option>
+										<sbr/>
+										<option>no-line</option>
+									</term>
+									<listitem>
+										<para>These determine whether <code>#line</code>
+											directives should be output to relate the
+											output file to the actions file.
+											These are generated by default.</para>
+									</listitem>
+								</varlistentry>
+							</variablelist>
+						</para>
+
+						<para>The <quote>test</quote> language only takes one
+							input file, and produces no output file.
+							It may be used to check that a grammar is valid.
+							In conjunction with the dump file, it may be used
+							to check the transformations that would be applied
+							to the grammar.	There are no language specific options
+							for the <quote>test</quote> language.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--show-errors</option>
+						<sbr/>
+						<option>-e</option>
+					</term>
+					<listitem>
+						<para>Write the current error message list to
+							the standard output.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--switch</option> <replaceable>OPTION</replaceable>
+						<sbr/>
+						<option>-s</option> <replaceable>OPTION</replaceable>
+					</term>
+					<listitem>
+						<para>Pass through <literal>OPTION</literal> as
+							a language specific option.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--tab-width</option> <replaceable>NUMBER</replaceable>
+						<sbr/>
+						<option>-t</option> <replaceable>NUMBER</replaceable>
+					</term>
+					<listitem>
+						<para>This option specifies the number of
+							spaces that a tab occupies.	It defaults to 8.
+							It is only used when indenting output.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>
+						<option>--version</option>
+						<sbr/>
+						<option>-v</option>
+					</term>
+					<listitem>
+						<para>This option causes the version number
+							and supported languages to be written to the
+							standard error stream.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</refsection>
+
+	<refsection id="see_also">
+		<title>See Also</title>
+		<para><citetitle>Sid users' guide</citetitle>.</para>
+	</refsection>
+</refentry>
+
