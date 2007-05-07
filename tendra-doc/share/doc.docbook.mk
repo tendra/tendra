@@ -23,18 +23,25 @@ XSLTPROCFLAGS= --stringparam css.decoration 0\
 PREFIX=	/usr/local/share /usr/pkg/share
 .for prefix in ${PREFIX}
 . if exists(${prefix}/xsl/docbook/xhtml/docbook.xsl)
-DBXSL=	${prefix}/xsl/docbook/xhtml/docbook.xsl
+DBXSL_XHTML= ${prefix}/xsl/docbook/xhtml/docbook.xsl
+. endif
+. if exists(${prefix}/xsl/docbook/manpages/docbook.xsl)
+DBXSL_MAN= ${prefix}/xsl/docbook/manpages/docbook.xsl
 . endif
 .endfor
 
+all: ${DOC}.html $(MAN)
+
 ${DOC}.html: ${DOC}.xml
-	${XSLTPROC} ${XSLTPROCFLAGS} -o ${.TARGET} ${DBXSL} ${DOC}.xml
+	${XSLTPROC} ${XSLTPROCFLAGS} -o ${.TARGET} ${DBXSL_XHTML} ${DOC}.xml
 	#${TIDY} ${TIDYFLAGS} ${.TARGET}
 
-all: ${DOC}.html
+${MAN}: ${MAN}.xml
+	${XSLTPROC} ${XSLTPROCFLAGS} -o ${.TARGET} ${DBXSL_MAN} ${MAN}.xml
 
 clean:
-	rm -f ${DOC}.html
+	rm -f ${DOC}.html ${MAN}
 
 lint: ${DOC}.xml
 	${XMLLINT} ${XMLLINTFLAGS} ${DOC}.xml
+
