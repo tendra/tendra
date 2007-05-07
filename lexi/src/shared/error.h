@@ -61,8 +61,6 @@
 #ifndef ERROR_INCLUDED
 #define ERROR_INCLUDED
 
-#include "../tendra/tendra.h"
-
 /*
     ERROR SEVERITY LEVELS
 
@@ -80,17 +78,17 @@
     DECLARATIONS FOR ERROR ROUTINES
 */
 
-extern void error(int, CONST char *, ...);
-extern void error_posn(int, CONST char *, int, CONST char *, ...);
-extern void set_progname(CONST char *, CONST char *);
+extern void error(int, const char *, ...);
+extern void error_posn(int, const char *, int, const char *, ...);
+extern void set_progname(const char *, const char *);
 extern void report_version(void);
 
-extern CONST char *progname;
-extern CONST char *progvers;
+extern const char *progname;
+extern const char *progvers;
 extern int exit_status;
 extern int maximum_errors;
 extern int crt_line_no;
-extern CONST char *crt_file_name;
+extern const char *crt_file_name;
 
 
 /*
@@ -98,7 +96,7 @@ extern CONST char *crt_file_name;
 */
 
 #ifdef ASSERTS
-extern void assertion(CONST char *, CONST char *, int);
+extern void assertion(const char *, const char *, int);
 #if FS_STDC_HASH
 #define ASSERT(A)	if (!(A))assertion(#A, __FILE__, __LINE__)
 #define FAIL(A)	assertion(#A, __FILE__, __LINE__)

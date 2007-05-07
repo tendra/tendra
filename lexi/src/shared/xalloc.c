@@ -165,14 +165,14 @@ xstr(long n)
 */
 
 char *
-xstrcpy(CONST char *s)
+xstrcpy(const char *s)
 {
     long n;
     char *r;
     if (s == NULL) return(NULL);
     n = (long)strlen(s) + 1;
     r = xstr(n);
-    strcpy_v(r, s);
+    strcpy(r, s);
     return(r);
 }
 
@@ -185,7 +185,7 @@ xstrcpy(CONST char *s)
 */
 
 char *
-xstrcat(CONST char *s, CONST char *t)
+xstrcat(const char *s, const char *t)
 {
     char *r;
     long n, m;
@@ -194,7 +194,7 @@ xstrcat(CONST char *s, CONST char *t)
     n = (long)strlen(s);
     m = n + (long)strlen(t) + 1;
     r = xstr(m);
-    strcpy_v(r, s);
-    strcpy_v(r + n, t);
+    strcpy(r, s);
+    strcpy(r + n, t);
     return(r);
 }

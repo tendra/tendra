@@ -289,6 +289,6 @@ process_file(char *nm)
     }
     ADVANCE_LEXER;
     read_lex();
-    if (nm)fclose_v(lex_input);
+    if (nm)fclose(lex_input);
     return;
 }

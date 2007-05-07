@@ -155,7 +155,7 @@ main(int argc, char **argv)
 		output_all(lex_output);
 
 	if (lex_output)
-		fclose_v(lex_output);
+		fclose(lex_output);
 
 	return exit_status;
 }

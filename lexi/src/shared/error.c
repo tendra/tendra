@@ -57,23 +57,10 @@
         it may be put.
 */
 
+#include <stdarg.h>
 
 #include "config.h"
 #include "error.h"
-
-
-/*
-    ALLOW BOTH STDARG AND VARARGS
-
-    The flag FS_STDARG decides which of stdarg.h and varargs.h is to be
-    used for dealing with functions with a variable number of arguments.
-*/
-
-#if FS_STDARG
-#include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 
 
 /*
@@ -82,14 +69,14 @@
     These variables are used or set in the error routines.
 */
 
-CONST char *progname = NULL;
-CONST char *progvers = NULL;
+const char *progname = NULL;
+const char *progvers = NULL;
 int exit_status = EXIT_SUCCESS;
 int maximum_errors = 20;
 static int number_errors = 0;
 
 int crt_line_no = 1;
-CONST char *crt_file_name = NULL;
+const char *crt_file_name = NULL;
 
 
 /*
@@ -100,7 +87,7 @@ CONST char *crt_file_name = NULL;
 */
 
 void
-set_progname(CONST char *nm, CONST char *vers)
+set_progname(const char *nm, const char *vers)
 {
     char *r = strrchr(nm, '/');
     progname = (r ? r + 1 : nm);
@@ -118,11 +105,11 @@ set_progname(CONST char *nm, CONST char *vers)
 void
 report_version(void)
 {
-    CONST char *nm = progname;
-    CONST char *vers = progvers;
+    const char *nm = progname;
+    const char *vers = progvers;
     if (nm == NULL) nm = "unknown";
     if (vers == NULL) vers = "1.0";
-    fprintf_v(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
+    fprintf(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
     return;
 }
 
@@ -135,34 +122,34 @@ report_version(void)
 */
 
 static void
-error_msg(int e, CONST char *fn, int ln, CONST char *s, va_list args)
+error_msg(int e, const char *fn, int ln, const char *s, va_list args)
 {
     if (e != ERROR_NONE) {
-	if (progname) fprintf_v(stderr, "%s: ", progname);
+	if (progname) fprintf(stderr, "%s: ", progname);
 	switch (e) {
 	    case ERROR_WARNING: {
-		fprintf_v(stderr, "Warning: ");
+		fprintf(stderr, "Warning: ");
 		break;
 	    }
 	    case ERROR_FATAL: {
-		fprintf_v(stderr, "Fatal: ");
+		fprintf(stderr, "Fatal: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
 	    }
 	    default : {
-		fprintf_v(stderr, "Error: ");
+		fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
 	    }
 	}
 	if (fn) {
-	    fprintf_v(stderr, "%s: ", fn);
-	    if (ln != -1) fprintf_v(stderr, "line %d: ", ln);
+	    fprintf(stderr, "%s: ", fn);
+	    if (ln != -1) fprintf(stderr, "line %d: ", ln);
 	}
-	vfprintf_v(stderr, s, args);
-	fprintf_v(stderr, ".\n");
+	vfprintf(stderr, s, args);
+	fprintf(stderr, ".\n");
 	if (e == ERROR_FATAL) exit(EXIT_FAILURE);
 	if (number_errors >= maximum_errors && maximum_errors) {
 	    error(ERROR_FATAL, "Too many errors (%d) - aborting",
@@ -182,19 +169,11 @@ error_msg(int e, CONST char *fn, int ln, CONST char *s, va_list args)
 */
 
 void
-error(int e, CONST char *s, ...)
+error(int e, const char *s, ...)
     /*VARARGS*/
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    int e;
-    CONST char *s;
-    va_start(args);
-    e = va_arg(args, int);
-    s = va_arg(args, CONST char *);
-#endif
     error_msg(e, crt_file_name, crt_line_no, s, args);
     va_end(args);
     return;
@@ -209,23 +188,11 @@ error(int e, CONST char *s, ...)
 */
 
 void
-error_posn(int e, CONST char *fn, int ln, CONST char *s, ...)
+error_posn(int e, const char *fn, int ln, const char *s, ...)
     /*VARARGS*/
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    int e;
-    CONST char *fn;
-    int ln;
-    CONST char *s;
-    va_start(args);
-    e = va_arg(args, int);
-    fn = va_arg(args, CONST char *);
-    ln = va_arg(args, int);
-    s = va_arg(args, CONST char *);
-#endif
     error_msg(e, fn, ln, s, args);
     va_end(args);
     return;
@@ -242,10 +209,10 @@ error_posn(int e, CONST char *fn, int ln, CONST char *s, ...)
 */
 
 void
-assertion(CONST char *s, CONST char *file, int line)
+assertion(const char *s, const char *file, int line)
 {
-    if (progname) fprintf_v(stderr, "%s: ", progname);
-    fprintf_v(stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s);
+    if (progname) fprintf(stderr, "%s: ", progname);
+    fprintf(stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s);
     abort();
 }
 

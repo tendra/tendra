@@ -37,7 +37,6 @@
 */
 
 #include "ossg_api.h"
-#include "../tendra/tendra.h"
 
 
 /*
@@ -49,20 +48,6 @@
 
 #define streq( A, B )	( strcmp ( ( A ), ( B ) ) == 0 )
 #define array_size( A )	( ( int ) sizeof ( A ) / ( int ) sizeof ( *( A ) ) )
-
-#define fclose_v	IGNORE fclose
-#define fflush_v	IGNORE fflush
-#define fprintf_v	IGNORE fprintf
-#define fputc_v		IGNORE fputc
-#define fputs_v		IGNORE fputs
-#define printf_v	IGNORE printf
-#define putchar_v	IGNORE putchar
-#define putc_v		IGNORE putc
-#define puts_v		IGNORE puts
-#define sprintf_v	IGNORE sprintf
-#define vfprintf_v	IGNORE vfprintf
-#define memcpy_v	IGNORE memcpy
-#define strcpy_v	IGNORE strcpy
 
 
 /*

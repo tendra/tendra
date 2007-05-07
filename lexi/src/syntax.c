@@ -339,7 +339,7 @@ ZR60(SID_STRING *ZOi, int *ZOa)
     int n ;
     char *s ;
     char buff [1000] ;
-    strcpy_v ( buff, sid_prefix ) ;
+    strcpy ( buff, sid_prefix ) ;
     n = ( int ) strlen ( buff ) ;
     for ( s = token_buff ; *s ; s++ ) {
 	if ( *s == '-' ) {

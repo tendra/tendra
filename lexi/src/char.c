@@ -61,7 +61,6 @@
 #include "shared/config.h"
 #include "char.h"
 #include "shared/error.h"
-#include "tendra/tendra.h"
 #include "shared/xalloc.h"
 
 
@@ -302,7 +301,7 @@ make_string(char *s)
 		    a = '?';
 		}
 	    }
-	    SET(a);
+	    /* a is set */
 	} else {
 	    a = (letter)(c & 0xff);
 	}

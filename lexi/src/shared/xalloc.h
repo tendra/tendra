@@ -78,8 +78,8 @@ extern gen_ptr xcalloc(long, long);
 extern gen_ptr xrealloc(gen_ptr, long);
 extern void xfree(gen_ptr);
 extern char *xstr(long);
-extern char *xstrcpy(CONST char *);
-extern char *xstrcat(CONST char *, CONST char *);
+extern char *xstrcpy(const char *);
+extern char *xstrcat(const char *, const char *);
 
 
 /*
