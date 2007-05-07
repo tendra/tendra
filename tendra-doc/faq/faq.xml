@@ -27,8 +27,13 @@
     </copyright>
   </articleinfo>
 
-  <para>First draft of the FAQ.  Lame set-up, no nice colours, and so on.
-    Also, the order is based on nothing for now.</para>
+	<!--
+ 	TODO First draft of the FAQ.  Lame set-up, no nice colours, and so on.
+    Also, the order is based on nothing for now.
+
+	Questions to include: are we dead? what are our plans?
+	What happened with the split wrt ten15.org?
+	-->
 
   <qandaset defaultlabel="qanda">
     <qandadiv id="tendra-history">
@@ -214,14 +219,13 @@
         <question>
           <para>I try to compile the following simple C++ program:
             <programlisting>
-              #include &lt;iostream.h&gt;
-  
-              int main()
-              {
-                      cout &lt;&lt; "hello world\n";
-                      return (0);
-              }
-            </programlisting>
+#include &lt;iostream.h&gt;
+
+int main()
+{
+	cout &lt;&lt; "hello world\n";
+	return (0);
+}</programlisting>
             and the compiler is giving me errors.</para>
         </question>
   
