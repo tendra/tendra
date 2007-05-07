@@ -1,27 +1,5 @@
 # $Id$
 
-# Standard directories and files
-
-#SRCX=${.CURDIR}/../shared
-
-# Standard variables
-
-WARNS?=		3
-
-TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCX}
-LIBS=
-
-# Dependencies and construction rules
-
-PROG=		${.CURDIR:T}
-
-SRCS=		char.c error.c lex.c main.c output.c syntax.c xalloc.c
-
-.PATH:	${SRCX}
-
-SIDOPTS=-l ansi-c -s no-lines
-
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 
@@ -46,11 +24,20 @@ all: lexi
 
 # This is just until I have lexi moved out and cleaned up - kate
 lexi: char.o syntax.o lex.o main.o output.o \
-	shared/xalloc.c shared/error.c
+	shared/xalloc.a shared/error.a
 	$(CC) $(CFLAGS) -o lexi char.o syntax.o lex.o main.o output.o \
-		shared/error.c shared/xalloc.c
+		shared/error.a shared/xalloc.a
 
 clean:
 	rm -f char.o syntax.o lex.o main.o output.o \
 		lexi
+	cd shared && make clean
+
+install:
+
+shared/error.a:
+	cd shared && make error.a
+
+shared/xalloc.a:
+	cd shared && make xalloc.a
 

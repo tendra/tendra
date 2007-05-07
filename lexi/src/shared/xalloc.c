@@ -90,6 +90,7 @@ void *
 xcalloc(long n, long sz)
 {
     void *p = calloc((size_t)sz,(size_t)n);
+	/* TODO perhaps error.h should provide something that calls perror() and exits */
     if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
     return(p);
 }
