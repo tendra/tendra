@@ -119,11 +119,17 @@ main(int argc, char **argv)
 	argv += optind;
 
 	/* Check arguments */
-	if (argc < 1)
+	if (argc < 1) {
+		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
+		/* TODO resolve - here, and pass FILE * to process_file();
+		 * we can permit argc < 1 for stdin */
+	}
 
-	if (argc > 2)
+	if (argc > 2) {
+		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
+	}
 
 	/* Open output file */
 	if (argc == 2) {
