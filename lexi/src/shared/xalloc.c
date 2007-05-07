@@ -57,6 +57,8 @@
         it may be put.
 */
 
+#include <string.h>
+#include <stdlib.h>
 
 #include "config.h"
 #include "error.h"

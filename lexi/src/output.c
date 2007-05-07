@@ -57,6 +57,7 @@
 		it may be put.
 */
 
+#include <stdio.h>
 
 #include "shared/config.h"
 #include "char.h"

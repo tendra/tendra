@@ -31,14 +31,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-
-/*
-    INCLUDE BASIC CONFIGURATION FILES
-*/
-
-#include "ossg_api.h"
-
-
 /*
     USEFUL MACROS
 

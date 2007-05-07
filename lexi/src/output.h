@@ -61,6 +61,7 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
+#include <stdio.h>
 
 /*
     DECLARATIONS FOR OUTPUT ROUTINES

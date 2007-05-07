@@ -39,6 +39,7 @@
         it may be put.
 */
 
+#include <string.h>
 
 #include "shared/config.h"
 #include "char.h"
