@@ -162,7 +162,10 @@ does it expect any #defines?
 				<listitem>
 					<para>Pre-parse substitutions</para>
 
-					<para>TODO</para>
+					<para>For mappings of sequences of characters to a
+						single character, pre-parse substitutions offer
+						a mechanism to implement effects similar to
+						trigraphs in C.</para>
 				</listitem>
 
 				<listitem>
@@ -382,7 +385,8 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 			<para>Literal identifiers have no prefix symbol; their
 				names are used verbatim. They may be used for defining
 				groups, keywords and tokens. They may also be
-				used for conditional statements.</para>
+				used for conditional statements and for the names
+				of functions to be called.</para>
 
 			<note>
 				<para>It is likely that literal identifiers
@@ -468,15 +472,15 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 			-->
 		</section>
 
-		<section id="charactersetslists">
-			<title id="charactersetslists.title">Character sets and lists</title>
+		<section id="charactersetssequences">
+			<title id="charactersetssequences.title">Character sets and sequences</title>
 
-			<para>Sets and lists of characters are used by
+			<para>Sets and sequences of characters are used by
 				<!-- TODO right? --> all <command>lexi</command> commands. <!--
 				TODO and possibly also pre-pass replacements? --> They share
 				the same syntax, but have different meanings: a set is an
 				unordered intersection of all characters specified, wheras
-				a list is a sequence which must be entirely present in
+				a sequence is a sequence which must be entirely present in
 				the order given, as per a string comparison. The syntax
 				is:</para>
 
@@ -528,7 +532,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				character set of the C implementation used to compile
 				<command>lexi</command> (it is reasonable to assume this is ASCII).
 				Note that the <code>range</code> production always
-				represents a set (as opposed to a list), even when used as
+				represents a set (as opposed to a sequence), even when used as
 				part of a <code>TOKEN</code>
 				command.<!-- TODO unclear and true? --></para>
 
@@ -536,7 +540,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				characters delimited by double-quotes (<code>"</code>).</para>
 
 			<bridgehead>Escaping special characters in strings</bridgehead>
-			<!-- TODO strings or lists and sets? -->
+			<!-- TODO strings or sequences and sets? -->
 
 			<para>The following special characters may be written by
 				backslash escapes:</para>
@@ -636,23 +640,23 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 			<bridgehead id="groupinclusion">Group inclusions in
 				strings</bridgehead>
-			<!-- TODO strings or lists and sets? -->
+			<!-- TODO strings or sequences and sets? -->
 
-			<para>A set of characters
-				defined by a GROUP command may
-				be included into a character set by specifying the
-				group name between "[" and "]" within a string.
-				For example:</para>
+			<para>A set of characters defined by a <literal>GROUP</literal>
+			 	command may be included into a character set
+				by specifying the group name between <code>[</code>
+				and <code>]</code> within a string.  For example:</para>
 
 			<programlisting>"[xyz]"
 "abc[def]hij[klm]nmo"</programlisting>
 
-			<para>These include the characters defined by the "xyz"
-				group to the first string, and from the "def" and "klm"
-				groups to the second string. Note that as strings with
-				group inclusions may only be used in <xref
-				linkend="groupdefinitions" endterm="groupdefinitions.title"/>,
-				the characters have no order.</para>
+			<para>These include the characters defined by the
+				<quote>xyz</quote> group to the first string, and
+				from the <quote>def</quote> and <quote>klm</quote>
+				groups to the second string. It makes no difference
+				if the string is a set or a sequence; the groups included
+				are always treated as a set, even though the rest
+				of the string may be a sequence.</para>
 
 			<para>The group to be included must
 				already have been defined at the point where it is
@@ -661,7 +665,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 			<para>See <!-- TODO link --> the commands below for
 				further examples of character sets and
-				lists<!-- TODO terminology: sets and lists? --></para>
+				sequences<!-- TODO terminology: sets and sequences? --></para>
 
 			<bridgehead id="concaternation">String concaternation</bridgehead>
 
@@ -670,12 +674,12 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 			<programlisting>"abc" + "d" + "efg" + {0-9}</programlisting>
 
-			<para>is equivalent to the list:</para>
+			<para>is equivalent to the sequence:</para>
 
 			<programlisting>"abcdefg[digit]"</programlisting>
 
-			<para>(where the group "digit" is suitablly defined),
-				and to the set:</para>
+			<para>(where the group <quote>digit</quote> is suitablly
+				defined), and to the set:</para>
 
 			<programlisting>"abcdefg0123456789"</programlisting>
 
@@ -704,24 +708,21 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				substitutions as found in C. The syntax to define pre-pass
 				replacements is:</para>
 
-			<programlisting>MAPPING chars + "->" + chars ;</programlisting>
-			<!-- TODO chars on the right is wrong: it's one char (or escape) -->
+			<programlisting>MAPPING sequence + "->" + char ;</programlisting>
 
 			<para>The string on the right (i.e. the value with which the
 				matched string is replaced) may only contain one character,
 				or an escape sequence which yields one character.</para>
 
-			<!-- TODO chars on the left is the same as a token? we should
-				make list a seperate symbol from set -->
-
 			<para>For example, to replace the trigraph <literal>??=</literal>
 				with a single <literal>?</literal>:</para>
 
 			<programlisting>MAPPING "\?\?=" -> "#" ;</programlisting>
-			<!-- TODO test -->
 
-			<para>This would replace instances of "??=" with "#" before
-				any tokenisation takes place. So the input "a??=b" would
+			<para>This would replace instances of <literal>??=</literal>
+				with <literal>#</literal> before
+				any tokenisation takes place. So the input
+				<literal>a??=b</literal> would
 				match the token definition:</para>
 
 			<programlisting>TOKEN "a#b" -> a ;</programlisting>
@@ -734,19 +735,17 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 			<!-- TODO describe them -->
 
-			<para>A group may be included in the character list to
+			<para>A group may be included in the character sequence to
 				be replaced. For example:</para>
 
 			<programlisting>MAPPING "[alpha]" -> " " ;</programlisting>
 
 			<para>will replace any alphabetic character by a blank,
-				assuming the "alpha" group is suitablly defined at
-				that point<!-- TODO at that point, right? -->.
+				assuming the <quote>alpha</quote> group is suitablly
+				defined at that point.
 				See the <xref linkend="groupinclusion" endterm="groupinclusion"/>
-				rules for details of including groups in lists.</para>
+				rules for details of including groups in sequences.</para>
 
-			<!-- TODO tell kevin i found one error:
-				??? does not exist for good reason! -->
 			<para>Mappings are substituted repeatedly until no further
 				mappings match. The order of replacement for mappings
 				matching strings of equal length is undefined,
@@ -778,12 +777,13 @@ MAPPING "xb" -> y ;</programlisting>
 			<programlisting>MAPPING "ab" -> "d" ;
 MAPPING "bc" -> "d" ;</programlisting>
 
-			<para>For the input "abc" will produce "db", not "ad".</para>
+			<para>For the input <quote>abc</quote> will produce
+				<quote>db</quote>, not <quote>ad</quote>.</para>
 
-			<para>Mappings matching sequences <!-- TODO rename lists to
-				sequences --> of longer lengths are replaced with higher
-				precedance than mappings matching shorter lengths of the
-				same values beginning the longer sequences. For example:</para>
+			<para>Mappings matching sequences of longer lengths
+				are replaced with higher precedance than mappings
+				matching shorter lengths of the same values
+				beginning the longer sequences. For example:</para>
 
 			<programlisting>MAPPING "abcdef" -> "x" ;
 MAPPING "abcd" -> "y" ;</programlisting>
@@ -791,7 +791,6 @@ MAPPING "abcd" -> "y" ;</programlisting>
 			<para>for the input "abcdef" will produce "x", not "yef".</para>
 			<!-- TODO ditto tokens? -->
 		</section>
-<!-- TODO why is the look-up table an unsigned char? -->
 
 		<section id="groupdefinitions">
 			<title id="groupdefinitions.title">Character group definitions</title>
@@ -826,8 +825,8 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>assuming the groups "alpha" and "digit" have already
 				been defined at that point.
-				See <xref linkend="charactersetslists"
-				endterm="charactersetslists.title"/> for details of the
+				See <xref linkend="charactersetssequences"
+				endterm="charactersetssequences.title"/> for details of the
 				syntax for the chars production.</para>
 
 			<para>Groups may not contain characters which are present
@@ -858,8 +857,8 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<!-- TODO state why we're changing our api: see the
 				"this is for version X" heading -->
 			<!-- TODO be sure to state the first release is for backwards
-				compatibility only. Make a list of API changes. Infact,
-				all releases for all products should have such a list
+				compatibility only. Make a sequence of API changes. Infact,
+				all releases for all products should have such a sequence
 				(i.e. a changelog), especially for APIs. -->
 
 			<!-- TODO explain what groups are legal, undefined, etc.
@@ -915,7 +914,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 		<section id="tokendefinitions">
 			<title id="tokendefinitions.title">Token definitions</title>
 
-			<para>Tokens are lists of characters read by the lexical analyser
+			<para>Tokens are sequences of characters read by the lexical analyser
 				and indicated as output. Each token as a unique identifier,
 				which is passed to code calling <command>lexi</command>, along with
 				the characters read which form the
@@ -1211,7 +1210,7 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 
 		<section>
 			<title>Description grammar</title>
-	<!-- - Grammar (for reference) and list of keywords, reserved words, etc -->
+	<!-- - Grammar (for reference) and sequence of keywords, reserved words, etc -->
 		</section>
 
 		<section>
@@ -1260,7 +1259,7 @@ TODO then define groups inside a block as undefined, and adjust the grammar
        lex_unknown woul have been returned.
 			</para>
 
-	TODO we should make a list of undefined behaviours and check
+	TODO we should make a sequence of undefined behaviours and check
 	if anybody uses them (or indeed if anybody uses lexi...)
 -->
 
