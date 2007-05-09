@@ -160,10 +160,10 @@ does it expect any #defines?
 				</listitem>
 
 				<listitem>
-					<para>Pre-parse substitutions</para>
+					<para>Pre-pass substitutions</para>
 
 					<para>For mappings of sequences of characters to a
-						single character, pre-parse substitutions offer
+						single character, pre-pass substitutions offer
 						a mechanism to implement effects similar to
 						trigraphs in C.</para>
 				</listitem>
@@ -356,7 +356,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 				<code>/*</code> and closing <code>*/</code>. They may not
 				nest, and they must close. For example:</para>
 
-			<!-- TODO did i add the // patch already? -->
+			<!-- TODO did i add the // patch already? I don't think so -->
 			<programlisting>/* This is a comment */
 /*
  * And so is this.
@@ -582,13 +582,6 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 							<entry>New page (form feed)</entry>
 						</row>
 
-						<!-- TODO Why is this escaped? -->
-						<row>
-							<entry><code>\?</code></entry>
-							<entry>0x3F</entry>
-							<entry><!-- TODO -->Question mark</entry>
-						</row>
-
 						<!-- TODO order by numerical value -->
 						<row>
 							<entry><code>\r</code></entry>
@@ -702,7 +695,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<title>Pre-pass mappings</title>
 
 			<para>The lexical analysis runs in two passes. The first pass,
-				or "pre-pass" stage permits replacements to be substituted
+				or <quote>pre-pass</quote> stage permits replacements to be substituted
 				before the main pass, under which tokenisation takes place.
 				This gives a convenient mechanism for expressing trigraph-like
 				substitutions as found in C. The syntax to define pre-pass
@@ -715,9 +708,9 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				or an escape sequence which yields one character.</para>
 
 			<para>For example, to replace the trigraph <literal>??=</literal>
-				with a single <literal>?</literal>:</para>
+				with a single <literal>#</literal>:</para>
 
-			<programlisting>MAPPING "\?\?=" -> "#" ;</programlisting>
+			<programlisting>MAPPING "??=" -> "#" ;</programlisting>
 
 			<para>This would replace instances of <literal>??=</literal>
 				with <literal>#</literal> before
@@ -726,14 +719,6 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				match the token definition:</para>
 
 			<programlisting>TOKEN "a#b" -> a ;</programlisting>
-
-			<para>Note that in this example, the "?" character is
-				escaped because it happens to be a special character.
-				See the <xref linkend="tokendefinitions"
-				endterm="tokendefinitions.title"/> section for more
-				details on defining tokens.</para>
-
-			<!-- TODO describe them -->
 
 			<para>A group may be included in the character sequence to
 				be replaced. For example:</para>
@@ -752,9 +737,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				and so it is an error to define a mapping which produces
 				a character used at the start of any mapping, including
 				itself. For example:</para>
-			<!-- TODO new undefined behaviour -->
 
-			<programlisting>MAPPING "\?\?\?" -> "\?" ;</programlisting>
+			<programlisting>MAPPING "???" -> "?" ;</programlisting>
 
 			<para>is illegal. To see why, consider the input "aab" for
 				the (illegal) mappings:</para>
@@ -764,15 +748,18 @@ MAPPING "xb" -> y ;</programlisting>
 
 			<para>Since the order of substitution for mappings matching
 				strings of equal length is undefined, it is
-				unclear if this will result in "xb" or "y". Notice that
-				C does not demand a "???" trigraph - perhaps for this very
-				reason. This restriction applies no matter how the string
+				unclear if this will result in <quote>xb</quote> or
+				<quote>y</quote>. Notice that
+				C does not demand a <quote>???</quote> trigraph
+				- perhaps for this very reason (or perhaps simply
+				because it is redundant).
+				This restriction applies no matter how the string
 				defining the characters to be mapped is formed: for
 				example, it is also illegal to define a mapping which maps
 				to a character present in a group included at the start
 				of another mapping.</para>
 
-			<para>Trigraphs bind from left to right. For example:</para>
+			<para>Mappings bind from left to right. For example:</para>
 
 			<programlisting>MAPPING "ab" -> "d" ;
 MAPPING "bc" -> "d" ;</programlisting>
@@ -1202,7 +1189,7 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 
 				<para>TODO joint example with sid.</para>
 			</section>
-			Perhaps a grade-2 braille system (pre-parse mappings would
+			Perhaps a grade-2 braille system (pre-pass mappings would
 			work well) outputting tokens, ignoring whitespace. Punct can
 			also be a token.
 		</section>
@@ -1217,6 +1204,12 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 			<title>Undefined behaviour</title>
 
 			<!-- TODO list undefined behaviours -->
+
+			<!--
+				and so it is an error to define a mapping which produces
+				a character used at the start of any mapping, including
+				itself. For example:</para>
+				TODO new undefined behaviour -->
 		</section>
 
 		<section>
