@@ -178,24 +178,25 @@ Documentation
    * PL_TDF
 
 
- - Development
+Development
+-----------
 
-   This provides a cross-link to the Developer Documentation for convenience.
+This provides a cross-link to the Developer Documentation for convenience.
 
-   Various Trac components are provided here giving a central point for
-   several aspects of development.
+Various Trac components are provided here giving a central point for
+several aspects of development.
 
-   * Automated build-farm
+ - Automated build-farm
 
-     We're planning an automated build-farm system, in the style of
-     PostgreSQL's farm. This will provide automated compilation on as
-     many different platforms as we can find, and show their status.
+   We're planning an automated build-farm system, in the style of
+   PostgreSQL's farm. This will provide automated compilation on as
+   many different platforms as we can find, and show their status.
 
-     This section should also describe how to participate in the farm.
+   This section should also describe how to participate in the farm.
 
-   * Timeline
+ - Timeline
 
-   * Tickets
+ - Tickets
 
-   * Source browser (to be modified to link to DoxyS)
+ - Source browser (to be modified to link to DoxyS)
 
