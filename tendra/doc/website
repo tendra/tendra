@@ -14,16 +14,17 @@ becomes relevant).
 This is also the first port of call for recruiting new developers; see
 the marketing/newdevelopers document for details.
 
+This is an approximate sitemap showing major sections and content. Auxillary
+pages are not illustrated.
 
-About
------
 
- - Project goals
+About / Contact
+---------------
+
+ - Project goals / Philosophy
 
    The aims of the project, from core principles to subsidiary
    interests.
-
- - Philosophy
 
    We have a fairly strong philosophy that informs our working
    practice, and influences our goals; this section is to convey
@@ -46,36 +47,18 @@ About
 
    A user-friendly list of our software projects.
 
-
-Contact
--------
-
- - Mailing lists
+ - Mailing lists / IRC
 
    This is fairly self-explanatory: which lists are available, their
    purposes, how to sign up, and view the archives.
 
- - IRC
+   Where we may be found on IRC and how to connect us.
 
-   Where we may be found and how to connect us.
+ - News / Status
 
+   Recent news items.
 
-User Documentation
-------------------
-
-See tendra-doc/user
-
- - Suite purpose overview
-
-   The reasons for each program existing, and what they do from a
-   user's perspective. This also includes how they'd fit in to an
-   example work-flow, perhaps with some case examples.
-
- - Usage guides
-
-   Details of how to use each program, rather than what the program
-   is for. This includes man-page material, as well as the excellent
-   guides we inherited.
+   Status on our current points of interest.
 
 
 Download
@@ -88,114 +71,131 @@ Download
 
  - Releases
 
-   An archive of previous releases.
+   An archive of previous releases; HTTP, FTP etc.
 
 
-Developer Documentation
------------------------
+Documentation
+-------------
 
-See tendra-doc/developer
+ - User Documentation
 
- - Subversion organisation
+   See tendra-doc/user
 
-   How our repository is laid out, and an overview of the protocol for
-   branching and tagging.
+   * Suite purpose overview
 
- - Suite architecture
+     The reasons for each program existing, and what they do from a
+     user's perspective. This also includes how they'd fit in to an
+     example work-flow, perhaps with some case examples.
 
-   A conceptual overview of how each piece of software relates to each
-   other, from the point of view of working on the source. This does
-   not deal with how information flows, rather how the source depends
-   on various parts.
+   * Usage guides
 
-   For details of how each component is written, see the Component
-   Guides.
+     Details of how to use each program, rather than what the program
+     is for. This includes man-page material, as well as the excellent
+     guides we inherited.
 
- - High level design documents
+   * FAQ
 
-   These design documents show block-level information flow within each
-   program, and give as many conceptual orientation information as
-   possible. This is the first port of call when approaching the
-   system.
-
- - Developer Guides
-
-   These are introductory task-orientated guides on how to go about
-   common procedures, such as adding a new tspec API. See the
-   developersguides document for details.
-
- - Component Guides
-
-   Guides on the technical internals of each component. Each of these
-   are roughly grouped into the interfaces implemented, and a tour of
-   the implementation.
-
- - Source code browsing and implementation documentation
-
-   Whilst this is no substitute for a high-level design or other design
-   documentation, this serves sufficiently as implementation
-   documentation.
-
-   DoxyS, or some equivalent source-browsing system will suffice, as
-   long as it is capable of showing dependency trees, call graphs, and
-   is able to make sense of our helpful directory layout.
-
- - Implementation of forthcoming intentions
-
-   Here we discuss the rationale for future intentions, and the
-   details behind implementing them. This includes but is not limited
-   to the process of splitting up the source, various refactorings, and
-   library designs.
-
- - A "todo" list of relativley major items
-
-   These would generally be too large for single tickets, and might make
-   suitable candidates for Google's Summer of Code projects.
-
-   See development/features for examples.
-
-Papers and research articles
-----------------------------
-
-One of the longer-term intentions is for TenDRA to provide a platform
-for research. This includes some of the more academic projects, and the
-results of investigations making use of them.
+   * Glossary
 
 
-Reference Documentation
------------------------
+ - Developer Documentation
 
-Reference materials are the common protocols and APIs which bridge the
-user and development documentation. This includes references for the
-languages such as the TDF and PL_TDF specifications, but is not usage
-references for any particular programs that deal with them.
+   See tendra-doc/developer
 
- - TDF
+   * Subversion organisation
 
- - PL_TDF
+     How our repository is laid out, and an overview of the protocol for
+     branching and tagging.
+
+   * Suite architecture
+
+     A conceptual overview of how each piece of software relates to each
+     other, from the point of view of working on the source. This does
+     not deal with how information flows, rather how the source depends
+     on various parts.
+
+     For details of how each component is written, see the Component
+     Guides.
+
+   * High level design documents
+
+     These design documents show block-level information flow within each
+     program, and give as many conceptual orientation information as
+     possible. This is the first port of call when approaching the
+     system.
+
+   * Developer Guides
+
+     These are introductory task-orientated guides on how to go about
+     common procedures, such as adding a new tspec API. See the
+     developersguides document for details.
+
+   * Component Guides
+
+     Guides on the technical internals of each component. Each of these
+     are roughly grouped into the interfaces implemented, and a tour of
+     the implementation.
+
+   * Source code browsing and implementation API documentation
+
+     Whilst this is no substitute for a high-level design or other design
+     documentation, this serves sufficiently as implementation
+     documentation.
+
+     Puredocs, or some equivalent source-browsing system will suffice, as
+     long as it is capable of showing dependency trees, call graphs, and
+     is able to make sense of our helpful directory layout.
+
+   * Implementation of forthcoming intentions
+
+     Here we discuss the rationale for future intentions, and the
+     details behind implementing them. This includes but is not limited
+     to the process of splitting up the source, various refactorings, and
+     library designs.
+
+   * A "todo" list of relativley major items
+
+     These would generally be too large for single tickets, and might make
+     suitable candidates for Google's Summer of Code projects.
+
+     See development/features for examples.
+
+ - Papers and research articles
+
+   One of the longer-term intentions is for TenDRA to provide a platform
+   for research. This includes some of the more academic projects, and the
+   results of investigations making use of them.
+
+ - Reference Documentation
+
+   Reference materials are the common protocols and APIs which bridge the
+   user and development documentation. This includes references for the
+   languages such as the TDF and PL_TDF specifications, but is not usage
+   references for any particular programs that deal with them.
+
+   * TDF
+
+   * PL_TDF
 
 
-Development
------------
+ - Development
 
- - Automated build-farm
+   This provides a cross-link to the Developer Documentation for convenience.
 
-   We're planning an automated build-farm system, in the style of
-   PostgreSQL's farm. This will provide automated compilation on as
-   many different platforms as we can find, and show their status.
+   Various Trac components are provided here giving a central point for
+   several aspects of development.
 
-   This section should also describe how to participate in the farm.
+   * Automated build-farm
 
- - Trac components
+     We're planning an automated build-farm system, in the style of
+     PostgreSQL's farm. This will provide automated compilation on as
+     many different platforms as we can find, and show their status.
 
-   Trac provides a central point for several aspects of development.
-   These include:
+     This section should also describe how to participate in the farm.
 
-   - Timeline
+   * Timeline
 
-   - Tickets
+   * Tickets
 
-   - Source browser (to be modified to link to DoxyS)
-
-   - Automated builds
+   * Source browser (to be modified to link to DoxyS)
 
