@@ -2,51 +2,51 @@
 
 # Standard directories and files
 
-SRC2=	${.CURDIR}/errors
 
 # Standard variables
 
-WARNS?=		2
-
-TCCOPTS=	-Yansi -Xs
-LIBS=
-
 # Dependencies and construction rules
 
-PROG=		${.CURDIR:T}
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${OBJ_SDIR}
-SRCS=		gen-errors.c\
-		action.c alt.c arg-parse.c basic.c bitvec.c c-check.c\
-		c-code.c c-lexer.c c-out-info.c c-out-key.c c-out-nl.c\
-		c-out-types.c c-output.c c-parser.c cstring-list.c cstring.c\
-		dalloc.c dstring.c entry-list.c entry.c error-file.c error.c\
-		exception.c grammar.c istream.c item.c key.c\
-		lexer.c main.c name.c non-local.c ostream.c output.c parser.c\
-		rstack.c rule-check.c rule-factor.c rule-firsts.c rule-lre.c\
-		rule-mutate.c rule-names.c rule-simp.c rule-tail.c rule.c\
-		scope.c syntax.c table.c type.c types.c
+TARGETS=gen-errors.o\
+		action.o alt.o arg-parse.o basic.o bitvec.o c-check.o\
+		c-code.o c-lexer.o c-out-info.o c-out-key.o c-out-nl.o\
+		c-out-types.o c-output.o c-parser.o cstring-list.o cstring.o\
+		dalloc.o dstring.o entry-list.o entry.o error-file.o error.o\
+		exception.o grammar.o istream.o item.o key.o\
+		lexer.o main.o name.o non-local.o ostream.o output.o parser.o\
+		rstack.o rule-check.o rule-factor.o rule-firsts.o rule-lre.o\
+		rule-mutate.o rule-names.o rule-simp.o rule-tail.o rule.o\
+		scope.o syntax.o table.o type.o types.o
 
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-SIDOPTS=-l ansi-c -s numeric -s no-lines
+#SIDOPTS=-l ansi-c -s numeric -s no-lines
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
 ERR_OUT=gen-errors.c gen-errors.h
 
-EFILES=${SRC2}/arg-parse.e ${SRC2}/c-check.e ${SRC2}/c-code.e\
- ${SRC2}/c-lexer.e ${SRC2}/c-parser.e ${SRC2}/error-file.e\
- ${SRC2}/for-osif.e ${SRC2}/grammar.e ${SRC2}/lexer.e ${SRC2}/main.e\
- ${SRC2}/parser.e ${SRC2}/rule-check.e ${SRC2}/rule-factor.e\
- ${SRC2}/rule-firsts.e ${SRC2}/rule-lre.e ${SRC2}/scope.e\
- ${SRC2}/table.e ${SRC2}/types.e
+ESRC=errors
+EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e\
+	${ESRC}/c-lexer.e ${ESRC}/c-parser.e ${ESRC}/error-file.e\
+	${ESRC}/for-osif.e ${ESRC}/grammar.e ${ESRC}/lexer.e ${ESRC}/main.e\
+	${ESRC}/parser.e ${ESRC}/rule-check.e ${ESRC}/rule-factor.e\
+	${ESRC}/rule-firsts.e ${ESRC}/rule-lre.e ${ESRC}/scope.e\
+	${ESRC}/table.e ${ESRC}/types.e
+
+BUILD_ERRORS=${ESRC}/BUILD_ERRORS
+PERL=perl
+
+all: sid
+
+clean:
+	rm -f sid gen-errors.o gen-errors.c gen-errors.h $(TARGETS)
+
+sid: $(TARGETS) gen-errors.o
+	$(CC) $(CFLAGS) -o sid $(TARGETS)
 
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT};\
-	${BUILD_ERRORS} -o gen-errors ${EFILES}
+	${PERL} ${BUILD_ERRORS} -o gen-errors ${EFILES}
 
-auto_clobber :
-	${REMOVE} ${PARSER_OUT} ${C_OUT} ${ERR_OUT}
-
-.include "../Makefile.inc"
