@@ -1,4 +1,5 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/env perl
+
 ###############################################################################
 $[    = 1 ;
 $prog = $0;
@@ -390,33 +391,30 @@ sub build_tag_proc {
 
     if (defined ($struct = $error_struct_name{$error})) {
 	$def    = ("{\n    " . $struct . " *closure = (" . $struct .
-		   " *) gclosure;\n\n");
+		   " *)gclosure;\n\n");
 	for ($i = 1; $i <= $#tag_order; $i ++) {
 	    $tag   = $tag_order [$i];
 	    $name  = $tag_names{$tag};
 	    $code  = $tag_code{$tag};
 	    $index = $error_tags{$tag};
 	    if ($i == 1) {
-		$def .= ("    if (tag == ET [" . $index . "].tag) {\n");
+		$def .= ("    if (tag == ET[" . $index . "].tag) {\n");
 	    } else {
-		$def .= ("    } else if (tag == ET [" . $index . "].tag) {\n");
+		$def .= ("    } else if (tag == ET[" . $index . "].tag) {\n");
 	    }
 	    $def .= $code;
 	}
 	$def .= "    }\n}\n";
     } else {
-	$def = ("{\n    UNUSED (ostream);\n" . "    UNUSED (tag);\n" .
-		"    UNUSED (gclosure);\n}\n");
+	$def = ("{\n    UNUSED(ostream);\n" . "    UNUSED(tag);\n" .
+		"    UNUSED(gclosure);\n}\n");
     }
     if (defined ($tmp = $error_tproc_match{$def})) {
 	$error_tproc_name{$error} = $tmp;
     } else {
 	$name   = sprintf ("ET_%05d", $error_tproc_num ++);
 	$header = ("static void\n" . $name .
-		   " PROTO_N ((ostream, tag, gclosure))\n" .
-		   &indent_to ("", 9) . "PROTO_T (OStreamP ostream X\n" .
-		   &indent_to ("", 18) . "ETagP    tag X\n" .
-		   &indent_to ("", 18) . "GenericP gclosure)\n");
+		   "(OStreamP ostream, ETagP tag, GenericP gclosure)\n");
 	$error_tproc_match{$def}  = $name;
 	$error_tproc_name{$error} = $name;
 	push (@error_tag_procs, ($header . $def));
@@ -429,7 +427,7 @@ sub build_proc_dec {
     local ($dec, $i, $tag, $type, $sep, $args, $param);
 
     $sep  = undef;
-    $dec  = ("extern void E_" . $munged_name . "\n\tPROTO_S ((");
+    $dec  = ("extern void E_" . $munged_name . "(");
     $args = 0;
     for ($i = 1; $i <= $#param_order; $i ++) {
 	$param = $param_order [$i];
@@ -456,7 +454,7 @@ sub build_proc_dec {
     if ($args == 0) {
 	$dec .= "void";
     }
-    $error_proc_decs{$error} = ($dec . "));\n");
+    $error_proc_decs{$error} = ($dec . ");\n");
 }
 
 sub build_proc_def {
@@ -467,8 +465,8 @@ sub build_proc_def {
 
     $sep     = undef;
     $def     = ("void\nE_" . $munged_name);
-    $tmp_def = " PROTO_N ((";
-    $col     = (length ($munged_name) + 3);
+    $tmp_def = "";
+    $col     = (length ($munged_name) + 2);
     $args    = 0;
     $sep     = undef;
     for ($i = 1; $i <= $#param_order; $i ++) {
@@ -476,8 +474,6 @@ sub build_proc_def {
 	if (defined ($sep)) {
 	    $tmp_def .= $sep;
 	}
-	$tmp_def .= $param;
-	$sep      = ", ";
 	$args ++;
     }
     for ($i = 1; $i <= $#tag_order; $i ++) {
@@ -487,15 +483,14 @@ sub build_proc_def {
 	    if (defined ($sep)) {
 		$tmp_def .= $sep;
 	    }
-	    $tmp_def .= $name;
-	    $sep      = ", ";
 	    $args ++;
 	}
     }
-    $tmp_def .= ("))\n" . &indent_to ("", $col) . "PROTO_T (");
-    $col     += 9;
+    $tmp_def .= "(";
+    $col     += 1;
+
     if ($args == 0) {
-	$def .= " PROTO_Z ()\n";
+	$def .= "(void)\n";
     } else {
 	$def .= $tmp_def;
 	$sep  = undef;
@@ -506,7 +501,7 @@ sub build_proc_def {
 		$def .= $sep;
 	    }
 	    $def .= ($type . " " . $param);
-	    $sep  = (" X\n" . &indent_to ("", $col));
+	    $sep  = (",\n" . &indent_to ("", $col));
 	}
 	for ($i = 1; $i <= $#tag_order; $i ++) {
 	    $tag  = $tag_order [$i];
@@ -516,15 +511,21 @@ sub build_proc_def {
 		if (defined ($sep)) {
 		    $def .= $sep;
 		}
-		$def .= ($type . " " . $name);
-		$sep  = (" X\n" . &indent_to ("", $col));
+		if ((length($def) + length($type) + length($name) + 1) > 78) {
+			$def .= ($type . " " . $name);
+#		$sep  = (",\n" . &indent_to ("", $col));
+			$sep = (", ");
+		} else {
+			$sep = (",\n" . &indent_to("", $col));
+			$def .= ($type . " " . $name);
+		}
 	    }
 	}
 	$def .= ")\n";
     }
     $def .= "{\n";
     if (defined ($struct = $error_struct_name{$error})) {
-	$def .= ("    " . $struct . " closure; \n\n");
+	$def .= ("    " . $struct . " closure;\n\n");
 	for ($i = 1; $i <= $#tag_order; $i ++) {
 	    $tag  = $tag_order [$i];
 	    $name = $tag_names{$tag};
@@ -534,11 +535,11 @@ sub build_proc_def {
 		$def .= ("    closure." . $name . " = " . $name . ";\n");
 	    }
 	}
-	$closure = "(GenericP) &closure";
+	$closure = "(GenericP)&closure";
     } else {
-	$closure = "NIL (GenericP)";
+	$closure = "NIL(GenericP)";
     }
-    $def .= ("    error_call_init_proc ();\n    error_report (EE [" .
+    $def .= ("    error_call_init_proc();\n    error_report(EE[" .
 	     $error_index{$error} . "].error, " . $error_tproc_name{$error} .
 	     ", " . $closure . ");\n");
     if (($error_severities{$error} eq "ERROR_SEVERITY_FATAL") ||
@@ -564,7 +565,7 @@ sub parse_error {
 	$error_client_data{$name} = $data;
 	($token, $data) = &next_token;
     } else {
-	$error_client_data{$name} = "NIL (GenericP)";
+	$error_client_data{$name} = "NIL(GenericP)";
     }
     if ($token != $TOK_CLOSE_BRACE) {
 	&ifatal ("expected '}'");
@@ -637,7 +638,7 @@ sub output_c_file {
     print OUTFILE ("#include \"ostream.h\"\n\n");
     print OUTFILE ($error_c_header, "\n");
 
-    print OUTFILE ("static ETagDataT ET [] = {\n");
+    print OUTFILE ("static ETagDataT ET[] = {\n");
     for ($i = 1; $i <= $#error_tag_order; $i ++) {
 	$tag = $error_tag_order [$i];
 	print OUTFILE ("    UB \"", $tag, "\" UE,\n");
@@ -645,7 +646,7 @@ sub output_c_file {
     print OUTFILE ("    ERROR_END_TAG_LIST\n");
     print OUTFILE ("};\n\n");
 
-    print OUTFILE ("static ErrorDataT EE [] = {\n");
+    print OUTFILE ("static ErrorDataT EE[] = {\n");
     for ($i = 1; $i <= $#error_order; $i ++) {
 	$error = $error_order [$i];
 	print OUTFILE ("    UB {\n\t\"", $error, "\",\n\t",
@@ -671,7 +672,7 @@ sub output_c_file {
 	print OUTFILE ($error_proc_defs{$error});
     }
     $name = &munge_name (&basename ($outfile));
-    print OUTFILE ("\nvoid\n", $name, "_init_errors PROTO_Z ()\n",
+    print OUTFILE ("\nvoid\n", $name, "_init_errors(void)\n",
 		   "{\n    error_intern_tags (ET);\n",
 		   "    error_intern_errors (EE);\n}\n");
 }
@@ -689,7 +690,7 @@ sub output_h_file {
 	print OUTFILE ($error_proc_decs{$error});
     }
     print OUTFILE ("\nextern void ", &munge_name (&basename ($outfile)),
-		   "_init_errors\n\tPROTO_S ((void));\n");
+		   "_init_errors(void);\n");
 }
 
 ###############################################################################
