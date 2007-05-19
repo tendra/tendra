@@ -16,13 +16,15 @@ TARGETS=gen-errors.o \
 
 ERR_OUT=gen-errors.c gen-errors.h
 
+MOVE=mv
 REMOVE=rm -f
 PERL=perl
+SID=sid
 
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-#SIDOPTS=-l ansi-c -s numeric -s no-lines
+SIDOPTS=-l ansi-c -s numeric -s no-lines
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
@@ -37,10 +39,18 @@ EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e \
 all: sid
 
 clean:
-	${REMOVE} sid gen-errors.c gen-errors.h $(TARGETS)
+	${REMOVE} sid gen-errors.c gen-errors.h ${TARGETS}
 
-sid: $(TARGETS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o sid $(TARGETS)
+sid: ${TARGETS}
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS}
+
+c-parser.c: c-parser.sid c-parser.act
+	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h || ${REMOVE} tmp.$@
+	${MOVE} tmp.$@ $@
+
+parser.c: parser.sid parser.act
+	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h || ${REMOVE} tmp.$@
+	${MOVE} tmp.$@ $@
 
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT}; \
