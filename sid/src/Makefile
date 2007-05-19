@@ -1,11 +1,6 @@
 # $Id$
 
-# Standard directories and files
-
-
-# Standard variables
-
-# Dependencies and construction rules
+ESRC=errors
 
 TARGETS=gen-errors.o\
 		action.o alt.o arg-parse.o basic.o bitvec.o c-check.o\
@@ -18,6 +13,9 @@ TARGETS=gen-errors.o\
 		rule-mutate.o rule-names.o rule-simp.o rule-tail.o rule.o\
 		scope.o syntax.o table.o type.o types.o
 
+REMOVE=rm -f
+PERL=perl
+
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
@@ -27,7 +25,6 @@ TARGETS=gen-errors.o\
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
 ERR_OUT=gen-errors.c gen-errors.h
 
-ESRC=errors
 EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e\
 	${ESRC}/c-lexer.e ${ESRC}/c-parser.e ${ESRC}/error-file.e\
 	${ESRC}/for-osif.e ${ESRC}/grammar.e ${ESRC}/lexer.e ${ESRC}/main.e\
@@ -36,17 +33,16 @@ EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e\
 	${ESRC}/table.e ${ESRC}/types.e
 
 BUILD_ERRORS=${ESRC}/BUILD_ERRORS
-PERL=perl
 
 all: sid
 
 clean:
-	rm -f sid gen-errors.o gen-errors.c gen-errors.h $(TARGETS)
+	${REMOVE} sid gen-errors.o gen-errors.c gen-errors.h $(TARGETS)
 
 sid: $(TARGETS) gen-errors.o
 	$(CC) $(CFLAGS) -o sid $(TARGETS)
 
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}
-	${REMOVE} ${ERR_OUT};\
+	${REMOVE} ${ERR_OUT}; \
 	${PERL} ${BUILD_ERRORS} -o gen-errors ${EFILES}
 
