@@ -45,11 +45,11 @@ sid: ${TARGETS}
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS}
 
 c-parser.c: c-parser.sid c-parser.act
-	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h || ${REMOVE} tmp.$@
+	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h || ( ${REMOVE} tmp.$@ ; exit 1 )
 	${MOVE} tmp.$@ $@
 
 parser.c: parser.sid parser.act
-	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h || ${REMOVE} tmp.$@
+	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h || ( ${REMOVE} tmp.$@ ; exit 1 )
 	${MOVE} tmp.$@ $@
 
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}
