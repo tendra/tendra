@@ -4,7 +4,7 @@
  * and
  *	parser.act
  * by:
- *	./sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
