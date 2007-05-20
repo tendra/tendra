@@ -12,19 +12,14 @@ TIDYFLAGS= --doctype transitional\
 
 XMLLINTFLAGS= --noout --postvalid --xinclude
 
-XSLTPROCFLAGS= --stringparam css.decoration 0\
-	       --stringparam html.stylesheet ${STYLEDIR}/docbook.css\
-	       --stringparam paper.type A4\
-	       --stringparam section.autolabel 1\
-	       --stringparam section.label.includes.component.label 1\
+XSLTPROCFLAGS=--stringparam html.stylesheet ${STYLEDIR}/docbook.css \
 	       --xinclude
+
+DBXSL_XHTML=`echo $(STYLEDIR) | rev | cut -f 2- -d / | rev `/xsl/tendra-docbook.xsl
 
 # Typical BSD and pkgsrc locations.
 PREFIX=	/usr/local/share /usr/pkg/share
 .for prefix in ${PREFIX}
-. if exists(${prefix}/xsl/docbook/xhtml/docbook.xsl)
-DBXSL_XHTML= ${prefix}/xsl/docbook/xhtml/docbook.xsl
-. endif
 . if exists(${prefix}/xsl/docbook/manpages/docbook.xsl)
 DBXSL_MAN= ${prefix}/xsl/docbook/manpages/docbook.xsl
 . endif
