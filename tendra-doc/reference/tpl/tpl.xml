@@ -41,12 +41,12 @@
         which one could express all of the order-code of the IBM 360 while
         still preserving the logical structure of the program using familiar
         programming constructs. If one had to produce a program at the code
-        level, this approach was much preferable to writing "flat" assembly
-        code using a traditional assembler, as anyone who has used both can
-        testify.</para>
+        level, this approach was much preferable to writing <quote>flat</quote>
+		assembly code using a traditional assembler, as anyone who has used
+		both can testify.</para>
 
-      <para>In the TDF "machine" the problem is not lack of structure at its
-        "assembly" level, but rather too much of it; one loses the sense of a
+      <para>In the TDF <quote>machine</quote> the problem is not lack of structure at its
+        <quote>assembly</quote> level, but rather too much of it; one loses the sense of a
         TDF program because of its deeply nested structure.  Also the naming
         conventions of TDF are designed to make them tractable to machine
         manipulation, rather than human reading and writing. However, the
@@ -172,12 +172,12 @@
     <chapter>
       <title>The Language</title>
 
-      <para>The basic philosophy of PL_TDF is to provide the "glue"
+      <para>The basic philosophy of PL_TDF is to provide the <quote>glue</quote>
         constructors of TDF automatically, while still allowing the programmer
         to use the significant constructors in their most general form. By
-        "glue" constructors, I mean those like make_link, make_group etc.
+        <quote>glue</quote> constructors, I mean those like make_link, make_group etc.
         which are there to provide tedious, but vital, constructions concerned
-        with linking and naming. The "significant" constructors really come in
+        with linking and naming. The <quote>significant</quote> constructors really come in
         two groups, depending on their resulting SORTs. There are those SORTs
         like TOKDEC, whose SORTs are purely syntactic and can't be used as
         results of token applications or _cond constructions. On the other
@@ -1363,10 +1363,19 @@ Keep (main)</programlisting>
 
       <para>Conventionally, PL_TDF programs are held in normal text files with
         suffix .pl. The PL_TDF compiler is invoked by:
-      <programlisting>
-          pl [-v] [-Iinclude_path ...] [-g] [-V ] infile.pl outfile.j</programlisting>
+
+		<cmdsynopsis>
+			<command>pl</command>	<!-- TODO wasn't this renamed? -->
+			<arg>-v</arg>
+			<arg>-I <replaceable>group</replaceable></arg>
+			<arg>-g</arg>
+			<arg>-V</arg>
+			<arg choice="plain"><replaceable>infile.pl</replaceable></arg>	<!-- TODO the extension, too -->
+			<arg choice="plain"><replaceable>outfile.j</replaceable></arg>
+		</cmdsynopsis>
+
       This compiles infile.pl to TDF in outfile.j. This file can be linked and
-      loaded just as any other .j file using tcc.</para>
+      loaded just as any other .j file using <command>tcc</command>.</para>
 
       <para>The -v option will produce a cut-down pretty print of the TDF for
         the definitions and declarations of the tags, tokens and al_tags of
