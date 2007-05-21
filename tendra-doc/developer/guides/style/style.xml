@@ -10,13 +10,14 @@
   <articleinfo>
     <title>Style Guide</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-
-    <author>
+    <othercredit class="copyeditor">
       <firstname>Jeroen</firstname>
       <surname>Ruigrok van der Werven</surname>
-    </author>
-    <authorinitials>JRvdW</authorinitials>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <corpauthor>FreeBSD</corpauthor>
+    <corpauthor>DERA</corpauthor>
+
     <pubdate>2005</pubdate>
 
     <copyright>

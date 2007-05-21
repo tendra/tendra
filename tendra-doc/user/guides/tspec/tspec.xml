@@ -10,13 +10,18 @@
   <bookinfo>
     <title>tspec - An API Specification Tool</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-
-    <author>
+    <othercredit class="copyeditor">
+      <firstname>Katherine</firstname>
+      <surname>Flavel</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <othercredit class="copyeditor">
       <firstname>Jeroen</firstname>
       <surname>Ruigrok van der Werven</surname>
-    </author>
-    <authorinitials>JRvdW</authorinitials>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <corpauthor>DERA</corpauthor>
+
     <pubdate>2004</pubdate>
 
     <copyright>

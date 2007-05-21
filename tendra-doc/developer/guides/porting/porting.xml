@@ -10,7 +10,11 @@
   <bookinfo>
     <title>Porting TenDRA to Different Operating Systems</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
+	<author>
+		<firstname>Katherine</firstname>
+		<surname>Flavel</surname>
+		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+	</author>
 
 	<!-- (to be filled out by whoever writes this...)
     <author>

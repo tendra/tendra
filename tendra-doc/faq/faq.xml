@@ -8,15 +8,13 @@
 
 <article class="faq">
   <articleinfo>
-    <title>TenDRA - Frequently Asked Questions</title>
+    <title>Frequently Asked Questions</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-    
     <author>
       <firstname>Jeroen</firstname>
       <surname>Ruigrok van der Werven</surname>
+      <affiliation>The TenDRA Project</affiliation>
     </author>
-    <authorinitials>JRvdW</authorinitials>
     <pubdate>2004</pubdate>
 
     <copyright>

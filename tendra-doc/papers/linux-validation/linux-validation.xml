@@ -29,12 +29,18 @@
           <orgname>Open Software Foundation Research Institute</orgname>
         </affiliation>
       </author>
-
-      <editor>
-        <firstname>Jeroen</firstname>
-        <surname>Ruigrok van der Werven</surname>
-      </editor>
     </authorgroup>
+
+    <othercredit class="copyeditor">
+      <firstname>Katherine</firstname>
+      <surname>Flavel</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <othercredit class="copyeditor">
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
 
     <abstract>
       <para>This report describes work done under contract to the Defence

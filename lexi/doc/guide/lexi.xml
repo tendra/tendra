@@ -10,13 +10,11 @@
   <bookinfo>
     <title>The lexi users' guide</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-
 	<author>
-		<firstname>Kate</firstname>
+		<firstname>Katherine</firstname>
 		<surname>Flavel</surname>
+		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
 	</author>
-	<authorinitials>KF</authorinitials>
 	<pubdate>2007</pubdate>
 
 	<copyright>
