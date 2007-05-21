@@ -10,13 +10,15 @@
   <bookinfo>
     <title>TenDRA Suite Purpose Overview</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-
     <author>
-      <firstname>Kate</firstname>
-      <surname>Flavel</surname>
+      <firstname>Rob</firstname>
+      <surname>Andrews</surname>
     </author>
-    <authorinitials>KF</authorinitials>
+    <othercredit class="copyeditor">
+      <firstname>Katherine</firstname>
+      <surname>Flavel</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
 
     <pubdate>2006</pubdate>
 
