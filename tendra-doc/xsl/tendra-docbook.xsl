@@ -12,8 +12,7 @@
 	<xsl:param name="section.autolabel">1</xsl:param>
 	<xsl:param name="section.label.includes.component.label">1</xsl:param>
 
-<!-- TODO prefix a header:
-	<xsl:template name="allpages.banner">
+	<xsl:template name="user.header.content">
 		<h1 id="banner">
 			<xsl:text>The </xsl:text>
 			<span class="logo">
@@ -25,7 +24,6 @@
 			<xsl:text> Project</xsl:text>
 		</h1>
 	</xsl:template>
--->
 
 <!-- TODO use $Date$ for a footer similar to the website:
 
@@ -36,5 +34,69 @@
 	</xsl:template>
 -->
 
+	<xsl:template name="user.footer.content">
+		<div class="navfoot">
+			<!-- This is a big nasty table to correspond to Website -->
+			<table width="100%" border="0" summary="Footer navigation">
+				<tr>
+					<td>
+						<span class="footdate">Sat, 19 May 2007</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="footcopy">
+							<!-- TODO the © is redundant. override it from Website, and remove it here -->
+							<span class="copyright">Copyright © 2007 The TenDRA Project. </span>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</xsl:template>
+
+	<!-- These make affliations a little less intrusive -->
+	<xsl:template match="affiliation" mode="titlepage.mode">
+		<xsl:text>, </xsl:text>
+		<xsl:apply-templates mode="titlepage.mode"/>
+	</xsl:template>
+
+	<xsl:template match="othercredit" mode="titlepage.mode">
+		<xsl:variable name="contrib" select="string(contrib)"/>
+		<xsl:choose>
+			<xsl:when test="contrib">
+				<xsl:if test="not(preceding-sibling::othercredit[string(contrib)=$contrib])">
+					<xsl:apply-templates mode="titlepage.mode" select="contrib"/>
+					<xsl:text>: </xsl:text>
+					<xsl:call-template name="person.name"/>
+					<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
+					<xsl:apply-templates select="following-sibling::othercredit[string(contrib)=$contrib]" mode="titlepage.othercredits"/>
+					<xsl:if test="@class">
+						<xsl:text> (</xsl:text>
+						<xsl:value-of select="@class"/>
+						<xsl:text>)</xsl:text>
+					</xsl:if>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="person.name"/>
+				<xsl:if test="@class">
+					<xsl:text> (</xsl:text>
+					<xsl:value-of select="@class"/>
+					<xsl:text>)</xsl:text>
+				</xsl:if>
+				<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="author" mode="titlepage.mode">
+		<div class="{name(.)}">
+			<xsl:call-template name="person.name"/>
+			<xsl:apply-templates mode="titlepage.mode" select="./contrib"/>
+			<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
+			<xsl:apply-templates mode="titlepage.mode" select="./email"/>
+		</div>
+	</xsl:template>
 </xsl:stylesheet>
 
