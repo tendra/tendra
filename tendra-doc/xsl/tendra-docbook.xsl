@@ -5,12 +5,15 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version='1.0'>
 
-	<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl"/>
+	<xsl:import href="../doctools/xsl/sanitize.xsl"/>
 
 	<xsl:param name="css.decoration">0</xsl:param>
 	<xsl:param name="paper.type">A4</xsl:param>
 	<xsl:param name="section.autolabel">1</xsl:param>
 	<xsl:param name="section.label.includes.component.label">1</xsl:param>
+	<xsl:param name="suppress.header.navigation">0</xsl:param>
+	<xsl:param name="suppress.footer.navigation">0</xsl:param>
+	<xsl:param name="navig.showtitles">1</xsl:param>
 
 	<xsl:template name="user.header.content">
 		<h1 id="banner">
@@ -55,48 +58,53 @@
 		</div>
 	</xsl:template>
 
-	<!-- These make affliations a little less intrusive -->
-	<xsl:template match="affiliation" mode="titlepage.mode">
-		<xsl:text>, </xsl:text>
-		<xsl:apply-templates mode="titlepage.mode"/>
+	<!--
+	   - We we'd like header.navigation to be after our user.header.content banner,
+	   - and likewise for the footer.
+	  -->
+	<xsl:template name="chunk-element-content">
+		<xsl:param name="prev"/>
+		<xsl:param name="next"/>
+		<xsl:param name="nav.context"/>
+		<xsl:param name="content">
+			<xsl:apply-imports/>
+		</xsl:param>
+
+		<xsl:call-template name="user.preroot"/>
+
+		<html>
+			<xsl:call-template name="html.head">
+				<xsl:with-param name="prev" select="$prev"/>
+				<xsl:with-param name="next" select="$next"/>
+			</xsl:call-template>
+
+			<body>
+				<xsl:call-template name="body.attributes"/>
+
+				<xsl:call-template name="user.header.content"/>
+
+				<xsl:call-template name="user.header.navigation"/>
+
+				<xsl:call-template name="header.navigation">
+					<xsl:with-param name="prev" select="$prev"/>
+					<xsl:with-param name="next" select="$next"/>
+					<xsl:with-param name="nav.context" select="$nav.context"/>
+				</xsl:call-template>
+
+				<xsl:copy-of select="$content"/>
+
+				<xsl:call-template name="footer.navigation">
+					<xsl:with-param name="prev" select="$prev"/>
+					<xsl:with-param name="next" select="$next"/>
+					<xsl:with-param name="nav.context" select="$nav.context"/>
+				</xsl:call-template>
+
+				<xsl:call-template name="user.footer.content"/>
+
+				<xsl:call-template name="user.footer.navigation"/>
+			</body>
+		</html>
 	</xsl:template>
 
-	<xsl:template match="othercredit" mode="titlepage.mode">
-		<xsl:variable name="contrib" select="string(contrib)"/>
-		<xsl:choose>
-			<xsl:when test="contrib">
-				<xsl:if test="not(preceding-sibling::othercredit[string(contrib)=$contrib])">
-					<xsl:apply-templates mode="titlepage.mode" select="contrib"/>
-					<xsl:text>: </xsl:text>
-					<xsl:call-template name="person.name"/>
-					<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
-					<xsl:apply-templates select="following-sibling::othercredit[string(contrib)=$contrib]" mode="titlepage.othercredits"/>
-					<xsl:if test="@class">
-						<xsl:text> (</xsl:text>
-						<xsl:value-of select="@class"/>
-						<xsl:text>)</xsl:text>
-					</xsl:if>
-				</xsl:if>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="person.name"/>
-				<xsl:if test="@class">
-					<xsl:text> (</xsl:text>
-					<xsl:value-of select="@class"/>
-					<xsl:text>)</xsl:text>
-				</xsl:if>
-				<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="author" mode="titlepage.mode">
-		<div class="{name(.)}">
-			<xsl:call-template name="person.name"/>
-			<xsl:apply-templates mode="titlepage.mode" select="./contrib"/>
-			<xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
-			<xsl:apply-templates mode="titlepage.mode" select="./email"/>
-		</div>
-	</xsl:template>
 </xsl:stylesheet>
 
