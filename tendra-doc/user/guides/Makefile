@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= calculus sid tld tspec lexi
+SUBDIR= tld tspec
 
 .include "../../share/doc.subdir.mk"
