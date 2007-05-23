@@ -1259,7 +1259,7 @@ typedef union name_tag {
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/calculus.png" format="PNG"/>
+          <imagedata fileref="calculus.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Packing of types</phrase>
@@ -1883,7 +1883,4 @@ union %UN (%UM) = {
 };
 @end</programlisting></para>
   </chapter>
-
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-    href="../../../common/colophon-dera.xml"/>
 </book>

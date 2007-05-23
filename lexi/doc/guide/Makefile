@@ -1,13 +1,13 @@
 # $Id$
 
-DOC=	lexi
+NAME=guide
+SOURCE=guide.xml
+PROJECT_NAME=lexi
+PROJECT_URL=http://docs.tendra.org/
+RESOURCES=../style/docbook.css ../style/common.css
+CSSFILE=docbook.css
+XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
+XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
 
-.if exists(../share)
-# building standalone
-# TODO override STYLEDIR here
-.include "../share/doc.docbook.mk"
-.else
-# building within tendra-doc
-.include "../../../share/doc.docbook.mk"
-.endif
+include ../doctools/Mk/docbook.mk
 
