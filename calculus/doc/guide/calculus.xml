@@ -10,14 +10,17 @@
   <bookinfo>
     <title>Calculus Users' Guide</title>
 
-    <corpauthor>The TenDRA Project</corpauthor>
-
-    <author>
+    <othercredit class="copyeditor">
+      <firstname>Katherine</firstname>
+      <surname>Flavel</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <othercredit class="copyeditor">
       <firstname>Jeroen</firstname>
       <surname>Ruigrok van der Werven</surname>
-    </author>
-    <authorinitials>JRvdW</authorinitials>
-    <pubdate>2004</pubdate>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <corpauthor>DERA</corpauthor>
 
     <copyright>
       <year>2004</year>
