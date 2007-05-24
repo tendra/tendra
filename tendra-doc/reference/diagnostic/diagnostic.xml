@@ -1472,7 +1472,4 @@ field_type:      DIAG_TYPE
         described here will be denegrated.</para>
     </sect1>
   </chapter>
-
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-    href="../../common/colophon-dera.xml"/>
 </book>
