@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR= guides suite man sid calculus lexi
+SUBDIR= guides suite sid calculus lexi
 
 .include "../share/doc.subdir.mk"
