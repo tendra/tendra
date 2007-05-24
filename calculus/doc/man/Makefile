@@ -1,8 +1,8 @@
 # $Id$
 
-NAME=sid.1
-SOURCE=sid.1.xml
-PROJECT_NAME=sid
+NAME=calculus.1
+SOURCE=calculus.1.xml
+PROJECT_NAME=calculus
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../style/docbook.css ../style/common.css
 CSSFILE=docbook.css
