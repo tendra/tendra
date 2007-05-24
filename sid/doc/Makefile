@@ -1,12 +1,12 @@
 # $Id$
 
 all:
-	cd guide && make all
-	cd changelog && make all
-	cd man && make all
+	cd guide && $(MAKE) all
+	cd changelog && $(MAKE) all
+	cd man && $(MAKE) all
 
 clean:
-	cd guide && make all
-	cd changelog && make all
-	cd man && make all
+	cd guide && $(MAKE) clean
+	cd changelog && $(MAKE) clean
+	cd man && $(MAKE) clean
 
