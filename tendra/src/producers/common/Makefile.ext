@@ -2,34 +2,36 @@ OBJC=obj_c
 OBJTOK=obj_tok
 OBJTEMPL=obj_templ
 
+REMOVE=rm -f
 CAT=cat
 CALCULUS=calculus
-MAKE_ERR=make_err
-MAKE_TDF=make_tdf
+#MAKE_ERR=make_err
+#MAKE_TDF=make_tdf
 SID=sid
 SIDOPTS=-l ossg-c -s numeric -s split -s no-lines
 
-ALG=${SRC1}/c_class.alg
+ALG=c_class.alg
 TEMPL=${OBJTEMPL}/bits.h ${OBJTEMPL}/err_ext.h ${OBJTEMPL}/loc_ext.h
-SYNTAX=${SRC6}/syntax.sid ${SRC6}/syntax.act
-PSYNTAX=${SRC5}/psyntax.sid ${SRC5}/psyntax.act
+#SYNTAX=${SRC6}/syntax.sid ${SRC6}/syntax.act
+#PSYNTAX=${SRC5}/psyntax.sid ${SRC5}/psyntax.act
 
-SID_OUT=${SRC6}/syntax1.c ${SRC6}/syntax.h
-PSID_OUT=${SRC5}/psyntax1.c ${SRC5}/psyntax.h
+#SID_OUT=${SRC6}/syntax1.c ${SRC6}/syntax.h
+#PSID_OUT=${SRC5}/psyntax1.c ${SRC5}/psyntax.h
 C_OUT=${OBJC}/c_class.h
 TOK_OUT=${OBJTOK}/c_class.h
-ERR_OUT=${SRC7}/errors1.h ${SRC7}/errors2.h ${SRC7}/errors3.h ${SRC7}/opts.h
-TDF_OUT=${SRC4}/tdf1.h
+#ERR_OUT=${SRC7}/errors1.h ${SRC7}/errors2.h ${SRC7}/errors3.h ${SRC7}/opts.h
+#TDF_OUT=${SRC4}/tdf1.h
 
-ALL_OUT=${SID_OUT} ${PSID_OUT} ${C_OUT} ${TOK_OUT} ${ERR_OUT} ${TDF_OUT}
+#ALL_OUT=${SID_OUT} ${PSID_OUT} ${C_OUT} ${TOK_OUT} ${ERR_OUT} ${TDF_OUT}
+ALL_OUT=${C_OUT} ${TOK_OUT}
 
 auto : ${ALL_OUT}
 
-${SRC6}/syntax1.c : ${SYNTAX}
-	${SID} ${SIDOPTS} ${SYNTAX} ${SRC6}/syntax@.c ${SRC6}/syntax.h
+#${SRC6}/syntax1.c : ${SYNTAX}
+#	${SID} ${SIDOPTS} ${SYNTAX} ${SRC6}/syntax@.c ${SRC6}/syntax.h
 
-${SRC5}/psyntax1.c : ${PSYNTAX}
-	${SID} ${SIDOPTS} ${PSYNTAX} ${SRC5}/psyntax@.c ${SRC5}/psyntax.h
+#${SRC5}/psyntax1.c : ${PSYNTAX}
+#	${SID} ${SIDOPTS} ${PSYNTAX} ${SRC5}/psyntax@.c ${SRC5}/psyntax.h
 
 ${OBJC}/c_class.h : ${ALG} ${TEMPL}
 	@${REMOVE} ${OBJC}/*.h
