@@ -57,13 +57,13 @@
         it may be put.
 */
 
+#include <stdlib.h>
 
 #define calculus_IO_ROUTINES
-#include "config.h"
 #include "calculus.h"
-#include "error.h"
-#include "extra.h"
-#include "xalloc.h"
+#include "../shared/error.h"
+#include "../extra.h"
+#include "../shared/xalloc.h"
 
 
 /*
@@ -160,8 +160,8 @@ destroy_calculus(calculus *p, unsigned sz)
 void
 dummy_destroy_calculus(calculus *p, unsigned sz)
 {
-    UNUSED(p);
-    UNUSED(sz);
+    /* UNUSED(p); */
+    /* UNUSED(sz); */
     return;
 }
 

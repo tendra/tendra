@@ -747,10 +747,10 @@ output(char *s, ...)
 		    c = *(s++);
 		    if (c == 'V') {
 			/* %ZV -> program version */
-			output_string(PROGVERS);
+			output_string(progvers);
 		    } else if (c == 'X') {
 			/* %ZX -> program name */
-			output_string(PROGNAME);
+			output_string(progname);
 		    } else {
 			goto bad_format;
 		    }
@@ -1006,7 +1006,7 @@ close_file(void)
 	    output("#endif\n");
     }
     flush_output();
-    fclose_v(output_file);
+    fclose(output_file);
     output_file = output_file_old;
     output_file_old = NULL;
     output_c_code = 1;

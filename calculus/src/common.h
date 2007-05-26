@@ -61,10 +61,6 @@
 #ifndef COMMON_INCLUDED
 #define COMMON_INCLUDED
 
-#define PROGVERS "1.3"
-#define PROGNAME "calculus"
-
-
 /*
  * DECLARATIONS FOR TYPE MANIPULATION ROUTINES
  */

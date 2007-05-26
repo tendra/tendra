@@ -154,6 +154,7 @@ main(int argc, char **argv)
     }
 
     /* Process arguments */
+	set_progname(argv [0], "1.3");
     for (a = 1; a < argc; a++) {
 	char *arg = argv[a];
 	if (arg[0] == '-') {

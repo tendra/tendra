@@ -58,14 +58,6 @@
 */
 
 
-#define calculus_IO_ROUTINES
-#include "config.h"
-#include "calculus.h"
-#include "error.h"
-#include "extra.h"
-#include "xalloc.h"
-
-
 /*
  * DUMMY EMPTY FILE
  *
