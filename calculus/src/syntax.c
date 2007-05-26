@@ -39,16 +39,17 @@
         it may be put.
 */
 
+#include <stdlib.h>
+#include <string.h>
 
-#include "config.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "extra.h"
 #include "lex.h"
 #include "syntax.h"
 #include "type_ops.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -336,7 +337,7 @@ ZRprimary_Hexp(number *ZOn)
     while ( !IS_NULL_list ( p ) ) {
 	ECONST_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
 	string s = DEREF_string ( ec_name ( q ) ) ;
-	if ( streq ( s, (ZIe) ) ) {
+	if ( !strcmp( s, (ZIe) ) ) {
 	    n = DEREF_number ( ec_value ( q ) ) ;
 	    break ;
 	}
@@ -672,7 +673,7 @@ ZRextra_Hlist(void)
 	    ADVANCE_LEXER;
 	    {
 
-    UNUSED ( (ZIt) ) ;
+    /* UNUSED ( (ZIt) ) ; */
 	    }
 	    goto ZL2_extra_Hlist;
 	}
@@ -1333,7 +1334,7 @@ ZRprimitive_Hdefn(CLASS_ID_P ZIi, PRIMITIVE_P *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_primitive ( 0, (ZIp), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
     }
     goto ZL0;
@@ -1961,7 +1962,7 @@ ZRidentity_Hdefn(CLASS_ID_P ZIi, IDENTITY_P *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_ident ( 0, (ZIp), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
     }
     goto ZL0;
@@ -2213,7 +2214,7 @@ ZRstructure_Hdefn(CLASS_ID_P ZIi, string ZIj, STRUCTURE_P *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_structure ( 0, (ZIp), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
     }
     goto ZL0;
@@ -2834,7 +2835,7 @@ ZRunion_Hdefn_Hold(CLASS_ID_P ZIi, UNION_P *ZOp)
 	    while ( !IS_NULL_list ( pp ) ) {
 		FIELD_P qq = DEREF_ptr ( HEAD_list ( pp ) ) ;
 		string nn = DEREF_string ( fld_name ( qq ) ) ;
-		if ( streq ( n, nn ) ) {
+		if ( !strcmp( n, nn ) ) {
 		    COMPONENT_P_LIST cc = DEREF_list ( fld_defn ( qq ) ) ;
 		    COMPONENT_P_LIST c = DEREF_list ( fld_defn ( q ) ) ;
 		    c = ADD_list ( cc, c, SIZE_ptr ( COMPONENT ) ) ;
@@ -2858,7 +2859,7 @@ ZRunion_Hdefn_Hold(CLASS_ID_P ZIi, UNION_P *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_onion ( 0, (ZIp), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
     }
     goto ZL0;
@@ -3005,7 +3006,7 @@ ZRenum_Hsingle(ENUM_P_LIST *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_enumeration ( 0, (ZIq), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
 	{
 
@@ -3404,7 +3405,7 @@ ZRunion_Hdefn_Hnew(CLASS_ID_P ZIi, UNION_P *ZOp)
 	    while ( !IS_NULL_list ( pp ) ) {
 		FIELD_P qq = DEREF_ptr ( HEAD_list ( pp ) ) ;
 		string nn = DEREF_string ( fld_name ( qq ) ) ;
-		if ( streq ( n, nn ) ) {
+		if ( !strcmp( n, nn ) ) {
 		    COMPONENT_P_LIST cc = DEREF_list ( fld_defn ( qq ) ) ;
 		    COMPONENT_P_LIST c = DEREF_list ( fld_defn ( q ) ) ;
 		    c = ADD_list ( cc, c, SIZE_ptr ( COMPONENT ) ) ;
@@ -3428,7 +3429,7 @@ ZRunion_Hdefn_Hnew(CLASS_ID_P ZIi, UNION_P *ZOp)
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_onion ( 0, (ZIp), r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 	}
     }
     goto ZL0;
