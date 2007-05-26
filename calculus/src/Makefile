@@ -19,9 +19,9 @@ LIBS=
 
 PROG=		${.CURDIR:T}
 
-SRCS=		calculus.c check.c code.c common.c disk.c error.c lex.c main.c\
+SRCS=		calculus.c check.c code.c common.c disk.c lex.c main.c\
  		output.c pretty.c print.c read.c syntax.c template.c token.c\
-		write.c xalloc.c
+		write.c
 
 .PATH:	${SRCC} ${SRCTOK} ${SRCX}
 
@@ -68,4 +68,29 @@ SIDOPTS=-l ansi-c -s no-lines
 #	${REMOVE} ${DISK_OUT}
 #	${REMOVE} ${LEXI_OUT}
 
-.include "../Makefile.inc"
+REMOVE=rm -f
+MOVE=mv
+
+TARGETS=output.o template.o code.o read.o pretty.o disk.o check.o \
+	token.o main.o syntax.o common.o lex.o write.o print.o \
+	shared/xalloc.a shared/error.a
+
+all: calculus
+
+clean:
+	rm -f $(TARGETS) calculus
+
+calculus: $(TARGETS)
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(TARGETS)
+
+syntax.c: syntax.sid syntax.act
+	sid ${SIDOPTS} syntax.sid syntax.act tmp.syntax.c tmp.syntax.h || ( ${REMOVE} tmp-c.$@ tmp-h.$@ ; exit 1 )
+	${MOVE} tmp.syntax.c syntax.c
+	${MOVE} tmp.syntax.h syntax.h
+
+shared/error.a:
+	cd shared && make error.a
+
+shared/xalloc.a:
+	cd shared && make xalloc.a
+
