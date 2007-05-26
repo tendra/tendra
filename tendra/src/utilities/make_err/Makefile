@@ -5,6 +5,7 @@
 SRCC=${.CURDIR}/obj_c
 SRCTOK=${.CURDIR}/obj_tok
 SRCX=${.CURDIR}/../shared
+SRC=${.CURDIR}
 
 # Standard variables
 
@@ -23,7 +24,7 @@ SRCS=		error.c errors.c lex.c main.c process.c syntax.c xalloc.c
 
 .PATH:		${SRCC} ${SRCTOK} ${SRCX}
 
-#CALCULUS=calculus
+CALCULUS=calculus
 #LEXI=lexi
 #SID=sid
 #SIDOPTS=-l ansi-c -s no-lines
@@ -38,15 +39,15 @@ SRCS=		error.c errors.c lex.c main.c process.c syntax.c xalloc.c
 #${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
 #	@${REMOVE} ${SID_OUT}
 #	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
-#
-#${SRC2}/errors.h : ${SRC}/errors.alg
-#	@${REMOVE} ${SRC2}/*.h
-#	${CALCULUS} -a -x ${SRC}/errors.alg ${SRC2}
-#
-#${SRC2A}/errors.h : ${SRC}/errors.alg
-#	@${REMOVE} ${SRC2A}/*.h
-#	${CALCULUS} -a -x -t ${SRC}/errors.alg ${SRC2A}
-#
+
+${SRCC}/errors.h : ${SRC}/errors.alg
+	@${REMOVE} ${SRCC}/*.h
+	${CALCULUS} -a -x ${SRC}/errors.alg ${SRCC}
+
+${SRCTOK}/errors.h : ${SRC}/errors.alg
+	@${REMOVE} ${SRCTOK}/*.h
+	${CALCULUS} -a -x -t ${SRC}/errors.alg ${SRCTOK}
+
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
 #	@${REMOVE} ${SRC}/lexer.h
 #	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h

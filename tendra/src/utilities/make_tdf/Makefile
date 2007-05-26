@@ -5,6 +5,7 @@
 SRCC=${.CURDIR}/obj_c
 SRCTOK=${.CURDIR}/obj_tok
 SRCX=${.CURDIR}/../shared
+SRC=${.CURDIR}
 
 # Standard variables
 
@@ -23,7 +24,7 @@ SRCS=		error.c input.c lex.c main.c output.c syntax.c tdf.c xalloc.c
 
 .PATH:		${SRCC} ${SRCTOK} ${SRCX}
 
-#CALCULUS=calculus
+CALCULUS=calculus
 #LEXI=lexi
 #SID=sid
 #SIDOPTS=-l ansi-c -s no-lines
@@ -38,15 +39,15 @@ SRCS=		error.c input.c lex.c main.c output.c syntax.c tdf.c xalloc.c
 #${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
 #	@${REMOVE} ${SID_OUT}
 #	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
-#
-#${SRC2}/tdf.h : ${SRC}/tdf.alg
-#	@${REMOVE} ${SRC2}/*.h
-#	${CALCULUS} -a -x ${SRC}/tdf.alg ${SRC2}
-#
-#${SRC2A}/tdf.h : ${SRC}/tdf.alg
-#	@${REMOVE} ${SRC2A}/*.h
-#	${CALCULUS} -a -x -t ${SRC}/tdf.alg ${SRC2A}
-#
+
+${SRCC}/tdf.h : ${SRC}/tdf.alg
+	@${REMOVE} ${SRCC}/*.h
+	${CALCULUS} -a -x ${SRC}/tdf.alg ${SRCC}
+
+${SRCTOK}/tdf.h : ${SRC}/tdf.alg
+	@${REMOVE} ${SRCTOK}/*.h
+	${CALCULUS} -a -x -t ${SRC}/tdf.alg ${SRCTOK}
+
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
 #	@${REMOVE} ${SRC}/lexer.h
 #	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h
