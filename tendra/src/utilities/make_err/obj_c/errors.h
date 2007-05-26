@@ -29,7 +29,7 @@
 
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA errors (VERSION 1.0)
-    BY calculus (VERSION 1.2)
+    BY calculus (VERSION 1.3)
 */
 
 #ifndef ERRORS_H_INCLUDED

@@ -29,7 +29,7 @@
 
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA tdf (VERSION 1.0)
-    BY calculus (VERSION 1.2)
+    BY calculus (VERSION 1.3)
 */
 
 #ifndef ASSERT_DEF_H_INCLUDED
@@ -66,7 +66,7 @@ check_tag_tdf
 
 tdf *
 check_tag_etc_tdf
-(tdf *p, unsigned tl, unsigned tb X char *fn X int ln)
+(tdf *p, unsigned tl, unsigned tb , char *fn, int ln)
 {
     p = check_null_tdf(p, fn, ln);
     if (p->ag_tag < tl || p->ag_tag >= tb) {
