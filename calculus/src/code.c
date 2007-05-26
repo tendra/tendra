@@ -57,11 +57,12 @@
         it may be put.
 */
 
+#include <string.h>
+#include <stdio.h>
 
-#include "config.h"
 #include "calculus.h"
 #include "code.h"
-#include "error.h"
+#include "shared/error.h"
 #include "common.h"
 #include "lex.h"
 #include "output.h"
@@ -126,7 +127,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 			name_type(t));
 		break;
 	    }
-	    sprintf_v(buff, "%s.%s", nm, c_nm);
+	    sprintf(buff, "%s.%s", nm, c_nm);
 	    p = assign_component(c_type, p, buff, depth + 1);
 	    c = TAIL_list(c);
 	}
@@ -181,7 +182,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 			name_type(t));
 		break;
 	    }
-	    sprintf_v(buff, "%s.%s", nm, c_nm);
+	    sprintf(buff, "%s.%s", nm, c_nm);
 	    p = deref_component(c_type, p, buff, depth + 1);
 	    c = TAIL_list(c);
 	}
@@ -339,7 +340,7 @@ print_assert_fns(void)
     output("%X *\n");
     output("check_tag_etc_%X\n");
     output("(%X *p, unsigned tl, unsigned tb ");
-    output("X char *fn X int ln)\n");
+    output(", char *fn, int ln)\n");
     output("{\n");
     output("    p = check_null_%X(p, fn, ln);\n");
     output("    if (p->ag_tag < tl || p->ag_tag >= tb) {\n");
@@ -382,7 +383,7 @@ static char *
 gen(int n, char *nm)
 {
     static char gbuff[100];
-    sprintf_v(gbuff, "GEN_%%X(%d, TYPEID_%s)", n, nm);
+    sprintf(gbuff, "GEN_%%X(%d, TYPEID_%s)", n, nm);
     if (n > gen_max)gen_max = n;
     return(gbuff);
 }
@@ -560,7 +561,7 @@ print_types_c(void)
 	CLASS_ID_P c = DEREF_ptr(prim_id(CRT_PRIMITIVE));
 	char *pn = DEREF_string(cid_name(c));
 	char *pd = DEREF_string(prim_defn(CRT_PRIMITIVE));
-	if (!streq(pn, pd)) {
+	if (strcmp(pn, pd)) {
 		output("typedef %PD %PN;\n");
 	}
     }
@@ -1923,9 +1924,9 @@ print_func_hdr(int d, int e)
     /* Function argument declarations */
     output("\t(%UN %X_%UM");
     if (hash) {
-	    output(" X DESTROYER destroyer");
+	    output(", DESTROYER destroyer");
     }
-    LOOP_MAP_ARGUMENT output(" X %AT %AN");
+    LOOP_MAP_ARGUMENT output(", %AT %AN");
     output(")\\\n    {");
 
     /* Field component declarations */

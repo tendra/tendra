@@ -57,15 +57,16 @@
         it may be put.
 */
 
+#include <stdlib.h>
+#include <stdio.h>
 
-#include "config.h"
 #include "read.h"
 #include "calculus.h"
 #include "check.h"
 #include "code.h"
 #include "common.h"
 #include "disk.h"
-#include "error.h"
+#include "shared/error.h"
 #include "lex.h"
 #include "output.h"
 #include "pretty.h"
@@ -73,7 +74,7 @@
 #include "template.h"
 #include "token.h"
 #include "write.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -103,7 +104,7 @@
 static void
 list_action(char *nm)
 {
-    if (streq(nm, ".")) {
+    if (!strcmp(nm, ".")) {
 	output_file = stdout;
     } else {
 	output_file = fopen(nm, "w");
@@ -115,7 +116,7 @@ list_action(char *nm)
     LOOP_TYPE output("%TT ;\n", CRT_TYPE);
     flush_output();
     if (output_file != stdout) {
-	    fclose_v(output_file);
+	    fclose(output_file);
     }
     return;
 }
@@ -141,7 +142,6 @@ main(int argc, char **argv)
     int act = ACTION_C;
 
     /* Scan arguments */
-    set_progname(argv[0], "1.2");
     for (a = 1; a < argc; a++) {
 	char *arg = argv[a];
 	if (arg[0]!= '-') {

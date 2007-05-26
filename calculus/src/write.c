@@ -57,13 +57,14 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
 #define calculus_IO_ROUTINES
-#include "config.h"
 #include "read.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "write.h"
 
 
@@ -98,7 +99,7 @@ write_bits(int n, unsigned long v)
 	if (c >= 0) {
 	    /* Write next byte */
 	    int p = (int)(m >> c);
-	    fputc_v(p, output_file);
+	    fputc(p, output_file);
 	    m &= bitmask[c];
 	    b = c;
 	}
@@ -173,7 +174,7 @@ static void
 write_filename(char *s)
 {
     char *t = last_filename;
-    if (t && streq(t, s)) {
+    if (t && !strcmp(t, s)) {
 	write_bits(1,(unsigned long)1);
     } else {
 	write_bits(1,(unsigned long)0);
@@ -198,7 +199,7 @@ write_filename(char *s)
 #define WRITE_number(A)		write_int((unsigned long)(A))
 #define WRITE_string(A)		write_string(A)
 #define WRITE_name_string(A)	write_filename(A)
-#define WRITE_zero_int(A)	UNUSED(A)
+#define WRITE_zero_int(A)	/* UNUSED(A) */
 #define crt_disk_alias		crt_calculus_alias
 
 #include "write_def.h"
@@ -214,7 +215,7 @@ void
 write_file(char *nm)
 {
     /* Open file */
-    if (streq(nm, ".")) {
+    if (!strcmp(nm, ".")) {
 	error(ERROR_SERIOUS, "Output file not specified");
 	return;
     }
@@ -244,6 +245,6 @@ write_file(char *nm)
 	write_bits(CHAR_BIT - output_bits,(unsigned long)0);
     }
     clear_calculus_alias();
-    fclose_v(output_file);
+    fclose(output_file);
     return;
 }

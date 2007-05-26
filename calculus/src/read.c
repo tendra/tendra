@@ -57,15 +57,16 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
 #define calculus_IO_ROUTINES
-#include "config.h"
 #include "read.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "output.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -255,11 +256,11 @@ read_file(char *nm)
 
     /* Confirm file header */
     s = READ_string();
-    if (!streq(s, calculus_NAME)) {
+    if (!!strcmp(s, calculus_NAME)) {
 	error(ERROR_FATAL, "Invalid file header identifier");
     }
     s = READ_string();
-    if (!streq(s, calculus_VERSION)) {
+    if (!!strcmp(s, calculus_VERSION)) {
 	error(ERROR_FATAL, "Invalid file header version, '%s'", s);
     }
 
@@ -304,6 +305,6 @@ read_file(char *nm)
     }
 
     /* Close file */
-    fclose_v(input_file);
+    fclose(input_file);
     return;
 }

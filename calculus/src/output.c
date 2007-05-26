@@ -57,17 +57,13 @@
         it may be put.
 */
 
-
-#include "config.h"
-#if FS_STDARG
+#include <stdio.h>
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include <ctype.h>
+
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "lex.h"
 #include "output.h"
 #include "suffix.h"
@@ -141,7 +137,7 @@ output_char(int c)
     output_buff[i] = (char)c;
     if (++i >= 250 || c == '\n') {
 	output_buff[i] = 0;
-	IGNORE fputs(output_buff, output_file);
+	fputs(output_buff, output_file);
 	i = 0;
     }
     if (c == '\n') {
@@ -163,7 +159,7 @@ output_char(int c)
  */
 
 static void
-output_string(CONST char *s)
+output_string(const char *s)
 {
     for (; *s; s++) {
 	    output_char(*s);
@@ -365,19 +361,13 @@ output_type_size(TYPE_P t)
  */
 
 void
-output(char *s, ...) /*VARARGS*/
+output(char *s, ...)
 {
     char c;
     va_list args;
     char nbuff[100];
 
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
 
     while (c = *(s++), c != 0) {
 	if (c == '%') {
@@ -484,7 +474,7 @@ output(char *s, ...) /*VARARGS*/
 				n = log2(n);
 				s++;
 			    }
-			    sprintf_v(nbuff, "%lu", n);
+			    sprintf(nbuff, "%lu", n);
 			    output_string(nbuff);
 			} else {
 			    goto misplaced_arg;
@@ -502,7 +492,7 @@ output(char *s, ...) /*VARARGS*/
 			if (HAVE_ECONST) {
 			    number_P pn = ec_value(CRT_ECONST);
 			    number n = DEREF_number(pn);
-			    sprintf_v(nbuff, "%lu", n);
+			    sprintf(nbuff, "%lu", n);
 			    output_string(nbuff);
 			} else {
 			    goto misplaced_arg;
@@ -727,7 +717,7 @@ output(char *s, ...) /*VARARGS*/
 				n = log2(n + 1);
 				s++;
 			    }
-			    sprintf_v(nbuff, "%lu", n);
+			    sprintf(nbuff, "%lu", n);
 			    output_string(nbuff);
 			} else {
 			    goto misplaced_arg;
@@ -742,7 +732,7 @@ output(char *s, ...) /*VARARGS*/
 		    /* %V -> overall version */
 		    int v1 = algebra->major_no;
 		    int v2 = algebra->minor_no;
-		    sprintf_v(nbuff, "%d.%d", v1, v2);
+		    sprintf(nbuff, "%d.%d", v1, v2);
 		    output_string(nbuff);
 		    break;
 		}
@@ -757,10 +747,10 @@ output(char *s, ...) /*VARARGS*/
 		    c = *(s++);
 		    if (c == 'V') {
 			/* %ZV -> program version */
-			output_string(progvers);
+			output_string(PROGVERS);
 		    } else if (c == 'X') {
 			/* %ZX -> program name */
-			output_string(progname);
+			output_string(PROGNAME);
 		    } else {
 			goto bad_format;
 		    }
@@ -779,7 +769,7 @@ output(char *s, ...) /*VARARGS*/
 		    /* %d -> integer (extra argument) */
 		    if (have_varargs) {
 			int da = va_arg(args, int);
-			sprintf_v(nbuff, "%d", da);
+			sprintf(nbuff, "%d", da);
 			output_string(nbuff);
 			break;
 		    }
@@ -802,7 +792,7 @@ output(char *s, ...) /*VARARGS*/
 		    /* %n -> number (extra argument) */
 		    if (have_varargs) {
 			number na = va_arg(args, number);
-			sprintf_v(nbuff, "%lu", na);
+			sprintf(nbuff, "%lu", na);
 			output_string(nbuff);
 			break;
 		    }
@@ -849,7 +839,7 @@ output(char *s, ...) /*VARARGS*/
 
 		case 'u': {
 		    /* %u -> unique */
-		    sprintf_v(nbuff, "%d", unique);
+		    sprintf(nbuff, "%d", unique);
 		    output_string(nbuff);
 		    break;
 		}
@@ -877,7 +867,7 @@ output(char *s, ...) /*VARARGS*/
 
 		case '0': {
 		    /* %0 -> x<unique>_ */
-		    sprintf_v(nbuff, "x%d_", unique);
+		    sprintf(nbuff, "x%d_", unique);
 		    output_string(nbuff);
 		    break;
 		}
@@ -966,14 +956,14 @@ open_file(char *dir, char *nm, char *suff)
     char *p;
     char buff[1000];
     flush_output();
-    sprintf_v(buff, "%s/%s%s", dir, nm, suff);
+    sprintf(buff, "%s/%s%s", dir, nm, suff);
     output_file_old = output_file;
     output_file = fopen(buff, "w");
     if (output_file == NULL) {
 	error(ERROR_FATAL, "Can't open output file, %s", buff);
     }
     if (verbose_output) {
-	IGNORE printf("Creating %s ...\n", buff);
+		printf("Creating %s ...\n", buff);
     }
     column = 0;
 
@@ -983,7 +973,7 @@ open_file(char *dir, char *nm, char *suff)
 	if (output_c_code == 2) {
 		tok = "_TOK";
 	}
-	sprintf_v(buff, "%s%s%s_INCLUDED", nm, suff, tok);
+	sprintf(buff, "%s%s%s_INCLUDED", nm, suff, tok);
 	for (p = buff; *p; p++) {
 	    char c = *p;
 	    if (isalpha(c)) {

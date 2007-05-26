@@ -72,7 +72,7 @@
 typedef struct NAME_tag {
     int type;
     char *text[3];
-    CONST char *file;
+    const char *file;
     int line;
     struct NAME_tag *next;
 } NAME;

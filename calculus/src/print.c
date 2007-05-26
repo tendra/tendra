@@ -58,7 +58,6 @@
 */
 
 
-#include "config.h"
 #include "calculus.h"
 #include "code.h"
 #include "common.h"

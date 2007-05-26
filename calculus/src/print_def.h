@@ -35,6 +35,8 @@
 #ifndef PRINT_DEF_H_INCLUDED
 #define PRINT_DEF_H_INCLUDED
 
+#include <stdio.h>
+
 #include "calculus.h"
 #include "type_ops.h"
 #include "cmd_ops.h"

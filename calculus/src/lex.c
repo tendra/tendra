@@ -57,13 +57,14 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
-#include "config.h"
 #include "calculus.h"
-#include "error.h"
+#include "shared/error.h"
 #include "lex.h"
 #include "syntax.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -237,7 +238,7 @@ read_identifier(int a)
     /* Check for keywords */
     t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (streq(t,(A))) return(B);
+    if (!strcmp(t,(A))) return(B);
 #include "keyword.h"
     return(lex_identifier);
 }
@@ -404,6 +405,6 @@ process_file(char *nm, int r)
     if (crt_lex_token != lex_eof) {
 	error(ERROR_SERIOUS, "Terminating due to syntax error");
     }
-    fclose_v(lex_input);
+    fclose(lex_input);
     return;
 }

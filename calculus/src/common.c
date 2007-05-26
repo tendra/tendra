@@ -57,13 +57,13 @@
         it may be put.
 */
 
+#include <stdlib.h>
 
-#include "config.h"
 #include "calculus.h"
-#include "error.h"
+#include "shared/error.h"
 #include "common.h"
 #include "type_ops.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -128,7 +128,7 @@ find_algebra(char *nm)
 {
     ALGEBRA_LIST *p;
     for (p = all_algebras; p != NULL; p = p->next) {
-	if (streq(p->alg.name, nm)) {
+	if (!strcmp(p->alg.name, nm)) {
 		return(&(p->alg));
 	}
     }
@@ -160,7 +160,7 @@ register_type(TYPE_P t)
     LIST(TYPE_P)r = algebra->types;
     while (!IS_NULL_list(r)) {
 	TYPE_P s = DEREF_ptr(HEAD_list(r));
-	if (streq(name_type(s), nm)) {
+	if (!strcmp(name_type(s), nm)) {
 
 	    /* Check for multiple definition */
 	    if (!IS_type_undef(DEREF_type(s))) {
@@ -207,7 +207,7 @@ find_type(ALGEBRA_DEFN *alg, char *nm)
     LIST(TYPE_P)t = alg->types;
     while (!IS_NULL_list(t)) {
 	s = DEREF_ptr(HEAD_list(t));
-	if (streq(name_type(s), nm)) {
+	if (!strcmp(name_type(s), nm)) {
 		return(s);
 	}
 	t = TAIL_list(t);
@@ -524,7 +524,7 @@ import_type(char *alg, char *nm)
     import_type_list(p);
     while (!IS_NULL_list(p)) {
 	DESTROY_CONS_ptr(destroy_calculus, t, p, p);
-	UNUSED(t);
+	/* UNUSED(t); */
     }
     return;
 }
@@ -625,7 +625,7 @@ name_type(TYPE_P t)
 {
     CLASS_ID_P id;
     TYPE t0 = DEREF_type(t);
-    switch (TAG_type(t0))EXHAUSTIVE {
+    switch (TAG_type(t0)) {	/* TODO enum? */
 	case type_primitive_tag: {
 	    PRIMITIVE_P a = DEREF_ptr(type_primitive_prim(t0));
 	    id = DEREF_ptr(prim_id(a));
@@ -691,7 +691,7 @@ name_aux_type(TYPE_P t)
 {
     CLASS_ID_P id;
     TYPE t0 = DEREF_type(t);
-    switch (TAG_type(t0))EXHAUSTIVE {
+    switch (TAG_type(t0)) {	/* TODO enum? */
 	case type_primitive_tag: {
 	    PRIMITIVE_P a = DEREF_ptr(type_primitive_prim(t0));
 	    id = DEREF_ptr(prim_id(a));

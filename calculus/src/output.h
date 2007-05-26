@@ -61,6 +61,7 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
+#include <stdio.h>
 
 /*
  * LOOP VARIABLES
@@ -175,11 +176,7 @@ extern void close_file(void);
 extern void output_type(TYPE_P);
 extern number log2(number);
 
-#if FS_STDARG
 extern void output(char *, ...);
-#else
-extern void output();
-#endif
 
 #define comment(X)	output("/* %e */\n\n", (X))
 

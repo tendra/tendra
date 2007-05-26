@@ -57,15 +57,16 @@
         it may be put.
 */
 
+#include <string.h>
+#include <stdio.h>
 
-#include "config.h"
 #include "calculus.h"
 #include "cmd_ops.h"
-#include "error.h"
+#include "shared/error.h"
 #include "common.h"
 #include "output.h"
 #include "template.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -140,13 +141,13 @@ read_template(FILE *f, COMMAND p)
 	    }
 	    s2 = get_command(&s);
 	    s3 = get_command(&s);
-	    if (streq(s1, "if")) {
+	    if (!strcmp(s1, "if")) {
 		if (s2 == NULL) {
 		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "true";
 		}
 		MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
-	    } else if (streq(s1, "else")) {
+	    } else if (!strcmp(s1, "else")) {
 		if (IS_cmd_cond(p)) {
 		    COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
 		    if (!IS_NULL_cmd(v)) {
@@ -161,27 +162,27 @@ read_template(FILE *f, COMMAND p)
 		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (streq(s1, "endif")) {
+	    } else if (!strcmp(s1, "endif")) {
 		if (IS_cmd_cond(p)) {
 		    go = 0;
 		} else {
 		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (streq(s1, "loop")) {
+	    } else if (!strcmp(s1, "loop")) {
 		if (s2 == NULL) {
 		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "false";
 		}
 		MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
-	    } else if (streq(s1, "end")) {
+	    } else if (!strcmp(s1, "end")) {
 		if (IS_cmd_loop(p)) {
 		    go = 0;
 		} else {
 		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (streq(s1, "comment")) {
+	    } else if (!strcmp(s1, "comment")) {
 		s3 = NULL;
 	    } else {
 		error(ERROR_SERIOUS, "Unknown command, '@%s'", s1);
@@ -241,7 +242,7 @@ eval_cond(char *s)
 	/* Negate condition */
 	return(!eval_cond(s + 1));
     }
-    if (streq(s, "comp.complex")) {
+    if (!strcmp(s, "comp.complex")) {
 	/* Complex component type */
 	if (HAVE_COMPONENT) {
 	    TYPE_P_P pt = cmp_type(CRT_COMPONENT);
@@ -250,7 +251,7 @@ eval_cond(char *s)
 	}
 	return(0);
     }
-    if (streq(s, "comp.default")) {
+    if (!strcmp(s, "comp.default")) {
 	/* Component default value */
 	if (HAVE_COMPONENT) {
 	    string_P pv = cmp_name(CRT_COMPONENT);
@@ -259,13 +260,13 @@ eval_cond(char *s)
 	}
 	return(0);
     }
-    if (streq(s, "token")) {
+    if (!strcmp(s, "token")) {
 	    return(token_cond);
     }
-    if (streq(s, "true")) {
+    if (!strcmp(s, "true")) {
 	    return(1);
     }
-    if (streq(s, "false")) {
+    if (!strcmp(s, "false")) {
 	    return(0);
     }
     error(ERROR_SERIOUS, "Unknown condition, '%s'", s);
@@ -303,41 +304,41 @@ write_template(COMMAND cmd)
 	    case cmd_loop_tag: {
 		string s = DEREF_string(cmd_loop_control(cmd));
 		COMMAND a = DEREF_cmd(cmd_loop_body(cmd));
-		if (streq(s, "enum")) {
+		if (!strcmp(s, "enum")) {
 		    LOOP_ENUM write_template(a);
-		} else if (streq(s, "enum.const")) {
+		} else if (!strcmp(s, "enum.const")) {
 		    if (HAVE_ENUM) {
 			LOOP_ENUM_CONST write_template(a);
 		    }
-		} else if (streq(s, "identity")) {
+		} else if (!strcmp(s, "identity")) {
 		    LOOP_IDENTITY write_template(a);
-		} else if (streq(s, "primitive")) {
+		} else if (!strcmp(s, "primitive")) {
 		    LOOP_PRIMITIVE write_template(a);
-		} else if (streq(s, "struct")) {
+		} else if (!strcmp(s, "struct")) {
 		    LOOP_STRUCTURE write_template(a);
-		} else if (streq(s, "struct.comp")) {
+		} else if (!strcmp(s, "struct.comp")) {
 		    if (HAVE_STRUCTURE) {
 			LOOP_STRUCTURE_COMPONENT write_template(a);
 		    }
-		} else if (streq(s, "union")) {
+		} else if (!strcmp(s, "union")) {
 		    LOOP_UNION write_template(a);
-		} else if (streq(s, "union.comp")) {
+		} else if (!strcmp(s, "union.comp")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_COMPONENT write_template(a);
 		    }
-		} else if (streq(s, "union.field")) {
+		} else if (!strcmp(s, "union.field")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_FIELD write_template(a);
 		    }
-		} else if (streq(s, "union.field.comp")) {
+		} else if (!strcmp(s, "union.field.comp")) {
 		    if (HAVE_UNION && HAVE_FIELD) {
 			LOOP_FIELD_COMPONENT write_template(a);
 		    }
-		} else if (streq(s, "union.map")) {
+		} else if (!strcmp(s, "union.map")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_MAP write_template(a);
 		    }
-		} else if (streq(s, "union.map.arg")) {
+		} else if (!strcmp(s, "union.map.arg")) {
 		    if (HAVE_UNION && HAVE_MAP) {
 			LOOP_MAP_ARGUMENT write_template(a);
 		    }
@@ -383,8 +384,8 @@ template_file(char *in, char *out)
     }
     MAKE_cmd_simple(1, "<dummy>", cmd);
     cmd = read_template(input_file, cmd);
-    fclose_v(input_file);
-    if (streq(out, ".")) {
+    fclose(input_file);
+    if (!strcmp(out, ".")) {
 	output_file = stdout;
     } else {
 	output_file = fopen(out, "w");
@@ -398,7 +399,7 @@ template_file(char *in, char *out)
     have_varargs = 1;
     flush_output();
     if (output_file != stdout) {
-	    fclose_v(output_file);
+	    fclose(output_file);
     }
     return;
 }

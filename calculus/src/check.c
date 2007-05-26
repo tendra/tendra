@@ -57,15 +57,16 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
-#include "config.h"
 #include "calculus.h"
 #include "check.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "output.h"
 #include "type_ops.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -107,8 +108,8 @@ find_name(int n, char *a, char *b, char *c)
 {
     NAME *p;
     for (p = all_names; p != NULL; p = p->next) {
-	if (p->type == n && streq(p->text[0], a) &&
-	     streq(p->text[1], b) && streq(p->text[2], c)) {
+	if (p->type == n && !strcmp(p->text[0], a) &&
+	     !strcmp(p->text[1], b) && !strcmp(p->text[2], c)) {
 	    return(p);;
 	}
     }
@@ -131,7 +132,7 @@ make_name(int n, char *a, char *b, char *c)
     NAME *p = find_name(n, a, b, c);
     if (p) {
 	char buffer[1000];
-	sprintf_v(buffer, name_error[n], a, b, c);
+	sprintf(buffer, name_error[n], a, b, c);
 	error(ERROR_SERIOUS, "%s already defined (at %s, line %d)",
 		buffer, p->file, p->line);
 	return;
@@ -185,7 +186,7 @@ check_names(int c)
     char *na, *nb;
     char *empty = "";
     int line = crt_line_no;
-    CONST char *file = crt_file_name;
+    const char *file = crt_file_name;
     all_names = NULL;
 
     LOOP_PRIMITIVE {

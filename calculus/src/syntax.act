@@ -84,16 +84,17 @@ UNION-LIST -> UNION_P_LIST ;
         it may be put.
 */
 
+#include <stdlib.h>
+#include <string.h>
 
-#include "config.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "extra.h"
 #include "lex.h"
 #include "syntax.h"
 #include "type_ops.h"
-#include "xalloc.h"
+#include "shared/xalloc.h"
 
 
 /*
@@ -403,7 +404,7 @@ string : () -> ( s : STRING ) = @{
     while ( !IS_NULL_list ( p ) ) {
 	ECONST_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
 	string s = DEREF_string ( ec_name ( q ) ) ;
-	if ( streq ( s, @e ) ) {
+	if ( !strcmp( s, @e ) ) {
 	    n = DEREF_number ( ec_value ( q ) ) ;
 	    break ;
 	}
@@ -548,7 +549,7 @@ string : () -> ( s : STRING ) = @{
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_primitive ( 0, @p, r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 @} ;
 
 
@@ -589,7 +590,7 @@ string : () -> ( s : STRING ) = @{
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_ident ( 0, @p, r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 @} ;
 
 
@@ -658,7 +659,7 @@ string : () -> ( s : STRING ) = @{
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_enumeration ( 0, @p, r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 @} ;
 
 
@@ -760,7 +761,7 @@ string : () -> ( s : STRING ) = @{
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_structure ( 0, @p, r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 @} ;
 
 
@@ -990,7 +991,7 @@ string : () -> ( s : STRING ) = @{
 	    while ( !IS_NULL_list ( pp ) ) {
 		FIELD_P qq = DEREF_ptr ( HEAD_list ( pp ) ) ;
 		string nn = DEREF_string ( fld_name ( qq ) ) ;
-		if ( streq ( n, nn ) ) {
+		if ( !strcmp( n, nn ) ) {
 		    COMPONENT_P_LIST cc = DEREF_list ( fld_defn ( qq ) ) ;
 		    COMPONENT_P_LIST c = DEREF_list ( fld_defn ( q ) ) ;
 		    c = ADD_list ( cc, c, SIZE_ptr ( COMPONENT ) ) ;
@@ -1014,7 +1015,7 @@ string : () -> ( s : STRING ) = @{
     t = MAKE_ptr ( SIZE_type ) ;
     MAKE_type_onion ( 0, @p, r ) ;
     COPY_type ( t, r ) ;
-    IGNORE register_type ( t ) ;
+    register_type ( t ) ;
 @} ;
 
 
@@ -1037,7 +1038,7 @@ string : () -> ( s : STRING ) = @{
 */
 
 <make-extra> : ( t : TYPE ) -> () = @{
-    UNUSED ( @t ) ;
+    /* UNUSED ( @t ) ; */
 @} ;
 
 

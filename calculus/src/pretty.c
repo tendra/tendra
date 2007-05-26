@@ -57,12 +57,12 @@
         it may be put.
 */
 
+#include <stdio.h>
 
 #define calculus_IO_ROUTINES
-#include "config.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "shared/error.h"
 #include "pretty.h"
 
 
@@ -73,9 +73,9 @@
  * various macros are used to customise these routines.
  */
 
-#define OUTPUT_int(A, B)	fprintf_v((A), "%d",(B))
-#define OUTPUT_number(A, B)	fprintf_v((A), "%lu",(B))
-#define OUTPUT_string(A, B)	fprintf_v((A), "\"%s\"",(B))
+#define OUTPUT_int(A, B)	fprintf((A), "%d",(B))
+#define OUTPUT_number(A, B)	fprintf((A), "%lu",(B))
+#define OUTPUT_string(A, B)	fprintf((A), "\"%s\"",(B))
 
 #ifndef DEBUG
 #define BAD_PRINT_OP				0
@@ -111,7 +111,7 @@ pretty_file(char *nm)
 
     /* Open file */
     FILE *f;
-    if (streq(nm, ".")) {
+    if (!strcmp(nm, ".")) {
 	f = stdout;
     } else {
 	f = fopen(nm, "w");
@@ -133,7 +133,7 @@ pretty_file(char *nm)
     PRINT_string(f, algebra->name, "name", 0);
     PRINT_int(f, algebra->major_no, "major_no", 0);
     PRINT_int(f, algebra->minor_no, "minor_no", 0);
-    fputc_v('\n', f);
+    fputc('\n', f);
     PRINT_list_ptr_type(f, algebra->types, "types", 0);
 
     /* Restore values */
@@ -143,6 +143,6 @@ pretty_file(char *nm)
     print_list_expand = old_list_expand;
 
     /* Close file */
-    if (f != stdout)fclose_v(f);
+    if (f != stdout)fclose(f);
     return;
 }
