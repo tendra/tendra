@@ -59,7 +59,6 @@
 
 
 #include "config.h"
-#include "release.h"
 #include "types.h"
 #include "ascii.h"
 #include "basic.h"
@@ -127,13 +126,12 @@ main(int argc, char **argv)
 
 			case 'v': {
 			    /* Version number */
-			    IGNORE fprintf(stderr, "%s: %s",
+			    IGNORE fprintf(stderr, "ANDFutils %s: %s",
 					     progname, version_string);
-			    IGNORE fprintf(stderr, " (TDF %d.%d)",
+			    IGNORE fprintf(stderr, ", TDF %d.%d",
 					     version_major, version_minor);
-			    IGNORE fprintf(stderr, " (release %s)\n",
-					     RELEASE);
-			    break;
+			    IGNORE fprintf(stderr, " (tendra.org)\n");
+			    return;
 			}
 		    }
 		}

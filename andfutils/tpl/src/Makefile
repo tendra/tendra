@@ -1,28 +1,22 @@
 # $Id$
 
-# Standard directories and files
+#TEMPL=templ
 
-TEMPL=${.CURDIR}/templ
+REMOVE=rm -f
 
-# Standard variables
+TARGETS=analyse_sort.o consfile.o decodings.o errors.o find_id.o \
+		fnsfile.o includes.o lex.o main.o readstreams.o standardsh.o \
+		streams.o syntax.o units.o util.o
 
-WARNS?=		2
+all: tpl
 
-TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE}
-LIBS=
+tpl: $(TARGETS)
+	$(CC) -o tpl $(TARGETS)
 
-# Dependencies and construction rules
+clean:
+	$(REMOVE) tpl $(TARGETS)
 
-PROG=		${.CURDIR:T}
-
-SRCS=		analyse_sort.c consfile.c decodings.c errors.c find_id.c\
-		fnsfile.c includes.c lex.c main.c readstreams.c standardsh.c\
-		streams.c syntax.c units.c util.c
-
-.include "../Makefile.inc"
-
-SPEC=${BASE_DIR}/src/lib/tdf/def_4_0.db
+#SPEC=${BASE_DIR}/src/lib/tdf/def_4_0.db
 
 #MAKE_TDF=make_tdf
 #SID?=		${.OBJDIR}/../../utilities/sid/sid

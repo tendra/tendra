@@ -101,7 +101,6 @@ $Log: main.c,v $
  *
 ***********************************************************************/
 #include "config.h"
-#include "release.h"
 #include "util.h"
 #include "namedecs.h"
 #include "lex.h"
@@ -109,11 +108,7 @@ $Log: main.c,v $
 #include "syntax.h"
 #include "units.h"
 
-#ifndef RELEASE
-#define RELEASE		"unknown"
-#endif
-
-static char *pl_version = "tpl: Version 5.0 (TDF %lu.%lu, Release %s)\n";
+static char *pl_version = "ANDFutils tpl 1.4, TDF %lu.%lu (tendra.org)\n";
 static char *pl_usage = "tpl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j";
 
 int
@@ -140,22 +135,21 @@ main(int argc, char **argv)
 				add_include(a + 2);
 				break;
 			}
-			case 'v': {
+			case 'V': {
 				if (a[2]) {
 					ok = 0;
 				}
 				do_pp = 1;
 				break;
 			}
-			case 'V': {
-				char *vc = RELEASE;
+			case 'v': {
 				unsigned long va = MAJOR_NO;
 				unsigned long vb = MINOR_NO;
 				if (a[2]) {
 					ok = 0;
 				}
-				IGNORE fprintf(stderr, pl_version, va, vb, vc);
-				break;
+				IGNORE fprintf(stderr, pl_version, va, vb);
+				return;
 			}
 			default: {
 				ok = 0;

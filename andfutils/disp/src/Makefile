@@ -2,24 +2,20 @@
 
 # Standard directories and files
 
-SRC1=${SRC}/templ
-SPEC=${BASE}/src/lib/tdf/def_4_1.db
+#TEMPL=templ
 
-# Standard variables
+REMOVE=rm -f
 
-WARNS?=		2
-
-TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE}
-
-LIBS=
-
-# Dependencies and construction rules
-
-PROG=		${.CURDIR:T}
-
-SRCS=		basic.o binding.o capsule.o file.o main.o pretty.o sort.o tdf.o\
+TARGETS=basic.o binding.o capsule.o file.o main.o pretty.o sort.o tdf.o \
 		tree.o unit.o utility.o
+
+all: disp
+
+disp: $(TARGETS)
+	$(CC) -o disp $(TARGETS)
+
+clean:
+	$(REMOVE) disp $(TARGETS)
 
 #MAKE_TDF=make_tdf
 #SED=sed
@@ -37,4 +33,3 @@ SRCS=		basic.o binding.o capsule.o file.o main.o pretty.o sort.o tdf.o\
 #auto_clobber :
 #	${REMOVE} ${SRC}/tdf.c ${SRC}/tdf.h
 
-.include "../Makefile.inc"
