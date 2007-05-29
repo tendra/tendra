@@ -1,10 +1,8 @@
 # $Id$
 
 all:
-	cd reference && $(MAKE) all
 	cd man && $(MAKE) all
 
 clean:
-	cd reference && $(MAKE) clean
 	cd man && $(MAKE) clean
 
