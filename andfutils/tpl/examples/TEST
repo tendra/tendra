@@ -1,9 +1,9 @@
 #!/bin/sh
 
-for ARG in *.pl
+for ARG in *.tpl
 do
-	BASE=`basename ${ARG} .pl`
+	BASE=`basename ${ARG} .tpl`
 	echo ${BASE}
-	../pl ${ARG} ${BASE}.j
-	disp ${BASE}.j ${BASE}.p
+	../src/tpl ${ARG} ${BASE}.j
+	../../disp/src/disp ${BASE}.j ${BASE}.p
 done
