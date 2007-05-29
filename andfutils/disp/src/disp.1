@@ -1,0 +1,124 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH disp 1
+.SH NAME
+disp \- TDF pretty printer
+.SH SYNOPSIS
+\fBdisp\fR [ \fIoptions\fR ] \fIinput-file\fR [ \fIoutput-file\fR ]
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+\fBdisp\fR translates the input TDF capsule, \fIinput-file\fR into a
+human-readable form, the layout of which reflects the structure of the
+underlying TDF tree.  If the \fIoutput-file\fR argument is present, this
+is used for output; otherwise the standard output is used.
+.PP
+Whenever possible the output of \fBdisp\fR matches the TDF specification.
+The most important exception is the use of asterisks after a token
+name to indicate an application of that token.  Also a dash is used to
+indicate the absense of an optional argument and an ellipsis (...) is used
+to indicate that a token's arguments have been skipped rather than decoded
+(since the token was undeclared).
+.PP
+It is recommended that \fBdisp\fR is invoked via \fItcc\fR(1) using
+the \fB-disp\fR or the \fB-disp_t\fR option.  The \fB-\fIopt\fR flag can
+be passed to \fBdisp\fR by passing the flag \fB-Wd,-\fIopt\fR to \fItcc\fR.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+.\" ----------------------------------------------------------------------
+.IP \fB-g\fR
+Makes \fBdisp\fR print any diagnostic information units within the
+TDF capsule.
+.\" ----------------------------------------------------------------------
+.IP \fB-n\fIcolumns\fR
+Makes \fBdisp\fR try to format its output to fit into a page width
+of \fIcolumns\fR.  The default page width is 80.
+.\" ----------------------------------------------------------------------
+.IP \fB-q\fR
+Makes \fBdisp\fR ignore the specified page width and print its output
+with the minimum possible indentation.  This makes it run faster, but
+does not make the best use of the available page width.
+.\" ----------------------------------------------------------------------
+.IP \fB-r\fR
+Makes \fBdisp\fR continue after any errors.  The use of this flag is
+not recommended since anything read after an error is likely to be of
+very little value.
+.\" ----------------------------------------------------------------------
+.IP \fB-v\fR
+Makes \fBdisp\fR print its version number and the version of the TDF
+specification it supports.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fR
+Makes \fBdisp\fR decode all the units it recognises (including diagnostic
+and linking units) within the TDF capsule.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fR
+Makes \fBdisp\fR print a simple binary dump of the input file.  This
+is intended for debugging purposes.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+Makes \fBdisp\fR report such information as the number of external tags
+and tokens which it usually omits.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fR
+Because tokens may be defined in terms of other tokens and do not need
+to be declared before they are defined, \fBdisp\fR makes two passes of
+all the token definition units.  In the first pass it extracts only
+the declaration information, stepping over the main body of the
+definition.  On the second pass all the information is read.
+The \fB-S\fR option makes \fBdisp\fR skip the first pass.
+.\" ----------------------------------------------------------------------
+.IP \fB-T\fR
+The skip pass described under the \fB-S\fR option is usual done silently,
+without printing any information.  This is changed by the \fB-T\fR option.
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fR
+Makes \fBdisp\fR print the usage information associated with the
+external tokens and tags and also any linkage information units within
+the capsule.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+By default \fBdisp\fR attempts to rationalise the TDF it reads.  In
+particular it uses the external token and tag names whenever possible,
+following the token and tag bindings to find these, and makes up names
+for those tokens and tags which do not have external names.  The \fB-V\fR
+option makes it not attempt any such rationalisation, but instead to
+output exactly what it reads.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fR
+Makes \fBdisp\fR issue a warning about every token which is used before
+it is declared.
+.\" ----------------------------------------------------------------------
+.SH DIAGNOSTICS
+The error reports if the input file is not a legal TDF capsule are
+intended to aid developers writing programs which produce TDF.  Thus
+they try to give all the information that may be required, including
+the position within the input file that the error occurred.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1).
+.\" ----------------------------------------------------------------------
