@@ -81,7 +81,7 @@ extern int warn_undeclared;
 
 #define de_case(X)		de_case_fn(X, "bx", "ss")
 #define de_labelled(X)		de_solve_fn(X, "l", "x", "x", 1)
-#define de_sequence(X)		format(VERT_BRACKETS, "sequence", "+ [x]")
+#define de_sequence(X)		format(VERT_BRACKETS, "sequence", "+[x]")
 #define de_make_proc(X)		de_mk_proc_fn(X, "S", "S?[u]t", "?[t?[u]]x")
 #define de_make_string(X)	de_tdfstring_format();
 
