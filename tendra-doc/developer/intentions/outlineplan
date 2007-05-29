@@ -45,16 +45,7 @@ An overview of intended stages during restructuring:
     now, the focus is on development, and so the project needs to be
     made more attractive to developers.
 
- 2. Document existing High-Level design.
-
-    This is documentation of block diagrams, and information flow
-    within and between programs, at various levels of detail.
-
-    The purpose of this is to assist in decisions for restructuring
-    (which, currently, are estimates only), and to provide a stable
-    base of documentation from which the developer resources may grow.
-
- 3. Restructure directories. (More about this below)
+ 2. Restructure directories. (More about this below)
 
     In accordance with the current goal of being made attractive to
     developers, and - perhaps more importantly - understandable by
@@ -76,6 +67,17 @@ An overview of intended stages during restructuring:
     It is important to note that the information flow within each
     program will not change here: this is splitting up and formalising
     the divisions, not refactoring processes within each program.
+
+ 3. Document existing High-Level design.
+
+    This is documentation of block diagrams, and information flow
+    within and between programs, at various levels of detail.
+
+    The purpose of this is to assist in decisions for restructuring
+    (which, currently, are estimates only), and to provide a stable
+    base of documentation from which the developer resources may grow.
+
+    This is built using the knowledge gained during splitting.
 
  4. Bring the source tree to conform to a directory layout style guide.
 

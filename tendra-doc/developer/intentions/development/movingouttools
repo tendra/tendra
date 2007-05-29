@@ -49,3 +49,7 @@ The current idea for approaching this, is to construct a new mk file
 intended for building these programs. This is expected to be in essence
 fairly similar to the bootstrap file.
 
+As it turns out, these utilities are simple to build. I'd like their
+Makefiles to be portable, if possible, since that helps appeal to a wider
+audience.
+
