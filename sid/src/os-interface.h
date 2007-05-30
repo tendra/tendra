@@ -496,9 +496,10 @@ if (!(a)) { \
 #  pragma TenDRA keyword FALL_THROUGH for fall into case
 #  pragma TenDRA keyword UNREACHED for set unreachable
 # else
+#  include <stdlib.h>
 #  define EXHAUSTIVE
 #  define FALL_THROUGH
-#  define UNREACHED ASSERT (FALSE)
+#  define UNREACHED ASSERT (!"UNREACHED"); abort();
 # endif /* defined (__TenDRA__) */
 
 #endif /* !defined (H_OS_INTERFACE) */

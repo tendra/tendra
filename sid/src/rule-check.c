@@ -120,7 +120,6 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
     entry_list_init(&predicate_list);
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 	ItemP item        = alt_item_head(alt);
-	ItemP initial     = item;
 	BoolT see_through = TRUE;
 
 	for (; see_through && item; item = item_next(item)) {
@@ -373,7 +372,6 @@ rule_compute_alt_first_sets_1(RuleP rule)
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 	BitVecP alt_firsts  = alt_first_set(alt);
 	ItemP   item        = alt_item_head(alt);
-	ItemP   initial     = item;
 	BoolT   see_through = TRUE;
 
 	for (; see_through && item; item = item_next(item)) {

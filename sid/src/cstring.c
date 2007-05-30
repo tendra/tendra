@@ -90,6 +90,7 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <string.h>
 #include <limits.h>
 
 #include "cstring.h"

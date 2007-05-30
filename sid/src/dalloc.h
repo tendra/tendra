@@ -139,6 +139,7 @@
 #define H_DALLOC
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "os-interface.h"
 #include "exception.h"
@@ -186,8 +187,7 @@ X__dalloc_deallocate((void *)(pointer), __FILE__, (unsigned)__LINE__)
 #define ALLOCATE_VECTOR(type,length)\
 ((type *)X__dalloc_allocate(sizeof(type), (size_t)(length)))
 
-#define DEALLOCATE(pointer)\
-if (pointer) {free((void *)(pointer));}
+#define DEALLOCATE(pointer) free(pointer);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

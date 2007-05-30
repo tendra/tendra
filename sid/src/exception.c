@@ -83,7 +83,8 @@
 
 /****************************************************************************/
 
-#include <stddef.h>
+#include <stdlib.h>
+#include <setjmp.h>
 
 #include "exception.h"
 
