@@ -72,69 +72,11 @@
  * prototypes.  It is automatically defined if the ``__STDC__'' macro is
  * defined.
  *
- *	FS_VOID_PTR
- *
- * This should be defined if the system supports ``void *'' as a generic
- * pointer.  If this is not the case, then ``char *'' is used instead.  It is
- * automatically defined if the ``__STDC__'' macro is defined.
- *
- *	FS_VOLATILE
- *
- * This should be defined if this system supports the ANSI C ``volatile''
- * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
- *
- *	FS_CONST
- *
- * This should be defined if this system supports the ANSI C ``const''
- * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
- *
- *	FS_ANSI_ENVIRON
- *
- * This should be defined if the system has an ANSI C compliant standard
- * library.  If this is not the case, then an attempt is made to approximate
- * that library.  It is automatically defined if the ``__STDC__'' macro is
- * defined to be ``1''.
- *
- *	FS_BINARY_STDIO
- *
- * This should be defined if the system supports the "b" modifier to the
- * standard library ``fopen'' function.  It is automatically defined if
- * ``FS_ANSI_ENVIRON'' is defined.
- *
- *	FS_MKDIR
- *
- * This should be defined if this system supports the POSIX ``mkdir''
- * function.
- *
  * As well as the feature switch macros, there are some portability option
  * macros as well.  These provide values for types and constants when the type
  * cannot be otherwise deduced.  These macros are ignored when the correct
  * value can be obtained automatically (this generally means on an ANSI
  * compliant system).
- *
- *	PO_SIZE_T_TYPE
- *
- * The ``sizeof'' operator returns a value of type ``size_t''.  In an ANSI C
- * compliant standard library, this type should be defined in <stddef.h>.  If
- * the machine doesn't have an ANSI C compliant standard library, then this
- * macro should specify the type of ``size_t''.  If no definition is provided,
- * and the environment is not ANSI C compliant, then ``unsigned'' will be
- * used.
- *
- *	PO_CHAR_BIT
- *
- * This should be defined to be the number of bits in a ``char'' object, used
- * to define ``CHAR_BIT''.  In an ANSI C compliant standard library, this
- * macro is defined in <limits.h>. If the standard library is not ANSI
- * compliant and no value is provided, then ``8'' will be used.
- *
- *	PO_EXIT_SUCCESS
- *	PO_EXIT_FAILURE
- *
- * These two macros should be defined to be the values for ``EXIT_SUCCESS''
- * and ``EXIT_FAILUE''.  In an ANSI C compliant standard library, they are
- * defined in <stdlib.h>.  If the standard library is not ANSI compliant and
- * no value is provided, then ``0'' and ``1'' will be used.
  *
  * This file also requires that one external function be provided:
  *
@@ -183,16 +125,6 @@
  * Also everything in <setjmp.h> and <stdio.h> is included (hopefully this is
  * sufficiently common to be used even on non-ANSI platforms).  Where features
  * are absent on non-ANSI systems, support for them will need to be added.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	int			mkdir
- *			(char * path, int mode)
- ** Exceptions:
- *
- * This function is only declared if the ``FS_MKDIR'' macro is defined.  This
- * macro should also be tested before the function is used anywhere.  It is
- * the POSIX directory creation function.
  *
  ***=== TYPES ================================================================
  *
@@ -273,25 +205,6 @@
  * This macro is defined if the ANSI C hash operators (``#'' and ``##'') are
  * available.
  *
- ** Macro:	FS_BINARY_STDIO
- ** Exceptions:
- *
- * This macro is defined if ANSI binary input and output is supported
- * (i.e. the "b" modifier is allowed in the second argument to ``fopen'').
- *
- ** Macro:	FS_MKDIR
- ** Exceptions:
- *
- * This macro is defined if the POSIX function ``mkdir'' is defined.
- *
- ** Macro:	INLINE
- ** Exceptions:
- *
- * This macro may be used before a function to indicate that the function
- * should be inlined.  Normally it expands to nothing, however under the GNU C
- * compiler it expands to ``__inline__'' which causes the compiler to inline
- * the function.
- *
  ** Macro:	ASSERT (assertion)
  ** Exceptions:
  *
@@ -370,38 +283,6 @@
 #  define __LINE__ 0
 # endif /* defined (FS_NO_FILE_INFO) */
 
-# ifdef FS_NO_STDC_HASH
-#  undef FS_STDC_HASH
-# endif /* defined (FS_NO_STDC_HASH) */
-
-# ifdef FS_NO_VOLATILE
-#  undef FS_VOLATILE
-# endif /* defined (FS_NO_VOLATILE) */
-# ifndef FS_VOLATILE
-#  define volatile
-# endif /* !defined (FS_VOLATILE) */
-
-# ifdef FS_NO_CONST
-#  undef FS_CONST
-# endif /* defined (FS_NO_CONST) */
-# ifndef FS_CONST
-#  define const
-# endif /* !defined (FS_CONST) */
-
-# ifdef FS_NO_ANSI_ENVIRON
-#  undef FS_ANSI_ENVIRON
-# endif /* defined (FS_NO_ANSI_ENVIRON) */
-
-# ifdef FS_ANSI_ENVIRON
-#  define FS_BINARY_STDIO
-# endif /* defined (FS_ANSI_ENVIRON) */
-# ifdef FS_NO_BINARY_STDIO
-#  undef FS_BINARY_STDIO
-# endif /* defined (FS_NO_BINARY_STDIO) */
-# ifdef FS_NO_MKDIR
-#  undef FS_MKDIR
-# endif /* defined (FS_NO_MKDIR) */
-
 # ifdef __GNUC__
 typedef void NoReturnT;
 # else
@@ -428,16 +309,6 @@ typedef enum {
 
 # define FALSE (0)
 # define TRUE (1)
-
-# ifdef __GNUC__
-#  define INLINE __inline__
-# else
-#  define INLINE
-# endif /* defined (__GNUC__) */
-
-# ifdef FS_MKDIR
-extern int	mkdir(char *, int);
-# endif /* defined (FS_MKDIR) */
 
 # ifdef FS_ASSERT
 extern void	E_assertion_failed(char *, char *, unsigned);
