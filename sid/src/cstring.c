@@ -96,28 +96,28 @@
 
 /*--------------------------------------------------------------------------*/
 
-CStringP
-cstring_duplicate(CStringP cstring)
+char *
+cstring_duplicate(char * cstring)
 {
     unsigned length = cstring_length(cstring);
-    CStringP tmp    = ALLOCATE_VECTOR(char, length + 1);
+    char * tmp    = ALLOCATE_VECTOR(char, length + 1);
 
   (void)strcpy(tmp, cstring);
     return(tmp);
 }
 
-CStringP
-cstring_duplicate_prefix(CStringP cstring, unsigned prefix)
+char *
+cstring_duplicate_prefix(char * cstring, unsigned prefix)
 {
     unsigned length = cstring_length(cstring);
 
     if (length <= prefix) {
-	CStringP tmp = ALLOCATE_VECTOR(char, length + 1);
+	char * tmp = ALLOCATE_VECTOR(char, length + 1);
 
 	(void)strcpy(tmp, cstring);
 	return(tmp);
     } else {
-	CStringP tmp = ALLOCATE_VECTOR(char, prefix + 1);
+	char * tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
 	(void)memcpy((void *)tmp, (void *)cstring, (SizeT)prefix);
 	tmp[prefix] = '\0';
@@ -126,7 +126,7 @@ cstring_duplicate_prefix(CStringP cstring, unsigned prefix)
 }
 
 unsigned
-cstring_hash_value(CStringP cstring)
+cstring_hash_value(char * cstring)
 {
     unsigned value = 0;
 
@@ -137,19 +137,19 @@ cstring_hash_value(CStringP cstring)
 }
 
 unsigned
-cstring_length(CStringP cstring)
+cstring_length(char * cstring)
 {
     return((unsigned)strlen(cstring));
 }
 
 BoolT
-cstring_equal(CStringP cstring1, CStringP cstring2)
+cstring_equal(char * cstring1, char * cstring2)
 {
     return(strcmp(cstring1, cstring2) == 0);
 }
 
 BoolT
-cstring_ci_equal(CStringP cstring1, CStringP cstring2)
+cstring_ci_equal(char * cstring1, char * cstring2)
 {
     char c1;
     char c2;
@@ -162,7 +162,7 @@ cstring_ci_equal(CStringP cstring1, CStringP cstring2)
 }
 
 BoolT
-cstring_to_unsigned(CStringP cstring, unsigned *num_ref)
+cstring_to_unsigned(char * cstring, unsigned *num_ref)
 {
     unsigned number = 0;
 
@@ -184,34 +184,34 @@ cstring_to_unsigned(CStringP cstring, unsigned *num_ref)
 }
 
 BoolT
-cstring_starts(CStringP cstring, CStringP s)
+cstring_starts(char * cstring, char * s)
 {
     return(strncmp(cstring, s, strlen(s)) == 0);
 }
 
 BoolT
-cstring_contains(CStringP cstring, char c)
+cstring_contains(char * cstring, char c)
 {
-    return(strchr(cstring, c) != NIL(CStringP));
+    return(strchr(cstring, c) != NIL(char *));
 }
 
-CStringP
-cstring_find(CStringP cstring, char c)
+char *
+cstring_find(char * cstring, char c)
 {
     return(strchr(cstring, c));
 }
 
-CStringP
-cstring_find_reverse(CStringP cstring, char c)
+char *
+cstring_find_reverse(char * cstring, char c)
 {
     return(strrchr(cstring, c));
 }
 
-CStringP
-cstring_find_basename(CStringP cstring)
+char *
+cstring_find_basename(char * cstring)
 {
-    CStringP bstring = cstring_find_reverse(cstring, '/');
-    if (bstring != NIL(CStringP)) {
+    char * bstring = cstring_find_reverse(cstring, '/');
+    if (bstring != NIL(char *)) {
 	cstring = bstring + 1;
     }
     return(cstring);

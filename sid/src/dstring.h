@@ -115,14 +115,14 @@
  * should not be used afterwards, without reinitialising it.
  *
  ** Function:	void			nstring_copy_cstring
- *			(NStringP nstring, CStringP cstring)
+ *			(NStringP nstring, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified nstring from the content of the
  * specified cstring.
  *
  ** Function:	void			nstring_insert_cstring
- *			(NStringP nstring, CStringP cstring)
+ *			(NStringP nstring, char * cstring)
  ** Exceptions:
  *
  * This function inserts the specified cstring into the specified nstring.
@@ -135,7 +135,7 @@
  * This function copies the specified from nstring into the specified to
  * nstring.
  *
- ** Function:	CStringP		nstring_to_cstring
+ ** Function:	char *		nstring_to_cstring
  *			(NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
@@ -158,7 +158,7 @@
  *
  * This function returns the length of the specified nstring.
  *
- ** Function:	CStringP		nstring_contents
+ ** Function:	char *		nstring_contents
  *			(NStringP nstring)
  ** Exceptions:
  *
@@ -232,7 +232,7 @@
  * This function appends the specified character to the specified dstring.
  *
  ** Function:	void			dstring_append_cstring
- *			(DStringP dstring, CStringP cstring)
+ *			(DStringP dstring, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the content of the specified cstring to the specified
@@ -260,14 +260,14 @@
  * This function copies the content of the specified dstring into the
  * specified nstring.
  *
- ** Functions:	CStringP		dstring_to_cstring
+ ** Functions:	char *		dstring_to_cstring
  *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function copies the content of the specified dstring into a
  * dynamically allocated cstring, and returns it.
  *
- ** Function:	CStringP		dstring_destroy_to_cstring
+ ** Function:	char *		dstring_destroy_to_cstring
  *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
@@ -311,13 +311,13 @@
 
 typedef struct NStringT {
     unsigned			length;
-    CStringP			contents;
+    char *			contents;
 } NStringT, *NStringP;
 
 typedef struct DStringT {
     unsigned			length;
     unsigned			max_length;
-    CStringP			contents;
+    char *			contents;
 } DStringT, *DStringP;
 
 /*--------------------------------------------------------------------------*/
@@ -325,13 +325,13 @@ typedef struct DStringT {
 extern void		nstring_init(NStringP);
 extern void		nstring_init_length(NStringP, unsigned);
 extern void		nstring_assign(NStringP, NStringP);
-extern void		nstring_copy_cstring(NStringP, CStringP);
-extern void		nstring_insert_cstring(NStringP, CStringP);
+extern void		nstring_copy_cstring(NStringP, char *);
+extern void		nstring_insert_cstring(NStringP, char *);
 extern void		nstring_copy(NStringP, NStringP);
-extern CStringP		nstring_to_cstring(NStringP);
+extern char *		nstring_to_cstring(NStringP);
 extern unsigned		nstring_hash_value(NStringP);
 extern unsigned		nstring_length(NStringP);
-extern CStringP		nstring_contents(NStringP);
+extern char *		nstring_contents(NStringP);
 extern CmpT		nstring_compare(NStringP, NStringP);
 extern BoolT		nstring_equal(NStringP, NStringP);
 extern BoolT		nstring_ci_equal(NStringP, NStringP);
@@ -344,12 +344,12 @@ extern void		write_nstring(OStreamP, NStringP);
 extern void		dstring_init(DStringP);
 extern unsigned		dstring_length(DStringP);
 extern void		dstring_append_char(DStringP, char);
-extern void		dstring_append_cstring(DStringP, CStringP);
+extern void		dstring_append_cstring(DStringP, char *);
 extern void		dstring_append_nstring(DStringP, NStringP);
 extern BoolT		dstring_last_char_equal(DStringP, char);
 extern void		dstring_to_nstring(DStringP, NStringP);
-extern CStringP		dstring_to_cstring(DStringP);
-extern CStringP		dstring_destroy_to_cstring(DStringP);
+extern char *		dstring_to_cstring(DStringP);
+extern char *		dstring_destroy_to_cstring(DStringP);
 extern void		dstring_destroy(DStringP);
 
 #endif /* !defined (H_DSTRING) */

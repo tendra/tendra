@@ -94,7 +94,7 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-write_c_key(OStreamP ostream, CStringP contents, unsigned length)
+write_c_key(OStreamP ostream, char * contents, unsigned length)
 {
     while (length --) {
 	char c;

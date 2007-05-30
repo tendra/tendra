@@ -189,7 +189,7 @@ static void
 c_lexer_read_builtin(IStreamP istream, CLexP token)
 {
     DStringT dstring;
-    CStringP cstring;
+    char * cstring;
 
     dstring_init(&dstring);
     for (;;) {
@@ -476,7 +476,7 @@ c_lexer_close(CLexerStreamP stream)
     istream_close(&(stream->istream));
 }
 
-CStringP
+char *
 c_lexer_stream_name(CLexerStreamP stream)
 {
     return(istream_name(&(stream->istream)));

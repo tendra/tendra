@@ -166,7 +166,7 @@
  * or '+' it should be a long option; otherwise it should be a short option.
  *
  ** Type:	ArgProcP
- ** Repr:	void (*) (CStringP, ArgUsageP, void *, ...)
+ ** Repr:	void (*) (char *, ArgUsageP, void *, ...)
  *
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
@@ -199,13 +199,13 @@
  *	    }, ARG_PARSE_END_LIST
  *	};
  *
- * If an option has only a short form, then the name should be NIL (CStringP);
+ * If an option has only a short form, then the name should be NIL (char *);
  * if it has only a long form, then the character should be '\0'.  It is
  * illegal for an option to have neither a long form or a short form.
  *
  ** Type:	ArgUsageT
  ** Type:	ArgUsageP
- ** Repr:	struct {CStringP usage; ArgListP arg_list;}
+ ** Repr:	struct {char * usage; ArgListP arg_list;}
  *
  * This is the type of argument to be passed to ``write_arg_usage''.
  *
@@ -302,20 +302,20 @@ typedef enum {
 
 struct ArgListT;
 typedef struct ArgUsageT {
-    CStringP			usage;
+    char *			usage;
     struct ArgListT	       *arg_list;
 } ArgUsageT, *ArgUsageP;
 
-typedef void(*ArgProcP)(CStringP, ArgUsageP, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageP, void *, ...);
 
 typedef struct ArgListT {
-    CStringP			name;
+    char *			name;
     char			short_name;
     ArgTypeT			type;
     ArgProcP			proc;
     void *			closure;
     UNION {
-	CStringP		name;
+	char *		name;
 	EStringP		message;
     } u;
 } ArgListT, *ArgListP;
@@ -329,8 +329,8 @@ extern void		write_arg_usage(OStreamP, ArgUsageP);
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL(CStringP), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(void *), \
- UB NIL(CStringP)UE}
+{NIL(char *), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(void *), \
+ UB NIL(char *)UE}
 
 #endif /* !defined (H_ARG_PARSE) */
 

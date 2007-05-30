@@ -1086,7 +1086,7 @@ c_output_definition_1(COutputInfoP info, RuleP rule, EntryP predicate_id,
     rstack_destroy(&non_local_stack);
     if (split != 0) {
 	if (ostream_line(ostream) >= split) {
-	    CStringP     name    = ostream_gen_name(ostream);
+	    char *     name    = ostream_gen_name(ostream);
 	    CCodeP       header  = c_out_info_get_header1(info);
 	    write_cstring (ostream, "/* END OF FILE */");
 	    write_newline(ostream);
@@ -1229,7 +1229,7 @@ c_output_header(COutputInfoP info, GrammarP grammar)
 }
 
 void
-c_output_location(COutputInfoP info, CStringP file, unsigned line)
+c_output_location(COutputInfoP info, char * file, unsigned line)
 {
     if (c_out_info_get_lines(info)) {
 	OStreamP ostream = c_out_info_ostream(info);
@@ -1244,8 +1244,8 @@ c_output_location(COutputInfoP info, CStringP file, unsigned line)
 }
 
 void
-c_output_key_message(COutputInfoP info, CStringP prefix, KeyP key,
-		     CStringP suffix, unsigned indent)
+c_output_key_message(COutputInfoP info, char * prefix, KeyP key,
+		     char * suffix, unsigned indent)
 {
     if (c_out_info_get_lines(info)) {
 	OStreamP ostream = c_out_info_ostream(info);

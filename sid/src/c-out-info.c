@@ -127,19 +127,19 @@ c_out_info_ostream(COutputInfoP info)
     return(out_info_get_current_ostream(info->info));
 }
 
-CStringP
+char *
 c_out_info_program_name(COutputInfoP info)
 {
     return(out_info_get_prog_name(info->info));
 }
 
-CStringP
+char *
 c_out_info_source_name(COutputInfoP info)
 {
     return(out_info_get_infile_name(info->info, (unsigned)0));
 }
 
-CStringP
+char *
 c_out_info_c_source_name(COutputInfoP info)
 {
     return(out_info_get_infile_name(info->info, (unsigned)1));

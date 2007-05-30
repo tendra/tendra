@@ -87,18 +87,18 @@
 /*--------------------------------------------------------------------------*/
 
 void
-out_info_init(OutputInfoP info, CStringP prog)
+out_info_init(OutputInfoP info, char * prog)
 {
     info->prog_name       = prog;
     info->current_ostream = NIL(OStreamP);
     info->istreams        = NIL(IStreamP);
     info->ostreams        = NIL(OStreamP);
-    info->input_names     = NIL(CStringP *);
-    info->output_names    = NIL(CStringP *);
+    info->input_names     = NIL(char * *);
+    info->output_names    = NIL(char * *);
     info->tab_width       = 8;
 }
 
-CStringP
+char *
 out_info_get_prog_name(OutputInfoP info)
 {
     return(info->prog_name);
@@ -120,14 +120,14 @@ void
 out_info_set_num_input_files(OutputInfoP info, unsigned size)
 {
     info->istreams    = ALLOCATE_VECTOR(IStreamT, size);
-    info->input_names = ALLOCATE_VECTOR(CStringP, size);
+    info->input_names = ALLOCATE_VECTOR(char *, size);
 }
 
 void
 out_info_set_num_output_files(OutputInfoP info, unsigned size)
 {
     info->ostreams     = ALLOCATE_VECTOR(OStreamT, size);
-    info->output_names = ALLOCATE_VECTOR(CStringP, size);
+    info->output_names = ALLOCATE_VECTOR(char *, size);
 }
 
 IStreamP
@@ -143,24 +143,24 @@ out_info_get_ostream(OutputInfoP info, unsigned i)
 }
 
 void
-out_info_set_infile_name(OutputInfoP info, unsigned i, CStringP name)
+out_info_set_infile_name(OutputInfoP info, unsigned i, char * name)
 {
     info->input_names[i] = name;
 }
 
-CStringP
+char *
 out_info_get_infile_name(OutputInfoP info, unsigned i)
 {
     return(info->input_names[i]);
 }
 
 void
-out_info_set_outfile_name(OutputInfoP info, unsigned i, CStringP name)
+out_info_set_outfile_name(OutputInfoP info, unsigned i, char * name)
 {
     info->output_names[i] = name;
 }
 
-CStringP
+char *
 out_info_get_outfile_name(OutputInfoP info, unsigned i)
 {
     return(info->output_names[i]);

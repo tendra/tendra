@@ -106,7 +106,7 @@
  * This function initialises the specified ostream not to write to any file.
  *
  ** Function:	BoolT			ostream_open
- *			(OStreamP ostream, CStringP name)
+ *			(OStreamP ostream, char * name)
  ** Exceptions:
  *
  * This function initialises the specified ostream to write to the file with
@@ -147,7 +147,7 @@
  *
  * This function flushes the ostream's output buffer.
  *
- ** Function:	CStringP		ostream_name
+ ** Function:	char *		ostream_name
  *			(OStreamP ostream)
  ** Exceptions:
  *
@@ -208,7 +208,7 @@
  * ostream.
  *
  ** Function:	void			write_cstring
- *			(OStreamP ostream, CStringP cstring)
+ *			(OStreamP ostream, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified C string to the specified ostream.
@@ -222,7 +222,7 @@
  * length) to the specified ostream.
  *
  ** Function:	void			write_chars
- *			(OStreamP ostream, CStringP chars,
+ *			(OStreamP ostream, char * chars,
  *				  unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -230,7 +230,7 @@
  * length) to the specified ostream.
  *
  ** Function:	void			write_escaped_chars
- *			(OStreamP ostream, CStringP chars,
+ *			(OStreamP ostream, char * chars,
  *				  unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -255,7 +255,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_ostream_write_error (CStringP name)
+ ** Exception:	XX_ostream_write_error (char * name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file on which the error occured.  The copy should
@@ -289,8 +289,8 @@
 
 typedef struct OStreamT {
     FILE		       *file;
-    CStringP			name;
-    CStringP			gen_name;
+    char *			name;
+    char *			gen_name;
     int				no;
     unsigned			line;
 } OStreamT, *OStreamP;
@@ -305,14 +305,14 @@ extern OStreamT		*const ostream_error;
 
 extern void		ostream_setup(void);
 extern void		ostream_init(OStreamP);
-extern BoolT		ostream_open(OStreamP, CStringP);
+extern BoolT		ostream_open(OStreamP, char *);
 extern BoolT		ostream_is_open(OStreamP);
 extern void		ostream_buffer(OStreamP);
 extern void		ostream_unbuffer(OStreamP);
 extern void		ostream_close(OStreamP);
 extern void		ostream_flush(OStreamP);
-extern CStringP		ostream_name(OStreamP);
-extern CStringP		ostream_gen_name(OStreamP);
+extern char *		ostream_name(OStreamP);
+extern char *		ostream_gen_name(OStreamP);
 extern unsigned		ostream_line(OStreamP);
 
 extern void		write_newline(OStreamP);
@@ -322,10 +322,10 @@ extern void		write_char(OStreamP, char);
 extern void		write_escaped_char(OStreamP, char);
 extern void		write_int(OStreamP, int);
 extern void		write_unsigned(OStreamP, unsigned);
-extern void		write_cstring(OStreamP, CStringP);
+extern void		write_cstring(OStreamP, char *);
 extern void		write_bytes(OStreamP, ByteP, unsigned);
-extern void		write_chars(OStreamP, CStringP, unsigned);
-extern void		write_escaped_chars(OStreamP, CStringP, unsigned);
+extern void		write_chars(OStreamP, char *, unsigned);
+extern void		write_escaped_chars(OStreamP, char *, unsigned);
 extern void		write_system_error(OStreamP);
 extern void		write_pointer(OStreamP, void *);
 

@@ -276,7 +276,7 @@ void
 write_entry_list(OStreamP ostream, EntryListP list)
 {
     EntryListEntryP ptr = list->head;
-    CStringP        sep = "";
+    char *        sep = "";
 
     while (ptr) {
 	write_cstring(ostream, sep);

@@ -169,7 +169,7 @@ typedef struct CLexerStreamT {
 
 extern void		c_lexer_init(CLexerStreamP, IStreamP);
 extern void		c_lexer_close(CLexerStreamP);
-extern CStringP		c_lexer_stream_name(CLexerStreamP);
+extern char *		c_lexer_stream_name(CLexerStreamP);
 extern unsigned		c_lexer_stream_line(CLexerStreamP);
 extern CTokenT		c_lexer_get_terminal(CLexerStreamP);
 extern void		c_lexer_next_token(CLexerStreamP);

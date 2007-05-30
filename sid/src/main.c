@@ -185,12 +185,12 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct PhaseListT {
-    CStringP			phase;
+    char *			phase;
     void		     (*proc)(BoolT);
 } PhaseListT, *PhaseListP;
 
 typedef struct LangListT {
-    CStringP			language;
+    char *			language;
     void *		     (*init_proc)(OutputInfoP, CStringListP);
     void		     (*input_proc)(void *, GrammarP);
     unsigned			num_input_files;
@@ -224,7 +224,7 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
     }
     for (entry = cstring_list_head(options); entry;
 	 entry = cstring_list_entry_deallocate(entry)) {
-	CStringP option = cstring_list_entry_string(entry);
+	char * option = cstring_list_entry_string(entry);
 
 	if (cstring_equal(option, "prototypes") ||
 	    cstring_equal(option, "proto")) {
@@ -268,7 +268,7 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 		   cstring_equal(option, "no-line")) {
 	    c_out_info_set_lines(c_out_info, FALSE);
 	} else {
-	    CStringP lang;
+	    char * lang;
 	    lang = (ansi ? "ansi-c" : "pre-ansi-c");
 	    E_bad_language_option(lang, option);
 	}
@@ -328,7 +328,7 @@ main_init_test(OutputInfoP info, CStringListP options)
     UNUSED(info);
     for (entry = cstring_list_head(options); entry;
 	 entry = cstring_list_entry_deallocate(entry)) {
-	CStringP option = cstring_list_entry_string(entry);
+	char * option = cstring_list_entry_string(entry);
 
 	E_bad_language_option("test", option);
     }
@@ -367,7 +367,7 @@ static PhaseListT  main_phase_list[] = {
     {"other", rule_set_inline_non_tail_calls},
     {"multi", rule_set_multiple_inlining},
     {"all", main_handle_phase_all},
-    {NIL(CStringP), NIL(void(*)(BoolT))}
+    {NIL(char *), NIL(void(*)(BoolT))}
 };
 
 static LangListT main_language_list[] = {
@@ -376,7 +376,7 @@ static LangListT main_language_list[] = {
     {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"test", main_init_test, main_input_test, 1, main_output_test, 0},
-    {NIL(CStringP), NIL(void *(*)(OutputInfoP, CStringListP)),
+    {NIL(char *), NIL(void *(*)(OutputInfoP, CStringListP)),
      NIL(void(*)(void *, GrammarP)), 0,
      NIL(void(*)(void *, GrammarP)), 0}
 };
@@ -386,8 +386,8 @@ static LangListP main_language = &(main_language_list[0]);
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_dump_file(CStringP option, ArgUsageP usage, void * gclosure,
-		      CStringP dump_file)
+main_handle_dump_file(char * option, ArgUsageP usage, void * gclosure,
+		      char * dump_file)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -403,7 +403,7 @@ main_handle_dump_file(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_help(CStringP option, ArgUsageP usage, void * gclosure)
+main_handle_help(char * option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(gclosure);
@@ -414,8 +414,8 @@ main_handle_help(CStringP option, ArgUsageP usage, void * gclosure)
 }
 
 static void
-main_handle_factor_limit(CStringP option, ArgUsageP usage, void * gclosure,
-			 CStringP limit_str)
+main_handle_factor_limit(char * option, ArgUsageP usage, void * gclosure,
+			 char * limit_str)
 {
     unsigned limit;
 
@@ -431,8 +431,8 @@ main_handle_factor_limit(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_inlining(CStringP option, ArgUsageP usage, void * gclosure,
-		     CStringP inline_str)
+main_handle_inlining(char * option, ArgUsageP usage, void * gclosure,
+		     char * inline_str)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -441,7 +441,7 @@ main_handle_inlining(CStringP option, ArgUsageP usage, void * gclosure,
     while (*inline_str) {
 	BoolT      enable = TRUE;
 	DStringT   dstring;
-	CStringP   phase;
+	char *   phase;
 	PhaseListP entry;
 
 	if ((syntax_downcase(inline_str[0]) == 'n') &&
@@ -472,8 +472,8 @@ main_handle_inlining(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_language(CStringP option, ArgUsageP usage, void * gclosure,
-		     CStringP language_str)
+main_handle_language(char * option, ArgUsageP usage, void * gclosure,
+		     char * language_str)
 {
     LangListP entry;
 
@@ -492,7 +492,7 @@ main_handle_language(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_show_errors(CStringP option, ArgUsageP usage, void * gclosure)
+main_handle_show_errors(char * option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -503,8 +503,8 @@ main_handle_show_errors(CStringP option, ArgUsageP usage, void * gclosure)
 }
 
 static void
-main_handle_switch(CStringP option, ArgUsageP usage, void * gclosure,
-		   CStringP opt)
+main_handle_switch(char * option, ArgUsageP usage, void * gclosure,
+		   char * opt)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -514,8 +514,8 @@ main_handle_switch(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_tab_width(CStringP option, ArgUsageP usage, void * gclosure,
-		      CStringP width_str)
+main_handle_tab_width(char * option, ArgUsageP usage, void * gclosure,
+		      char * width_str)
 {
     unsigned width;
 
@@ -531,7 +531,7 @@ main_handle_tab_width(CStringP option, ArgUsageP usage, void * gclosure,
 }
 
 static void
-main_handle_version(CStringP option, ArgUsageP usage, void * gclosure)
+main_handle_version(char * option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -636,7 +636,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 {
     EStringP  usage_estring = error_define_string("sid usage message", USAGE);
     ArgUsageT closure;
-    CStringP  error_file;
+    char *  error_file;
     int       skip;
     unsigned  i;
     unsigned  num_infiles;
@@ -644,7 +644,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 
     error_init(argv[0], gen_errors_init_errors);
     error_intern_strings(main_description_strings);
-    if ((error_file = getenv("SID_ERROR_FILE")) != NIL(CStringP)) {
+    if ((error_file = getenv("SID_ERROR_FILE")) != NIL(char *)) {
 	error_file_parse(error_file, FALSE);
     }
     closure.usage     = error_string_contents(usage_estring);
@@ -667,7 +667,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
     out_info_set_num_input_files(out_info, num_infiles);
     out_info_set_num_output_files(out_info, num_outfiles);
     for (i = 0; i < num_infiles; i++) {
-	CStringP  name = argv[i];
+	char *  name = argv[i];
 	if (!istream_open(out_info_get_istream(out_info, i), name)) {
 	    E_cannot_open_input_file(name);
 	    UNREACHED;
@@ -675,7 +675,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	out_info_set_infile_name(out_info, i, name);
     }
     for (i = 0; i < num_outfiles; i++) {
-	CStringP  name = argv[num_infiles + i];
+	char *  name = argv[num_infiles + i];
 	if (!ostream_open(out_info_get_ostream(out_info, i), name)) {
 	    E_cannot_open_output_file(name);
 	    UNREACHED;
@@ -685,7 +685,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 }
 
 static void
-main_dump_grammar(OStreamP dstream, GrammarP grammar, CStringP mesg)
+main_dump_grammar(OStreamP dstream, GrammarP grammar, char * mesg)
 {
     if (dstream) {
 	write_cstring(dstream, mesg);
@@ -772,12 +772,12 @@ main(int argc, char **argv)
 	    E_no_memory();
 	    UNREACHED;
 	} else if (exception == XX_istream_read_error) {
-	    CStringP file = (CStringP)EXCEPTION_VALUE();
+	    char * file = (char *)EXCEPTION_VALUE();
 
 	    E_read_error(file);
 	    UNREACHED;
 	} else if (exception == XX_ostream_write_error) {
-	    CStringP file = (CStringP)EXCEPTION_VALUE();
+	    char * file = (char *)EXCEPTION_VALUE();
 
 	    E_write_error(file);
 	    UNREACHED;

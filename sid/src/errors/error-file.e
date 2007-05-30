@@ -34,7 +34,7 @@ header $[
 fatal "errf null char in builtin" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: null character in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -51,7 +51,7 @@ fatal "errf null char in builtin" ( "istream" : "IStreamP" ) {
 fatal "errf null character in name" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: null character in name",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -68,7 +68,7 @@ fatal "errf null character in name" ( "istream" : "IStreamP" ) {
 fatal "errf null character in string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: null character in string",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -85,7 +85,7 @@ fatal "errf null character in string" ( "istream" : "IStreamP" ) {
 fatal "errf newline in builtin" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unescaped newline in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -102,7 +102,7 @@ fatal "errf newline in builtin" ( "istream" : "IStreamP" ) {
 fatal "errf newline in name" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unescaped newline in name",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -119,7 +119,7 @@ fatal "errf newline in name" ( "istream" : "IStreamP" ) {
 fatal "errf newline in string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unescaped newline in string",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -136,7 +136,7 @@ fatal "errf newline in string" ( "istream" : "IStreamP" ) {
 fatal "errf eof in builtin" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unexpected end of file in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -153,7 +153,7 @@ fatal "errf eof in builtin" ( "istream" : "IStreamP" ) {
 fatal "errf eof in name" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unexpected end of file in name",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -170,7 +170,7 @@ fatal "errf eof in name" ( "istream" : "IStreamP" ) {
 fatal "errf eof in string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unexpected end of file in string",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -187,7 +187,7 @@ fatal "errf eof in string" ( "istream" : "IStreamP" ) {
 fatal "errf illegal esc in builtin" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: illegal escape sequence in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -204,7 +204,7 @@ fatal "errf illegal esc in builtin" ( "istream" : "IStreamP" ) {
 fatal "errf illegal escape in name" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: illegal escape sequence in name",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -221,7 +221,7 @@ fatal "errf illegal escape in name" ( "istream" : "IStreamP" ) {
 fatal "errf illegal escape in string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: illegal escape sequence in string",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -238,7 +238,7 @@ fatal "errf illegal escape in string" ( "istream" : "IStreamP" ) {
 fatal "errf unknown builtin" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unknown builtin '%${builtin name}%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -250,7 +250,7 @@ fatal "errf unknown builtin" ( "istream" : "IStreamP" ) {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"builtin name" : "CStringP" $[
+	"builtin name" : "char *" $[
 	    write_cstring(ostream, closure->builtin_name);
 	]$
     }
@@ -259,7 +259,7 @@ fatal "errf unknown builtin" ( "istream" : "IStreamP" ) {
 fatal "errf illegal character" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -280,7 +280,7 @@ fatal "errf illegal character" ( "istream" : "IStreamP" ) {
 fatal "errf expected string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: expected string",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -297,7 +297,7 @@ fatal "errf expected string" ( "istream" : "IStreamP" ) {
 fatal "errf expected section" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: expected name or section header (one of '%strings%', '%prefix%' or '%errors%')",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -314,7 +314,7 @@ fatal "errf expected section" ( "istream" : "IStreamP" ) {
 fatal "errf unknown string" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unknown string name '${string name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -326,7 +326,7 @@ fatal "errf unknown string" ( "istream" : "IStreamP" ) {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"string name" : "CStringP" $[
+	"string name" : "char *" $[
 	    write_cstring(ostream, closure->string_name);
 	]$
     }
@@ -335,7 +335,7 @@ fatal "errf unknown string" ( "istream" : "IStreamP" ) {
 fatal "errf unknown error" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: unknown error name '${error name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -347,7 +347,7 @@ fatal "errf unknown error" ( "istream" : "IStreamP" ) {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"error name" : "CStringP" $[
+	"error name" : "char *" $[
 	    write_cstring(ostream, closure->error_name);
 	]$
     }
@@ -356,7 +356,7 @@ fatal "errf unknown error" ( "istream" : "IStreamP" ) {
 fatal "errf illegal message" ( "istream" : "IStreamP" ) {
     "${file name}: ${line number}: malformed or unterminated tag in message '${message}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -368,7 +368,7 @@ fatal "errf illegal message" ( "istream" : "IStreamP" ) {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"message" : "CStringP" $[
+	"message" : "char *" $[
 	    write_cstring(ostream, closure->message);
 	]$
     }
@@ -377,7 +377,7 @@ fatal "errf illegal message" ( "istream" : "IStreamP" ) {
 fatal "errf cannot open" {
     "cannot open error file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {

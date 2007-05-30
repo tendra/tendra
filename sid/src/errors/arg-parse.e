@@ -35,7 +35,7 @@ fatal "arg parse unknown option" {
     "unknown option '${option}'\n\
 ${usage}",
     {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
@@ -49,11 +49,11 @@ fatal "arg parse unknown short opt" {
     "unknown short option '${option}' at '${option location}'\n\
 ${usage}",
     {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
-	"option location" : "CStringP" $[
+	"option location" : "char *" $[
 	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
@@ -67,7 +67,7 @@ fatal "arg parse ambiguous option" {
     "ambiguous option '${option}'\n\
 ${usage}",
     {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
@@ -81,7 +81,7 @@ fatal "arg parse missing argument" {
     "missing argument for option '${option}'\n\
 ${usage}",
     {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
@@ -95,11 +95,11 @@ fatal "arg parse missing short arg" {
     "missing argument for option '${option}' at '${option location}'\n\
 ${usage}",
     {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
-	"option location" : "CStringP" $[
+	"option location" : "char *" $[
 	    write_cstring(ostream, closure->option_location);
 	]$
     }, {

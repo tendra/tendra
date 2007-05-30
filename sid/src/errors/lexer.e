@@ -38,7 +38,7 @@ header $[
 error "illegal character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -59,7 +59,7 @@ error "illegal character" ("istream" : "IStreamP") {
 error "illegal comment character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -80,7 +80,7 @@ error "illegal comment character" ("istream" : "IStreamP") {
 error "eof in comment" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in comment",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -97,7 +97,7 @@ error "eof in comment" ("istream" : "IStreamP") {
 fatal "unknown builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -109,7 +109,7 @@ fatal "unknown builtin" ("istream" : "IStreamP") {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"builtin" : "CStringP" $[
+	"builtin" : "char *" $[
 	    write_cstring(ostream, closure->builtin);
 	]$
     }
@@ -118,7 +118,7 @@ fatal "unknown builtin" ("istream" : "IStreamP") {
 error "null character in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: null character in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -135,7 +135,7 @@ error "null character in builtin" ("istream" : "IStreamP") {
 error "eof in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -152,7 +152,7 @@ error "eof in builtin" ("istream" : "IStreamP") {
 error "newline in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: newline in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -169,7 +169,7 @@ error "newline in builtin" ("istream" : "IStreamP") {
 error "expected hash" ("istream" : "IStreamP") {
     "${file name}: ${line number}: second character missing from '##' operator",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -186,7 +186,7 @@ error "expected hash" ("istream" : "IStreamP") {
 error "expected pipe" ("istream" : "IStreamP") {
     "${file name}: ${line number}: second character missing from '||' operator",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);

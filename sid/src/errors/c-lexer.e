@@ -38,7 +38,7 @@ header $[
 error "c illegal character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -59,7 +59,7 @@ error "c illegal character" ("istream" : "IStreamP") {
 error "c illegal comment character" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -80,7 +80,7 @@ error "c illegal comment character" ("istream" : "IStreamP") {
 error "c eof in comment" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in comment",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -97,7 +97,7 @@ error "c eof in comment" ("istream" : "IStreamP") {
 fatal "c unknown builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -109,7 +109,7 @@ fatal "c unknown builtin" ("istream" : "IStreamP") {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"builtin" : "CStringP" $[
+	"builtin" : "char *" $[
 	    write_cstring(ostream, closure->builtin);
 	]$
     }
@@ -118,7 +118,7 @@ fatal "c unknown builtin" ("istream" : "IStreamP") {
 error "c null character in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: null character in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -135,7 +135,7 @@ error "c null character in builtin" ("istream" : "IStreamP") {
 error "c eof in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -152,7 +152,7 @@ error "c eof in builtin" ("istream" : "IStreamP") {
 error "c newline in builtin" ("istream" : "IStreamP") {
     "${file name}: ${line number}: newline in builtin",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -169,7 +169,7 @@ error "c newline in builtin" ("istream" : "IStreamP") {
 error "c code block syntax" ("istream" : "IStreamP") {
     "${file name}: ${line number}: expected '{' to begin code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -186,7 +186,7 @@ error "c code block syntax" ("istream" : "IStreamP") {
 error "c illegal at char" ("istream" : "IStreamP") {
     "${file name}: ${line number}: illegal character after '@': '${character}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -207,7 +207,7 @@ error "c illegal at char" ("istream" : "IStreamP") {
 error "c eof in code" ("istream" : "IStreamP") {
     "${file name}: ${line number}: end of file in C code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -224,7 +224,7 @@ error "c eof in code" ("istream" : "IStreamP") {
 error "c expected at id" ("istream" : "IStreamP") {
     "${file name}: ${line number}: expected identifier after '@${character}' construct",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);

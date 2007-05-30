@@ -45,7 +45,7 @@ error "left recursion type mismatch" {
     }, {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->productions;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);
@@ -80,7 +80,7 @@ error "left rec handler mismatch" {
     }, {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->productions;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);
@@ -115,7 +115,7 @@ error "left recursion name mismatch" {
     }, {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->productions;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);
@@ -170,7 +170,7 @@ error "out of scope non local" {
     }, {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->productions;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);
@@ -215,7 +215,7 @@ error "left recursion nl entry" {
     }, {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->productions;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);
@@ -241,7 +241,7 @@ error "cycle no terminator" {
     {
 	"rule names" : "RuleP" $[
 	    RuleP    rule = closure->rule_names;
-	    CStringP sep  = "";
+	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		RuleP next = rule_get_next_in_reverse_dfs(rule);

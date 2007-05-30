@@ -166,7 +166,7 @@
  * This file also requires that one external function be provided:
  *
  *	void				E_assertion_failed
- *			(CStringP, CStringP, unsigned)
+ *			(char *, char *, unsigned)
  *
  * This function will be called if an assertion fails.  It will be called with
  * the text of the assertion, the name of the file in which the assertion was
@@ -186,8 +186,8 @@
  *			(int exit_code)
  *	void				free
  *			(void * pointer)
- *	CStringP			getenv
- *			(CStringP name)
+ *	char *			getenv
+ *			(char * name)
  *	int				memcmp
  *			(void * ptr1, void * ptr2, SizeT length)
  *	void *			memcpy
@@ -197,15 +197,15 @@
  *	void *			memchr
  *			(void * ptr, int val, SizeT length)
  *	SizeT				strlen
- *			(CStringP string)
+ *			(char * string)
  *	int				strcmp
- *			(CStringP string1, CStringP string2)
- *	CStringP			strcpy
- *			(CStringP to, CStringP from)
- *	CStringP			strchr
- *			(CStringP string, int c)
- *	CStringP			strrchr
- *			(CStringP string, int c)
+ *			(char * string1, char * string2)
+ *	char *			strcpy
+ *			(char * to, char * from)
+ *	char *			strchr
+ *			(char * string, int c)
+ *	char *			strrchr
+ *			(char * string, int c)
  *
  * Also everything in <setjmp.h> and <stdio.h> is included (hopefully this is
  * sufficiently common to be used even on non-ANSI platforms).  Where features
@@ -214,14 +214,14 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	int			mkdir
- *			(CStringP path, int mode)
+ *			(char * path, int mode)
  ** Exceptions:
  *
  * This function is only declared if the ``FS_MKDIR'' macro is defined.  This
  * macro should also be tested before the function is used anywhere.  It is
  * the POSIX directory creation function.
  *
- ** Function:	CStringP		strerror
+ ** Function:	char *		strerror
  *			(int error)
  ** Exceptions:
  *
@@ -238,7 +238,7 @@
  * It contains the number of error messages stored in the ``sys_errlist''
  * vector.
  *
- ** Variable:	CStringP		sys_errlist []
+ ** Variable:	char *		sys_errlist []
  *
  * This variable is only declared if the ``FS_SYS_ERRLIST'' macro is defined.
  * It contains the text of the system error messages.
@@ -268,13 +268,6 @@
  ** Repr:	size_t
  *
  * This is the type of the return value of the "sizeof" operator.
- *
- ** Type:	CStringP
- ** Repr:	char *
- *
- * This is the C string type.  It is defined here to avoid a circularity in
- * the "os-interface" directory.  Other directories should access it via the
- * "cstring.h" file.
  *
  ** Type:	ByteT
  ** Type:	ByteP
@@ -565,7 +558,6 @@ typedef void NoReturnT;
 #  define UNUSED(v)
 # endif /* defined (__TenDRA__) */
 
-typedef char *CStringP;
 typedef unsigned char ByteT, *ByteP;
 typedef int BoolT, *BoolP;
 # ifdef FS_NO_ENUM
@@ -593,11 +585,11 @@ typedef enum {
 # endif /* defined (__GNUC__) */
 
 # ifdef FS_MKDIR
-extern int	mkdir(CStringP, int);
+extern int	mkdir(char *, int);
 # endif /* defined (FS_MKDIR) */
 
 # ifdef FS_ASSERT
-extern void	E_assertion_failed(CStringP, CStringP, unsigned);
+extern void	E_assertion_failed(char *, char *, unsigned);
 #  ifdef FS_STDC_HASH
 #   define ASSERT(a) \
 if (!(a)) { \
@@ -647,7 +639,7 @@ extern void *		calloc(SizeT, SizeT);
 extern void *		malloc(SizeT);
 extern NoReturnT	exit(int);
 extern void		free(void *);
-extern CStringP		getenv(CStringP);
+extern char *		getenv(char *);
 #  ifndef __GNUC__
 extern int		memcmp(void *, void *, SizeT);
 #  endif /* defined (__GNUC__) */
@@ -657,22 +649,22 @@ extern void *		memcpy(void *, void *, SizeT);
 extern void *		memset(void *, int, SizeT);
 extern void *		memchr(void *, int, SizeT);
 #  ifndef __GNUC__
-extern SizeT		strlen(CStringP);
+extern SizeT		strlen(char *);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int		strcmp(CStringP, CStringP);
+extern int		strcmp(char *, char *);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int		strncmp(CStringP, CStringP, SizeT);
+extern int		strncmp(char *, char *, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern CStringP		strcpy(CStringP, CStringP);
+extern char *		strcpy(char *, char *);
 #  endif /* defined (__GNUC__) */
-extern CStringP		strchr(CStringP, int);
-extern CStringP		strrchr(CStringP, int);
+extern char *		strchr(char *, int);
+extern char *		strrchr(char *, int);
 extern int		errno;
 #  ifdef FS_STRERROR
-extern CStringP		strerror(int);
+extern char *		strerror(int);
 #  endif /* defined (FS_STRERROR) */
 
 #  include <setjmp.h>
@@ -706,7 +698,7 @@ extern CStringP		strerror(int);
 
 # ifdef FS_SYS_ERRLIST
 extern int		sys_nerr;
-extern CStringP		sys_errlist[];
+extern char *		sys_errlist[];
 # endif /* defined (FS_SYS_ERRLIST) */
 
 #endif /* !defined (H_OS_INTERFACE) */

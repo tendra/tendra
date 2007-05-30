@@ -71,7 +71,7 @@
  *
  ***=== TYPES ================================================================
  *
- ** Type:	CStringP
+ ** Type:	char *
  ** Repr:	char *
  *
  * This is the C string type.  It should be used for objects that are
@@ -82,15 +82,15 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	CStringP		cstring_duplicate
- *			(CStringP cstring)
+ ** Function:	char *		cstring_duplicate
+ *			(char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified
  * cstring.
  *
- ** Function:	CStringP		cstring_duplicate_prefix
- *			(CStringP cstring, unsigned prefix)
+ ** Function:	char *		cstring_duplicate_prefix
+ *			(char * cstring, unsigned prefix)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified prefix
@@ -98,7 +98,7 @@
  * length, then only the cstring is used.
  *
  ** Function:	unsigned		cstring_hash_value
- *			(CStringP cstring)
+ *			(char * cstring)
  ** Exceptions:
  *
  * This function returns the hash value associated with the specified
@@ -106,27 +106,27 @@
  * with the same content.
  *
  ** Function:	unsigned		cstring_length
- *			(CStringP cstring)
+ *			(char * cstring)
  ** Exceptions:
  *
  * This function returns the length of the specified cstring.
  *
  ** Function:	BoolT			cstring_equal
- *			(CStringP cstring1, CStringP cstring2)
+ *			(char * cstring1, char * cstring2)
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content, and false otherwise.
  *
  ** Function:	BoolT			cstring_ci_equal
- *			(CStringP cstring1, CStringP cstring2)
+ *			(char * cstring1, char * cstring2)
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  *
  ** Function:	BoolT			cstring_to_unsigned
- *			(CStringP cstring, unsigned *num_ref)
+ *			(char * cstring, unsigned *num_ref)
  ** Exceptions:
  *
  * This function parses an unsigned number in cstring.  If there is a valid
@@ -136,21 +136,21 @@
  * big.
  *
  ** Function:	BoolT			cstring_contains
- *			(CStringP cstring, char c)
+ *			(char * cstring, char c)
  ** Exceptions:
  *
  * This function returns true if the specified cstring contains the character
  * c, and false if it doesn't.
  *
- ** Function:	CStringP		cstring_find
- *			(CStringP cstring, char c)
+ ** Function:	char *		cstring_find
+ *			(char * cstring, char c)
  ** Exceptions:
  *
  * This function returns a pointer to the first occurrence of the specified
  * character in the specified cstring, or nil if there is no occurrence.
  *
- ** Function:	CStringP		cstring_find_reverse
- *			(CStringP cstring, char c)
+ ** Function:	char *		cstring_find_reverse
+ *			(char * cstring, char c)
  ** Exceptions:
  *
  * This function returns a pointer to the last occurrence of the specified
@@ -183,17 +183,17 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern CStringP			cstring_duplicate(CStringP);
-extern CStringP			cstring_duplicate_prefix(CStringP, unsigned);
-extern unsigned			cstring_hash_value(CStringP);
-extern unsigned			cstring_length(CStringP);
-extern BoolT			cstring_equal(CStringP, CStringP);
-extern BoolT			cstring_ci_equal(CStringP, CStringP);
-extern BoolT			cstring_to_unsigned(CStringP, unsigned *);
-extern BoolT			cstring_starts(CStringP, CStringP);
-extern BoolT			cstring_contains(CStringP, char);
-extern CStringP			cstring_find(CStringP, char);
-extern CStringP			cstring_find_reverse(CStringP, char);
-extern CStringP			cstring_find_basename(CStringP);
+extern char *			cstring_duplicate(char *);
+extern char *			cstring_duplicate_prefix(char *, unsigned);
+extern unsigned			cstring_hash_value(char *);
+extern unsigned			cstring_length(char *);
+extern BoolT			cstring_equal(char *, char *);
+extern BoolT			cstring_ci_equal(char *, char *);
+extern BoolT			cstring_to_unsigned(char *, unsigned *);
+extern BoolT			cstring_starts(char *, char *);
+extern BoolT			cstring_contains(char *, char);
+extern char *			cstring_find(char *, char);
+extern char *			cstring_find_reverse(char *, char);
+extern char *			cstring_find_basename(char *);
 
 #endif /* !defined (H_CSTRING) */

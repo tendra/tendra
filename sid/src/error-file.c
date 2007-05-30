@@ -116,7 +116,7 @@ typedef enum {
 typedef struct ErrorFileLexT {
     ErrorFileTagT		tag;
     union {
-	CStringP		string;
+	char *		string;
     } u;
 } ErrorFileLexT, *ErrorFileLexP;
 
@@ -252,7 +252,7 @@ error_file_read_until(IStreamP istream, char term, ErrorFileTokenT type,
 	    UNREACHED;
 	  default:
 	    if (c == term) {
-		CStringP tmp;
+		char * tmp;
 
 		tmp = dstring_to_cstring(&dstring);
 		dstring_destroy(&dstring);
@@ -334,7 +334,7 @@ error_file_parse_strings(IStreamP istream, ErrorFileLexP token)
 {
     while (error_file_next_token(istream, token),
 	  (token->tag == EFTOKEN_NAME)) {
-	CStringP name = token->u.string;
+	char * name = token->u.string;
 
 	if (error_file_next_token(istream, token),
 	   (token->tag != EFTOKEN_STRING)) {
@@ -368,7 +368,7 @@ error_file_parse_errors(IStreamP istream, ErrorFileLexP token)
 {
     while (error_file_next_token(istream, token),
 	  (token->tag == EFTOKEN_NAME)) {
-	CStringP name = token->u.string;
+	char * name = token->u.string;
 
 	error_file_next_token(istream, token);
 	if (token->tag != EFTOKEN_STRING) {
@@ -395,7 +395,7 @@ error_file_parse_errors(IStreamP istream, ErrorFileLexP token)
 /*--------------------------------------------------------------------------*/
 
 void
-error_file_parse(CStringP name, BoolT must_open)
+error_file_parse(char * name, BoolT must_open)
 {
     IStreamT      istream;
     ErrorFileLexT token;

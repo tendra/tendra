@@ -34,7 +34,7 @@ header $[
 error "bad id substitution" {
     "${file name}: ${line number}: substituted identifier '${identifier name}' is not a parameter or result",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -51,7 +51,7 @@ error "bad id substitution" {
 error "bad mod id substitution" {
     "${file name}: ${line number}: substituted mutable identifier '${identifier name}' is not a parameter",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -68,7 +68,7 @@ error "bad mod id substitution" {
 error "mod id in assign" {
     "${file name}: ${line number}: substituted mutable identifier '${identifier name}' in assignment operator definition",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -85,7 +85,7 @@ error "mod id in assign" {
 error "bad ref id substitution" {
     "${file name}: ${line number}: substituted reference identifier '${identifier name}' is not a parameter",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -102,7 +102,7 @@ error "bad ref id substitution" {
 error "ref id in param op" {
     "${file name}: ${line number}: substituted address of identifier '${identifier name}' in parameter assignment operator definition",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -119,7 +119,7 @@ error "ref id in param op" {
 error "bad label substitution" {
     "${file name}: ${line number}: substituted label '${identifier name}' in unparameterised block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -136,7 +136,7 @@ error "bad label substitution" {
 error "bad exception substitution" {
     "${file name}: ${line number}: substituted exception call in unsuitable code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -149,7 +149,7 @@ error "bad exception substitution" {
 error "bad advance substitution" {
     "${file name}: ${line number}: substituted lexer advance call in unsuitable code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -162,7 +162,7 @@ error "bad advance substitution" {
 error "bad terminal substitution" {
     "${file name}: ${line number}: substituted current terminal call in unsuitable code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -172,10 +172,10 @@ error "bad terminal substitution" {
     }
 };
 
-error "code undefined result" ("code" : "GenericP") {
+error "code undefined result" ("code" : "void *") {
     "${file name}: ${line number}: code result '${identifier name}' is not defined",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_code_file((CCodeP)code);

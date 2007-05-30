@@ -42,7 +42,7 @@ header $[
 fatal "c expected basic" {
     "${file name}: ${line number}: expected basic '${class name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -54,7 +54,7 @@ fatal "c expected basic" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"class name" : "CStringP" $[
+	"class name" : "char *" $[
 	    write_cstring(ostream, closure->class_name);
 	]$
     }
@@ -63,7 +63,7 @@ fatal "c expected basic" {
 fatal "c expected non-terminal" {
     "${file name}: ${line number}: expected non-terminal '${class name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -75,7 +75,7 @@ fatal "c expected non-terminal" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"class name" : "CStringP" $[
+	"class name" : "char *" $[
 	    write_cstring(ostream, closure->class_name);
 	]$
     }
@@ -86,7 +86,7 @@ fatal "c expected non-terminal" {
 error "c unknown prefix" {
     "${file name}: ${line number}: unknown prefix type '${prefix}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -109,7 +109,7 @@ error "c unknown prefix" {
 error "c unknown identifier" {
     "${file name}: ${line number}: unknown identifier '${identifier name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -130,7 +130,7 @@ error "c unknown identifier" {
 error "c remapped identifier" {
     "${file name}: ${line number}: attempt to remap identifier '${identifier name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -151,7 +151,7 @@ error "c remapped identifier" {
 error "c illegal map" {
     "${file name}: ${line number}: cannot map identifier '${identifier name}' [it must be a rule, a basic or a type]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -174,7 +174,7 @@ error "c illegal map" {
 error "c unknown type" {
     "${file name}: ${line number}: type '${type name}' hasn't been declared",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -197,7 +197,7 @@ error "c unknown type" {
 error "c unknown assign" {
     "${file name}: ${line number}: assignment operation defined for unknown type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -218,7 +218,7 @@ error "c unknown assign" {
 error "c assign mult def" {
     "${file name}: ${line number}: multiple assignment operations defined for type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -239,7 +239,7 @@ error "c assign mult def" {
 error "c assign param clash" {
     "${file name}: ${line number}: assignment operation parameter clash (or missing name) for type '${type name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -264,7 +264,7 @@ error "c assign param clash" {
 error "c assign param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -293,7 +293,7 @@ error "c assign param mismatch" {
 error "c assign result clash" {
     "${file name}: ${line number}: assignment operation result clash (or missing name) for type '${type name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -318,7 +318,7 @@ error "c assign result clash" {
 error "c assign result mismatch" {
     "${file name}: ${line number}: result type mismatch for assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -347,7 +347,7 @@ error "c assign result mismatch" {
 error "c assign formal clash" {
     "${file name}: ${line number}: assignment operation formal clash for type '${type name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -378,7 +378,7 @@ error "c assign formal clash" {
 error "c unknown param assign" {
     "${file name}: ${line number}: parameter assignment operation defined for unknown type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -399,7 +399,7 @@ error "c unknown param assign" {
 error "c param assign mult def" {
     "${file name}: ${line number}: multiple parameter assignment operations defined for type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -420,7 +420,7 @@ error "c param assign mult def" {
 error "c param assign param clash" {
     "${file name}: ${line number}: parameter assignment operation parameter clash (or missing name) for type '${type name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -445,7 +445,7 @@ error "c param assign param clash" {
 error "c param assign param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for parameter assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -474,7 +474,7 @@ error "c param assign param mismatch" {
 error "c param assign result clash" {
     "${file name}: ${line number}: parameter assignment operation result clash (or missing name) for type '${type name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -499,7 +499,7 @@ error "c param assign result clash" {
 error "c param assign res mismatch" {
     "${file name}: ${line number}: result type mismatch for parameter assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -528,7 +528,7 @@ error "c param assign res mismatch" {
 error "c param assign formal clash" {
     "${file name}: ${line number}: parameter assignment operation formal clash for type '${type name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -559,7 +559,7 @@ error "c param assign formal clash" {
 error "c unknown result assign" {
     "${file name}: ${line number}: result assignment operation defined for unknown type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -580,7 +580,7 @@ error "c unknown result assign" {
 error "c result assign mult def" {
     "${file name}: ${line number}: multiple result assignment operations defined for type '${type name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -601,7 +601,7 @@ error "c result assign mult def" {
 error "c result assign param clash" {
     "${file name}: ${line number}: result assignment operation parameter clash (or missing name) for type '${type name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -626,7 +626,7 @@ error "c result assign param clash" {
 error "c res assign param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for result assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -655,7 +655,7 @@ error "c res assign param mismatch" {
 error "c result assign result clash" {
     "${file name}: ${line number}: result assignment operation result clash (or missing name) for type '${type name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -680,7 +680,7 @@ error "c result assign result clash" {
 error "c res assign result mismatch" {
     "${file name}: ${line number}: result type mismatch for result assignment operation on type '${type name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -709,7 +709,7 @@ error "c res assign result mismatch" {
 error "c result assign formal clash" {
     "${file name}: ${line number}: result assignment operation formal clash for type '${type name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -740,7 +740,7 @@ error "c result assign formal clash" {
 error "c unknown action" {
     "${file name}: ${line number}: definition for unknown action '${action name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -761,7 +761,7 @@ error "c unknown action" {
 error "c action mult def" {
     "${file name}: ${line number}: multiple definitions for action '${action name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -782,7 +782,7 @@ error "c action mult def" {
 error "c action param clash" {
     "${file name}: ${line number}: parameter clash (or missing name) for action '${action name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -807,7 +807,7 @@ error "c action param clash" {
 error "c action param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -836,7 +836,7 @@ error "c action param mismatch" {
 error "c action result clash" {
     "${file name}: ${line number}: result clash (or missing name) for action '${action name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -861,7 +861,7 @@ error "c action result clash" {
 error "c action result mismatch" {
     "${file name}: ${line number}: result type mismatch for action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -890,7 +890,7 @@ error "c action result mismatch" {
 error "c action formal clash" {
     "${file name}: ${line number}: formal clash for action '${action name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -921,7 +921,7 @@ error "c action formal clash" {
 error "c unknown basic" {
     "${file name}: ${line number}: extraction operation defined for unknown terminal '${terminal name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -942,7 +942,7 @@ error "c unknown basic" {
 error "c basic mult def" {
     "${file name}: ${line number}: multiple extraction operations defined for terminal '${terminal name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -963,7 +963,7 @@ error "c basic mult def" {
 error "c basic param clash" {
     "${file name}: ${line number}: extraction operation parameter clash (or missing name) for terminal '${terminal name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -988,7 +988,7 @@ error "c basic param clash" {
 error "c basic param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for extraction operation on terminal '${terminal name}' [${erroneous type} should be ()]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1013,7 +1013,7 @@ error "c basic param mismatch" {
 error "c basic result clash" {
     "${file name}: ${line number}: extraction operation result clash (or missing name) for terminal '${terminal name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1038,7 +1038,7 @@ error "c basic result clash" {
 error "c basic result mismatch" {
     "${file name}: ${line number}: result type mismatch for extraction operation on terminal '${terminal name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1067,7 +1067,7 @@ error "c basic result mismatch" {
 error "c basic formal clash" {
     "${file name}: ${line number}: extraction operation formal clash for terminal '${terminal name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1096,7 +1096,7 @@ error "c basic formal clash" {
 error "c basic has no result" {
     "${file name}: ${line number}: extraction operation defined for terminal '${terminal name}' that returns nothing",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1119,7 +1119,7 @@ error "c basic has no result" {
 error "c expected identifier" {
     "${file name}: ${line number}: expected identifier",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1136,7 +1136,7 @@ error "c expected identifier" {
 error "c expected c identifier" {
     "${file name}: ${line number}: expected C identifier",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1153,7 +1153,7 @@ error "c expected c identifier" {
 error "c expected separator" {
     "${file name}: ${line number}: expected ','",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1170,7 +1170,7 @@ error "c expected separator" {
 error "c expected open tuple" {
     "${file name}: ${line number}: expected '('",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1187,7 +1187,7 @@ error "c expected open tuple" {
 error "c expected close tuple" {
     "${file name}: ${line number}: expected ')'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1204,7 +1204,7 @@ error "c expected close tuple" {
 error "c expected arrow" {
     "${file name}: ${line number}: expected '->'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1221,7 +1221,7 @@ error "c expected arrow" {
 error "c expected terminator" {
     "${file name}: ${line number}: expected ';'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1238,7 +1238,7 @@ error "c expected terminator" {
 error "c expected end action" {
     "${file name}: ${line number}: expected '>'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1255,7 +1255,7 @@ error "c expected end action" {
 error "c expected define" {
     "${file name}: ${line number}: expected '='",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1272,7 +1272,7 @@ error "c expected define" {
 error "c expected code" {
     "${file name}: ${line number}: expected code block",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1289,7 +1289,7 @@ error "c expected code" {
 error "c expected blt header" {
     "${file name}: ${line number}: expected '%header%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1306,7 +1306,7 @@ error "c expected blt header" {
 error "c expected blt terminals" {
     "${file name}: ${line number}: expected '%terminals%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1323,7 +1323,7 @@ error "c expected blt terminals" {
 error "c expected blt actions" {
     "${file name}: ${line number}: expected '%actions%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1340,7 +1340,7 @@ error "c expected blt actions" {
 error "c expected blt trailer" {
     "${file name}: ${line number}: expected '%trailer%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);
@@ -1357,7 +1357,7 @@ error "c expected blt trailer" {
 error "c expected eof" {
     "${file name}: ${line number}: expected end of file",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = c_lexer_stream_name(c_current_stream);

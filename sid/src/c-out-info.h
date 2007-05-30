@@ -142,9 +142,9 @@ typedef struct COutputInfoT {
 extern void		 c_out_info_init(COutputInfoP, OutputInfoP);
 extern OutputInfoP	 c_out_info_info(COutputInfoP);
 extern OStreamP		 c_out_info_ostream(COutputInfoP);
-extern CStringP		 c_out_info_program_name(COutputInfoP);
-extern CStringP		 c_out_info_source_name(COutputInfoP);
-extern CStringP		 c_out_info_c_source_name(COutputInfoP);
+extern char *		 c_out_info_program_name(COutputInfoP);
+extern char *		 c_out_info_source_name(COutputInfoP);
+extern char *		 c_out_info_c_source_name(COutputInfoP);
 extern struct CCodeT	*c_out_info_get_header1(COutputInfoP);
 extern void		 c_out_info_set_header1(COutputInfoP, struct CCodeT *);
 extern struct CCodeT	*c_out_info_get_header2(COutputInfoP);

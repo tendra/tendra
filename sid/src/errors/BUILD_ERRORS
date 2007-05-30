@@ -414,7 +414,7 @@ sub build_tag_proc {
     } else {
 	$name   = sprintf ("ET_%05d", $error_tproc_num ++);
 	$header = ("static void\n" . $name .
-		   "(OStreamP ostream, ETagP tag, GenericP gclosure)\n");
+		   "(OStreamP ostream, ETagP tag, void *gclosure)\n");
 	$error_tproc_match{$def}  = $name;
 	$error_tproc_name{$error} = $name;
 	push (@error_tag_procs, ($header . $def));
@@ -535,9 +535,9 @@ sub build_proc_def {
 		$def .= ("    closure." . $name . " = " . $name . ";\n");
 	    }
 	}
-	$closure = "(GenericP)&closure";
+	$closure = "(void *)&closure";
     } else {
-	$closure = "NIL(GenericP)";
+	$closure = "NIL(void *)";
     }
     $def .= ("    error_call_init_proc();\n    error_report(EE[" .
 	     $error_index{$error} . "].error, " . $error_tproc_name{$error} .
@@ -565,7 +565,7 @@ sub parse_error {
 	$error_client_data{$name} = $data;
 	($token, $data) = &next_token;
     } else {
-	$error_client_data{$name} = "NIL(GenericP)";
+	$error_client_data{$name} = "NIL(void *)";
     }
     if ($token != $TOK_CLOSE_BRACE) {
 	&ifatal ("expected '}'");

@@ -94,7 +94,7 @@
 void
 arg_parse_intern_descriptions(ArgListP arg_list)
 {
-    while ((arg_list->name != NIL(CStringP)) ||
+    while ((arg_list->name != NIL(char *)) ||
 	   (arg_list->short_name != '\0')) {
 	EStringP estring = error_lookup_string(arg_list->u.name);
 
@@ -114,7 +114,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
     closure.usage    = error_string_contents(usage);
     closure.arg_list = arg_list;
     while (tmp_argc) {
-	CStringP option = (tmp_argv[0]);
+	char * option = (tmp_argv[0]);
 	char     c      = (option[0]);
 
 	if ((((c == '-') && (option[1] == '-')) ||
@@ -125,14 +125,14 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 	    ArgListP tmp_list  = arg_list;
 	    ArgListP chosen    = NIL(ArgListP);
 	    unsigned matches   = 0;
-	    CStringP immediate = NIL(CStringP);
+	    char * immediate = NIL(char *);
 
-	    while ((tmp_list->name != NIL(CStringP)) ||
+	    while ((tmp_list->name != NIL(char *)) ||
 		   (tmp_list->short_name != '\0')) {
-		CStringP opt = (tmp_list->name);
-		CStringP arg = (&(option[2]));
+		char * opt = (tmp_list->name);
+		char * arg = (&(option[2]));
 
-		if (opt != NIL(CStringP)) {
+		if (opt != NIL(char *)) {
 		    char optch;
 		    char argch;
 
@@ -178,7 +178,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 				     c == '-');
 		    break;
 		  case AT_IMMEDIATE:
-		    if (immediate != NIL(CStringP)) {
+		    if (immediate != NIL(char *)) {
 			(*(chosen->proc))(option, &closure, chosen->closure,
 					   immediate);
 		    } else {
@@ -187,7 +187,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 		    }
 		    break;
 		  case AT_EITHER:
-		    if (immediate != NIL(CStringP)) {
+		    if (immediate != NIL(char *)) {
 			if (immediate[0]!= '\0') {
 			   (*(chosen->proc))(option, &closure,
 					     chosen->closure, immediate);
@@ -251,13 +251,13 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 	    E_arg_parse_unknown_option(option, &closure);
 	    UNREACHED;
 	} else if ((c == '-') || (c == '+')) {
-	    CStringP opt = &(option[1]);
+	    char * opt = &(option[1]);
 
-	    while ((opt != NIL(CStringP)) && (*opt != '\0')) {
+	    while ((opt != NIL(char *)) && (*opt != '\0')) {
 		ArgListP tmp_list = arg_list;
 		ArgListP chosen   = NIL(ArgListP);
 
-		while ((tmp_list->name != NIL(CStringP)) ||
+		while ((tmp_list->name != NIL(char *)) ||
 		       (tmp_list->short_name != '\0')) {
 		    if (tmp_list->short_name == *opt) {
 			chosen = tmp_list;
@@ -280,7 +280,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 		      case AT_IMMEDIATE:
 			(*(chosen->proc))(opt, &closure, chosen->closure,
 					  opt + 1);
-			opt = NIL(CStringP);
+			opt = NIL(char *);
 			break;
 		      case AT_EITHER:
 			if (opt[1]!= '\0') {
@@ -296,7 +296,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 							  &closure);
 			    UNREACHED;
 			}
-			opt = NIL(CStringP);
+			opt = NIL(char *);
 			break;
 		      case AT_FOLLOWING:
 			if (tmp_argc > 1) {
@@ -359,13 +359,13 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 void
 write_arg_usage(OStreamP ostream, ArgUsageP closure)
 {
-    CStringP usage    = (closure->usage);
+    char * usage    = (closure->usage);
     ArgListP arg_list = (closure->arg_list);
 
     write_cstring(ostream, usage);
-    while ((arg_list->name != NIL(CStringP)) ||
+    while ((arg_list->name != NIL(char *)) ||
 	   (arg_list->short_name != '\0')) {
-	CStringP desc = error_string_contents(arg_list->u.message);
+	char * desc = error_string_contents(arg_list->u.message);
 
 	if (arg_list->name) {
 	    write_newline(ostream);

@@ -109,7 +109,7 @@
  * This function initialises the specified istream not to read from any file.
  *
  ** Function:	BoolT			istream_open
- *			(IStreamP istream, CStringP name)
+ *			(IStreamP istream, char * name)
  ** Exceptions: XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function initialises the specified istream to read from the file with
@@ -179,7 +179,7 @@
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  *
- ** Function:	CStringP		istream_name
+ ** Function:	char *		istream_name
  *			(IStreamP istream)
  ** Exceptions:
  *
@@ -231,7 +231,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_istream_read_error (CStringP name)
+ ** Exception:	XX_istream_read_error (char * name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -264,12 +264,12 @@
 
 typedef struct IStreamT {
     FILE		       *file;
-    CStringP			buffer;
-    CStringP			current;
-    CStringP			end;
-    CStringP			limit;
+    char *			buffer;
+    char *			current;
+    char *			end;
+    char *			limit;
     unsigned			line;
-    CStringP			name;
+    char *			name;
     BoolT			read_last;
 } IStreamT, *IStreamP;
 
@@ -295,7 +295,7 @@ extern IStreamT		*const istream_input;
 
 extern void			istream_setup(void);
 extern void			istream_init(IStreamP);
-extern BoolT			istream_open(IStreamP, CStringP);
+extern BoolT			istream_open(IStreamP, char *);
 extern void			istream_assign(IStreamP, IStreamP);
 extern BoolT			istream_is_open(IStreamP);
 extern BoolT			istream_read_char(IStreamP, char *);
@@ -303,7 +303,7 @@ extern BoolT			istream_peek_char(IStreamP, char *);
 extern IStreamStatusT		istream_read_escaped_char(IStreamP, char *);
 extern void			istream_inc_line(IStreamP);
 extern unsigned			istream_line(IStreamP);
-extern CStringP			istream_name(IStreamP);
+extern char *			istream_name(IStreamP);
 extern void			istream_close(IStreamP);
 
 /*--------------------------------------------------------------------------*/

@@ -105,9 +105,9 @@
 
 extern void		c_output_parser(COutputInfoP, GrammarP);
 extern void		c_output_header(COutputInfoP, GrammarP);
-extern void		c_output_location(COutputInfoP, CStringP, unsigned);
-extern void		c_output_key_message(COutputInfoP, CStringP, KeyP,
-					     CStringP, unsigned);
+extern void		c_output_location(COutputInfoP, char *, unsigned);
+extern void		c_output_key_message(COutputInfoP, char *, KeyP,
+					     char *, unsigned);
 extern unsigned		c_out_next_label(void);
 extern void		c_output_open(COutputInfoP, unsigned);
 extern void		c_output_close(COutputInfoP, unsigned);

@@ -93,7 +93,7 @@
  * This function initialises the specified cstring list to be an empty list.
  *
  ** Function:	void			cstring_list_append
- *			(CStringListP list, CStringP cstring)
+ *			(CStringListP list, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified cstring onto the specified list.
@@ -104,7 +104,7 @@
  *
  * This function returns a pointer to the first entry in the specified list.
  *
- ** Function:	CStringP		cstring_list_entry_string
+ ** Function:	char *		cstring_list_entry_string
  *			(CStringListEntryP entry)
  ** Exceptions:
  *
@@ -148,7 +148,7 @@
 
 typedef struct CStringListEntryT {
     struct CStringListEntryT   *next;
-    CStringP			string;
+    char *			string;
 } CStringListEntryT, *CStringListEntryP;
 
 typedef struct CStringListT {
@@ -159,9 +159,9 @@ typedef struct CStringListT {
 /*--------------------------------------------------------------------------*/
 
 extern void			cstring_list_init(CStringListP);
-extern void			cstring_list_append(CStringListP, CStringP);
+extern void			cstring_list_append(CStringListP, char *);
 extern CStringListEntryP	cstring_list_head(CStringListP);
-extern CStringP			cstring_list_entry_string(CStringListEntryP);
+extern char *			cstring_list_entry_string(CStringListEntryP);
 extern CStringListEntryP	cstring_list_entry_deallocate(CStringListEntryP);
 
 #endif /* !defined (H_CSTRING_LIST) */

@@ -75,7 +75,7 @@
  *
  *
  ** Function:	void			error_file_parse
- *			(CStringP name, BoolT must_open)
+ *			(char * name, BoolT must_open)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function parses the error file with the specified name.  If must_open
@@ -127,7 +127,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern void	error_file_parse(CStringP, BoolT);
+extern void	error_file_parse(char *, BoolT);
 
 #endif /* !defined (H_ERROR_FILE) */
 

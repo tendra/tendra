@@ -35,7 +35,7 @@ header $[
 error "shadows non local" {
     "${file name}: ${line number}: the name '${name name}' shadows the non local name '${non local name name}' in rule '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -68,7 +68,7 @@ error "shadows non local" {
 error "shadows global" {
     "${file name}: ${line number}: the name '${name name}' shadows a global name in rule '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);

@@ -48,7 +48,7 @@ header $[
 fatal "expected basic" {
     "${file name}: ${line number}: expected terminal '${class name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -60,7 +60,7 @@ fatal "expected basic" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"class name" : "CStringP" $[
+	"class name" : "char *" $[
 	    write_cstring(ostream, closure->class_name);
 	]$
     }
@@ -69,7 +69,7 @@ fatal "expected basic" {
 fatal "expected non-terminal" {
     "${file name}: ${line number}: expected non-terminal '${class name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -81,7 +81,7 @@ fatal "expected non-terminal" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"class name" : "CStringP" $[
+	"class name" : "char *" $[
 	    write_cstring(ostream, closure->class_name);
 	]$
     }
@@ -96,7 +96,7 @@ fatal "expected non-terminal" {
 error "duplicate action" {
     "${file name}: ${line number}: identifier '${identifier name}' redeclared as action",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -117,7 +117,7 @@ error "duplicate action" {
 error "duplicate basic" {
     "${file name}: ${line number}: identifier '${identifier name}' redeclared as terminal",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -138,7 +138,7 @@ error "duplicate basic" {
 error "duplicate rule" {
     "${file name}: ${line number}: identifier '${identifier name}' redeclared as rule",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -159,7 +159,7 @@ error "duplicate rule" {
 error "duplicate type" {
     "${file name}: ${line number}: identifier '${identifier name}' redeclared as type",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -180,7 +180,7 @@ error "duplicate type" {
 error "duplicate non local" {
     "${file name}: ${line number}: identifier '${identifier name}' redeclared as non local",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -203,7 +203,7 @@ error "duplicate non local" {
 error "unknown action" {
     "${file name}: ${line number}: action '${action name}' hasn't been declared",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -224,7 +224,7 @@ error "unknown action" {
 error "unknown rule" {
     "${file name}: ${line number}: rule '${rule name}' hasn't been declared or defined",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -245,7 +245,7 @@ error "unknown rule" {
 error "unknown type" {
     "${file name}: ${line number}: type '${type name}' hasn't been declared",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -266,7 +266,7 @@ error "unknown type" {
 error "unknown rule or basic" {
     "${file name}: ${line number}: identifier '${identifier name}' hasn't been declared or defined",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -289,7 +289,7 @@ error "unknown rule or basic" {
 error "identity mismatch" {
     "${file name}: ${line number}: type mismatch for identity [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -314,7 +314,7 @@ error "identity mismatch" {
 error "initialiser result mismatch" {
     "${file name}: ${line number}: result type mismatch for initialiser of non local name '${name name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -343,7 +343,7 @@ error "initialiser result mismatch" {
 error "action result call mismatch" {
     "${file name}: ${line number}: result type mismatch for invocation of action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -372,7 +372,7 @@ error "action result call mismatch" {
 error "basic result call mismatch" {
     "${file name}: ${line number}: result type mismatch for invocation of terminal '${terminal name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -401,7 +401,7 @@ error "basic result call mismatch" {
 error "rule result call mismatch" {
     "${file name}: ${line number}: result type mismatch for invocation of rule '${rule name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -432,7 +432,7 @@ error "rule result call mismatch" {
 error "initialiser param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for initialiser of non local name '${name name}' [${erroneous type} should be ${correct type}, ${correct ref type} or ()]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -465,7 +465,7 @@ error "initialiser param mismatch" {
 error "action param call mismatch" {
     "${file name}: ${line number}: parameter type mismatch for invocation of action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -494,7 +494,7 @@ error "action param call mismatch" {
 error "basic param call mismatch" {
     "${file name}: ${line number}: parameter type mismatch for invocation of terminal '${terminal name}' [${erroneous type} should be ()])",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -519,7 +519,7 @@ error "basic param call mismatch" {
 error "basic param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for declaration of terminal '${terminal name}' [${erroneous type} should be ()])",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -544,7 +544,7 @@ error "basic param mismatch" {
 error "rule param call mismatch" {
     "${file name}: ${line number}: parameter type mismatch for invocation of rule '${rule name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -575,7 +575,7 @@ error "rule param call mismatch" {
 error "rule param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for production '${rule name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -604,7 +604,7 @@ error "rule param mismatch" {
 error "rule result mismatch" {
     "${file name}: ${line number}: result type mismatch for production '${rule name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -633,7 +633,7 @@ error "rule result mismatch" {
 error "action param mismatch" {
     "${file name}: ${line number}: parameter type mismatch for action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -662,7 +662,7 @@ error "action param mismatch" {
 error "action result mismatch" {
     "${file name}: ${line number}: result type mismatch for action '${action name}' [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -691,7 +691,7 @@ error "action result mismatch" {
 error "alt result mismatch" {
     "${file name}: ${line number}: result formals are not defined in alternative ${alternative} of production '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -716,7 +716,7 @@ error "alt result mismatch" {
 error "handler result mismatch" {
     "${file name}: ${line number}: result formals are not defined in exception handler alternative of production '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -739,7 +739,7 @@ error "handler result mismatch" {
 error "multi predicate return" {
     "${file name}: ${line number}: result contains more than one predicate result symbol",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -756,7 +756,7 @@ error "multi predicate return" {
 error "predicate type" {
     "${file name}: ${line number}: predicate type mismatch [${erroneous type} should be ${correct type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -781,7 +781,7 @@ error "predicate type" {
 error "predicate" {
     "${file name}: ${line number}: predicate result symbol used in result of something other than an action",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -800,7 +800,7 @@ error "predicate" {
 error "undefined assignment" {
     "${file name}: ${line number}: assignment to undefined name '${name name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -821,7 +821,7 @@ error "undefined assignment" {
 error "rule already defined" {
     "${file name}: ${line number}: production '${rule name}' is already defined",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -842,7 +842,7 @@ error "rule already defined" {
 error "rule formal clash" {
     "${file name}: ${line number}: parameter and result names are not disjoint for production '${rule name}' [parameter = ${parameter type}, result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -871,7 +871,7 @@ error "rule formal clash" {
 error "rule param clash"  {
     "${file name}: ${line number}: parameter names are not disjoint (or are missing) for production '${rule name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -896,7 +896,7 @@ error "rule param clash"  {
 error "rule result clash"  {
     "${file name}: ${line number}: result names are not disjoint (or are missing) for production '${rule name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -921,7 +921,7 @@ error "rule result clash"  {
 error "identity result clash"  {
     "${file name}: ${line number}: result names are not disjoint for identity [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -942,7 +942,7 @@ error "identity result clash"  {
 error "action result call clash"  {
     "${file name}: ${line number}: result names are not disjoint for invocation of action '${action name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -967,7 +967,7 @@ error "action result call clash"  {
 error "basic result call clash"  {
     "${file name}: ${line number}: result names are not disjoint for invocation of terminal '${terminal name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -992,7 +992,7 @@ error "basic result call clash"  {
 error "rule result call clash"  {
     "${file name}: ${line number}: result names are not disjoint for invocation of rule '${rule name}' [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1017,7 +1017,7 @@ error "rule result call clash"  {
 error "undefined name"  {
     "${file name}: ${line number}: undefined parameter name '${identifier name}' in alternative ${alternative} of production '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1046,7 +1046,7 @@ error "undefined name"  {
 error "redefined name"  {
     "${file name}: ${line number}: redefined name '${identifier name}' in alternative ${alternative} of production '${rule name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1075,7 +1075,7 @@ error "redefined name"  {
 error "multiple empty alts" {
     "${file name}: ${line number}: production '${rule name}' has multiple empty alternatives",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1096,7 +1096,7 @@ error "multiple empty alts" {
 fatal "too many alternatives" {
     "${file name}: ${line number}: too many alternatives in grammar",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1113,7 +1113,7 @@ fatal "too many alternatives" {
 error "mult entry" {
     "${file name}: ${line number}: rule '${rule name}' occurs in the entry list more than once",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1134,7 +1134,7 @@ error "mult entry" {
 error "rule param has names" {
     "${file name}: ${line number}: parameter of declaration of rule '${rule name}' has names [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1159,7 +1159,7 @@ error "rule param has names" {
 error "rule result has names" {
     "${file name}: ${line number}: result of declaration of rule '${rule name}' has names [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1184,7 +1184,7 @@ error "rule result has names" {
 error "rule result has refs" {
     "${file name}: ${line number}: result of declaration or definition of rule '${rule name}' has references [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1209,7 +1209,7 @@ error "rule result has refs" {
 error "action param has names" {
     "${file name}: ${line number}: parameter of declaration of action '${action name}' has names [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1234,7 +1234,7 @@ error "action param has names" {
 error "action result has names" {
     "${file name}: ${line number}: result of declaration of action '${action name}' has names [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1259,7 +1259,7 @@ error "action result has names" {
 error "action result has refs" {
     "${file name}: ${line number}: result of declaration of action '${action name}' has references [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1284,7 +1284,7 @@ error "action result has refs" {
 error "basic param has names" {
     "${file name}: ${line number}: parameter of declaration of terminal '${terminal name}' has names [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1309,7 +1309,7 @@ error "basic param has names" {
 error "basic result has names" {
     "${file name}: ${line number}: result of declaration of terminal '${terminal name}' has names [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1334,7 +1334,7 @@ error "basic result has names" {
 error "basic result has refs" {
     "${file name}: ${line number}: result of declaration of terminal '${terminal name}' has references [result = ${result type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1359,7 +1359,7 @@ error "basic result has refs" {
 error "identity param has refs" {
     "${file name}: ${line number}: cannot take address of identity parameters in alternative ${alternative} of production '${rule name}' [parameter = ${parameter type}]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1388,7 +1388,7 @@ error "identity param has refs" {
 error "ignored basic call" {
     "${file name}: ${line number}: invocation of ignored terminal '${terminal name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1409,7 +1409,7 @@ error "ignored basic call" {
 error "ambiguous call" {
     "${file name}: ${line number}: identifier '${identifier name}' used in ambiguous context [may be name, rule or terminal]",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1430,7 +1430,7 @@ error "ambiguous call" {
 error "global scope non local" {
     "${file name}: ${line number}: definition of non local name '${name name}' at global scope",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1453,7 +1453,7 @@ error "global scope non local" {
 error "expected typemark" {
     "${file name}: ${line number}: expected ':'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1470,7 +1470,7 @@ error "expected typemark" {
 error "expected identifier" {
     "${file name}: ${line number}: expected identifier",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1487,7 +1487,7 @@ error "expected identifier" {
 error "expected tuple defn" {
     "${file name}: ${line number}: expected identifier or ':'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1504,7 +1504,7 @@ error "expected tuple defn" {
 error "expected terminal decn" {
     "${file name}: ${line number}: expected identifier or '!'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1521,7 +1521,7 @@ error "expected terminal decn" {
 error "expected separator" {
     "${file name}: ${line number}: expected ','",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1538,7 +1538,7 @@ error "expected separator" {
 error "expected open tuple" {
     "${file name}: ${line number}: expected '('",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1555,7 +1555,7 @@ error "expected open tuple" {
 error "expected close tuple" {
     "${file name}: ${line number}: expected ')'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1572,7 +1572,7 @@ error "expected close tuple" {
 error "expected arrow" {
     "${file name}: ${line number}: expected '->'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1589,7 +1589,7 @@ error "expected arrow" {
 error "expected terminator" {
     "${file name}: ${line number}: expected ';'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1606,7 +1606,7 @@ error "expected terminator" {
 error "expected lhs name" {
     "${file name}: ${line number}: expected identifier, '?' or '!'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1623,7 +1623,7 @@ error "expected lhs name" {
 error "expected rhs name" {
     "${file name}: ${line number}: expected identifier or '&'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1640,7 +1640,7 @@ error "expected rhs name" {
 error "expected begin action" {
     "${file name}: ${line number}: expected '<'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1657,7 +1657,7 @@ error "expected begin action" {
 error "expected end action" {
     "${file name}: ${line number}: expected '>'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1674,7 +1674,7 @@ error "expected end action" {
 error "expected end scope" {
     "${file name}: ${line number}: expected ']'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1691,7 +1691,7 @@ error "expected end scope" {
 error "expected tuple or term" {
     "${file name}: ${line number}: expected tuple or ';'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1708,7 +1708,7 @@ error "expected tuple or term" {
 error "expected item rhs" {
     "${file name}: ${line number}: expected item right hand side",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1725,7 +1725,7 @@ error "expected item rhs" {
 error "expected define" {
     "${file name}: ${line number}: expected '='",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1742,7 +1742,7 @@ error "expected define" {
 error "expected tuple def or term" {
     "${file name}: ${line number}: expected tuple, '=' or ';'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1759,7 +1759,7 @@ error "expected tuple def or term" {
 error "expected begin rule" {
     "${file name}: ${line number}: expected '{'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1776,7 +1776,7 @@ error "expected begin rule" {
 error "expected end rule" {
     "${file name}: ${line number}: expected '}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1793,7 +1793,7 @@ error "expected end rule" {
 error "expected item" {
     "${file name}: ${line number}: expected item",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1810,7 +1810,7 @@ error "expected item" {
 error "expected alternative" {
     "${file name}: ${line number}: expected alternative",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1827,7 +1827,7 @@ error "expected alternative" {
 error "expected other defn" {
     "${file name}: ${line number}: expected rule declaration or rule or non local name definition",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1844,7 +1844,7 @@ error "expected other defn" {
 error "expected production defn" {
     "${file name}: ${line number}: expected rule declaration or definition, or action declaration",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1861,7 +1861,7 @@ error "expected production defn" {
 error "expected blt types" {
     "${file name}: ${line number}: expected '%types%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1878,7 +1878,7 @@ error "expected blt types" {
 error "expected blt terminals" {
     "${file name}: ${line number}: expected '%terminals%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1895,7 +1895,7 @@ error "expected blt terminals" {
 error "expected blt productions" {
     "${file name}: ${line number}: expected '%productions%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1912,7 +1912,7 @@ error "expected blt productions" {
 error "expected blt entry" {
     "${file name}: ${line number}: expected '%entry%'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1929,7 +1929,7 @@ error "expected blt entry" {
 error "expected eof" {
     "${file name}: ${line number}: expected end of file",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);
@@ -1946,7 +1946,7 @@ error "expected eof" {
 error "expected terminator or define" {
     "${file name}: ${line number}: expected ';' or '='",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = lexer_stream_name(sid_current_stream);

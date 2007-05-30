@@ -167,11 +167,11 @@ istream_setup(void)
 void
 istream_init(IStreamP istream)
 {
-    istream->name = NIL(CStringP);
+    istream->name = NIL(char *);
 }
 
 BoolT
-istream_open(IStreamP istream, CStringP name)
+istream_open(IStreamP istream, char * name)
 {
     if ((istream->file = fopen(name, "r")) == NIL(FILE *)) {
 	return(FALSE);
@@ -200,7 +200,7 @@ istream_assign(IStreamP to,			IStreamP from)
 BoolT
 istream_is_open(IStreamP istream)
 {
-    return(istream->name != NIL(CStringP));
+    return(istream->name != NIL(char *));
 }
 
 BoolT
@@ -295,7 +295,7 @@ istream_line(IStreamP istream)
     return(istream->line);
 }
 
-CStringP
+char *
 istream_name(IStreamP istream)
 {
     return(istream->name);
@@ -320,7 +320,7 @@ X__istream_fill_buffer(IStreamP istream)
 			(SizeT)(ISTREAM_BUFSIZE - 1), istream->file);
 
     if ((bytes == (SizeT)0) && (ferror(istream->file))) {
-	CStringP name = cstring_duplicate(istream->name);
+	char * name = cstring_duplicate(istream->name);
 
 	THROW_VALUE(XX_istream_read_error, name);
 	UNREACHED;

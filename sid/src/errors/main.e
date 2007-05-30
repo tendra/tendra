@@ -34,7 +34,7 @@ header $[
 fatal "bad tab width" {
     "bad tab width '${tab width}'",
     {
-	"tab width" : "CStringP" $[
+	"tab width" : "char *" $[
 	    write_cstring(ostream, closure->tab_width);
 	]$
     }
@@ -43,7 +43,7 @@ fatal "bad tab width" {
 fatal "bad factor limit" {
     "bad factor limit '${factor limit}'",
     {
-	"factor limit" : "CStringP" $[
+	"factor limit" : "char *" $[
 	    write_cstring(ostream, closure->factor_limit);
 	]$
     }
@@ -52,7 +52,7 @@ fatal "bad factor limit" {
 fatal "bad inlining phase" {
     "bad inlining phase '${phase}'",
     {
-	"phase" : "CStringP" $[
+	"phase" : "char *" $[
 	    write_cstring(ostream, closure->phase);
 	]$
     }
@@ -61,7 +61,7 @@ fatal "bad inlining phase" {
 fatal "bad language" {
     "unknown language '${language name}' (should be 'ansi-c', 'pre-ansi-c' or 'test')",
     {
-	"language name" : "CStringP" $[
+	"language name" : "char *" $[
 	    write_cstring(ostream, closure->language_name);
 	]$
     }
@@ -70,11 +70,11 @@ fatal "bad language" {
 fatal "bad language option" {
     "language '${language name}' doesn't understand option '${option}'",
     {
-	"language name" : "CStringP" $[
+	"language name" : "char *" $[
 	    write_cstring(ostream, closure->language_name);
 	]$
     }, {
-	"option" : "CStringP" $[
+	"option" : "char *" $[
 	    write_cstring(ostream, closure->option);
 	]$
     }
@@ -83,7 +83,7 @@ fatal "bad language option" {
 fatal "bad split size" {
     "bad split size '${split size}'",
     {
-	"split size" : "CStringP" $[
+	"split size" : "char *" $[
 	    write_cstring(ostream, closure->split_size);
 	]$
     }
@@ -92,7 +92,7 @@ fatal "bad split size" {
 fatal "usage" {
     "language '${language name}' requires ${number input files} input files and ${number output files} output files\n${usage}",
     {
-	"language name" : "CStringP" $[
+	"language name" : "char *" $[
 	    write_cstring(ostream, closure->language_name);
 	]$
     }, {
@@ -113,7 +113,7 @@ fatal "usage" {
 fatal "cannot open dump file" {
     "cannot open dump file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -131,7 +131,7 @@ fatal "multiple dump files" {
 fatal "cannot open output file" {
     "cannot open output file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -145,7 +145,7 @@ fatal "cannot open output file" {
 fatal "cannot open input file" {
     "cannot open input file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -163,7 +163,7 @@ fatal "no memory" {
 fatal "read error" {
     "error reading from file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
@@ -177,7 +177,7 @@ fatal "read error" {
 fatal "write error" {
     "error writing to file '${file name}': ${system error}",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$
     }, {
