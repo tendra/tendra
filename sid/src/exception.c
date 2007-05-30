@@ -117,10 +117,10 @@ X__exception_throw(void)
     if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
 	(stack->magic_end != X__EXCEPTION_MAGIC) ||
 #if PO_EXCEPTION_STACK_DIRECTION > 0
-	(((GenericP)stack) > ((GenericP)&stack)) ||
+	(((void *)stack) > ((void *)&stack)) ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION > 0 */
 #if PO_EXCEPTION_STACK_DIRECTION < 0
-	(((GenericP)stack) < ((GenericP)&stack)) ||
+	(((void *)stack) < ((void *)&stack)) ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
 	(stack->next == stack)) {
 	failing = TRUE;

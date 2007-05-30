@@ -656,7 +656,7 @@ rule_factor_1(RuleP rule, FactorClosureP closure)
 /*--------------------------------------------------------------------------*/
 
 void
-rule_factor(EntryP entry, GenericP gclosure)
+rule_factor(EntryP entry, void * gclosure)
 {
     FactorClosureP closure = (FactorClosureP)gclosure;
 

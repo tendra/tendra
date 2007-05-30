@@ -178,24 +178,24 @@
  *
  *	NoReturnT			abort
  *			(void)
- *	GenericP			calloc
+ *	void *			calloc
  *			(SizeT length, SizeT size)
- *	GenericP			malloc
+ *	void *			malloc
  *			((SizeT size)
  *	NoReturnT			exit
  *			(int exit_code)
  *	void				free
- *			(GenericP pointer)
+ *			(void * pointer)
  *	CStringP			getenv
  *			(CStringP name)
  *	int				memcmp
- *			(GenericP ptr1, GenericP ptr2, SizeT length)
- *	GenericP			memcpy
- *			(GenericP to, GenericP from, SizeT length)
- *	GenericP			memset
- *			(GenericP ptr, int val, SizeT length)
- *	GenericP			memchr
- *			(GenericP ptr, int val, SizeT length)
+ *			(void * ptr1, void * ptr2, SizeT length)
+ *	void *			memcpy
+ *			(void * to, void * from, SizeT length)
+ *	void *			memset
+ *			(void * ptr, int val, SizeT length)
+ *	void *			memchr
+ *			(void * ptr, int val, SizeT length)
  *	SizeT				strlen
  *			(CStringP string)
  *	int				strcmp
@@ -249,7 +249,7 @@
  *
  ***=== TYPES ================================================================
  *
- ** Type:	GenericP
+ ** Type:	void *
  ** Repr:	void *
  *
  * This is the generic pointer type.  It can be used to store a pointer to any
@@ -492,15 +492,6 @@
 #  undef FS_STDC_HASH
 # endif /* defined (FS_NO_STDC_HASH) */
 
-# ifdef FS_NO_VOID_PTR
-#  undef FS_VOID_PTR
-# endif /* defined (FS_NO_VOID_PTR) */
-# ifdef FS_VOID_PTR
-typedef void *GenericP;
-# else
-typedef char *GenericP;
-# endif /* defined (FS_VOID_PTR) */
-
 # ifdef FS_NO_VOLATILE
 #  undef FS_VOLATILE
 # endif /* defined (FS_NO_VOLATILE) */
@@ -652,19 +643,19 @@ typedef unsigned SizeT, *SizeP;
 #  endif /* defined (PO_SIZE_T_TYPE) */
 
 extern NoReturnT	abort(void);
-extern GenericP		calloc(SizeT, SizeT);
-extern GenericP		malloc(SizeT);
+extern void *		calloc(SizeT, SizeT);
+extern void *		malloc(SizeT);
 extern NoReturnT	exit(int);
-extern void		free(GenericP);
+extern void		free(void *);
 extern CStringP		getenv(CStringP);
 #  ifndef __GNUC__
-extern int		memcmp(GenericP, GenericP, SizeT);
+extern int		memcmp(void *, void *, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern GenericP		memcpy(GenericP, GenericP, SizeT);
+extern void *		memcpy(void *, void *, SizeT);
 #  endif /* defined (__GNUC__) */
-extern GenericP		memset(GenericP, int, SizeT);
-extern GenericP		memchr(GenericP, int, SizeT);
+extern void *		memset(void *, int, SizeT);
+extern void *		memchr(void *, int, SizeT);
 #  ifndef __GNUC__
 extern SizeT		strlen(CStringP);
 #  endif /* defined (__GNUC__) */

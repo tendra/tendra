@@ -164,7 +164,7 @@ rule_compute_dfs_1(AltP alt, CycleTypeT type, RuleP *list)
 }
 
 static void
-rule_compute_reverse_dfs_1(EntryP entry, GenericP gclosure)
+rule_compute_reverse_dfs_1(EntryP entry, void * gclosure)
 {
     DFSClosureP closure = (DFSClosureP)gclosure;
     RuleP       rule    = entry_get_rule(entry);
@@ -426,7 +426,7 @@ rule_next_in_root_list(RuleP rule)
 }
 
 void
-rule_build_root_list(EntryP entry, GenericP gclosure)
+rule_build_root_list(EntryP entry, void * gclosure)
 {
     if (entry_is_rule(entry)) {
 	RuleListP list = (RuleListP)gclosure;
@@ -491,7 +491,7 @@ rule_compute_reverse_dfs(RuleP rule, RuleP root, RuleP *list)
 	closure.list = list;
 	rule_set_dfs_state(rule, DFS_TRACING);
 	entry_list_iter(rule_reverse_list(rule), rule_compute_reverse_dfs_1,
-			(GenericP)&closure);
+			(void *)&closure);
 	if (((rule == root) && (rule_get_dfs_state(rule) == DFS_CYCLING)) ||
 	    (rule != root)) {
 	    rule_set_next_in_reverse_dfs(rule, *list);
@@ -879,8 +879,8 @@ rule_renumber(RuleP rule, BoolT do_result, EntryP predicate_id)
 }
 
 void
-rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, GenericP),
-		    GenericP closure)
+rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, void *),
+		    void * closure)
 {
     AltP alt;
 

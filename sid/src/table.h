@@ -122,7 +122,7 @@ extern EntryP	table_get_basic(TableP, NStringP);
 extern EntryP	table_get_basic_by_number(TableP, unsigned);
 extern EntryP	table_get_action(TableP, NStringP);
 extern EntryP	table_get_rule(TableP, NStringP);
-extern void	table_iter(TableP, void(*)(EntryP, GenericP), GenericP);
+extern void	table_iter(TableP, void(*)(EntryP, void *), void *);
 extern void	table_untrace(TableP);
 extern void	table_unlink_untraced_rules(TableP);
 

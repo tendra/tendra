@@ -287,8 +287,8 @@ entry_get_mapping(EntryP entry)
 }
 
 void
-entry_iter(EntryP entry, BoolT full, void (*proc)(EntryP, GenericP),
-	   GenericP closure)
+entry_iter(EntryP entry, BoolT full, void (*proc)(EntryP, void *),
+	   void * closure)
 {
     if (!entry_is_traced(entry)) {
 	entry_traced(entry);

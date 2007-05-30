@@ -737,8 +737,8 @@ types_check_names(TypeTupleP to, TypeTupleP from)
 }
 
 void
-types_check_used(TypeTupleP tuple, void (*error_proc)(GenericP, EntryP),
-		 GenericP gclosure)
+types_check_used(TypeTupleP tuple, void (*error_proc)(void *, EntryP),
+		 void * gclosure)
 {
     TypeTupleEntryP ptr;
 
@@ -879,8 +879,8 @@ types_check_shadowing(TypeTupleP tuple, ScopeStackP stack, RuleP rule)
 }
 
 void
-types_iter_for_table(TypeTupleP tuple, void (*proc)(EntryP, GenericP),
-		     GenericP closure)
+types_iter_for_table(TypeTupleP tuple, void (*proc)(EntryP, void *),
+		     void * closure)
 {
     TypeTupleEntryP ptr;
 
@@ -1169,8 +1169,8 @@ rtrans_get_translation(TypeRTransP translator, EntryP entry, EntryP *type_ref,
 
 void
 rtrans_apply_for_non_locals(TypeRTransP translator,
-			    void (*proc)(EntryP, EntryP, GenericP),
-			    GenericP closure)
+			    void (*proc)(EntryP, EntryP, void *),
+			    void * closure)
 {
     RTransP ptr;
 

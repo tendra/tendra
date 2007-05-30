@@ -103,7 +103,7 @@ action_create(void)
 
     types_init(action_param(action));
     types_init(action_result(action));
-    action->code = NIL(GenericP);
+    action->code = NIL(void *);
     return(action);
 }
 
@@ -120,22 +120,22 @@ action_result(ActionP action)
     return(&(action->result));
 }
 
-GenericP
+void *
 action_get_code(ActionP action)
 {
     return(action->code);
 }
 
 void
-action_set_code(ActionP action, GenericP code)
+action_set_code(ActionP action, void * code)
 {
     action->code = code;
 }
 
 void
 action_iter_for_table(ActionP action, BoolT full,
-		      void(*proc)KW_WEAK_PROTOTYPE(EntryP, GenericP),
-		      GenericP closure)
+		      void(*proc)KW_WEAK_PROTOTYPE(EntryP, void *),
+		      void * closure)
 {
     if (full) {
 	types_iter_for_table(action_param(action), proc, closure);

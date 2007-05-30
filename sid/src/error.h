@@ -117,7 +117,7 @@
  * This is the named string type.
  *
  ** Type:	ErrorProcP
- ** Repr:	void (*) (OStreamP, ETagP, GenericP)
+ ** Repr:	void (*) (OStreamP, ETagP, void *)
  *
  * This is the type of a procedure that is used to display the contents of a
  * tag when reporting an error.
@@ -149,7 +149,7 @@
  ** Type:	ErrorDataT
  ** Type:	ErrorDataP
  ** Repr:	union {struct {CStringP name; EseverityP severity;
- *			       CStringP message; GenericP data;} s;
+ *			       CStringP message; void * data;} s;
  *		       ErrorP error;}
  *
  * This is the type of an element in a vector of errors to be passed to the
@@ -162,7 +162,7 @@
  *	static ErrorDataT errors [] = {
  *	    UB {
  *		"error 1", ERROR_SEVERITY_ERROR,
- *		"error 1 occured at line ${line}", NIL (GenericP)
+ *		"error 1 occured at line ${line}", NIL (void *)
  *	    } UE, ERROR_END_ERROR_LIST
  *	};
  *
@@ -232,7 +232,7 @@
  *
  ** Function:	ErrorP			error_define_error
  *			(CStringP name, ESeverityT severity,
- *				  CStringP message, GenericP data)
+ *				  CStringP message, void * data)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines an error with the specified name, and returns it.
@@ -281,7 +281,7 @@
  * initialisation procedure will be called to initialise the error messages
  * before they are looked up.
  *
- ** Function:	GenericP		error_data
+ ** Function:	void *		error_data
  *			(ErrorP error)
  ** Exceptions:
  *
@@ -289,7 +289,7 @@
  *
  ** Function:	void			error_report
  *			(ErrorP error, ErrorProcP proc,
- *				  GenericP closure)
+ *				  void * closure)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function reports the specified error.  The procedure is used to print
@@ -475,7 +475,7 @@ typedef struct ErrorT {
     CStringP 			name;
     ESeverityT			severity;
     ErrorListP			error_list;
-    GenericP			data;
+    void *			data;
 } ErrorT, *ErrorP;
 
 typedef struct EStringT {
@@ -484,7 +484,7 @@ typedef struct EStringT {
     CStringP			contents;
 } EStringT, *EStringP;
 
-typedef void(*ErrorProcP)(OStreamP, ETagP, GenericP);
+typedef void(*ErrorProcP)(OStreamP, ETagP, void *);
 typedef void(*ErrorInitProcP)(void);
 typedef UNION ETagDataT {
     CStringP			name;
@@ -495,7 +495,7 @@ typedef UNION ErrorDataT {
 	CStringP		name;
 	ESeverityT		severity;
 	CStringP		message;
-	GenericP		data;
+	void *		data;
     } s;
     ErrorP			error;
 } ErrorDataT, *ErrorDataP;
@@ -526,13 +526,13 @@ extern void		error_init(CStringP, ErrorInitProcP);
 extern void		error_call_init_proc(void);
 extern ETagP		error_define_tag(CStringP);
 extern ErrorP		error_define_error(CStringP, ESeverityT, CStringP,
-					   GenericP);
+					   void *);
 extern void		error_intern_tags(ETagDataP);
 extern void		error_intern_errors(ErrorDataP);
 extern ErrorStatusT	error_redefine_error(CStringP, CStringP);
 extern ErrorP		error_lookup_error(CStringP);
-extern GenericP		error_data(ErrorP);
-extern void		error_report(ErrorP, ErrorProcP, GenericP);
+extern void *		error_data(ErrorP);
+extern void		error_report(ErrorP, ErrorProcP, void *);
 extern void		error_set_min_report_severity(ESeverityT);
 extern ESeverityT	error_get_min_report_severity(void);
 extern ESeverityT	error_max_reported_severity(void);
@@ -550,7 +550,7 @@ extern void		write_error_file(OStreamP);
 
 #define ERROR_END_TAG_LIST UB NIL(CStringP)UE
 #define ERROR_END_ERROR_LIST \
-UB {NIL(CStringP), (ESeverityT)0, NIL(CStringP), NIL(GenericP)} UE
+UB {NIL(CStringP), (ESeverityT)0, NIL(CStringP), NIL(void *)} UE
 #define ERROR_END_STRING_LIST UB {NIL(CStringP), NIL(CStringP)} UE
 
 #endif /* !defined (H_ERROR) */

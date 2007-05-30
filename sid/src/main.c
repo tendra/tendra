@@ -191,10 +191,10 @@ typedef struct PhaseListT {
 
 typedef struct LangListT {
     CStringP			language;
-    GenericP		     (*init_proc)(OutputInfoP, CStringListP);
-    void		     (*input_proc)(GenericP, GrammarP);
+    void *		     (*init_proc)(OutputInfoP, CStringListP);
+    void		     (*input_proc)(void *, GrammarP);
     unsigned			num_input_files;
-    void		     (*output_proc)(GenericP, GrammarP);
+    void		     (*output_proc)(void *, GrammarP);
     unsigned			num_output_files;
 } LangListT, *LangListP;
 
@@ -212,7 +212,7 @@ main_handle_phase_all(BoolT enable)
 
 /*--------------------------------------------------------------------------*/
 
-static GenericP
+static void *
 main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 {
     COutputInfoP      c_out_info = ALLOCATE(COutputInfoT);
@@ -273,23 +273,23 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 	    E_bad_language_option(lang, option);
 	}
     }
-    return((GenericP)c_out_info);
+    return((void *)c_out_info);
 }
 
-static GenericP
+static void *
 main_init_ansi_c(OutputInfoP out_info, CStringListP options)
 {
     return(main_init_c(out_info, options, TRUE));
 }
 
-static GenericP
+static void *
 main_init_pre_ansi_c(OutputInfoP out_info, CStringListP options)
 {
     return(main_init_c(out_info, options, FALSE));
 }
 
 static void
-main_input_c(GenericP gclosure, GrammarP grammar)
+main_input_c(void * gclosure, GrammarP grammar)
 {
     COutputInfoP  c_out_info = (COutputInfoP)gclosure;
     OutputInfoP   out_info   = c_out_info_info(c_out_info);
@@ -309,7 +309,7 @@ main_input_c(GenericP gclosure, GrammarP grammar)
 }
 
 static void
-main_output_c(GenericP gclosure, GrammarP grammar)
+main_output_c(void * gclosure, GrammarP grammar)
 {
     COutputInfoP c_out_info = (COutputInfoP)gclosure;
 
@@ -320,7 +320,7 @@ main_output_c(GenericP gclosure, GrammarP grammar)
     c_output_header(c_out_info, grammar);
 }
 
-static GenericP
+static void *
 main_init_test(OutputInfoP info, CStringListP options)
 {
     CStringListEntryP entry;
@@ -332,18 +332,18 @@ main_init_test(OutputInfoP info, CStringListP options)
 
 	E_bad_language_option("test", option);
     }
-    return(NIL(GenericP));
+    return(NIL(void *));
 }
 
 static void
-main_input_test(GenericP gclosure, GrammarP grammar)
+main_input_test(void * gclosure, GrammarP grammar)
 {
     UNUSED(gclosure);
     UNUSED(grammar);
 }
 
 static void
-main_output_test(GenericP gclosure, GrammarP grammar)
+main_output_test(void * gclosure, GrammarP grammar)
 {
     UNUSED(gclosure);
     UNUSED(grammar);
@@ -376,9 +376,9 @@ static LangListT main_language_list[] = {
     {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"test", main_init_test, main_input_test, 1, main_output_test, 0},
-    {NIL(CStringP), NIL(GenericP(*)(OutputInfoP, CStringListP)),
-     NIL(void(*)(GenericP, GrammarP)), 0,
-     NIL(void(*)(GenericP, GrammarP)), 0}
+    {NIL(CStringP), NIL(void *(*)(OutputInfoP, CStringListP)),
+     NIL(void(*)(void *, GrammarP)), 0,
+     NIL(void(*)(void *, GrammarP)), 0}
 };
 
 static LangListP main_language = &(main_language_list[0]);
@@ -386,7 +386,7 @@ static LangListP main_language = &(main_language_list[0]);
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_dump_file(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_dump_file(CStringP option, ArgUsageP usage, void * gclosure,
 		      CStringP dump_file)
 {
     UNUSED(option);
@@ -403,7 +403,7 @@ main_handle_dump_file(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_help(CStringP option, ArgUsageP usage, GenericP gclosure)
+main_handle_help(CStringP option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(gclosure);
@@ -414,7 +414,7 @@ main_handle_help(CStringP option, ArgUsageP usage, GenericP gclosure)
 }
 
 static void
-main_handle_factor_limit(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_factor_limit(CStringP option, ArgUsageP usage, void * gclosure,
 			 CStringP limit_str)
 {
     unsigned limit;
@@ -431,7 +431,7 @@ main_handle_factor_limit(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_inlining(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_inlining(CStringP option, ArgUsageP usage, void * gclosure,
 		     CStringP inline_str)
 {
     UNUSED(option);
@@ -472,7 +472,7 @@ main_handle_inlining(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_language(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_language(CStringP option, ArgUsageP usage, void * gclosure,
 		     CStringP language_str)
 {
     LangListP entry;
@@ -492,7 +492,7 @@ main_handle_language(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_show_errors(CStringP option, ArgUsageP usage, GenericP gclosure)
+main_handle_show_errors(CStringP option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -503,7 +503,7 @@ main_handle_show_errors(CStringP option, ArgUsageP usage, GenericP gclosure)
 }
 
 static void
-main_handle_switch(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_switch(CStringP option, ArgUsageP usage, void * gclosure,
 		   CStringP opt)
 {
     UNUSED(option);
@@ -514,7 +514,7 @@ main_handle_switch(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_tab_width(CStringP option, ArgUsageP usage, GenericP gclosure,
+main_handle_tab_width(CStringP option, ArgUsageP usage, void * gclosure,
 		      CStringP width_str)
 {
     unsigned width;
@@ -531,7 +531,7 @@ main_handle_tab_width(CStringP option, ArgUsageP usage, GenericP gclosure,
 }
 
 static void
-main_handle_version(CStringP option, ArgUsageP usage, GenericP gclosure)
+main_handle_version(CStringP option, ArgUsageP usage, void * gclosure)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -588,39 +588,39 @@ static EStringDataT main_description_strings[] = {
 static ArgListT main_arglist[] = {
     {
 	"dump-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_dump_file,	NIL(GenericP),
+	(ArgProcP)main_handle_dump_file,	NIL(void *),
 	UB "description of dump-file" UE
     }, {
         "factor-limit", 'f',			AT_FOLLOWING,
-	(ArgProcP)main_handle_factor_limit,	NIL(GenericP),
+	(ArgProcP)main_handle_factor_limit,	NIL(void *),
 	UB "description of factor-limit" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(GenericP),
+	(ArgProcP)main_handle_help,		NIL(void *),
 	UB "description of help" UE
     }, {
 	"inline", 'i',				AT_FOLLOWING,
-	(ArgProcP)main_handle_inlining,	NIL(GenericP),
+	(ArgProcP)main_handle_inlining,	NIL(void *),
 	UB "description of inlining" UE
     }, {
 	"language", 'l',			AT_FOLLOWING,
-	(ArgProcP)main_handle_language,	NIL(GenericP),
+	(ArgProcP)main_handle_language,	NIL(void *),
 	UB "description of language" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(void *),
 	UB "description of show-errors" UE
     }, {
 	"switch", 's',				AT_FOLLOWING,
-	(ArgProcP)main_handle_switch,		NIL(GenericP),
+	(ArgProcP)main_handle_switch,		NIL(void *),
 	UB "description of switch" UE
     }, {
 	"tab-width", 't',			AT_FOLLOWING,
-	(ArgProcP)main_handle_tab_width,	NIL(GenericP),
+	(ArgProcP)main_handle_tab_width,	NIL(void *),
 	UB "description of tab-width" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(GenericP),
+	(ArgProcP)main_handle_version,		NIL(void *),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -709,7 +709,7 @@ main_1(OutputInfoP out_info, OStreamP dstream)
 {
     LexerStreamT lstream;
     GrammarT     grammar;
-    GenericP     output_closure;
+    void *     output_closure;
 
     output_closure = (*(main_language->init_proc))(out_info,
 						   &main_language_options);

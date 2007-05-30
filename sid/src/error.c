@@ -195,7 +195,7 @@ error_parse_message(CStringP message)
 
 static void
 write_error_list(OStreamP ostream, ErrorListP error_list, ErrorP error,
-		 ErrorProcP proc, GenericP closure)
+		 ErrorProcP proc, void * closure)
 {
     while (error_list) {
 	switch (error_list->tag)EXHAUSTIVE {
@@ -386,7 +386,7 @@ error_define_tag(CStringP name)
 
 ErrorP
 error_define_error(CStringP name, ESeverityT severity, CStringP message,
-		   GenericP data)
+		   void * data)
 {
     ErrorListP error_list = error_parse_message(message);
     unsigned   hash       = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
@@ -474,18 +474,18 @@ error_lookup_error(CStringP name)
     }
 }
 
-GenericP
+void *
 error_data(ErrorP error)
 {
     return(error->data);
 }
 
 void
-error_report(ErrorP error, ErrorProcP proc, GenericP closure)
+error_report(ErrorP error, ErrorProcP proc, void * closure)
 {
     if ((error->severity) >= min_severity) {
 	write_error_list(ostream_error, error_prefix, error, NIL(ErrorProcP),
-			 NIL(GenericP));
+			 NIL(void *));
 	write_error_list(ostream_error, error->error_list, error, proc,
 			 closure);
 	write_newline(ostream_error);

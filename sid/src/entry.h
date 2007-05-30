@@ -173,8 +173,8 @@ extern struct TypeT    *entry_get_type(EntryP);
 extern EntryP		entry_get_non_local(EntryP);
 extern void		entry_set_mapping(EntryP, NStringP);
 extern NStringP		entry_get_mapping(EntryP);
-extern void		entry_iter(EntryP, BoolT, void(*)(EntryP, GenericP),
-				   GenericP);
+extern void		entry_iter(EntryP, BoolT, void(*)(EntryP, void *),
+				   void *);
 extern void		entry_not_traced(EntryP);
 extern BoolT		entry_is_traced(EntryP);
 

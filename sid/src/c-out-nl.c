@@ -157,7 +157,7 @@ c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
 }
 
 static void
-c_output_restore_non_locals_1(EntryP from, EntryP to, GenericP gclosure)
+c_output_restore_non_locals_1(EntryP from, EntryP to, void * gclosure)
 {
     NonLocalClosureP closure = (NonLocalClosureP)gclosure;
     COutputInfoP     info    = closure->info;
@@ -266,7 +266,7 @@ c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
     closure.indent = indent;
     rstack_apply_for_non_locals(non_local_stack, rule_non_local_state(rule),
 				c_output_restore_non_locals_1,
-				(GenericP) &closure);
+				(void *) &closure);
 }
 
 /*

@@ -121,7 +121,7 @@ rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
 /*--------------------------------------------------------------------------*/
 
 void
-rule_recompute_alt_names(EntryP entry, GenericP gclosure)
+rule_recompute_alt_names(EntryP entry, void * gclosure)
 {
     if (entry_is_rule(entry)) {
 	RuleP  rule         = entry_get_rule(entry);

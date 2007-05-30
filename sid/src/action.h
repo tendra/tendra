@@ -96,7 +96,7 @@
 typedef struct ActionT {
     TypeTupleT			param;
     TypeTupleT			result;
-    GenericP			code;
+    void *			code;
 } ActionT, *ActionP;
 
 /*--------------------------------------------------------------------------*/
@@ -104,11 +104,11 @@ typedef struct ActionT {
 extern ActionP		action_create(void);
 extern TypeTupleP	action_param(ActionP);
 extern TypeTupleP	action_result(ActionP);
-extern GenericP		action_get_code(ActionP);
-extern void		action_set_code(ActionP, GenericP);
+extern void *		action_get_code(ActionP);
+extern void		action_set_code(ActionP, void *);
 extern void		action_iter_for_table(ActionP, BoolT,
-					      void(*)(EntryP, GenericP),
-					      GenericP);
+					      void(*)(EntryP, void *),
+					      void *);
 
 #endif /* !defined (H_ACTION) */
 

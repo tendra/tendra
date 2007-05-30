@@ -110,8 +110,8 @@ extern void		non_local_list_init(NonLocalListP);
 extern NonLocalEntryP	non_local_list_add(NonLocalListP, EntryP, EntryP);
 extern BoolT		non_local_list_is_empty(NonLocalListP);
 extern void		non_local_list_iter_for_table(NonLocalListP,
-						      void(*)(EntryP, GenericP),
-						      GenericP);
+						      void(*)(EntryP, void *),
+						      void *);
 extern void		non_local_list_destroy(NonLocalListP);
 
 extern void		write_non_locals(OStreamP, NonLocalListP);

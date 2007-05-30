@@ -115,8 +115,8 @@ non_local_list_is_empty(NonLocalListP non_locals)
 
 void
 non_local_list_iter_for_table(NonLocalListP non_locals,
-			      void (*proc)(EntryP, GenericP),
-			      GenericP closure)
+			      void (*proc)(EntryP, void *),
+			      void * closure)
 {
     NonLocalEntryP non_local;
 

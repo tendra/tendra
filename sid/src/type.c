@@ -91,48 +91,48 @@ type_create(void)
 {
     TypeP type = ALLOCATE(TypeT);
 
-    type->assign_code        = NIL(GenericP);
-    type->param_assign_code  = NIL(GenericP);
-    type->result_assign_code = NIL(GenericP);
+    type->assign_code        = NIL(void *);
+    type->param_assign_code  = NIL(void *);
+    type->result_assign_code = NIL(void *);
     return(type);
 }
 
-GenericP
+void *
 type_get_assign_code(TypeP type)
 {
     return(type->assign_code);
 }
 
 void
-type_set_assign_code(TypeP type, GenericP code)
+type_set_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->assign_code == NIL(GenericP));
+    ASSERT(type->assign_code == NIL(void *));
     type->assign_code = code;
 }
 
-GenericP
+void *
 type_get_param_assign_code(TypeP type)
 {
     return(type->param_assign_code);
 }
 
 void
-type_set_param_assign_code(TypeP type, GenericP code)
+type_set_param_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->param_assign_code == NIL(GenericP));
+    ASSERT(type->param_assign_code == NIL(void *));
     type->param_assign_code = code;
 }
 
-GenericP
+void *
 type_get_result_assign_code(TypeP type)
 {
     return(type->result_assign_code);
 }
 
 void
-type_set_result_assign_code(TypeP type, GenericP code)
+type_set_result_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->result_assign_code == NIL(GenericP));
+    ASSERT(type->result_assign_code == NIL(void *));
     type->result_assign_code = code;
 }
 

@@ -413,7 +413,7 @@ rule_compute_alt_first_sets_1(RuleP rule)
 /*--------------------------------------------------------------------------*/
 
 void
-rule_check_first_set(EntryP entry, GenericP gclosure)
+rule_check_first_set(EntryP entry, void * gclosure)
 {
     GrammarP grammar = (GrammarP)gclosure;
 
@@ -425,7 +425,7 @@ rule_check_first_set(EntryP entry, GenericP gclosure)
 }
 
 void
-rule_compute_follow_set(EntryP entry, GenericP gclosure)
+rule_compute_follow_set(EntryP entry, void * gclosure)
 {
     GrammarP grammar = (GrammarP)gclosure;
 
@@ -444,7 +444,7 @@ rule_compute_follow_set(EntryP entry, GenericP gclosure)
 }
 
 void
-rule_compute_see_through_alt(EntryP entry, GenericP gclosure)
+rule_compute_see_through_alt(EntryP entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
@@ -455,7 +455,7 @@ rule_compute_see_through_alt(EntryP entry, GenericP gclosure)
 }
 
 void
-rule_compute_alt_first_sets(EntryP entry, GenericP gclosure)
+rule_compute_alt_first_sets(EntryP entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {

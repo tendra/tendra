@@ -166,7 +166,7 @@
  * or '+' it should be a long option; otherwise it should be a short option.
  *
  ** Type:	ArgProcP
- ** Repr:	void (*) (CStringP, ArgUsageP, GenericP, ...)
+ ** Repr:	void (*) (CStringP, ArgUsageP, void *, ...)
  *
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
@@ -194,7 +194,7 @@
  *	static ArgListT arg_list [] = {
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
- *		NIL (GenericP),
+ *		NIL (void *),
  *		UB "option description name" UE
  *	    }, ARG_PARSE_END_LIST
  *	};
@@ -306,14 +306,14 @@ typedef struct ArgUsageT {
     struct ArgListT	       *arg_list;
 } ArgUsageT, *ArgUsageP;
 
-typedef void(*ArgProcP)(CStringP, ArgUsageP, GenericP, ...);
+typedef void(*ArgProcP)(CStringP, ArgUsageP, void *, ...);
 
 typedef struct ArgListT {
     CStringP			name;
     char			short_name;
     ArgTypeT			type;
     ArgProcP			proc;
-    GenericP			closure;
+    void *			closure;
     UNION {
 	CStringP		name;
 	EStringP		message;
@@ -329,7 +329,7 @@ extern void		write_arg_usage(OStreamP, ArgUsageP);
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL(CStringP), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(GenericP), \
+{NIL(CStringP), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(void *), \
  UB NIL(CStringP)UE}
 
 #endif /* !defined (H_ARG_PARSE) */

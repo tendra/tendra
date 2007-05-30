@@ -314,7 +314,7 @@ code: () -> (c) = @{
 
 	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_assign_code (type, (GenericP) @code);
+	    type_set_assign_code (type, (void *) @code);
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -374,7 +374,7 @@ code: () -> (c) = @{
 
 	    c_code_check (@code, FALSE, TRUE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_param_assign_code (type, (GenericP) @code);
+	    type_set_param_assign_code (type, (void *) @code);
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -434,7 +434,7 @@ code: () -> (c) = @{
 
 	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_result_assign_code (type, (GenericP) @code);
+	    type_set_result_assign_code (type, (void *) @code);
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -499,7 +499,7 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP),
 			  &c_current_type, c_current_table);
-	    basic_set_result_code (basic, (GenericP) @code);
+	    basic_set_result_code (basic, (void *) @code);
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -562,7 +562,7 @@ code: () -> (c) = @{
 	    c_code_check (@code, TRUE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
 	    types_propogate_mutations (param, &c_saved_type);
-	    action_set_code (action, (GenericP) @code);
+	    action_set_code (action, (void *) @code);
 	}
     } else {
 	types_destroy (&c_saved_type);

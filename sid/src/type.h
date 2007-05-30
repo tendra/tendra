@@ -92,20 +92,20 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct TypeT {
-    GenericP			assign_code;
-    GenericP			param_assign_code;
-    GenericP			result_assign_code;
+    void *			assign_code;
+    void *			param_assign_code;
+    void *			result_assign_code;
 } TypeT, *TypeP;
 
 /*--------------------------------------------------------------------------*/
 
 extern TypeP		type_create(void);
-extern GenericP		type_get_assign_code(TypeP);
-extern void		type_set_assign_code(TypeP, GenericP);
-extern GenericP		type_get_param_assign_code(TypeP);
-extern void		type_set_param_assign_code(TypeP, GenericP);
-extern GenericP		type_get_result_assign_code(TypeP);
-extern void		type_set_result_assign_code(TypeP, GenericP);
+extern void *		type_get_assign_code(TypeP);
+extern void		type_set_assign_code(TypeP, void *);
+extern void *		type_get_param_assign_code(TypeP);
+extern void		type_set_param_assign_code(TypeP, void *);
+extern void *		type_get_result_assign_code(TypeP);
+extern void		type_set_result_assign_code(TypeP, void *);
 
 /*--------------------------------------------------------------------------*/
 

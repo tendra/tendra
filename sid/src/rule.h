@@ -250,7 +250,7 @@ extern void		rule_reinit_reverse_list(RuleP);
 extern EntryListP	rule_reverse_list(RuleP);
 extern void		rule_set_dfs_state(RuleP, DFSStateT);
 extern RuleP		rule_next_in_root_list(RuleP);
-extern void		rule_build_root_list(EntryP, GenericP);
+extern void		rule_build_root_list(EntryP, void *);
 extern RuleP		rule_get_next_in_dfs(RuleP);
 extern void		rule_compute_dfs(RuleP, CycleTypeT, RuleP *);
 extern RuleP		rule_get_next_in_reverse_dfs(RuleP);
@@ -315,8 +315,8 @@ extern void		rule_set_handler(RuleP, AltP);
 extern AltP		rule_alt_head(RuleP);
 extern void		rule_renumber(RuleP, BoolT, EntryP);
 extern void		rule_iter_for_table(RuleP, BoolT,
-					    void(*)(EntryP, GenericP),
-					    GenericP);
+					    void(*)(EntryP, void *),
+					    void *);
 extern void		rule_deallocate(RuleP);
 
 extern void		write_rule_lhs(OStreamP, RuleP);
@@ -328,41 +328,41 @@ extern void		rule_list_terminate(RuleListP);
 extern RuleP		rule_list_head(RuleListP);
 
 /* Defined in "rule-check.c": */
-extern void		rule_check_first_set(EntryP, GenericP);
-extern void		rule_compute_follow_set(EntryP, GenericP);
-extern void		rule_compute_see_through_alt(EntryP, GenericP);
-extern void		rule_compute_alt_first_sets(EntryP, GenericP);
+extern void		rule_check_first_set(EntryP, void *);
+extern void		rule_compute_follow_set(EntryP, void *);
+extern void		rule_compute_see_through_alt(EntryP, void *);
+extern void		rule_compute_alt_first_sets(EntryP, void *);
 
 extern void		write_clashes(OStreamP, ClashListP);
 
 /* Defined in "rule-error.c": */
-extern void		rule_compute_error_list(EntryP, GenericP);
+extern void		rule_compute_error_list(EntryP, void *);
 
 /* Defined in "rule-factor.c": */
-extern void		rule_factor(EntryP, GenericP);
+extern void		rule_factor(EntryP, void *);
 extern void		rule_set_factor_limit(unsigned);
 
 /* Defined in "rule-firsts.c": */
 extern void		rule_compute_first_set_1(RuleP);
-extern void		rule_compute_first_set(EntryP, GenericP);
+extern void		rule_compute_first_set(EntryP, void *);
 
 /* Defined in "rule-lre.c": */
 extern void		rule_remove_left_cycle(RuleP, EntryP, TableP);
 
 /* Defined in "rule-mutate.c": */
-extern void		rule_compute_mutations(EntryP, GenericP);
+extern void		rule_compute_mutations(EntryP, void *);
 
 /* Defined in "rule-name.c": */
-extern void		rule_recompute_alt_names(EntryP, GenericP);
+extern void		rule_recompute_alt_names(EntryP, void *);
 
 /* Defined in "rule-simp.c": */
 extern void		rule_remove_duplicates(TableP, EntryP);
 
 /* Defined in "rule-tail.c": */
 extern void		rule_handle_tails(RuleP);
-extern void		rule_compute_all_basics(EntryP, GenericP);
-extern void		rule_compute_inlining(EntryP, GenericP);
-extern void		rule_compute_needed_functions(EntryP, GenericP);
+extern void		rule_compute_all_basics(EntryP, void *);
+extern void		rule_compute_inlining(EntryP, void *);
+extern void		rule_compute_needed_functions(EntryP, void *);
 extern void		rule_handle_need_functions(RuleP);
 extern BoolT		rule_get_inline_tail_calls(void);
 extern void		rule_set_inline_tail_calls(BoolT);

@@ -412,7 +412,7 @@ ZR119(void)
 
 	    c_code_check ((ZI123), FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_assign_code (type, (GenericP) (ZI123));
+	    type_set_assign_code (type, (void *) (ZI123));
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -609,7 +609,7 @@ ZR148(void)
 	    c_code_check ((ZI123), TRUE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
 	    types_propogate_mutations (param, &c_saved_type);
-	    action_set_code (action, (GenericP) (ZI123));
+	    action_set_code (action, (void *) (ZI123));
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -920,7 +920,7 @@ ZR127(void)
 
 	    c_code_check ((ZI123), FALSE, TRUE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_param_assign_code (type, (GenericP) (ZI123));
+	    type_set_param_assign_code (type, (void *) (ZI123));
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -1723,7 +1723,7 @@ ZR134(void)
 
 	    c_code_check ((ZI123), FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
-	    type_set_result_assign_code (type, (GenericP) (ZI123));
+	    type_set_result_assign_code (type, (void *) (ZI123));
 	}
     } else {
 	types_destroy (&c_saved_type);
@@ -2069,7 +2069,7 @@ ZR141(void)
 	    types_destroy (&c_saved_type);
 	    c_code_check ((ZI123), FALSE, FALSE, NIL (TypeTupleP),
 			  &c_current_type, c_current_table);
-	    basic_set_result_code (basic, (GenericP) (ZI123));
+	    basic_set_result_code (basic, (void *) (ZI123));
 	}
     } else {
 	types_destroy (&c_saved_type);

@@ -247,7 +247,7 @@
  * ostream.
  *
  ** Function:	void			write_pointer
- *			(OStreamP ostream, GenericP pointer);
+ *			(OStreamP ostream, void * pointer);
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a string containing the address of the object pointed
@@ -327,6 +327,6 @@ extern void		write_bytes(OStreamP, ByteP, unsigned);
 extern void		write_chars(OStreamP, CStringP, unsigned);
 extern void		write_escaped_chars(OStreamP, CStringP, unsigned);
 extern void		write_system_error(OStreamP);
-extern void		write_pointer(OStreamP, GenericP);
+extern void		write_pointer(OStreamP, void *);
 
 #endif /* !defined (H_OSTREAM) */

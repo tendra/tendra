@@ -90,14 +90,14 @@ static SizeT dalloc_data_size = ALIGN(sizeof(DallocDataT));
 
 /*--------------------------------------------------------------------------*/
 
-GenericP
+void *
 X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 {
-    GenericP tmp;
+    void * tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(GenericP);
+	tmp = NIL(void *);
     } else {
 	SizeT        real_size = (((size) * length) + dalloc_data_size);
 	vm_address_t address;
@@ -121,7 +121,7 @@ X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
+X__dalloc_deallocate(void * ptr, CStringP file, unsigned line)
 {
     if (ptr) {
 	ByteP         pointer = (ByteP) ptr;
@@ -145,20 +145,20 @@ X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 {
-    GenericP tmp;
+    void * tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(GenericP);
+	tmp = NIL(void *);
     } else {
 	SizeT       real_size = ((size * length) + dalloc_data_size);
 	ByteP       base;
 	DallocDataP data;
 
-	if ((tmp = malloc(real_size)) == NIL(GenericP)) {
+	if ((tmp = malloc(real_size)) == NIL(void *)) {
 	    THROW(XX_dalloc_no_memory);
 	    UNREACHED;
 	}
@@ -174,7 +174,7 @@ X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
+X__dalloc_deallocate(void * ptr, CStringP file, unsigned line)
 {
     if (ptr) {
 	ByteP       pointer = (ByteP) ptr;
@@ -188,7 +188,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 	    UNREACHED;
 	}
 	data->magic = 0;
-	free ((GenericP) data);
+	free ((void *) data);
     }
 }
 
@@ -196,15 +196,15 @@ X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(SizeT size, SizeT length)
 {
-    GenericP tmp;
+    void * tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(GenericP);
-    } else if ((tmp = calloc(length, size)) == NIL(GenericP)) {
+	tmp = NIL(void *);
+    } else if ((tmp = calloc(length, size)) == NIL(void *)) {
 	THROW(XX_dalloc_no_memory);
 	UNREACHED;
     }

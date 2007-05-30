@@ -340,7 +340,7 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 	}
     }
     if (result) {
-	types_check_used(result, E_code_undefined_result, (GenericP)code);
+	types_check_used(result, E_code_undefined_result, (void *)code);
 	for (item = code->head; item; item = item->next) {
 	    if (item->type == CCT_IDENT) {
 		name_not_used(entry_get_name(item->u.ident));

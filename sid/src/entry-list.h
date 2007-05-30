@@ -120,10 +120,10 @@ extern void	entry_list_append(EntryListP, EntryListP);
 extern BoolT	entry_list_is_empty(EntryListP);
 extern void	entry_list_save_state(EntryListP, SaveListP);
 extern void	entry_list_restore_state(EntryListP, SaveListP);
-extern void	entry_list_iter(EntryListP, void(*)(EntryP, GenericP),
-				GenericP);
+extern void	entry_list_iter(EntryListP, void(*)(EntryP, void *),
+				void *);
 extern void	entry_list_iter_table(EntryListP, BoolT,
-				      void(*)(EntryP, GenericP), GenericP);
+				      void(*)(EntryP, void *), void *);
 extern void	entry_list_destroy(EntryListP);
 
 extern void	write_entry_list(OStreamP, EntryListP);

@@ -119,7 +119,7 @@ cstring_duplicate_prefix(CStringP cstring, unsigned prefix)
     } else {
 	CStringP tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
-	(void)memcpy((GenericP)tmp, (GenericP)cstring, (SizeT)prefix);
+	(void)memcpy((void *)tmp, (void *)cstring, (SizeT)prefix);
 	tmp[prefix] = '\0';
 	return(tmp);
     }

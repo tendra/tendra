@@ -317,7 +317,7 @@ write_bytes(OStreamP ostream, ByteP bytes, unsigned length)
 	    ostream->line++;
 	}
     }
-    (void)fwrite((GenericP)bytes, sizeof(ByteT), (SizeT)length,
+    (void)fwrite((void *)bytes, sizeof(ByteT), (SizeT)length,
 		 ostream->file);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
@@ -361,7 +361,7 @@ write_system_error(OStreamP ostream)
 }
 
 void
-write_pointer(OStreamP ostream, GenericP pointer)
+write_pointer(OStreamP ostream, void * pointer)
 {
     (void)fprintf(ostream->file, "%p", pointer);
     OSTREAM_WRITE_ERROR_CHECK(ostream);

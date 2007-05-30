@@ -122,7 +122,7 @@ extern struct EntryT	*rstack_get_translation(SaveRStackP, struct EntryT *,
 extern void		 rstack_apply_for_non_locals(RStackP, SaveRStackP,
 						     void(*)(struct EntryT *,
 						     struct EntryT *,
-						     GenericP), GenericP);
+						     void *), void *);
 extern void		 rstack_pop_frame(RStackP);
 extern void		 rstack_destroy(RStackP);
 
