@@ -89,6 +89,8 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "cstring.h"
 #include "syntax.h"
 
@@ -134,29 +136,17 @@ cstring_hash_value(CStringP cstring)
     return(value);
 }
 
-#ifdef FS_FAST
-#undef cstring_length
-#endif /* defined (FS_FAST) */
 unsigned
 cstring_length(CStringP cstring)
 {
     return((unsigned)strlen(cstring));
 }
-#ifdef FS_FAST
-#define cstring_length(s)	((unsigned)strlen(s))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef cstring_equal
-#endif /* defined (FS_FAST) */
 BoolT
 cstring_equal(CStringP cstring1, CStringP cstring2)
 {
     return(strcmp(cstring1, cstring2) == 0);
 }
-#ifdef FS_FAST
-#define cstring_equal(s1, s2)	(strcmp((s1), (s2)) == 0)
-#endif /* defined (FS_FAST) */
 
 BoolT
 cstring_ci_equal(CStringP cstring1, CStringP cstring2)
@@ -199,41 +189,23 @@ cstring_starts(CStringP cstring, CStringP s)
     return(strncmp(cstring, s, strlen(s)) == 0);
 }
 
-#ifdef FS_FAST
-#undef cstring_contains
-#endif /* defined (FS_FAST) */
 BoolT
 cstring_contains(CStringP cstring, char c)
 {
     return(strchr(cstring, c) != NIL(CStringP));
 }
-#ifdef FS_FAST
-#define cstring_contains(s, c)	(strchr((s), (c)) != NIL(CStringP))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef cstring_find
-#endif /* defined (FS_FAST) */
 CStringP
 cstring_find(CStringP cstring, char c)
 {
     return(strchr(cstring, c));
 }
-#ifdef FS_FAST
-#define cstring_find(s, c)	(strchr((s), (c)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef cstring_find_reverse
-#endif /* defined (FS_FAST) */
 CStringP
 cstring_find_reverse(CStringP cstring, char c)
 {
     return(strrchr(cstring, c));
 }
-#ifdef FS_FAST
-#define cstring_find_reverse(s, c)	(strrchr((s), (c)))
-#endif /* defined (FS_FAST) */
 
 CStringP
 cstring_find_basename(CStringP cstring)

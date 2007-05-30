@@ -352,14 +352,6 @@ extern CStringP		dstring_to_cstring(DStringP);
 extern CStringP		dstring_destroy_to_cstring(DStringP);
 extern void		dstring_destroy(DStringP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define nstring_length(s)	((s)->length)
-#define nstring_contents(s)	((s)->contents)
-#define dstring_length(s)	((s)->length)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_DSTRING) */
 
 /*

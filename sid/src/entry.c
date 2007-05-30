@@ -92,17 +92,11 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_FAST
-#undef entry_traced
-#endif /* defined (FS_FAST) */
 static void
 entry_traced(EntryP entry)
 {
     entry->traced = TRUE;
 }
-#ifdef FS_FAST
-#define entry_traced(e)	((e)->traced = TRUE)
-#endif /* defined (FS_FAST) */
 
 /*--------------------------------------------------------------------------*/
 
@@ -137,267 +131,141 @@ entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced,
     return(entry);
 }
 
-#ifdef FS_FAST
-#undef entry_set_basic
-#endif /* defined (FS_FAST) */
 void
 entry_set_basic(EntryP entry, BasicP basic)
 {
     ASSERT(entry_is_basic(entry));
     entry->u.basic = basic;
 }
-#ifdef FS_FAST
-#define entry_set_basic(e, b)	((e)->u.basic = (b))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_set_rule
-#endif /* defined (FS_FAST) */
 void
 entry_set_rule(EntryP entry, RuleP rule)
 {
     ASSERT(entry_is_rule(entry));
     entry->u.rule = rule;
 }
-#ifdef FS_FAST
-#define entry_set_rule(e, r)	((e)->u.rule = (r))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_set_action
-#endif /* defined (FS_FAST) */
 void
 entry_set_action(EntryP entry, ActionP action)
 {
     ASSERT(entry_is_action(entry));
     entry->u.action = action;
 }
-#ifdef FS_FAST
-#define entry_set_action(e, a)	((e)->u.action = (a))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_set_type
-#endif /* defined (FS_FAST) */
 void
 entry_set_type(EntryP entry, TypeP type)
 {
     ASSERT(entry_is_type(entry));
     entry->u.type = type;
 }
-#ifdef FS_FAST
-#define entry_set_type(e, t)	((e)->u.type = (t))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_set_non_local
-#endif /* defined (FS_FAST) */
 void
 entry_set_non_local(EntryP entry, EntryP type)
 {
     ASSERT(entry_is_non_local(entry));
     entry->u.non_local = type;
 }
-#ifdef FS_FAST
-#define entry_set_non_local(e, t)	((e)->u.non_local = (t))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_next
-#endif /* defined (FS_FAST) */
 EntryP
 entry_next(EntryP entry)
 {
     return(entry->next);
 }
-#ifdef FS_FAST
-#define entry_next(e)	((e)->next)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_next_ref
-#endif /* defined (FS_FAST) */
 EntryP *
 entry_next_ref(EntryP entry)
 {
     return(&(entry->next));
 }
-#ifdef FS_FAST
-#define entry_next_ref(e)	(&((e)->next))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_key
-#endif /* defined (FS_FAST) */
 KeyP
 entry_key(EntryP entry)
 {
     return(&(entry->key));
 }
-#ifdef FS_FAST
-#define entry_key(e)	(&((e)->key))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_type
-#endif /* defined (FS_FAST) */
 EntryTypeT
 entry_type(EntryP entry)
 {
     return(entry->type);
 }
-#ifdef FS_FAST
-#define entry_type(e)	((e)->type)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_change_type
-#endif /* defined (FS_FAST) */
 void
 entry_change_type(EntryP entry, EntryTypeT type)
 {
     entry->type = type;
 }
-#ifdef FS_FAST
-#define entry_change_type(e, t)	((e)->type = (t))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_basic
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_basic(EntryP entry)
 {
     return(entry->type == ET_BASIC);
 }
-#ifdef FS_FAST
-#define entry_is_basic(e)	((e)->type == ET_BASIC)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_action
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_action(EntryP entry)
 {
     return(entry->type == ET_ACTION);
 }
-#ifdef FS_FAST
-#define entry_is_action(e)	((e)->type == ET_ACTION)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_rule
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_rule(EntryP entry)
 {
     return(entry->type == ET_RULE);
 }
-#ifdef FS_FAST
-#define entry_is_rule(e)	((e)->type == ET_RULE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_type
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_type(EntryP entry)
 {
     return(entry->type == ET_TYPE);
 }
-#ifdef FS_FAST
-#define entry_is_type(e)	((e)->type == ET_TYPE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_non_local
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_non_local(EntryP entry)
 {
     return(entry->type == ET_NON_LOCAL);
 }
-#ifdef FS_FAST
-#define entry_is_non_local(e)	((e)->type == ET_NON_LOCAL)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_basic
-#endif /* defined (FS_FAST) */
 BasicP
 entry_get_basic(EntryP entry)
 {
     ASSERT(entry_is_basic(entry));
     return(entry->u.basic);
 }
-#ifdef FS_FAST
-#define entry_get_basic(e)	((e)->u.basic)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_action
-#endif /* defined (FS_FAST) */
 ActionP
 entry_get_action(EntryP entry)
 {
     ASSERT(entry_is_action(entry));
     return(entry->u.action);
 }
-#ifdef FS_FAST
-#define entry_get_action(e)	((e)->u.action)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_rule
-#endif /* defined (FS_FAST) */
 RuleP
 entry_get_rule(EntryP entry)
 {
     ASSERT(entry_is_rule(entry));
     return(entry->u.rule);
 }
-#ifdef FS_FAST
-#define entry_get_rule(e)	((e)->u.rule)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_name
-#endif /* defined (FS_FAST) */
 NameP
 entry_get_name(EntryP entry)
 {
     return(entry->name);
 }
-#ifdef FS_FAST
-#define entry_get_name(e)	((e)->name)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_type
-#endif /* defined (FS_FAST) */
 TypeP
 entry_get_type(EntryP entry)
 {
     ASSERT(entry_is_type(entry));
     return(entry->u.type);
 }
-#ifdef FS_FAST
-#define entry_get_type(e)	((e)->u.type)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_get_non_local
-#endif /* defined (FS_FAST) */
 EntryP
 entry_get_non_local(EntryP entry)
 {
     ASSERT(entry_is_non_local(entry));
     return(entry->u.non_local);
 }
-#ifdef FS_FAST
-#define entry_get_non_local(e)	((e)->u.non_local)
-#endif /* defined (FS_FAST) */
 
 void
 entry_set_mapping(EntryP entry, NStringP mapping)
@@ -462,29 +330,17 @@ entry_iter(EntryP entry, BoolT full, void (*proc)(EntryP, GenericP),
     }
 }
 
-#ifdef FS_FAST
-#undef entry_not_traced
-#endif /* defined (FS_FAST) */
 void
 entry_not_traced(EntryP entry)
 {
     entry->traced = FALSE;
 }
-#ifdef FS_FAST
-#define entry_not_traced(e)	((e)->traced = FALSE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef entry_is_traced
-#endif /* defined (FS_FAST) */
 BoolT
 entry_is_traced(EntryP entry)
 {
     return(entry->traced);
 }
-#ifdef FS_FAST
-#define entry_is_traced(e)	((e)->traced)
-#endif /* defined (FS_FAST) */
 
 /*
  * Local variables(smf):

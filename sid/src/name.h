@@ -110,18 +110,6 @@ extern void		name_set_label(NameP, unsigned);
 extern void		name_reset_label(NameP);
 extern BoolT		name_has_label(NameP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define name_reset_clash(n)	((n)->clash = FALSE)
-#define name_is_used(n)		((n)->used)
-#define name_used(n)		((n)->used = TRUE)
-#define name_not_used(n)	((n)->used = FALSE)
-#define name_get_label(n)	((n)->label)
-#define name_reset_label(n)	((n)->labelled = FALSE)
-#define name_has_label(n)	((n)->labelled)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_NAME) */
 
 /*

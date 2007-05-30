@@ -162,6 +162,8 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "grammar.h"
 #include "action.h"
 #include "basic.h"
@@ -302,41 +304,23 @@ grammar_init(GrammarP grammar)
     grammar->predicate_id   = table_add_generated_name(table);
 }
 
-#ifdef FS_FAST
-#undef grammar_table
-#endif /* defined (FS_FAST) */
 TableP
 grammar_table(GrammarP grammar)
 {
     return(&(grammar->table));
 }
-#ifdef FS_FAST
-#define grammar_table(g)	(&((g)->table))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef grammar_entry_list
-#endif /* defined (FS_FAST) */
 EntryListP
 grammar_entry_list(GrammarP grammar)
 {
     return(&(grammar->entry_list));
 }
-#ifdef FS_FAST
-#define grammar_entry_list(g)	(&((g)->entry_list))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef grammar_max_terminal
-#endif /* defined (FS_FAST) */
 unsigned
 grammar_max_terminal(GrammarP grammar)
 {
     return(grammar->terminal);
 }
-#ifdef FS_FAST
-#define grammar_max_terminal(g)	((g)->terminal)
-#endif /* defined (FS_FAST) */
 
 unsigned
 grammar_next_terminal(GrammarP grammar)
@@ -348,41 +332,23 @@ grammar_next_terminal(GrammarP grammar)
     return(grammar->terminal++);
 }
 
-#ifdef FS_FAST
-#undef grammar_get_predicate_type
-#endif /* defined (FS_FAST) */
 EntryP
 grammar_get_predicate_type(GrammarP grammar)
 {
     return(grammar->predicate_type);
 }
-#ifdef FS_FAST
-#define grammar_get_predicate_type(g)	((g)->predicate_type)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef grammar_set_predicate_type
-#endif /* defined (FS_FAST) */
 void
 grammar_set_predicate_type(GrammarP grammar, EntryP type)
 {
     grammar->predicate_type = type;
 }
-#ifdef FS_FAST
-#define grammar_set_predicate_type(g, t)	((g)->predicate_type = (t))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef grammar_get_predicate_id
-#endif /* defined (FS_FAST) */
 EntryP
 grammar_get_predicate_id(GrammarP grammar)
 {
     return(grammar->predicate_id);
 }
-#ifdef FS_FAST
-#define grammar_get_predicate_id(g)	((g)->predicate_id)
-#endif /* defined (FS_FAST) */
 
 void
 grammar_check_complete(GrammarP grammar)

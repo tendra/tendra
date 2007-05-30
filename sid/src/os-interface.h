@@ -51,21 +51,6 @@
  * should be defined if the ``__FILE__'' or ``__LINE__'' macros are
  * unsupported.
  *
- *	FS_FAST
- *
- * This should be defined if you want the program to use macros in place of
- * some function calls.  This will generally speed up the program (although
- * this is not guaranteed).  It is incompatible with ``FS_SHORTNAMES''.  It
- * also turns off the assertion checking (unless ``FS_ASSERT'' is also
- * defined).
- *
- *	FS_SHORTNAMES
- *
- * This is a hack for systems that cannot cope with long external identifier
- * names.  It includes the file "shortnames.h" which should macro define all
- * external identifiers to be a suitable short name.  It is incompatible with
- * ``FS_FAST''.
- *
  *	FS_ASSERT
  *
  * This should be defined if you want assertion checking enabled.  This is on
@@ -177,22 +162,6 @@
  * and ``EXIT_FAILUE''.  In an ANSI C compliant standard library, they are
  * defined in <stdlib.h>.  If the standard library is not ANSI compliant and
  * no value is provided, then ``0'' and ``1'' will be used.
- *
- *	PO_UINT_MAX
- *
- * This should be defined to be the maximum unsinged integer, and is used to
- * define ``UINT_MAX''.  In an ANSI C compliant standard library, this macro
- * is defined in <limits.h>. If the standard library is not ANSI compliant and
- * no value is provided, then ``(~(unsigned) 0)'' will be used.
- *
- *	PO_SEEK_SET
- *	PO_SEEK_CUR
- *	PO_SEEK_END
- *
- * These should be defined to be the values for ``SEEK_SET'', ``SEEK_CUR'' and
- * ``SEEK_END''.  In an ANSI C compliant standard library, they are defined in
- * <stdio.h>.  If the standard library is not ANSI compliant and no value is
- * provided, then ``0'', ``1'' and ``2'' will be used.
  *
  * This file also requires that one external function be provided:
  *
@@ -499,26 +468,6 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-# ifdef FS_NO_SHORTNAMES
-#  undef FS_SHORTNAMES
-# endif /* defined (FS_NO_SHORTNAMES) */
-# ifdef FS_NO_FAST
-#  undef FS_FAST
-# endif /* defined (FS_NO_FAST) */
-# ifdef FS_SHORTNAMES
-#  include "shortnames.h"
-#  ifdef FS_FAST
-#   include "fast-short.h"
-#   undef FS_FAST
-#  endif /* defined (FS_FAST) */
-# endif /* defined (FS_SHORTNAMES) */
-# ifndef FS_FAST
-#  define FS_ASSERT
-# endif /* !defined (FS_FAST) */
-# ifdef FS_NO_ASSERT
-#  undef FS_ASSERT
-# endif /* defined (FS_NO_ASSERT) */
-
 # ifndef FS_NO_STDC
 #  ifdef __STDC__
 #   define FS_STDC_HASH
@@ -763,38 +712,6 @@ extern CStringP		strerror(int);
 #   define EXIT_FAILURE (1)
 #  endif /* defined (PO_EXIT_FAILURE) */
 # endif /* !defined (EXIT_FAILURE) */
-
-# ifndef UINT_MAX
-#  ifdef PO_UINT_MAX
-#   define UINT_MAX PO_UINT_MAX
-#  else
-#   define UINT_MAX (~(unsigned) 0)
-#  endif /* defined (PO_UINT_MAX) */
-# endif /* !defined (UINT_MAX) */
-
-# ifndef SEEK_SET
-#  ifdef PO_SEEK_SET
-#   define SEEK_SET PO_SEEK_SET
-#  else
-#   define SEEK_SET (0)
-#  endif /* defined (PO_SEEK_SET) */
-# endif /* !defined (SEEK_SET) */
-
-# ifndef SEEK_CUR
-#  ifdef PO_SEEK_CUR
-#   define SEEK_CUR PO_SEEK_CUR
-#  else
-#   define SEEK_CUR (1)
-#  endif /* defined (PO_SEEK_CUR) */
-# endif /* !defined (SEEK_CUR) */
-
-# ifndef SEEK_END
-#  ifdef PO_SEEK_END
-#   define SEEK_END PO_SEEK_END
-#  else
-#   define SEEK_END (2)
-#  endif /* defined (PO_SEEK_END) */
-# endif /* !defined (SEEK_END) */
 
 # ifdef FS_SYS_ERRLIST
 extern int		sys_nerr;

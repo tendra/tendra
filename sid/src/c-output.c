@@ -137,10 +137,6 @@ c_output_indent(COutputInfoP info, unsigned indent)
 {
     output_indent(c_out_info_info(info), indent);
 }
-#ifdef FS_FAST
-#define c_output_indent(info, indent)\
-	output_indent(c_out_info_info(info), indent)
-#endif /* defined (FS_FAST) */
 
 static void
 c_output_identification(COutputInfoP info)

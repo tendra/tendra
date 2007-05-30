@@ -97,80 +97,44 @@ type_create(void)
     return(type);
 }
 
-#ifdef FS_FAST
-#undef type_get_assign_code
-#endif /* defined (FS_FAST) */
 GenericP
 type_get_assign_code(TypeP type)
 {
     return(type->assign_code);
 }
-#ifdef FS_FAST
-#define type_get_assign_code(t)	((t)->assign_code)
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef type_set_assign_code
-#endif /* defined (FS_FAST) */
 void
 type_set_assign_code(TypeP type, GenericP code)
 {
     ASSERT(type->assign_code == NIL(GenericP));
     type->assign_code = code;
 }
-#ifdef FS_FAST
-#define type_set_assign_code(t, c)	((t)->assign_code = (c))
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef type_get_param_assign_code
-#endif /* defined (FS_FAST) */
 GenericP
 type_get_param_assign_code(TypeP type)
 {
     return(type->param_assign_code);
 }
-#ifdef FS_FAST
-#define type_get_param_assign_code(t)	((t)->param_assign_code)
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef type_set_param_assign_code
-#endif /* defined (FS_FAST) */
 void
 type_set_param_assign_code(TypeP type, GenericP code)
 {
     ASSERT(type->param_assign_code == NIL(GenericP));
     type->param_assign_code = code;
 }
-#ifdef FS_FAST
-#define type_set_param_assign_code(t, c)	((t)->param_assign_code = (c))
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef type_get_result_assign_code
-#endif /* defined (FS_FAST) */
 GenericP
 type_get_result_assign_code(TypeP type)
 {
     return(type->result_assign_code);
 }
-#ifdef FS_FAST
-#define type_get_result_assign_code(t)	((t)->result_assign_code)
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef type_set_result_assign_code
-#endif /* defined (FS_FAST) */
 void
 type_set_result_assign_code(TypeP type, GenericP code)
 {
     ASSERT(type->result_assign_code == NIL(GenericP));
     type->result_assign_code = code;
 }
-#ifdef FS_FAST
-#define type_set_result_assign_code(t, c)	((t)->result_assign_code = (c))
-#endif /* defined(FS_FAST) */
 
 /*
  * Local variables(smf):

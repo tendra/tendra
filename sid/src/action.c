@@ -107,53 +107,30 @@ action_create(void)
     return(action);
 }
 
-#ifdef FS_FAST
-#undef action_param
-#endif /* defined (FS_FAST) */
+/* TODO some of these could become macros or inlined functions */
 TypeTupleP
 action_param(ActionP action)
 {
     return(&(action->param));
 }
-#ifdef FS_FAST
-#define action_param(a)	(&((a)->param))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef action_result
-#endif /* defined (FS_FAST) */
 TypeTupleP
 action_result(ActionP action)
 {
     return(&(action->result));
 }
-#ifdef FS_FAST
-#define action_result(a)	(&((a)->result))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef action_get_code
-#endif /* defined (FS_FAST) */
 GenericP
 action_get_code(ActionP action)
 {
     return(action->code);
 }
-#ifdef FS_FAST
-#define action_get_code(a)	((a)->code)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef action_set_code
-#endif /* defined (FS_FAST) */
 void
 action_set_code(ActionP action, GenericP code)
 {
     action->code = code;
 }
-#ifdef FS_FAST
-#define action_set_code(a, c)	((a)->code = (c))
-#endif /* defined (FS_FAST) */
 
 void
 action_iter_for_table(ActionP action, BoolT full,

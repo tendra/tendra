@@ -126,17 +126,11 @@ ostream_setup(void)
     ostream_error_1.file  = stderr;
 }
 
-#ifdef FS_FAST
-#undef ostream_init
-#endif /* defined (FS_FAST) */
 void
 ostream_init(OStreamP ostream)
 {
     ostream->name = NIL(CStringP);
 }
-#ifdef FS_FAST
-#define ostream_init(os)	((os)->name = NIL(CStringP))
-#endif /* defined (FS_FAST) */
 
 BoolT
 ostream_open(OStreamP ostream, CStringP name)
@@ -158,17 +152,11 @@ ostream_open(OStreamP ostream, CStringP name)
     return(TRUE);
 }
 
-#ifdef FS_FAST
-#undef ostream_is_open
-#endif /* defined (FS_FAST) */
 BoolT
 ostream_is_open(OStreamP ostream)
 {
     return(ostream->name != NIL(CStringP));
 }
-#ifdef FS_FAST
-#define ostream_is_open(os)	((os)->name != NIL(CStringP))
-#endif /* defined (FS_FAST) */
 
 void
 ostream_buffer(OStreamP ostream)
@@ -203,41 +191,23 @@ ostream_flush(OStreamP ostream)
     }
 }
 
-#ifdef FS_FAST
-#undef ostream_name
-#endif /* defined (FS_FAST) */
 CStringP
 ostream_name(OStreamP ostream)
 {
     return(ostream->name);
 }
-#ifdef FS_FAST
-#define ostream_name(os)	((os)->name)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef ostream_gen_name
-#endif /* defined (FS_FAST) */
 CStringP
 ostream_gen_name(OStreamP ostream)
 {
     return(ostream->gen_name);
 }
-#ifdef FS_FAST
-#define ostream_gen_name(os)	((os)->gen_name)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef ostream_line
-#endif /* defined (FS_FAST) */
 unsigned
 ostream_line(OStreamP ostream)
 {
     return(ostream->line);
 }
-#ifdef FS_FAST
-#define ostream_line(os)	((os)->line)
-#endif /* defined (FS_FAST) */
 
 void
 write_newline(OStreamP ostream)

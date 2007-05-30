@@ -85,6 +85,8 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "table.h"
 #include "action.h"
 #include "basic.h"

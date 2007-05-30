@@ -181,16 +181,6 @@ extern NStringP		lexer_string_value(LexerStreamP);
 extern void		lexer_save_terminal(LexerStreamP, LexerTokenT);
 extern void		lexer_restore_terminal(LexerStreamP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define lexer_close(s)		(istream_close(&((s)->istream)))
-#define lexer_stream_name(s)	(istream_name(&((s)->istream)))
-#define lexer_stream_line(s)	(istream_line(&((s)->istream)))
-#define lexer_get_terminal(s)	((s)->token.t)
-#define lexer_string_value(s)	(&((s)->token.u.string))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_LEXER) */
 
 /*

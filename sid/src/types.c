@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "types.h"
 #include "dalloc.h"
 #include "gen-errors.h"
@@ -478,17 +480,11 @@ types_equal(TypeTupleP tuple1, TypeTupleP tuple2)
 	   (tuple2_ptr == NIL(TypeTupleEntryP)));
 }
 
-#ifdef FS_FAST
-#undef types_equal_zero_tuple
-#endif /* defined (FS_FAST) */
 BoolT
 types_equal_zero_tuple(TypeTupleP tuple)
 {
     return(tuple->head == NIL(TypeTupleEntryP));
 }
-#ifdef FS_FAST
-#define types_equal_zero_tuple(t)	((t)->head == NIL(TypeTupleEntryP))
-#endif /* defined (FS_FAST) */
 
 BoolT
 types_equal_names(TypeTupleP tuple1,			   TypeTupleP tuple2)

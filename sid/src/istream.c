@@ -164,17 +164,11 @@ istream_setup(void)
     istream_input_1.file = stdin;
 }
 
-#ifdef FS_FAST
-#undef istream_init
-#endif /* defined (FS_FAST) */
 void
 istream_init(IStreamP istream)
 {
     istream->name = NIL(CStringP);
 }
-#ifdef FS_FAST
-#define istream_init(is)	((is)->name = NIL(CStringP))
-#endif /* defined (FS_FAST) */
 
 BoolT
 istream_open(IStreamP istream, CStringP name)
@@ -203,17 +197,11 @@ istream_assign(IStreamP to,			IStreamP from)
     to->read_last = from->read_last;
 }
 
-#ifdef FS_FAST
-#undef istream_is_open
-#endif /* defined (FS_FAST) */
 BoolT
 istream_is_open(IStreamP istream)
 {
     return(istream->name != NIL(CStringP));
 }
-#ifdef FS_FAST
-#define istream_is_open(is)	((is)->name != NIL(CStringP))
-#endif /* defined (FS_FAST) */
 
 BoolT
 istream_read_char(IStreamP istream, char *c_ref)
@@ -295,41 +283,23 @@ istream_read_escaped_char(IStreamP istream, char *c_ref)
     return(ISTREAM_STAT_SYNTAX_ERROR);
 }
 
-#ifdef FS_FAST
-#undef istream_inc_line
-#endif /* defined (FS_FAST) */
 void
 istream_inc_line(IStreamP istream)
 {
     istream->line++;
 }
-#ifdef FS_FAST
-#define istream_inc_line(is)	((is)->line++)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef istream_line
-#endif /* defined (FS_FAST) */
 unsigned
 istream_line(IStreamP istream)
 {
     return(istream->line);
 }
-#ifdef FS_FAST
-#define istream_line(is)	((is)->line)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef istream_name
-#endif /* defined (FS_FAST) */
 CStringP
 istream_name(IStreamP istream)
 {
     return(istream->name);
 }
-#ifdef FS_FAST
-#define istream_name(is)	((is)->name)
-#endif /* defined (FS_FAST) */
 
 void
 istream_close(IStreamP istream)

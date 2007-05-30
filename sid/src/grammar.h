@@ -124,17 +124,6 @@ extern void		grammar_compute_mutations(GrammarP);
 
 extern void		write_grammar(OStreamP, GrammarP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define grammar_table(g)			(&((g)->table))
-#define grammar_entry_list(g)			(&((g)->entry_list))
-#define grammar_max_terminal(g)			((g)->terminal)
-#define grammar_get_predicate_type(g)		((g)->predicate_type)
-#define grammar_set_predicate_type(g, t)	((g)->predicate_type = (t))
-#define grammar_get_predicate_id(g)		((g)->predicate_id)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_GRAMMAR) */
 
 /*

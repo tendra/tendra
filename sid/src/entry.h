@@ -178,32 +178,6 @@ extern void		entry_iter(EntryP, BoolT, void(*)(EntryP, GenericP),
 extern void		entry_not_traced(EntryP);
 extern BoolT		entry_is_traced(EntryP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define entry_set_basic(e, b)	((e)->u.basic = (b))
-#define entry_set_rule(e, r)	((e)->u.rule = (r))
-#define entry_set_action(e, a)	((e)->u.action = (a))
-#define entry_set_type(e, t)	((e)->u.type = (t))
-#define entry_next(e)		((e)->next)
-#define entry_next_ref(e)	(&((e)->next))
-#define entry_key(e)		(&((e)->key))
-#define entry_type(e)		((e)->type)
-#define entry_change_type(e, t)	((e)->type = (t))
-#define entry_is_basic(e)	((e)->type == ET_BASIC)
-#define entry_is_action(e)	((e)->type == ET_ACTION)
-#define entry_is_rule(e)	((e)->type == ET_RULE)
-#define entry_is_type(e)	((e)->type == ET_TYPE)
-#define entry_is_non_local(e)	((e)->type == ET_NON_LOCAL)
-#define entry_get_basic(e)	((e)->u.basic)
-#define entry_get_action(e)	((e)->u.action)
-#define entry_get_rule(e)	((e)->u.rule)
-#define entry_get_name(e)	((e)->name)
-#define entry_get_type(e)	((e)->u.type)
-#define entry_not_traced(e)	((e)->traced = FALSE)
-#define entry_is_traced(e)	((e)->traced)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_ENTRY) */
 
 /*

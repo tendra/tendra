@@ -110,65 +110,35 @@ basic_create(GrammarP grammar, BoolT ignored)
     return(basic);
 }
 
-#ifdef FS_FAST
-#undef basic_terminal
-#endif /* defined (FS_FAST) */
 unsigned
 basic_terminal(BasicP basic)
 {
     return(basic->terminal);
 }
-#ifdef FS_FAST
-#define basic_terminal(b)	((b)->terminal)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef basic_result
-#endif /* defined (FS_FAST) */
 TypeTupleP
 basic_result(BasicP basic)
 {
     return(&(basic->result));
 }
-#ifdef FS_FAST
-#define basic_result(b)	(&((b)->result))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef basic_get_result_code
-#endif /* defined (FS_FAST) */
 GenericP
 basic_get_result_code(BasicP basic)
 {
     return(basic->result_code);
 }
-#ifdef FS_FAST
-#define basic_get_result_code(b)	((b)->result_code)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef basic_set_result_code
-#endif /* defined (FS_FAST) */
 void
 basic_set_result_code(BasicP basic, GenericP code)
 {
     basic->result_code = code;
 }
-#ifdef FS_FAST
-#define basic_set_result_code(b, c)	((b)->result_code = (c))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef basic_get_ignored
-#endif /* defined (FS_FAST) */
 BoolT
 basic_get_ignored(BasicP basic)
 {
     return(basic->ignored);
 }
-#ifdef FS_FAST
-#define basic_get_ignored(b)	((b)->ignored)
-#endif /* defined (FS_FAST) */
 
 void
 basic_iter_for_table(BasicP basic, BoolT full,

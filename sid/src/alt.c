@@ -212,77 +212,41 @@ alt_equal(AltP alt1, AltP alt2)
     return(item1 == item2);
 }
 
-#ifdef FS_FAST
-#undef alt_next
-#endif /* defined (FS_FAST) */
 AltP
 alt_next(AltP alt)
 {
     return(alt->next);
 }
-#ifdef FS_FAST
-#define alt_next(a)	((a)->next)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef alt_next_ref
-#endif /* defined (FS_FAST) */
 AltP *
 alt_next_ref(AltP alt)
 {
     return(&(alt->next));
 }
-#ifdef FS_FAST
-#define alt_next_ref(a)	(&((a)->next))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef alt_set_next
-#endif /* defined (FS_FAST) */
 void
 alt_set_next(AltP alt1, AltP alt2)
 {
     alt1->next = alt2;
 }
-#ifdef FS_FAST
-#define alt_set_next(a1, a2)	((a1)->next = (a2))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef alt_names
-#endif /* defined (FS_FAST) */
 TypeTupleP
 alt_names(AltP alt)
 {
     return(&(alt->names));
 }
-#ifdef FS_FAST
-#define alt_names(a)	(&((a)->names))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef alt_first_set
-#endif /* defined (FS_FAST) */
 BitVecP
 alt_first_set(AltP alt)
 {
     return(&(alt->first_set));
 }
-#ifdef FS_FAST
-#define alt_first_set(a)	(&((a)->first_set))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef alt_item_head
-#endif /* defined (FS_FAST) */
 ItemP
 alt_item_head(AltP alt)
 {
     return(alt->item_head);
 }
-#ifdef FS_FAST
-#define alt_item_head(a)	((a)->item_head)
-#endif /* defined (FS_FAST) */
 
 ItemP
 alt_unlink_item_head(AltP alt)

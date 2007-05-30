@@ -178,17 +178,6 @@ extern CCodeP		c_lexer_code_value(CLexerStreamP);
 extern void		c_lexer_save_terminal(CLexerStreamP, CTokenT);
 extern void		c_lexer_restore_terminal(CLexerStreamP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define c_lexer_close(s)	(istream_close(&((s)->istream)))
-#define c_lexer_stream_name(s)	(istream_name(&((s)->istream)))
-#define c_lexer_stream_line(s)	(istream_line(&((s)->istream)))
-#define c_lexer_get_terminal(s)	((s)->token.t)
-#define c_lexer_string_value(s)	(&((s)->token.u.string))
-#define c_lexer_code_value(s)	((s)->token.u.code)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_C_LEXER) */
 
 /*

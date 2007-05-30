@@ -154,233 +154,119 @@ item_to_predicate(ItemP item)
     item->type = ET_PREDICATE;
 }
 
-#ifdef FS_FAST
-#undef item_next
-#endif /* defined (FS_FAST) */
 ItemP
 item_next(ItemP item)
 {
     return(item->next);
 }
-#ifdef FS_FAST
-#define item_next(i)	((i)->next)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_next_ref
-#endif /* defined (FS_FAST) */
 ItemP *
 item_next_ref(ItemP item)
 {
     return(&(item->next));
 }
-#ifdef FS_FAST
-#define item_next_ref(i)	(&((i)->next))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_set_next
-#endif /* defined (FS_FAST) */
 void
 item_set_next(ItemP item1, ItemP item2)
 {
     item1->next = item2;
 }
-#ifdef FS_FAST
-#define item_set_next(i1, i2)	((i1)->next = (i2))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_entry
-#endif /* defined (FS_FAST) */
 EntryP
 item_entry(ItemP item)
 {
     return(item->entry);
 }
-#ifdef FS_FAST
-#define item_entry(i)	((i)->entry)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_set_entry
-#endif /* defined (FS_FAST) */
 void
 item_set_entry(ItemP item, EntryP entry)
 {
     item->entry = entry;
 }
-#ifdef FS_FAST
-#define item_set_entry(i, e)	((i)->entry = (e))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_type
-#endif /* defined (FS_FAST) */
 EntryTypeT
 item_type(ItemP item)
 {
     return(item->type);
 }
-#ifdef FS_FAST
-#define item_type(i)	((i)->type)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_rule
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_rule(ItemP item)
 {
     return(item->type == ET_RULE);
 }
-#ifdef FS_FAST
-#define item_is_rule(i)	((i)->type == ET_RULE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_action
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_action(ItemP item)
 {
     return(item->type == ET_ACTION);
 }
-#ifdef FS_FAST
-#define item_is_action(i)	((i)->type == ET_ACTION)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_predicate
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_predicate(ItemP item)
 {
     return(item->type == ET_PREDICATE);
 }
-#ifdef FS_FAST
-#define item_is_predicate(i)	((i)->type == ET_PREDICATE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_basic
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_basic(ItemP item)
 {
     return(item->type == ET_BASIC);
 }
-#ifdef FS_FAST
-#define item_is_basic(i)	((i)->type == ET_BASIC)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_rename
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_rename(ItemP item)
 {
     return(item->type == ET_RENAME);
 }
-#ifdef FS_FAST
-#define item_is_rename(i)	((i)->type == ET_RENAME)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_param
-#endif /* defined (FS_FAST) */
 TypeTupleP
 item_param(ItemP item)
 {
     return(&(item->param));
 }
-#ifdef FS_FAST
-#define item_param(i)	(&((i)->param))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_add_param
-#endif /* defined (FS_FAST) */
 void
 item_add_param(ItemP item, TypeTupleP param)
 {
     types_assign(item_param(item), param);
 }
-#ifdef FS_FAST
-#define item_add_param(i, t)	(types_assign(&((i)->param), (t)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_result
-#endif /* defined (FS_FAST) */
 TypeTupleP
 item_result(ItemP item)
 {
     return(&(item->result));
 }
-#ifdef FS_FAST
-#define item_result(i)	(&((i)->result))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_add_result
-#endif /* defined (FS_FAST) */
 void
 item_add_result(ItemP item, TypeTupleP result)
 {
     types_assign(item_result(item), result);
 }
-#ifdef FS_FAST
-#define item_add_result(i, t)	(types_assign(&((i)->result), (t)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_inlinable
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_inlinable(ItemP item)
 {
     return(item->inlinable);
 }
-#ifdef FS_FAST
-#define item_is_inlinable(i)	((i)->inlinable)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_inlinable
-#endif /* defined (FS_FAST) */
 void
 item_inlinable(ItemP item)
 {
     item->inlinable = TRUE;
 }
-#ifdef FS_FAST
-#define item_inlinable(i)	((i)->inlinable = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_is_tail_call
-#endif /* defined (FS_FAST) */
 BoolT
 item_is_tail_call(ItemP item)
 {
     return(item->tail_call);
 }
-#ifdef FS_FAST
-#define item_is_tail_call(i)	((i)->tail_call)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef item_tail_call
-#endif /* defined (FS_FAST) */
 void
 item_tail_call(ItemP item)
 {
     item->tail_call = TRUE;
 }
-#ifdef FS_FAST
-#define item_tail_call(i)	((i)->tail_call = TRUE)
-#endif /* defined (FS_FAST) */
 
 BoolT
 item_names_used_in_list(ItemP item, TypeTupleP names)

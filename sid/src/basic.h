@@ -122,16 +122,6 @@ extern void		basic_iter_for_table(BasicP, BoolT,
 
 extern void		write_basics(OStreamP, BasicClosureP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define basic_terminal(b)		((b)->terminal)
-#define basic_result(b)			(&((b)->result))
-#define basic_get_result_code(b)	((b)->result_code)
-#define basic_set_result_code(b, c)	((b)->result_code = (c))
-#define basic_get_ignored(b)		((b)->ignored)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_BASIC) */
 
 /*

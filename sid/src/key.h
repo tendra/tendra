@@ -119,15 +119,6 @@ extern unsigned		key_hash_value(KeyP);
 
 extern void		write_key(OStreamP, KeyP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define key_is_string(k)	((k)->type == KT_STRING)
-#define key_is_number(k)	((k)->type == KT_NUMBER)
-#define key_get_string(k)	(&((k)->string))
-#define key_get_number(k)	((k)->number)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_KEY) */
 
 /*

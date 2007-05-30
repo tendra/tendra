@@ -355,29 +355,17 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
     }
 }
 
-#ifdef FS_FAST
-#undef c_code_file
-#endif /* defined (FS_FAST) */
 CStringP
 c_code_file(CCodeP code)
 {
     return(code->file);
 }
-#ifdef FS_FAST
-#define c_code_file(c)	((c)->file)
-#endif /* defined(FS_FAST) */
 
-#ifdef FS_FAST
-#undef c_code_line
-#endif /* defined (FS_FAST) */
 unsigned
 c_code_line(CCodeP code)
 {
     return(code->line);
 }
-#ifdef FS_FAST
-#define c_code_line(c)	((c)->line)
-#endif /* defined(FS_FAST) */
 
 TypeTupleP
 c_code_param(CCodeP code)

@@ -39,6 +39,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "parser.h"
 #include "action.h"

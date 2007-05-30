@@ -109,15 +109,6 @@ extern void		type_set_result_assign_code(TypeP, GenericP);
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_FAST
-#define type_get_assign_code(t)			((t)->assign_code)
-#define type_set_assign_code(t, c)		((t)->assign_code = (c))
-#define type_get_param_assign_code(t)		((t)->param_assign_code)
-#define type_set_param_assign_code(t, c)	((t)->param_assign_code = (c))
-#define type_get_result_assign_code(t)		((t)->result_assign_code)
-#define type_set_result_assign_code(t, c)	((t)->result_assign_code = (c))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_TYPE) */
 
 /*

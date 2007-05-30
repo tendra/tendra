@@ -124,42 +124,24 @@ key_compare(KeyP key1, KeyP key2)
     UNREACHED;
 }
 
-#ifdef FS_FAST
-#undef key_is_string
-#endif /* defined (FS_FAST) */
 BoolT
 key_is_string(KeyP key)
 {
     return(key->type == KT_STRING);
 }
-#ifdef FS_FAST
-#define key_is_string(k)	((k)->type == KT_STRING)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef key_get_string
-#endif /* defined (FS_FAST) */
 NStringP
 key_get_string(KeyP key)
 {
     ASSERT(key->type == KT_STRING);
     return(&(key->string));
 }
-#ifdef FS_FAST
-#define key_get_string(k)	(&((k)->string))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef key_get_number
-#endif /* defined (FS_FAST) */
 unsigned
 key_get_number(KeyP key)
 {
     return(key->number);
 }
-#ifdef FS_FAST
-#define key_get_number(k)	((k)->number)
-#endif /* defined (FS_FAST) */
 
 unsigned
 key_hash_value(KeyP key)

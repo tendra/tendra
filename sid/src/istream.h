@@ -343,14 +343,4 @@ extern void			X__istream_fill_buffer(IStreamP);
     } \
 }
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define istream_init(is)	((is)->name = NIL(CStringP))
-#define istream_is_open(is)	((is)->name != NIL(CStringP))
-#define istream_inc_line(is)	((is)->line++)
-#define istream_line(is)	((is)->line)
-#define istream_name(is)	((is)->name)
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_ISTREAM) */

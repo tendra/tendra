@@ -121,20 +121,6 @@ extern CStringP		out_info_get_outfile_name(OutputInfoP, unsigned);
 extern void		out_info_set_tab_width(OutputInfoP, unsigned);
 extern void		output_indent(OutputInfoP, unsigned);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define out_info_get_prog_name(o)		((o)->prog_name)
-#define out_info_get_current_ostream(o)		((o)->current_ostream)
-#define out_info_get_istream(o, i)		(&((o)->istreams[(i)]))
-#define out_info_get_ostream(o, i)		(&((o)->ostreams[(i)]))
-#define out_info_set_infile_name(o, i, s)	((o)->input_names[(i)] = (s))
-#define out_info_get_infile_name(o, i)		((o)->input_names[(i)])
-#define out_info_set_outfile_name(o, i, s)	((o)->output_names[(i)] = (s))
-#define out_info_get_outfile_name(o, i)		((o)->output_names[(i)])
-#define out_info_set_tab_width(o, w)		((o)->tab_width = (w))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_OUTPUT) */
 
 /*

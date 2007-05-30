@@ -470,53 +470,29 @@ c_lexer_init(CLexerStreamP stream, IStreamP istream)
     c_lexer_next_token(stream);
 }
 
-#ifdef FS_FAST
-#undef c_lexer_close
-#endif /* defined (FS_FAST) */
 void
 c_lexer_close(CLexerStreamP stream)
 {
     istream_close(&(stream->istream));
 }
-#ifdef FS_FAST
-#define c_lexer_close(s)	(istream_close(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef c_lexer_stream_name
-#endif /* defined (FS_FAST) */
 CStringP
 c_lexer_stream_name(CLexerStreamP stream)
 {
     return(istream_name(&(stream->istream)));
 }
-#ifdef FS_FAST
-#define c_lexer_stream_name(s)	(istream_name(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef c_lexer_stream_line
-#endif /* defined (FS_FAST) */
 unsigned
 c_lexer_stream_line(CLexerStreamP stream)
 {
     return(istream_line(&(stream->istream)));
 }
-#ifdef FS_FAST
-#define c_lexer_stream_line(s)	(istream_line(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef c_lexer_get_terminal
-#endif /* defined (FS_FAST) */
 CTokenT
 c_lexer_get_terminal(CLexerStreamP stream)
 {
     return(stream->token.t);
 }
-#ifdef FS_FAST
-#define c_lexer_get_terminal(s)	((s)->token.t)
-#endif /* defined (FS_FAST) */
 
 void
 c_lexer_next_token(CLexerStreamP stream)
@@ -583,9 +559,6 @@ c_lexer_next_token(CLexerStreamP stream)
     stream->token = token;
 }
 
-#ifdef FS_FAST
-#undef c_lexer_string_value
-#endif /* defined (FS_FAST) */
 NStringP
 c_lexer_string_value(CLexerStreamP stream)
 {
@@ -593,22 +566,13 @@ c_lexer_string_value(CLexerStreamP stream)
 	   (stream->token.t == C_TOK_SID_IDENTIFIER));
     return(&(stream->token.u.string));
 }
-#ifdef FS_FAST
-#define c_lexer_string_value(s)	(&((s)->token.u.string))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef c_lexer_code_value
-#endif /* defined (FS_FAST) */
 CCodeP
 c_lexer_code_value(CLexerStreamP stream)
 {
     ASSERT(stream->token.t == C_TOK_CODE);
     return(stream->token.u.code);
 }
-#ifdef FS_FAST
-#define c_lexer_code_value(s)	((s)->token.u.code)
-#endif /* defined (FS_FAST) */
 
 void
 c_lexer_save_terminal(CLexerStreamP stream, CTokenT error_terminal)

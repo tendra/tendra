@@ -210,17 +210,11 @@ entry_list_append(EntryListP to, EntryListP from)
     }
 }
 
-#ifdef FS_FAST
-#undef entry_list_is_empty
-#endif /* defined (FS_FAST) */
 BoolT
 entry_list_is_empty(EntryListP list)
 {
     return(list->head == NIL(EntryListEntryP));
 }
-#ifdef FS_FAST
-#define entry_list_is_empty(e)	((e)->head == NIL(EntryListEntryP))
-#endif /* defined (FS_FAST) */
 
 void
 entry_list_save_state(EntryListP list, SaveListP state)

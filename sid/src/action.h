@@ -110,15 +110,6 @@ extern void		action_iter_for_table(ActionP, BoolT,
 					      void(*)(EntryP, GenericP),
 					      GenericP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define action_param(a)		(&((a)->param))
-#define action_result(a)	(&((a)->result))
-#define action_get_code(a)	((a)->code)
-#define action_set_code(a, c)	((a)->code = (c))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_ACTION) */
 
 /*

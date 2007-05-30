@@ -106,66 +106,36 @@ name_test_and_set_clash(NameP name)
     return(clash);
 }
 
-#ifdef FS_FAST
-#undef name_reset_clash
-#endif /* defined (FS_FAST) */
 void
 name_reset_clash(NameP name)
 {
     name->clash = FALSE;
 }
-#ifdef FS_FAST
-#define name_reset_clash(n)	((n)->clash = FALSE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef name_is_used
-#endif /* defined (FS_FAST) */
 BoolT
 name_is_used(NameP name)
 {
     return(name->used);
 }
-#ifdef FS_FAST
-#define name_is_used(n)	((n)->used)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef name_used
-#endif /* defined (FS_FAST) */
 void
 name_used(NameP name)
 {
     name->used = TRUE;
 }
-#ifdef FS_FAST
-#define name_used(n)	((n)->used = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef name_not_used
-#endif /* defined (FS_FAST) */
 void
 name_not_used(NameP name)
 {
     name->used = FALSE;
 }
-#ifdef FS_FAST
-#define name_not_used(n)	((n)->used = FALSE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef name_get_label
-#endif /* defined (FS_FAST) */
 unsigned
 name_get_label(NameP name)
 {
     ASSERT(name->labelled);
     return(name->label);
 }
-#ifdef FS_FAST
-#define name_get_label(n)	((n)->label)
-#endif /* defined (FS_FAST) */
 
 void
 name_set_label(NameP name, unsigned label)
@@ -174,29 +144,17 @@ name_set_label(NameP name, unsigned label)
     name->label    = label;
 }
 
-#ifdef FS_FAST
-#undef name_reset_label
-#endif /* defined (FS_FAST) */
 void
 name_reset_label(NameP name)
 {
     name->labelled = FALSE;
 }
-#ifdef FS_FAST
-#define name_reset_label(n)	((n)->labelled = FALSE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef name_has_label
-#endif /* defined (FS_FAST) */
 BoolT
 name_has_label(NameP name)
 {
     return(name->labelled);
 }
-#ifdef FS_FAST
-#define name_has_label(n)	((n)->labelled)
-#endif /* defined (FS_FAST) */
 
 /*
  * Local variables(smf):

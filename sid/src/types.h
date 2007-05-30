@@ -295,10 +295,6 @@ extern void	ntrans_destroy(TypeNTransP);
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_FAST
-#define types_equal_zero_tuple(t)	((t)->head == NIL(TypeTupleEntryP))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_TYPES) */
 
 /*

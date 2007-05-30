@@ -128,12 +128,6 @@ extern void	entry_list_destroy(EntryListP);
 
 extern void	write_entry_list(OStreamP, EntryListP);
 
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_FAST
-#define entry_list_is_empty(e)	((e)->head == NIL(EntryListEntryP))
-#endif /* defined (FS_FAST) */
-
 #endif /* !defined (H_ENTRY_LIST) */
 
 /*

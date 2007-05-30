@@ -68,6 +68,8 @@
  * changes to the syntax of SID identifiers should be made to the language
  * specifc lexical analyser files as well.
  *
+ * TODO eventually perhaps we could port this to lexi.
+ *
  *** Change Log:
  * $Log: lexer.c,v $
  * Revision 1.1.1.1  1998/01/17  15:57:42  release
@@ -270,53 +272,29 @@ lexer_init(LexerStreamP stream, IStreamP istream)
     lexer_next_token(stream);
 }
 
-#ifdef FS_FAST
-#undef lexer_close
-#endif /* defined (FS_FAST) */
 void
 lexer_close(LexerStreamP stream)
 {
     istream_close(&(stream->istream));
 }
-#ifdef FS_FAST
-#define lexer_close(s)	(istream_close(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef lexer_stream_name
-#endif /* defined (FS_FAST) */
 CStringP
 lexer_stream_name(LexerStreamP stream)
 {
     return(istream_name(&(stream->istream)));
 }
-#ifdef FS_FAST
-#define lexer_stream_name(s)	(istream_name(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef lexer_stream_line
-#endif /* defined (FS_FAST) */
 unsigned
 lexer_stream_line(LexerStreamP stream)
 {
     return(istream_line(&(stream->istream)));
 }
-#ifdef FS_FAST
-#define lexer_stream_line(s)	(istream_line(&((s)->istream)))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef lexer_get_terminal
-#endif /* defined (FS_FAST) */
 LexerTokenT
 lexer_get_terminal(LexerStreamP stream)
 {
     return(stream->token.t);
 }
-#ifdef FS_FAST
-#define lexer_get_terminal(s)	((s)->token.t)
-#endif /* defined (FS_FAST) */
 
 void
 lexer_next_token(LexerStreamP stream)
@@ -422,18 +400,12 @@ lexer_next_token(LexerStreamP stream)
     stream->token = token;
 }
 
-#ifdef FS_FAST
-#undef lexer_string_value
-#endif /* defined (FS_FAST) */
 NStringP
 lexer_string_value(LexerStreamP stream)
 {
     ASSERT(stream->token.t == LEXER_TOK_IDENTIFIER);
     return(&(stream->token.u.string));
 }
-#ifdef FS_FAST
-#define lexer_string_value(s)	(&((s)->token.u.string))
-#endif /* defined (FS_FAST) */
 
 void
 lexer_save_terminal(LexerStreamP stream, LexerTokenT error_terminal)

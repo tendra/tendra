@@ -184,54 +184,29 @@ rule_renumber_1(AltP alt, TypeNTransP translator, SaveNTransP state)
     ntrans_restore_state(translator, state);
 }
 
-#ifdef FS_FAST
-#undef rule_get_dfs_state
-#endif /* defined (FS_FAST) */
 static DFSStateT
 rule_get_dfs_state(RuleP rule)
 {
     return(rule->dfs_state);
 }
-#ifdef FS_FAST
-#define rule_get_dfs_state(r)	((r)->dfs_state)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_next_in_root_list_ref
-#endif /* defined (FS_FAST) */
 static RuleP *
 rule_next_in_root_list_ref(RuleP rule)
 {
     return(&(rule->next_in_root_list));
 }
-#ifdef FS_FAST
-#define rule_next_in_root_list_ref(r)	(&((r)->next_in_root_list))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_next_in_dfs
-#endif /* defined (FS_FAST) */
 static void
 rule_set_next_in_dfs(RuleP rule1, RuleP rule2)
 {
     rule1->next_in_dfs = rule2;
 }
-#ifdef FS_FAST
-#define rule_set_next_in_dfs(r1, r2)	((r1)->next_in_dfs = (r2))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_next_in_reverse_dfs
-#endif /* defined (FS_FAST) */
 static void
 rule_set_next_in_reverse_dfs(RuleP rule1,				      RuleP rule2)
 {
     rule1->next_in_reverse_dfs = rule2;
 }
-#ifdef FS_FAST
-#define rule_set_next_in_reverse_dfs(r1, r2) \
-	((r1)->next_in_reverse_dfs = (r2))
-#endif /* defined (FS_FAST) */
 
 /*--------------------------------------------------------------------------*/
 
@@ -283,113 +258,59 @@ rule_reinit(RuleP rule)
     rule->alt_tail              = &(rule->alt_head);
 }
 
-#ifdef FS_FAST
-#undef rule_table_entry
-#endif /* defined (FS_FAST) */
 EntryP
 rule_entry(RuleP rule)
 {
     return(rule->entry);
 }
-#ifdef FS_FAST
-#define rule_entry(r)	((r)->entry)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_param
-#endif /* defined (FS_FAST) */
 TypeTupleP
 rule_param(RuleP rule)
 {
     return(&(rule->param));
 }
-#ifdef FS_FAST
-#define rule_param(r)	(&((r)->param))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_result
-#endif /* defined (FS_FAST) */
 TypeTupleP
 rule_result(RuleP rule)
 {
     return(&(rule->result));
 }
-#ifdef FS_FAST
-#define rule_result(r)	(&((r)->result))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_non_locals
-#endif /* defined (FS_FAST) */
 NonLocalListP
 rule_non_locals(RuleP rule)
 {
     return(&(rule->non_locals));
 }
-#ifdef FS_FAST
-#define rule_non_locals(r)	(&((r)->non_locals))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_maximum_scope
-#endif /* defined (FS_FAST) */
 NStringP
 rule_maximum_scope(RuleP rule)
 {
     return(&(rule->maximum_scope));
 }
-#ifdef FS_FAST
-#define rule_maximum_scope(r)	(&((r)->maximum_scope))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_defined
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_defined(RuleP rule)
 {
     return(rule->defined);
 }
-#ifdef FS_FAST
-#define rule_is_defined(r)	((r)->defined)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_defined
-#endif /* defined (FS_FAST) */
 void
 rule_defined(RuleP rule)
 {
     rule->defined = TRUE;
 }
-#ifdef FS_FAST
-#define rule_defined(r)	((r)->defined = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_required
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_required(RuleP rule)
 {
     return(rule->required);
 }
-#ifdef FS_FAST
-#define rule_is_required(r)	((r)->required)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_required
-#endif /* defined (FS_FAST) */
 void
 rule_required(RuleP rule)
 {
     rule->required = TRUE;
 }
-#ifdef FS_FAST
-#define rule_required(r)	((r)->required = TRUE)
-#endif /* defined (FS_FAST) */
 
 void
 rule_add_alt(RuleP rule, AltP alt)
@@ -398,29 +319,17 @@ rule_add_alt(RuleP rule, AltP alt)
     rule->alt_tail    = alt_next_ref(alt);
 }
 
-#ifdef FS_FAST
-#undef rule_has_empty_alt
-#endif /* defined (FS_FAST) */
 BoolT
 rule_has_empty_alt(RuleP rule)
 {
     return(rule->has_empty_alt);
 }
-#ifdef FS_FAST
-#define rule_has_empty_alt(r)	((r)->has_empty_alt)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_add_empty_alt
-#endif /* defined (FS_FAST) */
 void
 rule_add_empty_alt(RuleP rule)
 {
     rule->has_empty_alt = TRUE;
 }
-#ifdef FS_FAST
-#define rule_add_empty_alt(r)	((r)->has_empty_alt = TRUE)
-#endif /* defined (FS_FAST) */
 
 BoolT
 rule_has_one_alt(RuleP rule)
@@ -498,41 +407,23 @@ rule_reinit_reverse_list(RuleP rule)
     rule->no_cycles           = FALSE;
 }
 
-#ifdef FS_FAST
-#undef rule_reverse_list
-#endif /* defined (FS_FAST) */
 EntryListP
 rule_reverse_list(RuleP rule)
 {
     return(&(rule->reverse_list));
 }
-#ifdef FS_FAST
-#define rule_reverse_list(r)	((r)->reverse_list)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_dfs_state
-#endif /* defined (FS_FAST) */
 void
 rule_set_dfs_state(RuleP rule, DFSStateT state)
 {
     rule->dfs_state = state;
 }
-#ifdef FS_FAST
-#define rule_set_dfs_state(r, s)	((r)->dfs_state = (s))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_next_in_root_list
-#endif /* defined (FS_FAST) */
 RuleP
 rule_next_in_root_list(RuleP rule)
 {
     return(rule->next_in_root_list);
 }
-#ifdef FS_FAST
-#define rule_next_in_root_list(r)	((r)->next_in_root_list)
-#endif /* defined (FS_FAST) */
 
 void
 rule_build_root_list(EntryP entry, GenericP gclosure)
@@ -545,17 +436,11 @@ rule_build_root_list(EntryP entry, GenericP gclosure)
     }
 }
 
-#ifdef FS_FAST
-#undef rule_get_next_in_dfs
-#endif /* defined (FS_FAST) */
 RuleP
 rule_get_next_in_dfs(RuleP rule)
 {
     return(rule->next_in_dfs);
 }
-#ifdef FS_FAST
-#define rule_get_next_in_dfs(r)	((r)->next_in_dfs)
-#endif /* defined (FS_FAST) */
 
 void
 rule_compute_dfs(RuleP rule, CycleTypeT type, RuleP *list)
@@ -583,29 +468,17 @@ rule_compute_dfs(RuleP rule, CycleTypeT type, RuleP *list)
     }
 }
 
-#ifdef FS_FAST
-#undef rule_get_next_in_reverse_dfs
-#endif /* defined (FS_FAST) */
 RuleP
 rule_get_next_in_reverse_dfs(RuleP rule)
 {
     return(rule->next_in_reverse_dfs);
 }
-#ifdef FS_FAST
-#define rule_get_next_in_reverse_dfs(r)	((r)->next_in_reverse_dfs)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_next_in_reverse_dfs_ref
-#endif /* defined (FS_FAST) */
 RuleP *
 rule_next_in_reverse_dfs_ref(RuleP rule)
 {
     return(&(rule->next_in_reverse_dfs));
 }
-#ifdef FS_FAST
-#define rule_next_in_reverse_dfs_ref(r)	(&((r)->next_in_reverse_dfs))
-#endif /* defined (FS_FAST) */
 
 void
 rule_compute_reverse_dfs(RuleP rule, RuleP root, RuleP *list)
@@ -635,558 +508,282 @@ rule_compute_reverse_dfs(RuleP rule, RuleP root, RuleP *list)
     }
 }
 
-#ifdef FS_FAST
-#undef rule_has_no_cycles
-#endif /* defined (FS_FAST) */
 BoolT
 rule_has_no_cycles(RuleP rule)
 {
     return(rule->no_cycles);
 }
-#ifdef FS_FAST
-#define rule_has_no_cycles(r)	((r)->no_cycles)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_no_cycles
-#endif /* defined (FS_FAST) */
 void
 rule_no_cycles(RuleP rule)
 {
     rule->no_cycles = TRUE;
 }
-#ifdef FS_FAST
-#define rule_no_cycles(r)	((r)->no_cycles = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_cycle_index
-#endif /* defined (FS_FAST) */
 unsigned
 rule_get_cycle_index(RuleP rule)
 {
     return(rule->cycle_index);
 }
-#ifdef FS_FAST
-#define rule_get_cycle_index(r)	((r)->cycle_index)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_cycle_index
-#endif /* defined (FS_FAST) */
 void
 rule_set_cycle_index(RuleP rule, unsigned cycle_index)
 {
     rule->cycle_index = cycle_index;
 }
-#ifdef FS_FAST
-#define rule_set_cycle_index(r, i)	((r)->cycle_index = (i))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_reset_cycle_index
-#endif /* defined (FS_FAST) */
 void
 rule_reset_cycle_index(RuleP rule)
 {
     rule->cycle_index = 0;
 }
-#ifdef FS_FAST
-#define rule_reset_cycle_index(r)	((r)->cycle_index = 0)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_has_computed_first_set
-#endif /* defined (FS_FAST) */
 BoolT
 rule_has_computed_first_set(RuleP rule)
 {
     return(rule->computed_first_set);
 }
-#ifdef FS_FAST
-#define rule_has_computed_first_set(r)	((r)->computed_first_set)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_computed_first_set
-#endif /* defined (FS_FAST) */
 void
 rule_computed_first_set(RuleP rule)
 {
     rule->computed_first_set = TRUE;
 }
-#ifdef FS_FAST
-#define rule_computed_first_set(r)	((r)->computed_first_set)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_computing_first_set
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_computing_first_set(RuleP rule)
 {
     return(rule->computing_first_set);
 }
-#ifdef FS_FAST
-#define rule_is_computing_first_set(r)	((r)->computing_first_set)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_computing_first_set
-#endif /* defined (FS_FAST) */
 void
 rule_computing_first_set(RuleP rule)
 {
     rule->computing_first_set = TRUE;
 }
-#ifdef FS_FAST
-#define rule_computing_first_set(r)	((r)->computing_first_set = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_first_set
-#endif /* defined (FS_FAST) */
 BitVecP
 rule_first_set(RuleP rule)
 {
     return(&(rule->first_set));
 }
-#ifdef FS_FAST
-#define rule_first_set(r)	(&((r)->first_set))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_predicate_first
-#endif /* defined (FS_FAST) */
 EntryListP
 rule_predicate_first(RuleP rule)
 {
     return(&(rule->predicate_first));
 }
-#ifdef FS_FAST
-#define rule_predicate_first(r)	(&((r)->predicate_first))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_see_through
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_see_through(RuleP rule)
 {
     return(rule->see_through);
 }
-#ifdef FS_FAST
-#define rule_is_see_through(r)	((r)->see_through)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_see_through
-#endif /* defined (FS_FAST) */
 void
 rule_see_through(RuleP rule)
 {
     rule->see_through = TRUE;
 }
-#ifdef FS_FAST
-#define rule_see_through(r)	((r)->see_through = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_priority
-#endif /* defined (FS_FAST) */
 unsigned
 rule_get_priority(RuleP rule)
 {
     return(rule->priority);
 }
-#ifdef FS_FAST
-#define rule_get_priority(r)	((r)->priority)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_priority
-#endif /* defined (FS_FAST) */
 void
 rule_set_priority(RuleP rule, unsigned priority)
 {
     ASSERT(priority > 0);
     rule->priority = priority;
 }
-#ifdef FS_FAST
-#define rule_set_priority(r, p)	((r)->priority = (p))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_factored
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_factored(RuleP rule)
 {
     return(rule->factored);
 }
-#ifdef FS_FAST
-#define rule_is_factored(r)	((r)->factored)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_factored
-#endif /* defined (FS_FAST) */
 void
 rule_factored(RuleP rule)
 {
     rule->factored = TRUE;
 }
-#ifdef FS_FAST
-#define rule_factored(r)	((r)->factored = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_tail_group
-#endif /* defined (FS_FAST) */
 RuleP
 rule_get_tail_group(RuleP rule)
 {
     return(rule->tail_group);
 }
-#ifdef FS_FAST
-#define rule_get_tail_group(r)	((r)->tail_group)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_tail_group
-#endif /* defined (FS_FAST) */
 void
 rule_set_tail_group(RuleP rule1, RuleP rule2)
 {
     rule1->tail_group = rule2;
 }
-#ifdef FS_FAST
-#define rule_set_tail_group(r1, r2)	((r1)->tail_group = (r2))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_being_inlined
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_being_inlined(RuleP rule)
 {
     return(rule->being_inlined);
 }
-#ifdef FS_FAST
-#define rule_is_being_inlined(r)	((r)->being_inlined)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_being_inlined
-#endif /* defined (FS_FAST) */
 void
 rule_being_inlined(RuleP rule)
 {
     rule->being_inlined = TRUE;
 }
-#ifdef FS_FAST
-#define rule_being_inlined(r)	((r)->being_inlined = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_checked_for_inlining
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_checked_for_inlining(RuleP rule)
 {
     return(rule->checked_for_inlining);
 }
-#ifdef FS_FAST
-#define rule_is_checked_for_inlining(r)	((r)->checked_for_inlining)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_checked_for_inlining
-#endif /* defined (FS_FAST) */
 void
 rule_checked_for_inlining(RuleP rule)
 {
     rule->checked_for_inlining = TRUE;
 }
-#ifdef FS_FAST
-#define rule_checked_for_inlining(r)	((r)->checked_for_inlining = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_call_list
-#endif /* defined (FS_FAST) */
 EntryListP
 rule_call_list(RuleP rule)
 {
     return(&(rule->call_list));
 }
-#ifdef FS_FAST
-#define rule_call_list(r)	(&((r)->call_list))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_next_in_table
-#endif /* defined (FS_FAST) */
 RuleP
 rule_get_next_in_table(RuleP rule)
 {
     return(rule->next_in_table);
 }
-#ifdef FS_FAST
-#define rule_get_next_in_table(r)	((r)->next_in_table)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_next_in_table_ref
-#endif /* defined (FS_FAST) */
 RuleP *
 rule_get_next_in_table_ref(RuleP rule)
 {
     return(&(rule->next_in_table));
 }
-#ifdef FS_FAST
-#define rule_get_next_in_table_ref(r)	(&((r)->next_in_table))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_next_in_table
-#endif /* defined (FS_FAST) */
 void
 rule_set_next_in_table(RuleP rule1, RuleP rule2)
 {
     rule1->next_in_table = rule2;
 }
-#ifdef FS_FAST
-#define rule_set_next_in_table(r1, r2)	((r1)->next_in_table = (r2))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_follow_set
-#endif /* defined (FS_FAST) */
 BitVecP
 rule_follow_set(RuleP rule)
 {
     return(&(rule->follow_set));
 }
-#ifdef FS_FAST
-#define rule_follow_set(r)	(&((r)->follow_set))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_predicate_follow
-#endif /* defined (FS_FAST) */
 EntryListP
 rule_predicate_follow(RuleP rule)
 {
     return(&(rule->predicate_follow));
 }
-#ifdef FS_FAST
-#define rule_predicate_follow(r)	(&((r)->predicate_follow))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_has_started_follows
-#endif /* defined (FS_FAST) */
 BoolT
 rule_has_started_follows(RuleP rule)
 {
     return(rule->started_follows);
 }
-#ifdef FS_FAST
-#define rule_has_started_follows(r)	((r)->started_follows)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_started_follows
-#endif /* defined (FS_FAST) */
 void
 rule_started_follows(RuleP rule)
 {
     rule->started_follows = TRUE;
 }
-#ifdef FS_FAST
-#define rule_started_follows(r)	((r)->started_follows = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_see_through_alt
-#endif /* defined (FS_FAST) */
 void
 rule_set_see_through_alt(RuleP rule, AltP alt)
 {
     rule->see_through_alt = alt;
 }
-#ifdef FS_FAST
-#define rule_set_see_through_alt(r, a)	((r)->see_through_alt = (a))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_see_through_alt
-#endif /* defined (FS_FAST) */
 AltP
 rule_see_through_alt(RuleP rule)
 {
     return(rule->see_through_alt);
 }
-#ifdef FS_FAST
-#define rule_see_through_alt(r)	((r)->see_through_alt)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_needs_function
-#endif /* defined (FS_FAST) */
 BoolT
 rule_needs_function(RuleP rule)
 {
     return(rule->needs_function);
 }
-#ifdef FS_FAST
-#define rule_needs_function(r)	((r)->needs_function)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_will_need_function
-#endif /* defined (FS_FAST) */
 void
 rule_will_need_function(RuleP rule)
 {
     rule->needs_function = TRUE;
 }
-#ifdef FS_FAST
-#define rule_will_need_function(r)	((r)->needs_function = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_all_basics
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_all_basics(RuleP rule)
 {
     return(rule->all_basics);
 }
-#ifdef FS_FAST
-#define rule_is_all_basics(r)	((r)->all_basics)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_all_basics
-#endif /* defined (FS_FAST) */
 void
 rule_all_basics(RuleP rule)
 {
     rule->all_basics = TRUE;
 }
-#ifdef FS_FAST
-#define rule_all_basics(r)	((r)->all_basics = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_rstack_state
-#endif /* defined (FS_FAST) */
 SaveRStackP
 rule_rstack_state(RuleP rule)
 {
     return(&(rule->rstack_state));
 }
-#ifdef FS_FAST
-#define rule_rstack_state(r)	(&((r)->rstack_state))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_non_local_state
-#endif /* defined (FS_FAST) */
 SaveRStackP
 rule_non_local_state(RuleP rule)
 {
     return(&(rule->non_local_state));
 }
-#ifdef FS_FAST
-#define rule_non_local_state(r)	(&((r)->non_local_state))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_is_being_output
-#endif /* defined (FS_FAST) */
 BoolT
 rule_is_being_output(RuleP rule)
 {
     return(rule->being_output);
 }
-#ifdef FS_FAST
-#define rule_is_being_output(r)	((r)->being_output)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_being_output
-#endif /* defined (FS_FAST) */
 void
 rule_being_output(RuleP rule)
 {
     rule->being_output = TRUE;
 }
-#ifdef FS_FAST
-#define rule_being_output(r)	((r)->being_output = TRUE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_not_being_output
-#endif /* defined (FS_FAST) */
 void
 rule_not_being_output(RuleP rule)
 {
     rule->being_output = FALSE;
 }
-#ifdef FS_FAST
-#define rule_not_being_output(r)	((r)->being_output = FALSE)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_start_label
-#endif /* defined (FS_FAST) */
 unsigned
 rule_get_start_label(RuleP rule)
 {
     return(rule->start_label);
 }
-#ifdef FS_FAST
-#define rule_get_start_label(r)	((r)->start_label)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_start_label
-#endif /* defined (FS_FAST) */
 void
 rule_set_start_label(RuleP rule, unsigned label)
 {
     rule->start_label = label;
 }
-#ifdef FS_FAST
-#define rule_set_start_label(r, l)	((r)->start_label = (l))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_call_count
-#endif /* defined (FS_FAST) */
 unsigned
 rule_get_call_count(RuleP rule)
 {
     return(rule->call_count);
 }
-#ifdef FS_FAST
-#define rule_get_call_count(r)	((r)->call_count)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_inc_call_count
-#endif /* defined (FS_FAST) */
 void
 rule_inc_call_count(RuleP rule)
 {
     rule->call_count++;
 }
-#ifdef FS_FAST
-#define rule_inc_call_count(r)	((r)->call_count++)
-#endif /* defined (FS_FAST) */
 
 unsigned
 rule_get_end_label(RuleP rule)
@@ -1202,41 +799,23 @@ rule_set_end_label(RuleP rule, unsigned label)
     rule->end_label      = label;
 }
 
-#ifdef FS_FAST
-#undef rule_used_end_label
-#endif /* defined (FS_FAST) */
 BoolT
 rule_used_end_label(RuleP rule)
 {
     return(rule->used_end_label);
 }
-#ifdef FS_FAST
-#define rule_used_end_label(r)	((r)->used_end_label)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_next_label
-#endif /* defined (FS_FAST) */
 unsigned
 rule_get_next_label(RuleP rule)
 {
     return(rule->next_label);
 }
-#ifdef FS_FAST
-#define rule_get_next_label(r)	((r)->next_label)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_next_label
-#endif /* defined (FS_FAST) */
 void
 rule_set_next_label(RuleP rule, unsigned label)
 {
     rule->next_label = label;
 }
-#ifdef FS_FAST
-#define rule_set_next_label(r, l)	((r)->next_label = (l))
-#endif /* defined (FS_FAST) */
 
 unsigned
 rule_get_handler_label(RuleP rule)
@@ -1252,53 +831,29 @@ rule_set_handler_label(RuleP rule, unsigned label)
     rule->handler_label      = label;
 }
 
-#ifdef FS_FAST
-#undef rule_used_handler_label
-#endif /* defined (FS_FAST) */
 BoolT
 rule_used_handler_label(RuleP rule)
 {
     return(rule->used_handler_label);
 }
-#ifdef FS_FAST
-#define rule_used_handler_label(r)	((r)->used_handler_label)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_get_handler
-#endif /* defined (FS_FAST) */
 AltP
 rule_get_handler(RuleP rule)
 {
     return(rule->handler);
 }
-#ifdef FS_FAST
-#define rule_get_handler(r)	((r)->handler)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_set_handler
-#endif /* defined (FS_FAST) */
 void
 rule_set_handler(RuleP rule, AltP handler)
 {
     rule->handler = handler;
 }
-#ifdef FS_FAST
-#define rule_set_handler(r, a)	((r)->handler = (a))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_alt_head
-#endif /* defined (FS_FAST) */
 AltP
 rule_alt_head(RuleP rule)
 {
     return(rule->alt_head);
 }
-#ifdef FS_FAST
-#define rule_alt_head(r)	((r)->alt_head)
-#endif /* defined (FS_FAST) */
 
 void
 rule_renumber(RuleP rule, BoolT do_result, EntryP predicate_id)
@@ -1446,29 +1001,17 @@ rule_list_append(RuleListP list, RuleP next, RuleP *tail)
     list->tail    = tail;
 }
 
-#ifdef FS_FAST
-#undef rule_list_terminate
-#endif /* defined (FS_FAST) */
 void
 rule_list_terminate(RuleListP list)
 {
     *(list->tail) = NIL(RuleP);
 }
-#ifdef FS_FAST
-#define rule_list_terminate(r)	((*((r)->tail)) = NIL(RuleP))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef rule_list_head
-#endif /* defined (FS_FAST) */
 RuleP
 rule_list_head(RuleListP list)
 {
     return(list->head);
 }
-#ifdef FS_FAST
-#define rule_list_head(r)	((r)->head)
-#endif /* defined (FS_FAST) */
 
 /*
  * Local variables(smf):

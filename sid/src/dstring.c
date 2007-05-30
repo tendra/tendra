@@ -184,29 +184,17 @@ nstring_hash_value(NStringP nstring)
     return(value);
 }
 
-#ifdef FS_FAST
-#undef nstring_length
-#endif /* defined (FS_FAST) */
 unsigned
 nstring_length(NStringP nstring)
 {
     return(nstring->length);
 }
-#ifdef FS_FAST
-#define nstring_length(s)	((s)->length)
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef nstring_contents
-#endif /* defined (FS_FAST) */
 CStringP
 nstring_contents(NStringP nstring)
 {
     return(nstring->contents);
 }
-#ifdef FS_FAST
-#define nstring_contents(s)	((s)->contents)
-#endif /* defined (FS_FAST) */
 
 CmpT
 nstring_compare(NStringP nstring1, NStringP nstring2)
@@ -312,17 +300,11 @@ dstring_init(DStringP dstring)
     dstring->contents   = ALLOCATE_VECTOR(char, dstring->max_length);
 }
 
-#ifdef FS_FAST
-#undef dstring_length
-#endif /* defined (FS_FAST) */
 unsigned
 dstring_length(DStringP dstring)
 {
     return(dstring->length);
 }
-#ifdef FS_FAST
-#define dstring_length(s)	((s)->length)
-#endif /* defined (FS_FAST) */
 
 void
 dstring_append_char(DStringP dstring, char c)

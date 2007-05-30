@@ -98,17 +98,11 @@ out_info_init(OutputInfoP info, CStringP prog)
     info->tab_width       = 8;
 }
 
-#ifdef FS_FAST
-#undef out_info_get_prog_name
-#endif /* defined (FS_FAST) */
 CStringP
 out_info_get_prog_name(OutputInfoP info)
 {
     return(info->prog_name);
 }
-#ifdef FS_FAST
-#define out_info_get_prog_name(o)	((o)->prog_name)
-#endif /* defined (FS_FAST) */
 
 void
 out_info_set_current_ostream(OutputInfoP info, unsigned i)
@@ -116,17 +110,11 @@ out_info_set_current_ostream(OutputInfoP info, unsigned i)
     info->current_ostream = &(info->ostreams[i]);
 }
 
-#ifdef FS_FAST
-#undef out_info_get_current_ostream
-#endif /* defined (FS_FAST) */
 OStreamP
 out_info_get_current_ostream(OutputInfoP info)
 {
     return(info->current_ostream);
 }
-#ifdef FS_FAST
-#define out_info_get_current_ostream(o)	((o)->current_ostream)
-#endif /* defined (FS_FAST) */
 
 void
 out_info_set_num_input_files(OutputInfoP info, unsigned size)
@@ -142,89 +130,47 @@ out_info_set_num_output_files(OutputInfoP info, unsigned size)
     info->output_names = ALLOCATE_VECTOR(CStringP, size);
 }
 
-#ifdef FS_FAST
-#undef out_info_get_istream
-#endif /* defined (FS_FAST) */
 IStreamP
 out_info_get_istream(OutputInfoP info, unsigned i)
 {
     return(&(info->istreams[i]));
 }
-#ifdef FS_FAST
-#define out_info_get_istream(o, i)	(&((o)->istreams[(i)]))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_get_ostream
-#endif /* defined (FS_FAST) */
 OStreamP
 out_info_get_ostream(OutputInfoP info, unsigned i)
 {
     return(&(info->ostreams[i]));
 }
-#ifdef FS_FAST
-#define out_info_get_ostream(o, i)	(&((o)->ostreams[(i)]))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_set_infile_name
-#endif /* defined (FS_FAST) */
 void
 out_info_set_infile_name(OutputInfoP info, unsigned i, CStringP name)
 {
     info->input_names[i] = name;
 }
-#ifdef FS_FAST
-#define out_info_set_infile_name(o, i, s)	((o)->input_names[(i)] = (s))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_get_infile_name
-#endif /* defined (FS_FAST) */
 CStringP
 out_info_get_infile_name(OutputInfoP info, unsigned i)
 {
     return(info->input_names[i]);
 }
-#ifdef FS_FAST
-#define out_info_get_infile_name(o, i)	((o)->input_names[(i)])
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_set_outfile_name
-#endif /* defined (FS_FAST) */
 void
 out_info_set_outfile_name(OutputInfoP info, unsigned i, CStringP name)
 {
     info->output_names[i] = name;
 }
-#ifdef FS_FAST
-#define out_info_set_outfile_name(o, i, s)	((o)->output_names[(i)] = (s))
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_get_outfile_name
-#endif /* defined (FS_FAST) */
 CStringP
 out_info_get_outfile_name(OutputInfoP info, unsigned i)
 {
     return(info->output_names[i]);
 }
-#ifdef FS_FAST
-#define out_info_get_outfile_name(o, i)	((o)->output_names[(i)])
-#endif /* defined (FS_FAST) */
 
-#ifdef FS_FAST
-#undef out_info_set_tab_width
-#endif /* defined (FS_FAST) */
 void
 out_info_set_tab_width(OutputInfoP info, unsigned width)
 {
     info->tab_width = width;
 }
-#ifdef FS_FAST
-#define out_info_set_tab_width(o, w)	((o)->tab_width = (w))
-#endif /* defined (FS_FAST) */
 
 void
 output_indent(OutputInfoP info, unsigned indent)
