@@ -194,7 +194,7 @@
  *	static ArgListT arg_list [] = {
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
- *		NIL (void *),
+ *		NULL,
  *		UB "option description name" UE
  *	    }, ARG_PARSE_END_LIST
  *	};
@@ -329,8 +329,8 @@ extern void		write_arg_usage(OStreamP, ArgUsageP);
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL(char *), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(void *), \
- UB NIL(char *)UE}
+{NULL, '\0', (ArgTypeT)0, NULL, NULL, \
+ UB NULL UE}
 
 #endif /* !defined (H_ARG_PARSE) */
 

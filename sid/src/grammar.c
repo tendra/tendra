@@ -163,6 +163,7 @@
 /****************************************************************************/
 
 #include <limits.h>
+#include <stddef.h>
 
 #include "grammar.h"
 #include "action.h"
@@ -182,8 +183,7 @@ grammar_trace_ignored(EntryP entry, void * gclosure)
 	BasicP basic = entry_get_basic(entry);
 
 	if (basic_get_ignored(basic)) {
-	    entry_iter(entry, TRUE,
-			NIL(void(*)(EntryP, void *)), NIL(void *));
+	    entry_iter(entry, TRUE, NULL, NULL);
 	}
     }
 }
@@ -234,7 +234,7 @@ grammar_find_cycles(GrammarP grammar, CycleTypeT type)
 {
     TableP     table         = grammar_table(grammar);
     EntryP     predicate_id  = grammar_get_predicate_id(grammar);
-    RuleP      dfs_list_head = NIL(RuleP);
+    RuleP      dfs_list_head = NULL;
     RuleListT  root_list;
     RuleP      rule;
 
@@ -252,7 +252,7 @@ grammar_find_cycles(GrammarP grammar, CycleTypeT type)
     }
     for (rule = dfs_list_head; rule; rule = rule_get_next_in_dfs(rule)) {
 	if (!rule_has_no_cycles(rule)) {
-	    RuleP reverse_dfs_list_head = NIL(RuleP);
+	    RuleP reverse_dfs_list_head = NULL;
 
 	    rule_compute_reverse_dfs(rule, rule, &reverse_dfs_list_head);
 	    if (reverse_dfs_list_head) {
@@ -300,7 +300,7 @@ grammar_init(GrammarP grammar)
     table_init(table);
     entry_list_init(grammar_entry_list(grammar));
     grammar->terminal       = 0;
-    grammar->predicate_type = NIL(EntryP);
+    grammar->predicate_type = NULL;
     grammar->predicate_id   = table_add_generated_name(table);
 }
 
@@ -357,10 +357,9 @@ grammar_check_complete(GrammarP grammar)
     EntryListP entry_list = grammar_entry_list(grammar);
 
     table_untrace(table);
-    entry_list_iter_table(entry_list, TRUE, NIL(void(*)(EntryP, void *)),
-			  NIL(void *));
-    table_iter(table, grammar_trace_ignored, NIL(void *));
-    table_iter(table, grammar_check_1, NIL(void *));
+    entry_list_iter_table(entry_list, TRUE, NULL, NULL);
+    table_iter(table, grammar_trace_ignored, NULL);
+    table_iter(table, grammar_check_1, NULL);
 }
 
 void
@@ -374,7 +373,7 @@ grammar_compute_first_sets(GrammarP grammar)
 {
     TableP table = grammar_table(grammar);
 
-    table_iter(table, rule_compute_first_set, NIL(void *));
+    table_iter(table, rule_compute_first_set, NULL);
 }
 
 void
@@ -404,8 +403,7 @@ grammar_simplify(GrammarP grammar)
 
     rule_remove_duplicates(table, predicate_id);
     table_untrace(table);
-    entry_list_iter_table(entry_list, FALSE, NIL(void(*)(EntryP, void *)),
-			  NIL(void *));
+    entry_list_iter_table(entry_list, FALSE, NULL, NULL);
     table_unlink_untraced_rules(table);
 }
 
@@ -417,9 +415,9 @@ grammar_compute_inlining(GrammarP grammar)
     if (rule_get_inline_tail_calls()) {
 	grammar_find_cycles(grammar, CT_TAIL);
     }
-    table_iter(table, rule_compute_all_basics, NIL(void *));
-    table_iter(table, rule_compute_inlining, NIL(void *));
-    table_iter(table, rule_compute_needed_functions, NIL(void *));
+    table_iter(table, rule_compute_all_basics, NULL);
+    table_iter(table, rule_compute_inlining, NULL);
+    table_iter(table, rule_compute_needed_functions, NULL);
     grammar_find_cycles(grammar, CT_ALL);
 }
 
@@ -430,8 +428,8 @@ grammar_check_collisions(GrammarP grammar)
 
     table_iter(table, rule_check_first_set, (void *)grammar);
     table_iter(table, rule_compute_follow_set, (void *)grammar);
-    table_iter(table, rule_compute_see_through_alt, NIL(void *));
-    table_iter(table, rule_compute_alt_first_sets, NIL(void *));
+    table_iter(table, rule_compute_see_through_alt, NULL);
+    table_iter(table, rule_compute_alt_first_sets, NULL);
 }
 
 void
@@ -457,7 +455,7 @@ grammar_compute_mutations(GrammarP grammar)
 	 rule = rule_next_in_root_list(rule)) {
 	rule_compute_reverse_list(rule, CT_MUTATE);
     }
-    table_iter(table, rule_compute_mutations, NIL(void *));
+    table_iter(table, rule_compute_mutations, NULL);
     for (rule = rule_list_head(&root_list); rule;
 	 rule = rule_next_in_root_list(rule)) {
 	rule_reinit_reverse_list(rule);

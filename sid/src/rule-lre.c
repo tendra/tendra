@@ -159,7 +159,7 @@ typedef struct VectorEntryT {
 static MatrixEntryP
 rule_left_cycle_matrix(unsigned size)
 {
-    static MatrixEntryP array      = NIL(MatrixEntryP);
+    static MatrixEntryP array      = NULL;
     static unsigned     array_size = 0;
     unsigned            i;
 
@@ -169,7 +169,7 @@ rule_left_cycle_matrix(unsigned size)
 	array_size = size;
     }
     for (i = 0; i < size; i++) {
-	array[i].alt    = NIL(AltP);
+	array[i].alt    = NULL;
 	array[i].inited = FALSE;
     }
     return(array);
@@ -178,7 +178,7 @@ rule_left_cycle_matrix(unsigned size)
 static VectorEntryP
 rule_left_cycle_vector(unsigned size)
 {
-    static VectorEntryP array      = NIL(VectorEntryP);
+    static VectorEntryP array      = NULL;
     static unsigned     array_size = 0;
     unsigned            i;
 
@@ -189,7 +189,7 @@ rule_left_cycle_vector(unsigned size)
     }
     for (i = 0; i < size; i++) {
 	array[i].empty_alt = FALSE;
-	array[i].alt       = NIL(AltP);
+	array[i].alt       = NULL;
 	array[i].inited    = FALSE;
     }
     return(array);
@@ -247,7 +247,7 @@ rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
 	tmp_rec_item = item_next(tmp_rec_item);
     }
     if (diff == 0) {
-	return(NIL(ItemP));
+	return(NULL);
     }
     do {
 	rec_item = item_next(rec_item);
@@ -256,12 +256,12 @@ rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
     tmp_non_rec_item = non_rec_item;
     while (tmp_rec_item && tmp_non_rec_item) {
 	if (item_entry(tmp_rec_item) != item_entry(tmp_non_rec_item)) {
-	    return(NIL(ItemP));
+	    return(NULL);
 	}
 	tmp_rec_item     = item_next(tmp_rec_item);
 	tmp_non_rec_item = item_next(tmp_non_rec_item);
     }
-    ASSERT((tmp_rec_item == NIL(ItemP)) && (tmp_non_rec_item == NIL(ItemP)));
+    ASSERT((tmp_rec_item == NULL) && (tmp_non_rec_item == NULL));
     return(rec_item);
 }
 
@@ -289,7 +289,7 @@ rule_compare_item_lists(ItemP rec_suffix, ItemP non_rec_item)
 	rec_suffix   = item_next(rec_suffix);
 	non_rec_item = item_next(non_rec_item);
     }
-    ASSERT(non_rec_item == NIL(ItemP));
+    ASSERT(non_rec_item == NULL);
     return(TRUE);
 }
 
@@ -308,12 +308,12 @@ rule_left_cycle_special_case_2(RuleP rule, TableP table, AltP non_rec_alt,
     TypeTupleT  result;
 
     rule_reinit(rule);
-    alt_set_next(non_rec_alt, NIL(AltP));
+    alt_set_next(non_rec_alt, NULL);
     btrans_init(&tmp_trans);
     types_copy(&result, rule_result(rule));
     btrans_generate_names(&tmp_trans, &result, table);
     types_translate(&result, &tmp_trans);
-    if ((handler = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((handler = rule_get_handler(rule)) != NULL) {
 	ItemP handler_items = alt_item_head(handler);
 
 	item_translate_list(handler_items, &tmp_trans);
@@ -365,7 +365,7 @@ rule_left_cycle_special_case_1(RuleP rule, TableP table)
     TypeNTransT rec_translator;
     TypeNTransT non_rec_translator;
 
-    if (((non_rec_alt = alt_next(rec_alt)) == NIL(AltP)) ||
+    if (((non_rec_alt = alt_next(rec_alt)) == NULL) ||
 	(alt_next(non_rec_alt))) {
 	return(FALSE);
     }
@@ -389,7 +389,7 @@ rule_left_cycle_special_case_1(RuleP rule, TableP table)
 	return(FALSE);
     }
     if ((rec_suffix = rule_find_suffix(rec_item, non_rec_item)) ==
-	NIL(ItemP)) {
+	NULL) {
 	return(FALSE);
     }
     if ((rec_suffix != rec_next) &&
@@ -407,7 +407,7 @@ rule_left_cycle_special_case_1(RuleP rule, TableP table)
 	ntrans_destroy(&non_rec_translator);
 	ntrans_destroy(&rec_translator);
 	rule_left_cycle_special_case_2(rule, table, non_rec_alt, rec_alt,
-				       NIL(TypeTupleP), rec_suffix);
+				       NULL, rec_suffix);
     } else {
 	types_compute_param_from_trans(&param, &non_rec_translator,
 				       &rec_translator, rule_param(rule));
@@ -426,7 +426,7 @@ rule_left_cycle_special_case(RuleP rule, TableP table)
 	AltP  alt = rule_alt_head(rule);
 	ItemP item;
 
-	if ((alt == NIL(AltP)) || (alt_next(alt) != NIL(AltP))) {
+	if ((alt == NULL) || (alt_next(alt) != NULL)) {
 	    return(FALSE);
 	}
 	item = alt_unlink_item_head(alt);
@@ -573,7 +573,7 @@ rule_check_cycle_types(RuleP rule_list, EntryP predicate_id,
 	    btrans_regenerate_names(&translator1, rule_param(rule));
 	}
 	types_translate(rule_param(rule), &translator1);
-	if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+	if ((alt = rule_get_handler(rule)) != NULL) {
 	   (void)rule_check_alt_cycle_types(rule, rule_list, alt, FALSE,
 					    &translator1, &translator2, table,
 					    &generate);
@@ -656,7 +656,7 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 	    btrans_regenerate_names(&translator, rule_result(rule));
 	}
 	types_translate(rule_result(rule), &translator);
-	if ((handler = rule_get_handler(rule)) != NIL(AltP)) {
+	if ((handler = rule_get_handler(rule)) != NULL) {
 	    ItemP handler_items = alt_item_head(handler);
 
 	    item_translate_list(handler_items, &translator);

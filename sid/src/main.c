@@ -334,7 +334,7 @@ main_init_test(OutputInfoP info, CStringListP options)
 
 	E_bad_language_option("test", option);
     }
-    return(NIL(void *));
+    return(NULL);
 }
 
 static void
@@ -369,7 +369,7 @@ static PhaseListT  main_phase_list[] = {
     {"other", rule_set_inline_non_tail_calls},
     {"multi", rule_set_multiple_inlining},
     {"all", main_handle_phase_all},
-    {NIL(char *), NIL(void(*)(BoolT))}
+    {NULL, NULL}
 };
 
 static LangListT main_language_list[] = {
@@ -378,9 +378,7 @@ static LangListT main_language_list[] = {
     {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"test", main_init_test, main_input_test, 1, main_output_test, 0},
-    {NIL(char *), NIL(void *(*)(OutputInfoP, CStringListP)),
-     NIL(void(*)(void *, GrammarP)), 0,
-     NIL(void(*)(void *, GrammarP)), 0}
+    {NULL, NULL, NULL, 0, NULL, 0}
 };
 
 static LangListP main_language = &(main_language_list[0]);
@@ -590,39 +588,39 @@ static EStringDataT main_description_strings[] = {
 static ArgListT main_arglist[] = {
     {
 	"dump-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_dump_file,	NIL(void *),
+	(ArgProcP)main_handle_dump_file,	NULL,
 	UB "description of dump-file" UE
     }, {
         "factor-limit", 'f',			AT_FOLLOWING,
-	(ArgProcP)main_handle_factor_limit,	NIL(void *),
+	(ArgProcP)main_handle_factor_limit,	NULL,
 	UB "description of factor-limit" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(void *),
+	(ArgProcP)main_handle_help,		NULL,
 	UB "description of help" UE
     }, {
 	"inline", 'i',				AT_FOLLOWING,
-	(ArgProcP)main_handle_inlining,	NIL(void *),
+	(ArgProcP)main_handle_inlining,	NULL,
 	UB "description of inlining" UE
     }, {
 	"language", 'l',			AT_FOLLOWING,
-	(ArgProcP)main_handle_language,	NIL(void *),
+	(ArgProcP)main_handle_language,	NULL,
 	UB "description of language" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP)main_handle_show_errors,	NIL(void *),
+	(ArgProcP)main_handle_show_errors,	NULL,
 	UB "description of show-errors" UE
     }, {
 	"switch", 's',				AT_FOLLOWING,
-	(ArgProcP)main_handle_switch,		NIL(void *),
+	(ArgProcP)main_handle_switch,		NULL,
 	UB "description of switch" UE
     }, {
 	"tab-width", 't',			AT_FOLLOWING,
-	(ArgProcP)main_handle_tab_width,	NIL(void *),
+	(ArgProcP)main_handle_tab_width,	NULL,
 	UB "description of tab-width" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(void *),
+	(ArgProcP)main_handle_version,		NULL,
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -646,7 +644,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 
     error_init(argv[0], gen_errors_init_errors);
     error_intern_strings(main_description_strings);
-    if ((error_file = getenv("SID_ERROR_FILE")) != NIL(char *)) {
+    if ((error_file = getenv("SID_ERROR_FILE")) != NULL) {
 	error_file_parse(error_file, FALSE);
     }
     closure.usage     = error_string_contents(usage_estring);
@@ -765,7 +763,7 @@ main(int argc, char **argv)
 	if (ostream_is_open(&dump_stream)) {
 	    main_1(&out_info, &dump_stream);
 	} else {
-	    main_1(&out_info, NIL(OStreamP));
+	    main_1(&out_info, NULL);
 	}
     } WITH {
 	ExceptionP exception = EXCEPTION_EXCEPTION();

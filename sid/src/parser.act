@@ -92,8 +92,8 @@ static TypeTupleT	sid_saved_type;
 static TypeTupleT	sid_current_type;
 static EntryP		sid_saved_pred_id;
 static EntryP		sid_current_pred_id;
-static EntryP		sid_unique_pred_id = NIL (EntryP);
-static EntryP		sid_predicate_type = NIL (EntryP);
+static EntryP		sid_unique_pred_id = NULL;
+static EntryP		sid_predicate_type = NULL;
 static AltP		sid_current_alt;
 static ItemP		sid_current_item;
 static unsigned		sid_alternative;
@@ -172,7 +172,7 @@ scope_stack_init (&sid_global_scope);
 // Type section actions:
 
 <add-type>: (string) -> () = @{
-    if (table_add_type (sid_current_table, &@=string) == NIL (EntryP)) {
+    if (table_add_type (sid_current_table, &@=string) == NULL) {
 	E_duplicate_type (@&string);
 	nstring_destroy (&@=string);
     }
@@ -183,7 +183,7 @@ scope_stack_init (&sid_global_scope);
 <terminal>: (string) -> () = @{
     sid_current_entry = table_add_basic (sid_current_table, &@=string,
 					 sid_current_grammar, FALSE);
-    if (sid_current_entry == NIL (EntryP)) {
+    if (sid_current_entry == NULL) {
 	E_duplicate_basic (@&string);
 	nstring_destroy (&@=string);
     } else {
@@ -194,7 +194,7 @@ scope_stack_init (&sid_global_scope);
 <i-terminal>: (string) -> () = @{
     sid_current_entry = table_add_basic (sid_current_table, &@=string,
 					 sid_current_grammar, TRUE);
-    if (sid_current_entry == NIL (EntryP)) {
+    if (sid_current_entry == NULL) {
 	E_duplicate_basic (@&string);
 	nstring_destroy (&@=string);
     } else {
@@ -242,13 +242,13 @@ scope_stack_init (&sid_global_scope);
 <null-type> = @{
     types_init (&sid_saved_type);
     types_init (&sid_current_type);
-    sid_saved_pred_id   = NIL (EntryP);
-    sid_current_pred_id = NIL (EntryP);
+    sid_saved_pred_id   = NULL;
+    sid_current_pred_id = NULL;
 @};
 
 <init-tuple> = @{
     types_init (&sid_current_type);
-    sid_current_pred_id = NIL (EntryP);
+    sid_current_pred_id = NULL;
 @};
 
 <tuple-name>: (name, type) -> () = @{
@@ -294,14 +294,14 @@ scope_stack_init (&sid_global_scope);
 	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
 		(!types_contains (rule_param (sid_current.rule),
 				  name_entry))) {
-		name_entry = NIL (EntryP);
+		name_entry = NULL;
 	    }
 	} else {
-	    name_entry = NIL (EntryP);
+	    name_entry = NULL;
 	}
     }
     if (name_entry) {
-	types_add_name_and_type (&sid_current_type, name_entry, NIL (EntryP),
+	types_add_name_and_type (&sid_current_type, name_entry, NULL,
 				 FALSE);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
@@ -309,7 +309,7 @@ scope_stack_init (&sid_global_scope);
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
 	types_add_name_and_type (&sid_current_type, non_local_entry,
-				 NIL (EntryP), FALSE);
+				 NULL, FALSE);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
 	    nstring_assign (&sid_maximum_scope, &scope);
@@ -334,14 +334,14 @@ scope_stack_init (&sid_global_scope);
 	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
 		(!types_contains (rule_param (sid_current.rule),
 				  name_entry))) {
-		name_entry = NIL (EntryP);
+		name_entry = NULL;
 	    }
 	} else {
-	    name_entry = NIL (EntryP);
+	    name_entry = NULL;
 	}
     }
     if (name_entry) {
-	types_add_name_and_type (&sid_current_type, name_entry, NIL (EntryP),
+	types_add_name_and_type (&sid_current_type, name_entry, NULL,
 				 TRUE);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
@@ -349,7 +349,7 @@ scope_stack_init (&sid_global_scope);
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
 	types_add_name_and_type (&sid_current_type, non_local_entry,
-				 NIL (EntryP), TRUE);
+				 NULL, TRUE);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
 	    nstring_assign (&sid_maximum_scope, &scope);
@@ -374,22 +374,22 @@ scope_stack_init (&sid_global_scope);
 	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
 		(!types_contains (rule_param (sid_current.rule),
 				  name_entry))) {
-		name_entry = NIL (EntryP);
+		name_entry = NULL;
 	    }
 	} else {
-	    name_entry = NIL (EntryP);
+	    name_entry = NULL;
 	}
     }
     if (name_entry) {
 	types_add_name_and_type_var (&sid_current_type, name_entry,
-				     NIL (EntryP));
+				     NULL);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
 	}
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
 	types_add_name_and_type_var (&sid_current_type, non_local_entry,
-				     NIL (EntryP));
+				     NULL);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
 	    nstring_assign (&sid_maximum_scope, &scope);
@@ -406,7 +406,7 @@ scope_stack_init (&sid_global_scope);
 <add-pred> = @{
     if (sid_current_pred_id) {
 	E_multi_predicate_return ();
-    } else if (sid_unique_pred_id == NIL (EntryP)) {
+    } else if (sid_unique_pred_id == NULL) {
 	sid_unique_pred_id = grammar_get_predicate_id (sid_current_grammar);
     }
     sid_current_pred_id = sid_unique_pred_id;
@@ -487,15 +487,15 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <non-local>: (id, type_id) -> () = @{
-    sid_non_local = NIL (NonLocalEntryP);
-    if ((sid_enclosing_rule == NIL (RuleP)) ||
+    sid_non_local = NULL;
+    if ((sid_enclosing_rule == NULL) ||
 	(sid_current_scope == &sid_global_scope)) {
 	E_global_scope_non_local (@&id);
 	nstring_destroy (&@=id);
     } else {
 	EntryP type = table_get_type (sid_current_table, @&type_id);
 
-	if (type == NIL (EntryP)) {
+	if (type == NULL) {
 	    E_unknown_type (@&type_id);
 	    nstring_destroy (&@=id);
 	} else {
@@ -520,7 +520,7 @@ scope_stack_init (&sid_global_scope);
     EntryP entry = scope_stack_get_action (&sid_scope_stack, sid_current_table,
 					   @&action_id);
 
-    if (entry == NIL (EntryP)) {
+    if (entry == NULL) {
 	E_unknown_action (@&action_id);
     } else if (sid_non_local) {
 	EntryP     type   = non_local_entry_get_type (sid_non_local);
@@ -613,7 +613,7 @@ scope_stack_init (&sid_global_scope);
 
 	if (rule_is_defined (sid_current.rule)) {
 	    E_rule_already_defined (key);
-	    sid_current_entry = NIL (EntryP);
+	    sid_current_entry = NULL;
 	    types_destroy (&sid_saved_type);
 	    types_destroy (&sid_current_type);
 	} else {
@@ -661,11 +661,11 @@ scope_stack_init (&sid_global_scope);
 		types_assign (result, &sid_current_type);
 	    }
 	    if (errored) {
-		sid_current_entry = NIL (EntryP);
+		sid_current_entry = NULL;
 	    } else {
 		if (types_intersect (param, result)) {
 		    E_rule_formal_clash (key, param, result);
-		    sid_current_entry = NIL (EntryP);
+		    sid_current_entry = NULL;
 		}
 	    }
 	}
@@ -801,7 +801,7 @@ scope_stack_init (&sid_global_scope);
     @saved_rule       = sid_current.rule;
     @saved_alt        = sid_current_alt;
     @saved_internal   = sid_internal_rule;
-    @item             = NIL (ItemP);
+    @item             = NULL;
     sid_internal_rule = TRUE;
     if ((sid_current_entry) && (sid_current_alt)) {
 	sid_current_entry = table_add_generated_rule (sid_current_table,
@@ -817,7 +817,7 @@ scope_stack_init (&sid_global_scope);
 			       item_param (@item));
 	alt_add_item (@saved_alt, @item);
     } else {
-	sid_current_entry = NIL (EntryP);
+	sid_current_entry = NULL;
     }
 @};
 
@@ -844,12 +844,12 @@ scope_stack_init (&sid_global_scope);
 	    sid_current_item = item_create (entry);
 	} else {
 	    E_unknown_action (@&string);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NIL (AltP);
+	    sid_current_alt  = NULL;
 	}
     } else {
-	sid_current_item = NIL (ItemP);
+	sid_current_item = NULL;
     }
     nstring_destroy (&@=string);
 @};
@@ -893,7 +893,7 @@ scope_stack_init (&sid_global_scope);
 							    sid_saved_pred_id,
 							    &reference);
 
-			ASSERT ((type != NIL (EntryP)) && (!reference));
+			ASSERT ((type != NULL) && (!reference));
 			if (sid_predicate_type) {
 			    if (type != sid_predicate_type) {
 				E_predicate_type (sid_predicate_type, type);
@@ -924,9 +924,9 @@ scope_stack_init (&sid_global_scope);
 	}
 	if (errored) {
 	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NIL (AltP);
+	    sid_current_alt  = NULL;
 	} else {
 	    alt_add_item (sid_current_alt, sid_current_item);
 	}
@@ -948,14 +948,14 @@ scope_stack_init (&sid_global_scope);
 					   entry_key (sid_external_rule),
 					   sid_alternative);
 		types_destroy (&sid_current_type);
-		sid_current_item = NIL (ItemP);
+		sid_current_item = NULL;
 	    } else {
 		sid_current_item = item_create (entry);
 		item_add_param (sid_current_item, &sid_current_type);
 	    }
 	} else {
 	    types_destroy (&sid_current_type);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	}
 	if (types_disjoint_names (&sid_saved_type)) {
 	    if (types_check_undefined (&sid_saved_type,
@@ -980,14 +980,14 @@ scope_stack_init (&sid_global_scope);
 					     &sid_saved_type);
 			types_destroy (&sid_saved_type);
 			(void) item_deallocate (sid_current_item);
-			sid_current_item = NIL (ItemP);
+			sid_current_item = NULL;
 		    }
 		}
 	    } else {
 		types_destroy (&sid_saved_type);
 		if (sid_current_item) {
 		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NIL (ItemP);
+		    sid_current_item = NULL;
 		}
 	    }
 	} else {
@@ -995,12 +995,12 @@ scope_stack_init (&sid_global_scope);
 	    types_destroy (&sid_saved_type);
 	    if (sid_current_item) {
 		(void) item_deallocate (sid_current_item);
-		sid_current_item = NIL (ItemP);
+		sid_current_item = NULL;
 	    }
 	}
-	if (sid_current_item == NIL (ItemP)) {
+	if (sid_current_item == NULL) {
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NIL (AltP);
+	    sid_current_alt = NULL;
 	}
     } else {
 	types_destroy (&sid_saved_type);
@@ -1009,9 +1009,9 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <x-prod-rule>: (string) -> () = @{
-    TypeTupleP param  = NIL (TypeTupleP);
-    TypeTupleP result = NIL (TypeTupleP);
-    EntryP     entry  = NIL (EntryP);
+    TypeTupleP param  = NULL;
+    TypeTupleP result = NULL;
+    EntryP     entry  = NULL;
     RuleP      rule;
     BasicP     basic;
 
@@ -1028,18 +1028,18 @@ scope_stack_init (&sid_global_scope);
 	    if (entry) {
 		sid_current_item = item_create (entry);
 		basic            = entry_get_basic (entry);
-		param            = NIL (TypeTupleP);
+		param            = NULL;
 		result           = basic_result (basic);
 		if (basic_get_ignored (basic)) {
 		    E_ignored_basic_call (@&string);
 		}
 	    } else {
 		E_unknown_rule_or_basic (@&string);
-		sid_current_item = NIL (ItemP);
+		sid_current_item = NULL;
 	    }
 	}
     } else {
-	sid_current_item = NIL (ItemP);
+	sid_current_item = NULL;
     }
     nstring_destroy (&@=string);
     if (sid_current_item) {
@@ -1108,16 +1108,16 @@ scope_stack_init (&sid_global_scope);
 	}
 	if (errored) {
 	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NIL (AltP);
+	    sid_current_alt  = NULL;
 	} else {
 	    alt_add_item (sid_current_alt, sid_current_item);
 	}
     } else {
 	if (sid_current_alt) {
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NIL (AltP);
+	    sid_current_alt = NULL;
 	}
 	types_destroy (&sid_saved_type);
 	types_destroy (&sid_current_type);
@@ -1126,17 +1126,17 @@ scope_stack_init (&sid_global_scope);
 
 <x-prod-rule-or-identity>: (string) -> () = @{
     EntryP     name_entry = table_get_entry (sid_current_table, @&string);
-    EntryP     entry      = NIL (EntryP);
-    TypeTupleP param      = NIL (TypeTupleP);
-    TypeTupleP result     = NIL (TypeTupleP);
+    EntryP     entry      = NULL;
+    TypeTupleP param      = NULL;
+    TypeTupleP result     = NULL;
     RuleP      rule;
     BasicP     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
-	if ((name_entry != NIL (EntryP)) &&
+	if ((name_entry != NULL) &&
 	    (!types_contains (alt_names (sid_current_alt), name_entry)) &&
 	    (!types_contains (rule_param (sid_current.rule), name_entry))) {
-	    name_entry = NIL (EntryP);
+	    name_entry = NULL;
 	}
 	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
 				      @&string);
@@ -1150,15 +1150,15 @@ scope_stack_init (&sid_global_scope);
 	    if (entry) {
 		sid_current_item = item_create (entry);
 		basic            = entry_get_basic (entry);
-		param            = NIL (TypeTupleP);
+		param            = NULL;
 		result           = basic_result (basic);
-		if ((name_entry == NIL (EntryP)) &&
+		if ((name_entry == NULL) &&
 		    basic_get_ignored (basic)) {
 		    E_ignored_basic_call (@&string);
 		}
 	    }
 	}
-	if ((entry == NIL (EntryP)) && (name_entry == NIL (EntryP))) {
+	if ((entry == NULL) && (name_entry == NULL)) {
 	    NStringT scope;
 
 	    name_entry = scope_stack_get_non_local (&sid_scope_stack,
@@ -1175,13 +1175,13 @@ scope_stack_init (&sid_global_scope);
 	    } else {
 		E_unknown_rule_or_basic (@&string);
 	    }
-	} else if ((entry != NIL (EntryP)) && (name_entry != NIL (EntryP))) {
+	} else if ((entry != NULL) && (name_entry != NULL)) {
 	    E_ambiguous_call (@&string);
-	    entry      = NIL (EntryP);
-	    name_entry = NIL (EntryP);
+	    entry      = NULL;
+	    name_entry = NULL;
 	}
     } else {
-	name_entry = NIL (EntryP);
+	name_entry = NULL;
     }
     nstring_destroy (&@=string);
     if (entry) {
@@ -1250,9 +1250,9 @@ scope_stack_init (&sid_global_scope);
 	}
 	if (errored) {
 	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NIL (AltP);
+	    sid_current_alt  = NULL;
 	} else {
 	    alt_add_item (sid_current_alt, sid_current_item);
 	}
@@ -1267,14 +1267,14 @@ scope_stack_init (&sid_global_scope);
 					   entry_key (sid_external_rule),
 					   sid_alternative);
 		types_destroy (&sid_current_type);
-		sid_current_item = NIL (ItemP);
+		sid_current_item = NULL;
 	    } else {
 		sid_current_item = item_create (entry);
 		item_add_param (sid_current_item, &sid_current_type);
 	    }
 	} else {
 	    types_destroy (&sid_current_type);
-	    sid_current_item = NIL (ItemP);
+	    sid_current_item = NULL;
 	}
 	if (types_disjoint_names (&sid_saved_type)) {
 	    if (types_check_undefined (&sid_saved_type,
@@ -1299,14 +1299,14 @@ scope_stack_init (&sid_global_scope);
 					     &sid_saved_type);
 			types_destroy (&sid_saved_type);
 			(void) item_deallocate (sid_current_item);
-			sid_current_item = NIL (ItemP);
+			sid_current_item = NULL;
 		    }
 		}
 	    } else {
 		types_destroy (&sid_saved_type);
 		if (sid_current_item) {
 		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NIL (ItemP);
+		    sid_current_item = NULL;
 		}
 	    }
 	} else {
@@ -1314,17 +1314,17 @@ scope_stack_init (&sid_global_scope);
 	    types_destroy (&sid_saved_type);
 	    if (sid_current_item) {
 		(void) item_deallocate (sid_current_item);
-		sid_current_item = NIL (ItemP);
+		sid_current_item = NULL;
 	    }
 	}
-	if (sid_current_item == NIL (ItemP)) {
+	if (sid_current_item == NULL) {
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NIL (AltP);
+	    sid_current_alt = NULL;
 	}
     } else {
 	if (sid_current_alt) {
 	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NIL (AltP);
+	    sid_current_alt = NULL;
 	}
 	types_destroy (&sid_saved_type);
 	types_destroy (&sid_current_type);

@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "exception.h"
 
 extern void			E_exception_unhandled(ExceptionP, char *,
@@ -91,7 +93,7 @@ extern void			E_exception_corrupt_handler(char *, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
-HandlerP			X__exception_handler_stack = NIL(HandlerP);
+HandlerP			X__exception_handler_stack = NULL;
 ThrowDataT			X__exception_throw_data;
 
 /*--------------------------------------------------------------------------*/
@@ -105,7 +107,7 @@ X__exception_throw(void)
     if (failing) {
 	abort();
 	UNREACHED;
-    } else if (stack == NIL(HandlerP)) {
+    } else if (stack == NULL) {
 	failing = TRUE;
 	E_exception_unhandled(X__exception_throw_data.exception,
 			      X__exception_throw_data.file,

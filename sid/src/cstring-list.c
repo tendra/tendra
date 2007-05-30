@@ -90,7 +90,7 @@
 void
 cstring_list_init(CStringListP list)
 {
-    list->head = NIL(CStringListEntryP);
+    list->head = NULL;
     list->tail = &(list->head);
 }
 
@@ -99,7 +99,7 @@ cstring_list_append(CStringListP list, char * string)
 {
     CStringListEntryP entry = ALLOCATE(CStringListEntryT);
 
-    entry->next   = NIL(CStringListEntryP);
+    entry->next   = NULL;
     entry->string = string;
     *(list->tail) = entry;
     list->tail    = &(entry->next);

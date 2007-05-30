@@ -110,7 +110,7 @@ rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
 {
     AltP alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_recompute_alt_names_2(alt, predicate_id);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {

@@ -179,18 +179,18 @@ code: () -> (c) = @{
 
 <set-map>: (string) -> () = @{
     if ((c_current_entry = table_get_entry (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_identifier (@&string);
     } else if (entry_get_mapping (c_current_entry)) {
 	E_c_remapped_identifier (@&string);
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     } else {
 	switch (entry_type (c_current_entry)) EXHAUSTIVE {
 	  case ET_NAME:
 	  case ET_ACTION:
 	  case ET_NON_LOCAL:
 	    E_c_illegal_map (@&string);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	    break;
 	  case ET_RENAME:
 	  case ET_PREDICATE:
@@ -216,13 +216,13 @@ code: () -> (c) = @{
 // Header actions:
 
 <set-header1>: (code) -> () = @{
-    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check (@code, FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_header1 (c_current_out_info, @code);
 @};
 
 <set-header2>: (code) -> () = @{
-    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check (@code, FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_header2 (c_current_out_info, @code);
 @};
@@ -266,11 +266,11 @@ code: () -> (c) = @{
 
 <assign>: (string) -> () = @{
     if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_assign (@&string);
     } else if (type_get_assign_code (entry_get_type (c_current_entry))) {
 	E_c_assign_mult_def (@&string);
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&@=string);
 @};
@@ -308,7 +308,7 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate (@code);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -325,11 +325,11 @@ code: () -> (c) = @{
 
 <passign>: (string) -> () = @{
     if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_param_assign (@&string);
     } else if (type_get_param_assign_code (entry_get_type (c_current_entry))) {
 	E_c_param_assign_mult_def (@&string);
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&@=string);
 @};
@@ -368,7 +368,7 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate (@code);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -385,11 +385,11 @@ code: () -> (c) = @{
 
 <rassign>: (string) -> () = @{
     if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_result_assign (@&string);
     } else if (type_get_result_assign_code (entry_get_type (c_current_entry))) {
 	E_c_result_assign_mult_def (@&string);
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&@=string);
 @};
@@ -428,7 +428,7 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate (@code);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -447,17 +447,17 @@ code: () -> (c) = @{
 
 <set-terminal>: (string) -> () = @{
     if ((c_current_entry = table_get_basic (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_basic (@&string);
     } else {
 	BasicP basic = entry_get_basic (c_current_entry);
 
 	if (basic_get_result_code (basic)) {
 	    E_c_basic_mult_def (@&string);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else if (types_equal_zero_tuple (basic_result (basic))) {
 	    E_c_basic_has_no_result (@&string);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	}
     }
     nstring_destroy (&@=string);
@@ -494,10 +494,10 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate (@code);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    types_destroy (&c_saved_type);
-	    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP),
+	    c_code_check (@code, FALSE, FALSE, NULL,
 			  &c_current_type, c_current_table);
 	    basic_set_result_code (basic, (void *) @code);
 	}
@@ -512,14 +512,14 @@ code: () -> (c) = @{
 
 <set-action>: (string) -> () = @{
     if ((c_current_entry = table_get_action (c_current_table, @&string)) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_action (@&string);
     } else {
 	ActionP action = entry_get_action (c_current_entry);
 
 	if (action_get_code (action)) {
 	    E_c_action_mult_def (@&string);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	}
     }
     nstring_destroy (&@=string);
@@ -557,7 +557,7 @@ code: () -> (c) = @{
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate (@code);
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    c_code_check (@code, TRUE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -572,13 +572,13 @@ code: () -> (c) = @{
 @};
 
 <set-trailer1>: (code) -> () = @{
-    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check (@code, FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_trailer1 (c_current_out_info, @code);
 @};
 
 <set-trailer2>: (code) -> () = @{
-    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check (@code, FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_trailer2 (c_current_out_info, @code);
 @};

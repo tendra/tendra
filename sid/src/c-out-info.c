@@ -97,10 +97,10 @@ void
 c_out_info_init(COutputInfoP info, OutputInfoP out_info)
 {
     info->info        = out_info;
-    info->header1     = NIL(CCodeP);
-    info->header2     = NIL(CCodeP);
-    info->trailer1    = NIL(CCodeP);
-    info->trailer2    = NIL(CCodeP);
+    info->header1     = NULL;
+    info->header2     = NULL;
+    info->trailer1    = NULL;
+    info->trailer2    = NULL;
     nstring_copy_cstring(c_out_info_type_prefix(info), "ZT");
     nstring_copy_cstring(c_out_info_fn_prefix(info), "ZR");
     nstring_copy_cstring(c_out_info_in_prefix(info), "ZI");

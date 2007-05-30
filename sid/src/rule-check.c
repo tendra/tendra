@@ -212,7 +212,7 @@ static void
 rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 			  EntryListP pred_context, ClashListP clashes)
 {
-    if (item != NIL(ItemP)) {
+    if (item != NULL) {
 	EntryP entry;
 
 	rule_compute_follow_set_3(grammar, item_next(item), context,
@@ -223,7 +223,7 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 	    entry_list_destroy(pred_context);
 	    entry_list_init(pred_context);
 	    entry_list_add(pred_context, entry);
-	    clashes->next = NIL(ClashListP);
+	    clashes->next = NULL;
 	    break;
 	  case ET_ACTION:
 	  case ET_RENAME:
@@ -242,7 +242,7 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 		  entry_list_destroy(pred_context);
 		  entry_list_init(pred_context);
 		  entry_list_append(pred_context, rule_predicate_first(rule));
-		  clashes->next = NIL(ClashListP);
+		  clashes->next = NULL;
 	      }
 	  }
 	    break;
@@ -251,7 +251,7 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 
 	      bitvec_empty(context);
 	      bitvec_set(context, basic_terminal(basic));
-	      clashes->next = NIL(ClashListP);
+	      clashes->next = NULL;
 	  }
 	    break;
 	  case ET_NON_LOCAL:
@@ -329,7 +329,7 @@ rule_compute_follow_set_1(RuleP rule, GrammarP grammar, BitVecP context,
 	}
 	entry_list_destroy(&tmp_list);
     }
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_follow_set_2(rule, grammar, alt, follow, pred_follow,
 				   clashes);
     }
@@ -437,7 +437,7 @@ rule_compute_follow_set(EntryP entry, void * gclosure)
 	bitvec_init(&outer);
 	entry_list_init(&pred_outer);
 	rule_compute_follow_set_1(rule, grammar, &outer, &pred_outer,
-				  NIL(ClashListP));
+				  NULL);
 	bitvec_destroy(&outer);
 	entry_list_destroy(&pred_outer);
     }

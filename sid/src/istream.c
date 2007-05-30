@@ -103,7 +103,7 @@ ExceptionP XX_istream_read_error = EXCEPTION("error reading from stream");
 static char istream_input_buffer[ISTREAM_BUFSIZE];
 
 static IStreamT		istream_input_1 = {
-    NIL(FILE *),
+    NULL,
     &(istream_input_buffer[0]),
     &(istream_input_buffer[ISTREAM_BUFSIZE - 1]),
     &(istream_input_buffer[ISTREAM_BUFSIZE]),
@@ -170,13 +170,13 @@ istream_setup(void)
 void
 istream_init(IStreamP istream)
 {
-    istream->name = NIL(char *);
+    istream->name = NULL;
 }
 
 BoolT
 istream_open(IStreamP istream, char * name)
 {
-    if ((istream->file = fopen(name, "r")) == NIL(FILE *)) {
+    if ((istream->file = fopen(name, "r")) == NULL) {
 	return(FALSE);
     }
     istream->buffer  = ALLOCATE_VECTOR(char, ISTREAM_BUFSIZE);
@@ -203,7 +203,7 @@ istream_assign(IStreamP to,			IStreamP from)
 BoolT
 istream_is_open(IStreamP istream)
 {
-    return(istream->name != NIL(char *));
+    return(istream->name != NULL);
 }
 
 BoolT

@@ -307,12 +307,6 @@
  *
  * This macro is defined if the POSIX function ``mkdir'' is defined.
  *
- ** Macro:	NIL(type)
- ** Exceptions:
- *
- * This is the null pointer macro.  The argument is the type for which a null
- * pointer is required.
- *
  ** Macro:	UNION
  ** Exceptions:
  *
@@ -498,8 +492,6 @@ typedef enum {
     CMP_GT
 } CmpT, *CmpP;
 # endif /* defined (FS_NO_ENUM) */
-
-# define NIL(type) ((type) (0))
 
 # define FALSE (0)
 # define TRUE (1)

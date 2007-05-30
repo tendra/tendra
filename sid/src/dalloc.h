@@ -110,7 +110,7 @@
  ** Exceptions:
  *
  * This macro deallocates the specified pointer.  If the pointer is a null
- * pointer (``NIL (SomeTypeP)''), this does nothing.
+ * pointer (``NULL''), this does nothing.
  *
  ***=== EXCEPTIONS ===========================================================
  *

@@ -155,8 +155,8 @@ rule_sort_alts(RuleSortListP sort_list)
 		higher.tail    = alt_next_ref(scan_alt);
 	    }
 	}
-	*(lower.tail) = NIL(AltP);
-	*(higher.tail) = NIL(AltP);
+	*(lower.tail) = NULL;
+	*(higher.tail) = NULL;
 	if (lower.head) {
 	    rule_sort_alts(&lower);
 	    sort_list->head = lower.head;
@@ -171,7 +171,7 @@ rule_sort_alts(RuleSortListP sort_list)
 	    *(sort_list->tail) = higher.head;
 	    sort_list->tail    = higher.tail;
 	}
-	*(sort_list->tail) = NIL(AltP);
+	*(sort_list->tail) = NULL;
     }
 }
 
@@ -180,7 +180,7 @@ rule_reorder(RuleP rule)
 {
     RuleSortListT sort_list;
 
-    if ((sort_list.head = rule_alt_head(rule)) != NIL(AltP)) {
+    if ((sort_list.head = rule_alt_head(rule)) != NULL) {
 	sort_list.tail = rule->alt_tail;
 	rule_sort_alts(&sort_list);
 	rule->alt_head = sort_list.head;
@@ -198,7 +198,7 @@ rule_hash_1(RuleP rule, EntryP predicate_id)
     rule_reorder(rule);
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 	ItemP item;
-	KeyP  key = NIL(KeyP);
+	KeyP  key = NULL;
 
 	hash_value += 5;
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
@@ -291,7 +291,7 @@ rule_do_replacements(EntryP entry, void * gclosure)
 	BoolT changed = FALSE;
 	AltP  alt;
 
-	if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+	if ((alt = rule_get_handler(rule)) != NULL) {
 	    if (rule_do_replacements_1(alt, closure)) {
 		changed = TRUE;
 	    }
@@ -313,11 +313,11 @@ rule_remove_duplicates_1(RuleP *rule_ref, TableP table)
     BoolT did_remove = FALSE;
     RuleP rule;
 
-    while ((rule = *rule_ref) != NIL(RuleP)) {
+    while ((rule = *rule_ref) != NULL) {
 	RuleP *inner_rule_ref = rule_get_next_in_table_ref(rule);
 	RuleP  inner_rule;
 
-	while ((inner_rule = *inner_rule_ref) != NIL(RuleP)) {
+	while ((inner_rule = *inner_rule_ref) != NULL) {
 	    if (rule_equal(rule, inner_rule)) {
 		ReplaceClosureT closure;
 
@@ -354,7 +354,7 @@ rule_remove_duplicates(TableP table, EntryP predicate_id)
     unsigned i;
 
     for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
-	equality_table[i] = NIL(RuleP);
+	equality_table[i] = NULL;
     }
     table_iter(table, rule_hash_for_comparison, (void *)predicate_id);
     do {

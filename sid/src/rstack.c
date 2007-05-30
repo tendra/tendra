@@ -95,7 +95,7 @@
 void
 rstack_init(RStackP rstack)
 {
-    rstack->head = NIL(TransStackEntryP);
+    rstack->head = NULL;
 }
 
 void
@@ -170,7 +170,7 @@ rstack_get_translation(SaveRStackP state, EntryP entry, EntryP *type_ref,
 	}
 	frame = frame->next;
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 void
@@ -180,7 +180,7 @@ rstack_apply_for_non_locals(RStackP non_local_stack, SaveRStackP state,
 {
     TransStackEntryP frame = non_local_stack->head;
 
-    if ((frame != NIL(TransStackEntryP)) && (state->head)) {
+    if ((frame != NULL) && (state->head)) {
 	TransStackEntryP limit = state->head->next;
 
 	for (; frame != limit; frame = frame->next) {

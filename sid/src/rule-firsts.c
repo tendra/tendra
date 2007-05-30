@@ -124,7 +124,7 @@ rule_compute_first_set_1(RuleP rule)
 	ItemP item        = alt_item_head(alt);
 	ItemP initial     = item;
 
-	for (; see_through && (item != NIL(ItemP)); item = item_next(item)) {
+	for (; see_through && (item != NULL); item = item_next(item)) {
 	    switch (item_type(item))EXHAUSTIVE {
 	      case ET_PREDICATE:
 		if (item != initial) {

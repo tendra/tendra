@@ -858,7 +858,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
     }
     if (outer_level) {
 	rule_set_handler_label(rule, c_out_next_label());
-    } else if ((handler != NIL(AltP)) || has_non_locals) {
+    } else if ((handler != NULL) || has_non_locals) {
 	handler_rule = rule;
 	rule_set_handler_label(rule, c_out_next_label());
     }
@@ -944,7 +944,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 		c_output_restore(info, handler_rule, outer_level,
 				 code_indent + C_INDENT_STEP);
 	    }
-	    if ((see_through_alt == NIL(AltP)) && (!full_first_set)) {
+	    if ((see_through_alt == NULL) && (!full_first_set)) {
 		c_output_default(info, code_indent);
 		if (!rule_has_empty_alt(rule)) {
 		    c_output_jump(info, rule_get_handler_label(handler_rule),
@@ -963,7 +963,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	    }
 	}
     }
-    if (((handler != NIL(AltP)) || has_non_locals || outer_level) &&
+    if (((handler != NULL) || has_non_locals || outer_level) &&
 	rule_used_handler_label(rule)) {
 	if (reachable) {
 	    if (outer_level && types_equal_zero_tuple(rule_result(rule)) &&

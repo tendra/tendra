@@ -160,7 +160,7 @@ rule_inline_tail_calls_1(RuleP rule, AltP alt, RuleP tail_group)
     ItemP item = alt_item_head(alt);
     ItemP next;
 
-    while ((next = item_next(item)) != NIL(ItemP)) {
+    while ((next = item_next(item)) != NULL) {
 	item = next;
     }
     if (item_is_rule(item)) {
@@ -180,7 +180,7 @@ rule_inline_tail_calls(RuleP rule)
     RuleP tail_group = rule_get_tail_group(rule);
     AltP  alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_inline_tail_calls_1(rule, alt, tail_group);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -196,7 +196,7 @@ rule_compute_call_graph_1(AltP alt, EntryListP call_list, RuleStackP next)
     ItemP item = alt_item_head(alt);
     ItemP next_item;
 
-    while ((next_item = item_next(item)) != NIL(ItemP)) {
+    while ((next_item = item_next(item)) != NULL) {
 	item = next_item;
     }
     if (item_is_tail_call(item)) {
@@ -222,7 +222,7 @@ rule_compute_call_graph(RuleP rule, EntryListP call_list, RuleStackP next)
 	}
 	next = next->next;
     }
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_call_graph_1(alt, call_list, &stack);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -234,7 +234,7 @@ static void
 rule_compute_all_basics_1(RuleP rule)
 {
     if ((!rule_has_empty_alt(rule)) &&
-	(rule_get_handler(rule) == NIL(AltP))) {
+	(rule_get_handler(rule) == NULL)) {
 	AltP alt;
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -286,7 +286,7 @@ rule_compute_inlining_1(RuleP rule)
 	    AltP alt;
 
 	    rule_being_inlined(rule);
-	    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+	    if ((alt = rule_get_handler(rule)) != NULL) {
 		rule_compute_inlining_2(alt);
 	    }
 	    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -319,7 +319,7 @@ rule_compute_needed_functions_1(RuleP rule)
 {
     AltP     alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_needed_functions_2(alt);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -343,7 +343,7 @@ rule_handle_tails(RuleP rule_list)
     }
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 	rule_compute_call_graph(rule, rule_call_list(rule),
-				 NIL(RuleStackP));
+				 NULL);
     }
 }
 

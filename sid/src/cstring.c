@@ -193,7 +193,7 @@ cstring_starts(char * cstring, char * s)
 BoolT
 cstring_contains(char * cstring, char c)
 {
-    return(strchr(cstring, c) != NIL(char *));
+    return(strchr(cstring, c) != NULL);
 }
 
 char *
@@ -212,7 +212,7 @@ char *
 cstring_find_basename(char * cstring)
 {
     char * bstring = cstring_find_reverse(cstring, '/');
-    if (bstring != NIL(char *)) {
+    if (bstring != NULL) {
 	cstring = bstring + 1;
     }
     return(cstring);

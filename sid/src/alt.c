@@ -96,10 +96,10 @@ alt_create(void)
 {
     AltP alt = ALLOCATE(AltT);
 
-    alt->next      = NIL(AltP);
+    alt->next      = NULL;
     types_init(alt_names(alt));
     bitvec_init(alt_first_set(alt));
-    alt->item_head = NIL(ItemP);
+    alt->item_head = NULL;
     alt->item_tail = &(alt->item_head);
     return(alt);
 }
@@ -192,9 +192,9 @@ alt_equal(AltP alt1, AltP alt2)
     ItemP item1;
     ItemP item2;
 
-    if ((alt1 == NIL(AltP)) && (alt2 == NIL(AltP))) {
+    if ((alt1 == NULL) && (alt2 == NULL)) {
 	return(TRUE);
-    } else if ((alt1 == NIL(AltP)) || (alt2 == NIL(AltP))) {
+    } else if ((alt1 == NULL) || (alt2 == NULL)) {
 	return(FALSE);
     }
     item1 = alt_item_head(alt1);
@@ -254,7 +254,7 @@ alt_unlink_item_head(AltP alt)
     ItemP item = alt_item_head(alt);
 
     alt->item_head = item_next(item);
-    item_set_next(item, NIL(ItemP));
+    item_set_next(item, NULL);
     if (alt->item_tail == item_next_ref(item)) {
 	alt->item_tail = &(alt->item_head);
     }

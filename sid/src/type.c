@@ -91,9 +91,9 @@ type_create(void)
 {
     TypeP type = ALLOCATE(TypeT);
 
-    type->assign_code        = NIL(void *);
-    type->param_assign_code  = NIL(void *);
-    type->result_assign_code = NIL(void *);
+    type->assign_code        = NULL;
+    type->param_assign_code  = NULL;
+    type->result_assign_code = NULL;
     return(type);
 }
 
@@ -106,7 +106,7 @@ type_get_assign_code(TypeP type)
 void
 type_set_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->assign_code == NIL(void *));
+    ASSERT(type->assign_code == NULL);
     type->assign_code = code;
 }
 
@@ -119,7 +119,7 @@ type_get_param_assign_code(TypeP type)
 void
 type_set_param_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->param_assign_code == NIL(void *));
+    ASSERT(type->param_assign_code == NULL);
     type->param_assign_code = code;
 }
 
@@ -132,7 +132,7 @@ type_get_result_assign_code(TypeP type)
 void
 type_set_result_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->result_assign_code == NIL(void *));
+    ASSERT(type->result_assign_code == NULL);
     type->result_assign_code = code;
 }
 

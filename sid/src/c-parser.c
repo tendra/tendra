@@ -202,18 +202,18 @@ ZR92(void)
 	{
 
     if ((c_current_entry = table_get_entry (c_current_table, (&ZI94))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_identifier ((&ZI94));
     } else if (entry_get_mapping (c_current_entry)) {
 	E_c_remapped_identifier ((&ZI94));
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     } else {
 	switch (entry_type (c_current_entry)) EXHAUSTIVE {
 	  case ET_NAME:
 	  case ET_ACTION:
 	  case ET_NON_LOCAL:
 	    E_c_illegal_map ((&ZI94));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	    break;
 	  case ET_RENAME:
 	  case ET_PREDICATE:
@@ -343,11 +343,11 @@ ZR119(void)
 	{
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_assign ((&ZI79));
     } else if (type_get_assign_code (entry_get_type (c_current_entry))) {
 	E_c_assign_mult_def ((&ZI79));
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&(ZI79));
 	}
@@ -406,7 +406,7 @@ ZR119(void)
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate ((ZI123));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -516,14 +516,14 @@ ZR148(void)
 		{
 
     if ((c_current_entry = table_get_action (c_current_table, (&ZI79))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_action ((&ZI79));
     } else {
 	ActionP action = entry_get_action (c_current_entry);
 
 	if (action_get_code (action)) {
 	    E_c_action_mult_def ((&ZI79));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	}
     }
     nstring_destroy (&(ZI79));
@@ -604,7 +604,7 @@ ZR148(void)
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate ((ZI123));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    c_code_check ((ZI123), TRUE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -850,11 +850,11 @@ ZR127(void)
 	{
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_param_assign ((&ZI79));
     } else if (type_get_param_assign_code (entry_get_type (c_current_entry))) {
 	E_c_param_assign_mult_def ((&ZI79));
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&(ZI79));
 	}
@@ -914,7 +914,7 @@ ZR127(void)
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate ((ZI123));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -1227,7 +1227,7 @@ c_parse_grammar(void)
 		ADVANCE_LEXER;
 		{
 
-    c_code_check ((ZI159), FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check ((ZI159), FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_header1 (c_current_out_info, (ZI159));
 		}
@@ -1266,7 +1266,7 @@ c_parse_grammar(void)
 		ADVANCE_LEXER;
 		{
 
-    c_code_check ((ZI162), FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check ((ZI162), FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_header2 (c_current_out_info, (ZI162));
 		}
@@ -1428,7 +1428,7 @@ c_parse_grammar(void)
 		ADVANCE_LEXER;
 		{
 
-    c_code_check ((ZI171), FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check ((ZI171), FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_trailer1 (c_current_out_info, (ZI171));
 		}
@@ -1467,7 +1467,7 @@ c_parse_grammar(void)
 		ADVANCE_LEXER;
 		{
 
-    c_code_check ((ZI174), FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+    c_code_check ((ZI174), FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_trailer2 (c_current_out_info, (ZI174));
 		}
@@ -1653,11 +1653,11 @@ ZR134(void)
 	{
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_result_assign ((&ZI79));
     } else if (type_get_result_assign_code (entry_get_type (c_current_entry))) {
 	E_c_result_assign_mult_def ((&ZI79));
-	c_current_entry = NIL (EntryP);
+	c_current_entry = NULL;
     }
     nstring_destroy (&(ZI79));
 	}
@@ -1717,7 +1717,7 @@ ZR134(void)
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate ((ZI123));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    TypeP type = entry_get_type (c_current_entry);
 
@@ -1996,17 +1996,17 @@ ZR141(void)
 	{
 
     if ((c_current_entry = table_get_basic (c_current_table, (&ZI79))) ==
-	NIL (EntryP)) {
+	NULL) {
 	E_c_unknown_basic ((&ZI79));
     } else {
 	BasicP basic = entry_get_basic (c_current_entry);
 
 	if (basic_get_result_code (basic)) {
 	    E_c_basic_mult_def ((&ZI79));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else if (types_equal_zero_tuple (basic_result (basic))) {
 	    E_c_basic_has_no_result ((&ZI79));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	}
     }
     nstring_destroy (&(ZI79));
@@ -2064,10 +2064,10 @@ ZR141(void)
 	    types_destroy (&c_saved_type);
 	    types_destroy (&c_current_type);
 	    c_code_deallocate ((ZI123));
-	    c_current_entry = NIL (EntryP);
+	    c_current_entry = NULL;
 	} else {
 	    types_destroy (&c_saved_type);
-	    c_code_check ((ZI123), FALSE, FALSE, NIL (TypeTupleP),
+	    c_code_check ((ZI123), FALSE, FALSE, NULL,
 			  &c_current_type, c_current_table);
 	    basic_set_result_code (basic, (void *) (ZI123));
 	}

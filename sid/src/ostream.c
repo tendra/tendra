@@ -97,14 +97,14 @@
 ExceptionP XX_ostream_write_error = EXCEPTION("error writing to stream");
 
 static OStreamT ostream_output_1 = {
-    NIL(FILE *),
+    NULL,
     "<stdout>",
     "<stdout>",
     0,
     1
 };
 static OStreamT ostream_error_1 = {
-    NIL(FILE *),
+    NULL,
     "<stderr>",
     "<stderr>",
     0,
@@ -134,7 +134,7 @@ ostream_setup(void)
 void
 ostream_init(OStreamP ostream)
 {
-    ostream->name = NIL(char *);
+    ostream->name = NULL;
 }
 
 BoolT
@@ -142,37 +142,37 @@ ostream_open(OStreamP ostream, char * name)
 {
     char * oname = name;
     char * pname = cstring_find_reverse(name, '@');
-    if (pname != NIL(char *)) {
+    if (pname != NULL) {
 	oname = ALLOCATE_VECTOR(char, cstring_length(name) + 10);
 	(void)sprintf(oname, "%.*s%d%s", (int)(pname - name), name,
 		      ++ostream->no, pname + 1);
     }
-    if ((ostream->file = fopen(oname, "w")) == NIL(FILE *)) {
+    if ((ostream->file = fopen(oname, "w")) == NULL) {
 	return(FALSE);
     }
     ostream->name = oname;
     ostream->gen_name = name;
     ostream->line = 1;
-    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (size_t)BUFSIZ);
+    (void)setvbuf(ostream->file, NULL, _IOFBF, (size_t)BUFSIZ);
     return(TRUE);
 }
 
 BoolT
 ostream_is_open(OStreamP ostream)
 {
-    return(ostream->name != NIL(char *));
+    return(ostream->name != NULL);
 }
 
 void
 ostream_buffer(OStreamP ostream)
 {
-    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (size_t)BUFSIZ);
+    (void)setvbuf(ostream->file, NULL, _IOFBF, (size_t)BUFSIZ);
 }
 
 void
 ostream_unbuffer(OStreamP ostream)
 {
-    (void)setvbuf(ostream->file, NIL(char *), _IONBF, (size_t)0);
+    (void)setvbuf(ostream->file, NULL, _IONBF, (size_t)0);
 }
 
 void

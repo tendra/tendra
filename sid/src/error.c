@@ -99,15 +99,15 @@
 static ETagP		tag_table[TAG_TABLE_SIZE];
 static ErrorP		error_table[ERROR_TABLE_SIZE];
 static EStringP		string_table[STRING_TABLE_SIZE];
-static char *		program_name         = NIL(char *);
-static ErrorInitProcP	init_proc	     = NIL(ErrorInitProcP);
-static ETagP		etag_program	     = NIL(ETagP);
-static ETagP		etag_severity	     = NIL(ETagP);
-static ETagP		etag_error_name      = NIL(ETagP);
-static ETagP		etag_dollar	     = NIL(ETagP);
-static ETagP		etag_ocb	     = NIL(ETagP);
-static ETagP		etag_ccb	     = NIL(ETagP);
-static ErrorListP	error_prefix	     = NIL(ErrorListP);
+static char *		program_name         = NULL;
+static ErrorInitProcP	init_proc	     = NULL;
+static ETagP		etag_program	     = NULL;
+static ETagP		etag_severity	     = NULL;
+static ETagP		etag_error_name      = NULL;
+static ETagP		etag_dollar	     = NULL;
+static ETagP		etag_ocb	     = NULL;
+static ETagP		etag_ccb	     = NULL;
+static ErrorListP	error_prefix	     = NULL;
 static ESeverityT	min_severity	     = ERROR_SEVERITY_ERROR;
 static ESeverityT	max_reported	     = ERROR_SEVERITY_INFORMATION;
 static EStringDataT	severity_data[]    = {
@@ -159,9 +159,9 @@ error_parse_message(char * message)
 	    while (*scan != '}') {
 		if ((*scan == '\0') || (*scan == '$') || (*scan == '{') ||
 		    ((!syntax_is_printable(*scan)) && (*scan != ' '))) {
-		    *error_list_next = NIL(ErrorListP);
+		    *error_list_next = NULL;
 		    error_deallocate_error_list(error_list);
-		    return(NIL(ErrorListP));
+		    return(NULL);
 		}
 		scan++;
 	    }
@@ -190,7 +190,7 @@ error_parse_message(char * message)
 	*error_list_next = tmp;
 	error_list_next  = &(tmp->next);
     }
-    *error_list_next = NIL(ErrorListP);
+    *error_list_next = NULL;
     DEALLOCATE(message_copy);
     return(error_list);
 }
@@ -362,7 +362,7 @@ error_call_init_proc(void)
 {
     if (init_proc) {
 	(*init_proc)();
-	init_proc = NIL(ErrorInitProcP);
+	init_proc = NULL;
     }
 }
 
@@ -373,14 +373,14 @@ error_define_tag(char * name)
     ETagP   *entryp = &(tag_table[hash]);
     ETagP    entry;
 
-    while ((entry = *entryp) != NIL(ETagP)) {
+    while ((entry = *entryp) != NULL) {
 	if (cstring_equal(entry->name, name)) {
 	    return(entry);
 	}
 	entryp = &(entry->next);
     }
     entry       = ALLOCATE(ETagT);
-    entry->next = NIL(ETagP);
+    entry->next = NULL;
     entry->name = name;
     *entryp     = entry;
     return(entry);
@@ -395,13 +395,13 @@ error_define_error(char * name, ESeverityT severity, char * message,
     ErrorP    *entryp     = &(error_table[hash]);
     ErrorP     entry;
 
-    while ((entry = *entryp) != NIL(ErrorP)) {
+    while ((entry = *entryp) != NULL) {
 	ASSERT(!cstring_equal(entry->name, name));
 	entryp = &(entry->next);
     }
     ASSERT(error_list);
     entry             = ALLOCATE(ErrorT);
-    entry->next       = NIL(ErrorP);
+    entry->next       = NULL;
     entry->name       = name;
     entry->severity   = severity;
     entry->error_list = error_list;
@@ -445,7 +445,7 @@ error_redefine_error(char * name, char * message)
 	    if (cstring_equal(entry->name, name)) {
 		ErrorListP error_list = error_parse_message(message);
 
-		if (error_list == NIL(ErrorListP)) {
+		if (error_list == NULL) {
 		    return(ERROR_STATUS_BAD_MESSAGE);
 		}
 		error_deallocate_error_list(entry->error_list);
@@ -472,7 +472,7 @@ error_lookup_error(char * name)
 	    }
 	    entry = entry->next;
 	}
-	return(NIL(ErrorP));
+	return(NULL);
     }
 }
 
@@ -486,8 +486,8 @@ void
 error_report(ErrorP error, ErrorProcP proc, void * closure)
 {
     if ((error->severity) >= min_severity) {
-	write_error_list(ostream_error, error_prefix, error, NIL(ErrorProcP),
-			 NIL(void *));
+	write_error_list(ostream_error, error_prefix, error, NULL,
+			 NULL);
 	write_error_list(ostream_error, error->error_list, error, proc,
 			 closure);
 	write_newline(ostream_error);
@@ -535,7 +535,7 @@ error_set_prefix_message(char * message)
 {
     ErrorListP error_list = error_parse_message(message);
 
-    if (error_list == NIL(ErrorListP)) {
+    if (error_list == NULL) {
 	return(FALSE);
     }
     error_deallocate_error_list(error_prefix);
@@ -550,12 +550,12 @@ error_define_string(char * name, char * contents)
     EStringP *entryp = &(string_table[hash]);
     EStringP  entry;
 
-    while ((entry = *entryp) != NIL(EStringP)) {
+    while ((entry = *entryp) != NULL) {
 	ASSERT(!cstring_equal(entry->name, name));
 	entryp = &(entry->next);
     }
     entry           = ALLOCATE(EStringT);
-    entry->next     = NIL(EStringP);
+    entry->next     = NULL;
     entry->name     = name;
     entry->contents = contents;
     *entryp         = entry;
@@ -602,7 +602,7 @@ error_lookup_string(char * name)
 	}
 	entry = entry->next;
     }
-    return(NIL(EStringP));
+    return(NULL);
 }
 
 char *

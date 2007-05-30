@@ -162,7 +162,7 @@
  *	static ErrorDataT errors [] = {
  *	    UB {
  *		"error 1", ERROR_SEVERITY_ERROR,
- *		"error 1 occured at line ${line}", NIL (void *)
+ *		"error 1 occured at line ${line}", NULL
  *	    } UE, ERROR_END_ERROR_LIST
  *	};
  *
@@ -548,10 +548,10 @@ extern void		write_error_file(OStreamP);
 
 /*--------------------------------------------------------------------------*/
 
-#define ERROR_END_TAG_LIST UB NIL(char *)UE
+#define ERROR_END_TAG_LIST UB NULL UE
 #define ERROR_END_ERROR_LIST \
-UB {NIL(char *), (ESeverityT)0, NIL(char *), NIL(void *)} UE
-#define ERROR_END_STRING_LIST UB {NIL(char *), NIL(char *)} UE
+UB {NULL, (ESeverityT)0, NULL, NULL} UE
+#define ERROR_END_STRING_LIST UB {NULL, NULL} UE
 
 #endif /* !defined (H_ERROR) */
 

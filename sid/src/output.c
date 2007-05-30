@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "output.h"
 
 /*--------------------------------------------------------------------------*/
@@ -90,11 +92,11 @@ void
 out_info_init(OutputInfoP info, char * prog)
 {
     info->prog_name       = prog;
-    info->current_ostream = NIL(OStreamP);
-    info->istreams        = NIL(IStreamP);
-    info->ostreams        = NIL(OStreamP);
-    info->input_names     = NIL(char * *);
-    info->output_names    = NIL(char * *);
+    info->current_ostream = NULL;
+    info->istreams        = NULL;
+    info->ostreams        = NULL;
+    info->input_names     = NULL;
+    info->output_names    = NULL;
     info->tab_width       = 8;
 }
 

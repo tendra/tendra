@@ -132,7 +132,7 @@ rule_compute_mutations_3(EntryP entry, void * gclosure)
     RuleP from_rule = (RuleP)gclosure;
     AltP  alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_mutations_4(rule, alt, from_rule);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -182,7 +182,7 @@ rule_compute_mutations_1(RuleP rule)
 {
     AltP alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_mutations_2(rule, alt);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {

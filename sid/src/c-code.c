@@ -138,7 +138,7 @@ c_code_get_translation(SaveRStackP state, TypeBTransP translator, EntryP ident,
     ASSERT(entry);
     stack_entry = rstack_get_translation(state, entry, type_ref,
 					 reference_ref);
-    if ((stack_entry == NIL(EntryP)) && (entry_is_non_local(entry))) {
+    if ((stack_entry == NULL) && (entry_is_non_local(entry))) {
 	stack_entry    = entry;
 	*type_ref      = entry_get_non_local(entry);
 	*reference_ref = FALSE;
@@ -157,7 +157,7 @@ c_code_create(char * file, unsigned line)
 {
     CCodeP code = ALLOCATE(CCodeT);
 
-    code->head = NIL(CCodeItemP);
+    code->head = NULL;
     code->tail = &(code->head);
     code->file = file;
     code->line = line;
@@ -171,7 +171,7 @@ c_code_append_string(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_STRING;
     nstring_assign(&(item->u.string), string);
     *(code->tail) = item;
@@ -183,7 +183,7 @@ c_code_append_label(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_LABEL;
     nstring_assign(&(item->u.string), string);
     *(code->tail) = item;
@@ -195,7 +195,7 @@ c_code_append_identifier(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_IDENT;
     nstring_assign(&(item->u.string), string);
     *(code->tail) = item;
@@ -207,7 +207,7 @@ c_code_append_modifiable(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_MOD_IDENT;
     nstring_assign(&(item->u.string), string);
     *(code->tail) = item;
@@ -219,7 +219,7 @@ c_code_append_reference(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_REF_IDENT;
     nstring_assign(&(item->u.string), string);
     *(code->tail) = item;
@@ -231,7 +231,7 @@ c_code_append_exception(CCodeP code)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_EXCEPTION;
     *(code->tail) = item;
     code->tail    = &(item->next);
@@ -242,7 +242,7 @@ c_code_append_advance(CCodeP code)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_ADVANCE;
     *(code->tail) = item;
     code->tail    = &(item->next);
@@ -253,7 +253,7 @@ c_code_append_terminal(CCodeP code)
 {
     CCodeItemP item = ALLOCATE(CCodeItemT);
 
-    item->next    = NIL(CCodeItemP);
+    item->next    = NULL;
     item->type    = CCT_TERMINAL;
     *(code->tail) = item;
     code->tail    = &(item->next);
@@ -271,9 +271,9 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 	  case CCT_IDENT:
 	    entry         = table_add_name(table, &(item->u.string));
 	    item->u.ident = entry;
-	    if (((param == NIL(TypeTupleP)) ||
+	    if (((param == NULL) ||
 		 (!types_contains(param, entry))) &&
-		((result == NIL(TypeTupleP)) ||
+		((result == NULL) ||
 		 (!types_contains(result, entry)))) {
 		E_bad_id_substitution(c_code_file(code), c_code_line(code),
 				      entry);
@@ -285,7 +285,7 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 	    entry         = table_add_name(table, &(item->u.string));
 	    item->u.ident = entry;
 	    if (exceptions) {
-		if ((param == NIL(TypeTupleP)) ||
+		if ((param == NULL) ||
 		    (!types_mutated(param, entry))) {
 		    E_bad_mod_id_substitution(c_code_file(code),
 					      c_code_line(code), entry);
@@ -299,7 +299,7 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 	    entry         = table_add_name(table, &(item->u.string));
 	    item->u.ident = entry;
 	    if (!param_op) {
-		if ((param == NIL(TypeTupleP)) ||
+		if ((param == NULL) ||
 		    (!types_contains(param, entry))) {
 		    E_bad_ref_id_substitution(c_code_file(code),
 					      c_code_line(code), entry);
@@ -312,7 +312,7 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 	  case CCT_LABEL:
 	    entry         = table_add_name(table, &(item->u.string));
 	    item->u.ident = entry;
-	    if ((param == NIL(TypeTupleP)) && (result == NIL(TypeTupleP))) {
+	    if ((param == NULL) && (result == NULL)) {
 		E_bad_label_substitution(c_code_file(code),
 					 c_code_line(code), entry);
 	    }
@@ -465,7 +465,7 @@ c_output_c_code_action(COutputInfoP info, CCodeP code, TypeTupleP param,
 	    stack_entry = c_code_get_translation(state, &translator,
 						 item->u.ident, &stack_type,
 						 &stack_reference,
-						 NIL(EntryP *));
+						 NULL);
 	    write_char(ostream, '(');
 	    if (stack_reference) {
 		write_char(ostream, '*');
@@ -477,7 +477,7 @@ c_output_c_code_action(COutputInfoP info, CCodeP code, TypeTupleP param,
 	    stack_entry = c_code_get_translation(state, &translator,
 						 item->u.ident, &stack_type,
 						 &stack_reference,
-						 NIL(EntryP *));
+						 NULL);
 	    write_char(ostream, '(');
 	    if (!stack_reference) {
 		write_char(ostream, '&');
@@ -532,7 +532,7 @@ c_output_c_code_basic(COutputInfoP info, CCodeP code, TypeTupleP result,
 	    stack_entry = c_code_get_translation(state, &translator,
 						 item->u.ident, &stack_type,
 						 &stack_reference,
-						 NIL(EntryP *));
+						 NULL);
 	    c_output_key(info, entry_key(stack_entry), in_prefix);
 	    break;
 	  case CCT_MOD_IDENT:

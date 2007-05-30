@@ -54,7 +54,7 @@ error "left recursion type mismatch" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
@@ -89,7 +89,7 @@ error "left rec handler mismatch" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
@@ -124,7 +124,7 @@ error "left recursion name mismatch" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
@@ -179,7 +179,7 @@ error "out of scope non local" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
@@ -224,7 +224,7 @@ error "left recursion nl entry" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {
@@ -250,7 +250,7 @@ error "cycle no terminator" {
 		write_char(ostream, '\'');
 		write_key(ostream, entry_key(rule_entry(rule)));
 		write_char(ostream, '\'');
-		if (next != NIL(RuleP)) {
+		if (next != NULL) {
 		    if (rule_get_next_in_reverse_dfs(next)) {
 			sep = ", ";
 		    } else {

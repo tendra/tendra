@@ -103,7 +103,7 @@ action_create(void)
 
     types_init(action_param(action));
     types_init(action_result(action));
-    action->code = NIL(void *);
+    action->code = NULL;
     return(action);
 }
 

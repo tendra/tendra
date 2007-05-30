@@ -105,7 +105,7 @@ entry_create_from_string(NStringP key, unsigned number, EntryTypeT type)
 {
     EntryP entry = ALLOCATE(EntryT);
 
-    entry->next   = NIL(EntryP);
+    entry->next   = NULL;
     key_init_from_string(entry_key(entry), key, number);
     entry->mapped = FALSE;
     nstring_init(&(entry->mapping));
@@ -283,7 +283,7 @@ entry_get_mapping(EntryP entry)
     if (entry->mapped) {
 	return(&(entry->mapping));
     }
-    return(NIL(NStringP));
+    return(NULL);
 }
 
 void

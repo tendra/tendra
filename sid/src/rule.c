@@ -110,7 +110,7 @@ rule_compute_minimal_dataflow_1(RuleP rule, AltP alt, TypeTupleP all_used)
 
     types_copy(&used, rule_result(rule));
     item_compute_minimal_dataflow(alt_item_head(alt), &used);
-    types_add_new_names(all_used, &used, NIL(EntryP));
+    types_add_new_names(all_used, &used, NULL);
     types_destroy(&used);
 }
 
@@ -127,7 +127,7 @@ rule_compute_reverse_list_1(AltP alt, EntryP entry, CycleTypeT type)
 	    RuleP item_rule = entry_get_rule(item_entry(item));
 
 	    if (((type == CT_LEFT) && (item == initial)) ||
-		((type == CT_TAIL) && (next == NIL(ItemP))) ||
+		((type == CT_TAIL) && (next == NULL)) ||
 		((type == CT_ALL) && (item_is_inlinable(item)) &&
 		 (rule_get_call_count(item_rule) <= 1) &&
 		 (!item_is_tail_call(item))) || (type == CT_MUTATE)) {
@@ -152,7 +152,7 @@ rule_compute_dfs_1(AltP alt, CycleTypeT type, RuleP *list)
 	    RuleP item_rule = entry_get_rule(item_entry(item));
 
 	    if (((type == CT_LEFT) && (item == initial)) ||
-		((type == CT_TAIL) && (next == NIL(ItemP))) ||
+		((type == CT_TAIL) && (next == NULL)) ||
 		((type == CT_ALL) && (item_is_inlinable(item)) &&
 		(rule_get_call_count(item_rule) <= 1) &&
 		(!item_is_tail_call(item)))) {
@@ -225,7 +225,7 @@ rule_create(EntryP entry)
     rule->required              = FALSE;
     entry_list_init(rule_reverse_list(rule));
     rule->dfs_state             = DFS_UNTRACED;
-    rule->next_in_reverse_dfs   = NIL(RuleP);
+    rule->next_in_reverse_dfs   = NULL;
     rule->no_cycles             = FALSE;
     rule->computed_first_set    = FALSE;
     rule->computing_first_set   = FALSE;
@@ -234,18 +234,18 @@ rule_create(EntryP entry)
     rule->see_through           = FALSE;
     rule->priority              = 0;
     rule->factored              = FALSE;
-    rule->tail_group		= NIL(RuleP);
+    rule->tail_group		= NULL;
     rule->being_inlined		= FALSE;
     rule->checked_for_inlining	= FALSE;
     entry_list_init(rule_call_list(rule));
     bitvec_init(rule_follow_set(rule));
     entry_list_init(rule_predicate_follow(rule));
-    rule->see_through_alt       = NIL(AltP);
+    rule->see_through_alt       = NULL;
     rule->needs_function	= FALSE;
     rule->all_basics            = FALSE;
     rule->being_output		= FALSE;
-    rule->handler		= NIL(AltP);
-    rule->alt_head              = NIL(AltP);
+    rule->handler		= NULL;
+    rule->alt_head              = NULL;
     rule->alt_tail              = &(rule->alt_head);
     return(rule);
 }
@@ -254,7 +254,7 @@ void
 rule_reinit(RuleP rule)
 {
     rule->has_empty_alt         = FALSE;
-    rule->alt_head              = NIL(AltP);
+    rule->alt_head              = NULL;
     rule->alt_tail              = &(rule->alt_head);
 }
 
@@ -334,9 +334,9 @@ rule_add_empty_alt(RuleP rule)
 BoolT
 rule_has_one_alt(RuleP rule)
 {
-    return(((rule_has_empty_alt(rule)) && (rule->alt_head == NIL(AltP))) ||
+    return(((rule_has_empty_alt(rule)) && (rule->alt_head == NULL)) ||
 	   ((!rule_has_empty_alt(rule)) && (rule->alt_head) &&
-	    (alt_next(rule->alt_head) == NIL(AltP))));
+	    (alt_next(rule->alt_head) == NULL)));
 }
 
 void
@@ -349,7 +349,7 @@ rule_compute_result_intersect(RuleP rule)
     if (rule_has_empty_alt(rule)) {
 	types_init(result);
     } else {
-	if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+	if ((alt = rule_get_handler(rule)) != NULL) {
 	    types_copy(result, alt_names(alt));
 	    inited = TRUE;
 	}
@@ -372,7 +372,7 @@ rule_compute_minimal_dataflow(RuleP rule, TypeTupleP param)
     AltP       alt;
 
     types_init(&all_used);
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_minimal_dataflow_1(rule, alt, &all_used);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -403,7 +403,7 @@ rule_reinit_reverse_list(RuleP rule)
     entry_list_destroy(rule_reverse_list(rule));
     entry_list_init(rule_reverse_list(rule));
     rule_set_dfs_state(rule, DFS_UNTRACED);
-    rule->next_in_reverse_dfs = NIL(RuleP);
+    rule->next_in_reverse_dfs = NULL;
     rule->no_cycles           = FALSE;
 }
 
@@ -869,7 +869,7 @@ rule_renumber(RuleP rule, BoolT do_result, EntryP predicate_id)
 	types_renumber(rule_result(rule), &translator);
     }
     ntrans_save_state(&translator, &state);
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_renumber_1(alt, &translator, &state);
     }
     for (alt = rule->alt_head; alt; alt = alt_next(alt)) {
@@ -884,7 +884,7 @@ rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, void *),
 {
     AltP alt;
 
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	ItemP item;
 
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
@@ -928,7 +928,7 @@ rule_deallocate(RuleP rule)
     bitvec_destroy(rule_follow_set(rule));
     entry_list_destroy(rule_predicate_follow(rule));
     entry_list_destroy(rule_call_list(rule));
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	(void)alt_deallocate(alt);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_deallocate(alt)) {
@@ -977,7 +977,7 @@ write_rule(OStreamP ostream, RuleP rule)
 	write_alt(ostream, alt);
 	need_sep = TRUE;
     }
-    if ((alt = rule_get_handler(rule)) != NIL(AltP)) {
+    if ((alt = rule_get_handler(rule)) != NULL) {
 	write_cstring(ostream, "    ##");
 	write_newline(ostream);
 	write_alt(ostream, alt);
@@ -1004,7 +1004,7 @@ rule_list_append(RuleListP list, RuleP next, RuleP *tail)
 void
 rule_list_terminate(RuleListP list)
 {
-    *(list->tail) = NIL(RuleP);
+    *(list->tail) = NULL;
 }
 
 RuleP

@@ -102,7 +102,7 @@ types_add_name_and_type_1(TypeTupleP to, EntryP name, EntryP type,
 {
     TypeTupleEntryP link = ALLOCATE(TypeTupleEntryT);
 
-    link->next      = NIL(TypeTupleEntryP);
+    link->next      = NULL;
     link->type      = type;
     link->name      = name;
     link->reference = reference;
@@ -140,7 +140,7 @@ types_iter_alt_item_type_names(AltP alts, void(*proc)(NameP))
 void
 types_init(TypeTupleP tuple)
 {
-    tuple->head = NIL(TypeTupleEntryP);
+    tuple->head = NULL;
     tuple->tail = &(tuple->head);
 }
 
@@ -149,7 +149,7 @@ types_copy(TypeTupleP to, TypeTupleP from)
 {
     TypeTupleEntryP from_ptr;
 
-    to->head = NIL(TypeTupleEntryP);
+    to->head = NULL;
     to->tail = &(to->head);
     for (from_ptr = from->head; from_ptr; from_ptr = from_ptr->next) {
 	types_add_name_and_type_1(to, from_ptr->name, from_ptr->type,
@@ -163,13 +163,13 @@ types_copy_and_translate(TypeTupleP to, TypeTupleP from, TypeTransP translator,
 {
     TypeTupleEntryP from_ptr;
 
-    to->head = NIL(TypeTupleEntryP);
+    to->head = NULL;
     to->tail = &(to->head);
     for (from_ptr = from->head; from_ptr; from_ptr = from_ptr->next) {
 	EntryP new_name;
 
 	new_name = trans_get_translation(translator, from_ptr->name);
-	if (new_name == NIL(EntryP)) {
+	if (new_name == NULL) {
 	    new_name = table_add_generated_name(table);
 	    trans_add_translation(translator, from_ptr->name, new_name);
 	}
@@ -198,7 +198,7 @@ types_translate(TypeTupleP tuple, TypeBTransP translator)
 	EntryP new_name;
 
 	new_name = btrans_get_translation(translator, tuple_ptr->name);
-	if (new_name != NIL(EntryP)) {
+	if (new_name != NULL) {
 	    tuple_ptr->name = new_name;
 	}
     }
@@ -220,7 +220,7 @@ types_renumber(TypeTupleP tuple, TypeNTransP translator)
 void
 types_assign(TypeTupleP to, TypeTupleP from)
 {
-    if ((to->head = from->head) != NIL(TypeTupleEntryP)) {
+    if ((to->head = from->head) != NULL) {
 	to->tail = from->tail;
     } else {
 	to->tail = &(to->head);
@@ -238,7 +238,7 @@ types_find_name_type(TypeTupleP tuple, EntryP name, BoolT *reference_ref)
 	    return(type->type);
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 BoolT
@@ -282,7 +282,7 @@ types_compute_mutations(TypeTupleP rule, TypeTupleP item, TypeTupleP action)
 	item_ptr   = item_ptr->next;
 	action_ptr = action_ptr->next;
     }
-    ASSERT(item_ptr == NIL(TypeTupleEntryP));
+    ASSERT(item_ptr == NULL);
     return(propogate);
 }
 
@@ -325,7 +325,7 @@ types_propogate_mutations(TypeTupleP to, TypeTupleP from)
 	to_ptr          = to_ptr->next;
 	from_ptr        = from_ptr->next;
     }
-    ASSERT(from_ptr == NIL(TypeTupleEntryP));
+    ASSERT(from_ptr == NULL);
 }
 
 BoolT
@@ -399,7 +399,7 @@ types_inplace_intersection(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP type;
 
     to->tail = &(to->head);
-    while ((type = *(to->tail)) != NIL(TypeTupleEntryP)) {
+    while ((type = *(to->tail)) != NULL) {
 	if (!types_contains(from, type->name)) {
 	    *(to->tail) = type->next;
 	    DEALLOCATE(type);
@@ -452,9 +452,9 @@ types_compare(TypeTupleP tuple1, TypeTupleP tuple2)
 	tuple1_ptr = tuple1_ptr->next;
 	tuple2_ptr = tuple2_ptr->next;
     }
-    if (tuple1_ptr != NIL(TypeTupleEntryP)) {
+    if (tuple1_ptr != NULL) {
 	return(CMP_GT);
-    } else if (tuple2_ptr != NIL(TypeTupleEntryP)) {
+    } else if (tuple2_ptr != NULL) {
 	return(CMP_LT);
     } else {
 	return(CMP_EQ);
@@ -476,14 +476,14 @@ types_equal(TypeTupleP tuple1, TypeTupleP tuple2)
 	tuple1_ptr = (tuple1_ptr->next);
 	tuple2_ptr = (tuple2_ptr->next);
     }
-    return((tuple1_ptr == NIL(TypeTupleEntryP)) &&
-	   (tuple2_ptr == NIL(TypeTupleEntryP)));
+    return((tuple1_ptr == NULL) &&
+	   (tuple2_ptr == NULL));
 }
 
 BoolT
 types_equal_zero_tuple(TypeTupleP tuple)
 {
-    return(tuple->head == NIL(TypeTupleEntryP));
+    return(tuple->head == NULL);
 }
 
 BoolT
@@ -502,8 +502,8 @@ types_equal_names(TypeTupleP tuple1,			   TypeTupleP tuple2)
 	tuple1_ptr = (tuple1_ptr->next);
 	tuple2_ptr = (tuple2_ptr->next);
     }
-    return((tuple1_ptr == NIL(TypeTupleEntryP)) &&
-	   (tuple2_ptr == NIL(TypeTupleEntryP)));
+    return((tuple1_ptr == NULL) &&
+	   (tuple2_ptr == NULL));
 }
 
 BoolT
@@ -528,8 +528,8 @@ types_equal_numbers(TypeTupleP tuple1, TypeTupleP tuple2)
 	tuple1_ptr = (tuple1_ptr->next);
 	tuple2_ptr = (tuple2_ptr->next);
     }
-    return((tuple1_ptr == NIL(TypeTupleEntryP)) &&
-	   (tuple2_ptr == NIL(TypeTupleEntryP)));
+    return((tuple1_ptr == NULL) &&
+	   (tuple2_ptr == NULL));
 }
 
 void
@@ -551,7 +551,7 @@ types_add_type(TypeTupleP tuple, TableP table, NStringP name, BoolT reference)
     EntryP entry = table_get_type(table, name);
 
     if (entry) {
-	types_add_name_and_type(tuple, NIL(EntryP), entry, reference);
+	types_add_name_and_type(tuple, NULL, entry, reference);
 	return(TRUE);
     }
     return(FALSE);
@@ -562,7 +562,7 @@ types_add_name(TypeTupleP tuple, TableP table, NStringP name, BoolT reference)
 {
     EntryP entry = table_add_name(table, name);
 
-    types_add_name_and_type(tuple, entry, NIL(EntryP), reference);
+    types_add_name_and_type(tuple, entry, NULL, reference);
 }
 
 BoolT
@@ -582,13 +582,13 @@ types_add_typed_name(TypeTupleP tuple, TableP table, NStringP name,
 void
 types_add_name_entry(TypeTupleP tuple, EntryP entry)
 {
-    types_add_name_and_type(tuple, entry, NIL(EntryP), FALSE);
+    types_add_name_and_type(tuple, entry, NULL, FALSE);
 }
 
 void
 types_add_type_entry(TypeTupleP tuple, EntryP entry, BoolT reference)
 {
-    types_add_name_and_type(tuple, NIL(EntryP), entry, reference);
+    types_add_name_and_type(tuple, NULL, entry, reference);
 }
 
 void
@@ -647,10 +647,10 @@ types_resolve(TypeTupleP to, TypeTupleP args, TypeTupleP locals,
 	    name->type = entry_get_non_local(name->name);
 	} else if (((name->type = types_find_name_type(args, name->name,
 						       &reference)) ==
-		    NIL(EntryP)) &&
+		    NULL) &&
 		   ((name->type = types_find_name_type(locals, name->name,
 						       &reference)) ==
-		    NIL(EntryP))) {
+		    NULL)) {
 	   (*unknown_proc)(entry_key(name->name), rule, alt);
 	    ok = FALSE;
 	}
@@ -685,7 +685,7 @@ types_fillin_types(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP from_ptr = from->head;
 
     while ((to_ptr) && (from_ptr)) {
-	if (to_ptr->type == NIL(EntryP)) {
+	if (to_ptr->type == NULL) {
 	    to_ptr->type      = from_ptr->type;
 	    to_ptr->reference = from_ptr->reference;
 	} else if ((to_ptr->type != from_ptr->type) ||
@@ -695,8 +695,8 @@ types_fillin_types(TypeTupleP to, TypeTupleP from)
 	to_ptr   = to_ptr->next;
 	from_ptr = from_ptr->next;
     }
-    return((to_ptr == NIL(TypeTupleEntryP)) &&
-	   (from_ptr == NIL(TypeTupleEntryP)));
+    return((to_ptr == NULL) &&
+	   (from_ptr == NULL));
 }
 
 BoolT
@@ -706,7 +706,7 @@ types_fillin_names(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP from_ptr = from->head;
 
     while ((to_ptr) && (from_ptr)) {
-	ASSERT(to_ptr->name == NIL(EntryP));
+	ASSERT(to_ptr->name == NULL);
 	to_ptr->name = from_ptr->name;
 	if ((from_ptr->type) &&
 	    ((to_ptr->type != from_ptr->type) ||
@@ -716,8 +716,8 @@ types_fillin_names(TypeTupleP to, TypeTupleP from)
 	to_ptr   = to_ptr->next;
 	from_ptr = from_ptr->next;
     }
-    return((to_ptr == NIL(TypeTupleEntryP)) &&
-	   (from_ptr == NIL(TypeTupleEntryP)));
+    return((to_ptr == NULL) &&
+	   (from_ptr == NULL));
 }
 
 BoolT
@@ -756,7 +756,7 @@ types_unlink_used(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP type;
 
     to->tail = &(to->head);
-    while ((type = *(to->tail)) != NIL(TypeTupleEntryP)) {
+    while ((type = *(to->tail)) != NULL) {
 	if (types_contains(from, type->name)) {
 	    *(to->tail) = type->next;
 	    DEALLOCATE(type);
@@ -773,7 +773,7 @@ types_unlink_unused(TypeTupleP tuple, AltP alts)
 
     types_iter_alt_item_type_names(alts, name_used);
     tuple->tail = &(tuple->head);
-    while ((type = *(tuple->tail)) != NIL(TypeTupleEntryP)) {
+    while ((type = *(tuple->tail)) != NULL) {
 	ASSERT(!entry_is_non_local(type->name));
 	if (name_is_used(entry_get_name(type->name))) {
 	    tuple->tail = &(type->next);
@@ -815,7 +815,7 @@ types_compute_formal_inlining(TypeTupleP names, TypeTupleP renames,
 	ptr   = ptr->next;
 	reptr = reptr->next;
     }
-    ASSERT(reptr == NIL(TypeTupleEntryP));
+    ASSERT(reptr == NULL);
 }
 
 void
@@ -831,7 +831,7 @@ types_compute_local_renaming(TypeTupleP names, TypeTupleP exclude,
 	    BoolT  reference;
 
 	    if (rstack_get_translation(state, ptr->name, &type,
-				       &reference) != NIL(EntryP)) {
+				       &reference) != NULL) {
 		EntryP entry = table_add_generated_name(table);
 
 		rtrans_add_translation(translator, ptr->name, entry,
@@ -964,7 +964,7 @@ write_type_names(OStreamP ostream, TypeTupleP tuple, BoolT call)
 void
 btrans_init(TypeBTransP translator)
 {
-    translator->head = NIL(TransP);
+    translator->head = NULL;
     translator->tail = &(translator->head);
 }
 
@@ -975,12 +975,12 @@ btrans_add_translations(TypeBTransP translator, TypeTupleP from, TypeTupleP to)
     TypeTupleEntryP to_ptr   = to->head;
 
     while (from_ptr) {
-	ASSERT(to_ptr != NIL(TypeTupleEntryP));
+	ASSERT(to_ptr != NULL);
 	btrans_add_translation(translator, from_ptr->name, to_ptr->name);
 	from_ptr = from_ptr->next;
 	to_ptr   = to_ptr->next;
     }
-    ASSERT(to_ptr == NIL(TypeTupleEntryP));
+    ASSERT(to_ptr == NULL);
 }
 
 void
@@ -990,7 +990,7 @@ btrans_add_translation(TypeBTransP translator, EntryP from, EntryP to)
 
     link->to            = to;
     link->from          = from;
-    link->next          = NIL(TransP);
+    link->next          = NULL;
     *(translator->tail) = link;
     translator->tail    = &(link->next);
 }
@@ -1014,12 +1014,12 @@ btrans_regenerate_names(TypeBTransP translator, TypeTupleP tuple)
     TransP           trans_ptr = translator->head;
 
     while (tuple_ptr) {
-	ASSERT(trans_ptr != NIL(TransP));
+	ASSERT(trans_ptr != NULL);
 	trans_ptr->from = tuple_ptr->name;
 	trans_ptr       = trans_ptr->next;
 	tuple_ptr       = tuple_ptr->next;
     }
-    ASSERT(trans_ptr == NIL(TransP));
+    ASSERT(trans_ptr == NULL);
 }
 
 ItemP
@@ -1052,7 +1052,7 @@ btrans_generate_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
     if (types_equal_zero_tuple(&from)) {
 	types_destroy(&from);
 	types_destroy(&to);
-	return(NIL(ItemP));
+	return(NULL);
     } else {
 	ItemP item = item_create(table_add_rename(table));
 
@@ -1074,7 +1074,7 @@ btrans_regen_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
     types_init(&from);
     types_init(&to);
     while (tuple_ptr) {
-	ASSERT(trans_ptr != NIL(TransP));
+	ASSERT(trans_ptr != NULL);
 	trans_ptr->from = tuple_ptr->name;
 	if (types_contains(result, tuple_ptr->name)) {
 	    types_add_name_and_type(&from, trans_ptr->to, tuple_ptr->type,
@@ -1085,11 +1085,11 @@ btrans_regen_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
 	trans_ptr       = trans_ptr->next;
 	tuple_ptr       = tuple_ptr->next;
     }
-    ASSERT(trans_ptr == NIL(TransP));
+    ASSERT(trans_ptr == NULL);
     if (types_equal_zero_tuple(&from)) {
 	types_destroy(&from);
 	types_destroy(&to);
-	return(NIL(ItemP));
+	return(NULL);
     } else {
 	ItemP item = item_create(table_add_rename(table));
 
@@ -1102,7 +1102,7 @@ btrans_regen_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
 EntryP
 btrans_get_translation(TypeBTransP translator, EntryP entry)
 {
-    EntryP translation = NIL(EntryP);
+    EntryP translation = NULL;
     TransP ptr;
 
     for (ptr = translator->head; ptr; ptr = ptr->next) {
@@ -1119,7 +1119,7 @@ btrans_destroy(TypeBTransP translator)
     TransP ptr = (translator->head);
     TransP tmp;
 
-    while ((tmp = ptr) != NIL(TransP)) {
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }
@@ -1132,7 +1132,7 @@ btrans_destroy(TypeBTransP translator)
 void
 rtrans_init(TypeRTransP translator)
 {
-    translator->head = NIL(RTransP);
+    translator->head = NULL;
     translator->tail = &(translator->head);
 }
 
@@ -1142,7 +1142,7 @@ rtrans_add_translation(TypeRTransP translator, EntryP from, EntryP to,
 {
     RTransP link = ALLOCATE(RTransT);
 
-    link->next          = NIL(RTransP);
+    link->next          = NULL;
     link->to            = to;
     link->from          = from;
     link->type          = type;
@@ -1164,7 +1164,7 @@ rtrans_get_translation(TypeRTransP translator, EntryP entry, EntryP *type_ref,
 	    return(ptr->to);
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 void
@@ -1185,7 +1185,7 @@ rtrans_destroy(TypeRTransP translator)
     RTransP ptr = (translator->head);
     RTransP tmp;
 
-    while ((tmp = ptr) != NIL(RTransP)) {
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }
@@ -1202,7 +1202,7 @@ trans_init(TypeTransP translator, TypeTupleP param, TypeTupleP result,
     TypeTupleEntryP ptr;
     ItemP           item;
 
-    translator->head = NIL(TransP);
+    translator->head = NULL;
     translator->tail = &(translator->head);
     entry_list_init(&(translator->used_names));
     for (ptr = param->head; ptr; ptr = ptr->next) {
@@ -1227,7 +1227,7 @@ trans_add_translation(TypeTransP translator, EntryP from, EntryP to)
 
     link->to            = to;
     link->from          = from;
-    link->next          = NIL(TransP);
+    link->next          = NULL;
     *(translator->tail) = link;
     translator->tail    = &(link->next);
 }
@@ -1239,12 +1239,12 @@ trans_add_translations(TypeTransP translator, TypeTupleP from, TypeTupleP to)
     TypeTupleEntryP to_ptr   = to->head;
 
     while (from_ptr) {
-	ASSERT(to_ptr != NIL(TypeTupleEntryP));
+	ASSERT(to_ptr != NULL);
 	trans_add_translation(translator, from_ptr->name, to_ptr->name);
 	from_ptr = from_ptr->next;
 	to_ptr   = to_ptr->next;
     }
-    ASSERT(to_ptr == NIL(TypeTupleEntryP));
+    ASSERT(to_ptr == NULL);
 }
 
 void
@@ -1256,7 +1256,7 @@ trans_save_state(TypeTransP translator, SaveTransP state)
 EntryP
 trans_get_translation(TypeTransP translator, EntryP entry)
 {
-    EntryP translation = NIL(EntryP);
+    EntryP translation = NULL;
     TransP      ptr;
 
     for (ptr = translator->head; ptr; ptr = ptr->next) {
@@ -1270,7 +1270,7 @@ trans_get_translation(TypeTransP translator, EntryP entry)
     if (!entry_list_contains(&(translator->used_names), entry)) {
         return(entry);
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 void
@@ -1279,8 +1279,8 @@ trans_restore_state(TypeTransP translator, SaveTransP state)
     TransP ptr = (*(state->last_ref));
     TransP tmp;
 
-    *(state->last_ref) = NIL(TransP);
-    while ((tmp = ptr) != NIL(TransP)) {
+    *(state->last_ref) = NULL;
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }
@@ -1293,7 +1293,7 @@ trans_destroy(TypeTransP translator)
     TransP ptr = (translator->head);
     TransP tmp;
 
-    while ((tmp = ptr) != NIL(TransP)) {
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }
@@ -1315,7 +1315,7 @@ ntrans_add_translation(TypeNTransP translator, EntryP from)
     }
     link->to            = (translator->count)++;
     link->from          = from;
-    link->next          = NIL(NTransP);
+    link->next          = NULL;
     *(translator->tail) = link;
     translator->tail    = &(link->next);
     return(link->to);
@@ -1327,7 +1327,7 @@ void
 ntrans_init(TypeNTransP translator)
 {
     translator->count      = 0;
-    translator->head       = NIL(NTransP);
+    translator->head       = NULL;
     translator->tail       = &(translator->head);
 }
 
@@ -1364,7 +1364,7 @@ ntrans_get_indirect_translation(TypeNTransP from_translator,
 	    goto found;
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
   found:
     for (ptr = to_translator->head; ptr; ptr = ptr->next) {
 	if (ptr->to == name) {
@@ -1380,9 +1380,9 @@ ntrans_restore_state(TypeNTransP translator, SaveNTransP state)
     NTransP ptr = (*(state->last_ref));
     NTransP tmp;
 
-    *(state->last_ref) = NIL(NTransP);
+    *(state->last_ref) = NULL;
     translator->count  = state->last_count;
-    while ((tmp = ptr) != NIL(NTransP)) {
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }
@@ -1395,7 +1395,7 @@ ntrans_destroy(TypeNTransP translator)
     NTransP ptr = (translator->head);
     NTransP tmp;
 
-    while ((tmp = ptr) != NIL(NTransP)) {
+    while ((tmp = ptr) != NULL) {
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
     }

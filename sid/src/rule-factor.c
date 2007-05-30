@@ -210,7 +210,7 @@ group_create(ItemP item, AltP *alt_ref)
 {
     AltGroupP group = ALLOCATE(AltGroupT);
 
-    group->next     = NIL(AltGroupP);
+    group->next     = NULL;
     bitvec_init(&(group->first_set));
     entry_list_init(&(group->predicate_first));
     group->priority = rule_overlaps(item, &(group->first_set),
@@ -240,7 +240,7 @@ rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
     BoolT    no_action   = TRUE;
     ItemP    item;
 
-    for (item = initial_item; see_through && (item != NIL(ItemP));
+    for (item = initial_item; see_through && (item != NULL);
 	 item = item_next(item)) {
 	switch (item_type(item))EXHAUSTIVE {
 	  case ET_PREDICATE:
@@ -289,7 +289,7 @@ rule_group_by_initial_item(RuleP rule, AltGroupListP groups)
     AltP  alt;
 
   next_alt:
-    while ((alt = *alt_ref) != NIL(AltP)) {
+    while ((alt = *alt_ref) != NULL) {
 	ItemP     item = alt_item_head(alt);
 	AltGroupP group;
 
@@ -350,13 +350,13 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
     for (last = &(groups->head); *last != group; last = &((*last)->next)) {
 	/*NOTHING*/
     }
-    if (((*last) = (group->next)) != NIL(AltGroupP)) {
+    if (((*last) = (group->next)) != NULL) {
 	*(group->alt_ref)      = *(group->next->alt_ref);
-	*(group->next->alt_ref) = NIL(AltP);
+	*(group->next->alt_ref) = NULL;
 	group->next->alt_ref    = group->alt_ref;
     } else {
 	groups->tail            = last;
-	*(group->alt_ref)      = NIL(AltP);
+	*(group->alt_ref)      = NULL;
 	rule->alt_tail          = group->alt_ref;
     }
    (void)group_deallocate(group);
@@ -372,7 +372,7 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
 			       item_result(alt_item_head(alt)));
 	trans_save_state(&translator, &state);
 	if (rule_has_empty_alt(item_rule)) {
-	    AltP new_alt = alt_create_merge(NIL(ItemP),
+	    AltP new_alt = alt_create_merge(NULL,
 					    item_next(alt_item_head(alt)),
 					    &translator, closure->table);
 
@@ -415,7 +415,7 @@ rule_expand_item_clashes(RuleP rule, FactorClosureP closure,
 		return(TRUE);
 	    } else if (rule_is_see_through(item_rule)) {
 		AltP       alt = first_alt;
-		AltP       end = NIL(AltP);
+		AltP       end = NULL;
 		EntryListT predicate_first;
 
 		if (group->next) {
@@ -477,7 +477,7 @@ rule_create_factored(TypeTupleP params, TypeTupleP result, AltP alt,
 	AltP tmp_alt = alt;
 
 	alt = alt_next(alt);
-	alt_set_next(tmp_alt, NIL(AltP));
+	alt_set_next(tmp_alt, NULL);
 	if (alt_item_head(tmp_alt)) {
 	    rule_add_alt(new_rule, tmp_alt);
 	} else {
@@ -505,11 +505,11 @@ rule_factor_4(RuleP rule, AltP old_alt, AltP new_alt, TableP table,
     for (alt = alt_next(old_alt); alt; alt = alt_next(alt)) {
 	ItemP item = alt_item_head(alt);
 
-	if (((item == NIL(ItemP)) && (old_item != NIL(ItemP))) ||
-	    ((item != NIL(ItemP)) && (old_item == NIL(ItemP)))) {
+	if (((item == NULL) && (old_item != NULL)) ||
+	    ((item != NULL) && (old_item == NULL))) {
 	    *items_equal_ref = FALSE;
 	    return(TRUE);
-	} else if ((item == NIL(ItemP)) && (old_item == NIL(ItemP))) {
+	} else if ((item == NULL) && (old_item == NULL)) {
 	    /*NOTHING*/
 	} else if (((item_entry(old_item) == item_entry(item)) &&
 		    types_equal_numbers(item_param(old_item),
@@ -530,7 +530,7 @@ rule_factor_4(RuleP rule, AltP old_alt, AltP new_alt, TableP table,
 	    return(TRUE);
 	}
     }
-    if (old_item == NIL(ItemP)) {
+    if (old_item == NULL) {
 	*items_equal_ref = FALSE;
 	return(FALSE);
     }
@@ -597,7 +597,7 @@ rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
 	    AltP tmp_alt = old_alt;
 
 	    old_alt = alt_next(old_alt);
-	    ASSERT(alt_item_head(tmp_alt) == NIL(ItemP));
+	    ASSERT(alt_item_head(tmp_alt) == NULL);
 	   (void)alt_deallocate(tmp_alt);
 	}
     }
@@ -619,10 +619,10 @@ rule_factor_2(RuleP rule, TableP table, EntryP predicate_id,
 	    }
 	    new_alt                 = alt_create();
 	    alt_set_next(new_alt, *(group->next->alt_ref));
-	    *(group->next->alt_ref) = NIL(AltP);
+	    *(group->next->alt_ref) = NULL;
 	    group->next->alt_ref    = alt_next_ref(new_alt);
 	} else {
-	    if (alt_next(*(group->alt_ref)) == NIL(AltP)) {
+	    if (alt_next(*(group->alt_ref)) == NULL) {
 		goto done;
 	    }
 	    new_alt        = alt_create();
@@ -639,7 +639,7 @@ rule_factor_1(RuleP rule, FactorClosureP closure)
 {
     AltGroupListT groups;
 
-    groups.head = NIL(AltGroupP);
+    groups.head = NULL;
     groups.tail = &(groups.head);
     if (rule_is_factored(rule)) {
 	return;

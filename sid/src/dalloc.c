@@ -100,7 +100,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(void *);
+	tmp = NULL;
     } else {
 	size_t        real_size = (((size) * length) + dalloc_data_size);
 	vm_address_t address;
@@ -155,13 +155,13 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(void *);
+	tmp = NULL;
     } else {
 	size_t       real_size = ((size * length) + dalloc_data_size);
 	ByteP       base;
 	DallocDataP data;
 
-	if ((tmp = malloc(real_size)) == NIL(void *)) {
+	if ((tmp = malloc(real_size)) == NULL) {
 	    THROW(XX_dalloc_no_memory);
 	    UNREACHED;
 	}

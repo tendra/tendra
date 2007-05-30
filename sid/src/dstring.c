@@ -100,7 +100,7 @@ void
 nstring_init(NStringP nstring)
 {
     nstring->length   = 0;
-    nstring->contents = NIL(char *);
+    nstring->contents = NULL;
 }
 
 void
@@ -129,7 +129,7 @@ nstring_copy_cstring(NStringP nstring, char * cstring)
 		     (size_t)length);
     } else {
 	nstring->length   = 0;
-	nstring->contents = NIL(char *);
+	nstring->contents = NULL;
     }
 }
 
@@ -156,7 +156,7 @@ nstring_copy(NStringP to, NStringP from)
 		     (void *)(from->contents), (size_t)length);
     } else {
 	to->length   = 0;
-	to->contents = NIL(char *);
+	to->contents = NULL;
     }
 }
 
@@ -261,7 +261,7 @@ nstring_contains(NStringP nstring, char c)
     char * contents = nstring_contents(nstring);
     unsigned length   = nstring_length(nstring);
 
-    return(memchr((void *)contents, c, (size_t)length) != NIL(void *));
+    return(memchr((void *)contents, c, (size_t)length) != NULL);
 }
 
 BoolT
@@ -389,7 +389,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 		     (size_t)(dstring->length));
     } else {
 	nstring->length   = 0;
-	nstring->contents = NIL(char *);
+	nstring->contents = NULL;
     }
 }
 
@@ -422,7 +422,7 @@ dstring_destroy_to_cstring(DStringP dstring)
     tmp[dstring->length] = '\0';
     dstring->length       = 0;
     dstring->max_length   = 0;
-    dstring->contents     = NIL(char *);
+    dstring->contents     = NULL;
     return(tmp);
 }
 

@@ -91,7 +91,7 @@
 void
 scope_stack_init(ScopeStackP stack)
 {
-    stack->head = NIL(ScopeStackFrameP);
+    stack->head = NULL;
 }
 
 void
@@ -109,7 +109,7 @@ scope_stack_push(ScopeStackP stack, NStringP scope)
     dstring_to_nstring(&dstring, &(frame->scope));
     dstring_destroy(&dstring);
     frame->next = stack->head;
-    frame->head = NIL(ScopeMapEntryP);
+    frame->head = NULL;
     frame->tail = &(frame->head);
     stack->head = frame;
 }
@@ -146,17 +146,17 @@ scope_stack_add_rule(ScopeStackP stack, TableP table, NStringP key, RuleP rule,
 	dstring_append_nstring(&dstring, key);
 	dstring_to_nstring(&dstring, &nstring);
 	dstring_destroy(&dstring);
-	if ((entry = table_get_rule(table, &nstring)) != NIL(EntryP)) {
+	if ((entry = table_get_rule(table, &nstring)) != NULL) {
 	    *found_ref = TRUE;
 	    nstring_destroy(&nstring);
 	    return(entry);
 	} else if ((entry = table_add_rule(table, &nstring)) !=
-		   NIL(EntryP)) {
+		   NULL) {
 	    EntryP         from = table_add_name(table, key);
 	    ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
 
 	   (void)scope_stack_check_shadowing(stack, from, rule);
-	    map->next            = NIL(ScopeMapEntryP);
+	    map->next            = NULL;
 	    map->from            = from;
 	    map->to              = entry;
 	    *(stack->head->tail) = map;
@@ -164,7 +164,7 @@ scope_stack_add_rule(ScopeStackP stack, TableP table, NStringP key, RuleP rule,
 	    return(entry);
 	} else {
 	    nstring_destroy(&nstring);
-	    return(NIL(EntryP));
+	    return(NULL);
 	}
     } else {
 	if (table_get_rule(table, key)) {
@@ -189,17 +189,17 @@ scope_stack_add_action(ScopeStackP stack, TableP table, NStringP key,
 	dstring_append_nstring(&dstring, key);
 	dstring_to_nstring(&dstring, &nstring);
 	dstring_destroy(&dstring);
-	if ((entry = table_get_action(table, &nstring)) != NIL(EntryP)) {
+	if ((entry = table_get_action(table, &nstring)) != NULL) {
 	    *found_ref = TRUE;
 	    nstring_destroy(&nstring);
 	    return(entry);
 	} else if ((entry = table_add_action(table, &nstring)) !=
-		   NIL(EntryP)) {
+		   NULL) {
 	    EntryP         from = table_add_name(table, key);
 	    ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
 
 	   (void)scope_stack_check_shadowing(stack, from, rule);
-	    map->next            = NIL(ScopeMapEntryP);
+	    map->next            = NULL;
 	    map->from            = from;
 	    map->to              = entry;
 	    *(stack->head->tail) = map;
@@ -207,7 +207,7 @@ scope_stack_add_action(ScopeStackP stack, TableP table, NStringP key,
 	    return(entry);
 	} else {
 	    nstring_destroy(&nstring);
-	    return(NIL(EntryP));
+	    return(NULL);
 	}
     } else {
 	if (table_get_action(table, key)) {
@@ -232,12 +232,12 @@ scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
     dstring_to_nstring(&dstring, &nstring);
     dstring_destroy(&dstring);
     if ((entry = table_add_non_local(table, &nstring, type)) !=
-	NIL(EntryP)) {
+	NULL) {
 	EntryP         from = table_add_name(table, key);
 	ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
 
 	(void)scope_stack_check_shadowing(stack, from, rule);
-	map->next            = NIL(ScopeMapEntryP);
+	map->next            = NULL;
 	map->from            = from;
 	map->to              = entry;
 	*(stack->head->tail) = map;
@@ -245,7 +245,7 @@ scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
 	return(entry);
     } else {
 	nstring_destroy(&nstring);
-	return(NIL(EntryP));
+	return(NULL);
     }
 }
 
@@ -265,7 +265,7 @@ scope_stack_get_rule(ScopeStackP stack, TableP table, NStringP key)
 		    if (entry_is_rule(map->to)) {
 			return(map->to);
 		    } else {
-			return(NIL(EntryP));
+			return(NULL);
 		    }
 		}
 	    }
@@ -274,7 +274,7 @@ scope_stack_get_rule(ScopeStackP stack, TableP table, NStringP key)
 	    return(entry);
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 EntryP
@@ -293,7 +293,7 @@ scope_stack_get_action(ScopeStackP stack, TableP table, NStringP key)
 		    if (entry_is_action(map->to)) {
 			return(map->to);
 		    } else {
-			return(NIL(EntryP));
+			return(NULL);
 		    }
 		}
 	    }
@@ -302,7 +302,7 @@ scope_stack_get_action(ScopeStackP stack, TableP table, NStringP key)
 	    return(entry);
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 EntryP
@@ -323,13 +323,13 @@ scope_stack_get_non_local(ScopeStackP stack, TableP table, NStringP key,
 			nstring_copy(scope, &(frame->scope));
 			return(map->to);
 		    } else {
-			return(NIL(EntryP));
+			return(NULL);
 		    }
 		}
 	    }
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 BoolT

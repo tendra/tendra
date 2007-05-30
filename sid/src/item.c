@@ -96,7 +96,7 @@ item_create(EntryP entry)
 {
     ItemP item = ALLOCATE(ItemT);
 
-    item->next         = NIL(ItemP);
+    item->next         = NULL;
     types_init(item_param(item));
     types_init(item_result(item));
     item->type         = entry_type(entry);
@@ -111,7 +111,7 @@ item_duplicate(ItemP item)
 {
     ItemP new_item = ALLOCATE(ItemT);
 
-    new_item->next         = NIL(ItemP);
+    new_item->next         = NULL;
     types_copy(item_param(new_item), item_param(item));
     types_copy(item_result(new_item), item_result(item));
     new_item->type         = item->type;
@@ -126,7 +126,7 @@ item_duplicate_and_translate(ItemP item, TypeTransP translator, TableP table)
 {
     ItemP new_item = ALLOCATE(ItemT);
 
-    new_item->next         = NIL(ItemP);
+    new_item->next         = NULL;
     types_copy_and_translate(item_param(new_item), item_param(item),
 			      translator, table);
     types_copy_and_translate(item_result(new_item), item_result(item),
@@ -297,7 +297,7 @@ item_compute_minimal_dataflow(ItemP item, TypeTupleP used)
 	    types_inplace_intersection(rule_result(rule), used);
 	    rule_compute_minimal_dataflow(rule, item_param(item));
 	}
-	types_add_new_names(used, item_param(item), NIL(EntryP));
+	types_add_new_names(used, item_param(item), NULL);
     }
 }
 

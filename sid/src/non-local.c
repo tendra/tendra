@@ -89,7 +89,7 @@
 void
 non_local_list_init(NonLocalListP non_locals)
 {
-    non_locals->head = NIL(NonLocalEntryP);
+    non_locals->head = NULL;
     non_locals->tail = &(non_locals->head);
 }
 
@@ -98,10 +98,10 @@ non_local_list_add(NonLocalListP non_locals, EntryP name, EntryP type)
 {
     NonLocalEntryP entry = ALLOCATE(NonLocalEntryT);
 
-    entry->next         = NIL(NonLocalEntryP);
+    entry->next         = NULL;
     entry->name         = name;
     entry->type         = type;
-    entry->initialiser  = NIL(EntryP);
+    entry->initialiser  = NULL;
     *(non_locals->tail) = entry;
     non_locals->tail    = &(entry->next);
     return(entry);
@@ -110,7 +110,7 @@ non_local_list_add(NonLocalListP non_locals, EntryP name, EntryP type)
 BoolT
 non_local_list_is_empty(NonLocalListP non_locals)
 {
-    return(non_locals->head == NIL(NonLocalEntryP));
+    return(non_locals->head == NULL);
 }
 
 void

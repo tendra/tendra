@@ -119,7 +119,7 @@ table_add_entry(TableP table, NStringP key, EntryTypeT type, BoolT *found_ref)
     unsigned number;
 
     *found_ref = FALSE;
-    while ((entry = *entryp) != NIL(EntryP)) {
+    while ((entry = *entryp) != NULL) {
 	KeyP ent_key = entry_key(entry);
 
 	if ((key_is_string(ent_key)) &&
@@ -137,7 +137,7 @@ table_add_entry(TableP table, NStringP key, EntryTypeT type, BoolT *found_ref)
 		nstring_destroy(key);
 		return(entry);
 	    } else {
-		return(NIL(EntryP));
+		return(NULL);
 	    }
 	}
 	entryp = entry_next_ref(entry);
@@ -156,7 +156,7 @@ table_init(TableP table)
     unsigned i;
 
     for (i = 0; i < TABLE_SIZE; i++) {
-	table->contents[i] = NIL(EntryP);
+	table->contents[i] = NULL;
     }
 }
 
@@ -190,7 +190,7 @@ table_add_action(TableP table, NStringP key)
     BoolT  found;
     EntryP entry = table_add_entry(table, key, ET_ACTION, &found);
 
-    if ((entry != NIL(EntryP)) && (!found)) {
+    if ((entry != NULL) && (!found)) {
 	entry_set_action(entry, action_create());
     }
     return(entry);
@@ -202,7 +202,7 @@ table_add_rule(TableP table, NStringP key)
     BoolT  found;
     EntryP entry = table_add_entry(table, key, ET_RULE, &found);
 
-    if ((entry != NIL(EntryP)) && (!found)) {
+    if ((entry != NULL) && (!found)) {
 	entry_set_rule(entry, rule_create(entry));
     }
     return(entry);
@@ -283,7 +283,7 @@ table_get_entry(TableP table, NStringP key)
 	}
 	entry = entry->next;
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 EntryP
@@ -294,7 +294,7 @@ table_get_type(TableP table, NStringP key)
     if ((entry) && (entry_is_type(entry))) {
 	return(entry);
     } else {
-	return(NIL(EntryP));
+	return(NULL);
     }
 }
 
@@ -306,7 +306,7 @@ table_get_basic(TableP table, NStringP key)
     if ((entry) && (entry_is_basic(entry))) {
 	return(entry);
     } else {
-	return(NIL(EntryP));
+	return(NULL);
     }
 }
 
@@ -328,7 +328,7 @@ table_get_basic_by_number(TableP table, unsigned number)
 	    }
 	}
     }
-    return(NIL(EntryP));
+    return(NULL);
 }
 
 EntryP
@@ -339,7 +339,7 @@ table_get_action(TableP table, NStringP key)
     if ((entry) && (entry_is_action(entry))) {
 	return(entry);
     } else {
-	return(NIL(EntryP));
+	return(NULL);
     }
 }
 
@@ -351,7 +351,7 @@ table_get_rule(TableP table, NStringP key)
     if ((entry) && (entry_is_rule(entry))) {
 	return(entry);
     } else {
-	return(NIL(EntryP));
+	return(NULL);
     }
 }
 

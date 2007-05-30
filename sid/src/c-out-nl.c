@@ -241,7 +241,7 @@ c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
 					      non_local->name, &type,
 					      &reference);
 
-	ASSERT((entry != NIL(EntryP)) && (type == non_local->type) &&
+	ASSERT((entry != NULL) && (type == non_local->type) &&
 	       (!reference));
 	c_output_assign(info, non_local->name, entry, &state, &state, indent);
     }

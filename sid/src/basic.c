@@ -105,7 +105,7 @@ basic_create(GrammarP grammar, BoolT ignored)
 
     basic->terminal        = grammar_next_terminal(grammar);
     types_init(basic_result(basic));
-    basic->result_code     = NIL(void *);
+    basic->result_code     = NULL;
     basic->ignored         = ignored;
     return(basic);
 }
