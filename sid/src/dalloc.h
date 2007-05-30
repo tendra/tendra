@@ -138,6 +138,8 @@
 #ifndef H_DALLOC
 #define H_DALLOC
 
+#include <stddef.h>
+
 #include "os-interface.h"
 #include "exception.h"
 

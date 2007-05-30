@@ -281,6 +281,8 @@
 #ifndef H_OSTREAM
 #define H_OSTREAM
 
+#include <stdio.h>
+
 #include "os-interface.h"
 #include "dalloc.h"
 #include "exception.h"

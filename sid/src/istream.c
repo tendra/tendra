@@ -84,6 +84,7 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <stdio.h>
 
 #include "istream.h"
 #include "cstring.h"

@@ -84,6 +84,7 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <string.h>
 
 #include "dstring.h"
 #include "syntax.h"

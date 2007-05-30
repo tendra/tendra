@@ -54,6 +54,7 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "dalloc.h"
 
@@ -205,8 +206,8 @@ X__dalloc_allocate(size_t size, size_t length)
 
     ASSERT (size != 0);
     if (length == 0) {
-	tmp = NIL(void *);
-    } else if ((tmp = calloc(length, size)) == NIL(void *)) {
+	tmp = NULL;
+    } else if ((tmp = calloc(length, size)) == NULL) {
 	THROW(XX_dalloc_no_memory);
 	UNREACHED;
     }

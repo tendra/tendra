@@ -409,21 +409,6 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-# ifndef FS_NO_STDC
-#  ifdef __STDC__
-#   define FS_STDC_HASH
-#   define FS_PROTOTYPES
-#   define FS_VOID_PTR
-#   define FS_VOLATILE
-#   define FS_CONST
-#   define FS_UNION_INIT
-#   define FS_ENUM
-#   if __STDC__ == 1
-#    define FS_ANSI_ENVIRON
-#   endif /* __STDC__ == 1 */
-#  endif /* defined (__STDC__) */
-# endif /* !defined (FS_NO_STDC) */
-
 # ifdef FS_NO_FILE_INFO
 #  define __FILE__ "unknown"
 #  define __LINE__ 0
@@ -557,48 +542,5 @@ if (!(a)) { \
 #  define FALL_THROUGH
 #  define UNREACHED ASSERT (FALSE)
 # endif /* defined (__TenDRA__) */
-
-# ifdef FS_ANSI_ENVIRON
-#  include <limits.h>
-#  include <setjmp.h>
-#  include <stddef.h>
-#  include <stdio.h>
-#  include <stdlib.h>
-#  include <string.h>
-# else
-
-extern NoReturnT	abort(void);
-extern void *		calloc(size_t, size_t);
-extern void *		malloc(size_t);
-extern NoReturnT	exit(int);
-extern void		free(void *);
-extern char *		getenv(char *);
-#  ifndef __GNUC__
-extern int		memcmp(void *, void *, size_t);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern void *		memcpy(void *, void *, size_t);
-#  endif /* defined (__GNUC__) */
-extern void *		memset(void *, int, size_t);
-extern void *		memchr(void *, int, size_t);
-#  ifndef __GNUC__
-extern size_t		strlen(char *);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern int		strcmp(char *, char *);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern int		strncmp(char *, char *, size_t);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern char *		strcpy(char *, char *);
-#  endif /* defined (__GNUC__) */
-extern char *		strchr(char *, int);
-extern char *		strrchr(char *, int);
-
-#  include <setjmp.h>
-#  include <stdio.h>
-
-# endif /* !defined (FS_ANSI_ENVIRON) */
 
 #endif /* !defined (H_OS_INTERFACE) */
