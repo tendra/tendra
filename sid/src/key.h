@@ -90,16 +90,10 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int KeyTypeT, *KeyTypeP;
-#define KT_STRING	(0)
-#define KT_NUMERIC	(1)
-#else
 typedef enum {
     KT_STRING,
     KT_NUMERIC
 } KeyTypeT, *KeyTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct KeyT {
     KeyTypeT			type;

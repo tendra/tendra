@@ -275,18 +275,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int ArgTypeT, *ArgTypeP;
-#define AT_SWITCH	(0)
-#define AT_NEG_SWITCH	(1)
-#define AT_PROC_SWITCH	(2)
-#define AT_IMMEDIATE	(3)
-#define AT_EITHER	(4)
-#define AT_FOLLOWING	(5)
-#define AT_EMPTY	(6)
-#define AT_FOLLOWING2	(7)
-#define AT_FOLLOWING3	(8)
-#else
 typedef enum {
     AT_SWITCH,
     AT_NEG_SWITCH,
@@ -298,7 +286,6 @@ typedef enum {
     AT_FOLLOWING2,
     AT_FOLLOWING3
 } ArgTypeT, *ArgTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 struct ArgListT;
 typedef struct ArgUsageT {

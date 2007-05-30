@@ -101,16 +101,6 @@ struct CCodeT;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int CPrefixT, *CPrefixP;
-#define CPFX_TYPE		(0)
-#define CPFX_FN			(1)
-#define CPFX_IN			(2)
-#define CPFX_OUT		(3)
-#define CPFX_LABEL		(4)
-#define CPFX_TERMINAL		(5)
-#define CPFX_NUM_PREFIXES	(6)
-#else
 typedef enum {
     CPFX_TYPE,
     CPFX_FN,
@@ -120,7 +110,6 @@ typedef enum {
     CPFX_TERMINAL,
     CPFX_NUM_PREFIXES
 } CPrefixT, *CPrefixP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct COutputInfoT {
     OutputInfoP		info;

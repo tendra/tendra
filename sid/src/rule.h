@@ -104,35 +104,19 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int DFSStateT, *DFSStateP;
-#define DFS_UNTRACED	(0)
-#define DFS_TRACING	(1)
-#define DFS_CYCLING	(2)
-#define DFS_TRACED	(3)
-#else
 typedef enum {
     DFS_UNTRACED,
     DFS_TRACING,
     DFS_CYCLING,
     DFS_TRACED
 } DFSStateT, *DFSStateP;
-#endif /* defined (FS_NO_ENUM) */
 
-#ifdef FS_NO_ENUM
-typedef int CycleTypeT, *CycleTypeP;
-#define CT_LEFT		(0)
-#define CT_TAIL		(1)
-#define CT_ALL		(2)
-#define CT_MUTATE	(3)
-#else
 typedef enum {
     CT_LEFT,
     CT_TAIL,
     CT_ALL,
     CT_MUTATE
 } CycleTypeT, *CycleTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct ItemT {
     struct ItemT	       *next;

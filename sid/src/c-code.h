@@ -98,17 +98,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int CCodeItemTypeT, *CCodeItemTypeP;
-#define CCT_STRING	(0)
-#define CCT_LABEL	(1)
-#define CCT_IDENT	(2)
-#define CCT_MOD_IDENT	(3)
-#define CCT_REF_IDENT	(4)
-#define CCT_EXCEPTION	(5)
-#define CCT_ADVANCE	(6)
-#define CCT_TERMINAL	(7)
-#else
 typedef enum {
     CCT_STRING,
     CCT_LABEL,
@@ -119,7 +108,6 @@ typedef enum {
     CCT_ADVANCE,
     CCT_TERMINAL
 } CCodeItemTypeT, *CCodeItemTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct CCodeItemT {
     struct CCodeItemT	       *next;

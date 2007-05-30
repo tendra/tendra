@@ -94,15 +94,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int ErrorFileTagT, *ErrorFileTagP;
-#define EFTOKEN_NAME		(0)
-#define EFTOKEN_STRING		(1)
-#define EFTOKEN_BLT_STRINGS	(2)
-#define EFTOKEN_BLT_PREFIX	(3)
-#define EFTOKEN_BLT_ERRORS	(4)
-#define EFTOKEN_EOF		(5)
-#else
 typedef enum {
     EFTOKEN_NAME,
     EFTOKEN_STRING,
@@ -111,7 +102,6 @@ typedef enum {
     EFTOKEN_BLT_ERRORS,
     EFTOKEN_EOF
 } ErrorFileTagT, *ErrorFileTagP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct ErrorFileLexT {
     ErrorFileTagT		tag;
@@ -120,18 +110,11 @@ typedef struct ErrorFileLexT {
     } u;
 } ErrorFileLexT, *ErrorFileLexP;
 
-#ifdef FS_NO_ENUM
-typedef int ErrorFileTokenT, *ErrorFileTokenP;
-#define EFN_BUILTIN	(0)
-#define EFN_NAME	(1)
-#define EFN_STRING	(2)
-#else
 typedef enum {
     EFN_BUILTIN,
     EFN_NAME,
     EFN_STRING
 } ErrorFileTokenT, *ErrorFileTokenP;
-#endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 

@@ -104,17 +104,6 @@ struct TypeT;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int EntryTypeT, *EntryTypeP;
-#define ET_TYPE		(0)
-#define ET_BASIC	(1)
-#define ET_RULE		(2)
-#define ET_ACTION	(3)
-#define ET_NAME		(4)
-#define ET_RENAME	(5)
-#define ET_PREDICATE	(6)
-#define ET_NON_LOCAL	(7)
-#else
 typedef enum {
     ET_TYPE,
     ET_BASIC,
@@ -125,7 +114,6 @@ typedef enum {
     ET_PREDICATE,
     ET_NON_LOCAL
 } EntryTypeT, *EntryTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct EntryT {
     struct EntryT	       *next;

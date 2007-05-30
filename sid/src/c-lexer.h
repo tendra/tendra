@@ -96,33 +96,6 @@
  * reflected in the "c-parser.sid" file.
 **/
 
-#ifdef FS_NO_ENUM
-typedef int CTokenT, *CTokenP;
-#define C_TOK_BLT_PREFIXES		(0)
-#define C_TOK_BLT_MAPS			(1)
-#define C_TOK_BLT_ASSIGNMENTS		(2)
-#define C_TOK_BLT_TERMINALS		(3)
-#define C_TOK_BLT_HEADER		(4)
-#define C_TOK_BLT_ACTIONS		(5)
-#define C_TOK_BLT_TRAILER		(6)
-#define C_TOK_BLT_RESULT_ASSIGN		(7)
-#define C_TOK_SID_IDENTIFIER		(8)
-#define C_TOK_C_IDENTIFIER		(9)
-#define C_TOK_SEPARATOR			(10)
-#define C_TOK_TYPEMARK			(11)
-#define C_TOK_TERMINATOR		(12)
-#define C_TOK_BEGIN_ACTION		(13)
-#define C_TOK_DEFINE			(14)
-#define C_TOK_END_ACTION		(15)
-#define C_TOK_CODE			(16)
-#define C_TOK_ARROW			(17)
-#define C_TOK_OPEN_TUPLE		(18)
-#define C_TOK_CLOSE_TUPLE		(19)
-#define C_TOK_BLT_PARAM_ASSIGN		(20)
-#define C_TOK_REFERENCE			(21)
-#define C_TOK_EOF			(22)
-#define C_TOK_ERROR			(23)
-#else
 typedef enum {
     C_TOK_BLT_PREFIXES,
     C_TOK_BLT_MAPS,
@@ -149,7 +122,6 @@ typedef enum {
     C_TOK_EOF,
     C_TOK_ERROR
 } CTokenT, *CTokenP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct CLexT {
     CTokenT			t;

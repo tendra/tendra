@@ -95,36 +95,6 @@
  * reflected in the "parser.sid" file.
 **/
 
-#ifdef FS_NO_ENUM
-typedef int LexerTokenT, *LexerTokenP;
-#define LEXER_TOK_BLT_TYPES		(0)
-#define LEXER_TOK_BLT_TERMINALS		(1)
-#define LEXER_TOK_BLT_PRODUCTIONS	(2)
-#define LEXER_TOK_BLT_ENTRY		(3)
-#define LEXER_TOK_IDENTIFIER		(4)
-#define LEXER_TOK_TYPEMARK		(5)
-#define LEXER_TOK_OPEN_TUPLE		(6)
-#define LEXER_TOK_CLOSE_TUPLE		(7)
-#define LEXER_TOK_ARROW			(8)
-#define LEXER_TOK_TERMINATOR		(9)
-#define LEXER_TOK_BEGIN_ACTION		(10)
-#define LEXER_TOK_END_ACTION		(11)
-#define LEXER_TOK_DEFINE		(12)
-#define LEXER_TOK_BEGIN_RULE		(13)
-#define LEXER_TOK_END_RULE		(14)
-#define LEXER_TOK_ALT_SEP		(15)
-#define LEXER_TOK_HANDLER_SEP		(16)
-#define LEXER_TOK_EMPTY			(17)
-#define LEXER_TOK_PRED_RESULT		(18)
-#define LEXER_TOK_IGNORE		(19)
-#define LEXER_TOK_SCOPEMARK		(20)
-#define LEXER_TOK_BEGIN_SCOPE		(21)
-#define LEXER_TOK_END_SCOPE		(22)
-#define LEXER_TOK_SEPARATOR		(23)
-#define LEXER_TOK_REFERENCE		(24)
-#define LEXER_TOK_EOF			(25)
-#define LEXER_TOK_ERROR			(26)
-#else
 typedef enum {
     LEXER_TOK_BLT_TYPES,
     LEXER_TOK_BLT_TERMINALS,
@@ -154,7 +124,6 @@ typedef enum {
     LEXER_TOK_EOF,
     LEXER_TOK_ERROR
 } LexerTokenT, *LexerTokenP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct LexT {
     LexerTokenT			t;

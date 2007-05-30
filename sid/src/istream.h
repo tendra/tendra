@@ -275,18 +275,11 @@ typedef struct IStreamT {
     BoolT			read_last;
 } IStreamT, *IStreamP;
 
-#ifdef FS_NO_ENUM
-typedef int IStreamStatusT, *IStreamStatusP;
-#define ISTREAM_STAT_READ_CHAR		(0)
-#define ISTREAM_STAT_NO_CHAR		(1)
-#define ISTREAM_STAT_SYNTAX_ERROR	(2)
-#else
 typedef enum {
     ISTREAM_STAT_READ_CHAR,
     ISTREAM_STAT_NO_CHAR,
     ISTREAM_STAT_SYNTAX_ERROR
 } IStreamStatusT, *IStreamStatusP;
-#endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 

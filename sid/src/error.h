@@ -430,14 +430,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int ESeverityT, *ESeverityP;
-#define ERROR_SEVERITY_INFORMATION	(0)
-#define ERROR_SEVERITY_WARNING		(1)
-#define ERROR_SEVERITY_ERROR		(2)
-#define ERROR_SEVERITY_FATAL		(3)
-#define ERROR_SEVERITY_INTERNAL		(4)
-#else
 typedef enum {
     ERROR_SEVERITY_INFORMATION,
     ERROR_SEVERITY_WARNING,
@@ -445,7 +437,6 @@ typedef enum {
     ERROR_SEVERITY_FATAL,
     ERROR_SEVERITY_INTERNAL
 } ESeverityT, *ESeverityP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct ETagT {
     struct ETagT	       *next;
@@ -454,16 +445,10 @@ typedef struct ETagT {
 
 typedef struct ErrorListT {
     struct ErrorListT	       *next;
-#ifdef FS_NO_ENUM
-    int				tag;
-#define ERROR_TAG_STRING	(0)
-#define ERROR_TAG_TAG		(1)
-#else
     enum {
 	ERROR_TAG_STRING,
 	ERROR_TAG_TAG
     }				tag;
-#endif /* defined (FS_NO_ENUM) */
     union {
 	NStringT		string;
 	ETagP			tag;
@@ -507,18 +492,11 @@ typedef union EStringDataT {
     EStringP			estring;
 } EStringDataT, *EStringDataP;
 
-#ifdef FS_NO_ENUM
-typedef int ErrorStatusT, *ErrorStatusP;
-#define ERROR_STATUS_BAD_MESSAGE	(0)
-#define ERROR_STATUS_SUCCESS		(1)
-#define ERROR_STATUS_BAD_ERROR		(2)
-#else
 typedef enum {
     ERROR_STATUS_BAD_MESSAGE,
     ERROR_STATUS_SUCCESS,
     ERROR_STATUS_BAD_ERROR
 } ErrorStatusT, *ErrorStatusP;
-#endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 
