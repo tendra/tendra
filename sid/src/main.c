@@ -144,6 +144,8 @@
 
 /****************************************************************************/
 
+#include <stdlib.h>
+
 #include "os-interface.h"
 #include "release.h"
 #include "arg-parse.h"

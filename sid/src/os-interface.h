@@ -627,12 +627,6 @@ if (!(a)) { \
 #  include <string.h>
 # else
 
-#  ifdef PO_SIZE_T_TYPE
-typedef PO_SIZE_T_TYPE size_t, *size_t *;
-#  else
-typedef unsigned size_t, *size_t *;
-#  endif /* defined (PO_SIZE_T_TYPE) */
-
 extern NoReturnT	abort(void);
 extern void *		calloc(size_t, size_t);
 extern void *		malloc(size_t);
@@ -678,22 +672,6 @@ extern char *		strerror(int);
 #   define CHAR_BIT 8
 #  endif /* defined (PO_CHAR_BIT) */
 # endif /* !defined (CHAR_BIT) */
-
-# ifndef EXIT_SUCCESS
-#  ifdef PO_EXIT_SUCCESS
-#   define EXIT_SUCCESS PO_EXIT_SUCCESS
-#  else
-#   define EXIT_SUCCESS (0)
-#  endif /* defined (PO_EXIT_SUCCESS) */
-# endif /* !defined (EXIT_SUCCESS) */
-
-# ifndef EXIT_FAILURE
-#  ifdef PO_EXIT_FAILURE
-#   define EXIT_FAILURE PO_EXIT_FAILURE
-#  else
-#   define EXIT_FAILURE (1)
-#  endif /* defined (PO_EXIT_FAILURE) */
-# endif /* !defined (EXIT_FAILURE) */
 
 # ifdef FS_SYS_ERRLIST
 extern int		sys_nerr;
