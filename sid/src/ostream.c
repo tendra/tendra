@@ -84,6 +84,8 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <string.h>
+#include <errno.h>
 
 #include "ostream.h"
 #include "cstring.h"
@@ -343,23 +345,8 @@ write_escaped_chars(OStreamP ostream, char * chars, unsigned length)
 void
 write_system_error(OStreamP ostream)
 {
-#if (defined(FS_STRERROR) || defined(FS_SYS_ERRLIST))
-# ifdef FS_STRERROR
     char * message = strerror(errno);
-# else
-    char * message;
-
-    if ((errno >= 0) && (errno < sys_nerr)) {
-	message = sys_errlist[errno];
-    } else {
-	message = "unknown error";
-    }
-# endif /* defined (FS_STRERROR) */
     write_cstring(ostream, message);
-#else
-    write_cstring(ostream, "error ");
-    write_int(ostream, errno);
-#endif /* (defined (FS_STRERROR) || defined (FS_SYS_ERRLIST)) */
 }
 
 void

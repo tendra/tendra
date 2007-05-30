@@ -114,20 +114,6 @@
  * standard library ``fopen'' function.  It is automatically defined if
  * ``FS_ANSI_ENVIRON'' is defined.
  *
- *	FS_STRERROR
- *
- * This should be defined if this system supports the ANSI ``strerror''
- * function for getting a textual description of a system error message.  It
- * is automatically defined if ``FS_ANSI_ENVIRON'' is defined.
- *
- *	FS_SYS_ERRLIST
- *
- * This should be defined if this system supports ``sys_nerr'' and
- * ``sys_errlist'' for getting a textual description of the current system
- * error.  If the ``FS_STRERROR'' macro is defined, then the ANSI ``strerror''
- * function will be used instead (overiding this macro).  If neither macro is
- * defined, then the error number will be used as the message.
- *
  *	FS_MKDIR
  *
  * This should be defined if this system supports the POSIX ``mkdir''
@@ -220,32 +206,6 @@
  * This function is only declared if the ``FS_MKDIR'' macro is defined.  This
  * macro should also be tested before the function is used anywhere.  It is
  * the POSIX directory creation function.
- *
- ** Function:	char *		strerror
- *			(int error)
- ** Exceptions:
- *
- * This function is only declared if the ``FS_STRERROR'' macro is defined.
- * This macro should also be tested before the function is used anywhere.  It
- * is the ANSI function for obtaining a textual description of a system error
- * message.
- *
- ***=== VARIABLES ============================================================
- *
- ** Variable:	int			sys_nerr
- *
- * This variable is only declared if the ``FS_SYS_ERRLIST'' macro is defined.
- * It contains the number of error messages stored in the ``sys_errlist''
- * vector.
- *
- ** Variable:	char *		sys_errlist []
- *
- * This variable is only declared if the ``FS_SYS_ERRLIST'' macro is defined.
- * It contains the text of the system error messages.
- *
- ** Variable:	int			errno
- *
- * This variable contains the number of the current system error.
  *
  ***=== TYPES ================================================================
  *
@@ -341,18 +301,6 @@
  *
  * This macro is defined if ANSI binary input and output is supported
  * (i.e. the "b" modifier is allowed in the second argument to ``fopen'').
- *
- ** Macro:	FS_STRERROR
- ** Exceptions:
- *
- * This macro is defined if the ANSI function ``strerror'' is defined.
- *
- ** Macro:	FS_SYS_ERRLIST
- ** Exceptions:
- *
- * This macro is defined if the BSD ``sys_nerr'' and ``sys_errlist'' variables
- * are defined.  If ``FS_STRERROR'' is defined, then the ``strerror'' function
- * should be used in preference to ``sys_nerr'' and ``sys_errlist''.
  *
  ** Macro:	FS_MKDIR
  ** Exceptions:
@@ -527,17 +475,10 @@
 
 # ifdef FS_ANSI_ENVIRON
 #  define FS_BINARY_STDIO
-#  define FS_STRERROR
 # endif /* defined (FS_ANSI_ENVIRON) */
 # ifdef FS_NO_BINARY_STDIO
 #  undef FS_BINARY_STDIO
 # endif /* defined (FS_NO_BINARY_STDIO) */
-# ifdef FS_NO_STRERROR
-#  undef FS_STRERROR
-# endif /* defined (FS_NO_STRERROR) */
-# ifdef FS_NO_SYS_ERRLIST
-#  undef FS_SYS_ERRLIST
-# endif /* defined (FS_NO_SYS_ERRLIST) */
 # ifdef FS_NO_MKDIR
 #  undef FS_MKDIR
 # endif /* defined (FS_NO_MKDIR) */
@@ -618,7 +559,6 @@ if (!(a)) { \
 # endif /* defined (__TenDRA__) */
 
 # ifdef FS_ANSI_ENVIRON
-#  include <errno.h>
 #  include <limits.h>
 #  include <setjmp.h>
 #  include <stddef.h>
@@ -655,27 +595,10 @@ extern char *		strcpy(char *, char *);
 #  endif /* defined (__GNUC__) */
 extern char *		strchr(char *, int);
 extern char *		strrchr(char *, int);
-extern int		errno;
-#  ifdef FS_STRERROR
-extern char *		strerror(int);
-#  endif /* defined (FS_STRERROR) */
 
 #  include <setjmp.h>
 #  include <stdio.h>
 
 # endif /* !defined (FS_ANSI_ENVIRON) */
-
-# ifndef CHAR_BIT
-#  ifdef PO_CHAR_BIT
-#   define CHAR_BIT PO_CHAR_BIT
-#  else
-#   define CHAR_BIT 8
-#  endif /* defined (PO_CHAR_BIT) */
-# endif /* !defined (CHAR_BIT) */
-
-# ifdef FS_SYS_ERRLIST
-extern int		sys_nerr;
-extern char *		sys_errlist[];
-# endif /* defined (FS_SYS_ERRLIST) */
 
 #endif /* !defined (H_OS_INTERFACE) */
