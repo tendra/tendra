@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "ostream.h"
 #include "cstring.h"
 #include "syntax.h"
@@ -148,7 +150,7 @@ ostream_open(OStreamP ostream, char * name)
     ostream->name = oname;
     ostream->gen_name = name;
     ostream->line = 1;
-    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (SizeT)BUFSIZ);
+    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (size_t)BUFSIZ);
     return(TRUE);
 }
 
@@ -161,13 +163,13 @@ ostream_is_open(OStreamP ostream)
 void
 ostream_buffer(OStreamP ostream)
 {
-    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (SizeT)BUFSIZ);
+    (void)setvbuf(ostream->file, NIL(char *), _IOFBF, (size_t)BUFSIZ);
 }
 
 void
 ostream_unbuffer(OStreamP ostream)
 {
-    (void)setvbuf(ostream->file, NIL(char *), _IONBF, (SizeT)0);
+    (void)setvbuf(ostream->file, NIL(char *), _IONBF, (size_t)0);
 }
 
 void
@@ -317,7 +319,7 @@ write_bytes(OStreamP ostream, ByteP bytes, unsigned length)
 	    ostream->line++;
 	}
     }
-    (void)fwrite((void *)bytes, sizeof(ByteT), (SizeT)length,
+    (void)fwrite((void *)bytes, sizeof(ByteT), (size_t)length,
 		 ostream->file);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }

@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "dstring.h"
 #include "syntax.h"
 
@@ -123,7 +125,7 @@ nstring_copy_cstring(NStringP nstring, char * cstring)
 	nstring->length   = length;
 	nstring->contents = ALLOCATE_VECTOR(char, length);
 	(void)memcpy((void *)(nstring->contents), (void *)cstring,
-		     (SizeT)length);
+		     (size_t)length);
     } else {
 	nstring->length   = 0;
 	nstring->contents = NIL(char *);
@@ -137,7 +139,7 @@ nstring_insert_cstring(NStringP nstring, char * cstring)
 
     if (length > 0) {
 	(void)memcpy((void *)(nstring->contents), (void *)cstring,
-		     (SizeT)length);
+		     (size_t)length);
     }
 }
 
@@ -150,7 +152,7 @@ nstring_copy(NStringP to, NStringP from)
 	to->length   = length;
 	to->contents = ALLOCATE_VECTOR(char, length);
 	(void)memcpy((void *)(to->contents),
-		     (void *)(from->contents), (SizeT)length);
+		     (void *)(from->contents), (size_t)length);
     } else {
 	to->length   = 0;
 	to->contents = NIL(char *);
@@ -165,7 +167,7 @@ nstring_to_cstring(NStringP nstring)
 
     if (length > 0) {
 	(void)memcpy((void *)tmp, (void *)(nstring->contents),
-		     (SizeT)length);
+		     (size_t)length);
     }
     tmp[length] = '\0';
     return(tmp);
@@ -206,7 +208,7 @@ nstring_compare(NStringP nstring1, NStringP nstring2)
 	length = nstring_length(nstring2);
     }
     status = memcmp((void *)(nstring1->contents),
-		    (void *)(nstring2->contents), (SizeT)length);
+		    (void *)(nstring2->contents), (size_t)length);
     if (status < 0) {
 	return(CMP_LT);
     } else if (status > 0) {
@@ -227,7 +229,7 @@ nstring_equal(NStringP nstring1, NStringP nstring2)
 
     return((length == nstring_length(nstring2)) &&
 	   (memcmp((void *)(nstring1->contents),
-		   (void *)(nstring2->contents), (SizeT)length) == 0));
+		   (void *)(nstring2->contents), (size_t)length) == 0));
 }
 
 BoolT
@@ -258,7 +260,7 @@ nstring_contains(NStringP nstring, char c)
     char * contents = nstring_contents(nstring);
     unsigned length   = nstring_length(nstring);
 
-    return(memchr((void *)contents, c, (SizeT)length) != NIL(void *));
+    return(memchr((void *)contents, c, (size_t)length) != NIL(void *));
 }
 
 BoolT
@@ -270,7 +272,7 @@ nstring_is_prefix(NStringP nstring1,			   NStringP nstring2)
 
     return((length < nstring_length(nstring1)) &&
 	   (memcmp((void *)contents1, (void *)contents2,
-		   (SizeT)length) == 0));
+		   (size_t)length) == 0));
 }
 
 void
@@ -315,7 +317,7 @@ dstring_append_char(DStringP dstring, char c)
 	dstring->max_length += DSTRING_CHUNK_SIZE;
 	tmp                  = ALLOCATE_VECTOR(char, dstring->max_length);
 	(void)memcpy((void *)tmp, (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
 	DEALLOCATE(dstring->contents);
 	dstring->contents = tmp;
     }
@@ -336,12 +338,12 @@ dstring_append_cstring(DStringP dstring, char * cstring)
 	}
 	tmp = ALLOCATE_VECTOR(char, dstring->max_length);
 	(void)memcpy((void *)tmp, (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
 	DEALLOCATE(dstring->contents);
 	dstring->contents = tmp;
     }
   (void)memcpy((void *) & (dstring->contents[dstring->length]),
-	       (void *)cstring, (SizeT)clength);
+	       (void *)cstring, (size_t)clength);
     dstring->length = length;
 }
 
@@ -359,12 +361,12 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 	}
 	tmp = ALLOCATE_VECTOR(char, dstring->max_length);
 	(void)memcpy((void *)tmp, (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
 	DEALLOCATE(dstring->contents);
 	dstring->contents = tmp;
     }
   (void)memcpy((void *) & (dstring->contents[dstring->length]),
-	       (void *)nstring_contents(nstring), (SizeT)nlength);
+	       (void *)nstring_contents(nstring), (size_t)nlength);
     dstring->length = length;
 }
 
@@ -383,7 +385,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 	nstring->contents = ALLOCATE_VECTOR(char, dstring->length);
 	(void)memcpy((void *)(nstring->contents),
 		     (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
     } else {
 	nstring->length   = 0;
 	nstring->contents = NIL(char *);
@@ -397,7 +399,7 @@ dstring_to_cstring(DStringP dstring)
 
     if (dstring->length > 0) {
 	(void)memcpy((void *)tmp, (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
     }
     tmp[dstring->length] = '\0';
     return(tmp);
@@ -411,7 +413,7 @@ dstring_destroy_to_cstring(DStringP dstring)
     if ((dstring->length) >= (dstring->max_length)) {
 	tmp = ALLOCATE_VECTOR(char, (dstring->length) + 1);
 	(void)memcpy((void *)tmp, (void *)(dstring->contents),
-		     (SizeT)(dstring->length));
+		     (size_t)(dstring->length));
 	DEALLOCATE(dstring->contents);
     } else {
 	tmp = (dstring->contents);

@@ -179,9 +179,9 @@
  *	NoReturnT			abort
  *			(void)
  *	void *			calloc
- *			(SizeT length, SizeT size)
+ *			(size_t length, size_t size)
  *	void *			malloc
- *			((SizeT size)
+ *			((size_t size)
  *	NoReturnT			exit
  *			(int exit_code)
  *	void				free
@@ -189,14 +189,14 @@
  *	char *			getenv
  *			(char * name)
  *	int				memcmp
- *			(void * ptr1, void * ptr2, SizeT length)
+ *			(void * ptr1, void * ptr2, size_t length)
  *	void *			memcpy
- *			(void * to, void * from, SizeT length)
+ *			(void * to, void * from, size_t length)
  *	void *			memset
- *			(void * ptr, int val, SizeT length)
+ *			(void * ptr, int val, size_t length)
  *	void *			memchr
- *			(void * ptr, int val, SizeT length)
- *	SizeT				strlen
+ *			(void * ptr, int val, size_t length)
+ *	size_t				strlen
  *			(char * string)
  *	int				strcmp
  *			(char * string1, char * string2)
@@ -263,8 +263,8 @@
  * can produce better code if this is declared as ``__volatile__ void''.  The
  * TenDRA compiler can be told that a function doesn't return as well.
  *
- ** Type:	SizeT
- ** Type:	SizeP
+ ** Type:	size_t
+ ** Type:	size_t *
  ** Repr:	size_t
  *
  * This is the type of the return value of the "sizeof" operator.
@@ -625,37 +625,36 @@ if (!(a)) { \
 #  include <stdio.h>
 #  include <stdlib.h>
 #  include <string.h>
-typedef size_t SizeT, *SizeP;
 # else
 
 #  ifdef PO_SIZE_T_TYPE
-typedef PO_SIZE_T_TYPE SizeT, *SizeP;
+typedef PO_SIZE_T_TYPE size_t, *size_t *;
 #  else
-typedef unsigned SizeT, *SizeP;
+typedef unsigned size_t, *size_t *;
 #  endif /* defined (PO_SIZE_T_TYPE) */
 
 extern NoReturnT	abort(void);
-extern void *		calloc(SizeT, SizeT);
-extern void *		malloc(SizeT);
+extern void *		calloc(size_t, size_t);
+extern void *		malloc(size_t);
 extern NoReturnT	exit(int);
 extern void		free(void *);
 extern char *		getenv(char *);
 #  ifndef __GNUC__
-extern int		memcmp(void *, void *, SizeT);
+extern int		memcmp(void *, void *, size_t);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern void *		memcpy(void *, void *, SizeT);
+extern void *		memcpy(void *, void *, size_t);
 #  endif /* defined (__GNUC__) */
-extern void *		memset(void *, int, SizeT);
-extern void *		memchr(void *, int, SizeT);
+extern void *		memset(void *, int, size_t);
+extern void *		memchr(void *, int, size_t);
 #  ifndef __GNUC__
-extern SizeT		strlen(char *);
+extern size_t		strlen(char *);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
 extern int		strcmp(char *, char *);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int		strncmp(char *, char *, SizeT);
+extern int		strncmp(char *, char *, size_t);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
 extern char *		strcpy(char *, char *);

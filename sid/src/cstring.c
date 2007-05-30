@@ -89,6 +89,7 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
 #include <limits.h>
 
 #include "cstring.h"
@@ -119,7 +120,7 @@ cstring_duplicate_prefix(char * cstring, unsigned prefix)
     } else {
 	char * tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
-	(void)memcpy((void *)tmp, (void *)cstring, (SizeT)prefix);
+	(void)memcpy((void *)tmp, (void *)cstring, (size_t)prefix);
 	tmp[prefix] = '\0';
 	return(tmp);
     }

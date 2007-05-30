@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "bitvec.h"
 
 /*--------------------------------------------------------------------------*/
@@ -125,20 +127,20 @@ bitvec_copy(BitVecP to, BitVecP from)
 {
     to->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
    (void)memcpy((void *)(to->bits), (void *)(from->bits),
-		(SizeT)bitvec_size);
+		(size_t)bitvec_size);
 }
 
 void
 bitvec_replace(BitVecP to, BitVecP from)
 {
    (void)memcpy((void *)(to->bits), (void *)(from->bits),
-		(SizeT)bitvec_size);
+		(size_t)bitvec_size);
 }
 
 void
 bitvec_empty(BitVecP bitvec)
 {
-   (void)memset((void *)(bitvec->bits), 0, (SizeT)bitvec_size);
+   (void)memset((void *)(bitvec->bits), 0, (size_t)bitvec_size);
 }
 
 BoolT

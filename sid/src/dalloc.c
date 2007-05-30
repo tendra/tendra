@@ -53,6 +53,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "dalloc.h"
 
 /*--------------------------------------------------------------------------*/
@@ -72,13 +74,13 @@ ExceptionP XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 typedef struct DallocDataT {
     char *			file;
     unsigned			line;
-    SizeT			size;
+    size_t			size;
     int				magic;
 } DallocDataT, *DallocDataP;
 
 /*--------------------------------------------------------------------------*/
 
-static SizeT dalloc_data_size = ALIGN(sizeof(DallocDataT));
+static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
 
 /*--------------------------------------------------------------------------*/
 
@@ -91,7 +93,7 @@ static SizeT dalloc_data_size = ALIGN(sizeof(DallocDataT));
 /*--------------------------------------------------------------------------*/
 
 void *
-X__dalloc_allocate(SizeT size, SizeT length, char * file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 {
     void * tmp;
 
@@ -99,7 +101,7 @@ X__dalloc_allocate(SizeT size, SizeT length, char * file, unsigned line)
     if (length == 0) {
 	tmp = NIL(void *);
     } else {
-	SizeT        real_size = (((size) * length) + dalloc_data_size);
+	size_t        real_size = (((size) * length) + dalloc_data_size);
 	vm_address_t address;
 	DallocDataP  data;
 	ByteP        base;
@@ -146,7 +148,7 @@ X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 #else
 
 void *
-X__dalloc_allocate(SizeT size, SizeT length, char * file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 {
     void * tmp;
 
@@ -154,7 +156,7 @@ X__dalloc_allocate(SizeT size, SizeT length, char * file, unsigned line)
     if (length == 0) {
 	tmp = NIL(void *);
     } else {
-	SizeT       real_size = ((size * length) + dalloc_data_size);
+	size_t       real_size = ((size * length) + dalloc_data_size);
 	ByteP       base;
 	DallocDataP data;
 
@@ -197,7 +199,7 @@ X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 #else
 
 void *
-X__dalloc_allocate(SizeT size, SizeT length)
+X__dalloc_allocate(size_t size, size_t length)
 {
     void * tmp;
 

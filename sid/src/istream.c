@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <stddef.h>
+
 #include "istream.h"
 #include "cstring.h"
 #include "syntax.h"
@@ -316,10 +318,10 @@ istream_close(IStreamP istream)
 void
 X__istream_fill_buffer(IStreamP istream)
 {
-    SizeT bytes = fread((void *)(istream->buffer), sizeof(char),
-			(SizeT)(ISTREAM_BUFSIZE - 1), istream->file);
+    size_t bytes = fread((void *)(istream->buffer), sizeof(char),
+			(size_t)(ISTREAM_BUFSIZE - 1), istream->file);
 
-    if ((bytes == (SizeT)0) && (ferror(istream->file))) {
+    if ((bytes == (size_t)0) && (ferror(istream->file))) {
 	char * name = cstring_duplicate(istream->name);
 
 	THROW_VALUE(XX_istream_read_error, name);
