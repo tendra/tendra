@@ -111,11 +111,11 @@ static ErrorListP	error_prefix	     = NULL;
 static ESeverityT	min_severity	     = ERROR_SEVERITY_ERROR;
 static ESeverityT	max_reported	     = ERROR_SEVERITY_INFORMATION;
 static EStringDataT	severity_data[]    = {
-    UB {"error severity information",	"Info"} UE,
-    UB {"error severity warning",	"Warning"} UE,
-    UB {"error severity error",		"Error"} UE,
-    UB {"error severity fatal",		"Fatal"} UE,
-    UB {"error severity internal",	"Internal"} UE,
+    { {"error severity information",	"Info"} },
+    { {"error severity warning",	"Warning"} },
+    { {"error severity error",		"Error"} },
+    { {"error severity fatal",		"Fatal"} },
+    { {"error severity internal",	"Internal"} },
     ERROR_END_STRING_LIST
 };
 

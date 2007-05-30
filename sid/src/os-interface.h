@@ -88,12 +88,6 @@
  * This should be defined if this system supports the ANSI C ``const''
  * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
  *
- *	FS_UNION_INIT
- *
- * This should be defined if this system supports the ANSI C union
- * initialisation.  It is automatically defined if the ``__STDC__'' macro is
- * defined.
- *
  *	FS_ENUM
  *
  * This should be defined if this system supports enumerated types.  It is
@@ -307,21 +301,6 @@
  *
  * This macro is defined if the POSIX function ``mkdir'' is defined.
  *
- ** Macro:	UNION
- ** Exceptions:
- *
- * This macro should be used to define union types that need initialisation.
- * If union initialisation is supported, it expands to ``union'', otherwise it
- * expands to ``struct''.
- *
- ** Macro:	UB
- ** Macro:	UE
- ** Exceptions:
- *
- * These macros should be used to initialise instances of union types that
- * need initialisation.  The ``UB'' macro should go before the initialiser,
- * and the ``UE'' macro should go after it.
- *
  ** Macro:	INLINE
  ** Exceptions:
  *
@@ -425,19 +404,6 @@
 # ifndef FS_CONST
 #  define const
 # endif /* !defined (FS_CONST) */
-
-# ifdef FS_NO_UNION_INIT
-#  undef FS_UNION_INIT
-# endif /* defined (FS_NO_UNION_INIT) */
-# ifdef FS_UNION_INIT
-#  define UNION union
-#  define UB {
-#  define UE }
-# else
-#  define UNION struct
-#  define UB {
-#  define UE }
-# endif /* defined (FS_UNION_INIT) */
 
 # ifdef FS_NO_ENUM
 #  undef FS_ENUM

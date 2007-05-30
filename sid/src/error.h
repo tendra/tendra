@@ -134,12 +134,12 @@
  *
  * This is the type of an element in a vector of error tags to be passed to
  * the ``error_intern_tags'' function.  The vector should be initialised with
- * the tag names (surrounded by the ``UB'' and ``UE'' macros for union
+ * the tag names (surrounded by braces for union
  * initialisation), terminated by the ``ERROR_END_TAG_LIST'' macro, e.g.
  *
  *	static ETagDataT tags [] = {
- *	    UB "tag 1" UE,
- *	    UB "tag 2" UE,
+ *	    { "tag 1" },
+ *	    { "tag 2" },
  *	    ERROR_END_TAG_LIST
  *	};
  *
@@ -155,15 +155,15 @@
  * This is the type of an element in a vector of errors to be passed to the
  * ``error_intern_errors'' function.  The vector should be initialised with
  * the error names, severity levels, message text, and a pointer to a
- * non-function object (all surrounded by the ``UB'' and ``UE'' macros for
+ * non-function object (all surrounded by braces for
  * union initialisation).  The vector should be terminated by the
  * ``ERROR_END_ERROR_LIST'' macro, e.g.
  *
  *	static ErrorDataT errors [] = {
- *	    UB {
+ *	    { {
  *		"error 1", ERROR_SEVERITY_ERROR,
  *		"error 1 occured at line ${line}", NULL
- *	    } UE, ERROR_END_ERROR_LIST
+ *	    } }, ERROR_END_ERROR_LIST
  *	};
  *
  * Once the ``error_intern_errors'' function has been called, the ``error''
@@ -177,12 +177,12 @@
  *
  * This is the type of an element in a vector of named strings to be passed to
  * the ``error_intern_strings'' function.  The vector should be initialised
- * with the string names and contents (all surrounded by the ``UB'' and ``UE''
+ * with the string names and contents (all surrounded by braces
  * macros for union initialisation).  The vector should be terminated by the
  * ``ERROR_END_STRING_LIST'' macro, e.g.
  *
  *	static EStringDataT strings [] = {
- *	    UB {"string name", "string contents"} UE,
+ *	    { {"string name", "string contents"} },
  *	    ERROR_END_STRING_LIST
  *	};
  *
@@ -486,11 +486,11 @@ typedef struct EStringT {
 
 typedef void(*ErrorProcP)(OStreamP, ETagP, void *);
 typedef void(*ErrorInitProcP)(void);
-typedef UNION ETagDataT {
+typedef union ETagDataT {
     char *			name;
     ETagP			tag;
 } ETagDataT, *ETagDataP;
-typedef UNION ErrorDataT {
+typedef union ErrorDataT {
     struct {
 	char *		name;
 	ESeverityT		severity;
@@ -499,7 +499,7 @@ typedef UNION ErrorDataT {
     } s;
     ErrorP			error;
 } ErrorDataT, *ErrorDataP;
-typedef UNION EStringDataT {
+typedef union EStringDataT {
     struct {
 	char *		name;
 	char *		contents;
@@ -548,10 +548,10 @@ extern void		write_error_file(OStreamP);
 
 /*--------------------------------------------------------------------------*/
 
-#define ERROR_END_TAG_LIST UB NULL UE
+#define ERROR_END_TAG_LIST { NULL }
 #define ERROR_END_ERROR_LIST \
-UB {NULL, (ESeverityT)0, NULL, NULL} UE
-#define ERROR_END_STRING_LIST UB {NULL, NULL} UE
+	{ {NULL, (ESeverityT)0, NULL, NULL} }
+#define ERROR_END_STRING_LIST { {NULL, NULL} }
 
 #endif /* !defined (H_ERROR) */
 

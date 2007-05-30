@@ -549,34 +549,34 @@ main_handle_version(char * option, ArgUsageP usage, void * gclosure)
 /*--------------------------------------------------------------------------*/
 
 static EStringDataT main_description_strings[] = {
-    UB {
+    { {
 	"description of dump-file",
 	" FILE\n\tCause intermediate grammars to be written to FILE."
-    } UE, UB {
+    } }, { {
 	"description of help",
 	"\n\tDisplay an option summary for the current mode."
-    } UE, UB {
+    } }, { {
 	"description of factor-limit",
 	" NUMBER\n\tSet the maximum number of rules to be generated during factorisation."
-    } UE, UB {
+    } }, { {
 	"description of inlining",
 	" INLINES\n\tSet which classes of rule are inlined.\n\tShould be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER', 'MULTI', or 'ALL'."
-    } UE, UB {
+    } }, { {
 	"description of language",
 	" LANGUAGE\n\tSet the language for the output parser."
-    } UE, UB {
+    } }, { {
 	"description of show-errors",
 	"\n\tDisplay the current error table on the standard output."
-    } UE, UB {
+    } }, { {
 	"description of switch",
 	" OPTION\n\tPass OPTION to language specific option parser."
-    } UE, UB {
+    } }, { {
 	"description of tab-width",
 	" NUMBER\n\tSet the number of spaces in a tab character."
-    } UE, UB {
+    } }, { {
 	"description of version",
 	"\n\tDisplay the version number on the standard error."
-    } UE, ERROR_END_STRING_LIST
+    } }, ERROR_END_STRING_LIST
 };
 
 #ifdef __TenDRA__
@@ -589,39 +589,39 @@ static ArgListT main_arglist[] = {
     {
 	"dump-file", 'd',			AT_FOLLOWING,
 	(ArgProcP)main_handle_dump_file,	NULL,
-	UB "description of dump-file" UE
+	{ "description of dump-file" }
     }, {
         "factor-limit", 'f',			AT_FOLLOWING,
 	(ArgProcP)main_handle_factor_limit,	NULL,
-	UB "description of factor-limit" UE
+	{ "description of factor-limit" }
     }, {
 	"help", '?',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NULL,
-	UB "description of help" UE
+	{ "description of help" }
     }, {
 	"inline", 'i',				AT_FOLLOWING,
 	(ArgProcP)main_handle_inlining,	NULL,
-	UB "description of inlining" UE
+	{ "description of inlining" }
     }, {
 	"language", 'l',			AT_FOLLOWING,
 	(ArgProcP)main_handle_language,	NULL,
-	UB "description of language" UE
+	{ "description of language" }
     }, {
 	"show-errors", 'e',			AT_EMPTY,
 	(ArgProcP)main_handle_show_errors,	NULL,
-	UB "description of show-errors" UE
+	{ "description of show-errors" }
     }, {
 	"switch", 's',				AT_FOLLOWING,
 	(ArgProcP)main_handle_switch,		NULL,
-	UB "description of switch" UE
+	{ "description of switch" }
     }, {
 	"tab-width", 't',			AT_FOLLOWING,
 	(ArgProcP)main_handle_tab_width,	NULL,
-	UB "description of tab-width" UE
+	{ "description of tab-width" }
     }, {
 	"version", 'v',				AT_EMPTY,
 	(ArgProcP)main_handle_version,		NULL,
-	UB "description of version" UE
+	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
 
