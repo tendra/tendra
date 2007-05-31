@@ -58,114 +58,42 @@
 */
 
 /*
- * rule-mutate.c - Compute mutation effects.
+ * rule-names.c - Recompute alternative names.
  *
- * This file implements the functions that compute the propogation of mutation
- * effects from actions that mutate their parameters.
+ * This file implements the functions that recompute the names defined in each
+ * alternative of a rule (including the exception handler alternative).
  */
 
 #include "rule.h"
-#include "action.h"
-#include "types.h"
-
-static void			rule_compute_mutations_3(EntryP, void *);
+#include "../action.h"
+#include "../basic.h"
+#include "../name.h"
+#include "../type.h"
+#include "../types.h"
 
 static void
-rule_compute_mutations_4(RuleP rule, AltP alt, RuleP from_rule)
+rule_recompute_alt_names_2(AltP alt, EntryP predicate_id)
 {
-    BoolT  propogate = FALSE;
-    ItemP  item;
+    TypeTupleP names = alt_names(alt);
+    ItemP      item;
 
+    types_destroy(names);
+    types_init(names);
     for (item = alt_item_head(alt); item; item = item_next(item)) {
-	switch (item_type(item))EXHAUSTIVE {
-	  case ET_RULE:
-	    if (entry_get_rule(item_entry(item)) == from_rule) {
-		if (types_compute_mutations(rule_param(rule),
-					    item_param(item),
-					    rule_param(from_rule))) {
-		    propogate = TRUE;
-		}
-	    }
-	    break;
-	  case ET_ACTION:
-	  case ET_PREDICATE:
-	  case ET_RENAME:
-	  case ET_BASIC:
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_TYPE:
-	  case ET_NAME:
-	    UNREACHED;
-	}
-    }
-    if (propogate) {
-	entry_list_iter(rule_reverse_list(rule), rule_compute_mutations_3,
-			(void *)rule);
+	types_add_new_names(names, item_result(item), predicate_id);
     }
 }
 
 static void
-rule_compute_mutations_3(EntryP entry, void * gclosure)
-{
-    RuleP rule      = entry_get_rule(entry);
-    RuleP from_rule = (RuleP)gclosure;
-    AltP  alt;
-
-    if ((alt = rule_get_handler(rule)) != NULL) {
-	rule_compute_mutations_4(rule, alt, from_rule);
-    }
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	rule_compute_mutations_4(rule, alt, from_rule);
-    }
-}
-
-static void
-rule_compute_mutations_2(RuleP rule, AltP alt)
-{
-    BoolT   propogate = FALSE;
-    ItemP   item;
-    ActionP action;
-
-    for (item = alt_item_head(alt); item; item = item_next(item)) {
-	switch (item_type(item))EXHAUSTIVE {
-	  case ET_ACTION:
-	  case ET_PREDICATE:
-	    action = entry_get_action(item_entry(item));
-	    if (types_compute_mutations(rule_param(rule), item_param(item),
-					action_param(action))) {
-		propogate = TRUE;
-	    }
-	    break;
-	  case ET_RENAME:
-	  case ET_BASIC:
-	  case ET_RULE:
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_TYPE:
-	  case ET_NAME:
-	    UNREACHED;
-	}
-	if (types_compute_assign_mutations(rule_param(rule),
-					   item_param(item))) {
-	    propogate = TRUE;
-	}
-    }
-    if (propogate) {
-	entry_list_iter(rule_reverse_list(rule), rule_compute_mutations_3,
-			(void *)rule);
-    }
-}
-
-static void
-rule_compute_mutations_1(RuleP rule)
+rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
 {
     AltP alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
-	rule_compute_mutations_2(rule, alt);
+	rule_recompute_alt_names_2(alt, predicate_id);
     }
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	rule_compute_mutations_2(rule, alt);
+	rule_recompute_alt_names_2(alt, predicate_id);
     }
 }
 
@@ -175,12 +103,12 @@ rule_compute_mutations_1(RuleP rule)
  */
 
 void
-rule_compute_mutations(EntryP entry, void * gclosure)
+rule_recompute_alt_names(EntryP entry, void * gclosure)
 {
-    UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleP  rule         = entry_get_rule(entry);
+	EntryP predicate_id = (EntryP)gclosure;
 
-	rule_compute_mutations_1(rule);
+	rule_recompute_alt_names_1(rule, predicate_id);
     }
 }

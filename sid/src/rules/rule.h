@@ -71,16 +71,16 @@
 #ifndef H_RULE
 #define H_RULE
 
-#include "os-interface.h"
-#include "bitvec.h"
-#include "dalloc.h"
-#include "entry.h"
-#include "entry-list.h"
-#include "non-local.h"
-#include "ostream.h"
-#include "rstack.h"
-#include "table.h"
-#include "types.h"
+#include "../os-interface.h"
+#include "../bitvec.h"
+#include "../dalloc.h"
+#include "../entry.h"
+#include "../entry-list.h"
+#include "../non-local.h"
+#include "../ostream.h"
+#include "../rstack.h"
+#include "../table.h"
+#include "../types.h"
 
 typedef enum {
     DFS_UNTRACED,
@@ -305,13 +305,6 @@ extern void		write_clashes(OStreamP, ClashListP);
 
 
 /*
- * Defined in "rule-error.c":
- */
-
-extern void		rule_compute_error_list(EntryP, void *);
-
-
-/*
  * Defined in "rule-factor.c":
  */
 
@@ -342,7 +335,7 @@ extern void		rule_compute_mutations(EntryP, void *);
 
 
 /*
- * Defined in "rule-name.c":
+ * Defined in "rule-names.c":
  */
 
 extern void		rule_recompute_alt_names(EntryP, void *);

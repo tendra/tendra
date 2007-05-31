@@ -67,7 +67,7 @@
 
 #include "scope.h"
 #include "gen-errors.h"
-#include "rule.h"
+#include "rules/rule.h"
 
 void
 scope_stack_init(ScopeStackP stack)

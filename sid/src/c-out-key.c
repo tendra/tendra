@@ -70,7 +70,7 @@
 #include "basic.h"
 #include "name.h"
 #include "rstack.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "syntax.h"
 #include "type.h"
 

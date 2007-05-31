@@ -70,7 +70,7 @@
 #include "os-interface.h"
 #include "c-output.h"
 #include "non-local.h"
-#include "rule.h"
+#include "rules/rule.h"
 
 extern void	c_output_non_locals(COutputInfoP, NonLocalListP);
 extern void	c_output_declare_non_locals(COutputInfoP, NonLocalListP);

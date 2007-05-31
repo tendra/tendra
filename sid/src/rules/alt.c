@@ -65,10 +65,10 @@
  */
 
 #include "rule.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "type.h"
+#include "../action.h"
+#include "../basic.h"
+#include "../name.h"
+#include "../type.h"
 
 AltP
 alt_create(void)

@@ -72,7 +72,7 @@
 #include "dstring.h"
 #include "entry.h"
 #include "rstack.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "table.h"
 #include "types.h"
 

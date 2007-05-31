@@ -34,7 +34,7 @@ header $[
 #include "entry.h"
 #include "name.h"
 #include "parser.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "table.h"
 #include "type.h"
 #include "types.h"

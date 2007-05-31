@@ -87,11 +87,11 @@
  */
 
 #include "rule.h"
-#include "action.h"
-#include "basic.h"
-#include "entry-list.h"
-#include "name.h"
-#include "type.h"
+#include "../action.h"
+#include "../basic.h"
+#include "../entry-list.h"
+#include "../name.h"
+#include "../type.h"
 
 #define EQUALITY_TABLE_SIZE	(127)
 

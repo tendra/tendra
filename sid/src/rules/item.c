@@ -67,10 +67,10 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "type.h"
+#include "../action.h"
+#include "../basic.h"
+#include "../name.h"
+#include "../type.h"
 
 ItemP
 item_create(EntryP entry)

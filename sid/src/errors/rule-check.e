@@ -30,7 +30,7 @@
 header $[
 #include "basic.h"
 #include "entry-list.h"
-#include "rule.h"
+#include "rules/rule.h"
 ]$;
 
 error "first set collision" {

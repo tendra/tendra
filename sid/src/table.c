@@ -71,7 +71,7 @@
 #include "gen-errors.h"
 #include "grammar.h"
 #include "name.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "type.h"
 
 static unsigned

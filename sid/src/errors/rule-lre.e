@@ -28,7 +28,7 @@
 
 
 header $[
-#include "rule.h"
+#include "rules/rule.h"
 ]$;
 
 error "left recursion type mismatch" {

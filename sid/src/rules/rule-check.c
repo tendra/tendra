@@ -79,9 +79,9 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "basic.h"
-#include "bitvec.h"
-#include "gen-errors.h"
+#include "../basic.h"
+#include "../bitvec.h"
+#include "../gen-errors.h"
 
 static void
 rule_check_first_set_1(RuleP rule, GrammarP grammar)

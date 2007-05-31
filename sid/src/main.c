@@ -101,7 +101,7 @@
 #include "ostream.h"
 #include "output.h"
 #include "parser.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "syntax.h"
 
 #define USAGE "\

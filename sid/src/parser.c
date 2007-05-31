@@ -82,7 +82,7 @@
 #include "grammar.h"
 #include "lexer.h"
 #include "non-local.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "scope.h"
 #include "table.h"
 #include "types.h"

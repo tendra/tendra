@@ -28,7 +28,7 @@
 
 
 header $[
-#include "rule.h"
+#include "rules/rule.h"
 ]$;
 
 error "cannot compute first set" {

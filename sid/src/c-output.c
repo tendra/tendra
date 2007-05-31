@@ -57,7 +57,6 @@
         it may be put.
 */
 
-
 /*
  * c-output.c - Output routines.
  *
@@ -78,7 +77,7 @@
 #include "output.h"
 #include "name.h"
 #include "rstack.h"
-#include "rule.h"
+#include "rules/rule.h"
 #include "type.h"
 
 typedef struct COutClosureT {

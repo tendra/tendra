@@ -116,8 +116,8 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "dstring.h"
-#include "gen-errors.h"
+#include "../dstring.h"
+#include "../gen-errors.h"
 
 typedef struct MatrixEntryT {
     AltP			alt;

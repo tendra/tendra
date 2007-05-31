@@ -66,10 +66,10 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "type.h"
+#include "../action.h"
+#include "../basic.h"
+#include "../name.h"
+#include "../type.h"
 
 typedef struct DFSClosureT {
     RuleP			root;

@@ -80,9 +80,9 @@
  */
 
 #include "rule.h"
-#include "basic.h"
-#include "gen-errors.h"
-#include "table.h"
+#include "../basic.h"
+#include "../gen-errors.h"
+#include "../table.h"
 
 void
 rule_compute_first_set_1(RuleP rule)
