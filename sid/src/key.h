@@ -114,11 +114,3 @@ extern unsigned		key_hash_value(KeyP);
 extern void		write_key(OStreamP, KeyP);
 
 #endif /* !defined (H_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
-

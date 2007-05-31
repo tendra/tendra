@@ -290,10 +290,3 @@ write_entry_list(OStreamP ostream, EntryListP list)
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

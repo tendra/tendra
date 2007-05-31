@@ -874,10 +874,3 @@ rule_remove_left_cycle(RuleP rule_list, EntryP predicate_id, TableP table)
 	rule_no_cycles(rule);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

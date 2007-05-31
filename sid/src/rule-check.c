@@ -483,10 +483,3 @@ write_clashes(OStreamP ostream, ClashListP clashes)
 	clashes = clashes->next;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

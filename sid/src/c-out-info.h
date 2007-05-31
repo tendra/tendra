@@ -163,10 +163,3 @@ extern unsigned		 c_out_info_get_split(COutputInfoP);
 extern void		 c_out_info_set_split(COutputInfoP, unsigned);
 
 #endif /* !defined (H_C_OUT_INFO) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

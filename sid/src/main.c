@@ -789,12 +789,3 @@ main(int argc, char **argv)
     exit(EXIT_SUCCESS);
     UNREACHED;
 }
-
-/*
- * Local variables(smf):
- * compile-command: "build_sid"
- * eval: (include::add-path-entry "os-interface" "library" "transforms")
- * eval: (include::add-path-entry "parser" "output" "c-output" "c-input")
- * eval: (include::add-path-entry "generated")
- * End:
-**/

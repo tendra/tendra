@@ -151,10 +151,3 @@ extern void		lexer_save_terminal(LexerStreamP, LexerTokenT);
 extern void		lexer_restore_terminal(LexerStreamP);
 
 #endif /* !defined (H_LEXER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

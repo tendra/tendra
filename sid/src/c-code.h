@@ -160,11 +160,3 @@ extern void		c_output_c_code_result_assign(COutputInfoP, CCodeP,
 extern void		c_output_c_code(COutputInfoP, CCodeP);
 
 #endif /* !defined (H_C_CODE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

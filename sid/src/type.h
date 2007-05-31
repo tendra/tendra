@@ -110,10 +110,3 @@ extern void		type_set_result_assign_code(TypeP, void *);
 /*--------------------------------------------------------------------------*/
 
 #endif /* !defined (H_TYPE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -435,10 +435,3 @@ rule_set_multiple_inlining(BoolT enable)
 	rule_do_multiple_inlining     = FALSE;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -142,11 +142,3 @@ c_check_grammar(GrammarP grammar)
 {
     table_iter(grammar_table(grammar), c_check_grammar_1, NULL);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

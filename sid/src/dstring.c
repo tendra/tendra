@@ -431,9 +431,3 @@ dstring_destroy(DStringP dstring)
 {
     DEALLOCATE(dstring->contents);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

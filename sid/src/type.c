@@ -137,10 +137,3 @@ type_set_result_assign_code(TypeP type, void * code)
     assert(type->result_assign_code == NULL);
     type->result_assign_code = code;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

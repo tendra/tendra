@@ -1014,10 +1014,3 @@ rule_list_head(RuleListP list)
 {
     return(list->head);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

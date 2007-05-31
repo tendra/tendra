@@ -99,10 +99,3 @@ extern GrammarP		sid_current_grammar;
 extern void		sid_parse_grammar(void);
 
 #endif /* !defined (H_PARSER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

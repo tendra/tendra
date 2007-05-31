@@ -131,10 +131,3 @@ extern BoolT	scope_stack_check_shadowing(ScopeStackP, EntryP,
 					    struct RuleT *);
 
 #endif /* !defined (H_SCOPE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

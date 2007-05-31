@@ -422,10 +422,3 @@ lexer_restore_terminal(LexerStreamP stream)
 {
     stream->token.t = stream->saved_terminal;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

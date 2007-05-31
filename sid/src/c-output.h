@@ -113,10 +113,3 @@ extern void		c_output_open(COutputInfoP, unsigned);
 extern void		c_output_close(COutputInfoP, unsigned);
 
 #endif /* !defined (H_C_OUTPUT) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

@@ -331,9 +331,3 @@ write_bitvec_indices(OStreamP ostream, BitVecP bitvec)
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

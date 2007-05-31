@@ -532,9 +532,3 @@ extern void		write_error_file(OStreamP);
 #define ERROR_END_STRING_LIST { {NULL, NULL} }
 
 #endif /* !defined (H_ERROR) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

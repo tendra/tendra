@@ -190,10 +190,3 @@ non_local_entry_get_type(NonLocalEntryP non_local)
 {
     return(non_local->type);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

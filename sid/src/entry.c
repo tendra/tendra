@@ -343,10 +343,3 @@ entry_is_traced(EntryP entry)
 {
     return(entry->traced);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

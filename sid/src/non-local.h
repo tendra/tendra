@@ -122,10 +122,3 @@ extern EntryP		non_local_entry_get_type(NonLocalEntryP);
 extern EntryP		non_local_entry_get_name(NonLocalEntryP);
 
 #endif /* !defined (H_NON_LOCAL) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

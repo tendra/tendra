@@ -366,10 +366,3 @@ rule_remove_duplicates(TableP table, EntryP predicate_id)
 	}
     } while (did_remove);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -111,10 +111,3 @@ extern void		name_reset_label(NameP);
 extern BoolT		name_has_label(NameP);
 
 #endif /* !defined (H_NAME) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

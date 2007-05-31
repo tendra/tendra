@@ -129,10 +129,3 @@ extern void	entry_list_destroy(EntryListP);
 extern void	write_entry_list(OStreamP, EntryListP);
 
 #endif /* !defined (H_ENTRY_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -306,10 +306,3 @@ c_out_info_set_split(COutputInfoP info, unsigned split)
 {
     info->split = split;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

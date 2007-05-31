@@ -407,9 +407,3 @@ error_file_parse(char * name, BoolT must_open)
 	UNREACHED;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

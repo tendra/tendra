@@ -674,10 +674,3 @@ rule_set_factor_limit(unsigned limit)
 {
     rule_factor_limit = limit;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

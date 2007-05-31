@@ -112,10 +112,3 @@ extern BoolT	c_output_required_copies(COutputInfoP, TypeTupleP, TypeTupleP,
 					 TableP);
 
 #endif /* !defined (H_C_OUT_TYPES) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

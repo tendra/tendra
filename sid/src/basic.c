@@ -177,10 +177,3 @@ write_basics(OStreamP ostream, BasicClosureP closure)
 	(void)bitvec_next_bit(bitvec, &terminal);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

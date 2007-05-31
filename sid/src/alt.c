@@ -309,10 +309,3 @@ write_alt_highlighting(OStreamP ostream, AltP alt, ItemP highlight)
 	write_newline(ostream);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

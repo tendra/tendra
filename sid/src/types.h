@@ -296,10 +296,3 @@ extern void	ntrans_destroy(TypeNTransP);
 /*--------------------------------------------------------------------------*/
 
 #endif /* !defined (H_TYPES) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

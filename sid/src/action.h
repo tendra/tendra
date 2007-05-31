@@ -111,10 +111,3 @@ extern void		action_iter_for_table(ActionP, BoolT,
 					      void *);
 
 #endif /* !defined (H_ACTION) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

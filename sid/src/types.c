@@ -1402,10 +1402,3 @@ ntrans_destroy(TypeNTransP translator)
 	DEALLOCATE(tmp);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

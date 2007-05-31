@@ -354,10 +354,3 @@ write_item(OStreamP ostream, ItemP item)
     write_type_names(ostream, item_param(item), TRUE);
     write_char(ostream, ';');
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

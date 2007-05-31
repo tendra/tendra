@@ -69,11 +69,3 @@ extern TableP			c_current_table;
 extern void			c_parse_grammar(void);
 
 #endif /* !defined (H_C_PARSER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

@@ -272,9 +272,3 @@ extern void		bitvec_destroy(BitVecP);
 extern void		write_bitvec_indices(OStreamP, BitVecP);
 
 #endif /* !defined (H_BITVEC) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

@@ -123,10 +123,3 @@ extern void		basic_iter_for_table(BasicP, BoolT,
 extern void		write_basics(OStreamP, BasicClosureP);
 
 #endif /* !defined (H_BASIC) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

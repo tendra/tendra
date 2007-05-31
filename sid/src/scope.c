@@ -357,10 +357,3 @@ scope_stack_check_shadowing(ScopeStackP stack, EntryP from, RuleP rule)
     }
     return(FALSE);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

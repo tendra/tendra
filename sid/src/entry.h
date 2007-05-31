@@ -167,10 +167,3 @@ extern void		entry_not_traced(EntryP);
 extern BoolT		entry_is_traced(EntryP);
 
 #endif /* !defined (H_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

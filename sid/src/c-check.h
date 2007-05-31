@@ -93,11 +93,3 @@
 extern void		c_check_grammar(GrammarP);
 
 #endif /* !defined (H_C_CHECK) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

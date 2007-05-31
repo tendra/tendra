@@ -353,9 +353,3 @@ extern char *		dstring_destroy_to_cstring(DStringP);
 extern void		dstring_destroy(DStringP);
 
 #endif /* !defined (H_DSTRING) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

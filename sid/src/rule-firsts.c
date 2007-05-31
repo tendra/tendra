@@ -195,10 +195,3 @@ rule_compute_first_set(EntryP entry, void * gclosure)
 	rule_compute_first_set_1(rule);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

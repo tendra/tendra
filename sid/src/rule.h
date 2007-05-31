@@ -406,10 +406,3 @@ extern ItemP		item_deallocate(ItemP);
 extern void		write_item(OStreamP, ItemP);
 
 #endif /* !defined (H_RULE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

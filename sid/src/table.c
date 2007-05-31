@@ -401,10 +401,3 @@ table_unlink_untraced_rules(TableP table)
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -630,9 +630,3 @@ write_error_file(OStreamP ostream)
     write_newline(ostream);
     write_string_table(ostream);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

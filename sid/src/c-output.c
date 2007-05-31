@@ -1285,10 +1285,3 @@ c_output_close(COutputInfoP info, unsigned indent)
     write_char(ostream, '}');
     write_newline(ostream);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

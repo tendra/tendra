@@ -205,10 +205,3 @@ c_output_label_key(COutputInfoP info, KeyP key, unsigned label)
 	write_unsigned(ostream, key_get_number(key));
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

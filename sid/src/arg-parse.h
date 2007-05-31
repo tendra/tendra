@@ -320,9 +320,3 @@ extern void		write_arg_usage(OStreamP, ArgUsageP);
  { NULL }}
 
 #endif /* !defined (H_ARG_PARSE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

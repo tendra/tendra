@@ -208,10 +208,3 @@ rstack_destroy(RStackP rstack)
 	rstack_pop_frame(rstack);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

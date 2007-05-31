@@ -384,9 +384,3 @@ write_arg_usage(OStreamP ostream, ArgUsageP closure)
 	arg_list++;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

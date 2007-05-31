@@ -151,11 +151,3 @@ extern void		c_lexer_save_terminal(CLexerStreamP, CTokenT);
 extern void		c_lexer_restore_terminal(CLexerStreamP);
 
 #endif /* !defined (H_C_LEXER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

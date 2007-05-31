@@ -589,11 +589,3 @@ c_lexer_restore_terminal(CLexerStreamP stream)
 {
     stream->token.t = stream->saved_terminal;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

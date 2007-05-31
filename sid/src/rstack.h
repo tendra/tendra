@@ -127,10 +127,3 @@ extern void		 rstack_pop_frame(RStackP);
 extern void		 rstack_destroy(RStackP);
 
 #endif /* !defined (H_RSTACK) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

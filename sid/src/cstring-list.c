@@ -125,9 +125,3 @@ cstring_list_entry_deallocate(CStringListEntryP entry)
     DEALLOCATE(entry);
     return(next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

@@ -122,10 +122,3 @@ extern void		out_info_set_tab_width(OutputInfoP, unsigned);
 extern void		output_indent(OutputInfoP, unsigned);
 
 #endif /* !defined (H_OUTPUT) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

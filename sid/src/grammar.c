@@ -472,10 +472,3 @@ write_grammar(OStreamP ostream, GrammarP grammar)
     entry_list_iter_table(entry_list, FALSE, write_grammar_1,
 			  (void *)ostream);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

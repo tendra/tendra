@@ -741,10 +741,3 @@ c_output_c_code(COutputInfoP info, CCodeP code)
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

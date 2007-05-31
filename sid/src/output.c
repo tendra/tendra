@@ -189,10 +189,3 @@ output_indent(OutputInfoP info, unsigned indent)
 	write_char(ostream, ' ');
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

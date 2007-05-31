@@ -626,10 +626,3 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
     }
     return(copies);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

@@ -270,10 +270,3 @@ c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
 				c_output_restore_non_locals_1,
 				(void *) &closure);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

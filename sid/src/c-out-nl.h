@@ -100,10 +100,3 @@ extern void	c_output_restore_non_locals(COutputInfoP, RuleP, unsigned,
 					    RStackP, RStackP);
 
 #endif /* !defined (H_C_OUT_NL) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

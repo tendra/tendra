@@ -142,10 +142,3 @@ action_iter_for_table(ActionP action, BoolT full,
 	types_iter_for_table(action_result(action), proc, closure);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

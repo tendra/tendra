@@ -127,10 +127,3 @@ extern void	table_untrace(TableP);
 extern void	table_unlink_untraced_rules(TableP);
 
 #endif /* !defined (H_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

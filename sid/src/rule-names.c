@@ -130,10 +130,3 @@ rule_recompute_alt_names(EntryP entry, void * gclosure)
 	rule_recompute_alt_names_1(rule, predicate_id);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

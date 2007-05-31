@@ -125,10 +125,3 @@ extern void		grammar_compute_mutations(GrammarP);
 extern void		write_grammar(OStreamP, GrammarP);
 
 #endif /* !defined (H_GRAMMAR) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -98,10 +98,3 @@ extern void		c_output_key(COutputInfoP, KeyP, NStringP);
 extern void		c_output_label_key(COutputInfoP, KeyP, unsigned);
 
 #endif /* !defined (H_C_OUT_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/
