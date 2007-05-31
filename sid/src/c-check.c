@@ -73,16 +73,16 @@
 #include "table.h"
 
 static void
-c_check_grammar_1(EntryP entry, void * gclosure)
+c_check_grammar_1(EntryT * entry, void * gclosure)
 {
-    TypeP type;
+    TypeT * type;
 
     UNUSED(gclosure);
     switch (entry_type(entry))EXHAUSTIVE {
       case ET_RULE:
 	break;
       case ET_BASIC: {
-	  BasicP basic = entry_get_basic(entry);
+	  BasicT * basic = entry_get_basic(entry);
 
 	  if ((!types_equal_zero_tuple(basic_result(basic))) &&
 	      (basic_get_result_code(basic) == NULL)) {
@@ -116,7 +116,7 @@ c_check_grammar_1(EntryP entry, void * gclosure)
 }
 
 void
-c_check_grammar(GrammarP grammar)
+c_check_grammar(GrammarT * grammar)
 {
     table_iter(grammar_table(grammar), c_check_grammar_1, NULL);
 }

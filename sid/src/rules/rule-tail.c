@@ -106,14 +106,14 @@
 #include "../type.h"
 
 typedef struct CycleHeadT {
-    RuleP			head;
-    RuleP		       *tail;
-} CycleHeadT, *CycleHeadP;
+    RuleT *			head;
+    RuleT *		       *tail;
+} CycleHeadT;
 
 typedef struct RuleStackT {
     struct RuleStackT	       *next;
-    RuleP			rule;
-} RuleStackT, *RuleStackP;
+    RuleT *			rule;
+} RuleStackT;
 
 static BoolT	rule_do_inline_tail_calls     = TRUE;
 static BoolT	rule_do_inline_all_basics     = TRUE;
@@ -122,16 +122,16 @@ static BoolT	rule_do_inline_non_tail_calls = FALSE;
 static BoolT	rule_do_multiple_inlining     = FALSE;
 
 static void
-rule_inline_tail_calls_1(RuleP rule, AltP alt, RuleP tail_group)
+rule_inline_tail_calls_1(RuleT * rule, AltT * alt, RuleT * tail_group)
 {
-    ItemP item = alt_item_head(alt);
-    ItemP next;
+    ItemT * item = alt_item_head(alt);
+    ItemT * next;
 
     while ((next = item_next(item)) != NULL) {
 	item = next;
     }
     if (item_is_rule(item)) {
-	RuleP item_rule = entry_get_rule(item_entry(item));
+	RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	if ((rule_get_tail_group(item_rule) == tail_group) &&
 	    (types_equal_names(rule_result(rule), item_result(item)))) {
@@ -142,10 +142,10 @@ rule_inline_tail_calls_1(RuleP rule, AltP alt, RuleP tail_group)
 }
 
 static void
-rule_inline_tail_calls(RuleP rule)
+rule_inline_tail_calls(RuleT * rule)
 {
-    RuleP tail_group = rule_get_tail_group(rule);
-    AltP  alt;
+    RuleT * tail_group = rule_get_tail_group(rule);
+    AltT *  alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_inline_tail_calls_1(rule, alt, tail_group);
@@ -155,30 +155,30 @@ rule_inline_tail_calls(RuleP rule)
     }
 }
 
-static void	rule_compute_call_graph(RuleP, EntryListP, RuleStackP);
+static void	rule_compute_call_graph(RuleT *, EntryListT *, RuleStackT *);
 
 static void
-rule_compute_call_graph_1(AltP alt, EntryListP call_list, RuleStackP next)
+rule_compute_call_graph_1(AltT * alt, EntryListT * call_list, RuleStackT * next)
 {
-    ItemP item = alt_item_head(alt);
-    ItemP next_item;
+    ItemT * item = alt_item_head(alt);
+    ItemT * next_item;
 
     while ((next_item = item_next(item)) != NULL) {
 	item = next_item;
     }
     if (item_is_tail_call(item)) {
-	EntryP entry     = item_entry(item);
-	RuleP  item_rule = entry_get_rule(entry);
+	EntryT * entry     = item_entry(item);
+	RuleT *  item_rule = entry_get_rule(entry);
 
 	rule_compute_call_graph(item_rule, call_list, next);
     }
 }
 
 static void
-rule_compute_call_graph(RuleP rule, EntryListP call_list, RuleStackP next)
+rule_compute_call_graph(RuleT * rule, EntryListT * call_list, RuleStackT * next)
 {
     RuleStackT stack;
-    AltP       alt;
+    AltT *       alt;
 
     stack.rule = rule;
     stack.next = next;
@@ -198,14 +198,14 @@ rule_compute_call_graph(RuleP rule, EntryListP call_list, RuleStackP next)
 }
 
 static void
-rule_compute_all_basics_1(RuleP rule)
+rule_compute_all_basics_1(RuleT * rule)
 {
     if ((!rule_has_empty_alt(rule)) &&
 	(rule_get_handler(rule) == NULL)) {
-	AltP alt;
+	AltT * alt;
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	    ItemP item;
+	    ItemT * item;
 
 	    for (item = alt_item_head(alt); item; item = item_next(item)) {
 		if (!item_is_basic(item)) {
@@ -217,17 +217,17 @@ rule_compute_all_basics_1(RuleP rule)
     }
 }
 
-static void	rule_compute_inlining_1(RuleP);
+static void	rule_compute_inlining_1(RuleT *);
 
 static void
-rule_compute_inlining_2(AltP alt)
+rule_compute_inlining_2(AltT * alt)
 {
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	if ((item_is_rule(item)) && (!item_is_tail_call(item))) {
-	    EntryP entry     = item_entry(item);
-	    RuleP  item_rule = entry_get_rule(entry);
+	    EntryT * entry     = item_entry(item);
+	    RuleT *  item_rule = entry_get_rule(entry);
 
 	    if (rule_is_all_basics(item_rule)) {
 		item_inlinable(item);
@@ -246,11 +246,11 @@ rule_compute_inlining_2(AltP alt)
 }
 
 static void
-rule_compute_inlining_1(RuleP rule)
+rule_compute_inlining_1(RuleT * rule)
 {
     if (!rule_is_checked_for_inlining(rule)) {
 	if (!rule_is_being_inlined(rule)) {
-	    AltP alt;
+	    AltT * alt;
 
 	    rule_being_inlined(rule);
 	    if ((alt = rule_get_handler(rule)) != NULL) {
@@ -265,13 +265,13 @@ rule_compute_inlining_1(RuleP rule)
 }
 
 static void
-rule_compute_needed_functions_2(AltP alt)
+rule_compute_needed_functions_2(AltT * alt)
 {
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	if (item_is_rule(item)) {
-	    RuleP item_rule = entry_get_rule(item_entry(item));
+	    RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	    if ((!item_is_inlinable(item)) ||
 		(rule_get_call_count(item_rule) > 1)) {
@@ -282,9 +282,9 @@ rule_compute_needed_functions_2(AltP alt)
 }
 
 static void
-rule_compute_needed_functions_1(RuleP rule)
+rule_compute_needed_functions_1(RuleT * rule)
 {
-    AltP     alt;
+    AltT *     alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_needed_functions_2(alt);
@@ -300,9 +300,9 @@ rule_compute_needed_functions_1(RuleP rule)
  */
 
 void
-rule_handle_tails(RuleP rule_list)
+rule_handle_tails(RuleT * rule_list)
 {
-    RuleP rule;
+    RuleT * rule;
 
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 	rule_set_tail_group(rule, rule_list);
@@ -318,42 +318,42 @@ rule_handle_tails(RuleP rule_list)
 }
 
 void
-rule_compute_all_basics(EntryP entry, void * gclosure)
+rule_compute_all_basics(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (rule_do_inline_all_basics && entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_all_basics_1(rule);
     }
 }
 
 void
-rule_compute_inlining(EntryP entry, void * gclosure)
+rule_compute_inlining(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_inlining_1(rule);
     }
 }
 
 void
-rule_compute_needed_functions(EntryP entry, void * gclosure)
+rule_compute_needed_functions(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_needed_functions_1(rule);
     }
 }
 
 void
-rule_handle_need_functions(RuleP rule_list)
+rule_handle_need_functions(RuleT * rule_list)
 {
-    RuleP rule;
+    RuleT * rule;
 
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 	rule_will_need_function(rule);

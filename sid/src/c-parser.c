@@ -62,16 +62,16 @@
 static NStringT		c_prefix_names [CPFX_NUM_PREFIXES];
 static BoolT		c_inited_prefix_names = FALSE;
 static CPrefixT		c_current_prefix;
-static EntryP		c_current_entry;
+static EntryT *		c_current_entry;
 static TypeTupleT	c_saved_type;
 static TypeTupleT	c_current_type;
 static BoolT		c_propagating_error = FALSE;
 
 /*--------------------------------------------------------------------------*/
 
-CLexerStreamP		c_current_stream;
-COutputInfoP		c_current_out_info;
-TableP			c_current_table;
+CLexerStreamT *		c_current_stream;
+COutputInfoT *		c_current_out_info;
+TableT *			c_current_table;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -359,7 +359,7 @@ ZR119(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI123;
+		CCodeT * ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -376,7 +376,7 @@ ZR119(void)
 
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -408,7 +408,7 @@ ZR119(void)
 	    c_code_deallocate ((ZI123));
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check ((ZI123), FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -519,7 +519,7 @@ ZR148(void)
 	NULL) {
 	E_c_unknown_action ((&ZI79));
     } else {
-	ActionP action = entry_get_action (c_current_entry);
+	ActionT * action = entry_get_action (c_current_entry);
 
 	if (action_get_code (action)) {
 	    E_c_action_mult_def ((&ZI79));
@@ -558,7 +558,7 @@ ZR148(void)
 			goto ZL3;
 		    }
 		    {
-			CCodeP ZI123;
+			CCodeT * ZI123;
 
 			switch (CURRENT_TERMINAL) {
 			  case 16:
@@ -574,11 +574,11 @@ ZR148(void)
 			{
 
     if (c_current_entry) {
-	ActionP    action  = entry_get_action (c_current_entry);
-	TypeTupleP param   = action_param (action);
-	TypeTupleP result  = action_result (action);
+	ActionT *    action  = entry_get_action (c_current_entry);
+	TypeTupleT * param   = action_param (action);
+	TypeTupleT * result  = action_result (action);
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
 	    E_c_action_param_clash (key, &c_saved_type);
@@ -866,7 +866,7 @@ ZR127(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI123;
+		CCodeT * ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -883,7 +883,7 @@ ZR127(void)
 
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -916,7 +916,7 @@ ZR127(void)
 	    c_code_deallocate ((ZI123));
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check ((ZI123), FALSE, TRUE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -1089,7 +1089,7 @@ ZR84(void)
     if (c_current_prefix == CPFX_NUM_PREFIXES) {
 	nstring_destroy (&(ZI88));
     } else {
-	NStringP prefix = c_out_info_prefix (c_current_out_info,
+	NStringT * prefix = c_out_info_prefix (c_current_out_info,
 					     c_current_prefix);
 
 	nstring_destroy (prefix);
@@ -1212,7 +1212,7 @@ c_parse_grammar(void)
 	}
 	{
 	    {
-		CCodeP ZI159;
+		CCodeT * ZI159;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1251,7 +1251,7 @@ c_parse_grammar(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI162;
+		CCodeT * ZI162;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1413,7 +1413,7 @@ c_parse_grammar(void)
 	}
 	{
 	    {
-		CCodeP ZI171;
+		CCodeT * ZI171;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1452,7 +1452,7 @@ c_parse_grammar(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI174;
+		CCodeT * ZI174;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1669,7 +1669,7 @@ ZR134(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI123;
+		CCodeT * ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1686,7 +1686,7 @@ ZR134(void)
 
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -1719,7 +1719,7 @@ ZR134(void)
 	    c_code_deallocate ((ZI123));
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check ((ZI123), FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -1999,7 +1999,7 @@ ZR141(void)
 	NULL) {
 	E_c_unknown_basic ((&ZI79));
     } else {
-	BasicP basic = entry_get_basic (c_current_entry);
+	BasicT * basic = entry_get_basic (c_current_entry);
 
 	if (basic_get_result_code (basic)) {
 	    E_c_basic_mult_def ((&ZI79));
@@ -2019,7 +2019,7 @@ ZR141(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeP ZI123;
+		CCodeT * ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -2035,10 +2035,10 @@ ZR141(void)
 		{
 
     if (c_current_entry) {
-	BasicP     basic   = entry_get_basic (c_current_entry);
-	TypeTupleP result  = basic_result (basic);
+	BasicT *     basic   = entry_get_basic (c_current_entry);
+	TypeTupleT * result  = basic_result (basic);
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
 	    E_c_basic_param_clash (key, &c_saved_type);

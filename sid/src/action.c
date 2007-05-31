@@ -70,10 +70,10 @@
 #include "rules/rule.h"
 #include "type.h"
 
-ActionP
+ActionT *
 action_create(void)
 {
-    ActionP action = ALLOCATE(ActionT);
+    ActionT * action = ALLOCATE(ActionT);
 
     types_init(action_param(action));
     types_init(action_result(action));
@@ -82,33 +82,33 @@ action_create(void)
 }
 
 /* TODO some of these could become macros or inlined functions */
-TypeTupleP
-action_param(ActionP action)
+TypeTupleT *
+action_param(ActionT * action)
 {
     return(&(action->param));
 }
 
-TypeTupleP
-action_result(ActionP action)
+TypeTupleT *
+action_result(ActionT * action)
 {
     return(&(action->result));
 }
 
 void *
-action_get_code(ActionP action)
+action_get_code(ActionT * action)
 {
     return(action->code);
 }
 
 void
-action_set_code(ActionP action, void * code)
+action_set_code(ActionT * action, void * code)
 {
     action->code = code;
 }
 
 void
-action_iter_for_table(ActionP action, BoolT full,
-		      void(*proc)KW_WEAK_PROTOTYPE(EntryP, void *),
+action_iter_for_table(ActionT * action, BoolT full,
+		      void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
 		      void * closure)
 {
     if (full) {

@@ -103,31 +103,31 @@ typedef enum {
     C_TOK_REFERENCE,
     C_TOK_EOF,
     C_TOK_ERROR
-} CTokenT, *CTokenP;
+} CTokenT;
 
 typedef struct CLexT {
     CTokenT			t;
     union {
 	NStringT		string;
-	CCodeP			code;
+	CCodeT *			code;
     } u;
-} CLexT, *CLexP;
+} CLexT;
 
 typedef struct CLexerStreamT {
     IStreamT			istream;
     CLexT			token;
     CTokenT			saved_terminal;
-} CLexerStreamT, *CLexerStreamP;
+} CLexerStreamT;
 
-extern void		c_lexer_init(CLexerStreamP, IStreamP);
-extern void		c_lexer_close(CLexerStreamP);
-extern char *		c_lexer_stream_name(CLexerStreamP);
-extern unsigned		c_lexer_stream_line(CLexerStreamP);
-extern CTokenT		c_lexer_get_terminal(CLexerStreamP);
-extern void		c_lexer_next_token(CLexerStreamP);
-extern NStringP		c_lexer_string_value(CLexerStreamP);
-extern CCodeP		c_lexer_code_value(CLexerStreamP);
-extern void		c_lexer_save_terminal(CLexerStreamP, CTokenT);
-extern void		c_lexer_restore_terminal(CLexerStreamP);
+extern void		c_lexer_init(CLexerStreamT *, IStreamT *);
+extern void		c_lexer_close(CLexerStreamT *);
+extern char *		c_lexer_stream_name(CLexerStreamT *);
+extern unsigned		c_lexer_stream_line(CLexerStreamT *);
+extern CTokenT		c_lexer_get_terminal(CLexerStreamT *);
+extern void		c_lexer_next_token(CLexerStreamT *);
+extern NStringT *		c_lexer_string_value(CLexerStreamT *);
+extern CCodeT *		c_lexer_code_value(CLexerStreamT *);
+extern void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
+extern void		c_lexer_restore_terminal(CLexerStreamT *);
 
 #endif /* !defined (H_C_LEXER) */

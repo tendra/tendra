@@ -108,7 +108,7 @@ error "duplicate action" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -129,7 +129,7 @@ error "duplicate basic" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -150,7 +150,7 @@ error "duplicate rule" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -171,7 +171,7 @@ error "duplicate type" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -192,7 +192,7 @@ error "duplicate non local" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -215,7 +215,7 @@ error "unknown action" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "NStringP" $[
+	"action name" : "NStringT *" $[
 	    write_nstring(ostream, closure->action_name);
 	]$
     }
@@ -236,7 +236,7 @@ error "unknown rule" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "NStringP" $[
+	"rule name" : "NStringT *" $[
 	    write_nstring(ostream, closure->rule_name);
 	]$
     }
@@ -257,7 +257,7 @@ error "unknown type" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -278,7 +278,7 @@ error "unknown rule or basic" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -301,11 +301,11 @@ error "identity mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -326,15 +326,15 @@ error "initialiser result mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "KeyP" $[
+	"name name" : "KeyT *" $[
 	    write_key(ostream, closure->name_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -355,15 +355,15 @@ error "action result call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -384,15 +384,15 @@ error "basic result call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -413,15 +413,15 @@ error "rule result call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -444,19 +444,19 @@ error "initialiser param mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "KeyP" $[
+	"name name" : "KeyT *" $[
 	    write_key(ostream, closure->name_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"correct ref type" : "TypeTupleP" $[
+	"correct ref type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_ref_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -477,15 +477,15 @@ error "action param call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -506,11 +506,11 @@ error "basic param call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -531,11 +531,11 @@ error "basic param mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -556,15 +556,15 @@ error "rule param call mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -587,15 +587,15 @@ error "rule param mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -616,15 +616,15 @@ error "rule result mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -645,15 +645,15 @@ error "action param mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -674,15 +674,15 @@ error "action result mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -703,7 +703,7 @@ error "alt result mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
@@ -728,7 +728,7 @@ error "handler result mismatch" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }
@@ -768,11 +768,11 @@ error "predicate type" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"correct type" : "EntryP" $[
+	"correct type" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->correct_type));
 	]$
     }, {
-	"erroneous type" : "EntryP" $[
+	"erroneous type" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->erroneous_type));
 	]$
     }
@@ -812,7 +812,7 @@ error "undefined assignment" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "NStringP" $[
+	"name name" : "NStringT *" $[
 	    write_nstring(ostream, closure->name_name);
 	]$
     }
@@ -833,7 +833,7 @@ error "rule already defined" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }
@@ -854,15 +854,15 @@ error "rule formal clash" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -883,11 +883,11 @@ error "rule param clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -908,11 +908,11 @@ error "rule result clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -933,7 +933,7 @@ error "identity result clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -954,11 +954,11 @@ error "action result call clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -979,11 +979,11 @@ error "basic result call clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1004,11 +1004,11 @@ error "rule result call clash"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1029,11 +1029,11 @@ error "undefined name"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "KeyP" $[
+	"identifier name" : "KeyT *" $[
 	    write_key(ostream, closure->identifier_name);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
@@ -1058,11 +1058,11 @@ error "redefined name"  {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "KeyP" $[
+	"identifier name" : "KeyT *" $[
 	    write_key(ostream, closure->identifier_name);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
@@ -1087,7 +1087,7 @@ error "multiple empty alts" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }
@@ -1125,7 +1125,7 @@ error "mult entry" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }
@@ -1146,11 +1146,11 @@ error "rule param has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -1171,11 +1171,11 @@ error "rule result has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1196,11 +1196,11 @@ error "rule result has refs" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1221,11 +1221,11 @@ error "action param has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -1246,11 +1246,11 @@ error "action result has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1271,11 +1271,11 @@ error "action result has refs" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1296,11 +1296,11 @@ error "basic param has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -1321,11 +1321,11 @@ error "basic result has names" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1346,11 +1346,11 @@ error "basic result has refs" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1371,11 +1371,11 @@ error "identity param has refs" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"rule name" : "KeyP" $[
+	"rule name" : "KeyT *" $[
 	    write_key(ostream, closure->rule_name);
 	]$
     }, {
@@ -1400,7 +1400,7 @@ error "ignored basic call" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"terminal name" : "NStringP" $[
+	"terminal name" : "NStringT *" $[
 	    write_nstring(ostream, closure->terminal_name);
 	]$
     }
@@ -1421,7 +1421,7 @@ error "ambiguous call" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -1442,7 +1442,7 @@ error "global scope non local" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "NStringP" $[
+	"name name" : "NStringT *" $[
 	    write_nstring(ostream, closure->name_name);
 	]$
     }

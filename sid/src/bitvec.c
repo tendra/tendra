@@ -120,13 +120,13 @@ bitvec_set_size(unsigned size)
 }
 
 void
-bitvec_init(BitVecP bitvec)
+bitvec_init(BitVecT * bitvec)
 {
     bitvec->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
 }
 
 void
-bitvec_copy(BitVecP to, BitVecP from)
+bitvec_copy(BitVecT * to, BitVecT * from)
 {
     to->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
    (void)memcpy((void *)(to->bits), (void *)(from->bits),
@@ -134,22 +134,22 @@ bitvec_copy(BitVecP to, BitVecP from)
 }
 
 void
-bitvec_replace(BitVecP to, BitVecP from)
+bitvec_replace(BitVecT * to, BitVecT * from)
 {
    (void)memcpy((void *)(to->bits), (void *)(from->bits),
 		(size_t)bitvec_size);
 }
 
 void
-bitvec_empty(BitVecP bitvec)
+bitvec_empty(BitVecT * bitvec)
 {
    (void)memset((void *)(bitvec->bits), 0, (size_t)bitvec_size);
 }
 
 BoolT
-bitvec_is_empty(BitVecP bitvec)
+bitvec_is_empty(BitVecT * bitvec)
 {
-    ByteP    bitvec_bits = (bitvec->bits);
+    ByteT *    bitvec_bits = (bitvec->bits);
     unsigned bytes       = bitvec_size;
 
     while (bytes--) {
@@ -161,9 +161,9 @@ bitvec_is_empty(BitVecP bitvec)
 }
 
 BoolT
-bitvec_is_full(BitVecP bitvec)
+bitvec_is_full(BitVecT * bitvec)
 {
-    ByteP    bitvec_bits = (bitvec->bits);
+    ByteT *    bitvec_bits = (bitvec->bits);
     unsigned bytes       = bitvec_size;
 
     while (bytes--) {
@@ -181,24 +181,24 @@ bitvec_is_full(BitVecP bitvec)
 }
 
 void
-bitvec_set(BitVecP bitvec, unsigned bit)
+bitvec_set(BitVecT * bitvec, unsigned bit)
 {
     assert(bit < bitvec_valid_bits);
    (bitvec->bits)[bit / NUM_BITS] |= (ByteT)(1 << (bit % NUM_BITS));
 }
 
 BoolT
-bitvec_is_set(BitVecP bitvec, unsigned bit)
+bitvec_is_set(BitVecT * bitvec, unsigned bit)
 {
     assert(bit < bitvec_valid_bits);
     return((bitvec->bits)[bit / NUM_BITS] & ((ByteT)1 << (bit % NUM_BITS)));
 }
 
 void
-bitvec_or(BitVecP to, BitVecP from)
+bitvec_or(BitVecT * to, BitVecT * from)
 {
-    ByteP    to_bits   = (to->bits);
-    ByteP    from_bits = (from->bits);
+    ByteT *    to_bits   = (to->bits);
+    ByteT *    from_bits = (from->bits);
     unsigned bytes     = bitvec_size;
 
     while (bytes--) {
@@ -207,10 +207,10 @@ bitvec_or(BitVecP to, BitVecP from)
 }
 
 void
-bitvec_and(BitVecP to, BitVecP from)
+bitvec_and(BitVecT * to, BitVecT * from)
 {
-    ByteP    to_bits   = (to->bits);
-    ByteP    from_bits = (from->bits);
+    ByteT *    to_bits   = (to->bits);
+    ByteT *    from_bits = (from->bits);
     unsigned bytes     = bitvec_size;
 
     while (bytes--) {
@@ -219,9 +219,9 @@ bitvec_and(BitVecP to, BitVecP from)
 }
 
 void
-bitvec_not(BitVecP to)
+bitvec_not(BitVecT * to)
 {
-    ByteP    to_bits = (to->bits);
+    ByteT *    to_bits = (to->bits);
     unsigned bytes   = bitvec_size;
 
     while (bytes--) {
@@ -232,10 +232,10 @@ bitvec_not(BitVecP to)
 }
 
 BoolT
-bitvec_equal(BitVecP bitvec1, BitVecP bitvec2)
+bitvec_equal(BitVecT * bitvec1, BitVecT * bitvec2)
 {
-    ByteP    bitvec1_bits = (bitvec1->bits);
-    ByteP    bitvec2_bits = (bitvec2->bits);
+    ByteT *    bitvec1_bits = (bitvec1->bits);
+    ByteT *    bitvec2_bits = (bitvec2->bits);
     unsigned bytes        = bitvec_size;
 
     while (bytes--) {
@@ -247,10 +247,10 @@ bitvec_equal(BitVecP bitvec1, BitVecP bitvec2)
 }
 
 BoolT
-bitvec_intersects(BitVecP bitvec1, BitVecP bitvec2)
+bitvec_intersects(BitVecT * bitvec1, BitVecT * bitvec2)
 {
-    ByteP    bitvec1_bits = (bitvec1->bits);
-    ByteP    bitvec2_bits = (bitvec2->bits);
+    ByteT *    bitvec1_bits = (bitvec1->bits);
+    ByteT *    bitvec2_bits = (bitvec2->bits);
     unsigned bytes        = bitvec_size;
 
     while (bytes--) {
@@ -262,7 +262,7 @@ bitvec_intersects(BitVecP bitvec1, BitVecP bitvec2)
 }
 
 unsigned
-bitvec_num_bits(BitVecP bitvec)
+bitvec_num_bits(BitVecT * bitvec)
 {
     unsigned i;
     unsigned num_bits = 0;
@@ -276,7 +276,7 @@ bitvec_num_bits(BitVecP bitvec)
 }
 
 unsigned
-bitvec_first_bit(BitVecP bitvec)
+bitvec_first_bit(BitVecT * bitvec)
 {
     unsigned i;
 
@@ -289,7 +289,7 @@ bitvec_first_bit(BitVecP bitvec)
 }
 
 BoolT
-bitvec_next_bit(BitVecP bitvec, unsigned *next_ref)
+bitvec_next_bit(BitVecT * bitvec, unsigned *next_ref)
 {
     unsigned i;
 
@@ -303,13 +303,13 @@ bitvec_next_bit(BitVecP bitvec, unsigned *next_ref)
 }
 
 void
-bitvec_destroy(BitVecP bitvec)
+bitvec_destroy(BitVecT * bitvec)
 {
     DEALLOCATE(bitvec->bits);
 }
 
 void
-write_bitvec_indices(OStreamP ostream, BitVecP bitvec)
+write_bitvec_indices(OStreamT * ostream, BitVecT * bitvec)
 {
     unsigned num_bits_set = 0;
     unsigned i;

@@ -71,14 +71,14 @@
 #include "type.h"
 
 typedef struct EntrySortListT {
-    EntryListEntryP		head;
-    EntryListEntryP	       *tail;
-} EntrySortListT, *EntrySortListP;
+    EntryListEntryT *		head;
+    EntryListEntryT *	       *tail;
+} EntrySortListT;
 
-static EntryListEntryP
-entry_list_find(EntryListP list, EntryP entry)
+static EntryListEntryT *
+entry_list_find(EntryListT * list, EntryT * entry)
 {
-    EntryListEntryP link = list->head;
+    EntryListEntryT * link = list->head;
 
     while (link) {
 	if (link->entry == entry) {
@@ -94,16 +94,16 @@ entry_list_find(EntryListP list, EntryP entry)
  */
 
 void
-entry_list_init(EntryListP list)
+entry_list_init(EntryListT * list)
 {
     list->head = NULL;
     list->tail = &(list->head);
 }
 
 void
-entry_list_copy(EntryListP to, EntryListP from)
+entry_list_copy(EntryListT * to, EntryListT * from)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     to->head = NULL;
     to->tail = &(to->head);
@@ -113,9 +113,9 @@ entry_list_copy(EntryListP to, EntryListP from)
 }
 
 void
-entry_list_add(EntryListP list, EntryP entry)
+entry_list_add(EntryListT * list, EntryT * entry)
 {
-    EntryListEntryP link = ALLOCATE(EntryListEntryT);
+    EntryListEntryT * link = ALLOCATE(EntryListEntryT);
 
     link->next    = NULL;
     link->entry   = entry;
@@ -124,7 +124,7 @@ entry_list_add(EntryListP list, EntryP entry)
 }
 
 void
-entry_list_add_if_missing(EntryListP list, EntryP entry)
+entry_list_add_if_missing(EntryListT * list, EntryT * entry)
 {
     if (entry_list_find(list, entry) == NULL) {
 	entry_list_add(list, entry);
@@ -132,15 +132,15 @@ entry_list_add_if_missing(EntryListP list, EntryP entry)
 }
 
 BoolT
-entry_list_contains(EntryListP list, EntryP entry)
+entry_list_contains(EntryListT * list, EntryT * entry)
 {
     return(entry_list_find(list, entry) != NULL);
 }
 
 BoolT
-entry_list_includes(EntryListP list1, EntryListP list2)
+entry_list_includes(EntryListT * list1, EntryListT * list2)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     for (ptr = list2->head; ptr; ptr = ptr->next) {
 	if (entry_list_find(list1, ptr->entry) == NULL) {
@@ -151,9 +151,9 @@ entry_list_includes(EntryListP list1, EntryListP list2)
 }
 
 void
-entry_list_intersection(EntryListP to, EntryListP list1, EntryListP list2)
+entry_list_intersection(EntryListT * to, EntryListT * list1, EntryListT * list2)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     entry_list_init(to);
     for (ptr = list1->head; ptr; ptr = ptr->next) {
@@ -164,9 +164,9 @@ entry_list_intersection(EntryListP to, EntryListP list1, EntryListP list2)
 }
 
 void
-entry_list_unlink_used(EntryListP to, EntryListP from)
+entry_list_unlink_used(EntryListT * to, EntryListT * from)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     to->tail = &(to->head);
     while ((ptr = *(to->tail)) != NULL) {
@@ -180,9 +180,9 @@ entry_list_unlink_used(EntryListP to, EntryListP from)
 }
 
 void
-entry_list_append(EntryListP to, EntryListP from)
+entry_list_append(EntryListT * to, EntryListT * from)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     for (ptr = from->head; ptr; ptr = ptr->next) {
 	entry_list_add_if_missing(to, ptr->entry);
@@ -190,26 +190,26 @@ entry_list_append(EntryListP to, EntryListP from)
 }
 
 BoolT
-entry_list_is_empty(EntryListP list)
+entry_list_is_empty(EntryListT * list)
 {
     return(list->head == NULL);
 }
 
 void
-entry_list_save_state(EntryListP list, SaveListP state)
+entry_list_save_state(EntryListT * list, SaveListT * state)
 {
     state->last_ref = list->tail;
 }
 
 void
-entry_list_restore_state(EntryListP list, SaveListP state)
+entry_list_restore_state(EntryListT * list, SaveListT * state)
 {
-    EntryListEntryP ptr = *(state->last_ref);
+    EntryListEntryT * ptr = *(state->last_ref);
 
     *(state->last_ref) = NULL;
     list->tail         = state->last_ref;
     while (ptr) {
-	EntryListEntryP tmp = ptr;
+	EntryListEntryT * tmp = ptr;
 
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
@@ -217,10 +217,10 @@ entry_list_restore_state(EntryListP list, SaveListP state)
 }
 
 void
-entry_list_iter(EntryListP list, void (*proc)(EntryP, void *),
+entry_list_iter(EntryListT * list, void (*proc)(EntryT *, void *),
 		void * closure)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     for (ptr = list->head; ptr; ptr = ptr->next) {
 	(*proc)(ptr->entry, closure);
@@ -228,10 +228,10 @@ entry_list_iter(EntryListP list, void (*proc)(EntryP, void *),
 }
 
 void
-entry_list_iter_table(EntryListP list, BoolT full,
-		      void (*proc)(EntryP, void *), void * closure)
+entry_list_iter_table(EntryListT * list, BoolT full,
+		      void (*proc)(EntryT *, void *), void * closure)
 {
-    EntryListEntryP ptr;
+    EntryListEntryT * ptr;
 
     for (ptr = list->head; ptr; ptr = ptr->next) {
 	entry_iter(ptr->entry, full, proc, closure);
@@ -239,12 +239,12 @@ entry_list_iter_table(EntryListP list, BoolT full,
 }
 
 void
-entry_list_destroy(EntryListP list)
+entry_list_destroy(EntryListT * list)
 {
-    EntryListEntryP ptr = list->head;
+    EntryListEntryT * ptr = list->head;
 
     while (ptr) {
-	EntryListEntryP tmp = ptr;
+	EntryListEntryT * tmp = ptr;
 
 	ptr = ptr->next;
 	DEALLOCATE(tmp);
@@ -252,9 +252,9 @@ entry_list_destroy(EntryListP list)
 }
 
 void
-write_entry_list(OStreamP ostream, EntryListP list)
+write_entry_list(OStreamT * ostream, EntryListT * list)
 {
-    EntryListEntryP ptr = list->head;
+    EntryListEntryT * ptr = list->head;
     char *        sep = "";
 
     while (ptr) {

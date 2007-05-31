@@ -35,7 +35,7 @@ header $[
 ## These errors are used by the lexical analyser:
 ###############################################################################
 
-error "illegal character" ("istream" : "IStreamP") {
+error "illegal character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
 	"file name" : "char *" $[
@@ -56,7 +56,7 @@ error "illegal character" ("istream" : "IStreamP") {
     }
 };
 
-error "illegal comment character" ("istream" : "IStreamP") {
+error "illegal comment character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
 	"file name" : "char *" $[
@@ -77,7 +77,7 @@ error "illegal comment character" ("istream" : "IStreamP") {
     }
 };
 
-error "eof in comment" ("istream" : "IStreamP") {
+error "eof in comment" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in comment",
     {
 	"file name" : "char *" $[
@@ -94,7 +94,7 @@ error "eof in comment" ("istream" : "IStreamP") {
     }
 };
 
-fatal "unknown builtin" ("istream" : "IStreamP") {
+fatal "unknown builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
 	"file name" : "char *" $[
@@ -115,7 +115,7 @@ fatal "unknown builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "null character in builtin" ("istream" : "IStreamP") {
+error "null character in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: null character in builtin",
     {
 	"file name" : "char *" $[
@@ -132,7 +132,7 @@ error "null character in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "eof in builtin" ("istream" : "IStreamP") {
+error "eof in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in builtin",
     {
 	"file name" : "char *" $[
@@ -149,7 +149,7 @@ error "eof in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "newline in builtin" ("istream" : "IStreamP") {
+error "newline in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: newline in builtin",
     {
 	"file name" : "char *" $[
@@ -166,7 +166,7 @@ error "newline in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "expected hash" ("istream" : "IStreamP") {
+error "expected hash" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: second character missing from '##' operator",
     {
 	"file name" : "char *" $[
@@ -183,7 +183,7 @@ error "expected hash" ("istream" : "IStreamP") {
     }
 };
 
-error "expected pipe" ("istream" : "IStreamP") {
+error "expected pipe" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: second character missing from '||' operator",
     {
 	"file name" : "char *" $[

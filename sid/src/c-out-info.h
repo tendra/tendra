@@ -82,10 +82,10 @@ typedef enum {
     CPFX_LABEL,
     CPFX_TERMINAL,
     CPFX_NUM_PREFIXES
-} CPrefixT, *CPrefixP;
+} CPrefixT;
 
 typedef struct COutputInfoT {
-    OutputInfoP		info;
+    OutputInfoT *		info;
     struct CCodeT      *header1;
     struct CCodeT      *header2;
     struct CCodeT      *trailer1;
@@ -97,40 +97,40 @@ typedef struct COutputInfoT {
     BoolT		unreachable;
     BoolT		lines;
     unsigned		split;
-} COutputInfoT, *COutputInfoP;
+} COutputInfoT;
 
-extern void		 c_out_info_init(COutputInfoP, OutputInfoP);
-extern OutputInfoP	 c_out_info_info(COutputInfoP);
-extern OStreamP		 c_out_info_ostream(COutputInfoP);
-extern char *		 c_out_info_program_name(COutputInfoP);
-extern char *		 c_out_info_source_name(COutputInfoP);
-extern char *		 c_out_info_c_source_name(COutputInfoP);
-extern struct CCodeT	*c_out_info_get_header1(COutputInfoP);
-extern void		 c_out_info_set_header1(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	*c_out_info_get_header2(COutputInfoP);
-extern void		 c_out_info_set_header2(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	*c_out_info_get_trailer1(COutputInfoP);
-extern void		 c_out_info_set_trailer1(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	*c_out_info_get_trailer2(COutputInfoP);
-extern void		 c_out_info_set_trailer2(COutputInfoP, struct CCodeT *);
-extern NStringP		 c_out_info_type_prefix(COutputInfoP);
-extern NStringP		 c_out_info_fn_prefix(COutputInfoP);
-extern NStringP		 c_out_info_in_prefix(COutputInfoP);
-extern NStringP		 c_out_info_out_prefix(COutputInfoP);
-extern NStringP		 c_out_info_label_prefix(COutputInfoP);
-extern NStringP		 c_out_info_terminal_prefix(COutputInfoP);
-extern NStringP		 c_out_info_prefix(COutputInfoP, CPrefixT);
-extern BoolT		 c_out_info_get_prototypes(COutputInfoP);
-extern void		 c_out_info_set_prototypes(COutputInfoP, BoolT);
-extern BoolT		 c_out_info_get_numeric_ids(COutputInfoP);
-extern void		 c_out_info_set_numeric_ids(COutputInfoP, BoolT);
-extern BoolT		 c_out_info_get_casts(COutputInfoP);
-extern void		 c_out_info_set_casts(COutputInfoP, BoolT);
-extern BoolT		 c_out_info_get_unreachable(COutputInfoP);
-extern void		 c_out_info_set_unreachable(COutputInfoP, BoolT);
-extern BoolT		 c_out_info_get_lines(COutputInfoP);
-extern void		 c_out_info_set_lines(COutputInfoP, BoolT);
-extern unsigned		 c_out_info_get_split(COutputInfoP);
-extern void		 c_out_info_set_split(COutputInfoP, unsigned);
+extern void		 c_out_info_init(COutputInfoT *, OutputInfoT *);
+extern OutputInfoT *	 c_out_info_info(COutputInfoT *);
+extern OStreamT *		 c_out_info_ostream(COutputInfoT *);
+extern char *		 c_out_info_program_name(COutputInfoT *);
+extern char *		 c_out_info_source_name(COutputInfoT *);
+extern char *		 c_out_info_c_source_name(COutputInfoT *);
+extern struct CCodeT	*c_out_info_get_header1(COutputInfoT *);
+extern void		 c_out_info_set_header1(COutputInfoT *, struct CCodeT *);
+extern struct CCodeT	*c_out_info_get_header2(COutputInfoT *);
+extern void		 c_out_info_set_header2(COutputInfoT *, struct CCodeT *);
+extern struct CCodeT	*c_out_info_get_trailer1(COutputInfoT *);
+extern void		 c_out_info_set_trailer1(COutputInfoT *, struct CCodeT *);
+extern struct CCodeT	*c_out_info_get_trailer2(COutputInfoT *);
+extern void		 c_out_info_set_trailer2(COutputInfoT *, struct CCodeT *);
+extern NStringT *		 c_out_info_type_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_fn_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_in_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_out_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_label_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_terminal_prefix(COutputInfoT *);
+extern NStringT *		 c_out_info_prefix(COutputInfoT *, CPrefixT);
+extern BoolT		 c_out_info_get_prototypes(COutputInfoT *);
+extern void		 c_out_info_set_prototypes(COutputInfoT *, BoolT);
+extern BoolT		 c_out_info_get_numeric_ids(COutputInfoT *);
+extern void		 c_out_info_set_numeric_ids(COutputInfoT *, BoolT);
+extern BoolT		 c_out_info_get_casts(COutputInfoT *);
+extern void		 c_out_info_set_casts(COutputInfoT *, BoolT);
+extern BoolT		 c_out_info_get_unreachable(COutputInfoT *);
+extern void		 c_out_info_set_unreachable(COutputInfoT *, BoolT);
+extern BoolT		 c_out_info_get_lines(COutputInfoT *);
+extern void		 c_out_info_set_lines(COutputInfoT *, BoolT);
+extern unsigned		 c_out_info_get_split(COutputInfoT *);
+extern void		 c_out_info_set_split(COutputInfoT *, unsigned);
 
 #endif /* !defined (H_C_OUT_INFO) */

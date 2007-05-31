@@ -74,21 +74,21 @@
 #include "table.h"
 #include "types.h"
 
-extern void	c_output_assign(COutputInfoP, EntryP, EntryP, SaveRStackP,
-				SaveRStackP, unsigned);
-extern void	c_output_type_decl(COutputInfoP, TypeTupleP, TypeTupleP);
-extern void	c_output_type_defn(COutputInfoP, TypeTupleP, TypeTupleP);
-extern void	c_output_result_assign(COutputInfoP, TypeTupleP, unsigned);
-extern void	c_output_alt_names(COutputInfoP, TypeTupleP, TypeTupleP,
-				   SaveRStackP, unsigned);
-extern void	c_output_rule_params(COutputInfoP, TypeTupleP, TypeTupleP,
-				     SaveRStackP);
-extern void	c_output_rename(COutputInfoP, TypeTupleP, TypeTupleP,
-				SaveRStackP, unsigned);
-extern void	c_output_tail_decls(COutputInfoP, TypeTupleP, SaveRStackP,
-				    TypeTupleP, SaveRStackP, unsigned);
-extern BoolT	c_output_required_copies(COutputInfoP, TypeTupleP, TypeTupleP,
-					 RStackP, SaveRStackP, unsigned,
-					 TableP);
+extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
+				SaveRStackT *, unsigned);
+extern void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+extern void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+extern void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
+extern void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				   SaveRStackT *, unsigned);
+extern void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				     SaveRStackT *);
+extern void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				SaveRStackT *, unsigned);
+extern void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
+				    TypeTupleT *, SaveRStackT *, unsigned);
+extern BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+					 RStackT *, SaveRStackT *, unsigned,
+					 TableT *);
 
 #endif /* !defined (H_C_OUT_TYPES) */

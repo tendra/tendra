@@ -78,28 +78,28 @@ typedef struct GrammarT {
     TableT			table;
     EntryListT			entry_list;
     unsigned			terminal;
-    EntryP			predicate_type;
-    EntryP			predicate_id;
-} GrammarT, *GrammarP;
+    EntryT *			predicate_type;
+    EntryT *			predicate_id;
+} GrammarT;
 
-extern void		grammar_init(GrammarP);
-extern TableP		grammar_table(GrammarP);
-extern EntryListP	grammar_entry_list(GrammarP);
-extern unsigned		grammar_max_terminal(GrammarP);
-extern unsigned		grammar_next_terminal(GrammarP);
-extern EntryP		grammar_get_predicate_type(GrammarP);
-extern void		grammar_set_predicate_type(GrammarP, EntryP);
-extern EntryP		grammar_get_predicate_id(GrammarP);
-extern void		grammar_check_complete(GrammarP);
-extern void		grammar_remove_left_recursion(GrammarP);
-extern void		grammar_compute_first_sets(GrammarP);
-extern void		grammar_factor(GrammarP);
-extern void		grammar_simplify(GrammarP);
-extern void		grammar_compute_inlining(GrammarP);
-extern void		grammar_check_collisions(GrammarP);
-extern void		grammar_recompute_alt_names(GrammarP);
-extern void		grammar_compute_mutations(GrammarP);
+extern void		grammar_init(GrammarT *);
+extern TableT *		grammar_table(GrammarT *);
+extern EntryListT *	grammar_entry_list(GrammarT *);
+extern unsigned		grammar_max_terminal(GrammarT *);
+extern unsigned		grammar_next_terminal(GrammarT *);
+extern EntryT *		grammar_get_predicate_type(GrammarT *);
+extern void		grammar_set_predicate_type(GrammarT *, EntryT *);
+extern EntryT *		grammar_get_predicate_id(GrammarT *);
+extern void		grammar_check_complete(GrammarT *);
+extern void		grammar_remove_left_recursion(GrammarT *);
+extern void		grammar_compute_first_sets(GrammarT *);
+extern void		grammar_factor(GrammarT *);
+extern void		grammar_simplify(GrammarT *);
+extern void		grammar_compute_inlining(GrammarT *);
+extern void		grammar_check_collisions(GrammarT *);
+extern void		grammar_recompute_alt_names(GrammarT *);
+extern void		grammar_compute_mutations(GrammarT *);
 
-extern void		write_grammar(OStreamP, GrammarP);
+extern void		write_grammar(OStreamT *, GrammarT *);
 
 #endif /* !defined (H_GRAMMAR) */

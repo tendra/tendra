@@ -78,27 +78,27 @@ struct GrammarT;
 #define TABLE_SIZE	(127)
 
 typedef struct TableT {
-    EntryP			contents[TABLE_SIZE];
-} TableT, *TableP;
+    EntryT *			contents[TABLE_SIZE];
+} TableT;
 
-extern void	table_init(TableP);
-extern EntryP	table_add_type(TableP, NStringP);
-extern EntryP	table_add_basic(TableP, NStringP, struct GrammarT *, BoolT);
-extern EntryP	table_add_action(TableP, NStringP);
-extern EntryP	table_add_rule(TableP, NStringP);
-extern EntryP	table_add_generated_rule(TableP, BoolT);
-extern EntryP	table_add_name(TableP, NStringP);
-extern EntryP	table_add_generated_name(TableP);
-extern EntryP	table_add_rename(TableP);
-extern EntryP	table_add_non_local(TableP, NStringP, EntryP);
-extern EntryP	table_get_entry(TableP, NStringP);
-extern EntryP	table_get_type(TableP, NStringP);
-extern EntryP	table_get_basic(TableP, NStringP);
-extern EntryP	table_get_basic_by_number(TableP, unsigned);
-extern EntryP	table_get_action(TableP, NStringP);
-extern EntryP	table_get_rule(TableP, NStringP);
-extern void	table_iter(TableP, void(*)(EntryP, void *), void *);
-extern void	table_untrace(TableP);
-extern void	table_unlink_untraced_rules(TableP);
+extern void	table_init(TableT *);
+extern EntryT *	table_add_type(TableT *, NStringT *);
+extern EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
+extern EntryT *	table_add_action(TableT *, NStringT *);
+extern EntryT *	table_add_rule(TableT *, NStringT *);
+extern EntryT *	table_add_generated_rule(TableT *, BoolT);
+extern EntryT *	table_add_name(TableT *, NStringT *);
+extern EntryT *	table_add_generated_name(TableT *);
+extern EntryT *	table_add_rename(TableT *);
+extern EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
+extern EntryT *	table_get_entry(TableT *, NStringT *);
+extern EntryT *	table_get_type(TableT *, NStringT *);
+extern EntryT *	table_get_basic(TableT *, NStringT *);
+extern EntryT *	table_get_basic_by_number(TableT *, unsigned);
+extern EntryT *	table_get_action(TableT *, NStringT *);
+extern EntryT *	table_get_rule(TableT *, NStringT *);
+extern void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
+extern void	table_untrace(TableT *);
+extern void	table_unlink_untraced_rules(TableT *);
 
 #endif /* !defined (H_TABLE) */

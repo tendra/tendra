@@ -104,7 +104,7 @@ fatal "usage" {
 	    write_unsigned(ostream, closure->number_output_files);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }

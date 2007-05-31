@@ -74,15 +74,15 @@
 #include "type.h"
 
 void
-rstack_init(RStackP rstack)
+rstack_init(RStackT * rstack)
 {
     rstack->head = NULL;
 }
 
 void
-rstack_push_frame(RStackP rstack)
+rstack_push_frame(RStackT * rstack)
 {
-    TransStackEntryP frame = ALLOCATE(TransStackEntryT);
+    TransStackEntryT * frame = ALLOCATE(TransStackEntryT);
 
     frame->next = rstack->head;
     rtrans_init(&(frame->translator));
@@ -90,15 +90,15 @@ rstack_push_frame(RStackP rstack)
 }
 
 void
-rstack_compute_formal_renaming(RStackP rstack, TypeTupleP names)
+rstack_compute_formal_renaming(RStackT * rstack, TypeTupleT * names)
 {
     assert(rstack->head);
     types_compute_formal_renaming(names, &(rstack->head->translator));
 }
 
 void
-rstack_compute_formal_inlining(RStackP rstack, TypeTupleP names,
-			       TypeTupleP renames)
+rstack_compute_formal_inlining(RStackT * rstack, TypeTupleT * names,
+			       TypeTupleT * renames)
 {
     SaveRStackT state;
 
@@ -109,8 +109,8 @@ rstack_compute_formal_inlining(RStackP rstack, TypeTupleP names,
 }
 
 void
-rstack_compute_local_renaming(RStackP rstack, TypeTupleP names,
-			      TypeTupleP exclude, TableP table)
+rstack_compute_local_renaming(RStackT * rstack, TypeTupleT * names,
+			      TypeTupleT * exclude, TableT * table)
 {
     SaveRStackT state;
 
@@ -121,7 +121,7 @@ rstack_compute_local_renaming(RStackP rstack, TypeTupleP names,
 }
 
 void
-rstack_add_translation(RStackP rstack, EntryP from, EntryP to, EntryP type,
+rstack_add_translation(RStackT * rstack, EntryT * from, EntryT * to, EntryT * type,
 		       BoolT reference)
 {
     assert(rstack->head);
@@ -130,19 +130,19 @@ rstack_add_translation(RStackP rstack, EntryP from, EntryP to, EntryP type,
 }
 
 void
-rstack_save_state(RStackP rstack, SaveRStackP state)
+rstack_save_state(RStackT * rstack, SaveRStackT * state)
 {
     state->head = rstack->head;
 }
 
-EntryP
-rstack_get_translation(SaveRStackP state, EntryP entry, EntryP *type_ref,
+EntryT *
+rstack_get_translation(SaveRStackT * state, EntryT * entry, EntryT * *type_ref,
 		       BoolT *reference_ref)
 {
-    TransStackEntryP frame = state->head;
+    TransStackEntryT * frame = state->head;
 
     while (frame) {
-	EntryP translation;
+	EntryT * translation;
 
 	translation = rtrans_get_translation(&(frame->translator), entry,
 					     type_ref, reference_ref);
@@ -155,14 +155,14 @@ rstack_get_translation(SaveRStackP state, EntryP entry, EntryP *type_ref,
 }
 
 void
-rstack_apply_for_non_locals(RStackP non_local_stack, SaveRStackP state,
-			    void (*proc)(EntryP, EntryP, void *),
+rstack_apply_for_non_locals(RStackT * non_local_stack, SaveRStackT * state,
+			    void (*proc)(EntryT *, EntryT *, void *),
 			    void * closure)
 {
-    TransStackEntryP frame = non_local_stack->head;
+    TransStackEntryT * frame = non_local_stack->head;
 
     if ((frame != NULL) && (state->head)) {
-	TransStackEntryP limit = state->head->next;
+	TransStackEntryT * limit = state->head->next;
 
 	for (; frame != limit; frame = frame->next) {
 	    rtrans_apply_for_non_locals(&(frame->translator), proc, closure);
@@ -171,9 +171,9 @@ rstack_apply_for_non_locals(RStackP non_local_stack, SaveRStackP state,
 }
 
 void
-rstack_pop_frame(RStackP rstack)
+rstack_pop_frame(RStackT * rstack)
 {
-    TransStackEntryP frame = rstack->head;
+    TransStackEntryT * frame = rstack->head;
 
     rstack->head = frame->next;
     rtrans_destroy(&(frame->translator));
@@ -181,7 +181,7 @@ rstack_pop_frame(RStackP rstack)
 }
 
 void
-rstack_destroy(RStackP rstack)
+rstack_destroy(RStackT * rstack)
 {
     while (rstack->head) {
 	rstack_pop_frame(rstack);

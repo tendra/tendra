@@ -35,7 +35,7 @@ header $[
 ## These errors are used by the lexical analyser:
 ###############################################################################
 
-error "c illegal character" ("istream" : "IStreamP") {
+error "c illegal character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
 	"file name" : "char *" $[
@@ -56,7 +56,7 @@ error "c illegal character" ("istream" : "IStreamP") {
     }
 };
 
-error "c illegal comment character" ("istream" : "IStreamP") {
+error "c illegal comment character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
 	"file name" : "char *" $[
@@ -77,7 +77,7 @@ error "c illegal comment character" ("istream" : "IStreamP") {
     }
 };
 
-error "c eof in comment" ("istream" : "IStreamP") {
+error "c eof in comment" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in comment",
     {
 	"file name" : "char *" $[
@@ -94,7 +94,7 @@ error "c eof in comment" ("istream" : "IStreamP") {
     }
 };
 
-fatal "c unknown builtin" ("istream" : "IStreamP") {
+fatal "c unknown builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
 	"file name" : "char *" $[
@@ -115,7 +115,7 @@ fatal "c unknown builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "c null character in builtin" ("istream" : "IStreamP") {
+error "c null character in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: null character in builtin",
     {
 	"file name" : "char *" $[
@@ -132,7 +132,7 @@ error "c null character in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "c eof in builtin" ("istream" : "IStreamP") {
+error "c eof in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in builtin",
     {
 	"file name" : "char *" $[
@@ -149,7 +149,7 @@ error "c eof in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "c newline in builtin" ("istream" : "IStreamP") {
+error "c newline in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: newline in builtin",
     {
 	"file name" : "char *" $[
@@ -166,7 +166,7 @@ error "c newline in builtin" ("istream" : "IStreamP") {
     }
 };
 
-error "c code block syntax" ("istream" : "IStreamP") {
+error "c code block syntax" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected '{' to begin code block",
     {
 	"file name" : "char *" $[
@@ -183,7 +183,7 @@ error "c code block syntax" ("istream" : "IStreamP") {
     }
 };
 
-error "c illegal at char" ("istream" : "IStreamP") {
+error "c illegal at char" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character after '@': '${character}'",
     {
 	"file name" : "char *" $[
@@ -204,7 +204,7 @@ error "c illegal at char" ("istream" : "IStreamP") {
     }
 };
 
-error "c eof in code" ("istream" : "IStreamP") {
+error "c eof in code" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in C code block",
     {
 	"file name" : "char *" $[
@@ -221,7 +221,7 @@ error "c eof in code" ("istream" : "IStreamP") {
     }
 };
 
-error "c expected at id" ("istream" : "IStreamP") {
+error "c expected at id" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected identifier after '@${character}' construct",
     {
 	"file name" : "char *" $[

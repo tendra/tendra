@@ -93,36 +93,36 @@
 #define RESTORE_LEXER (lexer_restore_terminal (sid_current_stream))
 #define ALT_LIMIT (UINT_MAX - 1)
 
-LexerStreamP		sid_current_stream;
-GrammarP		sid_current_grammar;
+LexerStreamT *		sid_current_stream;
+GrammarT *		sid_current_grammar;
 
-static TableP		sid_current_table;
-static EntryListP	sid_current_entry_list;
+static TableT *		sid_current_table;
+static EntryListT *	sid_current_entry_list;
 static ScopeStackT	sid_scope_stack;
 static ScopeStackT	sid_global_scope;
-static ScopeStackP	sid_current_scope;
-static EntryP		sid_current_entry;
-static RuleP		sid_enclosing_rule;
+static ScopeStackT *	sid_current_scope;
+static EntryT *		sid_current_entry;
+static RuleT *		sid_enclosing_rule;
 static union {
-    BasicP		basic;
-    ActionP		action;
-    RuleP		rule;
+    BasicT *		basic;
+    ActionT *		action;
+    RuleT *		rule;
 } sid_current;
 static BoolT		sid_redefining_entry;
 static NStringT		sid_maximum_scope;
 static TypeTupleT	sid_saved_type;
 static TypeTupleT	sid_current_type;
-static EntryP		sid_saved_pred_id;
-static EntryP		sid_current_pred_id;
-static EntryP		sid_unique_pred_id = NULL;
-static EntryP		sid_predicate_type = NULL;
-static AltP		sid_current_alt;
-static ItemP		sid_current_item;
+static EntryT *		sid_saved_pred_id;
+static EntryT *		sid_current_pred_id;
+static EntryT *		sid_unique_pred_id = NULL;
+static EntryT *		sid_predicate_type = NULL;
+static AltT *		sid_current_alt;
+static ItemT *		sid_current_item;
 static unsigned		sid_alternative;
 static BoolT            sid_internal_rule;
-static EntryP		sid_external_rule;
+static EntryT *		sid_external_rule;
 static unsigned		sid_num_alternatives = 0;
-static NonLocalEntryP	sid_non_local;
+static NonLocalEntryT *	sid_non_local;
 static BoolT		sid_propagating_error = FALSE;
 static BoolT		sid_finished_terminals = FALSE;
 
@@ -693,11 +693,11 @@ ZR221(void)
     switch (CURRENT_TERMINAL) {
       case 13:
 	{
-	    EntryP ZI194;
-	    RuleP ZI67;
-	    AltP ZI223;
+	    EntryT * ZI194;
+	    RuleT * ZI67;
+	    AltT * ZI223;
 	    BoolT ZI224;
-	    ItemP ZI225;
+	    ItemT * ZI225;
 
 	    ADVANCE_LEXER;
 	    {
@@ -843,19 +843,19 @@ ZR281(NStringT *ZI151)
 	E_global_scope_non_local ((ZI151));
 	nstring_destroy (&(*ZI151));
     } else {
-	EntryP type = table_get_type (sid_current_table, (&ZI133));
+	EntryT * type = table_get_type (sid_current_table, (&ZI133));
 
 	if (type == NULL) {
 	    E_unknown_type ((&ZI133));
 	    nstring_destroy (&(*ZI151));
 	} else {
-	    EntryP name = scope_stack_add_non_local (sid_current_scope,
+	    EntryT * name = scope_stack_add_non_local (sid_current_scope,
 						     sid_current_table,
 						     &(*ZI151), type,
 						     sid_enclosing_rule);
 
 	    if (name) {
-		NonLocalListP non_locals = rule_non_locals (sid_enclosing_rule);
+		NonLocalListT * non_locals = rule_non_locals (sid_enclosing_rule);
 		sid_non_local = non_local_list_add (non_locals, name, type);
 	    } else {
 		E_duplicate_non_local ((ZI151));
@@ -909,17 +909,17 @@ ZR281(NStringT *ZI151)
 					ADVANCE_LEXER;
 					{
 
-    EntryP entry = scope_stack_get_action (&sid_scope_stack, sid_current_table,
+    EntryT * entry = scope_stack_get_action (&sid_scope_stack, sid_current_table,
 					   (&ZI49));
 
     if (entry == NULL) {
 	E_unknown_action ((&ZI49));
     } else if (sid_non_local) {
-	EntryP     type   = non_local_entry_get_type (sid_non_local);
-	KeyP       name   = entry_key (non_local_entry_get_name (sid_non_local));
-	ActionP    action = entry_get_action (entry);
-	TypeTupleP param  = action_param (action);
-	TypeTupleP result = action_result (action);
+	EntryT *     type   = non_local_entry_get_type (sid_non_local);
+	KeyT *       name   = entry_key (non_local_entry_get_name (sid_non_local));
+	ActionT *    action = entry_get_action (entry);
+	TypeTupleT * param  = action_param (action);
+	TypeTupleT * result = action_result (action);
 	TypeTupleT tuple;
 	TypeTupleT ref_tuple;
 
@@ -1106,7 +1106,7 @@ ZR283(void)
 	{
 	    {
 
-    EntryP entry = table_add_generated_name (sid_current_table);
+    EntryT * entry = table_add_generated_name (sid_current_table);
 
     types_add_name_entry (&sid_current_type, entry);
 	    }
@@ -1180,8 +1180,8 @@ ZR192(void)
     switch (CURRENT_TERMINAL) {
       case 21:
 	{
-	    EntryP ZI194;
-	    RuleP ZI67;
+	    EntryT * ZI194;
+	    RuleT * ZI67;
 
 	    ADVANCE_LEXER;
 	    {
@@ -1250,10 +1250,10 @@ ZR284(NStringT *ZI151)
 	    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -1338,11 +1338,11 @@ ZR285(NStringT *ZI151)
 	    }
 	    {
 
-    TypeTupleP param  = NULL;
-    TypeTupleP result = NULL;
-    EntryP     entry  = NULL;
-    RuleP      rule;
-    BasicP     basic;
+    TypeTupleT * param  = NULL;
+    TypeTupleT * result = NULL;
+    EntryT *     entry  = NULL;
+    RuleT *      rule;
+    BasicT *     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
 	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
@@ -1373,7 +1373,7 @@ ZR285(NStringT *ZI151)
     nstring_destroy (&(*ZI151));
     if (sid_current_item) {
 	BoolT errored = FALSE;
-	KeyP  key     = entry_key (entry);
+	KeyT *  key     = entry_key (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -1468,11 +1468,11 @@ ZR285(NStringT *ZI151)
 	    }
 	    {
 
-    TypeTupleP param  = NULL;
-    TypeTupleP result = NULL;
-    EntryP     entry  = NULL;
-    RuleP      rule;
-    BasicP     basic;
+    TypeTupleT * param  = NULL;
+    TypeTupleT * result = NULL;
+    EntryT *     entry  = NULL;
+    RuleT *      rule;
+    BasicT *     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
 	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
@@ -1503,7 +1503,7 @@ ZR285(NStringT *ZI151)
     nstring_destroy (&(*ZI151));
     if (sid_current_item) {
 	BoolT errored = FALSE;
-	KeyP  key     = entry_key (entry);
+	KeyT *  key     = entry_key (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -1612,10 +1612,10 @@ ZR165(void)
 	    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -1656,7 +1656,7 @@ ZR165(void)
 	    ADVANCE_LEXER;
 	    {
 
-    EntryP entry = table_add_generated_name (sid_current_table);
+    EntryT * entry = table_add_generated_name (sid_current_table);
 
     types_add_name_entry (&sid_current_type, entry);
 	    }
@@ -1698,10 +1698,10 @@ ZR165(void)
 		    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -2123,10 +2123,10 @@ ZR177(void)
 	    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -2183,10 +2183,10 @@ ZR177(void)
 		    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -2324,11 +2324,11 @@ ZR199(void)
 			}
 			{
 
-    TypeTupleP param  = NULL;
-    TypeTupleP result = NULL;
-    EntryP     entry  = NULL;
-    RuleP      rule;
-    BasicP     basic;
+    TypeTupleT * param  = NULL;
+    TypeTupleT * result = NULL;
+    EntryT *     entry  = NULL;
+    RuleT *      rule;
+    BasicT *     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
 	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
@@ -2359,7 +2359,7 @@ ZR199(void)
     nstring_destroy (&(ZI151));
     if (sid_current_item) {
 	BoolT errored = FALSE;
-	KeyP  key     = entry_key (entry);
+	KeyT *  key     = entry_key (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -2454,12 +2454,12 @@ ZR199(void)
 			}
 			{
 
-    EntryP     name_entry = table_get_entry (sid_current_table, (&ZI151));
-    EntryP     entry      = NULL;
-    TypeTupleP param      = NULL;
-    TypeTupleP result     = NULL;
-    RuleP      rule;
-    BasicP     basic;
+    EntryT *     name_entry = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *     entry      = NULL;
+    TypeTupleT * param      = NULL;
+    TypeTupleT * result     = NULL;
+    RuleT *      rule;
+    BasicT *     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
 	if ((name_entry != NULL) &&
@@ -2515,7 +2515,7 @@ ZR199(void)
     nstring_destroy (&(ZI151));
     if (entry) {
 	BoolT errored = FALSE;
-	KeyP  key     = entry_key (entry);
+	KeyT *  key     = entry_key (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -2717,7 +2717,7 @@ ZR199(void)
 	    {
 
     if ((sid_current_entry) && (sid_current_alt)) {
-	EntryP entry = table_add_rename (sid_current_table);
+	EntryT * entry = table_add_rename (sid_current_table);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -2819,10 +2819,10 @@ ZR199(void)
 		    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -2859,7 +2859,7 @@ ZR199(void)
 		    {
 
     if ((sid_current_entry) && (sid_current_alt)) {
-	EntryP entry = table_add_rename (sid_current_table);
+	EntryT * entry = table_add_rename (sid_current_table);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -3097,8 +3097,8 @@ ZR196(void)
 
     if (sid_current_item) {
 	BoolT   errored = FALSE;
-	EntryP  entry   = item_entry (sid_current_item);
-	ActionP action  = entry_get_action (entry);
+	EntryT *  entry   = item_entry (sid_current_item);
+	ActionT * action  = entry_get_action (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -3129,7 +3129,7 @@ ZR196(void)
 					 &sid_saved_type, sid_unique_pred_id);
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
-			EntryP type = types_find_name_type (&sid_saved_type,
+			EntryT * type = types_find_name_type (&sid_saved_type,
 							    sid_saved_pred_id,
 							    &reference);
 
@@ -3193,8 +3193,8 @@ ZR196(void)
 
     if (sid_current_item) {
 	BoolT   errored = FALSE;
-	EntryP  entry   = item_entry (sid_current_item);
-	ActionP action  = entry_get_action (entry);
+	EntryT *  entry   = item_entry (sid_current_item);
+	ActionT * action  = entry_get_action (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -3225,7 +3225,7 @@ ZR196(void)
 					 &sid_saved_type, sid_unique_pred_id);
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
-			EntryP type = types_find_name_type (&sid_saved_type,
+			EntryT * type = types_find_name_type (&sid_saved_type,
 							    sid_saved_pred_id,
 							    &reference);
 
@@ -3965,10 +3965,10 @@ ZR208(void)
 		    {
 
     NStringT scope;
-    EntryP   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  sid_current_table,
 							  (&ZI151), &scope);
-    EntryP   name_entry      = table_get_entry (sid_current_table, (&ZI151));
+    EntryT *   name_entry      = table_get_entry (sid_current_table, (&ZI151));
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -4097,7 +4097,7 @@ ZR217(void)
 	{
 
     if ((sid_current_entry) && (sid_current_alt)) {
-	EntryP entry = scope_stack_get_action (&sid_scope_stack,
+	EntryT * entry = scope_stack_get_action (&sid_scope_stack,
 					       sid_current_table, (&ZI151));
 
 	if (entry) {
@@ -4188,7 +4188,7 @@ ZR155(void)
 	    {
 
     if (sid_current_entry) {
-	KeyP key = entry_key (sid_current_entry);
+	KeyT * key = entry_key (sid_current_entry);
 
 	if (types_contains_names (&sid_saved_type)) {
 	    E_basic_param_has_names (key, &sid_saved_type);
@@ -4252,7 +4252,7 @@ ZR155(void)
 		    {
 
     if (sid_current_entry) {
-	KeyP key = entry_key (sid_current_entry);
+	KeyT * key = entry_key (sid_current_entry);
 
 	if (types_contains_names (&sid_saved_type)) {
 	    E_basic_param_has_names (key, &sid_saved_type);
@@ -4398,9 +4398,9 @@ ZR187(void)
 		{
 
     if (sid_current_entry) {
-	KeyP       key     = entry_key (sid_current_entry);
-	TypeTupleP param   = action_param (sid_current.action);
-	TypeTupleP result  = action_result (sid_current.action);
+	KeyT *       key     = entry_key (sid_current_entry);
+	TypeTupleT * param   = action_param (sid_current.action);
+	TypeTupleT * result  = action_result (sid_current.action);
 	BoolT      errored = FALSE;
 
 	if (types_contains_names (&sid_saved_type)) {
@@ -4571,7 +4571,7 @@ ZR261(void)
 	ADVANCE_LEXER;
 	{
 
-    EntryP entry = table_get_rule (sid_current_table, (&ZI151));
+    EntryT * entry = table_get_rule (sid_current_table, (&ZI151));
 
     if (entry) {
 	if (entry_list_contains (sid_current_entry_list, entry)) {
@@ -4692,7 +4692,7 @@ ZR248(void)
 	    {
 
     if (sid_current_entry) {
-	KeyP key = entry_key (sid_current_entry);
+	KeyT * key = entry_key (sid_current_entry);
 
 	if (rule_is_defined (sid_current.rule)) {
 	    E_rule_already_defined (key);
@@ -4700,8 +4700,8 @@ ZR248(void)
 	    types_destroy (&sid_saved_type);
 	    types_destroy (&sid_current_type);
 	} else {
-	    TypeTupleP param   = rule_param (sid_current.rule);
-	    TypeTupleP result  = rule_result (sid_current.rule);
+	    TypeTupleT * param   = rule_param (sid_current.rule);
+	    TypeTupleT * result  = rule_result (sid_current.rule);
 	    BoolT      errored = FALSE;
 
 	    rule_defined (sid_current.rule);
@@ -4764,8 +4764,8 @@ ZR248(void)
 	    {
 
     if (sid_current_entry) {
-	KeyP     key   = entry_key (sid_current_entry);
-	NStringP scope = key_get_string (key);
+	KeyT *     key   = entry_key (sid_current_entry);
+	NStringT * scope = key_get_string (key);
 
 	scope_stack_push (&sid_scope_stack, scope);
     }
@@ -4831,9 +4831,9 @@ ZR248(void)
 	    {
 
     if (sid_current_entry) {
-	KeyP       key     = entry_key (sid_current_entry);
-	TypeTupleP param   = rule_param (sid_current.rule);
-	TypeTupleP result  = rule_result (sid_current.rule);
+	KeyT *       key     = entry_key (sid_current_entry);
+	TypeTupleT * param   = rule_param (sid_current.rule);
+	TypeTupleT * result  = rule_result (sid_current.rule);
 	BoolT      errored = FALSE;
 
 	if (types_contains_names (&sid_saved_type)) {

@@ -86,7 +86,7 @@
     }
 
 static BoolT
-c_lexer_skip_bracketed_comment(IStreamP istream)
+c_lexer_skip_bracketed_comment(IStreamT * istream)
 {
     char c1;
     char c2;
@@ -114,7 +114,7 @@ c_lexer_skip_bracketed_comment(IStreamP istream)
 }
 
 static char
-c_lexer_skip_white_space(IStreamP istream)
+c_lexer_skip_white_space(IStreamT * istream)
 {
     for (;;) {
 	char c;
@@ -167,7 +167,7 @@ c_lexer_skip_white_space(IStreamP istream)
 }
 
 static void
-c_lexer_read_builtin(IStreamP istream, CLexP token)
+c_lexer_read_builtin(IStreamT * istream, CLexT * token)
 {
     DStringT dstring;
     char * cstring;
@@ -233,7 +233,7 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 }
 
 static void
-c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
+c_lexer_read_identifier(IStreamT * istream, char c, CLexT * token)
 {
     BoolT    c_ident = (c != '-');
     DStringT dstring;
@@ -272,7 +272,7 @@ c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
 }
 
 static void
-c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
+c_lexer_read_code_id(IStreamT * istream, char c, NStringT * nstring)
 {
     BoolT    numbers_ok = (isalpha((unsigned char)c) || (c == '_'));
     DStringT dstring;
@@ -310,7 +310,7 @@ c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
 }
 
 static void
-c_lexer_flush_string(DStringP dstring, CCodeP code, BoolT force_nl)
+c_lexer_flush_string(DStringT * dstring, CCodeT * code, BoolT force_nl)
 {
     NStringT nstring;
 
@@ -329,7 +329,7 @@ c_lexer_flush_string(DStringP dstring, CCodeP code, BoolT force_nl)
 }
 
 static BoolT
-c_lexer_read_at(IStreamP istream, DStringP dstring, CCodeP code)
+c_lexer_read_at(IStreamT * istream, DStringT * dstring, CCodeT * code)
 {
     char     c;
     NStringT nstring;
@@ -389,9 +389,9 @@ c_lexer_read_at(IStreamP istream, DStringP dstring, CCodeP code)
 }
 
 static void
-c_lexer_read_code(IStreamP istream, CLexP token)
+c_lexer_read_code(IStreamT * istream, CLexT * token)
 {
-    CCodeP   code = c_code_create(istream_name(istream),
+    CCodeT *   code = c_code_create(istream_name(istream),
 				   istream_line(istream));
     DStringT dstring;
     char     c;
@@ -448,40 +448,40 @@ c_lexer_read_code(IStreamP istream, CLexP token)
  */
 
 void
-c_lexer_init(CLexerStreamP stream, IStreamP istream)
+c_lexer_init(CLexerStreamT * stream, IStreamT * istream)
 {
     istream_assign(&(stream->istream), istream);
     c_lexer_next_token(stream);
 }
 
 void
-c_lexer_close(CLexerStreamP stream)
+c_lexer_close(CLexerStreamT * stream)
 {
     istream_close(&(stream->istream));
 }
 
 char *
-c_lexer_stream_name(CLexerStreamP stream)
+c_lexer_stream_name(CLexerStreamT * stream)
 {
     return(istream_name(&(stream->istream)));
 }
 
 unsigned
-c_lexer_stream_line(CLexerStreamP stream)
+c_lexer_stream_line(CLexerStreamT * stream)
 {
     return(istream_line(&(stream->istream)));
 }
 
 CTokenT
-c_lexer_get_terminal(CLexerStreamP stream)
+c_lexer_get_terminal(CLexerStreamT * stream)
 {
     return(stream->token.t);
 }
 
 void
-c_lexer_next_token(CLexerStreamP stream)
+c_lexer_next_token(CLexerStreamT * stream)
 {
-    IStreamP istream = &(stream->istream);
+    IStreamT * istream = &(stream->istream);
     CLexT    token;
     char     c;
 
@@ -543,23 +543,23 @@ c_lexer_next_token(CLexerStreamP stream)
     stream->token = token;
 }
 
-NStringP
-c_lexer_string_value(CLexerStreamP stream)
+NStringT *
+c_lexer_string_value(CLexerStreamT * stream)
 {
     assert((stream->token.t == C_TOK_C_IDENTIFIER) ||
 	   (stream->token.t == C_TOK_SID_IDENTIFIER));
     return(&(stream->token.u.string));
 }
 
-CCodeP
-c_lexer_code_value(CLexerStreamP stream)
+CCodeT *
+c_lexer_code_value(CLexerStreamT * stream)
 {
     assert(stream->token.t == C_TOK_CODE);
     return(stream->token.u.code);
 }
 
 void
-c_lexer_save_terminal(CLexerStreamP stream, CTokenT error_terminal)
+c_lexer_save_terminal(CLexerStreamT * stream, CTokenT error_terminal)
 {
     assert(stream->token.t != error_terminal);
     stream->saved_terminal = stream->token.t;
@@ -567,7 +567,7 @@ c_lexer_save_terminal(CLexerStreamP stream, CTokenT error_terminal)
 }
 
 void
-c_lexer_restore_terminal(CLexerStreamP stream)
+c_lexer_restore_terminal(CLexerStreamT * stream)
 {
     stream->token.t = stream->saved_terminal;
 }

@@ -72,10 +72,10 @@
 #include "rules/rule.h"
 #include "type.h"
 
-BasicP
-basic_create(GrammarP grammar, BoolT ignored)
+BasicT *
+basic_create(GrammarT * grammar, BoolT ignored)
 {
-    BasicP basic = ALLOCATE(BasicT);
+    BasicT * basic = ALLOCATE(BasicT);
 
     basic->terminal        = grammar_next_terminal(grammar);
     types_init(basic_result(basic));
@@ -85,38 +85,38 @@ basic_create(GrammarP grammar, BoolT ignored)
 }
 
 unsigned
-basic_terminal(BasicP basic)
+basic_terminal(BasicT * basic)
 {
     return(basic->terminal);
 }
 
-TypeTupleP
-basic_result(BasicP basic)
+TypeTupleT *
+basic_result(BasicT * basic)
 {
     return(&(basic->result));
 }
 
 void *
-basic_get_result_code(BasicP basic)
+basic_get_result_code(BasicT * basic)
 {
     return(basic->result_code);
 }
 
 void
-basic_set_result_code(BasicP basic, void * code)
+basic_set_result_code(BasicT * basic, void * code)
 {
     basic->result_code = code;
 }
 
 BoolT
-basic_get_ignored(BasicP basic)
+basic_get_ignored(BasicT * basic)
 {
     return(basic->ignored);
 }
 
 void
-basic_iter_for_table(BasicP basic, BoolT full,
-		     void(*proc)KW_WEAK_PROTOTYPE(EntryP, void *),
+basic_iter_for_table(BasicT * basic, BoolT full,
+		     void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
 		     void * closure)
 {
     if (full) {
@@ -125,15 +125,15 @@ basic_iter_for_table(BasicP basic, BoolT full,
 }
 
 void
-write_basics(OStreamP ostream, BasicClosureP closure)
+write_basics(OStreamT * ostream, BasicClosureT * closure)
 {
-    BitVecP  bitvec   = closure->bitvec;
-    TableP   table    = grammar_table(closure->grammar);
+    BitVecT *  bitvec   = closure->bitvec;
+    TableT *   table    = grammar_table(closure->grammar);
     unsigned terminal = bitvec_first_bit(bitvec);
     unsigned num_bits = bitvec_num_bits(bitvec);
 
     while (num_bits) {
-	EntryP entry = table_get_basic_by_number(table, terminal);
+	EntryT * entry = table_get_basic_by_number(table, terminal);
 
 	if (entry) {
 	    write_char(ostream, '\'');

@@ -70,6 +70,6 @@
 #include "os-interface.h"
 #include "grammar.h"
 
-extern void		c_check_grammar(GrammarP);
+extern void		c_check_grammar(GrammarT *);
 
 #endif /* !defined (H_C_CHECK) */

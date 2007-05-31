@@ -72,10 +72,10 @@
 #include "../types.h"
 
 static void
-rule_recompute_alt_names_2(AltP alt, EntryP predicate_id)
+rule_recompute_alt_names_2(AltT * alt, EntryT * predicate_id)
 {
-    TypeTupleP names = alt_names(alt);
-    ItemP      item;
+    TypeTupleT * names = alt_names(alt);
+    ItemT *      item;
 
     types_destroy(names);
     types_init(names);
@@ -85,9 +85,9 @@ rule_recompute_alt_names_2(AltP alt, EntryP predicate_id)
 }
 
 static void
-rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
+rule_recompute_alt_names_1(RuleT * rule, EntryT * predicate_id)
 {
-    AltP alt;
+    AltT * alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_recompute_alt_names_2(alt, predicate_id);
@@ -103,11 +103,11 @@ rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
  */
 
 void
-rule_recompute_alt_names(EntryP entry, void * gclosure)
+rule_recompute_alt_names(EntryT * entry, void * gclosure)
 {
     if (entry_is_rule(entry)) {
-	RuleP  rule         = entry_get_rule(entry);
-	EntryP predicate_id = (EntryP)gclosure;
+	RuleT *  rule         = entry_get_rule(entry);
+	EntryT * predicate_id = (EntryT *)gclosure;
 
 	rule_recompute_alt_names_1(rule, predicate_id);
     }

@@ -67,10 +67,10 @@
 
 #include "name.h"
 
-NameP
+NameT *
 name_create(void)
 {
-    NameP name = ALLOCATE(NameT);
+    NameT * name = ALLOCATE(NameT);
 
     name->clash    = FALSE;
     name->used     = FALSE;
@@ -79,7 +79,7 @@ name_create(void)
 }
 
 BoolT
-name_test_and_set_clash(NameP name)
+name_test_and_set_clash(NameT * name)
 {
     BoolT clash = name->clash;
 
@@ -88,51 +88,51 @@ name_test_and_set_clash(NameP name)
 }
 
 void
-name_reset_clash(NameP name)
+name_reset_clash(NameT * name)
 {
     name->clash = FALSE;
 }
 
 BoolT
-name_is_used(NameP name)
+name_is_used(NameT * name)
 {
     return(name->used);
 }
 
 void
-name_used(NameP name)
+name_used(NameT * name)
 {
     name->used = TRUE;
 }
 
 void
-name_not_used(NameP name)
+name_not_used(NameT * name)
 {
     name->used = FALSE;
 }
 
 unsigned
-name_get_label(NameP name)
+name_get_label(NameT * name)
 {
     assert(name->labelled);
     return(name->label);
 }
 
 void
-name_set_label(NameP name, unsigned label)
+name_set_label(NameT * name, unsigned label)
 {
     name->labelled = TRUE;
     name->label    = label;
 }
 
 void
-name_reset_label(NameP name)
+name_reset_label(NameT * name)
 {
     name->labelled = FALSE;
 }
 
 BoolT
-name_has_label(NameP name)
+name_has_label(NameT * name)
 {
     return(name->labelled);
 }

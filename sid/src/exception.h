@@ -113,7 +113,7 @@ typedef struct {
     void *			data;
     unsigned			line;
     char *			file;
-} ThrowDataT, *ThrowDataP;
+} ThrowDataT;
 
 /*
  * This type is used internally to store data about the exception handler
@@ -130,7 +130,7 @@ typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
     unsigned			magic_end;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-} HandlerT, *HandlerP;
+} HandlerT;
 
 /*
  * This function returns the name of the specified exception.  The return
@@ -138,7 +138,7 @@ typedef struct HandlerT {
  */
 extern	char *		exception_name(ExceptionP);
 
-extern HandlerP			X__exception_handler_stack;
+extern HandlerT *			X__exception_handler_stack;
 extern ThrowDataT		X__exception_throw_data;
 extern NoReturnT		X__exception_throw(void);
 

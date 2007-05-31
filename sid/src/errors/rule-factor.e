@@ -39,23 +39,23 @@ fatal "too many factorisations" {
 error "factor handler mismatch" {
     "the rule '${inner rule name}' cannot be expanded into '${outer rule name}' as the exception handlers don't match",
     {
-	"inner rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->inner_rule_name);
+	"inner rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->inner_rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"outer rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->outer_rule_name);
+	"outer rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->outer_rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"inner production" : "RuleP" $[
+	"inner production" : "RuleT *" $[
 	    write_rule(ostream, closure->inner_rule_name);
 	]$ $[]$
     }, {
-	"outer production" : "RuleP" $[
+	"outer production" : "RuleT *" $[
 	    write_rule(ostream, closure->outer_rule_name);
 	]$ $[]$
     }
@@ -64,23 +64,23 @@ error "factor handler mismatch" {
 error "factor nl entry" {
     "the rule '${inner rule name}' cannot be expanded into '${outer rule name}' as it contains non local name definitions",
     {
-	"inner rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->inner_rule_name);
+	"inner rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->inner_rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"outer rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->outer_rule_name);
+	"outer rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->outer_rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"inner production" : "RuleP" $[
+	"inner production" : "RuleT *" $[
 	    write_rule(ostream, closure->inner_rule_name);
 	]$ $[]$
     }, {
-	"outer production" : "RuleP" $[
+	"outer production" : "RuleT *" $[
 	    write_rule(ostream, closure->outer_rule_name);
 	]$ $[]$
     }

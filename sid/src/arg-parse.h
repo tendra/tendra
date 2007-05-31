@@ -172,7 +172,7 @@ typedef enum {
     AT_EMPTY,
     AT_FOLLOWING2,
     AT_FOLLOWING3
-} ArgTypeT, *ArgTypeP;
+} ArgTypeT;
 
 struct ArgListT;
 
@@ -182,14 +182,14 @@ struct ArgListT;
 typedef struct ArgUsageT {
     char *			usage;
     struct ArgListT	       *arg_list;
-} ArgUsageT, *ArgUsageP;
+} ArgUsageT;
 
 /*
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  */
-typedef void(*ArgProcP)(char *, ArgUsageP, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
 
 /*
  * This is the type of an entry in an option list.  A vector of such entries
@@ -227,9 +227,9 @@ typedef struct ArgListT {
     void *          closure;
     union {
     char *      name;
-    EStringP        message;
+    EStringT *        message;
     } u;
-} ArgListT, *ArgListP;
+} ArgListT;
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_error_redefined_string
@@ -240,7 +240,7 @@ typedef struct ArgListT {
  * called once on each list.  The named strings used should be interned before
  * this function is called.
  */
-extern void		arg_parse_intern_descriptions(ArgListP arg_list);
+extern void		arg_parse_intern_descriptions(ArgListT * arg_list);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -254,7 +254,7 @@ extern void		arg_parse_intern_descriptions(ArgListP arg_list);
  * this function.  The function returns the number of elements of the list
  * that it parsed.
  */
-extern int		arg_parse_arguments(ArgListP, EStringP, int, char **);
+extern int		arg_parse_arguments(ArgListT *, EStringT *, int, char **);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -262,7 +262,7 @@ extern int		arg_parse_arguments(ArgListP, EStringP, int, char **);
  * This function can be used to write out a usage message based upon the usage
  * information supplied.
  */
-extern void		write_arg_usage(OStreamP, ArgUsageP);
+extern void		write_arg_usage(OStreamT *, ArgUsageT *);
 
 /*
  * This macro should be used to terminate an option list.

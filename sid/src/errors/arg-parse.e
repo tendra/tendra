@@ -39,7 +39,7 @@ ${usage}",
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }
@@ -57,7 +57,7 @@ ${usage}",
 	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }
@@ -71,7 +71,7 @@ ${usage}",
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }
@@ -85,7 +85,7 @@ ${usage}",
 	    write_cstring(ostream, closure->option);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }
@@ -103,7 +103,7 @@ ${usage}",
 	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
-	"usage" : "ArgUsageP" $[
+	"usage" : "ArgUsageT *" $[
 	    write_arg_usage(ostream, closure->usage);
 	]$
     }

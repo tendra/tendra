@@ -75,7 +75,7 @@
 #include "type.h"
 
 static void
-write_c_key(OStreamP ostream, char * contents, unsigned length)
+write_c_key(OStreamT * ostream, char * contents, unsigned length)
 {
     while (length --) {
 	char c;
@@ -109,17 +109,17 @@ write_c_key(OStreamP ostream, char * contents, unsigned length)
  */
 
 void
-c_output_mapped_key(COutputInfoP info, EntryP entry)
+c_output_mapped_key(COutputInfoT * info, EntryT * entry)
 {
-    OStreamP ostream = c_out_info_ostream(info);
-    NStringP mapping = entry_get_mapping(entry);
+    OStreamT * ostream = c_out_info_ostream(info);
+    NStringT * mapping = entry_get_mapping(entry);
     BoolT    strict  = c_out_info_get_numeric_ids(info);
 
     if (mapping) {
 	write_nstring(ostream, mapping);
     } else {
-	KeyP     key    = entry_key(entry);
-	NStringP prefix;
+	KeyT *     key    = entry_key(entry);
+	NStringT * prefix;
 
 	switch (entry_type(entry))EXHAUSTIVE {
 	  case ET_TYPE:
@@ -143,7 +143,7 @@ c_output_mapped_key(COutputInfoP info, EntryP entry)
 	}
 	write_nstring(ostream, prefix);
 	if (key_is_string(key) && (!strict)) {
-	    NStringP nstring = key_get_string(key);
+	    NStringT * nstring = key_get_string(key);
 
 	    write_c_key(ostream, nstring_contents(nstring),
 			nstring_length(nstring));
@@ -154,14 +154,14 @@ c_output_mapped_key(COutputInfoP info, EntryP entry)
 }
 
 void
-c_output_key(COutputInfoP info, KeyP key, NStringP prefix)
+c_output_key(COutputInfoT * info, KeyT * key, NStringT * prefix)
 {
-    OStreamP ostream = c_out_info_ostream(info);
+    OStreamT * ostream = c_out_info_ostream(info);
     BoolT    strict  = c_out_info_get_numeric_ids(info);
 
     write_nstring(ostream, prefix);
     if (key_is_string(key) && (!strict)) {
-	NStringP nstring = key_get_string(key);
+	NStringT * nstring = key_get_string(key);
 
 	write_c_key(ostream, nstring_contents(nstring),
 		    nstring_length(nstring));
@@ -171,17 +171,17 @@ c_output_key(COutputInfoP info, KeyP key, NStringP prefix)
 }
 
 void
-c_output_label_key(COutputInfoP info, KeyP key, unsigned label)
+c_output_label_key(COutputInfoT * info, KeyT * key, unsigned label)
 {
-    OStreamP ostream = c_out_info_ostream(info);
-    NStringP prefix  = c_out_info_label_prefix(info);
+    OStreamT * ostream = c_out_info_ostream(info);
+    NStringT * prefix  = c_out_info_label_prefix(info);
     BoolT    strict  = c_out_info_get_numeric_ids(info);
 
     write_nstring(ostream, prefix);
     write_unsigned(ostream, label);
     write_char(ostream, '_');
     if (key_is_string(key) && (!strict)) {
-	NStringP nstring = key_get_string(key);
+	NStringT * nstring = key_get_string(key);
 
 	write_c_key(ostream, nstring_contents(nstring),
 		    nstring_length(nstring));

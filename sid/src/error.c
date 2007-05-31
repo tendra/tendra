@@ -76,18 +76,18 @@
 #define ERROR_TABLE_SIZE	(127)
 #define STRING_TABLE_SIZE	(127)
 
-static ETagP		tag_table[TAG_TABLE_SIZE];
-static ErrorP		error_table[ERROR_TABLE_SIZE];
-static EStringP		string_table[STRING_TABLE_SIZE];
+static ETagT *		tag_table[TAG_TABLE_SIZE];
+static ErrorT *		error_table[ERROR_TABLE_SIZE];
+static EStringT *		string_table[STRING_TABLE_SIZE];
 static char *		program_name         = NULL;
 static ErrorInitProcP	init_proc	     = NULL;
-static ETagP		etag_program	     = NULL;
-static ETagP		etag_severity	     = NULL;
-static ETagP		etag_error_name      = NULL;
-static ETagP		etag_dollar	     = NULL;
-static ETagP		etag_ocb	     = NULL;
-static ETagP		etag_ccb	     = NULL;
-static ErrorListP	error_prefix	     = NULL;
+static ETagT *		etag_program	     = NULL;
+static ETagT *		etag_severity	     = NULL;
+static ETagT *		etag_error_name      = NULL;
+static ETagT *		etag_dollar	     = NULL;
+static ETagT *		etag_ocb	     = NULL;
+static ETagT *		etag_ccb	     = NULL;
+static ErrorListT *	error_prefix	     = NULL;
 static ESeverityT	min_severity	     = ERROR_SEVERITY_ERROR;
 static ESeverityT	max_reported	     = ERROR_SEVERITY_INFORMATION;
 static EStringDataT	severity_data[]    = {
@@ -100,10 +100,10 @@ static EStringDataT	severity_data[]    = {
 };
 
 static void
-error_deallocate_error_list(ErrorListP error_list)
+error_deallocate_error_list(ErrorListT * error_list)
 {
     while (error_list) {
-	ErrorListP tmp = error_list;
+	ErrorListT * tmp = error_list;
 
 	if (error_list->tag == ERROR_TAG_STRING) {
 	    nstring_destroy(&(error_list->u.string));
@@ -113,18 +113,18 @@ error_deallocate_error_list(ErrorListP error_list)
     }
 }
 
-static ErrorListP
+static ErrorListT *
 error_parse_message(char * message)
 {
-    ErrorListP  error_list;
-    ErrorListP *error_list_next = &error_list;
+    ErrorListT *  error_list;
+    ErrorListT * *error_list_next = &error_list;
     char *    message_copy    = cstring_duplicate(message);
     char *    scan            = message = message_copy;
 
     while (*scan) {
 	if ((*scan++ == '$') && (*scan == '{')) {
 	    if (scan > (message + 1)) {
-		ErrorListP tmp = ALLOCATE(ErrorListT);
+		ErrorListT * tmp = ALLOCATE(ErrorListT);
 
 		tmp->tag  = ERROR_TAG_STRING;
 		scan[-1] = '\0';
@@ -144,7 +144,7 @@ error_parse_message(char * message)
 		scan++;
 	    }
 	    if (scan++ > message) {
-		ErrorListP tmp = ALLOCATE(ErrorListT);
+		ErrorListT * tmp = ALLOCATE(ErrorListT);
 		char *   tag;
 
 		tmp->tag   = ERROR_TAG_TAG;
@@ -161,7 +161,7 @@ error_parse_message(char * message)
 	}
     }
     if (scan > message) {
-	ErrorListP tmp = ALLOCATE(ErrorListT);
+	ErrorListT * tmp = ALLOCATE(ErrorListT);
 
 	tmp->tag = ERROR_TAG_STRING;
 	nstring_copy_cstring(&(tmp->u.string), message);
@@ -174,8 +174,8 @@ error_parse_message(char * message)
 }
 
 static void
-write_error_list(OStreamP ostream, ErrorListP error_list, ErrorP error,
-		 ErrorProcP proc, void * closure)
+write_error_list(OStreamT * ostream, ErrorListT * error_list, ErrorT * error,
+		 ErrorprocP proc, void * closure)
 {
     while (error_list) {
 	switch (error_list->tag)EXHAUSTIVE {
@@ -186,7 +186,7 @@ write_error_list(OStreamP ostream, ErrorListP error_list, ErrorP error,
 	    if (error_list->u.tag == etag_program) {
 		write_cstring(ostream, program_name);
 	    } else if (error_list->u.tag == etag_severity) {
-		EStringP estring =
+		EStringT * estring =
 		    severity_data[(error->severity)].estring;
 
 		write_cstring(ostream, error_string_contents(estring));
@@ -208,9 +208,9 @@ write_error_list(OStreamP ostream, ErrorListP error_list, ErrorP error,
 }
 
 static void
-write_error_list_text(OStreamP ostream, ErrorListP error_list)
+write_error_list_text(OStreamT * ostream, ErrorListT * error_list)
 {
-    NStringP nstring;
+    NStringT * nstring;
     char * contents;
     unsigned length;
 
@@ -251,12 +251,12 @@ write_error_list_text(OStreamP ostream, ErrorListP error_list)
 }
 
 static void
-write_error_table(OStreamP ostream)
+write_error_table(OStreamT * ostream)
 {
     unsigned i;
 
     for (i = 0; i < ERROR_TABLE_SIZE; i++) {
-	ErrorP error = error_table[i];
+	ErrorT * error = error_table[i];
 
 	while (error) {
 	    write_char(ostream, '\'');
@@ -272,12 +272,12 @@ write_error_table(OStreamP ostream)
 }
 
 static void
-write_string_table(OStreamP ostream)
+write_string_table(OStreamT * ostream)
 {
     unsigned i;
 
     for (i = 0; i < STRING_TABLE_SIZE; i++) {
-	EStringP string = string_table[i];
+	EStringT * string = string_table[i];
 
 	while (string) {
 	    char * contents = string->contents;
@@ -346,12 +346,12 @@ error_call_init_proc(void)
     }
 }
 
-ETagP
+ETagT *
 error_define_tag(char * name)
 {
     unsigned hash   = (cstring_hash_value(name)% TAG_TABLE_SIZE);
-    ETagP   *entryp = &(tag_table[hash]);
-    ETagP    entry;
+    ETagT *   *entryp = &(tag_table[hash]);
+    ETagT *    entry;
 
     while ((entry = *entryp) != NULL) {
 	if (!strcmp(entry->name, name)) {
@@ -366,14 +366,14 @@ error_define_tag(char * name)
     return(entry);
 }
 
-ErrorP
+ErrorT *
 error_define_error(char * name, ESeverityT severity, char * message,
 		   void * data)
 {
-    ErrorListP error_list = error_parse_message(message);
+    ErrorListT * error_list = error_parse_message(message);
     unsigned   hash       = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-    ErrorP    *entryp     = &(error_table[hash]);
-    ErrorP     entry;
+    ErrorT *    *entryp     = &(error_table[hash]);
+    ErrorT *     entry;
 
     while ((entry = *entryp) != NULL) {
 	assert(!!strcmp(entry->name, name));
@@ -391,10 +391,10 @@ error_define_error(char * name, ESeverityT severity, char * message,
 }
 
 void
-error_intern_tags(ETagDataP vector)
+error_intern_tags(ETagDataT * vector)
 {
     while (vector->name) {
-	ETagP tag = error_define_tag(vector->name);
+	ETagT * tag = error_define_tag(vector->name);
 
 	vector->tag = tag;
 	vector++;
@@ -402,10 +402,10 @@ error_intern_tags(ETagDataP vector)
 }
 
 void
-error_intern_errors(ErrorDataP vector)
+error_intern_errors(ErrorDataT * vector)
 {
     while (vector->s.name) {
-	ErrorP error = error_define_error(vector->s.name, vector->s.severity,
+	ErrorT * error = error_define_error(vector->s.name, vector->s.severity,
 					   vector->s.message, vector->s.data);
 
 	vector->error = error;
@@ -419,11 +419,11 @@ error_redefine_error(char * name, char * message)
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorP   entry = (error_table[hash]);
+	ErrorT *   entry = (error_table[hash]);
 
 	while (entry) {
 	    if (!strcmp(entry->name, name)) {
-		ErrorListP error_list = error_parse_message(message);
+		ErrorListT * error_list = error_parse_message(message);
 
 		if (error_list == NULL) {
 		    return(ERROR_STATUS_BAD_MESSAGE);
@@ -438,13 +438,13 @@ error_redefine_error(char * name, char * message)
     }
 }
 
-ErrorP
+ErrorT *
 error_lookup_error(char * name)
 {
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorP   entry = (error_table[hash]);
+	ErrorT *   entry = (error_table[hash]);
 
 	while (entry) {
 	    if (!strcmp(entry->name, name)) {
@@ -457,13 +457,13 @@ error_lookup_error(char * name)
 }
 
 void *
-error_data(ErrorP error)
+error_data(ErrorT * error)
 {
     return(error->data);
 }
 
 void
-error_report(ErrorP error, ErrorProcP proc, void * closure)
+error_report(ErrorT * error, ErrorprocP proc, void * closure)
 {
     if ((error->severity) >= min_severity) {
 	write_error_list(ostream_error, error_prefix, error, NULL,
@@ -513,7 +513,7 @@ error_set_severity_message(ESeverityT severity, char * message)
 BoolT
 error_set_prefix_message(char * message)
 {
-    ErrorListP error_list = error_parse_message(message);
+    ErrorListT * error_list = error_parse_message(message);
 
     if (error_list == NULL) {
 	return(FALSE);
@@ -523,12 +523,12 @@ error_set_prefix_message(char * message)
     return(TRUE);
 }
 
-EStringP
+EStringT *
 error_define_string(char * name, char * contents)
 {
     unsigned  hash   = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP *entryp = &(string_table[hash]);
-    EStringP  entry;
+    EStringT * *entryp = &(string_table[hash]);
+    EStringT *  entry;
 
     while ((entry = *entryp) != NULL) {
 	assert(!!strcmp(entry->name, name));
@@ -543,10 +543,10 @@ error_define_string(char * name, char * contents)
 }
 
 void
-error_intern_strings(EStringDataP vector)
+error_intern_strings(EStringDataT *vector)
 {
     while (vector->s.name) {
-	EStringP estring = error_define_string(vector->s.name,
+	EStringT * estring = error_define_string(vector->s.name,
 					       vector->s.contents);
 
 	vector->estring = estring;
@@ -558,7 +558,7 @@ BoolT
 error_redefine_string(char * name, char * contents)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP entry = (string_table[hash]);
+    EStringT * entry = (string_table[hash]);
 
     while (entry) {
 	if (!strcmp(entry->name, name)) {
@@ -570,11 +570,11 @@ error_redefine_string(char * name, char * contents)
     return(FALSE);
 }
 
-EStringP
+EStringT *
 error_lookup_string(char * name)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP entry = (string_table[hash]);
+    EStringT * entry = (string_table[hash]);
 
     while (entry) {
 	if (!strcmp(entry->name, name)) {
@@ -586,13 +586,13 @@ error_lookup_string(char * name)
 }
 
 char *
-error_string_contents(EStringP estring)
+error_string_contents(EStringT * estring)
 {
     return(estring->contents);
 }
 
 void
-write_error_file(OStreamP ostream)
+write_error_file(OStreamT * ostream)
 {
     error_call_init_proc();
     write_cstring(ostream, "%prefix%");

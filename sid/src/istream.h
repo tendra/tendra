@@ -90,7 +90,7 @@ typedef struct IStreamT {
     unsigned			line;
     char *			name;
     BoolT			read_last;
-} IStreamT, *IStreamP;
+} IStreamT;
 
 /*
  * This is the return type of the ``istream_read_escaped_char'' function.  The
@@ -101,7 +101,7 @@ typedef enum {
     ISTREAM_STAT_READ_CHAR,
     ISTREAM_STAT_NO_CHAR,
     ISTREAM_STAT_SYNTAX_ERROR
-} IStreamStatusT, *IStreamStatusP;
+} IStreamStatusT;
 
 
 extern ExceptionP	 XX_istream_read_error;
@@ -122,7 +122,7 @@ extern void			istream_setup(void);
 /*
  * This function initialises the specified istream not to read from any file.
  */
-extern void			istream_init(IStreamP);
+extern void			istream_init(IStreamT *);
 
 /*
  * Exceptions: XX_dalloc_no_memory, XX_istream_read_error
@@ -133,19 +133,19 @@ extern void			istream_init(IStreamP);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-extern BoolT			istream_open(IStreamP, char *);
+extern BoolT			istream_open(IStreamT *, char *);
 
 /*
  * This function assigns the from istream to the to istream.  The from istream
  * should not be used again.
  */
-extern void			istream_assign(IStreamP, IStreamP);
+extern void			istream_assign(IStreamT *, IStreamT *);
 
 /*
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  */
-extern BoolT			istream_is_open(IStreamP);
+extern BoolT			istream_is_open(IStreamT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -156,7 +156,7 @@ extern BoolT			istream_is_open(IStreamP);
  * the end of file is reached, the function returns false.  If the character
  * read is a newline, then the istream's line count is incremented.
  */
-extern BoolT			istream_read_char(IStreamP, char *);
+extern BoolT			istream_read_char(IStreamT *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -166,7 +166,7 @@ extern BoolT			istream_read_char(IStreamP, char *);
  * character is assigned to the reference argument, and the function returns
  * true.  If the end of file is reached, the function returns false.
  */
-extern BoolT			istream_peek_char(IStreamP, char *);
+extern BoolT			istream_peek_char(IStreamT *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -181,34 +181,34 @@ extern BoolT			istream_peek_char(IStreamP, char *);
  * are newline characters, then the istream's line counter will be incremented
  * for each newline.
  */
-extern IStreamStatusT		istream_read_escaped_char(IStreamP, char *);
+extern IStreamStatusT		istream_read_escaped_char(IStreamT *, char *);
 
 /*
  * This function increments the specified istream's line counter.  It should
  * only really be called as specified in the documentation for the
  * ``ISTREAM_READ_CHAR'' macro.
  */
-extern void			istream_inc_line(IStreamP);
+extern void			istream_inc_line(IStreamT *);
 
 /*
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  */
-extern unsigned			istream_line(IStreamP);
+extern unsigned			istream_line(IStreamT *);
 
 /*
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  */
-extern char *			istream_name(IStreamP);
+extern char *			istream_name(IStreamT *);
 
 /*
  * This function closes the specified istream.
  */
-extern void			istream_close(IStreamP);
+extern void			istream_close(IStreamT *);
 
 
-extern void			X__istream_fill_buffer(IStreamP);
+extern void			X__istream_fill_buffer(IStreamT *);
 
 /*
  * This macro returns the next character from the specified istream.  It is a
@@ -249,7 +249,7 @@ extern void			X__istream_fill_buffer(IStreamP);
  */
 #define ISTREAM_HANDLE_NULL(istream,redo,eof)\
 { \
-    IStreamP X___is = (istream); \
+    IStreamT * X___is = (istream); \
     if (X___is->read_last) { \
 	if (X___is->current == X___is->end) { \
 	    if (X___is->end == X___is->limit) { \

@@ -31,7 +31,7 @@ header $[
 #include "istream.h"
 ]$;
 
-fatal "errf null char in builtin" ( "istream" : "IStreamP" ) {
+fatal "errf null char in builtin" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: null character in builtin",
     {
 	"file name" : "char *" $[
@@ -48,7 +48,7 @@ fatal "errf null char in builtin" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf null character in name" ( "istream" : "IStreamP" ) {
+fatal "errf null character in name" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: null character in name",
     {
 	"file name" : "char *" $[
@@ -65,7 +65,7 @@ fatal "errf null character in name" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf null character in string" ( "istream" : "IStreamP" ) {
+fatal "errf null character in string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: null character in string",
     {
 	"file name" : "char *" $[
@@ -82,7 +82,7 @@ fatal "errf null character in string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf newline in builtin" ( "istream" : "IStreamP" ) {
+fatal "errf newline in builtin" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unescaped newline in builtin",
     {
 	"file name" : "char *" $[
@@ -99,7 +99,7 @@ fatal "errf newline in builtin" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf newline in name" ( "istream" : "IStreamP" ) {
+fatal "errf newline in name" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unescaped newline in name",
     {
 	"file name" : "char *" $[
@@ -116,7 +116,7 @@ fatal "errf newline in name" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf newline in string" ( "istream" : "IStreamP" ) {
+fatal "errf newline in string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unescaped newline in string",
     {
 	"file name" : "char *" $[
@@ -133,7 +133,7 @@ fatal "errf newline in string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf eof in builtin" ( "istream" : "IStreamP" ) {
+fatal "errf eof in builtin" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unexpected end of file in builtin",
     {
 	"file name" : "char *" $[
@@ -150,7 +150,7 @@ fatal "errf eof in builtin" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf eof in name" ( "istream" : "IStreamP" ) {
+fatal "errf eof in name" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unexpected end of file in name",
     {
 	"file name" : "char *" $[
@@ -167,7 +167,7 @@ fatal "errf eof in name" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf eof in string" ( "istream" : "IStreamP" ) {
+fatal "errf eof in string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unexpected end of file in string",
     {
 	"file name" : "char *" $[
@@ -184,7 +184,7 @@ fatal "errf eof in string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf illegal esc in builtin" ( "istream" : "IStreamP" ) {
+fatal "errf illegal esc in builtin" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: illegal escape sequence in builtin",
     {
 	"file name" : "char *" $[
@@ -201,7 +201,7 @@ fatal "errf illegal esc in builtin" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf illegal escape in name" ( "istream" : "IStreamP" ) {
+fatal "errf illegal escape in name" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: illegal escape sequence in name",
     {
 	"file name" : "char *" $[
@@ -218,7 +218,7 @@ fatal "errf illegal escape in name" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf illegal escape in string" ( "istream" : "IStreamP" ) {
+fatal "errf illegal escape in string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: illegal escape sequence in string",
     {
 	"file name" : "char *" $[
@@ -235,7 +235,7 @@ fatal "errf illegal escape in string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf unknown builtin" ( "istream" : "IStreamP" ) {
+fatal "errf unknown builtin" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unknown builtin '%${builtin name}%'",
     {
 	"file name" : "char *" $[
@@ -256,7 +256,7 @@ fatal "errf unknown builtin" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf illegal character" ( "istream" : "IStreamP" ) {
+fatal "errf illegal character" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: illegal character '${character}'",
     {
 	"file name" : "char *" $[
@@ -277,7 +277,7 @@ fatal "errf illegal character" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf expected string" ( "istream" : "IStreamP" ) {
+fatal "errf expected string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: expected string",
     {
 	"file name" : "char *" $[
@@ -294,7 +294,7 @@ fatal "errf expected string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf expected section" ( "istream" : "IStreamP" ) {
+fatal "errf expected section" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: expected name or section header (one of '%strings%', '%prefix%' or '%errors%')",
     {
 	"file name" : "char *" $[
@@ -311,7 +311,7 @@ fatal "errf expected section" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf unknown string" ( "istream" : "IStreamP" ) {
+fatal "errf unknown string" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unknown string name '${string name}'",
     {
 	"file name" : "char *" $[
@@ -332,7 +332,7 @@ fatal "errf unknown string" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf unknown error" ( "istream" : "IStreamP" ) {
+fatal "errf unknown error" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: unknown error name '${error name}'",
     {
 	"file name" : "char *" $[
@@ -353,7 +353,7 @@ fatal "errf unknown error" ( "istream" : "IStreamP" ) {
     }
 };
 
-fatal "errf illegal message" ( "istream" : "IStreamP" ) {
+fatal "errf illegal message" ( "istream" : "IStreamT *" ) {
     "${file name}: ${line number}: malformed or unterminated tag in message '${message}'",
     {
 	"file name" : "char *" $[

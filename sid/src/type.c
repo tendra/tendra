@@ -67,10 +67,10 @@
 
 #include "type.h"
 
-TypeP
+TypeT *
 type_create(void)
 {
-    TypeP type = ALLOCATE(TypeT);
+    TypeT * type = ALLOCATE(TypeT);
 
     type->assign_code        = NULL;
     type->param_assign_code  = NULL;
@@ -79,39 +79,39 @@ type_create(void)
 }
 
 void *
-type_get_assign_code(TypeP type)
+type_get_assign_code(TypeT * type)
 {
     return(type->assign_code);
 }
 
 void
-type_set_assign_code(TypeP type, void * code)
+type_set_assign_code(TypeT * type, void * code)
 {
     assert(type->assign_code == NULL);
     type->assign_code = code;
 }
 
 void *
-type_get_param_assign_code(TypeP type)
+type_get_param_assign_code(TypeT * type)
 {
     return(type->param_assign_code);
 }
 
 void
-type_set_param_assign_code(TypeP type, void * code)
+type_set_param_assign_code(TypeT * type, void * code)
 {
     assert(type->param_assign_code == NULL);
     type->param_assign_code = code;
 }
 
 void *
-type_get_result_assign_code(TypeP type)
+type_get_result_assign_code(TypeT * type)
 {
     return(type->result_assign_code);
 }
 
 void
-type_set_result_assign_code(TypeP type, void * code)
+type_set_result_assign_code(TypeT * type, void * code)
 {
     assert(type->result_assign_code == NULL);
     type->result_assign_code = code;

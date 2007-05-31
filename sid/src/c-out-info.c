@@ -67,7 +67,7 @@
 #include "c-code.h"
 
 void
-c_out_info_init(COutputInfoP info, OutputInfoP out_info)
+c_out_info_init(COutputInfoT * info, OutputInfoT * out_info)
 {
     info->info        = out_info;
     info->header1     = NULL;
@@ -88,194 +88,194 @@ c_out_info_init(COutputInfoP info, OutputInfoP out_info)
     info->split       = 0;
 }
 
-OutputInfoP
-c_out_info_info(COutputInfoP info)
+OutputInfoT *
+c_out_info_info(COutputInfoT * info)
 {
     return(info->info);
 }
 
-OStreamP
-c_out_info_ostream(COutputInfoP info)
+OStreamT *
+c_out_info_ostream(COutputInfoT * info)
 {
     return(out_info_get_current_ostream(info->info));
 }
 
 char *
-c_out_info_program_name(COutputInfoP info)
+c_out_info_program_name(COutputInfoT * info)
 {
     return(out_info_get_prog_name(info->info));
 }
 
 char *
-c_out_info_source_name(COutputInfoP info)
+c_out_info_source_name(COutputInfoT * info)
 {
     return(out_info_get_infile_name(info->info, (unsigned)0));
 }
 
 char *
-c_out_info_c_source_name(COutputInfoP info)
+c_out_info_c_source_name(COutputInfoT * info)
 {
     return(out_info_get_infile_name(info->info, (unsigned)1));
 }
 
-CCodeP
-c_out_info_get_header1(COutputInfoP info)
+CCodeT *
+c_out_info_get_header1(COutputInfoT * info)
 {
     return(info->header1);
 }
 
 void
-c_out_info_set_header1(COutputInfoP info, CCodeP code)
+c_out_info_set_header1(COutputInfoT * info, CCodeT * code)
 {
     info->header1 = code;
 }
 
-CCodeP
-c_out_info_get_header2(COutputInfoP info)
+CCodeT *
+c_out_info_get_header2(COutputInfoT * info)
 {
     return(info->header2);
 }
 
 void
-c_out_info_set_header2(COutputInfoP info, CCodeP code)
+c_out_info_set_header2(COutputInfoT * info, CCodeT * code)
 {
     info->header2 = code;
 }
 
-CCodeP
-c_out_info_get_trailer1(COutputInfoP info)
+CCodeT *
+c_out_info_get_trailer1(COutputInfoT * info)
 {
     return(info->trailer1);
 }
 
 void
-c_out_info_set_trailer1(COutputInfoP info, CCodeP code)
+c_out_info_set_trailer1(COutputInfoT * info, CCodeT * code)
 {
     info->trailer1 = code;
 }
 
-CCodeP
-c_out_info_get_trailer2(COutputInfoP info)
+CCodeT *
+c_out_info_get_trailer2(COutputInfoT * info)
 {
     return(info->trailer2);
 }
 
 void
-c_out_info_set_trailer2(COutputInfoP info, CCodeP code)
+c_out_info_set_trailer2(COutputInfoT * info, CCodeT * code)
 {
     info->trailer2 = code;
 }
 
-NStringP
-c_out_info_type_prefix(COutputInfoP info)
+NStringT *
+c_out_info_type_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_TYPE]));
 }
 
-NStringP
-c_out_info_fn_prefix(COutputInfoP info)
+NStringT *
+c_out_info_fn_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_FN]));
 }
 
-NStringP
-c_out_info_in_prefix(COutputInfoP info)
+NStringT *
+c_out_info_in_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_IN]));
 }
 
-NStringP
-c_out_info_out_prefix(COutputInfoP info)
+NStringT *
+c_out_info_out_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_OUT]));
 }
 
-NStringP
-c_out_info_label_prefix(COutputInfoP info)
+NStringT *
+c_out_info_label_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_LABEL]));
 }
 
-NStringP
-c_out_info_terminal_prefix(COutputInfoP info)
+NStringT *
+c_out_info_terminal_prefix(COutputInfoT * info)
 {
     return(&(info->prefixes[CPFX_TERMINAL]));
 }
 
-NStringP
-c_out_info_prefix(COutputInfoP info, CPrefixT prefix)
+NStringT *
+c_out_info_prefix(COutputInfoT * info, CPrefixT prefix)
 {
     return(&(info->prefixes[prefix]));
 }
 
 BoolT
-c_out_info_get_prototypes(COutputInfoP info)
+c_out_info_get_prototypes(COutputInfoT * info)
 {
     return(info->prototypes);
 }
 
 void
-c_out_info_set_prototypes(COutputInfoP info, BoolT prototypes)
+c_out_info_set_prototypes(COutputInfoT * info, BoolT prototypes)
 {
     info->prototypes = prototypes;
 }
 
 BoolT
-c_out_info_get_numeric_ids(COutputInfoP info)
+c_out_info_get_numeric_ids(COutputInfoT * info)
 {
     return(info->numeric_ids);
 }
 
 void
-c_out_info_set_numeric_ids(COutputInfoP info, BoolT numeric_ids)
+c_out_info_set_numeric_ids(COutputInfoT * info, BoolT numeric_ids)
 {
     info->numeric_ids = numeric_ids;
 }
 
 BoolT
-c_out_info_get_casts(COutputInfoP info)
+c_out_info_get_casts(COutputInfoT * info)
 {
     return(info->casts);
 }
 
 void
-c_out_info_set_casts(COutputInfoP info, BoolT casts)
+c_out_info_set_casts(COutputInfoT * info, BoolT casts)
 {
     info->casts = casts;
 }
 
 BoolT
-c_out_info_get_unreachable(COutputInfoP info)
+c_out_info_get_unreachable(COutputInfoT * info)
 {
     return(info->unreachable);
 }
 
 void
-c_out_info_set_unreachable(COutputInfoP info, BoolT unreachable)
+c_out_info_set_unreachable(COutputInfoT * info, BoolT unreachable)
 {
     info->unreachable = unreachable;
 }
 
 BoolT
-c_out_info_get_lines(COutputInfoP info)
+c_out_info_get_lines(COutputInfoT * info)
 {
     return(info->lines);
 }
 
 void
-c_out_info_set_lines(COutputInfoP info, BoolT lines)
+c_out_info_set_lines(COutputInfoT * info, BoolT lines)
 {
     info->lines = lines;
 }
 
 unsigned
-c_out_info_get_split(COutputInfoP info)
+c_out_info_get_split(COutputInfoT * info)
 {
     return(info->split);
 }
 
 void
-c_out_info_set_split(COutputInfoP info, unsigned split)
+c_out_info_set_split(COutputInfoT * info, unsigned split)
 {
     info->split = split;
 }

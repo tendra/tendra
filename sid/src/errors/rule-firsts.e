@@ -34,11 +34,11 @@ header $[
 error "cannot compute first set" {
     "cannot compute first set for production\n${production}",
     {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
+	"rule name" : "RuleT *" $[
 	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }
@@ -47,15 +47,15 @@ error "cannot compute first set" {
 error "see to predicate" {
     "can see through to predicate '${predicate}' in production\n${production}",
     {
-	"predicate" : "KeyP" $[
+	"predicate" : "KeyT *" $[
 	    write_key(ostream, closure->predicate);
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
+	"rule name" : "RuleT *" $[
 	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }
@@ -64,22 +64,22 @@ error "see to predicate" {
 error "see to rule predicate" {
     "can see through to predicates in rule '${inner rule name}' in production\n${outer production}",
     {
-	"inner production" : "RuleP" $[
+	"inner production" : "RuleT *" $[
 	    write_rule(ostream, closure->inner_production);
 	]$
     }, {
-	"inner rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->inner_production);
+	"inner rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->inner_production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
-	"outer production" : "RuleP" $[
+	"outer production" : "RuleT *" $[
 	    write_rule(ostream, closure->outer_production);
 	]$
     }, {
-	"outer rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->outer_production);
+	"outer rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->outer_production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$
@@ -89,12 +89,12 @@ error "see to rule predicate" {
 error "redundant see through alt" {
     "the rule '${rule name}' has all terminals in its first set and has a redundant see through alternative",
     {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->production);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$

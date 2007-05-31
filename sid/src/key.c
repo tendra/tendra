@@ -68,7 +68,7 @@
 #include "key.h"
 
 void
-key_init_from_string(KeyP key, NStringP string, unsigned number)
+key_init_from_string(KeyT * key, NStringT * string, unsigned number)
 {
     key->type   = KT_STRING;
     nstring_assign(&(key->string), string);
@@ -76,14 +76,14 @@ key_init_from_string(KeyP key, NStringP string, unsigned number)
 }
 
 void
-key_init_from_number(KeyP key, unsigned number)
+key_init_from_number(KeyT * key, unsigned number)
 {
     key->type   = KT_NUMERIC;
     key->number = number;
 }
 
 CmpT
-key_compare(KeyP key1, KeyP key2)
+key_compare(KeyT * key1, KeyT * key2)
 {
     if ((key1->type) < (key2->type)) {
 	return(CMP_LT);
@@ -106,26 +106,26 @@ key_compare(KeyP key1, KeyP key2)
 }
 
 BoolT
-key_is_string(KeyP key)
+key_is_string(KeyT * key)
 {
     return(key->type == KT_STRING);
 }
 
-NStringP
-key_get_string(KeyP key)
+NStringT *
+key_get_string(KeyT * key)
 {
     assert(key->type == KT_STRING);
     return(&(key->string));
 }
 
 unsigned
-key_get_number(KeyP key)
+key_get_number(KeyT * key)
 {
     return(key->number);
 }
 
 unsigned
-key_hash_value(KeyP key)
+key_hash_value(KeyT * key)
 {
     switch (key->type)EXHAUSTIVE {
       case KT_NUMERIC:
@@ -137,7 +137,7 @@ key_hash_value(KeyP key)
 }
 
 void
-write_key(OStreamP ostream, KeyP key)
+write_key(OStreamT * ostream, KeyT * key)
 {
     switch (key->type)EXHAUSTIVE {
       case KT_STRING:

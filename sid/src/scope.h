@@ -76,35 +76,35 @@ struct RuleT;
 
 typedef struct ScopeMapEntryT {
     struct ScopeMapEntryT      *next;
-    EntryP			from;
-    EntryP			to;
-} ScopeMapEntryT, *ScopeMapEntryP;
+    EntryT *			from;
+    EntryT *			to;
+} ScopeMapEntryT;
 
 typedef struct ScopeStackFrameT {
     struct ScopeStackFrameT    *next;
     NStringT			scope;
-    ScopeMapEntryP		head;
-    ScopeMapEntryP	       *tail;
-} ScopeStackFrameT, *ScopeStackFrameP;
+    ScopeMapEntryT *		head;
+    ScopeMapEntryT *	       *tail;
+} ScopeStackFrameT;
 
 typedef struct ScopeStackT {
-    ScopeStackFrameP		head;
-} ScopeStackT, *ScopeStackP;
+    ScopeStackFrameT *		head;
+} ScopeStackT;
 
-extern void	scope_stack_init(ScopeStackP);
-extern void	scope_stack_push(ScopeStackP, NStringP);
-extern void	scope_stack_pop(ScopeStackP);
-extern EntryP	scope_stack_add_rule(ScopeStackP, TableP, NStringP,
+extern void	scope_stack_init(ScopeStackT *);
+extern void	scope_stack_push(ScopeStackT *, NStringT *);
+extern void	scope_stack_pop(ScopeStackT *);
+extern EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
 				     struct RuleT *, BoolT *);
-extern EntryP	scope_stack_add_action(ScopeStackP, TableP, NStringP,
+extern EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
 				       struct RuleT *, BoolT *);
-extern EntryP	scope_stack_add_non_local(ScopeStackP, TableP, NStringP,
-					  EntryP, struct RuleT *);
-extern EntryP	scope_stack_get_rule(ScopeStackP, TableP, NStringP);
-extern EntryP	scope_stack_get_action(ScopeStackP, TableP, NStringP);
-extern EntryP	scope_stack_get_non_local(ScopeStackP, TableP, NStringP,
-					  NStringP);
-extern BoolT	scope_stack_check_shadowing(ScopeStackP, EntryP,
+extern EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
+					  EntryT *, struct RuleT *);
+extern EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
+					  NStringT *);
+extern BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
 					    struct RuleT *);
 
 #endif /* !defined (H_SCOPE) */

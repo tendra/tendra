@@ -47,19 +47,19 @@ error "shadows non local" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "KeyP" $[
+	"name name" : "KeyT *" $[
 	    write_key(ostream, closure->name_name);
 	]$
     }, {
-	"non local name name" : "KeyP" $[
+	"non local name name" : "KeyT *" $[
 	    write_key(ostream, closure->non_local_name_name);
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
+	"rule name" : "RuleT *" $[
 	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }
@@ -80,15 +80,15 @@ error "shadows global" {
 	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"name name" : "KeyP" $[
+	"name name" : "KeyT *" $[
 	    write_key(ostream, closure->name_name);
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
+	"rule name" : "RuleT *" $[
 	    write_key(ostream, entry_key(rule_entry(closure->production)));
 	]$ $[]$
     }

@@ -72,11 +72,11 @@
 #include "non-local.h"
 #include "rules/rule.h"
 
-extern void	c_output_non_locals(COutputInfoP, NonLocalListP);
-extern void	c_output_declare_non_locals(COutputInfoP, NonLocalListP);
-extern void	c_output_save_non_locals(COutputInfoP, RuleP, unsigned,
-					 RStackP, RStackP, RuleP, TableP);
-extern void	c_output_restore_non_locals(COutputInfoP, RuleP, unsigned,
-					    RStackP, RStackP);
+extern void	c_output_non_locals(COutputInfoT *, NonLocalListT *);
+extern void	c_output_declare_non_locals(COutputInfoT *, NonLocalListT *);
+extern void	c_output_save_non_locals(COutputInfoT *, RuleT *, unsigned,
+					 RStackT *, RStackT *, RuleT *, TableT *);
+extern void	c_output_restore_non_locals(COutputInfoT *, RuleT *, unsigned,
+					    RStackT *, RStackT *);
 
 #endif /* !defined (H_C_OUT_NL) */

@@ -73,7 +73,7 @@
  ***=== TYPES ================================================================
  *
  ** Type:	BitVecT
- ** Type:	BitVecP
+ ** Type:	BitVecT *
  ** Repr:	<private>
  *
  * This is the bit vector type.
@@ -90,14 +90,14 @@
  * specified.
  *
  ** Function:	void			bitvec_init
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified bit vector.  Initially, all bits
  * are zero.
  *
  ** Function:	void			bitvec_copy
- *			(BitVecP to, BitVecP from)
+ *			(BitVecT * to, BitVecT * from)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the to bit vector from the from bit vector.  It
@@ -105,34 +105,34 @@
  * `bitvec_init' function previously.
  *
  ** Function:	void			bitvec_replace
- *			(BitVecP to, BitVecP from)
+ *			(BitVecT * to, BitVecT * from)
  ** Exceptions:
  *
  * This function copies the from bit vector into the to bit vector.  The to
  * bit vector must have been initialised previously.
  *
  ** Function:	void			bitvec_empty
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function sets all of the bits in the specified bit vector to zero.
  *
  ** Function:	BoolT			bitvec_is_empty
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are zero, and false otherwise.
  *
  ** Function:	BoolT			bitvec_is_full
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are set, and false otherwise.
  *
  ** Function:	void			bitvec_set
- *			(BitVecP bitvec, unsigned bit)
+ *			(BitVecT * bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function sets the specified bit in the specified bit vector to one.
@@ -140,7 +140,7 @@
  * of this function is undefined.
  *
  ** Function:	BoolT			bitvec_is_set
- *			(BitVecP bitvec, unsigned bit)
+ *			(BitVecT * bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function returns true if the specified bit in the specified bit vector
@@ -148,55 +148,55 @@
  * bit is out of range, the effect of this function is undefined.
  *
  ** Function:	void			bitvec_or
- *			(BitVecP to, BitVecP from)
+ *			(BitVecT * to, BitVecT * from)
  ** Exceptions:
  *
  * This function performs an in-place bitwise or of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_and
- *			(BitVecP to, BitVecPfrom)
+ *			(BitVecT * to, BitVecT *from)
  ** Exceptions:
  *
  * This function performs an in-place bitwise and of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_not
- *			(BitVecP to)
+ *			(BitVecT * to)
  ** Exceptions:
  *
  * This function performs an in-place bitwise negation of the to bit vector.
  *
  ** Function:	BoolT			bitvec_equal
- *			(BitVecP bitvec1, BitVecP bitvec2)
+ *			(BitVecT * bitvec1, BitVecT * bitvec2)
  ** Exceptions:
  *
  * This function returns true if both of the specified bit vectors are equal,
  * and false otherwise.
  *
  ** Function:	BoolT			bitvec_intersects
- *			(BitVecP bitvec1, BitVecP bitvec2)
+ *			(BitVecT * bitvec1, BitVecT * bitvec2)
  ** Exceptions:
  *
  * This function returns true if the bitwise and of the specified bit vectors
  * contains at least one bit that is set to one, and false otherwise.
  *
  ** Function:	unsigned		bitvec_num_bits
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function returns the number of bits in the bit vector that are set to
  * one.
  *
  ** Function:	unsigned		bitvec_first_bit
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function returns the index of the first bit in the specified bit
  * vector that is set to one.
  *
  ** Function:	BoolT			bitvec_next_bit
- *			(BitVecP bitvec, unsigned *next_ref)
+ *			(BitVecT * bitvec, unsigned *next_ref)
  ** Exceptions:
  *
  * This function looks for the first bit set to one in the specified bit
@@ -206,14 +206,14 @@
  * found, then the function returns false.
  *
  ** Function:	void			bitvec_destroy
- *			(BitVecP bitvec)
+ *			(BitVecT * bitvec)
  ** Exceptions:
  *
  * This function destroys the specified bit vector.  After this, it should be
  * reinitialised before it is used.
  *
  ** Function:	void			write_bitvec_indices
- *			(OStreamP ostream, BitVecP bitvec)
+ *			(OStreamT * ostream, BitVecT * bitvec)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes out to the specified ostream the indices of all bits
@@ -245,30 +245,30 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct BitVecT {
-    ByteP		bits;
-} BitVecT, *BitVecP;
+    ByteT *		bits;
+} BitVecT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void		bitvec_set_size(unsigned);
-extern void		bitvec_init(BitVecP);
-extern void		bitvec_copy(BitVecP, BitVecP);
-extern void		bitvec_replace(BitVecP, BitVecP);
-extern void		bitvec_empty(BitVecP);
-extern BoolT		bitvec_is_empty(BitVecP);
-extern BoolT		bitvec_is_full(BitVecP);
-extern void		bitvec_set(BitVecP, unsigned);
-extern BoolT		bitvec_is_set(BitVecP, unsigned);
-extern void		bitvec_or(BitVecP, BitVecP);
-extern void		bitvec_and(BitVecP, BitVecP);
-extern void		bitvec_not(BitVecP);
-extern BoolT		bitvec_equal(BitVecP, BitVecP);
-extern BoolT		bitvec_intersects(BitVecP, BitVecP);
-extern unsigned		bitvec_num_bits(BitVecP);
-extern unsigned		bitvec_first_bit(BitVecP);
-extern BoolT		bitvec_next_bit(BitVecP, unsigned *);
-extern void		bitvec_destroy(BitVecP);
+extern void		bitvec_init(BitVecT *);
+extern void		bitvec_copy(BitVecT *, BitVecT *);
+extern void		bitvec_replace(BitVecT *, BitVecT *);
+extern void		bitvec_empty(BitVecT *);
+extern BoolT		bitvec_is_empty(BitVecT *);
+extern BoolT		bitvec_is_full(BitVecT *);
+extern void		bitvec_set(BitVecT *, unsigned);
+extern BoolT		bitvec_is_set(BitVecT *, unsigned);
+extern void		bitvec_or(BitVecT *, BitVecT *);
+extern void		bitvec_and(BitVecT *, BitVecT *);
+extern void		bitvec_not(BitVecT *);
+extern BoolT		bitvec_equal(BitVecT *, BitVecT *);
+extern BoolT		bitvec_intersects(BitVecT *, BitVecT *);
+extern unsigned		bitvec_num_bits(BitVecT *);
+extern unsigned		bitvec_first_bit(BitVecT *);
+extern BoolT		bitvec_next_bit(BitVecT *, unsigned *);
+extern void		bitvec_destroy(BitVecT *);
 
-extern void		write_bitvec_indices(OStreamP, BitVecP);
+extern void		write_bitvec_indices(OStreamT *, BitVecT *);
 
 #endif /* !defined (H_BITVEC) */

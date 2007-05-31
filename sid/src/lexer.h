@@ -104,29 +104,29 @@ typedef enum {
     LEXER_TOK_REFERENCE,
     LEXER_TOK_EOF,
     LEXER_TOK_ERROR
-} LexerTokenT, *LexerTokenP;
+} LexerTokenT;
 
 typedef struct LexT {
     LexerTokenT			t;
     union {
 	NStringT		string;
     } u;
-} LexT, *LexP;
+} LexT;
 
 typedef struct LexerStreamT {
     IStreamT			istream;
     LexT			token;
     LexerTokenT			saved_terminal;
-} LexerStreamT, *LexerStreamP;
+} LexerStreamT;
 
-extern void		lexer_init(LexerStreamP, IStreamP);
-extern void		lexer_close(LexerStreamP);
-extern char *		lexer_stream_name(LexerStreamP);
-extern unsigned		lexer_stream_line(LexerStreamP);
-extern LexerTokenT	lexer_get_terminal(LexerStreamP);
-extern void		lexer_next_token(LexerStreamP);
-extern NStringP		lexer_string_value(LexerStreamP);
-extern void		lexer_save_terminal(LexerStreamP, LexerTokenT);
-extern void		lexer_restore_terminal(LexerStreamP);
+extern void		lexer_init(LexerStreamT *, IStreamT *);
+extern void		lexer_close(LexerStreamT *);
+extern char *		lexer_stream_name(LexerStreamT *);
+extern unsigned		lexer_stream_line(LexerStreamT *);
+extern LexerTokenT	lexer_get_terminal(LexerStreamT *);
+extern void		lexer_next_token(LexerStreamT *);
+extern NStringT *		lexer_string_value(LexerStreamT *);
+extern void		lexer_save_terminal(LexerStreamT *, LexerTokenT);
+extern void		lexer_restore_terminal(LexerStreamT *);
 
 #endif /* !defined (H_LEXER) */

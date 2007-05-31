@@ -73,36 +73,36 @@
 
 typedef struct EntryListEntryT {
     struct EntryListEntryT     *next;
-    EntryP			entry;
-} EntryListEntryT, *EntryListEntryP;
+    EntryT *			entry;
+} EntryListEntryT;
 
 typedef struct EntryListT {
-    EntryListEntryP		head;
-    EntryListEntryP	       *tail;
-} EntryListT, *EntryListP;
+    EntryListEntryT *		head;
+    EntryListEntryT *	       *tail;
+} EntryListT;
 
 typedef struct SaveListT {
     struct EntryListEntryT    **last_ref;
-} SaveListT, *SaveListP;
+} SaveListT;
 
-extern void	entry_list_init(EntryListP);
-extern void	entry_list_copy(EntryListP, EntryListP);
-extern void	entry_list_add(EntryListP, EntryP);
-extern void	entry_list_add_if_missing(EntryListP, EntryP);
-extern BoolT	entry_list_contains(EntryListP, EntryP);
-extern BoolT	entry_list_includes(EntryListP, EntryListP);
-extern void	entry_list_intersection(EntryListP, EntryListP, EntryListP);
-extern void	entry_list_unlink_used(EntryListP, EntryListP);
-extern void	entry_list_append(EntryListP, EntryListP);
-extern BoolT	entry_list_is_empty(EntryListP);
-extern void	entry_list_save_state(EntryListP, SaveListP);
-extern void	entry_list_restore_state(EntryListP, SaveListP);
-extern void	entry_list_iter(EntryListP, void(*)(EntryP, void *),
+extern void	entry_list_init(EntryListT *);
+extern void	entry_list_copy(EntryListT *, EntryListT *);
+extern void	entry_list_add(EntryListT *, EntryT *);
+extern void	entry_list_add_if_missing(EntryListT *, EntryT *);
+extern BoolT	entry_list_contains(EntryListT *, EntryT *);
+extern BoolT	entry_list_includes(EntryListT *, EntryListT *);
+extern void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
+extern void	entry_list_unlink_used(EntryListT *, EntryListT *);
+extern void	entry_list_append(EntryListT *, EntryListT *);
+extern BoolT	entry_list_is_empty(EntryListT *);
+extern void	entry_list_save_state(EntryListT *, SaveListT *);
+extern void	entry_list_restore_state(EntryListT *, SaveListT *);
+extern void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
 				void *);
-extern void	entry_list_iter_table(EntryListP, BoolT,
-				      void(*)(EntryP, void *), void *);
-extern void	entry_list_destroy(EntryListP);
+extern void	entry_list_iter_table(EntryListT *, BoolT,
+				      void(*)(EntryT *, void *), void *);
+extern void	entry_list_destroy(EntryListT *);
 
-extern void	write_entry_list(OStreamP, EntryListP);
+extern void	write_entry_list(OStreamT *, EntryListT *);
 
 #endif /* !defined (H_ENTRY_LIST) */

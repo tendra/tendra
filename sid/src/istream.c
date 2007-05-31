@@ -91,7 +91,7 @@ static IStreamT		istream_input_1 = {
 IStreamT	 *const istream_input = &istream_input_1;
 
 static IStreamStatusT
-istream_read_hex_char(IStreamP istream, char *c_ref)
+istream_read_hex_char(IStreamT * istream, char *c_ref)
 {
     int value;
     int tmp;
@@ -143,13 +143,13 @@ istream_setup(void)
 }
 
 void
-istream_init(IStreamP istream)
+istream_init(IStreamT * istream)
 {
     istream->name = NULL;
 }
 
 BoolT
-istream_open(IStreamP istream, char * name)
+istream_open(IStreamT * istream, char * name)
 {
     if ((istream->file = fopen(name, "r")) == NULL) {
 	return(FALSE);
@@ -163,7 +163,7 @@ istream_open(IStreamP istream, char * name)
 }
 
 void
-istream_assign(IStreamP to,			IStreamP from)
+istream_assign(IStreamT * to,			IStreamT * from)
 {
     to->file      = from->file;
     to->buffer    = from->buffer;
@@ -176,13 +176,13 @@ istream_assign(IStreamP to,			IStreamP from)
 }
 
 BoolT
-istream_is_open(IStreamP istream)
+istream_is_open(IStreamT * istream)
 {
     return(istream->name != NULL);
 }
 
 BoolT
-istream_read_char(IStreamP istream, char *c_ref)
+istream_read_char(IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -204,7 +204,7 @@ istream_read_char(IStreamP istream, char *c_ref)
 }
 
 BoolT
-istream_peek_char(IStreamP istream, char *c_ref)
+istream_peek_char(IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -223,7 +223,7 @@ istream_peek_char(IStreamP istream, char *c_ref)
 }
 
 IStreamStatusT
-istream_read_escaped_char(IStreamP istream, char *c_ref)
+istream_read_escaped_char(IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -262,25 +262,25 @@ istream_read_escaped_char(IStreamP istream, char *c_ref)
 }
 
 void
-istream_inc_line(IStreamP istream)
+istream_inc_line(IStreamT * istream)
 {
     istream->line++;
 }
 
 unsigned
-istream_line(IStreamP istream)
+istream_line(IStreamT * istream)
 {
     return(istream->line);
 }
 
 char *
-istream_name(IStreamP istream)
+istream_name(IStreamT * istream)
 {
     return(istream->name);
 }
 
 void
-istream_close(IStreamP istream)
+istream_close(IStreamT * istream)
 {
    (void)fclose(istream->file);
     if (istream != istream_input) {
@@ -290,7 +290,7 @@ istream_close(IStreamP istream)
 }
 
 void
-X__istream_fill_buffer(IStreamP istream)
+X__istream_fill_buffer(IStreamT * istream)
 {
     size_t bytes = fread((void *)(istream->buffer), sizeof(char),
 			(size_t)(ISTREAM_BUFSIZE - 1), istream->file);

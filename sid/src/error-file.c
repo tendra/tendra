@@ -79,23 +79,23 @@ typedef enum {
     EFTOKEN_BLT_PREFIX,
     EFTOKEN_BLT_ERRORS,
     EFTOKEN_EOF
-} ErrorFileTagT, *ErrorFileTagP;
+} ErrorFileTagT;
 
 typedef struct ErrorFileLexT {
     ErrorFileTagT		tag;
     union {
 	char *		string;
     } u;
-} ErrorFileLexT, *ErrorFileLexP;
+} ErrorFileLexT;
 
 typedef enum {
     EFN_BUILTIN,
     EFN_NAME,
     EFN_STRING
-} ErrorFileTokenT, *ErrorFileTokenP;
+} ErrorFileTokenT;
 
 static BoolT
-error_file_skip_white_space(IStreamP istream, char *c_ref)
+error_file_skip_white_space(IStreamT * istream, char *c_ref)
 {
     BoolT comment = FALSE;
 
@@ -126,7 +126,7 @@ error_file_skip_white_space(IStreamP istream, char *c_ref)
 }
 
 static void
-error_file_null_character(IStreamP istream, ErrorFileTokenT type)
+error_file_null_character(IStreamT * istream, ErrorFileTokenT type)
 {
     switch (type)EXHAUSTIVE {
       case EFN_NAME:
@@ -142,7 +142,7 @@ error_file_null_character(IStreamP istream, ErrorFileTokenT type)
 }
 
 static void
-error_file_newline(IStreamP istream, ErrorFileTokenT type)
+error_file_newline(IStreamT * istream, ErrorFileTokenT type)
 {
     switch (type)EXHAUSTIVE {
       case EFN_NAME:
@@ -158,7 +158,7 @@ error_file_newline(IStreamP istream, ErrorFileTokenT type)
 }
 
 static void
-error_file_illegal_escape(IStreamP istream, ErrorFileTokenT type)
+error_file_illegal_escape(IStreamT * istream, ErrorFileTokenT type)
 {
     switch (type)EXHAUSTIVE {
       case EFN_NAME:
@@ -174,7 +174,7 @@ error_file_illegal_escape(IStreamP istream, ErrorFileTokenT type)
 }
 
 static void
-error_file_eof(IStreamP istream, ErrorFileTokenT type)
+error_file_eof(IStreamT * istream, ErrorFileTokenT type)
 {
     switch (type)EXHAUSTIVE {
       case EFN_NAME:
@@ -190,8 +190,8 @@ error_file_eof(IStreamP istream, ErrorFileTokenT type)
 }
 
 static void
-error_file_read_until(IStreamP istream, char term, ErrorFileTokenT type,
-		      ErrorFileLexP token)
+error_file_read_until(IStreamT * istream, char term, ErrorFileTokenT type,
+		      ErrorFileLexT * token)
 {
     DStringT dstring;
 
@@ -245,7 +245,7 @@ error_file_read_until(IStreamP istream, char term, ErrorFileTokenT type,
 }
 
 static void
-error_file_check_builtin(IStreamP istream, ErrorFileLexP token)
+error_file_check_builtin(IStreamT * istream, ErrorFileLexT * token)
 {
     if (cstring_ci_equal(token->u.string, "strings")) {
 	token->tag = EFTOKEN_BLT_STRINGS;
@@ -261,7 +261,7 @@ error_file_check_builtin(IStreamP istream, ErrorFileLexP token)
 }
 
 static void
-error_file_next_token(IStreamP istream, ErrorFileLexP token)
+error_file_next_token(IStreamT * istream, ErrorFileLexT * token)
 {
     char c;
 
@@ -289,7 +289,7 @@ error_file_next_token(IStreamP istream, ErrorFileLexP token)
 }
 
 static void
-error_file_parse_strings(IStreamP istream, ErrorFileLexP token)
+error_file_parse_strings(IStreamT * istream, ErrorFileLexT * token)
 {
     while (error_file_next_token(istream, token),
 	  (token->tag == EFTOKEN_NAME)) {
@@ -308,7 +308,7 @@ error_file_parse_strings(IStreamP istream, ErrorFileLexP token)
 }
 
 static void
-error_file_parse_prefix(IStreamP istream, ErrorFileLexP token)
+error_file_parse_prefix(IStreamT * istream, ErrorFileLexT * token)
 {
     error_file_next_token(istream, token);
     if (token->tag != EFTOKEN_STRING) {
@@ -323,7 +323,7 @@ error_file_parse_prefix(IStreamP istream, ErrorFileLexP token)
 }
 
 static void
-error_file_parse_errors(IStreamP istream, ErrorFileLexP token)
+error_file_parse_errors(IStreamT * istream, ErrorFileLexT * token)
 {
     while (error_file_next_token(istream, token),
 	  (token->tag == EFTOKEN_NAME)) {

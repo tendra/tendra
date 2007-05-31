@@ -73,29 +73,29 @@
 #include "c-out-types.h"
 
 typedef struct NonLocalClosureT {
-    COutputInfoP	info;
-    SaveRStackP		state;
+    COutputInfoT *	info;
+    SaveRStackT *		state;
     unsigned		indent;
-} NonLocalClosureT, *NonLocalClosureP;
+} NonLocalClosureT;
 
 static void
-c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
-			   SaveRStackP non_local_state, RStackP rstack,
-			   RuleP handler_rule, TableP table, unsigned indent)
+c_output_save_non_locals_1(COutputInfoT * info, NonLocalEntryT * non_local,
+			   SaveRStackT * non_local_state, RStackT * rstack,
+			   RuleT * handler_rule, TableT * table, unsigned indent)
 {
-    OStreamP ostream = c_out_info_ostream(info);
-    EntryP   entry   = non_local_entry_get_initialiser(non_local);
+    OStreamT * ostream = c_out_info_ostream(info);
+    EntryT *   entry   = non_local_entry_get_initialiser(non_local);
 
     if (entry) {
-	EntryP      type;
+	EntryT *      type;
 	BoolT       reference;
-	EntryP      translation = rstack_get_translation(non_local_state,
+	EntryT *      translation = rstack_get_translation(non_local_state,
 							 non_local->name,
 							 &type, &reference);
-	KeyP        key         = entry_key(entry);
-	ActionP     action      = entry_get_action(entry);
-	TypeTupleP  param       = action_param(action);
-	CCodeP      code        = action_get_code(action);
+	KeyT *        key         = entry_key(entry);
+	ActionT *     action      = entry_get_action(entry);
+	TypeTupleT *  param       = action_param(action);
+	CCodeT *      code        = action_get_code(action);
 	BoolT       copies;
 	TypeTupleT  args;
 	TypeTupleT  result_args;
@@ -137,11 +137,11 @@ c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
 }
 
 static void
-c_output_restore_non_locals_1(EntryP from, EntryP to, void * gclosure)
+c_output_restore_non_locals_1(EntryT * from, EntryT * to, void * gclosure)
 {
-    NonLocalClosureP closure = (NonLocalClosureP)gclosure;
-    COutputInfoP     info    = closure->info;
-    SaveRStackP      state   = closure->state;
+    NonLocalClosureT * closure = (NonLocalClosureT *)gclosure;
+    COutputInfoT *     info    = closure->info;
+    SaveRStackT *      state   = closure->state;
     unsigned         indent  = closure->indent;
 
     c_output_assign(info, to, from, state, state, indent);
@@ -153,10 +153,10 @@ c_output_restore_non_locals_1(EntryP from, EntryP to, void * gclosure)
  */
 
 void
-c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
+c_output_non_locals(COutputInfoT * info, NonLocalListT * non_locals)
 {
-    OStreamP       ostream = c_out_info_ostream(info);
-    NonLocalEntryP non_local;
+    OStreamT *       ostream = c_out_info_ostream(info);
+    NonLocalEntryT * non_local;
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
@@ -172,10 +172,10 @@ c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
 }
 
 void
-c_output_declare_non_locals(COutputInfoP info, NonLocalListP non_locals)
+c_output_declare_non_locals(COutputInfoT * info, NonLocalListT * non_locals)
 {
-    OStreamP       ostream = c_out_info_ostream(info);
-    NonLocalEntryP non_local;
+    OStreamT *       ostream = c_out_info_ostream(info);
+    NonLocalEntryT * non_local;
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
@@ -189,20 +189,20 @@ c_output_declare_non_locals(COutputInfoP info, NonLocalListP non_locals)
 }
 
 void
-c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
-			 RStackP rstack, RStackP non_local_stack,
-			 RuleP handler_rule, TableP table)
+c_output_save_non_locals(COutputInfoT * info, RuleT * rule, unsigned indent,
+			 RStackT * rstack, RStackT * non_local_stack,
+			 RuleT * handler_rule, TableT * table)
 {
-    OStreamP       ostream    = c_out_info_ostream(info);
-    NStringP       in_prefix  = c_out_info_in_prefix(info);
-    NonLocalListP  non_locals = rule_non_locals(rule);
-    NonLocalEntryP non_local;
+    OStreamT *       ostream    = c_out_info_ostream(info);
+    NStringT *       in_prefix  = c_out_info_in_prefix(info);
+    NonLocalListT *  non_locals = rule_non_locals(rule);
+    NonLocalEntryT * non_local;
     SaveRStackT    state;
     SaveRStackT    non_local_state;
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
-	EntryP entry = table_add_generated_name(table);
+	EntryT * entry = table_add_generated_name(table);
 
 	output_indent(c_out_info_info(info), indent);
 	c_output_mapped_key(info, non_local->type);
@@ -218,9 +218,9 @@ c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
     rstack_save_state(non_local_stack, &non_local_state);
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
-	EntryP type;
+	EntryT * type;
 	BoolT  reference;
-	EntryP entry = rstack_get_translation(&non_local_state,
+	EntryT * entry = rstack_get_translation(&non_local_state,
 					      non_local->name, &type,
 					      &reference);
 
@@ -237,8 +237,8 @@ c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
 }
 
 void
-c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
-			    RStackP rstack, RStackP non_local_stack)
+c_output_restore_non_locals(COutputInfoT * info, RuleT * rule, unsigned indent,
+			    RStackT * rstack, RStackT * non_local_stack)
 {
     NonLocalClosureT closure;
     SaveRStackT      state;

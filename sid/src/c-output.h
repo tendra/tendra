@@ -81,13 +81,13 @@
 #define C_INDENT_FOR_CASE	((unsigned)2)
 #define C_INDENT_FOR_LABEL	((unsigned)2)
 
-extern void		c_output_parser(COutputInfoP, GrammarP);
-extern void		c_output_header(COutputInfoP, GrammarP);
-extern void		c_output_location(COutputInfoP, char *, unsigned);
-extern void		c_output_key_message(COutputInfoP, char *, KeyP,
+extern void		c_output_parser(COutputInfoT *, GrammarT *);
+extern void		c_output_header(COutputInfoT *, GrammarT *);
+extern void		c_output_location(COutputInfoT *, char *, unsigned);
+extern void		c_output_key_message(COutputInfoT *, char *, KeyT *,
 					     char *, unsigned);
 extern unsigned		c_out_next_label(void);
-extern void		c_output_open(COutputInfoP, unsigned);
-extern void		c_output_close(COutputInfoP, unsigned);
+extern void		c_output_open(COutputInfoT *, unsigned);
+extern void		c_output_close(COutputInfoT *, unsigned);
 
 #endif /* !defined (H_C_OUTPUT) */

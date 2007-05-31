@@ -92,7 +92,7 @@ typedef enum {
     ET_RENAME,
     ET_PREDICATE,
     ET_NON_LOCAL
-} EntryTypeT, *EntryTypeP;
+} EntryTypeT;
 
 typedef struct EntryT {
     struct EntryT	       *next;
@@ -109,38 +109,38 @@ typedef struct EntryT {
 	struct EntryT	       *non_local;
     } u;
     struct NameT	       *name;
-} EntryT, *EntryP;
+} EntryT;
 
-extern EntryP		entry_create_from_string(NStringP, unsigned,
+extern EntryT *		entry_create_from_string(NStringT *, unsigned,
 						 EntryTypeT);
-extern EntryP		entry_create_from_number(unsigned, EntryTypeT, BoolT,
-						 EntryP);
-extern void		entry_set_basic(EntryP, struct BasicT *);
-extern void		entry_set_rule(EntryP, struct RuleT *);
-extern void		entry_set_action(EntryP, struct ActionT *);
-extern void		entry_set_type(EntryP, struct TypeT *);
-extern void		entry_set_non_local(EntryP, EntryP);
-extern EntryP		entry_next(EntryP);
-extern EntryP	       *entry_next_ref(EntryP);
-extern KeyP		entry_key(EntryP);
-extern EntryTypeT	entry_type(EntryP);
-extern void		entry_change_type(EntryP, EntryTypeT);
-extern BoolT		entry_is_basic(EntryP);
-extern BoolT		entry_is_action(EntryP);
-extern BoolT		entry_is_rule(EntryP);
-extern BoolT		entry_is_type(EntryP);
-extern BoolT		entry_is_non_local(EntryP);
-extern struct BasicT   *entry_get_basic(EntryP);
-extern struct ActionT  *entry_get_action(EntryP);
-extern struct RuleT    *entry_get_rule(EntryP);
-extern struct NameT    *entry_get_name(EntryP);
-extern struct TypeT    *entry_get_type(EntryP);
-extern EntryP		entry_get_non_local(EntryP);
-extern void		entry_set_mapping(EntryP, NStringP);
-extern NStringP		entry_get_mapping(EntryP);
-extern void		entry_iter(EntryP, BoolT, void(*)(EntryP, void *),
+extern EntryT *		entry_create_from_number(unsigned, EntryTypeT, BoolT,
+						 EntryT *);
+extern void		entry_set_basic(EntryT *, struct BasicT *);
+extern void		entry_set_rule(EntryT *, struct RuleT *);
+extern void		entry_set_action(EntryT *, struct ActionT *);
+extern void		entry_set_type(EntryT *, struct TypeT *);
+extern void		entry_set_non_local(EntryT *, EntryT *);
+extern EntryT *		entry_next(EntryT *);
+extern EntryT *	       *entry_next_ref(EntryT *);
+extern KeyT *		entry_key(EntryT *);
+extern EntryTypeT	entry_type(EntryT *);
+extern void		entry_change_type(EntryT *, EntryTypeT);
+extern BoolT		entry_is_basic(EntryT *);
+extern BoolT		entry_is_action(EntryT *);
+extern BoolT		entry_is_rule(EntryT *);
+extern BoolT		entry_is_type(EntryT *);
+extern BoolT		entry_is_non_local(EntryT *);
+extern struct BasicT   *entry_get_basic(EntryT *);
+extern struct ActionT  *entry_get_action(EntryT *);
+extern struct RuleT    *entry_get_rule(EntryT *);
+extern struct NameT    *entry_get_name(EntryT *);
+extern struct TypeT    *entry_get_type(EntryT *);
+extern EntryT *		entry_get_non_local(EntryT *);
+extern void		entry_set_mapping(EntryT *, NStringT *);
+extern NStringT *		entry_get_mapping(EntryT *);
+extern void		entry_iter(EntryT *, BoolT, void(*)(EntryT *, void *),
 				   void *);
-extern void		entry_not_traced(EntryP);
-extern BoolT		entry_is_traced(EntryP);
+extern void		entry_not_traced(EntryT *);
+extern BoolT		entry_is_traced(EntryT *);
 
 #endif /* !defined (H_ENTRY) */

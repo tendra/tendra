@@ -78,18 +78,18 @@
 #include "type.h"
 
 static void
-c_output_param_assign(COutputInfoP info, TypeTupleP inputs)
+c_output_param_assign(COutputInfoT * info, TypeTupleT * inputs)
 {
-    OStreamP        ostream = c_out_info_ostream(info);
-    TypeTupleEntryP ptr;
+    OStreamT *        ostream = c_out_info_ostream(info);
+    TypeTupleEntryT * ptr;
 
     for (ptr = inputs->head; ptr; ptr = ptr->next) {
-	TypeP  type = entry_get_type(ptr->type);
-	CCodeP code;
+	TypeT *  type = entry_get_type(ptr->type);
+	CCodeT * code;
 
 	if ((!(ptr->reference)) &&
 	    ((code = type_get_param_assign_code(type)) != NULL)) {
-	    KeyP key = entry_key(ptr->type);
+	    KeyT * key = entry_key(ptr->type);
 
 	    c_output_key_message(info, "/* BEGINNING OF PARAM ASSIGNMENT: ",
 				 key, " */", C_INDENT_STEP);
@@ -106,14 +106,14 @@ c_output_param_assign(COutputInfoP info, TypeTupleP inputs)
 }
 
 static void
-c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
-			 TypeTupleP outputs)
+c_output_non_ansi_params(COutputInfoT * info, TypeTupleT * inputs,
+			 TypeTupleT * outputs)
 {
-    OStreamP        ostream    = c_out_info_ostream(info);
-    NStringP        in_prefix  = c_out_info_in_prefix(info);
-    NStringP        out_prefix = c_out_info_out_prefix(info);
+    OStreamT *        ostream    = c_out_info_ostream(info);
+    NStringT *        in_prefix  = c_out_info_in_prefix(info);
+    NStringT *        out_prefix = c_out_info_out_prefix(info);
     char *        sep        = "";
-    TypeTupleEntryP ptr;
+    TypeTupleEntryT * ptr;
 
     write_char(ostream, '(');
     for (ptr = inputs->head; ptr; ptr = ptr->next) {
@@ -136,14 +136,14 @@ c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
 }
 
 static void
-c_output_non_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
-			    TypeTupleP outputs)
+c_output_non_ansi_type_defn(COutputInfoT * info, TypeTupleT * inputs,
+			    TypeTupleT * outputs)
 {
-    OStreamP        ostream    = c_out_info_ostream(info);
-    NStringP        in_prefix  = c_out_info_in_prefix(info);
-    NStringP        out_prefix = c_out_info_out_prefix(info);
+    OStreamT *        ostream    = c_out_info_ostream(info);
+    NStringT *        in_prefix  = c_out_info_in_prefix(info);
+    NStringT *        out_prefix = c_out_info_out_prefix(info);
     BoolT           specials   = FALSE;
-    TypeTupleEntryP ptr;
+    TypeTupleEntryT * ptr;
 
     c_output_non_ansi_params(info, inputs, outputs);
     write_newline(ostream);
@@ -208,15 +208,15 @@ c_output_non_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
 }
 
 static void
-c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
-			TypeTupleP outputs)
+c_output_ansi_type_defn(COutputInfoT * info, TypeTupleT * inputs,
+			TypeTupleT * outputs)
 {
-    OStreamP        ostream    = c_out_info_ostream(info);
-    NStringP        in_prefix  = c_out_info_in_prefix(info);
-    NStringP        out_prefix = c_out_info_out_prefix(info);
+    OStreamT *        ostream    = c_out_info_ostream(info);
+    NStringT *        in_prefix  = c_out_info_in_prefix(info);
+    NStringT *        out_prefix = c_out_info_out_prefix(info);
     char *        sep        = "";
     BoolT           specials   = FALSE;
-    TypeTupleEntryP ptr;
+    TypeTupleEntryT * ptr;
 
     if ((inputs->head == NULL) &&
 	(outputs->head == NULL)) {
@@ -284,11 +284,11 @@ c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
     }
 }
 
-static EntryP
-types_get_entry(EntryP entry, SaveRStackP state, EntryP *type_ref,
+static EntryT *
+types_get_entry(EntryT * entry, SaveRStackT * state, EntryT * *type_ref,
 		BoolT *reference_ref)
 {
-    EntryP trans_entry;
+    EntryT * trans_entry;
 
     trans_entry = rstack_get_translation(state, entry, type_ref,
 					 reference_ref);
@@ -301,11 +301,11 @@ types_get_entry(EntryP entry, SaveRStackP state, EntryP *type_ref,
     return(trans_entry);
 }
 
-static KeyP
-types_get_key(EntryP entry, SaveRStackP state, EntryP *type_ref,
+static KeyT *
+types_get_key(EntryT * entry, SaveRStackT * state, EntryT * *type_ref,
 	      BoolT *reference_ref)
 {
-    EntryP trans = types_get_entry(entry, state, type_ref, reference_ref);
+    EntryT * trans = types_get_entry(entry, state, type_ref, reference_ref);
 
     return(entry_key(trans));
 }
@@ -316,26 +316,26 @@ types_get_key(EntryP entry, SaveRStackP state, EntryP *type_ref,
  */
 
 void
-c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
-		SaveRStackP in_state, SaveRStackP out_state, unsigned indent)
+c_output_assign(COutputInfoT * info, EntryT * in_entry, EntryT * out_entry,
+		SaveRStackT * in_state, SaveRStackT * out_state, unsigned indent)
 {
-    OStreamP ostream  = c_out_info_ostream(info);
-    EntryP   in_type;
-    EntryP   out_type;
+    OStreamT * ostream  = c_out_info_ostream(info);
+    EntryT *   in_type;
+    EntryT *   out_type;
     BoolT    in_reference;
     BoolT    out_reference;
-    EntryP   in_name  = types_get_entry(in_entry, in_state, &in_type,
+    EntryT *   in_name  = types_get_entry(in_entry, in_state, &in_type,
 					&in_reference);
-    EntryP   out_name = types_get_entry(out_entry, out_state, &out_type,
+    EntryT *   out_name = types_get_entry(out_entry, out_state, &out_type,
 					&out_reference);
 
     assert(in_type == out_type);
     if (in_name != out_name) {
-	TypeP  type = entry_get_type(in_type);
-	CCodeP code;
+	TypeT *  type = entry_get_type(in_type);
+	CCodeT * code;
 
 	if ((code = type_get_assign_code(type)) != NULL) {
-	    KeyP key = entry_key(in_type);
+	    KeyT * key = entry_key(in_type);
 
 	    c_output_key_message (info, "/* BEGINNING OF ASSIGNMENT: ", key,
 				  " */", indent);
@@ -349,9 +349,9 @@ c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
 	    c_output_key_message (info, "/* END OF ASSIGNMENT: ", key, " */",
 				  indent);
 	} else {
-	    KeyP     in_key    = entry_key(in_name);
-	    KeyP     out_key   = entry_key(out_name);
-	    NStringP in_prefix = c_out_info_in_prefix(info);
+	    KeyT *     in_key    = entry_key(in_name);
+	    KeyT *     out_key   = entry_key(out_name);
+	    NStringT * in_prefix = c_out_info_in_prefix(info);
 
 	    output_indent(c_out_info_info(info), indent);
 	    if (out_reference) {
@@ -370,13 +370,13 @@ c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
 }
 
 void
-c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
+c_output_type_decl(COutputInfoT * info, TypeTupleT * inputs, TypeTupleT * outputs)
 {
-    OStreamP ostream = c_out_info_ostream(info);
+    OStreamT * ostream = c_out_info_ostream(info);
 
     if (c_out_info_get_prototypes(info)) {
 	char *        sep  = "";
-	TypeTupleEntryP ptr;
+	TypeTupleEntryT * ptr;
 
 	write_char(ostream, '(');
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
@@ -406,7 +406,7 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 }
 
 void
-c_output_type_defn(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
+c_output_type_defn(COutputInfoT * info, TypeTupleT * inputs, TypeTupleT * outputs)
 {
     if (c_out_info_get_prototypes(info)) {
 	c_output_ansi_type_defn(info, inputs, outputs);
@@ -416,19 +416,19 @@ c_output_type_defn(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 }
 
 void
-c_output_result_assign(COutputInfoP info, TypeTupleP outputs, unsigned indent)
+c_output_result_assign(COutputInfoT * info, TypeTupleT * outputs, unsigned indent)
 {
-    OStreamP        ostream    = c_out_info_ostream(info);
-    NStringP        in_prefix  = c_out_info_in_prefix(info);
-    NStringP        out_prefix = c_out_info_out_prefix(info);
-    TypeTupleEntryP ptr;
+    OStreamT *        ostream    = c_out_info_ostream(info);
+    NStringT *        in_prefix  = c_out_info_in_prefix(info);
+    NStringT *        out_prefix = c_out_info_out_prefix(info);
+    TypeTupleEntryT * ptr;
 
     for (ptr = outputs->head; ptr; ptr = ptr->next) {
-	TypeP  type = entry_get_type(ptr->type);
-	CCodeP code;
+	TypeT *  type = entry_get_type(ptr->type);
+	CCodeT * code;
 
 	if ((code = type_get_result_assign_code(type)) != NULL) {
-	    KeyP key = entry_key(ptr->type);
+	    KeyT * key = entry_key(ptr->type);
 
 	    c_output_key_message (info, "/* BEGINNING OF RESULT ASSIGNMENT: ",
 				  key, " */", indent);
@@ -453,17 +453,17 @@ c_output_result_assign(COutputInfoP info, TypeTupleP outputs, unsigned indent)
 }
 
 void
-c_output_alt_names(COutputInfoP info, TypeTupleP names, TypeTupleP exclude,
-		   SaveRStackP state, unsigned indent)
+c_output_alt_names(COutputInfoT * info, TypeTupleT * names, TypeTupleT * exclude,
+		   SaveRStackT * state, unsigned indent)
 {
-    OStreamP        ostream   = c_out_info_ostream(info);
-    NStringP        in_prefix = c_out_info_in_prefix(info);
+    OStreamT *        ostream   = c_out_info_ostream(info);
+    NStringT *        in_prefix = c_out_info_in_prefix(info);
     BoolT           want_nl   = FALSE;
-    TypeTupleEntryP ptr;
+    TypeTupleEntryT * ptr;
 
     for (ptr = names->head; ptr; ptr = ptr->next) {
 	if (!types_contains(exclude, ptr->name)) {
-	    EntryP type;
+	    EntryT * type;
 	    BoolT  reference;
 
 	    output_indent(c_out_info_info(info), indent);
@@ -483,20 +483,20 @@ c_output_alt_names(COutputInfoP info, TypeTupleP names, TypeTupleP exclude,
 }
 
 void
-c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
-		     TypeTupleP outputs, SaveRStackP state)
+c_output_rule_params(COutputInfoT * info, TypeTupleT * inputs,
+		     TypeTupleT * outputs, SaveRStackT * state)
 {
-    OStreamP        ostream   = c_out_info_ostream(info);
-    NStringP        in_prefix = c_out_info_in_prefix(info);
+    OStreamT *        ostream   = c_out_info_ostream(info);
+    NStringT *        in_prefix = c_out_info_in_prefix(info);
     char *        sep       = "";
-    TypeTupleEntryP ptr;
+    TypeTupleEntryT * ptr;
 
     for (ptr = inputs->head; ptr; ptr = ptr->next) {
-	TypeP  type = entry_get_type(ptr->type);
-	CCodeP code = type_get_param_assign_code(type);
-	EntryP type_entry;
+	TypeT *  type = entry_get_type(ptr->type);
+	CCodeT * code = type_get_param_assign_code(type);
+	EntryT * type_entry;
 	BoolT  reference;
-	KeyP   key  = types_get_key(ptr->name, state, &type_entry,
+	KeyT *   key  = types_get_key(ptr->name, state, &type_entry,
 				     &reference);
 
 	write_cstring(ostream, sep);
@@ -510,7 +510,7 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 	sep = ", ";
     }
     for (ptr = outputs->head; ptr; ptr = ptr->next) {
-	EntryP type_entry;
+	EntryT * type_entry;
 	BoolT  reference;
 
 	write_cstring(ostream, sep);
@@ -523,11 +523,11 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 }
 
 void
-c_output_rename(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs,
-		SaveRStackP state, unsigned indent)
+c_output_rename(COutputInfoT * info, TypeTupleT * inputs, TypeTupleT * outputs,
+		SaveRStackT * state, unsigned indent)
 {
-    TypeTupleEntryP in_ptr  = inputs->head;
-    TypeTupleEntryP out_ptr = outputs->head;
+    TypeTupleEntryT * in_ptr  = inputs->head;
+    TypeTupleEntryT * out_ptr = outputs->head;
 
     while (in_ptr) {
 	assert(out_ptr);
@@ -540,11 +540,11 @@ c_output_rename(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs,
 }
 
 void
-c_output_tail_decls(COutputInfoP info, TypeTupleP inputs, SaveRStackP in_state,
-		    TypeTupleP outputs, SaveRStackP out_state, unsigned indent)
+c_output_tail_decls(COutputInfoT * info, TypeTupleT * inputs, SaveRStackT * in_state,
+		    TypeTupleT * outputs, SaveRStackT * out_state, unsigned indent)
 {
-    TypeTupleEntryP in_ptr  = inputs->head;
-    TypeTupleEntryP out_ptr = outputs->head;
+    TypeTupleEntryT * in_ptr  = inputs->head;
+    TypeTupleEntryT * out_ptr = outputs->head;
 
     while (in_ptr) {
 	assert(out_ptr);
@@ -557,14 +557,14 @@ c_output_tail_decls(COutputInfoP info, TypeTupleP inputs, SaveRStackP in_state,
 }
 
 BoolT
-c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
-			 RStackP rstack, SaveRStackP astate, unsigned indent,
-			 TableP table)
+c_output_required_copies(COutputInfoT * info, TypeTupleT * param, TypeTupleT * args,
+			 RStackT * rstack, SaveRStackT * astate, unsigned indent,
+			 TableT * table)
 {
-    OStreamP        ostream   = c_out_info_ostream(info);
-    NStringP        in_prefix = c_out_info_in_prefix(info);
-    TypeTupleEntryP ptr       = param->head;
-    TypeTupleEntryP aptr      = args->head;
+    OStreamT *        ostream   = c_out_info_ostream(info);
+    NStringT *        in_prefix = c_out_info_in_prefix(info);
+    TypeTupleEntryT * ptr       = param->head;
+    TypeTupleEntryT * aptr      = args->head;
     BoolT           copies    = FALSE;
     SaveRStackT     state;
 
@@ -572,7 +572,7 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
     while (ptr) {
 	assert(aptr);
 	if (ptr->mutated && (!ptr->reference)) {
-	    EntryP entry = table_add_generated_name(table);
+	    EntryT * entry = table_add_generated_name(table);
 
 	    output_indent(c_out_info_info(info), indent);
 	    c_output_mapped_key(info, ptr->type);
@@ -595,9 +595,9 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
 	     ptr = ptr->next, aptr = aptr->next) {
 	    assert(aptr);
 	    if (ptr->mutated && (!ptr->reference)) {
-		EntryP type;
+		EntryT * type;
 		BoolT  reference;
-		EntryP entry = rstack_get_translation(&state, aptr->name,
+		EntryT * entry = rstack_get_translation(&state, aptr->name,
 						      &type, &reference);
 
 		assert(entry);

@@ -98,7 +98,7 @@ error "c unknown prefix" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"prefix" : "NStringP" $[
+	"prefix" : "NStringT *" $[
 	    write_nstring(ostream, closure->prefix);
 	]$
     }
@@ -121,7 +121,7 @@ error "c unknown identifier" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -142,7 +142,7 @@ error "c remapped identifier" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -163,7 +163,7 @@ error "c illegal map" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"identifier name" : "NStringP" $[
+	"identifier name" : "NStringT *" $[
 	    write_nstring(ostream, closure->identifier_name);
 	]$
     }
@@ -186,7 +186,7 @@ error "c unknown type" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -209,7 +209,7 @@ error "c unknown assign" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -230,7 +230,7 @@ error "c assign mult def" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -251,11 +251,11 @@ error "c assign param clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -276,15 +276,15 @@ error "c assign param mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -305,11 +305,11 @@ error "c assign result clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -330,15 +330,15 @@ error "c assign result mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -359,15 +359,15 @@ error "c assign formal clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -390,7 +390,7 @@ error "c unknown param assign" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -411,7 +411,7 @@ error "c param assign mult def" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -432,11 +432,11 @@ error "c param assign param clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -457,15 +457,15 @@ error "c param assign param mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -486,11 +486,11 @@ error "c param assign result clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -511,15 +511,15 @@ error "c param assign res mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -540,15 +540,15 @@ error "c param assign formal clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -571,7 +571,7 @@ error "c unknown result assign" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -592,7 +592,7 @@ error "c result assign mult def" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "NStringP" $[
+	"type name" : "NStringT *" $[
 	    write_nstring(ostream, closure->type_name);
 	]$
     }
@@ -613,11 +613,11 @@ error "c result assign param clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -638,15 +638,15 @@ error "c res assign param mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -667,11 +667,11 @@ error "c result assign result clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -692,15 +692,15 @@ error "c res assign result mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -721,15 +721,15 @@ error "c result assign formal clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -752,7 +752,7 @@ error "c unknown action" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "NStringP" $[
+	"action name" : "NStringT *" $[
 	    write_nstring(ostream, closure->action_name);
 	]$
     }
@@ -773,7 +773,7 @@ error "c action mult def" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "NStringP" $[
+	"action name" : "NStringT *" $[
 	    write_nstring(ostream, closure->action_name);
 	]$
     }
@@ -794,11 +794,11 @@ error "c action param clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -819,15 +819,15 @@ error "c action param mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -848,11 +848,11 @@ error "c action result clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -873,15 +873,15 @@ error "c action result mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -902,15 +902,15 @@ error "c action formal clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -933,7 +933,7 @@ error "c unknown basic" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "NStringP" $[
+	"terminal name" : "NStringT *" $[
 	    write_nstring(ostream, closure->terminal_name);
 	]$
     }
@@ -954,7 +954,7 @@ error "c basic mult def" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "NStringP" $[
+	"terminal name" : "NStringT *" $[
 	    write_nstring(ostream, closure->terminal_name);
 	]$
     }
@@ -975,11 +975,11 @@ error "c basic param clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }
@@ -1000,11 +1000,11 @@ error "c basic param mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -1025,11 +1025,11 @@ error "c basic result clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1050,15 +1050,15 @@ error "c basic result mismatch" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"correct type" : "TypeTupleP" $[
+	"correct type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->correct_type);
 	]$
     }, {
-	"erroneous type" : "TypeTupleP" $[
+	"erroneous type" : "TypeTupleT *" $[
 	    write_type_types(ostream, closure->erroneous_type);
 	]$
     }
@@ -1079,15 +1079,15 @@ error "c basic formal clash" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "KeyP" $[
+	"terminal name" : "KeyT *" $[
 	    write_key(ostream, closure->terminal_name);
 	]$
     }, {
-	"parameter type" : "TypeTupleP" $[
+	"parameter type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->parameter_type, FALSE);
 	]$
     }, {
-	"result type" : "TypeTupleP" $[
+	"result type" : "TypeTupleT *" $[
 	    write_type_names(ostream, closure->result_type, FALSE);
 	]$
     }
@@ -1108,7 +1108,7 @@ error "c basic has no result" {
 	    closure.line_number = c_lexer_stream_line(c_current_stream);
 	]$
     }, {
-	"terminal name" : "NStringP" $[
+	"terminal name" : "NStringT *" $[
 	    write_nstring(ostream, closure->terminal_name);
 	]$
     }

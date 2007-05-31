@@ -81,23 +81,23 @@ typedef struct BasicT {
     TypeTupleT			result;
     void *			result_code;
     BoolT			ignored;
-} BasicT, *BasicP;
+} BasicT;
 
 typedef struct BasicClosureT {
-    BitVecP			bitvec;
-    GrammarP			grammar;
-} BasicClosureT, *BasicClosureP;
+    BitVecT *			bitvec;
+    GrammarT *			grammar;
+} BasicClosureT;
 
-extern BasicP		basic_create(GrammarP, BoolT);
-extern unsigned		basic_terminal(BasicP);
-extern TypeTupleP	basic_result(BasicP);
-extern void *		basic_get_result_code(BasicP);
-extern void		basic_set_result_code(BasicP, void *);
-extern BoolT		basic_get_ignored(BasicP);
-extern void		basic_iter_for_table(BasicP, BoolT,
-					     void(*)(EntryP, void *),
+extern BasicT *		basic_create(GrammarT *, BoolT);
+extern unsigned		basic_terminal(BasicT *);
+extern TypeTupleT *	basic_result(BasicT *);
+extern void *		basic_get_result_code(BasicT *);
+extern void		basic_set_result_code(BasicT *, void *);
+extern BoolT		basic_get_ignored(BasicT *);
+extern void		basic_iter_for_table(BasicT *, BoolT,
+					     void(*)(EntryT *, void *),
 					     void *);
 
-extern void		write_basics(OStreamP, BasicClosureP);
+extern void		write_basics(OStreamT *, BasicClosureT *);
 
 #endif /* !defined (H_BASIC) */

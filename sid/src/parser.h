@@ -73,8 +73,8 @@
 #include "lexer.h"
 #include "table.h"
 
-extern LexerStreamP	sid_current_stream;
-extern GrammarP		sid_current_grammar;
+extern LexerStreamT *	sid_current_stream;
+extern GrammarT *		sid_current_grammar;
 extern void		sid_parse_grammar(void);
 
 #endif /* !defined (H_PARSER) */

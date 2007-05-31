@@ -85,54 +85,54 @@ typedef enum {
     CCT_EXCEPTION,
     CCT_ADVANCE,
     CCT_TERMINAL
-} CCodeItemTypeT, *CCodeItemTypeP;
+} CCodeItemTypeT;
 
 typedef struct CCodeItemT {
     struct CCodeItemT	       *next;
     CCodeItemTypeT		type;
     union {
 	NStringT		string;
-	EntryP			ident;
+	EntryT *			ident;
     } u;
-} CCodeItemT, *CCodeItemP;
+} CCodeItemT;
 
 typedef struct CCodeT {
-    CCodeItemP			head;
-    CCodeItemP		       *tail;
+    CCodeItemT *			head;
+    CCodeItemT *		       *tail;
     unsigned			line;
     char *			file;
     TypeTupleT			param;
     TypeTupleT			result;
-} CCodeT, *CCodeP;
+} CCodeT;
 
-extern CCodeP		c_code_create(char *, unsigned);
-extern void		c_code_append_string(CCodeP, NStringP);
-extern void		c_code_append_label(CCodeP, NStringP);
-extern void		c_code_append_identifier(CCodeP, NStringP);
-extern void		c_code_append_modifiable(CCodeP, NStringP);
-extern void		c_code_append_reference(CCodeP, NStringP);
-extern void		c_code_append_exception(CCodeP);
-extern void		c_code_append_advance(CCodeP);
-extern void		c_code_append_terminal(CCodeP);
-extern void		c_code_check(CCodeP, BoolT, BoolT, TypeTupleP,
-				     TypeTupleP, TableP);
-extern char *		c_code_file(CCodeP);
-extern unsigned		c_code_line(CCodeP);
-extern TypeTupleP	c_code_param(CCodeP);
-extern TypeTupleP	c_code_result(CCodeP);
-extern void		c_code_deallocate(CCodeP);
+extern CCodeT *		c_code_create(char *, unsigned);
+extern void		c_code_append_string(CCodeT *, NStringT *);
+extern void		c_code_append_label(CCodeT *, NStringT *);
+extern void		c_code_append_identifier(CCodeT *, NStringT *);
+extern void		c_code_append_modifiable(CCodeT *, NStringT *);
+extern void		c_code_append_reference(CCodeT *, NStringT *);
+extern void		c_code_append_exception(CCodeT *);
+extern void		c_code_append_advance(CCodeT *);
+extern void		c_code_append_terminal(CCodeT *);
+extern void		c_code_check(CCodeT *, BoolT, BoolT, TypeTupleT *,
+				     TypeTupleT *, TableT *);
+extern char *		c_code_file(CCodeT *);
+extern unsigned		c_code_line(CCodeT *);
+extern TypeTupleT *	c_code_param(CCodeT *);
+extern TypeTupleT *	c_code_result(CCodeT *);
+extern void		c_code_deallocate(CCodeT *);
 
-extern void		c_output_c_code_action(COutputInfoP, CCodeP,
-					       TypeTupleP, TypeTupleP,
-					       SaveRStackP, RuleP);
-extern void		c_output_c_code_basic(COutputInfoP, CCodeP, TypeTupleP,
-					      SaveRStackP);
-extern void		c_output_c_code_assign(COutputInfoP, CCodeP, EntryP,
-					       EntryP, EntryP, BoolT, BoolT);
-extern void		c_output_c_code_param_assign(COutputInfoP, CCodeP,
-						     EntryP, EntryP);
-extern void		c_output_c_code_result_assign(COutputInfoP, CCodeP,
-						      EntryP, EntryP);
-extern void		c_output_c_code(COutputInfoP, CCodeP);
+extern void		c_output_c_code_action(COutputInfoT *, CCodeT *,
+					       TypeTupleT *, TypeTupleT *,
+					       SaveRStackT *, RuleT *);
+extern void		c_output_c_code_basic(COutputInfoT *, CCodeT *, TypeTupleT *,
+					      SaveRStackT *);
+extern void		c_output_c_code_assign(COutputInfoT *, CCodeT *, EntryT *,
+					       EntryT *, EntryT *, BoolT, BoolT);
+extern void		c_output_c_code_param_assign(COutputInfoT *, CCodeT *,
+						     EntryT *, EntryT *);
+extern void		c_output_c_code_result_assign(COutputInfoT *, CCodeT *,
+						      EntryT *, EntryT *);
+extern void		c_output_c_code(COutputInfoT *, CCodeT *);
 
 #endif /* !defined (H_C_CODE) */

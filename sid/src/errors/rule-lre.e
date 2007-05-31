@@ -34,8 +34,8 @@ header $[
 error "left recursion type mismatch" {
     "the parameter or result types of the left recursive calls in the following productions do not match:\n${productions}",
     {
-	"productions" : "RuleP" $[
-	    RuleP rule = closure->productions;
+	"productions" : "RuleT *" $[
+	    RuleT * rule = closure->productions;
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		write_newline(ostream);
@@ -43,12 +43,12 @@ error "left recursion type mismatch" {
 	    }
 	]$
     }, {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->productions;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->productions;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');
@@ -69,8 +69,8 @@ error "left recursion type mismatch" {
 error "left rec handler mismatch" {
     "the exception handlers in the left recursion involving the following productions do not match:\n${productions}",
     {
-	"productions" : "RuleP" $[
-	    RuleP rule = closure->productions;
+	"productions" : "RuleT *" $[
+	    RuleT * rule = closure->productions;
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		write_newline(ostream);
@@ -78,12 +78,12 @@ error "left rec handler mismatch" {
 	    }
 	]$
     }, {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->productions;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->productions;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');
@@ -104,8 +104,8 @@ error "left rec handler mismatch" {
 error "left recursion name mismatch" {
     "the argument names of the left recursive calls in the following productions do not match:\n${productions}",
     {
-	"productions" : "RuleP" $[
-	    RuleP rule = closure->productions;
+	"productions" : "RuleT *" $[
+	    RuleT * rule = closure->productions;
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		write_newline(ostream);
@@ -113,12 +113,12 @@ error "left recursion name mismatch" {
 	    }
 	]$
     }, {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->productions;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->productions;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');
@@ -139,28 +139,28 @@ error "left recursion name mismatch" {
 error "out of scope non local" {
     "a non local name in the rule '${using rule name}' is not in scope in the rule '${out of scope rule name}' in the left recursive cycle involving the following productions:\n${productions}",
     {
-	"using production" : "RuleP" $[
+	"using production" : "RuleT *" $[
 	    write_rule(ostream, closure->using_production);
 	]$
     }, {
-	"using rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->using_production);
+	"using rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->using_production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
-	"out of scope production" : "RuleP" $[
+	"out of scope production" : "RuleT *" $[
 	    write_rule(ostream, closure->out_of_scope_production);
 	]$
     }, {
-	"out of scope rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->out_of_scope_production);
+	"out of scope rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->out_of_scope_production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
-	"productions" : "RuleP" $[
-	    RuleP rule = closure->productions;
+	"productions" : "RuleT *" $[
+	    RuleT * rule = closure->productions;
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		write_newline(ostream);
@@ -168,12 +168,12 @@ error "out of scope non local" {
 	    }
 	]$
     }, {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->productions;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->productions;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');
@@ -194,18 +194,18 @@ error "out of scope non local" {
 error "left recursion nl entry" {
     "the rule '${rule name}' declares non local names in the left recursive cycle with more than one entry point involving the following productions:\n${productions}",
     {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->production);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->production);
 
 	    write_key(ostream, entry_key(entry));
 	]$ $[]$
     }, {
-	"productions" : "RuleP" $[
-	    RuleP rule = closure->productions;
+	"productions" : "RuleT *" $[
+	    RuleT * rule = closure->productions;
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 		write_newline(ostream);
@@ -213,12 +213,12 @@ error "left recursion nl entry" {
 	    }
 	]$
     }, {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->productions;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->productions;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');
@@ -239,12 +239,12 @@ error "left recursion nl entry" {
 error "cycle no terminator" {
     "no cycle termination for the left recursive set involving the following rules: ${rule names}",
     {
-	"rule names" : "RuleP" $[
-	    RuleP    rule = closure->rule_names;
+	"rule names" : "RuleT *" $[
+	    RuleT *    rule = closure->rule_names;
 	    char * sep  = "";
 
 	    for (; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-		RuleP next = rule_get_next_in_reverse_dfs(rule);
+		RuleT * next = rule_get_next_in_reverse_dfs(rule);
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '\'');

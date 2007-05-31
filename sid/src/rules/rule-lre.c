@@ -120,22 +120,22 @@
 #include "../gen-errors.h"
 
 typedef struct MatrixEntryT {
-    AltP			alt;
+    AltT *			alt;
     BoolT			inited;
     TypeTupleT			param;
-} MatrixEntryT, *MatrixEntryP;
+} MatrixEntryT;
 
 typedef struct VectorEntryT {
     BoolT			empty_alt;
-    AltP			alt;
+    AltT *			alt;
     BoolT			inited;
     TypeTupleT			param;
-} VectorEntryT, *VectorEntryP;
+} VectorEntryT;
 
-static MatrixEntryP
+static MatrixEntryT *
 rule_left_cycle_matrix(unsigned size)
 {
-    static MatrixEntryP array      = NULL;
+    static MatrixEntryT * array      = NULL;
     static unsigned     array_size = 0;
     unsigned            i;
 
@@ -151,10 +151,10 @@ rule_left_cycle_matrix(unsigned size)
     return(array);
 }
 
-static VectorEntryP
+static VectorEntryT *
 rule_left_cycle_vector(unsigned size)
 {
-    static VectorEntryP array      = NULL;
+    static VectorEntryT * array      = NULL;
     static unsigned     array_size = 0;
     unsigned            i;
 
@@ -172,13 +172,13 @@ rule_left_cycle_vector(unsigned size)
 }
 
 static void
-rule_destroy_cycle_matrix(MatrixEntryP matrix, unsigned size)
+rule_destroy_cycle_matrix(MatrixEntryT * matrix, unsigned size)
 {
     unsigned i;
 
     for (i = 0; i < size; i++) {
 	if (matrix[i].inited) {
-	    AltP alt = matrix[i].alt;
+	    AltT * alt = matrix[i].alt;
 
 	    while (alt) {
 		alt = alt_deallocate(alt);
@@ -189,13 +189,13 @@ rule_destroy_cycle_matrix(MatrixEntryP matrix, unsigned size)
 }
 
 static void
-rule_destroy_cycle_vector(VectorEntryP vector, unsigned size)
+rule_destroy_cycle_vector(VectorEntryT * vector, unsigned size)
 {
     unsigned i;
 
     for (i = 0; i < size; i++) {
 	if (vector[i].inited) {
-	    AltP alt = vector[i].alt;
+	    AltT * alt = vector[i].alt;
 
 	    while (alt) {
 		alt = alt_deallocate(alt);
@@ -205,11 +205,11 @@ rule_destroy_cycle_vector(VectorEntryP vector, unsigned size)
     }
 }
 
-static ItemP
-rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
+static ItemT *
+rule_find_suffix(ItemT * rec_item, ItemT * non_rec_item)
 {
-    ItemP    tmp_rec_item     = rec_item;
-    ItemP    tmp_non_rec_item = non_rec_item;
+    ItemT *    tmp_rec_item     = rec_item;
+    ItemT *    tmp_non_rec_item = non_rec_item;
     unsigned diff             = 0;
 
     while (tmp_rec_item && tmp_non_rec_item) {
@@ -240,7 +240,7 @@ rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
 }
 
 static void
-rule_renumber_item_list(ItemP item, TypeNTransP translator)
+rule_renumber_item_list(ItemT * item, TypeNTransT * translator)
 {
     ntrans_init(translator);
     for (; item; item = item_next(item)) {
@@ -250,7 +250,7 @@ rule_renumber_item_list(ItemP item, TypeNTransP translator)
 }
 
 static BoolT
-rule_compare_item_lists(ItemP rec_suffix, ItemP non_rec_item)
+rule_compare_item_lists(ItemT * rec_suffix, ItemT * non_rec_item)
 {
     while (rec_suffix) {
 	assert(non_rec_item);
@@ -268,16 +268,16 @@ rule_compare_item_lists(ItemP rec_suffix, ItemP non_rec_item)
 }
 
 static void
-rule_left_cycle_special_case_2(RuleP rule, TableP table, AltP non_rec_alt,
-			       AltP rec_alt, TypeTupleP param, ItemP rec_suffix)
+rule_left_cycle_special_case_2(RuleT * rule, TableT * table, AltT * non_rec_alt,
+			       AltT * rec_alt, TypeTupleT * param, ItemT * rec_suffix)
 {
-    EntryP      entry    = table_add_generated_rule(table, TRUE);
-    RuleP       new_rule = entry_get_rule(entry);
-    ItemP       new_item = item_create(entry);
-    ItemP       rec_item = alt_unlink_item_head(rec_alt);
-    AltP        new_alt  = alt_create();
-    AltP        handler;
-    ItemP       item;
+    EntryT *      entry    = table_add_generated_rule(table, TRUE);
+    RuleT *       new_rule = entry_get_rule(entry);
+    ItemT *       new_item = item_create(entry);
+    ItemT *       rec_item = alt_unlink_item_head(rec_alt);
+    AltT *        new_alt  = alt_create();
+    AltT *        handler;
+    ItemT *       item;
     TypeBTransT tmp_trans;
     TypeTupleT  result;
 
@@ -288,7 +288,7 @@ rule_left_cycle_special_case_2(RuleP rule, TableP table, AltP non_rec_alt,
     btrans_generate_names(&tmp_trans, &result, table);
     types_translate(&result, &tmp_trans);
     if ((handler = rule_get_handler(rule)) != NULL) {
-	ItemP handler_items = alt_item_head(handler);
+	ItemT * handler_items = alt_item_head(handler);
 
 	item_translate_list(handler_items, &tmp_trans);
     }
@@ -327,14 +327,14 @@ rule_left_cycle_special_case_2(RuleP rule, TableP table, AltP non_rec_alt,
 }
 
 static BoolT
-rule_left_cycle_special_case_1(RuleP rule, TableP table)
+rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 {
-    AltP        rec_alt = rule_alt_head(rule);
-    AltP        non_rec_alt;
-    ItemP       rec_item;
-    ItemP       rec_next;
-    ItemP       rec_suffix;
-    ItemP       non_rec_item;
+    AltT *        rec_alt = rule_alt_head(rule);
+    AltT *        non_rec_alt;
+    ItemT *       rec_item;
+    ItemT *       rec_next;
+    ItemT *       rec_suffix;
+    ItemT *       non_rec_item;
     TypeTupleT  param;
     TypeNTransT rec_translator;
     TypeNTransT non_rec_translator;
@@ -394,11 +394,11 @@ rule_left_cycle_special_case_1(RuleP rule, TableP table)
 }
 
 static BoolT
-rule_left_cycle_special_case(RuleP rule, TableP table)
+rule_left_cycle_special_case(RuleT * rule, TableT * table)
 {
     if (rule_has_empty_alt(rule)) {
-	AltP  alt = rule_alt_head(rule);
-	ItemP item;
+	AltT *  alt = rule_alt_head(rule);
+	ItemT * item;
 
 	if ((alt == NULL) || (alt_next(alt) != NULL)) {
 	    return(FALSE);
@@ -412,17 +412,17 @@ rule_left_cycle_special_case(RuleP rule, TableP table)
 }
 
 static BoolT
-rule_check_non_locals(RuleP this_rule, RuleP rule_list, unsigned real_size)
+rule_check_non_locals(RuleT * this_rule, RuleT * rule_list, unsigned real_size)
 {
-    NStringP scope  = rule_maximum_scope(this_rule);
+    NStringT * scope  = rule_maximum_scope(this_rule);
     unsigned length = nstring_length(scope);
-    RuleP    rule;
+    RuleT *    rule;
 
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-	KeyP key = entry_key(rule_entry(rule));
+	KeyT * key = entry_key(rule_entry(rule));
 
 	if ((rule != this_rule) && key_is_string(key)) {
-	    NStringP string = key_get_string(key);
+	    NStringT * string = key_get_string(key);
 
 	    if (!(nstring_is_prefix(string, scope) ||
 		  (nstring_is_prefix(scope, string) &&
@@ -442,16 +442,16 @@ rule_check_non_locals(RuleP this_rule, RuleP rule_list, unsigned real_size)
 }
 
 static BoolT
-rule_check_alt_cycle_types(RuleP rule, RuleP rule_list, AltP alt,
-			   BoolT need_check, TypeBTransP translator1,
-			   TypeBTransP translator2, TableP table,
-			   BoolP generate_ref)
+rule_check_alt_cycle_types(RuleT * rule, RuleT * rule_list, AltT * alt,
+			   BoolT need_check, TypeBTransT * translator1,
+			   TypeBTransT * translator2, TableT * table,
+			   BoolT * generate_ref)
 {
-    ItemP item = alt_item_head(alt);
+    ItemT * item = alt_item_head(alt);
 
     item_translate_list(item, translator1);
     if (item_is_rule(item)) {
-	RuleP item_rule = entry_get_rule(item_entry(item));
+	RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	if (rule_get_cycle_index(item_rule) != 0) {
 	    TypeTupleT result_intersect;
@@ -472,8 +472,8 @@ rule_check_alt_cycle_types(RuleP rule, RuleP rule_list, AltP alt,
 	    types_compute_intersection(&result_intersect, rule_result(rule),
 				       item_result(item));
 	    if (!types_equal_zero_tuple(&result_intersect)) {
-		EntryP      new_entry = table_add_rename(table);
-		ItemP       new_item  = item_create(new_entry);
+		EntryT *      new_entry = table_add_rename(table);
+		ItemT *       new_item  = item_create(new_entry);
 		TypeBTransT tmp_trans;
 		TypeTupleT  tmp_tuple;
 
@@ -504,14 +504,14 @@ rule_check_alt_cycle_types(RuleP rule, RuleP rule_list, AltP alt,
 }
 
 static BoolT
-rule_check_cycle_types(RuleP rule_list, EntryP predicate_id,
-		       unsigned real_size, TableP table)
+rule_check_cycle_types(RuleT * rule_list, EntryT * predicate_id,
+		       unsigned real_size, TableT * table)
 {
-    TypeTupleP  param    = rule_param(rule_list);
-    TypeTupleP  result   = rule_result(rule_list);
-    AltP        handler  = rule_get_handler(rule_list);
+    TypeTupleT *  param    = rule_param(rule_list);
+    TypeTupleT *  result   = rule_result(rule_list);
+    AltT *        handler  = rule_get_handler(rule_list);
     BoolT       generate = TRUE;
-    RuleP       rule;
+    RuleT *       rule;
     TypeBTransT translator1;
     TypeBTransT translator2;
 
@@ -538,7 +538,7 @@ rule_check_cycle_types(RuleP rule_list, EntryP predicate_id,
     btrans_init(&translator1);
     btrans_init(&translator2);
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-	AltP alt;
+	AltT * alt;
 
 	if (rule == rule_list) {
 	    btrans_generate_names(&translator1, rule_param(rule), table);
@@ -565,20 +565,20 @@ rule_check_cycle_types(RuleP rule_list, EntryP predicate_id,
 }
 
 static void
-rule_compute_param_subset(RuleP rule_list, TypeTupleP subset)
+rule_compute_param_subset(RuleT * rule_list, TypeTupleT * subset)
 {
-    RuleP rule;
+    RuleT * rule;
 
     types_init(subset);
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
-	TypeTupleP param = rule_param(rule);
-	AltP       alt;
+	TypeTupleT * param = rule_param(rule);
+	AltT *       alt;
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	    ItemP item = alt_item_head(alt);
+	    ItemT * item = alt_item_head(alt);
 
 	    if (item_is_rule(item)) {
-		RuleP item_rule = entry_get_rule(item_entry(item));
+		RuleT * item_rule = entry_get_rule(item_entry(item));
 
 		if (rule_get_cycle_index(item_rule) != 0) {
 		    for (item = item_next(item); item;
@@ -593,16 +593,16 @@ rule_compute_param_subset(RuleP rule_list, TypeTupleP subset)
 }
 
 static void
-rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
-			       MatrixEntryP matrix, VectorEntryP vector,
-			       TableP table, TypeTupleP gen_param,
-			       TypeTupleP gen_result)
+rule_left_cycle_general_case_1(RuleT * rule_list, unsigned size,
+			       MatrixEntryT * matrix, VectorEntryT * vector,
+			       TableT * table, TypeTupleT * gen_param,
+			       TypeTupleT * gen_result)
 {
     unsigned    i               = 0;
     BoolT       generate        = TRUE;
     BoolT       generate_param  = TRUE;
     BoolT       generate_result = TRUE;
-    RuleP       rule;
+    RuleT *       rule;
     TypeBTransT translator;
     TypeBTransT tmp_trans;
     TypeTupleT  dummy;
@@ -617,8 +617,8 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
     btrans_destroy(&tmp_trans);
     for (rule = rule_list; rule;
 	 rule = rule_get_next_in_reverse_dfs(rule), i++) {
-	AltP       alt = rule_alt_head(rule);
-	AltP       handler;
+	AltT *       alt = rule_alt_head(rule);
+	AltT *       handler;
 	TypeTupleT old_result;
 
 	types_copy(&old_result, rule_result(rule));
@@ -630,7 +630,7 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 	}
 	types_translate(rule_result(rule), &translator);
 	if ((handler = rule_get_handler(rule)) != NULL) {
-	    ItemP handler_items = alt_item_head(handler);
+	    ItemT * handler_items = alt_item_head(handler);
 
 	    item_translate_list(handler_items, &translator);
 	}
@@ -638,9 +638,9 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 	    vector[i].empty_alt = TRUE;
 	}
 	while (alt) {
-	    ItemP    item    = alt_item_head(alt);
-	    AltP     tmp_alt = alt;
-	    RuleP    item_rule;
+	    ItemT *    item    = alt_item_head(alt);
+	    AltT *     tmp_alt = alt;
+	    RuleT *    item_rule;
 	    unsigned item_index;
 
 	    alt = alt_next(alt);
@@ -650,14 +650,14 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 		unsigned matrix_index = (size *(item_index - 1) + i);
 
 		if (!(matrix[matrix_index].inited)) {
-		    TypeTupleP param = &(matrix[matrix_index].param);
+		    TypeTupleT * param = &(matrix[matrix_index].param);
 
 		    types_copy(param, &param_subset);
 		    types_append_copy(param, &old_result);
 		    matrix[matrix_index].inited = TRUE;
 		}
 		if (generate_param) {
-		    ItemP item_head = alt_item_head(tmp_alt);
+		    ItemT * item_head = alt_item_head(tmp_alt);
 
 		    types_copy(gen_param, &param_subset);
 		    types_append_copy(gen_param, item_result(item_head));
@@ -668,7 +668,7 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 		matrix[matrix_index].alt = tmp_alt;
 	    } else {
 		if (!(vector[i].inited)) {
-		    TypeTupleP param = &(vector[i].param);
+		    TypeTupleT * param = &(vector[i].param);
 
 		    types_copy(param, &param_subset);
 		    types_append_copy(param, &old_result);
@@ -691,8 +691,8 @@ rule_left_cycle_general_case_1(RuleP rule_list, unsigned size,
 }
 
 static BoolT
-rule_left_cycle_general_case_2(RuleP rule_list, unsigned size,
-			       VectorEntryP vector)
+rule_left_cycle_general_case_2(RuleT * rule_list, unsigned size,
+			       VectorEntryT * vector)
 {
     BoolT    not_found = TRUE;
     unsigned i;
@@ -710,24 +710,24 @@ rule_left_cycle_general_case_2(RuleP rule_list, unsigned size,
 }
 
 static void
-rule_left_cycle_general_case_3(RuleP rule, unsigned size, VectorEntryP vector,
-			       TableP table, RuleP *new_rule_list_tail,
-			       TypeTupleP param, TypeTupleP result)
+rule_left_cycle_general_case_3(RuleT * rule, unsigned size, VectorEntryT * vector,
+			       TableT * table, RuleT * *new_rule_list_tail,
+			       TypeTupleT * param, TypeTupleT * result)
 {
     unsigned j;
 
     for (j = 0; j < size; j++) {
-	EntryP entry    = table_add_generated_rule(table, TRUE);
-	RuleP  new_rule = entry_get_rule(entry);
-	AltP   alt;
+	EntryT * entry    = table_add_generated_rule(table, TRUE);
+	RuleT *  new_rule = entry_get_rule(entry);
+	AltT *   alt;
 
 	types_copy(rule_param(new_rule), param);
 	types_copy(rule_result(new_rule), result);
 	*new_rule_list_tail = new_rule;
 	new_rule_list_tail  = rule_next_in_reverse_dfs_ref(new_rule);
 	if (vector[j].empty_alt) {
-	    AltP  new_alt  = alt_create();
-	    ItemP new_item = item_create(entry);
+	    AltT *  new_alt  = alt_create();
+	    ItemT * new_item = item_create(entry);
 
 	    types_copy(item_param(new_item), &(vector[j].param));
 	    types_copy(item_result(new_item), result);
@@ -735,8 +735,8 @@ rule_left_cycle_general_case_3(RuleP rule, unsigned size, VectorEntryP vector,
 	    rule_add_alt(rule, new_alt);
 	}
 	for (alt = vector[j].alt; alt; alt = alt_next(alt)) {
-	    AltP  new_alt  = alt_duplicate(alt);
-	    ItemP new_item = item_create(entry);
+	    AltT *  new_alt  = alt_duplicate(alt);
+	    ItemT * new_item = item_create(entry);
 
 	    types_copy(item_param(new_item), &(vector[j].param));
 	    types_copy(item_result(new_item), result);
@@ -747,24 +747,24 @@ rule_left_cycle_general_case_3(RuleP rule, unsigned size, VectorEntryP vector,
 }
 
 static void
-rule_left_cycle_general_case_4(RuleP new_rule_list, unsigned i, unsigned size,
-			       MatrixEntryP matrix, TableP table)
+rule_left_cycle_general_case_4(RuleT * new_rule_list, unsigned i, unsigned size,
+			       MatrixEntryT * matrix, TableT * table)
 {
     unsigned j;
-    RuleP    rule;
+    RuleT *    rule;
 
     for (rule = new_rule_list, j = 0; j < size;
 	 rule = rule_get_next_in_reverse_dfs(rule), j++) {
-	RuleP    inner_rule;
+	RuleT *    inner_rule;
 	unsigned k = 0;
 
 	if (i == j) {
 	    if (types_equal_zero_tuple(rule_param(rule))) {
 		rule_add_empty_alt(rule);
 	    } else {
-		AltP   new_alt  = alt_create();
-		EntryP entry    = table_add_rename(table);
-		ItemP  new_item = item_create(entry);
+		AltT *   new_alt  = alt_create();
+		EntryT * entry    = table_add_rename(table);
+		ItemT *  new_item = item_create(entry);
 
 		types_copy(item_param(new_item), rule_param(rule));
 		types_copy(item_result(new_item), rule_result(rule));
@@ -774,11 +774,11 @@ rule_left_cycle_general_case_4(RuleP new_rule_list, unsigned i, unsigned size,
 	}
 	for (inner_rule = new_rule_list; inner_rule;
 	     inner_rule = rule_get_next_in_reverse_dfs(inner_rule), k++) {
-	    AltP alt;
+	    AltT * alt;
 
 	    for (alt = matrix[k].alt; alt; alt = alt_next(alt)) {
-		AltP  new_alt  = alt_duplicate(alt);
-		ItemP new_item = item_create(rule_entry(inner_rule));
+		AltT *  new_alt  = alt_duplicate(alt);
+		ItemT * new_item = item_create(rule_entry(inner_rule));
 
 		types_copy(item_param(new_item), &(matrix[k].param));
 		types_copy(item_result(new_item), rule_result(rule));
@@ -790,11 +790,11 @@ rule_left_cycle_general_case_4(RuleP new_rule_list, unsigned i, unsigned size,
 }
 
 static void
-rule_left_cycle_general_case(RuleP rule_list, unsigned size, TableP table)
+rule_left_cycle_general_case(RuleT * rule_list, unsigned size, TableT * table)
 {
     unsigned     matrix_size = (size * size);
-    MatrixEntryP matrix      = rule_left_cycle_matrix(matrix_size);
-    VectorEntryP vector      = rule_left_cycle_vector(size);
+    MatrixEntryT * matrix      = rule_left_cycle_matrix(matrix_size);
+    VectorEntryT * vector      = rule_left_cycle_vector(size);
     TypeTupleT   param;
     TypeTupleT   result;
 
@@ -802,11 +802,11 @@ rule_left_cycle_general_case(RuleP rule_list, unsigned size, TableP table)
 				    &param, &result);
     if (rule_left_cycle_general_case_2(rule_list, size, vector)) {
 	unsigned i = 0;
-	RuleP    rule;
+	RuleT *    rule;
 
 	for (rule = rule_list; rule;
 	     rule = rule_get_next_in_reverse_dfs(rule), i++) {
-	    RuleP new_rule_list;
+	    RuleT * new_rule_list;
 
 	    rule_left_cycle_general_case_3(rule, size, vector, table,
 					   &new_rule_list, &param, &result);
@@ -826,11 +826,11 @@ rule_left_cycle_general_case(RuleP rule_list, unsigned size, TableP table)
  */
 
 void
-rule_remove_left_cycle(RuleP rule_list, EntryP predicate_id, TableP table)
+rule_remove_left_cycle(RuleT * rule_list, EntryT * predicate_id, TableT * table)
 {
     unsigned size      = 0;
     unsigned real_size = 0;
-    RuleP    rule;
+    RuleT *    rule;
 
     for (rule = rule_list; rule; rule = rule_get_next_in_reverse_dfs(rule)) {
 	size++;

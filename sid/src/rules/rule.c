@@ -72,12 +72,12 @@
 #include "../type.h"
 
 typedef struct DFSClosureT {
-    RuleP			root;
-    RuleP		       *list;
-} DFSClosureT, *DFSClosureP;
+    RuleT *			root;
+    RuleT *		       *list;
+} DFSClosureT;
 
 static void
-rule_compute_minimal_dataflow_1(RuleP rule, AltP alt, TypeTupleP all_used)
+rule_compute_minimal_dataflow_1(RuleT * rule, AltT * alt, TypeTupleT * all_used)
 {
     TypeTupleT used;
 
@@ -88,16 +88,16 @@ rule_compute_minimal_dataflow_1(RuleP rule, AltP alt, TypeTupleP all_used)
 }
 
 static void
-rule_compute_reverse_list_1(AltP alt, EntryP entry, CycleTypeT type)
+rule_compute_reverse_list_1(AltT * alt, EntryT * entry, CycleTypeT type)
 {
-    ItemP item    = alt_item_head(alt);
-    ItemP initial = item;
-    ItemP next;
+    ItemT * item    = alt_item_head(alt);
+    ItemT * initial = item;
+    ItemT * next;
 
     while (item) {
 	next = item_next(item);
 	if (item_is_rule(item)) {
-	    RuleP item_rule = entry_get_rule(item_entry(item));
+	    RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	    if (((type == CT_LEFT) && (item == initial)) ||
 		((type == CT_TAIL) && (next == NULL)) ||
@@ -112,17 +112,17 @@ rule_compute_reverse_list_1(AltP alt, EntryP entry, CycleTypeT type)
 }
 
 static void
-rule_compute_dfs_1(AltP alt, CycleTypeT type, RuleP *list)
+rule_compute_dfs_1(AltT * alt, CycleTypeT type, RuleT * *list)
 {
-    ItemP item    = alt_item_head(alt);
-    ItemP initial = item;
-    ItemP next;
+    ItemT * item    = alt_item_head(alt);
+    ItemT * initial = item;
+    ItemT * next;
 
     assert(type != CT_MUTATE);
     while (item) {
 	next = item_next(item);
 	if (item_is_rule(item)) {
-	    RuleP item_rule = entry_get_rule(item_entry(item));
+	    RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	    if (((type == CT_LEFT) && (item == initial)) ||
 		((type == CT_TAIL) && (next == NULL)) ||
@@ -137,18 +137,18 @@ rule_compute_dfs_1(AltP alt, CycleTypeT type, RuleP *list)
 }
 
 static void
-rule_compute_reverse_dfs_1(EntryP entry, void * gclosure)
+rule_compute_reverse_dfs_1(EntryT * entry, void * gclosure)
 {
-    DFSClosureP closure = (DFSClosureP)gclosure;
-    RuleP       rule    = entry_get_rule(entry);
+    DFSClosureT * closure = (DFSClosureT *)gclosure;
+    RuleT *       rule    = entry_get_rule(entry);
 
     rule_compute_reverse_dfs(rule, closure->root, closure->list);
 }
 
 static void
-rule_renumber_1(AltP alt, TypeNTransP translator, SaveNTransP state)
+rule_renumber_1(AltT * alt, TypeNTransT * translator, SaveNTransT * state)
 {
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	types_renumber(item_param(item), translator);
@@ -158,25 +158,25 @@ rule_renumber_1(AltP alt, TypeNTransP translator, SaveNTransP state)
 }
 
 static DFSStateT
-rule_get_dfs_state(RuleP rule)
+rule_get_dfs_state(RuleT * rule)
 {
     return(rule->dfs_state);
 }
 
-static RuleP *
-rule_next_in_root_list_ref(RuleP rule)
+static RuleT * *
+rule_next_in_root_list_ref(RuleT * rule)
 {
     return(&(rule->next_in_root_list));
 }
 
 static void
-rule_set_next_in_dfs(RuleP rule1, RuleP rule2)
+rule_set_next_in_dfs(RuleT * rule1, RuleT * rule2)
 {
     rule1->next_in_dfs = rule2;
 }
 
 static void
-rule_set_next_in_reverse_dfs(RuleP rule1,				      RuleP rule2)
+rule_set_next_in_reverse_dfs(RuleT * rule1,				      RuleT * rule2)
 {
     rule1->next_in_reverse_dfs = rule2;
 }
@@ -186,10 +186,10 @@ rule_set_next_in_reverse_dfs(RuleP rule1,				      RuleP rule2)
  * Externally visible functions
  */
 
-RuleP
-rule_create(EntryP entry)
+RuleT *
+rule_create(EntryT * entry)
 {
-    RuleP rule = ALLOCATE(RuleT);
+    RuleT * rule = ALLOCATE(RuleT);
 
     rule->entry                 = entry;
     types_init(rule_param(rule));
@@ -227,88 +227,88 @@ rule_create(EntryP entry)
 }
 
 void
-rule_reinit(RuleP rule)
+rule_reinit(RuleT * rule)
 {
     rule->has_empty_alt         = FALSE;
     rule->alt_head              = NULL;
     rule->alt_tail              = &(rule->alt_head);
 }
 
-EntryP
-rule_entry(RuleP rule)
+EntryT *
+rule_entry(RuleT * rule)
 {
     return(rule->entry);
 }
 
-TypeTupleP
-rule_param(RuleP rule)
+TypeTupleT *
+rule_param(RuleT * rule)
 {
     return(&(rule->param));
 }
 
-TypeTupleP
-rule_result(RuleP rule)
+TypeTupleT *
+rule_result(RuleT * rule)
 {
     return(&(rule->result));
 }
 
-NonLocalListP
-rule_non_locals(RuleP rule)
+NonLocalListT *
+rule_non_locals(RuleT * rule)
 {
     return(&(rule->non_locals));
 }
 
-NStringP
-rule_maximum_scope(RuleP rule)
+NStringT *
+rule_maximum_scope(RuleT * rule)
 {
     return(&(rule->maximum_scope));
 }
 
 BoolT
-rule_is_defined(RuleP rule)
+rule_is_defined(RuleT * rule)
 {
     return(rule->defined);
 }
 
 void
-rule_defined(RuleP rule)
+rule_defined(RuleT * rule)
 {
     rule->defined = TRUE;
 }
 
 BoolT
-rule_is_required(RuleP rule)
+rule_is_required(RuleT * rule)
 {
     return(rule->required);
 }
 
 void
-rule_required(RuleP rule)
+rule_required(RuleT * rule)
 {
     rule->required = TRUE;
 }
 
 void
-rule_add_alt(RuleP rule, AltP alt)
+rule_add_alt(RuleT * rule, AltT * alt)
 {
     *(rule->alt_tail) = alt;
     rule->alt_tail    = alt_next_ref(alt);
 }
 
 BoolT
-rule_has_empty_alt(RuleP rule)
+rule_has_empty_alt(RuleT * rule)
 {
     return(rule->has_empty_alt);
 }
 
 void
-rule_add_empty_alt(RuleP rule)
+rule_add_empty_alt(RuleT * rule)
 {
     rule->has_empty_alt = TRUE;
 }
 
 BoolT
-rule_has_one_alt(RuleP rule)
+rule_has_one_alt(RuleT * rule)
 {
     return(((rule_has_empty_alt(rule)) && (rule->alt_head == NULL)) ||
 	   ((!rule_has_empty_alt(rule)) && (rule->alt_head) &&
@@ -316,11 +316,11 @@ rule_has_one_alt(RuleP rule)
 }
 
 void
-rule_compute_result_intersect(RuleP rule)
+rule_compute_result_intersect(RuleT * rule)
 {
-    TypeTupleP result = rule_result(rule);
+    TypeTupleT * result = rule_result(rule);
     BoolT      inited = FALSE;
-    AltP       alt;
+    AltT *       alt;
 
     if (rule_has_empty_alt(rule)) {
 	types_init(result);
@@ -342,10 +342,10 @@ rule_compute_result_intersect(RuleP rule)
 }
 
 void
-rule_compute_minimal_dataflow(RuleP rule, TypeTupleP param)
+rule_compute_minimal_dataflow(RuleT * rule, TypeTupleT * param)
 {
     TypeTupleT all_used;
-    AltP       alt;
+    AltT *       alt;
 
     types_init(&all_used);
     if ((alt = rule_get_handler(rule)) != NULL) {
@@ -360,10 +360,10 @@ rule_compute_minimal_dataflow(RuleP rule, TypeTupleP param)
 }
 
 void
-rule_compute_reverse_list(RuleP rule, CycleTypeT type)
+rule_compute_reverse_list(RuleT * rule, CycleTypeT type)
 {
-    EntryP entry = rule_entry(rule);
-    AltP   alt;
+    EntryT * entry = rule_entry(rule);
+    AltT *   alt;
 
     if ((type != CT_LEFT) && (alt = rule_get_handler(rule))) {
 	rule_compute_reverse_list_1(alt, entry, type);
@@ -374,7 +374,7 @@ rule_compute_reverse_list(RuleP rule, CycleTypeT type)
 }
 
 void
-rule_reinit_reverse_list(RuleP rule)
+rule_reinit_reverse_list(RuleT * rule)
 {
     entry_list_destroy(rule_reverse_list(rule));
     entry_list_init(rule_reverse_list(rule));
@@ -383,45 +383,45 @@ rule_reinit_reverse_list(RuleP rule)
     rule->no_cycles           = FALSE;
 }
 
-EntryListP
-rule_reverse_list(RuleP rule)
+EntryListT *
+rule_reverse_list(RuleT * rule)
 {
     return(&(rule->reverse_list));
 }
 
 void
-rule_set_dfs_state(RuleP rule, DFSStateT state)
+rule_set_dfs_state(RuleT * rule, DFSStateT state)
 {
     rule->dfs_state = state;
 }
 
-RuleP
-rule_next_in_root_list(RuleP rule)
+RuleT *
+rule_next_in_root_list(RuleT * rule)
 {
     return(rule->next_in_root_list);
 }
 
 void
-rule_build_root_list(EntryP entry, void * gclosure)
+rule_build_root_list(EntryT * entry, void * gclosure)
 {
     if (entry_is_rule(entry)) {
-	RuleListP list = (RuleListP)gclosure;
-	RuleP     rule = entry_get_rule(entry);
+	RuleListT * list = (RuleListT *)gclosure;
+	RuleT *     rule = entry_get_rule(entry);
 
 	rule_list_append(list, rule, rule_next_in_root_list_ref(rule));
     }
 }
 
-RuleP
-rule_get_next_in_dfs(RuleP rule)
+RuleT *
+rule_get_next_in_dfs(RuleT * rule)
 {
     return(rule->next_in_dfs);
 }
 
 void
-rule_compute_dfs(RuleP rule, CycleTypeT type, RuleP *list)
+rule_compute_dfs(RuleT * rule, CycleTypeT type, RuleT * *list)
 {
-    AltP      alt;
+    AltT *      alt;
 
     switch (rule_get_dfs_state(rule))EXHAUSTIVE {
       case DFS_UNTRACED:
@@ -444,20 +444,20 @@ rule_compute_dfs(RuleP rule, CycleTypeT type, RuleP *list)
     }
 }
 
-RuleP
-rule_get_next_in_reverse_dfs(RuleP rule)
+RuleT *
+rule_get_next_in_reverse_dfs(RuleT * rule)
 {
     return(rule->next_in_reverse_dfs);
 }
 
-RuleP *
-rule_next_in_reverse_dfs_ref(RuleP rule)
+RuleT * *
+rule_next_in_reverse_dfs_ref(RuleT * rule)
 {
     return(&(rule->next_in_reverse_dfs));
 }
 
 void
-rule_compute_reverse_dfs(RuleP rule, RuleP root, RuleP *list)
+rule_compute_reverse_dfs(RuleT * rule, RuleT * root, RuleT * *list)
 {
     DFSClosureT closure;
 
@@ -485,358 +485,358 @@ rule_compute_reverse_dfs(RuleP rule, RuleP root, RuleP *list)
 }
 
 BoolT
-rule_has_no_cycles(RuleP rule)
+rule_has_no_cycles(RuleT * rule)
 {
     return(rule->no_cycles);
 }
 
 void
-rule_no_cycles(RuleP rule)
+rule_no_cycles(RuleT * rule)
 {
     rule->no_cycles = TRUE;
 }
 
 unsigned
-rule_get_cycle_index(RuleP rule)
+rule_get_cycle_index(RuleT * rule)
 {
     return(rule->cycle_index);
 }
 
 void
-rule_set_cycle_index(RuleP rule, unsigned cycle_index)
+rule_set_cycle_index(RuleT * rule, unsigned cycle_index)
 {
     rule->cycle_index = cycle_index;
 }
 
 void
-rule_reset_cycle_index(RuleP rule)
+rule_reset_cycle_index(RuleT * rule)
 {
     rule->cycle_index = 0;
 }
 
 BoolT
-rule_has_computed_first_set(RuleP rule)
+rule_has_computed_first_set(RuleT * rule)
 {
     return(rule->computed_first_set);
 }
 
 void
-rule_computed_first_set(RuleP rule)
+rule_computed_first_set(RuleT * rule)
 {
     rule->computed_first_set = TRUE;
 }
 
 BoolT
-rule_is_computing_first_set(RuleP rule)
+rule_is_computing_first_set(RuleT * rule)
 {
     return(rule->computing_first_set);
 }
 
 void
-rule_computing_first_set(RuleP rule)
+rule_computing_first_set(RuleT * rule)
 {
     rule->computing_first_set = TRUE;
 }
 
-BitVecP
-rule_first_set(RuleP rule)
+BitVecT *
+rule_first_set(RuleT * rule)
 {
     return(&(rule->first_set));
 }
 
-EntryListP
-rule_predicate_first(RuleP rule)
+EntryListT *
+rule_predicate_first(RuleT * rule)
 {
     return(&(rule->predicate_first));
 }
 
 BoolT
-rule_is_see_through(RuleP rule)
+rule_is_see_through(RuleT * rule)
 {
     return(rule->see_through);
 }
 
 void
-rule_see_through(RuleP rule)
+rule_see_through(RuleT * rule)
 {
     rule->see_through = TRUE;
 }
 
 unsigned
-rule_get_priority(RuleP rule)
+rule_get_priority(RuleT * rule)
 {
     return(rule->priority);
 }
 
 void
-rule_set_priority(RuleP rule, unsigned priority)
+rule_set_priority(RuleT * rule, unsigned priority)
 {
     assert(priority > 0);
     rule->priority = priority;
 }
 
 BoolT
-rule_is_factored(RuleP rule)
+rule_is_factored(RuleT * rule)
 {
     return(rule->factored);
 }
 
 void
-rule_factored(RuleP rule)
+rule_factored(RuleT * rule)
 {
     rule->factored = TRUE;
 }
 
-RuleP
-rule_get_tail_group(RuleP rule)
+RuleT *
+rule_get_tail_group(RuleT * rule)
 {
     return(rule->tail_group);
 }
 
 void
-rule_set_tail_group(RuleP rule1, RuleP rule2)
+rule_set_tail_group(RuleT * rule1, RuleT * rule2)
 {
     rule1->tail_group = rule2;
 }
 
 BoolT
-rule_is_being_inlined(RuleP rule)
+rule_is_being_inlined(RuleT * rule)
 {
     return(rule->being_inlined);
 }
 
 void
-rule_being_inlined(RuleP rule)
+rule_being_inlined(RuleT * rule)
 {
     rule->being_inlined = TRUE;
 }
 
 BoolT
-rule_is_checked_for_inlining(RuleP rule)
+rule_is_checked_for_inlining(RuleT * rule)
 {
     return(rule->checked_for_inlining);
 }
 
 void
-rule_checked_for_inlining(RuleP rule)
+rule_checked_for_inlining(RuleT * rule)
 {
     rule->checked_for_inlining = TRUE;
 }
 
-EntryListP
-rule_call_list(RuleP rule)
+EntryListT *
+rule_call_list(RuleT * rule)
 {
     return(&(rule->call_list));
 }
 
-RuleP
-rule_get_next_in_table(RuleP rule)
+RuleT *
+rule_get_next_in_table(RuleT * rule)
 {
     return(rule->next_in_table);
 }
 
-RuleP *
-rule_get_next_in_table_ref(RuleP rule)
+RuleT * *
+rule_get_next_in_table_ref(RuleT * rule)
 {
     return(&(rule->next_in_table));
 }
 
 void
-rule_set_next_in_table(RuleP rule1, RuleP rule2)
+rule_set_next_in_table(RuleT * rule1, RuleT * rule2)
 {
     rule1->next_in_table = rule2;
 }
 
-BitVecP
-rule_follow_set(RuleP rule)
+BitVecT *
+rule_follow_set(RuleT * rule)
 {
     return(&(rule->follow_set));
 }
 
-EntryListP
-rule_predicate_follow(RuleP rule)
+EntryListT *
+rule_predicate_follow(RuleT * rule)
 {
     return(&(rule->predicate_follow));
 }
 
 BoolT
-rule_has_started_follows(RuleP rule)
+rule_has_started_follows(RuleT * rule)
 {
     return(rule->started_follows);
 }
 
 void
-rule_started_follows(RuleP rule)
+rule_started_follows(RuleT * rule)
 {
     rule->started_follows = TRUE;
 }
 
 void
-rule_set_see_through_alt(RuleP rule, AltP alt)
+rule_set_see_through_alt(RuleT * rule, AltT * alt)
 {
     rule->see_through_alt = alt;
 }
 
-AltP
-rule_see_through_alt(RuleP rule)
+AltT *
+rule_see_through_alt(RuleT * rule)
 {
     return(rule->see_through_alt);
 }
 
 BoolT
-rule_needs_function(RuleP rule)
+rule_needs_function(RuleT * rule)
 {
     return(rule->needs_function);
 }
 
 void
-rule_will_need_function(RuleP rule)
+rule_will_need_function(RuleT * rule)
 {
     rule->needs_function = TRUE;
 }
 
 BoolT
-rule_is_all_basics(RuleP rule)
+rule_is_all_basics(RuleT * rule)
 {
     return(rule->all_basics);
 }
 
 void
-rule_all_basics(RuleP rule)
+rule_all_basics(RuleT * rule)
 {
     rule->all_basics = TRUE;
 }
 
-SaveRStackP
-rule_rstack_state(RuleP rule)
+SaveRStackT *
+rule_rstack_state(RuleT * rule)
 {
     return(&(rule->rstack_state));
 }
 
-SaveRStackP
-rule_non_local_state(RuleP rule)
+SaveRStackT *
+rule_non_local_state(RuleT * rule)
 {
     return(&(rule->non_local_state));
 }
 
 BoolT
-rule_is_being_output(RuleP rule)
+rule_is_being_output(RuleT * rule)
 {
     return(rule->being_output);
 }
 
 void
-rule_being_output(RuleP rule)
+rule_being_output(RuleT * rule)
 {
     rule->being_output = TRUE;
 }
 
 void
-rule_not_being_output(RuleP rule)
+rule_not_being_output(RuleT * rule)
 {
     rule->being_output = FALSE;
 }
 
 unsigned
-rule_get_start_label(RuleP rule)
+rule_get_start_label(RuleT * rule)
 {
     return(rule->start_label);
 }
 
 void
-rule_set_start_label(RuleP rule, unsigned label)
+rule_set_start_label(RuleT * rule, unsigned label)
 {
     rule->start_label = label;
 }
 
 unsigned
-rule_get_call_count(RuleP rule)
+rule_get_call_count(RuleT * rule)
 {
     return(rule->call_count);
 }
 
 void
-rule_inc_call_count(RuleP rule)
+rule_inc_call_count(RuleT * rule)
 {
     rule->call_count++;
 }
 
 unsigned
-rule_get_end_label(RuleP rule)
+rule_get_end_label(RuleT * rule)
 {
     rule->used_end_label = TRUE;
     return(rule->end_label);
 }
 
 void
-rule_set_end_label(RuleP rule, unsigned label)
+rule_set_end_label(RuleT * rule, unsigned label)
 {
     rule->used_end_label = FALSE;
     rule->end_label      = label;
 }
 
 BoolT
-rule_used_end_label(RuleP rule)
+rule_used_end_label(RuleT * rule)
 {
     return(rule->used_end_label);
 }
 
 unsigned
-rule_get_next_label(RuleP rule)
+rule_get_next_label(RuleT * rule)
 {
     return(rule->next_label);
 }
 
 void
-rule_set_next_label(RuleP rule, unsigned label)
+rule_set_next_label(RuleT * rule, unsigned label)
 {
     rule->next_label = label;
 }
 
 unsigned
-rule_get_handler_label(RuleP rule)
+rule_get_handler_label(RuleT * rule)
 {
     rule->used_handler_label = TRUE;
     return(rule->handler_label);
 }
 
 void
-rule_set_handler_label(RuleP rule, unsigned label)
+rule_set_handler_label(RuleT * rule, unsigned label)
 {
     rule->used_handler_label = FALSE;
     rule->handler_label      = label;
 }
 
 BoolT
-rule_used_handler_label(RuleP rule)
+rule_used_handler_label(RuleT * rule)
 {
     return(rule->used_handler_label);
 }
 
-AltP
-rule_get_handler(RuleP rule)
+AltT *
+rule_get_handler(RuleT * rule)
 {
     return(rule->handler);
 }
 
 void
-rule_set_handler(RuleP rule, AltP handler)
+rule_set_handler(RuleT * rule, AltT * handler)
 {
     rule->handler = handler;
 }
 
-AltP
-rule_alt_head(RuleP rule)
+AltT *
+rule_alt_head(RuleT * rule)
 {
     return(rule->alt_head);
 }
 
 void
-rule_renumber(RuleP rule, BoolT do_result, EntryP predicate_id)
+rule_renumber(RuleT * rule, BoolT do_result, EntryT * predicate_id)
 {
     TypeNTransT translator;
     SaveNTransT state;
-    AltP        alt;
+    AltT *        alt;
 
     ntrans_init(&translator);
     (void)ntrans_get_translation(&translator, predicate_id);
@@ -855,13 +855,13 @@ rule_renumber(RuleP rule, BoolT do_result, EntryP predicate_id)
 }
 
 void
-rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, void *),
+rule_iter_for_table(RuleT * rule, BoolT full, void (*proc)(EntryT *, void *),
 		    void * closure)
 {
-    AltP alt;
+    AltT * alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
-	ItemP item;
+	ItemT * item;
 
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
 	    entry_iter(item_entry(item), full, proc, closure);
@@ -872,7 +872,7 @@ rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, void *),
 	}
     }
     for (alt = rule->alt_head; alt; alt = alt_next(alt)) {
-	ItemP item;
+	ItemT * item;
 
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
 	    entry_iter(item_entry(item), full, proc, closure);
@@ -890,9 +890,9 @@ rule_iter_for_table(RuleP rule, BoolT full, void (*proc)(EntryP, void *),
 }
 
 void
-rule_deallocate(RuleP rule)
+rule_deallocate(RuleT * rule)
 {
-    AltP alt;
+    AltT * alt;
 
     types_destroy(rule_param(rule));
     types_destroy(rule_result(rule));
@@ -913,9 +913,9 @@ rule_deallocate(RuleP rule)
 }
 
 void
-write_rule_lhs(OStreamP ostream, RuleP rule)
+write_rule_lhs(OStreamT * ostream, RuleT * rule)
 {
-    KeyP key = entry_key(rule_entry(rule));
+    KeyT * key = entry_key(rule_entry(rule));
 
     write_key(ostream, key);
     write_cstring(ostream, ": ");
@@ -933,10 +933,10 @@ write_rule_lhs(OStreamP ostream, RuleP rule)
 }
 
 void
-write_rule(OStreamP ostream, RuleP rule)
+write_rule(OStreamT * ostream, RuleT * rule)
 {
     BoolT need_sep = FALSE;
-    AltP  alt;
+    AltT *  alt;
 
     write_rule_lhs(ostream, rule);
     if (rule_has_empty_alt(rule)) {
@@ -963,26 +963,26 @@ write_rule(OStreamP ostream, RuleP rule)
 }
 
 void
-rule_list_init(RuleListP list)
+rule_list_init(RuleListT * list)
 {
     list->tail = &(list->head);
 }
 
 void
-rule_list_append(RuleListP list, RuleP next, RuleP *tail)
+rule_list_append(RuleListT * list, RuleT * next, RuleT * *tail)
 {
     *(list->tail) = next;
     list->tail    = tail;
 }
 
 void
-rule_list_terminate(RuleListP list)
+rule_list_terminate(RuleListT * list)
 {
     *(list->tail) = NULL;
 }
 
-RuleP
-rule_list_head(RuleListP list)
+RuleT *
+rule_list_head(RuleListT * list)
 {
     return(list->head);
 }

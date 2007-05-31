@@ -68,13 +68,13 @@
 #include "../action.h"
 #include "../types.h"
 
-static void			rule_compute_mutations_3(EntryP, void *);
+static void			rule_compute_mutations_3(EntryT *, void *);
 
 static void
-rule_compute_mutations_4(RuleP rule, AltP alt, RuleP from_rule)
+rule_compute_mutations_4(RuleT * rule, AltT * alt, RuleT * from_rule)
 {
     BoolT  propogate = FALSE;
-    ItemP  item;
+    ItemT *  item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	switch (item_type(item))EXHAUSTIVE {
@@ -105,11 +105,11 @@ rule_compute_mutations_4(RuleP rule, AltP alt, RuleP from_rule)
 }
 
 static void
-rule_compute_mutations_3(EntryP entry, void * gclosure)
+rule_compute_mutations_3(EntryT * entry, void * gclosure)
 {
-    RuleP rule      = entry_get_rule(entry);
-    RuleP from_rule = (RuleP)gclosure;
-    AltP  alt;
+    RuleT * rule      = entry_get_rule(entry);
+    RuleT * from_rule = (RuleT *)gclosure;
+    AltT *  alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_mutations_4(rule, alt, from_rule);
@@ -120,11 +120,11 @@ rule_compute_mutations_3(EntryP entry, void * gclosure)
 }
 
 static void
-rule_compute_mutations_2(RuleP rule, AltP alt)
+rule_compute_mutations_2(RuleT * rule, AltT * alt)
 {
     BoolT   propogate = FALSE;
-    ItemP   item;
-    ActionP action;
+    ItemT *   item;
+    ActionT * action;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	switch (item_type(item))EXHAUSTIVE {
@@ -157,9 +157,9 @@ rule_compute_mutations_2(RuleP rule, AltP alt)
 }
 
 static void
-rule_compute_mutations_1(RuleP rule)
+rule_compute_mutations_1(RuleT * rule)
 {
-    AltP alt;
+    AltT * alt;
 
     if ((alt = rule_get_handler(rule)) != NULL) {
 	rule_compute_mutations_2(rule, alt);
@@ -175,11 +175,11 @@ rule_compute_mutations_1(RuleP rule)
  */
 
 void
-rule_compute_mutations(EntryP entry, void * gclosure)
+rule_compute_mutations(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_mutations_1(rule);
     }

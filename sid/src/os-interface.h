@@ -79,12 +79,12 @@ typedef void NoReturnT;
  * This is the byte type.  It is possible that this could be larger than an
  * octet in some implementations.
  */
-typedef unsigned char ByteT, *ByteP;
+typedef unsigned char ByteT;
 
 /*
  * This is the boolean type.
  */
-typedef int BoolT, *BoolP;
+typedef int BoolT;
 
 /*
  * This is the type returned by comparison functions.  The values represent
@@ -95,7 +95,7 @@ typedef enum {
     CMP_LT,
     CMP_EQ,
     CMP_GT
-} CmpT, *CmpP;
+} CmpT;
 
 /*
  * These expand to values suitable for the boolean constants true and false.

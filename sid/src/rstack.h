@@ -73,34 +73,34 @@
 typedef struct TransStackEntryT {
     struct TransStackEntryT    *next;
     TypeRTransT			translator;
-} TransStackEntryT, *TransStackEntryP;
+} TransStackEntryT;
 
 typedef struct RStackT {
-    TransStackEntryP		head;
-} RStackT, *RStackP;
+    TransStackEntryT *		head;
+} RStackT;
 
 typedef struct SaveRStackT {
-    TransStackEntryP		head;
-} SaveRStackT, *SaveRStackP;
+    TransStackEntryT *		head;
+} SaveRStackT;
 
-extern void		 rstack_init(RStackP);
-extern void		 rstack_push_frame(RStackP);
-extern void		 rstack_compute_formal_renaming(RStackP, TypeTupleP);
-extern void		 rstack_compute_formal_inlining(RStackP, TypeTupleP,
-							TypeTupleP);
-extern void		 rstack_compute_local_renaming(RStackP, TypeTupleP,
-						       TypeTupleP, TableP);
-extern void		 rstack_add_translation(RStackP, struct EntryT *,
+extern void		 rstack_init(RStackT *);
+extern void		 rstack_push_frame(RStackT *);
+extern void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
+extern void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
+							TypeTupleT *);
+extern void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
+						       TypeTupleT *, TableT *);
+extern void		 rstack_add_translation(RStackT *, struct EntryT *,
 						struct EntryT *,
 						struct EntryT *, BoolT);
-extern void		 rstack_save_state(RStackP, SaveRStackP);
-extern struct EntryT	*rstack_get_translation(SaveRStackP, struct EntryT *,
+extern void		 rstack_save_state(RStackT *, SaveRStackT *);
+extern struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
 						 struct EntryT **, BoolT *);
-extern void		 rstack_apply_for_non_locals(RStackP, SaveRStackP,
+extern void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
 						     void(*)(struct EntryT *,
 						     struct EntryT *,
 						     void *), void *);
-extern void		 rstack_pop_frame(RStackP);
-extern void		 rstack_destroy(RStackP);
+extern void		 rstack_pop_frame(RStackT *);
+extern void		 rstack_destroy(RStackT *);
 
 #endif /* !defined (H_RSTACK) */

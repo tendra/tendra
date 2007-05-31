@@ -87,7 +87,7 @@
     }
 
 static BoolT
-lexer_skip_bracketed_comment(IStreamP istream)
+lexer_skip_bracketed_comment(IStreamT * istream)
 {
     char c1;
     char c2;
@@ -115,7 +115,7 @@ lexer_skip_bracketed_comment(IStreamP istream)
 }
 
 static char
-lexer_skip_white_space(IStreamP istream)
+lexer_skip_white_space(IStreamT * istream)
 {
     for (;;) {
 	char c;
@@ -168,7 +168,7 @@ lexer_skip_white_space(IStreamP istream)
 }
 
 static void
-lexer_read_builtin(IStreamP istream, LexP token)
+lexer_read_builtin(IStreamT * istream, LexT * token)
 {
     DStringT dstring;
     char * cstring;
@@ -213,7 +213,7 @@ lexer_read_builtin(IStreamP istream, LexP token)
 }
 
 static void
-lexer_read_identifier(IStreamP istream, char c, LexP token)
+lexer_read_identifier(IStreamT * istream, char c, LexT * token)
 {
     DStringT dstring;
 
@@ -248,40 +248,40 @@ lexer_read_identifier(IStreamP istream, char c, LexP token)
  */
 
 void
-lexer_init(LexerStreamP stream, IStreamP istream)
+lexer_init(LexerStreamT * stream, IStreamT * istream)
 {
     istream_assign(&(stream->istream), istream);
     lexer_next_token(stream);
 }
 
 void
-lexer_close(LexerStreamP stream)
+lexer_close(LexerStreamT * stream)
 {
     istream_close(&(stream->istream));
 }
 
 char *
-lexer_stream_name(LexerStreamP stream)
+lexer_stream_name(LexerStreamT * stream)
 {
     return(istream_name(&(stream->istream)));
 }
 
 unsigned
-lexer_stream_line(LexerStreamP stream)
+lexer_stream_line(LexerStreamT * stream)
 {
     return(istream_line(&(stream->istream)));
 }
 
 LexerTokenT
-lexer_get_terminal(LexerStreamP stream)
+lexer_get_terminal(LexerStreamT * stream)
 {
     return(stream->token.t);
 }
 
 void
-lexer_next_token(LexerStreamP stream)
+lexer_next_token(LexerStreamT * stream)
 {
-    IStreamP istream = &(stream->istream);
+    IStreamT * istream = &(stream->istream);
     LexT     token;
     char     c;
 
@@ -382,15 +382,15 @@ lexer_next_token(LexerStreamP stream)
     stream->token = token;
 }
 
-NStringP
-lexer_string_value(LexerStreamP stream)
+NStringT *
+lexer_string_value(LexerStreamT * stream)
 {
     assert(stream->token.t == LEXER_TOK_IDENTIFIER);
     return(&(stream->token.u.string));
 }
 
 void
-lexer_save_terminal(LexerStreamP stream, LexerTokenT error_terminal)
+lexer_save_terminal(LexerStreamT * stream, LexerTokenT error_terminal)
 {
     assert(stream->token.t != error_terminal);
     stream->saved_terminal = stream->token.t;
@@ -398,7 +398,7 @@ lexer_save_terminal(LexerStreamP stream, LexerTokenT error_terminal)
 }
 
 void
-lexer_restore_terminal(LexerStreamP stream)
+lexer_restore_terminal(LexerStreamT * stream)
 {
     stream->token.t = stream->saved_terminal;
 }

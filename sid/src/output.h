@@ -73,29 +73,29 @@
 
 typedef struct OutputInfoT {
     char *			prog_name;
-    OStreamP			current_ostream;
-    IStreamP			istreams;
-    OStreamP			ostreams;
+    OStreamT *			current_ostream;
+    IStreamT *			istreams;
+    OStreamT *			ostreams;
     char *		       *input_names;
     char *		       *output_names;
     unsigned			tab_width;
-} OutputInfoT, *OutputInfoP;
+} OutputInfoT;
 
-extern void		out_info_init(OutputInfoP, char *);
-extern char *		out_info_get_prog_name(OutputInfoP);
-extern void		out_info_set_current_ostream(OutputInfoP, unsigned);
-extern OStreamP		out_info_get_current_ostream(OutputInfoP);
-extern void		out_info_set_num_input_files(OutputInfoP, unsigned);
-extern void		out_info_set_num_output_files(OutputInfoP, unsigned);
-extern IStreamP		out_info_get_istream(OutputInfoP, unsigned);
-extern OStreamP		out_info_get_ostream(OutputInfoP, unsigned);
-extern void		out_info_set_infile_name(OutputInfoP, unsigned,
+extern void		out_info_init(OutputInfoT *, char *);
+extern char *		out_info_get_prog_name(OutputInfoT *);
+extern void		out_info_set_current_ostream(OutputInfoT *, unsigned);
+extern OStreamT *		out_info_get_current_ostream(OutputInfoT *);
+extern void		out_info_set_num_input_files(OutputInfoT *, unsigned);
+extern void		out_info_set_num_output_files(OutputInfoT *, unsigned);
+extern IStreamT *		out_info_get_istream(OutputInfoT *, unsigned);
+extern OStreamT *		out_info_get_ostream(OutputInfoT *, unsigned);
+extern void		out_info_set_infile_name(OutputInfoT *, unsigned,
 						 char *);
-extern char *		out_info_get_infile_name(OutputInfoP, unsigned);
-extern void		out_info_set_outfile_name(OutputInfoP, unsigned,
+extern char *		out_info_get_infile_name(OutputInfoT *, unsigned);
+extern void		out_info_set_outfile_name(OutputInfoT *, unsigned,
 						  char *);
-extern char *		out_info_get_outfile_name(OutputInfoP, unsigned);
-extern void		out_info_set_tab_width(OutputInfoP, unsigned);
-extern void		output_indent(OutputInfoP, unsigned);
+extern char *		out_info_get_outfile_name(OutputInfoT *, unsigned);
+extern void		out_info_set_tab_width(OutputInfoT *, unsigned);
+extern void		output_indent(OutputInfoT *, unsigned);
 
 #endif /* !defined (H_OUTPUT) */

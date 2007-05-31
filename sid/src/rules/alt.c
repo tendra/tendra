@@ -70,10 +70,10 @@
 #include "../name.h"
 #include "../type.h"
 
-AltP
+AltT *
 alt_create(void)
 {
-    AltP alt = ALLOCATE(AltT);
+    AltT * alt = ALLOCATE(AltT);
 
     alt->next      = NULL;
     types_init(alt_names(alt));
@@ -83,34 +83,34 @@ alt_create(void)
     return(alt);
 }
 
-AltP
-alt_create_merge(ItemP initial_item, ItemP trailing_item,
-		 TypeTransP translator, TableP table)
+AltT *
+alt_create_merge(ItemT * initial_item, ItemT * trailing_item,
+		 TypeTransT * translator, TableT * table)
 {
-    AltP alt = alt_create();
+    AltT * alt = alt_create();
 
     for (; initial_item; initial_item = item_next(initial_item)) {
-	ItemP new_item = item_duplicate_and_translate(initial_item, translator,
+	ItemT * new_item = item_duplicate_and_translate(initial_item, translator,
 						      table);
 
 	alt_add_item(alt, new_item);
     }
     for (; trailing_item; trailing_item = item_next(trailing_item)) {
-	ItemP new_item = item_duplicate(trailing_item);
+	ItemT * new_item = item_duplicate(trailing_item);
 
 	alt_add_item(alt, new_item);
     }
     return(alt);
 }
 
-AltP
-alt_duplicate(AltP alt)
+AltT *
+alt_duplicate(AltT * alt)
 {
-    AltP  new_alt = alt_create();
-    ItemP item;
+    AltT *  new_alt = alt_create();
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
-	ItemP new_item = item_duplicate(item);
+	ItemT * new_item = item_duplicate(item);
 
 	alt_add_item(new_alt, new_item);
     }
@@ -118,14 +118,14 @@ alt_duplicate(AltP alt)
 }
 
 BoolT
-alt_less_than(AltP alt1, AltP alt2)
+alt_less_than(AltT * alt1, AltT * alt2)
 {
-    ItemP      item1 = alt_item_head(alt1);
-    ItemP      item2 = alt_item_head(alt2);
-    KeyP       key1;
-    KeyP       key2;
-    TypeTupleP type1;
-    TypeTupleP type2;
+    ItemT *      item1 = alt_item_head(alt1);
+    ItemT *      item2 = alt_item_head(alt2);
+    KeyT *       key1;
+    KeyT *       key2;
+    TypeTupleT * type1;
+    TypeTupleT * type2;
 
     if (item_type(item1) < item_type(item2)) {
 	return(TRUE);
@@ -166,10 +166,10 @@ alt_less_than(AltP alt1, AltP alt2)
 }
 
 BoolT
-alt_equal(AltP alt1, AltP alt2)
+alt_equal(AltT * alt1, AltT * alt2)
 {
-    ItemP item1;
-    ItemP item2;
+    ItemT * item1;
+    ItemT * item2;
 
     if ((alt1 == NULL) && (alt2 == NULL)) {
 	return(TRUE);
@@ -191,46 +191,46 @@ alt_equal(AltP alt1, AltP alt2)
     return(item1 == item2);
 }
 
-AltP
-alt_next(AltP alt)
+AltT *
+alt_next(AltT * alt)
 {
     return(alt->next);
 }
 
-AltP *
-alt_next_ref(AltP alt)
+AltT * *
+alt_next_ref(AltT * alt)
 {
     return(&(alt->next));
 }
 
 void
-alt_set_next(AltP alt1, AltP alt2)
+alt_set_next(AltT * alt1, AltT * alt2)
 {
     alt1->next = alt2;
 }
 
-TypeTupleP
-alt_names(AltP alt)
+TypeTupleT *
+alt_names(AltT * alt)
 {
     return(&(alt->names));
 }
 
-BitVecP
-alt_first_set(AltP alt)
+BitVecT *
+alt_first_set(AltT * alt)
 {
     return(&(alt->first_set));
 }
 
-ItemP
-alt_item_head(AltP alt)
+ItemT *
+alt_item_head(AltT * alt)
 {
     return(alt->item_head);
 }
 
-ItemP
-alt_unlink_item_head(AltP alt)
+ItemT *
+alt_unlink_item_head(AltT * alt)
 {
-    ItemP item = alt_item_head(alt);
+    ItemT * item = alt_item_head(alt);
 
     alt->item_head = item_next(item);
     item_set_next(item, NULL);
@@ -241,17 +241,17 @@ alt_unlink_item_head(AltP alt)
 }
 
 void
-alt_add_item(AltP alt, ItemP item)
+alt_add_item(AltT * alt, ItemT * item)
 {
     *(alt->item_tail) = item;
     alt->item_tail    = item_next_ref(item);
 }
 
-AltP
-alt_deallocate(AltP alt)
+AltT *
+alt_deallocate(AltT * alt)
 {
-    AltP  next = alt_next(alt);
-    ItemP item;
+    AltT *  next = alt_next(alt);
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_deallocate(item)) {
 	/*NOTHING*/
@@ -263,9 +263,9 @@ alt_deallocate(AltP alt)
 }
 
 void
-write_alt(OStreamP ostream, AltP alt)
+write_alt(OStreamT * ostream, AltT * alt)
 {
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	write_tab(ostream);
@@ -275,9 +275,9 @@ write_alt(OStreamP ostream, AltP alt)
 }
 
 void
-write_alt_highlighting(OStreamP ostream, AltP alt, ItemP highlight)
+write_alt_highlighting(OStreamT * ostream, AltT * alt, ItemT * highlight)
 {
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	if (item == highlight) {

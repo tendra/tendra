@@ -96,22 +96,22 @@
 #define EQUALITY_TABLE_SIZE	(127)
 
 typedef struct RuleSortListT {
-    AltP			head;
-    AltP		       *tail;
-} RuleSortListT, *RuleSortListP;
+    AltT *			head;
+    AltT *		       *tail;
+} RuleSortListT;
 
 typedef struct ReplaceClosureT {
-    EntryP			from;
-    EntryP			to;
-} ReplaceClosureT, *ReplaceClosureP;
+    EntryT *			from;
+    EntryT *			to;
+} ReplaceClosureT;
 
-static RuleP		equality_table[EQUALITY_TABLE_SIZE];
+static RuleT *		equality_table[EQUALITY_TABLE_SIZE];
 
 static void
-rule_sort_alts(RuleSortListP sort_list)
+rule_sort_alts(RuleSortListT * sort_list)
 {
-    AltP alt      = sort_list->head;
-    AltP scan_alt = alt_next(alt);
+    AltT * alt      = sort_list->head;
+    AltT * scan_alt = alt_next(alt);
 
     if (scan_alt) {
 	RuleSortListT lower;
@@ -149,7 +149,7 @@ rule_sort_alts(RuleSortListP sort_list)
 }
 
 static void
-rule_reorder(RuleP rule)
+rule_reorder(RuleT * rule)
 {
     RuleSortListT sort_list;
 
@@ -162,16 +162,16 @@ rule_reorder(RuleP rule)
 }
 
 static void
-rule_hash_1(RuleP rule, EntryP predicate_id)
+rule_hash_1(RuleT * rule, EntryT * predicate_id)
 {
     unsigned hash_value = (unsigned)(rule_has_empty_alt(rule)? 3 : 0);
-    AltP     alt;
+    AltT *     alt;
 
     rule_renumber(rule, TRUE, predicate_id);
     rule_reorder(rule);
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	ItemP item;
-	KeyP  key = NULL;
+	ItemT * item;
+	KeyT *  key = NULL;
 
 	hash_value += 5;
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
@@ -190,21 +190,21 @@ rule_hash_1(RuleP rule, EntryP predicate_id)
 }
 
 static void
-rule_hash_for_comparison(EntryP entry, void * gclosure)
+rule_hash_for_comparison(EntryT * entry, void * gclosure)
 {
     if (entry_is_rule(entry)) {
-	RuleP  rule         = entry_get_rule(entry);
-	EntryP predicate_id = (EntryP)gclosure;
+	RuleT *  rule         = entry_get_rule(entry);
+	EntryT * predicate_id = (EntryT *)gclosure;
 
 	rule_hash_1(rule, predicate_id);
     }
 }
 
 static BoolT
-rule_equal(RuleP rule1, RuleP rule2)
+rule_equal(RuleT * rule1, RuleT * rule2)
 {
-    AltP alt1;
-    AltP alt2;
+    AltT * alt1;
+    AltT * alt2;
 
     if ((!types_equal_numbers(rule_param(rule1), rule_param(rule2))) ||
 	(!types_equal_numbers(rule_result(rule1), rule_result(rule2))) ||
@@ -216,8 +216,8 @@ rule_equal(RuleP rule1, RuleP rule2)
     }
     for (alt1 = rule_alt_head(rule1), alt2 = rule_alt_head(rule2);
 	 alt1 && alt2; alt1 = alt_next(alt1), alt2 = alt_next(alt2)) {
-	ItemP item1;
-	ItemP item2;
+	ItemT * item1;
+	ItemT * item2;
 
 	for (item1 = alt_item_head(alt1), item2 = alt_item_head(alt2);
 	     item1 && item2;
@@ -240,10 +240,10 @@ rule_equal(RuleP rule1, RuleP rule2)
 }
 
 static BoolT
-rule_do_replacements_1(AltP alt, ReplaceClosureP closure)
+rule_do_replacements_1(AltT * alt, ReplaceClosureT * closure)
 {
     BoolT changed = FALSE;
-    ItemP item;
+    ItemT * item;
 
     for (item = alt_item_head(alt); item; item = item_next(item)) {
 	if (item_entry(item) == closure->from) {
@@ -255,14 +255,14 @@ rule_do_replacements_1(AltP alt, ReplaceClosureP closure)
 }
 
 static void
-rule_do_replacements(EntryP entry, void * gclosure)
+rule_do_replacements(EntryT * entry, void * gclosure)
 {
-    ReplaceClosureP closure = (ReplaceClosureP)gclosure;
+    ReplaceClosureT * closure = (ReplaceClosureT *)gclosure;
 
     if (entry_is_rule(entry)) {
-	RuleP rule    = entry_get_rule(entry);
+	RuleT * rule    = entry_get_rule(entry);
 	BoolT changed = FALSE;
-	AltP  alt;
+	AltT *  alt;
 
 	if ((alt = rule_get_handler(rule)) != NULL) {
 	    if (rule_do_replacements_1(alt, closure)) {
@@ -281,14 +281,14 @@ rule_do_replacements(EntryP entry, void * gclosure)
 }
 
 static BoolT
-rule_remove_duplicates_1(RuleP *rule_ref, TableP table)
+rule_remove_duplicates_1(RuleT * *rule_ref, TableT * table)
 {
     BoolT did_remove = FALSE;
-    RuleP rule;
+    RuleT * rule;
 
     while ((rule = *rule_ref) != NULL) {
-	RuleP *inner_rule_ref = rule_get_next_in_table_ref(rule);
-	RuleP  inner_rule;
+	RuleT * *inner_rule_ref = rule_get_next_in_table_ref(rule);
+	RuleT *  inner_rule;
 
 	while ((inner_rule = *inner_rule_ref) != NULL) {
 	    if (rule_equal(rule, inner_rule)) {
@@ -324,7 +324,7 @@ rule_remove_duplicates_1(RuleP *rule_ref, TableP table)
  */
 
 void
-rule_remove_duplicates(TableP table, EntryP predicate_id)
+rule_remove_duplicates(TableT * table, EntryT * predicate_id)
 {
     BoolT    did_remove;
     unsigned i;

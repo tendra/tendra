@@ -68,16 +68,16 @@
 #include "non-local.h"
 
 void
-non_local_list_init(NonLocalListP non_locals)
+non_local_list_init(NonLocalListT * non_locals)
 {
     non_locals->head = NULL;
     non_locals->tail = &(non_locals->head);
 }
 
-NonLocalEntryP
-non_local_list_add(NonLocalListP non_locals, EntryP name, EntryP type)
+NonLocalEntryT *
+non_local_list_add(NonLocalListT * non_locals, EntryT * name, EntryT * type)
 {
-    NonLocalEntryP entry = ALLOCATE(NonLocalEntryT);
+    NonLocalEntryT * entry = ALLOCATE(NonLocalEntryT);
 
     entry->next         = NULL;
     entry->name         = name;
@@ -89,17 +89,17 @@ non_local_list_add(NonLocalListP non_locals, EntryP name, EntryP type)
 }
 
 BoolT
-non_local_list_is_empty(NonLocalListP non_locals)
+non_local_list_is_empty(NonLocalListT * non_locals)
 {
     return(non_locals->head == NULL);
 }
 
 void
-non_local_list_iter_for_table(NonLocalListP non_locals,
-			      void (*proc)(EntryP, void *),
+non_local_list_iter_for_table(NonLocalListT * non_locals,
+			      void (*proc)(EntryT *, void *),
 			      void * closure)
 {
-    NonLocalEntryP non_local;
+    NonLocalEntryT * non_local;
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
@@ -111,12 +111,12 @@ non_local_list_iter_for_table(NonLocalListP non_locals,
 }
 
 void
-non_local_list_destroy(NonLocalListP non_locals)
+non_local_list_destroy(NonLocalListT * non_locals)
 {
-    NonLocalEntryP entry = non_locals->head;
+    NonLocalEntryT * entry = non_locals->head;
 
     while (entry) {
-	NonLocalEntryP tmp = entry->next;
+	NonLocalEntryT * tmp = entry->next;
 
 	DEALLOCATE(entry);
 	entry = tmp;
@@ -124,9 +124,9 @@ non_local_list_destroy(NonLocalListP non_locals)
 }
 
 void
-write_non_locals(OStreamP ostream, NonLocalListP non_locals)
+write_non_locals(OStreamT * ostream, NonLocalListT * non_locals)
 {
-    NonLocalEntryP non_local;
+    NonLocalEntryT * non_local;
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
@@ -147,25 +147,25 @@ write_non_locals(OStreamP ostream, NonLocalListP non_locals)
 }
 
 void
-non_local_entry_set_initialiser(NonLocalEntryP non_local, EntryP init)
+non_local_entry_set_initialiser(NonLocalEntryT * non_local, EntryT * init)
 {
     non_local->initialiser = init;
 }
 
-EntryP
-non_local_entry_get_initialiser(NonLocalEntryP non_local)
+EntryT *
+non_local_entry_get_initialiser(NonLocalEntryT * non_local)
 {
     return(non_local->initialiser);
 }
 
-EntryP
-non_local_entry_get_name(NonLocalEntryP non_local)
+EntryT *
+non_local_entry_get_name(NonLocalEntryT * non_local)
 {
     return(non_local->name);
 }
 
-EntryP
-non_local_entry_get_type(NonLocalEntryP non_local)
+EntryT *
+non_local_entry_get_type(NonLocalEntryT * non_local)
 {
     return(non_local->type);
 }

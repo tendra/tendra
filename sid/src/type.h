@@ -74,14 +74,14 @@ typedef struct TypeT {
     void *			assign_code;
     void *			param_assign_code;
     void *			result_assign_code;
-} TypeT, *TypeP;
+} TypeT;
 
-extern TypeP		type_create(void);
-extern void *		type_get_assign_code(TypeP);
-extern void		type_set_assign_code(TypeP, void *);
-extern void *		type_get_param_assign_code(TypeP);
-extern void		type_set_param_assign_code(TypeP, void *);
-extern void *		type_get_result_assign_code(TypeP);
-extern void		type_set_result_assign_code(TypeP, void *);
+extern TypeT *		type_create(void);
+extern void *		type_get_assign_code(TypeT *);
+extern void		type_set_assign_code(TypeT *, void *);
+extern void *		type_get_param_assign_code(TypeT *);
+extern void		type_set_param_assign_code(TypeT *, void *);
+extern void *		type_get_result_assign_code(TypeT *);
+extern void		type_set_result_assign_code(TypeT *, void *);
 
 #endif /* !defined (H_TYPE) */

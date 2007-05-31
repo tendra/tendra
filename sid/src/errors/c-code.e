@@ -42,7 +42,7 @@ error "bad id substitution" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -59,7 +59,7 @@ error "bad mod id substitution" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -76,7 +76,7 @@ error "mod id in assign" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -93,7 +93,7 @@ error "bad ref id substitution" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -110,7 +110,7 @@ error "ref id in param op" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -127,7 +127,7 @@ error "bad label substitution" {
 	    write_unsigned(ostream, closure->line_number);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }
@@ -178,16 +178,16 @@ error "code undefined result" ("code" : "void *") {
 	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
-	    closure.file_name = c_code_file((CCodeP)code);
+	    closure.file_name = c_code_file((CCodeT *)code);
 	]$
     }, {
 	"line number" : "unsigned" $[
 	    write_unsigned(ostream, closure->line_number);
 	]$ $[
-	    closure.line_number = c_code_line((CCodeP)code);
+	    closure.line_number = c_code_line((CCodeT *)code);
 	]$
     }, {
-	"identifier name" : "EntryP" $[
+	"identifier name" : "EntryT *" $[
 	    write_key(ostream, entry_key(closure->identifier_name));
 	]$
     }

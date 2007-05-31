@@ -34,7 +34,7 @@ header $[
 error "basic result code not defined" {
     "result code not defined for basic '${basic name}'",
     {
-	"basic name" : "KeyP" $[
+	"basic name" : "KeyT *" $[
 	    write_key(ostream, closure->basic_name);
 	]$
     }
@@ -43,7 +43,7 @@ error "basic result code not defined" {
 error "action code not defined" {
     "definition code not defined for action '${action name}'",
     {
-	"action name" : "KeyP" $[
+	"action name" : "KeyT *" $[
 	    write_key(ostream, closure->action_name);
 	]$
     }
@@ -52,7 +52,7 @@ error "action code not defined" {
 error "type code not defined" {
     "some but not all assignment operations defined for type '${type name}'",
     {
-	"type name" : "KeyP" $[
+	"type name" : "KeyT *" $[
 	    write_key(ostream, closure->type_name);
 	]$
     }

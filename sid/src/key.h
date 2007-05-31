@@ -72,22 +72,22 @@
 typedef enum {
     KT_STRING,
     KT_NUMERIC
-} KeyTypeT, *KeyTypeP;
+} KeyTypeT;
 
 typedef struct KeyT {
     KeyTypeT			type;
     NStringT			string;
     unsigned			number;
-} KeyT, *KeyP;
+} KeyT;
 
-extern void		key_init_from_string(KeyP, NStringP, unsigned);
-extern void		key_init_from_number(KeyP, unsigned);
-extern CmpT		key_compare(KeyP, KeyP);
-extern BoolT		key_is_string(KeyP);
-extern NStringP		key_get_string(KeyP);
-extern unsigned		key_get_number(KeyP);
-extern unsigned		key_hash_value(KeyP);
+extern void		key_init_from_string(KeyT *, NStringT *, unsigned);
+extern void		key_init_from_number(KeyT *, unsigned);
+extern CmpT		key_compare(KeyT *, KeyT *);
+extern BoolT		key_is_string(KeyT *);
+extern NStringT *		key_get_string(KeyT *);
+extern unsigned		key_get_number(KeyT *);
+extern unsigned		key_hash_value(KeyT *);
 
-extern void		write_key(OStreamP, KeyP);
+extern void		write_key(OStreamT *, KeyT *);
 
 #endif /* !defined (H_KEY) */

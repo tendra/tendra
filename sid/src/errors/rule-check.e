@@ -36,17 +36,17 @@ header $[
 error "first set collision" {
     "collision of terminal(s) ${terminal names} in rule '${rule name}'",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }, {
-	"terminal names" : "BasicClosureP" $[
+	"terminal names" : "BasicClosureT *" $[
 	    write_basics(ostream, closure->terminal_names);
 	]$
     }
@@ -55,17 +55,17 @@ error "first set collision" {
 error "predicate collision" {
     "collision of predicate '${predicate name}' in rule '${rule name}'",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }, {
-	"predicate name" : "KeyP" $[
+	"predicate name" : "KeyT *" $[
 	    write_key(ostream, closure->predicate_name);
 	]$
     }
@@ -74,17 +74,17 @@ error "predicate collision" {
 error "predicate list collision" {
     "collision of predicates ${predicate names} in rule '${rule name}'",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }, {
-	"predicate names" : "EntryListP" $[
+	"predicate names" : "EntryListT *" $[
 	    write_entry_list(ostream, closure->predicate_names);
 	]$
     }
@@ -93,21 +93,21 @@ error "predicate list collision" {
 error "follow set collision" {
     "the terminal(s) ${terminal names} can start rule '${rule name}' which is see through, and the same terminal(s) may appear in the following situations:\n${clashes}",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }, {
-	"terminal names" : "BasicClosureP" $[
+	"terminal names" : "BasicClosureT *" $[
 	    write_basics(ostream, closure->terminal_names);
 	]$
     }, {
-	"clashes" : "ClashListP" $[
+	"clashes" : "ClashListT *" $[
 	    write_clashes(ostream, closure->clashes);
 	]$
     }
@@ -116,21 +116,21 @@ error "follow set collision" {
 error "predicate follow set coll" {
     "the predicate(s) ${predicate names} can start rule '${rule name}' which is see through, and the same predicate(s) may appear in the following situations:${clashes}",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }, {
-	"predicate names" : "EntryListP" $[
+	"predicate names" : "EntryListT *" $[
 	    write_entry_list(ostream, closure->predicate_names);
 	]$
     }, {
-	"clashes" : "ClashListP" $[
+	"clashes" : "ClashListT *" $[
 	    write_clashes(ostream, closure->clashes);
 	]$
     }
@@ -139,13 +139,13 @@ error "predicate follow set coll" {
 error "multiple see through alts" {
     "the rule '${rule name}' contains more than one see through alternative",
     {
-	"rule name" : "RuleP" $[
-	    EntryP entry = rule_entry(closure->rule_name);
+	"rule name" : "RuleT *" $[
+	    EntryT * entry = rule_entry(closure->rule_name);
 
 	    write_key(ostream, entry_key(entry));
 	]$
     }, {
-	"production" : "RuleP" $[
+	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->rule_name);
 	]$ $[]$
     }

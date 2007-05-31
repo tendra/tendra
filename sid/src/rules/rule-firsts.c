@@ -85,9 +85,9 @@
 #include "../table.h"
 
 void
-rule_compute_first_set_1(RuleP rule)
+rule_compute_first_set_1(RuleT * rule)
 {
-    AltP     alt;
+    AltT *     alt;
     unsigned priority = 0;
 
     if (rule_has_computed_first_set(rule)) {
@@ -100,8 +100,8 @@ rule_compute_first_set_1(RuleP rule)
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 	BoolT see_through = TRUE;
 	BoolT no_action   = TRUE;
-	ItemP item        = alt_item_head(alt);
-	ItemP initial     = item;
+	ItemT * item        = alt_item_head(alt);
+	ItemT * initial     = item;
 
 	for (; see_through && (item != NULL); item = item_next(item)) {
 	    switch (item_type(item))EXHAUSTIVE {
@@ -118,9 +118,9 @@ rule_compute_first_set_1(RuleP rule)
 		no_action = FALSE;
 		break;
 	      case ET_RULE: {
-		  EntryP     entry      = item_entry(item);
-		  RuleP      item_rule  = entry_get_rule(entry);
-		  EntryListP pred_first = rule_predicate_first(item_rule);
+		  EntryT *     entry      = item_entry(item);
+		  RuleT *      item_rule  = entry_get_rule(entry);
+		  EntryListT * pred_first = rule_predicate_first(item_rule);
 		  unsigned   item_priority;
 
 		  rule_compute_first_set_1(item_rule);
@@ -138,7 +138,7 @@ rule_compute_first_set_1(RuleP rule)
 	      }
 		break;
 	      case ET_BASIC: {
-		  BasicP basic = entry_get_basic(item_entry(item));
+		  BasicT * basic = entry_get_basic(item_entry(item));
 
 		  bitvec_set(rule_first_set(rule), basic_terminal(basic));
 		  see_through = FALSE;
@@ -165,11 +165,11 @@ rule_compute_first_set_1(RuleP rule)
 }
 
 void
-rule_compute_first_set(EntryP entry, void * gclosure)
+rule_compute_first_set(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_first_set_1(rule);
     }

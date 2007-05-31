@@ -70,15 +70,15 @@
 #include "rules/rule.h"
 
 void
-scope_stack_init(ScopeStackP stack)
+scope_stack_init(ScopeStackT * stack)
 {
     stack->head = NULL;
 }
 
 void
-scope_stack_push(ScopeStackP stack, NStringP scope)
+scope_stack_push(ScopeStackT * stack, NStringT * scope)
 {
-    ScopeStackFrameP frame = ALLOCATE(ScopeStackFrameT);
+    ScopeStackFrameT * frame = ALLOCATE(ScopeStackFrameT);
     DStringT         dstring;
 
     dstring_init(&dstring);
@@ -96,11 +96,11 @@ scope_stack_push(ScopeStackP stack, NStringP scope)
 }
 
 void
-scope_stack_pop(ScopeStackP stack)
+scope_stack_pop(ScopeStackT * stack)
 {
-    ScopeStackFrameP frame = stack->head;
-    ScopeMapEntryP   entry;
-    ScopeMapEntryP   next;
+    ScopeStackFrameT * frame = stack->head;
+    ScopeMapEntryT *   entry;
+    ScopeMapEntryT *   next;
 
     assert(frame);
     stack->head = frame->next;
@@ -112,15 +112,15 @@ scope_stack_pop(ScopeStackP stack)
     DEALLOCATE(frame);
 }
 
-EntryP
-scope_stack_add_rule(ScopeStackP stack, TableP table, NStringP key, RuleP rule,
+EntryT *
+scope_stack_add_rule(ScopeStackT * stack, TableT * table, NStringT * key, RuleT * rule,
 		     BoolT *found_ref)
 {
     *found_ref = FALSE;
     if (stack->head) {
 	DStringT dstring;
 	NStringT nstring;
-	EntryP   entry;
+	EntryT *   entry;
 
 	dstring_init(&dstring);
 	dstring_append_nstring(&dstring, &(stack->head->scope));
@@ -133,8 +133,8 @@ scope_stack_add_rule(ScopeStackP stack, TableP table, NStringP key, RuleP rule,
 	    return(entry);
 	} else if ((entry = table_add_rule(table, &nstring)) !=
 		   NULL) {
-	    EntryP         from = table_add_name(table, key);
-	    ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
+	    EntryT *         from = table_add_name(table, key);
+	    ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
 
 	   (void)scope_stack_check_shadowing(stack, from, rule);
 	    map->next            = NULL;
@@ -155,15 +155,15 @@ scope_stack_add_rule(ScopeStackP stack, TableP table, NStringP key, RuleP rule,
     }
 }
 
-EntryP
-scope_stack_add_action(ScopeStackP stack, TableP table, NStringP key,
-		       RuleP rule, BoolT *found_ref)
+EntryT *
+scope_stack_add_action(ScopeStackT * stack, TableT * table, NStringT * key,
+		       RuleT * rule, BoolT *found_ref)
 {
     *found_ref = FALSE;
     if (stack->head) {
 	DStringT dstring;
 	NStringT nstring;
-	EntryP   entry;
+	EntryT *   entry;
 
 	dstring_init(&dstring);
 	dstring_append_nstring(&dstring, &(stack->head->scope));
@@ -176,8 +176,8 @@ scope_stack_add_action(ScopeStackP stack, TableP table, NStringP key,
 	    return(entry);
 	} else if ((entry = table_add_action(table, &nstring)) !=
 		   NULL) {
-	    EntryP         from = table_add_name(table, key);
-	    ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
+	    EntryT *         from = table_add_name(table, key);
+	    ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
 
 	   (void)scope_stack_check_shadowing(stack, from, rule);
 	    map->next            = NULL;
@@ -198,13 +198,13 @@ scope_stack_add_action(ScopeStackP stack, TableP table, NStringP key,
     }
 }
 
-EntryP
-scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
-			  EntryP type, RuleP rule)
+EntryT *
+scope_stack_add_non_local(ScopeStackT * stack, TableT * table, NStringT * key,
+			  EntryT * type, RuleT * rule)
 {
     DStringT dstring;
     NStringT nstring;
-    EntryP   entry;
+    EntryT *   entry;
 
     assert(stack->head);
     dstring_init(&dstring);
@@ -214,8 +214,8 @@ scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
     dstring_destroy(&dstring);
     if ((entry = table_add_non_local(table, &nstring, type)) !=
 	NULL) {
-	EntryP         from = table_add_name(table, key);
-	ScopeMapEntryP map  = ALLOCATE(ScopeMapEntryT);
+	EntryT *         from = table_add_name(table, key);
+	ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
 
 	(void)scope_stack_check_shadowing(stack, from, rule);
 	map->next            = NULL;
@@ -230,16 +230,16 @@ scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
     }
 }
 
-EntryP
-scope_stack_get_rule(ScopeStackP stack, TableP table, NStringP key)
+EntryT *
+scope_stack_get_rule(ScopeStackT * stack, TableT * table, NStringT * key)
 {
-    EntryP entry = table_get_entry(table, key);
+    EntryT * entry = table_get_entry(table, key);
 
     if (entry) {
-	ScopeStackFrameP frame = stack->head;
+	ScopeStackFrameT * frame = stack->head;
 
 	for (; frame; frame = frame->next) {
-	    ScopeMapEntryP map = frame->head;
+	    ScopeMapEntryT * map = frame->head;
 
 	    for (; map; map = map->next) {
 		if (map->from == entry) {
@@ -258,16 +258,16 @@ scope_stack_get_rule(ScopeStackP stack, TableP table, NStringP key)
     return(NULL);
 }
 
-EntryP
-scope_stack_get_action(ScopeStackP stack, TableP table, NStringP key)
+EntryT *
+scope_stack_get_action(ScopeStackT * stack, TableT * table, NStringT * key)
 {
-    EntryP entry = table_get_entry(table, key);
+    EntryT * entry = table_get_entry(table, key);
 
     if (entry) {
-	ScopeStackFrameP frame = stack->head;
+	ScopeStackFrameT * frame = stack->head;
 
 	for (; frame; frame = frame->next) {
-	    ScopeMapEntryP map = frame->head;
+	    ScopeMapEntryT * map = frame->head;
 
 	    for (; map; map = map->next) {
 		if (map->from == entry) {
@@ -286,17 +286,17 @@ scope_stack_get_action(ScopeStackP stack, TableP table, NStringP key)
     return(NULL);
 }
 
-EntryP
-scope_stack_get_non_local(ScopeStackP stack, TableP table, NStringP key,
-			  NStringP scope)
+EntryT *
+scope_stack_get_non_local(ScopeStackT * stack, TableT * table, NStringT * key,
+			  NStringT * scope)
 {
-    EntryP entry = table_get_entry(table, key);
+    EntryT * entry = table_get_entry(table, key);
 
     if (entry) {
-	ScopeStackFrameP frame = stack->head;
+	ScopeStackFrameT * frame = stack->head;
 
 	for (; frame; frame = frame->next) {
-	    ScopeMapEntryP map = frame->head;
+	    ScopeMapEntryT * map = frame->head;
 
 	    for (; map; map = map->next) {
 		if (map->from == entry) {
@@ -314,12 +314,12 @@ scope_stack_get_non_local(ScopeStackP stack, TableP table, NStringP key,
 }
 
 BoolT
-scope_stack_check_shadowing(ScopeStackP stack, EntryP from, RuleP rule)
+scope_stack_check_shadowing(ScopeStackT * stack, EntryT * from, RuleT * rule)
 {
-    ScopeStackFrameP frame = stack->head;
+    ScopeStackFrameT * frame = stack->head;
 
     for (; frame; frame = frame->next) {
-	ScopeMapEntryP entry;
+	ScopeMapEntryT * entry;
 
 	for (entry = frame->head; entry; entry = entry->next) {
 	    if (entry->from == from) {

@@ -68,7 +68,7 @@
 #include "output.h"
 
 void
-out_info_init(OutputInfoP info, char * prog)
+out_info_init(OutputInfoT * info, char * prog)
 {
     info->prog_name       = prog;
     info->current_ostream = NULL;
@@ -80,83 +80,83 @@ out_info_init(OutputInfoP info, char * prog)
 }
 
 char *
-out_info_get_prog_name(OutputInfoP info)
+out_info_get_prog_name(OutputInfoT * info)
 {
     return(info->prog_name);
 }
 
 void
-out_info_set_current_ostream(OutputInfoP info, unsigned i)
+out_info_set_current_ostream(OutputInfoT * info, unsigned i)
 {
     info->current_ostream = &(info->ostreams[i]);
 }
 
-OStreamP
-out_info_get_current_ostream(OutputInfoP info)
+OStreamT *
+out_info_get_current_ostream(OutputInfoT * info)
 {
     return(info->current_ostream);
 }
 
 void
-out_info_set_num_input_files(OutputInfoP info, unsigned size)
+out_info_set_num_input_files(OutputInfoT * info, unsigned size)
 {
     info->istreams    = ALLOCATE_VECTOR(IStreamT, size);
     info->input_names = ALLOCATE_VECTOR(char *, size);
 }
 
 void
-out_info_set_num_output_files(OutputInfoP info, unsigned size)
+out_info_set_num_output_files(OutputInfoT * info, unsigned size)
 {
     info->ostreams     = ALLOCATE_VECTOR(OStreamT, size);
     info->output_names = ALLOCATE_VECTOR(char *, size);
 }
 
-IStreamP
-out_info_get_istream(OutputInfoP info, unsigned i)
+IStreamT *
+out_info_get_istream(OutputInfoT * info, unsigned i)
 {
     return(&(info->istreams[i]));
 }
 
-OStreamP
-out_info_get_ostream(OutputInfoP info, unsigned i)
+OStreamT *
+out_info_get_ostream(OutputInfoT * info, unsigned i)
 {
     return(&(info->ostreams[i]));
 }
 
 void
-out_info_set_infile_name(OutputInfoP info, unsigned i, char * name)
+out_info_set_infile_name(OutputInfoT * info, unsigned i, char * name)
 {
     info->input_names[i] = name;
 }
 
 char *
-out_info_get_infile_name(OutputInfoP info, unsigned i)
+out_info_get_infile_name(OutputInfoT * info, unsigned i)
 {
     return(info->input_names[i]);
 }
 
 void
-out_info_set_outfile_name(OutputInfoP info, unsigned i, char * name)
+out_info_set_outfile_name(OutputInfoT * info, unsigned i, char * name)
 {
     info->output_names[i] = name;
 }
 
 char *
-out_info_get_outfile_name(OutputInfoP info, unsigned i)
+out_info_get_outfile_name(OutputInfoT * info, unsigned i)
 {
     return(info->output_names[i]);
 }
 
 void
-out_info_set_tab_width(OutputInfoP info, unsigned width)
+out_info_set_tab_width(OutputInfoT * info, unsigned width)
 {
     info->tab_width = width;
 }
 
 void
-output_indent(OutputInfoP info, unsigned indent)
+output_indent(OutputInfoT * info, unsigned indent)
 {
-    OStreamP ostream    = out_info_get_current_ostream(info);
+    OStreamT * ostream    = out_info_get_current_ostream(info);
     unsigned tab_width  = info->tab_width;
     unsigned num_tabs   = (indent / tab_width);
     unsigned num_spaces = (indent % tab_width);

@@ -170,22 +170,22 @@ typedef struct AltGroupT {
     BitVecT			first_set;
     EntryListT			predicate_first;
     unsigned			priority;
-    AltP		       *alt_ref;
-} AltGroupT, *AltGroupP;
+    AltT *		       *alt_ref;
+} AltGroupT;
 
 typedef struct AltGroupListT {
-    AltGroupP			head;
-    AltGroupP		       *tail;
-} AltGroupListT, *AltGroupListP;
+    AltGroupT *			head;
+    AltGroupT *		       *tail;
+} AltGroupListT;
 
 static unsigned			rule_factor_limit = 1000;
 
-static unsigned			rule_overlaps(ItemP, BitVecP, EntryListP);
+static unsigned			rule_overlaps(ItemT *, BitVecT *, EntryListT *);
 
-static AltGroupP
-group_create(ItemP item, AltP *alt_ref)
+static AltGroupT *
+group_create(ItemT * item, AltT * *alt_ref)
 {
-    AltGroupP group = ALLOCATE(AltGroupT);
+    AltGroupT * group = ALLOCATE(AltGroupT);
 
     group->next     = NULL;
     bitvec_init(&(group->first_set));
@@ -196,10 +196,10 @@ group_create(ItemP item, AltP *alt_ref)
     return(group);
 }
 
-static AltGroupP
-group_deallocate(AltGroupP group)
+static AltGroupT *
+group_deallocate(AltGroupT * group)
 {
-    AltGroupP next = group->next;
+    AltGroupT * next = group->next;
 
     bitvec_destroy(&(group->first_set));
     entry_list_destroy(&(group->predicate_first));
@@ -208,12 +208,12 @@ group_deallocate(AltGroupP group)
 }
 
 static unsigned
-rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
+rule_overlaps(ItemT * initial_item, BitVecT * first_set, EntryListT * predicate_first)
 {
     unsigned priority    = 0;
     BoolT    see_through = TRUE;
     BoolT    no_action   = TRUE;
-    ItemP    item;
+    ItemT *    item;
 
     for (item = initial_item; see_through && (item != NULL);
 	 item = item_next(item)) {
@@ -228,8 +228,8 @@ rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
 	    no_action = FALSE;
 	    break;
 	  case ET_RULE: {
-	      EntryP   entry         = item_entry(item);
-	      RuleP    item_rule     = entry_get_rule(entry);
+	      EntryT *   entry         = item_entry(item);
+	      RuleT *    item_rule     = entry_get_rule(entry);
 	      unsigned item_priority = rule_get_priority(item_rule);
 
 	      bitvec_or(first_set, rule_first_set(item_rule));
@@ -242,7 +242,7 @@ rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
 	  }
 	    break;
 	  case ET_BASIC: {
-	      BasicP basic = entry_get_basic(item_entry(item));
+	      BasicT * basic = entry_get_basic(item_entry(item));
 
 	      see_through = FALSE;
 	      bitvec_set(first_set, basic_terminal(basic));
@@ -258,19 +258,19 @@ rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
 }
 
 static void
-rule_group_by_initial_item(RuleP rule, AltGroupListP groups)
+rule_group_by_initial_item(RuleT * rule, AltGroupListT * groups)
 {
-    AltP *alt_ref = (rule->alt_tail);
-    AltP  alt;
+    AltT * *alt_ref = (rule->alt_tail);
+    AltT *  alt;
 
   next_alt:
     while ((alt = *alt_ref) != NULL) {
-	ItemP     item = alt_item_head(alt);
-	AltGroupP group;
+	ItemT *     item = alt_item_head(alt);
+	AltGroupT * group;
 
 	for (group = groups->head; group; group = group->next) {
-	    AltP *group_alt_ref = group->alt_ref;
-	    ItemP alt_item      = alt_item_head(*group_alt_ref);
+	    AltT * *group_alt_ref = group->alt_ref;
+	    ItemT * alt_item      = alt_item_head(*group_alt_ref);
 
 	    if (((item_entry(item) == item_entry(alt_item)) &&
 		 types_equal_numbers(item_param(item), item_param(alt_item)) &&
@@ -301,18 +301,18 @@ rule_group_by_initial_item(RuleP rule, AltGroupListP groups)
     rule->alt_tail = alt_ref;
 }
 
-static void			rule_factor_1(RuleP, FactorClosureP);
+static void			rule_factor_1(RuleT *, FactorClosureT *);
 
 static void
-rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
-	    AltGroupListP groups)
+rule_expand(RuleT * rule, FactorClosureT * closure, AltGroupT * group,
+	    AltGroupListT * groups)
 {
-    AltP       alt       = (*(group->alt_ref));
-    ItemP      item      = alt_item_head(alt);
-    RuleP      item_rule = entry_get_rule(item_entry(item));
-    AltP       handler   = rule_get_handler(item_rule);
-    AltGroupP *last;
-    AltP      *tail;
+    AltT *       alt       = (*(group->alt_ref));
+    ItemT *      item      = alt_item_head(alt);
+    RuleT *      item_rule = entry_get_rule(item_entry(item));
+    AltT *       handler   = rule_get_handler(item_rule);
+    AltGroupT * *last;
+    AltT *      *tail;
     TypeTransT translator;
 
     rule_factor_1(item_rule, closure);
@@ -337,7 +337,7 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
    (void)group_deallocate(group);
     tail = rule->alt_tail;
     while (alt) {
-	AltP       item_alt = rule_alt_head(item_rule);
+	AltT *       item_alt = rule_alt_head(item_rule);
 	SaveTransT state;
 
 	trans_init(&translator, rule_param(rule), rule_result(rule), alt);
@@ -347,7 +347,7 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
 			       item_result(alt_item_head(alt)));
 	trans_save_state(&translator, &state);
 	if (rule_has_empty_alt(item_rule)) {
-	    AltP new_alt = alt_create_merge(NULL,
+	    AltT * new_alt = alt_create_merge(NULL,
 					    item_next(alt_item_head(alt)),
 					    &translator, closure->table);
 
@@ -356,7 +356,7 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
 	    trans_restore_state(&translator, &state);
 	}
 	for (; item_alt; item_alt = alt_next(item_alt)) {
-	    AltP new_alt = alt_create_merge(alt_item_head(item_alt),
+	    AltT * new_alt = alt_create_merge(alt_item_head(item_alt),
 					    item_next(alt_item_head(alt)),
 					    &translator, closure->table);
 
@@ -370,27 +370,27 @@ rule_expand(RuleP rule, FactorClosureP closure, AltGroupP group,
 }
 
 static BoolT
-rule_expand_item_clashes(RuleP rule, FactorClosureP closure,
-			 AltGroupListP groups)
+rule_expand_item_clashes(RuleT * rule, FactorClosureT * closure,
+			 AltGroupListT * groups)
 {
-    BitVecP   bitvec1 = &(closure->bitvec1);
-    BitVecP   bitvec2 = &(closure->bitvec2);
-    AltGroupP group;
+    BitVecT *   bitvec1 = &(closure->bitvec1);
+    BitVecT *   bitvec2 = &(closure->bitvec2);
+    AltGroupT * group;
 
     for (group = groups->head; group; group = group->next) {
-	AltGroupP group2;
-	AltP      first_alt = (*(group->alt_ref));
-	ItemP     item      = alt_item_head(first_alt);
+	AltGroupT * group2;
+	AltT *      first_alt = (*(group->alt_ref));
+	ItemT *     item      = alt_item_head(first_alt);
 
 	if (item_is_rule(item)) {
-	    RuleP item_rule = entry_get_rule(item_entry(item));
+	    RuleT * item_rule = entry_get_rule(item_entry(item));
 
 	    if (!entry_list_is_empty(rule_predicate_first(item_rule))) {
 		rule_expand(rule, closure, group, groups);
 		return(TRUE);
 	    } else if (rule_is_see_through(item_rule)) {
-		AltP       alt = first_alt;
-		AltP       end = NULL;
+		AltT *       alt = first_alt;
+		AltT *       end = NULL;
 		EntryListT predicate_first;
 
 		if (group->next) {
@@ -428,14 +428,14 @@ rule_expand_item_clashes(RuleP rule, FactorClosureP closure,
     return(FALSE);
 }
 
-static ItemP
-rule_create_factored(TypeTupleP params, TypeTupleP result, AltP alt,
-		     TableP table)
+static ItemT *
+rule_create_factored(TypeTupleT * params, TypeTupleT * result, AltT * alt,
+		     TableT * table)
 {
     static unsigned factorised_rules = 0;
-    EntryP          new_entry;
-    ItemP           new_item;
-    RuleP           new_rule;
+    EntryT *          new_entry;
+    ItemT *           new_item;
+    RuleT *           new_rule;
 
     if (factorised_rules == rule_factor_limit) {
 	E_too_many_factorisations(rule_factor_limit);
@@ -447,7 +447,7 @@ rule_create_factored(TypeTupleP params, TypeTupleP result, AltP alt,
     types_copy(rule_param(new_rule), params);
     types_copy(rule_result(new_rule), result);
     while (alt) {
-	AltP tmp_alt = alt;
+	AltT * tmp_alt = alt;
 
 	alt = alt_next(alt);
 	alt_set_next(tmp_alt, NULL);
@@ -467,16 +467,16 @@ rule_create_factored(TypeTupleP params, TypeTupleP result, AltP alt,
 }
 
 static BoolT
-rule_factor_4(RuleP rule, AltP old_alt, AltP new_alt, TableP table,
-	      EntryP predicate_id, TypeTupleP params, BoolP items_equal_ref)
+rule_factor_4(RuleT * rule, AltT * old_alt, AltT * new_alt, TableT * table,
+	      EntryT * predicate_id, TypeTupleT * params, BoolT * items_equal_ref)
 {
-    ItemP       old_item     = alt_item_head(old_alt);
+    ItemT *       old_item     = alt_item_head(old_alt);
     BoolT       result_equal = TRUE;
-    AltP        alt;
+    AltT *        alt;
     TypeBTransT translator;
 
     for (alt = alt_next(old_alt); alt; alt = alt_next(alt)) {
-	ItemP item = alt_item_head(alt);
+	ItemT * item = alt_item_head(alt);
 
 	if (((item == NULL) && (old_item != NULL)) ||
 	    ((item != NULL) && (old_item == NULL))) {
@@ -509,10 +509,10 @@ rule_factor_4(RuleP rule, AltP old_alt, AltP new_alt, TableP table,
     }
     btrans_init(&translator);
     for (alt = old_alt; alt; alt = alt_next(alt)) {
-	ItemP item = alt_unlink_item_head(alt);
+	ItemT * item = alt_unlink_item_head(alt);
 
 	if (!result_equal) {
-	    ItemP new_item;
+	    ItemT * new_item;
 
 	    if (alt == old_alt) {
 		new_item = btrans_generate_non_pred_names(&translator,
@@ -543,8 +543,8 @@ rule_factor_4(RuleP rule, AltP old_alt, AltP new_alt, TableP table,
 }
 
 static void
-rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
-	      AltP new_alt)
+rule_factor_3(RuleT * rule, TableT * table, EntryT * predicate_id, AltT * old_alt,
+	      AltT * new_alt)
 {
     BoolT       items_equal = TRUE;
     BoolT       found_items;
@@ -558,7 +558,7 @@ rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
 				    predicate_id, &params, &items_equal);
     } while (items_equal);
     if (found_items) {
-	ItemP new_item;
+	ItemT * new_item;
 
 	types_unlink_used(&result, &params);
 	types_unlink_unused(&params, old_alt);
@@ -567,7 +567,7 @@ rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
     } else {
 	types_destroy(&params);
 	while (old_alt) {
-	    AltP tmp_alt = old_alt;
+	    AltT * tmp_alt = old_alt;
 
 	    old_alt = alt_next(old_alt);
 	    assert(alt_item_head(tmp_alt) == NULL);
@@ -577,14 +577,14 @@ rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
 }
 
 static void
-rule_factor_2(RuleP rule, TableP table, EntryP predicate_id,
-	      AltGroupListP groups)
+rule_factor_2(RuleT * rule, TableT * table, EntryT * predicate_id,
+	      AltGroupListT * groups)
 {
-    AltGroupP group;
+    AltGroupT * group;
 
     for (group = groups->head; group; group = group_deallocate(group)) {
-	AltP alt = *(group->alt_ref);
-	AltP new_alt;
+	AltT * alt = *(group->alt_ref);
+	AltT * new_alt;
 
 	if (group->next) {
 	    if (group->next->alt_ref == alt_next_ref(*(group->alt_ref))) {
@@ -608,7 +608,7 @@ rule_factor_2(RuleP rule, TableP table, EntryP predicate_id,
 }
 
 static void
-rule_factor_1(RuleP rule, FactorClosureP closure)
+rule_factor_1(RuleT * rule, FactorClosureT * closure)
 {
     AltGroupListT groups;
 
@@ -632,12 +632,12 @@ rule_factor_1(RuleP rule, FactorClosureP closure)
  */
 
 void
-rule_factor(EntryP entry, void * gclosure)
+rule_factor(EntryT * entry, void * gclosure)
 {
-    FactorClosureP closure = (FactorClosureP)gclosure;
+    FactorClosureT * closure = (FactorClosureT *)gclosure;
 
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_factor_1(rule, closure);
     }

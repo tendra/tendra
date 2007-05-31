@@ -70,11 +70,11 @@
 #include "gen-errors.h"
 
 void
-arg_parse_intern_descriptions(ArgListP arg_list)
+arg_parse_intern_descriptions(ArgListT * arg_list)
 {
     while ((arg_list->name != NULL) ||
 	   (arg_list->short_name != '\0')) {
-	EStringP estring = error_lookup_string(arg_list->u.name);
+	EStringT * estring = error_lookup_string(arg_list->u.name);
 
 	assert(estring != NULL);
 	arg_list->u.message = estring;
@@ -83,7 +83,7 @@ arg_parse_intern_descriptions(ArgListP arg_list)
 }
 
 int
-arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
+arg_parse_arguments(ArgListT * arg_list, EStringT * usage, int argc, char **argv)
 {
     int       tmp_argc = argc;
     char    **tmp_argv = argv;
@@ -100,8 +100,8 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 	    return(argc - tmp_argc + 1);
 	} else if (((c == '-') && (option[1] == '-')) ||
 		   ((c == '+') && (option[1] == '+'))) {
-	    ArgListP tmp_list  = arg_list;
-	    ArgListP chosen    = NULL;
+	    ArgListT * tmp_list  = arg_list;
+	    ArgListT * chosen    = NULL;
 	    unsigned matches   = 0;
 	    char * immediate = NULL;
 
@@ -146,10 +146,10 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 	    } else {
 		switch (chosen->type)EXHAUSTIVE {
 		  case AT_SWITCH:
-		   (*((BoolP)(chosen->closure))) = (c == '-');
+		   (*((BoolT *)(chosen->closure))) = (c == '-');
 		    break;
 		  case AT_NEG_SWITCH:
-		   (*((BoolP)(chosen->closure))) = (c == '+');
+		   (*((BoolT *)(chosen->closure))) = (c == '+');
 		    break;
 		  case AT_PROC_SWITCH:
 		   (*(chosen->proc))(option, &closure, chosen->closure,
@@ -232,8 +232,8 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 	    char * opt = &(option[1]);
 
 	    while ((opt != NULL) && (*opt != '\0')) {
-		ArgListP tmp_list = arg_list;
-		ArgListP chosen   = NULL;
+		ArgListT * tmp_list = arg_list;
+		ArgListT * chosen   = NULL;
 
 		while ((tmp_list->name != NULL) ||
 		       (tmp_list->short_name != '\0')) {
@@ -246,10 +246,10 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 		if (chosen) {
 		    switch (chosen->type)EXHAUSTIVE {
 		      case AT_SWITCH:
-			(*((BoolP)(chosen->closure))) = (c == '-');
+			(*((BoolT *)(chosen->closure))) = (c == '-');
 			break;
 		      case AT_NEG_SWITCH:
-			(*((BoolP)(chosen->closure))) = (c == '+');
+			(*((BoolT *)(chosen->closure))) = (c == '+');
 			break;
 		      case AT_PROC_SWITCH:
 			(*(chosen->proc))(opt, &closure, chosen->closure,
@@ -335,10 +335,10 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 }
 
 void
-write_arg_usage(OStreamP ostream, ArgUsageP closure)
+write_arg_usage(OStreamT * ostream, ArgUsageT * closure)
 {
     char * usage    = (closure->usage);
-    ArgListP arg_list = (closure->arg_list);
+    ArgListT * arg_list = (closure->arg_list);
 
     write_cstring(ostream, usage);
     while ((arg_list->name != NULL) ||

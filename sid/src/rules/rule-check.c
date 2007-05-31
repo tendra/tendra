@@ -84,27 +84,27 @@
 #include "../gen-errors.h"
 
 static void
-rule_check_first_set_1(RuleP rule, GrammarP grammar)
+rule_check_first_set_1(RuleT * rule, GrammarT * grammar)
 {
     BoolT         is_empty            = rule_has_empty_alt(rule);
     BoolT         is_empty_mesg_shown = FALSE;
     BitVecT       test;
     EntryListT    predicate_list;
-    AltP          alt;
+    AltT *          alt;
     BasicClosureT closure;
 
     closure.grammar = grammar;
     bitvec_init(&test);
     entry_list_init(&predicate_list);
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	ItemP item        = alt_item_head(alt);
+	ItemT * item        = alt_item_head(alt);
 	BoolT see_through = TRUE;
 #ifndef NDEBUG
-	ItemP   initial     = item;
+	ItemT *   initial     = item;
 #endif
 
 	for (; see_through && item; item = item_next(item)) {
-	    EntryP entry = item_entry(item);
+	    EntryT * entry = item_entry(item);
 
 	    switch (item_type(item))EXHAUSTIVE {
 	      case ET_PREDICATE:
@@ -138,10 +138,10 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 	      }
 		break;
 	      case ET_RULE: {
-		  RuleP      item_rule  = entry_get_rule(entry);
-		  EntryListP item_preds = rule_predicate_first(item_rule);
+		  RuleT *      item_rule  = entry_get_rule(entry);
+		  EntryListT * item_preds = rule_predicate_first(item_rule);
 		  EntryListT tmp_list;
-		  BitVecP    bitvec;
+		  BitVecT *    bitvec;
 
 		  entry_list_intersection(&tmp_list, &predicate_list,
 					  item_preds);
@@ -185,15 +185,15 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
     bitvec_destroy(&test);
 }
 
-static void rule_compute_follow_set_1(RuleP, GrammarP, BitVecP, EntryListP,
-				      ClashListP);
+static void rule_compute_follow_set_1(RuleT *, GrammarT *, BitVecT *, EntryListT *,
+				      ClashListT *);
 
 static void
-rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
-			  EntryListP pred_context, ClashListP clashes)
+rule_compute_follow_set_3(GrammarT * grammar, ItemT * item, BitVecT * context,
+			  EntryListT * pred_context, ClashListT * clashes)
 {
     if (item != NULL) {
-	EntryP entry;
+	EntryT * entry;
 
 	rule_compute_follow_set_3(grammar, item_next(item), context,
 				  pred_context, clashes);
@@ -209,7 +209,7 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 	  case ET_RENAME:
 	    break;
 	  case ET_RULE: {
-	      RuleP rule = entry_get_rule(entry);
+	      RuleT * rule = entry_get_rule(entry);
 
 	      clashes->item = item;
 	      rule_compute_follow_set_1(rule, grammar, context, pred_context,
@@ -227,7 +227,7 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 	  }
 	    break;
 	  case ET_BASIC: {
-	      BasicP basic = entry_get_basic(entry);
+	      BasicT * basic = entry_get_basic(entry);
 
 	      bitvec_empty(context);
 	      bitvec_set(context, basic_terminal(basic));
@@ -243,9 +243,9 @@ rule_compute_follow_set_3(GrammarP grammar, ItemP item, BitVecP context,
 }
 
 static void
-rule_compute_follow_set_2(RuleP rule, GrammarP grammar, AltP alt,
-			  BitVecP context, EntryListP pred_context,
-			  ClashListP clashes)
+rule_compute_follow_set_2(RuleT * rule, GrammarT * grammar, AltT * alt,
+			  BitVecT * context, EntryListT * pred_context,
+			  ClashListT * clashes)
 {
     BitVecT    tmp;
     EntryListT tmp_list;
@@ -263,15 +263,15 @@ rule_compute_follow_set_2(RuleP rule, GrammarP grammar, AltP alt,
 }
 
 static void
-rule_compute_follow_set_1(RuleP rule, GrammarP grammar, BitVecP context,
-			  EntryListP pred_context, ClashListP clashes)
+rule_compute_follow_set_1(RuleT * rule, GrammarT * grammar, BitVecT * context,
+			  EntryListT * pred_context, ClashListT * clashes)
 {
-    BitVecP       follow      = rule_follow_set(rule);
-    EntryListP    pred_follow = rule_predicate_follow(rule);
-    BitVecP       first       = rule_first_set(rule);
-    EntryListP    pred_first  = rule_predicate_first(rule);
+    BitVecT *       follow      = rule_follow_set(rule);
+    EntryListT *    pred_follow = rule_predicate_follow(rule);
+    BitVecT *       first       = rule_first_set(rule);
+    EntryListT *    pred_first  = rule_predicate_first(rule);
     BitVecT       test;
-    AltP          alt;
+    AltT *          alt;
     BasicClosureT closure;
 
     if (rule_has_started_follows(rule)) {
@@ -320,16 +320,16 @@ rule_compute_follow_set_1(RuleP rule, GrammarP grammar, BitVecP context,
 }
 
 static void
-rule_compute_see_through_alt_1(RuleP rule)
+rule_compute_see_through_alt_1(RuleT * rule)
 {
     if (!rule_has_empty_alt(rule)) {
-	AltP alt;
+	AltT * alt;
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	    ItemP item;
+	    ItemT * item;
 
 	    for (item = alt_item_head(alt); item; item = item_next(item)) {
-		RuleP item_rule;
+		RuleT * item_rule;
 
 		if ((!item_is_action(item)) && (!item_is_rename(item)) &&
 		    ((!item_is_rule(item)) ||
@@ -346,20 +346,20 @@ rule_compute_see_through_alt_1(RuleP rule)
 }
 
 static void
-rule_compute_alt_first_sets_1(RuleP rule)
+rule_compute_alt_first_sets_1(RuleT * rule)
 {
-    AltP alt;
+    AltT * alt;
 
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	BitVecP alt_firsts  = alt_first_set(alt);
-	ItemP   item        = alt_item_head(alt);
+	BitVecT * alt_firsts  = alt_first_set(alt);
+	ItemT *   item        = alt_item_head(alt);
 	BoolT   see_through = TRUE;
 #ifndef NDEBUG
-	ItemP   initial     = item;
+	ItemT *   initial     = item;
 #endif
 
 	for (; see_through && item; item = item_next(item)) {
-	    EntryP entry = item_entry(item);
+	    EntryT * entry = item_entry(item);
 
 	    switch (item_type(item))EXHAUSTIVE {
 	      case ET_PREDICATE:
@@ -374,7 +374,7 @@ rule_compute_alt_first_sets_1(RuleP rule)
 		bitvec_set(alt_firsts, basic_terminal(entry_get_basic(entry)));
 		break;
 	      case ET_RULE: {
-		  RuleP item_rule = entry_get_rule(entry);
+		  RuleT * item_rule = entry_get_rule(entry);
 
 		  see_through = rule_is_see_through(item_rule);
 		  bitvec_or(alt_firsts, rule_first_set(item_rule));
@@ -398,24 +398,24 @@ rule_compute_alt_first_sets_1(RuleP rule)
  */
 
 void
-rule_check_first_set(EntryP entry, void * gclosure)
+rule_check_first_set(EntryT * entry, void * gclosure)
 {
-    GrammarP grammar = (GrammarP)gclosure;
+    GrammarT * grammar = (GrammarT *)gclosure;
 
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_check_first_set_1(rule, grammar);
     }
 }
 
 void
-rule_compute_follow_set(EntryP entry, void * gclosure)
+rule_compute_follow_set(EntryT * entry, void * gclosure)
 {
-    GrammarP grammar = (GrammarP)gclosure;
+    GrammarT * grammar = (GrammarT *)gclosure;
 
     if (entry_is_rule(entry)) {
-	RuleP   rule = entry_get_rule(entry);
+	RuleT *   rule = entry_get_rule(entry);
 	BitVecT    outer;
 	EntryListT pred_outer;
 
@@ -429,29 +429,29 @@ rule_compute_follow_set(EntryP entry, void * gclosure)
 }
 
 void
-rule_compute_see_through_alt(EntryP entry, void * gclosure)
+rule_compute_see_through_alt(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_see_through_alt_1(rule);
     }
 }
 
 void
-rule_compute_alt_first_sets(EntryP entry, void * gclosure)
+rule_compute_alt_first_sets(EntryT * entry, void * gclosure)
 {
     UNUSED(gclosure);
     if (entry_is_rule(entry)) {
-	RuleP rule = entry_get_rule(entry);
+	RuleT * rule = entry_get_rule(entry);
 
 	rule_compute_alt_first_sets_1(rule);
     }
 }
 
 void
-write_clashes(OStreamP ostream, ClashListP clashes)
+write_clashes(OStreamT * ostream, ClashListT * clashes)
 {
     write_newline(ostream);
     while (clashes) {

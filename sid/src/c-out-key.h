@@ -72,8 +72,8 @@
 #include "entry.h"
 #include "key.h"
 
-extern void		c_output_mapped_key(COutputInfoP, EntryP);
-extern void		c_output_key(COutputInfoP, KeyP, NStringP);
-extern void		c_output_label_key(COutputInfoP, KeyP, unsigned);
+extern void		c_output_mapped_key(COutputInfoT *, EntryT *);
+extern void		c_output_key(COutputInfoT *, KeyT *, NStringT *);
+extern void		c_output_label_key(COutputInfoT *, KeyT *, unsigned);
 
 #endif /* !defined (H_C_OUT_KEY) */

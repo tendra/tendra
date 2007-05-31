@@ -72,10 +72,10 @@
 #include "../name.h"
 #include "../type.h"
 
-ItemP
-item_create(EntryP entry)
+ItemT *
+item_create(EntryT * entry)
 {
-    ItemP item = ALLOCATE(ItemT);
+    ItemT * item = ALLOCATE(ItemT);
 
     item->next         = NULL;
     types_init(item_param(item));
@@ -87,10 +87,10 @@ item_create(EntryP entry)
     return(item);
 }
 
-ItemP
-item_duplicate(ItemP item)
+ItemT *
+item_duplicate(ItemT * item)
 {
-    ItemP new_item = ALLOCATE(ItemT);
+    ItemT * new_item = ALLOCATE(ItemT);
 
     new_item->next         = NULL;
     types_copy(item_param(new_item), item_param(item));
@@ -102,10 +102,10 @@ item_duplicate(ItemP item)
     return(new_item);
 }
 
-ItemP
-item_duplicate_and_translate(ItemP item, TypeTransP translator, TableP table)
+ItemT *
+item_duplicate_and_translate(ItemT * item, TypeTransT * translator, TableT * table)
 {
-    ItemP new_item = ALLOCATE(ItemT);
+    ItemT * new_item = ALLOCATE(ItemT);
 
     new_item->next         = NULL;
     types_copy_and_translate(item_param(new_item), item_param(item),
@@ -120,7 +120,7 @@ item_duplicate_and_translate(ItemP item, TypeTransP translator, TableP table)
 }
 
 void
-item_translate_list(ItemP item, TypeBTransP translator)
+item_translate_list(ItemT * item, TypeBTransT * translator)
 {
     for (; item; item = item_next(item)) {
 	types_translate(item_param(item), translator);
@@ -129,128 +129,128 @@ item_translate_list(ItemP item, TypeBTransP translator)
 }
 
 void
-item_to_predicate(ItemP item)
+item_to_predicate(ItemT * item)
 {
     assert(item_is_action(item));
     item->type = ET_PREDICATE;
 }
 
-ItemP
-item_next(ItemP item)
+ItemT *
+item_next(ItemT * item)
 {
     return(item->next);
 }
 
-ItemP *
-item_next_ref(ItemP item)
+ItemT * *
+item_next_ref(ItemT * item)
 {
     return(&(item->next));
 }
 
 void
-item_set_next(ItemP item1, ItemP item2)
+item_set_next(ItemT * item1, ItemT * item2)
 {
     item1->next = item2;
 }
 
-EntryP
-item_entry(ItemP item)
+EntryT *
+item_entry(ItemT * item)
 {
     return(item->entry);
 }
 
 void
-item_set_entry(ItemP item, EntryP entry)
+item_set_entry(ItemT * item, EntryT * entry)
 {
     item->entry = entry;
 }
 
 EntryTypeT
-item_type(ItemP item)
+item_type(ItemT * item)
 {
     return(item->type);
 }
 
 BoolT
-item_is_rule(ItemP item)
+item_is_rule(ItemT * item)
 {
     return(item->type == ET_RULE);
 }
 
 BoolT
-item_is_action(ItemP item)
+item_is_action(ItemT * item)
 {
     return(item->type == ET_ACTION);
 }
 
 BoolT
-item_is_predicate(ItemP item)
+item_is_predicate(ItemT * item)
 {
     return(item->type == ET_PREDICATE);
 }
 
 BoolT
-item_is_basic(ItemP item)
+item_is_basic(ItemT * item)
 {
     return(item->type == ET_BASIC);
 }
 
 BoolT
-item_is_rename(ItemP item)
+item_is_rename(ItemT * item)
 {
     return(item->type == ET_RENAME);
 }
 
-TypeTupleP
-item_param(ItemP item)
+TypeTupleT *
+item_param(ItemT * item)
 {
     return(&(item->param));
 }
 
 void
-item_add_param(ItemP item, TypeTupleP param)
+item_add_param(ItemT * item, TypeTupleT * param)
 {
     types_assign(item_param(item), param);
 }
 
-TypeTupleP
-item_result(ItemP item)
+TypeTupleT *
+item_result(ItemT * item)
 {
     return(&(item->result));
 }
 
 void
-item_add_result(ItemP item, TypeTupleP result)
+item_add_result(ItemT * item, TypeTupleT * result)
 {
     types_assign(item_result(item), result);
 }
 
 BoolT
-item_is_inlinable(ItemP item)
+item_is_inlinable(ItemT * item)
 {
     return(item->inlinable);
 }
 
 void
-item_inlinable(ItemP item)
+item_inlinable(ItemT * item)
 {
     item->inlinable = TRUE;
 }
 
 BoolT
-item_is_tail_call(ItemP item)
+item_is_tail_call(ItemT * item)
 {
     return(item->tail_call);
 }
 
 void
-item_tail_call(ItemP item)
+item_tail_call(ItemT * item)
 {
     item->tail_call = TRUE;
 }
 
 BoolT
-item_names_used_in_list(ItemP item, TypeTupleP names)
+item_names_used_in_list(ItemT * item, TypeTupleT * names)
 {
     while (item) {
 	if ((types_intersect(item_param(item), names)) ||
@@ -263,16 +263,16 @@ item_names_used_in_list(ItemP item, TypeTupleP names)
 }
 
 void
-item_compute_minimal_dataflow(ItemP item, TypeTupleP used)
+item_compute_minimal_dataflow(ItemT * item, TypeTupleT * used)
 {
     if (item) {
-	ItemP next = item_next(item);
+	ItemT * next = item_next(item);
 
 	if (next) {
 	    item_compute_minimal_dataflow(next, used);
 	}
 	if (item_is_inlinable(item)) {
-	    RuleP rule = entry_get_rule(item_entry(item));
+	    RuleT * rule = entry_get_rule(item_entry(item));
 
 	    types_inplace_intersection(item_result(item), used);
 	    types_inplace_intersection(rule_result(rule), used);
@@ -282,10 +282,10 @@ item_compute_minimal_dataflow(ItemP item, TypeTupleP used)
     }
 }
 
-ItemP
-item_deallocate(ItemP item)
+ItemT *
+item_deallocate(ItemT * item)
 {
-    ItemP next = item_next(item);
+    ItemT * next = item_next(item);
 
     types_destroy(item_param(item));
     types_destroy(item_result(item));
@@ -294,9 +294,9 @@ item_deallocate(ItemP item)
 }
 
 void
-write_item(OStreamP ostream, ItemP item)
+write_item(OStreamT * ostream, ItemT * item)
 {
-    EntryP entry = item_entry(item);
+    EntryT * entry = item_entry(item);
 
     write_type_names(ostream, item_result(item), TRUE);
     if (item_is_predicate(item)) {
