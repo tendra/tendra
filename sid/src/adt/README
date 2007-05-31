@@ -1,0 +1,6 @@
+Abstract Data Types
+-------------------
+
+This directory contains sid-specific ADTs. There should be nothing here
+which is reusable outside of sid; each ADT represents one of sid's concepts.
+

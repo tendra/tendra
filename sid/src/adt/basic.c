@@ -57,133 +57,97 @@
         it may be put.
 */
 
+
 /*
- * rstack.c - Renaming stack ADT.
+ * basic.c - Basic ADT.
  *
- * This file implements the renaming stack routines.  They are mainly used by
- * the output routines to do scoping of inlined rules.
+ * This file implements the basic manipulation routines.
  */
 
-#include <assert.h>
-
-#include "rstack.h"
-#include "action.h"
 #include "basic.h"
+#include "action.h"
+#include "../grammar.h"
 #include "name.h"
-#include "rules/rule.h"
+#include "rstack.h"
+#include "../rules/rule.h"
 #include "type.h"
 
-void
-rstack_init(RStackT * rstack)
+BasicT *
+basic_create(GrammarT * grammar, BoolT ignored)
 {
-    rstack->head = NULL;
+    BasicT * basic = ALLOCATE(BasicT);
+
+    basic->terminal        = grammar_next_terminal(grammar);
+    types_init(basic_result(basic));
+    basic->result_code     = NULL;
+    basic->ignored         = ignored;
+    return(basic);
+}
+
+unsigned
+basic_terminal(BasicT * basic)
+{
+    return(basic->terminal);
+}
+
+TypeTupleT *
+basic_result(BasicT * basic)
+{
+    return(&(basic->result));
+}
+
+void *
+basic_get_result_code(BasicT * basic)
+{
+    return(basic->result_code);
 }
 
 void
-rstack_push_frame(RStackT * rstack)
+basic_set_result_code(BasicT * basic, void * code)
 {
-    TransStackEntryT * frame = ALLOCATE(TransStackEntryT);
+    basic->result_code = code;
+}
 
-    frame->next = rstack->head;
-    rtrans_init(&(frame->translator));
-    rstack->head = frame;
+BoolT
+basic_get_ignored(BasicT * basic)
+{
+    return(basic->ignored);
 }
 
 void
-rstack_compute_formal_renaming(RStackT * rstack, TypeTupleT * names)
+basic_iter_for_table(BasicT * basic, BoolT full,
+		     void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
+		     void * closure)
 {
-    assert(rstack->head);
-    types_compute_formal_renaming(names, &(rstack->head->translator));
-}
-
-void
-rstack_compute_formal_inlining(RStackT * rstack, TypeTupleT * names,
-			       TypeTupleT * renames)
-{
-    SaveRStackT state;
-
-    assert(rstack->head);
-    state.head = rstack->head->next;
-    types_compute_formal_inlining(names, renames, &(rstack->head->translator),
-				  &state);
-}
-
-void
-rstack_compute_local_renaming(RStackT * rstack, TypeTupleT * names,
-			      TypeTupleT * exclude, TableT * table)
-{
-    SaveRStackT state;
-
-    assert(rstack->head);
-    state.head = rstack->head->next;
-    types_compute_local_renaming(names, exclude, &(rstack->head->translator),
-				 &state, table);
-}
-
-void
-rstack_add_translation(RStackT * rstack, EntryT * from, EntryT * to, EntryT * type,
-		       BoolT reference)
-{
-    assert(rstack->head);
-    rtrans_add_translation(&(rstack->head->translator), from, to, type,
-			   reference);
-}
-
-void
-rstack_save_state(RStackT * rstack, SaveRStackT * state)
-{
-    state->head = rstack->head;
-}
-
-EntryT *
-rstack_get_translation(SaveRStackT * state, EntryT * entry, EntryT * *type_ref,
-		       BoolT *reference_ref)
-{
-    TransStackEntryT * frame = state->head;
-
-    while (frame) {
-	EntryT * translation;
-
-	translation = rtrans_get_translation(&(frame->translator), entry,
-					     type_ref, reference_ref);
-	if (translation) {
-	    return(translation);
-	}
-	frame = frame->next;
-    }
-    return(NULL);
-}
-
-void
-rstack_apply_for_non_locals(RStackT * non_local_stack, SaveRStackT * state,
-			    void (*proc)(EntryT *, EntryT *, void *),
-			    void * closure)
-{
-    TransStackEntryT * frame = non_local_stack->head;
-
-    if ((frame != NULL) && (state->head)) {
-	TransStackEntryT * limit = state->head->next;
-
-	for (; frame != limit; frame = frame->next) {
-	    rtrans_apply_for_non_locals(&(frame->translator), proc, closure);
-	}
+    if (full) {
+	types_iter_for_table(basic_result(basic), proc, closure);
     }
 }
 
 void
-rstack_pop_frame(RStackT * rstack)
+write_basics(OStreamT * ostream, BasicClosureT * closure)
 {
-    TransStackEntryT * frame = rstack->head;
+    BitVecT *  bitvec   = closure->bitvec;
+    TableT *   table    = grammar_table(closure->grammar);
+    unsigned terminal = bitvec_first_bit(bitvec);
+    unsigned num_bits = bitvec_num_bits(bitvec);
 
-    rstack->head = frame->next;
-    rtrans_destroy(&(frame->translator));
-    DEALLOCATE(frame);
-}
+    while (num_bits) {
+	EntryT * entry = table_get_basic_by_number(table, terminal);
 
-void
-rstack_destroy(RStackT * rstack)
-{
-    while (rstack->head) {
-	rstack_pop_frame(rstack);
+	if (entry) {
+	    write_char(ostream, '\'');
+	    write_key(ostream, entry_key(entry));
+	    write_char(ostream, '\'');
+	} else {
+	    write_unsigned(ostream, terminal);
+	}
+	if (num_bits > 2) {
+	    write_cstring(ostream, ", ");
+	} else if (num_bits == 2) {
+	    write_cstring(ostream, " & ");
+	}
+	num_bits--;
+	(void)bitvec_next_bit(bitvec, &terminal);
     }
 }

@@ -58,47 +58,51 @@
 */
 
 /*
- * table.h - Identifier table ADT.
+ * entry-list.h - Identifier table entry list ADT.
  *
- * See the file "table.c" for more information.
+ * See the file "entry-list.h" for more information.
  */
 
-#ifndef H_TABLE
-#define H_TABLE
+#ifndef H_ENTRY_LIST
+#define H_ENTRY_LIST
 
-#include "os-interface.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../dalloc.h"
 #include "entry.h"
-#include "ostream.h"
-#include "key.h"
+#include "../ostream.h"
 
-/* To avoid cicularity: */
-struct GrammarT;
+typedef struct EntryListEntryT {
+    struct EntryListEntryT     *next;
+    EntryT *			entry;
+} EntryListEntryT;
 
-#define TABLE_SIZE	(127)
+typedef struct EntryListT {
+    EntryListEntryT *		head;
+    EntryListEntryT *	       *tail;
+} EntryListT;
 
-typedef struct TableT {
-    EntryT *			contents[TABLE_SIZE];
-} TableT;
+typedef struct SaveListT {
+    struct EntryListEntryT    **last_ref;
+} SaveListT;
 
-extern void	table_init(TableT *);
-extern EntryT *	table_add_type(TableT *, NStringT *);
-extern EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
-extern EntryT *	table_add_action(TableT *, NStringT *);
-extern EntryT *	table_add_rule(TableT *, NStringT *);
-extern EntryT *	table_add_generated_rule(TableT *, BoolT);
-extern EntryT *	table_add_name(TableT *, NStringT *);
-extern EntryT *	table_add_generated_name(TableT *);
-extern EntryT *	table_add_rename(TableT *);
-extern EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
-extern EntryT *	table_get_entry(TableT *, NStringT *);
-extern EntryT *	table_get_type(TableT *, NStringT *);
-extern EntryT *	table_get_basic(TableT *, NStringT *);
-extern EntryT *	table_get_basic_by_number(TableT *, unsigned);
-extern EntryT *	table_get_action(TableT *, NStringT *);
-extern EntryT *	table_get_rule(TableT *, NStringT *);
-extern void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
-extern void	table_untrace(TableT *);
-extern void	table_unlink_untraced_rules(TableT *);
+extern void	entry_list_init(EntryListT *);
+extern void	entry_list_copy(EntryListT *, EntryListT *);
+extern void	entry_list_add(EntryListT *, EntryT *);
+extern void	entry_list_add_if_missing(EntryListT *, EntryT *);
+extern BoolT	entry_list_contains(EntryListT *, EntryT *);
+extern BoolT	entry_list_includes(EntryListT *, EntryListT *);
+extern void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
+extern void	entry_list_unlink_used(EntryListT *, EntryListT *);
+extern void	entry_list_append(EntryListT *, EntryListT *);
+extern BoolT	entry_list_is_empty(EntryListT *);
+extern void	entry_list_save_state(EntryListT *, SaveListT *);
+extern void	entry_list_restore_state(EntryListT *, SaveListT *);
+extern void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
+				void *);
+extern void	entry_list_iter_table(EntryListT *, BoolT,
+				      void(*)(EntryT *, void *), void *);
+extern void	entry_list_destroy(EntryListT *);
 
-#endif /* !defined (H_TABLE) */
+extern void	write_entry_list(OStreamT *, EntryListT *);
+
+#endif /* !defined (H_ENTRY_LIST) */

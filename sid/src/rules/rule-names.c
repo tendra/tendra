@@ -65,11 +65,11 @@
  */
 
 #include "rule.h"
-#include "../action.h"
-#include "../basic.h"
-#include "../name.h"
-#include "../type.h"
-#include "../types.h"
+#include "../adt/action.h"
+#include "../adt/basic.h"
+#include "../adt/name.h"
+#include "../adt/type.h"
+#include "../adt/types.h"
 
 static void
 rule_recompute_alt_names_2(AltT * alt, EntryT * predicate_id)

@@ -58,61 +58,30 @@
 */
 
 /*
- * action.c - Action ADT.
+ * type.h - Type ADT.
  *
- * This file implements the action manipulation routines.
+ * See the file "type.c" for more information.
  */
 
-#include "os-interface.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "rules/rule.h"
-#include "type.h"
+#ifndef H_TYPE
+#define H_TYPE
 
-ActionT *
-action_create(void)
-{
-    ActionT * action = ALLOCATE(ActionT);
+#include "../os-interface.h"
+#include "../dalloc.h"
+#include "../dstring.h"
 
-    types_init(action_param(action));
-    types_init(action_result(action));
-    action->code = NULL;
-    return(action);
-}
+typedef struct TypeT {
+    void *			assign_code;
+    void *			param_assign_code;
+    void *			result_assign_code;
+} TypeT;
 
-/* TODO some of these could become macros or inlined functions */
-TypeTupleT *
-action_param(ActionT * action)
-{
-    return(&(action->param));
-}
+extern TypeT *		type_create(void);
+extern void *		type_get_assign_code(TypeT *);
+extern void		type_set_assign_code(TypeT *, void *);
+extern void *		type_get_param_assign_code(TypeT *);
+extern void		type_set_param_assign_code(TypeT *, void *);
+extern void *		type_get_result_assign_code(TypeT *);
+extern void		type_set_result_assign_code(TypeT *, void *);
 
-TypeTupleT *
-action_result(ActionT * action)
-{
-    return(&(action->result));
-}
-
-void *
-action_get_code(ActionT * action)
-{
-    return(action->code);
-}
-
-void
-action_set_code(ActionT * action, void * code)
-{
-    action->code = code;
-}
-
-void
-action_iter_for_table(ActionT * action, BoolT full,
-		      void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
-		      void * closure)
-{
-    if (full) {
-	types_iter_for_table(action_param(action), proc, closure);
-	types_iter_for_table(action_result(action), proc, closure);
-    }
-}
+#endif /* !defined (H_TYPE) */

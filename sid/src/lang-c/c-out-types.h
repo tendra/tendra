@@ -69,10 +69,10 @@
 
 #include "../os-interface.h"
 #include "c-output.h"
-#include "../rstack.h"
+#include "../adt/rstack.h"
 #include "../rules/rule.h"
-#include "../table.h"
-#include "../types.h"
+#include "../adt/table.h"
+#include "../adt/types.h"
 
 extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
 				SaveRStackT *, unsigned);

@@ -73,19 +73,19 @@
 #include <assert.h>
 
 #include "parser.h"
-#include "action.h"
-#include "basic.h"
+#include "adt/action.h"
+#include "adt/basic.h"
 #include "bitvec.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "gen-errors.h"
 #include "grammar.h"
 #include "lexer.h"
-#include "non-local.h"
+#include "adt/non-local.h"
 #include "rules/rule.h"
-#include "scope.h"
-#include "table.h"
-#include "types.h"
+#include "adt/scope.h"
+#include "adt/table.h"
+#include "adt/types.h"
 
 #define CURRENT_TERMINAL lexer_get_terminal (sid_current_stream)
 #define ADVANCE_LEXER lexer_next_token (sid_current_stream)

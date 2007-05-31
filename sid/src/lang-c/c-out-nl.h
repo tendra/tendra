@@ -69,7 +69,7 @@
 
 #include "../os-interface.h"
 #include "c-output.h"
-#include "../non-local.h"
+#include "../adt/non-local.h"
 #include "../rules/rule.h"
 
 extern void	c_output_non_locals(COutputInfoT *, NonLocalListT *);

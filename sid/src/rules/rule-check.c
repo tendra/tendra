@@ -79,7 +79,7 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "../basic.h"
+#include "../adt/basic.h"
 #include "../bitvec.h"
 #include "../gen-errors.h"
 

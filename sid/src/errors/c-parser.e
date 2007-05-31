@@ -30,8 +30,8 @@
 header $[
 #include "lang-c/c-lexer.h"
 #include "lang-c/c-parser.h"
-#include "key.h"
-#include "types.h"
+#include "adt/key.h"
+#include "adt/types.h"
 ]$;
 
 ###############################################################################

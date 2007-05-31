@@ -68,10 +68,10 @@
 #include "table.h"
 #include "action.h"
 #include "basic.h"
-#include "gen-errors.h"
-#include "grammar.h"
+#include "../gen-errors.h"
+#include "../grammar.h"
 #include "name.h"
-#include "rules/rule.h"
+#include "../rules/rule.h"
 #include "type.h"
 
 static unsigned

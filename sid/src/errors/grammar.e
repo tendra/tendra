@@ -29,7 +29,7 @@
 
 header $[
 #include "dstring.h"
-#include "table.h"
+#include "adt/table.h"
 ]$;
 
 error "rule not used" {

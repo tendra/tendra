@@ -58,49 +58,64 @@
 */
 
 /*
- * rstack.h - Renaming stack ADT.
+ * cstring-list.h - String list ADT.
  *
- * See the file "rstack.c" for more information.
+ * This file specifies the interface to a string list facility.  This
+ * particular facility allows lists of cstrings (defined in the files
+ * "cstring.[ch]") to be created.
  */
 
-#ifndef H_RSTACK
-#define H_RSTACK
+#ifndef H_CSTRING_LIST
+#define H_CSTRING_LIST
 
-#include "os-interface.h"
-#include "table.h"
-#include "types.h"
+#include "../os-interface.h"
+#include "../cstring.h"
+#include "../dalloc.h"
 
-typedef struct TransStackEntryT {
-    struct TransStackEntryT    *next;
-    TypeRTransT			translator;
-} TransStackEntryT;
+/*
+ * This is the cstring list entry type.
+ */
+typedef struct CStringListEntryT {
+    struct CStringListEntryT   *next;
+    char *			string;
+} CStringListEntryT;
 
-typedef struct RStackT {
-    TransStackEntryT *		head;
-} RStackT;
+/*
+ * This is the cstring list type.
+ */
+typedef struct CStringListT {
+    CStringListEntryT *		head;
+    CStringListEntryT *	       *tail;
+} CStringListT;
 
-typedef struct SaveRStackT {
-    TransStackEntryT *		head;
-} SaveRStackT;
+/*
+ * This function initialises the specified cstring list to be an empty list.
+ */
+extern void			cstring_list_init(CStringListT *);
 
-extern void		 rstack_init(RStackT *);
-extern void		 rstack_push_frame(RStackT *);
-extern void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
-extern void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
-							TypeTupleT *);
-extern void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
-						       TypeTupleT *, TableT *);
-extern void		 rstack_add_translation(RStackT *, struct EntryT *,
-						struct EntryT *,
-						struct EntryT *, BoolT);
-extern void		 rstack_save_state(RStackT *, SaveRStackT *);
-extern struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
-						 struct EntryT **, BoolT *);
-extern void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
-						     void(*)(struct EntryT *,
-						     struct EntryT *,
-						     void *), void *);
-extern void		 rstack_pop_frame(RStackT *);
-extern void		 rstack_destroy(RStackT *);
+/*
+ * This function appends the specified cstring onto the specified list.
+ */
+extern void			cstring_list_append(CStringListT *, char *);
 
-#endif /* !defined (H_RSTACK) */
+/*
+ * This function returns a pointer to the first entry in the specified list.
+ */
+extern CStringListEntryT *	cstring_list_head(CStringListT *);
+
+/*
+ * This function returns a pointer to the cstring stored in the specified
+ * list entry.
+ */
+extern char *			cstring_list_entry_string(CStringListEntryT *);
+
+/*
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ */
+extern CStringListEntryT *	cstring_list_entry_deallocate(CStringListEntryT *);
+
+#endif /* !defined (H_CSTRING_LIST) */

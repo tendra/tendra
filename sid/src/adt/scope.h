@@ -58,44 +58,53 @@
 */
 
 /*
- * non-local.h - Non local name ADT.
+ * scope.h - Scope stack ADT.
  *
- * See the file "non-local.c" for more information.
+ * See the file "scope.c" for more information.
  */
 
-#ifndef H_NON_LOCAL
-#define H_NON_LOCAL
+#ifndef H_SCOPE
+#define H_SCOPE
 
-#include "os-interface.h"
-#include "dalloc.h"
+#include "../os-interface.h"
+#include "../dstring.h"
 #include "entry.h"
-#include "ostream.h"
+#include "table.h"
 
-typedef struct NonLocalEntryT {
-    struct NonLocalEntryT      *next;
-    EntryT *			name;
-    EntryT *			type;
-    EntryT *			initialiser;
-} NonLocalEntryT;
+/* To avoid circularity: */
+struct RuleT;
 
-typedef struct NonLocalListT {
-    NonLocalEntryT *		head;
-    NonLocalEntryT *	       *tail;
-} NonLocalListT;
+typedef struct ScopeMapEntryT {
+    struct ScopeMapEntryT      *next;
+    EntryT *			from;
+    EntryT *			to;
+} ScopeMapEntryT;
 
-extern void		non_local_list_init(NonLocalListT *);
-extern NonLocalEntryT *	non_local_list_add(NonLocalListT *, EntryT *, EntryT *);
-extern BoolT		non_local_list_is_empty(NonLocalListT *);
-extern void		non_local_list_iter_for_table(NonLocalListT *,
-						      void(*)(EntryT *, void *),
-						      void *);
-extern void		non_local_list_destroy(NonLocalListT *);
+typedef struct ScopeStackFrameT {
+    struct ScopeStackFrameT    *next;
+    NStringT			scope;
+    ScopeMapEntryT *		head;
+    ScopeMapEntryT *	       *tail;
+} ScopeStackFrameT;
 
-extern void		write_non_locals(OStreamT *, NonLocalListT *);
+typedef struct ScopeStackT {
+    ScopeStackFrameT *		head;
+} ScopeStackT;
 
-extern void		non_local_entry_set_initialiser(NonLocalEntryT *, EntryT *);
-extern EntryT *		non_local_entry_get_initialiser(NonLocalEntryT *);
-extern EntryT *		non_local_entry_get_type(NonLocalEntryT *);
-extern EntryT *		non_local_entry_get_name(NonLocalEntryT *);
+extern void	scope_stack_init(ScopeStackT *);
+extern void	scope_stack_push(ScopeStackT *, NStringT *);
+extern void	scope_stack_pop(ScopeStackT *);
+extern EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
+				     struct RuleT *, BoolT *);
+extern EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
+				       struct RuleT *, BoolT *);
+extern EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
+					  EntryT *, struct RuleT *);
+extern EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
+					  NStringT *);
+extern BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
+					    struct RuleT *);
 
-#endif /* !defined (H_NON_LOCAL) */
+#endif /* !defined (H_SCOPE) */

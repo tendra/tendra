@@ -69,14 +69,14 @@ c-parse-grammar	-> c_parse_grammar;
 
 
 #include "c-parser.h"
-#include "../action.h"
+#include "../adt/action.h"
 #include "c-code.h"
 #include "c-out-info.h"
-#include "../basic.h"
-#include "../entry.h"
+#include "../adt/basic.h"
+#include "../adt/entry.h"
 #include "../gen-errors.h"
-#include "../type.h"
-#include "../types.h"
+#include "../adt/type.h"
+#include "../adt/types.h"
 
 #define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
 #define ADVANCE_LEXER c_lexer_next_token (c_current_stream)

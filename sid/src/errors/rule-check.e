@@ -28,8 +28,8 @@
 
 
 header $[
-#include "basic.h"
-#include "entry-list.h"
+#include "adt/basic.h"
+#include "adt/entry-list.h"
 #include "rules/rule.h"
 ]$;
 

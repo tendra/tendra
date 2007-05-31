@@ -58,30 +58,47 @@
 */
 
 /*
- * type.h - Type ADT.
+ * table.h - Identifier table ADT.
  *
- * See the file "type.c" for more information.
+ * See the file "table.c" for more information.
  */
 
-#ifndef H_TYPE
-#define H_TYPE
+#ifndef H_TABLE
+#define H_TABLE
 
-#include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../dstring.h"
+#include "entry.h"
+#include "../ostream.h"
+#include "key.h"
 
-typedef struct TypeT {
-    void *			assign_code;
-    void *			param_assign_code;
-    void *			result_assign_code;
-} TypeT;
+/* To avoid cicularity: */
+struct GrammarT;
 
-extern TypeT *		type_create(void);
-extern void *		type_get_assign_code(TypeT *);
-extern void		type_set_assign_code(TypeT *, void *);
-extern void *		type_get_param_assign_code(TypeT *);
-extern void		type_set_param_assign_code(TypeT *, void *);
-extern void *		type_get_result_assign_code(TypeT *);
-extern void		type_set_result_assign_code(TypeT *, void *);
+#define TABLE_SIZE	(127)
 
-#endif /* !defined (H_TYPE) */
+typedef struct TableT {
+    EntryT *			contents[TABLE_SIZE];
+} TableT;
+
+extern void	table_init(TableT *);
+extern EntryT *	table_add_type(TableT *, NStringT *);
+extern EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
+extern EntryT *	table_add_action(TableT *, NStringT *);
+extern EntryT *	table_add_rule(TableT *, NStringT *);
+extern EntryT *	table_add_generated_rule(TableT *, BoolT);
+extern EntryT *	table_add_name(TableT *, NStringT *);
+extern EntryT *	table_add_generated_name(TableT *);
+extern EntryT *	table_add_rename(TableT *);
+extern EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
+extern EntryT *	table_get_entry(TableT *, NStringT *);
+extern EntryT *	table_get_type(TableT *, NStringT *);
+extern EntryT *	table_get_basic(TableT *, NStringT *);
+extern EntryT *	table_get_basic_by_number(TableT *, unsigned);
+extern EntryT *	table_get_action(TableT *, NStringT *);
+extern EntryT *	table_get_rule(TableT *, NStringT *);
+extern void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
+extern void	table_untrace(TableT *);
+extern void	table_unlink_untraced_rules(TableT *);
+
+#endif /* !defined (H_TABLE) */

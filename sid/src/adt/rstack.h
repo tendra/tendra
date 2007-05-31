@@ -57,97 +57,50 @@
         it may be put.
 */
 
-
 /*
- * basic.c - Basic ADT.
+ * rstack.h - Renaming stack ADT.
  *
- * This file implements the basic manipulation routines.
+ * See the file "rstack.c" for more information.
  */
 
-#include "basic.h"
-#include "action.h"
-#include "grammar.h"
-#include "name.h"
-#include "rstack.h"
-#include "rules/rule.h"
-#include "type.h"
+#ifndef H_RSTACK
+#define H_RSTACK
 
-BasicT *
-basic_create(GrammarT * grammar, BoolT ignored)
-{
-    BasicT * basic = ALLOCATE(BasicT);
+#include "../os-interface.h"
+#include "table.h"
+#include "types.h"
 
-    basic->terminal        = grammar_next_terminal(grammar);
-    types_init(basic_result(basic));
-    basic->result_code     = NULL;
-    basic->ignored         = ignored;
-    return(basic);
-}
+typedef struct TransStackEntryT {
+    struct TransStackEntryT    *next;
+    TypeRTransT			translator;
+} TransStackEntryT;
 
-unsigned
-basic_terminal(BasicT * basic)
-{
-    return(basic->terminal);
-}
+typedef struct RStackT {
+    TransStackEntryT *		head;
+} RStackT;
 
-TypeTupleT *
-basic_result(BasicT * basic)
-{
-    return(&(basic->result));
-}
+typedef struct SaveRStackT {
+    TransStackEntryT *		head;
+} SaveRStackT;
 
-void *
-basic_get_result_code(BasicT * basic)
-{
-    return(basic->result_code);
-}
+extern void		 rstack_init(RStackT *);
+extern void		 rstack_push_frame(RStackT *);
+extern void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
+extern void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
+							TypeTupleT *);
+extern void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
+						       TypeTupleT *, TableT *);
+extern void		 rstack_add_translation(RStackT *, struct EntryT *,
+						struct EntryT *,
+						struct EntryT *, BoolT);
+extern void		 rstack_save_state(RStackT *, SaveRStackT *);
+extern struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
+						 struct EntryT **, BoolT *);
+extern void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
+						     void(*)(struct EntryT *,
+						     struct EntryT *,
+						     void *), void *);
+extern void		 rstack_pop_frame(RStackT *);
+extern void		 rstack_destroy(RStackT *);
 
-void
-basic_set_result_code(BasicT * basic, void * code)
-{
-    basic->result_code = code;
-}
-
-BoolT
-basic_get_ignored(BasicT * basic)
-{
-    return(basic->ignored);
-}
-
-void
-basic_iter_for_table(BasicT * basic, BoolT full,
-		     void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
-		     void * closure)
-{
-    if (full) {
-	types_iter_for_table(basic_result(basic), proc, closure);
-    }
-}
-
-void
-write_basics(OStreamT * ostream, BasicClosureT * closure)
-{
-    BitVecT *  bitvec   = closure->bitvec;
-    TableT *   table    = grammar_table(closure->grammar);
-    unsigned terminal = bitvec_first_bit(bitvec);
-    unsigned num_bits = bitvec_num_bits(bitvec);
-
-    while (num_bits) {
-	EntryT * entry = table_get_basic_by_number(table, terminal);
-
-	if (entry) {
-	    write_char(ostream, '\'');
-	    write_key(ostream, entry_key(entry));
-	    write_char(ostream, '\'');
-	} else {
-	    write_unsigned(ostream, terminal);
-	}
-	if (num_bits > 2) {
-	    write_cstring(ostream, ", ");
-	} else if (num_bits == 2) {
-	    write_cstring(ostream, " & ");
-	}
-	num_bits--;
-	(void)bitvec_next_bit(bitvec, &terminal);
-    }
-}
+#endif /* !defined (H_RSTACK) */

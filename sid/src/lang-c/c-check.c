@@ -66,11 +66,11 @@
  */
 
 #include "c-check.h"
-#include "../action.h"
-#include "../basic.h"
-#include "../entry.h"
+#include "../adt/action.h"
+#include "../adt/basic.h"
+#include "../adt/entry.h"
 #include "../gen-errors.h"
-#include "../table.h"
+#include "../adt/table.h"
 
 static void
 c_check_grammar_1(EntryT * entry, void * gclosure)

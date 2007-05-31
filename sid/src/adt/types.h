@@ -66,10 +66,10 @@
 #ifndef H_TYPES
 #define H_TYPES
 
-#include "os-interface.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../dstring.h"
 #include "entry-list.h"
-#include "ostream.h"
+#include "../ostream.h"
 #include "scope.h"
 #include "table.h"
 

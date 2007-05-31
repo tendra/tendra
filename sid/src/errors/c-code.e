@@ -28,7 +28,7 @@
 
 
 header $[
-#include "entry.h"
+#include "adt/entry.h"
 ]$;
 
 error "bad id substitution" {

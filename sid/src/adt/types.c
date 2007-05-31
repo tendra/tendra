@@ -68,11 +68,11 @@
 #include <limits.h>
 
 #include "types.h"
-#include "dalloc.h"
-#include "gen-errors.h"
+#include "../dalloc.h"
+#include "../gen-errors.h"
 #include "name.h"
 #include "rstack.h"
-#include "rules/rule.h"
+#include "../rules/rule.h"
 #include "table.h"
 
 /*

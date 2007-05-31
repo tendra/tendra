@@ -65,8 +65,8 @@
  */
 
 #include "rule.h"
-#include "../action.h"
-#include "../types.h"
+#include "../adt/action.h"
+#include "../adt/types.h"
 
 static void			rule_compute_mutations_3(EntryT *, void *);
 

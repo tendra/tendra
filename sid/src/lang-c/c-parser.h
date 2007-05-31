@@ -70,7 +70,7 @@
 #include "../os-interface.h"
 #include "c-lexer.h"
 #include "c-out-info.h"
-#include "../table.h"
+#include "../adt/table.h"
 
 extern CLexerStreamT *		c_current_stream;
 extern COutputInfoT *		c_current_out_info;

@@ -28,7 +28,7 @@
 
 
 header $[
-#include "key.h"
+#include "adt/key.h"
 ]$;
 
 error "basic result code not defined" {

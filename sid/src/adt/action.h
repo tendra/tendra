@@ -57,34 +57,35 @@
         it may be put.
 */
 
+
 /*
- * name.h - Name ADT.
+ * action.h - Action ADT.
  *
- * See the file "name.c" for more information.
+ * See the file "action.c" for more information.
  */
 
-#ifndef H_NAME
-#define H_NAME
+#ifndef H_ACTION
+#define H_ACTION
 
-#include "os-interface.h"
-#include "dalloc.h"
+#include "../os-interface.h"
+#include "../dalloc.h"
+#include "../dstring.h"
+#include "entry.h"
+#include "types.h"
 
-typedef struct NameT {
-    BoolT			clash;
-    BoolT			used;
-    BoolT			labelled;
-    unsigned			label;
-} NameT;
+typedef struct ActionT {
+    TypeTupleT			param;
+    TypeTupleT			result;
+    void *			code;
+} ActionT;
 
-extern NameT *		name_create(void);
-extern BoolT		name_test_and_set_clash(NameT *);
-extern void		name_reset_clash(NameT *);
-extern BoolT		name_is_used(NameT *);
-extern void		name_used(NameT *);
-extern void		name_not_used(NameT *);
-extern unsigned		name_get_label(NameT *);
-extern void		name_set_label(NameT *, unsigned);
-extern void		name_reset_label(NameT *);
-extern BoolT		name_has_label(NameT *);
+extern ActionT *		action_create(void);
+extern TypeTupleT *	action_param(ActionT *);
+extern TypeTupleT *	action_result(ActionT *);
+extern void *		action_get_code(ActionT *);
+extern void		action_set_code(ActionT *, void *);
+extern void		action_iter_for_table(ActionT *, BoolT,
+					      void(*)(EntryT *, void *),
+					      void *);
 
-#endif /* !defined (H_NAME) */
+#endif /* !defined (H_ACTION) */

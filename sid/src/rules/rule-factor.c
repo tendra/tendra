@@ -159,11 +159,11 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "../basic.h"
+#include "../adt/basic.h"
 #include "../bitvec.h"
-#include "../entry-list.h"
+#include "../adt/entry-list.h"
 #include "../gen-errors.h"
-#include "../types.h"
+#include "../adt/types.h"
 
 typedef struct AltGroupT {
     struct AltGroupT	       *next;

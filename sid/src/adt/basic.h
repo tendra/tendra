@@ -57,54 +57,47 @@
         it may be put.
 */
 
+
 /*
- * scope.h - Scope stack ADT.
+ * basic.h --- Basic ADT.
  *
- * See the file "scope.c" for more information.
+ * See the file "basic.c" for more information.
  */
 
-#ifndef H_SCOPE
-#define H_SCOPE
+#ifndef H_BASIC
+#define H_BASIC
 
-#include "os-interface.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../bitvec.h"
+#include "../dalloc.h"
+#include "../dstring.h"
 #include "entry.h"
-#include "table.h"
+#include "../grammar.h"
+#include "../ostream.h"
+#include "types.h"
 
-/* To avoid circularity: */
-struct RuleT;
+typedef struct BasicT {
+    unsigned			terminal;
+    TypeTupleT			result;
+    void *			result_code;
+    BoolT			ignored;
+} BasicT;
 
-typedef struct ScopeMapEntryT {
-    struct ScopeMapEntryT      *next;
-    EntryT *			from;
-    EntryT *			to;
-} ScopeMapEntryT;
+typedef struct BasicClosureT {
+    BitVecT *			bitvec;
+    GrammarT *			grammar;
+} BasicClosureT;
 
-typedef struct ScopeStackFrameT {
-    struct ScopeStackFrameT    *next;
-    NStringT			scope;
-    ScopeMapEntryT *		head;
-    ScopeMapEntryT *	       *tail;
-} ScopeStackFrameT;
+extern BasicT *		basic_create(GrammarT *, BoolT);
+extern unsigned		basic_terminal(BasicT *);
+extern TypeTupleT *	basic_result(BasicT *);
+extern void *		basic_get_result_code(BasicT *);
+extern void		basic_set_result_code(BasicT *, void *);
+extern BoolT		basic_get_ignored(BasicT *);
+extern void		basic_iter_for_table(BasicT *, BoolT,
+					     void(*)(EntryT *, void *),
+					     void *);
 
-typedef struct ScopeStackT {
-    ScopeStackFrameT *		head;
-} ScopeStackT;
+extern void		write_basics(OStreamT *, BasicClosureT *);
 
-extern void	scope_stack_init(ScopeStackT *);
-extern void	scope_stack_push(ScopeStackT *, NStringT *);
-extern void	scope_stack_pop(ScopeStackT *);
-extern EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
-				     struct RuleT *, BoolT *);
-extern EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
-				       struct RuleT *, BoolT *);
-extern EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
-					  EntryT *, struct RuleT *);
-extern EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
-extern EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
-extern EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
-					  NStringT *);
-extern BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
-					    struct RuleT *);
-
-#endif /* !defined (H_SCOPE) */
+#endif /* !defined (H_BASIC) */

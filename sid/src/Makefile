@@ -3,11 +3,9 @@
 ESRC=errors
 BUILD_ERRORS=${ESRC}/BUILD_ERRORS
 
-TARGETS=gen-errors.o action.o arg-parse.o basic.o bitvec.o \
-	cstring-list.o cstring.o dalloc.o dstring.o entry-list.o \
-	entry.o error-file.o error.o exception.o grammar.o istream.o \
-	key.o lexer.o main.o name.o non-local.o ostream.o output.o \
-	parser.o rstack.o scope.o syntax.o table.o type.o types.o
+TARGETS=gen-errors.o arg-parse.o bitvec.o cstring.o dalloc.o \
+	dstring.o error-file.o error.o exception.o grammar.o istream.o \
+	lexer.o main.o ostream.o output.o parser.o syntax.o
 
 ERR_OUT=gen-errors.c gen-errors.h
 
@@ -37,12 +35,17 @@ clean:
 	${REMOVE} sid gen-errors.c gen-errors.h ${TARGETS}
 	cd rules && ${MAKE} clean
 	cd lang-c && ${MAKE} clean
+	cd adt && ${MAKE} clean
 
-sid: ${TARGETS} rules/rules.a lang-c/lang-c.a
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS} rules/rules.a lang-c/lang-c.a
+sid: ${TARGETS} rules/rules.a lang-c/lang-c.a adt/adt.a
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS} \
+		rules/rules.a lang-c/lang-c.a adt/adt.a
 
 rules/rules.a:
 	cd rules && ${MAKE} all
+
+adt/adt.a:
+	cd adt && ${MAKE} all
 
 lang-c/lang-c.a:
 	cd lang-c && ${MAKE} all

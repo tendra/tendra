@@ -68,11 +68,11 @@
 #define H_GRAMMAR
 
 #include "os-interface.h"
-#include "entry.h"
-#include "entry-list.h"
+#include "adt/entry.h"
+#include "adt/entry-list.h"
 #include "ostream.h"
-#include "table.h"
-#include "types.h"
+#include "adt/table.h"
+#include "adt/types.h"
 
 typedef struct GrammarT {
     TableT			table;

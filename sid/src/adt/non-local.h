@@ -57,35 +57,45 @@
         it may be put.
 */
 
-
 /*
- * action.h - Action ADT.
+ * non-local.h - Non local name ADT.
  *
- * See the file "action.c" for more information.
+ * See the file "non-local.c" for more information.
  */
 
-#ifndef H_ACTION
-#define H_ACTION
+#ifndef H_NON_LOCAL
+#define H_NON_LOCAL
 
-#include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../dalloc.h"
 #include "entry.h"
-#include "types.h"
+#include "../ostream.h"
 
-typedef struct ActionT {
-    TypeTupleT			param;
-    TypeTupleT			result;
-    void *			code;
-} ActionT;
+typedef struct NonLocalEntryT {
+    struct NonLocalEntryT      *next;
+    EntryT *			name;
+    EntryT *			type;
+    EntryT *			initialiser;
+} NonLocalEntryT;
 
-extern ActionT *		action_create(void);
-extern TypeTupleT *	action_param(ActionT *);
-extern TypeTupleT *	action_result(ActionT *);
-extern void *		action_get_code(ActionT *);
-extern void		action_set_code(ActionT *, void *);
-extern void		action_iter_for_table(ActionT *, BoolT,
-					      void(*)(EntryT *, void *),
-					      void *);
+typedef struct NonLocalListT {
+    NonLocalEntryT *		head;
+    NonLocalEntryT *	       *tail;
+} NonLocalListT;
 
-#endif /* !defined (H_ACTION) */
+extern void		non_local_list_init(NonLocalListT *);
+extern NonLocalEntryT *	non_local_list_add(NonLocalListT *, EntryT *, EntryT *);
+extern BoolT		non_local_list_is_empty(NonLocalListT *);
+extern void		non_local_list_iter_for_table(NonLocalListT *,
+						      void(*)(EntryT *, void *),
+						      void *);
+extern void		non_local_list_destroy(NonLocalListT *);
+
+extern void		write_non_locals(OStreamT *, NonLocalListT *);
+
+extern void		non_local_entry_set_initialiser(NonLocalEntryT *, EntryT *);
+extern EntryT *		non_local_entry_get_initialiser(NonLocalEntryT *);
+extern EntryT *		non_local_entry_get_type(NonLocalEntryT *);
+extern EntryT *		non_local_entry_get_name(NonLocalEntryT *);
+
+#endif /* !defined (H_NON_LOCAL) */

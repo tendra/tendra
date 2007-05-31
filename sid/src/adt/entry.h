@@ -58,36 +58,89 @@
 */
 
 /*
- * key.h - Key ADT.
+ * entry.h - Identifier table entry ADT.
  *
- * See the file "key.c" for more information.
+ * See the file "entry.c" for more information.
  */
 
-#ifndef H_KEY
-#define H_KEY
+#ifndef H_ENTRY
+#define H_ENTRY
 
-#include "os-interface.h"
-#include "dstring.h"
+#include "../os-interface.h"
+#include "../dalloc.h"
+#include "../dstring.h"
+#include "../ostream.h"
+#include "key.h"
+
+/* To avoid circularity: */
+#ifdef __TenDRA__
+#pragma TenDRA begin
+#pragma TenDRA complete struct/union analysis off
+#endif
+struct ActionT;
+struct BasicT;
+struct NameT;
+struct RuleT;
+struct TypeT;
 
 typedef enum {
-    KT_STRING,
-    KT_NUMERIC
-} KeyTypeT;
+    ET_TYPE,
+    ET_BASIC,
+    ET_RULE,
+    ET_ACTION,
+    ET_NAME,
+    ET_RENAME,
+    ET_PREDICATE,
+    ET_NON_LOCAL
+} EntryTypeT;
 
-typedef struct KeyT {
-    KeyTypeT			type;
-    NStringT			string;
-    unsigned			number;
-} KeyT;
+typedef struct EntryT {
+    struct EntryT	       *next;
+    KeyT			key;
+    BoolT			mapped;
+    NStringT			mapping;
+    EntryTypeT			type;
+    BoolT			traced;
+    union {
+	struct BasicT	       *basic;
+	struct RuleT	       *rule;
+	struct ActionT	       *action;
+	struct TypeT	       *type;
+	struct EntryT	       *non_local;
+    } u;
+    struct NameT	       *name;
+} EntryT;
 
-extern void		key_init_from_string(KeyT *, NStringT *, unsigned);
-extern void		key_init_from_number(KeyT *, unsigned);
-extern CmpT		key_compare(KeyT *, KeyT *);
-extern BoolT		key_is_string(KeyT *);
-extern NStringT *		key_get_string(KeyT *);
-extern unsigned		key_get_number(KeyT *);
-extern unsigned		key_hash_value(KeyT *);
+extern EntryT *		entry_create_from_string(NStringT *, unsigned,
+						 EntryTypeT);
+extern EntryT *		entry_create_from_number(unsigned, EntryTypeT, BoolT,
+						 EntryT *);
+extern void		entry_set_basic(EntryT *, struct BasicT *);
+extern void		entry_set_rule(EntryT *, struct RuleT *);
+extern void		entry_set_action(EntryT *, struct ActionT *);
+extern void		entry_set_type(EntryT *, struct TypeT *);
+extern void		entry_set_non_local(EntryT *, EntryT *);
+extern EntryT *		entry_next(EntryT *);
+extern EntryT *	       *entry_next_ref(EntryT *);
+extern KeyT *		entry_key(EntryT *);
+extern EntryTypeT	entry_type(EntryT *);
+extern void		entry_change_type(EntryT *, EntryTypeT);
+extern BoolT		entry_is_basic(EntryT *);
+extern BoolT		entry_is_action(EntryT *);
+extern BoolT		entry_is_rule(EntryT *);
+extern BoolT		entry_is_type(EntryT *);
+extern BoolT		entry_is_non_local(EntryT *);
+extern struct BasicT   *entry_get_basic(EntryT *);
+extern struct ActionT  *entry_get_action(EntryT *);
+extern struct RuleT    *entry_get_rule(EntryT *);
+extern struct NameT    *entry_get_name(EntryT *);
+extern struct TypeT    *entry_get_type(EntryT *);
+extern EntryT *		entry_get_non_local(EntryT *);
+extern void		entry_set_mapping(EntryT *, NStringT *);
+extern NStringT *		entry_get_mapping(EntryT *);
+extern void		entry_iter(EntryT *, BoolT, void(*)(EntryT *, void *),
+				   void *);
+extern void		entry_not_traced(EntryT *);
+extern BoolT		entry_is_traced(EntryT *);
 
-extern void		write_key(OStreamT *, KeyT *);
-
-#endif /* !defined (H_KEY) */
+#endif /* !defined (H_ENTRY) */

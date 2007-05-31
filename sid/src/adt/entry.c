@@ -68,9 +68,9 @@
 #include "entry.h"
 #include "action.h"
 #include "basic.h"
-#include "gen-errors.h"
+#include "../gen-errors.h"
 #include "name.h"
-#include "rules/rule.h"
+#include "../rules/rule.h"
 #include "type.h"
 
 static void

@@ -68,10 +68,10 @@
 #define H_PARSER
 
 #include "os-interface.h"
-#include "entry-list.h"
+#include "adt/entry-list.h"
 #include "grammar.h"
 #include "lexer.h"
-#include "table.h"
+#include "adt/table.h"
 
 extern LexerStreamT *	sid_current_stream;
 extern GrammarT *		sid_current_grammar;

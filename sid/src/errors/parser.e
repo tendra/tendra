@@ -28,16 +28,16 @@
 
 
 header $[
-#include "action.h"
-#include "basic.h"
+#include "adt/action.h"
+#include "adt/basic.h"
 #include "dstring.h"
-#include "entry.h"
-#include "name.h"
+#include "adt/entry.h"
+#include "adt/name.h"
 #include "parser.h"
 #include "rules/rule.h"
-#include "table.h"
-#include "type.h"
-#include "types.h"
+#include "adt/table.h"
+#include "adt/type.h"
+#include "adt/types.h"
 ]$;
 
 ###############################################################################

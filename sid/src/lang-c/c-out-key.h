@@ -69,8 +69,8 @@
 #include "../os-interface.h"
 #include "c-output.h"
 #include "../dstring.h"
-#include "../entry.h"
-#include "../key.h"
+#include "../adt/entry.h"
+#include "../adt/key.h"
 
 extern void		c_output_mapped_key(COutputInfoT *, EntryT *);
 extern void		c_output_key(COutputInfoT *, KeyT *, NStringT *);

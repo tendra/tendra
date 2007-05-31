@@ -57,47 +57,62 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * action.c - Action ADT.
  *
- * See the file "basic.c" for more information.
+ * This file implements the action manipulation routines.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#include "../os-interface.h"
+#include "action.h"
+#include "basic.h"
+#include "name.h"
+#include "../rules/rule.h"
+#include "type.h"
 
-#include "os-interface.h"
-#include "bitvec.h"
-#include "dalloc.h"
-#include "dstring.h"
-#include "entry.h"
-#include "grammar.h"
-#include "ostream.h"
-#include "types.h"
+ActionT *
+action_create(void)
+{
+    ActionT * action = ALLOCATE(ActionT);
 
-typedef struct BasicT {
-    unsigned			terminal;
-    TypeTupleT			result;
-    void *			result_code;
-    BoolT			ignored;
-} BasicT;
+    types_init(action_param(action));
+    types_init(action_result(action));
+    action->code = NULL;
+    return(action);
+}
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+/* TODO some of these could become macros or inlined functions */
+TypeTupleT *
+action_param(ActionT * action)
+{
+    return(&(action->param));
+}
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
+TypeTupleT *
+action_result(ActionT * action)
+{
+    return(&(action->result));
+}
 
-extern void		write_basics(OStreamT *, BasicClosureT *);
+void *
+action_get_code(ActionT * action)
+{
+    return(action->code);
+}
 
-#endif /* !defined (H_BASIC) */
+void
+action_set_code(ActionT * action, void * code)
+{
+    action->code = code;
+}
+
+void
+action_iter_for_table(ActionT * action, BoolT full,
+		      void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
+		      void * closure)
+{
+    if (full) {
+	types_iter_for_table(action_param(action), proc, closure);
+	types_iter_for_table(action_result(action), proc, closure);
+    }
+}

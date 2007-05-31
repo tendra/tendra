@@ -70,11 +70,11 @@
 #include "../cstring.h"
 #include "../dalloc.h"
 #include "../dstring.h"
-#include "../entry.h"
-#include "../rstack.h"
+#include "../adt/entry.h"
+#include "../adt/rstack.h"
 #include "../rules/rule.h"
-#include "../table.h"
-#include "../types.h"
+#include "../adt/table.h"
+#include "../adt/types.h"
 
 typedef enum {
     CCT_STRING,

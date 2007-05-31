@@ -69,9 +69,9 @@
 
 #include "../os-interface.h"
 #include "../cstring.h"
-#include "../entry-list.h"
+#include "../adt/entry-list.h"
 #include "../grammar.h"
-#include "../key.h"
+#include "../adt/key.h"
 #include "../ostream.h"
 #include "c-out-info.h"
 

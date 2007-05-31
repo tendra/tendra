@@ -58,51 +58,132 @@
 */
 
 /*
- * entry-list.h - Identifier table entry list ADT.
+ * rstack.c - Renaming stack ADT.
  *
- * See the file "entry-list.h" for more information.
+ * This file implements the renaming stack routines.  They are mainly used by
+ * the output routines to do scoping of inlined rules.
  */
 
-#ifndef H_ENTRY_LIST
-#define H_ENTRY_LIST
+#include <assert.h>
 
-#include "os-interface.h"
-#include "dalloc.h"
-#include "entry.h"
-#include "ostream.h"
+#include "rstack.h"
+#include "action.h"
+#include "basic.h"
+#include "name.h"
+#include "../rules/rule.h"
+#include "type.h"
 
-typedef struct EntryListEntryT {
-    struct EntryListEntryT     *next;
-    EntryT *			entry;
-} EntryListEntryT;
+void
+rstack_init(RStackT * rstack)
+{
+    rstack->head = NULL;
+}
 
-typedef struct EntryListT {
-    EntryListEntryT *		head;
-    EntryListEntryT *	       *tail;
-} EntryListT;
+void
+rstack_push_frame(RStackT * rstack)
+{
+    TransStackEntryT * frame = ALLOCATE(TransStackEntryT);
 
-typedef struct SaveListT {
-    struct EntryListEntryT    **last_ref;
-} SaveListT;
+    frame->next = rstack->head;
+    rtrans_init(&(frame->translator));
+    rstack->head = frame;
+}
 
-extern void	entry_list_init(EntryListT *);
-extern void	entry_list_copy(EntryListT *, EntryListT *);
-extern void	entry_list_add(EntryListT *, EntryT *);
-extern void	entry_list_add_if_missing(EntryListT *, EntryT *);
-extern BoolT	entry_list_contains(EntryListT *, EntryT *);
-extern BoolT	entry_list_includes(EntryListT *, EntryListT *);
-extern void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
-extern void	entry_list_unlink_used(EntryListT *, EntryListT *);
-extern void	entry_list_append(EntryListT *, EntryListT *);
-extern BoolT	entry_list_is_empty(EntryListT *);
-extern void	entry_list_save_state(EntryListT *, SaveListT *);
-extern void	entry_list_restore_state(EntryListT *, SaveListT *);
-extern void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
-				void *);
-extern void	entry_list_iter_table(EntryListT *, BoolT,
-				      void(*)(EntryT *, void *), void *);
-extern void	entry_list_destroy(EntryListT *);
+void
+rstack_compute_formal_renaming(RStackT * rstack, TypeTupleT * names)
+{
+    assert(rstack->head);
+    types_compute_formal_renaming(names, &(rstack->head->translator));
+}
 
-extern void	write_entry_list(OStreamT *, EntryListT *);
+void
+rstack_compute_formal_inlining(RStackT * rstack, TypeTupleT * names,
+			       TypeTupleT * renames)
+{
+    SaveRStackT state;
 
-#endif /* !defined (H_ENTRY_LIST) */
+    assert(rstack->head);
+    state.head = rstack->head->next;
+    types_compute_formal_inlining(names, renames, &(rstack->head->translator),
+				  &state);
+}
+
+void
+rstack_compute_local_renaming(RStackT * rstack, TypeTupleT * names,
+			      TypeTupleT * exclude, TableT * table)
+{
+    SaveRStackT state;
+
+    assert(rstack->head);
+    state.head = rstack->head->next;
+    types_compute_local_renaming(names, exclude, &(rstack->head->translator),
+				 &state, table);
+}
+
+void
+rstack_add_translation(RStackT * rstack, EntryT * from, EntryT * to, EntryT * type,
+		       BoolT reference)
+{
+    assert(rstack->head);
+    rtrans_add_translation(&(rstack->head->translator), from, to, type,
+			   reference);
+}
+
+void
+rstack_save_state(RStackT * rstack, SaveRStackT * state)
+{
+    state->head = rstack->head;
+}
+
+EntryT *
+rstack_get_translation(SaveRStackT * state, EntryT * entry, EntryT * *type_ref,
+		       BoolT *reference_ref)
+{
+    TransStackEntryT * frame = state->head;
+
+    while (frame) {
+	EntryT * translation;
+
+	translation = rtrans_get_translation(&(frame->translator), entry,
+					     type_ref, reference_ref);
+	if (translation) {
+	    return(translation);
+	}
+	frame = frame->next;
+    }
+    return(NULL);
+}
+
+void
+rstack_apply_for_non_locals(RStackT * non_local_stack, SaveRStackT * state,
+			    void (*proc)(EntryT *, EntryT *, void *),
+			    void * closure)
+{
+    TransStackEntryT * frame = non_local_stack->head;
+
+    if ((frame != NULL) && (state->head)) {
+	TransStackEntryT * limit = state->head->next;
+
+	for (; frame != limit; frame = frame->next) {
+	    rtrans_apply_for_non_locals(&(frame->translator), proc, closure);
+	}
+    }
+}
+
+void
+rstack_pop_frame(RStackT * rstack)
+{
+    TransStackEntryT * frame = rstack->head;
+
+    rstack->head = frame->next;
+    rtrans_destroy(&(frame->translator));
+    DEALLOCATE(frame);
+}
+
+void
+rstack_destroy(RStackT * rstack)
+{
+    while (rstack->head) {
+	rstack_pop_frame(rstack);
+    }
+}

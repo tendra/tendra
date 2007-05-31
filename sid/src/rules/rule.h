@@ -74,13 +74,13 @@
 #include "../os-interface.h"
 #include "../bitvec.h"
 #include "../dalloc.h"
-#include "../entry.h"
-#include "../entry-list.h"
-#include "../non-local.h"
+#include "../adt/entry.h"
+#include "../adt/entry-list.h"
+#include "../adt/non-local.h"
 #include "../ostream.h"
-#include "../rstack.h"
-#include "../table.h"
-#include "../types.h"
+#include "../adt/rstack.h"
+#include "../adt/table.h"
+#include "../adt/types.h"
 
 typedef enum {
     DFS_UNTRACED,

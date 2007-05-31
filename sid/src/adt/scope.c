@@ -66,8 +66,8 @@
 #include <assert.h>
 
 #include "scope.h"
-#include "gen-errors.h"
-#include "rules/rule.h"
+#include "../gen-errors.h"
+#include "../rules/rule.h"
 
 void
 scope_stack_init(ScopeStackT * stack)

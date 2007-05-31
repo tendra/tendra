@@ -90,7 +90,7 @@
 #include "lang-c/c-output.h"
 #include "lang-c/c-parser.h"
 #include "cstring.h"
-#include "cstring-list.h"
+#include "adt/cstring-list.h"
 #include "dstring.h"
 #include "error.h"
 #include "error-file.h"

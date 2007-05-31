@@ -66,13 +66,13 @@
 #include <ctype.h>
 
 #include "c-out-key.h"
-#include "../action.h"
-#include "../basic.h"
-#include "../name.h"
-#include "../rstack.h"
+#include "../adt/action.h"
+#include "../adt/basic.h"
+#include "../adt/name.h"
+#include "../adt/rstack.h"
 #include "../rules/rule.h"
 #include "../syntax.h"
-#include "../type.h"
+#include "../adt/type.h"
 
 static void
 write_c_key(OStreamT * ostream, char * contents, unsigned length)

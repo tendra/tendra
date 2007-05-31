@@ -28,7 +28,7 @@
 
 
 header $[
-#include "key.h"
+#include "adt/key.h"
 #include "parser.h"
 ]$;
 

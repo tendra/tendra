@@ -147,12 +147,12 @@
 #include <stddef.h>
 
 #include "grammar.h"
-#include "action.h"
-#include "basic.h"
+#include "adt/action.h"
+#include "adt/basic.h"
 #include "gen-errors.h"
-#include "name.h"
+#include "adt/name.h"
 #include "rules/rule.h"
-#include "type.h"
+#include "adt/type.h"
 
 static void
 grammar_trace_ignored(EntryT * entry, void * gclosure)

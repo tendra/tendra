@@ -58,64 +58,36 @@
 */
 
 /*
- * cstring-list.h - String list ADT.
+ * key.h - Key ADT.
  *
- * This file specifies the interface to a string list facility.  This
- * particular facility allows lists of cstrings (defined in the files
- * "cstring.[ch]") to be created.
+ * See the file "key.c" for more information.
  */
 
-#ifndef H_CSTRING_LIST
-#define H_CSTRING_LIST
+#ifndef H_KEY
+#define H_KEY
 
-#include "os-interface.h"
-#include "cstring.h"
-#include "dalloc.h"
+#include "../os-interface.h"
+#include "../dstring.h"
 
-/*
- * This is the cstring list entry type.
- */
-typedef struct CStringListEntryT {
-    struct CStringListEntryT   *next;
-    char *			string;
-} CStringListEntryT;
+typedef enum {
+    KT_STRING,
+    KT_NUMERIC
+} KeyTypeT;
 
-/*
- * This is the cstring list type.
- */
-typedef struct CStringListT {
-    CStringListEntryT *		head;
-    CStringListEntryT *	       *tail;
-} CStringListT;
+typedef struct KeyT {
+    KeyTypeT			type;
+    NStringT			string;
+    unsigned			number;
+} KeyT;
 
-/*
- * This function initialises the specified cstring list to be an empty list.
- */
-extern void			cstring_list_init(CStringListT *);
+extern void		key_init_from_string(KeyT *, NStringT *, unsigned);
+extern void		key_init_from_number(KeyT *, unsigned);
+extern CmpT		key_compare(KeyT *, KeyT *);
+extern BoolT		key_is_string(KeyT *);
+extern NStringT *		key_get_string(KeyT *);
+extern unsigned		key_get_number(KeyT *);
+extern unsigned		key_hash_value(KeyT *);
 
-/*
- * This function appends the specified cstring onto the specified list.
- */
-extern void			cstring_list_append(CStringListT *, char *);
+extern void		write_key(OStreamT *, KeyT *);
 
-/*
- * This function returns a pointer to the first entry in the specified list.
- */
-extern CStringListEntryT *	cstring_list_head(CStringListT *);
-
-/*
- * This function returns a pointer to the cstring stored in the specified
- * list entry.
- */
-extern char *			cstring_list_entry_string(CStringListEntryT *);
-
-/*
- * This function deallocates the specified list entry (without deallocating
- * the string - this must be done by the calling function) and returns a
- * pointer to the next entry in the list.  Once this function has been called,
- * the state of the list that the entry is a member of is undefined.  It is
- * only useful for deallocating the entire list in a loop.
- */
-extern CStringListEntryT *	cstring_list_entry_deallocate(CStringListEntryT *);
-
-#endif /* !defined (H_CSTRING_LIST) */
+#endif /* !defined (H_KEY) */
