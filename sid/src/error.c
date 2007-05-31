@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/**** error.c --- Error reporting.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * error.c - Error reporting.
  *
  * This file implements the error reporting facility specified in the file
  * "error.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: error.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:41  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:51  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stdlib.h>
 #include <assert.h>
@@ -90,13 +71,9 @@
 #include "error.h"
 #include "syntax.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define TAG_TABLE_SIZE		(127)
 #define ERROR_TABLE_SIZE	(127)
 #define STRING_TABLE_SIZE	(127)
-
-/*--------------------------------------------------------------------------*/
 
 static ETagP		tag_table[TAG_TABLE_SIZE];
 static ErrorP		error_table[ERROR_TABLE_SIZE];
@@ -120,8 +97,6 @@ static EStringDataT	severity_data[]    = {
     { {"error severity internal",	"Internal"} },
     ERROR_END_STRING_LIST
 };
-
-/*--------------------------------------------------------------------------*/
 
 static void
 error_deallocate_error_list(ErrorListP error_list)
@@ -334,7 +309,9 @@ write_string_table(OStreamP ostream)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+/*
+ * Externally visible functions
+ */
 
 void
 error_init(char * name, ErrorInitProcP proc)

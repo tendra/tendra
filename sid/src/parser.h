@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/*** parser.h --- SID parser.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * parser.h - SID parser.
  *
  * This file specifies the interface to the SID file parser that is produced
  * from the file "parser.sid".
- *
- *** Change Log:
- * $Log: parser.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:57:33  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:25  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_PARSER
 #define H_PARSER
@@ -91,8 +72,6 @@
 #include "grammar.h"
 #include "lexer.h"
 #include "table.h"
-
-/*--------------------------------------------------------------------------*/
 
 extern LexerStreamP	sid_current_stream;
 extern GrammarP		sid_current_grammar;

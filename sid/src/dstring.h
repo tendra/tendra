@@ -57,14 +57,8 @@
         it may be put.
 */
 
-
-/**** dstring.h --- String manipulation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * dstring.h - String manipulation.
  *
  * This file specifies the interface to a string manipulation facility.  There
  * are two types of strings supported: nstrings (strings are stored as a
@@ -75,229 +69,7 @@
  * Null pointers are not valid as nstrings or dstrings. Passing a null pointer
  * as the argument to a function will have an undefined effect (on many
  * machines the program will abort, but this is not guaranteed).
- *
- ***=== TYPES ================================================================
- *
- ** Type:	NStringT
- ** Type:	NStringP
- ** Repr:	<private>
- *
- * This is the nstring type.  These strings may contain null characters.
- *
- ** Type:	DStringT
- ** Type:	DStringP
- ** Repr:	<private>
- *
- * This is the dstring type.  It is only for appending characters and C
- * strings to.  Once it has been completely initialised, it should be
- * converted to one of the other string types.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	void			nstring_init
- *			(NStringP nstring)
- ** Exceptions:
- *
- * This function initialises the specified nstring to be an empty nstring.
- *
- ** Function:	void			nstring_init_length
- *			(NStringP nstring, unsigned length)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function initialises the specified nstring to be an nstring of the
- * specified length.  The initial contents are unspecified.
- *
- ** Function:	void			nstring_assign
- *			(NStringP to, NStringP from)
- ** Exceptions:
- *
- * This function assigns the from nstring to the to nstring.  The from nstring
- * should not be used afterwards, without reinitialising it.
- *
- ** Function:	void			nstring_copy_cstring
- *			(NStringP nstring, char * cstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function initialises the specified nstring from the content of the
- * specified cstring.
- *
- ** Function:	void			nstring_insert_cstring
- *			(NStringP nstring, char * cstring)
- ** Exceptions:
- *
- * This function inserts the specified cstring into the specified nstring.
- * Sufficient characters are copied to fill up the nstring.
- *
- ** Function:	void			nstring_copy
- *			(NStringP to, NStringP from)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function copies the specified from nstring into the specified to
- * nstring.
- *
- ** Function:	char *		nstring_to_cstring
- *			(NStringP nstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function returns a dynamically allocated cstring copy of the specified
- * nstring.  If the nstring contains null characters, then the characters
- * after the first null will be ignored in the cstring (although they will
- * still be part of it).
- *
- ** Function:	unsigned		nstring_hash_value
- *			(NStringP nstring)
- ** Exceptions:
- *
- * This function returns the hash value associated with the specified nstring.
- * This value is guaranteed to be identical for all nstrings with the same
- * content.
- *
- ** Function:	unsigned		nstring_length
- *			(NStringP nstring)
- ** Exceptions:
- *
- * This function returns the length of the specified nstring.
- *
- ** Function:	char *		nstring_contents
- *			(NStringP nstring)
- ** Exceptions:
- *
- * This function returns the contents of the specified nstring.
- *
- ** Function:	CmpT			nstring_compare
- *			(NStringP nstring1, NStringP nstring2)
- ** Exceptions:
- *
- * This function returns ``CMP_LT'', ``CMP_EQ'', or ``CMP_GT'', depending on
- * whether the content of nstring1 is lexicographically less than, equal to,
- * or greater than the content of nstring2.
- *
- ** Function:	BoolT			nstring_equal
- *			(NStringP nstring1, NStringP nstring2)
- ** Exceptions:
- *
- * This function returns true if the specified nstrings have the same content,
- * and false otherwise.
- *
- ** Function:	BoolT			nstring_ci_equal
- *			(NStringP nstring1, NStringP nstring2)
- ** Exceptions:
- *
- * This function returns true if the specified nstrings have the same content
- * (ignoring differences in case), and false otherwise.
- *
- ** Function:	BoolT			nstring_contains
- *			(NStringP nstring, char c)
- ** Exceptions:
- *
- * This function returns true if the specified nstring contains the specified
- * character, and false otherwise.
- *
- ** Function:	BoolT			nstring_is_prefix
- *			(NStringP nstring1, NStringP nstring2)
- ** Exceptions:
- *
- * This function returns true if the second nstring is a prefix of the first
- * nstring, and false otherwise.
- *
- ** Function:	void			nstring_destroy
- *			(NStringP nstring)
- ** Exceptions:
- *
- * This function deallocates the contents of the specified nstring.
- *
- ** Function:	void			write_nstring
- *			(OStreamP stream, NStringP nstring)
- ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
- *
- * This function writes the content of the specified nstring to the specified
- * ostream.
- *
- ** Function:	void			dstring_init
- *			(DStringP dstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function initialises the specified dstring to be an empty dstring.
- *
- ** Function:	unsigned		dstring_length
- *			(DStringP dstring)
- ** Exceptions:
- *
- * This function returns the length of the specified dstring.
- *
- ** Function:	void			dstring_append_char
- *			(DStringP dstring, char c)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function appends the specified character to the specified dstring.
- *
- ** Function:	void			dstring_append_cstring
- *			(DStringP dstring, char * cstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function appends the content of the specified cstring to the specified
- * dstring.
- *
- ** Function:	void			dstring_append_nstring
- *			(DStringP dstring, NStringP nstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function appends the content of the specified nstring to the specified
- * dstring.
- *
- ** Function:	BoolT			dstring_last_char_equal
- *			(DStringP dstring, char c)
- ** Exceptions:
- *
- * This function returns true if the last character of the specified dstring
- * is the same as the specified character, and false otherwise.  If the
- * dstring is empty, then false is always returned.
- *
- ** Function:	void			dstring_to_nstring
- *			(DStringP dstring, NStringP nstring_ref)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function copies the content of the specified dstring into the
- * specified nstring.
- *
- ** Functions:	char *		dstring_to_cstring
- *			(DStringP dstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function copies the content of the specified dstring into a
- * dynamically allocated cstring, and returns it.
- *
- ** Function:	char *		dstring_destroy_to_cstring
- *			(DStringP dstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function does the equivalent of a call to ``dstring_to_cstring''
- * followed by a call to ``dstring_destroy''.  It returns a cstring that is
- * normally the internal cstring of the dstring (if there isn't enough room
- * for a null character at the end, then the cstring will need to be
- * reallocated).
- *
- ** Function:	void			dstring_destroy
- *			(DStringP dstring)
- ** Exceptions:
- *
- * This function deallocates the contents of the specified dstring.
- *
- **** Change log:
- * $Log: dstring.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:35  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:49  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_DSTRING
 #define H_DSTRING
@@ -307,49 +79,206 @@
 #include "dalloc.h"
 #include "ostream.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This is the nstring type.  These strings may contain null characters.
+ */
 typedef struct NStringT {
     unsigned			length;
     char *			contents;
 } NStringT, *NStringP;
 
+/*
+ * This is the dstring type.  It is only for appending characters and C
+ * strings to.  Once it has been completely initialised, it should be
+ * converted to one of the other string types.
+ */
 typedef struct DStringT {
     unsigned			length;
     unsigned			max_length;
     char *			contents;
 } DStringT, *DStringP;
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This function initialises the specified nstring to be an empty nstring.
+ */
 extern void		nstring_init(NStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function initialises the specified nstring to be an nstring of the
+ * specified length.  The initial contents are unspecified.
+ */
 extern void		nstring_init_length(NStringP, unsigned);
+
+/*
+ * This function assigns the from nstring to the to nstring.  The from nstring
+ * should not be used afterwards, without reinitialising it.
+ */
 extern void		nstring_assign(NStringP, NStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function initialises the specified nstring from the content of the
+ * specified cstring.
+ */
 extern void		nstring_copy_cstring(NStringP, char *);
+
+/*
+ * This function inserts the specified cstring into the specified nstring.
+ * Sufficient characters are copied to fill up the nstring.
+ */
 extern void		nstring_insert_cstring(NStringP, char *);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function copies the specified from nstring into the specified to
+ * nstring.
+ */
 extern void		nstring_copy(NStringP, NStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function returns a dynamically allocated cstring copy of the specified
+ * nstring.  If the nstring contains null characters, then the characters
+ * after the first null will be ignored in the cstring (although they will
+ * still be part of it).
+ */
 extern char *		nstring_to_cstring(NStringP);
+
+/*
+ * This function returns the hash value associated with the specified nstring.
+ * This value is guaranteed to be identical for all nstrings with the same
+ * content.
+ */
 extern unsigned		nstring_hash_value(NStringP);
+
+/*
+ * This function returns the length of the specified nstring.
+ */
 extern unsigned		nstring_length(NStringP);
+
+/*
+ * This function returns the contents of the specified nstring.
+ */
 extern char *		nstring_contents(NStringP);
+
+/*
+ * This function returns ``CMP_LT'', ``CMP_EQ'', or ``CMP_GT'', depending on
+ * whether the content of nstring1 is lexicographically less than, equal to,
+ * or greater than the content of nstring2.
+ */
 extern CmpT		nstring_compare(NStringP, NStringP);
+
+/*
+ * This function returns true if the specified nstrings have the same content,
+ * and false otherwise.
+ */
 extern BoolT		nstring_equal(NStringP, NStringP);
+
+/*
+ * This function returns true if the specified nstrings have the same content
+ * (ignoring differences in case), and false otherwise.
+ */
 extern BoolT		nstring_ci_equal(NStringP, NStringP);
+
+/*
+ * This function returns true if the specified nstring contains the specified
+ * character, and false otherwise.
+ */
 extern BoolT		nstring_contains(NStringP, char);
+
+/*
+ * This function returns true if the second nstring is a prefix of the first
+ * nstring, and false otherwise.
+ */
 extern BoolT		nstring_is_prefix(NStringP, NStringP);
+
+/*
+ * This function deallocates the contents of the specified nstring.
+ */
 extern void		nstring_destroy(NStringP);
 
+/*
+ * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
+ *
+ * This function writes the content of the specified nstring to the specified
+ * ostream.
+ */
 extern void		write_nstring(OStreamP, NStringP);
 
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function initialises the specified dstring to be an empty dstring.
+ */
 extern void		dstring_init(DStringP);
+
 extern unsigned		dstring_length(DStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the specified character to the specified dstring.
+ */
 extern void		dstring_append_char(DStringP, char);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the content of the specified cstring to the specified
+ * dstring.
+ */
 extern void		dstring_append_cstring(DStringP, char *);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the content of the specified nstring to the specified
+ * dstring.
+ */
 extern void		dstring_append_nstring(DStringP, NStringP);
+
+/*
+ * This function returns true if the last character of the specified dstring
+ * is the same as the specified character, and false otherwise.  If the
+ * dstring is empty, then false is always returned.
+ */
 extern BoolT		dstring_last_char_equal(DStringP, char);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function copies the content of the specified dstring into the
+ * specified nstring.
+ */
 extern void		dstring_to_nstring(DStringP, NStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function copies the content of the specified dstring into a
+ * dynamically allocated cstring, and returns it.
+ */
 extern char *		dstring_to_cstring(DStringP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function does the equivalent of a call to ``dstring_to_cstring''
+ * followed by a call to ``dstring_destroy''.  It returns a cstring that is
+ * normally the internal cstring of the dstring (if there isn't enough room
+ * for a null character at the end, then the cstring will need to be
+ * reallocated).
+ */
 extern char *		dstring_destroy_to_cstring(DStringP);
+
+/*
+ * This function deallocates the contents of the specified dstring.
+ */
 extern void		dstring_destroy(DStringP);
 
 #endif /* !defined (H_DSTRING) */

@@ -57,31 +57,11 @@
         it may be put.
 */
 
-
-/*** types.h --- Type ADTs.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * types.h - Type ADTs.
  *
  * See the file "types.c" for more information.
- *
- *** Change Log:
- * $Log: types.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:59:17  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:45  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
-
+ */
 
 #ifndef H_TYPES
 #define H_TYPES
@@ -98,8 +78,6 @@ struct AltT;
 struct ItemT;
 struct SaveRStackT;
 struct RuleT;
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct TypeTupleEntryT {
     struct TypeTupleEntryT     *next;
@@ -170,8 +148,6 @@ typedef struct SaveNTransT {
     unsigned			last_count;
     NTransP		       *last_ref;
 } SaveNTransT, *SaveNTransP;
-
-/*--------------------------------------------------------------------------*/
 
 /* Defined in "types.c": */
 extern void		types_init(TypeTupleP);
@@ -246,7 +222,6 @@ extern void		types_destroy(TypeTupleP);
 extern void		write_type_types(OStreamP, TypeTupleP);
 extern void		write_type_names(OStreamP, TypeTupleP, BoolT);
 
-/*--------------------------------------------------------------------------*/
 
 extern void		btrans_init(TypeBTransP);
 extern void		btrans_add_translations(TypeBTransP, TypeTupleP,
@@ -262,7 +237,6 @@ extern struct ItemT    *btrans_regen_non_pred_names(TypeBTransP, TypeTupleP,
 extern EntryP		btrans_get_translation(TypeBTransP, EntryP);
 extern void		btrans_destroy(TypeBTransP);
 
-/*--------------------------------------------------------------------------*/
 
 extern void	rtrans_init(TypeRTransP);
 extern void	rtrans_add_translation(TypeRTransP, EntryP, EntryP, EntryP,
@@ -273,7 +247,6 @@ extern void	rtrans_apply_for_non_locals(TypeRTransP,
 					    void *);
 extern void	rtrans_destroy(TypeRTransP);
 
-/*--------------------------------------------------------------------------*/
 
 extern void	trans_init(TypeTransP, TypeTupleP, TypeTupleP, struct AltT *);
 extern void	trans_add_translations(TypeTransP, TypeTupleP, TypeTupleP);
@@ -283,7 +256,6 @@ extern EntryP	trans_get_translation(TypeTransP, EntryP);
 extern void	trans_restore_state(TypeTransP, SaveTransP);
 extern void	trans_destroy(TypeTransP);
 
-/*--------------------------------------------------------------------------*/
 
 extern void	ntrans_init(TypeNTransP);
 extern void	ntrans_save_state(TypeNTransP, SaveNTransP);
@@ -292,7 +264,5 @@ extern EntryP	ntrans_get_indirect_translation(TypeNTransP, TypeNTransP,
 						EntryP);
 extern void	ntrans_restore_state(TypeNTransP, SaveNTransP);
 extern void	ntrans_destroy(TypeNTransP);
-
-/*--------------------------------------------------------------------------*/
 
 #endif /* !defined (H_TYPES) */

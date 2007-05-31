@@ -57,30 +57,10 @@
         it may be put.
 */
 
-
-/*** c-code.h --- SID C code stuff.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
- *
+/*
+ * c-code.h - SID C code stuff.
  * See the file "c-code.c" for details.
- *
- *** Change Log:
- * $Log: c-code.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:56:25  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:17  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_CODE
 #define H_C_CODE
@@ -95,8 +75,6 @@
 #include "rule.h"
 #include "table.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     CCT_STRING,
@@ -126,8 +104,6 @@ typedef struct CCodeT {
     TypeTupleT			param;
     TypeTupleT			result;
 } CCodeT, *CCodeP;
-
-/*--------------------------------------------------------------------------*/
 
 extern CCodeP		c_code_create(char *, unsigned);
 extern void		c_code_append_string(CCodeP, NStringP);

@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** types.c --- Type ADTs.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * types.c - Type ADTs.
  *
  * This file implements the type manipulation routines specified.
- *
- *** Change Log:
- * $Log: types.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:59:13  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:44  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 #include <stddef.h>
@@ -94,9 +75,9 @@
 #include "rule.h"
 #include "table.h"
 
-/*==========================================================================*\
-|| Type tuple handling fuctions.
-\*==========================================================================*/
+/*
+ * Type tuple handling fuctions
+ */
 
 static void
 types_add_name_and_type_1(TypeTupleP to, EntryP name, EntryP type,
@@ -136,8 +117,6 @@ types_iter_alt_item_type_names(AltP alts, void(*proc)(NameP))
 	}
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 types_init(TypeTupleP tuple)
@@ -959,9 +938,10 @@ write_type_names(OStreamP ostream, TypeTupleP tuple, BoolT call)
     write_char(ostream, ')');
 }
 
-/*==========================================================================*\
-|| Basic name translator handling functions.
-\*==========================================================================*/
+
+/*
+ * Basic name translator handling functions
+ */
 
 void
 btrans_init(TypeBTransP translator)
@@ -1127,9 +1107,10 @@ btrans_destroy(TypeBTransP translator)
     }
 }
 
-/*==========================================================================*\
-|| Rename stack name translator handling functions.
-\*==========================================================================*/
+
+/*
+ * Rename stack name translator handling functions
+ */
 
 void
 rtrans_init(TypeRTransP translator)
@@ -1193,9 +1174,10 @@ rtrans_destroy(TypeRTransP translator)
     }
 }
 
-/*==========================================================================*\
-|| Name translator handling functions.
-\*==========================================================================*/
+
+/*
+ * Name translator handling functions
+ */
 
 void
 trans_init(TypeTransP translator, TypeTupleP param, TypeTupleP result,
@@ -1302,9 +1284,9 @@ trans_destroy(TypeTransP translator)
     entry_list_destroy(&(translator->used_names));
 }
 
-/*==========================================================================*\
-|| Numeric translator handling functions.
-\*==========================================================================*/
+/*
+ * Numeric translator handling functions
+ */
 
 static unsigned
 ntrans_add_translation(TypeNTransP translator, EntryP from)
@@ -1322,8 +1304,6 @@ ntrans_add_translation(TypeNTransP translator, EntryP from)
     translator->tail    = &(link->next);
     return(link->to);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 ntrans_init(TypeNTransP translator)

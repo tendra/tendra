@@ -57,34 +57,12 @@
         it may be put.
 */
 
-
-/**** error-file.c --- Error file parsing routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * error-file.c - Error file parsing routines.
  *
  * This file implements the error file parsing facility specified in the file
  * "error-file.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: error-file.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1994/12/12  11:44:37  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.2  1994/08/22  09:36:44  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:49  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <ctype.h>
 
@@ -93,8 +71,6 @@
 #include "error.h"
 #include "gen-errors.h"
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     EFTOKEN_NAME,
@@ -117,8 +93,6 @@ typedef enum {
     EFN_NAME,
     EFN_STRING
 } ErrorFileTokenT, *ErrorFileTokenP;
-
-/*--------------------------------------------------------------------------*/
 
 static BoolT
 error_file_skip_white_space(IStreamP istream, char *c_ref)
@@ -377,7 +351,10 @@ error_file_parse_errors(IStreamP istream, ErrorFileLexP token)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 error_file_parse(char * name, BoolT must_open)

@@ -58,29 +58,11 @@
 */
 
 
-/*** c-output.h --- Output routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-output.h - Output routines.
  *
  * See the file "c-output.c" for more information.
- *
- *** Change Log:
- * $Log: c-output.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:56:46  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:21  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUTPUT
 #define H_C_OUTPUT
@@ -93,15 +75,11 @@
 #include "ostream.h"
 #include "c-out-info.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define C_INDENT_STEP		((unsigned)4)
 #define C_INDENT_FOR_ERROR	C_INDENT_STEP
 #define C_INDENT_FOR_PARAM	((unsigned)2)
 #define C_INDENT_FOR_CASE	((unsigned)2)
 #define C_INDENT_FOR_LABEL	((unsigned)2)
-
-/*--------------------------------------------------------------------------*/
 
 extern void		c_output_parser(COutputInfoP, GrammarP);
 extern void		c_output_header(COutputInfoP, GrammarP);

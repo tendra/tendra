@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** entry.h --- Identifier table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * entry.h - Identifier table entry ADT.
  *
  * See the file "entry.c" for more information.
- *
- *** Change Log:
- * $Log: entry.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:11  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:34  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_ENTRY
 #define H_ENTRY
@@ -101,8 +82,6 @@ struct BasicT;
 struct NameT;
 struct RuleT;
 struct TypeT;
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     ET_TYPE,
@@ -131,8 +110,6 @@ typedef struct EntryT {
     } u;
     struct NameT	       *name;
 } EntryT, *EntryP;
-
-/*--------------------------------------------------------------------------*/
 
 extern EntryP		entry_create_from_string(NStringP, unsigned,
 						 EntryTypeT);

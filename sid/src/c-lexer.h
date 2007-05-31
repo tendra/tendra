@@ -58,29 +58,11 @@
 */
 
 
-/*** c-lexer.h --- SID C lexical analyser.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-lexer.h --- SID C lexical analyser.
  *
  * See the file "c-lexer.c" for details.
- *
- *** Change Log:
- * $Log: c-lexer.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:55:58  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:14  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_LEXER
 #define H_C_LEXER
@@ -90,12 +72,12 @@
 #include "dstring.h"
 #include "istream.h"
 
-/**** Note:
+/*
+ * Note:
  *
  * It is important that any changes to this enumerated type declaration are
  * reflected in the "c-parser.sid" file.
-**/
-
+ */
 typedef enum {
     C_TOK_BLT_PREFIXES,
     C_TOK_BLT_MAPS,
@@ -136,8 +118,6 @@ typedef struct CLexerStreamT {
     CLexT			token;
     CTokenT			saved_terminal;
 } CLexerStreamT, *CLexerStreamP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		c_lexer_init(CLexerStreamP, IStreamP);
 extern void		c_lexer_close(CLexerStreamP);

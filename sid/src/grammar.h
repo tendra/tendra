@@ -57,30 +57,12 @@
         it may be put.
 */
 
-
-/*** grammar.h --- Grammar transforms frontend.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * grammar.h - Grammar transforms frontend.
  *
  * See the file "grammar.c" for more information.
  *
- *** Change Log:
- * $Log: grammar.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:15  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:34  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_GRAMMAR
 #define H_GRAMMAR
@@ -92,8 +74,6 @@
 #include "table.h"
 #include "types.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct GrammarT {
     TableT			table;
     EntryListT			entry_list;
@@ -101,8 +81,6 @@ typedef struct GrammarT {
     EntryP			predicate_type;
     EntryP			predicate_id;
 } GrammarT, *GrammarP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		grammar_init(GrammarP);
 extern TableP		grammar_table(GrammarP);

@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/*** rule-names.c --- Recompute alternative names.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-names.c - Recompute alternative names.
  *
  * This file implements the functions that recompute the names defined in each
  * alternative of a rule (including the exception handler alternative).
- *
- *** Change Log:
- * $Log: rule-names.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:50  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:41  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "action.h"
@@ -89,8 +70,6 @@
 #include "name.h"
 #include "type.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rule_recompute_alt_names_2(AltP alt, EntryP predicate_id)
@@ -118,7 +97,10 @@ rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_recompute_alt_names(EntryP entry, void * gclosure)

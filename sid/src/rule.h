@@ -57,36 +57,16 @@
         it may be put.
 */
 
-
-/*** rule.h --- Rule ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule.h - Rule ADT.
  *
  * This file specifies the interface to the SID rule, alternative and item
  * handling routines.  The actual implementations are spread across a number
  * of files, but are all logically part of the same file.  See the files named
  * in the declarations for more information.
  *
- *** Change Log:
- * $Log: rule.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1994/12/15  09:58:58  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/08/22  09:37:29  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:42  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ * TODO perhaps all these files could be placed in a subdirectory.
+ */
 
 #ifndef H_RULE
 #define H_RULE
@@ -101,8 +81,6 @@
 #include "rstack.h"
 #include "table.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     DFS_UNTRACED,
@@ -209,9 +187,11 @@ typedef struct ClashListT {
     ItemP			item;
 } ClashListT, *ClashListP;
 
-/*--------------------------------------------------------------------------*/
 
-/* Defined in "rule.c": */
+/*
+ * Defined in "rule.c":
+ */
+
 extern RuleP		rule_create(EntryP);
 extern void		rule_reinit(RuleP);
 extern EntryP		rule_entry(RuleP);
@@ -311,7 +291,11 @@ extern void		rule_list_append (RuleListP, RuleP, RuleP *);
 extern void		rule_list_terminate(RuleListP);
 extern RuleP		rule_list_head(RuleListP);
 
-/* Defined in "rule-check.c": */
+
+/*
+ * Defined in "rule-check.c":
+ */
+
 extern void		rule_check_first_set(EntryP, void *);
 extern void		rule_compute_follow_set(EntryP, void *);
 extern void		rule_compute_see_through_alt(EntryP, void *);
@@ -319,30 +303,62 @@ extern void		rule_compute_alt_first_sets(EntryP, void *);
 
 extern void		write_clashes(OStreamP, ClashListP);
 
-/* Defined in "rule-error.c": */
+
+/*
+ * Defined in "rule-error.c":
+ */
+
 extern void		rule_compute_error_list(EntryP, void *);
 
-/* Defined in "rule-factor.c": */
+
+/*
+ * Defined in "rule-factor.c":
+ */
+
 extern void		rule_factor(EntryP, void *);
 extern void		rule_set_factor_limit(unsigned);
 
-/* Defined in "rule-firsts.c": */
+
+/*
+ * Defined in "rule-firsts.c":
+ */
+
 extern void		rule_compute_first_set_1(RuleP);
 extern void		rule_compute_first_set(EntryP, void *);
 
-/* Defined in "rule-lre.c": */
+
+/*
+ * Defined in "rule-lre.c":
+ */
+
 extern void		rule_remove_left_cycle(RuleP, EntryP, TableP);
 
-/* Defined in "rule-mutate.c": */
+
+/*
+ * Defined in "rule-mutate.c":
+ */
+
 extern void		rule_compute_mutations(EntryP, void *);
 
-/* Defined in "rule-name.c": */
+
+/*
+ * Defined in "rule-name.c":
+ */
+
 extern void		rule_recompute_alt_names(EntryP, void *);
 
-/* Defined in "rule-simp.c": */
+
+/*
+ * Defined in "rule-simp.c":
+ */
+
 extern void		rule_remove_duplicates(TableP, EntryP);
 
-/* Defined in "rule-tail.c": */
+
+/*
+ * Defined in "rule-tail.c":
+ */
+
 extern void		rule_handle_tails(RuleP);
 extern void		rule_compute_all_basics(EntryP, void *);
 extern void		rule_compute_inlining(EntryP, void *);
@@ -355,7 +371,11 @@ extern void		rule_set_inline_singles(BoolT);
 extern void		rule_set_inline_non_tail_calls(BoolT);
 extern void		rule_set_multiple_inlining(BoolT);
 
-/* Defined in "alt.c": */
+
+/*
+ * Defined in "alt.c":
+ */
+
 extern AltP		alt_create(void);
 extern AltP		alt_create_merge(ItemP, ItemP, TypeTransP, TableP);
 extern AltP		alt_duplicate(AltP);
@@ -374,7 +394,11 @@ extern AltP		alt_deallocate(AltP);
 extern void		write_alt(OStreamP, AltP);
 extern void		write_alt_highlighting(OStreamP, AltP, ItemP);
 
-/* Defined in "item.c": */
+
+/*
+ * Defined in "item.c":
+ */
+
 extern ItemP		item_create(EntryP);
 extern ItemP		item_duplicate(ItemP);
 extern ItemP		item_duplicate_and_translate(ItemP, TypeTransP, TableP);

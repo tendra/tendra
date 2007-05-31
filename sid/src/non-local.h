@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/**** non-local.h --- Non local name ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * non-local.h - Non local name ADT.
  *
  * See the file "non-local.c" for more information.
- *
- **** Change Log:
- * $Log: non-local.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:28  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:36  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NON_LOCAL
 #define H_NON_LOCAL
@@ -89,8 +70,6 @@
 #include "dalloc.h"
 #include "entry.h"
 #include "ostream.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct NonLocalEntryT {
     struct NonLocalEntryT      *next;
@@ -103,8 +82,6 @@ typedef struct NonLocalListT {
     NonLocalEntryP		head;
     NonLocalEntryP	       *tail;
 } NonLocalListT, *NonLocalListP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		non_local_list_init(NonLocalListP);
 extern NonLocalEntryP	non_local_list_add(NonLocalListP, EntryP, EntryP);

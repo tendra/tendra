@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** main.c --- SID program main routine.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * main.c - SID program main routine.
  *
  * This file implements the main function for SID.  The main function just
  * deals with exception handling.  It calls the ``main_init'' function to
@@ -81,68 +77,7 @@
  * Finally, it calls an output function to output a program to recognise the
  * grammar.  The output functions are described in the
  * "LANGUAGE-output/LANGUAGE-output.[ch]" files.
- *
- *** Change Log:
- * $Log: main.c,v $
- * Revision 1.2  1998/02/06  17:05:44  release
- * Last minute pre-release polishing.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:41  release
- * First version to be checked into rolling release.
- *
- * Revision 1.13  1996/07/01  13:29:41  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.12  1996/07/01  09:36:04  smf
- * main.c:
- * 	- updated version numer.
- *
- * Revision 1.11  1996/06/28  15:12:34  smf
- * main.c:
- * 	- added extra information to version string;
- * 	- added "build" mechanism for release system.
- *
- * Revision 1.10  1996/03/01  09:51:56  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.9  1996/02/29  09:53:26  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.8  1996/02/28  15:43:56  smf
- * Updated version number in main.c.
- * Modified build_sid to use new platform designation.
- *
- * Revision 1.7  1995/02/10  16:28:56  smf
- * Fixed bugs "CR95_111.sid-inline-no-var-check" and "CR95_112.sid-lre-var-call".
- * Updated version number.
- *
- * Revision 1.6  1994/12/23  09:44:18  smf
- * Fixing "CR94_227.sid-exception-optimisation-bug" - updated version number.
- *
- * Revision 1.5  1994/12/15  09:55:01  smf
- * Updated version to "1.9#4".
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.4  1994/11/11  11:35:40  smf
- * Updated version number for bug fix CR94_127.sid-tail-rec.
- *
- * Revision 1.3  1994/08/22  09:34:15  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.2  1994/08/18  13:42:35  smf
- * Fixed bug "DR115:SID-shadow-error".  Also modified "build_sid" to make
- * parallel bug fixing simpler.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:11  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -169,15 +104,11 @@
 #include "rule.h"
 #include "syntax.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define USAGE "\
 usage:[option ...] in-file ... out-file ...\n\
 where option is one of:\n"
 #define VERSION "sid: version 1.11.0 (ansi-c, pre-ansi-c, test)"
 #define RELEASE "tendra.org"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct PhaseListT {
     char *			phase;
@@ -193,8 +124,6 @@ typedef struct LangListT {
     unsigned			num_output_files;
 } LangListT, *LangListP;
 
-/*--------------------------------------------------------------------------*/
-
 static void
 main_handle_phase_all(BoolT enable)
 {
@@ -204,8 +133,6 @@ main_handle_phase_all(BoolT enable)
     rule_set_inline_non_tail_calls(enable);
     rule_set_multiple_inlining(enable);
 }
-
-/*--------------------------------------------------------------------------*/
 
 static void *
 main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
@@ -344,8 +271,6 @@ main_output_test(void * gclosure, GrammarP grammar)
     UNUSED(grammar);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static BoolT main_did_one_off = FALSE;
 static BoolT main_did_other   = FALSE;
 
@@ -375,8 +300,6 @@ static LangListT main_language_list[] = {
 };
 
 static LangListP main_language = &(main_language_list[0]);
-
-/*--------------------------------------------------------------------------*/
 
 static void
 main_handle_dump_file(char * option, ArgUsageP usage, void * gclosure,
@@ -538,8 +461,6 @@ main_handle_version(char * option, ArgUsageP usage, void * gclosure)
     ostream_flush(ostream_error);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static EStringDataT main_description_strings[] = {
     { {
 	"description of dump-file",
@@ -620,8 +541,6 @@ static ArgListT main_arglist[] = {
 #ifdef __TenDRA__
 #pragma TenDRA end
 #endif
-
-/*--------------------------------------------------------------------------*/
 
 static void
 main_init(int argc, char **argv, OutputInfoP out_info)
@@ -738,7 +657,9 @@ main_1(OutputInfoP out_info, OStreamP dstream)
    (*(main_language->output_proc))(output_closure, &grammar);
 }
 
-/*--------------------------------------------------------------------------*/
+/*
+ * Externally visible functions
+ */
 
 int
 main(int argc, char **argv)

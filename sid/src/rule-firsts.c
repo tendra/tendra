@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-firsts.c --- Computation of rule first sets.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-firsts.c - Computation of rule first sets.
  *
  * This file implements the SID first set calculation routines.
  *
@@ -81,29 +77,12 @@
  * check that predicates are either the first item in an alternative, or are
  * preceded by a basic (or another predicate).  The same check is also made
  * for rules that start with a predicate.
- *
- *** Change Log:
- * $Log: rule-firsts.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:39  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:38  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "basic.h"
 #include "gen-errors.h"
 #include "table.h"
-
-/*--------------------------------------------------------------------------*/
 
 void
 rule_compute_first_set_1(RuleP rule)

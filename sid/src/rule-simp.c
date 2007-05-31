@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-simp.c --- Rule simplification routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-simp.c - Rule simplification routines.
  *
  * This file implements the SID elimination of identical rules routines.
  *
@@ -88,22 +84,7 @@
  *
  * If two identical rules are found, one is substituted for the other.  If
  * one of the rules is a required rule, then it becomes the used rule.
- *
- *** Change Log:
- * $Log: rule-simp.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:52  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:41  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "action.h"
@@ -112,11 +93,7 @@
 #include "name.h"
 #include "type.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define EQUALITY_TABLE_SIZE	(127)
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct RuleSortListT {
     AltP			head;
@@ -128,11 +105,7 @@ typedef struct ReplaceClosureT {
     EntryP			to;
 } ReplaceClosureT, *ReplaceClosureP;
 
-/*--------------------------------------------------------------------------*/
-
 static RuleP		equality_table[EQUALITY_TABLE_SIZE];
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rule_sort_alts(RuleSortListP sort_list)
@@ -345,7 +318,10 @@ rule_remove_duplicates_1(RuleP *rule_ref, TableP table)
     return(did_remove);
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_remove_duplicates(TableP table, EntryP predicate_id)

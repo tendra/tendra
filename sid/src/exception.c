@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/**** exception.c --- Exception handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * exception.c - Exception handling.
  *
  * This file implements the exception handling facility specified in the file
  * "exception.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: exception.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:32  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:10  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stdlib.h>
 #include <setjmp.h>
@@ -92,12 +73,8 @@ extern void			E_exception_unhandled(ExceptionP, char *,
 						      unsigned);
 extern void			E_exception_corrupt_handler(char *, unsigned);
 
-/*--------------------------------------------------------------------------*/
-
 HandlerP			X__exception_handler_stack = NULL;
 ThrowDataT			X__exception_throw_data;
-
-/*--------------------------------------------------------------------------*/
 
 NoReturnT
 X__exception_throw(void)

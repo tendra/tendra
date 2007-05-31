@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** c-out-key.c --- Output of key ADT objects.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-out-key.c --- Output of key ADT objects.
  *
  * This file implements the identifier key output routines used by SID.
- *
- *** Change Log:
- * $Log: c-out-key.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:56:31  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:19  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <ctype.h>
 
@@ -92,8 +73,6 @@
 #include "rule.h"
 #include "syntax.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 write_c_key(OStreamP ostream, char * contents, unsigned length)
@@ -124,7 +103,10 @@ write_c_key(OStreamP ostream, char * contents, unsigned length)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 c_output_mapped_key(COutputInfoP info, EntryP entry)

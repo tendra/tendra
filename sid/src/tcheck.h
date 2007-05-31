@@ -57,7 +57,6 @@
         it may be put.
 */
 
-
 #pragma TenDRA begin
 #pragma TenDRA implicit function declaration off
 #pragma TenDRA incompatible void return disallow

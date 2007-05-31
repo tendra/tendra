@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/**** istream.c --- Input stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * istream.c - Input stream handling.
  *
  * This file implements the input stream facility specified in the file
  * "istream.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: istream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:41  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:10  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stddef.h>
 #include <stdio.h>
@@ -90,15 +71,9 @@
 #include "cstring.h"
 #include "syntax.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define ISTREAM_BUFSIZE 8193
 
-/*--------------------------------------------------------------------------*/
-
 ExceptionP XX_istream_read_error = EXCEPTION("error reading from stream");
-
-/*--------------------------------------------------------------------------*/
 
 static char istream_input_buffer[ISTREAM_BUFSIZE];
 
@@ -114,8 +89,6 @@ static IStreamT		istream_input_1 = {
 };
 
 IStreamT	 *const istream_input = &istream_input_1;
-
-/*--------------------------------------------------------------------------*/
 
 static IStreamStatusT
 istream_read_hex_char(IStreamP istream, char *c_ref)
@@ -159,7 +132,9 @@ istream_read_hex_char(IStreamP istream, char *c_ref)
     return(ISTREAM_STAT_SYNTAX_ERROR);
 }
 
-/*--------------------------------------------------------------------------*/
+/*
+ * Externally visible functions
+ */
 
 void
 istream_setup(void)
@@ -313,8 +288,6 @@ istream_close(IStreamP istream)
     }
     istream_init(istream);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 X__istream_fill_buffer(IStreamP istream)

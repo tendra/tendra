@@ -57,14 +57,8 @@
         it may be put.
 */
 
-
-/**** dalloc.h --- Memory allocation and deallocation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * dalloc.h - Memory allocation and deallocation.
  *
  * This file specifies the interface to a dynamic memory allocation facility.
  * All dynamically allocated objects are initialised with zeroes, but
@@ -91,49 +85,11 @@
  * This debugging mode should not be used on software that is shipped.  It has
  * machine specific implementations, and may be quite inefficient.
  *
- ***=== MACROS ===============================================================
- *
- ** Macro:	ALLOCATE (type)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This macro allocates an object of the specified type.  A pointer to the
- * object is returned.
- *
- ** Macro:	ALLOCATE_VECTOR (type, length)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This macro allocates a vector of the specified length containing objects of
- * the specified type.  A pointer to the first element in the vector is
- * returned.
- *
- ** Macro:	DEALLOCATE (pointer)
- ** Exceptions:
- *
- * This macro deallocates the specified pointer.  If the pointer is a null
- * pointer (``NULL''), this does nothing.
- *
- ***=== EXCEPTIONS ===========================================================
- *
- ** Exception:	XX_dalloc_no_memory
+ * Exception:	XX_dalloc_no_memory
  *
  * This exception is raised if there is not enough memory to allocate an
  * object (or a vector of objects).
- *
- **** Change Log:
- * $Log: dalloc.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:30  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_DALLOC
 #define H_DALLOC
@@ -144,11 +100,7 @@
 #include "os-interface.h"
 #include "exception.h"
 
-/*--------------------------------------------------------------------------*/
-
 extern ExceptionP		XX_dalloc_no_memory;
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
@@ -163,8 +115,6 @@ extern void	X__dalloc_deallocate(void *, char *, unsigned);
 extern void *	X__dalloc_allocate(size_t, size_t);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
@@ -181,12 +131,25 @@ X__dalloc_deallocate((void *)(pointer), __FILE__, (unsigned)__LINE__)
 
 #else
 
+/*
+ * This macro allocates an object of the specified type.  A pointer to the
+ * object is returned.
+ */
 #define ALLOCATE(type)\
 ((type *)X__dalloc_allocate(sizeof(type), (size_t)1))
 
+/*
+ * This macro allocates a vector of the specified length containing objects of
+ * the specified type.  A pointer to the first element in the vector is
+ * returned.
+ */
 #define ALLOCATE_VECTOR(type,length)\
 ((type *)X__dalloc_allocate(sizeof(type), (size_t)(length)))
 
+/*
+ * This macro deallocates the specified pointer.  If the pointer is a null
+ * pointer (``NULL''), this does nothing.
+ */
 #define DEALLOCATE(pointer) free(pointer);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */

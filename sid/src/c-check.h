@@ -58,37 +58,17 @@
 */
 
 
-/**** c-check.h --- Routines to check grammar.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * c-check.h - Routines to check grammar.
  *
  * See the file "c-check.c" for details.
- *
- **** Change Log:
- * $Log: c-check.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:55:54  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:13  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_CHECK
 #define H_C_CHECK
 
 #include "os-interface.h"
 #include "grammar.h"
-
-/*--------------------------------------------------------------------------*/
 
 extern void		c_check_grammar(GrammarP);
 

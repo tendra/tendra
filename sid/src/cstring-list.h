@@ -57,85 +57,13 @@
         it may be put.
 */
 
-
-/**** cstring-list.h --- String list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * cstring-list.h - String list ADT.
  *
  * This file specifies the interface to a string list facility.  This
  * particular facility allows lists of cstrings (defined in the files
  * "cstring.[ch]") to be created.
- *
- ***=== TYPES ================================================================
- *
- ** Type:	CStringListEntryT
- ** Type:	CStringListEntryP
- ** Repr:	<private>
- *
- * This is the cstring list entry type.
- *
- ** Type:	CStringListT
- ** Type:	CStringListP
- ** Repr:	<private>
- *
- * This is the cstring list type.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	void			cstring_list_init
- *			(CStringListP list)
- ** Exceptions:
- *
- * This function initialises the specified cstring list to be an empty list.
- *
- ** Function:	void			cstring_list_append
- *			(CStringListP list, char * cstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function appends the specified cstring onto the specified list.
- *
- ** Function:	CStringListEntryP	cstring_list_head
- *			(CStringListP list)
- ** Exceptions:
- *
- * This function returns a pointer to the first entry in the specified list.
- *
- ** Function:	char *		cstring_list_entry_string
- *			(CStringListEntryP entry)
- ** Exceptions:
- *
- * This function returns a pointer to the cstring stored in the specified
- * list entry.
- *
- ** Function:	CStringListEntryP	cstring_list_entry_deallocate
- *			(CStringListEntryP entry)
- ** Exceptions:
- *
- * This function deallocates the specified list entry (without deallocating
- * the string - this must be done by the calling function) and returns a
- * pointer to the next entry in the list.  Once this function has been called,
- * the state of the list that the entry is a member of is undefined.  It is
- * only useful for deallocating the entire list in a loop.
- *
- **** Change log:
- * $Log: cstring-list.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:32  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:48  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_CSTRING_LIST
 #define H_CSTRING_LIST
@@ -144,24 +72,50 @@
 #include "cstring.h"
 #include "dalloc.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This is the cstring list entry type.
+ */
 typedef struct CStringListEntryT {
     struct CStringListEntryT   *next;
     char *			string;
 } CStringListEntryT, *CStringListEntryP;
 
+/*
+ * This is the cstring list type.
+ */
 typedef struct CStringListT {
     CStringListEntryP		head;
     CStringListEntryP	       *tail;
 } CStringListT, *CStringListP;
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This function initialises the specified cstring list to be an empty list.
+ */
 extern void			cstring_list_init(CStringListP);
+
+/*
+ * This function appends the specified cstring onto the specified list.
+ */
 extern void			cstring_list_append(CStringListP, char *);
+
+/*
+ * This function returns a pointer to the first entry in the specified list.
+ */
 extern CStringListEntryP	cstring_list_head(CStringListP);
+
+/*
+ * This function returns a pointer to the cstring stored in the specified
+ * list entry.
+ */
 extern char *			cstring_list_entry_string(CStringListEntryP);
+
+/*
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ */
 extern CStringListEntryP	cstring_list_entry_deallocate(CStringListEntryP);
 
 #endif /* !defined (H_CSTRING_LIST) */

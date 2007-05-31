@@ -27,31 +27,17 @@
         it may be put.
 */
 
-
-/**** dalloc.c --- Memory allocation and deallocation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * dalloc.c - Memory allocation and deallocation.
  *
  * This file implements the dynamic memory management facility specified in
  * the file "dalloc.h".  See that file for more information.
- *
- **** Change Log:
- * $Log: dalloc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:28  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
- * Initial import of os-interface shared files.
- *
-**/
+ */
 
-/****************************************************************************/
+/*
+ * TODO Perhaps this can be replaced with our centralised xalloc.h if
+ * the exception system is also centralised?
+ */
 
 #include <assert.h>
 #include <stddef.h>
@@ -59,19 +45,13 @@
 
 #include "dalloc.h"
 
-/*--------------------------------------------------------------------------*/
-
 ExceptionP XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
 #define DALLOC_MAGIC 0x21436587
 #define ALIGN(x) (((int) (((x) + (PO_DALLOC_DEBUG_ALIGN) - 1) / \
 			  (PO_DALLOC_DEBUG_ALIGN))) * (PO_DALLOC_DEBUG_ALIGN))
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct DallocDataT {
     char *			file;
@@ -80,19 +60,13 @@ typedef struct DallocDataT {
     int				magic;
 } DallocDataT, *DallocDataP;
 
-/*--------------------------------------------------------------------------*/
-
 static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef __NeXT__
 
 #undef TRUE
 #undef FALSE
 #include <mach/mach.h>
-
-/*--------------------------------------------------------------------------*/
 
 void *
 X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)

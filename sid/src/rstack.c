@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/*** rstack.c --- Renaming stack ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rstack.c - Renaming stack ADT.
  *
  * This file implements the renaming stack routines.  They are mainly used by
  * the output routines to do scoping of inlined rules.
- *
- *** Change Log:
- * $Log: rstack.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:31  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:37  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -91,8 +72,6 @@
 #include "name.h"
 #include "rule.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 void
 rstack_init(RStackP rstack)

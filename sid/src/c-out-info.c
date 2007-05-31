@@ -57,41 +57,14 @@
         it may be put.
 */
 
-
-/*** c-out-info.c --- Output control ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-out-info.c - Output control ADT.
  *
  * This file implements the SID output information routines.
- *
- *** Change Log:
- * $Log: c-out-info.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/03/01  09:53:14  smf
- * c-code.c, c-out-info.c, c-out-info.h, c-output.c:
- * 	- improved unreachable code analysis;
- * 	- improved some output formatting;
- * 	- added support for comment or macro to mark unreachable code.
- *
- * Revision 1.2  1994/12/15  09:56:27  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:18  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "c-out-info.h"
 #include "c-code.h"
-
-/*--------------------------------------------------------------------------*/
 
 void
 c_out_info_init(COutputInfoP info, OutputInfoP out_info)

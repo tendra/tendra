@@ -58,48 +58,11 @@
 */
 
 
-/*** c-output.c --- Output routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-output.c - Output routines.
  *
  * This file implements the SID output routines.
- *
- *** Change Log:
- * $Log: c-output.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1996/03/01  09:53:17  smf
- * c-code.c, c-out-info.c, c-out-info.h, c-output.c:
- * 	- improved unreachable code analysis;
- * 	- improved some output formatting;
- * 	- added support for comment or macro to mark unreachable code.
- *
- * Revision 1.5  1996/02/28  15:52:05  smf
- * Fixed a bug that occured when a rule with a single alternative and an
- * exception handler was inlined into another rule.  The bug caused the inner
- * rule's exception handler to handle any exceptions that occur in the enclosing
- * rule.
- *
- * Revision 1.4  1994/12/23  09:44:47  smf
- * Fixing "CR94_227.sid-exception-optimisation-bug" - corrected exception
- * terminal checking.
- *
- * Revision 1.3  1994/12/15  09:56:43  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/11/11  11:42:32  smf
- * Fixed the number of the error terminal, as it was one higher than necessary.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:20  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -118,8 +81,6 @@
 #include "rule.h"
 #include "type.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct COutClosureT {
     COutputInfoP		info;
     TableP			table;
@@ -128,11 +89,7 @@ typedef struct COutClosureT {
     unsigned			error_terminal;
 } COutClosureT, *COutClosureP;
 
-/*--------------------------------------------------------------------------*/
-
 static unsigned out_current_label;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 c_output_indent(COutputInfoP info, unsigned indent)
@@ -1130,7 +1087,10 @@ c_output_definition(EntryP entry, void * gclosure)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 c_output_parser(COutputInfoP info, GrammarP grammar)

@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** name.h --- Name ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * name.h - Name ADT.
  *
  * See the file "name.c" for more information.
- *
- *** Change Log:
- * $Log: name.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:25  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:35  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NAME
 #define H_NAME
@@ -88,16 +69,12 @@
 #include "os-interface.h"
 #include "dalloc.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct NameT {
     BoolT			clash;
     BoolT			used;
     BoolT			labelled;
     unsigned			label;
 } NameT, *NameP;
-
-/*--------------------------------------------------------------------------*/
 
 extern NameP		name_create(void);
 extern BoolT		name_test_and_set_clash(NameP);

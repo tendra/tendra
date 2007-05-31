@@ -57,31 +57,14 @@
         it may be put.
 */
 
-
-/**** ostream.c --- Output stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * ostream.c - Output stream handling.
  *
  * This file implements the output stream facility specified in the file
  * "ostream.h".  See that file for more details.
  *
- **** Change Log:
- * $Log: ostream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:47  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:11  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ * TODO this would really benifit from a printf() style interface.
+ */
 
 #include <ctype.h>
 #include <stddef.h>
@@ -92,8 +75,6 @@
 #include "ostream.h"
 #include "cstring.h"
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
 
 ExceptionP XX_ostream_write_error = EXCEPTION("error writing to stream");
 
@@ -115,15 +96,11 @@ static OStreamT ostream_error_1 = {
 OStreamT *const ostream_output = &ostream_output_1;
 OStreamT *const ostream_error  = &ostream_error_1;
 
-/*--------------------------------------------------------------------------*/
-
 #define OSTREAM_WRITE_ERROR_CHECK(ostream)\
 if (ferror((ostream)->file)) { \
     char * X___name = cstring_duplicate(ostream_name(ostream)); \
     THROW_VALUE(XX_ostream_write_error, X___name); \
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 ostream_setup(void)

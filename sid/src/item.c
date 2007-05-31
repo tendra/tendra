@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/*** item.c --- Item ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * item.c - Item ADT.
  *
  * This file implements the item manipulation routines.  These are specified
  * in the file "rule.h".
- *
- *** Change Log:
- * $Log: item.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:17  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:34  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -90,8 +71,6 @@
 #include "basic.h"
 #include "name.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 ItemP
 item_create(EntryP entry)

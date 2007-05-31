@@ -57,38 +57,17 @@
         it may be put.
 */
 
-
-/*** key.h --- Key ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * key.h - Key ADT.
  *
  * See the file "key.c" for more information.
- *
- *** Change Log:
- * $Log: key.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:21  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:35  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_KEY
 #define H_KEY
 
 #include "os-interface.h"
 #include "dstring.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     KT_STRING,
@@ -100,8 +79,6 @@ typedef struct KeyT {
     NStringT			string;
     unsigned			number;
 } KeyT, *KeyP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		key_init_from_string(KeyP, NStringP, unsigned);
 extern void		key_init_from_number(KeyP, unsigned);

@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-factor.c --- Factorisation of rules.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-factor.c - Factorisation of rules.
  *
  * This file implements the SID factorisation routines.
  *
@@ -158,22 +154,7 @@
  * called to calculate its first set, whether or not it is see through and its
  * priority.  The new rules are created untraced, to ensure that the
  * factorisation process will be applied to them as well.
- *
- *** Change Log:
- * $Log: rule-factor.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:37  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:38  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -183,8 +164,6 @@
 #include "entry-list.h"
 #include "gen-errors.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct AltGroupT {
     struct AltGroupT	       *next;
@@ -199,11 +178,7 @@ typedef struct AltGroupListT {
     AltGroupP		       *tail;
 } AltGroupListT, *AltGroupListP;
 
-/*--------------------------------------------------------------------------*/
-
 static unsigned			rule_factor_limit = 1000;
-
-/*--------------------------------------------------------------------------*/
 
 static unsigned			rule_overlaps(ItemP, BitVecP, EntryListP);
 
@@ -231,8 +206,6 @@ group_deallocate(AltGroupP group)
     DEALLOCATE(group);
     return(next);
 }
-
-/*--------------------------------------------------------------------------*/
 
 static unsigned
 rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
@@ -455,8 +428,6 @@ rule_expand_item_clashes(RuleP rule, FactorClosureP closure,
     return(FALSE);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static ItemP
 rule_create_factored(TypeTupleP params, TypeTupleP result, AltP alt,
 		     TableP table)
@@ -655,7 +626,10 @@ rule_factor_1(RuleP rule, FactorClosureP closure)
     rule_factor_2(rule, closure->table, closure->predicate_id, &groups);
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_factor(EntryP entry, void * gclosure)

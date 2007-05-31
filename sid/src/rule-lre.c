@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-lre.c --- Left recursion elimination routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-lre.c - Left recursion elimination routines.
  *
  * This file implements the SID left recursion elimination routines.
  *
@@ -115,33 +111,13 @@
  *
  * These special cases are handled by the ``rule_left_cycle_special_case''
  * function.
- *
- *** Change Log:
- * $Log: rule-lre.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/02/10  16:29:42  smf
- * Fixed bugs "CR95_111.sid-inline-no-var-check" and "CR95_112.sid-lre-var-call".
- *
- * Revision 1.2  1994/12/15  09:58:41  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:39  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
 #include "rule.h"
 #include "dstring.h"
 #include "gen-errors.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct MatrixEntryT {
     AltP			alt;
@@ -155,8 +131,6 @@ typedef struct VectorEntryT {
     BoolT			inited;
     TypeTupleT			param;
 } VectorEntryT, *VectorEntryP;
-
-/*--------------------------------------------------------------------------*/
 
 static MatrixEntryP
 rule_left_cycle_matrix(unsigned size)
@@ -230,8 +204,6 @@ rule_destroy_cycle_vector(VectorEntryP vector, unsigned size)
 	}
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 static ItemP
 rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
@@ -439,8 +411,6 @@ rule_left_cycle_special_case(RuleP rule, TableP table)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 static BoolT
 rule_check_non_locals(RuleP this_rule, RuleP rule_list, unsigned real_size)
 {
@@ -493,10 +463,11 @@ rule_check_alt_cycle_types(RuleP rule, RuleP rule_list, AltP alt,
 		E_left_recursion_name_mismatch(rule_list);
 		return(FALSE);
 	    }
-/* If a result identifier is returned by the left recursive call, it is
+/*
+ * If a result identifier is returned by the left recursive call, it is
  * necessary to rename that return value, and use an identity afterwards to
  * rename it.
- **/
+ */
 	    types_init(&result_intersect);
 	    types_compute_intersection(&result_intersect, rule_result(rule),
 				       item_result(item));
@@ -849,7 +820,10 @@ rule_left_cycle_general_case(RuleP rule_list, unsigned size, TableP table)
     rule_destroy_cycle_vector(vector, size);
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_remove_left_cycle(RuleP rule_list, EntryP predicate_id, TableP table)

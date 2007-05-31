@@ -58,29 +58,11 @@
 */
 
 
-/*** basic.c --- Basic ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * basic.c - Basic ADT.
  *
  * This file implements the basic manipulation routines.
- *
- *** Change Log:
- * $Log: basic.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:01  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:31  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "basic.h"
 #include "action.h"
@@ -89,14 +71,6 @@
 #include "rstack.h"
 #include "rule.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
-
-#if FS_WEAK_PROTOTYPES
-#pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-#else
-#define KW_WEAK_PROTOTYPE
-#endif
 
 BasicP
 basic_create(GrammarP grammar, BoolT ignored)

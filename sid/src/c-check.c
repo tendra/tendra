@@ -58,30 +58,12 @@
 */
 
 
-/**** c-check.c --- Routines to check grammar.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * c-check.c - Routines to check grammar.
  *
  * This file contains routines to check that all actions and basic result
  * extraction functions are defined.
- *
- **** Change Log:
- * $Log: c-check.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:55:53  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:12  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "c-check.h"
 #include "action.h"
@@ -89,8 +71,6 @@
 #include "entry.h"
 #include "gen-errors.h"
 #include "table.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 c_check_grammar_1(EntryP entry, void * gclosure)
@@ -134,8 +114,6 @@ c_check_grammar_1(EntryP entry, void * gclosure)
 	UNREACHED;
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 c_check_grammar(GrammarP grammar)

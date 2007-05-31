@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-check.c --- Checks for grammar validity.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-check.c - Checks for grammar validity.
  *
  * This file implements the routines that check to see if the grammar is
  * valid.  There are for checks that are made:
@@ -75,28 +71,10 @@
  *	if the rule is see through, its follow set does not intersect with its
  *	first set (this includes predicate follow and first sets).
  *
- *	- If there is a see through alternative, this is computed.
+ *	- If there is a see-through alternative, this is computed.
  *
  *	- The first set of each alternative is computed.
- *
- *** Change Log:
- * $Log: rule-check.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1994/12/15  09:58:35  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/08/22  09:37:22  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:38  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -104,8 +82,6 @@
 #include "basic.h"
 #include "bitvec.h"
 #include "gen-errors.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rule_check_first_set_1(RuleP rule, GrammarP grammar)
@@ -416,7 +392,10 @@ rule_compute_alt_first_sets_1(RuleP rule)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_check_first_set(EntryP entry, void * gclosure)

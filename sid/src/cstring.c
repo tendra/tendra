@@ -58,36 +58,12 @@
 */
 
 
-/**** cstring.c --- C string manipulation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * cstring.c - C string manipulation.
  *
  * This file implements the C string manipulation facility specified in the
  * file "cstring.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: cstring.c,v $
- * Revision 1.3  1998/03/17  11:38:15  release
- * Missing ';'.
- *
- * Revision 1.2  1998/03/16  11:26:34  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:24  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stddef.h>
 #include <string.h>
@@ -96,8 +72,6 @@
 
 #include "cstring.h"
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
 
 char *
 cstring_duplicate(char * cstring)

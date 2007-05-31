@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** entry-list.h --- Identifier table entry list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * entry-list.h - Identifier table entry list ADT.
  *
  * See the file "entry-list.h" for more information.
- *
- *** Change Log:
- * $Log: entry-list.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:06  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:33  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_ENTRY_LIST
 #define H_ENTRY_LIST
@@ -89,8 +70,6 @@
 #include "dalloc.h"
 #include "entry.h"
 #include "ostream.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct EntryListEntryT {
     struct EntryListEntryT     *next;
@@ -105,8 +84,6 @@ typedef struct EntryListT {
 typedef struct SaveListT {
     struct EntryListEntryT    **last_ref;
 } SaveListT, *SaveListP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void	entry_list_init(EntryListP);
 extern void	entry_list_copy(EntryListP, EntryListP);

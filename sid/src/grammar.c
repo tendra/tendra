@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** grammar.c --- Grammar transforms frontend.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * grammar.c - Grammar transforms frontend.
  *
  * This file implements the SID transformation front-end routines.
  *
@@ -145,22 +141,7 @@
  * in the grammar.  The function computes the mutation effects from actions
  * that mutate their parameters.  See the file "rule-mutate.c" for more
  * details.
- *
- *** Change Log:
- * $Log: grammar.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:13  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:34  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <limits.h>
 #include <stddef.h>
@@ -172,8 +153,6 @@
 #include "name.h"
 #include "rule.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 grammar_trace_ignored(EntryP entry, void * gclosure)
@@ -290,7 +269,9 @@ write_grammar_1(EntryP entry, void * gclosure)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+/*
+ * Externally visible functions
+ */
 
 void
 grammar_init(GrammarP grammar)

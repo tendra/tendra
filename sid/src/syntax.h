@@ -57,14 +57,8 @@
         it may be put.
 */
 
-
-/**** syntax.h --- Character classification.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * syntax.h - Character classification.
  *
  * This file specifies the interface to a number of syntax table manipulation
  * functions.  I ought to be able to use <ctype.h> for this, but I can't
@@ -74,50 +68,24 @@
  * It is assumed elsewhere (in association with the input stream facility
  * specified in the file "istream.h") that the null and newline characters are
  * white space, and have no digit value.
- *
- ***=== CONSTANTS ============================================================
- *
- ** Constant:	SYNTAX_NO_VALUE
- *
- * This value is returned by the ``syntax_value'' function for characters that
- * do not have a digit value.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	int			syntax_value
- *			(char c)
- ** Exceptions:
- *
- * This function returns the positive integer digit value that the specified
- * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
- *
- **** Change Log:
- * $Log: syntax.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:54  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:13  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_SYNTAX
 #define H_SYNTAX
 
 #include "os-interface.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This value is returned by the ``syntax_value'' function for characters that
+ * do not have a digit value.
+ *
+ */
 #define SYNTAX_NO_VALUE	(-1)
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This function returns the positive integer digit value that the specified
+ * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
+ */
 extern int	syntax_value(char);
 
 #endif /* !defined (H_SYNTAX) */

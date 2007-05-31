@@ -57,36 +57,11 @@
         it may be put.
 */
 
-
-/*** c-out-info.h --- Output control ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-out-info.h - Output control ADT.
  *
  * See the file "c-out-info.c" for more information.
- *
- *** Change Log:
- * $Log: c-out-info.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/03/01  09:53:15  smf
- * c-code.c, c-out-info.c, c-out-info.h, c-output.c:
- * 	- improved unreachable code analysis;
- * 	- improved some output formatting;
- * 	- added support for comment or macro to mark unreachable code.
- *
- * Revision 1.2  1994/12/15  09:56:29  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:18  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUT_INFO
 #define H_C_OUT_INFO
@@ -98,8 +73,6 @@
 
 /*To avoid circularity:*/
 struct CCodeT;
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
     CPFX_TYPE,
@@ -125,8 +98,6 @@ typedef struct COutputInfoT {
     BoolT		lines;
     unsigned		split;
 } COutputInfoT, *COutputInfoP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		 c_out_info_init(COutputInfoP, OutputInfoP);
 extern OutputInfoP	 c_out_info_info(COutputInfoP);

@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/**** type.h --- Type ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * type.h - Type ADT.
  *
  * See the file "type.c" for more information.
- *
- **** Change Log:
- * $Log: type.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:59:11  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:44  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_TYPE
 #define H_TYPE
@@ -89,15 +70,11 @@
 #include "dalloc.h"
 #include "dstring.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct TypeT {
     void *			assign_code;
     void *			param_assign_code;
     void *			result_assign_code;
 } TypeT, *TypeP;
-
-/*--------------------------------------------------------------------------*/
 
 extern TypeP		type_create(void);
 extern void *		type_get_assign_code(TypeP);
@@ -106,7 +83,5 @@ extern void *		type_get_param_assign_code(TypeP);
 extern void		type_set_param_assign_code(TypeP, void *);
 extern void *		type_get_result_assign_code(TypeP);
 extern void		type_set_result_assign_code(TypeP, void *);
-
-/*--------------------------------------------------------------------------*/
 
 #endif /* !defined (H_TYPE) */

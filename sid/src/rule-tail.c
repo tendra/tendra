@@ -57,12 +57,8 @@
         it may be put.
 */
 
-
-/*** rule-tail.c --- Tail recursion elimination routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-tail.c - Tail recursion elimination routines.
  *
  * This file implements the SID inlining routines.
  *
@@ -100,30 +96,7 @@
  * ``grammar_compute_inlining'' function to find cycles in the function call
  * graph.  If any such cycles are found, then all of the rules in the cycle
  * are marked as needing a function implementation.
- *
- *** Change Log:
- * $Log: rule-tail.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1994/12/15  09:58:53  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/11/11  11:47:09  smf
- * Fixed a bug in the tail recursion elimination, for bug fix
- * CR94_127.sid-tail-rec.
- * There was a problem with tail calls that had reference parameters in an
- * earlier version of SID, and they had been disabled.  This should have been
- * fixed when the output routines were fixed to do references properly, but the
- * check wasn't removed.  It has been now.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:41  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "action.h"
@@ -131,8 +104,6 @@
 #include "entry-list.h"
 #include "name.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct CycleHeadT {
     RuleP			head;
@@ -144,15 +115,11 @@ typedef struct RuleStackT {
     RuleP			rule;
 } RuleStackT, *RuleStackP;
 
-/*--------------------------------------------------------------------------*/
-
 static BoolT	rule_do_inline_tail_calls     = TRUE;
 static BoolT	rule_do_inline_all_basics     = TRUE;
 static BoolT	rule_do_inline_singles        = FALSE;
 static BoolT	rule_do_inline_non_tail_calls = FALSE;
 static BoolT	rule_do_multiple_inlining     = FALSE;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rule_inline_tail_calls_1(RuleP rule, AltP alt, RuleP tail_group)
@@ -327,7 +294,10 @@ rule_compute_needed_functions_1(RuleP rule)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_handle_tails(RuleP rule_list)

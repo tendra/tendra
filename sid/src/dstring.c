@@ -58,30 +58,12 @@
 */
 
 
-/**** dstring.c --- String manipulation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * dstring.c - String manipulation.
  *
  * This file implements the string manipulation facility specified in the file
  * "dstring.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: dstring.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:44  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:33  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:49  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stddef.h>
 #include <string.h>
@@ -90,12 +72,11 @@
 #include "dstring.h"
 #include "syntax.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define DSTRING_CHUNK_SIZE 32
 
-/*** Functions for manipulating nstrings.
-**/
+/*
+ * Functions for manipulating nstrings.
+ */
 
 void
 nstring_init(NStringP nstring)
@@ -293,8 +274,10 @@ write_nstring(OStreamP ostream, NStringP nstring)
     }
 }
 
-/*** Functions for manipulating dstrings.
-**/
+
+/*
+ * Functions for manipulating dstrings.
+ */
 
 void
 dstring_init(DStringP dstring)

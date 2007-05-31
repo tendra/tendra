@@ -58,36 +58,12 @@
 */
 
 
-/**** c-code.c --- SID C code ADT routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * c-code.c --- SID C code ADT routines.
  *
  * This file implements the C code ADT used to represent action definitions
  * for the C output language.
- *
- **** Change Log:
- * $Log: c-code.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/03/01  09:53:12  smf
- * c-code.c, c-out-info.c, c-out-info.h, c-output.c:
- * 	- improved unreachable code analysis;
- * 	- improved some output formatting;
- * 	- added support for comment or macro to mark unreachable code.
- *
- * Revision 1.2  1994/12/15  09:56:23  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:17  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -96,8 +72,6 @@
 #include "c-output.h"
 #include "gen-errors.h"
 #include "name.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 c_code_set_labels(CCodeP code)
@@ -152,7 +126,10 @@ c_code_get_translation(SaveRStackP state, TypeBTransP translator, EntryP ident,
     return(stack_entry);
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally-visible functions
+ */
 
 CCodeP
 c_code_create(char * file, unsigned line)

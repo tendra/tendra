@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** rstack.h --- Renaming stack ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rstack.h - Renaming stack ADT.
  *
  * See the file "rstack.c" for more information.
- *
- *** Change Log:
- * $Log: rstack.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:33  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:37  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_RSTACK
 #define H_RSTACK
@@ -88,8 +69,6 @@
 #include "os-interface.h"
 #include "table.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct TransStackEntryT {
     struct TransStackEntryT    *next;
@@ -103,8 +82,6 @@ typedef struct RStackT {
 typedef struct SaveRStackT {
     TransStackEntryP		head;
 } SaveRStackT, *SaveRStackP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		 rstack_init(RStackP);
 extern void		 rstack_push_frame(RStackP);

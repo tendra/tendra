@@ -57,44 +57,18 @@
         it may be put.
 */
 
-
-/*** action.c --- Action ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * action.c - Action ADT.
  *
  * This file implements the action manipulation routines.
- *
- *** Change Log:
- * $Log: action.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:57:54  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:29  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
+ */
 
-/****************************************************************************/
-
+#include "os-interface.h"
 #include "action.h"
 #include "basic.h"
 #include "name.h"
 #include "rule.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
-
-#if FS_WEAK_PROTOTYPES
-#pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-#else
-#define KW_WEAK_PROTOTYPE
-#endif
 
 ActionP
 action_create(void)

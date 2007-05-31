@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** lexer.h --- SID lexical analyser.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * lexer.h - SID lexical analyser.
  *
  * See the file "lexer.c" for more information.
- *
- *** Change Log:
- * $Log: lexer.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:57:28  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:24  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_LEXER
 #define H_LEXER
@@ -89,12 +70,12 @@
 #include "dstring.h"
 #include "istream.h"
 
-/**** Note:
+/*
+ * Note:
  *
  * It is important that any changes to this enumerated type declaration are
  * reflected in the "parser.sid" file.
-**/
-
+ */
 typedef enum {
     LEXER_TOK_BLT_TYPES,
     LEXER_TOK_BLT_TERMINALS,
@@ -137,8 +118,6 @@ typedef struct LexerStreamT {
     LexT			token;
     LexerTokenT			saved_terminal;
 } LexerStreamT, *LexerStreamP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		lexer_init(LexerStreamP, IStreamP);
 extern void		lexer_close(LexerStreamP);

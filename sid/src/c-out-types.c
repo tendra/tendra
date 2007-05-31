@@ -58,29 +58,11 @@
 */
 
 
-/*** c-out-types.c --- Output type objects.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-out-types.c - Output type objects.
  *
  * This file implements the type output routines for C.
- *
- *** Change Log:
- * $Log: c-out-types.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:56:40  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:20  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -94,8 +76,6 @@
 #include "output.h"
 #include "rstack.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 c_output_param_assign(COutputInfoP info, TypeTupleP inputs)
@@ -330,7 +310,10 @@ types_get_key(EntryP entry, SaveRStackP state, EntryP *type_ref,
     return(entry_key(trans));
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,

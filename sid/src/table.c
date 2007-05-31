@@ -57,33 +57,11 @@
         it may be put.
 */
 
-
-/*** table.c --- Identifier table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * table.c - Identifier table ADT.
  *
  * This file implements the identifier table routines used by SID.
- *
- *** Change Log:
- * $Log: table.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1994/12/15  09:59:05  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/08/22  09:37:32  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:43  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <limits.h>
 
@@ -95,8 +73,6 @@
 #include "name.h"
 #include "rule.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 static unsigned
 table_next_generated_key(void)
@@ -148,7 +124,10 @@ table_add_entry(TableP table, NStringP key, EntryTypeT type, BoolT *found_ref)
     return(entry);
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 table_init(TableP table)

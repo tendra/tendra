@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/*** entry-list.c --- Identifier table entry list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * entry-list.c - Identifier table entry list ADT.
  *
  * This file implements the SID table entry list routines.
- *
- *** Change Log:
- * $Log: entry-list.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:04  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:32  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "entry-list.h"
 #include "action.h"
@@ -89,14 +70,10 @@
 #include "rule.h"
 #include "type.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct EntrySortListT {
     EntryListEntryP		head;
     EntryListEntryP	       *tail;
 } EntrySortListT, *EntrySortListP;
-
-/*--------------------------------------------------------------------------*/
 
 static EntryListEntryP
 entry_list_find(EntryListP list, EntryP entry)
@@ -112,7 +89,9 @@ entry_list_find(EntryListP list, EntryP entry)
     return(NULL);
 }
 
-/*--------------------------------------------------------------------------*/
+/*
+ * Externally visible functions
+ */
 
 void
 entry_list_init(EntryListP list)

@@ -57,27 +57,23 @@
         it may be put.
 */
 
-
-/**** error-file.h --- Error file parsing routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * error-file.h - Error file parsing routines.
  *
  * This file specifies the interface to an error description file parsing
  * facility.  This facility extends the error reporting facility specified in
  * the file "error.h" so that error messages may be redefined by the contents
  * of a file.
- *
- ***=== FUNCTIONS ============================================================
- *
- *
- ** Function:	void			error_file_parse
- *			(char * name, BoolT must_open)
- ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
- *
+ */
+
+#ifndef H_ERROR_FILE
+#define H_ERROR_FILE
+
+#include "os-interface.h"
+#include "cstring.h"
+#include "istream.h"
+
+/*
  * This function parses the error file with the specified name.  If must_open
  * is true, then an error will be reported if the file cannot be opened.
  * Otherwise, the function will just return silently.
@@ -101,32 +97,7 @@
  *
  * In addition, the '#' character can be used as a comment to end of line
  * character.  Such comments are ignored.
- *
- **** Change log:
- * $Log: error-file.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:39  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:50  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
-
-#ifndef H_ERROR_FILE
-#define H_ERROR_FILE
-
-#include "os-interface.h"
-#include "cstring.h"
-#include "istream.h"
-
-/*--------------------------------------------------------------------------*/
-
+ */
 extern void	error_file_parse(char *, BoolT);
 
 #endif /* !defined (H_ERROR_FILE) */

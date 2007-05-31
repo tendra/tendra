@@ -57,37 +57,16 @@
         it may be put.
 */
 
-
-/*** rule-mutate.c --- Compute mutation effects.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule-mutate.c - Compute mutation effects.
  *
  * This file implements the functions that compute the propogation of mutation
  * effects from actions that mutate their parameters.
- *
- *** Change Log:
- * $Log: rule-mutate.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:58:48  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:40  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "action.h"
 #include "types.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void			rule_compute_mutations_3(EntryP, void *);
 
@@ -190,7 +169,10 @@ rule_compute_mutations_1(RuleP rule)
     }
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 rule_compute_mutations(EntryP entry, void * gclosure)

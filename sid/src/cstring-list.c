@@ -57,35 +57,19 @@
         it may be put.
 */
 
+/*
+ * TODO two thoughts: 1. linked lists are a recursive type; this implementation
+ * is not. 2. Lists are common and could be centralised.
+ */
 
-/**** cstring-list.c --- String list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * cstring-list.c - String list ADT.
  *
  * This file implements the string list facility specified in the file
  * "cstring-list.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: cstring-list.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:30  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:48  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "cstring-list.h"
-
-/*--------------------------------------------------------------------------*/
 
 void
 cstring_list_init(CStringListP list)

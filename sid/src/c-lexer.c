@@ -58,31 +58,13 @@
 */
 
 
-/*** c-lexer.c --- SID C lexical analyser.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * c-lexer.c - SID C lexical analyser.
  *
  * This file implements the SID C lexical analyser.  Any changes to the syntax
  * of SID identifiers should be made both here and in the file
- * "../parser/lexer.c".
- *
- *** Change Log:
- * $Log: c-lexer.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:55:56  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:13  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ * "lexer.c".
+ */
 
 #include <assert.h>
 #include <ctype.h>
@@ -90,8 +72,6 @@
 #include "c-lexer.h"
 #include "gen-errors.h"
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
 
 #define LEXER_READ_ONE_CHAR(istream, redo, eof, id)\
     switch ((id) = ISTREAM_READ_CHAR(istream)) { \
@@ -104,8 +84,6 @@
       default: \
         break; \
     }
-
-/*--------------------------------------------------------------------------*/
 
 static BoolT
 c_lexer_skip_bracketed_comment(IStreamP istream)
@@ -464,7 +442,10 @@ c_lexer_read_code(IStreamP istream, CLexP token)
     token->u.code = code;
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 void
 c_lexer_init(CLexerStreamP stream, IStreamP istream)

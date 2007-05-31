@@ -57,39 +57,18 @@
         it may be put.
 */
 
-
-/*** alt.c --- Alternative ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * alt.c - Alternative ADT.
  *
  * This file implements the alternative manipulation routines.  They are
  * specified in the file "rule.h".
- *
- *** Change Log:
- * $Log: alt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:57:59  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:31  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rule.h"
 #include "action.h"
 #include "basic.h"
 #include "name.h"
 #include "type.h"
-
-/*--------------------------------------------------------------------------*/
 
 AltP
 alt_create(void)

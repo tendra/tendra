@@ -57,30 +57,11 @@
         it may be put.
 */
 
-
-/**** output.h --- Target independent output routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * output.h - Target independent output routines.
  *
  * See the file "output.c" for more information.
- *
- **** Change Log:
- * $Log: output.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:57:15  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:22  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_OUTPUT
 #define H_OUTPUT
@@ -89,8 +70,6 @@
 #include "cstring.h"
 #include "istream.h"
 #include "ostream.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct OutputInfoT {
     char *			prog_name;
@@ -101,8 +80,6 @@ typedef struct OutputInfoT {
     char *		       *output_names;
     unsigned			tab_width;
 } OutputInfoT, *OutputInfoP;
-
-/*--------------------------------------------------------------------------*/
 
 extern void		out_info_init(OutputInfoP, char *);
 extern char *		out_info_get_prog_name(OutputInfoP);

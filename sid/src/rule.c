@@ -57,36 +57,11 @@
         it may be put.
 */
 
-
-/*** rule.c --- Rule ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * rule.c - Rule ADT.
  *
  * This file implements the rule manipulation routines specified.
- *
- *** Change Log:
- * $Log: rule.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/02/10  16:29:44  smf
- * Fixed bugs "CR95_111.sid-inline-no-var-check" and "CR95_112.sid-lre-var-call".
- *
- * Revision 1.3  1994/12/15  09:58:56  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.2  1994/08/22  09:37:27  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:04:41  smf
- * Initial import of SID 1.8 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -96,14 +71,10 @@
 #include "name.h"
 #include "type.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct DFSClosureT {
     RuleP			root;
     RuleP		       *list;
 } DFSClosureT, *DFSClosureP;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rule_compute_minimal_dataflow_1(RuleP rule, AltP alt, TypeTupleP all_used)
@@ -210,7 +181,10 @@ rule_set_next_in_reverse_dfs(RuleP rule1,				      RuleP rule2)
     rule1->next_in_reverse_dfs = rule2;
 }
 
-/*--------------------------------------------------------------------------*/
+
+/*
+ * Externally visible functions
+ */
 
 RuleP
 rule_create(EntryP entry)
@@ -987,8 +961,6 @@ write_rule(OStreamP ostream, RuleP rule)
     write_cstring(ostream, "};");
     write_newline(ostream);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 rule_list_init(RuleListP list)

@@ -57,38 +57,17 @@
         it may be put.
 */
 
-
-/**** syntax.c --- Character classification.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * syntax.c - Character classification.
  *
  * This file implements the syntax table facility specified in the file
  * "syntax.h". See that file for more details.
  *
  * This particular implementation assumes that the ASCII character set is
  * being used. It will need changing for other character sets.
- *
- **** Change Log:
- * $Log: syntax.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:52  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:12  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
 
 int
 syntax_value(char c)
