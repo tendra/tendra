@@ -166,7 +166,7 @@ X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 	    UNREACHED;
 	}
 	data->magic = 0;
-	free ((void *) data);
+	free ( data);
     }
 }
 

@@ -303,7 +303,7 @@ rule_remove_duplicates_1(RuleT * *rule_ref, TableT * table)
 		    closure.to      = rule_entry(rule);
 		    *inner_rule_ref = rule_get_next_in_table(inner_rule);
 		}
-		table_iter(table, rule_do_replacements, (void *)&closure);
+		table_iter(table, rule_do_replacements, &closure);
 		did_remove = TRUE;
 		if (rule != *rule_ref) {
 		    goto removed_rule;
@@ -332,7 +332,7 @@ rule_remove_duplicates(TableT * table, EntryT * predicate_id)
     for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
 	equality_table[i] = NULL;
     }
-    table_iter(table, rule_hash_for_comparison, (void *)predicate_id);
+    table_iter(table, rule_hash_for_comparison, predicate_id);
     do {
 	did_remove = FALSE;
 	for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {

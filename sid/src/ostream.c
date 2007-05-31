@@ -300,7 +300,7 @@ write_bytes(OStreamT * ostream, ByteT * bytes, unsigned length)
 	    ostream->line++;
 	}
     }
-    (void)fwrite((void *)bytes, sizeof(ByteT), (size_t)length,
+    (void)fwrite(bytes, sizeof(ByteT), (size_t)length,
 		 ostream->file);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }

@@ -218,7 +218,7 @@ grammar_find_cycles(GrammarT * grammar, CycleTypeT type)
     RuleT *      rule;
 
     rule_list_init(&root_list);
-    table_iter(table, rule_build_root_list, (void *)&root_list);
+    table_iter(table, rule_build_root_list, &root_list);
     rule_list_terminate(&root_list);
     for (rule = rule_list_head(&root_list); rule;
 	 rule = rule_next_in_root_list(rule)) {
@@ -369,7 +369,7 @@ grammar_factor(GrammarT * grammar)
     closure.table        = table;
     closure.predicate_id = grammar_get_predicate_id(grammar);
     table_untrace(table);
-    entry_list_iter_table(entry_list, FALSE, rule_factor, (void *)&closure);
+    entry_list_iter_table(entry_list, FALSE, rule_factor, &closure);
     table_unlink_untraced_rules(table);
     bitvec_destroy(&(closure.bitvec1));
     bitvec_destroy(&(closure.bitvec2));
@@ -407,8 +407,8 @@ grammar_check_collisions(GrammarT * grammar)
 {
     TableT * table = grammar_table(grammar);
 
-    table_iter(table, rule_check_first_set, (void *)grammar);
-    table_iter(table, rule_compute_follow_set, (void *)grammar);
+    table_iter(table, rule_check_first_set, grammar);
+    table_iter(table, rule_compute_follow_set, grammar);
     table_iter(table, rule_compute_see_through_alt, NULL);
     table_iter(table, rule_compute_alt_first_sets, NULL);
 }
@@ -419,7 +419,7 @@ grammar_recompute_alt_names(GrammarT * grammar)
     TableT * table        = grammar_table(grammar);
     EntryT * predicate_id = grammar_get_predicate_id(grammar);
 
-    table_iter(table, rule_recompute_alt_names, (void *)predicate_id);
+    table_iter(table, rule_recompute_alt_names, predicate_id);
 }
 
 void
@@ -430,7 +430,7 @@ grammar_compute_mutations(GrammarT * grammar)
     RuleT *     rule;
 
     rule_list_init(&root_list);
-    table_iter(table, rule_build_root_list, (void *)&root_list);
+    table_iter(table, rule_build_root_list, &root_list);
     rule_list_terminate(&root_list);
     for (rule = rule_list_head(&root_list); rule;
 	 rule = rule_next_in_root_list(rule)) {
@@ -451,5 +451,5 @@ write_grammar(OStreamT * ostream, GrammarT * grammar)
 
     table_untrace(table);
     entry_list_iter_table(entry_list, FALSE, write_grammar_1,
-			  (void *)ostream);
+			  ostream);
 }

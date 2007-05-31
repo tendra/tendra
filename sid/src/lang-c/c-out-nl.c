@@ -249,5 +249,5 @@ c_output_restore_non_locals(COutputInfoT * info, RuleT * rule, unsigned indent,
     closure.indent = indent;
     rstack_apply_for_non_locals(non_local_stack, rule_non_local_state(rule),
 				c_output_restore_non_locals_1,
-				(void *) &closure);
+				 &closure);
 }

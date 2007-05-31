@@ -196,7 +196,7 @@ main_init_c(OutputInfoT * out_info, CStringListT * options, BoolT ansi)
 	    E_bad_language_option(lang, option);
 	}
     }
-    return((void *)c_out_info);
+    return(c_out_info);
 }
 
 static void *

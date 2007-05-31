@@ -319,7 +319,7 @@ c_code_check(CCodeT * code, BoolT exceptions, BoolT param_op, TypeTupleT * param
 	}
     }
     if (result) {
-	types_check_used(result, E_code_undefined_result, (void *)code);
+	types_check_used(result, E_code_undefined_result, code);
 	for (item = code->head; item; item = item->next) {
 	    if (item->type == CCT_IDENT) {
 		name_not_used(entry_get_name(item->u.ident));

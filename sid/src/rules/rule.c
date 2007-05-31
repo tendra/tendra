@@ -467,7 +467,7 @@ rule_compute_reverse_dfs(RuleT * rule, RuleT * root, RuleT * *list)
 	closure.list = list;
 	rule_set_dfs_state(rule, DFS_TRACING);
 	entry_list_iter(rule_reverse_list(rule), rule_compute_reverse_dfs_1,
-			(void *)&closure);
+			&closure);
 	if (((rule == root) && (rule_get_dfs_state(rule) == DFS_CYCLING)) ||
 	    (rule != root)) {
 	    rule_set_next_in_reverse_dfs(rule, *list);

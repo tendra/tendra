@@ -259,10 +259,10 @@ c_output_static_vars(COutputInfoT * info, GrammarT * grammar, BoolT def)
 	write_newline(ostream);
     }
     if (def) {
-	table_iter(table, c_output_static_vars_1, (void *)info);
+	table_iter(table, c_output_static_vars_1, info);
 	write_newline(ostream);
     } else {
-	table_iter(table, c_output_static_vars_2, (void *)info);
+	table_iter(table, c_output_static_vars_2, info);
     }
 }
 
@@ -1121,14 +1121,14 @@ c_output_parser(COutputInfoT * info, GrammarT * grammar)
 	write_cstring (ostream, "/* BEGINNING OF FUNCTION DECLARATIONS */");
 	write_newline(ostream);
 	write_newline(ostream);
-	table_iter(table, c_output_declaration, (void *)info);
+	table_iter(table, c_output_declaration, info);
 	write_newline(ostream);
     }
     c_output_static_vars(info, grammar, TRUE);
     write_cstring (ostream, "/* BEGINNING OF FUNCTION DEFINITIONS */");
     write_newline(ostream);
     write_newline(ostream);
-    table_iter(table, c_output_definition, (void *) &closure);
+    table_iter(table, c_output_definition,  &closure);
     write_cstring (ostream, "/* BEGINNING OF TRAILER */");
     write_newline(ostream);
     write_newline(ostream);
@@ -1162,21 +1162,21 @@ c_output_header(COutputInfoT * info, GrammarT * grammar)
     if (c_out_info_get_split(info) != 0) {
 	write_cstring(ostream, "#ifndef __SID_SPLIT");
 	write_newline(ostream);
-	table_iter(table, c_output_ext_declaration, (void *)info);
+	table_iter(table, c_output_ext_declaration, info);
 	write_cstring (ostream, "#else /* __SID_SPLIT */");
 	write_newline(ostream);
-	table_iter(table, c_output_declaration, (void *)info);
+	table_iter(table, c_output_declaration, info);
 	c_output_static_vars(info, grammar, FALSE);
 	write_cstring (ostream, "#endif /* __SID_SPLIT */");
 	write_newline(ostream);
     } else {
-	table_iter(table, c_output_ext_declaration, (void *)info);
+	table_iter(table, c_output_ext_declaration, info);
     }
     write_newline(ostream);
     write_cstring (ostream, "/* BEGINNING OF TERMINAL DEFINITIONS */");
     write_newline(ostream);
     write_newline(ostream);
-    table_iter(table, c_output_terminal, (void *)info);
+    table_iter(table, c_output_terminal, info);
     write_newline(ostream);
     write_cstring (ostream, "/* BEGINNING OF TRAILER */");
     write_newline(ostream);

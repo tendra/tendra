@@ -129,21 +129,21 @@ void
 bitvec_copy(BitVecT * to, BitVecT * from)
 {
     to->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
-   (void)memcpy((void *)(to->bits), (void *)(from->bits),
+   (void)memcpy((to->bits), (from->bits),
 		(size_t)bitvec_size);
 }
 
 void
 bitvec_replace(BitVecT * to, BitVecT * from)
 {
-   (void)memcpy((void *)(to->bits), (void *)(from->bits),
+   (void)memcpy((to->bits), (from->bits),
 		(size_t)bitvec_size);
 }
 
 void
 bitvec_empty(BitVecT * bitvec)
 {
-   (void)memset((void *)(bitvec->bits), 0, (size_t)bitvec_size);
+   (void)memset((bitvec->bits), 0, (size_t)bitvec_size);
 }
 
 BoolT

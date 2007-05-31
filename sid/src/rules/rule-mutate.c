@@ -100,7 +100,7 @@ rule_compute_mutations_4(RuleT * rule, AltT * alt, RuleT * from_rule)
     }
     if (propogate) {
 	entry_list_iter(rule_reverse_list(rule), rule_compute_mutations_3,
-			(void *)rule);
+			rule);
     }
 }
 
@@ -152,7 +152,7 @@ rule_compute_mutations_2(RuleT * rule, AltT * alt)
     }
     if (propogate) {
 	entry_list_iter(rule_reverse_list(rule), rule_compute_mutations_3,
-			(void *)rule);
+			rule);
     }
 }
 

@@ -127,7 +127,7 @@ extern void *	X__dalloc_allocate(size_t, size_t);
 			     (unsigned)__LINE__))
 
 #define DEALLOCATE(pointer)\
-X__dalloc_deallocate((void *)(pointer), __FILE__, (unsigned)__LINE__)
+X__dalloc_deallocate((pointer), __FILE__, (unsigned)__LINE__)
 
 #else
 

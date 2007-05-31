@@ -292,7 +292,7 @@ istream_close(IStreamT * istream)
 void
 X__istream_fill_buffer(IStreamT * istream)
 {
-    size_t bytes = fread((void *)(istream->buffer), sizeof(char),
+    size_t bytes = fread((istream->buffer), sizeof(char),
 			(size_t)(ISTREAM_BUFSIZE - 1), istream->file);
 
     if ((bytes == (size_t)0) && (ferror(istream->file))) {
