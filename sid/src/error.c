@@ -65,6 +65,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -353,7 +354,7 @@ error_define_tag(char * name)
     ETagP    entry;
 
     while ((entry = *entryp) != NULL) {
-	if (cstring_equal(entry->name, name)) {
+	if (!strcmp(entry->name, name)) {
 	    return(entry);
 	}
 	entryp = &(entry->next);
@@ -375,7 +376,7 @@ error_define_error(char * name, ESeverityT severity, char * message,
     ErrorP     entry;
 
     while ((entry = *entryp) != NULL) {
-	assert(!cstring_equal(entry->name, name));
+	assert(!!strcmp(entry->name, name));
 	entryp = &(entry->next);
     }
     assert(error_list);
@@ -421,7 +422,7 @@ error_redefine_error(char * name, char * message)
 	ErrorP   entry = (error_table[hash]);
 
 	while (entry) {
-	    if (cstring_equal(entry->name, name)) {
+	    if (!strcmp(entry->name, name)) {
 		ErrorListP error_list = error_parse_message(message);
 
 		if (error_list == NULL) {
@@ -446,7 +447,7 @@ error_lookup_error(char * name)
 	ErrorP   entry = (error_table[hash]);
 
 	while (entry) {
-	    if (cstring_equal(entry->name, name)) {
+	    if (!strcmp(entry->name, name)) {
 		return(entry);
 	    }
 	    entry = entry->next;
@@ -530,7 +531,7 @@ error_define_string(char * name, char * contents)
     EStringP  entry;
 
     while ((entry = *entryp) != NULL) {
-	assert(!cstring_equal(entry->name, name));
+	assert(!!strcmp(entry->name, name));
 	entryp = &(entry->next);
     }
     entry           = ALLOCATE(EStringT);
@@ -560,7 +561,7 @@ error_redefine_string(char * name, char * contents)
     EStringP entry = (string_table[hash]);
 
     while (entry) {
-	if (cstring_equal(entry->name, name)) {
+	if (!strcmp(entry->name, name)) {
 	    entry->contents = contents;
 	    return(TRUE);
 	}
@@ -576,7 +577,7 @@ error_lookup_string(char * name)
     EStringP entry = (string_table[hash]);
 
     while (entry) {
-	if (cstring_equal(entry->name, name)) {
+	if (!strcmp(entry->name, name)) {
 	    return(entry);
 	}
 	entry = entry->next;

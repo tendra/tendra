@@ -119,9 +119,9 @@ BoolT
 ostream_open(OStreamP ostream, char * name)
 {
     char * oname = name;
-    char * pname = cstring_find_reverse(name, '@');
+    char * pname = strrchr(name, '@');
     if (pname != NULL) {
-	oname = ALLOCATE_VECTOR(char, cstring_length(name) + 10);
+	oname = ALLOCATE_VECTOR(char, strlen(name) + 10);
 	(void)sprintf(oname, "%.*s%d%s", (int)(pname - name), name,
 		      ++ostream->no, pname + 1);
     }

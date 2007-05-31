@@ -76,7 +76,7 @@
 char *
 cstring_duplicate(char * cstring)
 {
-    unsigned length = cstring_length(cstring);
+    size_t length = strlen(cstring);
     char * tmp    = ALLOCATE_VECTOR(char, length + 1);
 
   (void)strcpy(tmp, cstring);
@@ -86,7 +86,7 @@ cstring_duplicate(char * cstring)
 char *
 cstring_duplicate_prefix(char * cstring, unsigned prefix)
 {
-    unsigned length = cstring_length(cstring);
+    size_t length = strlen(cstring);
 
     if (length <= prefix) {
 	char * tmp = ALLOCATE_VECTOR(char, length + 1);
@@ -113,18 +113,6 @@ cstring_hash_value(char * cstring)
     return(value);
 }
 
-unsigned
-cstring_length(char * cstring)
-{
-    return((unsigned)strlen(cstring));
-}
-
-BoolT
-cstring_equal(char * cstring1, char * cstring2)
-{
-    return(strcmp(cstring1, cstring2) == 0);
-}
-
 BoolT
 cstring_ci_equal(char * cstring1, char * cstring2)
 {
@@ -147,6 +135,7 @@ cstring_to_unsigned(char * cstring, unsigned *num_ref)
 	return(FALSE);
     }
     do {
+		/* TODO this would be better served by strtol */
 	int value = syntax_value(*cstring);
 
 	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
@@ -166,28 +155,10 @@ cstring_starts(char * cstring, char * s)
     return(strncmp(cstring, s, strlen(s)) == 0);
 }
 
-BoolT
-cstring_contains(char * cstring, char c)
-{
-    return(strchr(cstring, c) != NULL);
-}
-
-char *
-cstring_find(char * cstring, char c)
-{
-    return(strchr(cstring, c));
-}
-
-char *
-cstring_find_reverse(char * cstring, char c)
-{
-    return(strrchr(cstring, c));
-}
-
 char *
 cstring_find_basename(char * cstring)
 {
-    char * bstring = cstring_find_reverse(cstring, '/');
+    char * bstring = strrchr(cstring, '/');
     if (bstring != NULL) {
 	cstring = bstring + 1;
     }

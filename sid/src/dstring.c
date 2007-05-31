@@ -68,6 +68,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "dstring.h"
 #include "syntax.h"
@@ -102,7 +103,7 @@ nstring_assign(NStringP to, NStringP from)
 void
 nstring_copy_cstring(NStringP nstring, char * cstring)
 {
-    unsigned length = cstring_length(cstring);
+    unsigned length = strlen(cstring);
 
     if (length > 0) {
 	nstring->length   = length;
@@ -312,7 +313,7 @@ dstring_append_char(DStringP dstring, char c)
 void
 dstring_append_cstring(DStringP dstring, char * cstring)
 {
-    unsigned clength = cstring_length(cstring);
+    unsigned clength = strlen(cstring);
     unsigned length  = (clength + (dstring->length));
 
     if (length > (dstring->max_length)) {

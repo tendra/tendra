@@ -81,6 +81,7 @@
 
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "os-interface.h"
 #include "arg-parse.h"
@@ -148,13 +149,13 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 	 entry = cstring_list_entry_deallocate(entry)) {
 	char * option = cstring_list_entry_string(entry);
 
-	if (cstring_equal(option, "prototypes") ||
-	    cstring_equal(option, "proto")) {
+	if (!strcmp(option, "prototypes") ||
+	    !strcmp(option, "proto")) {
 	    c_out_info_set_prototypes(c_out_info, TRUE);
-	} else if (cstring_equal(option, "no-prototypes") ||
-		   cstring_equal(option, "no-proto")) {
+	} else if (!strcmp(option, "no-prototypes") ||
+		   !strcmp(option, "no-proto")) {
 	    c_out_info_set_prototypes(c_out_info, FALSE);
-	} else if (cstring_equal(option, "split")) {
+	} else if (!strcmp(option, "split")) {
 	    c_out_info_set_split(c_out_info, (unsigned)5000);
 	} else if (cstring_starts(option, "split=")) {
 	    unsigned limit;
@@ -163,31 +164,31 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 		UNREACHED;
 	    }
 	    c_out_info_set_split(c_out_info, limit);
-	} else if (cstring_equal(option, "no-split")) {
+	} else if (!strcmp(option, "no-split")) {
 	    c_out_info_set_split(c_out_info, (unsigned)0);
-	} else if (cstring_equal(option, "numeric-ids") ||
-		   cstring_equal(option, "numeric")) {
+	} else if (!strcmp(option, "numeric-ids") ||
+		   !strcmp(option, "numeric")) {
 	    c_out_info_set_numeric_ids(c_out_info, TRUE);
-	} else if (cstring_equal(option, "no-numeric-ids") ||
-		   cstring_equal(option, "no-numeric")) {
+	} else if (!strcmp(option, "no-numeric-ids") ||
+		   !strcmp(option, "no-numeric")) {
 	    c_out_info_set_numeric_ids(c_out_info, FALSE);
-	} else if (cstring_equal(option, "casts") ||
-		   cstring_equal(option, "cast")) {
+	} else if (!strcmp(option, "casts") ||
+		   !strcmp(option, "cast")) {
 	    c_out_info_set_casts(c_out_info, TRUE);
-	} else if (cstring_equal(option, "no-casts") ||
-		   cstring_equal(option, "no-cast")) {
+	} else if (!strcmp(option, "no-casts") ||
+		   !strcmp(option, "no-cast")) {
 	    c_out_info_set_casts(c_out_info, FALSE);
-	} else if (cstring_equal(option, "unreachable-macros") ||
-		   cstring_equal(option, "unreachable-macro")) {
+	} else if (!strcmp(option, "unreachable-macros") ||
+		   !strcmp(option, "unreachable-macro")) {
 	    c_out_info_set_unreachable(c_out_info, TRUE);
-	} else if (cstring_equal(option, "unreachable-comments") ||
-		   cstring_equal(option, "unreachable-comment")) {
+	} else if (!strcmp(option, "unreachable-comments") ||
+		   !strcmp(option, "unreachable-comment")) {
 	    c_out_info_set_unreachable(c_out_info, FALSE);
-	} else if (cstring_equal(option, "lines") ||
-		   cstring_equal(option, "line")) {
+	} else if (!strcmp(option, "lines") ||
+		   !strcmp(option, "line")) {
 	    c_out_info_set_lines(c_out_info, TRUE);
-	} else if (cstring_equal(option, "no-lines") ||
-		   cstring_equal(option, "no-line")) {
+	} else if (!strcmp(option, "no-lines") ||
+		   !strcmp(option, "no-line")) {
 	    c_out_info_set_lines(c_out_info, FALSE);
 	} else {
 	    char * lang;
@@ -374,7 +375,7 @@ main_handle_inlining(char * option, ArgUsageP usage, void * gclosure,
 	}
 	phase = dstring_destroy_to_cstring(&dstring);
 	for (entry = main_phase_list; entry->phase; entry++) {
-	    if (cstring_equal(phase, entry->phase)) {
+	    if (!strcmp(phase, entry->phase)) {
 		if (entry->proc) {
 		   (*(entry->proc))(enable);
 		}
@@ -398,7 +399,7 @@ main_handle_language(char * option, ArgUsageP usage, void * gclosure,
     UNUSED(gclosure);
     main_did_other = TRUE;
     for (entry = main_language_list; entry->language; entry++) {
-	if (cstring_equal(language_str, entry->language)) {
+	if (!strcmp(language_str, entry->language)) {
 	    main_language = entry;
 	    return;
 	}

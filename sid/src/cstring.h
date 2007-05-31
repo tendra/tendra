@@ -67,6 +67,8 @@
  * an abstraction specifically for strings, to distinguish from character
  * pointers, however this was cumbersome; it has been removed during transition
  * to use standard library functions.
+ *
+ * The usual functions from string.h (strlen et al) will work for these.
  */
 
 #ifndef H_CSTRING
@@ -101,17 +103,6 @@ extern char *			cstring_duplicate_prefix(char *cstring,
 extern unsigned			cstring_hash_value(char *cstring);
 
 /*
- * This function returns the length of the specified string.
- */
-extern unsigned			cstring_length(char *cstring);
-
-/*
- * This function returns true if the specified cstrings have the same
- * content, and false otherwise.
- */
-extern BoolT			cstring_equal(char *cstring1, char *cstring2);
-
-/*
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  */
@@ -127,24 +118,6 @@ extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
 extern BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
 
 extern BoolT			cstring_starts(char *cstring, char *s);
-
-/*
- * This function returns true if the specified string contains the character
- * c, and false if it doesn't.
- */
-extern BoolT			cstring_contains(char *cstring, char c);
-
-/*
- * This function returns a pointer to the first occurrence of the specified
- * character in the specified cstring, or nil if there is no occurrence.
- */
-extern char *			cstring_find(char *cstring, char c);
-
-/*
- * This function returns a pointer to the last occurrence of the specified
- * character in the specified cstring, or NULL if there is no occurrence.
- */
-extern char *			cstring_find_reverse(char *cstring, char c);
 
 extern char *			cstring_find_basename(char *cstring);
 
