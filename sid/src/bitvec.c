@@ -57,31 +57,12 @@
         it may be put.
 */
 
-
-/**** bitvec.c --- Bit vector manipulation.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * bitvec.c - Bit vector manipulation.
  *
  * This file implements the bit vector manipulation routines specified in
  * "bitvec.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: bitvec.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:43  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:56:59  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:05:47  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stddef.h>
 #include <limits.h>
@@ -90,15 +71,11 @@
 
 #include "bitvec.h"
 
-/*--------------------------------------------------------------------------*/
-
 static unsigned		bitvec_size;
 static unsigned		bitvec_valid_bits;
 static ByteT		bitvec_mask;
 
 #define NUM_BITS	((unsigned)(CHAR_BIT))
-
-/*--------------------------------------------------------------------------*/
 
 void
 bitvec_set_size(unsigned size)
