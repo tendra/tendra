@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "c-out-types.h"
 #include "action.h"
 #include "basic.h"
@@ -315,7 +317,7 @@ types_get_entry(EntryP entry, SaveRStackP state, EntryP *type_ref,
 	*type_ref      = entry_get_non_local(entry);
 	*reference_ref = FALSE;
     }
-    ASSERT(trans_entry);
+    assert(trans_entry);
     return(trans_entry);
 }
 
@@ -344,7 +346,7 @@ c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
     EntryP   out_name = types_get_entry(out_entry, out_state, &out_type,
 					&out_reference);
 
-    ASSERT(in_type == out_type);
+    assert(in_type == out_type);
     if (in_name != out_name) {
 	TypeP  type = entry_get_type(in_type);
 	CCodeP code;
@@ -486,7 +488,7 @@ c_output_alt_names(COutputInfoP info, TypeTupleP names, TypeTupleP exclude,
 	    write_char(ostream, ' ');
 	    c_output_key(info, types_get_key(ptr->name, state, &type,
 					     &reference), in_prefix);
-	    ASSERT((type == ptr->type) && (!reference));
+	    assert((type == ptr->type) && (!reference));
 	    write_char(ostream, ';');
 	    write_newline(ostream);
 	    want_nl = TRUE;
@@ -532,7 +534,7 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 	write_char(ostream, '&');
 	c_output_key(info, types_get_key(ptr->name, state, &type_entry,
 					 &reference), in_prefix);
-	ASSERT((type_entry == ptr->type) && (!reference));
+	assert((type_entry == ptr->type) && (!reference));
 	sep = ", ";
     }
 }
@@ -545,13 +547,13 @@ c_output_rename(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs,
     TypeTupleEntryP out_ptr = outputs->head;
 
     while (in_ptr) {
-	ASSERT(out_ptr);
+	assert(out_ptr);
 	c_output_assign(info, in_ptr->name, out_ptr->name, state, state,
 			indent);
 	in_ptr  = in_ptr->next;
 	out_ptr = out_ptr->next;
     }
-    ASSERT(out_ptr == NULL);
+    assert(out_ptr == NULL);
 }
 
 void
@@ -562,13 +564,13 @@ c_output_tail_decls(COutputInfoP info, TypeTupleP inputs, SaveRStackP in_state,
     TypeTupleEntryP out_ptr = outputs->head;
 
     while (in_ptr) {
-	ASSERT(out_ptr);
+	assert(out_ptr);
 	c_output_assign(info, in_ptr->name, out_ptr->name, in_state,
 			out_state, indent);
 	in_ptr  = in_ptr->next;
 	out_ptr = out_ptr->next;
     }
-    ASSERT(out_ptr == NULL);
+    assert(out_ptr == NULL);
 }
 
 BoolT
@@ -585,7 +587,7 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
 
     rstack_save_state(rstack, &state);
     while (ptr) {
-	ASSERT(aptr);
+	assert(aptr);
 	if (ptr->mutated && (!ptr->reference)) {
 	    EntryP entry = table_add_generated_name(table);
 
@@ -603,24 +605,24 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
 	ptr  = ptr->next;
 	aptr = aptr->next;
     }
-    ASSERT(aptr == NULL);
+    assert(aptr == NULL);
     if (copies) {
 	write_newline(ostream);
 	for (aptr = args->head, ptr = param->head; ptr;
 	     ptr = ptr->next, aptr = aptr->next) {
-	    ASSERT(aptr);
+	    assert(aptr);
 	    if (ptr->mutated && (!ptr->reference)) {
 		EntryP type;
 		BoolT  reference;
 		EntryP entry = rstack_get_translation(&state, aptr->name,
 						      &type, &reference);
 
-		ASSERT(entry);
+		assert(entry);
 		c_output_assign(info, aptr->name, entry, astate, &state,
 				indent);
 	    }
 	}
-	ASSERT(aptr == NULL);
+	assert(aptr == NULL);
     }
     return(copies);
 }

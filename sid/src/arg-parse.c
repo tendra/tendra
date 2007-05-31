@@ -86,6 +86,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "arg-parse.h"
 #include "gen-errors.h"
 
@@ -98,7 +100,7 @@ arg_parse_intern_descriptions(ArgListP arg_list)
 	   (arg_list->short_name != '\0')) {
 	EStringP estring = error_lookup_string(arg_list->u.name);
 
-	ASSERT(estring != NULL);
+	assert(estring != NULL);
 	arg_list->u.message = estring;
 	arg_list++;
     }

@@ -89,6 +89,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-output.h"
@@ -135,7 +137,7 @@ c_code_get_translation(SaveRStackP state, TypeBTransP translator, EntryP ident,
     EntryP entry = btrans_get_translation(translator, ident);
     EntryP stack_entry;
 
-    ASSERT(entry);
+    assert(entry);
     stack_entry = rstack_get_translation(state, entry, type_ref,
 					 reference_ref);
     if ((stack_entry == NULL) && (entry_is_non_local(entry))) {
@@ -143,7 +145,7 @@ c_code_get_translation(SaveRStackP state, TypeBTransP translator, EntryP ident,
 	*type_ref      = entry_get_non_local(entry);
 	*reference_ref = FALSE;
     }
-    ASSERT(stack_entry);
+    assert(stack_entry);
     if (entry_ref) {
 	*entry_ref = entry;
     }

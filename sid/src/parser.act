@@ -43,6 +43,7 @@ sid-parse-grammar	-> sid_parse_grammar;
 */
 
 #include <limits.h>
+#include <assert.h>
 
 #include "parser.h"
 #include "action.h"
@@ -893,7 +894,7 @@ scope_stack_init (&sid_global_scope);
 							    sid_saved_pred_id,
 							    &reference);
 
-			ASSERT ((type != NULL) && (!reference));
+			assert((type != NULL) && (!reference));
 			if (sid_predicate_type) {
 			    if (type != sid_predicate_type) {
 				E_predicate_type (sid_predicate_type, type);

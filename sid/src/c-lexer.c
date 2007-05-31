@@ -84,6 +84,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "c-lexer.h"
 #include "gen-errors.h"
 #include "syntax.h"
@@ -562,7 +564,7 @@ c_lexer_next_token(CLexerStreamP stream)
 NStringP
 c_lexer_string_value(CLexerStreamP stream)
 {
-    ASSERT((stream->token.t == C_TOK_C_IDENTIFIER) ||
+    assert((stream->token.t == C_TOK_C_IDENTIFIER) ||
 	   (stream->token.t == C_TOK_SID_IDENTIFIER));
     return(&(stream->token.u.string));
 }
@@ -570,14 +572,14 @@ c_lexer_string_value(CLexerStreamP stream)
 CCodeP
 c_lexer_code_value(CLexerStreamP stream)
 {
-    ASSERT(stream->token.t == C_TOK_CODE);
+    assert(stream->token.t == C_TOK_CODE);
     return(stream->token.u.code);
 }
 
 void
 c_lexer_save_terminal(CLexerStreamP stream, CTokenT error_terminal)
 {
-    ASSERT(stream->token.t != error_terminal);
+    assert(stream->token.t != error_terminal);
     stream->saved_terminal = stream->token.t;
     stream->token.t        = error_terminal;
 }

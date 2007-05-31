@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "scope.h"
 #include "gen-errors.h"
 #include "rule.h"
@@ -121,7 +123,7 @@ scope_stack_pop(ScopeStackP stack)
     ScopeMapEntryP   entry;
     ScopeMapEntryP   next;
 
-    ASSERT(frame);
+    assert(frame);
     stack->head = frame->next;
     nstring_destroy(&(frame->scope));
     for (entry = frame->head; entry; entry = next) {
@@ -225,7 +227,7 @@ scope_stack_add_non_local(ScopeStackP stack, TableP table, NStringP key,
     NStringT nstring;
     EntryP   entry;
 
-    ASSERT(stack->head);
+    assert(stack->head);
     dstring_init(&dstring);
     dstring_append_nstring(&dstring, &(stack->head->scope));
     dstring_append_nstring(&dstring, key);

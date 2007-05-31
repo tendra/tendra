@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "type.h"
 
 /*--------------------------------------------------------------------------*/
@@ -106,7 +108,7 @@ type_get_assign_code(TypeP type)
 void
 type_set_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->assign_code == NULL);
+    assert(type->assign_code == NULL);
     type->assign_code = code;
 }
 
@@ -119,7 +121,7 @@ type_get_param_assign_code(TypeP type)
 void
 type_set_param_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->param_assign_code == NULL);
+    assert(type->param_assign_code == NULL);
     type->param_assign_code = code;
 }
 
@@ -132,7 +134,7 @@ type_get_result_assign_code(TypeP type)
 void
 type_set_result_assign_code(TypeP type, void * code)
 {
-    ASSERT(type->result_assign_code == NULL);
+    assert(type->result_assign_code == NULL);
     type->result_assign_code = code;
 }
 

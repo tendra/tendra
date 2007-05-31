@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "non-local.h"
 
 /*--------------------------------------------------------------------------*/
@@ -149,8 +151,8 @@ write_non_locals(OStreamP ostream, NonLocalListP non_locals)
 
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
-	ASSERT(non_local->type);
-	ASSERT(non_local->name);
+	assert(non_local->type);
+	assert(non_local->name);
 	write_tab(ostream);
 	write_key(ostream, entry_key(non_local->name));
 	write_cstring(ostream, ": ");

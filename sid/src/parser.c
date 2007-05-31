@@ -40,6 +40,7 @@
 */
 
 #include <limits.h>
+#include <assert.h>
 
 #include "parser.h"
 #include "action.h"
@@ -3108,7 +3109,7 @@ ZR196(void)
 							    sid_saved_pred_id,
 							    &reference);
 
-			ASSERT ((type != NULL) && (!reference));
+			assert((type != NULL) && (!reference));
 			if (sid_predicate_type) {
 			    if (type != sid_predicate_type) {
 				E_predicate_type (sid_predicate_type, type);
@@ -3204,7 +3205,7 @@ ZR196(void)
 							    sid_saved_pred_id,
 							    &reference);
 
-			ASSERT ((type != NULL) && (!reference));
+			assert((type != NULL) && (!reference));
 			if (sid_predicate_type) {
 			    if (type != sid_predicate_type) {
 				E_predicate_type (sid_predicate_type, type);

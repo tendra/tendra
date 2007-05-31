@@ -84,6 +84,7 @@
 /****************************************************************************/
 
 #include <stdlib.h>
+#include <assert.h>
 
 #include "error.h"
 #include "syntax.h"
@@ -254,7 +255,7 @@ write_error_list_text(OStreamP ostream, ErrorListP error_list)
 		    write_cstring(ostream, "\\\"");
 		    break;
 		  default:
-		    ASSERT(*contents != '\0');
+		    assert(*contents != '\0');
 		    write_char(ostream, *contents);
 		    break;
 		}
@@ -396,10 +397,10 @@ error_define_error(char * name, ESeverityT severity, char * message,
     ErrorP     entry;
 
     while ((entry = *entryp) != NULL) {
-	ASSERT(!cstring_equal(entry->name, name));
+	assert(!cstring_equal(entry->name, name));
 	entryp = &(entry->next);
     }
-    ASSERT(error_list);
+    assert(error_list);
     entry             = ALLOCATE(ErrorT);
     entry->next       = NULL;
     entry->name       = name;
@@ -551,7 +552,7 @@ error_define_string(char * name, char * contents)
     EStringP  entry;
 
     while ((entry = *entryp) != NULL) {
-	ASSERT(!cstring_equal(entry->name, name));
+	assert(!cstring_equal(entry->name, name));
 	entryp = &(entry->next);
     }
     entry           = ALLOCATE(EStringT);

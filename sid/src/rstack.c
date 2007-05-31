@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rstack.h"
 #include "action.h"
 #include "basic.h"
@@ -111,7 +113,7 @@ rstack_push_frame(RStackP rstack)
 void
 rstack_compute_formal_renaming(RStackP rstack, TypeTupleP names)
 {
-    ASSERT(rstack->head);
+    assert(rstack->head);
     types_compute_formal_renaming(names, &(rstack->head->translator));
 }
 
@@ -121,7 +123,7 @@ rstack_compute_formal_inlining(RStackP rstack, TypeTupleP names,
 {
     SaveRStackT state;
 
-    ASSERT(rstack->head);
+    assert(rstack->head);
     state.head = rstack->head->next;
     types_compute_formal_inlining(names, renames, &(rstack->head->translator),
 				  &state);
@@ -133,7 +135,7 @@ rstack_compute_local_renaming(RStackP rstack, TypeTupleP names,
 {
     SaveRStackT state;
 
-    ASSERT(rstack->head);
+    assert(rstack->head);
     state.head = rstack->head->next;
     types_compute_local_renaming(names, exclude, &(rstack->head->translator),
 				 &state, table);
@@ -143,7 +145,7 @@ void
 rstack_add_translation(RStackP rstack, EntryP from, EntryP to, EntryP type,
 		       BoolT reference)
 {
-    ASSERT(rstack->head);
+    assert(rstack->head);
     rtrans_add_translation(&(rstack->head->translator), from, to, type,
 			   reference);
 }

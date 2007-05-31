@@ -175,6 +175,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rule.h"
 #include "basic.h"
 #include "bitvec.h"
@@ -244,7 +246,7 @@ rule_overlaps(ItemP initial_item, BitVecP first_set, EntryListP predicate_first)
 	 item = item_next(item)) {
 	switch (item_type(item))EXHAUSTIVE {
 	  case ET_PREDICATE:
-	    ASSERT(item == initial_item);
+	    assert(item == initial_item);
 	    entry_list_add_if_missing(predicate_first, item_entry(item));
 	    see_through = FALSE;
 	    break;
@@ -597,7 +599,7 @@ rule_factor_3(RuleP rule, TableP table, EntryP predicate_id, AltP old_alt,
 	    AltP tmp_alt = old_alt;
 
 	    old_alt = alt_next(old_alt);
-	    ASSERT(alt_item_head(tmp_alt) == NULL);
+	    assert(alt_item_head(tmp_alt) == NULL);
 	   (void)alt_deallocate(tmp_alt);
 	}
     }

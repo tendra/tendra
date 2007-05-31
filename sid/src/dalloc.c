@@ -53,6 +53,7 @@
 
 /****************************************************************************/
 
+#include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -98,7 +99,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 {
     void * tmp;
 
-    ASSERT (size != 0);
+    assert(size != 0);
     if (length == 0) {
 	tmp = NULL;
     } else {
@@ -142,7 +143,7 @@ X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 	}
 	data->magic = 0;
 	result = vm_protect (task_self (), address, size, FALSE, VM_PROT_NONE);
-	ASSERT (result == KERN_SUCCESS);
+	assert(result == KERN_SUCCESS);
     }
 }
 
@@ -153,7 +154,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 {
     void * tmp;
 
-    ASSERT (size != 0);
+    assert(size != 0);
     if (length == 0) {
 	tmp = NULL;
     } else {
@@ -204,7 +205,7 @@ X__dalloc_allocate(size_t size, size_t length)
 {
     void * tmp;
 
-    ASSERT (size != 0);
+    assert(size != 0);
     if (length == 0) {
 	tmp = NULL;
     } else if ((tmp = calloc(length, size)) == NULL) {

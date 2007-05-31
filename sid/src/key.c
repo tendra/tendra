@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "key.h"
 
 /*--------------------------------------------------------------------------*/
@@ -133,7 +135,7 @@ key_is_string(KeyP key)
 NStringP
 key_get_string(KeyP key)
 {
-    ASSERT(key->type == KT_STRING);
+    assert(key->type == KT_STRING);
     return(&(key->string));
 }
 

@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "name.h"
 
 /*--------------------------------------------------------------------------*/
@@ -133,7 +135,7 @@ name_not_used(NameP name)
 unsigned
 name_get_label(NameP name)
 {
-    ASSERT(name->labelled);
+    assert(name->labelled);
     return(name->label);
 }
 

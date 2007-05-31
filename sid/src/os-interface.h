@@ -51,27 +51,6 @@
  * should be defined if the ``__FILE__'' or ``__LINE__'' macros are
  * unsupported.
  *
- *	FS_ASSERT
- *
- * This should be defined if you want assertion checking enabled.  This is on
- * by default, unless ``FS_FAST'' is defined, so it is only really useful to
- * define this if you have also defined ``FS_FAST'', but still want assertions
- * to be checked.  It is possible that less assertions will be checked, as
- * some of the "inlined" functions may have lost their assertions in the
- * macro version.
- *
- *	FS_STDC_HASH
- *
- * This should be defined if the system supports ANSI C style macro hash
- * syntax (``#'' and ``##'').  It is automatically defined if the ``__STDC__''
- * macro is defined.
- *
- *	FS_PROTOTYPES
- *
- * This should be defined if the system supports ANSI C style function
- * prototypes.  It is automatically defined if the ``__STDC__'' macro is
- * defined.
- *
  * As well as the feature switch macros, there are some portability option
  * macros as well.  These provide values for types and constants when the type
  * cannot be otherwise deduced.  These macros are ignored when the correct
@@ -199,21 +178,6 @@
  * They will be defined as macros with some default value in this case, but
  * the programmer may wish to do something different.
  *
- ** Macro:	FS_STDC_HASH
- ** Exceptions:
- *
- * This macro is defined if the ANSI C hash operators (``#'' and ``##'') are
- * available.
- *
- ** Macro:	ASSERT (assertion)
- ** Exceptions:
- *
- * This macro causes the program to abort if the assertion provided does not
- * hold.  Assertion checking is disabled if the ``FS_FAST'' macro is defined
- * or if the ``FS_NO_ASSERT'' macro is defined.  The assertion "ASSERT
- * (FALSE);" is used to indicate that the program should never reach the
- * current line.
- *
  ** Macro:	UNUSED (variable)
  ** Exceptions:
  *
@@ -278,11 +242,6 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-# ifdef FS_NO_FILE_INFO
-#  define __FILE__ "unknown"
-#  define __LINE__ 0
-# endif /* defined (FS_NO_FILE_INFO) */
-
 # ifdef __GNUC__
 typedef void NoReturnT;
 # else
@@ -310,34 +269,16 @@ typedef enum {
 # define FALSE (0)
 # define TRUE (1)
 
-# ifdef FS_ASSERT
-extern void	E_assertion_failed(char *, char *, unsigned);
-#  ifdef FS_STDC_HASH
-#   define ASSERT(a) \
-if (!(a)) { \
-    E_assertion_failed (#a, __FILE__, (unsigned) __LINE__); \
-    abort (); \
-}
-#  else
-#   define ASSERT(a) \
-if (!(a)) { \
-    E_assertion_failed ("<unavailable>", __FILE__, (unsigned) __LINE__); \
-    abort (); \
-}
-#  endif /* defined (FS_STDC_HASH) */
-# else
-#  define ASSERT(a)
-# endif /* defined (FS_ASSERT) */
-
 # ifdef __TenDRA__
 #  pragma TenDRA keyword EXHAUSTIVE for exhaustive
 #  pragma TenDRA keyword FALL_THROUGH for fall into case
 #  pragma TenDRA keyword UNREACHED for set unreachable
 # else
 #  include <stdlib.h>
+#  include <assert.h>
 #  define EXHAUSTIVE
 #  define FALL_THROUGH
-#  define UNREACHED ASSERT (!"UNREACHED"); abort();
+#  define UNREACHED assert(!"UNREACHED"); abort();
 # endif /* defined (__TenDRA__) */
 
 #endif /* !defined (H_OS_INTERFACE) */

@@ -98,6 +98,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rule.h"
 #include "basic.h"
 #include "bitvec.h"
@@ -121,13 +123,16 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
     for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 	ItemP item        = alt_item_head(alt);
 	BoolT see_through = TRUE;
+#ifndef NDEBUG
+	ItemP   initial     = item;
+#endif
 
 	for (; see_through && item; item = item_next(item)) {
 	    EntryP entry = item_entry(item);
 
 	    switch (item_type(item))EXHAUSTIVE {
 	      case ET_PREDICATE:
-		ASSERT(item == initial);
+		assert(item == initial);
 		if (entry_list_contains(&predicate_list, entry)) {
 		    E_predicate_collision(rule, entry_key(entry));
 		} else {
@@ -373,13 +378,16 @@ rule_compute_alt_first_sets_1(RuleP rule)
 	BitVecP alt_firsts  = alt_first_set(alt);
 	ItemP   item        = alt_item_head(alt);
 	BoolT   see_through = TRUE;
+#ifndef NDEBUG
+	ItemP   initial     = item;
+#endif
 
 	for (; see_through && item; item = item_next(item)) {
 	    EntryP entry = item_entry(item);
 
 	    switch (item_type(item))EXHAUSTIVE {
 	      case ET_PREDICATE:
-		ASSERT(item == initial);
+		assert(item == initial);
 		see_through = FALSE;
 		break;
 	      case ET_ACTION:

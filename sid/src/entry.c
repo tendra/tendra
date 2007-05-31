@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "entry.h"
 #include "action.h"
 #include "basic.h"
@@ -134,35 +136,35 @@ entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced,
 void
 entry_set_basic(EntryP entry, BasicP basic)
 {
-    ASSERT(entry_is_basic(entry));
+    assert(entry_is_basic(entry));
     entry->u.basic = basic;
 }
 
 void
 entry_set_rule(EntryP entry, RuleP rule)
 {
-    ASSERT(entry_is_rule(entry));
+    assert(entry_is_rule(entry));
     entry->u.rule = rule;
 }
 
 void
 entry_set_action(EntryP entry, ActionP action)
 {
-    ASSERT(entry_is_action(entry));
+    assert(entry_is_action(entry));
     entry->u.action = action;
 }
 
 void
 entry_set_type(EntryP entry, TypeP type)
 {
-    ASSERT(entry_is_type(entry));
+    assert(entry_is_type(entry));
     entry->u.type = type;
 }
 
 void
 entry_set_non_local(EntryP entry, EntryP type)
 {
-    ASSERT(entry_is_non_local(entry));
+    assert(entry_is_non_local(entry));
     entry->u.non_local = type;
 }
 
@@ -229,21 +231,21 @@ entry_is_non_local(EntryP entry)
 BasicP
 entry_get_basic(EntryP entry)
 {
-    ASSERT(entry_is_basic(entry));
+    assert(entry_is_basic(entry));
     return(entry->u.basic);
 }
 
 ActionP
 entry_get_action(EntryP entry)
 {
-    ASSERT(entry_is_action(entry));
+    assert(entry_is_action(entry));
     return(entry->u.action);
 }
 
 RuleP
 entry_get_rule(EntryP entry)
 {
-    ASSERT(entry_is_rule(entry));
+    assert(entry_is_rule(entry));
     return(entry->u.rule);
 }
 
@@ -256,14 +258,14 @@ entry_get_name(EntryP entry)
 TypeP
 entry_get_type(EntryP entry)
 {
-    ASSERT(entry_is_type(entry));
+    assert(entry_is_type(entry));
     return(entry->u.type);
 }
 
 EntryP
 entry_get_non_local(EntryP entry)
 {
-    ASSERT(entry_is_non_local(entry));
+    assert(entry_is_non_local(entry));
     return(entry->u.non_local);
 }
 

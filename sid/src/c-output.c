@@ -101,6 +101,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "c-output.h"
 #include "action.h"
 #include "basic.h"
@@ -558,7 +560,7 @@ c_output_basic_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
 	c_output_jump(info, rule_get_handler_label(handler_rule), code_indent);
 	c_output_close(info, indent);
     } else {
-	ASSERT(!need_check);
+	assert(!need_check);
 	if (code) {
 	    c_output_basic_extract(info, code, item, key, state, code_indent);
 	}
@@ -848,7 +850,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
     BoolT         full_first_set   = bitvec_is_full(rule_first_set(rule));
     BoolT         one_alt          = rule_has_one_alt(rule);
 
-    ASSERT(!rule_is_being_output(rule));
+    assert(!rule_is_being_output(rule));
     rule_being_output(rule);
     rule_set_end_label(rule, c_out_next_label());
     if (need_check && (predicates || has_non_locals || one_alt)) {
@@ -923,7 +925,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 
 		if (!item_is_predicate(item)) {
 		    if (alt == see_through_alt) {
-			ASSERT(!full_first_set);
+			assert(!full_first_set);
 			c_output_default(info, code_indent);
 		    } else {
 			c_output_bitvec_cases(info, alt_first_set(alt),
@@ -956,7 +958,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	    }
 	    c_output_close(info, code_indent);
 	} else {
-	    ASSERT(!need_check);
+	    assert(!need_check);
 	    if (!rule_has_empty_alt(rule)) {
 		c_output_jump(info, rule_get_handler_label(handler_rule),
 			      code_indent);

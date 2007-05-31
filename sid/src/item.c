@@ -83,6 +83,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rule.h"
 #include "action.h"
 #include "basic.h"
@@ -150,7 +152,7 @@ item_translate_list(ItemP item, TypeBTransP translator)
 void
 item_to_predicate(ItemP item)
 {
-    ASSERT(item_is_action(item));
+    assert(item_is_action(item));
     item->type = ET_PREDICATE;
 }
 

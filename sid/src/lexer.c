@@ -86,6 +86,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "lexer.h"
 #include "gen-errors.h"
 #include "syntax.h"
@@ -403,14 +405,14 @@ lexer_next_token(LexerStreamP stream)
 NStringP
 lexer_string_value(LexerStreamP stream)
 {
-    ASSERT(stream->token.t == LEXER_TOK_IDENTIFIER);
+    assert(stream->token.t == LEXER_TOK_IDENTIFIER);
     return(&(stream->token.u.string));
 }
 
 void
 lexer_save_terminal(LexerStreamP stream, LexerTokenT error_terminal)
 {
-    ASSERT(stream->token.t != error_terminal);
+    assert(stream->token.t != error_terminal);
     stream->saved_terminal = stream->token.t;
     stream->token.t        = error_terminal;
 }

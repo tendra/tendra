@@ -82,6 +82,7 @@
 
 /****************************************************************************/
 
+#include <assert.h>
 #include <stddef.h>
 #include <limits.h>
 
@@ -264,7 +265,7 @@ types_compute_mutations(TypeTupleP rule, TypeTupleP item, TypeTupleP action)
     TypeTupleEntryP action_ptr = action->head;
 
     while (action_ptr) {
-	ASSERT(item_ptr);
+	assert(item_ptr);
 	if (action_ptr->mutated) {
 	    TypeTupleEntryP rule_ptr = rule->head;
 
@@ -283,7 +284,7 @@ types_compute_mutations(TypeTupleP rule, TypeTupleP item, TypeTupleP action)
 	item_ptr   = item_ptr->next;
 	action_ptr = action_ptr->next;
     }
-    ASSERT(item_ptr == NULL);
+    assert(item_ptr == NULL);
     return(propogate);
 }
 
@@ -321,12 +322,12 @@ types_propogate_mutations(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP from_ptr = from->head;
 
     while (to_ptr) {
-	ASSERT(from_ptr);
+	assert(from_ptr);
 	to_ptr->mutated = from_ptr->mutated;
 	to_ptr          = to_ptr->next;
 	from_ptr        = from_ptr->next;
     }
-    ASSERT(from_ptr == NULL);
+    assert(from_ptr == NULL);
 }
 
 BoolT
@@ -707,7 +708,7 @@ types_fillin_names(TypeTupleP to, TypeTupleP from)
     TypeTupleEntryP from_ptr = from->head;
 
     while ((to_ptr) && (from_ptr)) {
-	ASSERT(to_ptr->name == NULL);
+	assert(to_ptr->name == NULL);
 	to_ptr->name = from_ptr->name;
 	if ((from_ptr->type) &&
 	    ((to_ptr->type != from_ptr->type) ||
@@ -744,7 +745,7 @@ types_check_used(TypeTupleP tuple, void (*error_proc)(void *, EntryP),
     TypeTupleEntryP ptr;
 
     for (ptr = tuple->head; ptr; ptr = ptr->next) {
-	ASSERT(!entry_is_non_local(ptr->name));
+	assert(!entry_is_non_local(ptr->name));
 	if (!name_is_used(entry_get_name(ptr->name))) {
 	   (*error_proc)(gclosure, ptr->name);
 	}
@@ -775,7 +776,7 @@ types_unlink_unused(TypeTupleP tuple, AltP alts)
     types_iter_alt_item_type_names(alts, name_used);
     tuple->tail = &(tuple->head);
     while ((type = *(tuple->tail)) != NULL) {
-	ASSERT(!entry_is_non_local(type->name));
+	assert(!entry_is_non_local(type->name));
 	if (name_is_used(entry_get_name(type->name))) {
 	    tuple->tail = &(type->next);
 	} else {
@@ -809,14 +810,14 @@ types_compute_formal_inlining(TypeTupleP names, TypeTupleP renames,
 	EntryP type;
 	BoolT  reference;
 
-	ASSERT(reptr);
+	assert(reptr);
 	entry = rstack_get_translation(state, reptr->name, &type, &reference);
-	ASSERT(entry);
+	assert(entry);
 	rtrans_add_translation(translator, ptr->name, entry, type, reference);
 	ptr   = ptr->next;
 	reptr = reptr->next;
     }
-    ASSERT(reptr == NULL);
+    assert(reptr == NULL);
 }
 
 void
@@ -976,12 +977,12 @@ btrans_add_translations(TypeBTransP translator, TypeTupleP from, TypeTupleP to)
     TypeTupleEntryP to_ptr   = to->head;
 
     while (from_ptr) {
-	ASSERT(to_ptr != NULL);
+	assert(to_ptr != NULL);
 	btrans_add_translation(translator, from_ptr->name, to_ptr->name);
 	from_ptr = from_ptr->next;
 	to_ptr   = to_ptr->next;
     }
-    ASSERT(to_ptr == NULL);
+    assert(to_ptr == NULL);
 }
 
 void
@@ -1015,12 +1016,12 @@ btrans_regenerate_names(TypeBTransP translator, TypeTupleP tuple)
     TransP           trans_ptr = translator->head;
 
     while (tuple_ptr) {
-	ASSERT(trans_ptr != NULL);
+	assert(trans_ptr != NULL);
 	trans_ptr->from = tuple_ptr->name;
 	trans_ptr       = trans_ptr->next;
 	tuple_ptr       = tuple_ptr->next;
     }
-    ASSERT(trans_ptr == NULL);
+    assert(trans_ptr == NULL);
 }
 
 ItemP
@@ -1075,7 +1076,7 @@ btrans_regen_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
     types_init(&from);
     types_init(&to);
     while (tuple_ptr) {
-	ASSERT(trans_ptr != NULL);
+	assert(trans_ptr != NULL);
 	trans_ptr->from = tuple_ptr->name;
 	if (types_contains(result, tuple_ptr->name)) {
 	    types_add_name_and_type(&from, trans_ptr->to, tuple_ptr->type,
@@ -1086,7 +1087,7 @@ btrans_regen_non_pred_names(TypeBTransP translator, TypeTupleP tuple,
 	trans_ptr       = trans_ptr->next;
 	tuple_ptr       = tuple_ptr->next;
     }
-    ASSERT(trans_ptr == NULL);
+    assert(trans_ptr == NULL);
     if (types_equal_zero_tuple(&from)) {
 	types_destroy(&from);
 	types_destroy(&to);
@@ -1240,12 +1241,12 @@ trans_add_translations(TypeTransP translator, TypeTupleP from, TypeTupleP to)
     TypeTupleEntryP to_ptr   = to->head;
 
     while (from_ptr) {
-	ASSERT(to_ptr != NULL);
+	assert(to_ptr != NULL);
 	trans_add_translation(translator, from_ptr->name, to_ptr->name);
 	from_ptr = from_ptr->next;
 	to_ptr   = to_ptr->next;
     }
-    ASSERT(to_ptr == NULL);
+    assert(to_ptr == NULL);
 }
 
 void

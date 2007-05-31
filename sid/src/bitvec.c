@@ -86,6 +86,7 @@
 #include <stddef.h>
 #include <limits.h>
 #include <string.h>
+#include <assert.h>
 
 #include "bitvec.h"
 
@@ -182,14 +183,14 @@ bitvec_is_full(BitVecP bitvec)
 void
 bitvec_set(BitVecP bitvec, unsigned bit)
 {
-    ASSERT(bit < bitvec_valid_bits);
+    assert(bit < bitvec_valid_bits);
    (bitvec->bits)[bit / NUM_BITS] |= (ByteT)(1 << (bit % NUM_BITS));
 }
 
 BoolT
 bitvec_is_set(BitVecP bitvec, unsigned bit)
 {
-    ASSERT(bit < bitvec_valid_bits);
+    assert(bit < bitvec_valid_bits);
     return((bitvec->bits)[bit / NUM_BITS] & ((ByteT)1 << (bit % NUM_BITS)));
 }
 

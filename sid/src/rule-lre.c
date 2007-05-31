@@ -135,6 +135,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rule.h"
 #include "dstring.h"
 #include "gen-errors.h"
@@ -261,7 +263,7 @@ rule_find_suffix(ItemP rec_item, ItemP non_rec_item)
 	tmp_rec_item     = item_next(tmp_rec_item);
 	tmp_non_rec_item = item_next(tmp_non_rec_item);
     }
-    ASSERT((tmp_rec_item == NULL) && (tmp_non_rec_item == NULL));
+    assert((tmp_rec_item == NULL) && (tmp_non_rec_item == NULL));
     return(rec_item);
 }
 
@@ -279,7 +281,7 @@ static BoolT
 rule_compare_item_lists(ItemP rec_suffix, ItemP non_rec_item)
 {
     while (rec_suffix) {
-	ASSERT(non_rec_item);
+	assert(non_rec_item);
 	if (!((types_equal_numbers(item_param(rec_suffix),
 				   item_param(non_rec_item))) &&
 	      (types_equal_numbers(item_result(rec_suffix),
@@ -289,7 +291,7 @@ rule_compare_item_lists(ItemP rec_suffix, ItemP non_rec_item)
 	rec_suffix   = item_next(rec_suffix);
 	non_rec_item = item_next(non_rec_item);
     }
-    ASSERT(non_rec_item == NULL);
+    assert(non_rec_item == NULL);
     return(TRUE);
 }
 

@@ -88,6 +88,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "rule.h"
 #include "action.h"
 #include "basic.h"
@@ -145,7 +147,7 @@ rule_compute_dfs_1(AltP alt, CycleTypeT type, RuleP *list)
     ItemP initial = item;
     ItemP next;
 
-    ASSERT(type != CT_MUTATE);
+    assert(type != CT_MUTATE);
     while (item) {
 	next = item_next(item);
 	if (item_is_rule(item)) {
@@ -595,7 +597,7 @@ rule_get_priority(RuleP rule)
 void
 rule_set_priority(RuleP rule, unsigned priority)
 {
-    ASSERT(priority > 0);
+    assert(priority > 0);
     rule->priority = priority;
 }
 
