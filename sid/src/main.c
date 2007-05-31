@@ -148,7 +148,6 @@
 #include <ctype.h>
 
 #include "os-interface.h"
-#include "release.h"
 #include "arg-parse.h"
 #include "c-check.h"
 #include "c-lexer.h"
@@ -173,17 +172,10 @@
 /*--------------------------------------------------------------------------*/
 
 #define USAGE "\
-\tusage:[option ...]in-file ... out-file ...\n\
-\twhere option is one of:"
-#ifndef VERSION
-#define VERSION "sid: version 1.10.0 (ansi-c, pre-ansi-c, test)"
-#endif /* !defined (VERSION) */
-#ifndef RELEASE
-#define RELEASE "unknown"
-#endif /* !defined (RELEASE) */
-#ifndef BANNER
-#define BANNER ""
-#endif /* !defined (BANNER) */
+usage:[option ...] in-file ... out-file ...\n\
+where option is one of:\n"
+#define VERSION "sid: version 1.11.0 (ansi-c, pre-ansi-c, test)"
+#define RELEASE "tendra.org"
 
 /*--------------------------------------------------------------------------*/
 
@@ -539,10 +531,9 @@ main_handle_version(char * option, ArgUsageP usage, void * gclosure)
     UNUSED(gclosure);
     main_did_one_off = TRUE;
     write_cstring(ostream_error, VERSION);
-    write_cstring(ostream_error, " (Release ");
+    write_cstring(ostream_error, " (");
     write_cstring(ostream_error, RELEASE);
     write_cstring(ostream_error, ")");
-    write_cstring(ostream_error, BANNER);
     write_newline(ostream_error);
     ostream_flush(ostream_error);
 }
@@ -596,7 +587,7 @@ static ArgListT main_arglist[] = {
 	(ArgProcP)main_handle_factor_limit,	NULL,
 	{ "description of factor-limit" }
     }, {
-	"help", '?',				AT_EMPTY,
+	"help", 'h',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NULL,
 	{ "description of help" }
     }, {

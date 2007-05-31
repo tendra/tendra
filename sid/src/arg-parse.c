@@ -373,13 +373,15 @@ write_arg_usage(OStreamP ostream, ArgUsageP closure)
 	    write_newline(ostream);
 	    write_cstring(ostream, "    {--|++}");
 	    write_cstring(ostream, arg_list->name);
-	    write_cstring(ostream, desc);
 	}
 	if (arg_list->short_name != '\0') {
 	    write_newline(ostream);
 	    write_cstring(ostream, "    {-|+}");
 	    write_char(ostream, arg_list->short_name);
+	}
+	if (arg_list->short_name != '\0' || arg_list->name) {
 	    write_cstring(ostream, desc);
+	    write_newline(ostream);
 	}
 	arg_list++;
     }
