@@ -67,7 +67,7 @@
 #include <assert.h>
 
 #include "c-out-nl.h"
-#include "action.h"
+#include "../action.h"
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-out-types.h"

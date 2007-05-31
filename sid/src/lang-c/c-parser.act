@@ -1,4 +1,3 @@
-// -*- C -*-
 %prefixes%
 
 %maps%
@@ -9,6 +8,36 @@ BoolT		-> BoolT;
 c-parse-grammar	-> c_parse_grammar;
 
 %header% @{
+/*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
 /*
     		 Crown Copyright (c) 1997
     
@@ -40,37 +69,34 @@ c-parse-grammar	-> c_parse_grammar;
 
 
 #include "c-parser.h"
-#include "action.h"
+#include "../action.h"
 #include "c-code.h"
 #include "c-out-info.h"
-#include "basic.h"
-#include "entry.h"
-#include "gen-errors.h"
-#include "type.h"
-#include "types.h"
-
-/*--------------------------------------------------------------------------*/
+#include "../basic.h"
+#include "../entry.h"
+#include "../gen-errors.h"
+#include "../type.h"
+#include "../types.h"
 
 #define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
 #define ADVANCE_LEXER c_lexer_next_token (c_current_stream)
 #define SAVE_LEXER(x) (c_lexer_save_terminal (c_current_stream, (CTokenT) (x)))
 #define RESTORE_LEXER (c_lexer_restore_terminal (c_current_stream))
 
-/*--------------------------------------------------------------------------*/
+/* typedefs for the maps section */
+typedef CCodeT * CCodeP;
 
 static NStringT		c_prefix_names [CPFX_NUM_PREFIXES];
 static BoolT		c_inited_prefix_names = FALSE;
 static CPrefixT		c_current_prefix;
-static EntryP		c_current_entry;
+static EntryT *		c_current_entry;
 static TypeTupleT	c_saved_type;
 static TypeTupleT	c_current_type;
 static BoolT		c_propagating_error = FALSE;
 
-/*--------------------------------------------------------------------------*/
-
-CLexerStreamP		c_current_stream;
-COutputInfoP		c_current_out_info;
-TableP			c_current_table;
+CLexerStreamT *		c_current_stream;
+COutputInfoT *		c_current_out_info;
+TableT *			c_current_table;
 @}, @{
 /*
     		 Crown Copyright (c) 1997
@@ -167,7 +193,7 @@ code: () -> (c) = @{
     if (c_current_prefix == CPFX_NUM_PREFIXES) {
 	nstring_destroy (&@=string);
     } else {
-	NStringP prefix = c_out_info_prefix (c_current_out_info,
+	NStringT * prefix = c_out_info_prefix (c_current_out_info,
 					     c_current_prefix);
 
 	nstring_destroy (prefix);
@@ -278,7 +304,7 @@ code: () -> (c) = @{
 <x-assign>: (code) -> () = @{
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -310,7 +336,7 @@ code: () -> (c) = @{
 	    c_code_deallocate (@code);
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -337,7 +363,7 @@ code: () -> (c) = @{
 <x-passign>: (code) -> () = @{
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -370,7 +396,7 @@ code: () -> (c) = @{
 	    c_code_deallocate (@code);
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check (@code, FALSE, TRUE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -397,7 +423,7 @@ code: () -> (c) = @{
 <x-rassign>: (code) -> () = @{
     if (c_current_entry) {
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 	TypeTupleT tmp;
 
 	types_init (&tmp);
@@ -430,7 +456,7 @@ code: () -> (c) = @{
 	    c_code_deallocate (@code);
 	    c_current_entry = NULL;
 	} else {
-	    TypeP type = entry_get_type (c_current_entry);
+	    TypeT * type = entry_get_type (c_current_entry);
 
 	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
 			  c_current_table);
@@ -450,7 +476,7 @@ code: () -> (c) = @{
 	NULL) {
 	E_c_unknown_basic (@&string);
     } else {
-	BasicP basic = entry_get_basic (c_current_entry);
+	BasicT * basic = entry_get_basic (c_current_entry);
 
 	if (basic_get_result_code (basic)) {
 	    E_c_basic_mult_def (@&string);
@@ -465,10 +491,10 @@ code: () -> (c) = @{
 
 <x-set-terminal>: (code) -> () = @{
     if (c_current_entry) {
-	BasicP     basic   = entry_get_basic (c_current_entry);
-	TypeTupleP result  = basic_result (basic);
+	BasicT *     basic   = entry_get_basic (c_current_entry);
+	TypeTupleT * result  = basic_result (basic);
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
 	    E_c_basic_param_clash (key, &c_saved_type);
@@ -515,7 +541,7 @@ code: () -> (c) = @{
 	NULL) {
 	E_c_unknown_action (@&string);
     } else {
-	ActionP action = entry_get_action (c_current_entry);
+	ActionT * action = entry_get_action (c_current_entry);
 
 	if (action_get_code (action)) {
 	    E_c_action_mult_def (@&string);
@@ -527,11 +553,11 @@ code: () -> (c) = @{
 
 <x-set-action>: (code) -> () = @{
     if (c_current_entry) {
-	ActionP    action  = entry_get_action (c_current_entry);
-	TypeTupleP param   = action_param (action);
-	TypeTupleP result  = action_result (action);
+	ActionT *    action  = entry_get_action (c_current_entry);
+	TypeTupleT * param   = action_param (action);
+	TypeTupleT * result  = action_result (action);
 	BoolT      errored = FALSE;
-	KeyP       key     = entry_key (c_current_entry);
+	KeyT *       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
 	    E_c_action_param_clash (key, &c_saved_type);

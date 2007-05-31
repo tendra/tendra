@@ -59,36 +59,75 @@
 
 
 /*
- * c-out-types.h --- Output type objects.
+ * c-lexer.h --- SID C lexical analyser.
  *
- * See the file "c-out-types.c" for more information.
+ * See the file "c-lexer.c" for details.
  */
 
-#ifndef H_C_OUT_TYPES
-#define H_C_OUT_TYPES
+#ifndef H_C_LEXER
+#define H_C_LEXER
 
-#include "os-interface.h"
-#include "c-output.h"
-#include "rstack.h"
-#include "rules/rule.h"
-#include "table.h"
-#include "types.h"
+#include "../os-interface.h"
+#include "c-code.h"
+#include "../dstring.h"
+#include "../istream.h"
 
-extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
-				SaveRStackT *, unsigned);
-extern void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
-extern void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				   SaveRStackT *, unsigned);
-extern void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				     SaveRStackT *);
-extern void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				SaveRStackT *, unsigned);
-extern void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
-				    TypeTupleT *, SaveRStackT *, unsigned);
-extern BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-					 RStackT *, SaveRStackT *, unsigned,
-					 TableT *);
+/*
+ * Note:
+ *
+ * It is important that any changes to this enumerated type declaration are
+ * reflected in the "c-parser.sid" file.
+ */
+typedef enum {
+    C_TOK_BLT_PREFIXES,
+    C_TOK_BLT_MAPS,
+    C_TOK_BLT_ASSIGNMENTS,
+    C_TOK_BLT_TERMINALS,
+    C_TOK_BLT_HEADER,
+    C_TOK_BLT_ACTIONS,
+    C_TOK_BLT_TRAILER,
+    C_TOK_BLT_RESULT_ASSIGN,
+    C_TOK_SID_IDENTIFIER,
+    C_TOK_C_IDENTIFIER,
+    C_TOK_SEPARATOR,
+    C_TOK_TYPEMARK,
+    C_TOK_TERMINATOR,
+    C_TOK_BEGIN_ACTION,
+    C_TOK_DEFINE,
+    C_TOK_END_ACTION,
+    C_TOK_CODE,
+    C_TOK_ARROW,
+    C_TOK_OPEN_TUPLE,
+    C_TOK_CLOSE_TUPLE,
+    C_TOK_BLT_PARAM_ASSIGN,
+    C_TOK_REFERENCE,
+    C_TOK_EOF,
+    C_TOK_ERROR
+} CTokenT;
 
-#endif /* !defined (H_C_OUT_TYPES) */
+typedef struct CLexT {
+    CTokenT			t;
+    union {
+	NStringT		string;
+	CCodeT *			code;
+    } u;
+} CLexT;
+
+typedef struct CLexerStreamT {
+    IStreamT			istream;
+    CLexT			token;
+    CTokenT			saved_terminal;
+} CLexerStreamT;
+
+extern void		c_lexer_init(CLexerStreamT *, IStreamT *);
+extern void		c_lexer_close(CLexerStreamT *);
+extern char *		c_lexer_stream_name(CLexerStreamT *);
+extern unsigned		c_lexer_stream_line(CLexerStreamT *);
+extern CTokenT		c_lexer_get_terminal(CLexerStreamT *);
+extern void		c_lexer_next_token(CLexerStreamT *);
+extern NStringT *		c_lexer_string_value(CLexerStreamT *);
+extern CCodeT *		c_lexer_code_value(CLexerStreamT *);
+extern void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
+extern void		c_lexer_restore_terminal(CLexerStreamT *);
+
+#endif /* !defined (H_C_LEXER) */

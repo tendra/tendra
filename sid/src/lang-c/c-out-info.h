@@ -66,10 +66,10 @@
 #ifndef H_C_OUT_INFO
 #define H_C_OUT_INFO
 
-#include "os-interface.h"
-#include "dstring.h"
-#include "ostream.h"
-#include "output.h"
+#include "../os-interface.h"
+#include "../dstring.h"
+#include "../ostream.h"
+#include "../output.h"
 
 /*To avoid circularity:*/
 struct CCodeT;

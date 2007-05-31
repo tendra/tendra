@@ -59,64 +59,36 @@
 
 
 /*
- * c-check.c - Routines to check grammar.
+ * c-out-types.h --- Output type objects.
  *
- * This file contains routines to check that all actions and basic result
- * extraction functions are defined.
+ * See the file "c-out-types.c" for more information.
  */
 
-#include "c-check.h"
-#include "action.h"
-#include "basic.h"
-#include "entry.h"
-#include "gen-errors.h"
-#include "table.h"
+#ifndef H_C_OUT_TYPES
+#define H_C_OUT_TYPES
 
-static void
-c_check_grammar_1(EntryT * entry, void * gclosure)
-{
-    TypeT * type;
+#include "../os-interface.h"
+#include "c-output.h"
+#include "../rstack.h"
+#include "../rules/rule.h"
+#include "../table.h"
+#include "../types.h"
 
-    UNUSED(gclosure);
-    switch (entry_type(entry))EXHAUSTIVE {
-      case ET_RULE:
-	break;
-      case ET_BASIC: {
-	  BasicT * basic = entry_get_basic(entry);
+extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
+				SaveRStackT *, unsigned);
+extern void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+extern void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+extern void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
+extern void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				   SaveRStackT *, unsigned);
+extern void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				     SaveRStackT *);
+extern void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+				SaveRStackT *, unsigned);
+extern void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
+				    TypeTupleT *, SaveRStackT *, unsigned);
+extern BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+					 RStackT *, SaveRStackT *, unsigned,
+					 TableT *);
 
-	  if ((!types_equal_zero_tuple(basic_result(basic))) &&
-	      (basic_get_result_code(basic) == NULL)) {
-	      E_basic_result_code_not_defined(entry_key(entry));
-	  }
-      }
-	break;
-      case ET_ACTION:
-	if (action_get_code(entry_get_action(entry)) == NULL) {
-	    E_action_code_not_defined(entry_key(entry));
-	}
-	break;
-      case ET_TYPE:
-	type = entry_get_type(entry);
-	if (((type_get_assign_code(type) != NULL) ||
-	     (type_get_param_assign_code(type) != NULL) ||
-	     (type_get_result_assign_code(type) != NULL)) &&
-	    ((type_get_assign_code(type) == NULL) ||
-	     (type_get_param_assign_code(type) == NULL) ||
-	     (type_get_result_assign_code(type) == NULL))) {
-	    E_type_code_not_defined(entry_key(entry));
-	}
-	break;
-      case ET_NON_LOCAL:
-      case ET_NAME:
-      case ET_RENAME:
-	break;
-      case ET_PREDICATE:
-	UNREACHED;
-    }
-}
-
-void
-c_check_grammar(GrammarT * grammar)
-{
-    table_iter(grammar_table(grammar), c_check_grammar_1, NULL);
-}
+#endif /* !defined (H_C_OUT_TYPES) */

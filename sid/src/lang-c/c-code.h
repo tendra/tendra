@@ -65,16 +65,16 @@
 #ifndef H_C_CODE
 #define H_C_CODE
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "c-out-info.h"
-#include "cstring.h"
-#include "dalloc.h"
-#include "dstring.h"
-#include "entry.h"
-#include "rstack.h"
-#include "rules/rule.h"
-#include "table.h"
-#include "types.h"
+#include "../cstring.h"
+#include "../dalloc.h"
+#include "../dstring.h"
+#include "../entry.h"
+#include "../rstack.h"
+#include "../rules/rule.h"
+#include "../table.h"
+#include "../types.h"
 
 typedef enum {
     CCT_STRING,

@@ -11,6 +11,36 @@
 
 
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
     
     This TenDRA(r) Computer Program is subject to Copyright
@@ -41,23 +71,22 @@
 
 
 #include "c-parser.h"
-#include "action.h"
+#include "../action.h"
 #include "c-code.h"
 #include "c-out-info.h"
-#include "basic.h"
-#include "entry.h"
-#include "gen-errors.h"
-#include "type.h"
-#include "types.h"
-
-/*--------------------------------------------------------------------------*/
+#include "../basic.h"
+#include "../entry.h"
+#include "../gen-errors.h"
+#include "../type.h"
+#include "../types.h"
 
 #define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
 #define ADVANCE_LEXER c_lexer_next_token (c_current_stream)
 #define SAVE_LEXER(x) (c_lexer_save_terminal (c_current_stream, (CTokenT) (x)))
 #define RESTORE_LEXER (c_lexer_restore_terminal (c_current_stream))
 
-/*--------------------------------------------------------------------------*/
+/* typedefs for the maps section */
+typedef CCodeT * CCodeP;
 
 static NStringT		c_prefix_names [CPFX_NUM_PREFIXES];
 static BoolT		c_inited_prefix_names = FALSE;
@@ -66,8 +95,6 @@ static EntryT *		c_current_entry;
 static TypeTupleT	c_saved_type;
 static TypeTupleT	c_current_type;
 static BoolT		c_propagating_error = FALSE;
-
-/*--------------------------------------------------------------------------*/
 
 CLexerStreamT *		c_current_stream;
 COutputInfoT *		c_current_out_info;
@@ -359,7 +386,7 @@ ZR119(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI123;
+		CCodeP ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -558,7 +585,7 @@ ZR148(void)
 			goto ZL3;
 		    }
 		    {
-			CCodeT * ZI123;
+			CCodeP ZI123;
 
 			switch (CURRENT_TERMINAL) {
 			  case 16:
@@ -866,7 +893,7 @@ ZR127(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI123;
+		CCodeP ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1212,7 +1239,7 @@ c_parse_grammar(void)
 	}
 	{
 	    {
-		CCodeT * ZI159;
+		CCodeP ZI159;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1251,7 +1278,7 @@ c_parse_grammar(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI162;
+		CCodeP ZI162;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1413,7 +1440,7 @@ c_parse_grammar(void)
 	}
 	{
 	    {
-		CCodeT * ZI171;
+		CCodeP ZI171;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1452,7 +1479,7 @@ c_parse_grammar(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI174;
+		CCodeP ZI174;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -1669,7 +1696,7 @@ ZR134(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI123;
+		CCodeP ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:
@@ -2019,7 +2046,7 @@ ZR141(void)
 		goto ZL1;
 	    }
 	    {
-		CCodeT * ZI123;
+		CCodeP ZI123;
 
 		switch (CURRENT_TERMINAL) {
 		  case 16:

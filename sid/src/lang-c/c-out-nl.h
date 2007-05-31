@@ -57,23 +57,26 @@
         it may be put.
 */
 
+
 /*
- * c-out-key.h - Output key ADT objects.
+ * c-out-nl.h - Output non local name list ADT objects.
  *
- * See the file "c-out-key.c" for more information.
+ * See the file "c-out-nl.c" for more information.
  */
 
-#ifndef H_C_OUT_KEY
-#define H_C_OUT_KEY
+#ifndef H_C_OUT_NL
+#define H_C_OUT_NL
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "c-output.h"
-#include "dstring.h"
-#include "entry.h"
-#include "key.h"
+#include "../non-local.h"
+#include "../rules/rule.h"
 
-extern void		c_output_mapped_key(COutputInfoT *, EntryT *);
-extern void		c_output_key(COutputInfoT *, KeyT *, NStringT *);
-extern void		c_output_label_key(COutputInfoT *, KeyT *, unsigned);
+extern void	c_output_non_locals(COutputInfoT *, NonLocalListT *);
+extern void	c_output_declare_non_locals(COutputInfoT *, NonLocalListT *);
+extern void	c_output_save_non_locals(COutputInfoT *, RuleT *, unsigned,
+					 RStackT *, RStackT *, RuleT *, TableT *);
+extern void	c_output_restore_non_locals(COutputInfoT *, RuleT *, unsigned,
+					    RStackT *, RStackT *);
 
-#endif /* !defined (H_C_OUT_KEY) */
+#endif /* !defined (H_C_OUT_NL) */

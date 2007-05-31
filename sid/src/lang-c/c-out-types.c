@@ -67,15 +67,15 @@
 #include <assert.h>
 
 #include "c-out-types.h"
-#include "action.h"
-#include "basic.h"
+#include "../action.h"
+#include "../basic.h"
 #include "c-code.h"
 #include "c-out-key.h"
-#include "entry.h"
-#include "name.h"
-#include "output.h"
-#include "rstack.h"
-#include "type.h"
+#include "../entry.h"
+#include "../name.h"
+#include "../output.h"
+#include "../rstack.h"
+#include "../type.h"
 
 static void
 c_output_param_assign(COutputInfoT * info, TypeTupleT * inputs)

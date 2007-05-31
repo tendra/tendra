@@ -59,24 +59,35 @@
 
 
 /*
- * c-out-nl.h - Output non local name list ADT objects.
+ * c-output.h - Output routines.
  *
- * See the file "c-out-nl.c" for more information.
+ * See the file "c-output.c" for more information.
  */
 
-#ifndef H_C_OUT_NL
-#define H_C_OUT_NL
+#ifndef H_C_OUTPUT
+#define H_C_OUTPUT
 
-#include "os-interface.h"
-#include "c-output.h"
-#include "non-local.h"
-#include "rules/rule.h"
+#include "../os-interface.h"
+#include "../cstring.h"
+#include "../entry-list.h"
+#include "../grammar.h"
+#include "../key.h"
+#include "../ostream.h"
+#include "c-out-info.h"
 
-extern void	c_output_non_locals(COutputInfoT *, NonLocalListT *);
-extern void	c_output_declare_non_locals(COutputInfoT *, NonLocalListT *);
-extern void	c_output_save_non_locals(COutputInfoT *, RuleT *, unsigned,
-					 RStackT *, RStackT *, RuleT *, TableT *);
-extern void	c_output_restore_non_locals(COutputInfoT *, RuleT *, unsigned,
-					    RStackT *, RStackT *);
+#define C_INDENT_STEP		((unsigned)4)
+#define C_INDENT_FOR_ERROR	C_INDENT_STEP
+#define C_INDENT_FOR_PARAM	((unsigned)2)
+#define C_INDENT_FOR_CASE	((unsigned)2)
+#define C_INDENT_FOR_LABEL	((unsigned)2)
 
-#endif /* !defined (H_C_OUT_NL) */
+extern void		c_output_parser(COutputInfoT *, GrammarT *);
+extern void		c_output_header(COutputInfoT *, GrammarT *);
+extern void		c_output_location(COutputInfoT *, char *, unsigned);
+extern void		c_output_key_message(COutputInfoT *, char *, KeyT *,
+					     char *, unsigned);
+extern unsigned		c_out_next_label(void);
+extern void		c_output_open(COutputInfoT *, unsigned);
+extern void		c_output_close(COutputInfoT *, unsigned);
+
+#endif /* !defined (H_C_OUTPUT) */

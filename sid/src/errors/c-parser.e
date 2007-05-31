@@ -28,8 +28,8 @@
 
 
 header $[
-#include "c-lexer.h"
-#include "c-parser.h"
+#include "lang-c/c-lexer.h"
+#include "lang-c/c-parser.h"
 #include "key.h"
 #include "types.h"
 ]$;

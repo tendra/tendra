@@ -59,17 +59,64 @@
 
 
 /*
- * c-check.h - Routines to check grammar.
+ * c-check.c - Routines to check grammar.
  *
- * See the file "c-check.c" for details.
+ * This file contains routines to check that all actions and basic result
+ * extraction functions are defined.
  */
 
-#ifndef H_C_CHECK
-#define H_C_CHECK
+#include "c-check.h"
+#include "../action.h"
+#include "../basic.h"
+#include "../entry.h"
+#include "../gen-errors.h"
+#include "../table.h"
 
-#include "os-interface.h"
-#include "grammar.h"
+static void
+c_check_grammar_1(EntryT * entry, void * gclosure)
+{
+    TypeT * type;
 
-extern void		c_check_grammar(GrammarT *);
+    UNUSED(gclosure);
+    switch (entry_type(entry))EXHAUSTIVE {
+      case ET_RULE:
+	break;
+      case ET_BASIC: {
+	  BasicT * basic = entry_get_basic(entry);
 
-#endif /* !defined (H_C_CHECK) */
+	  if ((!types_equal_zero_tuple(basic_result(basic))) &&
+	      (basic_get_result_code(basic) == NULL)) {
+	      E_basic_result_code_not_defined(entry_key(entry));
+	  }
+      }
+	break;
+      case ET_ACTION:
+	if (action_get_code(entry_get_action(entry)) == NULL) {
+	    E_action_code_not_defined(entry_key(entry));
+	}
+	break;
+      case ET_TYPE:
+	type = entry_get_type(entry);
+	if (((type_get_assign_code(type) != NULL) ||
+	     (type_get_param_assign_code(type) != NULL) ||
+	     (type_get_result_assign_code(type) != NULL)) &&
+	    ((type_get_assign_code(type) == NULL) ||
+	     (type_get_param_assign_code(type) == NULL) ||
+	     (type_get_result_assign_code(type) == NULL))) {
+	    E_type_code_not_defined(entry_key(entry));
+	}
+	break;
+      case ET_NON_LOCAL:
+      case ET_NAME:
+      case ET_RENAME:
+	break;
+      case ET_PREDICATE:
+	UNREACHED;
+    }
+}
+
+void
+c_check_grammar(GrammarT * grammar)
+{
+    table_iter(grammar_table(grammar), c_check_grammar_1, NULL);
+}

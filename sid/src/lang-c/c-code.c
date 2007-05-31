@@ -70,8 +70,8 @@
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-output.h"
-#include "gen-errors.h"
-#include "name.h"
+#include "../gen-errors.h"
+#include "../name.h"
 
 static void
 c_code_set_labels(CCodeT * code)

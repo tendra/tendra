@@ -57,77 +57,23 @@
         it may be put.
 */
 
-
 /*
- * c-lexer.h --- SID C lexical analyser.
+ * c-out-key.h - Output key ADT objects.
  *
- * See the file "c-lexer.c" for details.
+ * See the file "c-out-key.c" for more information.
  */
 
-#ifndef H_C_LEXER
-#define H_C_LEXER
+#ifndef H_C_OUT_KEY
+#define H_C_OUT_KEY
 
-#include "os-interface.h"
-#include "c-code.h"
-#include "dstring.h"
-#include "istream.h"
+#include "../os-interface.h"
+#include "c-output.h"
+#include "../dstring.h"
+#include "../entry.h"
+#include "../key.h"
 
-/*
- * Note:
- *
- * It is important that any changes to this enumerated type declaration are
- * reflected in the "c-parser.sid" file.
- */
-typedef enum {
-    C_TOK_BLT_PREFIXES,
-    C_TOK_BLT_MAPS,
-    C_TOK_BLT_ASSIGNMENTS,
-    C_TOK_BLT_TERMINALS,
-    C_TOK_BLT_HEADER,
-    C_TOK_BLT_ACTIONS,
-    C_TOK_BLT_TRAILER,
-    C_TOK_BLT_RESULT_ASSIGN,
-    C_TOK_SID_IDENTIFIER,
-    C_TOK_C_IDENTIFIER,
-    C_TOK_SEPARATOR,
-    C_TOK_TYPEMARK,
-    C_TOK_TERMINATOR,
-    C_TOK_BEGIN_ACTION,
-    C_TOK_DEFINE,
-    C_TOK_END_ACTION,
-    C_TOK_CODE,
-    C_TOK_ARROW,
-    C_TOK_OPEN_TUPLE,
-    C_TOK_CLOSE_TUPLE,
-    C_TOK_BLT_PARAM_ASSIGN,
-    C_TOK_REFERENCE,
-    C_TOK_EOF,
-    C_TOK_ERROR
-} CTokenT;
+extern void		c_output_mapped_key(COutputInfoT *, EntryT *);
+extern void		c_output_key(COutputInfoT *, KeyT *, NStringT *);
+extern void		c_output_label_key(COutputInfoT *, KeyT *, unsigned);
 
-typedef struct CLexT {
-    CTokenT			t;
-    union {
-	NStringT		string;
-	CCodeT *			code;
-    } u;
-} CLexT;
-
-typedef struct CLexerStreamT {
-    IStreamT			istream;
-    CLexT			token;
-    CTokenT			saved_terminal;
-} CLexerStreamT;
-
-extern void		c_lexer_init(CLexerStreamT *, IStreamT *);
-extern void		c_lexer_close(CLexerStreamT *);
-extern char *		c_lexer_stream_name(CLexerStreamT *);
-extern unsigned		c_lexer_stream_line(CLexerStreamT *);
-extern CTokenT		c_lexer_get_terminal(CLexerStreamT *);
-extern void		c_lexer_next_token(CLexerStreamT *);
-extern NStringT *		c_lexer_string_value(CLexerStreamT *);
-extern CCodeT *		c_lexer_code_value(CLexerStreamT *);
-extern void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
-extern void		c_lexer_restore_terminal(CLexerStreamT *);
-
-#endif /* !defined (H_C_LEXER) */
+#endif /* !defined (H_C_OUT_KEY) */

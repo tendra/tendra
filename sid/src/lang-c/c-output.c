@@ -66,19 +66,19 @@
 #include <assert.h>
 
 #include "c-output.h"
-#include "action.h"
-#include "basic.h"
+#include "../action.h"
+#include "../basic.h"
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-out-nl.h"
 #include "c-out-types.h"
-#include "dstring.h"
-#include "gen-errors.h"
-#include "output.h"
-#include "name.h"
-#include "rstack.h"
-#include "rules/rule.h"
-#include "type.h"
+#include "../dstring.h"
+#include "../gen-errors.h"
+#include "../output.h"
+#include "../name.h"
+#include "../rstack.h"
+#include "../rules/rule.h"
+#include "../type.h"
 
 typedef struct COutClosureT {
     COutputInfoT *		info;
