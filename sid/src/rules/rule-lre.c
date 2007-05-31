@@ -116,7 +116,7 @@
 #include <assert.h>
 
 #include "rule.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 #include "../gen-errors.h"
 
 typedef struct MatrixEntryT {

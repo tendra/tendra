@@ -95,7 +95,7 @@
 
 #include <setjmp.h>
 
-#include "os-interface.h"
+#include "../os-interface.h"
 
 /*
  * This is the type of an exception.  Exceptions are initialised using the

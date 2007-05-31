@@ -67,9 +67,9 @@
 #define H_TYPES
 
 #include "../os-interface.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 #include "entry-list.h"
-#include "../ostream.h"
+#include "../eds/ostream.h"
 #include "scope.h"
 #include "table.h"
 

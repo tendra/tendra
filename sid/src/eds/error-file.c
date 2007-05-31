@@ -69,8 +69,7 @@
 #include "error-file.h"
 #include "dstring.h"
 #include "error.h"
-#include "gen-errors.h"
-#include "syntax.h"
+#include "../gen-errors.h"
 
 typedef enum {
     EFTOKEN_NAME,

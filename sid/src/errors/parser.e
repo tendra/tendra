@@ -30,7 +30,7 @@
 header $[
 #include "adt/action.h"
 #include "adt/basic.h"
-#include "dstring.h"
+#include "eds/dstring.h"
 #include "adt/entry.h"
 #include "adt/name.h"
 #include "parser.h"

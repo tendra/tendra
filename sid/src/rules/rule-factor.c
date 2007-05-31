@@ -160,7 +160,7 @@
 
 #include "rule.h"
 #include "../adt/basic.h"
-#include "../bitvec.h"
+#include "../eds/bitvec.h"
 #include "../adt/entry-list.h"
 #include "../gen-errors.h"
 #include "../adt/types.h"

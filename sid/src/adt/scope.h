@@ -67,7 +67,7 @@
 #define H_SCOPE
 
 #include "../os-interface.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 #include "entry.h"
 #include "table.h"
 

@@ -71,7 +71,6 @@
 
 #include "c-lexer.h"
 #include "../gen-errors.h"
-#include "../syntax.h"
 
 #define LEXER_READ_ONE_CHAR(istream, redo, eof, id)\
     switch ((id) = ISTREAM_READ_CHAR(istream)) { \

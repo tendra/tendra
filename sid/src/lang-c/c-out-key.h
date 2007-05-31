@@ -68,7 +68,7 @@
 
 #include "../os-interface.h"
 #include "c-output.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 #include "../adt/entry.h"
 #include "../adt/key.h"
 

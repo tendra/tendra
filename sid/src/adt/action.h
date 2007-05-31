@@ -68,8 +68,8 @@
 #define H_ACTION
 
 #include "../os-interface.h"
-#include "../dalloc.h"
-#include "../dstring.h"
+#include "../eds/dalloc.h"
+#include "../eds/dstring.h"
 #include "entry.h"
 #include "types.h"
 

@@ -67,9 +67,9 @@
 #define H_OUTPUT
 
 #include "os-interface.h"
-#include "cstring.h"
-#include "istream.h"
-#include "ostream.h"
+#include "eds/cstring.h"
+#include "eds/istream.h"
+#include "eds/ostream.h"
 
 typedef struct OutputInfoT {
     char *			prog_name;

@@ -67,7 +67,7 @@
 #define H_NAME
 
 #include "../os-interface.h"
-#include "../dalloc.h"
+#include "../eds/dalloc.h"
 
 typedef struct NameT {
     BoolT			clash;

@@ -28,7 +28,7 @@
 
 
 header $[
-#include "dstring.h"
+#include "eds/dstring.h"
 #include "adt/table.h"
 ]$;
 

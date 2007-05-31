@@ -70,7 +70,7 @@
 #include "os-interface.h"
 #include "adt/entry.h"
 #include "adt/entry-list.h"
-#include "ostream.h"
+#include "eds/ostream.h"
 #include "adt/table.h"
 #include "adt/types.h"
 

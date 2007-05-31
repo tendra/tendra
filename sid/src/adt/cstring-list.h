@@ -69,8 +69,8 @@
 #define H_CSTRING_LIST
 
 #include "../os-interface.h"
-#include "../cstring.h"
-#include "../dalloc.h"
+#include "../eds/cstring.h"
+#include "../eds/dalloc.h"
 
 /*
  * This is the cstring list entry type.

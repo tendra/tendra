@@ -72,7 +72,7 @@
 #include "c-out-key.h"
 #include "c-out-nl.h"
 #include "c-out-types.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 #include "../gen-errors.h"
 #include "../output.h"
 #include "../adt/name.h"

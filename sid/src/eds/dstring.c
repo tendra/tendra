@@ -71,7 +71,6 @@
 #include <string.h>
 
 #include "dstring.h"
-#include "syntax.h"
 
 #define DSTRING_CHUNK_SIZE 32
 

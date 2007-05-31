@@ -636,8 +636,8 @@ sub output_c_file {
     print OUTFILE ("#include <stddef.h>\n");
     print OUTFILE ("\n");
     print OUTFILE ("#include \"", &basename ($outfile), ".h\"\n");
-    print OUTFILE ("#include \"error.h\"\n");
-    print OUTFILE ("#include \"ostream.h\"\n\n");
+    print OUTFILE ("#include \"eds/error.h\"\n");
+    print OUTFILE ("#include \"eds/ostream.h\"\n\n");
     print OUTFILE ($error_c_header, "\n");
 
     print OUTFILE ("static ETagDataT ET[] = {\n");

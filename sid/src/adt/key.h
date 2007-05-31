@@ -67,7 +67,7 @@
 #define H_KEY
 
 #include "../os-interface.h"
-#include "../dstring.h"
+#include "../eds/dstring.h"
 
 typedef enum {
     KT_STRING,

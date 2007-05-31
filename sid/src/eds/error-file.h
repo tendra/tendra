@@ -58,27 +58,46 @@
 */
 
 /*
- * syntax.c - Character classification.
+ * error-file.h - Error file parsing routines.
  *
- * This file implements the syntax table facility specified in the file
- * "syntax.h". See that file for more details.
- *
- * This particular implementation assumes that the ASCII character set is
- * being used. It will need changing for other character sets.
+ * This file specifies the interface to an error description file parsing
+ * facility.  This facility extends the error reporting facility specified in
+ * the file "error.h" so that error messages may be redefined by the contents
+ * of a file.
  */
 
-#include "syntax.h"
+#ifndef H_ERROR_FILE
+#define H_ERROR_FILE
 
-int
-syntax_value(char c)
-{
-    if ((c >= '0') && (c <= '9')) {
-	return(c - '0');
-    } else if ((c >= 'A') && (c <= 'Z')) {
-	return(c - 'A' + 10);
-    } else if ((c >= 'a') && (c <= 'z')) {
-	return(c - 'a' + 10);
-    }
-    return(SYNTAX_NO_VALUE);
-}
+#include "../os-interface.h"
+#include "cstring.h"
+#include "istream.h"
 
+/*
+ * This function parses the error file with the specified name.  If must_open
+ * is true, then an error will be reported if the file cannot be opened.
+ * Otherwise, the function will just return silently.
+ *
+ * The format of the file is a sequence of sections.  Sections may appear in
+ * any order, and may be repeated.  There are three section types: '%prefix%',
+ * '%errors%', and '%strings%'.  The prefix section contains a single string,
+ * which is to be used as the error message prefix.  The error and string
+ * sections contain a sequence of name and string pairs, where the name names
+ * the error or string being redefined, and the string specifies the new
+ * contents.  A name is a sequence of characters contained in single quotes,
+ * and a string is a sequence of characters contained in double quotes.  In
+ * both, the backslash character can be used to escape characters in a similar
+ * manner to C.  An example follows:
+ *
+ *	%prefix% "new error prefix"
+ *	%error%
+ *		'error message 1' "new error message 1 message"
+ *	%string%
+ *		'string 1' "new string 1 text"
+ *
+ * In addition, the '#' character can be used as a comment to end of line
+ * character.  Such comments are ignored.
+ */
+extern void	error_file_parse(char *, BoolT);
+
+#endif /* !defined (H_ERROR_FILE) */

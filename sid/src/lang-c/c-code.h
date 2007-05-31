@@ -67,9 +67,9 @@
 
 #include "../os-interface.h"
 #include "c-out-info.h"
-#include "../cstring.h"
-#include "../dalloc.h"
-#include "../dstring.h"
+#include "../eds/cstring.h"
+#include "../eds/dalloc.h"
+#include "../eds/dstring.h"
 #include "../adt/entry.h"
 #include "../adt/rstack.h"
 #include "../rules/rule.h"

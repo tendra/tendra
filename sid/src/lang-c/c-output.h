@@ -68,11 +68,11 @@
 #define H_C_OUTPUT
 
 #include "../os-interface.h"
-#include "../cstring.h"
+#include "../eds/cstring.h"
 #include "../adt/entry-list.h"
 #include "../grammar.h"
 #include "../adt/key.h"
-#include "../ostream.h"
+#include "../eds/ostream.h"
 #include "c-out-info.h"
 
 #define C_INDENT_STEP		((unsigned)4)

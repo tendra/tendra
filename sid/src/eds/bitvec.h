@@ -68,7 +68,7 @@
 #ifndef H_BITVEC
 #define H_BITVEC
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "dalloc.h"
 #include "ostream.h"
 

@@ -82,9 +82,9 @@
 #define H_ARG_PARSE
 
 #include "os-interface.h"
-#include "cstring.h"
-#include "error.h"
-#include "ostream.h"
+#include "eds/cstring.h"
+#include "eds/error.h"
+#include "eds/ostream.h"
 
 /*
  * This is the type of the an option.  The constants have the following

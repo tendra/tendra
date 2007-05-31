@@ -68,7 +68,7 @@
 #include <limits.h>
 
 #include "types.h"
-#include "../dalloc.h"
+#include "../eds/dalloc.h"
 #include "../gen-errors.h"
 #include "name.h"
 #include "rstack.h"

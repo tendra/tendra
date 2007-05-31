@@ -72,12 +72,12 @@
 #define H_RULE
 
 #include "../os-interface.h"
-#include "../bitvec.h"
-#include "../dalloc.h"
+#include "../eds/bitvec.h"
+#include "../eds/dalloc.h"
 #include "../adt/entry.h"
 #include "../adt/entry-list.h"
 #include "../adt/non-local.h"
-#include "../ostream.h"
+#include "../eds/ostream.h"
 #include "../adt/rstack.h"
 #include "../adt/table.h"
 #include "../adt/types.h"

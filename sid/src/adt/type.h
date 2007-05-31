@@ -67,8 +67,8 @@
 #define H_TYPE
 
 #include "../os-interface.h"
-#include "../dalloc.h"
-#include "../dstring.h"
+#include "../eds/dalloc.h"
+#include "../eds/dstring.h"
 
 typedef struct TypeT {
     void *			assign_code;

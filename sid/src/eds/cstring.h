@@ -74,7 +74,7 @@
 #ifndef H_CSTRING
 #define H_CSTRING
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "dalloc.h"
 
 /*

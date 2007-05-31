@@ -97,7 +97,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "exception.h"
 
 extern ExceptionT *		XX_dalloc_no_memory;

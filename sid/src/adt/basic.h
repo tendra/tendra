@@ -68,12 +68,12 @@
 #define H_BASIC
 
 #include "../os-interface.h"
-#include "../bitvec.h"
-#include "../dalloc.h"
-#include "../dstring.h"
+#include "../eds/bitvec.h"
+#include "../eds/dalloc.h"
+#include "../eds/dstring.h"
 #include "entry.h"
 #include "../grammar.h"
-#include "../ostream.h"
+#include "../eds/ostream.h"
 #include "types.h"
 
 typedef struct BasicT {

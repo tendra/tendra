@@ -71,7 +71,6 @@
 #include "../adt/name.h"
 #include "../adt/rstack.h"
 #include "../rules/rule.h"
-#include "../syntax.h"
 #include "../adt/type.h"
 
 static void

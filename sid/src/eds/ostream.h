@@ -74,7 +74,7 @@
 
 #include <stdio.h>
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "dalloc.h"
 #include "exception.h"
 

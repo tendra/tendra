@@ -67,8 +67,8 @@
 #define H_C_OUT_INFO
 
 #include "../os-interface.h"
-#include "../dstring.h"
-#include "../ostream.h"
+#include "../eds/dstring.h"
+#include "../eds/ostream.h"
 #include "../output.h"
 
 /*To avoid circularity:*/

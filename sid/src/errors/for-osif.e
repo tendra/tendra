@@ -28,7 +28,7 @@
 
 
 header $[
-#include "exception.h"
+#include "eds/exception.h"
 ]$;
 
 internal "exception unhandled" {

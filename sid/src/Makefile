@@ -3,9 +3,8 @@
 ESRC=errors
 BUILD_ERRORS=${ESRC}/BUILD_ERRORS
 
-TARGETS=gen-errors.o arg-parse.o bitvec.o cstring.o dalloc.o \
-	dstring.o error-file.o error.o exception.o grammar.o istream.o \
-	lexer.o main.o ostream.o output.o parser.o syntax.o
+TARGETS=gen-errors.o arg-parse.o grammar.o lexer.o \
+	main.o output.o parser.o
 
 ERR_OUT=gen-errors.c gen-errors.h
 
@@ -36,16 +35,20 @@ clean:
 	cd rules && ${MAKE} clean
 	cd lang-c && ${MAKE} clean
 	cd adt && ${MAKE} clean
+	cd eds && ${MAKE} clean
 
-sid: ${TARGETS} rules/rules.a lang-c/lang-c.a adt/adt.a
+sid: ${TARGETS} rules/rules.a lang-c/lang-c.a adt/adt.a eds/eds.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS} \
-		rules/rules.a lang-c/lang-c.a adt/adt.a
+		rules/rules.a lang-c/lang-c.a adt/adt.a eds/eds.a
 
 rules/rules.a:
 	cd rules && ${MAKE} all
 
 adt/adt.a:
 	cd adt && ${MAKE} all
+
+eds/eds.a:
+	cd eds && ${MAKE} all
 
 lang-c/lang-c.a:
 	cd lang-c && ${MAKE} all

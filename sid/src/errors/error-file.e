@@ -28,7 +28,7 @@
 
 
 header $[
-#include "istream.h"
+#include "eds/istream.h"
 ]$;
 
 fatal "errf null char in builtin" ( "istream" : "IStreamT *" ) {

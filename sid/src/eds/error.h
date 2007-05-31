@@ -74,7 +74,7 @@
 #ifndef H_ERROR
 #define H_ERROR
 
-#include "os-interface.h"
+#include "../os-interface.h"
 #include "cstring.h"
 #include "dstring.h"
 #include "ostream.h"

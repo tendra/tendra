@@ -67,9 +67,9 @@
 #define H_ENTRY_LIST
 
 #include "../os-interface.h"
-#include "../dalloc.h"
+#include "../eds/dalloc.h"
 #include "entry.h"
-#include "../ostream.h"
+#include "../eds/ostream.h"
 
 typedef struct EntryListEntryT {
     struct EntryListEntryT     *next;
