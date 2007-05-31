@@ -69,8 +69,7 @@
  * This file specifies the interface to a number of syntax table manipulation
  * functions.  I ought to be able to use <ctype.h> for this, but I can't
  * because it doesn't have routines to get the numeric value for alphabetic
- * characters (amongst other omissions).  As I need to do this here, I might
- * as well put in support for everything.
+ * characters (amongst other omissions).
  *
  * It is assumed elsewhere (in association with the input stream facility
  * specified in the file "istream.h") that the null and newline characters are
@@ -91,47 +90,6 @@
  *
  * This function returns the positive integer digit value that the specified
  * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
- *
- ** Function:	char			syntax_upcase
- *			(char c)
- ** Exceptions:
- *
- * This function returns the upper case version of the specified character if
- * it has one, otherwise it just returns the character.
- *
- ** Function:	char			syntax_downcase
- *			(char c)
- ** Exceptions:
- *
- * This function returns the lower case version of the specified character if
- * it has one, otherwise it just returns the character.
- *
- ** Function:	BoolT			syntax_is_white_space
- *			(char c)
- *
- * This function returns true if the specified character is a white space
- * character, and false otherwise.
- *
- ** Function:	BoolT			syntax_is_printable
- *			(char c)
- ** Exceptions:
- *
- * This function returns true if the specified character can be printed, and
- * false otherwise.
- *
- ** Function:	BoolT			syntax_is_letter
- *			(char c)
- ** Exceptions:
- *
- * This function returns true if the specified character is a letter, and
- * false otherwise.
- *
- ** Function:	BoolT			syntax_is_digit
- *			(char c)
- ** Exceptions:
- *
- * This function returns true if the specified character is a decimal digit,
- * and false otherwise.
  *
  **** Change Log:
  * $Log: syntax.h,v $
@@ -161,11 +119,5 @@
 /*--------------------------------------------------------------------------*/
 
 extern int	syntax_value(char);
-extern char	syntax_upcase(char);
-extern char	syntax_downcase(char);
-extern BoolT	syntax_is_white_space(char);
-extern BoolT	syntax_is_printable(char);
-extern BoolT	syntax_is_letter(char);
-extern BoolT	syntax_is_digit(char);
 
 #endif /* !defined (H_SYNTAX) */

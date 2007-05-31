@@ -82,6 +82,8 @@
 
 /****************************************************************************/
 
+#include <ctype.h>
+
 #include "c-out-key.h"
 #include "action.h"
 #include "basic.h"
@@ -110,7 +112,7 @@ write_c_key(OStreamP ostream, char * contents, unsigned length)
 	    write_cstring(ostream, "_C");
 	    break;
 	  default:
-	    if ((syntax_is_letter(c)) || (syntax_is_digit(c))) {
+	    if (isalpha((unsigned char)(c)) || isdigit((unsigned char)c)) {
 		write_char(ostream, c);
 	    } else {
 		write_cstring(ostream, "_X");

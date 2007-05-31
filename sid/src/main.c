@@ -145,6 +145,7 @@
 /****************************************************************************/
 
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "os-interface.h"
 #include "release.h"
@@ -444,14 +445,14 @@ main_handle_inlining(char * option, ArgUsageP usage, void * gclosure,
 	char *   phase;
 	PhaseListP entry;
 
-	if ((syntax_downcase(inline_str[0]) == 'n') &&
-	   (syntax_downcase(inline_str[1]) == 'o')) {
+	if ((tolower((unsigned char)inline_str[0]) == 'n') &&
+	   (tolower((unsigned char)inline_str[1]) == 'o')) {
 	    inline_str += 2;
 	    enable = FALSE;
 	}
 	dstring_init(&dstring);
 	while ((*inline_str) && (*inline_str != ',')) {
-	    dstring_append_char(&dstring, syntax_downcase(*inline_str++));
+	    dstring_append_char(&dstring, tolower((unsigned char)*inline_str++));
 	}
 	if (*inline_str == ',') {
 	    inline_str++;

@@ -83,6 +83,7 @@
 
 /****************************************************************************/
 
+#include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -273,7 +274,7 @@ write_escaped_char(OStreamP ostream, char c)
 	(void)fputs("\\\\", ostream->file);
 	break;
       default:
-	if (syntax_is_printable(c)) {
+	if (isprint((unsigned char)c)) {
 	    (void)fputc((int)c, ostream->file);
 	} else {
 	    (void)fprintf(ostream->file, "\\x%02x",

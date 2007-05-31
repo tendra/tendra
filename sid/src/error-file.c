@@ -86,6 +86,8 @@
 
 /****************************************************************************/
 
+#include <ctype.h>
+
 #include "error-file.h"
 #include "dstring.h"
 #include "error.h"
@@ -139,7 +141,7 @@ error_file_skip_white_space(IStreamP istream, char *c_ref)
 	    comment = TRUE;
 	    break;
 	  default:
-	    if ((!comment) && (!syntax_is_white_space(c))) {
+	    if ((!comment) && (!isspace((unsigned char)c))) {
 		*c_ref = c;
 		return(TRUE);
 	    }

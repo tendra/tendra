@@ -85,6 +85,7 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include "error.h"
 #include "syntax.h"
@@ -159,7 +160,7 @@ error_parse_message(char * message)
 	    message = scan;
 	    while (*scan != '}') {
 		if ((*scan == '\0') || (*scan == '$') || (*scan == '{') ||
-		    ((!syntax_is_printable(*scan)) && (*scan != ' '))) {
+		    ((!isprint((unsigned char)*scan)) && (*scan != ' '))) {
 		    *error_list_next = NULL;
 		    error_deallocate_error_list(error_list);
 		    return(NULL);

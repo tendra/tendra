@@ -92,6 +92,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <limits.h>
+#include <ctype.h>
 
 #include "cstring.h"
 #include "syntax.h"
@@ -157,8 +158,8 @@ cstring_ci_equal(char * cstring1, char * cstring2)
     char c2;
 
     do {
-	c1 = syntax_upcase(*cstring1++);
-	c2 = syntax_upcase(*cstring2++);
+	c1 = toupper((unsigned char)*cstring1++);
+	c2 = toupper((unsigned char)*cstring2++);
     } while ((c1) && (c2) && (c1 == c2));
     return(c1 == c2);
 }

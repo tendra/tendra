@@ -87,6 +87,7 @@
 /****************************************************************************/
 
 #include <assert.h>
+#include <ctype.h>
 
 #include "lexer.h"
 #include "gen-errors.h"
@@ -179,7 +180,7 @@ lexer_skip_white_space(IStreamP istream)
 	    }
 	    break;
 	  default:
-	    if (!syntax_is_white_space(c)) {
+	    if (!isspace((unsigned char)c)) {
 		return(c);
 	    }
 	    break;
@@ -248,7 +249,7 @@ lexer_read_identifier(IStreamP istream, char c, LexP token)
 	    ISTREAM_HANDLE_NULL(istream, redo1, done);
 	    goto done;
 	  default:
-	    if ((syntax_is_letter(c)) || (syntax_is_digit(c)) ||
+	    if (isalpha((unsigned char)(c)) || isdigit((unsigned char)c) ||
 		(c == '_') || (c == '-')) {
 	      redo2:
 		LEXER_READ_ONE_CHAR(istream, redo2, done, c);
@@ -391,7 +392,7 @@ lexer_next_token(LexerStreamP stream)
 	lexer_read_identifier(istream, '-', &token);
 	break;
       default:
-	if ((syntax_is_letter(c)) || (c == '_')) {
+	if (isalpha((unsigned char)(c)) || (c == '_')) {
 	    lexer_read_identifier(istream, c, &token);
 	} else {
 	    E_illegal_character(istream, c);

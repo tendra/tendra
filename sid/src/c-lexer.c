@@ -85,6 +85,7 @@
 /****************************************************************************/
 
 #include <assert.h>
+#include <ctype.h>
 
 #include "c-lexer.h"
 #include "gen-errors.h"
@@ -177,7 +178,7 @@ c_lexer_skip_white_space(IStreamP istream)
 	    }
 	    break;
 	  default:
-	    if (!syntax_is_white_space(c)) {
+	    if (!isspace((unsigned char)c)) {
 		return(c);
 	    }
 	    break;
@@ -268,7 +269,7 @@ c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
 	    ISTREAM_HANDLE_NULL(istream, redo1, done);
 	    goto done;
 	  default:
-	    if ((syntax_is_letter(c)) || (syntax_is_digit(c)) ||
+	    if (isalpha((unsigned char)c) || isdigit((unsigned char)c) ||
 		(c == '_') || (c == '-')) {
 	      redo2:
 		LEXER_READ_ONE_CHAR(istream, redo2, done, c);
@@ -295,7 +296,7 @@ c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
 static void
 c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
 {
-    BoolT    numbers_ok = (syntax_is_letter(c) || (c == '_'));
+    BoolT    numbers_ok = (isalpha((unsigned char)c) || (c == '_'));
     DStringT dstring;
     char     c1;
 
@@ -310,8 +311,8 @@ c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
 	    ISTREAM_HANDLE_NULL(istream, redo1, done);
 	    goto done;
 	  default:
-	    if (syntax_is_letter(c1) || (c1 == '_') ||
-		(numbers_ok && syntax_is_digit(c1))) {
+	    if (isalpha((unsigned char)c1) || (c1 == '_') ||
+		(numbers_ok && isdigit((unsigned char)c1))) {
 	      redo2:
 		LEXER_READ_ONE_CHAR(istream, redo2, done, c1);
 		dstring_append_char(&dstring, c1);
@@ -396,7 +397,7 @@ c_lexer_read_at(IStreamP istream, DStringP dstring, CCodeP code)
 	c_code_append_modifiable(code, &nstring);
 	break;
       default:
-	if (syntax_is_letter(c) || (c == '_')) {
+	if (isalpha((unsigned char)(c)) || (c == '_')) {
 	    c_lexer_flush_string(dstring, code, FALSE);
 	    c_lexer_read_code_id(istream, c, &nstring);
 	    c_code_append_identifier(code, &nstring);
@@ -550,7 +551,7 @@ c_lexer_next_token(CLexerStreamP stream)
 	c_lexer_read_identifier(istream, '-', &token);
 	break;
       default:
-	if ((syntax_is_letter(c)) || (c == '_')) {
+	if (isalpha((unsigned char)(c)) || (c == '_')) {
 	    c_lexer_read_identifier(istream, c, &token);
 	} else {
 	    E_c_illegal_character(istream, c);
