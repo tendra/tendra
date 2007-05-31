@@ -45,7 +45,7 @@
 
 #include "dalloc.h"
 
-ExceptionP XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
+ExceptionT * XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 

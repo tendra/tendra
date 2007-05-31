@@ -89,7 +89,7 @@ typedef struct OStreamT {
     unsigned			line;
 } OStreamT;
 
-extern ExceptionP	 XX_ostream_write_error;
+extern ExceptionT *	 XX_ostream_write_error;
 
 /*
  * This is the standard output stream.  Its initial buffering state is

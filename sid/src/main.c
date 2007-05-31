@@ -680,7 +680,7 @@ main(int argc, char **argv)
 	    main_1(&out_info, NULL);
 	}
     } WITH {
-	ExceptionP exception = EXCEPTION_EXCEPTION();
+	ExceptionT * exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
 	    E_no_memory();

@@ -69,7 +69,7 @@
 
 #include "exception.h"
 
-extern void			E_exception_unhandled(ExceptionP, char *,
+extern void			E_exception_unhandled(ExceptionT *, char *,
 						      unsigned);
 extern void			E_exception_corrupt_handler(char *, unsigned);
 
@@ -114,7 +114,7 @@ X__exception_throw(void)
 }
 
 char *
-exception_name(ExceptionP exc)
+exception_name(ExceptionT * exc)
 {
     return(exc);
 }

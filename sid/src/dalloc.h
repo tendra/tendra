@@ -100,7 +100,7 @@
 #include "os-interface.h"
 #include "exception.h"
 
-extern ExceptionP		XX_dalloc_no_memory;
+extern ExceptionT *		XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 

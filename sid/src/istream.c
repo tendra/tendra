@@ -73,7 +73,7 @@
 
 #define ISTREAM_BUFSIZE 8193
 
-ExceptionP XX_istream_read_error = EXCEPTION("error reading from stream");
+ExceptionT * XX_istream_read_error = EXCEPTION("error reading from stream");
 
 static char istream_input_buffer[ISTREAM_BUFSIZE];
 

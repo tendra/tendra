@@ -93,6 +93,12 @@
 #define RESTORE_LEXER (lexer_restore_terminal (sid_current_stream))
 #define ALT_LIMIT (UINT_MAX - 1)
 
+/* typedefs for the maps section */
+typedef AltT * AltP;
+typedef EntryT * EntryP;
+typedef ItemT * ItemP;
+typedef RuleT *RuleP;
+
 LexerStreamT *		sid_current_stream;
 GrammarT *		sid_current_grammar;
 
@@ -100,12 +106,12 @@ static TableT *		sid_current_table;
 static EntryListT *	sid_current_entry_list;
 static ScopeStackT	sid_scope_stack;
 static ScopeStackT	sid_global_scope;
-static ScopeStackT *	sid_current_scope;
+static ScopeStackT *sid_current_scope;
 static EntryT *		sid_current_entry;
 static RuleT *		sid_enclosing_rule;
 static union {
-    BasicT *		basic;
-    ActionT *		action;
+    BasicT *	basic;
+    ActionT *	action;
     RuleT *		rule;
 } sid_current;
 static BoolT		sid_redefining_entry;
@@ -693,11 +699,11 @@ ZR221(void)
     switch (CURRENT_TERMINAL) {
       case 13:
 	{
-	    EntryT * ZI194;
-	    RuleT * ZI67;
-	    AltT * ZI223;
+	    EntryP ZI194;
+	    RuleP ZI67;
+	    AltP ZI223;
 	    BoolT ZI224;
-	    ItemT * ZI225;
+	    ItemP ZI225;
 
 	    ADVANCE_LEXER;
 	    {
@@ -1180,8 +1186,8 @@ ZR192(void)
     switch (CURRENT_TERMINAL) {
       case 21:
 	{
-	    EntryT * ZI194;
-	    RuleT * ZI67;
+	    EntryP ZI194;
+	    RuleP ZI67;
 
 	    ADVANCE_LEXER;
 	    {
@@ -3097,8 +3103,8 @@ ZR196(void)
 
     if (sid_current_item) {
 	BoolT   errored = FALSE;
-	EntryT *  entry   = item_entry (sid_current_item);
-	ActionT * action  = entry_get_action (entry);
+	EntryT * entry   = item_entry (sid_current_item);
+	ActionT *action  = entry_get_action (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -3193,8 +3199,8 @@ ZR196(void)
 
     if (sid_current_item) {
 	BoolT   errored = FALSE;
-	EntryT *  entry   = item_entry (sid_current_item);
-	ActionT * action  = entry_get_action (entry);
+	EntryT * entry   = item_entry (sid_current_item);
+	ActionT *action  = entry_get_action (entry);
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,

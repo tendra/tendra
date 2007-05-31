@@ -76,7 +76,7 @@
 #include "cstring.h"
 #include "syntax.h"
 
-ExceptionP XX_ostream_write_error = EXCEPTION("error writing to stream");
+ExceptionT * XX_ostream_write_error = EXCEPTION("error writing to stream");
 
 static OStreamT ostream_output_1 = {
     NULL,

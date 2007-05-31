@@ -68,7 +68,7 @@
  * This file requires that two external functions are provided:
  *
  *	extern void			E_exception_unhandled
- *			(ExceptionP, char *, unsigned);
+ *			(ExceptionT *, char *, unsigned);
  *	extern void			E_exception_corrupt_handler
  *			(char *, unsigned);
  *
@@ -102,7 +102,7 @@
  * ``EXCEPTION'' macro (see later).  Once initialised, the exception should
  * not be changed.
  */
-typedef char *		ExceptionP;
+typedef char 		ExceptionT;
 
 /*
  * This type is used internally to store data about the exception being
@@ -136,7 +136,7 @@ typedef struct HandlerT {
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.
  */
-extern	char *		exception_name(ExceptionP);
+extern	char *		exception_name(ExceptionT *);
 
 extern HandlerT *			X__exception_handler_stack;
 extern ThrowDataT		X__exception_throw_data;
@@ -145,7 +145,7 @@ extern NoReturnT		X__exception_throw(void);
 /*
  * This macro is used to initialise an exception, e.g.:
  *
- *	ExceptionP XX_exception = EXCEPTION ("an exception");
+ *	ExceptionT * XX_exception = EXCEPTION ("an exception");
  *
  * This creates an exception object called ``XX_exception''.  The string used
  * as an argument to the ``EXCEPTION'' macro is a description of the

@@ -104,7 +104,7 @@ typedef enum {
 } IStreamStatusT;
 
 
-extern ExceptionP	 XX_istream_read_error;
+extern ExceptionT *	 XX_istream_read_error;
 
 /*
  * This value is a pointer to an input stream object that will read from the

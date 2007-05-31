@@ -34,7 +34,7 @@ header $[
 internal "exception unhandled" {
     "unhandled exception '${except name}' thrown from line ${line number}, file '${file name}'",
     {
-	"except name" : "ExceptionP" $[
+	"except name" : "ExceptionT *" $[
 	    write_cstring(ostream, exception_name(closure->except_name));
 	]$
     }, {
