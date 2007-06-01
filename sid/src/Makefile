@@ -3,6 +3,9 @@
 ESRC=errors
 BUILD_ERRORS=${ESRC}/BUILD_ERRORS
 
+PREFIX?=/usr/local
+BINDIR?=${PREFIX}/bin
+
 TARGETS=gen-errors.o arg-parse.o grammar.o lexer.o \
 	main.o output.o parser.o
 
@@ -30,6 +33,10 @@ EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e \
 
 all: sid
 
+install: sid
+	install -m 755 -d ${BINDIR}
+	install -m 755 sid ${BINDIR}/
+
 clean:
 	${REMOVE} sid gen-errors.c gen-errors.h ${TARGETS}
 	cd rules && ${MAKE} clean
@@ -54,7 +61,8 @@ lang-c/lang-c.a:
 	cd lang-c && ${MAKE} all
 
 parser.c: parser.sid parser.act
-	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h || ( ${REMOVE} tmp.$@ ; exit 1 )
+	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h \
+		|| ( ${REMOVE} tmp.$@ ; exit 1 )
 	${MOVE} tmp.$@ $@
 
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}

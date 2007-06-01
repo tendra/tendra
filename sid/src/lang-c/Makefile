@@ -24,6 +24,7 @@ lang-c.a: ${TARGETS}
 	ar r lang-c.a ${TARGETS}
 
 c-parser.c: c-parser.sid c-parser.act
-	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h || ( ${REMOVE} tmp.$@ ; exit 1 )
+	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h \
+		|| ( ${REMOVE} tmp.$@ ; exit 1 )
 	${MOVE} tmp.$@ $@
 
