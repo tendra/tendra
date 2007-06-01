@@ -105,7 +105,7 @@
 			</group>
 
 			<group>
-				<arg choice="plain">-?</arg>
+				<arg choice="plain">-h</arg>
 				<arg choice="plain">--help</arg>
 			</group>
 
@@ -125,6 +125,7 @@
 
 	<refsection id="description">
 		<title>Description</title>
+
 		<para>The <command>sid</command> command is used to turn descriptions
 			of a language into a program for recognising that language.	This manual page
 			details the command line syntax; for more information, consult the <command>sid</command>
@@ -136,9 +137,11 @@
 
 	<refsection id="switches">
 		<title>Switches</title>
+
 		<para><command>sid</command> accepts both short form and long form
-		command line switches.</para>
-	<!-- TODO remove these :) -->
+			command line switches. The long form equivalents are due to be removed
+			in the next release.</para>
+		<!-- TODO remove these :) -->
 
 		<para>Short form switches are single characters, and begin with a '-' or '+'
 			character. They can be concatentated into a single command line word, e.g.:</para>
@@ -188,6 +191,7 @@
 
 	<refsection id="error_file_syntax">
 		<title>Error File Syntax</title>
+
 		<para>It is possible to change the error messages that <command>sid</command>
 			uses.	In order to do this, make the environment variable
 			<literal>SID_ERROR_FILE</literal> contain the name of a
@@ -217,6 +221,7 @@
 
 	<refsection id="options">
 		<title>Options</title>
+
 		<para><command>sid</command> accepts the following command line options:
 
 			<variablelist>
@@ -572,6 +577,7 @@
 
 	<refsection id="see_also">
 		<title>See Also</title>
+
 		<para><citetitle>Sid users' guide</citetitle>.</para>
 	</refsection>
 </refentry>

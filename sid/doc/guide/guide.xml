@@ -416,6 +416,9 @@ sid options input-files output-files</programlisting></para>
       the <code>sid</code> manual page for more information on
       invocation.</para>
 
+	<!-- TODO after we re-work the options mechanism to use getopt, these
+	   - can be shared with the sid manpage. -->
+
     <itemizedlist>
       <listitem>
         <para>--dump-file <filename>FILE</filename></para>
