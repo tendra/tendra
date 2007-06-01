@@ -13,9 +13,17 @@ PREFIX?=/usr/local
 SHAREDIR?=${PREFIX}/share
 DOCDIR?=${SHAREDIR}/doc
 
+all: changelog.xml
+
 include ../doctools/Mk/docbook.mk
 
 install: all
 	install -m 755 -d ${DOCDIR}/sid/$(NAME)-single
 	install -m 644 ../xhtml/$(NAME)-single/* ${DOCDIR}/sid/$(NAME)-single/
+
+
+changelog.xml: newsitems-docbook.xml
+
+newsitems-docbook.xml: newsitems.xml
+	xsltproc -o newsitems-docbook.xml xsl/news.xsl newsitems.xml
 
