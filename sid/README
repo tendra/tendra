@@ -19,6 +19,9 @@ And to build the documentation and manpages:
  * xsltproc from xmlsoft.org
  * The docbook XSLT stylesheets for XHTML and troff manpages
 
+It's worth having XML catalogues set up to use docbook-xslt stylesheets,
+to save it from fetching everything across the internet.
+
 At runtime, sid has no dependancies other than libc and POSIX.
 
 
