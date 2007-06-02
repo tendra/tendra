@@ -1,5 +1,7 @@
 # $Id$
 
+REMOVE=rm -f
+
 NAME=changelog
 SOURCE=changelog.xml
 PROJECT_NAME=sid
@@ -21,9 +23,11 @@ install: all
 	install -m 755 -d ${DOCDIR}/sid/$(NAME)-single
 	install -m 644 ../xhtml/$(NAME)-single/* ${DOCDIR}/sid/$(NAME)-single/
 
-
 changelog.xml: newsitems-docbook.xml
 
 newsitems-docbook.xml: newsitems.xml
 	xsltproc -o newsitems-docbook.xml xsl/news.xsl newsitems.xml
+
+clean:
+	${REMOVE} newsitems-docbook.xml
 
