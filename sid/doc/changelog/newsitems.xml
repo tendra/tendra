@@ -2,6 +2,12 @@
 <!-- $Id$ -->
 <news>
 	<entry>
+		<date>2007-06-02</date>
+
+		<content>Tagged version 1.10</content>
+	</entry>
+
+	<entry>
 		<date>2007-06-01</date>
 
 		<content>Restructured for initial stand-alone release.
