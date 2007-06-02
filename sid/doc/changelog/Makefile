@@ -1,7 +1,5 @@
 # $Id$
 
-REMOVE=rm -f
-
 NAME=changelog
 SOURCE=changelog.xml
 PROJECT_NAME=sid
@@ -10,6 +8,7 @@ RESOURCES=../style/docbook.css ../style/common.css
 CSSFILE=docbook.css
 XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
 XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+CLEAN_EXTRA=newsitems-docbook.xml
 
 PREFIX?=/usr/local
 SHAREDIR?=${PREFIX}/share
@@ -27,7 +26,4 @@ changelog.xml: newsitems-docbook.xml
 
 newsitems-docbook.xml: newsitems.xml
 	xsltproc -o newsitems-docbook.xml xsl/news.xsl newsitems.xml
-
-clean:
-	${REMOVE} newsitems-docbook.xml
 
