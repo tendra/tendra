@@ -13,7 +13,7 @@
 		<content>Restructured for initial stand-alone release.
 			The only user-visible change here is that -? is replaced
 			with -h. An example of using sid with lex has been added.
-			This is the first release of sid standa-alone under
+			This is the first release of sid stand-alone under
 			tendra.org.</content>
 	</entry>
 
