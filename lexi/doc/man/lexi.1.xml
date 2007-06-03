@@ -119,6 +119,9 @@
 						that this is in place of the usual lexical analyser
 						output, and is intended to be used under a seperate
 						run.</para>
+
+					<para>This interface is expected to change dramatically
+						for the next release of <command>lexi</command>.</para>
 				</listitem>
 			</varlistentry>
 
