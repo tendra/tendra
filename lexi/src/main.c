@@ -92,7 +92,7 @@ main(int argc, char **argv)
 	int optc;
 
 	/* Process arguments */
-	set_progname(argv [0], "1.2");
+	set_progname(argv [0], "1.3");
 	while ((optc = getopt(argc, argv, "kl:vh")) != -1) {
 		switch(optc) {
 		case 'k':
