@@ -52,21 +52,21 @@ does it expect any #defines?
 
 		<para>This document describes how to use the <command>lexi</command>
 			lexer generator. It was written for <command>lexi</command> version
-			1.2.</para>
-		<!-- TODO 1.2 major change in output from 1.1 is lack of PROTO generation -->
-		<!-- TODO 1.3 for new API changes -->
+			1.3.</para>
+		<!-- TODO 1.2 major change in output from 1.2 is lack of PROTO generation -->
+		<!-- TODO 1.4 for new API changes (call it 2.0 instead) -->
 
-		<para>This version of <command>lexi</command> (1.2) is an interim to
+		<para>This version of <command>lexi</command> (1.3) is an interim to
 			mark a stable release before forthcoming <acronym>API</acronym>
-			changes scheduled for 1.3. This provides no features over 1.1 save
-			for some minor points (listed under the change history below); it
-			serves mostly to collate the restructuring of the codebase
-			during development; 1.2 is the first release of
+			changes scheduled for the next release. This provides no features
+			over 1.2 save for some minor points (listed under the change
+			history below); it serves mostly to collate the restructuring
+			of the codebase during development; 1.3 is the first release of
 			<command>lexi</command> as a stand-alone product, seperate to the
 			TenDRA distribution.</para>
 
 		<para>Any origional documentation <command>lexi</command> once had
-			previous to version 1.2 is lost. Since there is no surviving
+			previous to version 1.3 is lost. Since there is no surviving
 			documentation, this guide has been written from scratch, based
 			from observations of the source code. It is
 			difficult to distinguish between obscure features and undefined
@@ -76,8 +76,8 @@ does it expect any #defines?
 			these features, based on the <command>lexi</command> files
 			present in the TenDRA repository.</para>
 
-		<para>Features of version 1.2 which are due to be changed for
-			version 1.3 are therfore marked depreciated.</para>
+		<para>Features of version 1.3 which are due to be changed for
+			the next release are therfore marked depreciated.</para>
 
 		<!-- TODO mostly similar to the lexi in TenDRS 4.whatever,
 			save for the addition of // comments, and what else? -->
@@ -90,12 +90,13 @@ does it expect any #defines?
 			<para>The main feature changes of each version of
 				<command>lexi</command> are listed below:
 
-				<!-- TODO 1.3 - forthcoming API changes -->
+				<!-- TODO 2.0 (?) - forthcoming API changes -->
+				<!-- TODO merge this with an external changelog, as for sid -->
 				<variablelist>
 					<title>Versions of <command>lexi</command></title>
 
 					<varlistentry spacing="compact" termlength="5">
-						<term>1.2</term>
+						<term>1.3</term>
 						<listitem>
 							<para>Interim convenience release.
 								<itemizedlist>
@@ -114,7 +115,7 @@ does it expect any #defines?
 					</varlistentry>
 
 					<varlistentry>
-						<term>1.1</term>
+						<term>1.2</term>
 						<listitem>
 							<para><!-- TODO -->The version provided in TenDRA 4.2.1?</para>
 						</listitem>
@@ -131,11 +132,53 @@ does it expect any #defines?
 		<section>
 			<title>Overview</title>
 
-			<para><!-- TODO what lexical analysis is --></para>
+			<para>Lexical analysis is the process of categorising an input
+				stream into tokens. Each of these categories (or lexemes)
+				are determined by the spelling of the contents of that token.
+				For convenience of discussion, this guide assumes that
+				tokens are formed of characters, although this is not
+				neccessarily the case.</para>
+<!-- TODO use memcmp internally, and permit \0 in the specification's strings. -->
 
-			<!-- TODO token stream diagram -->
+			<para>Usually it is the responsibility of the lexical analyser
+				to skip whitespace (and often also comments).
+				<xref linkend="tokenstream"/> illustrates an example of
+				tokenisation:</para>
 
-			<para><!-- TODO what it's used for --></para>
+			<!-- TODO perhaps use the cyan here -->
+			<figure id="tokenstream">
+				<title>Forming a token stream</title>
+				<graphic align="center" format="PNG"
+					fileref="tokens.png"/>
+			</figure>
+
+			<para>In this example, the lexer skips over whitespace characters
+				(indicated in the input text by grey with a dotted underline),
+				and categorises the remaining characters (indicated with a cyan
+				background and a solid underline) according to their spelling. For
+				example, a series of digits is categorised into the
+				<literal>&lt;literal&gt;</literal> type.</para>
+
+			<para>The spelling of the characters which form each token is
+				passed on, but usually ignored for punctual tokens such
+				as statement seperators and assignment operators. It is
+				more relevant for the spelling to be known for
+				identifiers, literals and other non-punctual tokens.</para>
+
+			<para>The traditional use for a lexer is to feed this stream
+				of categorised tokens to a parser; lexers are unaware of the
+				order of tokens, since they are concerned with
+				categorisation only.  The process of parsing then asserts
+				that these tokens are in an order permitted by
+				the given grammar. Usually storing the spellings associated with each
+				tokens is a side-effect of the parse, resulting in a
+				symbol table or equivalent (this depends on the purpose
+				of the parser). Parsing is beyond the scope of this document,
+				and will not be discussed here - see the Sid users' guide
+				for details.</para>
+
+			<para>For simple uses, a parser may not be required at
+				<!-- TODO make examples, and mention them here -->all.</para>
 		</section>
 
 		<section>
@@ -576,7 +619,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 						<row>
 							<entry><code>\f</code></entry>
-							<entry>0x0c</entry>
+							<entry>0x0C</entry>
 							<entry>New page (form feed)</entry>
 						</row>
 
@@ -934,12 +977,10 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 				<code>*/</code> is found.</para>
 
 
-<!-- TODO manpage SEE ALSO to this guide, as for sid -->
-
 <!-- TODO actually this is pretty common. that could be specified with
 another token;
-modes are ways of "combining" two or more lexers. Draw an FSM. Perhaps we could
-add that feature without going insane. -->
+see modes as ways of "combining" two or more lexers; a sort of namespace.
+Draw an FSM. Perhaps we could add that feature without going insane. -->
 
 			<para><!--
 TODO kevin says:
