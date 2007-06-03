@@ -47,13 +47,13 @@ does it expect any #defines?
 		<title>Introduction</title>
 
 		<para><command>lexi</command> translates a description of a lexical
-			analyser into C code implementing that analyser.<!-- TODO
-			briefly what lexi does, and its aims --></para>
+			analyser into C code implementing that analyser. It aims to
+			provide simple, straightforward features for lexical analysis,
+			and to leave more complex behaviour to its calling program.</para>
 
 		<para>This document describes how to use the <command>lexi</command>
 			lexer generator. It was written for <command>lexi</command> version
 			1.3.</para>
-		<!-- TODO 1.2 major change in output from 1.2 is lack of PROTO generation -->
 		<!-- TODO 1.4 for new API changes (call it 2.0 instead) -->
 
 		<para>This version of <command>lexi</command> (1.3) is an interim to
@@ -79,8 +79,17 @@ does it expect any #defines?
 		<para>Features of version 1.3 which are due to be changed for
 			the next release are therfore marked depreciated.</para>
 
-		<!-- TODO mostly similar to the lexi in TenDRS 4.whatever,
-			save for the addition of // comments, and what else? -->
+		<!-- TODO after our initial release, change this API.
+			The initial release is just incase there is anybody
+			using this (hah, likely...) -->
+		<!-- TODO since we know all changes in advance, state
+			which are depreciated -->
+		<!-- TODO state why we're changing our api: see the
+			"this is for version X" heading -->
+		<!-- TODO be sure to state the first release is for backwards
+			compatibility only. Make a sequence of API changes. Infact,
+			all releases for all products should have such a sequence
+			(i.e. a changelog), especially for APIs. -->
 
 		<para><!-- TODO history --></para>
 
@@ -99,18 +108,32 @@ does it expect any #defines?
 						<term>1.3</term>
 						<listitem>
 							<para>Interim convenience release.
+		<!-- TODO mostly similar to the lexi in TenDRA 4.2.1,
+			save for the addition of // comments (?), and what else?
+			- TODO no, it looks like i didn't add kevin's patch for that. -->
+
 								<itemizedlist>
 									<listitem>
-										<para><code>PROTO</code> removed<!-- TODO --></para>
-									</listitem>
-									<listitem>
-										<para>Seperated from the TenDRA distribution<!-- TODO --></para>
+										<para>Seperated from the TenDRA
+											distribution to form a stand-alone
+											project.</para>
 									</listitem>
 									<listitem>
 										<para>Various behaviours undefined<!-- TODO --></para>
 									</listitem>
 								</itemizedlist>
 							</para>
+						</listitem>
+					</varlistentry>
+
+					<varlistentry>
+						<term>1.2</term>
+						<listitem>
+							<!-- Tagged for internal use only -->
+		<!-- TODO 1.2 major change in output from 1.2 is lack of PROTO generation -->
+							<listitem>
+								<para><code>PROTO</code> removed<!-- TODO --></para>
+							</listitem>
 						</listitem>
 					</varlistentry>
 
@@ -138,14 +161,12 @@ does it expect any #defines?
 				For convenience of discussion, this guide assumes that
 				tokens are formed of characters, although this is not
 				neccessarily the case.</para>
-<!-- TODO use memcmp internally, and permit \0 in the specification's strings. -->
 
 			<para>Usually it is the responsibility of the lexical analyser
 				to skip whitespace (and often also comments).
 				<xref linkend="tokenstream"/> illustrates an example of
 				tokenisation:</para>
 
-			<!-- TODO perhaps use the cyan here -->
 			<figure id="tokenstream">
 				<title>Forming a token stream</title>
 				<graphic align="center" format="PNG"
@@ -465,6 +486,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 				bracket).</para>
 
 			<para>Do not confuse function names with sid Identifiers.
+				<!-- TODO when we define sid identifiers, share text with the sid guide -->
 				For instance, <literal>$get-comment()</literal> is not
 				a legal function.</para>
 
@@ -876,35 +898,28 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>would yield true, assuming the group "alpha"
 				is suitablly defined.</para>
-			<!-- TODO find out what happened to -m -->
-			<!-- TODO after our initial release, change this API.
-				The initial release is just incase there is anybody
-				using this (hah, likely...) -->
-			<!-- TODO since we know all changes in advance, state
-				which are depreciated -->
-			<!-- TODO state why we're changing our api: see the
-				"this is for version X" heading -->
-			<!-- TODO be sure to state the first release is for backwards
-				compatibility only. Make a sequence of API changes. Infact,
-				all releases for all products should have such a sequence
-				(i.e. a changelog), especially for APIs. -->
 
 			<!-- TODO explain what groups are legal, undefined, etc.
 				Overlapping, for example? -->
 
 			<para>The group name <quote>white</quote> may not be used for groups other
-				than the whitespace definition; see <!-- TODO ref -->
-				the Whitespace definition section for details.</para>
+				than the whitespace definition; see
+				<xref linkend="whitespacedefinitions"/> for details.</para>
 
-			<!-- TODO groups may only be defined once? -->
+			<para>A group name is unique amongst groups; groups may
+				only be defined once.</para>
+			<!-- TODO unique amongst what else? Think in terms of namespaces;
+				somewhere we should explain namespaces for identifiers -->
 		</section>
 
 		<section id="whitespacedefinitions">
 			<title id="whitespacedefinitions.title">Whitespace definition</title>
 
-			<para>Consecuitive whitespace characters outside of strings
-				and comments <!-- TODO is this right? --> are skipped by
-				the lexical analyser, occuring with the semantics of a
+			<para>Consecuitive whitespace characters outside of tokens
+				<!-- TODO is this right? --> are skipped by
+				the lexical analyser <emphasis>before</emphasis> each token
+				is recognised. Whitespace
+				is treated with the semantics of a
 				single token delimiter. <command>lexi</command> specifies
 				whitespace by the special group name <code>white</code>,
 				which may not be used as an identifier to name other
@@ -915,18 +930,11 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<programlisting>white-defn := "GROUP" + "white" + "=" + chars ;</programlisting>
 
-			<para><!-- TODO what is this group used for?
-				(input or output: it is used
-				in output.c which is confusing)
-				-->
-			</para>
-
 			<para>The whitespace definition may be omitted, in which case
 				it defaults to space, horizontal tabulation and
 				newline. Therfore it is always present, even if the
-				declaration is implicit.</para>
-			<!-- TODO so is it an error to include multiple times?
-				checK; if not, we should raise an error -->
+				declaration is implicit. As with any group, it may not
+				be defined multiple times.</para>
 
 			<para>For example:</para>
 
@@ -937,6 +945,13 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 				it is present in the API as <code>is_white()</code>,
 				and may be included in <xref linkend="groupinclusion"
 				endterm="groupinclusion"/> as <code>[white]</code>.</para>
+
+			<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+			<!-- if white contains the same characters as other tokens,
+				it has precidence. however we call that illegal -->
+			<para>It is illegal to define the whitespace group to
+				contains characters which are present in token
+				definitions, including groups which those tokens use.</para>
 		</section>
 
 		<section id="tokendefinitions">
@@ -963,7 +978,6 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para><!-- TODO simple examples here --></para>
 
-
 			<para>For example, for comments in a C-style language, the lexical
 				analyser is expected to discard characters until the end
 				of the comment is found. In <command>lexi</command>, this is specified
@@ -975,12 +989,6 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<para>Where <code>get_comment()</code> is an externally defined
 				function which simply reads characters until the corresponding
 				<code>*/</code> is found.</para>
-
-
-<!-- TODO actually this is pretty common. that could be specified with
-another token;
-see modes as ways of "combining" two or more lexers; a sort of namespace.
-Draw an FSM. Perhaps we could add that feature without going insane. -->
 
 			<para><!--
 TODO kevin says:
@@ -1010,7 +1018,9 @@ TODO kevin says:
        manpage. -->
 			</para>
 
-			<para><!-- TODO kevin says:
+			<para>Unlike many lexical analysers, tokens in <command>lexi</command>
+				are not specified by regular expressions. 
+			<!-- TODO kevin says:
        Tokens definition are not restricted to a fixed sequence  of  character
        but can also use the concept of group.  For example:
 
@@ -1236,7 +1246,8 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 
 		<section>
 			<title>Description grammar</title>
-	<!-- - Grammar (for reference) and sequence of keywords, reserved words, etc -->
+			<!-- Grammar (for reference) and sequence of keywords, reserved words, etc
+				This probably makes more sense for the next version, really -->
 		</section>
 
 		<section>
@@ -1248,6 +1259,8 @@ TODO then define groups inside a block as undefined, and adjust the grammar
 				and so it is an error to define a mapping which produces
 				a character used at the start of any mapping, including
 				itself. For example:</para>
+				TODO to identify this, we add a stage after the table is
+				constructed which checks each mapping.
 				TODO new undefined behaviour -->
 		</section>
 
