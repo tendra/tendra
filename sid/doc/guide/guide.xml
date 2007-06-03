@@ -45,6 +45,7 @@
       main features of each version of <code>sid</code> are listed
       below:</para>
 
+	<!-- TODO can this be centralised with the changelog data somehow? -->
     <itemizedlist>
       <listitem>
         <para><code>sid</code> 1.0 - this was the first version of
@@ -106,6 +107,12 @@
       <listitem>
         <para><code>sid</code> 1.9 - this was a bug fix version of
           <code>sid</code> 1.8.</para>
+      </listitem>
+
+      <listitem>
+        <para><code>sid</code> 1.10 - The first stand-alone release
+			of <code>sid</code> seperately to the TenDRA compiler. It is
+			a code clean-up release; features are unchanged from 1.9.</para>
       </listitem>
     </itemizedlist>
 
