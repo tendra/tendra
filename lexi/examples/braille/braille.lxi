@@ -1,0 +1,295 @@
+/*
+ * See http://www.brailleauthority.org/def.html
+ * http://www.bauk.org.uk/docs/bbchanf.htm
+ * http://www.iceb.org/ICEVI2006_UEB_Paper_Jolley.htm
+ */
+
+/* We need to know about newlines, so we make them not whitespace */
+GROUP white = " \t";
+
+TOKEN "\n" -> $newline;
+
+/* TODO a lexer to go in the other direction would be interesting, too
+ * the conditionals would be an FSM for in-number, etc
+ */
+
+/* TODO we output BRF (ASCII Braille, Digital Braille)
+ * See http://www.duxburysystems.com/braille.asp
+ * and http://en.wikipedia.org/wiki/Braille_ASCII
+ * wrap to 40 columns, pagnate
+ */
+
+/* TODO use conditionals to select between grade 1 and 2 */
+
+TOKEN "--" -> $dash;
+TOKEN "..." -> $elipsis;
+
+/*
+ * Punctuation
+ */
+MAPPING ","		-> "1";
+MAPPING ";"		-> "2";
+MAPPING ":"		-> "3";
+MAPPING "."		-> "4";
+MAPPING "!"		-> "5";
+MAPPING "("		-> "7";
+MAPPING ")"		-> "7";
+MAPPING "\""	-> "8";
+MAPPING "?"		-> "8";
+MAPPING "\'"	-> "'";
+MAPPING "/"		-> "/";
+MAPPING "#"		-> "#";
+MAPPING "|"		-> ">";
+MAPPING "-"		-> "-";
+
+/*
+ * Specified here are the Grade 2 british braille contractions.
+ * TODO call this "Contracted braille"
+ */
+IF (grade2) {
+	/*
+	 * Short-form words.
+	 *
+	 * These should be words to themselves, not substitutions mid-word.
+	 * TODO note that these don't take into account MAPPINGs; we should
+	 * either do that here, or map the keywords in our program.
+	 *
+	 * Perhaps read a word, and if it isn't a keyword, go back and read
+	 * it again through the mappings?
+	 */
+	KEYWORD "about" -> word;
+	KEYWORD "above" -> word;
+	KEYWORD "according" -> word;
+	KEYWORD "across" -> word;
+	KEYWORD "after" -> word;
+	KEYWORD "afternoon" -> word;
+	KEYWORD "afterward" -> word;
+	KEYWORD "again" -> word;
+	KEYWORD "against" -> word;
+	KEYWORD "almost" -> word;
+	KEYWORD "already" -> word;
+	KEYWORD "also" -> word;
+	KEYWORD "although" -> word;
+	KEYWORD "altogether" -> word;
+	KEYWORD "always" -> word;
+	KEYWORD "because" -> word;
+	KEYWORD "before" -> word;
+	KEYWORD "behind" -> word;
+	KEYWORD "below" -> word;
+	KEYWORD "beneath" -> word;
+	KEYWORD "beside" -> word;
+	KEYWORD "between" -> word;
+	KEYWORD "beyond" -> word;
+	KEYWORD "blind" -> word;
+	KEYWORD "braille" -> word;
+	KEYWORD "children" -> word;
+	KEYWORD "conceive" -> word;
+	KEYWORD "conceiving" -> word;
+	KEYWORD "could" -> word;
+	KEYWORD "deceive" -> word;
+	KEYWORD "deceiving" -> word;
+	KEYWORD "declare" -> word;
+	KEYWORD "declaring" -> word;
+	KEYWORD "either" -> word;
+	KEYWORD "first" -> word;
+	KEYWORD "friend" -> word;
+	KEYWORD "good" -> word;
+	KEYWORD "great" -> word;
+	KEYWORD "herself" -> word;
+	KEYWORD "him" -> word;
+	KEYWORD "himself" -> word;
+	KEYWORD "immediate" -> word;
+	KEYWORD "its" -> word;
+	KEYWORD "itself" -> word;
+	KEYWORD "letter" -> word;
+	KEYWORD "little" -> word;
+	KEYWORD "much" -> word;
+	KEYWORD "must" -> word;
+	KEYWORD "myself" -> word;
+	KEYWORD "neccessary" -> word;
+	KEYWORD "neither" -> word;
+	KEYWORD "o'clock" -> word;
+	KEYWORD "oneself" -> word;
+	KEYWORD "ourselves" -> word;
+	KEYWORD "paid" -> word;
+	KEYWORD "perceive" -> word;
+	KEYWORD "perceiving" -> word;
+	KEYWORD "perhaps" -> word;
+	KEYWORD "quick" -> word;
+	KEYWORD "receive" -> word;
+	KEYWORD "receiving" -> word;
+	KEYWORD "rejoice" -> word;
+	KEYWORD "rejoicing" -> word;
+	KEYWORD "said" -> word;
+	KEYWORD "should" -> word;
+	KEYWORD "such" -> word;
+	KEYWORD "themselves" -> word;
+	KEYWORD "thyself" -> word;
+	KEYWORD "today" -> word;
+	KEYWORD "to-day" -> word;
+	KEYWORD "together" -> word;
+	KEYWORD "tomorrow" -> word;
+	KEYWORD "to-morrow" -> word;
+	KEYWORD "tonight" -> word;
+	KEYWORD "to-night" -> word;
+	KEYWORD "would" -> word;
+	KEYWORD "your" -> word;
+	KEYWORD "yourself" -> word;
+	KEYWORD "yourselves" -> word;
+
+	IF(cond_notinitial) {
+		/*
+		 * One-Cell Whole-Word and Part-Word Signs.
+		 * These are first as they take precidence. Mention precidence in the guide.
+		 * These are either substituions mid-word, or replacements for
+		 * entire words. As MAPPING, either may occur.
+		 *
+		 * http://www.brailleauthority.org/1cell.html
+		 */
+		MAPPING "but"		-> "B";
+		MAPPING "can"		-> "C";
+		MAPPING "do"		-> "D";
+		MAPPING "every"		-> "E";
+		MAPPING "from"		-> "F";
+		MAPPING "go"		-> "G";
+		MAPPING "have"		-> "H";
+		MAPPING "just"		-> "J";
+		MAPPING "knowledge"	-> "K";
+		MAPPING "like"		-> "L";
+		MAPPING "more"		-> "M";
+		MAPPING "not"		-> "N";
+		MAPPING "people"	-> "P";
+		MAPPING "quite"		-> "Q";
+		MAPPING "rather"	-> "R";
+		MAPPING "so"		-> "S";
+		MAPPING "that"		-> "T";
+		MAPPING "us"		-> "U";
+		MAPPING "very"		-> "V";
+		MAPPING "will"		-> "W";
+		MAPPING "it"		-> "X";
+		MAPPING "you"		-> "Y";
+		MAPPING "as"		-> "Z";
+		MAPPING "and"		-> "&";
+		MAPPING "for"		-> "=";
+		MAPPING "of"		-> "(";
+		MAPPING "the"		-> "!";
+		MAPPING "with"		-> ")";
+		MAPPING "ch"		-> "*";	/* good example for "ch", "child" -> "*" */
+		MAPPING "child"		-> "*";
+		MAPPING "gh"		-> "<";
+		MAPPING "sh"		-> "%";
+		MAPPING "shall"		-> "%";
+		MAPPING "th"		-> "?";
+		MAPPING "this"		-> "?";
+		MAPPING "wh"		-> ":";
+		MAPPING "which"		-> ":";
+		MAPPING "ed"		-> "$";
+		MAPPING "er"		-> "]";
+		MAPPING "ou"		-> "\\";
+		MAPPING "out"		-> "\\";
+		MAPPING "ow"		-> "[";
+		MAPPING "ea"		-> "1";
+		MAPPING "be"		-> "2";
+		MAPPING "bb"		-> "2";
+		MAPPING "con"		-> "3";
+		MAPPING "cc"		-> "3";
+		MAPPING "dis"		-> "4";
+		MAPPING "dd"		-> "4";
+		MAPPING "en"		-> "5";
+		MAPPING "enough"	-> "5";
+		MAPPING "to"		-> "6";
+		MAPPING "ff"		-> "6";
+		MAPPING "were"		-> "7";
+		MAPPING "gg"		-> "7";
+		MAPPING "his"		-> "8";
+		MAPPING "in"		-> "9";
+/*		MAPPING "into"		-> "96"; */
+		MAPPING "was"		-> "0";
+		MAPPING "by"		-> "0";
+		MAPPING "st"		-> "/";
+		MAPPING "still"		-> "/";
+		MAPPING "ing"		-> "+";
+		MAPPING "ble"		-> "#";
+		MAPPING "ar"		-> ">";
+		MAPPING "com"		-> "-";
+	}
+
+	/*
+	 * Initial-letter Contractions
+	 */
+	IF(cond_initial) {
+		MAPPING "day"		-> "D";
+		MAPPING "ever"		-> "E";
+		MAPPING "father"	-> "F";
+		MAPPING "here"		-> "H";
+		MAPPING "know"		-> "K";
+		MAPPING "lord"		-> "L";
+		MAPPING "mother"	-> "M";
+		MAPPING "name"		-> "N";
+		MAPPING "one"		-> "O";
+		MAPPING "part"		-> "P";
+		MAPPING "question"	-> "Q";
+		MAPPING "right"		-> "R";
+		MAPPING "some"		-> "S";
+		MAPPING "time"		-> "T";
+		MAPPING "under"		-> "U";
+		MAPPING "work"		-> "W";
+		MAPPING "young"		-> "Y";
+		MAPPING "there"		-> "(";
+		MAPPING "character"	-> "*";
+		MAPPING "through"	-> "?";
+		MAPPING "where"		-> ":";
+		MAPPING "ought"		-> "\\";
+
+		MAPPING "upon"		-> "U";
+		MAPPING "word"		-> "W";
+		MAPPING "these"		-> "(";
+		MAPPING "those"		-> "?";
+		MAPPING "whose"		-> ":";
+
+		MAPPING "cannot"	-> "C";
+		MAPPING "had"		-> "H";
+		MAPPING "many"		-> "M";
+		MAPPING "spirit"	-> "S";
+		MAPPING "world"		-> "W";
+		MAPPING "their"		-> "(";
+	}
+
+	/*
+	 * Final-letter Contractions
+	 */
+	IF(cond_final) {
+		MAPPING "ound"	-> "D";
+		MAPPING "ance"	-> "E";
+		MAPPING "sion"	-> "N";
+		MAPPING "less"	-> "S";
+		MAPPING "ount"	-> "T";
+
+		MAPPING "ence"	-> "E";
+		MAPPING "ong"	-> "G";
+		MAPPING "ful"	-> "L";
+		MAPPING "tion"	-> "N";
+		MAPPING "ness"	-> "S";
+		MAPPING "ment"	-> "T";
+		MAPPING "ity"	-> "Y";
+
+		MAPPING "ation"	-> "N";
+		MAPPING "ally"	-> "Y";
+	}
+}
+
+/*
+ * Output as <upperfollows>, <letter>
+ */
+GROUP upper = {A-Z};
+
+GROUP alpha = {a-z} + {A-Z};
+TOKEN "[alpha]" -> get_word();	/* This can call is_upper() */
+
+/* TODO needs to cope with decimal point; get_number can call is_digit() */
+GROUP digit = {0-9};
+/* TODO add support for TOKEN {0-9} -> x(); as convenience */
+TOKEN "[digit]" -> get_number();
+
+/* Grade 2 uses 189 contractions in addition to the signs for Grade1 */
+
