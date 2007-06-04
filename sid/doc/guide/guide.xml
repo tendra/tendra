@@ -41,7 +41,7 @@
     <title>Introduction</title>
 
     <para>This document describes how to use the <code>sid</code> parser
-      generator. It was written for <code>sid</code> version 1.9. The
+      generator. It was written for <code>sid</code> version 1.11. The
       main features of each version of <code>sid</code> are listed
       below:</para>
 

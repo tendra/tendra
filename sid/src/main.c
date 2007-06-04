@@ -107,7 +107,7 @@
 #define USAGE "\
 usage:[option ...] in-file ... out-file ...\n\
 where option is one of:\n"
-#define VERSION "sid: version 1.10 (ansi-c, pre-ansi-c, test)"
+#define VERSION "sid: version 1.11 (ansi-c, pre-ansi-c, test)"
 #define RELEASE "tendra.org"
 
 typedef struct PhaseListT {
