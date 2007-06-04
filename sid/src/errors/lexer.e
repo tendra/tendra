@@ -56,27 +56,6 @@ error "illegal character" ("istream" : "IStreamT *") {
     }
 };
 
-error "illegal comment character" ("istream" : "IStreamT *") {
-    "${file name}: ${line number}: illegal comment character '${character}'",
-    {
-	"file name" : "char *" $[
-	    write_cstring(ostream, closure->file_name);
-	]$ $[
-	    closure.file_name = istream_name(istream);
-	]$
-    }, {
-	"line number" : "unsigned" $[
-	    write_unsigned(ostream, closure->line_number);
-	]$ $[
-	    closure.line_number = istream_line(istream);
-	]$
-    }, {
-	"character" : "char" $[
-	    write_escaped_char(ostream, closure->character);
-	]$
-    }
-};
-
 error "eof in comment" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in comment",
     {
@@ -115,8 +94,8 @@ fatal "unknown builtin" ("istream" : "IStreamT *") {
     }
 };
 
-error "null character in builtin" ("istream" : "IStreamT *") {
-    "${file name}: ${line number}: null character in builtin",
+error "eof in identifier" ("istream" : "IStreamT *") {
+    "${file name}: ${line number}: end of file in identifier",
     {
 	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
@@ -149,8 +128,8 @@ error "eof in builtin" ("istream" : "IStreamT *") {
     }
 };
 
-error "newline in builtin" ("istream" : "IStreamT *") {
-    "${file name}: ${line number}: newline in builtin",
+error "illegal character in builtin" ("istream" : "IStreamT *") {
+    "${file name}: ${line number}: illegal character '${character}' in builtin, expecting '%'",
     {
 	"file name" : "char *" $[
 	    write_cstring(ostream, closure->file_name);
@@ -162,6 +141,10 @@ error "newline in builtin" ("istream" : "IStreamT *") {
 	    write_unsigned(ostream, closure->line_number);
 	]$ $[
 	    closure.line_number = istream_line(istream);
+	]$
+    }, {
+	"character" : "char" $[
+	    write_escaped_char(ostream, closure->character);
 	]$
     }
 };

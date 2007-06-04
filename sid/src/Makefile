@@ -14,6 +14,7 @@ ERR_OUT=gen-errors.c gen-errors.h
 MOVE=mv
 REMOVE=rm -f
 PERL=perl
+LEXI=lexi
 SID=sid
 
 # XXX: Do I want to have them removed during clean?
@@ -38,7 +39,7 @@ install: sid
 	install -m 755 sid ${BINDIR}/
 
 clean:
-	${REMOVE} sid gen-errors.c gen-errors.h ${TARGETS}
+	${REMOVE} sid gen-errors.c gen-errors.h lexi_lexer.c ${TARGETS}
 	cd rules && ${MAKE} clean
 	cd lang-c && ${MAKE} clean
 	cd adt && ${MAKE} clean
@@ -68,4 +69,9 @@ parser.c: parser.sid parser.act
 gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT}; \
 	${PERL} ${BUILD_ERRORS} -o gen-errors ${EFILES}
+
+lexer.c: lexi_lexer.c
+
+lexi_lexer.c: lexi_lexer.lxi
+	$(LEXI) lexi_lexer.lxi lexi_lexer.c
 
