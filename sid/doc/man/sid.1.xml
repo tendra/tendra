@@ -143,7 +143,8 @@
 			in the next release.</para>
 		<!-- TODO remove these :) -->
 
-		<para>Short form switches are single characters, and begin with a '-' or '+'
+		<para>Short form switches are single characters, and begin with a
+			<quote>-</quote> or <quote>+</quote>
 			character. They can be concatentated into a single command line word, e.g.:</para>
 
 		<para>
@@ -208,10 +209,10 @@
 			name</literal><literal>}</literal>.	These variables will be replaced by suitable information
 			when the error occurs.	The backslash character can be used to escape
 			characters.	The following C style escape sequences are recognized:
-			<!-- TODO quote -->
-			'<literal>\n</literal>', '<literal>\r</literal>', '<literal>\t</literal>',
-			'<literal>\&numsp;</literal>'.	Also, the sequence
-			'<literal>\x</literal><literal>NN</literal>' represents the
+			<code><literal>\n</literal></code>, <code><literal>\r</literal></code>,
+			<code><literal>\t</literal></code>,
+			<code><literal>\&numsp;</literal></code>.	Also, the sequence
+			<code><literal>\x</literal><literal>NN</literal></code> represents the
 			character with code <literal>NN</literal> in hex.	The hash
 			character acts as a comment to end of line character.</para>
 
