@@ -227,11 +227,8 @@
 
 			<variablelist>
 				<varlistentry>
-					<term>
-						<option>--dump-file</option> <replaceable>FILE</replaceable>
-						<sbr/>
-						<option>-d</option> <replaceable>FILE</replaceable>
-					</term>
+					<term><option>--dump-file</option> <replaceable>FILE</replaceable></term>
+					<term><option>-d</option> <replaceable>FILE</replaceable></term>
 					<listitem>
 						<para>This option causes intermediate dumps of
 							the grammar to be written to the file
@@ -240,11 +237,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--factor-limit</option> <replaceable>LIMIT</replaceable>
-						<sbr/>
-						<option>-f</option> <replaceable>LIMIT</replaceable>
-					</term>
+					<term><option>--factor-limit</option> <replaceable>LIMIT</replaceable></term>
+					<term><option>-f</option> <replaceable>LIMIT</replaceable></term>
 					<listitem>
 						<para>This option limits the number of rules that
 							can be created during the factorisation process.
@@ -253,11 +247,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--help</option>
-						<sbr/>
-						<option>-?</option>
-					</term>
+					<term><option>--help</option></term>
+					<term><option>-?</option></term>
 					<listitem>
 						<para>Write an option summary to the standard
 							error.</para>
@@ -265,11 +256,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--inline</option> <replaceable>INLINES</replaceable>
-						<sbr/>
-						<option>-i</option> <replaceable>INLINES</replaceable>
-					</term>
+					<term><option>--inline</option> <replaceable>INLINES</replaceable></term>
+					<term><option>-i</option> <replaceable>INLINES</replaceable></term>
 					<listitem>
 						<para>This option controls what inlining will
 							be done in the output parser.  The inlines argument
@@ -366,11 +354,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--language</option> <envar>LANGUAGE</envar>
-						<sbr/>
-						<option>-l</option> <envar>LANGUAGE</envar>
-					</term>
+					<term><option>--language</option> <envar>LANGUAGE</envar></term>
+					<term><option>-l</option> <envar>LANGUAGE</envar></term>
 					<listitem>
 						<para>This option specifies the output language.
 							Currently this should be either <quote>ansi-c</quote>,
@@ -392,15 +377,10 @@
 								section, and save on some indenting -->
 							<variablelist>
 								<varlistentry>
-									<term>
-										<option>prototypes</option>
-										<sbr/>
-										<option>proto</option>
-										<sbr/>
-										<option>no-prototypes</option>
-										<sbr/>
-										<option>no-proto</option>
-									</term>
+									<term><option>prototypes</option></term>
+									<term><option>proto</option></term>
+									<term><option>no-prototypes</option></term>
+									<term><option>no-proto</option></term>
 									<listitem>
 										<para>These enable or disable the use of function
 											prototypes.</para>
@@ -408,11 +388,8 @@
 								</varlistentry>
 
 								<varlistentry>
-									<term>
-										<option>split split=<literal>NUMBER</literal></option>
-										<sbr/>
-										<option>no-split</option>
-									</term>
+									<term><option>split split=<literal>NUMBER</literal></option></term>
+									<term><option>no-split</option></term>
 									<listitem>
 										<para>These enable or disable the output file
 											split option.	The generated files can be
@@ -428,15 +405,10 @@
 								</varlistentry>
 
 								<varlistentry>
-									<term>
-										<option>numeric-ids</option>
-										<sbr/>
-										<option>numeric</option>
-										<sbr/>
-										<option>no-numeric-ids</option>
-										<sbr/>
-										<option>no-numeric</option>
-									</term>
+									<term><option>numeric-ids</option></term>
+									<term><option>numeric</option></term>
+									<term><option>no-numeric-ids</option></term>
+									<term><option>no-numeric</option></term>
 									<listitem>
 										<para>These enable or disable the use of numeric
 											identifiers.	Numeric identifiers replace the
@@ -450,13 +422,9 @@
 								</varlistentry>
 
 								<varlistentry>
-									<term>
-										<option>casts</option>
-										<sbr/>
-										<option>no-casts</option>
-										<sbr/>
-										<option>no-cast</option>
-									</term>
+									<term><option>casts</option></term>
+									<term><option>no-casts</option></term>
+									<term><option>no-cast</option></term>
 									<listitem>
 										<para>These enable or disable casting of action
 											and assignment operator immutable parameters.
@@ -475,15 +443,10 @@
 								</varlistentry>
 
 								<varlistentry>
-									<term>
-										<option>unreachable-macros</option>
-										<sbr/>
-										<option>unreachable-macro</option>
-										<sbr/>
-										<option>unreachable-comments</option>
-										<sbr/>
-										<option>unreachable-comment</option>
-									</term>
+									<term><option>unreachable-macros</option></term>
+									<term><option>unreachable-macro</option></term>
+									<term><option>unreachable-comments</option></term>
+									<term><option>unreachable-comment</option></term>
 									<listitem>
 										<para>These choose whether unreachable code is marked by
 											a macro or a comment.  The default is to mark
@@ -494,15 +457,10 @@
 								</varlistentry>
 
 								<varlistentry>
-									<term>
-										<option>lines</option>
-										<sbr/>
-										<option>line</option>
-										<sbr/>
-										<option>no-lines</option>
-										<sbr/>
-										<option>no-line</option>
-									</term>
+									<term><option>lines</option></term>
+									<term><option>line</option></term>
+									<term><option>no-lines</option></term>
+									<term><option>no-line</option></term>
 									<listitem>
 										<para>These determine whether <code>#line</code>
 											directives should be output to relate the
@@ -524,11 +482,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--show-errors</option>
-						<sbr/>
-						<option>-e</option>
-					</term>
+					<term><option>--show-errors</option></term>
+					<term><option>-e</option></term>
 					<listitem>
 						<para>Write the current error message list to
 							the standard output.</para>
@@ -536,11 +491,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--switch</option> <replaceable>OPTION</replaceable>
-						<sbr/>
-						<option>-s</option> <replaceable>OPTION</replaceable>
-					</term>
+					<term><option>--switch</option> <replaceable>OPTION</replaceable></term>
+					<term><option>-s</option> <replaceable>OPTION</replaceable></term>
 					<listitem>
 						<para>Pass through <literal>OPTION</literal> as
 							a language specific option.</para>
@@ -548,11 +500,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--tab-width</option> <replaceable>NUMBER</replaceable>
-						<sbr/>
-						<option>-t</option> <replaceable>NUMBER</replaceable>
-					</term>
+					<term><option>--tab-width</option> <replaceable>NUMBER</replaceable></term>
+					<term><option>-t</option> <replaceable>NUMBER</replaceable></term>
 					<listitem>
 						<para>This option specifies the number of
 							spaces that a tab occupies.	It defaults to 8.
@@ -561,11 +510,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term>
-						<option>--version</option>
-						<sbr/>
-						<option>-v</option>
-					</term>
+					<term><option>--version</option></term>
+					<term><option>-v</option></term>
 					<listitem>
 						<para>This option causes the version number
 							and supported languages to be written to the
