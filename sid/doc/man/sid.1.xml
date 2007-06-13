@@ -72,7 +72,7 @@
 
 	<refsynopsisdiv id="synopsis">
 		<cmdsynopsis>
-			<command>lexi</command>
+			<command>sid</command>
 
 			<group>
 				<arg choice="plain">-d <replaceable>FILE</replaceable></arg>
