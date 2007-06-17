@@ -66,7 +66,7 @@
 	</refmeta>
 
 	<refnamediv id="name">
-		<refname>sid</refname>
+		<refname><application><acronym>SID</acronym></application></refname>
 		<refpurpose>Syntax Improving Device; parser generator.</refpurpose>
 	</refnamediv>
 
@@ -126,9 +126,9 @@
 	<refsection id="description">
 		<title>Description</title>
 
-		<para>The <command>sid</command> command is used to turn descriptions
+		<para>The <application><acronym>SID</acronym></application> command is used to turn descriptions
 			of a language into a program for recognising that language.	This manual page
-			details the command line syntax; for more information, consult the <command>sid</command>
+			details the command line syntax; for more information, consult the <application><acronym>SID</acronym></application>
 			user documentation.<!-- TODO link to sid guide -->	The number of
 			files specified on the command line varies depending upon the output
 			language.	The description of the <option>--language</option> option
@@ -138,7 +138,7 @@
 	<refsection id="switches">
 		<title>Switches</title>
 
-		<para><command>sid</command> accepts both short form and long form
+		<para><application><acronym>SID</acronym></application> accepts both short form and long form
 			command line switches. The long form equivalents are due to be removed
 			in the next release.</para>
 		<!-- TODO remove these :) -->
@@ -193,7 +193,7 @@
 	<refsection id="error_file_syntax">
 		<title>Error File Syntax</title>
 
-		<para>It is possible to change the error messages that <command>sid</command>
+		<para>It is possible to change the error messages that <application><acronym>SID</acronym></application>
 			uses.	In order to do this, make the environment variable
 			<literal>SID_ERROR_FILE</literal> contain the name of a
 			file with the new error messages in.</para>
@@ -223,7 +223,7 @@
 	<refsection id="options">
 		<title>Options</title>
 
-		<para><command>sid</command> accepts the following command line options:
+		<para><application><acronym>SID</acronym></application> accepts the following command line options:
 
 			<variablelist>
 				<varlistentry>
@@ -232,7 +232,52 @@
 					<listitem>
 						<para>This option causes intermediate dumps of
 							the grammar to be written to the file
-							<literal>FILE</literal>.</para>
+							<literal>FILE</literal>. The format of the dump files is similar
+							to the format of the grammar specification, with the following
+							exceptions:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Predicates are written with the predicate result replaced
+              by the predicate identifier (this will always be zero), and
+              the result is followed by a <code>?</code> to indicate that it
+              was a predicate. As an example, the predicate:
+
+            <programlisting>
+( b, ? ) = &lt;pred&gt; ( a )</programlisting>
+
+            would be printed out as:
+
+            <programlisting>
+( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting></para>
+          </listitem>
+
+          <listitem>
+            <para>Items that are considered to be inlinable are prefixed by
+              a <code>+</code>. Items that are tail calls which will be
+              eliminated are prefixed by a <code>*</code>.</para>
+          </listitem>
+
+          <listitem>
+            <para>Nested rules are written at the outer level, with names of
+              the form
+              <code>outer-rule::....::inner-rule</code>.</para>
+          </listitem>
+
+          <listitem>
+            <para>Types are provided on call parameter and result
+              tuples.</para>
+          </listitem>
+
+          <listitem>
+            <para>Inline rules are given a generated name, and are written
+              out as a call to the generated rule (and a definition
+              elsewhere).</para>
+          </listitem>
+        </itemizedlist>
+
+
+
 					</listitem>
 				</varlistentry>
 
@@ -250,8 +295,8 @@
 					<term><option>--help</option></term>
 					<term><option>-?</option></term>
 					<listitem>
-						<para>Write an option summary to the standard
-							error.</para>
+        <para>This option writes a summary of the command line options to the
+          standard error stream.</para>
 					</listitem>
 				</varlistentry>
 
@@ -345,7 +390,7 @@
 						<para><literal>-inline singles,noall</literal></para>
 
 						<para>would turn off all inlining.	The default
-							is as if <command>sid</command> were invoked
+							is as if <application><acronym>SID</acronym></application> were invoked
 							with the option:</para>
 
 						<!-- TODO we use programlisting elsewhere for this -->
@@ -383,7 +428,8 @@
 									<term><option>no-proto</option></term>
 									<listitem>
 										<para>These enable or disable the use of function
-											prototypes.</para>
+											prototypes. By default this is enabled for <code>ansi-c</code> and
+											disabled for <code>pre-ansi-c</code>.</para>
 									</listitem>
 								</varlistentry>
 
@@ -486,7 +532,9 @@
 					<term><option>-e</option></term>
 					<listitem>
 						<para>Write the current error message list to
-							the standard output.</para>
+							the standard output. See elsehwere<!-- TODO where? -->
+							in this manual for more details about
+							changing the error message content.</para>
 					</listitem>
 				</varlistentry>
 
@@ -495,7 +543,9 @@
 					<term><option>-s</option> <replaceable>OPTION</replaceable></term>
 					<listitem>
 						<para>Pass through <literal>OPTION</literal> as
-							a language specific option.</para>
+							a language specific option. The valid options are described
+							in the <citetitle><application><acronym>SID</acronym></application>
+							users' guide.</citetitle><!-- TODO link to lang --></para>
 					</listitem>
 				</varlistentry>
 
