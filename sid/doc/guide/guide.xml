@@ -1110,15 +1110,18 @@ rule1 [
         All substitutions begin with the <code>@</code> character. The
         following substitutions are recognised:
 
-        <itemizedlist>
+        <variablelist>
+			<varlistentry>
+            <term><code>@@</code></term>
           <listitem>
-            <para><code>@@</code></para>
 
             <para>This substitutes the <code>@</code> character itself.</para>
           </listitem>
+			</varlistentry>
 
-          <listitem><para><code>@:</code><token>label</token></para>
-
+			<varlistentry>
+          <term><code>@:</code><token>label</token></term>
+          <listitem>
             <para>This form marks a label, which will be substituted for in
               the output code. This is necessary, because an action may be
               inlined into the same function more than once. If this happens,
@@ -1129,9 +1132,11 @@ rule1 [
               substitution may not be used in header and trailer code
               blocks.</para>
           </listitem>
+			</varlistentry>
 
+			<varlistentry>
+            <term><code>@</code><token>identifier</token></term>
           <listitem>
-            <para><code>@</code><token>identifier</token></para>
 
             <para>This form marks a parameter or result identifier
               substitution. If parameter and result identifiers are not
@@ -1150,9 +1155,11 @@ rule1 [
                 the notes on the <link linkend="casts"><code>casts</code>
                 language specific option</link>).</para>
           </listitem>
+			</varlistentry>
 
+			<varlistentry>
+            <term><code>@&amp;</code><token>identifier</token></term>
           <listitem>
-            <para><code>@&amp;</code><token>identifier</token></para>
 
             <para>This form marks a parameter identifier whose address is to
               be substituted, but whose contents will not be modified. The
@@ -1160,9 +1167,11 @@ rule1 [
               error to use this in parameter assignment operator
               definitions.</para>
           </listitem>
+			</varlistentry>
 
+			<varlistentry>
+            <term><code>@=</code><token>identifier</token></term>
           <listitem>
-            <para><code>@=</code><token>identifier</token></para>
 
             <para>This form marks a parameter identifier that will be
               modified. For this to be useful, the parameter should be a call
@@ -1171,29 +1180,35 @@ rule1 [
               (assignment operators are not allowed to modify their
               parameters).</para>
           </listitem>
+			</varlistentry>
 
+			<varlistentry>
+            <term><code>@!</code></term>
           <listitem>
-            <para><code>@!</code></para>
 
             <para>This form marks an exception raise. In the generated code, a
               jump to the current exception handler will be substituted. This
               substitution is only valid in actions.</para>
           </listitem>
+			</varlistentry>
 
+			<varlistentry>
+            <term><code>@.</code></term>
           <listitem>
-            <para><code>@.</code></para>
-
             <para>This form marks an attempt to access the current terminal.
               This substitution is only valid in actions.</para>
           </listitem>
+			</varlistentry>
+
+			<varlistentry>
+            <term><code>@&gt;</code></term>
 
           <listitem>
-            <para><code>@&gt;</code></para>
-
             <para>This form marks an attempt to advance the lexical analyser.
               This substitution is only valid in actions.</para>
           </listitem>
-        </itemizedlist></para>
+			</varlistentry>
+        </variablelist></para>
 
       <para>All other forms are illegal. Note that in the case of labels and
         identifiers, no white space is allowed between the <code>@:</code>,
