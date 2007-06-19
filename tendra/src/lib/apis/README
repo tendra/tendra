@@ -19,9 +19,9 @@ which are used in the compiler's API checking.
 		  |	  |	  |
 		  |	  |	  |
 		 iso	  |	posix2
-		  |	  |	  |
-		  +------ +-------+
-			  |       |
+		  |	  |	 |  |
+		  +------ +------+  |
+			  |         |
 			 xpg4   posix3
 			  |
 			  |
