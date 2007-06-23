@@ -58,6 +58,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "char.h"
 #include "shared/error.h"

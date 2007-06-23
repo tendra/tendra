@@ -88,7 +88,6 @@ main(int argc, char **argv)
 {
 	FILE *lex_output = stdout;
 	int key = 0;
-	int too_many = 0;
 	int optc;
 
 	/* Process arguments */
