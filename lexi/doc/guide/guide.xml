@@ -24,9 +24,6 @@
 	</copyright>
   </bookinfo>
 
-<!-- TODO
-does it expect any #defines?
--->
 <!-- TODO when writing manpage, we can take the oppertunity to declare as BUGS
 (or indeed as undefined) features which no .lxi file uses.
 -->
@@ -386,6 +383,10 @@ void unread_char(int);</programlisting>
 			endterm="whitespacedefinitions.title"/> white sections for
 			further details on group names.</para>
 <!-- TODO mention MAKE_KEYWORD in Interface section-->
+
+		<para>Neither the keyword calls output by <option>-k</option> nor
+			the lexical analyser itself depend on including any headers
+			other than for the user's own code's requirements.</para>
 	</chapter>
 
 	<chapter id="file">
