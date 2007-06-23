@@ -72,10 +72,12 @@
 */
 
 void *
-xmalloc(long sz)
+xmalloc(size_t sz)
 {
-    void *p = malloc((size_t)sz);
-    if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
+    void *p = malloc(sz);
+
+    if (p == NULL) error(ERROR_FATAL, "Memory allocation error");
+
     return(p);
 }
 
@@ -87,11 +89,14 @@ xmalloc(long sz)
 */
 
 void *
-xcalloc(long n, long sz)
+xcalloc(size_t n, size_t sz)
 {
-    void *p = calloc((size_t)sz,(size_t)n);
+    void *p = calloc(sz, n);
+
 	/* TODO perhaps error.h should provide something that calls perror() and exits */
+
     if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
+
     return(p);
 }
 
@@ -104,15 +109,18 @@ xcalloc(long n, long sz)
 */
 
 void *
-xrealloc(void *p, long sz)
+xrealloc(void *p, size_t sz)
 {
     void *q;
+
     if (p) {
-	q = realloc(p,(size_t)sz);
+	q = realloc(p, sz);
     } else {
-	q = malloc((size_t)sz);
+	q = malloc(sz);
     }
-    if (q == NULL)error(ERROR_FATAL, "Memory allocation error");
+
+    if (q == NULL) error(ERROR_FATAL, "Memory allocation error");
+
     return(q);
 }
 
@@ -140,14 +148,15 @@ xfree(void *p)
 */
 
 char *
-xstr(long n)
+xstr(size_t n)
 {
     char *r;
     if (n >= 1000) {
 	r = xmalloc_nof(char, n);
     } else {
-	static long chars_left = 0;
+	static size_t chars_left = 0;
 	static char *chars_free = 0;
+
 	if (n >= chars_left) {
 	    chars_left = 5000;
 	    chars_free = xmalloc_nof(char, chars_left);
@@ -169,10 +178,12 @@ xstr(long n)
 char *
 xstrcpy(const char *s)
 {
-    long n;
+    size_t n;
     char *r;
+
     if (s == NULL) return(NULL);
-    n = (long)strlen(s) + 1;
+
+    n = strlen(s) + 1;
     r = xstr(n);
     strcpy(r, s);
     return(r);
@@ -190,11 +201,13 @@ char *
 xstrcat(const char *s, const char *t)
 {
     char *r;
-    long n, m;
+    size_t n, m;
+
     if (s == NULL) return(xstrcpy(t));
     if (t == NULL) return(xstrcpy(s));
-    n = (long)strlen(s);
-    m = n + (long)strlen(t) + 1;
+
+    n = strlen(s);
+    m = n + strlen(t) + 1;
     r = xstr(m);
     strcpy(r, s);
     strcpy(r + n, t);

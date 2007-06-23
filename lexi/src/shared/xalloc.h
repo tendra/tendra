@@ -61,16 +61,17 @@
 #ifndef XALLOC_INCLUDED
 #define XALLOC_INCLUDED
 
+#include <stddef.h>
 
 /*
     DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
 */
 
-extern void *xmalloc(long);
-extern void *xcalloc(long, long);
-extern void *xrealloc(void *, long);
+extern void *xmalloc(size_t);
+extern void *xcalloc(size_t, size_t);
+extern void *xrealloc(void *, size_t);
 extern void xfree(void *);
-extern char *xstr(long);
+extern char *xstr(size_t);
 extern char *xstrcpy(const char *);
 extern char *xstrcat(const char *, const char *);
 
@@ -83,15 +84,9 @@ extern char *xstrcat(const char *, const char *);
     type T.
 */
 
-#define xmalloc_nof(T, N)\
-   ((T *)xmalloc((long)(N)*(long)sizeof(T)))
-#define xcalloc_nof(T, N)\
-   ((T *)xcalloc((long)(N), (long)sizeof(T)))
-#define xrealloc_nof(P, T, N)\
-   ((T *)xrealloc((void *)(P),\
-			(long)(N)*(long)sizeof(T)))
-#define xfree_nof(P)\
-    xfree((void *)(P))
-
+#define xmalloc_nof(T, N) (xmalloc((N) * sizeof(T)))
+#define xcalloc_nof(T, N) (xcalloc((N), sizeof(T)))
+#define xrealloc_nof(P, T, N) (xrealloc((P), (N) * sizeof(T)))
+#define xfree_nof(P) xfree((P))
 
 #endif
