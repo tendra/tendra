@@ -71,6 +71,9 @@
 
 #include "bitvec.h"
 
+/*
+ * XXX These need to move into some ctx struct
+ */
 static unsigned		bitvec_size;
 static unsigned		bitvec_valid_bits;
 static ByteT		bitvec_mask;
