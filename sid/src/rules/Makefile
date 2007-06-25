@@ -11,5 +11,6 @@ clean:
 	${REMOVE} rules.a $(TARGETS)
 
 rules.a: ${TARGETS}
-	ar r rules.a ${TARGETS}
+	ar r $@ ${TARGETS}
+	ranlib $@
 

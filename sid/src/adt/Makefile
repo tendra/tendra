@@ -11,5 +11,6 @@ clean:
 	${REMOVE} adt.a $(TARGETS)
 
 adt.a: ${TARGETS}
-	ar r adt.a ${TARGETS}
+	ar r $@ ${TARGETS}
+	ranlib $@
 

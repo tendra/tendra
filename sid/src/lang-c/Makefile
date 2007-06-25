@@ -21,7 +21,8 @@ clean:
 	${REMOVE} lang-c.a ${TARGETS}
 
 lang-c.a: ${TARGETS}
-	ar r lang-c.a ${TARGETS}
+	ar r $@ ${TARGETS}
+	ranlib $@
 
 c-parser.c: c-parser.sid c-parser.act
 	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h \

@@ -11,5 +11,6 @@ clean:
 	${REMOVE} eds.a $(TARGETS)
 
 eds.a: ${TARGETS}
-	ar r eds.a ${TARGETS}
+	ar r $@ ${TARGETS}
+	ranlib $@
 
