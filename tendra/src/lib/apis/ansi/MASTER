@@ -53,7 +53,7 @@
 #
 # $Id$
 #
-# This specification represents the ANSI C standard (X3.159).
+# This specification represents the ANSI C X3.159-1989 standard.
 #
 
 $UNIQUE = 1 ;
