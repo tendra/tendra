@@ -185,7 +185,10 @@
 				and categorises the remaining characters (indicated with a cyan
 				background and a solid underline) according to their spelling. For
 				example, a series of digits is categorised into the
-				<literal>&lt;literal&gt;</literal> type.</para>
+				<literal>&lt;literal&gt;</literal> type. Notice that whitespace
+				is optional; there happens to be non between the
+				<quote><literal>53</literal></quote> and
+				<quote><literal>;</literal></quote> tokens.</para>
 
 			<para>The spelling of the characters which form each token is
 				passed on, but usually ignored for punctual tokens such
