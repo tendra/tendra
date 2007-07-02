@@ -157,6 +157,18 @@
 				tokens are formed of characters, although this is not
 				neccessarily the case.</para>
 
+			<para>Categories of tokens are arranged such that spellings the
+				possible sets of spellings forming each category are
+				unambigious. For example, commonly floating point literals are
+				distinguishiable from integer literals because they must contain
+				a decimal point. If two different concepts must be expressed
+				using the same (or overlapping) sets of spellings, a further
+				stage after lexical analysis would be required to distinguish
+				them. For example, commonly an identifier may represent either
+				a variable or a function name, and it is the role of a parser
+				to distinguish between them based on the ordering of the
+				tokens.</para>
+
 			<para>Usually it is the responsibility of the lexical analyser
 				to skip whitespace (and often also comments).
 				<xref linkend="tokenstream"/> illustrates an example of
@@ -201,54 +213,74 @@
 			<title>Concepts Lexi Expresses</title>
 
 			<!-- TODO -->
-			<itemizedlist>
-				<listitem>
-					<para>Keywords</para>
+			<variablelist>
+				<varlistentry>
+					<term><xref linkend="keyworddefinitions"/></term>
 
-					<para>Keywords are sequences of inseperable characters
-						treated whole, indented to be passed back to the
-						calling program as single tokens.</para>
+					<listitem>
+						<para>Keywords are sequences of inseperable characters
+							treated whole, indented to be passed back to the
+							calling program as single tokens. These differ from
+							most tokens in that their spellings are fixed, rather
+							than a set of possible spellings.</para>
 
-					<para><application>Lexi</application> itself does not perform
-						processing of keywords; instead it outputs their
-						definitions seperately (see the <option>-k</option>)
-						and these definitions are intended to be checked
-						by a token calling a function.</para>
-				</listitem>
+						<para><application>Lexi</application> itself does not perform
+							processing of keywords; instead it outputs their
+							definitions seperately (see the <option>-k</option>)
+							and these definitions are intended to be checked
+							by a token calling a function.</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem>
-					<para>Pre-pass substitutions</para>
+				<varlistentry>
+					<term><xref linkend="prepassmappings"/></term>
 
-					<para>For mappings of sequences of characters to a
-						single character, pre-pass substitutions offer
-						a mechanism to implement effects similar to
-						trigraphs in C.</para>
-				</listitem>
+					<listitem>
+						<para>For mappings of sequences of characters to a
+							single character, pre-pass substitutions offer
+							a mechanism to implement effects similar to
+							trigraphs in C.</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem>
-					<para>Whitespace</para>
+				<varlistentry>
+					<term><xref linkend="whitespacedefinitions"/></term>
 
-					<para>TODO what it is, not how its specified</para>
-				</listitem>
+					<listitem>
+						<para>Whitespace serves both to seperate tokens whos
+							concaternated spellings would be ambigious (e.g. to
+							dinstinguish <quote>abc</quote> and
+							<quote>xyz</quote> from  <quote>abcxyz</quote>),
+							and primarily to improve readability of the source.
+							Whitespace is not passed on in the generated token
+							stream.</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem>
-					<para>Groups</para>
+				<varlistentry>
+					<term><xref linkend="groupdefinitions"/></term>
 
-					<para>TODO</para>
-				</listitem>
+					<listitem>
+						<para>TODO</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem>
-					<para>Tokens</para>
+				<varlistentry>
+					<term><xref linkend="tokendefinitions"/></term>
 
-					<para>TODO</para>
-				</listitem>
+					<listitem>
+						<para>TODO</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem>
-					<para>Conditionals</para>
+				<varlistentry>
+					<term><xref linkend="conditionalcommands"/></term>
 
-					<para>TODO</para>
-				</listitem>
-			</itemizedlist>
+					<listitem>
+						<para>TODO</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
 
 			<para>Any other facilities are provided by matching the start of
 				a token and passing control to an externally defined function,
@@ -753,7 +785,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			each possible command, and explains their respective
 			intended uses.</para>
 
-		<section id="prepassreplacements">
+		<section id="prepassmappings">
 			<title>Pre-pass mappings</title>
 
 			<para>The lexical analysis runs in two passes. The first pass,
@@ -919,12 +951,20 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<para>Consecuitive whitespace characters outside of tokens
 				<!-- TODO is this right? --> are skipped by
 				the lexical analyser <emphasis>before</emphasis> each token
-				is recognised. Whitespace
-				is treated with the semantics of a
+				is recognised.
+				Whitespace is treated with the semantics of a
 				single token delimiter. <application>Lexi</application> specifies
 				whitespace by the special group name <code>white</code>,
 				which may not be used as an identifier to name other
-				groups. The syntax is the same as for any
+				groups.</para>
+
+			<para>For special cases where whitespace has significance (a common
+				example is inside string literals), token definitions may call
+				user-defined functions which purposefully circumvent the
+				whitespace-skipping features of
+				<application>Lexi</application>.</para>
+
+			<para>The syntax is the same as for any
 				<xref linkend="groupdefinitions"
 				endterm="groupdefinitions.title"/>, but with the
 				special group name <code>white</code>:</para>
@@ -953,6 +993,8 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<para>It is illegal to define the whitespace group to
 				contains characters which are present in token
 				definitions, including groups which those tokens use.</para>
+			<!-- TODO rather, we should also say it's illegal to define
+				tokens which use whitespace characters. -->
 		</section>
 
 		<section id="tokendefinitions">
@@ -975,23 +1017,8 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<programlisting>token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
 			<!-- TODO right? -->
 
-			<para><!-- TODO explain lots --></para>
+			<para><!-- TODO explain lots:
 
-			<para><!-- TODO simple examples here --></para>
-
-			<para>For example, for comments in a C-style language, the lexical
-				analyser is expected to discard characters until the end
-				of the comment is found. In <application>Lexi</application>, this is specified
-				as:</para>
-
-			<programlisting>TOKEN "/*" -> get_comment() ;</programlisting>
-			<!-- TODO right? -->
-
-			<para>Where <code>get_comment()</code> is an externally defined
-				function which simply reads characters until the corresponding
-				<code>*/</code> is found.</para>
-
-			<para><!--
 TODO kevin says:
        lexi  basically  let you define tokens and the action to take when such
        token is encountered. There are two forms of a token definition
@@ -1012,11 +1039,29 @@ TODO kevin says:
 			-->
 			</para>
 
+			<para><!-- TODO simple examples here --></para>
+
+			<para>In more complex cases (most notably where tokens need include
+				whitespace), tokens are mapped to user-defined functions.
+				For example, for comments in a C-style language, the lexical
+				analyser is expected to discard characters until the end
+				of the comment is found. In <application>Lexi</application>,
+				this is specified as:</para>
+
+			<programlisting>TOKEN "/*" -> get_comment() ;</programlisting>
+			<!-- TODO right? -->
+
+			<para>Where <code>get_comment()</code> is an externally defined
+				function which simply reads characters until the corresponding
+				<code>*/</code> is found.</para>
+
 			<para><!-- TODO kevin says:
        A  token  can only be defined once in a file, but  different tokens can
        share the same terminal to return or the same helper function.  In  the
        latter  case,  there  is  a small problem, see the BUGS section in this
-       manpage. -->
+       manpage.
+TODO only defined once: even in IFs?
+-->
 			</para>
 
 			<para>Unlike many lexical analysers, tokens in <application>Lexi</application>
@@ -1054,7 +1099,7 @@ TODO kevin says:
 
 		</section>
 
-		<section>
+		<section id="keyworddefinitions">
 			<title>Keyword definitions</title>
 
 			<para>The  syntax of keywords resembles the syntax
@@ -1070,7 +1115,7 @@ KEYWORD "special" -> get_special () ;</programlisting>
 			<para>Usually  keywords are simply identifiers with a special
 				meaning.  Using the main pass to identify keyword
 				with the token constructs is possible but awkward
-				since keywords are usually just a subset of the
+				since the spelling of keywords is usually a subset of the
 				much bigger set of identifiers. The keyword construct
 				facilitates the identification of keywords after
 				a token has been found; they have effect only for
@@ -1152,7 +1197,10 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 			<para>And so <code>f()</code> should be declared to
 				accept no parameters, that is of prototype:</para>
 
-			<programlisting>&lt;type&gt; f(void)</programlisting>
+			<programlisting>&lt;type&gt; f(void);</programlisting>
+
+		<!-- TODO does mapping a keyword to a function have a use-case? if not,
+			can we disallow it? -->
 
 		<!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
 			needs to deal with that :(
@@ -1166,11 +1214,12 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 		<section>
 			<title>Blocks</title>
 
-			<para>TODO. what're these even for? just IFs, I think</para>
+			<para>TODO. what're these even for? just IFs, I think. if so,
+				merge them - we have no scope etc, so there's no other purpose</para>
 		</section>
 -->
 
-		<section>
+		<section id="conditionalcommands">
 			<title>Conditional commands</title>
 
 			<para><!-- Runtime or compiletime? TODO check --></para>
@@ -1181,6 +1230,9 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
        It is possible to use IF ELSE constructs around mappings,  keyword  and
        token. Groups ignore them. The general syntax is
 TODO then define groups inside a block as undefined, and adjust the grammar
+TODO or we can have groups inside IFs as silently creating multiple groups, so for example:
+	IF (x) { GROUP "x" ...; } ELSE { GROUP "x" ...; } would make two groups, not one.
+TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED BEHAVIOUR
 
             IF (identifier) {
                  commands ....
