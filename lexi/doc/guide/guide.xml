@@ -347,81 +347,6 @@
 			<application>Lexi</application> manpage.</para>
 	</chapter>
 
-	<chapter id="interface">
-		<title>Interface</title>
-
-		<para><application>Lexi</application> generates and outputs C89 code
-			implementing the specified lexical analyser. This code
-			is intended to be linked as part of a larger C program
-			by the user.</para>
-
-		<para>Input to the generated lexical analyser is by way of
-			two functions (or macros, if desired) that the user is
-			expected to provide. These read a character and un-read
-			a character respectivley:</para>
-
-		<programlisting>int read_char(void);
-void unread_char(int);</programlisting>
-
-		<para>Output from the lexical analyser is by way of a function
-			provided by <application>Lexi</application> that returns the next
-			token to the user's program:</para>
-
-		<programlisting>int read_token(void);</programlisting>
-
-		<para>This is the user's primary interface to the lexical
-			analyser. Note that the type of characters is <code>int</code>,
-			so that <literal>EOF</literal> may be expressed if
-			neccessary.</para>
-
-		<para>Calling <code>read_token()</code> will result
-			in the lexical analyser
-			making as many calls to <code>read_char()</code>
-			and <code>unread_char()</code> as are neccessary.
-			The <code>unread_char()</code> function may be called
-			consecutivley whilst matching tokens, and so a
-			buffer the size of the longest token is the
-			maximum length required.</para>
-		<!-- TODO state size limits of things -->
-
-		<para><application>Lexi</application> does not define the values of
-			terminals in the generated code; these are expected to
-			be specified by the user (most usually from a
-			parser-generator such as <code>sid</code>). For example,
-			a token defined by:</para>
-
-		<programlisting>TOKEN "--" -> $dash ;</programlisting>
-
-		<para>Would return the value of <literal>lex_dash</literal>
-			from <code>read_token()</code> when matched. The prefix of
-			these identifier names may be specified with the
-			the <option>-l</option> option.</para>
-
-		<!-- TODO state the API. ditto sid. include macros etc. (done?) -->
-
-		<!-- TODO talk about how the actual values are returned
-			with tokens (tags); they're not. you're expected to
-			do so yourself -->
-
-		<para>Should the user wish to check if a character is
-			in a group, the generated code provides macros of
-			the form <code>is_groupname()</code>. These are
-			intended to be used as:</para>
-
-		<para>is_digit(lookup_char(c))</para>
-
-		<para>assuming a group named "digit" is defined. See the
-			<xref linkend="groupdefinitions" endterm="groupdefinitions.title"/>
-			and <xref linkend="whitespacedefinitions"
-			endterm="whitespacedefinitions.title"/> white sections for
-			further details on group names.</para>
-<!-- TODO mention MAKE_KEYWORD in Interface section-->
-
-		<para>Neither the keyword calls output by <option>-k</option> nor
-			the lexical analyser itself depend on including any headers
-			other than for the user's own code's requirements.</para>
-	</chapter>
-
 	<chapter id="specification">
 		<title>The Lexi Specification</title>	<!-- TODO term -->
 
@@ -469,8 +394,8 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 
 			<para>An identifier is a sequence of alphanumeric characters
 				including the underscore beginning by an underscore or
-				an alphabetic character. A sid identifier may also
-				contain (but not begin by) a hyphen.</para>
+				an alphabetic character. A <application>Sid</application>
+				identifier may also contain (but not begin by) a hyphen.</para>
 
 			<para><!-- TODO somewhere we need a section to explain
 				identifiers and namespaces (i.e. where one may
@@ -519,7 +444,8 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 				(that is, an open bracket immediatley followed by a close
 				bracket).</para>
 
-			<para>Do not confuse function names with sid Identifiers.
+			<para>Do not confuse function names with <application>Sid</application>
+				Identifiers.
 				<!-- TODO when we define sid identifiers, share text with the sid guide -->
 				For instance, <literal>$get-comment()</literal> is not
 				a legal function.</para>
@@ -1004,43 +930,42 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			<title id="tokendefinitions.title">Token definitions</title>
 
 			<para>Tokens are sequences of characters read by the lexical analyser
-				and indicated as output. Each token as a unique identifier,
-				which is passed to code calling <application>Lexi</application>, along with
-				the characters read which form the
-				token<!-- TODO is that true? -->.</para>
+				and produced as output. Each token as a unique identifier,
+				which is passed to code calling <application>Lexi</application>,
+				along with the characters read which form the token's
+				spelling.<!-- TODO not true: you need to store the spelling
+				yourself --></para>
 
-			<para>Tokens are the main guts of a lexical analyser.
-				In <application>Lexi</application>'s case, the only sitution in which
-				there would be no token declarations is if the lexical
-				analyser is to exclusivley perform pre-pass mappings.<!--
-				TODO so make it illegal to have no MAPPING or TOKENs? --></para>
+			<para>Tokens are usually the main component of a lexical analyser.
+				In <application>Lexi</application>'s case, the only sitution in
+				which there would be no token declarations is if the lexical
+				analyser is to exclusivley perform pre-pass mappings. The
+				effect of specifying neither tokens nor pre-pass mappings
+				is undefined.</para>
 
 			<para>The syntax for specifiying tokens is:</para>
 
 			<programlisting>token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
 			<!-- TODO right? -->
 
-			<para><!-- TODO explain lots:
+			<para>Each action associated with a token is either a
+				<application>Sid</application> identifier or a call to
+				a user-defined function. An example of these two forms:
 
-TODO kevin says:
-       lexi  basically  let you define tokens and the action to take when such
-       token is encountered. There are two forms of a token definition
+				<programlisting>TOKEN "token1" -> $sid-identifier ;
+TOKEN "token2" -> get_identifier () ;</programlisting>
 
-               TOKEN "token" -> $sid-identifier ;
-               TOKEN "token" -> get_identifier () ;
+				The first form of token definition states that upon
+				encountering <quote>token1</quote> the lexer should return
+				the terminal corresponding <quote>sid-identifier</quote>.
+				See <xref linkend="interface_terminals"/> for the C
+				representation of the terminals returned by
+				<code>read_token()</code>.</para>
 
-		The first form of token definition tells lexi that upon finding
-       the token enclosed in double quotes the lexer should return the  termi-
-       nal  corresponding  to  sid-identifier (see sid documentation for the C
-       representation of sid terminals).
-
-		The second form tells lexi that  the
-       lexer should return the result of the call to function identifier. This
-       latter function takes some arguments. The example above would result in
-       the call to
-            get_identifier ('t','o',k','e','n') ;
-			-->
-			</para>
+			<para>The second form states that the lexer should return the result
+				of the call to the given function identifier. See
+				<xref linkend="interface_functions"/> for details of the
+				function call made in C.</para>
 
 			<para><!-- TODO simple examples here --></para>
 
@@ -1058,6 +983,40 @@ TODO kevin says:
 				function which simply reads characters until the corresponding
 				<code>*/</code> is found.</para>
 
+			<para>Another common case is to read tokens of a variable length.
+				This is especially suitable for reading identifiers. For
+				example:</para>
+
+			<programlisting>GROUP identstart = {a-z} + {A-Z} + "_";
+GROUP identbody = "[identstart]" + {0-9} + "-";
+TOKEN "[identstart]" -> read_identifier();</programlisting>
+
+			<programlisting>int read_identifier(int c) {
+	for(;;) {
+		if(c == EOF) {
+			return lex_eof;
+		}
+
+		if(!is_identbody(lookup_char(c))) {
+			unread_char(c);
+			return lex_identifier;
+		}
+	}
+}</programlisting>
+
+			<para>In most languages, keywords are usually a subset of
+				identifiers. In order to handle these and simplify the
+				user-defined <code>read_identifier()</code> function
+				(or equivalent), <application>Lexi</application> provides
+				the keywords mechanism discussed in
+				<xref linkend="keyworddefinitions"/>.</para>
+			<!-- TODO mention that most keywords are usually a subset of identifiers -->
+
+			<para>Note that this example does not illustrating storing the
+				characters read. A real-world case would usually store
+				spellings in order to be useful to a later stage, such
+				as parsing.</para>
+
 			<para><!-- TODO kevin says:
        A  token  can only be defined once in a file, but  different tokens can
        share the same terminal to return or the same helper function.  In  the
@@ -1067,8 +1026,9 @@ TODO only defined once: even in IFs?
 -->
 			</para>
 
-			<para>Unlike many lexical analysers, tokens in <application>Lexi</application>
-				are not specified by regular expressions. 
+			<para>Unlike many lexical analysers, tokens in
+				<application>Lexi</application> are not specified by regular
+				expressions. 
 			<!-- TODO kevin says:
        Tokens definition are not restricted to a fixed sequence  of  character
        but can also use the concept of group.  For example:
@@ -1126,7 +1086,7 @@ KEYWORD "special" -> get_special () ;</programlisting>
 				in the output generated by <application>Lexi</application>.
 				Therfore the only difference between keywords and
 				tokens (and indeed their purpose) is the programatic
-				interface that they provide.</para>
+				interface that they provide.<!-- TODO and overlap! --></para>
 
 			<para>Code generated by <application>Lexi</application> under
 				the <option>-k</option> option consists of a succession
@@ -1137,7 +1097,8 @@ KEYWORD "special" -> get_special () ;</programlisting>
 MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 
 			<para>where the identifier has been transformed according
-				to the rules for sid identifiers<!-- TODO link -->.
+				to the rules for <application>Sid</application>
+				identifiers<!-- TODO link -->.
 				It is then left to the user to implement MAKE_KEYWORD,
 				usually by way of a macro. The generated keyword
 				code is intended to be included with a
@@ -1147,6 +1108,7 @@ MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 				intended use for keywords is as follows (for example with
 				a lexer required to identify variable names):</para>
 
+<!-- TODO use read_identifier from above -->
 			<programlisting>KEYWORD "if" -> keyword_if ;
 KEYWORD "else" -> keyword_else ;
 TOKEN "[alpha]" -> get_variable() ;</programlisting>
@@ -1256,6 +1218,115 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 			</para>
 
 			<para><!-- TODO kevin says: IF constructs can nest. --></para>
+		</section>
+	</chapter>
+
+	<chapter id="interface">
+		<!-- TODO in the future this should be seperate chapters, one per language supported -->
+		<title>Interface</title>
+
+		<para><application>Lexi</application> generates and outputs C89 code
+			implementing the specified lexical analyser. This code
+			is intended to be linked as part of a larger C program
+			by the user.</para>
+
+		<!-- TODO state size limits of things in a "limits" section -->
+
+		<section>
+			<title>Instantiation</title>
+
+			<para>Input to the generated lexical analyser is by way of
+				two functions (or macros, if desired) that the user is
+				expected to provide. These read a character and un-read
+				a character respectivley:</para>
+
+			<programlisting>int read_char(void);
+void unread_char(int);</programlisting>
+
+			<para>Output from the lexical analyser is by way of a function
+				provided by <application>Lexi</application> that returns the next
+				token to the user's program:</para>
+
+			<programlisting>int read_token(void);</programlisting>
+
+			<para>This is the user's primary interface to the lexical
+				analyser. Note that the type of characters is <code>int</code>,
+				so that <literal>EOF</literal> may be expressed if
+				neccessary.</para>
+
+			<para>Calling <code>read_token()</code> will result
+				in the lexical analyser
+				making as many calls to <code>read_char()</code>
+				and <code>unread_char()</code> as are neccessary.
+				The <code>unread_char()</code> function may be called
+				consecutivley whilst matching tokens, and so a
+				buffer the size of the longest token is the
+				maximum length required.</para>
+		</section>
+
+		<section id="interface_terminals">
+			<title>Terminals</title>
+
+			<para><application>Lexi</application> does not define the values of
+				terminals in the generated code; these are expected to
+				be specified by the user (most usually from a
+				parser-generator such as <application>Sid</application>).
+				For example, a token defined by:</para>
+
+			<programlisting>TOKEN "--" -> $dash ;</programlisting>
+
+			<para>Would return the value of <literal>lex_dash</literal>
+				from <code>read_token()</code> when matched. The prefix of
+				these identifier names may be specified with the
+				the <option>-l</option> option.
+				See the <application>Sid</application> documentation for
+				further discussion of the C representation of
+				<application>Sid</application>'s terminals.</para>
+
+			<!-- TODO state the API. ditto sid. include macros etc. (done?) -->
+
+			<!-- TODO talk about how the actual values are returned
+				with tokens (tags); they're not. you're expected to
+				do so yourself -->
+		</section>
+
+		<section id="interface_functions">
+			<title>Functions</title>
+			<!-- TODO we could express system-defined functions as $x() perhaps -->
+
+			<!-- TODO mention you can call groups etc (or indeed any APi stuff) -->
+			<!-- TODO mention the API constraints still hold: don't call
+				unread_char() more than once, etc -->
+
+			<para><!-- TODO -->This latter function takes some arguments. The example
+				above would result in the call to get_identifier ('t','o',k','e','n') ;
+			</para>
+		</section>
+
+		<section>
+			<title>Character Groups</title>
+
+			<para>Should the user wish to check if a character is
+				in a group, the generated code provides macros of
+				the form <code>is_groupname()</code>. These are
+				intended to be used as:</para>
+
+			<programlisting>is_digit(lookup_char(c))</programlisting>
+
+			<para>assuming a group named <quote>digit</quote> is defined. See the
+				<xref linkend="groupdefinitions" endterm="groupdefinitions.title"/>
+				and <xref linkend="whitespacedefinitions"
+				endterm="whitespacedefinitions.title"/> white sections for
+				further details on group names.</para>
+		</section>
+
+		<section>
+			<title>Keywords</title>
+<!-- TODO mention MAKE_KEYWORD here. Give an example -->
+
+			<para>Neither the keyword calls output by <option>-k</option> nor
+				the lexical analyser itself depend on including any headers
+				other than for the user's own code's requirements.</para>
 		</section>
 	</chapter>
 
