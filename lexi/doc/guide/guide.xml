@@ -474,21 +474,8 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 
 			<programlisting>void get_comment(int c0, int c1);</programlisting>
 
-			<para>However, be careful when specifying functions called by
-				different amounts of characters. For example:</para>
-
-			<programlisting>
-TOKEN "//" -> get_comment () ;
-TOKEN "#"  -> get_comment () ;</programlisting>
-
-			<para>Will make calls to <code>get_comment('/','/');</code> and
-				<code>get_comment('#');</code> respectivley.
-				The difference in the number of arguments
-				may cause a problem. One workaround is to call
-				two macros of different prototypes which call
-				the same function.</para>
-
-			<!-- TODO right? -->
+			<para>Calling a function from two tokens of different lengths
+				is undefined behaviour.</para>
 
 			<!-- 
 			TODO when releasing Check history; maybe sid can keep the same version number.
@@ -1001,6 +988,10 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 			unread_char(c);
 			return lex_identifier;
 		}
+
+		/* store character here */
+
+		c = read_char();
 	}
 }</programlisting>
 
@@ -1017,14 +1008,11 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				spellings in order to be useful to a later stage, such
 				as parsing.</para>
 
-			<para><!-- TODO kevin says:
-       A  token  can only be defined once in a file, but  different tokens can
-       share the same terminal to return or the same helper function.  In  the
-       latter  case,  there  is  a small problem, see the BUGS section in this
-       manpage.
-TODO only defined once: even in IFs?
--->
-			</para>
+			<para>A token may only be defined once, but different tokens
+				may share the same terminal or call the same function.
+				See <xref linkend="functioncalls"/> for further examples.</para>
+
+			<!-- TODO only defined once: even in IFs?  -->
 
 			<para>Unlike many lexical analysers, tokens in
 				<application>Lexi</application> are not specified by regular
@@ -1301,6 +1289,23 @@ void unread_char(int);</programlisting>
 			<para><!-- TODO -->This latter function takes some arguments. The example
 				above would result in the call to get_identifier ('t','o',k','e','n') ;
 			</para>
+
+<!--
+TODO UNDEFINED BEHAVIOUR
+			<para>However, be careful when specifying functions called by
+				different amounts of characters. For example:</para>
+
+			<programlisting>
+TOKEN "//" -> get_comment () ;
+TOKEN "#"  -> get_comment () ;</programlisting>
+
+			<para>Will make calls to <code>get_comment('/','/');</code> and
+				<code>get_comment('#');</code> respectivley.
+				The difference in the number of arguments
+				may cause a problem. One workaround is to call
+				two macros of different prototypes which call
+				the same function.</para>
+-->
 		</section>
 
 		<section>
