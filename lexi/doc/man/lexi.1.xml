@@ -93,10 +93,10 @@
 	<refsection id="description">
 		<title>Description</title>
 
-		<para><command>lexi</command> translates a description of a
-			lexical analyser, <emphasis remap="I">input-file</emphasis>,
+		<para><application>Lexi</application> translates a description of a
+			lexical analyser, <emphasis>input-file</emphasis>,
 			into code implementing that analyser. This is output into the
-			<emphasis remap="I">output-file</emphasis> argument, if present,
+			<emphasis>output-file</emphasis> argument, if present,
 			or the standard output otherwise.</para>
 
 		<para>Both <replaceable>input-file</replaceable> and
@@ -108,20 +108,20 @@
 	<refsection id="options">
 		<title>Options</title>
 
-		<variablelist remap="IP">
+		<variablelist>
 			<varlistentry>
 				<term>
 					<option>-k</option>
 				</term>
 				<listitem>
-					<para>Causes <command>lexi</command> to generate code
+					<para>Causes <application>Lexi</application> to generate code
 						describing any keywords specified in the input. Note
 						that this is in place of the usual lexical analyser
 						output, and is intended to be used under a seperate
 						run.</para>
 
 					<para>This interface is expected to change dramatically
-						for the next release of <command>lexi</command>.</para>
+						for the next release of <application>Lexi</application>.</para>
 				</listitem>
 			</varlistentry>
 
@@ -132,9 +132,9 @@
 				</term>
 				<listitem>
 					<para>Causes <command>lexi</command> to use
-						<emphasis remap="I">string</emphasis> as a prefix
+						<replaceable>string</replaceable> as a prefix
 						for its generated lexical tokens. The default is
-						<emphasis remap="I">lex_</emphasis>.</para>
+						<literal>lex_</literal>.</para>
 				</listitem>
 			</varlistentry>
 
@@ -143,7 +143,7 @@
 					<option>-v</option>
 				</term>
 				<listitem>
-					<para>Causes <command>lexi</command> to print its
+					<para>Causes <application>Lexi</application> to print its
 						version number.</para>
 				</listitem>
 			</varlistentry>
@@ -153,7 +153,7 @@
 					<option>-h</option>
 				</term>
 				<listitem>
-					<para>Causes <command>lexi</command> to print
+					<para>Causes <application>Lexi</application> to print
 						command-line usage help.</para>
 				</listitem>
 			</varlistentry>
