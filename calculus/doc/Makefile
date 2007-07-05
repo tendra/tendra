@@ -2,7 +2,7 @@
 
 all:
 	cd guide && $(MAKE) all
-	cd man && $(MAKE) all
+	cd man && $(MAKE) all pdf
 
 clean:
 	cd guide && $(MAKE) clean

@@ -5,7 +5,7 @@ REMOVE=rm -f
 all:
 	cd guide && $(MAKE) all
 	cd changelog && $(MAKE) all
-	cd man && $(MAKE) all
+	cd man && $(MAKE) all pdf
 
 clean:
 	cd guide && $(MAKE) clean
