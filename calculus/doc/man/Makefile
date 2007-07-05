@@ -9,6 +9,9 @@ CSSFILE=docbook.css
 XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
 XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
 
+TEXFILE=docbook.tex
+TEXINPUTS=../style/tex
+
 include ../doctools/Mk/man.mk
 include ../doctools/Mk/docbook.mk
 
