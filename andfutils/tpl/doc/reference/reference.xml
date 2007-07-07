@@ -1369,6 +1369,7 @@ Keep (main)</programlisting>
       <para>Conventionally, PL_TDF programs are held in normal text files with
         suffix .pl. The PL_TDF compiler is invoked by:
 
+		<!-- TODO centralise with manpage -->
 		<cmdsynopsis>
 			<command>pl</command>	<!-- TODO wasn't this renamed? -->
 			<arg>-v</arg>
