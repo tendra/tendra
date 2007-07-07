@@ -117,7 +117,7 @@
 					<para>Causes <application>Lexi</application> to generate code
 						describing any keywords specified in the input. Note
 						that this is in place of the usual lexical analyser
-						output, and is intended to be used under a seperate
+						output, and is intended to be used under a separate
 						run.</para>
 
 					<para>This interface is expected to change dramatically
@@ -168,11 +168,31 @@
 
 	<refsection id="see_also">
 		<title>See Also</title>
+
 		<para><citerefentry>
 				<refentrytitle>sid</refentrytitle>
 				<manvolnum>1</manvolnum>
 			</citerefentry>,
 			<citetitle pubwork="article">The Lexi users' Guide</citetitle>.</para>
+	</refsection>
+
+	<refsection id="bugs">
+		<title>Bugs</title>
+
+		<para><application>Lexi</application> currently silently permits
+			several semantically nonsensical but syntactically valid
+			constructs which result in undefined behaviour. These are
+			described in
+			<citetitle pubwork="article">The Lexi users' Guide</citetitle>.
+			It is expected that in future versions of
+			<application>Lexi</application> these will produce errors
+			during compilation.</para>
+
+		<para>The generated code produces several global symbols (including
+			the <acronym>API</acronym> itself) which are not prefixed
+			so as to avoid conflicting with symbols in the user's program.
+			These will be removed during the forthcoming <acronym>API</acronym>
+			change.</para>
 	</refsection>
 </refentry>
 
