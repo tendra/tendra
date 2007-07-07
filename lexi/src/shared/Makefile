@@ -12,7 +12,9 @@ install:
 
 error.a: error.o
 	$(AR) -rcus $@ error.o
+	ranlib $@
 
 xalloc.a: xalloc.o
 	$(AR) -rcus $@ xalloc.o
+	ranlib $@
 
