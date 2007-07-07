@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
 <!--
   $Id$
 -->
 
-<book>
-  <bookinfo>
+<article>
+  <articleinfo>
     <title>TenDRA Suite Purpose Overview</title>
 
     <author>
@@ -37,7 +37,7 @@
       <year>1998</year>
       <holder>Rob Andrews</holder>
     </copyright>
-  </bookinfo>
+  </articleinfo>
 
   <chapter id="what-is-tdf">
     <title>What is TDF?</title>
@@ -287,5 +287,5 @@
       <!-- TODO make_err, lexi -->
     </glosslist>
   </chapter>
-</book>
+</article>
 

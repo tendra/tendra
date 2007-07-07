@@ -216,7 +216,7 @@
       <qandaentry id="cplusplus-compilation-support">
         <question>
           <para>I try to compile the following simple C++ program:
-            <programlisting>
+            <programlisting language="C++">
 #include &lt;iostream.h&gt;
 
 int main()

@@ -226,7 +226,7 @@
         now looks unlike the conventional syntax for grammars), a comma
         separated list of integers could be specified as:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 list-of-integers = {
 	integer ;
 ||
@@ -371,7 +371,7 @@ Xji = Bjk Xki, Yji</programlisting>
         specifications that <application><acronym>SID</acronym></application> can produce a parser for, by
         factoring out common initial items in alternatives, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 X = {
 	a ; b ;
 ||
@@ -380,7 +380,7 @@ X = {
 
         would be transformed into something like:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 X = {
 	a ; X1 ;
 } ;
@@ -526,7 +526,7 @@ expression      mult-expr       plus_expr       expr-1</programlisting></para>
         types used by the grammar. Each type name should be terminated by a
         semicolon. An example of the type declaration section follows:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 %types%
 NumberT ;
 StringT ;</programlisting>
@@ -567,23 +567,23 @@ StringT ;</programlisting>
 
       <para>The simplest type of terminal declaration is as follows:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 terminal1 ;</programlisting></para>
         
       <para>This means the same as:
         
-        <programlisting>
+        <programlisting language="SID Grammar">
 terminal1 : () -&gt; () ;</programlisting></para>
         
       <para>An example of a more complex terminal declaration is:
         
-        <programlisting>
+        <programlisting language="SID Grammar">
 terminal2 : () -&gt; ( :StringT ) ;</programlisting></para>
         
       <para>If these terminals were not to be used in the grammar, they should
         be declared as:
 
-      <programlisting>
+      <programlisting language="SID Grammar">
 !terminal1 ;
 !terminal2 : () -&gt; ( :StringT ) ;</programlisting></para>
     </section>
@@ -598,14 +598,14 @@ terminal2 : () -&gt; ( :StringT ) ;</programlisting></para>
 
       <para>Rule declarations look identical to terminal declarations, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 : ( :NumberT ) -&gt; ( :NumberListT ) ;
 rule2 ;</programlisting></para>
 
       <para>Action declarations are similar, although the names are surrounded
         by angle brackets, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 &lt;action1&gt; : ( :StringT &amp; ) -&gt; () ;
 &lt;action2&gt; ;</programlisting></para>
 
@@ -616,7 +616,7 @@ rule2 ;</programlisting></para>
       <para>A rule definition (called a production) looks something like the
         following:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 add-expr : () -&gt; ( v : NumberT ) = {
 	v1 = mul-expr ;
 	plus ;
@@ -649,7 +649,7 @@ add-expr : () -&gt; ( v : NumberT ) = {
       <para>An alternative may match the empty string, using the symbol
         <code>$</code> and the terminator symbol <code>;</code>, i.e.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 $ ;</programlisting>
 
         unless it is an exception handler alternative (in which case it must
@@ -662,13 +662,13 @@ $ ;</programlisting>
         a terminal, an action or a predicate. An identity looks like an
         assignment in conventional programming languages:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( a, b, c ) = ( d, e, f ) ;</programlisting></para>
 
       <para>Each tuple must contain the same number of names. In the case of a
         one-tuple, the parentheses may be dropped, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 a = d ;</programlisting></para>
 
       <para>Note that this is a binding operation, not an assignment.  Each
@@ -677,7 +677,7 @@ a = d ;</programlisting></para>
         a name which is already in scope by prefixing that name with the
         <code>&amp;</code> symbol, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( a, &amp;b, c ) = ( d, e, f ) ;</programlisting>
 
         would assign to the name <code>b</code>, which must have been
@@ -688,7 +688,7 @@ a = d ;</programlisting></para>
       <para>It is also possible to use the <code>!</code> symbol in the result
         tuple to ignore results, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( a, !, b, ! ) = ( c, d, e, f ) ;</programlisting></para>
 
       <para>This is not particularly useful in an identity, but may be more
@@ -696,14 +696,14 @@ a = d ;</programlisting></para>
         or rule looks like a call to a function in a conventional programming
         language, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( a, b ) = rule1 ( c, d ) ;
 ( e, f ) = terminal1 () ;</programlisting></para>
 
       <para>Calls to actions have the same form, except that action names are
         surrounded by angle brackets, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( g, h, i ) = &lt;action1&gt; ( a, e ) ;</programlisting></para>
 
       <para>In addition, one of the names in the result tuple of the call to
@@ -719,13 +719,13 @@ a = d ;</programlisting></para>
         call by reference parameters, then the corresponding arguments should
         be prefixed by the <code>&amp;</code> symbol, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 length = &lt;string-length&gt; ( &amp;string ) ;</programlisting></para>
 
       <para>If the rule, terminal or action has the zero-tuple as a result,
         then only the right hand side of the definition is required, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule2 ( a, b ) ;
 terminal2 () ;
 &lt;action2&gt; ( c, d ) ;</programlisting></para>
@@ -733,7 +733,7 @@ terminal2 () ;
       <para>If the rule, terminal or action has the zero-tuple as a parameter,
         then the parameter tuple may be omitted, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 ( a, b ) = rule3 ;
 terminal3 ;
 c = &lt;action3&gt; ;</programlisting></para>
@@ -741,7 +741,7 @@ c = &lt;action3&gt; ;</programlisting></para>
       <para>In older versions of <application><acronym>SID</acronym></application>, it used to be possible to
         have ambiguous items, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 a = b ;</programlisting>
 
         where <code>b</code> was both a rule and a name. As local names may
@@ -770,7 +770,7 @@ a = b ;</programlisting>
       <para>An anonymous rule is written in the same way as the body of a
         normal rule, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 list : () -&gt; ( l : ListT ) = {
 	n = number ;
 
@@ -793,7 +793,7 @@ list : () -&gt; ( l : ListT ) = {
         symbols (which are followed by the rest of the rule). In this case,
         the definitions are local to the rule, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 x-list [
 	x = {
 		terminal1 ;
@@ -835,7 +835,7 @@ x-list [
         respects non-local names are the same as local names. An example
         follows:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 [
 	name1 : Type1T ;
 	rule1_1 = {
@@ -851,7 +851,7 @@ rule1 [
         by following the type name with a <code>=</code> symbol and the action
         name in angle brackets, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 [
 	name1 : Type1T = &lt;action1&gt; ;
 ] = {
@@ -874,7 +874,7 @@ rule1 [
         with the section header, followed by a comma separated list of rule
         names, terminated by a semicolon, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 %entry% expr ;</programlisting></para>
 
       <para>If you are going to use a rule as an entry point into the grammar
@@ -1215,7 +1215,7 @@ rule1 [
         <code>@</code>, <code>@&amp;</code> or <code>@=</code> and the
         identifier name. An example of a code block is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 @{
 	/* A code block */
 	{
@@ -1250,7 +1250,7 @@ rule1 [
         terminated by a semicolon. The following example shows all of the
         prefix names, and their default values:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %prefixes%
 type            = ZT ;
 function        = ZR ;
@@ -1271,7 +1271,7 @@ terminal        = ZB ;</programlisting></para>
         C identifier it is to be mapped to, and terminated by a semicolon. An
         example follows:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %maps%
 NumberT         -&gt; unsigned ;
 calculator      -&gt; calculator ;</programlisting></para>
@@ -1296,7 +1296,7 @@ calculator      -&gt; calculator ;</programlisting></para>
         parser file; the second code block will be inserted at the start of
         the generated header file. An example is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %header% @{
 	#include "lexer.h"
 
@@ -1324,7 +1324,7 @@ calculator      -&gt; calculator ;</programlisting></para>
         definition should have one parameter, and one result. The action's
         name should be the name of the type. An example follows:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
@@ -1366,7 +1366,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
         rather than the object itself. An example reference assignment section
         is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %parameter-assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
@@ -1391,7 +1391,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
         are assigned back through the reference parameters passed into the
         function. An example result assignment section is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %result-assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
@@ -1417,7 +1417,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
         should be the same as the result of the terminal. An example of the
         terminal result extraction section follows:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %terminals%
 
 number : () -&gt; ( n ) = @{
@@ -1463,12 +1463,12 @@ string : () -&gt; ( s ) = @{
         the language independent file, if the type of an action is zero-tuple
         to zero-tuple, then the type can be omitted, e.g.:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 &lt;action&gt; = @{ /* .... */ @} ;</programlisting></para>
 
       <para>An example action definition section is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %actions%
 
 &lt;add&gt; : ( v1, v2 ) -&gt; ( v3 ) = @{
@@ -1507,7 +1507,7 @@ string : () -&gt; ( s ) = @{
       <para>After the action definition section comes the trailer section.
         This has the same form as the header section. An example is:
 
-        <programlisting>
+        <programlisting language="SID C Actions">
 %trailer% @{
 	int main ()
 	{
@@ -1533,7 +1533,7 @@ string : () -&gt; ( s ) = @{
       are expanded if necessary to ensure that predicates that may be used to
       select which alternative to go down always begin the alternative, e.g.:
 
-      <programlisting>
+      <programlisting language="SID Grammar">
 rule1 = {
 	rule2 ;
 	/* .... */
@@ -1550,7 +1550,7 @@ rule2 = {
     
       would be expanded into:
 
-      <programlisting>
+      <programlisting language="SID Grammar">
 rule1 = {
 	? = predicate ;
 	/* .... */
@@ -1566,7 +1566,7 @@ rule1 = {
       must be the first thing in the alternative, so the following would not
       be allowed:
 
-      <programlisting>
+      <programlisting language="SID Grammar">
 rule = {
 	&lt;action&gt; ;
 	? = &lt;predicate&gt; ;
@@ -1642,14 +1642,14 @@ rule = {
 
     <para>For example, given the following rule:
 
-      <programlisting>
+      <programlisting language="SID Grammar">
 rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;</programlisting>
     
       where <code>Type2T</code> has a parameter assignment operator defined,
       and <code>rule1</code> is mapped to <code>rule1</code> (and the type
       names are mapped to themselves), the call would be something like:
 
-      <programlisting>
+      <programlisting language="C">
 Type1T a = make_type1 () ;
 Type2T b = make_type2 () ;
 Type3T c = make_type3 () ;
@@ -1832,7 +1832,7 @@ rule1 ( a, b, &amp;c, &amp;d ) ;</programlisting></para>
         alternatives in each rule is a call to another rule in the set), and
         they do not all have the same parameter and result types, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
 	rule2 ( a, b ) ;
 ||
@@ -1852,7 +1852,7 @@ rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
         another production in the set), and they do not all have the same
         exception handler, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	rule2 ;
 ||
@@ -1881,7 +1881,7 @@ rule2 = {
         recursive calls are not the same as the parameters of the calling
         rule, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
 	rule1 ( b, a ) ;
 ||
@@ -1897,7 +1897,7 @@ rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
         and the first named rule uses a non-local name that is not in scope in
         the second named rule, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 [
 	name1 : Type1T ;
 	rule1_1 [
@@ -1923,7 +1923,7 @@ rule1 [
         and the named rule defines non-local variables even though it is not
         the only entry point to the cycle, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 [
 	name1 : Type1T ;
 	rule1_1 = {
@@ -1951,7 +1951,7 @@ rule2 = {
         and they do not contain an alternative that begins with a non-left
         recursive call, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	rule2 ;
 ||
@@ -1979,7 +1979,7 @@ rule3 = {
         predicates that may start the production. This is normally because
         there is a recursive call (or cycle) that contains no terminals, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	&lt;action1&gt; ;
 	rule1 ;
@@ -1995,7 +1995,7 @@ rule1 = {
         predicate that isn't the first item in its alternative, but is
         preceded only by see-through items, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	&lt;action1&gt; ;
 	? = &lt;predicate&gt; ;
@@ -2010,7 +2010,7 @@ rule1 = {
         it in a position where it is not the first item in the alternative and
         is preceded only by see-through items, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	? = &lt;predicate&gt; ;
 ||
@@ -2065,7 +2065,7 @@ rule2 = {
         'RULE'</errortext>: This error means that more than one alternative in
         the named rule begins with the named terminals, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	&lt;action1&gt; ;
 	terminal1 ;
@@ -2081,7 +2081,7 @@ rule1 = {
         'RULE'</errortext>: This error occurs when more than one alternative
         in the named rule begins with the named predicate, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	( a, ? ) = &lt;predicate&gt; ;
 	&lt;action1&gt; ( a ) ;
@@ -2101,7 +2101,7 @@ rule1 = {
         This means that there are one or more terminals that can start the
         named rule (which is see-through), and may also follow it, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	terminal1 ;
 ||
@@ -2125,7 +2125,7 @@ rule2 = {
         This means that there are one or more predicates that can start the
         named rule (which is see-through), and may also follow it, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	? = &lt;predicate&gt; ;
 ||
@@ -2148,7 +2148,7 @@ rule2 = {
         alternative: This error occurs if the rule has more than one
         alternative that doesn't need to read a terminal or a predicate, e.g.:
 
-        <programlisting>
+        <programlisting language="SID Grammar">
 rule1 = {
 	&lt;action1&gt; ;
 ||

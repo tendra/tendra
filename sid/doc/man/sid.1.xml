@@ -243,12 +243,12 @@
               the result is followed by a <code>?</code> to indicate that it
               was a predicate. As an example, the predicate:
 
-            <programlisting>
+            <programlisting language="SID Grammar">
 ( b, ? ) = &lt;pred&gt; ( a )</programlisting>
 
             would be printed out as:
 
-            <programlisting>
+            <programlisting language="SID Grammar">
 ( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting></para>
           </listitem>
 

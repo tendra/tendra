@@ -102,7 +102,7 @@
   <chapter id="Overview">
     <title>Overview of tspec</title>
   
-      <sect1 id="Levels">
+      <section id="Levels">
         <title>Specification Levels</title>
     
         <para>Let us begin by examining the various levels of specification
@@ -155,9 +155,9 @@
           example, the <code>stdio.h</code> header of ANSI has a subset named
           <code>file</code>, then this is referred to as
           <code>ansi:stdio.h:file</code>.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Input">
+      <section id="Input">
         <title>Input Layout</title>
   
         <para>The <code>tspec</code> representation of an API is arranged as a
@@ -180,9 +180,9 @@
           <link linkend="Options">section 2.5</link> for a complete list of
           options). The current working directory is always added to the start
           of the path.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Output">
+      <section id="Output">
         <title>Output Layout</title>
   
         <para><code>tspec</code> actually outputs two sets of output files,
@@ -232,9 +232,9 @@
           include output file does not contain any token specifications then
           the source output file is suppressed (see
           <link linkend="Libraries">section 6.4</link>).</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Copyright">
+      <section id="Copyright">
         <title>Copyright Messages</title>
   
         <para><code>tspec</code> will optionally add a copyright message to
@@ -243,9 +243,9 @@
           <code>TSPEC_COPYRIGHT</code> system variable, or by the
           <option>-C</option><filename>file</filename> command-line
           option.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Options">
+      <section id="Options">
         <title>Command-line Options</title>
   
         <para>There are three main forms for invoking <code>tspec</code> on
@@ -358,7 +358,7 @@ tspec [options] -l file</programlisting>
           processes the input file <code>file</code>, writing the include
           output file to the standard output.
         </para>
-      </sect1>
+      </section>
   </chapter>
   
   <chapter id="Structure">
@@ -379,13 +379,13 @@ tspec [options] -l file</programlisting>
         <code>tspec</code> also has constructs for imposing structure on the
         API description. It is these constructs that we consider first.</para>
   
-      <sect1 id="Subset">
+      <section id="Subset">
         <title>+SUBSET</title>
   
         <para>A list of <code>tspec</code> constructs within a header can be
           grouped into a named subset by enclosing them within:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +SUBSET "name" := {
 	....
 } ;</programlisting>
@@ -398,9 +398,9 @@ tspec [options] -l file</programlisting>
           of the entire header (see <link linkend="Levels">section
           2.1</link>).  Each subset is mapped onto a separate pair of output
           files, so unwary use of subsets is discouraged.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Impl">
+      <section id="Impl">
         <title>+IMPLEMENT and +USE</title>
   
         <para><code>tspec</code> has two import constructs which allow one
@@ -409,7 +409,7 @@ tspec [options] -l file</programlisting>
           objects is also declared in the including header, and takes one of
           the forms:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IMPLEMENT "api" ;
 +IMPLEMENT "api", "header" ;
 +IMPLEMENT "api", "header", "subset" ;</programlisting></para>
@@ -417,7 +417,7 @@ tspec [options] -l file</programlisting>
         <para>The second construct is used to indicate that the objects are
           only used in the including header, and take one of the forms:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +USE "api" ;
 +USE "api", "header" ;
 +USE "api", "header", "subset" ;</programlisting></para>
@@ -427,7 +427,7 @@ tspec [options] -l file</programlisting>
           specifications from the latter in the former, it is easier and
           clearer to use the construct:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IMPLEMENT "ansi", "stdio.h" ;</programlisting>
 
           and just add the extra objects specified by POSIX. Note that this
@@ -445,14 +445,14 @@ tspec [options] -l file</programlisting>
           <code>size_t</code> as part of a named subset of, say,
           <code>ansi:stddef.h</code>:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +SUBSET "size_t" := {
 	+TYPE (unsigned) size_t ;
 } ;</programlisting>
 
           and including this in each of the other headers:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IMPLEMENT "ansi", "stddef.h", "size_t" ;</programlisting></para>
   
         <para>Another use of <code>+IMPLEMENT</code> is in the
@@ -461,7 +461,7 @@ tspec [options] -l file</programlisting>
           of a list of <code>+IMPLEMENT</code> commands, one per header. For
           example, with <code>ansi</code> it consists of:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IMPLEMENT "ansi", "assert.h" ;
 +IMPLEMENT "ansi", "ctype.h" ;
 ....
@@ -474,7 +474,7 @@ tspec [options] -l file</programlisting>
           (provided there are no namespace restrictions imposed by the API).
           This would be done using the construct:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +USE "posix", "sys/types.h" ;</programlisting></para>
   
         <para>On the command-line <code>tspec</code> is given one set of
@@ -497,7 +497,7 @@ tspec [options] -l file</programlisting>
         <para>For further information on the <code>+IMPLEMENT</code> and
           <code>+USE</code> commands see
           <link linkend="FineImpl">section 6.1</link>.</para>
-      </sect1>
+      </section>
   </chapter>
   
   <chapter id="Objects">
@@ -509,10 +509,10 @@ tspec [options] -l file</programlisting>
       specifying objects of various kinds, however we start with a few
       remarks on object names.</para>
     
-      <sect1 id="S41">
+      <section id="S41">
         <title>Object Names</title>
     
-        <sect2 id="Names">
+        <section id="Names">
           <title>Internal and External Names</title>
     
           <para>All objects specified using <code>tspec</code> actually have
@@ -560,7 +560,7 @@ iname | ename</programlisting>
           <para>For example, in the <code>stat</code> case above we could
             distinguish between the two uses as follows:
 
-            <programlisting>
+            <programlisting language="Tspec">
 +TYPE struct stat | struct_stat ;
 +FUNC int stat ( const char *, struct stat * ) ;</programlisting></para>
 
@@ -579,9 +579,9 @@ iname | "ename"</programlisting>
 
             which makes the object <code>iname</code> have external name
             <code>ename</code> regardless of the naming strategy used.</para>
-        </sect2>
+        </section>
   
-        <sect2 id="Identifiers">
+        <section id="Identifiers">
           <title>More on Object Names</title>
   
           <para>Basically the legal identifiers in <code>tspec</code> (for
@@ -596,7 +596,7 @@ iname | "ename"</programlisting>
             is a pointer type, we could say that there is a locally named type
             to which <code>t</code> is a pointer:
 
-            <programlisting>
+            <programlisting language="Tspec">
 +TYPE ~t ;
 +TYPEDEF ~t *t ;</programlisting></para>
   
@@ -613,23 +613,23 @@ iname | "ename"</programlisting>
             than one version of an object is specified then which version is
             retrieved by <code>tspec</code> in any look-up operation is
             undefined.</para>
-        </sect2>
-      </sect1>
+        </section>
+      </section>
 
-      <sect1 id="Func">
+      <section id="Func">
         <title>+FUNC</title>
   
         <para>The simplest form of object to specify is a procedure. This is
           done by means of:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC prototype ;</programlisting>
 
           where <code>prototype</code> is the full C prototype of the
           procedure being declared. For example, <code>ansi:string.h</code>
           contains:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC char *strcpy ( char *, const char * ) ;
 +FUNC int strcmp ( const char *, const char * ) ;
 +FUNC size_t strlen ( const char * ) ;</programlisting></para>
@@ -639,19 +639,19 @@ iname | "ename"</programlisting>
           library function with the same effect. The exception is for
           procedures which take a variable number of arguments, such as:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
 
           which cannot be implemented by macros. Occasionally it may be
           necessary to specify that a procedure is only a library function,
           and cannot be implemented by a macro. In this case the form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC (extern) prototype ;</programlisting>
 
           should be used. Thus:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
 
           would mean that <code>strcpy</code> was only a library function and
@@ -665,13 +665,13 @@ iname | "ename"</programlisting>
           <code>xpg3:stdlib.h</code> declares <code>malloc</code> by the old
           style declaration:
 
-          <programlisting>
+          <programlisting language="C">
 void *malloc ( sz )
 size_t sz ;</programlisting>
 
           which is in general different from the prototype:
 
-          <programlisting>
+          <programlisting language="C">
 void *malloc ( size_t ) ;</programlisting></para>
 
         <para>In the first case the argument is passed as the integral
@@ -682,7 +682,7 @@ void *malloc ( size_t ) ;</programlisting></para>
           would be to use the C to TDF producer's weak prototypes (see
           reference 3). The form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FUNC (weak) void *malloc ( size_t ) ;</programlisting>
 
           means that <code>malloc</code> is a library function returning
@@ -690,22 +690,22 @@ void *malloc ( size_t ) ;</programlisting></para>
           with a single argument of type <code>size_t</code>.  (For an
           alternative approach see
           <link linkend="Typedef">section 4.8</link>.)</para>
-      </sect1>
+      </section>
   
-      <sect1 id="Exp">
+      <section id="Exp">
         <title>+EXP and +CONST</title>
   
         <para>Expressions correspond to constants, identities and variables.
           They are specified by:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +EXP type exp1, ..., expn ;</programlisting>
 
           where <code>type</code> is the base type of the expressions
           <code>expi</code> as in a normal C declaration list. For example, in
           <code>ansi:stdio.h</code>:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +EXP FILE *stdin, *stdout, *stderr ;</programlisting>
 
           specifies three expressions of type <code>FILE *</code>.</para>
@@ -719,7 +719,7 @@ void *malloc ( size_t ) ;</programlisting></para>
           assignable lvalue of type <code>int</code>. This is expressed as
           follows:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +EXP lvalue int errno ;</programlisting></para>
 
         <para>On the other hand, <code>posix:errno.h</code> states that
@@ -727,7 +727,7 @@ void *malloc ( size_t ) ;</programlisting></para>
           As with procedures the <code>(extern)</code> qualifier may be used
           to express this as:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +EXP (extern) int errno ;</programlisting>
 
           Note that this automatically means that <code>errno</code> is an
@@ -737,17 +737,17 @@ void *malloc ( size_t ) ;</programlisting></para>
         <para>If all the expressions are guaranteed to be literal constants
           then one of the equivalent forms:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +EXP (const) type exp1, ..., expn ;
 +CONST type exp1, ..., expn ;</programlisting>
 
           should be used. For example, in <code>ansi:errno.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +CONST int EDOM, ERANGE ;</programlisting></para>
-      </sect1>
+      </section>
 
-      <sect1 id="Macro">
+      <section id="Macro">
         <title>+MACRO</title>
   
         <para>The <code>+MACRO</code> construct is similar in form to the
@@ -755,7 +755,7 @@ void *malloc ( size_t ) ;</programlisting></para>
           exists, and no underlying library function. For example, in
           <code>xpg3:ctype.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +MACRO int _toupper ( int ) ;
 +MACRO int _tolower ( int ) ;</programlisting>
 
@@ -773,11 +773,11 @@ void *malloc ( size_t ) ;</programlisting></para>
           variables and assigns the cursor position of the window to those
           variables. This may be expressed by:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting></para>
-      </sect1>
+      </section>
 
-      <sect1 id="Statement">
+      <section id="Statement">
         <title>+STATEMENT</title>
   
         <para>The <code>+STATEMENT</code> construct is very similar to the
@@ -786,7 +786,7 @@ void *malloc ( size_t ) ;</programlisting></para>
           semicolon). As such it does not have a return type and so takes one
           of the forms:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +STATEMENT stmt ;
 +STATEMENT stmt ( arg1, ..., argn ) ;</programlisting>
 
@@ -795,22 +795,22 @@ void *malloc ( size_t ) ;</programlisting></para>
           no argument form does not exist for <code>+MACRO</code>.) As with
           <code>+MACRO</code>, the argument types <code>argi</code> can be
           qualified using <code>lvalue</code>.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Define">
+      <section id="Define">
         <title>+DEFINE</title>
   
         <para>It is possible to insert macro definitions directly into
           <code>tspec</code> using the <code>+DEFINE</code> construct. This
           has two forms depending on whether the macro has arguments:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +DEFINE name %% text %% ;
 +DEFINE name ( arg1, ..., argn ) %% text %% ;</programlisting></para>
 
         <para>These translate directly into:
 
-          <programlisting>
+          <programlisting language="C">
 #define name text
 #define name( arg1, ..., argn ) text</programlisting></para>
   
@@ -819,17 +819,17 @@ void *malloc ( size_t ) ;</programlisting></para>
           a simple number or a single identifier then the double percents may
           be omitted. Thus in <code>ansi:stddef.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +DEFINE NULL 0 ;</programlisting></para>
-      </sect1>
+      </section>
 
-      <sect1 id="Type">
+      <section id="Type">
         <title>+TYPE</title>
   
         <para>New types may be specified using the <code>+TYPE</code>
           construct. This has the form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPE type1, ..., typen ;</programlisting>
 
           where each <code>typei</code> has one of the forms:
@@ -889,7 +889,7 @@ void *malloc ( size_t ) ;</programlisting></para>
         <para>To make clear the distinction between structure types and
           structure tags, if we have in C:
 
-          <programlisting>
+          <programlisting language="C">
 typedef struct tag { int x, y ; } type ;</programlisting>
 
           then <code>type</code> is a structure type and <code>tag</code> is a
@@ -897,7 +897,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
   
         <para>For example, in <code>ansi</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPE FILE ;
 +TYPE struct lconv ;
 +TYPE (struct) div_t ;
@@ -905,9 +905,9 @@ typedef struct tag { int x, y ; } type ;</programlisting>
 +TYPE (unsigned) size_t ;
 +TYPE (arith) time_t ;
 +TYPE (int) wchar_t ;</programlisting></para>
-      </sect1>
+      </section>
 
-      <sect1 id="Typedef">
+      <section id="Typedef">
         <title>+TYPEDEF</title>
 
         <para>It is also possible to define new types in terms of existing
@@ -919,7 +919,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
   
         <para>For example, in <code>xpg3:search.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPE struct entry ;
 +TYPEDEF struct entry ENTRY ;</programlisting></para>
   
@@ -933,7 +933,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
           allows types to be introduced which have the second meaning. For
           example, we could have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPEDEF ~special ( "bottom" ) ~bottom ;
 +FUNC ~bottom exit ( int ) ;</programlisting>
 
@@ -945,7 +945,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
   
         <para>The second special form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPEDEF ~promote ( x ) y ;</programlisting>
 
           means that <code>y</code> is an integral type which is the integral
@@ -954,7 +954,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
           approach to the old style procedure declaration problem described in
           <link linkend="Func">section 4.2</link>. Recall that:
 
-          <programlisting>
+          <programlisting language="C">
 void *malloc ( sz )
 size_t sz ;</programlisting>
 
@@ -962,15 +962,15 @@ size_t sz ;</programlisting>
           the integral promotion of <code>size_t</code>. This could be
           expressed as follows:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TYPEDEF ~promote ( size_t ) ~size_t ;
 +FUNC void *malloc ( ~size_t ) ;</programlisting>
 
           introducing a local type to stand for the integral promotion of
           <code>size_t</code>.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Field">
+      <section id="Field">
         <title>+FIELD</title>
   
         <para>Having specified a structure or union type, or a structure or
@@ -978,7 +978,7 @@ size_t sz ;</programlisting>
           or union. This is done using the <code>+FIELD</code> construct. This
           takes the form:
 
-<programlisting>
+<programlisting language="Tspec">
 +FIELD type {
 	ftype field1, ..., fieldn ;
 	....
@@ -1020,7 +1020,7 @@ size_t sz ;</programlisting>
   
         <para>For example, in <code>ansi:time.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FIELD struct tm {
 	int tm_sec ;
 	int tm_min ;
@@ -1056,7 +1056,7 @@ size_t sz ;</programlisting>
           which has more in common with the <code>+TYPEDEF</code> construct.
           The form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +FIELD type := {
 	ftype field1, ..., fieldn ;
 	....
@@ -1065,9 +1065,9 @@ size_t sz ;</programlisting>
           means that the type <code>type</code> is defined to be exactly the
           given structure or union type, with precisely the given fields in
           the given order.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Nat">
+      <section id="Nat">
         <title>+NAT</title>
   
         <para>In the example given in
@@ -1079,13 +1079,13 @@ size_t sz ;</programlisting>
           size of this array using the <code>+NAT</code> construct. This has
           the form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +NAT nat1, ..., natn ;</programlisting>
 
           where <code>nat1</code>, ..., <code>natn</code> are the array sizes
           to be declared. The example thus becomes:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +NAT ~dirent_d_name_size ;
 +FIELD struct dirent {
 	char d_name [ ~dirent_d_name_size ] ;
@@ -1101,16 +1101,16 @@ size_t sz ;</programlisting>
           size of the array, and define <code>jmp_buf</code> by a
           <code>+TYPEDEF</code> command:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +NAT ~jmp_buf_size ;
 +TYPE ~jmp_buf_elt ;
 +TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;</programlisting></para>
 
         <para>Again, local variables have been used for the introduced
           objects.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Enum">
+      <section id="Enum">
         <title>+ENUM</title>
   
         <para>Currently <code>tspec</code> only has limited support for
@@ -1118,7 +1118,7 @@ size_t sz ;</programlisting>
           directly into a C definition of an enumeration type. The
           <code>+ENUM</code> construct has the form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +ENUM etype := {
 	entry,
 	....
@@ -1136,11 +1136,11 @@ name = number</programlisting>
           as in a C enumeration type. For example, in
           <code>xpg3:search.h</code> we have:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +ENUM ACTION := { FIND, ENTER } ;</programlisting></para>
-      </sect1>
+      </section>
 
-      <sect1 id="Token">
+      <section id="Token">
         <title>+TOKEN</title>
   
         <para>As was mentioned in <link linkend="Intro">section 1</link>, the
@@ -1150,14 +1150,14 @@ name = number</programlisting>
           <code>#pragma token</code> syntax from <code>tspec</code> using the
           construct:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TOKEN name %% text %% ;</programlisting>
 
           where the token <code>name</code> is defined by the sequence of
           characters <code>text</code>, which is delimited by double percents.
           This is turned into the token description:
 
-          <programlisting>
+          <programlisting language="C">
 #pragma token text name #</programlisting></para>
   
         <para>No checks are applied to <code>text</code>. A more sophisticated
@@ -1169,11 +1169,11 @@ name = number</programlisting>
           <code>va_list</code> and a type <code>t</code> and returns a value
           of type <code>t</code>. This is given by:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting></para>
 
         <para>See reference 3 for more details on the token syntax.</para>
-      </sect1>
+      </section>
   </chapter>
   
   <chapter id="Others">
@@ -1184,13 +1184,13 @@ name = number</programlisting>
         objects, there are a few which do not fall into these
         categories.</para>
 
-      <sect1 id="If">
+      <section id="If">
         <title>+IF, +ELSE and +ENDIF</title>
   
         <para>It is possible to introduce conditional compilation into the API
           description by means of the constructs:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IF %% text %%
 +IFDEF %% text %%
 +IFNDEF %% text %%
@@ -1199,7 +1199,7 @@ name = number</programlisting>
 
           which are translated into:
 
-          <programlisting>
+          <programlisting language="C">
 #if text
 #ifdef text
 #ifndef text
@@ -1214,7 +1214,7 @@ name = number</programlisting>
           <code>+IFNDEF</code>) forms are available which are useful on
           occasion. These are:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IFDEF ~building_libs
 +IFDEF ~protect ( "api", "header" )</programlisting>
 
@@ -1225,9 +1225,9 @@ name = number</programlisting>
           macro <code>tspec</code> makes up to protect the file
           <code>api:header</code> against multiple inclusion (see
           <link linkend="Protect">section 6.2</link>).</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Text">
+      <section id="Text">
         <title>Quoted Text</title>
   
         <para>It is sometimes desirable to include text in the specification
@@ -1235,12 +1235,12 @@ name = number</programlisting>
           for example, sections of C. This can be done by enclosing the text
           for copying into the include output file in double percents:
 
-          <programlisting>
+          <programlisting language="Tspec">
 %% text %%</programlisting>
 
           and text for copying into the source output file in triple percents:
 
-          <programlisting>
+          <programlisting language="Tspec">
 %%% text %%%</programlisting></para>
   
         <para>In fact more percents may be used. An even number always
@@ -1249,20 +1249,20 @@ name = number</programlisting>
           <code>text</code> are copied as normal, and not treated as comments.
           This also applies to the other cases where percent delimiters are
           used.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Comment">
+      <section id="Comment">
         <title>C Comments</title>
   
         <para>A special case of quoted text are C style comments:
 
-          <programlisting>
+          <programlisting language="Tspec">
 /* text */</programlisting>
 
           which are copied directly into the include output file.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Properties">
+      <section id="Properties">
         <title>File Properties</title>
   
         <para>Various properties of individual sets of objects or global
@@ -1378,7 +1378,7 @@ $property = "string" ;</programlisting>
                 in the corresponding include output file.</para>
             </listitem>
           </itemizedlist></para>
-      </sect1>
+      </section>
   </chapter>
   
   <chapter id="S6">
@@ -1386,7 +1386,7 @@ $property = "string" ;</programlisting>
   
       <para>In this section we round up a few miscellaneous topics.</para>
   
-      <sect1 id="FineImpl">
+      <section id="FineImpl">
         <title>Fine Control of Included Files</title>
   
         <para>The <code>+IMPLEMENT</code> and <code>+USE</code> commands
@@ -1400,7 +1400,7 @@ $property = "string" ;</programlisting>
           corresponding to <code>+IMPLEMENT</code> and <code>+USE</code>
           commands. This takes the forms:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +IMPLEMENT "api" (key) ;
 +IMPLEMENT "api", "header" (key) ;
 +IMPLEMENT "api", "header", "subset" (key) ;</programlisting>
@@ -1439,7 +1439,7 @@ $property = "string" ;</programlisting>
           and so on. Base APIs may be distinguished in <code>tspec</code>
           by including the command:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +BASE_API ;</programlisting>
 
           in their <code>MASTER</code> file. Occasionally, in an extension
@@ -1447,22 +1447,22 @@ $property = "string" ;</programlisting>
           but, because this base API is not fixed, not be able to use a simple
           <code>+USE</code> command. Instead the special form:
 
-          <programlisting>
+          <programlisting language="Tspec">
 +USE ( "api" ), "header" ;</programlisting>
 
           is provided for this purpose (this is the only permitted form). It
           indicates that <code>tspec</code> should use the <code>api</code>
           version of <code>header</code> for checking purposes, but allow the
           inclusion of the version from the base API in normal use.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Protect">
+      <section id="Protect">
         <title>Protection Macros</title>
   
         <para>Each include output file is surrounded by a construct of the
           form:
 
-          <programlisting>
+          <programlisting language="C">
 #ifndef MACRO
 #define MACRO
 ....
@@ -1475,9 +1475,9 @@ $property = "string" ;</programlisting>
           <code>PROTECT</code> to the empty string suppresses the protection
           construct altogether.  (Also see
           <link linkend="If">section 5.1</link>.)</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Index">
+      <section id="Index">
         <title>Index Printing</title>
 
         <para>If it is invoked with the <option>-i</option> command-line
@@ -1488,9 +1488,9 @@ $property = "string" ;</programlisting>
           where in the API description it is defined. It also includes a brief
           description of the object.  It is intended that these indexes should
           be usable as quick reference guides to the underlying APIs.</para>
-      </sect1>
+      </section>
 
-      <sect1 id="Libraries">
+      <section id="Libraries">
         <title>TDF Library Building</title>
   
         <para>As was explained in reference 1, the <code>#pragma token</code>
@@ -1517,7 +1517,7 @@ $property = "string" ;</programlisting>
           implemented header <code>api:header</code> containing something
           like:
 
-          <programlisting>
+          <programlisting language="C">
 #pragma implement interface &lt;../api/header&gt;
 #include &lt;header&gt;</programlisting>
 
@@ -1538,7 +1538,7 @@ $property = "string" ;</programlisting>
           to produce the definitions for the basic C tokens for the system. As
           another example consider:
 
-          <programlisting>
+          <programlisting language="Tspec">
 $METHOD = "TNC" ;
 +MACRO double fl_abs ( double ) ;
 %%%
@@ -1551,14 +1551,14 @@ $METHOD = "TNC" ;
           The <code>TNC</code> method tells <code>MAKE_LIBS</code> that the
           source output file, which will just contain the quoted text:
 
-          <programlisting>
+          <programlisting language="TNC">
 ( make_tokdef fl_abs ( exp x ) exp
     ( floating_abs impossible x ) )</programlisting>
 
           is an input file for the TDF notation compiler, <code>tnc</code>
           (see reference 2). Thus we have defined a token which directly
           accesses the TDF <code>floating_abs</code> construct.</para>
-      </sect1>
+      </section>
   </chapter>
   
   <chapter id="S7">
