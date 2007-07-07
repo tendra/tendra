@@ -364,7 +364,7 @@
 			<para>The following productions are used throughout this
 				document:</para>
 
-			<programlisting>either-identifier := "$" + identifier | sid-identifier ;
+			<programlisting language="BNF">either-identifier := "$" + identifier | sid-identifier ;
 sid-identifier    := identifier + "(" + ")" ;</programlisting>
 			<!-- TODO rename either-identifier! -->
 		</section>
@@ -378,7 +378,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 				nest, and they must close. For example:</para>
 
 			<!-- TODO did i add the // patch already? I don't think so -->
-			<programlisting>/* This is a comment */
+			<programlisting language="Lexi">/* This is a comment */
 /*
  * And so is this.
  */</programlisting>
@@ -456,7 +456,7 @@ sid-identifier    := identifier + "(" + ")" ;</programlisting>
 				so that the characters are available. This is a convenience
 				so that two similar tokens may share  the same function:</para>
 
-			<programlisting>
+			<programlisting language="Lexi">
 TOKEN "/*" -> get_comment () ;
 TOKEN "//"  -> get_comment () ;</programlisting>
 
@@ -472,7 +472,7 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 				So for the above example, <code>get_comment()</code> would be
 				declared as:</para>
 
-			<programlisting>void get_comment(int c0, int c1);</programlisting>
+			<programlisting language="C">void get_comment(int c0, int c1);</programlisting>
 
 			<para>Calling a function from two tokens of different lengths
 				is undefined behaviour.</para>
@@ -494,7 +494,7 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 				the order given, as per a string comparison. The syntax
 				is:</para>
 
-			<programlisting>chars       := item + { "+" item } * ;
+			<programlisting language="BNF">chars       := item + { "+" item } * ;
 item        := string | range ;
 range       := "{0-9}" | "{a-z}" | "{A-Z}" ;
 string      := &lt;"&gt; + { CHAR | escapedchar | group } * + &lt;"&gt; ;
@@ -557,6 +557,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 			<table>
 				<title>Escaped characters</title>
+				<!-- TODO really ASCII, or is it the execution character set? -->
 
 				<tgroup cols="3">
 					<thead>
@@ -569,15 +570,15 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 					<tbody>
 						<row>
-							<entry><code>\n</code></entry>
-							<entry>0x0A</entry>
-							<entry>New line</entry>
-						</row>
-
-						<row>
 							<entry><code>\t</code></entry>
 							<entry>0x09</entry>
 							<entry>Horizontal tab</entry>
+						</row>
+
+						<row>
+							<entry><code>\n</code></entry>
+							<entry>0x0A</entry>
+							<entry>New line</entry>
 						</row>
 
 						<row>
@@ -592,7 +593,6 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 							<entry>New page (form feed)</entry>
 						</row>
 
-						<!-- TODO order by numerical value -->
 						<row>
 							<entry><code>\r</code></entry>
 							<entry>0x0D</entry>
@@ -626,12 +626,12 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				</tgroup>
 			</table>
 
-			<para>For example, the string specifying the character
+			<para>For example, a string specifying the character
 				<quote>a</quote>, a newline, the character
 				<quote>b</quote>, a backslash, a horizontal
 				tab, and the character <quote>c</quote> is:</para>
 
-			<programlisting>"a\nb\\\tc"</programlisting>
+			<programlisting language="Lexi">"a\nb\\\tc"</programlisting>
 
 			<para>Strings must contain at least one character, or
 				one character coded for by an escape sequence.</para>
@@ -651,7 +651,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				by specifying the group name between <code>[</code>
 				and <code>]</code> within a string.  For example:</para>
 
-			<programlisting>"[xyz]"
+			<programlisting language="Lexi">"[xyz]"
 "abc[def]hij[klm]nmo"</programlisting>
 
 			<para>These include the characters defined by the
@@ -676,16 +676,16 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<para>Strings and ranges may be concatenated by the
 				plus operator.  For example:</para>
 
-			<programlisting>"abc" + "d" + "efg" + {0-9}</programlisting>
+			<programlisting language="Lexi">"abc" + "d" + "efg" + {0-9}</programlisting>
 
 			<para>is equivalent to the sequence:</para>
 
-			<programlisting>"abcdefg[digit]"</programlisting>
+			<programlisting language="Lexi">"abcdefg[digit]"</programlisting>
 
 			<para>(where the group <quote>digit</quote> is suitablly
 				defined), and to the set:</para>
 
-			<programlisting>"abcdefg0123456789"</programlisting>
+			<programlisting language="Lexi">"abcdefg0123456789"</programlisting>
 
 			<!-- TODO If string concaternation (TODO we can't call it
 				concaternation really) is applicable for *all* places
@@ -712,7 +712,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				substitutions as found in C. The syntax to define pre-pass
 				replacements is:</para>
 
-			<programlisting>MAPPING sequence + "->" + char ;</programlisting>
+			<!-- TODO not real BNF! -->
+			<programlisting language="BNF">MAPPING sequence + "->" + char ;</programlisting>
 
 			<para>The string on the right (i.e. the value with which the
 				matched string is replaced) may only contain one character,
@@ -721,7 +722,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<para>For example, to replace the trigraph <literal>??=</literal>
 				with a single <literal>#</literal>:</para>
 
-			<programlisting>MAPPING "??=" -> "#" ;</programlisting>
+			<programlisting language="Lexi">MAPPING "??=" -> "#" ;</programlisting>
 
 			<para>This would replace instances of <literal>??=</literal>
 				with <literal>#</literal> before
@@ -729,14 +730,14 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				<literal>a??=b</literal> would
 				match the token definition:</para>
 
-			<programlisting>TOKEN "a#b" -> a ;</programlisting>
+			<programlisting language="Lexi">TOKEN "a#b" -> a ;</programlisting>
 
 			<para>(and so would simply <literal>a#b</literal>, as usual).</para>
 
 			<para>A group may be included in the character sequence to
 				be replaced. For example:</para>
 
-			<programlisting>MAPPING "[alpha]" -> " " ;</programlisting>
+			<programlisting language="Lexi">MAPPING "[alpha]" -> " " ;</programlisting>
 
 			<para>will replace any alphabetic character by a blank,
 				assuming the <quote>alpha</quote> group is suitablly
@@ -751,13 +752,13 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				a character used at the start of any mapping, including
 				itself. For example:</para>
 
-			<programlisting>MAPPING "???" -> "?" ;</programlisting>
+			<programlisting language="Lexi">MAPPING "???" -> "?" ;</programlisting>
 
 			<para>is illegal. To see why, consider the input
 				<quote><literal>aab</literal></quote> for
 				the (illegal) mappings:</para>
 
-			<programlisting>MAPPING "aa" -> "x" ;
+			<programlisting language="Lexi">MAPPING "aa" -> "x" ;
 MAPPING "xb" -> y ;</programlisting>
 
 			<para>Since the order of substitution for mappings matching
@@ -775,7 +776,7 @@ MAPPING "xb" -> y ;</programlisting>
 
 			<para>Mappings bind from left to right. For example:</para>
 
-			<programlisting>MAPPING "ab" -> "d" ;
+			<programlisting language="Lexi">MAPPING "ab" -> "d" ;
 MAPPING "bc" -> "d" ;</programlisting>
 
 			<para>For the input <quote>abc</quote> will produce
@@ -786,7 +787,7 @@ MAPPING "bc" -> "d" ;</programlisting>
 				matching shorter lengths of the same values
 				beginning the longer sequences. For example:</para>
 
-			<programlisting>MAPPING "abcdef" -> "x" ;
+			<programlisting language="Lexi">MAPPING "abcdef" -> "x" ;
 MAPPING "abcd" -> "y" ;</programlisting>
 
 			<para>for the input <quote><literal>abcdef</literal></quote>
@@ -803,7 +804,7 @@ MAPPING "abcd" -> "y" ;</programlisting>
 				strings <!-- TODO think up a name for group inclusions -->.
 				The syntax of a group definition is:</para>
 
-			<programlisting>group-defn := "GROUP" + identifier + "=" + chars ;</programlisting>
+			<programlisting language="BNF">group-defn := "GROUP" + identifier + "=" + chars ;</programlisting>
 			<!-- TODO not identifier, but name (we don't want to include
 				sid-identifiers!) -->
 
@@ -812,7 +813,7 @@ MAPPING "abcd" -> "y" ;</programlisting>
 
 			<para>For example, the following are valid group definitions:</para>
 
-			<programlisting>GROUP alpha    = {A-Z} + {a-z} + "_" ;
+			<programlisting language="Lexi">GROUP alpha    = {A-Z} + {a-z} + "_" ;
 GROUP digit    = {0-9} ;
 GROUP odds     = "13579" ;
 GROUP even     = "02468" ;
@@ -823,7 +824,7 @@ GROUP anything = "atrf" + "HGMP" + {0-9} ;</programlisting>
 				groups. Any character in the referenced set will be
 				included into the group definition. For example:</para>
 
-			<programlisting>GROUP hexdigit = "[digit]ABCDEFabcdef" ;
+			<programlisting language="Lexi">GROUP hexdigit = "[digit]ABCDEFabcdef" ;
 GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>assuming the groups <literal>alpha</literal> and
@@ -847,7 +848,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 				the given character, obtained by <code>lookup_char(c)</code>.
 				For example:</para>
 
-			<programlisting>is_alpha(lookup_char('a'))</programlisting>
+			<programlisting language="C">is_alpha(lookup_char('a'))</programlisting>
 			<!-- TODO repetiion: this is in Interface -->
 
 			<para>would yield true, assuming the group <literal>alpha</literal>
@@ -890,7 +891,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 				endterm="groupdefinitions.title"/>, but with the
 				special group name <code>white</code>:</para>
 
-			<programlisting>white-defn := "GROUP" + "white" + "=" + chars ;</programlisting>
+			<programlisting language="BNF">white-defn := "GROUP" + "white" + "=" + chars ;</programlisting>
 
 			<para>The whitespace definition may be omitted, in which case
 				it defaults to space, horizontal tabulation and
@@ -900,7 +901,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>For example:</para>
 
-			<programlisting>GROUP white = " \t\n\r";</programlisting>
+			<programlisting language="Lexi">GROUP white = " \t\n\r";</programlisting>
 
 			<para>Aside from the additional semantics explained above,
 				the whitespace group is present as any other group:
@@ -937,14 +938,14 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 			<para>The syntax for specifiying tokens is:</para>
 
-			<programlisting>token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
+			<programlisting language="BNF">token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
 			<!-- TODO right? -->
 
 			<para>Each action associated with a token is either a
 				<application>Sid</application> identifier or a call to
 				a user-defined function. An example of these two forms:
 
-				<programlisting>TOKEN "token1" -> $sid-identifier ;
+				<programlisting language="Lexi">TOKEN "token1" -> $sid-identifier ;
 TOKEN "token2" -> get_identifier () ;</programlisting>
 
 				The first form of token definition states that upon
@@ -968,7 +969,7 @@ TOKEN "token2" -> get_identifier () ;</programlisting>
 				of the comment is found. In <application>Lexi</application>,
 				this is specified as:</para>
 
-			<programlisting>TOKEN "/*" -> get_comment() ;</programlisting>
+			<programlisting language="Lexi">TOKEN "/*" -> get_comment() ;</programlisting>
 			<!-- TODO right? -->
 
 			<para>Where <code>get_comment()</code> is an externally defined
@@ -979,11 +980,11 @@ TOKEN "token2" -> get_identifier () ;</programlisting>
 				This is especially suitable for reading identifiers. For
 				example:</para>
 
-			<programlisting>GROUP identstart = {a-z} + {A-Z} + "_";
+			<programlisting language="Lexi">GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
 TOKEN "[identstart]" -> read_identifier();</programlisting>
 
-			<programlisting>int read_identifier(int c) {
+			<programlisting language="C">int read_identifier(int c) {
 	for(;;) {
 		if(c == EOF) {
 			return lex_eof;
@@ -1061,11 +1062,11 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 			<para>The  syntax of keywords resembles the syntax
 				used for tokens:</para>
 
-			<programlisting>keyword-defn := "KEYWORD" + string + "->" + either-identifier ;</programlisting>
+			<programlisting language="BNF">keyword-defn := "KEYWORD" + string + "->" + either-identifier ;</programlisting>
 
 			<para>For example:</para>
 
-			<programlisting>KEYWORD "keyword" -> $key ;
+			<programlisting language="Lexi">KEYWORD "keyword" -> $key ;
 KEYWORD "special" -> get_special () ;</programlisting>
 
 			<para>Usually  keywords are simply identifiers with a special
@@ -1086,7 +1087,7 @@ KEYWORD "special" -> get_special () ;</programlisting>
 				of calls to define each keyword, one per <code>KEYWORD</code>
 				statement:</para>
 
-			<programlisting>MAKE_KEYWORD ( "keyword", "lex_key" )
+			<programlisting language="Lexi">MAKE_KEYWORD ( "keyword", "lex_key" )
 MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 
 			<para>where the identifier has been transformed according
@@ -1103,14 +1104,14 @@ MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 				a lexer required to identify variable names):</para>
 
 <!-- TODO use read_identifier from above -->
-			<programlisting>KEYWORD "if" -> keyword_if ;
+			<programlisting language="Lexi">KEYWORD "if" -> keyword_if ;
 KEYWORD "else" -> keyword_else ;
 TOKEN "[alpha]" -> get_variable() ;</programlisting>
 
 			<para>Where and <code>get_variable()</code> checks to
 				see if the given token is actually a keyword like so:</para>
 
-			<programlisting>&lt;type&gt; get_variable(int c) {
+			<programlisting language="C">&lt;type&gt; get_variable(int c) {
 	char *token;
 	/* token is pointed to the characters read */
 	...
@@ -1147,19 +1148,21 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 				associated with keywords are generated to be called
 				with no arguments passed:</para>
 
-			<programlisting>KEYWORD "sx" -> fx() ;</programlisting>
+			<programlisting language="Lexi">KEYWORD "sx" -> fx() ;</programlisting>
 
 			<para>Results in the generated call:</para>
 
-			<programlisting>MAKE_KEYWORD("sx", fx());</programlisting>
+			<programlisting language="C">MAKE_KEYWORD("sx", fx());</programlisting>
 
 			<para>And so <code>f()</code> should be declared to
 				accept no parameters, that is of prototype:</para>
 
-			<programlisting>&lt;type&gt; f(void);</programlisting>
+			<programlisting language="C">&lt;type&gt; f(void);</programlisting>
 
 		<!-- TODO does mapping a keyword to a function have a use-case? if not,
-			can we disallow it? -->
+			can we disallow it? Perhaps good for fortran style unreserved keywords?
+			(the function could check to see if the symbol table holds that
+			identifier; if it dosen't, then we know its a keyword) -->
 
 		<!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
 			needs to deal with that :(
@@ -1182,6 +1185,11 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 			<title>Conditional commands</title>
 
 			<para><!-- Runtime or compiletime? TODO check --></para>
+
+			<para>The identifier specified is passed through to the generated code
+				as-is - it is expected to be resolved to a symbol provided by the
+				user's program. Expressions are not supported, though may be provided
+				by definining a macro which provides a simple identifier:</para>
 
 			<para><!-- The command given may be in a block? TODO --></para>
 
@@ -1211,6 +1219,22 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 			-->
 			</para>
 
+			<para>The conditional constructs are not a particularly powerful
+				mechanism as the braces do not introduce scope.
+				So, for example, they do not provide a means to have
+				multiple definitions of tokens. In particular, having one
+				spelling map to different lexemes is not permitted:
+
+				<programlisting language="Lexi">IF (xxx) {
+	TOKEN "a" -> $aaa;
+} ELSE {
+	TOKEN "a" -> $bbb;
+}</programlisting>
+
+				As the token <quote>a</quote> is defined twice, both definitions are in
+				the same scope and are therefore mutually illegal.</para>
+				<!-- make it valid? introduce scope for this purpose? -->
+
 			<para><!-- TODO kevin says: IF constructs can nest. --></para>
 		</section>
 	</chapter>
@@ -1234,14 +1258,14 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 				expected to provide. These read a character and un-read
 				a character respectivley:</para>
 
-			<programlisting>int read_char(void);
+			<programlisting language="C">int read_char(void);
 void unread_char(int);</programlisting>
 
 			<para>Output from the lexical analyser is by way of a function
 				provided by <application>Lexi</application> that returns the next
 				token to the user's program:</para>
 
-			<programlisting>int read_token(void);</programlisting>
+			<programlisting language="C">int read_token(void);</programlisting>
 
 			<para>This is the user's primary interface to the lexical
 				analyser. Note that the type of characters is <code>int</code>,
@@ -1267,7 +1291,7 @@ void unread_char(int);</programlisting>
 				parser-generator such as <application>Sid</application>).
 				For example, a token defined by:</para>
 
-			<programlisting>TOKEN "--" -> $dash ;</programlisting>
+			<programlisting language="Lexi">TOKEN "--" -> $dash ;</programlisting>
 
 			<para>Would return the value of <literal>lex_dash</literal>
 				from <code>read_token()</code> when matched. The prefix of
@@ -1301,7 +1325,7 @@ TODO UNDEFINED BEHAVIOUR
 			<para>However, be careful when specifying functions called by
 				different amounts of characters. For example:</para>
 
-			<programlisting>
+			<programlisting language="Lexi">
 TOKEN "//" -> get_comment () ;
 TOKEN "#"  -> get_comment () ;</programlisting>
 
@@ -1322,7 +1346,7 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 				the form <code>is_groupname()</code>. These are
 				intended to be used as:</para>
 
-			<programlisting>is_digit(lookup_char(c))</programlisting>
+			<programlisting language="C">is_digit(lookup_char(c))</programlisting>
 
 			<para>assuming a group named <quote>digit</quote> is defined. See the
 				<xref linkend="groupdefinitions" endterm="groupdefinitions.title"/>
@@ -1452,7 +1476,7 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 				<para>The <quote>white</quote> group may be used in
 					tokens and keywords as any other group would:</para>
 
-				<programlisting>
+				<programlisting language="Lexi">
 TOKEN "a[white]" -> $something ;
 TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 
