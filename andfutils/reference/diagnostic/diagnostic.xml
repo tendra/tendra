@@ -107,7 +107,7 @@
       </listitem>
     </itemizedlist>
   
-    <sect1 id="diag_descriptor">
+    <section id="diag_descriptor">
       <title>DIAG_DESCRIPTOR</title>
 
       <informaltable frame="none">
@@ -133,7 +133,7 @@
       <para><code>DIAG_DESCRIPTOR</code>s are used to associate names in the
         source program with diagnostic items.</para>
 
-      <sect2 id="diag_desc_id">
+      <section id="diag_desc_id">
         <title>diag_desc_id</title>
 
         <informaltable frame="none">
@@ -165,9 +165,9 @@ type:            DIAG_TYPE
           <varname>found_at</varname> describes how to access the value.  Note
           that the <code>EXP</code> need not be unique (e.g. FORTRAN
           EQUIVALENCE might be implemented this way).</para>
-      </sect2>
+      </section>
 
-      <sect2 id="diag_desc_struct">
+      <section id="diag_desc_struct">
         <title>diag_desc_struct</title>
 
         <informaltable frame="none">
@@ -197,9 +197,9 @@ new_type:        DIAG_TYPE
           <code>DIAG_ENUM</code>.</para>
 
         <para><note>This construct is obsolete.</note></para>
-      </sect2>
+      </section>
 
-      <sect2 id="diag_desc_typedef">
+      <section id="diag_desc_typedef">
         <title>diag_desc_typedef</title>
         
         <informaltable frame="none">
@@ -229,10 +229,10 @@ new_type:        DIAG_TYPE
           with a type, rather than for any name given in the initial
           description of the type (e.g. in C this is used for typedef, not for
           struct/union/enum tags).</para>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
   
-    <sect1 id="diag_unit">
+    <section id="diag_unit">
       <title>DIAG_UNIT</title>
       
       <informaltable frame="none">
@@ -265,7 +265,7 @@ new_type:        DIAG_TYPE
         contain descriptions of items outside procedure bodies (e.g.  global
         variables, global type definitions).</para>
 
-      <sect2 id="build_diag_unit">
+      <section id="build_diag_unit">
         <title>build_diag_unit</title>
   
         <informaltable frame="none">
@@ -292,10 +292,10 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
           <code>DIAG_DESCRIPTOR</code>s. <varname>no_labels</varname> is the
           number of local labels used in <varname>descriptors</varname> (for
           conditionals).</para>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
   
-    <sect1 id="diag_tag">
+    <section id="diag_tag">
       <title>DIAG_TAG</title>
       
       <informaltable frame="none">
@@ -330,7 +330,7 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
         associated with that number by
         <varname>make_diag_tagdef</varname>.</para>
 
-      <sect2 id="make_diag_tag">
+      <section id="make_diag_tag">
         <title>make_diag_tag</title>
         
         <informaltable frame="none">
@@ -354,10 +354,10 @@ num:             TDFINT
 
         <para>Create a <code>DIAG_TAG</code> from
           <varname>num</varname>.</para>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
 
-    <sect1 id="diag_tagder">
+    <section id="diag_tagder">
       <title>DIAG_TAGDEF</title>
       
       <informaltable frame="none">
@@ -383,7 +383,7 @@ num:             TDFINT
     <para><code>DIAG_TAGDEF</code>s associate <code>DIAG_TAG</code>s with
       <code>DIAG_TYPE</code> s.</para>
 
-    <sect2 id="make_diag_tagdef">
+    <section id="make_diag_tagdef">
       <title>make_diag_tagdef</title>
       
       <informaltable frame="none">
@@ -409,10 +409,10 @@ dtype:           DIAG_TYPE
       <para>Associates tag number <varname>tno</varname> with
         <varname>dtype</varname>.
       </para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="diag_type_unit">
+  <section id="diag_type_unit">
     <title>DIAG_TYPE_UNIT</title>
     
     <informaltable frame="none">
@@ -443,7 +443,7 @@ dtype:           DIAG_TYPE
     <para>A <code>DIAG_TYPE_UNIT</code> is a TDF unit containing
       <code>DIAG_TAGDEF</code>s.</para>
 
-    <sect2 id="build_diagtype_unit">
+    <section id="build_diagtype_unit">
       <title>build_diagtype_unit</title>
       
       <informaltable frame="none">
@@ -470,10 +470,10 @@ tagdefs: SLIST(DIAG_TAGDEF)
         <code>DIAG_TAGDEF</code>s. <varname>no_labels</varname> is the number
         of local labels used in <varname>tagdefs</varname> (for
         conditionals).</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="diag_type">
+  <section id="diag_type">
     <title>DIAG_TYPE</title>
     
     <informaltable frame="none">
@@ -504,7 +504,7 @@ tagdefs: SLIST(DIAG_TAGDEF)
     <para><code>DIAG_TYPE</code>s are used to provide diagnostic
       information about data types.</para>
 
-    <sect2 id="diag_type_apply_token">
+    <section id="diag_type_apply_token">
       <title>diag_type_apply_token</title>
       
       <informaltable frame="none">
@@ -533,9 +533,9 @@ token_args:      BITSTREAM
         <varname>token_args</varname> is a <code>BITSTREAM</code> encoding of
         the <code>SORT</code>s of its parameters, in the order
         specified.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_array">
+    <section id="diag_array">
       <title>diag_array</title>
       
       <informaltable frame="none">
@@ -569,9 +569,9 @@ index_type:      DIAG_TYPE
         <code>SIGNED_NAT</code>). The <code>VARIETY</code>
         <varname>v</varname> is described by <varname>index_type</varname>. As
         in TDF there is no multi-dimensional array primitive.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_bitfield">
+    <section id="diag_bitfield">
       <title>diag_bitfield</title>
       
       <informaltable frame="none">
@@ -596,9 +596,9 @@ number_of_bits:  NAT
 
       <para>Describes <varname>number_of_bits</varname>, which when extracted
         will have <code>DIAG_TYPE</code> <varname>type</varname>.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_enum">
+    <section id="diag_enum">
       <title>diag_enum</title>
       
       <informaltable frame="none">
@@ -625,9 +625,9 @@ values:          LIST(ENUM_VALUES)
       <para>An enumeration to be stored in an object of type
         <varname>base_type</varname>.  If <varname>enum_name</varname> is a
         string contining zero characters this signifies no source tag.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_floating_variety">
+    <section id="diag_floating_variety">
       <title>diag_floating_variety</title>
       
       <informaltable frame="none">
@@ -651,9 +651,9 @@ var:             FLOATING_VARIETY
 
       <para>Creates a <code>DIAG_TYPE</code> to describe an
         <code>FLOATING_VARIETY</code> <varname>var</varname>.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_loc">
+    <section id="diag_loc">
       <title>diag_loc</title>
       
       <informaltable frame="none">
@@ -680,9 +680,9 @@ qualifier:       DIAG_TQ
         <varname>object</varname>, qualified by <varname>qualifier</varname>.
         <varname>diag_loc</varname> is used for variables (which may of course
         not actually occupy a memory location).</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_proc">
+    <section id="diag_proc">
       <title>diag_proc</title>
       
       <informaltable frame="none">
@@ -710,9 +710,9 @@ result_type:     DIAG_TYPE
         <varname>optional_args</varname> is true if and only if the
         <varname>make_proc</varname> which this <varname>diag_proc</varname>
         describes had <varname>vartag</varname> present.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_ptr">
+    <section id="diag_ptr">
       <title>diag_ptr</title>
       
       <informaltable frame="none">
@@ -738,9 +738,9 @@ qualifier:       DIAG_TQ
         <varname>object</varname>. The <code>DIAG_TQ</code> qualifier
         <varname>qualifier</varname> qualifies the pointer, not the object
         pointed to.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_struct">
+    <section id="diag_struct">
       <title>diag_struct</title>
       
       <informaltable frame="none">
@@ -768,9 +768,9 @@ fields:          LIST(DIAG_FIELD)
         contining zero characters this signifies no source tag for the whole
         structure.  <varname>tdf_shape</varname> allows the total size to be
         computed.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_type_null">
+    <section id="diag_type_null">
       <title>diag_type_null</title>
 
       <informaltable frame="none">
@@ -791,9 +791,9 @@ fields:          LIST(DIAG_FIELD)
                    -&gt; DIAG_TYPE</programlisting>
 
       <para>A null <code>DIAG_TYPE</code>.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_union">
+    <section id="diag_union">
       <title>diag_union</title>
       
       <informaltable frame="none">
@@ -821,9 +821,9 @@ fields:          LIST(DIAG_FIELD)
         contining zero characters this signifies no source tag for the whole
         union.  <varname>tdf_shape</varname> allows the total size to be
         computed.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_variety">
+    <section id="diag_variety">
       <title>diag_variety</title>
       
       <informaltable frame="none">
@@ -847,9 +847,9 @@ var:             VARIETY
 
       <para>Creates a <code>DIAG_TYPE</code> to describe an integer
         <code>VARIETY</code> <varname>var</varname>.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="use_diag_tag">
+    <section id="use_diag_tag">
       <title>use_diag_tag</title>
       
       <informaltable frame="none">
@@ -873,10 +873,10 @@ dtag:            DIAG_TAG
 
       <para>Obtains the <code>DIAG_TYPE</code> associated with
         <code>DIAG_TAG</code> <varname>dtag</varname>.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="enum_values">
+  <section id="enum_values">
     <title>ENUM_VALUES</title>
     
     <informaltable frame="none">
@@ -899,7 +899,7 @@ dtag:            DIAG_TAG
       </tgroup>
     </informaltable>
 
-    <sect2 id="make_enum_values_list">
+    <section id="make_enum_values_list">
       <title>make_enum_values_list</title>
       
       <informaltable frame="none">
@@ -928,10 +928,10 @@ src_name:        TDFSTRING(k, n)
         <varname>sh</varname>. Note that all members of a
         <code>LIST(ENUM_VALUES</code>) must have the same
         <varname>sh</varname>.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="diag_field">
+  <section id="diag_field">
     <title>DIAG_FIELD</title>
     
     <informaltable frame="none">
@@ -953,7 +953,7 @@ src_name:        TDFSTRING(k, n)
       </tgroup>
     </informaltable>
 
-    <sect2 id="make_diag_field">
+    <section id="make_diag_field">
       <title>make_diag_field</title>
       
       <informaltable frame="none">
@@ -983,10 +983,10 @@ field_type:      DIAG_TYPE
         <varname>whole</varname> (the enclosing structure or union), and this
         field (<varname>this_field</varname>).  <varname>field_type</varname>
         is the <code>DIAG_TYPE</code> of the field.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="diag_tq">
+  <section id="diag_tq">
     <title>DIAG_TQ</title>
     
     <informaltable frame="none">
@@ -1013,7 +1013,7 @@ field_type:      DIAG_TYPE
       <type>diag_tq_null</type> and the various <type>add_diag_XXX</type>
       operations.</para>
 
-    <sect2 id="add_diag_const">
+    <section id="add_diag_const">
       <title>add_diag_const</title>
       
       <informaltable frame="none">
@@ -1037,9 +1037,9 @@ field_type:      DIAG_TYPE
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
         <token>const</token> in the ANSI C sense.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="add_diag_volatile">
+    <section id="add_diag_volatile">
       <title>add_diag_volatile</title>
       
       <informaltable frame="none">
@@ -1063,9 +1063,9 @@ field_type:      DIAG_TYPE
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
         <token>volatile</token> in the ANSI C sense.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="diag_tq_null">
+    <section id="diag_tq_null">
       <title>diag_tq_null</title>
       
       <informaltable frame="none">
@@ -1087,10 +1087,10 @@ field_type:      DIAG_TYPE
                      -&gt; DIAG_TQ</programlisting>
 
       <para>Create a null <code>DIAG_TQ</code> type qualifier.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="filename">
+  <section id="filename">
     <title>FILENAME</title>
     
     <informaltable frame="none">
@@ -1122,7 +1122,7 @@ field_type:      DIAG_TYPE
       producing a <code>CAPSULE</code>. They can be tokenised for
       abbreviation.</para>
 
-    <sect2 id="filename_apply_token">
+    <section id="filename_apply_token">
       <title>filename_apply_token</title>
 
       <informaltable frame="none">
@@ -1151,9 +1151,9 @@ field_type:      DIAG_TYPE
         <varname>token_args</varname> is a <code>BITSTREAM</code> encoding of
         the <code>SORT</code>s of its parameters, in the order
         specified.</para>
-    </sect2>
+    </section>
 
-    <sect2 id="make_filename">
+    <section id="make_filename">
       <title>make_filename</title>
       
       <informaltable frame="none">
@@ -1180,10 +1180,10 @@ field_type:      DIAG_TYPE
       <para>Create a <code>FILENAME</code> for file <varname>file</varname>,
         dated <varname>date</varname> (a UNIX timestamp; seconds since 1 Jan
         1970) on machine <varname>machine</varname>.</para>
-    </sect2>
-  </sect1>
+    </section>
+  </section>
 
-  <sect1 id="sourcemark">
+  <section id="sourcemark">
     <title>SOURCEMARK</title>
   
     <informaltable frame="none">
@@ -1211,7 +1211,7 @@ field_type:      DIAG_TYPE
       be described by one or two numbers within a
       <code>FILENAME</code>.</para>
 
-      <sect2 id="make_sourcemark">
+      <section id="make_sourcemark">
         <title>make_sourcemark</title>
         
         <informaltable frame="none">
@@ -1241,8 +1241,8 @@ field_type:      DIAG_TYPE
   
         <para><varname>char_offset</varname> is counted from 1, 0 meaning that
           no character offset is available.</para>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
   </chapter>
   
   <chapter id="reserved-diagnostic-tokens">
@@ -1253,7 +1253,7 @@ field_type:      DIAG_TYPE
       an existing <code>UNIT</code>. All other parts of the diagnostic
       system occur in other <code>UNIT</code>s.</para>
   
-    <sect1 id="exp_to_source">
+    <section id="exp_to_source">
       <title>~exp_to_source</title>
   
       <programlisting>
@@ -1266,9 +1266,9 @@ field_type:      DIAG_TYPE
         from translating program between <code>SOURCEMARK</code>
         <varname>from</varname> and <code>SOURCEMARK</code>
         <varname>to</varname> (inclusive).  </para>
-    </sect1>
+    </section>
   
-    <sect1 id="diag_id_source">
+    <section id="diag_id_source">
       <title>~diag_id_source</title>
       
       <programlisting>
@@ -1282,9 +1282,9 @@ field_type:      DIAG_TYPE
         named <varname> name</varname> of <code>DIAG_TYPE</code>
         <varname>type</varname> can be accessed via the <code>EXP</code>
         <varname>access</varname>.</para>
-    </sect1>
+    </section>
   
-    <sect1 id="diag_type_scope">
+    <section id="diag_type_scope">
       <title>~diag_type_scope</title>
   
       <programlisting>
@@ -1296,9 +1296,9 @@ field_type:      DIAG_TYPE
       <para>Within the <code>EXP</code> <varname>body</varname> a source
         language type named <varname>name</varname> of <code>DIAG_TYPE</code>
         <varname>type</varname> is valid.</para>
-    </sect1>
+    </section>
   
-    <sect1 id="diag_tag_scope">
+    <section id="diag_tag_scope">
       <title>~diag_tag_scope</title>
   
       <programlisting>
@@ -1308,7 +1308,7 @@ field_type:      DIAG_TYPE
            -&gt; EXP sh</programlisting>
 
       <para><note>This <code>TOKEN</code> is obsolete.</note></para>
-    </sect1>
+    </section>
   </chapter>
   
   <chapter id="proposed-changes">
@@ -1323,14 +1323,14 @@ field_type:      DIAG_TYPE
       ways, and the installer cannot be expected to spot all of them and
       generate new diagnostic info.</para>
   
-    <sect1 id="missing-features">
+    <section id="missing-features">
       <title>Language features currently missing</title>
       
       <para>The following sections list some of the language features known
         not to be supported by the current specification.  It is not intended
         to be exhaustive.</para>
   
-      <sect2 id="data-types">
+      <section id="data-types">
         <title>Data types</title>
   
         <itemizedlist>
@@ -1338,9 +1338,9 @@ field_type:      DIAG_TYPE
   
           <listitem>Fortran alternate <token>RETURN</token>s.</listitem>
         </itemizedlist>
-      </sect2>
+      </section>
   
-      <sect2 id="cplusplus-requirements">
+      <section id="cplusplus-requirements">
         <title>C++ requirements</title>
   
         <itemizedlist>
@@ -1363,9 +1363,9 @@ field_type:      DIAG_TYPE
           <listitem>No operations for describing <token>class</token>es and
           inheritance.</listitem>
         </itemizedlist>
-      </sect2>
+      </section>
       
-      <sect2 id="fortran-requirements">
+      <section id="fortran-requirements">
         <title>FORTRAN requirements</title>
       
         <itemizedlist>
@@ -1383,9 +1383,9 @@ field_type:      DIAG_TYPE
           implemented in several ways (other languages need this, but
           they may differ on the same machine).</listitem>
         </itemizedlist>
-      </sect2>
+      </section>
       
-      <sect2 id="other-requirements">
+      <section id="other-requirements">
         <title>Other requirements</title>
       
         <itemizedlist>
@@ -1423,13 +1423,13 @@ field_type:      DIAG_TYPE
             change semantics of record field lookup. No standardised method
             for documenting this.</listitem>
         </itemizedlist>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
     
-    <sect1 id="further-abstraction">
+    <section id="further-abstraction">
       <title>Areas for further abstraction</title>
     
-      <sect2 id="compilation-related">
+      <section id="compilation-related">
         <title>Compilation related</title>
         
         <para>How a running program has been created from several components
@@ -1437,9 +1437,9 @@ field_type:      DIAG_TYPE
           all details of how a program has been created. In particular there
           is no indication of the source language of any piece of TDF, nor
           of the full name of any of the source files.</para>
-      </sect2>
+      </section>
     
-      <sect2 id="c-related">
+      <section id="c-related">
         <title>C related</title>
         
         <para>At present there is no defined link between the fundamental C
@@ -1448,19 +1448,19 @@ field_type:      DIAG_TYPE
           <type>int</type> and <type>long</type> when generating diagnostics,
           other than by means of the standard token names which form part of
           the C producer language interface.</para>
-      </sect2>
+      </section>
     
-      <sect2 id="naming-types">
+      <section id="naming-types">
         <title>Naming of types</title>
         
         <para>At present various <code>DIAG_TYPE</code>s have names, some
           don't. I suspect we should make a separate
           <function>is_named</function> operation and remove the other
           names.</para>
-      </sect2>
-    </sect1>
+      </section>
+    </section>
     
-    <sect1 id="andf-de">
+    <section id="andf-de">
       <title>Postscript - ANDF-DE</title>
       
       <para>As this section makes clear, the TDF Diagnostic Specification
@@ -1470,6 +1470,6 @@ field_type:      DIAG_TYPE
         Ada in mind. It is intended that eventually ANDF-DE will be
         incorporated into the TDF specification, and the diagnostic format
         described here will be denegrated.</para>
-    </sect1>
+    </section>
   </chapter>
 </book>
