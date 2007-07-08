@@ -12,6 +12,8 @@ XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
 TEXFILE=docbook.tex
 TEXINPUTS=../style/tex
 
+lexi.1.xml: ../cmdsynopsis.xml
+
 include ../doctools/Mk/man.mk
 include ../doctools/Mk/docbook.mk
 

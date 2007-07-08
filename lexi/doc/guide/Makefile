@@ -16,6 +16,8 @@ CLEAN_EXTRA=tokens.png
 
 include ../doctools/Mk/docbook.mk
 
+guide.xml: ../cmdsynopsis.xml commands.xml specification.xml
+
 tokens.png: tokens.dia
 	dia -t png tokens.dia
 
