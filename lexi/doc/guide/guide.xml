@@ -151,11 +151,22 @@
 			<title>Overview</title>
 
 			<para>Lexical analysis is the process of categorising an input
-				stream into tokens. Each of these categories (or lexemes)
+				stream into tokens. Each of these categories (called lexemes)
 				are determined by the spelling of the contents of that token.
 				For convenience of discussion, this guide assumes that
 				tokens are formed of characters, although this is not
 				neccessarily the case.</para>
+
+<!-- TODO maybe reword the above?
+firstly define lexemes
+<kate> the process of categorising words into each lexeme is called lexing
+<kate> a program which performs lexing is called a lexer
+<kate> this program generates lexers based on your set of lexemes
+<kate> clearly defining every word would be quite tedious
+<kate> so (say we have a lexeme called "number") you can say like "anything 
+       consisting entirely of digits is a number"
+-->
+
 
 			<para>Categories of tokens are arranged such that spellings the
 				possible sets of spellings forming each category are
@@ -386,6 +397,13 @@ void unread_char(int);</programlisting>
 				consecutivley whilst matching tokens, and so a
 				buffer the size of the longest token is the
 				maximum length required.</para>
+
+    <!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
+        needs to deal with that :(
+        read_char_aux() is called in place of read_char().
+        But as this happens in a seperate pass, the buffer need only
+        be max(token, trigraph) (not including '\0')
+    -->
 		</section>
 
 		<section id="interface_terminals">
@@ -454,33 +472,30 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				<code>unread_char()</code> consequtively more than once<!--
 				TODO is that true? does lexi call it more than once? -->.</para>
 
-
 			<!-- TODO in the future when we remove the lookup_char function, you
 				will be able to TOKEN "x" -> is_digit(). I don't know if that
-				would be useful, but mention it anyway -->
+				would be useful (since it returns an int), but mention it anyway -->
 			<!-- TODO mention the API constraints still hold: don't call
 				unread_char() more than once, etc -->
 
-			<para><!-- TODO -->This latter function takes some arguments. The example
-				above would result in the call to get_identifier ('t','o',k','e','n') ;
-			</para>
+			<para>Functions called by tokens are passed each character forming the
+				token. The example above would result in the call to:
 
-<!--
-TODO UNDEFINED BEHAVIOUR
-			<para>However, be careful when specifying functions called by
-				different amounts of characters. For example:</para>
+				<programlisting language="C">get_identifier(c);</programlisting>
 
-			<programlisting language="Lexi">
-TOKEN "//" -> get_comment () ;
-TOKEN "#"  -> get_comment () ;</programlisting>
+				where <code>c</code> is the content of the token (that is, the
+				character matched by <code>"[identstart]"</code>. For multiple
+				characters each character is passed:
 
-			<para>Would make calls to <code>get_comment('/','/');</code> and
-				<code>get_comment('#');</code> respectivley.
-				The difference in the number of arguments
-				may cause a problem. One workaround is to call
-				two macros of different prototypes which call
-				the same function.</para>
--->
+				<programlisting language="Lexi">TOKEN "abc" -> f();</programlisting>
+				<programlisting language="C">get_identifier('a', 'b', 'c');</programlisting>
+
+				See <xref linkend="interface"/> for further details of the
+				C interface the generated lexer will call.</para>
+
+			<para>Note that it is undefined behaviour to have tokens of
+				different lengths call the same function.</para>
+
 		</section>
 
 		<section>
@@ -571,6 +586,23 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 				TODO to identify this, we add a stage after the table is
 				constructed which checks each mapping.
 				TODO new undefined behaviour -->
+
+<!--
+TODO UNDEFINED BEHAVIOUR
+			<para>However, be careful when specifying functions called by
+				different amounts of characters. For example:</para>
+
+			<programlisting language="Lexi">
+TOKEN "//" -> get_comment () ;
+TOKEN "#"  -> get_comment () ;</programlisting>
+
+			<para>Would make calls to <code>get_comment('/','/');</code> and
+				<code>get_comment('#');</code> respectivley.
+				The difference in the number of arguments
+				may cause a problem. One workaround is to call
+				two macros of different prototypes which call
+				the same function.</para>
+-->
 		</section>
 
 		<section>
