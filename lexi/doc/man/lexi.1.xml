@@ -70,24 +70,8 @@
 	</refnamediv>
 
 	<refsynopsisdiv id="synopsis">
-		<cmdsynopsis>
-			<command>lexi</command>
-
-			<group>
-				<arg choice="opt">-h</arg>
-				<arg choice="opt">-v</arg>
-				<arg choice="opt">-k</arg>
-			</group>
-
-			<arg choice="plain">
-				<replaceable>input-file</replaceable>
-			</arg>
-
-			<arg choice="opt">
-				<replaceable>output-file</replaceable>
-			</arg>
-			<sbr/>
-		</cmdsynopsis>
+		<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+			href="../cmdsynopsis.xml"/>
 	</refsynopsisdiv>
 
 	<refsection id="description">

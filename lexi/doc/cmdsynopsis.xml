@@ -1,175 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter; further editing by hand -->
-<!-- $Id$ -->
-<refentry id="lexi1">
-<!--
-	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
-	All rights reserved.
+<!DOCTYPE cmdsynopsis PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<cmdsynopsis>
+	<command>lexi</command>
 
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
+	<group>
+		<arg choice="opt">-h</arg>
+		<arg choice="opt">-v</arg>
+		<arg choice="opt">-k</arg>
+	</group>
 
-	1. Redistributions of source code must retain the above copyright notice,
-	   this list of conditions and the following disclaimer.
-	2. Redistributions in binary form must reproduce the above copyright notice,
-	   this list of conditions and the following disclaimer in the documentation
-	   and/or other materials provided with the distribution.
-	3. Neither the name of The TenDRA Project nor the names of its contributors
-	   may be used to endorse or promote products derived from this software
-	   without specific, prior written permission.
+	<arg choice="plain">
+		<replaceable>input-file</replaceable>
+	</arg>
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
-	IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-	PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
-	CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-	EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-	OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-	OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-<!--			 Crown Copyright (c) 1997
-	
-	This TenDRA(r) Manual Page is subject to Copyright
-	owned by the United Kingdom Secretary of State for Defence
-	acting through the Defence Evaluation and Research Agency
-	(DERA).	It is made available to Recipients with a
-	royalty\-free licence for its use, reproduction, transfer
-	to other parties and amendment for any purpose not excluding
-	product development provided that any such use et cetera
-	shall be deemed to be acceptance of the following conditions:\-
-	
-			(1) Its Recipients shall ensure that this Notice is
-			reproduced upon any copies or amended versions of it;
-	
-			(2) Any amended version of it shall be clearly marked to
-			show both the nature of and the organisation responsible
-			for the relevant amendment or amendments;
-	
-			(3) Its onward transfer from a recipient to another
-			party shall be deemed to be that party's acceptance of
-			these conditions;
-	
-			(4) DERA gives no warranty or assurance as to its
-			quality or suitability for any purpose and DERA accepts
-			no liability whatsoever in relation to any use to which
-			it may be put.
--->
-
-	<refmeta>
-		<refentrytitle>lexi</refentrytitle>
-		<manvolnum>1</manvolnum>
-	</refmeta>
-
-	<refnamediv id="name">
-		<refname>lexi</refname>
-		<refpurpose>Lexical analyser tool</refpurpose>
-	</refnamediv>
-
-	<refsynopsisdiv id="synopsis">
-		<cmdsynopsis>
-			<command>lexi</command>
-
-			<group>
-				<arg choice="opt">-h</arg>
-				<arg choice="opt">-v</arg>
-				<arg choice="opt">-k</arg>
-			</group>
-
-			<arg choice="plain">
-				<replaceable>input-file</replaceable>
-			</arg>
-
-			<arg choice="opt">
-				<replaceable>output-file</replaceable>
-			</arg>
-			<sbr/>
-		</cmdsynopsis>
-	</refsynopsisdiv>
-
-	<refsection id="description">
-		<title>Description</title>
-
-		<para><command>lexi</command> translates a description of a
-			lexical analyser, <emphasis remap="I">input-file</emphasis>,
-			into code implementing that analyser. This is output into the
-			<emphasis remap="I">output-file</emphasis> argument, if present,
-			or the standard output otherwise.</para>
-
-		<para>Both <replaceable>input-file</replaceable> and
-			<replaceable>output-file</replaceable> may be given as
-			<quote>-</quote> for standard input and standard output
-			respectivley.</para>
-	</refsection>
-
-	<refsection id="options">
-		<title>Options</title>
-
-		<variablelist remap="IP">
-			<varlistentry>
-				<term>
-					<option>-k</option>
-				</term>
-				<listitem>
-					<para>Causes <command>lexi</command> to generate code
-						describing any keywords specified in the input. Note
-						that this is in place of the usual lexical analyser
-						output, and is intended to be used under a seperate
-						run.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>
-					<option>-l</option>
-					<replaceable>string</replaceable>
-				</term>
-				<listitem>
-					<para>Causes <command>lexi</command> to use
-						<emphasis remap="I">string</emphasis> as a prefix
-						for its generated lexical tokens. The default is
-						<emphasis remap="I">lex_</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>
-					<option>-v</option>
-				</term>
-				<listitem>
-					<para>Causes <command>lexi</command> to print its
-						version number.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>
-					<option>-h</option>
-				</term>
-				<listitem>
-					<para>Causes <command>lexi</command> to print
-						command-line usage help.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-
-		<para>For further details of the options available and a reference
-			to the format for files see the <citetitle pubwork="article">The
-			Lexi users' Guide</citetitle>.</para>
-		<!-- TODO eventually manpages as a reference for the formats -->
-		<!-- TODO the guide can also go under lexi(7) -->
-	</refsection>
-
-	<refsection id="see_also">
-		<title>See Also</title>
-		<para><citerefentry>
-				<refentrytitle>sid</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>,
-			<citetitle pubwork="article">The Lexi users' Guide</citetitle>.</para>
-	</refsection>
-</refentry>
+	<arg choice="opt">
+		<replaceable>output-file</replaceable>
+	</arg>
+</cmdsynopsis>
 

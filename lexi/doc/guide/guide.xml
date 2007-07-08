@@ -8,7 +8,7 @@
 
 <book>
   <bookinfo>
-    <title>The lexi users' guide</title>
+    <title>The Lexi users' guide</title>
 
 	<author>
 		<firstname>Katherine</firstname>
@@ -296,55 +296,47 @@
 		</section>
 
 
+<!-- TODO in a future version
 		<section id="implementation">
 			<title>Lexi's Implementation</title>
 
 			<para>Here we talk about how the generated lexical analysers
 				work; how they use a look-up table for speed, etc. Note that
 				they read a byte at a time: perhaps mention the ignorance of
-				unicode.<!-- TODO feature request: perhaps set unicode (or other
-				chrset mapping) to UTF-8 as a pass phase --></para>
+				unicode. TODO feature request: perhaps set unicode (or other
+				chrset mapping) to UTF-8 as a pass phase<para>
 
-			<para><!-- TODO talk about passes --></para>
+			<para>TODO talk about passes </para>
 
-			<para><!-- TODO -->see section on performance.</para>
+			<para>TODO see section on performance.</para>
 		</section>
-	</chapter>
+-->
 
-	<chapter id="invocation">
-		<title>Invocation</title>
+		<section id="invocation">
+			<title>Invocation</title>
 
-		<para><application>Lexi</application> is invoked with the form:</para>
+			<para><application>Lexi</application> is invoked with the form:</para>
 
-		<cmdsynopsis>
-			<command>lexi</command>
+			<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+				href="../cmdsynopsis.xml"/>
 
-			<group>
-				<arg choice="opt">-h</arg>
-				<arg choice="opt">-v</arg>
-				<arg choice="opt">-k</arg>
-			</group>
+			<para>The <replaceable>output-file</replaceable> written is
+				either an implementation of the
+				lexical analyser specified, or if <option>-k</option> is
+				given, a set of calls to define the keywords used.</para>
 
-			<arg choice="plain">
-				<replaceable>input-file</replaceable>
-			</arg>
+			<para>The <replaceable>input-file</replaceable> is the
+				specification of the lexical analyser to generate.
+				See <xref linkend="specification"/> for details of the
+				format of this file.</para>
 
-			<arg choice="opt">
-				<replaceable>output-file</replaceable>
-			</arg>
-			<sbr/>
-		</cmdsynopsis>
+			<para>The <option>-l</option> parameter specifies a prefix
+				to the identifiers of tokens returned; this defaults to
+				<literal>lex_</literal>.</para>
 
-		<para>The output file written is either an implementation of the
-			lexical analyser specified, or if <option>-k</option> is
-			given, a set of calls to define the keywords used.</para>
-
-		<para>The <option>-l</option> parameter specifies a prefix
-			to the identifiers of tokens returned; this defaults to
-			<literal>lex_</literal>.</para>
-
-		<para>For details of the options available, see the
-			<application>Lexi</application> manpage.</para>
+			<para>For details of the options available, see the
+				<application>Lexi</application> manpage.</para>
+		</section>
 	</chapter>
 
 	<chapter id="specification">
@@ -364,8 +356,10 @@
 			<para>The following productions are used throughout this
 				document:</para>
 
-			<programlisting language="BNF">either-identifier := "$" + identifier | sid-identifier ;
-sid-identifier    := identifier + "(" + ")" ;</programlisting>
+			<programlisting language="BNF">either-identifier   := sid-identifier | function-identifier | literal-identifier;
+sid-identifier      := "$" + identifier ;
+literal-identifier  := identifier ;
+function-identifier := identifier + "(" + ")" ;</programlisting>
 			<!-- TODO rename either-identifier! -->
 		</section>
 
@@ -634,7 +628,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<programlisting language="Lexi">"a\nb\\\tc"</programlisting>
 
 			<para>Strings must contain at least one character, or
-				one character coded for by an escape sequence.</para>
+				one character coded for by an escape sequence.
+				Empty strings are not permitted.</para>
 			<!-- TODO adjust grammar to error for empty strings -->
 			<!-- TODO NEW UNDEFINED BEHAVIOUR -->
 
@@ -690,7 +685,10 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<!-- TODO If string concaternation (TODO we can't call it
 				concaternation really) is applicable for *all* places
 				where a string is used,
-				then we need to talk about it here. -->
+				then we need to talk about it here.
+
+				TODO why would you need concaternation for sequences? perhaps
+				disallow it there. -->
 		</section>
 	</chapter>
 
@@ -974,32 +972,8 @@ TOKEN "token2" -> get_identifier () ;</programlisting>
 
 			<para>Where <code>get_comment()</code> is an externally defined
 				function which simply reads characters until the corresponding
-				<code>*/</code> is found.</para>
-
-			<para>Another common case is to read tokens of a variable length.
-				This is especially suitable for reading identifiers. For
-				example:</para>
-
-			<programlisting language="Lexi">GROUP identstart = {a-z} + {A-Z} + "_";
-GROUP identbody = "[identstart]" + {0-9} + "-";
-TOKEN "[identstart]" -> read_identifier();</programlisting>
-
-			<programlisting language="C">int read_identifier(int c) {
-	for(;;) {
-		if(c == EOF) {
-			return lex_eof;
-		}
-
-		if(!is_identbody(lookup_char(c))) {
-			unread_char(c);
-			return lex_identifier;
-		}
-
-		/* store character here */
-
-		c = read_char();
-	}
-}</programlisting>
+				<code>*/</code> is found. See the <!-- TODO -->functions
+				section for futher details of calling functions.</para>
 
 			<para>In most languages, keywords are usually a subset of
 				identifiers. In order to handle these and simplify the
@@ -1014,27 +988,48 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				spellings in order to be useful to a later stage, such
 				as parsing.</para>
 
-			<para>A token may only be defined once, but different tokens
-				may share the same terminal or call the same function.
-				See <xref linkend="functioncalls"/> for further examples.</para>
-
 			<!-- TODO only defined once: even in IFs?  -->
 
 			<para>Unlike many lexical analysers, tokens in
 				<application>Lexi</application> are not specified by regular
-				expressions. 
-			<!-- TODO kevin says:
-       Tokens definition are not restricted to a fixed sequence  of  character
-       but can also use the concept of group.  For example:
+				expressions. However, as sequences of characters may contain
+				references to groups (which are treated as sets), similar
+				effects may be achieved for simple cases. For example:
 
-            TOKEN "[alpha]" ->  get_identifier ();
-            TOKEN "$[alpha]" -> get_sid_identifier ();
+				<programlisting language="Lexi">TOKEN "[alpha]" ->  get_identifier ();
+TOKEN "$[alpha]" -> get_sid_identifier ();</programlisting>
 
-       will match respectively any alphabetic character ( dollar sign followed
-       by an alphabetic character).  As long  as  the  alpha  group  has  been
-       defined, of course.
-			-->
-			</para>
+				assuming the group <quote>alpha</quote> is defined. Another
+				example:
+
+				<programlisting language="Lexi">TOKEN "A[digit]" -> $papersize ;</programlisting>
+
+				would match paper sizes such as such as <quote>A3</quote>,
+				<quote>A4</quote> and so on. A token may only be defined once,
+				but different tokens may share the same terminal or call the
+				same function. So to extend our (rather lax) implementation of
+				<acronym>ISO</acronym> 216 paper sizes:
+
+				<programlisting language="Lexi">TOKEN "A[digit]" -> $papersize ;
+TOKEN "A10" -> $papersize ;
+TOKEN "C[digit]" -> $envelopesize ;
+TOKEN "B[digit]" -> $envelopesize ;
+TOKEN "DL" -> $envelopesize ;	/* BS 4264 specifies a transparent window for DL */
+TOKEN "ID-[digit]" -> $identificationcardsize ;</programlisting>
+				<!-- TODO extend as "C[{0-3}]" in the future -->
+
+				Note that <quote>A10</quote> codes for the same lexeme as
+				single-digit <quote>A</quote> sizes. See
+				<xref linkend="functioncalls"/> for further examples of
+				multiple tokens sharing one function, and the <!-- TODO sets -->
+				for further examples of using sets within sequences.</para>
+
+			<para>Using groups in this way is especially useful in combination
+				with functions for reading variable-length tokens. For example:
+
+				<programlisting language="Lexi">TOKEN "[alpha]" ->  get_identifier() ;
+TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
+				</para>
 
 
 			<para><!-- TODO state ranges are undefined --></para>
@@ -1052,6 +1047,21 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
        overlap.
 			TODO we defined overlap as illegal in the groups section;
 				this is just explaining rationalle -->
+
+
+<!-- TODO stated as undefined behaviour in Strings section
+			<para>TODO kevin says:
+       An empty string can be a token,
+            TOKEN "" -> $default ;
+       It really means that if no other token match, then the  lexer  will  eat
+       one  character  and  return  $default.   If  this  token is not present
+       lex_unknown would have been returned.
+			</para>
+
+	TODO we should make a sequence of undefined behaviours and check
+	if anybody uses them (or indeed if anybody uses lexi...)
+-->
+
 		</para>
 
 		</section>
@@ -1170,6 +1180,15 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 			But as this happens in a seperate pass, the buffer need only
 			be max(token, trigraph) (not including '\0')
 		-->
+
+<!--
+<kevin2993> And I believe I was wrong at one point in the manpage saying that one 
+            could replace a KEYWORD with aTOKEN and get an equivalent program 
+            with a different interface
+<kevin2993> The difference is the beginning of 
+            keywordwithoutaseparatingwhitespace will be recognized as a token but 
+            not as keyword if keyword is a keyword
+-->
 		</section>
 
 <!--
@@ -1209,14 +1228,47 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 			-->
 			</para>
 
-			<para><!-- TODO kevin says:
-       where identifier is a variable of the program.  For tokens, it seems to
+			<para>Conditions affect constructs in the following ways:
+
+				<variablelist>
+					<varlistentry>
+						<term>Tokens</term>
+						<listitem>
+							<para>
+		<!-- TODO kevin says:
+        For tokens, it seems to
        mean that if the condition is fulfilled, upon finding  the  token,  the
        corresponding terminal is returned.  If that is not the case, the token
-       is read and skipped.  For keywords, the MAKE_KEYWORD call  is  enclosed
-       by  the condition in the resulting C code.  For mappings, if the condi-
+       is read and skipped. 
+		-->
+							</para>
+						</listitem>
+					</varlistentry>
+
+					<varlistentry>
+						<term>Keywords</term>
+						<listitem>
+							<para>
+		<!--
+		For keywords, the MAKE_KEYWORD call  is  enclosed
+       by  the condition in the resulting C code.
+		-->
+							</para>
+						</listitem>
+					</varlistentry>
+
+					<varlistentry>
+						<term>Pre-pass mappings</term>
+						<listitem>
+							<para>
+		<!--
+		For mappings, if the condi-
        tion doesn't hold, the replacement doesn't occur.
-			-->
+		-->
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
 			</para>
 
 			<para>The conditional constructs are not a particularly powerful
@@ -1312,7 +1364,46 @@ void unread_char(int);</programlisting>
 			<title>Functions</title>
 			<!-- TODO we could express system-defined functions as $x() perhaps -->
 
-			<!-- TODO mention you can call groups etc (or indeed any APi stuff) -->
+			<para>Within the C implementation of functions, the usual
+				<application>Lexi</application> <acronym>API</acronym>
+				functions may be called. For example, to call
+				<code>read_char()</code> and <code>unread_char()</code>.
+				This is especially useful for calling the functions
+				defined to identify membership in groups. A common
+				case is to read tokens of a variable length.
+				This is especially suitable for reading identifiers.
+				For example:
+
+				<programlisting language="Lexi">GROUP identstart = {a-z} + {A-Z} + "_";
+GROUP identbody = "[identstart]" + {0-9} + "-";
+TOKEN "[identstart]" -> read_identifier();</programlisting>
+
+			<programlisting language="C">int read_identifier(int c) {
+	for(;;) {
+		if(c == EOF) {
+			return lex_eof;
+		}
+
+		if(!is_identbody(lookup_char(c))) {
+			unread_char(c);
+			return lex_identifier;
+		}
+
+		/* store character here */
+
+		c = read_char();
+	}
+}</programlisting>
+
+				It is important to honour the usual <acronym>API</acronym>
+				constraints; for example, do not call
+				<code>unread_char()</code> consequtively more than once<!--
+				TODO is that true? does lexi call it more than once? -->.</para>
+
+
+			<!-- TODO in the future when we remove the lookup_char function, you
+				will be able to TOKEN "x" -> is_digit(). I don't know if that
+				would be useful, but mention it anyway -->
 			<!-- TODO mention the API constraints still hold: don't call
 				unread_char() more than once, etc -->
 
@@ -1329,7 +1420,7 @@ TODO UNDEFINED BEHAVIOUR
 TOKEN "//" -> get_comment () ;
 TOKEN "#"  -> get_comment () ;</programlisting>
 
-			<para>Will make calls to <code>get_comment('/','/');</code> and
+			<para>Would make calls to <code>get_comment('/','/');</code> and
 				<code>get_comment('#');</code> respectivley.
 				The difference in the number of arguments
 				may cause a problem. One workaround is to call
@@ -1365,13 +1456,16 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 		</section>
 	</chapter>
 
+<!-- TODO in a future version. probably discuss the trie here, too (just not the implementation of it)
 	<chapter>
 		<title>Implementation</title>
 
-		<para><!-- TODO -->What is generated, and algorithims employed</para>
+		<para>What is generated, and algorithims employed</para>
 
-		<para><!-- TODO -->Performance relative to other lexers</para>
+		<para>Performance relative to other lexers. We can port all our examples to lex and such, to compare.
+			Side-by-side comparisons would also help users understand them if they know lex already.</para>
 	</chapter>
+-->
 
 	<chapter id="appendix">
 		<title id="appendix.title">Appendix</title>
@@ -1400,17 +1494,16 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 
 				<para>TODO joint example with sid.</para>
 			</section>
-			Perhaps a grade-2 braille system (pre-pass mappings would
-			work well) outputting tokens, ignoring whitespace. Punct can
-			also be a token.
 		</section>
 		-->
 
+		<!--
 		<section>
 			<title>Description grammar</title>
-			<!-- Grammar (for reference) and sequence of keywords, reserved words, etc
-				This probably makes more sense for the next version, really -->
+			Grammar (for reference) and sequence of keywords, reserved words, etc
+				This probably makes more sense for the next version, really
 		</section>
+		-->
 
 		<section>
 			<title>Undefined behaviour</title>
@@ -1429,46 +1522,45 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 		<section>
 			<title>Obscure Features</title>
 
-			<para><!-- TODO kevin says:
-       I put here some legal constructs of doubtful interest:
+			<para>This section describes legal constructs of doubtful
+				interest.</para>
 
+			<!-- TODO kevin says:
             TOKEN "&amp;&amp;" -> and;
 
        are legal tokens' definitions. The first one lacks the $ sign and is of
        no  interest  if  you use the sid parser generator, and lexi is usually
        meant to be used with sid.
 	TODO See above re lex_
+	This is reundant now that we're going to disallow non-sid identifiers. When we do, we should rename them.
 			-->
-			</para>
 
-			<para><!-- TODO kevin says:
-            TOKEN {A-Z} + "something" -> $x ;
-		The second one is a little ugly since  lit-
-       erals  are intended to be a set not a sequence of characters. It really
-       means:
-            TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $Am-I-Kidding ;
-       probably not the intended effect.
-		TODO dissalow ranges for tokens, then! eventually we can remove from
-		grammar. Possibly you mean something like:
+			<section>
+				<title>Ranges within tokens</title>
 
-			GROUP alpha = {A-Z};
-			TOKEN "[alpha]someting" -> $x ;
-			-->
-			<!-- TODO dissalow after first release -->
-			</para>
+				<para>The grammar for <application>Lexi</application> permits
+					strings formed of pre-defined character ranges to be used
+					for token definitions:
 
-<!-- TODO stated as undefined behaviour in Strings section
-			<para>TODO kevin says:
-       An empty string can be a token,
-            TOKEN "" -> $default ;
-       It really mean that if no other token match, then the  lexer  will  eat
-       one  character  and  return  $default.   If  this  token is not present
-       lex_unknown woul have been returned.
-			</para>
+					<programlisting language="Lexi">TOKEN {A-Z} + "something" -> $x ;</programlisting>
 
-	TODO we should make a sequence of undefined behaviours and check
-	if anybody uses them (or indeed if anybody uses lexi...)
--->
+					Character ranges are intended
+					to be used for sets (that is, in <code>GROUP</code>), not
+					sequences. Since tokens are defined using sequences, this
+					really means:
+
+					<programlisting>TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
+				</para>
+
+				<para>This is probably not the intended effect.<!-- TODO dissalow
+					ranges for tokens, then! eventually we can remove from
+					grammar. dissalow after first release. --> Using a group
+					is suggested instead:
+
+					<programlisting>GROUP alpha = {A-Z} ;
+TOKEN "[alpha]something" -> $x ;</programlisting>
+				</para>
+			</section>
 
 			<section>
 				<title>Whitespace within tokens and keywords</title>
@@ -1487,14 +1579,14 @@ TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 					illegal. -->
 
 				<!--
-				TODO what happens to whitespace? just thrown away in front,
-				but the first one is ok? odd! TODO list precendence of these
+				TODO the first one is ok? odd! TODO list precendence of these
 				things! that should be a section by itself perhaps
 				-->
 			</section>
 		</section>
 	</chapter>
 
+	<!-- TODO include this in the global glossary as a per-project section -->
 	<chapter id="glossary">
 		<title>Glossary</title>
 
