@@ -1,0 +1,25 @@
+/*
+ * Primtive comment stripping. This attempts to strip comments for
+ * C-like languages. It demonstrates that lexing a language into
+ * tokens provides a natural way to avoid accidentally mistaking
+ * the contents of string literals for comments.
+ *
+ * Notice when passing this file as input (for example) that
+ * the string "/*" below is not mistaken for a comment.
+ * Escaped characters in strings are not supported, as this
+ * is only a simple example.
+ *
+ * $Id$
+ */
+
+/* Treat no characters as whitespace */
+GROUP white = "";
+
+/* Skip comments */
+TOKEN "/*" -> skip_block_comment();
+TOKEN "//" -> skip_single_comment();
+
+/* Pass through strings as-is */
+TOKEN "\"" -> pass_string();
+
+
