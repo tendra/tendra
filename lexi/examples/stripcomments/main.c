@@ -18,16 +18,21 @@ int unknown_token(int c);
 
 /* lexemes */
 enum {
-	lex_unknown,
-	lex_eof
+	lex_unknown
 };
 
 #include "comments.c"
 
 char word[256];
 
-unknown_token(int c) {
+int unknown_token(int c) {
+	if(c == EOF) {
+		return LEX_EOF;
+	}
+
 	putc(c, stdout);
+
+	return c;
 }
 
 int unread_char(int c) {
@@ -47,12 +52,17 @@ int read_char(void) {
 }
 
 /*
- * Skip through a single-line comment, not outputting its contents.
+ * Skip through a single-line string, outputting its contents.
+ *
+ * This example illustrated two tokens coding for one function;
+ * this function deals with escaping characters for both double-quoted
+ * and single-quoted strings, depending on which delimiter is used.
  */
-int pass_string(int c0) {
+int pass_string(int delim) {
 	int c;
+	int inescape = 0;
 
-	unknown_token(c);
+	putc(delim, stdout);
 
 	for(;;) {
 		c = read_char();
@@ -61,9 +71,19 @@ int pass_string(int c0) {
 			return LEX_EOF;
 		}
 
-		unknown_token(c);
+		putc(c, stdout);
 
-		if(c == '\"') {
+		/*
+		 * If we're in an escape sequence, this character takes us out of it.
+		 * If we're not, then a \ takes us into one.
+		 */
+		if(inescape) {
+			inescape = 0;
+		} else if(c == '\\') {
+			inescape = 1;
+		}
+
+		if(!inescape && c == delim) {
 			return lex_unknown;
 		}
 	}
@@ -83,7 +103,7 @@ int skip_single_comment(int c0, int c1) {
 		}
 
 		if(c == '\n') {
-			unread_char(c);	/* for the newline */
+			unread_char(c);	/* to preserve the newline */
 			return lex_unknown;
 		}
 	}
@@ -104,6 +124,10 @@ int skip_block_comment(int c0, int c1) {
 
 		if(c == '*') {
 			c = read_char();
+
+			if(c == EOF) {
+				return LEX_EOF;
+			}
 
 			if(c == '/') {
 				return lex_unknown;
