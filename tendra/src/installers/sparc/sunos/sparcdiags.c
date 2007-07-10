@@ -762,7 +762,8 @@ static void out_dt_shape
 	if (depth_now >= max_depth) {
 	  depth_now = 0;
 	  fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n",0,0);
-	  fprintf(dg_file,	}
+	  fprintf(dg_file, "\t.stabs\t\"");
+	}
 	depth_now++;
 	fprintf(dg_file, "%s:", sf->field_name.ints.chars);
 	out_dt_shape(sf->field_type);
