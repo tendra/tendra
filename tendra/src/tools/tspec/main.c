@@ -72,6 +72,12 @@
 #include "print.h"
 #include "utility.h"
 
+/*
+ * The default search path for when $INPUT_ENV is not
+ * defined. This is also prefixed to user-supplied paths.
+ */
+#define INPUT_DEFAULT "."
+
 
 /*
  * INPUT AND OUTPUT DIRECTORIES
@@ -180,7 +186,7 @@ main(int argc, char **argv)
 {
     int a;
     char *env;
-    char *dir = ".";
+    char *dir = INPUT_DEFAULT;
     char *api = null;
     char *file = null;
     char *subset = null;
@@ -204,7 +210,11 @@ main(int argc, char **argv)
 
     /* Read system variables */
     env = getenv(INPUT_ENV);
-    if (env)input_dir = string_copy(env);
+    if (env) {
+	input_dir = string_copy(env);
+    } else {
+	input_dir = string_copy(INPUT_DEFAULT);
+    }
     env = getenv(OUTPUT_ENV);
     if (env) {
 	output_incl_dir = string_printf("%s/include", env);
