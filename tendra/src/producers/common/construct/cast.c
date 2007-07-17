@@ -101,6 +101,22 @@
 
 
 /*
+    CREATE A CALCULATED INTEGER CONSTANT EXPRESSION
+ */
+
+EXP
+make_lit_exp(EXP a)
+{
+	TYPE t = DEREF_type(exp_type(a));
+	NAT n;
+	EXP e;
+	MAKE_nat_calc(a, n);
+	MAKE_exp_int_lit(t, n, exp_cast_tag, e);
+	return (e);
+}
+
+
+/*
     CREATE AN EXACT CAST EXPRESSION
 
     This routine introduces a dummy cast expression which converts the

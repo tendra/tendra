@@ -68,6 +68,8 @@
     The routines in this module are concerned with casting types.
 */
 
+extern EXP make_lit_exp(EXP);
+
 extern EXP make_cast_exp(TYPE, EXP, int);
 extern EXP make_static_cast_exp(TYPE, EXP, int);
 extern EXP make_reinterp_cast_exp(TYPE, EXP, int);

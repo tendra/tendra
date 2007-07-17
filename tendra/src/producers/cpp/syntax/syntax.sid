@@ -168,7 +168,7 @@ using ; virtual ; wchar-t ;
 !ifdef ; !ifndef ; !ignore ; !implement ; !implicit ; !import ; !include ;
 !includes ; !include-next ; !incompatible ; !incomplete ; !indented ;
 !initialization ; !integer ; !interface ; !internal ; !into ; !int-cap ;
-!keyword ; !limit ; !line ; !linkage ; !lit ; !longlong ; !lvalue ;
+!keyword ; !limit ; !line ; !linkage ; lit ; !longlong ; !lvalue ;
 !macro ; !main ; !member ; !member-cap ; !name ; !nat-cap ; !nested ;
 !nline ; !no ; !no-def ; !object ; !octal ; !of ; !off ; !on ; !option ;
 !overflow ; overload ; !pointer ; !postpone ; !pragma ; !precedence ;
@@ -1089,10 +1089,14 @@ unary-expression : () -> ( e : EXP ) = {
     to void.
 */
 
+<exp_lit> : ( :EXP ) -> ( :EXP ) ;
 <exp_ignore> : ( :EXP ) -> ( :EXP ) ;
 
 cast-expression : () -> ( e : EXP ) = {
 	e = unary-expression ;
+    ||
+	lit ; a = cast-expression ;
+	e = <exp_lit> ( a );
     ||
 	open-round ; ( t, n ) = type-id-false ; close-round ;
 	a = cast-expression ;
