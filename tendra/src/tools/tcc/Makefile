@@ -11,6 +11,7 @@ LIBS=
 # Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
+MAN=		tcc.1 tccenv.5
 WRAPPER=	tcc.sh
 
 SRCS=		archive.c compile.c environ.c execute.c filename.c flags.c\

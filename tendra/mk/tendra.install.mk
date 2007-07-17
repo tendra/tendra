@@ -133,7 +133,7 @@ _MANINSTALL: .USE
 	@${ECHO} "# Installing ${MAN} manual pages"
 . for man in ${MAN}
 	${CONDCREATE} "${MAN_DIR}/man${man:E}"
-	${INSTALL} -m 444 ${.CURDIR}/${man} ${MAN_DIR}/man${man:E}/${man}
+	${INSTALL} -m 644 ${.CURDIR}/${man} ${MAN_DIR}/man${man:E}/${man}
 . endfor
 .endif
 
