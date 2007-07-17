@@ -4549,6 +4549,11 @@ check(exp e, exp scope)
 			/* replace cond which has first a simple goto to the
 			 * alt by the alt (removing the label) */
 			exp x = bro(son(bro(son(e))));
+			/* copy shape of cond to the alt. they should be the
+			 * same, but optimisations may have changed signed
+			 * to unsigned and vice versa, and these changes would
+			 * otherwise be undone */
+			sh(x) = sh(e);
 #ifdef NEWDIAGS
 			if (diagnose) {
 				dg_rdnd_code(son(e), x);
