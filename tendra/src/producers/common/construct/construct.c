@@ -2301,7 +2301,7 @@ void
 implicit_defn(IDENTIFIER id, int n)
 {
 	TYPE t;
-	EXP e, r;
+	EXP c, e, r;
 	DECL_SPEC ds;
 	IDENTIFIER fn;
 	NAMESPACE cns;
@@ -2348,6 +2348,9 @@ implicit_defn(IDENTIFIER id, int n)
 	cns = DEREF_nspace(type_func_pars(t));
 	push_namespace(cns);
 	r = make_this_decl(id);
+	/* create a compound block so that declarations for default
+	 * arguments of inherited constructors will be added */
+	c = begin_compound_stmt(1);
 	cns = DEREF_nspace(id_parent(id));
 	e = make_constr(cns, id, n, n);
 	if (n == DEFAULT_DESTR) {
@@ -2362,6 +2365,8 @@ implicit_defn(IDENTIFIER id, int n)
 		MAKE_exp_return_stmt(type_bottom, r, r);
 		e = join_exp(e, r);
 	}
+	c = add_compound_stmt(c, e);
+	e = end_compound_stmt(c);
 	IGNORE pop_namespace();
 	e = end_try_check(id, e);
 	COPY_exp(id_mem_func_defn(id), e);
