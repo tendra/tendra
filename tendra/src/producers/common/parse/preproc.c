@@ -2563,6 +2563,28 @@ end_label:
 
 
 /*
+ * Print a list of #line directives representing the #include stack
+ * so that information on wrapper header files (which simply directly
+ * include another header file) is not lost.
+ */
+static void
+print_linedir(FILE *f, LOCATION loc)
+{
+	string fm = DEREF_string(posn_file(loc.posn));
+	char *s = strlit(fm);
+
+	PTR(LOCATION)from = DEREF_ptr(posn_from(loc.posn));
+	if (!IS_NULL_ptr(from)) {
+		LOCATION fromloc;
+		DEREF_loc(from, fromloc);
+		print_linedir(f, fromloc);
+	}
+
+	fprintf_v(f, "#line %lu \"%s\"\n",
+		  loc.line, s);
+}
+
+/*
     PREPROCESS A FILE
 
     This routine gives the preprocessor entry point for the compiler.  Each
@@ -2595,7 +2617,6 @@ preprocess_file(void)
 	}
 	f = output_file[OUTPUT_PREPROC];
 	bf = clear_buffer(&preproc_buff, f);
-	fprintf_v(f, "#line 1 \"%s\"", strlit(fn));
 	crt_file_changed = 1;
 
 	/* Scan through preprocessing tokens */
@@ -2628,9 +2649,8 @@ preprocess_file(void)
 				string fm =
 				    DEREF_string(posn_file(crt_loc.posn));
 				if (ch > 1 || !ustreq(fn, fm)) {
-					char *s = strlit(fm);
-					fprintf_v(f, "\n\n#line %lu \"%s\"\n",
-						  n, s);
+					fputs_v("\n\n", f);
+					print_linedir(f, crt_loc);
 					fn = fm;
 					ln = n;
 				}
