@@ -95,146 +95,147 @@ extern ERR_CONST char *ERR_NAME ;
 #define OPT_cpp_error 6
 #define OPT_c_error 7
 #define OPT_addr_register 8
-#define OPT_bitf_overflow 9
-#define OPT_bitf_type 10
-#define OPT_bool_assign 11
-#define OPT_case_fall 12
-#define OPT_cast_explicit 13
-#define OPT_class_scope 14
-#define OPT_comma_extra 15
-#define OPT_complete_struct 16
-#define OPT_concat_string 17
-#define OPT_cond_default 18
-#define OPT_cond_lvalue 19
-#define OPT_const_cond 20
-#define OPT_const_internal 21
-#define OPT_const_string 22
-#define OPT_conv 23
-#define OPT_conv_int_int 24
-#define OPT_conv_int_int_expl 25
-#define OPT_conv_int_int_impl 26
-#define OPT_conv_int_enum 27
-#define OPT_conv_int_ptr 28
-#define OPT_conv_int_ptr_expl 29
-#define OPT_conv_int_ptr_impl 30
-#define OPT_conv_ptr_ptr 31
-#define OPT_conv_ptr_ptr_expl 32
-#define OPT_conv_ptr_ptr_impl 33
-#define OPT_conv_ptr_ptr_void 34
-#define OPT_conv_ptr_void_ptr 35
-#define OPT_conv_ptr_func 36
-#define OPT_cpplus_comment 37
-#define OPT_decl_cond 38
-#define OPT_decl_empty 39
-#define OPT_decl_hide 40
-#define OPT_decl_none 41
-#define OPT_decl_struct_anon 42
-#define OPT_decl_unify 43
-#define OPT_decl_volatile 44
-#define OPT_delete_over 45
-#define OPT_digraph 46
-#define OPT_discard 47
-#define OPT_discard_exp 48
-#define OPT_discard_func 49
-#define OPT_discard_static 50
-#define OPT_discard_value 51
-#define OPT_dollar_ident 52
-#define OPT_dspec_none 53
-#define OPT_dspec_none_func 54
-#define OPT_ellipsis_extra 55
-#define OPT_ellipsis_ident 56
-#define OPT_empty_body 57
-#define OPT_enum_decl 58
-#define OPT_enum_switch 59
-#define OPT_eof_nline 60
-#define OPT_escape_overflow 61
-#define OPT_escape_unknown 62
-#define OPT_for_scope 63
-#define OPT_func_block 64
-#define OPT_func_impl 65
-#define OPT_func_incompat 66
-#define OPT_func_linkage 67
-#define OPT_func_proto 68
-#define OPT_func_ret_void 69
-#define OPT_func_token_undef 70
-#define OPT_func_weak 71
-#define OPT_gen_ptr_char 72
-#define OPT_hash_ident 73
-#define OPT_include_full 74
-#define OPT_include_verbose 75
-#define OPT_infer_int 76
-#define OPT_infer_int_cv 77
-#define OPT_init_aggregate 78
-#define OPT_init_dynamic 79
-#define OPT_init_struct 80
-#define OPT_inline_internal 81
-#define OPT_int_operator 82
-#define OPT_int_overflow 83
-#define OPT_interf_incompat 84
-#define OPT_iso_keyword 85
-#define OPT_link_incompat 86
-#define OPT_link_internal 87
-#define OPT_link_resolve 88
-#define OPT_lint_comment 89
-#define OPT_longlong 90
-#define OPT_macro_arg_dir 91
-#define OPT_macro_nest 92
-#define OPT_macro_redef 93
-#define OPT_macro_weak 94
-#define OPT_member_incompat 95
-#define OPT_name_limit 96
-#define OPT_nest_comment 97
-#define OPT_new_array 98
-#define OPT_overload_ambig 99
-#define OPT_overload_dep 100
-#define OPT_overload_expl 101
-#define OPT_overload_res 102
-#define OPT_overload_strict 103
-#define OPT_param_impl 104
-#define OPT_paren 105
-#define OPT_ppdir_id 106
-#define OPT_ppdir_null 107
-#define OPT_ppdir_text 108
-#define OPT_ppdir_unknown 109
-#define OPT_ppdir_assert 110
-#define OPT_ppdir_assert_ignore 111
-#define OPT_ppdir_file 112
-#define OPT_ppdir_file_ignore 113
-#define OPT_ppdir_ident 114
-#define OPT_ppdir_ident_ignore 115
-#define OPT_ppdir_import 116
-#define OPT_ppdir_import_ignore 117
-#define OPT_ppdir_indent 118
-#define OPT_ppdir_indent_dir 119
-#define OPT_ppdir_unassert 120
-#define OPT_ppdir_unassert_ignore 121
-#define OPT_ppdir_warning 122
-#define OPT_ppdir_warning_ignore 123
-#define OPT_ppdir_weak 124
-#define OPT_ppdir_weak_ignore 125
-#define OPT_pragma_unknown 126
-#define OPT_preproc_old 127
-#define OPT_printf_string 128
-#define OPT_proto_scope 129
-#define OPT_ptr_operator 130
-#define OPT_ptr_void 131
-#define OPT_reached 132
-#define OPT_semicolon_extra 133
-#define OPT_templ_export 134
-#define OPT_templ_undecl 135
-#define OPT_this_lvalue 136
-#define OPT_throw_bad 137
-#define OPT_token_const 138
-#define OPT_token_redef 139
-#define OPT_token_undef 140
-#define OPT_trigraph 141
-#define OPT_type_obj_incompl 142
-#define OPT_type_qual_incompat 143
-#define OPT_type_redef 144
-#define OPT_type_tag_ignore 145
-#define OPT_unmatched 146
-#define OPT_variable 147
-#define OPT_weak 148
+#define OPT_anon_union 9
+#define OPT_bitf_overflow 10
+#define OPT_bitf_type 11
+#define OPT_bool_assign 12
+#define OPT_case_fall 13
+#define OPT_cast_explicit 14
+#define OPT_class_scope 15
+#define OPT_comma_extra 16
+#define OPT_complete_struct 17
+#define OPT_concat_string 18
+#define OPT_cond_default 19
+#define OPT_cond_lvalue 20
+#define OPT_const_cond 21
+#define OPT_const_internal 22
+#define OPT_const_string 23
+#define OPT_conv 24
+#define OPT_conv_int_int 25
+#define OPT_conv_int_int_expl 26
+#define OPT_conv_int_int_impl 27
+#define OPT_conv_int_enum 28
+#define OPT_conv_int_ptr 29
+#define OPT_conv_int_ptr_expl 30
+#define OPT_conv_int_ptr_impl 31
+#define OPT_conv_ptr_ptr 32
+#define OPT_conv_ptr_ptr_expl 33
+#define OPT_conv_ptr_ptr_impl 34
+#define OPT_conv_ptr_ptr_void 35
+#define OPT_conv_ptr_void_ptr 36
+#define OPT_conv_ptr_func 37
+#define OPT_cpplus_comment 38
+#define OPT_decl_cond 39
+#define OPT_decl_empty 40
+#define OPT_decl_hide 41
+#define OPT_decl_none 42
+#define OPT_decl_struct_anon 43
+#define OPT_decl_unify 44
+#define OPT_decl_volatile 45
+#define OPT_delete_over 46
+#define OPT_digraph 47
+#define OPT_discard 48
+#define OPT_discard_exp 49
+#define OPT_discard_func 50
+#define OPT_discard_static 51
+#define OPT_discard_value 52
+#define OPT_dollar_ident 53
+#define OPT_dspec_none 54
+#define OPT_dspec_none_func 55
+#define OPT_ellipsis_extra 56
+#define OPT_ellipsis_ident 57
+#define OPT_empty_body 58
+#define OPT_enum_decl 59
+#define OPT_enum_switch 60
+#define OPT_eof_nline 61
+#define OPT_escape_overflow 62
+#define OPT_escape_unknown 63
+#define OPT_for_scope 64
+#define OPT_func_block 65
+#define OPT_func_impl 66
+#define OPT_func_incompat 67
+#define OPT_func_linkage 68
+#define OPT_func_proto 69
+#define OPT_func_ret_void 70
+#define OPT_func_token_undef 71
+#define OPT_func_weak 72
+#define OPT_gen_ptr_char 73
+#define OPT_hash_ident 74
+#define OPT_include_full 75
+#define OPT_include_verbose 76
+#define OPT_infer_int 77
+#define OPT_infer_int_cv 78
+#define OPT_init_aggregate 79
+#define OPT_init_dynamic 80
+#define OPT_init_struct 81
+#define OPT_inline_internal 82
+#define OPT_int_operator 83
+#define OPT_int_overflow 84
+#define OPT_interf_incompat 85
+#define OPT_iso_keyword 86
+#define OPT_link_incompat 87
+#define OPT_link_internal 88
+#define OPT_link_resolve 89
+#define OPT_lint_comment 90
+#define OPT_longlong 91
+#define OPT_macro_arg_dir 92
+#define OPT_macro_nest 93
+#define OPT_macro_redef 94
+#define OPT_macro_weak 95
+#define OPT_member_incompat 96
+#define OPT_name_limit 97
+#define OPT_nest_comment 98
+#define OPT_new_array 99
+#define OPT_overload_ambig 100
+#define OPT_overload_dep 101
+#define OPT_overload_expl 102
+#define OPT_overload_res 103
+#define OPT_overload_strict 104
+#define OPT_param_impl 105
+#define OPT_paren 106
+#define OPT_ppdir_id 107
+#define OPT_ppdir_null 108
+#define OPT_ppdir_text 109
+#define OPT_ppdir_unknown 110
+#define OPT_ppdir_assert 111
+#define OPT_ppdir_assert_ignore 112
+#define OPT_ppdir_file 113
+#define OPT_ppdir_file_ignore 114
+#define OPT_ppdir_ident 115
+#define OPT_ppdir_ident_ignore 116
+#define OPT_ppdir_import 117
+#define OPT_ppdir_import_ignore 118
+#define OPT_ppdir_indent 119
+#define OPT_ppdir_indent_dir 120
+#define OPT_ppdir_unassert 121
+#define OPT_ppdir_unassert_ignore 122
+#define OPT_ppdir_warning 123
+#define OPT_ppdir_warning_ignore 124
+#define OPT_ppdir_weak 125
+#define OPT_ppdir_weak_ignore 126
+#define OPT_pragma_unknown 127
+#define OPT_preproc_old 128
+#define OPT_printf_string 129
+#define OPT_proto_scope 130
+#define OPT_ptr_operator 131
+#define OPT_ptr_void 132
+#define OPT_reached 133
+#define OPT_semicolon_extra 134
+#define OPT_templ_export 135
+#define OPT_templ_undecl 136
+#define OPT_this_lvalue 137
+#define OPT_throw_bad 138
+#define OPT_token_const 139
+#define OPT_token_redef 140
+#define OPT_token_undef 141
+#define OPT_trigraph 142
+#define OPT_type_obj_incompl 143
+#define OPT_type_qual_incompat 144
+#define OPT_type_redef 145
+#define OPT_type_tag_ignore 146
+#define OPT_unmatched 147
+#define OPT_variable 148
+#define OPT_weak 149
 #endif
 
 
@@ -2035,1163 +2036,1166 @@ extern plural chk_N ( plural ) ;
 #define ERR_class_union_mem( A, B )\
 	ERR_GEN ( 574, chk_2 ( A ), chk_G ( B ) )
 
-#define ERR_class_union_anon_private()\
+#define ERR_class_union_anon()\
 	ERR_GEN ( 575 )
 
-#define ERR_class_union_anon_func()\
+#define ERR_class_union_anon_private()\
 	ERR_GEN ( 576 )
 
-#define ERR_class_union_anon_static()\
+#define ERR_class_union_anon_func()\
 	ERR_GEN ( 577 )
 
-#define ERR_class_union_anon_mem()\
+#define ERR_class_union_anon_static()\
 	ERR_GEN ( 578 )
 
-#define ERR_class_bit_base( A )\
-	ERR_GEN ( 579, chk_G ( A ) )
+#define ERR_class_union_anon_mem()\
+	ERR_GEN ( 579 )
 
-#define ERR_class_bit_base_int( A )\
+#define ERR_class_bit_base( A )\
 	ERR_GEN ( 580, chk_G ( A ) )
 
+#define ERR_class_bit_base_int( A )\
+	ERR_GEN ( 581, chk_G ( A ) )
+
 #define ERR_class_bit_sign( A )\
-	ERR_GEN ( 581, chk_1 ( A ) )
+	ERR_GEN ( 582, chk_1 ( A ) )
 
 #define ERR_class_bit_dim_const()\
-	ERR_GEN ( 582 )
-
-#define ERR_class_bit_dim_zero()\
 	ERR_GEN ( 583 )
 
+#define ERR_class_bit_dim_zero()\
+	ERR_GEN ( 584 )
+
 #define ERR_class_bit_dim_neg( A )\
-	ERR_GEN ( 584, chk_B ( A ) )
+	ERR_GEN ( 585, chk_B ( A ) )
 
 #define ERR_class_bit_dim_big( A, B )\
-	ERR_GEN ( 585, chk_B ( A ), chk_G ( B ) )
+	ERR_GEN ( 586, chk_B ( A ), chk_G ( B ) )
 
 #define ERR_class_bit_static()\
-	ERR_GEN ( 586 )
-
-#define ERR_class_bit_typedef()\
 	ERR_GEN ( 587 )
 
-#define ERR_class_bit_ptr()\
+#define ERR_class_bit_typedef()\
 	ERR_GEN ( 588 )
 
-#define ERR_class_bit_ref()\
+#define ERR_class_bit_ptr()\
 	ERR_GEN ( 589 )
 
-#define ERR_class_bit_mptr()\
+#define ERR_class_bit_ref()\
 	ERR_GEN ( 590 )
 
+#define ERR_class_bit_mptr()\
+	ERR_GEN ( 591 )
+
 #define ERR_class_local_func( A )\
-	ERR_GEN ( 591, chk_9 ( A ) )
+	ERR_GEN ( 592, chk_9 ( A ) )
 
 #define ERR_class_local_static( A )\
-	ERR_GEN ( 592, chk_7 ( A ) )
-
-#define ERR_class_local_auto( A )\
 	ERR_GEN ( 593, chk_7 ( A ) )
 
+#define ERR_class_local_auto( A )\
+	ERR_GEN ( 594, chk_7 ( A ) )
+
 #define ERR_class_derived_class( A )\
-	ERR_GEN ( 594, chk_G ( A ) )
+	ERR_GEN ( 595, chk_G ( A ) )
 
 #define ERR_class_derived_incompl()\
-	ERR_GEN ( 595 )
+	ERR_GEN ( 596 )
 
 #define ERR_class_derived_empty( A )\
-	ERR_GEN ( 596, chk_2 ( A ) )
+	ERR_GEN ( 597, chk_2 ( A ) )
 
 #define ERR_class_derived_base( A, B )\
-	ERR_GEN ( 597, chk_2 ( A ), chk_2 ( B ) )
-
-#define ERR_class_derived_virt( A, B )\
 	ERR_GEN ( 598, chk_2 ( A ), chk_2 ( B ) )
 
-#define ERR_class_mi_dup( A, B )\
+#define ERR_class_derived_virt( A, B )\
 	ERR_GEN ( 599, chk_2 ( A ), chk_2 ( B ) )
 
-#define ERR_class_member_lookup_ambig( A, B )\
+#define ERR_class_mi_dup( A, B )\
 	ERR_GEN ( 600, chk_2 ( A ), chk_2 ( B ) )
 
+#define ERR_class_member_lookup_ambig( A, B )\
+	ERR_GEN ( 601, chk_2 ( A ), chk_2 ( B ) )
+
 #define ERR_class_member_lookup_func()\
-	ERR_GEN ( 601 )
+	ERR_GEN ( 602 )
 
 #define ERR_class_virtual_poly( A )\
-	ERR_GEN ( 602, chk_2 ( A ) )
+	ERR_GEN ( 603, chk_2 ( A ) )
 
 #define ERR_class_virtual_override( A )\
-	ERR_GEN ( 603, chk_6 ( A ) )
+	ERR_GEN ( 604, chk_6 ( A ) )
 
 #define ERR_class_virtual_hide( A, B )\
-	ERR_GEN ( 604, chk_6 ( A ), chk_9 ( B ) )
+	ERR_GEN ( 605, chk_6 ( A ), chk_9 ( B ) )
 
 #define ERR_class_virtual_ret( A, B, C )\
-	ERR_GEN ( 605, chk_7 ( A ), chk_9 ( B ), chk_D ( C ) )
+	ERR_GEN ( 606, chk_7 ( A ), chk_9 ( B ), chk_D ( C ) )
 
 #define ERR_class_virtual_darg( A )\
-	ERR_GEN ( 606, chk_7 ( A ) )
+	ERR_GEN ( 607, chk_7 ( A ) )
 
 #define ERR_class_virtual_ambig( A, B )\
-	ERR_GEN ( 607, chk_7 ( A ), chk_9 ( B ) )
+	ERR_GEN ( 608, chk_7 ( A ), chk_9 ( B ) )
 
 #define ERR_class_virtual_final( A, B )\
-	ERR_GEN ( 608, chk_9 ( A ), chk_2 ( B ) )
+	ERR_GEN ( 609, chk_9 ( A ), chk_2 ( B ) )
 
 #define ERR_class_virtual_destr( A )\
-	ERR_GEN ( 609, chk_2 ( A ) )
+	ERR_GEN ( 610, chk_2 ( A ) )
 
 #define ERR_class_virtual_not( A )\
-	ERR_GEN ( 610, chk_9 ( A ) )
+	ERR_GEN ( 611, chk_9 ( A ) )
 
 #define ERR_class_abstract_virt()\
-	ERR_GEN ( 611 )
-
-#define ERR_class_abstract_zero()\
 	ERR_GEN ( 612 )
 
+#define ERR_class_abstract_zero()\
+	ERR_GEN ( 613 )
+
 #define ERR_class_abstract_class( A )\
-	ERR_GEN ( 613, chk_2 ( A ) )
+	ERR_GEN ( 614, chk_2 ( A ) )
 
 #define ERR_class_abstract_pure( A )\
-	ERR_GEN ( 614, chk_9 ( A ) )
+	ERR_GEN ( 615, chk_9 ( A ) )
 
 #define ERR_class_abstract_decl( A )\
-	ERR_GEN ( 615, chk_7 ( A ) )
-
-#define ERR_class_abstract_mem( A )\
 	ERR_GEN ( 616, chk_7 ( A ) )
 
-#define ERR_class_abstract_par()\
-	ERR_GEN ( 617 )
+#define ERR_class_abstract_mem( A )\
+	ERR_GEN ( 617, chk_7 ( A ) )
 
-#define ERR_class_abstract_ret()\
+#define ERR_class_abstract_par()\
 	ERR_GEN ( 618 )
 
-#define ERR_class_abstract_cast()\
+#define ERR_class_abstract_ret()\
 	ERR_GEN ( 619 )
 
+#define ERR_class_abstract_cast()\
+	ERR_GEN ( 620 )
+
 #define ERR_class_abstract_call( A )\
-	ERR_GEN ( 620, chk_9 ( A ) )
+	ERR_GEN ( 621, chk_9 ( A ) )
 
 #define ERR_class_access_spec_priv( A )\
-	ERR_GEN ( 621, chk_2 ( A ) )
+	ERR_GEN ( 622, chk_2 ( A ) )
 
 #define ERR_class_access_spec_id( A, B, C )\
-	ERR_GEN ( 622, chk_9 ( A ), chk_0 ( B ), chk_9 ( C ) )
+	ERR_GEN ( 623, chk_9 ( A ), chk_0 ( B ), chk_9 ( C ) )
 
 #define ERR_class_access_spec_none( A, B )\
-	ERR_GEN ( 623, chk_9 ( A ), chk_0 ( B ) )
+	ERR_GEN ( 624, chk_9 ( A ), chk_0 ( B ) )
 
 #define ERR_class_access_spec_change( A, B )\
-	ERR_GEN ( 624, chk_9 ( A ), chk_D ( B ) )
+	ERR_GEN ( 625, chk_9 ( A ), chk_D ( B ) )
 
 #define ERR_class_access_base_acc( A, B )\
-	ERR_GEN ( 625, chk_9 ( A ), chk_0 ( B ) )
+	ERR_GEN ( 626, chk_9 ( A ), chk_0 ( B ) )
 
 #define ERR_class_access_base_id( A, B, C, D )\
-	ERR_GEN ( 626, chk_2 ( A ), chk_2 ( B ), chk_0 ( C ), chk_9 ( D ) )
+	ERR_GEN ( 627, chk_2 ( A ), chk_2 ( B ), chk_0 ( C ), chk_9 ( D ) )
 
 #define ERR_class_access_base_none( A, B, C )\
-	ERR_GEN ( 627, chk_2 ( A ), chk_2 ( B ), chk_0 ( C ) )
+	ERR_GEN ( 628, chk_2 ( A ), chk_2 ( B ), chk_0 ( C ) )
 
 #define ERR_class_access_dcl_using( A )\
-	ERR_GEN ( 628, chk_7 ( A ) )
+	ERR_GEN ( 629, chk_7 ( A ) )
 
 #define ERR_class_friend_decl()\
-	ERR_GEN ( 629 )
-
-#define ERR_class_friend_elab()\
 	ERR_GEN ( 630 )
 
+#define ERR_class_friend_elab()\
+	ERR_GEN ( 631 )
+
 #define ERR_class_friend_storage( A )\
-	ERR_GEN ( 631, chk_4 ( A ) )
+	ERR_GEN ( 632, chk_4 ( A ) )
 
 #define ERR_class_friend_def()\
-	ERR_GEN ( 632 )
-
-#define ERR_class_friend_local()\
 	ERR_GEN ( 633 )
 
+#define ERR_class_friend_local()\
+	ERR_GEN ( 634 )
+
 #define ERR_class_friend_pre( A )\
-	ERR_GEN ( 634, chk_7 ( A ) )
+	ERR_GEN ( 635, chk_7 ( A ) )
 
 #define ERR_class_friend_dup_func( A, B )\
-	ERR_GEN ( 635, chk_9 ( A ), chk_2 ( B ) )
+	ERR_GEN ( 636, chk_9 ( A ), chk_2 ( B ) )
 
 #define ERR_class_friend_dup_class( A, B )\
-	ERR_GEN ( 636, chk_2 ( A ), chk_2 ( B ) )
+	ERR_GEN ( 637, chk_2 ( A ), chk_2 ( B ) )
 
 #define ERR_class_special_decl( A )\
-	ERR_GEN ( 637, chk_9 ( A ) )
+	ERR_GEN ( 638, chk_9 ( A ) )
 
 #define ERR_class_ctor_static()\
-	ERR_GEN ( 638 )
-
-#define ERR_class_ctor_virtual()\
 	ERR_GEN ( 639 )
 
+#define ERR_class_ctor_virtual()\
+	ERR_GEN ( 640 )
+
 #define ERR_class_ctor_ret( A )\
-	ERR_GEN ( 640, chk_6 ( A ) )
+	ERR_GEN ( 641, chk_6 ( A ) )
 
 #define ERR_class_ctor_qual( A, B )\
-	ERR_GEN ( 641, chk_6 ( A ), chk_3 ( B ) )
+	ERR_GEN ( 642, chk_6 ( A ), chk_3 ( B ) )
 
 #define ERR_class_ctor_result( A )\
-	ERR_GEN ( 642, chk_9 ( A ) )
-
-#define ERR_class_ctor_addr( A )\
 	ERR_GEN ( 643, chk_9 ( A ) )
 
-#define ERR_class_ctor_default( A )\
-	ERR_GEN ( 644, chk_2 ( A ) )
+#define ERR_class_ctor_addr( A )\
+	ERR_GEN ( 644, chk_9 ( A ) )
 
-#define ERR_class_ctor_user( A )\
+#define ERR_class_ctor_default( A )\
 	ERR_GEN ( 645, chk_2 ( A ) )
 
-#define ERR_class_ctor_nontriv( A )\
+#define ERR_class_ctor_user( A )\
 	ERR_GEN ( 646, chk_2 ( A ) )
 
-#define ERR_class_ctor_make( A )\
+#define ERR_class_ctor_nontriv( A )\
 	ERR_GEN ( 647, chk_2 ( A ) )
 
-#define ERR_class_ctor_private( A )\
+#define ERR_class_ctor_make( A )\
 	ERR_GEN ( 648, chk_2 ( A ) )
 
-#define ERR_class_conv_fct_typedef( A )\
-	ERR_GEN ( 649, chk_6 ( A ) )
+#define ERR_class_ctor_private( A )\
+	ERR_GEN ( 649, chk_2 ( A ) )
 
-#define ERR_class_conv_fct_ret( A )\
+#define ERR_class_conv_fct_typedef( A )\
 	ERR_GEN ( 650, chk_6 ( A ) )
 
+#define ERR_class_conv_fct_ret( A )\
+	ERR_GEN ( 651, chk_6 ( A ) )
+
 #define ERR_class_conv_fct_ret_bad( A, B )\
-	ERR_GEN ( 651, chk_6 ( A ), chk_G ( B ) )
+	ERR_GEN ( 652, chk_6 ( A ), chk_G ( B ) )
 
 #define ERR_class_conv_fct_pars( A )\
-	ERR_GEN ( 652, chk_6 ( A ) )
-
-#define ERR_class_conv_fct_void( A )\
 	ERR_GEN ( 653, chk_6 ( A ) )
 
-#define ERR_class_conv_fct_mem()\
-	ERR_GEN ( 654 )
+#define ERR_class_conv_fct_void( A )\
+	ERR_GEN ( 654, chk_6 ( A ) )
 
-#define ERR_class_dtor_static()\
+#define ERR_class_conv_fct_mem()\
 	ERR_GEN ( 655 )
 
-#define ERR_class_dtor_ret( A )\
-	ERR_GEN ( 656, chk_6 ( A ) )
+#define ERR_class_dtor_static()\
+	ERR_GEN ( 656 )
 
-#define ERR_class_dtor_pars( A )\
+#define ERR_class_dtor_ret( A )\
 	ERR_GEN ( 657, chk_6 ( A ) )
 
-#define ERR_class_dtor_func( A )\
+#define ERR_class_dtor_pars( A )\
 	ERR_GEN ( 658, chk_6 ( A ) )
 
+#define ERR_class_dtor_func( A )\
+	ERR_GEN ( 659, chk_6 ( A ) )
+
 #define ERR_class_dtor_inherit( A, B )\
-	ERR_GEN ( 659, chk_6 ( A ), chk_A ( B ) )
+	ERR_GEN ( 660, chk_6 ( A ), chk_A ( B ) )
 
 #define ERR_class_dtor_qual( A, B )\
-	ERR_GEN ( 660, chk_6 ( A ), chk_3 ( B ) )
+	ERR_GEN ( 661, chk_6 ( A ), chk_3 ( B ) )
 
 #define ERR_class_dtor_default( A )\
-	ERR_GEN ( 661, chk_2 ( A ) )
-
-#define ERR_class_dtor_nontriv( A )\
 	ERR_GEN ( 662, chk_2 ( A ) )
 
-#define ERR_class_dtor_result( A )\
-	ERR_GEN ( 663, chk_9 ( A ) )
+#define ERR_class_dtor_nontriv( A )\
+	ERR_GEN ( 663, chk_2 ( A ) )
 
-#define ERR_class_dtor_addr( A )\
+#define ERR_class_dtor_result( A )\
 	ERR_GEN ( 664, chk_9 ( A ) )
 
-#define ERR_class_dtor_private( A )\
-	ERR_GEN ( 665, chk_2 ( A ) )
+#define ERR_class_dtor_addr( A )\
+	ERR_GEN ( 665, chk_9 ( A ) )
 
-#define ERR_class_dtor_three( A )\
+#define ERR_class_dtor_private( A )\
 	ERR_GEN ( 666, chk_2 ( A ) )
 
+#define ERR_class_dtor_three( A )\
+	ERR_GEN ( 667, chk_2 ( A ) )
+
 #define ERR_class_free_static( A )\
-	ERR_GEN ( 667, chk_6 ( A ) )
+	ERR_GEN ( 668, chk_6 ( A ) )
 
 #define ERR_class_base_init_bad( A )\
-	ERR_GEN ( 668, chk_9 ( A ) )
-
-#define ERR_class_base_init_empty( A )\
 	ERR_GEN ( 669, chk_9 ( A ) )
 
-#define ERR_class_base_init_old( A )\
+#define ERR_class_base_init_empty( A )\
 	ERR_GEN ( 670, chk_9 ( A ) )
 
+#define ERR_class_base_init_old( A )\
+	ERR_GEN ( 671, chk_9 ( A ) )
+
 #define ERR_class_base_init_uniq( A )\
-	ERR_GEN ( 671, chk_2 ( A ) )
+	ERR_GEN ( 672, chk_2 ( A ) )
 
 #define ERR_class_base_init_static( A )\
-	ERR_GEN ( 672, chk_7 ( A ) )
-
-#define ERR_class_base_init_inherit( A )\
 	ERR_GEN ( 673, chk_7 ( A ) )
 
-#define ERR_class_base_init_base( A )\
-	ERR_GEN ( 674, chk_2 ( A ) )
+#define ERR_class_base_init_inherit( A )\
+	ERR_GEN ( 674, chk_7 ( A ) )
 
-#define ERR_class_base_init_ambig( A )\
+#define ERR_class_base_init_base( A )\
 	ERR_GEN ( 675, chk_2 ( A ) )
 
-#define ERR_class_base_init_dup( A )\
-	ERR_GEN ( 676, chk_7 ( A ) )
+#define ERR_class_base_init_ambig( A )\
+	ERR_GEN ( 676, chk_2 ( A ) )
 
-#define ERR_class_base_init_none( A )\
+#define ERR_class_base_init_dup( A )\
 	ERR_GEN ( 677, chk_7 ( A ) )
 
-#define ERR_class_base_init_order( A )\
+#define ERR_class_base_init_none( A )\
 	ERR_GEN ( 678, chk_7 ( A ) )
 
+#define ERR_class_base_init_order( A )\
+	ERR_GEN ( 679, chk_7 ( A ) )
+
 #define ERR_class_base_init_union( A )\
-	ERR_GEN ( 679, chk_2 ( A ) )
+	ERR_GEN ( 680, chk_2 ( A ) )
 
 #define ERR_class_base_init_anon( A )\
-	ERR_GEN ( 680, chk_7 ( A ) )
+	ERR_GEN ( 681, chk_7 ( A ) )
 
 #define ERR_class_base_init_err( A )\
-	ERR_GEN ( 681, chk_9 ( A ) )
-
-#define ERR_class_base_init_impl( A )\
 	ERR_GEN ( 682, chk_9 ( A ) )
 
+#define ERR_class_base_init_impl( A )\
+	ERR_GEN ( 683, chk_9 ( A ) )
+
 #define ERR_class_copy_bad( A )\
-	ERR_GEN ( 683, chk_6 ( A ) )
+	ERR_GEN ( 684, chk_6 ( A ) )
 
 #define ERR_class_copy_constr( A )\
-	ERR_GEN ( 684, chk_2 ( A ) )
-
-#define ERR_class_copy_assign( A )\
 	ERR_GEN ( 685, chk_2 ( A ) )
 
-#define ERR_class_copy_nontriv_constr( A )\
+#define ERR_class_copy_assign( A )\
 	ERR_GEN ( 686, chk_2 ( A ) )
 
-#define ERR_class_copy_nontriv_assign( A )\
+#define ERR_class_copy_nontriv_constr( A )\
 	ERR_GEN ( 687, chk_2 ( A ) )
 
-#define ERR_class_copy_ptr()\
-	ERR_GEN ( 688 )
+#define ERR_class_copy_nontriv_assign( A )\
+	ERR_GEN ( 688, chk_2 ( A ) )
 
-#define ERR_over_load_pars()\
+#define ERR_class_copy_ptr()\
 	ERR_GEN ( 689 )
 
+#define ERR_over_load_pars()\
+	ERR_GEN ( 690 )
+
 #define ERR_over_match_call_mem( A )\
-	ERR_GEN ( 690, chk_7 ( A ) )
+	ERR_GEN ( 691, chk_7 ( A ) )
 
 #define ERR_over_match_call_ok( A )\
-	ERR_GEN ( 691, chk_9 ( A ) )
+	ERR_GEN ( 692, chk_9 ( A ) )
 
 #define ERR_over_match_call_target( A )\
-	ERR_GEN ( 692, chk_7 ( A ) )
-
-#define ERR_over_match_call_ambig( A )\
 	ERR_GEN ( 693, chk_7 ( A ) )
 
+#define ERR_over_match_call_ambig( A )\
+	ERR_GEN ( 694, chk_7 ( A ) )
+
 #define ERR_over_match_oper_ok( A )\
-	ERR_GEN ( 694, chk_9 ( A ) )
+	ERR_GEN ( 695, chk_9 ( A ) )
 
 #define ERR_over_match_oper_target( A )\
-	ERR_GEN ( 695, chk_8 ( A ) )
-
-#define ERR_over_match_oper_ambig( A )\
 	ERR_GEN ( 696, chk_8 ( A ) )
 
+#define ERR_over_match_oper_ambig( A )\
+	ERR_GEN ( 697, chk_8 ( A ) )
+
 #define ERR_over_match_oper_arrow()\
-	ERR_GEN ( 697 )
+	ERR_GEN ( 698 )
 
 #define ERR_over_match_ctor_ok( A )\
-	ERR_GEN ( 698, chk_9 ( A ) )
+	ERR_GEN ( 699, chk_9 ( A ) )
 
 #define ERR_over_match_ctor_target( A )\
-	ERR_GEN ( 699, chk_7 ( A ) )
-
-#define ERR_over_match_ctor_ambig( A )\
 	ERR_GEN ( 700, chk_7 ( A ) )
 
-#define ERR_over_match_ctor_none( A )\
+#define ERR_over_match_ctor_ambig( A )\
 	ERR_GEN ( 701, chk_7 ( A ) )
 
+#define ERR_over_match_ctor_none( A )\
+	ERR_GEN ( 702, chk_7 ( A ) )
+
 #define ERR_over_match_conv_ok( A )\
-	ERR_GEN ( 702, chk_9 ( A ) )
+	ERR_GEN ( 703, chk_9 ( A ) )
 
 #define ERR_over_match_conv_target( A, B )\
-	ERR_GEN ( 703, chk_G ( A ), chk_G ( B ) )
-
-#define ERR_over_match_conv_ambig( A, B )\
 	ERR_GEN ( 704, chk_G ( A ), chk_G ( B ) )
 
+#define ERR_over_match_conv_ambig( A, B )\
+	ERR_GEN ( 705, chk_G ( A ), chk_G ( B ) )
+
 #define ERR_over_match_conv_dup( A )\
-	ERR_GEN ( 705, chk_G ( A ) )
+	ERR_GEN ( 706, chk_G ( A ) )
 
 #define ERR_over_match_viable_none( A )\
-	ERR_GEN ( 706, chk_7 ( A ) )
+	ERR_GEN ( 707, chk_7 ( A ) )
 
 #define ERR_over_match_viable_list()\
-	ERR_GEN ( 707 )
-
-#define ERR_over_match_best_install()\
 	ERR_GEN ( 708 )
 
-#define ERR_over_match_best_common()\
+#define ERR_over_match_best_install()\
 	ERR_GEN ( 709 )
 
+#define ERR_over_match_best_common()\
+	ERR_GEN ( 710 )
+
 #define ERR_over_over_context( A )\
-	ERR_GEN ( 710, chk_7 ( A ) )
+	ERR_GEN ( 711, chk_7 ( A ) )
 
 #define ERR_over_over_none( A, B )\
-	ERR_GEN ( 711, chk_7 ( A ), chk_G ( B ) )
+	ERR_GEN ( 712, chk_7 ( A ), chk_G ( B ) )
 
 #define ERR_over_over_ok( A )\
-	ERR_GEN ( 712, chk_9 ( A ) )
+	ERR_GEN ( 713, chk_9 ( A ) )
 
 #define ERR_over_oper_bad( A )\
-	ERR_GEN ( 713, chk_8 ( A ) )
+	ERR_GEN ( 714, chk_8 ( A ) )
 
 #define ERR_over_oper_static()\
-	ERR_GEN ( 714 )
+	ERR_GEN ( 715 )
 
 #define ERR_over_oper_type( A )\
-	ERR_GEN ( 715, chk_6 ( A ) )
-
-#define ERR_over_oper_default( A )\
 	ERR_GEN ( 716, chk_6 ( A ) )
 
+#define ERR_over_oper_default( A )\
+	ERR_GEN ( 717, chk_6 ( A ) )
+
 #define ERR_over_oper_func( A )\
-	ERR_GEN ( 717, chk_7 ( A ) )
+	ERR_GEN ( 718, chk_7 ( A ) )
 
 #define ERR_over_unary_pars( A, B, C )\
-	ERR_GEN ( 718, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
-
-#define ERR_over_binary_pars_p2( A, B, C )\
 	ERR_GEN ( 719, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
 
+#define ERR_over_binary_pars_p2( A, B, C )\
+	ERR_GEN ( 720, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
+
 #define ERR_over_binary_pars_p1( A, B, C, D )\
-	ERR_GEN ( 720, chk_6 ( A ), chk_M ( B ), chk_M ( C ), chk_N ( D ) )
+	ERR_GEN ( 721, chk_6 ( A ), chk_M ( B ), chk_M ( C ), chk_N ( D ) )
 
 #define ERR_over_ass_mem( A )\
-	ERR_GEN ( 721, chk_6 ( A ) )
+	ERR_GEN ( 722, chk_6 ( A ) )
 
 #define ERR_over_ass_pars( A, B, C )\
-	ERR_GEN ( 722, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
+	ERR_GEN ( 723, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
 
 #define ERR_over_call_mem( A )\
-	ERR_GEN ( 723, chk_6 ( A ) )
-
-#define ERR_over_sub_mem( A )\
 	ERR_GEN ( 724, chk_6 ( A ) )
 
+#define ERR_over_sub_mem( A )\
+	ERR_GEN ( 725, chk_6 ( A ) )
+
 #define ERR_over_sub_pars( A, B, C )\
-	ERR_GEN ( 725, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
+	ERR_GEN ( 726, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
 
 #define ERR_over_ref_mem( A )\
-	ERR_GEN ( 726, chk_6 ( A ) )
+	ERR_GEN ( 727, chk_6 ( A ) )
 
 #define ERR_over_ref_pars( A, B, C )\
-	ERR_GEN ( 727, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
+	ERR_GEN ( 728, chk_6 ( A ), chk_M ( B ), chk_N ( C ) )
 
 #define ERR_over_inc_pars( A, B, C, D )\
-	ERR_GEN ( 728, chk_6 ( A ), chk_M ( B ), chk_M ( C ), chk_N ( D ) )
+	ERR_GEN ( 729, chk_6 ( A ), chk_M ( B ), chk_M ( C ), chk_N ( D ) )
 
 #define ERR_over_inc_pars_p2( A, B )\
-	ERR_GEN ( 729, chk_6 ( A ), chk_G ( B ) )
+	ERR_GEN ( 730, chk_6 ( A ), chk_G ( B ) )
 
 #define ERR_temp_decl_bad()\
-	ERR_GEN ( 730 )
-
-#define ERR_temp_decl_scope()\
 	ERR_GEN ( 731 )
 
-#define ERR_temp_decl_func()\
+#define ERR_temp_decl_scope()\
 	ERR_GEN ( 732 )
 
-#define ERR_temp_decl_one()\
+#define ERR_temp_decl_func()\
 	ERR_GEN ( 733 )
 
-#define ERR_temp_decl_linkage()\
+#define ERR_temp_decl_one()\
 	ERR_GEN ( 734 )
 
+#define ERR_temp_decl_linkage()\
+	ERR_GEN ( 735 )
+
 #define ERR_temp_decl_export( A )\
-	ERR_GEN ( 735, chk_7 ( A ) )
+	ERR_GEN ( 736, chk_7 ( A ) )
 
 #define ERR_temp_decl_undef( A )\
-	ERR_GEN ( 736, chk_9 ( A ) )
+	ERR_GEN ( 737, chk_9 ( A ) )
 
 #define ERR_temp_param_eof()\
-	ERR_GEN ( 737 )
+	ERR_GEN ( 738 )
 
 #define ERR_temp_param_dup( A )\
-	ERR_GEN ( 738, chk_6 ( A ) )
+	ERR_GEN ( 739, chk_6 ( A ) )
 
 #define ERR_temp_param_type( A, B )\
-	ERR_GEN ( 739, chk_7 ( A ), chk_G ( B ) )
+	ERR_GEN ( 740, chk_7 ( A ), chk_G ( B ) )
 
 #define ERR_temp_param_dcl_stc( A )\
-	ERR_GEN ( 740, chk_4 ( A ) )
+	ERR_GEN ( 741, chk_4 ( A ) )
 
 #define ERR_temp_param_default( A )\
-	ERR_GEN ( 741, chk_7 ( A ) )
+	ERR_GEN ( 742, chk_7 ( A ) )
 
 #define ERR_temp_param_func()\
-	ERR_GEN ( 742 )
-
-#define ERR_temp_param_redecl()\
 	ERR_GEN ( 743 )
 
-#define ERR_temp_param_none( A )\
-	ERR_GEN ( 744, chk_9 ( A ) )
+#define ERR_temp_param_redecl()\
+	ERR_GEN ( 744 )
 
-#define ERR_temp_names_eof( A )\
+#define ERR_temp_param_none( A )\
 	ERR_GEN ( 745, chk_9 ( A ) )
 
-#define ERR_temp_names_hack()\
-	ERR_GEN ( 746 )
+#define ERR_temp_names_eof( A )\
+	ERR_GEN ( 746, chk_9 ( A ) )
 
-#define ERR_temp_names_bad()\
+#define ERR_temp_names_hack()\
 	ERR_GEN ( 747 )
 
-#define ERR_temp_names_not( A )\
-	ERR_GEN ( 748, chk_7 ( A ) )
+#define ERR_temp_names_bad()\
+	ERR_GEN ( 748 )
 
-#define ERR_temp_names_mem( A )\
+#define ERR_temp_names_not( A )\
 	ERR_GEN ( 749, chk_7 ( A ) )
 
-#define ERR_temp_arg_type( A, B )\
-	ERR_GEN ( 750, chk_7 ( A ), chk_9 ( B ) )
+#define ERR_temp_names_mem( A )\
+	ERR_GEN ( 750, chk_7 ( A ) )
 
-#define ERR_temp_arg_exp( A, B )\
+#define ERR_temp_arg_type( A, B )\
 	ERR_GEN ( 751, chk_7 ( A ), chk_9 ( B ) )
 
-#define ERR_temp_arg_less( A )\
-	ERR_GEN ( 752, chk_9 ( A ) )
+#define ERR_temp_arg_exp( A, B )\
+	ERR_GEN ( 752, chk_7 ( A ), chk_9 ( B ) )
 
-#define ERR_temp_arg_more( A )\
+#define ERR_temp_arg_less( A )\
 	ERR_GEN ( 753, chk_9 ( A ) )
 
+#define ERR_temp_arg_more( A )\
+	ERR_GEN ( 754, chk_9 ( A ) )
+
 #define ERR_temp_arg_local( A )\
-	ERR_GEN ( 754, chk_G ( A ) )
+	ERR_GEN ( 755, chk_G ( A ) )
 
 #define ERR_temp_arg_const()\
-	ERR_GEN ( 755 )
-
-#define ERR_temp_arg_internal()\
 	ERR_GEN ( 756 )
 
-#define ERR_temp_arg_over()\
+#define ERR_temp_arg_internal()\
 	ERR_GEN ( 757 )
 
-#define ERR_temp_arg_bad()\
+#define ERR_temp_arg_over()\
 	ERR_GEN ( 758 )
 
-#define ERR_temp_arg_init( A, B )\
-	ERR_GEN ( 759, chk_7 ( A ), chk_9 ( B ) )
+#define ERR_temp_arg_bad()\
+	ERR_GEN ( 759 )
 
-#define ERR_temp_arg_templ( A, B )\
+#define ERR_temp_arg_init( A, B )\
 	ERR_GEN ( 760, chk_7 ( A ), chk_9 ( B ) )
 
+#define ERR_temp_arg_templ( A, B )\
+	ERR_GEN ( 761, chk_7 ( A ), chk_9 ( B ) )
+
 #define ERR_temp_arg_templ_not( A, B )\
-	ERR_GEN ( 761, chk_7 ( A ), chk_7 ( B ) )
+	ERR_GEN ( 762, chk_7 ( A ), chk_7 ( B ) )
 
 #define ERR_temp_arg_templ_bad( A, B )\
-	ERR_GEN ( 762, chk_7 ( A ), chk_G ( B ) )
+	ERR_GEN ( 763, chk_7 ( A ), chk_G ( B ) )
 
 #define ERR_temp_mem_virtual()\
-	ERR_GEN ( 763 )
-
-#define ERR_temp_mem_destr()\
 	ERR_GEN ( 764 )
 
-#define ERR_temp_mem_local()\
+#define ERR_temp_mem_destr()\
 	ERR_GEN ( 765 )
 
-#define ERR_temp_class_spec_primary( A )\
-	ERR_GEN ( 766, chk_G ( A ) )
+#define ERR_temp_mem_local()\
+	ERR_GEN ( 766 )
 
-#define ERR_temp_class_spec_depend( A )\
+#define ERR_temp_class_spec_primary( A )\
 	ERR_GEN ( 767, chk_G ( A ) )
 
+#define ERR_temp_class_spec_depend( A )\
+	ERR_GEN ( 768, chk_G ( A ) )
+
 #define ERR_temp_class_spec_darg()\
-	ERR_GEN ( 768 )
+	ERR_GEN ( 769 )
 
 #define ERR_temp_class_spec_ambig( A )\
-	ERR_GEN ( 769, chk_G ( A ) )
+	ERR_GEN ( 770, chk_G ( A ) )
 
 #define ERR_temp_class_spec_match( A )\
-	ERR_GEN ( 770, chk_9 ( A ) )
+	ERR_GEN ( 771, chk_9 ( A ) )
 
 #define ERR_temp_res_nspace( A, B )\
-	ERR_GEN ( 771, chk_A ( A ), chk_G ( B ) )
+	ERR_GEN ( 772, chk_A ( A ), chk_G ( B ) )
 
 #define ERR_temp_res_qual()\
-	ERR_GEN ( 772 )
+	ERR_GEN ( 773 )
 
 #define ERR_temp_res_type( A, B )\
-	ERR_GEN ( 773, chk_A ( A ), chk_6 ( B ) )
+	ERR_GEN ( 774, chk_A ( A ), chk_6 ( B ) )
 
 #define ERR_temp_res_key( A, B, C, D )\
-	ERR_GEN ( 774, chk_1 ( A ), chk_7 ( B ), chk_9 ( C ), chk_G ( D ) )
+	ERR_GEN ( 775, chk_1 ( A ), chk_7 ( B ), chk_9 ( C ), chk_G ( D ) )
 
 #define ERR_temp_local_not( A )\
-	ERR_GEN ( 775, chk_G ( A ) )
+	ERR_GEN ( 776, chk_G ( A ) )
 
 #define ERR_temp_local_hide( A )\
-	ERR_GEN ( 776, chk_7 ( A ) )
+	ERR_GEN ( 777, chk_7 ( A ) )
 
 #define ERR_temp_spec_type( A, B )\
-	ERR_GEN ( 777, chk_G ( A ), chk_7 ( B ) )
+	ERR_GEN ( 778, chk_G ( A ), chk_7 ( B ) )
 
 #define ERR_temp_spec_bad( A )\
-	ERR_GEN ( 778, chk_G ( A ) )
+	ERR_GEN ( 779, chk_G ( A ) )
 
 #define ERR_temp_spec_member( A )\
-	ERR_GEN ( 779, chk_9 ( A ) )
+	ERR_GEN ( 780, chk_9 ( A ) )
 
 #define ERR_temp_spec_prefix()\
-	ERR_GEN ( 780 )
+	ERR_GEN ( 781 )
 
 #define ERR_temp_spec_reinst( A )\
-	ERR_GEN ( 781, chk_G ( A ) )
-
-#define ERR_temp_spec_respec( A )\
 	ERR_GEN ( 782, chk_G ( A ) )
 
-#define ERR_temp_spec_redecl( A )\
+#define ERR_temp_spec_respec( A )\
 	ERR_GEN ( 783, chk_G ( A ) )
 
-#define ERR_temp_spec_used( A )\
+#define ERR_temp_spec_redecl( A )\
 	ERR_GEN ( 784, chk_G ( A ) )
 
+#define ERR_temp_spec_used( A )\
+	ERR_GEN ( 785, chk_G ( A ) )
+
 #define ERR_temp_spec_post( A, B )\
-	ERR_GEN ( 785, chk_G ( A ), chk_G ( B ) )
+	ERR_GEN ( 786, chk_G ( A ), chk_G ( B ) )
 
 #define ERR_temp_inst_def( A )\
-	ERR_GEN ( 786, chk_G ( A ) )
+	ERR_GEN ( 787, chk_G ( A ) )
 
 #define ERR_temp_inst_depth( A )\
-	ERR_GEN ( 787, chk_L ( A ) )
+	ERR_GEN ( 788, chk_L ( A ) )
 
 #define ERR_temp_inst_comment( A, B )\
-	ERR_GEN ( 788, chk_G ( A ), chk_D ( B ) )
+	ERR_GEN ( 789, chk_G ( A ), chk_D ( B ) )
 
 #define ERR_temp_explicit_bad( A )\
-	ERR_GEN ( 789, chk_9 ( A ) )
+	ERR_GEN ( 790, chk_9 ( A ) )
 
 #define ERR_temp_explicit_id( A )\
-	ERR_GEN ( 790, chk_7 ( A ) )
+	ERR_GEN ( 791, chk_7 ( A ) )
 
 #define ERR_temp_explicit_def()\
-	ERR_GEN ( 791 )
-
-#define ERR_temp_explicit_incompl()\
 	ERR_GEN ( 792 )
 
-#define ERR_temp_explicit_templ()\
+#define ERR_temp_explicit_incompl()\
 	ERR_GEN ( 793 )
 
-#define ERR_temp_expl_spec_dargs()\
+#define ERR_temp_explicit_templ()\
 	ERR_GEN ( 794 )
 
+#define ERR_temp_expl_spec_dargs()\
+	ERR_GEN ( 795 )
+
 #define ERR_temp_deduct_fail( A )\
-	ERR_GEN ( 795, chk_9 ( A ) )
+	ERR_GEN ( 796, chk_9 ( A ) )
 
 #define ERR_temp_deduct_undef( A, B )\
-	ERR_GEN ( 796, chk_7 ( A ), chk_9 ( B ) )
+	ERR_GEN ( 797, chk_7 ( A ), chk_9 ( B ) )
 
 #define ERR_except_handlers()\
-	ERR_GEN ( 797 )
-
-#define ERR_except_not()\
 	ERR_GEN ( 798 )
 
-#define ERR_except_jump_into()\
+#define ERR_except_not()\
 	ERR_GEN ( 799 )
 
-#define ERR_except_throw_type()\
+#define ERR_except_jump_into()\
 	ERR_GEN ( 800 )
 
-#define ERR_except_throw_typedef()\
+#define ERR_except_throw_type()\
 	ERR_GEN ( 801 )
 
-#define ERR_except_throw_copy()\
+#define ERR_except_throw_typedef()\
 	ERR_GEN ( 802 )
 
-#define ERR_except_throw_incompl()\
+#define ERR_except_throw_copy()\
 	ERR_GEN ( 803 )
 
-#define ERR_except_throw_ambig()\
+#define ERR_except_throw_incompl()\
 	ERR_GEN ( 804 )
 
-#define ERR_except_handle_typedef()\
+#define ERR_except_throw_ambig()\
 	ERR_GEN ( 805 )
 
+#define ERR_except_handle_typedef()\
+	ERR_GEN ( 806 )
+
 #define ERR_except_handle_unreach( A, B )\
-	ERR_GEN ( 806, chk_G ( A ), chk_G ( B ) )
+	ERR_GEN ( 807, chk_G ( A ), chk_G ( B ) )
 
 #define ERR_except_handle_ellipsis()\
-	ERR_GEN ( 807 )
-
-#define ERR_except_handle_incompl()\
 	ERR_GEN ( 808 )
 
+#define ERR_except_handle_incompl()\
+	ERR_GEN ( 809 )
+
 #define ERR_except_handle_return( A )\
-	ERR_GEN ( 809, chk_7 ( A ) )
+	ERR_GEN ( 810, chk_7 ( A ) )
 
 #define ERR_except_spec_bad()\
-	ERR_GEN ( 810 )
-
-#define ERR_except_spec_typedef()\
 	ERR_GEN ( 811 )
 
-#define ERR_except_spec_ellipsis()\
+#define ERR_except_spec_typedef()\
 	ERR_GEN ( 812 )
 
-#define ERR_except_spec_incompl()\
+#define ERR_except_spec_ellipsis()\
 	ERR_GEN ( 813 )
 
+#define ERR_except_spec_incompl()\
+	ERR_GEN ( 814 )
+
 #define ERR_except_spec_wrong( A, B )\
-	ERR_GEN ( 814, chk_7 ( A ), chk_D ( B ) )
+	ERR_GEN ( 815, chk_7 ( A ), chk_D ( B ) )
 
 #define ERR_except_spec_virtual( A, B, C )\
-	ERR_GEN ( 815, chk_7 ( A ), chk_9 ( B ), chk_D ( C ) )
+	ERR_GEN ( 816, chk_7 ( A ), chk_9 ( B ), chk_D ( C ) )
 
 #define ERR_except_spec_assign()\
-	ERR_GEN ( 816 )
-
-#define ERR_except_spec_init()\
 	ERR_GEN ( 817 )
 
+#define ERR_except_spec_init()\
+	ERR_GEN ( 818 )
+
 #define ERR_except_spec_throw( A )\
-	ERR_GEN ( 818, chk_G ( A ) )
+	ERR_GEN ( 819, chk_G ( A ) )
 
 #define ERR_except_spec_call( A, B )\
-	ERR_GEN ( 819, chk_9 ( A ), chk_G ( B ) )
+	ERR_GEN ( 820, chk_9 ( A ), chk_G ( B ) )
 
 #define ERR_cpp_bad()\
-	ERR_GEN ( 820 )
+	ERR_GEN ( 821 )
 
 #define ERR_cpp_unknown( A )\
-	ERR_GEN ( 821, chk_6 ( A ) )
+	ERR_GEN ( 822, chk_6 ( A ) )
 
 #define ERR_cpp_end( A )\
-	ERR_GEN ( 822, chk_8 ( A ) )
+	ERR_GEN ( 823, chk_8 ( A ) )
 
 #define ERR_cpp_indent()\
-	ERR_GEN ( 823 )
-
-#define ERR_cpp_indent_dir()\
 	ERR_GEN ( 824 )
 
-#define ERR_cpp_space_replace()\
+#define ERR_cpp_indent_dir()\
 	ERR_GEN ( 825 )
 
+#define ERR_cpp_space_replace()\
+	ERR_GEN ( 826 )
+
 #define ERR_cpp_old( A )\
-	ERR_GEN ( 826, chk_8 ( A ) )
+	ERR_GEN ( 827, chk_8 ( A ) )
 
 #define ERR_cpp_cond_if_match( A, B )\
-	ERR_GEN ( 827, chk_8 ( A ), chk_8 ( B ) )
+	ERR_GEN ( 828, chk_8 ( A ), chk_8 ( B ) )
 
 #define ERR_cpp_cond_else_dup( A, B, C )\
-	ERR_GEN ( 828, chk_8 ( A ), chk_8 ( B ), chk_D ( C ) )
+	ERR_GEN ( 829, chk_8 ( A ), chk_8 ( B ), chk_D ( C ) )
 
 #define ERR_cpp_cond_def_id()\
-	ERR_GEN ( 829 )
-
-#define ERR_cpp_cond_def_replace()\
 	ERR_GEN ( 830 )
 
+#define ERR_cpp_cond_def_replace()\
+	ERR_GEN ( 831 )
+
 #define ERR_cpp_cond_ifdef_id( A )\
-	ERR_GEN ( 831, chk_8 ( A ) )
+	ERR_GEN ( 832, chk_8 ( A ) )
 
 #define ERR_cpp_cond_zero( A )\
-	ERR_GEN ( 832, chk_6 ( A ) )
+	ERR_GEN ( 833, chk_6 ( A ) )
 
 #define ERR_cpp_cond_if_const( A )\
-	ERR_GEN ( 833, chk_8 ( A ) )
-
-#define ERR_cpp_cond_if_ti( A )\
 	ERR_GEN ( 834, chk_8 ( A ) )
 
-#define ERR_cpp_cond_if_ti_decl( A )\
+#define ERR_cpp_cond_if_ti( A )\
 	ERR_GEN ( 835, chk_8 ( A ) )
 
+#define ERR_cpp_cond_if_ti_decl( A )\
+	ERR_GEN ( 836, chk_8 ( A ) )
+
 #define ERR_cpp_cond_if_jump_into()\
-	ERR_GEN ( 836 )
+	ERR_GEN ( 837 )
 
 #define ERR_cpp_cond_if_macro( A )\
-	ERR_GEN ( 837, chk_6 ( A ) )
+	ERR_GEN ( 838, chk_6 ( A ) )
 
 #define ERR_cpp_cond_endif_end( A )\
-	ERR_GEN ( 838, chk_8 ( A ) )
+	ERR_GEN ( 839, chk_8 ( A ) )
 
 #define ERR_cpp_include_bad()\
-	ERR_GEN ( 839 )
-
-#define ERR_cpp_include_incompl()\
 	ERR_GEN ( 840 )
 
+#define ERR_cpp_include_incompl()\
+	ERR_GEN ( 841 )
+
 #define ERR_cpp_include_undef( A )\
-	ERR_GEN ( 841, chk_J ( A ) )
+	ERR_GEN ( 842, chk_J ( A ) )
 
 #define ERR_cpp_include_empty()\
-	ERR_GEN ( 842 )
+	ERR_GEN ( 843 )
 
 #define ERR_cpp_include_full( A )\
-	ERR_GEN ( 843, chk_J ( A ) )
-
-#define ERR_cpp_include_unknown( A )\
 	ERR_GEN ( 844, chk_J ( A ) )
 
-#define ERR_cpp_include_open( A )\
+#define ERR_cpp_include_unknown( A )\
 	ERR_GEN ( 845, chk_J ( A ) )
 
-#define ERR_cpp_include_close( A )\
+#define ERR_cpp_include_open( A )\
 	ERR_GEN ( 846, chk_J ( A ) )
 
+#define ERR_cpp_include_close( A )\
+	ERR_GEN ( 847, chk_J ( A ) )
+
 #define ERR_cpp_include_depth( A )\
-	ERR_GEN ( 847, chk_L ( A ) )
+	ERR_GEN ( 848, chk_L ( A ) )
 
 #define ERR_cpp_include_dup( A, B )\
-	ERR_GEN ( 848, chk_J ( A ), chk_D ( B ) )
+	ERR_GEN ( 849, chk_J ( A ), chk_D ( B ) )
 
 #define ERR_cpp_include_date()\
-	ERR_GEN ( 849 )
+	ERR_GEN ( 850 )
 
 #define ERR_cpp_replace_id( A )\
-	ERR_GEN ( 850, chk_8 ( A ) )
+	ERR_GEN ( 851, chk_8 ( A ) )
 
 #define ERR_cpp_replace_redef_ok( A, B )\
-	ERR_GEN ( 851, chk_7 ( A ), chk_D ( B ) )
-
-#define ERR_cpp_replace_redef_bad( A, B )\
 	ERR_GEN ( 852, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_cpp_replace_redef_weak( A, B )\
+#define ERR_cpp_replace_redef_bad( A, B )\
 	ERR_GEN ( 853, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_cpp_replace_redef_space( A, B )\
+#define ERR_cpp_replace_redef_weak( A, B )\
 	ERR_GEN ( 854, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_cpp_replace_redef_nest( A, B )\
+#define ERR_cpp_replace_redef_space( A, B )\
 	ERR_GEN ( 855, chk_7 ( A ), chk_D ( B ) )
 
+#define ERR_cpp_replace_redef_nest( A, B )\
+	ERR_GEN ( 856, chk_7 ( A ), chk_D ( B ) )
+
 #define ERR_cpp_replace_par_dup( A, B )\
-	ERR_GEN ( 856, chk_6 ( A ), chk_6 ( B ) )
+	ERR_GEN ( 857, chk_6 ( A ), chk_6 ( B ) )
 
 #define ERR_cpp_replace_par_bad( A )\
-	ERR_GEN ( 857, chk_6 ( A ) )
-
-#define ERR_cpp_replace_arg_none( A )\
 	ERR_GEN ( 858, chk_6 ( A ) )
 
+#define ERR_cpp_replace_arg_none( A )\
+	ERR_GEN ( 859, chk_6 ( A ) )
+
 #define ERR_cpp_replace_arg_empty( A, B )\
-	ERR_GEN ( 859, chk_M ( A ), chk_6 ( B ) )
+	ERR_GEN ( 860, chk_M ( A ), chk_6 ( B ) )
 
 #define ERR_cpp_replace_arg_ppdir( A )\
-	ERR_GEN ( 860, chk_6 ( A ) )
-
-#define ERR_cpp_replace_arg_eof( A )\
 	ERR_GEN ( 861, chk_6 ( A ) )
 
+#define ERR_cpp_replace_arg_eof( A )\
+	ERR_GEN ( 862, chk_6 ( A ) )
+
 #define ERR_cpp_replace_arg_number( A, B, C, D )\
-	ERR_GEN ( 862, chk_6 ( A ), chk_M ( B ), chk_N ( C ), chk_M ( D ) )
+	ERR_GEN ( 863, chk_6 ( A ), chk_M ( B ), chk_N ( C ), chk_M ( D ) )
 
 #define ERR_cpp_stringize_par( A )\
-	ERR_GEN ( 863, chk_6 ( A ) )
-
-#define ERR_cpp_stringize_bad( A )\
 	ERR_GEN ( 864, chk_6 ( A ) )
 
+#define ERR_cpp_stringize_bad( A )\
+	ERR_GEN ( 865, chk_6 ( A ) )
+
 #define ERR_cpp_stringize_old( A, B )\
-	ERR_GEN ( 865, chk_6 ( A ), chk_6 ( B ) )
+	ERR_GEN ( 866, chk_6 ( A ), chk_6 ( B ) )
 
 #define ERR_cpp_concat_place( A )\
-	ERR_GEN ( 866, chk_6 ( A ) )
-
-#define ERR_cpp_concat_bad( A )\
 	ERR_GEN ( 867, chk_6 ( A ) )
 
-#define ERR_cpp_rescan_recursive( A )\
+#define ERR_cpp_concat_bad( A )\
 	ERR_GEN ( 868, chk_6 ( A ) )
 
+#define ERR_cpp_rescan_recursive( A )\
+	ERR_GEN ( 869, chk_6 ( A ) )
+
 #define ERR_cpp_scope_id( A )\
-	ERR_GEN ( 869, chk_8 ( A ) )
+	ERR_GEN ( 870, chk_8 ( A ) )
 
 #define ERR_cpp_scope_undef( A )\
-	ERR_GEN ( 870, chk_6 ( A ) )
+	ERR_GEN ( 871, chk_6 ( A ) )
 
 #define ERR_cpp_line_bad( A )\
-	ERR_GEN ( 871, chk_8 ( A ) )
-
-#define ERR_cpp_line_float( A )\
 	ERR_GEN ( 872, chk_8 ( A ) )
 
-#define ERR_cpp_line_range( A )\
+#define ERR_cpp_line_float( A )\
 	ERR_GEN ( 873, chk_8 ( A ) )
 
+#define ERR_cpp_line_range( A )\
+	ERR_GEN ( 874, chk_8 ( A ) )
+
 #define ERR_cpp_error_msg( A )\
-	ERR_GEN ( 874, chk_J ( A ) )
+	ERR_GEN ( 875, chk_J ( A ) )
 
 #define ERR_cpp_pragma_unknown( A )\
-	ERR_GEN ( 875, chk_8 ( A ) )
+	ERR_GEN ( 876, chk_8 ( A ) )
 
 #define ERR_cpp_null()\
-	ERR_GEN ( 876 )
+	ERR_GEN ( 877 )
 
 #define ERR_cpp_predef_bad( A, B )\
-	ERR_GEN ( 877, chk_6 ( A ), chk_8 ( B ) )
+	ERR_GEN ( 878, chk_6 ( A ), chk_8 ( B ) )
 
 #define ERR_cpp_predef_undef( A )\
-	ERR_GEN ( 878, chk_7 ( A ) )
-
-#define ERR_cpp_predef_redef( A )\
 	ERR_GEN ( 879, chk_7 ( A ) )
 
+#define ERR_cpp_predef_redef( A )\
+	ERR_GEN ( 880, chk_7 ( A ) )
+
 #define ERR_cpp_predef_keyword( A )\
-	ERR_GEN ( 880, chk_6 ( A ) )
+	ERR_GEN ( 881, chk_6 ( A ) )
 
 #define ERR_lib_builtin( A, B )\
-	ERR_GEN ( 881, chk_J ( A ), chk_6 ( B ) )
+	ERR_GEN ( 882, chk_J ( A ), chk_6 ( B ) )
 
 #define ERR_printf_unknown( A )\
-	ERR_GEN ( 882, chk_J ( A ) )
-
-#define ERR_printf_invalid( A )\
 	ERR_GEN ( 883, chk_J ( A ) )
 
-#define ERR_printf_unterm( A )\
+#define ERR_printf_invalid( A )\
 	ERR_GEN ( 884, chk_J ( A ) )
 
+#define ERR_printf_unterm( A )\
+	ERR_GEN ( 885, chk_J ( A ) )
+
 #define ERR_printf_flags( A, B )\
-	ERR_GEN ( 885, chk_J ( A ), chk_J ( B ) )
+	ERR_GEN ( 886, chk_J ( A ), chk_J ( B ) )
 
 #define ERR_printf_width( A )\
-	ERR_GEN ( 886, chk_J ( A ) )
-
-#define ERR_printf_precision( A )\
 	ERR_GEN ( 887, chk_J ( A ) )
 
+#define ERR_printf_precision( A )\
+	ERR_GEN ( 888, chk_J ( A ) )
+
 #define ERR_printf_arg_zero()\
-	ERR_GEN ( 888 )
+	ERR_GEN ( 889 )
 
 #define ERR_printf_arg_large( A )\
-	ERR_GEN ( 889, chk_M ( A ) )
-
-#define ERR_printf_arg_compat( A )\
 	ERR_GEN ( 890, chk_M ( A ) )
 
-#define ERR_printf_arg_none( A )\
+#define ERR_printf_arg_compat( A )\
 	ERR_GEN ( 891, chk_M ( A ) )
 
+#define ERR_printf_arg_none( A )\
+	ERR_GEN ( 892, chk_M ( A ) )
+
 #define ERR_printf_arg_mix()\
-	ERR_GEN ( 892 )
+	ERR_GEN ( 893 )
 
 #define ERR_limits_max( A, B, C )\
-	ERR_GEN ( 893, chk_J ( A ), chk_L ( B ), chk_L ( C ) )
-
-#define ERR_limits_min( A, B, C )\
 	ERR_GEN ( 894, chk_J ( A ), chk_L ( B ), chk_L ( C ) )
 
-#define ERR_pragma_scope_undef( A )\
-	ERR_GEN ( 895, chk_6 ( A ) )
+#define ERR_limits_min( A, B, C )\
+	ERR_GEN ( 895, chk_J ( A ), chk_L ( B ), chk_L ( C ) )
 
-#define ERR_pragma_scope_redef( A )\
+#define ERR_pragma_scope_undef( A )\
 	ERR_GEN ( 896, chk_6 ( A ) )
 
+#define ERR_pragma_scope_redef( A )\
+	ERR_GEN ( 897, chk_6 ( A ) )
+
 #define ERR_pragma_scope_end()\
-	ERR_GEN ( 897 )
+	ERR_GEN ( 898 )
 
 #define ERR_pragma_scope_set( A )\
-	ERR_GEN ( 898, chk_J ( A ) )
+	ERR_GEN ( 899, chk_J ( A ) )
 
 #define ERR_pragma_dblock_name( A )\
-	ERR_GEN ( 899, chk_6 ( A ) )
+	ERR_GEN ( 900, chk_6 ( A ) )
 
 #define ERR_pragma_dblock_end()\
-	ERR_GEN ( 900 )
+	ERR_GEN ( 901 )
 
 #define ERR_pragma_dir_undef( A )\
-	ERR_GEN ( 901, chk_J ( A ) )
-
-#define ERR_pragma_dir_mode( A )\
 	ERR_GEN ( 902, chk_J ( A ) )
 
-#define ERR_pragma_error_bad( A )\
-	ERR_GEN ( 903, chk_F ( A ) )
+#define ERR_pragma_dir_mode( A )\
+	ERR_GEN ( 903, chk_J ( A ) )
 
-#define ERR_pragma_option_bad( A )\
+#define ERR_pragma_error_bad( A )\
 	ERR_GEN ( 904, chk_F ( A ) )
 
+#define ERR_pragma_option_bad( A )\
+	ERR_GEN ( 905, chk_F ( A ) )
+
 #define ERR_pragma_keyword_bad( A )\
-	ERR_GEN ( 905, chk_6 ( A ) )
+	ERR_GEN ( 906, chk_6 ( A ) )
 
 #define ERR_pragma_char_lit( A )\
-	ERR_GEN ( 906, chk_G ( A ) )
-
-#define ERR_pragma_builtin_type( A )\
 	ERR_GEN ( 907, chk_G ( A ) )
 
-#define ERR_pragma_promote_type( A )\
+#define ERR_pragma_builtin_type( A )\
 	ERR_GEN ( 908, chk_G ( A ) )
 
-#define ERR_pragma_promote_compat( A )\
+#define ERR_pragma_promote_type( A )\
 	ERR_GEN ( 909, chk_G ( A ) )
 
+#define ERR_pragma_promote_compat( A )\
+	ERR_GEN ( 910, chk_G ( A ) )
+
 #define ERR_pragma_compat_type()\
-	ERR_GEN ( 910 )
+	ERR_GEN ( 911 )
 
 #define ERR_pragma_arg_dup( A )\
-	ERR_GEN ( 911, chk_G ( A ) )
+	ERR_GEN ( 912, chk_G ( A ) )
 
 #define ERR_pragma_arg_cycle()\
-	ERR_GEN ( 912 )
+	ERR_GEN ( 913 )
 
 #define ERR_pragma_lit_type( A )\
-	ERR_GEN ( 913, chk_G ( A ) )
+	ERR_GEN ( 914, chk_G ( A ) )
 
 #define ERR_pragma_lit_range( A, B )\
-	ERR_GEN ( 914, chk_B ( A ), chk_G ( B ) )
+	ERR_GEN ( 915, chk_B ( A ), chk_G ( B ) )
 
 #define ERR_pragma_lit_question()\
-	ERR_GEN ( 915 )
+	ERR_GEN ( 916 )
 
 #define ERR_pragma_token_sort( A )\
-	ERR_GEN ( 916, chk_7 ( A ) )
+	ERR_GEN ( 917, chk_7 ( A ) )
 
 #define ERR_pragma_preserve_undecl( A, B )\
-	ERR_GEN ( 917, chk_8 ( A ), chk_7 ( B ) )
+	ERR_GEN ( 918, chk_8 ( A ), chk_7 ( B ) )
 
 #define ERR_pragma_weak_redef( A )\
-	ERR_GEN ( 918, chk_7 ( A ) )
+	ERR_GEN ( 919, chk_7 ( A ) )
 
 #define ERR_pragma_cpp_known( A )\
-	ERR_GEN ( 919, chk_8 ( A ) )
-
-#define ERR_pragma_cpp_ident( A )\
 	ERR_GEN ( 920, chk_8 ( A ) )
 
-#define ERR_pragma_assert_id( A )\
+#define ERR_pragma_cpp_ident( A )\
 	ERR_GEN ( 921, chk_8 ( A ) )
 
-#define ERR_pragma_assert_open( A )\
+#define ERR_pragma_assert_id( A )\
 	ERR_GEN ( 922, chk_8 ( A ) )
 
-#define ERR_pragma_assert_paren( A )\
+#define ERR_pragma_assert_open( A )\
 	ERR_GEN ( 923, chk_8 ( A ) )
 
-#define ERR_pragma_assert_empty( A )\
+#define ERR_pragma_assert_paren( A )\
 	ERR_GEN ( 924, chk_8 ( A ) )
 
+#define ERR_pragma_assert_empty( A )\
+	ERR_GEN ( 925, chk_8 ( A ) )
+
 #define ERR_pragma_assert_pred( A )\
-	ERR_GEN ( 925, chk_6 ( A ) )
+	ERR_GEN ( 926, chk_6 ( A ) )
 
 #define ERR_port_entry_undef( A )\
-	ERR_GEN ( 926, chk_J ( A ) )
-
-#define ERR_port_entry_redef( A )\
 	ERR_GEN ( 927, chk_J ( A ) )
 
+#define ERR_port_entry_redef( A )\
+	ERR_GEN ( 928, chk_J ( A ) )
+
 #define ERR_token_info( A )\
-	ERR_GEN ( 928, chk_7 ( A ) )
+	ERR_GEN ( 929, chk_7 ( A ) )
 
 #define ERR_token_redecl( A, B )\
-	ERR_GEN ( 929, chk_7 ( A ), chk_D ( B ) )
-
-#define ERR_token_redef( A, B )\
 	ERR_GEN ( 930, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_token_redef_ok( A, B )\
+#define ERR_token_redef( A, B )\
 	ERR_GEN ( 931, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_token_undef( A )\
-	ERR_GEN ( 932, chk_7 ( A ) )
+#define ERR_token_redef_ok( A, B )\
+	ERR_GEN ( 932, chk_7 ( A ), chk_D ( B ) )
 
-#define ERR_token_undecl( A )\
+#define ERR_token_undef( A )\
 	ERR_GEN ( 933, chk_7 ( A ) )
 
-#define ERR_token_qual( A )\
+#define ERR_token_undecl( A )\
 	ERR_GEN ( 934, chk_7 ( A ) )
 
-#define ERR_token_scope( A )\
+#define ERR_token_qual( A )\
 	ERR_GEN ( 935, chk_7 ( A ) )
 
+#define ERR_token_scope( A )\
+	ERR_GEN ( 936, chk_7 ( A ) )
+
 #define ERR_token_no_def( A, B )\
-	ERR_GEN ( 936, chk_7 ( A ), chk_D ( B ) )
+	ERR_GEN ( 937, chk_7 ( A ), chk_D ( B ) )
 
 #define ERR_token_def_not( A )\
-	ERR_GEN ( 937, chk_7 ( A ) )
-
-#define ERR_token_def_args( A )\
 	ERR_GEN ( 938, chk_7 ( A ) )
 
+#define ERR_token_def_args( A )\
+	ERR_GEN ( 939, chk_7 ( A ) )
+
 #define ERR_token_def_func( A, B )\
-	ERR_GEN ( 939, chk_7 ( A ), chk_G ( B ) )
+	ERR_GEN ( 940, chk_7 ( A ), chk_G ( B ) )
 
 #define ERR_token_def_ambig( A )\
-	ERR_GEN ( 940, chk_7 ( A ) )
+	ERR_GEN ( 941, chk_7 ( A ) )
 
 #define ERR_token_def_except()\
-	ERR_GEN ( 941 )
+	ERR_GEN ( 942 )
 
 #define ERR_token_def_implicit( A )\
-	ERR_GEN ( 942, chk_7 ( A ) )
+	ERR_GEN ( 943, chk_7 ( A ) )
 
 #define ERR_token_proc_high()\
-	ERR_GEN ( 943 )
+	ERR_GEN ( 944 )
 
 #define ERR_token_func( A )\
-	ERR_GEN ( 944, chk_G ( A ) )
-
-#define ERR_token_mem( A )\
 	ERR_GEN ( 945, chk_G ( A ) )
 
+#define ERR_token_mem( A )\
+	ERR_GEN ( 946, chk_G ( A ) )
+
 #define ERR_token_mem_off()\
-	ERR_GEN ( 946 )
+	ERR_GEN ( 947 )
 
 #define ERR_token_stmt_ret( A )\
-	ERR_GEN ( 947, chk_7 ( A ) )
+	ERR_GEN ( 948, chk_7 ( A ) )
 
 #define ERR_token_stmt_jump()\
-	ERR_GEN ( 948 )
+	ERR_GEN ( 949 )
 
 #define ERR_token_const( A )\
-	ERR_GEN ( 949, chk_7 ( A ) )
-
-#define ERR_token_arg_sort( A )\
 	ERR_GEN ( 950, chk_7 ( A ) )
 
-#define ERR_token_arg_bad( A )\
+#define ERR_token_arg_sort( A )\
 	ERR_GEN ( 951, chk_7 ( A ) )
 
-#define ERR_token_arg_exp( A )\
+#define ERR_token_arg_bad( A )\
 	ERR_GEN ( 952, chk_7 ( A ) )
 
-#define ERR_token_arg_const( A )\
+#define ERR_token_arg_exp( A )\
 	ERR_GEN ( 953, chk_7 ( A ) )
 
-#define ERR_token_arg_lvalue( A )\
+#define ERR_token_arg_const( A )\
 	ERR_GEN ( 954, chk_7 ( A ) )
 
-#define ERR_token_arg_mem( A )\
+#define ERR_token_arg_lvalue( A )\
 	ERR_GEN ( 955, chk_7 ( A ) )
 
-#define ERR_token_arg_nat( A )\
+#define ERR_token_arg_mem( A )\
 	ERR_GEN ( 956, chk_7 ( A ) )
 
+#define ERR_token_arg_nat( A )\
+	ERR_GEN ( 957, chk_7 ( A ) )
+
 #define ERR_token_arg_type( A, B, C )\
-	ERR_GEN ( 957, chk_8 ( A ), chk_7 ( B ), chk_G ( C ) )
+	ERR_GEN ( 958, chk_8 ( A ), chk_7 ( B ), chk_G ( C ) )
 
 #define ERR_token_recursive( A )\
-	ERR_GEN ( 958, chk_7 ( A ) )
+	ERR_GEN ( 959, chk_7 ( A ) )
 
 #define ERR_token_arg_undef( A, B )\
-	ERR_GEN ( 959, chk_7 ( A ), chk_7 ( B ) )
+	ERR_GEN ( 960, chk_7 ( A ), chk_7 ( B ) )
 
 #define ERR_token_conv( A, B, C )\
-	ERR_GEN ( 960, chk_7 ( A ), chk_G ( B ), chk_G ( C ) )
+	ERR_GEN ( 961, chk_7 ( A ), chk_G ( B ), chk_G ( C ) )
 
 
 #endif

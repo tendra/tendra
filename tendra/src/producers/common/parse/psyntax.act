@@ -1023,6 +1023,7 @@ complex-type : () -> ( t ) = @{
 <opt_on> : () -> ( n ) = @{ @n = OPT_error ; @} ;
 <opt_off> : () -> ( n ) = @{ @n = OPT_none ; @} ;
 <opt_warning> : () -> ( n ) = @{ @n = OPT_warning ; @} ;
+<opt_anon_union> : () -> ( n ) = @{ @n = OPT_anon_union ; @} ;
 <opt_bitf_overflow> : () -> ( n ) = @{ @n = OPT_bitf_overflow ; @} ;
 <opt_bitf_type> : () -> ( n ) = @{ @n = OPT_bitf_type ; @} ;
 <opt_bool_assign> : () -> ( n ) = @{ @n = OPT_bool_assign ; @} ;

@@ -134,16 +134,16 @@ int ZI0;
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 void
-ZR659(BASE_TYPE *ZO658)
+ZR660(BASE_TYPE *ZO659)
 {
-    BASE_TYPE ZI658;
+    BASE_TYPE ZI659;
 
     switch (CURRENT_TERMINAL) {
-      case 184:
+      case 185:
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_bottom ; 
+ (ZI659) = btype_bottom ; 
 	    }
 	}
 	break;
@@ -151,7 +151,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_char ; 
+ (ZI659) = btype_char ; 
 	    }
 	}
 	break;
@@ -159,7 +159,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_double ; 
+ (ZI659) = btype_double ; 
 	    }
 	}
 	break;
@@ -167,7 +167,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_float ; 
+ (ZI659) = btype_float ; 
 	    }
 	}
 	break;
@@ -175,7 +175,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_int ; 
+ (ZI659) = btype_int ; 
 	    }
 	}
 	break;
@@ -183,15 +183,15 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_long ; 
+ (ZI659) = btype_long ; 
 	    }
 	}
 	break;
-      case 285:
+      case 286:
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_ptrdiff_t ; 
+ (ZI659) = btype_ptrdiff_t ; 
 	    }
 	}
 	break;
@@ -199,7 +199,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_short ; 
+ (ZI659) = btype_short ; 
 	    }
 	}
 	break;
@@ -207,15 +207,15 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_signed ; 
+ (ZI659) = btype_signed ; 
 	    }
 	}
 	break;
-      case 298:
+      case 299:
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_size_t ; 
+ (ZI659) = btype_size_t ; 
 	    }
 	}
 	break;
@@ -223,7 +223,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_unsigned ; 
+ (ZI659) = btype_unsigned ; 
 	    }
 	}
 	break;
@@ -231,7 +231,7 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_void ; 
+ (ZI659) = btype_void ; 
 	    }
 	}
 	break;
@@ -239,34 +239,34 @@ ZR659(BASE_TYPE *ZO658)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI658) = btype_wchar_t ; 
+ (ZI659) = btype_wchar_t ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO658 = ZI658;
+    *ZO659 = ZI659;
 }
 
 void
-ZR890(EXP ZI888, EXP *ZO889)
+ZR891(EXP ZI889, EXP *ZO890)
 {
-    EXP ZI889;
+    EXP ZI890;
 
-  ZL2_890:;
+  ZL2_891:;
     switch (CURRENT_TERMINAL) {
       case 80:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    {
 		{
@@ -279,54 +279,54 @@ ZR890(EXP ZI888, EXP *ZO889)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR493 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR494 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_xor_exp ( (ZI888), (ZI448) ) ;
+    (ZI405) = make_xor_exp ( (ZI889), (ZI449) ) ;
 	    }
-	    ZI888 = ZI404;
-	    goto ZL2_890;
+	    ZI889 = ZI405;
+	    goto ZL2_891;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    ZI889 = ZI888;
+	    ZI890 = ZI889;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO889 = ZI889;
+    *ZO890 = ZI890;
 }
 
 void
-ZR715(BASE_TYPE *ZO658, TYPE *ZO395, CV_SPEC *ZO630, DECL_SPEC *ZO605)
+ZR716(BASE_TYPE *ZO659, TYPE *ZO396, CV_SPEC *ZO631, DECL_SPEC *ZO606)
 {
-    BASE_TYPE ZI658;
-    TYPE ZI395;
-    CV_SPEC ZI630;
-    DECL_SPEC ZI605;
+    BASE_TYPE ZI659;
+    TYPE ZI396;
+    CV_SPEC ZI631;
+    DECL_SPEC ZI606;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	BASE_TYPE ZI688;
-	TYPE ZI689;
-	CV_SPEC ZI690;
-	DECL_SPEC ZI716;
+	BASE_TYPE ZI689;
+	TYPE ZI690;
+	CV_SPEC ZI691;
+	DECL_SPEC ZI717;
 
-	ZR714 (&ZI688, &ZI689, &ZI690, &ZI716);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR715 (&ZI689, &ZI690, &ZI691, &ZI717);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -343,60 +343,60 @@ ZR715(BASE_TYPE *ZO658, TYPE *ZO395, CV_SPEC *ZO630, DECL_SPEC *ZO605)
 	      case 102: case 104: case 105: case 106: case 110:
 	      case 111: case 112: case 114: case 115: case 117:
 	      case 118: case 120: case 121: case 122: case 123:
-	      case 124: case 137: case 156: case 184: case 285:
-	      case 298:
+	      case 124: case 137: case 156: case 185: case 286:
+	      case 299:
 		{
-		    BASE_TYPE ZI692;
-		    TYPE ZI693;
-		    CV_SPEC ZI694;
-		    DECL_SPEC ZI718;
+		    BASE_TYPE ZI693;
+		    TYPE ZI694;
+		    CV_SPEC ZI695;
+		    DECL_SPEC ZI719;
 
-		    ZR715 (&ZI692, &ZI693, &ZI694, &ZI718);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR716 (&ZI693, &ZI694, &ZI695, &ZI719);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    if ( (ZI688) & (ZI692) ) {
-	(ZI658) = join_pre_types ( (ZI688), (ZI692) ) ;
+    if ( (ZI689) & (ZI693) ) {
+	(ZI659) = join_pre_types ( (ZI689), (ZI693) ) ;
     } else {
-	(ZI658) = ( (ZI688) | (ZI692) ) ;
+	(ZI659) = ( (ZI689) | (ZI693) ) ;
     }
 		    }
 		    {
 
     /* Join two partial types */
-    if ( IS_NULL_type ( (ZI689) ) ) {
-	(ZI395) = (ZI693) ;
-    } else if ( IS_NULL_type ( (ZI693) ) ) {
-	(ZI395) = (ZI689) ;
+    if ( IS_NULL_type ( (ZI690) ) ) {
+	(ZI396) = (ZI694) ;
+    } else if ( IS_NULL_type ( (ZI694) ) ) {
+	(ZI396) = (ZI690) ;
     } else {
-	report ( crt_loc, ERR_dcl_type_simple_many ( (ZI689), (ZI693) ) ) ;
-	(ZI395) = (ZI693) ;
+	report ( crt_loc, ERR_dcl_type_simple_many ( (ZI690), (ZI694) ) ) ;
+	(ZI396) = (ZI694) ;
     }
 		    }
 		    {
 
-    CV_SPEC c = ( (ZI690) & (ZI694) ) ;
+    CV_SPEC c = ( (ZI691) & (ZI695) ) ;
     if ( c ) report ( crt_loc, ERR_dcl_type_cv_dup ( c ) ) ;
-    (ZI630) = ( (ZI690) | (ZI694) ) ;
+    (ZI631) = ( (ZI691) | (ZI695) ) ;
 		    }
 		    {
 
     /* Combine two declaration specifiers */
-    DECL_SPEC d = ( ( (ZI716) & (ZI718) ) & dspec_duplicate ) ;
+    DECL_SPEC d = ( ( (ZI717) & (ZI719) ) & dspec_duplicate ) ;
     if ( d ) report ( crt_loc, ERR_dcl_spec_dup ( d ) ) ;
-    (ZI605) = ( (ZI716) | (ZI718) ) ;
+    (ZI606) = ( (ZI717) | (ZI719) ) ;
 		    }
 		}
 		break;
 	      default:
 		{
-		    ZI658 = ZI688;
-		    ZI395 = ZI689;
-		    ZI630 = ZI690;
-		    ZI605 = ZI716;
+		    ZI659 = ZI689;
+		    ZI396 = ZI690;
+		    ZI631 = ZI691;
+		    ZI606 = ZI717;
 		}
 		break;
 	    }
@@ -404,30 +404,30 @@ ZR715(BASE_TYPE *ZO658, TYPE *ZO395, CV_SPEC *ZO630, DECL_SPEC *ZO605)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO658 = ZI658;
-    *ZO395 = ZI395;
-    *ZO630 = ZI630;
-    *ZO605 = ZI605;
+    *ZO659 = ZI659;
+    *ZO396 = ZI396;
+    *ZO631 = ZI631;
+    *ZO606 = ZI606;
 }
 
 void
-ZR745(IDENTIFIER ZI399, TYPE *ZO395)
+ZR746(IDENTIFIER ZI400, TYPE *ZO396)
 {
-    TYPE ZI395;
+    TYPE ZI396;
 
     switch (CURRENT_TERMINAL) {
       case 65:
 	{
-	    TYPE ZI568;
+	    TYPE ZI569;
 
 	    ADVANCE_LEXER;
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI399) ) ;
+    begin_param ( (ZI400) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
@@ -437,19 +437,19 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 		  case 98: case 102: case 104: case 105: case 106:
 		  case 110: case 111: case 112: case 114: case 115:
 		  case 117: case 118: case 120: case 121: case 122:
-		  case 123: case 124: case 137: case 156: case 184:
-		  case 285: case 298:
+		  case 123: case 124: case 137: case 156: case 185:
+		  case 286: case 299:
 		    {
-			int ZI747;
+			int ZI748;
 
-			ZR743 (&ZI747);
-			if ((CURRENT_TERMINAL) == 354) {
+			ZR744 (&ZI748);
+			if ((CURRENT_TERMINAL) == 355) {
 			    RESTORE_LEXER;
 			    goto ZL1;
 			}
 			{
 
-    (ZI568) = make_func_type ( NULL_type, (ZI747), cv_c, empty_type_set ) ;
+    (ZI569) = make_func_type ( NULL_type, (ZI748), cv_c, empty_type_set ) ;
 			}
 			switch (CURRENT_TERMINAL) {
 			  case 39:
@@ -462,14 +462,14 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 		    break;
 		  case 1: case 4:
 		    {
-			ZR744 ();
-			if ((CURRENT_TERMINAL) == 354) {
+			ZR745 ();
+			if ((CURRENT_TERMINAL) == 355) {
 			    RESTORE_LEXER;
 			    goto ZL1;
 			}
 			{
 
-    (ZI568) = make_func_type ( NULL_type, FUNC_PARAMS, cv_c, empty_type_set ) ;
+    (ZI569) = make_func_type ( NULL_type, FUNC_PARAMS, cv_c, empty_type_set ) ;
 			}
 			switch (CURRENT_TERMINAL) {
 			  case 39:
@@ -484,7 +484,7 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 		    {
 			{
 
-    (ZI568) = make_func_type ( NULL_type, FUNC_NO_PARAMS, cv_c, empty_type_set ) ;
+    (ZI569) = make_func_type ( NULL_type, FUNC_NO_PARAMS, cv_c, empty_type_set ) ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -493,7 +493,7 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 		    goto ZL1;
 		}
 	    }
-	    ZI395 = ZI568;
+	    ZI396 = ZI569;
 	    {
 
     end_param () ;
@@ -502,9 +502,9 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 	    }
 	}
 	break;
-      case 331:
+      case 332:
 	{
-	    int ZI747;
+	    int ZI748;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -517,18 +517,18 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI399) ) ;
+    begin_param ( (ZI400) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR758 (&ZI747);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR759 (&ZI748);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI395) = make_func_type ( NULL_type, ( (ZI747) | FUNC_WEAK ), cv_c, empty_type_set ) ;
+    (ZI396) = make_func_type ( NULL_type, ( (ZI748) | FUNC_WEAK ), cv_c, empty_type_set ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
@@ -547,7 +547,7 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 	break;
       case 66:
 	{
-	    EXP ZI404;
+	    EXP ZI405;
 
 	    {
 		{
@@ -560,15 +560,15 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR757 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR758 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    NAT n = make_array_dim ( (ZI404) ) ;
-    MAKE_type_array ( cv_none, NULL_type, n, (ZI395) ) ;
+    NAT n = make_array_dim ( (ZI405) ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, (ZI396) ) ;
 	    }
 	    {
 		{
@@ -583,30 +583,80 @@ ZR745(IDENTIFIER ZI399, TYPE *ZO395)
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
+    *ZO396 = ZI396;
 }
 
 void
-ZR894(EXP ZI892, EXP *ZO893)
+ZR771(IDENTIFIER *ZO548)
 {
-    EXP ZI893;
+    IDENTIFIER ZI548;
 
-  ZL2_894:;
+    if ((CURRENT_TERMINAL) == 355) {
+	return;
+    }
+    {
+	BASE_TYPE ZI659;
+	TYPE ZI690;
+	CV_SPEC ZI631;
+	DECL_SPEC ZI717;
+	TYPE ZI694;
+	DECL_SPEC ZI606;
+	TYPE ZI396;
+	IDENTIFIER ZI400;
+
+	ZR716 (&ZI659, &ZI690, &ZI631, &ZI717);
+	if ((CURRENT_TERMINAL) == 355) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	{
+
+    /* Complete a declaration specifier and a type */
+    (ZI606) = complete_dspec ( (ZI717), (ZI659), (ZI690), (ZI631) ) ;
+    (ZI694) = complete_pre_type ( (ZI659), (ZI690), (ZI631), 0 ) ;
+    have_type_specifier = 0 ;
+	}
+	ZR767 (ZI694, &ZI396, &ZI400);
+	if ((CURRENT_TERMINAL) == 355) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	{
+
+    (ZI548) = make_param_decl ( (ZI606), (ZI396), (ZI400), CONTEXT_PARAMETER ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+	}
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO548 = ZI548;
+}
+
+void
+ZR895(EXP ZI893, EXP *ZO894)
+{
+    EXP ZI894;
+
+  ZL2_895:;
     switch (CURRENT_TERMINAL) {
       case 33:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    {
 		{
@@ -619,105 +669,55 @@ ZR894(EXP ZI892, EXP *ZO893)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR491 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR492 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_and_exp ( (ZI892), (ZI448) ) ;
+    (ZI405) = make_and_exp ( (ZI893), (ZI449) ) ;
 	    }
-	    ZI892 = ZI404;
-	    goto ZL2_894;
+	    ZI893 = ZI405;
+	    goto ZL2_895;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    ZI893 = ZI892;
+	    ZI894 = ZI893;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO893 = ZI893;
+    *ZO894 = ZI894;
 }
 
 void
-ZR770(IDENTIFIER *ZO547)
+ZR570(EXP *ZO405)
 {
-    IDENTIFIER ZI547;
+    EXP ZI405;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	BASE_TYPE ZI658;
-	TYPE ZI689;
-	CV_SPEC ZI630;
-	DECL_SPEC ZI716;
-	TYPE ZI693;
-	DECL_SPEC ZI605;
-	TYPE ZI395;
-	IDENTIFIER ZI399;
+	EXP ZI417;
+	EXP ZI421;
+	int ZI538;
+	EXP ZI449;
 
-	ZR715 (&ZI658, &ZI689, &ZI630, &ZI716);
-	if ((CURRENT_TERMINAL) == 354) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	{
-
-    /* Complete a declaration specifier and a type */
-    (ZI605) = complete_dspec ( (ZI716), (ZI658), (ZI689), (ZI630) ) ;
-    (ZI693) = complete_pre_type ( (ZI658), (ZI689), (ZI630), 0 ) ;
-    have_type_specifier = 0 ;
-	}
-	ZR766 (ZI693, &ZI395, &ZI399);
-	if ((CURRENT_TERMINAL) == 354) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	{
-
-    (ZI547) = make_param_decl ( (ZI605), (ZI395), (ZI399), CONTEXT_PARAMETER ) ;
-    have_type_declaration = TYPE_DECL_NONE ;
-    have_func_declarator = 0 ;
-	}
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO547 = ZI547;
-}
-
-void
-ZR569(EXP *ZO404)
-{
-    EXP ZI404;
-
-    if ((CURRENT_TERMINAL) == 354) {
-	return;
-    }
-    {
-	EXP ZI416;
-	EXP ZI420;
-	int ZI537;
-	EXP ZI448;
-
-	ZR567 (&ZI416, &ZI420, &ZI537);
+	ZR568 (&ZI417, &ZI421, &ZI538);
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 28:
 		{
-		    int ZI568;
+		    int ZI569;
 
 		    ADVANCE_LEXER;
 		    {
@@ -726,8 +726,8 @@ ZR569(EXP *ZO404)
 		    }
 		    {
 
-    (ZI568) = unreached_code ;
-    if ( (ZI568) ) {
+    (ZI569) = unreached_code ;
+    if ( (ZI569) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -736,8 +736,8 @@ ZR569(EXP *ZO404)
 	unreached_last = 0 ;
     }
 		    }
-		    ZR551 (&ZI448);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR552 (&ZI449);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -747,18 +747,18 @@ ZR569(EXP *ZO404)
 		{
 		    {
 
-    (ZI448) = NULL_exp ;
+    (ZI449) = NULL_exp ;
 		    }
 		}
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	{
 
-    crt_hash_cond = (ZI420) ;
+    crt_hash_cond = (ZI421) ;
 	}
 	switch (CURRENT_TERMINAL) {
 	  case 29:
@@ -768,99 +768,38 @@ ZR569(EXP *ZO404)
 	}
 	ADVANCE_LEXER;
 	{
- unreached_prev = (ZI537) ; 
+ unreached_prev = (ZI538) ; 
 	}
 	{
 
-    (ZI404) = end_hash_if_stmt ( (ZI416), (ZI448) ) ;
+    (ZI405) = end_hash_if_stmt ( (ZI417), (ZI449) ) ;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR898(EXP ZI896, EXP *ZO897)
+ZR657(TYPE *ZO396)
 {
-    EXP ZI897;
+    TYPE ZI396;
 
-  ZL2_898:;
-    switch (CURRENT_TERMINAL) {
-      case 86: case 87:
-	{
-	    int ZI460;
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    {
- (ZI460) = crt_lex_token ; 
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 86:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 87:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto ZL1;
-		}
-	    }
-	    ZR488 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_mult_exp ( (ZI460), (ZI896), (ZI448) ) ;
-	    }
-	    ZI896 = ZI404;
-	    goto ZL2_898;
-	}
-	/*UNREACHED*/
-      default:
-	{
-	    ZI897 = ZI896;
-	}
-	break;
-      case 354:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO897 = ZI897;
-}
-
-void
-ZR656(TYPE *ZO395)
-{
-    TYPE ZI395;
-
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	BASE_TYPE ZI669;
+	BASE_TYPE ZI670;
 
-	ZR670 (&ZI669);
+	ZR671 (&ZI670);
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 1: case 2: case 4:
 		{
-		    IDENTIFIER ZI399;
+		    IDENTIFIER ZI400;
 
 		    {
 			switch (CURRENT_TERMINAL) {
@@ -868,7 +807,7 @@ ZR656(TYPE *ZO395)
 			    {
 				{
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -877,7 +816,7 @@ ZR656(TYPE *ZO395)
 			    {
 				{
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -886,7 +825,7 @@ ZR656(TYPE *ZO395)
 			    {
 				{
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -895,8 +834,8 @@ ZR656(TYPE *ZO395)
 			    goto ZL1;
 			}
 		    }
-		    ZR1030 (&ZI669, &ZI399, &ZI395);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR1031 (&ZI670, &ZI400, &ZI396);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -904,20 +843,20 @@ ZR656(TYPE *ZO395)
 		break;
 	      case 64:
 		{
-		    IDENTIFIER ZI399;
-		    IDENTIFIER ZI420;
-		    int ZI585;
-		    IDENTIFIER ZI672;
+		    IDENTIFIER ZI400;
+		    IDENTIFIER ZI421;
+		    int ZI586;
+		    IDENTIFIER ZI673;
 
 		    {
 
     HASHID nm = lookup_anon () ;
-    (ZI399) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI400) = DEREF_id ( hashid_id ( nm ) ) ;
 		    }
 		    {
 
-    (ZI420) = begin_class_defn ( (ZI399), (ZI669), cinfo_none, NULL_type ) ;
-    (ZI585) = in_function_defn ;
+    (ZI421) = begin_class_defn ( (ZI400), (ZI670), cinfo_none, NULL_type ) ;
+    (ZI586) = in_function_defn ;
     in_function_defn = 0 ;
     in_class_defn++ ;
     really_in_class_defn++ ;
@@ -935,9 +874,9 @@ ZR656(TYPE *ZO395)
 			    ADVANCE_LEXER;
 			}
 		    }
-		    ZR662 ();
+		    ZR663 ();
 		    {
-			if ((CURRENT_TERMINAL) == 354) {
+			if ((CURRENT_TERMINAL) == 355) {
 			    RESTORE_LEXER;
 			    goto ZL1;
 			}
@@ -953,15 +892,15 @@ ZR656(TYPE *ZO395)
 		    }
 		    {
 
-    (ZI672) = end_class_defn ( (ZI420) ) ;
-    in_function_defn = (ZI585) ;
+    (ZI673) = end_class_defn ( (ZI421) ) ;
+    in_function_defn = (ZI586) ;
     in_class_defn-- ;
     really_in_class_defn-- ;
 		    }
 		    {
 
-    MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZI395) ) ;
-    COPY_id ( type_name ( (ZI395) ), (ZI672) ) ;
+    MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZI396) ) ;
+    COPY_id ( type_name ( (ZI396) ), (ZI673) ) ;
     have_type_specifier = 1 ;
 		    }
 		    {
@@ -970,7 +909,7 @@ ZR656(TYPE *ZO395)
 		    }
 		}
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -980,22 +919,83 @@ ZR656(TYPE *ZO395)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
+    *ZO396 = ZI396;
 }
 
 void
-ZR427(NAMESPACE ZI426, IDENTIFIER *ZO399)
+ZR899(EXP ZI897, EXP *ZO898)
 {
-    IDENTIFIER ZI399;
+    EXP ZI898;
 
-    if ((CURRENT_TERMINAL) == 354) {
+  ZL2_899:;
+    switch (CURRENT_TERMINAL) {
+      case 86: case 87:
+	{
+	    int ZI461;
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    {
+ (ZI461) = crt_lex_token ; 
+	    }
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 86:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 87:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto ZL1;
+		}
+	    }
+	    ZR489 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_mult_exp ( (ZI461), (ZI897), (ZI449) ) ;
+	    }
+	    ZI897 = ZI405;
+	    goto ZL2_899;
+	}
+	/*UNREACHED*/
+      default:
+	{
+	    ZI898 = ZI897;
+	}
+	break;
+      case 355:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO898 = ZI898;
+}
+
+void
+ZR428(NAMESPACE ZI427, IDENTIFIER *ZO400)
+{
+    IDENTIFIER ZI400;
+
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	IDENTIFIER ZI428;
+	IDENTIFIER ZI429;
 
 	{
 	    switch (CURRENT_TERMINAL) {
@@ -1003,7 +1003,7 @@ ZR427(NAMESPACE ZI426, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI428 = crt_token->pp_data.id.use ;
+    ZI429 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -1012,7 +1012,7 @@ ZR427(NAMESPACE ZI426, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI428 = crt_token->pp_data.id.use ;
+    ZI429 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -1021,7 +1021,7 @@ ZR427(NAMESPACE ZI426, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI428 = crt_token->pp_data.id.use ;
+    ZI429 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -1032,115 +1032,115 @@ ZR427(NAMESPACE ZI426, IDENTIFIER *ZO399)
 	}
 	{
 
-    HASHID nm = DEREF_hashid ( id_name ( (ZI428) ) ) ;
-    (ZI399) = find_qual_id ( (ZI426), nm, 1, 0 ) ;
+    HASHID nm = DEREF_hashid ( id_name ( (ZI429) ) ) ;
+    (ZI400) = find_qual_id ( (ZI427), nm, 1, 0 ) ;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO399 = ZI399;
+    *ZO400 = ZI400;
 }
 
 void
-ZR714(BASE_TYPE *ZO658, TYPE *ZO395, CV_SPEC *ZO630, DECL_SPEC *ZO605)
+ZR715(BASE_TYPE *ZO659, TYPE *ZO396, CV_SPEC *ZO631, DECL_SPEC *ZO606)
 {
-    BASE_TYPE ZI658;
-    TYPE ZI395;
-    CV_SPEC ZI630;
-    DECL_SPEC ZI605;
+    BASE_TYPE ZI659;
+    TYPE ZI396;
+    CV_SPEC ZI631;
+    DECL_SPEC ZI606;
 
     switch (CURRENT_TERMINAL) {
       case 98: case 124:
 	{
-	    ZR631 (&ZI630);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR632 (&ZI631);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
- (ZI658) = btype_none ; 
+ (ZI659) = btype_none ; 
 	    }
 	    {
 
-    (ZI395) = NULL_type ;
+    (ZI396) = NULL_type ;
 	    }
 	    {
- (ZI605) = dspec_none ; 
+ (ZI606) = dspec_none ; 
 	    }
 	}
 	break;
       case 94: case 105: case 112: case 117: case 120:
       case 137:
 	{
-	    ZR709 (&ZI605);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR710 (&ZI606);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    if ( have_type_specifier ) report ( crt_loc, ERR_dcl_spec_order ( (ZI605) ) ) ;
+    if ( have_type_specifier ) report ( crt_loc, ERR_dcl_spec_order ( (ZI606) ) ) ;
 	    }
 	    {
- (ZI658) = btype_none ; 
+ (ZI659) = btype_none ; 
 	    }
 	    {
 
-    (ZI395) = NULL_type ;
+    (ZI396) = NULL_type ;
 	    }
 	    {
- (ZI630) = cv_none ; 
+ (ZI631) = cv_none ; 
 	    }
 	}
 	break;
       case 2: case 25: case 97: case 102: case 104:
       case 106: case 110: case 111: case 114: case 115:
       case 118: case 121: case 122: case 123: case 156:
-      case 184: case 285: case 298:
+      case 185: case 286: case 299:
 	{
-	    ZR660 (&ZI658, &ZI395);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR661 (&ZI659, &ZI396);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
- (ZI630) = cv_none ; 
+ (ZI631) = cv_none ; 
 	    }
 	    {
- (ZI605) = dspec_none ; 
+ (ZI606) = dspec_none ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO658 = ZI658;
-    *ZO395 = ZI395;
-    *ZO630 = ZI630;
-    *ZO605 = ZI605;
+    *ZO659 = ZI659;
+    *ZO396 = ZI396;
+    *ZO631 = ZI631;
+    *ZO606 = ZI606;
 }
 
 void
-parse_init(IDENTIFIER ZI547, EXP *ZO404)
+parse_init(IDENTIFIER ZI548, EXP *ZO405)
 {
-    EXP ZI404;
+    EXP ZI405;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	ZR788 (ZI547, &ZI404);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR789 (ZI548, &ZI405);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1157,73 +1157,30 @@ parse_init(IDENTIFIER ZI547, EXP *ZO404)
 	}
 	{
 
-    (ZI404) = NULL_exp ;
+    (ZI405) = NULL_exp ;
 	}
     }
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR1027(EXP *ZI1025, EXP *ZO404)
+ZR804(void)
 {
-    EXP ZI404;
-
-    switch (CURRENT_TERMINAL) {
-      case 42:
-	{
-	    SID_LIST_EXP ZI423;
-	    SID_LIST_EXP ZI420;
-
-	    ADVANCE_LEXER;
-	    ZR515 (&ZI423);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    CONS_exp ( (*ZI1025), (ZI423), (ZI420) ) ;
-	    }
-	    {
-
-    (ZI404) = make_comma_exp ( (ZI420) ) ;
-	    }
-	}
-	break;
-      default:
-	{
-	    ZI404 = *ZI1025;
-	}
-	break;
-      case 354:
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO404 = ZI404;
-}
-
-void
-ZR803(void)
-{
-    if ((CURRENT_TERMINAL) == 354) {
-	return;
-    }
-  ZL2_803:;
+  ZL2_804:;
     {
-	BASE_TYPE ZI937;
-	TYPE ZI938;
-	CV_SPEC ZI939;
-	DECL_SPEC ZI940;
-	BASE_TYPE ZI941;
-	TYPE ZI942;
-	CV_SPEC ZI943;
-	DECL_SPEC ZI944;
-	EXP ZI404;
+	BASE_TYPE ZI938;
+	TYPE ZI939;
+	CV_SPEC ZI940;
+	DECL_SPEC ZI941;
+	BASE_TYPE ZI942;
+	TYPE ZI943;
+	CV_SPEC ZI944;
+	DECL_SPEC ZI945;
+	EXP ZI405;
 
 	{
 
@@ -1232,8 +1189,8 @@ ZR803(void)
 	}
 	if (!ZI0)
 	    goto ZL3;
-	ZR714 (&ZI937, &ZI938, &ZI939, &ZI940);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR715 (&ZI938, &ZI939, &ZI940, &ZI941);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1244,17 +1201,17 @@ ZR803(void)
 	crt_lex_token = lex_identifier ;
     }
 	}
-	ZR724 (&ZI937, &ZI938, &ZI939, &ZI940, &ZI941, &ZI942, &ZI943, &ZI944);
-	ZR945 (&ZI941, &ZI942, &ZI943, &ZI944, &ZI404);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR725 (&ZI938, &ZI939, &ZI940, &ZI941, &ZI942, &ZI943, &ZI944, &ZI945);
+	ZR946 (&ZI942, &ZI943, &ZI944, &ZI945, &ZI405);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    external_declaration ( (ZI404), 1 ) ;
+    external_declaration ( (ZI405), 1 ) ;
 	}
-	goto ZL2_803;
+	goto ZL2_804;
     }
     /*UNREACHED*/
   ZL3:;
@@ -1266,83 +1223,83 @@ ZR803(void)
 
     report ( crt_loc, ERR_dcl_dcl_semicolon () ) ;
 	    }
-	    goto ZL2_803;
+	    goto ZL2_804;
 	}
 	/*UNREACHED*/
       case 126:
 	{
-	    EXP ZI404;
+	    EXP ZI405;
 
-	    ZR623 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR624 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    external_declaration ( (ZI404), 1 ) ;
+    external_declaration ( (ZI405), 1 ) ;
 	    }
-	    goto ZL2_803;
+	    goto ZL2_804;
 	}
 	/*UNREACHED*/
       case 26: case 30:
 	{
-	    ZR806 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR807 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
-		goto ZL2_803;
+		goto ZL2_804;
 	    }
 	}
 	/*UNREACHED*/
       case 1: case 2: case 4: case 65: case 78:
 	{
-	    BASE_TYPE ZI658;
-	    TYPE ZI689;
-	    CV_SPEC ZI630;
-	    DECL_SPEC ZI716;
-	    TYPE ZI395;
-	    DECL_SPEC ZI605;
-	    TYPE ZI568;
-	    IDENTIFIER ZI399;
-	    EXP ZI404;
+	    BASE_TYPE ZI659;
+	    TYPE ZI690;
+	    CV_SPEC ZI631;
+	    DECL_SPEC ZI717;
+	    TYPE ZI396;
+	    DECL_SPEC ZI606;
+	    TYPE ZI569;
+	    IDENTIFIER ZI400;
+	    EXP ZI405;
 
 	    {
- (ZI658) = btype_none ; 
+ (ZI659) = btype_none ; 
 	    }
 	    {
 
-    (ZI689) = NULL_type ;
+    (ZI690) = NULL_type ;
 	    }
 	    {
- (ZI630) = cv_none ; 
+ (ZI631) = cv_none ; 
 	    }
 	    {
- (ZI716) = dspec_none ; 
+ (ZI717) = dspec_none ; 
 	    }
 	    {
 
     /* Complete a declaration specifier and a type */
-    (ZI605) = complete_dspec ( (ZI716), (ZI658), (ZI689), (ZI630) ) ;
-    (ZI395) = complete_pre_type ( (ZI658), (ZI689), (ZI630), 0 ) ;
+    (ZI606) = complete_dspec ( (ZI717), (ZI659), (ZI690), (ZI631) ) ;
+    (ZI396) = complete_pre_type ( (ZI659), (ZI690), (ZI631), 0 ) ;
     have_type_specifier = 0 ;
 	    }
-	    ZR752 (ZI395, &ZI568, &ZI399);
-	    ZR819 (&ZI658, &ZI395, &ZI605, &ZI568, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR753 (ZI396, &ZI569, &ZI400);
+	    ZR820 (&ZI659, &ZI396, &ZI606, &ZI569, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = NULL_exp ;
+    (ZI405) = NULL_exp ;
 	    }
 	    {
 
-    external_declaration ( (ZI404), 1 ) ;
+    external_declaration ( (ZI405), 1 ) ;
 	    }
-	    goto ZL2_803;
+	    goto ZL2_804;
 	}
 	/*UNREACHED*/
       default:
@@ -1350,92 +1307,88 @@ ZR803(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR1028(EXP *ZI416, SID_LIST_EXP *ZO420)
+ZR1028(EXP *ZI1026, EXP *ZO405)
 {
-    SID_LIST_EXP ZI420;
+    EXP ZI405;
 
     switch (CURRENT_TERMINAL) {
       case 42:
 	{
-	    SID_LIST_EXP ZI423;
+	    SID_LIST_EXP ZI424;
+	    SID_LIST_EXP ZI421;
 
 	    ADVANCE_LEXER;
-	    ZR515 (&ZI423);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR516 (&ZI424);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    CONS_exp ( (*ZI416), (ZI423), (ZI420) ) ;
+    CONS_exp ( (*ZI1026), (ZI424), (ZI421) ) ;
+	    }
+	    {
+
+    (ZI405) = make_comma_exp ( (ZI421) ) ;
 	    }
 	}
 	break;
       default:
 	{
-	    SID_LIST_EXP ZI423;
-
-	    {
-
-    (ZI423) = NULL_list ( EXP ) ;
-	    }
-	    {
-
-    CONS_exp ( (*ZI416), (ZI423), (ZI420) ) ;
-	    }
+	    ZI405 = *ZI1026;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO420 = ZI420;
+    *ZO405 = ZI405;
 }
 
 void
-ZR754(TYPE *ZO395)
+ZR755(TYPE *ZO396)
 {
-    TYPE ZI395;
+    TYPE ZI396;
 
     switch (CURRENT_TERMINAL) {
       case 65:
 	{
-	    IDENTIFIER ZI399;
-	    TYPE ZI568;
+	    IDENTIFIER ZI400;
+	    TYPE ZI569;
 
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI399) = NULL_id ;
+    (ZI400) = NULL_id ;
 	    }
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI399) ) ;
+    begin_param ( (ZI400) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR755 (&ZI568);
+	    ZR756 (&ZI569);
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZI395 = ZI568;
+	    ZI396 = ZI569;
 	    {
 
     end_param () ;
@@ -1444,10 +1397,10 @@ ZR754(TYPE *ZO395)
 	    }
 	}
 	break;
-      case 331:
+      case 332:
 	{
-	    IDENTIFIER ZI399;
-	    int ZI747;
+	    IDENTIFIER ZI400;
+	    int ZI748;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1459,23 +1412,23 @@ ZR754(TYPE *ZO395)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI399) = NULL_id ;
+    (ZI400) = NULL_id ;
 	    }
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI399) ) ;
+    begin_param ( (ZI400) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR758 (&ZI747);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR759 (&ZI748);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI395) = make_func_type ( NULL_type, ( (ZI747) | FUNC_WEAK ), cv_c, empty_type_set ) ;
+    (ZI396) = make_func_type ( NULL_type, ( (ZI748) | FUNC_WEAK ), cv_c, empty_type_set ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
@@ -1494,7 +1447,7 @@ ZR754(TYPE *ZO395)
 	break;
       case 66:
 	{
-	    EXP ZI404;
+	    EXP ZI405;
 
 	    {
 		{
@@ -1507,15 +1460,15 @@ ZR754(TYPE *ZO395)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR757 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR758 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    NAT n = make_array_dim ( (ZI404) ) ;
-    MAKE_type_array ( cv_none, NULL_type, n, (ZI395) ) ;
+    NAT n = make_array_dim ( (ZI405) ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, (ZI396) ) ;
 	    }
 	    {
 		{
@@ -1530,150 +1483,85 @@ ZR754(TYPE *ZO395)
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
+    *ZO396 = ZI396;
 }
 
 void
-ZR1029(EXP *ZO404)
+ZR1029(EXP *ZI417, SID_LIST_EXP *ZO421)
 {
-    EXP ZI404;
+    SID_LIST_EXP ZI421;
 
     switch (CURRENT_TERMINAL) {
-      case 297:
+      case 42:
 	{
-	    EXP ZI416;
+	    SID_LIST_EXP ZI424;
 
 	    ADVANCE_LEXER;
-	    ZR414 (&ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR516 (&ZI424);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_set_exp ( (ZI416) ) ;
+    CONS_exp ( (*ZI417), (ZI424), (ZI421) ) ;
 	    }
-	    switch (CURRENT_TERMINAL) {
-	      case 346:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
 	}
 	break;
-      case 323:
-	{
-	    EXP ZI416;
-
-	    ADVANCE_LEXER;
-	    ZR414 (&ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_unused_exp ( (ZI416) ) ;
-	    }
-	    switch (CURRENT_TERMINAL) {
-	      case 346:
-		break;
-	      default:
-		goto ZL1;
-	    }
-	    ADVANCE_LEXER;
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO404 = ZI404;
-}
-
-void
-ZR902(EXP ZI900, EXP *ZO901)
-{
-    EXP ZI901;
-
-  ZL2_902:;
-    switch (CURRENT_TERMINAL) {
-      case 48: case 63:
-	{
-	    int ZI460;
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    {
- (ZI460) = crt_lex_token ; 
-	    }
-	    ZR487 ();
-	    ZR485 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    /* op will be in its primary form */
-    (ZI404) = make_equality_exp ( (ZI460), (ZI900), (ZI448) ) ;
-	    }
-	    ZI900 = ZI404;
-	    goto ZL2_902;
-	}
-	/*UNREACHED*/
       default:
 	{
-	    ZI901 = ZI900;
+	    SID_LIST_EXP ZI424;
+
+	    {
+
+    (ZI424) = NULL_list ( EXP ) ;
+	    }
+	    {
+
+    CONS_exp ( (*ZI417), (ZI424), (ZI421) ) ;
+	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO901 = ZI901;
+    *ZO421 = ZI421;
 }
 
 void
-ZR556(EXP ZI467, EXP *ZO404)
+ZR557(EXP ZI468, EXP *ZO405)
 {
-    EXP ZI404;
+    EXP ZI405;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	EXP ZI416;
+	EXP ZI417;
 
-	ZR555 (ZI467, &ZI416);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR556 (ZI468, &ZI417);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    (ZI404) = end_compound_stmt ( (ZI416) ) ;
+    (ZI405) = end_compound_stmt ( (ZI417) ) ;
 	}
 	{
 
@@ -1692,7 +1580,7 @@ ZR556(EXP ZI467, EXP *ZO404)
 	}
 	{
 
-    (ZI404) = end_compound_stmt ( (ZI467) ) ;
+    (ZI405) = end_compound_stmt ( (ZI468) ) ;
 	}
 	{
 
@@ -1700,25 +1588,190 @@ ZR556(EXP ZI467, EXP *ZO404)
 	}
     }
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR1030(BASE_TYPE *ZI669, IDENTIFIER *ZI399, TYPE *ZO395)
+ZR1030(EXP *ZO405)
 {
-    TYPE ZI395;
+    EXP ZI405;
+
+    switch (CURRENT_TERMINAL) {
+      case 298:
+	{
+	    EXP ZI417;
+
+	    ADVANCE_LEXER;
+	    ZR415 (&ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_set_exp ( (ZI417) ) ;
+	    }
+	    switch (CURRENT_TERMINAL) {
+	      case 347:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	}
+	break;
+      case 324:
+	{
+	    EXP ZI417;
+
+	    ADVANCE_LEXER;
+	    ZR415 (&ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_unused_exp ( (ZI417) ) ;
+	    }
+	    switch (CURRENT_TERMINAL) {
+	      case 347:
+		break;
+	      default:
+		goto ZL1;
+	    }
+	    ADVANCE_LEXER;
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO405 = ZI405;
+}
+
+void
+ZR903(EXP ZI901, EXP *ZO902)
+{
+    EXP ZI902;
+
+  ZL2_903:;
+    switch (CURRENT_TERMINAL) {
+      case 48: case 63:
+	{
+	    int ZI461;
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    {
+ (ZI461) = crt_lex_token ; 
+	    }
+	    ZR488 ();
+	    ZR486 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    /* op will be in its primary form */
+    (ZI405) = make_equality_exp ( (ZI461), (ZI901), (ZI449) ) ;
+	    }
+	    ZI901 = ZI405;
+	    goto ZL2_903;
+	}
+	/*UNREACHED*/
+      default:
+	{
+	    ZI902 = ZI901;
+	}
+	break;
+      case 355:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO902 = ZI902;
+}
+
+void
+ZR797(DECL_SPEC ZI606, BASE_TYPE ZI659, TYPE ZI421)
+{
+    if ((CURRENT_TERMINAL) == 355) {
+	return;
+    }
+    {
+	TYPE ZI396;
+	IDENTIFIER ZI400;
+	IDENTIFIER ZI548;
+	EXP ZI405;
+
+	ZR753 (ZI421, &ZI396, &ZI400);
+	if ((CURRENT_TERMINAL) == 355) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	{
+
+    if ( in_weak_param ) {
+	(ZI548) = make_param_decl ( (ZI606), (ZI396), (ZI400), CONTEXT_WEAK_PARAM ) ;
+    } else if ( type_tag ( (ZI396) ) == type_func_tag ) {
+	check_weak_func ( (ZI396), 0 ) ;
+	(ZI548) = make_func_decl ( (ZI606), (ZI396), (ZI400), 0 ) ;
+    } else {
+	int def = predict_obj_defn () ;
+	(ZI548) = make_object_decl ( (ZI606), (ZI396), (ZI400), def ) ;
+    }
+    if ( IS_id_type_alias ( (ZI548) ) ) {
+	BASE_TYPE bs = DEREF_btype ( id_type_alias_rep ( (ZI548) ) ) ;
+	bs |= (ZI659) ;
+	COPY_btype ( id_type_alias_rep ( (ZI548) ), bs ) ;
+    }
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+	}
+	ZR793 (ZI548, &ZI405);
+	if ((CURRENT_TERMINAL) == 355) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	{
+
+    int def = init_object ( (ZI548), (ZI405) ) ;
+    if ( do_dump ) dump_declare ( (ZI548), &decl_loc, def ) ;
+	}
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+ZR1031(BASE_TYPE *ZI670, IDENTIFIER *ZI400, TYPE *ZO396)
+{
+    TYPE ZI396;
 
     switch (CURRENT_TERMINAL) {
       case 64:
 	{
-	    IDENTIFIER ZI420;
-	    int ZI585;
-	    IDENTIFIER ZI672;
+	    IDENTIFIER ZI421;
+	    int ZI586;
+	    IDENTIFIER ZI673;
 
 	    {
 
-    (ZI420) = begin_class_defn ( (*ZI399), (*ZI669), cinfo_none, NULL_type ) ;
-    (ZI585) = in_function_defn ;
+    (ZI421) = begin_class_defn ( (*ZI400), (*ZI670), cinfo_none, NULL_type ) ;
+    (ZI586) = in_function_defn ;
     in_function_defn = 0 ;
     in_class_defn++ ;
     really_in_class_defn++ ;
@@ -1736,9 +1789,9 @@ ZR1030(BASE_TYPE *ZI669, IDENTIFIER *ZI399, TYPE *ZO395)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR662 ();
+	    ZR663 ();
 	    {
-		if ((CURRENT_TERMINAL) == 354) {
+		if ((CURRENT_TERMINAL) == 355) {
 		    RESTORE_LEXER;
 		    goto ZL1;
 		}
@@ -1754,15 +1807,15 @@ ZR1030(BASE_TYPE *ZI669, IDENTIFIER *ZI399, TYPE *ZO395)
 	    }
 	    {
 
-    (ZI672) = end_class_defn ( (ZI420) ) ;
-    in_function_defn = (ZI585) ;
+    (ZI673) = end_class_defn ( (ZI421) ) ;
+    in_function_defn = (ZI586) ;
     in_class_defn-- ;
     really_in_class_defn-- ;
 	    }
 	    {
 
-    MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZI395) ) ;
-    COPY_id ( type_name ( (ZI395) ), (ZI672) ) ;
+    MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZI396) ) ;
+    COPY_id ( type_name ( (ZI396) ), (ZI673) ) ;
     have_type_specifier = 1 ;
 	    }
 	    {
@@ -1775,8 +1828,8 @@ ZR1030(BASE_TYPE *ZI669, IDENTIFIER *ZI399, TYPE *ZO395)
 	{
 	    {
 
-    MAKE_type_pre ( cv_none, (*ZI669), qual_none, (ZI395) ) ;
-    COPY_id ( type_name ( (ZI395) ), (*ZI399) ) ;
+    MAKE_type_pre ( cv_none, (*ZI670), qual_none, (ZI396) ) ;
+    COPY_id ( type_name ( (ZI396) ), (*ZI400) ) ;
     if ( have_type_declaration == TYPE_DECL_NONE ) {
 	have_type_declaration = TYPE_DECL_ELABORATE ;
     }
@@ -1784,79 +1837,80 @@ ZR1030(BASE_TYPE *ZI669, IDENTIFIER *ZI399, TYPE *ZO395)
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
+    *ZO396 = ZI396;
 }
 
 void
-ZR796(DECL_SPEC ZI605, BASE_TYPE ZI658, TYPE ZI420)
+ZR560(void)
 {
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	TYPE ZI395;
-	IDENTIFIER ZI399;
-	IDENTIFIER ZI547;
-	EXP ZI404;
+	BASE_TYPE ZI689;
+	TYPE ZI1095;
+	CV_SPEC ZI691;
+	DECL_SPEC ZI1096;
+	BASE_TYPE ZI659;
+	TYPE ZI690;
+	CV_SPEC ZI631;
+	DECL_SPEC ZI717;
 
-	ZR752 (ZI420, &ZI395, &ZI399);
-	if ((CURRENT_TERMINAL) == 354) {
+	{
+
+    /* Resolve declaration-specifiers from other declarators */
+    (ZI0) = predict_dspec ( 0 ) ;
+	}
+	if (!ZI0)
+	    goto ZL1;
+	ZR715 (&ZI689, &ZI1095, &ZI691, &ZI1096);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    if ( in_weak_param ) {
-	(ZI547) = make_param_decl ( (ZI605), (ZI395), (ZI399), CONTEXT_WEAK_PARAM ) ;
-    } else if ( type_tag ( (ZI395) ) == type_func_tag ) {
-	check_weak_func ( (ZI395), 0 ) ;
-	(ZI547) = make_func_decl ( (ZI605), (ZI395), (ZI399), 0 ) ;
-    } else {
-	int def = predict_obj_defn () ;
-	(ZI547) = make_object_decl ( (ZI605), (ZI395), (ZI399), def ) ;
+    /* A type-name can be a declarator-id */
+    if ( have_type_specifier && crt_lex_token == lex_type_Hname ) {
+	crt_lex_token = lex_identifier ;
     }
-    if ( IS_id_type_alias ( (ZI547) ) ) {
-	BASE_TYPE bs = DEREF_btype ( id_type_alias_rep ( (ZI547) ) ) ;
-	bs |= (ZI658) ;
-	COPY_btype ( id_type_alias_rep ( (ZI547) ), bs ) ;
-    }
-    have_type_declaration = TYPE_DECL_NONE ;
-    have_func_declarator = 0 ;
 	}
-	ZR792 (ZI547, &ZI404);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR725 (&ZI689, &ZI1095, &ZI691, &ZI1096, &ZI659, &ZI690, &ZI631, &ZI717);
+	ZR814 (&ZI659, &ZI690, &ZI631, &ZI717);
+	switch (CURRENT_TERMINAL) {
+	  case 77:
+	    break;
+	  case 355:
 	    RESTORE_LEXER;
 	    goto ZL1;
+	  default:
+	    goto ZL1;
 	}
-	{
-
-    int def = init_object ( (ZI547), (ZI404) ) ;
-    if ( do_dump ) dump_declare ( (ZI547), &decl_loc, def ) ;
-	}
+	ADVANCE_LEXER;
     }
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR1031(BASE_TYPE *ZI658, TYPE *ZI420, CV_SPEC *ZI630)
+ZR1032(BASE_TYPE *ZI659, TYPE *ZI421, CV_SPEC *ZI631)
 {
     switch (CURRENT_TERMINAL) {
       case 77:
 	{
 	    {
 
-    IGNORE empty_decl ( dspec_none, NULL_type, (*ZI658), (*ZI420), (*ZI630), last_lex_token, 1 ) ;
+    IGNORE empty_decl ( dspec_none, NULL_type, (*ZI659), (*ZI421), (*ZI631), last_lex_token, 1 ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
     have_type_specifier = 0 ;
@@ -1867,24 +1921,24 @@ ZR1031(BASE_TYPE *ZI658, TYPE *ZI420, CV_SPEC *ZI630)
       case 1: case 2: case 4: case 41: case 65:
       case 78:
 	{
-	    TYPE ZI395;
+	    TYPE ZI396;
 
 	    {
 
-    (ZI395) = complete_pre_type ( (*ZI658), (*ZI420), (*ZI630), 1 ) ;
+    (ZI396) = complete_pre_type ( (*ZI659), (*ZI421), (*ZI631), 1 ) ;
     have_type_specifier = 0 ;
 	    }
-	    ZR824 (ZI395, *ZI658);
+	    ZR825 (ZI396, *ZI659);
 	    {
 		switch (CURRENT_TERMINAL) {
 		  case 42:
 		    {
 			ADVANCE_LEXER;
-			ZR825 (ZI395, *ZI658);
+			ZR826 (ZI396, *ZI659);
 			switch (CURRENT_TERMINAL) {
 			  case 77:
 			    break;
-			  case 354:
+			  case 355:
 			    RESTORE_LEXER;
 			    goto ZL1;
 			  default:
@@ -1898,7 +1952,7 @@ ZR1031(BASE_TYPE *ZI658, TYPE *ZI420, CV_SPEC *ZI630)
 			ADVANCE_LEXER;
 		    }
 		    break;
-		  case 354:
+		  case 355:
 		    RESTORE_LEXER;
 		    goto ZL1;
 		  default:
@@ -1907,75 +1961,21 @@ ZR1031(BASE_TYPE *ZI658, TYPE *ZI420, CV_SPEC *ZI630)
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR559(void)
+ZR416(EXP *ZO405)
 {
-    if ((CURRENT_TERMINAL) == 354) {
-	return;
-    }
-    {
-	BASE_TYPE ZI688;
-	TYPE ZI1094;
-	CV_SPEC ZI690;
-	DECL_SPEC ZI1095;
-	BASE_TYPE ZI658;
-	TYPE ZI689;
-	CV_SPEC ZI630;
-	DECL_SPEC ZI716;
-
-	{
-
-    /* Resolve declaration-specifiers from other declarators */
-    (ZI0) = predict_dspec ( 0 ) ;
-	}
-	if (!ZI0)
-	    goto ZL1;
-	ZR714 (&ZI688, &ZI1094, &ZI690, &ZI1095);
-	if ((CURRENT_TERMINAL) == 354) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	{
-
-    /* A type-name can be a declarator-id */
-    if ( have_type_specifier && crt_lex_token == lex_type_Hname ) {
-	crt_lex_token = lex_identifier ;
-    }
-	}
-	ZR724 (&ZI688, &ZI1094, &ZI690, &ZI1095, &ZI658, &ZI689, &ZI630, &ZI716);
-	ZR813 (&ZI658, &ZI689, &ZI630, &ZI716);
-	switch (CURRENT_TERMINAL) {
-	  case 77:
-	    break;
-	  case 354:
-	    RESTORE_LEXER;
-	    goto ZL1;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-ZR415(EXP *ZO404)
-{
-    EXP ZI404;
+    EXP ZI405;
 
     switch (CURRENT_TERMINAL) {
       case 23:
@@ -1984,53 +1984,53 @@ ZR415(EXP *ZO404)
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
-    ZI404 = parse_exp_token ( id, args ) ;
+    ZI405 = parse_exp_token ( id, args ) ;
     RESCAN_LEXER ;
 	    }
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 209:
+      case 210:
 	{
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = make_ellipsis_exp () ;
+    (ZI405) = make_ellipsis_exp () ;
 	    }
 	}
 	break;
       case 1:
 	{
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI400;
 
 	    {
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = make_id_exp ( (ZI399) ) ;
+    (ZI405) = make_id_exp ( (ZI400) ) ;
 	    }
 	}
 	break;
       case 65:
 	{
-	    EXP ZI416;
+	    EXP ZI417;
 
 	    ADVANCE_LEXER;
 	    {
 
     IGNORE incr_value ( OPT_VAL_paren_depth ) ;
 	    }
-	    ZR414 (&ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR415 (&ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_paren_exp ( (ZI416) ) ;
+    (ZI405) = make_paren_exp ( (ZI417) ) ;
     decr_value ( OPT_VAL_paren_depth ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
@@ -2045,41 +2045,98 @@ ZR415(EXP *ZO404)
       case 17: case 18: case 19: case 20: case 21:
       case 22:
 	{
-	    ZR409 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR410 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR906(EXP ZI904, EXP *ZO905)
+ZR621(EXP *ZO405)
 {
-    EXP ZI905;
+    EXP ZI405;
 
-  ZL2_906:;
+    switch (CURRENT_TERMINAL) {
+      case 289:
+	{
+	    EXP ZI417;
+
+	    ADVANCE_LEXER;
+	    {
+ unreached_code = 0 ; 
+	    }
+	    ZR529 (&ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_reach_stmt ( (ZI417), 1 ) ;
+	    }
+	}
+	break;
+      case 323:
+	{
+	    EXP ZI417;
+
+	    ADVANCE_LEXER;
+	    {
+ unreached_code = 1 ; 
+	    }
+	    ZR529 (&ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_reach_stmt ( (ZI417), 0 ) ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto ZL1;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO405 = ZI405;
+}
+
+void
+ZR907(EXP ZI905, EXP *ZO906)
+{
+    EXP ZI906;
+
+  ZL2_907:;
     switch (CURRENT_TERMINAL) {
       case 49: case 50: case 53: case 54:
 	{
-	    int ZI460;
-	    EXP ZI448;
-	    EXP ZI404;
+	    int ZI461;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    {
- (ZI460) = crt_lex_token ; 
+ (ZI461) = crt_lex_token ; 
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -2107,104 +2164,47 @@ ZR906(EXP ZI904, EXP *ZO905)
 		    goto ZL1;
 		}
 	    }
-	    ZR482 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR483 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
     /* op will be in its primary form */
-    (ZI404) = make_relation_exp ( (ZI460), (ZI904), (ZI448) ) ;
+    (ZI405) = make_relation_exp ( (ZI461), (ZI905), (ZI449) ) ;
 	    }
-	    ZI904 = ZI404;
-	    goto ZL2_906;
+	    ZI905 = ZI405;
+	    goto ZL2_907;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    ZI905 = ZI904;
+	    ZI906 = ZI905;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO905 = ZI905;
+    *ZO906 = ZI906;
 }
 
 void
-ZR620(EXP *ZO404)
+ZR671(BASE_TYPE *ZO670)
 {
-    EXP ZI404;
-
-    switch (CURRENT_TERMINAL) {
-      case 288:
-	{
-	    EXP ZI416;
-
-	    ADVANCE_LEXER;
-	    {
- unreached_code = 0 ; 
-	    }
-	    ZR528 (&ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_reach_stmt ( (ZI416), 1 ) ;
-	    }
-	}
-	break;
-      case 322:
-	{
-	    EXP ZI416;
-
-	    ADVANCE_LEXER;
-	    {
- unreached_code = 1 ; 
-	    }
-	    ZR528 (&ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_reach_stmt ( (ZI416), 0 ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto ZL1;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO404 = ZI404;
-}
-
-void
-ZR670(BASE_TYPE *ZO669)
-{
-    BASE_TYPE ZI669;
+    BASE_TYPE ZI670;
 
     switch (CURRENT_TERMINAL) {
       case 118:
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI669) = btype_struct ; 
+ (ZI670) = btype_struct ; 
 	    }
 	}
 	break;
@@ -2212,52 +2212,52 @@ ZR670(BASE_TYPE *ZO669)
 	{
 	    ADVANCE_LEXER;
 	    {
- (ZI669) = btype_union ; 
+ (ZI670) = btype_union ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO669 = ZI669;
+    *ZO670 = ZI670;
 }
 
 void
-ZR789(IDENTIFIER ZI547, SID_LIST_EXP *ZO420)
+ZR790(IDENTIFIER ZI548, SID_LIST_EXP *ZO421)
 {
-    SID_LIST_EXP ZI420;
+    SID_LIST_EXP ZI421;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	EXP ZI448;
-	EXP ZI416;
-	SID_LIST_EXP ZI423;
+	EXP ZI449;
+	EXP ZI417;
+	SID_LIST_EXP ZI424;
 
-	ZR788 (ZI547, &ZI448);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR789 (ZI548, &ZI449);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    MAKE_exp_location ( type_void, crt_loc, (ZI448), (ZI416) ) ;
+    MAKE_exp_location ( type_void, crt_loc, (ZI449), (ZI417) ) ;
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 42:
 		{
 		    ADVANCE_LEXER;
-		    ZR1072 (&ZI547, &ZI423);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR1073 (&ZI548, &ZI424);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -2267,7 +2267,7 @@ ZR789(IDENTIFIER ZI547, SID_LIST_EXP *ZO420)
 		{
 		    {
 
-    (ZI423) = NULL_list ( EXP ) ;
+    (ZI424) = NULL_list ( EXP ) ;
 		    }
 		}
 		break;
@@ -2275,118 +2275,57 @@ ZR789(IDENTIFIER ZI547, SID_LIST_EXP *ZO420)
 	}
 	{
 
-    CONS_exp ( (ZI416), (ZI423), (ZI420) ) ;
+    CONS_exp ( (ZI417), (ZI424), (ZI421) ) ;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO420 = ZI420;
+    *ZO421 = ZI421;
 }
 
 void
-parse_tok_type(TYPE *ZO395)
+parse_tok_type(TYPE *ZO396)
 {
-    TYPE ZI395;
+    TYPE ZI396;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	BASE_TYPE ZI658;
-	TYPE ZI420;
-	CV_SPEC ZI630;
-	TYPE ZI423;
+	BASE_TYPE ZI659;
+	TYPE ZI421;
+	CV_SPEC ZI631;
+	TYPE ZI424;
 
-	ZR687 (&ZI658, &ZI420, &ZI630);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR688 (&ZI659, &ZI421, &ZI631);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    (ZI423) = complete_pre_type ( (ZI658), (ZI420), (ZI630), 1 ) ;
+    (ZI424) = complete_pre_type ( (ZI659), (ZI421), (ZI631), 1 ) ;
     have_type_specifier = 0 ;
 	}
-	ZR760 (ZI423, &ZI395);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR761 (ZI424, &ZI396);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
+    *ZO396 = ZI396;
 }
 
 void
-ZR910(EXP ZI908, EXP *ZO909)
-{
-    EXP ZI909;
-
-  ZL2_910:;
-    switch (CURRENT_TERMINAL) {
-      case 57:
-	{
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    ADVANCE_LEXER;
-	    ZR479 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_shift_exp ( lex_lshift, (ZI908), (ZI448) ) ;
-	    }
-	    ZI908 = ZI404;
-	    goto ZL2_910;
-	}
-	/*UNREACHED*/
-      case 75:
-	{
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    ADVANCE_LEXER;
-	    ZR479 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_shift_exp ( lex_rshift, (ZI908), (ZI448) ) ;
-	    }
-	    ZI908 = ZI404;
-	    goto ZL2_910;
-	}
-	/*UNREACHED*/
-      default:
-	{
-	    ZI909 = ZI908;
-	}
-	break;
-      case 354:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO909 = ZI909;
-}
-
-void
-ZR487(void)
+ZR488(void)
 {
     switch (CURRENT_TERMINAL) {
       case 48:
@@ -2409,79 +2348,140 @@ ZR487(void)
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR491(EXP *ZO897)
+ZR492(EXP *ZO898)
 {
-    EXP ZI897;
+    EXP ZI898;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	EXP ZI404;
+	EXP ZI405;
 
-	ZR488 (&ZI404);
-	ZR898 (ZI404, &ZI897);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR489 (&ZI405);
+	ZR899 (ZI405, &ZI898);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO897 = ZI897;
+    *ZO898 = ZI898;
 }
 
 void
-ZR511(EXP *ZO404)
+ZR911(EXP ZI909, EXP *ZO910)
 {
-    EXP ZI404;
+    EXP ZI910;
 
-    if ((CURRENT_TERMINAL) == 354) {
+  ZL2_911:;
+    switch (CURRENT_TERMINAL) {
+      case 57:
+	{
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    ADVANCE_LEXER;
+	    ZR480 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_shift_exp ( lex_lshift, (ZI909), (ZI449) ) ;
+	    }
+	    ZI909 = ZI405;
+	    goto ZL2_911;
+	}
+	/*UNREACHED*/
+      case 75:
+	{
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    ADVANCE_LEXER;
+	    ZR480 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_shift_exp ( lex_rshift, (ZI909), (ZI449) ) ;
+	    }
+	    ZI909 = ZI405;
+	    goto ZL2_911;
+	}
+	/*UNREACHED*/
+      default:
+	{
+	    ZI910 = ZI909;
+	}
+	break;
+      case 355:
+	return;
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+  ZL0:;
+    *ZO910 = ZI910;
+}
+
+void
+ZR512(EXP *ZO405)
+{
+    EXP ZI405;
+
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 345:
+	  case 346:
 	    break;
 	  default:
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR1029 (&ZI404);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR1030 (&ZI405);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-parse_type_param(IDENTIFIER *ZO547)
+parse_type_param(IDENTIFIER *ZO548)
 {
-    IDENTIFIER ZI547;
+    IDENTIFIER ZI548;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
@@ -2494,128 +2494,67 @@ parse_type_param(IDENTIFIER *ZO547)
 	}
 	{
 
-    (ZI547) = NULL_id ;
+    (ZI548) = NULL_id ;
 	}
     }
-    *ZO547 = ZI547;
+    *ZO548 = ZI548;
 }
 
 void
-ZR914(EXP ZI912, EXP *ZO913)
+ZR448(EXP *ZO922)
 {
-    EXP ZI913;
+    EXP ZI922;
 
-  ZL2_914:;
-    switch (CURRENT_TERMINAL) {
-      case 59:
-	{
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    ADVANCE_LEXER;
-	    ZR476 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_minus_exp ( (ZI912), (ZI448) ) ;
-	    }
-	    ZI912 = ZI404;
-	    goto ZL2_914;
-	}
-	/*UNREACHED*/
-      case 69:
-	{
-	    EXP ZI448;
-	    EXP ZI404;
-
-	    ADVANCE_LEXER;
-	    ZR476 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI404) = make_plus_exp ( (ZI912), (ZI448) ) ;
-	    }
-	    ZI912 = ZI404;
-	    goto ZL2_914;
-	}
-	/*UNREACHED*/
-      default:
-	{
-	    ZI913 = ZI912;
-	}
-	break;
-      case 354:
-	return;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER (354);
-    return;
-  ZL0:;
-    *ZO913 = ZI913;
-}
-
-void
-ZR447(EXP *ZO921)
-{
-    EXP ZI921;
-
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	EXP ZI404;
+	EXP ZI405;
 
-	ZR415 (&ZI404);
-	ZR922 (ZI404, &ZI921);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR416 (&ZI405);
+	ZR923 (ZI405, &ZI922);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO921 = ZI921;
+    *ZO922 = ZI922;
 }
 
 void
-ZR554(EXP *ZO404)
+ZR555(EXP *ZO405)
 {
-    EXP ZI404;
+    EXP ZI405;
 
     switch (CURRENT_TERMINAL) {
       case 170:
 	{
-	    int ZI1006;
-	    EXP ZI1007;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    int ZI1007;
+	    EXP ZI1008;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
 	    {
- (ZI1006) = lex_alignof ; 
+ (ZI1007) = lex_alignof ; 
 	    }
-	    ZR461 (ZI1006, &ZI1007);
-	    ZR1014 (&ZI1007, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR462 (ZI1007, &ZI1008);
+	    ZR1015 (&ZI1008, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2626,7 +2565,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2643,31 +2582,31 @@ ZR554(EXP *ZO404)
 	break;
       case 23:
 	{
-	    EXP ZI1018;
 	    EXP ZI1019;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1020;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    {
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
-    ZI1018 = parse_exp_token ( id, args ) ;
+    ZI1019 = parse_exp_token ( id, args ) ;
     RESCAN_LEXER ;
 	    }
 	    ADVANCE_LEXER;
-	    ZR922 (ZI1018, &ZI1019);
-	    ZR1014 (&ZI1019, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR923 (ZI1019, &ZI1020);
+	    ZR1015 (&ZI1020, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2678,7 +2617,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2695,25 +2634,26 @@ ZR554(EXP *ZO404)
 	break;
       case 24:
 	{
-	    EXP ZI416;
+	    EXP ZI417;
 
 	    {
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
-    ZI416 = parse_exp_token ( id, args ) ;
+    ZI417 = parse_exp_token ( id, args ) ;
     RESCAN_LEXER ;
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	}
 	break;
-      case 205:
+      case 206:
 	{
-	    EXP ZI1080;
+	    EXP ZI1081;
+	    EXP ZI962;
 	    EXP ZI961;
 	    EXP ZI960;
 	    EXP ZI959;
@@ -2724,43 +2664,42 @@ ZR554(EXP *ZO404)
 	    EXP ZI954;
 	    EXP ZI953;
 	    EXP ZI952;
-	    EXP ZI951;
-	    EXP ZI948;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI949;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
-	    ZR459 (&ZI1080);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI1081);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI961) = make_cast_exp ( type_void, (ZI1080), 0 ) ;
+    (ZI962) = make_cast_exp ( type_void, (ZI1081), 0 ) ;
 	    }
-	    ZR918 (ZI961, &ZI960);
-	    ZR914 (ZI960, &ZI959);
-	    ZR910 (ZI959, &ZI958);
-	    ZR906 (ZI958, &ZI957);
-	    ZR902 (ZI957, &ZI956);
-	    ZR898 (ZI956, &ZI955);
-	    ZR894 (ZI955, &ZI954);
-	    ZR890 (ZI954, &ZI953);
-	    ZR886 (ZI953, &ZI952);
-	    ZR882 (ZI952, &ZI951);
-	    ZR878 (ZI951, &ZI948);
-	    ZR950 (&ZI948, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR919 (ZI962, &ZI961);
+	    ZR915 (ZI961, &ZI960);
+	    ZR911 (ZI960, &ZI959);
+	    ZR907 (ZI959, &ZI958);
+	    ZR903 (ZI958, &ZI957);
+	    ZR899 (ZI957, &ZI956);
+	    ZR895 (ZI956, &ZI955);
+	    ZR891 (ZI955, &ZI954);
+	    ZR887 (ZI954, &ZI953);
+	    ZR883 (ZI953, &ZI952);
+	    ZR879 (ZI952, &ZI949);
+	    ZR951 (&ZI949, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2771,7 +2710,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2786,30 +2725,30 @@ ZR554(EXP *ZO404)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 209:
+      case 210:
 	{
-	    EXP ZI1015;
 	    EXP ZI1016;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1017;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI1015) = make_ellipsis_exp () ;
+    (ZI1016) = make_ellipsis_exp () ;
 	    }
-	    ZR922 (ZI1015, &ZI1016);
-	    ZR1014 (&ZI1016, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR923 (ZI1016, &ZI1017);
+	    ZR1015 (&ZI1017, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2820,7 +2759,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2837,25 +2776,25 @@ ZR554(EXP *ZO404)
 	break;
       case 1:
 	{
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI400;
 
 	    {
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 	    }
 	    ADVANCE_LEXER;
-	    ZR1081 (&ZI399, &ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1082 (&ZI400, &ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 345:
+      case 346:
 	{
 	    ADVANCE_LEXER;
-	    ZR1078 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1079 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2863,32 +2802,32 @@ ZR554(EXP *ZO404)
 	break;
       case 61:
 	{
-	    EXP ZI987;
 	    EXP ZI988;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI989;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
-	    ZR458 (&ZI987);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR459 (&ZI988);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI988) = make_prefix_exp ( lex_minus_Hminus, (ZI987) ) ;
+    (ZI989) = make_prefix_exp ( lex_minus_Hminus, (ZI988) ) ;
 	    }
-	    ZR1014 (&ZI988, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI989, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2899,7 +2838,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2916,21 +2855,21 @@ ZR554(EXP *ZO404)
 	break;
       case 65:
 	{
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
-	    ZR983 (&ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR984 (&ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2941,7 +2880,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -2958,32 +2897,32 @@ ZR554(EXP *ZO404)
 	break;
       case 71:
 	{
-	    EXP ZI984;
 	    EXP ZI985;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI986;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
-	    ZR458 (&ZI984);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR459 (&ZI985);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI985) = make_prefix_exp ( lex_plus_Hplus, (ZI984) ) ;
+    (ZI986) = make_prefix_exp ( lex_plus_Hplus, (ZI985) ) ;
 	    }
-	    ZR1014 (&ZI985, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI986, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -2994,7 +2933,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3014,33 +2953,33 @@ ZR554(EXP *ZO404)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = NULL_exp ;
+    (ZI405) = NULL_exp ;
 	    }
 	}
 	break;
       case 116:
 	{
-	    int ZI1003;
-	    EXP ZI1004;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    int ZI1004;
+	    EXP ZI1005;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
 	    {
- (ZI1003) = lex_sizeof ; 
+ (ZI1004) = lex_sizeof ; 
 	    }
-	    ZR461 (ZI1003, &ZI1004);
-	    ZR1014 (&ZI1004, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR462 (ZI1004, &ZI1005);
+	    ZR1015 (&ZI1005, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3051,7 +2990,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3068,32 +3007,32 @@ ZR554(EXP *ZO404)
 	break;
       case 78:
 	{
-	    EXP ZI990;
 	    EXP ZI991;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI992;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    ADVANCE_LEXER;
-	    ZR459 (&ZI990);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI991);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI991) = make_indir_exp ( (ZI990) ) ;
+    (ZI992) = make_indir_exp ( (ZI991) ) ;
 	    }
-	    ZR1014 (&ZI991, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI992, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3104,7 +3043,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3121,15 +3060,15 @@ ZR554(EXP *ZO404)
 	break;
       case 4:
 	{
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI400;
 
 	    {
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 	    }
 	    ADVANCE_LEXER;
-	    ZR1082 (&ZI399, &ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1083 (&ZI400, &ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3137,13 +3076,13 @@ ZR554(EXP *ZO404)
 	break;
       case 2:
 	{
-	    IDENTIFIER ZI399;
-	    EXP ZI416;
-	    EXP ZI448;
+	    IDENTIFIER ZI400;
+	    EXP ZI417;
+	    EXP ZI449;
 
 	    {
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 	    }
 	    ADVANCE_LEXER;
 	    {
@@ -3152,7 +3091,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI416) = begin_label_stmt ( (ZI399), lex_identifier ) ;
+    (ZI417) = begin_label_stmt ( (ZI400), lex_identifier ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 41:
@@ -3161,24 +3100,24 @@ ZR554(EXP *ZO404)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR528 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR529 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = end_label_stmt ( (ZI416), (ZI448) ) ;
+    (ZI405) = end_label_stmt ( (ZI417), (ZI449) ) ;
 	    }
 	}
 	break;
       case 33:
 	{
-	    EXP ZI993;
 	    EXP ZI994;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI995;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    {
 		{
@@ -3191,25 +3130,25 @@ ZR554(EXP *ZO404)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR459 (&ZI993);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI994);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI994) = make_ref_exp ( (ZI993), 0 ) ;
+    (ZI995) = make_ref_exp ( (ZI994), 0 ) ;
 	    }
-	    ZR1014 (&ZI994, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI995, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3220,7 +3159,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3237,48 +3176,48 @@ ZR554(EXP *ZO404)
 	break;
       case 126:
 	{
-	    ZR623 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR624 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 288: case 322:
+      case 289: case 323:
 	{
-	    ZR620 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR621 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 96: case 100: case 222:
+      case 96: case 100: case 223:
 	{
-	    ZR529 ();
-	    ZR1079 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR530 ();
+	    ZR1080 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 297: case 323:
+      case 298: case 324:
 	{
-	    EXP ZI1073;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1074;
+	    EXP ZI417;
+	    int ZI538;
 
-	    ZR510 (&ZI1073);
-	    ZR1075 (&ZI1073, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR511 (&ZI1074);
+	    ZR1076 (&ZI1074, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3289,7 +3228,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3306,8 +3245,8 @@ ZR554(EXP *ZO404)
 	break;
       case 101: case 107: case 125:
 	{
-	    ZR602 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR603 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3315,8 +3254,8 @@ ZR554(EXP *ZO404)
 	break;
       case 95: case 99: case 108: case 113:
 	{
-	    ZR614 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR615 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3325,24 +3264,24 @@ ZR554(EXP *ZO404)
       case 17: case 18: case 19: case 20: case 21:
       case 22:
 	{
-	    EXP ZI1009;
 	    EXP ZI1010;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1011;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
-	    ZR409 (&ZI1009);
-	    ZR922 (ZI1009, &ZI1010);
-	    ZR1014 (&ZI1010, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR410 (&ZI1010);
+	    ZR923 (ZI1010, &ZI1011);
+	    ZR1015 (&ZI1011, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3353,7 +3292,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3370,11 +3309,11 @@ ZR554(EXP *ZO404)
 	break;
       case 62:
 	{
-	    EXP ZI996;
 	    EXP ZI997;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI998;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    {
 		{
@@ -3387,25 +3326,25 @@ ZR554(EXP *ZO404)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR459 (&ZI996);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI997);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI997) = make_not_exp ( (ZI996) ) ;
+    (ZI998) = make_not_exp ( (ZI997) ) ;
 	    }
-	    ZR1014 (&ZI997, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI998, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3416,7 +3355,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3433,8 +3372,8 @@ ZR554(EXP *ZO404)
 	break;
       case 26: case 109: case 119:
 	{
-	    ZR580 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR581 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3442,36 +3381,36 @@ ZR554(EXP *ZO404)
 	break;
       case 43: case 59: case 69: case 85:
 	{
-	    int ZI999;
-	    EXP ZI1000;
+	    int ZI1000;
 	    EXP ZI1001;
-	    EXP ZI1025;
-	    EXP ZI416;
-	    int ZI537;
+	    EXP ZI1002;
+	    EXP ZI1026;
+	    EXP ZI417;
+	    int ZI538;
 
 	    {
- (ZI999) = crt_lex_token ; 
+ (ZI1000) = crt_lex_token ; 
 	    }
-	    ZR469 ();
-	    ZR459 (&ZI1000);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR470 ();
+	    ZR460 (&ZI1001);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI1001) = make_uminus_exp ( (ZI999), (ZI1000) ) ;
+    (ZI1002) = make_uminus_exp ( (ZI1000), (ZI1001) ) ;
 	    }
-	    ZR1014 (&ZI1001, &ZI1025);
-	    ZR1027 (&ZI1025, &ZI416);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1015 (&ZI1002, &ZI1026);
+	    ZR1028 (&ZI1026, &ZI417);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI537) = unreached_code ;
-    if ( (ZI537) ) {
+    (ZI538) = unreached_code ;
+    if ( (ZI538) ) {
 	if ( !unreached_last ) {
 	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
 	    unreached_last = 1 ;
@@ -3482,7 +3421,7 @@ ZR554(EXP *ZO404)
 	    }
 	    {
 
-    (ZI404) = make_exp_stmt ( (ZI416) ) ;
+    (ZI405) = make_exp_stmt ( (ZI417) ) ;
 	    }
 	    {
 
@@ -3497,33 +3436,33 @@ ZR554(EXP *ZO404)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto ZL1;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR662(void)
+ZR663(void)
 {
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
-  ZL2_662:;
+  ZL2_663:;
     {
-	BASE_TYPE ZI688;
-	TYPE ZI689;
-	CV_SPEC ZI690;
-	BASE_TYPE ZI658;
-	TYPE ZI420;
-	CV_SPEC ZI630;
+	BASE_TYPE ZI689;
+	TYPE ZI690;
+	CV_SPEC ZI691;
+	BASE_TYPE ZI659;
+	TYPE ZI421;
+	CV_SPEC ZI631;
 
 	{
 
@@ -3532,8 +3471,8 @@ ZR662(void)
 	}
 	if (!ZI0)
 	    goto ZL3;
-	ZR686 (&ZI688, &ZI689, &ZI690);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR687 (&ZI689, &ZI690, &ZI691);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -3544,114 +3483,96 @@ ZR662(void)
 	crt_lex_token = lex_identifier ;
     }
 	}
-	ZR699 (&ZI688, &ZI689, &ZI690, &ZI658, &ZI420, &ZI630);
-	ZR1031 (&ZI658, &ZI420, &ZI630);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR700 (&ZI689, &ZI690, &ZI691, &ZI659, &ZI421, &ZI631);
+	ZR1032 (&ZI659, &ZI421, &ZI631);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	} else {
-	    goto ZL2_662;
+	    goto ZL2_663;
 	}
     }
     /*UNREACHED*/
   ZL3:;
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR1043(TYPE *ZI420, BASE_TYPE *ZI423, IDENTIFIER *ZI1042)
+ZR915(EXP ZI913, EXP *ZO914)
 {
+    EXP ZI914;
+
+  ZL2_915:;
     switch (CURRENT_TERMINAL) {
-      case 41:
+      case 59:
 	{
-	    EXP ZI467;
-	    TYPE ZI395;
+	    EXP ZI449;
+	    EXP ZI405;
 
-	    {
-
-    IDENTIFIER pid = underlying_id ( (*ZI1042) ) ;
-    DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-	    }
 	    ADVANCE_LEXER;
-	    ZR518 (&ZI467);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR477 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    /* Check for anonymous bitfields */
-    HASHID nm = DEREF_hashid ( id_name ( (*ZI1042) ) ) ;
-    int z = IS_hashid_anon ( nm ) ;
-    (ZI395) = make_bitfield_type ( (*ZI420), (*ZI423), (ZI467), z ) ;
+    (ZI405) = make_minus_exp ( (ZI913), (ZI449) ) ;
+	    }
+	    ZI913 = ZI405;
+	    goto ZL2_915;
+	}
+	/*UNREACHED*/
+      case 69:
+	{
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    ADVANCE_LEXER;
+	    ZR477 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
 	    }
 	    {
 
-    IDENTIFIER id = make_member_decl ( dspec_none, (ZI395), (*ZI1042), 0 ) ;
-    if ( do_dump ) dump_declare ( id, &decl_loc, 0 ) ;
-    have_type_declaration = TYPE_DECL_NONE ;
-    have_func_declarator = 0 ;
+    (ZI405) = make_plus_exp ( (ZI913), (ZI449) ) ;
 	    }
+	    ZI913 = ZI405;
+	    goto ZL2_915;
 	}
-	break;
+	/*UNREACHED*/
       default:
 	{
-	    TYPE ZI1041;
-	    TYPE ZI1035;
-	    IDENTIFIER ZI399;
-	    TYPE ZI395;
-
-	    {
-
-    (ZI1041) = NULL_type ;
-	    }
-	    {
-
-    IDENTIFIER pid = underlying_id ( (*ZI1042) ) ;
-    DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-	    }
-	    ZR868 (ZI1041, *ZI1042, &ZI1035, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-
-    (ZI395) = ( IS_NULL_type ( (ZI1035) ) ? (*ZI420) : inject_pre_type ( (ZI1035), (*ZI420), 1 ) ) ;
-	    }
-	    {
-
-    IDENTIFIER id = make_member_decl ( dspec_none, (ZI395), (ZI399), 0 ) ;
-    if ( do_dump ) dump_declare ( id, &decl_loc, 0 ) ;
-    have_type_declaration = TYPE_DECL_NONE ;
-    have_func_declarator = 0 ;
-	    }
+	    ZI914 = ZI913;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
-    return;
+    goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
+  ZL0:;
+    *ZO914 = ZI914;
 }
 
 void
-ZR461(int ZI460, EXP *ZO404)
+ZR462(int ZI461, EXP *ZO405)
 {
-    EXP ZI404;
+    EXP ZI405;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	int ZI462;
 	int ZI463;
-	EXP ZI467;
+	int ZI464;
+	EXP ZI468;
 
 	{
 
@@ -3659,206 +3580,206 @@ ZR461(int ZI460, EXP *ZO404)
 	}
 	{
 
-    (ZI462) = no_side_effects ;
+    (ZI463) = no_side_effects ;
 	}
 	{
 
-    (ZI463) = no_type_defns ;
+    (ZI464) = no_type_defns ;
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 170:
 		{
-		    int ZI1069;
-		    EXP ZI416;
-		    int ZI465;
+		    int ZI1070;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
 		    {
- (ZI1069) = lex_alignof ; 
+ (ZI1070) = lex_alignof ; 
 		    }
-		    ZR461 (ZI1069, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR462 (ZI1070, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 23:
 		{
-		    EXP ZI1100;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1101;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    {
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
-    ZI1100 = parse_exp_token ( id, args ) ;
+    ZI1101 = parse_exp_token ( id, args ) ;
     RESCAN_LEXER ;
 		    }
 		    ADVANCE_LEXER;
-		    ZR922 (ZI1100, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR923 (ZI1101, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
-	      case 209:
+	      case 210:
 		{
-		    EXP ZI1101;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1102;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
 		    {
 
-    (ZI1101) = make_ellipsis_exp () ;
+    (ZI1102) = make_ellipsis_exp () ;
 		    }
-		    ZR922 (ZI1101, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR923 (ZI1102, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 1:
 		{
-		    IDENTIFIER ZI399;
-		    EXP ZI1102;
-		    EXP ZI416;
-		    int ZI465;
+		    IDENTIFIER ZI400;
+		    EXP ZI1103;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    {
 
-    ZI399 = crt_token->pp_data.id.use ;
+    ZI400 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		    {
 
-    (ZI1102) = make_id_exp ( (ZI399) ) ;
+    (ZI1103) = make_id_exp ( (ZI400) ) ;
 		    }
-		    ZR922 (ZI1102, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR923 (ZI1103, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 61:
 		{
-		    EXP ZI1062;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1063;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
-		    ZR458 (&ZI1062);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR459 (&ZI1063);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_prefix_exp ( lex_minus_Hminus, (ZI1062) ) ;
+    (ZI417) = make_prefix_exp ( lex_minus_Hminus, (ZI1063) ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 65:
 		{
 		    ADVANCE_LEXER;
-		    ZR1071 (&ZI460, &ZI462, &ZI463, &ZI467);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR1072 (&ZI461, &ZI463, &ZI464, &ZI468);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -3866,118 +3787,118 @@ ZR461(int ZI460, EXP *ZO404)
 		break;
 	      case 71:
 		{
-		    EXP ZI1061;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1062;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
-		    ZR458 (&ZI1061);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR459 (&ZI1062);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_prefix_exp ( lex_plus_Hplus, (ZI1061) ) ;
+    (ZI417) = make_prefix_exp ( lex_plus_Hplus, (ZI1062) ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 116:
 		{
-		    int ZI1068;
-		    EXP ZI416;
-		    int ZI465;
+		    int ZI1069;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
 		    {
- (ZI1068) = lex_sizeof ; 
+ (ZI1069) = lex_sizeof ; 
 		    }
-		    ZR461 (ZI1068, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR462 (ZI1069, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 78:
 		{
-		    EXP ZI1063;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1064;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    ADVANCE_LEXER;
-		    ZR459 (&ZI1063);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR460 (&ZI1064);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_indir_exp ( (ZI1063) ) ;
+    (ZI417) = make_indir_exp ( (ZI1064) ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 33:
 		{
-		    EXP ZI1064;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1065;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    {
 			{
@@ -3990,73 +3911,73 @@ ZR461(int ZI460, EXP *ZO404)
 			    ADVANCE_LEXER;
 			}
 		    }
-		    ZR459 (&ZI1064);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR460 (&ZI1065);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_ref_exp ( (ZI1064), 0 ) ;
+    (ZI417) = make_ref_exp ( (ZI1065), 0 ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 17: case 18: case 19: case 20: case 21:
 	      case 22:
 		{
-		    EXP ZI1103;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1104;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
-		    ZR409 (&ZI1103);
-		    ZR922 (ZI1103, &ZI416);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR410 (&ZI1104);
+		    ZR923 (ZI1104, &ZI417);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 62:
 		{
-		    EXP ZI1065;
-		    EXP ZI416;
-		    int ZI465;
+		    EXP ZI1066;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    {
 			{
@@ -4069,70 +3990,70 @@ ZR461(int ZI460, EXP *ZO404)
 			    ADVANCE_LEXER;
 			}
 		    }
-		    ZR459 (&ZI1065);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR460 (&ZI1066);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_not_exp ( (ZI1065) ) ;
+    (ZI417) = make_not_exp ( (ZI1066) ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
 	      case 43: case 59: case 69: case 85:
 		{
-		    int ZI1066;
-		    EXP ZI1067;
-		    EXP ZI416;
-		    int ZI465;
+		    int ZI1067;
+		    EXP ZI1068;
+		    EXP ZI417;
 		    int ZI466;
-		    TYPE ZI395;
+		    int ZI467;
+		    TYPE ZI396;
 
 		    {
- (ZI1066) = crt_lex_token ; 
+ (ZI1067) = crt_lex_token ; 
 		    }
-		    ZR469 ();
-		    ZR459 (&ZI1067);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    ZR470 ();
+		    ZR460 (&ZI1068);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		    {
 
-    (ZI416) = make_uminus_exp ( (ZI1066), (ZI1067) ) ;
+    (ZI417) = make_uminus_exp ( (ZI1067), (ZI1068) ) ;
 		    }
 		    {
 
-    (ZI465) = no_side_effects - (ZI462) ;
+    (ZI466) = no_side_effects - (ZI463) ;
 		    }
 		    {
 
-    (ZI466) = no_type_defns - (ZI463) ;
+    (ZI467) = no_type_defns - (ZI464) ;
 		    }
 		    {
 
-    (ZI395) = typeof_exp ( &(ZI416), (ZI465), (ZI460) ) ;
+    (ZI396) = typeof_exp ( &(ZI417), (ZI466), (ZI461) ) ;
 		    }
 		    {
 
-    (ZI467) = make_sizeof_exp ( (ZI395), (ZI416), (ZI466), (ZI460) ) ;
+    (ZI468) = make_sizeof_exp ( (ZI396), (ZI417), (ZI467), (ZI461) ) ;
 		    }
 		}
 		break;
@@ -4144,110 +4065,189 @@ ZR461(int ZI460, EXP *ZO404)
 
     suppress_usage-- ;
 	}
-	ZI404 = ZI467;
+	ZI405 = ZI468;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO404 = ZI404;
+    *ZO405 = ZI405;
 }
 
 void
-ZR918(EXP ZI916, EXP *ZO917)
+ZR1044(TYPE *ZI421, BASE_TYPE *ZI424, IDENTIFIER *ZI1043)
 {
-    EXP ZI917;
-
-  ZL2_918:;
     switch (CURRENT_TERMINAL) {
-      case 44:
+      case 41:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI468;
+	    TYPE ZI396;
 
+	    {
+
+    IDENTIFIER pid = underlying_id ( (*ZI1043) ) ;
+    DEREF_loc ( id_loc ( pid ), decl_loc ) ;
+	    }
 	    ADVANCE_LEXER;
-	    ZR459 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR519 (&ZI468);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_mult_exp ( lex_div, (ZI916), (ZI448) ) ;
+    /* Check for anonymous bitfields */
+    HASHID nm = DEREF_hashid ( id_name ( (*ZI1043) ) ) ;
+    int z = IS_hashid_anon ( nm ) ;
+    (ZI396) = make_bitfield_type ( (*ZI421), (*ZI424), (ZI468), z ) ;
 	    }
-	    ZI916 = ZI404;
-	    goto ZL2_918;
+	    {
+
+    IDENTIFIER id = make_member_decl ( dspec_none, (ZI396), (*ZI1043), 0 ) ;
+    if ( do_dump ) dump_declare ( id, &decl_loc, 0 ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+	    }
+	}
+	break;
+      default:
+	{
+	    TYPE ZI1042;
+	    TYPE ZI1036;
+	    IDENTIFIER ZI400;
+	    TYPE ZI396;
+
+	    {
+
+    (ZI1042) = NULL_type ;
+	    }
+	    {
+
+    IDENTIFIER pid = underlying_id ( (*ZI1043) ) ;
+    DEREF_loc ( id_loc ( pid ), decl_loc ) ;
+	    }
+	    ZR869 (ZI1042, *ZI1043, &ZI1036, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI396) = ( IS_NULL_type ( (ZI1036) ) ? (*ZI421) : inject_pre_type ( (ZI1036), (*ZI421), 1 ) ) ;
+	    }
+	    {
+
+    IDENTIFIER id = make_member_decl ( dspec_none, (ZI396), (ZI400), 0 ) ;
+    if ( do_dump ) dump_declare ( id, &decl_loc, 0 ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+ZR919(EXP ZI917, EXP *ZO918)
+{
+    EXP ZI918;
+
+  ZL2_919:;
+    switch (CURRENT_TERMINAL) {
+      case 44:
+	{
+	    EXP ZI449;
+	    EXP ZI405;
+
+	    ADVANCE_LEXER;
+	    ZR460 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+
+    (ZI405) = make_mult_exp ( lex_div, (ZI917), (ZI449) ) ;
+	    }
+	    ZI917 = ZI405;
+	    goto ZL2_919;
 	}
 	/*UNREACHED*/
       case 73:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    ADVANCE_LEXER;
-	    ZR459 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_rem_exp ( (ZI916), (ZI448) ) ;
+    (ZI405) = make_rem_exp ( (ZI917), (ZI449) ) ;
 	    }
-	    ZI916 = ZI404;
-	    goto ZL2_918;
+	    ZI917 = ZI405;
+	    goto ZL2_919;
 	}
 	/*UNREACHED*/
       case 78:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    ADVANCE_LEXER;
-	    ZR459 (&ZI448);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR460 (&ZI449);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_mult_exp ( lex_star, (ZI916), (ZI448) ) ;
+    (ZI405) = make_mult_exp ( lex_star, (ZI917), (ZI449) ) ;
 	    }
-	    ZI916 = ZI404;
-	    goto ZL2_918;
+	    ZI917 = ZI405;
+	    goto ZL2_919;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    ZI917 = ZI916;
+	    ZI918 = ZI917;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO917 = ZI917;
+    *ZO918 = ZI918;
 }
 
 void
-ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
+ZR1047(TYPE *ZO855, IDENTIFIER *ZO856)
 {
-    TYPE ZI854;
-    IDENTIFIER ZI855;
+    TYPE ZI855;
+    IDENTIFIER ZI856;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	IDENTIFIER ZI1047;
-	TYPE ZI1048;
-	TYPE ZI395;
-	IDENTIFIER ZI399;
+	IDENTIFIER ZI1048;
+	TYPE ZI1049;
+	TYPE ZI396;
+	IDENTIFIER ZI400;
 
 	{
 
@@ -4262,7 +4262,7 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4271,7 +4271,7 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4280,7 +4280,7 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4291,21 +4291,21 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	}
 	{
 
-    (ZI1048) = NULL_type ;
+    (ZI1049) = NULL_type ;
 	}
 	{
 
-    IDENTIFIER pid = underlying_id ( (ZI1047) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1048) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	}
-	ZR856 (ZI1048, ZI1047, &ZI395, &ZI399);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR857 (ZI1049, ZI1048, &ZI396, &ZI400);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	{
 
-    if ( IS_NULL_type ( (ZI395) ) ) {
+    if ( IS_NULL_type ( (ZI396) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
 	}
@@ -4316,8 +4316,8 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -4328,18 +4328,18 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
     switch (CURRENT_TERMINAL) {
       case 65:
 	{
-	    TYPE ZI395;
-	    IDENTIFIER ZI399;
+	    TYPE ZI396;
+	    IDENTIFIER ZI400;
 
 	    ADVANCE_LEXER;
-	    ZR1046 (&ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1047 (&ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    if ( IS_NULL_type ( (ZI395) ) ) {
+    if ( IS_NULL_type ( (ZI396) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
 	    }
@@ -4350,21 +4350,21 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 331:
+      case 332:
 	{
-	    IDENTIFIER ZI1045;
-	    int ZI747;
-	    TYPE ZI1051;
-	    IDENTIFIER ZI1052;
-	    TYPE ZI395;
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI1046;
+	    int ZI748;
+	    TYPE ZI1052;
+	    IDENTIFIER ZI1053;
+	    TYPE ZI396;
+	    IDENTIFIER ZI400;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4376,23 +4376,23 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI1045) = NULL_id ;
+    (ZI1046) = NULL_id ;
 	    }
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI1045) ) ;
+    begin_param ( (ZI1046) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR758 (&ZI747);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR759 (&ZI748);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI1051) = make_func_type ( NULL_type, ( (ZI747) | FUNC_WEAK ), cv_c, empty_type_set ) ;
+    (ZI1052) = make_func_type ( NULL_type, ( (ZI748) | FUNC_WEAK ), cv_c, empty_type_set ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
@@ -4410,21 +4410,21 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI1052) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI1053) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI1052) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1053) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
-	    ZR856 (ZI1051, ZI1052, &ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI1052, ZI1053, &ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    if ( IS_NULL_type ( (ZI395) ) ) {
+    if ( IS_NULL_type ( (ZI396) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
 	    }
@@ -4435,8 +4435,8 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4444,11 +4444,11 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	break;
       case 66:
 	{
-	    EXP ZI404;
-	    TYPE ZI1049;
-	    IDENTIFIER ZI1050;
-	    TYPE ZI395;
-	    IDENTIFIER ZI399;
+	    EXP ZI405;
+	    TYPE ZI1050;
+	    IDENTIFIER ZI1051;
+	    TYPE ZI396;
+	    IDENTIFIER ZI400;
 
 	    {
 		{
@@ -4461,15 +4461,15 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR757 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR758 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    NAT n = make_array_dim ( (ZI404) ) ;
-    MAKE_type_array ( cv_none, NULL_type, n, (ZI1049) ) ;
+    NAT n = make_array_dim ( (ZI405) ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, (ZI1050) ) ;
 	    }
 	    {
 		{
@@ -4485,21 +4485,21 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI1050) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI1051) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI1050) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1051) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
-	    ZR856 (ZI1049, ZI1050, &ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI1050, ZI1051, &ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    if ( IS_NULL_type ( (ZI395) ) ) {
+    if ( IS_NULL_type ( (ZI396) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
 	    }
@@ -4510,8 +4510,8 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4519,24 +4519,24 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	break;
       case 78:
 	{
-	    TYPE ZI420;
-	    TYPE ZI423;
-	    IDENTIFIER ZI399;
-	    TYPE ZI395;
+	    TYPE ZI421;
+	    TYPE ZI424;
+	    IDENTIFIER ZI400;
+	    TYPE ZI396;
 
-	    ZR731 (&ZI420);
-	    ZR764 (&ZI423, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR732 (&ZI421);
+	    ZR765 (&ZI424, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI395) = ( IS_NULL_type ( (ZI423) ) ? (ZI420) : inject_pre_type ( (ZI423), (ZI420), 0 ) ) ;
+    (ZI396) = ( IS_NULL_type ( (ZI424) ) ? (ZI421) : inject_pre_type ( (ZI424), (ZI421), 0 ) ) ;
 	    }
 	    {
 
-    if ( IS_NULL_type ( (ZI395) ) ) {
+    if ( IS_NULL_type ( (ZI396) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
 	    }
@@ -4547,8 +4547,8 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4559,36 +4559,36 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
       case 106: case 110: case 111: case 112: case 114:
       case 115: case 117: case 118: case 120: case 121:
       case 122: case 123: case 124: case 137: case 156:
-      case 184: case 285: case 298:
+      case 185: case 286: case 299:
 	{
-	    IDENTIFIER ZI1044;
-	    TYPE ZI568;
-	    TYPE ZI395;
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI1045;
+	    TYPE ZI569;
+	    TYPE ZI396;
+	    IDENTIFIER ZI400;
 
 	    {
 
-    (ZI1044) = NULL_id ;
+    (ZI1045) = NULL_id ;
 	    }
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI1044) ) ;
+    begin_param ( (ZI1045) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR755 (&ZI568);
+	    ZR756 (&ZI569);
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZI395 = ZI568;
+	    ZI396 = ZI569;
 	    {
 
     end_param () ;
@@ -4598,15 +4598,15 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI399) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI400) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI399) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI400) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
-	    ZR856 (ZI395, ZI399, &ZI854, &ZI855);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI396, ZI400, &ZI855, &ZI856);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4617,65 +4617,65 @@ ZR1046(TYPE *ZO854, IDENTIFIER *ZO855)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO854 = ZI854;
     *ZO855 = ZI855;
+    *ZO856 = ZI856;
 }
 
 void
-ZR778(void)
+ZR779(void)
 {
-  ZL2_778:;
+  ZL2_779:;
     switch (CURRENT_TERMINAL) {
       case 42:
 	{
-	    IDENTIFIER ZI399;
+	    IDENTIFIER ZI400;
 
 	    ADVANCE_LEXER;
-	    ZR777 (&ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR778 (&ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI399) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI400) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
 	    {
 
-    IGNORE weak_param_decl ( (ZI399) ) ;
+    IGNORE weak_param_decl ( (ZI400) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    goto ZL2_778;
+	    goto ZL2_779;
 	}
 	/*UNREACHED*/
-      case 354:
+      case 355:
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
+ZR765(TYPE *ZO396, IDENTIFIER *ZO400)
 {
-    TYPE ZI395;
-    IDENTIFIER ZI399;
+    TYPE ZI396;
+    IDENTIFIER ZI400;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	IDENTIFIER ZI1047;
-	TYPE ZI1048;
+	IDENTIFIER ZI1048;
+	TYPE ZI1049;
 
 	{
 
@@ -4690,7 +4690,7 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4699,7 +4699,7 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4708,7 +4708,7 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 		{
 		    {
 
-    ZI1047 = crt_token->pp_data.id.use ;
+    ZI1048 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -4719,15 +4719,15 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	}
 	{
 
-    (ZI1048) = NULL_type ;
+    (ZI1049) = NULL_type ;
 	}
 	{
 
-    IDENTIFIER pid = underlying_id ( (ZI1047) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1048) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	}
-	ZR856 (ZI1048, ZI1047, &ZI395, &ZI399);
-	if ((CURRENT_TERMINAL) == 354) {
+	ZR857 (ZI1049, ZI1048, &ZI396, &ZI400);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -4739,19 +4739,19 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
       case 65:
 	{
 	    ADVANCE_LEXER;
-	    ZR1046 (&ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR1047 (&ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 331:
+      case 332:
 	{
-	    IDENTIFIER ZI1045;
-	    int ZI747;
-	    TYPE ZI1051;
-	    IDENTIFIER ZI1052;
+	    IDENTIFIER ZI1046;
+	    int ZI748;
+	    TYPE ZI1052;
+	    IDENTIFIER ZI1053;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4763,23 +4763,23 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI1045) = NULL_id ;
+    (ZI1046) = NULL_id ;
 	    }
 	    {
 
     func_type_defn ( 0 ) ;
-    begin_param ( (ZI1045) ) ;
+    begin_param ( (ZI1046) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
 	    }
-	    ZR758 (&ZI747);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR759 (&ZI748);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI1051) = make_func_type ( NULL_type, ( (ZI747) | FUNC_WEAK ), cv_c, empty_type_set ) ;
+    (ZI1052) = make_func_type ( NULL_type, ( (ZI748) | FUNC_WEAK ), cv_c, empty_type_set ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
@@ -4797,15 +4797,15 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI1052) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI1053) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI1052) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1053) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
-	    ZR856 (ZI1051, ZI1052, &ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI1052, ZI1053, &ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4813,9 +4813,9 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	break;
       case 66:
 	{
-	    EXP ZI404;
-	    TYPE ZI1049;
-	    IDENTIFIER ZI1050;
+	    EXP ZI405;
+	    TYPE ZI1050;
+	    IDENTIFIER ZI1051;
 
 	    {
 		{
@@ -4828,15 +4828,15 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR757 (&ZI404);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR758 (&ZI405);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    NAT n = make_array_dim ( (ZI404) ) ;
-    MAKE_type_array ( cv_none, NULL_type, n, (ZI1049) ) ;
+    NAT n = make_array_dim ( (ZI405) ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, (ZI1050) ) ;
 	    }
 	    {
 		{
@@ -4852,15 +4852,15 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI1050) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI1051) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI1050) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI1051) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
-	    ZR856 (ZI1049, ZI1050, &ZI395, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR857 (ZI1050, ZI1051, &ZI396, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4868,18 +4868,18 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	break;
       case 78:
 	{
-	    TYPE ZI420;
-	    TYPE ZI423;
+	    TYPE ZI421;
+	    TYPE ZI424;
 
-	    ZR731 (&ZI420);
-	    ZR764 (&ZI423, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR732 (&ZI421);
+	    ZR765 (&ZI424, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI395) = ( IS_NULL_type ( (ZI423) ) ? (ZI420) : inject_pre_type ( (ZI423), (ZI420), 0 ) ) ;
+    (ZI396) = ( IS_NULL_type ( (ZI424) ) ? (ZI421) : inject_pre_type ( (ZI424), (ZI421), 0 ) ) ;
 	    }
 	}
 	break;
@@ -4887,16 +4887,16 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
 	{
 	    {
 
-    (ZI395) = NULL_type ;
+    (ZI396) = NULL_type ;
 	    }
 	    {
 
     HASHID nm = lookup_anon () ;
-    (ZI399) = DEREF_id ( hashid_id ( nm ) ) ;
+    (ZI400) = DEREF_id ( hashid_id ( nm ) ) ;
 	    }
 	    {
 
-    IDENTIFIER pid = underlying_id ( (ZI399) ) ;
+    IDENTIFIER pid = underlying_id ( (ZI400) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
 	    }
 	}
@@ -4904,47 +4904,47 @@ ZR764(TYPE *ZO395, IDENTIFIER *ZO399)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO395 = ZI395;
-    *ZO399 = ZI399;
+    *ZO396 = ZI396;
+    *ZO400 = ZI400;
 }
 
 void
-ZR922(EXP ZI920, EXP *ZO921)
+ZR923(EXP ZI921, EXP *ZO922)
 {
-    EXP ZI921;
+    EXP ZI922;
 
-  ZL2_922:;
+  ZL2_923:;
     switch (CURRENT_TERMINAL) {
       case 61:
 	{
-	    EXP ZI404;
+	    EXP ZI405;
 
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = make_postfix_exp ( lex_minus_Hminus, (ZI920) ) ;
+    (ZI405) = make_postfix_exp ( lex_minus_Hminus, (ZI921) ) ;
 	    }
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       case 65:
 	{
-	    SID_LIST_EXP ZI420;
-	    EXP ZI404;
+	    SID_LIST_EXP ZI421;
+	    EXP ZI405;
 
 	    ADVANCE_LEXER;
-	    ZR424 (&ZI420);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR425 (&ZI421);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = make_func_exp ( (ZI920), (ZI420), 0 ) ;
+    (ZI405) = make_func_exp ( (ZI921), (ZI421), 0 ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 39:
@@ -4953,27 +4953,27 @@ ZR922(EXP ZI920, EXP *ZO921)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       case 71:
 	{
-	    EXP ZI404;
+	    EXP ZI405;
 
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI404) = make_postfix_exp ( lex_plus_Hplus, (ZI920) ) ;
+    (ZI405) = make_postfix_exp ( lex_plus_Hplus, (ZI921) ) ;
 	    }
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       case 66:
 	{
-	    EXP ZI448;
-	    EXP ZI404;
+	    EXP ZI449;
+	    EXP ZI405;
 
 	    {
 		{
@@ -4986,9 +4986,9 @@ ZR922(EXP ZI920, EXP *ZO921)
 		    ADVANCE_LEXER;
 		}
 	    }
-	    ZR414 (&ZI448);
+	    ZR415 (&ZI449);
 	    {
-		if ((CURRENT_TERMINAL) == 354) {
+		if ((CURRENT_TERMINAL) == 355) {
 		    RESTORE_LEXER;
 		    goto ZL1;
 		}
@@ -5004,86 +5004,86 @@ ZR922(EXP ZI920, EXP *ZO921)
 	    }
 	    {
 
-    (ZI404) = make_index_exp ( (ZI920), (ZI448) ) ;
+    (ZI405) = make_index_exp ( (ZI921), (ZI449) ) ;
 	    }
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       case 35:
 	{
-	    EXP ZI448;
-	    TYPE ZI395;
-	    NAMESPACE ZI426;
-	    IDENTIFIER ZI399;
-	    EXP ZI404;
+	    EXP ZI449;
+	    TYPE ZI396;
+	    NAMESPACE ZI427;
+	    IDENTIFIER ZI400;
+	    EXP ZI405;
 
 	    {
 
-    (ZI448) = begin_field_exp ( lex_arrow, (ZI920), &(ZI395), &(ZI426) ) ;
+    (ZI449) = begin_field_exp ( lex_arrow, (ZI921), &(ZI396), &(ZI427) ) ;
 	    }
 	    ADVANCE_LEXER;
-	    ZR427 (ZI426, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR428 (ZI427, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = end_field_exp ( lex_arrow, (ZI448), (ZI395), (ZI426), (ZI399), 0 ) ;
+    (ZI405) = end_field_exp ( lex_arrow, (ZI449), (ZI396), (ZI427), (ZI400), 0 ) ;
 	    }
 	    {
 
     RESCAN_LEXER ;
 	    }
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       case 46:
 	{
-	    EXP ZI448;
-	    TYPE ZI395;
-	    NAMESPACE ZI426;
-	    IDENTIFIER ZI399;
-	    EXP ZI404;
+	    EXP ZI449;
+	    TYPE ZI396;
+	    NAMESPACE ZI427;
+	    IDENTIFIER ZI400;
+	    EXP ZI405;
 
 	    {
 
-    (ZI448) = begin_field_exp ( lex_dot, (ZI920), &(ZI395), &(ZI426) ) ;
+    (ZI449) = begin_field_exp ( lex_dot, (ZI921), &(ZI396), &(ZI427) ) ;
 	    }
 	    ADVANCE_LEXER;
-	    ZR427 (ZI426, &ZI399);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ZR428 (ZI427, &ZI400);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 
-    (ZI404) = end_field_exp ( lex_dot, (ZI448), (ZI395), (ZI426), (ZI399), 0 ) ;
+    (ZI405) = end_field_exp ( lex_dot, (ZI449), (ZI396), (ZI427), (ZI400), 0 ) ;
 	    }
 	    {
 
     RESCAN_LEXER ;
 	    }
-	    ZI920 = ZI404;
-	    goto ZL2_922;
+	    ZI921 = ZI405;
+	    goto ZL2_923;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    ZI921 = ZI920;
+	    ZI922 = ZI921;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   ZL0:;
-    *ZO921 = ZI921;
+    *ZO922 = ZI922;
 }
 
 /* END OF FILE */

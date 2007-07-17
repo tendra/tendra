@@ -5248,6 +5248,14 @@ ERR_DATA ERR_CATALOG [] = {
 	"The union '%0' can't have a member of type '%1'"
     },
     {
+	"class_union_anon",
+	NULL,
+	OPT_anon_union,
+	0,
+	NULL,
+	"A union declaration should contain a tag or a declarator"
+    },
+    {
 	"class_union_anon_private",
 	NULL,
 	0,

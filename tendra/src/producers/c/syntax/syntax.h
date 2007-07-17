@@ -63,237 +63,237 @@ extern void parse_mem_type(TYPE *);
 extern void parse_operator(IDENTIFIER *);
 extern void parse_decl(TYPE, DECL_SPEC);
 #else /* __SID_SPLIT */
-extern void ZR659(BASE_TYPE *);
-extern void ZR890(EXP, EXP *);
-extern void ZR715(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
-extern void ZR745(IDENTIFIER, TYPE *);
-extern void ZR894(EXP, EXP *);
-extern void ZR770(IDENTIFIER *);
-extern void ZR569(EXP *);
-extern void ZR898(EXP, EXP *);
-extern void ZR656(TYPE *);
-extern void ZR427(NAMESPACE, IDENTIFIER *);
-extern void ZR714(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
-extern void parse_init(IDENTIFIER, EXP *);
-extern void ZR1027(EXP *, EXP *);
-extern void ZR803(void);
-extern void ZR1028(EXP *, SID_LIST_EXP *);
-extern void ZR754(TYPE *);
-extern void ZR1029(EXP *);
-extern void ZR902(EXP, EXP *);
-extern void ZR556(EXP, EXP *);
-extern void ZR1030(BASE_TYPE *, IDENTIFIER *, TYPE *);
-extern void ZR796(DECL_SPEC, BASE_TYPE, TYPE);
-extern void ZR1031(BASE_TYPE *, TYPE *, CV_SPEC *);
-extern void ZR559(void);
-extern void ZR415(EXP *);
-extern void ZR906(EXP, EXP *);
-extern void ZR620(EXP *);
-extern void ZR670(BASE_TYPE *);
-extern void ZR789(IDENTIFIER, SID_LIST_EXP *);
-extern void parse_tok_type(TYPE *);
-extern void ZR910(EXP, EXP *);
-extern void ZR487(void);
-extern void ZR491(EXP *);
-extern void ZR511(EXP *);
-extern void parse_type_param(IDENTIFIER *);
-extern void ZR914(EXP, EXP *);
-extern void ZR447(EXP *);
-extern void ZR554(EXP *);
-extern void ZR662(void);
-extern void ZR1043(TYPE *, BASE_TYPE *, IDENTIFIER *);
-extern void ZR461(int, EXP *);
-extern void ZR918(EXP, EXP *);
-extern void ZR1046(TYPE *, IDENTIFIER *);
-extern void ZR778(void);
-extern void ZR764(TYPE *, IDENTIFIER *);
-extern void ZR922(EXP, EXP *);
-extern void ZR623(EXP *);
-extern void ZR766(TYPE, TYPE *, IDENTIFIER *);
-extern void ZR503(EXP *);
-extern void parse_type(TYPE *);
-extern void ZR836(OFFSET, TYPE, OFFSET *, TYPE *);
-extern void ZR805(EXP *);
-extern void ZR1055(IDENTIFIER *, TYPE *);
+extern void ZR660(BASE_TYPE *);
+extern void ZR891(EXP, EXP *);
+extern void ZR716(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR746(IDENTIFIER, TYPE *);
+extern void ZR771(IDENTIFIER *);
+extern void ZR895(EXP, EXP *);
+extern void ZR570(EXP *);
 extern void ZR657(TYPE *);
-extern void ZR742(TYPE *, IDENTIFIER *);
-extern void ZR482(EXP *);
-extern void ZR599(EXP *);
-extern void ZR678(IDENTIFIER);
-extern void ZR752(TYPE, TYPE *, IDENTIFIER *);
-extern void ZR792(IDENTIFIER, EXP *);
+extern void ZR899(EXP, EXP *);
+extern void ZR428(NAMESPACE, IDENTIFIER *);
+extern void ZR715(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void parse_init(IDENTIFIER, EXP *);
+extern void ZR804(void);
+extern void ZR1028(EXP *, EXP *);
+extern void ZR755(TYPE *);
+extern void ZR1029(EXP *, SID_LIST_EXP *);
+extern void ZR557(EXP, EXP *);
+extern void ZR1030(EXP *);
+extern void ZR903(EXP, EXP *);
+extern void ZR797(DECL_SPEC, BASE_TYPE, TYPE);
+extern void ZR1031(BASE_TYPE *, IDENTIFIER *, TYPE *);
+extern void ZR560(void);
+extern void ZR1032(BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR416(EXP *);
+extern void ZR621(EXP *);
+extern void ZR907(EXP, EXP *);
+extern void ZR671(BASE_TYPE *);
+extern void ZR790(IDENTIFIER, SID_LIST_EXP *);
+extern void parse_tok_type(TYPE *);
+extern void ZR488(void);
+extern void ZR492(EXP *);
+extern void ZR911(EXP, EXP *);
+extern void ZR512(EXP *);
+extern void parse_type_param(IDENTIFIER *);
+extern void ZR448(EXP *);
+extern void ZR555(EXP *);
+extern void ZR663(void);
+extern void ZR915(EXP, EXP *);
+extern void ZR462(int, EXP *);
+extern void ZR1044(TYPE *, BASE_TYPE *, IDENTIFIER *);
+extern void ZR919(EXP, EXP *);
+extern void ZR1047(TYPE *, IDENTIFIER *);
+extern void ZR779(void);
+extern void ZR765(TYPE *, IDENTIFIER *);
+extern void ZR923(EXP, EXP *);
+extern void ZR624(EXP *);
+extern void ZR767(TYPE, TYPE *, IDENTIFIER *);
+extern void ZR504(EXP *);
+extern void parse_type(TYPE *);
+extern void ZR837(OFFSET, TYPE, OFFSET *, TYPE *);
+extern void ZR806(EXP *);
+extern void ZR658(TYPE *);
+extern void ZR743(TYPE *, IDENTIFIER *);
+extern void ZR1056(IDENTIFIER *, TYPE *);
+extern void ZR483(EXP *);
+extern void ZR600(EXP *);
+extern void ZR679(IDENTIFIER);
+extern void ZR753(TYPE, TYPE *, IDENTIFIER *);
+extern void ZR793(IDENTIFIER, EXP *);
 extern void parse_file(TYPE, DECL_SPEC);
 extern void parse_offset(OFFSET, TYPE, OFFSET *, TYPE *);
-extern void ZR1059(TYPE *, TYPE *);
 extern void parse_nat(EXP *);
-extern void ZR1060(TYPE *);
-extern void ZR933(EXP, EXP, int, EXP *, EXP *, int *);
-extern void ZR516(EXP *);
+extern void ZR1060(TYPE *, TYPE *);
+extern void ZR517(EXP *);
 extern void parse_param(TYPE, int, IDENTIFIER *);
-extern void ZR687(BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR1061(TYPE *);
+extern void ZR934(EXP, EXP, int, EXP *, EXP *, int *);
+extern void ZR688(BASE_TYPE *, TYPE *, CV_SPEC *);
 extern void parse_func(EXP *);
-extern void ZR753(TYPE *);
-extern void ZR683(IDENTIFIER *);
-extern void ZR709(DECL_SPEC *);
-extern void ZR744(void);
+extern void ZR754(TYPE *);
+extern void ZR684(IDENTIFIER *);
+extern void ZR710(DECL_SPEC *);
+extern void ZR745(void);
 extern void parse_id(IDENTIFIER *);
-extern void ZR813(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR814(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR460(EXP *);
+extern void ZR661(BASE_TYPE *, TYPE *);
+extern void ZR761(TYPE, TYPE *);
+extern void ZR395(void);
+extern void ZR681(IDENTIFIER);
+extern void ZR1072(int *, int *, int *, EXP *);
+extern void ZR599(EXP *);
+extern void ZR836(OFFSET, TYPE, OFFSET *, TYPE *);
+extern void ZR1073(IDENTIFIER *, SID_LIST_EXP *);
+extern void ZR946(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, EXP *);
 extern void ZR459(EXP *);
-extern void ZR660(BASE_TYPE *, TYPE *);
-extern void ZR760(TYPE, TYPE *);
-extern void ZR394(void);
-extern void ZR1071(int *, int *, int *, EXP *);
-extern void ZR680(IDENTIFIER);
-extern void ZR1072(IDENTIFIER *, SID_LIST_EXP *);
-extern void ZR945(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, EXP *);
-extern void ZR598(EXP *);
-extern void ZR835(OFFSET, TYPE, OFFSET *, TYPE *);
-extern void ZR819(BASE_TYPE *, TYPE *, DECL_SPEC *, TYPE *, IDENTIFIER *);
-extern void ZR458(EXP *);
-extern void ZR485(EXP *);
-extern void ZR601(EXP *);
-extern void ZR1075(EXP *, EXP *);
-extern void ZR493(EXP *);
-extern void parse_exp(EXP *);
-extern void ZR686(BASE_TYPE *, TYPE *, CV_SPEC *);
-extern void ZR950(EXP *, EXP *);
-extern void ZR1078(EXP *);
-extern void ZR1079(EXP *);
-extern void ZR699(BASE_TYPE *, TYPE *, CV_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *);
-extern void parse_stmt(EXP *);
-extern void ZR825(TYPE, BASE_TYPE);
-extern void ZR1081(IDENTIFIER *, EXP *);
-extern void ZR444(TYPE *, int *);
-extern void ZR510(EXP *);
-extern void ZR1082(IDENTIFIER *, EXP *);
-extern void ZR804(void);
-extern void ZR421(SID_LIST_EXP *);
-extern void ZR419(EXP *);
-extern void ZR424(SID_LIST_EXP *);
-extern void ZR499(EXP *);
-extern void ZR614(EXP *);
-extern void ZR963(EXP *);
-extern void ZR567(EXP *, EXP *, int *);
-extern void ZR632(CV_SPEC *);
-extern void ZR552(EXP *);
-extern void ZR1092(EXP *, EXP *);
-extern void ZR1093(void);
-extern void ZR635(CV_SPEC *);
-extern void ZR529(void);
-extern void ZR631(CV_SPEC *);
-extern void ZR469(void);
-extern void ZR824(TYPE, BASE_TYPE);
-extern void ZR788(IDENTIFIER, EXP *);
-extern void ZR479(EXP *);
-extern void ZR751(TYPE *, IDENTIFIER *);
-extern void ZR580(EXP *);
-extern void ZR414(EXP *);
-extern void ZR548(EXP, int, EXP *);
-extern void ZR724(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
-extern void ZR555(EXP, EXP *);
-extern void ZR528(EXP *);
-extern void ZR983(EXP *);
-extern void ZR856(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
-extern void ZR759(TYPE *);
+extern void ZR486(EXP *);
+extern void ZR820(BASE_TYPE *, TYPE *, DECL_SPEC *, TYPE *, IDENTIFIER *);
 extern void ZR602(EXP *);
-extern void ZR506(void);
-extern void ZR860(TYPE, TYPE *);
-extern void ZR536(EXP *);
-extern void ZR834(OFFSET, TYPE, OFFSET *, TYPE *);
-extern void ZR806(void);
-extern void ZR868(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
+extern void ZR494(EXP *);
+extern void ZR1076(EXP *, EXP *);
+extern void parse_exp(EXP *);
+extern void ZR687(BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR951(EXP *, EXP *);
+extern void ZR1079(EXP *);
+extern void ZR1080(EXP *);
+extern void parse_stmt(EXP *);
+extern void ZR826(TYPE, BASE_TYPE);
+extern void ZR700(BASE_TYPE *, TYPE *, CV_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR445(TYPE *, int *);
+extern void ZR511(EXP *);
+extern void ZR1082(IDENTIFIER *, EXP *);
+extern void ZR805(void);
+extern void ZR1083(IDENTIFIER *, EXP *);
+extern void ZR422(SID_LIST_EXP *);
+extern void ZR420(EXP *);
+extern void ZR425(SID_LIST_EXP *);
+extern void ZR500(EXP *);
 extern void ZR615(EXP *);
+extern void ZR568(EXP *, EXP *, int *);
+extern void ZR633(CV_SPEC *);
+extern void ZR964(EXP *);
+extern void ZR553(EXP *);
+extern void ZR1093(EXP *, EXP *);
+extern void ZR636(CV_SPEC *);
+extern void ZR1094(void);
+extern void ZR530(void);
+extern void ZR632(CV_SPEC *);
+extern void ZR470(void);
+extern void ZR825(TYPE, BASE_TYPE);
+extern void ZR789(IDENTIFIER, EXP *);
+extern void ZR480(EXP *);
+extern void ZR752(TYPE *, IDENTIFIER *);
+extern void ZR581(EXP *);
+extern void ZR415(EXP *);
+extern void ZR549(EXP, int, EXP *);
+extern void ZR725(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR556(EXP, EXP *);
+extern void ZR529(EXP *);
+extern void ZR760(TYPE *);
+extern void ZR984(EXP *);
+extern void ZR857(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
+extern void ZR603(EXP *);
+extern void ZR507(void);
+extern void ZR537(EXP *);
+extern void ZR835(OFFSET, TYPE, OFFSET *, TYPE *);
+extern void ZR861(TYPE, TYPE *);
+extern void ZR807(void);
+extern void ZR869(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
 extern void parse_mem_type(TYPE *);
+extern void ZR616(EXP *);
 extern void parse_operator(IDENTIFIER *);
-extern void ZR497(EXP *);
-extern void ZR874(EXP, EXP *);
-extern void ZR613(EXP *);
-extern void ZR515(SID_LIST_EXP *);
-extern void ZR743(int *);
-extern void ZR409(EXP *);
-extern void ZR777(IDENTIFIER *);
+extern void ZR498(EXP *);
+extern void ZR614(EXP *);
+extern void ZR875(EXP, EXP *);
+extern void ZR516(SID_LIST_EXP *);
+extern void ZR744(int *);
+extern void ZR410(EXP *);
+extern void ZR778(IDENTIFIER *);
 extern void parse_decl(TYPE, DECL_SPEC);
-extern void ZR878(EXP, EXP *);
-extern void ZR624(SID_LIST_EXP *);
-extern void ZR495(EXP *);
-extern void ZR551(EXP *);
-extern void ZR396(void);
-extern void ZR501(EXP *);
-extern void ZR518(EXP *);
-extern void ZR882(EXP, EXP *);
-extern void ZR755(TYPE *);
-extern void ZR731(TYPE *);
-extern void ZR757(EXP *);
-extern void ZR488(EXP *);
-extern void ZR797(DECL_SPEC, BASE_TYPE, TYPE);
-extern void ZR758(int *);
-extern void ZR886(EXP, EXP *);
-extern void ZR1014(EXP *, EXP *);
-extern void ZR476(EXP *);
+extern void ZR879(EXP, EXP *);
+extern void ZR625(SID_LIST_EXP *);
+extern void ZR496(EXP *);
+extern void ZR552(EXP *);
+extern void ZR397(void);
+extern void ZR502(EXP *);
+extern void ZR519(EXP *);
+extern void ZR732(TYPE *);
+extern void ZR883(EXP, EXP *);
+extern void ZR756(TYPE *);
+extern void ZR489(EXP *);
+extern void ZR798(DECL_SPEC, BASE_TYPE, TYPE);
+extern void ZR758(EXP *);
+extern void ZR759(int *);
+extern void ZR887(EXP, EXP *);
+extern void ZR477(EXP *);
+extern void ZR1015(EXP *, EXP *);
 extern int ZI0;
 #endif /* __SID_SPLIT */
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
 #define lex_double (102)
-#define lex_arith_Hcap (176)
-#define lex_macro_Harg (347)
+#define lex_arith_Hcap (177)
+#define lex_macro_Harg (348)
 #define lex_hash_Helse (28)
 #define lex_private (142)
-#define lex_incompatible (241)
-#define lex_new_Harray_Hfull (350)
-#define lex_ifdef (232)
-#define lex_reject (290)
-#define lex_compute (192)
-#define lex_dollar (206)
-#define lex_tendra (308)
-#define lex_unreachable (322)
-#define lex_vtable (329)
+#define lex_incompatible (242)
+#define lex_new_Harray_Hfull (351)
+#define lex_ifdef (233)
+#define lex_reject (291)
+#define lex_compute (193)
+#define lex_dollar (207)
+#define lex_tendra (309)
+#define lex_unreachable (323)
+#define lex_vtable (330)
 #define lex_inline (137)
 #define lex_public (144)
 #define lex_namespace_Hname (3)
 #define lex_hash_H1 (51)
-#define lex_either (207)
+#define lex_either (208)
 #define lex_hash_H2 (90)
 #define lex_catch (128)
 #define lex_const_Hcast (130)
-#define lex_pointer (275)
-#define lex_inset_Hstart (345)
+#define lex_pointer (276)
+#define lex_inset_Hstart (346)
 #define lex_full_Hname (9)
-#define lex_nested (263)
-#define lex_suspend (305)
+#define lex_nested (264)
+#define lex_suspend (306)
 #define lex_break (95)
-#define lex_begin (181)
-#define lex_ignore (234)
-#define lex_volatile_Ht (328)
+#define lex_begin (182)
+#define lex_ignore (235)
+#define lex_volatile_Ht (329)
 #define lex_assign (36)
-#define lex_endif (211)
-#define lex_hash_Hhash_Hop (344)
-#define lex_keyword (250)
-#define lex_promote (282)
+#define lex_endif (212)
+#define lex_hash_Hhash_Hop (345)
+#define lex_keyword (251)
+#define lex_promote (283)
 #define lex_wstring_Hlit (15)
 #define lex_static (117)
 #define lex_virtual (155)
-#define lex_extend (219)
-#define lex_this_Hname (310)
+#define lex_extend (220)
+#define lex_this_Hname (311)
 #define lex_minus_Hminus (61)
-#define lex_lvalue (256)
-#define lex_struct_Hcap (304)
-#define lex_inset_Hend (346)
+#define lex_lvalue (257)
+#define lex_struct_Hcap (305)
+#define lex_inset_Hend (347)
 #define lex_lshift (57)
 #define lex_open_Hround (65)
 #define lex_false (135)
-#define lex_block (183)
-#define lex_scanf (296)
+#define lex_block (184)
+#define lex_scanf (297)
 #define lex_wstring_Hexp (20)
 #define lex_comma (42)
-#define lex_union_Hcap (319)
+#define lex_union_Hcap (320)
 #define lex_wchar_Hlit (13)
-#define lex_func_Hcap (226)
+#define lex_func_Hcap (227)
 #define lex_and_H1 (33)
 #define lex_lshift_Heq (58)
 #define lex_typeid (152)
-#define lex_rvalue (294)
+#define lex_rvalue (295)
 #define lex_string_Hlit (14)
 #define lex_rshift (75)
 #define lex_sizeof (116)
@@ -301,115 +301,115 @@ extern int ZI0;
 #define lex_unknown (0)
 #define lex_wchar_Hexp (18)
 #define lex_after (169)
-#define lex_macro (257)
-#define lex_precedence (278)
-#define lex_undef (317)
+#define lex_macro (258)
+#define lex_precedence (279)
+#define lex_undef (318)
 #define lex_type_Hname (2)
 #define lex_switch (119)
-#define lex_assert (179)
-#define lex_octal (268)
-#define lex_ptrdiff_Ht (285)
-#define lex_ident (230)
-#define lex_printf (280)
+#define lex_assert (180)
+#define lex_octal (269)
+#define lex_ptrdiff_Ht (286)
+#define lex_ident (231)
+#define lex_printf (281)
 #define lex_string_Hexp (19)
 #define lex_and_Heq_H1 (34)
 #define lex_reinterpret_Hcast (145)
-#define lex_depth (201)
-#define lex_unused (323)
+#define lex_depth (202)
+#define lex_unused (324)
 #define lex_char_Hlit (12)
 #define lex_rshift_Heq (76)
 #define lex_arrow_Hstar (82)
 #define lex_float (106)
 #define lex_class (129)
 #define lex_and_Heq_H2 (158)
-#define lex_bottom (184)
-#define lex_nline (264)
-#define lex_open_Hinit (351)
+#define lex_bottom (185)
+#define lex_nline (265)
+#define lex_open_Hinit (352)
 #define lex_extern (105)
-#define lex_decl (196)
-#define lex_proc_Hcap (281)
-#define lex_string (303)
-#define lex_typeof (314)
+#define lex_decl (197)
+#define lex_proc_Hcap (282)
+#define lex_string (304)
+#define lex_typeof (315)
 #define lex_while (125)
-#define lex_conditional (193)
-#define lex_new_Harray (349)
+#define lex_conditional (194)
+#define lex_new_Harray (350)
 #define lex_char_Hexp (17)
-#define lex_code (188)
-#define lex_option (272)
-#define lex_reachable (288)
+#define lex_code (189)
+#define lex_option (273)
+#define lex_reachable (289)
 #define lex_colon (41)
 #define lex_case (96)
-#define lex_import (237)
+#define lex_import (238)
 #define lex_char (97)
-#define lex_value (325)
+#define lex_value (326)
 #define lex_logical_Hand_H1 (55)
-#define lex_fall (222)
-#define lex_tag_Hcap (307)
+#define lex_fall (223)
+#define lex_tag_Hcap (308)
 #define lex_logical_Hand_H2 (160)
 #define lex_allow (172)
-#define lex_array (177)
-#define lex_elif (208)
-#define lex_file (223)
-#define lex_limit (251)
-#define lex_name (261)
+#define lex_array (178)
+#define lex_elif (209)
+#define lex_file (224)
+#define lex_limit (252)
+#define lex_name (262)
 #define lex_hash_Hif (26)
 #define lex_return (113)
-#define lex_token (311)
+#define lex_token (312)
 #define lex_close_Hbrace_H1 (38)
 #define lex_export (134)
-#define lex_reset (292)
+#define lex_reset (293)
 #define lex_close_Hbrace_H2 (88)
-#define lex_compatible (190)
-#define lex_extra (221)
-#define lex_main (258)
+#define lex_compatible (191)
+#define lex_extra (222)
+#define lex_main (259)
 #define lex_destructor_Hname (5)
-#define lex_nat_Hcap (262)
-#define lex_type_Hcap (313)
+#define lex_nat_Hcap (263)
+#define lex_type_Hcap (314)
 #define lex_struct (118)
 #define lex_using (154)
-#define lex_close_Htemplate (337)
+#define lex_close_Htemplate (338)
 #define lex_identifier (1)
 #define lex_const (98)
-#define lex_line (252)
-#define lex_weak (331)
+#define lex_line (253)
+#define lex_weak (332)
 #define lex_else (103)
-#define lex_delete_Harray_Hfull (341)
+#define lex_delete_Harray_Hfull (342)
 #define lex_union (121)
 #define lex_statement_Hname (4)
-#define lex_cast (185)
-#define lex_error (214)
+#define lex_cast (186)
+#define lex_error (215)
 #define lex_arrow (35)
 #define lex_bool (127)
-#define lex_stmt_Hcap (302)
-#define lex_unify (318)
+#define lex_stmt_Hcap (303)
+#define lex_unify (319)
 #define lex_minus (59)
-#define lex_new_Hfull (348)
-#define lex_definition (200)
-#define lex_int_Hcap (249)
-#define lex_array_Hop (334)
+#define lex_new_Hfull (349)
+#define lex_definition (201)
+#define lex_int_Hcap (250)
+#define lex_array_Hop (335)
 #define lex_not_H1 (62)
-#define lex_quote (287)
+#define lex_quote (288)
 #define lex_backslash (37)
 #define lex_long (111)
 #define lex_not_H2 (162)
-#define lex_exp_Hcap (217)
+#define lex_exp_Hcap (218)
 #define lex_dot_Hstar (84)
 #define lex_short (114)
 #define lex_namespace (139)
-#define lex_character (186)
+#define lex_character (187)
 #define lex_minus_Heq (60)
 #define lex_void (123)
-#define lex_cond_Hop (338)
-#define lex_hash_Hop (343)
-#define lex_reference (289)
+#define lex_cond_Hop (339)
+#define lex_hash_Hop (344)
+#define lex_reference (290)
 #define lex_not_Heq_H1 (63)
 #define lex_abs (85)
 #define lex_enum (104)
 #define lex_throw (149)
 #define lex_not_Heq_H2 (163)
-#define lex_incomplete (242)
-#define lex_interface (246)
-#define lex_end (210)
+#define lex_incomplete (243)
+#define lex_interface (247)
+#define lex_end (211)
 #define lex_less (53)
 #define lex_xor_H1 (80)
 #define lex_this (148)
@@ -423,172 +423,173 @@ extern int ZI0;
 #define lex_goto (108)
 #define lex_star (78)
 #define lex_close_Hsquare_H2 (89)
-#define lex_into (248)
-#define lex_no_Hdef (266)
-#define lex_off (270)
-#define lex_func_Hop (342)
-#define lex_environment (212)
-#define lex_tag (306)
+#define lex_into (249)
+#define lex_no_Hdef (267)
+#define lex_off (271)
+#define lex_func_Hop (343)
+#define lex_environment (213)
+#define lex_tag (307)
 #define lex_less_Heq (54)
 #define lex_xor_Heq_H1 (81)
 #define lex_xor_Heq_H2 (167)
-#define lex_size_Ht_H2 (299)
-#define lex_unmatched (320)
+#define lex_size_Ht_H2 (300)
+#define lex_unmatched (321)
 #define lex_or_H1 (67)
-#define lex_assignment (180)
+#define lex_assignment (181)
 #define lex_open_Hbrace_H1 (64)
 #define lex_star_Heq (79)
 #define lex_or_H2 (164)
 #define lex_open_Hbrace_H2 (92)
 #define lex_asm (126)
 #define lex_true (150)
-#define lex_un_Hknown (315)
+#define lex_un_Hknown (316)
 #define lex_nested_Hname_Hstar (10)
 #define lex_div (44)
-#define lex_type (312)
-#define lex_open_Htemplate (352)
+#define lex_type (313)
+#define lex_open_Htemplate (353)
 #define lex_or_Heq_H1 (68)
 #define lex_rem (73)
 #define lex_min (87)
 #define lex_dynamic_Hcast (132)
-#define lex_directive (202)
-#define lex_writeable (332)
+#define lex_directive (203)
+#define lex_writeable (333)
 #define lex_plus (69)
 #define lex_or_Heq_H2 (165)
 #define lex_max (86)
-#define lex_text (309)
-#define lex_delete_Harray (340)
+#define lex_text (310)
+#define lex_delete_Harray (341)
 #define lex_dot (46)
 #define lex_for (107)
-#define lex_bitfield (182)
-#define lex_qualifier (286)
+#define lex_bitfield (183)
+#define lex_qualifier (287)
 #define lex_div_Heq (45)
 #define lex_rem_Heq (74)
-#define lex_lit (254)
-#define lex_sort (300)
+#define lex_lit (255)
+#define lex_sort (301)
 #define lex_plus_Heq (70)
 #define lex_new (140)
-#define lex_variable (326)
+#define lex_variable (327)
 #define lex_int (110)
-#define lex_std (301)
-#define lex_builtin_Hfile (335)
-#define lex_conversion (194)
-#define lex_exhaustive (216)
-#define lex_set (297)
+#define lex_std (302)
+#define lex_builtin_Hfile (336)
+#define lex_conversion (195)
+#define lex_exhaustive (217)
+#define lex_set (298)
 #define lex_logical_Hor_H1 (56)
-#define lex_use (324)
+#define lex_use (325)
 #define lex_semicolon (77)
 #define lex_if (109)
 #define lex_logical_Hor_H2 (161)
 #define lex_hash_Hpragma (30)
 #define lex_protected (143)
-#define lex_indented (243)
-#define lex_implement (235)
+#define lex_indented (244)
+#define lex_implement (236)
 #define lex_ambiguous (173)
-#define lex_define_Hcap (198)
+#define lex_define_Hcap (199)
 #define lex_do (101)
-#define lex_decimal (195)
-#define lex_defined (199)
+#define lex_decimal (196)
+#define lex_defined (200)
 #define lex_template_Htype (7)
-#define lex_as (178)
-#define lex_builtin_Hline (336)
-#define lex_of (269)
+#define lex_as (179)
+#define lex_builtin_Hline (337)
+#define lex_of (270)
 #define lex_floating_Hexp (22)
 #define lex_eq (48)
 #define lex_open_Hsquare_H1 (66)
 #define lex_open_Hsquare_H2 (93)
 #define lex_nested_Hname (8)
-#define lex_include_Hnext (240)
+#define lex_include_Hnext (241)
 #define lex_hash_Hhash_H1 (52)
 #define lex_hash_Hhash_H2 (91)
-#define lex_delete_Hfull (339)
-#define lex_directory (203)
-#define lex_resolution (293)
-#define lex_includes (239)
+#define lex_delete_Hfull (340)
+#define lex_directory (204)
+#define lex_resolution (294)
+#define lex_includes (240)
 #define lex_template_Hid (6)
 #define lex_hash_Hendif (29)
-#define lex_no (265)
-#define lex_on (271)
-#define lex_scalar_Hcap (295)
-#define lex_complete (191)
-#define lex_discard (205)
-#define lex_linkage (253)
-#define lex_member_Hcap (260)
-#define lex_size_Ht (298)
+#define lex_no (266)
+#define lex_on (272)
+#define lex_scalar_Hcap (296)
+#define lex_complete (192)
+#define lex_discard (206)
+#define lex_linkage (254)
+#define lex_member_Hcap (261)
+#define lex_size_Ht (299)
 #define lex_try (151)
-#define lex_implicit (236)
-#define lex_zzzzzz (353)
+#define lex_implicit (237)
+#define lex_zzzzzz (354)
 #define lex_template (147)
-#define lex_overload (274)
+#define lex_overload (275)
 #define lex_unsigned (122)
-#define lex_internal (247)
-#define lex_unpostpone (321)
+#define lex_internal (248)
+#define lex_unpostpone (322)
 #define lex_alignof (170)
-#define lex_disallow (204)
+#define lex_disallow (205)
 #define lex_volatile (124)
-#define lex_longlong (255)
+#define lex_longlong (256)
 #define lex_explicit (133)
 #define lex_static_Hcast (146)
-#define lex_ellipsis_Hexp (209)
-#define lex_identif (231)
+#define lex_ellipsis_Hexp (210)
+#define lex_identif (232)
 #define lex_typename (153)
-#define lex_argument (175)
-#define lex_external (220)
-#define lex_include (238)
+#define lex_argument (176)
+#define lex_external (221)
+#define lex_include (239)
 #define lex_default (100)
 #define lex_analysis (174)
 #define lex_ellipsis (47)
 #define lex_colon_Hcolon (83)
 #define lex_continue (99)
 #define lex_register (112)
-#define lex_zzzz (333)
+#define lex_zzzz (334)
 #define lex_integer_Hlit (16)
-#define lex_function (227)
-#define lex_variety_Hcap (327)
+#define lex_function (228)
+#define lex_variety_Hcap (328)
 #define lex_greater (49)
 #define lex_mutable (138)
-#define lex_define (197)
+#define lex_define (198)
 #define lex_integer_Hexp (21)
 #define lex_complex_Htype (25)
-#define lex_ifndef (233)
-#define lex_promoted (283)
+#define lex_anonymous (175)
+#define lex_ifndef (234)
+#define lex_promoted (284)
 #define lex_full_Hname_Hstar (11)
 #define lex_operator (141)
-#define lex_preserve (279)
+#define lex_preserve (280)
 #define lex_close_Hround (39)
-#define lex_initialization (244)
-#define lex_integer (245)
+#define lex_initialization (245)
+#define lex_integer (246)
 #define lex_greater_Heq (50)
 #define lex_accept (168)
-#define lex_equality (213)
-#define lex_escape (215)
+#define lex_equality (214)
+#define lex_escape (216)
 #define lex_complex_Hstmt (24)
 #define lex_typedef (120)
-#define lex_explain (218)
+#define lex_explain (219)
 #define lex_hash_Helif (27)
 #define lex_newline (31)
 #define lex_delete (131)
-#define lex_hiding (229)
-#define lex_comment (189)
+#define lex_hiding (230)
+#define lex_comment (190)
 #define lex_complex_Hexp (23)
-#define lex_forward (225)
-#define lex_overflow (273)
-#define lex_object (267)
-#define lex_unassert (316)
-#define lex_warning (330)
+#define lex_forward (226)
+#define lex_overflow (274)
+#define lex_object (268)
+#define lex_unassert (317)
+#define lex_warning (331)
 #define lex_friend (136)
-#define lex_member (259)
-#define lex_pragma (277)
+#define lex_member (260)
+#define lex_pragma (278)
 #define lex_compl_H1 (43)
-#define lex_class_Hcap (187)
-#define lex_float_Hcap (224)
-#define lex_hexadecimal (228)
-#define lex_prototype (284)
+#define lex_class_Hcap (188)
+#define lex_float_Hcap (225)
+#define lex_hexadecimal (229)
+#define lex_prototype (285)
 #define lex_question (72)
 #define lex_signed (115)
 #define lex_compl_H2 (159)
-#define lex_postpone (276)
-#define lex_representation (291)
+#define lex_postpone (277)
+#define lex_representation (292)
 
 /* BEGINNING OF TRAILER */
 

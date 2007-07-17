@@ -52,6 +52,11 @@
 { "addr_register", OPT_VALUE_error },
 #endif
 #ifndef ERR_ALTERNATE
+{ "anon_union", OPT_VALUE_none },
+#else
+{ "anon_union", OPT_VALUE_error },
+#endif
+#ifndef ERR_ALTERNATE
 { "bitf_overflow", OPT_VALUE_wall },
 #else
 { "bitf_overflow", OPT_VALUE_error },

@@ -2449,12 +2449,12 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
     ct is anonymous.
 */
 
-#if LANGUAGE_CPP
-
 static void
 check_anon_union(CLASS_TYPE ct)
 {
 	CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
+	report(crt_loc, ERR_class_union_anon());
+
 	if (ci & cinfo_private) {
 		report(crt_loc, ERR_class_union_anon_private());
 	}
@@ -2463,8 +2463,6 @@ check_anon_union(CLASS_TYPE ct)
 	}
 	return;
 }
-
-#endif
 
 
 /*
@@ -2516,7 +2514,6 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	}
 	qual &= cv_qual;
 
-#if LANGUAGE_CPP
 	/* Check for anonymous unions */
 	if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
 		TYPE s = t;
@@ -2562,7 +2559,6 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 			}
 		}
 	}
-#endif
 
 	/* Check declaration specifiers */
 	if (ds != dspec_none) {
@@ -2665,7 +2661,6 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	}
 	qual &= cv_qual;
 
-#if LANGUAGE_CPP
 	/* Check for anonymous unions */
 	if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
 		TYPE s = t;
@@ -2707,7 +2702,6 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 			}
 		}
 	}
-#endif
 
 	/* Check declaration specifiers */
 	if (ds != dspec_none) {

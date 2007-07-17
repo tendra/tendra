@@ -4,7 +4,7 @@
  * and
  *	psyntax.act
  * by:
- *	../../../../bootstrap/src/utilities/sid/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
@@ -139,25 +139,25 @@ int XI0;
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 void
-XR403(SID_LIST_ID *XO402)
+XR404(SID_LIST_ID *XO403)
 {
-    SID_LIST_ID XI402;
+    SID_LIST_ID XI403;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	IDENTIFIER XI375;
-	SID_LIST_ID XI405;
+	IDENTIFIER XI376;
+	SID_LIST_ID XI406;
 
-	XR399 (&XI375);
+	XR400 (&XI376);
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 42:
 		{
 		    ADVANCE_LEXER;
-		    XR832 (&XI405);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    XR834 (&XI406);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto XL1;
 		    }
@@ -167,108 +167,108 @@ XR403(SID_LIST_ID *XO402)
 		{
 		    {
 
-    (XI405) = NULL_list ( IDENTIFIER ) ;
+    (XI406) = NULL_list ( IDENTIFIER ) ;
 		    }
 		}
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	}
 	{
 
-    CONS_id ( (XI375), (XI405), (XI402) ) ;
+    CONS_id ( (XI376), (XI406), (XI403) ) ;
 	}
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO402 = XI402;
+    *XO403 = XI403;
 }
 
 void
-XR505(unsigned *XO377)
+XR506(unsigned *XO378)
 {
-    unsigned XI377;
+    unsigned XI378;
 
     switch (CURRENT_TERMINAL) {
-      case 270:
-	{
-	    ADVANCE_LEXER;
-	    {
- (XI377) = ( unsigned ) OPTION_OFF ; 
-	    }
-	}
-	break;
       case 271:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI377) = ( unsigned ) OPTION_ON ; 
+ (XI378) = ( unsigned ) OPTION_OFF ; 
 	    }
 	}
 	break;
-      case 330:
+      case 272:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI377) = ( unsigned ) OPTION_WARN ; 
+ (XI378) = ( unsigned ) OPTION_ON ; 
 	    }
 	}
 	break;
-      case 354:
+      case 331:
+	{
+	    ADVANCE_LEXER;
+	    {
+ (XI378) = ( unsigned ) OPTION_WARN ; 
+	    }
+	}
+	break;
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO377 = XI377;
+    *XO378 = XI378;
 }
 
 void
-XR732(unsigned *XO445)
+XR734(unsigned *XO446)
 {
-    unsigned XI445;
+    unsigned XI446;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	unsigned XI835;
+	unsigned XI837;
 
-	XR731 (&XI835);
-	XR837 (&XI835, &XI445);
-	if ((CURRENT_TERMINAL) == 354) {
+	XR733 (&XI837);
+	XR839 (&XI837, &XI446);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto XL1;
 	}
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO445 = XI445;
+    *XO446 = XI446;
 }
 
 void
-XR549(IDENTIFIER *XO375)
+XR550(IDENTIFIER *XO376)
 {
-    IDENTIFIER XI375;
+    IDENTIFIER XI376;
 
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 250:
+	  case 251:
 	    break;
 	  default:
 	    goto XL1;
@@ -287,7 +287,7 @@ XR549(IDENTIFIER *XO375)
 		{
 		    {
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -296,7 +296,7 @@ XR549(IDENTIFIER *XO375)
 		{
 		    {
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -305,7 +305,7 @@ XR549(IDENTIFIER *XO375)
 		{
 		    {
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -314,7 +314,7 @@ XR549(IDENTIFIER *XO375)
 		{
 		    {
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 		    }
 		    ADVANCE_LEXER;
 		}
@@ -326,33 +326,33 @@ XR549(IDENTIFIER *XO375)
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO375 = XI375;
+    *XO376 = XI376;
 }
 
 void
-XR456(void)
+XR457(void)
 {
-    if ((CURRENT_TERMINAL) == 354) {
+    if ((CURRENT_TERMINAL) == 355) {
 	return;
     }
     {
-	TOKEN XI400;
-	int XI397;
-	IDENTIFIER XI409;
-	IDENTIFIER XI444;
+	TOKEN XI401;
+	int XI398;
+	IDENTIFIER XI410;
+	IDENTIFIER XI445;
 
 	switch (CURRENT_TERMINAL) {
-	  case 311:
+	  case 312:
 	    break;
 	  default:
 	    goto XL1;
 	}
 	ADVANCE_LEXER;
-	XR396 (&XI400);
-	if ((CURRENT_TERMINAL) == 354) {
+	XR397 (&XI401);
+	if ((CURRENT_TERMINAL) == 355) {
 	    RESTORE_LEXER;
 	    goto XL1;
 	}
@@ -375,21 +375,21 @@ XR456(void)
 		    goto XL3;
 		{
 
-    (XI409) = DEREF_id ( hashid_id ( KEYWORD ( lex_zzzz ) ) ) ;
-    parse_operator ( &(XI409) ) ;
+    (XI410) = DEREF_id ( hashid_id ( KEYWORD ( lex_zzzz ) ) ) ;
+    parse_operator ( &(XI410) ) ;
 		}
 		{
- (XI397) = 0 ; 
+ (XI398) = 0 ; 
 		}
 		goto XL2;
 	    }
 	    /*UNREACHED*/
 	  XL3:;
 	    switch (CURRENT_TERMINAL) {
-	      case 1: case 2: case 3: case 4: case 307:
+	      case 1: case 2: case 3: case 4: case 308:
 		{
-		    XR398 (&XI397);
-		    if ((CURRENT_TERMINAL) == 354) {
+		    XR399 (&XI398);
+		    if ((CURRENT_TERMINAL) == 355) {
 			RESTORE_LEXER;
 			goto XL1;
 		    }
@@ -406,7 +406,7 @@ XR456(void)
 			    {
 				{
 
-    XI409 = crt_token->pp_data.id.use ;
+    XI410 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -415,7 +415,7 @@ XR456(void)
 			    {
 				{
 
-    XI409 = crt_token->pp_data.id.use ;
+    XI410 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -424,7 +424,7 @@ XR456(void)
 			    {
 				{
 
-    XI409 = crt_token->pp_data.id.use ;
+    XI410 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -433,7 +433,7 @@ XR456(void)
 			    {
 				{
 
-    XI409 = crt_token->pp_data.id.use ;
+    XI410 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -475,7 +475,7 @@ XR456(void)
 		    {
 
     HASHID nm = lookup_anon () ;
-    (XI444) = DEREF_id ( hashid_id ( nm ) ) ;
+    (XI445) = DEREF_id ( hashid_id ( nm ) ) ;
     crt_id_qualifier = qual_none ;
     qual_namespace = NULL_nspace ;
 		    }
@@ -489,7 +489,7 @@ XR456(void)
 			    {
 				{
 
-    XI444 = crt_token->pp_data.id.use ;
+    XI445 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -498,7 +498,7 @@ XR456(void)
 			    {
 				{
 
-    XI444 = crt_token->pp_data.id.use ;
+    XI445 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -507,7 +507,7 @@ XR456(void)
 			    {
 				{
 
-    XI444 = crt_token->pp_data.id.use ;
+    XI445 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -516,7 +516,7 @@ XR456(void)
 			    {
 				{
 
-    XI444 = crt_token->pp_data.id.use ;
+    XI445 = crt_token->pp_data.id.use ;
 				}
 				ADVANCE_LEXER;
 			    }
@@ -529,33 +529,33 @@ XR456(void)
 		break;
 	      default:
 		{
-		    XI444 = XI409;
+		    XI445 = XI410;
 		}
 		break;
 	    }
 	}
 	{
 
-    IGNORE make_token_decl ( (XI400), (XI397), (XI409), (XI444) ) ;
+    IGNORE make_token_decl ( (XI401), (XI398), (XI410), (XI445) ) ;
 	}
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
+XR781(IDENTIFIER XI779, IDENTIFIER *XO780)
 {
-    IDENTIFIER XI778;
+    IDENTIFIER XI780;
 
-  XL2_779:;
+  XL2_781:;
     switch (CURRENT_TERMINAL) {
       case 46:
 	{
-	    IDENTIFIER XI472;
-	    IDENTIFIER XI375;
+	    IDENTIFIER XI473;
+	    IDENTIFIER XI376;
 
 	    ADVANCE_LEXER;
 	    {
@@ -571,7 +571,7 @@ XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
 		    {
 			{
 
-    XI472 = crt_token->pp_data.id.use ;
+    XI473 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -580,7 +580,7 @@ XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
 		    {
 			{
 
-    XI472 = crt_token->pp_data.id.use ;
+    XI473 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -589,7 +589,7 @@ XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
 		    {
 			{
 
-    XI472 = crt_token->pp_data.id.use ;
+    XI473 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -598,7 +598,7 @@ XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
 		    {
 			{
 
-    XI472 = crt_token->pp_data.id.use ;
+    XI473 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -609,85 +609,85 @@ XR779(IDENTIFIER XI777, IDENTIFIER *XO778)
 	    }
 	    {
 
-    (XI375) = find_mem_token ( (XI777), (XI472) ) ;
+    (XI376) = find_mem_token ( (XI779), (XI473) ) ;
 	    }
-	    XI777 = XI375;
-	    goto XL2_779;
+	    XI779 = XI376;
+	    goto XL2_781;
 	}
 	/*UNREACHED*/
       default:
 	{
-	    XI778 = XI777;
+	    XI780 = XI779;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO778 = XI778;
+    *XO780 = XI780;
 }
 
 void
-XR781(int *XI708)
+XR783(int *XI710)
 {
     switch (CURRENT_TERMINAL) {
-      case 178:
+      case 179:
 	{
-	    int XI377;
+	    int XI378;
 
 	    ADVANCE_LEXER;
-	    XR739 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR741 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_error_sev ( (*XI708), (XI377) ) ;
+    set_error_sev ( (*XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 172: case 204: case 270: case 271: case 330:
+      case 172: case 205: case 271: case 272: case 331:
 	{
-	    int XI377;
+	    int XI378;
 
-	    XR509 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR510 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_error_sev ( (*XI708), (XI377) ) ;
+    set_error_sev ( (*XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-XR782(void)
+XR784(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 261:
+      case 262:
 	{
-	    IDENTIFIER XI375;
+	    IDENTIFIER XI376;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 212:
+	      case 213:
 		break;
 	      default:
 		goto XL1;
@@ -706,7 +706,7 @@ XR782(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -715,7 +715,7 @@ XR782(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -724,7 +724,7 @@ XR782(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -733,7 +733,7 @@ XR782(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -744,40 +744,40 @@ XR782(void)
 	    }
 	    {
 
-    begin_option ( (XI375) ) ;
+    begin_option ( (XI376) ) ;
 	    }
 	}
 	break;
       default:
 	{
-	    IDENTIFIER XI375;
+	    IDENTIFIER XI376;
 
 	    {
 
-    (XI375) = NULL_id ;
+    (XI376) = NULL_id ;
     crt_id_qualifier = qual_none ;
     qual_namespace = NULL_nspace ;
 	    }
 	    {
 
-    begin_option ( (XI375) ) ;
+    begin_option ( (XI376) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-XR783(void)
+XR785(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 210:
+      case 211:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -788,7 +788,7 @@ XR783(void)
 	break;
       case 1: case 2: case 3: case 4:
 	{
-	    IDENTIFIER XI375;
+	    IDENTIFIER XI376;
 
 	    {
 
@@ -803,7 +803,7 @@ XR783(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -812,7 +812,7 @@ XR783(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -821,7 +821,7 @@ XR783(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -830,7 +830,7 @@ XR783(void)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -840,7 +840,7 @@ XR783(void)
 		}
 	    }
 	    switch (CURRENT_TERMINAL) {
-	      case 181:
+	      case 182:
 		break;
 	      default:
 		goto XL1;
@@ -848,63 +848,63 @@ XR783(void)
 	    ADVANCE_LEXER;
 	    {
 
-    begin_decl_block ( (XI375) ) ;
+    begin_decl_block ( (XI376) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-XR784(int *XO708)
+XR786(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 196:
+      case 197:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_decl_cond ; 
+ (XI710) = OPT_decl_cond ; 
 	    }
 	}
 	break;
-      case 256:
+      case 257:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_cond_lvalue ; 
+ (XI710) = OPT_cond_lvalue ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR785(int *XO708)
+XR787(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 182:
+      case 183:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -915,14 +915,14 @@ XR785(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 312:
+	      case 313:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_bitf_type ; 
+ (XI710) = OPT_bitf_type ; 
 	    }
 	}
 	break;
@@ -930,51 +930,51 @@ XR785(int *XO708)
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_comma_extra ; 
+ (XI710) = OPT_comma_extra ; 
 	    }
 	}
 	break;
-      case 257:
+      case 258:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 200:
+	      case 201:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_macro_redef ; 
+ (XI710) = OPT_macro_redef ; 
 	    }
 	}
 	break;
       case 77:
 	{
 	    ADVANCE_LEXER;
-	    XR838 (&XI708);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR840 (&XI710);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	}
 	break;
-      case 312:
+      case 313:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 200:
+	      case 201:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_type_redef ; 
+ (XI710) = OPT_type_redef ; 
 	    }
 	}
 	break;
-      case 47: case 209:
+      case 47: case 210:
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -983,7 +983,7 @@ XR785(int *XO708)
 			ADVANCE_LEXER;
 		    }
 		    break;
-		  case 209:
+		  case 210:
 		    {
 			ADVANCE_LEXER;
 		    }
@@ -993,162 +993,45 @@ XR785(int *XO708)
 		}
 	    }
 	    {
- (XI708) = OPT_ellipsis_extra ; 
+ (XI710) = OPT_ellipsis_extra ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR786(int *XO708)
+XR718(unsigned *XO378, unsigned *XO474)
 {
-    int XI708;
+    unsigned XI378;
+    unsigned XI474;
 
     switch (CURRENT_TERMINAL) {
-      case 178:
+      case 205:
 	{
 	    ADVANCE_LEXER;
 	    {
-		switch (CURRENT_TERMINAL) {
-		  case 47:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 209:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
+ (XI378) = ( unsigned ) OPTION_ON ; 
 	    }
 	    {
- (XI708) = OPT_ellipsis_ident ; 
+ (XI474) = ( unsigned ) OPTION_ON ; 
 	    }
 	}
 	break;
-      case 47: case 209:
+      case 65: case 172: case 331:
 	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 47:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 209:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    {
- (XI708) = OPT_ellipsis_ident ; 
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    goto XL0;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-  XL0:;
-    *XO708 = XI708;
-}
-
-void
-XR787(int *XO708)
-{
-    int XI708;
-
-    switch (CURRENT_TERMINAL) {
-      case 110:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 312:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    XR712 (&XI708);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	}
-	break;
-      case 311:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 200:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_func_token_undef ; 
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    goto XL0;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-  XL0:;
-    *XO708 = XI708;
-}
-
-void
-XR716(unsigned *XO377, unsigned *XO473)
-{
-    unsigned XI377;
-    unsigned XI473;
-
-    switch (CURRENT_TERMINAL) {
-      case 204:
-	{
-	    ADVANCE_LEXER;
-	    {
- (XI377) = ( unsigned ) OPTION_ON ; 
-	    }
-	    {
- (XI473) = ( unsigned ) OPTION_ON ; 
-	    }
-	}
-	break;
-      case 65: case 172: case 330:
-	{
-	    unsigned XI409;
-	    unsigned XI444;
+	    unsigned XI410;
+	    unsigned XI445;
 
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -1156,7 +1039,7 @@ XR716(unsigned *XO377, unsigned *XO473)
 		    {
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			  case 234:
+			  case 235:
 			    break;
 			  default:
 			    goto XL1;
@@ -1170,14 +1053,14 @@ XR716(unsigned *XO377, unsigned *XO473)
 			}
 			ADVANCE_LEXER;
 			{
- (XI409) = ( unsigned ) OPTION_ON ; 
+ (XI410) = ( unsigned ) OPTION_ON ; 
 			}
 		    }
 		    break;
 		  default:
 		    {
 			{
- (XI409) = ( unsigned ) OPTION_OFF ; 
+ (XI410) = ( unsigned ) OPTION_OFF ; 
 			}
 		    }
 		    break;
@@ -1189,15 +1072,15 @@ XR716(unsigned *XO377, unsigned *XO473)
 		    {
 			ADVANCE_LEXER;
 			{
- (XI444) = ( unsigned ) OPTION_OFF ; 
+ (XI445) = ( unsigned ) OPTION_OFF ; 
 			}
 		    }
 		    break;
-		  case 330:
+		  case 331:
 		    {
 			ADVANCE_LEXER;
 			{
- (XI444) = ( unsigned ) OPTION_WARN ; 
+ (XI445) = ( unsigned ) OPTION_WARN ; 
 			}
 		    }
 		    break;
@@ -1205,87 +1088,110 @@ XR716(unsigned *XO377, unsigned *XO473)
 		    goto XL1;
 		}
 	    }
-	    XI377 = XI444;
-	    XI473 = XI409;
+	    XI378 = XI445;
+	    XI474 = XI410;
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO377 = XI377;
-    *XO473 = XI473;
+    *XO378 = XI378;
+    *XO474 = XI474;
 }
 
 void
-XR788(int *XO708)
+XR788(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 246:
+      case 179:
 	{
 	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 196:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_interf_incompat ; 
+		switch (CURRENT_TERMINAL) {
+		  case 47:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 210:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    {
+ (XI710) = OPT_ellipsis_ident ; 
 	    }
 	}
 	break;
-      case 253:
+      case 47: case 210:
 	{
-	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_link_incompat ; 
+		switch (CURRENT_TERMINAL) {
+		  case 47:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 210:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    {
+ (XI710) = OPT_ellipsis_ident ; 
 	    }
 	}
 	break;
-      case 259:
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    goto XL0;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+  XL0:;
+    *XO710 = XI710;
+}
+
+void
+XR789(int *XO710)
+{
+    int XI710;
+
+    switch (CURRENT_TERMINAL) {
+      case 110:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 196:
+	      case 313:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_member_incompat ; 
-	    }
-	}
-	break;
-      case 283:
-	{
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 227:
-		break;
-	      default:
+	    XR714 (&XI710);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
 		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 175:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_func_incompat ; 
 	    }
 	}
 	break;
@@ -1293,14 +1199,108 @@ XR788(int *XO708)
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 286:
+	      case 201:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_type_qual_incompat ; 
+ (XI710) = OPT_func_token_undef ; 
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    goto XL0;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+  XL0:;
+    *XO710 = XI710;
+}
+
+void
+XR790(int *XO710)
+{
+    int XI710;
+
+    switch (CURRENT_TERMINAL) {
+      case 247:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 197:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_interf_incompat ; 
+	    }
+	}
+	break;
+      case 254:
+	{
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_link_incompat ; 
+	    }
+	}
+	break;
+      case 260:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 197:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_member_incompat ; 
+	    }
+	}
+	break;
+      case 284:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 228:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 176:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_func_incompat ; 
+	    }
+	}
+	break;
+      case 313:
+	{
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 287:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_type_qual_incompat ; 
 	    }
 	}
 	break;
@@ -1315,30 +1315,30 @@ XR788(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_func_ret_void ; 
+ (XI710) = OPT_func_ret_void ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR789(int *XO708)
+XR791(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 202:
+      case 203:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1360,7 +1360,7 @@ XR789(int *XO708)
 		}
 	    }
 	    {
- (XI708) = OPT_ppdir_indent_dir ; 
+ (XI710) = OPT_ppdir_indent_dir ; 
 	    }
 	}
 	break;
@@ -1378,37 +1378,37 @@ XR789(int *XO708)
 		}
 	    }
 	    switch (CURRENT_TERMINAL) {
-	      case 202:
+	      case 203:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_ppdir_indent ; 
+ (XI710) = OPT_ppdir_indent ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR790(int *XO708)
+XR792(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 202:
+      case 203:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1419,7 +1419,7 @@ XR790(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 264:
+	      case 265:
 		break;
 	      default:
 		goto XL1;
@@ -1433,33 +1433,33 @@ XR790(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 230:
+	      case 231:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_ppdir_id ; 
+ (XI710) = OPT_ppdir_id ; 
 	    }
 	}
 	break;
-      case 220:
+      case 221:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 196:
+	      case 197:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_decl_none ; 
+ (XI710) = OPT_decl_none ; 
 	    }
 	}
 	break;
-      case 230:
+      case 231:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1481,11 +1481,11 @@ XR790(int *XO708)
 		}
 	    }
 	    {
- (XI708) = OPT_hash_ident ; 
+ (XI710) = OPT_hash_ident ; 
 	    }
 	}
 	break;
-      case 264:
+      case 265:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1496,63 +1496,63 @@ XR790(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 223:
+	      case 224:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 210:
+	      case 211:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_eof_nline ; 
+ (XI710) = OPT_eof_nline ; 
 	    }
 	}
 	break;
-      case 311:
+      case 312:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 200:
+	      case 201:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_token_undef ; 
+ (XI710) = OPT_token_undef ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR791(int *XO708)
+XR793(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
       case 65:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 331:
+	      case 332:
 		break;
 	      default:
 		goto XL1;
@@ -1566,55 +1566,55 @@ XR791(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_func_weak ; 
+ (XI710) = OPT_func_weak ; 
 	    }
 	}
 	break;
       default:
 	{
 	    {
- (XI708) = OPT_func_proto ; 
+ (XI710) = OPT_func_proto ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR792(int *XO708)
+XR794(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 202:
+      case 203:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_ppdir_unknown ; 
+ (XI710) = OPT_ppdir_unknown ; 
 	    }
 	}
 	break;
-      case 215:
+      case 216:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_escape_unknown ; 
+ (XI710) = OPT_escape_unknown ; 
 	    }
 	}
 	break;
-      case 277:
+      case 278:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_pragma_unknown ; 
+ (XI710) = OPT_pragma_unknown ; 
 	    }
 	}
 	break;
@@ -1636,30 +1636,81 @@ XR792(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_decl_struct_anon ; 
+ (XI710) = OPT_decl_struct_anon ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR793(int *XO708)
+XR409(SID_LIST_ID XI407, SID_LIST_ID *XO403)
 {
-    int XI708;
+    SID_LIST_ID XI403;
+
+    if ((CURRENT_TERMINAL) == 355) {
+	return;
+    }
+    {
+	IDENTIFIER XI410;
+	SID_LIST_ID XI406;
+
+	XR408 (XI407, &XI410);
+	{
+	    switch (CURRENT_TERMINAL) {
+	      case 42:
+		{
+		    ADVANCE_LEXER;
+		    XR835 (&XI407, &XI406);
+		    if ((CURRENT_TERMINAL) == 355) {
+			RESTORE_LEXER;
+			goto XL1;
+		    }
+		}
+		break;
+	      default:
+		{
+		    {
+
+    (XI406) = NULL_list ( IDENTIFIER ) ;
+		    }
+		}
+		break;
+	      case 355:
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	}
+	{
+
+    CONS_id ( (XI410), (XI406), (XI403) ) ;
+	}
+    }
+    goto XL0;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+  XL0:;
+    *XO403 = XI403;
+}
+
+void
+XR795(int *XO710)
+{
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
-      case 244:
+      case 245:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1670,7 +1721,7 @@ XR793(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_init_aggregate ; 
+ (XI710) = OPT_init_aggregate ; 
 	    }
 	}
 	break;
@@ -1699,27 +1750,27 @@ XR793(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_complete_struct ; 
+ (XI710) = OPT_complete_struct ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR794(int *XO708)
+XR796(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
       case 134:
@@ -1733,93 +1784,143 @@ XR794(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_templ_export ; 
+ (XI710) = OPT_templ_export ; 
 	    }
 	}
 	break;
-      case 227:
+      case 228:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 196:
+	      case 197:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_func_impl ; 
+ (XI710) = OPT_func_impl ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR408(SID_LIST_ID XI406, SID_LIST_ID *XO402)
+XR717(int *XO710, int *XO716)
 {
-    SID_LIST_ID XI402;
+    int XI710;
+    int XI716;
 
-    if ((CURRENT_TERMINAL) == 354) {
-	return;
-    }
-    {
-	IDENTIFIER XI409;
-	SID_LIST_ID XI405;
-
-	XR407 (XI406, &XI409);
+    switch (CURRENT_TERMINAL) {
+      case 180:
 	{
-	    switch (CURRENT_TERMINAL) {
-	      case 42:
-		{
-		    ADVANCE_LEXER;
-		    XR833 (&XI406, &XI405);
-		    if ((CURRENT_TERMINAL) == 354) {
-			RESTORE_LEXER;
-			goto XL1;
-		    }
-		}
-		break;
-	      default:
-		{
-		    {
+	    ADVANCE_LEXER;
+	    {
 
-    (XI405) = NULL_list ( IDENTIFIER ) ;
-		    }
-		}
-		break;
-	      case 354:
-		RESTORE_LEXER;
-		goto XL1;
+    (XI710) = OPT_ppdir_assert ;
+    (XI716) = OPT_ppdir_assert_ignore ;
 	    }
 	}
+	break;
+      case 224:
 	{
+	    ADVANCE_LEXER;
+	    {
 
-    CONS_id ( (XI409), (XI405), (XI402) ) ;
+    (XI710) = OPT_ppdir_file ;
+    (XI716) = OPT_ppdir_file_ignore ;
+	    }
 	}
+	break;
+      case 231:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_ident ;
+    (XI716) = OPT_ppdir_ident_ignore ;
+	    }
+	}
+	break;
+      case 238:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_import ;
+    (XI716) = OPT_ppdir_import_ignore ;
+	    }
+	}
+	break;
+      case 241:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_import ;
+    (XI716) = OPT_ppdir_import_ignore ;
+	    }
+	}
+	break;
+      case 317:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_unassert ;
+    (XI716) = OPT_ppdir_unassert_ignore ;
+	    }
+	}
+	break;
+      case 331:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_warning ;
+    (XI716) = OPT_ppdir_warning_ignore ;
+	    }
+	}
+	break;
+      case 332:
+	{
+	    ADVANCE_LEXER;
+	    {
+
+    (XI710) = OPT_ppdir_weak ;
+    (XI716) = OPT_ppdir_weak_ignore ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO402 = XI402;
+    *XO710 = XI710;
+    *XO716 = XI716;
 }
 
 void
-XR795(int *XO708)
+XR797(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
       case 141:
@@ -1833,11 +1934,11 @@ XR795(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_int_operator ; 
+ (XI710) = OPT_int_operator ; 
 	    }
 	}
 	break;
-      case 273:
+      case 274:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1848,38 +1949,73 @@ XR795(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_int_overflow ; 
+ (XI710) = OPT_int_overflow ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
-XR796(int *XO708)
+XR723(unsigned *XO474)
 {
-    int XI708;
+    unsigned XI474;
+
+    switch (CURRENT_TERMINAL) {
+      case 221:
+	{
+	    ADVANCE_LEXER;
+	    {
+ (XI474) = ( unsigned ) OPTION_OFF ; 
+	    }
+	}
+	break;
+      case 248:
+	{
+	    ADVANCE_LEXER;
+	    {
+ (XI474) = ( unsigned ) OPTION_ON ; 
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    goto XL0;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+  XL0:;
+    *XO474 = XI474;
+}
+
+void
+XR798(int *XO710)
+{
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
       case 174:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_variable ; 
+ (XI710) = OPT_variable ; 
 	    }
 	}
 	break;
-      case 229:
+      case 230:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -1890,413 +2026,89 @@ XR796(int *XO708)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_decl_hide ; 
+ (XI710) = OPT_decl_hide ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
-}
-
-void
-XR715(int *XO708, int *XO714)
-{
-    int XI708;
-    int XI714;
-
-    switch (CURRENT_TERMINAL) {
-      case 179:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_assert ;
-    (XI714) = OPT_ppdir_assert_ignore ;
-	    }
-	}
-	break;
-      case 223:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_file ;
-    (XI714) = OPT_ppdir_file_ignore ;
-	    }
-	}
-	break;
-      case 230:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_ident ;
-    (XI714) = OPT_ppdir_ident_ignore ;
-	    }
-	}
-	break;
-      case 237:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_import ;
-    (XI714) = OPT_ppdir_import_ignore ;
-	    }
-	}
-	break;
-      case 240:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_import ;
-    (XI714) = OPT_ppdir_import_ignore ;
-	    }
-	}
-	break;
-      case 316:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_unassert ;
-    (XI714) = OPT_ppdir_unassert_ignore ;
-	    }
-	}
-	break;
-      case 330:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_warning ;
-    (XI714) = OPT_ppdir_warning_ignore ;
-	    }
-	}
-	break;
-      case 331:
-	{
-	    ADVANCE_LEXER;
-	    {
-
-    (XI708) = OPT_ppdir_weak ;
-    (XI714) = OPT_ppdir_weak_ignore ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    goto XL0;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-  XL0:;
-    *XO708 = XI708;
-    *XO714 = XI714;
-}
-
-void
-XR797(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 274:
-	{
-	    unsigned XI473;
-	    unsigned XI377;
-	    int XI708;
-	    int XI714;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 293:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    XR725 (&XI473);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI708) = OPT_overload_dep ; 
-	    }
-	    {
- (XI714) = OPT_overload_strict ; 
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
-
-    set_option ( (XI714), (XI473) ) ;
-	    }
-	}
-	break;
-      case 196: case 256:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    XR784 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-XR721(unsigned *XO473)
-{
-    unsigned XI473;
-
-    switch (CURRENT_TERMINAL) {
-      case 220:
-	{
-	    ADVANCE_LEXER;
-	    {
- (XI473) = ( unsigned ) OPTION_OFF ; 
-	    }
-	}
-	break;
-      case 247:
-	{
-	    ADVANCE_LEXER;
-	    {
- (XI473) = ( unsigned ) OPTION_ON ; 
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    goto XL0;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-  XL0:;
-    *XO473 = XI473;
-}
-
-void
-XR798(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 178:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 257:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 175:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_macro_arg_dir ; 
-	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 179: case 223: case 230: case 237: case 240:
-      case 316: case 330: case 331:
-	{
-	    int XI708;
-	    int XI714;
-	    unsigned XI377;
-	    unsigned XI473;
-
-	    XR715 (&XI708, &XI714);
-	    XR716 (&XI377, &XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
-
-    set_option ( (XI714), (XI473) ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
+    *XO710 = XI710;
 }
 
 void
 XR799(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 227:
+      case 275:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    unsigned XI474;
+	    unsigned XI378;
+	    int XI710;
+	    int XI716;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 253:
+	      case 294:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_func_linkage ; 
+	    XR727 (&XI474);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    {
+ (XI710) = OPT_overload_dep ; 
+	    }
+	    {
+ (XI716) = OPT_overload_strict ; 
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+
+    set_option ( (XI716), (XI474) ) ;
+	    }
+	}
+	break;
+      case 197: case 257:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    XR786 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 253:
-	{
-	    EXP XI377;
-	    DECL_SPEC XI409;
-
-	    ADVANCE_LEXER;
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 19:
-		    {
-			{
-
-    XI377 = crt_token->pp_data.exp ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 20:
-		    {
-			{
-
-    XI377 = crt_token->pp_data.exp ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    {
-
-    (XI409) = find_linkage ( (XI377) ) ;
-	    }
-	    {
-
-    set_link_opt ( (XI409) ) ;
-	    }
-	}
-	break;
-      case 124: case 328:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 124:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 328:
-		    {
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    {
- (XI708) = OPT_decl_volatile ; 
-	    }
-	    {
- (XI377) = ( unsigned ) OPTION_ON ; 
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
@@ -2304,54 +2116,72 @@ void
 XR800(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 193:
+      case 179:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_const_cond ; 
+	    switch (CURRENT_TERMINAL) {
+	      case 258:
+		break;
+	      default:
+		goto XL1;
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 176:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_macro_arg_dir ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 253:
+      case 180: case 224: case 231: case 238: case 241:
+      case 317: case 331: case 332:
 	{
-	    unsigned XI377;
-	    int XI708;
+	    int XI710;
+	    int XI716;
+	    unsigned XI378;
+	    unsigned XI474;
 
-	    ADVANCE_LEXER;
-	    XR721 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR717 (&XI710, &XI716);
+	    XR718 (&XI378, &XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI708) = OPT_const_internal ; 
+
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI716), (XI474) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
@@ -2359,153 +2189,11 @@ void
 XR801(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 223:
+      case 228:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 239:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_include_full ; 
-	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 118: case 244:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    XR793 (&XI708);
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-XR802(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 110: case 311:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    XR787 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 134: case 227:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    XR794 (&XI708);
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-XR803(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 220:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 253:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_decl_unify ; 
-	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	}
-	break;
-      case 241:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 303:
-		break;
-	      default:
-		goto XL1;
-	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
 	      case 254:
@@ -2515,27 +2203,214 @@ XR803(void)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_concat_string ; 
+ (XI710) = OPT_func_linkage ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 254:
+	{
+	    EXP XI378;
+	    DECL_SPEC XI410;
+
+	    ADVANCE_LEXER;
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 19:
+		    {
+			{
+
+    XI378 = crt_token->pp_data.exp ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 20:
+		    {
+			{
+
+    XI378 = crt_token->pp_data.exp ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    {
+
+    (XI410) = find_linkage ( (XI378) ) ;
+	    }
+	    {
+
+    set_link_opt ( (XI410) ) ;
+	    }
+	}
+	break;
+      case 124: case 329:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 124:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 329:
+		    {
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    {
+ (XI710) = OPT_decl_volatile ; 
+	    }
+	    {
+ (XI378) = ( unsigned ) OPTION_ON ; 
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+XR802(void)
+{
+    switch (CURRENT_TERMINAL) {
+      case 194:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_const_cond ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 254:
+	{
+	    unsigned XI378;
+	    int XI710;
+
+	    ADVANCE_LEXER;
+	    XR723 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI710) = OPT_const_internal ; 
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    return;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+XR803(void)
+{
+    switch (CURRENT_TERMINAL) {
+      case 224:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 240:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_include_full ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 118: case 245:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    XR795 (&XI710);
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    return;
+  XL1:;
+    SAVE_LEXER (355);
     return;
 }
 
@@ -2543,65 +2418,62 @@ void
 XR804(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 244:
+      case 110: case 312:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_init_dynamic ; 
-	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR789 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 174: case 229:
+      case 134: case 228:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
-	    XR796 (&XI708);
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR796 (&XI710);
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-XR709(int *XO708)
+XR711(int *XO710)
 {
-    int XI708;
+    int XI710;
 
     switch (CURRENT_TERMINAL) {
       case 65:
 	{
 	    ADVANCE_LEXER;
-	    XR841 (&XI708);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR843 (&XI710);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
@@ -2610,56 +2482,213 @@ XR709(int *XO708)
       default:
 	{
 	    {
- (XI708) = OPT_conv ; 
+ (XI710) = OPT_conv ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
     }
     goto XL0;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
   XL0:;
-    *XO708 = XI708;
+    *XO710 = XI710;
 }
 
 void
 XR805(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 257:
+      case 221:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 213:
+	      case 254:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_macro_weak ; 
+ (XI710) = OPT_decl_unify ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 284:
+      case 242:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 304:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 255:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_concat_string ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    return;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+parse_preproc(int *XO398)
+{
+    int XI398;
+
+    if ((CURRENT_TERMINAL) == 355) {
+	return;
+    }
+    {
+	XR773 ();
+	if ((CURRENT_TERMINAL) == 355) {
+	    RESTORE_LEXER;
+	    goto XL1;
+	}
+	{
+ (XI398) = lex_ignore_token ; 
+	}
+    }
+    goto XL0;
+  XL1:;
+    {
+	{
+ (XI398) = lex_hash_Hpragma ; 
+	}
+    }
+  XL0:;
+    *XO398 = XI398;
+}
+
+void
+XR806(void)
+{
+    switch (CURRENT_TERMINAL) {
+      case 245:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_init_dynamic ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 174: case 230:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    XR798 (&XI710);
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 355:
+	return;
+      default:
+	goto XL1;
+    }
+    return;
+  XL1:;
+    SAVE_LEXER (355);
+    return;
+}
+
+void
+XR807(void)
+{
+    switch (CURRENT_TERMINAL) {
+      case 258:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 214:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_macro_weak ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	}
+	break;
+      case 285:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -2670,337 +2699,119 @@ XR805(void)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_weak ; 
+ (XI710) = OPT_weak ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
     }
     return;
   XL1:;
-    SAVE_LEXER (354);
+    SAVE_LEXER (355);
     return;
 }
 
 void
-parse_preproc(int *XO397)
+parse_tendra(int *XO398)
 {
-    int XI397;
-
-    if ((CURRENT_TERMINAL) == 354) {
-	return;
-    }
-    {
-	XR771 ();
-	if ((CURRENT_TERMINAL) == 354) {
-	    RESTORE_LEXER;
-	    goto XL1;
-	}
-	{
- (XI397) = lex_ignore_token ; 
-	}
-    }
-    goto XL0;
-  XL1:;
-    {
-	{
- (XI397) = lex_hash_Hpragma ; 
-	}
-    }
-  XL0:;
-    *XO397 = XI397;
-}
-
-void
-XR806(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 212:
-	{
-	    IDENTIFIER XI375;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    {
-
-    int t = crt_lex_token ;
-    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
-	crt_lex_token = lex_identifier ;
-    }
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 1:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 3:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 4:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 2:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 292:
-		    {
-			ADVANCE_LEXER;
-			XR506 (&XI377);
-			if ((CURRENT_TERMINAL) == 354) {
-			    RESTORE_LEXER;
-			    goto XL1;
-			}
-		    }
-		    break;
-		  default:
-		    {
-			{
- (XI377) = ( unsigned ) OPTION_ON ; 
-			}
-		    }
-		    break;
-		}
-	    }
-	    {
-
-    use_option ( (XI375), (XI377) ) ;
-	    }
-	}
-	break;
-      case 214:
-	{
-	    int XI708;
-
-	    XR757 (&XI708);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    if ( (XI708) >= 0 ) {
-	no_error_args = 1 ;
-	report ( crt_loc, make_error ( (XI708) ) ) ;
-	no_error_args = 0 ;
-    }
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-XR807(void)
-{
-    switch (CURRENT_TERMINAL) {
-      case 214:
-	{
-	    int XI708;
-	    EXP XI377;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 251:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_VAL_maximum_error ; 
-	    }
-	    {
-		{
-		    switch (CURRENT_TERMINAL) {
-		      case 21:
-			{
-
-    XI377 = crt_token->pp_data.exp ;
-			}
-			break;
-		      default:
-			goto XL1;
-		    }
-		    ADVANCE_LEXER;
-		}
-	    }
-	    {
-
-    set_value ( (XI708), (XI377), ( unsigned long ) 0 ) ;
-	    }
-	}
-	break;
-      case 261:
-	{
-	    EXP XI377;
-	    unsigned XI473;
-	    int XI708;
-	    int XI714;
-
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 251:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
-		{
-		    switch (CURRENT_TERMINAL) {
-		      case 21:
-			{
-
-    XI377 = crt_token->pp_data.exp ;
-			}
-			break;
-		      default:
-			goto XL1;
-		    }
-		    ADVANCE_LEXER;
-		}
-	    }
-	    XR508 (&XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI708) = OPT_VAL_name_limit ; 
-	    }
-	    {
- (XI714) = OPT_name_limit ; 
-	    }
-	    {
-
-    set_value ( (XI708), (XI377), ( unsigned long ) 0 ) ;
-	    }
-	    {
-
-    set_option ( (XI714), (XI473) ) ;
-	    }
-	}
-	break;
-      case 354:
-	return;
-      default:
-	goto XL1;
-    }
-    return;
-  XL1:;
-    SAVE_LEXER (354);
-    return;
-}
-
-void
-parse_tendra(int *XO397)
-{
-    int XI397;
+    int XI398;
 
     switch (CURRENT_TERMINAL) {
       case 168:
 	{
 	    ADVANCE_LEXER;
-	    XR814 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR816 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 173:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 274:
+	      case 275:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 293:
+	      case 294:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_overload_ambig ; 
+ (XI710) = OPT_overload_ambig ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 175:
 	{
-	    TYPE XI822;
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 121:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_anon_union ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 176:
+	{
+	    TYPE XI824;
 
 	    ADVANCE_LEXER;
 	    {
@@ -3010,35 +2821,35 @@ parse_tendra(int *XO397)
 	    }
 	    {
 
-    (XI822) = type_error ;
-    parse_tok_type ( &(XI822) ) ;
-    object_type ( (XI822), null_tag ) ;
+    (XI824) = type_error ;
+    parse_tok_type ( &(XI824) ) ;
+    object_type ( (XI824), null_tag ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
-	      case 178:
+	      case 179:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    XR811 (&XI822);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR813 (&XI824);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 180:
+      case 181:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 178:
+	      case 179:
 		break;
 	      default:
 		goto XL1;
@@ -3052,73 +2863,73 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_bool_assign ; 
+ (XI710) = OPT_bool_assign ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 181:
-	{
-	    ADVANCE_LEXER;
-	    XR782 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 182:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    ADVANCE_LEXER;
+	    XR784 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 183:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 273:
+	      case 274:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_bitf_overflow ; 
+ (XI710) = OPT_bitf_overflow ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 183:
+      case 184:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 227:
+	      case 228:
 		break;
 	      default:
 		goto XL1;
@@ -3132,26 +2943,26 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_func_block ; 
+ (XI710) = OPT_func_block ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 184:
+      case 185:
 	{
-	    IDENTIFIER XI375;
-	    TYPE XI823;
+	    IDENTIFIER XI376;
+	    TYPE XI825;
 
 	    ADVANCE_LEXER;
 	    {
@@ -3171,7 +2982,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3180,7 +2991,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3189,7 +3000,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3198,7 +3009,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3208,21 +3019,21 @@ parse_tendra(int *XO397)
 		}
 	    }
 	    {
- (XI823) = type_bottom ; 
+ (XI825) = type_bottom ; 
 	    }
 	    {
 
-    typedef_special ( (XI375), (XI823) ) ;
+    typedef_special ( (XI376), (XI825) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 128:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -3233,68 +3044,68 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_wall ; 
+ (XI710) = OPT_wall ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 186:
+      case 187:
 	{
 	    ADVANCE_LEXER;
-	    XR815 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR817 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 190:
-	{
-	    ADVANCE_LEXER;
-	    XR816 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 191:
 	{
 	    ADVANCE_LEXER;
-	    XR801 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR818 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 192:
 	{
-	    IDENTIFIER XI375;
+	    ADVANCE_LEXER;
+	    XR803 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 193:
+	{
+	    IDENTIFIER XI376;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 282:
+	      case 283:
 		break;
 	      default:
 		goto XL1;
@@ -3313,7 +3124,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3322,7 +3133,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3331,7 +3142,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3340,7 +3151,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3351,79 +3162,79 @@ parse_tendra(int *XO397)
 	    }
 	    {
 
-    compute_promote_type ( (XI375) ) ;
+    compute_promote_type ( (XI376) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 193:
-	{
-	    ADVANCE_LEXER;
-	    XR797 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 98:
-	{
-	    ADVANCE_LEXER;
-	    XR800 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 194:
 	{
 	    ADVANCE_LEXER;
-	    XR818 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR799 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 196:
+      case 98:
 	{
 	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 183:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    XR783 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR802 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 195:
+	{
+	    ADVANCE_LEXER;
+	    XR820 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 197:
 	{
-	    int XI473;
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 184:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    XR785 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 198:
+	{
+	    int XI474;
 
 	    ADVANCE_LEXER;
 	    {
- (XI473) = lex_define ; 
+ (XI474) = lex_define ; 
 	    }
 	    {
 
@@ -3434,204 +3245,204 @@ parse_tendra(int *XO397)
 	}
     }
 	    }
-	    XR478 (&XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR479 (&XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 202:
-	{
-	    ADVANCE_LEXER;
-	    XR798 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 203:
 	{
-	    IDENTIFIER XI766;
-	    IDENTIFIER XI375;
-
 	    ADVANCE_LEXER;
-	    {
-
-    int t = crt_lex_token ;
-    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
-	crt_lex_token = lex_identifier ;
-    }
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 1:
-		    {
-			{
-
-    XI766 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 3:
-		    {
-			{
-
-    XI766 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 4:
-		    {
-			{
-
-    XI766 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 2:
-		    {
-			{
-
-    XI766 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    switch (CURRENT_TERMINAL) {
-	      case 324:
-		break;
-	      default:
+	    XR800 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
 		goto XL1;
 	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 212:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
 	    {
-
-    int t = crt_lex_token ;
-    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
-	crt_lex_token = lex_identifier ;
-    }
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case 1:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 3:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 4:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  case 2:
-		    {
-			{
-
-    XI375 = crt_token->pp_data.id.use ;
-			}
-			ADVANCE_LEXER;
-		    }
-		    break;
-		  default:
-		    goto XL1;
-		}
-	    }
-	    {
-
-    directory_option ( (XI766), (XI375) ) ;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 205:
+      case 204:
 	{
+	    IDENTIFIER XI768;
+	    IDENTIFIER XI376;
+
 	    ADVANCE_LEXER;
-	    XR826 (&XI397);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
+	    {
+
+    int t = crt_lex_token ;
+    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
+	crt_lex_token = lex_identifier ;
+    }
+	    }
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 1:
+		    {
+			{
+
+    XI768 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 3:
+		    {
+			{
+
+    XI768 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 4:
+		    {
+			{
+
+    XI768 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 2:
+		    {
+			{
+
+    XI768 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    switch (CURRENT_TERMINAL) {
+	      case 325:
+		break;
+	      default:
 		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 213:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+
+    int t = crt_lex_token ;
+    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
+	crt_lex_token = lex_identifier ;
+    }
+	    }
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case 1:
+		    {
+			{
+
+    XI376 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 3:
+		    {
+			{
+
+    XI376 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 4:
+		    {
+			{
+
+    XI376 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  case 2:
+		    {
+			{
+
+    XI376 = crt_token->pp_data.id.use ;
+			}
+			ADVANCE_LEXER;
+		    }
+		    break;
+		  default:
+		    goto XL1;
+		}
+	    }
+	    {
+
+    directory_option ( (XI768), (XI376) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 206:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    ADVANCE_LEXER;
+	    XR828 (&XI398);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	}
+	break;
+      case 207:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 178:
+	      case 179:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 230:
+	      case 231:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_dollar_ident ; 
+ (XI710) = OPT_dollar_ident ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 210:
+      case 211:
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -3639,14 +3450,14 @@ parse_tendra(int *XO397)
     end_option ( 1 ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 104:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -3664,26 +3475,26 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_enum_switch ; 
+ (XI710) = OPT_enum_switch ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 215:
+      case 216:
 	{
-	    EXP XI409;
-	    EXP XI444;
+	    EXP XI410;
+	    EXP XI445;
 
 	    ADVANCE_LEXER;
 	    {
@@ -3692,7 +3503,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI409 = crt_token->pp_data.exp ;
+    XI410 = crt_token->pp_data.exp ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3701,7 +3512,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI409 = crt_token->pp_data.exp ;
+    XI410 = crt_token->pp_data.exp ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -3710,110 +3521,110 @@ parse_tendra(int *XO397)
 		    goto XL1;
 		}
 	    }
-	    XR753 (&XI444);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR755 (&XI445);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_escape ( (XI409), (XI444) ) ;
+    set_escape ( (XI410), (XI445) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 216:
+      case 217:
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI397) = lex_exhaustive ; 
+ (XI398) = lex_exhaustive ; 
 	    }
 	}
 	break;
       case 133:
 	{
-	    unsigned XI445;
-	    unsigned XI377;
-	    int XI708;
-	    int XI714;
+	    unsigned XI446;
+	    unsigned XI378;
+	    int XI710;
+	    int XI716;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 185:
+	      case 186:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    XR741 (&XI445);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR743 (&XI446);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI708) = OPT_cast_explicit ; 
+ (XI710) = OPT_cast_explicit ; 
 	    }
 	    {
- (XI714) = OPT_VAL_cast_explicit ; 
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
+ (XI716) = OPT_VAL_cast_explicit ; 
 	    }
 	    {
 
-    set_value ( (XI714), NULL_exp, ( unsigned long ) (XI445) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 220:
-	{
-	    ADVANCE_LEXER;
-	    XR799 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
+
+    set_value ( (XI716), NULL_exp, ( unsigned long ) (XI446) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 221:
 	{
-	    int XI708;
-	    unsigned XI377;
-
 	    ADVANCE_LEXER;
-	    XR785 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR801 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 222:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    XR787 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 223:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 248:
+	      case 249:
 		break;
 	      default:
 		goto XL1;
@@ -3827,63 +3638,63 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_case_fall ; 
+ (XI710) = OPT_case_fall ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 107:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 244:
+	      case 245:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 183:
+	      case 184:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_for_scope ; 
+ (XI710) = OPT_for_scope ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 225:
+      case 226:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -3894,98 +3705,98 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 196:
+	      case 197:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_enum_decl ; 
+ (XI710) = OPT_enum_decl ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 227:
+      case 228:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 275:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 178:
+	      case 276:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 275:
+	      case 179:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 276:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_conv_ptr_func ; 
+ (XI710) = OPT_conv_ptr_func ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 230:
+      case 231:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
-	    XR786 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR788 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 234:
+      case 235:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4024,57 +3835,57 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 306:
+	      case 307:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_type_tag_ignore ; 
+ (XI710) = OPT_type_tag_ignore ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 236:
+      case 237:
 	{
 	    ADVANCE_LEXER;
-	    XR802 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR804 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 239:
+      case 240:
 	{
-	    int XI708;
-	    EXP XI377;
+	    int XI710;
+	    EXP XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 201:
+	      case 202:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_VAL_include_depth ; 
+ (XI710) = OPT_VAL_include_depth ; 
 	    }
 	    {
 		{
@@ -4082,7 +3893,7 @@ parse_tendra(int *XO397)
 		      case 21:
 			{
 
-    XI377 = crt_token->pp_data.exp ;
+    XI378 = crt_token->pp_data.exp ;
 			}
 			break;
 		      default:
@@ -4093,146 +3904,103 @@ parse_tendra(int *XO397)
 	    }
 	    {
 
-    set_value ( (XI708), (XI377), ( unsigned long ) 0 ) ;
+    set_value ( (XI710), (XI378), ( unsigned long ) 0 ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 241:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    XR788 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 242:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 312:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 178:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 267:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    switch (CURRENT_TERMINAL) {
-	      case 312:
-		break;
-	      default:
-		goto XL1;
-	    }
-	    ADVANCE_LEXER;
-	    {
- (XI708) = OPT_type_obj_incompl ; 
-	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR790 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 243:
 	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    XR789 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 244:
-	{
-	    ADVANCE_LEXER;
-	    XR817 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 137:
-	{
-	    unsigned XI377;
-	    int XI708;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 253:
+	      case 313:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    XR721 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    switch (CURRENT_TERMINAL) {
+	      case 179:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 268:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 313:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    {
+ (XI710) = OPT_type_obj_incompl ; 
+	    }
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI708) = OPT_inline_internal ; 
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 244:
+	{
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    XR791 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
@@ -4240,22 +4008,65 @@ parse_tendra(int *XO397)
 	{
 	    ADVANCE_LEXER;
 	    XR819 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 137:
+	{
+	    unsigned XI378;
+	    int XI710;
+
+	    ADVANCE_LEXER;
+	    switch (CURRENT_TERMINAL) {
+	      case 254:
+		break;
+	      default:
+		goto XL1;
+	    }
+	    ADVANCE_LEXER;
+	    XR723 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI710) = OPT_inline_internal ; 
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 246:
 	{
-	    int XI473;
+	    ADVANCE_LEXER;
+	    XR821 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 247:
+	{
+	    int XI474;
 
 	    ADVANCE_LEXER;
 	    {
- (XI473) = crt_interface ; 
+ (XI474) = crt_interface ; 
 	    }
 	    {
 
@@ -4266,26 +4077,26 @@ parse_tendra(int *XO397)
 	}
     }
 	    }
-	    XR478 (&XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR479 (&XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 253:
+      case 254:
 	{
-	    unsigned XI377;
-	    unsigned XI473;
-	    int XI708;
-	    int XI714;
+	    unsigned XI378;
+	    unsigned XI474;
+	    int XI710;
+	    int XI716;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 293:
+	      case 294:
 		break;
 	      default:
 		goto XL1;
@@ -4298,68 +4109,68 @@ parse_tendra(int *XO397)
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    XR722 (&XI377, &XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR724 (&XI378, &XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI708) = OPT_link_resolve ; 
+ (XI710) = OPT_link_resolve ; 
 	    }
 	    {
- (XI714) = OPT_link_internal ; 
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
+ (XI716) = OPT_link_internal ; 
 	    }
 	    {
 
-    set_option ( (XI714), (XI473) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+
+    set_option ( (XI716), (XI474) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 255:
+      case 256:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 312:
+	      case 313:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_longlong ; 
+ (XI710) = OPT_longlong ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 263:
+      case 264:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 189:
+	      case 190:
 		break;
 	      default:
 		goto XL1;
@@ -4373,50 +4184,50 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_nest_comment ; 
+ (XI710) = OPT_nest_comment ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 265:
-	{
-	    int XI708;
-	    unsigned XI377;
-
-	    ADVANCE_LEXER;
-	    XR790 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
-
-    set_option ( (XI708), (XI377) ) ;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 266:
 	{
-	    int XI473;
+	    int XI710;
+	    unsigned XI378;
+
+	    ADVANCE_LEXER;
+	    XR792 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+
+    set_option ( (XI710), (XI378) ) ;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 267:
+	{
+	    int XI474;
 
 	    ADVANCE_LEXER;
 	    {
- (XI473) = lex_no_Hdef ; 
+ (XI474) = lex_no_Hdef ; 
 	    }
 	    {
 
@@ -4427,24 +4238,24 @@ parse_tendra(int *XO397)
 	}
     }
 	    }
-	    XR478 (&XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR479 (&XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 141:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 278:
+	      case 279:
 		break;
 	      default:
 		goto XL1;
@@ -4458,69 +4269,69 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_paren ; 
+ (XI710) = OPT_paren ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 272:
+      case 273:
 	{
 	    ADVANCE_LEXER;
-	    XR809 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR811 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 274:
+      case 275:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 293:
+	      case 294:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_overload_res ; 
+ (XI710) = OPT_overload_res ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 275:
+      case 276:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4538,25 +4349,25 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_ptr_operator ; 
+ (XI710) = OPT_ptr_operator ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 276:
+      case 277:
 	{
-	    int XI409;
+	    int XI410;
 
 	    ADVANCE_LEXER;
 	    {
@@ -4565,35 +4376,35 @@ parse_tendra(int *XO397)
     RESCAN_LEXER ;
 	    }
 	    {
- (XI409) = lex_postpone ; 
+ (XI410) = lex_postpone ; 
 	    }
-	    XR495 (XI409);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR496 (XI410);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 279:
+      case 280:
 	{
 	    ADVANCE_LEXER;
-	    XR810 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR812 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 283:
+      case 284:
 	{
-	    TYPE XI824;
-	    TYPE XI448;
+	    TYPE XI826;
+	    TYPE XI449;
 
 	    ADVANCE_LEXER;
 	    {
@@ -4603,9 +4414,9 @@ parse_tendra(int *XO397)
 	    }
 	    {
 
-    (XI824) = type_error ;
-    parse_tok_type ( &(XI824) ) ;
-    object_type ( (XI824), null_tag ) ;
+    (XI826) = type_error ;
+    parse_tok_type ( &(XI826) ) ;
+    object_type ( (XI826), null_tag ) ;
 	    }
 	    switch (CURRENT_TERMINAL) {
 	      case 41:
@@ -4616,47 +4427,47 @@ parse_tendra(int *XO397)
 	    ADVANCE_LEXER;
 	    {
 
-    (XI448) = type_error ;
-    parse_tok_type ( &(XI448) ) ;
-    object_type ( (XI448), null_tag ) ;
+    (XI449) = type_error ;
+    parse_tok_type ( &(XI449) ) ;
+    object_type ( (XI449), null_tag ) ;
 	    }
 	    {
 
-    set_promote_type ( (XI824), (XI448), ntype_ellipsis ) ;
+    set_promote_type ( (XI826), (XI449), ntype_ellipsis ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 284:
+      case 285:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
-	    XR791 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR793 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 290:
+      case 291:
 	{
-	    int XI473;
+	    int XI474;
 
 	    ADVANCE_LEXER;
 	    {
- (XI473) = lex_ignore ; 
+ (XI474) = lex_ignore ; 
 	    }
 	    {
 
@@ -4667,31 +4478,31 @@ parse_tendra(int *XO397)
 	}
     }
 	    }
-	    XR478 (&XI473);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR479 (&XI474);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 294:
+      case 295:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 311:
+	      case 312:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 178:
+	      case 179:
 		break;
 	      default:
 		goto XL1;
@@ -4705,19 +4516,19 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_token_const ; 
+ (XI710) = OPT_token_const ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
@@ -4725,21 +4536,21 @@ parse_tendra(int *XO397)
 	{
 	    ADVANCE_LEXER;
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 297:
+      case 298:
 	{
 	    ADVANCE_LEXER;
-	    XR827 (&XI397);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR829 (&XI398);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	}
 	break;
-      case 305:
+      case 306:
 	{
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4754,20 +4565,20 @@ parse_tendra(int *XO397)
     rescan_pragma ( lex_unknown ) ;
     RESCAN_LEXER ;
 	    }
-	    XR497 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR498 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 309:
+      case 310:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4778,63 +4589,63 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 202:
+	      case 203:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_ppdir_text ; 
+ (XI710) = OPT_ppdir_text ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 148:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 256:
+	      case 257:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_this_lvalue ; 
+ (XI710) = OPT_this_lvalue ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 149:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
@@ -4845,26 +4656,26 @@ parse_tendra(int *XO397)
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_throw_bad ; 
+ (XI710) = OPT_throw_bad ; 
 	    }
-	    XR505 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR506 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 312:
+      case 313:
 	{
-	    IDENTIFIER XI375;
-	    TYPE XI825;
+	    IDENTIFIER XI376;
+	    TYPE XI827;
 
 	    ADVANCE_LEXER;
 	    {
@@ -4884,7 +4695,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -4893,7 +4704,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -4902,7 +4713,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -4911,7 +4722,7 @@ parse_tendra(int *XO397)
 		    {
 			{
 
-    XI375 = crt_token->pp_data.id.use ;
+    XI376 = crt_token->pp_data.id.use ;
 			}
 			ADVANCE_LEXER;
 		    }
@@ -4929,27 +4740,27 @@ parse_tendra(int *XO397)
 	    ADVANCE_LEXER;
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 184:
+		  case 185:
 		    {
 			ADVANCE_LEXER;
 			{
- (XI825) = type_bottom ; 
+ (XI827) = type_bottom ; 
 			}
 		    }
 		    break;
-		  case 285:
+		  case 286:
 		    {
 			ADVANCE_LEXER;
 			{
- (XI825) = type_ptrdiff_t ; 
+ (XI827) = type_ptrdiff_t ; 
 			}
 		    }
 		    break;
-		  case 298:
+		  case 299:
 		    {
 			ADVANCE_LEXER;
 			{
- (XI825) = type_size_t ; 
+ (XI827) = type_size_t ; 
 			}
 		    }
 		    break;
@@ -4957,11 +4768,11 @@ parse_tendra(int *XO397)
 		    {
 			ADVANCE_LEXER;
 			{
- (XI825) = type_wchar_t ; 
+ (XI827) = type_wchar_t ; 
 			}
 		    }
 		    break;
-		  case 47: case 209:
+		  case 47: case 210:
 		    {
 			{
 			    switch (CURRENT_TERMINAL) {
@@ -4970,7 +4781,7 @@ parse_tendra(int *XO397)
 				    ADVANCE_LEXER;
 				}
 				break;
-			      case 209:
+			      case 210:
 				{
 				    ADVANCE_LEXER;
 				}
@@ -4979,8 +4790,8 @@ parse_tendra(int *XO397)
 				goto XL1;
 			    }
 			}
-			XR858 (&XI825);
-			if ((CURRENT_TERMINAL) == 354) {
+			XR860 (&XI827);
+			if ((CURRENT_TERMINAL) == 355) {
 			    RESTORE_LEXER;
 			    goto XL1;
 			}
@@ -4992,93 +4803,93 @@ parse_tendra(int *XO397)
 	    }
 	    {
 
-    typedef_special ( (XI375), (XI825) ) ;
+    typedef_special ( (XI376), (XI827) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 315:
+      case 316:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
-	    XR792 (&XI708);
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR794 (&XI710);
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 317:
-	{
-	    ADVANCE_LEXER;
-	    XR820 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 318:
 	{
 	    ADVANCE_LEXER;
-	    XR803 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR822 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 320:
+      case 319:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    ADVANCE_LEXER;
+	    XR805 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 321:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 287:
+	      case 288:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_unmatched ; 
+ (XI710) = OPT_unmatched ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 321:
+      case 322:
 	{
-	    int XI409;
+	    int XI410;
 
 	    ADVANCE_LEXER;
 	    {
@@ -5087,194 +4898,194 @@ parse_tendra(int *XO397)
     RESCAN_LEXER ;
 	    }
 	    {
- (XI409) = lex_unpostpone ; 
+ (XI410) = lex_unpostpone ; 
 	    }
-	    XR495 (XI409);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR496 (XI410);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 322:
+      case 323:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 188:
+	      case 189:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_reached ; 
+ (XI710) = OPT_reached ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 324:
+      case 325:
+	{
+	    ADVANCE_LEXER;
+	    XR808 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 327:
 	{
 	    ADVANCE_LEXER;
 	    XR806 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 326:
-	{
-	    ADVANCE_LEXER;
-	    XR804 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
-	    }
-	}
-	break;
-      case 331:
-	{
-	    ADVANCE_LEXER;
-	    XR805 ();
-	    if ((CURRENT_TERMINAL) == 354) {
-		RESTORE_LEXER;
-		goto XL1;
-	    }
-	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
       case 332:
 	{
-	    int XI708;
-	    unsigned XI377;
+	    ADVANCE_LEXER;
+	    XR807 ();
+	    if ((CURRENT_TERMINAL) == 355) {
+		RESTORE_LEXER;
+		goto XL1;
+	    }
+	    {
+ (XI398) = lex_hash_Hpragma ; 
+	    }
+	}
+	break;
+      case 333:
+	{
+	    int XI710;
+	    unsigned XI378;
 
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 303:
+	      case 304:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
-	      case 254:
+	      case 255:
 		break;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
 	    {
- (XI708) = OPT_const_string ; 
+ (XI710) = OPT_const_string ; 
 	    }
-	    XR506 (&XI377);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR507 (&XI378);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    set_option ( (XI708), (XI377) ) ;
+    set_option ( (XI710), (XI378) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 214:
+      case 215:
 	{
-	    int XI708;
+	    int XI710;
 
-	    XR757 (&XI708);
-	    XR781 (&XI708);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR759 (&XI710);
+	    XR783 (&XI710);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 250:
+      case 251:
 	{
-	    IDENTIFIER XI375;
-	    int XI821;
+	    IDENTIFIER XI376;
+	    int XI823;
 
-	    XR549 (&XI375);
+	    XR550 (&XI376);
 	    switch (CURRENT_TERMINAL) {
 	      case 107:
 		break;
-	      case 354:
+	      case 355:
 		RESTORE_LEXER;
 		goto XL1;
 	      default:
 		goto XL1;
 	    }
 	    ADVANCE_LEXER;
-	    XR550 (&XI821);
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR551 (&XI823);
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
 
-    define_keyword ( (XI375), (XI821) ) ;
+    define_keyword ( (XI376), (XI823) ) ;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 259:
+      case 260:
 	{
-	    XR482 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR483 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 311:
+      case 312:
 	{
-	    XR456 ();
-	    if ((CURRENT_TERMINAL) == 354) {
+	    XR457 ();
+	    if ((CURRENT_TERMINAL) == 355) {
 		RESTORE_LEXER;
 		goto XL1;
 	    }
 	    {
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	    }
 	}
 	break;
-      case 354:
+      case 355:
 	return;
       default:
 	goto XL1;
@@ -5290,11 +5101,11 @@ parse_tendra(int *XO397)
     have_syntax_error = 1 ;
 	}
 	{
- (XI397) = lex_hash_Hpragma ; 
+ (XI398) = lex_hash_Hpragma ; 
 	}
     }
   XL0:;
-    *XO397 = XI397;
+    *XO398 = XI398;
 }
 
 /* END OF FILE */
