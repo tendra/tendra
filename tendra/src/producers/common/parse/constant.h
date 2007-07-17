@@ -108,6 +108,7 @@ extern int eq_nat(NAT, NAT);
 
 extern int check_nat_range(TYPE, NAT);
 extern int check_type_size(TYPE, NAT);
+extern NAT czero_type_value(TYPE);
 extern NAT max_type_value(TYPE, int);
 extern void check_bounds(int, TYPE, EXP);
 extern unsigned eval_const_cond(EXP);

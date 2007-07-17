@@ -1529,6 +1529,38 @@ max_type_value(TYPE t, int neg)
 }
 
 
+/*
+    FIND THE COMPLEMENT-ZERO VALUE FOR A TYPE
+
+    This routine returns the complement-zero value for type t.
+    A NULL NAT is returned if the value can't be determined.
+    If t is the null type the complement-zero value of the widest
+    type is returned.
+*/
+
+NAT
+czero_type_value(TYPE t)
+{
+	unsigned sz;
+	unsigned msz;
+	BASE_TYPE sign;
+	if (!IS_NULL_type(t)) {
+		sz = find_type_size(t, &msz, &sign);
+		if (sz != msz)
+			return NULL_nat;
+	} else {
+		sz = basetype_info[ntype_ellipsis].max_bits;
+		sign = btype_unsigned;
+	}
+
+	if (sign & btype_unsigned)
+		return max_type_value(t, 0);
+
+	if ((sign & (btype_signed | btype_long)) == (btype_signed | btype_long))
+		return make_small_nat(-1);
+
+	return NULL_nat;
+}
 
 
 /*
@@ -1546,9 +1578,36 @@ make_int_exp(TYPE t, unsigned tag, NAT n)
 	EXP e;
 	int ch = check_nat_range(t, n);
 	if (ch == 0) {
+		/* n fits in t */
 		MAKE_exp_int_lit(t, n, tag, e);
-	} else {
+	} else if (ch <= 2) {
+	calc:
+		/* n may fit in t */
 		e = NULL_exp;
+	} else {
+		/* n does not fit in t */
+		NAT m;
+		unsigned msz;
+		BASE_TYPE sign;
+		unsigned sz = find_type_size(t, &msz, &sign);
+		if (!(sign & btype_unsigned) || sz != msz)
+			goto calc;
+
+		m = max_type_value(t, 0);
+		if (!IS_nat_neg(n)) {
+			/* n >= 0 => (type) n == max(type) & n */
+			n = binary_nat_op(exp_and_tag, m, n);
+		} else {
+			/* n < 0 => (type) n == (max(type) + 1) - (max(type) & -n) */
+			n = negate_nat(n);
+			n = binary_nat_op(exp_and_tag, m, n);
+			m = binary_nat_op(exp_plus_tag, m, make_small_nat(1));
+			n = binary_nat_op(exp_minus_tag, m, n);
+		}
+		if (check_nat_range(t, n) != 0)
+			goto calc;
+
+		MAKE_exp_int_lit(t, n, tag, e);
 	}
 	return(e);
 }
@@ -1623,11 +1682,37 @@ make_cast_nat(TYPE t, EXP a, ERROR *err, unsigned cast)
 		etag = DEREF_unsigned(exp_int_lit_etag(a));
 	}
 	ch = check_nat_range(t, n);
-	if (ch != 0) {
-		/* n may not fit into t */
+	if (ch == 0) {
+		/* n fits in t */
+	} else if (ch <= 2) {
+	calc:
+		/* n may fit in t */
 		a = calc_exp_value(a);
 		MAKE_exp_cast(t, CONV_INT_INT, a, e);
 		MAKE_nat_calc(e, n);
+	} else {
+		/* n does not fit in t */
+		NAT m;
+		unsigned msz;
+		BASE_TYPE sign;
+		unsigned sz = find_type_size(t, &msz, &sign);
+		if (!(sign & btype_unsigned) || sz != msz)
+			goto calc;
+
+		m = max_type_value(t, 0);
+		if (!IS_nat_neg(n)) {
+			/* n >= 0 => (type) n == max(type) & n */
+			n = binary_nat_op(exp_and_tag, m, n);
+		} else {
+			/* n < 0 => (type) n == (max(type) + 1) - (max(type) & -n) */
+			n = negate_nat(n);
+			n = binary_nat_op(exp_and_tag, m, n);
+			m = binary_nat_op(exp_plus_tag, m, make_small_nat(1));
+			n = binary_nat_op(exp_minus_tag, m, n);
+		}
+		ch = check_nat_range(t, n);
+		if (ch != 0)
+			goto calc;
 	}
 	MAKE_exp_int_lit(t, n, etag, e);
 	UNUSED(err);
@@ -1683,10 +1768,17 @@ negate_lab:
 				return(e);
 			}
 			break;
-		case exp_compl_tag:
+		case exp_compl_tag: {
 			/* Deal with '~a' */
-			/* NOT YET IMPLEMENTED */
+			NAT c = czero_type_value(t);
+			if (!IS_NULL_nat(c)) {
+				/* ~0 is known => ~n == ~0 - n */
+				n = binary_nat_op(exp_minus_tag, c, n);
+				e = make_int_exp(t, tag, n);
+				return (e);
+			}
 			break;
+		}
 		}
 	}
 
