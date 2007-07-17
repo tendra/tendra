@@ -46,9 +46,11 @@ typedef unsigned int size_t ;
 typedef int ptrdiff_t ;
 #endif
 
+#ifndef __cplusplus
 #ifndef _WCHAR_T
 #define _WCHAR_T
 typedef long int wchar_t ;
+#endif
 #endif
 
 #ifndef NULL
