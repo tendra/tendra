@@ -55,8 +55,8 @@ echo
 
 # See the URL in the warning below for why this is bad.
 if [ ! -z "${LD_LIBRARY_PATH}" ]; then
-	echo "WARNING: LD_LIBRARY_PATH set, please don't do that (see:"
-	echo "http://www.visi.com/~barr/ldpath.html)"
+	echo "WARNING: LD_LIBRARY_PATH set, please don't do that; see"
+	echo "http://xahlee.org/UnixResource_dir/_/ldpath.html"
 	echo "Setting to empty environment variable..."
 	echo
 	LD_LIBRARY_PATH=""
