@@ -8,7 +8,7 @@
 
 <book>
   <bookinfo>
-    <title>The Lexi users' guide</title>
+    <title>The <application>Lexi</application> Users' Guide</title>
 
 	<author>
 		<firstname>Katherine</firstname>
@@ -24,19 +24,19 @@
 	</copyright>
   </bookinfo>
 
-<!-- TODO when writing manpage, we can take the oppertunity to declare as BUGS
+<!-- TODO when writing manpage, we can take the opportunity to declare as BUGS
 (or indeed as undefined) features which no .lxi file uses.
 -->
 
 	<!--
 	   - I have 1. designed the structure of my document, 2. read the
 	   - program's grammar and described each command in turn, 3. begun
-	   - integrating a manpage for invocation kevin reverse-engieered, and
-	   - will 4. describe the algorithims and runtime it employs
+	   - integrating a manpage for invocation Kevin reverse-engineered, and
+	   - will 4. describe the algorithms and runtime it employs
 	   -
 	   - Don't forget to explain that this was inspired by Kevin's manpage
 	   - (and indeed that we'll produce a new manpage from this guide),
-	   - although his text was completley rewritten for this guide, it
+	   - although his text was completely rewritten for this guide, it
 	   - served as a helpful comparison.
 	  -->
 
@@ -59,32 +59,32 @@
 			over 1.2 save for some minor points (listed under the change
 			history below); it serves mostly to collate the restructuring
 			of the codebase during development; 1.3 is the first release of
-			<application>Lexi</application> as a stand-alone product, seperate to the
+			<application>Lexi</application> as a stand-alone product, separate to the
 			TenDRA distribution.</para>
 
-		<para>Any origional documentation <application>Lexi</application> once had
+		<para>Any original documentation <application>Lexi</application> once had
 			previous to version 1.3 is lost. Since there is no surviving
 			documentation, this guide has been written from scratch, based
 			from observations of the source code. It is
 			difficult to distinguish between obscure features and undefined
-			beaviour; we are taking the oppertunity here to explicitly
+			behaviour; we are taking the opportunity here to explicitly
 			state which features are undefined behaviour and which are
 			intentional. We try to maintain backwards compatibility with
 			these features, based on the <application>Lexi</application> files
 			present in the TenDRA repository.</para>
 
 		<para>Features of version 1.3 which are due to be changed for
-			the next release are therfore marked depreciated.</para>
+			the next release are therefore marked depreciated.</para>
 
 		<!-- TODO after our initial release, change this API.
-			The initial release is just incase there is anybody
+			The initial release is just in case there is anybody
 			using this (hah, likely...) -->
 		<!-- TODO since we know all changes in advance, state
 			which are depreciated -->
 		<!-- TODO state why we're changing our api: see the
 			"this is for version X" heading -->
 		<!-- TODO be sure to state the first release is for backwards
-			compatibility only. Make a sequence of API changes. Infact,
+			compatibility only. Make a sequence of API changes. In fact,
 			all releases for all products should have such a sequence
 			(i.e. a changelog), especially for APIs. -->
 
@@ -107,11 +107,11 @@
 							<para>Interim convenience release.
 		<!-- TODO mostly similar to the lexi in TenDRA 4.2.1,
 			save for the addition of // comments (?), and what else?
-			- TODO no, it looks like i didn't add kevin's patch for that. -->
+			- TODO no, it looks like i didn't add Kevin's patch for that. -->
 
 								<itemizedlist>
 									<listitem>
-										<para>Seperated from the TenDRA
+										<para>Separated from the TenDRA
 											distribution to form a stand-alone
 											project.</para>
 									</listitem>
@@ -126,16 +126,19 @@
 					<varlistentry>
 						<term>1.2</term>
 						<listitem>
-							<!-- Tagged for internal use only -->
-		<!-- TODO 1.2 major change in output from 1.2 is lack of PROTO generation -->
-							<para><code>PROTO</code> removed<!-- TODO --></para>
+							<para><code>PROTO</code> removed. This corresponds
+								to Rob Andrew's patches, which will be applied
+								in a future version instead. This version is
+								skipped to avoid confusion and is tagged for
+								internal use only.</para>
 						</listitem>
 					</varlistentry>
 
 					<varlistentry>
-						<term>1.2</term>
+						<term>1.1</term>
 						<listitem>
-							<para><!-- TODO -->The version provided in TenDRA 4.2.1?</para>
+							<para>This was the last version provided by the
+								TenDRA 4.1.2 release.</para>
 						</listitem>
 					</varlistentry>
 				</variablelist>
@@ -155,7 +158,7 @@
 				are determined by the spelling of the contents of that token.
 				For convenience of discussion, this guide assumes that
 				tokens are formed of characters, although this is not
-				neccessarily the case.</para>
+				necessarily the case.</para>
 
 <!-- TODO maybe reword the above?
 firstly define lexemes
@@ -170,8 +173,8 @@ firstly define lexemes
 
 			<para>Categories of tokens are arranged such that spellings the
 				possible sets of spellings forming each category are
-				unambigious. For example, commonly floating point literals are
-				distinguishiable from integer literals because they must contain
+				unambiguous. For example, commonly floating point literals are
+				distinguishable from integer literals because they must contain
 				a decimal point. If two different concepts must be expressed
 				using the same (or overlapping) sets of spellings, a further
 				stage after lexical analysis would be required to distinguish
@@ -186,7 +189,7 @@ firstly define lexemes
 				tokenisation:</para>
 
 			<figure id="tokenstream">
-				<title>Forming a token stream</title>
+				<title>Forming a Token Stream</title>
 				<graphic align="center" format="PNG"
 					fileref="tokens.png"/>
 			</figure>
@@ -203,7 +206,7 @@ firstly define lexemes
 
 			<para>The spelling of the characters which form each token is
 				passed on, but usually ignored for punctual tokens such
-				as statement seperators and assignment operators. It is
+				as statement separators and assignment operators. It is
 				more relevant for the spelling to be known for
 				identifiers, literals and other non-punctual tokens.</para>
 
@@ -232,7 +235,7 @@ firstly define lexemes
 					<term><xref linkend="keyworddefinitions"/></term>
 
 					<listitem>
-						<para>Keywords are sequences of inseperable characters
+						<para>Keywords are sequences of inseparable characters
 							treated whole, indented to be passed back to the
 							calling program as single tokens. These differ from
 							most tokens in that their spellings are fixed, rather
@@ -240,7 +243,7 @@ firstly define lexemes
 
 						<para><application>Lexi</application> itself does not perform
 							processing of keywords; instead it outputs their
-							definitions seperately (see the <option>-k</option>)
+							definitions separately (see the <option>-k</option>)
 							and these definitions are intended to be checked
 							by a token calling a function.</para>
 					</listitem>
@@ -261,9 +264,9 @@ firstly define lexemes
 					<term><xref linkend="whitespacedefinitions"/></term>
 
 					<listitem>
-						<para>Whitespace serves both to seperate tokens whos
-							concaternated spellings would be ambigious (e.g. to
-							dinstinguish <quote>abc</quote> and
+						<para>Whitespace serves both to separate tokens who's
+							concatenated spellings would be ambiguous (e.g. to
+							distinguish <quote>abc</quote> and
 							<quote>xyz</quote> from  <quote>abcxyz</quote>),
 							and primarily to improve readability of the source.
 							Whitespace is not passed on in the generated token
@@ -275,7 +278,12 @@ firstly define lexemes
 					<term><xref linkend="groupdefinitions"/></term>
 
 					<listitem>
-						<para>TODO</para>
+						<para>Group definitions define sets of characters which
+							may be specified in place of a single character
+							in tokens. The presence of a character in a group
+							may also be tested via the generated
+							<acronym>API</acronym>, much like C's
+							<filename>ctype.h</filename> functions.</para>
 					</listitem>
 				</varlistentry>
 
@@ -283,7 +291,9 @@ firstly define lexemes
 					<term><xref linkend="tokendefinitions"/></term>
 
 					<listitem>
-						<para>TODO</para>
+						<para>Token definitions specify the set of spellings
+							which form a lexeme. These are central to
+							lexical analysis.</para>
 					</listitem>
 				</varlistentry>
 
@@ -291,19 +301,21 @@ firstly define lexemes
 					<term><xref linkend="conditionalcommands"/></term>
 
 					<listitem>
-						<para>TODO</para>
+						<para>Conditional commands provide a mechanism for
+							optionally omitting features of the specified
+							lexical analyser by way of runtime tests.</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
 
 			<para>Any other facilities are provided by matching the start of
 				a token and passing control to an externally defined function,
-				This seperation provides a general mechanism to allow the user
-				to handle situations unforseen by the authors, without making
-				<application>Lexi</application> itself overcomplex by attempting to provide
+				This separation provides a general mechanism to allow the user
+				to handle situations unforeseen by the authors, without making
+				<application>Lexi</application> itself over complex by attempting to provide
 				built-in mechanisms to express every corner-case (for example,
 				switching to a "comment-parsing" mode). See the <!-- TODO -->
-				functioncalls section for details.</para>
+				function calls section for details.</para>
 		</section>
 
 
@@ -314,8 +326,8 @@ firstly define lexemes
 			<para>Here we talk about how the generated lexical analysers
 				work; how they use a look-up table for speed, etc. Note that
 				they read a byte at a time: perhaps mention the ignorance of
-				unicode. TODO feature request: perhaps set unicode (or other
-				chrset mapping) to UTF-8 as a pass phase<para>
+				Unicode. TODO feature request: perhaps set Unicode (or other
+				charset mapping) to UTF-8 as a pass phase<para>
 
 			<para>TODO talk about passes </para>
 
@@ -357,7 +369,7 @@ firstly define lexemes
 		href="commands.xml"/>
 
 	<chapter id="interface">
-		<!-- TODO in the future this should be seperate chapters, one per language supported -->
+		<!-- TODO in the future this should be separate chapters, one per language supported -->
 		<title>Interface</title>
 
 		<para><application>Lexi</application> generates and outputs C89 code
@@ -365,7 +377,7 @@ firstly define lexemes
 			is intended to be linked as part of a larger C program
 			by the user.</para>
 
-		<!-- TODO state size limits of things in a "limits" section -->
+		<!-- TODO state size limits of things in a "limits" section. Exceeding limits is undefined -->
 
 		<section>
 			<title>Instantiation</title>
@@ -373,7 +385,7 @@ firstly define lexemes
 			<para>Input to the generated lexical analyser is by way of
 				two functions (or macros, if desired) that the user is
 				expected to provide. These read a character and un-read
-				a character respectivley:</para>
+				a character respectively:</para>
 
 			<programlisting language="C">int read_char(void);
 void unread_char(int);</programlisting>
@@ -392,16 +404,16 @@ void unread_char(int);</programlisting>
 			<para>Calling <code>read_token()</code> will result
 				in the lexical analyser
 				making as many calls to <code>read_char()</code>
-				and <code>unread_char()</code> as are neccessary.
+				and <code>unread_char()</code> as are necessary.
 				The <code>unread_char()</code> function may be called
-				consecutivley whilst matching tokens, and so a
+				consecutively whilst matching tokens, and so a
 				buffer the size of the longest token is the
 				maximum length required.</para>
 
     <!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
         needs to deal with that :(
         read_char_aux() is called in place of read_char().
-        But as this happens in a seperate pass, the buffer need only
+        But as this happens in a separate pass, the buffer need only
         be max(token, trigraph) (not including '\0')
     -->
 		</section>
@@ -469,7 +481,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 
 				It is important to honour the usual <acronym>API</acronym>
 				constraints; for example, do not call
-				<code>unread_char()</code> consequtively more than once<!--
+				<code>unread_char()</code> consecutively more than once<!--
 				TODO is that true? does lexi call it more than once? -->.</para>
 
 			<!-- TODO in the future when we remove the lookup_char function, you
@@ -529,7 +541,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 	<chapter>
 		<title>Implementation</title>
 
-		<para>What is generated, and algorithims employed</para>
+		<para>What is generated, and algorithms employed</para>
 
 		<para>Performance relative to other lexers. We can port all our examples to lex and such, to compare.
 			Side-by-side comparisons would also help users understand them if they know lex already.</para>
@@ -555,11 +567,11 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 			</section>
 
 			<section>
-				<title>RPN Calculator</title>
+				<title><acronym>RPN</acronym> Calculator</title>
 			</section>
 
 			<section>
-				<title>Non-RPN Calculator</title>
+				<title>Non-<acronym>RPN</acronym> Calculator</title>
 
 				<para>TODO joint example with sid.</para>
 			</section>
@@ -575,34 +587,53 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 		-->
 
 		<section>
-			<title>Undefined behaviour</title>
+			<title>Undefined Behaviour</title>
+
+			<para>Undefined behaviours are actions that generate output which may
+				be invalid, nonsensical, undesired or simply legal but obscure.</para>
+
+			<para>The following constructs are syntactically legal input to
+				<application>Lexi</application>, but produce
+				effects which are undefined behaviour. They may be disallowed
+				entirely in future versions and should be avoided. This particular
+				release of <application>Lexi</application> permits these as
+				undefined to offer a transition period only.</para>
 
 			<!-- TODO list undefined behaviours -->
+			<variablelist>
+				<varlistentry>
+					<term>Mapping to the start of another mapping</term>
 
-			<!--
-				and so it is an error to define a mapping which produces
-				a character used at the start of any mapping, including
-				itself. For example:</para>
-				TODO to identify this, we add a stage after the table is
-				constructed which checks each mapping.
-				TODO new undefined behaviour -->
+					<listitem>
+						<para>To define a mapping which produces
+							a character used at the start of any mapping, including
+							itself. For example:<!-- TODO example of both --></para>
+							<!-- TODO to identify this, we add a stage after the table is
+								constructed which checks each mapping. -->
 
-<!--
-TODO UNDEFINED BEHAVIOUR
-			<para>However, be careful when specifying functions called by
-				different amounts of characters. For example:</para>
+							<programlisting language="Lexi">MAPPING "???" -> "?" ;</programlisting>
+					</listitem>
+				</varlistentry>
 
-			<programlisting language="Lexi">
+				<varlistentry>
+					<term>Calling one function from multiple different-length tokens</term>
+
+					<listitem>
+						<para>For example:
+
+							<programlisting language="Lexi">
 TOKEN "//" -> get_comment () ;
 TOKEN "#"  -> get_comment () ;</programlisting>
 
-			<para>Would make calls to <code>get_comment('/','/');</code> and
-				<code>get_comment('#');</code> respectivley.
-				The difference in the number of arguments
-				may cause a problem. One workaround is to call
-				two macros of different prototypes which call
-				the same function.</para>
--->
+						<!-- Would make calls to <code>get_comment('/','/');</code> and
+							<code>get_comment('#');</code> respectively.
+							The difference in the number of arguments
+							may cause a problem. -->One workaround is to call
+							two macros of different prototypes which call
+							the same function.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
 		</section>
 
 		<section>
@@ -611,18 +642,18 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 			<para>This section describes legal constructs of doubtful
 				interest.</para>
 
-			<!-- TODO kevin says:
+			<!-- TODO Kevin says:
             TOKEN "&amp;&amp;" -> and;
 
        are legal tokens' definitions. The first one lacks the $ sign and is of
        no  interest  if  you use the sid parser generator, and lexi is usually
        meant to be used with sid.
 	TODO See above re lex_
-	This is reundant now that we're going to disallow non-sid identifiers. When we do, we should rename them.
+	This is redundant now that we're going to disallow non-sid identifiers. When we do, we should rename them.
 			-->
 
 			<section>
-				<title>Ranges within tokens</title>
+				<title>Ranges Within Tokens</title>
 
 				<para>The grammar for <application>Lexi</application> permits
 					strings formed of pre-defined character ranges to be used
@@ -635,21 +666,21 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 					sequences. Since tokens are defined using sequences, this
 					really means:
 
-					<programlisting>TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
+					<programlisting language="Lexi">TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
 				</para>
 
-				<para>This is probably not the intended effect.<!-- TODO dissalow
+				<para>This is probably not the intended effect.<!-- TODO disallow
 					ranges for tokens, then! eventually we can remove from
-					grammar. dissalow after first release. --> Using a group
+					grammar. disallow after first release. --> Using a group
 					is suggested instead:
 
-					<programlisting>GROUP alpha = {A-Z} ;
+					<programlisting language="Lexi">GROUP alpha = {A-Z} ;
 TOKEN "[alpha]something" -> $x ;</programlisting>
 				</para>
 			</section>
 
 			<section>
-				<title>Whitespace within tokens and keywords</title>
+				<title>Whitespace Within Tokens and Keywords</title>
 
 				<para>The <quote>white</quote> group may be used in
 					tokens and keywords as any other group would:</para>
@@ -665,18 +696,17 @@ TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 					illegal. -->
 
 				<!--
-				TODO the first one is ok? odd! TODO list precendence of these
+				TODO the first one is ok? odd! TODO list precedence of these
 				things! that should be a section by itself perhaps
 				-->
 			</section>
 		</section>
 	</chapter>
 
-	<!-- TODO include this in the global glossary as a per-project section -->
+	<!-- TODO include this in the global glossary as a per-project section. In a future version.
 	<chapter id="glossary">
 		<title>Glossary</title>
 
-<!--
 Token
 Group
 Set
@@ -684,7 +714,7 @@ List
 Keyword
 String
 Range
--->
 	</chapter>
+ -->
 </book>
 

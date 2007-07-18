@@ -15,7 +15,7 @@
 		intended uses.</para>
 
 	<section id="prepassmappings">
-		<title>Pre-pass mappings</title>
+		<title>Pre-pass Mappings</title>
 
 		<para>The lexical analysis runs in two passes. The first pass,
 			or <quote>pre-pass</quote> stage permits replacements to be substituted
@@ -52,7 +52,7 @@
 		<programlisting language="Lexi">MAPPING "[alpha]" -> " " ;</programlisting>
 
 		<para>will replace any alphabetic character by a blank,
-			assuming the <quote>alpha</quote> group is suitablly
+			assuming the <quote>alpha</quote> group is suitably
 			defined at that point.
 			See the <xref linkend="groupinclusion" endterm="groupinclusion"/>
 			rules for details of including groups in sequences.</para>
@@ -95,7 +95,7 @@ MAPPING "bc" -> "d" ;</programlisting>
 			<quote>db</quote>, not <quote>ad</quote>.</para>
 
 		<para>Mappings matching sequences of longer lengths
-			are replaced with higher precedance than mappings
+			are replaced with higher precedence than mappings
 			matching shorter lengths of the same values
 			beginning the longer sequences. For example:</para>
 
@@ -109,7 +109,7 @@ MAPPING "abcd" -> "y" ;</programlisting>
 	</section>
 
 	<section id="groupdefinitions">
-		<title id="groupdefinitions.title">Character group definitions</title>
+		<title id="groupdefinitions.title">Character Group Definitions</title>
 
 		<para>A group is an unordered sets of characters; groups
 			name these sets for use in <!-- TODO which strings? -->
@@ -161,10 +161,10 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			For example:</para>
 
 		<programlisting language="C">is_alpha(lookup_char('a'))</programlisting>
-		<!-- TODO repetiion: this is in Interface -->
+		<!-- TODO repetition: this is in Interface -->
 
 		<para>would yield true, assuming the group <literal>alpha</literal>
-			is suitablly defined.</para>
+			is suitably defined.</para>
 
 		<!-- TODO explain what groups are legal, undefined, etc.
 			Overlapping, for example? -->
@@ -180,9 +180,9 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 	</section>
 
 	<section id="whitespacedefinitions">
-		<title id="whitespacedefinitions.title">Whitespace definition</title>
+		<title id="whitespacedefinitions.title">Whitespace Definition</title>
 
-		<para>Consecuitive whitespace characters outside of tokens
+		<para>Consecutive whitespace characters outside of tokens
 			<!-- TODO is this right? --> are skipped by
 			the lexical analyser <emphasis>before</emphasis> each token
 			is recognised.
@@ -207,7 +207,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 		<para>The whitespace definition may be omitted, in which case
 			it defaults to space, horizontal tabulation and
-			newline. Therfore it is always present, even if the
+			newline. Therefore it is always present, even if the
 			declaration is implicit. As with any group, it may not
 			be defined multiple times.</para>
 
@@ -217,13 +217,13 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 
 		<para>Aside from the additional semantics explained above,
 			the whitespace group is present as any other group:
-			it is present in the API as <code>is_white()</code>,
+			it is present in the <acronym>API</acronym> as <code>is_white()</code>,
 			and may be included in <xref linkend="groupinclusion"
 			endterm="groupinclusion"/> as <code>[white]</code>.</para>
 
 		<!-- TODO NEW UNDEFINED BEHAVIOUR -->
 		<!-- if white contains the same characters as other tokens,
-			it has precidence. however we call that illegal -->
+			it has precedence. however we call that illegal -->
 		<para>It is illegal to define the whitespace group to
 			contains characters which are present in token
 			definitions, including groups which those tokens use.</para>
@@ -232,7 +232,7 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 	</section>
 
 	<section id="tokendefinitions">
-		<title id="tokendefinitions.title">Token definitions</title>
+		<title id="tokendefinitions.title">Token Definitions</title>
 
 		<para>Tokens are sequences of characters read by the lexical analyser
 			and produced as output. Each token as a unique identifier,
@@ -242,13 +242,13 @@ GROUP alphanum = "[alpha]" + {0-9}</programlisting>
 			yourself --></para>
 
 		<para>Tokens are usually the main component of a lexical analyser.
-			In <application>Lexi</application>'s case, the only sitution in
+			In <application>Lexi</application>'s case, the only situation in
 			which there would be no token declarations is if the lexical
-			analyser is to exclusivley perform pre-pass mappings. The
+			analyser is to exclusively perform pre-pass mappings. The
 			effect of specifying neither tokens nor pre-pass mappings
 			is undefined.</para>
 
-		<para>The syntax for specifiying tokens is:</para>
+		<para>The syntax for specifying tokens is:</para>
 
 		<programlisting language="BNF">token-defn := "TOKEN" + chars + "->" + either-identifier ;</programlisting>
 		<!-- TODO right? -->
@@ -287,7 +287,7 @@ TOKEN "token2" -> get_identifier () ;</programlisting>
 		<para>Where <code>get_comment()</code> is an externally defined
 			function which simply reads characters until the corresponding
 			<code>*/</code> is found. See the <!-- TODO -->functions
-			section for futher details of calling functions.</para>
+			section for further details of calling functions.</para>
 
 		<para>In most languages, keywords are usually a subset of
 			identifiers. In order to handle these and simplify the
@@ -348,7 +348,7 @@ TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
 
 		<para><!-- TODO state ranges are undefined --></para>
 
-		<para><!-- TODO kevin says:
+		<para><!-- TODO Kevin says:
        Remember,  individual  characters  have  priority over groups. But lexi
        doesn't handle subset analysis for groups. So
 
@@ -360,11 +360,11 @@ TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
        may not work correctly. lexi doesn't look  for  ambiguities  if  groups
        overlap.
 		TODO we defined overlap as illegal in the groups section;
-			this is just explaining rationalle -->
+			this is just explaining rationale -->
 
 
 <!-- TODO stated as undefined behaviour in Strings section
-		<para>TODO kevin says:
+		<para>TODO Kevin says:
        An empty string can be a token,
             TOKEN "" -> $default ;
        It really means that if no other token match, then the  lexer  will  eat
@@ -381,7 +381,7 @@ if anybody uses them (or indeed if anybody uses lexi...)
 	</section>
 
 	<section id="keyworddefinitions">
-		<title>Keyword definitions</title>
+		<title>Keyword Definitions</title>
 
 		<para>The  syntax of keywords resembles the syntax
 			used for tokens:</para>
@@ -402,8 +402,8 @@ KEYWORD "special" -> get_special () ;</programlisting>
 			a token has been found; they have effect only for
 			the <option>-k</option> and are otherwise not present
 			in the output generated by <application>Lexi</application>.
-			Therfore the only difference between keywords and
-			tokens (and indeed their purpose) is the programatic
+			Therefore the only difference between keywords and
+			tokens (and indeed their purpose) is the programmatic
 			interface that they provide.<!-- TODO and overlap! --><footnote>
 				<para>This historic interface for producing keywords
 					is expected to change drastically for the next version of
@@ -460,7 +460,7 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 			to each possible keyword in turn (that is, <code>token</code>
 			is compared to <code>"if"</code> and <code>"else"</code>.
 			If either of these match, the identifiers <code>keyword_if</code>
-			and <code>keyword_else</code> are returned, respectivley.
+			and <code>keyword_else</code> are returned, respectively.
 			Otherwise, if no keywords match, the token is known to
 			be a variable name, and so <code>get_variable()</code>
 			falls through to return the <code>lex_variable</code>
@@ -482,9 +482,9 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 		<programlisting language="C">&lt;type&gt; f(void);</programlisting>
 
 	<!-- TODO does mapping a keyword to a function have a use-case? if not,
-		can we disallow it? Perhaps good for fortran style unreserved keywords?
+		can we disallow it? Perhaps good for FORTRAN style unreserved keywords?
 		(the function could check to see if the symbol table holds that
-		identifier; if it dosen't, then we know its a keyword) -->
+		identifier; if it doesn't, then we know its a keyword) -->
 
 <!--
 <kevin2993> And I believe I was wrong at one point in the manpage saying that one 
@@ -494,6 +494,8 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
             keywordwithoutaseparatingwhitespace will be recognized as a token but 
             not as keyword if keyword is a keyword
 -->
+
+		<para><!-- TODO example of PL/I-esque unreserved keywords --></para>
 	</section>
 
 <!--
@@ -506,20 +508,19 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 -->
 
 	<section id="conditionalcommands">
-		<title>Conditional commands</title>
+		<title>Conditional Commands</title>
 
 		<para><!-- Runtime or compiletime? TODO check --></para>
 
 		<para>The identifier specified is passed through to the generated code
 			as-is - it is expected to be resolved to a symbol provided by the
 			user's program. Expressions are not supported, though may be provided
-			by definining a macro which provides a simple identifier:</para>
+			by defining a macro which provides a simple identifier:</para>
 
 		<para><!-- The command given may be in a block? TODO --></para>
 
 		<para><!-- TODO kevin says:
-       It is possible to use IF ELSE constructs around mappings,  keyword  and
-       token. Groups ignore them. The general syntax is
+       The general syntax is
 TODO then define groups inside a block as undefined, and adjust the grammar
 TODO or we can have groups inside IFs as silently creating multiple groups, so for example:
 IF (x) { GROUP "x" ...; } ELSE { GROUP "x" ...; } would make two groups, not one.
@@ -533,48 +534,38 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 		-->
 		</para>
 
-		<para>Conditions affect constructs in the following ways:
+		<para>Conditions may be used around the token, keyword and pre-pass
+			mapping constructs. They affect the constructs in the following ways:
 
 			<variablelist>
 				<varlistentry>
 					<term>Tokens</term>
 					<listitem>
-						<para>
-	<!-- TODO kevin says:
-        For tokens, it seems to
-       mean that if the condition is fulfilled, upon finding  the  token,  the
-       corresponding terminal is returned.  If that is not the case, the token
-       is read and skipped. 
-	-->
-						</para>
+						<para>The corresponding terminal is returned if
+							the token is read and the conditions holds true. If the
+							condition is not true, the effect is the same as if the
+							token was not defined.</para>
 					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term>Keywords</term>
 					<listitem>
-						<para>
-	<!--
-	For keywords, the MAKE_KEYWORD call  is  enclosed
-       by  the condition in the resulting C code.
-	-->
-						</para>
+						<para>The <code>MAKE_KEYWORD</code>
+							call  is  enclosed by  the given condition.</para>
 					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term>Pre-pass mappings</term>
 					<listitem>
-						<para>
-	<!--
-	For mappings, if the condi-
-       tion doesn't hold, the replacement doesn't occur.
-	-->
-						</para>
+						<para>The mapping replacement
+							is only performed if the condition holds true.</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
-		</para>
+
+			They do not affect groups.</para>
 
 		<para>The conditional constructs are not a particularly powerful
 			mechanism as the braces do not introduce scope.
@@ -588,11 +579,48 @@ TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED
 	TOKEN "a" -> $bbb;
 }</programlisting>
 
-			As the token <quote>a</quote> is defined twice, both definitions are in
-			the same scope and are therefore mutually illegal.</para>
-			<!-- make it valid? introduce scope for this purpose? -->
+			As the token <quote>a</quote> is defined twice; both definitions are in
+			the same scope and are therefore mutually illegal. However, a
+			similar effect could be achieved by having one token definition
+			call a user-defined function which returns whichever identifier is
+			appropriate; this technique may be useful for implementing languages
+			where the lexer needs to be aware of post-lexing concepts such
+			as type in order to correctly categorise a lexeme (that is, where
+			the lexeme depends on more than simply spelling). Languages with
+			unreserved keywords are one such example (see
+			<xref linkend="keyworddefinitions"/> for details). Another example is
+			C's infamous typedef lexing using the <acronym>ANSI</acronym>
+			C grammar:<footnote>
+				<para>Note that C's case, a rearranged grammar
+				avoids this issue: see
+				<ulink url="http://compilers.iecc.com/comparch/article/92-01-056"/>.</para>
+			</footnote>
 
-		<para><!-- TODO kevin says: IF constructs can nest. --></para>
+			<programlisting language="C">typedef char F;
+long a = sizeof(F), F, b = sizeof(F);</programlisting>
+
+			Where an annotation from the symbol table may be requested using
+			<application>Lexi</application> (for brevity we assume that
+			identifiers and typedef names may only be a single character):
+
+			<programlisting language="Lexi">TOKEN "[alpha]" -> f() ;</programlisting>
+
+			<programlisting language="C">int f(char c) {
+	<lineannotation>store c for the parser to pick up</lineannotation>
+
+	if(s(c)) {
+		return lex_typedef;
+	} else {
+		return lex_identifier;
+	}
+}</programlisting>
+
+			Where <code>s()</code> is a suitably-defined function which interrogates
+			the annotations present in a symbol table.</para>
+
+			<!-- TODO make it valid? introduce scope for this purpose? -->
+
+		<para><!-- TODO Kevin says: IF constructs can nest. --></para>
 	</section>
 </chapter>
 

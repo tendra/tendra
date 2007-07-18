@@ -13,7 +13,7 @@
 		<!---TODO blah blah --></para>
 
 	<section id="lexicalconventions">
-		<title>Lexical conventions</title>
+		<title>Lexical Conventions</title>
 
 		<para><!-- TODO explain our BNF here. Standardise across
 			all documents. we can centralise this to some shared
@@ -30,7 +30,7 @@ function-identifier := identifier + "(" + ")" ;</programlisting>
 		<!-- TODO rename either-identifier! -->
 			</para>
 
-		<para>And for berevity , the following groups are defined:
+		<para>And for brevity , the following groups are defined:
 
 			<programlisting language="Lexi">GROUP alpha    = {A-Z} + {a-z} + "_" ;
 GROUP digit    = {0-9} ;</programlisting>
@@ -80,7 +80,7 @@ GROUP digit    = {0-9} ;</programlisting>
 		<note>
 			<para>It is likely that literal identifiers
 				used for keywords and tokens will be
-				dissallowed in future versions of
+				disallowed in future versions of
 				<application>Lexi</application>; they appear to serve
 				no purpose over Sid identifiers in those cases.</para>
 				<!-- TODO wherein we mention that -l '' is valid -->
@@ -106,10 +106,10 @@ GROUP digit    = {0-9} ;</programlisting>
 	</section>
 
 	<section id="functioncalls">
-		<title>Function calls</title>
+		<title>Function Calls</title>
 
 		<para>The parameters specified to functions are stated as empty
-			(that is, an open bracket immediatley followed by a close
+			(that is, an open bracket immediately followed by a close
 			bracket).</para>
 
 		<para>Do not confuse function names with <application>Sid</application>
@@ -133,10 +133,10 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 			<code>get_comment('/', '/')</code>, depending on which
 			token was matched. In this way, <code>get_comment()</code>
 			can decide which type of comment it is expected to
-			retrieve, and therfore handle the differences appropiately.</para>
+			retrieve, and therefore handle the differences appropiately.</para>
 
 		<para>The parameters passed to the function are the characters
-			read to match the token, as seperate <code>int</code> variables.
+			read to match the token, as separate <code>int</code> variables.
 			So for the above example, <code>get_comment()</code> would be
 			declared as:</para>
 
@@ -151,13 +151,13 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 	</section>
 
 	<section id="charactersetssequences">
-		<title id="charactersetssequences.title">Character sets and sequences</title>
+		<title id="charactersetssequences.title">Character Sets and Sequences</title>
 
 		<para>Sets and sequences of characters are used by
 			<!-- TODO right? --> all <application>Lexi</application> commands. <!--
 			TODO and possibly also pre-pass replacements? --> They share
 			the same syntax, but have different meanings: a set is an
-			unordered intersection of all characters specified, wheras
+			unordered intersection of all characters specified, whereas
 			a sequence is a sequence which must be entirely present in
 			the order given, as per a string comparison. The syntax
 			is:</para>
@@ -178,7 +178,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			These ranges are:</para>
 
 		<table>
-			<title>Predefined character ranges</title>
+			<title>Predefined Character Ranges</title>
 
 			<tgroup cols="2">
 				<thead>
@@ -224,7 +224,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			backslash escapes:</para>
 
 		<table>
-			<title>Escaped characters</title>
+			<title>Escaped Characters</title>
 			<!-- TODO really ASCII, or is it the execution character set? -->
 
 			<tgroup cols="3">
@@ -340,8 +340,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			further examples of character sets and
 			sequences<!-- TODO terminology: sets and sequences? --></para>
 
-		<bridgehead id="concaternation">String concaternation</bridgehead>
-		<!-- TODO we can't call it concaternation really. why would you need concaternation
+		<bridgehead id="concatenation">String concatenation</bridgehead>
+		<!-- TODO we can't call it concatenation really. why would you need concatenation
 			for sequences? perhaps disallow it there and call it "set union" instead. -->
 
 		<para>Strings and ranges may be concatenated by the
@@ -353,7 +353,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 		<programlisting language="Lexi">"abcdefg[digit]"</programlisting>
 
-		<para>(where the group <quote>digit</quote> is suitablly
+		<para>(where the group <quote>digit</quote> is suitably
 			defined), and to the set:</para>
 
 		<programlisting language="Lexi">"abcdefg0123456789"</programlisting>
