@@ -54,7 +54,7 @@ echo "${SYSTEM}.${VERSION} detected..."
 echo
 
 # See the URL in the warning below for why this is bad.
-if [ ! -z ${LD_LIBRARY_PATH} ]; then
+if [ ! -z "${LD_LIBRARY_PATH}" ]; then
 	echo "WARNING: LD_LIBRARY_PATH set, please don't do that (see:"
 	echo "http://www.visi.com/~barr/ldpath.html)"
 	echo "Setting to empty environment variable..."
@@ -70,7 +70,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __DragonFly__
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -81,7 +81,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -92,7 +92,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -103,7 +103,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -114,7 +114,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -125,7 +125,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __linux
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS="--dynamic-linker /lib/ld-linux.so.2"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -136,7 +136,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __linux
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=""
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -147,7 +147,7 @@ case "${SYSTEM}.${VERSION}" in
 			# It aims to be C90 conforming.
 			check_cc
 			LD=""
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT=""
 			# Minix only runs on x86 for now.
@@ -158,7 +158,7 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.1*)	#
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
@@ -168,7 +168,7 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.2*)	#
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS="--dynamic-linker /libexec/ld.elf_so"
 			LDCRT="/usr/lib/crt0.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -178,7 +178,7 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.3*)	#
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT=
 			LIBS="-lc"
@@ -188,7 +188,7 @@ case "${SYSTEM}.${VERSION}" in
 	OpenBSD.3*)	#
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
@@ -198,7 +198,7 @@ case "${SYSTEM}.${VERSION}" in
 	OpenBSD.4*)	#
 			check_cc
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
@@ -217,9 +217,9 @@ case "${SYSTEM}.${VERSION}" in
 				    ;;
 			    esac;
 			fi
-			CC=${CC}
+			CC="${CC}"
 			LD="ld"
-			CFLAGS=${CFLAGS}
+			CFLAGS="${CFLAGS}"
 			LDOPTS=
 			LDCRT=
 			LIBS="-L/usr/lib -lc"
@@ -262,20 +262,20 @@ echo "BLDARCHBITS:	${BLDARCHBITS} bit"
 echo "EXECFORMAT:	${EXECFORMAT}"
 
 cat > Makefile.defs <<EOF
-PREFIX=${PREFIX}
-CC?=${CC}
-CCVER_MAJOR=${CCVER_MAJOR}
-CCVER_MINOR=${CCVER_MINOR}
-CCVER_TINY=${CCVER_TINY}
-LD?=${LD}
-CFLAGS=${CFLAGS}
-LDOPTS=${LDOPTS}
-LDCRT=${LDCRT}
-LIBS=${LIBS}
-OSFAM=${OSFAM}
-OSVER=${OSVER}
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
-BLDARCH=${BLDARCH}
-BLDARCHBITS=${BLDARCHBITS}
-EXECFORMAT=${EXECFORMAT}
+PREFIX="${PREFIX}"
+CC?="${CC}"
+CCVER_MAJOR="${CCVER_MAJOR}"
+CCVER_MINOR="${CCVER_MINOR}"
+CCVER_TINY="${CCVER_TINY}"
+LD?="${LD}"
+CFLAGS="${CFLAGS}"
+LDOPTS="${LDOPTS}"
+LDCRT="${LDCRT}"
+LIBS="${LIBS}"
+OSFAM="${OSFAM}"
+OSVER="${OSVER}"
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
+BLDARCH="${BLDARCH}"
+BLDARCHBITS="${BLDARCHBITS}"
+EXECFORMAT="${EXECFORMAT}"
 EOF
