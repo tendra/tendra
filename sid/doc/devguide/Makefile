@@ -13,11 +13,13 @@ PREFIX?=/usr/local
 SHAREDIR?=${PREFIX}/share
 DOCDIR?=${SHAREDIR}/doc
 
+INSTALL=install
+
 include ../doctools/Mk/docbook.mk
 
 install: all
-	install -m 755 -d ${DOCDIR}/sid/$(NAME)-single
-	install -m 644 ../xhtml/$(NAME)-single/* ${DOCDIR}/sid/$(NAME)-single/
-	install -m 755 -d ${DOCDIR}/sid/$(NAME)
-	install -m 644 ../xhtml/$(NAME)/* ${DOCDIR}/sid/$(NAME)/
+	${INSTALL} -m 755 -d ${DOCDIR}/sid/${NAME}-single
+	${INSTALL} -m 644 ../xhtml/${NAME}-single/* ${DOCDIR}/sid/${NAME}-single/
+	${INSTALL} -m 755 -d ${DOCDIR}/sid/${NAME}
+	${INSTALL} -m 644 ../xhtml/${NAME}/* ${DOCDIR}/sid/${NAME}/
 

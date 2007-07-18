@@ -16,6 +16,7 @@ REMOVE=rm -f
 PERL=perl
 LEXI=lexi
 SID=sid
+INSTALL=install
 
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
@@ -35,8 +36,8 @@ EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e \
 all: sid
 
 install: sid
-	install -m 755 -d ${BINDIR}
-	install -m 755 sid ${BINDIR}/
+	${INSTALL} -m 755 -d ${BINDIR}
+	${INSTALL} -m 755 sid ${BINDIR}/
 
 clean:
 	${REMOVE} sid gen-errors.c gen-errors.h lexi_lexer.c ${TARGETS}
@@ -73,5 +74,5 @@ gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 lexer.c: lexi_lexer.c
 
 lexi_lexer.c: lexi_lexer.lxi
-	$(LEXI) lexi_lexer.lxi lexi_lexer.c
+	${LEXI} lexi_lexer.lxi lexi_lexer.c
 

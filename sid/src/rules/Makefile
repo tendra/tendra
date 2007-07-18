@@ -8,7 +8,7 @@ REMOVE=rm -f
 all: rules.a ${TARGETS}
 
 clean:
-	${REMOVE} rules.a $(TARGETS)
+	${REMOVE} rules.a ${TARGETS}
 
 rules.a: ${TARGETS}
 	ar r $@ ${TARGETS}

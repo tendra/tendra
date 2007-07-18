@@ -8,7 +8,7 @@ REMOVE=rm -f
 all: adt.a ${TARGETS}
 
 clean:
-	${REMOVE} adt.a $(TARGETS)
+	${REMOVE} adt.a ${TARGETS}
 
 adt.a: ${TARGETS}
 	ar r $@ ${TARGETS}

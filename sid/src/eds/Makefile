@@ -8,7 +8,7 @@ REMOVE=rm -f
 all: eds.a ${TARGETS}
 
 clean:
-	${REMOVE} eds.a $(TARGETS)
+	${REMOVE} eds.a ${TARGETS}
 
 eds.a: ${TARGETS}
 	ar r $@ ${TARGETS}
