@@ -1,7 +1,7 @@
 # $Id$
 
 ENVFILE= 16bit 32bit Goption K-PIC K-ieee K-noieee K-prom Versions Xa Xc Xp Xs\
-	Xt Xw aes alloca ansi bootstrap bsd_extn build building c c++ common\
+	Xt Xw aes alloca ansi bsd_extn build building c c++ common\
 	compact cose default gcc iso longlong makelib motif_1_1 motif_1_2\
 	motif_private mse pl_tdf posix posix1 posix2 status strict_mot_1_2\
 	strict_posix strict_svid3 strict_xpg3 svid3 system system+ target_tok\

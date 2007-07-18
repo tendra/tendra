@@ -79,6 +79,7 @@ _REALWORK: fixenv.sed .USE
 	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
+	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
 . endif
 

@@ -79,7 +79,7 @@ _REALWORK: fixenv.sed .USE
 . endfor
 . if "${ENVEXTRA}" != ""
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
-	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/bootstrap
+	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
 . endif
 
 _objdir=	${OBJ_DIR}/${ENVIRONMENT}
