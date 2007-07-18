@@ -123,7 +123,7 @@ lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
 
-_objdir=	${OBJ_SDIR}
+_objdir=	${OBJ_DIR}/src/lib/sys
 .else
 #
 # Nothing to do here.

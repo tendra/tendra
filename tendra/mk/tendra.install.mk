@@ -22,31 +22,27 @@ _TENDRA_INSTALL_MK_=1
 #
 
 # Relative to .OBJDIR.
-CAPIDIR=building/${API}.api
-SAPIDIR=shared/${API}.api
-HAPIDIR=${API}.api
+CAPIDIR=${.OBJDIR}/building
+SAPIDIR=${.OBJDIR}/shared
+HAPIDIR=${.OBJDIR}
 
 # Absolute target dirs.
-SINSTDIR=${INSTALL_DIR}/lib/include/${SAPIDIR}
-HINSTDIR=${INSTALL_DIR}/lib/include/${HAPIDIR}
-CINSTDIR=${INSTALL_DIR}/lib/${CAPIDIR}
+SINSTDIR=${INSTALL_DIR}/lib/include/shared
+HINSTDIR=${INSTALL_DIR}/lib/include
+CINSTDIR=${INSTALL_DIR}/lib/building
 LINSTDIR=${INSTALL_DIR}/lib
 
 _REALINSTALL: .USE
 	@${ECHO} "# Installing ${API} API"
-	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" "${LINSTDIR}";
+	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" "${LINSTDIR}"
+.if exists(${SAPIDIR}/${API}.api)
+	${CONDCREATE} "${SINSTDIR}"
+.endif
 	${INSTALL} -m 644 ${.OBJDIR}/${API}.tl ${LINSTDIR}
-. for file in ${:!${ECHO} ${CAPIDIR}/*.c ${CAPIDIR}/M_${API}!:T}
-	${INSTALL} -m 644 ${CAPIDIR}/${file} ${CINSTDIR}/${file}
-. endfor
-. for file in ${:!${ECHO} ${HAPIDIR}/*.h!:T}
-	${INSTALL} -m 644 ${HAPIDIR}/${file} ${HINSTDIR}/${file}
-. endfor
-. if exists(${.OBJDIR}/${SAPIDIR})
-	${CONDCREATE} "${SINSTDIR}" ;
-.  for file in ${:!${ECHO} ${SAPIDIR}/*.h!:T}
-	${INSTALL} -m 644 ${SAPIDIR}/${file} ${SINSTDIR}/${file}
-.  endfor
+	${TAR} -C ${CAPIDIR} -cf- ${API}.api | ${TAR} -C ${CINSTDIR} -xf-
+	${TAR} -C ${HAPIDIR} -cf- ${API}.api | ${TAR} -C ${HINSTDIR} -xf-
+.if exists(${SAPIDIR}/${API}.api)
+	${TAR} -C ${SAPIDIR} -cf- ${API}.api | ${TAR} -C ${SINSTDIR} -xf-
 . endif
 .elif "${ENVFILE}" != ""
 #
@@ -58,6 +54,14 @@ _REALINSTALL: .USE
 . for entry in ${ENVFILE}
 	${INSTALL} -m 644 ${.OBJDIR}/${entry} ${MACH_BASE}/env/${entry}
 . endfor
+.elif "${LIB}" != ""
+#
+# Install a library.
+#
+_REALINSTALL: .USE
+	@${ECHO} "# Installing lib${LIB}.a"
+	${CONDCREATE} "${COMMON_DIR}/sys"
+	${INSTALL} -m 755 lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a
 .elif "${PROG}" != ""
 #
 # Install a program.
