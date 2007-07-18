@@ -106,12 +106,6 @@ TNC?=	${OBJ_DIR}/src/tools/tnc/tnc
 TNC?=	tnc
 .endif
 
-.if exists(${OBJ_DIR}/src/tools/tpl/tpl)
-TPL?=	${OBJ_DIR}/src/tools/tpl/tpl
-.else
-TPL?=	tpl
-.endif
-
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec
 .else # defined(BOOTSTRAP)
 CC=	${TCC}

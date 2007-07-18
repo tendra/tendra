@@ -102,5 +102,6 @@ REMOVE?=	${ENV} rm -f
 SORT?=		${ENV} sort
 TAR?=		${ENV} tar
 TEST?=		${ENV} test
+TPL?=		${ENV} tpl
 
 .endif	# !defined(_TENDRA_BASE_MK_)
