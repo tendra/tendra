@@ -10,7 +10,7 @@ SED="/usr/bin/env sed"
 # Check if the CC environment variable is set.
 check_cc()
 {
-	if [ -z $CC ]; then
+	if [ -z "$CC" ]; then
 		CC="cc";
 	elif [ "$CC" = "CC" ]; then
 		CC="cc";
@@ -34,16 +34,14 @@ check_cc()
 # Check to see if we can lift the version string from the cc call.
 check_cc_ver()
 {
-	CC=$1
-
-	case "${CC}" in
-		cc*)
+	case "$1" in
+		cc*|*/cc*)
 		VERSIONSTRING=`${CC} --version`
 		if [ $? -eq 0 ]; then
 			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
 		fi
 		;;
-		[gi]cc*)
+		[gi]cc*|*/[gi]cc*)
 		VERSIONSTRING=`${CC} --version`
 		if [ $? -eq 0 ]; then
 			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`

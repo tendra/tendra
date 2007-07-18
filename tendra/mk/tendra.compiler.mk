@@ -34,7 +34,7 @@ _TENDRA_COMPILER_MK_=1
 
 .if defined(BOOTSTRAP)
 # Assume that the cc on this system is the GNU C Compiler.
-.if ${CC} == "cc" || ${CC} == "gcc"
+.if "${CC:[1]:T}" == "cc" || "${CC:[1]:T}" == "gcc"
 
 CWARNFLAGS=-w
 
@@ -57,7 +57,7 @@ CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
   TCCOPTS=
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
 # The Intel C Compiler.
-.elif ${CC} == "icc"
+.elif "${CC:[1]:T}" == "icc"
 
 CWARNFLAGS=-no-gcc -w
 
@@ -77,7 +77,7 @@ CWARNFLAGS+=-Wall
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
-.elif ${CC} == "tcc"
+.elif "${CC:[1]:T}" == "tcc"
   TCCOPTS= -Ysystem
   CCOPTS+=
 .endif
