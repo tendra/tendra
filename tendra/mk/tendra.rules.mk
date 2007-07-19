@@ -20,7 +20,7 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 .c.j:
 	@${ECHO} "# Compiling ${PARTIMP}"
 	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
-		-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap -Y${BLDARCHBITS}bit\
+		-Y${OBJ_DIR}/${ENVIRONMENT}/build -Y${BLDARCHBITS}bit\
 		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
 		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
 		-o ${.TARGET} ${.IMPSRC} -Ymakelib -D__BUILDING_LIBS

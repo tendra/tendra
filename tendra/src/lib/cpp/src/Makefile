@@ -2,7 +2,7 @@
 
 # Standard variables
 
-TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
+TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/build -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
 CCOPTS=${TCCOPTS} ${MACHOPTS}
 
 # Dependencies and construction rules
