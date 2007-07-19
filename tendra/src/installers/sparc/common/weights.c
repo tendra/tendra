@@ -147,9 +147,8 @@ weights zeroweights = {
   ADD TWO WEIGHTS
 */
 
-weights add_weights 
-    PROTO_N ( ( w1, w2 ) )
-    PROTO_T ( weights * w1 X weights * w2 ){
+weights 
+add_weights ( weights * w1, weights * w2 ){
   long i ;
   weights r ;
   for ( i = 0 ; i < wfixno ; ++i ) {
@@ -175,9 +174,8 @@ weights add_weights
   negative since using a s-reg will involve a dump and restore.
 */
 
-wp max_weights 
-    PROTO_N ( ( loc, ws, fix ) )
-    PROTO_T ( double loc X weights * ws X bool fix ){
+wp 
+max_weights ( double loc, weights * ws, bool fix ){
   long i ;
   wp res ;
   long bk = wfixno + 1 ;
@@ -263,9 +261,8 @@ wp max_weights
 /*
   MULTIPLY A WEIGHT BY A SCALAR
 */
-weights mult_weights 
-    PROTO_N ( ( m, ws ) )
-    PROTO_T ( double m X weights * ws ){
+weights 
+mult_weights ( double m, weights * ws ){
   long i ;
   weights res ;
   float *w = ws->fix ;
@@ -285,9 +282,8 @@ weights mult_weights
 /*
   ADD A WEIGHTS CORRESPONDING TO AN EXPRESSION LIST
 */
-weights add_wlist 
-    PROTO_N ( ( scale, re ) )
-    PROTO_T ( double scale X exp re ){
+weights 
+add_wlist ( double scale, exp re ){
   exp r = re ;
   weights w, w1 ;
   if ( r == nilexp ) {
@@ -319,9 +315,8 @@ weights add_wlist
   recodes the number field of an ident.
 */
 
-weights weightsv 
-    PROTO_N ( ( scale, e ) )
-    PROTO_T ( double scale X exp e ){
+weights 
+weightsv ( double scale, exp e ){
   int n ;
 
 tailrecurse :

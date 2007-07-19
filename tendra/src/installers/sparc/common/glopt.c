@@ -89,9 +89,8 @@ $Log: glopt.c,v $
   GLOBAL OPTIMISATIONS
 */
 
-void glopt 
-    PROTO_N ( ( dp ) )
-    PROTO_T ( dec * dp ){
+void 
+glopt ( dec * dp ){
   /* +++ add any SPARC-specific optimisations here */
   return ;
 }

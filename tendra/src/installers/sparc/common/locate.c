@@ -143,9 +143,8 @@ int call_base_reg = R_SP;
   DECODE x INTO A BASE REGISTER PLUS OFFSET
 */
 
-baseoff boff 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+baseoff 
+boff ( exp e ){
   int n = no ( e ) ;
   int b = REG_PART(n);
   baseoff an ;
@@ -236,9 +235,8 @@ baseoff boff
   return ( an ) ;
 }
 
-int boff_env_offset 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+int 
+boff_env_offset ( exp e ){
   /* used ONLY for envoffsets as init values for globals. 
    cf make_proc_tag_code */
   int n = no ( e ) ;
@@ -290,9 +288,8 @@ int boff_env_offset
   historical.
 */
 
-where locate1 
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg ){
+where 
+locate1 ( exp e, space sp, shape s, int dreg ){
   ash a ;
   ans aa ;
   where wans ;
@@ -631,9 +628,8 @@ where locate1
   register.
 */
 
-where locate 
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg ){
+where 
+locate ( exp e, space sp, shape s, int dreg ){
   ans ak ;
   where w ;
   ak = iskept ( e ) ;

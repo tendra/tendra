@@ -330,9 +330,8 @@ static bool trad_proc;	/* true if the scan is within a proc with no callees */
   FIND A POINTER TO EXPRESSION POINTING TO e
 */
 
-exp *ptr_position 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+exp 
+*ptr_position ( exp e ){
   exp *res ;
   exp dad = father ( e ) ;
   exp sib = son ( dad ) ;
@@ -356,9 +355,8 @@ exp *ptr_position
   number of registers.
 */
 
-void cca 
-    PROTO_N ( ( to, x ) )
-    PROTO_T ( exp ** to X exp * x ){
+void 
+cca ( exp ** to, exp * x ){
 
 #ifndef NEWDIAGS
   if (name((**to))==diagnose_tag){
@@ -439,9 +437,8 @@ needs zeroneeds = { 0, 0, 0, 0 } ;
   CHECK IF ANY USES OF id ARE AS AN INITIALISER FOR A DECLARATION
 */
 
-bool subvar_use 
-    PROTO_N ( ( uses ) )
-    PROTO_T ( exp uses )
+bool 
+subvar_use ( exp uses )
 {
   for ( ; uses != nilexp ; uses = pt ( uses ) ) {
     if ( last ( uses ) && name ( bro ( uses ) ) == cont_tag ) {
@@ -466,9 +463,8 @@ bool subvar_use
   WORK OUT REGISTER NEEDS FOR A GIVEN SHAPE
 */
 
-needs shapeneeds 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s ){
+needs 
+shapeneeds ( shape s ){
   if ( is_floating ( name ( s ) ) ) {
     return ( onefloat ) ;
   } 
@@ -490,9 +486,8 @@ needs shapeneeds
   Transform a non-bit offset into a bit offset.
   (borrowed from trans386)
 */
-static void make_bitfield_offset 
-    PROTO_N ( ( e, pe, spe, sha ) )
-    PROTO_T ( exp e X exp pe X int spe X shape sha ){
+static void 
+make_bitfield_offset ( exp e, exp pe, int spe, shape sha ){
   exp omul;
   exp val8;
   if (name(e) == val_tag){
@@ -520,9 +515,8 @@ static void make_bitfield_offset
   simple load or store instruction.
 */
 
-bool complex 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+bool 
+complex ( exp e ){
   if ( name ( e ) == name_tag ||
        ( name ( e ) == cont_tag && name ( son ( e ) ) == name_tag &&
 	 isvar ( son ( son ( e ) ) ) ) ||
@@ -535,9 +529,8 @@ bool complex
   /* NOT REACHED */
 }
 
-int scan_cond 
-    PROTO_N ( ( e, outer_id ) )
-    PROTO_T ( exp* e X exp outer_id ){
+int 
+scan_cond ( exp* e, exp outer_id ){
 
   exp ste = *e;
   exp first = son (ste);
@@ -673,9 +666,8 @@ int scan_cond
   The operation will be n-ary, commutative and associative.
 */
 
-needs likeplus 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
+needs 
+likeplus ( exp * e, exp ** at ){
   needs a1 ;
   needs a2 ;
   prop pc ;
@@ -751,9 +743,8 @@ needs likeplus
   The operation will be binary and non-commutative.
 */
 
-needs likediv 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
+needs 
+likediv ( exp * e, exp ** at ){
   needs l ;
   needs r ;
   prop pc ;
@@ -795,9 +786,8 @@ needs likediv
   The operation will be binary.
 */
 
-needs fpop 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
+needs 
+fpop ( exp * e, exp ** at ){
   needs l ;
   needs r ;
   exp op = *e ;
@@ -860,9 +850,8 @@ needs fpop
   WORK OUT THE MAXIMUM OF TWO REGISTER NEEDS
 */
 
-needs maxneeds 
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( needs a X needs b ){
+needs 
+maxneeds ( needs a, needs b ){
   needs an ;
   an.fixneeds = MAX_OF ( a.fixneeds, b.fixneeds ) ;
   an.floatneeds = MAX_OF ( a.floatneeds, b.floatneeds ) ;
@@ -877,9 +866,8 @@ needs maxneeds
   WORK OUT THE REGISTER NEEDS OF A TUPLE OF EXPRESSIONS
 */
 
-needs maxtup 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp e X exp ** at ){
+needs 
+maxtup ( exp e, exp ** at ){
   exp *s = &son ( e ) ;
   needs an ;
   an = zeroneeds ;
@@ -901,9 +889,8 @@ needs maxtup
   result of ident.
 */
 
-bool unchanged 
-    PROTO_N ( ( usedname, ident ) )
-    PROTO_T ( exp usedname X exp ident ){
+bool 
+unchanged ( exp usedname, exp ident ){
   exp uses = pt ( usedname ) ;
   while ( uses != nilexp ) {
     if ( intnl_to ( ident, uses ) ) {
@@ -935,9 +922,8 @@ bool unchanged
   declaration to ensure that this space exists.
 */
 
-bool chase 
-    PROTO_N ( ( sel, e ) )
-    PROTO_T ( exp sel X exp * e ){
+bool 
+chase ( exp sel, exp * e ){
   exp *one ;
   bool b = 0 ;
 
@@ -996,9 +982,8 @@ bool chase
 }
 
 
-exp need_result_space 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ) {
+exp 
+need_result_space ( exp e ) {
 	/* dad if application needs to reserve space for struct result */
   exp dad = father ( e );
   switch (name (dad)) {
@@ -1029,9 +1014,8 @@ exp need_result_space
 }
 
 
-bool spin_lab  
-    PROTO_N ( ( lab ) )
-    PROTO_T ( exp lab ) {
+bool 
+spin_lab  ( exp lab ) {
 	/* true if label implies a tight spin */
   exp dest = lab;
   exp temp, ll;
@@ -1055,18 +1039,16 @@ bool spin_lab
   
 /* Check for legal conditions for asm */
 
-static void id_in_asm 
-    PROTO_N ( ( id ) )
-    PROTO_T ( exp id )
+static void 
+id_in_asm ( exp id )
 {
   if (!isparam(id) || !props(son(id)))
     setvis (id);
   return;
 }
 		       
-static int is_asm_opnd 
-    PROTO_N ( ( e, ext ) )
-    PROTO_T ( exp e X int ext )
+static int 
+is_asm_opnd ( exp e, int ext )
 {
   unsigned char n = name (e);
   if (n == name_tag) {
@@ -1081,9 +1063,8 @@ static int is_asm_opnd
 	(n == reff_tag && name(son(e)) == name_tag));
 }
 
-static int is_asm_var 
-    PROTO_N ( ( e, ext ) )
-    PROTO_T ( exp e X int ext )
+static int 
+is_asm_var ( exp e, int ext )
 {
   unsigned char n = name (e);
   if (n == name_tag && isvar(son(e))) {
@@ -1093,9 +1074,8 @@ static int is_asm_var
   return 0;
 }
 
-void check_asm_seq 
-    PROTO_N ( ( e, ext ) )
-    PROTO_T ( exp e X int ext )
+void 
+check_asm_seq ( exp e, int ext )
 {
   if (name(e) == asm_tag) {
     if ((asm_string(e) && name(son(e)) == string_tag) ||
@@ -1153,9 +1133,8 @@ void check_asm_seq
   the fields of the exp in each case (this is documented somewhere).
 */
 
-needs scan 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at ){
+needs 
+scan ( exp * e, exp ** at ){
   /* e is the expression to be scanned, at is the place to put any
      new decs.  The order of recursive calls with same at is 
      critical. */

@@ -122,9 +122,8 @@ $Log: codehere.c,v $
   R_NO_REG is returned.
 */
 
-int regofval 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int 
+regofval ( exp e )
 {
   exp dc = son ( e ) ;
   if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
@@ -150,9 +149,8 @@ int regofval
   otherwise R_NO_REG is returned.
 */
 
-int fregofval 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int 
+fregofval ( exp e )
 {
   exp dc = son ( e ) ;
   if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
@@ -169,9 +167,8 @@ int fregofval
   AUXILIARY MAKE_CODE ROUTINE
   This routine calls make_code and ties up any internal exit labels.
 */
-static int make_code_here 
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+static int 
+make_code_here ( exp e, space sp, where dest )
 {
   makeans mka ;
   mka = make_code ( e, sp, dest, 0 ) ;
@@ -191,9 +188,8 @@ static int make_code_here
   If e easily fits into a unique fixed register then this register 
   number is returned.  Otherwise R_NO_REG is returned.
 */
-static int is_reg_operand 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static int 
+is_reg_operand ( exp e )
 {
   ans aa ;
   int x = regofval ( e ) ;
@@ -224,9 +220,8 @@ static int is_reg_operand
   number is returned.
 */
 
-int reg_operand 
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+int 
+reg_operand ( exp e, space sp )
 {
   int reg = is_reg_operand ( e ) ;
   if ( reg == R_NO_REG || reg == R_G0 ) {
@@ -254,9 +249,8 @@ int reg_operand
   CODE AN EXPRESSION INTO A GIVEN REGISTER
   The expression e is encoded into the given fixed register.
 */
-void reg_operand_here 
-    PROTO_N ( ( e, sp, this_reg ) )
-    PROTO_T ( exp e X space sp X int this_reg )
+void 
+reg_operand_here ( exp e, space sp, int this_reg )
 {
   int reg = is_reg_operand ( e ) ;
   if ( reg == R_NO_REG || reg == R_G0 ) {
@@ -282,9 +276,8 @@ void reg_operand_here
   register number is returned.
 */
 
-int freg_operand 
-    PROTO_N ( ( e, sp, reg ) )
-    PROTO_T ( exp e X space sp X int reg )
+int 
+freg_operand ( exp e, space sp, int reg )
 {
   ans aa ;
   where w ;
@@ -327,9 +320,8 @@ int freg_operand
   in a fixed register this is optimised to a move.
 */
 
-int code_here 
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+int 
+code_here ( exp e, space sp, where dest )
 {
   int reg = is_reg_operand ( e ) ;
   if ( reg == R_NO_REG || reg == R_G0 ) {

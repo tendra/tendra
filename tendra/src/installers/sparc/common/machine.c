@@ -85,9 +85,8 @@ $Log: machine.c,v $
     DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
 */
 
-int reg_result 
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+int 
+reg_result ( shape sha )
 {
     if ( valregable ( sha ) ) return ( 1 ) ;
     if ( is_floating ( name ( sha ) ) ) {

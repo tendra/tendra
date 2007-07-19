@@ -136,9 +136,8 @@ $Log: oprators.c,v $
     CORRECT POSSIBLE OVERFLOWS IN REGISTER r
 */
 
-void tidyshort 
-    PROTO_N ( ( r, s ) )
-    PROTO_T ( int r X shape s ){
+void 
+tidyshort ( int r, shape s ){
   if ( name ( s ) == ucharhd ) {
     rir_ins ( i_and, r, 0xff, r ) ;
   } else if ( name ( s ) == uwordhd ) {
@@ -154,9 +153,8 @@ void tidyshort
   register reg.  If this is found, it is removed from seq and 1 
   is returned.  Otherwise 0 is returned.
 */
-bool regremoved 
-    PROTO_N ( ( seq, reg ) )
-    PROTO_T ( exp * seq X int reg ){
+bool 
+regremoved ( exp * seq, int reg ){
   exp s = *seq ;
   exp t = bro ( s ) ;
   if ( ABS_OF ( regofval ( s ) ) == reg ) {
@@ -182,9 +180,8 @@ bool regremoved
   Evaluates reg = seq_1 @ seq_2 @ ... where @ is a binary commutative
   operation given by rins.  sp may be used for free t-registers.
 */
-void do_comm 
-    PROTO_N ( ( seq, sp, final, rins ) )
-    PROTO_T ( exp seq X space sp X int final X ins_p rins ){
+void 
+do_comm ( exp seq, space sp, int final, ins_p rins ){
   int r = 0 ;
   space nsp ;
   int a1, a2 ;
@@ -233,9 +230,8 @@ void do_comm
   using sp to get free t-registers.
 */
 
-int comm_op 
-    PROTO_N ( ( e, sp, d, rrins ) )
-    PROTO_T ( exp e X space sp X where d X ins_p rrins ){
+int 
+comm_op ( exp e, space sp, where d, ins_p rrins ){
   ins_p rins = rrins ;
   switch ( discrim ( d.answhere ) ) {
     case inreg : {
@@ -297,9 +293,8 @@ int comm_op
   The non-commutative operation, rins, given by e is evaluated 
   into dest, using sp to get free t-registers.
 */
-int non_comm_op 
-    PROTO_N ( ( e, sp, dest, rins ) )
-    PROTO_T ( exp e X space sp X where dest X ins_p rins ){
+int 
+non_comm_op ( exp e, space sp, where dest, ins_p rins ){
   exp l = son ( e ) ;
   exp r = bro ( l ) ;
   int a1 = reg_operand ( l, sp ), a2 ;
@@ -336,9 +331,8 @@ int non_comm_op
   The monadic operation, ins, given by e is evaluated into dest, 
   using sp to get free t-registers.
 */
-int monop 
-    PROTO_N ( ( e, sp, dest, ins ) )
-    PROTO_T ( exp e X space sp X where dest X ins_p ins ){
+int 
+monop ( exp e, space sp, where dest, ins_p ins ){
   int r1 = getreg ( sp.fixed ) ;
   int a1 = reg_operand ( son ( e ), sp ) ;
   switch ( discrim ( dest.answhere ) ) {
@@ -372,9 +366,8 @@ int monop
 L:
 
 */
-int absop 
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest ){
+int 
+absop ( exp e, space sp, where dest ){
   int r1 = getreg ( sp.fixed ) ;
   int a1 = reg_operand ( son ( e ), sp ) ;
   int lab = new_label();
@@ -415,9 +408,8 @@ int absop
 /*
   GET THE ADDRESS OF A LONG DOUBLE
 */
-static void quad_addr 
-    PROTO_N ( ( e, r, sp ) )
-    PROTO_T ( exp e X int r X space sp ){
+static void 
+quad_addr ( exp e, int r, space sp ){
   instore is ;
   if ( name ( e ) == real_tag ) {
     is = evaluated ( e, 0, 1 ) ;
@@ -451,9 +443,8 @@ static void quad_addr
 /*
   DO A LONG DOUBLE OPERATION
 */
-void quad_op 
-    PROTO_N ( ( a1, a2, sp, dest, op ) )
-    PROTO_T ( exp a1 X exp a2 X space sp X where dest X int op ){
+void 
+quad_op ( exp a1, exp a2, space sp, where dest, int op ){
   char *s ;
   bool quad_ret = 1 ;
   if ( op < 0 ) {
@@ -579,9 +570,8 @@ void quad_op
   The floating point operation, ins, given by e is evaluated 
   into dest, using sp to get free t-registers.
 */
-int fop 
-    PROTO_N ( ( e, sp, dest, ins ) )
-    PROTO_T ( exp e X space sp X where dest X ins_p ins ){
+int 
+fop ( exp e, space sp, where dest, ins_p ins ){
   exp l = son ( e ) ;
   exp r = bro ( l ) ;
   space nsp ;

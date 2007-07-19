@@ -190,9 +190,8 @@ static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
     FIND THE OUTPUT DATA CORRESPONDING TO A SHAPE
 */
 
-mm maxmin 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s ){
+mm 
+maxmin ( shape s ){
   switch ( name ( s ) ) {
     case scharhd : return ( scmm ) ;
     case ucharhd : return ( uscmm ) ;
@@ -209,8 +208,8 @@ mm maxmin
     FIND THE NEXT DATA LABEL
 */
 
-int next_data_lab 
-    PROTO_Z (){
+int 
+next_data_lab (){
   static int data_lab = 100 ;
   return ( ++data_lab ) ;
 }
@@ -220,9 +219,8 @@ int next_data_lab
     OUTPUT A LABEL
 */
 
-void outlab 
-    PROTO_N ( ( ll ) )
-    PROTO_T ( int ll ){
+void 
+outlab ( int ll ){
   /* no preference for section here */
   outs ( ext_name ( ll ) ) ;
   return ;
@@ -236,9 +234,8 @@ void outlab
 */
 
 #if 0
-static void outfloat 
-    PROTO_N ( ( f, ro ) )
-    PROTO_T ( flpt f X bool ro ){
+static void 
+outfloat ( flpt f, bool ro ){
 #if ( FBASE == 10 )
   int i, n ;
   unsigned char *frac = flptnos [f].mant ;
@@ -273,9 +270,8 @@ static void outfloat
 /*
   FIND THE VALUE OF AN INTEGER CONSTANT EXPRESSION
 */
-long evalexp 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+long 
+evalexp ( exp e ){
   switch ( name ( e ) ) {
     case val_tag : {
       if(name(sh(e)) == offsethd && al2(sh(e))>=8) {
@@ -423,9 +419,8 @@ long evalexp
 /*
   OUTPUT A SIMPLE VALUE
 */
-static void oneval 
-    PROTO_N ( ( val, al, rep ) )
-    PROTO_T ( int val X long al X int rep ){
+static void 
+oneval ( int val, long al, int rep ){
   char *as ;
   if ( al <= 8 ) {
     as = "\t.byte\t" ;
@@ -447,9 +442,8 @@ static void oneval
 /*
   OUTPUT A STRING
 */
-static void outascii 
-    PROTO_N ( ( s, strsize ) )
-    PROTO_T ( char * s X long strsize ){
+static void 
+outascii ( char * s, long strsize ){
   while ( strsize > 0 ) {
     int i ;
     outs ( "\t.ascii\t\"" ) ;
@@ -497,9 +491,8 @@ typedef struct {
 /*
     FORM AN EMPTY BIT PATTERN
 */
-static concbittype emptyconcbit 
-    PROTO_N ( ( bitposn ) )
-    PROTO_T ( int bitposn ){
+static concbittype 
+emptyconcbit ( int bitposn ){
   concbittype start ;
   start.bitposn = bitposn ;
   start.value_size = 0 ;
@@ -511,9 +504,8 @@ static concbittype emptyconcbit
 /*
   OUTPUT A BIT PATTERN
 */
-static void outconcbit 
-    PROTO_N ( ( c, ro ) )
-    PROTO_T ( concbittype c X bool ro ){
+static void 
+outconcbit ( concbittype c, bool ro ){
   unsigned long w = c.value ;
   int sz = c.value_size ;
   int i, bytes = ( sz + 7 ) / 8 ;
@@ -551,9 +543,8 @@ static void outconcbit
   less than or equal to 31 as it represent the number of bits
   in a bitfield which does not occupy a whole machine word.
 */
-long unary 
-    PROTO_N ( ( val ) )
-    PROTO_T ( int val ){
+long 
+unary ( int val ){
   int loop;
   long result=0;
   assert (val <=31);
@@ -570,9 +561,8 @@ long unary
   ADD A VALUE TO A BIT PATTERN
 */
 
-static concbittype addconcbitaux 
-    PROTO_N ( ( w, size, b4, ro ) )
-    PROTO_T ( unsigned long w X int size X concbittype b4 X bool ro ){
+static concbittype 
+addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
   int wordpos ; /* bit position within word */
   if ( b4.value_size == 32 ||
        ( b4.value_size != 0 && ( b4.bitposn & 31 ) == 0 ) ) {
@@ -620,9 +610,8 @@ static concbittype addconcbitaux
 /*
   EVALUATE A CONSTANT BIT PATTERN
 */
-static concbittype evalconcbitaux 
-    PROTO_N ( ( e, b4, ro ) )
-    PROTO_T ( exp e X concbittype b4 X bool ro ){
+static concbittype 
+evalconcbitaux ( exp e, concbittype b4, bool ro ){
   switch ( name ( e ) )    {
     case concatnof_tag : {
       concbittype lhs, rhs ;
@@ -643,9 +632,8 @@ static concbittype evalconcbitaux
 /*
   OUTPUT A CONSTANT BIT PATTERN
 */
-static void evalconcbit 
-    PROTO_N ( ( e, bitposn, ro ) )
-    PROTO_T ( exp e X int bitposn X bool ro ){
+static void 
+evalconcbit ( exp e, int bitposn, bool ro ){
   concbittype start ;
   start = emptyconcbit ( bitposn ) ;
   outconcbit ( evalconcbitaux ( e, start, ro ), ro ) ;
@@ -663,9 +651,8 @@ static void evalconcbit
 
 #else
 
-bool is_zero 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+bool 
+is_zero ( exp e ){
   if ( e == nilexp ) return ( 1 );
   switch ( name ( e ) ) {
     case null_tag : return ( 1 ) ;
@@ -705,9 +692,8 @@ bool is_zero
 /*
     OUTPUT AN ALIGNMENT
 */
-static void set_align 
-    PROTO_N ( ( al ) )
-    PROTO_T ( long al ){
+static void 
+set_align ( long al ){
 #if 0
   assert ( al >= 8 && al <= 64 ) ;
 #endif
@@ -723,9 +709,8 @@ static void set_align
 /*
     EVALUATE AN EXPRESSION
 */
-void evalone 
-    PROTO_N ( ( e, bitposn, ro ) )
-    PROTO_T ( exp e X int bitposn X bool ro ){
+void 
+evalone ( exp e, int bitposn, bool ro ){
   long al = ( long ) shape_align ( sh ( e ) ) ;
   long sz = ( long ) shape_size ( sh ( e ) ) ;
   if (ro)
@@ -1075,9 +1060,8 @@ bool know_size = 0 ;
   The result is the instore address of the constant.  A negative 
   value of ll indicates the initialisation of a global variable.
 */
-instore evaluated 
-    PROTO_N ( ( e, ll, ro ) )
-    PROTO_T ( exp e X long ll X bool ro ){
+instore 
+evaluated ( exp e, long ll, bool ro ){
   ash a ;
   int lab ;
   exp z = e ;

@@ -146,9 +146,9 @@ $Log: special.c,v $
     LOOK FOR SPECIAL FUNCTIONS
 */
 
-/* ARGSUSED */ speci special_fn 
-    PROTO_N ( ( a1, a2, s ) )
-    PROTO_T ( exp a1 X exp a2 X shape s )
+/* ARGSUSED */ 
+speci 
+special_fn ( exp a1, exp a2, shape s )
 {
     speci spr ;
     spr.is_special = 0 ;
@@ -165,9 +165,8 @@ $Log: special.c,v $
     value < 0 indicates a special procedure handled bu specialneeds.
 */
 
-static int specno 
-    PROTO_N ( ( n ) )
-    PROTO_T ( char * n )
+static int 
+specno ( char * n )
 {
     if ( strcmp ( n, "___builtin_strcpy" ) == 0 ||
 	 strcmp ( n, "___TDF_builtin_strcpy" ) == 0 ) {
@@ -198,9 +197,8 @@ static int specno
     FIND NAME OF A SPECIAL PROCEDURE
 */
 
-char *special_call_name 
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+char *
+special_call_name ( int i )
 {
     switch ( i ) {
 
@@ -239,9 +237,9 @@ static CONST needs twofixneeds = { 2, 0, 0, 0 } ;
     DEAL WITH THE NEEDS OF SPECIAL PROCEDURES
 */
 
-/* ARGSUSED */ needs specialneeds 
-    PROTO_N ( ( i, application, pars ) )
-    PROTO_T ( int i X exp application X exp pars )
+/* ARGSUSED */ 
+needs 
+specialneeds ( int i, exp application, exp pars )
 {
     switch ( i ) {
 
@@ -299,9 +297,8 @@ static CONST needs twofixneeds = { 2, 0, 0, 0 } ;
     DOES fn REPRESENT A SPECIAL PROCEDURE?
 */
 
-int specialfn 
-    PROTO_N ( ( fn ) )
-    PROTO_T ( exp fn )
+int 
+specialfn ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
@@ -318,9 +315,8 @@ int specialfn
     not be optimised.
 */
 
-int specialopt 
-    PROTO_N ( ( fn ) )
-    PROTO_T ( exp fn )
+int 
+specialopt ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
@@ -346,9 +342,8 @@ extern int local_stackerr_lab;
     INLINE SPECIAL FUNCTIONS
 */
 
-int specialmake 
-    PROTO_N ( ( i, par, sp, dest, exitlab ) )
-    PROTO_T ( int i X exp par X space sp X where dest X int exitlab ){
+int 
+specialmake ( int i, exp par, space sp, where dest, int exitlab ){
   switch ( i ) {
     case 4 : {
       /* asm ( s ) - simply output s */
@@ -485,9 +480,8 @@ static struct {
     OUTPUT A CALL TO A SPECIAL ROUTINE
 */
 
-void call_special_routine 
-    PROTO_N ( ( n ) )
-    PROTO_T ( int n )
+void 
+call_special_routine ( int n )
 {
     char *nm = special_routine [n].proc_name ;
     int r = special_routine [n].proc_regs ;
@@ -502,8 +496,8 @@ void call_special_routine
     OUTPUT ALL SPECIAL ROUTINES
 */
 
-void output_special_routines 
-    PROTO_Z ()
+void 
+output_special_routines (void)
 {
     int i ;
     if ( library_key == 1 ) return ;

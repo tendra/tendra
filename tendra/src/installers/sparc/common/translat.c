@@ -331,9 +331,8 @@ enum section current_section = no_section ;
     FIND THE SIZE AND ALIGNMENT OF A SHAPE
 */
 
-ash ashof 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s ){
+ash 
+ashof ( shape s ){
   ash a ;
   a.ashsize =  shape_size ( s ) ;
   a.ashalign = shape_align ( s ) ;
@@ -358,9 +357,8 @@ ash ashof
   OUTPUT A SECTION DIRECTIVE
 */
 
-void insection 
-    PROTO_N ( ( s ) )
-    PROTO_T ( enum section s ){
+void 
+insection ( enum section s ){
   if (!sysV_assembler && s == rodata_section)
     s = data_section;
   if ( s == current_section ) return ;
@@ -415,9 +413,8 @@ void insection
   MARK AN EXPRESSION AS UNALIASED
 */
 
-void mark_unaliased 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
+void 
+mark_unaliased ( exp e ){
   exp p = pt ( e ) ;
   bool ca = 1 ;
   assert ( !separate_units ) ;
@@ -450,9 +447,8 @@ void mark_unaliased
   RENAMING ROUTINE
 */
 
-void out_rename 
-    PROTO_N ( ( oldid, newid ) )
-    PROTO_T ( char * oldid X char * newid ){
+void 
+out_rename ( char * oldid, char * newid ){
 #if 0
   outs ( "\t" ) ;
   outs ( oldid ) ;
@@ -474,8 +470,8 @@ weak_cell *weak_list = null ;
 /*
   INITIALISE TRANSLATOR
 */
-void init_translator 
-    PROTO_Z (){
+void 
+init_translator (void){
   /* initialise nowhere */
   setregalt ( nowhere.answhere, 0 ) ;
   nowhere.ashwhere.ashsize = 0 ;
@@ -514,9 +510,8 @@ void init_translator
 /*
   Return the tag with name 'tag_name'
 */
-baseoff find_tag 
-    PROTO_N ( ( tag_name ) )
-    PROTO_T ( char * tag_name ){
+baseoff 
+find_tag ( char * tag_name ){
   int i;
   for (i=0; i<main_globals_index; ++i){
     exp newtag = main_globals[i]->dec_u.dec_val.dec_exp;
@@ -532,8 +527,8 @@ baseoff find_tag
 /*
   EXIT TRANSLATOR
 */
-void exit_translator 
-    PROTO_Z (){
+void 
+exit_translator (void){
   output_special_routines () ;
   insection ( text_section ) ;
 
@@ -556,8 +551,8 @@ void exit_translator
 /*
   TRANSLATE AN ENTIRE TDF CAPSULE
 */
-void translate_capsule 
-    PROTO_Z (){
+void 
+translate_capsule (void){
   int i ;
   int r ;
   dec *d ;
@@ -952,8 +947,8 @@ void translate_capsule
   TRANSLATE A SINGLE TAG DEFINITION
 */
 
-void translate_tagdef 
-    PROTO_Z (){
+void 
+translate_tagdef (void){
   /* not implemented */
   return ;
 }
@@ -962,8 +957,8 @@ void translate_tagdef
 /*
   TRANSLATE A SINGLE UNIT
 */	
-void translate_unit 
-    PROTO_Z (){
+void 
+translate_unit (void){
   if ( separate_units ) {
     dec *d ;
     translate_capsule () ;

@@ -99,9 +99,8 @@ bool do_comment = 0 ;
   ERROR REPORTING ROUTINE
 */
 
-void fail 
-    PROTO_N ( ( mess ) )
-    PROTO_T ( char * mess ){
+void 
+fail ( char * mess ){
   if ( do_comment ) {
     outs ( "!! TRANSLATION FAILED : " ) ;
     outs ( mess ) ;

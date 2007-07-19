@@ -104,8 +104,8 @@ static int last_label = 50 ;
   readability.
 */
 
-void seed_label 
-    PROTO_Z (){
+void 
+seed_label (void){
   int old_last_label = last_label ;
   last_label = ( ( last_label + 100 ) / 100 ) * 100 ;
   assert ( last_label >= old_last_label ) ;
@@ -117,8 +117,8 @@ void seed_label
     CALCULATE NEXT LABEL NUMBER
 */
 
-int new_label 
-    PROTO_Z (){
+int 
+new_label (void) {
   last_label++ ;
   return ( last_label ) ;
 }	
@@ -127,9 +127,8 @@ int new_label
 /*
   PRINT A LABEL
 */
-void set_label 
-    PROTO_N ( ( l ) )
-    PROTO_T ( int l ){
+void 
+set_label ( int l ){
   outs ( lab_prefix ) ;
   outn ( l ) ;
   outs ( ":\n" ) ;

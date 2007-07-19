@@ -196,7 +196,7 @@ static int complexity
 }
 
 #define MASK 3
-#define REJ_ONCE(1)
+#define REJ_ONCE (1)
 #define OK_ONCE (2)
 static char *classify[] = { "Impossible","Never","Always","Sometimes"};
 

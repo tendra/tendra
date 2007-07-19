@@ -100,9 +100,8 @@ $Log: guard.c,v $
     GUARD THE FIXED REGISTER r IN sp
 */
 
-space guardreg 
-    PROTO_N ( ( r, sp ) )
-    PROTO_T ( int r X space sp )
+space 
+guardreg ( int r, space sp )
 {
     if ( IS_TREG ( r ) ) sp.fixed |= RMASK ( r ) ;
     return ( sp ) ;
@@ -113,9 +112,8 @@ space guardreg
     GUARD THE FLOATING REGISTER r IN sp
 */
 
-space guardfreg 
-    PROTO_N ( ( r, sp ) )
-    PROTO_T ( int r X space sp )
+space 
+guardfreg ( int r, space sp )
 {
     if ( IS_FLT_TREG ( r ) ) sp.flt |= RMASK ( r ) ;
     return ( sp ) ;
@@ -128,9 +126,8 @@ space guardfreg
   been used.
 */
 
-space needreg 
-    PROTO_N ( ( r, sp ) )
-    PROTO_T ( int r X space sp )
+space 
+needreg ( int r, space sp )
 {
 #if 0
     if ( !( tempdecopt && IS_TREG ( r ) ) &&
@@ -148,9 +145,8 @@ space needreg
     This routine is like guardfreg, but fails if r has already been used.
 */
 
-space needfreg 
-    PROTO_N ( ( r, sp ) )
-    PROTO_T ( int r X space sp )
+space 
+needfreg ( int r, space sp )
 {
 #if 0
     if ( !( tempdecopt && IS_FLT_TREG ( r ) ) &&
@@ -166,9 +162,8 @@ space needfreg
     GUARD ANY REGISTERS FROM w IN sp
 */
 
-space guard 
-    PROTO_N ( ( w, sp ) )
-    PROTO_T ( where w X space sp ){
+space 
+guard ( where w, space sp ){
   switch ( discrim ( w.answhere ) ) {
     case inreg : {
       /* guard fixed registers */

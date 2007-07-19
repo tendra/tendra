@@ -117,9 +117,8 @@ regpeep regexps [48] ;
     ARE TWO SHAPES OF THE SAME SIZE, ALIGNMENT AND FLOATING-POINT-NESS?
 */
 
-bool eq_sze 
-    PROTO_N ( ( as, bs ) )
-    PROTO_T ( shape as X shape bs )
+bool 
+eq_sze ( shape as, shape bs )
 {
     if ( is_floating ( name ( as ) ) ) {
 	return ( ( bool ) ( name ( as ) == name ( bs ) ) ) ;
@@ -136,9 +135,8 @@ bool eq_sze
     ARE TWO LISTS OF EXPRESSIONS SIMILAR?
 */
 
-bool sim_explist 
-    PROTO_N ( ( al, bl ) )
-    PROTO_T ( exp al X exp bl )
+bool 
+sim_explist ( exp al, exp bl )
 {
     if ( al == nilexp && bl == nilexp ) return ( 1 ) ;
     if ( al == nilexp || bl == nilexp ) return ( 0 ) ;
@@ -156,9 +154,8 @@ bool sim_explist
     is weakened to equal size and alignment.
 */
 
-bool sim_exp 
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( exp a X exp b )
+bool 
+sim_exp ( exp a, exp b )
 {
     if ( name ( a ) == name ( b ) ) {
 	if ( name ( a ) == name_tag ) {
@@ -182,9 +179,8 @@ bool sim_exp
     FORGET ALL REGISTER-EXP ASSOCIATIONS
 */
 
-void clear_all 
-    PROTO_Z ()
-{
+void 
+clear_all (void) {
     int i ;
     for ( i = 0 ; i < 48 ; i++ ) {
 	regexps [i].keptexp = nilexp ;
@@ -202,9 +198,8 @@ void clear_all
     FORGET THE EXP ASSOCIATED WITH REGISTER i
 */
 
-void clear_reg 
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+void 
+clear_reg ( int i )
 {
     i = ABS_OF ( i ) ;
     if ( i >= 0 && i < 48 ) {
@@ -223,9 +218,8 @@ void clear_reg
     HAS AN EXPRESSION ALREADY BEEN EVALUATED INTO A REGISTER?
 */
 
-ans iskept 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+ans 
+iskept ( exp e )
 {
     int i ;
     ans nilans ;
@@ -327,9 +321,8 @@ ans iskept
     SET UP AN EXP-LOCATION ASSOCIATION
 */
 
-void keepexp 
-    PROTO_N ( ( e, loc ) )
-    PROTO_T ( exp e X ans loc )
+void 
+keepexp ( exp e, ans loc )
 {
     int reg ;
 
@@ -372,9 +365,8 @@ void keepexp
     SET UP A CONTENTS-REGISTER ASSOCIATION
 */
 
-void keepcont 
-    PROTO_N ( ( e, regcode ) )
-    PROTO_T ( exp e X int regcode )
+void 
+keepcont ( exp e, int regcode )
 {
     freg fr ;
     int reg = ABS_OF ( regcode ) ;
@@ -407,9 +399,8 @@ void keepcont
     SET UP AN EXP-REGISTER ASSOCIATION
 */
 
-void keepreg 
-    PROTO_N ( ( e, regcode ) )
-    PROTO_T ( exp e X int regcode )
+void 
+keepreg ( exp e, int regcode )
 {
     freg fr ;
     int reg = ABS_OF ( regcode ) ;
@@ -442,9 +433,8 @@ void keepreg
     COULD e BE lhs?
 */
 
-bool couldbe 
-    PROTO_N ( ( e, lhs ) )
-    PROTO_T ( exp e X exp lhs )
+bool 
+couldbe ( exp e, exp lhs )
 {
     unsigned char ne = name ( e ) ;
     exp s = son ( e ) ;
@@ -481,9 +471,8 @@ bool couldbe
     COULD AN ALTERATION TO z EFFECT e?
 */
 
-bool couldeffect 
-    PROTO_N ( ( e, z ) )
-    PROTO_T ( exp e X exp z )
+bool 
+couldeffect ( exp e, exp z )
 {
     unsigned char ne = name ( e ) ;
 
@@ -513,9 +502,8 @@ bool couldeffect
     DOES e DEPEND ON z?
 */
 
-bool dependson 
-    PROTO_N ( ( e, isc, z ) )
-    PROTO_T ( exp e X bool isc X exp z )
+bool 
+dependson ( exp e, bool isc, exp z )
 {
     if (e == nilexp) {
 	return 0;
@@ -552,9 +540,8 @@ bool dependson
     REMOVE ASSOCATIONS OF ANY REGISTERS DEPENDING ON lhs
 */
 
-void clear_dep_reg 
-    PROTO_N ( ( lhs ) )
-    PROTO_T ( exp lhs )
+void 
+clear_dep_reg ( exp lhs )
 {
   int i ;
   for ( i = 0 ; i < 48 ; i++ )

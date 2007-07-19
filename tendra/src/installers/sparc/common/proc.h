@@ -142,6 +142,6 @@ extern makeans make_make_dynamic_callee_tag(exp,space,where,int);
 extern makeans make_same_callees_tag(exp,space,where,int);
 extern makeans make_tail_call_tag(exp,space,where,int);
 
-#define PARAMS_OFFSET(16+1)*32
+#define PARAMS_OFFSET (16+1)*32
 
 #endif /* PROCDECS_INCLUDED */

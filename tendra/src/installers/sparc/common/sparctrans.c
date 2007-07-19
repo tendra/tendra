@@ -224,9 +224,8 @@ int do_dynamic_init=1;    /* Only applies to SunOS */
   OPEN INPUT AND OUTPUT FILES
 */
 
-static void open_files 
-    PROTO_N ( ( infname, outfname ) )
-    PROTO_T ( char * infname X char * outfname ){
+static void 
+open_files ( char * infname, char * outfname ){
 
   if ( !initreader ( infname ) ) {
     fprintf ( stderr, "%s : cannot open input file %s\n",
@@ -254,9 +253,8 @@ static void open_files
   MAIN ROUTINE
 */
 
-int main 
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char ** argv )
+int 
+main ( int argc, char ** argv )
 {
   int a = 1 ;
   char *arg ;

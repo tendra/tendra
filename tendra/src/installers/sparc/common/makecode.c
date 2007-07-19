@@ -449,9 +449,8 @@ where nowhere ;
 /*
   CHECK FOR NOT-A-NUMBER
 */
-void checknan 
-    PROTO_N ( ( e, fr ) )
-    PROTO_T ( exp e X int fr )
+void 
+checknan ( exp e, int fr )
 {
 #if 0
   long trap = no ( son ( pt ( e ) ) ) ;
@@ -467,8 +466,8 @@ void checknan
   Not available until SunOS 5.0.
 */
 
-void setvolatile 
-    PROTO_Z ()
+void 
+setvolatile (void)
 {
   outs ( "!\t.volatile\n" ) ;
   return ;
@@ -480,8 +479,8 @@ void setvolatile
   Not available until SunOS 5.0.
 */
 
-void setnovolatile 
-    PROTO_Z ()
+void 
+setnovolatile (void)
 {
   outs ( "!\t.nonvolatile\n" ) ;
   return ;
@@ -493,9 +492,8 @@ void setnovolatile
 /*
   Jump to the exception handler
 */
-void do_exception 
-    PROTO_N ( ( ex ) )
-    PROTO_T ( int ex )
+void 
+do_exception ( int ex )
 {
   baseoff b;
   ir_ins(i_mov,ex,R_O0);
@@ -510,9 +508,8 @@ void do_exception
   Check whether or not an exception condition has occured and,
   if so, jump to the label given in no(son(pt(e))).  
 */
-static void check_integer_exception 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static 
+void check_integer_exception ( exp e )
 {
 
   if(!error_treatment_is_trap(e)){
@@ -547,9 +544,8 @@ static void check_integer_exception
   register to see if an exception has been raised.  If so, output a jump
   to the error label for the exp, otherwise return.
 */
-static void check_floating_exception 
-    PROTO_N ( ( e, sp, except ) )
-    PROTO_T ( exp e X space sp X int except )
+static 
+void check_floating_exception ( exp e, space sp, int except )
 {
   freg fr;
   ans aa;
@@ -595,9 +591,8 @@ static void check_floating_exception
   IEEE_754 exception.  Hopefully this still sets the 
   exception bit in the FSR.
 */
-static void turn_off_trap_on_exceptions 
-    PROTO_N ( ( sp ) )
-    PROTO_T ( space sp )
+static void 
+turn_off_trap_on_exceptions ( space sp )
 {
   freg fr;
   ans aa;
@@ -625,9 +620,8 @@ static void turn_off_trap_on_exceptions
   looking at the top 32 bits of the result, which are held in
   the Y register.
 */
-static void check_integer_multiply_exception 
-    PROTO_N ( ( e, sp, result ) )
-    PROTO_T ( exp e X space sp X int result )
+static void 
+check_integer_multiply_exception ( exp e, space sp, int result )
 {
   space nsp;
   int yreg;
@@ -669,26 +663,23 @@ static void check_integer_multiply_exception
   If the value in register reg does not lie between the limits, then
   go to label trap.
 */
-void test_unsigned 
-    PROTO_N ( ( reg, upper, trap ) )
-    PROTO_T ( int reg X int upper X int trap )
+void 
+test_unsigned ( int reg, int upper, int trap )
 {
   condri_ins(i_bgu,reg,upper,trap);
   return;
 }
 
-void test_signed 
-    PROTO_N ( ( reg, lower, upper, trap ) )
-    PROTO_T ( int reg X int lower X int upper X int trap )
+void 
+test_signed( int reg, int lower, int upper, int trap )
 {
   condri_ins(i_blt,reg,lower,trap);
   condri_ins(i_bgt,reg,upper,trap);
   return;
 }
 
-void test_signed_and_trap 
-    PROTO_N ( ( reg, lower, upper, except ) )
-    PROTO_T ( int reg X int lower X int upper X int except )
+void 
+test_signed_and_trap ( int reg, int lower, int upper, int except )
 {
   int ok_lab = new_label();
   int jump_label = new_label();
@@ -702,9 +693,8 @@ void test_signed_and_trap
   return;
 }
 
-void test_unsigned_and_trap 
-    PROTO_N ( ( reg, upper, except ) )
-    PROTO_T ( int reg X long upper X int except )
+void 
+test_unsigned_and_trap ( int reg, long upper, int except )
 {
   int ok_lab = new_label();
   condri_ins(i_bleu,reg,upper,ok_lab);
@@ -713,9 +703,8 @@ void test_unsigned_and_trap
   return;
 }
 
-int regfrmdest 
-    PROTO_N ( ( dest, sp ) )
-    PROTO_T ( where * dest X space sp )
+int 
+regfrmdest ( where * dest, space sp )
 {
   if(dest->answhere.d == inreg){
     return regalt(dest->answhere);
@@ -726,9 +715,8 @@ int regfrmdest
 }
 
 
-void load_reg 
-    PROTO_N ( ( e, reg, sp ) )
-    PROTO_T ( exp e X int reg X space sp )
+void 
+load_reg ( exp e, int reg, space sp )
 {
   where w;
   w.ashwhere = ashof(sh(e));
@@ -856,9 +844,8 @@ prop notbranch [] = {
 /*
   MOVE A FLOATING POINT CONSTANT INTO A REGISTER
 */
-static void fconst 
-    PROTO_N ( ( f, hi, lo ) )
-    PROTO_T ( int f X long hi X long lo )
+static void 
+fconst ( int f, long hi, long lo )
 {
   baseoff b ;
   int dlab = next_data_lab () ;
@@ -887,9 +874,8 @@ static void fconst
 /*
   MOVE A FLOATING POINT CONSTANT INTO A REGISTER
 */
-static void ldconst 
-    PROTO_N ( ( r, hi, word2, word3, lo ) )
-    PROTO_T ( int r X long hi X long word2 X long word3 X long lo )
+static void 
+ldconst ( int r, long hi, long word2, long word3, long lo )
 {
   baseoff b ;
   int dlab = next_data_lab () ;
@@ -930,9 +916,8 @@ static void ldconst
 /*
   FIND THE LAST TEST IN e WHICH IS A BRANCH TO second
 */
-static exp testlast 
-    PROTO_N ( ( e, second ) )
-    PROTO_T ( exp e X exp second )
+static exp 
+testlast ( exp e, exp second )
 {
   if ( name ( e ) == test_tag && pt ( e ) == second ) return ( e ) ;
   if ( name ( e ) == seq_tag ) {
@@ -961,9 +946,8 @@ static exp testlast
 /*
   IS e THE LAST PROCEDURE ARGUMENT?
 */
-bool last_param 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool 
+last_param ( exp e )
 {
   if ( !isparam ( e ) ) return ( 0 ) ;
   e = bro ( son ( e ) ) ;
@@ -989,9 +973,8 @@ bool last_param
   Should really detect this once and for all at an earlier stage and
   record in props ( e ).
 */
-static int has_bitfield 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static int 
+has_bitfield ( exp e )
 {
   if ( e == nilexp ) return ( 0 ) ;
   switch ( name ( e ) ) {
@@ -1019,9 +1002,8 @@ static int has_bitfield
   val_tag case in needscan.c.
 */
 
-static void fix_nonbitfield 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static void 
+fix_nonbitfield ( exp e )
 {
   if ( name ( e ) == compound_tag ) {
     e = son ( e ) ;
@@ -1065,9 +1047,8 @@ static void fix_nonbitfield
 /*
   This function finds the caller_tag corresponding to a caller_name tag
 */
-exp find_ote 
-    PROTO_N ( ( nom, n ) )
-    PROTO_T ( exp nom X int n ) 
+exp 
+find_ote ( exp nom, int n ) 
 {
   exp dad = father(nom);
   while(name(dad) != apply_general_tag) {
@@ -1089,9 +1070,8 @@ exp find_ote
   round_towards zero, so the numbers used as the limits of the ranges are
   adjusted to account for this.
 */
-void check_range_and_do_error_jump 
-    PROTO_N ( ( rep_var, r, lab, sp, rmode ) )
-    PROTO_T ( shape rep_var X int r X int lab X space sp X int rmode ) 
+void 
+check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmode ) 
 {
   int ftmp = getfreg(sp.flt);
   int to_small = (rmode == (int)f_toward_smaller);
@@ -1238,14 +1218,12 @@ void check_range_and_do_error_jump
 */
 
 #ifdef NEWDIAGS
-makeans make_code_1 
-    PROTO_N ( ( e, sp, dest, exitlab ) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans 
+make_code_1 ( exp e, space sp, where dest, int exitlab )
 {
 #else
-makeans make_code 
-    PROTO_N ( ( e, sp, dest, exitlab ) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans 
+make_code ( exp e, space sp, where dest, int exitlab )
 {
 #endif
   makeans mka ;
@@ -4892,18 +4870,16 @@ struct make_code_args {
 	makeans res;
 };
 
-static void make_code_2 
-    PROTO_N ( ( args ) )
-    PROTO_T ( void * args )
+static 
+void make_code_2 ( void * args )
 {
   struct make_code_args * x = (struct make_code_args *) args;
   x->res = make_code_1 (x->e, x->sp, x->dest, x->exitlab);
   return;
 }
 
-dg_where find_diag_res 
-    PROTO_N ( ( args ) )
-    PROTO_T ( void * args )
+dg_where 
+find_diag_res ( void * args )
 {
   struct make_code_args * x = (struct make_code_args *) args;
   dg_where w;
@@ -4943,9 +4919,8 @@ dg_where find_diag_res
 }
 
 
-makeans make_code 
-    PROTO_N ( ( e, sp, dest, exitlab ) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans 
+make_code ( exp e, space sp, where dest, int exitlab )
 {
   dg_info was_current = current_dg_info;
   current_dg_info = nildiag;
@@ -5038,17 +5013,15 @@ makeans make_code
 
 
 
-static void done_arg
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+static void 
+done_arg ( void * args )
 {
   UNUSED (args);
   return;
 }
 
-void diag_arg
-    PROTO_N ( (e, sp, dest) )
-    PROTO_T ( exp e X space sp X where dest )
+void 
+diag_arg ( exp e, space sp, where dest )
 {
   if (dgf(e)) {
     struct make_code_args args;

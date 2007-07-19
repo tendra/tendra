@@ -118,9 +118,8 @@ static long choosefloat = RMASK ( R_FLT_FIRST ) ;
     This is called at the start of each procedure.
 */
 
-void settempregs 
-    PROTO_N ( ( tg ) )
-    PROTO_T ( exp tg ){
+void 
+settempregs ( exp tg ){
   currentfix = R_O0 ;
   choosefix = RMASK ( currentfix ) ;
   currentfloat = 1 ;
@@ -136,9 +135,8 @@ void settempregs
   Avoid R_O7 until last, so it's available for PIC_code case.
 */
 
-int getreg 
-    PROTO_N ( ( fixed ) )
-    PROTO_T ( long fixed ){
+int 
+getreg ( long fixed ){
   int reg = -1 ;
   long start = choosefix ;
   assert ( choosefix == RMASK ( currentfix ) ) ;
@@ -181,9 +179,8 @@ int getreg
   The argument fl gives the bitmask of all the unavailable registers.
 */
 
-int getfreg 
-    PROTO_N ( ( fl ) )
-    PROTO_T ( long fl ){
+int 
+getfreg ( long fl ){
   int reg = -1 ;
   long start = choosefloat ;
   assert ( choosefloat == RMASK ( currentfloat ) ) ;

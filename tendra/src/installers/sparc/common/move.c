@@ -199,9 +199,8 @@ static CONST ins_sgn_pair st_ins_sz [] = {
   FIND THE LOAD INSTRUCTION FOR SIZE bits, SIGNEDNESS sgned
 */
 
-ins_p i_ld_sz 
-    PROTO_N ( ( bits, sgned ) )
-    PROTO_T ( int bits X int sgned ){
+ins_p 
+i_ld_sz ( int bits, int sgned ){
   return ( ld_ins_sz [ bits / 8 ] [ sgned ] ) ;
 }
 
@@ -210,9 +209,8 @@ ins_p i_ld_sz
   FIND THE STORE INSTRUCTION FOR SIZE bits (UNSIGNED)
 */
 
-ins_p i_st_sz 
-    PROTO_N ( ( bits ) )
-    PROTO_T ( int bits ){
+ins_p 
+i_st_sz ( int bits ){
   return ( st_ins_sz [ bits / 8 ] [0] ) ;
 }
 
@@ -221,9 +219,8 @@ ins_p i_st_sz
   LOAD THE ADDRESS REPRESENTED BY is INTO reg
 */
 
-void ld_addr 
-    PROTO_N ( ( is, reg ) )
-    PROTO_T ( instore is X int reg ){
+void 
+ld_addr ( instore is, int reg ){
   if ( is.adval ) {
     if ( IS_FIXREG ( is.b.base ) ) {
       rir_ins ( i_add, is.b.base, is.b.offset, reg ) ;
@@ -242,9 +239,8 @@ void ld_addr
   The register number is returned.  regs gives the registers to 
   choose from.
 */
-int addr_reg 
-    PROTO_N ( ( is, regs ) )
-    PROTO_T ( instore is X long regs ){
+int 
+addr_reg ( instore is, long regs ){
   int r ;
   if ( is.adval && IS_FIXREG ( is.b.base ) && is.b.offset == 0 ) {
     return ( is.b.base ) ;
@@ -261,8 +257,7 @@ int addr_reg
 */
 
 int move 
-    PROTO_N ( ( a, dest, regs, sgned ) )
-    PROTO_T ( ans a X where dest X long regs X bool sgned ){
+    ( ans a, where dest, long regs, bool sgned ){
   int al = ( int ) dest.ashwhere.ashalign ;
   if ( dest.ashwhere.ashsize == 0 ) return ( NOREG ) ;
 

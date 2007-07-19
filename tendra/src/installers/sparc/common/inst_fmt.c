@@ -195,9 +195,8 @@ static CONST char reg_name_tab [66][5] = {
     FIND AN EXTERNAL NAME
 */
 
-char *ext_name 
-    PROTO_N ( ( id ) )
-    PROTO_T ( int id )
+char 
+*ext_name ( int id )
 {
     if ( id < 0 ) {
 	/* Negative numbers refer to globals */
@@ -216,9 +215,8 @@ char *ext_name
     OUTPUT A LOAD REGISTER-OFFSET INSTRUCTION
 */
 
-void ld_ro_ins 
-    PROTO_N ( ( ins, a, dest ) )
-    PROTO_T ( ins_p ins X baseoff a X int dest )
+void 
+ld_ro_ins ( ins_p ins, baseoff a, int dest )
 {
     long off = a.offset ;
     assert ( IS_FIXREG ( a.base ) ) ;
@@ -260,9 +258,8 @@ void ld_ro_ins
     OUTPUT A LOAD REGISTER-REGISTER INSTRUCTION
 */
 
-void ld_rr_ins 
-    PROTO_N ( ( ins, reg1, reg2, dest ) )
-    PROTO_T ( ins_p ins X int reg1 X int reg2 X int dest )
+void 
+ld_rr_ins ( ins_p ins, int reg1, int reg2, int dest )
 {
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t[%s+%s],%s\n", ins,
@@ -278,9 +275,8 @@ void ld_rr_ins
     OUTPUT A SET INSTRUCTION
 */
 
-void set_ins 
-    PROTO_N ( ( a, dest ) )
-    PROTO_T ( baseoff a X int dest )
+void 
+set_ins ( baseoff a, int dest )
 {
     char *extname = ext_name ( a.base ) ;
     long d = a.offset ;
@@ -313,9 +309,8 @@ void set_ins
 */
 
 
-void ld_ins 
-    PROTO_N ( ( ins, a, dest ) )
-    PROTO_T ( ins_p ins X baseoff a X int dest )
+void 
+ld_ins ( ins_p ins, baseoff a, int dest )
 {
     if ( !IS_FIXREG ( a.base ) ) {
 	/* global */
@@ -335,9 +330,8 @@ void ld_ins
     OUTPUT A STORE REGISTER-OFFSET INSTRUCTION
 */
 
-void st_ro_ins 
-    PROTO_N ( ( ins, src, a ) )
-    PROTO_T ( ins_p ins X int src X baseoff a )
+void 
+st_ro_ins ( ins_p ins, int src, baseoff a )
 {
     long off = a.offset ;
     assert ( IS_FIXREG ( a.base ) ) ;
@@ -379,9 +373,8 @@ void st_ro_ins
     OUTPUT A STORE REGISTER-REGISTER INSTRUCTION
 */
 
-void st_rr_ins 
-    PROTO_N ( ( ins, src, reg1, reg2 ) )
-    PROTO_T ( ins_p ins X int src X int reg1 X int reg2 )
+void 
+st_rr_ins ( ins_p ins, int src, int reg1, int reg2 )
 {
     fprintf ( as_file, "\t%s\t%s,[%s+%s]\n", ins,
 	      RN ( src ), RN ( reg1 ), RN ( reg2 ) ) ;
@@ -399,9 +392,8 @@ void st_rr_ins
     a temporary register.
 */
 
-void st_ins 
-    PROTO_N ( ( ins, src, a ) )
-    PROTO_T ( ins_p ins X int src X baseoff a )
+void 
+st_ins ( ins_p ins, int src, baseoff a )
 {
     if ( !IS_FIXREG ( a.base ) ) {
 	/* global */
@@ -424,9 +416,8 @@ void st_ins
     OUTPUT A THREE REGISTER INSTRUCTION
 */
 
-void rrr_ins 
-    PROTO_N ( ( ins, src1, src2, dest ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 X int dest )
+void 
+rrr_ins ( ins_p ins, int src1, int src2, int dest )
 {
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t%s,%s,%s\n", ins,
@@ -442,9 +433,8 @@ void rrr_ins
     OUTPUT A REGISTER, IMMEDIATE, REGISTER INSTRUCTION
 */
 
-void rir_ins 
-    PROTO_N ( ( ins, src1, imm, dest ) )
-    PROTO_T ( ins_p ins X int src1 X long imm X int dest )
+void 
+rir_ins ( ins_p ins, int src1, long imm, int dest )
 {
     clear_reg ( dest ) ;
 
@@ -513,9 +503,8 @@ void rir_ins
     OUTPUT A REGISTER TO REGISTER PSEUDO INSTRUCTION
 */
 
-void rr_ins 
-    PROTO_N ( ( ins, src, dest ) )
-    PROTO_T ( ins_p ins X int src X int dest )
+void 
+rr_ins ( ins_p ins, int src, int dest )
 {
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t%s,%s\n", ins, RN ( src ), RN ( dest ) ) ;
@@ -530,9 +519,8 @@ void rr_ins
     OUTPUT AN IMMEDIATE TO REGISTER PSEUDO INSTRUCTION
 */
 
-void ir_ins 
-    PROTO_N ( ( ins, imm, dest ) )
-    PROTO_T ( ins_p ins X long imm X int dest )
+void 
+ir_ins ( ins_p ins, long imm, int dest )
 {
     clear_reg ( dest ) ;
 
@@ -562,9 +550,8 @@ void ir_ins
     OUTPUT A LABEL TO REGISTER PSEUDO INSTRUCTION
 */
 
-void lr_ins 
-    PROTO_N ( ( imm, dest ) )
-    PROTO_T ( int imm X int dest )
+void 
+lr_ins ( int imm, int dest )
 {
     clear_reg ( dest ) ;
 
@@ -585,9 +572,7 @@ void lr_ins
     OUTPUT A ZEROADIC INSTRUCTION
 */
 
-void z_ins 
-    PROTO_N ( ( ins ) )
-    PROTO_T ( ins_p ins )
+void z_ins ( ins_p ins )
 {
     fprintf ( as_file, "\t%s\n", ins ) ;
 #ifdef NEWDWARF
@@ -601,9 +586,8 @@ void z_ins
     OUTPUT AN UNCONDITIONAL BRANCH
 */
 
-void uncond_ins 
-    PROTO_N ( ( ins, lab ) )
-    PROTO_T ( ins_p ins X int lab )
+void 
+uncond_ins ( ins_p ins, int lab )
 {
     fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, lab ) ;
     assert (lab > 100);
@@ -619,9 +603,8 @@ void uncond_ins
     OUTPUT A RETURN INSTRUCTION
 */
 
-void ret_ins 
-    PROTO_N ( ( ins ) )
-    PROTO_T ( ins_p ins )
+void 
+ret_ins ( ins_p ins )
 {
     fprintf ( as_file, "\t%s\n", ins ) ;
     outs ( "\tnop\n" ) ;	/* delay slot */
@@ -636,8 +619,8 @@ void ret_ins
     OUTPUT A RETURN AND RESTORE INSTRUCTION
 */
 
-void ret_restore_ins 
-    PROTO_Z ()
+void 
+ret_restore_ins ()
 {
     fprintf ( as_file, "\t%s\n", i_ret ) ;
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
@@ -654,9 +637,8 @@ void ret_restore_ins
 				 reg save area. See rw_fp in <machine/reg.h> */
 #define FP_OFFSET_IN_FRAME (8*4 + 6*4)
 
-void lngjmp 
-    PROTO_N ( ( o_fp_reg, pc_reg, r_new_sp ) )
-    PROTO_T ( int o_fp_reg X int pc_reg X int r_new_sp )
+void 
+lngjmp ( int o_fp_reg, int pc_reg, int r_new_sp )
 {
   int lab = new_label();
   baseoff frm;
@@ -702,8 +684,8 @@ void lngjmp
     See section D.4 of the SPARC architecture manual.
 */
 
-void stret_restore_ins 
-    PROTO_Z ()
+void 
+stret_restore_ins (void)
 {
     fprintf ( as_file, "\tjmp\t%%i7+12\n" ) ;
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
@@ -718,9 +700,8 @@ void stret_restore_ins
     OUTPUT AN EXTERNAL JUMP OR CALL INSTRUCTION
 */
 
-void extj_ins 
-    PROTO_N ( ( ins, b, param_regs_used ) )
-    PROTO_T ( ins_p ins X baseoff b X int param_regs_used )
+void 
+extj_ins ( ins_p ins, baseoff b, int param_regs_used )
 {
   char *ext = ext_name ( b.base ) ;
   if ( param_regs_used >= 0 ) {
@@ -755,8 +736,7 @@ void extj_ins
    provide its own delay slot filler 
 */
 void extj_ins_without_delay 
-    PROTO_N ( ( ins, b, param_regs_used ) )
-    PROTO_T ( ins_p ins X baseoff b X int param_regs_used ){
+    ( ins_p ins, baseoff b, int param_regs_used ){
   char *ext = ext_name ( b.base ) ;
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
@@ -782,9 +762,8 @@ void extj_ins_without_delay
   name is given by a string.
 */
 
-void extj_special_ins 
-    PROTO_N ( ( ins, ext, param_regs_used ) )
-    PROTO_T ( ins_p ins X CONST char * CONST ext X int param_regs_used ){
+void 
+extj_special_ins ( ins_p ins, CONST char * CONST ext, int param_regs_used ){
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
     assert ( param_regs_used <= 6 ) ;	/* %o0..%o5 */
@@ -804,9 +783,8 @@ void extj_special_ins
 
 /* as above, but with allowing the calling function to fill in the
    delay slot. */
-void extj_special_ins_no_delay 
-    PROTO_N ( ( ins, ext, param_regs_used ) )
-    PROTO_T ( ins_p ins X CONST char * CONST ext X int param_regs_used ){
+void 
+extj_special_ins_no_delay ( ins_p ins, CONST char * CONST ext, int param_regs_used ){
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
     assert ( param_regs_used <= 6 ) ;	/* %o0..%o5 */
@@ -830,9 +808,8 @@ void extj_special_ins_no_delay
   OUTPUT AN EXTERNAL JUMP TO REGISTER INSTRUCTION
 */
 
-void extj_reg_ins 
-    PROTO_N ( ( ins, reg, param_regs_used ) )
-    PROTO_T ( ins_p ins X int reg X int param_regs_used ){
+void 
+extj_reg_ins ( ins_p ins, int reg, int param_regs_used ){
   assert ( IS_FIXREG ( reg ) ) ;
   if ( sysV_assembler ) {
     /* The SysV assembler likes reg to be R_G1 for calls */
@@ -846,9 +823,8 @@ void extj_reg_ins
 }	
 
 
-void extj_reg_ins_no_delay 
-    PROTO_N ( ( ins, reg, param_regs_used ) )
-    PROTO_T ( ins_p ins X int reg X int param_regs_used ){
+void 
+extj_reg_ins_no_delay ( ins_p ins, int reg, int param_regs_used ){
   assert ( IS_FIXREG ( reg ) ) ;
   if ( sysV_assembler ) {
     /* The SysV assembler likes reg to be R_G1 for calls */
@@ -867,9 +843,8 @@ void extj_reg_ins_no_delay
   OUTPUT AN UNIMP INSTRUCTION
 */
 
-void unimp_ins 
-    PROTO_N ( ( imm ) )
-    PROTO_T ( long imm ){
+void 
+unimp_ins ( long imm ){
     fprintf ( as_file, "\tunimp\t%ld\n", imm ) ;
 #ifdef NEWDWARF
     count_ins(1);
@@ -882,9 +857,8 @@ void unimp_ins
   OUTPUT A CONDITIONAL INTEGER TEST JUMP
 */
 
-void br_ins 
-    PROTO_N ( ( ins, dest ) )
-    PROTO_T ( ins_p ins X int dest ){
+void 
+br_ins ( ins_p ins, int dest ){
   fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, dest ) ;
   assert (dest > 100);
   outs ( "\tnop\n" ) ;	/* delay slot */
@@ -898,9 +872,8 @@ void br_ins
   OUTPUT int branch for abs
 */
 
-void br_abs 
-    PROTO_N ( ( lab ) )
-    PROTO_T ( int lab ){
+void 
+br_abs ( int lab ){
 #ifdef NOT_SUN_BUGGY_ASM
   fprintf ( as_file, "\t%s\t%s%s\n", "bpos,a", lab_prefix, lab);
 #ifdef NEWDWARF
@@ -925,9 +898,8 @@ void br_abs
   cannot be another floating point instruction.
 */
 
-void fbr_ins 
-    PROTO_N ( ( ins, dest ) )
-    PROTO_T ( ins_p ins X int dest ){
+void 
+fbr_ins ( ins_p ins, int dest ){
   outs ( "\tnop\n" ) ;
   fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, dest ) ;
   assert (dest > 100);
@@ -943,9 +915,8 @@ void fbr_ins
   OUTPUT A REGISTER, REGISTER COMPARISON
 */
 
-void condrr_ins 
-    PROTO_N ( ( ins, src1, src2, lab ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 X int lab ){
+void 
+condrr_ins ( ins_p ins, int src1, int src2, int lab ){
   if(src2 == R_G0){
     fprintf ( as_file, "\ttst\t%s\n",RN(src1) );
   }
@@ -964,9 +935,8 @@ void condrr_ins
   OUTPUT A REGISTER, IMMEDIATE COMPARISON
 */
 
-void condri_ins 
-    PROTO_N ( ( ins, src1, imm, lab ) )
-    PROTO_T ( ins_p ins X int src1 X long imm X int lab ){
+void 
+condri_ins ( ins_p ins, int src1, long imm, int lab ){
   if ( SIMM13_SIZE(imm) ) {
     /* Small constant */
     fprintf ( as_file, "\tcmp\t%s,%ld\n", RN ( src1 ), imm ) ;
@@ -993,9 +963,8 @@ void condri_ins
     OUTPUT A REGISTER, REGISTER MAX/MIN
 */
 
-void fmaxminrr_ins 
-    PROTO_N ( ( ins, src1, src2, dest, ftype ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 X int dest X int ftype ) {
+void 
+fmaxminrr_ins ( ins_p ins, int src1, int src2, int dest, int ftype ) {
   ins_p fcmp_ins;
   int lab = new_label() ;
   fcmp_ins = i_fcmps;
@@ -1015,9 +984,8 @@ void fmaxminrr_ins
   
 
 
-void maxminrr_ins 
-    PROTO_N ( ( ins, src1, src2, dest ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 X int dest ){
+void 
+maxminrr_ins ( ins_p ins, int src1, int src2, int dest ){
   int lab = new_label() ;
   
   fprintf ( as_file, "\tcmp\t%s,%s\n", RN ( src1 ), RN ( src2 ) ) ;
@@ -1037,9 +1005,8 @@ void maxminrr_ins
   OUTPUT A REGISTER, IMMEDIATE MAX/MIN
 */
 
-void maxminri_ins 
-    PROTO_N ( ( ins, src1, val, dest ) )
-    PROTO_T ( ins_p ins X int src1 X long val X int dest ){
+void 
+maxminri_ins ( ins_p ins, int src1, long val, int dest ){
   int lab = new_label() ;
   
   if (!SIMM13_SIZE ( val ))  {
@@ -1075,9 +1042,8 @@ void maxminri_ins
   OUTPUT A LOAD FLOATING REGISTER-OFFSET INSTRUCTION
 */
 
-void ldf_ro_ins 
-    PROTO_N ( ( ins, a, dest ) )
-    PROTO_T ( ins_p ins X baseoff a X int dest ){
+void 
+ldf_ro_ins ( ins_p ins, baseoff a, int dest ){
   long off = a.offset ;
   assert ( IS_FIXREG ( a.base ) ) ;
   clear_freg ( dest ) ;
@@ -1114,9 +1080,8 @@ void ldf_ro_ins
   OUTPUT A LOAD FLOATING REGISTER-REGISTER INSTRUCTION
 */
 
-void ldf_rr_ins 
-    PROTO_N ( ( ins, reg1, reg2, dest ) )
-    PROTO_T ( ins_p ins X int reg1 X int reg2 X int dest ){
+void 
+ldf_rr_ins ( ins_p ins, int reg1, int reg2, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t[%s+%s],%s\n", ins,
 	    RN ( reg1 ), RN ( reg2 ), FRN(dest) ) ;
@@ -1134,9 +1099,8 @@ void ldf_rr_ins
   a temporary register.
 */
 
-void ldf_ins 
-    PROTO_N ( ( ins, a, dest ) )
-    PROTO_T ( ins_p ins X baseoff a X int dest ){
+void 
+ldf_ins ( ins_p ins, baseoff a, int dest ){
   if ( !IS_FIXREG ( a.base ) ) {
     /* global */
     baseoff tmp_off ;
@@ -1156,9 +1120,8 @@ void ldf_ins
   OUTPUT A STORE FLOATING REGISTER-OFFSET INSTRUCTION
 */
 
-void stf_ro_ins 
-    PROTO_N ( ( ins, src, a ) )
-    PROTO_T ( ins_p ins X int src X baseoff a ){
+void 
+stf_ro_ins ( ins_p ins, int src, baseoff a ){
   long off = a.offset ;
   assert ( IS_FIXREG ( a.base ) ) ;
   if ( a.base == R_TMP && ABS_OF ( off )  > ( 16 + 1 + 6 ) * 4 ) {
@@ -1197,9 +1160,8 @@ void stf_ro_ins
   OUTPUT A STORE FLOATING REGISTER-REGISTER INSTRUCTION
 */
 
-void stf_rr_ins 
-    PROTO_N ( ( ins, src, reg1, reg2 ) )
-    PROTO_T ( ins_p ins X int src X int reg1 X int reg2 ){
+void 
+stf_rr_ins ( ins_p ins, int src, int reg1, int reg2 ){
   fprintf ( as_file, "\t%s\t%s,[%s+%s]\n", ins, FRN(src), 
 	    RN ( reg1 ), RN ( reg2 ) ) ;
 #ifdef NEWDWARF
@@ -1216,9 +1178,8 @@ void stf_rr_ins
   a temporary register.
 */
 
-void stf_ins 
-    PROTO_N ( ( ins, src, a ) )
-    PROTO_T ( ins_p ins X int src X baseoff a ){
+void 
+stf_ins ( ins_p ins, int src, baseoff a ){
   if ( !IS_FIXREG ( a.base ) ) {
     /* global */
     baseoff tmp_off ;
@@ -1238,9 +1199,8 @@ void stf_ins
   OUTPUT A FLOATING REGISTER, FLOATING REGISTER COMPARISON
 */
 
-void rrf_cmp_ins 
-    PROTO_N ( ( ins, src1, src2 ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 ){
+void 
+rrf_cmp_ins ( ins_p ins, int src1, int src2 ){
   fprintf ( as_file, "\t%s\t%s,%s\n", ins, FRN(src1), FRN(src2) ) ;
 #ifdef NEWDWARF
   count_ins(1);
@@ -1253,9 +1213,8 @@ void rrf_cmp_ins
   OUTPUT A FLOATING REGISTER, FLOATING REGISTER INSTRUCTION
 */
 
-void rrf_ins 
-    PROTO_N ( ( ins, src, dest ) )
-    PROTO_T ( ins_p ins X int src X int dest ){
+void 
+rrf_ins ( ins_p ins, int src, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t%s,%s\n", ins, FRN(src), FRN(dest) ) ;
 #ifdef NEWDWARF
@@ -1269,9 +1228,8 @@ void rrf_ins
   OUTPUT A THREE FLOATING REGISTER INSTRUCTION
 */
 
-void rrrf_ins 
-    PROTO_N ( ( ins, src1, src2, dest ) )
-    PROTO_T ( ins_p ins X int src1 X int src2 X int dest ){
+void 
+rrrf_ins ( ins_p ins, int src1, int src2, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t%s,%s,%s\n", ins, FRN(src1), 
 	    FRN(src2), FRN(dest) ) ;
@@ -1287,16 +1245,14 @@ void rrrf_ins
   OUTPUT AN OPERAND, AS PART OF AN ASM SEQUENCE
 */
 
-void out_asm_reg 
-    PROTO_N ( ( r, fp ) )
-    PROTO_T ( int r X int fp ){
+void 
+out_asm_reg ( int r, int fp ){
   outs ((fp ? FRN(r) : RN(r)));
   return ;
 }
 
-void out_asm_boff 
-    PROTO_N ( ( b, o2 ) )
-    PROTO_T ( baseoff b X long o2 ){
+void 
+out_asm_boff ( baseoff b, long o2 ){
   long off = b.offset + o2;
   if ( off == 0 )
     fprintf ( as_file, "[%s]", RN(b.base));

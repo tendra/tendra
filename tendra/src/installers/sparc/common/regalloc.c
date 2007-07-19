@@ -156,9 +156,8 @@ bool avoid_L7 = 0 ;
    we will see the parameters first, so won't call this until 
    the remaining Ix's are available...
 */
-static int SREG_TO_REALREG 
-    PROTO_N ( ( n ) )
-    PROTO_T ( int n ){
+static int 
+SREG_TO_REALREG ( int n ){
   int m = ( avoid_L7 ? 7 : 8 ) ;
   int par_reg_max;
   if ( n <= m ) return ( R_L0 + ( n - 1 ) ) ;
@@ -202,9 +201,8 @@ spacereq zerospace = { 0, 0, 0 } ;
   the two.
 */
 
-spacereq maxspace 
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( spacereq a X spacereq b ){
+spacereq 
+maxspace ( spacereq a, spacereq b ){
   a.fixdump |= b.fixdump ;
   a.fltdump |= b.fltdump ;
   a.stack = MAX_OF ( a.stack, b.stack ) ;
@@ -219,9 +217,8 @@ spacereq maxspace
   The initial stack size is given by stack.
 */
 
-spacereq regalloc 
-    PROTO_N ( ( e, freefixed, freefloat, stack ) )
-    PROTO_T ( exp e X int freefixed X int freefloat X long stack ){
+spacereq 
+regalloc ( exp e, int freefixed, int freefloat, long stack ){
   spacereq def ;
   exp s = son ( e ) ;
   unsigned char n = name ( e ) ;

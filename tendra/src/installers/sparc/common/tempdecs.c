@@ -126,9 +126,8 @@ static bool useinpar ;
   assignment to id, otherwise delivers 1.
 */
 
-int trace_uses 
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id ){
+int 
+trace_uses ( exp e, exp id ){
   if ( APPLYLIKE ( e ) ) {
     int u = nouses ;
     int p = 1 ;
@@ -216,9 +215,8 @@ int trace_uses
   APPLY TRACE_USES TO DYNAMIC SUCCESSORS OF a
 */
 
-void after_a 
-    PROTO_N ( ( a, id ) )
-    PROTO_T ( exp a X exp id ){
+void 
+after_a ( exp a, exp id ){
   unsigned char n ;
   exp dad ;
   exp l ;
@@ -252,9 +250,8 @@ void after_a
   CHECK SIMPLE SEQUENCES
 */
 
-bool simple_seq 
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id ){
+bool 
+simple_seq ( exp e, exp id ){
   exp dad = father ( e ) ;
   for ( ; ; ) {
     if ( dad == id ) return ( 1 ) ;
@@ -277,9 +274,8 @@ bool simple_seq
   be allocated into a t-register or parameter register.
 */
 
-bool tempdec 
-    PROTO_N ( ( e, enoughs ) )
-    PROTO_T ( exp e X bool enoughs ){
+bool 
+tempdec ( exp e, bool enoughs ){
   exp p ;
   if ( !tempdecopt ) return ( 0 ) ;
   nouses = 0 ;
