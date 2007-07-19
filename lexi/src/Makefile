@@ -1,5 +1,10 @@
 # $Id$
 
+INSTALL=install
+
+PREFIX?=/usr/local
+BINDIR?=${PREFIX}/bin
+
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 
@@ -25,7 +30,7 @@ all: lexi
 # This is just until I have lexi moved out and cleaned up - kate
 lexi: char.o syntax.o lex.o main.o output.o \
 	shared/xalloc.a shared/error.a
-	$(CC) $(CFLAGS) -o lexi char.o syntax.o lex.o main.o output.o \
+	${CC} ${CFLAGS} -o lexi char.o syntax.o lex.o main.o output.o \
 		shared/error.a shared/xalloc.a
 
 clean:
@@ -33,7 +38,9 @@ clean:
 		lexi
 	cd shared && make clean
 
-install:
+install: lexi
+	${INSTALL} -m 755 -d ${BINDIR}
+	${INSTALL} -m 755 lexi ${BINDIR}/
 
 shared/error.a:
 	cd shared && make error.a

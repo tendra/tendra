@@ -14,6 +14,10 @@ TEXINPUTS=../style/tex
 
 CLEAN_EXTRA=tokens.png
 
+PREFIX?=/usr/local
+SHAREDIR?=${PREFIX}/share
+DOCDIR?=${SHAREDIR}/doc
+
 include ../doctools/Mk/docbook.mk
 
 guide.xml: ../cmdsynopsis.xml commands.xml specification.xml
@@ -22,7 +26,12 @@ tokens.png: tokens.dia
 	dia -t png tokens.dia
 
 all: tokens.png
-	cp tokens.png $(XHTMLDIR)/$(NAME)
-	cp tokens.png $(XHTMLDIR)/$(NAME)-single
+	cp tokens.png ${XHTMLDIR}/${NAME}
+	cp tokens.png ${XHTMLDIR}/${NAME}-single
 
+install: all
+	install -m 755 -d ${DOCDIR}/lexi/${NAME}-single
+	install -m 644 ../xhtml/${NAME}-single/* ${DOCDIR}/lexi/${NAME}-single/
+	install -m 755 -d ${DOCDIR}/lexi/${NAME}
+	install -m 644 ../xhtml/${NAME}/* ${DOCDIR}/lexi/${NAME}/
 
