@@ -1,6 +1,7 @@
 /* tcc environment for system headers on unknown machine */
 
 +INCL			"-Nsystem1:<TENDRA_MACHDIR>/include -Nsystem:/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/include"
++INCL_CPP		""
 +FLAG			"-f<TENDRA_MACHDIR>/startup/system.h"
 +FLAG			"-Y32bit"
 +FLAG_TRANS		"-B0"

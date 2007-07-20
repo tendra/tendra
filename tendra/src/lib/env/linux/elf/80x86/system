@@ -1,6 +1,7 @@
 /* tcc environment for system headers on unknown machine */
 
 +INCL			"-Nsystem1:<TENDRA_MACHDIR>/include -Nsystem:/usr/include"
++INCL_CPP		""
 +FLAG			"-D__LINUX_USE_ELF"
 +FLAG			"-f<TENDRA_MACHDIR>/startup/system.h"
 +FLAG			"-Y32bit"
