@@ -3,6 +3,7 @@
 #pragma TenDRA directive unassert allow
 #pragma TenDRA directive include_next allow
 #pragma TenDRA longlong type allow
+#pragma TenDRA anonymous union allow
 #pragma TenDRA extra type definition allow
 #pragma TenDRA no external declaration allow
 #pragma TenDRA incompatible type qualifier allow
@@ -39,7 +40,6 @@
 #ifndef __inline__
 #pragma TenDRA keyword __inline__ for inline
 #endif
-#define _EXTERN_INLINE extern __inline__
 
 #ifndef __signed__
 #define __signed__	signed
@@ -48,6 +48,3 @@
 #ifndef __attribute__
 #define __attribute__(xyz)
 #endif
-
-/* gcc has alloca builtin */
-#include <alloca.h>

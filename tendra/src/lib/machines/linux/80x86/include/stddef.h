@@ -58,7 +58,8 @@ typedef long int wchar_t ;
 #endif
 
 #ifndef offsetof
-#define offsetof( __S, __M )	( ( size_t ) &( ( ( __S * ) 0 )->__M ) )
+#pragma TenDRA keyword __literal for keyword literal
+#define offsetof( __S, __M )	( __literal ( size_t ) &( ( ( __S * ) 0 )->__M ) )
 #endif
 
 #endif

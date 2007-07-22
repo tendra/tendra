@@ -90,11 +90,3 @@ TenDRA-4.1.1 posix1 API specification, this means that they may not
 compile under the TenDRA-4.1.1 (although they will with TenDRA-4.1.2
 of course).  If this is an issue then modify the Makefiles to use
 the older APIs.
-
-The location of certain system linker files has changed in later versions
-of Linux.  The solution is to change the tcc environment files to reflect
-the new locations.
-
-Todo:	cd src/lib/env/linux/elf
-	mv 80x86 80x86.old
-	mv 80x86.new 80x86

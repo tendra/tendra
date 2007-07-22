@@ -46,6 +46,7 @@
 #pragma TenDRA directive assert allow
 #pragma TenDRA directive unassert allow
 #pragma TenDRA longlong type allow
+#pragma TenDRA anonymous union allow
 
 /* Put target-dependent macro definitions here */
 
@@ -86,7 +87,8 @@
 #define __attribute__(xyz)
 #endif
 
-/* gcc has alloca builtin */
-#include <alloca.h>
+#ifndef __extension__
+#define __extension__
+#endif
 
 #endif
