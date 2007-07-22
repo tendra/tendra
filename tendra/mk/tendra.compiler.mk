@@ -32,6 +32,12 @@ _TENDRA_COMPILER_MK_=1
 # EXEC_SUFFIX is used on those platforms where executable names need to
 # have a particular suffix, for example it may be set to ".exe".
 
+.if exists(${BOBJ_DIR}/src/tools/tcc/tcc) && !defined(BOOTSTRAP)
+CC=	${BOBJ_DIR}/src/tools/tcc/tcc -Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src
+CFLAGS=
+LDFLAGS=
+.endif
+
 # Assume that the cc on this system is the GNU C Compiler.
 .if "${CC:[1]:T}" == "cc" || "${CC:[1]:T}" == "gcc"
 
@@ -81,12 +87,6 @@ CWARNFLAGS+=-Wall
 .elif "${CC:[1]:T}" == "tcc"
   CCOPTS+= ${CFLAGS}
   LDOPTS+= ${LDFLAGS}
-.endif
-
-.if exists(${BOBJ_DIR}/src/tools/tcc/tcc) && !defined(BOOTSTRAP)
-CC=	${BOBJ_DIR}/src/tools/tcc/tcc -Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src
-CFLAGS=
-LDFLAGS=
 .endif
 
 .if exists(${BOBJ_DIR}/src/utilities/sid/sid) && !defined(BOOTSTRAP)
