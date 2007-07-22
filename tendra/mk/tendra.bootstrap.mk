@@ -19,6 +19,11 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 # Do it all. Real workers, mutually exclusive, follow.
 
 .if "${API}" != ""
+
+CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
+CFLAGS=
+LDFLAGS=
+
 #
 # Build API dependencies.
 #
@@ -117,6 +122,11 @@ _objdir=	${OBJ_SDIR}
 #
 # Build a library
 #
+
+CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
+CFLAGS=
+LDFLAGS=
+
 _REALWORK: lib${LIB}.a
 
 lib${LIB}.a: ${OBJS}

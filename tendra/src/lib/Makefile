@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = env startup apis machines cpp/tokens libtdf
+SUBDIR = env startup apis machines cpp/src libtdf
 
 .include "Makefile.inc"

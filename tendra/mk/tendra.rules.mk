@@ -11,16 +11,28 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 # Implied rules.
 
-.SUFFIXES: .o .c .sid .j .pl
+.SUFFIXES: .o .c .cc .sid .j .pl
 
 .c.o:
 	@${ECHO} "# Compiling ${PARTIMP}"
 	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${.TARGET}
 
+.cc.o:
+	@${ECHO} "# Compiling ${PARTIMP}"
+	${CC} ${CCOPTS} -Yc++ -c ${.IMPSRC} -o ${.TARGET}
+
 .c.j:
 	@${ECHO} "# Compiling ${PARTIMP}"
 	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
 		-Y${OBJ_DIR}/${ENVIRONMENT}/build -Y${BLDARCHBITS}bit\
+		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
+		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
+		-o ${.TARGET} ${.IMPSRC} -Ymakelib -D__BUILDING_LIBS
+
+.cc.j:
+	@${ECHO} "# Compiling ${PARTIMP}"
+	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
+		-Y${OBJ_DIR}/${ENVIRONMENT}/build -Y${BLDARCHBITS}bit -Yc++\
 		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
 		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
 		-o ${.TARGET} ${.IMPSRC} -Ymakelib -D__BUILDING_LIBS

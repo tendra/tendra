@@ -644,7 +644,7 @@ void label_operand
   outs("$");
   outs(local_prefix);
   outs("V");
-  outn((long)l.i);
+  outhex(l.i);
   return;
 }
 
@@ -657,7 +657,7 @@ void set_lv_label
 
   outs(local_prefix);
   outs("V");
-  outn((long)l.i);
+  outhex(l.i);
   outs(":");
   outnl();
   return;
@@ -671,7 +671,7 @@ void set_env_off
   outs(".set ");
   outs(local_prefix);
   outs("O");
-  outn((long)l.i);		/* produce an identifying number */
+  outhex(l.i);		/* produce an identifying number */
   outs(",");
   if (s<4)
    {
@@ -698,7 +698,7 @@ void envoff_operand
    };
   outs(local_prefix);
   outs("O");
-  outn((long)l.i);		/* produce an identifying number */
+  outhex(l.i);		/* produce an identifying number */
   return;
 }
 
