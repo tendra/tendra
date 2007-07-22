@@ -2865,7 +2865,6 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 	/* Perform the declaration */
 	t = empty_complete_pre_type(bt, t, cv, 0);
 	if (mem) {
-		report(crt_loc, ERR_class_mem_declarator());
 		id = empty_member_decl(ds, q, t);
 	} else {
 		id = empty_object_decl(ds, q, t);
