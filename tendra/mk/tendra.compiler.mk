@@ -56,6 +56,7 @@ CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
 
   TCCOPTS=
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
+  LDOPTS+= ${LDFLAGS}
 # The Intel C Compiler.
 .elif "${CC:[1]:T}" == "icc"
 
@@ -75,11 +76,12 @@ CWARNFLAGS+=-Wall
 
   TCCOPTS=
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
+  LDOPTS+= ${LDFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
 .elif "${CC:[1]:T}" == "tcc"
-  TCCOPTS= -Ysystem
-  CCOPTS+=
+  CCOPTS+= ${CFLAGS}
+  LDOPTS+= ${LDFLAGS}
 .endif
 
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)

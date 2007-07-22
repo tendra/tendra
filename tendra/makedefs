@@ -71,7 +71,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="dragonfly"
@@ -82,7 +82,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
@@ -93,7 +93,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
@@ -104,7 +104,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
@@ -115,7 +115,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
@@ -126,7 +126,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS="--dynamic-linker /lib/ld-linux.so.2"
+			LDFLAGS="--dynamic-linker /lib/ld-linux.so.2 ${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="linux"
@@ -137,7 +137,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=""
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="linux"
@@ -148,7 +148,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD=""
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT=""
 			# Minix only runs on x86 for now.
 			LIBS="-L/usr/lib/i386 -lc"
@@ -159,7 +159,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="netbsd"
@@ -169,7 +169,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS="--dynamic-linker /libexec/ld.elf_so"
+			LDFLAGS="--dynamic-linker /libexec/ld.elf_so ${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="netbsd"
@@ -179,7 +179,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT=
 			LIBS="-lc"
 			OSFAM="netbsd"
@@ -189,7 +189,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="openbsd"
@@ -199,7 +199,7 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="openbsd"
@@ -220,7 +220,7 @@ case "${SYSTEM}.${VERSION}" in
 			CC="${CC}"
 			LD="ld"
 			CFLAGS="${CFLAGS}"
-			LDOPTS=
+			LDFLAGS="${LDFLAGS}"
 			LDCRT=
 			LIBS="-L/usr/lib -lc"
 			OSFAM="sunos"
@@ -252,7 +252,7 @@ echo "CCVER_MINOR:	${CCVER_MINOR}"
 echo "CCVER_TINY:	${CCVER_TINY}"
 echo "LD:		${LD}"
 echo "CFLAGS:		${CFLAGS}"
-echo "LDOPTS:		${LDOPTS}"
+echo "LDFLAGS:	${LDFLAGS}"
 echo "LDCRT:		${LDCRT}"
 echo "LIBS:		${LIBS}"
 echo "OSFAM:		${OSFAM}"
@@ -269,7 +269,7 @@ CCVER_MINOR=${CCVER_MINOR}
 CCVER_TINY=${CCVER_TINY}
 LD?=${LD}
 CFLAGS=${CFLAGS}
-LDOPTS=${LDOPTS}
+LDFLAGS=${LDFLAGS}
 LDCRT=${LDCRT}
 LIBS=${LIBS}
 OSFAM=${OSFAM}
