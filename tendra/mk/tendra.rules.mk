@@ -23,23 +23,15 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 .c.j:
 	@${ECHO} "# Compiling ${PARTIMP}"
-	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
-		-Y${OBJ_DIR}/${ENVIRONMENT}/build -Y${BLDARCHBITS}bit\
-		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
-		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
-		-o ${.TARGET} ${.IMPSRC} -Ymakelib -D__BUILDING_LIBS
+	${CC} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
 .cc.j:
 	@${ECHO} "# Compiling ${PARTIMP}"
-	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
-		-Y${OBJ_DIR}/${ENVIRONMENT}/build -Y${BLDARCHBITS}bit -Yc++\
-		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
-		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
-		-o ${.TARGET} ${.IMPSRC} -Ymakelib -D__BUILDING_LIBS
+	${CC} ${CCOPTS} ${JOPTS} -Yc++ -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
 .pl.j:
 	@${ECHO} "# Transforming ${PARTIMP}"
-	${TPL} ${.IMPSRC} ${.TARGET}
+	${TPL} ${TPLOPTS} ${.IMPSRC} ${.TARGET}
 
 .sid.c:
 	@${ECHO} "# Transforming ${PARTIMP} and ${PARTIMP:S/.sid/.act/}"

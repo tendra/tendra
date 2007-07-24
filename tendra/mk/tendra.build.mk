@@ -20,14 +20,16 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 # Do it all. Real workers, mutually exclusive, follow.
 
 .if "${API}" != ""
+#
+# Build API dependencies.
+#
 
 CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
 CFLAGS=
 LDFLAGS=
 
-#
-# Build API dependencies.
-#
+JOPTS= -Y32bit -I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
+	-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h -D__BUILDING_LIBS
 
 api-depend:
 	@${ECHO} "# Creating API source for ${API}"
@@ -142,6 +144,8 @@ _objdir=	${OBJ_SDIR}
 CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
 CFLAGS=
 LDFLAGS=
+
+JOPTS=
 
 _REALWORK: lib${LIB}.a
 
