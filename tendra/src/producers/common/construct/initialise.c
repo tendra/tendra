@@ -1433,8 +1433,8 @@ default_lab: {
 		}
 		break;
 	     }
-	return (e);
 	}
+	return (e);
 }
 
 
