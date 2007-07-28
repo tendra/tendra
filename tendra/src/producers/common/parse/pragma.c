@@ -331,11 +331,14 @@ parse_pragma(PPTOKEN *p, int tendra)
 	crt_line_changed = 1;
 	ADVANCE_LEXER;
 	if (pp) {
-		parse_preproc(&tok);
-		if (tok != lex_ignore_token) {
-			tok = lex_ignore_token;
-			have_syntax_error = 1;
-		}
+		/* try to parse the pragma, but ignore errors. typedefs are not
+		 * handled during preprocessing, and pragmas may refer to them.
+		 * pragmas should be parsed when possible though because they can
+		 * affect how #if expressions are evaluated */
+		int et = error_threshold;
+		error_threshold = ERROR_SERIOUS;
+		parse_tendra(&tok);
+		error_threshold = et;
 	} else {
 		parse_tendra(&tok);
 	}
