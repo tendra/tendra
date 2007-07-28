@@ -1205,7 +1205,7 @@ interpret_cmd(char *cmd)
 		}
 		*q++='\0';
 
-		while ((c1 = *p++) != NULL) {
+		while ((c1 = *p++) != '\0') {
 		    *r++ = c1;
 		    /*
 		     * Only the value is user supplied and needs bounds
