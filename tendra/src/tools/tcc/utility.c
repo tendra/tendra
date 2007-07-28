@@ -338,7 +338,7 @@ hash(char *key, int tblsize, int keysize)
 
 	while (*key && !is_whitespace(*key) && i < keysize) {
 		hashval += (hashval * 37) + (int) *key;
-		*key++;
+		key++;
 		i++;
 	}
 
