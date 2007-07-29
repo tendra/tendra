@@ -27,5 +27,5 @@ main.o: main.c comments.c
 	${CC} -c ${CFLAGS} main.c
 
 comments.c: comments.lxi
-	${LEXI} comments.lxi > comments.c
+	${LEXI} comments.lxi comments.c
 

@@ -25,5 +25,5 @@ main.o: main.c braille.c
 	${CC} -c ${CFLAGS} main.c
 
 braille.c: braille.lxi
-	${LEXI} braille.lxi > braille.c
+	${LEXI} braille.lxi braille.c
 
