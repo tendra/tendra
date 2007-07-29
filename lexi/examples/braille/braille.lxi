@@ -1,31 +1,30 @@
 /*
- * See http://www.brailleauthority.org/def.html
- * http://www.bauk.org.uk/docs/bbchanf.htm
- * http://www.iceb.org/ICEVI2006_UEB_Paper_Jolley.htm
+ * A lexical analyser tokenising english for BRF output. This is intended as
+ * an example for the use of Lexi. It is a rather unusual example and also
+ * serves to stretch the limits of Lexi's features and to provide discussion
+ * for future development. As such it is work in progress.
+ *
+ * TODO a lexer to go in the other direction would be interesting, too
+ * the conditionals would be an FSM for in-number, and so on.
+ *
+ * $Id$
  */
 
-/* We need to know about newlines, so we make them not whitespace */
+/*
+ * We need to know about newlines, and so we define whitespace to
+ * exclude them.
+ */
 GROUP white = " \t";
-
 TOKEN "\n" -> $newline;
-
-/* TODO a lexer to go in the other direction would be interesting, too
- * the conditionals would be an FSM for in-number, etc
- */
-
-/* TODO we output BRF (ASCII Braille, Digital Braille)
- * See http://www.duxburysystems.com/braille.asp
- * and http://en.wikipedia.org/wiki/Braille_ASCII
- * wrap to 40 columns, pagnate
- */
-
-/* TODO use conditionals to select between grade 1 and 2 */
 
 TOKEN "--" -> $dash;
 TOKEN "..." -> $elipsis;
 
 /*
  * Punctuation
+ *
+ * Not shown are the following characters, which map to themselves:
+ * ' - / #
  */
 MAPPING ","		-> "1";
 MAPPING ";"		-> "2";
@@ -36,21 +35,18 @@ MAPPING "("		-> "7";
 MAPPING ")"		-> "7";
 MAPPING "\""	-> "8";
 MAPPING "?"		-> "8";
-MAPPING "\'"	-> "'";
-MAPPING "/"		-> "/";
-MAPPING "#"		-> "#";
 MAPPING "|"		-> ">";
-MAPPING "-"		-> "-";
 
 /*
- * Specified here are the Grade 2 british braille contractions.
- * TODO call this "Contracted braille"
+ * Specified here are the Grade 2 british braille contractions. Contracted
+ * Braille uses 189 contractions in addition to the signs for Grade 1.
  */
 IF (grade2) {
 	/*
 	 * Short-form words.
 	 *
 	 * These should be words to themselves, not substitutions mid-word.
+	 *
 	 * TODO note that these don't take into account MAPPINGs; we should
 	 * either do that here, or map the keywords in our program.
 	 *
@@ -174,7 +170,7 @@ IF (grade2) {
 		MAPPING "of"		-> "(";
 		MAPPING "the"		-> "!";
 		MAPPING "with"		-> ")";
-		MAPPING "ch"		-> "*";	/* good example for "ch", "child" -> "*" */
+		MAPPING "ch"		-> "*";	/* TODO good example for "ch", "child" -> "*" */
 		MAPPING "child"		-> "*";
 		MAPPING "gh"		-> "<";
 		MAPPING "sh"		-> "%";
@@ -203,7 +199,9 @@ IF (grade2) {
 		MAPPING "gg"		-> "7";
 		MAPPING "his"		-> "8";
 		MAPPING "in"		-> "9";
-/*		MAPPING "into"		-> "96"; */
+		/* XXX: Mappings may only map to a single character.
+		MAPPING "into"		-> "96";
+		*/
 		MAPPING "was"		-> "0";
 		MAPPING "by"		-> "0";
 		MAPPING "st"		-> "/";
@@ -288,8 +286,5 @@ TOKEN "[alpha]" -> get_word();	/* This can call is_upper() */
 
 /* TODO needs to cope with decimal point; get_number can call is_digit() */
 GROUP digit = {0-9};
-/* TODO add support for TOKEN {0-9} -> x(); as convenience */
 TOKEN "[digit]" -> get_number();
-
-/* Grade 2 uses 189 contractions in addition to the signs for Grade1 */
 
