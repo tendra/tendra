@@ -1,40 +1,26 @@
 # $Id$
 
 INSTALL=install
+LEXI=lexi
+REMOVE=rm -f
+MOVE=mv
+SID=sid
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-#SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
-#LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
-
-#${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
-#
-#${SRC}/lexer.h : ${SRC}/lexer.lxi
-#	@${REMOVE} ${SRC}/lexer.h
-#	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h
-#
-#${SRC}/keyword.h : ${SRC}/lexer.lxi
-#	@${REMOVE} ${SRC}/keyword.h
-#	${LEXI} -k ${SRC}/lexer.lxi ${SRC}/keyword.h
-#
-#auto_clobber :
-#	${REMOVE} ${SID_OUT} ${LEXI_OUT}
-
-#.include "../Makefile.inc"
 
 all: lexi
 
 # This is just until I have lexi moved out and cleaned up - kate
 lexi: char.o syntax.o lex.o main.o output.o \
 	shared/xalloc.a shared/error.a
-	${CC} ${CFLAGS} -o lexi char.o syntax.o lex.o main.o output.o \
+	${CC} ${CFLAGS} -o $@ char.o syntax.o lex.o main.o output.o \
 		shared/error.a shared/xalloc.a
 
 clean:
-	rm -f char.o syntax.o lex.o main.o output.o \
+	${REMOVE} char.o syntax.o lex.o main.o output.o \
+		lexer.h keyword.h syntax.h syntax.c \
 		lexi
 	cd shared && make clean
 
@@ -47,4 +33,29 @@ shared/error.a:
 
 shared/xalloc.a:
 	cd shared && make xalloc.a
+
+
+lex.c: lexer.h keyword.h
+
+lexer.h: lexer.lxi
+	@${REMOVE} $@
+	${LEXI} lexer.lxi tmp.$@ \
+		|| ( ${REMOVE} tmp.$@ ; exit 1 )
+	${MOVE} tmp.$@ $@
+
+keyword.h: lexer.lxi
+	@${REMOVE} $@
+	${LEXI} -k lexer.lxi tmp.$@ \
+		|| ( ${REMOVE} tmp.$@ ; exit 1 )
+	${MOVE} tmp.$@ $@
+
+
+syntax.h: syntax.c
+
+syntax.c: syntax.sid syntax.act
+	@${REMOVE} syntax.h syntax.c
+	${SID} syntax.sid syntax.act tmp.syntax.c tmp.syntax.h \
+		|| ( ${REMOVE} tmp.syntax.{c,h} ; exit 1 )
+	${MOVE} tmp.syntax.c syntax.c
+	${MOVE} tmp.syntax.h syntax.h
 
