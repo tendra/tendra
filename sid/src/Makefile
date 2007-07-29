@@ -74,5 +74,8 @@ gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 lexer.c: lexi_lexer.c
 
 lexi_lexer.c: lexi_lexer.lxi
-	${LEXI} lexi_lexer.lxi lexi_lexer.c
+	@${REMOVE} lexi_lexer.c
+	${LEXI} lexi_lexer.lxi tmp.$@ \
+		|| ( ${REMOVE} tmp.$@ ; exit 1 )
+	${MOVE} tmp.$@ $@
 
