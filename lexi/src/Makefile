@@ -22,17 +22,17 @@ clean:
 	${REMOVE} char.o syntax.o lex.o main.o output.o \
 		lexer.h keyword.h syntax.h syntax.c \
 		lexi
-	cd shared && make clean
+	cd shared && ${MAKE} clean
 
 install: lexi
 	${INSTALL} -m 755 -d ${BINDIR}
 	${INSTALL} -m 755 lexi ${BINDIR}/
 
 shared/error.a:
-	cd shared && make error.a
+	cd shared && ${MAKE} error.a
 
 shared/xalloc.a:
-	cd shared && make xalloc.a
+	cd shared && ${MAKE} xalloc.a
 
 
 lex.c: lexer.h keyword.h
