@@ -1,8 +1,15 @@
 # $Id$
 
+REMOVE=rm -f
+
 all:
 	cd guide && ${MAKE} all
-	cd man && ${MAKE} all pdf
+	cd man && ${MAKE} all
+
+pdf: _pdf
+
+_pdf:
+	cd man && ${MAKE} pdf
 
 clean:
 	cd guide && ${MAKE} clean
