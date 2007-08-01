@@ -29,7 +29,7 @@
 +SUBSET "mse2" := {
     # scalar: wctype() wctype_t result comparable with 0
     +IMPLEMENT "iso", "wchar.h", "wint" ;
-    +TYPE ( int ) wctype_t ;
+    +TYPE ( scalar ) wctype_t ;
 
     # 7.15.2.1.n
     +FUNC int iswalnum ( wint_t ) ;
@@ -54,7 +54,7 @@
 } ;
 
 # scalar: wctrans() wctrans_t result comparable with 0
-+TYPE ( int ) wctrans_t ;
++TYPE ( scalar ) wctrans_t ;
 
 # 7.15.2.3.2.n
 +FUNC wctrans_t wctrans ( const char * ) ;
