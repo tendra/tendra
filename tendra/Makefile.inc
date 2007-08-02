@@ -1,10 +1,12 @@
 # $Id$
 
-DIST_DIR:=	${.PARSEDIR}
+BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 
-.MAKEFLAGS:	-m ${DIST_DIR}/mk -r
+.MAKEFLAGS:	-m ${BASE_DIR}/mk -r
 
-.sinclude "Makefile.defs"
+.if exists(${BASE_DIR}/Makefile.defs)
+.include "Makefile.defs"
+.endif
 .if defined(BOOTSTRAP)
 .include <tendra.bootstrap.mk>
 .else

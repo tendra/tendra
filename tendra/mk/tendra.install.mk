@@ -39,11 +39,38 @@ _REALINSTALL: .USE
 	${CONDCREATE} "${SINSTDIR}"
 .endif
 	${INSTALL} -m 644 ${.OBJDIR}/${API}.tl ${LINSTDIR}
-	${TAR} -C ${CAPIDIR} -cf- ${API}.api | ${TAR} -C ${CINSTDIR} -xf-
-	${TAR} -C ${HAPIDIR} -cf- ${API}.api | ${TAR} -C ${HINSTDIR} -xf-
+	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -d $${file}; then \
+			${ECHO} ${INSTALL} -m 755 -d ${CINSTDIR}/$${file}; \
+			${INSTALL} -m 755 -d ${CINSTDIR}/$${file} || ${EXIT} $$?; \
+		else \
+			${ECHO} ${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file}; \
+			${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file} || ${EXIT} $$?; \
+		fi; \
+	done
+	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -d $${file}; then \
+			${ECHO} ${INSTALL} -m 755 -d ${HINSTDIR}/$${file}; \
+			${INSTALL} -m 755 -d ${HINSTDIR}/$${file} || ${EXIT} $$?; \
+		else \
+			${ECHO} ${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file}; \
+			${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file} || ${EXIT} $$?; \
+		fi; \
+	done
 .if exists(${SAPIDIR}/${API}.api)
-	${TAR} -C ${SAPIDIR} -cf- ${API}.api | ${TAR} -C ${SINSTDIR} -xf-
-. endif
+	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -d $${file}; then \
+			${ECHO} ${INSTALL} -m 755 -d ${SINSTDIR}/$${file}; \
+			${INSTALL} -m 755 -d ${SINSTDIR}/$${file} || ${EXIT} $$?; \
+		else \
+			${ECHO} ${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file}; \
+			${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file} || ${EXIT} $$?; \
+		fi; \
+	done
+.endif
 .elif "${ENVFILE}" != ""
 #
 # Install environment(s).
@@ -83,11 +110,18 @@ _REALINSTALL: .USE
 		${ENVSUBDIR:S/^/${MACH_BASE}\/startup\//g}
 . for envsub in ${ENVSUBDIR}
 .  if exists(${envsub})
-.   for file in ${:!${ECHO} ${envsub}/*!:T}
-	if [ -f ${IMACH}/${file} ]; then \
-		${INSTALL} -m 644 ${envsub}/${file} ${MACH_BASE}/env/${file}; \
-	fi
-.   endfor
+	@cd ${envsub} && ${FIND} * -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -e "${IMACH}/$${file}"; then \
+			if ${TEST} -d $${file}; then \
+				${ECHO} ${INSTALL} -m 755 ${MACH_BASE}/env/$${file}; \
+				${INSTALL} -m 755 ${MACH_BASE}/env/$${file} || ${EXIT} $$?; \
+			else \
+				${ECHO} ${INSTALL} -m 644 $${file} ${MACH_BASE}/env/$${file}; \
+				${INSTALL} -m 644 $${file} ${MACH_BASE}/env/$${file} || ${EXIT} $$?; \
+			fi; \
+		fi; \
+	done
 .  endif
 . endfor
 .elif "${STARTUPSUBDIR}" != ""
@@ -97,33 +131,38 @@ _REALINSTALL: .USE
 _REALINSTALL: .USE
 	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories"
 	${CONDCREATE} ${STARTUPSUBDIR:S/^/${COMMON_DIR}\/startup\//g}
-. for startsub in ${STARTUPSUBDIR}
-.  for file in ${:!${ECHO} ${startsub}/*!:T}
-	${INSTALL} -m 644 ${startsub}/${file} \
-		${COMMON_DIR}/startup/${startsub}/${file}
-.  endfor
-. endfor
+	@cd ${.CURDIR} && ${FIND} ${STARTUPSUBDIR} -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -d $${file}; then \
+			${ECHO} ${INSTALL} -m 755 -d ${COMMON_DIR}/startup/$${file}; \
+			${INSTALL} -m 755 -d ${COMMON_DIR}/startup/$${file} || ${EXIT} $$?; \
+		else \
+			${ECHO} ${INSTALL} -m 644 $${file} ${COMMON_DIR}/startup/$${file}; \
+			${INSTALL} -m 644 $${file} ${COMMON_DIR}/startup/$${file} || ${EXIT} $$?; \
+		fi; \
+	done
 .elif "${MACHSUBDIR}" != ""
 #
 # Install machine subdirectory data.
 #
 
 # Relative to .CURDIR. XXX: ok?
-IMACH=${MACHSUBDIR}/include
-SMACH=${MACHSUBDIR}/startup
+IMACH=include
+SMACH=startup
 
 _REALINSTALL: .USE
 	@${ECHO} "# Installing ${MACHSUBDIR} machine directories"
 	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
-	# XXX: ${IMACH}/sys/* is not installed
-. for file in ${:!${ECHO} ${IMACH}/*!:T}
-	if [ -f ${IMACH}/${file} ]; then \
-		${INSTALL} -m 644 ${IMACH}/${file} ${MACH_BASE}/include/${file}; \
-	fi
-. endfor
-. for file in ${:!${ECHO} ${SMACH}/*!:T}
-	${INSTALL} -m 644 ${SMACH}/${file} ${MACH_BASE}/startup/${file}
-. endfor
+	@cd ${MACHSUBDIR} && find ${IMACH} ${SMACH} -name '.*' -prune -or -print | \
+	while read file; do \
+		if ${TEST} -d $${file}; then \
+			${ECHO} ${INSTALL} -m 755 ${MACH_BASE}/$${file}; \
+			${INSTALL} -m 755 -d ${MACH_BASE}/$${file} || ${EXIT} $$?; \
+		else \
+			${ECHO} ${INSTALL} -m 644 $${file} ${MACH_BASE}/$${file}; \
+			${INSTALL} -m 644 $${file} ${MACH_BASE}/$${file} || ${EXIT} $$?; \
+		fi; \
+	done
 .else
 #
 # Nothing to install.

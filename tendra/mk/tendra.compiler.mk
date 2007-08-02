@@ -32,24 +32,22 @@ _TENDRA_COMPILER_MK_=1
 # EXEC_SUFFIX is used on those platforms where executable names need to
 # have a particular suffix, for example it may be set to ".exe".
 
-.if exists(${BOBJ_DIR}/src/tools/tcc/tcc) && !defined(BOOTSTRAP)
+.if !defined(BOOTSTRAP)
+.if exists(${BOBJ_DIR}/src/tools/tcc/tcc)
 CC=	${BOBJ_DIR}/src/tools/tcc/tcc -Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src
 CFLAGS=
 LDFLAGS=
 .endif
+.endif
 
 # Assume that the cc on this system is the GNU C Compiler.
-.if "${CC:[1]:T}" == "cc" || "${CC:[1]:T}" == "gcc"
+.if "${CC:T}" != "${CC:T:Ncc:Ngcc}"
 
 CWARNFLAGS=-w
 
 .if defined(WARNS)
 . if ${WARNS} >= 1
-.  if (${CCVER_MAJOR} == 2 && ${CCVER_MINOR} >= 95) || ${CCVER_MAJOR} >= 3
-CWARNFLAGS=-ansi -std=c89 -Wno-traditional
-.  else
 CWARNFLAGS=-ansi -Wno-traditional
-.  endif
 . endif
 . if ${WARNS} >= 2
 CWARNFLAGS+=-pedantic -fno-builtin
@@ -63,7 +61,7 @@ CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
   CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
   LDOPTS+= ${LDFLAGS}
 # The Intel C Compiler.
-.elif "${CC:[1]:T}" == "icc"
+.elif "${CC:T}" != "${CC:T:Nicc}"
 
 CWARNFLAGS=-no-gcc -w
 
@@ -84,20 +82,12 @@ CWARNFLAGS+=-Wall
   LDOPTS+= ${LDFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
-.elif "${CC:[1]:T}" == "tcc"
+.elif "${CC:T}" != "${CC:T:Ntcc}"
   CCOPTS+= ${CFLAGS}
   LDOPTS+= ${LDFLAGS}
 .endif
 
-.if exists(${BOBJ_DIR}/src/utilities/sid/sid) && !defined(BOOTSTRAP)
-SID?=	${BOBJ_DIR}/src/utilities/sid/sid
-.elif exists(${OBJ_DIR}/src/utilities/sid/sid)
-SID?=	${OBJ_DIR}/src/utilities/sid/sid
-.else
-SID?=	sid
-.endif
-
-.if exists(${BOBJ_DIR}/src/tools/tcc/tcc) && !defined(BOOTSTRAP)
+.if exists(${BOBJ_DIR}/src/tools/tcc/tcc)
 TCC?=	${BOBJ_DIR}/src/tools/tcc/tcc
 .elif exists(${OBJ_DIR}/src/tools/tcc/tcc)
 TCC?=	${OBJ_DIR}/src/tools/tcc/tcc
@@ -105,7 +95,7 @@ TCC?=	${OBJ_DIR}/src/tools/tcc/tcc
 TCC?=	tcc
 .endif
 
-.if exists(${BOBJ_DIR}/src/tools/tld/tld) && !defined(BOOTSTRAP)
+.if exists(${BOBJ_DIR}/src/tools/tld/tld)
 TLD?=	${BOBJ_DIR}/src/tools/tld/tld
 .elif exists(${OBJ_DIR}/src/tools/tld/tld)
 TLD?=	${OBJ_DIR}/src/tools/tld/tld
@@ -113,7 +103,7 @@ TLD?=	${OBJ_DIR}/src/tools/tld/tld
 TLD?=	tld
 .endif
 
-.if exists(${BOBJ_DIR}/src/tools/tnc/tnc) && !defined(BOOTSTRAP)
+.if exists(${BOBJ_DIR}/src/tools/tnc/tnc)
 TNC?=	${BOBJ_DIR}/src/tools/tnc/tnc
 .elif exists(${OBJ_DIR}/src/tools/tnc/tnc)
 TNC?=	${OBJ_DIR}/src/tools/tnc/tnc
@@ -121,7 +111,7 @@ TNC?=	${OBJ_DIR}/src/tools/tnc/tnc
 TNC?=	tnc
 .endif
 
-.if exists(${BOBJ_DIR}/src/tools/tspec/tspec) && !defined(BOOTSTRAP)
+.if exists(${BOBJ_DIR}/src/tools/tspec/tspec)
 TSPEC?=	${BOBJ_DIR}/src/tools/tspec/tspec
 .elif exists(${OBJ_DIR}/src/tools/tspec/tspec)
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec

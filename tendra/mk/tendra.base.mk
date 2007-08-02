@@ -93,14 +93,15 @@ COPY?=		${ENV} cp
 ECHO?=		${ENV} echo
 ECHODIR?=	${ENV} echo
 EXIT?=		exit
+FIND?=		${ENV} find
 INSTALL?=	${ENV} install
 LN?=		${ENV} ln
 MKDIR?=		${ENV} mkdir
 MOVE?=		${ENV} mv
 RANLIB?=	${ENV} ranlib
 REMOVE?=	${ENV} rm -f
+SID?=		${ENV} sid
 SORT?=		${ENV} sort
-TAR?=		${ENV} tar
 TEST?=		${ENV} test
 TPL?=		${ENV} tpl
 
