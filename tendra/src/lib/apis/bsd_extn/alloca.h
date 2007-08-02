@@ -27,8 +27,10 @@
 #
 $FILENAME = "stdlib.h" ;
 
++USE "ansi", "stddef.h", "size_t" ;
+
 +IFNDEF __DONT_INLINE_ALLOCA
-+FUNC char *alloca | "~alloca" ( int ) ;
++FUNC void *alloca | "~alloca" ( size_t ) ;
 +ELSE
-+FUNC (extern) char *alloca.1 ( int ) ;
++FUNC (extern) void *alloca.1 ( size_t ) ;
 +ENDIF
