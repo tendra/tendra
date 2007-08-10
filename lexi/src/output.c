@@ -59,6 +59,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "char.h"
 #include "shared/error.h"
@@ -128,7 +129,7 @@ char_lit(letter c)
 */
 
 static int in_pre_pass = 0;
-static char *read_name = "read_char";
+static char *read_name = "lexi_readchar";
 
 
 /*
@@ -258,7 +259,7 @@ output_pass(character *p, int n, int d)
 		}
 		if (n) {
 			output_indent(d);
-			fprintf(lex_output, "unread_char(c%d);\n", n);
+			fprintf(lex_output, "lexi_push(c%d);\n", n);
 		}
 	}
 
@@ -346,7 +347,7 @@ output_comment(void)
 */
 
 void
-output_all(FILE *output)
+output_all(FILE *output, bool generate_asserts)
 {
 	int c, n;
 
@@ -354,6 +355,10 @@ output_all(FILE *output)
 
 	/* Initial comment */
 	output_comment();
+
+	if(generate_asserts) {
+		fputs("#include <assert.h>\n\n", lex_output);
+	}
 
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
@@ -382,10 +387,57 @@ output_all(FILE *output)
 	}
 	fputs("\n};\n\n", lex_output);
 
-	/* Macros for accessing table */
 	fputs("#ifndef LEX_EOF\n", lex_output);
 	fputs("#define LEX_EOF\t\t256\n", lex_output);
 	fputs("#endif\n\n", lex_output);
+
+
+	/* Buffer operations */
+	fputs("/*\n", lex_output);
+	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
+	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
+	fputs(" */\n", lex_output);
+	if(pre_pass->next) {
+		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
+			char_maxlength(pre_pass), char_maxlength(main_pass));
+	} else {
+		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
+			char_maxlength(main_pass));
+	}
+	fputs("static int lexi_buffer_index;\n\n", lex_output);
+
+	fputs("/* Push a character to lexi's buffer */\n", lex_output);
+	fputs("static void lexi_push(const int c) {\n", lex_output);
+	if(generate_asserts) {
+		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
+	}
+	fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
+	fputs("static int lexi_pop(void) {\n", lex_output);
+	if(generate_asserts) {
+		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
+	}
+	fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	fputs("/* Flush lexi's buffer */\n", lex_output);
+	fputs("static void lexi_flush(void) {\n", lex_output);
+	fputs("\tlexi_buffer_index = 0;\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	/* TODO nice thing: we can abstract away 'aux() here, too. */
+	fputs("/* Read a character */\n", lex_output);
+	fputs("static int lexi_readchar(void) {\n", lex_output);
+	fputs("\tif(lexi_buffer_index) {\n", lex_output);
+	fputs("\t\treturn lexi_pop();\n", lex_output);
+	fputs("\t}\n\n", lex_output);
+	fputs("\treturn read_char();\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+
+	/* Macros for accessing table */
 	fputs("#define lookup_char(C)\t", lex_output);
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
 	fputs("#define is_white(T)\t((T) & 0x0001)\n", lex_output);

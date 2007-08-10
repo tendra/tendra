@@ -9,7 +9,6 @@
 /*
  * Support functions for the generated lexer.
  */
-int unread_char(int c);
 int read_char(void);
 int skip_single_comment(int c0, int c1);
 int skip_block_comment(int c0, int c1);
@@ -33,14 +32,6 @@ int unknown_token(int c) {
 	putc(c, stdout);
 
 	return c;
-}
-
-int unread_char(int c) {
-	/*
-	 * XXX This is slightly hacky; we should maintain our own
-	 * buffer and not assume that POSIX can unget multiple characters.
-	 */
-	return ungetc(c, stdin);
 }
 
 int read_char(void) {
@@ -103,7 +94,7 @@ int skip_single_comment(int c0, int c1) {
 		}
 
 		if(c == '\n') {
-			unread_char(c);	/* to preserve the newline */
+			ungetc(c, stdin);	/* to preserve the newline */
 			return lex_unknown;
 		}
 	}

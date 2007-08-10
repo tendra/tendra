@@ -26,7 +26,6 @@
 
 int curr;
 
-int unread_char(int c);
 int read_char(void);
 int get_word(int c);
 int get_number(int c);
@@ -59,10 +58,6 @@ enum {
 #include "braille.c"
 
 char word[256];
-
-int unread_char(int c) {
-	return ungetc(c, stdin);
-}
 
 int read_char(void) {
 	int prev;
@@ -100,7 +95,7 @@ int get_word(int c) {
 		}
 
 		/* the word is done */
-		unread_char(n);
+		ungetc(n, stdin);
 		word[i] = '\0';
 		return lex_word;
 	}
@@ -126,7 +121,7 @@ int get_number(int c) {
 		}
 
 		/* the number is done */
-		unread_char(c);
+		ungetc(c, stdin);
 		word[i] = '\0';
 		return lex_number;
 	}

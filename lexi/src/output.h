@@ -62,12 +62,13 @@
 #define OUTPUT_INCLUDED
 
 #include <stdio.h>
+#include <stdbool.h>
 
 /*
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern void output_all(FILE *output);
+extern void output_all(FILE *output, bool generate_asserts);
 extern void output_keyword(FILE *output);
 
 

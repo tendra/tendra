@@ -61,6 +61,8 @@
 #ifndef CHAR_INCLUDED
 #define CHAR_INCLUDED
 
+#include <stddef.h>
+
 
 /*
     TYPE REPRESENTING A CHARACTER
@@ -146,6 +148,7 @@ extern int in_group(letter *, letter);
 extern letter *make_string(char *);
 extern letter find_escape(int);
 extern void add_keyword(char *, char **);
+extern size_t char_maxlength(character *);
 
 
 #endif

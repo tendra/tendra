@@ -58,6 +58,7 @@
 */
 
 #include <string.h>
+#include <stddef.h>
 
 #include "char.h"
 #include "shared/error.h"
@@ -364,3 +365,35 @@ add_keyword(char *nm, char **data)
     }
     return;
 }
+
+
+/*
+	COUNT MAXIMUM TOKEN LENGTH
+
+	Find the maximum token length within the given lexical pass.
+*/
+size_t
+char_maxlength(character *c)
+{
+	character *p;
+	size_t maxopt;
+	size_t maxchar;
+
+	maxopt = 0;
+	for(p = c->next; p; p = p->opt) {
+		size_t l;
+
+		if(p->ch == LAST_LETTER) {
+			continue;
+		}
+
+		l = char_maxlength(p) + 1;
+
+		if(l > maxopt) {
+			maxopt = l;
+		}
+	}
+
+	return maxopt;
+}
+

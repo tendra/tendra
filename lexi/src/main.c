@@ -73,7 +73,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-kvh] [-l sid-prefix] input-file [output-file]\n", stdout);
+	fputs("usage: lexi [-kvha] [-l sid-prefix] input-file [output-file]\n", stdout);
 }
 
 
@@ -87,16 +87,21 @@ int
 main(int argc, char **argv)
 {
 	FILE *lex_output = stdout;
-	int key = 0;
+	bool key = false;
+	bool generate_asserts = true;
 	int optc;
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "kl:vh")) != -1) {
+	while ((optc = getopt(argc, argv, "kl:vha")) != -1) {
 		switch(optc) {
 		case 'k':
-			key = 1;
+			key = true;
 			break;
+
+		/* TODO document flag to disable including <assert.h> for C89-only systems */
+		case 'a':
+			generate_asserts = false;
 
 		case 'l':
 			sid_prefix = optarg;
@@ -157,7 +162,7 @@ main(int argc, char **argv)
 	if (key)
 		output_keyword(lex_output);
 	else
-		output_all(lex_output);
+		output_all(lex_output, generate_asserts);
 
 	if (lex_output)
 		fclose(lex_output);
