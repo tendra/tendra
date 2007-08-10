@@ -141,6 +141,16 @@
 						command-line usage help.</para>
 				</listitem>
 			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>-a</option>
+				</term>
+				<listitem>
+					<para>Disables assertions in the output code. These
+						are enabled by default.</para>
+				</listitem>
+			</varlistentry>
 		</variablelist>
 
 		<para>For further details of the options available and a reference

@@ -50,8 +50,7 @@
 
 		<para>This document describes how to use the <application>Lexi</application>
 			lexer generator. It was written for <application>Lexi</application> version
-			1.3.</para>
-		<!-- TODO 1.4 for new API changes (call it 2.0 instead) -->
+			2.0.</para>
 
 		<para>This version of <application>Lexi</application> (1.3) is an interim to
 			mark a stable release before forthcoming <acronym>API</acronym>
@@ -73,22 +72,10 @@
 			these features, based on the <application>Lexi</application> files
 			present in the TenDRA repository.</para>
 
-		<para>Features of version 1.3 which are due to be changed for
-			the next release are therefore marked depreciated.</para>
+		<!-- TODO remove obsoleted parts as each feature is changed -->
 
-		<!-- TODO after our initial release, change this API.
-			The initial release is just in case there is anybody
-			using this (hah, likely...) -->
-		<!-- TODO since we know all changes in advance, state
-			which are depreciated -->
 		<!-- TODO state why we're changing our api: see the
 			"this is for version X" heading -->
-		<!-- TODO be sure to state the first release is for backwards
-			compatibility only. Make a sequence of API changes. In fact,
-			all releases for all products should have such a sequence
-			(i.e. a changelog), especially for APIs. -->
-
-		<para><!-- TODO history --></para>
 
 		<section id="history">
 			<title>Change History</title>
@@ -96,10 +83,16 @@
 			<para>The main feature changes of each version of
 				<application>Lexi</application> are listed below:
 
-				<!-- TODO 2.0 (?) - forthcoming API changes -->
 				<!-- TODO merge this with an external changelog, as for sid -->
 				<variablelist>
 					<title>Versions of <application>Lexi</application></title>
+
+					<varlistentry>
+						<term>2.0</term>
+						<listitem>
+							<para><!-- TODO API changes --></para>
+						</listitem>
+					</varlistentry>
 
 					<varlistentry>
 						<term>1.3</term>
@@ -383,12 +376,10 @@ firstly define lexemes
 			<title>Instantiation</title>
 
 			<para>Input to the generated lexical analyser is by way of
-				two functions (or macros, if desired) that the user is
-				expected to provide. These read a character and un-read
-				a character respectively:</para>
+				a single function (or macro, if desired) that the user is
+				expected to provide to read a character:</para>
 
-			<programlisting language="C">int read_char(void);
-void unread_char(int);</programlisting>
+			<programlisting language="C">int read_char(void);</programlisting>
 
 			<para>Output from the lexical analyser is by way of a function
 				provided by <application>Lexi</application> that returns the next
@@ -404,17 +395,10 @@ void unread_char(int);</programlisting>
 			<para>Calling <code>read_token()</code> will result
 				in the lexical analyser
 				making as many calls to <code>read_char()</code>
-				and <code>unread_char()</code> as are necessary.
-				The <code>unread_char()</code> function may be called
-				consecutively whilst matching tokens, and so a
-				buffer the size of the longest token is the
-				maximum length required.</para>
+				as are necessary.</para>
 
-    <!-- TODO talk about read_char_aux() used for MAPPNG. unread_char()
-        needs to deal with that :(
+    <!-- TODO talk about read_char_aux() used for MAPPNG.
         read_char_aux() is called in place of read_char().
-        But as this happens in a separate pass, the buffer need only
-        be max(token, trigraph) (not including '\0')
     -->
 		</section>
 
@@ -451,12 +435,13 @@ void unread_char(int);</programlisting>
 			<para>Within the C implementation of functions, the usual
 				<application>Lexi</application> <acronym>API</acronym>
 				functions may be called. For example, to call
-				<code>read_char()</code> and <code>unread_char()</code>.
+				<code>read_char()</code>.
 				This is especially useful for calling the functions
 				defined to identify membership in groups. A common
 				case is to read tokens of a variable length.
 				This is especially suitable for reading identifiers.
-				For example:
+				For example (where <code>unread_char()</code> is a
+				user-defined function with the obvious effect):
 
 				<programlisting language="Lexi">GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
@@ -478,17 +463,11 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 		c = read_char();
 	}
 }</programlisting>
-
-				It is important to honour the usual <acronym>API</acronym>
-				constraints; for example, do not call
-				<code>unread_char()</code> consecutively more than once<!--
-				TODO is that true? does lexi call it more than once? -->.</para>
+				</para>
 
 			<!-- TODO in the future when we remove the lookup_char function, you
 				will be able to TOKEN "x" -> is_digit(). I don't know if that
 				would be useful (since it returns an int), but mention it anyway -->
-			<!-- TODO mention the API constraints still hold: don't call
-				unread_char() more than once, etc -->
 
 			<para>Functions called by tokens are passed each character forming the
 				token. The example above would result in the call to:
