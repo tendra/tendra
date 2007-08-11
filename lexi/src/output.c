@@ -350,13 +350,22 @@ void
 output_all(FILE *output, bool generate_asserts)
 {
 	int c, n;
+	size_t maxtoklen;
+	size_t maxmaplen;
+	bool needbuffer;
 
 		lex_output = output;
 
 	/* Initial comment */
 	output_comment();
 
-	if(generate_asserts) {
+	maxtoklen = char_maxlength(main_pass);
+	maxmaplen = pre_pass->next ? char_maxlength(pre_pass) : 0;
+	needbuffer = (maxtoklen ? maxtoklen - 1 : 0)
+		+ (maxmaplen ? maxmaplen - 1 : 0);
+
+	/* Assertions are only relevant for the buffer handling */
+	if(generate_asserts && needbuffer) {
 		fputs("#include <assert.h>\n\n", lex_output);
 	}
 
@@ -392,49 +401,57 @@ output_all(FILE *output, bool generate_asserts)
 	fputs("#endif\n\n", lex_output);
 
 
-	/* Buffer operations */
-	fputs("/*\n", lex_output);
-	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
-	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
-	fputs(" */\n", lex_output);
-	if(pre_pass->next) {
-		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(pre_pass), char_maxlength(main_pass));
+	/* Buffer operations, if required */
+	if(needbuffer) {
+		fputs("/*\n", lex_output);
+		fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
+		fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
+		fputs(" */\n", lex_output);
+		if(pre_pass->next) {
+			fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
+				maxmaplen, maxtoklen);
+		} else {
+			fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
+				maxtoklen);
+		}
+		fputs("static int lexi_buffer_index;\n\n", lex_output);
+
+		fputs("/* Push a character to lexi's buffer */\n", lex_output);
+		fputs("static void lexi_push(const int c) {\n", lex_output);
+		if(generate_asserts) {
+			fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer "
+				"/ sizeof *lexi_buffer);\n", lex_output);
+		}
+		fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
+		fputs("}\n\n", lex_output);
+
+		fputs("/* Pop a character from lexi's buffer */\n", lex_output);
+		fputs("static int lexi_pop(void) {\n", lex_output);
+		if(generate_asserts) {
+			fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
+		}
+		fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
+		fputs("}\n\n", lex_output);
+
+		fputs("/* Flush lexi's buffer */\n", lex_output);
+		fputs("static void lexi_flush(void) {\n", lex_output);
+		fputs("\tlexi_buffer_index = 0;\n", lex_output);
+		fputs("}\n\n", lex_output);
+
+		/* TODO nice thing: we can abstract away 'aux() here, too. */
+		fputs("/* Read a character */\n", lex_output);
+		fputs("static int lexi_readchar(void) {\n", lex_output);
+		fputs("\tif(lexi_buffer_index) {\n", lex_output);
+		fputs("\t\treturn lexi_pop();\n", lex_output);
+		fputs("\t}\n\n", lex_output);
+		fputs("\treturn read_char();\n", lex_output);
+		fputs("}\n\n", lex_output);
 	} else {
-		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
-			char_maxlength(main_pass));
+		fputs("/* Read a character */\n", lex_output);
+		fputs("static int lexi_readchar(void) {\n", lex_output);
+		fputs("\treturn read_char();\n", lex_output);
+		fputs("}\n\n", lex_output);
 	}
-	fputs("static int lexi_buffer_index;\n\n", lex_output);
-
-	fputs("/* Push a character to lexi's buffer */\n", lex_output);
-	fputs("static void lexi_push(const int c) {\n", lex_output);
-	if(generate_asserts) {
-		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
-	}
-	fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
-	fputs("}\n\n", lex_output);
-
-	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
-	fputs("static int lexi_pop(void) {\n", lex_output);
-	if(generate_asserts) {
-		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
-	}
-	fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
-	fputs("}\n\n", lex_output);
-
-	fputs("/* Flush lexi's buffer */\n", lex_output);
-	fputs("static void lexi_flush(void) {\n", lex_output);
-	fputs("\tlexi_buffer_index = 0;\n", lex_output);
-	fputs("}\n\n", lex_output);
-
-	/* TODO nice thing: we can abstract away 'aux() here, too. */
-	fputs("/* Read a character */\n", lex_output);
-	fputs("static int lexi_readchar(void) {\n", lex_output);
-	fputs("\tif(lexi_buffer_index) {\n", lex_output);
-	fputs("\t\treturn lexi_pop();\n", lex_output);
-	fputs("\t}\n\n", lex_output);
-	fputs("\treturn read_char();\n", lex_output);
-	fputs("}\n\n", lex_output);
 
 
 	/* Macros for accessing table */
