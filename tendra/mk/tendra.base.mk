@@ -82,27 +82,24 @@ OBJ_DIR_INDICATOR=${OBJ_DIR}/_obj_tree_complete
 OBJS=  ${SRCS:S/.c/.o/}
 
 # Binary paths
-
 SHELL=		/bin/sh
 
-ENV?=		/usr/bin/env
-
 # Keep in alphabetical order
-AR?=		${ENV} ar
-COPY?=		${ENV} cp
-ECHO?=		${ENV} echo
-ECHODIR?=	${ENV} echo
+AR?=		ar
+COPY?=		cp
+ECHO?=		echo
+ECHODIR?=	echo
 EXIT?=		exit
-FIND?=		${ENV} find
-INSTALL?=	${ENV} install
-LN?=		${ENV} ln
-MKDIR?=		${ENV} mkdir
-MOVE?=		${ENV} mv
-RANLIB?=	${ENV} ranlib
-REMOVE?=	${ENV} rm -f
-SID?=		${ENV} sid
-SORT?=		${ENV} sort
-TEST?=		${ENV} test
-TPL?=		${ENV} tpl
+FIND?=		find
+INSTALL?=	install
+LN?=		ln
+MKDIR?=		mkdir
+MOVE?=		mv
+RANLIB?=	ranlib
+REMOVE?=	rm -f
+SID?=		sid
+SORT?=		sort
+TEST?=		test
+TPL?=		tpl
 
 .endif	# !defined(_TENDRA_BASE_MK_)
