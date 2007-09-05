@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../../..
+
 NAME=tspec
-SOURCE=tspec.xml
 PROJECT_NAME=tspec
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../../style/docbook.css ../../../style/common.css

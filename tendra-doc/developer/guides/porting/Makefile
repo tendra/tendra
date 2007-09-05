@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../../..
+
 NAME=porting
-SOURCE=porting.xml
 PROJECT_NAME=porting
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../../style/docbook.css ../../../style/common.css

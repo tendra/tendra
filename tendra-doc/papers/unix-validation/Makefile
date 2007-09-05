@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../..
+
 NAME=unix-validation
-SOURCE=unix-validation.xml
 PROJECT_NAME=unix-validation
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../style/docbook.css ../../style/common.css

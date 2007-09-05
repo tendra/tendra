@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../../..
+
 NAME=tcpplus
-SOURCE=tcpplus.xml
 PROJECT_NAME=tcpplus
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../../style/docbook.css ../../../style/common.css

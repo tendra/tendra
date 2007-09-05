@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../..
+
 NAME=suite
-SOURCE=suite.xml
 PROJECT_NAME=suite
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../style/docbook.css ../../style/common.css

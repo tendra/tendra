@@ -1,7 +1,8 @@
 # $Id$
 
+DOCTOOLS_BASE = ../../..
+
 NAME=api
-SOURCE=api.xml
 PROJECT_NAME=api
 PROJECT_URL=http://docs.tendra.org/
 RESOURCES=../../../style/docbook.css ../../../style/common.css
