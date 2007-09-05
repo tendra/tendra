@@ -926,11 +926,10 @@ DirReaddiri(name, end)
 
     if ((d = opendir(p->name)) == NULL)
 	return NULL;
-    /* Skip the first two entries -- these will *always* be . and ..  */
-    (void)readdir(d);
-    (void)readdir(d);
 
     while ((dp = readdir(d)) != NULL) {
+        if (strcmp (dp->d_name, ".") == 0 || strcmp (dp->d_name, "..") == 0)
+           continue;
 #if defined(sun) && defined(d_ino) /* d_ino is a sunos4 #define for d_fileno */
 	/* The sun directory library doesn't check for a 0 inode
 	 * (0-inode slots just take up space), so we have to do
