@@ -555,7 +555,7 @@ package body XASIS.Integers is
             Fast_Devide
               (Left   => Left_Text (2 .. Left_Text'Last),
                Right  => X (Right_Text (2)),
-               Result => Result_Text,
+               Result => Result_Text (2 .. Result_Text'Last),
                Last   => Last,
                Rest   => Temp);
 
