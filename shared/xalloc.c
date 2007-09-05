@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -57,8 +57,10 @@
         it may be put.
 */
 
-#include <string.h>
+#include <errno.h>
+/* XXX: #include <stdint.h> for SIZE_MAX */
 #include <stdlib.h>
+#include <string.h>
 
 #include "error.h"
 #include "xalloc.h"
@@ -74,11 +76,12 @@
 void *
 xmalloc(size_t sz)
 {
-    void *p = malloc(sz);
+	void *p = malloc(sz);
 
-    if (p == NULL) error(ERROR_FATAL, "Memory allocation error");
+	if (p == NULL)
+		error(ERROR_FATAL, "malloc: %s", strerror(errno));
 
-    return(p);
+	return (p);
 }
 
 
@@ -91,13 +94,18 @@ xmalloc(size_t sz)
 void *
 xcalloc(size_t n, size_t sz)
 {
-    void *p = calloc(sz, n);
+	void *p;
 
-	/* TODO perhaps error.h should provide something that calls perror() and exits */
+	if (n == 0 || sz == 0)
+		error(ERROR_FATAL, "xcalloc: zero size allocation");
 
-    if (p == NULL)error(ERROR_FATAL, "Memory allocation error");
+	/* XXX: if (SIZE_MAX / n < sz)
+		error(ERROR_FATAL, "xcalloc: size_t overflow"); */
 
-    return(p);
+	if ((p = calloc(sz, n)) == NULL)
+		error(ERROR_FATAL, "calloc: %s", strerror(errno));
+
+	return (p);
 }
 
 
@@ -111,17 +119,19 @@ xcalloc(size_t n, size_t sz)
 void *
 xrealloc(void *p, size_t sz)
 {
-    void *q;
+	void *q;
 
-    if (p) {
-	q = realloc(p, sz);
-    } else {
-	q = malloc(sz);
-    }
+	if (p == NULL && sz == 0)
+		error(ERROR_FATAL, "xrealloc: both arguments zero is unspecified");
 
-    if (q == NULL) error(ERROR_FATAL, "Memory allocation error");
+	/* This is legal and frees p, but confusing */
+	if (sz == 0)
+		error(ERROR_FATAL, "xrealloc: size is zero, use xfree()");
 
-    return(q);
+	if ((q = realloc(p, sz)) == NULL)
+		error(ERROR_FATAL, "realloc: %s", strerror(errno));
+
+	return (q);
 }
 
 
@@ -135,8 +145,23 @@ xrealloc(void *p, size_t sz)
 void
 xfree(void *p)
 {
-    if (p)free(p);
-    return;
+	/* safe a function call if p is NULL */
+	if (p)
+		free(p);
+}
+
+
+char *
+xstrdup(const char *s1)
+{
+	size_t len;
+	char *s2;
+
+	len = strlen(s1) + 1;
+	s2 = xmalloc(len);
+	strcpy(s2, s1);
+
+	return (s2);
 }
 
 
@@ -178,15 +203,7 @@ xstr(size_t n)
 char *
 xstrcpy(const char *s)
 {
-    size_t n;
-    char *r;
-
-    if (s == NULL) return(NULL);
-
-    n = strlen(s) + 1;
-    r = xstr(n);
-    strcpy(r, s);
-    return(r);
+    return(xstrdup(s));
 }
 
 

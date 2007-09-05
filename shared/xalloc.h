@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -71,6 +71,7 @@ extern void *xmalloc(size_t);
 extern void *xcalloc(size_t, size_t);
 extern void *xrealloc(void *, size_t);
 extern void xfree(void *);
+char *xstrdup(const char *s);
 extern char *xstr(size_t);
 extern char *xstrcpy(const char *);
 extern char *xstrcat(const char *, const char *);
@@ -89,4 +90,4 @@ extern char *xstrcat(const char *, const char *);
 #define xrealloc_nof(P, T, N) (xrealloc((P), (N) * sizeof(T)))
 #define xfree_nof(P) xfree((P))
 
-#endif
+#endif /* XALLOC_INCLUDED */
