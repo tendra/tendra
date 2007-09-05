@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997, 1998
+		 Crown Copyright (c) 1997, 1998
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
