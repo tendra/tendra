@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -68,20 +68,20 @@
     routines.
 */
 
-#define ERROR_NONE		0x00
-#define ERROR_WARNING		0x01
-#define ERROR_SERIOUS		0x02
-#define ERROR_FATAL		0x03
+#define ERROR_NONE		0x00	/* Error reporting off */
+#define ERROR_WARNING		0x01	/* Warning */
+#define ERROR_SERIOUS		0x02	/* Error, does exit after N errors */
+#define ERROR_FATAL		0x03	/* Fatal exits immediately */
 
 
 /*
     DECLARATIONS FOR ERROR ROUTINES
 */
 
-extern void error(int, const char *, ...);
-extern void error_posn(int, const char *, int, const char *, ...);
-extern void set_progname(const char *, const char *);
-extern void report_version(void);
+void error(int, const char *, ...);
+void error_posn(int, const char *, int, const char *, ...);
+void set_progname(const char *, const char *);
+void report_version(void);
 
 extern const char *progname;
 extern const char *progvers;
@@ -110,4 +110,4 @@ extern void assertion(const char *, const char *, int);
 #endif
 
 
-#endif
+#endif /* ERROR_INCLUDED */
