@@ -159,7 +159,7 @@ xstrdup(const char *s1)
 
 	len = strlen(s1) + 1;
 	s2 = xmalloc(len);
-	strcpy(s2, s1);
+	(void) strcpy(s2, s1);
 
 	return (s2);
 }
@@ -226,7 +226,7 @@ xstrcat(const char *s, const char *t)
     n = strlen(s);
     m = n + strlen(t) + 1;
     r = xstr(m);
-    strcpy(r, s);
-    strcpy(r + n, t);
+    (void) strcpy(r, s);
+    (void) strcpy(r + n, t);
     return(r);
 }
