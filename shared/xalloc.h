@@ -67,14 +67,14 @@
     DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
 */
 
-extern void *xmalloc(size_t);
-extern void *xcalloc(size_t, size_t);
-extern void *xrealloc(void *, size_t);
-extern void xfree(void *);
+void *xmalloc(size_t);
+void *xcalloc(size_t, size_t);
+void *xrealloc(void *, size_t);
+void xfree(void *);
 char *xstrdup(const char *s);
-extern char *xstr(size_t);
-extern char *xstrcpy(const char *);
-extern char *xstrcat(const char *, const char *);
+char *xstr(size_t);
+char *xstrcpy(const char *);
+char *xstrcat(const char *, const char *);
 
 
 /*
