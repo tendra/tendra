@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -91,10 +91,9 @@ const char *crt_file_name = NULL;
 void
 set_progname(const char *nm, const char *vers)
 {
-    char *r = strrchr(nm, '/');
-    progname = (r ? r + 1 : nm);
-    progvers = vers;
-    return;
+	char *r = strrchr(nm, '/'); /* XXX: basename(3) ? */
+	progname = (r ? r + 1 : nm);
+	progvers = vers;
 }
 
 
@@ -107,12 +106,15 @@ set_progname(const char *nm, const char *vers)
 void
 report_version(void)
 {
-    const char *nm = progname;
-    const char *vers = progvers;
-    if (nm == NULL) nm = "unknown";
-    if (vers == NULL) vers = "1.0";
-    fprintf(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
-    return;
+	const char *nm = progname;
+	const char *vers = progvers;
+
+	if (nm == NULL)
+		nm = "unknown";
+	if (vers == NULL)
+		vers = "unknown";
+
+	(void) fprintf(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
 }
 
 
@@ -126,39 +128,52 @@ report_version(void)
 static void
 error_msg(int e, const char *fn, int ln, const char *s, va_list args)
 {
-    if (e != ERROR_NONE) {
-	if (progname) fprintf(stderr, "%s: ", progname);
+	if (e == ERROR_NONE) {
+		/*
+		 * XXX: This used to just switch all error reporting off,
+		 * but it doesn't seem to be used anywhere except in the
+		 * producer. Will see if it errors out
+		 */
+		(void) fprintf(stderr, "error_msg called with ERROR_NONE");
+		abort();
+	}
+
+	if (progname)
+		(void) fprintf(stderr, "%s: ", progname);
+
 	switch (e) {
-	    case ERROR_WARNING: {
-		fprintf(stderr, "Warning: ");
+	case ERROR_WARNING:
+		(void) fprintf(stderr, "Warning: ");
 		break;
-	    }
-	    case ERROR_FATAL: {
-		fprintf(stderr, "Fatal: ");
+	case ERROR_FATAL:
+		(void) fprintf(stderr, "Fatal: ");
+		exit_status = EXIT_FAILURE;
+		break;
+	case ERROR_SERIOUS:
+		(void) fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
-	    }
-	    default : {
-		fprintf(stderr, "Error: ");
-		exit_status = EXIT_FAILURE;
-		number_errors++;
-		break;
-	    }
+	default:
+		(void) fprintf(stderr, "Unknown error level");
+		abort();
 	}
+
 	if (fn) {
-	    fprintf(stderr, "%s: ", fn);
-	    if (ln != -1) fprintf(stderr, "line %d: ", ln);
+		(void) fprintf(stderr, "%s: ", fn);
+		if (ln != -1)
+			(void) fprintf(stderr, "line %d: ", ln);
 	}
-	vfprintf(stderr, s, args);
-	fprintf(stderr, ".\n");
-	if (e == ERROR_FATAL) exit(EXIT_FAILURE);
-	if (number_errors >= maximum_errors && maximum_errors) {
-	    error(ERROR_FATAL, "Too many errors (%d) - aborting",
+
+	(void) vfprintf(stderr, s, args);
+	(void) fprintf(stderr, ".\n");
+
+	if (e == ERROR_FATAL)
+		exit(exit_status);
+
+	if (number_errors >= maximum_errors && maximum_errors)
+		error(ERROR_FATAL, "Too many errors (%d) - aborting",
 		    number_errors);
-	}
-    }
-    return;
 }
 
 
@@ -172,13 +187,11 @@ error_msg(int e, const char *fn, int ln, const char *s, va_list args)
 
 void
 error(int e, const char *s, ...)
-    /*VARARGS*/
 {
-    va_list args;
-    va_start(args, s);
-    error_msg(e, crt_file_name, crt_line_no, s, args);
-    va_end(args);
-    return;
+	va_list args;
+	va_start(args, s);
+	error_msg(e, crt_file_name, crt_line_no, s, args);
+	va_end(args);
 }
 
 
@@ -191,13 +204,11 @@ error(int e, const char *s, ...)
 
 void
 error_posn(int e, const char *fn, int ln, const char *s, ...)
-    /*VARARGS*/
 {
-    va_list args;
-    va_start(args, s);
-    error_msg(e, fn, ln, s, args);
-    va_end(args);
-    return;
+	va_list args;
+	va_start(args, s);
+	error_msg(e, fn, ln, s, args);
+	va_end(args);
 }
 
 
