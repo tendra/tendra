@@ -92,6 +92,7 @@ ECHODIR?=	echo
 EXIT?=		exit
 FIND?=		find
 INSTALL?=	install
+LEXI?=		lexi
 LN?=		ln
 MKDIR?=		mkdir
 MOVE?=		mv
