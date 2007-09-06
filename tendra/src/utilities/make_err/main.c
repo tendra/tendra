@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -107,16 +107,12 @@ main(int argc, char **argv)
 	argv += optind;
 
 	/* Check arguments */
-	if (argc >= 1) {
+	if (argc >= 1)
 		input = argv[0];
-	}
 	if (argc >= 2) {
 		output = argv[1];
-	}
-	if (argc > 2) {
-		error(ERROR_WARNING, "Too many arguments");
-		exit(1);
-	}
+	if (argc > 2)
+		error(ERROR_FATAL, "Too many arguments");
 
 	/* Process the input */
 	process_file(input);
