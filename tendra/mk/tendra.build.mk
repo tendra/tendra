@@ -54,7 +54,7 @@ ${APILIB}: ${APIOBJS}
 CLEAN_EXTRA+= ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
               ./building/${API}.api/Makefile
 
-_objdir= 	${OBJ_DIR}/${APIS}
+_objdir=	${OBJ_DIR}/${APIS}
 .elif "${ENVFILE}" != ""
 #
 # Build environments.
@@ -159,7 +159,7 @@ lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
 
-_objdir=${OBJ_SDIR}
+_objdir=	${OBJ_SDIR}
 .else
 #
 # Nothing to do here.
@@ -179,7 +179,7 @@ clean:
 # Clean objdir blindly.
 cleandir:
 .if "${_objdir}" != ""
-	${REMOVE} ${_objdir}/* 2> /dev/null
+	${REMOVE} -r ${_objdir}/* 2> /dev/null
 .endif
 
 # Remove obj symlink from curdir.

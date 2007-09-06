@@ -99,7 +99,7 @@ _objdir=	${OBJ_DIR}/${ENVIRONMENT}
 _REALWORK: .USE
 	@${ECHO} "# Building ${TDFLIB} token definition"
 
-_objdir=        ${OBJ_SDIR}
+_objdir=	${OBJ_SDIR}
 .elif "${PROG}" != ""
 #
 # Build a program.
@@ -110,7 +110,7 @@ MAN?=	${PROG}.1
 
 ${PROG}: ${OBJS}
 	@${ECHO} "# Linking ${WRKDIR}/${PROG}"
-	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${CC} ${CCOPTS} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
 
 _REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
@@ -159,7 +159,7 @@ clean:
 # Clean objdir blindly.
 cleandir:
 .if "${_objdir}" != ""
-	${REMOVE} ${_objdir}/* 2> /dev/null
+	${REMOVE} -r ${_objdir}/* 2> /dev/null
 .endif
 
 # Remove obj symlink from curdir.
