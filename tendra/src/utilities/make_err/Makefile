@@ -5,6 +5,7 @@
 SRCC=${.CURDIR}/obj_c
 SRCTOK=${.CURDIR}/obj_tok
 SRCX=${.CURDIR}/../shared
+SRCSH=${.CURDIR}/../../shared
 SRC=${.CURDIR}
 
 # Standard variables
@@ -13,7 +14,7 @@ WARNS?=		2
 
 TCCOPTS=	-Yposix2 -Xs
 CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC}\
-		-I${SRCTOK} -I${SRCX}
+		-I${SRCTOK} -I${SRCX} -I${SRCSH}
 LIBS=
 
 # Dependencies and construction rules
@@ -22,7 +23,7 @@ PROG=		${.CURDIR:T}
 
 SRCS=		error.c errors.c lex.c main.c process.c syntax.c xalloc.c
 
-.PATH:		${SRCC} ${SRCTOK} ${SRCX}
+.PATH:		${SRCC} ${SRCTOK} ${SRCX} ${SRCSH}
 
 CALCULUS=calculus
 #LEXI=lexi
