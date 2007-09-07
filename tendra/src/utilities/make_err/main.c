@@ -57,7 +57,14 @@
         it may be put.
 */
 
+#ifdef _LINUX26
+/* Enable posix2, required for getopt */
+#define _POSIX_C_SOURCE 2
 #include <unistd.h>
+#undef _POSIX_C_SOURCE
+#else
+#include <unistd.h>
+#endif
 
 #include "config.h"
 #include "errors.h"
