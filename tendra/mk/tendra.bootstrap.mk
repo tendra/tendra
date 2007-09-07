@@ -110,7 +110,7 @@ MAN?=	${PROG}.1
 
 ${PROG}: ${OBJS}
 	@${ECHO} "# Linking ${WRKDIR}/${PROG}"
-	${CC} ${CCOPTS} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
 
 _REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
@@ -127,9 +127,9 @@ _objdir=	${OBJ_SDIR}
 # Build a library
 #
 
-CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
-CFLAGS=
-LDFLAGS=
+#CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
+#CFLAGS=
+#LDFLAGS=
 
 JOPTS=
 
