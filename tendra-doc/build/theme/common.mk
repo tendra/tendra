@@ -5,12 +5,12 @@
 # the theme itself. This is so that this theme may be included by arbitary
 # documents which for some reason might need to use the TenDRA theme, but are
 # not part of tendra-doc.
+#
+# This file contains settings common to all themes.
 
-# TODO default $RESOURCES to CSSFILE etc
+# TODO default $RESOURCES in doctools to CSSFILE etc
 
 # XHTML
-RESOURCES = $(THEME)/css/docs $(THEME)/css/common
-CSSFILE = docs/docs.css
 XHTMLSTYLE = $(THEME)/xsl/tendra-docbook-chunked.xsl
 XHTMLSTYLE_SINGLE = $(THEME)/xsl/tendra-docbook-single.xsl
 

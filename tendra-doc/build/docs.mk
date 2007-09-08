@@ -10,6 +10,7 @@ PROJECT_URL = http://docs.tendra.org/
 DOCTOOLS_BASE ?= ../../build
 THEMEDIR ?= $(DOCTOOLS_BASE)
 THEMENAME ?= theme
+THEMEFILENAME ?= standalone
 
 # Assuming we generate all images
 CLEAN_EXTRA ?= $(XHTMLIMAGES)
