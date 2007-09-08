@@ -89,7 +89,7 @@
             our definition, be a program which is portable to these two
             machines. At the other end of the scale, the C program:
 
-            <programlisting>
+            <programlisting language="C">
 #include &lt;stdio.h&gt;
       
 int
@@ -142,7 +142,7 @@ main()
           <para>A version of this file is to be found on each target machine.
             On a particular machine it might contain something like:
 
-            <programlisting>
+            <programlisting language="C">
 typedef struct {
 	int __cnt ;
 	unsigned char *__ptr ;
@@ -213,7 +213,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             standard output file, and a procedure <code>fputs</code> with
             prototype:
 
-            <programlisting>
+            <programlisting language="C">
 int fputs(const char *s, FILE *f);</programlisting>
 
             which prints the string <code>s</code> to the file <code>f</code>.
@@ -414,7 +414,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             contains a linked list of strings arranged in alphabetical order.
             This might also contain a routine:</para>
 
-          <programlisting>
+          <programlisting language="C">
 void index(char *);</programlisting>
 
           <para>which adds a string to this list in the appropriate position,
@@ -428,7 +428,7 @@ Only 1 argument to macro 'index'</programlisting>
           <para>The reason for this is that the system version of
             <code>string.h</code> contains the line:</para>
         
-          <programlisting>
+          <programlisting language="C">
 #define index(s, c) strchr(s, c)</programlisting>
               
           <para>But this is nothing to do with <acronym>ANSI</acronym>, this macro is defined for
@@ -451,13 +451,13 @@ Only 1 argument to macro 'index'</programlisting>
             definition of the structure <code>struct stat</code>, which
             includes several members, amongst them:</para>
 
-          <programlisting>
+          <programlisting language="C">
 time_t st_atime;</programlisting>
 
           <para>representing the access time for the corresponding file. So
             the program:</para>
 
-          <programlisting>
+          <programlisting language="C">
 #include &lt;sys/types.h&gt;
 #include &lt;sys/stat.h&gt;
 
@@ -473,8 +473,8 @@ st_atime(struct stat *p)
             namespaces and <acronym>API</acronym>s below). However at least one popular operating
             system has the implementation:</para>
           
-          <programlisting>
-struct stat{
+          <programlisting language="C">
+struct stat {
 	....
 	union {
 		time_t st__sec;
@@ -500,7 +500,7 @@ struct stat{
             traditional compilation scheme, the system linking. Consider the
             <acronym>ANSI</acronym> compliant routine:</para>
           
-          <programlisting>
+          <programlisting lanuage="C">
 #include &lt;stdio.h&gt;
                 
 int open ( char *nm )
@@ -571,7 +571,7 @@ int open ( char *nm )
         not, because they have used objects which are not in their <acronym>API</acronym>,
         but which are in the system headers. For example, the supposedly
         <acronym>ANSI</acronym> compliant program:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;signal.h&gt;
 int sig = SIGKILL ;</programlisting>
       will compile on most systems, despite the fact that
@@ -583,7 +583,7 @@ int sig = SIGKILL ;</programlisting>
       unlikely to detect the error in the following supposedly <acronym>POSIX</acronym>
       compliant program which prints the entries of the directory <code>
         nm</code>, together with their inode numbers:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;dirent.h&gt;
@@ -611,7 +611,7 @@ void listdir ( char *nm )
         difficult, and in a way more important, problem is that of
         assuming too much about the objects which are in the <acronym>API</acronym>. For
         example, in the program:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
               
@@ -675,7 +675,7 @@ int main ()
         decrease the portability of the program because it ties it to a
         particular class of implementations. A better workaround would
         be:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;stdlib.h&gt;
 #ifndef EXIT_FAILURE
 #define EXIT_FAILURE 1
@@ -698,7 +698,7 @@ int main ()
         <code>unistd.h</code>. It is not uncommon to find machines on
         which they are defined in the latter but not in the former. A
         possible workaround in this case would be:
-		<programlisting>
+		<programlisting language="C">
 #include &lt;stdio.h&gt;
 #ifndef SEEK_SET
 #include &lt;unistd.h&gt;
@@ -728,15 +728,15 @@ int main ()
         <para>There can also be semantic errors in the system headers :
         namely wrongly defined values. The following two examples are
         taken from real operating systems. Firstly the definition:
-        <programlisting>
+        <programlisting language="C">
 #define DBL_MAX 1.797693134862316E+308</programlisting>
       in <code>float.h</code> on an IEEE-compliant machine is
       subtly wrong - the given value does not fit into a
       <code>double</code> - the correct value is:
-        <programlisting>
+        <programlisting language="C">
 #define DBL_MAX 1.7976931348623157E+308</programlisting>
       Again, the type definition:
-        <programlisting>
+        <programlisting language="C">
 typedef int size_t ; /* ??? */</programlisting>
       (sic) is not compliant with <acronym>ANSI</acronym>, which says that
       <code>size_t</code> is an unsigned integer type. (I'm not sure if
@@ -753,7 +753,7 @@ typedef int size_t ; /* ??? */</programlisting>
       possible to change the system headers, so it is necessary to build
       workarounds into the program. Whereas in the first case it is
       possible to devise such a workaround:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;float.h&gt;
 #ifdef machine_name
 #undef DBL_MAX
@@ -773,7 +773,7 @@ typedef int size_t ; /* ??? */</programlisting>
         problems are primarily semantic - the provided library routines
         do not behave in the way specified by the <acronym>API</acronym>. This makes them
         harder to detect. For example, consider the routine:
-        <programlisting>
+        <programlisting language="C">
 void *realloc ( void *p, size_t s ) ;</programlisting>
       which reallocates the block of memory <code>p</code> to have
       size <code>s</code> bytes, returning the new block of memory. The
@@ -783,7 +783,7 @@ void *realloc ( void *p, size_t s ) ;</programlisting>
       memory of size <code>s</code>. This behaviour is exploited in the
       following program, in which the routine <code>add_char</code> adds
       a character to the expanding array, <code>buffer</code>:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
               
@@ -823,7 +823,7 @@ void add_char ( char c )
         <code>realloc</code> a number of possible workarounds are
         possible. Perhaps the most interesting is to replace the
         inclusion of <code>stdlib.h</code> by the following:
-        <programlisting>
+        <programlisting language="C">
 #include &lt;stdlib.h&gt;
 #ifdef machine_name
 #define realloc ( p, s )\
@@ -889,7 +889,7 @@ void add_char ( char c )
     
       <para>To examine the relationship between target dependent code and
       <acronym>API</acronym>s, consider the simple program:
-      <programlisting>
+      <programlisting language="C">
 #include &lt;stdio.h&gt;
             
 int main ()
@@ -939,7 +939,7 @@ int main ()
       <para>Let us consider a more complex example. Consider the following
       program which assumes, for simplicity, that an <code>unsigned
       int</code> contains 32 bits:
-      <programlisting>
+      <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "config.h"
             
@@ -1088,10 +1088,10 @@ int main ()
       directories are the same in both cases. So the only abstraction
       required to unify these two <acronym>API</acronym>s is to introduce an abstract
       type, <code>dir_entry</code> say, which can be defined by:
-      <programlisting>
+      <programlisting language="C">
 typedef struct dirent dir_entry ;</programlisting>
     on <acronym>POSIX</acronym> machines, and:
-      <programlisting>
+      <programlisting language="C">
 typedef struct direct dir_entry ;</programlisting>
     on <acronym>BSD</acronym> machines. Note how this portion of the <acronym>API</acronym> crosses the
     system-user boundary. The object <code>dir_entry</code> is defined
@@ -1158,13 +1158,13 @@ typedef struct direct dir_entry ;</programlisting>
     namespace when <code>stdio.h</code> is included (it is defined
     only in <code>stdarg.h</code>) despite the fact that it appears
     in the prototype:
-    <programlisting>
+    <programlisting language="C">
 int vprintf ( char *, va_list ) ;</programlisting>
   This seeming contradiction is worked round on most
   implementations by defining a type <code>__va_list</code> in <code>
     stdio.h</code> which has exactly the same definition as
     <code>va_list</code>, and declaring <code>vprintf</code> as:
-    <programlisting>
+    <programlisting language="C">
 int vprintf ( char *, __va_list ) ;</programlisting>
   This is only legal because <code>__va_list</code> is deemed
   not to corrupt the namespace because of the convention that names
@@ -1175,7 +1175,7 @@ int vprintf ( char *, __va_list ) ;</programlisting>
     known (and since no compiler I know tests them, not widely
     adhered to). For example, the <acronym>ANSI</acronym> header <code>errno.h</code>
     reserves all names given by the regular expression:
-    <programlisting>
+    <programlisting language="regex">
 E[0-9A-Z][0-9a-z_A-Z]+</programlisting>
   against macros (i.e. in all namespaces). By prohibiting the
   user from using names of this form, the intention is to protect
@@ -1187,7 +1187,7 @@ E[0-9A-Z][0-9a-z_A-Z]+</programlisting>
     <para>A better example of protecting against particular
     implementations comes from <acronym>POSIX</acronym>. If <code>sys/stat.h</code> is
     included names of the form:
-    <programlisting>
+    <programlisting language="regex">
 st_[0-9a-z_A-Z]+</programlisting>
   are reserved against macros (as member names). The intention
   here is not only to reserve field selector names for future
@@ -1385,7 +1385,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     compliant target machines. For example, in the target independent
     headers for the <acronym>ANSI</acronym> standard, there will be a file
     <code>stdio.h</code> containing the lines:
-    <programlisting>
+    <programlisting language="C">
 #pragma token TYPE FILE # ansi.stdio.FILE
 #pragma token EXP rvalue : FILE * : stdout # ansi.stdio.stdout
 #pragma token FUNC int ( const char *, FILE * ) : fputs # ansi.stdio.fputs</programlisting>
@@ -1396,7 +1396,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
   <code>stdout</code> which is an rvalue (that is, a non-assignable
   value) of type <code>FILE *</code>, and a procedure
   <code>fputs</code> with prototype:
-    <programlisting>
+    <programlisting language="C">
 int fputs ( const char *, FILE * ) ;</programlisting>
   and that it should leave their values unresolved by means of
   tokens (for more details on the <code>#pragma token</code>
@@ -1525,7 +1525,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
   
       <img src="../images/eg_scheme.gif" />
     <para>The program to be translated is simply:
-    <programlisting>
+    <programlisting language="C">
 FILE f ;</programlisting>
   and the <acronym>API</acronym> is as above, so that <code>FILE</code> is an
   abstract type. This <acronym>API</acronym> is described as target independent headers
@@ -1557,7 +1557,7 @@ FILE f ;</programlisting>
     C -&gt; <acronym>TDF</acronym> producer must represent everything symbolically; it
     cannot make assumptions about the target machine. For example,
     the line of C containing the initialisation:
-    <programlisting>
+    <programlisting language="C">
 int a = 1 + 1 ;</programlisting>
   is translated into <acronym>TDF</acronym> representing precisely that, 1 + 1,
   not 2, because it does not know the representation of
@@ -1566,7 +1566,7 @@ int a = 1 + 1 ;</programlisting>
   actually true).</para>
   
     <para>As another example, in the structure:
-    <programlisting>
+    <programlisting language="C">
 struct tag {
 	int a ;
 	double b ;
@@ -1607,7 +1607,7 @@ struct tag {
     more useful to have undeclared functions marked as an error
     (indeed for strict <acronym>API</acronym> checking this is essential). This is done
     by inserting the line:
-    <programlisting>
+    <programlisting language="C">
 #pragma no implicit definitions</programlisting>
   either at the start of each file to be checked or, more
   simply, in a start-up file - a file which can be
@@ -1682,7 +1682,7 @@ struct tag {
     variety (the <acronym>TDF</acronym> representation of integer types) to stand for
     <code>size_t</code>. This is done by a <code>#pragma token</code>
     statement of the form:</para>
-    <programlisting>
+    <programlisting language="C">
 #pragma token VARIETY size_t # ansi.stddef.size_t</programlisting>
 	But if we want to do arithmetic on <code>size_t</code>'s we
   need to know the integer type corresponding to the integral
@@ -1946,7 +1946,7 @@ struct tag {
     [2]), which also applies a number of checks to the input and
     generates the unique token names. For example, the description
     leading to the example above was:
-    <programlisting>
+    <programlisting language="tspec">
 +TYPE FILE ;
 +EXP FILE *stdout ;
 +FUNC int fputs ( const char *, FILE * ) ;</programlisting>
@@ -1973,7 +1973,7 @@ struct tag {
     an expression of type <code>t</code>. Clearly, this cannot be
     expressed abstractly in C-like terms; so the <code>#pragma
     token</code> description:
-    <programlisting>
+    <programlisting language="C">
 #pragma token PROC ( EXP lvalue : va_list : e, TYPE t )\
 	EXP rvalue : t : va_arg # ansi.stdarg.va_arg</programlisting>
   must be used instead.</para>
@@ -2024,11 +2024,11 @@ struct tag {
     accidental. As an example of an "accidental" incompatibility,
     XPG3 is an extension of <acronym>POSIX</acronym>, but whereas <acronym>POSIX</acronym> declares
     <code>malloc</code> by means of the prototype:
-    <programlisting>
+    <programlisting language="C">
 void *malloc(size_t);</programlisting>
   XPG3 declares it by means of the traditional procedure
   declaration:
-    <programlisting>
+    <programlisting language="C">
 void *malloc(s)
 size_t s;</programlisting>
   These are surely intended to express the same thing, but in
@@ -2272,11 +2272,11 @@ size_t s;</programlisting>
     <para>For example, the problem with <code>realloc</code> discussed
     in section 2.2.4.4 could be worked around by defining the token
     representing <code>realloc</code> to be the equivalent of:
-    <programlisting>
+    <programlisting language="Extended C">
 #define realloc ( p, s ) ( void *q = ( p ) ? ( realloc ) ( q, s ) : malloc ( s ) )</programlisting>
   (where the C syntax has been extended to allow variables to
   be introduced inside expressions) or:
-    <programlisting>
+    <programlisting language="C">
 static void *__realloc ( void *p, size_t s )
 {
 	if ( p == NULL )
@@ -2379,14 +2379,14 @@ static void *__realloc ( void *p, size_t s )
     firstly have to decide what the user-defined <acronym>API</acronym> is. To fully
     reflect exactly what the target dependent code is, we could
     define the <acronym>API</acronym>, in <code>tspec</code> terms, to be:
-    <programlisting>
+    <programlisting language="tspec">
 +MACRO unsigned char MSB ( unsigned int a ) ;</programlisting>
   where the macro <code>MSB</code> gives the most significant
   byte of its argument, <code>a</code>. Let us say that the
   corresponding <code>#pragma token</code> statement is put into the
   header <code>msb.h</code>. Then the program can be recast into the
   form:
-    <programlisting>
+    <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "msb.h"
           
@@ -2407,7 +2407,7 @@ int main ()
   two basic possibilities. Firstly the person performing the
   installation could build the library directly, by compiling a
   program of the form:
-    <programlisting>
+    <programlisting language="C">
 #pragma implement interface "msb.h"
 #include "config.h"
           
@@ -2447,7 +2447,7 @@ int main ()
     convenience this token is declared in a header file,
     <code>tokens.h</code> say. This particular case is simple enough
     to encode by hand; it takes the form:
-    <programlisting>
+    <programlisting language="C">
 #pragma token EXP rvalue : char * : hello #
 #pragma interface hello</programlisting>
 	consisting of a <code>#pragma token</code> directive
@@ -2455,12 +2455,12 @@ int main ()
   interface</code> directive to show that this is the only object in
   the <acronym>API</acronym>. An alternative would be to generate <code>tokens.h</code>
   from a <code>tspec</code> specification of the form:
-    <programlisting>
+    <programlisting language="tspec">
 +EXP char *hello ;</programlisting>
 	The next task is to write the program conforming to this <acronym>API</acronym>.
   This may take the form of a single source file,
   <code>hello.c</code>, containing the lines:
-    <programlisting>
+    <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "tokens.h"
           
@@ -2474,7 +2474,7 @@ int main ()
     which is an interface to the <acronym>TDF</acronym> system which is designed to be
     like <code>cc</code>, but with extra options to handle the extra
     functionality offered by the <acronym>TDF</acronym> system (see [1]).
-    <programlisting>
+    <programlisting language="make">
 produce : hello.j
 	echo "PRODUCTION COMPLETE"
           
@@ -2496,7 +2496,7 @@ hello.j : hello.c tokens.h
     short C program, <code>tokens.c</code>, which implements the
     tokens declared in <code>tokens.h</code>. This might take the
     form:</para>
-    <programlisting>
+    <programlisting language="C">
 #pragma implement interface "tokens.h"
 #define hello "bonjour"</programlisting>
 	to define <code>hello</code> to be "bonjour". On a different
@@ -2511,7 +2511,7 @@ hello.j : hello.c tokens.h
   
     <para>The installation process may be specified by adding the
     following lines to the <code>Makefile</code>:</para>
-    <programlisting>
+    <programlisting language="make">
 install : hello
 	echo "INSTALLATION COMPLETE"
           
@@ -2572,7 +2572,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
     <para>These conditional compilation constructs are used by the C
     -&gt; <acronym>TDF</acronym> producer to translate certain statements
     containing:
-    <programlisting>
+    <programlisting language="C">
 #if condition</programlisting>
   where <code>condition</code> is a target dependent value.
   Thus, because it is not known which branch will be taken at produce
@@ -2610,7 +2610,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
     (otherwise). In fact in view of what was said above about
     syntactic completeness, it might be better to recast the program
     as:
-    <programlisting>
+    <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "user_api.h" /* For the spec of is_mips */
           
@@ -2669,7 +2669,7 @@ int main ()
     <code>HAVE_X_WINDOWS</code>. By making
     <code>HAVE_X_WINDOWS</code> part of the user-defined <acronym>API</acronym> as a
     tokenised integer and using:
-    <programlisting>
+    <programlisting language="C">
 #if HAVE_X_WINDOWS</programlisting>
 	to conditionally compile the X Windows code, the choice of
   whether or not to use this version of the program is postponed to
