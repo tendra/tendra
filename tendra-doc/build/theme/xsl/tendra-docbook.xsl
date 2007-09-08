@@ -5,8 +5,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version='1.0'>
 
-	<xsl:import href="../doctools/xsl/sanitize.xsl"/>
-
 	<xsl:param name="css.decoration">0</xsl:param>
 	<xsl:param name="paper.type">A4</xsl:param>
 	<xsl:param name="section.autolabel">1</xsl:param>

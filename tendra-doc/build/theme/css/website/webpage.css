@@ -1,0 +1,51 @@
+/*
+ * Style common to all TenDRA webpages. This should be used by all pages on
+ * www.tendra.org, and should not be relevant to TenDRA XHTML elsewhere.
+ *
+ * $Id$
+ */
+
+@import url('../common/common.css');
+
+span.toplevel {
+	display: block;
+	margin-top: 2ex;
+}
+
+span.toplevel:first-child {
+	margin-top: 0;
+}
+
+span.shrink1 {
+	margin-top: 1ex;
+	margin-left: 1em;
+}
+
+p.navtoc {
+	width: 11em;
+	margin: 0;
+	line-height: 200%;
+}
+
+p.navtoc > br {
+	display: none;
+}
+
+div.navfoot {
+	margin-top: 2em;
+}
+
+/* Containing navtoc, hopefully */
+body table tbody tr td:first-child {
+	width: 13em;
+}
+
+/* Unfortunately there is no option to disable this, and overriding it is complex */
+span.foothome {
+	display: none;
+}
+
+td[align="center"] {
+	text-align: center;
+}
+

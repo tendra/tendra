@@ -1,0 +1,140 @@
+/*
+ * Styling common to all TenDRA HTML. Any docbook, website, or Trac-specific
+ * things should go elsewhere. Generally, this file should not refer to classes.
+ *
+ * $Id$
+ */
+
+@import url('banner.css');
+@import url('icons.css');
+
+/*
+ * Physical layout
+ */
+
+body {
+	padding: 0 4em 3em 2em;
+	margin: 0 auto;
+}
+
+ul, ol, blockquote {
+	padding: 0;
+	margin: 0 2em;
+}
+
+div.blockquote {
+	font-style: italic;
+}
+
+div.blockquote pre {
+	font-style: normal;
+}
+
+
+/*
+ * Colours and fonts
+ */
+
+hr {
+	display: none;
+}
+
+a {
+	text-decoration: none;
+	color: #25f;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 22pt;
+}
+
+h2 {
+	font-size: 16pt;
+}
+
+div.section {
+	margin: 3em 0;
+}
+
+div.section:first-child {
+	margin-top: 0;
+}
+
+h3 {
+	font-size: 14pt;
+}
+
+h4 {
+	font-size: 12pt;
+}
+
+body, td {
+	line-height: 150%;
+	text-align: justify;
+	max-width: 60em;
+	font-size: 10pt;
+	font-family: "HelveticaNeue-Light", Verdana,
+		"Lucida Grande", Lucida, Helvetica, Arial, sans-serif;
+
+	/* XXX These should only be for screen media */
+	color: #222;
+}
+
+div.informaltable table,
+div.informaltable td {
+	border: none;
+}
+
+body {
+	background-color: #fafafa;
+}
+
+h1, h2, h3, h4, h5, h6, h7, h8, h9 {
+	font-weight: normal;
+	font-family: Palatino, serif; /* XXX Georgia, "Times New Roman", serif; */
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+tt {
+	color: #607880;
+}
+
+pre, code {
+	font-family: monospace;
+	font-size: 10pt;
+	overflow: auto;
+	color: #344;
+}
+
+div.itemizedlist ul li {
+	list-style-type: square;
+}
+
+div.table-contents table,
+div.table-contents table td,
+div.table-contents table th {
+	border: none;
+}
+
+div.table-contents table {
+	border: solid 1px #ddd;
+	background-color: #fff;
+	padding: 1ex;
+}
+
+div.table-contents table th {
+	border-bottom: solid 1px #ddd;
+	padding: 0 1em 1ex 1ex;
+}
+
+div.table-contents table td {
+	padding: 0.5ex 1ex;
+}
+

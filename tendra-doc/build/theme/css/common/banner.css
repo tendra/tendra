@@ -1,0 +1,45 @@
+/*
+ * "The TenDRA Project" header and footer. These are prepended and appended to
+ * most TenDRA XHTML to give some brand recognition.
+ *
+ * $Id$
+ */
+
+/*
+ * Header
+ */
+
+h1#banner {
+	text-align: center;
+	margin: 1em 0;
+	padding: 1em 0;
+	border-bottom: solid 1px #ddd;
+	font-size: 12pt;
+	text-transform: uppercase;
+}
+
+h1#banner span.logo {
+	font-size: 24pt;
+	text-transform: none;
+}
+
+h1#banner span.smallcaps {
+	text-transform: lowercase;
+	font-variant: small-caps;
+}
+
+
+/*
+ * Footer
+ */
+
+div.navfoot {
+	border-top: solid 1px #ddd;
+	padding-top: 1em;
+}
+
+div.navfoot td {
+	font-size: 9pt;
+	color: #888;
+}
+
