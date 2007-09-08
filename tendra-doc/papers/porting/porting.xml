@@ -5,7 +5,7 @@
 <!--
   $Id$
 -->
-  
+
 <book>
   <bookinfo>
     <title><acronym>TDF</acronym> and Portability</title>
@@ -35,7 +35,7 @@
       <holder>DERA</holder>
     </copyright>
   </bookinfo>
-  
+
   <chapter id="introduction">
     <title>Introduction</title>
 
@@ -51,18 +51,18 @@
       C and is Unix specific. This is because most of the experience of <acronym>TDF</acronym> to
       date has been in connection with C in a Unix environment, and not
       because of any inbuilt bias in <acronym>TDF</acronym>.</para>
-  
+
     <para>It is assumed that the reader is familiar with the <acronym>ANDF</acronym> concept
       (although not necessarily with the details of <acronym>TDF</acronym>), and with the
       problems involved in writing portable C code.</para>
-  
+
     <para>The discussion is divided into two sections. Firstly some of the
       problems involved in writing portable programs are considered. The
       intention is not only to catalogue what these problems are, but to
       introduce ways of looking at them which will be important in the second
       section. This deals with the <acronym>TDF</acronym> approach to portability.</para>
   </chapter>
-  
+
   <chapter id="portability">
       <title>Portability</title>
 
@@ -71,10 +71,10 @@
       discussion is very general, and makes no mention of <acronym>TDF</acronym>, many of
       the ideas introduced are of importance in the second half of the
       paper, which deals with <acronym>TDF</acronym>.</para>
-    
+
       <section id="S3">
         <title>Portable Programs</title>
-      
+
         <section id="S4">
           <title>Definitions and Preliminary Discussion</title>
 
@@ -91,7 +91,7 @@
 
             <programlisting language="C">
 #include &lt;stdio.h&gt;
-      
+
 int
 main()
 {
@@ -107,7 +107,7 @@ main()
             sections of target dependent source for those constructs for which
             target independent expression is either impossible or of
             inadequate efficiency.</para>
-        
+
           <para>Note that we are defining portability in terms of a set of
             target machines and not as some universal property. The act of
             modifying an existing program to make it portable to a new target
@@ -116,7 +116,7 @@ main()
             an entire rewrite, whereas in the second case it should be
             trivial.</para>
         </section>
-      
+
         <section id="S5">
           <title>Separation and Combination of Code</title>
 
@@ -130,7 +130,7 @@ main()
             neutral form. It is one of the jobs of the compiler on the target
             machine to transform this high-level representation into the
             appropriate machine dependent low-level representation.</para>
-        
+
           <para>The second point is that the second example program is not in
             itself complete. The objects <code>fputs</code> and
             <code>stdout</code>, representing the procedure to output a string
@@ -138,7 +138,7 @@ main()
             Instead the header <code>stdio.h</code> is included on the
             understanding that it contains the specification of these
             objects.</para>
-        
+
           <para>A version of this file is to be found on each target machine.
             On a particular machine it might contain something like:
 
@@ -155,7 +155,7 @@ extern FILE __iob[60];
 #define stdout (&amp;__iob[1])
 
 extern int fputs(const char *, FILE *);</programlisting>
-            
+
             meaning that the type <code>FILE</code> is defined by the given
             structure, <code>__iob</code> is an external array of 60
             <code>FILE</code>'s, <code>stdout</code> is a pointer to the
@@ -165,7 +165,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             different machine, the details may be different (exactly what we
             can, or cannot, assume is the same on all target machines is
             discussed below).</para>
-        
+
           <para>These details are fed into the program by the pre-processing
             phase of the compiler. (The various compilation phases are
             discussed in more detail later - see Fig. 1.) This is a simple,
@@ -177,7 +177,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             these values are not provided until the final phase of the
             compilation - linking - where they are linked in from the
             precompiled system libraries.</para>
-        
+
           <para>Note that, even after the pre-processing phase, our portable
             program has been transformed into a target dependent form, because
             of the substitution of the target dependent values from
@@ -186,7 +186,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             things would have been even worse - the procedure for outputting a
             string to the screen is likely to be highly target
             dependent.</para>
-        
+
           <para>To conclude, we have, by including <code>stdio.h</code>, been
             able to effectively separate the target independent part of our
             program (the main program) from the target dependent part (the
@@ -194,7 +194,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             of the jobs of the compiler to recombine these parts to produce a
             complete program.</para>
         </section>
-      
+
         <section id="S6">
           <title>Application Programming Interfaces</title>
 
@@ -205,7 +205,7 @@ extern int fputs(const char *, FILE *);</programlisting>
             and the existing operating system on the target machine in
             abstract terms. The program should then be portable to any machine
             which implements this interface correctly.</para>
-        
+
           <para>The interface for the "Hello world" program above might be
             described as follows : defined in the header <code>stdio.h</code>
             are a type <code>FILE</code> representing a file, an object
@@ -222,33 +222,33 @@ int fputs(const char *s, FILE *f);</programlisting>
             they are) and the semantic (what they mean). On any machine which
             implements this <acronym>API</acronym> our program is both syntactically correct and
             does what we expect it to.</para>
-        
+
           <para>The benefit of describing the <acronym>API</acronym> at this fairly high level is
             that it leaves scope for a range of implementation (and thus more
             machines which implement it) while still encapsulating the main
             program's requirements.</para>
-        
+
           <para>In the example implementation of <code>stdio.h</code> above we
             see that this machine implements this <acronym>API</acronym> correctly syntactically,
             but not necessarily semantically. One would have to read the
             documentation provided on the system to be sure of the
             semantics.</para>
-        
+
           <para>Another way of defining an <acronym>API</acronym> for this program would be to
             note that the given <acronym>API</acronym> is a subset of the <acronym>ANSI</acronym> C standard. Thus
             we could take <acronym>ANSI</acronym> C as an "off the shelf" <acronym>API</acronym>. It is then clear
             that our program should be portable to any <acronym>ANSI</acronym>-compliant
             machine.</para>
-        
+
           <para>It is worth emphasising that all programs have an <acronym>API</acronym>, even if
             it is implicit rather than explicit. However it is probably fair
             to say that programs without an explicit <acronym>API</acronym> are only portable by
             accident. We shall have more to say on this subject later.</para>
         </section>
-      
+
         <section id="S7">
           <title>Compilation Phases</title>
-  
+
           <para>The general plan for how to write the extreme example of a
             portable program, namely one which contains no target dependent
             code, is now clear. It is shown in the compilation diagram in Fig.
@@ -259,11 +259,11 @@ int fputs(const char *s, FILE *f);</programlisting>
             independent material - things which only need to be done once -
             and the bottom half target dependent material - things which need
             to be done on every target machine.</para>
-        
+
           <para>FIGURE 1. Traditional Compilation Phases</para>
-        
+
             <img src="../images/trad_scheme.gif" />
-      
+
           <para> So, we write our target independent program (top left),
             conforming to the target independent <acronym>API</acronym> specification (top
             right).  All the compilation actually takes place on the target
@@ -274,7 +274,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             providing the actual procedure definitions. Another way of
             characterising this division is between syntax (the system
             headers) and semantics (the system libraries).</para>
-        
+
           <para>The compilation is divided into three main phases. Firstly the
             system headers are inserted into the program by the pre-processor.
             This produces, in effect, a target dependent version of the
@@ -289,7 +289,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             dynamically linked system this final linking phase takes place
             partially at run time rather than at compile time, but this does
             not really affect the general scheme.)</para>
-        
+
           <para>The compilation scheme just described consists of a series of
             phases of two types ; code combination (the pre-processing and
             system linking phases) and code transformation (the actual
@@ -302,7 +302,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             to portability.</para>
         </section>
       </section>
-    
+
       <section id="S8">
         <title>Portability Problems</title>
 
@@ -312,7 +312,7 @@ int fputs(const char *s, FILE *f);</programlisting>
           primarily concerned with programs which contain no target dependent
           code, although most of the points raised apply by extension to all
           programs.</para>
-      
+
         <section id="S9">
           <title>Programming Problems</title>
 
@@ -330,7 +330,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             important over the next couple of years as 64-bit architectures
             begin to be introduced. How many existing programs implicitly
             assume a 32-bit architecture?</para>
-        
+
           <para>Many of these built-in assumptions may arise because of the
             conventional porting process. A program is written on one machine,
             modified slightly to make it work on a second machine, and so on.
@@ -339,7 +339,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             it was written on. This applies not only to assumptions about
             endianness, say, but also to the questions of <acronym>API</acronym> conformance
             which we will be discussing below.</para>
-        
+
           <para>Most compilers will pick up some of the grosser programming
             errors, particularly by type checking (including procedure
             arguments if prototypes are used). Some of the subtler errors can
@@ -348,7 +348,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             checking tools such as <code>lint</code>, for example, but this
             remains a very difficult area.</para>
         </section>
-      
+
         <section id="S10">
           <title>Code Transformation Problems</title>
 
@@ -363,7 +363,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             not recognised as legitimate code (a compiler limitation). The
             latter two problems are most likely when the input is a high level
             language, with complex syntax and semantics.</para>
-        
+
           <para>Note that in Fig. 1 all the actual compilation takes place on
             the target machine. So, to port the program to
             <varname>n</varname> machines, we need to deal with the bugs and
@@ -377,12 +377,12 @@ int fputs(const char *s, FILE *f);</programlisting>
             literals and not allowing members of enumeration types as array
             indexes are among the problems drawn from my personal
             experience.</para>
-        
+
           <para>The differing compiler interpretations may be more subtle. For
             example, there are differences between <acronym>ANSI</acronym> and "traditional" C
             which may trap the unwary. Examples are the promotion of integral
             types and the resolution of the linkage of static objects.</para>
-        
+
           <para>Many of these problems may be reduced by using the "same"
             compiler on all the target machines. For example, <code>gcc</code>
             has a single front end (C -&gt; RTL) which may be combined with an
@@ -398,7 +398,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             totally seriously, but it is true in principle.) Front end bugs,
             when tracked down, also only require a single workaround.</para>
         </section>
-      
+
         <section>
           <title id="S11">Code Combination Problems</title>
 
@@ -407,7 +407,7 @@ int fputs(const char *s, FILE *f);</programlisting>
             or using a different compiler, the second class of problems, those
             concerned with the combination of code, are far more
             serious.</para>
-        
+
           <para>The first code combination phase is the pre-processor pulling
             in the system headers. These can contain some nasty surprises.
             For example, consider a simple <acronym>ANSI</acronym> compliant program which
@@ -421,19 +421,19 @@ void index(char *);</programlisting>
             using <code>strcmp</code> from <code>string.h</code> to find it.
             This works fine on most machines, but on some it gives the
             error:</para>
-        
+
           <programlisting>
 Only 1 argument to macro 'index'</programlisting>
-              
+
           <para>The reason for this is that the system version of
             <code>string.h</code> contains the line:</para>
-        
+
           <programlisting language="C">
 #define index(s, c) strchr(s, c)</programlisting>
-              
+
           <para>But this is nothing to do with <acronym>ANSI</acronym>, this macro is defined for
             compatibility with <acronym>BSD</acronym>.</para>
-        
+
           <para>In reality the system headers on any given machine are a hodge
             podge of implementations of different <acronym>API</acronym>s, and it is often
             virtually impossible to separate them (feature test macros such as
@@ -445,7 +445,7 @@ Only 1 argument to macro 'index'</programlisting>
             and <acronym>API</acronym> <varname>B</varname> extends <varname>A</varname>, then
             <varname>P</varname> conforms to <varname>B</varname>. The only
             reason this is not true is these namespace problems.</para>
-        
+
           <para>A second example demonstrates a slightly different point. The
             <acronym>POSIX</acronym> standard states that <code>sys/stat.h</code> contains the
             definition of the structure <code>struct stat</code>, which
@@ -472,7 +472,7 @@ st_atime(struct stat *p)
             occupy different namespaces (see however the appendix on
             namespaces and <acronym>API</acronym>s below). However at least one popular operating
             system has the implementation:</para>
-          
+
           <programlisting language="C">
 struct stat {
 	....
@@ -489,20 +489,20 @@ struct stat {
             by <code>st_atim.st__sec</code> by the pre-processor, as intended,
             but unfortunately so is the procedure name <code>st_atime</code>,
             leading to a syntax error.</para>
-          
+
           <para>The problem here is not with the program or the
             implementation, but in the way they were combined. C does not
             allow individual field selectors to be defined. Instead the
             indiscriminate sledgehammer of macro substitution was used,
             leading to the problem described.</para>
-        
+
           <para>Problems can also occur in the other combination phase of the
             traditional compilation scheme, the system linking. Consider the
             <acronym>ANSI</acronym> compliant routine:</para>
-          
+
           <programlisting lanuage="C">
 #include &lt;stdio.h&gt;
-                
+
 int open ( char *nm )
 {
 	int c, n = 0 ;
@@ -514,13 +514,13 @@ int open ( char *nm )
 	( void ) fclose ( f ) ;
 	return ( n ) ;
 }</programlisting>
-              
+
           <para>which opens the file <code>nm</code>, returning its size in
             bytes if it exists and -1 otherwise. As a quick porting exercise,
             I compiled it under six different operating systems. On three it
             worked correctly; on one it returned -1 even when the file
             existed; and on two it crashed with a segmentation error.</para>
-        
+
           <para>The reason for this lies in the system linking. On those
           machines which failed the library routine <code>fopen</code>
           calls (either directly or indirectly) the library routine
@@ -528,7 +528,7 @@ int open ( char *nm )
           linker, however, linked my routine <code>open</code> instead of
           the system version, so the call to <code>fopen</code> did not
           work correctly.</para>
-        
+
           <para>So code combination problems are primarily namespace problems.
           The task of combining the program with the <acronym>API</acronym> implementation on
           a given platform is complicated by the fact that, because the
@@ -537,7 +537,7 @@ int open ( char *nm )
           implementation chosen, the various namespaces in which the
           program is expected to operate become "polluted".</para>
         </section>
-      
+
         <section>
         <title id="S12"><acronym>API</acronym> Problems</title>
         <para>We have
@@ -548,7 +548,7 @@ int open ( char *nm )
         discussed separately. Here we deal with the compilation aspects :
         how to check that the program conforms to its <acronym>API</acronym>, and what to do
         about incorrect <acronym>API</acronym> implementations on the target machine(s).</para>
-      
+
         <section>
         <title id="S13"><acronym>API</acronym> Checking</title>
         <para>The
@@ -563,7 +563,7 @@ int open ( char *nm )
         genuine portability check we need to check against the abstract
         <acronym>API</acronym> description, thereby in effect checking against all possible
         implementations.</para>
-      
+
         <para>Recall from above that the system headers on a given machine
         are an amalgam of all the <acronym>API</acronym>s it implements. This can cause
         programs which should compile not to, because of namespace
@@ -587,7 +587,7 @@ int sig = SIGKILL ;</programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;dirent.h&gt;
-              
+
 void listdir ( char *nm )
 {
 	struct dirent *entry ;
@@ -605,7 +605,7 @@ void listdir ( char *nm )
       <code>d_name</code> field of <code>struct dirent</code> is in
       <acronym>POSIX</acronym>, the <code>d_ino</code> field is not. It is however in XPG3,
       so it is likely to be in many system implementations.</para>
-      
+
         <para>The previous examples have been concerned with simply telling
         whether or not a particular object is in an <acronym>API</acronym>. A more
         difficult, and in a way more important, problem is that of
@@ -614,9 +614,9 @@ void listdir ( char *nm )
         <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
-              
+
 div_t d = { 3, 4 } ;
-              
+
 int main ()
 {
 	printf ( "%d,%d\n", d.quot, d.rem ) ;
@@ -639,7 +639,7 @@ int main ()
         a portable way of finding out whether <code>t</code> is odd or
         even.</para>
         </section>
-      
+
         <section>
         <title id="S14"><acronym>API</acronym> Implementation Errors</title>
         <para>Undoubtedly the problem which causes the writer of
@@ -657,14 +657,14 @@ int main ()
         program to a new machine is likely to have their own favourite
         examples.</para>
         </section>
-      
+
         <section>
         <title id="S15">System Header Problems</title>
         <para>Some header problems are immediately apparent
         because they are syntactic and cause the program to fail to
         compile. For example, values may not be defined or be defined in
         the wrong place (not in the header prescribed by the <acronym>API</acronym>).</para>
-      
+
         <para>A common example (one which I have to include a workaround for
         in virtually every program I write) is that
         <code>EXIT_SUCCESS</code> and <code>EXIT_FAILURE</code> are not
@@ -690,7 +690,7 @@ int main ()
       discussing : non-conformant machines require workarounds involving
       conditional compilation. As more machines are considered, so these
       conditional compilations multiply.</para>
-      
+
         <para>As an example of things being defined in the wrong place, <acronym>ANSI</acronym>
         specifies that <code>SEEK_SET</code>, <code>SEEK_CUR</code> and
         <code>SEEK_END</code> should be defined in <code>stdio.h</code>,
@@ -706,7 +706,7 @@ int main ()
       Of course, by including "unnecessary" headers like
       <code>unistd.h</code> the risk of namespace clashes such as those
       discussed above is increased.</para>
-      
+
         <para>A final syntactic problem, which perhaps should belong with
         the system header problems above, concerns dependencies between
         the headers themselves. For example, the <acronym>POSIX</acronym> header
@@ -724,7 +724,7 @@ int main ()
         dependencies are as clear cut as the one given, so that what
         headers need to be included, and in what order, is in fact target
         dependent.</para>
-      
+
         <para>There can also be semantic errors in the system headers :
         namely wrongly defined values. The following two examples are
         taken from real operating systems. Firstly the definition:
@@ -765,7 +765,7 @@ typedef int size_t ; /* ??? */</programlisting>
       fact that <code>size_t</code> is unsigned will require considerable
       rewriting before it can be ported to this machine.</para>
       </section>
-      
+
         <section>
         <title id="S16">System Library Problems</title>
         <para>The system header problems just discussed are
@@ -786,10 +786,10 @@ void *realloc ( void *p, size_t s ) ;</programlisting>
         <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
-              
+
 char *buffer = NULL ;
 int buff_sz = 0, buff_posn = 0 ;
-              
+
 void add_char ( char c )
 {
 	if ( buff_posn &gt;= buff_sz ) {
@@ -810,7 +810,7 @@ void add_char ( char c )
       not for this behaviour we would have to have an explicit
       initialisation of <code>buffer</code>, either as a special case in
       <code>add_char</code> or in a separate initialisation routine.</para>
-      
+
         <para>Of course this all depends on the behaviour of <code>realloc (
         NULL, s )</code> having been implemented precisely as described
         in the <acronym>ANSI</acronym> standard. The first indication that this is not so on
@@ -818,7 +818,7 @@ void add_char ( char c )
         and run on that machine for the first time and does not perform
         as expected. To track the problem down will demand time debugging
         the program.</para>
-      
+
         <para>Once the problem has been identified as being with
         <code>realloc</code> a number of possible workarounds are
         possible. Perhaps the most interesting is to replace the
@@ -834,7 +834,7 @@ void add_char ( char c )
         p</code> is not null, and <code>malloc ( s )</code> otherwise.
         (In fact this macro will not always have the desired effect,
         although it does in this case. Why (exercise)?)</para>
-      
+
         <para>The only alternative to this trial and error approach to
         finding <acronym>API</acronym> implementation problems is the application of
         personal experience, either of the particular target machine or
@@ -847,13 +847,13 @@ void add_char ( char c )
         </section>
         </section>
       </section>
-    
+
       <section>
       <title id="S17"><acronym>API</acronym>s and Portability</title>
       <para>We now return to our discussion
       of the general issues involved in portability to more closely
       examine the role of the <acronym>API</acronym>.</para>
-    
+
       <section>
       <title id="S18">Target Dependent Code</title>
       <para>So far we have been considering programs which
@@ -868,7 +868,7 @@ void add_char ( char c )
       division between the target independent and the target dependent
       code - there are small sections of target dependent code spread
       throughout the program.</para>
-    
+
       <para>Let us briefly consider some of the reasons why it is
       necessary to introduce this conditional compilation. Some have
       already been mentioned - workarounds for compiler bugs, compiler
@@ -878,7 +878,7 @@ void add_char ( char c )
       on different machines. This can be because they really cannot be
       expressed in a target independent manner, or because the target
       independent way of doing them is unacceptably inefficient.</para>
-    
+
       <para>Efficiency (either in terms of time or space) is a key issue
       in many programs. The argument is often advanced that writing a
       program portably means using the, often inefficient, lowest
@@ -886,12 +886,12 @@ void add_char ( char c )
       portability it is the functionality that matters, not the actual
       source code. There is nothing to stop different code being used
       on different machines for reasons of efficiency.</para>
-    
+
       <para>To examine the relationship between target dependent code and
       <acronym>API</acronym>s, consider the simple program:
       <programlisting language="C">
 #include &lt;stdio.h&gt;
-            
+
 int main ()
 {
 #ifdef mips
@@ -914,7 +914,7 @@ int main ()
     performing the compilation. (In this particular example, the macro
     <code>mips</code> is normally built into the compiler on mips
     machines, but this is only a convention.)</para>
-    
+
       <para>So the <acronym>API</acronym> in this case has two components : a system-defined
       part which is implemented in the system headers and system
       libraries, and a user-defined part which ultimately relies on the
@@ -935,14 +935,14 @@ int main ()
       the program either implements this <acronym>API</acronym> (as in the mips example
       above) or chooses between a number of alternative implementations
       provided by the programmer (as in the example below).</para>
-    
+
       <para>Let us consider a more complex example. Consider the following
       program which assumes, for simplicity, that an <code>unsigned
       int</code> contains 32 bits:
       <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "config.h"
-            
+
 #ifndef SLOW_SHIFT
 #define MSB ( a ) ( ( unsigned char ) ( a &gt;&gt; 24 ) )
 #else
@@ -952,9 +952,9 @@ int main ()
 #define MSB ( a ) *( ( unsigned char * ) &amp;( a ) + 3 )
 #endif
 #endif
-            
+
 unsigned int x = 100000000 ;
-            
+
 int main ()
 {
 	printf ( "%u\n", MSB ( x ) ) ;
@@ -973,7 +973,7 @@ int main ()
       char</code>'s; on a little-endian machine it is the fourth. The
       second definition of <code>MSB</code> is intended to reflect the
       former case, and the third the latter.</para>
-    
+
       <para>The person compiling the program has to choose between the
       three possible implementations of <code>MSB</code> provided by
       the programmer. This is done by either defining, or not defining,
@@ -986,7 +986,7 @@ int main ()
       <code>BIG_ENDIAN</code>. The person performing the compilation
       simply chooses the appropriate <code>config.h</code> for the
       target machine.</para>
-    
+
       <para>There are two possible ways of looking at what the
       user-defined <acronym>API</acronym> of this program is. Possibly it is most natural
       to say that it is <code>MSB</code>, but it could also be argued
@@ -995,7 +995,7 @@ int main ()
       target dependent code, but is only implemented indirectly, via
       the latter.</para>
       </section>
-    
+
       <section>
       <title id="S19">Making <acronym>API</acronym>s Explicit</title>
       <para>As
@@ -1014,7 +1014,7 @@ int main ()
       requirements are not explicit this can only be found by trial and
       error. This is what we meant earlier by saying that a program
       without an explicit <acronym>API</acronym> is only portable by accident.</para>
-    
+
       <para>Another advantage of specifying the requirements of a program
       is that it may increase their chances of being implemented. We
       have spoken as if porting is a one-way process; program writers
@@ -1024,7 +1024,7 @@ int main ()
       requirements then the vendor knows precisely what to implement in
       order to make such a port possible.</para>
       </section>
-    
+
       <section>
       <title id="S20">Choosing an <acronym>API</acronym></title>
       <para>So how
@@ -1043,7 +1043,7 @@ int main ()
       what I want to do? The abstraction of this is usually to choose a
       standard and widely implemented <acronym>API</acronym>, such as <acronym>POSIX</acronym>, which
       provides all the necessary functionality.</para>
-    
+
       <para>The choice of "standard" <acronym>API</acronym> is of course influenced by the
       type of target machines one has in mind. Within the Unix world,
       the increasing adoption of Open Standards, such as <acronym>POSIX</acronym>, means
@@ -1054,7 +1054,7 @@ int main ()
       difficult to find a standard <acronym>API</acronym> which is implemented on both
       Unix and MSDOS machines. At present not much can be done about
       this, it reflects the disjoint nature of the computer market.</para>
-    
+
       <para>To develop a similar point : the drawback of choosing <acronym>POSIX</acronym>
       (for example) as an <acronym>API</acronym> is that it restricts the range of
       possible target machines to machines which implement <acronym>POSIX</acronym>. Other
@@ -1077,7 +1077,7 @@ int main ()
       advantage of this latter approach becomes clear if wished to port
       the program to a machine which implements neither <acronym>POSIX</acronym> nor <acronym>BSD</acronym>,
       but provides the equivalent functionality in a third way.</para>
-    
+
       <para>As a simple example, both <acronym>POSIX</acronym> and <acronym>BSD</acronym> provide very similar
       methods for scanning the entries of a directory. The main
       difference is that the <acronym>POSIX</acronym> version is defined in
@@ -1099,7 +1099,7 @@ typedef struct direct dir_entry ;</programlisting>
     definition depends on a user-defined value (whether the target
     machine implements <acronym>POSIX</acronym> or <acronym>BSD</acronym>).</para>
     </section>
-    
+
       <section>
       <title id="S21">Alternative Program Versions</title>
       <para>Another reason for introducing conditional
@@ -1113,7 +1113,7 @@ typedef struct direct dir_entry ;</programlisting>
       the use of conditional compilation to combine several versions of
       the same program on the same source tree to provide additional or
       alternative features.</para>
-    
+
       <para>It could be argued that the macros (or whatever) used to
       select between the various versions of the program are just part
       of the user-defined <acronym>API</acronym> as before. But consider a simple program
@@ -1131,7 +1131,7 @@ typedef struct direct dir_entry ;</programlisting>
       X Windows and set <code>HAVE_X_WINDOWS</code> to true. So what
       introducing <code>HAVE_X_WINDOWS</code> does is to allow
       flexibility in the <acronym>API</acronym> implementation.</para>
-    
+
       <para>This is very similar to the alternative <acronym>API</acronym>s discussed above.
       However the approach outlined will really only work for optional
       <acronym>API</acronym> extensions. To work in the alternative <acronym>API</acronym> case, we would
@@ -1141,7 +1141,7 @@ typedef struct direct dir_entry ;</programlisting>
       </section>
       </section>
     </chapter>
-  
+
     <appendix>
     <title>Appendix: Namespaces and <acronym>API</acronym>s</title>
     <para>Namespace problems are
@@ -1151,7 +1151,7 @@ typedef struct direct dir_entry ;</programlisting>
     appear when certain headers are included. (The position is set
     out in D. F. Prosser, <i>Header and name space rules for <acronym>UNIX</acronym>
     systems</i> (private communication), USL, 1993.)</para>
-  
+
     <para>For example, the intention, certainly in <acronym>ANSI</acronym>, is that each
     header should operate as an independent sub-<acronym>API</acronym>. Thus
     <code>va_list</code> is prohibited from appearing in the
@@ -1169,7 +1169,7 @@ int vprintf ( char *, __va_list ) ;</programlisting>
   This is only legal because <code>__va_list</code> is deemed
   not to corrupt the namespace because of the convention that names
   beginning with <code>__</code> are reserved for implementation use.</para>
-  
+
     <para>This particular namespace convention is well-known, but there
     are others defined in these standards which are not generally
     known (and since no compiler I know tests them, not widely
@@ -1183,7 +1183,7 @@ E[0-9A-Z][0-9a-z_A-Z]+</programlisting>
   introduce new error numbers. It also protects against a particular
   implementation of these extensions - namely that new error numbers
   will be defined as macros.</para>
-  
+
     <para>A better example of protecting against particular
     implementations comes from <acronym>POSIX</acronym>. If <code>sys/stat.h</code> is
     included names of the form:
@@ -1198,7 +1198,7 @@ st_[0-9a-z_A-Z]+</programlisting>
   strictly illegal because the procedure name <code>st_atime</code>
   lies in a restricted namespace. Indeed the namespace is restricted
   precisely to disallow this program.</para>
-  
+
     <para>As an exercise to the reader, how many of your programs use
     names from the following restricted namespaces (all drawn from
     <acronym>ANSI</acronym>, all applying to all namespaces)?
@@ -1215,18 +1215,18 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
   there is nothing else. Also implementation details are separated
   off to the <acronym>TDF</acronym> library building, so possible namespace pollution
   through particular implementations does not arise.</para>
-  
+
     <para>Currently <acronym>TDF</acronym> does not have a neat way of solving the
     <code>va_list</code> problem. The present target independent
     headers use a similar workaround to that described above
     (exploiting a reserved namespace). (See the footnote in section
     3.4.1.1.)</para>
-  
+
     <para>None of this is intended as criticism of the <acronym>ANSI</acronym> or <acronym>POSIX</acronym>
     standards. It merely shows some of the problems that can arise
     from the insufficient separation of code.</para>
     </appendix>
-  
+
     <chapter>
     <title><acronym>TDF</acronym></title>
     <para>Having discussed many of the problems involved
@@ -1239,7 +1239,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     indicated as characterising portable programs. Finally, the
     various constituents of this scheme are considered individually,
     and their particular roles are described in more detail.</para>
-  
+
     <section id="S23">
     <title>Features of <acronym>TDF</acronym></title>
     <para>It is not the purpose of this paper
@@ -1247,7 +1247,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     elsewhere (see [6] and [4]) - but rather to show how its general
     design features make it suitable as an aid to writing portable
     programs.</para>
-  
+
     <para><acronym>TDF</acronym> is an abstraction of high-level languages - it contains
     such things as <code>exps</code> (abstractions of expressions and
     statements), <code>shapes</code> (abstractions of types) and
@@ -1258,11 +1258,11 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     language) means that <acronym>TDF</acronym> is architecture neutral in the sense
     that it makes no assumptions about the underlying processor
     architecture.</para>
-  
+
     <para>The translation of a capsule to and from the corresponding
     syntax tree is totally unambiguous, also <acronym>TDF</acronym> has a "universal"
     semantic interpretation as defined in the <acronym>TDF</acronym> specification.</para>
-  
+
     <section>
     <title id="S24">Capsule Structure</title>
     <para>A <acronym>TDF</acronym>
@@ -1277,9 +1277,9 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     fourth variable of the first unit is identified with the first
     variable of the third unit, and both are associated with the
     fourth external name.</para>
-  
+
     <para>FIGURE 2. <acronym>TDF</acronym> Capsule Structure</para>
-  
+
     <img src="../images/tdf_link.gif" />
     <para>
     This capsule structure means that the combination of a number of
@@ -1294,7 +1294,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     removing it altogether ("hiding") are very simple under this
     linking scheme.</para>
     </section>
-  
+
     <section id="S25">
     <title>Tokens</title>
     <para>>So, the
@@ -1307,16 +1307,16 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     provided. The token definition is then macro substituted for the
     token in the decoding process to form the complete tree (see Fig.
     3).</para>
-  
+
     <para>FIGURE 3. <acronym>TDF</acronym> Tokens</para>
-  
+
       <img src="../images/token.gif" />
     <para>Tokens may also take arguments (see Fig. 4). The actual argument
     values (from the main tree) are substituted for the formal
     parameters in the token definition.</para>
-  
+
     <para>FIGURE 4. <acronym>TDF</acronym> Tokens (with Arguments)</para>
-  
+
       <img src="../images/token_args.gif" />
     <para>As mentioned above, tokens are one of the types of variable
     objects which are potentially visible to external units. This
@@ -1327,7 +1327,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     for the low-level separation and combination of code.</para>
     </section>
     </section>
-  
+
     <section id="S26">
     <title><acronym>TDF</acronym> Compilation Phases</title>
     <para>We have seen how one of the
@@ -1336,7 +1336,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     this is applied in the <acronym>TDF</acronym> compilation strategy. This section is
     designed only to give an outline of this scheme. The various
     constituent phases are discussed in more detail later.</para>
-  
+
     <para>Again we start with the simplest case, where the program
     contains no target dependent code. The strategy is illustrated in
     Fig. 5, which should be compared with the traditional compilation
@@ -1347,7 +1347,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     halves to what happens on each target machine. Thus, as before,
     the portable program appears in the top left of the diagram, and
     the corresponding <acronym>API</acronym> in the top right.</para>
-  
+
     <para>The first thing to note is that, whereas previously all the
     compilation took place on the target machines, here the
     compilation has been split into a target independent (C -&gt;
@@ -1357,7 +1357,7 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     Distribution Format, and we require that the production is
     precisely that - architecture neutral - so that precisely the
     same <acronym>TDF</acronym> is installed on all the target machines.</para>
-  
+
     <para>This architecture neutrality necessitates a separation of
     code. For example, in the "Hello world" example discussed in
     sections 2.1.1 and 2.1.2, the <acronym>API</acronym> specifies that there shall be a
@@ -1368,11 +1368,11 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     <code>stdout</code> from the <acronym>TDF</acronym> output by the producer, and
     provide the appropriate (target dependent) definitions for these
     objects in the installation phase.</para>
-  
+
     <para>FIGURE 5. <acronym>TDF</acronym> Compilation Phases</para>
-  
+
       <img src="../images/tdf_scheme.gif" />
-  
+
     <section id="S27">
     <title><acronym>API</acronym> Description (Top Right)</title>
     <para>The method used for this separation is the token
@@ -1403,7 +1403,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
   directive see [3]). Note how the information in the target
   independent header precisely reflects the syntactic information in
   the <acronym>ANSI</acronym> <acronym>API</acronym>.</para>
-  
+
     <para>The names <code>ansi.stdio.FILE</code> etc. give the external
     names for these tokens, those which will be visible at the
     outermost layer of the capsule; they are intended to be unique
@@ -1413,7 +1413,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     the latter the names used within <acronym>TDF</acronym> to represent the tokens
     corresponding to these objects.</para>
     </section>
-  
+
     <section id="S28">
     <title>Production (Top Left)</title>
     <para>Now the producer can compile the program using
@@ -1429,13 +1429,13 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     these types must also be represented by tokens. However these
     tokens are implicit in the producer rather than explicit in the
     target independent headers.</para>
-  
+
     <para>Note also that because the information in the target
     independent headers describes abstractly the contents of the <acronym>API</acronym>
     and not some particular implementation of it, the producer is in
     effect checking the program against the <acronym>API</acronym> itself.</para>
     </section>
-  
+
     <section id="S29">
     <title><acronym>API</acronym> Implementation (Bottom Right)</title>
     <para>Before the <acronym>TDF</acronym> output by the producer can be
@@ -1443,7 +1443,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     it has left undefined provided. These definitions will be
     potentially different on all target machines and reflect the
     implementation of the <acronym>API</acronym> on that machine.</para>
-  
+
     <para>The syntactic details of the implementation are to be found in
     the system headers. The process of defining the tokens describing
     the <acronym>API</acronym> (called <acronym>TDF</acronym> library building) consists of comparing the
@@ -1452,7 +1452,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     the target independent headers. The token definitions thus
     produced are stored as <acronym>TDF</acronym> libraries, which are just archives of
     <acronym>TDF</acronym> capsules.</para>
-  
+
     <para>For example, in the example implementation of
     <code>stdio.h</code> given in section 2.1.2, the token
     <code>ansi.stdio.FILE</code> will be defined as the <acronym>TDF</acronym> compound
@@ -1468,7 +1468,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     undefined tag <code>fputs</code>. (In fact, this picture has been
     slightly simplified for the sake of clarity. See the section on C
     -&gt; <acronym>TDF</acronym> mappings in section 3.3.2.)</para>
-  
+
     <para>These token definitions are created using exactly the same C
     -&gt; <acronym>TDF</acronym> translation program as is used in the producer phase.
     This program knows nothing about the distinction between target
@@ -1476,7 +1476,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     it is given (whether from a program or a system header) into <acronym>TDF</acronym>.
     It is the compilation process itself which enables the separation
     of target independent and target dependent <acronym>TDF</acronym>.</para>
-  
+
     <para>In addition to the tokens made explicit in the <acronym>API</acronym>, the
     implicit tokens built into the producer must also have their
     definitions inserted into the <acronym>TDF</acronym> libraries. The method of
@@ -1488,7 +1488,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     <code>char</code> from this. It will be the <code>variety</code>
     (the <acronym>TDF</acronym> abstraction of integer types) consisting of all integers
     between these values.</para>
-  
+
     <para>Note that what we are doing in the main library build is
     checking the actual implementation of the <acronym>API</acronym> against the
     abstract syntactic description. Any variations of the syntactic
@@ -1498,7 +1498,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     semantic conformance is far more difficult - we shall return to
     this issue later.</para>
     </section>
-  
+
     <section id="S30">
     <title>Installation (Bottom Left)</title>
     <para>The installation phase is now straightforward. The
@@ -1513,16 +1513,16 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     the system libraries to form a final executable. Linking with the
     system libraries will resolve any tags left undefined in the <acronym>TDF</acronym>.</para>
     </section>
-  
+
     <section id="S31">
     <title>Illustrated Example</title>
     <para>In
     order to help clarify exactly what is happening where, Fig. 6
     shows a simple example superimposed on the <acronym>TDF</acronym> compilation
     diagram.</para>
-  
+
     <para>FIGURE 6. Example Compilation</para>
-  
+
       <img src="../images/eg_scheme.gif" />
     <para>The program to be translated is simply:
     <programlisting language="C">
@@ -1543,12 +1543,12 @@ FILE f ;</programlisting>
   described above.</para>
   </section>
   </section>
-  
+
     <section id="S32">
     <title>Aspects of the <acronym>TDF</acronym> System</title>Let us now consider in
     more detail some of the components of the <acronym>TDF</acronym> system and how they
     fit into the compilation scheme.
-  
+
     <section id="S33">
     <title>The C to <acronym>TDF</acronym> Producer</title>
     <para>Above it was emphasised how the design of the
@@ -1564,7 +1564,7 @@ int a = 1 + 1 ;</programlisting>
   <code>int</code> on the target machine. The installer does know
   this, and so is able to replace 1 + 1 by 2 (provided this is
   actually true).</para>
-  
+
     <para>As another example, in the structure:
     <programlisting language="C">
 struct tag {
@@ -1587,7 +1587,7 @@ struct tag {
   token in the library building phase (recall that this is done by
   the same C -&gt; <acronym>TDF</acronym> translation program as the production) it is a
   simple matter to define the token to be the calculated value.</para>
-  
+
     <para>Furthermore, because all the producer's operations are
     performed at this very abstract level, it is a simple matter to
     put in extra portability checks. For example, it would be a
@@ -1597,7 +1597,7 @@ struct tag {
     moreover have these checks applied to an abstract machine rather
     than a particular target machine. Indeed a number of these checks
     have already been implemented.</para>
-  
+
     <para>These extra checks are switched on and off by using
     <code>#pragma</code> statements. (For more details on the
     <code>#pragma</code> syntax and which portability checks are
@@ -1613,7 +1613,7 @@ struct tag {
   simply, in a start-up file - a file which can be
   <code>#include</code>'d at the start of each source file by means
   of a command line option.</para>
-  
+
     <para>Because these checks can be turned off as well as on it is
     possible to relax as well as strengthen portability checking.
     Thus if a program is only intended to work on 32-bit machines, it
@@ -1621,7 +1621,7 @@ struct tag {
     ethos underlying the producer is that these portability
     assumptions should be made explicit, so that the appropriate
     level of checking can be done.</para>
-  
+
     <para>As has been previously mentioned, the use of a single
     front-end to any compiler not only virtually eliminates the
     problems of differing code interpretation and compiler quirks,
@@ -1646,7 +1646,7 @@ struct tag {
     is written in in terms of these <code>#pragma</code>
     statements.</para>
     </section>
-  
+
     <section id="S34">
     <title>C to <acronym>TDF</acronym> Mappings</title>
     <para>The
@@ -1657,7 +1657,7 @@ struct tag {
     to questions of portability, this mapping does illustrate some of
     the problems the producer has in trying to represent program in
     an architecture neutral manner.</para>
-  
+
     <para>Once the initial difficulty of overcoming the syntactic and
     semantic differences between the various C dialects is overcome,
     the C -&gt; <acronym>TDF</acronym> mapping is quite straightforward. In a hierarchy
@@ -1674,7 +1674,7 @@ struct tag {
     result is converted back to a <code>char</code>. These rules are
     not built directly into <acronym>TDF</acronym> because of the desire to support
     languages other than C (and even other C dialects).</para>
-  
+
     <para>A number of issues arise when tokens are introduced. Consider
     for example the type <code>size_t</code> from the <acronym>ANSI</acronym> standard.
     This is a target dependent integer type, so bearing in mind what
@@ -1691,7 +1691,7 @@ struct tag {
   representing the integral promotion of <code>size_t</code>. Thus
   the simple token directive above maps to (at least) two <acronym>TDF</acronym> tokens,
   the type itself and its integral promotion.
-  
+
     <para>As another example, suppose that we have a target dependent C
     type, <code>type</code> say, and we define a procedure which
     takes an argument of type <code>type</code>. In both the
@@ -1714,7 +1714,7 @@ struct tag {
     the conversion tokens will be identities, but for array types,
     <code>arg_type</code> will be a pointer to <code>type</code> and
     the conversion tokens will be "address of" and "contents of".</para>
-  
+
     <para>So there is not the simple one to one correspondence between
     <code>#pragma token</code> directives and <acronym>TDF</acronym> tokens one might
     expect. Each such directive maps onto a family of <acronym>TDF</acronym> tokens, and
@@ -1723,7 +1723,7 @@ struct tag {
     definitions of all these tokens are deduced automatically from
     the local values.</para>
     </section>
-  
+
     <section id="S35">
     <title><acronym>TDF</acronym> Linking</title>
     <para>We now move
@@ -1738,7 +1738,7 @@ struct tag {
     natural operation, but, as will be seen from the previous
     discussion (particularly section 2.2.3), such combinatorial
     phases are very prone to namespace problems.</para>
-  
+
     <para>In <acronym>TDF</acronym> tags, tokens and other externally named objects occupy
     separate namespaces, and there are no constructs which can cut
     across these namespaces in the way that the C macros do. There
@@ -1747,7 +1747,7 @@ struct tag {
     they have the same name. This, as we have already seen in the
     case of system linking, can cause objects to be identified
     wrongly.</para>
-  
+
     <para>In the main <acronym>TDF</acronym> linking phase - linking in the token
     definitions at the start of the installation - we are primarily
     linking on token names, these tokens being those arising from the
@@ -1765,7 +1765,7 @@ struct tag {
     require careful management. (Note that the user does not normally
     have access to the token namespace; all variable and procedure
     names map into the tag namespace.)</para>
-  
+
     <para>We can illustrate the "clean" nature of <acronym>TDF</acronym> linking by
     considering the <code>st_atime</code> example given in section
     2.2.3. Recall that in the traditional compilation scheme the
@@ -1793,7 +1793,7 @@ struct tag {
     in distinct namespaces. This shows how the separation of the <acronym>API</acronym>
     implementation from the main program is cleaner in the <acronym>TDF</acronym>
     compilation scheme than in the traditional scheme.</para>
-  
+
     <para><acronym>TDF</acronym> linking also opens up new ways of combining code which may
     solve some other namespace problems. For example, in the
     <code>open</code> example in section 2.2.3, the name
@@ -1819,7 +1819,7 @@ struct tag {
     should not be hidden. In effect this linking phase has made all
     the internal names in the program (except <code>main</code>)
     <code>static</code>.</para>
-  
+
     <para>In fact this type of complete program linking is not always
     feasible. For very large programs the resulting <acronym>TDF</acronym> capsule can
     to be too large for the installer to cope with (it is the system
@@ -1827,7 +1827,7 @@ struct tag {
     be better to use a more judiciously chosen partial linking and
     hiding scheme.</para>
     </section>
-  
+
     <section id="S36">
     <title>The <acronym>TDF</acronym> Installers</title>
     <para>>The
@@ -1839,7 +1839,7 @@ struct tag {
     latter two phases are currently implemented by the system
     assembler and linker, and so are identical to the traditional
     compilation scheme.</para>
-  
+
     <para>It is the <acronym>TDF</acronym> to assembly code translator which is the main
     part of the installer. Although not strictly related to the
     question of portability, the nature of the translator is worth
@@ -1852,7 +1852,7 @@ struct tag {
     of the unambiguous syntax and uniform semantics of <acronym>TDF</acronym>, and
     because now we know the details of the target machine, it is no
     longer necessary to work at such an abstract level.</para>
-  
+
     <para>The whole construction of the current generation of <acronym>TDF</acronym>
     translators is based on the concept of compilation as
     transformation. They represent the <acronym>TDF</acronym> they read in as a syntax
@@ -1862,7 +1862,7 @@ struct tag {
     transformations - gradually optimising it and changing it to a
     form where the translation into assembly source code is a simple
     transcription process (see [7]).</para>
-  
+
     <para>Even such operations as constant evaluation - replacing 1 + 1
     by 2 in the example above - may be regarded as <acronym>TDF</acronym> -&gt; <acronym>TDF</acronym>
     transformations. But so may more complex optimisations such as
@@ -1875,7 +1875,7 @@ struct tag {
     sharing of so much code - up to 70% - between all the <acronym>TDF</acronym>
     translators, like the introduction of a common front-end, further
     reduces the exposure to compiler bugs.</para>
-  
+
     <para>Much of the machine ABI information is built into the
     translator in a very simple way. For example, to evaluate the
     offset of the field <code>b</code> in the structure <code>struct
@@ -1886,7 +1886,7 @@ struct tag {
     by the constant evaluation transformations. Other aspects of the
     ABI, for example the procedure argument and result passing
     conventions, require more detailed attention.</para>
-  
+
     <para>One interesting range of optimisations implemented by many of
     the current translators consists of the inlining of certain
     standard procedure calls. For example, <code>strlen ( "hello"
@@ -1902,7 +1902,7 @@ struct tag {
     say. It is by recognising this token name as the token is
     expanded that the translators are able to ensure that this is
     really the library routine <code>strlen</code>.</para>
-  
+
     <para>Another example of an inlined procedure of this type is
     <code>alloca</code>. Many other compilers inline
     <code>alloca</code>, or rather they inline
@@ -1915,14 +1915,14 @@ struct tag {
     translators.</para>
     </section>
     </section>
-  
-    <section id="S37"> 
+
+    <section id="S37">
     <title><acronym>TDF</acronym> and <acronym>API</acronym>s</title>
     <para>What the discussion above has
     emphasised is that the ability to describe <acronym>API</acronym>s abstractly as
     target independent headers underpins the entire <acronym>TDF</acronym> approach to
     portability. We now consider this in more detail.</para>
-  
+
     <section id="S38">
     <title><acronym>API</acronym> Description</title>
     <para>The
@@ -1931,7 +1931,7 @@ struct tag {
     time-consuming but often fascinating task. In this section we
     discuss some of the issues arising from the process of describing
     an <acronym>API</acronym> in this way.</para>
-  
+
     <section id="S39">
     <title>The Description Process</title>
     <para>As may be observed from the example given in
@@ -1957,7 +1957,7 @@ struct tag {
   statements that it is desired to make about the <acronym>API</acronym>s being
   described. The current scheme is adequate for those <acronym>API</acronym>s so far
   considered, but it may need to be extended in future.)</para>
-  
+
     <para><code>tspec</code> is not capable of expressing the full power
     of the <code>#pragma token</code> syntax. Whereas this makes it
     easier to use in most cases, for describing the normal C-like
@@ -1977,7 +1977,7 @@ struct tag {
 #pragma token PROC ( EXP lvalue : va_list : e, TYPE t )\
 	EXP rvalue : t : va_arg # ansi.stdarg.va_arg</programlisting>
   must be used instead.</para>
-  
+
     <para>Most of the process of describing an <acronym>API</acronym> consists of going
     through its English language specification transcribing the
     object specifications it gives into the <code>tspec</code> syntax
@@ -1990,7 +1990,7 @@ struct tag {
     otherwise the <acronym>API</acronym> checking phase of the compilation will not be
     checking against what is actually in the <acronym>API</acronym> but against a
     particular way of implementing it.</para>
-  
+
     <para>There is a continuing <acronym>API</acronym> description programme at DRA. The
     current status (October 1993) is that <acronym>ANSI</acronym> (X3.159), <acronym>POSIX</acronym>
     (1003.1), XPG3 (X/Open Portability Guide 3) and SVID (System V
@@ -1998,7 +1998,7 @@ struct tag {
     extensively tested. <acronym>POSIX</acronym>2 (1003.2), XPG4, AES (Revision A), X11
     (Release 5) and Motif (Version 1.1) have been described, but not
     yet extensively tested.</para>
-  
+
     <para>There may be some syntactic information in the paper <acronym>API</acronym>
     specifications which <code>tspec</code> (and the <code>#pragma
     token</code> syntax) is not yet capable of expressing. In
@@ -2011,7 +2011,7 @@ struct tag {
     developed "<acronym>API</acronym> calculus" to allow such relationships to be easily
     expressed.</para>
     </section>
-  
+
     <section id="S40">
     <title>Resolving Conflicts</title>
     <para>Another consideration during the description
@@ -2041,7 +2041,7 @@ size_t s;</programlisting>
   headers either have to reflect this or have to read between the
   lines and assume that the incompatibility was accidental and ignore
   it.</para>
-  
+
     <para>As an example of a deliberate incompatibility, both XPG3 and
     SVID3 declare a structure <code>struct msqid_ds</code> in
     <code>sys/msg.h</code> which has fields <code>msg_qnum</code> and
@@ -2065,7 +2065,7 @@ size_t s;</programlisting>
     types need to be defined explicitly, the tokenised types are
     defined implicitly according to whatever the field types are on a
     particular machine.)</para>
-  
+
     <para>This example shows how introducing extra abstractions can
     resolve potential conflicts between <acronym>API</acronym>s. But it may also be used
     to resolve conflicts between the <acronym>API</acronym> specification and the <acronym>API</acronym>
@@ -2088,7 +2088,7 @@ size_t s;</programlisting>
     enforce strict <acronym>POSIX</acronym> by defining <code>__flock_pid_t</code> to be
     <code>pid_t</code> at produce-time, but the given implementations
     would not conform to this stricter <acronym>API</acronym>.</para>
-  
+
     <para>Both the previous two examples are really concerned with the
     question of determining the correct level of abstraction in <acronym>API</acronym>
     specification. Abstraction is inclusive and allows for <acronym>API</acronym>
@@ -2102,7 +2102,7 @@ size_t s;</programlisting>
     abstracting the types of these fields - is, by contrast, a smooth
     evolutionary path.</para>
     </section>
-  
+
     <section id="S41">
     <title>The Benefits of <acronym>API</acronym> Description</title>
     <para>The description process is potentially of
@@ -2122,7 +2122,7 @@ size_t s;</programlisting>
     involves checking the program against the abstract <acronym>API</acronym>
     description, and the library building phase checks the syntactic
     aspect of the implementation against it.</para>
-  
+
     <para>The implementation checking aspect is considered below. Let us
     here consider the program checking aspect by re-examining the
     examples given in section 2.2.4.1. The <code>SIGKILL</code>
@@ -2156,7 +2156,7 @@ size_t s;</programlisting>
     selector <code>d_ino</code> appears only in the XPG3 version.</para>
     </section>
     </section>
-  
+
     <section id="S42">
     <title><acronym>TDF</acronym> Library Building</title>
     <para>As
@@ -2179,7 +2179,7 @@ size_t s;</programlisting>
     problems. All the unpleasantness has been shifted to the
     interface between this "ideal world" and the "real world"; that
     is to say, the <acronym>TDF</acronym> library building.</para>
-  
+
     <para>The importance of this change may be summarised by observing
     that previously all the unpleasantnesses happened in the left
     hand side of the diagram (the program half), whereas in the <acronym>TDF</acronym>
@@ -2189,7 +2189,7 @@ size_t s;</programlisting>
     the <acronym>API</acronym> implementor's court rather than the programmer's. Also
     the problems need to be solved once per <acronym>API</acronym> rather than once per
     program.</para>
-  
+
     <para>It might be said that this has not advanced us very far
     towards actually dealing with the implementation errors. The <acronym>API</acronym>
     implementation still contains errors whoever's responsibility it
@@ -2200,7 +2200,7 @@ size_t s;</programlisting>
     be possible to build corrections into the <acronym>TDF</acronym> libraries so that
     the libraries reflect, not the actual implementation, but some
     improved version of it.</para>
-  
+
     <para>To show how this might be done, we reconsider the examples of
     <acronym>API</acronym> implementation errors given in section 2.2.4.2. As before we
     may divide our discussion between system header problems and
@@ -2211,7 +2211,7 @@ size_t s;</programlisting>
     building the <acronym>TDF</acronym> libraries is trying to deal with implementation
     problems for a particular <acronym>API</acronym> on a particular machine (bottom
     right).</para>
-  
+
     <section id="S43">
     <title>System Header Problems</title>
     <para>Values which are defined in the wrong place,
@@ -2221,7 +2221,7 @@ size_t s;</programlisting>
     values it is merely a matter of telling the library builder where
     they are actually defined (in <code>unistd.h</code> rather than
     <code>stdio.h</code>).</para>
-  
+
     <para>Similarly, values which are undefined are also reported. If
     these values can be deduced from other information, then it is a
     simple matter to tell the library builder to use these deduced
@@ -2229,7 +2229,7 @@ size_t s;</programlisting>
     <code>EXIT_FAILURE</code> are undefined, it is probably possible
     to deduce their values from experimentation or experience (or
     guesswork).</para>
-  
+
     <para>Wrongly defined values are more difficult. Firstly they are
     not necessarily detected by the library builder because they are
     semantic rather than syntactic errors. Secondly, whereas it is
@@ -2246,7 +2246,7 @@ size_t s;</programlisting>
     ideas of the size and layout of this structure. (See the
     <code>struct flock</code> example in section 3.4.1.2 for a
     potential method of resolving such implementation problems.)</para>
-  
+
     <para>In the two cases given above - <code>DBL_MAX</code> and
     <code>size_t</code> - the necessary changes are probably "safe".
     <code>DBL_MAX</code> is not a special value in any library
@@ -2256,7 +2256,7 @@ size_t s;</programlisting>
     we have in mind) and so should not disrupt the interface with the
     system library.</para>
     </section>
-  
+
     <section id="S44">
     <title>System Library Problems</title>
     <para>Errors in the system libraries will not be
@@ -2268,7 +2268,7 @@ size_t s;</programlisting>
     particular <acronym>API</acronym> implementations born of personal experience.
     However it may be possible to build workarounds for problems
     identified in these tests into the <acronym>TDF</acronym> libraries.</para>
-  
+
     <para>For example, the problem with <code>realloc</code> discussed
     in section 2.2.4.4 could be worked around by defining the token
     representing <code>realloc</code> to be the equivalent of:
@@ -2283,12 +2283,12 @@ static void *__realloc ( void *p, size_t s )
 		return ( malloc ( s ) ) ;
 	return ( ( realloc ) ( p, s ) ) ;
 }
-          
+
 #define realloc ( p, s ) __realloc ( p, s )</programlisting>
   Alternatively, the token definition could be encoded directly
   into <acronym>TDF</acronym> (not via C), using the <acronym>TDF</acronym> notation compiler (see [9]).</para>
   </section>
-  
+
     <section id="S45">
     <title><acronym>TDF</acronym> Library Builders</title>
     <para>The discussion above shows how the <acronym>TDF</acronym> libraries
@@ -2304,7 +2304,7 @@ static void *__realloc ( void *p, size_t s )
     from libraries closely reflecting the actual <acronym>API</acronym> implementation
     to top of the range libraries with many corrections and
     workarounds built in.</para>
-  
+
     <para>All of this has tended to paint the system vendors as the
     villains of the piece for not providing correct <acronym>API</acronym>
     implementations, but this is not entirely fair. The reason why
@@ -2316,7 +2316,7 @@ static void *__realloc ( void *p, size_t s )
     libraries could be a low-risk strategy for system vendors to
     allow users the benefits of <acronym>API</acronym> conformance without changing the
     underlying operating system.</para>
-  
+
     <para>Of course, if the system vendor's porting problems could be
     reduced, they would have more confidence to make their underlying
     systems more <acronym>API</acronym> conformant, and thereby help reduce the normal
@@ -2324,7 +2324,7 @@ static void *__realloc ( void *p, size_t s )
     might be a short-term workaround for <acronym>API</acronym> implementation problems,
     the rest of the <acronym>TDF</acronym> porting system might help towards a long-term
     solution.</para>
-  
+
     <para>Another interesting possibility arises. As we said above, many
     <acronym>API</acronym>s, for example <acronym>POSIX</acronym> and <acronym>BSD</acronym>, offer equivalent functionality
     by different methods. It may be possible to use the <acronym>TDF</acronym> library
@@ -2342,7 +2342,7 @@ static void *__realloc ( void *p, size_t s )
     </section>
     </section>
     </section>
-  
+
     <section id="S46">
     <title><acronym>TDF</acronym> and Conditional Compilation</title>
     <para>So far our
@@ -2365,7 +2365,7 @@ static void *__realloc ( void *p, size_t s )
     reason for introducing conditional compilation is where things,
     for reasons of efficiency or whatever, are genuinely different on
     different machines. It is this we now consider.</para>
-  
+
     <section id="S47">
     <title>User-Defined <acronym>API</acronym>s</title>The
     things which are done genuinely differently on different machines
@@ -2374,7 +2374,7 @@ static void *__realloc ( void *p, size_t s )
     use the <acronym>TDF</acronym> <acronym>API</acronym> description and representation methods within
     one's own programs. A very simple worked example is given below
     (in section 3.5.2), for more detailed examples see [8].
-  
+
     <para>For the <code>MSB</code> example given in section 2.3 we
     firstly have to decide what the user-defined <acronym>API</acronym> is. To fully
     reflect exactly what the target dependent code is, we could
@@ -2389,9 +2389,9 @@ static void *__realloc ( void *p, size_t s )
     <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "msb.h"
-          
+
 unsigned int x = 100000000 ;
-          
+
 int main ()
 {
 	printf ( "%u\n", MSB ( x ) ) ;
@@ -2410,7 +2410,7 @@ int main ()
     <programlisting language="C">
 #pragma implement interface "msb.h"
 #include "config.h"
-          
+
 #ifndef SLOW_SHIFT
 #define MSB ( a ) ( ( unsigned char ) ( a &gt;&gt; 24 ) )
 #else
@@ -2434,7 +2434,7 @@ int main ()
   deciding which implementation offers the best performance on a
   particular target machine.</para>
   </section>
-  
+
     <section>
     <title id="S48">3.5.2. User Defined Tokens - Example</title>
     <para>As an example of how to define a simple token
@@ -2463,7 +2463,7 @@ int main ()
     <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "tokens.h"
-          
+
 int main ()
 {
 	printf ( "%s\n", hello ) ;
@@ -2477,7 +2477,7 @@ int main ()
     <programlisting language="make">
 produce : hello.j
 	echo "PRODUCTION COMPLETE"
-          
+
 hello.j : hello.c tokens.h
 	echo "PRODUCTION : C-&gt;<acronym>TDF</acronym>"
 	tcc -Fj hello.c</programlisting>
@@ -2487,7 +2487,7 @@ hello.j : hello.c tokens.h
   to a target independent capsule, <code>hello.j</code>. This will
   use a token to represent <code>hello</code>, but it will be left
   undefined.
-  
+
     <para>On each target machine we need to create a token library
     giving the local definitions of the objects in the <acronym>API</acronym>. We shall
     assume that the library corresponding to the <acronym>ANSI</acronym> C <acronym>API</acronym> has
@@ -2508,21 +2508,21 @@ hello.j : hello.c tokens.h
   indicate that we are now implementing the <acronym>API</acronym> described in
   <code>tokens.h</code>, as opposed to the use of
   <code>#include</code> earlier when we were just using the <acronym>API</acronym>.
-  
+
     <para>The installation process may be specified by adding the
     following lines to the <code>Makefile</code>:</para>
     <programlisting language="make">
 install : hello
 	echo "INSTALLATION COMPLETE"
-          
+
 hello : hello.j tokens.tl
 	echo "INSTALLATION : <acronym>TDF</acronym>-&gt;TARGET"
 	tcc -o hello -J. -jtokens hello.j
-          
+
 tokens.tl : tokens.j
 	echo "LIBRARY BUILDING : LINKING LIBRARY"
 	tcc -Ymakelib -o tokens.tl tokens.j
-          
+
 tokens.j : tokens.c tokens.h
 	echo "LIBRARY BUILDING : DEFINING TOKENS"
 tcc -Fj -not_ansi tokens.c</programlisting>
@@ -2537,7 +2537,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
   to <code>tcc</code> (with older versions of <code>tcc</code> it may
   be necessary to change this option to <b>-Ymakelib -M -Fj</b>).
   This completes the <acronym>API</acronym> implementation.</para>
-  
+
     <para>The final step is installation. The target independent <acronym>TDF</acronym>,
     <code>hello.j</code>, is linked with the <acronym>TDF</acronym> libraries
     <code>tokens.tl</code> and <code>ansi.tl</code> (which is built
@@ -2546,12 +2546,12 @@ tcc -Fj -not_ansi tokens.c</programlisting>
     translated to a binary object file and linked with the system
     libraries. All of this is under the control of
     <code>tcc</code>.</para>
-  
+
     <para>Note the four stages of the compilation : <acronym>API</acronym> specification,
     production, <acronym>API</acronym> implementation and installation, corresponding to
     the four regions of the compilation diagram (Fig. 5).</para>
     </section>
-  
+
     <section>
     <title id="S49">3.5.3. Conditional Compilation within <acronym>TDF</acronym></title>
     <para>Although tokens are the main method used to deal with
@@ -2568,7 +2568,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
     decoded. In particular any tokens in the definition of this
     argument are not expanded, so it does not matter if they are
     undefined.</para>
-  
+
     <para>These conditional compilation constructs are used by the C
     -&gt; <acronym>TDF</acronym> producer to translate certain statements
     containing:
@@ -2582,14 +2582,14 @@ tcc -Fj -not_ansi tokens.c</programlisting>
   translates this branch. Thus, for example, code surrounded by
   <code>#if 0</code> ... <code>#endif</code> will be ignored by the
   producer.</para>
-  
+
     <para>Not all such <code>#if</code> statements can be translated
     into <acronym>TDF</acronym> <code>X_cond</code> constructs. The two branches of the
     <code>#if</code> statement are translated into the two
     <code>X</code> arguments of the <code>X_cond</code> construct;
     that is, into sub-trees of the <acronym>TDF</acronym> syntax tree. This can only be
     done if each of the two branches is syntactically complete.</para>
-  
+
     <para>The producer interprets <code>#ifdef</code> (and
     <code>#ifndef</code>) constructs to mean, is this macro is
     defined (or undefined) at produce time? Given the nature of
@@ -2613,7 +2613,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
     <programlisting language="C">
 #include &lt;stdio.h&gt;
 #include "user_api.h" /* For the spec of is_mips */
-          
+
 int main ()
 {
 	if ( is_mips ) {
@@ -2627,13 +2627,13 @@ int main ()
   unnecessary test and any unreached code, so the use of <code>if (
   condition )</code> is guaranteed to produce as efficient code as
   <code>#if condition</code>.</para>
-  
+
     <para>In order to help detect such "installer macro" problems the
     producer has a mode for detecting them. All <code>#ifdef</code>
     and <code>#ifndef</code> constructs in which the compilation path
     to be taken is potentially target dependent are reported (see [3]
     and [8]).</para>
-  
+
     <para>The existence of conditional compilation within <acronym>TDF</acronym> also gives
     flexibility in how to approach expressing target dependent code.
     Instead of a "full" abstraction of the user-defined <acronym>API</acronym> as target
@@ -2649,7 +2649,7 @@ int main ()
     the effort to define such as <acronym>API</acronym> may often be justified. When
     writing a new program from scratch the <acronym>API</acronym> rather than the
     conditional compilation approach is recommended.</para>
-  
+
     <para>The latter approach of a fully abstracted user-defined <acronym>API</acronym> may
     be more time consuming in the short run, but this may well be
     offset by the increased ease of porting. Also there is no reason
@@ -2660,7 +2660,7 @@ int main ()
     fashion. One could envisage libraries of private <acronym>API</acronym>s being built
     up in this way.</para>
     </section>
-  
+
     <section id="S50">
     <title>Alternative Program Versions</title>
     <para>Consider again the program described in section
@@ -2703,7 +2703,7 @@ int main ()
     independently. The separation is only possible because the
     definition of <acronym>TDF</acronym> has mechanisms which facilitate it - primarily
     the token mechanism, but also the capsule linkage scheme.</para>
-  
+
     <para>The most important separation is that of the abstract
     description of the syntactic aspects of the <acronym>API</acronym>, in the form of
     the target independent headers, from the <acronym>API</acronym> implementation. It
@@ -2717,7 +2717,7 @@ int main ()
     programmer to work in the idealised world envisaged by the <acronym>API</acronym>
     description, rather than the real world of <acronym>API</acronym> implementations
     and all their faults.</para>
-  
+
     <para>This isolation also means that these <acronym>API</acronym> implementation
     problems are seen to be genuinely separate from the main program
     development. They are isolated into a single process, <acronym>TDF</acronym> library
@@ -2730,7 +2730,7 @@ int main ()
     forward. Absolute <acronym>API</acronym> conformance is not necessary; the <acronym>TDF</acronym>
     libraries can be used as a medium for workarounds for minor
     implementation errors.</para>
-  
+
     <para>The same mechanism which is used to separate the <acronym>API</acronym>
     description and implementation can also be used within an
     application to separate the target dependent code from the main
@@ -2741,7 +2741,7 @@ int main ()
     is evolutionary, and not prescriptive. Programs can be made more
     portable in incremental steps, with the degree of portability to
     be used being made a conscious decision.</para>
-  
+
     <para>In a sense the most important contribution <acronym>TDF</acronym> has to portability is
       in enabling the various tasks of <acronym>API</acronym> description, <acronym>API</acronym> implementation and
       program writing to be considered independently, while showing up the
