@@ -6,22 +6,18 @@
 #    <xsl:param name="section.label.includes.component.label">1</xsl:param>
 
 
-NAME=guide
-SOURCE=guide.xml
-PROJECT_NAME=sid
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = guide
 
-PREFIX?=/usr/local
-SHAREDIR?=${PREFIX}/share
-DOCDIR?=${SHAREDIR}/doc
+DOCTOOLS_BASE ?= ../../build
 
-INSTALL=install
 
-include ../doctools/Mk/docbook.mk
+PREFIX ?= /usr/local
+SHAREDIR ?= ${PREFIX}/share
+DOCDIR ?= ${SHAREDIR}/doc
+
+INSTALL = install
+
+include $(DOCTOOLS_BASE)/docs.mk
 
 install: all
 	${INSTALL} -m 755 -d ${DOCDIR}/sid/${NAME}-single

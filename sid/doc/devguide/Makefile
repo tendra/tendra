@@ -1,21 +1,12 @@
 # $Id$
 
-NAME=devguide
-SOURCE=devguide.xml
-PROJECT_NAME=sid
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = devguide
 
-PREFIX?=/usr/local
-SHAREDIR?=${PREFIX}/share
-DOCDIR?=${SHAREDIR}/doc
+DOCTOOLS_BASE ?= ../../build
 
-INSTALL=install
+INSTALL = install
 
-include ../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 
 install: all
 	${INSTALL} -m 755 -d ${DOCDIR}/sid/${NAME}-single
