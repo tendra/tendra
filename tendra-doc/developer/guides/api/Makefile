@@ -1,14 +1,8 @@
 # $Id$
 
-DOCTOOLS_BASE = ../../..
+NAME = api
+THEMEFILENAME = website
+DOCTOOLS_BASE = ../../../build
 
-NAME=api
-PROJECT_NAME=api
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../../../style/docbook.css ../../../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../../../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../../../xsl/tendra-docbook-single.xsl
-
-include ../../../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 

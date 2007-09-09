@@ -1,8 +1,9 @@
 # $Id$
 
-SUBDIR= tld tspec
+SUBDIR = tld tspec
 
-clean:
-	rm -rf xhtml
+DOCTOOLS_BASE = ../../build
+MAKEOPTS = DOCTOOLS_BASE=../$(DOCTOOLS_BASE) THEMEFILENAME=website
 
-.include "../../share/doc.subdir.mk"
+include ../../share/doc.subdir.mk
+

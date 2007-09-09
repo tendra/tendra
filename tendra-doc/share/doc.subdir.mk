@@ -16,10 +16,12 @@
 #
 # Document-specific variables:
 #
-#	SUBDIR			A list of subdirectories that should be
+#	SUBDIR		A list of subdirectories that should be
 #				built as well.  Each of the targets will
 #				execute the same target in the
 #				subdirectories.
+#
+#	MAKEOPTS	Extra options to pass to $(MAKE).
 #
 
 # ------------------------------------------------------------------------
@@ -48,13 +50,13 @@ _SUBDIRUSE: .USE
 .for entry in ${SUBDIR}
 	@${ECHODIR} "===> ${DIRPRFX}${entry}"
 	@cd ${.CURDIR}/${entry} && \
-	${MAKE} ${.TARGET} DIRPRFX=${DIRPRFX}${entry}/
+	${MAKE} ${MAKEOPTS} ${.TARGET} DIRPRFX=${DIRPRFX}${entry}/
 .endfor
 
 .MAIN: all
 
 ${SUBDIR}::
-	@cd ${.CURDIR}/${.TARGET} && ${MAKE} all
+	@cd ${.CURDIR}/${.TARGET} && ${MAKE} ${MAKEOPTS} all
 
 .for __target in all cleandir lint objlink
 .if !target(${__target})
@@ -93,7 +95,7 @@ cleanobj:
 	@if [ -d ${CANONICALOBJDIR}/ ]; then \
 		${RM} -rf ${CANONICALOBJDIR}; \
 	else \
-		cd ${.CURDIR} && ${MAKE} clean cleandepend; \
+		cd ${.CURDIR} && ${MAKE} ${MAKEOPTS} clean cleandepend; \
 	fi
 	@if [ -h ${.CURDIR}/obj ]; then ${RM} -f ${.CURDIR}/obj; fi
 
@@ -140,4 +142,4 @@ obj: _IMAGESUBDIR
 .endif
 
 cleanall:
-	${MAKE} FORMATS="${ALL_FORMATS}" clean
+	${MAKE} ${MAKEOPTS} FORMATS="${ALL_FORMATS}" clean

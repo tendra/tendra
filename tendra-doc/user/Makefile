@@ -1,5 +1,9 @@
 # $Id$
 
-SUBDIR= guides suite sid calculus lexi
+SUBDIR = guides suite sid calculus lexi
 
-.include "../share/doc.subdir.mk"
+DOCTOOLS_BASE = ../build
+MAKEOPTS = DOCTOOLS_BASE=../$(DOCTOOLS_BASE) THEMEFILENAME=website
+
+include ../share/doc.subdir.mk
+

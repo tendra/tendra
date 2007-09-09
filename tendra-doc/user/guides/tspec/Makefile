@@ -1,14 +1,8 @@
 # $Id$
 
-DOCTOOLS_BASE = ../../..
+NAME = tspec
+THEMEFILENAME = website
+DOCTOOLS_BASE = ../../../build
 
-NAME=tspec
-PROJECT_NAME=tspec
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../../../style/docbook.css ../../../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../../../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../../../xsl/tendra-docbook-single.xsl
-
-include ../../../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 
