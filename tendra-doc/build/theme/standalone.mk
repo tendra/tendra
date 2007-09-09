@@ -7,5 +7,9 @@
 RESOURCES = $(THEME)/css/docs $(THEME)/css/common
 CSSFILE = docs/docs.css
 
+# To output documentation inside each project's doc/ directory.
+DOCSINSTALLDIR = doc/install
+DOCTOOLSBASE_FROM_PDFDIR = ../../build
+
 include common.mk
 
