@@ -15,8 +15,7 @@ XHTMLSTYLE = $(THEME)/xsl/tendra-docbook-chunked.xsl
 XHTMLSTYLE_SINGLE = $(THEME)/xsl/tendra-docbook-single.xsl
 
 # PDF
-# Assuming $THEMEDIR is $DOCTOOLS_BASE (see ../docs.mk)
-TEXDIR = $(DOCTOOLSBASE_FROM_PDFDIR)/$(THEMENAME)/tex
+TEXDIR = $(THEME)/tex
 TEXFILE = docbook.tex
 
 
