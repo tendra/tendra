@@ -1,13 +1,8 @@
 # $Id$
 
-NAME=register
-SOURCE=$(NAME).xml
-PROJECT_NAME=register
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = register
 
-include ../doctools/Mk/docbook.mk
+DOCTOOLS_BASE ?= ../../build
+
+include $(DOCTOOLS_BASE)/docs.mk
 
