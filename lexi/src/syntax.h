@@ -9,7 +9,6 @@
 
 /* BEGINNING OF HEADER */
 
-#line 111 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -46,7 +45,6 @@
 
 extern char *sid_prefix ;
 
-#line 50 "tmp.syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -80,9 +78,7 @@ extern void read_lex(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 395 "syntax.act"
 
 #endif
-#line 87 "tmp.syntax.h"
 
 /* END OF FILE */
