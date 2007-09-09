@@ -14,6 +14,7 @@ THEMEFILENAME ?= standalone
 
 # Assuming we generate all images
 CLEAN_EXTRA ?= $(XHTMLIMAGES)
+PREREQUSITES ?= $(XHTMLIMAGES)
 
 XHTMLDIR ?= $(DOCTOOLS_BASE)/../install
 PDFDIR ?= $(DOCTOOLS_BASE)/../install
