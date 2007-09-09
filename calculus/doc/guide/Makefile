@@ -1,13 +1,6 @@
 # $Id$
 
-NAME=guide
-SOURCE=guide.xml
-PROJECT_NAME=calculus
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css images/*.png
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = guide
 
-include ../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 
