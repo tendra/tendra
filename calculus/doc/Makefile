@@ -1,5 +1,6 @@
 # $Id$
 
+# This is a placeholder for tendra-doc to override.
 DOCTOOLS_BASE ?= ../build
 
 all:
