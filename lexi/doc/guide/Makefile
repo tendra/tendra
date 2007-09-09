@@ -1,33 +1,20 @@
 # $Id$
 
-NAME=guide
-SOURCE=guide.xml
-PROJECT_NAME=lexi
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = guide
+XHTMLIMAGES = tokens.png
 
-TEXFILE=docbook.tex
-TEXINPUTS=../style/tex
+PREFIX ?= /usr/local
+SHAREDIR ?= ${PREFIX}/share
+DOCDIR ?= ${SHAREDIR}/doc
 
-CLEAN_EXTRA=tokens.png
+DOCTOOLS_BASE ?= ../../build
 
-PREFIX?=/usr/local
-SHAREDIR?=${PREFIX}/share
-DOCDIR?=${SHAREDIR}/doc
-
-include ../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 
 guide.xml: ../cmdsynopsis.xml commands.xml specification.xml
 
 tokens.png: tokens.dia
 	dia -t png tokens.dia
-
-all: tokens.png
-	cp tokens.png ${XHTMLDIR}/${NAME}
-	cp tokens.png ${XHTMLDIR}/${NAME}-single
 
 install: all
 	install -m 755 -d ${DOCDIR}/lexi/${NAME}-single

@@ -1,22 +1,17 @@
 # $Id$
 
-REMOVE=rm -f
+# This is a placeholder for tendra-doc to override.
+DOCTOOLS_BASE ?= ../build
 
 all:
-	cd guide && ${MAKE} all
-	cd man && ${MAKE} all
-
-pdf: _pdf
-
-_pdf:
-	cd man && ${MAKE} pdf
+	cd guide && $(MAKE) all DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
+	cd man && $(MAKE) all pdf DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
 
 clean:
-	cd guide && ${MAKE} clean
-	cd man && ${MAKE} clean
-	${REMOVE} -r xhtml roff pdf
+	cd guide && $(MAKE) clean DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
+	cd man && $(MAKE) clean DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
 
 install:
-	cd guide && ${MAKE} install
-	cd man && ${MAKE} install
+	cd guide && ${MAKE} install DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
+	cd man && ${MAKE} install DOCTOOLS_BASE=../$(DOCTOOLS_BASE)
 
