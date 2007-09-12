@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # $Id$
-# 
+#
 # Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-# 
+#
 # 1. Redistributions of source code must retain the above copyright
 #    notice, this list of conditions and the following disclaimer.
 # 2. Redistributions in binary form must reproduce the above copyright
@@ -17,7 +17,7 @@
 # 3. Neither the name of The TenDRA Project nor the names of its contributors
 #    may be used to endorse or promote products derived from this software
 #    without specific, prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -63,7 +63,8 @@ if [ ! -z "${LD_LIBRARY_PATH}" ]; then
 fi
 
 # Set up defaults
-EXECFORMAT=elf		# ELF is the de facto executable file format nowadays.
+EXECFORMAT=elf
+BS_LIBS="-L/usr/lib -lc"
 
 case "${SYSTEM}.${VERSION}" in
 	DragonFly.1*)	# Use the system supplied GCC for CC.
@@ -73,7 +74,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="dragonfly"
 			OSVER="DRAGONFLY1"
 			;;
@@ -84,7 +84,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
 			OSVER="FREEBSD4"
 			;;
@@ -95,7 +94,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
 			OSVER="FREEBSD5"
 			;;
@@ -106,7 +104,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
 			OSVER="FREEBSD6"
 			;;
@@ -117,7 +114,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="freebsd"
 			OSVER="FREEBSD7"
 			;;
@@ -128,7 +124,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="--dynamic-linker /lib/ld-linux.so.2 ${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="linux"
 			OSVER="LINUX24"
 			;;
@@ -139,7 +134,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="linux"
 			OSVER="LINUX26"
 			;;
@@ -151,7 +145,7 @@ case "${SYSTEM}.${VERSION}" in
 			LDFLAGS="${LDFLAGS}"
 			LDCRT=""
 			# Minix only runs on x86 for now.
-			LIBS="-L/usr/lib/i386 -lc"
+			BS_LIBS="-L/usr/lib/i386 -lc"
 			OSFAM="minix"
 			OSVER="MINIX2"
 			;;
@@ -161,7 +155,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="netbsd"
 			OSVER="NETBSD1"
 			;;
@@ -171,7 +164,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="--dynamic-linker /libexec/ld.elf_so ${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o /usr/lib/crti.o /usr/lib/crtn.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="netbsd"
 			OSVER="NETBSD2"
 			;;
@@ -181,7 +173,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT=
-			LIBS="-lc"
 			OSFAM="netbsd"
 			OSVER="NETBSD3"
 			;;
@@ -191,7 +182,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="openbsd"
 			OSVER="OPENBSD3"
 			;;
@@ -201,7 +191,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT="/usr/lib/crt0.o"
-			LIBS="-L/usr/lib -lc"
 			OSFAM="openbsd"
 			OSVER="OPENBSD4"
 			;;
@@ -222,7 +211,6 @@ case "${SYSTEM}.${VERSION}" in
 			CFLAGS="${CFLAGS}"
 			LDFLAGS="${LDFLAGS}"
 			LDCRT=
-			LIBS="-L/usr/lib -lc"
 			OSFAM="sunos"
 			OSVER="SUNOS5"
 			;;
@@ -254,7 +242,7 @@ echo "LD:		${LD}"
 echo "CFLAGS:		${CFLAGS}"
 echo "LDFLAGS:	${LDFLAGS}"
 echo "LDCRT:		${LDCRT}"
-echo "LIBS:		${LIBS}"
+echo "BS_LIBS:	${BS_LIBS}"
 echo "OSFAM:		${OSFAM}"
 echo "OSVER:		${OSVER}"
 echo "BLDARCH:	${BLDARCH} (${HOSTARCH})"
@@ -271,7 +259,7 @@ LD?=${LD}
 CFLAGS=${CFLAGS}
 LDFLAGS=${LDFLAGS}
 LDCRT=${LDCRT}
-LIBS=${LIBS}
+BS_LIBS=${BS_LIBS}
 OSFAM=${OSFAM}
 OSVER=${OSVER}
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}

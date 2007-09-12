@@ -110,7 +110,7 @@ MAN?=	${PROG}.1
 
 ${PROG}: ${OBJS}
 	@${ECHO} "# Linking ${WRKDIR}/${PROG}"
-	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${BS_LIBS} ${LIBS}
 
 _REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
@@ -139,7 +139,7 @@ lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
 
-_objdir=	${OBJ_DIR}/src/lib/sys
+_objdir=	${OBJ_SDIR}
 .else
 #
 # Nothing to do here.
