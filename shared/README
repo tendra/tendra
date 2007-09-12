@@ -14,3 +14,19 @@ Each set of support functions is grouped into a statically-linked archive.
 These archives take the role of minature libraries, save that their APIs are
 not particularly tidy, and are subject to change.
 
+Building shared
+---------------
+
+Shared supports two make completely seperated build infrastructures.
+
+- The TenDRA compiler infrastructure can be found in Makefile and Makefile.inc
+- The standalone infrastructure is in makefile.standalone
+
+If you're going to build shared inside TenDRA, the build system will take care
+of everything and the standalone version is ignored.
+
+If you want to build the standalone version, do it like this:
+
+$ make -f makefile.standalone <target>
+
+Supported targets in standalone mode are "all" (default) and "clean".

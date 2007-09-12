@@ -1,0 +1,15 @@
+# $Id$
+
+AR?= ar
+RANLIB?= ranlib
+REMOVE?= rm -f
+
+all: error.a
+
+clean:
+	${REMOVE} error.o error.a
+
+error.a: error.o
+	${AR} -rcus $@ error.o
+	${RANLIB} $@
+

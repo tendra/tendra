@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,12 +58,38 @@
 */
 
 #include <errno.h>
-/* XXX: #include <stdint.h> for SIZE_MAX */
+#include <stdarg.h>
+/* XXX: #include <stdint.h> for SIZE_MAX, requires C99 api support in TenDRA */
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
-#include "error.h"
+/* XXX: needed for xmalloc_nof and other macros */
 #include "xalloc.h"
+
+extern const char* progname;
+
+/*
+ * Custom error function for xalloc to prevent a dependency on
+ * the error library. All errors in this library are fatal and
+ * result in the application returning 1.
+ */
+static void
+xalloc_fatal(const char *s, ...)
+{
+	va_list args;
+
+	if (progname)
+		(void) fprintf(stderr, "%s: ", progname);
+
+	(void) fprintf(stderr, "Fatal: ");
+
+	va_start(args, s);
+	(void) vfprintf(stderr, s, args);
+	va_end(args);
+
+	exit(EXIT_FAILURE);
+}
 
 
 /*
@@ -79,7 +105,7 @@ xmalloc(size_t sz)
 	void *p = malloc(sz);
 
 	if (p == NULL)
-		error(ERROR_FATAL, "malloc: %s", strerror(errno));
+		xalloc_fatal("malloc: %s", strerror(errno));
 
 	return (p);
 }
@@ -97,13 +123,13 @@ xcalloc(size_t n, size_t sz)
 	void *p;
 
 	if (n == 0 || sz == 0)
-		error(ERROR_FATAL, "xcalloc: zero size allocation");
+		xalloc_fatal("xcalloc: zero size allocation");
 
 	/* XXX: if (SIZE_MAX / n < sz)
-		error(ERROR_FATAL, "xcalloc: size_t overflow"); */
+		xalloc_fatal("xcalloc: size_t overflow"); */
 
 	if ((p = calloc(sz, n)) == NULL)
-		error(ERROR_FATAL, "calloc: %s", strerror(errno));
+		xalloc_fatal("calloc: %s", strerror(errno));
 
 	return (p);
 }
@@ -122,14 +148,14 @@ xrealloc(void *p, size_t sz)
 	void *q;
 
 	if (p == NULL && sz == 0)
-		error(ERROR_FATAL, "xrealloc: both arguments zero is unspecified");
+		xalloc_fatal("xrealloc: both arguments zero is unspecified");
 
 	/* This is legal and frees p, but confusing */
 	if (sz == 0)
-		error(ERROR_FATAL, "xrealloc: size is zero, use xfree()");
+		xalloc_fatal("xrealloc: size is zero, use xfree()");
 
 	if ((q = realloc(p, sz)) == NULL)
-		error(ERROR_FATAL, "realloc: %s", strerror(errno));
+		xalloc_fatal("realloc: %s", strerror(errno));
 
 	return (q);
 }

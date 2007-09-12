@@ -1,0 +1,15 @@
+# $Id$
+
+AR?= ar
+RANLIB?= ranlib
+REMOVE?= rm -f
+
+all: xalloc.a
+
+clean:
+	${REMOVE} xalloc.o xalloc.a
+
+xalloc.a: xalloc.o
+	${AR} -rcus $@ xalloc.o
+	${RANLIB} $@
+
