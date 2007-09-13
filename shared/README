@@ -3,21 +3,21 @@ Shared Support Functions
 
 This project consists of various support functions shared across several TenDRA
 projects. These are not considered worth releasing as a library in their own
-right, either because they are trvially small, or because they are specific to
+right, either because they are trivially small, or because they are specific to
 TenDRA.
 
-The intention is that they are includes into the source tree of each project by
+The intention is that they are included into the source tree of each project by
 way of svn:externals references. In this way the code is centralised without
-depending on a seperate library.
+depending on a separate library.
 
 Each set of support functions is grouped into a statically-linked archive.
-These archives take the role of minature libraries, save that their APIs are
+These archives take the role of miniature libraries, save that their APIs are
 not particularly tidy, and are subject to change.
 
 Building shared
 ---------------
 
-Shared supports two make completely seperated build infrastructures.
+Shared supports two make completely separated build infrastructures.
 
 - The TenDRA compiler infrastructure can be found in Makefile and Makefile.inc
 - The standalone infrastructure is in makefile.standalone
