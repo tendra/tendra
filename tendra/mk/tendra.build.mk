@@ -159,6 +159,7 @@ lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
 
+CLEAN_EXTRA+=	lib${LIB}.a ${OBJS}
 _objdir=	${OBJ_SDIR}
 .else
 #
