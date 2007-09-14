@@ -4,12 +4,12 @@ AR?= ar
 RANLIB?= ranlib
 REMOVE?= rm -f
 
-all: xalloc.a
+all: libxalloc.a
 
 clean:
-	${REMOVE} xalloc.o xalloc.a
+	${REMOVE} xalloc.o libxalloc.a
 
-xalloc.a: xalloc.o
+libxalloc.a: xalloc.o
 	${AR} -rcus $@ xalloc.o
 	${RANLIB} $@
 

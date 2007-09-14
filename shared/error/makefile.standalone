@@ -4,12 +4,12 @@ AR?= ar
 RANLIB?= ranlib
 REMOVE?= rm -f
 
-all: error.a
+all: liberror.a
 
 clean:
-	${REMOVE} error.o error.a
+	${REMOVE} error.o liberror.a
 
-error.a: error.o
+liberror.a: error.o
 	${AR} -rcus $@ error.o
 	${RANLIB} $@
 
