@@ -60,10 +60,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "shared/error.h"
+#include "error.h"
+#include "xalloc.h"
+
 #include "lex.h"
 #include "syntax.h"
-#include "shared/xalloc.h"
 
 
 /*

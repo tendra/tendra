@@ -61,8 +61,9 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "error.h"
+
 #include "char.h"
-#include "shared/error.h"
 #include "lex.h"
 #include "output.h"
 
