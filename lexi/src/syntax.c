@@ -9,6 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
+#line 30 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -41,11 +42,12 @@
 
 #include <string.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "char.h"
-#include "shared/error.h"
 #include "lex.h"
 #include "syntax.h"
-#include "shared/xalloc.h"
 
 
 /*
@@ -90,6 +92,7 @@ static char *crt_cond = NULL ;
 #endif
 
 
+#line 96 "tmp.syntax.c"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -122,38 +125,55 @@ ZRstring_Hplus(SID_STRING *ZOs)
     {
 	SID_STRING ZIa;
 
+	/* BEGINNING OF INLINE: 44 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 5:
 		{
+		    /* BEGINNING OF EXTRACT: digit */
 		    {
+#line 219 "syntax.act"
  ZIa = "0123456789" ; 
+#line 138 "tmp.syntax.c"
 		    }
+		    /* END OF EXTRACT: digit */
 		    ADVANCE_LEXER;
 		}
 		break;
 	      case 4:
 		{
+		    /* BEGINNING OF EXTRACT: lower */
 		    {
+#line 218 "syntax.act"
  ZIa = "abcdefghijklmnopqrstuvwxyz" ; 
+#line 150 "tmp.syntax.c"
 		    }
+		    /* END OF EXTRACT: lower */
 		    ADVANCE_LEXER;
 		}
 		break;
 	      case 2:
 		{
+		    /* BEGINNING OF EXTRACT: string */
 		    {
+#line 206 "syntax.act"
 
     ZIa = xstrcpy ( token_buff ) ;
+#line 163 "tmp.syntax.c"
 		    }
+		    /* END OF EXTRACT: string */
 		    ADVANCE_LEXER;
 		}
 		break;
 	      case 3:
 		{
+		    /* BEGINNING OF EXTRACT: upper */
 		    {
+#line 217 "syntax.act"
  ZIa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ; 
+#line 175 "tmp.syntax.c"
 		    }
+		    /* END OF EXTRACT: upper */
 		    ADVANCE_LEXER;
 		}
 		break;
@@ -161,6 +181,8 @@ ZRstring_Hplus(SID_STRING *ZOs)
 		goto ZL1;
 	    }
 	}
+	/* END OF INLINE: 44 */
+	/* BEGINNING OF INLINE: 46 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 20:
@@ -173,10 +195,14 @@ ZRstring_Hplus(SID_STRING *ZOs)
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
+		    /* BEGINNING OF ACTION: string-concat */
 		    {
+#line 231 "syntax.act"
 
     (ZIs) = xstrcat ( (ZIa), (ZIb) ) ;
+#line 204 "tmp.syntax.c"
 		    }
+		    /* END OF ACTION: string-concat */
 		}
 		break;
 	      default:
@@ -186,6 +212,7 @@ ZRstring_Hplus(SID_STRING *ZOs)
 		break;
 	    }
 	}
+	/* END OF INLINE: 46 */
     }
     goto ZL0;
   ZL1:;
@@ -211,10 +238,14 @@ ZRchars(SID_CHARS *ZOc)
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
+	/* BEGINNING OF ACTION: make-chars */
 	{
+#line 243 "syntax.act"
 
     (ZIc) = make_string ( (ZIs) ) ;
+#line 247 "tmp.syntax.c"
 	}
+	/* END OF ACTION: make-chars */
     }
     goto ZL0;
   ZL1:;
@@ -240,16 +271,24 @@ ZRargs(int *ZOa)
 		goto ZL1;
 	    }
 	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: true */
 	    {
+#line 380 "syntax.act"
  (ZIa) = 1 ; 
+#line 279 "tmp.syntax.c"
 	    }
+	    /* END OF ACTION: true */
 	}
 	break;
       default:
 	{
+	    /* BEGINNING OF ACTION: false */
 	    {
+#line 381 "syntax.act"
  (ZIa) = 0 ; 
+#line 290 "tmp.syntax.c"
 	    }
+	    /* END OF ACTION: false */
 	}
 	break;
       case 23:
@@ -296,14 +335,18 @@ ZRtrigraph_Hdefn(void)
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
+	/* BEGINNING OF ACTION: make-trigraph */
 	{
+#line 281 "syntax.act"
 
     char *data [3] ;
     data [0] = (ZIt) ;
     data [1] = NULL ;
     data [2] = crt_cond ;
     add_char ( pre_pass, (ZIs), data ) ;
+#line 348 "tmp.syntax.c"
 	}
+	/* END OF ACTION: make-trigraph */
     }
     return;
   ZL1:;
@@ -320,10 +363,14 @@ ZR60(SID_STRING *ZOi, int *ZOa)
     switch (CURRENT_TERMINAL) {
       case 0:
 	{
+	    /* BEGINNING OF EXTRACT: identifier */
 	    {
+#line 161 "syntax.act"
 
     ZIi = xstrcpy ( token_buff ) ;
+#line 372 "tmp.syntax.c"
 	    }
+	    /* END OF EXTRACT: identifier */
 	    ADVANCE_LEXER;
 	    ZRargs (&ZIa);
 	    if ((CURRENT_TERMINAL) == 23) {
@@ -334,7 +381,9 @@ ZR60(SID_STRING *ZOi, int *ZOa)
 	break;
       case 1:
 	{
+	    /* BEGINNING OF EXTRACT: sid-identifier */
 	    {
+#line 173 "syntax.act"
 
     int n ;
     char *s ;
@@ -358,11 +407,17 @@ ZR60(SID_STRING *ZOi, int *ZOa)
     }
     buff [n] = 0 ;
     ZIi = xstrcpy ( buff ) ;
+#line 411 "tmp.syntax.c"
 	    }
+	    /* END OF EXTRACT: sid-identifier */
 	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: false */
 	    {
+#line 381 "syntax.act"
  (ZIa) = 0 ; 
+#line 419 "tmp.syntax.c"
 	    }
+	    /* END OF ACTION: false */
 	}
 	break;
       case 23:
@@ -387,6 +442,7 @@ read_lex(void)
     }
     {
 	ZRcommand_Hlist ();
+	/* BEGINNING OF INLINE: 67 */
 	{
 	    if ((CURRENT_TERMINAL) == 23) {
 		RESTORE_LEXER;
@@ -404,13 +460,18 @@ read_lex(void)
 	    goto ZL2;
 	  ZL3:;
 	    {
+		/* BEGINNING OF ACTION: syntax-error */
 		{
+#line 390 "syntax.act"
 
     error ( ERROR_SERIOUS, "Syntax error" ) ;
+#line 469 "tmp.syntax.c"
 		}
+		/* END OF ACTION: syntax-error */
 	    }
 	  ZL2:;
 	}
+	/* END OF INLINE: 67 */
     }
     return;
   ZL1:;
@@ -427,10 +488,14 @@ ZR68(void)
 	    SID_STRING ZIi;
 	    SID_CHARS ZIs;
 
+	    /* BEGINNING OF EXTRACT: identifier */
 	    {
+#line 161 "syntax.act"
 
     ZIi = xstrcpy ( token_buff ) ;
+#line 497 "tmp.syntax.c"
 	    }
+	    /* END OF EXTRACT: identifier */
 	    ADVANCE_LEXER;
 	    switch (CURRENT_TERMINAL) {
 	      case 19:
@@ -444,10 +509,14 @@ ZR68(void)
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
+	    /* BEGINNING OF ACTION: make-group */
 	    {
+#line 270 "syntax.act"
 
     make_group ( (ZIi), (ZIs) ) ;
+#line 518 "tmp.syntax.c"
 	    }
+	    /* END OF ACTION: make-group */
 	    switch (CURRENT_TERMINAL) {
 	      case 21:
 		break;
@@ -474,13 +543,17 @@ ZR68(void)
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
+	    /* BEGINNING OF ACTION: make-white */
 	    {
+#line 256 "syntax.act"
 
     if ( white_space ) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
     white_space = (ZIs) ;
+#line 555 "tmp.syntax.c"
 	    }
+	    /* END OF ACTION: make-white */
 	    switch (CURRENT_TERMINAL) {
 	      case 21:
 		break;
@@ -510,12 +583,14 @@ ZRcommand_Hlist(void)
       case 15: case 21:
 	{
 	    ZRcommand ();
+	    /* BEGINNING OF INLINE: command-list */
 	    if ((CURRENT_TERMINAL) == 23) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
 		goto ZL2_command_Hlist;
 	    }
+	    /* END OF INLINE: command-list */
 	}
 	/*UNREACHED*/
       case 23:
@@ -526,10 +601,14 @@ ZRcommand_Hlist(void)
     return;
   ZL1:;
     {
+	/* BEGINNING OF ACTION: syntax-error */
 	{
+#line 390 "syntax.act"
 
     error ( ERROR_SERIOUS, "Syntax error" ) ;
+#line 610 "tmp.syntax.c"
 	}
+	/* END OF ACTION: syntax-error */
     }
 }
 
@@ -553,10 +632,14 @@ ZRkeyword_Hdefn(void)
 	ADVANCE_LEXER;
 	switch (CURRENT_TERMINAL) {
 	  case 2:
+	    /* BEGINNING OF EXTRACT: string */
 	    {
+#line 206 "syntax.act"
 
     ZIs = xstrcpy ( token_buff ) ;
+#line 641 "tmp.syntax.c"
 	    }
+	    /* END OF EXTRACT: string */
 	    break;
 	  default:
 	    goto ZL1;
@@ -574,14 +657,18 @@ ZRkeyword_Hdefn(void)
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
+	/* BEGINNING OF ACTION: make-keyword */
 	{
+#line 311 "syntax.act"
 
     char *data [3] ;
     data [0] = (ZIi) ;
     data [1] = ( (ZIa) ? "()" : NULL ) ;
     data [2] = crt_cond ;
     add_keyword ( (ZIs), data ) ;
+#line 670 "tmp.syntax.c"
 	}
+	/* END OF ACTION: make-keyword */
     }
     return;
   ZL1:;
@@ -615,10 +702,14 @@ ZRif_Hcommand(void)
 	ADVANCE_LEXER;
 	switch (CURRENT_TERMINAL) {
 	  case 0:
+	    /* BEGINNING OF EXTRACT: identifier */
 	    {
+#line 161 "syntax.act"
 
     ZIi = xstrcpy ( token_buff ) ;
+#line 711 "tmp.syntax.c"
 	    }
+	    /* END OF EXTRACT: identifier */
 	    break;
 	  default:
 	    goto ZL1;
@@ -631,19 +722,28 @@ ZRif_Hcommand(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
+	/* BEGINNING OF ACTION: get-condition */
 	{
+#line 358 "syntax.act"
 
     (ZIj) = crt_cond ;
+#line 731 "tmp.syntax.c"
 	}
+	/* END OF ACTION: get-condition */
+	/* BEGINNING OF ACTION: add-condition */
 	{
+#line 326 "syntax.act"
 
     if ( crt_cond ) {
 	crt_cond = xstrcat ( crt_cond, xstrcat ( " && ", (ZIi) ) ) ;
     } else {
 	crt_cond = (ZIi) ;
     }
+#line 743 "tmp.syntax.c"
 	}
+	/* END OF ACTION: add-condition */
 	ZRcommand ();
+	/* BEGINNING OF INLINE: 65 */
 	{
 	    if ((CURRENT_TERMINAL) == 23) {
 		RESTORE_LEXER;
@@ -657,7 +757,9 @@ ZRif_Hcommand(void)
 		    goto ZL3;
 		}
 		ADVANCE_LEXER;
+		/* BEGINNING OF ACTION: compl-condition */
 		{
+#line 341 "syntax.act"
 
     if ( crt_cond ) {
 	if ( strchr ( crt_cond, '&' ) ) {
@@ -666,27 +768,38 @@ ZRif_Hcommand(void)
 	    crt_cond = xstrcat ( "!", crt_cond ) ;
 	}
     }
+#line 772 "tmp.syntax.c"
 		}
+		/* END OF ACTION: compl-condition */
 		ZRcommand ();
 		if ((CURRENT_TERMINAL) == 23) {
 		    RESTORE_LEXER;
 		    goto ZL3;
 		}
+		/* BEGINNING OF ACTION: set-condition */
 		{
+#line 369 "syntax.act"
 
     crt_cond = (ZIj) ;
+#line 785 "tmp.syntax.c"
 		}
+		/* END OF ACTION: set-condition */
 	    }
 	    goto ZL2;
 	  ZL3:;
 	    {
+		/* BEGINNING OF ACTION: set-condition */
 		{
+#line 369 "syntax.act"
 
     crt_cond = (ZIj) ;
+#line 797 "tmp.syntax.c"
 		}
+		/* END OF ACTION: set-condition */
 	    }
 	  ZL2:;
 	}
+	/* END OF INLINE: 65 */
     }
     return;
   ZL1:;
@@ -828,14 +941,18 @@ ZRtoken_Hdefn(void)
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
+	/* BEGINNING OF ACTION: make-token */
 	{
+#line 296 "syntax.act"
 
     char *data [3] ;
     data [0] = (ZIi) ;
     data [1] = ( (ZIa) ? "()" : NULL ) ;
     data [2] = crt_cond ;
     add_char ( main_pass, (ZIs), data ) ;
+#line 954 "tmp.syntax.c"
 	}
+	/* END OF ACTION: make-token */
     }
     return;
   ZL1:;
@@ -845,6 +962,8 @@ ZRtoken_Hdefn(void)
 
 /* BEGINNING OF TRAILER */
 
+#line 395 "syntax.act"
 
+#line 968 "tmp.syntax.c"
 
 /* END OF FILE */
