@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -59,11 +59,12 @@
 
 #include <stdlib.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #define calculus_IO_ROUTINES
 #include "calculus.h"
-#include "../shared/error.h"
 #include "../extra.h"
-#include "../shared/xalloc.h"
 
 
 /*

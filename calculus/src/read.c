@@ -60,13 +60,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #define calculus_IO_ROUTINES
 #include "read.h"
 #include "calculus.h"
 #include "common.h"
-#include "shared/error.h"
 #include "output.h"
-#include "shared/xalloc.h"
 
 
 /*
