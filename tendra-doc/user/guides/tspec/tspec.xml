@@ -393,7 +393,40 @@ tspec [options] -l file</programlisting>
           where <code>name</code> is the subset name. These named subsets can
           be nested, but are still regarded as subsets of the parent
           header.</para>
-  
+
+		<para>The intended use for nested subsets is to provide a mechanism
+			by which <code>+IMPLEMENT</code> and <code>+USE</code> may
+			reference specific sections of APIs. Consider the following
+			fictional APIs, <quote>Z</quote>, <quote>A</quote> and
+			<quote>C</quote>:</para>
+
+		<para>The <quote>Z</quote> API's <filename>s.h</filename>:</para>
+
+<programlisting>+TYPE (unsigned) w;
++SUBSET "subset1" := {
+    +TYPE (unsigned) x;
+    +TYPE (unsigned) z;
+    +SUBSET "subset2" := {
+        +TYPE (unsigned) y;
+   }
+}</programlisting>
+
+		<para>The <quote>A</quote> API:</para>
+
+<programlisting>+IMPLEMENT "Z", "s.h", "subset1";</programlisting>
+
+		<para>The <quote>B</quote> API:</para>
+<programlisting>+IMPLEMENT "Z", "s.h", "subset2";
+</programlisting>
+
+		<para>Here the <quote>Z</quote> API contains <code>w</code>,
+			<code>x</code>, <code>y</code> and <code>z</code>. The
+			<quote>A</quote> API contains <code>x</code>,
+			<code>y</code> and <code>z</code> from  the <quote>Z</quote>
+			API. The <quote>B</quote> API contains only <code>y</code>.
+			The <code>+IMPLEMENT</code> keyword is discussed in more
+			detail below.<!-- TODO ref --></para>
+
         <para>Subsets are intended to give a layer of resolution beyond that
           of the entire header (see <link linkend="Levels">section
           2.1</link>).  Each subset is mapped onto a separate pair of output
