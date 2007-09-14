@@ -42,14 +42,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "calculus.h"
 #include "common.h"
-#include "shared/error.h"
 #include "extra.h"
 #include "lex.h"
 #include "syntax.h"
 #include "type_ops.h"
-#include "shared/xalloc.h"
 
 
 /*
