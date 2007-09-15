@@ -108,6 +108,7 @@ char_lit(letter c)
 	static char buff [10];
 	switch (c) {
 		case '\n': return("'\\n'");
+		case '\r': return("'\\r'");
 		case '\t': return("'\\t'");
 		case '\v': return("'\\v'");
 		case '\f': return("'\\f'");
