@@ -57,8 +57,8 @@
         it may be put.
 */
 
+#include <stdlib.h>
 
-#include "config.h"
 #include "tdf.h"
 #include "error.h"
 #include "xalloc.h"
@@ -73,7 +73,7 @@
 
 #define free_tdf_max	16
 static tdf *free_tdf = NULL;
-static unsigned free_tdf_left = 0;
+static size_t free_tdf_left = 0;
 static tdf *free_tdf_array[free_tdf_max] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
@@ -88,10 +88,10 @@ static tdf *free_tdf_array[free_tdf_max] = {
 */
 
 tdf *
-gen_tdf(unsigned sz)
+gen_tdf(size_t sz)
 {
     tdf *p;
-    unsigned n = sz;
+    size_t n = sz;
 
     if (n < free_tdf_max) {
 	/* Allocate from small block array */
@@ -122,9 +122,9 @@ gen_tdf(unsigned sz)
 */
 
 void
-destroy_tdf(tdf *p, unsigned sz)
+destroy_tdf(tdf *p, size_t sz)
 {
-    unsigned n = sz;
+    size_t n = sz;
     if (p && n < free_tdf_max) {
 	TAIL_list(p) = free_tdf_array[n];
 	free_tdf_array[n] = p;
@@ -140,10 +140,11 @@ destroy_tdf(tdf *p, unsigned sz)
 */
 
 void
-dummy_destroy_tdf(tdf *p, unsigned sz)
+dummy_destroy_tdf(tdf *p, size_t sz)
 {
-    UNUSED(p);
-    UNUSED(sz);
+    (void) p;
+    (void) sz;
+
     return;
 }
 
@@ -156,9 +157,9 @@ dummy_destroy_tdf(tdf *p, unsigned sz)
 */
 
 void
-destroy_tdf_list(tdf *p, unsigned sz)
+destroy_tdf_list(tdf *p, size_t sz)
 {
-    unsigned n = sz + 1;
+    size_t n = sz + 1;
     if (p && n < free_tdf_max) {
 	tdf *q = p;
 	while (TAIL_list(p)) {
@@ -177,11 +178,11 @@ destroy_tdf_list(tdf *p, unsigned sz)
     This routine calculates the length of the list p.
 */
 
-unsigned
+size_t
 length_tdf_list(tdf *p)
 {
     tdf *q;
-    unsigned n = 0;
+    size_t n = 0;
     for (q = p; q != NULL; q = TAIL_list(q)) {
 	n++;
     }

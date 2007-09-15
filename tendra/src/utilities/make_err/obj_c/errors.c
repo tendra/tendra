@@ -57,8 +57,8 @@
         it may be put.
 */
 
+#include <stdlib.h>
 
-#include "config.h"
 #include "errors.h"
 #include "error.h"
 #include "xalloc.h"
@@ -73,7 +73,7 @@
 
 #define free_errors_max	16
 static errors *free_errors = NULL;
-static unsigned free_errors_left = 0;
+static size_t free_errors_left = 0;
 static errors *free_errors_array[free_errors_max] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
@@ -88,10 +88,10 @@ static errors *free_errors_array[free_errors_max] = {
 */
 
 errors *
-gen_errors(unsigned sz)
+gen_errors(size_t sz)
 {
     errors *p;
-    unsigned n = sz;
+    size_t n = sz;
 
     if (n < free_errors_max) {
 	/* Allocate from small block array */
@@ -122,9 +122,9 @@ gen_errors(unsigned sz)
 */
 
 void
-destroy_errors(errors *p, unsigned sz)
+destroy_errors(errors *p, size_t sz)
 {
-    unsigned n = sz;
+    size_t n = sz;
     if (p && n < free_errors_max) {
 	TAIL_list(p) = free_errors_array[n];
 	free_errors_array[n] = p;
@@ -140,10 +140,11 @@ destroy_errors(errors *p, unsigned sz)
 */
 
 void
-dummy_destroy_errors(errors *p, unsigned sz)
+dummy_destroy_errors(errors *p, size_t sz)
 {
-    UNUSED(p);
-    UNUSED(sz);
+	(void) p;
+	(void) sz;
+
     return;
 }
 
@@ -156,9 +157,9 @@ dummy_destroy_errors(errors *p, unsigned sz)
 */
 
 void
-destroy_errors_list(errors *p, unsigned sz)
+destroy_errors_list(errors *p, size_t sz)
 {
-    unsigned n = sz + 1;
+    size_t n = sz + 1;
     if (p && n < free_errors_max) {
 	errors *q = p;
 	while (TAIL_list(p)) {
@@ -177,11 +178,11 @@ destroy_errors_list(errors *p, unsigned sz)
     This routine calculates the length of the list p.
 */
 
-unsigned
+size_t
 length_errors_list(errors *p)
 {
     errors *q;
-    unsigned n = 0;
+    size_t n = 0;
     for (q = p; q != NULL; q = TAIL_list(q)) {
 	n++;
     }

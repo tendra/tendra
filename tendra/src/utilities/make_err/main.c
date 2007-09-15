@@ -66,7 +66,6 @@
 #include <unistd.h>
 #endif
 
-#include "config.h"
 #include "errors.h"
 #include "error.h"
 #include "lex.h"
@@ -107,7 +106,7 @@ main(int argc, char **argv)
 			report_version();
 			break;
 		default:
-			exit(1);
+			return 1;
 		}
 	}
 	argc -= optind;

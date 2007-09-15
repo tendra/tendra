@@ -57,8 +57,9 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
-#include "config.h"
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "cons_ops.h"
@@ -128,7 +129,7 @@ output_char(int c)
     output_buff[i] = (char)c;
     if (++i >= 500 || c == '\n') {
 	output_buff[i] = 0;
-	IGNORE fputs(output_buff, output_file);
+	(void) fputs(output_buff, output_file);
 	i = 0;
     }
     if (c == '\n') {
@@ -188,7 +189,7 @@ output_cons(CONSTRUCT cons, int intro)
 	    /* Conditional construct */
 	    output_char('[');
 	    sort = DEREF_sort(cons_res(cons));
-	    IGNORE output_sort(sort, intro);
+	    (void) output_sort(sort, intro);
 	    output_char(']');
 	}
 	brks += brk;
@@ -220,7 +221,7 @@ output_sort(SORT sort, int intro)
 	    case info_basic_tag: {
 		if (c < 32) {
 		    char buff[10];
-		    sprintf_v(buff, "\\%03o",(unsigned)c);
+		    (void) sprintf(buff, "\\%03o",(unsigned)c);
 		    output_string(buff);
 		} else {
 		    output_char(c);
@@ -242,7 +243,7 @@ output_sort(SORT sort, int intro)
 		sort = DEREF_sort(info_clist_etc_arg(info));
 		output_char(c);
 		output_char('[');
-		IGNORE output_sort(sort, intro);
+		(void) output_sort(sort, intro);
 		output_char(']');
 		break;
 	    }
@@ -292,7 +293,7 @@ output(string s)
 			case 'N': {
 			    /* '%CN' -> construct name */
 			    string nm = DEREF_string(cons_name(cc));
-			    sprintf_v(buff, "%.*s", prec, nm);
+			    (void) sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
@@ -300,7 +301,7 @@ output(string s)
 			    /* '%CE' -> construct encoding */
 			    unsigned e;
 			    e = DEREF_unsigned(cons_encode(cc));
-			    sprintf_v(buff, "%u", e);
+			    (void) sprintf(buff, "%u", e);
 			    output_string(buff);
 			    break;
 			}
@@ -327,7 +328,7 @@ output(string s)
 		    if (c == 'N') {
 			/* '%PN' -> parameter name */
 			string nm = DEREF_string(par_name(cp));
-			sprintf_v(buff, "%.*s", prec, nm);
+			(void) sprintf(buff, "%.*s", prec, nm);
 			output_string(buff);
 		    } else if (c == 'S') {
 			/* '%PS' -> parameter sort */
@@ -336,7 +337,7 @@ output(string s)
 			goto sort_format;
 		    } else if (c == 'E') {
 			/* '%PE' -> parameter number */
-			sprintf_v(buff, "%d", crt_param_no);
+			(void) sprintf(buff, "%d", crt_param_no);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -353,14 +354,14 @@ output(string s)
 			case 'N': {
 			    /* '%SN' -> sort name */
 			    string nm = DEREF_string(sort_name(cs));
-			    sprintf_v(buff, "%.*s", prec, nm);
+			    (void) sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
 			case 'T': {
 			    /* '%ST' -> sort name in capitals */
 			    string nm = DEREF_string(sort_caps(cs));
-			    sprintf_v(buff, "%.*s", prec, nm);
+			    (void) sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
@@ -368,7 +369,7 @@ output(string s)
 			    /* '%SL' -> sort unit name */
 			    string nm = DEREF_string(sort_link(cs));
 			    if (nm) {
-				sprintf_v(buff, "%.*s", prec, nm);
+				(void) sprintf(buff, "%.*s", prec, nm);
 				output_string(buff);
 			    }
 			    break;
@@ -377,7 +378,7 @@ output(string s)
 			    /* '%SU' -> sort unit name */
 			    string nm = DEREF_string(sort_unit(cs));
 			    if (nm) {
-				sprintf_v(buff, "%.*s", prec, nm);
+				(void) sprintf(buff, "%.*s", prec, nm);
 				output_string(buff);
 			    }
 			    break;
@@ -388,7 +389,7 @@ output(string s)
 			    if (IS_info_basic(ci)) {
 				b = DEREF_unsigned(info_basic_bits(ci));
 			    }
-			    sprintf_v(buff, "%u", b);
+			    (void) sprintf(buff, "%u", b);
 			    output_string(buff);
 			    break;
 			}
@@ -398,7 +399,7 @@ output(string s)
 			    if (IS_info_basic(ci)) {
 				e = DEREF_unsigned(info_basic_extend(ci));
 			    }
-			    sprintf_v(buff, "%u", e);
+			    (void) sprintf(buff, "%u", e);
 			    output_string(buff);
 			    break;
 			}
@@ -409,7 +410,7 @@ output(string s)
 				m = DEREF_unsigned(info_basic_max(ci));
 			    }
 			    if (have_prec) m += (unsigned)prec;
-			    sprintf_v(buff, "%u", m);
+			    (void) sprintf(buff, "%u", m);
 			    output_string(buff);
 			    break;
 			}
@@ -431,7 +432,7 @@ output(string s)
 			}
 			case 'X': {
 			    /* '%SX' -> construct encoding string */
-			    IGNORE output_sort(cs, 0);
+			    (void) output_sort(cs, 0);
 			    break;
 			}
 			default : {
@@ -445,11 +446,11 @@ output(string s)
 		    c = *(s++);
 		    if (c == 'A') {
 			/* '%VA' -> major version number */
-			sprintf_v(buff, "%u", crt_major);
+			(void) sprintf(buff, "%u", crt_major);
 			output_string(buff);
 		    } else if (c == 'B') {
 			/* '%VB' -> minor version number */
-			sprintf_v(buff, "%u", crt_minor);
+			(void) sprintf(buff, "%u", crt_minor);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -461,11 +462,11 @@ output(string s)
 		    c = *(s++);
 		    if (c == 'V') {
 			/* %ZV -> program version */
-			sprintf_v(buff, "%.*s", prec, progvers);
+			(void) sprintf(buff, "%.*s", prec, progvers);
 			output_string(buff);
 		    } else if (c == 'X') {
 			/* %ZX -> program name */
-			sprintf_v(buff, "%.*s", prec, progname);
+			(void) sprintf(buff, "%.*s", prec, progname);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -497,7 +498,7 @@ output(string s)
 			crt_unique = prec;
 		    } else {
 			prec = crt_unique++;
-			sprintf_v(buff, "%d", prec);
+			(void) sprintf(buff, "%d", prec);
 			output_string(buff);
 		    }
 		    break;
@@ -572,48 +573,48 @@ eval_cond(string s)
 	sort_label : {
 	    unsigned tag = 100;
 	    if (!IS_NULL_info(ci)) tag = TAG_info(ci);
-	    if (streq(s, "builtin")) return(tag == info_builtin_tag);
-	    if (streq(s, "basic")) return(tag == info_basic_tag);
-	    if (streq(s, "dummy")) return(tag == info_dummy_tag);
-	    if (streq(s, "list")) return(tag == info_clist_tag);
-	    if (streq(s, "slist")) return(tag == info_slist_tag);
-	    if (streq(s, "option")) return(tag == info_option_tag);
-	    if (streq(s, "simple")) {
+	    if (!strcmp(s, "builtin")) return(tag == info_builtin_tag);
+	    if (!strcmp(s, "basic")) return(tag == info_basic_tag);
+	    if (!strcmp(s, "dummy")) return(tag == info_dummy_tag);
+	    if (!strcmp(s, "list")) return(tag == info_clist_tag);
+	    if (!strcmp(s, "slist")) return(tag == info_slist_tag);
+	    if (!strcmp(s, "option")) return(tag == info_option_tag);
+	    if (!strcmp(s, "simple")) {
 		return(tag == info_basic_tag || tag == info_dummy_tag);
 	    }
-	    if (streq(s, "compound")) {
+	    if (!strcmp(s, "compound")) {
 		if (tag == info_option_tag) return(1);
 		return(tag == info_clist_tag || tag == info_slist_tag);
 	    }
-	    if (streq(s, "extends")) {
+	    if (!strcmp(s, "extends")) {
 		if (tag == info_basic_tag) {
 		    unsigned a = DEREF_unsigned(info_basic_extend(ci));
 		    if (a) return(1);
 		}
 		return(0);
 	    }
-	    if (streq(s, "special")) {
+	    if (!strcmp(s, "special")) {
 		int a = 0;
 		if (!IS_NULL_sort(cs)) {
 		    a = DEREF_int(sort_special(cs));
 		}
 		return(a);
 	    }
-	    if (streq(s, "edge")) {
+	    if (!strcmp(s, "edge")) {
 		int a = 0;
 		if (!IS_NULL_sort(cs)) {
 		    a = DEREF_int(sort_edge(cs));
 		}
 		return(a);
 	    }
-	    if (streq(s, "link")) {
+	    if (!strcmp(s, "link")) {
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_link(cs));
 		    if (nm) return(1);
 		}
 		return(0);
 	    }
-	    if (streq(s, "unit")) {
+	    if (!strcmp(s, "unit")) {
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_unit(cs));
 		    if (nm) return(1);
@@ -641,7 +642,7 @@ eval_cond(string s)
 		s += 3;
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_name(cs));
-		    if (streq(nm, s)) return(1);
+		    if (!strcmp(nm, s)) return(1);
 		}
 		return(0);
 	    }
@@ -663,20 +664,20 @@ eval_cond(string s)
 	    if (!IS_NULL_cons(cc)) {
 		kind = DEREF_unsigned(cons_kind(cc));
 	    }
-	    if (streq(s, "simple")) return(kind == KIND_simple);
-	    if (streq(s, "token")) return(kind == KIND_token);
-	    if (streq(s, "cond")) return(kind == KIND_cond);
-	    if (streq(s, "edge")) return(kind == KIND_edge);
-	    if (streq(s, "foreign")) return(kind == KIND_foreign);
-	    if (streq(s, "special")) return(kind == KIND_special);
-	    if (streq(s, "params")) {
+	    if (!strcmp(s, "simple")) return(kind == KIND_simple);
+	    if (!strcmp(s, "token")) return(kind == KIND_token);
+	    if (!strcmp(s, "cond")) return(kind == KIND_cond);
+	    if (!strcmp(s, "edge")) return(kind == KIND_edge);
+	    if (!strcmp(s, "foreign")) return(kind == KIND_foreign);
+	    if (!strcmp(s, "special")) return(kind == KIND_special);
+	    if (!strcmp(s, "params")) {
 		if (!IS_NULL_cons(cc)) {
 		    LIST(PARAMETER)p = DEREF_list(cons_pars(cc));
 		    if (!IS_NULL_list(p)) return(1);
 		}
 		return(0);
 	    }
-	    if (streq(s, "extends")) {
+	    if (!strcmp(s, "extends")) {
 		if (!IS_NULL_cons(cc)) {
 		    if (!IS_NULL_info(ci) && IS_info_basic(ci)) {
 			unsigned b, e;
@@ -691,7 +692,7 @@ eval_cond(string s)
 		s += 3;
 		if (!IS_NULL_cons(cc)) {
 		    string nm = DEREF_string(cons_name(cc));
-		    if (streq(nm, s)) return(1);
+		    if (!strcmp(nm, s)) return(1);
 		}
 		return(0);
 	    }
@@ -711,41 +712,41 @@ eval_cond(string s)
 	    }
 	    goto sort_label;
 	}
-	if (streq(s, "align")) {
+	if (!strcmp(s, "align")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_align(cp));
 	    return(a);
 	}
-	if (streq(s, "break")) {
+	if (!strcmp(s, "break")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_brk(cp));
 	    return(a);
 	}
-	if (streq(s, "intro")) {
+	if (!strcmp(s, "intro")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_intro(cp));
 	    return(a);
 	}
-	if (streq(s, "first")) {
+	if (!strcmp(s, "first")) {
 	    return(crt_param_no == 0);
 	}
-	if (streq(s, "last")) {
+	if (!strcmp(s, "last")) {
 	    return(crt_param_no == last_param_no);
 	}
 	if (strneq(s, "eq.", 3)) {
 	    s += 3;
 	    if (!IS_NULL_par(cp)) {
 		string nm = DEREF_string(par_name(cp));
-		if (streq(nm, s)) return(1);
+		if (!strcmp(nm, s)) return(1);
 	    }
 	    return(0);
 	}
 
     } else {
 	/* Other conditions */
-	if (streq(s, "uniq")) return(crt_unique);
-	if (streq(s, "true")) return(1);
-	if (streq(s, "false")) return(0);
+	if (!strcmp(s, "uniq")) return(crt_unique);
+	if (!strcmp(s, "true")) return(1);
+	if (!strcmp(s, "false")) return(0);
     }
     error(ERROR_SERIOUS, "Unknown condition, '%s'", s0);
     return(0);
@@ -783,7 +784,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 	    case cmd_loop_tag: {
 		string s = DEREF_string(cmd_loop_control(cmd));
 		COMMAND a = DEREF_cmd(cmd_loop_body(cmd));
-		if (streq(s, "sort")) {
+		if (!strcmp(s, "sort")) {
 		    /* Loop over all sorts */
 		    SORT ls = crt_sort;
 		    SORT_INFO li = crt_info;
@@ -804,7 +805,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 		    crt_sort = ls;
 		    crt_info = li;
 
-		} else if (streq(s, "sort.cons")) {
+		} else if (!strcmp(s, "sort.cons")) {
 		    /* Loop over all constructs */
 		    CONSTRUCT lc = crt_cons;
 		    SORT_INFO ci = crt_info;
@@ -824,7 +825,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 		    }
 		    crt_cons = lc;
 
-		} else if (streq(s, "cons.param")) {
+		} else if (!strcmp(s, "cons.param")) {
 		    /* Loop over all parameters */
 		    int np = crt_param_no;
 		    int mp = last_param_no;
@@ -846,7 +847,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 		    crt_param_no = np;
 		    crt_param = lp;
 
-		} else if (streq(s, "param.prev")) {
+		} else if (!strcmp(s, "param.prev")) {
 		    /* Loop over all previous parameters */
 		    int np = crt_param_no;
 		    int mp = last_param_no;
@@ -892,7 +893,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 		    m = !m;
 		    s++;
 		}
-		if (c == NULL && streq(s, "all")) {
+		if (c == NULL && !strcmp(s, "all")) {
 		    mark_all_sorts(m);
 		} else {
 		    SORT sn = find_sort(s, 0);
@@ -943,9 +944,9 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 void
 output_spec(char *nm, SPECIFICATION spec, COMMAND cmd)
 {
-    CONST char *tnm = crt_file_name;
+    const char *tnm = crt_file_name;
     crt_line_no = 1;
-    if (nm == NULL || streq(nm, "-")) {
+    if (nm == NULL || !strcmp(nm, "-")) {
 	crt_file_name = "<stdout>";
 	output_file = stdout;
 	nm = NULL;
@@ -964,6 +965,8 @@ output_spec(char *nm, SPECIFICATION spec, COMMAND cmd)
     crt_minor = DEREF_unsigned(spec_minor(spec));
     output_template(spec, cmd);
     if (output_posn) output_char('\n');
-    if (nm) fclose_v(output_file);
+    if (nm) {
+	(void) fclose(output_file);
+    }
     return;
 }

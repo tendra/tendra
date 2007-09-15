@@ -57,8 +57,8 @@
         it may be put.
 */
 
+#include <stdlib.h>
 
-#include "config.h"
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "spec_ops.h"

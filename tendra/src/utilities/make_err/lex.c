@@ -57,8 +57,9 @@
         it may be put.
 */
 
+#include <stdio.h>
+#include <string.h>
 
-#include "config.h"
 #include "errors.h"
 #include "error.h"
 #include "lex.h"
@@ -183,7 +184,7 @@ read_identifier(int a)
 	/* Deal with keywords */
 	t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-	if (streq(t,(A))) return (B);
+	if (!strcmp(t, (A))) return (B);
 #include "keyword.h"
 	return (lex_identifier);
 }
@@ -286,7 +287,7 @@ void
 process_file(char *nm)
 {
 	crt_line_no = 1;
-	if (nm == NULL || streq(nm, "-")) {
+	if (nm == NULL || !strcmp(nm, "-")) {
 		crt_file_name = "stdin";
 		lex_input = stdin;
 		nm = NULL;
@@ -301,7 +302,7 @@ process_file(char *nm)
 	ADVANCE_LEXER;
 	read_errors();
 	if (nm != NULL) {
-		fclose_v(lex_input);
+		(void) fclose(lex_input);
 	}
 	return;
 }

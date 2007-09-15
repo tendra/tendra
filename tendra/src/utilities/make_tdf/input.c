@@ -57,8 +57,8 @@
         it may be put.
 */
 
+#include <string.h>
 
-#include "config.h"
 #include "tdf.h"
 #include "cons_ops.h"
 #include "info_ops.h"
@@ -163,6 +163,9 @@ static struct {
 };
 
 #define NO_BUILTIN_SORTS	6
+#ifndef array_size
+#define array_size(x) (sizeof (x) / sizeof *(x))
+#endif
 #define NO_SORTS		array_size(sort_names)
 
 
@@ -341,7 +344,7 @@ ends_in(string s, string e)
     unsigned m = (unsigned)strlen(e);
     if (n >= m) {
 	unsigned d = n - m;
-	if (streq(s + d, e)) {
+	if (!strcmp(s + d, e)) {
 	    s = xstrcpy(s);
 	    s[d] = 0;
 	    return(s);
@@ -394,9 +397,9 @@ basic_sort(SORT s, unsigned b, unsigned e, LIST(CONSTRUCT)p)
 	MAKE_info_dummy(n, c, info);
 	code = 'F';
     } else {
-	int i;
+	size_t i;
 	for (i = NO_BUILTIN_SORTS; i < NO_SORTS; i++) {
-	    if (streq(n, sort_names[i].name)) {
+	    if (!strcmp(n, sort_names[i].name)) {
 		code = sort_names[i].code;
 		break;
 	    }
@@ -466,7 +469,7 @@ find_construct(SORT s, string c)
 	while (!IS_NULL_list(p)) {
 	    CONSTRUCT a = DEREF_cons(HEAD_list(p));
 	    string b = DEREF_string(cons_name(a));
-	    if (streq(b, c)) return(a);
+	    if (!strcmp(b, c)) return(a);
 	    p = TAIL_list(p);
 	}
     }
@@ -527,7 +530,7 @@ get_special(SORT s, unsigned kind)
 void
 builtin_sorts(void)
 {
-    int i;
+    size_t i;
     for (i = 0; i < NO_BUILTIN_SORTS; i++) {
 	SORT_INFO info;
 	char *nm = sort_names[i].name;
@@ -603,16 +606,16 @@ foreign_sorts(void)
 	    if (!IS_NULL_cons(c)) {
 		/* Sort can be tokenised */
 		string snm = nm;
-		if (streq(nm, "alignment")) {
+		if (!strcmp(nm, "alignment")) {
 		    snm = "alignment_sort";
 		}
 		c = find_construct(t, snm);
 		if (IS_NULL_cons(c)) {
 		    /* Doesn't have a sort name */
 		    LINKAGE a;
-		    if (streq(nm, "diag_type")) {
+		    if (!strcmp(nm, "diag_type")) {
 			snm = "diag_type";
-		    } else if (streq(nm, "filename")) {
+		    } else if (!strcmp(nm, "filename")) {
 			snm = "~diag_file";
 		    } else {
 			snm = to_capitals(nm);

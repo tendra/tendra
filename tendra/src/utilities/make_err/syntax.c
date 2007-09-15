@@ -39,8 +39,8 @@
         it may be put.
 */
 
+#include <string.h>
 
-#include "config.h"
 #include "errors.h"
 #include "entry_ops.h"
 #include "map_ops.h"
@@ -91,7 +91,7 @@ static NAME find_name
     while ( !IS_NULL_list ( p ) ) {
 	NAME a = DEREF_name ( HEAD_list ( p ) ) ;
 	string nm = DEREF_string ( name_id ( a ) ) ;
-	if ( streq ( nm, id ) ) return ( a ) ;
+	if ( !strcmp ( nm, id ) ) return ( a ) ;
 	p = TAIL_list ( p ) ;
     }
     return ( NULL_name ) ;
@@ -111,7 +111,7 @@ static PARAM find_param
     while ( !IS_NULL_list ( p ) ) {
 	PARAM a = DEREF_param ( HEAD_list ( p ) ) ;
 	string nm = DEREF_string ( param_name ( a ) ) ;
-	if ( streq ( nm, id ) ) return ( a ) ;
+	if ( !strcmp ( nm, id ) ) return ( a ) ;
 	p = TAIL_list ( p ) ;
     }
     return ( NULL_param ) ;

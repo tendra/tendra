@@ -40,7 +40,6 @@
 */
 
 
-#include "config.h"
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "cons_ops.h"

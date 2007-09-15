@@ -28,7 +28,6 @@
 */
 
 
-#include "config.h"
 #include "errors.h"
 #include "error.h"
 #include "xalloc.h"
