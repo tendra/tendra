@@ -4,7 +4,7 @@ SRC=.
 SRCC=obj_c
 SRCTOK=obj_tok
 
-CPPFLAGS+=	-Ishared/error -Ishared/xalloc
+CFLAGS+=	-Ishared/error -Ishared/xalloc
 LDFLAGS+=	-Lshared/error -Lshared/xalloc
 
 REMOVE=rm -f
