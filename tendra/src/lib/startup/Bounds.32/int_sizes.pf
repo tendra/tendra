@@ -1,6 +1,0 @@
-#ifndef __STARTUP_INTSIZES_INCLUDED
-#define __STARTUP_INTSIZES_INCLUDED
-
-#define __ushort_to_int
-
-#endif

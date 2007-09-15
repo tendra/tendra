@@ -1,4 +1,0 @@
-+MACHINE		"aix-*-*"
-+FLAG			"--2DL"
-+LD			"/bin/ld -H512 -T512 -bhalt:4"
-+CRT1			"<TENDRA_LIBDIR>/sys/TDFpower.o"

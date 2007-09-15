@@ -1,4 +1,0 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR m68k sunos */
-
->SYS_LIB		"-lg"
-<LINK			"-L<TENDRA_LIBDIR>/diag"
