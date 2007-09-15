@@ -1,13 +1,7 @@
 # $Id$
 
-NAME=faq
-SOURCE=faq.xml
-PROJECT_NAME=faq
-PROJECT_URL=http://docs.tendra.org/
-RESOURCES=../style/docbook.css ../style/common.css
-CSSFILE=docbook.css
-XHTMLSTYLE=../xsl/tendra-docbook-chunked.xsl
-XHTMLSTYLE_SINGLE=../xsl/tendra-docbook-single.xsl
+NAME = faq
+DOCTOOLS_BASE ?= ../build
 
-include ../doctools/Mk/docbook.mk
+include $(DOCTOOLS_BASE)/docs.mk
 
