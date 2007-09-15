@@ -355,8 +355,26 @@ output_all(FILE *output, bool generate_asserts)
 	size_t maxtoklen;
 	size_t maxmaplen;
 	bool needbuffer;
+	size_t groupwidth;
+	const char *grouptype;
+	const char *grouphex;
 
-		lex_output = output;
+	lex_output = output;
+
+	if (no_groups >= 16) {
+		grouptype = "uint32_t";
+		grouphex = "0x%08lxUL";
+		groupwidth = 2;
+	} else if (no_groups >= 8) {
+		grouptype = "uint16_t";
+		grouphex = "0x%04lx";
+		groupwidth = 4;
+	} else {
+		grouptype = "uint8_t";
+		grouphex = "0x%02lx";
+		groupwidth = 8;
+	}
+
 
 	/* Initial comment */
 	output_comment();
@@ -368,28 +386,29 @@ output_all(FILE *output, bool generate_asserts)
 
 	/* Assertions are only relevant for the buffer handling */
 	if(generate_asserts && needbuffer) {
-		fputs("#include <assert.h>\n\n", lex_output);
+		fputs("#include <assert.h>\n", lex_output);
 	}
+	fputs("#include <stdint.h>\n\n", lex_output);
 
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
-	fprintf(lex_output, "static unsigned %s lookup_tab[257] = {\n",
-				(no_groups >= 8 ? "short" : "char"));
+	fprintf(lex_output, "typedef %s lexi_lookup_type;\n", grouptype);
+	fputs("static lexi_lookup_type lookup_tab[257] = {\n", lex_output);
 	for (c = 0; c <= 256; c++) {
-		unsigned int m = 0;
+		unsigned long m = 0;
 		letter a = (c == 256 ? EOF_LETTER : (letter)c);
 		if (in_group(white_space, a))
 			m = 1;
 		for (n = 0; n < no_groups; n++) {
 			if (in_group(groups [n].defn, a)) {
-				m |= (unsigned int)(1 << (n + 1));
+				m |= (unsigned long)(1 << (n + 1));
 			}
 		}
-		if ((c % 8) == 0)
+		if ((c % groupwidth) == 0)
 			fputs("\t", lex_output);
-		fprintf(lex_output, "0x%04x", m);
+		fprintf(lex_output, grouphex, m);
 		if (c != 256) {
-			if ((c % 8) == 7) {
+			if ((c % groupwidth) == groupwidth - 1) {
 				fputs(",\n", lex_output);
 			} else {
 				fputs(", ", lex_output);
@@ -459,13 +478,15 @@ output_all(FILE *output, bool generate_asserts)
 	/* Macros for accessing table */
 	fputs("#define lookup_char(C)\t", lex_output);
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
-	fputs("#define is_white(T)\t((T) & 0x0001)\n", lex_output);
-	for (n = 0; n < no_groups; n++) {
-		char *gnm = groups [n].name;
-		unsigned int m = (unsigned int)(1 << (n + 1));
-		fprintf(lex_output, "#define is_%s(T)\t", gnm);
-		/*if ((int)strlen(gnm) < 8)fputc('\t', lex_output);*/
-		fprintf(lex_output, "((T) & 0x%04x)\n", m);
+	for (n = 0; n <= no_groups; n++) {
+		const char *gnm = "white";
+		unsigned long m = (unsigned long)(1 << n);
+		if(n > 0) {
+			gnm = groups[n - 1].name;
+		}
+		fprintf(lex_output, "#define is_%s(T)\t((T) & ", gnm);
+		fprintf(lex_output, grouphex, m);
+		fputs(")\n", lex_output);
 	}
 	fputs("\n\n", lex_output);
 

@@ -118,7 +118,7 @@ typedef struct keyword_tag {
     PARAMETERS
 */
 
-#define MAX_GROUPS		15
+#define MAX_GROUPS		31
 
 
 /*
