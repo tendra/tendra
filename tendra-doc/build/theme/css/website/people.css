@@ -1,6 +1,6 @@
 /* TODO move to that page's directory */
 div.itemizedlist li {
-	list-style-type: none;
+	list-style-type: none ! important;
 }
 
 div.itemizedlist li p {
