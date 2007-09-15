@@ -87,7 +87,7 @@
 #define issol86 0
 #define islinux 0
 #define isopenbsd 1
-#define remove_struct_ref 1
+#define remove_struct_ref 0
 
 #define has_setcc 1
 #define little_end 1
@@ -114,21 +114,21 @@
 #define do_case_transforms 1
 #define substitute_complex 1
 #define has_rotate 1
-#define GCC_STRUCTS 1
+#define GCC_STRUCTS -1	/* (linux_elf ? 0 : 1) */
 
 
 #define maxmin_implemented 1
 #define condassign_implemented 0
 
-#define target_dbl_maxexp 308
+#define target_dbl_maxexp 4932
 
 #define check_shape 1
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-#define prefix_length 1	/* strlen(name_prefix) */
+#define prefix_length 0 /* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
-#define normal_fpucon 0x1272
+#define normal_fpucon 0x37f /* (linux_elf ? 0x37f : 0x372) */
 
 
 /* Parameters for foralls optimisations */

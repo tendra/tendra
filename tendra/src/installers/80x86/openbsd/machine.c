@@ -71,8 +71,8 @@
 
 /* VARIABLES */
 
-char * local_prefix = "L";
-char * name_prefix = "_";
+char *local_prefix = ".L";
+char *name_prefix = "";
 
 
 

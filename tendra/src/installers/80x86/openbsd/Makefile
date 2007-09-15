@@ -12,7 +12,7 @@ SPEC=${BASE_DIR}/src/lib/tdf/def_4_1.db
 
 # Standard variables
 
-#TCCOPTS=-Xc -Y32bit -Yansi
+#TCCOPTS=	-Xc -Y32bit -Yansi
 CCOPTS=	${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC} -I${SRC1}\
 	-I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5} -I${SRC6}
 LIBS=

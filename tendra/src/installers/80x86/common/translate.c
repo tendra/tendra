@@ -340,7 +340,7 @@ void make_code
 	  outs(id);
 	  outnl();
 	}
-#if islinux || isfreebsd
+#if islinux || isfreebsd || isopenbsd
 	outs(".data");
 	outnl();
 	outs(id);

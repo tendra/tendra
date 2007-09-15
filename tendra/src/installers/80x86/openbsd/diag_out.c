@@ -183,7 +183,8 @@ next_typen(void)
 {
     if (typeno >= total_type_sizes) {
 	int i, n = total_type_sizes, m = n + 100;
-	type_sizes = (long *)xrealloc((void*)(CH type_sizes), m * sizeof(long));
+	type_sizes = (long *)xrealloc((void *)(CH type_sizes),
+				      m * sizeof(long));
 	for (i = n; i < m; i++) {
 	    type_sizes[i] = 0;
 	}
@@ -214,8 +215,7 @@ stab_collect_files(filename f)
 	fds = (filename *)xmalloc(szfds * sizeof(filename));
     } else if (nofds >= szfds) {
 	szfds += 10;
-	fds = (filename *)xrealloc((void*)(CH fds),
-				szfds * sizeof(filename));
+	fds = (filename *)xrealloc((void *)(CH fds), szfds * sizeof(filename));
     }
     fds[nofds++] = f;
     return;
@@ -276,14 +276,15 @@ stabd(long findex, long lno, int seg)
     stab_file(findex, 1);
 
     if (seg != 0) {		/* 0 suppresses always */
-      if (seg < 0) {
-	seg = - seg;
-      }
       if (seg > 0) {		/* -ve line nos are put out in the stabs */
 	i = next_lab();
 	fprintf(dg_file, "%sL.%ld:\n", local_prefix, i);
 	fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld",seg, lno, local_prefix,
 		i);
+	if (in_proc) {
+	  outs("-");
+	  out_procname();
+	}
 	outnl();
       }
     }
@@ -298,7 +299,7 @@ stabd(long findex, long lno, int seg)
 */
 
 void
-code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void * args)
+code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 {
   if (d == nildiag) {
    (*mcode)(args);
@@ -671,7 +672,7 @@ out_dt_shape(diag_type dt)
 		diag_field sf = (fields->array)[i];
 		long offset = no(sf->where);
 
-		if (depth_now >= max_depth)  {
+		if (depth_now >= max_depth) {
 		    return;
 		}
 		depth_now++;
@@ -833,6 +834,7 @@ diag_proc_end(diag_global *d)
 }
 
 
+
 /*
     OUTPUT DIAGNOSTICS FOR A LOCAL VARIABLE
 */
@@ -849,7 +851,7 @@ stab_local(diag_info *d, int proc_no, exp acc)
       return;
     }
   }
-  if (name(acc)!= name_tag) {
+  if (name(acc) != name_tag) {
     fprintf(dg_file, "\t.stabs\t\"%s=i\",0x80,0,0,%d\n",
 	    d->data.id_scope.nme.ints.chars, no(acc));
   } else if (acc_type == reg_pl) {
@@ -866,7 +868,7 @@ stab_local(diag_info *d, int proc_no, exp acc)
     OUT_DT_SHAPE(d->data.id_scope.typ);
     fprintf(dg_file, "\",0x80,0,%d,", 0 /* or line number? */ );
     if (param_dec) {
-      fprintf(dg_file, "%d\n", p + 8);
+      fprintf(dg_file, "%d\n", p+8);
     } else {
       fprintf(dg_file, "%d-%sdisp%d\n", p, local_prefix, proc_no);
     }
@@ -943,7 +945,6 @@ stab_tagdefs(void)
 	istag = 1;
 
 	switch (d->key) {
-
 	    case DIAG_TYPE_STRUCT: {
 		char *nme = d->data.t_struct.nme.ints.chars;
 		if (nme && *nme) {

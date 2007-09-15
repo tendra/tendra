@@ -58,17 +58,26 @@
 */
 
 
-/* openbsd/assembler.c */
+/* linux/assembler.c */
 
 #include "config.h"
 #include "common_types.h"
 #include "out.h"
 #include "expmacs.h"
+#include "exp.h"
+#include "localflags.h"
+#include "shapemacs.h"
 #include "operand.h"
 #include "machine.h"
-#include "localflags.h"
+#include "flags.h"
 #include "basicread.h"
 #include "coder.h"
+#include "assembler.h"
+#include "instr.h"
+#include "instr386.h"
+#include "xalloc.h"
+#include "install_fns.h"
+#include <string.h>
 
 
 /* PROCEDURES */
@@ -76,23 +85,9 @@
 void
 dot_align(int n)
 {
-  if (n == 1) {
-    return;
-  }
-  outs(".align ");
-  switch (n) {
-    case 16:
-      n = 4; break;
-    case 8:
-      n = 3; break;
-    case 4:
-      n = 2; break;
-    default:
-      n = 1; break;
-  }
-  outn((long)n);
-  outnl();
-  return;
+	outs(".align ");
+	outn((long)n);
+	outnl();
 }
 
 
@@ -120,77 +115,101 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
-  if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
-    if (f == 1) {	/* repeat jump */
-      outs(".align 3,0x90");
+    if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+/* forward jump and continued into
+      if (f==0)
+        outs(".align 8");
+*/
+      if (f == 1) {	/* repeat jump */
+        outs(".align 4");
+      }
+      if (f == 2) {	/* preceded by a jmp or ret */
+        outs(".align 16");
+      }
+      outs("\n");
     }
-    if (f == 2) {	/* preceded by a jmp or ret */
-      outs(".align 4,0x90");
-    }
-    if (f == 3) {
-      outs(".align 2,0x90");
-    }
-    outs("\n");
-  }
-  if (is80586 && ptno(jr)!= last_jump_label) {
-    if (f >= 1 && f <= 3) {
-      outs(".align 2,0x90\n");
-    }
-  }
-  return;
+    return;
 }
 
 void
 eval_postlude(char *s, exp c)
 {
-  UNUSED(s);
-  UNUSED(c);
+  outs(".size ");
+  outs(s);
+  outs(",");
+  outn((long)(shape_size(sh(c)) + 7) / 8);
+  outnl();
+  outs(".type ");
+  outs(s);
+  outs(",@object");
+  outnl();
   return;
 }
 
 void
 out_readonly_section(void)
 {
-  outs(".text");
-  return;
+	outs(".section .rodata");
 }
 
 void
 out_dot_comm(char *id, shape sha)
 {
-  outs(".comm ");
-  outs(id);
-  outs(",");
-  outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-  outnl();
+	outs(".comm ");
+	outs(id);
+	outs(",");
+	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
+
+	outnl();
   return;
 }
 
 void
 out_dot_lcomm(char *id, shape sha)
 {
-  outs(".lcomm ");
-  outs(id);
-  outs(",");
-  outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-  outnl();
+	outs(".lcomm ");
+	outs(id);
+	outs(",");
+	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
+
+	outnl();
   return;
 }
 
 void
 out_bss(char *id, shape sha)
 {
-  outs(".bss ");
-  outs(id);
-  outs(",");
-  outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-  outnl();
+	outs(".bss ");
+	outs(id);
+	outs(",");
+	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
+
+	outnl();
   return;
 }
+
+static int pic_label;
 
 void
 pic_prelude(void)
 {
+  int n = next_lab();
+  pic_label = n;
+  outs(" call ");
+  outs(local_prefix);
+  outn((long)n);
+  outnl();
+  outs(local_prefix);
+  outn((long)n);
+  outs(":");
+  outnl();
+  outs(" popl %ebx");
+  outnl();
+  outs(" addl $_GLOBAL_OFFSET_TABLE_+ [.-");
+  outs(local_prefix);
+  outn((long)n);
+  outs("],%ebx");
+  outnl();
   return;
 }
 
@@ -205,16 +224,45 @@ out_rename(char *oldid, char *newid)
 void
 out_switch_jump(int tab, where a, int min)
 {
-  outs(" jmp *");
-  outs(local_prefix);
-  outn((long)tab);
-  outs("-");
-  outn((long)(4 * min));
-  outs("(,");
-  operand(32, a, 1, 0);
-  outs(",4)");
-  outnl();
-  return;
+  if (PIC_code) {
+    if (min != 0) {
+      sub(slongsh, mw(zeroe,min), a, reg0);
+      a = reg0;
+    }
+    if (eq_where(a, reg0)) {
+      outs(" movl ");
+    } else {
+      outs(" movl %ebx,%eax");
+      outnl();
+      outs(" subl ");
+    }
+    outs(local_prefix);
+    outn((long)tab);
+    outs("@GOTOFF(%ebx,");
+    operand(32, a, 1, 0);
+    outs(",4),%eax");
+    outnl();
+    if (eq_where(a, reg0)) {
+      outs(" subl %ebx,%eax");
+      outnl();
+      outs(" negl %eax");
+      outnl();
+    }
+    outs(" jmp *%eax");
+    outnl();
+    return;
+  } else  {
+    outs(" jmp *");
+    outs(local_prefix);
+    outn((long)tab);
+    outs("-");
+    outn((long)(4 * min));
+    outs("(,");
+    operand(32, a, 1, 0);
+    outs(",4)");
+    outnl();
+    return;
+  };
 }
 
 void
@@ -233,14 +281,28 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
   for (i = min; i <= max; ++i) {
     outs(".long ");
     if (v[i - min]!= -1) {
-      outs(local_prefix);
-      outn((long)v[i - min]);
+      if (PIC_code) {
+	outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
+	outs(local_prefix);
+	outn((long)v[i - min]);
+	outs("]");
+      } else {
+	outs(local_prefix);
+	outn((long)v[i - min]);
+      }
     } else {
       if (absent == -1) {
         outn((long)0);
       } else {
-        outs(local_prefix);
-        outn((long)absent);
+	if (PIC_code) {
+	  outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
+	  outs(local_prefix);
+	  outn((long)absent);
+	  outs("]");
+	} else {
+	  outs(local_prefix);
+	  outn((long)absent);
+	}
       }
     }
     outnl();
@@ -274,7 +336,7 @@ proc_type(char *s)
 
 void
 outend(void)
-{
+{		/* close the output */
   int st;
   outs(".text");
   outnl();
@@ -282,6 +344,10 @@ outend(void)
   outnl();
   outs("___tdf_end:");
   outnl();
+/*  if (linux_elf) {
+    outs(".section .note.GNU-stack,\"\",@progbits");
+    outnl();
+  } */
   st = fclose(fpout);
   if (st == EOF) {
     failer("failed to close file");
@@ -311,8 +377,12 @@ outdivsym(void)
 void
 out_initialiser(char *id)
 {
-  outs(".stabs \"___TDFI_LIST__\",22,0,0,");
+  outs(".section .init\n");
+  outs(" call ");
   outs(id);
+  if (PIC_code) {
+    outs("@PLT");
+  }
   outnl();
   outnl();
   return;
