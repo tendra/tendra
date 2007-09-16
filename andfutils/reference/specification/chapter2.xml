@@ -1,0 +1,453 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="C2">
+  <title>Structure of TDF</title>
+
+  <para>
+    Each piece of TDF program is classified as being of a particular
+    <code>SORT</code>. Some pieces of TDF are <code>LABEL</code>s, some are
+    <code>TAG</code>s, some are <code>ERROR_TREATMENT</code>s and so on (to list
+    some of the more transparently named <code>SORT</code>s). The
+    <code>SORT</code>s of the arguments and result of each construct of the TDF
+    format are specified. For instance, <emphasis>plus</emphasis> is defined to
+    have three arguments - an <code>ERROR_TREATMENT</code> and two
+    <code>EXP</code>s (short for <quote>expression</quote>) - and to produce an
+    <code>EXP</code>; <emphasis>goto</emphasis> has a single <code>LABEL</code>
+    argument and produces an <code>EXP</code>. The specification of the
+    <code>SORT</code>s of the arguments and results of each construct
+    constitutes the syntax of the TDF format. When TDF is represented as a
+    parsed tree it is structured according to this syntax.  When it is
+    constructed and read it is in terms of this syntax.
+  </para>
+
+  <section id="S1">
+    <title>The overall structure</title>
+    <para>
+      A separable piece of TDF is called a <code>CAPSULE</code>. A producer
+      generates a <code>CAPSULE</code>; the TDF linker links
+      <code>CAPSULE</code>s together to form a <code>CAPSULE</code>; and the
+      final translation process turns a <code>CAPSULE</code> into an object
+      file.
+    </para>
+
+    <para>
+      The structure of capsules is designed so that the process of linking two
+      or more capsules consists almost entirely of copying large byte-aligned
+      sections of the source files into the destination file, without changing
+      or even examining these sections. Only a small amount of interface
+      information has to be modified and this is made easily accessible. The
+      translation process only requires an extra indirection to account for this
+      interface information, so it is also fast. The description of TDF at the
+      capsule level is almost all about the organisation of the interface
+      information.
+    </para>
+
+    <para>
+      There are three major kinds of entity which are used inside a capsule to
+      name its constituents. The first are called tags; they are used to name
+      the procedures, functions, values and variables which are the components
+      of the program. The second are called tokens; they identify pieces of TDF
+      which can be used for substitution - a little like macros. The third are
+      the alignment tags, used to name alignments so that circular types can be
+      described. Because these internal names are used for linking pieces of TDF
+      together, they are collectively called <emphasis>linkable
+      entities</emphasis>. The interface information relates these linkable
+      entities to each other and to the world outside the capsule.
+    </para>
+
+    <para>
+      The most important part of a capsule, the part which contains the real
+      information, consists of a sequence of groups of units. Each group
+      contains units of the same kind, and all the units of the same kind are in
+      the same group. The groups always occur in the same order, though it is
+      not necessary for each kind to be present.
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="capsule4.gif" format="GIF" align="center"/>
+        </imageobject>
+      </mediaobject>
+    </para>
+
+    <para>
+      The order is as follows:
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            <emphasis>tld</emphasis> unit. Every capsule has exactly one tld
+            unit. It gives information to the TDF linker about those items in
+            the capsule which are visible externally.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>versions</emphasis> unit. These units contain information
+            about the versions of TDF used. Every capsule will have at least one
+            such unit.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>tokdec</emphasis> units. These units contain declarations
+            for tokens. They bear the same relationship to the following tokdef
+            units that C declarations do to C definitions. However, they are not
+            necessary for the translator, and the current ANSI C producer does
+            not provide them by default.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>tokdef</emphasis> units. These units contain definitions
+            of tokens.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>aldef</emphasis> units. These units give the definitions
+            of alignment tags.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>diagtype</emphasis> units. These units give diagnostic
+            information about types.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>tagdec</emphasis> units. These units contain declarations
+            of tags, which identify values, procedures and run-time objects in
+            the program. The declarations give information about the size,
+            alignment and other properties of the values. They bear the same
+            relationship to the following tagdef units that C declarations do to
+            C definitions.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>diagdef</emphasis> units. These units give diagnostic
+            information about the values and procedures defined in the capsule.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>tagdef</emphasis> units. These units contain the
+            definitions of tags, and so describe the procedures and the values
+            they manipulate.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>linkinfo</emphasis> units. These units give information
+            about the linking of objects.
+          </para>
+        </listitem>
+      </itemizedlist>
+
+      This organisation is imposed to help installers, by ensuring that the
+      information needed to process a unit has been provided before that unit
+      arrives. For example, the token definitions occur before any tag
+      definition, so that, during translation, the tokens may be expanded as the
+      tag definitions are being read (in a capsule which is ready for
+      translation all tokens used must be defined, but this need not apply to an
+      arbitrary capsule).
+    </para>
+
+    <para>
+      The tags and tokens in a capsule have to be related to the outside world.
+      For example, there might be a tag standing for
+      <emphasis>printf</emphasis>, used in the appropriate way inside the
+      capsule. When an object file is produced from the capsule the identifier
+      <emphasis>printf</emphasis> must occur in it, so that the system linker
+      can associate it with the correct library procedure. In order to do this,
+      the capsule has a table of tags at the capsule level, and a set of
+      external links which provide external names for some of these tags.
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="capsule1.gif" format="GIF" align="center"/>
+        </imageobject>
+      </mediaobject>
+    </para>
+
+    <para>
+      In just the same way, there are tables of tokens and alignment tags at the
+      capsule level, and external links for these as well.
+    </para>
+
+    <para>
+      The tags used inside a unit have to be related to these capsule tags, so
+      that they can be properly named. A similar mechanism is used, with a table
+      of tags at the unit level, and links between these and the capsule level
+      tags.
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="capsule2.gif" format="GIF" align="center"/>
+        </imageobject>
+      </mediaobject>
+    </para>
+
+    <para>
+      Again the same technique is used for tokens and alignment tags.
+    </para>
+
+    <para>
+      It is also necessary for a tag used in one unit to refer to the same thing
+      as a tag in another unit. To do this a tag at the capsule level is used,
+      which may or may not have an external link.
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="capsule3.gif" format="GIF" align="center"/>
+        </imageobject>
+      </mediaobject>
+    </para>
+
+    <para>
+      The same technique is used for tokens and alignment tags.
+    </para>
+
+    <para>
+      So when the TDF linker is joining two capsules, it has to perform
+      the following tasks:
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            It creates new sets of capsule level tags, tokens and alignment tags
+            by identifying those which have the same external name, and
+            otherwise creating different entries.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            It similarly joins the external links, suppressing any names which
+            are no longer to be external.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            It produces new link tables for the units, so that the entities used
+            inside the units are linked to the new positions in the capsule
+            level tables.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            It re-organises the units so that the correct order is achieved.
+          </para>
+        </listitem>
+      </itemizedlist>
+
+      This can be done without looking into the interior of the units (except
+      for the <emphasis>tld</emphasis> unit), simply copying the units into
+      their new place.
+    </para>
+
+    <para>
+      During the process of installation the values associated with the linkable
+      entities can be accessed by indexing into an array followed by one
+      indirection. These are the kinds of object which in a programming language
+      are referred to by using identifiers, which involves using hash tables for
+      access. This is an example of a general principle of the design of TDF;
+      speed is required in the linking and installing processes, if necessary at
+      the expense of time in the production of TDF.
+    </para>
+  </section>
+
+  <section id="S2">
+    <title>Tokens</title>
+
+    <para>
+      Tokens are used (applied) in the TDF at the point where substitutions are
+      to be made. Token definitions provide the substitutions and usually reside
+      on the target machine and are linked in there.
+    </para>
+
+    <para>
+      A typical token definition has parameters from various <code>SORT</code>s
+      and produces a result of a given <code>SORT</code>. As an example of a
+      simple token definition, written here in a C-like notation, consider the
+      following.
+
+      <programlisting>
+      EXP ptr_add (EXP par0, EXP par1, SHAPE par2)
+      {
+          add_to_ptr(
+              par0,
+              offset_mult(
+                  offset_pad(
+                      alignment(par2),
+                      shape_offset(par2)),
+                  par1))</programlisting>
+
+      This defines the token, <emphasis>ptr_add</emphasis>, to produce something
+      of <code>SORT</code> <code>EXP</code>. It has three parameters, of
+      <code>SORT</code>s <code>EXP</code>, <code>EXP</code> and
+      <code>SHAPE</code>. The <emphasis>add_to_ptr</emphasis>,
+      <emphasis>offset_mult</emphasis>, <emphasis>offset_pad</emphasis>,
+      <emphasis>alignment</emphasis> and <emphasis>shape_offset</emphasis>
+      constructions are TDF constructions producing respectively an
+      <code>EXP</code>, an <code>EXP</code>, an <code>EXP</code>, an
+      <code>ALIGNMENT</code> and an <code>EXP</code>.
+    </para>
+
+    <para>
+      A typical use of this token is:
+
+      <programlisting>
+      ptr_add(
+          obtain_tag(tag41),
+          contents(integer(~signed_int), obtain_tag(tag62)),
+          integer(~char))</programlisting>
+
+      The effect of this use is to produce the TDF of the definition with
+      <emphasis>par0</emphasis>, <emphasis>par1</emphasis> and
+      <emphasis>par2</emphasis> substituted by the actual parameters.
+    </para>
+
+    <para>
+      There is no way of obtaining anything like a side-effect. A token
+      without parameters is therefore just a constant.
+    </para>
+
+    <para>
+      Tokens can be used for various purposes. They are used to make the TDF
+      shorter by using tokens for commonly used constructions
+      (<emphasis>ptr_add</emphasis> is an example of this use). They are used to
+      make target dependent substitutions (<emphasis>~char</emphasis> in the use
+      of <emphasis>ptr_add</emphasis> is an example of this, since
+      <emphasis>~char</emphasis> may be signed or unsigned on the target).
+    </para>
+
+    <para>
+      A particularly important use is to provide definitions appropriate to the
+      translation of a particular language. Another is to abstract those
+      features which differ from one ABI to another. This kind of use requires
+      that sets of tokens should be standardised for these purposes, since
+      otherwise there will be a proliferation of such definitions.
+    </para>
+  </section>
+
+  <section id="S3">
+    <title>Tags</title>
+    <para>
+      Tags are used to identify the actual program components. They can be
+      declared or defined. A declaration gives the <code>SHAPE</code> of a tag
+      (a <code>SHAPE</code> is the TDF analogue of a type). A definition gives
+      an <code>EXP</code> for the tag (an <code>EXP</code> describes how the
+      value is to be made up).
+    </para>
+  </section>
+
+  <section id="S4">
+    <title>Extending the format</title>
+    <para>
+      TDF can be extended for two major reasons.
+    </para>
+
+    <para>
+      First, as part of the evolution of TDF, new features will from time to
+      time be identified. It is highly desirable that these can be added without
+      disturbing the current encoding, so that old TDF can still be installed by
+      systems which recognise the new constructions. Such changes should only be
+      made infrequently and with great care, for stability reasons, but
+      nevertheless they must be allowed for in the design.
+    </para>
+
+    <para>
+      Second, it may be required to add extra information to TDF to permit
+      special processing. TDF is a way of describing programs and it clearly may
+      be used for other reasons than portability and distribution. In these uses
+      it may be necessary to add extra information which is closely integrated
+      with the program. Diagnostics and profiling can serve as examples. In
+      these cases the extra kinds of information may not have been allowed for
+      in the TDF encoding.
+    </para>
+
+    <para>
+      Some extension mechanisms are described below and related to these
+      reasons:
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            The encoding of every <code>SORT</code> in TDF can be extended
+            indefinitely (except for certain auxiliary <code>SORT</code>s).
+            This mechanism should only be used for extending standard TDF to the
+            next standard, since otherwise extensions made by different groups
+            of people might conflict with each other. See <!-- TODO link to
+            8.3.3 extendable integer encoding -->Extendable integer encoding<!--
+            end link -->.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            Basic TDF has three kinds of linkable entity and seven kinds of
+            unit. It also contains a mechanism for extending these so that other
+            information can be transmitted in a capsule and properly related to
+            basic TDF. The rules for linking this extra information are also
+            laid down. See <!-- TODO link to 5.11.1 make_capsule
+            -->make_capsule<!-- end link -->.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            If a new kind of unit is added, it can contain any information, but
+            if it is to refer to the tags and tokens of other units it must use
+            the linkable entities. Since new kinds of unit might need extra
+            kinds of linkable entity, a method for adding these is also
+            provided.  All this works in a uniform way, with capsule level
+            tables of the new entities, and external and internal links for
+            them.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            If new kinds of unit are added, the order of groups must be the same
+            in any capsules which are linked together. As an example of the use
+            of this kind of extension, the diagnostic information is introduced
+            in just this way. It uses two extra kinds of unit and one extra kind
+            of linkable entity. The extra units need to refer to the tags in the
+            other units, since these are the object of the diagnostic
+            information.  This mechanism can be used for both purposes.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            The parameters of tokens are encoded in such a way that foreign
+            information (that is, information which cannot be expressed in the
+            TDF <code>SORT</code>s) can be supplied. This mechanism should only
+            be used for the second purpose, though it could be used to
+            experiment with extensions for future standards. See <!-- TODO link
+            to 8.3 BITSTREAM --><code>BITSTREAM</code><!-- end link -->.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+</chapter>
