@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book>
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
   <bookinfo>
     <title>TDF Specification, Issue 4.0</title>
 
@@ -34,10 +34,10 @@
     </copyright>
   </bookinfo>
 
-  <xi:include href="preface.xml">
-  <xi:include href="chapter1.xml">
-  <xi:include href="chapter2.xml">
-  <xi:include href="chapter3.xml">
-  <xi:include href="chapter4.xml">
-  <xi:include href="chapter5.xml">
+  <xi:include href="preface.xml"/>
+  <xi:include href="chapter1.xml"/>
+  <xi:include href="chapter2.xml"/>
+  <xi:include href="chapter3.xml"/>
+  <xi:include href="chapter4.xml"/>
+  <xi:include href="chapter5.xml"/>
 </book>
