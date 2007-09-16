@@ -7,5 +7,5 @@
 RESOURCES =
 CSSFILE = http://www.tendra.org/css/docs/docs.css
 
-include common.mk
+include $(THEME)/common.mk
 

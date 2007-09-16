@@ -10,5 +10,5 @@ CSSFILE = docs/docs.css
 # To output documentation inside each project's doc/ directory.
 DOCSINSTALLDIR = doc/install
 
-include common.mk
+include $(THEME)/common.mk
 
