@@ -14,7 +14,7 @@
     document. The first is the construct <!-- TODO link to 5.31.6 floating -->
     <emphasis>floating</emphasis><!-- end link -->:
 
-    <programlisting>
+    <programlisting language="TDF">
       fv:              FLOATING_VARIETY
                   -&gt; SHAPE</programlisting>
 
@@ -22,7 +22,7 @@
     <quote><emphasis>-&gt;</emphasis></quote> and the result follows it. Each
     argument is shown as follows:
 
-    <programlisting>
+    <programlisting language="TDF">
       name:            SORT</programlisting>
 
     The name standing before the colon is for use in the accompanying English
@@ -46,7 +46,7 @@
     --><emphasis>floating_negate</emphasis><!-- end link --> not only states
     that it has an <code>EXP</code> argument and an <code>EXP</code> result:
 
-    <programlisting>
+    <programlisting language="TDF">
       flpt_err:         ERROR_TREATMENT
       arg1:            EXP FLOATING(f)
                  -&gt; EXP FLOATING(f)</programlisting>
@@ -61,7 +61,7 @@
     <!-- TODO link to 5.16.6 apply_proc --><emphasis>apply_proc</emphasis><!--
     end link -->):
 
-    <programlisting>
+    <programlisting language="TDF">
       result_shape:    SHAPE
       p:               EXP PROC
       params:          LIST(EXP)
@@ -85,7 +85,7 @@
     specification of the <!-- TODO link to 5.16.14 case
     --><emphasis>case</emphasis><!-- end link --> construct shown below:
 
-    <programlisting>
+    <programlisting language="TDF">
       exhaustive:      BOOL
       control: EXP INTEGER(v)
       branches:        LIST(CASELIM)

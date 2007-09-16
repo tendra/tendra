@@ -290,7 +290,7 @@
       simple token definition, written here in a C-like notation, consider the
       following.
 
-      <programlisting>
+      <programlisting language="TDF">
       EXP ptr_add (EXP par0, EXP par1, SHAPE par2)
       {
           add_to_ptr(
@@ -315,7 +315,7 @@
     <para>
       A typical use of this token is:
 
-      <programlisting>
+      <programlisting language="TDF">
       ptr_add(
           obtain_tag(tag41),
           contents(integer(~signed_int), obtain_tag(tag62)),

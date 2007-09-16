@@ -30,7 +30,7 @@
       and also may be used as names external to the TDF system. For example, the
       signature of <emphasis>make_id_tagdec</emphasis> is now:
 
-      <programlisting>
+      <programlisting language="TDF">
 t_intro:        TDFINT
 acc:            OPTION(ACCESS)
 signature:      OPTION(STRING)
