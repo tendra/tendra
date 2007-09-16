@@ -2,6 +2,7 @@
 
 NAME = specification
 XHTMLIMAGES = images/capsule[1-4].gif
+CLEAN_EXTRA =
 
 DOCTOOLS_BASE ?= ../../build
 
