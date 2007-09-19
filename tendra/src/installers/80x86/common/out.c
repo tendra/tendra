@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -57,41 +57,8 @@
         it may be put.
 */
 
+/* Low level output routines */
 
-/* 80x86/out.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: out.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/04/17  11:55:58  pwe
- * dwarf2 improvements
- *
- * Revision 1.3  1997/03/20  16:24:02  pwe
- * dwarf2
- *
- * Revision 1.2  1995/01/30  12:56:38  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:38:46  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
-/*******************************************************************
-                                out.c
-
-   defines the low level output routines
-
-*******************************************************************/
 
 #include "config.h"
 #include "common_types.h"
@@ -106,87 +73,83 @@ $Log: out.c,v $
 #include "dw2_config.h"
 #endif
 
-
-/* VARIABLES */
-/* All variables initialised */
-
-FILE * fpout;	/* init by outinit */
+/* XXX: static would be nice, currently not possible */
+FILE * fpout;
 
 #ifdef NEWDWARF
 long instr_count = -1;
 #endif
 
-
-/* PROCEDURES */
-
-int outinit
-(char *intermed)
+int
+outinit(char *intermed)
 {
-  fpout = fopen(intermed, "w");
-  return(fpout != (FILE *)0);
+	fpout = fopen(intermed, "w");
+	return(fpout != NULL);
 }
 
-void outc
-(char c)
+void
+outc(char c)
 {
-  int   st = fputc(c, fpout);
-  if (st == EOF) {
-    failer(BAD_OUTPUT);
-    exit(EXIT_FAILURE);
-  };
+	int st;
+
+	st = fputc(c, fpout);
+	if (st == EOF) {
+		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
 }
 
-void outs
-(char *s)
+void
+outs(char *s)
 {
-  int   st = fputs(s, fpout);
-  if (st == EOF) {
-    failer(BAD_OUTPUT);
-    exit(EXIT_FAILURE);
-  };
+	int st;
+
+	st = fputs(s, fpout);
+	if (st == EOF) {
+		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
 }
 
-
-
-
-void outnl
-(void)
+void
+outnl(void)
 {
+	int st;
 
-  int   st = fputs("\n", fpout);
-  if (st == EOF) {
-    failer(BAD_OUTPUT);
-    exit(EXIT_FAILURE);
-  };
+	st = fputs("\n", fpout);
+	if (st == EOF) {
+		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
 
+	/* XXX: is out.c the right place? */
 #ifdef NEWDWARF
-  instr_count = -1;
+	instr_count = -1;
 #endif
-  last_jump_label = -1;
-  keep_short = is80586;
-  return;
+	last_jump_label = -1;
+	keep_short = is80586;
 }
 
-
-
-void outn
-(long n)
+void
+outn(long n)
 {
-  int   st = fprintf(fpout, "%ld", n);
-  if (st == EOF) {
-    failer(BAD_OUTPUT);
-    exit(EXIT_FAILURE);
-  };
+	int st;
 
+	st = fprintf(fpout, "%ld", n);
+	if (st == EOF) {
+		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
 }
 
-void outhex
-(int n)
+void
+outhex(int n)
 {
-  int   st = fprintf(fpout, "0x%x",(unsigned int)n);
-  if (st == EOF) {
-    failer(BAD_OUTPUT);
-    exit(EXIT_FAILURE);
-  };
+	int st;
 
+	st = fprintf(fpout, "0x%x",(unsigned int)n);
+	if (st == EOF) {
+		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
 }
