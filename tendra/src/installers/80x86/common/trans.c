@@ -338,11 +338,11 @@ main(int argc, char **argv)
 			break;
 #elif isfreebsd
 		case 'k':
-			set_freebsd_format(s[2] == '1');
+			set_freebsd_format(*optarg == '1');
 			break;
 #elif islinux
 		case 'k':
-			set_linux_format(s[2] == '1');
+			set_linux_format(*optarg == '1');
 			break;
 #else
 		case 'k':
