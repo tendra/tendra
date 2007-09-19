@@ -124,7 +124,7 @@ init_all(void)
 int
 main(int argc, char **argv)
 {
-	int i, ch;
+	int ch;
 	char *outfname;
 	const char *optstring;
 
