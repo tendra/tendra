@@ -17,6 +17,7 @@ clean:
 	${REMOVE} ${PROG} ${OBJS}
 
 install: ${PROG}
+	install -m 755 -d ${PREFIX}/bin
 	install -m 755 ${PROG} ${PREFIX}/bin/${PROG}
 
 
