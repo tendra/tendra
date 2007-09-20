@@ -1,20 +1,26 @@
 # $Id$
 
-#TEMPL=templ
+PREFIX?=/usr/local
+REMOVE=	rm -f
 
-REMOVE=rm -f
+PROG=	tpl
+OBJS=	analyse_sort.o consfile.o decodings.o errors.o find_id.o \
+	fnsfile.o includes.o lex.o main.o readstreams.o standardsh.o \
+	streams.o syntax.o units.o util.o
 
-TARGETS=analyse_sort.o consfile.o decodings.o errors.o find_id.o \
-		fnsfile.o includes.o lex.o main.o readstreams.o standardsh.o \
-		streams.o syntax.o units.o util.o
+all: ${PROG}
 
-all: tpl
-
-tpl: $(TARGETS)
-	$(CC) -o tpl $(TARGETS)
+${PROG}: ${OBJS}
+	${CC} -o ${PROG} $(OBJS) ${LDFLAGS}
 
 clean:
-	$(REMOVE) tpl $(TARGETS)
+	${REMOVE} ${PROG} ${OBJS}
+
+install: ${PROG}
+	install -m 755 ${PROG} ${PREFIX}/bin/${PROG}
+
+
+#TEMPL=templ
 
 #SPEC=${BASE_DIR}/src/lib/tdf/def_4_0.db
 
