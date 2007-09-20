@@ -41,12 +41,12 @@
       <title>access_apply_token</title>
       <emphasis role="bold">Encoding number</emphasis>: 1
 
-      <para>
         <programlisting language="TDF">
       token_value:     TOKEN
       token_args:      BITSTREAM param_sorts(token_value)
                  -&gt; ACCESS</programlisting>
 
+      <para>
         The token is applied to the arguments encoded in the
         <code>BITSTREAM</code> <emphasis>token_args</emphasis> to give an
         <code>ACCESS</code>.
@@ -1967,9 +1967,8 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis>,
-        <code>BITFIELD</code>(<emphasis>v</emphasis>) will be
-        <emphasis>variety-enclosed</emphasis>.(see <!-- TODO link to
+        <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
+        will be <emphasis>variety-enclosed</emphasis>.(see <!-- TODO link to
         7.24. Representing bitfields -->section 7.24<!-- link end -->).
       </para>
     </section>
@@ -1987,9 +1986,9 @@
 
       <para>
         The bitfield of <code>BITFIELD_VARIETY</code> <emphasis>v</emphasis>,
-        located at the displacement delivered by <emphasis>arg2</emphasis>
-        from the pointer delivered by <emphasis>arg1</emphasis> is extracted
-        and delivered.
+        located at the displacement delivered by <emphasis>arg2</emphasis> from
+        the pointer delivered by <emphasis>arg1</emphasis> is extracted and
+        delivered.
       </para>
 
       <para>
@@ -1998,10 +1997,9 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis>,
-        <code>BITFIELD</code>(<emphasis>v</emphasis>) will be
-        <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to 7.24.
-        Representing bitfields -->section 7.24<!-- end link -->).
+        <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
+        will be <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to
+        7.24. Representing bitfields -->section 7.24<!-- end link -->).
       </para>
     </section>
 
@@ -2019,9 +2017,9 @@
 
       <para>
         The bitfield of <code>BITFIELD_VARIETY </code><emphasis>v</emphasis>,
-        located at the displacement delivered by <emphasis>arg2</emphasis>
-        from the pointer delivered by <emphasis>arg1</emphasis> is extracted
-        and delivered.The operation will be carried out as specified by the
+        located at the displacement delivered by <emphasis>arg2</emphasis> from
+        the pointer delivered by <emphasis>arg1</emphasis> is extracted and
+        delivered.The operation will be carried out as specified by the
         <code>TRANSFER_MODE</code> (q.v.).
       </para>
 
@@ -2038,10 +2036,9 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis>,
-        <code>BITFIELD</code>(<emphasis>v</emphasis>) will be
-        <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to 7.24.
-        Representing bitfields -->section 7.24<!-- end link -->).
+        <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
+        will be <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to
+        7.24.  Representing bitfields -->section 7.24<!-- end link -->).
       </para>
     </section>
 
@@ -2058,15 +2055,15 @@
 
       <para>
         <emphasis>control</emphasis> is evaluated to produce an integer value,
-        <emphasis>c</emphasis>.  Then <emphasis>c</emphasis> is tested to see
-        if it lies inclusively between <emphasis>lower</emphasis> and
+        <emphasis>c</emphasis>. Then <emphasis>c</emphasis> is tested to see if
+        it lies inclusively between <emphasis>lower</emphasis> and
         <emphasis>upper</emphasis>, for each element of
-        <emphasis>branches</emphasis>. If this tests succeeds, control passes
-        to the label <emphasis>branch</emphasis> belonging to that
+        <emphasis>branches</emphasis>. If this tests succeeds, control passes to
+        the label <emphasis>branch</emphasis> belonging to that
         <code>CASELIM</code> (see <!-- TODO link to 5.13. CASELIM -->section
-        5.13<!-- end link -->). If <emphasis>c</emphasis> lies between no
-        pair, the construct delivers a value of <code>SHAPE TOP</code>. The
-        order in which the comparisons are made is undefined.
+        5.13<!-- end link -->). If <emphasis>c</emphasis> lies between no pair,
+        the construct delivers a value of <code>SHAPE TOP</code>. The order in
+        which the comparisons are made is undefined.
       </para>
 
       <para>
@@ -2115,13 +2112,14 @@
 
       <para>
         <emphasis>arg1</emphasis> is evaluated and will produce floating point
-        value, <emphasis>fp</emphasis>.  The value <emphasis>fp</emphasis> is
+        value, <emphasis>fp</emphasis>. The value <emphasis>fp</emphasis> is
         delivered, changed to the representation of the
         <code>FLOATING_VARIETY</code> <emphasis>r</emphasis>.
       </para>
 
       <para>
-        Either <emphasis>r</emphasis> and <emphasis>f</emphasis> will both real or both complex.
+        Either <emphasis>r</emphasis> and <emphasis>f</emphasis> will both real
+        or both complex.
       </para>
 
       <para>
@@ -2218,16 +2216,16 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis> will be a constant and non-negative (see
-        <!-- TODO link to 7.3. Constant evaluation -->Constant evaluation<!--
-        end link -->).
+        <emphasis>arg2</emphasis> will be a constant and non-negative (see <!--
+        TODO link to 7.3. Constant evaluation -->Constant evaluation<!-- end
+        link -->).
       </para>
 
       <para>
         If <emphasis>sha</emphasis> is a <code>BITFIELD</code> then
         <emphasis>arg2</emphasis>, <emphasis>sha</emphasis> will be
-        <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to
-        7.24. Representing bitfields -->section 7.24<!-- end link -->).
+        <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to 7.24.
+        Representing bitfields -->section 7.24<!-- end link -->).
       </para>
     </section>
 
@@ -2243,7 +2241,7 @@
 
       <para>
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
-        and their results concatenated.  In the result the components derived
+        and their results concatenated. In the result the components derived
         from <emphasis>arg1</emphasis> will have lower indices than those
         derived from <emphasis>arg2</emphasis>.
       </para>
@@ -2278,16 +2276,16 @@
 
       <para>
         The lifetime of <emphasis>altlab_intro</emphasis> is the evaluation of
-        <emphasis>first</emphasis>.  <emphasis>altlab_intro</emphasis> will
-        not be used within <emphasis>alt</emphasis>.
+        <emphasis>first</emphasis>. <emphasis>altlab_intro</emphasis> will not
+        be used within <emphasis>alt</emphasis>.
       </para>
 
       <para>
         The actual order of evaluation of the constituents shall be
         indistinguishable in all observable effects (apart from time) from
-        evaluating all the obeyed parts of <emphasis>first</emphasis> before
-        any obeyed part of <emphasis>alt</emphasis>.  Note that this
-        specifically includes any defined error handling.
+        evaluating all the obeyed parts of <emphasis>first</emphasis> before any
+        obeyed part of <emphasis>alt</emphasis>.  Note that this specifically
+        includes any defined error handling.
       </para>
 
       <para>
@@ -2322,9 +2320,9 @@
       </para>
 
       <para>
-        If the space which the pointer indicates does not lie wholly within
-        the space indicated by the original pointer from which it is derived,
-        the effect is undefined.
+        If the space which the pointer indicates does not lie wholly within the
+        space indicated by the original pointer from which it is derived, the
+        effect is undefined.
       </para>
 
       <para>
@@ -2335,8 +2333,7 @@
       <para>
         <emphasis>The constraint <quote>x will include alignment(s)</quote>
         ensures in the simple memory model that no change is needed to the
-        <code>POINTER</code>.
-        </emphasis>
+        <code>POINTER</code>.</emphasis>
       </para>
     </section>
 
@@ -2352,9 +2349,9 @@
                  -&gt; EXP s</programlisting>
 
       <para>
-        A value of <code>SHAPE</code> <emphasis>s</emphasis> will be extracted from the
-        start of the space indicated by the pointer, and this is delivered.
-        The operation will be carried out as specified by the
+        A value of <code>SHAPE</code> <emphasis>s</emphasis> will be extracted
+        from the start of the space indicated by the pointer, and this is
+        delivered. The operation will be carried out as specified by the
         <code>TRANSFER_MODE</code> (q.v.).
       </para>
 
@@ -2375,9 +2372,9 @@
       </para>
 
       <para>
-        If the space which the pointer indicates does not lie wholly within
-        the space indicated by the original pointer from which it is derived,
-        the effect is undefined.
+        If the space which the pointer indicates does not lie wholly within the
+        space indicated by the original pointer from which it is derived, the
+        effect is undefined.
       </para>
 
       <para>
@@ -2396,24 +2393,24 @@
 
       <para>
         A value of <code>SHAPE POINTER</code>(<emphasis>fa</emphasis>) is
-        created and delivered.  It gives access to the variables, identities
-        and parameters in the current procedure activation which are declared
-        as having <code>ACCESS</code> <emphasis>visible</emphasis>.
+        created and delivered.  It gives access to the variables, identities and
+        parameters in the current procedure activation which are declared as
+        having <code>ACCESS</code> <emphasis>visible</emphasis>.
       </para>
 
       <para>
         If the immediately enclosing procedure is defined by
-        <emphasis>make_general_proc</emphasis>, then <emphasis>fa</emphasis>
-        is the set union of <emphasis>local_alignment</emphasis> and the
-        alignments of the kinds of parameters defined. That is to say, if
-        there are caller parameters, then the alignment includes
+        <emphasis>make_general_proc</emphasis>, then <emphasis>fa</emphasis> is
+        the set union of <emphasis>local_alignment</emphasis> and the alignments
+        of the kinds of parameters defined. That is to say, if there are caller
+        parameters, then the alignment includes
         <emphasis>callers_alignment</emphasis>(<emphasis>x</emphasis>) where
-        <emphasis>x</emphasis> is true if and only if the
-        <code>PROCPROPS</code> <emphasis>var_callers</emphasis> is present; if
-        there are callee parameters, the alignment includes
+        <emphasis>x</emphasis> is true if and only if the <code>PROCPROPS</code>
+        <emphasis>var_callers</emphasis> is present; if there are callee
+        parameters, the alignment includes
         <emphasis>callees_alignment</emphasis>(<emphasis>x</emphasis>) where
-        <emphasis>x</emphasis> is true if and only if the
-        <code>PROCPROPS</code> <emphasis>var_callees</emphasis> is present.
+        <emphasis>x</emphasis> is true if and only if the <code>PROCPROPS</code>
+        <emphasis>var_callees</emphasis> is present.
       </para>
 
       <para>
@@ -2424,8 +2421,8 @@
       </para>
 
       <para>
-        If an <code>OFFSET</code> produced by <emphasis>env_offset</emphasis>
-        is added to a <code>POINTER</code> produced by
+        If an <code>OFFSET</code> produced by <emphasis>env_offset</emphasis> is
+        added to a <code>POINTER</code> produced by
         <emphasis>current_env</emphasis> from an activation of the procedure
         which contains the declaration of the <code>TAG</code> used by
         <emphasis>env_offset</emphasis>, then the result is an original
@@ -2435,9 +2432,8 @@
       </para>
 
       <para>
-        If an <code>OFFSET</code> produced by env_offset is added to
-        such a pointer from an inappropriate procedure the effect is
-        undefined.
+        If an <code>OFFSET</code> produced by env_offset is added to such a
+        pointer from an inappropriate procedure the effect is undefined.
       </para>
     </section>
 
@@ -2457,12 +2453,12 @@
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
-        <emphasis>v</emphasis>.  Either the value <emphasis>a</emphasis> D1
+        <emphasis>v</emphasis>. Either the value <emphasis>a</emphasis> D1
         <emphasis>b</emphasis> or the value <emphasis>a</emphasis> D2
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments. Different
-        occurrences of <emphasis>div0</emphasis> in the same capsule can use
-        D1 or D2 independently.
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments. Different occurrences of
+        <emphasis>div0</emphasis> in the same capsule can use D1 or D2
+        independently.
       </para>
 
       <para>
@@ -2471,8 +2467,8 @@
       </para>
 
       <para>
-        If <emphasis>b</emphasis> is not zero and the result cannot be
-        expressed in the <code>VARIETY</code> being used to represent
+        If <emphasis>b</emphasis> is not zero and the result cannot be expressed
+        in the <code>VARIETY</code> being used to represent
         <emphasis>v</emphasis> an overflow occurs and is handled by
         <emphasis>ov_err</emphasis>.
       </para>
@@ -2504,9 +2500,9 @@
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
-        <emphasis>v</emphasis>.  The value <emphasis>a</emphasis> D1
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments.
+        <emphasis>v</emphasis>. The value <emphasis>a</emphasis> D1
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -2515,8 +2511,8 @@
       </para>
 
       <para>
-        If <emphasis>b</emphasis> is not zero and the result cannot be
-        expressed in the <code>VARIETY</code> being used to represent
+        If <emphasis>b</emphasis> is not zero and the result cannot be expressed
+        in the <code>VARIETY</code> being used to represent
         <emphasis>v</emphasis> an overflow occurs and is handled by
         <emphasis>ov_err</emphasis>.
       </para>
@@ -2548,9 +2544,9 @@
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
-        <emphasis>v</emphasis>.  The value <emphasis>a</emphasis> D2
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments.
+        <emphasis>v</emphasis>. The value <emphasis>a</emphasis> D2
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -2559,8 +2555,8 @@
       </para>
 
       <para>
-        If <emphasis>b</emphasis> is not zero and the result cannot be
-        expressed in the <code>VARIETY</code> being used to represent
+        If <emphasis>b</emphasis> is not zero and the result cannot be expressed
+        in the <code>VARIETY</code> being used to represent
         <emphasis>v</emphasis> an overflow occurs and is handled by
         <emphasis>ov_err</emphasis>.
       </para>
@@ -2592,10 +2588,10 @@
         <emphasis>t</emphasis> will be the tag of a
         <emphasis>variable</emphasis>, <emphasis>identify</emphasis> or
         procedure parameter with the <emphasis>visible</emphasis> property
-        within a procedure defined by <emphasis>make_general_proc</emphasis>
-        or <emphasis>make_proc</emphasis>.
+        within a procedure defined by <emphasis>make_general_proc</emphasis> or
+        <emphasis>make_proc</emphasis>.
       </para>
-      
+
       <para>
         If it is defined in a make_general_proc, let P be its associated
         <code>PROCPROPS</code>; otherwise let P be the <code>PROCPROPS</code>
@@ -2605,8 +2601,8 @@
 
       <para>
         If <emphasis>t</emphasis> is the <code>TAG</code> of a
-        <emphasis>variable</emphasis> or <emphasis>identify, fa</emphasis>
-        will contain <emphasis>locals_alignment</emphasis>; if it is a caller
+        <emphasis>variable</emphasis> or <emphasis>identify, fa</emphasis> will
+        contain <emphasis>locals_alignment</emphasis>; if it is a caller
         parameter <emphasis>fa</emphasis> will contain a
         <emphasis>caller_alignment</emphasis>(<emphasis>b</emphasis>) where
         <emphasis>b </emphasis>is true if and only if P contains
@@ -2619,10 +2615,10 @@
 
       <para>
         If t is the <code>TAG</code> of a <emphasis>variable</emphasis> or
-        parameter, the result is the <code>OFFSET</code> of its position,
-        within any procedure environment which derives from the procedure
-        containing the declaration of the variable or parameter, relative to
-        its environment pointer. In this case <emphasis>x</emphasis> will be
+        parameter, the result is the <code>OFFSET</code> of its position, within
+        any procedure environment which derives from the procedure containing
+        the declaration of the variable or parameter, relative to its
+        environment pointer. In this case <emphasis>x</emphasis> will be
         <code>POINTER</code>(<emphasis>y).</emphasis>
       </para>
 
@@ -2649,11 +2645,11 @@
                  -&gt; EXP OFFSET(locals_alignment, {})</programlisting>
 
       <para>
-        Delivers an <code>OFFSET</code> of a space sufficient to contain all
-        the variables and identifications, explicit or implicit in the
-        procedure identified by <emphasis>proctag</emphasis>. This will not
-        include the space required for any <emphasis>local_allocs</emphasis>
-        or procedure calls within the procedure.
+        Delivers an <code>OFFSET</code> of a space sufficient to contain all the
+        variables and identifications, explicit or implicit in the procedure
+        identified by <emphasis>proctag</emphasis>. This will not include the
+        space required for any <emphasis>local_allocs</emphasis> or procedure
+        calls within the procedure.
       </para>
 
       <para>
@@ -2699,9 +2695,9 @@
       </para>
 
       <para>
-        If <emphasis>f</emphasis> is complex the real part of the result will
-        be derived from <emphasis>arg1</emphasis> and the imaginary part will
-        be zero.
+        If <emphasis>f</emphasis> is complex the real part of the result will be
+        derived from <emphasis>arg1</emphasis> and the imaginary part will be
+        zero.
       </para>
 
       <para>
@@ -2722,11 +2718,11 @@
                  -&gt; EXP FLOATING(f)</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> is evaluated and will produce a floating
-        point value, <emphasis>a</emphasis>, of the
-        <code>FLOATING_VARIETY</code>, <emphasis>f</emphasis>. The absolute
-        value of <emphasis>a</emphasis> is delivered as the result of the
-        construct, with the same <code>SHAPE</code> as the argument.
+        <emphasis>arg1</emphasis> is evaluated and will produce a floating point
+        value, <emphasis>a</emphasis>, of the <code>FLOATING_VARIETY</code>,
+        <emphasis>f</emphasis>. The absolute value of <emphasis>a</emphasis> is
+        delivered as the result of the construct, with the same
+        <code>SHAPE</code> as the argument.
       </para>
 
       <para>
@@ -2761,9 +2757,8 @@
         and will produce floating point values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>FLOATING_VARIETY</code>,
         <emphasis>f</emphasis>. The value
-        <emphasis>a</emphasis>/<emphasis>b</emphasis> is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <emphasis>a</emphasis>/<emphasis>b</emphasis> is delivered as the result
+        of the construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -2794,9 +2789,8 @@
         and will produce floating point values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>FLOATING_VARIETY</code>,
         <emphasis>f</emphasis>. The value
-        <emphasis>a</emphasis>-<emphasis>b</emphasis> is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <emphasis>a</emphasis>-<emphasis>b</emphasis> is delivered as the result
+        of the construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -2824,8 +2818,8 @@
 
       <para>
         The maximum of the values delivered by <emphasis>arg1</emphasis> and
-        <emphasis>arg2</emphasis> is the result. <emphasis>f</emphasis> will
-        not be complex.
+        <emphasis>arg2</emphasis> is the result. <emphasis>f</emphasis> will not
+        be complex.
       </para>
 
       <para>
@@ -2852,8 +2846,8 @@
 
       <para>
         The minimum of the values delivered by <emphasis>arg1</emphasis> and
-        <emphasis>arg2</emphasis> is the result. <emphasis>f</emphasis> will
-        not be complex.
+        <emphasis>arg2</emphasis> is the result. <emphasis>f</emphasis> will not
+        be complex.
       </para>
 
       <para>
@@ -2880,8 +2874,8 @@
       <para>
         The arguments, <emphasis>arg1</emphasis>, are evaluated producing
         floating point values all of the same <code>FLOATING_VARIETY</code>,
-        <emphasis>f</emphasis>. These values are multiplied in any order and
-        the result of this multiplication is delivered as the result of the
+        <emphasis>f</emphasis>. These values are multiplied in any order and the
+        result of this multiplication is delivered as the result of the
         construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
@@ -2892,11 +2886,11 @@
       </para>
 
       <para>
-        <emphasis>Note that separate floating_mult operations cannot in
-        general be combined, because rounding errors need to be controlled.
-        The reason for allowing floating_mult to take a variable number of
-        arguments is to make it possible to specify that a number of
-        multiplications can be re-ordered.</emphasis>
+        <emphasis>Note that separate floating_mult operations cannot in general
+        be combined, because rounding errors need to be controlled.  The reason
+        for allowing floating_mult to take a variable number of arguments is to
+        make it possible to specify that a number of multiplications can be
+        re-ordered.</emphasis>
       </para>
 
       <para>
@@ -2922,11 +2916,11 @@
                  -&gt; EXP FLOATING(f)</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> is evaluated and will produce a floating
-        point value, <emphasis>a</emphasis>, of the
-        <code>FLOATING_VARIETY</code>, <emphasis>f</emphasis>. The value
-        -<emphasis>a</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the argument.
+        <emphasis>arg1</emphasis> is evaluated and will produce a floating point
+        value, <emphasis>a</emphasis>, of the <code>FLOATING_VARIETY</code>,
+        <emphasis>f</emphasis>. The value -<emphasis>a</emphasis> is delivered
+        as the result of the construct, with the same <code>SHAPE</code> as the
+        argument.
       </para>
 
       <para>
@@ -2966,11 +2960,11 @@
       </para>
 
       <para>
-        <emphasis>Note that separate floating_plus operations cannot in
-        general be combined, because rounding errors need to be controlled.
-        The reason for allowing floating_plus to take a variable number of
-        arguments is to make it possible to specify that a number of
-        multiplications can be re-ordered.</emphasis>
+        <emphasis>Note that separate floating_plus operations cannot in general
+        be combined, because rounding errors need to be controlled.  The reason
+        for allowing floating_plus to take a variable number of arguments is to
+        make it possible to specify that a number of multiplications can be
+        re-ordered.</emphasis>
       </para>
 
       <para>
@@ -2997,8 +2991,8 @@
                  -&gt; EXP FLOATING(f)</programlisting>
 
       <para>
-        The result of <emphasis>arg1</emphasis> is raised to the power given
-        by <emphasis>arg2</emphasis>.
+        The result of <emphasis>arg1</emphasis> is raised to the power given by
+        <emphasis>arg2</emphasis>.
       </para>
 
       <para>
@@ -3042,14 +3036,13 @@
 
       <para>
         If <emphasis>a nt b</emphasis>, this construction yields
-        <code>TOP</code>. Otherwise control passes to
-        <emphasis>dest</emphasis>.
+        <code>TOP</code>. Otherwise control passes to <emphasis>dest</emphasis>.
       </para>
 
       <para>
         If <emphasis>prob</emphasis> is present<emphasis>, prob</emphasis>/100
         gives the probability that control will continue to the next construct
-        (ie. not pass to <emphasis>dest</emphasis>).  If
+        (ie. not pass to <emphasis>dest</emphasis>). If
         <emphasis>prob</emphasis> is absent this probability is unknown.
       </para>
 
@@ -3093,11 +3086,11 @@
       <para>
         <emphasis>arg1</emphasis> is evaluated. The label from which the value
         delivered by <emphasis>arg1</emphasis> was created will be within its
-        lifetime and this construction will be obeyed in the same activation
-        of the same procedure as the creation of the
+        lifetime and this construction will be obeyed in the same activation of
+        the same procedure as the creation of the
         <code>POINTER(</code><emphasis>{code</emphasis><code>})</code> by
-        <emphasis>make_local_lv</emphasis>. Control passes to this activation
-        of this <code>LABEL</code>.
+        <emphasis>make_local_lv</emphasis>. Control passes to this activation of
+        this <code>LABEL</code>.
       </para>
 
       <para>
@@ -3129,25 +3122,25 @@
       </para>
 
       <para>
-        The value delivered by <emphasis>identify</emphasis> is that produced
-        by <emphasis>body</emphasis>.
+        The value delivered by <emphasis>identify</emphasis> is that produced by
+        <emphasis>body</emphasis>.
       </para>
 
       <para>
-        The <code>TAG</code> given for <emphasis>name_intro</emphasis> will
-        not be reused within the current <code>UNIT</code>. No rules for the
-        hiding of one <code>TAG</code> by another are given: this will not
-        happen. The lifetime of <emphasis>name_intro</emphasis> is the
-        evaluation of <emphasis>body</emphasis>.
+        The <code>TAG</code> given for <emphasis>name_intro</emphasis> will not
+        be reused within the current <code>UNIT</code>. No rules for the hiding
+        of one <code>TAG</code> by another are given: this will not happen. The
+        lifetime of <emphasis>name_intro</emphasis> is the evaluation of
+        <emphasis>body</emphasis>.
       </para>
 
       <para>
         If <emphasis>opt_access</emphasis> contains
         <emphasis>visible</emphasis>, it means that the value must not be
         aliased while the procedure containing this declaration is not the
-        current procedure. Hence if there are any copies of this value they
-        will need to be refreshed when the procedure is returned to. The
-        easiest implementation when <emphasis>opt_access</emphasis> is
+        current procedure. Hence if there are any copies of this value they will
+        need to be refreshed when the procedure is returned to. The easiest
+        implementation when <emphasis>opt_access</emphasis> is
         <emphasis>visible</emphasis> may be to keep the value in memory, but
         this is not a necessary requirement.
       </para>
@@ -3157,8 +3150,8 @@
         and <emphasis>body</emphasis> are evaluated shall be indistinguishable
         in all observable effects (apart from time) from completely evaluating
         <emphasis>definition</emphasis> before starting
-        <emphasis>body</emphasis>. See the note about order in <!-- TODO link
-        to 5.16.107. sequence -->sequence<!-- end link -->.
+        <emphasis>body</emphasis>. See the note about order in <!-- TODO link to
+        5.16.107. sequence -->sequence<!-- end link -->.
       </para>
     </section>
 
@@ -3256,14 +3249,13 @@
 
       <para>
         If <emphasis>a nt b</emphasis>, this construction yields
-        <code>TOP</code>. Otherwise control passes to
-        <emphasis>dest</emphasis>.
+        <code>TOP</code>. Otherwise control passes to <emphasis>dest</emphasis>.
       </para>
 
       <para>
         If <emphasis>prob</emphasis> is present, <emphasis>prob</emphasis>/100
         gives the probability that control will continue to the next construct
-        (ie. not pass to <emphasis>dest</emphasis>).  If
+        (ie. not pass to <emphasis>dest</emphasis>). If
         <emphasis>prob</emphasis> is absent this probability is unknown.
       </para>
     </section>
@@ -3285,40 +3277,39 @@
       </para>
 
       <para>
-        To evaluate the construction <emphasis>starter</emphasis> is
-        evaluated. If its evaluation runs to completion producing a value,
-        then this is delivered as the result of the whole construction. If a
+        To evaluate the construction <emphasis>starter</emphasis> is evaluated.
+        If its evaluation runs to completion producing a value, then this is
+        delivered as the result of the whole construction. If a
         <emphasis>goto</emphasis> one of the <code>LABEL</code>s in
         <emphasis>labs_intro</emphasis> or any other jump to one of these
         <code>LABEL</code>s is evaluated, then the evaluation of
         <emphasis>starter</emphasis> stops and the corresponding element of
-        <emphasis>places</emphasis> is evaluated.  In the canonical ordering
-        all the operations which are evaluated from
-        <emphasis>starter</emphasis> are completed before any from an element
-        of <emphasis>places</emphasis> is started. If the evaluation of the
-        member of <emphasis>places</emphasis> produces a result this is the
-        result of the construction.
+        <emphasis>places</emphasis> is evaluated. In the canonical ordering all
+        the operations which are evaluated from <emphasis>starter</emphasis> are
+        completed before any from an element of <emphasis>places</emphasis> is
+        started. If the evaluation of the member of <emphasis>places</emphasis>
+        produces a result this is the result of the construction.
       </para>
 
       <para>
         If a jump to any of the <emphasis>labs_intro</emphasis> is obeyed then
-        evaluation continues similarly. Such jumping may continue
-        indefinitely, but if any <emphasis>places</emphasis> terminates, then
-        the value it produces is the value delivered by the construction.
+        evaluation continues similarly. Such jumping may continue indefinitely,
+        but if any <emphasis>places</emphasis> terminates, then the value it
+        produces is the value delivered by the construction.
       </para>
 
       <para>
         The <code>SHAPE</code> <emphasis>w</emphasis> is the LUB of
-        <emphasis>x</emphasis> and all the <emphasis>places</emphasis>. See
-        <!-- TODO link to 7.26. Least Upper Bound -->Least Upper Bound<!-- end
-        link -->.
+        <emphasis>x</emphasis> and all the <emphasis>places</emphasis>. See <!--
+        TODO link to 7.26. Least Upper Bound -->Least Upper Bound<!-- end link
+        -->.
       </para>
 
       <para>
         The actual order of evaluation of the constituents shall be
-        indistinguishable in all observable effects (apart from time) from
-        that described above.  Note that this specifically includes any
-        defined error handling.
+        indistinguishable in all observable effects (apart from time) from that
+        described above. Note that this specifically includes any defined error
+        handling.
       </para>
 
       <para>
@@ -3341,9 +3332,8 @@
       <para>
         If the last use of <emphasis>local_alloc</emphasis> in the current
         activation of the current procedure was after the last use of
-        <emphasis>local_free</emphasis> or
-        <emphasis>local_free_all</emphasis>, then the value returned is the
-        last <code>POINTER</code> allocated with
+        <emphasis>local_free</emphasis> or <emphasis>local_free_all</emphasis>,
+        then the value returned is the last <code>POINTER</code> allocated with
         <emphasis>local_alloc</emphasis>.
       </para>
 
@@ -3357,9 +3347,9 @@
       <para>
         The <code>ALIGNMENT</code>, <emphasis>alloca_alignment</emphasis>,
         includes the set union of all the <code>ALIGNMENT</code>s which can be
-        produced by <emphasis>alignment</emphasis> from any
-        <code>SHAPE</code>. See <!-- TODO link to 7.13.4. Special alignments
-        -->Special alignments<!-- end link -->.
+        produced by <emphasis>alignment</emphasis> from any <code>SHAPE</code>.
+        See <!-- TODO link to 7.13.4. Special alignments -->Special
+        alignments<!-- end link -->.
       </para>
     </section>
 
@@ -3374,13 +3364,12 @@
 
       <para>
         The <emphasis>arg1</emphasis> expression is evaluated and space is
-        allocated sufficient to hold a value of the given size. The result is
-        an original pointer to this space.
+        allocated sufficient to hold a value of the given size. The result is an
+        original pointer to this space.
       </para>
 
       <para>
-        <emphasis>x</emphasis> will not consist entirely of bitfield
-        alignments.
+        <emphasis>x</emphasis> will not consist entirely of bitfield alignments.
       </para>
 
       <para>
@@ -3388,9 +3377,9 @@
       </para>
 
       <para>
-        This allocation is as if on the stack of the current procedure, and
-        the lifetime of the pointer ends when the current activation of the
-        current procedure ends with a <emphasis>return</emphasis>,
+        This allocation is as if on the stack of the current procedure, and the
+        lifetime of the pointer ends when the current activation of the current
+        procedure ends with a <emphasis>return</emphasis>,
         <emphasis>return_to_label</emphasis> or <emphasis>tail_call</emphasis>
         or if there is a long jump out of the activation.  Any use of the
         pointer thereafter is undefined. Note the specific exclusion of the
@@ -3400,9 +3389,8 @@
 
       <para>
         The uses of <emphasis>local_alloc</emphasis> within the procedure are
-        ordered dynamically as they occur, and this order affects the meaning
-        of <emphasis>local_free</emphasis> and
-        <emphasis>last_local</emphasis>.
+        ordered dynamically as they occur, and this order affects the meaning of
+        <emphasis>local_free</emphasis> and <emphasis>last_local</emphasis>.
       </para>
 
       <para>
@@ -3417,14 +3405,14 @@
       </para>
 
       <para>
-        will return the <emphasis>alloca</emphasis> stack to the state it was
-        in immediately before the use of <emphasis>local_alloc</emphasis>.
+        will return the <emphasis>alloca</emphasis> stack to the state it was in
+        immediately before the use of <emphasis>local_alloc</emphasis>.
       </para>
 
       <para>
-        Note that if a procedure which uses <emphasis>local_alloc</emphasis>
-        is inlined, it may be necessary to use <emphasis>local_free</emphasis>
-        to get the correct semantics.
+        Note that if a procedure which uses <emphasis>local_alloc</emphasis> is
+        inlined, it may be necessary to use <emphasis>local_free</emphasis> to
+        get the correct semantics.
       </para>
 
       <para>
@@ -3443,11 +3431,10 @@
                  -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
       <para>
-        If the <code>OFFSET</code> <emphasis>arg1</emphasis> can be
-        accomodated within the limit of the local_alloc stack (see <!-- TODO
-        link to 5.16.108. set_stack_limit -->section 5.16.108<!-- end link
-        -->), the action is precisely the same as
-        <emphasis>local_alloc</emphasis>.
+        If the <code>OFFSET</code> <emphasis>arg1</emphasis> can be accomodated
+        within the limit of the local_alloc stack (see <!-- TODO link to
+        5.16.108. set_stack_limit -->section 5.16.108<!-- end link -->), the
+        action is precisely the same as <emphasis>local_alloc</emphasis>.
       </para>
 
       <para>
@@ -3473,8 +3460,7 @@
         after it by <emphasis>local_alloc</emphasis> will no longer be used.
         This <code>POINTER</code> will have been created by
         <emphasis>local_alloc</emphasis> with the value of its
-        <emphasis>arg1</emphasis> equal to the value of
-        <emphasis>a</emphasis>.
+        <emphasis>arg1</emphasis> equal to the value of <emphasis>a</emphasis>.
       </para>
 
       <para>
@@ -3497,14 +3483,14 @@
       </para>
 
       <para>
-        Any use of a pointer to space allocated before this operation within
-        the current call of the current procedure is undefined.
+        Any use of a pointer to space allocated before this operation within the
+        current call of the current procedure is undefined.
       </para>
 
       <para>
-        Note that if a procedure which uses
-        <emphasis>local_free_all</emphasis> is inlined, it may be necessary to
-        use <emphasis>local_free</emphasis> to get the correct semantics.
+        Note that if a procedure which uses <emphasis>local_free_all</emphasis>
+        is inlined, it may be necessary to use <emphasis>local_free</emphasis>
+        to get the correct semantics.
       </para>
     </section>
 
@@ -3519,8 +3505,8 @@
                  -&gt; EXP BOTTOM</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> will be a pointer produced by an application of
-        <emphasis>curent_env</emphasis> in a currently active procedure.
+        <emphasis>arg1</emphasis> will be a pointer produced by an application
+        of <emphasis>curent_env</emphasis> in a currently active procedure.
       </para>
 
       <para>
@@ -3531,8 +3517,8 @@
       </para>
 
       <para>
-        Only <code>TAG</code>s declared to have <emphasis>long_jump_access</emphasis> will
-        be defined at the re-entry.
+        Only <code>TAG</code>s declared to have
+        <emphasis>long_jump_access</emphasis> will be defined at the re-entry.
       </para>
 
       <para>
@@ -3559,8 +3545,8 @@
       </para>
 
       <para>
-        Delivers a complex number with <emphasis>arg1</emphasis> delivering
-        the real part and <emphasis>arg2</emphasis> the imaginary.
+        Delivers a complex number with <emphasis>arg1</emphasis> delivering the
+        real part and <emphasis>arg2</emphasis> the imaginary.
       </para>
     </section>
 
@@ -3593,8 +3579,8 @@
         <code>OFFSET</code>(<emphasis>z</emphasis><emphasis>k</emphasis>,
         <emphasis>alignment</emphasis>(<emphasis>shape</emphasis>(<emphasis>x</emphasis>[2
         * <emphasis>k</emphasis>]))), where
-        <emphasis>shape</emphasis> gives the <code>SHAPE</code> of the
-        component and <emphasis>base</emphasis> includes
+        <emphasis>shape</emphasis> gives the <code>SHAPE</code> of the component
+        and <emphasis>base</emphasis> includes
         <emphasis>z</emphasis><emphasis>k</emphasis>.
       </para>
 
@@ -3609,25 +3595,23 @@
         be such that the components when in place either do not overlap or
         exactly coincide, in the sense that the <code>OFFSET</code>s are equal
         and the values have the same <code>SHAPE</code>. If they coincide the
-        corresponding values <emphasis>x</emphasis>[2
-        * <emphasis>k</emphasis>] will have <code>VARIETY SHAPE</code>s and
-        * will be <emphasis>ored</emphasis>
-        together.
+        corresponding values <emphasis>x</emphasis>[2 * <emphasis>k</emphasis>]
+        will have <code>VARIETY SHAPE</code>s and will be
+        <emphasis>ored</emphasis> together.
       </para>
 
       <para>
         The <code>SHAPE</code> of a <emphasis>x</emphasis>[2 *
-        <emphasis>k</emphasis>] component can be <code>TOP</code>. In this
-        case the component is evaluated, but no value is placed at the
-        corresponding <code>OFFSET</code>.
+        <emphasis>k</emphasis>] component can be <code>TOP</code>. In this case
+        the component is evaluated, but no value is placed at the corresponding
+        <code>OFFSET</code>.
       </para>
 
       <para>
         If <emphasis>x[2 * k]</emphasis> is a <code>BITFIELD</code> then
-        <emphasis>x[2 * k - 1]</emphasis>, <emphasis>shape(x[2 *
-        k])</emphasis> will be <emphasis>variety-enclosed</emphasis> (see <!--
-        TODO link to 7.24. Representing bitfields -->section 7.24<!-- link end
-        -->).
+        <emphasis>x[2 * k - 1]</emphasis>, <emphasis>shape(x[2 * k])</emphasis>
+        will be <emphasis>variety-enclosed</emphasis> (see <!-- TODO link to
+        7.24. Representing bitfields -->section 7.24<!-- link end -->).
       </para>
     </section>
 
@@ -3651,16 +3635,15 @@
 
       <para>
         <emphasis>mantissa</emphasis> will be a <code>STRING</code> of 8-bit
-        integers, each of which is either  46 or is greater than or equal to
-        48. Those values, <emphasis>c</emphasis>, which lie between 48 and 63
-        will represent the digit <emphasis>c</emphasis>-48.  A decimal point
-        is represented by 46.
+        integers, each of which is either  46 or is greater than or equal to 48.
+        Those values, <emphasis>c</emphasis>, which lie between 48 and 63 will
+        represent the digit <emphasis>c</emphasis>-48.  A decimal point is
+        represented by 46.
       </para>
 
       <para>
-        The <code>BOOL</code> <emphasis>negative</emphasis> determines the
-        sign of the result, if true the result will be negative, if false,
-        positive.
+        The <code>BOOL</code> <emphasis>negative</emphasis> determines the sign
+        of the result, if true the result will be negative, if false, positive.
       </para>
 
       <para>
@@ -3668,16 +3651,15 @@
         base</emphasis><superscript><emphasis>exponent</emphasis>
         </superscript>) is created and rounded to the representation of
         <emphasis>f</emphasis> as specified by <emphasis>rm</emphasis>.
-        <emphasis>rm</emphasis> will not be
-        <emphasis>round_as_state</emphasis>. <emphasis>mantissa</emphasis> is
-        read as a sequence of digits to base <emphasis>base</emphasis> and may
-        contain one point symbol.
+        <emphasis>rm</emphasis> will not be <emphasis>round_as_state</emphasis>.
+        <emphasis>mantissa</emphasis> is read as a sequence of digits to base
+        <emphasis>base</emphasis> and may contain one point symbol.
       </para>
 
       <para>
         <emphasis>base</emphasis> will be one of the numbers 2, 4, 8, 10, 16.
-        Note that in base 16 the digit 10 is represented by the character
-        number 58 etc.
+        Note that in base 16 the digit 10 is represented by the character number
+        58 etc.
       </para>
 
       <para>
@@ -3700,11 +3682,11 @@
 
       <para>
         Evaluation of <emphasis>make_general_proc</emphasis> delivers a
-        <code>PROC</code>.  When this procedure is applied to parameters using
-        <emphasis>apply_general_proc</emphasis>, space is allocated to hold
-        the actual values of the parameters <emphasis>caller_intro </emphasis>
-        and <emphasis>callee_intro</emphasis>. The values produced by the
-        actual parameters are used to initialise these spaces. Then
+        <code>PROC</code>. When this procedure is applied to parameters using
+        <emphasis>apply_general_proc</emphasis>, space is allocated to hold the
+        actual values of the parameters <emphasis>caller_intro </emphasis> and
+        <emphasis>callee_intro</emphasis>. The values produced by the actual
+        parameters are used to initialise these spaces. Then
         <emphasis>body</emphasis> is evaluated. During this evaluation the
         <code>TAG</code>s in <emphasis>caller_intro</emphasis> and
         <emphasis>callee_intro</emphasis> are bound to original
@@ -3724,8 +3706,8 @@
       </para>
 
       <para>
-        The <code>SHAPE</code>s in the parameters specify the
-        <code>SHAPE</code> of the corresponding <code>TAG</code>s.
+        The <code>SHAPE</code>s in the parameters specify the <code>SHAPE</code>
+        of the corresponding <code>TAG</code>s.
       </para>
 
       <para>
@@ -3738,15 +3720,14 @@
         In <emphasis>body</emphasis> the only <code>TAG</code>s which may be
         used as an argument of <emphasis>obtain_tag</emphasis> are those which
         are declared by <emphasis>identify</emphasis> or
-        <emphasis>variable</emphasis> constructions in
-        <emphasis>body</emphasis> and which are in scope, or <code>TAG</code>s
-        which are declared by <emphasis>make_id_tagdef</emphasis>,
+        <emphasis>variable</emphasis> constructions in <emphasis>body</emphasis>
+        and which are in scope, or <code>TAG</code>s which are declared by
+        <emphasis>make_id_tagdef</emphasis>,
         <emphasis>make_var_tagdef</emphasis> or
         <emphasis>common_tagdef</emphasis> or are in
-        <emphasis>caller_intro</emphasis> or
-        <emphasis>callee_intro</emphasis>. If a <emphasis>make_proc</emphasis>
-        occurs in <emphasis>body</emphasis> its <code>TAG</code>s are not in
-        scope.
+        <emphasis>caller_intro</emphasis> or <emphasis>callee_intro</emphasis>.
+        If a <emphasis>make_proc</emphasis> occurs in <emphasis>body</emphasis>
+        its <code>TAG</code>s are not in scope.
       </para>
 
       <para>
@@ -3754,8 +3735,8 @@
         <emphasis>untidy_return</emphasis> construction in
         <emphasis>body</emphasis> will have <code>SHAPE</code>
         <emphasis>result_shape</emphasis>. Every
-        <emphasis>apply_general_proc</emphasis> using the procedure will
-        specify the <code>SHAPE</code> of its result to be
+        <emphasis>apply_general_proc</emphasis> using the procedure will specify
+        the <code>SHAPE</code> of its result to be
         <emphasis>result_shape</emphasis>.
       </para>
 
@@ -3776,8 +3757,8 @@
 
       <para>
         If <emphasis>prcprocs</emphasis> contains
-        <emphasis>check_stack</emphasis>, a TDF exception will be raised if
-        the static space required for the procedure call (in the sense of
+        <emphasis>check_stack</emphasis>, a TDF exception will be raised if the
+        static space required for the procedure call (in the sense of
         <emphasis>env_size</emphasis>) would exceed the limit given by
         <emphasis>set_stack_limit</emphasis>.
       </para>
@@ -3785,13 +3766,12 @@
       <para>
         If <emphasis>prcprops</emphasis> contains
         <emphasis>no_long_jump_dest</emphasis>, the body of the procedure will
-        never contain the destination label of a
-        <emphasis>long_jump</emphasis>.
+        never contain the destination label of a <emphasis>long_jump</emphasis>.
       </para>
 
       <para>
-        For notes on the intended implementation of procedures see
-        <!-- TODO link to 7.9. Procedures -->section 7.9<!-- end link -->.
+        For notes on the intended implementation of procedures see <!-- TODO
+        link to 7.9. Procedures -->section 7.9<!-- end link -->.
       </para>
     </section>
 
@@ -3843,10 +3823,10 @@
                  -&gt; EXP NOF(n, s)</programlisting>
 
       <para>
-        Creates an array of <emphasis>n</emphasis> values of
-        <code>SHAPE</code> <emphasis>s</emphasis>, containing the given values
-        produced by evaluating the members of <emphasis>arg1</emphasis> in the
-        same order as they occur in the list.
+        Creates an array of <emphasis>n</emphasis> values of <code>SHAPE</code>
+        <emphasis>s</emphasis>, containing the given values produced by
+        evaluating the members of <emphasis>arg1</emphasis> in the same order as
+        they occur in the list.
       </para>
 
       <para>
@@ -3882,15 +3862,15 @@
                  -&gt; EXP POINTER({code})</programlisting>
 
       <para>
-        Makes a null <code>POINTER</code>({<emphasis>code</emphasis>}) which
-        can be detected by <emphasis>pointer_test</emphasis>. The effect of
+        Makes a null <code>POINTER</code>({<emphasis>code</emphasis>}) which can
+        be detected by <emphasis>pointer_test</emphasis>. The effect of
         <emphasis>goto_local_lv</emphasis> or <emphasis>long_jump</emphasis>
         applied to this value is undefined.
       </para>
 
       <para>
-        All null <code>POINTER</code>({<emphasis>code</emphasis>}) are equal
-        to each other and unequal to any other <code>POINTER</code>s.
+        All null <code>POINTER</code>({<emphasis>code</emphasis>}) are equal to
+        each other and unequal to any other <code>POINTER</code>s.
       </para>
     </section>
 
@@ -3935,8 +3915,8 @@
       </para>
 
       <para>
-        All null <code>POINTER</code>(<emphasis>x</emphasis>) are equal to
-        each other and unequal to any other
+        All null <code>POINTER</code>(<emphasis>x</emphasis>) are equal to each
+        other and unequal to any other
         <code>POINTER</code>(<emphasis>x</emphasis>).
       </para>
     </section>
@@ -3958,8 +3938,8 @@
         <code>PROC</code>. When this procedure is applied to parameters using
         <emphasis>apply_proc</emphasis>, space is allocated to hold the actual
         values of the parameters <emphasis>params_intro</emphasis> and
-        <emphasis>var_intro</emphasis> (if present). The values produced by
-        the actual parameters are used to initialise these spaces. Then
+        <emphasis>var_intro</emphasis> (if present). The values produced by the
+        actual parameters are used to initialise these spaces. Then
         <emphasis>body</emphasis> is evaluated. During this evaluation the
         <code>TAG</code>s in <emphasis>params_intro</emphasis> and
         <emphasis>var_intro</emphasis> are bound to original
@@ -3968,18 +3948,17 @@
       </para>
 
       <para>
-        If <emphasis>var_intro</emphasis> is present, it may be used for one
-        of two purposes, with different consequences for corresponding uses of
+        If <emphasis>var_intro</emphasis> is present, it may be used for one of
+        two purposes, with different consequences for corresponding uses of
         <emphasis>apply_proc</emphasis>. See <!-- TODO link to 7.9. Procedures
         -->section 7.9<!-- end link -->. The <code>ALIGNMENT</code>,
-        <emphasis>var_param_alignment</emphasis>, includes the set union of
-        all the <code>ALIGNMENT</code>s which can be produced by
+        <emphasis>var_param_alignment</emphasis>, includes the set union of all
+        the <code>ALIGNMENT</code>s which can be produced by
         <emphasis>alignment</emphasis> from any <code>SHAPE</code>. Note that
         <emphasis>var_intro</emphasis> does not contain an <code>ACCESS</code>
-        component and so cannot be marked <emphasis>visible</emphasis>. Hence
-        it is not a possible argument of <emphasis>env_offset</emphasis>.  If
-        present, <emphasis>var_intro</emphasis> is an original
-        pointer.
+        component and so cannot be marked <emphasis>visible</emphasis>. Hence it
+        is not a possible argument of <emphasis>env_offset</emphasis>. If
+        present, <emphasis>var_intro</emphasis> is an original pointer.
       </para>
 
       <para>
@@ -3993,8 +3972,8 @@
       </para>
 
       <para>
-        The <code>SHAPE</code>s in the parameters specify the
-        <code>SHAPE</code> of the corresponding <code>TAG</code>s.
+        The <code>SHAPE</code>s in the parameters specify the <code>SHAPE</code>
+        of the corresponding <code>TAG</code>s.
       </para>
 
       <para>
@@ -4007,28 +3986,27 @@
         In <emphasis>body</emphasis> the only <code>TAG</code>s which may be
         used as an argument of <emphasis>obtain_tag</emphasis> are those which
         are declared by <emphasis>identify</emphasis> or
-        <emphasis>variable</emphasis> constructions in
-        <emphasis>body</emphasis> and which are in scope, or <code>TAG</code>s
-        which are declared by <emphasis>make_id_tagdef</emphasis>,
+        <emphasis>variable</emphasis> constructions in <emphasis>body</emphasis>
+        and which are in scope, or <code>TAG</code>s which are declared by
+        <emphasis>make_id_tagdef</emphasis>,
         <emphasis>make_var_tagdef</emphasis> or
         <emphasis>common_tagdef</emphasis> or are in
-        <emphasis>params_intro</emphasis> or <emphasis>var_intro</emphasis>.
-        If a <emphasis>make_proc</emphasis> occurs in
-        <emphasis>body</emphasis> its <code>TAG</code>s are not in scope.
+        <emphasis>params_intro</emphasis> or <emphasis>var_intro</emphasis>.  If
+        a <emphasis>make_proc</emphasis> occurs in <emphasis>body</emphasis> its
+        <code>TAG</code>s are not in scope.
       </para>
 
       <para>
         The argument of every <emphasis>return</emphasis> construction in
         <emphasis>body</emphasis> will have <code>SHAPE</code>
-        <emphasis>result_shape</emphasis>. Every
-        <emphasis>apply_proc</emphasis> using the procedure will specify the
-        <code>SHAPE</code> of it result to be
-        <emphasis>result_shape</emphasis>.
+        <emphasis>result_shape</emphasis>. Every <emphasis>apply_proc</emphasis>
+        using the procedure will specify the <code>SHAPE</code> of it result to
+        be <emphasis>result_shape</emphasis>.
       </para>
 
       <para>
-        For notes on the intended implementation of procedures see
-        <!-- TODO link to 7.9 Procedures -->section 7.9<!-- end link -->.
+        For notes on the intended implementation of procedures see <!-- TODO
+        link to 7.9 Procedures -->section 7.9<!-- end link -->.
       </para>
     </section>
 
@@ -4057,20 +4035,20 @@
 
       <para>
         The result will be the same as if given by:<sbr/> Assume
-        <emphasis>stack_base</emphasis> is the current frame-pointer as given
-        by <emphasis>current_env</emphasis> in a hypothetical procedure P with
+        <emphasis>stack_base</emphasis> is the current frame-pointer as given by
+        <emphasis>current_env</emphasis> in a hypothetical procedure P with
         <emphasis>env_size</emphasis> equal to <emphasis>frame_size</emphasis>
         and which has generated <emphasis>alloc_size</emphasis> by a
-        <emphasis>local_alloc</emphasis>. If P then calls Q, the result will
-        be the same as that of a <emphasis>current_env</emphasis> performed
+        <emphasis>local_alloc</emphasis>. If P then calls Q, the result will be
+        the same as that of a <emphasis>current_env</emphasis> performed
         immediately in the body of Q.<sbr/> If the following construction is
         performed:<sbr/> set_stack_limit(make_stack_limit(current_env, F,
-        A))<sbr/> the frame space and local_alloc space that would be
-        available for use by this supposed call of Q will not be reused by
-        procedure calls with <emphasis>check_stack</emphasis> or uses of
+        A))<sbr/> the frame space and local_alloc space that would be available
+        for use by this supposed call of Q will not be reused by procedure calls
+        with <emphasis>check_stack</emphasis> or uses of
         <emphasis>local_alloc_check</emphasis> after the
-        <emphasis>set_stack_limit</emphasis>. Any attempt to do so will raise
-        a TDF exception, <emphasis>stack_overflow</emphasis>.
+        <emphasis>set_stack_limit</emphasis>. Any attempt to do so will raise a
+        TDF exception, <emphasis>stack_overflow</emphasis>.
       </para>
     </section>
 
@@ -4083,8 +4061,8 @@
                  -&gt; EXP TOP</programlisting>
 
       <para>
-        <emphasis>make_top</emphasis> delivers a value of <code>SHAPE
-        TOP</code> (i.e. <emphasis>void</emphasis>).
+        <emphasis>make_top</emphasis> delivers a value of <code>SHAPE TOP</code>
+        (i.e. <emphasis>void</emphasis>).
       </para>
     </section>
 
@@ -4098,21 +4076,20 @@
                  -&gt; EXP s</programlisting>
 
       <para>
-        This <code>EXP</code> creates some value with the representation of
-        the <code>SHAPE</code> <emphasis>s</emphasis>. This value will have
-        the correct size, but its representation is not specified. It can be
-        assigned, be the result of a <emphasis>contents</emphasis>, a
-        parameter or result of a procedure, or the result of any construction
-        (like <emphasis>sequence</emphasis>) which delivers the value
-        delivered by an internal <code>EXP</code>. But if it is used for
-        arithmetic or as a <code>POINTER</code> for taking
-        <emphasis>contents</emphasis> or <emphasis>add_to_ptr</emphasis> etc.
-        the effect is undefined.
+        This <code>EXP</code> creates some value with the representation of the
+        <code>SHAPE</code> <emphasis>s</emphasis>. This value will have the
+        correct size, but its representation is not specified. It can be
+        assigned, be the result of a <emphasis>contents</emphasis>, a parameter
+        or result of a procedure, or the result of any construction (like
+        <emphasis>sequence</emphasis>) which delivers the value delivered by an
+        internal <code>EXP</code>. But if it is used for arithmetic or as a
+        <code>POINTER</code> for taking <emphasis>contents</emphasis> or
+        <emphasis>add_to_ptr</emphasis> etc. the effect is undefined.
       </para>
 
       <para>
-        Installers will usually be able to implement this operation by
-        producing no code.
+        Installers will usually be able to implement this operation by producing
+        no code.
       </para>
 
       <para>
@@ -4137,8 +4114,8 @@
                  -&gt; EXP INTEGER(v)</programlisting>
 
       <para>
-        The arguments will be evaluated and the maximum of the values
-        delivered is the result.
+        The arguments will be evaluated and the maximum of the values delivered
+        is the result.
       </para>
     </section>
 
@@ -4153,8 +4130,8 @@
                  -&gt; EXP INTEGER(v)</programlisting>
 
       <para>
-        The arguments will be evaluated and the minimum of the values
-        delivered is the result.
+        The arguments will be evaluated and the minimum of the values delivered
+        is the result.
       </para>
     </section>
 
@@ -4174,15 +4151,14 @@
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
         <emphasis>v</emphasis>. The difference
-        <emphasis>a</emphasis>-<emphasis>b</emphasis> is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <emphasis>a</emphasis>-<emphasis>b</emphasis> is delivered as the result
+        of the construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
     </section>
 
@@ -4202,9 +4178,9 @@
         The arguments are evaluated to produce <emphasis>p1</emphasis>,
         <emphasis>p2</emphasis>, and <emphasis>sz</emphasis> respectively. A
         quantity of data measured by <emphasis>sz</emphasis> in the space
-        indicated by <emphasis>p1</emphasis> is moved to the space indicated
-        by <emphasis>p2</emphasis>.  The operation will be carried out as
-        specified by the <code>TRANSFER_MODE</code> (q.v.).
+        indicated by <emphasis>p1</emphasis> is moved to the space indicated by
+        <emphasis>p2</emphasis>.  The operation will be carried out as specified
+        by the <code>TRANSFER_MODE</code> (q.v.).
       </para>
 
       <para>
@@ -4213,16 +4189,15 @@
       </para>
 
       <para>
-        <emphasis>sz</emphasis> will be a non-negative <code>OFFSET</code>,
-        see <!-- TODO link to 5.16.87. offset_pad -->offset_pad<!-- end link
-        -->.
+        <emphasis>sz</emphasis> will be a non-negative <code>OFFSET</code>, see
+        <!-- TODO link to 5.16.87. offset_pad -->offset_pad<!-- end link -->.
       </para>
 
       <para>
         If the spaces of size <emphasis>sz</emphasis> to which
         <emphasis>p1</emphasis> and <emphasis>p2</emphasis> point do not lie
-        entirely within the spaces indicated by the original pointers from
-        which they are derived, the effect of the operation is undefined.
+        entirely within the spaces indicated by the original pointers from which
+        they are derived, the effect of the operation is undefined.
       </para>
 
       <para>
@@ -4231,8 +4206,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link
-        -->.
+        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link -->.
       </para>
     </section>
 
@@ -4251,16 +4225,15 @@
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
-        <emphasis>v</emphasis>.  The product
-        <emphasis>a</emphasis>*<emphasis>b</emphasis> is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <emphasis>v</emphasis>. The product
+        <emphasis>a</emphasis>*<emphasis>b</emphasis> is delivered as the result
+        of the construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
     </section>
 
@@ -4275,9 +4248,9 @@
                  -&gt; EXP NOF(n, x)</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> is evaluated and an <code>NOF</code> value
-        is delivered which contains <emphasis>n</emphasis> copies of this
-        value. <emphasis>n</emphasis> can be zero or one or greater.
+        <emphasis>arg1</emphasis> is evaluated and an <code>NOF</code> value is
+        delivered which contains <emphasis>n</emphasis> copies of this value.
+        <emphasis>n</emphasis> can be zero or one or greater.
       </para>
 
       <para>
@@ -4298,15 +4271,15 @@
 
       <para>
         <emphasis>arg1</emphasis> is evaluated and will produce an integer
-        value, <emphasis>a</emphasis>.  The value -<emphasis>a</emphasis> is
+        value, <emphasis>a</emphasis>. The value -<emphasis>a</emphasis> is
         delivered as the result of the construct, with the same
         <code>SHAPE</code> as the argument.
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
     </section>
 
@@ -4321,8 +4294,8 @@
 
       <para>
         The argument is evaluated producing an integer value, of
-        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the
-        bitwise <emphasis>not</emphasis> of this value in the representing
+        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the bitwise
+        <emphasis>not</emphasis> of this value in the representing
         <code>VARIETY</code>. The result is delivered as the result of the
         construct, with the same <code>SHAPE</code> as the arguments.
       </para>
@@ -4344,7 +4317,7 @@
 
       <para>
         The value with which the <code>TAG</code> <emphasis>t</emphasis> is
-        bound is delivered.  The <code>SHAPE</code> of the result is the
+        bound is delivered. The <code>SHAPE</code> of the result is the
         <code>SHAPE</code> of the value with which the <code>TAG</code> is
         bound.
       </para>
@@ -4361,8 +4334,8 @@
                  -&gt; EXP OFFSET(x, t)</programlisting>
 
       <para>
-        The two arguments deliver <code>OFFSET</code>s. The result is the
-        sum of these <code>OFFSET</code>s, as an <code>OFFSET</code>.
+        The two arguments deliver <code>OFFSET</code>s. The result is the sum of
+        these <code>OFFSET</code>s, as an <code>OFFSET</code>.
       </para>
 
       <para>
@@ -4391,10 +4364,10 @@
 
       <para>
         The two arguments deliver <code>OFFSET</code>s, <emphasis>a</emphasis>
-        and <emphasis>b</emphasis>.  The result is <emphasis>a/b</emphasis>,
-        as an <code>INTEGER</code> of <code>VARIETY</code>,
-        <emphasis>v</emphasis>. Division is interpreted in the same sense
-        (with respect to remainder) as in <emphasis>div0</emphasis>.
+        and <emphasis>b</emphasis>.  The result is <emphasis>a/b</emphasis>, as
+        an <code>INTEGER</code> of <code>VARIETY</code>, <emphasis>v</emphasis>.
+        Division is interpreted in the same sense (with respect to remainder) as
+        in <emphasis>div0</emphasis>.
       </para>
 
       <para>
@@ -4457,8 +4430,7 @@
         <emphasis>In the simple memory model this operation is represented by
         maximum. The constraint that the second <code>ALIGNMENT</code>
         parameters are both y is to permit the representation of
-        <code>OFFSET</code>s in installers by a simple
-        homomorphism.</emphasis>
+        <code>OFFSET</code>s in installers by a simple homomorphism.</emphasis>
       </para>
     </section>
 
@@ -4499,8 +4471,8 @@
       </para>
 
       <para>
-        <emphasis>In the simple memory model this can be represented by negate.</emphasis>
-      </para>
+        <emphasis>In the simple memory model this can be represented by
+        negate.</emphasis> </para>
     </section>
 
     <section id="S22S87">
@@ -4514,12 +4486,11 @@
                  -&gt; EXP OFFSET(unite_alignments(z, a), a)</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> is evaluated giving
-        <emphasis>off</emphasis>. The next greater or equal
-        <code>OFFSET</code> at which a value of <code>ALIGNMENT</code>
-        <emphasis>a</emphasis> can be placed is delivered. That is, there
-        shall not exist an <code>OFFSET</code> of the same <code>SHAPE</code>
-        as the result which is greater than or equal to
+        <emphasis>arg1</emphasis> is evaluated giving <emphasis>off</emphasis>.
+        The next greater or equal <code>OFFSET</code> at which a value of
+        <code>ALIGNMENT</code> <emphasis>a</emphasis> can be placed is
+        delivered. That is, there shall not exist an <code>OFFSET</code> of the
+        same <code>SHAPE</code> as the result which is greater than or equal to
         <emphasis>off</emphasis> and less than the result, in the sense of
         <emphasis>offset_test</emphasis>.
       </para>
@@ -4592,8 +4563,7 @@
 
       <para>
         If <emphasis>a nt b</emphasis>, this construction yields
-        <code>TOP</code>. Otherwise control passes to
-        <emphasis>dest</emphasis>.
+        <code>TOP</code>. Otherwise control passes to <emphasis>dest</emphasis>.
       </para>
 
       <para>
@@ -4606,8 +4576,8 @@
       <para>
         <emphasis>a greater_than_or_equal b</emphasis> is equivalent to
         <emphasis>offset_max</emphasis>(<emphasis>a</emphasis>,
-        <emphasis>b</emphasis>) = <emphasis>a</emphasis>, and similarly for
-        the other comparisons.
+        <emphasis>b</emphasis>) = <emphasis>a</emphasis>, and similarly for the
+        other comparisons.
       </para>
 
       <para>
@@ -4651,11 +4621,10 @@
 
       <para>
         The arguments are evaluated producing integer values of the same
-        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the
-        bitwise <emphasis>or</emphasis> of these two integers in the
-        representing <code>VARIETY</code>. The result is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the bitwise
+        <emphasis>or</emphasis> of these two integers in the representing
+        <code>VARIETY</code>. The result is delivered as the result of the
+        construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -4679,16 +4648,15 @@
         <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
-        <emphasis>v</emphasis>.  The sum
-        <emphasis>a</emphasis>+<emphasis>b</emphasis> is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <emphasis>v</emphasis>. The sum
+        <emphasis>a</emphasis>+<emphasis>b</emphasis> is delivered as the result
+        of the construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
     </section>
 
@@ -4714,14 +4682,13 @@
 
       <para>
         If <emphasis>a nt b</emphasis>, this construction yields
-        <code>TOP</code>. Otherwise control passes to
-        <emphasis>dest</emphasis>.
+        <code>TOP</code>. Otherwise control passes to <emphasis>dest</emphasis>.
       </para>
 
       <para>
         If <emphasis>prob</emphasis> is present, <emphasis>prob</emphasis>/100
         gives the probability that control will continue to the next construct
-        (ie. not pass to <emphasis>dest</emphasis>).  If
+        (ie. not pass to <emphasis>dest</emphasis>). If
         <emphasis>prob</emphasis> is absent this probability is unknown.
       </para>
 
@@ -4755,15 +4722,15 @@
                  -&gt; EXP INTEGER(v)</programlisting>
 
       <para>
-        <emphasis>arg2</emphasis> will be non-negative. The result is the
-        result of <emphasis>arg1</emphasis> raised to the power given by
+        <emphasis>arg2</emphasis> will be non-negative. The result is the result
+        of <emphasis>arg1</emphasis> raised to the power given by
         <emphasis>arg2</emphasis>.
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
     </section>
 
@@ -4791,8 +4758,7 @@
 
       <para>
         If <emphasis>a nt b</emphasis>, this construction yields
-        <code>TOP</code>. Otherwise control passes to
-        <emphasis>dest</emphasis>.
+        <code>TOP</code>. Otherwise control passes to <emphasis>dest</emphasis>.
       </para>
 
       <para>
@@ -4825,8 +4791,8 @@
       </para>
 
       <para>
-        All uses of <emphasis>profile</emphasis> in the same capsule are to
-        the same scale.  They will be mutually consistent.
+        All uses of <emphasis>profile</emphasis> in the same capsule are to the
+        same scale.  They will be mutually consistent.
       </para>
     </section>
 
@@ -4863,10 +4829,10 @@
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
         <emphasis>v</emphasis>. The value <emphasis>a</emphasis> M1
         <emphasis>b</emphasis> or the value <emphasis>a</emphasis> M2
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments. Different
-        occurrences of <emphasis>rem0</emphasis> in the same capsule can use
-        M1 or M2 independently.
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments. Different occurrences of
+        <emphasis>rem0</emphasis> in the same capsule can use M1 or M2
+        independently.
       </para>
 
       <para>
@@ -4891,15 +4857,14 @@
       <para>
         If <emphasis>b</emphasis> is not zero and
         <emphasis>div0</emphasis>(<emphasis>a</emphasis>,
-        <emphasis>b</emphasis>) cannot be expressed in the
-        <code>VARIETY</code> being used to represent <emphasis>v</emphasis> an
-        overflow may occur in which case it is handled by
-        <emphasis>ov_err</emphasis>.
+        <emphasis>b</emphasis>) cannot be expressed in the <code>VARIETY</code>
+        being used to represent <emphasis>v</emphasis> an overflow may occur in
+        which case it is handled by <emphasis>ov_err</emphasis>.
       </para>
 
       <para>
-        Producers may assume that suitable masking and
-        <emphasis>rem0</emphasis> by a power of two yield equally good code.
+        Producers may assume that suitable masking and <emphasis>rem0</emphasis>
+        by a power of two yield equally good code.
       </para>
 
       <para>
@@ -4925,8 +4890,8 @@
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
         <emphasis>v</emphasis>. The value <emphasis>a</emphasis> M1
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments.
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -4937,15 +4902,14 @@
       <para>
         If <emphasis>b</emphasis> is not zero and
         <emphasis>div1</emphasis>(<emphasis>a</emphasis>,
-        <emphasis>b</emphasis>) cannot be expressed in the
-        <code>VARIETY</code> being used to represent <emphasis>v</emphasis> an
-        overflow may occur, in which case it is handled by
-        <emphasis>ov_err</emphasis>.
+        <emphasis>b</emphasis>) cannot be expressed in the <code>VARIETY</code>
+        being used to represent <emphasis>v</emphasis> an overflow may occur, in
+        which case it is handled by <emphasis>ov_err</emphasis>.
       </para>
 
       <para>
-        Producers may assume that suitable masking and
-        <emphasis>rem1</emphasis> by a power of two yield equally good code.
+        Producers may assume that suitable masking and <emphasis>rem1</emphasis>
+        by a power of two yield equally good code.
       </para>
 
       <para>
@@ -4971,8 +4935,8 @@
         and will produce integer values, <emphasis>a</emphasis> and
         <emphasis>b</emphasis>, of the same <code>VARIETY</code>,
         <emphasis>v</emphasis>. The value <emphasis>a</emphasis> M2
-        <emphasis>b</emphasis> is delivered as the result of the construct,
-        with the same <code>SHAPE</code> as the arguments.
+        <emphasis>b</emphasis> is delivered as the result of the construct, with
+        the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -4983,16 +4947,15 @@
       <para>
         If <emphasis>b</emphasis> is not zero and
         <emphasis>div2</emphasis>(<emphasis>a</emphasis>,
-        <emphasis>b</emphasis>) cannot be expressed in the
-        <code>VARIETY</code> being used to represent <emphasis>v</emphasis> an
-        overflow may occur, in which case it is handled by
-        <emphasis>ov_err</emphasis>.
+        <emphasis>b</emphasis>) cannot be expressed in the <code>VARIETY</code>
+        being used to represent <emphasis>v</emphasis> an overflow may occur, in
+        which case it is handled by <emphasis>ov_err</emphasis>.
       </para>
 
       <para>
-        Producers may assume that suitable masking and
-        <emphasis>rem2</emphasis> by a power of two yield equally good code if
-        the lower bound of <emphasis>v</emphasis> is zero.
+        Producers may assume that suitable masking and <emphasis>rem2</emphasis>
+        by a power of two yield equally good code if the lower bound of
+        <emphasis>v</emphasis> is zero.
       </para>
 
       <para>
@@ -5013,8 +4976,8 @@
                  -&gt; EXP y</programlisting>
 
       <para>
-        <emphasis>start</emphasis> is evaluated. Then
-        <emphasis>body</emphasis> is evaluated.
+        <emphasis>start</emphasis> is evaluated. Then <emphasis>body</emphasis>
+        is evaluated.
       </para>
 
       <para>
@@ -5022,18 +4985,18 @@
         the whole construction. However if <emphasis>goto</emphasis> or any
         other jump to <emphasis>replab_intro</emphasis> is encountered during
         the evaluation then the current evaluation stops and
-        <emphasis>body</emphasis> is evaluated again. In the canonical order
-        all evaluated components are completely evaluated before any of the
-        next iteration of <emphasis>body</emphasis>. The lifetime of
+        <emphasis>body</emphasis> is evaluated again. In the canonical order all
+        evaluated components are completely evaluated before any of the next
+        iteration of <emphasis>body</emphasis>. The lifetime of
         <emphasis>replab_intro</emphasis> is the evaluation of
         <emphasis>body</emphasis>.
       </para>
 
       <para>
         The actual order of evaluation of the constituents shall be
-        indistinguishable in all observable effects (apart from time) from
-        that described above. Note that this specifically includes any defined
-        error handling.
+        indistinguishable in all observable effects (apart from time) from that
+        described above. Note that this specifically includes any defined error
+        handling.
       </para>
     </section>
 
@@ -5059,8 +5022,8 @@
       </para>
 
       <para>
-        All uses of <emphasis>return</emphasis> in the
-        <emphasis>body</emphasis> of a <emphasis>make_proc</emphasis> or
+        All uses of <emphasis>return</emphasis> in the <emphasis>body</emphasis>
+        of a <emphasis>make_proc</emphasis> or
         <emphasis>make_general_proc</emphasis> will have
         <emphasis>arg1</emphasis> with the same <code>SHAPE</code>.
       </para>
@@ -5081,8 +5044,8 @@
       </para>
 
       <para>
-        The evaluation of the immediately enclosing procedure ceases and
-        control is passed to the calling procedure at the label given by
+        The evaluation of the immediately enclosing procedure ceases and control
+        is passed to the calling procedure at the label given by
         <emphasis>lab_val</emphasis>.
       </para>
     </section>
@@ -5100,16 +5063,16 @@
                  -&gt; EXP INTEGER(r)</programlisting>
 
       <para>
-        <emphasis>arg</emphasis> is evaluated to produce a floating point
-        value, <emphasis>v</emphasis>.  This is rounded to an integer of
+        <emphasis>arg</emphasis> is evaluated to produce a floating point value,
+        <emphasis>v</emphasis>. This is rounded to an integer of
         <code>VARIETY</code>, <emphasis>r</emphasis>, using the
         <code>ROUNDING_MODE</code>, <emphasis>mode</emphasis>. This is the
         result of the construction.
       </para>
 
       <para>
-        If <emphasis>f</emphasis> is complex the result is derived from the
-        real part of <emphasis>arg1</emphasis>.
+        If <emphasis>f</emphasis> is complex the result is derived from the real
+        part of <emphasis>arg1</emphasis>.
       </para>
 
       <para>
@@ -5135,9 +5098,8 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis> will be non-negative and will be strictly
-        less than the number of bits needed to represent
-        <emphasis>v</emphasis>.
+        <emphasis>arg2</emphasis> will be non-negative and will be strictly less
+        than the number of bits needed to represent <emphasis>v</emphasis>.
       </para>
 
       <para>
@@ -5162,9 +5124,8 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis> will be non-negative and will be strictly
-        less than the number of bits needed to represent
-        <emphasis>v</emphasis>.
+        <emphasis>arg2</emphasis> will be non-negative and will be strictly less
+        than the number of bits needed to represent <emphasis>v</emphasis>.
       </para>
 
       <para>
@@ -5186,18 +5147,17 @@
       <para>
         The statements are evaluated in the same order as the list,
         <emphasis>statements</emphasis>, and their results are discarded. Then
-        <emphasis>result</emphasis> is evaluated and its result forms the
-        result of the construction.
+        <emphasis>result</emphasis> is evaluated and its result forms the result
+        of the construction.
       </para>
 
       <para>
         A canonical order is one in which all the components of each statement
         are completely evaluated before any component of the next statement is
-        started. A similar constraint applies between the last statement and
-        the <emphasis>result</emphasis>. The actual order in which the
-        statements and their components are evaluated shall be
-        indistinguishable in all observable effects (apart from time) from a
-        canonical order.
+        started. A similar constraint applies between the last statement and the
+        <emphasis>result</emphasis>. The actual order in which the statements
+        and their components are evaluated shall be indistinguishable in all
+        observable effects (apart from time) from a canonical order.
       </para>
 
       <para>
@@ -5207,9 +5167,9 @@
       </para>
 
       <para>
-        Hence constructions with <emphasis>impossible</emphasis> error
-        handlers may be performed before or after those with specified error
-        handlers, if the resulting order is otherwise acceptable.
+        Hence constructions with <emphasis>impossible</emphasis> error handlers
+        may be performed before or after those with specified error handlers, if
+        the resulting order is otherwise acceptable.
       </para>
     </section>
 
@@ -5227,26 +5187,25 @@
         stack space to <emphasis>lim</emphasis>. This include both the frame
         stack limit and the local_alloc stack. Note that, in implementations
         where the frame stack and local_alloc stack are distinct, this pointer
-        will have a special representation, appropriate to its frame
-        alignment. Thus the pointer should always be generated using
+        will have a special representation, appropriate to its frame alignment.
+        Thus the pointer should always be generated using
         <emphasis>make_stack_limit</emphasis> or its equivalent formation.
       </para>
 
       <para>
         Any later <emphasis>apply_general_proc</emphasis> with
-        <code>PROCPROPS</code> including <emphasis>check_stack</emphasis> up
-        to the dynamically next <emphasis>set_stack_limit</emphasis> will
-        check that the frame required for the procedure will be within the
-        frame stack limit. If it is not, normal execution is stopped and a TDF
-        exception with ERROR_code <emphasis>stack_overflow</emphasis> is
-        raised.
+        <code>PROCPROPS</code> including <emphasis>check_stack</emphasis> up to
+        the dynamically next <emphasis>set_stack_limit</emphasis> will check
+        that the frame required for the procedure will be within the frame stack
+        limit. If it is not, normal execution is stopped and a TDF exception
+        with ERROR_code <emphasis>stack_overflow</emphasis> is raised.
       </para>
 
       <para>
         Any later <emphasis>local_alloc_check</emphasis> will check that the
-        locally allocated space required is within the local_alloc stack
-        limit. If it is not, normal execution is stopped and a TDF exception
-        with ERROR_code <emphasis>stack_overflow</emphasis> is raised.
+        locally allocated space required is within the local_alloc stack limit.
+        If it is not, normal execution is stopped and a TDF exception with
+        ERROR_code <emphasis>stack_overflow</emphasis> is raised.
       </para>
     </section>
 
@@ -5268,18 +5227,17 @@
         Suppose that a value of <code>SHAPE</code>, <emphasis>s</emphasis>, is
         placed in a space indicated by a
         <code>POINTER</code>(<emphasis>x</emphasis>), <emphasis>p</emphasis>,
-        where <emphasis>x</emphasis> includes
-        <emphasis>alignment(s</emphasis>). Suppose that a value of
-        <code>SHAPE</code>, <emphasis>t</emphasis>, where
-        <emphasis>a</emphasis> is
+        where <emphasis>x</emphasis> includes <emphasis>alignment(s</emphasis>).
+        Suppose that a value of <code>SHAPE</code>, <emphasis>t</emphasis>,
+        where <emphasis>a</emphasis> is
         <emphasis>alignment</emphasis>(<emphasis>t</emphasis>) and
-        <emphasis>x</emphasis> includes <emphasis>a</emphasis>, is placed
-        at
+        <emphasis>x</emphasis> includes <emphasis>a</emphasis>, is placed at
       </para>
 
       <para>
-        <emphasis>add_to_ptr</emphasis>(<emphasis>p</emphasis>, <emphasis>offset_pad(a,
-          shape_offset</emphasis>(<emphasis>s</emphasis>)))
+        <emphasis>add_to_ptr</emphasis>(<emphasis>p</emphasis>,
+        <emphasis>offset_pad(a,
+        shape_offset</emphasis>(<emphasis>s</emphasis>)))
       </para>
 
       <para>
@@ -5314,9 +5272,9 @@
       </para>
 
       <para>
-        If the result cannot be expressed in the <code>VARIETY</code> being
-        used to represent <emphasis>v</emphasis>, an overflow error is caused
-        and is handled in the way specified by <emphasis>ov_err</emphasis>.
+        If the result cannot be expressed in the <code>VARIETY</code> being used
+        to represent <emphasis>v</emphasis>, an overflow error is caused and is
+        handled in the way specified by <emphasis>ov_err</emphasis>.
       </para>
 
       <para>
@@ -5350,8 +5308,8 @@
       </para>
 
       <para>
-        If the lower bound of <emphasis>v</emphasis> is negative, the sign
-        will be propagated.
+        If the lower bound of <emphasis>v</emphasis> is negative, the sign will
+        be propagated.
       </para>
     </section>
 
@@ -5366,13 +5324,12 @@
                  -&gt; EXP OFFSET(x, y)</programlisting>
 
       <para>
-        <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated
-        to produce pointers <emphasis>p1</emphasis> and
-        <emphasis>p2</emphasis>, which will be derived from the same original
-        pointer.  The result, <emphasis>r</emphasis>, is the
-        <code>OFFSET</code> from <emphasis>p2</emphasis> to
-        <emphasis>p1</emphasis>. Both arguments will be derived from the same
-        original pointer.
+        <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are evaluated to
+        produce pointers <emphasis>p1</emphasis> and <emphasis>p2</emphasis>,
+        which will be derived from the same original pointer.  The result,
+        <emphasis>r</emphasis>, is the <code>OFFSET</code> from
+        <emphasis>p2</emphasis> to <emphasis>p1</emphasis>. Both arguments will
+        be derived from the same original pointer.
       </para>
 
       <para>
@@ -5434,9 +5391,9 @@
       </para>
 
       <para>
-        <emphasis>untidy_return</emphasis> can only occur in a procedure
-        defined by <emphasis>make_general_proc</emphasis> with
-        <code>PROCPROPS</code> including <emphasis>untidy</emphasis>.
+        <emphasis>untidy_return</emphasis> can only occur in a procedure defined
+        by <emphasis>make_general_proc</emphasis> with <code>PROCPROPS</code>
+        including <emphasis>untidy</emphasis>.
       </para>
     </section>
 
@@ -5457,9 +5414,9 @@
         <emphasis>v</emphasis>. Space is allocated to hold a value of
         <code>SHAPE</code> <emphasis>x</emphasis> and this is initialised with
         <emphasis>v</emphasis>. Then <emphasis>body</emphasis> is evaluated.
-        During this evaluation, an original <code>POINTER</code> pointing to
-        the allocated space is bound to <emphasis>name_intro</emphasis>. This
-        means that inside <emphasis>body</emphasis> an evaluation of
+        During this evaluation, an original <code>POINTER</code> pointing to the
+        allocated space is bound to <emphasis>name_intro</emphasis>. This means
+        that inside <emphasis>body</emphasis> an evaluation of
         <emphasis>obtain_tag</emphasis>(<emphasis>name_intro</emphasis>) will
         produce a <code>POINTER</code> to this space. The lifetime of
         <emphasis>name_intro</emphasis> is the evaluation of
@@ -5467,26 +5424,25 @@
       </para>
 
       <para>
-        The value delivered by <emphasis>variable</emphasis> is that produced
-        by <emphasis>body</emphasis>.
+        The value delivered by <emphasis>variable</emphasis> is that produced by
+        <emphasis>body</emphasis>.
       </para>
 
       <para>
         If <emphasis>opt_access</emphasis> contains
         <emphasis>visible</emphasis>, it means that the contents of the space
         may be altered while the procedure containing this declaration is not
-        the current procedure. Hence if there are any copies of this value
-        they will need to be refreshed from the variable when the procedure is
+        the current procedure. Hence if there are any copies of this value they
+        will need to be refreshed from the variable when the procedure is
         returned to. The easiest implementation when
         <emphasis>opt_access</emphasis> is <emphasis>visible</emphasis> may be
         to keep the value in memory, but this is not a necessary requirement.
       </para>
 
       <para>
-        The <code>TAG</code> given for <emphasis>name_intro</emphasis> will
-        not be reused within the current <code>UNIT</code>. No rules for the
-        hiding of one <code>TAG</code> by another are given: this will not
-        happen.
+        The <code>TAG</code> given for <emphasis>name_intro</emphasis> will not
+        be reused within the current <code>UNIT</code>. No rules for the hiding
+        of one <code>TAG</code> by another are given: this will not happen.
       </para>
 
       <para>
@@ -5500,8 +5456,8 @@
 
       <para>
         When compiling languages which permit uninitialised variable
-        declarations, <emphasis>make_value</emphasis> may be used to provide
-        an initialisation.
+        declarations, <emphasis>make_value</emphasis> may be used to provide an
+        initialisation.
       </para>
     </section>
 
@@ -5517,11 +5473,10 @@
 
       <para>
         The arguments are evaluated producing integer values of the same
-        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the
-        bitwise <emphasis>xor</emphasis> of these two integers in the
-        representing <code>VARIETY</code>. The result is delivered as the
-        result of the construct, with the same <code>SHAPE</code> as the
-        arguments.
+        <code>VARIETY</code>, <emphasis>v</emphasis>. The result is the bitwise
+        <emphasis>xor</emphasis> of these two integers in the representing
+        <code>VARIETY</code>. The result is delivered as the result of the
+        construct, with the same <code>SHAPE</code> as the arguments.
       </para>
 
       <para>
@@ -5612,8 +5567,8 @@
       <para>
         <emphasis>make_capsule</emphasis> requires a
         <code>SLIST</code>(<code>EXTERN_LINK</code>) to express the links
-        between the linkable entities and the named (by
-        <code>EXTERNAL</code>s) values outside the <code>CAPSULE</code>.
+        between the linkable entities and the named (by <code>EXTERNAL</code>s)
+        values outside the <code>CAPSULE</code>.
       </para>
     </section>
   </section>
@@ -5663,13 +5618,13 @@
                  -&gt; FLOATING_VARIETY</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -5687,22 +5642,21 @@
 
       <para>
         <emphasis>base</emphasis> is the base with respect to which the
-        remaining numbers refer. <emphasis>base</emphasis> will be a power of
-        2.
+        remaining numbers refer. <emphasis>base</emphasis> will be a power of 2.
       </para>
 
       <para>
         <emphasis>mantissa_digs</emphasis> is the required number of
-        <emphasis>base</emphasis> digits, <emphasis>q</emphasis>, such that
-        any number with <emphasis>q</emphasis> digits can be rounded to a
-        floating point number of the variety and back again without any change
-        to the <emphasis>q</emphasis> digits.
+        <emphasis>base</emphasis> digits, <emphasis>q</emphasis>, such that any
+        number with <emphasis>q</emphasis> digits can be rounded to a floating
+        point number of the variety and back again without any change to the
+        <emphasis>q</emphasis> digits.
       </para>
 
       <para>
         <emphasis>min_exponent</emphasis> is the negative of the required
-        minimum integer such that <emphasis>base</emphasis> raised to that
-        power can be represented as a non-zero floating point number in the
+        minimum integer such that <emphasis>base</emphasis> raised to that power
+        can be represented as a non-zero floating point number in the
         <code>FLOATING_VARIETY</code>.
       </para>
 
@@ -5714,11 +5668,11 @@
 
       <para>
         A TDF translator is required to make available a representing
-        <code>FLOATING_VARIETY</code> such that, if only values within the
-        given requirements are produced, no overflow error will occur. Where
-        several such representative <code>FLOATING_VARIETY</code>s exist, the
-        translator will choose one to minimise space requirements or maximise
-        the speed of operations.
+        <code>FLOATING_VARIETY</code> such that, if only values within the given
+        requirements are produced, no overflow error will occur. Where several
+        such representative <code>FLOATING_VARIETY</code>s exist, the translator
+        will choose one to minimise space requirements or maximise the speed of
+        operations.
       </para>
 
       <para>
@@ -5726,8 +5680,7 @@
         required to be represented exactly where M and N are integers such
         that<sbr/> <emphasis>base</emphasis><emphasis>q-1</emphasis>  M &lt;
         <emphasis>base</emphasis><emphasis>q</emphasis><sbr/>
-        -<emphasis>min_exponent</emphasis>  N
-        <emphasis>max_exponent</emphasis>
+        -<emphasis>min_exponent</emphasis>  N <emphasis>max_exponent</emphasis>
       </para>
 
       <para>
@@ -5751,9 +5704,9 @@
       <para>
         A <code>FLOATING_VARIETY</code> described by
         <emphasis>complex_parms</emphasis> holds a complex number which is
-        likely to be represented by its real and imaginary parts, each of
-        which is as if defined by <emphasis>flvar_parms</emphasis> with the
-        same arguments.
+        likely to be represented by its real and imaginary parts, each of which
+        is as if defined by <emphasis>flvar_parms</emphasis> with the same
+        arguments.
       </para>
     </section>
 
@@ -5805,8 +5758,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
     <para>
-      A <code>GROUP</code> is a list of <code>UNIT</code>s with the same
-      unit identification.
+      A <code>GROUP</code> is a list of <code>UNIT</code>s with the same unit
+      identification.
     </para>
 
     <section id="S26S1">
@@ -5821,8 +5774,8 @@
       <para>
         <emphasis>make_capsule</emphasis> contains a list of
         <code>GROUPS</code>. Each member of this list has a different unit
-        identification deduced from the <emphasis>prop_name</emphasis>
-        argument of <emphasis>make_capsule</emphasis>.
+        identification deduced from the <emphasis>prop_name</emphasis> argument
+        of <emphasis>make_capsule</emphasis>.
       </para>
     </section>
   </section>
@@ -5885,8 +5838,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
     <para>
-      A <code>LINK</code> expresses the connection between two variables of
-      the same <code>SORT</code>.
+      A <code>LINK</code> expresses the connection between two variables of the
+      same <code>SORT</code>.
     </para>
 
     <section id="S28S1">
@@ -5938,13 +5891,13 @@
                  -&gt; LINKEXTERN</programlisting>
 
       <para>
-        <emphasis>make_linkextern</emphasis> produces a
-        <code>LINKEXTERN</code> connecting an object identified within a
-        <code>CAPSULE</code> by a <code>TAG</code>, <code>TOKEN</code>,
-        <code>AL_TAG</code> or any linkable entity constructed from
-        <emphasis>internal</emphasis>, with an <code>EXTERNAL</code>,
-        <emphasis>ext</emphasis>. The <code>EXTERNAL</code> is an identifier
-        which linkers and similar programs can use.
+        <emphasis>make_linkextern</emphasis> produces a <code>LINKEXTERN</code>
+        connecting an object identified within a <code>CAPSULE</code> by a
+        <code>TAG</code>, <code>TOKEN</code>, <code>AL_TAG</code> or any
+        linkable entity constructed from <emphasis>internal</emphasis>, with an
+        <code>EXTERNAL</code>, <emphasis>ext</emphasis>. The
+        <code>EXTERNAL</code> is an identifier which linkers and similar
+        programs can use.
       </para>
     </section>
   </section>
@@ -5966,10 +5919,10 @@
 
       <para>
         <emphasis>make_unit</emphasis> uses a
-        <code>SLIST</code>(<code>LINKS</code>) to define which linkable
-        entities within a <code>UNIT</code> correspond to the
-        <code>CAPSULE</code> linkable entities. Each <code>LINK</code> in a
-        <code>LINKS</code> has the same linkable entity identification.
+        <code>SLIST</code>(<code>LINKS</code>) to define which linkable entities
+        within a <code>UNIT</code> correspond to the <code>CAPSULE</code>
+        linkable entities. Each <code>LINK</code> in a <code>LINKS</code> has
+        the same linkable entity identification.
       </para>
     </section>
   </section>
@@ -6018,13 +5971,13 @@
                  -&gt; NAT</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -6038,8 +5991,8 @@
                  -&gt; NAT</programlisting>
 
       <para>
-        <emphasis>arg</emphasis> will be an install-time non-negative
-        constant. The result is that constant.
+        <emphasis>arg</emphasis> will be an install-time non-negative constant.
+        The result is that constant.
       </para>
     </section>
 
@@ -6053,9 +6006,9 @@
                  -&gt; NAT</programlisting>
 
       <para>
-        Gives the <code>NAT</code> corresponding to the
-        <code>ERROR_code</code> <emphasis>err</emphasis>. Each distinct
-        <code>ERROR_code</code> will give a different <code>NAT</code>.
+        Gives the <code>NAT</code> corresponding to the <code>ERROR_code</code>
+        <emphasis>err</emphasis>. Each distinct <code>ERROR_code</code> will
+        give a different <code>NAT</code>.
       </para>
     </section>
 
@@ -6069,8 +6022,7 @@
                  -&gt; NAT</programlisting>
 
       <para>
-        <emphasis>n</emphasis> is a non-negative integer of unbounded
-        magnitude.
+        <emphasis>n</emphasis> is a non-negative integer of unbounded magnitude.
       </para>
     </section>
   </section>
@@ -6085,8 +6037,8 @@
       These describe the comparisons which are possible in the various
       <emphasis>test</emphasis> constructions. Note that
       <emphasis>greater_than</emphasis> is not necessarily the same as
-      <emphasis>not_less_than_or_equal</emphasis>, since the result need not
-      be defined (e.g. in IEEE floating point).
+      <emphasis>not_less_than_or_equal</emphasis>, since the result need not be
+      defined (e.g. in IEEE floating point).
     </para>
 
     <section id="S32S1">
@@ -6123,13 +6075,13 @@
                  -&gt; NTEST</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -6302,8 +6254,8 @@
       </para>
 
       <para>
-        With all operands <code>SHAPE</code>s except <code>FLOATING</code>,
-        this comparison is always true.
+        With all operands <code>SHAPE</code>s except <code>FLOATING</code>, this
+        comparison is always true.
       </para>
     </section>
 
@@ -6320,8 +6272,8 @@
       </para>
 
       <para>
-        With all operands <code>SHAPE</code>s except <code>FLOATING</code>,
-        this comparison is always false.
+        With all operands <code>SHAPE</code>s except <code>FLOATING</code>, this
+        comparison is always false.
       </para>
     </section>
   </section>
@@ -6350,8 +6302,8 @@
       <para>
         <emphasis>e</emphasis> is evaluated and its value is the actual caller
         parameter. If <emphasis>tgopt</emphasis> is present, the
-        <code>TAG</code> will be bound to the final value of caller parameter
-        in the <emphasis>postlude</emphasis> part of the
+        <code>TAG</code> will be bound to the final value of caller parameter in
+        the <emphasis>postlude</emphasis> part of the
         <emphasis>apply_general_proc</emphasis>.
       </para>
     </section>
@@ -6379,8 +6331,7 @@
                  -&gt; PROCPROPS</programlisting>
 
       <para>
-        The token is applied to the arguments to give a
-        <code>PROCPROPS</code>.
+        The token is applied to the arguments to give a <code>PROCPROPS</code>.
       </para>
 
       <para>
@@ -6403,13 +6354,13 @@
                  -&gt; PROCPROPS</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -6450,8 +6401,7 @@
                  -&gt; PROCPROPS</programlisting>
 
       <para>
-        The procedure body is a good candidate for inlining at its
-        application.
+        The procedure body is a good candidate for inlining at its application.
       </para>
     </section>
 
@@ -6464,8 +6414,8 @@
                  -&gt; PROCPROPS</programlisting>
 
       <para>
-        The procedure body will contain no label which is the destination
-        of a long_jump.
+        The procedure body will contain no label which is the destination of a
+        long_jump.
       </para>
     </section>
 
@@ -6552,8 +6502,8 @@
 
       <listitem>
         <para>
-          definitions of the pieces of TDF program for which
-          <code>TOKEN</code>s stand;
+          definitions of the pieces of TDF program for which <code>TOKEN</code>s
+          stand;
         </para>
       </listitem>
 
@@ -6571,16 +6521,16 @@
     </itemizedlist>
 
     <para>
-      <code>PROPS</code> giving diagnostic information are described in
-      a separate document.
+      <code>PROPS</code> giving diagnostic information are described in a
+      separate document.
     </para>
 
     <para>
       The standard can be extended by the definition of new kinds of
       <code>PROPS</code> information and new <code>PROPS</code> constructs for
-      expressing them; and private standards can define new kinds of
-      information and corresponding constructs without disruption to adherents
-      to the present standard.
+      expressing them; and private standards can define new kinds of information
+      and corresponding constructs without disruption to adherents to the
+      present standard.
     </para>
 
     <para>
@@ -6642,13 +6592,13 @@
                  -&gt; ROUNDING_MODE</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -6674,8 +6624,8 @@
                  -&gt; ROUNDING_MODE</programlisting>
 
       <para>
-        Signifies rounding to nearest. The effect when the number lies
-        half-way is not specified.
+        Signifies rounding to nearest. The effect when the number lies half-way
+        is not specified.
       </para>
     </section>
 
@@ -6770,13 +6720,13 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -6791,27 +6741,26 @@
 
       <para>
         A <code>BITFIELD</code> is used to represent a pattern of bits which
-        will be packed, provided that the
-        <emphasis>variety_enclosed</emphasis> constraints are not violated.
-        (see See <!-- TODO link to 7.24. Representing bitfields -->section
-        7.24<!-- link end -->)
+        will be packed, provided that the <emphasis>variety_enclosed</emphasis>
+        constraints are not violated.  (see See <!-- TODO link to 7.24.
+        Representing bitfields -->section 7.24<!-- link end -->)
       </para>
 
       <para>
-        A <code>BITFIELD_VARIETY</code> specifies the number of bits and
-        whether they are considered to be signed.
+        A <code>BITFIELD_VARIETY</code> specifies the number of bits and whether
+        they are considered to be signed.
       </para>
 
       <para>
         There are very few operations on <code>BITFIELD</code>s, which have to
-        be converted to <code>INTEGER</code>s before arithmetic can be
-        performed on them.
+        be converted to <code>INTEGER</code>s before arithmetic can be performed
+        on them.
       </para>
 
       <para>
-        An installer may place a limit on the number of bits it implements.
-        See <!-- TODO link to 7.25. Permitted limits -->Permitted limits<!--
-        link end -->.
+        An installer may place a limit on the number of bits it implements.  See
+        <!-- TODO link to 7.25. Permitted limits -->Permitted limits<!-- link
+        end -->.
       </para>
     </section>
 
@@ -6824,8 +6773,8 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        <code>BOTTOM</code> is the <code>SHAPE</code> which describes a piece
-        of program which does not evaluate to any result. Examples include
+        <code>BOTTOM</code> is the <code>SHAPE</code> which describes a piece of
+        program which does not evaluate to any result. Examples include
         <emphasis>goto</emphasis> and <emphasis>return</emphasis>.
       </para>
 
@@ -6850,19 +6799,17 @@
       </para>
 
       <para>
-        The alignments <emphasis>x</emphasis> and <emphasis>y</emphasis> will
-        be <emphasis>alignment</emphasis>(<emphasis>sx</emphasis>) and
+        The alignments <emphasis>x</emphasis> and <emphasis>y</emphasis> will be
+        <emphasis>alignment</emphasis>(<emphasis>sx</emphasis>) and
         <emphasis>alignment</emphasis>(<emphasis>sy</emphasis>) for some
-        <code>SHAPE</code>s <emphasis>sx</emphasis> and
-        <emphasis>sy</emphasis>.
+        <code>SHAPE</code>s <emphasis>sx</emphasis> and <emphasis>sy</emphasis>.
       </para>
 
       <para>
         <emphasis>sz</emphasis> will evaluate to a constant, non-negative
-        <code>OFFSET</code>
-        (see <!-- TODO link to 5.16.87. offset_pad -->offset_pad<!-- end link
-        -->). The resulting <code>SHAPE</code> describes a value whose size is
-        given by <emphasis>sz</emphasis>.
+        <code>OFFSET</code> (see <!-- TODO link to 5.16.87. offset_pad
+        -->offset_pad<!-- end link -->). The resulting <code>SHAPE</code>
+        describes a value whose size is given by <emphasis>sz</emphasis>.
       </para>
     </section>
 
@@ -6877,24 +6824,23 @@
 
       <para>
         Most of the floating point arithmetic operations,
-        <emphasis>floating_plus</emphasis>,
-        <emphasis>floating_minus</emphasis> etc., are defined to work in the
-        same way on different kinds of floating point number. If these
-        operations have more than one argument the arguments have to be of the
-        same kind, and the result is of the same kind.
+        <emphasis>floating_plus</emphasis>, <emphasis>floating_minus</emphasis>
+        etc., are defined to work in the same way on different kinds of floating
+        point number. If these operations have more than one argument the
+        arguments have to be of the same kind, and the result is of the same
+        kind.
       </para>
 
       <para>
-        See <!-- TODO link to 7.20. Representing floating point
-        -->Representing floating point<!-- link end -->.
+        See <!-- TODO link to 7.20. Representing floating point -->Representing
+        floating point<!-- link end -->.
       </para>
 
       <para>
         An installer may limit the <code>FLOATING_VARIETY</code>s it can
         represent. A statement of any such limits shall be part of the
-        specification of an installer. See <!-- TODO link to 7.20.
-        Representing floating point -->Representing floating point<!-- link
-        end -->.
+        specification of an installer. See <!-- TODO link to 7.20.  Representing
+        floating point -->Representing floating point<!-- link end -->.
       </para>
     </section>
 
@@ -6908,12 +6854,11 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        The different kinds of <code>INTEGER</code> are distinguished by
-        having different <code>VARIETY</code>s. A fundamental
-        <code>VARIETY</code> (not a <code>TOKEN</code> or conditional) is
-        represented by two <code>SIGNED_NAT</code>s, respectively the lower
-        and upper bounds (inclusive) of the set of values belonging to the
-        <code>VARIETY</code>.
+        The different kinds of <code>INTEGER</code> are distinguished by having
+        different <code>VARIETY</code>s. A fundamental <code>VARIETY</code> (not
+        a <code>TOKEN</code> or conditional) is represented by two
+        <code>SIGNED_NAT</code>s, respectively the lower and upper bounds
+        (inclusive) of the set of values belonging to the <code>VARIETY</code>.
       </para>
 
       <para>
@@ -6941,11 +6886,11 @@
 
       <para>
         When any construct delivering an <code>INTEGER</code> of a given
-        <code>VARIETY</code> produces a result which is not representable in
-        the space which an installer has chosen to represent that
-        <code>VARIETY</code>, an integer overflow occurs. Whether it occurs in
-        a particular case depends on the target, because the installers'
-        decisions on representation are inherently target-defined.
+        <code>VARIETY</code> produces a result which is not representable in the
+        space which an installer has chosen to represent that
+        <code>VARIETY</code>, an integer overflow occurs. Whether it occurs in a
+        particular case depends on the target, because the installers' decisions
+        on representation are inherently target-defined.
       </para>
 
       <para>
@@ -6983,24 +6928,24 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        The <code>SHAPE</code> constructor <code>OFFSET</code> describes
-        values which represent the differences between <code>POINTER</code>s,
-        that is they measure offsets in memory. It should be emphasised that
-        these are in general run-time values.
+        The <code>SHAPE</code> constructor <code>OFFSET</code> describes values
+        which represent the differences between <code>POINTER</code>s, that is
+        they measure offsets in memory. It should be emphasised that these are
+        in general run-time values.
       </para>
 
       <para>
         An <code>OFFSET</code> measures the displacement from the value
         indicated by a <code>POINTER</code>(<emphasis>arg1</emphasis>) to the
         value indicated by a <code>POINTER</code>(<emphasis>arg2</emphasis>).
-        Such an offset is only defined if the <code>POINTER</code>s are
-        derived from the same original <code>POINTER</code>.
+        Such an offset is only defined if the <code>POINTER</code>s are derived
+        from the same original <code>POINTER</code>.
       </para>
 
       <para>
         An <code>OFFSET</code> may also measure the displacement from a
-        <code>POINTER</code> to the start of a <code>BITFIELD_VARIETY</code>,
-        or from the start of one <code>BITFIELD_VARIETY</code> to the start of
+        <code>POINTER</code> to the start of a <code>BITFIELD_VARIETY</code>, or
+        from the start of one <code>BITFIELD_VARIETY</code> to the start of
         another. Hence, unlike the argument of <emphasis>pointer</emphasis>,
         <emphasis>arg1</emphasis> or <emphasis>arg2</emphasis> may consist
         entirely of <code>BITFIELD_VARIETY</code>s.
@@ -7029,14 +6974,14 @@
       <para>
         A <code>POINTER</code> is a value which points to space allocated in a
         computer's memory. The <code>POINTER</code> constructor takes an
-        <code>ALIGNMENT</code> argument. This argument will not consist
-        entirely of <code>BITFIELD_VARIETY</code>s. See <!-- TODO link to
-        7.13. Memory Model -->Memory Model<!-- end link -->.
+        <code>ALIGNMENT</code> argument. This argument will not consist entirely
+        of <code>BITFIELD_VARIETY</code>s. See <!-- TODO link to 7.13. Memory
+        Model -->Memory Model<!-- end link -->.
       </para>
     </section>
 
     <section id="S37S11">
-      <title></title>
+      <title>proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
 
@@ -7044,8 +6989,8 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        <code>PROC</code> is the <code>SHAPE</code> which describes pieces
-        of program.
+        <code>PROC</code> is the <code>SHAPE</code> which describes pieces of
+        program.
       </para>
     </section>
 
@@ -7058,9 +7003,9 @@
                  -&gt; SHAPE</programlisting>
 
       <para>
-        <code>TOP</code> is the <code>SHAPE</code> which describes pieces
-        of program which return no useful value. assign is an example:
-        it performs an assignment, but does not deliver any useful value.
+        <code>TOP</code> is the <code>SHAPE</code> which describes pieces of
+        program which return no useful value. assign is an example: it performs
+        an assignment, but does not deliver any useful value.
       </para>
     </section>
   </section>
@@ -7086,8 +7031,7 @@
                  -&gt; SIGNED_NAT</programlisting>
 
       <para>
-        The token is applied to the arguments to give a
-        <code>SIGNED_NAT</code>.
+        The token is applied to the arguments to give a <code>SIGNED_NAT</code>.
       </para>
 
       <para>
@@ -7110,13 +7054,13 @@
                  -&gt; SIGNED_NAT</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -7130,8 +7074,8 @@
                  -&gt; SIGNED_NAT</programlisting>
 
       <para>
-        <emphasis>arg</emphasis> will be an install-time constant. The result
-        is that constant.
+        <emphasis>arg</emphasis> will be an install-time constant. The result is
+        that constant.
       </para>
     </section>
 
@@ -7146,9 +7090,8 @@
                  -&gt; SIGNED_NAT</programlisting>
 
       <para>
-        <emphasis>n</emphasis> is a non-negative integer of unbounded
-        magnitude. The result is negative if and only if
-        <emphasis>neg</emphasis> is true.
+        <emphasis>n</emphasis> is a non-negative integer of unbounded magnitude.
+        The result is negative if and only if <emphasis>neg</emphasis> is true.
       </para>
     </section>
 
@@ -7261,8 +7204,8 @@
                  -&gt; SORTNAME</programlisting>
 
       <para>
-        This <code>SORT</code> enables unanticipated kinds of information to
-        be placed in TDF.
+        This <code>SORT</code> enables unanticipated kinds of information to be
+        placed in TDF.
       </para>
     </section>
 
@@ -7372,8 +7315,8 @@
       </programlisting>
 
       <para>
-        The <code>SORTNAME</code> of a <code>TOKEN</code>. Note that it can
-        have tokens as parameters, but not as result.
+        The <code>SORTNAME</code> of a <code>TOKEN</code>. Note that it can have
+        tokens as parameters, but not as result.
       </para>
     </section>
 
@@ -7429,13 +7372,13 @@
                  -&gt; STRING(k, n)</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -7472,7 +7415,7 @@
   </section>
 
   <section id="S41">
-    <title></title>
+    <title>AL_TAG</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
@@ -7514,8 +7457,8 @@
                  -&gt; TAG x</programlisting>
 
       <para>
-        <emphasis>make_tag</emphasis> produces a <code>TAG</code> identified
-        by <emphasis>tagno</emphasis>.
+        <emphasis>make_tag</emphasis> produces a <code>TAG</code> identified by
+        <emphasis>tagno</emphasis>.
       </para>
     </section>
   </section>
@@ -7527,8 +7470,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
     <para>
-      Constructs a pair of a <code>TAG</code> and an
-      <code>OPTION(ACCESS)</code> for use in <emphasis>make_proc</emphasis>.
+      Constructs a pair of a <code>TAG</code> and an <code>OPTION(ACCESS)</code>
+      for use in <emphasis>make_proc</emphasis>.
     </para>
 
     <section id="S42S1">
@@ -7554,8 +7497,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
     <para>
-      A <code>TAGDEC</code> declares a <code>TAG</code> for incorporation
-      into a <code>TAGDEC_PROPS.</code>
+      A <code>TAGDEC</code> declares a <code>TAG</code> for incorporation into a
+      <code>TAGDEC_PROPS.</code>
     </para>
 
     <section id="S43S1">
@@ -7577,24 +7520,24 @@
       </para>
 
       <para>
-        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties
-        of the <code>TAG</code>.
+        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties of
+        the <code>TAG</code>.
       </para>
 
       <para>
-        If there is a <emphasis>make_id_tagdec</emphasis> for a
-        <code>TAG</code> then all other <emphasis>make_id_tagdec</emphasis>
-        for the same <code>TAG</code> will specify the same <code>SHAPE</code>
-        and there will be no <emphasis>make_var_tagdec</emphasis> or
+        If there is a <emphasis>make_id_tagdec</emphasis> for a <code>TAG</code>
+        then all other <emphasis>make_id_tagdec</emphasis> for the same
+        <code>TAG</code> will specify the same <code>SHAPE</code> and there will
+        be no <emphasis>make_var_tagdec</emphasis> or
         <emphasis>common_tagdec</emphasis> for the <code>TAG</code>.
       </para>
 
       <para>
         If two <emphasis>make_id_tagdecs</emphasis> specify the same tag and
         both have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in
-        <!-- TODO link to 7.28. Tag and Token signatures -->section 7.28<!--
-        end link -->.
+        identical. Possible uses of this signature argument are outlined in <!--
+        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- end link
+        -->.
       </para>
     </section>
 
@@ -7618,8 +7561,8 @@
       </para>
 
       <para>
-        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties
-        of the <code>TAG</code>.
+        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties of
+        the <code>TAG</code>.
       </para>
 
       <para>
@@ -7634,9 +7577,9 @@
       <para>
         If two <emphasis>make_var_tagdec</emphasis>s specify the same tag and
         both have <emphasis>signature</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in
-        <!-- TODO link to 7.28. Tag and Token signatures -->section 7.28<!--
-        link end -->.
+        identical. Possible uses of this signature argument are outlined in <!--
+        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
+        -->.
       </para>
     </section>
 
@@ -7660,28 +7603,27 @@
       </para>
 
       <para>
-        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties
-        of the <code>TAG</code>.
+        <emphasis>acc</emphasis> specifies the <code>ACCESS</code> properties of
+        the <code>TAG</code>.
       </para>
 
       <para>
-        If there is a <emphasis>common_tagdec</emphasis> for a
-        <code>TAG</code> then there will be no
-        <emphasis>make_id_tagdec</emphasis> or
-        <emphasis>make_var_tagdec</emphasis> for that <code>TAG</code>. If
-        there is more than one <emphasis>common_tagdec</emphasis> for a
-        <code>TAG</code> the one having the maximum <code>SHAPE</code> shall
-        be taken to apply for the <code>CAPSULE</code>. Each pair of such
+        If there is a <emphasis>common_tagdec</emphasis> for a <code>TAG</code>
+        then there will be no <emphasis>make_id_tagdec</emphasis> or
+        <emphasis>make_var_tagdec</emphasis> for that <code>TAG</code>. If there
+        is more than one <emphasis>common_tagdec</emphasis> for a
+        <code>TAG</code> the one having the maximum <code>SHAPE</code> shall be
+        taken to apply for the <code>CAPSULE</code>. Each pair of such
         <code>SHAPE</code>s will have a maximum. The maximum of two
-        <code>SHAPE</code>s, <emphasis>a</emphasis> and
-        <emphasis>b</emphasis>, is defined as follows:
+        <code>SHAPE</code>s, <emphasis>a</emphasis> and <emphasis>b</emphasis>,
+        is defined as follows:
       </para>
 
       <itemizedlist>
         <listitem>
           <para>
-            If the <emphasis>a</emphasis> is equal to <emphasis>b</emphasis>
-            the maximum is <emphasis>a</emphasis>.
+            If the <emphasis>a</emphasis> is equal to <emphasis>b</emphasis> the
+            maximum is <emphasis>a</emphasis>.
           </para>
         </listitem>
 
@@ -7691,40 +7633,38 @@
             <code>COMPOUND</code>(<emphasis>x</emphasis>) and
             <code>COMPOUND</code>(<emphasis>y</emphasis>) respectively and
             <emphasis>a</emphasis> is an initial segment of
-            <emphasis>b</emphasis>, then <emphasis>b</emphasis> is the
-            maximum. Similarly if <emphasis>b</emphasis> is an initial segment
-            of <emphasis>a</emphasis> then <emphasis>a</emphasis> is the
-            maximum.
+            <emphasis>b</emphasis>, then <emphasis>b</emphasis> is the maximum.
+            Similarly if <emphasis>b</emphasis> is an initial segment of
+            <emphasis>a</emphasis> then <emphasis>a</emphasis> is the maximum.
           </para>
         </listitem>
 
         <listitem>
           <para>
             If <emphasis>a</emphasis> and <emphasis>b</emphasis> are
-            <code>NOF</code>(<emphasis>n</emphasis>, <emphasis>x</emphasis>)
-            and <code>NOF</code>(<emphasis>m</emphasis>,
-            <emphasis>x</emphasis>) respectively and <emphasis>n</emphasis> is
-            less than or equal to <emphasis>m</emphasis>, then
-            <emphasis>b</emphasis> is the maximum.  Similarly if
-            <emphasis>m</emphasis> is less than or equal to
+            <code>NOF</code>(<emphasis>n</emphasis>, <emphasis>x</emphasis>) and
+            <code>NOF</code>(<emphasis>m</emphasis>, <emphasis>x</emphasis>)
+            respectively and <emphasis>n</emphasis> is less than or equal to
+            <emphasis>m</emphasis>, then <emphasis>b</emphasis> is the maximum.
+            Similarly if <emphasis>m</emphasis> is less than or equal to
             <emphasis>n</emphasis> then <emphasis>a</emphasis> is the maximum.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            Otherwise <emphasis>a</emphasis> and <emphasis>b</emphasis> have
-            no maximum.
+            Otherwise <emphasis>a</emphasis> and <emphasis>b</emphasis> have no
+            maximum.
           </para>
         </listitem>
       </itemizedlist>
 
       <para>
-        If two <emphasis>common_tagdecs</emphasis> specify the same tag and
-        both have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in
-        <!-- TODO link to 7.28. Tag and Token signatures -->section 7.28<!--
-        link end -->.
+        If two <emphasis>common_tagdecs</emphasis> specify the same tag and both
+        have <emphasis>signatures</emphasis> present, the strings will be
+        identical. Possible uses of this signature argument are outlined in <!--
+        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
+        -->.
       </para>
     </section>
   </section>
@@ -7749,8 +7689,8 @@
       <para>
         <emphasis>no_labels</emphasis> is the number of local
         <code>LABEL</code>s used in <emphasis>tds</emphasis>.
-        <emphasis>tds</emphasis> is a list of <code>TAGDEC</code>s which
-        declare the <code>SHAPE</code>s associated with <code>TAG</code>s.
+        <emphasis>tds</emphasis> is a list of <code>TAGDEC</code>s which declare
+        the <code>SHAPE</code>s associated with <code>TAG</code>s.
       </para>
     </section>
   </section>
@@ -7795,17 +7735,15 @@
         <emphasis>t</emphasis> will be declared in the <code>CAPSULE</code>
         using <emphasis>make_id_tagdec</emphasis>.  If both the
         <emphasis>make_id_tagdec</emphasis> and
-        <emphasis>make_id_tagdef</emphasis> have
-        <emphasis>signatures</emphasis> present, the strings will be
-        identical.
+        <emphasis>make_id_tagdef</emphasis> have <emphasis>signatures</emphasis>
+        present, the strings will be identical.
       </para>
 
       <para>
-        If <emphasis>x</emphasis> is <code>PROC</code> and the
-        <code>TAG</code> represented by <emphasis>t</emphasis> is named
-        externally via a <code>CAPSULE_LINK</code>, e will be some
-        <emphasis>make_proc</emphasis> or
-        <emphasis>make_general_proc</emphasis>.
+        If <emphasis>x</emphasis> is <code>PROC</code> and the <code>TAG</code>
+        represented by <emphasis>t</emphasis> is named externally via a
+        <code>CAPSULE_LINK</code>, e will be some <emphasis>make_proc</emphasis>
+        or <emphasis>make_general_proc</emphasis>.
       </para>
 
       <para>
@@ -7828,20 +7766,20 @@
 
       <para>
         <emphasis>make_var_tagdef</emphasis> produces a <code>TAGDEF</code>
-        defining the <code>TAG
-        POINTER</code>(<emphasis>alignment(x)</emphasis>) constructed from
-        the <code>TDFINT</code>, <emphasis>t</emphasis>. This <code>TAG</code>
-        stands for a variable which is initialised with the value delivered by
-        <emphasis>e</emphasis>.  The <code>TAG</code> is bound to an original
-        pointer which has the evaluation of the program as its lifetime.
+        defining the <code>TAG POINTER</code>(<emphasis>alignment(x)</emphasis>)
+        constructed from the <code>TDFINT</code>, <emphasis>t</emphasis>. This
+        <code>TAG</code> stands for a variable which is initialised with the
+        value delivered by <emphasis>e</emphasis>.  The <code>TAG</code> is
+        bound to an original pointer which has the evaluation of the program as
+        its lifetime.
       </para>
 
       <para>
         If <emphasis>opt_access</emphasis> contains
         <emphasis>visible</emphasis>, the meaning is that the variable may be
-        used by agents external to the capsule, and so it must not be
-        optimised away. If it contains constant, the initialising value will
-        remain in it throughout the program.
+        used by agents external to the capsule, and so it must not be optimised
+        away. If it contains constant, the initialising value will remain in it
+        throughout the program.
       </para>
 
       <para>
@@ -7857,8 +7795,7 @@
         using <emphasis>make_var_tagdec</emphasis>.  If both the
         <emphasis>make_var_tagdec</emphasis> and
         <emphasis>make_var_tagdef</emphasis> have
-        <emphasis>signatures</emphasis> present, the strings will be
-        identical.
+        <emphasis>signatures</emphasis> present, the strings will be identical.
       </para>
 
       <para>
@@ -7882,20 +7819,19 @@
       <para>
         <emphasis>common_tagdef</emphasis> produces a <code>TAGDEF</code>
         defining the <code>TAG</code>
-        <code>POINTER</code>(<emphasis>alignment(x)</emphasis>) constructed
-        from the <code>TDFINT</code>, <emphasis>t</emphasis>. This
-        <code>TAG</code> stands for a variable which is initialised with the
-        value delivered by <emphasis>e</emphasis>.  The <code>TAG</code> is
-        bound to an original pointer which has the evaluation of the program
-        as its lifetime.
+        <code>POINTER</code>(<emphasis>alignment(x)</emphasis>) constructed from
+        the <code>TDFINT</code>, <emphasis>t</emphasis>. This <code>TAG</code>
+        stands for a variable which is initialised with the value delivered by
+        <emphasis>e</emphasis>. The <code>TAG</code> is bound to an original
+        pointer which has the evaluation of the program as its lifetime.
       </para>
 
       <para>
         If <emphasis>opt_access</emphasis> contains
         <emphasis>visible</emphasis>, the meaning is that the variable may be
-        used by agents external to the capsule, and so it must not be
-        optimised away. If it contains constant, the initialising value will
-        remain in it throughout the program.
+        used by agents external to the capsule, and so it must not be optimised
+        away. If it contains constant, the initialising value will remain in it
+        throughout the program.
       </para>
 
       <para>
@@ -7909,26 +7845,25 @@
         <emphasis>t</emphasis> will be declared in the <code>CAPSULE</code>
         using <emphasis>common_tagdec</emphasis>.If both the
         <emphasis>common_tagdec</emphasis> and
-        <emphasis>common_tagdef</emphasis> have
-        <emphasis>signatures</emphasis> present, the strings will be
-        identical. Let the maximum <code>SHAPE</code> of these (see
-        <!-- TODO link to 5.37.3. common_tagdec -->common_tagdec<!-- link end
-        -->) be <emphasis>s</emphasis>.
+        <emphasis>common_tagdef</emphasis> have <emphasis>signatures</emphasis>
+        present, the strings will be identical. Let the maximum
+        <code>SHAPE</code> of these (see <!-- TODO link to 5.37.3. common_tagdec
+        -->common_tagdec<!-- link end -->) be <emphasis>s</emphasis>.
       </para>
 
       <para>
         There may be any number of <emphasis>common_tagdef</emphasis>
-        definitions for <emphasis>t</emphasis> in a <code>CAPSULE</code>. Of
-        the <emphasis>e</emphasis> parameters of these, one will be a maximum.
-        This maximum definition is chosen as the definition of
+        definitions for <emphasis>t</emphasis> in a <code>CAPSULE</code>. Of the
+        <emphasis>e</emphasis> parameters of these, one will be a maximum.  This
+        maximum definition is chosen as the definition of
         <emphasis>t</emphasis>. Its value of <emphasis>e</emphasis> will have
         <code>SHAPE</code> <emphasis>s</emphasis>.
       </para>
 
       <para>
-        The maximum of two <emphasis>common_tagdef</emphasis>
-        <code>EXP</code>s, <emphasis>a</emphasis> and <emphasis>b</emphasis>,
-        is defined as follows:
+        The maximum of two <emphasis>common_tagdef</emphasis> <code>EXP</code>s,
+        <emphasis>a</emphasis> and <emphasis>b</emphasis>, is defined as
+        follows:
       </para>
 
       <itemizedlist>
@@ -7965,11 +7900,10 @@
           <para>
             If <emphasis>a</emphasis> and <emphasis>b</emphasis> have
             <code>SHAPE NOF</code>(<emphasis>n</emphasis>,
-            <emphasis>x</emphasis>) and
-            <code>NOF</code>(<emphasis>m</emphasis>, <emphasis>x</emphasis>)
-            respectively and the value produced by <emphasis>a</emphasis> is
-            an initial segment of the value produced by
-            <emphasis>b</emphasis>, then <emphasis>b</emphasis> is the
+            <emphasis>x</emphasis>) and <code>NOF</code>(<emphasis>m</emphasis>,
+            <emphasis>x</emphasis>) respectively and the value produced by
+            <emphasis>a</emphasis> is an initial segment of the value produced
+            by <emphasis>b</emphasis>, then <emphasis>b</emphasis> is the
             maximum. Similarly if <emphasis>b</emphasis> is an initial segment
             of <emphasis>a</emphasis> then <emphasis>a</emphasis> is the
             maximum.
@@ -7986,8 +7920,8 @@
 
         <listitem>
           <para>
-            Otherwise <emphasis>a</emphasis> and <emphasis>b</emphasis> have
-            no maximum.
+            Otherwise <emphasis>a</emphasis> and <emphasis>b</emphasis> have no
+            maximum.
           </para>
         </listitem>
       </itemizedlist>
@@ -8061,8 +7995,8 @@
     <para>
       A <code>TDFIDENT</code>(<emphasis>k</emphasis>, <emphasis>n</emphasis>)
       encodes a sequence of <emphasis>n</emphasis> unsigned integers of size
-      <emphasis>k</emphasis> bits. <emphasis>k</emphasis> will be a multiple
-      of 8. See <!-- TODO link to 8.2. Fundamental encodings -->Fundamental
+      <emphasis>k</emphasis> bits. <emphasis>k</emphasis> will be a multiple of
+      8. See <!-- TODO link to 8.2. Fundamental encodings -->Fundamental
       encoding<!-- end link -->.
     </para>
 
@@ -8075,9 +8009,9 @@
     <title>TDFINT</title>
 
     <para>
-      A <code>TDFINT</code> is the TDF encoding of an unbounded unsigned
-      integer constant. See <!-- TODO link to 8.2. Fundamental encodings
-      -->Fundamental encoding<!-- end link -->.
+      A <code>TDFINT</code> is the TDF encoding of an unbounded unsigned integer
+      constant. See <!-- TODO link to 8.2. Fundamental encodings -->Fundamental
+      encoding<!-- end link -->.
     </para>
   </section>
 
@@ -8099,8 +8033,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
     <para>
-      A <code>TOKDEC</code> declares a <code>TOKEN</code> for incorporation
-      into a <code>UNIT</code>.
+      A <code>TOKDEC</code> declares a <code>TOKEN</code> for incorporation into
+      a <code>UNIT</code>.
     </para>
 
     <section id="S52S1">
@@ -8116,9 +8050,9 @@
 
       <para>
         The sort of the token <emphasis>tok</emphasis> is declared to be
-        <emphasis>s</emphasis>. Note that <emphasis>s</emphasis> will always
-        be a token <code>SORT</code>, with a list of parameter
-        <code>SORT</code>s (possible empty) and a result <code>SORT</code>.
+        <emphasis>s</emphasis>. Note that <emphasis>s</emphasis> will always be
+        a token <code>SORT</code>, with a list of parameter <code>SORT</code>s
+        (possible empty) and a result <code>SORT</code>.
       </para>
 
       <para>
@@ -8127,11 +8061,11 @@
       </para>
 
       <para>
-        If two <emphasis>make_tokdecs</emphasis> specify the same token and
-        both have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in
-        <!-- TODO link to 7.28. Tag and Token signatures -->section 7.28<!--
-        link end -->.
+        If two <emphasis>make_tokdecs</emphasis> specify the same token and both
+        have <emphasis>signatures</emphasis> present, the strings will be
+        identical. Possible uses of this signature argument are outlined in <!--
+        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
+        -->.
       </para>
     </section>
   </section>
@@ -8166,8 +8100,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
     <para>
-      <emphasis>tds</emphasis> is a list of <code>TOKDEC</code>s which gives
-      the sorts associated with <code>TOKEN</code>s.
+      <emphasis>tds</emphasis> is a list of <code>TOKDEC</code>s which gives the
+      sorts associated with <code>TOKEN</code>s.
     </para>
 
     <section id="S54S1">
@@ -8183,13 +8117,13 @@
 
       <para>
         A <code>TOKDEF</code> is constructed which defines the
-        <code>TOKEN</code> <emphasis>tok</emphasis> to stand for the fragment
-        of TDF, <emphasis>body</emphasis>, which may be of any
-        <code>SORT</code> with a <code>SORTNAME</code>, except for
-        <emphasis>token</emphasis>. The <code>SORT</code> of the result,
-        <emphasis>result_sort</emphasis>, is given by the first component of
-        the <code>BITSTREAM</code>. See <!-- TODO link to 5.51.1.
-        token_definition -->token_definition<!-- end link -->.
+        <code>TOKEN</code> <emphasis>tok</emphasis> to stand for the fragment of
+        TDF, <emphasis>body</emphasis>, which may be of any <code>SORT</code>
+        with a <code>SORTNAME</code>, except for <emphasis>token</emphasis>. The
+        <code>SORT</code> of the result, <emphasis>result_sort</emphasis>, is
+        given by the first component of the <code>BITSTREAM</code>. See <!--
+        TODO link to 5.51.1.  token_definition -->token_definition<!-- end link
+        -->.
       </para>
 
       <para>
@@ -8207,12 +8141,11 @@
 
       <para>
         At the application of this <code>TOKEN</code> actual pieces of TDF
-        having <code>SORT</code>
-        <emphasis>sn</emphasis>[<emphasis>i</emphasis>] are supplied to
-        correspond to the <emphasis>tk</emphasis>[<emphasis>i</emphasis>]. The
-        application denotes the piece of TDF obtained by substituting these
-        actual parameters for the corresponding <code>TOKEN</code>s within
-        <emphasis>body</emphasis>.
+        having <code>SORT</code> <emphasis>sn</emphasis>[<emphasis>i</emphasis>]
+        are supplied to correspond to the
+        <emphasis>tk</emphasis>[<emphasis>i</emphasis>]. The application denotes
+        the piece of TDF obtained by substituting these actual parameters for
+        the corresponding <code>TOKEN</code>s within <emphasis>body</emphasis>.
       </para>
     </section>
   </section>
@@ -8288,8 +8221,8 @@
                  -&gt; TOKEN</programlisting>
 
       <para>
-        <emphasis>make_tok</emphasis> constructs a <code>TOKEN</code>
-        identified by <emphasis>tokno</emphasis>.
+        <emphasis>make_tok</emphasis> constructs a <code>TOKEN</code> identified
+        by <emphasis>tokno</emphasis>.
       </para>
     </section>
 
@@ -8304,8 +8237,8 @@
 
       <para>
         <emphasis>tdef</emphasis> is used to supply the definition, as in
-        <emphasis>make_tokdef</emphasis>. Note that <code>TOKEN</code>s are
-        only used in <emphasis>x_apply_token</emphasis> constructions.
+        <emphasis>make_tokdef</emphasis>. Note that <code>TOKEN</code>s are only
+        used in <emphasis>x_apply_token</emphasis> constructions.
       </para>
     </section>
   </section>
@@ -8334,22 +8267,21 @@
 
       <para>
         Makes a token definition. <emphasis>result_sort</emphasis> is the
-        <code>SORT</code> of body. <emphasis>tok_params</emphasis> is a list
-        of formal <code>TOKEN</code>s and their <code>SORT</code>s.
+        <code>SORT</code> of body. <emphasis>tok_params</emphasis> is a list of
+        formal <code>TOKEN</code>s and their <code>SORT</code>s.
         <emphasis>body</emphasis> is the definition, which can use the formal
         <code>TOKEN</code>s defined in <emphasis>tok_params</emphasis>.
       </para>
 
       <para>
-        The effect of applying the definition of a <code>TOKEN</code> is as
-        if the following sequence was obeyed.
+        The effect of applying the definition of a <code>TOKEN</code> is as if
+        the following sequence was obeyed.
       </para>
 
       <para>
         First, the actual parameters (if any) are expanded to produce
-        expressions of the appropriate <code>SORT</code>s. During this
-        expansion all token applications in the actual parameters are
-        expanded.
+        expressions of the appropriate <code>SORT</code>s. During this expansion
+        all token applications in the actual parameters are expanded.
       </para>
 
       <para>
@@ -8360,8 +8292,8 @@
         <emphasis>make_proc, make_general_proc</emphasis> and
         <emphasis>repeat</emphasis> constructions. Any other <code>TAG</code>s
         or <code>LABEL</code>s used in <emphasis>body</emphasis> will be
-        provided by the context (see below) of the <code>TOKEN_DEFN</code> or
-        by the expansions of the actual parameters.
+        provided by the context (see below) of the <code>TOKEN_DEFN</code> or by
+        the expansions of the actual parameters.
       </para>
 
       <para>
@@ -8372,29 +8304,28 @@
 
       <para>
         The context of a <code>TOKEN_DEFN</code> is the set of names
-        (<code>TOKEN</code>s,
-        <code>TAG</code>s, <code>LABEL</code>s,
+        (<code>TOKEN</code>s, <code>TAG</code>s, <code>LABEL</code>s,
         <code>AL_TAG</code>s etc.) <quote>in scope</quote> at the site of the
         <code>TOKEN_DEFN</code>.
       </para>
 
       <para>
-        Thus, in a <emphasis>make_tokdef</emphasis>, the context consists of
-        the set of <code>TOKEN</code>s defined in its tokdef
-        <code>UNIT</code>, together with the set of linkable entities defined
-        by the <emphasis>make_links</emphasis> of that <code>UNIT</code>. Note
-        that this does not include <code>LABEL</code>s and the only
-        <code>TAG</code>s included are <quote>global</quote> ones.
+        Thus, in a <emphasis>make_tokdef</emphasis>, the context consists of the
+        set of <code>TOKEN</code>s defined in its tokdef <code>UNIT</code>,
+        together with the set of linkable entities defined by the
+        <emphasis>make_links</emphasis> of that <code>UNIT</code>. Note that
+        this does not include <code>LABEL</code>s and the only <code>TAG</code>s
+        included are <quote>global</quote> ones.
       </para>
 
       <para>
         In a <emphasis>use_tokdef</emphasis>, the context may be wider, since
         the site of the <code>TOKEN_DEFN</code> need not be in a tokdef
-        <code>UNIT</code>; it may be an actual parameter of a token
-        application. If this happens to be within an EXP, there may be
-        <code>TAG</code>s or <code>LABEL</code>s locally within scope; these
-        will be in the context of the <code>TOKEN_DEFN</code>, together with
-        the global names of the enclosing UNIT as before.
+        <code>UNIT</code>; it may be an actual parameter of a token application.
+        If this happens to be within an EXP, there may be <code>TAG</code>s or
+        <code>LABEL</code>s locally within scope; these will be in the context
+        of the <code>TOKEN_DEFN</code>, together with the global names of the
+        enclosing UNIT as before.
       </para>
 
       <para>
@@ -8473,8 +8404,8 @@
         <emphasis>token_value</emphasis> gives the <code>SORT</code>s of its
         arguments in the <code>SORTNAME</code> component. The
         <code>BITSTREAM</code> in <emphasis>token_args</emphasis> consists of
-        these <code>SORT</code>s in the given order. If no token declaration
-        or definition exists in the <code>CAPSULE</code>, the
+        these <code>SORT</code>s in the given order. If no token declaration or
+        definition exists in the <code>CAPSULE</code>, the
         <code>BITSTREAM</code> cannot be read.
       </para>
     </section>
@@ -8496,8 +8427,8 @@
         <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -8534,15 +8465,13 @@
         <emphasis>move_some</emphasis> or an
         <emphasis>assign_with_mode</emphasis> for which
         <emphasis>arg2</emphasis> is a <emphasis>contents</emphasis> or
-        <emphasis>contents_with_mode</emphasis>, then the source and
-        destination might overlap.  The transfer shall be made as if the data
-        were copied from the source to an independent place and thence to the
-        destination.
+        <emphasis>contents_with_mode</emphasis>, then the source and destination
+        might overlap.  The transfer shall be made as if the data were copied
+        from the source to an independent place and thence to the destination.
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link
-        -->.
+        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link -->.
       </para>
     </section>
 
@@ -8571,8 +8500,8 @@
         If <emphasis>trap_on_nil</emphasis> is used to qualify a
         <emphasis>contents_with_mode</emphasis> operation with a nil pointer
         argument, or an <emphasis>assign_with_mode</emphasis> whose arg1 is a
-        nil pointer, or a <emphasis>move_some</emphasis> with either argument
-        a nil pointer, the TDF exception <emphasis>nil_access</emphasis> is
+        nil pointer, or a <emphasis>move_some</emphasis> with either argument a
+        nil pointer, the TDF exception <emphasis>nil_access</emphasis> is
         raised.
       </para>
     </section>
@@ -8591,10 +8520,9 @@
       </para>
 
       <para>
-        <emphasis>This is intended to implement ANSI C's volatile
-        construction. In this use, any volatile identifier should be declared
-        as a <code>TAG</code> with used_as_volatile
-        <code>ACCESS</code>.</emphasis>
+        <emphasis>This is intended to implement ANSI C's volatile construction.
+        In this use, any volatile identifier should be declared as a
+        <code>TAG</code> with used_as_volatile <code>ACCESS</code>.</emphasis>
       </para>
     </section>
 
@@ -8607,9 +8535,8 @@
                  -&gt; TRANSFER_MODE</programlisting>
 
       <para>
-        A transfer qualified with complete shall leave the destination
-        unchanged if the evaluation of the value transferred is left with a
-        jump.
+        A transfer qualified with complete shall leave the destination unchanged
+        if the evaluation of the value transferred is left with a jump.
       </para>
     </section>
   </section>
@@ -8621,8 +8548,8 @@
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
     <para>
-      These are used to provide world-wide unique names for
-      <code>TOKEN</code>s and <code>TAG</code>s.
+      These are used to provide world-wide unique names for <code>TOKEN</code>s
+      and <code>TAG</code>s.
     </para>
 
     <para>
@@ -8670,12 +8597,12 @@
                  -&gt; UNIT</programlisting>
 
       <para>
-        <emphasis>local_vars</emphasis> gives the number of linkable entities
-        of each kind. These numbers correspond (in the same order) to the
-        variable sorts in <emphasis>cap_linking</emphasis> in
+        <emphasis>local_vars</emphasis> gives the number of linkable entities of
+        each kind. These numbers correspond (in the same order) to the variable
+        sorts in <emphasis>cap_linking</emphasis> in
         <emphasis>make_capsule</emphasis>. The linkable entities will be
-        represented by <code>TDFINT</code>s in the range 0 to the
-        corresponding <emphasis>nl</emphasis>-1.
+        represented by <code>TDFINT</code>s in the range 0 to the corresponding
+        <emphasis>nl</emphasis>-1.
       </para>
 
       <para>
@@ -8685,13 +8612,13 @@
 
       <para>
         The <emphasis>properties</emphasis> will be a <code>PROPS</code> of a
-        form dictated by the unit identification, see <!-- TODO link to
-        5.11.1. make_capsule -->make_capsule<!-- end link -->.
+        form dictated by the unit identification, see <!-- TODO link to 5.11.1.
+        make_capsule -->make_capsule<!-- end link -->.
       </para>
 
       <para>
-        The length of <emphasis>lks</emphasis> will be either 0 or equal to
-        the length of <emphasis>cap_linking</emphasis> in
+        The length of <emphasis>lks</emphasis> will be either 0 or equal to the
+        length of <emphasis>cap_linking</emphasis> in
         <emphasis>make_capsule</emphasis>.
       </para>
     </section>
@@ -8704,10 +8631,10 @@
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
     <para>
-      These describe the different kinds of integer which can occur at run
-      time. The fundamental construction consists of a <code>SIGNED_NAT</code>
-      for the lower bound of the range of possible values, and a
-      <code>SIGNED_NAT</code> for the upper bound (inclusive at both ends).
+      These describe the different kinds of integer which can occur at run time.
+      The fundamental construction consists of a <code>SIGNED_NAT</code> for the
+      lower bound of the range of possible values, and a <code>SIGNED_NAT</code>
+      for the upper bound (inclusive at both ends).
     </para>
 
     <para>
@@ -8750,13 +8677,13 @@
                  -&gt; VARIETY</programlisting>
 
       <para>
-        The <emphasis>control</emphasis> is evaluated. It will be a constant
-        at install time under the constant evaluation rules. If it is
-        non-zero, <emphasis>e1</emphasis> is installed at this point and
+        The <emphasis>control</emphasis> is evaluated. It will be a constant at
+        install time under the constant evaluation rules. If it is non-zero,
+        <emphasis>e1</emphasis> is installed at this point and
         <emphasis>e2</emphasis> is ignored and never processed.  If
         <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is
-        installed at this point and <emphasis>e1</emphasis> is ignored and
-        never processed.
+        installed at this point and <emphasis>e1</emphasis> is ignored and never
+        processed.
       </para>
     </section>
 
@@ -8773,8 +8700,8 @@
       <para>
         <emphasis>lower_bound</emphasis> is the lower limit (inclusive) of the
         range of values which shall be representable in the resulting
-        <code>VARIETY</code>, and <emphasis>upper_bound</emphasis> is the
-        upper limit (inclusive).
+        <code>VARIETY</code>, and <emphasis>upper_bound</emphasis> is the upper
+        limit (inclusive).
       </para>
     </section>
 
@@ -8808,8 +8735,8 @@
     <emphasis role="bold">Unit identification</emphasis>: versions<sbr/>
 
     <para>
-      This <code>UNIT</code> gives information about version numbers and
-      user information.
+      This <code>UNIT</code> gives information about version numbers and user
+      information.
     </para>
 
     <section id="S63S1">
@@ -8852,8 +8779,8 @@
       </para>
 
       <para>
-        For TDF conforming to this specification the major number will be 4
-        and the minor number will be 0.
+        For TDF conforming to this specification the major number will be 4 and
+        the minor number will be 0.
       </para>
 
       <para>

@@ -1,0 +1,139 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="C6">
+  <title>Supplementary UNIT</title>
+
+  <section id="S65">
+    <title>LINKINFO_PROPS</title>
+
+    <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
+    <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
+    <emphasis role="bold">Unit identificaiton</emphasis>: linkinfo
+
+    <para>
+      This is an additional <code>UNIT</code> which gives extra information
+      about linking.
+    </para>
+
+    <section id="S65S1">
+      <title>make_linkinfos</title>
+
+      <emphasis role="bold">Encoding number</emphasis>: 0
+
+      <programlisting language="TDF">
+        no_labels:       TDFINT
+        tds:             SLIST(LINKINFO)
+                   -&gt; LINKINFO_PROPS</programlisting>
+
+      <para>
+        Makes the <code>UNIT</code>.
+      </para>
+    </section>
+  </section>
+
+  <section id="S66">
+    <title>LINKINFO</title>
+
+    <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
+    <emphasis role="bold">Is encoding extendable</emphasis>: yes
+
+    <section id="S66S1">
+      <title>static_name_def</title>
+
+      <emphasis role="bold">Encoding number</emphasis>: 1
+
+      <programlisting>
+        assexp:          EXP POINTER x
+        id:              TDFSTRING(k, n)
+                   -&gt; LINKINFO</programlisting>
+
+      <para>
+        <emphasis>assexp</emphasis> will be an <emphasis>obtain_tag</emphasis>
+        construction which refers to a <code>TAG</code> which is defined with
+        <emphasis>make_id_tagdef</emphasis>,
+        <emphasis>make_var_tagdef</emphasis> or
+        <emphasis>common_tagdef</emphasis>. This <code>TAG</code> will not be
+        linked to an <code>EXTERNAL</code>.
+      </para>
+
+      <para>
+        The name <emphasis>id</emphasis> shall be used (but not exported, i.e.
+        <emphasis>static</emphasis>) to identify the definition for subsequent
+        linking.
+      </para>
+
+      <para>
+        <emphasis>This construction is likely to be needed for profiling, so
+        that useful names appear for statically defined objects. It may also be
+        needed when C++ is translated into C, in order to identify global
+        initialisers.</emphasis>
+      </para>
+    </section>
+
+    <section id="S66S2">
+      <title>make_comment</title>
+
+      <emphasis role="bold">Encoding number</emphasis>: 2
+
+      <programlisting>
+        n:               TDFSTRING(k, n)
+                   -&gt; LINKINFO</programlisting>
+
+      <para>
+        <emphasis>n</emphasis> shall be incorporated into the object file as a
+        comment, if this facility exists. Otherwise the construct is ignored.
+      </para>
+    </section>
+
+    <section id="S66S3">
+      <title>make_weak_defn</title>
+
+      <emphasis role="bold">Encoding number</emphasis>: 3
+
+      <programlisting>
+        namer:           EXP POINTER x
+        val:             EXP POINTER y
+                   -&gt; LINKINFO</programlisting>
+
+      <para>
+        <emphasis>namer</emphasis> and <emphasis>val</emphasis> will be
+        <emphasis>obtain_tag</emphasis> constructions which refer to
+        <code>TAG</code>s which are defined with
+        <emphasis>make_id_tagdef</emphasis>,
+        <emphasis>make_var_tagdef</emphasis> or
+        <emphasis>common_tagdef</emphasis>. They shall be made synonymous.
+      </para>
+    </section>
+
+    <section id="S66S4">
+      <title>make_weak_symbol</title>
+
+      <emphasis role="bold">Encoding number</emphasis>: 4
+
+      <programlisting>
+        id:              TDFSTRING(k, n)
+        val:             EXP POINTER x
+                   -&gt; LINKINFO</programlisting>
+
+      <para>
+        <emphasis>val</emphasis> will be an <emphasis>obtain_tag</emphasis>
+        construction which refers to a <code>TAG</code> which is defined with
+        <emphasis>make_id_tagdef</emphasis>,
+        <emphasis>make_var_tagdef</emphasis> or
+        <emphasis>common_tagdef</emphasis>.
+      </para>
+
+      <para>
+        This <code>TAG</code> shall be made <emphasis>weak</emphasis> (in the
+        same sense as in the SVID ABI Symbol Table), and <emphasis>id</emphasis>
+        shall be synonymous with it.
+      </para>
+    </section>
+  </section>
+</chapter>
