@@ -262,19 +262,19 @@ c_lexer_next_token(CLexerStreamT * stream)
 			/* Intended to have been a $TOK_ACT_AT, perhaps */
 			E_c_illegal_at_char(istream, '@');
 		}
-
+		/* TODO handle newline here */
 		if(nstring_contains(&c_lexer_token->u.string, '\n')) {
 			istream_inc_line(istream);
 		}
 
-		c_code_append_identifier(code, &c_lexer_token->u.string);
+		c_code_append_string(code, &c_lexer_token->u.string);
 		return c_lexer_next_token(stream);
 
 	/* EOF inside a code block is invalid; again, this should be in the grammar */
 	case C_TOK_ACT_EOF:
 		E_c_eof_in_code(istream);
 
-	/* entering the code zne */
+	/* entering the code zone */
 	case C_TOK_ACT_CODESTART:
 		code = c_code_create(istream_name(istream),
 			istream_line(istream));
