@@ -168,7 +168,7 @@ read_token_zone_act(struct lexer_state_tag* state)
 	} else if (c0 == LEX_EOF) {
 	    return(C_TOK_ACT_EOF);
 	}
-	return(C_TOK_ACT_CHAR);
+	return(c_lexer_act_read_string(c0));
 	}
 }
 /* MAIN PASS ANALYSER for zone singleline_comment*/

@@ -48,8 +48,7 @@ GROUP act_identbody = "[identstart]" + {0-9};
 ZONE act:	"@{" -> C_TOK_ACT_CODESTART	/* XXX to remove when merged into the grammar */
 	...		"@}" -> C_TOK_ACT_CODEEND {
 
-	/* TODO handle newline inside c_lexer_at_appendchar */
-	TOKEN DEFAULT -> C_TOK_ACT_CHAR;
+	TOKEN DEFAULT -> c_lexer_act_read_string();
 	TOKEN "\e" -> C_TOK_ACT_EOF;	/* XXX to remove when merged into the grammar */
 
 	TOKEN "@@" -> C_TOK_ACT_AT;

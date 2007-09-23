@@ -251,18 +251,10 @@ c_lexer_next_token(CLexerStreamT * stream)
 	case C_TOK_ACT_IDENTIFIER:
 		c_code_append_identifier(code, &c_lexer_token->u.string);
 
-	case C_TOK_ACT_CHAR:
-		/*
-		 * Here it seems we take each character as a separate string.
-		 * For the sake of efficiency, it would make more sense for us
-		 * to have an interface to add single characters to &code,
-		 * instead of needing to build these single-character strings.
-		 */
-		if(nstring_contains(&c_lexer_token->u.string, '@')) {
-			/* Intended to have been a $TOK_ACT_AT, perhaps */
-			E_c_illegal_at_char(istream, '@');
-		}
-		/* TODO handle newline here */
+	case C_TOK_ACT_CODESTRING:
+		/* c_lexer_act_read_string() should have prevented this by definition */
+		assert(!nstring_contains(&c_lexer_token->u.string, '@'));
+
 		if(nstring_contains(&c_lexer_token->u.string, '\n')) {
 			istream_inc_line(istream);
 		}
@@ -404,6 +396,45 @@ c_lexer_read_builtin(int c0, int c1)
 		UNREACHED;
 	}
 	DEALLOCATE(cstring);
+
+	return c_lexer_token->t;
+}
+
+/*
+ * Read a code string until an @ is found (since all non-codestring tokens begin
+ * with an @).
+ */
+static int
+c_lexer_act_read_string(int c)
+{
+	IStreamT * istream;
+	DStringT dstring;
+
+	istream = &(c_lexer_stream->istream);
+
+	dstring_init(&dstring);
+	for (;;) {
+		char t;
+
+		dstring_append_char(&dstring, c);
+
+		if(!istream_peek_char(istream, &t)) {
+			E_c_eof_in_code(istream);
+			return LEXER_TOK_EOF;
+		}
+
+		c = t;
+
+		if(c == '@') {
+			break;
+		}
+
+		read_char();
+	}
+
+	c_lexer_token->t = C_TOK_ACT_CODESTRING;
+	dstring_to_nstring(&dstring, &(c_lexer_token->u.string));
+	dstring_destroy(&dstring);
 
 	return c_lexer_token->t;
 }
