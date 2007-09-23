@@ -2,7 +2,7 @@
 
 .include "../../../Makefile.defs"
 
-.if "${OSFAM}" == "openbsd"
+.if "${OSFAM}" == "openbsd" || "${OSFAM}" == "linux"
 SUBDIR = ${OSFAM}
 .else
 
