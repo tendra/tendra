@@ -2,7 +2,7 @@
 
 # Standard directories and files
 SRCC=${.CURDIR}/../../common
-SRC1=${.CURDIR}/sparc/common
+SRC1=${.CURDIR}/../common
 SRC2=${SRCC}/construct
 SRC3=${SRCC}/diag
 SRC4=${SRCC}/dwarf2
