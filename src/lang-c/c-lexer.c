@@ -74,6 +74,7 @@
 static int read_char(void);
 static int c_lexer_read_builtin(int c0, int c1);
 static int c_lexer_support_read_id(int c, int rettok);
+static int c_lexer_act_read_string(int c);
 static int c_lexer_unknown_token(int c);
 
 /*
