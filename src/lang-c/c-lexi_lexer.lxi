@@ -5,6 +5,8 @@
 
 /* -l C_TOK_ */
 
+TOKEN "\e" -> $EOF;
+
 TOKEN ":" -> $TYPEMARK;
 TOKEN "=" -> $DEFINE;
 TOKEN "," -> $SEPARATOR;

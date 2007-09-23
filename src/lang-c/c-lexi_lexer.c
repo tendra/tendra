@@ -272,6 +272,9 @@ read_token_zone_global(struct lexer_state_tag* state)
 		lexi_push(c1);
 		break;
 	    }
+	    case LEX_EOF: {
+		return(C_TOK_EOF);
+	    }
 	}
 	if (is_identstart(t0)) {
 	    return(c_lexer_read_identifier(c0));

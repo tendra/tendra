@@ -221,7 +221,7 @@ c_lexer_next_token(CLexerStreamT * stream)
 			NStringT ns;
 
 			nstring_copy_cstring(&ns, "@");
-			c_code_append_label(code, &ns);	/* TODO really append_label()? */
+			c_code_append_string(code, &ns);	/* TODO really append_label()? */
 			nstring_destroy(&ns);
 		}
 		return c_lexer_next_token(stream);
@@ -252,6 +252,7 @@ c_lexer_next_token(CLexerStreamT * stream)
 
 	case C_TOK_ACT_IDENTIFIER:
 		c_code_append_identifier(code, &c_lexer_token->u.string);
+		return c_lexer_next_token(stream);
 
 	case C_TOK_ACT_CODESTRING:
 		/* c_lexer_act_read_string() should have prevented this by definition */
@@ -267,6 +268,7 @@ c_lexer_next_token(CLexerStreamT * stream)
 	/* EOF inside a code block is invalid; again, this should be in the grammar */
 	case C_TOK_ACT_EOF:
 		E_c_eof_in_code(istream);
+		return c_lexer_next_token(stream);
 
 	/* entering the code zone */
 	case C_TOK_ACT_CODESTART:
