@@ -139,6 +139,17 @@ c_lexer_support_read_id(int c, int rettok)
 	dstring_to_nstring(&dstring, &(c_lexer_token->u.string));
 	dstring_destroy(&dstring);
 
+	if(rettok == C_TOK_C_IDENTIFIER) {
+		/*
+		 * This is a special case; we differentiate between C and SID
+		 * identifiers based on the premise that all SID identifiers
+		 * contain at least one hyphen.
+		 */
+		if(nstring_contains(&c_lexer_token->u.string, '-')) {
+			c_lexer_token->t = C_TOK_SID_IDENTIFIER;
+		}
+	}
+
 	return c_lexer_token->t;
 }
 
@@ -251,6 +262,11 @@ c_lexer_next_token(CLexerStreamT * stream)
 			/* Intended to have been a $TOK_ACT_AT, perhaps */
 			E_c_illegal_at_char(istream, '@');
 		}
+
+		if(nstring_contains(&c_lexer_token->u.string, '\n')) {
+			istream_inc_line(istream);
+		}
+
 		c_code_append_identifier(code, &c_lexer_token->u.string);
 		return c_lexer_next_token(stream);
 
@@ -269,7 +285,7 @@ c_lexer_next_token(CLexerStreamT * stream)
 		/* TODO possibly this can be folded into C_TOK_CODE */
 		c_lexer_token->t = C_TOK_CODE;
 		c_lexer_token->u.code = code;
-		break;
+		return;
 	}
 
 	stream->token = *c_lexer_token;
@@ -339,17 +355,17 @@ c_lexer_read_builtin(int c0, int c1)
 	dstring_init(&dstring);
 	c = c1;	/* [builtinstart] */
 	do {
+		if(!is_builtinbody(lookup_char(c))) {
+			E_c_illegal_character_in_identifier(istream, c);
+			return LEXER_TOK_EOF;	/* XXX EOF? */
+		}
+
 		dstring_append_char(&dstring, c);
 
 		c = read_char();
 		if(c == LEX_EOF) {
 			E_eof_in_identifier(istream);
 			return LEXER_TOK_EOF;
-		}
-
-		if(!is_builtinbody(lookup_char(c))) {
-			E_c_illegal_character_in_identifier(istream, c);
-			return LEXER_TOK_EOF;	/* XXX EOF? */
 		}
 	} while(!is_builtindlmt(lookup_char(c)));
 
