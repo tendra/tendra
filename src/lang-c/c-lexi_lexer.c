@@ -113,8 +113,6 @@ int read_token(lexer_state*);
 int
 read_token_zone_act(struct lexer_state_tag* state);
 int
-read_token_zone_singleline_comment(struct lexer_state_tag* state);
-int
 read_token_zone_bracketed_comment(struct lexer_state_tag* state);
 int
 read_token_zone_global(struct lexer_state_tag* state);
@@ -189,22 +187,6 @@ read_token_zone_act(struct lexer_state_tag* state)
 	return(c_lexer_act_read_string(c0));
 	}
 }
-/* MAIN PASS ANALYSER for zone singleline_comment*/
-
-int
-read_token_zone_singleline_comment(struct lexer_state_tag* state)
-{
-	start: {
-	int c0 = lexi_readchar(), t0;
-	t0 = lookup_char(c0);
-	if (is_white(t0)) goto start;
-	if (c0 == '\n') {
-	    state->zone_function=&read_token_zone_global;
-	    return(read_token(state));
-	}
-	return(read_token(state));
-	}
-}
 /* MAIN PASS ANALYSER for zone bracketed_comment*/
 
 int
@@ -261,8 +243,7 @@ read_token_zone_global(struct lexer_state_tag* state)
 		    state->zone_function=&read_token_zone_bracketed_comment;
 		    return(read_token(state));
 		} else if (c1 == '/') {
-		    state->zone_function=&read_token_zone_singleline_comment;
-		    return(read_token(state));
+		    return(c_lexer_skip_singleline_comment(c0, c1));
 		}
 		lexi_push(c1);
 		break;

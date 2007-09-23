@@ -76,6 +76,7 @@ static int c_lexer_read_builtin(int c0, int c1);
 static int c_lexer_support_read_id(int c, int rettok);
 static int c_lexer_act_read_string(int c);
 static int c_lexer_unknown_token(int c);
+static int c_lexer_skip_singleline_comment(int c0, int c1);
 
 /*
  * Lexi interface identifier wrappers.
@@ -458,5 +459,28 @@ c_lexer_unknown_token(int c)
      * any further errors might possibly be identified.
      */
     return read_token(current_lexer_state);
+}
+
+/* This is a workaround for #173 */
+static int
+c_lexer_skip_singleline_comment(int c0, int c1)
+{
+	IStreamT * istream;
+	int c;
+
+	istream = &(c_lexer_stream->istream);
+
+	do {
+		c = read_char();
+
+		if(c == LEX_EOF) {
+			E_c_eof_in_comment(istream);
+			return LEXER_TOK_EOF;
+		}
+
+	} while(c != '\n');
+
+	/* Move on to the next token */
+	return c_read_token(current_lexer_state);
 }
 

@@ -29,9 +29,27 @@ ZONE bracketed_comment: "/*" ... "*/" {
 }
 
 /* TODO anonoymous zones would be nice: ZONE "//" ... "\n" { */
+/*
+ * TODO:
+ * We currently don't have support for GROUP in zones. Whitespace is treated
+ * with higher precidence than the "\n" zone-ending token above, and so that
+ * is skipped. This is not an issue for the comment-stripping example,
+ * because that example does not treat newline as whitespace.
+ *
+ * As a work-around, we can remap \n to a non-whitespace character, when
+ * MAPPING support in zones is ready. In the future, this should be handled
+ * by adding GROUP support for zones.
+ *
+ * Right now, however, we just call a user-defined function which skips until
+ * newline.
+ */
+/*
 ZONE singleline_comment: "//" ... "\n" {
+	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 }
+*/
+TOKEN "//" -> c_lexer_skip_singleline_comment();
 
 /* TODO maybe use keywords for this, when lexi's API settles */
 GROUP builtinstart = {a-z};
