@@ -80,11 +80,11 @@ static int c_lexer_unknown_token(int c);
  * Lexi interface identifier wrappers.
  * TODO These will be removed once Lexi provides identifier support.
  */
-#define c_lexer_read_identifier(c)		c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER)
-#define c_lexer_act_read_label(c0, c1)		c_lexer_support_read_id(c1, C_TOK_ACT_LABEL)
-#define c_lexer_act_read_reference(c0, c1)	c_lexer_support_read_id(c1, C_TOK_ACT_REFERENCE)
-#define c_lexer_act_read_modifiable(c0, c1)	c_lexer_support_read_id(c1, C_TOK_ACT_MODIFIABLE)
-#define c_lexer_act_read_identifier(c0, c1)	c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER)
+#define c_lexer_read_identifier(c)				c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER)
+#define c_lexer_act_read_label(c0, c1, c2)		c_lexer_support_read_id(c2, C_TOK_ACT_LABEL)
+#define c_lexer_act_read_reference(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_REFERENCE)
+#define c_lexer_act_read_modifiable(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_MODIFIABLE)
+#define c_lexer_act_read_identifier(c0, c1)		c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER)
 
 /* XXX #172 workarounds */
 #define read_token c_read_token

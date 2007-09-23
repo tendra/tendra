@@ -138,16 +138,34 @@ read_token_zone_act(struct lexer_state_tag* state)
 		    return(C_TOK_ACT_EXCEPTION);
 		}
 		case '&': {
-		    return(c_lexer_act_read_reference(c0, c1));
+		    int c2 = lexi_readchar(), t2;
+		    t2 = lookup_char(c2);
+		    if (is_identstart(t2)) {
+			return(c_lexer_act_read_reference(c0, c1, c2));
+		    }
+		    lexi_push(c2);
+		    break;
 		}
 		case '.': {
 		    return(C_TOK_ACT_TERMINAL);
 		}
 		case ':': {
-		    return(c_lexer_act_read_label(c0, c1));
+		    int c2 = lexi_readchar(), t2;
+		    t2 = lookup_char(c2);
+		    if (is_identstart(t2)) {
+			return(c_lexer_act_read_label(c0, c1, c2));
+		    }
+		    lexi_push(c2);
+		    break;
 		}
 		case '=': {
-		    return(c_lexer_act_read_modifiable(c0, c1));
+		    int c2 = lexi_readchar(), t2;
+		    t2 = lookup_char(c2);
+		    if (is_identstart(t2)) {
+			return(c_lexer_act_read_modifiable(c0, c1, c2));
+		    }
+		    lexi_push(c2);
+		    break;
 		}
 		case '>': {
 		    return(C_TOK_ACT_ADVANCE);

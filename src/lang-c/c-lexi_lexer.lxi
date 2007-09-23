@@ -57,9 +57,9 @@ ZONE act:	"@{" -> C_TOK_ACT_CODESTART	/* XXX to remove when merged into the gram
 	TOKEN "@>" -> C_TOK_ACT_ADVANCE;
 
 	/* TODO these would be nicer once we have "a" * "b" */
-	TOKEN "@:" -> c_lexer_act_read_label();
-	TOKEN "@&" -> c_lexer_act_read_reference();
-	TOKEN "@=" -> c_lexer_act_read_modifiable();
+	TOKEN "@:[identstart]" -> c_lexer_act_read_label();
+	TOKEN "@&[identstart]" -> c_lexer_act_read_reference();
+	TOKEN "@=[identstart]" -> c_lexer_act_read_modifiable();
 
 	/* TODO c_lexer_read_code_id(): code identifier? */
 	TOKEN "@[identstart]" -> c_lexer_act_read_identifier();
