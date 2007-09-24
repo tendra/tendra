@@ -25,7 +25,13 @@ unit -> read_lex ;
 BOOL -> int ;
 CHARACTERS -> SID_CHARS ;
 IDENTIFIER -> SID_STRING ;
+ZONE -> zonep ;
 STRING -> SID_STRING ;
+INSTRUCTION -> instructionP ;
+INSTRUCTIONS_LIST -> instructions_listP ;
+ARG -> argP;
+ARGS_LIST -> args_listP;
+
 
 %header% @{
 /*
@@ -58,6 +64,7 @@ STRING -> SID_STRING ;
 */
 
 #include <string.h>
+#include <stdio.h>
 
 #include "error.h"
 #include "xalloc.h"
@@ -75,7 +82,11 @@ STRING -> SID_STRING ;
 
 typedef letter *SID_CHARS ;
 typedef char *SID_STRING ;
-
+typedef zone* zonep;
+typedef instruction* instructionP ;
+typedef instructions_list* instructions_listP ;
+typedef arg* argP;
+typedef args_list* args_listP;
 
 /*
     SID IDENTIFIER PREFIX
@@ -218,6 +229,21 @@ upper : () -> ( s : STRING ) =	@{ @s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ; @} ;
 lower : () -> ( s : STRING ) =	@{ @s = "abcdefghijklmnopqrstuvwxyz" ; @} ;
 digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 
+/* 
+   ARGS TERMINAL
+*/
+arg-char-list : () -> (a:ARG) = @{
+      @a=add_arg(arg_chars_list,0);
+@};
+
+arg-char-string : () ->(a:ARG) = @{
+      @a=add_arg(arg_charP,0);
+@};
+
+arg-char-nb : () ->(a:ARG) = @{
+      @a=add_arg(arg_char_nb,number_buffer);
+@};
+
 
 %actions%
 
@@ -232,6 +258,17 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
     @s = xstrcat ( @a, @b ) ;
 @} ;
 
+/*
+    CREATE A NULL IDENTIFIER
+
+    This action creates a NULL IDENTIFIER
+*/
+
+/*
+<null-identifier> : () -> ( i : IDENTIFIER ) = @{
+    @i = NULL;
+@} ;
+*/
 
 /*
     CREATE A CHARACTER STRING
@@ -278,13 +315,72 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
     This action creates a pre-pass mapping from s to t.
 */
 
-<make-trigraph> : ( s : CHARACTERS, t : STRING ) -> () = @{
-    char *data [3] ;
-    data [0] = @t ;
-    data [1] = NULL ;
-    data [2] = crt_cond ;
-    add_char ( pre_pass, @s, data ) ;
+<make-trigraph> : ( z : ZONE, s : CHARACTERS, t : STRING ) -> () = @{
+    add_char ( @z->zone_pre_pass, @s, crt_cond, NULL, @t) ;
 @} ;
+
+
+
+/* 
+   CREATE AN INSTRUCTION 
+*/
+<make-inst>  :  ( i : IDENTIFIER, a : ARGS_LIST ) -> ( inst : INSTRUCTION ) = @{
+    if(@a) {
+        @inst=add_instruction_function(@i,@a);
+    } 
+    else {
+        @inst=add_instruction_return_token(@i);
+    }
+@};
+
+<make-donothing-inst> : () -> ( inst : INSTRUCTION ) = @{
+	@inst=add_instruction_donothing();
+@};
+
+
+/*CREATE A CHAR LIST */
+<arg-char-list-tmp> : () -> (a:ARG) = @{
+      @a=add_arg(arg_chars_list,0);
+@};
+
+/*
+    ADD ARGS to ARGS LIST
+*/
+<args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
+    @a->next=@l->head;
+    @l->head=@a;
+@};
+
+/*
+   CREATES AN EMPTY ARGS LIST
+*/
+<empty-args-list> : () -> ( l:ARGS_LIST) = @{
+    @l=add_args_list();
+@};
+
+/* 
+   CREATES A NULL ARG LIST
+*/
+<null-args-list> : () -> ( l:ARGS_LIST ) = @{
+    @l = NULL ;
+@};
+
+/*
+    ADD INSTRUCTION to INSTRUCTION LIST 
+*/
+<add-inst-to-list> : ( i : INSTRUCTION, il : INSTRUCTIONS_LIST ) ->() = @{
+	@i->next=@il->head;
+	@il->head=@i;
+@};
+
+/*
+    EMPTY INSTRUCTION LIST
+*/
+
+<empty-inst-list> : () -> (i:INSTRUCTIONS_LIST) //: INSTRUCTIONS_LIST ) 
+= @{
+    @i=add_instructions_list();
+@};
 
 
 /*
@@ -293,12 +389,26 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
     This action creates a main-pass mapping from s to the lexical token i.
 */
 
-<make-token> : ( s : CHARACTERS, i : IDENTIFIER, b : BOOL ) -> () = @{
-    char *data [3] ;
-    data [0] = @i ;
-    data [1] = ( @b ? "()" : NULL ) ;
-    data [2] = crt_cond ;
-    add_char ( main_pass, @s, data ) ;
+<make-token> : ( z : ZONE, s : CHARACTERS, il : INSTRUCTIONS_LIST) -> () = @{
+        add_char ( @z->zone_main_pass, @s, crt_cond, @il, NULL) ;
+@} ;
+
+<is-non-empty> : ( c : CHARACTERS ) -> ( b : BOOL ) = @{
+    @b=(@c[0]!=LAST_LETTER);
+@};
+
+<E_empty_character_string> : () -> () = @{
+        error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");	
+@};  
+
+/*
+    CREATE A MAIN-PASS MAPPING
+
+    This action creates a main-pass default from s to the lexical token i.
+*/
+<make-default> : ( z : ZONE, i : INSTRUCTIONS_LIST ) -> () = @{
+    @z->default_actions=@i;
+    @z->default_cond=crt_cond;
 @} ;
 
 
@@ -306,9 +416,10 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
     CREATE A KEYWORD
 
     This action creates a keyword called s.
+
 */
 
-<make-keyword> : ( s : STRING, i : IDENTIFIER, b : BOOL ) -> () = @{
+<make-keyword> : ( s : STRING, i : IDENTIFIER, b : ARGS_LIST ) -> () = @{
     char *data [3] ;
     data [0] = @i ;
     data [1] = ( @b ? "()" : NULL ) ;
@@ -376,16 +487,91 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 
     These actions give the booleans true and false.
 */
-
+/*
 <true> : () -> ( b : BOOL ) =	@{ @b = 1 ; @} ;
 <false> : () -> ( b : BOOL ) =	@{ @b = 0 ; @} ;
+*/
 
+/* 
+   ZONES 
+
+*/
+
+/* 
+   GLOBAL ZONE
+
+   This action gives the global zone 
+*/  
+<global-zone> : () -> ( z:ZONE ) = @{
+   @z=global_zone;
+@};
+
+/* 
+   ADDING A NEW ZONE
+
+   This action adds a a new zone
+*/
+<make-zone> : ( z : ZONE , i : IDENTIFIER, b : CHARACTERS, 
+	      	binst : INSTRUCTIONS_LIST, e : CHARACTERS, 
+		einst : INSTRUCTIONS_LIST) -> ( nz : ZONE) = 
+@{
+    @nz=add_zone(@z,@i,@e);
+    @nz->entering_instructions=@binst;
+    @nz->leaving_instructions=@einst;
+    instruction* inst=add_instruction_pushzone(@nz);
+    instructions_list* inst_list=add_instructions_list();
+    *(inst_list->tail)=inst;
+    inst_list->tail=&(inst->next);
+    add_char ( @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
+@};
+
+/* 
+   IS THE ZONE GLOBAL
+
+   This action report if the zone z is the global zone 
+*/
+<is-global-zone> : ( z : ZONE ) -> ( b : BOOL ) = @{
+   @b=(@z==global_zone);
+@};
+
+/* 
+   These actions reports errors if zones contains
+   other things than DEFAULT and TOKENS.
+*/
+
+<E_nonglobalzonekeyword> : () -> () = @{
+    error( ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ") ;
+
+@};
+
+<E_nonglobalzonegroup> : () -> () = @{
+    error( ERROR_SERIOUS, "Groups not yet implemented in a non global zone ") ;
+@};
 
 /*
     SYNTAX ERROR
 
     This action reports a syntax error.
 */
+
+<E_expected_identifier> : () -> (i:IDENTIFIER) = @{
+	@i="";
+	error(ERROR_SERIOUS, "Syntax error: expected identifier");
+@};
+
+<E_expected_range> : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected range");
+@};
+
+<E_expected_chars> : () -> (c:CHARACTERS) = @{
+        @c = make_string ( "" ) ;
+	error(ERROR_SERIOUS, "Syntax error: expected characters");
+@};
+
+<E_expected_colon>	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected colon \':\'");
+@};
+
 
 <syntax-error> : () -> () = @{
     error ( ERROR_SERIOUS, "Syntax error" ) ;

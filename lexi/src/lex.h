@@ -72,7 +72,7 @@ extern char token_buff [];
 extern int crt_lex_token;
 extern int saved_lex_token;
 extern char *first_comment;
-
+extern unsigned int number_buffer;
 
 /*
      PARSER MACROS

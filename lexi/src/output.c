@@ -130,33 +130,118 @@ char_lit(letter c)
 	function used in the output routines.
 */
 
-static int in_pre_pass = 0;
-static char *read_name = "lexi_readchar";
+/*static int in_pre_pass = 0;*/
+/*static char *read_name = "lexi_readchar";*/
 
 
+
+static	void 
+output_actions( zone* z, instructions_list* ret, int n, int d)
+{
+  instruction* instr;
+  for(instr=ret->head; instr; instr=instr->next) {
+    switch(instr->type) {
+    case return_token :
+      /* assert(!instr->next);*/
+      output_indent(d);
+      fprintf(lex_output, "return(%s);\n", instr->name);
+      break;
+    case apply_function:
+      output_indent(d);
+      if(!(instr->next))
+	fprintf(lex_output, "return(");
+      fprintf(lex_output, "%s(", instr->fun->name);
+      arg* fun_args;
+      for(fun_args=instr->fun->args->head;fun_args;fun_args=fun_args->next) {
+	int i;
+	if(fun_args!=instr->fun->args->head) 
+	  fputs(", ", lex_output);
+	switch(fun_args->type) {
+	case arg_chars_list:
+	  fputs("c0", lex_output);
+	  for (i = 1; i < n ; i++)
+	    fprintf(lex_output, ", c%d", i);
+	  break;
+	  
+	case arg_charP:
+	  error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
+	  break;
+	case arg_char_nb:
+	  if(fun_args->digit <n)
+	    fprintf(lex_output, "c%d", fun_args->digit);
+	  else
+	    error(ERROR_SERIOUS, "In #[0-9]* arg, the digit must be smaller than the number of chas in a token");
+	  /*Should be caught during parsing*/
+	  break;
+	}
+	
+      }
+      fputs(")", lex_output);
+      if(!(instr->next))
+	fputs(")", lex_output);
+      fputs(";\n", lex_output);
+      break;
+    case push_zone:
+      output_indent(d);
+      fprintf(lex_output, "state->zone_function=&read_token_zone_%s;\n",
+	      instr->z->zone_name);
+      if(instr->z->entering_instructions->head) 
+	output_actions(NULL,instr->z->entering_instructions,n,d);
+      else {
+	output_indent(d);
+	fputs("return(read_token(state));\n",lex_output);
+      }
+      break;
+    case pop_zone:
+      output_indent(d);
+      fprintf(lex_output, "state->zone_function=&read_token_zone_%s;\n",
+	      instr->z->zone_name);
+      if(z->leaving_instructions->head) 
+	output_actions(NULL,z->leaving_instructions,n,d);
+      else {
+	output_indent(d);
+	fputs("return(read_token(state));\n",lex_output);
+      }
+      break;
+    case do_nothing:
+      if(instr->next) 
+	error(ERROR_SERIOUS, "$$ should only appear at the end of an instruction list");
+/*Should be caught during parsing*/
+  /* assert(!instr->next);*/
+      output_indent(d);
+      if(z)
+	fputs("goto start;\n",lex_output);	  	
+      else /*We're outputting entering and leaving actions.*/
+	fputs("return(read_token(state));\n",lex_output);	  
+      break;
+    }
+  }
+}
 /*
-	OUTPUT PASS INFORMATION
+  OUTPUT PASS INFORMATION
 
 	This routine outputs code for the lexical pass indicated by p.  n
 	gives the depth of recursion and d gives the indentation.
 */
 
 static int
-output_pass(character *p, int n, int d)
+output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 {
 	character *q;
 	int cases = 0;
 	int classes = 0;
-	char *ret = NULL;
-	char *args = NULL;
+	instructions_list *ret = NULL;
+	char* retmap= NULL ;
 	char *cond = NULL;
 
 	/* First pass */
 	for (q = p->next; q != NULL; q = q->opt) {
 		letter c = q->ch;
 		if (c == LAST_LETTER) {
-			ret = q->defn;
-			args = q->args;
+			if(in_pre_pass)
+				retmap = q->map;
+			else
+				ret = q->definition;
 			cond = q->cond;
 		} else if (c <= SIMPLE_LETTER) {
 			cases++;
@@ -170,7 +255,11 @@ output_pass(character *p, int n, int d)
 		int w1 = (n == 0 && !in_pre_pass);
 		int w2 = (n == 0 && in_pre_pass);
 		output_indent(d);
-		fprintf(lex_output, "int c%d = %s()", n, read_name);
+		if(!in_pre_pass && z->zone_pre_pass->next)
+		  fprintf(lex_output, "int c%d = read_token_aux_zone_%s()", 
+			  n, z->zone_name);
+		else
+		    fprintf(lex_output, "int c%d = lexi_readchar()", n);
 		if (classes || w1)
 			fprintf(lex_output, ", t%d", n);
 		fputs(";\n", lex_output);
@@ -195,7 +284,7 @@ output_pass(character *p, int n, int d)
 				if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
 					output_indent(d + 1);
 					fprintf(lex_output, "case %s: {\n", char_lit(c));
-					if (output_pass(q, n + 1, d + 2) == 0) {
+					if (output_pass(z, q, in_pre_pass, n + 1, d + 2) == 0) {
 						output_indent(d + 2);
 						fputs("break;\n", lex_output);
 					}
@@ -216,7 +305,7 @@ output_pass(character *p, int n, int d)
 						fputs("} else ", lex_output);
 					fprintf(lex_output, "if (c%d == %s) {\n",
 								n, char_lit(c));
-					output_pass(q, n + 1, d + 1);
+					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
 			}
@@ -247,7 +336,7 @@ output_pass(character *p, int n, int d)
 					if (started)
 						fputs("} else ", lex_output);
 					fprintf(lex_output, "if (is_%s(t%d)) {\n", gnm, n);
-					output_pass(q, n + 1, d + 1);
+					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
 			}
@@ -266,20 +355,21 @@ output_pass(character *p, int n, int d)
 	}
 
 	/* Deal with return */
-	if (ret) {
+	if (ret||retmap) {
 		if (in_pre_pass) {
-			int m = *ret;
+			char*map=retmap;
+		        int m = *(map);
 			if (m) {
 				char *str;
 				if (m == '\\') {
-					str = char_lit(find_escape(ret [1]));
-					m = ret [2];
+				        str = char_lit(find_escape((map) [1]));
+					m = (map) [2];
 				} else {
 					str = char_lit((letter)m);
-					m = ret [1];
+					m = (map) [1];
 				}
 				if (m) {
-					error(ERROR_SERIOUS, "Bad mapping string, '%s'", ret);
+					error(ERROR_SERIOUS, "Bad mapping string, '%s'", map);
 				}
 				if (cond) {
 					output_indent(d);
@@ -303,23 +393,82 @@ output_pass(character *p, int n, int d)
 				fputs("goto start;\n", lex_output);
 			}
 		} else {
+			if (cond) {
 			output_indent(d);
-			if (cond)
-				fprintf(lex_output, "if (%s) ", cond);
-			fprintf(lex_output, "return(%s", ret);
-			if (args) {
-				int i;
-				fputs("(c0", lex_output);
-				for (i = 1; i < n; i++)
-					fprintf(lex_output, ", c%d", i);
-				fputs(")", lex_output);
+				fprintf(lex_output, "if (%s) {", cond);
+				d++;
 			}
-			fputs(");\n", lex_output);
-		}
+			output_actions(z,ret,n,d);
+			if (cond) {
+			  d--;
+			  fprintf(lex_output, "}", cond);
+			}
+       		}
 	}
-	return((ret && (cond == NULL))? 1 : 0);
+	return(((ret||retmap) && (cond == NULL))? 1 : 0);
 }
 
+static void
+output_zone_pass_prototypes(zone *p) 
+{
+  zone *z;
+  for(z=p->next;z!=NULL;z=z->opt) {
+    output_zone_pass_prototypes(z);
+  }
+  fprintf(lex_output,"int\nread_token_zone_%s(struct lexer_state_tag* state);\n",p->zone_name);
+}
+
+static void
+output_zone_prepass(zone *p) 
+{
+    zone *z;
+    int in_pre_pass=1;
+    for(z=p->next;z!=NULL;z=z->opt) {
+      output_zone_prepass(z);
+    }
+    if(p->zone_pre_pass->next) {
+      fprintf(lex_output,"/* PRE PASS ANALYSER for zone %s*/\n\n",p->zone_name);
+      fprintf(lex_output,"static int read_token_aux_zone_%s(void)\n",
+	    p->zone_name);
+      fputs("{\n", lex_output);
+      fputs("\tstart: {\n", lex_output);
+      output_pass(p, p->zone_pre_pass, in_pre_pass, 0, 2);
+      fputs("\treturn(c0);\n", lex_output);
+      fputs("\t}\n", lex_output);
+      fputs("}\n\n\n", lex_output);
+    }
+    return;
+}
+
+static void
+output_zone_pass(zone *p) 
+{
+    zone *z;
+    int in_pre_pass=0;
+    for(z=p->next;z!=NULL;z=z->opt) {
+      output_zone_pass(z);
+    }
+    fprintf(lex_output,"/* MAIN PASS ANALYSER for zone %s*/\n\n",p->zone_name);
+    fprintf(lex_output,"int\nread_token_zone_%s(struct lexer_state_tag* state)\n",p->zone_name);
+    fputs("{\n", lex_output);
+    fputs("\tstart: {\n", lex_output);
+    output_pass(p, p->zone_main_pass, in_pre_pass, 0, 2);
+    if(p->default_actions) {
+        int dd=2;
+	if(p->default_cond) {
+	    fprintf(lex_output,"\tif(%s) {\n\t",p->default_cond);
+	    dd=4;
+        }
+        output_actions(p,p->default_actions,1,dd);
+        if(p->default_cond) 
+	    fprintf(lex_output,"}\n",p->default_cond);
+    } 
+    else 
+        fputs("\treturn(unknown_token(c0));\n", lex_output);
+    fputs("\t}\n", lex_output);
+    fputs("}\n", lex_output);
+    return;
+}
 
 /*
 	OUTPUT INITIAL COMMENT
@@ -352,9 +501,6 @@ void
 output_all(FILE *output, bool generate_asserts)
 {
 	int c, n;
-	size_t maxtoklen;
-	size_t maxmaplen;
-	bool needbuffer;
 	size_t groupwidth;
 	const char *grouptype;
 	const char *grouphex;
@@ -379,13 +525,7 @@ output_all(FILE *output, bool generate_asserts)
 	/* Initial comment */
 	output_comment();
 
-	maxtoklen = char_maxlength(main_pass);
-	maxmaplen = pre_pass->next ? char_maxlength(pre_pass) : 0;
-	needbuffer = (maxtoklen ? maxtoklen - 1 : 0)
-		+ (maxmaplen ? maxmaplen - 1 : 0);
-
-	/* Assertions are only relevant for the buffer handling */
-	if(generate_asserts && needbuffer) {
+	if(generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
 	}
 	fputs("#include <stdint.h>\n\n", lex_output);
@@ -422,57 +562,49 @@ output_all(FILE *output, bool generate_asserts)
 	fputs("#endif\n\n", lex_output);
 
 
-	/* Buffer operations, if required */
-	if(needbuffer) {
-		fputs("/*\n", lex_output);
-		fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
-		fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
-		fputs(" */\n", lex_output);
-		if(pre_pass->next) {
-			fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
-				maxmaplen, maxtoklen);
-		} else {
-			fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
-				maxtoklen);
-		}
-		fputs("static int lexi_buffer_index;\n\n", lex_output);
-
-		fputs("/* Push a character to lexi's buffer */\n", lex_output);
-		fputs("static void lexi_push(const int c) {\n", lex_output);
-		if(generate_asserts) {
-			fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer "
-				"/ sizeof *lexi_buffer);\n", lex_output);
-		}
-		fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
-		fputs("}\n\n", lex_output);
-
-		fputs("/* Pop a character from lexi's buffer */\n", lex_output);
-		fputs("static int lexi_pop(void) {\n", lex_output);
-		if(generate_asserts) {
-			fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
-		}
-		fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
-		fputs("}\n\n", lex_output);
-
-		fputs("/* Flush lexi's buffer */\n", lex_output);
-		fputs("static void lexi_flush(void) {\n", lex_output);
-		fputs("\tlexi_buffer_index = 0;\n", lex_output);
-		fputs("}\n\n", lex_output);
-
-		/* TODO nice thing: we can abstract away 'aux() here, too. */
-		fputs("/* Read a character */\n", lex_output);
-		fputs("static int lexi_readchar(void) {\n", lex_output);
-		fputs("\tif(lexi_buffer_index) {\n", lex_output);
-		fputs("\t\treturn lexi_pop();\n", lex_output);
-		fputs("\t}\n\n", lex_output);
-		fputs("\treturn read_char();\n", lex_output);
-		fputs("}\n\n", lex_output);
+	/* Buffer operations */
+	fputs("/*\n", lex_output);
+	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
+	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
+	fputs(" */\n", lex_output);
+	if(global_zone->zone_pre_pass->next) {
+		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
+			char_maxlength(global_zone->zone_pre_pass), char_maxlength(global_zone->zone_main_pass));
 	} else {
-		fputs("/* Read a character */\n", lex_output);
-		fputs("static int lexi_readchar(void) {\n", lex_output);
-		fputs("\treturn read_char();\n", lex_output);
-		fputs("}\n\n", lex_output);
+		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
+			char_maxlength(global_zone->zone_main_pass));
 	}
+	fputs("static int lexi_buffer_index;\n\n", lex_output);
+
+	fputs("/* Push a character to lexi's buffer */\n", lex_output);
+	fputs("static void lexi_push(const int c) {\n", lex_output);
+	if(generate_asserts) {
+		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
+	}
+	fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
+	fputs("static int lexi_pop(void) {\n", lex_output);
+	if(generate_asserts) {
+		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
+	}
+	fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	fputs("/* Flush lexi's buffer */\n", lex_output);
+	fputs("static void lexi_flush(void) {\n", lex_output);
+	fputs("\tlexi_buffer_index = 0;\n", lex_output);
+	fputs("}\n\n", lex_output);
+
+	/* TODO nice thing: we can abstract away 'aux() here, too. */
+	fputs("/* Read a character */\n", lex_output);
+	fputs("static int lexi_readchar(void) {\n", lex_output);
+	fputs("\tif(lexi_buffer_index) {\n", lex_output);
+	fputs("\t\treturn lexi_pop();\n", lex_output);
+	fputs("\t}\n\n", lex_output);
+	fputs("\treturn read_char();\n", lex_output);
+	fputs("}\n\n", lex_output);
 
 
 	/* Macros for accessing table */
@@ -488,32 +620,64 @@ output_all(FILE *output, bool generate_asserts)
 		fprintf(lex_output, grouphex, m);
 		fputs(")\n", lex_output);
 	}
-	fputs("\n\n", lex_output);
 
+	fputs("\n\n", lex_output);
+	int in_pre_pass; /*boolean*/
 	/* Lexical pre-pass */
-	if (pre_pass->next) {
-		in_pre_pass = 1;
-		fputs( "/* PRE-PASS ANALYSER */\n\n", lex_output);
-		fputs("static int read_char_aux(void)\n", lex_output);
-		fputs("{\n", lex_output);
-		fputs("\tstart: {\n", lex_output);
-		output_pass(pre_pass, 0, 2);
-		fputs("\treturn(c0);\n", lex_output);
-		fputs("\t}\n", lex_output);
-		fputs("}\n\n\n", lex_output);
-		read_name = "read_char_aux";
-	}
+	in_pre_pass=1;
+	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);
+	output_zone_prepass(global_zone);
 
 	/* Main pass */
+
 	in_pre_pass = 0;
-	fputs("/* MAIN PASS ANALYSER */\n\n", lex_output);
-	fputs("int\nread_token(void)\n", lex_output);
-	fputs("{\n", lex_output);
-	fputs("\tstart: {\n", lex_output);
-	output_pass(main_pass, 0, 2);
-	fputs("\treturn(unknown_token(c0));\n", lex_output);
-	fputs("\t}\n", lex_output);
-	fputs("}\n", lex_output);
+	if(global_zone->next) {
+	  fputs("\n", lex_output);
+	  
+	  fputs("/* lexer_state_definition */\n\n", lex_output);
+	  
+	  fputs("typedef struct lexer_state_tag {\n"
+		"\tint (*zone_function)(struct lexer_state_tag*);\n"
+		"\t} lexer_state;\n",
+		lex_output);
+	  
+	  fputs("\n\nint read_token(lexer_state*);\n\n", lex_output);
+
+	  fputs("\n/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
+	  output_zone_pass_prototypes(global_zone);
+	  fputs("\n\n/* ZONES PASS ANALYSER */\n\n", lex_output);
+	  output_zone_pass(global_zone);
+	  fputs("lexer_state current_lexer_state_v="
+		"{&read_token_zone_global};\n",
+		lex_output);
+	  fputs("lexer_state* current_lexer_state=&current_lexer_state_v;",
+		lex_output);
+	  fputs("\n\nread_token(lexer_state* state)\n"
+		"{\n\treturn((*(state->zone_function))(state));\n}\n",
+		lex_output);
+	  
+	}
+	else {
+	  fputs("/* MAIN PASS ANALYSER */\n\n",lex_output);
+	  fputs("int\nread_token(void)\n",lex_output);
+	  fputs("{\n", lex_output);
+	  fputs("\tstart: {\n", lex_output);
+	  output_pass(global_zone,global_zone->zone_main_pass, in_pre_pass, 0, 2);
+	  if(global_zone->default_actions) {
+	    int dd=2;
+	    if(global_zone->default_cond) {
+	      fprintf(lex_output,"\tif(%s) {\n\t",global_zone->default_cond);
+	      dd=4;
+	    }
+	    output_actions(global_zone,global_zone->default_actions,1,dd);
+	    if(global_zone->default_cond) 
+	      fprintf(lex_output,"}\n\t",global_zone->default_cond);	    
+	  }
+	  else 
+	    fputs("\treturn(unknown_token(c0));\n", lex_output);
+	  fputs("\t}\n", lex_output);
+	  fputs("}\n", lex_output);}
+	    
 	return;
 }
 

@@ -74,14 +74,78 @@
 
 typedef unsigned int letter;
 
+struct zone_tag;
+
+typedef enum arg_type_tag { 
+  arg_charP, arg_char_nb, arg_chars_list
+} arg_type ;
+
+typedef struct arg_tag {
+  arg_type type;
+  struct arg_tag* next;
+  unsigned int digit;
+} arg;
+
+typedef struct args_list_tag {
+  arg*  head ;
+  arg** tail ;
+} args_list ;
+
+typedef struct user_function_tag {
+  char* name;
+  args_list* args;
+  //Stuff will be added here
+} user_function;
+
+typedef enum instruction_type_tag { return_token, push_zone, pop_zone, apply_function, do_nothing } instruction_type ;
+
+typedef struct instruction_tag {
+  instruction_type type;
+  struct instruction_tag* next;
+  union {
+    char* name;  /* token   */
+    struct zone_tag* z;
+    user_function* fun; 
+  } ;
+} instruction ;
+
+typedef struct instructions_list_tag {
+  instruction* head;
+  instruction** tail;
+} instructions_list;
+
+
 typedef struct character_tag {
     letter ch;
-    char *defn;
-    char *args;
-    char *cond;
+    char* cond;
     struct character_tag *opt;
     struct character_tag *next;
+    union {
+        instructions_list* definition; 
+        char* map;   
+    };
 } character;
+
+/*
+    TYPE REPRESENTING A ZONE
+
+*/
+typedef struct zone_tag {
+    char* zone_name;
+    character* zone_pre_pass;
+    character* zone_main_pass;
+
+    instructions_list *default_actions;
+    char *default_cond;
+
+    instructions_list* entering_instructions;
+    instructions_list* leaving_instructions;
+
+    struct zone_tag *opt; /*opt=brother*/
+    struct zone_tag *next;/* next=first son*/ 
+    struct zone_tag *up; 
+} zone;
+
 
 
 /*
@@ -137,18 +201,30 @@ typedef struct keyword_tag {
 */
 
 extern letter *white_space;
-extern character *pre_pass;
-extern character *main_pass;
+/*extern character *pre_pass;*/
+extern zone* global_zone;
 extern char_group groups [];
 extern int no_groups;
 extern keyword *keywords;
-extern void add_char(character *, letter *, char **);
+extern void add_char(character*, letter*, char *, instructions_list*, char* );
+extern zone* add_zone(zone*, char*,letter*);
 extern void make_group(char *, letter *);
 extern int in_group(letter *, letter);
 extern letter *make_string(char *);
 extern letter find_escape(int);
 extern void add_keyword(char *, char **);
 extern size_t char_maxlength(character *);
+extern zone * find_zone (zone*, char*); 
+
+extern user_function* add_user_function (char *name) ;
+extern instruction * add_instruction_return_token (char* name);
+extern instruction* add_instruction_function (char* name, args_list* args) ;
+extern instruction* add_instruction_donothing () ;
+extern instruction* add_instruction_mapping (char* map) ;
+extern args_list* add_args_list (void);
+extern arg* add_arg (arg_type, unsigned int);
+extern instruction* add_instruction_pushzone (zone* z) ;
+extern instructions_list* add_instructions_list (void) ;
 
 
 #endif

@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 112 "syntax.act"
+#line 123 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -54,35 +54,45 @@ extern void read_lex(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
+#define lex_arg_Hchar_Hnb (31)
 #define lex_keyword (7)
+#define lex_range (25)
+#define lex_comma (26)
 #define lex_digit (5)
-#define lex_unknown (22)
-#define lex_close (14)
+#define lex_unknown (28)
+#define lex_close (16)
 #define lex_sid_Hidentifier (1)
 #define lex_string (2)
-#define lex_equal (19)
+#define lex_equal (21)
+#define lex_colon (24)
 #define lex_token (9)
 #define lex_white (10)
 #define lex_identifier (0)
-#define lex_else (12)
+#define lex_else (14)
 #define lex_lower (4)
-#define lex_arrow (17)
+#define lex_arrow (19)
 #define lex_upper (3)
 #define lex_group (6)
-#define lex_open (13)
-#define lex_eof (18)
-#define lex_plus (20)
-#define lex_close_Hbrace (16)
-#define lex_if (11)
-#define lex_semicolon (21)
-#define lex_open_Hbrace (15)
+#define lex_nothing_Hmarker (27)
+#define lex_open (15)
+#define lex_eof (20)
+#define lex_zone (12)
+#define lex_plus (22)
+#define lex_close_Hbrace (18)
+#define lex_if (13)
+#define lex_semicolon (23)
+#define lex_arg_Hchar_Hstring (30)
+#define lex_open_Hbrace (17)
+#define lex_default (11)
+#define lex_arg_Hchar_Hvoid (32)
 #define lex_mapping (8)
+#define lex_arg_Hchar_Hlist (29)
 
 /* BEGINNING OF TRAILER */
 
-#line 396 "syntax.act"
+#line 582 "syntax.act"
 
 #endif
-#line 87 "tmp.syntax.h"
+#line 97 "tmp.syntax.h"
 
 /* END OF FILE */

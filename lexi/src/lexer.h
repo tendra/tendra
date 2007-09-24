@@ -131,8 +131,27 @@ read_token(void)
 	    case '"': {
 		return(get_string(c0));
 	    }
+	    case '#': {
+		int c1 = lexi_readchar(), t1;
+		if (c1 == '#') {
+		    return(lex_arg_Hchar_Hlist);
+		} else if (c1 == '$') {
+		    return(lex_arg_Hchar_Hvoid);
+		} else if (c1 == '*') {
+		    return(lex_arg_Hchar_Hstring);
+		}
+		t1 = lookup_char(c1);
+		if (is_digit(t1)) {
+		    return(read_arg_char_nb(c0, c1));
+		}
+		lexi_push(c1);
+		break;
+	    }
 	    case '$': {
 		int c1 = lexi_readchar(), t1;
+		if (c1 == '$') {
+		    return(lex_nothing_Hmarker);
+		}
 		t1 = lookup_char(c1);
 		if (is_alpha(t1)) {
 		    return(get_sid_ident(c0, c1));
@@ -149,10 +168,25 @@ read_token(void)
 	    case '+': {
 		return(lex_plus);
 	    }
+	    case ',': {
+		return(lex_comma);
+	    }
 	    case '-': {
 		int c1 = lexi_readchar();
 		if (c1 == '>') {
 		    return(lex_arrow);
+		}
+		lexi_push(c1);
+		break;
+	    }
+	    case '.': {
+		int c1 = lexi_readchar();
+		if (c1 == '.') {
+		    int c2 = lexi_readchar();
+		    if (c2 == '.') {
+			return(lex_range);
+		    }
+		    lexi_push(c2);
 		}
 		lexi_push(c1);
 		break;
@@ -164,6 +198,9 @@ read_token(void)
 		}
 		lexi_push(c1);
 		break;
+	    }
+	    case ':': {
+		return(lex_colon);
 	    }
 	    case ';': {
 		return(lex_semicolon);

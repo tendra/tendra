@@ -40,8 +40,14 @@
 BOOL ;
 CHARACTERS ;
 IDENTIFIER ;
+ZONE;
 STRING ;
 
+INSTRUCTION ;
+INSTRUCTIONS_LIST ;
+
+ARG ;
+ARGS_LIST ;
 
 %terminals%
 
@@ -65,6 +71,8 @@ keyword ;
 mapping ;
 token ;
 white ;
+default ;
+zone ;
 
 if ;
 else ;
@@ -79,8 +87,16 @@ eof ;
 equal ;
 plus ;
 semicolon ;
+colon ;
+range ;
+comma;
+nothing-marker;
 !unknown ;
 
+arg-char-list : () -> (:ARG);
+arg-char-string : () -> (:ARG);
+arg-char-nb : () -> (:ARG);
+arg-char-void; //temporary
 
 %productions%
 
@@ -96,17 +112,48 @@ semicolon ;
 <make-chars> : ( :STRING ) -> ( :CHARACTERS ) ;
 <make-white> : ( :CHARACTERS ) -> () ;
 <make-group> : ( :IDENTIFIER, :CHARACTERS ) -> () ;
-<make-trigraph> : ( :CHARACTERS, :STRING ) -> () ;
-<make-token> : ( :CHARACTERS, :IDENTIFIER, :BOOL ) -> () ;
-<make-keyword> : ( :STRING, :IDENTIFIER, :BOOL ) -> () ;
+<make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
+<make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
+<make-donothing-inst> : () -> (:INSTRUCTION) ;
+<make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
+<make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
+<make-keyword> : ( :STRING, :IDENTIFIER, :ARGS_LIST ) -> () ;
 <add-condition> : ( :IDENTIFIER ) -> () ;
 <compl-condition> : () -> () ;
 <get-condition> : () -> ( :IDENTIFIER ) ;
 <set-condition> : ( :IDENTIFIER ) -> () ;
-<true> : () -> ( :BOOL ) ;
-<false> : () -> ( :BOOL ) ;
+//<true> : () -> ( :BOOL ) ;
+//<false> : () -> ( :BOOL ) ;
+
+//<null-identifier> : () -> ( :IDENTIFIER );
+
+<global-zone> : () -> ( :ZONE );
+<is-global-zone> : ( :ZONE ) -> ( :BOOL );
+
+<null-args-list> : () -> ( :ARGS_LIST) ;
+<empty-args-list> : () -> ( :ARGS_LIST) ;
+<args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
+<arg-char-list-tmp> :    () -> ( :ARG);
+
+
+
+<empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
+<add-inst-to-list> : ( : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
+
+<E_expected_identifier> : () -> (:IDENTIFIER);
+<E_expected_range> : () -> ();
+<E_expected_chars> : () -> (:CHARACTERS);
+
+<E_nonglobalzonekeyword> : () -> ();
+<E_nonglobalzonegroup>   : () -> ();
+<E_expected_colon>	 : () -> ();
+<is-non-empty> : ( : CHARACTERS ) -> ( : BOOL );
+<E_empty_character_string> : () -> ();
+
 <syntax-error> : () -> () ;
 
+<make-zone> : ( :ZONE, :IDENTIFIER, :CHARACTERS, :INSTRUCTIONS_LIST, 
+	      	:CHARACTERS, :INSTRUCTIONS_LIST ) -> ( :ZONE );
 
 /*
     STRINGS
@@ -121,7 +168,7 @@ string-plus : () -> ( s : STRING ) = {
 	    ||	a = upper ;
 	    ||	a = lower ;
 	    ||	a = digit ;
-	} ;
+	} ; 
 	{
 		s = a ;
 	    ||	plus ; b = string-plus ; s = <string-concat> ( a, b ) ;
@@ -141,6 +188,14 @@ chars : () -> ( c : CHARACTERS ) = {
 	c = <make-chars> ( s ) ;
 } ;
 
+non-empty-chars : () -> (c: CHARACTERS) ={
+	c=chars;
+	{
+		?=<is-non-empty>(c);
+	    ##
+		<E_empty_character_string>;
+	};
+};
 
 /*
     WHITE SPACE DEFINITION
@@ -148,9 +203,14 @@ chars : () -> ( c : CHARACTERS ) = {
     This action defines the set of white space characters.
 */
 
-white-defn : () -> () = {
+white-defn : ( z:ZONE ) -> () = {
 	group ; white ; equal ; s = chars ;
-	<make-white> ( s ) ;
+	{
+		?=<is-global-zone> (z); 
+		<make-white> ( s ) ;
+	    ##
+		<E_nonglobalzonegroup>;
+	};
 } ;
 
 
@@ -160,9 +220,14 @@ white-defn : () -> () = {
     This action assigns a name to a group of characters.
 */
 
-group-defn : () -> () = {
-	group ; i = identifier ; equal ; s = chars ;
-	<make-group> ( i, s ) ;
+group-defn : ( z:ZONE ) -> () = {
+        group ; i = identifier ; equal ; s = chars ;
+	{
+		?=<is-global-zone> (z); 
+		<make-group> ( i, s ) ;
+	    ##
+		<E_nonglobalzonegroup>;
+	};
 } ;
 
 
@@ -173,9 +238,33 @@ group-defn : () -> () = {
     a token definition.
 */
 
-args : () -> ( a : BOOL ) = {
-	a = <false> ;
-    ||	open ; close ; a = <true> ;
+single-arg : () -> ( a : ARG ) = {
+	a=arg-char-list ;
+    ||  a=arg-char-string ;
+    ||  a=arg-char-nb ;
+} ;
+
+non-empty-tuple-args : () -> (l: ARGS_LIST) = {
+	a=single-arg ; l=<empty-args-list> ; <args-list-push-front>(a,l); 
+    ||
+	a=single-arg ; comma ; l=non-empty-tuple-args ;
+	<args-list-push-front>(a,l);
+} ;
+
+tuple-args : () -> (l : ARGS_LIST) = {
+	l=<empty-args-list> ;
+	tmp=<arg-char-list-tmp>;
+	<args-list-push-front>(tmp,l); 
+    ||
+	arg-char-void; //temporary
+	l=<empty-args-list> ;
+    ||
+	l=non-empty-tuple-args ;  
+};
+
+args : () -> ( l : ARGS_LIST ) = {
+	l = <null-args-list> ;
+    ||	open ; l=tuple-args ; close ;
 } ;
 
 
@@ -186,11 +275,40 @@ args : () -> ( a : BOOL ) = {
     in ANSI C).
 */
 
-trigraph-defn : () -> () = {
-	mapping ; s = chars ; arrow ; t = string-plus ;
-	<make-trigraph> ( s, t ) ;
+trigraph-defn : ( z:ZONE) -> () = {
+	mapping ; s = chars ; arrow ; t = string-plus ; 
+    	<make-trigraph> ( z, s, t ) ;
 } ;
 
+
+/*
+  INSTRUCTION LISTS
+*/
+
+instruction : () -> (inst:INSTRUCTION) = {
+	{
+		i = identifier ; a = args ;
+	    ||	
+	    	i = sid-identifier ; a = <null-args-list> ;
+	} ;
+	inst = <make-inst>( i, a);
+    ||	
+    	{
+		nothing-marker; 
+		inst = <make-donothing-inst>;
+	} ;
+} ;
+
+instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
+		  inst=instruction ; 
+		  instl=<empty-inst-list>;
+		  <add-inst-to-list>( inst, instl);
+	||
+		  inst=instruction ;
+   		  comma; 
+		  instl=instructions-list ; 
+		  <add-inst-to-list>( inst, instl);
+} ;
 
 /*
     TOKEN DEFINITION
@@ -199,14 +317,18 @@ trigraph-defn : () -> () = {
     and keywords).
 */
 
-token-defn : () -> () = {
-	token ; s = chars ; arrow ;
-	{
-		i = identifier ; a = args ;
-	    ||	i = sid-identifier ; a = <false> ;
-	} ;
-	<make-token> ( s, i, a ) ;
+token-defn : ( z:ZONE ) -> () = {
+	token ; s = non-empty-chars ; arrow ;
+	inst-list=instructions-list;
+	<make-token> ( z, s, inst-list) ;
 } ;
+
+default-defn : ( z:ZONE ) -> () = {
+        token ; default ; arrow ;
+	inst-list=instructions-list;
+        <make-default> ( z, inst-list) ; 
+} ;
+
 
 
 /*
@@ -215,13 +337,18 @@ token-defn : () -> () = {
     This action defines a keyword.
 */
 
-keyword-defn : () -> () = {
+keyword-defn : ( z:ZONE ) -> () = {
 	keyword ; s = string ; arrow ;
 	{
 		i = identifier ; a = args ;
-	    ||	i = sid-identifier ; a = <false> ;
+	    ||	i = sid-identifier ; a = <null-args-list> ;
 	} ;
-	<make-keyword> ( s, i, a ) ;
+	{
+		?=<is-global-zone> (z); 
+	    	<make-keyword> ( s, i, a ) ;
+	    ##
+		<E_nonglobalzonekeyword>;
+	};
 } ;
 
 
@@ -232,34 +359,80 @@ keyword-defn : () -> () = {
     commands above.
 */
 
-command : () -> () ;
+command : (:ZONE) -> () ;
 
-command-list : () -> () = {
+command-list : (z:ZONE) -> () = {
 	$ ;
-    ||	command ; command-list ;
+    ||	command(z) ; command-list(z) ;
     ##	<syntax-error> ;
 } ;
 
-if-command : () -> () = {
+if-command : (z:ZONE) -> () = {
 	if ; open ; i = identifier ; close ;
 	j = <get-condition> ;
 	<add-condition> ( i ) ;
-	command ;
+	command ( z ) ;
 	{
-		else ; <compl-condition> ; command ; <set-condition> ( j ) ;
+		else ; <compl-condition> ; command ( z ) ; <set-condition> ( j ) ;
 	    ##	<set-condition> ( j ) ;
 	} ;
 } ;
 
-command : () -> () = {
+zone-defn : (z:ZONE) -> ()  = {
+	zone; 
+	{
+		zid = identifier; 
+	    ##  
+	    	zid=<E_expected_identifier>;
+	};
+	{
+		colon;
+	    ##
+		<E_expected_colon>;
+	};
+	{
+		b=non-empty-chars; 
+	    ##  
+	    	b=<E_expected_chars>;
+	};
+	{
+		arrow; 
+		entry-instl=instructions-list;
+	    ||  
+		entry-instl=<empty-inst-list>;
+	};
+	{
+		range ; 
+	    ##
+		<E_expected_range>;
+	};
+	{
+		e=non-empty-chars; 
+	    ##  
+	    	e=<E_expected_chars>;
+	};
+	{
+		arrow; 
+		leaving-instl=instructions-list;
+	    ||  
+		leaving-instl=<empty-inst-list>;
+	};
+	new-zone=<make-zone>(z,zid,b,entry-instl,e,leaving-instl);
+
+	open-brace ; command-list(new-zone) ; close-brace ;
+} ;
+
+command : (z:ZONE) -> () = {
 	semicolon ;
-    ||	white-defn ; semicolon ;
-    ||	group-defn ; semicolon ;
-    ||	trigraph-defn ; semicolon ;
-    ||	token-defn ; semicolon ;
-    ||	keyword-defn ; semicolon ;
-    ||	open-brace ; command-list ; close-brace ;
-    ||	if-command ;
+    ||	white-defn ( z ) ; semicolon ;
+    ||	group-defn ( z ) ; semicolon ;
+    ||	trigraph-defn ( z ) ; semicolon ;
+    ||	token-defn ( z ) ; semicolon ;
+    ||	keyword-defn ( z ) ; semicolon ;
+    ||  default-defn ( z ); semicolon ;
+    ||  zone-defn ( z ) ;
+    ||	open-brace ; command-list( z ) ; close-brace ;
+    ||	if-command ( z ) ;
 } ;
 
 
@@ -271,7 +444,8 @@ command : () -> () = {
 */
 
 unit : () -> () = {
-	command-list ;
+	z=<global-zone>;
+	command-list ( z ) ;
 	{
 		eof ;
 	    ##	<syntax-error> ;

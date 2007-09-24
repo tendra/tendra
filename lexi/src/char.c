@@ -56,6 +56,7 @@
         no liability whatsoever in relation to any use to which
         it may be put.
 */
+#include<stdio.h>
 
 #include <string.h>
 #include <stddef.h>
@@ -81,13 +82,13 @@ letter *white_space = NULL;
 */
 
 static character passes [2] = {
-    { LAST_LETTER, NULL, NULL, NULL, NULL, NULL },
-    { LAST_LETTER, NULL, NULL, NULL, NULL, NULL }
+    { LAST_LETTER, NULL, NULL, NULL, NULL },
+    { LAST_LETTER, NULL, NULL, NULL, NULL }
 };
 
 character *pre_pass = passes;
-character *main_pass = passes + 1;
-
+zone  global_zone_v={"global",passes,passes+1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+zone* global_zone=&global_zone_v;
 
 /*
     ALLOCATE A NEW CHARACTER
@@ -107,10 +108,10 @@ new_char(letter c)
     }
     p = chars_free + (--chars_left);
     p->ch = c;
-    p->defn = NULL;
     p->cond = NULL;
     p->opt = NULL;
     p->next = NULL;
+    p->definition = NULL;
     return(p);
 }
 
@@ -123,7 +124,7 @@ new_char(letter c)
 */
 
 void
-add_char(character *p, letter *s, char **data)
+add_char(character *p, letter *s, char *cond, instructions_list* instlist, char* map)
 {
     character *q;
     letter c = *s;
@@ -147,18 +148,328 @@ add_char(character *p, letter *s, char **data)
 	}
     }
     if (c == LAST_LETTER) {
-	if (q->defn) {
-	    error(ERROR_SERIOUS,
-		    "String for '%s' has already been defined to give '%s'",
-		    data [0], q->defn);
-	}
-	q->defn = data [0];
-	q->args = data [1];
-	q->cond = data [2];
-    } else {
-	add_char(q, s + 1, data);
+        if ((instlist && q->definition) || (map && q->map))
+	    error(ERROR_SERIOUS, "TOKEN already defined");
+        q->cond=cond;
+        if(instlist) 
+	    q->definition=instlist;
+        else
+	    q->map=map;
     }
+    else 
+      add_char(q, s + 1, cond, instlist, map);
+    
     return;
+}
+
+/* 
+    ALLOCATE A NEW ARG 
+
+    This routine allocates a arg for a user provided function
+*/
+static arg*
+new_arg(void) 
+{
+    arg *p;
+    static int args_left = 0;
+    static arg *args_free = NULL;
+    if (args_left == 0) {
+	args_left = 100;
+	args_free = xmalloc_nof(arg, args_left);
+    }
+    p = args_free + (--args_left);
+    p->next =NULL;
+    return(p);
+}
+
+/*
+    ADDS AN ARG
+
+    This routines adds a new arg
+ */
+arg *
+add_arg (arg_type t, unsigned int d)
+{
+    arg* p = new_arg();
+    p->type = t;
+    p->digit = d;
+    return(p);
+}
+
+/*
+    ALLOCATES A NEW ARGS LIST
+
+    This routines allocates a new args list
+*/
+static args_list*
+new_args_list (void) 
+{
+    args_list *p;
+    static int args_lists_left = 0;
+    static args_list *args_lists_free = NULL;
+    if (args_lists_left == 0) {
+	args_lists_left = 100;
+	args_lists_free = xmalloc_nof(args_list, args_lists_left);
+    }
+    p = args_lists_free + (--args_lists_left);
+    p->head =NULL;
+    p->tail=&(p->head);
+    return(p);
+}
+
+
+/*
+    ADDS A NEW ARGS LIST
+
+    This routines adds a new args list
+*/
+args_list*
+add_args_list (void) 
+{
+    args_list *p=new_args_list();
+    return(p);
+}
+
+
+/*
+    ALLOCATE A NEW USER FUNCTION
+
+    This routine allocates a new user provided function
+*/
+static user_function * 
+new_user_function (void)
+{
+    user_function *p;
+    static int user_functions_left = 0;
+    static user_function *user_functions_free = NULL;
+    if (user_functions_left == 0) {
+	user_functions_left = 100;
+	user_functions_free = xmalloc_nof(user_function, user_functions_left);
+    }
+    p = user_functions_free + (--user_functions_left);
+    p->name=NULL;
+    p->args=NULL;
+    return p;
+};
+/*
+    ALLOCATE ADDS USER FUNCTION
+
+    This routine add a new user provided function
+*/
+user_function * 
+add_user_function (char *name)
+{
+    user_function *p=new_user_function();
+    p->name=name;
+    return p;
+};
+
+
+/*
+    ALLOCATE A NEW INSTRUCTION
+
+    This routine allocates a new instrucion
+*/
+
+static instruction * 
+new_instruction (instruction_type type) 
+{
+    instruction *p;
+    static int instructions_left = 0;
+    static instruction *instructions_free = NULL;
+    if (instructions_left == 0) {
+	instructions_left = 100;
+	instructions_free = xmalloc_nof(instruction, instructions_left);
+    }
+    p = instructions_free + (--instructions_left);
+    p->type=type;
+    p->next=NULL;
+    return p;
+};
+
+/*
+    ADD  A NEW RETURN TOKEN INSTRUCTION
+
+    This routine adds a new return token instruction
+*/
+
+instruction * 
+add_instruction_return_token (char* name)
+{
+    instruction *p=new_instruction(return_token);
+    p->name=name;
+    return p;
+};
+
+/*
+    ADD  A NEW FUNCTION INSTRUCTION
+
+    This routine adds a new function instruction
+*/
+
+instruction * 
+add_instruction_function (char* name, args_list* args) 
+{
+    instruction* p=new_instruction(apply_function);
+    p->fun=add_user_function(name);
+    p->fun->args=args;
+    return p;
+};
+
+/*
+    ADD  A NEW DO NOTHING INSTRUCTION
+
+    This routine adds a new do nothing instruction
+*/
+
+instruction * 
+add_instruction_donothing () 
+{
+    instruction* p=new_instruction(do_nothing);
+    return p;
+};
+
+/*
+    ADD  A NEW PUSH ZONE INSTRUCTION
+
+    This routine adds a new push zone instruction
+*/
+
+instruction * 
+add_instruction_pushzone (zone* z) 
+{
+    instruction* p=new_instruction(push_zone);
+    p->z=z;
+    return p;
+};
+
+/*
+    ADD  A NEW PUSH ZONE INSTRUCTION
+
+    This routine adds a new pop zone instruction
+*/
+
+instruction*
+add_instruction_popzone (zone* z) 
+{
+    instruction* p=new_instruction(pop_zone);
+    p->z=z;
+    return p;
+};
+
+/*
+    ALLOCATE A NEW INSTRUCTION
+
+    This routine allocates a new instrucion
+*/
+
+static 
+instructions_list*
+new_instructions_list (void)
+{
+    instructions_list *p;
+    static int instructions_list_left = 0;
+    static instructions_list *instructions_list_free = NULL;
+    if (instructions_list_left == 0) {
+	instructions_list_left = 100;
+	instructions_list_free = xmalloc_nof(instructions_list, instructions_list_left);
+    }
+    p = instructions_list_free + (--instructions_list_left);
+    p->head=NULL;
+    p->tail=&(p->head);
+    return p;   
+}
+
+/*
+    ADDS A NEW INSTRUCTIONS LIST
+
+    This routine adds a ne instructions list.
+*/
+
+instructions_list*
+add_instructions_list (void)
+{
+    instructions_list *p=new_instructions_list();
+    return p;   
+}
+
+
+/*
+    ALLOCATE A NEW ZONE
+
+    This routine allocates a new zone
+*/
+
+static zone * 
+new_zone (char* zid) 
+{
+    zone *p;
+    static int zones_left = 0;
+    static zone *zones_free = NULL;
+    if (zones_left == 0) {
+	zones_left = 100;
+	zones_free = xmalloc_nof(zone, zones_left);
+    }
+    p = zones_free + (--zones_left);
+    p->zone_name=zid;
+    p->zone_main_pass=new_char(LAST_LETTER);
+    p->zone_pre_pass=new_char(LAST_LETTER);
+    
+    p->default_actions=NULL;
+    p->default_cond=NULL;
+
+    p->entering_instructions=NULL;
+    p->leaving_instructions=NULL;
+
+    p->opt=NULL;
+    p->next=NULL;
+    return p;
+};
+
+/*
+    FIND A  ZONE
+
+    This routine finds a zone under the current one
+
+*/
+
+zone * 
+find_zone (zone* z, char* zid) 
+{
+    zone* q;
+    for(q=z->next; q!=NULL ; q=q->opt) {
+        if(strcmp(q->zone_name,zid)==0)
+	    break;
+    }
+    return q;
+    }
+
+/*
+    ADD A ZONE
+
+    This routine adds a new zone named zid under the current zone z
+*/
+zone* 
+add_zone(zone* current_zone, char* zid,letter* e)
+{
+  zone* q;
+  for(q=current_zone->next; q!=NULL; q=q->opt) {
+    if(strcmp(q->zone_name,zid)==0) {
+      error(ERROR_SERIOUS, "Zone %s already exists in this scope",zid);
+      return NULL;
+    }
+  }
+
+  q=new_zone(zid);
+  q->opt=current_zone->next;
+  current_zone->next=q;
+  q->up=current_zone;
+  instruction* inst = add_instruction_popzone(current_zone);
+  instructions_list* inst_list=add_instructions_list();
+  *(inst_list->tail)=inst;
+  inst_list->tail=&(inst->next);
+  add_char(q->zone_main_pass,e,NULL,inst_list,NULL);
+  return q;
 }
 
 

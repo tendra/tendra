@@ -34,10 +34,12 @@
 
 /* KEYWORDS */
 
+MAKE_KEYWORD("DEFAULT", lex_default);
 MAKE_KEYWORD("ELSE", lex_else);
 MAKE_KEYWORD("GROUP", lex_group);
 MAKE_KEYWORD("IF", lex_if);
 MAKE_KEYWORD("KEYWORD", lex_keyword);
 MAKE_KEYWORD("MAPPING", lex_mapping);
 MAKE_KEYWORD("TOKEN", lex_token);
+MAKE_KEYWORD("ZONE", lex_zone);
 MAKE_KEYWORD("white", lex_white);

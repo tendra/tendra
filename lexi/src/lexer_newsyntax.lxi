@@ -56,7 +56,7 @@ TOKEN ","  -> $comma ;
 TOKEN "\e" -> $eof ;
 TOKEN "##"       -> $arg-char-list ;
 TOKEN "#*"       -> $arg-char-string ;
-TOKEN "#[digit]" -> read_arg_char_nb();
+TOKEN "#[digit]" -> read_arg_char_nb(##);
 TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
       	      		      for a small amount of time */
 
@@ -66,10 +66,10 @@ TOKEN "{a-z}" -> $lower ;
 TOKEN "{0-9}" -> $digit ;
 
 /* Comments, strings and identifiers */
-TOKEN "/*" -> get_comment () ;
-TOKEN "\"" -> get_string () ;
-TOKEN "[alpha]" -> get_identifier () ;
-TOKEN "$[alpha]" -> get_sid_ident () ;
+TOKEN "/*" -> get_comment (##) ;
+TOKEN "\"" -> get_string (##) ;
+TOKEN "[alpha]" -> get_identifier (##) ;
+TOKEN "$[alpha]" -> get_sid_ident (##) ;
 
 /* Keywords */
 KEYWORD "GROUP" -> $group ;

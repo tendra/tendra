@@ -110,6 +110,7 @@ static int read_string(void);
 #define unknown_token(A)	lex_unknown
 #define unread_char(A)	*(++pending) = (A)
 
+static int read_arg_char_nb(int,int) ;
 
 /*
     AUTOMATICALLY GENERATED SECTION
@@ -153,7 +154,7 @@ read_char(void)
 char token_buff [2000];
 static char *token_end = token_buff + sizeof(token_buff);
 char *first_comment = NULL;
-
+unsigned int number_buffer;
 
 /*
     READ AN IDENTIFIER
@@ -255,6 +256,49 @@ read_comment(void)
     return(read_token());
 }
 
+/*
+  Char to integer. There is probably a standard way to do this
+ */
+
+static short chartoint (int c) {
+  switch (c) {
+  case '0':
+    return 0;
+  case '1':
+    return 1;
+  case '2':
+    return 2;
+  case '3':
+    return 3;
+  case '4':
+    return 4;
+  case '5':
+    return 5;
+  case '6':
+    return 6;
+  case '7':
+    return 7;
+  case '8':
+    return 8;
+  case '9':
+    return 9;
+  }
+}
+
+/*
+  Arg TOKEN number
+ */
+static int read_arg_char_nb(int c0, int c1)  
+{
+  number_buffer=chartoint(c1);
+  int c;
+  while(isdigit(c=lexi_readchar())){
+    number_buffer*=10;
+    number_buffer+=chartoint(c);
+  }
+  lexi_push(c);
+  return lex_arg_Hchar_Hnb;
+}
 
 /*
     CURRENT TOKEN
