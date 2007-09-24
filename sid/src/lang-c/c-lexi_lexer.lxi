@@ -1,0 +1,87 @@
+/*
+ * The lexical analyser for Sid's C actions parser.
+ * $Id$
+ */
+
+/* -l C_TOK_ */
+
+TOKEN "\e" -> $EOF;
+
+TOKEN ":" -> $TYPEMARK;
+TOKEN "=" -> $DEFINE;
+TOKEN "," -> $SEPARATOR;
+TOKEN "&" -> $REFERENCE;
+TOKEN ";" -> $TERMINATOR;
+
+TOKEN "<" -> C_TOK_BEGIN_ACTION;
+TOKEN ">" -> C_TOK_END_ACTION;
+
+TOKEN "(" -> C_TOK_OPEN_TUPLE;
+TOKEN ")" -> C_TOK_CLOSE_TUPLE;
+
+TOKEN "->" -> $ARROW;
+
+/* XXX I think '-' can be in identstart, too */
+GROUP identstart = {a-z} + {A-Z} + "_";
+GROUP identbody = "[identstart]" + {0-9} + "-";
+TOKEN "[identstart]" -> c_lexer_read_identifier();
+
+ZONE bracketed_comment: "/*" ... "*/" {
+	TOKEN DEFAULT -> $$;
+}
+
+/* TODO anonoymous zones would be nice: ZONE "//" ... "\n" { */
+/*
+ * TODO:
+ * We currently don't have support for GROUP in zones. Whitespace is treated
+ * with higher precidence than the "\n" zone-ending token above, and so that
+ * is skipped. This is not an issue for the comment-stripping example,
+ * because that example does not treat newline as whitespace.
+ *
+ * As a work-around, we can remap \n to a non-whitespace character, when
+ * MAPPING support in zones is ready. In the future, this should be handled
+ * by adding GROUP support for zones.
+ *
+ * Right now, however, we just call a user-defined function which skips until
+ * newline.
+ */
+/*
+ZONE singleline_comment: "//" ... "\n" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
+}
+*/
+TOKEN "//" -> c_lexer_skip_singleline_comment();
+
+/* TODO maybe use keywords for this, when lexi's API settles */
+GROUP builtinstart = {a-z};
+GROUP builtinbody = "[builtinstart]-";
+GROUP builtindlmt = "%";
+TOKEN "[builtindlmt][builtinstart]" -> c_lexer_read_builtin();
+
+
+/* TODO split at_* functions into separate file */
+
+/* Used by c_lexer_act_read_identifier() */
+GROUP act_identbody = "[identstart]" + {0-9};
+
+ZONE act:	"@{" -> C_TOK_ACT_CODESTART	/* XXX to remove when merged into the grammar */
+	...		"@}" -> C_TOK_ACT_CODEEND {
+
+	TOKEN DEFAULT -> c_lexer_act_read_string();
+	TOKEN "\e" -> C_TOK_ACT_EOF;	/* XXX to remove when merged into the grammar */
+
+	TOKEN "@@" -> C_TOK_ACT_AT;
+	TOKEN "@!" -> C_TOK_ACT_EXCEPTION;
+	TOKEN "@." -> C_TOK_ACT_TERMINAL;
+	TOKEN "@>" -> C_TOK_ACT_ADVANCE;
+
+	/* TODO these would be nicer once we have "a" * "b" */
+	TOKEN "@:[identstart]" -> c_lexer_act_read_label();
+	TOKEN "@&[identstart]" -> c_lexer_act_read_reference();
+	TOKEN "@=[identstart]" -> c_lexer_act_read_modifiable();
+
+	/* TODO c_lexer_read_code_id(): code identifier? */
+	TOKEN "@[identstart]" -> c_lexer_act_read_identifier();
+}
+

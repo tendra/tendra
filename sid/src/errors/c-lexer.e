@@ -183,6 +183,27 @@ error "c code block syntax" ("istream" : "IStreamT *") {
     }
 };
 
+error "c illegal character in identifier" ("istream" : "IStreamT *") {
+    "${file name}: ${line number}: illegal character in identifier': '${character}'",
+    {
+	"file name" : "char *" $[
+	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = istream_name(istream);
+	]$
+    }, {
+	"line number" : "unsigned" $[
+	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = istream_line(istream);
+	]$
+    }, {
+	"character" : "char" $[
+	    write_escaped_char(ostream, closure->character);
+	]$
+    }
+};
+
 error "c illegal at char" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character after '@': '${character}'",
     {
