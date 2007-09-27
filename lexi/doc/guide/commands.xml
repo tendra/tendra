@@ -137,7 +137,7 @@ GROUP anything = "atrf" + "HGMP" + {0-9} ;</programlisting>
 			included into the group definition. For example:</para>
 
 		<programlisting language="Lexi">GROUP hexdigit = "[digit]ABCDEFabcdef" ;
-GROUP alphanum = "[alpha]" + {0-9}</programlisting>
+GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 
 		<para>assuming the groups <literal>alpha</literal> and
 			<literal>digit</literal> have already
