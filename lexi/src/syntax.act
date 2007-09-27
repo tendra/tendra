@@ -419,12 +419,22 @@ arg-char-nb : () ->(a:ARG) = @{
 
 */
 
-<make-keyword> : ( s : STRING, i : IDENTIFIER, b : ARGS_LIST ) -> () = @{
-    char *data [3] ;
-    data [0] = @i ;
-    data [1] = ( @b ? "()" : NULL ) ;
-    data [2] = crt_cond ;
-    add_keyword ( @s, data ) ;
+<make-keyword> : ( z: ZONE, s : STRING, i : INSTRUCTION ) -> () = @{
+    switch(@i->type) {
+    case apply_function:
+      if(@i->fun->args->head==NULL) {
+        error(ERROR_SERIOUS, "Syntax error: for keywords using "
+	"user defined functions, "
+	"the arglist must remain empty");
+        break;
+      }
+    case return_token: 
+    /* Fallback is intentional */
+      add_keyword ( @z, @s, crt_cond, @i ) ;
+    break;
+    default:
+      error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
+  }
 @} ;
 
 

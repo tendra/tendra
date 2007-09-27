@@ -117,7 +117,7 @@ arg-char-void; //temporary
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
 <make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
-<make-keyword> : ( :STRING, :IDENTIFIER, :ARGS_LIST ) -> () ;
+<make-keyword> : ( :ZONE, :STRING, :INSTRUCTION ) -> () ;
 <add-condition> : ( :IDENTIFIER ) -> () ;
 <compl-condition> : () -> () ;
 <get-condition> : () -> ( :IDENTIFIER ) ;
@@ -339,13 +339,10 @@ default-defn : ( z:ZONE ) -> () = {
 
 keyword-defn : ( z:ZONE ) -> () = {
 	keyword ; s = string ; arrow ;
-	{
-		i = identifier ; a = args ;
-	    ||	i = sid-identifier ; a = <null-args-list> ;
-	} ;
+	inst=instruction ; 
 	{
 		?=<is-global-zone> (z); 
-	    	<make-keyword> ( s, i, a ) ;
+	    	<make-keyword> ( z, s, inst) ;
 	    ##
 		<E_nonglobalzonekeyword>;
 	};

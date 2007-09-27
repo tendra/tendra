@@ -118,6 +118,8 @@ static int lexi_readchar(void) {
 #define is_alphanum(T)	((T) & 0x08)
 
 
+/* PRE-PASS ANALYSERS */
+
 /* MAIN PASS ANALYSER */
 
 int

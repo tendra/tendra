@@ -127,28 +127,6 @@ typedef struct character_tag {
 } character;
 
 /*
-    TYPE REPRESENTING A ZONE
-
-*/
-typedef struct zone_tag {
-    char* zone_name;
-    character* zone_pre_pass;
-    character* zone_main_pass;
-
-    instructions_list *default_actions;
-    char *default_cond;
-
-    instructions_list* entering_instructions;
-    instructions_list* leaving_instructions;
-
-    struct zone_tag *opt; /*opt=brother*/
-    struct zone_tag *next;/* next=first son*/ 
-    struct zone_tag *up; 
-} zone;
-
-
-
-/*
     TYPE REPRESENTING A CHARACTER GROUP
 
     A character group is a named array of letters.
@@ -170,9 +148,8 @@ typedef struct {
 
 typedef struct keyword_tag {
     char *name;
-    char *defn;
-    char *args;
-    char *cond;
+    instruction* instr;
+    char* cond;
     int done;
     struct keyword_tag *next;
 } keyword;
@@ -183,6 +160,29 @@ typedef struct keyword_tag {
 */
 
 #define MAX_GROUPS		31
+
+/*
+    TYPE REPRESENTING A ZONE
+
+*/
+typedef struct zone_tag {
+    char* zone_name;
+    character* zone_pre_pass;
+    character* zone_main_pass;
+
+    keyword* keywords;
+
+    instructions_list *default_actions;
+    char *default_cond;
+
+    instructions_list* entering_instructions;
+    instructions_list* leaving_instructions;
+
+    struct zone_tag *opt; /*opt=brother*/
+    struct zone_tag *next;/* next=first son*/ 
+    struct zone_tag *up; 
+} zone;
+
 
 
 /*
@@ -205,14 +205,14 @@ extern letter *white_space;
 extern zone* global_zone;
 extern char_group groups [];
 extern int no_groups;
-extern keyword *keywords;
+/*extern keyword *keywords;*/
 extern void add_char(character*, letter*, char *, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*);
 extern void make_group(char *, letter *);
 extern int in_group(letter *, letter);
 extern letter *make_string(char *);
 extern letter find_escape(int);
-extern void add_keyword(char *, char **);
+extern void add_keyword(zone*, char *, char*, instruction*);
 extern size_t char_maxlength(character *);
 extern zone * find_zone (zone*, char*); 
 

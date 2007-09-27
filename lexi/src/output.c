@@ -691,14 +691,19 @@ output_all(FILE *output, bool generate_asserts)
 static void
 output_word(keyword *p)
 {
-	fprintf(lex_output, "MAKE_KEYWORD(\"%s\", %s", p->name, p->defn);
-	if (p->args)
-		fputs("()", lex_output);
-	fputs(");\n", lex_output);
-	p->done = 1;
-	return;
+  fprintf(lex_output, "MAKE_KEYWORD(\"%s\", ",p->name);
+  switch(p->instr->type) {
+  case apply_function:
+    /* No args are possible for functions in keyword instructions*/
+    fprintf(lex_output,"%s());\n",p->instr->fun->name);
+    break;
+  case return_token:
+    fprintf(lex_output,"%s);\n",p->instr->name);    
+    break;
+  }
+  p->done = 1;
+  return;
 }
-
 
 /*
 	KEYWORD OUTPUT ROUTINE
@@ -715,7 +720,7 @@ output_keyword(FILE *output)
 
 	output_comment();
 	fputs("/* KEYWORDS */\n\n", lex_output);
-	for (p = keywords; p != NULL; p = p->next) {
+	for (p = global_zone->keywords; p != NULL; p = p->next) {
 		if (p->done == 0) {
 			char *cond = p->cond;
 			if (cond) {

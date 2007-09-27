@@ -86,8 +86,8 @@ static character passes [2] = {
     { LAST_LETTER, NULL, NULL, NULL, NULL }
 };
 
-character *pre_pass = passes;
-zone  global_zone_v={"global",passes,passes+1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+/*character *pre_pass = passes;*/
+zone  global_zone_v={"global",passes,passes+1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 zone* global_zone=&global_zone_v;
 
 /*
@@ -414,6 +414,8 @@ new_zone (char* zid)
     p->zone_name=zid;
     p->zone_main_pass=new_char(LAST_LETTER);
     p->zone_pre_pass=new_char(LAST_LETTER);
+
+    p->keywords=NULL;
     
     p->default_actions=NULL;
     p->default_cond=NULL;
@@ -629,9 +631,9 @@ make_string(char *s)
     LIST OF ALL KEYWORDS
 
     This variable gives a list of all the keywords.
-*/
 
 keyword *keywords = NULL;
+*/
 
 
 /*
@@ -642,11 +644,11 @@ keyword *keywords = NULL;
 */
 
 void
-add_keyword(char *nm, char **data)
+add_keyword(zone* z, char *nm, char* cond ,instruction* instr)
 {
     static int keywords_left = 0;
     static keyword *keywords_free = NULL;
-    keyword *p = keywords, *q = NULL;
+    keyword *p = z->keywords, *q = NULL;
     while (p) {
 	int c = strcmp(nm, p->name);
 	if (c == 0) {
@@ -663,13 +665,12 @@ add_keyword(char *nm, char **data)
     }
     p = keywords_free + (--keywords_left);
     p->name = nm;
-    p->defn = data [0];
-    p->args = data [1];
-    p->cond = data [2];
+    p->instr = instr;
+    p->cond = cond;
     p->done = 0;
     if (q == NULL) {
-	p->next = keywords;
-	keywords = p;
+	p->next = z->keywords;
+	z->keywords = p;
     } else {
 	p->next = q->next;
 	q->next = p;
