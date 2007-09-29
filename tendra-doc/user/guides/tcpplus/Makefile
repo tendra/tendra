@@ -1,9 +1,7 @@
 # $Id$
 
-# XXX really this is a user's guide
-
 NAME = tcpplus
-SECTION = developer/components
+SECTION = user/guides
 THEMEFILENAME = website
 DOCTOOLS_BASE = ../../../build
 
