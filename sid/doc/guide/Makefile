@@ -5,8 +5,7 @@
 #    <xsl:param name="section.autolabel">1</xsl:param>
 #    <xsl:param name="section.label.includes.component.label">1</xsl:param>
 
-
-NAME = guide
+NAME = userguide
 
 DOCTOOLS_BASE ?= ../../build
 

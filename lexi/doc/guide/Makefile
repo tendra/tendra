@@ -1,7 +1,6 @@
 # $Id$
 
-# XXX rename to userguide
-NAME = guide
+NAME = userguide
 XHTMLIMAGES = tokens.png
 
 PREFIX ?= /usr/local
@@ -12,7 +11,7 @@ DOCTOOLS_BASE ?= ../../build
 
 include $(DOCTOOLS_BASE)/docs.mk
 
-guide.xml: ../cmdsynopsis.xml commands.xml specification.xml
+userguide.xml: ../cmdsynopsis.xml commands.xml specification.xml
 
 tokens.png: tokens.dia
 	dia -t png tokens.dia

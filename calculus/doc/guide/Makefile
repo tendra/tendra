@@ -1,7 +1,6 @@
 # $Id$
 
-# XXX rename to userguide
-NAME = guide
+NAME = userguide
 
 DOCTOOLS_BASE ?= ../../build
 
