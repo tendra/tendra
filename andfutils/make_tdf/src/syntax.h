@@ -9,6 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
+#line 111 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -43,6 +44,7 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
+#line 48 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -85,7 +87,9 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
+#line 333 "syntax.act"
 
 #endif
+#line 94 "syntax.h"
 
 /* END OF FILE */

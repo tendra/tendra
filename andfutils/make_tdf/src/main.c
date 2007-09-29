@@ -59,9 +59,9 @@
 
 #include <stdlib.h>
 
-#include "tdf.h"
-#include "cmd_ops.h"
-#include "spec_ops.h"
+#include "obj_c/tdf.h"
+#include "obj_c/cmd_ops.h"
+#include "obj_c/spec_ops.h"
 #include "error.h"
 #include "input.h"
 #include "lex.h"

@@ -60,14 +60,14 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "tdf.h"
-#include "cmd_ops.h"
-#include "cons_ops.h"
-#include "info_ops.h"
-#include "link_ops.h"
-#include "par_ops.h"
-#include "sort_ops.h"
-#include "spec_ops.h"
+#include "obj_c/tdf.h"
+#include "obj_c/cmd_ops.h"
+#include "obj_c/cons_ops.h"
+#include "obj_c/info_ops.h"
+#include "obj_c/link_ops.h"
+#include "obj_c/par_ops.h"
+#include "obj_c/sort_ops.h"
+#include "obj_c/spec_ops.h"
 #include "error.h"
 #include "input.h"
 #include "lex.h"

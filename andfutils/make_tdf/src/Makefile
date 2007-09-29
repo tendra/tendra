@@ -1,5 +1,13 @@
 # $Id$
 
+CFLAGS +=	-Ishared/error -Ishared/xalloc
+LDFLAGS +=	-Lshared/error -Lshared/xalloc
+
+CALCULUS = calculus
+REMOVE = rm -f
+LEXI = lexi
+SID = sid
+
 # Standard directories and files
 
 SRCC=${.CURDIR}/obj_c
@@ -21,27 +29,25 @@ LIBS=		-lerror -lxalloc
 
 # Dependencies and construction rules
 
-PROG=		${.CURDIR:T}
+OBJS = input.o lex.o main.o output.o syntax.o
 
-SRCS=		input.c lex.c main.c output.c syntax.c tdf.c
-
-.PATH:		${SRCC} ${SRCTOK} ${SRCX}
-
-CALCULUS=calculus
-#LEXI=lexi
-#SID=sid
 #SIDOPTS=-l ansi-c -s no-lines
-#
-#SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #C_OUT=${SRC2}/tdf.h
 #TOK_OUT=${SRC2A}/tdf.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 #
 #auto : ${SID_OUT} ${C_OUT} ${TOK_OUT} ${LEXI_OUT}
-#
-#${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
+
+# XXX what uses obj_tok/?
+
+all: make_tdf
+
+make_tdf: depend ${OBJS} obj_c/tdf.o
+	${CC} -o make_tdf ${LDFLAGS} ${OBJS} obj_c/tdf.o -lerror -lxalloc
+
+syntax.c : syntax.sid syntax.act
+	@${REMOVE} syntax.c syntax.h
+	${SID} ${SIDOPTS} syntax.sid syntax.act syntax.c syntax.h
 
 ${SRCC}/tdf.h : ${SRC}/tdf.alg
 	@${REMOVE} ${SRCC}/*.h
@@ -59,4 +65,14 @@ ${SRCTOK}/tdf.h : ${SRC}/tdf.alg
 #	@${REMOVE} ${SRC}/keyword.h
 #	${LEXI} -k ${SRC}/lexer.lxi ${SRC}/keyword.h
 
-.include "../Makefile.inc"
+obj_c/tdf.o:
+	cd obj_c && ${MAKE} tdf.o
+
+depend:
+	cd shared && ${MAKE} -f makefile.standalone all
+
+clean:
+	${REMOVE} ${OBJS} make_tdf
+	cd obj_c && ${MAKE} clean
+	cd shared && ${MAKE} -f makefile.standalone clean
+
