@@ -68,8 +68,6 @@
 			<xsl:apply-imports/>
 		</xsl:param>
 
-		<xsl:call-template name="user.preroot"/>
-
 		<html>
 			<xsl:call-template name="html.head">
 				<xsl:with-param name="prev" select="$prev"/>
