@@ -33,7 +33,7 @@ CINSTDIR=${INSTALL_DIR}/lib/building
 LINSTDIR=${INSTALL_DIR}/lib
 
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${API} API"
+	@${ECHO} "==> Installing ${API} API"
 	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" "${LINSTDIR}"
 .if exists(${SAPIDIR}/${API}.api)
 	${CONDCREATE} "${SINSTDIR}"
@@ -76,7 +76,7 @@ _REALINSTALL: .USE
 # Install environment(s).
 #
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${ENVFILE} environments"
+	@${ECHO} "==> Installing ${ENVFILE} environments"
 	${CONDCREATE} "${MACH_BASE}/env" ;
 . for entry in ${ENVFILE}
 	${INSTALL} -m 644 ${.OBJDIR}/${entry} ${MACH_BASE}/env/${entry}
@@ -86,7 +86,7 @@ _REALINSTALL: .USE
 # Install a library.
 #
 _REALINSTALL: .USE
-	@${ECHO} "# Installing lib${LIB}.a"
+	@${ECHO} "==> Installing lib${LIB}.a"
 	${CONDCREATE} "${COMMON_DIR}/sys"
 	${INSTALL} -m 755 lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a
 .elif "${PROG}" != ""
@@ -94,7 +94,7 @@ _REALINSTALL: .USE
 # Install a program.
 #
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${PROG}"
+	@${ECHO} "==> Installing ${PROG}"
 	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${PROG} ${MACH_BASE}/bin/${PROG}
 . if "${WRAPPER}" != ""
@@ -105,7 +105,7 @@ _REALINSTALL: .USE
 # Install startup environments. (XXX: seems it's not ever used in tree)
 #
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${ENVSUBDIR} environment directories"
+	@${ECHO} "==> Installing ${ENVSUBDIR} environment directories"
 	${CONDCREATE} "${MACH_BASE}/env" \
 		${ENVSUBDIR:S/^/${MACH_BASE}\/startup\//g}
 . for envsub in ${ENVSUBDIR}
@@ -129,7 +129,7 @@ _REALINSTALL: .USE
 # Install additional startup files (?).
 #
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories"
+	@${ECHO} "==> Installing ${STARTUPSUBDIR} startup directories"
 	${CONDCREATE} ${STARTUPSUBDIR:S/^/${COMMON_DIR}\/startup\//g}
 	@cd ${.CURDIR} && ${FIND} ${STARTUPSUBDIR} -name '.*' -prune -or -print | \
 	while read file; do \
@@ -151,7 +151,7 @@ IMACH=include
 SMACH=startup
 
 _REALINSTALL: .USE
-	@${ECHO} "# Installing ${MACHSUBDIR} machine directories"
+	@${ECHO} "==> Installing ${MACHSUBDIR} machine directories"
 	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
 	@cd ${MACHSUBDIR} && find ${IMACH} ${SMACH} -name '.*' -prune -or -print | \
 	while read file; do \
@@ -173,7 +173,7 @@ _REALINSTALL: .USE
 # Install manual pages, if any. See also tendra.build.mk.
 _MANINSTALL: .USE
 .if "${MAN}" != ""
-	@${ECHO} "# Installing ${MAN} manual pages"
+	@${ECHO} "==> Installing ${MAN} manual pages"
 . for man in ${MAN}
 	${CONDCREATE} "${MAN_DIR}/man${man:E}"
 	${INSTALL} -m 644 ${.CURDIR}/${man} ${MAN_DIR}/man${man:E}/${man}
