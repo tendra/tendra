@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = make_err
+SUBDIR =
 
 .include "Makefile.inc"

@@ -60,7 +60,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "errors.h"
+#include "obj_c/errors.h"
 #include "error.h"
 #include "lex.h"
 #include "syntax.h"

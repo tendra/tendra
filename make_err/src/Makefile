@@ -1,5 +1,13 @@
 # $Id$
 
+CFLAGS +=	-Ishared/error -Ishared/xalloc
+LDFLAGS +=	-Lshared/error -Lshared/xalloc
+
+CALCULUS = calculus
+LEXI = lexi
+SID = sid
+REMOVE = rm -f
+
 # Standard directories and files
 
 SRCC=${.CURDIR}/obj_c
@@ -18,30 +26,27 @@ CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC}\
 
 LDOPTS=		-L${OBJ_DIR}/src/shared/error -L${OBJ_DIR}/src/shared/xalloc
 LIBS=		-lerror -lxalloc
+SIDOPTS=-l ansi-c -s no-lines
 
 # Dependencies and construction rules
 
-PROG=		${.CURDIR:T}
+OBJS = lex.o main.o process.o syntax.o
 
-SRCS=		lex.c main.c process.c syntax.c errors.c
+all: make_err
 
-.PATH:		${SRCC} ${SRCTOK} ${SRCX}
+make_err: depend ${OBJS} obj_c/errors.o
+	${CC} -o make_err ${LDFLAGS} ${OBJS} obj_c/errors.o -lerror -lxalloc
 
-CALCULUS=calculus
-#LEXI=lexi
-#SID=sid
-#SIDOPTS=-l ansi-c -s no-lines
-#
-#SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
+
 #C_OUT=${SRC2}/errors.h
 #TOK_OUT=${SRC2A}/errors.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 #
 #auto : ${SID_OUT} ${C_OUT} ${TOK_OUT} ${LEXI_OUT}
-#
-#${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
+
+syntax.c : syntax.sid syntax.act
+	@${REMOVE} syntax.c syntax.h
+	${SID} ${SIDOPTS} syntax.sid syntax.act syntax.c syntax.h
 
 ${SRCC}/errors.h : ${SRC}/errors.alg
 	@${REMOVE} ${SRCC}/*.h
@@ -64,4 +69,14 @@ ${SRCTOK}/errors.h : ${SRC}/errors.alg
 #	${REMOVE} ${SRC2}/*.h
 #	${REMOVE} ${SRC2A}/*.h
 
-.include "../Makefile.inc"
+obj_c/errors.o:
+	cd obj_c && ${MAKE} errors.o
+
+depend:
+	cd shared && ${MAKE} -f makefile.standalone all
+
+clean:
+	${REMOVE} ${OBJS} make_err
+	cd obj_c && ${MAKE} clean
+	cd shared && ${MAKE} -f makefile.standalone clean
+

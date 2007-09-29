@@ -66,7 +66,7 @@
 #include <unistd.h>
 #endif
 
-#include "errors.h"
+#include "obj_c/errors.h"
 #include "error.h"
 #include "lex.h"
 #include "process.h"

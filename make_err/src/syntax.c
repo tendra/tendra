@@ -41,12 +41,12 @@
 
 #include <string.h>
 
-#include "errors.h"
-#include "entry_ops.h"
-#include "map_ops.h"
-#include "msg_ops.h"
-#include "name_ops.h"
-#include "param_ops.h"
+#include "obj_c/errors.h"
+#include "obj_c/entry_ops.h"
+#include "obj_c/map_ops.h"
+#include "obj_c/msg_ops.h"
+#include "obj_c/name_ops.h"
+#include "obj_c/param_ops.h"
 #include "error.h"
 #include "lex.h"
 #include "process.h"
