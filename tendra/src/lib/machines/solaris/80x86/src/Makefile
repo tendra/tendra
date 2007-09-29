@@ -22,4 +22,4 @@ dwarf.o: dwarf.t
 dwarf.t: ${SRC}/dwarf.p
 	${TNC} dwarf.p dwarf.t
 
-.include "../../../Makefile.inc"
+.include "../Makefile.inc"

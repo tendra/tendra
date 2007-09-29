@@ -1,7 +1,7 @@
 # $Id$
 
-SRC=${BASE}/src/lib/machines/solaris/80x86/tokens
-SRC2=${BASE}/src/lib/machines/common/tokens
+SRC=${BASE_DIR}/src/lib/machines/solaris/80x86/tokens
+SRC2=${BASE_DIR}/src/lib/machines/common/tokens
 
 LIB=target_tok.tl
 LIB_FILES=dep_toks.j map_toks.j except_toks.t var_toks.t
@@ -49,3 +49,5 @@ clobber: clean
 	${REMOVE} ${LIB_FILES}
 	${REMOVE} c_toks.j sys_toks.j sys.j
 	${REMOVE} except_toks.j var_toks.j
+
+.include "../Makefile.inc"
