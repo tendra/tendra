@@ -344,10 +344,6 @@ outend(void)
   outnl();
   outs("___tdf_end:");
   outnl();
-/*  if (linux_elf) {
-    outs(".section .note.GNU-stack,\"\",@progbits");
-    outnl();
-  } */
   st = fclose(fpout);
   if (st == EOF) {
     failer("failed to close file");
