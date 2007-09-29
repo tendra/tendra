@@ -60,7 +60,6 @@ for each of the target operating systems:
     80x86/dragonfly	Intel on DragonFly,
     80x86/freebsd	Intel on FreeBSD,
     80x86/linux		Intel on Linux,
-    80x86/minix		Intel on Minix,
     80x86/netbsd	Intel on NetBSD,
     80x86/openbsd	Intel on OpenBSD,
     80x86/sco		Intel on SCO,
