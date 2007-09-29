@@ -122,7 +122,7 @@ extern  void outdivsym(void);
 
 extern void out_initialiser(char *id);
 
-#if islinux || isfreebsd || isopenbsd
+#if islinux || isfreebsd || isopenbsd || isnetbsd
 #if islinux
 extern void set_linux_format (int elf); /* machine.c */
 #endif

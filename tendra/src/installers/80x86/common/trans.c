@@ -375,11 +375,10 @@ main(int argc, char **argv)
 #elif islinux
 	if (gcc_compatible < 0)
 		gcc_compatible = !linux_elf;
-#elif isopenbsd
+#elif isopenbsd || isnetbsd
 	if (gcc_compatible < 0)
 		gcc_compatible = 0; /* always ELF */
 #endif
-
 	if (argc == 0 || (argc % 2) != 0) {
 		failer(BAD_COMMAND1);
 		exit(EXIT_FAILURE);
