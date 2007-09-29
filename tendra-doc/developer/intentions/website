@@ -90,8 +90,13 @@ Documentation
    * Usage guides
 
      Details of how to use each program, rather than what the program
-     is for. This includes man-page material, as well as the excellent
-     guides we inherited.
+     is for. This includes the excellent guides we inherited from DERA.
+
+   * User manuals
+
+     Man-page material.
+
+   * Changelogs
 
    * FAQ
 

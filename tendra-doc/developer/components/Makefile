@@ -1,8 +1,6 @@
 # $Id$
 
-SUBDIR= tcpplus
+SUBDIR = tcpplus
 
-clean:
-	rm -rf xhtml
+include ../../share/doc.subdir.mk
 
-.include "../../share/doc.subdir.mk"

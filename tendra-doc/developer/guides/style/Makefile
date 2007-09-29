@@ -1,6 +1,7 @@
 # $Id$
 
 NAME = style
+SECTION = developer/guides
 THEMEFILENAME = website
 DOCTOOLS_BASE = ../../../build
 

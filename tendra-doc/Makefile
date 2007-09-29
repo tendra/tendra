@@ -1,5 +1,7 @@
 # $Id$
 
-SUBDIR=developer user reference papers faq #glossary
+SUBDIR = developer user reference papers faq # glossary
+MAKEOPTS = THEMEFILENAME=website
 
-.include "share/doc.subdir.mk"
+include share/doc.subdir.mk
+

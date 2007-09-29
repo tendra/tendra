@@ -1,8 +1,6 @@
 # $Id$
 
-SUBDIR= unix-validation linux-validation porting
+SUBDIR = unix-validation linux-validation porting
 
-clean:
-	rm -rf xhtml
+include ../share/doc.subdir.mk
 
-.include "../share/doc.subdir.mk"

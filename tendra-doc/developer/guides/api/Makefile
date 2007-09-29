@@ -1,6 +1,7 @@
 # $Id$
 
 NAME = api
+SECTION = developer/guides
 THEMEFILENAME = website
 DOCTOOLS_BASE = ../../../build
 
