@@ -101,8 +101,7 @@ $Log: dw2_types.c,v $
 
 
 static void fail_unimplemented
-    PROTO_N ( (a1, a2) )
-    PROTO_T ( long a1 X long a2 )
+    ( long a1 , long a2 )
 {
   IGNORE fprintf (stderr, "%lx  %lx\n", a1, a2);
   failer ("unimplemented attribute");
@@ -115,8 +114,7 @@ static char * sep =  ", ";
 
 
 ext_lab dw2_find_type_label
-    PROTO_N ( (t) )
-    PROTO_T ( dg_type t )
+    ( dg_type t )
 {
   if (!(t->outref.u.l)) {
     if (t->key == DGT_TAGGED) {
@@ -158,8 +156,7 @@ ext_lab dw2_find_type_label
 
 
 static void out_classmem
-    PROTO_N ( (m) )
-    PROTO_T ( dg_classmem m )
+    ( dg_classmem m )
 {
   /* within info section */
   if (m.tg)
@@ -268,8 +265,7 @@ static void out_classmem
 
 
 static void out_class_data
-    PROTO_N ( (cd) )
-    PROTO_T ( class_data * cd )
+    ( class_data * cd )
 {
   /* within info section */
   exp vtable_exp = nilexp;
@@ -340,8 +336,7 @@ static void out_class_data
 
 
 static void out_task_sync_data
-    PROTO_N ( (td) )
-    PROTO_T ( task_data * td )
+    ( task_data * td )
 {
   /* within info section */
   int i;
@@ -359,8 +354,7 @@ static void out_task_sync_data
 
 
 static void out_variant_part
-    PROTO_N ( (v) )
-    PROTO_T ( dg_varpart * v )
+    ( dg_varpart * v )
 {
   /* within info section */
   int i, j;
@@ -437,8 +431,7 @@ static void out_variant_part
 
 
 static void out_ref_bound
-    PROTO_N ( (tg) )
-    PROTO_T ( dg_tag tg )
+    ( dg_tag tg )
 {
   dw_at_form (DW_FORM_ref_addr); d_outnl ();
   dw_at_ext_address (tg);
@@ -447,8 +440,7 @@ static void out_ref_bound
 
 
 void dw_out_dim
-    PROTO_N ( (d) )
-    PROTO_T ( dg_dim d )
+    ( dg_dim d )
 {
   /* within info section */
   long attr1 = 0, attr2;
@@ -498,8 +490,7 @@ void dw_out_dim
 
 
 void dw_out_type
-    PROTO_N ( (t) )
-    PROTO_T ( dg_type t )
+    ( dg_type t )
 {
   /* within info section */
   dw_set_ext_lab (t->outref);
@@ -994,7 +985,7 @@ void dw_out_type
 
 
 void dw2_out_all_types
-    PROTO_Z ()
+(void)
 {
   while (needed_types) {
     dg_type dt = needed_types;

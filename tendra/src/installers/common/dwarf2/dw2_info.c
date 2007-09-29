@@ -127,15 +127,14 @@ static dg_type return_type = (dg_type)0;
 static dg_default * default_span_list = (dg_default *)0;
 
 static void fail_unimplemented
-    PROTO_Z ()
+(void)
 {
   failer ("unimplemented attribute");
   return;
 }
 
 static exp find_id
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+    ( exp e )
 {
   if (name(e) == name_tag && !isdiscarded(e) && !isvar(son(e)))
     return son(e);
@@ -147,8 +146,7 @@ static exp find_id
 
 
 void dw_out_const
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+    ( exp e )
 {
   switch (name(e)) {
     case real_tag: {
@@ -194,8 +192,7 @@ void dw_out_const
 
 
 void dw_out_default
-    PROTO_N ( (d) )
-    PROTO_T ( dg_default * d )
+    ( dg_default * d )
 {
   if (d->val && dw_is_const (son(d->val)))
     dw_out_const (son(d->val));
@@ -218,7 +215,7 @@ void dw_out_default
 
 
 void complete_defaults
-    PROTO_Z ()
+(void)
 {
   while (default_span_list) {
     out_dwf_label (default_span_list->lab, 1);
@@ -235,8 +232,7 @@ void complete_defaults
 
 
 static void out_refblock		/* Not certain this is needed! */
-    PROTO_N ( (objs, assgn) )
-    PROTO_T ( objset * objs X int assgn )
+    ( objset * objs , int assgn )
 {
   int count = 0;
 #ifdef NEEDS_DEBUG_ALIGN
@@ -275,8 +271,7 @@ static void out_refblock		/* Not certain this is needed! */
 
 
 static void check_trivial
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+    ( exp e )
 {
 #if 0
 	/* This is still far too strong; e may be anything with equivalent
@@ -293,14 +288,13 @@ static void check_trivial
   return;
 }
 
-static void output_detch PROTO_S ((detch_info *	dl));
+static void output_detch (detch_info *	dl);
 
 static detch_info * sub_detch = (detch_info *)0;
 
 
 static void output_info
-    PROTO_N ( (e, d) )
-    PROTO_T ( exp e X dg_info d )
+    ( exp e , dg_info d )
 {
   /* within info section */
   if (!d) {
@@ -886,8 +880,7 @@ static void output_info
 }
 
 static void output_detch
-    PROTO_N ( (dl) )
-    PROTO_T ( detch_info * dl )
+    ( detch_info * dl )
 {
   while (dl) {
     int has_child = 0;
@@ -964,8 +957,7 @@ static void output_detch
 
 
 static void out_param
-    PROTO_N ( (p) )
-    PROTO_T ( dg_param p )
+    ( dg_param p )
 {
   /* within debug_info */
   /* used for declarations only */
@@ -1016,8 +1008,7 @@ static void out_param
 
 
 static void dw2_out_proc
-    PROTO_N ( (di) )
-    PROTO_T ( dg_name di )
+    ( dg_name di )
 {
 				/* within debug_info section */
   int old_il = doing_inline;
@@ -1332,8 +1323,7 @@ static void dw2_out_proc
 
 
 void dw2_out_generic
-    PROTO_N ( (p) )
-    PROTO_T ( dg_name_list p )
+    ( dg_name_list p )
 {
   while (p) {
     switch (p->key) {
@@ -1376,8 +1366,7 @@ void dw2_out_generic
 
 
 void dw2_out_name
-    PROTO_N ( (di, contex) )
-    PROTO_T ( dg_name di X dg_nm_contex contex )
+    ( dg_name di , dg_nm_contex contex )
 {
 				/* in debug_info section */
   dg_tag inl_tag = (di->mor ? di->mor->inline_ref : (dg_tag)0);
@@ -1932,8 +1921,7 @@ static retrec ** returns_list;
 
 
 void dw2_proc_start
-    PROTO_N ( (p, d) )
-    PROTO_T ( exp p X dg_name d )
+    ( exp p , dg_name d )
 {
   if (dgf(p))
     failer ("unexpected diag info for proc");
@@ -1950,8 +1938,7 @@ void dw2_proc_start
 
 
 void dw2_return_pos
-    PROTO_N ( (over) )
-    PROTO_T ( long over )
+    ( long over )
 {
   retrec * rec = (retrec *) xmalloc (sizeof (retrec));
   rec->lab = set_dw_text_label ();
@@ -1966,8 +1953,7 @@ void dw2_return_pos
 
 
 void dw2_proc_end
-    PROTO_N ( (p) )
-    PROTO_T ( exp p )
+    ( exp p )
 {
   dgf(p)->data.i_prc.prc_end = set_dw_text_label ();
   proc_dg_info = (dg_info)0;
@@ -1976,8 +1962,7 @@ void dw2_proc_end
 
 
 static void prepare_detch
-    PROTO_N ( (dl) )
-    PROTO_T ( detch_info * dl )
+    ( detch_info * dl )
 {
   while (dl) {
     int reason = dl->why;
@@ -2020,8 +2005,7 @@ static void prepare_detch
 
 
 void dw2_code_info
-    PROTO_N ( (d, mcode, args) )
-    PROTO_T ( dg_info d X void (*mcode) PROTO_S((void *)) X void * args )
+    ( dg_info d , void (*mcode) (void *) , void * args )
 {
   if (d == nildiag) {
     (*mcode)(args);
