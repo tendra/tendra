@@ -1,5 +1,6 @@
 # $Id$
 
+# XXX rename to userguide
 NAME = guide
 XHTMLIMAGES = tokens.png
 
