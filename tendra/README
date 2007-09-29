@@ -63,7 +63,6 @@ for each of the target operating systems:
     80x86/netbsd	Intel on NetBSD,
     80x86/openbsd	Intel on OpenBSD,
     80x86/solaris	Intel on Solaris 2,
-    80x86/svr4.2	Intel on Unixware,
     alpha/osf1		Alpha on OSF/1,
     amd64/dragonfly	AMD64 on DragonFly,
     amd64/freebsd	AMD64 on FreeBSD,
