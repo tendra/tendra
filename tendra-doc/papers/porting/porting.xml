@@ -500,7 +500,7 @@ struct stat {
             traditional compilation scheme, the system linking. Consider the
             <acronym>ANSI</acronym> compliant routine:</para>
 
-          <programlisting lanuage="C">
+          <programlisting language="C">
 #include &lt;stdio.h&gt;
 
 int open ( char *nm )
