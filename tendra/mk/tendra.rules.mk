@@ -9,7 +9,7 @@ _TENDRA_RULES_MK_=1
 
 PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
-.SUFFIXES: .o .c .cc .sid .j .pl
+.SUFFIXES: .o .c .cc .sid .j .tpl
 
 .c.o:
 	@${ECHO} "==> Compiling ${PARTIMP}"
@@ -27,7 +27,7 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 	@${ECHO} "==> Compiling ${PARTIMP}"
 	${CC} ${CCOPTS} ${JOPTS} -Yc++ -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
-.pl.j:
+.tpl.j:
 	@${ECHO} "==> Transforming ${PARTIMP}"
 	${TPL} ${TPLOPTS} ${.IMPSRC} ${.TARGET}
 
