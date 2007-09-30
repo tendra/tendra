@@ -48,7 +48,7 @@
 
       <emphasis role="bold">Encoding number</emphasis>: 1
 
-      <programlisting>
+      <programlisting language="TDF">
         assexp:          EXP POINTER x
         id:              TDFSTRING(k, n)
                    -&gt; LINKINFO</programlisting>
@@ -81,7 +81,7 @@
 
       <emphasis role="bold">Encoding number</emphasis>: 2
 
-      <programlisting>
+      <programlisting language="TDF">
         n:               TDFSTRING(k, n)
                    -&gt; LINKINFO</programlisting>
 
@@ -96,7 +96,7 @@
 
       <emphasis role="bold">Encoding number</emphasis>: 3
 
-      <programlisting>
+      <programlisting language="TDF">
         namer:           EXP POINTER x
         val:             EXP POINTER y
                    -&gt; LINKINFO</programlisting>
@@ -116,7 +116,7 @@
 
       <emphasis role="bold">Encoding number</emphasis>: 4
 
-      <programlisting>
+      <programlisting language="TDF">
         id:              TDFSTRING(k, n)
         val:             EXP POINTER x
                    -&gt; LINKINFO</programlisting>
