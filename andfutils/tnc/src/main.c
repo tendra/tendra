@@ -313,7 +313,7 @@ main(int argc, char **argv)
 			int v1 = VERSION_major;
 			int v2 = VERSION_minor;
 			IGNORE fprintf(stderr, "%s: %s", progname, vn);
-			IGNORE fprintf(stderr, " (TDF %d.%d)", v1, v2);
+			IGNORE fprintf(stderr, " (TDF %d.%d)\n", v1, v2);
 			known = 1;
 		    }
 		    break;
