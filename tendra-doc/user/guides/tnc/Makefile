@@ -1,5 +1,9 @@
 # $Id$
 
-DOC=	tnc
+NAME = tnc
+SECTION = user/guides
+THEMEFILENAME = website
+DOCTOOLS_BASE = ../../../build
 
-.include "../../../share/doc.docbook.mk"
+include $(DOCTOOLS_BASE)/docs.mk
+
