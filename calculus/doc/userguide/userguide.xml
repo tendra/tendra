@@ -1258,17 +1258,10 @@ typedef union name_tag {
         implementation of each type, together with how they are packed as
         blocks of cells.  This is illustrated by the following diagram:</para>
 
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="calculus.png" format="PNG"/>
-        </imageobject>
-        <textobject>
-          <phrase>Packing of types</phrase>
-        </textobject>
-        <caption>
-          <para>Packing of types in calculus</para>
-        </caption>
-      </mediaobject>
+      <figure>
+		<title>Packing of types in calculus</title>
+        <imagedata fileref="images/calculus.png" format="PNG"/>
+      </figure>
 
       <para>Primitive types are implemented by a <code>typedef</code> defining
         the type in terms of its
