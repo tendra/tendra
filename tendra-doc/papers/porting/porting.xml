@@ -168,7 +168,8 @@ extern int fputs(const char *, FILE *);</programlisting>
 
           <para>These details are fed into the program by the pre-processing
             phase of the compiler. (The various compilation phases are
-            discussed in more detail later - see Fig. 1.) This is a simple,
+            discussed in more detail later - see <xref linkend="trad_scheme"/>.)
+			This is a simple,
             preliminary textual substitution. It provides the definitions of
             the type <code>FILE</code> and the value <code>stdout</code> (in
             terms of <code>__iob</code>), but still leaves the precise
@@ -251,8 +252,9 @@ int fputs(const char *s, FILE *f);</programlisting>
 
           <para>The general plan for how to write the extreme example of a
             portable program, namely one which contains no target dependent
-            code, is now clear. It is shown in the compilation diagram in Fig.
-            1 which represents the traditional compilation process. This
+            code, is now clear. It is shown in the compilation diagram in
+			<xref linkend="trad_scheme"/> which represents the traditional
+			compilation process. This
             diagram is divided into four sections. The left half of the
             diagram represents the actual program and the right half the
             associated <acronym>API</acronym>. The top half of the diagram represents target
@@ -260,9 +262,10 @@ int fputs(const char *s, FILE *f);</programlisting>
             and the bottom half target dependent material - things which need
             to be done on every target machine.</para>
 
-          <para>FIGURE 1. Traditional Compilation Phases</para>
-
-            <img src="../images/trad_scheme.gif" />
+			<figure id="trad_scheme">
+				<title>Traditional Compilation Phases</title>
+				<graphic fileref="trad_scheme.png"/>
+			</figure>
 
           <para> So, we write our target independent program (top left),
             conforming to the target independent <acronym>API</acronym> specification (top
@@ -343,7 +346,7 @@ int fputs(const char *s, FILE *f);</programlisting>
           <para>Most compilers will pick up some of the grosser programming
             errors, particularly by type checking (including procedure
             arguments if prototypes are used). Some of the subtler errors can
-            be detected using the <b>-Wall</b> option to the Free Software
+            be detected using the <option>-Wall</option> option to the Free Software
             Foundation's GNU C Compiler (<code>gcc</code>) or separate program
             checking tools such as <code>lint</code>, for example, but this
             remains a very difficult area.</para>
@@ -364,7 +367,8 @@ int fputs(const char *s, FILE *f);</programlisting>
             latter two problems are most likely when the input is a high level
             language, with complex syntax and semantics.</para>
 
-          <para>Note that in Fig. 1 all the actual compilation takes place on
+          <para>Note that in <xref linkend="trad_scheme"/> all the actual
+			compilation takes place on
             the target machine. So, to port the program to
             <varname>n</varname> machines, we need to deal with the bugs and
             limitations of <varname>n</varname>, potentially different,
@@ -923,7 +927,8 @@ int main ()
       target dependent code is equivalent to introducing a user-defined
       component to the <acronym>API</acronym>. The actual compilation process in the case
       of programs containing target dependent code is basically the
-      same as that shown in Fig. 1. But whereas previously the vertical
+      same as that shown in <xref linkend="trad_scheme"/>.
+		But whereas previously the vertical
       division of the diagram also reflects a division of
       responsibility - the left hand side is the responsibility of the
       programmer (the person writing the program), and the right hand
@@ -1149,8 +1154,9 @@ typedef struct direct dir_entry ;</programlisting>
     example, the <acronym>ANSI</acronym> and <acronym>POSIX</acronym> committees) and they often go to
     great lengths to specify which names should, and should not,
     appear when certain headers are included. (The position is set
-    out in D. F. Prosser, <i>Header and name space rules for <acronym>UNIX</acronym>
-    systems</i> (private communication), USL, 1993.)</para>
+    out in D. F. Prosser, <citetitle>Header and name space rules for
+	<acronym>UNIX</acronym> systems</citetitle> (private communication),
+	USL, 1993.)</para>
 
     <para>For example, the intention, certainly in <acronym>ANSI</acronym>, is that each
     header should operate as an independent sub-<acronym>API</acronym>. Thus
@@ -1267,20 +1273,23 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     <title id="S24">Capsule Structure</title>
     <para>A <acronym>TDF</acronym>
     capsule consists of a number of units of various types. These are
-    embedded in a general linkage scheme (see Fig. 2). Each unit
-    contains a number of variable objects of various sorts (for
+    embedded in a general linkage scheme <xref linkend="tdf_link"/>.
+	Each unit contains a number of variable objects of various sorts (for
     example, tags and tokens) which are potentially visible to other
     units. Within the unit body each variable object is identified by
     a unique number. The linking is via a set of variable objects
     which are global to the entire capsule. These may in turn be
-    associated with external names. For example, in Fig. 2, the
+    associated with external names. For example, in
+	<xref linkend="tdf_link"/>, the
     fourth variable of the first unit is identified with the first
     variable of the third unit, and both are associated with the
     fourth external name.</para>
 
-    <para>FIGURE 2. <acronym>TDF</acronym> Capsule Structure</para>
+	<figure id="tdf_link">
+		<title><acronym>TDF</acronym> Capsule Structure</title>
+		<graphic fileref="tdf_link.png"/>
+	</figure>
 
-    <img src="../images/tdf_link.gif" />
     <para>
     This capsule structure means that the combination of a number of
     capsules to form a single capsule is a very natural operation.
@@ -1297,27 +1306,30 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
 
     <section id="S25">
     <title>Tokens</title>
-    <para>>So, the
-    combination of program at this high level is straightforward. But
+    <para>So, the combination of program at this high level is straightforward. But
     <acronym>TDF</acronym> also provides another mechanism which allows for the
     combination of program at the syntax tree level, namely
     <code>tokens</code>. Virtually any node of the <acronym>TDF</acronym> tree may be a
     token : a place holder which stands for a subtree. Before the <acronym>TDF</acronym>
     can be decoded fully the definition of this token must be
     provided. The token definition is then macro substituted for the
-    token in the decoding process to form the complete tree (see Fig.
-    3).</para>
+    token in the decoding process to form the complete tree (see
+	<xref linkend="token"/>.</para>
 
-    <para>FIGURE 3. <acronym>TDF</acronym> Tokens</para>
+	<figure id="token">
+		<title><acronym>TDF</acronym> Tokens</title>
+		<graphic fileref="token.png"/>
+	</figure>
 
-      <img src="../images/token.gif" />
-    <para>Tokens may also take arguments (see Fig. 4). The actual argument
-    values (from the main tree) are substituted for the formal
-    parameters in the token definition.</para>
+    <para>Tokens may also take arguments (see <xref linkend="token_args"/>).
+	The actual argument values (from the main tree) are substituted
+	for the formal parameters in the token definition.</para>
 
-    <para>FIGURE 4. <acronym>TDF</acronym> Tokens (with Arguments)</para>
+	<figure id="token_args">
+		<title><acronym>TDF</acronym> Tokens (with Arguments)</title>
+		<graphic fileref="token_args.png"/>
+	</figure>
 
-      <img src="../images/token_args.gif" />
     <para>As mentioned above, tokens are one of the types of variable
     objects which are potentially visible to external units. This
     means that a token does not have to be defined in the same unit
@@ -1339,8 +1351,10 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
 
     <para>Again we start with the simplest case, where the program
     contains no target dependent code. The strategy is illustrated in
-    Fig. 5, which should be compared with the traditional compilation
-    strategy shown in Fig. 1. The general layout of the diagrams is
+    <xref linkend="tdf_scheme"/>, which should be compared with the
+	traditional compilation
+    strategy shown in <xref linkend="trad_scheme"/>. The general layout of
+	the diagrams is
     the same. The left halves of the diagrams refers to the program
     itself, and the right halves to the corresponding <acronym>API</acronym>. The top
     halves refer to machine independent material, and the bottom
@@ -1369,9 +1383,10 @@ str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</programlisting>
     provide the appropriate (target dependent) definitions for these
     objects in the installation phase.</para>
 
-    <para>FIGURE 5. <acronym>TDF</acronym> Compilation Phases</para>
-
-      <img src="../images/tdf_scheme.gif" />
+	<figure id="tdf_scheme">
+		<title><acronym>TDF</acronym> Compilation Phases</title>
+		<graphic fileref="tdf_scheme.png"/>
+	</figure>
 
     <section id="S27">
     <title><acronym>API</acronym> Description (Top Right)</title>
@@ -1517,13 +1532,15 @@ int fputs ( const char *, FILE * ) ;</programlisting>
     <section id="S31">
     <title>Illustrated Example</title>
     <para>In
-    order to help clarify exactly what is happening where, Fig. 6
+    order to help clarify exactly what is happening where, <xref linkend="eg_scheme"/>
     shows a simple example superimposed on the <acronym>TDF</acronym> compilation
     diagram.</para>
 
-    <para>FIGURE 6. Example Compilation</para>
+	<figure id="eg_scheme">
+		<title>Example Compilation</title>
+		<graphic fileref="eg_scheme.png"/>
+	</figure>
 
-      <img src="../images/eg_scheme.gif" />
     <para>The program to be translated is simply:
     <programlisting language="C">
 FILE f ;</programlisting>
@@ -1593,7 +1610,7 @@ struct tag {
     put in extra portability checks. For example, it would be a
     relatively simple task to put most of the functionality of
     <code>lint</code> (excluding intermodular checking) or
-    <code>gcc</code>'s <b>-Wall</b> option into the producer, and
+    <code>gcc</code>'s <option>-Wall</option> option into the producer, and
     moreover have these checks applied to an abstract machine rather
     than a particular target machine. Indeed a number of these checks
     have already been implemented.</para>
@@ -2166,7 +2183,8 @@ size_t s;</programlisting>
     wrong place, or being implemented incorrectly - and namespace
     problems - particularly those introduced by the system headers.
     The most interesting contrast between the traditional compilation
-    scheme (Fig. 1) and the <acronym>TDF</acronym> scheme (Fig. 5) is that in the former
+    scheme (<xref linkend="trad_scheme"/>) and the <acronym>TDF</acronym> scheme
+	(<xref linkend="tdf_scheme"/>) is that in the former
     the program comes directly into contact with the "real world" of
     messy system headers and incorrectly implemented <acronym>API</acronym>s, whereas in
     the latter there is an "ideal world" layer interposed. This
@@ -2529,13 +2547,13 @@ tcc -Fj -not_ansi tokens.c</programlisting>
 	The complete installation process is run by typing <code>make
   install</code>. Firstly the file <code>tokens.c</code> is compiled
   to give the <acronym>TDF</acronym> capsule <code>tokens.j</code> containing the
-  definition of <code>hello</code>. The <b>-not_ansi</b> flag is
+  definition of <code>hello</code>. The <option>-not_ansi</option> flag is
   needed because <code>tokens.c</code> does not contain any real C
   (declarations or definitions), which is not allowed in <acronym>ANSI</acronym> C. The
   next step is to turn the capsule <code>tokens.j</code> into a <acronym>TDF</acronym>
-  library, <code>tokens.tl</code>, using the <b>-Ymakelib</b> option
+  library, <code>tokens.tl</code>, using the <option>-Ymakelib</option> option
   to <code>tcc</code> (with older versions of <code>tcc</code> it may
-  be necessary to change this option to <b>-Ymakelib -M -Fj</b>).
+  be necessary to change this option to <option>-Ymakelib -M -Fj</option>).
   This completes the <acronym>API</acronym> implementation.</para>
 
     <para>The final step is installation. The target independent <acronym>TDF</acronym>,
@@ -2549,7 +2567,7 @@ tcc -Fj -not_ansi tokens.c</programlisting>
 
     <para>Note the four stages of the compilation : <acronym>API</acronym> specification,
     production, <acronym>API</acronym> implementation and installation, corresponding to
-    the four regions of the compilation diagram (Fig. 5).</para>
+    the four regions of the compilation diagram (<xref linkend="tdf_scheme"/>).</para>
     </section>
 
     <section>
