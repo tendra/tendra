@@ -59,7 +59,6 @@
 
 
 #include "config.h"
-#include "release.h"
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -311,12 +310,10 @@ main(int argc, char **argv)
 		case 'v': {
 		    if (arg[2] == 0 || streq(arg, "-version")) {
 			char *vn = version;
-			char *rn = RELEASE;
 			int v1 = VERSION_major;
 			int v2 = VERSION_minor;
 			IGNORE fprintf(stderr, "%s: %s", progname, vn);
 			IGNORE fprintf(stderr, " (TDF %d.%d)", v1, v2);
-			IGNORE fprintf(stderr, " (release %s)\n", rn);
 			known = 1;
 		    }
 		    break;

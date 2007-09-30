@@ -17,10 +17,15 @@ LIBS=
 
 PROG=		${.CURDIR:T}
 
-SRCS=		alignment.c analyser.c bitstream.c check.c de_capsule.c\
-		de_unit.c decode.c enc_cap.c encode.c eval.c fetch.c file.c\
-		help.c high.c main.c node.c read.c read_cap.c shape.c table.c\
-		tdf.c utility.c write.c
+OBJS=		alignment.o analyser.o bitstream.o check.o de_capsule.o\
+		de_unit.o decode.o enc_cap.o encode.o eval.o fetch.o file.o\
+		help.o high.o main.o node.o read.o read_cap.o shape.o table.o\
+		tdf.o utility.o write.o
+
+all: tnc
+
+tnc: ${OBJS}
+	${CC} -o tnc ${OBJS}
 
 #MAKE_TDF=make_tdf
 #
@@ -41,4 +46,3 @@ SRCS=		alignment.c analyser.c bitstream.c check.c de_capsule.c\
 #auto_clobber :
 #	${REMOVE} ${SRC}/tdf.c ${SRC}/tdf.h ${SRC}/check_exp.h
 
-.include "../Makefile.inc"
