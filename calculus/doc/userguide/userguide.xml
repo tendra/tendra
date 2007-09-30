@@ -5,7 +5,7 @@
 <!--
   $Id$
 -->
-  
+
 <book>
   <bookinfo>
     <title>Calculus Users' Guide</title>
@@ -211,7 +211,7 @@ quoted-type:
         <programlisting>
 identity:
         object-identifier = type;</programlisting>
-        
+
         where the definition type, <literal>type</literal>, is as described
         <link linkend="inputtype">below</link>.</para>
     </section>
@@ -282,7 +282,7 @@ structure:
         <programlisting>
 base-structure:
         identifier</programlisting>
-                
+
         is the name of a previously defined structure type.  The latter form
         is used to express (single) inheritance of structures.  All components
         of the base structure also become components of the derived
@@ -310,7 +310,7 @@ component-declarator:
 
 component-initialiser:
         = string</programlisting></para>
-        
+
       <para>The optional <link linkend="outputstruct">component initialiser
         strings</link> are explained below.</para>
 
@@ -337,7 +337,7 @@ union:
         <programlisting>
 base-union:
         identifier</programlisting>
-                
+
         is the name of a previously defined union type. The latter form is
         used to express (single) inheritance of unions. All components, fields
         and maps of the base union also become components of the derived
@@ -397,9 +397,9 @@ map:
 map-list:
         map
         map-list map</programlisting>
-                
+
         where:
-        
+
         <programlisting>
 parameter-list:
         parameter-declarations
@@ -411,7 +411,7 @@ parameter-declarations:
 parameter-declarators:
         identifier
         parameter-declarators, identifier</programlisting></para>
-        
+
       <para>Note that the map parameter and return types are given by:
 
 <!-- TODO exdent? -->
@@ -419,7 +419,7 @@ parameter-declarators:
           extended-type:
                   type
                   quoted-type</programlisting></para>
-                  
+
       <para>In addition to the
         <link linkend="inputtype">types derived from the algebra</link> it is
         possible to use quoted C types in this context.</para>
@@ -443,7 +443,7 @@ type:
         STACK type
         VEC type
         VEC_PTR type</programlisting></para>
-                
+
       <para>The simple types correspond to primitive, identity, enumeration,
         structure or union names. It is possible for a type to be used before
         it is defined, but it must be defined at some point.</para>
@@ -471,7 +471,7 @@ type:
 import:
         IMPORT identifier;
         IMPORT identifier::identifier;</programlisting>
-                
+
         which fit into the main syntax as an <literal>item</literal>. The
         first form imports all the types from the algebra given by
         <literal>identifier</literal> into the current algebra. The second
@@ -541,7 +541,7 @@ TYPE STACK(TYPE t);
 TYPE VEC(TYPE t);
 TYPE VEC_PTR(TYPE t);
 TYPE SIZE(TYPE t);</programlisting></para>
-        
+
       <para>These represent a pointer to an object of type
         <literal>t</literal>, a list of objects of type <literal>t</literal>,
         a stack of objects of type <literal>t</literal>, a vector of objects
@@ -559,14 +559,14 @@ TYPE SIZE(TYPE t);</programlisting></para>
 
         <programlisting language="Calculus Algebra">
 LIST(PTR(int))</programlisting>
-        
+
         representing a list of pointers to <code>int</code>.</para>
 
       <para>An integral type:
 
         <programlisting language="C">
 INT_TYPE name_dim;</programlisting>
-        
+
         is specified, where <literal>name</literal> is the overall algebra
         name.  This type is used to represent the sizes of vectors.</para>
 
@@ -574,14 +574,14 @@ INT_TYPE name_dim;</programlisting>
 
         <programlisting language="C">
 typedef void (*DESTROYER)();</programlisting>
-        
+
         is specified, which represents a destructor function.  Two destructor
         functions are specified:
 
         <programlisting language="C">
 void destroy_name();
 void dummy_destroy_name();</programlisting>
-        
+
         where <literal>name</literal> is as above.
         <code>destroy_</code><literal>name</literal> is the default
         destructor, whereas <code>dummy_destroy_</code><literal>name</literal>
@@ -606,7 +606,7 @@ void dummy_destroy_name();</programlisting>
 
         <programlisting language="Calculus Algebra">
 SIZE ( t ) SIZE_type;</programlisting>
-        
+
         where <literal>t</literal> denotes the type itself, and
         <literal>type</literal> is the associated type name.</para>
 
@@ -620,7 +620,7 @@ SIZE(LIST(t))     SIZE_list(TYPE t);
 SIZE(STACK(t))    SIZE_stack(TYPE t);
 SIZE(VEC(t))      SIZE_vec(TYPE t);
 SIZE(VEC_PTR(t))  SIZE_vec_ptr(TYPE t);</programlisting>
-      
+
       for any type <literal>t</literal>.</para>
 
       <para>These constructs allow the size of any type derived from the
@@ -674,7 +674,7 @@ PTR(t) STEP_ptr(PTR(t), SIZE(t));</programlisting></para>
           <programlisting language="C">
 PTR(t) UNIQ_ptr(TYPE t);
 void DESTROY_UNIQ_ptr(PTR(t));</programlisting></para>
-        
+
         <para>A unique pointer is guaranteed to be different from all other
           undestroyed pointers. Dereferencing a unique pointer is
           undefined.</para>
@@ -950,7 +950,7 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting></para>
       <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an
-        unsigned integral type in the output file. The 
+        unsigned integral type in the output file. The
         <link linkend="outputprim">basic operations</link>
         listed above are always generated unless it has been indicated that
         <link linkend="inputenum">no lists of this type will be formed</link>,
@@ -1456,7 +1456,7 @@ name_VEC empty_name_vec;</programlisting>needs to be defined.</para>
 
         <programlisting language="C">
 static void WRITE_type(t);</programlisting>
-        
+
         for each type <literal>t</literal> mentioned within the algebra
         description, which writes an object of that type to disk.</para>
 
@@ -1565,7 +1565,7 @@ static void PRINT_type(FILE *, t, char *, int);</programlisting>
 
         <programlisting language="C">
 void OUTPUT_type(FILE *, t);</programlisting>
-        
+
         for each primitive type. The
         <code>PRINT_</code><literal>type</literal> functions may be overridden
         by means of macros as before.</para>
@@ -1591,19 +1591,19 @@ static int print_list_expand = 0;</programlisting></para>
         convenient alternative, if both the <code>-p</code> and
         <code>-a</code> command-line options are given then
         <command>calculus</command> will generate functions:
-        
+
         <programlisting language="C">
 void DEBUG_type(t);</programlisting>
-        
+
         defined in terms of <code>PRINT_</code><literal>type</literal>, for
         printing an object of the given type to the standard output. Many
         debuggers have problems passing structure arguments, so for structure,
         vector and vector pointer types
         <code>DEBUG_</code><literal>type</literal> takes the form:
-        
+
         <programlisting language="C">
 void DEBUG_type(t *);</programlisting>
-        
+
         These debugging routines are only defined conditionally, if the macro
         <code>DEBUG</code> is defined.</para>
     </section>
@@ -1726,10 +1726,10 @@ name *find_name_alias(unsigned int);</programlisting>
     <para>It is possible to use <command>calculus</command> to generate an
       output file from a template input file, <literal>template</literal>,
       using the syntax:
-      
+
       <programlisting>
 calculus [ options ] input .... -Ttemplate output</programlisting></para>
-      
+
     <para>The template file consists of a list of either template directives
       or source lines containing escape sequences which are expanded by
       <command>calculus</command>. Template directive lines are distinguished
