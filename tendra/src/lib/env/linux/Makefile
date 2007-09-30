@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR=	common ${OSFAM}
+SUBDIR= ${EXECFORMAT}
 
 .include "Makefile.inc"
