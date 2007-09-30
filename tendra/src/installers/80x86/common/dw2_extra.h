@@ -78,12 +78,12 @@ $Log: dw2_extra.h,v $
 #ifdef NEWDWARF
 
 extern long dw2_start_fde(long proc_start, long fblab);
-extern void dw2_fde_entry PROTO_S((long dwl0, long dwl1, long dwl2,
-		long dwl3, long dwl4, long dwl8, int space));
+extern void dw2_fde_entry (long dwl0, long dwl1, long dwl2,
+		long dwl3, long dwl4, long dwl8, int space);
 extern void dw2_untidy_return(void);
 extern long dw2_prep_fde_restore_args(int untidy);
-extern void dw2_fde_restore_args PROTO_S((long dwl0, long dwl1, long dwl2,
-		long dwl3, long dwl4, int space));
+extern void dw2_fde_restore_args (long dwl0, long dwl1, long dwl2,
+		long dwl3, long dwl4, int space);
 extern void dw2_after_fde_exit(long here);
 extern void dw2_track_push(void);
 extern void dw2_track_pop(void);
