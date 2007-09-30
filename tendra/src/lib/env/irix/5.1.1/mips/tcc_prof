@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : PROFILING FOR MIPS */
+
++CRT0		"/usr/lib/mcrt1.o"
++LIBC		"-lprof"
++LINE_START	"#pragma@preserve@*"

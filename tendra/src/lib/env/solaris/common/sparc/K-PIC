@@ -1,0 +1,4 @@
+/* TCC environment for Sparc Solaris PIC code */
+
++FLAG_TRANS	"-D1"
++FLAG_AS	"-K PIC"

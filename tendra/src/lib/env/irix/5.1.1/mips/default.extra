@@ -1,0 +1,8 @@
++MACHINE		"irix-5.1.1-mips"
++FLAG			"--1MA"
++VERSION		"3.17"
++AS			"/usr/bin/as -pic2 -O2"
++AS1			"/usr/lib/as1 -pic2 -O2"
++LD			"/usr/bin/ld -_SYSTYPE_SVR4"
++CRT0			"/usr/lib/crt1.o"
++CRTN			"/usr/lib/crtn.o"

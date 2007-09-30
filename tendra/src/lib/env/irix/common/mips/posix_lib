@@ -1,0 +1,4 @@
+/* TCC ENVIRONMENT : USE DEC'S POSIX COMPLIANT LIBRARY */
+
++CRT0		"/usr/lib/cmplrs/cc/pcrt0.o"
+>SYS_LIB	"-lcP"
