@@ -104,7 +104,7 @@
 #define PREPROC_CPP_2_SUFFIX		"ipp"
 #define AS_2_SUFFIX			"asm"
 #define CPP_SPEC_1_SUFFIX		"kk"
-#define PL_TDF_SUFFIX			"pl"
+#define PL_TDF_SUFFIX			"tpl"
 #define TDF_ARCHIVE_SUFFIX		"ta"
 #define TDF_COMPLEX_NAME		"a.j"
 #define TDF_ARCHIVE_NAME		"a.ta"

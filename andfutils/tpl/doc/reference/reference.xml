@@ -1367,7 +1367,7 @@ Keep (main)</programlisting>
       <title>Use of the PL_TDF compiler</title>
 
       <para>Conventionally, PL_TDF programs are held in normal text files with
-        suffix .pl. The PL_TDF compiler is invoked by:
+        suffix .tpl. The PL_TDF compiler is invoked by:
 
 		<!-- TODO centralise with manpage -->
 		<cmdsynopsis>
@@ -1376,11 +1376,11 @@ Keep (main)</programlisting>
 			<arg>-I <replaceable>group</replaceable></arg>
 			<arg>-g</arg>
 			<arg>-V</arg>
-			<arg choice="plain"><replaceable>infile.pl</replaceable></arg>	<!-- TODO the extension, too -->
+			<arg choice="plain"><replaceable>infile.tpl</replaceable></arg>	<!-- TODO the extension, too -->
 			<arg choice="plain"><replaceable>outfile.j</replaceable></arg>
 		</cmdsynopsis>
 
-      This compiles infile.pl to TDF in outfile.j. This file can be linked and
+      This compiles infile.tpl to TDF in outfile.j. This file can be linked and
       loaded just as any other .j file using <command>tcc</command>.</para>
 
       <para>The -v option will produce a cut-down pretty print of the TDF for

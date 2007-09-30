@@ -76,7 +76,7 @@
 			<arg choice='opt'>-V </arg>
 			<arg choice='opt' rep='repeat'>-I <replaceable>path</replaceable></arg>
 			<arg choice='opt'>-v </arg>
-			<arg choice='plain'><replaceable>infile.pl</replaceable></arg>
+			<arg choice='plain'><replaceable>infile.tpl</replaceable></arg>
 			<arg choice='plain'><replaceable>outfile.j</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
@@ -85,7 +85,7 @@
 		<title>Description</title>
 
 		<para>The action of <command>tpl</command> is to compile a
-			PL_TDF text in <emphasis remap='I'>infile.pl</emphasis>
+			PL_TDF text in <emphasis remap='I'>infile.tpl</emphasis>
 			to a <acronym>TDF</acronym> capsule in
 			<emphasis remap='I'>outfile.j</emphasis>. (See
 			<emphasis>PL_TDF Definition</emphasis>). The
@@ -133,6 +133,15 @@
 			<refentrytitle>tcc</refentrytitle>
 			<manvolnum>1</manvolnum>
 		</citerefentry>.</para>
+	</refsection>
+
+	<refsection id="history">
+		<title>History</title>
+
+		<para>Historically, the source files to <command>tpl</command> (and
+			indeed <command>tpl</command> itself) were named just
+			<quote>pl</quote>. After the TenDRA 4.1.2 release, these were
+			renamed to avoid confusion with Perl.</para>
 	</refsection>
 </refentry>
 
