@@ -20,17 +20,8 @@ _TENDRA_COMPILER_MK_=1
 # and install again.  Bootstrapping is recommended (all our testing is
 # on the bootstrapped compiler).
 #
-# SYS_INCLUDES gives a list of include file directories to be searched
-# when building the TDF API libraries.
-#
-# STRIP may be set to "strip" in order to ensure that the installed
-# executables are stripped.
-#
 # RANLIB is used on those platforms on which system libraries need to be
 # ranlib-ed.
-#
-# EXEC_SUFFIX is used on those platforms where executable names need to
-# have a particular suffix, for example it may be set to ".exe".
 
 .if !defined(BOOTSTRAP)
 .if exists(${BOBJ_DIR}/src/tools/tcc/tcc)
@@ -91,11 +82,7 @@ TSPEC?=	tspec
 
 CCOPTS+=	-D_${OSVER}
 
-SYS_INCLUDES=	"-I/usr/include"
-STRIP= :
 RANLIB=		ranlib
-EXEC_SUFFIX=
-
 BUILD_ERRORS=	${BASE_DIR}/src/build/BUILD_ERRORS
 
 .endif	# !defined(_TENDRA_COMPILER_MK_)
