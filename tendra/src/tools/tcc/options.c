@@ -396,7 +396,7 @@ special_option(void)
 		allow_cpp = b;
 	} else if (streq(s, "tnc") && !checker) {
 		allow_notation = b;
-	} else if (streq(s, "tpl_tdf") && !checker) {
+	} else if (streq(s, "pl_tdf") && !checker) {
 		allow_pl_tdf = b;
 	} else if (streq(s, "c_spec") || streq(s, "cpp_spec")) {
 		allow_specs = b;
