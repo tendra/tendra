@@ -151,6 +151,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       if(!(instr->next))
 	fprintf(lex_output, "return(");
       fprintf(lex_output, "%s(", instr->fun->name);
+      {
       arg* fun_args;
       for(fun_args=instr->fun->args->head;fun_args;fun_args=fun_args->next) {
 	int i;
@@ -174,7 +175,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	  /*Should be caught during parsing*/
 	  break;
 	}
-	
+      }
       }
       fputs(")", lex_output);
       if(!(instr->next))
@@ -502,6 +503,7 @@ output_all(FILE *output, bool generate_asserts)
 {
 	int c, n;
 	size_t groupwidth;
+	int in_pre_pass; /*boolean*/
 	const char *grouptype;
 	const char *grouphex;
 
@@ -622,7 +624,6 @@ output_all(FILE *output, bool generate_asserts)
 	}
 
 	fputs("\n\n", lex_output);
-	int in_pre_pass; /*boolean*/
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);

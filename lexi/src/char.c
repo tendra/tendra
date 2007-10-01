@@ -250,7 +250,7 @@ new_user_function (void)
     p->name=NULL;
     p->args=NULL;
     return p;
-};
+}
 /*
     ALLOCATE ADDS USER FUNCTION
 
@@ -262,7 +262,7 @@ add_user_function (char *name)
     user_function *p=new_user_function();
     p->name=name;
     return p;
-};
+}
 
 
 /*
@@ -285,7 +285,7 @@ new_instruction (instruction_type type)
     p->type=type;
     p->next=NULL;
     return p;
-};
+}
 
 /*
     ADD  A NEW RETURN TOKEN INSTRUCTION
@@ -299,7 +299,7 @@ add_instruction_return_token (char* name)
     instruction *p=new_instruction(return_token);
     p->name=name;
     return p;
-};
+}
 
 /*
     ADD  A NEW FUNCTION INSTRUCTION
@@ -314,7 +314,7 @@ add_instruction_function (char* name, args_list* args)
     p->fun=add_user_function(name);
     p->fun->args=args;
     return p;
-};
+}
 
 /*
     ADD  A NEW DO NOTHING INSTRUCTION
@@ -327,7 +327,7 @@ add_instruction_donothing ()
 {
     instruction* p=new_instruction(do_nothing);
     return p;
-};
+}
 
 /*
     ADD  A NEW PUSH ZONE INSTRUCTION
@@ -341,7 +341,7 @@ add_instruction_pushzone (zone* z)
     instruction* p=new_instruction(push_zone);
     p->z=z;
     return p;
-};
+}
 
 /*
     ADD  A NEW PUSH ZONE INSTRUCTION
@@ -355,7 +355,7 @@ add_instruction_popzone (zone* z)
     instruction* p=new_instruction(pop_zone);
     p->z=z;
     return p;
-};
+}
 
 /*
     ALLOCATE A NEW INSTRUCTION
@@ -426,7 +426,7 @@ new_zone (char* zid)
     p->opt=NULL;
     p->next=NULL;
     return p;
-};
+}
 
 /*
     FIND A  ZONE
@@ -455,6 +455,8 @@ zone*
 add_zone(zone* current_zone, char* zid,letter* e)
 {
   zone* q;
+  instruction* inst; 
+  instructions_list* inst_list; 
   for(q=current_zone->next; q!=NULL; q=q->opt) {
     if(strcmp(q->zone_name,zid)==0) {
       error(ERROR_SERIOUS, "Zone %s already exists in this scope",zid);
@@ -466,8 +468,8 @@ add_zone(zone* current_zone, char* zid,letter* e)
   q->opt=current_zone->next;
   current_zone->next=q;
   q->up=current_zone;
-  instruction* inst = add_instruction_popzone(current_zone);
-  instructions_list* inst_list=add_instructions_list();
+  inst = add_instruction_popzone(current_zone);
+  inst_list=add_instructions_list();
   *(inst_list->tail)=inst;
   inst_list->tail=&(inst->next);
   add_char(q->zone_main_pass,e,NULL,inst_list,NULL);

@@ -90,7 +90,7 @@ extern void read_lex(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 592 "syntax.act"
+#line 594 "syntax.act"
 
 #endif
 #line 97 "tmp.syntax.h"

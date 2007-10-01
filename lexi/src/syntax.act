@@ -525,11 +525,13 @@ arg-char-nb : () ->(a:ARG) = @{
 	      	binst : INSTRUCTIONS_LIST, e : CHARACTERS, 
 		einst : INSTRUCTIONS_LIST) -> ( nz : ZONE) = 
 @{
+    instruction* inst;
+    instructions_list* inst_list;
     @nz=add_zone(@z,@i,@e);
     @nz->entering_instructions=@binst;
     @nz->leaving_instructions=@einst;
-    instruction* inst=add_instruction_pushzone(@nz);
-    instructions_list* inst_list=add_instructions_list();
+    inst=add_instruction_pushzone(@nz);
+    inst_list=add_instructions_list();
     *(inst_list->tail)=inst;
     inst_list->tail=&(inst->next);
     add_char ( @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;

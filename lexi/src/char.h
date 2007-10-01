@@ -94,7 +94,6 @@ typedef struct args_list_tag {
 typedef struct user_function_tag {
   char* name;
   args_list* args;
-  //Stuff will be added here
 } user_function;
 
 typedef enum instruction_type_tag { return_token, push_zone, pop_zone, apply_function, do_nothing } instruction_type ;

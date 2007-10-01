@@ -290,8 +290,8 @@ static short chartoint (int c) {
  */
 static int read_arg_char_nb(int c0, int c1)  
 {
-  number_buffer=chartoint(c1);
   int c;
+  number_buffer=chartoint(c1);
   while(isdigit(c=lexi_readchar())){
     number_buffer*=10;
     number_buffer+=chartoint(c);
