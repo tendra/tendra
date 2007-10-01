@@ -253,7 +253,7 @@
 	<figure>
 		<title>Compilation Scheme</title>
 
-		<graphic fileref="images/compile.png"/>
+		<graphic fileref="compile.png"/>
 	</figure>
 
   Each C++ source file, <code>a.C</code> say, is processed using
@@ -4791,7 +4791,7 @@ class A {
 	<figure>
 		<title>Class A</title>
 
-		<graphic fileref="images/class.png"/>
+		<graphic fileref="class.png"/>
 	</figure>
 
   where the <emphasis>A</emphasis> component consists of the non-static data members
@@ -4891,7 +4891,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class D</title>
 
-		<graphic fileref="images/graph.png"/>
+		<graphic fileref="graph.png"/>
 	</figure>
 
 
@@ -4903,7 +4903,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class A</title>
 
-		<graphic fileref="images/classA.png"/>
+		<graphic fileref="classA.png"/>
 	</figure>
 
   as above.  Class <emphasis>B</emphasis> inherits all the members of class <emphasis>A</emphasis>
@@ -4916,7 +4916,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class B</title>
 
-		<graphic fileref="images/classB.png"/>
+		<graphic fileref="classB.png"/>
 	</figure>
 
   where <emphasis>A</emphasis> denotes those members inherited from the base class
@@ -4953,7 +4953,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class C</title>
 
-		<graphic fileref="images/classC.png"/>
+		<graphic fileref="classC.png"/>
 	</figure>
 
   </para>
@@ -4976,7 +4976,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class D</title>
 
-		<graphic fileref="images/classD.png"/>
+		<graphic fileref="classD.png"/>
 	</figure>
 
   Note that there are two copies of <emphasis>A</emphasis> in <emphasis>D</emphasis> because virtual
@@ -5025,7 +5025,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class D</title>
 
-		<graphic fileref="images/diamond.png"/>
+		<graphic fileref="diamond.png"/>
 	</figure>
 
   As before <emphasis>A</emphasis> is given by:
@@ -5033,7 +5033,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class A</title>
 
-		<graphic fileref="images/classA.png"/>
+		<graphic fileref="classA.png"/>
 	</figure>
 
   but now <emphasis>B</emphasis> is given by:
@@ -5041,7 +5041,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class B</title>
 
-		<graphic fileref="images/virtualB.png"/>
+		<graphic fileref="virtualB.png"/>
 	</figure>
 
   Rather than having the sub-object of class <emphasis>A</emphasis> directly as part
@@ -5067,7 +5067,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class C</title>
 
-		<graphic fileref="images/virtualC.png"/>
+		<graphic fileref="virtualC.png"/>
 	</figure>
 
   Now the class <emphasis>D</emphasis> is given by:
@@ -5075,7 +5075,7 @@ class D : public B, public C {
 	<figure>
 		<title>Class D</title>
 
-		<graphic fileref="images/virtualD.png"/>
+		<graphic fileref="virtualD.png"/>
 	</figure>
 
   Note that there is a single <emphasis>A</emphasis> sub-object of <emphasis>D</emphasis> referenced
@@ -5465,7 +5465,7 @@ delete this ;</programlisting>
 	<figure>
 		<title>Type ID D</title>
 
-		<graphic fileref="images/rttiD.png"/>
+		<graphic fileref="rttiD.png"/>
 	</figure>
 
   </para>
@@ -5646,7 +5646,7 @@ delete this ;</programlisting>
 	<figure>
 		<title>Try Stack</title>
 
-		<graphic fileref="images/try.png"/>
+		<graphic fileref="try.png"/>
 	</figure>
 
   At any point in the execution of the program there is a stack of currently
