@@ -7,37 +7,40 @@ DOCTOOLS_BASE = ../../../build
 
 DIA = dia
 
-XHTMLIMAGES = try.png virtualB.png virtualC.png virtualD.png \
-	class.png classB.png classD.png diamond.png \
-	classA.png classC.png compile.png graph.png
+XHTMLIMAGES = images/try.png images/virtualB.png images/virtualC.png \
+	images/virtualD.png \
+	images/class.png images/classB.png images/classD.png \
+	images/diamond.png images/classA.png images/classC.png \
+	images/compile.png images/graph.png
 
 # Only the automatically-generated images here
-CLEAN_EXTRA = class.png classB.png classD.png diamond.png \
-	classA.png classC.png compile.png graph.png
+CLEAN_EXTRA = images/class.png images/classB.png images/classD.png \
+	images/diamond.png images/classA.png images/classC.png images/compile.png \
+	images/graph.png
 
 include $(DOCTOOLS_BASE)/docs.mk
 
-class.png: class.dia
-	${DIA} -t png class.dia
+images/class.png: images/class.dia
+	${DIA} -t png images/class.dia
 
-classA.png: classA.dia
-	${DIA} -t png classA.dia
+images/classA.png: images/classA.dia
+	${DIA} -t png images/classA.dia
 
-classB.png: classB.dia
-	${DIA} -t png classB.dia
+images/classB.png: images/classB.dia
+	${DIA} -t png images/classB.dia
 
-classC.png: classC.dia
-	${DIA} -t png classC.dia
+images/classC.png: images/classC.dia
+	${DIA} -t png images/classC.dia
 
-classD.png: classD.dia
-	${DIA} -t png classD.dia
+images/classD.png: images/classD.dia
+	${DIA} -t png images/classD.dia
 
-diamond.png: diamond.dia
-	${DIA} -t png diamond.dia
+images/diamond.png: images/diamond.dia
+	${DIA} -t png images/diamond.dia
 
-compile.png: compile.dia
-	${DIA} -t png compile.dia
+images/compile.png: images/compile.dia
+	${DIA} -t png images/compile.dia
 
-graph.png: graph.dia
-	${DIA} -t png graph.dia
+images/graph.png: images/graph.dia
+	${DIA} -t png images/graph.dia
 
