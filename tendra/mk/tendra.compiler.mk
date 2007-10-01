@@ -42,43 +42,13 @@ LDFLAGS=
 
 # Assume that the cc on this system is the GNU C Compiler.
 .if "${CC:T}" != "${CC:T:Ncc:Ngcc}"
-
-CWARNFLAGS=-w
-
-.if defined(WARNS)
-. if ${WARNS} >= 1
-CWARNFLAGS=-ansi -Wno-traditional
-. endif
-. if ${WARNS} >= 2
-CWARNFLAGS+=-pedantic -fno-builtin
-. endif
-. if ${WARNS} >= 3
-CWARNFLAGS+=-W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
-. endif
-.endif
-
   TCCOPTS=
-  CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
+  CCOPTS+= ${CFLAGS}
   LDOPTS+= ${LDFLAGS}
 # The Intel C Compiler.
 .elif "${CC:T}" != "${CC:T:Nicc}"
-
-CWARNFLAGS=-no-gcc -w
-
-.if defined(WARNS)
-. if ${WARNS} >= 1
-CWARNFLAGS=-no-gcc -ansi -std=c89
-. endif
-. if ${WARNS} >= 2
-CWARNFLAGS+=
-. endif
-. if ${WARNS} >= 3
-CWARNFLAGS+=-Wall
-. endif
-.endif
-
   TCCOPTS=
-  CCOPTS+= ${CWARNFLAGS} ${CFLAGS}
+  CCOPTS+= ${CFLAGS}
   LDOPTS+= ${LDFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?

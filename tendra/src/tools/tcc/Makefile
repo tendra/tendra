@@ -1,14 +1,7 @@
 # $Id$
 
-# Standard variables
-
-WARNS?=		0
-
 TCCOPTS=	-Yxpg4 -Xs
 CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
-LIBS=
-
-# Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
 MAN=		tcc.1 tccenv.5

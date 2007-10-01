@@ -1,20 +1,11 @@
 # $Id$
 
-# Standard directories and files
-
 DEST=${OBJ_DIR}/src/lib
 #SRC=${BASE}/src/tools/tspec
 API_DIR=${BASE_DIR}/src/lib/apis
 
-# Standard variables
-
-WARNS?=		2
-
 TCCOPTS=	-Yposix1 -Xs
 CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
-LIBS=
-
-# Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
 WRAPPER=	tspec.sh

@@ -1,18 +1,10 @@
 # $Id$
 
-# Standard directories and files
-
 SRC1=${.CURDIR}/errors
-
-# Standard variables
-
-WARNS?=		2
 
 TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${OBJ_SDIR}
 LIBS=
-
-# Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
 
