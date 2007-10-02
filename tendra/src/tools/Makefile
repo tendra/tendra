@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = tcc tld tspec
+SUBDIR = tcc tspec
 
 .include "Makefile.inc"

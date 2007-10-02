@@ -128,7 +128,6 @@
 /****************************************************************************/
 
 #include "os-interface.h"
-#include "release.h"
 #include "arg-data.h"
 #include "arg-parse.h"
 #include "builder.h"

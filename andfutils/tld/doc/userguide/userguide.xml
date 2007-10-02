@@ -1,0 +1,291 @@
+-*- indented-text -*-
+
+	The TDF Linker - Program Documentation: Linker Requirements
+	===========================================================
+
+			    Written:  April 1994
+			    ====================
+
+			  Last Modified: July 1995
+			  ========================
+
+			    Author: Steve Folkes
+			    ====================
+
+			     Issue Number: 4.0
+			     =================
+
+
+1. INTRODUCTION
+===============
+
+This document describes the required behaviour of the TDF linker (although
+sometimes it refers to what the linker actually does).  It assumes that the
+reader understands the format of TDF capsules and libraries, as described in
+the document "File Formats" found in the file "001_files" in the same
+directory as this.
+
+2. PURPOSE
+==========
+
+The TDF linker has four uses:
+
+	- To bind together a number of TDF capsules (including those in
+	libraries) to produce a single capsule.
+
+	- To produce a TDF library from a set of capsules.
+
+	- To list the contents of a TDF library.
+
+	- To extract capsules from a TDF library.
+
+The most complex part of the linker is the normal linking process, which is
+described in the next section.  Constructing libraries is described in the
+section after the one on linking.  Listing the contents of a library, and
+extracting capsules from a library are not very complicated so they aren't
+described in this document.
+
+3. TDF LINKING
+==============
+
+This section describes the requirements of linking capsules together.  The
+first sub-section describes the basic linking requirements.  Subsequent
+sub-sections detail the requirements of some more advanced features.
+
+Before the linking process is described in detail, here is an outline of the
+stages of the link process:
+
+    The linker is invoked with the following inputs: a set of input
+    capsules, a set of libraries, a set of hiding rules, a set of keeping
+    rules, a set of renaming rules, and a set of link suppression rules.
+
+    The first thing that the linker does is to enter the renaming rules into
+    the name hash table.  The name entry lookup routines will automatically
+    pick up the new name when a renamed name is looked up in a name table.
+
+    The next stage is to load the input capsules, and to bind them together.
+    As part of this binding process, the capsule scope identifiers for all
+    input capsules are mapped into a single capsule scope (to be output to
+    the final capsule).  The rules for this mapping are described below.
+
+    After binding the input capsules together, the linker tries to provide
+    definitions for undefined names using the specified libraries.  When a
+    definition is found in a library (and it hasn't been suppressed by the
+    link suppression rules), the capsule that contains it is loaded and
+    bound to the input capsules as if it had been one itself.
+
+    After the library capsules have been bound in, external names are hidden
+    according to the hiding rules, and kept according to the keeping rules.
+    Hiding means removing an entry from the external name list of the output
+    capsule.  Keeping means forcing an entry into the list, if it would
+    otherwise be hidden.  It is illegal to hide names that have no
+    definition.
+
+    Finally the output capsule is written to a file.
+
+3.1 BASIC LINKING
+-----------------
+
+This sub-section describes the process of binding capsules together in
+greater detail.
+
+The first thing that the linker does when reading a capsule is to read in
+the magic number, and the major and minor version numbers.  Capsules with an
+incorrect magic number are rejected.  The major version number of each
+capsule read in must be at least four.  In addition, the major version
+numbers of all capsules that are read in must be the same.
+
+
+After this, the linker reads the unit group type names (also called "prop
+names"), and checks that the they are known and that they are in the correct
+order.  There is a default list of names built into the linker (the list
+specified in the TDF specification) and that should be sufficient for most
+uses of the linker, but it is possible to provide a new list by specifying a
+file containing the new list on the command line.
+
+The next thing the linker does is to read in the linkable entity names and
+the capsule scope identifier limit for each linkable entity.  It checks that
+there are no duplicate names, and creates a mapping vector for each linkable
+entity, to contain the mapping from the capsule scope identifiers in the
+capsule being read in to the capsule scope identifiers in the capsule that
+will be written out.
+
+After reading the linkable entity names, the linker reads the external names
+for each linkable entity.  For each name, it checks that its capsule scope
+identifier is in range, and maps that to the next available capsule scope
+identifier (for the same linkable entity) in the output capsule, unless a
+name with the same linkable entity and the same name (subject to the
+renaming rules) has already been read (in which case it is mapped to the
+same capsule scope identifier as the identical name).  The linker also
+checks to ensure that each capsule scope identifier has no more than one
+external name bound to it.
+
+The final phase of reading a capsule is to read the unit groups.  For normal
+(i.e. not "tld" or "tld2") unit groups, the following occurs for each unit
+in the unit group:
+
+    The unit scope identifier limits for each linkable entity are read and
+    saved in the unit data structure (which is appended to the list of units
+    in that unit group for all input capsules).  When the unit is written
+    out in the output capsule, it may be necessary to add extra unit scope
+    identifier limits (and extra mapping tables) as other capsules may have
+    different linkable entities, which will also need entries (they will
+    just be zero length).
+
+    The capsule scope to unit scope identifier mapping tables are read, and
+    the old capsule scope identifier (which is first checked to see if it is
+    in range) is replaced by a new capsule scope identifier.  This
+    information is also saved in the unit data structure.  The new capsule
+    scope identifiers are either the ones that were allocated when reading
+    in the external names (if the old identifier is bound to an external
+    name), or the next free capsule scope identifier of the required
+    linkable entity.
+
+    Finally, the unit body is read, and saved with the unit.
+
+For "tld" and "tld2" unit groups, the unit group count is checked to ensure
+that it is one, and the number of unit scope identifier limits and
+identifier mapping tables are checked to ensure that they are both zero.
+The size of the body is read (and it must be correct as this is checked
+after reading the unit), and then the body is read.  If the unit is a "tld"
+unit, then the type is read, and the body is read depending upon the type;
+if the unit is a "tld2" unit, then the body is read as if it where a type
+zero "tld" unit.
+
+A type zero "tld" unit consists of a number of integers: one for each
+external token name, followed by one for each external tag name (in the same
+order as the external name tables, but tokens always precede tags).  A type
+one "tld" unit consists of a number of integers: one for each external name
+(of all linkable entities), in the same order as the external name tables.
+
+Each of the integers is interpreted as a series of bits, with the bits
+having the following meanings:
+
+	BIT		MEANING IF SET
+
+	0		The name is used within this capsule.
+
+	1		The name is declared within this capsule.
+
+	2		The name is uniquely defined within this capsule.  If
+			this bit is set for a tag, then the declared bit
+			must also be set.  It is illegal to have a name
+			uniquely defined in more than one capsule.  If this
+			occurs, the linker will report an error.
+
+	3		The name is defined in this capsule, but may have
+			other definitions provided by other capsules.  This
+			bit may not be set for tokens.  If a tag has this
+			bit set, the declared bit must also be set.  It is
+			possible for a name to provide a unique definition,
+			but still allow other non-unique definitions to be
+			linked in from other capsules.
+
+All of the other bits in the integer are reserved.  The linker uses the
+information provided by this unit to check that names do not have multiple
+unique definitions, and to decide whether libraries should be consulted to
+provide a definition for a name.  If a capsule contains no linker
+information unit group, then the names in that capsule will have no
+information, and hence will not receive the extra checking or library
+definition.
+
+3.2 RENAMING
+------------
+
+Renaming just requires that any occurrence of the name being renamed is
+treated as though it were an occurrence of the name it is being renamed to.
+This includes names read from library indices.
+
+3.3 LIBRARY CAPSULES
+--------------------
+
+After reading in all of the specified capsules, the linker loads the
+libraries.  The library indices are read, and checked to ensure that there
+is no more than one definition for any external name.  If there is no unique
+definition, but there is a single multiple definition, then this is
+considered to be a definition (although this can be turned off with a
+command line option).
+
+Once the libraries have been loaded, each of the external names in the bound
+capsules that are used, but not defined are looked up in the library index.
+If a definition is found (and it hasn't been suppressed) then the defining
+capsule is loaded from the library.  This process is repeated until
+definitions have been found for all external names that need them (and that
+definitions exist for), including those that are undefined in the capsules
+read in from the libraries.
+
+3.4 HIDING
+----------
+
+Hiding and keeping just require that all names which should be hidden, and
+are not required to be kept, are not written to the external name table of
+the output capsule.
+
+3.5 WRITING OUT THE CAPSULE
+---------------------------
+
+The magic number is written out, followed by the major and minor version
+numbers.  The major version number is the same as that in each of the loaded
+capsules.  The minor version number is the largest of the minor version
+numbers in the loaded capsules.
+
+The unit group type names are written out first.  Only those unit groups
+that are non-empty are actually written out.  They are written out in the
+order specified by the current unit group name list.
+
+The linkable entity names are written out next, followed by their capsule
+scope identifier limit.  Again, only those linkable entity names that are
+non empty (i.e.  have some unit scope or capsule scope identifiers) are
+written out.
+
+After the linkable entity names have been written out, the external names
+are written out.  These are written out in an arbitrary order within their
+linkable entities, with the linkable entities being written out in the same
+order as in the linkable entity name section (which is itself arbitrary, but
+must be repeatable).  The names are written out with their new capsule scope
+identifiers.  External names that have been hidden must not be written out.
+
+Finally the unit groups are written out in the same order as the unit group
+type names in the first section.  For normal units, the old counts (plus
+some zero counts that may be necessary if there are new linkable entities
+that weren't in the unit's original capsule) are written out in the same
+order as the linkable entity names in section two.  The counts are followed
+by the new capsule scope to unit scope identifier mapping tables, in the
+same order as the counts.  Finally the old unit content is written out.
+
+For "tld" unit groups, a single version one "tld" unit is written out
+containing the use information for each of the external names, in the same
+order that the external names were written out in.
+
+4. CONSTRUCTING TDF LIBRARIES
+=============================
+
+This section describes the requirements of building TDF libraries.  Here is
+an outline of the stages of the construction process:
+
+    The linker is invoked with the following inputs: a set of input
+    capsules, a set of libraries, and a set of link suppression rules.
+
+    The first thing that the linker does is to load the input capsules
+    (including all capsules that are included in any of the specified
+    libraries), and to extract their external name information into a
+    central index.  The index is checked to ensure that there is only one
+    definition for any given name.  The capsules are read in in the same way
+    as for linking them (this checks them for validity).
+
+    The suppression rules are applied, to ensure that no suppressed external
+    name will end up in the index in the output library.
+
+    The library is written out.  The library consists of a magic number, and
+    the major and minor version numbers of the TDF in the library
+    (calculated in the same way as for capsules), the type zero, followed by
+    the number of capsules.  This is followed by that many capsule name and
+    capsule content pairs.  Finally, the index is appended to the library.
+
+    The index only contains entries for linkable entities that have external
+    names defined by the library.  Only external names for which there is a
+    definition are written into the index, although this is not a
+    requirement (when linking, the linker will ignore index entries that
+    don't provide a definition).  Either a unique definition or a single
+    multiple definition are considered to be definitions (although the
+    latter can be disabled using a command line option).
