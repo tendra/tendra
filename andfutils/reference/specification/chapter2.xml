@@ -26,7 +26,7 @@
     constructed and read it is in terms of this syntax.
   </para>
 
-  <section id="S1">
+  <section id="C2S1">
     <title>The overall structure</title>
     <para>
       A separable piece of TDF is called a <code>CAPSULE</code>. A producer
@@ -275,7 +275,7 @@
     </para>
   </section>
 
-  <section id="S2">
+  <section id="C2S2">
     <title>Tokens</title>
 
     <para>
@@ -349,7 +349,7 @@
     </para>
   </section>
 
-  <section id="S3">
+  <section id="C2S3">
     <title>Tags</title>
     <para>
       Tags are used to identify the actual program components. They can be
@@ -360,7 +360,7 @@
     </para>
   </section>
 
-  <section id="S4">
+  <section id="C2S4">
     <title>Extending the format</title>
     <para>
       TDF can be extended for two major reasons.

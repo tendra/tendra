@@ -1,0 +1,438 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="C8">
+  <title>The bit encoding of TDF</title>
+
+  <para>
+    This is a description of the encoding used for TDF.
+  </para>
+
+  <!-- TODO link to section 8.1 -->Section 8.1<!-- end link --> defines the
+  basic level of encoding, in which integers consisting of a specified number of
+  bits are appended to the sequence of bytes. <!-- TODO link to section 8.2
+  -->Section 8.2<!-- end link --> defines the second level of encoding, in which
+  fundamental kinds of value are encoded in terms of integers of specified
+  numbers of bits. <!-- TODO link to section 8.4 -->Section 8.4<!-- end link -->
+  defines the third level, in which TDF is encoded using the previously defined
+  concepts.
+
+  <section id="C8S1">
+    <title>The Basic Encoding</title>
+
+    <para>
+      TDF consists of a sequence of 8-bit bytes used to encode integers of a
+      varying number of bits, from 1 to 32. These integers will be called basic
+      integers.
+    </para>
+
+    <para>
+      TDF is encoded into bytes in increasing byte index, and within the byte
+      the most significant end is filled before the least significant.  Let the
+      bits within a byte be numbered from 0 to 7, 0 denoting the least
+      significant bit and 7 the most significant. Suppose that the bytes up to
+      <emphasis>n</emphasis>-1 have been filled and that the next free bit in
+      byte <emphasis>n</emphasis> is bit <emphasis>k</emphasis>. Then bits
+      <emphasis>k</emphasis>+1 to 7 are full and bits 0 to
+      <emphasis>k</emphasis> remain to be used. Now an integer of
+      <emphasis>d</emphasis> bits is to be appended.
+    </para>
+
+    <para>
+      If <emphasis>d</emphasis> is less than or equal to <emphasis>k</emphasis>,
+      the <emphasis>d</emphasis> bits will occupy bits
+      <emphasis>k</emphasis>-<emphasis>d</emphasis>+1 to <emphasis>k</emphasis>
+      of byte <emphasis>n</emphasis>, and the next free bit will be at bit
+      <emphasis>k-d</emphasis>. Bit 0 of the integer will be at bit
+      <emphasis>k</emphasis>-<emphasis>d</emphasis>+1 of the byte, and bit
+      <emphasis>d</emphasis>-1 of the integer will be at bit
+      <emphasis>k</emphasis>.
+    </para>
+
+    <para>
+      If <emphasis>d</emphasis> is equal to <emphasis>k</emphasis>+1, the
+      <emphasis>d</emphasis> bits will occupy bits 0 to <emphasis>k</emphasis>
+      of byte <emphasis>n</emphasis> and the next free bit will be bit 7 of byte
+      <emphasis>n</emphasis>+1. Bit <emphasis>d</emphasis>-1 of the integer will
+      be at bit <emphasis>k</emphasis> of the byte.
+    </para>
+
+    <para>
+      If <emphasis>d</emphasis> is greater than <emphasis>k</emphasis>+1, the
+      most significant <emphasis>k</emphasis>+1 bits of the integer will be in
+      byte <emphasis>n</emphasis>, with bit <emphasis>d</emphasis>-1 at bit
+      <emphasis>k</emphasis> of the byte. The remaining
+      <emphasis>d</emphasis>-<emphasis>k</emphasis>-1 least significant bits are
+      then encoded into the bytes, starting at byte <emphasis>n</emphasis>+1,
+      bit 7, using the same algorithm (i.e. recursively).
+    </para>
+  </section>
+
+  <section id="C8S2">
+    <title>Fundamental encodings</title>
+
+    <para>
+      This section describes the encoding of <code>TDFINT</code>,
+      <code>TDFBOOL</code>, <code>TDFSTRING</code>, <code>TDFIDENT</code>,
+      <code>BITSTREAM</code>, <code>BYTESTREAM</code>, <code>BYTE_ALIGN</code>
+      and extendable integers.
+    </para>
+
+    <section id="C8S2.1">
+      <title>TDFINT</title>
+
+      <para>
+        <code>TDFINT</code> encodes non-negative integers of unbounded size. The
+        encoding uses octal digits encoded in 4-bit basic integers.  The most
+        significant octal digit is encoded first, the least significant last.
+        For all digits except the last the 4-bit integer is the value of the
+        octal digit. For the last digit the 4-bit integer is the value of the
+        octal digit plus 8.
+      </para>
+    </section>
+
+    <section id="C8S2.2">
+      <title>TDFBOOL</title>
+
+      <para>
+        <code>TDFBOOL</code> encodes a boolean, true or false.  The encoding
+        uses a 1-bit basic integer, with 1 encoding true and 0 encoding false.
+      </para>
+    </section>
+
+    <section id="C8S2.3">
+      <title>TDFSTRING</title>
+
+      <para>
+        <code>TDFSTRING</code> encodes a sequence containing
+        <emphasis>n</emphasis> non-negative integers, each of
+        <emphasis>k</emphasis> bits. The encoding consists of, first a
+        <code>TDFINT</code> giving the number of bits, second a
+        <code>TDFINT</code> giving the number of integers, which may be zero.
+        Thirdly it contains <emphasis>n</emphasis> <emphasis>k</emphasis>-bit
+        basic integers, giving the sequence of integers required, the first
+        integer being first in this sequence.
+      </para>
+    </section>
+
+    <section id="C8S2.4">
+      <title>TDFIDENT</title>
+
+      <para>
+        <code>TDFIDENT</code> also encodes a sequence containing
+        <emphasis>n</emphasis> non-negative integers. These integers will all
+        consist of the same number of bits, which will be a multiple of 8. It is
+        a property of the encoding of the other constructions that TDFIDENTS
+        will start on either bit 7 or bit 3 of a byte and end on bit 7 or bit 3
+        of a byte. It thus has some alignment properties which are useful to
+        permit fast copying of sections of TDF.
+      </para>
+
+      <para>
+        The encoding consists of, first a <code>TDFINT</code> giving the number
+        of bits, second a <code>TDFINT</code> giving the number of integers,
+        which may be zero. If the next free bit is not bit 7 of some byte, it is
+        moved on to bit 7 of the next byte.
+      </para>
+
+      <para>
+        Thirdly it contains <emphasis>n</emphasis> <emphasis>k</emphasis>-bit
+        integers.
+      </para>
+
+      <para>
+        If the next free bit is not bit 7 of some byte, it is moved on to bit 7
+        of the next byte.
+      </para>
+    </section>
+  </section>
+
+  <section id="C8S3">
+    <title>BITSTREAM</title>
+
+    <para>
+      It can be useful to be able to skip a TDF construction without reading
+      through it. <code>BITSTREAM</code> provides a means of doing this.
+    </para>
+
+    <para>
+      A <code>BITSTREAM</code> encoding of <emphasis>X</emphasis> consists of a
+      <code>TDFINT</code> giving the number of bits of encoding which are
+      occupied by the <emphasis>X</emphasis>.  Hence to skip over a
+      <code>BITSTREAM</code> while decoding, one should read the
+      <code>TDFINT</code> and then advance the bit index by that number of bits.
+      To read the contents of a <code>BITSTREAM</code> encoding of
+      <emphasis>X</emphasis>, one should read and ignore a <code>TDFINT</code>
+      and then decode an <emphasis>X</emphasis>. There will be no spare bits at
+      the end of the <emphasis>X</emphasis>, so reading can continue directly.
+    </para>
+
+    <section id="C8S3.1">
+      <title>BYTESTREAM</title>
+
+      <para>
+        It can be useful to be able to skip a TDF construction without reading
+        through it. <code>BYTESTREAM</code> provides a means of doing this while
+        remaining byte aligned, so facilitating copying the TDF. A
+        <code>BYTESTREAM</code> will always start when the bit position is 3 or
+        7.
+      </para>
+
+      <para>
+        A <code>BYTESTREAM</code> encoding of <emphasis>X</emphasis> starts with
+        a <code>TDFINT</code> giving a number, <emphasis>n</emphasis>. After
+        this, if the current bit position is not bit 7 of some byte, it is moved
+        to bit 7 of the next byte.  The next <emphasis>n</emphasis> bytes are an
+        encoding of <emphasis>X</emphasis>. There may be some spare bits left
+        over at the end of <emphasis>X</emphasis>.
+      </para>
+
+      <para>
+        Hence to skip over a <code>BYTESTREAM</code> while decoding one should
+        read a <code>TDFINT</code>, <emphasis>n</emphasis>, move to the next
+        byte alignment (if the bit position is not 7) and advance the bit index
+        over <emphasis>n</emphasis> bytes. To read a <code>BYTESTREAM</code>
+        encoding of <emphasis>X</emphasis> one should read a
+        <code>TDFINT</code>, <emphasis>n</emphasis>, and move to the next byte,
+        <emphasis>b</emphasis> (if the bit position is not 7), and then decode
+        an <emphasis>X</emphasis>. Finally the bit position should be moved to
+        <emphasis>n</emphasis> bytes after <emphasis>b</emphasis>.
+      </para>
+    </section>
+
+    <section id="C8S3.2">
+      <title>BYTE_ALIGN</title>
+
+      <para>
+        <code>BYTE_ALIGN</code> leaves the bit position alone if it is 7, and
+        otherwise moves to bit 7 of the next byte.
+      </para>
+    </section>
+
+    <section id="C8S3.3">
+      <title>Extendable integer encoding</title>
+
+      <para>
+        A <emphasis>d</emphasis>-bit extendable integer encoding enables an
+        integer greater than zero to be encoded given <emphasis>d</emphasis>, a
+        number of bits.
+      </para>
+
+      <para>
+        If the integer is between 1 and
+        2<superscript><emphasis>d</emphasis></superscript> - 1 inclusive, a
+        <emphasis>d</emphasis>-bit basic integer is encoded.
+      </para>
+
+      <para>
+        If the integer, <emphasis>i</emphasis>, is greater than or equal to
+        2<superscript><emphasis>d</emphasis></superscript>, a
+        <emphasis>d</emphasis>-bit basic integer encoding of zero is inserted
+        and then <emphasis>i</emphasis> -
+        2<superscript><emphasis>d</emphasis></superscript> + 1 is encoded as a
+        <emphasis>d</emphasis>-bit extendable encodin, and so on, recursively.
+      </para>
+    </section>
+  </section>
+
+  <section it="C8S4">
+    <title>The TDF encoding</title>
+
+    <para>
+      The descriptions of SORTS and constructors contain encoding information
+      which is interpreted as follows to define the TDF encoding.
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          A TDF CAPSULE is an encoding of the <code>SORT CAPSULE</code>.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          For each <code>SORT</code> a number of encoding bits,
+          <emphasis>b,</emphasis> is specified. If this is zero, there will only
+          be one construction for the class, and its encoding will consist of
+          the encodings of its components, in the given order.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          If the number of encoding bits, <emphasis>b</emphasis>, is not zero
+          the <code>SORT</code> is described as extendable or as not extendable.
+          For each construction there is an encoding number given. If the
+          <code>SORT </code> is extendable, this number is output as an
+          extendable integer. If the <code>SORT</code> is described as not
+          extendable, the number is output as a basic integer. This is followed
+          by the encodings of the components of the construction in the order
+          given in the description of the construct.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          For the classes which are named
+          <code>SLIST</code>(<emphasis>x</emphasis>)
+          - e.g. <code>SLIST</code>(<code>UNIT</code>) - the encoding consists
+          of a <code>TDFINT</code>, <emphasis>n</emphasis>, followed by
+          <emphasis>n</emphasis> encodings of <emphasis>x</emphasis>.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          For the classes which are named
+          <code>LIST</code>(<emphasis>x</emphasis>)
+          - e.g. <code>LIST</code>(<code>EXP</code>) - the encoding consists of
+          a 1-bit integer which will be 0, followed by an
+          <code>SLIST</code>(<emphasis>x</emphasis>).  The 1-bit integer is to
+          allow for extensions to other representations of <code>LIST</code>s.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          For the classes which are named <code>OPTION</code>(
+          <emphasis>x</emphasis>) the encoding consists of a 1-bit basic
+          integer. If this is zero, the option is absent and there is no more
+          encoding. If the integer is 1, the option is present and an encoding
+          of <emphasis>x</emphasis> follows.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          <code>BITSTREAMS</code> occur in only two kinds of place. One is the
+          constructions with the form <emphasis>x_cond</emphasis>, which are the
+          install-time conditionals. For each of these the class encoded in the
+          <code>BITSTREAM</code> is the same as the class which is the result of
+          the <emphasis>x_cond</emphasis> construction. The other kind of place
+          is as the <emphasis>token_args</emphasis> component of a construction
+          with the form <emphasis>x_apply_token</emphasis>. This component
+          always gives the parameters of the <code>TOKEN</code>. It can only be
+          decoded if there is a token definition or a token declaration for the
+          particular token being applied, i.e. for the
+          <emphasis>token_value</emphasis> component of the construction. In
+          this case the <code>SORTS</code> and hence the classes of the actual
+          token arguments are given by the declaration or definition, and
+          encodings of these classes are placed in sequence after the number of
+          bits. If the declaration or definition are not available, the
+          <code>BITSTREAM</code> can only be skipped.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          <code>BYTESTREAM</code> <emphasis>X</emphasis> occurs in only one
+          place, the encoding of the <code>SORT UNIT</code>. The
+          <code>SORT</code> <emphasis>X</emphasis> is determined by the
+          <code>UNIT</code> identification which is given for each of the
+          relevant <code>SORTS</code>.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          The <emphasis>tld</emphasis> <code>UNIT</code> is encoded specially.
+          It is always the first <code>UNIT</code> in a Capsule and is used to
+          pass information to the TDF linker. The first entry in a
+          <emphasis>tld</emphasis> <code>UNIT</code> is a <code>TDFINT</code>
+          giving the format of the remainder of the <code>UNIT</code>.
+          Currently, the linker supports formats 0 and 1, but others may be
+          added to give greater functionality while retaining compatibility.
+          With format 0, the remainder of <code>UNIT</code> is identical to a
+          now obsolete <emphasis>tld2</emphasis> <code>UNIT</code>. With format
+          1, the remainder of the <code>UNIT</code> is as follows: If
+          <emphasis>n</emphasis> is the number of <code>EXTERN_LINK </code>s in
+          the <emphasis>external_linkage</emphasis> argument of
+          <emphasis>make_capsule</emphasis>, the remainder consists of
+          <emphasis>n</emphasis> sequences. These sequences are in the order
+          given by <emphasis>external_linkage</emphasis>.  Each element of a
+          sequence consist of one <code>TDFINT</code> per linkable entity in the
+          corresponding <emphasis>el</emphasis> of the
+          <emphasis>make_extern_link</emphasis> in the same order. These
+          integers will describe properties of the correponding external links.
+          (In format 0, there are only two sequences, the first describing the
+          token external links and the second describing the tag external
+          links.)
+        </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>
+              Bit 0: 1 means <quote>used in this capsule</quote>, 0 means
+              <quote>not used in this capsule</quote>.
+            </para>
+          </listitem>
+
+          <listitem>
+            <para>
+              Bit 1: 1 means <quote>declared in this capsule</quote>, 0 means
+              <quote>not declared in this capsule</quote>.
+            </para>
+          </listitem>
+
+          <listitem>
+            <para>
+              Bit 2: 0 means <quote>not defined in this capsule</quote>, 1 means
+              <quote>defined in this capsule</quote>.
+            </para>
+          </listitem>
+
+          <listitem>
+            <para>
+              Bit 3: 0 means <quote>is uniquely defined</quote>, 1 means <quote>
+              may be multiply defined</quote>.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section id="C8S5">
+    <title>File Formats</title>
+
+    <para>
+      There may be various kinds of files which contain TDF bitstream
+      information.  Each will start with a 4-byte <quote>magic-number</quote>
+      identifying the kind of file followed by two <code>TDFINT</code>s giving
+      the major and minor version numbers of the TDF involved.
+    </para>
+
+    <para>
+      A CAPSULE file will have a magic-number
+      <emphasis><quote>TDFC</quote></emphasis>. The encoding of the CAPSULE will
+      be byte-aligned following the version numbers.
+    </para>
+
+    <para>
+      A TDF library file will have a magic-number
+      <emphasis><quote>TDFL</quote></emphasis>.  These files are constructed by
+      the TDF linker.
+    </para>
+
+    <para>
+      A TDF archive file will have a magic-number
+      <emphasis><quote>TDFA</quote></emphasis>.
+    </para>
+
+    <para>
+      Other file formats introduced should follow a similar pattern.
+    </para>
+
+    <para>
+      <emphasis>The TDF linker will refuse to link TDF files with different
+      major version numbers. The resulting minor version number is the maximum
+      of component minor version numbers.</emphasis>
+    </para>
+  </section>
+</chapter>

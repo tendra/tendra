@@ -9,7 +9,7 @@
 <chapter id="C5">
   <title>Specification of TDF constructs</title>
 
-  <section id="S7">
+  <section id="C5S1">
     <title>Access</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 4<sbr/>
@@ -37,7 +37,7 @@
       <emphasis>add_accesses</emphasis> is the set union operation.
     </para>
 
-    <section id="S7S1">
+    <section id="C5S1.1">
       <title>access_apply_token</title>
       <emphasis role="bold">Encoding number</emphasis>: 1
 
@@ -64,7 +64,7 @@
       </para>
     </section>
 
-    <section id="S7S2">
+    <section id="C5S1.2">
       <title>access_cond</title>
 
       <emphasis role="bold">Encoding Number</emphasis>: 2
@@ -84,7 +84,7 @@
       processed.
     </section>
 
-    <section id="S7S3">
+    <section id="C5S1.3">
       <title>add_access</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -99,7 +99,7 @@
       <emphasis>a2</emphasis>. This operation is associative and commutative.
     </section>
 
-    <section id="S7S4">
+    <section id="C5S1.4">
       <title>constant</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -113,7 +113,7 @@
       throughout its lifetime.
     </section>
 
-    <section id="S7S5">
+    <section id="C5S1.5">
       <title>long_jump_access</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -126,7 +126,7 @@
       the object.
     </section>
 
-    <section id="S7S6">
+    <section id="C5S1.6">
       <title>no_other_read</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -156,7 +156,7 @@
       </para>
     </section>
 
-    <section id="S7S7">
+    <section id="C5S1.7">
       <title>no_other_write</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -186,7 +186,7 @@
       </para>
     </section>
 
-    <section id="S7S8">
+    <section id="C5S1.8">
       <title>out_par</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -201,7 +201,7 @@
       <emphasis>apply_general_proc</emphasis> of this procedure.
     </section>
 
-    <section id="S7S9">
+    <section id="C5S1.9">
       <title>preserve</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -215,7 +215,7 @@
       of procedure object.
     </section>
 
-    <section id="S7S10">
+    <section id="C5S1.10">
       <title>register</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -227,7 +227,7 @@
       be taken as a recommendation to place it in a register.
     </section>
 
-    <section id="S7S11">
+    <section id="C5S1.11">
       <title>standard_access</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -239,7 +239,7 @@
       normal (i.e.  no special) access properties.
     </section>
 
-    <section id="S7S12">
+    <section id="C5S1.12">
       <title>used_as_volatile</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -254,7 +254,7 @@
       <code>TRANSFER_MODE</code> <emphasis>volatile</emphasis>.
     </section>
 
-    <section id="S7S13">
+    <section id="C5S1.13">
       <title>visible</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 13
@@ -269,7 +269,7 @@
     </section>
   </section>
 
-  <section id="S8">
+  <section id="C5S2">
     <title>AL_TAG</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -290,7 +290,7 @@
       to x = {pointer}.</emphasis>
     </para>
 
-    <section id="S8S1">
+    <section id="C5S2.1">
       <title>al_tag_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -312,7 +312,7 @@
       </para>
     </section>
 
-    <section id="S8S2">
+    <section id="C5S2.2">
       <title>make_al_tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -326,7 +326,7 @@
     </section>
   </section>
 
-  <section id="S9">
+  <section id="C5S3">
     <title>AL_TAGDEF</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -337,7 +337,7 @@
       for incorporation into a <code>AL_TAGDEF_PROPS</code>.
     </para>
 
-    <section id="S9S1">
+    <section id="C5S3.1">
       <title>make_al_tagdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -379,14 +379,14 @@
     </section>
   </section>
 
-  <section id="S10">
+  <section id="C5S4">
     <title>AL_TAGDEF_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
     <emphasis role="bold">Unit identificaiton</emphasis>: aldef
 
-    <section id="S10S1">
+    <section id="C5S4.1">
       <title>make_al_tagdefs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -405,7 +405,7 @@
     </section>
   </section>
 
-  <section id="S11">
+  <section id="C5S5">
     <title>ALIGNMENT</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 4<sbr/>
@@ -475,7 +475,7 @@
       equal to <emphasis>a</emphasis>).
     </para>
 
-    <section id="S11S1">
+    <section id="C5S5.1">
       <title>alignment_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -499,7 +499,7 @@
       </para>
     </section>
 
-    <section id="S11S2">
+    <section id="C5S5.2">
       <title>alignment_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -521,7 +521,7 @@
       </para>
     </section>
 
-    <section id="S11S3">
+    <section id="C5S5.3">
       <title>alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -616,7 +616,7 @@
       </itemizedlist>
     </section>
 
-    <section id="S11S4">
+    <section id="C5S5.4">
       <title>alloca_allignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -630,7 +630,7 @@
       </para>
     </section>
 
-    <section id="S11S5">
+    <section id="C5S5.5">
       <title>callees_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -658,7 +658,7 @@
       </para>
     </section>
 
-    <section id="S11S6">
+    <section id="C5S5.6">
       <title>callers_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -686,7 +686,7 @@
       </para>
     </section>
 
-    <section id="S11S7">
+    <section id="C5S5.7">
       <title>code_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -700,7 +700,7 @@
       </para>
     </section>
 
-    <section id="S11S8">
+    <section id="C5S5.8">
       <title>locals_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -718,7 +718,7 @@
       </para>
     </section>
 
-    <section id="S11S9">
+    <section id="C5S5.9">
       <title>obtain_al_tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -733,7 +733,7 @@
       </para>
     </section>
 
-    <section id="S11S10">
+    <section id="C5S5.10">
       <title>parameter_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -748,7 +748,7 @@
       </para>
     </section>
 
-    <section id="S11S11">
+    <section id="C5S5.11">
       <title>unite_alignments</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -767,7 +767,7 @@
       </para>
     </section>
 
-    <section id="S11S12">
+    <section id="C5S5.12">
       <title>var_param_alignment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -782,7 +782,7 @@
     </section>
   </section>
 
-  <section id="S12">
+  <section id="C5S6">
     <title>BITFIELD_VARIETY</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -801,7 +801,7 @@
       Permitted limits -->Permitted limits<!-- end link -->.
     </para>
 
-    <section id="S12S1">
+    <section id="C5S6.1">
       <title>bfvar_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -825,7 +825,7 @@
       </para>
     </section>
 
-    <section id="S12S2">
+    <section id="C5S6.2">
       <title>bfvar_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -847,7 +847,7 @@
       </para>
     </section>
 
-    <section id="S12S3">
+    <section id="C5S6.3">
       <title>bfvar_bits</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -868,7 +868,7 @@
     </section>
   </section>
 
-  <section id="S13">
+  <section id="C5S7">
     <title>BITSTREAM</title>
 
     <para>
@@ -891,7 +891,7 @@
     </para>
   </section>
 
-  <section id="S14">
+  <section id="C5S8">
     <title>BOOL</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -902,7 +902,7 @@
       <emphasis>true</emphasis> or <emphasis>false</emphasis>.
     </para>
 
-    <section id="S14S1">
+    <section id="C5S8.1">
       <title>bool_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -926,7 +926,7 @@
       </para>
     </section>
 
-    <section id="S14S2">
+    <section id="C5S8.2">
       <title>bool_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -948,7 +948,7 @@
       </para>
     </section>
 
-    <section id="S14S3">
+    <section id="C5S8.3">
       <title>false</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -961,7 +961,7 @@
       </para>
     </section>
 
-    <section id="S14S4">
+    <section id="C5S8.4">
       <title>true</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -975,7 +975,7 @@
     </section>
   </section>
 
-  <section id="S15">
+  <section id="C5S9">
     <title>BYTESTREAM</title>
 
     <para>
@@ -989,7 +989,7 @@
     </para>
   </section>
 
-  <section id="S16">
+  <section id="C5S10">
     <title>CALLEES</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -1001,7 +1001,7 @@
       to provide their actual callee parameters.
     </para>
 
-    <section id="S16S1">
+    <section id="C5S10.1">
       <title>make_callee_list</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -1017,7 +1017,7 @@
       </para>
     </section>
 
-    <section id="S16S2">
+    <section id="C5S10.2">
       <title>make_dynamic_callees</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -1060,7 +1060,7 @@
       </para>
     </section>
 
-    <section id="S16S3">
+    <section id="C5S10.3">
       <title>same_callees</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -1075,7 +1075,7 @@
     </section>
   </section>
 
-  <section id="S17">
+  <section id="C5S11">
     <title>CAPSULE</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -1086,7 +1086,7 @@
       construction, <emphasis>make_capsule</emphasis>.
     </para>
 
-    <section id="S17S1">
+    <section id="C5S11.1">
       <title>make_capsule</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -1163,7 +1163,7 @@
     </section>
   </section>
 
-  <section id="S18">
+  <section id="C5S12">
     <title>CAPSULE_LINK</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -1175,7 +1175,7 @@
       <emphasis>make_capsule</emphasis>.
     </para>
 
-    <section id="S18S1">
+    <section id="C5S12.1">
       <title>make_capsule_link</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -1194,7 +1194,7 @@
     </section>
   </section>
 
-  <section id="S19">
+  <section id="C5S13">
     <title>CASELIM</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -1206,7 +1206,7 @@
       construction.
     </para>
 
-    <section id="S19S1">
+    <section id="C5S13.1">
       <title>make_caselim</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -1227,13 +1227,13 @@
     </section>
   </section>
 
-  <section id="S20">
+  <section id="C5S14">
     <title>ERROR_code</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
-    <section id="S20S1">
+    <section id="C5S14.1">
       <title>nil_access</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -1248,7 +1248,7 @@
       </para>
     </section>
 
-    <section id="S20S2">
+    <section id="C5S14.2">
       <title>overflow</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -1263,7 +1263,7 @@
       </para>
     </section>
 
-    <section id="S20S3">
+    <section id="C5S14.3">
       <title>stack_overflow</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -1279,7 +1279,7 @@
     </section>
   </section>
 
-  <section id="S21">
+  <section id="C5S15">
     <title>ERROR_TREATMENT</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -1295,7 +1295,7 @@
       will be needed.</emphasis>
     </para>
 
-    <section id="S21S1">
+    <section id="C5S15.1">
       <title>errt_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -1319,7 +1319,7 @@
       </para>
     </section>
 
-    <section id="S21S2">
+    <section id="C5S15.2">
       <title>errt_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -1341,7 +1341,7 @@
       </para>
     </section>
 
-    <section id="S21S3">
+    <section id="C5S15.3">
       <title>continue</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -1357,7 +1357,7 @@
       </para>
     </section>
 
-    <section id="S21S4">
+    <section id="C5S15.4">
       <title>error_jump</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -1387,7 +1387,7 @@
       </para>
     </section>
 
-    <section id="S21S5">
+    <section id="C5S15.5">
       <title>trap</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -1411,7 +1411,7 @@
       </para>
     </section>
 
-    <section id="S21S6">
+    <section id="C5S15.6">
       <title>wrap</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -1432,7 +1432,7 @@
       </para>
     </section>
 
-    <section id="S21S7">
+    <section id="C5S15.7">
       <title>impossible</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -1452,7 +1452,7 @@
     </section>
   </section>
 
-  <section id="S22">
+  <section id="C5S16">
     <title>EXP</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 7<sbr/>
@@ -1468,7 +1468,7 @@
       manipulation, arithmetic operations, tests etc. of programming languages.
     </para>
 
-    <section id="S22S1">
+    <section id="C5S16.1">
       <title>exp_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -1492,7 +1492,7 @@
       </para>
     </section>
 
-    <section id="S22S2">
+    <section id="C5S16.2">
       <title>exp_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -1514,7 +1514,7 @@
       </para>
     </section>
 
-    <section id="S22S3">
+    <section id="C5S16.3">
       <title>abs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -1536,7 +1536,7 @@
       </para>
     </section>
 
-    <section id="S22S4">
+    <section id="C5S16.4">
       <title>add_to_ptr</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -1586,7 +1586,7 @@
       </para>
     </section>
 
-    <section id="S22S5">
+    <section id="C5S16.5">
       <title>and</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -1610,7 +1610,7 @@
       </para>
     </section>
 
-    <section id="S22S6">
+    <section id="C5S16.6">
       <title>apply_proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -1678,7 +1678,7 @@
       </para>
     </section>
 
-    <section id="S22S7">
+    <section id="C5S16.7">
       <title>apply_general_proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -1812,7 +1812,7 @@
       </para>
     </section>
 
-    <section id="S22S8">
+    <section id="C5S16.8">
       <title>assign</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -1860,7 +1860,7 @@
       </para>
     </section>
 
-    <section id="S22S9">
+    <section id="C5S16.9">
       <title>assign_with_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -1911,7 +1911,7 @@
       </para>
     </section>
 
-    <section id="S22S10">
+    <section id="C5S16.10">
       <title>bitfield_assign</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -1940,7 +1940,7 @@
       </para>
     </section>
 
-    <section id="S22S11">
+    <section id="C5S16.11">
       <title>bitfield_assign_with_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -1973,7 +1973,7 @@
       </para>
     </section>
 
-    <section id="S22S12">
+    <section id="C5S16.12">
       <title>bitfield_contents</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -2003,7 +2003,7 @@
       </para>
     </section>
 
-    <section id="S22S13">
+    <section id="C5S16.13">
       <title>bitfield_contents_with_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 13
@@ -2042,7 +2042,7 @@
       </para>
     </section>
 
-    <section id="S22S14">
+    <section id="C5S16.14">
       <title>case</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 14
@@ -2078,7 +2078,7 @@
       </para>
     </section>
 
-    <section id="S22S15">
+    <section id="C5S16.15">
       <title>change_bitfield_to_int</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 15
@@ -2099,7 +2099,7 @@
       </para>
     </section>
 
-    <section id="S22S16">
+    <section id="C5S16.16">
       <title>change_floating_variety</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 16
@@ -2133,7 +2133,7 @@
       </para>
     </section>
 
-    <section id="S22S17">
+    <section id="C5S16.17">
       <title>change_variety</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 17
@@ -2158,7 +2158,7 @@
       </para>
     </section>
 
-    <section id="S22S18">
+    <section id="C5S16.18">
       <title>change_int_to_bitfield</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 18
@@ -2179,7 +2179,7 @@
       </para>
     </section>
 
-    <section id="S22S19">
+    <section id="C5S16.19">
       <title>complex_conjugate</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 19
@@ -2197,7 +2197,7 @@
       </para>
     </section>
 
-    <section id="S22S20">
+    <section id="C5S16.20">
       <title>component</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 20
@@ -2229,7 +2229,7 @@
       </para>
     </section>
 
-    <section id="S22S21">
+    <section id="C5S16.21">
       <title>concat_nof</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 21
@@ -2247,7 +2247,7 @@
       </para>
     </section>
 
-    <section id="S22S22">
+    <section id="C5S16.22">
       <title>conditional</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 22
@@ -2294,7 +2294,7 @@
       </para>
     </section>
 
-    <section id="S22S23">
+    <section id="C5S16.23">
       <title>contents</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 23
@@ -2337,7 +2337,7 @@
       </para>
     </section>
 
-    <section id="S22S24">
+    <section id="C5S16.24">
       <title>contents_with_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 24
@@ -2383,7 +2383,7 @@
       </para>
     </section>
 
-    <section id="S22S25">
+    <section id="C5S16.25">
       <title>current_env</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 25
@@ -2437,7 +2437,7 @@
       </para>
     </section>
 
-    <section id="S22S26">
+    <section id="C5S16.26">
       <title>div0</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 26
@@ -2484,7 +2484,7 @@
       </para>
     </section>
 
-    <section id="S22S27">
+    <section id="C5S16.27">
       <title>div1</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 27
@@ -2528,7 +2528,7 @@
       </para>
     </section>
 
-    <section id="S22S28">
+    <section id="C5S16.28">
       <title>div2</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 28
@@ -2573,7 +2573,7 @@
       </para>
     </section>
 
-    <section id="S22S29">
+    <section id="C5S16.29">
       <title>env_offset</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 29
@@ -2635,7 +2635,7 @@
       </para>
     </section>
 
-    <section id="S22S30">
+    <section id="C5S16.30">
       <title>env_size</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 30
@@ -2660,7 +2660,7 @@
       </para>
     </section>
 
-    <section id="S22S31">
+    <section id="C5S16.31">
       <title>fail_installer</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 31
@@ -2677,7 +2677,7 @@
       </para>
     </section>
 
-    <section id="S22S32">
+    <section id="C5S16.32">
       <title>float_int</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 32
@@ -2707,7 +2707,7 @@
       </para>
     </section>
 
-    <section id="S22S33">
+    <section id="C5S16.33">
       <title>floating_abs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 33
@@ -2741,7 +2741,7 @@
       </para>
     </section>
 
-    <section id="S22S34">
+    <section id="C5S16.34">
       <title>floating_div</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 34
@@ -2773,7 +2773,7 @@
       </para>
     </section>
 
-    <section id="S22S35">
+    <section id="C5S16.35">
       <title>floating_minus</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 35
@@ -2805,7 +2805,7 @@
       </para>
     </section>
 
-    <section id="S22S36">
+    <section id="C5S16.36">
       <title>floating_maximum</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 36
@@ -2833,7 +2833,7 @@
       </para>
     </section>
 
-    <section id="S22S37">
+    <section id="C5S16.37">
       <title>floating_minimum</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 37
@@ -2861,7 +2861,7 @@
       </para>
     </section>
 
-    <section id="S22S38">
+    <section id="C5S16.38">
       <title>floating_mult</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 38
@@ -2905,7 +2905,7 @@
       </para>
     </section>
 
-    <section id="S22S39">
+    <section id="C5S16.39">
       <title>floating_negate</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 39
@@ -2935,7 +2935,7 @@
       </para>
     </section>
 
-    <section id="S22S40">
+    <section id="C5S16.40">
       <title>floating_plus</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 40
@@ -2979,7 +2979,7 @@
       </para>
     </section>
 
-    <section id="S22S41">
+    <section id="C5S16.41">
       <title>floating_power</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 41
@@ -3007,7 +3007,7 @@
       </para>
     </section>
 
-    <section id="S22S42">
+    <section id="C5S16.42">
       <title>floating_test</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 42
@@ -3058,7 +3058,7 @@
       </para>
     </section>
 
-    <section id="S22S43">
+    <section id="C5S16.43">
       <title>goto</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 43
@@ -3074,7 +3074,7 @@
       </para>
     </section>
 
-    <section id="S22S44">
+    <section id="C5S16.44">
       <title>goto_local_lv</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 44
@@ -3099,7 +3099,7 @@
       </para>
     </section>
 
-    <section id="S22S45">
+    <section id="C5S16.45">
       <title>identify</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 45
@@ -3155,7 +3155,7 @@
       </para>
     </section>
 
-    <section id="S22S46">
+    <section id="C5S16.46">
       <title>ignorable</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 46
@@ -3172,7 +3172,7 @@
       </para>
     </section>
 
-    <section id="S22S47">
+    <section id="C5S16.47">
       <title>imaginary_part</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 47
@@ -3187,7 +3187,7 @@
       </para>
     </section>
 
-    <section id="S22S48">
+    <section id="C5S16.48">
       <title>initial_value</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 48
@@ -3226,7 +3226,7 @@
       </para>
     </section>
 
-    <section id="S22S49">
+    <section id="C5S16.49">
       <title>integer_test</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 49
@@ -3260,7 +3260,7 @@
       </para>
     </section>
 
-    <section id="S22S50">
+    <section id="C5S16.50">
       <title>labelled</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 50
@@ -3320,7 +3320,7 @@
       </para>
     </section>
 
-    <section id="S22S51">
+    <section id="C5S16.51">
       <title>last_local</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 51
@@ -3353,7 +3353,7 @@
       </para>
     </section>
 
-    <section id="S22S52">
+    <section id="C5S16.52">
       <title>local_alloc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 52
@@ -3421,7 +3421,7 @@
       </para>
     </section>
 
-    <section id="S22S53">
+    <section id="C5S16.53">
       <title>local_alloc_check</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 53
@@ -3443,7 +3443,7 @@
       </para>
     </section>
 
-    <section id="S22S54">
+    <section id="C5S16.54">
       <title>local_free</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 54
@@ -3469,7 +3469,7 @@
       </para>
     </section>
 
-    <section id="S22S55">
+    <section id="C5S16.55">
       <title>local_free_all</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 55
@@ -3494,7 +3494,7 @@
       </para>
     </section>
 
-    <section id="S22S56">
+    <section id="C5S16.56">
       <title>long_jump</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 56
@@ -3528,7 +3528,7 @@
       </para>
     </section>
 
-    <section id="S22S57">
+    <section id="C5S16.57">
       <title>make_complex</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 57
@@ -3550,7 +3550,7 @@
       </para>
     </section>
 
-    <section id="S22S58">
+    <section id="C5S16.58">
       <title>make_compound</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 58
@@ -3615,7 +3615,7 @@
       </para>
     </section>
 
-    <section id="S22S59">
+    <section id="C5S16.59">
       <title>make_floating</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 59
@@ -3775,7 +3775,7 @@
       </para>
     </section>
 
-    <section id="S22S61">
+    <section id="C5S16.61">
       <title>make_int</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 61
@@ -3794,7 +3794,7 @@
       </para>
     </section>
 
-    <section id="S22S62">
+    <section id="C5S16.62">
       <title>make_local_lv</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 62
@@ -3813,7 +3813,7 @@
       </para>
     </section>
 
-    <section id="S22S63">
+    <section id="C5S16.63">
       <title>make_nof</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 63
@@ -3834,7 +3834,7 @@
       </para>
     </section>
 
-    <section id="S22S64">
+    <section id="C5S16.64">
       <title>make_nof_int</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 64
@@ -3853,7 +3853,7 @@
       </para>
     </section>
 
-    <section id="S22S65">
+    <section id="C5S16.65">
       <title>make_null_local_lv</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 65
@@ -3874,7 +3874,7 @@
       </para>
     </section>
 
-    <section id="S22S66">
+    <section id="C5S16.66">
       <title>make_null_proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 66
@@ -3895,7 +3895,7 @@
       </para>
     </section>
 
-    <section id="S22S67">
+    <section id="C5S16.67">
       <title>make_null_ptr</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 67
@@ -3921,7 +3921,7 @@
       </para>
     </section>
 
-    <section id="S22S68">
+    <section id="C5S16.68">
       <title>make_proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 68
@@ -4010,7 +4010,7 @@
       </para>
     </section>
 
-    <section id="S22S69">
+    <section id="C5S16.69">
       <title>make_stack_limit</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 116
@@ -4052,7 +4052,7 @@
       </para>
     </section>
 
-    <section id="S22S70">
+    <section id="C5S16.70">
       <title>make_top</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 69
@@ -4066,7 +4066,7 @@
       </para>
     </section>
 
-    <section id="S22S71">
+    <section id="C5S16.71">
       <title>make_value</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 70
@@ -4103,7 +4103,7 @@
       </para>
     </section>
 
-    <section id="S22S72">
+    <section id="C5S16.72">
       <title>maximum</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 71
@@ -4135,7 +4135,7 @@
       </para>
     </section>
 
-    <section id="S22S74">
+    <section id="C5S16.74">
       <title>minus</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 73
@@ -4162,7 +4162,7 @@
       </para>
     </section>
 
-    <section id="S22S75">
+    <section id="C5S16.75">
       <title>move_some</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 74
@@ -4210,7 +4210,7 @@
       </para>
     </section>
 
-    <section id="S22S76">
+    <section id="C5S16.76">
       <title>mult</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 75
@@ -4237,7 +4237,7 @@
       </para>
     </section>
 
-    <section id="S22S77">
+    <section id="C5S16.77">
       <title>n_copies</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 76
@@ -4259,7 +4259,7 @@
       </para>
     </section>
 
-    <section id="S22S78">
+    <section id="C5S16.78">
       <title>negate</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 78
@@ -4283,7 +4283,7 @@
       </para>
     </section>
 
-    <section id="S22S79">
+    <section id="C5S16.79">
       <title>not</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 78
@@ -4306,7 +4306,7 @@
       </para>
     </section>
 
-    <section id="S22S80">
+    <section id="C5S16.80">
       <title>obtain_tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 79
@@ -4323,7 +4323,7 @@
       </para>
     </section>
 
-    <section id="S22S81">
+    <section id="C5S16.81">
       <title>offset_add</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 80
@@ -4351,7 +4351,7 @@
       </para>
     </section>
 
-    <section id="S22S82">
+    <section id="C5S16.82">
       <title>offset_div</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 81
@@ -4375,7 +4375,7 @@
       </para>
     </section>
 
-    <section id="S22S83">
+    <section id="C5S16.83">
       <title>offset_div_by_int</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 82
@@ -4406,7 +4406,7 @@
       </para>
     </section>
 
-    <section id="S22S84">
+    <section id="C5S16.84">
       <title>offset_max</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 83
@@ -4434,7 +4434,7 @@
       </para>
     </section>
 
-    <section id="S22S85">
+    <section id="C5S16.85">
       <title>offset_mult</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 84
@@ -4457,7 +4457,7 @@
       </para>
     </section>
 
-    <section id="S22S86">
+    <section id="C5S16.86">
       <title>offset_negate</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 85
@@ -4475,7 +4475,7 @@
         negate.</emphasis> </para>
     </section>
 
-    <section id="S22S87">
+    <section id="C5S16.87">
       <title>offset_pad</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 86
@@ -4510,7 +4510,7 @@
       </para>
     </section>
 
-    <section id="S22S88">
+    <section id="C5S16.88">
       <title>offset_subtract</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 87
@@ -4541,7 +4541,7 @@
       </para>
     </section>
 
-    <section id="S22S89">
+    <section id="C5S16.89">
       <title>offset_test</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 88
@@ -4586,7 +4586,7 @@
       </para>
     </section>
 
-    <section id="S22S90">
+    <section id="C5S16.90">
       <title>offset_zero</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 89
@@ -4609,7 +4609,7 @@
       </para>
     </section>
 
-    <section id="S22S91">
+    <section id="C5S16.91">
       <title>or</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 90
@@ -4633,7 +4633,7 @@
       </para>
     </section>
 
-    <section id="S22S92">
+    <section id="C5S16.92">
       <title>plus</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 91
@@ -4660,7 +4660,7 @@
       </para>
     </section>
 
-    <section id="S22S93">
+    <section id="C5S16.93">
       <title>pointer_test</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 92
@@ -4710,7 +4710,7 @@
       </para>
     </section>
 
-    <section id="S22S94">
+    <section id="C5S16.94">
       <title>power</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 93
@@ -4734,7 +4734,7 @@
       </para>
     </section>
 
-    <section id="S22S95">
+    <section id="C5S16.95">
       <title>proc_test</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 94
@@ -4776,7 +4776,7 @@
       </para>
     </section>
 
-    <section id="S22S96">
+    <section id="C5S16.96">
       <title>profile</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 95
@@ -4796,7 +4796,7 @@
       </para>
     </section>
 
-    <section id="S22S97">
+    <section id="C5S16.97">
       <title>real_part</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 96
@@ -4811,7 +4811,7 @@
       </para>
     </section>
 
-    <section id="S22S98">
+    <section id="C5S16.98">
       <title>rem0</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 97
@@ -4873,7 +4873,7 @@
       </para>
     </section>
 
-    <section id="S22S99">
+    <section id="C5S16.99">
       <title>rem1</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 98
@@ -4918,7 +4918,7 @@
       </para>
     </section>
 
-    <section id="S22S100">
+    <section id="C5S16.100">
       <title>rem2</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 99
@@ -4964,7 +4964,7 @@
       </para>
     </section>
 
-    <section id="S22S101">
+    <section id="C5S16.101">
       <title>repeat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 100
@@ -5000,7 +5000,7 @@
       </para>
     </section>
 
-    <section id="S22S102">
+    <section id="C5S16.102">
       <title>return</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 101
@@ -5029,7 +5029,7 @@
       </para>
     </section>
 
-    <section id="S22S103">
+    <section id="C5S16.103">
       <title>return_to_label</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 102
@@ -5050,7 +5050,7 @@
       </para>
     </section>
 
-    <section id="S22S104">
+    <section id="C5S16.104">
       <title>round_with_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 103
@@ -5082,7 +5082,7 @@
       </para>
     </section>
 
-    <section id="S22S105">
+    <section id="C5S16.105">
       <title>rotate_left</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 104
@@ -5108,7 +5108,7 @@
       </para>
     </section>
 
-    <section id="S22S106">
+    <section id="C5S16.106">
       <title>rotate_right</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 105
@@ -5134,7 +5134,7 @@
       </para>
     </section>
 
-    <section id="S22S107">
+    <section id="C5S16.107">
       <title>sequence</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 106
@@ -5173,7 +5173,7 @@
       </para>
     </section>
 
-    <section id="S22S108">
+    <section id="C5S16.108">
       <title>set_stack_limit</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 107
@@ -5209,7 +5209,7 @@
       </para>
     </section>
 
-    <section id="S22S109">
+    <section id="C5S16.109">
       <title>shape_offset</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 108
@@ -5247,7 +5247,7 @@
       </para>
     </section>
 
-    <section id="S22S110">
+    <section id="C5S16.110">
       <title>shift_left</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 109
@@ -5283,7 +5283,7 @@
       </para>
     </section>
 
-    <section id="S22S111">
+    <section id="C5S16.111">
       <title>shift_right</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 110
@@ -5313,7 +5313,7 @@
       </para>
     </section>
 
-    <section id="S22S112">
+    <section id="C5S16.112">
       <title>subtract_ptrs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 111
@@ -5338,7 +5338,7 @@
       </para>
     </section>
 
-    <section id="S22S113">
+    <section id="C5S16.113">
       <title>tail_call</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 112
@@ -5373,7 +5373,7 @@
       </para>
     </section>
 
-    <section id="S22S114">
+    <section id="C5S16.114">
       <title>untidy_return</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 113
@@ -5397,7 +5397,7 @@
       </para>
     </section>
 
-    <section id="S22S115">
+    <section id="C5S16.115">
       <title>variable</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 114
@@ -5461,7 +5461,7 @@
       </para>
     </section>
 
-    <section id="S22S116">
+    <section id="C5S16.116">
       <title>xor</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 115
@@ -5486,7 +5486,7 @@
     </section>
   </section>
 
-  <section id="S23">
+  <section id="C5S17">
     <title>EXTERNAL</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -5498,7 +5498,7 @@
       world outside the <code>CAPSULE</code>.
     </para>
 
-    <section id="S23S1">
+    <section id="C5S17.1">
       <title>string_extern</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -5513,7 +5513,7 @@
       </para>
     </section>
 
-    <section id="S23S2">
+    <section id="C5S17.2">
       <title>unique_extern</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -5528,7 +5528,7 @@
       </para>
     </section>
 
-    <section id="S23S3">
+    <section id="C5S17.3">
       <title>chain_extern</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -5544,7 +5544,7 @@
     </section>
   </section>
 
-  <section id="S24">
+  <section id="C5S18">
     <title>EXTERN_LINK</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -5555,7 +5555,7 @@
       <code>LINKEXTERN</code>.
     </para>
 
-    <section id="S24S1">
+    <section id="C5S18.1">
       <title>make_extern_link</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -5573,7 +5573,7 @@
     </section>
   </section>
 
-  <section id="S25">
+  <section id="C5S19">
     <title>FLOATING_VARIETY</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -5583,7 +5583,7 @@
       These describe kinds of floating point number.
     </para>
 
-    <section id="S25S1">
+    <section id="C5S19.1">
       <title>flvar_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -5606,7 +5606,7 @@
       </para>
     </section>
 
-    <section id="S25S2">
+    <section id="C5S19.2">
       <title>flvar_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -5628,7 +5628,7 @@
       </para>
     </section>
 
-    <section id="S25S3">
+    <section id="C5S19.3">
       <title>flvar_parms</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -5689,7 +5689,7 @@
       </para>
     </section>
 
-    <section id="S25S4">
+    <section id="C5S19.4">
       <title>complex_parms</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -5710,7 +5710,7 @@
       </para>
     </section>
 
-    <section id="S25S5">
+    <section id="C5S19.5">
       <title>float_of_complex</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -5730,7 +5730,7 @@
       </para>
     </section>
 
-    <section id="S25S6">
+    <section id="C5S19.6">
       <title>complex_of_float</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -5751,7 +5751,7 @@
     </section>
   </section>
 
-  <section id="S26">
+  <section id="C5S20">
     <title>GROUP</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -5762,7 +5762,7 @@
       identification.
     </para>
 
-    <section id="S26S1">
+    <section id="C5S20.1">
       <title>make_group</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -5780,7 +5780,7 @@
     </section>
   </section>
 
-  <section id="S27">
+  <section id="C5S21">
     <title>LABEL</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -5792,7 +5792,7 @@
       labelled construction.
     </para>
 
-    <section id="S27S1">
+    <section id="C5S21.1">
       <title>label_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -5814,7 +5814,7 @@
       </para>
     </section>
 
-    <section id="S27S2">
+    <section id="C5S21.2">
       <title>make_label</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -5831,7 +5831,7 @@
     </section>
   </section>
 
-  <section id="S28">
+  <section id="C5S22">
     <title>LINK</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -5842,7 +5842,7 @@
       same <code>SORT</code>.
     </para>
 
-    <section id="S28S1">
+    <section id="C5S22.1">
       <title>make_link</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -5868,7 +5868,7 @@
     </section>
   </section>
 
-  <section id="S29">
+  <section id="C5S23">
     <title>LINKEXTERN</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -5880,7 +5880,7 @@
       name by which it is known outside.
     </para>
 
-    <section id="S29S1">
+    <section id="C5S23.1">
       <title>make_linkextern</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -5902,13 +5902,13 @@
     </section>
   </section>
 
-  <section id="S30">
+  <section id="C5S24">
     <title>LINKS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
-    <section id="S30S1">
+    <section id="C5S24.1">
       <title>make_links</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -5927,7 +5927,7 @@
     </section>
   </section>
 
-  <section id="S31">
+  <section id="C5S25">
     <title>NAT</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -5937,7 +5937,7 @@
       These are non-negative integers of unlimited size.
     </para>
 
-    <section id="S31S1">
+    <section id="C5S25.1">
       <title>nat_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -5959,7 +5959,7 @@
       </para>
     </section>
 
-    <section id="S31S2">
+    <section id="C5S25.2">
       <title>nat_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -5981,7 +5981,7 @@
       </para>
     </section>
 
-    <section id="S31S3">
+    <section id="C5S25.3">
       <title>computed_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -5996,7 +5996,7 @@
       </para>
     </section>
 
-    <section id="S31S4">
+    <section id="C5S25.4">
       <title>error_val</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -6012,7 +6012,7 @@
       </para>
     </section>
 
-    <section id="S31S5">
+    <section id="C5S25.5">
       <title>make_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -6027,7 +6027,7 @@
     </section>
   </section>
 
-  <section id="S32">
+  <section id="C5S26">
     <title>NTEST</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 4<sbr/>
@@ -6041,7 +6041,7 @@
       defined (e.g. in IEEE floating point).
     </para>
 
-    <section id="S32S1">
+    <section id="C5S26.1">
       <title>ntest_apply</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -6063,7 +6063,7 @@
       </para>
     </section>
 
-    <section id="S32S2">
+    <section id="C5S26.2">
       <title>ntest_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -6085,7 +6085,7 @@
       </para>
     </section>
 
-    <section id="S32S3">
+    <section id="C5S26.3">
       <title>equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -6098,7 +6098,7 @@
       </para>
     </section>
 
-    <section id="S32S4">
+    <section id="C5S26.4">
       <title>greater_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -6111,7 +6111,7 @@
       </para>
     </section>
 
-    <section id="S32S5">
+    <section id="C5S26.5">
       <title>greater_than_or_equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -6124,7 +6124,7 @@
       </para>
     </section>
 
-    <section id="S32S6">
+    <section id="C5S26.6">
       <title>less_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -6137,7 +6137,7 @@
       </para>
     </section>
 
-    <section id="S32S7">
+    <section id="C5S26.7">
       <title>less_than_or_equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -6150,7 +6150,7 @@
       </para>
     </section>
 
-    <section id="S32S8">
+    <section id="C5S26.8">
       <title>not_equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -6163,7 +6163,7 @@
       </para>
     </section>
 
-    <section id="S32S9">
+    <section id="C5S26.9">
       <title>not_greater_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -6176,7 +6176,7 @@
       </para>
     </section>
 
-    <section id="S32S10">
+    <section id="C5S26.10">
       <title>not_greater_than_or_equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -6189,7 +6189,7 @@
       </para>
     </section>
 
-    <section id="S32S11">
+    <section id="C5S26.11">
       <title>not_less_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -6202,7 +6202,7 @@
       </para>
     </section>
 
-    <section id="S32S12">
+    <section id="C5S26.12">
       <title>not_less_than_or_equal</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -6215,7 +6215,7 @@
       </para>
     </section>
 
-    <section id="S32S13">
+    <section id="C5S26.13">
       <title>less_than_or_greater_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 13
@@ -6228,7 +6228,7 @@
       </para>
     </section>
 
-    <section id="S32S14">
+    <section id="C5S26.14">
       <title>not_less_than_and_not_greater_than</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 14
@@ -6241,7 +6241,7 @@
       </para>
     </section>
 
-    <section id="S32S15">
+    <section id="C5S26.15">
       <title>comparable</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 15
@@ -6259,7 +6259,7 @@
       </para>
     </section>
 
-    <section id="S32S16">
+    <section id="C5S26.16">
       <title>not_comparable</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 16
@@ -6278,7 +6278,7 @@
     </section>
   </section>
 
-  <section id="S33">
+  <section id="C5S27">
     <title>OTAGEXP</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -6289,7 +6289,7 @@
       <emphasis>apply_general_proc</emphasis>.
     </para>
 
-    <section id="S33S1">
+    <section id="C5S27.1">
       <title>make_otagexp</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -6309,7 +6309,7 @@
     </section>
   </section>
 
-  <section id="S34">
+  <section id="C5S28">
     <title>PROCPROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 4<sbr/>
@@ -6320,7 +6320,7 @@
       definitions and calls.
     </para>
 
-    <section id="S34S1">
+    <section id="C5S28.1">
       <title>procprops_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -6342,7 +6342,7 @@
       </para>
     </section>
 
-    <section id="S34S2">
+    <section id="C5S28.2">
       <title>procprops_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -6364,7 +6364,7 @@
       </para>
     </section>
 
-    <section id="S34S3">
+    <section id="C5S28.3">
       <title>add_procprops</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -6379,7 +6379,7 @@
       </para>
     </section>
 
-    <section id="S34S4">
+    <section id="C5S28.4">
       <title>check_stack</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -6392,7 +6392,7 @@
       </para>
     </section>
 
-    <section id="S34S5">
+    <section id="C5S28.5">
       <title>inline</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -6405,7 +6405,7 @@
       </para>
     </section>
 
-    <section id="S34S6">
+    <section id="C5S28.6">
       <title>no_long_jump_dest</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -6419,7 +6419,7 @@
       </para>
     </section>
 
-    <section id="S34S7">
+    <section id="C5S28.7">
       <title>untidy</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -6433,7 +6433,7 @@
       </para>
     </section>
 
-    <section id="S34S8">
+    <section id="C5S28.8">
       <title>var_callees</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -6447,7 +6447,7 @@
       </para>
     </section>
 
-    <section id="S34S9">
+    <section id="C5S28.9">
       <title>var_callers</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -6462,7 +6462,7 @@
     </section>
   </section>
 
-  <section id="S35">
+  <section id="C5S29">
     <title>PROPS</title>
 
     <para>
@@ -6546,7 +6546,7 @@
     </para>
   </section>
 
-  <section id="S36">
+  <section id="C5S30">
     <title>ROUNDING_MODE</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -6557,7 +6557,7 @@
       in floating point arithmetic.
     </para>
 
-    <section id="S36S1">
+    <section id="C5S30.1">
       <title>rounding_mode_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -6580,7 +6580,7 @@
       </para>
     </section>
 
-    <section id="S36S2">
+    <section id="C5S30.2">
       <title>rounding_mode_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -6602,7 +6602,7 @@
       </para>
     </section>
 
-    <section id="S36S3">
+    <section id="C5S30.3">
       <title>round_as_state</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -6615,7 +6615,7 @@
       </para>
     </section>
 
-    <section id="S36S4">
+    <section id="C5S30.4">
       <title>to_nearest</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -6629,7 +6629,7 @@
       </para>
     </section>
 
-    <section id="S36S5">
+    <section id="C5S30.5">
       <title>toward_larger</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -6642,7 +6642,7 @@
       </para>
     </section>
 
-    <section id="S36S6">
+    <section id="C5S30.6">
       <title>toward_smaller</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -6655,7 +6655,7 @@
       </para>
     </section>
 
-    <section id="S36S7">
+    <section id="C5S30.7">
       <title>toward_zero</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -6669,7 +6669,7 @@
     </section>
   </section>
 
-  <section id="S37">
+  <section id="C5S31">
     <title>SHAPE</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 4<sbr/>
@@ -6686,7 +6686,7 @@
       from compound construction in terms of other <code>SHAPE</code>s.
     </para>
 
-    <section id="S37S1">
+    <section id="C5S31.1">
       <title>shape_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -6708,7 +6708,7 @@
       </para>
     </section>
 
-    <section id="S37S2">
+    <section id="C5S31.2">
       <title>shape_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -6730,7 +6730,7 @@
       </para>
     </section>
 
-    <section id="S37S3">
+    <section id="C5S31.3">
       <title>bitfield</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -6764,7 +6764,7 @@
       </para>
     </section>
 
-    <section id="S37S4">
+    <section id="C5S31.4">
       <title>bottom</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -6784,7 +6784,7 @@
       </para>
     </section>
 
-    <section id="S37S5">
+    <section id="C5S31.5">
       <title>compound</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -6813,7 +6813,7 @@
       </para>
     </section>
 
-    <section id="S37S6">
+    <section id="C5S31.6">
       <title>floating</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -6844,7 +6844,7 @@
       </para>
     </section>
 
-    <section id="S37S7">
+    <section id="C5S31.7">
       <title>integer</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -6900,7 +6900,7 @@
       </para>
     </section>
 
-    <section id="S37S8">
+    <section id="C5S31.8">
       <title>nof</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -6917,7 +6917,7 @@
       </para>
     </section>
 
-    <section id="S37S9">
+    <section id="C5S31.9">
       <title>offset</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -6962,7 +6962,7 @@
       </para>
     </section>
 
-    <section id="S37S10">
+    <section id="C5S31.10">
       <title>pointer</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -6980,7 +6980,7 @@
       </para>
     </section>
 
-    <section id="S37S11">
+    <section id="C5S31.11">
       <title>proc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -6994,7 +6994,7 @@
       </para>
     </section>
 
-    <section id="S37S12">
+    <section id="C5S31.12">
       <title>top</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -7010,7 +7010,7 @@
     </section>
   </section>
 
-  <section id="S38">
+  <section id="C5S32">
     <title>SIGNED_NAT</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -7020,7 +7020,7 @@
       These are positive or negative integers of unbounded size.
     </para>
 
-    <section id="S38S1">
+    <section id="C5S32.1">
       <title>signed_nat_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7042,7 +7042,7 @@
       </para>
     </section>
 
-    <section id="S38S2">
+    <section id="C5S32.2">
       <title>signed_nat_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7064,7 +7064,7 @@
       </para>
     </section>
 
-    <section id="S38S3">
+    <section id="C5S32.3">
       <title>computed_signed_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -7079,7 +7079,7 @@
       </para>
     </section>
 
-    <section id="S38S4">
+    <section id="C5S32.4">
       <title>make_signed_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -7095,7 +7095,7 @@
       </para>
     </section>
 
-    <section id="S38S5">
+    <section id="C5S32.5">
       <title>snat_from_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -7111,7 +7111,7 @@
     </section>
   </section>
 
-  <section id="S39">
+  <section id="C5S33">
     <title>SORTNAME</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 5<sbr/>
@@ -7122,7 +7122,7 @@
       <code>TOKEN</code> definitions.
     </para>
 
-    <section id="S39S1">
+    <section id="C5S33.1">
       <title>access</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7131,7 +7131,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S2">
+    <section id="C5S33.2">
       <title>al_tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7140,7 +7140,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S3">
+    <section id="C5S33.3">
       <title>alignment_sort</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -7149,7 +7149,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S4">
+    <section id="C5S33.4">
       <title>bitfield_variety</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -7158,7 +7158,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S5">
+    <section id="C5S33.5">
       <title>bool</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -7167,7 +7167,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S6">
+    <section id="C5S33.6">
       <title>error_treatment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -7176,7 +7176,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S7">
+    <section id="C5S33.7">
       <title>exp</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -7185,7 +7185,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S8">
+    <section id="C5S33.8">
       <title>floating_variety</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -7194,7 +7194,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S9">
+    <section id="C5S33.9">
       <title>foreign_sort</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 9
@@ -7209,7 +7209,7 @@
       </para>
     </section>
 
-    <section id="S39S10">
+    <section id="C5S33.10">
       <title>label</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 10
@@ -7218,7 +7218,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S11">
+    <section id="C5S33.11">
       <title>nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 11
@@ -7227,7 +7227,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S12">
+    <section id="C5S33.12">
       <title>ntest</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 12
@@ -7236,7 +7236,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S13">
+    <section id="C5S33.13">
       <title>procprops</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 13
@@ -7245,7 +7245,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S14">
+    <section id="C5S33.14">
       <title>rounding_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 14
@@ -7254,7 +7254,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S15">
+    <section id="C5S33.15">
       <title>shape</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 15
@@ -7263,7 +7263,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S16">
+    <section id="C5S33.16">
       <title>signed_nat</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 16
@@ -7272,7 +7272,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S17">
+    <section id="C5S33.17">
       <title>string</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 17
@@ -7281,7 +7281,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S18">
+    <section id="C5S33.18">
       <title>tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 18
@@ -7294,7 +7294,7 @@
       </para>
     </section>
 
-    <section id="S39S19">
+    <section id="C5S33.19">
       <title>transfer_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 19
@@ -7303,7 +7303,7 @@
                  -&gt; SORTNAME</programlisting>
     </section>
 
-    <section id="S39S20">
+    <section id="C5S33.20">
       <title>token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 20
@@ -7320,7 +7320,7 @@
       </para>
     </section>
 
-    <section id="S39S21">
+    <section id="C5S33.21">
       <title>variety</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 21
@@ -7331,14 +7331,14 @@
     </section>
   </section>
 
-  <section id="S40">
+  <section id="C5S34">
     <title>STRING</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
 
-    <section id="S40S1">
+    <section id="C5S34.1">
       <title>string_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7360,7 +7360,7 @@
       </para>
     </section>
 
-    <section id="S40S2">
+    <section id="C5S34.2">
       <title>string_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7382,7 +7382,7 @@
       </para>
     </section>
 
-    <section id="S40S3">
+    <section id="C5S34.3">
       <title>concat_string</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -7398,7 +7398,7 @@
       </para>
     </section>
 
-    <section id="S40S4">
+    <section id="C5S34.4">
       <title>make_string</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -7414,7 +7414,7 @@
     </section>
   </section>
 
-  <section id="S41">
+  <section id="C5S35">
     <title>AL_TAG</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1
@@ -7425,7 +7425,7 @@
       These are used to name values and variables in the run time program.
     </para>
 
-    <section id="S41S1">
+    <section id="C5S35.1">
       <title>tag_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7447,7 +7447,7 @@
       </para>
     </section>
 
-    <section id="S41S2">
+    <section id="C5S35.2">
       <title>make_tag</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7463,7 +7463,7 @@
     </section>
   </section>
 
-  <section id="S42">
+  <section id="C5S36">
     <title>TAGACC</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -7474,7 +7474,7 @@
       for use in <emphasis>make_proc</emphasis>.
     </para>
 
-    <section id="S42S1">
+    <section id="C5S36.1">
       <title>make_tagacc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -7490,7 +7490,7 @@
     </section>
   </section>
 
-  <section id="S43">
+  <section id="C5S37">
     <title>TAGDEC</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -7501,7 +7501,7 @@
       <code>TAGDEC_PROPS.</code>
     </para>
 
-    <section id="S43S1">
+    <section id="C5S37.1">
       <title>make_id_tagdec</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7541,7 +7541,7 @@
       </para>
     </section>
 
-    <section id="S43S2">
+    <section id="C5S37.2">
       <title>make_var_tagdec</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7583,7 +7583,7 @@
       </para>
     </section>
 
-    <section id="S43S3">
+    <section id="C5S37.3">
       <title>common_tagdec</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -7669,14 +7669,14 @@
     </section>
   </section>
 
-  <section id="S44">
+  <section id="C5S38">
     <title>TAGDEC_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
     <emphasis role="bold">Unit identification</emphasis>: tagdec
 
-    <section id="S44S1">
+    <section id="C5S38.1">
       <title>make_tagdecs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -7695,7 +7695,7 @@
     </section>
   </section>
 
-  <section id="S45">
+  <section id="C5S39">
     <title>TAGDEF</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -7706,7 +7706,7 @@
       <code>TAG</code> for incorporation into a <code>TAGDEF_PROPS</code>.
     </para>
 
-    <section id="S45S1">
+    <section id="C5S39.1">
       <title>make_id_tagdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -7752,7 +7752,7 @@
       </para>
     </section>
 
-    <section id="S45S2">
+    <section id="C5S39.2">
       <title>make_var_tagdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -7804,7 +7804,7 @@
       </para>
     </section>
 
-    <section id="S45S3">
+    <section id="C5S39.3">
       <title>common_tagdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -7928,14 +7928,14 @@
     </section>
   </section>
 
-  <section id="S46">
+  <section id="C5S40">
     <title>TAGDEF_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
     <emphasis role="bold">Unit identification</emphasis>: tagdef
 
-    <section id="S46S1">
+    <section id="C5S40.1">
       <title>make_tagdefs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -7955,13 +7955,13 @@
     </section>
   </section>
 
-  <section id="S47">
+  <section id="C5S41">
     <title>TAGSHACC</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
-    <section id="S47S1">
+    <section id="C5S41.1">
       <title>make_tagshacc</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -7979,7 +7979,7 @@
     </section>
   </section>
 
-  <section id="S48">
+  <section id="C5S42">
     <title>TDFBOOL</title>
 
     <para>
@@ -7989,7 +7989,7 @@
     </para>
   </section>
 
-  <section id="S49">
+  <section id="C5S43">
     <title>TDFIDENT</title>
 
     <para>
@@ -8005,7 +8005,7 @@
     </para>
   </section>
 
-  <section id="S50">
+  <section id="C5S44">
     <title>TDFINT</title>
 
     <para>
@@ -8015,7 +8015,7 @@
     </para>
   </section>
 
-  <section id="S51">
+  <section id="C5S45">
     <title>TDFSTRING</title>
 
     <para>
@@ -8026,7 +8026,7 @@
     </para>
   </section>
 
-  <section id="S52">
+  <section id="C5S46">
     <title>TOKDEC</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -8037,7 +8037,7 @@
       a <code>UNIT</code>.
     </para>
 
-    <section id="S52S1">
+    <section id="C5S46.1">
       <title>make_tokdec</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8070,14 +8070,14 @@
     </section>
   </section>
 
-  <section id="S53">
+  <section id="C5S47">
     <title>TOKDEC_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
     <emphasis role="bold">Unit identification</emphasis>: tokdec<sbr/>
 
-    <section id="S53S1">
+    <section id="C5S47.1">
       <title>make_tokdecs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8093,7 +8093,7 @@
     </section>
   </section>
 
-  <section id="S54">
+  <section id="C5S48">
     <title>TOKDEF</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -8104,7 +8104,7 @@
       sorts associated with <code>TOKEN</code>s.
     </para>
 
-    <section id="S54S1">
+    <section id="C5S48.1">
       <title>make_tokdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8150,14 +8150,14 @@
     </section>
   </section>
 
-  <section id="S55">
+  <section id="C5S49">
     <title>TOKDEF_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
     <emphasis role="bold">Unit identification</emphasis>: tokdef<sbr/>
 
-    <section id="S55S1">
+    <section id="C5S49.1">
       <title>make_tokdefs</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8176,7 +8176,7 @@
     </section>
   </section>
 
-  <section id="S56">
+  <section id="C5S50">
     <title>TOKEN</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -8189,7 +8189,7 @@
       They are represented by <code>TDFINT</code>s.
     </para>
 
-    <section id="S56S1">
+    <section id="C5S50.1">
       <title>token_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8211,7 +8211,7 @@
       </para>
     </section>
 
-    <section id="S56S2">
+    <section id="C5S50.2">
       <title>make_tok</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -8226,7 +8226,7 @@
       </para>
     </section>
 
-    <section id="S56S3">
+    <section id="C5S50.3">
       <title>use_tokdef</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -8243,7 +8243,7 @@
     </section>
   </section>
 
-  <section id="S57">
+  <section id="C5S51">
     <title>TOKEN_DEFN</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
@@ -8254,7 +8254,7 @@
       and <emphasis>use_tokdef</emphasis>.
     </para>
 
-    <section id="S57S1">
+    <section id="C5S51.1">
       <title>token_definition</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8338,13 +8338,13 @@
     </section>
   </section>
 
-  <section id="S58">
+  <section id="C5S52">
     <title>TOKFORMALS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: no<sbr/>
 
-    <section id="S58S1">
+    <section id="C5S52.1">
       <title>make_tokformals</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8361,7 +8361,7 @@
     </section>
   </section>
 
-  <section id="S59">
+  <section id="C5S53">
     <title>TRANSFER_MODE</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 3<sbr/>
@@ -8382,7 +8382,7 @@
       <emphasis>add_modes</emphasis> acts like set union.
     </para>
 
-    <section id="S59S1">
+    <section id="C5S53.1">
       <title>transfer_mode_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8410,7 +8410,7 @@
       </para>
     </section>
 
-    <section id="S59S2">
+    <section id="C5S53.2">
       <title>transfer_mode_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -8432,7 +8432,7 @@
       </para>
     </section>
 
-    <section id="S59S3">
+    <section id="C5S53.3">
       <title>add_modes</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -8452,7 +8452,7 @@
       </para>
     </section>
 
-    <section id="S59S4">
+    <section id="C5S53.4">
       <title>overlap</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -8475,7 +8475,7 @@
       </para>
     </section>
 
-    <section id="S59S5">
+    <section id="C5S53.5">
       <title>standard_transfer_mode</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 5
@@ -8488,7 +8488,7 @@
       </para>
     </section>
 
-    <section id="S59S6">
+    <section id="C5S53.6">
       <title>trap_on_nil</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 6
@@ -8506,7 +8506,7 @@
       </para>
     </section>
 
-    <section id="S59S7">
+    <section id="C5S53.7">
       <title>volatile</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 7
@@ -8526,7 +8526,7 @@
       </para>
     </section>
 
-    <section id="S59S8">
+    <section id="C5S53.8">
       <title>complete</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 8
@@ -8541,7 +8541,7 @@
     </section>
   </section>
 
-  <section id="S60">
+  <section id="C5S54">
     <title>UNIQUE</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -8556,7 +8556,7 @@
       This implies a registry for allocating <code>UNIQUE</code> values.
     </para>
 
-    <section id="S60S1">
+    <section id="C5S54.1">
       <title>make_unique</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8572,7 +8572,7 @@
     </section>
   </section>
 
-  <section id="S61">
+  <section id="C5S55">
     <title>UNIT</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -8585,7 +8585,7 @@
       across the whole of the enclosing <code>CAPSULE</code>.
     </para>
 
-    <section id="S61S1">
+    <section id="C5S55.1">
       <title>make_unit</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8624,7 +8624,7 @@
     </section>
   </section>
 
-  <section id="S62">
+  <section id="C5S56">
     <title>VARIETY</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
@@ -8643,7 +8643,7 @@
       integers -->Representing integers<!-- link end -->.
     </para>
 
-    <section id="S62S1">
+    <section id="C5S56.1">
       <title>var_apply_token</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8665,7 +8665,7 @@
       </para>
     </section>
 
-    <section id="S62S2">
+    <section id="C5S56.2">
       <title>var_cond</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -8687,7 +8687,7 @@
       </para>
     </section>
 
-    <section id="S62S3">
+    <section id="C5S56.3">
       <title>var_limits</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -8705,7 +8705,7 @@
       </para>
     </section>
 
-    <section id="S62S4">
+    <section id="C5S56.4">
       <title>var_width</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4
@@ -8727,7 +8727,7 @@
     </section>
   </section>
 
-  <section id="S63">
+  <section id="C5S57">
     <title>VERSION_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -8739,7 +8739,7 @@
       information.
     </para>
 
-    <section id="S63S1">
+    <section id="C5S57.1">
       <title>make_versions</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -8754,13 +8754,13 @@
     </section>
   </section>
 
-  <section id="S64">
+  <section id="C5S58">
     <title>VERSION</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 1<sbr/>
     <emphasis role="bold">Is coding extendable</emphasis>: yes<sbr/>
 
-    <section id="S64S1">
+    <section id="C5S58.1">
       <title>make_version</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -8789,7 +8789,7 @@
       </para>
     </section>
 
-    <section id="S64S2">
+    <section id="C5S58.2">
       <title>user_info</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2

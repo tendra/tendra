@@ -9,7 +9,7 @@
 <chapter id="C6">
   <title>Supplementary UNIT</title>
 
-  <section id="S65">
+  <section id="C6S1">
     <title>LINKINFO_PROPS</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 0<sbr/>
@@ -21,7 +21,7 @@
       about linking.
     </para>
 
-    <section id="S65S1">
+    <section id="C6S1.1">
       <title>make_linkinfos</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 0
@@ -37,13 +37,13 @@
     </section>
   </section>
 
-  <section id="S66">
+  <section id="C6S2">
     <title>LINKINFO</title>
 
     <emphasis role="bold">Number of encoding bits</emphasis>: 2<sbr/>
     <emphasis role="bold">Is encoding extendable</emphasis>: yes
 
-    <section id="S66S1">
+    <section id="C6S2.1">
       <title>static_name_def</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 1
@@ -76,7 +76,7 @@
       </para>
     </section>
 
-    <section id="S66S2">
+    <section id="C6S2.2">
       <title>make_comment</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 2
@@ -91,7 +91,7 @@
       </para>
     </section>
 
-    <section id="S66S3">
+    <section id="C6S2.3">
       <title>make_weak_defn</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 3
@@ -111,7 +111,7 @@
       </para>
     </section>
 
-    <section id="S66S4">
+    <section id="C6S2.4">
       <title>make_weak_symbol</title>
 
       <emphasis role="bold">Encoding number</emphasis>: 4

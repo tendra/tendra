@@ -9,7 +9,7 @@
 <chapter id="C4">
   <title>Installer behavior</title>
 
-  <section id="S5">
+  <section id="C4S1">
     <title>Definition of terms</title>
 
     In this document the behaviour of TDF installers is described in a precise
@@ -67,7 +67,7 @@
     </itemizedlist>
   </section>
 
-  <section id="S6">
+  <section id="C4S2">
     <title>Properties of installers</title>
 
     <para>
