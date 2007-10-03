@@ -1,12 +1,8 @@
 # $Id$
 
-.if defined(BOOTSTRAP)
-CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
-.endif
-
 LIB=	cpp
-SRCS=	baseinfo.o cmath.o cstring.o cwchar.o exception.o new.o new1.o\
-	new2.o new3.o new4.o new5.o new6.o new7.o new8.o pure.o term.o\
-	typeinfo.o what.o
+SRCS=	baseinfo.cc cmath.cc cstring.cc cwchar.cc exception.cc new.cc new1.cc \
+	new2.cc new3.cc new4.cc new5.cc new6.cc new7.cc new8.cc pure.cc \
+	term.cc typeinfo.cc what.cc
 
-.include "../../Makefile.inc"
+.include "../Makefile.inc"
