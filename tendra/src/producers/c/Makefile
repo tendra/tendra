@@ -15,7 +15,7 @@ SPEC=${.CURDIR}/../../lib/tdf/def_4_1.db
 # Standard variables
 
 TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		${TCCOPTS} -I${SRC1} -I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}\
+CCOPTS=		-I${SRC1} -I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}\
 		 -I${SRC6} -I${SRC7}
 LIBS=
 

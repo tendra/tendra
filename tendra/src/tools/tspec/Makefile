@@ -5,7 +5,7 @@ DEST=${OBJ_DIR}/src/lib
 API_DIR=${BASE_DIR}/src/lib/apis
 
 TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
+CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 
 PROG=		${.CURDIR:T}
 WRAPPER=	tspec.sh

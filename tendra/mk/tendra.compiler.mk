@@ -24,7 +24,7 @@ TCC= ${BOBJ_DIR}/src/tools/tcc/tcc \
 TCC?= tcc
 . endif
 
-CC= ${TCC}
+CC= ${TCC} ${TCCOPTS}
 .endif
 
 CCOPTS+=	-D_${OSVER}

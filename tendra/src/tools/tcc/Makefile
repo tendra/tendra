@@ -1,7 +1,7 @@
 # $Id$
 
 TCCOPTS=	-Yxpg4 -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
+CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 
 PROG=		${.CURDIR:T}
 MAN=		tcc.1 tccenv.5
