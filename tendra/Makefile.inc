@@ -12,5 +12,7 @@ BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 .else
 .include <tendra.build.mk>
 .endif
+.if !defined(BOOTSTRAP)
 .include <tendra.install.mk>
+.endif
 .include <tendra.compiler.mk>
