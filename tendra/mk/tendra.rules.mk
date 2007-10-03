@@ -17,15 +17,15 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 .cc.o:
 	@${ECHO} "==> Compiling ${PARTIMP}"
-	${CC} ${CCOPTS} -Yc++ -c ${.IMPSRC} -o ${.TARGET}
+	${TCC} ${TCCOPTS} ${CCOPTS} -Yc++ -c ${.IMPSRC} -o ${.TARGET}
 
 .c.j:
 	@${ECHO} "==> Compiling ${PARTIMP}"
-	${CC} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.IMPSRC} -Ymakelib
+	${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
 .cc.j:
 	@${ECHO} "==> Compiling ${PARTIMP}"
-	${CC} ${CCOPTS} ${JOPTS} -Yc++ -o ${.TARGET} ${.IMPSRC} -Ymakelib
+	${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} -Yc++ -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
 .tpl.j:
 	@${ECHO} "==> Transforming ${PARTIMP}"
