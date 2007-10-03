@@ -79,7 +79,7 @@ TMP_DIR=	/var/tmp
 # If this file exists then the object tree is complete
 OBJ_DIR_INDICATOR=${OBJ_DIR}/_obj_tree_complete
 
-OBJS=  ${SRCS:S/.c/.o/}
+OBJS=  ${SRCS:S/.cc/.o/:S/.c/.o/}
 
 # Binary paths
 SHELL=		/bin/sh
@@ -101,6 +101,8 @@ REMOVE?=	rm -f
 SID?=		sid
 SORT?=		sort
 TEST?=		test
+TLD?=		tld
+TNC?=		tnc
 TPL?=		tpl
 
 .endif	# !defined(_TENDRA_BASE_MK_)
