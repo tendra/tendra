@@ -31,7 +31,3 @@ CLEAN_EXTRA=	${TDFLIB} ${CAPSULES} c_toks.j sys_toks.j sys.j except_toks.j\
 .PATH:	${SRC2} ${OBJ_SDIR} ${.OBJDIR}
 
 .include "../Makefile.inc"
-
-# XXX: overwrites TCCOPTS from build system
-TCCOPTS=	-Y${OBJ_DIR}/${ENVIRONMENT}/build\
-		-yTENDRA_BASEDIR="${OBJ_DIR}/src"
