@@ -1,12 +1,6 @@
 # $Id$
 # ex:filetype=sh
 
-# Wrap normal command utilities with env.
-AWK="/usr/bin/env awk"
-CUT="/usr/bin/env cut"
-SED="/usr/bin/env sed"
-
-
 # Check if the CC environment variable is set.
 check_cc()
 {
@@ -26,37 +20,6 @@ check_cc()
 		echo "NOTICE: Using xlc_r or cc_r creates POSIX threaded applications.  We do";
 		echo "        not need that.  Setting CC to \"xlc\"."
 		echo
-	fi
-
-	check_cc_ver ${CC}
-}
-
-# Check to see if we can lift the version string from the cc call.
-check_cc_ver()
-{
-	case "$1" in
-		cc*|*/cc*)
-		VERSIONSTRING=`${CC} --version`
-		if [ $? -eq 0 ]; then
-			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
-		fi
-		;;
-		[gi]cc*|*/[gi]cc*)
-		VERSIONSTRING=`${CC} --version`
-		if [ $? -eq 0 ]; then
-			CCVER=`echo ${VERSIONSTRING} | ${AWK} '{ where = match($0, /[[:digit:]][[:digit:]]?\.?[[:digit:]]?[[:digit:]]?\.[[:digit:]][[:digit:]]?/); if (where != 0) print substr($0, RSTART, RLENGTH); else print where }'`
-		fi
-		;;
-		*)
-			CCVER=0
-		;;
-	esac
-
-	CCVER_MAJOR=`echo ${CCVER} | ${CUT} -d . -f 1`
-	CCVER_MINOR=`echo ${CCVER} | ${CUT} -d . -f 2`
-	CCVER_TINY=`echo ${CCVER} | ${CUT} -d . -f 3`
-	if [ -z ${CCVER_TINY} ]; then
-		CCVER_TINY=0
 	fi
 }
 
