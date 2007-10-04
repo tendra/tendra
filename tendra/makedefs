@@ -110,28 +110,33 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="linux"
 			OSVER="LINUX26"
 			;;
-	NetBSD.1*)	#
+	NetBSD.1*)
+			#
 			OSFAM="netbsd"
 			OSVER="NETBSD1"
 			;;
-	NetBSD.2*)	#
+	NetBSD.2*)
+			#
 			OSFAM="netbsd"
 			OSVER="NETBSD2"
 			;;
-	NetBSD.3*)	#
+	NetBSD.3*)
+			#
 			OSFAM="netbsd"
 			OSVER="NETBSD3"
 			;;
-	OpenBSD.3*)	#
+	OpenBSD.3*)
+			#
 			OSFAM="openbsd"
 			OSVER="OPENBSD3"
 			;;
-	OpenBSD.4*)	#
+	OpenBSD.4*)
+			#
 			OSFAM="openbsd"
 			OSVER="OPENBSD4"
 			;;
 	SunOS.5*)
-			OSFAM="sunos"
+			OSFAM="solaris"
 			OSVER="SUNOS5"
 			;;
 	*)
