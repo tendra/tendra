@@ -125,7 +125,7 @@ MAN?=	${PROG}.1
 
 ${PROG}: ${OBJS}
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
-	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${BS_LIBS} ${LIBS}
+	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
 
 _REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
