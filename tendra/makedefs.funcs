@@ -1,28 +1,6 @@
 # $Id$
 # ex:filetype=sh
 
-# Check if the CC environment variable is set.
-check_cc()
-{
-	if [ -z "$CC" ]; then
-		CC="cc";
-	elif [ "$CC" = "CC" ]; then
-		CC="cc";
-		echo "NOTICE: CC is often the C++ compiler, we just need a normal C compiler,";
-		echo "        setting CC to \"cc\"."
-		echo;
-	elif [ "$CC" = "xlc_r" -o "$CC" = "xlc_r4" -o "$CC" = "xlc_r7"\
-		-o "$CC" = "cc_r" -o "$CC" = "cc_r4" -o "$CC" = "cc_r7" ]; then
-		# We are on AIX, and since we focus on ANSI as a compiler, use
-		# the right bootstrapping compiler: xlc (which implies ansi).
-		CC="xlc";
-		CCTYPE="AIX";
-		echo "NOTICE: Using xlc_r or cc_r creates POSIX threaded applications.  We do";
-		echo "        not need that.  Setting CC to \"xlc\"."
-		echo
-	fi
-}
-
 # Check to see which architecture the host is running on.
 check_hostarch()
 {

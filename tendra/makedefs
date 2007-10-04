@@ -54,119 +54,75 @@ echo "${SYSTEM}.${VERSION} detected..."
 echo
 
 # Set up defaults
+if [ -z "${PREFIX}" ]; then
+	PREFIX=/usr/local;
+fi
+
+CC=cc
 EXECFORMAT=elf
 
 case "${SYSTEM}.${VERSION}" in
-	DragonFly.1*)	# Use the system supplied GCC for CC.
+	DragonFly.1*)
 			# System definition is __DragonFly__
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="dragonfly"
 			OSVER="DRAGONFLY1"
 			;;
-	FreeBSD.4*)	# Use the system supplied GCC for CC.
+	FreeBSD.4*)
 			# System definition is __FreeBSD__
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="freebsd"
 			OSVER="FREEBSD4"
 			;;
-	FreeBSD.5*)	# Use the system supplied GCC for CC.
+	FreeBSD.5*)
 			# System definition is __FreeBSD__
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="freebsd"
 			OSVER="FREEBSD5"
 			;;
-	FreeBSD.6*)	# Use the system supplied GCC for CC.
+	FreeBSD.6*)
 			# System definition is __FreeBSD__
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="freebsd"
 			OSVER="FREEBSD6"
 			;;
-	FreeBSD.7*)	# Use the system supplied GCC for CC.
+	FreeBSD.7*)
 			# System definition is __FreeBSD__
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="freebsd"
 			OSVER="FREEBSD7"
 			;;
-	Linux.2.4*)	# Use the system supplied GCC for CC.
+	Linux.2.4*)
 			# System definition is __linux
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="--dynamic-linker /lib/ld-linux.so.2 ${LDFLAGS}"
 			OSFAM="linux"
 			OSVER="LINUX24"
 			;;
-	Linux.2.6*)	# Use the system supplied GCC for CC.
+	Linux.2.6*)
 			# System definition is __linux
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="linux"
 			OSVER="LINUX26"
 			;;
 	NetBSD.1*)	#
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="netbsd"
 			OSVER="NETBSD1"
 			;;
 	NetBSD.2*)	#
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="--dynamic-linker /libexec/ld.elf_so ${LDFLAGS}"
 			OSFAM="netbsd"
 			OSVER="NETBSD2"
 			;;
 	NetBSD.3*)	#
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="netbsd"
 			OSVER="NETBSD3"
 			;;
 	OpenBSD.3*)	#
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="openbsd"
 			OSVER="OPENBSD3"
 			;;
 	OpenBSD.4*)	#
-			check_cc
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
 			OSFAM="openbsd"
 			OSVER="OPENBSD4"
 			;;
-	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
-			# software package.
-			if [ "x${CC}" = "x" ]; then
-			    CC=`/usr/bin/env cc`
-			    case "${CC}" in
-				*ucb*cc*)
-				    echo "Please set your PATH or CC environment variable to a working compiler and not"
-				    echo "the ucb/cc one"
-				    exit 1
-				    ;;
-			    esac;
-			fi
-			CC="${CC}"
-			CFLAGS="${CFLAGS}"
-			LDFLAGS="${LDFLAGS}"
+	SunOS.5*)
 			OSFAM="sunos"
 			OSVER="SUNOS5"
 			;;
-	*)		# Make sure we specify what we want to hear from the
+	*)
+			# Make sure we specify what we want to hear from the
 			# people submitting feedback.
 			echo "Unknown \"${SYSTEM}\" and \"${VERSION}\" combination"
 			echo "Please report the following to the developers:"
@@ -178,10 +134,6 @@ case "${SYSTEM}.${VERSION}" in
 esac
 
 check_hostarch
-
-if [ -z "${PREFIX}" ]; then
-	PREFIX=/usr/local;
-fi
 
 echo "Setting Makefile.defs environment to the following:"
 echo
