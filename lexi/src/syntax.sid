@@ -111,7 +111,7 @@ arg-char-void; //temporary
 <string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
 <make-chars> : ( :STRING ) -> ( :CHARACTERS ) ;
 <make-white> : ( :CHARACTERS ) -> () ;
-<make-group> : ( :IDENTIFIER, :CHARACTERS ) -> () ;
+<make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
 <make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
@@ -224,7 +224,7 @@ group-defn : ( z:ZONE ) -> () = {
         group ; i = identifier ; equal ; s = chars ;
 	{
 		?=<is-global-zone> (z); 
-		<make-group> ( i, s ) ;
+		<make-group> ( z, i, s ) ;
 	    ##
 		<E_nonglobalzonegroup>;
 	};

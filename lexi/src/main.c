@@ -148,6 +148,8 @@ main(int argc, char **argv)
 	}
 
 	/* Process input file */
+
+	init_lexer_parse_tree(&lxi_parse_tree);
 	process_file(argv[0]);
 
 	if (exit_status != EXIT_SUCCESS) {
@@ -156,8 +158,8 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
-	if (white_space == NULL)
-		white_space = make_string(" \t\n");
+	if (lxi_parse_tree.white_space->defn == NULL)
+		lxi_parse_tree.white_space->defn = make_string(" \t\n");
 
 	/* TODO pass output fd here; remove globals */
 	if (key)

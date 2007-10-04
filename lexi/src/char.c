@@ -66,29 +66,8 @@
 
 #include "char.h"
 
-/*
-    WHITE SPACE CHARACTERS
 
-    This variable holds all the white space characters.
-*/
-
-letter *white_space = NULL;
-
-
-/*
-    LEXICAL PASS REPRESENTATIONS
-
-    These variables describe the various lexical passes.
-*/
-
-static character passes [2] = {
-    { LAST_LETTER, NULL, NULL, NULL, NULL },
-    { LAST_LETTER, NULL, NULL, NULL, NULL }
-};
-
-/*character *pre_pass = passes;*/
-zone  global_zone_v={"global",passes,passes+1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-zone* global_zone=&global_zone_v;
+lexer_parse_tree lxi_parse_tree;
 
 /*
     ALLOCATE A NEW CHARACTER
@@ -147,7 +126,7 @@ add_char(character *p, letter *s, char *cond, instructions_list* instlist, char*
 	    }
 	}
     }
-    if (c == LAST_LETTER) {
+    if (c == lxi_parse_tree.last_letter_code) {
         if ((instlist && q->definition) || (map && q->map))
 	    error(ERROR_SERIOUS, "TOKEN already defined");
         q->cond=cond;
@@ -412,8 +391,8 @@ new_zone (char* zid)
     }
     p = zones_free + (--zones_left);
     p->zone_name=zid;
-    p->zone_main_pass=new_char(LAST_LETTER);
-    p->zone_pre_pass=new_char(LAST_LETTER);
+    p->zone_main_pass=new_char(lxi_parse_tree.last_letter_code);
+    p->zone_pre_pass=new_char(lxi_parse_tree.last_letter_code);
 
     p->keywords=NULL;
     
@@ -478,16 +457,6 @@ add_zone(zone* current_zone, char* zid,letter* e)
 
 
 /*
-    ARRAY OF ALL GROUPS
-
-    This array gives all the character groups.
-*/
-
-char_group groups [ MAX_GROUPS ];
-int no_groups = 0;
-
-
-/*
     CREATE A NEW GROUP
 
     This routine creates a new character group with name nm and
@@ -495,11 +464,12 @@ int no_groups = 0;
 */
 
 void
-make_group(char *nm, letter *s)
+make_group(zone* z,char *nm, letter *s)
 {
-    int i, n = no_groups;
-    for (i = 0; i < n; i++) {
-	if (!strcmp(nm, groups [i].name)) {
+   int i, n = lxi_parse_tree.no_groups;
+   letter_translation* trans; 
+   for (i = 0; i < n; i++) {
+	if (!strcmp(nm, lxi_parse_tree.groups [i].name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
 	    return;
 	}
@@ -508,9 +478,13 @@ make_group(char *nm, letter *s)
 	error(ERROR_SERIOUS, "Too many groups defined (%d)", n);
 	return;
     }
-    groups [n].name = nm;
-    groups [n].defn = s;
-    no_groups = n + 1;
+    lxi_parse_tree.groups [n].name = nm;
+    lxi_parse_tree.groups [n].defn = s;
+    lxi_parse_tree.groups [n].z = z;
+    lxi_parse_tree.no_groups++;
+    trans=add_group_letter_translation(&(lxi_parse_tree.groups[n]));
+    letters_table_add_translation(trans, lxi_parse_tree.letters_table);
+    lxi_parse_tree.groups [n].letter_code = trans->letter_code;
     return;
 }
 
@@ -525,15 +499,16 @@ int
 in_group(letter *p, letter c)
 {
     letter a;
+    letter_translation* atrans;
+    letter_translation* ctrans;
+    ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
     if (p == NULL) return(0);
-    while (a = *(p++), a != LAST_LETTER) {
-	if (a == c) {
+    while (a = *(p++), a != lxi_parse_tree.last_letter_code) {
+        atrans=letters_table_get_translation(a,lxi_parse_tree.letters_table);
+	if (atrans->type==char_letter && atrans->ch == ctrans->ch) {
 	    return(1);
-	} else if (a == WHITE_LETTER) {
-	    if (in_group(white_space, c)) return(1);
-	} else if (a >= GROUP_LETTER) {
-	    int n = (int)(a - GROUP_LETTER);
-	    if (in_group(groups [n].defn, c)) return(1);
+	} else if (atrans->type==group_letter) {
+	    if (in_group(atrans->grp->defn, c)) return(1);
 	}
     }
     return(0);
@@ -561,7 +536,7 @@ find_escape(int c)
 	case '[': a = '['; break;
 	case '\\': a = '\\'; break;
 	case '\'': a = '\''; break;
-	case 'e': a = EOF_LETTER; break;
+	case 'e': a = lxi_parse_tree.eof_letter_code; break;
 	default : {
 	    error(ERROR_SERIOUS, "Unknown escape sequence, '\\%c'",
 		   (unsigned char)c);
@@ -602,20 +577,16 @@ make_string(char *s)
 		error(ERROR_SERIOUS,
 			"Unterminated character group name, '%s'", gnm);
 	    }
-	    for (j = 0; j < no_groups; j++) {
-		if (strncmp(gnm, groups [j].name, glen) == 0) {
-		    a = GROUP_LETTER + j;
+	    for (j = 0; j < lxi_parse_tree.no_groups; j++) {
+	        if (strncmp(gnm, lxi_parse_tree.groups [j].name, glen) == 0) {
+  		    a = lxi_parse_tree.groups [j].letter_code;
 		    break;
 		}
 	    }
-	    if (j == no_groups) {
-		if (strncmp(gnm, "white", glen) == 0) {
-		    a = WHITE_LETTER;
-		} else {
-		    error(ERROR_SERIOUS, "Unknown character group, '%.*s'",
-			   (int)glen, gnm);
-		    a = '?';
-		}
+	    if(j==lxi_parse_tree.no_groups) {
+	        error(ERROR_SERIOUS, "Unknown character group, '%.*s'",
+		      (int)glen, gnm);
+		a = '?';
 	    }
 	    /* a is set */
 	} else {
@@ -624,19 +595,9 @@ make_string(char *s)
 	p [i] = a;
 	i++;
     }
-    p [i] = LAST_LETTER;
+    p [i] = lxi_parse_tree.last_letter_code;
     return(p);
 }
-
-
-/*
-    LIST OF ALL KEYWORDS
-
-    This variable gives a list of all the keywords.
-
-keyword *keywords = NULL;
-*/
-
 
 /*
     ADD A KEYWORD
@@ -697,7 +658,7 @@ char_maxlength(character *c)
 	for(p = c->next; p; p = p->opt) {
 		size_t l;
 
-		if(p->ch == LAST_LETTER) {
+		if(p->ch == lxi_parse_tree.last_letter_code) {
 			continue;
 		}
 
@@ -711,3 +672,107 @@ char_maxlength(character *c)
 	return maxopt;
 }
 
+/* 
+   NEW LETTER TRANSLATION 
+*/
+static letter_translation* new_letter_translation(letter_translation_type ltt)
+{
+  letter_translation *p;
+  static int letter_translation_left = 0;
+  static letter_translation *letter_translation_free = NULL;
+  if (letter_translation_left == 0) {
+    letter_translation_left = 100;
+    letter_translation_free = xmalloc_nof(letter_translation, letter_translation_left);
+  }
+  p = letter_translation_free + (--letter_translation_left);
+  p->type=ltt;
+  p->next=NULL;
+  return p;
+};
+
+/* 
+   ADD LETTER TRANSLATION 
+*/
+letter_translation* add_group_letter_translation(char_group* grp)
+{
+  letter_translation*p= new_letter_translation(group_letter);
+  p->letter_code=lxi_parse_tree.next_generated_key++;
+  p->grp=grp;
+  return p;
+}
+
+/* 
+   ADD LETTER TRANSLATION TO TABLE
+*/
+void letters_table_add_translation(letter_translation* ltrans, 
+				  letter_translation_list table[])
+{
+  unsigned int n=ltrans->letter_code%LETTER_TRANSLATOR_SIZE;
+  *(table[n].tail)=ltrans;
+  table[n].tail=&(ltrans->next);
+}
+
+
+/* 
+   GET LETTER TRANSLATION FROM TABLE
+*/
+letter_translation* letters_table_get_translation(letter letter_code,
+				  letter_translation_list table[])
+{
+  unsigned int n=letter_code%LETTER_TRANSLATOR_SIZE;
+  letter_translation* p;
+  for (p=table[n].head; p!=NULL;p=p->next) {
+    if(p->letter_code==letter_code)
+      return p;
+  }
+  return NULL;
+}
+
+
+/*
+Initialize the main parse tree
+*/
+void init_lexer_parse_tree(lexer_parse_tree* t) {
+  int i = 0;
+  letter_translation* trans;
+  t->global_zone=new_zone("global");
+  for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
+    t->letters_table[i].head=NULL;
+    t->letters_table[i].tail=&(t->letters_table[i].head);
+  }
+  
+  /* This might change once we add support for other charsets */
+  for(i=0; i<256; i++) {
+    trans=new_letter_translation(char_letter);
+    trans->letter_code=i;
+    trans->ch=i;
+    letters_table_add_translation(trans, t->letters_table);
+  }
+  trans=new_letter_translation(eof_letter);
+  t->eof_letter_code=i;
+  trans->letter_code=i++;
+  letters_table_add_translation(trans,t->letters_table);
+
+  trans=new_letter_translation(last_letter);
+  t->last_letter_code=i;
+  trans->letter_code=i++;
+  letters_table_add_translation(trans,t->letters_table);
+
+  t->next_generated_key=i;
+
+  t->no_groups=0;
+  for(i=0; i<MAX_GROUPS;i++) {
+    t->groups[i].name=NULL;
+    t->groups[i].defn=NULL;
+    t->groups[i].z=lxi_parse_tree.global_zone;
+  }
+  t->white_space=&(lxi_parse_tree.groups[0]);
+  t->white_space->name="white";
+  t->white_space->defn=NULL;
+  t->white_space->z=lxi_parse_tree.global_zone;
+  t->no_groups++;
+  trans= add_group_letter_translation(t->white_space);
+  t->white_space->letter_code=trans->letter_code;
+  letters_table_add_translation(trans, t->letters_table);
+
+}

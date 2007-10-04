@@ -291,10 +291,10 @@ arg-char-nb : () ->(a:ARG) = @{
 */
 
 <make-white> : ( s : CHARACTERS ) -> () = @{
-    if ( white_space ) {
+    if ( lxi_parse_tree.white_space->defn ) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
-    white_space = @s ;
+    lxi_parse_tree.white_space->defn = @s ;
 @} ;
 
 
@@ -304,8 +304,8 @@ arg-char-nb : () ->(a:ARG) = @{
     This action defines the character group i to be s.
 */
 
-<make-group> : ( i : IDENTIFIER, s : CHARACTERS ) -> () = @{
-    make_group ( @i, @s ) ;
+<make-group> : ( z : ZONE, i : IDENTIFIER, s : CHARACTERS ) -> () = @{
+    make_group ( @z, @i, @s ) ;
 @} ;
 
 
@@ -394,7 +394,7 @@ arg-char-nb : () ->(a:ARG) = @{
 @} ;
 
 <is-non-empty> : ( c : CHARACTERS ) -> ( b : BOOL ) = @{
-    @b=(@c[0]!=LAST_LETTER);
+    @b=(@c[0]!=lxi_parse_tree.last_letter_code);
 @};
 
 <E_empty_character_string> : () -> () = @{
@@ -513,7 +513,7 @@ arg-char-nb : () ->(a:ARG) = @{
    This action gives the global zone 
 */  
 <global-zone> : () -> ( z:ZONE ) = @{
-   @z=global_zone;
+   @z=lxi_parse_tree.global_zone;
 @};
 
 /* 
@@ -543,7 +543,7 @@ arg-char-nb : () ->(a:ARG) = @{
    This action report if the zone z is the global zone 
 */
 <is-global-zone> : ( z : ZONE ) -> ( b : BOOL ) = @{
-   @b=(@z==global_zone);
+   @b=(@z==lxi_parse_tree.global_zone);
 @};
 
 /* 

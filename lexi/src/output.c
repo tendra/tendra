@@ -103,10 +103,12 @@ output_indent(int d)
 */
 
 static char *
-char_lit(letter c)
+char_lit(letter_translation* ctrans)
 {
 	static char buff [10];
-	switch (c) {
+	if (ctrans->type == eof_letter) return("LEX_EOF");
+	if (ctrans->type == char_letter) {
+	switch (ctrans->ch) {
 		case '\n': return("'\\n'");
 		case '\r': return("'\\r'");
 		case '\t': return("'\\t'");
@@ -115,10 +117,12 @@ char_lit(letter c)
 		case '\\': return("'\\\\'");
 		case '\'': return("'\\''");
 	}
-	if (c == EOF_LETTER) return("LEX_EOF");
-	if (c > 127) return("'?'");
-	sprintf(buff, "'%c'", (char)c);
+	if (ctrans->ch > 127) return("'?'");
+	sprintf(buff, "'%c'", (char)ctrans->ch);
 	return(buff);
+	}
+	else
+		return("'?'");	  
 }
 
 
@@ -234,17 +238,19 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	instructions_list *ret = NULL;
 	char* retmap= NULL ;
 	char *cond = NULL;
+	letter_translation* ctrans;
 
 	/* First pass */
 	for (q = p->next; q != NULL; q = q->opt) {
-		letter c = q->ch;
-		if (c == LAST_LETTER) {
+	    letter c = q->ch;
+	    ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+		if (ctrans->type==last_letter) {
 			if(in_pre_pass)
 				retmap = q->map;
 			else
 				ret = q->definition;
 			cond = q->cond;
-		} else if (c <= SIMPLE_LETTER) {
+		} else if (ctrans->type==char_letter || ctrans->type==eof_letter) {
 			cases++;
 		} else {
 			classes++;
@@ -282,9 +288,10 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			fprintf(lex_output, "switch (c%d) {\n", n);
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
+				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				if (ctrans->type == char_letter||ctrans->type==eof_letter) {
 					output_indent(d + 1);
-					fprintf(lex_output, "case %s: {\n", char_lit(c));
+					fprintf(lex_output, "case %s: {\n", char_lit(ctrans));
 					if (output_pass(z, q, in_pre_pass, n + 1, d + 2) == 0) {
 						output_indent(d + 2);
 						fputs("break;\n", lex_output);
@@ -300,12 +307,13 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			int started = 0;
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
+				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				if (ctrans->type==char_letter||ctrans->type==eof_letter) {
 					output_indent(d);
 					if (started)
 						fputs("} else ", lex_output);
 					fprintf(lex_output, "if (c%d == %s) {\n",
-								n, char_lit(c));
+								n, char_lit(ctrans));
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
@@ -325,14 +333,9 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			}
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				if (c != LAST_LETTER && c > SIMPLE_LETTER) {
-					char *gnm;
-					if (c == WHITE_LETTER) {
-						gnm = "white";
-					} else {
-						int g = (int)(c - GROUP_LETTER);
-						gnm = groups [g].name;
-					}
+				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				if (ctrans->type==group_letter) {
+					char *gnm=ctrans->grp->name;
 					output_indent(d);
 					if (started)
 						fputs("} else ", lex_output);
@@ -363,10 +366,13 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			if (m) {
 				char *str;
 				if (m == '\\') {
-				        str = char_lit(find_escape((map) [1]));
+				        letter ca=find_escape((map)[1]);
+					ctrans=letters_table_get_translation(ca,lxi_parse_tree.letters_table);
+				        str = char_lit(ctrans);
 					m = (map) [2];
 				} else {
-					str = char_lit((letter)m);
+				  ctrans=letters_table_get_translation((letter)m,lxi_parse_tree.letters_table);
+					str = char_lit(ctrans);
 					m = (map) [1];
 				}
 				if (m) {
@@ -509,11 +515,11 @@ output_all(FILE *output, bool generate_asserts)
 
 	lex_output = output;
 
-	if (no_groups >= 16) {
+	if (lxi_parse_tree.no_groups >= 16) {
 		grouptype = "uint32_t";
 		grouphex = "0x%08lxUL";
 		groupwidth = 2;
-	} else if (no_groups >= 8) {
+	} else if (lxi_parse_tree.no_groups >= 8) {
 		grouptype = "uint16_t";
 		grouphex = "0x%04lx";
 		groupwidth = 4;
@@ -538,12 +544,11 @@ output_all(FILE *output, bool generate_asserts)
 	fputs("static lexi_lookup_type lookup_tab[257] = {\n", lex_output);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
-		letter a = (c == 256 ? EOF_LETTER : (letter)c);
-		if (in_group(white_space, a))
-			m = 1;
-		for (n = 0; n < no_groups; n++) {
-			if (in_group(groups [n].defn, a)) {
-				m |= (unsigned long)(1 << (n + 1));
+		letter a = (c == 256 ? lxi_parse_tree.eof_letter_code : (letter)c);
+		m = 0;
+		for (n = 0; n < lxi_parse_tree.no_groups; n++) {
+			if (in_group(lxi_parse_tree.groups [n].defn, a)) {
+				m |= (unsigned long)(1 << n);
 			}
 		}
 		if ((c % groupwidth) == 0)
@@ -569,12 +574,12 @@ output_all(FILE *output, bool generate_asserts)
 	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
 	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
 	fputs(" */\n", lex_output);
-	if(global_zone->zone_pre_pass->next) {
+	if(lxi_parse_tree.global_zone->zone_pre_pass->next) {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(global_zone->zone_pre_pass), char_maxlength(global_zone->zone_main_pass));
+			char_maxlength(lxi_parse_tree.global_zone->zone_pre_pass), char_maxlength(lxi_parse_tree.global_zone->zone_main_pass));
 	} else {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
-			char_maxlength(global_zone->zone_main_pass));
+			char_maxlength(lxi_parse_tree.global_zone->zone_main_pass));
 	}
 	fputs("static int lexi_buffer_index;\n\n", lex_output);
 
@@ -612,12 +617,10 @@ output_all(FILE *output, bool generate_asserts)
 	/* Macros for accessing table */
 	fputs("#define lookup_char(C)\t", lex_output);
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
-	for (n = 0; n <= no_groups; n++) {
-		const char *gnm = "white";
+	for (n = 0; n < lxi_parse_tree.no_groups; n++) {
+		const char *gnm;
 		unsigned long m = (unsigned long)(1 << n);
-		if(n > 0) {
-			gnm = groups[n - 1].name;
-		}
+		gnm = lxi_parse_tree.groups[n].name;
 		fprintf(lex_output, "#define is_%s(T)\t((T) & ", gnm);
 		fprintf(lex_output, grouphex, m);
 		fputs(")\n", lex_output);
@@ -627,12 +630,12 @@ output_all(FILE *output, bool generate_asserts)
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);
-	output_zone_prepass(global_zone);
+	output_zone_prepass(lxi_parse_tree.global_zone);
 
 	/* Main pass */
 
 	in_pre_pass = 0;
-	if(global_zone->next) {
+	if(lxi_parse_tree.global_zone->next) {
 	  fputs("\n", lex_output);
 	  
 	  fputs("/* lexer_state_definition */\n\n", lex_output);
@@ -645,9 +648,9 @@ output_all(FILE *output, bool generate_asserts)
 	  fputs("\n\nint read_token(lexer_state*);\n\n", lex_output);
 
 	  fputs("\n/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-	  output_zone_pass_prototypes(global_zone);
+	  output_zone_pass_prototypes(lxi_parse_tree.global_zone);
 	  fputs("\n\n/* ZONES PASS ANALYSER */\n\n", lex_output);
-	  output_zone_pass(global_zone);
+	  output_zone_pass(lxi_parse_tree.global_zone);
 	  fputs("lexer_state current_lexer_state_v="
 		"{&read_token_zone_global};\n",
 		lex_output);
@@ -663,16 +666,16 @@ output_all(FILE *output, bool generate_asserts)
 	  fputs("int\nread_token(void)\n",lex_output);
 	  fputs("{\n", lex_output);
 	  fputs("\tstart: {\n", lex_output);
-	  output_pass(global_zone,global_zone->zone_main_pass, in_pre_pass, 0, 2);
-	  if(global_zone->default_actions) {
+	  output_pass(lxi_parse_tree.global_zone,lxi_parse_tree.global_zone->zone_main_pass, in_pre_pass, 0, 2);
+	  if(lxi_parse_tree.global_zone->default_actions) {
 	    int dd=2;
-	    if(global_zone->default_cond) {
-	      fprintf(lex_output,"\tif(%s) {\n\t",global_zone->default_cond);
+	    if(lxi_parse_tree.global_zone->default_cond) {
+	      fprintf(lex_output,"\tif(%s) {\n\t",lxi_parse_tree.global_zone->default_cond);
 	      dd=4;
 	    }
-	    output_actions(global_zone,global_zone->default_actions,1,dd);
-	    if(global_zone->default_cond) 
-	      fprintf(lex_output,"}\n\t",global_zone->default_cond);	    
+	    output_actions(lxi_parse_tree.global_zone,lxi_parse_tree.global_zone->default_actions,1,dd);
+	    if(lxi_parse_tree.global_zone->default_cond) 
+	      fprintf(lex_output,"}\n\t",lxi_parse_tree.global_zone->default_cond);	    
 	  }
 	  else 
 	    fputs("\treturn(unknown_token(c0));\n", lex_output);
@@ -721,7 +724,7 @@ output_keyword(FILE *output)
 
 	output_comment();
 	fputs("/* KEYWORDS */\n\n", lex_output);
-	for (p = global_zone->keywords; p != NULL; p = p->next) {
+	for (p = lxi_parse_tree.global_zone->keywords; p != NULL; p = p->next) {
 		if (p->done == 0) {
 			char *cond = p->cond;
 			if (cond) {

@@ -134,6 +134,8 @@ typedef struct character_tag {
 typedef struct {
     char *name;
     letter *defn;
+    letter letter_code;
+    struct zone_tag* z; /* Points back to the zone we are in */
 } char_group;
 
 
@@ -158,7 +160,8 @@ typedef struct keyword_tag {
     PARAMETERS
 */
 
-#define MAX_GROUPS		31
+#define MAX_GROUPS		32
+#define LETTER_TRANSLATOR_SIZE  512
 
 /*
     TYPE REPRESENTING A ZONE
@@ -182,32 +185,58 @@ typedef struct zone_tag {
     struct zone_tag *up; 
 } zone;
 
-
-
 /*
-    SPECIAL LETTERS
+  THE LETTER TRANSLATOR GUIDE
 */
 
-#define SIMPLE_LETTER		((letter)0x0100)
-#define EOF_LETTER		((letter)0x0100)
-#define LAST_LETTER		((letter)0x0101)
-#define WHITE_LETTER		((letter)0x0102)
-#define GROUP_LETTER		((letter)0x0103)
+typedef enum letter_translation_type_tag {
+  eof_letter, last_letter, group_letter, char_letter
+} letter_translation_type;
 
+typedef struct letter_translation_tag {
+  letter_translation_type type;
+  letter letter_code ; 
+  union {
+    int ch; 
+    char_group* grp;
+  };
+  struct letter_translation_tag* next; 
+} letter_translation;
+
+
+typedef struct letter_translation_list_tag {
+  letter_translation* head;
+  letter_translation** tail;
+} letter_translation_list;
+
+/* 
+   THE LEXER PARSE TREE OF THE LXI FILE
+*/
+
+typedef struct lexer_parse_tree_tag {
+  zone* global_zone;
+
+
+  letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
+  letter last_letter_code;
+  letter eof_letter_code;
+  letter next_generated_key;
+
+  char_group* white_space;  
+  int no_groups;
+  char_group groups [MAX_GROUPS];  
+} lexer_parse_tree;
 
 /*
     DECLARATIONS FOR CHARACTER ROUTINES
 */
 
-extern letter *white_space;
-/*extern character *pre_pass;*/
-extern zone* global_zone;
-extern char_group groups [];
-extern int no_groups;
-/*extern keyword *keywords;*/
+extern lexer_parse_tree lxi_parse_tree;
+
+extern void init_lexer_parse_tree(lexer_parse_tree*);
 extern void add_char(character*, letter*, char *, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*);
-extern void make_group(char *, letter *);
+extern void make_group(zone*, char *, letter *);
 extern int in_group(letter *, letter);
 extern letter *make_string(char *);
 extern letter find_escape(int);
@@ -224,6 +253,7 @@ extern args_list* add_args_list (void);
 extern arg* add_arg (arg_type, unsigned int);
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instructions_list* add_instructions_list (void) ;
-
-
+extern letter_translation* add_group_letter_translation(char_group*);
+extern void letters_table_add_translation(letter_translation*, letter_translation_list []);
+extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
 #endif

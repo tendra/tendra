@@ -166,7 +166,7 @@ ZR135(zonep *ZIz)
 		    {
 #line 545 "syntax.act"
 
-   (ZI0)=((*ZIz)==global_zone);
+   (ZI0)=((*ZIz)==lxi_parse_tree.global_zone);
 #line 171 "tmp.syntax.c"
 		    }
 		    /* END OF ACTION: is-global-zone */
@@ -176,7 +176,7 @@ ZR135(zonep *ZIz)
 		    {
 #line 307 "syntax.act"
 
-    make_group ( (ZIi), (ZIs) ) ;
+    make_group ( (*ZIz), (ZIi), (ZIs) ) ;
 #line 181 "tmp.syntax.c"
 		    }
 		    /* END OF ACTION: make-group */
@@ -229,7 +229,7 @@ ZR135(zonep *ZIz)
 		    {
 #line 545 "syntax.act"
 
-   (ZI0)=((*ZIz)==global_zone);
+   (ZI0)=((*ZIz)==lxi_parse_tree.global_zone);
 #line 234 "tmp.syntax.c"
 		    }
 		    /* END OF ACTION: is-global-zone */
@@ -239,10 +239,10 @@ ZR135(zonep *ZIz)
 		    {
 #line 293 "syntax.act"
 
-    if ( white_space ) {
+    if ( lxi_parse_tree.white_space->defn ) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
-    white_space = (ZIs) ;
+    lxi_parse_tree.white_space->defn = (ZIs) ;
 #line 247 "tmp.syntax.c"
 		    }
 		    /* END OF ACTION: make-white */
@@ -989,7 +989,7 @@ read_lex(void)
 	{
 #line 515 "syntax.act"
 
-   (ZIz)=global_zone;
+   (ZIz)=lxi_parse_tree.global_zone;
 #line 994 "tmp.syntax.c"
 	}
 	/* END OF ACTION: global-zone */
@@ -1252,7 +1252,7 @@ ZRkeyword_Hdefn(zonep ZIz)
 		{
 #line 545 "syntax.act"
 
-   (ZI0)=((ZIz)==global_zone);
+   (ZI0)=((ZIz)==lxi_parse_tree.global_zone);
 #line 1257 "tmp.syntax.c"
 		}
 		/* END OF ACTION: is-global-zone */
@@ -1632,7 +1632,7 @@ ZRnon_Hempty_Hchars(SID_CHARS *ZOc)
 		{
 #line 396 "syntax.act"
 
-    (ZI0)=((ZIc)[0]!=LAST_LETTER);
+    (ZI0)=((ZIc)[0]!=lxi_parse_tree.last_letter_code);
 #line 1637 "tmp.syntax.c"
 		}
 		/* END OF ACTION: is-non-empty */
