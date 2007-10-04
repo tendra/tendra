@@ -53,15 +53,6 @@ fi
 echo "${SYSTEM}.${VERSION} detected..."
 echo
 
-# See the URL in the warning below for why this is bad.
-if [ ! -z "${LD_LIBRARY_PATH}" ]; then
-	echo "WARNING: LD_LIBRARY_PATH set, please don't do that; see"
-	echo "http://xahlee.org/UnixResource_dir/_/ldpath.html"
-	echo "Setting to empty environment variable..."
-	echo
-	LD_LIBRARY_PATH=""
-fi
-
 # Set up defaults
 EXECFORMAT=elf
 #BS_LIBS="-L/usr/lib -lc"
@@ -229,7 +220,6 @@ LDFLAGS=${LDFLAGS}
 BS_LIBS=${BS_LIBS}
 OSFAM=${OSFAM}
 OSVER=${OSVER}
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
 BLDARCH=${BLDARCH}
 BLDARCHBITS=${BLDARCHBITS}
 EXECFORMAT=${EXECFORMAT}
