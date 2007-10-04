@@ -13,12 +13,11 @@
     This is a description of the encoding used for TDF.
   </para>
 
-  <!-- TODO link to section 8.1 -->Section 8.1<!-- end link --> defines the
-  basic level of encoding, in which integers consisting of a specified number of
-  bits are appended to the sequence of bytes. <!-- TODO link to section 8.2
-  -->Section 8.2<!-- end link --> defines the second level of encoding, in which
-  fundamental kinds of value are encoded in terms of integers of specified
-  numbers of bits. <!-- TODO link to section 8.4 -->Section 8.4<!-- end link -->
+  <link linkend="C8S1">Section 8.1</link> defines the basic level of encoding,
+  in which integers consisting of a specified number of bits are appended to the
+  sequence of bytes. <link linkend="C8S2">Section 8.2</link> defines the second
+  level of encoding, in which fundamental kinds of value are encoded in terms of
+  integers of specified numbers of bits. <link linkend="C8S4">Section 8.4</link>
   defines the third level, in which TDF is encoded using the previously defined
   concepts.
 
@@ -240,7 +239,7 @@
     </section>
   </section>
 
-  <section it="C8S4">
+  <section id="C8S4">
     <title>The TDF encoding</title>
 
     <para>

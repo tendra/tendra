@@ -373,8 +373,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.13.3 circular types in languages -->Circular
-        types in languages<!-- end link -->.
+        See <link linkend="C7S13.3">Circular types in languages</link>.
       </para>
     </section>
   </section>
@@ -414,9 +413,8 @@
     <para>
       An <code>ALIGNMENT</code> gives information about the layout of data in
       memory and hence is a parameter for the <code>POINTER</code> and
-      <code>OFFSET SHAPE</code>s (see <!-- TODO link to 7.13. Memory Model
-      -->Memory Model<!-- end link -->). This information consists of a set of
-      elements.
+      <code>OFFSET SHAPE</code>s (see <link linkend="C7S13">Memory
+      Model</link>). This information consists of a set of elements.
     </para>
 
     <para>
@@ -796,9 +794,8 @@
 
     <para>
       There is no limit on the size of bitfield values in TDF, but an installer
-      may specify limits. See <!-- TODO link to 7.24. Representing bitfields
-      -->Representing bitfields<!-- end link --> and <!-- TODO link to 7.25.
-      Permitted limits -->Permitted limits<!-- end link -->.
+      may specify limits. See <link linkend="C7S24">Representing
+      bitfields</link> and <link linkend="C7S25">Permitted limits</link>.
     </para>
 
     <section id="C5S6.1">
@@ -886,8 +883,7 @@
     </para>
 
     <para>
-      See <!-- TODO link to 8.4. The TDF encoding -->The TDF encoding<!-- end
-      link -->.
+      See <link linkend="C8S4">The TDF encoding</link>.
     </para>
   </section>
 
@@ -984,8 +980,7 @@
     </para>
 
     <para>
-      See <!-- TODO link to 8.4. The TDF encoding -->The TDF encoding<!-- end
-      link -->.
+      See <link linkend="C8S4">The TDF encoding</link>.
     </para>
   </section>
 
@@ -1100,8 +1095,8 @@
 
       <para>
         <emphasis>make_capsule</emphasis> brings together <code>UNIT</code>s and
-        linking and naming information. See <!-- TODO link to 2.1. The Overall
-        Structure -->The Overall Structure<!-- end link -->.
+        linking and naming information. See <link linkend="C2S1">The Overall
+        Structure</link>.
       </para>
 
       <para>
@@ -1109,9 +1104,9 @@
         one-to-one with the elements of the list, <emphasis>groups</emphasis>.
         The element of <emphasis>prop_names</emphasis> is the unit
         identification of all the <code>UNIT</code>s in the corresponding
-        <code>GROUP</code>. See <!-- TODO link to 5.29. PROPS
-        --><code>PROPS</code><!-- link end -->.  A <code>CAPSULE</code> need not
-        contain all the kinds of <code>UNIT</code>.
+        <code>GROUP</code>. See <link linkend="C5S29"><code>PROPS</code></link>.
+        A <code>CAPSULE</code> need not contain all the kinds of
+        <code>UNIT</code>.
       </para>
 
       <para>
@@ -1401,8 +1396,7 @@
         specifies a set of possible exceptional behaviours. If any of these
         occur in an construction with <code>ERROR_TREATMENT</code>
         <emphasis>trap</emphasis>, the TDF exception handling is invoked (see
-        <!-- TODO link to 7.8. Exceptions and jumps -->section 7.8<!-- link end
-        -->).
+        <link linkend="C7S8">section 7.8</link>).
       </para>
 
       <para>
@@ -1427,8 +1421,7 @@
         construction is not one of <emphasis>mult, power, div0, div1, div2,
         rem0, rem1, rem2</emphasis>. The result will be evaluated and any bits
         in the result lying outside the representing <code>VARIETY</code> will
-        be discarded (see <!-- TODO link to 7.18. Representing integers
-        -->Representing integers<!-- end link -->
+        be discarded (see <link linkend="C7S18">Representing integers</link>
       </para>
     </section>
 
@@ -1579,10 +1572,9 @@
 
       <para>
         <emphasis>In the simple representation of <code>POINTER</code>
-        arithmetic (see <!-- TODO link to 7.13. Memory Model -->Memory
-        Model<!-- end link -->) add_to_ptr is represented by addition. The
-        constraint <quote>x includes y</quote> ensures that no padding has to
-        be inserted in this case.</emphasis>
+        arithmetic (see <link linkend="C7S13">Memory Model</link>) add_to_ptr is
+        represented by addition. The constraint <quote>x includes y</quote>
+        ensures that no padding has to be inserted in this case.</emphasis>
       </para>
     </section>
 
@@ -1605,8 +1597,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.18. Representing integers -->Representing
-        integers<!-- link end -->.
+        See <link linkend="C7S18">Representing integers</link>.
       </para>
     </section>
 
@@ -1659,12 +1650,11 @@
         variable argument lists in the C (<emphasis>&lt;stdarg.h&gt;</emphasis>
         or <emphasis>&lt;varargs.h&gt;</emphasis>) sense, which are communicated
         by extending the <emphasis>params</emphasis> list.  This is discussed
-        further in <!-- TODO link to 7.9. Procedures -->section 7.9<!-- end link
-        -->. If the number of arguments in the <emphasis>params</emphasis> list
-        differs from the number of elements in the
-        <emphasis>params_intro</emphasis> of the corresponding
-        <emphasis>make_proc</emphasis>, then <emphasis>var_param</emphasis> must
-        not be present.
+        further in <link linkend="C7S9">section 7.9</link>. If the number of
+        arguments in the <emphasis>params</emphasis> list differs from the
+        number of elements in the <emphasis>params_intro</emphasis> of the
+        corresponding <emphasis>make_proc</emphasis>, then
+        <emphasis>var_param</emphasis> must not be present.
       </para>
 
       <para>
@@ -1673,8 +1663,8 @@
       </para>
 
       <para>
-        For notes on the intended implementation of procedures see <!-- TODO
-        link to 7.9. Procedures -->section 7.9<!-- end link -->.
+        For notes on the intended implementation of procedures see <link
+        linkend="C7S9">section 7.9</link>.
       </para>
     </section>
 
@@ -1848,9 +1838,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- link end -->
-        and <!-- TODO link to 7.17. Incomplete assignment -->Incomplete
-        assignment<!-- link end -->.
+        See <link linkend="C7S16">Overlapping</link> and <link
+        linkend="C7S17">Incomplete assignment</link>.
       </para>
 
       <para>
@@ -1905,9 +1894,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link -->
-        and <!-- TODO link to 7.17. Incomplete assignment -->Incomplete
-        assignment<!-- link end -->.
+        See <link linkend="C7S16">Overlapping</link> and <link
+        linkend="C7S17">>Incomplete assignment</link>.
       </para>
     </section>
 
@@ -1935,8 +1923,8 @@
 
       <para>
         <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
-        will be <emphasis>variety-enclosed</emphasis> (see <!-- TODO link to
-        7.24. Representing bitfields -->section 7.24<!-- end link -->).
+        will be <emphasis>variety-enclosed</emphasis> (see <link
+        linkend="C7S24">section 7.24</link>).
       </para>
     </section>
 
@@ -1968,8 +1956,8 @@
 
       <para>
         <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
-        will be <emphasis>variety-enclosed</emphasis>.(see <!-- TODO link to
-        7.24. Representing bitfields -->section 7.24<!-- link end -->).
+        will be <emphasis>variety-enclosed</emphasis>.(see <link
+        linkend="C7S24">section 7.24</link>).
       </para>
     </section>
 
@@ -1998,8 +1986,8 @@
 
       <para>
         <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
-        will be <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to
-        7.24. Representing bitfields -->section 7.24<!-- end link -->).
+        will be <emphasis>variety_enclosed</emphasis> (see <link
+        linkend="C7S24">section 7.24</link>).
       </para>
     </section>
 
@@ -2037,8 +2025,8 @@
 
       <para>
         <emphasis>arg2</emphasis>, <code>BITFIELD</code>(<emphasis>v</emphasis>)
-        will be <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to
-        7.24.  Representing bitfields -->section 7.24<!-- end link -->).
+        will be <emphasis>variety_enclosed</emphasis> (see <link
+        linkend="C7S24">section 7.24</link>).
       </para>
     </section>
 
@@ -2060,10 +2048,10 @@
         <emphasis>upper</emphasis>, for each element of
         <emphasis>branches</emphasis>. If this tests succeeds, control passes to
         the label <emphasis>branch</emphasis> belonging to that
-        <code>CASELIM</code> (see <!-- TODO link to 5.13. CASELIM -->section
-        5.13<!-- end link -->). If <emphasis>c</emphasis> lies between no pair,
-        the construct delivers a value of <code>SHAPE TOP</code>. The order in
-        which the comparisons are made is undefined.
+        <code>CASELIM</code> (see <link linkend="C5S13">section 5.13</link>). If
+        <emphasis>c</emphasis> lies between no pair, the construct delivers a
+        value of <code>SHAPE TOP</code>. The order in which the comparisons are
+        made is undefined.
       </para>
 
       <para>
@@ -2128,8 +2116,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.21. Floating point errors -->Floating point
-        errors<!-- end link -->.
+        See <link linkend="C7S21">Floating point errors</link>.
       </para>
     </section>
 
@@ -2216,17 +2203,15 @@
       </para>
 
       <para>
-        <emphasis>arg2</emphasis> will be a constant and non-negative (see <!--
-        TODO link to 7.3. Constant evaluation -->Constant evaluation<!-- end
-        link -->).
+        <emphasis>arg2</emphasis> will be a constant and non-negative (see <link
+        linkend="C7S3">Constant evaluation</link>).
       </para>
 
       <para>
         If <emphasis>sha</emphasis> is a <code>BITFIELD</code> then
         <emphasis>arg2</emphasis>, <emphasis>sha</emphasis> will be
-        <emphasis>variety_enclosed</emphasis> (see <!-- TODO link to 7.24.
-        Representing bitfields -->section 7.24<!-- end link -->).
-      </para>
+        <emphasis>variety_enclosed</emphasis> (see <link linkend="C7S24">section
+        7.24</link>).  </para>
     </section>
 
     <section id="C5S16.21">
@@ -2289,8 +2274,7 @@
       </para>
 
       <para>
-        For LUB see <!-- TODO link to 7.26. Least Upper Bound -->Least Upper
-        Bound<!-- link end -->.
+        For LUB see <link linkend="C7S26">Least Upper Bound</link>.
       </para>
     </section>
 
@@ -2427,8 +2411,8 @@
         which contains the declaration of the <code>TAG</code> used by
         <emphasis>env_offset</emphasis>, then the result is an original
         <code>POINTER</code>, notwithstanding the normal rules for
-        <emphasis>add_to_ptr</emphasis> (see <!-- TODO link to 7.15. Original
-        pointers -->Original pointers<!-- link end -->).
+        <emphasis>add_to_ptr</emphasis> (see <link linkend="C7S15">Original
+        pointers</link>).
       </para>
 
       <para>
@@ -2479,8 +2463,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -2523,8 +2507,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -2568,8 +2552,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -2631,7 +2615,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.10. Frames -->section 7.10<!-- link end -->.
+        See <link linkend="C7S10">section 7.10</link>.
       </para>
     </section>
 
@@ -2702,8 +2686,8 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>.  See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
+        <emphasis>flpt_err</emphasis>. See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
     </section>
 
@@ -2736,8 +2720,7 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- link end -->.
+        See also <link linkend="C7S23">Floating point accuracy</link>.
       </para>
     </section>
 
@@ -2763,13 +2746,12 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>. See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- end link -->.
+        <emphasis>flpt_err</emphasis>. See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating point accuracy</link>.
       </para>
     </section>
 
@@ -2795,13 +2777,12 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>. See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- end link -->.
+        <emphasis>flpt_err</emphasis>. See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating point accuracy</link>.
       </para>
     </section>
 
@@ -2828,8 +2809,8 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -2856,8 +2837,8 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -2881,8 +2862,8 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>. See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
+        <emphasis>flpt_err</emphasis>. See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
 
       <para>
@@ -2900,8 +2881,8 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -2930,8 +2911,8 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -2955,9 +2936,8 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>.  See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
-      </para>
+        <emphasis>flpt_err</emphasis>.  See <link linkend="C7S21">Floating point
+        errors</link>.  </para>
 
       <para>
         <emphasis>Note that separate floating_plus operations cannot in general
@@ -2974,8 +2954,8 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -2997,13 +2977,13 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>.  See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
+        <emphasis>flpt_err</emphasis>.  See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -3048,13 +3028,13 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>.  See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
+        <emphasis>flpt_err</emphasis>.  See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
 
       <para>
-        See also <!-- TODO link to 7.23. Floating point accuracy -->Floating
-        point accuracy<!-- end link -->.
+        See also <link linkend="C7S23">Floating
+        point accuracy</link>.
       </para>
     </section>
 
@@ -3150,8 +3130,8 @@
         and <emphasis>body</emphasis> are evaluated shall be indistinguishable
         in all observable effects (apart from time) from completely evaluating
         <emphasis>definition</emphasis> before starting
-        <emphasis>body</emphasis>. See the note about order in <!-- TODO link to
-        5.16.107. sequence -->sequence<!-- end link -->.
+        <emphasis>body</emphasis>. See the note about order in <link
+        linkend="C5S16.107">sequence</link>.
       </para>
     </section>
 
@@ -3221,8 +3201,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.29. Dynamic initialisation -->section 7.29<!--
-        end link -->.
+        See <link linkend="C7S29">section 7.29</link>.
       </para>
     </section>
 
@@ -3300,9 +3279,8 @@
 
       <para>
         The <code>SHAPE</code> <emphasis>w</emphasis> is the LUB of
-        <emphasis>x</emphasis> and all the <emphasis>places</emphasis>. See <!--
-        TODO link to 7.26. Least Upper Bound -->Least Upper Bound<!-- end link
-        -->.
+        <emphasis>x</emphasis> and all the <emphasis>places</emphasis>. See
+        <link linkend="C7S26">Least Upper Bound</link>.
       </para>
 
       <para>
@@ -3348,8 +3326,7 @@
         The <code>ALIGNMENT</code>, <emphasis>alloca_alignment</emphasis>,
         includes the set union of all the <code>ALIGNMENT</code>s which can be
         produced by <emphasis>alignment</emphasis> from any <code>SHAPE</code>.
-        See <!-- TODO link to 7.13.4. Special alignments -->Special
-        alignments<!-- end link -->.
+        See <link linkend="C7S13.4">Special alignments</link>.
       </para>
     </section>
 
@@ -3416,8 +3393,7 @@
       </para>
 
       <para>
-        See also <!-- TODO link to 7.12. Alloca -->section 7.12<!-- end link
-        -->.
+        See also <link linkend="C7S12">section 7.12</link>.
       </para>
     </section>
 
@@ -3432,9 +3408,9 @@
 
       <para>
         If the <code>OFFSET</code> <emphasis>arg1</emphasis> can be accomodated
-        within the limit of the local_alloc stack (see <!-- TODO link to
-        5.16.108. set_stack_limit -->section 5.16.108<!-- end link -->), the
-        action is precisely the same as <emphasis>local_alloc</emphasis>.
+        within the limit of the local_alloc stack (see <link
+        linkend="C5S16.108">section 5.16.108</link>), the action is precisely
+        the same as <emphasis>local_alloc</emphasis>.
       </para>
 
       <para>
@@ -3586,8 +3562,7 @@
 
       <para>
         <emphasis>arg1</emphasis> will be a constant non-negative
-        <code>OFFSET</code>, see <!-- TODO link to 5.16.87. offset_pad
-        -->offset_pad<!-- link end -->.
+        <code>OFFSET</code>, see <link linkend="C5S16.87">offset_pad</link>.
       </para>
 
       <para>
@@ -3610,8 +3585,8 @@
       <para>
         If <emphasis>x[2 * k]</emphasis> is a <code>BITFIELD</code> then
         <emphasis>x[2 * k - 1]</emphasis>, <emphasis>shape(x[2 * k])</emphasis>
-        will be <emphasis>variety-enclosed</emphasis> (see <!-- TODO link to
-        7.24. Representing bitfields -->section 7.24<!-- link end -->).
+        will be <emphasis>variety-enclosed</emphasis> (see <link
+        linkend="C7S24">section 7.24</link>).
       </para>
     </section>
 
@@ -3770,8 +3745,8 @@
       </para>
 
       <para>
-        For notes on the intended implementation of procedures see <!-- TODO
-        link to 7.9. Procedures -->section 7.9<!-- end link -->.
+        For notes on the intended implementation of procedures see <link
+        linkend="C7S9">section 7.9</link>.
       </para>
     </section>
 
@@ -3950,8 +3925,8 @@
       <para>
         If <emphasis>var_intro</emphasis> is present, it may be used for one of
         two purposes, with different consequences for corresponding uses of
-        <emphasis>apply_proc</emphasis>. See <!-- TODO link to 7.9. Procedures
-        -->section 7.9<!-- end link -->. The <code>ALIGNMENT</code>,
+        <emphasis>apply_proc</emphasis>. See <link linkend="C7S9">section
+        7.9</link>. The <code>ALIGNMENT</code>,
         <emphasis>var_param_alignment</emphasis>, includes the set union of all
         the <code>ALIGNMENT</code>s which can be produced by
         <emphasis>alignment</emphasis> from any <code>SHAPE</code>. Note that
@@ -4005,8 +3980,8 @@
       </para>
 
       <para>
-        For notes on the intended implementation of procedures see <!-- TODO
-        link to 7.9 Procedures -->section 7.9<!-- end link -->.
+        For notes on the intended implementation of procedures see <link
+        linkend="C7S9">section 7.9</link>.
       </para>
     </section>
 
@@ -4190,7 +4165,7 @@
 
       <para>
         <emphasis>sz</emphasis> will be a non-negative <code>OFFSET</code>, see
-        <!-- TODO link to 5.16.87. offset_pad -->offset_pad<!-- end link -->.
+        <link linkend="C5S16.87">offset_pad</link>.
       </para>
 
       <para>
@@ -4206,7 +4181,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link -->.
+        See <link linkend="C7S16">Overlapping</link>.
       </para>
     </section>
 
@@ -4301,8 +4276,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.18. Representing integers -->Representing
-        integers<!-- end link -->.
+        See <link linkend="C7S18">Representing integers</link>.
       </para>
     </section>
 
@@ -4422,8 +4396,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.13.2. Comparison of pointers and offsets
-        -->Comparison of pointers and offsets<!-- link end -->.
+        See <link linkend="C7S13.2">Comparison of pointers and offsets</link>.
       </para>
 
       <para>
@@ -4628,8 +4601,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.18. Representing integers -->Representing
-        integers<!-- end link -->.
+        See <link linkend="C7S18">Representing integers</link>.
       </para>
     </section>
 
@@ -4868,8 +4840,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -4913,8 +4885,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -4959,8 +4931,8 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.4. Division and modulus -->Division and
-        modulus<!-- end link --> for the definitions of D1, D2, M1 and M2.
+        See <link linkend="C7S4">Division and modulus</link> for the definitions
+        of D1, D2, M1 and M2.
       </para>
     </section>
 
@@ -5077,8 +5049,8 @@
 
       <para>
         If there is a floating point error it is handled by
-        <emphasis>flpt_err</emphasis>.  See <!-- TODO link to 7.21. Floating
-        point errors -->Floating point errors<!-- link end -->.
+        <emphasis>flpt_err</emphasis>.  See <link linkend="C7S21">Floating point
+        errors</link>.
       </para>
     </section>
 
@@ -5450,8 +5422,7 @@
         <emphasis>body</emphasis> are evaluated shall be indistinguishable in
         all observable effects (apart from time) from completely evaluating
         <emphasis>init</emphasis> before starting <emphasis>body</emphasis>.
-        See the note about order in <!-- TODO link to 5.16.107. sequence
-        -->sequence<!-- end link -->.
+        See the note about order in <link linkend="C5S16.107">sequence</link>.
       </para>
 
       <para>
@@ -5480,8 +5451,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.18. Representing integers -->Representing
-        integers<!-- end link -->.
+        See <link linkend="C7S18">Representing integers</link>.
       </para>
     </section>
   </section>
@@ -6541,8 +6511,7 @@
 
     <para>
       In addition there is a <emphasis>tld</emphasis> <code>UNIT</code>, see
-      <!-- TODO link to 8.4. The TDF encoding -->The TDF encoding<!-- link end
-      -->.
+      <link linkend="C8S4">The TDF encoding</link>.
     </para>
   </section>
 
@@ -6742,8 +6711,8 @@
       <para>
         A <code>BITFIELD</code> is used to represent a pattern of bits which
         will be packed, provided that the <emphasis>variety_enclosed</emphasis>
-        constraints are not violated.  (see See <!-- TODO link to 7.24.
-        Representing bitfields -->section 7.24<!-- link end -->)
+        constraints are not violated.  (see See <link linkend="C7S24">section
+        7.24</link>)
       </para>
 
       <para>
@@ -6759,8 +6728,7 @@
 
       <para>
         An installer may place a limit on the number of bits it implements.  See
-        <!-- TODO link to 7.25. Permitted limits -->Permitted limits<!-- link
-        end -->.
+        <link linkend="C7S25">Permitted limits</link>.
       </para>
     </section>
 
@@ -6807,9 +6775,9 @@
 
       <para>
         <emphasis>sz</emphasis> will evaluate to a constant, non-negative
-        <code>OFFSET</code> (see <!-- TODO link to 5.16.87. offset_pad
-        -->offset_pad<!-- end link -->). The resulting <code>SHAPE</code>
-        describes a value whose size is given by <emphasis>sz</emphasis>.
+        <code>OFFSET</code> (see <link linkend="C5S16.87">offset_pad</link>).
+        The resulting <code>SHAPE</code> describes a value whose size is given
+        by <emphasis>sz</emphasis>.
       </para>
     </section>
 
@@ -6832,15 +6800,14 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.20. Representing floating point -->Representing
-        floating point<!-- link end -->.
+        See <link linkend="C7S20">Representing floating point</link>.
       </para>
 
       <para>
         An installer may limit the <code>FLOATING_VARIETY</code>s it can
         represent. A statement of any such limits shall be part of the
-        specification of an installer. See <!-- TODO link to 7.20.  Representing
-        floating point -->Representing floating point<!-- link end -->.
+        specification of an installer. See <link linkend="C7S20">Representing
+        floating point</link>.
       </para>
     </section>
 
@@ -6895,8 +6862,7 @@
 
       <para>
         A particular installer may limit the ranges of integers that it
-        implements. See <!-- TODO link to 7.18. Representing integers
-        -->Representing integers<!-- end link -->.
+        implements. See <link linkend="C7S18">Representing integers</link>.
       </para>
     </section>
 
@@ -6957,8 +6923,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.13. Memory Model -->Memory Model<!-- link end
-        -->.
+        See <link linkend="C7S13">Memory Model</link>.
       </para>
     </section>
 
@@ -6975,8 +6940,8 @@
         A <code>POINTER</code> is a value which points to space allocated in a
         computer's memory. The <code>POINTER</code> constructor takes an
         <code>ALIGNMENT</code> argument. This argument will not consist entirely
-        of <code>BITFIELD_VARIETY</code>s. See <!-- TODO link to 7.13. Memory
-        Model -->Memory Model<!-- end link -->.
+        of <code>BITFIELD_VARIETY</code>s. See <link linkend="C7S13">Memory
+        Model</link>.
       </para>
     </section>
 
@@ -7535,9 +7500,8 @@
       <para>
         If two <emphasis>make_id_tagdecs</emphasis> specify the same tag and
         both have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in <!--
-        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- end link
-        -->.
+        identical. Possible uses of this signature argument are outlined in
+        <link linkend="C7S28">section 7.28</link>.
       </para>
     </section>
 
@@ -7577,9 +7541,8 @@
       <para>
         If two <emphasis>make_var_tagdec</emphasis>s specify the same tag and
         both have <emphasis>signature</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in <!--
-        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
-        -->.
+        identical. Possible uses of this signature argument are outlined in
+        <link linkend="C7S28">section 7.28</link>.
       </para>
     </section>
 
@@ -7662,9 +7625,8 @@
       <para>
         If two <emphasis>common_tagdecs</emphasis> specify the same tag and both
         have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in <!--
-        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
-        -->.
+        identical. Possible uses of this signature argument are outlined in
+        <link linkend="C7S28">section 7.28</link>.
       </para>
     </section>
   </section>
@@ -7727,8 +7689,8 @@
       <para>
         <emphasis>e</emphasis> will be a constant which can be evaluated at
         load_time or <emphasis>e</emphasis> will be some
-        <emphasis>initial_value</emphasis>(E) (see <!-- TODO link to 5.16.48.
-        initial_value -->section 5.16.48<!-- end link -->).
+        <emphasis>initial_value</emphasis>(E) (see <link
+        linkend="C5S16.48">section 5.16.48</link>).
       </para>
 
       <para>
@@ -7785,9 +7747,8 @@
       <para>
         <emphasis>e</emphasis> will be a constant which can be evaluated at
         load_time or <emphasis>e</emphasis> will be some
-        <emphasis>initial_value</emphasis>(<emphasis>e1</emphasis>) (see <!--
-        TODO link to 5.16.48. initial_value -->section 5.16.48<!-- link end
-        -->).
+        <emphasis>initial_value</emphasis>(<emphasis>e1</emphasis>) (see <link
+        linkend="C5S16.48">section 5.16.48</link>).
       </para>
 
       <para>
@@ -7837,8 +7798,8 @@
       <para>
         <emphasis>e</emphasis> will be a constant evaluable at load_time or
         <emphasis>e</emphasis> will be some
-        <emphasis>initial_value</emphasis>(E) (see <!-- TODO link to 5.16.48.
-        initial_value -->section 5.16.48 <!-- end link -->).
+        <emphasis>initial_value</emphasis>(E) (see <link
+        linkend="C5S16.48">section 5.16.48 </link>).
       </para>
 
       <para>
@@ -7847,8 +7808,8 @@
         <emphasis>common_tagdec</emphasis> and
         <emphasis>common_tagdef</emphasis> have <emphasis>signatures</emphasis>
         present, the strings will be identical. Let the maximum
-        <code>SHAPE</code> of these (see <!-- TODO link to 5.37.3. common_tagdec
-        -->common_tagdec<!-- link end -->) be <emphasis>s</emphasis>.
+        <code>SHAPE</code> of these (see <link
+        linkend="C5S37.3">common_tagdec</link>) be <emphasis>s</emphasis>.
       </para>
 
       <para>
@@ -7983,9 +7944,8 @@
     <title>TDFBOOL</title>
 
     <para>
-      A <code>TDFBOOL</code> is the TDF encoding of a boolean. See <!-- TODO
-      link to 8.2. Fundamental encodings -->Fundamental encoding<!-- link end
-      -->.
+      A <code>TDFBOOL</code> is the TDF encoding of a boolean. See <link
+      linkend="C8S2">Fundamental encoding</link>.
     </para>
   </section>
 
@@ -7996,8 +7956,7 @@
       A <code>TDFIDENT</code>(<emphasis>k</emphasis>, <emphasis>n</emphasis>)
       encodes a sequence of <emphasis>n</emphasis> unsigned integers of size
       <emphasis>k</emphasis> bits. <emphasis>k</emphasis> will be a multiple of
-      8. See <!-- TODO link to 8.2. Fundamental encodings -->Fundamental
-      encoding<!-- end link -->.
+      8. See <link linkend="C8S2">Fundamental encoding</link>.
     </para>
 
     <para>
@@ -8010,8 +7969,7 @@
 
     <para>
       A <code>TDFINT</code> is the TDF encoding of an unbounded unsigned integer
-      constant. See <!-- TODO link to 8.2. Fundamental encodings -->Fundamental
-      encoding<!-- end link -->.
+      constant. See <link linkend="C8S2">Fundamental encoding</link>.
     </para>
   </section>
 
@@ -8021,8 +7979,8 @@
     <para>
       A <code>TDFSTRING</code>(<emphasis>k</emphasis>, <emphasis>n</emphasis>)
       encodes a sequence of <emphasis>n</emphasis> unsigned integers of size
-      <emphasis>k</emphasis> bits. See <!-- TODO link to 8.2. Fundamental
-      encodings -->Fundamental encoding<!-- end link -->.
+      <emphasis>k</emphasis> bits. See <link linkend="C8S2">Fundamental
+      encoding</link>.
     </para>
   </section>
 
@@ -8063,9 +8021,8 @@
       <para>
         If two <emphasis>make_tokdecs</emphasis> specify the same token and both
         have <emphasis>signatures</emphasis> present, the strings will be
-        identical. Possible uses of this signature argument are outlined in <!--
-        TODO link to 7.28. Tag and Token signatures -->section 7.28<!-- link end
-        -->.
+        identical. Possible uses of this signature argument are outlined in
+        <link linkend="C7S28">section 7.28</link>.
       </para>
     </section>
   </section>
@@ -8121,9 +8078,8 @@
         TDF, <emphasis>body</emphasis>, which may be of any <code>SORT</code>
         with a <code>SORTNAME</code>, except for <emphasis>token</emphasis>. The
         <code>SORT</code> of the result, <emphasis>result_sort</emphasis>, is
-        given by the first component of the <code>BITSTREAM</code>. See <!--
-        TODO link to 5.51.1.  token_definition -->token_definition<!-- end link
-        -->.
+        given by the first component of the <code>BITSTREAM</code>. See <link
+        linkend="C5S51.1">token_definition</link>.
       </para>
 
       <para>
@@ -8471,7 +8427,7 @@
       </para>
 
       <para>
-        See <!-- TODO link to 7.16. Overlapping -->Overlapping<!-- end link -->.
+        See <link linkend="C7S16">Overlapping</link>.
       </para>
     </section>
 
@@ -8612,8 +8568,8 @@
 
       <para>
         The <emphasis>properties</emphasis> will be a <code>PROPS</code> of a
-        form dictated by the unit identification, see <!-- TODO link to 5.11.1.
-        make_capsule -->make_capsule<!-- end link -->.
+        form dictated by the unit identification, see <link
+        linkend="C5S11.1">make_capsule</link>.
       </para>
 
       <para>
@@ -8639,8 +8595,8 @@
 
     <para>
       There is no limitation on the magnitude of these bounds in TDF, but an
-      installer may specify limits. See <!-- TODO link to 7.18. Representing
-      integers -->Representing integers<!-- link end -->.
+      installer may specify limits. See <link linkend="C7S18">Representing
+      integers</link>.
     </para>
 
     <section id="C5S56.1">

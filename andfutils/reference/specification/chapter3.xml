@@ -11,8 +11,8 @@
 
   <para>
     The following examples show how TDF constructs are described in this
-    document. The first is the construct <!-- TODO link to 5.31.6 floating -->
-    <emphasis>floating</emphasis><!-- end link -->:
+    document. The first is the construct <link linkend="C5S31.6">
+    <emphasis>floating</emphasis></link>:
 
     <programlisting language="TDF">
       fv:              FLOATING_VARIETY
@@ -42,9 +42,10 @@
     the syntax and the accompanying English text supplies the semantics.
     However, in the case of some constructs it is convenient to specify more
     information in the formal section. For example, the specification of the
-    construct <!-- TODO link to 5.16.39 floating_negate
-    --><emphasis>floating_negate</emphasis><!-- end link --> not only states
-    that it has an <code>EXP</code> argument and an <code>EXP</code> result:
+    construct <link
+    linkend="C5S16.39"><emphasis>floating_negate</emphasis></link> not only
+    states that it has an <code>EXP</code> argument and an <code>EXP</code>
+    result:
 
     <programlisting language="TDF">
       flpt_err:         ERROR_TREATMENT
@@ -58,8 +59,7 @@
 
   <para>
     Some construct's arguments are optional. This is denoted as follows (from
-    <!-- TODO link to 5.16.6 apply_proc --><emphasis>apply_proc</emphasis><!--
-    end link -->):
+    <link linkend="C5S16.6"><emphasis>apply_proc</emphasis></link>):
 
     <programlisting language="TDF">
       result_shape:    SHAPE
@@ -82,8 +82,9 @@
   <para>
     Some constructs' results are governed by the values of their arguments.
     This is denoted by the <quote><code>?</code></quote> formation shown in the
-    specification of the <!-- TODO link to 5.16.14 case
-    --><emphasis>case</emphasis><!-- end link --> construct shown below:
+    specification of the <link
+    linkend="C5S16.14"><emphasis>case</emphasis></link> construct
+    shown below:
 
     <programlisting language="TDF">
       exhaustive:      BOOL
@@ -100,13 +101,12 @@
     arguments need necessarily be processed. For instance, installers do not
     need to process one of the arguments of the <emphasis>x_cond</emphasis>
     constructs (where <emphasis>x</emphasis> stands for a <code>SORT</code>,
-    e.g. <!-- TODO link to 5.16.2 exp_cond --> <emphasis>exp_cond</emphasis><!--
-    end link -->. Secondly, standard tools might want to ignore embedded
-    fragments of TDF adhering to some private standard. In these cases it is
-    desirable for tools to be able to skip the irrelevant pieces of TDF.
-    <code>BITSTREAM</code>s and <code>BYTESTREAM</code>s are formations which
-    permit this. In the encoding they are prefaced with information about their
-    length.
+    e.g. <link linkend="C5S16.2"><emphasis>exp_cond</emphasis></link> .
+    Secondly, standard tools might want to ignore embedded fragments of TDF
+    adhering to some private standard. In these cases it is desirable for tools
+    to be able to skip the irrelevant pieces of TDF. <code>BITSTREAM</code>s and
+    <code>BYTESTREAM</code>s are formations which permit this. In the encoding
+    they are prefaced with information about their length.
   </para>
 
   <para>
@@ -150,10 +150,9 @@
 
   <para>
     The bit encodings are also specified in this document. The details are given
-    in <!-- TODO link to 8. The bit encoding of TDF -->The bit encoding of
-    TDF<!-- end link -->. This section describes the encoding in terms of
-    information given with the descriptions of the <code>SORT</code>s and
-    constructs.
+    in <link linkend="C8">The bit encoding of TDF</link>. This section describes
+    the encoding in terms of information given with the descriptions of the
+    <code>SORT</code>s and constructs.
   </para>
 
   <para>

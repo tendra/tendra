@@ -396,9 +396,8 @@
             indefinitely (except for certain auxiliary <code>SORT</code>s).
             This mechanism should only be used for extending standard TDF to the
             next standard, since otherwise extensions made by different groups
-            of people might conflict with each other. See <!-- TODO link to
-            8.3.3 extendable integer encoding -->Extendable integer encoding<!--
-            end link -->.
+            of people might conflict with each other. See <link
+            linkend="C8S3.3">Extendable integer encoding</link>.
           </para>
         </listitem>
 
@@ -408,8 +407,7 @@
             unit. It also contains a mechanism for extending these so that other
             information can be transmitted in a capsule and properly related to
             basic TDF. The rules for linking this extra information are also
-            laid down. See <!-- TODO link to 5.11.1 make_capsule
-            -->make_capsule<!-- end link -->.
+            laid down. See <link linkend="C5S11.1">make_capsule</link>.
           </para>
         </listitem>
 
@@ -443,8 +441,8 @@
             information (that is, information which cannot be expressed in the
             TDF <code>SORT</code>s) can be supplied. This mechanism should only
             be used for the second purpose, though it could be used to
-            experiment with extensions for future standards. See <!-- TODO link
-            to 8.3 BITSTREAM --><code>BITSTREAM</code><!-- end link -->.
+            experiment with extensions for future standards. See <link
+            linkend="C8S3"><code>BITSTREAM</code></link>.
           </para>
         </listitem>
       </itemizedlist>

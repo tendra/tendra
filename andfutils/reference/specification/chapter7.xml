@@ -418,9 +418,8 @@
     </para>
 
     <para>
-      These tokens are specified in more detail in the companion document, <!--
-      TODO link to TDF token register document -->TDF Token Register<!-- end
-      link -->.
+      These tokens are specified in more detail in the companion document,
+      <ulink url="reference/xhtml/register/">TDF Token Register</ulink>.
     </para>
   </section>
 
@@ -460,12 +459,11 @@
       will have their <emphasis>var_param</emphasis> option present.  The body
       of the <emphasis>make_proc</emphasis> can access the additional params by
       using installer-defined <code>TOKEN</code>s specified in the companion
-      document <!-- link to TDF token register document -->TDF Token
-      Register<!-- end link -->, analogous to the use of variable argument lists
-      in C. A local variable <emphasis>v</emphasis> of shape
-      <emphasis>~va_list</emphasis> must be initialised to
-      <emphasis>~__va_start</emphasis>(<emphasis>p</emphasis>), where
-      <emphasis>p</emphasis> is the <code>POINTER</code> obtained from the
+      document <ulink url="reference/xhtml/register/">TDF Token Register</link>,
+      analogous to the use of variable argument lists in C. A local variable
+      <emphasis>v</emphasis> of shape <emphasis>~va_list</emphasis> must be
+      initialised to <emphasis>~__va_start</emphasis>(<emphasis>p</emphasis>),
+      where <emphasis>p</emphasis> is the <code>POINTER</code> obtained from the
       <emphasis>var_intro</emphasis>. Successive elements of the
       <emphasis>params</emphasis> list can then be obtained by successive
       applications of
@@ -695,10 +693,10 @@
       <code>ALIGNMENT</code>. Since this includes all value
       <code>ALIGNMENT</code>s a value of any <code>ALIGNMENT</code> can be
       assigned into this space.  Note that there is no necessary relation with
-      the special frame alignments (see <!-- TODO link to section 7.10
-      -->section 7.10<!-- end link -->) though they must both contain all the
-      <code>ALIGNMENT</code>s which can be produced by
-      <emphasis>alignment</emphasis> from any <code>SHAPE</code>.
+      the special frame alignments (see <link linkend="C7S10">section
+      7.10</link>) though they must both contain all the <code>ALIGNMENT</code>s
+      which can be produced by <emphasis>alignment</emphasis> from any
+      <code>SHAPE</code>.
     </para>
 
     <para>
@@ -990,8 +988,7 @@
       <para>
         The comparison of <code>OFFSET</code>s is reduced to the definition of
         <emphasis>offset_max</emphasis> and the equality of <code>OFFSET</code>s
-        by the note in <!-- TODO link to 5.16.89 offset_test -->offset_test<!--
-        end link -->.
+        by the note in <link linkend="C5S16.89">offset_test</link>.
       </para>
     </section>
 
@@ -1039,9 +1036,8 @@
       </para>
 
       <para>
-        In particular they are not equal (in the sense of <!-- TODO link to 7.7
-        equality of alignments -->Equality of <code>ALIGNMENT</code>s<!-- end
-        link -->).
+        In particular they are not equal (in the sense of <link linkend="C7S7">
+        equality of alignments -->Equality of <code>ALIGNMENT</code>s</link>).
       </para>
 
       <para>
@@ -1124,14 +1120,13 @@
 
     <para>
       Note that the rule specifying when error_jumps or traps are to be taken
-      (<!-- TODO link to 5.15.4. error_jump -->
-      <emphasis>error_jump</emphasis><!-- end link -->) relaxes the strict rule
-      that everything has to be <quote>as if</quote> completed by the end of
-      certain constructions. Without this rule pipelines would have to stop at
-      such points, in order to be sure of processing any errors. Since this is
-      not normally needed, it would be an expensive requirement. Hence this
-      rule. However a construction will be required to force errors to be
-      processed in the cases where this is important.
+      (<link linkend="C5S15.4"><emphasis>error_jump</emphasis></link>) relaxes
+      the strict rule that everything has to be <quote>as if</quote> completed
+      by the end of certain constructions. Without this rule pipelines would
+      have to stop at such points, in order to be sure of processing any errors.
+      Since this is not normally needed, it would be an expensive requirement.
+      Hence this rule. However a construction will be required to force errors
+      to be processed in the cases where this is important.
     </para>
   </section>
 
@@ -1161,8 +1156,7 @@
     <para>
       As a special case, original pointers can be produced by using
       <emphasis>current_env</emphasis> and <emphasis>env_offset</emphasis> (see
-      <!-- TODO link to 5.16.25. current_env
-      --><emphasis>current_env</emphasis><!-- end link -->).
+      <link linkend="C5S16.25"><emphasis>current_env</emphasis></link>).
     </para>
 
     <para>
