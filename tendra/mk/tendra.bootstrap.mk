@@ -153,8 +153,12 @@ _REALWORK: lib${LIB}.a
 lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
+#XXX:	Ugly hack ahead: Make sure that all libraries end up in ${OBJ_DIR}/src/lib/sys
+#	Especially important for libtdf, which ends up in build and default environment
+	${MKDIR} -p ${OBJ_DIR}/src/lib/sys
+	${LN} -sf ${OBJ_SDIR}/${.TARGET} ${OBJ_DIR}/src/lib/sys/${.TARGET}
 
-CLEAN_EXTRA+=	lib${LIB}.a ${OBJS}
+CLEAN_EXTRA+=	lib${LIB}.a ${OBJS} ${OBJ_DIR}/src/lib/sys/${.TARGET}
 _objdir=	${OBJ_SDIR}
 .else
 #
