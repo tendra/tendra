@@ -125,6 +125,11 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="netbsd"
 			OSVER="NETBSD3"
 			;;
+	NetBSD.4*)
+			#
+			OSFAM="netbsd"
+			OSVER="NETBSD4"
+			;;
 	OpenBSD.3*)
 			#
 			OSFAM="openbsd"
