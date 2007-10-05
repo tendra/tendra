@@ -162,7 +162,7 @@ case "$HOSTARCH" in
 			BLDARCH="amd64"
 			BLDARCHBITS="64"
 			;;
-	i?86)
+	i?86|i86pc)
 			# Intel 80386 and friends
 			BLDARCH="80x86"
 			BLDARCHBITS="32"
