@@ -183,6 +183,8 @@ typedef struct zone_tag {
     character* zone_main_pass;
 
     keyword* keywords;
+    char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
+    char_group* white_space;
 
     instructions_list *default_actions;
     char *default_cond;
@@ -233,9 +235,7 @@ typedef struct lexer_parse_tree_tag {
   letter eof_letter_code;
   letter next_generated_key;
 
-  char_group* white_space;
-  int no_groups;
-  char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
+  int no_total_groups;
 } lexer_parse_tree;
 
 /*
@@ -245,7 +245,7 @@ typedef struct lexer_parse_tree_tag {
 extern void init_lexer_parse_tree(lexer_parse_tree*);
 extern void add_char(zone*, character*, letter*, char *, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*);
-extern void make_group(zone*, char *, letter *);
+extern char_group* make_group(zone*, char *, letter *);
 extern int in_group(char_group *, letter);
 extern letter *make_string(char *, zone*);
 extern letter find_escape(int,letter);

@@ -239,10 +239,10 @@ ZR134(zoneP *ZIz)
 		    {
 #line 295 "syntax.act"
 
-    if ( (*ZIz)->top_level->white_space->defn ) {
+    if ( (*ZIz)->white_space) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
-    (*ZIz)->top_level->white_space->defn = (ZIs) ;
+    (*ZIz)->white_space= make_group((*ZIz),"white",(ZIs)) ;
 #line 247 "tmp.syntax.c"
 		    }
 		    /* END OF ACTION: make-white */

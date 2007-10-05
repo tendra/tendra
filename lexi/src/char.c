@@ -381,6 +381,7 @@ static zone *
 new_zone (char* zid, lexer_parse_tree* top_level) 
 {
     zone *p;
+    int i;
     static int zones_left = 0;
     static zone *zones_free = NULL;
     if (zones_left == 0) {
@@ -393,7 +394,24 @@ new_zone (char* zid, lexer_parse_tree* top_level)
     p->zone_pre_pass=new_char(top_level->last_letter_code);
 
     p->keywords=NULL;
-    
+
+    for(i=0; i<GROUP_HASH_TABLE_SIZE;i++) {
+        p->groups_hash_table[i].head=NULL;
+        p->groups_hash_table[i].tail=&(p->groups_hash_table[i].head);
+    }
+    p->white_space==NULL;
+    /*    hash_key=hash_cstring("white");
+    top_level->white_space=new_group("white", top_level->global_zone);
+    top_level->white_space->name="white";
+    top_level->white_space->defn=NULL;
+    top_level->white_space->group_code=top_level->no_total_groups++;
+    *(top_level->groups_hash_table[hash_key].tail)=top_level->white_space;
+    top_level->groups_hash_table[hash_key].tail=&(top_level->white_space->next);  
+    trans= add_group_letter_translation(top_level->white_space);
+    top_level->white_space->letter_code=trans->letter_code;
+    letters_table_add_translation(trans, top_level->letters_table);*/
+
+
     p->default_actions=NULL;
     p->default_cond=NULL;
 
@@ -402,6 +420,7 @@ new_zone (char* zid, lexer_parse_tree* top_level)
 
     p->opt=NULL;
     p->next=NULL;
+    p->up=NULL;
     p->top_level=top_level;
     return p;
 }
@@ -490,37 +509,37 @@ new_group (char* grid, zone* z)
     definition s.
 */
 
-void
+char_group*
 make_group(zone* z,char *nm, letter *s)
 {
    char_group* grp;
    lexer_parse_tree* top_level=z->top_level;
-   int i, n = top_level->no_groups;
+   int i;
    letter_translation* trans; 
    unsigned int hash_key=hash_cstring(nm);
 
-   for (grp = top_level->groups_hash_table[hash_key].head; 
+   for (grp = z->groups_hash_table[hash_key].head; 
 	grp !=NULL; grp=grp->next) {
 	if (!strcmp(nm, grp->name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
 	    return;
 	}
     }
-    if (n >= MAX_GROUPS) {
-	error(ERROR_SERIOUS, "Too many groups defined (%d)", n);
+    if (top_level->no_total_groups >= MAX_GROUPS) {
+	error(ERROR_SERIOUS, "Too many groups defined (%d)", top_level->no_total_groups);
 	return;
     }
     grp=new_group(nm,z);
     grp->name = nm;
     grp->defn = s;
     grp->z = z;
-    grp->group_code=top_level->no_groups++;
+    grp->group_code=top_level->no_total_groups++;
     trans=add_group_letter_translation(grp);
     letters_table_add_translation(trans, top_level->letters_table);
     grp->letter_code = trans->letter_code;
-    *(top_level->groups_hash_table[hash_key].tail)=grp;
-    top_level->groups_hash_table[hash_key].tail=&(grp->next);
-    return;
+    *(z->groups_hash_table[hash_key].tail)=grp;
+    z->groups_hash_table[hash_key].tail=&(grp->next);
+    return grp;
 }
 
 
@@ -597,6 +616,7 @@ make_string(char *s, zone* scope)
     letter *p = xmalloc_nof(letter, n + 1);
     unsigned int hash_key;
     char_group* grp;
+    zone* inner_scope;
     while (*s) {
 	letter a;
 	char c = *(s++);
@@ -617,20 +637,22 @@ make_string(char *s, zone* scope)
 	    }
 	    
 	    hash_key=hash_cstring_n(gnm,glen);
-	    for (grp = scope->top_level->groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
-	        if (strncmp(gnm, grp->name, glen) == 0) {
-  		    a = grp->letter_code;
-		    break;
+	    for(inner_scope=scope; inner_scope!=NULL;inner_scope=inner_scope->up) {
+	       for (grp = inner_scope->groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
+		   if (strncmp(gnm, grp->name, glen) == 0) 
+		       break;
 		}
+	        if(grp!=NULL)
+		    break;
 	    }
-	    if(j==scope->top_level->no_groups) {
+	    if(inner_scope==NULL) {
 	        error(ERROR_SERIOUS, "Unknown character group, '%.*s'",
 		      (int)glen, gnm);
 		a = '?';
-	    }
-	    /* a is set */
+	    } else 
+	        a = grp->letter_code ;
 	} else {
-	    a = (letter)(c & 0xff);
+	  a= (letter) (c & 0xff);
 	}
 	p [i] = a;
 	i++;
@@ -803,24 +825,9 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
 
   t->next_generated_key=i;
 
-  t->no_groups=0;
+  t->no_total_groups=0;
   t->global_zone=new_zone("global",t);
 
-  for(i=0; i<GROUP_HASH_TABLE_SIZE;i++) {
-    t->groups_hash_table[i].head=NULL;
-    t->groups_hash_table[i].tail=&(t->groups_hash_table[i].head);
-  }
-
-  hash_key=hash_cstring("white");
-  t->white_space=new_group("white", t->global_zone);
-  t->white_space->name="white";
-  t->white_space->defn=NULL;
-  t->white_space->group_code=t->no_groups++;
-  *(t->groups_hash_table[hash_key].tail)=t->white_space;
-  t->groups_hash_table[hash_key].tail=&(t->white_space->next);  
-  trans= add_group_letter_translation(t->white_space);
-  t->white_space->letter_code=trans->letter_code;
-  letters_table_add_translation(trans, t->letters_table);
 }
 
 /*

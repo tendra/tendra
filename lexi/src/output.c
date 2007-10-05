@@ -516,11 +516,11 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 
 	lex_output = output;
 
-	if (top_level->no_groups >= 16) {
+	if (top_level->no_total_groups >= 16) {
 		grouptype = "uint32_t";
 		grouphex = "0x%08lxUL";
 		groupwidth = 2;
-	} else if (top_level->no_groups >= 8) {
+	} else if (top_level->no_total_groups >= 8) {
 		grouptype = "uint16_t";
 		grouphex = "0x%04lx";
 		groupwidth = 4;
@@ -549,7 +549,7 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 		m = 0;
 	        for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
 	    		char_group* grp;
-			for( grp=top_level->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
+			for( grp=top_level->global_zone->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
 				if (in_group(grp, a)) {
 					m |= (unsigned long)(1 << grp->group_code);
 				}
@@ -623,7 +623,7 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
 	for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
 	    char_group* grp;
-	    for( grp=top_level->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
+	    for( grp=top_level->global_zone->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
 		const char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		gnm = grp->name;

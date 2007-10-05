@@ -293,10 +293,10 @@ arg-char-nb : () ->(a:ARG) = @{
 */
 
 <make-white> : ( z : ZONE, s : CHARACTERS ) -> () = @{
-    if ( @z->top_level->white_space->defn ) {
+    if ( @z->white_space) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
-    @z->top_level->white_space->defn = @s ;
+    @z->white_space= make_group(@z,"white",@s) ;
 @} ;
 
 

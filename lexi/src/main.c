@@ -158,8 +158,9 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
-	if (top_level.white_space->defn == NULL)
-	  top_level.white_space->defn = make_string(" \t\n",top_level.global_zone);
+ 	if (top_level.global_zone->white_space == NULL)
+	  top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
+							  make_string(" \t\n",top_level.global_zone));
 
 	/* TODO pass output fd here; remove globals */
 	if (key)
