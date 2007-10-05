@@ -242,17 +242,15 @@ typedef struct lexer_parse_tree_tag {
     DECLARATIONS FOR CHARACTER ROUTINES
 */
 
-extern lexer_parse_tree lxi_parse_tree;
-
 extern void init_lexer_parse_tree(lexer_parse_tree*);
-extern void add_char(character*, letter*, char *, instructions_list*, char* );
+extern void add_char(zone*, character*, letter*, char *, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*);
 extern void make_group(zone*, char *, letter *);
-extern int in_group(letter *, letter);
-extern letter *make_string(char *);
-extern letter find_escape(int);
+extern int in_group(char_group *, letter);
+extern letter *make_string(char *, zone*);
+extern letter find_escape(int,letter);
 extern void add_keyword(zone*, char *, char*, instruction*);
-extern size_t char_maxlength(character *);
+extern size_t char_maxlength(zone*, character *);
 extern zone * find_zone (zone*, char*); 
 
 extern user_function* add_user_function (char *name) ;

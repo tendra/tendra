@@ -44,13 +44,15 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
+#include "char.h"
 extern char *sid_prefix ;
+typedef zone* zoneP;
 
-#line 50 "tmp.syntax.h"
+#line 52 "tmp.syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_lex(void);
+extern void read_lex(zoneP);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
@@ -90,9 +92,9 @@ extern void read_lex(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 594 "syntax.act"
+#line 596 "syntax.act"
 
 #endif
-#line 97 "tmp.syntax.h"
+#line 99 "tmp.syntax.h"
 
 /* END OF FILE */

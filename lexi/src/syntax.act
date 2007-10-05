@@ -25,7 +25,7 @@ unit -> read_lex ;
 BOOL -> int ;
 CHARACTERS -> SID_CHARS ;
 IDENTIFIER -> SID_STRING ;
-ZONE -> zonep ;
+ZONE -> zoneP ;
 STRING -> SID_STRING ;
 INSTRUCTION -> instructionP ;
 INSTRUCTIONS_LIST -> instructions_listP ;
@@ -82,7 +82,7 @@ ARGS_LIST -> args_listP;
 
 typedef letter *SID_CHARS ;
 typedef char *SID_STRING ;
-typedef zone* zonep;
+/*typedef zone* zoneP; Done in syntax.h */
 typedef instruction* instructionP ;
 typedef instructions_list* instructions_listP ;
 typedef arg* argP;
@@ -154,7 +154,9 @@ static char *crt_cond = NULL ;
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
+#include "char.h"
 extern char *sid_prefix ;
+typedef zone* zoneP;
 
 @};
 
@@ -277,8 +279,8 @@ arg-char-nb : () ->(a:ARG) = @{
     as an array of character codes.
 */
 
-<make-chars> : ( s : STRING ) -> ( c : CHARACTERS ) = @{
-    @c = make_string ( @s ) ;
+<make-chars> : ( z : ZONE, s : STRING ) -> ( c : CHARACTERS ) = @{
+    @c = make_string ( @s, @z ) ;
 @} ;
 
 
@@ -290,11 +292,11 @@ arg-char-nb : () ->(a:ARG) = @{
     been set.
 */
 
-<make-white> : ( s : CHARACTERS ) -> () = @{
-    if ( lxi_parse_tree.white_space->defn ) {
+<make-white> : ( z : ZONE, s : CHARACTERS ) -> () = @{
+    if ( @z->top_level->white_space->defn ) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
-    lxi_parse_tree.white_space->defn = @s ;
+    @z->top_level->white_space->defn = @s ;
 @} ;
 
 
@@ -316,7 +318,7 @@ arg-char-nb : () ->(a:ARG) = @{
 */
 
 <make-trigraph> : ( z : ZONE, s : CHARACTERS, t : STRING ) -> () = @{
-    add_char ( @z->zone_pre_pass, @s, crt_cond, NULL, @t) ;
+    add_char ( @z, @z->zone_pre_pass, @s, crt_cond, NULL, @t) ;
 @} ;
 
 
@@ -390,11 +392,11 @@ arg-char-nb : () ->(a:ARG) = @{
 */
 
 <make-token> : ( z : ZONE, s : CHARACTERS, il : INSTRUCTIONS_LIST) -> () = @{
-        add_char ( @z->zone_main_pass, @s, crt_cond, @il, NULL) ;
+        add_char ( @z, @z->zone_main_pass, @s, crt_cond, @il, NULL) ;
 @} ;
 
-<is-non-empty> : ( c : CHARACTERS ) -> ( b : BOOL ) = @{
-    @b=(@c[0]!=lxi_parse_tree.last_letter_code);
+<is-non-empty> : ( c : CHARACTERS, z :ZONE ) -> ( b : BOOL ) = @{
+    @b=(@c[0]!=@z->top_level->last_letter_code);
 @};
 
 <E_empty_character_string> : () -> () = @{
@@ -511,10 +513,10 @@ arg-char-nb : () ->(a:ARG) = @{
    GLOBAL ZONE
 
    This action gives the global zone 
-*/  
 <global-zone> : () -> ( z:ZONE ) = @{
    @z=lxi_parse_tree.global_zone;
 @};
+*/  
 
 /* 
    ADDING A NEW ZONE
@@ -534,7 +536,7 @@ arg-char-nb : () ->(a:ARG) = @{
     inst_list=add_instructions_list();
     *(inst_list->tail)=inst;
     inst_list->tail=&(inst->next);
-    add_char ( @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
+    add_char ( @z, @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
 @};
 
 /* 
@@ -543,7 +545,7 @@ arg-char-nb : () ->(a:ARG) = @{
    This action report if the zone z is the global zone 
 */
 <is-global-zone> : ( z : ZONE ) -> ( b : BOOL ) = @{
-   @b=(@z==lxi_parse_tree.global_zone);
+   @b=(@z==@z->top_level->global_zone);
 @};
 
 /* 
@@ -576,7 +578,7 @@ arg-char-nb : () ->(a:ARG) = @{
 @};
 
 <E_expected_chars> : () -> (c:CHARACTERS) = @{
-        @c = make_string ( "" ) ;
+        @c = NULL ;
 	error(ERROR_SERIOUS, "Syntax error: expected characters");
 @};
 

@@ -91,6 +91,7 @@ main(int argc, char **argv)
 	bool key = false;
 	bool generate_asserts = true;
 	int optc;
+	lexer_parse_tree top_level;
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
@@ -148,9 +149,8 @@ main(int argc, char **argv)
 	}
 
 	/* Process input file */
-
-	init_lexer_parse_tree(&lxi_parse_tree);
-	process_file(argv[0]);
+	init_lexer_parse_tree(&top_level);
+	process_file(argv[0],&top_level);
 
 	if (exit_status != EXIT_SUCCESS) {
 		error(ERROR_FATAL, "Terminating due to previous errors");
@@ -158,14 +158,14 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
-	if (lxi_parse_tree.white_space->defn == NULL)
-		lxi_parse_tree.white_space->defn = make_string(" \t\n");
+	if (top_level.white_space->defn == NULL)
+	  top_level.white_space->defn = make_string(" \t\n",top_level.global_zone);
 
 	/* TODO pass output fd here; remove globals */
 	if (key)
-		output_keyword(lex_output);
+	        output_keyword(lex_output, top_level.global_zone);
 	else
-		output_all(lex_output, generate_asserts);
+		output_all(lex_output, &top_level,generate_asserts);
 
 	if (lex_output)
 		fclose(lex_output);

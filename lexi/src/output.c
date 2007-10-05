@@ -233,6 +233,7 @@ static int
 output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 {
 	character *q;
+	lexer_parse_tree* top_level=z->top_level;
 	int cases = 0;
 	int classes = 0;
 	instructions_list *ret = NULL;
@@ -243,7 +244,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	/* First pass */
 	for (q = p->next; q != NULL; q = q->opt) {
 	    letter c = q->ch;
-	    ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+	    ctrans=letters_table_get_translation(c,top_level->letters_table);
 		if (ctrans->type==last_letter) {
 			if(in_pre_pass)
 				retmap = q->map;
@@ -288,7 +289,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			fprintf(lex_output, "switch (c%d) {\n", n);
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type == char_letter||ctrans->type==eof_letter) {
 					output_indent(d + 1);
 					fprintf(lex_output, "case %s: {\n", char_lit(ctrans));
@@ -307,7 +308,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			int started = 0;
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==char_letter||ctrans->type==eof_letter) {
 					output_indent(d);
 					if (started)
@@ -333,7 +334,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			}
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==group_letter) {
 					char *gnm=ctrans->grp->name;
 					output_indent(d);
@@ -366,12 +367,12 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			if (m) {
 				char *str;
 				if (m == '\\') {
-				        letter ca=find_escape((map)[1]);
-					ctrans=letters_table_get_translation(ca,lxi_parse_tree.letters_table);
+				  letter ca=find_escape((map)[1],top_level->eof_letter_code);
+				  ctrans=letters_table_get_translation(ca,top_level->letters_table);
 				        str = char_lit(ctrans);
 					m = (map) [2];
 				} else {
-				  ctrans=letters_table_get_translation((letter)m,lxi_parse_tree.letters_table);
+				  ctrans=letters_table_get_translation((letter)m,top_level->letters_table);
 					str = char_lit(ctrans);
 					m = (map) [1];
 				}
@@ -505,7 +506,7 @@ output_comment(void)
 */
 
 void
-output_all(FILE *output, bool generate_asserts)
+output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 {
 	int c, n;
 	size_t groupwidth;
@@ -515,11 +516,11 @@ output_all(FILE *output, bool generate_asserts)
 
 	lex_output = output;
 
-	if (lxi_parse_tree.no_groups >= 16) {
+	if (top_level->no_groups >= 16) {
 		grouptype = "uint32_t";
 		grouphex = "0x%08lxUL";
 		groupwidth = 2;
-	} else if (lxi_parse_tree.no_groups >= 8) {
+	} else if (top_level->no_groups >= 8) {
 		grouptype = "uint16_t";
 		grouphex = "0x%04lx";
 		groupwidth = 4;
@@ -544,12 +545,12 @@ output_all(FILE *output, bool generate_asserts)
 	fputs("static lexi_lookup_type lookup_tab[257] = {\n", lex_output);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
-		letter a = (c == 256 ? lxi_parse_tree.eof_letter_code : (letter)c);
+		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
 		m = 0;
 	        for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
 	    		char_group* grp;
-			for( grp=lxi_parse_tree.groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
-				if (in_group(grp->defn, a)) {
+			for( grp=top_level->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
+				if (in_group(grp, a)) {
 					m |= (unsigned long)(1 << grp->group_code);
 				}
 			}
@@ -577,12 +578,12 @@ output_all(FILE *output, bool generate_asserts)
 	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
 	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
 	fputs(" */\n", lex_output);
-	if(lxi_parse_tree.global_zone->zone_pre_pass->next) {
+	if(top_level->global_zone->zone_pre_pass->next) {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(lxi_parse_tree.global_zone->zone_pre_pass), char_maxlength(lxi_parse_tree.global_zone->zone_main_pass));
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
 	} else {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
-			char_maxlength(lxi_parse_tree.global_zone->zone_main_pass));
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
 	}
 	fputs("static int lexi_buffer_index;\n\n", lex_output);
 
@@ -622,7 +623,7 @@ output_all(FILE *output, bool generate_asserts)
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
 	for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
 	    char_group* grp;
-	    for( grp=lxi_parse_tree.groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
+	    for( grp=top_level->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
 		const char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		gnm = grp->name;
@@ -636,12 +637,12 @@ output_all(FILE *output, bool generate_asserts)
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);
-	output_zone_prepass(lxi_parse_tree.global_zone);
+	output_zone_prepass(top_level->global_zone);
 
 	/* Main pass */
 
 	in_pre_pass = 0;
-	if(lxi_parse_tree.global_zone->next) {
+	if(top_level->global_zone->next) {
 	  fputs("\n", lex_output);
 	  
 	  fputs("/* lexer_state_definition */\n\n", lex_output);
@@ -654,9 +655,9 @@ output_all(FILE *output, bool generate_asserts)
 	  fputs("\n\nint read_token(lexer_state*);\n\n", lex_output);
 
 	  fputs("\n/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-	  output_zone_pass_prototypes(lxi_parse_tree.global_zone);
+	  output_zone_pass_prototypes(top_level->global_zone);
 	  fputs("\n\n/* ZONES PASS ANALYSER */\n\n", lex_output);
-	  output_zone_pass(lxi_parse_tree.global_zone);
+	  output_zone_pass(top_level->global_zone);
 	  fputs("lexer_state current_lexer_state_v="
 		"{&read_token_zone_global};\n",
 		lex_output);
@@ -672,16 +673,16 @@ output_all(FILE *output, bool generate_asserts)
 	  fputs("int\nread_token(void)\n",lex_output);
 	  fputs("{\n", lex_output);
 	  fputs("\tstart: {\n", lex_output);
-	  output_pass(lxi_parse_tree.global_zone,lxi_parse_tree.global_zone->zone_main_pass, in_pre_pass, 0, 2);
-	  if(lxi_parse_tree.global_zone->default_actions) {
+	  output_pass(top_level->global_zone,top_level->global_zone->zone_main_pass, in_pre_pass, 0, 2);
+	  if(top_level->global_zone->default_actions) {
 	    int dd=2;
-	    if(lxi_parse_tree.global_zone->default_cond) {
-	      fprintf(lex_output,"\tif(%s) {\n\t",lxi_parse_tree.global_zone->default_cond);
+	    if(top_level->global_zone->default_cond) {
+	      fprintf(lex_output,"\tif(%s) {\n\t",top_level->global_zone->default_cond);
 	      dd=4;
 	    }
-	    output_actions(lxi_parse_tree.global_zone,lxi_parse_tree.global_zone->default_actions,1,dd);
-	    if(lxi_parse_tree.global_zone->default_cond) 
-	      fprintf(lex_output,"}\n\t",lxi_parse_tree.global_zone->default_cond);	    
+	    output_actions(top_level->global_zone,top_level->global_zone->default_actions,1,dd);
+	    if(top_level->global_zone->default_cond) 
+	      fprintf(lex_output,"}\n\t",top_level->global_zone->default_cond);	    
 	  }
 	  else 
 	    fputs("\treturn(unknown_token(c0));\n", lex_output);
@@ -722,7 +723,7 @@ output_word(keyword *p)
 */
 
 void
-output_keyword(FILE *output)
+output_keyword(FILE *output, zone* z)
 {
 	keyword *p, *q;
 
@@ -730,7 +731,7 @@ output_keyword(FILE *output)
 
 	output_comment();
 	fputs("/* KEYWORDS */\n\n", lex_output);
-	for (p = lxi_parse_tree.global_zone->keywords; p != NULL; p = p->next) {
+	for (p = z->keywords; p != NULL; p = p->next) {
 		if (p->done == 0) {
 			char *cond = p->cond;
 			if (cond) {

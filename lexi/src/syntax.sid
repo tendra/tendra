@@ -109,8 +109,8 @@ arg-char-void; //temporary
 */
 
 <string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
-<make-chars> : ( :STRING ) -> ( :CHARACTERS ) ;
-<make-white> : ( :CHARACTERS ) -> () ;
+<make-chars> : ( :ZONE, :STRING ) -> ( :CHARACTERS ) ;
+<make-white> : ( :ZONE, :CHARACTERS ) -> () ;
 <make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
 <make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
@@ -127,7 +127,7 @@ arg-char-void; //temporary
 
 //<null-identifier> : () -> ( :IDENTIFIER );
 
-<global-zone> : () -> ( :ZONE );
+//<global-zone> : () -> ( :ZONE );
 <is-global-zone> : ( :ZONE ) -> ( :BOOL );
 
 <null-args-list> : () -> ( :ARGS_LIST) ;
@@ -147,7 +147,7 @@ arg-char-void; //temporary
 <E_nonglobalzonekeyword> : () -> ();
 <E_nonglobalzonegroup>   : () -> ();
 <E_expected_colon>	 : () -> ();
-<is-non-empty> : ( : CHARACTERS ) -> ( : BOOL );
+<is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 
 <syntax-error> : () -> () ;
@@ -183,15 +183,15 @@ string-plus : () -> ( s : STRING ) = {
     of arrays of character codes.
 */
 
-chars : () -> ( c : CHARACTERS ) = {
+chars : (z:ZONE) -> ( c : CHARACTERS ) = {
 	s = string-plus ;
-	c = <make-chars> ( s ) ;
+	c = <make-chars> ( z, s ) ;
 } ;
 
-non-empty-chars : () -> (c: CHARACTERS) ={
-	c=chars;
+non-empty-chars : (z:ZONE) -> (c: CHARACTERS) ={
+	c=chars(z);
 	{
-		?=<is-non-empty>(c);
+		?=<is-non-empty>(c,z);
 	    ##
 		<E_empty_character_string>;
 	};
@@ -204,10 +204,10 @@ non-empty-chars : () -> (c: CHARACTERS) ={
 */
 
 white-defn : ( z:ZONE ) -> () = {
-	group ; white ; equal ; s = chars ;
+	group ; white ; equal ; s = chars(z) ;
 	{
 		?=<is-global-zone> (z); 
-		<make-white> ( s ) ;
+		<make-white> ( z, s ) ;
 	    ##
 		<E_nonglobalzonegroup>;
 	};
@@ -221,7 +221,7 @@ white-defn : ( z:ZONE ) -> () = {
 */
 
 group-defn : ( z:ZONE ) -> () = {
-        group ; i = identifier ; equal ; s = chars ;
+        group ; i = identifier ; equal ; s = chars(z) ;
 	{
 		?=<is-global-zone> (z); 
 		<make-group> ( z, i, s ) ;
@@ -276,7 +276,7 @@ args : () -> ( l : ARGS_LIST ) = {
 */
 
 trigraph-defn : ( z:ZONE) -> () = {
-	mapping ; s = chars ; arrow ; t = string-plus ; 
+	mapping ; s = chars(z) ; arrow ; t = string-plus ; 
     	<make-trigraph> ( z, s, t ) ;
 } ;
 
@@ -318,7 +318,7 @@ instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
 */
 
 token-defn : ( z:ZONE ) -> () = {
-	token ; s = non-empty-chars ; arrow ;
+	token ; s = non-empty-chars(z) ; arrow ;
 	inst-list=instructions-list;
 	<make-token> ( z, s, inst-list) ;
 } ;
@@ -388,7 +388,7 @@ zone-defn : (z:ZONE) -> ()  = {
 		<E_expected_colon>;
 	};
 	{
-		b=non-empty-chars; 
+		b=non-empty-chars(z); 
 	    ##  
 	    	b=<E_expected_chars>;
 	};
@@ -404,7 +404,7 @@ zone-defn : (z:ZONE) -> ()  = {
 		<E_expected_range>;
 	};
 	{
-		e=non-empty-chars; 
+		e=non-empty-chars(z); 
 	    ##  
 	    	e=<E_expected_chars>;
 	};
@@ -440,8 +440,7 @@ command : (z:ZONE) -> () = {
     unit just consists of a list of commands.
 */
 
-unit : () -> () = {
-	z=<global-zone>;
+unit : (z:ZONE) -> () = {
 	command-list ( z ) ;
 	{
 		eof ;

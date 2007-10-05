@@ -61,12 +61,12 @@
 #ifndef LEX_INCLUDED
 #define LEX_INCLUDED
 
-
+#include "char.h"
 /*
     DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
 */
 
-extern void process_file(char *);
+extern void process_file(char *, lexer_parse_tree*);
 extern int read_token(void);
 extern char token_buff [];
 extern int crt_lex_token;

@@ -318,7 +318,7 @@ int saved_lex_token;
 */
 
 void
-process_file(char *nm)
+process_file(char *nm,lexer_parse_tree* top_level)
 {
     crt_line_no = 1;
     if (nm == NULL || !strcmp(nm, "-")) {
@@ -334,7 +334,7 @@ process_file(char *nm)
 	}
     }
     ADVANCE_LEXER;
-    read_lex();
+    read_lex(top_level->global_zone);
     if (nm)fclose(lex_input);
     return;
 }

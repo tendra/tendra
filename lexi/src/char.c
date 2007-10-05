@@ -67,8 +67,6 @@
 #include "char.h"
 
 
-lexer_parse_tree lxi_parse_tree;
-
 /*
     ALLOCATE A NEW CHARACTER
 
@@ -103,7 +101,7 @@ new_char(letter c)
 */
 
 void
-add_char(character *p, letter *s, char *cond, instructions_list* instlist, char* map)
+add_char(zone* z, character *p, letter *s, char *cond, instructions_list* instlist, char* map)
 {
     character *q;
     letter c = *s;
@@ -126,7 +124,7 @@ add_char(character *p, letter *s, char *cond, instructions_list* instlist, char*
 	    }
 	}
     }
-    if (c == lxi_parse_tree.last_letter_code) {
+    if (c == z->top_level->last_letter_code) {
         if ((instlist && q->definition) || (map && q->map))
 	    error(ERROR_SERIOUS, "TOKEN already defined");
         q->cond=cond;
@@ -136,7 +134,7 @@ add_char(character *p, letter *s, char *cond, instructions_list* instlist, char*
 	    q->map=map;
     }
     else 
-      add_char(q, s + 1, cond, instlist, map);
+      add_char(z, q, s + 1, cond, instlist, map);
     
     return;
 }
@@ -380,7 +378,7 @@ add_instructions_list (void)
 */
 
 static zone * 
-new_zone (char* zid) 
+new_zone (char* zid, lexer_parse_tree* top_level) 
 {
     zone *p;
     static int zones_left = 0;
@@ -391,8 +389,8 @@ new_zone (char* zid)
     }
     p = zones_free + (--zones_left);
     p->zone_name=zid;
-    p->zone_main_pass=new_char(lxi_parse_tree.last_letter_code);
-    p->zone_pre_pass=new_char(lxi_parse_tree.last_letter_code);
+    p->zone_main_pass=new_char(top_level->last_letter_code);
+    p->zone_pre_pass=new_char(top_level->last_letter_code);
 
     p->keywords=NULL;
     
@@ -404,7 +402,7 @@ new_zone (char* zid)
 
     p->opt=NULL;
     p->next=NULL;
-    p->top_level=NULL;
+    p->top_level=top_level;
     return p;
 }
 
@@ -444,16 +442,16 @@ add_zone(zone* current_zone, char* zid,letter* e)
     }
   }
 
-  q=new_zone(zid);
+  q=new_zone(zid,current_zone->top_level);
   q->opt=current_zone->next;
   current_zone->next=q;
   q->up=current_zone;
-  q->top_level=q->up->top_level;
+
   inst = add_instruction_popzone(current_zone);
   inst_list=add_instructions_list();
   *(inst_list->tail)=inst;
   inst_list->tail=&(inst->next);
-  add_char(q->zone_main_pass,e,NULL,inst_list,NULL);
+  add_char(q,q->zone_main_pass,e,NULL,inst_list,NULL);
   return q;
 }
 
@@ -496,11 +494,12 @@ void
 make_group(zone* z,char *nm, letter *s)
 {
    char_group* grp;
-   int i, n = lxi_parse_tree.no_groups;
+   lexer_parse_tree* top_level=z->top_level;
+   int i, n = top_level->no_groups;
    letter_translation* trans; 
    unsigned int hash_key=hash_cstring(nm);
 
-   for (grp = lxi_parse_tree.groups_hash_table[hash_key].head; 
+   for (grp = top_level->groups_hash_table[hash_key].head; 
 	grp !=NULL; grp=grp->next) {
 	if (!strcmp(nm, grp->name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
@@ -515,12 +514,12 @@ make_group(zone* z,char *nm, letter *s)
     grp->name = nm;
     grp->defn = s;
     grp->z = z;
-    grp->group_code=lxi_parse_tree.no_groups++;
+    grp->group_code=top_level->no_groups++;
     trans=add_group_letter_translation(grp);
-    letters_table_add_translation(trans, lxi_parse_tree.letters_table);
+    letters_table_add_translation(trans, top_level->letters_table);
     grp->letter_code = trans->letter_code;
-    *(lxi_parse_tree.groups_hash_table[hash_key].tail)=grp;
-    lxi_parse_tree.groups_hash_table[hash_key].tail=&(grp->next);
+    *(top_level->groups_hash_table[hash_key].tail)=grp;
+    top_level->groups_hash_table[hash_key].tail=&(grp->next);
     return;
 }
 
@@ -532,19 +531,20 @@ make_group(zone* z,char *nm, letter *s)
 */
 
 int
-in_group(letter *p, letter c)
+in_group(char_group *grp, letter c)
 {
     letter a;
     letter_translation* atrans;
+    letter* p= grp->defn;
     letter_translation* ctrans;
-    ctrans=letters_table_get_translation(c,lxi_parse_tree.letters_table);
+    ctrans=letters_table_get_translation(c,grp->z->top_level->letters_table);
     if (p == NULL) return(0);
-    while (a = *(p++), a != lxi_parse_tree.last_letter_code) {
-        atrans=letters_table_get_translation(a,lxi_parse_tree.letters_table);
+    while (a = *(p++), a != grp->z->top_level->last_letter_code) {
+        atrans=letters_table_get_translation(a,grp->z->top_level->letters_table);
 	if (atrans->type==char_letter && atrans->ch == ctrans->ch) {
 	    return(1);
 	} else if (atrans->type==group_letter) {
-	    if (in_group(atrans->grp->defn, c)) return(1);
+	    if (in_group(atrans->grp, c)) return(1);
 	}
     }
     return(0);
@@ -558,7 +558,7 @@ in_group(letter *p, letter c)
 */
 
 letter
-find_escape(int c)
+find_escape(int c, letter eof_letter_code)
 {
     letter a;
     switch (c) {
@@ -572,7 +572,7 @@ find_escape(int c)
 	case '[': a = '['; break;
 	case '\\': a = '\\'; break;
 	case '\'': a = '\''; break;
-	case 'e': a = lxi_parse_tree.eof_letter_code; break;
+    case 'e': a = eof_letter_code; break;
 	default : {
 	    error(ERROR_SERIOUS, "Unknown escape sequence, '\\%c'",
 		   (unsigned char)c);
@@ -591,7 +591,7 @@ find_escape(int c)
 */
 
 letter *
-make_string(char *s)
+make_string(char *s, zone* scope)
 {
     int i = 0, n = (int)strlen(s);
     letter *p = xmalloc_nof(letter, n + 1);
@@ -602,7 +602,7 @@ make_string(char *s)
 	char c = *(s++);
 	if (c == '\\') {
 	    c = *(s++);
-	    a = find_escape(c);
+	    a = find_escape(c,scope->top_level->eof_letter_code);
 	} else if (c == '[') {
 	    int j;
 	    size_t glen;
@@ -617,13 +617,13 @@ make_string(char *s)
 	    }
 	    
 	    hash_key=hash_cstring_n(gnm,glen);
-	    for (grp = lxi_parse_tree.groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
+	    for (grp = scope->top_level->groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
 	        if (strncmp(gnm, grp->name, glen) == 0) {
   		    a = grp->letter_code;
 		    break;
 		}
 	    }
-	    if(j==lxi_parse_tree.no_groups) {
+	    if(j==scope->top_level->no_groups) {
 	        error(ERROR_SERIOUS, "Unknown character group, '%.*s'",
 		      (int)glen, gnm);
 		a = '?';
@@ -635,7 +635,7 @@ make_string(char *s)
 	p [i] = a;
 	i++;
     }
-    p [i] = lxi_parse_tree.last_letter_code;
+    p [i] = scope->top_level->last_letter_code;
     return(p);
 }
 
@@ -688,7 +688,7 @@ add_keyword(zone* z, char *nm, char* cond ,instruction* instr)
 	Find the maximum token length within the given lexical pass.
 */
 size_t
-char_maxlength(character *c)
+char_maxlength(zone* z, character *c)
 {
 	character *p;
 	size_t maxopt;
@@ -698,11 +698,14 @@ char_maxlength(character *c)
 	for(p = c->next; p; p = p->opt) {
 		size_t l;
 
-		if(p->ch == lxi_parse_tree.last_letter_code) {
+		if(p->ch == z->top_level->last_letter_code) {
+		  /* TODO compute the maxlength by descending into zone
+		     if first instruction is PUSH ZONE
+		   */
 			continue;
 		}
 
-		l = char_maxlength(p) + 1;
+		l = char_maxlength(z,p) + 1;
 
 		if(l > maxopt) {
 			maxopt = l;
@@ -736,7 +739,7 @@ static letter_translation* new_letter_translation(letter_translation_type ltt)
 letter_translation* add_group_letter_translation(char_group* grp)
 {
   letter_translation*p= new_letter_translation(group_letter);
-  p->letter_code=lxi_parse_tree.next_generated_key++;
+  p->letter_code=grp->z->top_level->next_generated_key++;
   p->grp=grp;
   return p;
 }
@@ -776,8 +779,6 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
   int i = 0;
   letter_translation* trans;
   unsigned int hash_key;
-  t->global_zone=new_zone("global");
-  t->global_zone->top_level=&t;
   for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
     t->letters_table[i].head=NULL;
     t->letters_table[i].tail=&(t->letters_table[i].head);
@@ -803,19 +804,20 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
   t->next_generated_key=i;
 
   t->no_groups=0;
+  t->global_zone=new_zone("global",t);
+
   for(i=0; i<GROUP_HASH_TABLE_SIZE;i++) {
     t->groups_hash_table[i].head=NULL;
     t->groups_hash_table[i].tail=&(t->groups_hash_table[i].head);
   }
+
   hash_key=hash_cstring("white");
-  t->white_space=new_group("white", lxi_parse_tree.global_zone);
+  t->white_space=new_group("white", t->global_zone);
   t->white_space->name="white";
   t->white_space->defn=NULL;
-  t->white_space->z=lxi_parse_tree.global_zone;
   t->white_space->group_code=t->no_groups++;
-  *(lxi_parse_tree.groups_hash_table[hash_key].tail)=t->white_space;
-  lxi_parse_tree.groups_hash_table[hash_key].tail=&(t->white_space->next);
-  
+  *(t->groups_hash_table[hash_key].tail)=t->white_space;
+  t->groups_hash_table[hash_key].tail=&(t->white_space->next);  
   trans= add_group_letter_translation(t->white_space);
   t->white_space->letter_code=trans->letter_code;
   letters_table_add_translation(trans, t->letters_table);
