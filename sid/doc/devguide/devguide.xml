@@ -114,7 +114,7 @@
 				<code>WITH</code>: these are macros that emulate an exception
 				mechanism in C. 
 				The function <code>main</code> itself doesn't do much:
-				it initialise some structures, call <code>main_init</code>
+				it initializes some structures, calls <code>main_init</code>
 				to process the command line options then calls <code>main_1</code>
 				to do all the interesting work.
 				Now look at the function
@@ -127,7 +127,7 @@
 
 					<listitem>
 						<para>parses the <filename class="extension">sid</filename>
-							file and convert it in
+							file and converts it into
 							an internal representation.</para>
 					</listitem>
 				</varlistentry>
@@ -136,7 +136,7 @@
 					<term><code>grammar_check_complete(&amp;grammar)</code></term>
 
 					<listitem>
-						<para>verify that all rules are accessible.</para>
+						<para>verifies that all rules are accessible.</para>
 					</listitem>
 				</varlistentry>
 
