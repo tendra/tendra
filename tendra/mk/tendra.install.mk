@@ -163,6 +163,10 @@ _REALINSTALL: .USE
 			${INSTALL} -m 644 $${file} ${MACH_BASE}/$${file} || ${EXIT} $$?; \
 		fi; \
 	done
+.elif "${TDFLIB}" != ""
+_REALINSTALL: .USE
+	${INSTALL} -m 644 ${.OBJDIR}/${TDFLIB} ${INSTALL_DIR}/lib
+
 .else
 #
 # Nothing to install.
