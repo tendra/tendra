@@ -240,6 +240,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	char* retmap= NULL ;
 	char *cond = NULL;
 	letter_translation* ctrans;
+	zone* scope;
 
 	/* First pass */
 	for (q = p->next; q != NULL; q = q->opt) {
@@ -275,7 +276,15 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			output_indent(d);
 			fputs("t0 = lookup_char(c0);\n", lex_output);
 			output_indent(d);
-			fputs("if (is_white(t0)) goto start;\n", lex_output);
+			for(scope=z; scope != NULL; scope=scope->up) {
+				if(scope->white_space) {
+					if(scope==scope->top_level->global_zone)
+						fputs("if (is_white(t0)) goto start;\n", lex_output);
+					else 
+						fprintf(lex_output,"if (is_zone_%s_white(t0)) goto start;\n", scope->white_space->name);
+					break;
+				}
+			}
 		}
 		if (w2) {
 			output_indent(d);
@@ -336,11 +345,14 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==group_letter) {
-					char *gnm=ctrans->grp->name;
+					char_group *grp=ctrans->grp;
 					output_indent(d);
 					if (started)
 						fputs("} else ", lex_output);
-					fprintf(lex_output, "if (is_%s(t%d)) {\n", gnm, n);
+					if(grp->z==grp->z->top_level->global_zone)
+						fprintf(lex_output, "if (is_%s(t%d)) {\n", grp->name, n);
+					else
+					  fprintf(lex_output, "if (is_zone_%s_%s(t%d)) {\n", grp->z->zone_name,grp->name, n);
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
