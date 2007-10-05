@@ -546,9 +546,12 @@ output_all(FILE *output, bool generate_asserts)
 		unsigned long m = 0;
 		letter a = (c == 256 ? lxi_parse_tree.eof_letter_code : (letter)c);
 		m = 0;
-		for (n = 0; n < lxi_parse_tree.no_groups; n++) {
-			if (in_group(lxi_parse_tree.groups [n].defn, a)) {
-				m |= (unsigned long)(1 << n);
+	        for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
+	    		char_group* grp;
+			for( grp=lxi_parse_tree.groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
+				if (in_group(grp->defn, a)) {
+					m |= (unsigned long)(1 << grp->group_code);
+				}
 			}
 		}
 		if ((c % groupwidth) == 0)
@@ -617,13 +620,16 @@ output_all(FILE *output, bool generate_asserts)
 	/* Macros for accessing table */
 	fputs("#define lookup_char(C)\t", lex_output);
 	fputs("((int)lookup_tab[(C)])\n", lex_output);
-	for (n = 0; n < lxi_parse_tree.no_groups; n++) {
+	for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
+	    char_group* grp;
+	    for( grp=lxi_parse_tree.groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
 		const char *gnm;
-		unsigned long m = (unsigned long)(1 << n);
-		gnm = lxi_parse_tree.groups[n].name;
+		unsigned long m = (unsigned long)(1 << grp->group_code);
+		gnm = grp->name;
 		fprintf(lex_output, "#define is_%s(T)\t((T) & ", gnm);
 		fprintf(lex_output, grouphex, m);
 		fputs(")\n", lex_output);
+	    }	
 	}
 
 	fputs("\n\n", lex_output);

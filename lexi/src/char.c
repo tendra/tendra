@@ -323,7 +323,7 @@ add_instruction_pushzone (zone* z)
 }
 
 /*
-    ADD  A NEW PUSH ZONE INSTRUCTION
+    ADD  A NEW POP ZONE INSTRUCTION
 
     This routine adds a new pop zone instruction
 */
@@ -404,6 +404,7 @@ new_zone (char* zid)
 
     p->opt=NULL;
     p->next=NULL;
+    p->top_level=NULL;
     return p;
 }
 
@@ -447,6 +448,7 @@ add_zone(zone* current_zone, char* zid,letter* e)
   q->opt=current_zone->next;
   current_zone->next=q;
   q->up=current_zone;
+  q->top_level=q->up->top_level;
   inst = add_instruction_popzone(current_zone);
   inst_list=add_instructions_list();
   *(inst_list->tail)=inst;
@@ -454,6 +456,33 @@ add_zone(zone* current_zone, char* zid,letter* e)
   add_char(q->zone_main_pass,e,NULL,inst_list,NULL);
   return q;
 }
+
+
+/*
+    ALLOCATE A NEW GROUP
+
+    This routine allocates a new group
+*/
+
+static char_group * 
+new_group (char* grid, zone* z) 
+{
+    char_group *p;
+    static int groups_left = 0;
+    static char_group *groups_free = NULL;
+    if (groups_left == 0) {
+	groups_left = 100;
+	groups_free = xmalloc_nof(char_group, groups_left);
+    }
+    p = groups_free + (--groups_left);
+    p->name=grid;
+    p->defn=NULL;
+    p->next=NULL;
+    p->z=z;
+
+    return p;
+}
+
 
 
 /*
@@ -466,10 +495,14 @@ add_zone(zone* current_zone, char* zid,letter* e)
 void
 make_group(zone* z,char *nm, letter *s)
 {
+   char_group* grp;
    int i, n = lxi_parse_tree.no_groups;
    letter_translation* trans; 
-   for (i = 0; i < n; i++) {
-	if (!strcmp(nm, lxi_parse_tree.groups [i].name)) {
+   unsigned int hash_key=hash_cstring(nm);
+
+   for (grp = lxi_parse_tree.groups_hash_table[hash_key].head; 
+	grp !=NULL; grp=grp->next) {
+	if (!strcmp(nm, grp->name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
 	    return;
 	}
@@ -478,13 +511,16 @@ make_group(zone* z,char *nm, letter *s)
 	error(ERROR_SERIOUS, "Too many groups defined (%d)", n);
 	return;
     }
-    lxi_parse_tree.groups [n].name = nm;
-    lxi_parse_tree.groups [n].defn = s;
-    lxi_parse_tree.groups [n].z = z;
-    lxi_parse_tree.no_groups++;
-    trans=add_group_letter_translation(&(lxi_parse_tree.groups[n]));
+    grp=new_group(nm,z);
+    grp->name = nm;
+    grp->defn = s;
+    grp->z = z;
+    grp->group_code=lxi_parse_tree.no_groups++;
+    trans=add_group_letter_translation(grp);
     letters_table_add_translation(trans, lxi_parse_tree.letters_table);
-    lxi_parse_tree.groups [n].letter_code = trans->letter_code;
+    grp->letter_code = trans->letter_code;
+    *(lxi_parse_tree.groups_hash_table[hash_key].tail)=grp;
+    lxi_parse_tree.groups_hash_table[hash_key].tail=&(grp->next);
     return;
 }
 
@@ -559,6 +595,8 @@ make_string(char *s)
 {
     int i = 0, n = (int)strlen(s);
     letter *p = xmalloc_nof(letter, n + 1);
+    unsigned int hash_key;
+    char_group* grp;
     while (*s) {
 	letter a;
 	char c = *(s++);
@@ -577,9 +615,11 @@ make_string(char *s)
 		error(ERROR_SERIOUS,
 			"Unterminated character group name, '%s'", gnm);
 	    }
-	    for (j = 0; j < lxi_parse_tree.no_groups; j++) {
-	        if (strncmp(gnm, lxi_parse_tree.groups [j].name, glen) == 0) {
-  		    a = lxi_parse_tree.groups [j].letter_code;
+	    
+	    hash_key=hash_cstring_n(gnm,glen);
+	    for (grp = lxi_parse_tree.groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
+	        if (strncmp(gnm, grp->name, glen) == 0) {
+  		    a = grp->letter_code;
 		    break;
 		}
 	    }
@@ -735,7 +775,9 @@ Initialize the main parse tree
 void init_lexer_parse_tree(lexer_parse_tree* t) {
   int i = 0;
   letter_translation* trans;
+  unsigned int hash_key;
   t->global_zone=new_zone("global");
+  t->global_zone->top_level=&t;
   for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
     t->letters_table[i].head=NULL;
     t->letters_table[i].tail=&(t->letters_table[i].head);
@@ -761,18 +803,44 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
   t->next_generated_key=i;
 
   t->no_groups=0;
-  for(i=0; i<MAX_GROUPS;i++) {
-    t->groups[i].name=NULL;
-    t->groups[i].defn=NULL;
-    t->groups[i].z=lxi_parse_tree.global_zone;
+  for(i=0; i<GROUP_HASH_TABLE_SIZE;i++) {
+    t->groups_hash_table[i].head=NULL;
+    t->groups_hash_table[i].tail=&(t->groups_hash_table[i].head);
   }
-  t->white_space=&(lxi_parse_tree.groups[0]);
+  hash_key=hash_cstring("white");
+  t->white_space=new_group("white", lxi_parse_tree.global_zone);
   t->white_space->name="white";
   t->white_space->defn=NULL;
   t->white_space->z=lxi_parse_tree.global_zone;
-  t->no_groups++;
+  t->white_space->group_code=t->no_groups++;
+  *(lxi_parse_tree.groups_hash_table[hash_key].tail)=t->white_space;
+  lxi_parse_tree.groups_hash_table[hash_key].tail=&(t->white_space->next);
+  
   trans= add_group_letter_translation(t->white_space);
   t->white_space->letter_code=trans->letter_code;
   letters_table_add_translation(trans, t->letters_table);
+}
+
+/*
+  A trivial hash function
+*/
+unsigned int hash_cstring (char* p) {
+  unsigned int value=0;
+  while(*p) {
+    value+=*p;
+    p++;
+  }
+  return(value%GROUP_HASH_TABLE_SIZE);
+}
+
+unsigned int hash_cstring_n(char* p,size_t len)
+{
+  unsigned int value=0;
+  unsigned int i=0;
+  while(*p && (i++ < len)) {
+    value+=*p;
+    p++;
+  }
+  return(value%GROUP_HASH_TABLE_SIZE);
 
 }

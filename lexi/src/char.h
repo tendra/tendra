@@ -75,6 +75,7 @@
 typedef unsigned int letter;
 
 struct zone_tag;
+struct lexer_parse_tree_tag;
 
 typedef enum arg_type_tag { 
   arg_charP, arg_char_nb, arg_chars_list
@@ -131,12 +132,20 @@ typedef struct character_tag {
     A character group is a named array of letters.
 */
 
-typedef struct {
+typedef struct char_group_tag {
     char *name;
     letter *defn;
     letter letter_code;
+    unsigned int group_code; /* for outputting the bitfield */
     struct zone_tag* z; /* Points back to the zone we are in */
+    struct char_group_tag* next; /* Next in hash table */  
 } char_group;
+
+
+typedef struct char_group_list_tag {
+    char_group*  head;
+    char_group** tail;
+} char_group_list;
 
 
 /*
@@ -161,6 +170,7 @@ typedef struct keyword_tag {
 */
 
 #define MAX_GROUPS		32
+#define GROUP_HASH_TABLE_SIZE     128
 #define LETTER_TRANSLATOR_SIZE  512
 
 /*
@@ -183,10 +193,11 @@ typedef struct zone_tag {
     struct zone_tag *opt; /*opt=brother*/
     struct zone_tag *next;/* next=first son*/ 
     struct zone_tag *up; 
+    struct lexer_parse_tree_tag *top_level;
 } zone;
 
 /*
-  THE LETTER TRANSLATOR GUIDE
+  THE LETTER TRANSLATOR TYPES
 */
 
 typedef enum letter_translation_type_tag {
@@ -222,9 +233,9 @@ typedef struct lexer_parse_tree_tag {
   letter eof_letter_code;
   letter next_generated_key;
 
-  char_group* white_space;  
+  char_group* white_space;
   int no_groups;
-  char_group groups [MAX_GROUPS];  
+  char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
 } lexer_parse_tree;
 
 /*
@@ -256,4 +267,6 @@ extern instructions_list* add_instructions_list (void) ;
 extern letter_translation* add_group_letter_translation(char_group*);
 extern void letters_table_add_translation(letter_translation*, letter_translation_list []);
 extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
+extern unsigned int hash_cstring (char*);
+extern unsigned int hash_cstring_n(char*,size_t);
 #endif
