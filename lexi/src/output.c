@@ -499,46 +499,34 @@ output_comment(void)
 }
 
 
-/*
-	MAIN OUTPUT ROUTINE
-
-	This routine is the entry point for the main output routine.
-*/
-
-void
-output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
+static void
+output_macros(FILE* output, lexer_parse_tree* top_level, const char *grouptype, 
+		    const char *grouphex,size_t groupwidth) 
 {
-	int c, n;
-	size_t groupwidth;
-	int in_pre_pass; /*boolean*/
-	const char *grouptype;
-	const char *grouphex;
-
-	lex_output = output;
-
-	if (top_level->no_total_groups >= 16) {
-		grouptype = "uint32_t";
-		grouphex = "0x%08lxUL";
-		groupwidth = 2;
-	} else if (top_level->no_total_groups >= 8) {
-		grouptype = "uint16_t";
-		grouphex = "0x%04lx";
-		groupwidth = 4;
-	} else {
-		grouptype = "uint8_t";
-		grouphex = "0x%02lx";
-		groupwidth = 8;
+	int n;
+	char_group* grp;
+	/* Macros for accessing table */
+	fputs("#define lookup_char(C)\t", lex_output);
+	fputs("((int)lookup_tab[(C)])\n", lex_output);
+	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
+		char *gnm;
+		unsigned long m = (unsigned long)(1 << grp->group_code);
+		if(grp->z==grp->z->top_level->global_zone) {
+			fprintf(lex_output, "#define is_%s(T)\t((T) & ", grp->name);
+		} else {
+			fprintf(lex_output, "#define is_zone_%s_%s(T)\t((T) & ", grp->z->zone_name,grp->name);
+		}
+		fprintf(lex_output, grouphex, m);
+		fputs(")\n", lex_output);
 	}
+}
 
-
-	/* Initial comment */
-	output_comment();
-
-	if(generate_asserts) {
-		fputs("#include <assert.h>\n", lex_output);
-	}
-	fputs("#include <stdint.h>\n\n", lex_output);
-
+static void
+output_lookup_table(FILE* output, lexer_parse_tree* top_level, const char *grouptype, 
+		    const char *grouphex, size_t groupwidth) 
+{
+	int c;
+	char_group* grp;
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
 	fprintf(lex_output, "typedef %s lexi_lookup_type;\n", grouptype);
@@ -547,12 +535,9 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 		unsigned long m = 0;
 		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
 		m = 0;
-	        for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
-	    		char_group* grp;
-			for( grp=top_level->global_zone->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
-				if (in_group(grp, a)) {
-					m |= (unsigned long)(1 << grp->group_code);
-				}
+		for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
+			if (in_group(grp, a)) {
+				m |= (unsigned long)(1 << grp->group_code);
 			}
 		}
 		if ((c % groupwidth) == 0)
@@ -566,13 +551,12 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 			}
 		}
 	}
-	fputs("\n};\n\n", lex_output);
+	fputs("\n};",lex_output);
+}
 
-	fputs("#ifndef LEX_EOF\n", lex_output);
-	fputs("#define LEX_EOF\t\t256\n", lex_output);
-	fputs("#endif\n\n", lex_output);
-
-
+static void
+output_buffer(FILE* output, lexer_parse_tree* top_level, bool generate_asserts) 
+{
 	/* Buffer operations */
 	fputs("/*\n", lex_output);
 	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
@@ -615,25 +599,63 @@ output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
 	fputs("\t\treturn lexi_pop();\n", lex_output);
 	fputs("\t}\n\n", lex_output);
 	fputs("\treturn read_char();\n", lex_output);
-	fputs("}\n\n", lex_output);
+	fputs("}\n", lex_output);
+}
 
+/*
+	MAIN OUTPUT ROUTINE
 
-	/* Macros for accessing table */
-	fputs("#define lookup_char(C)\t", lex_output);
-	fputs("((int)lookup_tab[(C)])\n", lex_output);
-	for (n = 0; n < GROUP_HASH_TABLE_SIZE; n++) {
-	    char_group* grp;
-	    for( grp=top_level->global_zone->groups_hash_table[n].head; grp!=NULL; grp=grp->next) {
-		const char *gnm;
-		unsigned long m = (unsigned long)(1 << grp->group_code);
-		gnm = grp->name;
-		fprintf(lex_output, "#define is_%s(T)\t((T) & ", gnm);
-		fprintf(lex_output, grouphex, m);
-		fputs(")\n", lex_output);
-	    }	
+	This routine is the entry point for the main output routine.
+*/
+
+void
+output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts)
+{
+	int c, n;
+	int in_pre_pass; /*boolean*/
+	size_t groupwidth;
+	const char *grouptype;
+	const char *grouphex;
+
+	lex_output = output;
+
+	if (top_level->no_total_groups >= 16) {
+		grouptype = "uint32_t";
+		grouphex = "0x%08lxUL";
+		groupwidth = 2;
+	} else if (top_level->no_total_groups >= 8) {
+		grouptype = "uint16_t";
+		grouphex = "0x%04lx";
+		groupwidth = 4;
+	} else {
+		grouptype = "uint8_t";
+		grouphex = "0x%02lx";
+		groupwidth = 8;
 	}
 
+
+	/* Initial comment */
+	output_comment();
+
+	if(generate_asserts) {
+		fputs("#include <assert.h>\n", lex_output);
+	}
+	fputs("#include <stdint.h>\n\n", lex_output);
+
+	output_lookup_table(output,top_level,grouptype,grouphex,groupwidth);
+	fputs("\n\n", lex_output);	
+
+	fputs("#ifndef LEX_EOF\n", lex_output);
+	fputs("#define LEX_EOF\t\t256\n", lex_output);
+	fputs("#endif\n\n", lex_output);
+
+	output_buffer(output, top_level, generate_asserts);
+	fputs("\n", lex_output);
+
+	output_macros(output,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);
+
+
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);

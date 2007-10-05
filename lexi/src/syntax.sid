@@ -145,7 +145,7 @@ arg-char-void; //temporary
 <E_expected_chars> : () -> (:CHARACTERS);
 
 <E_nonglobalzonekeyword> : () -> ();
-<E_nonglobalzonegroup>   : () -> ();
+//<E_nonglobalzonegroup>   : () -> ();
 <E_expected_colon>	 : () -> ();
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
@@ -204,13 +204,7 @@ non-empty-chars : (z:ZONE) -> (c: CHARACTERS) ={
 */
 
 white-defn : ( z:ZONE ) -> () = {
-	group ; white ; equal ; s = chars(z) ;
-	{
-		?=<is-global-zone> (z); 
-		<make-white> ( z, s ) ;
-	    ##
-		<E_nonglobalzonegroup>;
-	};
+	group ; white ; equal ; s = chars(z) ; <make-white> ( z, s ) ;
 } ;
 
 
@@ -221,13 +215,7 @@ white-defn : ( z:ZONE ) -> () = {
 */
 
 group-defn : ( z:ZONE ) -> () = {
-        group ; i = identifier ; equal ; s = chars(z) ;
-	{
-		?=<is-global-zone> (z); 
-		<make-group> ( z, i, s ) ;
-	    ##
-		<E_nonglobalzonegroup>;
-	};
+        group ; i = identifier ; equal ; s = chars(z) ; <make-group> ( z, i, s ) ;
 } ;
 
 

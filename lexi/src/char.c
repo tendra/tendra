@@ -539,6 +539,8 @@ make_group(zone* z,char *nm, letter *s)
     grp->letter_code = trans->letter_code;
     *(z->groups_hash_table[hash_key].tail)=grp;
     z->groups_hash_table[hash_key].tail=&(grp->next);
+    *(z->top_level->groups_list.tail)=grp;
+    z->top_level->groups_list.tail=&(grp->next_in_groups_list);
     return grp;
 }
 
@@ -827,6 +829,8 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
 
   t->no_total_groups=0;
   t->global_zone=new_zone("global",t);
+  t->groups_list.head=NULL;
+  (t->groups_list.tail)=&(t->groups_list.head);
 
 }
 

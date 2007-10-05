@@ -558,9 +558,9 @@ arg-char-nb : () ->(a:ARG) = @{
 
 @};
 
-<E_nonglobalzonegroup> : () -> () = @{
+/*<E_nonglobalzonegroup> : () -> () = @{
     error( ERROR_SERIOUS, "Groups not yet implemented in a non global zone ") ;
-@};
+@};*/
 
 /*
     SYNTAX ERROR

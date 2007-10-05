@@ -139,6 +139,7 @@ typedef struct char_group_tag {
     unsigned int group_code; /* for outputting the bitfield */
     struct zone_tag* z; /* Points back to the zone we are in */
     struct char_group_tag* next; /* Next in hash table */  
+    struct char_group_tag* next_in_groups_list; 
 } char_group;
 
 
@@ -229,6 +230,7 @@ typedef struct letter_translation_list_tag {
 typedef struct lexer_parse_tree_tag {
   zone* global_zone;
 
+  char_group_list groups_list;
 
   letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
   letter last_letter_code;
