@@ -39,7 +39,7 @@ _REALINSTALL: .USE
 	${CONDCREATE} "${SINSTDIR}"
 .endif
 	${INSTALL} -m 644 ${.OBJDIR}/${API}.tl ${LINSTDIR}
-	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
 			${ECHO} ${INSTALL} -m 755 -d ${CINSTDIR}/$${file}; \
@@ -49,7 +49,7 @@ _REALINSTALL: .USE
 			${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file} || ${EXIT} $$?; \
 		fi; \
 	done
-	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
 			${ECHO} ${INSTALL} -m 755 -d ${HINSTDIR}/$${file}; \
@@ -60,7 +60,7 @@ _REALINSTALL: .USE
 		fi; \
 	done
 .if exists(${SAPIDIR}/${API}.api)
-	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -or -print | \
+	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
 			${ECHO} ${INSTALL} -m 755 -d ${SINSTDIR}/$${file}; \
@@ -110,7 +110,7 @@ _REALINSTALL: .USE
 		${ENVSUBDIR:S/^/${MACH_BASE}\/startup\//g}
 . for envsub in ${ENVSUBDIR}
 .  if exists(${envsub})
-	@cd ${envsub} && ${FIND} * -name '.*' -prune -or -print | \
+	@cd ${envsub} && ${FIND} * -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -e "${IMACH}/$${file}"; then \
 			if ${TEST} -d $${file}; then \
@@ -131,7 +131,7 @@ _REALINSTALL: .USE
 _REALINSTALL: .USE
 	@${ECHO} "==> Installing ${STARTUPSUBDIR} startup directories"
 	${CONDCREATE} ${STARTUPSUBDIR:S/^/${COMMON_DIR}\/startup\//g}
-	@cd ${.CURDIR} && ${FIND} ${STARTUPSUBDIR} -name '.*' -prune -or -print | \
+	@cd ${.CURDIR} && ${FIND} ${STARTUPSUBDIR} -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
 			${ECHO} ${INSTALL} -m 755 -d ${COMMON_DIR}/startup/$${file}; \
@@ -153,7 +153,7 @@ SMACH=startup
 _REALINSTALL: .USE
 	@${ECHO} "==> Installing ${MACHSUBDIR} machine directories"
 	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
-	@cd ${MACHSUBDIR} && find ${IMACH} ${SMACH} -name '.*' -prune -or -print | \
+	@cd ${MACHSUBDIR} && find ${IMACH} ${SMACH} -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
 			${ECHO} ${INSTALL} -m 755 ${MACH_BASE}/$${file}; \
