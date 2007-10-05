@@ -4,3 +4,5 @@
 +CC		"/usr/bin/cc"
 +CRT0		""
 +CRT1		"/usr/lib/crt1.o"
++SYS_LIB        "-ltdf"
++SYS_LINK       "-L<TENDRA_LIBDIR>/sys"
