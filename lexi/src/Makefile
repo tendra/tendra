@@ -6,7 +6,7 @@ REMOVE=rm -f
 MOVE=mv
 SID=sid
 
-CFLAGS+=-Ishared/error -Ishared/xalloc -g
+CFLAGS+=-Ishared/error -Ishared/xalloc
 LDFLAGS+=-Lshared/error -Lshared/xalloc
 
 PREFIX?=/usr/local
