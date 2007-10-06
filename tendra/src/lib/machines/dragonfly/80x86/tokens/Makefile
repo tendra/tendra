@@ -6,11 +6,6 @@ TDFLIB=		target_tok.tl
 CAPSULES=	dep_toks.j map_toks.j except_toks.t var_toks.t
 PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
-.include "../../../Makefile.inc"
-
-TCCOPTS=	-Y${OBJ_DIR}/${ENVIRONMENT}/build\
-		-yTENDRA_BASEDIR="${OBJ_DIR}/src"
-
 all: ${TDFLIB} sys.j
 	@${ECHO} all done
 
@@ -34,3 +29,5 @@ CLEAN_EXTRA=	${TDFLIB} ${CAPSULES} c_toks.j sys_toks.j sys.j except_toks.j\
 		var_toks.j
 
 .PATH:	${SRC2} ${OBJ_SDIR} ${.OBJDIR}
+
+.include "../Makefile.inc"
