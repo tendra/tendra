@@ -88,7 +88,7 @@ new_char(letter c)
     p->cond = NULL;
     p->opt = NULL;
     p->next = NULL;
-    p->definition = NULL;
+    p->u.definition = NULL;
     return(p);
 }
 
@@ -125,13 +125,13 @@ add_char(zone* z, character *p, letter *s, char *cond, instructions_list* instli
 	}
     }
     if (c == z->top_level->last_letter_code) {
-        if ((instlist && q->definition) || (map && q->map))
+        if ((instlist && q->u.definition) || (map && q->u.map))
 	    error(ERROR_SERIOUS, "TOKEN already defined");
         q->cond=cond;
         if(instlist) 
-	    q->definition=instlist;
+	    q->u.definition=instlist;
         else
-	    q->map=map;
+	    q->u.map=map;
     }
     else 
       add_char(z, q, s + 1, cond, instlist, map);
@@ -274,7 +274,7 @@ instruction *
 add_instruction_return_token (char* name)
 {
     instruction *p=new_instruction(return_token);
-    p->name=name;
+    p->u.name=name;
     return p;
 }
 
@@ -288,8 +288,8 @@ instruction *
 add_instruction_function (char* name, args_list* args) 
 {
     instruction* p=new_instruction(apply_function);
-    p->fun=add_user_function(name);
-    p->fun->args=args;
+    p->u.fun=add_user_function(name);
+    p->u.fun->args=args;
     return p;
 }
 
@@ -316,7 +316,7 @@ instruction *
 add_instruction_pushzone (zone* z) 
 {
     instruction* p=new_instruction(push_zone);
-    p->z=z;
+    p->u.z=z;
     return p;
 }
 
@@ -330,7 +330,7 @@ instruction*
 add_instruction_popzone (zone* z) 
 {
     instruction* p=new_instruction(pop_zone);
-    p->z=z;
+    p->u.z=z;
     return p;
 }
 
@@ -562,10 +562,10 @@ in_group(char_group *grp, letter c)
     if (p == NULL) return(0);
     while (a = *(p++), a != grp->z->top_level->last_letter_code) {
         atrans=letters_table_get_translation(a,grp->z->top_level->letters_table);
-	if (atrans->type==char_letter && atrans->ch == ctrans->ch) {
+	if (atrans->type==char_letter && atrans->u.ch == ctrans->u.ch) {
 	    return(1);
 	} else if (atrans->type==group_letter) {
-	    if (in_group(atrans->grp, c)) return(1);
+	    if (in_group(atrans->u.grp, c)) return(1);
 	}
     }
     return(0);
@@ -593,7 +593,7 @@ find_escape(int c, letter eof_letter_code)
 	case '[': a = '['; break;
 	case '\\': a = '\\'; break;
 	case '\'': a = '\''; break;
-    case 'e': a = eof_letter_code; break;
+	case 'e': a = eof_letter_code; break;
 	default : {
 	    error(ERROR_SERIOUS, "Unknown escape sequence, '\\%c'",
 		   (unsigned char)c);
@@ -755,7 +755,7 @@ static letter_translation* new_letter_translation(letter_translation_type ltt)
   p->type=ltt;
   p->next=NULL;
   return p;
-};
+}
 
 /* 
    ADD LETTER TRANSLATION 
@@ -764,7 +764,7 @@ letter_translation* add_group_letter_translation(char_group* grp)
 {
   letter_translation*p= new_letter_translation(group_letter);
   p->letter_code=grp->z->top_level->next_generated_key++;
-  p->grp=grp;
+  p->u.grp=grp;
   return p;
 }
 
@@ -812,7 +812,7 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
   for(i=0; i<256; i++) {
     trans=new_letter_translation(char_letter);
     trans->letter_code=i;
-    trans->ch=i;
+    trans->u.ch=i;
     letters_table_add_translation(trans, t->letters_table);
   }
   trans=new_letter_translation(eof_letter);

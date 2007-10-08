@@ -108,7 +108,7 @@ char_lit(letter_translation* ctrans)
 	static char buff [10];
 	if (ctrans->type == eof_letter) return("LEX_EOF");
 	if (ctrans->type == char_letter) {
-	switch (ctrans->ch) {
+	switch (ctrans->u.ch) {
 		case '\n': return("'\\n'");
 		case '\r': return("'\\r'");
 		case '\t': return("'\\t'");
@@ -117,8 +117,8 @@ char_lit(letter_translation* ctrans)
 		case '\\': return("'\\\\'");
 		case '\'': return("'\\''");
 	}
-	if (ctrans->ch > 127) return("'?'");
-	sprintf(buff, "'%c'", (char)ctrans->ch);
+	if (ctrans->u.ch > 127) return("'?'");
+	sprintf(buff, "'%c'", (char)ctrans->u.ch);
 	return(buff);
 	}
 	else
@@ -148,18 +148,18 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     case return_token :
       /* assert(!instr->next);*/
       output_indent(d);
-      fprintf(lex_output, "return(%s);\n", instr->name);
+      fprintf(lex_output, "return(%s);\n", instr->u.name);
       break;
     case apply_function:
       output_indent(d);
       if(!(instr->next))
 	fprintf(lex_output, "return(");
-      fprintf(lex_output, "%s(", instr->fun->name);
+      fprintf(lex_output, "%s(", instr->u.fun->name);
       {
       arg* fun_args;
-      for(fun_args=instr->fun->args->head;fun_args;fun_args=fun_args->next) {
+      for(fun_args=instr->u.fun->args->head;fun_args;fun_args=fun_args->next) {
 	int i;
-	if(fun_args!=instr->fun->args->head) 
+	if(fun_args!=instr->u.fun->args->head) 
 	  fputs(", ", lex_output);
 	switch(fun_args->type) {
 	case arg_chars_list:
@@ -189,9 +189,9 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     case push_zone:
       output_indent(d);
       fprintf(lex_output, "state->zone_function=&read_token_zone_%s;\n",
-	      instr->z->zone_name);
-      if(instr->z->entering_instructions->head) 
-	output_actions(NULL,instr->z->entering_instructions,n,d);
+	      instr->u.z->zone_name);
+      if(instr->u.z->entering_instructions->head) 
+	output_actions(NULL,instr->u.z->entering_instructions,n,d);
       else {
 	output_indent(d);
 	fputs("return(read_token(state));\n",lex_output);
@@ -200,7 +200,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     case pop_zone:
       output_indent(d);
       fprintf(lex_output, "state->zone_function=&read_token_zone_%s;\n",
-	      instr->z->zone_name);
+	      instr->u.z->zone_name);
       if(z->leaving_instructions->head) 
 	output_actions(NULL,z->leaving_instructions,n,d);
       else {
@@ -248,9 +248,9 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	    ctrans=letters_table_get_translation(c,top_level->letters_table);
 		if (ctrans->type==last_letter) {
 			if(in_pre_pass)
-				retmap = q->map;
+				retmap = q->u.map;
 			else
-				ret = q->definition;
+				ret = q->u.definition;
 			cond = q->cond;
 		} else if (ctrans->type==char_letter || ctrans->type==eof_letter) {
 			cases++;
@@ -345,7 +345,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==group_letter) {
-					char_group *grp=ctrans->grp;
+					char_group *grp=ctrans->u.grp;
 					output_indent(d);
 					if (started)
 						fputs("} else ", lex_output);
@@ -576,7 +576,8 @@ output_buffer(FILE* output, lexer_parse_tree* top_level, bool generate_asserts)
 	fputs(" */\n", lex_output);
 	if(top_level->global_zone->zone_pre_pass->next) {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), 
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
 	} else {
 		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
 			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
@@ -740,10 +741,10 @@ output_word(keyword *p)
   switch(p->instr->type) {
   case apply_function:
     /* No args are possible for functions in keyword instructions*/
-    fprintf(lex_output,"%s());\n",p->instr->fun->name);
+    fprintf(lex_output,"%s());\n",p->instr->u.fun->name);
     break;
   case return_token:
-    fprintf(lex_output,"%s);\n",p->instr->name);    
+    fprintf(lex_output,"%s);\n",p->instr->u.name);    
     break;
   }
   p->done = 1;

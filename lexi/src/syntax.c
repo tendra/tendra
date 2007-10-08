@@ -1196,7 +1196,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 
     switch((ZIinst)->type) {
     case apply_function:
-      if((ZIinst)->fun->args->head==NULL) {
+      if((ZIinst)->u.fun->args->head==NULL) {
         error(ERROR_SERIOUS, "Syntax error: for keywords using "
 	"user defined functions, "
 	"the arglist must remain empty");

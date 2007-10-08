@@ -106,7 +106,7 @@ typedef struct instruction_tag {
     char* name;  /* token   */
     struct zone_tag* z;
     user_function* fun; 
-  } ;
+  } u;
 } instruction ;
 
 typedef struct instructions_list_tag {
@@ -123,7 +123,7 @@ typedef struct character_tag {
     union {
         instructions_list* definition; 
         char* map;   
-    };
+    } u;
 } character;
 
 /*
@@ -213,7 +213,7 @@ typedef struct letter_translation_tag {
   union {
     int ch; 
     char_group* grp;
-  };
+  } u;
   struct letter_translation_tag* next; 
 } letter_translation;
 
