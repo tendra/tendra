@@ -1840,7 +1840,7 @@ void
 init_stab_aux(void)
 {
   dg_compilation this_comp;
-  dg_file = fpout;
+  dg_file = out_get_stream(); /* XXX: hack! */
   this_comp = all_comp_units;
   while (this_comp) {
     dg_name item = this_comp->dn_list;
@@ -1965,7 +1965,7 @@ init_stab_aux(void)
 	}
     }
     IGNORE fclose(dg_file);
-    dg_file = fpout;
+    dg_file = out_get_stream(); /* XXX: hack! */
     if (j >= 0) {
 	IGNORE fprintf(dg_file, "\t.file\t\"%s\"\n", fds[j] ->file.ints.chars);
     } else {

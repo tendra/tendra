@@ -809,13 +809,9 @@ void simple_set_label
 #endif
 #ifndef NEWDIAGS
   int   st = 0;
-  if (!diagnose && labno == last_jump_label) {
-    st = fseek(fpout, last_jump_pos, 0);
-  };
   /* eliminate immediately previous jump to this label */
-  if (st == -1) {
-    failer(SEEK_FAILURE);
-    exit(EXIT_FAILURE);
+  if (!diagnose && labno == last_jump_label) {
+		out_set_pos(last_jump_pos);
   };
 #endif
 
@@ -896,9 +892,7 @@ void jump
   stack_dec = good_sd;
 
 #ifndef NEWDIAGS
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  last_jump_pos = ftell(fpout);
+  last_jump_pos = out_tell_pos();
 #endif
   outs(margin);
   outs(jmp);

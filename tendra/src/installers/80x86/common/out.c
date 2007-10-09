@@ -73,18 +73,39 @@
 #include "dw2_config.h"
 #endif
 
-/* XXX: static would be nice, currently not possible */
-FILE * fpout;
+static FILE *fpout;
 
 #ifdef NEWDWARF
 long instr_count = -1;
 #endif
 
+/* XXX: rename to out_open ? */
 int
 outinit(char *intermed)
 {
 	fpout = fopen(intermed, "w");
-	return(fpout != NULL);
+	return (fpout != NULL);
+}
+
+void
+out_close(void)
+{
+	if (fclose(fpout) == EOF) {
+		failer("out_close: fclose error");
+		exit(EXIT_FAILURE);
+	}
+}
+
+/*
+ * XXX: break fpout encapsulation.
+ * This ugly hack seems currently to be necessary for inserting
+ * stabs debug information until the stabs mechanism is fixed
+ * properly.
+ */
+FILE *
+out_get_stream(void)
+{
+	return fpout;
 }
 
 void
@@ -150,6 +171,34 @@ outhex(int n)
 	st = fprintf(fpout, "0x%x",(unsigned int)n);
 	if (st == EOF) {
 		failer(BAD_OUTPUT);
+		exit(EXIT_FAILURE);
+	}
+}
+
+/*
+ * Return the current position in bytes
+ */
+long
+out_tell_pos(void)
+{
+	long p;
+
+	if ((p = ftell(fpout)) == -1L) {
+		failer("out_cur_pos: ftell error");
+		exit(EXIT_FAILURE);
+	}
+
+	return (p);
+}
+
+/*
+ * Set position in bytes
+ */
+void
+out_set_pos(long pos)
+{
+	if (fseek(fpout, pos, SEEK_SET) == -1) {
+		failer("out_set_pos: fseek error");
 		exit(EXIT_FAILURE);
 	}
 }

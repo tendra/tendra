@@ -447,11 +447,7 @@ outend(void)
     outs(".section .note.GNU-stack,\"\",@progbits");
     outnl();
   }
-  st = fclose(fpout);
-  if (st == EOF) {
-    failer("failed to close file");
-    exit(EXIT_FAILURE);
-  }
+  out_close();
 }
 
 void

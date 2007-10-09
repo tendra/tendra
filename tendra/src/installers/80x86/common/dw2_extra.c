@@ -1040,9 +1040,7 @@ long dw2_start_fde
 	outsep(); uleb128((unsigned long)1); d_outnl();
   }
 
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  hold_pos = ftell(fpout);
+  hold_pos = out_tell_pos();
   outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50);
   d_outnl();
 
@@ -1128,7 +1126,7 @@ long dw2_prep_fde_restore_args
     long pos;
     enter_section("debug_frame");
     out8(); outn((long)DW_CFA_remember_state); d_outnl();
-    pos = ftell(fpout);
+    pos = out_tell_pos();
     outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50);
     d_outnl();
     d_outnl();

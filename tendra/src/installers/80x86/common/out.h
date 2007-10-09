@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -58,44 +58,22 @@
 */
 
 
-/* 80x86/outdecs.h */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: out.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/03/20  16:24:04  pwe
- * dwarf2
- *
- * Revision 1.2  1995/01/30  12:56:39  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:39:08  jmf
- * Initial revision
- *
-**********************************************************************/
-
-#ifndef out_key
-#define out_key 1
-
+#ifndef OUT_H
+#define OUT_H
 
 #include <stdio.h>
 
-
-extern  void outs(char *str);
-extern  void outc(char c);
-extern  void outn(long n);
-extern  void outhex(int n);
-extern  void outnl(void);
-extern  int outinit(char *intermed);
-extern  FILE * fpout;
 extern int  last_jump_label;
 
-#endif
+int outinit(char *intermed);
+void out_close(void);
+FILE *out_get_stream(void);
+void outs(char *str);
+void outc(char c);
+void outn(long n);
+void outhex(int n);
+void outnl(void);
+long out_tell_pos(void);
+void out_set_pos(long pos);
+
+#endif /* OUT_H */

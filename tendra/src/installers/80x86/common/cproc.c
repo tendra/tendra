@@ -360,11 +360,7 @@ static void out_pops
   outnl();
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    st = fseek(fpout, dpos, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+    out_set_pos(dpos);
     dw2_fde_restore_args(dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
   }
 #endif
@@ -609,15 +605,11 @@ int cproc
 #endif
 
 /* space for setting local displacement label */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos1 = ftell(fpout);
+  old_pos1 = out_tell_pos();
   outs("                          ");
      /* ".set .LdispNNNN, SSSSS\n" */
   outnl();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos1a = ftell(fpout);
+  old_pos1a = out_tell_pos();
   outs("                             ");
      /* ".set .LfcwdispNNNN, SSSSS\n" */
   outnl();
@@ -634,9 +626,7 @@ int cproc
   };
 
 /* space for pushing fixed point registers */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos2 = ftell(fpout);
+  old_pos2 = out_tell_pos();
   outs("               ");
      /* " pushl %ebx\n" */
 #ifdef NEWDWARF
@@ -644,9 +634,7 @@ int cproc
     outs(dw_labroom);
 #endif
   outnl();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos3 = ftell(fpout);
+  old_pos3 = out_tell_pos();
   outs("               ");
      /* " pushl %edi\n" */
 #ifdef NEWDWARF
@@ -654,9 +642,7 @@ int cproc
     outs(dw_labroom);
 #endif
   outnl();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos4 = ftell(fpout);
+  old_pos4 = out_tell_pos();
   outs("               ");
      /* " pushl %esi\n" */
 #ifdef NEWDWARF
@@ -665,9 +651,7 @@ int cproc
 #endif
   outnl();
   if (no_frame) {
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    old_pos5 = ftell(fpout);
+    old_pos5 = out_tell_pos();
     outs("               ");
        /* " pushl %ebp\n" */
 #ifdef NEWDWARF
@@ -678,9 +662,7 @@ int cproc
   }
 
 /* space for subtract from stack pointer */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos8 = ftell(fpout);
+  old_pos8 = out_tell_pos();
   outs("                     ");
      /* " subl $SSSSS,%esp\n" */
      /* " movl $SSSSS,%eax\n" */
@@ -700,9 +682,7 @@ int cproc
     outnl();
   };
 
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos9 = ftell(fpout);
+  old_pos9 = out_tell_pos();
   outs("                                    ");
      /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
   outnl();
@@ -830,20 +810,16 @@ int cproc
   };
   outnl();
 
-  this_pos = ftell(fpout);
+  this_pos = out_tell_pos();
   while (returns_list != nilexp) {
-    st = fseek(fpout,(long)no(returns_list), 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(no(returns_list)); /* XXX: no (macro) returns int */
     if (name(returns_list) == 1)
       out_untidy_pops(tot_sp, push_space);
     else
       out_pops(tot_sp, push_space, ptno(returns_list) /8, sonno(returns_list));
     returns_list = bro(returns_list);
   };
-  fseek(fpout, this_pos, 0);
+  out_set_pos(this_pos);
 
   locals_offset = tot_sp;
   if (diagnose) {
@@ -862,14 +838,8 @@ int cproc
   /* now set in the information at the head of the procedure */
   {
 
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    this_pos = ftell(fpout);
-    st = fseek(fpout, old_pos1, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+    this_pos = out_tell_pos();
+    out_set_pos(old_pos1);
 
     /* set the label which says how much the stack was decreased, in case
        frame pointer addressing is used  */
@@ -882,11 +852,7 @@ int cproc
 
     if (ferrsize != 0) {
 	/* set label for displacement to fpu control local store */
-      st = fseek(fpout, old_pos1a, 0);
-      if (st == -1) {
-        failer(SEEK_FAILURE);
-        exit(EXIT_FAILURE);
-      };
+	    out_set_pos(old_pos1a);
       outs(".set ");
       outs(local_prefix);
       outs("fcwdisp");
@@ -895,22 +861,12 @@ int cproc
       outn((long)((no_frame)?(tot_sp - push_space - ferrsize):(push_space + ferrsize)));
     }
 
-    st = fseek(fpout, this_pos, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+    out_set_pos(this_pos);
   };
 
   if (tot_sp != push_space || proc_has_checkstack(p)) {
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    this_pos = ftell(fpout);
-    st = fseek(fpout, old_pos8, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+    this_pos = out_tell_pos();
+    out_set_pos(old_pos8);
 
     /* decrease the stack if necessary */
     if (proc_has_checkstack(p)) {
@@ -926,28 +882,16 @@ int cproc
     outnl();
 
     if (ferrsize != 0) {	/* record FPU control word */
-      st = fseek(fpout, old_pos9, 0);
-      if (st == -1) {
-        failer(SEEK_FAILURE);
-        exit(EXIT_FAILURE);
-      };
+	    out_set_pos(old_pos9);
       move(uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
     }
 
-    st = fseek(fpout, this_pos, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+    out_set_pos(this_pos);
   };
 
   /* push registers as necessary */
   if (min_rfree & 0x8) {
-    st = fseek(fpout, old_pos2, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(old_pos2);
     outs(" pushl %ebx");
     outnl();
 #ifdef NEWDWARF
@@ -957,11 +901,7 @@ int cproc
   };
 
   if (min_rfree & 0x10) {
-    st = fseek(fpout, old_pos3, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(old_pos3);
     outs(" pushl %edi");
     outnl();
 #ifdef NEWDWARF
@@ -972,11 +912,7 @@ int cproc
 
 
   if (min_rfree & 0x20) {
-    st = fseek(fpout, old_pos4, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(old_pos4);
     outs(" pushl %esi");
     outnl();
 #ifdef NEWDWARF
@@ -986,11 +922,7 @@ int cproc
   };
 
   if (no_frame && (min_rfree & 0x40)) {
-    st = fseek(fpout, old_pos5, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(old_pos5);
     outs(" pushl %ebp");
     outnl();
 #ifdef NEWDWARF
@@ -1001,20 +933,12 @@ int cproc
 
 #ifdef NEWDWARF
   if (diagnose && dwarf2) {
-    st = fseek(fpout, dw_entry_pos, 0);
-    if (st == -1) {
-      failer(SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
+	  out_set_pos(dw_entry_pos);
     dw2_fde_entry(dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
   };
 #endif
 
-  st = fseek(fpout, this_pos, 0);
-  if (st == -1) {
-    failer(SEEK_FAILURE);
-    exit(EXIT_FAILURE);
-  };
+  out_set_pos(this_pos);
 
   if (pname[0]!= local_prefix[0])
     proc_size(pname);
@@ -1079,7 +1003,7 @@ void restore_callregs
 (int untidy)
 {
   char *sp50 = "                                                  ";
-  long retpos = ftell(fpout);
+  long retpos = out_tell_pos();
   outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
   outs(sp50); outs(sp50); outs(sp50);
   outnl();

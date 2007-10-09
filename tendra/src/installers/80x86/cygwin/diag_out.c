@@ -495,7 +495,7 @@ init_stab_aux(void)
 	}
     }
     fclose(dg_file);
-    dg_file = fpout;
+    dg_file = out_get_stream(); /* XXX: hack! */
     if (j >= 0) {
 	fprintf(dg_file, "\t.file\t\"%s\"\n", fds[j] ->file.ints.chars);
     } else {
