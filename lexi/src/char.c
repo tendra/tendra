@@ -169,7 +169,21 @@ add_arg (arg_type t, unsigned int d)
 {
     arg* p = new_arg();
     p->type = t;
-    p->digit = d;
+    p->u.digit = d;
+    return(p);
+}
+
+/*
+    ADDS AN ARG
+
+    This routines adds a string arg
+ */
+arg *
+add_litteral_arg ( char* s)
+{
+    arg* p = new_arg();
+    p->type = arg_litteral;
+    p->u.litteral = s;
     return(p);
 }
 

@@ -57,6 +57,7 @@ TOKEN "\e" -> $eof ;
 TOKEN "##"       -> $arg-char-list ;
 TOKEN "#*"       -> $arg-char-string ;
 TOKEN "#[digit]" -> read_arg_char_nb();
+TOKEN "#n" -> $arg-nb-of-chars;
 TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
       	      		      for a small amount of time */
 

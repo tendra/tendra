@@ -77,20 +77,6 @@ static FILE *lex_input;
 
 
 /*
-    PENDING BUFFER
-
-    Pending characters are dealt with by means of this buffer.  pending
-    is set to the start of the buffer to indicate that there are no
-    characters pending, otherwise the pending characters are stored in
-    the buffer.  The buffer may need increasing in size if the look-ahead
-    required by the lexical analyser increases.
-*/
-
-static int pending_buff [12] = { '?' };
-static int *pending = pending_buff;
-
-
-/*
     MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
 
     These macros give the mappings between the actions used in the
@@ -108,7 +94,6 @@ static int read_string(void);
 #define get_sid_ident(A, B)	read_identifier((B), 1)
 #define get_string(A)		read_string()
 #define unknown_token(A)	lex_unknown
-#define unread_char(A)	*(++pending) = (A)
 
 static int read_arg_char_nb(int,int) ;
 
@@ -132,14 +117,10 @@ static int
 read_char(void)
 {
     int c;
-    if (pending != pending_buff) {
-	c = *(pending--);
-    } else {
-	c = fgetc(lex_input);
-	if (c == '\n')crt_line_no++;
-	if (c == EOF) return(LEX_EOF);
-	c &= 0xff;
-    }
+    c = fgetc(lex_input);
+    if (c == '\n')crt_line_no++;
+    if (c == EOF) return(LEX_EOF);
+    c &= 0xff;
     return(c);
 }
 
@@ -173,11 +154,11 @@ read_identifier(int a, int sid)
     do {
 	*(t++) = (char)c;
 	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
-	c = read_char();
+	c = lexi_readchar();
 	cl = lookup_char(c);
     } while (is_alphanum(cl) || c == e);
     *t = 0;
-    unread_char(c);
+    lexi_push(c);
 
     /* Deal with keywords */
     if (sid) return(lex_sid_Hidentifier);
@@ -202,7 +183,7 @@ read_string(void)
     int c;
     int escaped = 0;
     char *t = token_buff;
-    while (c = read_char(), (c != '"' || escaped)) {
+    while (c = lexi_readchar(), (c != '"' || escaped)) {
 	if (c == '\n' || c == LEX_EOF) {
 	    error(ERROR_SERIOUS, "Unexpected end of string");
 	    break;
@@ -236,7 +217,7 @@ read_comment(void)
     *(t++) = '/';
     *(t++) = '*';
     while (state != 2) {
-	int c = read_char();
+	int c = lexi_readchar();
 	if (c == LEX_EOF) {
 	    error(ERROR_SERIOUS, "End of file in comment");
 	    return(lex_eof);

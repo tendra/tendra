@@ -141,6 +141,8 @@ read_token(void)
 		    return(lex_arg_Hchar_Hvoid);
 		} else if (c1 == '*') {
 		    return(lex_arg_Hchar_Hstring);
+		} else if (c1 == 'n') {
+		    return(lex_arg_Hnb_Hof_Hchars);
 		}
 		t1 = lookup_char(c1);
 		if (is_digit(t1)) {

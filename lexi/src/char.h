@@ -78,13 +78,16 @@ struct zone_tag;
 struct lexer_parse_tree_tag;
 
 typedef enum arg_type_tag { 
-  arg_charP, arg_char_nb, arg_chars_list
+  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars
 } arg_type ;
 
 typedef struct arg_tag {
   arg_type type;
   struct arg_tag* next;
-  unsigned int digit;
+  union {
+    unsigned int digit;
+    char* litteral;
+  } u ;
 } arg;
 
 typedef struct args_list_tag {
@@ -260,8 +263,9 @@ extern instruction * add_instruction_return_token (char* name);
 extern instruction* add_instruction_function (char* name, args_list* args) ;
 extern instruction* add_instruction_donothing () ;
 extern instruction* add_instruction_mapping (char* map) ;
-extern args_list* add_args_list (void);
-extern arg* add_arg (arg_type, unsigned int);
+extern args_list* add_args_list (void) ;
+extern arg* add_arg (arg_type, unsigned int) ;
+extern arg* add_litteral_arg ( char* ) ;
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instructions_list* add_instructions_list (void) ;
 extern letter_translation* add_group_letter_translation(char_group*);

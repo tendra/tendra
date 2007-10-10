@@ -246,6 +246,10 @@ arg-char-nb : () ->(a:ARG) = @{
       @a=add_arg(arg_char_nb,number_buffer);
 @};
 
+arg-nb-of-chars : () ->(a:ARG) = @{
+      @a=add_arg(arg_nb_of_chars,0);
+@};
+
 
 %actions%
 
@@ -349,6 +353,11 @@ arg-char-nb : () ->(a:ARG) = @{
     ADD ARGS to ARGS LIST
 */
 <args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
+    if(@a->next!= NULL) {
+       if(@a->type==return_token || @a->type==do_nothing) {
+         error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an arg-list"); 
+       }
+    }
     @a->next=@l->head;
     @l->head=@a;
 @};
@@ -538,6 +547,11 @@ arg-char-nb : () ->(a:ARG) = @{
     inst_list->tail=&(inst->next);
     add_char ( @z, @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
 @};
+
+<make_arg_from_string> : ( s : STRING ) -> ( a : ARG )= @{
+	@a = add_litteral_arg (@s);
+@};
+
 
 /* 
    IS THE ZONE GLOBAL

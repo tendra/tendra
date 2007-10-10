@@ -171,13 +171,20 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	case arg_charP:
 	  error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
 	  break;
+
+	case arg_litteral:
+	  fprintf(lex_output, "%s", fun_args->u.litteral);
+	  break;
+
 	case arg_char_nb:
-	  if(fun_args->digit <n)
-	    fprintf(lex_output, "c%d", fun_args->digit);
+	  if(fun_args->u.digit <n)
+	    fprintf(lex_output, "c%d", fun_args->u.digit);
 	  else
 	    error(ERROR_SERIOUS, "In #[0-9]* arg, the digit must be smaller than the number of chas in a token");
 	  /*Should be caught during parsing*/
 	  break;
+	case arg_nb_of_chars:
+	    fprintf(lex_output, "%d", n);	  
 	}
       }
       }

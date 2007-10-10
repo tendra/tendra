@@ -96,6 +96,7 @@ nothing-marker;
 arg-char-list : () -> (:ARG);
 arg-char-string : () -> (:ARG);
 arg-char-nb : () -> (:ARG);
+arg-nb-of-chars : () -> (:ARG);
 arg-char-void; //temporary
 
 %productions%
@@ -134,7 +135,7 @@ arg-char-void; //temporary
 <empty-args-list> : () -> ( :ARGS_LIST) ;
 <args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
 <arg-char-list-tmp> :    () -> ( :ARG);
-
+<make_arg_from_string> : (:STRING) -> (:ARG);
 
 
 <empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
@@ -230,6 +231,8 @@ single-arg : () -> ( a : ARG ) = {
 	a=arg-char-list ;
     ||  a=arg-char-string ;
     ||  a=arg-char-nb ;
+    ||  a=arg-nb-of-chars ;
+    ||  b=string ; a=<make_arg_from_string>(b);
 } ;
 
 non-empty-tuple-args : () -> (l: ARGS_LIST) = {
