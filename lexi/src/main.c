@@ -88,6 +88,7 @@ int
 main(int argc, char **argv)
 {
 	FILE *lex_output = stdout;
+	FILE *lex_output_h = NULL;
 	bool key = false;
 	bool generate_asserts = true;
 	int optc;
@@ -132,17 +133,27 @@ main(int argc, char **argv)
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > 2) {
+	if (argc > 3 || ( argc==3 && key ) ) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
 
 	/* Open output file */
-	if (argc == 2) {
+	if (argc == 2 || ( argc == 3 && !key ) ) {
 		lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
 
 		if (lex_output == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
+			/* TODO perror for cases like this */
+			return EXIT_FAILURE;
+		}
+	}
+
+	/* Open output file */
+	if (argc == 3 && !key) {
+		lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
+		if (lex_output_h == NULL) {
+			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
 		}
@@ -159,14 +170,14 @@ main(int argc, char **argv)
 
 	/* Generate output */
  	if (top_level.global_zone->white_space == NULL)
-	  top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
+		top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
 							  make_string(" \t\n",top_level.global_zone));
 
 	/* TODO pass output fd here; remove globals */
 	if (key)
 	        output_keyword(lex_output, top_level.global_zone);
 	else
-		output_all(lex_output, &top_level,generate_asserts);
+		output_all(lex_output, lex_output_h, &top_level, generate_asserts);
 
 	if (lex_output)
 		fclose(lex_output);

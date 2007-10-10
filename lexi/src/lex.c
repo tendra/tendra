@@ -118,7 +118,7 @@ static int read_arg_char_nb(int,int) ;
     The main body of the lexical analyser is automatically generated.
 */
 
-#include "lexer.h"
+#include "lexer.c"
 
 
 /*

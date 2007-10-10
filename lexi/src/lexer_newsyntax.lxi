@@ -66,7 +66,11 @@ TOKEN "{a-z}" -> $lower ;
 TOKEN "{0-9}" -> $digit ;
 
 /* Comments, strings and identifiers */
-TOKEN "/*" -> get_comment (##) ;
+ZONE comment : "/*" ... "*/" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
+}
+
 TOKEN "\"" -> get_string (##) ;
 TOKEN "[alpha]" -> get_identifier (##) ;
 TOKEN "$[alpha]" -> get_sid_ident (##) ;

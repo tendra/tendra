@@ -69,7 +69,7 @@
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern void output_all(FILE *output, lexer_parse_tree* top_level, bool generate_asserts);
+extern void output_all(FILE *output, FILE *lex_output_h, lexer_parse_tree *top_level, bool generate_asserts);
 extern void output_keyword(FILE *output , zone* z);
 
 
