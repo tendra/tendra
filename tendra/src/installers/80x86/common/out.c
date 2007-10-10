@@ -184,7 +184,7 @@ out_tell_pos(void)
 	long p;
 
 	if ((p = ftell(fpout)) == -1L) {
-		failer("out_cur_pos: ftell error");
+		failer("out_tell_pos: ftell error");
 		exit(EXIT_FAILURE);
 	}
 

@@ -358,8 +358,6 @@ proc_type(char *s)
 void
 outend(void)
 {
-  int st;
-
   dot_align(16);
   out_close();
 }
