@@ -528,8 +528,9 @@ make_group(zone* z,char *nm, letter *s)
 {
    char_group* grp;
    lexer_parse_tree* top_level=z->top_level;
-   int i;
+   int i, reverse_match;
    letter_translation* trans; 
+   letter_translation* reverse_trans; 
    unsigned int hash_key=hash_cstring(nm);
 
    for (grp = z->groups_hash_table[hash_key].head; 
@@ -548,11 +549,18 @@ make_group(zone* z,char *nm, letter *s)
     grp->defn = s;
     grp->z = z;
     grp->group_code=top_level->no_total_groups++;
-    trans=add_group_letter_translation(grp);
+
+    trans=add_group_letter_translation(grp,0); /* In group match */
+    reverse_trans=add_group_letter_translation(grp,1); /* Not in group match */
     letters_table_add_translation(trans, top_level->letters_table);
+    letters_table_add_translation(reverse_trans, top_level->letters_table);
+
     grp->letter_code = trans->letter_code;
+    grp->notin_letter_code = reverse_trans->letter_code;
+
     *(z->groups_hash_table[hash_key].tail)=grp;
     z->groups_hash_table[hash_key].tail=&(grp->next);
+
     *(z->top_level->groups_list.tail)=grp;
     z->top_level->groups_list.tail=&(grp->next_in_groups_list);
     return grp;
@@ -580,6 +588,8 @@ in_group(char_group *grp, letter c)
 	    return(1);
 	} else if (atrans->type==group_letter) {
 	    if (in_group(atrans->u.grp, c)) return(1);
+	} else if (atrans->type==notin_group_letter) {
+	    if (!in_group(atrans->u.grp, c)) return(1);
 	}
     }
     return(0);
@@ -631,6 +641,7 @@ make_string(char *s, zone* scope)
     int i = 0, n = (int)strlen(s);
     letter *p = xmalloc_nof(letter, n + 1);
     unsigned int hash_key;
+    int reverse_match=0;
     char_group* grp;
     zone* inner_scope;
     while (*s) {
@@ -643,6 +654,13 @@ make_string(char *s, zone* scope)
 	    int j;
 	    size_t glen;
 	    char *gnm = s;
+	    if(*s=='^') {
+	        gnm++;
+		s++;
+		reverse_match=1;
+	    }
+	    else
+	      reverse_match=0;
 	    while (*s && *s != ']')s++;
 	    glen = (size_t)(s - gnm);
 	    if (*s) {
@@ -666,7 +684,7 @@ make_string(char *s, zone* scope)
 		      (int)glen, gnm);
 		a = '?';
 	    } else 
-	        a = grp->letter_code ;
+	        a = (reverse_match ? grp->notin_letter_code : grp->letter_code) ;
 	} else {
 	  a= (letter) (c & 0xff);
 	}
@@ -774,9 +792,10 @@ static letter_translation* new_letter_translation(letter_translation_type ltt)
 /* 
    ADD LETTER TRANSLATION 
 */
-letter_translation* add_group_letter_translation(char_group* grp)
+letter_translation* add_group_letter_translation(char_group* grp, int reverse_match)
 {
-  letter_translation*p= new_letter_translation(group_letter);
+  letter_translation_type type= reverse_match ? notin_group_letter: group_letter;
+  letter_translation*p= new_letter_translation(type);
   p->letter_code=grp->z->top_level->next_generated_key++;
   p->u.grp=grp;
   return p;

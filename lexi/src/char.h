@@ -139,6 +139,7 @@ typedef struct char_group_tag {
     char *name;
     letter *defn;
     letter letter_code;
+    letter notin_letter_code;
     unsigned int group_code; /* for outputting the bitfield */
     struct zone_tag* z; /* Points back to the zone we are in */
     struct char_group_tag* next; /* Next in hash table */  
@@ -207,7 +208,7 @@ typedef struct zone_tag {
 */
 
 typedef enum letter_translation_type_tag {
-  eof_letter, last_letter, group_letter, char_letter
+  eof_letter, last_letter, group_letter, notin_group_letter, char_letter
 } letter_translation_type;
 
 typedef struct letter_translation_tag {
@@ -268,7 +269,7 @@ extern arg* add_arg (arg_type, unsigned int) ;
 extern arg* add_litteral_arg ( char* ) ;
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instructions_list* add_instructions_list (void) ;
-extern letter_translation* add_group_letter_translation(char_group*);
+extern letter_translation* add_group_letter_translation(char_group*, int);
 extern void letters_table_add_translation(letter_translation*, letter_translation_list []);
 extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
 extern unsigned int hash_cstring (char*);

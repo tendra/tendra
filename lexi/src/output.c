@@ -355,15 +355,16 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
-				if (ctrans->type==group_letter) {
+				if (ctrans->type==group_letter||ctrans->type==notin_group_letter) {
+					char* reverse_match=(ctrans->type==notin_group_letter) ? "!": "";
 					char_group *grp=ctrans->u.grp;
 					output_indent(d);
 					if (started)
 						fputs("} else ", lex_output);
 					if(grp->z==grp->z->top_level->global_zone)
-						fprintf(lex_output, "if (is_%s(t%d)) {\n", grp->name, n);
+						fprintf(lex_output, "if (%sis_%s(t%d)) {\n", reverse_match, grp->name, n);
 					else
-					  fprintf(lex_output, "if (is_%s_%s(t%d)) {\n", grp->z->zone_name,grp->name, n);
+						fprintf(lex_output, "if (%sis_%s_%s(t%d)) {\n", reverse_match,grp->z->zone_name,grp->name, n);
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
