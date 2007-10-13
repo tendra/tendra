@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -57,53 +57,6 @@
         it may be put.
 */
 
-
-/* linux/assembler.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: assembler.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1997/03/24  12:43:22  pwe
- * outn int->long
- *
- * Revision 1.9  1996/02/16  10:11:01  pwe
- * Linux/ELF struct result and PIC jump table
- *
- * Revision 1.8  1996/02/08  13:45:24  pwe
- * Linux elf v aout option
- *
- * Revision 1.7  1995/11/23  12:17:02  pwe
- * linux elf
- *
- * Revision 1.6  1995/10/13  15:20:07  pwe
- * solaris PIC and linux tcc
- *
- * Revision 1.5  1995/10/09  15:14:20  pwe
- * dynamic initialisation etc
- *
- * Revision 1.4  1995/04/12  13:22:04  pwe
- * end_tdf label added in case nothing but static strings
- *
- * Revision 1.3  1995/01/30  12:57:10  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.2  1995/01/27  17:24:41  jmf
- * Unknown change?
- *
- * Revision 1.1  1994/11/08  16:27:43  jmf
- * Initial revision
- *
- * Revision 1.2  1994/07/13  07:51:05  jmf
- * Added Log
- *
-**********************************************************************/
-
-
 #include "config.h"
 #include "common_types.h"
 #include "out.h"
@@ -123,132 +76,129 @@ $Log: assembler.c,v $
 #include "install_fns.h"
 #include <string.h>
 
-
-
-/* PROCEDURES */
-
 void
 dot_align(int n)
 {
-  if (linux_elf) {
-    outs(".align ");
-    outn((long)n);
-    outnl();
-    return;
-  }
-  if (n == 1) {
-    return;
-  }
-  outs(".align ");
-  switch (n) {
-    case 16:
-      n = 4; break;
-    case 8:
-      n = 3; break;
-    case 4:
-      n = 2; break;
-    default:
-      n = 1; break;
-  };
+	if (linux_elf) {
+		outs(".align ");
+		outn((long)n);
+		outnl();
+		return;
+	}
 
-  outn((long)n);
-  outnl();
-  return;
+	if (n == 1)
+		return;
+
+	outs(".align ");
+	switch (n) {
+	case 16:
+		n = 4;
+		break;
+	case 8:
+		n = 3;
+		break;
+	case 4:
+		n = 2;
+		break;
+	default:
+		n = 1;
+		break;
+	};
+
+	outn((long)n);
+	outnl();
 }
-
 
 void
 outbyte(void)
 {
-  outs(".byte ");
-  return;
+	outs(".byte ");
 }
 
 void
 outshort(void)
 {
-  outs(".value ");
-  return;
+	outs(".value ");
 }
 
 void
 outlong(void)
 {
-  outs(".long ");
-  return;
+	outs(".long ");
 }
 
 void
 align_label(int f, exp jr)
 {
-  if (linux_elf) {
-    if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
-/* forward jump and continued into
-      if (f==0)
-        outs(".align 8");
-*/
-      if (f == 1) {	/* repeat jump */
-        outs(".align 4");
-      }
-      if (f == 2) {	/* preceded by a jmp or ret */
-        outs(".align 16");
-      }
-      outs("\n");
-    }
-    return;
-  } else {
-    if (is80486 && !is80586 && ptno(jr)!= last_jump_label) {
-/* forward jump and continued into
-      if (f==0)
-        outs(".align 16,7,1");
-*/
-      if (f == 1) {	/* repeat jump */
-        outs(".align 3,0x90");
-      }
-      if (f == 2) {	/* preceded by a jmp or ret */
-        outs(".align 4,0x90");
-      }
-      if (f == 3) {
-        outs(".align 2,0x90");
-      }
-      outs("\n");
-    }
-    if (is80586 && ptno(jr)!= last_jump_label) {
-      if (f >= 1 && f <= 3) {
-        outs(".align 2,0x90\n");
-      }
-    }
-    return;
-  }
+	if (linux_elf) {
+		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+#if 0
+			/* forward jump and continued into */
+			if (f == 0)
+				outs(".align 8");
+#endif
+			/* repeat jump */
+			if (f == 1)
+				outs(".align 4");
+
+			/* preceded by a jmp or ret */
+			if (f == 2)
+				outs(".align 16");
+
+			outs("\n");
+		}
+		return;
+	} else {
+		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+#if 0
+			/* forward jump and continued into */
+			if ( f== 0)
+				outs(".align 16,7,1");
+#endif
+			/* repeat jump */
+			if (f == 1)
+				outs(".align 3,0x90");
+
+			/* preceded by a jmp or ret */
+			if (f == 2)
+				outs(".align 4,0x90");
+
+			if (f == 3)
+				outs(".align 2,0x90");
+
+			outs("\n");
+		}
+
+		if (is80586 && ptno(jr) != last_jump_label)
+			if (f >= 1 && f <= 3)
+				outs(".align 2,0x90\n");
+	}
 }
 
 void
 eval_postlude(char *s, exp c)
 {
-  if (!linux_elf) {
-    return;
-  }
-  outs(".size ");
-  outs(s);
-  outs(",");
-  outn((long)(shape_size(sh(c)) + 7) / 8);
-  outnl();
-  outs(".type ");
-  outs(s);
-  outs(",@object");
-  outnl();
-  return;
+	if (!linux_elf)
+		return;
+
+	outs(".size ");
+	outs(s);
+	outs(",");
+	outn((long)(shape_size(sh(c)) + 7) / 8);
+	outnl();
+	outs(".type ");
+	outs(s);
+	outs(",@object");
+	outnl();
 }
 
 void
 out_readonly_section(void)
 {
-  if (linux_elf) {
-    outs(".section .rodata");
-  } else {
-    outs(".text");
-  }
-  return;
+	if (linux_elf)
+		outs(".section .rodata");
+	else
+		outs(".text");
 }
 
 void
@@ -258,9 +208,7 @@ out_dot_comm(char *id, shape sha)
 	outs(id);
 	outs(",");
 	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-
 	outnl();
-  return;
 }
 
 void
@@ -270,9 +218,7 @@ out_dot_lcomm(char *id, shape sha)
 	outs(id);
 	outs(",");
 	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-
 	outnl();
-  return;
 }
 
 void
@@ -282,253 +228,244 @@ out_bss(char *id, shape sha)
 	outs(id);
 	outs(",");
 	outn((long)(((shape_size(sha) / 8) + 3) / 4) * 4);
-
 	outnl();
-  return;
 }
 
-static int pic_label;
+static int pic_label; /* XXX: useless */
 
 void
 pic_prelude(void)
 {
-  int n = next_lab();
-  pic_label = n;
-  outs(" call ");
-  outs(local_prefix);
-  outn((long)n);
-  outnl();
-  outs(local_prefix);
-  outn((long)n);
-  outs(":");
-  outnl();
-  outs(" popl %ebx");
-  outnl();
-  outs(" addl $_GLOBAL_OFFSET_TABLE_+ [.-");
-  outs(local_prefix);
-  outn((long)n);
-  outs("],%ebx");
-  outnl();
-  return;
+	int n = next_lab();
+	pic_label = n;
+	outs(" call ");
+	outs(local_prefix);
+	outn((long)n);
+	outnl();
+	outs(local_prefix);
+	outn((long)n);
+	outs(":");
+	outnl();
+	outs(" popl %ebx");
+	outnl();
+	outs(" addl $_GLOBAL_OFFSET_TABLE_+ [.-");
+	outs(local_prefix);
+	outn((long)n);
+	outs("],%ebx");
+	outnl();
 }
 
 void
 out_rename(char *oldid, char *newid)
 {
-  UNUSED(oldid);
-  UNUSED(newid);
-  return;
+	/* XXX */
+	UNUSED(oldid);
+	UNUSED(newid);
 }
 
 void
 out_switch_jump(int tab, where a, int min)
 {
-  if (PIC_code) {
-    if (min != 0) {
-      sub(slongsh, mw(zeroe,min), a, reg0);
-      a = reg0;
-    }
-    if (eq_where(a, reg0)) {
-      outs(" movl ");
-    } else {
-      outs(" movl %ebx,%eax");
-      outnl();
-      outs(" subl ");
-    }
-    outs(local_prefix);
-    outn((long)tab);
-    outs("@GOTOFF(%ebx,");
-    operand(32, a, 1, 0);
-    outs(",4),%eax");
-    outnl();
-    if (eq_where(a, reg0)) {
-      outs(" subl %ebx,%eax");
-      outnl();
-      outs(" negl %eax");
-      outnl();
-    }
-    outs(" jmp *%eax");
-    outnl();
-    return;
-  } else  {
-    outs(" jmp *");
-    outs(local_prefix);
-    outn((long)tab);
-    outs("-");
-    outn((long)(4 * min));
-    outs("(,");
-    operand(32, a, 1, 0);
-    outs(",4)");
-    outnl();
-    return;
-  };
+	if (PIC_code) {
+		if (min != 0) {
+			sub(slongsh, mw(zeroe,min), a, reg0);
+			a = reg0;
+		}
+
+		if (eq_where(a, reg0))
+			outs(" movl ");
+		else {
+			outs(" movl %ebx,%eax");
+			outnl();
+			outs(" subl ");
+		}
+
+		outs(local_prefix);
+		outn((long)tab);
+		outs("@GOTOFF(%ebx,");
+		operand(32, a, 1, 0);
+		outs(",4),%eax");
+		outnl();
+
+		if (eq_where(a, reg0)) {
+			outs(" subl %ebx,%eax");
+			outnl();
+			outs(" negl %eax");
+			outnl();
+		}
+
+		outs(" jmp *%eax");
+		outnl();
+	} else {
+		outs(" jmp *");
+		outs(local_prefix);
+		outn((long)tab);
+		outs("-");
+		outn((long)(4 * min));
+		outs("(,");
+		operand(32, a, 1, 0);
+		outs(",4)");
+		outnl();
+	}
 }
 
 void
 out_switch_table(int tab, int min, int max, int *v, int absent)
 {
-  int i;
+	int i;
 
-  dot_align(4);
-  outnl();
+	dot_align(4);
+	outnl();
 
-  outs(local_prefix);
-  outn((long)tab);
-  outs(":");
-  outnl();
-
-  for (i = min; i <= max; ++i) {
-    outs(".long ");
-    if (v[i - min]!= -1) {
-      if (PIC_code) {
-	outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
 	outs(local_prefix);
-	outn((long)v[i - min]);
-	outs("]");
-      } else {
-	outs(local_prefix);
-	outn((long)v[i - min]);
-      }
-    } else {
-      if (absent == -1) {
-        outn((long)0);
-      } else {
-	if (PIC_code) {
-	  outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
-	  outs(local_prefix);
-	  outn((long)absent);
-	  outs("]");
-	} else {
-	  outs(local_prefix);
-	  outn((long)absent);
+	outn((long)tab);
+	outs(":");
+	outnl();
+
+	for (i = min; i <= max; ++i) {
+		outs(".long ");
+		if (v[i - min]!= -1) {
+			if (PIC_code) {
+				outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
+				outs(local_prefix);
+				outn((long)v[i - min]);
+				outs("]");
+			} else {
+				outs(local_prefix);
+				outn((long)v[i - min]);
+			}
+		} else {
+			if (absent == -1) {
+				outn((long)0);
+			} else {
+				if (PIC_code) {
+					outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
+					outs(local_prefix);
+					outn((long)absent);
+					outs("]");
+				} else {
+					outs(local_prefix);
+					outn((long)absent);
+				}
+			}
+		}
+
+		outnl();
 	}
-      }
-    }
-    outnl();
-  }
-  outnl();
-  return;
+	outnl();
 }
 
 void
 proc_size(char *s)
 {
-  outs(".align 4");
-  outnl();
-  outs(".size ");
-  outs(s);
-  outs(", .-");
-  outs(s);
-  outnl();
-  return;
+	outs(".align 4");
+	outnl();
+	outs(".size ");
+	outs(s);
+	outs(", .-");
+	outs(s);
+	outnl();
 }
 
 void
 proc_type(char *s)
 {
-  outs(".type ");
-  outs(s);
-  outs(",@function");
-  outnl();
-  return;
+	outs(".type ");
+	outs(s);
+	outs(",@function");
+	outnl();
 }
 
 void
 outend(void)
-{		/* close the output */
-  int st;
-  outs(".text");
-  outnl();
-  dot_align(16);
-  outnl();
-  outs("___tdf_end:");
-  outnl();
-  if (linux_elf) {
-    outs(".section .note.GNU-stack,\"\",@progbits");
-    outnl();
-  }
-  out_close();
+{
+	outs(".text");
+	outnl();
+	dot_align(16);
+	outnl();
+	outs("___tdf_end:");
+	outnl();
+
+	if (linux_elf) {
+		outs(".section .note.GNU-stack,\"\",@progbits");
+		outnl();
+	}
+
+	out_close();
 }
 
 void
 outopenbr(void)
 {
-  return;
 }
-
 
 void
 outclosebr(void)
 {
-  return;
 }
 
 void
 outdivsym(void)
 {
-  outs("/");
-  return;
+	outs("/");
 }
 
 void
 out_initialiser(char *id)
 {
-  if (!linux_elf) {
-    outs(".stabs \"___TDFI_LIST__\",22,0,0,");
-    outs(id);
-    outnl();
-    outnl();
-    return;
-  }
-  outs(".section .init\n");
-  outs(" call ");
-  outs(id);
-  if (PIC_code) {
-    outs("@PLT");
-  }
-  outnl();
-  outnl();
-  return;
+	if (!linux_elf) {
+		outs(".stabs \"___TDFI_LIST__\",22,0,0,");
+		outs(id);
+		outnl();
+		outnl();
+		return;
+	}
+
+	outs(".section .init\n");
+	outs(" call ");
+	outs(id);
+
+	if (PIC_code)
+		outs("@PLT");
+
+	outnl();
+	outnl();
 }
 
 
 void
 out_main_prelude(void)
 {
-  /* if (!linux_elf) */
-  int nl1 = next_lab();
-  int nl2 = next_lab();
-  min_rfree |= 0x8;
-  outs(" movl $___TDFI_LIST__+4, %ebx\n");
-  outs(local_prefix);
-  outn((long)nl1);
-  outs(":\n");
-  outs(" movl (%ebx),%eax\n");
-  outs(" cmpl $0,%eax\n");
-  simple_branch("je", nl2);
-  outs(" call *%eax\n");
-  outs(" addl $4,%ebx\n");
-  simple_branch("jmp", nl1);
-  outs(local_prefix);
-  outn((long)nl2);
-  outs(":\n");
-  return;
+	/* if (!linux_elf) */
+	int nl1 = next_lab();
+	int nl2 = next_lab();
+	min_rfree |= 0x8;
+	outs(" movl $___TDFI_LIST__+4, %ebx\n");
+	outs(local_prefix);
+	outn((long)nl1);
+	outs(":\n");
+	outs(" movl (%ebx),%eax\n");
+	outs(" cmpl $0,%eax\n");
+	simple_branch("je", nl2);
+	outs(" call *%eax\n");
+	outs(" addl $4,%ebx\n");
+	simple_branch("jmp", nl1);
+	outs(local_prefix);
+	outn((long)nl2);
+	outs(":\n");
 }
 
 void
 out_main_postlude(void)
 {
-  /* if (!linux_elf) */
-  char *sdummy = "Idummy";
-  char *pdummy = (char *)xcalloc(((int)strlen(local_prefix) +
-				  (int)strlen(sdummy) + 1), sizeof(char));
-  strcpy(pdummy, local_prefix);
-  strcat(pdummy, sdummy);
-  outs(".text\n");
-  outs(pdummy);
-  outs(":\n");
-  outs(" ret\n");
-  out_initialiser(pdummy);
-  return;
+	/* if (!linux_elf) */
+	char *sdummy = "Idummy";
+	char *pdummy = (char *)xcalloc(((int)strlen(local_prefix) + (int)strlen(sdummy) + 1), sizeof(char));
+	strcpy(pdummy, local_prefix);
+	strcat(pdummy, sdummy);
+	outs(".text\n");
+	outs(pdummy);
+	outs(":\n");
+	outs(" ret\n");
+	out_initialiser(pdummy);
 }
-
