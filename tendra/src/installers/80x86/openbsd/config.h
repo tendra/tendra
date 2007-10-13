@@ -72,6 +72,7 @@
 #define FS_LITTLE_ENDIAN	1
 #endif
 
+#define target_system "OpenBSD"
 
 #define isvax 0
 #define ismips 0
