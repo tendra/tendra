@@ -148,6 +148,7 @@ $Log: config.h,v $
 #define FS_LITTLE_ENDIAN	1
 #endif
 
+#define target_system "Linux"
 
 #define isvax 0
 #define ismips 0
