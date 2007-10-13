@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -57,78 +57,42 @@
         it may be put.
 */
 
+#ifndef ASSEMBLER_H
+#define ASSEMBLER_H
 
-/* 80x86/assembler.h */
+void outbyte(void);
+void outshort(void);
+void outlong(void);
 
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/16 11:25:20 $
-$Revision: 1.2 $
-$Log: assembler.h,v $
- * Revision 1.2  1998/03/16  11:25:20  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/10/10  18:24:51  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.4  1996/02/08  13:45:10  pwe
- * Linux elf v aout option
- *
- * Revision 1.3  1995/10/09  15:13:58  pwe
- * dynamic initialisation etc
- *
- * Revision 1.2  1995/01/30  12:55:55  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:00:36  jmf
- * Initial revision
- *
-**********************************************************************/
+void align_label(int f, exp jr);
+void eval_postlude(char *s, exp c);
+void out_readonly_section(void);
+void out_dot_comm(char *id, shape sha);
+void out_dot_lcomm(char *id, shape sha);
+void out_bss(char *id, shape sha);
 
-#ifndef assembler_key
-#define assembler_key 1
+void pic_prelude(void);
 
+void out_switch_jump(int tab, where a, int min);
+void out_switch_table (int tab, int min, int max, int *v, int absent);
 
-extern  void outbyte(void);
-extern  void outshort(void);
-extern  void outlong(void);
+void proc_size(char *s);
+void proc_type(char *s);
+void dot_align(int n);
+void outend(void);
 
-extern  void align_label(int f, exp jr);
-extern  void eval_postlude(char *s, exp c);
-extern  void out_readonly_section(void);
-extern  void out_dot_comm(char *id, shape sha);
-extern  void out_dot_lcomm(char *id, shape sha);
-extern  void out_bss(char *id, shape sha);
+void outopenbr(void);
+void outclosebr(void);
+void outdivsym(void);
 
-extern  void pic_prelude(void);
-
-extern  void out_switch_jump(int tab, where a, int min);
-extern  void out_switch_table (int tab, int min, int max, int *v, int absent);
-
-extern  void proc_size(char *s);
-extern  void proc_type(char *s);
-extern  void dot_align(int n);
-extern  void outend(void);
-
-extern  void outopenbr(void);
-extern  void outclosebr(void);
-extern  void outdivsym(void);
-
-extern void out_initialiser(char *id);
+void out_initialiser(char *id);
 
 #if islinux || isfreebsd || isopenbsd || isnetbsd
 #if islinux
-extern void set_linux_format (int elf); /* machine.c */
+void set_linux_format (int elf); /* machine.c */
 #endif
-extern void out_main_prelude(void);
-extern void out_main_postlude(void);
+void out_main_prelude(void);
+void out_main_postlude(void);
 #endif
 
-
-#endif
+#endif /* ASSEMBLER_H */
