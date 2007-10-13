@@ -103,7 +103,7 @@ dot_align(int n)
 	default:
 		n = 1;
 		break;
-	};
+	}
 
 	outn((long)n);
 	outnl();
@@ -147,7 +147,6 @@ align_label(int f, exp jr)
 
 			outs("\n");
 		}
-		return;
 	} else {
 		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 #if 0
@@ -413,23 +412,23 @@ outdivsym(void)
 void
 out_initialiser(char *id)
 {
-	if (!linux_elf) {
+	if (linux_elf) {
+		outs(".section .init");
+		outnl();
+		outs(" call ");
+		outs(id);
+
+		if (PIC_code)
+			outs("@PLT");
+
+		outnl();
+		outnl();
+	} else {
 		outs(".stabs \"___TDFI_LIST__\",22,0,0,");
 		outs(id);
 		outnl();
 		outnl();
-		return;
 	}
-
-	outs(".section .init\n");
-	outs(" call ");
-	outs(id);
-
-	if (PIC_code)
-		outs("@PLT");
-
-	outnl();
-	outnl();
 }
 
 
