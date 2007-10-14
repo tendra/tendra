@@ -414,17 +414,8 @@ new_zone (char* zid, lexer_parse_tree* top_level)
         p->groups_hash_table[i].tail=&(p->groups_hash_table[i].head);
     }
     p->white_space==NULL;
-    /*    hash_key=hash_cstring("white");
-    top_level->white_space=new_group("white", top_level->global_zone);
-    top_level->white_space->name="white";
-    top_level->white_space->defn=NULL;
-    top_level->white_space->group_code=top_level->no_total_groups++;
-    *(top_level->groups_hash_table[hash_key].tail)=top_level->white_space;
-    top_level->groups_hash_table[hash_key].tail=&(top_level->white_space->next);  
-    trans= add_group_letter_translation(top_level->white_space);
-    top_level->white_space->letter_code=trans->letter_code;
-    letters_table_add_translation(trans, top_level->letters_table);*/
 
+    p->type=typezone_pure_function; /* Not used yet.*/
 
     p->default_actions=NULL;
     p->default_cond=NULL;

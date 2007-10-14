@@ -16,8 +16,8 @@ BINDIR?=${PREFIX}/bin
 all: lexi
 
 # This is just until I have lexi moved out and cleaned up - kate
-lexi: depend char.o syntax.o lex.o main.o output.o
-	${CC} ${LDFLAGS} -o $@ char.o syntax.o lex.o main.o output.o \
+lexi: depend char.o syntax.o lex.o main.o output.o options.o
+	${CC} ${LDFLAGS} -o $@ char.o syntax.o lex.o main.o output.o options.o \
 		-lerror -lxalloc
 
 depend:

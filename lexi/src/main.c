@@ -68,13 +68,14 @@
 #include "lex.h"
 #include "output.h"
 #include "syntax.h"
+#include "options.h"
 
 /*
  * Usage
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-kvha] [-l sid-prefix] input-file [output-file]\n", stdout);
+	fputs("usage: lexi [-kvha] [-l sid-prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
 }
 
 
@@ -87,27 +88,33 @@ report_usage(void) {
 int
 main(int argc, char **argv)
 {
-	FILE *lex_output = stdout;
-	FILE *lex_output_h = NULL;
-	bool key = false;
-	bool generate_asserts = true;
 	int optc;
 	lexer_parse_tree top_level;
+	cmd_line_options options;
+ 	cmd_line_options_init(&options);
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "kl:vha")) != -1) {
+	while ((optc = getopt(argc, argv, "C:kl:vha")) != -1) {
 		switch(optc) {
 		case 'k':
-			key = true;
+			options.key = true;
 			break;
 
 		/* TODO document flag to disable including <assert.h> for C89-only systems */
 		case 'a':
-			generate_asserts = false;
+			options.generate_asserts = false;
+			break;
 
 		case 'l':
 			sid_prefix = optarg;
+			break;
+
+		case 'C':
+			options.copyright_filename_cmd_line = optarg;
+			options.copyright_file_cmd_line=fopen(options.copyright_filename_cmd_line,"r");
+			if ( options.copyright_file_cmd_line == NULL) 
+				error(ERROR_FATAL, "Can't open copyright file, %s", options.copyright_filename_cmd_line);
 			break;
 
 		case 'v':
@@ -133,16 +140,16 @@ main(int argc, char **argv)
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > 3 || ( argc==3 && key ) ) {
+	if (argc > 3 || ( argc==3 && options.key ) ) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
 
 	/* Open output file */
-	if (argc == 2 || ( argc == 3 && !key ) ) {
-		lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
+	if (argc == 2 || ( argc == 3 && !options.key ) ) {
+		options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
 
-		if (lex_output == NULL) {
+		if (options.lex_output == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
@@ -150,9 +157,9 @@ main(int argc, char **argv)
 	}
 
 	/* Open output file */
-	if (argc == 3 && !key) {
-		lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
-		if (lex_output_h == NULL) {
+	if (argc == 3 && !options.key) {
+		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
+		if (options.lex_output_h == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
@@ -174,13 +181,15 @@ main(int argc, char **argv)
 							  make_string(" \t\n",top_level.global_zone));
 
 	/* TODO pass output fd here; remove globals */
-	if (key)
-	        output_keyword(lex_output, top_level.global_zone);
+	if (options.key)
+	        output_keyword(options.lex_output, top_level.global_zone);
 	else
-		output_all(lex_output, lex_output_h, &top_level, generate_asserts);
+	  output_all(&options, &top_level);
 
-	if (lex_output)
-		fclose(lex_output);
+	if (options.lex_output)
+		fclose(options.lex_output);
+	if (options.lex_output_h)
+		fclose(options.lex_output_h);
 
 	return exit_status;
 }

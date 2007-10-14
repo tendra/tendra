@@ -178,12 +178,27 @@ typedef struct keyword_tag {
 #define GROUP_HASH_TABLE_SIZE     128
 #define LETTER_TRANSLATOR_SIZE  512
 
+/* 
+   Type of Zones indicate if a zone return terminals or not.
+
+   If a zone never return terminal then it is possible to output 
+   a more efficient code.
+   
+*/
+
+typedef enum zone_type_tag {
+    typezone_true_zone, /* A zone that can return more than one terminal */
+    typezone_pure_function, /* A zone never returning a terminal */ 
+    typezone_pseudo_token /* A zone that may return only one terminal on zone exit*/
+} zone_type;
+
 /*
     TYPE REPRESENTING A ZONE
-
 */
 typedef struct zone_tag {
     char* zone_name;
+    zone_type type;  /* Not used yet.*/
+
     character* zone_pre_pass;
     character* zone_main_pass;
 
@@ -234,6 +249,10 @@ typedef struct letter_translation_list_tag {
 typedef struct lexer_parse_tree_tag {
   zone* global_zone;
 
+  const char* copyright_filename;
+  FILE* copyright_file;
+
+  int no_total_groups;
   char_group_list groups_list;
 
   letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
@@ -241,7 +260,6 @@ typedef struct lexer_parse_tree_tag {
   letter eof_letter_code;
   letter next_generated_key;
 
-  int no_total_groups;
 } lexer_parse_tree;
 
 /*

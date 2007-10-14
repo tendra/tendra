@@ -56,46 +56,47 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
-#define lex_arg_Hnb_Hof_Hchars (32)
-#define lex_arg_Hchar_Hnb (31)
-#define lex_keyword (7)
-#define lex_range (25)
-#define lex_comma (26)
+#define lex_arg_Hnb_Hof_Hchars (33)
+#define lex_arg_Hchar_Hnb (32)
+#define lex_keyword (8)
+#define lex_range (26)
+#define lex_comma (27)
 #define lex_digit (5)
-#define lex_unknown (28)
-#define lex_close (16)
+#define lex_unknown (29)
+#define lex_close (17)
 #define lex_sid_Hidentifier (1)
 #define lex_string (2)
-#define lex_equal (21)
-#define lex_colon (24)
-#define lex_token (9)
-#define lex_white (10)
+#define lex_equal (22)
+#define lex_colon (25)
+#define lex_token (10)
+#define lex_white (11)
 #define lex_identifier (0)
-#define lex_else (14)
+#define lex_else (15)
 #define lex_lower (4)
-#define lex_arrow (19)
+#define lex_arrow (20)
 #define lex_upper (3)
-#define lex_group (6)
-#define lex_nothing_Hmarker (27)
-#define lex_open (15)
-#define lex_eof (20)
-#define lex_zone (12)
-#define lex_plus (22)
-#define lex_close_Hbrace (18)
-#define lex_if (13)
-#define lex_semicolon (23)
-#define lex_arg_Hchar_Hstring (30)
-#define lex_open_Hbrace (17)
-#define lex_default (11)
-#define lex_arg_Hchar_Hvoid (33)
-#define lex_mapping (8)
-#define lex_arg_Hchar_Hlist (29)
+#define lex_group (7)
+#define lex_nothing_Hmarker (28)
+#define lex_open (16)
+#define lex_eof (21)
+#define lex_zone (13)
+#define lex_plus (23)
+#define lex_close_Hbrace (19)
+#define lex_if (14)
+#define lex_semicolon (24)
+#define lex_arg_Hchar_Hstring (31)
+#define lex_copyright (6)
+#define lex_open_Hbrace (18)
+#define lex_default (12)
+#define lex_arg_Hchar_Hvoid (34)
+#define lex_mapping (9)
+#define lex_arg_Hchar_Hlist (30)
 
 /* BEGINNING OF TRAILER */
 
-#line 610 "syntax.act"
+#line 622 "syntax.act"
 
 #endif
-#line 100 "tmp.syntax.h"
+#line 101 "tmp.syntax.h"
 
 /* END OF FILE */

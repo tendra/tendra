@@ -26,51 +26,20 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id$
+ * $Id: options.c 1628 2007-10-10 10:15:34Z flaviusaetius $
  */
-/*
-    		 Crown Copyright (c) 1997
 
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
-
-
-#ifndef OUTPUT_INCLUDED
-#define OUTPUT_INCLUDED
-
-#include <stdio.h>
-#include <stdbool.h>
-#include "char.h"
 #include "options.h"
-/*
-    DECLARATIONS FOR OUTPUT ROUTINES
-*/
-
-extern void output_all(cmd_line_options*, lexer_parse_tree *top_level);
-extern void output_keyword(FILE *output , zone* z);
-
-
-#endif
+void cmd_line_options_init(cmd_line_options* opt) 
+{
+	opt->copyright_filename_cmd_line = NULL;
+	opt->copyright_file_cmd_line = NULL;
+	opt->key = false;
+	opt->generate_asserts = true;
+	opt->lex_output_filename = NULL;
+	opt->lex_output = stdout;
+	opt->lex_output_h_filename = NULL;
+	opt->lex_output_h = NULL;
+	/*	opt->lex_input_filename = NULL;
+		opt->lex_input = NULL;*/
+}

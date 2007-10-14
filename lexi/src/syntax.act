@@ -562,6 +562,18 @@ arg-nb-of-chars : () ->(a:ARG) = @{
    @b=(@z==@z->top_level->global_zone);
 @};
 
+<make-copyright> : ( z : ZONE, s:STRING ) -> () = @{
+	if(@z->top_level->copyright_filename==NULL) {
+		@z->top_level->copyright_filename=@s;
+		@z->top_level->copyright_file=fopen(@s,"r");
+		if(!@z->top_level->copyright_file) {
+			error(ERROR_SERIOUS, "Syntax error: unable to open copright file %s", @s) ;
+		}
+	}
+	else 
+		error(ERROR_SERIOUS, "Syntax error: you can only specify one copyright file") ;
+@};
+
 /* 
    These actions reports errors if zones contains
    other things than DEFAULT and TOKENS.
@@ -572,9 +584,9 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 
 @};
 
-/*<E_nonglobalzonegroup> : () -> () = @{
-    error( ERROR_SERIOUS, "Groups not yet implemented in a non global zone ") ;
-@};*/
+<E_nonglobalzonecopyright> : () -> () = @{
+    error( ERROR_SERIOUS, "Syntax error: A copyright file may only be specified in the global zone") ;
+@};
 
 /*
     SYNTAX ERROR

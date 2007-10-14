@@ -82,3 +82,4 @@ KEYWORD "TOKEN" -> $token ;
 KEYWORD "white" -> $white ;
 KEYWORD "IF" -> $if ;
 KEYWORD "ELSE" -> $else ;
+KEYWORD "COPYRIGHT" -> $copyright ;

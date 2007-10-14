@@ -71,6 +71,12 @@ ZONE comment : "/*" ... "*/" {
 	TOKEN DEFAULT -> $$;
 }
 
+ZONE line_comment : "//" ... "\n" {
+        GROUP white = "";
+        TOKEN DEFAULT -> $$;
+}
+
+
 TOKEN "\"" -> get_string (##) ;
 TOKEN "[alpha]" -> get_identifier (##) ;
 TOKEN "$[alpha]" -> get_sid_ident (##) ;
