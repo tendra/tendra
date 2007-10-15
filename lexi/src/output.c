@@ -63,6 +63,7 @@
 #include <stdlib.h>
 
 #include "error.h"
+#include "xalloc.h"
 
 #include "char.h"
 #include "lex.h"
@@ -137,8 +138,7 @@ char_lit(letter_translation* ctrans)
 
 /*static int in_pre_pass = 0;*/
 /*static char *read_name = "lexi_readchar";*/
-
-
+static const char *read_token_name = "read_token";
 
 static	void 
 output_actions( zone* z, instructions_list* ret, int n, int d)
@@ -196,27 +196,27 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       break;
     case push_zone:
       output_indent(d);
-      fprintf(lex_output, "state->zone_function=&read_token_%s;\n",
+      fprintf(lex_output, "state->zone_function=&%s_%s;\n",read_token_name,
 	      instr->u.z->zone_name);
       if(instr->u.z->entering_instructions->head) 
 	output_actions(NULL,instr->u.z->entering_instructions,n,d);
       else {
 	output_indent(d);
-	fputs("return(read_token(state));\n",lex_output);
+	fprintf(lex_output,"return(%s(state));\n",read_token_name);
       }
       break;
     case pop_zone:
       output_indent(d);
       if(instr->u.z==instr->u.z->top_level->global_zone)
-	fprintf(lex_output, "state->zone_function=&read_token;\n");	
+	fprintf(lex_output, "state->zone_function=&%s;\n",read_token_name);	
       else
-	fprintf(lex_output, "state->zone_function=&read_token_%s;\n",
+	fprintf(lex_output, "state->zone_function=&%s_%s;\n",read_token_name,
 		instr->u.z->zone_name);
       if(z->leaving_instructions->head) 
 	output_actions(NULL,z->leaving_instructions,n,d);
       else {
 	output_indent(d);
-	fputs("return(read_token(state));\n",lex_output);
+	fprintf(lex_output,"return(%s(state));\n",read_token_name);
       }
       break;
     case do_nothing:
@@ -228,7 +228,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       if(z) /* if z==NULL, we are in a push or pop zone action and can't go to start*/
 	fputs("goto start;\n",lex_output);	  	
       else /*We're outputting entering and leaving actions.*/
-	fputs("return(read_token(state));\n",lex_output);	  
+	fprintf(lex_output,"return(%s(state));\n",read_token_name);	  
       break;
     }
   }
@@ -277,8 +277,8 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		int w2 = (n == 0 && in_pre_pass);
 		output_indent(d);
 		if(!in_pre_pass && z->zone_pre_pass->next)
-		  fprintf(lex_output, "int c%d = read_token_aux_%s()", 
-			  n, z->zone_name);
+		  fprintf(lex_output, "int c%d = %s_aux_%s()", 
+			  n, read_token_name, z->zone_name);
 		else
 		    fprintf(lex_output, "int c%d = lexi_readchar()", n);
 		if (classes || w1)
@@ -449,9 +449,9 @@ output_zone_pass_prototypes(zone *p)
     output_zone_pass_prototypes(z);
   }
   if(p==p->top_level->global_zone)
-    fprintf(lex_output,"int read_token(struct lexer_state_tag* state);\n");
+    fprintf(lex_output,"int %s(struct lexer_state_tag* state);\n",read_token_name);
   else
-    fprintf(lex_output,"static int read_token_%s(struct lexer_state_tag* state);\n",p->zone_name);
+    fprintf(lex_output,"static int %s_%s(struct lexer_state_tag* state);\n",read_token_name,p->zone_name);
 }
 
 static void
@@ -464,7 +464,7 @@ output_zone_prepass(zone *p)
     }
     if(p->zone_pre_pass->next) {
       fprintf(lex_output,"/* PRE PASS ANALYSER for zone %s*/\n\n",p->zone_name);
-      fprintf(lex_output,"static int read_token_aux_%s(void)\n",
+      fprintf(lex_output,"static int %s_aux_%s(void)\n", read_token_name,
 	    p->zone_name);
       fputs("{\n", lex_output);
       fputs("\tstart: {\n", lex_output);
@@ -488,15 +488,15 @@ output_zone_pass(zone *p)
     }
     fprintf(lex_output,"/* MAIN PASS ANALYSER for zone %s*/\n\n",p->zone_name);
     if(is_p_global_zone) {
-        fprintf(lex_output,"int\nread_token(%s)\n", has_zones ? "lexer_state* state" : "void");
+        fprintf(lex_output,"int\n%s(%s)\n", read_token_name, has_zones ? "lexer_state* state" : "void");
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
-	    fprintf(lex_output,"\tif(state->zone_function!=&read_token)\n");
+	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
 	    fprintf(lex_output, "\t\treturn (*state->zone_function);\n");
 	}
     }
     else {
-        fprintf(lex_output,"static int\nread_token_%s(%s)\n",p->zone_name,has_zones ? "lexer_state* state" : "void");
+        fprintf(lex_output,"static int\n%s_%s(%s)\n",read_token_name,p->zone_name,has_zones ? "lexer_state* state" : "void");
 	fputs("{\n", lex_output);
     }
     fputs("\tstart: {\n", lex_output);
@@ -775,6 +775,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	const char *grouphex;
 
 	lex_output=opt->lex_output;
+	read_token_name = xstrcat(opt->lexi_prefix,"read_token");
 	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
 
 	if (top_level->no_total_groups >= 16) {
@@ -838,11 +839,11 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		fputs("typedef struct lexer_state_tag {\n"
 		      "\tint (*zone_function)(struct lexer_state_tag*);\n"
 		      "\t} lexer_state;\n", lex_state_output);
-		fputs("int read_token(lexer_state*);", lex_state_output);
-		fputs("lexer_state current_lexer_state_v="
-		      "{&read_token};\n",lex_state_output);
-		fputs("lexer_state* current_lexer_state=&current_lexer_state_v;",
-		      lex_state_output);
+		fprintf(lex_state_output,"int %s(lexer_state*);", read_token_name);
+		fprintf(lex_state_output,"lexer_state current_lexer_state_v="
+			"{&%s};\n",lex_state_output,read_token_name);
+		fprintf(lex_state_output,"lexer_state* current_lexer_state=&current_lexer_state_v;",
+		      read_token_name);
 	}	  
 	if(top_level->global_zone->next) {
 		fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);

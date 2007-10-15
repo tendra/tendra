@@ -75,7 +75,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-kvha] [-l sid-prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
+	fputs("usage: lexi [-kvha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
 }
 
 
@@ -95,7 +95,7 @@ main(int argc, char **argv)
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "C:kl:vha")) != -1) {
+	while ((optc = getopt(argc, argv, "C:kl:p:vha")) != -1) {
 		switch(optc) {
 		case 'k':
 			options.key = true;
@@ -120,6 +120,10 @@ main(int argc, char **argv)
 		case 'v':
 			report_version();
 			return EXIT_SUCCESS;
+
+		case 'p':
+			options.lexi_prefix=optarg;
+			break;
 
 		default:
 			/* getopt will report error */

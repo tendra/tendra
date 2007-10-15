@@ -44,6 +44,7 @@ typedef struct cmd_line_options_tag {
 	FILE* lex_output;
 	const char* lex_output_h_filename;
 	FILE* lex_output_h;
+	const char* lexi_prefix;
   /*	const char* lex_input_filename;
 	FILE* lex_input;*/
 } cmd_line_options ;
