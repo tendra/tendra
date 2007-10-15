@@ -152,6 +152,7 @@ main(int argc, char **argv)
 	/* Open output file */
 	if (argc == 2 || ( argc == 3 && !options.key ) ) {
 		options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
+		options.lex_output_filename = !strcmp(argv[2], "-") ? "" : argv[1];
 
 		if (options.lex_output == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
@@ -163,6 +164,7 @@ main(int argc, char **argv)
 	/* Open output file */
 	if (argc == 3 && !options.key) {
 		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
+		options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
 		if (options.lex_output_h == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
 			/* TODO perror for cases like this */

@@ -139,6 +139,7 @@ char_lit(letter_translation* ctrans)
 /*static int in_pre_pass = 0;*/
 /*static char *read_name = "lexi_readchar";*/
 static const char *read_token_name = "read_token";
+static const char *lexi_prefix = "";
 
 static	void 
 output_actions( zone* z, instructions_list* ret, int n, int d)
@@ -286,7 +287,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		fputs(";\n", lex_output);
 		if (w1) {
 			output_indent(d);
-			fputs("t0 = lookup_char(c0);\n", lex_output);
+			fprintf(lex_output,"t0 = %slookup_char(c0);\n", lexi_prefix);
 			output_indent(d);
 			for(scope=z; scope != NULL; scope=scope->up) {
 				if(scope->white_space) {
@@ -351,7 +352,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			int started = 0;
 			if (!w1) {
 				output_indent(d);
-				fprintf(lex_output, "t%d = lookup_char(c%d);\n", n, n);
+				fprintf(lex_output, "t%d = %slookup_char(c%d);\n", n, lexi_prefix, n);
 			}
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
@@ -492,7 +493,7 @@ output_zone_pass(zone *p)
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
 	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
-	    fprintf(lex_output, "\t\treturn (*state->zone_function);\n");
+	  fprintf(lex_output, "\t\treturn (*state->zone_function);\n");
 	}
     }
     else {
@@ -653,18 +654,19 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 	int n;
 	char_group* grp;
 	/* Macros for accessing table */
-	fputs("#define lookup_char(C)\t", lex_output);
-	fputs("((int)lookup_tab[(C)])\n", lex_output);
+	FILE* output = opt->lex_output_h ? opt->lex_output_h :opt->lex_output;
+	fprintf(output,"#define %slookup_char(C)\t",opt->lexi_prefix);
+	fprintf(output,"((int)%slookup_tab[(C)])\n",opt->lexi_prefix);
 	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
 		char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==grp->z->top_level->global_zone) {
-			fprintf(lex_output, "#define is_%s(T)\t((T) & ", grp->name);
+			fprintf(output, "#define %sis_%s(T)\t((T) & ", opt->lexi_prefix, grp->name);
 		} else {
-			fprintf(lex_output, "#define is_%s_%s(T)\t((T) & ", grp->z->zone_name,grp->name);
+			fprintf(output, "#define %sis_%s_%s(T)\t((T) & ", opt->lexi_prefix,grp->z->zone_name,grp->name);
 		}
-		fprintf(lex_output, grouphex, m);
-		fputs(")\n", lex_output);
+		fprintf(output, grouphex, m);
+		fputs(")\n", output);
 	}
 }
 
@@ -673,15 +675,21 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 */
 
 static void
-output_lookup_table(FILE* output, lexer_parse_tree* top_level, const char *grouptype, 
+output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouptype, 
 		    const char *grouphex, size_t groupwidth) 
 {
 	int c;
 	char_group* grp;
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
-	fprintf(lex_output, "typedef %s lexi_lookup_type;\n", grouptype);
-	fputs("static lexi_lookup_type lookup_tab[257] = {\n", lex_output);
+	if(opt->lex_output_h) {
+		fprintf(opt->lex_output_h, "typedef %s %slexi_lookup_type;\n", grouptype, opt->lexi_prefix);
+		fprintf(opt->lex_output_h,"extern %slexi_lookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix);
+	}
+	else {
+		fprintf(lex_output, "typedef %s %slexi_lookup_type;\n", grouptype, opt->lexi_prefix);
+	}
+	fprintf(lex_output,"%slexi_lookup_type %slookup_tab[257] = {\n", opt->lexi_prefix);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
 		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
@@ -776,6 +784,8 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 	lex_output=opt->lex_output;
 	read_token_name = xstrcat(opt->lexi_prefix,"read_token");
+	lexi_prefix = opt->lexi_prefix;
+
 	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
 
 	if (top_level->no_total_groups >= 16) {
@@ -796,9 +806,10 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 	output_copyright(top_level,opt);
 	fputs("\n",opt->lex_output);
-	if(opt->lex_output_h)
+	if(opt->lex_output_h) {
 		fputs("\n",opt->lex_output_h);
-
+		fprintf(opt->lex_output,"#include\"%s\"\n\n",opt->lex_output_h_filename);
+	}
 
 	output_generated_by_lexi(opt->lex_output);
 	fputs("\n\n",opt->lex_output);
@@ -812,7 +823,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	}
 	fputs("#include <stdint.h>\n\n", lex_output);
 
-	output_lookup_table(lex_output,top_level,grouptype,grouphex,groupwidth);
+	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
 
 	fputs("#ifndef LEX_EOF\n", lex_state_output);
@@ -836,20 +847,24 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	in_pre_pass = 0;
 	if(top_level->global_zone->next) {
 		fputs("/* lexer_state_definition */\n\n", lex_state_output);
-		fputs("typedef struct lexer_state_tag {\n"
+		fprintf(lex_state_output,"typedef struct %slexer_state_tag {\n"
 		      "\tint (*zone_function)(struct lexer_state_tag*);\n"
-		      "\t} lexer_state;\n", lex_state_output);
-		fprintf(lex_state_output,"int %s(lexer_state*);", read_token_name);
-		fprintf(lex_state_output,"lexer_state current_lexer_state_v="
-			"{&%s};\n",lex_state_output,read_token_name);
-		fprintf(lex_state_output,"lexer_state* current_lexer_state=&current_lexer_state_v;",
-		      read_token_name);
+		      "\t} %slexer_state;\n", opt->lexi_prefix);
+		fprintf(lex_state_output,"int %s(lexer_state*);", opt->lexi_prefix);
+		fprintf(lex_state_output,"%slexer_state %scurrent_lexer_state_v="
+			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
+		fprintf(lex_state_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
+		       opt->lexi_prefix, opt->lexi_prefix, opt->lexi_prefix);
 	}	  
 	if(top_level->global_zone->next) {
 		fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
 		output_zone_pass_prototypes(top_level->global_zone);
 	}
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
+	if(opt->lex_output_h) {
+		bool has_zones=(top_level->global_zone->next!=NULL);
+        	fprintf(opt->lex_output_h,"\nextern int %s(%s)\n", read_token_name, has_zones ? "lexer_state* state" : "void");
+	}
   	output_zone_pass(top_level->global_zone);
   	return;
 }
