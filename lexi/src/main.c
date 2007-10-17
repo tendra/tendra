@@ -188,7 +188,7 @@ main(int argc, char **argv)
 
 	/* TODO pass output fd here; remove globals */
 	if (options.key)
-	        output_keyword(options.lex_output, top_level.global_zone);
+		output_keyword(&options, &top_level);
 	else
 	  output_all(&options, &top_level);
 

@@ -69,8 +69,9 @@
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern void output_all(cmd_line_options*, lexer_parse_tree *top_level);
-extern void output_keyword(FILE *output , zone* z);
+extern void output_all(cmd_line_options*, lexer_parse_tree *);
+extern void output_keyword(cmd_line_options*, lexer_parse_tree*);
+
 
 
 #endif

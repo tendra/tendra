@@ -449,9 +449,7 @@ output_zone_pass_prototypes(zone *p)
   for(z=p->next;z!=NULL;z=z->opt) {
     output_zone_pass_prototypes(z);
   }
-  if(p==p->top_level->global_zone)
-    fprintf(lex_output,"int %s(struct lexer_state_tag* state);\n",read_token_name);
-  else
+  if(!(p==p->top_level->global_zone))
     fprintf(lex_output,"static int %s_%s(struct lexer_state_tag* state);\n",read_token_name,p->zone_name);
 }
 
@@ -493,7 +491,7 @@ output_zone_pass(zone *p)
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
 	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
-	  fprintf(lex_output, "\t\treturn (*state->zone_function);\n");
+	  fprintf(lex_output, "\t\treturn ((*state->zone_function)(state));\n");
 	}
     }
     else {
@@ -517,22 +515,6 @@ output_zone_pass(zone *p)
     fputs("\t}\n", lex_output);
     fputs("}\n", lex_output);
     return;
-}
-
-/*
-	OUTPUT INITIAL COMMENT
-
-	This routine outputs a comment 
-*/
-
-static void
-output_comment(FILE* out)
-{
-	if (first_comment) {
-		/* Print copyright comment, if present */
-		fprintf(out, "%s\n\n", first_comment);
-	}
-	return;
 }
 
 /*
@@ -594,13 +576,7 @@ prepend_file(FILE* output, FILE* input) {
 static void
 output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
 {
-	if(!(opt->copyright_file_cmd_line || top_level->copyright_file)){
-		output_comment(opt->lex_output);
-		if(opt->lex_output_h) {
-			output_comment(opt->lex_output_h);
-		}
-	} 
-	else {
+	if(opt->copyright_file_cmd_line || top_level->copyright_file) {
 		FILE* copyright_file= opt->copyright_file_cmd_line ? opt->copyright_file_cmd_line : top_level->copyright_file;
 		int is_comment=check_if_file_is_comment(copyright_file);
 		switch(is_comment) {
@@ -751,7 +727,7 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
 	if(opt->lex_output_h)
-		fprintf(opt->lex_output_h, "extern void %slexi_pop(void);\n", lexi_prefix);
+		fprintf(opt->lex_output_h, "extern int %slexi_pop(void);\n", lexi_prefix);
 	else
 		fputs("static ", lex_output);
 	fprintf(lex_output, "int %slexi_pop(void) {\n", lexi_prefix);
@@ -763,7 +739,7 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 
 	fputs("/* Flush lexi's buffer */\n", lex_output);
 	if(opt->lex_output_h)
-		fprintf(opt->lex_output_h, "extern void %slexi_flush()(void);\n", lexi_prefix);
+		fprintf(opt->lex_output_h, "extern void %slexi_flush(void);\n", lexi_prefix);
 	else
 		fputs("static ", lex_output);
 	fprintf(lex_output, "void %slexi_flush(void) {\n", lexi_prefix);
@@ -773,7 +749,7 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output);
 	if(opt->lex_output_h)
-		fprintf(opt->lex_output_h, "extern void %slexi_readchar()(void);\n", lexi_prefix);
+		fprintf(opt->lex_output_h, "extern int %slexi_readchar(void);\n", lexi_prefix);
 	else
 		fputs("static ", lex_output);
 	fprintf(lex_output,"int %slexi_readchar(void) {\n", lexi_prefix);
@@ -803,11 +779,6 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	read_token_name = xstrcat(opt->lexi_prefix,"read_token");
 	lexi_prefix = opt->lexi_prefix;
 
-	if(opt->lex_output_h) {
-		fprintf(opt->lex_output_h,"#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED", lexi_prefix);
-		fprintf(opt->lex_output_h,"#define LEXI_GENERATED_HEADER_%s_INCLUDED", lexi_prefix);
-	} 
-
 	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
 
 	if (top_level->no_total_groups >= 16) {
@@ -828,22 +799,23 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 	output_copyright(top_level,opt);
 	fputs("\n",opt->lex_output);
-	if(opt->lex_output_h) {
-		fputs("\n",opt->lex_output_h);
-		fprintf(opt->lex_output,"#include\"%s\"\n\n",opt->lex_output_h_filename);
-	}
 
 	output_generated_by_lexi(opt->lex_output);
-	fputs("\n\n",opt->lex_output);
+	fputs("\n",opt->lex_output);
+
 	if(opt->lex_output_h) {
 		output_generated_by_lexi(opt->lex_output_h);
-		fputs("\n\n",opt->lex_output_h);
+		fputs("\n",opt->lex_output_h);
+		fprintf(opt->lex_output_h,"#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
+		fprintf(opt->lex_output_h,"#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
+		fputs("\n",opt->lex_output_h);
+		fprintf(opt->lex_output,"#include \"%s\"\n\n",opt->lex_output_h_filename);
 	}
-	  
+
 	if(opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
 	}
-	fputs("#include <stdint.h>\n\n", lex_output);
+	fputs("#include <stdint.h>\n\n", opt->lex_output_h ? opt->lex_output_h: lex_output);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
@@ -871,27 +843,37 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		fputs("/* lexer_state_definition */\n\n", lex_state_output);
 		fprintf(lex_state_output,"typedef struct %slexer_state_tag {\n"
 		      "\tint (*zone_function)(struct lexer_state_tag*);\n"
-		      "\t} %slexer_state;\n", opt->lexi_prefix);
-		fprintf(lex_state_output,"int %s(lexer_state*);", opt->lexi_prefix);
-		fprintf(lex_state_output,"%slexer_state %scurrent_lexer_state_v="
-			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
-		fprintf(lex_state_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
-		       opt->lexi_prefix, opt->lexi_prefix, opt->lexi_prefix);
-	}	  
-	if(top_level->global_zone->next) {
-		fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-		output_zone_pass_prototypes(top_level->global_zone);
-	}
-	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
+			"\t} %slexer_state;\n", opt->lexi_prefix, opt->lexi_prefix);
 	if(opt->lex_output_h) {
 		bool has_zones=(top_level->global_zone->next!=NULL);
-        	fprintf(opt->lex_output_h,"\nextern int %s(%s)\n", read_token_name, has_zones ? "lexer_state* state" : "void");
 	}
+
+		if(opt->lex_output_h) {
+			fputs("extern ", opt->lex_output_h);
+			fprintf(opt->lex_output_h,"int %s(lexer_state*);\n", read_token_name);
+			fputs("extern ", opt->lex_output_h);
+			fprintf(opt->lex_output_h, "%slexer_state* %scurrent_lexer_state;", 
+				opt->lexi_prefix, opt->lexi_prefix);
+			fprintf(opt->lex_output_h,"\nextern int %s(lexer_state* state);\n", read_token_name);
+		} else 
+			fprintf(lex_output, "static int %s(lexer_state* state);\n", read_token_name);
+		if(!opt->lex_output_h)
+			fputs("static ", opt->lex_output_h);
+		fprintf(lex_output,"%slexer_state %scurrent_lexer_state_v="
+			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
+		fprintf(lex_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
+		       opt->lexi_prefix, opt->lexi_prefix, opt->lexi_prefix);
+		fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
+		output_zone_pass_prototypes(top_level->global_zone);
+	} else if(opt->lex_output_h) 
+		fprintf(opt->lex_output_h,"\nextern int %s(void);\n", read_token_name);
+
+	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
   	output_zone_pass(top_level->global_zone);
 
 
 	if(opt->lex_output_h) {
-		fputs("#endif",opt->lex_output_h);
+		fputs("#endif\n",opt->lex_output_h);
 	} 
 
   	return;
@@ -927,15 +909,16 @@ output_word(keyword *p)
 */
 
 void
-output_keyword(FILE *output, zone* z)
+output_keyword(cmd_line_options* opt, lexer_parse_tree* top_level)
 {
 	keyword *p, *q;
 
-	lex_output = output;
+	lex_output = opt->lex_output;
 
-	output_comment(lex_output);
+	output_copyright(top_level,opt);
+
 	fputs("/* KEYWORDS */\n\n", lex_output);
-	for (p = z->keywords; p != NULL; p = p->next) {
+	for (p = top_level->global_zone->keywords; p != NULL; p = p->next) {
 		if (p->done == 0) {
 			char *cond = p->cond;
 			if (cond) {

@@ -62,24 +62,25 @@
 #define LEX_INCLUDED
 
 #include "char.h"
+#include "lexer.h"
 /*
     DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
 */
 
 extern void process_file(char *, lexer_parse_tree*);
-extern int read_token(void);
 extern char token_buff [];
 extern int crt_lex_token;
 extern int saved_lex_token;
-extern char *first_comment;
 extern unsigned int number_buffer;
+
+
 
 /*
      PARSER MACROS
 */
 
 #define CURRENT_TERMINAL	crt_lex_token
-#define ADVANCE_LEXER		crt_lex_token = read_token()
+#define ADVANCE_LEXER		crt_lex_token = read_token(current_lexer_state)
 #define SAVE_LEXER(T)       (saved_lex_token = crt_lex_token,\
                                   crt_lex_token = (T))
 #define RESTORE_LEXER          (crt_lex_token = saved_lex_token)

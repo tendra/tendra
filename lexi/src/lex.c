@@ -89,7 +89,6 @@ static int read_comment(void);
 static int read_identifier(int, int);
 static int read_string(void);
 
-#define get_comment(A, B)	read_comment()
 #define get_identifier(A)	read_identifier((A), 0)
 #define get_sid_ident(A, B)	read_identifier((B), 1)
 #define get_string(A)		read_string()
@@ -134,7 +133,6 @@ read_char(void)
 
 char token_buff [2000];
 static char *token_end = token_buff + sizeof(token_buff);
-char *first_comment = NULL;
 unsigned int number_buffer;
 
 /*
@@ -200,42 +198,6 @@ read_string(void)
     return(lex_string);
 }
 
-
-/*
-    READ A COMMENT
-
-    This routine reads a C style comment, returning the lexical token
-    immediately following.  It is entered after the first two characters
-    have been read.
-*/
-
-static int
-read_comment(void)
-{
-    int state = 0;
-    char *t = token_buff;
-    *(t++) = '/';
-    *(t++) = '*';
-    while (state != 2) {
-	int c = lexi_readchar();
-	if (c == LEX_EOF) {
-	    error(ERROR_SERIOUS, "End of file in comment");
-	    return(lex_eof);
-	}
-	if (c == '*') {
-	    state = 1;
-	} else if (state == 1 && c == '/') {
-	    state = 2;
-	} else {
-	    state = 0;
-	}
-	*(t++) = (char)c;
-	if (t == token_end)t = token_buff + 2;
-    }
-    *t = 0;
-    if (first_comment == NULL)first_comment = xstrcpy(token_buff);
-    return(read_token());
-}
 
 /*
   Char to integer. There is probably a standard way to do this
