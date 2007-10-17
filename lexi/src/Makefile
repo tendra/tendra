@@ -32,7 +32,12 @@ install: lexi
 	${INSTALL} -m 755 -d ${BINDIR}
 	${INSTALL} -m 755 lexi ${BINDIR}/
 
-lex.c: lexer.c keyword.h
+lex.o: lexer.c keyword.h
+
+main.o char.o syntax.o output.o: char.h
+lex.o main.o syntax.o : syntax.h
+main.o output.o : output.h
+main.o options.o output.o : options.h
 
 lexer.c: lexer.lxi
 	@${REMOVE} $@

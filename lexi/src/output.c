@@ -381,7 +381,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		}
 		if (n) {
 			output_indent(d);
-			fprintf(lex_output, "lexi_push(c%d);\n", n);
+			fprintf(lex_output, "%slexi_push(c%d);\n", lexi_prefix,n);
 		}
 	}
 
@@ -684,12 +684,13 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
 	if(opt->lex_output_h) {
 		fprintf(opt->lex_output_h, "typedef %s %slexi_lookup_type;\n", grouptype, opt->lexi_prefix);
-		fprintf(opt->lex_output_h,"extern %slexi_lookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix);
+		fprintf(opt->lex_output_h,"extern %slexi_lookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix, opt->lexi_prefix);
 	}
 	else {
 		fprintf(lex_output, "typedef %s %slexi_lookup_type;\n", grouptype, opt->lexi_prefix);
+		fputs("static ", lex_output);
 	}
-	fprintf(lex_output,"%slexi_lookup_type %slookup_tab[257] = {\n", opt->lexi_prefix);
+	fprintf(lex_output,"%slexi_lookup_type %slookup_tab[257] = {\n", opt->lexi_prefix, opt->lexi_prefix);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
 		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
@@ -737,7 +738,11 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("static int lexi_buffer_index;\n\n", lex_output);
 
 	fputs("/* Push a character to lexi's buffer */\n", lex_output);
-	fputs("static void lexi_push(const int c) {\n", lex_output);
+	if(opt->lex_output_h)
+		fprintf(opt->lex_output_h, "extern void %slexi_push(const int c);\n", lexi_prefix);
+	else
+		fputs("static ", lex_output);
+	fprintf(lex_output, "void %slexi_push(const int c) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
 		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
 	}
@@ -745,7 +750,11 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
-	fputs("static int lexi_pop(void) {\n", lex_output);
+	if(opt->lex_output_h)
+		fprintf(opt->lex_output_h, "extern void %slexi_pop(void);\n", lexi_prefix);
+	else
+		fputs("static ", lex_output);
+	fprintf(lex_output, "int %slexi_pop(void) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
 		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
 	}
@@ -753,15 +762,23 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Flush lexi's buffer */\n", lex_output);
-	fputs("static void lexi_flush(void) {\n", lex_output);
+	if(opt->lex_output_h)
+		fprintf(opt->lex_output_h, "extern void %slexi_flush()(void);\n", lexi_prefix);
+	else
+		fputs("static ", lex_output);
+	fprintf(lex_output, "void %slexi_flush(void) {\n", lexi_prefix);
 	fputs("\tlexi_buffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output);
-	fputs("static int lexi_readchar(void) {\n", lex_output);
-	fputs("\tif(lexi_buffer_index) {\n", lex_output);
-	fputs("\t\treturn lexi_pop();\n", lex_output);
+	if(opt->lex_output_h)
+		fprintf(opt->lex_output_h, "extern void %slexi_readchar()(void);\n", lexi_prefix);
+	else
+		fputs("static ", lex_output);
+	fprintf(lex_output,"int %slexi_readchar(void) {\n", lexi_prefix);
+	fprintf(lex_output,"\tif(%slexi_buffer_index) {\n", lexi_prefix);
+	fprintf(lex_output,"\t\treturn %slexi_pop();\n", lexi_prefix);
 	fputs("\t}\n\n", lex_output);
 	fputs("\treturn read_char();\n", lex_output);
 	fputs("}\n", lex_output);
@@ -785,6 +802,11 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	lex_output=opt->lex_output;
 	read_token_name = xstrcat(opt->lexi_prefix,"read_token");
 	lexi_prefix = opt->lexi_prefix;
+
+	if(opt->lex_output_h) {
+		fprintf(opt->lex_output_h,"#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED", lexi_prefix);
+		fprintf(opt->lex_output_h,"#define LEXI_GENERATED_HEADER_%s_INCLUDED", lexi_prefix);
+	} 
 
 	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
 
@@ -866,6 +888,12 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
         	fprintf(opt->lex_output_h,"\nextern int %s(%s)\n", read_token_name, has_zones ? "lexer_state* state" : "void");
 	}
   	output_zone_pass(top_level->global_zone);
+
+
+	if(opt->lex_output_h) {
+		fputs("#endif",opt->lex_output_h);
+	} 
+
   	return;
 }
 
