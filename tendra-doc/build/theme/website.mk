@@ -27,3 +27,8 @@ DOCSINSTALLDIR = install/$(SECTION)
 
 include $(THEME)/common.mk
 
+# Inter-document links
+# We don't have a glossary up and running quite yet
+DOCTOOLS_GLOSSFILE ?=
+DOCTOOLS_DOCSDIR ?= ../../../../
+

@@ -22,3 +22,10 @@ TEXFILE = docbook.tex
 # TODO possibly custom params to have on-website documents share css
 # with the website itself?
 
+
+# Inter-document links
+DOCTOOLS_DOCSURL ?= http://docs.tendra.org
+DOCTOOLS_GLOSSURL ?=
+DOCTOOLS_WIKIURL ?= http://trac.tendra.org/wiki/
+DOCTOOLS_SOURCEURL ?= http://trac.tendra.org/browser/
+

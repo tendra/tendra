@@ -12,3 +12,7 @@ DOCSINSTALLDIR = doc/install
 
 include $(THEME)/common.mk
 
+# Inter-document links are not present for standalone documents
+DOCTOOLS_GLOSSFILE ?=
+DOCTOOLS_DOCSDIR ?=
+
