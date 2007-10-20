@@ -6,6 +6,7 @@ THEMEFILENAME = website
 DOCTOOLS_BASE = ../../../build
 
 DIA = dia
+DOT = dot
 
 XHTMLIMAGES = images/try.png images/virtualB.png images/virtualC.png \
 	images/virtualD.png \
@@ -34,9 +35,9 @@ images/classC.png: images/classC.dia
 images/classD.png: images/classD.dia
 	${DIA} -t png images/classD.dia
 
-images/diamond.png: images/diamond.dia
-	${DIA} -t png images/diamond.dia
+images/diamond.png: images/diamond.dot
+	${DOT} -Tpng -o images/diamond.png images/diamond.dot
 
-images/graph.png: images/graph.dia
-	${DIA} -t png images/graph.dia
+images/graph.png: images/graph.dot
+	${DOT} -Tpng -o images/graph.png images/graph.dot
 
