@@ -4,5 +4,27 @@
  * $Id$
  */
 
-/* TODO; see icons/ */
+/*
+ * Link icons
+ */
+
+a.gloss-link .icon {
+	background: url(icons/glosslink.gif) left center no-repeat;
+	padding-left: 15px;
+}
+* html a.gloss-link .icon { display: inline-block; }
+
+a.docs-link .icon {
+	background: url(icons/docslink.gif) left center no-repeat;
+	padding-left: 12px;
+}
+* html a.docs-link .icon { display: inline-block; }
+
+a.source-link .icon {
+	background: url(icons/sourcelink.gif) left center no-repeat;
+	padding-left: 14px;
+}
+* html a.source-link .icon { display: inline-block; }
+
+/* Note no icon for wiki-link */
 
