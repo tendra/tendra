@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR =
+SUBDIR = inlining
 
 include ../../share/doc.subdir.mk
 

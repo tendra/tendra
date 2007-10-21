@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<article>
+<article xmlns:dt="http://xml.water-powered.com/docs">
   <articleinfo>
     <title>C++ Producer User Guide</title>
 
@@ -41,9 +41,10 @@
 	<revhistory>
 		<revision>
 			<date>01 10 2007</date>
-			<revremark>Split off various non-user documentation to the
-				C++ Producer Component Developer Guide, C++ and Portability
-				paper, and the Style Guide.</revremark>
+			<revremark>Split off various non-user documentation to
+				<dt:doc name="developer/components/tcpplus"/>,
+				<dt:doc name="papers/cppporting"/> and
+				<dt:doc name="developer/guides/style"/>.</revremark>
 			<author><firstname>kate</firstname></author>
 		</revision>
 	</revhistory>
@@ -82,10 +83,10 @@
     (Annotated Reference Manual)</link> is fully supported.
     </para>
 
-    <para>The <link linkend="tdf">TDF specification</link> (version 4.0) may be consulted
+    <para>The <dt:doc name="reference/specification"/> (version 4.0) may be consulted
     for a description of the compiler intermediate language used.  The
     paper
-    <link linkend="port"><emphasis>TDF and Portability</emphasis></link> provides a useful (if
+    <dt:doc name="papers/porting"/> provides a useful (if
     slightly old) introduction to some of the ideas relating to static
     program analysis and interface checking which underlie the whole TenDRA
     compilation system.
@@ -6432,7 +6433,7 @@ bs = enc_exp ( bs, b ) ;</programlisting>
       Addison-Wesley, 1990:
       <ulink url="http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html"/>
       </listitem>
-      <listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
+      <listitem><dt:doc name="user/guides/tdfc"/>:
       <A HREF="../tdfc/tdfc1.html">attached</A>.
       </listitem>
     </itemizedlist>

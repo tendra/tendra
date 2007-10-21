@@ -5,9 +5,8 @@
 <!--
 	$Id$
 -->
-<!-- TODO move this to andfutils -->
 
-<book>
+<book xmlns:dt="http://xml.water-powered.com/docs">
 	<bookinfo>
 		<title>The <acronym>TDF</acronym> Token Register</title>
 
@@ -44,7 +43,7 @@
 				language neutral representation of program. It is used both within
 				portable language specific compilation systems, and for architecture
 				neutral distribution of compiled programs. For full details see
-				<ulink url="#"><!-- TODO --><acronym>TDF</acronym> Specification, Issue 4.0 (Revision 1).</ulink></para>
+				<dt:docs name="reference/specification"/>.</para>
 
 			<para><acronym>TDF</acronym> tokens offer a general encapsulation and expansion mechanism which
 				allows any implementation detail to be delayed to the most appropriate

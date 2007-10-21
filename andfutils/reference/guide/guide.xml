@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book>
+<book xmlns:dt="http://xml.water-powered.com/docs">
   <bookinfo>
     <title>A Guide to the TDF Specification, Issue 4.0</title>
 
@@ -53,7 +53,7 @@
       TDF from the specification document.</para>
 
     <para>Throughout this document, references like (S5.1) are headings in the
-      <!--<ulink url="../tdf/spec1.html">-->TDF specification, Issue 4.0<!--</ulink>-->.
+      <dt:doc name="reference/specification"/>.
       I use the term "compiling" or "producing" to mean the production of TDF
       from some source language and "translating" to mean making a program for
       some specific platform from TDF.</para>

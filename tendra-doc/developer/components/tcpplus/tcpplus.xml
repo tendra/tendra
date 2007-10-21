@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<article>
+<article xmlns:dt="http://xml.water-powered.com/docs">
   <articleinfo>
     <title>C++ Producer Component Developer Guide</title>
 
@@ -42,7 +42,7 @@
 		<revision>
 			<date>01 10 2007</date>
 			<revremark>Split off developer documentation from the
-				C++ Producer User Guide</revremark>
+				<dt:doc name="user/guides/tcpplus"/></revremark>
 			<author><firstname>kate</firstname></author>
 		</revision>
 	</revhistory>
@@ -3419,13 +3419,13 @@ int A::B::c = 0 ;</programlisting>
   <chapter id="reference">
     <title>References</title>
     <itemizedlist>
-      <listitem><A id="tdf"><code>TDF Specification, Issue 4.0</code></A>:
+      <listitem><dt:doc name="reference/specification"/>:
       <A HREF="../tdf/spec1.html">attached</A>.
       </listitem>
       <listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
       <A HREF="../tdfc/tdfc1.html">attached</A>.
       </listitem>
-      <listitem><A id="port"><code>TDF and Portability</code></A>:
+      <listitem><dt:doc name="papers/porting"/>:
       <A HREF="../port/port1.html">attached</A>.
       </listitem>
     </itemizedlist>

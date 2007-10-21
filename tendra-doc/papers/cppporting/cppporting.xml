@@ -2,7 +2,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
   "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
-<article>
+<article xmlns:dt="http://xml.water-powered.com/docs">
   <articleinfo>
     <title>C++ and Portability</title>
 
@@ -32,7 +32,7 @@
 	<revhistory>
 		<revision>
 			<date>01 10 2007</date>
-			<revremark>Split off from the C++ Producer User Guide</revremark>
+			<revremark>Split off from <dt:doc name="user/guides/tcpplus"/></revremark>
 			<author><firstname>kate</firstname></author>
 		</revision>
 	</revhistory>

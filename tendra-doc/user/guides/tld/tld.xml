@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book>
+<book xmlns:dt="http://xml.water-powered.com/docs">
   <bookinfo>
     <title>The TDF Linker</title>
 
@@ -44,7 +44,7 @@
       linker and the linker's required behaviour. There are two file formats:
       the capsule format and the library format. It also describes the format
       of the linker information units within capsules. The capsule format is
-      described in more detail in the TDF specification.</para>
+      described in more detail in <dt:doc name="reference/specification"/>.</para>
   </chapter>
 
   <chapter id="basic-tdf-structures">

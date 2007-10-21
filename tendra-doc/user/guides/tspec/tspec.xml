@@ -6,7 +6,7 @@
   $Id$
 -->
     
-<book>
+<book xmlns:dt="http://xml.water-powered.com/docs">
   <bookinfo>
     <title>tspec - An API Specification Tool</title>
 
@@ -1677,10 +1677,10 @@ $METHOD = "TNC" ;
     <chapter id="S8">
       <title>References</title>
     
-      <para><remark>"TDF and Portability"</remark>, DRA, 1993.</para>
+      <para><dt:doc name="papers/porting"/>, DRA, 1993.</para>
     
       <para><remark>"The TDF Notation Compiler"</remark>, DRA, 1993.</para>
     
-      <para><remark>"The C to TDF Producer"</remark>, DRA, 1993.</para>
+      <para><dt:doc name="user/guides/tdfc"/>, DRA, 1993.</para>
   </chapter>
 </book>

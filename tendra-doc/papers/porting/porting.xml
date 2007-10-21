@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<book>
+<book xmlns:dt="http://xml.water-powered.com/docs">
   <bookinfo>
     <title><acronym>TDF</acronym> and Portability</title>
 
@@ -2686,12 +2686,12 @@ int main ()
       is a significant first step towards solving this problem.</para>
 
     <para>
-      [1] tcc User's Guide, DRA, 1993.
+      [1] <dt:doc name="user/guides/tcc"/>, DRA, 1993.
       [2] tspec - An <acronym>API</acronym> Specification Tool, DRA, 1993.
       [3] The C to <acronym>TDF</acronym> Producer, DRA, 1993.
       [4] A Guide to the <acronym>TDF</acronym> Specification, DRA, 1993.
       [5] <acronym>TDF</acronym> Facts and Figures, DRA, 1993.
-      [6] <acronym>TDF</acronym> Specification, DRA, 1993.
+      [6] <dt:doc name="reference/specification"/>, DRA, 1993.
       [7] The 80386/80486 <acronym>TDF</acronym> Installer, DRA, 1992.
       [8] A Guide to Porting using <acronym>TDF</acronym>, DRA, 1993.
       [9] The <acronym>TDF</acronym> Notation Compiler, DRA, 1993.
