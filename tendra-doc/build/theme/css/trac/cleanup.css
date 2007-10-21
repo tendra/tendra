@@ -98,7 +98,7 @@ div#footer { display: none; }
  * Perhaps I should disable the entire thing.
  */
 div.blog-calendar {
-        background-color: white ! important;
+        background-color: transparent ! important;
         border-style: none ! important;
 }
 
