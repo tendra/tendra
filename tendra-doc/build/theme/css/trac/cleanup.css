@@ -100,6 +100,7 @@ div#footer { display: none; }
 div.blog-calendar {
         background-color: transparent ! important;
         border-style: none ! important;
+	padding-right: 0;
 }
 
 div.blog-calendar tr.blog-calendar-header b {
@@ -115,12 +116,44 @@ div.blog-calendar a.missing:link {
 }
 
 div.blog-calendar tr.blog-calendar-current {
-        background-color: #eee;
+        background-color: transparent;
 }
 
 
 /* I'd rather install system-wide */
 form#addplug {
         display: none;
+}
+
+div.post {
+	margin-right: 15em;
+}
+
+div.post h1 {
+	font-size: 15pt;
+}
+
+div.post hr {
+	width: 100%;
+}
+
+
+/* This icon distracts me */
+a.rss {
+	background-image: none ! important;
+	padding-left: 0 ! important;
+}
+
+div#altlinks h3 {
+	font-weight: normal ! important;
+	display: inline;
+}
+
+div#altlinks ul {
+	display: inline;
+}
+
+div#altlinks {
+	margin-bottom: 1em;
 }
 
