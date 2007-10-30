@@ -25,10 +25,6 @@ package body Asis.Gela.Classes is
 
    function Has_Character_Literal (Tipe : Asis.Declaration) return Boolean;
 
-   function Is_String_Array
-     (Def   : Asis.Definition;
-      Place : Asis.Element) return Boolean;
-
    function Type_Of_Expression (Expr : Asis.Expression) return Type_Info;
 
    -------------------------
@@ -168,19 +164,28 @@ package body Asis.Gela.Classes is
    -- Get_Array_Element_Type --
    ----------------------------
 
-   function Get_Array_Element_Type (Tipe : Type_Info) return Type_Info is
+   function Get_Array_Element_Type
+     (Def   : Asis.Definition;
+      Place : Asis.Element) return Type_Info
+   is
       use Asis.Elements;
       use Asis.Definitions;
       use Asis.Declarations;
 
-      Def  : Asis.Definition;
-      Comp : Asis.Definition;
-      Ind  : Asis.Definition;
+      Comp : constant Asis.Definition := Array_Component_Definition (Def);
+      Ind  : constant Asis.Definition := Component_Subtype_Indication (Comp);
    begin
-      Def  := Get_Type_Def (Tipe);
-      Comp := Array_Component_Definition (Def);
-      Ind  := Component_Subtype_Indication (Comp);
-      return Type_From_Indication (Ind, Tipe.Place);
+      return Type_From_Indication (Ind, Place);
+   end Get_Array_Element_Type;
+
+   ----------------------------
+   -- Get_Array_Element_Type --
+   ----------------------------
+
+   function Get_Array_Element_Type (Tipe : Type_Info) return Type_Info is
+      Def : constant Asis.Definition := Get_Type_Def (Tipe);
+   begin
+      return Get_Array_Element_Type (Def, Tipe.Place);
    end Get_Array_Element_Type;
 
    --------------------------
@@ -244,6 +249,64 @@ package body Asis.Gela.Classes is
          return Asis.Nil_Element;
       end if;
    end Get_Declaration;
+
+   -----------------
+   -- Get_Limited --
+   -----------------
+
+   function Get_Limited (Info : Type_Info) return Boolean is
+
+      Result : Boolean := False;
+
+      procedure Walk_Variant
+        (Item     : in     Asis.Variant;
+         Continue :    out Boolean) is
+      begin
+         Continue := True;
+      end Walk_Variant;
+
+      procedure Walk_Companent
+        (Item     : in     Asis.Declaration;
+         Continue :    out Boolean)
+      is
+         Comp : constant Type_Info := Type_From_Declaration (Item, Info.Place);
+      begin
+         if Is_Limited (Comp) then
+            Result := True;
+            Continue := False;
+         else
+            Continue := True;
+         end if;
+      end Walk_Companent;
+
+      procedure Search is new
+        Gela.Utils.Walk_Components (Info.Place, Walk_Variant, Walk_Companent);
+
+      Continue : Boolean := True;
+      Parent   : Type_Info;
+   begin
+      if not Is_Composite (Info) then
+         return False;
+      end if;
+
+      if Gela.Utils.Is_Limited_Type (Get_Type_Def (Info)) then
+         return True;
+      end if;
+
+      if Is_Array (Info) then
+         return Is_Limited (Get_Array_Element_Type (Info));
+      end if;
+
+      Parent := Parent_Type (Info);
+
+      if not Is_Not_Type (Parent) then
+         return Is_Limited (Parent);
+      end if;
+
+      Search (Info.Type_View, Continue);
+
+      return Result;
+   end Get_Limited;
 
    ---------------
    -- Get_Place --
@@ -407,6 +470,15 @@ package body Asis.Gela.Classes is
       return not Info.Is_Access and then Info.Class_Kind = A_Boolean;
    end Is_Boolean;
 
+   ----------------------
+   -- Is_Boolean_Array --
+   ----------------------
+
+   function Is_Boolean_Array (Info : Type_Info) return Boolean is
+   begin
+      return not Info.Is_Access and then Info.Class_Kind = A_Boolean_Array;
+   end Is_Boolean_Array;
+
    ------------------
    -- Is_Character --
    ------------------
@@ -532,6 +604,15 @@ package body Asis.Gela.Classes is
    begin
       return not Info.Is_Access and then Info.Class_Kind in A_Discrete;
    end Is_Discrete;
+
+   -----------------------
+   -- Is_Discrete_Array --
+   -----------------------
+
+   function Is_Discrete_Array (Info : Type_Info) return Boolean is
+   begin
+      return not Info.Is_Access and then Info.Class_Kind in A_Discrete_Array;
+   end Is_Discrete_Array;
 
    -------------------
    -- Is_Elementary --
@@ -687,57 +768,8 @@ package body Asis.Gela.Classes is
    ----------------
 
    function Is_Limited (Info : Type_Info) return Boolean is
-
-      Result : Boolean := False;
-
-      procedure Walk_Variant
-        (Item     : in     Asis.Variant;
-         Continue :    out Boolean) is
-      begin
-         Continue := True;
-      end Walk_Variant;
-
-      procedure Walk_Companent
-        (Item     : in     Asis.Declaration;
-         Continue :    out Boolean)
-      is
-         Comp : constant Type_Info := Type_From_Declaration (Item, Info.Place);
-      begin
-         if Is_Limited (Comp) then
-            Result := True;
-            Continue := False;
-         else
-            Continue := True;
-         end if;
-      end Walk_Companent;
-
-      procedure Search is new
-        Gela.Utils.Walk_Components (Info.Place, Walk_Variant, Walk_Companent);
-
-      Continue : Boolean := True;
-      Parent   : Type_Info;
    begin
-      if not Is_Composite (Info) then
-         return False;
-      end if;
-
-      if Gela.Utils.Is_Limited_Type (Get_Type_Def (Info)) then
-         return True;
-      end if;
-
-      if Is_Array (Info) then
-         return Is_Limited (Get_Array_Element_Type (Info));
-      end if;
-
-      Parent := Parent_Type (Info);
-
-      if not Is_Not_Type (Parent) then
-         return Is_Limited (Parent);
-      end if;
-
-      Search (Info.Type_View, Continue);
-
-      return Result;
+      return not Info.Is_Access and then Info.Is_Limited;
    end Is_Limited;
 
    ------------------------
@@ -840,24 +872,6 @@ package body Asis.Gela.Classes is
    begin
       return not Info.Is_Access and then Info.Class_Kind = A_String;
    end Is_String;
-
-   ---------------------
-   -- Is_String_Array --
-   ---------------------
-
-   function Is_String_Array
-     (Def   : Asis.Definition;
-      Place : Asis.Element) return Boolean
-   is
-      use Asis.Definitions;
-      Comp : constant Asis.Component_Definition :=
-        Array_Component_Definition (Def);
-      Ind  : constant Asis.Subtype_Indication :=
-        Component_Subtype_Indication (Comp);
-      Info : constant Type_Info := Type_From_Indication (Ind, Place);
-   begin
-      return Is_Character (Info);
-   end Is_String_Array;
 
    --------------------------
    -- Is_Subprogram_Access --
@@ -1057,21 +1071,41 @@ package body Asis.Gela.Classes is
                when A_Decimal_Fixed_Point_Definition =>
                   return A_Decimal_Fixed_Point;
                when An_Unconstrained_Array_Definition =>
-                  if Index_Subtype_Definitions (Tipe)'Length = 1 and then
-                    Is_String_Array (Tipe, Place)
-                  then
-                     return A_String;
-                  else
-                     return An_Other_Array;
+                  if Index_Subtype_Definitions (Tipe)'Length = 1 then
+                     declare
+                        Comp : constant Type_Info :=
+                          Get_Array_Element_Type (Tipe, Place);
+                     begin
+                        if Is_Character (Comp) then
+                           return A_String;
+                        elsif Is_Boolean (Comp) then
+                           return A_Boolean_Array;
+                        elsif Is_Discrete (Comp) then
+                           return A_Other_Discrete_Array;
+                        end if;
+                     end;
                   end if;
+
+                  return An_Other_Array;
+
                when A_Constrained_Array_Definition =>
-                  if Discrete_Subtype_Definitions (Tipe)'Length = 1 and then
-                    Is_String_Array (Tipe, Place)
-                  then
-                     return A_String;
-                  else
-                     return An_Other_Array;
+                  if Discrete_Subtype_Definitions (Tipe)'Length = 1 then
+                     declare
+                        Comp : constant Type_Info :=
+                          Get_Array_Element_Type (Tipe, Place);
+                     begin
+                        if Is_Character (Comp) then
+                           return A_String;
+                        elsif Is_Boolean (Comp) then
+                           return A_Boolean_Array;
+                        elsif Is_Discrete (Comp) then
+                           return A_Other_Discrete_Array;
+                        end if;
+                     end;
                   end if;
+
+                  return An_Other_Array;
+
                when A_Record_Type_Definition =>
                   return A_Untagged_Record;
                when A_Tagged_Record_Type_Definition =>
@@ -1186,6 +1220,7 @@ package body Asis.Gela.Classes is
               Declaration_Class (Result.Type_View, Place);
             Result.Subtipe        := Tipe;
             Result.Place          := Place;
+            Result.Is_Limited     := Get_Limited (Result);
 
          when A_Subtype_Declaration =>
             Def    := Type_Declaration_View (Tipe);
@@ -1441,7 +1476,7 @@ package body Asis.Gela.Classes is
                Result :=
                  Type_From_Declaration (XASIS.Types.Universal_Integer, Expr);
             when A_Selected_Component =>
-               return Type_Of_Expression (Selector (Expr));
+               Result := Type_Of_Expression (Selector (Expr));
             when others =>
                raise Internal_Error;
          end case;
@@ -1481,6 +1516,7 @@ package body Asis.Gela.Classes is
                Result.Class_Kind     := Type_Class (Def, Place);
                Result.Base_Type      := Name;
                Result.Place          := Place;
+               Result.Is_Limited     := Get_Limited (Result);
 
                return Result;
             end if;

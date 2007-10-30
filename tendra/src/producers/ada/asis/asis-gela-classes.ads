@@ -87,6 +87,8 @@ package Asis.Gela.Classes is
    function Is_Subprogram_Access    (Info : Type_Info) return Boolean;
    function Is_String               (Info : Type_Info) return Boolean;
    function Is_Array                (Info : Type_Info) return Boolean;
+   function Is_Boolean_Array        (Info : Type_Info) return Boolean;
+   function Is_Discrete_Array       (Info : Type_Info) return Boolean;
    function Is_Untagged_Record      (Info : Type_Info) return Boolean;
    function Is_Tagged               (Info : Type_Info) return Boolean;
    function Is_Task                 (Info : Type_Info) return Boolean;
@@ -170,6 +172,8 @@ private
       A_Procedure_Access,
       A_Function_Access,
       A_String,
+      A_Boolean_Array,
+      A_Other_Discrete_Array,
       An_Other_Array,
       A_Untagged_Record,
       A_Tagged,
@@ -219,10 +223,14 @@ private
    subtype An_Array is Class_Kinds
      range A_String .. An_Other_Array;
 
+   subtype A_Discrete_Array is Class_Kinds
+     range A_String .. A_Other_Discrete_Array;
+
    type Type_Info is record
       Is_Declaration : Boolean := True;
       Is_Class_Wide  : Boolean := False;
       Is_Access      : Boolean := False;
+      Is_Limited     : Boolean := False;
       Class_Kind     : Class_Kinds;
       Base_Type      : Asis.Element;
       Type_View      : Asis.Declaration;
@@ -231,7 +239,8 @@ private
    end record;
 
    Not_A_Type : constant Type_Info :=
-     (False, False, False, Class_Kinds'First, others => Asis.Nil_Element);
+     (False, False, False, False, Class_Kinds'First,
+      others => Asis.Nil_Element);
 
 end Asis.Gela.Classes;
 

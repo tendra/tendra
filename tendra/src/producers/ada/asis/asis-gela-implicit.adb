@@ -563,9 +563,7 @@ package body Asis.Gela.Implicit is
          return True;
       elsif Is_Modular_Integer (Tipe) then
          return True;
-      elsif Is_Array (Tipe, 1) and then
-        Is_Boolean (Get_Array_Element_Type (Tipe))
-      then
+      elsif Is_Boolean_Array (Tipe) then
          return True;
       end if;
       return False;
@@ -580,9 +578,7 @@ package body Asis.Gela.Implicit is
    begin
       if Is_Scalar (Tipe) then
          return True;
-      elsif Is_Array (Tipe, 1) and then
-        Is_Discrete (Get_Array_Element_Type (Tipe))
-      then
+      elsif Is_Discrete_Array (Tipe) then
          return True;
       end if;
       return False;
