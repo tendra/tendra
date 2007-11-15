@@ -3,6 +3,7 @@
 LIBTOOL = libtool
 CC = ${LIBTOOL} --mode=compile cc
 LINK = ${LIBTOOL} --mode=link cc
+CFLAGS = -I ../include
 
 TARGETS = bitvec.o cstring.o dalloc.o dstring.o error-file.o error.o \
 	exception.o istream.o ostream.o syntax.o
@@ -16,7 +17,7 @@ REMOVE = rm -f
 all: libeds.la ${TARGETS}
 
 clean:
-	${REMOVE} libeds.a ${TARGETS} ${LTARGETS}
+	${REMOVE} libeds.la ${TARGETS} ${LTARGETS}
 
 libeds.la: ${TARGETS}
 	# TODO -rpath for install:
