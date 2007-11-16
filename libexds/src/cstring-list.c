@@ -64,32 +64,34 @@
  * "cstring-list.h".  See that file for more details.
  */
 
+#include <stddef.h>
+
 #include "cstring.h"
 #include "cstring-list.h"
 
 void
 cstring_list_init(CStringListP list)
 {
-    list->head = NIL(CStringListEntryP);
+    list->head = NULL;
     list->tail = & (list->head);
 }
 
 void
-cstring_list_append(CStringListP list,			     CStringP     string)
+cstring_list_append(CStringListP list,			     char *     string)
 {
     CStringListEntryP entry = ALLOCATE(CStringListEntryT);
 
-    entry->next   = NIL(CStringListEntryP);
+    entry->next   = NULL;
     entry->string = string;
     *(list->tail) = entry;
     list->tail    = & (entry->next);
 }
 
 BoolT
-cstring_list_contains(CStringListP list,			       CStringP     string)
+cstring_list_contains(CStringListP list,			       char *     string)
 {
     CStringListEntryP entry = list->head;
-    while (entry != NIL(CStringListEntryP)) {
+    while (entry != NULL) {
 	if (cstring_equal(string, entry->string)) {
 	    return(TRUE);
 	}
@@ -104,7 +106,7 @@ cstring_list_head(CStringListP list)
     return(list->head);
 }
 
-CStringP
+char *
 cstring_list_entry_string(CStringListEntryP entry)
 {
     return(entry->string);

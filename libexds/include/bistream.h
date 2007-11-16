@@ -63,7 +63,7 @@
  * This file specifies the interface to the binary input stream facility.
  *
  *
- * Exception:	XX_bistream_read_error (CStringP name)
+ * Exception:	XX_bistream_read_error (char * name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -82,7 +82,7 @@
 typedef struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
-    CStringP			name;
+    char *			name;
 } BIStreamT, *BIStreamP;
 
 extern ExceptionP		XX_bistream_read_error;
@@ -99,7 +99,7 @@ extern void			bistream_init (BIStreamP);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-extern BoolT			bistream_open (BIStreamP, CStringP);
+extern BoolT			bistream_open (BIStreamP, char *);
 
 /*
  * This function assigns the from bistream to the to bistream.  The from
@@ -121,7 +121,7 @@ extern BoolT			bistream_is_open (BIStreamP);
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  */
-extern unsigned			bistream_read_chars (BIStreamP, unsigned, CStringP);
+extern unsigned			bistream_read_chars (BIStreamP, unsigned, char *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -154,7 +154,7 @@ extern unsigned			bistream_byte (BIStreamP);
  * bistream is reading. The return value should not be modified or
  * deallocated.
  */
-extern CStringP			bistream_name (BIStreamP);
+extern char *			bistream_name (BIStreamP);
 
 /*
  * This function rewinds the specified bistream.

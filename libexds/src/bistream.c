@@ -65,6 +65,7 @@
  */
 
 #include <stdio.h>
+#include <stddef.h>
 
 #include "bistream.h"
 #include "cstring.h"
@@ -74,18 +75,18 @@ ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream"
 void
 bistream_init(BIStreamP bistream)
 {
-    bistream->name = NIL(CStringP);
+    bistream->name = NULL;
 }
 
 BoolT
-bistream_open(BIStreamP bistream,		       CStringP  name)
+bistream_open(BIStreamP bistream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen(name, "rb")) == NIL(FILE *)) {
+    if ((bistream->file = fopen(name, "rb")) == NULL) {
 	return(FALSE);
     }
 #else
-    if ((bistream->file = fopen(name, "r")) == NIL(FILE *)) {
+    if ((bistream->file = fopen(name, "r")) == NULL) {
 	return(FALSE);
     }
 #endif /* defined (FS_BINARY_STDIO) */
@@ -105,18 +106,18 @@ bistream_assign(BIStreamP to,			 BIStreamP from)
 BoolT
 bistream_is_open(BIStreamP bistream)
 {
-    return(bistream->name != NIL(CStringP));
+    return(bistream->name != NULL);
 }
 
 unsigned
 bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
-			     CStringP  chars)
+			     char *  chars)
 {
-    unsigned bytes_read = (unsigned)fread((GenericP)chars, sizeof(char),
-					   (SizeT)length, bistream->file);
+    unsigned bytes_read = (unsigned)fread(chars, sizeof(char),
+					   (size_t)length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
-	CStringP name = cstring_duplicate(bistream->name);
+	char * name = cstring_duplicate(bistream->name);
 
 	THROW_VALUE(XX_bistream_read_error, name);
 	UNREACHED;
@@ -129,11 +130,11 @@ unsigned
 bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
 			     ByteP     bytes)
 {
-    unsigned bytes_read = (unsigned)fread((GenericP)bytes, sizeof(ByteT),
-					   (SizeT)length, bistream->file);
+    unsigned bytes_read = (unsigned)fread(bytes, sizeof(ByteT),
+					   (size_t)length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
-	CStringP name = cstring_duplicate(bistream->name);
+	char * name = cstring_duplicate(bistream->name);
 
 	THROW_VALUE(XX_bistream_read_error, name);
 	UNREACHED;
@@ -149,7 +150,7 @@ bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
 
     if (byte == EOF) {
 	if (ferror(bistream->file)) {
-	    CStringP name = cstring_duplicate(bistream->name);
+	    char * name = cstring_duplicate(bistream->name);
 
 	    THROW_VALUE(XX_bistream_read_error, name);
 	    UNREACHED;
@@ -168,7 +169,7 @@ bistream_byte(BIStreamP bistream)
     return(bistream->bytes);
 }
 
-CStringP
+char *
 bistream_name(BIStreamP bistream)
 {
     return(bistream->name);
