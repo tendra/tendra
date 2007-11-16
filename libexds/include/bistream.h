@@ -78,6 +78,8 @@
 #ifndef H_BISTREAM
 #define H_BISTREAM
 
+#include <stdint.h>
+
 /*
  * This is the input stream type. Its representation is private.
  */
@@ -133,7 +135,7 @@ extern unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  */
-extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, ByteT *);
+extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -143,7 +145,7 @@ extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, ByteT *);
  * function returns true.  If the end of file is reached, the function returns
  * false.
  */
-extern BoolT			bistream_read_byte (BIStreamT *, ByteT *);
+extern BoolT			bistream_read_byte (BIStreamT *, uint8_t *);
 
 /*
  * This function returns the number of bytes that have been read from the

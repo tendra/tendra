@@ -78,6 +78,8 @@
 #ifndef H_BOSTREAM
 #define H_BOSTREAM
 
+#include <stdint.h>
+
 /*
  * This is the output stream type. Its representation is private.
  */
@@ -132,14 +134,14 @@ extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
  * This function writes the length bytes in the bytes vector to the specified
  * bostream.
  */
-extern void			bostream_write_bytes (BOStreamT *, unsigned, ByteT *);
+extern void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bostream_write_error
  *
  * This function writes the byte to the specified bostream.
  */
-extern void			bostream_write_byte (BOStreamT *, ByteT);
+extern void			bostream_write_byte (BOStreamT *, uint8_t);
 
 /*
  * This function returns the name of the file to which the specified

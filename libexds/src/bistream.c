@@ -66,6 +66,7 @@
 
 #include <stdio.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "common.h"
 #include "exception.h"
@@ -131,9 +132,9 @@ bistream_read_chars(BIStreamT * bistream,			     unsigned  length ,
 
 unsigned
 bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
-			     ByteT *     bytes)
+			     uint8_t *     bytes)
 {
-    unsigned bytes_read = (unsigned)fread(bytes, sizeof(ByteT),
+    unsigned bytes_read = (unsigned)fread(bytes, sizeof(uint8_t),
 					   (size_t)length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
@@ -147,7 +148,7 @@ bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
 }
 
 BoolT
-bistream_read_byte(BIStreamT * bistream,			    ByteT    *byte_ref)
+bistream_read_byte(BIStreamT * bistream,			    uint8_t *byte_ref)
 {
     int byte = fgetc(bistream->file);
 
@@ -162,7 +163,7 @@ bistream_read_byte(BIStreamT * bistream,			    ByteT    *byte_ref)
 	}
     }
     bistream->bytes++;
-    *byte_ref = (ByteT)byte;
+    *byte_ref = (uint8_t)byte;
     return(TRUE);
 }
 

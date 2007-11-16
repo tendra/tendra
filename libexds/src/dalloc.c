@@ -42,6 +42,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "common.h"
 #include "exception.h"
@@ -83,7 +84,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 	size_t        real_size = (((size) * length) + dalloc_data_size);
 	vm_address_t address;
 	DallocDataT *  data;
-	ByteT *        base;
+	uint8_t *        base;
 
 	if (vm_allocate(task_self (), &address, (vm_size_t) real_size,
 			TRUE) != KERN_SUCCESS) {
@@ -91,7 +92,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 	    UNREACHED;
 	}
 	data        = (DallocDataT *)address;
-	base        = (ByteT *)address;
+	base        = (uint8_t *)address;
 	tmp         = (base + dalloc_data_size);
 	data->file  = file;
 	data->line  = line;
@@ -105,7 +106,7 @@ void
 X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 {
     if (ptr) {
-	ByteT *         pointer = (ByteT *) ptr;
+	uint8_t *         pointer = (uint8_t *) ptr;
 	DallocDataT *   data    = (DallocDataT *)(pointer - dalloc_data_size);
 	vm_address_t  address = (vm_address_t) data;
 	vm_size_t     size    = data->size;
@@ -136,7 +137,7 @@ X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
 	tmp = NULL;
     } else {
 	size_t       real_size = ((size * length) + dalloc_data_size);
-	ByteT *       base;
+	uint8_t *       base;
 	DallocDataT * data;
 
 	if ((tmp = malloc(real_size)) == NULL) {
@@ -158,7 +159,7 @@ void
 X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 {
     if (ptr) {
-	ByteT *       pointer = (ByteT *) ptr;
+	uint8_t *       pointer = (uint8_t *) ptr;
 	DallocDataT * data    = (DallocDataT *)(pointer - dalloc_data_size);
 
 	if (data->magic == 0) {

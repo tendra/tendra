@@ -96,13 +96,6 @@ typedef void NoReturnT;
 # endif /* defined (__GNUC__) */
 
 /*
- * This is the byte type.  It is possible that this could be larger than an
- * octet in some implementations.
- * TODO this is to be replaced by uint8_t.
- */
-typedef unsigned char ByteT;
-
-/*
  * This is the boolean type.
  * TODO this is to be replaced with C99's bool, or something similar for
  * non-C99.

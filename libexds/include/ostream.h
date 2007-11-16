@@ -79,6 +79,7 @@
 #define H_OSTREAM
 
 #include <stdio.h>
+#include <stdint.h>
 
 /*
  * This is the output stream type.
@@ -189,7 +190,7 @@ extern void		write_tab(OStreamT *);
  *
  * This function writes the specified byte to the specified ostream.
  */
-extern void		write_byte(OStreamT *, ByteT);
+extern void		write_byte(OStreamT *, uint8_t);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -235,7 +236,7 @@ extern void		write_cstring(OStreamT *, char *);
  * This function writes the specified sequence of bytes (of the specified
  * length) to the specified ostream.
  */
-extern void		write_bytes(OStreamT *, ByteT *, unsigned);
+extern void		write_bytes(OStreamT *, uint8_t *, unsigned);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error

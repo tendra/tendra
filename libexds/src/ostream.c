@@ -69,6 +69,7 @@
 #include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <errno.h>
 
@@ -192,7 +193,7 @@ write_tab(OStreamT * ostream)
 }
 
 void
-write_byte(OStreamT * ostream, ByteT c)
+write_byte(OStreamT * ostream, uint8_t c)
 {
     if (c == '\n') {
 	ostream->line++;
@@ -274,17 +275,17 @@ write_cstring(OStreamT * ostream, char * cstring)
 }
 
 void
-write_bytes(OStreamT * ostream, ByteT * bytes, unsigned length)
+write_bytes(OStreamT * ostream, uint8_t * bytes, unsigned length)
 {
     unsigned tmp_length = length;
-    ByteT *    tmp_bytes  = bytes;
+    uint8_t *    tmp_bytes  = bytes;
 
     while (tmp_length--) {
 	if (*tmp_bytes++ == '\n') {
 	    ostream->line++;
 	}
     }
-    (void)fwrite(bytes, sizeof(ByteT), (size_t)length,
+    (void)fwrite(bytes, sizeof(uint8_t), (size_t)length,
 		 ostream->file);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }

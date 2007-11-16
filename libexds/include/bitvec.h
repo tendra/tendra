@@ -73,11 +73,13 @@
 #ifndef H_BITVEC
 #define H_BITVEC
 
+#include <stdint.h>
+
 /*
  * This is the bit vector type.
  */
 typedef struct BitVecT {
-    ByteT *		bits;
+    uint8_t *		bits;
 } BitVecT;
 
 /*

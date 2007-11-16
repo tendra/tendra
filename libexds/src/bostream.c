@@ -66,6 +66,7 @@
 
 #include <stdio.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "common.h"
 #include "exception.h"
@@ -127,9 +128,9 @@ bostream_write_chars(BOStreamT * bostream,			      unsigned  length ,
 
 void
 bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
-			      ByteT *     bytes)
+			      uint8_t *     bytes)
 {
-    unsigned bytes_read = (unsigned)fwrite(bytes, sizeof(ByteT),
+    unsigned bytes_read = (unsigned)fwrite(bytes, sizeof(uint8_t),
 					    (size_t)length, bostream->file);
 
     if ((bytes_read != length) && (ferror(bostream->file))) {
@@ -141,7 +142,7 @@ bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
 }
 
 void
-bostream_write_byte(BOStreamT * bostream,			     ByteT     byte)
+bostream_write_byte(BOStreamT * bostream,			     uint8_t byte)
 {
     if ((fputc((int)byte, bostream->file) == EOF) &&
 	(ferror(bostream->file))) {
