@@ -84,8 +84,6 @@
 typedef struct OStreamT {
     FILE		       *file;
     char *			name;
-    char *			gen_name;
-    int				no;
     unsigned			line;
 } OStreamT;
 
@@ -162,8 +160,6 @@ extern void		ostream_flush(OStreamT *);
  * writing to.  The return value should not be modified or deallocated.
  */
 extern char *		ostream_name(OStreamT *);
-
-extern char *		ostream_gen_name(OStreamT *);
 
 /*
  * This function returns one more than the number of newlines that have been
