@@ -1,5 +1,7 @@
 # $Id$
 
+PREFIX ?= /usr/local
+
 LIBTOOL = libtool
 CC = ${LIBTOOL} --mode=compile cc
 LINK = ${LIBTOOL} --mode=link cc
@@ -16,12 +18,15 @@ LTARGETS = bitvec.lo cstring.lo dalloc.lo dstring.lo error-file.lo error.lo \
 
 REMOVE = rm -f
 
-all: libeds.la ${TARGETS}
+all: libexds.la ${TARGETS}
 
 clean:
-	${REMOVE} libeds.la ${TARGETS} ${LTARGETS}
+	${REMOVE} libexds.la ${TARGETS} ${LTARGETS}
 
-libeds.la: ${TARGETS}
+install: libexds.la
+	install -m 755 libexds.la ${PREFIX}/lib
+
+libexds.la: ${TARGETS}
 	# TODO -rpath for install:
-	${LINK} -o libeds.la ${LTARGETS}
+	${LINK} -o libexds.la ${LTARGETS}
 
