@@ -78,42 +78,39 @@
 typedef struct NStringListEntryT {
     struct NStringListEntryT   *next;
     NStringT			string;
-} NStringListEntryT, *NStringListEntryP;
+} NStringListEntryT;
 
 /*
  * This is the nstring list type. Its representation is private.
  */
 typedef struct NStringListT {
-    NStringListEntryP		head;
-    NStringListEntryP	       *tail;
-} NStringListT, *NStringListP;
+    NStringListEntryT *		head;
+    NStringListEntryT *	       *tail;
+} NStringListT;
 
 /*
  * This function initialises the specified nstring list to be an empty list.
  */
 extern void			nstring_list_init
-(NStringListP);
+(NStringListT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified nstring onto the specified list.
  */
-extern void			nstring_list_append
-(NStringListP, NStringP);
+extern void			nstring_list_append (NStringListT *, NStringT *);
 
 /*
  * This function returns a pointer to the first entry in the specified list.
  */
-extern NStringListEntryP	nstring_list_head
-(NStringListP);
+extern NStringListEntryT *	nstring_list_head (NStringListT *);
 
 /*
  * This function returns a pointer to the nstring stored in the specified
  * list entry.
  */
-extern NStringP			nstring_list_entry_string
-(NStringListEntryP);
+extern NStringT *			nstring_list_entry_string (NStringListEntryT *);
 
 /*
  * This function deallocates the specified list entry (without deallocating
@@ -122,7 +119,6 @@ extern NStringP			nstring_list_entry_string
  * the state of the list that the entry is a member of is undefined.  It is
  * only useful for deallocating the entire list in a loop.
  */
-extern NStringListEntryP	nstring_list_entry_deallocate
-(NStringListEntryP);
+extern NStringListEntryT *	nstring_list_entry_deallocate (NStringListEntryT *);
 
 #endif /* !defined (H_NSTRING_LIST) */

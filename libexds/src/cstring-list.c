@@ -70,16 +70,16 @@
 #include "cstring-list.h"
 
 void
-cstring_list_init(CStringListP list)
+cstring_list_init(CStringListT * list)
 {
     list->head = NULL;
     list->tail = & (list->head);
 }
 
 void
-cstring_list_append(CStringListP list,			     char *     string)
+cstring_list_append(CStringListT * list,			     char *     string)
 {
-    CStringListEntryP entry = ALLOCATE(CStringListEntryT);
+    CStringListEntryT * entry = ALLOCATE(CStringListEntryT);
 
     entry->next   = NULL;
     entry->string = string;
@@ -88,9 +88,9 @@ cstring_list_append(CStringListP list,			     char *     string)
 }
 
 BoolT
-cstring_list_contains(CStringListP list,			       char *     string)
+cstring_list_contains(CStringListT * list,			       char *     string)
 {
-    CStringListEntryP entry = list->head;
+    CStringListEntryT * entry = list->head;
     while (entry != NULL) {
 	if (cstring_equal(string, entry->string)) {
 	    return(TRUE);
@@ -100,22 +100,22 @@ cstring_list_contains(CStringListP list,			       char *     string)
     return(FALSE);
 }
 
-CStringListEntryP
-cstring_list_head(CStringListP list)
+CStringListEntryT *
+cstring_list_head(CStringListT * list)
 {
     return(list->head);
 }
 
 char *
-cstring_list_entry_string(CStringListEntryP entry)
+cstring_list_entry_string(CStringListEntryT * entry)
 {
     return(entry->string);
 }
 
-CStringListEntryP
-cstring_list_entry_deallocate(CStringListEntryP entry)
+CStringListEntryT *
+cstring_list_entry_deallocate(CStringListEntryT * entry)
 {
-    CStringListEntryP next = entry->next;
+    CStringListEntryT * next = entry->next;
 
     DEALLOCATE(entry);
     return(next);

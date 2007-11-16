@@ -64,42 +64,44 @@
  * "nstring-list.h".  See that file for more details.
  */
 
+#include <stddef.h>
+
 #include "nstring-list.h"
 
 void
-nstring_list_init(NStringListP list)
+nstring_list_init(NStringListT * list)
 {
-    list->head = NIL(NStringListEntryP);
+    list->head = NULL;
     list->tail = & (list->head);
 }
 
 void
-nstring_list_append(NStringListP list,			     NStringP     string)
+nstring_list_append(NStringListT * list,			     NStringT *     string)
 {
-    NStringListEntryP entry = ALLOCATE(NStringListEntryT);
+    NStringListEntryT * entry = ALLOCATE(NStringListEntryT);
 
-    entry->next   = NIL(NStringListEntryP);
+    entry->next   = NULL;
     nstring_assign(& (entry->string), string);
     *(list->tail) = entry;
     list->tail    = & (entry->next);
 }
 
-NStringListEntryP
-nstring_list_head(NStringListP list)
+NStringListEntryT *
+nstring_list_head(NStringListT * list)
 {
     return(list->head);
 }
 
-NStringP
-nstring_list_entry_string(NStringListEntryP entry)
+NStringT *
+nstring_list_entry_string(NStringListEntryT * entry)
 {
     return(& (entry->string));
 }
 
-NStringListEntryP
-nstring_list_entry_deallocate(NStringListEntryP entry)
+NStringListEntryT *
+nstring_list_entry_deallocate(NStringListEntryT * entry)
 {
-    NStringListEntryP next = entry->next;
+    NStringListEntryT * next = entry->next;
 
     DEALLOCATE(entry);
     return(next);

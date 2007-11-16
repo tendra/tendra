@@ -83,14 +83,14 @@ typedef struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
     char *			name;
-} BIStreamT, *BIStreamP;
+} BIStreamT;
 
-extern ExceptionP		XX_bistream_read_error;
+extern ExceptionT *		XX_bistream_read_error;
 
 /*
  * This function initialises the specified bistream not to read from any file.
  */
-extern void			bistream_init (BIStreamP);
+extern void			bistream_init (BIStreamT *);
 
 /*
  * This function initialises the specified bistream to read from the file with
@@ -99,19 +99,19 @@ extern void			bistream_init (BIStreamP);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-extern BoolT			bistream_open (BIStreamP, char *);
+extern BoolT			bistream_open (BIStreamT *, char *);
 
 /*
  * This function assigns the from bistream to the to bistream.  The from
  * bistream should not be used again.
  */
-extern void			bistream_assign (BIStreamP, BIStreamP);
+extern void			bistream_assign (BIStreamT *, BIStreamT *);
 
 /*
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  */
-extern BoolT			bistream_is_open (BIStreamP);
+extern BoolT			bistream_is_open (BIStreamT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -121,7 +121,7 @@ extern BoolT			bistream_is_open (BIStreamP);
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  */
-extern unsigned			bistream_read_chars (BIStreamP, unsigned, char *);
+extern unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -131,7 +131,7 @@ extern unsigned			bistream_read_chars (BIStreamP, unsigned, char *);
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  */
-extern unsigned			bistream_read_bytes (BIStreamP, unsigned, ByteP);
+extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, ByteT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -141,29 +141,29 @@ extern unsigned			bistream_read_bytes (BIStreamP, unsigned, ByteP);
  * function returns true.  If the end of file is reached, the function returns
  * false.
  */
-extern BoolT			bistream_read_byte (BIStreamP, ByteT *);
+extern BoolT			bistream_read_byte (BIStreamT *, ByteT *);
 
 /*
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  */
-extern unsigned			bistream_byte (BIStreamP);
+extern unsigned			bistream_byte (BIStreamT *);
 
 /*
  * This function returns the name of the file from which the specified
  * bistream is reading. The return value should not be modified or
  * deallocated.
  */
-extern char *			bistream_name (BIStreamP);
+extern char *			bistream_name (BIStreamT *);
 
 /*
  * This function rewinds the specified bistream.
  */
-extern void			bistream_rewind (BIStreamP);
+extern void			bistream_rewind (BIStreamT *);
 
 /*
  * This function closes the specified bistream.
  */
-extern void			bistream_close (BIStreamP);
+extern void			bistream_close (BIStreamT *);
 
 #endif /* !defined (H_BISTREAM) */
