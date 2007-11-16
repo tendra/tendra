@@ -117,8 +117,4 @@ extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
  */
 extern BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
 
-extern BoolT			cstring_starts(char *cstring, char *s);
-
-extern char *			cstring_find_basename(char *cstring);
-
 #endif /* !defined (H_CSTRING) */

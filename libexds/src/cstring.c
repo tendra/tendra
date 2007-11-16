@@ -149,18 +149,3 @@ cstring_to_unsigned(char * cstring, unsigned *num_ref)
     return(TRUE);
 }
 
-BoolT
-cstring_starts(char * cstring, char * s)
-{
-    return(strncmp(cstring, s, strlen(s)) == 0);
-}
-
-char *
-cstring_find_basename(char * cstring)
-{
-    char * bstring = strrchr(cstring, '/');
-    if (bstring != NULL) {
-	cstring = bstring + 1;
-    }
-    return(cstring);
-}
