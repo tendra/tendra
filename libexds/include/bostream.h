@@ -57,106 +57,18 @@
         it may be put.
 */
 
-
-/**** bostream.h --- Binary output stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * bostream.h - Binary output stream handling.
  *
  * This file specifies the interface to the binary output stream facility.
  *
- ***=== TYPES ================================================================
  *
- ** Type:	BOStreamT
- ** Type:	BOStreamP
- ** Repr:	<private>
- *
- * This is the output stream type.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	void bostream_init(BOStreamP bostream)
- ** Exceptions:
- *
- * This function initialises the specified bostream not to write to any file.
- *
- ** Function:	BoolT bostream_open(BOStreamP bostream, CStringP name)
- ** Exceptions:
- *
- * This function initialises the specified bostream to write to the file with
- * the specified name.  The name should not be modified or deallocated until
- * the bostream has been closed.  If the file cannot be opened, the function
- * returns false. If the file is opened successfully, the function returns
- * true.
- *
- ** Function:	void bostream_assign(BOStreamP to, BOStreamP from)
- ** Exceptions:
- *
- * This function assigns the from bostream to the to bostream.  The from
- * bostream should not be used again.
- *
- ** Function:	BoolT bostream_is_open(BOStreamP bostream)
- *
- * This function returns true if the specified bostream is writing to a file,
- * and false otherwise.
- *
- ** Function:	void bostream_write_chars(BOStreamP bostream, unsigned length,
- *					  CStringP chars)
- ** Exceptions:	XX_bostream_write_error
- *
- * This function writes the length characters in the chars vector to the
- * specified bostream.
- *
- ** Function:	void bostream_write_bytes(BOStreamP bostream, unsigned length,
- *					  ByteP bytes)
- ** Exceptions:	XX_bostream_write_error
- *
- * This function writes the length bytes in the bytes vector to the specified
- * bostream.
- *
- ** Function:	void bostream_write_byte(BOStreamP bostream, ByteT byte)
- ** Exceptions:	XX_bostream_write_error
- *
- * This function writes the byte to the specified bostream.
- *
- ** Function:	CStringP bostream_name(BOStreamP bostream)
- ** Exceptions:
- *
- * This function returns the name of the file to which the specified
- * bostream is writing. The return value should not be modified or
- * deallocated.
- *
- ** Function:	void bostream_close(BOStreamP bostream)
- ** Exceptions:
- *
- * This function closes the specified bostream.
- *
- ***=== EXCEPTIONS ===========================================================
- *
- ** Exception:	XX_bostream_write_error (CStringP name)
+ * Exception:	XX_bostream_write_error (CStringP name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file that the write error occured on.  The copy
  * should be deallocated when finished with.
- *
- **** Change Log:
- * $Log: bostream.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:23  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:14  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_BOSTREAM
 #define H_BOSTREAM
@@ -164,36 +76,79 @@
 #include "os-interface.h"
 #include "exception.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This is the output stream type. Its representation is private.
+ */
 typedef struct BOStreamT {
     FILE		       *file;
     CStringP			name;
 } BOStreamT, *BOStreamP;
 
-/*--------------------------------------------------------------------------*/
-
 extern ExceptionP		XX_bostream_write_error;
 
-/*--------------------------------------------------------------------------*/
+/*
+ * This function initialises the specified bostream not to write to any file.
+ *
+ * See bostream_open() to initialise to write to a specific file.
+ */
+extern void			bostream_init (BOStreamP);
 
-extern void			bostream_init
-(BOStreamP);
-extern BoolT			bostream_open
-(BOStreamP, CStringP);
-extern void			bostream_assign
-(BOStreamP, BOStreamP);
-extern BoolT			bostream_is_open
-(BOStreamP);
-extern void			bostream_write_chars
-(BOStreamP, unsigned, CStringP);
-extern void			bostream_write_bytes
-(BOStreamP, unsigned, ByteP);
-extern void			bostream_write_byte
-(BOStreamP, ByteT);
-extern CStringP			bostream_name
-(BOStreamP);
-extern void			bostream_close
-(BOStreamP);
+/*
+ * This function initialises the specified bostream to write to the file with
+ * the specified name.  The name should not be modified or deallocated until
+ * the bostream has been closed.  If the file cannot be opened, the function
+ * returns false. If the file is opened successfully, the function returns
+ * true.
+ *
+ * See bostream_init() to initialise not to write to a file.
+ */
+extern BoolT			bostream_open (BOStreamP, CStringP);
+
+/*
+ * This function assigns the from bostream to the to bostream.  The from
+ * bostream should not be used again.
+ */
+extern void			bostream_assign (BOStreamP, BOStreamP);
+
+/*
+ * This function returns true if the specified bostream is writing to a file,
+ * and false otherwise.
+ */
+extern BoolT			bostream_is_open (BOStreamP);
+
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length characters in the chars vector to the
+ * specified bostream.
+ */
+extern void			bostream_write_chars (BOStreamP, unsigned, CStringP);
+
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length bytes in the bytes vector to the specified
+ * bostream.
+ */
+extern void			bostream_write_bytes (BOStreamP, unsigned, ByteP);
+
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the byte to the specified bostream.
+ */
+extern void			bostream_write_byte (BOStreamP, ByteT);
+
+/*
+ * This function returns the name of the file to which the specified
+ * bostream is writing. The return value should not be modified or
+ * deallocated.
+ */
+extern CStringP			bostream_name (BOStreamP);
+
+/*
+ * This function closes the specified bostream.
+ */
+extern void			bostream_close (BOStreamP);
 
 #endif /* !defined (H_BOSTREAM) */

@@ -57,35 +57,14 @@
         it may be put.
 */
 
-
-/**** nstring-list.c --- String list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * nstring-list.c - String list ADT.
  *
  * This file implements the string list facility specified in the file
  * "nstring-list.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: nstring-list.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:47  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:52  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "nstring-list.h"
-
-/*--------------------------------------------------------------------------*/
 
 void
 nstring_list_init(NStringListP list)
@@ -125,9 +104,3 @@ nstring_list_entry_deallocate(NStringListEntryP entry)
     DEALLOCATE(entry);
     return(next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

@@ -57,40 +57,17 @@
         it may be put.
 */
 
-
-/**** bostream.c --- Binary output stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * bostream.c - Binary output stream handling.
  *
  * This file implements the binary output stream facility specified in the
  * file "bostream.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: bostream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:21  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:14  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "bostream.h"
 #include "cstring.h"
 
-/*--------------------------------------------------------------------------*/
-
 ExceptionP XX_bostream_write_error = EXCEPTION("error writing to binary stream");
-
-/*--------------------------------------------------------------------------*/
 
 void
 bostream_init(BOStreamP bostream)

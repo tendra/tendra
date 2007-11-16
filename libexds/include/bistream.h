@@ -57,124 +57,18 @@
         it may be put.
 */
 
-
-/**** bistream.h --- Binary input stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * bistream.h - Binary input stream handling.
  *
  * This file specifies the interface to the binary input stream facility.
  *
- ***=== TYPES ================================================================
  *
- ** Type:	BIStreamT
- ** Type:	BIStreamP
- ** Repr:	<private>
- *
- * This is the input stream type.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	void bistream_init(BIStreamP bistream)
- ** Exceptions:
- *
- * This function initialises the specified bistream not to read from any file.
- *
- ** Function:	BoolT bistream_open(BIStreamP bistream, CStringP name)
- ** Exceptions:
- *
- * This function initialises the specified bistream to read from the file with
- * the specified name.  The name should not be modified or deallocated until
- * the bistream has been closed.  If the file cannot be opened, the function
- * returns false. If the file is opened successfully, the function returns
- * true.
- *
- ** Function:	void bistream_assign(BIStreamP to, BIStreamP from)
- ** Exceptions:
- *
- * This function assigns the from bistream to the to bistream.  The from
- * bistream should not be used again.
- *
- ** Function:	BoolT bistream_is_open(BIStreamP bistream)
- *
- * This function returns true if the specified bistream is reading from a file,
- * and false otherwise.
- *
- ** Function:	unsigned bistream_read_chars(BIStreamP bistream,
- *					     unsigned length, CStringP chars)
- ** Exceptions:	XX_bistream_read_error
- *
- * This function reads the next length characters from the specified bistream.
- * The characters read are placed in the chars vector, which should be long
- * enough to hold at least length characters.  The function returns the number
- * of characters actually read.
- *
- ** Function:	unsigned bistream_read_bytes(BIStreamP bistream,
- *					     unsigned length, ByteP bytes)
- ** Exceptions:	XX_bistream_read_error
- *
- * This function reads the next length bytes from the specified bistream.  The
- * bytes read are placed in the bytes vector, which should be long enough to
- * hold at least length bytes.  The function returns the number of bytes
- * actually read.
- *
- ** Function:	BoolT bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
- ** Exceptions:	XX_bistream_read_error
- *
- * This function reads the next character from the specified bistream.  If a
- * byte is read then the byte is assigned to the reference argument, and the
- * function returns true.  If the end of file is reached, the function returns
- * false.
- *
- ** Function:	unsigned bistream_byte(BIStreamP bistream)
- ** Exceptions:
- *
- * This function returns the number of bytes that have been read from the
- * specified bistream.
- *
- ** Function:	CStringP bistream_name(BIStreamP bistream)
- ** Exceptions:
- *
- * This function returns the name of the file from which the specified
- * bistream is reading. The return value should not be modified or
- * deallocated.
- *
- ** Function:	void bistream_rewind(BIStreamP bistream)
- ** Exceptions:
- *
- * This function rewinds the specified bistream.
- *
- ** Function:	void bistream_close(BIStreamP bistream)
- ** Exceptions:
- *
- * This function closes the specified bistream.
- *
- ***=== EXCEPTIONS ===========================================================
- *
- ** Exception:	XX_bistream_read_error (CStringP name)
+ * Exception:	XX_bistream_read_error (CStringP name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
  * should be deallocated when finished with.
- *
- **** Change Log:
- * $Log: bistream.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:19  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:13  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_BISTREAM
 #define H_BISTREAM
@@ -182,41 +76,94 @@
 #include "os-interface.h"
 #include "exception.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This is the input stream type. Its representation is private.
+ */
 typedef struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
     CStringP			name;
 } BIStreamT, *BIStreamP;
 
-/*--------------------------------------------------------------------------*/
-
 extern ExceptionP		XX_bistream_read_error;
 
-/*--------------------------------------------------------------------------*/
+/*
+ * This function initialises the specified bistream not to read from any file.
+ */
+extern void			bistream_init (BIStreamP);
 
-extern void			bistream_init
-(BIStreamP);
-extern BoolT			bistream_open
-(BIStreamP, CStringP);
-extern void			bistream_assign
-(BIStreamP, BIStreamP);
-extern BoolT			bistream_is_open
-(BIStreamP);
-extern unsigned			bistream_read_chars
-(BIStreamP, unsigned, CStringP);
-extern unsigned			bistream_read_bytes
-(BIStreamP, unsigned, ByteP);
-extern BoolT			bistream_read_byte
-(BIStreamP, ByteT *);
-extern unsigned			bistream_byte
-(BIStreamP);
-extern CStringP			bistream_name
-(BIStreamP);
-extern void			bistream_rewind
-(BIStreamP);
-extern void			bistream_close
-(BIStreamP);
+/*
+ * This function initialises the specified bistream to read from the file with
+ * the specified name.  The name should not be modified or deallocated until
+ * the bistream has been closed.  If the file cannot be opened, the function
+ * returns false. If the file is opened successfully, the function returns
+ * true.
+ */
+extern BoolT			bistream_open (BIStreamP, CStringP);
+
+/*
+ * This function assigns the from bistream to the to bistream.  The from
+ * bistream should not be used again.
+ */
+extern void			bistream_assign (BIStreamP, BIStreamP);
+
+/*
+ * This function returns true if the specified bistream is reading from a file,
+ * and false otherwise.
+ */
+extern BoolT			bistream_is_open (BIStreamP);
+
+/*
+ * Exceptions:	XX_bistream_read_error
+ *
+ * This function reads the next length characters from the specified bistream.
+ * The characters read are placed in the chars vector, which should be long
+ * enough to hold at least length characters.  The function returns the number
+ * of characters actually read.
+ */
+extern unsigned			bistream_read_chars (BIStreamP, unsigned, CStringP);
+
+/*
+ * Exceptions:	XX_bistream_read_error
+ *
+ * This function reads the next length bytes from the specified bistream.  The
+ * bytes read are placed in the bytes vector, which should be long enough to
+ * hold at least length bytes.  The function returns the number of bytes
+ * actually read.
+ */
+extern unsigned			bistream_read_bytes (BIStreamP, unsigned, ByteP);
+
+/*
+ * Exceptions:	XX_bistream_read_error
+ *
+ * This function reads the next character from the specified bistream.  If a
+ * byte is read then the byte is assigned to the reference argument, and the
+ * function returns true.  If the end of file is reached, the function returns
+ * false.
+ */
+extern BoolT			bistream_read_byte (BIStreamP, ByteT *);
+
+/*
+ * This function returns the number of bytes that have been read from the
+ * specified bistream.
+ */
+extern unsigned			bistream_byte (BIStreamP);
+
+/*
+ * This function returns the name of the file from which the specified
+ * bistream is reading. The return value should not be modified or
+ * deallocated.
+ */
+extern CStringP			bistream_name (BIStreamP);
+
+/*
+ * This function rewinds the specified bistream.
+ */
+extern void			bistream_rewind (BIStreamP);
+
+/*
+ * This function closes the specified bistream.
+ */
+extern void			bistream_close (BIStreamP);
 
 #endif /* !defined (H_BISTREAM) */

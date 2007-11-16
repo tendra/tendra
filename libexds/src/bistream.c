@@ -57,42 +57,19 @@
         it may be put.
 */
 
-
-/**** bistream.c --- Binary input stream handling.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * bistream.c - Binary input stream handling.
  *
  * This file implements the binary input stream facility specified in the file
  * "bistream.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: bistream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:45:16  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:12  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stdio.h>
 
 #include "bistream.h"
 #include "cstring.h"
 
-/*--------------------------------------------------------------------------*/
-
 ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream");
-
-/*--------------------------------------------------------------------------*/
 
 void
 bistream_init(BIStreamP bistream)

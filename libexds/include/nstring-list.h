@@ -57,81 +57,13 @@
         it may be put.
 */
 
-
-/**** nstring-list.h --- String list ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- ***=== INTRODUCTION =========================================================
+/*
+ * nstring-list.h - String list ADT.
  *
  * This file specifies the interface to a string list facility.  This
  * particular facility allows lists of nstrings (defined in the files
  * "dstring.[ch]") to be created.
- *
- ***=== TYPES ================================================================
- *
- ** Type:	NStringListEntryT
- ** Type:	NStringListEntryP
- ** Repr:	<private>
- *
- * This is the nstring list entry type.
- *
- ** Type:	NStringListT
- ** Type:	NStringListP
- ** Repr:	<private>
- *
- * This is the nstring list type.
- *
- ***=== FUNCTIONS ============================================================
- *
- ** Function:	void nstring_list_init(NStringListP list)
- ** Exceptions:
- *
- * This function initialises the specified nstring list to be an empty list.
- *
- ** Function:	void nstring_list_append(NStringListP list, NStringP nstring)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This function appends the specified nstring onto the specified list.
- *
- ** Function:	NStringListEntryP nstring_list_head(NStringListP list)
- ** Exceptions:
- *
- * This function returns a pointer to the first entry in the specified list.
- *
- ** Function:	NStringP nstring_list_entry_string(NStringListEntryP entry)
- ** Exceptions:
- *
- * This function returns a pointer to the nstring stored in the specified
- * list entry.
- *
- ** Function:	NStringListEntryP
- *		    nstring_list_entry_deallocate(NStringListEntryP entry)
- ** Exceptions:
- *
- * This function deallocates the specified list entry (without deallocating
- * the string - this must be done by the calling function) and returns a
- * pointer to the next entry in the list.  Once this function has been called,
- * the state of the list that the entry is a member of is undefined.  It is
- * only useful for deallocating the entire list in a loop.
- *
- **** Change log:
- * $Log: nstring-list.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:49  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:05:53  smf
- * Initial import of library shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NSTRING_LIST
 #define H_NSTRING_LIST
@@ -140,35 +72,57 @@
 #include "dalloc.h"
 #include "dstring.h"
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This is the nstring list entry type. Its representation is private.
+ */
 typedef struct NStringListEntryT {
     struct NStringListEntryT   *next;
     NStringT			string;
 } NStringListEntryT, *NStringListEntryP;
 
+/*
+ * This is the nstring list type. Its representation is private.
+ */
 typedef struct NStringListT {
     NStringListEntryP		head;
     NStringListEntryP	       *tail;
 } NStringListT, *NStringListP;
 
-/*--------------------------------------------------------------------------*/
-
+/*
+ * This function initialises the specified nstring list to be an empty list.
+ */
 extern void			nstring_list_init
 (NStringListP);
+
+/*
+ * Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the specified nstring onto the specified list.
+ */
 extern void			nstring_list_append
 (NStringListP, NStringP);
+
+/*
+ * This function returns a pointer to the first entry in the specified list.
+ */
 extern NStringListEntryP	nstring_list_head
 (NStringListP);
+
+/*
+ * This function returns a pointer to the nstring stored in the specified
+ * list entry.
+ */
 extern NStringP			nstring_list_entry_string
 (NStringListEntryP);
+
+/*
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ */
 extern NStringListEntryP	nstring_list_entry_deallocate
 (NStringListEntryP);
 
 #endif /* !defined (H_NSTRING_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/
