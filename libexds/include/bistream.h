@@ -62,6 +62,11 @@
  *
  * This file specifies the interface to the binary input stream facility.
  *
+ * It depends on:
+ *
+ *  <exds/exception.h>
+ *  <exds/common.h>
+ *
  *
  * Exception:	XX_bistream_read_error (char * name)
  *
@@ -72,9 +77,6 @@
 
 #ifndef H_BISTREAM
 #define H_BISTREAM
-
-#include "os-interface.h"
-#include "exception.h"
 
 /*
  * This is the input stream type. Its representation is private.

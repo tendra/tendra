@@ -62,6 +62,12 @@
  *
  * This file specifies the interface to the input stream facility.
  *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *  <exds/exception.h>
+ *
+ *
  * Exception:	XX_istream_read_error (char * name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
@@ -73,10 +79,6 @@
 #define H_ISTREAM
 
 #include <stdio.h>
-
-#include "os-interface.h"
-#include "dalloc.h"
-#include "exception.h"
 
 /*
  * This is the input stream type.

@@ -64,14 +64,14 @@
  * facility.  This facility extends the error reporting facility specified in
  * the file "error.h" so that error messages may be redefined by the contents
  * of a file.
+ *
+ * This depends on:
+ *
+ * <exds/common.h>
  */
 
 #ifndef H_ERROR_FILE
 #define H_ERROR_FILE
-
-#include "os-interface.h"
-#include "cstring.h"
-#include "istream.h"
 
 /*
  * This function parses the error file with the specified name.  If must_open

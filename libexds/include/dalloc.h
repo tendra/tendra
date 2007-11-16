@@ -64,6 +64,11 @@
  * All dynamically allocated objects are initialised with zeroes, but
  * non-integer typed fields will still need to be initialised explicitly.
  *
+ * This requires:
+ *
+ *  <exds/exception.h>
+ *
+ *
  * If the macro ``PO_DALLOC_DEBUG_ALIGN'' is defined, then extra debugging
  * information is added into the space allocated to help detect errors in
  * memory management.  If this macro is defined, it requires two functions to
@@ -96,9 +101,6 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-
-#include "os-interface.h"
-#include "exception.h"
 
 extern ExceptionT *		XX_dalloc_no_memory;
 

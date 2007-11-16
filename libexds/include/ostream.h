@@ -62,6 +62,12 @@
  *
  * This file specifies the interface to the output stream facility.
  *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *  <exds/exception.h>
+ *
+ *
  * Exception:	XX_ostream_write_error (char * name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
@@ -73,10 +79,6 @@
 #define H_OSTREAM
 
 #include <stdio.h>
-
-#include "os-interface.h"
-#include "dalloc.h"
-#include "exception.h"
 
 /*
  * This is the output stream type.

@@ -66,6 +66,12 @@
  * when it is necessary to append characters to a string one at a time with
  * reasonable efficiency.
  *
+ * This depends on:
+ *
+ * <exds/common.h>
+ * <exds/ostream.h>
+ *
+ *
  * Null pointers are not valid as nstrings or dstrings. Passing a null pointer
  * as the argument to a function will have an undefined effect (on many
  * machines the program will abort, but this is not guaranteed).
@@ -73,11 +79,6 @@
 
 #ifndef H_DSTRING
 #define H_DSTRING
-
-#include "os-interface.h"
-#include "cstring.h"
-#include "dalloc.h"
-#include "ostream.h"
 
 /*
  * This is the nstring type.  These strings may contain null characters.

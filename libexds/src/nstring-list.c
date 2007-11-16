@@ -66,6 +66,11 @@
 
 #include <stddef.h>
 
+#include "common.h"
+#include "exception.h"
+#include "dalloc.h"
+#include "ostream.h"
+#include "dstring.h"
 #include "nstring-list.h"
 
 void

@@ -70,6 +70,10 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "common.h"
+#include "exception.h"
+#include "ostream.h"
+#include "dalloc.h"
 #include "dstring.h"
 
 #define DSTRING_CHUNK_SIZE 32

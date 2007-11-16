@@ -63,6 +63,11 @@
  * This file defines the C string type and specifies some functions that can
  * be used to manipulate C strings.
  *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *
+ *
  * Here we use char * to as the type for C strings. Origionally this code had
  * an abstraction specifically for strings, to distinguish from character
  * pointers, however this was cumbersome; it has been removed during transition
@@ -73,9 +78,6 @@
 
 #ifndef H_CSTRING
 #define H_CSTRING
-
-#include "os-interface.h"
-#include "dalloc.h"
 
 /*
  * Exceptions:	XX_dalloc_no_memory

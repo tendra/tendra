@@ -66,8 +66,12 @@
 
 #include <ctype.h>
 
+#include "common.h"
+#include "exception.h"
 #include "error-file.h"
+#include "ostream.h"
 #include "dstring.h"
+#include "istream.h"
 #include "error.h"
 #include "internals.h"
 

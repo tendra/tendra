@@ -58,7 +58,7 @@
 */
 
 /*
- * os-interface.h - Primitive definitions.
+ * common.h - Primitive definitions common to several interfaces.
  *
  * This file specifies an interface to the host system's C library, compiler
  * and operating system.  It provides definitions of basic types, constants
@@ -67,10 +67,15 @@
  *
  * This file used to provide portability abstractions; now all that remains
  * are definitions for semantic purposes, such as CmpT.
+ *
+ * This is seperate from exception.h as some APIs provided by the library
+ * may not neccessary make use of the exception mechanism (for example, a
+ * memory pool allocation system). However, that would be built upon to
+ * provide an exception-throwing interface as an additional layer.
  */
 
-#ifndef H_OS_INTERFACE
-#define H_OS_INTERFACE
+#ifndef H_COMMON
+#define H_COMMON
 
 # ifdef __GNUC__
 typedef void NoReturnT;
@@ -123,4 +128,4 @@ typedef enum {
 # define FALSE (0)
 # define TRUE (1)
 
-#endif /* !defined (H_OS_INTERFACE) */
+#endif /* !defined (H_COMMON) */

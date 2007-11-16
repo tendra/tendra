@@ -72,6 +72,8 @@
 #include <string.h>
 #include <errno.h>
 
+#include "common.h"
+#include "exception.h"
 #include "ostream.h"
 #include "cstring.h"
 #include "syntax.h"

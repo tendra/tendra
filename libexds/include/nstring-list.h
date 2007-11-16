@@ -63,14 +63,14 @@
  * This file specifies the interface to a string list facility.  This
  * particular facility allows lists of nstrings (defined in the files
  * "dstring.[ch]") to be created.
+ *
+ * This depends on:
+ *
+ *  <exds/dstring.h>
  */
 
 #ifndef H_NSTRING_LIST
 #define H_NSTRING_LIST
-
-#include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
 
 /*
  * This is the nstring list entry type. Its representation is private.

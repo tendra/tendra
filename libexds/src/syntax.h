@@ -73,8 +73,6 @@
 #ifndef H_SYNTAX
 #define H_SYNTAX
 
-#include "os-interface.h"
-
 /*
  * This value is returned by the ``syntax_value'' function for characters that
  * do not have a digit value.

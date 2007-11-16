@@ -65,6 +65,11 @@
  * and ``longjmp''), and should be used in preference to it.  The mechanism is
  * implemented as a set of macros.
  *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *
+ *
  * This file requires that two external functions are provided:
  *
  *	extern void			E_exception_unhandled
@@ -94,8 +99,6 @@
 #define H_EXCEPTION
 
 #include <setjmp.h>
-
-#include "os-interface.h"
 
 /*
  * This is the type of an exception.  Exceptions are initialised using the

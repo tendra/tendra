@@ -69,6 +69,12 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include "common.h"
+#include "exception.h"
+#include "dalloc.h"
+#include "ostream.h"
+#include "cstring.h"
+#include "dstring.h"
 #include "error.h"
 #include "syntax.h"
 #include "internals.h"

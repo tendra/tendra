@@ -66,7 +66,10 @@
 
 #include <stddef.h>
 
+#include "common.h"
+#include "exception.h"
 #include "cstring.h"
+#include "dalloc.h"
 #include "cstring-list.h"
 
 void

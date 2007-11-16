@@ -64,14 +64,14 @@
  * This file specifies the interface to a string list facility.  This
  * particular facility allows lists of cstrings (defined in the files
  * "cstring.[ch]") to be created.
+ *
+ * This depends on:
+ *
+ *  <exds/common.h>
  */
 
 #ifndef H_CSTRING_LIST
 #define H_CSTRING_LIST
-
-#include "os-interface.h"
-#include "cstring.h"
-#include "dalloc.h"
 
 /*
  * This is the cstring list entry type. Its representation is private.

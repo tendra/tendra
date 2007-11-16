@@ -70,6 +70,9 @@
 #include <limits.h>
 #include <ctype.h>
 
+#include "common.h"
+#include "exception.h"
+#include "dalloc.h"
 #include "cstring.h"
 #include "syntax.h"
 

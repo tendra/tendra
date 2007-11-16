@@ -67,6 +67,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 
+#include "common.h"
 #include "exception.h"
 #include "internals.h"
 

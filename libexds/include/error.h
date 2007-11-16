@@ -66,6 +66,12 @@
  * different language) with the variable components of the message in a
  * different order.
  *
+ * This depends on:
+ *
+ *  <exds/dstring.h>
+ *  <exds/ostream.h>
+ *
+ *
  * In addition to the error mesage support, this facility also provides
  * support for named strings whose text may be redefined.  This is useful for
  * allowing the text of help messages to be redefined.
@@ -73,11 +79,6 @@
 
 #ifndef H_ERROR
 #define H_ERROR
-
-#include "os-interface.h"
-#include "cstring.h"
-#include "dstring.h"
-#include "ostream.h"
 
 /*
  * This is the error severity level type.  The lowest error severity is

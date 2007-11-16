@@ -67,6 +67,8 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#include "common.h"
+#include "exception.h"
 #include "bostream.h"
 #include "cstring.h"
 #include "internals.h"

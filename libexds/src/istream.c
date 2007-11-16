@@ -67,6 +67,9 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "common.h"
+#include "exception.h"
+#include "dalloc.h"
 #include "istream.h"
 #include "cstring.h"
 #include "syntax.h"

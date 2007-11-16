@@ -43,6 +43,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include "common.h"
+#include "exception.h"
 #include "dalloc.h"
 #include "internals.h"
 

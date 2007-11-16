@@ -63,14 +63,15 @@
  * This file specifies the interface to a single size bit vector manipulation
  * facility.  It is necessary to call the ``bitvec_set_size'' function to set
  * the size of these bit vectors, before any are actually created.
+ *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *  <exds/ostream.h>
  */
 
 #ifndef H_BITVEC
 #define H_BITVEC
-
-#include "os-interface.h"
-#include "dalloc.h"
-#include "ostream.h"
 
 /*
  * This is the bit vector type.

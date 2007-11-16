@@ -62,6 +62,11 @@
  *
  * This file specifies the interface to the binary output stream facility.
  *
+ * This depends on:
+ *
+ *  <exds/common.h>
+ *  <exds/exception.h>
+ *
  *
  * Exception:	XX_bostream_write_error (char * name)
  *
@@ -72,9 +77,6 @@
 
 #ifndef H_BOSTREAM
 #define H_BOSTREAM
-
-#include "os-interface.h"
-#include "exception.h"
 
 /*
  * This is the output stream type. Its representation is private.
