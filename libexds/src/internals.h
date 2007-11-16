@@ -58,15 +58,10 @@
 */
 
 /*
- * os-interface.h - Primitive definitions.
+ * internals.h - Compiler-specific semantic checks.
  *
- * This file specifies an interface to the host system's C library, compiler
- * and operating system.  It provides definitions of basic types, constants
- * and macros, and declarations of functions, that can be used by other
- * components of the program.
- *
- * This file used to provide portability abstractions; now all that remains
- * are definitions for semantic purposes, such as CmpT.
+ * This file specifies an interface to the host system's compiler for
+ * non-standard semantic checks.
  */
 
 #ifndef H_INTERNALS
