@@ -44,6 +44,7 @@
 #include <stdlib.h>
 
 #include "dalloc.h"
+#include "internals.h"
 
 ExceptionT * XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 

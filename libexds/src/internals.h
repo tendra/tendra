@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  */
 /*
     		 Crown Copyright (c) 1997
-
+    
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-
+    
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-
+    
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-
+    
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-
+    
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -58,112 +58,40 @@
 */
 
 /*
- * bostream.c - Binary output stream handling.
+ * os-interface.h - Primitive definitions.
  *
- * This file implements the binary output stream facility specified in the
- * file "bostream.h".  See that file for more details.
+ * This file specifies an interface to the host system's C library, compiler
+ * and operating system.  It provides definitions of basic types, constants
+ * and macros, and declarations of functions, that can be used by other
+ * components of the program.
+ *
+ * This file used to provide portability abstractions; now all that remains
+ * are definitions for semantic purposes, such as CmpT.
  */
 
-#include <stdio.h>
-#include <stddef.h>
+#ifndef H_INTERNALS
+#define H_INTERNALS
 
-#include "bostream.h"
-#include "cstring.h"
-#include "internals.h"
+# ifdef __TenDRA__
+#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#  pragma TenDRA keyword UNREACHED for set unreachable
+# else
+#  include <stdlib.h>
+#  include <assert.h>
 
-ExceptionT * XX_bostream_write_error = EXCEPTION("error writing to binary stream");
+/*
+ * This macro documents the fact that the switch statement in which it appears
+ * is meant to be exhaustive.  It is used as follows:
+ *
+ *	switch (expression) EXHAUSTIVE { ... }
+ */
+#  define EXHAUSTIVE
 
-void
-bostream_init(BOStreamT * bostream)
-{
-    bostream->name = NULL;
-}
+/*
+ * This macro documents the fact that the location that it occurs in should be
+ * unreachable.
+ */
+#  define UNREACHED assert(!"UNREACHED"); abort();
+# endif /* defined (__TenDRA__) */
 
-BoolT
-bostream_open(BOStreamT * bostream,		       char *  name)
-{
-#ifdef FS_BINARY_STDIO
-    if ((bostream->file = fopen(name, "wb")) == NULL) {
-	return(FALSE);
-    }
-#else
-    if ((bostream->file = fopen(name, "w")) == NULL) {
-	return(FALSE);
-    }
-#endif /* defined (FS_BINARY_STDIO) */
-    bostream->name  = name;
-    return(TRUE);
-}
-
-void
-bostream_assign(BOStreamT * to,			 BOStreamT * from)
-{
-    to->file  = from->file;
-    to->name  = from->name;
-}
-
-BoolT
-bostream_is_open(BOStreamT * bostream)
-{
-    return(bostream->name != NULL);
-}
-
-void
-bostream_write_chars(BOStreamT * bostream,			      unsigned  length ,
-			      char *  chars)
-{
-    unsigned bytes_read = (unsigned)fwrite(chars, sizeof(char),
-					    (size_t)length, bostream->file);
-
-    if ((bytes_read != length) && (ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
-
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
-}
-
-void
-bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
-			      ByteT *     bytes)
-{
-    unsigned bytes_read = (unsigned)fwrite(bytes, sizeof(ByteT),
-					    (size_t)length, bostream->file);
-
-    if ((bytes_read != length) && (ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
-
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
-}
-
-void
-bostream_write_byte(BOStreamT * bostream,			     ByteT     byte)
-{
-    if ((fputc((int)byte, bostream->file) == EOF) &&
-	(ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
-
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
-}
-
-char *
-bostream_name(BOStreamT * bostream)
-{
-    return(bostream->name);
-}
-
-void
-bostream_close(BOStreamT * bostream)
-{
-    if (fclose(bostream->file)) {
-	char * name = cstring_duplicate(bostream->name);
-
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
-    bostream_init(bostream);
-}
+#endif /* !defined (H_INTERNALS) */

@@ -68,6 +68,7 @@
 #include <setjmp.h>
 
 #include "exception.h"
+#include "internals.h"
 
 extern void			E_exception_unhandled(ExceptionT *, char *,
 						      unsigned);

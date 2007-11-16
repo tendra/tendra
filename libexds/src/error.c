@@ -71,6 +71,7 @@
 
 #include "error.h"
 #include "syntax.h"
+#include "internals.h"
 
 #define TAG_TABLE_SIZE		(127)
 #define ERROR_TABLE_SIZE	(127)

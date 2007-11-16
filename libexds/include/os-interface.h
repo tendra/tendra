@@ -90,29 +90,17 @@ typedef void NoReturnT;
 #  endif /* defined (__TenDRA__) */
 # endif /* defined (__GNUC__) */
 
-# ifdef __TenDRA__
-#  pragma TenDRA keyword UNUSED for discard variable
-#  pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-# else
-
-/*
- * This macro documents the fact that the specified variable will no longer be
- * used.  One use is to indicate function parameters that are not used.  On
- * most compilers it will do nothing, but on compilers that support it it will
- * tell the compiler that the variable is not expected to be used.
- */
-#  define UNUSED(v)
-#  define KW_WEAK_PROTOTYPE
-# endif /* defined (__TenDRA__) */
-
 /*
  * This is the byte type.  It is possible that this could be larger than an
  * octet in some implementations.
+ * TODO this is to be replaced by uint8_t.
  */
 typedef unsigned char ByteT;
 
 /*
  * This is the boolean type.
+ * TODO this is to be replaced with C99's bool, or something similar for
+ * non-C99.
  */
 typedef int BoolT;
 
@@ -134,41 +122,5 @@ typedef enum {
  */
 # define FALSE (0)
 # define TRUE (1)
-
-# ifdef __TenDRA__
-#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
-#  pragma TenDRA keyword FALL_THROUGH for fall into case
-#  pragma TenDRA keyword UNREACHED for set unreachable
-# else
-#  include <stdlib.h>
-#  include <assert.h>
-
-/*
- * This macro documents the fact that the switch statement in which it appears
- * is meant to be exhaustive.  It is used as follows:
- *
- *	switch (expression) EXHAUSTIVE { ... }
- */
-#  define EXHAUSTIVE
-
-/*
- * This macro documents the fact that the current case of a switch statement
- * should follow through into the next (immediately following) case.  It is
- * used as follows:
- *
- *	case 1:
- *	  ...
- *	  FALL_THROUGH;
- *	case 2:
- *	  ...
- */
-#  define FALL_THROUGH
-
-/*
- * This macro documents the fact that the location that it occurs in should be
- * unreachable.
- */
-#  define UNREACHED assert(!"UNREACHED"); abort();
-# endif /* defined (__TenDRA__) */
 
 #endif /* !defined (H_OS_INTERFACE) */

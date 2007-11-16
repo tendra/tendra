@@ -69,6 +69,7 @@
 
 #include "bistream.h"
 #include "cstring.h"
+#include "internals.h"
 
 ExceptionT * XX_bistream_read_error = EXCEPTION("error reading from binary stream");
 
