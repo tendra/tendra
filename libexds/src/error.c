@@ -79,6 +79,9 @@
 #include "syntax.h"
 #include "internals.h"
 
+/*
+ * This is used by the error type.
+ */
 struct ErrorListT {
     struct ErrorListT          *next;
     enum {

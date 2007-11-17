@@ -67,7 +67,7 @@
  *
  * This depends on:
  *
- * <exds/common.h>
+ *  <exds/common.h>
  */
 
 #ifndef H_ERROR_FILE

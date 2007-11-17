@@ -63,22 +63,18 @@
  * This file specifies the interface to a string list facility.  This
  * particular facility allows lists of nstrings (defined in the files
  * "dstring.[ch]") to be created.
- *
- * This depends on:
- *
- *  <exds/dstring.h>
  */
 
 #ifndef H_NSTRING_LIST
 #define H_NSTRING_LIST
 
+typedef struct NStringT NStringT;
+
+
 /*
  * This is the nstring list entry type. Its representation is private.
  */
-struct NStringListEntryT {
-    struct NStringListEntryT   *next;
-    struct NStringT			string;
-};
+struct NStringListEntryT;
 
 /*
  * This is the nstring list type. Its representation is private.

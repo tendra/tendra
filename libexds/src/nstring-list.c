@@ -73,6 +73,11 @@
 #include "dstring.h"
 #include "nstring-list.h"
 
+struct NStringListEntryT {
+    struct NStringListEntryT   *next;
+    NStringT            string;
+};
+
 void
 nstring_list_init(struct NStringListT * list)
 {

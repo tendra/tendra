@@ -68,8 +68,7 @@
  *
  * This depends on:
  *
- *  <exds/dstring.h>
- *  <exds/ostream.h>
+ *  <exds/common.h>
  *
  *
  * In addition to the error mesage support, this facility also provides
@@ -80,6 +79,13 @@
 #ifndef H_ERROR
 #define H_ERROR
 
+struct OStreamT;
+struct NStringT;
+
+
+/*
+ * This is used by the error type.
+ */
 struct ErrorListT;
 
 /*

@@ -67,13 +67,15 @@
  * This depends on:
  *
  *  <exds/common.h>
- *  <exds/ostream.h>
  */
 
 #ifndef H_BITVEC
 #define H_BITVEC
 
 #include <stdint.h>
+
+struct OStreamT;
+
 
 /*
  * This is the bit vector type.

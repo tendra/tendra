@@ -64,8 +64,9 @@
  * All dynamically allocated objects are initialised with zeroes, but
  * non-integer typed fields will still need to be initialised explicitly.
  *
- * This requires:
+ * This depends on:
  *
+ *  <exds/common.h> (because exception.h does)
  *  <exds/exception.h>
  *
  *
@@ -101,6 +102,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+
 
 extern ExceptionT *		XX_dalloc_no_memory;
 

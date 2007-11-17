@@ -79,6 +79,8 @@
 #define H_BOSTREAM
 
 #include <stdint.h>
+#include <stdio.h>
+
 
 /*
  * This is the output stream type. Its representation is private.

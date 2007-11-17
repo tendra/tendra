@@ -69,7 +69,6 @@
  * This depends on:
  *
  * <exds/common.h>
- * <exds/ostream.h>
  *
  *
  * Null pointers are not valid as nstrings or dstrings. Passing a null pointer
@@ -79,6 +78,9 @@
 
 #ifndef H_DSTRING
 #define H_DSTRING
+
+struct OStreamT;
+
 
 /*
  * This is the nstring type.  These strings may contain null characters.
