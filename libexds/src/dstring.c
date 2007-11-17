@@ -83,28 +83,28 @@
  */
 
 void
-nstring_init(NStringT * nstring)
+nstring_init(struct NStringT * nstring)
 {
     nstring->length   = 0;
     nstring->contents = NULL;
 }
 
 void
-nstring_init_length(NStringT * nstring, unsigned length)
+nstring_init_length(struct NStringT * nstring, unsigned length)
 {
     nstring->length   = length;
     nstring->contents = ALLOCATE_VECTOR(char, length);
 }
 
 void
-nstring_assign(NStringT * to, NStringT * from)
+nstring_assign(struct NStringT * to, struct NStringT * from)
 {
     to->length     = nstring_length(from);
     to->contents   = (from->contents);
 }
 
 void
-nstring_copy_cstring(NStringT * nstring, char * cstring)
+nstring_copy_cstring(struct NStringT * nstring, char * cstring)
 {
     unsigned length = strlen(cstring);
 
@@ -120,7 +120,7 @@ nstring_copy_cstring(NStringT * nstring, char * cstring)
 }
 
 void
-nstring_insert_cstring(NStringT * nstring, char * cstring)
+nstring_insert_cstring(struct NStringT * nstring, char * cstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -131,7 +131,7 @@ nstring_insert_cstring(NStringT * nstring, char * cstring)
 }
 
 void
-nstring_copy(NStringT * to, NStringT * from)
+nstring_copy(struct NStringT * to, struct NStringT * from)
 {
     unsigned length = nstring_length(from);
 
@@ -147,7 +147,7 @@ nstring_copy(NStringT * to, NStringT * from)
 }
 
 char *
-nstring_to_cstring(NStringT * nstring)
+nstring_to_cstring(struct NStringT * nstring)
 {
     unsigned length = nstring_length(nstring);
     char * tmp    = ALLOCATE_VECTOR(char, length + 1);
@@ -161,7 +161,7 @@ nstring_to_cstring(NStringT * nstring)
 }
 
 unsigned
-nstring_hash_value(NStringT * nstring)
+nstring_hash_value(struct NStringT * nstring)
 {
     unsigned value        = 0;
     char * tmp_contents = (nstring->contents);
@@ -174,19 +174,19 @@ nstring_hash_value(NStringT * nstring)
 }
 
 unsigned
-nstring_length(NStringT * nstring)
+nstring_length(struct NStringT * nstring)
 {
     return(nstring->length);
 }
 
 char *
-nstring_contents(NStringT * nstring)
+nstring_contents(struct NStringT * nstring)
 {
     return(nstring->contents);
 }
 
 CmpT
-nstring_compare(NStringT * nstring1, NStringT * nstring2)
+nstring_compare(struct NStringT * nstring1, struct NStringT * nstring2)
 {
     unsigned length = nstring_length(nstring1);
     int      status;
@@ -210,7 +210,7 @@ nstring_compare(NStringT * nstring1, NStringT * nstring2)
 }
 
 BoolT
-nstring_equal(NStringT * nstring1, NStringT * nstring2)
+nstring_equal(struct NStringT * nstring1, struct NStringT * nstring2)
 {
     unsigned length = nstring_length(nstring1);
 
@@ -220,7 +220,7 @@ nstring_equal(NStringT * nstring1, NStringT * nstring2)
 }
 
 BoolT
-nstring_ci_equal(NStringT * nstring1, NStringT * nstring2)
+nstring_ci_equal(struct NStringT * nstring1, struct NStringT * nstring2)
 {
     unsigned length = nstring_length(nstring1);
 
@@ -242,7 +242,7 @@ nstring_ci_equal(NStringT * nstring1, NStringT * nstring2)
 }
 
 BoolT
-nstring_contains(NStringT * nstring, char c)
+nstring_contains(struct NStringT * nstring, char c)
 {
     char * contents = nstring_contents(nstring);
     unsigned length   = nstring_length(nstring);
@@ -251,7 +251,7 @@ nstring_contains(NStringT * nstring, char c)
 }
 
 BoolT
-nstring_is_prefix(NStringT * nstring1,			   NStringT * nstring2)
+nstring_is_prefix(struct NStringT * nstring1,			   struct NStringT * nstring2)
 {
     char * contents1 = nstring_contents(nstring1);
     char * contents2 = nstring_contents(nstring2);
@@ -263,13 +263,13 @@ nstring_is_prefix(NStringT * nstring1,			   NStringT * nstring2)
 }
 
 void
-nstring_destroy(NStringT * nstring)
+nstring_destroy(struct NStringT * nstring)
 {
     DEALLOCATE(nstring->contents);
 }
 
 void
-write_nstring(OStreamT * ostream, NStringT * nstring)
+write_nstring(struct OStreamT * ostream, struct NStringT * nstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -284,7 +284,7 @@ write_nstring(OStreamT * ostream, NStringT * nstring)
  */
 
 void
-dstring_init(DStringT * dstring)
+dstring_init(struct DStringT * dstring)
 {
     dstring->length     = 0;
     dstring->max_length = DSTRING_CHUNK_SIZE;
@@ -292,13 +292,13 @@ dstring_init(DStringT * dstring)
 }
 
 unsigned
-dstring_length(DStringT * dstring)
+dstring_length(struct DStringT * dstring)
 {
     return(dstring->length);
 }
 
 void
-dstring_append_char(DStringT * dstring, char c)
+dstring_append_char(struct DStringT * dstring, char c)
 {
     if ((dstring->length) >= (dstring->max_length)) {
 	char * tmp;
@@ -314,7 +314,7 @@ dstring_append_char(DStringT * dstring, char c)
 }
 
 void
-dstring_append_cstring(DStringT * dstring, char * cstring)
+dstring_append_cstring(struct DStringT * dstring, char * cstring)
 {
     unsigned clength = strlen(cstring);
     unsigned length  = (clength + (dstring->length));
@@ -337,7 +337,7 @@ dstring_append_cstring(DStringT * dstring, char * cstring)
 }
 
 void
-dstring_append_nstring(DStringT * dstring, NStringT * nstring)
+dstring_append_nstring(struct DStringT * dstring, struct NStringT * nstring)
 {
     unsigned nlength = nstring_length(nstring);
     unsigned length  = (nlength + (dstring->length));
@@ -360,14 +360,14 @@ dstring_append_nstring(DStringT * dstring, NStringT * nstring)
 }
 
 BoolT
-dstring_last_char_equal(DStringT * dstring, char c)
+dstring_last_char_equal(struct DStringT * dstring, char c)
 {
     return((dstring->length) &&
 	   ((dstring->contents[dstring->length - 1]) == c));
 }
 
 void
-dstring_to_nstring(DStringT * dstring, NStringT * nstring)
+dstring_to_nstring(struct DStringT * dstring, struct NStringT * nstring)
 {
     if (dstring->length > 0) {
 	nstring->length   = (dstring->length);
@@ -382,7 +382,7 @@ dstring_to_nstring(DStringT * dstring, NStringT * nstring)
 }
 
 char *
-dstring_to_cstring(DStringT * dstring)
+dstring_to_cstring(struct DStringT * dstring)
 {
     char * tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
 
@@ -395,7 +395,7 @@ dstring_to_cstring(DStringT * dstring)
 }
 
 char *
-dstring_destroy_to_cstring(DStringT * dstring)
+dstring_destroy_to_cstring(struct DStringT * dstring)
 {
     char * tmp;
 
@@ -415,7 +415,7 @@ dstring_destroy_to_cstring(DStringT * dstring)
 }
 
 void
-dstring_destroy(DStringT * dstring)
+dstring_destroy(struct DStringT * dstring)
 {
     DEALLOCATE(dstring->contents);
 }

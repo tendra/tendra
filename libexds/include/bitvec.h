@@ -78,9 +78,9 @@
 /*
  * This is the bit vector type.
  */
-typedef struct BitVecT {
+struct BitVecT {
     uint8_t *		bits;
-} BitVecT;
+};
 
 /*
  * This function should be called once, before any bit vectors are
@@ -96,7 +96,7 @@ extern void		bitvec_set_size(unsigned);
  * This function initialises the specified bit vector.  Initially, all bits
  * are zero.
  */
-extern void		bitvec_init(BitVecT *);
+extern void		bitvec_init(struct BitVecT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -105,85 +105,85 @@ extern void		bitvec_init(BitVecT *);
  * is not necessary to have initialised the to bit vector with the
  * `bitvec_init' function previously.
  */
-extern void		bitvec_copy(BitVecT *, BitVecT *);
+extern void		bitvec_copy(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function copies the from bit vector into the to bit vector.  The to
  * bit vector must have been initialised previously.
  */
-extern void		bitvec_replace(BitVecT *, BitVecT *);
+extern void		bitvec_replace(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function sets all of the bits in the specified bit vector to zero.
  */
-extern void		bitvec_empty(BitVecT *);
+extern void		bitvec_empty(struct BitVecT *);
 
 /*
  * This function returns true if all of the bits in the specified bit vector
  * are zero, and false otherwise.
  */
-extern BoolT		bitvec_is_empty(BitVecT *);
+extern BoolT		bitvec_is_empty(struct BitVecT *);
 
 /*
  * This function returns true if all of the bits in the specified bit vector
  * are set, and false otherwise.
  */
-extern BoolT		bitvec_is_full(BitVecT *);
+extern BoolT		bitvec_is_full(struct BitVecT *);
 
 /*
  * This function sets the specified bit in the specified bit vector to one.
  * Bits are numbered from zero.  If the bit is out of range, then the effect
  * of this function is undefined.
  */
-extern void		bitvec_set(BitVecT *, unsigned);
+extern void		bitvec_set(struct BitVecT *, unsigned);
 
 /*
  * This function returns true if the specified bit in the specified bit vector
  * is set to one, and false otherwise.  Bits are numbered from zero.  If the
  * bit is out of range, the effect of this function is undefined.
  */
-extern BoolT		bitvec_is_set(BitVecT *, unsigned);
+extern BoolT		bitvec_is_set(struct BitVecT *, unsigned);
 
 /*
  * This function performs an in-place bitwise or of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  */
-extern void		bitvec_or(BitVecT *, BitVecT *);
+extern void		bitvec_or(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function performs an in-place bitwise and of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  */
-extern void		bitvec_and(BitVecT *, BitVecT *);
+extern void		bitvec_and(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function performs an in-place bitwise negation of the to bit vector.
  */
-extern void		bitvec_not(BitVecT *);
+extern void		bitvec_not(struct BitVecT *);
 
 /*
  * This function returns true if both of the specified bit vectors are equal,
  * and false otherwise.
  */
-extern BoolT		bitvec_equal(BitVecT *, BitVecT *);
+extern BoolT		bitvec_equal(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function returns true if the bitwise and of the specified bit vectors
  * contains at least one bit that is set to one, and false otherwise.
  */
-extern BoolT		bitvec_intersects(BitVecT *, BitVecT *);
+extern BoolT		bitvec_intersects(struct BitVecT *, struct BitVecT *);
 
 /*
  * This function returns the number of bits in the bit vector that are set to
  * one.
  */
-extern unsigned		bitvec_num_bits(BitVecT *);
+extern unsigned		bitvec_num_bits(struct BitVecT *);
 
 /*
  * This function returns the index of the first bit in the specified bit
  * vector that is set to one.
  */
-extern unsigned		bitvec_first_bit(BitVecT *);
+extern unsigned		bitvec_first_bit(struct BitVecT *);
 
 /*
  * This function looks for the first bit set to one in the specified bit
@@ -192,13 +192,13 @@ extern unsigned		bitvec_first_bit(BitVecT *);
  * back into next_ref, and the function returns true.  If no such bit is
  * found, then the function returns false.
  */
-extern BoolT		bitvec_next_bit(BitVecT *, unsigned *);
+extern BoolT		bitvec_next_bit(struct BitVecT *, unsigned *);
 
 /*
  * This function destroys the specified bit vector.  After this, it should be
  * reinitialised before it is used.
  */
-extern void		bitvec_destroy(BitVecT *);
+extern void		bitvec_destroy(struct BitVecT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -206,6 +206,6 @@ extern void		bitvec_destroy(BitVecT *);
  * This function writes out to the specified ostream the indices of all bits
  * in the specified bit vector that are set to one.
  */
-extern void		write_bitvec_indices(OStreamT *, BitVecT *);
+extern void		write_bitvec_indices(struct OStreamT *, struct BitVecT *);
 
 #endif /* !defined (H_BITVEC) */

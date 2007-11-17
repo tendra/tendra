@@ -73,16 +73,16 @@
 #include "cstring-list.h"
 
 void
-cstring_list_init(CStringListT * list)
+cstring_list_init(struct CStringListT * list)
 {
     list->head = NULL;
     list->tail = & (list->head);
 }
 
 void
-cstring_list_append(CStringListT * list,			     char *     string)
+cstring_list_append(struct CStringListT * list,			     char *     string)
 {
-    CStringListEntryT * entry = ALLOCATE(CStringListEntryT);
+    struct CStringListEntryT * entry = ALLOCATE(struct CStringListEntryT);
 
     entry->next   = NULL;
     entry->string = string;
@@ -91,9 +91,9 @@ cstring_list_append(CStringListT * list,			     char *     string)
 }
 
 BoolT
-cstring_list_contains(CStringListT * list,			       char *     string)
+cstring_list_contains(struct CStringListT * list,			       char *     string)
 {
-    CStringListEntryT * entry = list->head;
+    struct CStringListEntryT * entry = list->head;
     while (entry != NULL) {
 	if (cstring_equal(string, entry->string)) {
 	    return(TRUE);
@@ -103,22 +103,22 @@ cstring_list_contains(CStringListT * list,			       char *     string)
     return(FALSE);
 }
 
-CStringListEntryT *
-cstring_list_head(CStringListT * list)
+struct CStringListEntryT *
+cstring_list_head(struct CStringListT * list)
 {
     return(list->head);
 }
 
 char *
-cstring_list_entry_string(CStringListEntryT * entry)
+cstring_list_entry_string(struct CStringListEntryT * entry)
 {
     return(entry->string);
 }
 
-CStringListEntryT *
-cstring_list_entry_deallocate(CStringListEntryT * entry)
+struct CStringListEntryT *
+cstring_list_entry_deallocate(struct CStringListEntryT * entry)
 {
-    CStringListEntryT * next = entry->next;
+    struct CStringListEntryT * next = entry->next;
 
     DEALLOCATE(entry);
     return(next);

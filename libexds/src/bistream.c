@@ -77,13 +77,13 @@
 ExceptionT * XX_bistream_read_error = EXCEPTION("error reading from binary stream");
 
 void
-bistream_init(BIStreamT * bistream)
+bistream_init(struct BIStreamT * bistream)
 {
     bistream->name = NULL;
 }
 
 BoolT
-bistream_open(BIStreamT * bistream,		       char *  name)
+bistream_open(struct BIStreamT * bistream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bistream->file = fopen(name, "rb")) == NULL) {
@@ -100,7 +100,7 @@ bistream_open(BIStreamT * bistream,		       char *  name)
 }
 
 void
-bistream_assign(BIStreamT * to,			 BIStreamT * from)
+bistream_assign(struct BIStreamT * to,			 struct BIStreamT * from)
 {
     to->file  = from->file;
     to->bytes = from->bytes;
@@ -108,13 +108,13 @@ bistream_assign(BIStreamT * to,			 BIStreamT * from)
 }
 
 BoolT
-bistream_is_open(BIStreamT * bistream)
+bistream_is_open(struct BIStreamT * bistream)
 {
     return(bistream->name != NULL);
 }
 
 unsigned
-bistream_read_chars(BIStreamT * bistream,			     unsigned  length ,
+bistream_read_chars(struct BIStreamT * bistream,			     unsigned  length ,
 			     char *  chars)
 {
     unsigned bytes_read = (unsigned)fread(chars, sizeof(char),
@@ -131,7 +131,7 @@ bistream_read_chars(BIStreamT * bistream,			     unsigned  length ,
 }
 
 unsigned
-bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
+bistream_read_bytes(struct BIStreamT * bistream,			     unsigned  length ,
 			     uint8_t *     bytes)
 {
     unsigned bytes_read = (unsigned)fread(bytes, sizeof(uint8_t),
@@ -148,7 +148,7 @@ bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
 }
 
 BoolT
-bistream_read_byte(BIStreamT * bistream,			    uint8_t *byte_ref)
+bistream_read_byte(struct BIStreamT * bistream,			    uint8_t *byte_ref)
 {
     int byte = fgetc(bistream->file);
 
@@ -168,19 +168,19 @@ bistream_read_byte(BIStreamT * bistream,			    uint8_t *byte_ref)
 }
 
 unsigned
-bistream_byte(BIStreamT * bistream)
+bistream_byte(struct BIStreamT * bistream)
 {
     return(bistream->bytes);
 }
 
 char *
-bistream_name(BIStreamT * bistream)
+bistream_name(struct BIStreamT * bistream)
 {
     return(bistream->name);
 }
 
 void
-bistream_rewind(BIStreamT * bistream)
+bistream_rewind(struct BIStreamT * bistream)
 {
 #ifdef FS_ANSI_ENVIRON
     rewind(bistream->file);
@@ -190,7 +190,7 @@ bistream_rewind(BIStreamT * bistream)
 }
 
 void
-bistream_close(BIStreamT * bistream)
+bistream_close(struct BIStreamT * bistream)
 {
    (void)fclose(bistream->file);
     bistream_init(bistream);

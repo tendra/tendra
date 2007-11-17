@@ -79,22 +79,35 @@
 #include "syntax.h"
 #include "internals.h"
 
+struct ErrorListT {
+    struct ErrorListT          *next;
+    enum {
+        ERROR_TAG_STRING,
+        ERROR_TAG_TAG
+    }                           tag;
+    union {
+        struct NStringT                string;
+        struct ETagT *                 tag;
+    } u;
+};
+
+
 #define TAG_TABLE_SIZE		(127)
 #define ERROR_TABLE_SIZE	(127)
 #define STRING_TABLE_SIZE	(127)
 
-static ETagT *		tag_table[TAG_TABLE_SIZE];
-static ErrorT *		error_table[ERROR_TABLE_SIZE];
-static EStringT *		string_table[STRING_TABLE_SIZE];
+static struct ETagT *		tag_table[TAG_TABLE_SIZE];
+static struct ErrorT *		error_table[ERROR_TABLE_SIZE];
+static struct EStringT *		string_table[STRING_TABLE_SIZE];
 static char *		program_name         = NULL;
 static ErrorInitProcP	init_proc	     = NULL;
-static ETagT *		etag_program	     = NULL;
-static ETagT *		etag_severity	     = NULL;
-static ETagT *		etag_error_name      = NULL;
-static ETagT *		etag_dollar	     = NULL;
-static ETagT *		etag_ocb	     = NULL;
-static ETagT *		etag_ccb	     = NULL;
-static ErrorListT *	error_prefix	     = NULL;
+static struct ETagT *		etag_program	     = NULL;
+static struct ETagT *		etag_severity	     = NULL;
+static struct ETagT *		etag_error_name      = NULL;
+static struct ETagT *		etag_dollar	     = NULL;
+static struct ETagT *		etag_ocb	     = NULL;
+static struct ETagT *		etag_ccb	     = NULL;
+static struct ErrorListT *	error_prefix	     = NULL;
 static ESeverityT	min_severity	     = ERROR_SEVERITY_ERROR;
 static ESeverityT	max_reported	     = ERROR_SEVERITY_INFORMATION;
 static EStringDataT	severity_data[]    = {
@@ -107,10 +120,10 @@ static EStringDataT	severity_data[]    = {
 };
 
 static void
-error_deallocate_error_list(ErrorListT * error_list)
+error_deallocate_error_list(struct ErrorListT * error_list)
 {
     while (error_list) {
-	ErrorListT * tmp = error_list;
+	struct ErrorListT * tmp = error_list;
 
 	if (error_list->tag == ERROR_TAG_STRING) {
 	    nstring_destroy(&(error_list->u.string));
@@ -120,18 +133,18 @@ error_deallocate_error_list(ErrorListT * error_list)
     }
 }
 
-static ErrorListT *
+static struct ErrorListT *
 error_parse_message(char * message)
 {
-    ErrorListT *  error_list;
-    ErrorListT * *error_list_next = &error_list;
+    struct ErrorListT *  error_list;
+    struct ErrorListT * *error_list_next = &error_list;
     char *    message_copy    = cstring_duplicate(message);
     char *    scan            = message = message_copy;
 
     while (*scan) {
 	if ((*scan++ == '$') && (*scan == '{')) {
 	    if (scan > (message + 1)) {
-		ErrorListT * tmp = ALLOCATE(ErrorListT);
+		struct ErrorListT * tmp = ALLOCATE(struct ErrorListT);
 
 		tmp->tag  = ERROR_TAG_STRING;
 		scan[-1] = '\0';
@@ -151,7 +164,7 @@ error_parse_message(char * message)
 		scan++;
 	    }
 	    if (scan++ > message) {
-		ErrorListT * tmp = ALLOCATE(ErrorListT);
+		struct ErrorListT * tmp = ALLOCATE(struct ErrorListT);
 		char *   tag;
 
 		tmp->tag   = ERROR_TAG_TAG;
@@ -168,7 +181,7 @@ error_parse_message(char * message)
 	}
     }
     if (scan > message) {
-	ErrorListT * tmp = ALLOCATE(ErrorListT);
+	struct ErrorListT * tmp = ALLOCATE(struct ErrorListT);
 
 	tmp->tag = ERROR_TAG_STRING;
 	nstring_copy_cstring(&(tmp->u.string), message);
@@ -181,7 +194,7 @@ error_parse_message(char * message)
 }
 
 static void
-write_error_list(OStreamT * ostream, ErrorListT * error_list, ErrorT * error,
+write_error_list(struct OStreamT * ostream, struct ErrorListT * error_list, struct ErrorT * error,
 		 ErrorprocP proc, void * closure)
 {
     while (error_list) {
@@ -193,7 +206,7 @@ write_error_list(OStreamT * ostream, ErrorListT * error_list, ErrorT * error,
 	    if (error_list->u.tag == etag_program) {
 		write_cstring(ostream, program_name);
 	    } else if (error_list->u.tag == etag_severity) {
-		EStringT * estring =
+		struct EStringT * estring =
 		    severity_data[(error->severity)].estring;
 
 		write_cstring(ostream, error_string_contents(estring));
@@ -215,9 +228,9 @@ write_error_list(OStreamT * ostream, ErrorListT * error_list, ErrorT * error,
 }
 
 static void
-write_error_list_text(OStreamT * ostream, ErrorListT * error_list)
+write_error_list_text(struct OStreamT * ostream, struct ErrorListT * error_list)
 {
-    NStringT * nstring;
+    struct NStringT * nstring;
     char * contents;
     unsigned length;
 
@@ -258,12 +271,12 @@ write_error_list_text(OStreamT * ostream, ErrorListT * error_list)
 }
 
 static void
-write_error_table(OStreamT * ostream)
+write_error_table(struct OStreamT * ostream)
 {
     unsigned i;
 
     for (i = 0; i < ERROR_TABLE_SIZE; i++) {
-	ErrorT * error = error_table[i];
+	struct ErrorT * error = error_table[i];
 
 	while (error) {
 	    write_char(ostream, '\'');
@@ -279,12 +292,12 @@ write_error_table(OStreamT * ostream)
 }
 
 static void
-write_string_table(OStreamT * ostream)
+write_string_table(struct OStreamT * ostream)
 {
     unsigned i;
 
     for (i = 0; i < STRING_TABLE_SIZE; i++) {
-	EStringT * string = string_table[i];
+	struct EStringT * string = string_table[i];
 
 	while (string) {
 	    char * contents = string->contents;
@@ -353,12 +366,12 @@ error_call_init_proc(void)
     }
 }
 
-ETagT *
+struct ETagT *
 error_define_tag(char * name)
 {
     unsigned hash   = (cstring_hash_value(name)% TAG_TABLE_SIZE);
-    ETagT *   *entryp = &(tag_table[hash]);
-    ETagT *    entry;
+    struct ETagT *   *entryp = &(tag_table[hash]);
+    struct ETagT *    entry;
 
     while ((entry = *entryp) != NULL) {
 	if (!strcmp(entry->name, name)) {
@@ -366,28 +379,28 @@ error_define_tag(char * name)
 	}
 	entryp = &(entry->next);
     }
-    entry       = ALLOCATE(ETagT);
+    entry       = ALLOCATE(struct ETagT);
     entry->next = NULL;
     entry->name = name;
     *entryp     = entry;
     return(entry);
 }
 
-ErrorT *
+struct ErrorT *
 error_define_error(char * name, ESeverityT severity, char * message,
 		   void * data)
 {
-    ErrorListT * error_list = error_parse_message(message);
+    struct ErrorListT * error_list = error_parse_message(message);
     unsigned   hash       = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-    ErrorT *    *entryp     = &(error_table[hash]);
-    ErrorT *     entry;
+    struct ErrorT *    *entryp     = &(error_table[hash]);
+    struct ErrorT *     entry;
 
     while ((entry = *entryp) != NULL) {
 	assert(!!strcmp(entry->name, name));
 	entryp = &(entry->next);
     }
     assert(error_list);
-    entry             = ALLOCATE(ErrorT);
+    entry             = ALLOCATE(struct ErrorT);
     entry->next       = NULL;
     entry->name       = name;
     entry->severity   = severity;
@@ -401,7 +414,7 @@ void
 error_intern_tags(ETagDataT * vector)
 {
     while (vector->name) {
-	ETagT * tag = error_define_tag(vector->name);
+	struct ETagT * tag = error_define_tag(vector->name);
 
 	vector->tag = tag;
 	vector++;
@@ -412,7 +425,7 @@ void
 error_intern_errors(ErrorDataT * vector)
 {
     while (vector->s.name) {
-	ErrorT * error = error_define_error(vector->s.name, vector->s.severity,
+	struct ErrorT * error = error_define_error(vector->s.name, vector->s.severity,
 					   vector->s.message, vector->s.data);
 
 	vector->error = error;
@@ -426,11 +439,11 @@ error_redefine_error(char * name, char * message)
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorT *   entry = (error_table[hash]);
+	struct ErrorT *   entry = (error_table[hash]);
 
 	while (entry) {
 	    if (!strcmp(entry->name, name)) {
-		ErrorListT * error_list = error_parse_message(message);
+		struct ErrorListT * error_list = error_parse_message(message);
 
 		if (error_list == NULL) {
 		    return(ERROR_STATUS_BAD_MESSAGE);
@@ -445,13 +458,13 @@ error_redefine_error(char * name, char * message)
     }
 }
 
-ErrorT *
+struct ErrorT *
 error_lookup_error(char * name)
 {
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorT *   entry = (error_table[hash]);
+	struct ErrorT *   entry = (error_table[hash]);
 
 	while (entry) {
 	    if (!strcmp(entry->name, name)) {
@@ -464,13 +477,13 @@ error_lookup_error(char * name)
 }
 
 void *
-error_data(ErrorT * error)
+error_data(struct ErrorT * error)
 {
     return(error->data);
 }
 
 void
-error_report(ErrorT * error, ErrorprocP proc, void * closure)
+error_report(struct ErrorT * error, ErrorprocP proc, void * closure)
 {
     if ((error->severity) >= min_severity) {
 	write_error_list(ostream_error, error_prefix, error, NULL,
@@ -520,7 +533,7 @@ error_set_severity_message(ESeverityT severity, char * message)
 BoolT
 error_set_prefix_message(char * message)
 {
-    ErrorListT * error_list = error_parse_message(message);
+    struct ErrorListT * error_list = error_parse_message(message);
 
     if (error_list == NULL) {
 	return(FALSE);
@@ -530,18 +543,18 @@ error_set_prefix_message(char * message)
     return(TRUE);
 }
 
-EStringT *
+struct EStringT *
 error_define_string(char * name, char * contents)
 {
     unsigned  hash   = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringT * *entryp = &(string_table[hash]);
-    EStringT *  entry;
+    struct EStringT * *entryp = &(string_table[hash]);
+    struct EStringT *  entry;
 
     while ((entry = *entryp) != NULL) {
 	assert(!!strcmp(entry->name, name));
 	entryp = &(entry->next);
     }
-    entry           = ALLOCATE(EStringT);
+    entry           = ALLOCATE(struct EStringT);
     entry->next     = NULL;
     entry->name     = name;
     entry->contents = contents;
@@ -553,7 +566,7 @@ void
 error_intern_strings(EStringDataT *vector)
 {
     while (vector->s.name) {
-	EStringT * estring = error_define_string(vector->s.name,
+	struct EStringT * estring = error_define_string(vector->s.name,
 					       vector->s.contents);
 
 	vector->estring = estring;
@@ -565,7 +578,7 @@ BoolT
 error_redefine_string(char * name, char * contents)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringT * entry = (string_table[hash]);
+    struct EStringT * entry = (string_table[hash]);
 
     while (entry) {
 	if (!strcmp(entry->name, name)) {
@@ -577,11 +590,11 @@ error_redefine_string(char * name, char * contents)
     return(FALSE);
 }
 
-EStringT *
+struct EStringT *
 error_lookup_string(char * name)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringT * entry = (string_table[hash]);
+    struct EStringT * entry = (string_table[hash]);
 
     while (entry) {
 	if (!strcmp(entry->name, name)) {
@@ -593,13 +606,13 @@ error_lookup_string(char * name)
 }
 
 char *
-error_string_contents(EStringT * estring)
+error_string_contents(struct EStringT * estring)
 {
     return(estring->contents);
 }
 
 void
-write_error_file(OStreamT * ostream)
+write_error_file(struct OStreamT * ostream)
 {
     error_call_init_proc();
     write_cstring(ostream, "%prefix%");

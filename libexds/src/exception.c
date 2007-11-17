@@ -75,14 +75,14 @@ extern void			E_exception_unhandled(ExceptionT *, char *,
 						      unsigned);
 extern void			E_exception_corrupt_handler(char *, unsigned);
 
-HandlerT *			X__exception_handler_stack = NULL;
-ThrowDataT			X__exception_throw_data;
+struct HandlerT *			X__exception_handler_stack = NULL;
+struct ThrowDataT			X__exception_throw_data;
 
 NoReturnT
 X__exception_throw(void)
 {
     static BoolT failing = FALSE;
-    HandlerT *     stack   = X__exception_handler_stack;
+    struct HandlerT *     stack   = X__exception_handler_stack;
 
     if (failing) {
 	abort();

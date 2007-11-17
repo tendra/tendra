@@ -80,6 +80,8 @@
 #ifndef H_ERROR
 #define H_ERROR
 
+struct ErrorListT;
+
 /*
  * This is the error severity level type.  The lowest error severity is
  * "ERROR_SEVERITY_INFORMATION", which is used for information messages (not
@@ -100,51 +102,36 @@ typedef enum {
  * string of the form "${tag name}" inside an error message is replaced by the
  * tag of the same name.
  */
-typedef struct ETagT {
+struct ETagT {
     struct ETagT	       *next;
     char *			name;
-} ETagT;
-
-/*
- * This is used by the error type.
- */
-typedef struct ErrorListT {
-    struct ErrorListT	       *next;
-    enum {
-	ERROR_TAG_STRING,
-	ERROR_TAG_TAG
-    }				tag;
-    union {
-	NStringT		string;
-	ETagT *			tag;
-    } u;
-} ErrorListT;
+};
 
 /*
  * This is the error type.
  */
-typedef struct ErrorT {
+struct ErrorT {
     struct ErrorT	       *next;
     char * 			name;
     ESeverityT			severity;
-    ErrorListT *			error_list;
+    struct ErrorListT *			error_list;
     void *			data;
-} ErrorT;
+};
 
 /*
  * This is the named string type.
  */
-typedef struct EStringT {
+struct EStringT {
     struct EStringT	       *next;
     char *			name;
     char *			contents;
-} EStringT;
+};
 
 /*
  * This is the type of a procedure that is used to display the contents of a
  * tag when reporting an error.
  */
-typedef void(*ErrorprocP)(OStreamT *, ETagT *, void *);
+typedef void(*ErrorprocP)(struct OStreamT *, struct ETagT *, void *);
 
 /*
  * This is the type of the procedure that will be called to define all of the
@@ -169,7 +156,7 @@ typedef void(*ErrorInitProcP)(void);
  */
 typedef union ETagDataT {
     char *			name;
-    ETagT *			tag;
+    struct ETagT *			tag;
 } ETagDataT;
 
 /*
@@ -197,7 +184,7 @@ typedef union ErrorDataT {
 	char *		message;
 	void *		data;
     } s;
-    ErrorT *			error;
+    struct ErrorT *			error;
 } ErrorDataT;
 
 /*
@@ -220,7 +207,7 @@ typedef union EStringDataT {
 	char *		name;
 	char *		contents;
     } s;
-    EStringT *			estring;
+    struct EStringT *			estring;
 } EStringDataT;
 
 /*
@@ -263,7 +250,7 @@ extern void		error_call_init_proc(void);
  * name should not be modified or deallocated.  It is possible to define the
  * same tag more than once (but the same value will be returned each time).
  */
-extern ETagT *		error_define_tag(char *);
+extern struct ETagT *		error_define_tag(char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -277,7 +264,7 @@ extern ETagT *		error_define_tag(char *);
  * the value of the tag when the error is reported).  The data is for use by
  * the program.
  */
-extern ErrorT *		error_define_error(char *, ESeverityT, char *,
+extern struct ErrorT *		error_define_error(char *, ESeverityT, char *,
 					   void *);
 
 /*
@@ -317,12 +304,12 @@ extern ErrorStatusT	error_redefine_error(char *, char *);
  * initialisation procedure will be called to initialise the error messages
  * before they are looked up.
  */
-extern ErrorT *		error_lookup_error(char *);
+extern struct ErrorT *		error_lookup_error(char *);
 
 /*
  * This function returns the data associated with the specified error.
  */
-extern void *		error_data(ErrorT *);
+extern void *		error_data(struct ErrorT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -336,7 +323,7 @@ extern void *		error_data(ErrorT *);
  * program to exit if the error's severity level is ``ERROR_SEVERITY_FATAL''
  * or higher.
  */
-extern void		error_report(ErrorT *, ErrorprocP, void *);
+extern void		error_report(struct ErrorT *, ErrorprocP, void *);
 
 extern void		error_set_min_report_severity(ESeverityT);
 
@@ -374,7 +361,7 @@ extern BoolT		error_set_prefix_message(char *);
  * it the specified contents.  Neither the name nor the contents should be
  * modified or deallocated.  No tag splitting is performed on the contents.
  */
-extern EStringT *		error_define_string(char *, char *);
+extern struct EStringT *		error_define_string(char *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -399,13 +386,13 @@ extern BoolT		error_redefine_string(char *, char *);
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  */
-extern EStringT *		error_lookup_string(char *);
+extern struct EStringT *		error_lookup_string(char *);
 
 /*
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  */
-extern char *		error_string_contents(EStringT *);
+extern char *		error_string_contents(struct EStringT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -413,7 +400,7 @@ extern char *		error_string_contents(EStringT *);
  * This function writes out an error file (in the same format as parsed by the
  * functions in "error-file.[ch]") to the specified ostream.
  */
-extern void		write_error_file(OStreamT *);
+extern void		write_error_file(struct OStreamT *);
 
 /*
  * This macro should form the last entry in a vector of ``ETagDataT'' objects.

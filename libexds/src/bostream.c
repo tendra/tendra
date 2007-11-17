@@ -77,13 +77,13 @@
 ExceptionT * XX_bostream_write_error = EXCEPTION("error writing to binary stream");
 
 void
-bostream_init(BOStreamT * bostream)
+bostream_init(struct BOStreamT * bostream)
 {
     bostream->name = NULL;
 }
 
 BoolT
-bostream_open(BOStreamT * bostream,		       char *  name)
+bostream_open(struct BOStreamT * bostream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bostream->file = fopen(name, "wb")) == NULL) {
@@ -99,20 +99,20 @@ bostream_open(BOStreamT * bostream,		       char *  name)
 }
 
 void
-bostream_assign(BOStreamT * to,			 BOStreamT * from)
+bostream_assign(struct BOStreamT * to,			 struct BOStreamT * from)
 {
     to->file  = from->file;
     to->name  = from->name;
 }
 
 BoolT
-bostream_is_open(BOStreamT * bostream)
+bostream_is_open(struct BOStreamT * bostream)
 {
     return(bostream->name != NULL);
 }
 
 void
-bostream_write_chars(BOStreamT * bostream,			      unsigned  length ,
+bostream_write_chars(struct BOStreamT * bostream,			      unsigned  length ,
 			      char *  chars)
 {
     unsigned bytes_read = (unsigned)fwrite(chars, sizeof(char),
@@ -127,7 +127,7 @@ bostream_write_chars(BOStreamT * bostream,			      unsigned  length ,
 }
 
 void
-bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
+bostream_write_bytes(struct BOStreamT * bostream,			      unsigned  length ,
 			      uint8_t *     bytes)
 {
     unsigned bytes_read = (unsigned)fwrite(bytes, sizeof(uint8_t),
@@ -142,7 +142,7 @@ bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
 }
 
 void
-bostream_write_byte(BOStreamT * bostream,			     uint8_t byte)
+bostream_write_byte(struct BOStreamT * bostream,			     uint8_t byte)
 {
     if ((fputc((int)byte, bostream->file) == EOF) &&
 	(ferror(bostream->file))) {
@@ -154,13 +154,13 @@ bostream_write_byte(BOStreamT * bostream,			     uint8_t byte)
 }
 
 char *
-bostream_name(BOStreamT * bostream)
+bostream_name(struct BOStreamT * bostream)
 {
     return(bostream->name);
 }
 
 void
-bostream_close(BOStreamT * bostream)
+bostream_close(struct BOStreamT * bostream)
 {
     if (fclose(bostream->file)) {
 	char * name = cstring_duplicate(bostream->name);

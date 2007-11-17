@@ -76,43 +76,43 @@
 /*
  * This is the cstring list entry type. Its representation is private.
  */
-typedef struct CStringListEntryT {
+struct CStringListEntryT {
     struct CStringListEntryT   *next;
     char *			string;
-} CStringListEntryT;
+};
 
 /*
  * This is the cstring list type. Its representation is private.
  */
-typedef struct CStringListT {
-    CStringListEntryT *		head;
-    CStringListEntryT *	       *tail;
-} CStringListT;
+struct CStringListT {
+    struct CStringListEntryT *		head;
+    struct CStringListEntryT *	       *tail;
+};
 
 /*
  * This function initialises the specified cstring list to be an empty list.
  */
-extern void			cstring_list_init (CStringListT *);
+extern void			cstring_list_init (struct CStringListT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified cstring onto the specified list.
  */
-extern void			cstring_list_append (CStringListT *, char *);
+extern void			cstring_list_append (struct CStringListT *, char *);
 
-extern BoolT			cstring_list_contains (CStringListT *, char *);
+extern BoolT			cstring_list_contains (struct CStringListT *, char *);
 
 /*
  * This function returns a pointer to the first entry in the specified list.
  */
-extern CStringListEntryT *	cstring_list_head (CStringListT *);
+extern struct CStringListEntryT *	cstring_list_head (struct CStringListT *);
 
 /*
  * This function returns a pointer to the cstring stored in the specified
  * list entry.
  */
-extern char *			cstring_list_entry_string (CStringListEntryT *);
+extern char *			cstring_list_entry_string (struct CStringListEntryT *);
 
 /*
  * This function deallocates the specified list entry (without deallocating
@@ -121,6 +121,6 @@ extern char *			cstring_list_entry_string (CStringListEntryT *);
  * the state of the list that the entry is a member of is undefined.  It is
  * only useful for deallocating the entire list in a loop.
  */
-extern CStringListEntryT *	cstring_list_entry_deallocate (CStringListEntryT *);
+extern struct CStringListEntryT *	cstring_list_entry_deallocate (struct CStringListEntryT *);
 
 #endif /* !defined (H_CSTRING_LIST) */

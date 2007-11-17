@@ -75,42 +75,41 @@
 /*
  * This is the nstring list entry type. Its representation is private.
  */
-typedef struct NStringListEntryT {
+struct NStringListEntryT {
     struct NStringListEntryT   *next;
-    NStringT			string;
-} NStringListEntryT;
+    struct NStringT			string;
+};
 
 /*
  * This is the nstring list type. Its representation is private.
  */
-typedef struct NStringListT {
-    NStringListEntryT *		head;
-    NStringListEntryT *	       *tail;
-} NStringListT;
+struct NStringListT {
+    struct NStringListEntryT *		head;
+    struct NStringListEntryT *	       *tail;
+};
 
 /*
  * This function initialises the specified nstring list to be an empty list.
  */
-extern void			nstring_list_init
-(NStringListT *);
+extern void			nstring_list_init (struct NStringListT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified nstring onto the specified list.
  */
-extern void			nstring_list_append (NStringListT *, NStringT *);
+extern void			nstring_list_append (struct NStringListT *, struct NStringT *);
 
 /*
  * This function returns a pointer to the first entry in the specified list.
  */
-extern NStringListEntryT *	nstring_list_head (NStringListT *);
+extern struct NStringListEntryT *	nstring_list_head (struct NStringListT *);
 
 /*
  * This function returns a pointer to the nstring stored in the specified
  * list entry.
  */
-extern NStringT *			nstring_list_entry_string (NStringListEntryT *);
+extern struct NStringT *			nstring_list_entry_string (struct NStringListEntryT *);
 
 /*
  * This function deallocates the specified list entry (without deallocating
@@ -119,6 +118,6 @@ extern NStringT *			nstring_list_entry_string (NStringListEntryT *);
  * the state of the list that the entry is a member of is undefined.  It is
  * only useful for deallocating the entire list in a loop.
  */
-extern NStringListEntryT *	nstring_list_entry_deallocate (NStringListEntryT *);
+extern struct NStringListEntryT *	nstring_list_entry_deallocate (struct NStringListEntryT *);
 
 #endif /* !defined (H_NSTRING_LIST) */

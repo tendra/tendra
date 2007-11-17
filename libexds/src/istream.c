@@ -81,7 +81,7 @@ ExceptionT * XX_istream_read_error = EXCEPTION("error reading from stream");
 
 static char istream_input_buffer[ISTREAM_BUFSIZE];
 
-static IStreamT		istream_input_1 = {
+static struct IStreamT		istream_input_1 = {
     NULL,
     &(istream_input_buffer[0]),
     &(istream_input_buffer[ISTREAM_BUFSIZE - 1]),
@@ -92,10 +92,10 @@ static IStreamT		istream_input_1 = {
     FALSE
 };
 
-IStreamT	 *const istream_input = &istream_input_1;
+struct IStreamT	 *const istream_input = &istream_input_1;
 
 static IStreamStatusT
-istream_read_hex_char(IStreamT * istream, char *c_ref)
+istream_read_hex_char(struct IStreamT * istream, char *c_ref)
 {
     int value;
     int tmp;
@@ -147,13 +147,13 @@ istream_setup(void)
 }
 
 void
-istream_init(IStreamT * istream)
+istream_init(struct IStreamT * istream)
 {
     istream->name = NULL;
 }
 
 BoolT
-istream_open(IStreamT * istream, char * name)
+istream_open(struct IStreamT * istream, char * name)
 {
     if ((istream->file = fopen(name, "r")) == NULL) {
 	return(FALSE);
@@ -167,7 +167,7 @@ istream_open(IStreamT * istream, char * name)
 }
 
 void
-istream_assign(IStreamT * to,			IStreamT * from)
+istream_assign(struct IStreamT * to,			struct IStreamT * from)
 {
     to->file      = from->file;
     to->buffer    = from->buffer;
@@ -180,13 +180,13 @@ istream_assign(IStreamT * to,			IStreamT * from)
 }
 
 BoolT
-istream_is_open(IStreamT * istream)
+istream_is_open(struct IStreamT * istream)
 {
     return(istream->name != NULL);
 }
 
 BoolT
-istream_read_char(IStreamT * istream, char *c_ref)
+istream_read_char(struct IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -208,7 +208,7 @@ istream_read_char(IStreamT * istream, char *c_ref)
 }
 
 BoolT
-istream_peek_char(IStreamT * istream, char *c_ref)
+istream_peek_char(struct IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -227,7 +227,7 @@ istream_peek_char(IStreamT * istream, char *c_ref)
 }
 
 IStreamStatusT
-istream_read_escaped_char(IStreamT * istream, char *c_ref)
+istream_read_escaped_char(struct IStreamT * istream, char *c_ref)
 {
     char c;
 
@@ -266,25 +266,25 @@ istream_read_escaped_char(IStreamT * istream, char *c_ref)
 }
 
 void
-istream_inc_line(IStreamT * istream)
+istream_inc_line(struct IStreamT * istream)
 {
     istream->line++;
 }
 
 unsigned
-istream_line(IStreamT * istream)
+istream_line(struct IStreamT * istream)
 {
     return(istream->line);
 }
 
 char *
-istream_name(IStreamT * istream)
+istream_name(struct IStreamT * istream)
 {
     return(istream->name);
 }
 
 void
-istream_close(IStreamT * istream)
+istream_close(struct IStreamT * istream)
 {
    (void)fclose(istream->file);
     if (istream != istream_input) {
@@ -294,7 +294,7 @@ istream_close(IStreamT * istream)
 }
 
 void
-X__istream_fill_buffer(IStreamT * istream)
+X__istream_fill_buffer(struct IStreamT * istream)
 {
     size_t bytes = fread((istream->buffer), sizeof(char),
 			(size_t)(ISTREAM_BUFSIZE - 1), istream->file);

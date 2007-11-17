@@ -83,18 +83,18 @@
 /*
  * This is the input stream type. Its representation is private.
  */
-typedef struct BIStreamT {
+struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
     char *			name;
-} BIStreamT;
+};
 
 extern ExceptionT *		XX_bistream_read_error;
 
 /*
  * This function initialises the specified bistream not to read from any file.
  */
-extern void			bistream_init (BIStreamT *);
+extern void			bistream_init (struct BIStreamT *);
 
 /*
  * This function initialises the specified bistream to read from the file with
@@ -103,19 +103,19 @@ extern void			bistream_init (BIStreamT *);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-extern BoolT			bistream_open (BIStreamT *, char *);
+extern BoolT			bistream_open (struct BIStreamT *, char *);
 
 /*
  * This function assigns the from bistream to the to bistream.  The from
  * bistream should not be used again.
  */
-extern void			bistream_assign (BIStreamT *, BIStreamT *);
+extern void			bistream_assign (struct BIStreamT *, struct BIStreamT *);
 
 /*
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  */
-extern BoolT			bistream_is_open (BIStreamT *);
+extern BoolT			bistream_is_open (struct BIStreamT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -125,7 +125,7 @@ extern BoolT			bistream_is_open (BIStreamT *);
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  */
-extern unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
+extern unsigned			bistream_read_chars (struct BIStreamT *, unsigned, char *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -135,7 +135,7 @@ extern unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  */
-extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, uint8_t *);
+extern unsigned			bistream_read_bytes (struct BIStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -145,29 +145,29 @@ extern unsigned			bistream_read_bytes (BIStreamT *, unsigned, uint8_t *);
  * function returns true.  If the end of file is reached, the function returns
  * false.
  */
-extern BoolT			bistream_read_byte (BIStreamT *, uint8_t *);
+extern BoolT			bistream_read_byte (struct BIStreamT *, uint8_t *);
 
 /*
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  */
-extern unsigned			bistream_byte (BIStreamT *);
+extern unsigned			bistream_byte (struct BIStreamT *);
 
 /*
  * This function returns the name of the file from which the specified
  * bistream is reading. The return value should not be modified or
  * deallocated.
  */
-extern char *			bistream_name (BIStreamT *);
+extern char *			bistream_name (struct BIStreamT *);
 
 /*
  * This function rewinds the specified bistream.
  */
-extern void			bistream_rewind (BIStreamT *);
+extern void			bistream_rewind (struct BIStreamT *);
 
 /*
  * This function closes the specified bistream.
  */
-extern void			bistream_close (BIStreamT *);
+extern void			bistream_close (struct BIStreamT *);
 
 #endif /* !defined (H_BISTREAM) */

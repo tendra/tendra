@@ -83,10 +83,10 @@
 /*
  * This is the output stream type. Its representation is private.
  */
-typedef struct BOStreamT {
+struct BOStreamT {
     FILE		       *file;
     char *			name;
-} BOStreamT;
+};
 
 extern ExceptionT *		XX_bostream_write_error;
 
@@ -95,7 +95,7 @@ extern ExceptionT *		XX_bostream_write_error;
  *
  * See bostream_open() to initialise to write to a specific file.
  */
-extern void			bostream_init (BOStreamT *);
+extern void			bostream_init (struct BOStreamT *);
 
 /*
  * This function initialises the specified bostream to write to the file with
@@ -106,19 +106,19 @@ extern void			bostream_init (BOStreamT *);
  *
  * See bostream_init() to initialise not to write to a file.
  */
-extern BoolT			bostream_open (BOStreamT *, char *);
+extern BoolT			bostream_open (struct BOStreamT *, char *);
 
 /*
  * This function assigns the from bostream to the to bostream.  The from
  * bostream should not be used again.
  */
-extern void			bostream_assign (BOStreamT *, BOStreamT *);
+extern void			bostream_assign (struct BOStreamT *, struct BOStreamT *);
 
 /*
  * This function returns true if the specified bostream is writing to a file,
  * and false otherwise.
  */
-extern BoolT			bostream_is_open (BOStreamT *);
+extern BoolT			bostream_is_open (struct BOStreamT *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -126,7 +126,7 @@ extern BoolT			bostream_is_open (BOStreamT *);
  * This function writes the length characters in the chars vector to the
  * specified bostream.
  */
-extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
+extern void			bostream_write_chars (struct BOStreamT *, unsigned, char *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -134,25 +134,25 @@ extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
  * This function writes the length bytes in the bytes vector to the specified
  * bostream.
  */
-extern void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
+extern void			bostream_write_bytes (struct BOStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bostream_write_error
  *
  * This function writes the byte to the specified bostream.
  */
-extern void			bostream_write_byte (BOStreamT *, uint8_t);
+extern void			bostream_write_byte (struct BOStreamT *, uint8_t);
 
 /*
  * This function returns the name of the file to which the specified
  * bostream is writing. The return value should not be modified or
  * deallocated.
  */
-extern char *			bostream_name (BOStreamT *);
+extern char *			bostream_name (struct BOStreamT *);
 
 /*
  * This function closes the specified bostream.
  */
-extern void			bostream_close (BOStreamT *);
+extern void			bostream_close (struct BOStreamT *);
 
 #endif /* !defined (H_BOSTREAM) */

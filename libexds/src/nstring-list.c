@@ -74,16 +74,16 @@
 #include "nstring-list.h"
 
 void
-nstring_list_init(NStringListT * list)
+nstring_list_init(struct NStringListT * list)
 {
     list->head = NULL;
     list->tail = & (list->head);
 }
 
 void
-nstring_list_append(NStringListT * list,			     NStringT *     string)
+nstring_list_append(struct NStringListT * list,			     struct NStringT *     string)
 {
-    NStringListEntryT * entry = ALLOCATE(NStringListEntryT);
+    struct NStringListEntryT * entry = ALLOCATE(struct NStringListEntryT);
 
     entry->next   = NULL;
     nstring_assign(& (entry->string), string);
@@ -91,22 +91,22 @@ nstring_list_append(NStringListT * list,			     NStringT *     string)
     list->tail    = & (entry->next);
 }
 
-NStringListEntryT *
-nstring_list_head(NStringListT * list)
+struct NStringListEntryT *
+nstring_list_head(struct NStringListT * list)
 {
     return(list->head);
 }
 
-NStringT *
-nstring_list_entry_string(NStringListEntryT * entry)
+struct NStringT *
+nstring_list_entry_string(struct NStringListEntryT * entry)
 {
     return(& (entry->string));
 }
 
-NStringListEntryT *
-nstring_list_entry_deallocate(NStringListEntryT * entry)
+struct NStringListEntryT *
+nstring_list_entry_deallocate(struct NStringListEntryT * entry)
 {
-    NStringListEntryT * next = entry->next;
+    struct NStringListEntryT * next = entry->next;
 
     DEALLOCATE(entry);
     return(next);
