@@ -7,7 +7,8 @@ Installing libexds should go smoothly with simply:
 
 which should automatically compile and install libexds
 under the given prefix. Other targets provided are "all"
-for which the prefix should also be specified, and "clean".
+for which the prefix should also be specified, "clean",
+and "test".
 
 
 Dependencies required:
