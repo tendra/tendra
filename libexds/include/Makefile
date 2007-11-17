@@ -3,7 +3,7 @@
 PREFIX ?= /usr/local
 
 TARGETS = bitvec.h cstring.h dalloc.h dstring.h error-file.h error.h \
-	exception.h istream.h ostream.h \
+	exception.h istream.h ostream.h common.h \
 	bistream.h bostream.h cstring-list.h nstring-list.h
 
 all:
