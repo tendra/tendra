@@ -22,11 +22,12 @@ all: libexds.la ${TARGETS}
 
 clean:
 	${REMOVE} libexds.la ${TARGETS} ${LTARGETS}
+	$(REMOVE) -r .libs
 
 install: libexds.la
-	install -m 755 libexds.la ${PREFIX}/lib
+	#install -m 755 libexds.la ${PREFIX}/lib
+	install -m 755 .libs/libexds.* ${PREFIX}/lib
 
 libexds.la: ${TARGETS}
-	# TODO -rpath for install:
-	${LINK} -o libexds.la ${LTARGETS}
+	${LINK} -o libexds.la ${LTARGETS} -rpath $(PREFIX)/lib
 
