@@ -35,6 +35,9 @@
 #include "lexer.h"
 
 #include <assert.h>
+struct lexer_state_tag {
+	int (*zone_function)(struct lexer_state_tag*);
+};
 /* LOOKUP TABLE */
 
 lexi_lookup_type lookup_tab[257] = {

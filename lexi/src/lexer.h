@@ -56,9 +56,7 @@ extern int lexi_readchar(void);
 #define is_line_comment_white(T)	((T) & 0x20)
 /* lexer_state_definition */
 
-typedef struct lexer_state_tag {
-	int (*zone_function)(struct lexer_state_tag*);
-	} lexer_state;
+typedef struct lexer_state_tag lexer_state;
 extern int read_token(lexer_state*);
 extern lexer_state* current_lexer_state;
 extern int read_token(lexer_state* state);

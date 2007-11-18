@@ -831,6 +831,9 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		fputs("#include <assert.h>\n", lex_output);
 	}
 	fputs("#include <stdint.h>\n\n", opt->lex_output_h ? opt->lex_output_h: lex_output);
+	fprintf(opt->lex_output,"struct %slexer_state_tag {\n"
+	      "\tint (*zone_function)(struct lexer_state_tag*);\n"
+		"};\n", opt->lexi_prefix);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
@@ -856,9 +859,8 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	in_pre_pass = 0;
 	if(top_level->global_zone->next) {
 		fputs("/* lexer_state_definition */\n\n", lex_state_output);
-		fprintf(lex_state_output,"typedef struct %slexer_state_tag {\n"
-		      "\tint (*zone_function)(struct lexer_state_tag*);\n"
-			"\t} %slexer_state;\n", opt->lexi_prefix, opt->lexi_prefix);
+		fprintf(lex_state_output,"typedef struct %slexer_state_tag %slexer_state;\n",
+			opt->lexi_prefix, opt->lexi_prefix);
 	if(opt->lex_output_h) {
 		bool has_zones=(top_level->global_zone->next!=NULL);
 	}
