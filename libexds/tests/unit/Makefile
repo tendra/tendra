@@ -7,7 +7,7 @@ CFLAGS = -I ../../include
 
 TARGETS = dstring.o
 
-TESTTARGETS = dstring.la
+TESTTARGETS = libdstring.la
 
 REMOVE = rm -f
 HARNESS = harness
@@ -25,6 +25,7 @@ clean:
 
 ${TESTTARGETS}: ${TARGETS}
 	for target in ${TESTTARGETS}; do \
-		${LINK} -o lib$$target `echo $$target | sed 's/\.la/\.lo/'` -rpath $$PWD ../../src/libexds.la; \
+		${LINK} -o $$target `echo $$target | sed 's/\.la$$/\.lo/;s/^lib//'` \
+			-rpath $$PWD ../../src/libexds.la; \
 	done
 
