@@ -65,6 +65,7 @@
  */
 
 #include <stddef.h>
+#include <string.h>
 
 #include "common.h"
 #include "exception.h"
@@ -95,7 +96,7 @@ cstring_list_contains(struct CStringListT * list,			       char *     string)
 {
     struct CStringListEntryT * entry = list->head;
     while (entry != NULL) {
-	if (cstring_equal(string, entry->string)) {
+	if (!strcmp(string, entry->string)) {
 	    return(TRUE);
 	}
 	entry = entry->next;
