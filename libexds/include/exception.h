@@ -227,7 +227,7 @@ extern NoReturnT		X__exception_throw(void);
  * in the indicated region should become corrupted.
  */
 #define HANDLE \
-{HandlerT X___exception_handler; \
+{struct HandlerT X___exception_handler; \
  X___exception_handler.magic_start = X__EXCEPTION_MAGIC; \
  X___exception_handler.file        = __FILE__; \
  X___exception_handler.line        = __LINE__; \
@@ -237,7 +237,7 @@ extern NoReturnT		X__exception_throw(void);
  if (!setjmp(X___exception_handler.buffer)) {
 #else
 #define HANDLE \
-{HandlerT X___exception_handler; \
+{struct HandlerT X___exception_handler; \
  X___exception_handler.next = X__exception_handler_stack; \
  X__exception_handler_stack = &X___exception_handler; \
  if (!setjmp(X___exception_handler.buffer)) {
