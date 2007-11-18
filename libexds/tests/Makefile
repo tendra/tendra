@@ -1,8 +1,8 @@
 # $Id$
 
 test:
-	for dir in dep; do ( cd $$dir && ${MAKE} test ); done
+	for dir in dep unit; do ( cd $$dir && ${MAKE} test ); done
 
 clean:
-	for dir in dep; do ( cd $$dir && ${MAKE} clean ); done
+	for dir in dep unit; do ( cd $$dir && ${MAKE} clean ); done
 
