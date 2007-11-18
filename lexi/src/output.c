@@ -875,7 +875,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		} else 
 			fprintf(lex_output, "static int %s(lexer_state* state);\n", read_token_name);
 		if(!opt->lex_output_h)
-			fputs("static ", opt->lex_output_h);
+			fputs("static ", opt->lex_output);
 		fprintf(lex_output,"%slexer_state %scurrent_lexer_state_v="
 			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
 		fprintf(lex_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
