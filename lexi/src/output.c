@@ -556,16 +556,37 @@ check_if_file_is_comment(FILE* input)
 }
 
 /* 
-   PREPEND_FILE
+   COMMENT FILE
 
-   cat input into output
+   cat input into output, commenting as appropiate.
+   Returns false if the input file was found to have
+   contained an illegal comment.
 */
-static void
-prepend_file(FILE* output, FILE* input) {
-	int c ;
-       	while((c=fgetc(input))!=EOF) 
-       		fputc(c,output);
-	return;
+static int
+comment_file(FILE* output, FILE* input, const char *start, const char *middle, const char *end) {
+    char buf[BUFSIZ];
+
+    fprintf(output, "%s \n%s ", start, middle);
+    while(1) {
+        buf[BUFSIZ - 1] = 'x';
+
+        if(!fgets(buf, sizeof buf, input)) {
+            break;
+        }
+
+        if(strstr(buf, end)) {
+            return 0;
+        }
+
+        fputs(buf, output);
+
+        if(!(buf[BUFSIZ - 1] == '\0' && buf[BUFSIZ - 2] != '\n')) {
+            fprintf(output, "%s ", middle);
+        }
+    }
+    fprintf(output, "\n %s\n", end);
+
+    return 1;
 }
 
 /*
@@ -578,22 +599,16 @@ output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
 {
 	if(opt->copyright_file_cmd_line || top_level->copyright_file) {
 		FILE* copyright_file= opt->copyright_file_cmd_line ? opt->copyright_file_cmd_line : top_level->copyright_file;
-		int is_comment=check_if_file_is_comment(copyright_file);
-		switch(is_comment) {
-		case 0:
+
+		if(!comment_file(opt->lex_output, copyright_file, "/*", " *", "*/")) {
+			error(ERROR_SERIOUS,"Copyright file contains comment characters");
+		}
+
+		if(opt->lex_output_h) {
 			rewind(copyright_file);
-			prepend_file(opt->lex_output,copyright_file);
-			if(opt->lex_output_h) {
-				rewind(copyright_file);
-				prepend_file(opt->lex_output_h,copyright_file);
+			if(!comment_file(opt->lex_output_h, copyright_file, "/*", " *", "*/")) {
+				error(ERROR_SERIOUS,"Copyright file contains comment characters");
 			}
-			break;
-		case 1:
-			error(ERROR_SERIOUS,"Copyright file contains non space characters outside comments");
-			exit(EXIT_FAILURE);
-		case 2:
-			error(ERROR_SERIOUS,"Copyright file ends while inside a comment");
-			exit(EXIT_FAILURE);
 		}
 	}
 	if(opt->copyright_file_cmd_line)
