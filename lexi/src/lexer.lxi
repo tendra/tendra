@@ -34,8 +34,6 @@
     This file describes the lexical analyser used by lexi.
 */
 
-COPYRIGHT = "copyright" ;
-
 /* Character groups */
 GROUP white = " \t\n\r" ;
 GROUP alpha = {A-Z} + {a-z} + "_" ;
@@ -58,8 +56,7 @@ TOKEN ","  -> $comma ;
 TOKEN "\e" -> $eof ;
 TOKEN "##"       -> $arg-char-list ;
 TOKEN "#*"       -> $arg-char-string ;
-TOKEN "#[digit]" -> read_arg_char_nb();
-TOKEN "#n" -> $arg-nb-of-chars;
+TOKEN "#[digit]" -> read_arg_char_nb(##);
 TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
       	      		      for a small amount of time */
 
@@ -69,14 +66,20 @@ TOKEN "{a-z}" -> $lower ;
 TOKEN "{0-9}" -> $digit ;
 
 /* Comments, strings and identifiers */
-ZONE comment: "/*" ... "*/" {
-     GROUP white = "";
-     TOKEN DEFAULT -> $$;
+ZONE comment : "/*" ... "*/" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
 }
 
-TOKEN "\"" -> get_string () ;
-TOKEN "[alpha]" -> get_identifier () ;
-TOKEN "$[alpha]" -> get_sid_ident () ;
+ZONE line_comment : "//" ... "\n" {
+        GROUP white = "";
+        TOKEN DEFAULT -> $$;
+}
+
+
+TOKEN "\"" -> get_string (##) ;
+TOKEN "[alpha]" -> get_identifier (##) ;
+TOKEN "$[alpha]" -> get_sid_ident (##) ;
 
 /* Keywords */
 KEYWORD "GROUP" -> $group ;
@@ -88,4 +91,3 @@ KEYWORD "TOKEN" -> $token ;
 KEYWORD "white" -> $white ;
 KEYWORD "IF" -> $if ;
 KEYWORD "ELSE" -> $else ;
-KEYWORD "COPYRIGHT" -> $copyright ;

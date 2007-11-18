@@ -112,9 +112,26 @@ int lexi_readchar(void) {
 lexer_state current_lexer_state_v={&read_token};
 lexer_state* current_lexer_state=&current_lexer_state_v;/* ZONES PASS ANALYSER PROTOTYPES*/
 
+static int read_token_line_comment(struct lexer_state_tag* state);
 static int read_token_comment(struct lexer_state_tag* state);
 /* MAIN PASS ANALYSERS */
 
+/* MAIN PASS ANALYSER for zone line_comment*/
+
+static int
+read_token_line_comment(lexer_state* state)
+{
+	start: {
+	int c0 = lexi_readchar(), t0;
+	t0 = lookup_char(c0);
+	if (is_line_comment_white(t0)) goto start;
+	if (c0 == '\n') {
+	    state->zone_function=&read_token;
+	    return(read_token(state));
+	}
+	goto start;
+	}
+}
 /* MAIN PASS ANALYSER for zone comment*/
 
 static int
@@ -158,8 +175,6 @@ read_token(lexer_state* state)
 		    return(lex_arg_Hchar_Hvoid);
 		} else if (c1 == '*') {
 		    return(lex_arg_Hchar_Hstring);
-		} else if (c1 == 'n') {
-		    return(lex_arg_Hnb_Hof_Hchars);
 		}
 		t1 = lookup_char(c1);
 		if (is_digit(t1)) {
@@ -216,6 +231,9 @@ read_token(lexer_state* state)
 		int c1 = lexi_readchar();
 		if (c1 == '*') {
 		    state->zone_function=&read_token_comment;
+		    return(read_token(state));
+		} else if (c1 == '/') {
+		    state->zone_function=&read_token_line_comment;
 		    return(read_token(state));
 		}
 		lexi_push(c1);

@@ -52,6 +52,7 @@ extern int lexi_readchar(void);
 #define is_digit(T)	((T) & 0x04)
 #define is_alphanum(T)	((T) & 0x08)
 #define is_comment_white(T)	((T) & 0x10)
+#define is_line_comment_white(T)	((T) & 0x20)
 /* lexer_state_definition */
 
 typedef struct lexer_state_tag {
