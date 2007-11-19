@@ -47,13 +47,12 @@ extern void lexi_push(const int c);
 extern int lexi_pop(void);
 extern void lexi_flush(void);
 extern int lexi_readchar(void);
-#define lookup_char(C)	((int)lookup_tab[(C)])
-#define is_white(T)	((T) & 0x01)
-#define is_alpha(T)	((T) & 0x02)
-#define is_digit(T)	((T) & 0x04)
-#define is_alphanum(T)	((T) & 0x08)
-#define is_comment_white(T)	((T) & 0x10)
-#define is_line_comment_white(T)	((T) & 0x20)
+#define is_white(T)	(lookup_tab[(T)] & 0x01)
+#define is_alpha(T)	(lookup_tab[(T)] & 0x02)
+#define is_digit(T)	(lookup_tab[(T)] & 0x04)
+#define is_alphanum(T)	(lookup_tab[(T)] & 0x08)
+#define is_comment_white(T)	(lookup_tab[(T)] & 0x10)
+#define is_line_comment_white(T)	(lookup_tab[(T)] & 0x20)
 /* lexer_state_definition */
 
 typedef struct lexer_state_tag lexer_state;

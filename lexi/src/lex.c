@@ -153,8 +153,7 @@ read_identifier(int a, int sid)
 	*(t++) = (char)c;
 	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
 	c = lexi_readchar();
-	cl = lookup_char(c);
-    } while (is_alphanum(cl) || c == e);
+    } while (is_alphanum(c) || c == e);
     *t = 0;
     lexi_push(c);
 

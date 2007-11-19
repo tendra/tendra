@@ -282,19 +282,15 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			  n, read_token_name, z->zone_name);
 		else
 		    fprintf(lex_output, "int c%d = lexi_readchar()", n);
-		if (classes || w1)
-			fprintf(lex_output, ", t%d", n);
 		fputs(";\n", lex_output);
 		if (w1) {
-			output_indent(d);
-			fprintf(lex_output,"t0 = %slookup_char(c0);\n", lexi_prefix);
 			output_indent(d);
 			for(scope=z; scope != NULL; scope=scope->up) {
 				if(scope->white_space) {
 					if(scope==scope->top_level->global_zone)
-						fputs("if (is_white(t0)) goto start;\n", lex_output);
+						fputs("if (is_white(c0)) goto start;\n", lex_output);
 					else 
-						fprintf(lex_output,"if (is_%s_%s(t0)) goto start;\n", scope->zone_name, scope->white_space->name);
+						fprintf(lex_output,"if (is_%s_%s(c0)) goto start;\n", scope->zone_name, scope->white_space->name);
 					break;
 				}
 			}
@@ -350,10 +346,6 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		if (classes) {
 			/* Complex cases */
 			int started = 0;
-			if (!w1) {
-				output_indent(d);
-				fprintf(lex_output, "t%d = %slookup_char(c%d);\n", n, lexi_prefix, n);
-			}
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
@@ -364,9 +356,9 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 					if (started)
 						fputs("} else ", lex_output);
 					if(grp->z==grp->z->top_level->global_zone)
-						fprintf(lex_output, "if (%sis_%s(t%d)) {\n", reverse_match, grp->name, n);
+						fprintf(lex_output, "if (%sis_%s(c%d)) {\n", reverse_match, grp->name, n);
 					else
-						fprintf(lex_output, "if (%sis_%s_%s(t%d)) {\n", reverse_match,grp->z->zone_name,grp->name, n);
+						fprintf(lex_output, "if (%sis_%s_%s(c%d)) {\n", reverse_match,grp->z->zone_name,grp->name, n);
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
@@ -646,15 +638,15 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 	char_group* grp;
 	/* Macros for accessing table */
 	FILE* output = opt->lex_output_h ? opt->lex_output_h :opt->lex_output;
-	fprintf(output,"#define %slookup_char(C)\t",opt->lexi_prefix);
-	fprintf(output,"((int)%slookup_tab[(C)])\n",opt->lexi_prefix);
 	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
 		char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==grp->z->top_level->global_zone) {
-			fprintf(output, "#define %sis_%s(T)\t((T) & ", opt->lexi_prefix, grp->name);
+			fprintf(output, "#define %sis_%s(T)\t(%slookup_tab[(T)] & ",
+				opt->lexi_prefix, grp->name, opt->lexi_prefix);
 		} else {
-			fprintf(output, "#define %sis_%s_%s(T)\t((T) & ", opt->lexi_prefix,grp->z->zone_name,grp->name);
+			fprintf(output, "#define %sis_%s_%s(T)\t(%slookup_tab[(T)] & ",
+				opt->lexi_prefix,grp->z->zone_name,grp->name, opt->lexi_prefix);
 		}
 		fprintf(output, grouphex, m);
 		fputs(")\n", output);

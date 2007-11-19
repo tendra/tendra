@@ -126,9 +126,8 @@ static int
 read_token_line_comment(lexer_state* state)
 {
 	start: {
-	int c0 = lexi_readchar(), t0;
-	t0 = lookup_char(c0);
-	if (is_line_comment_white(t0)) goto start;
+	int c0 = lexi_readchar();
+	if (is_line_comment_white(c0)) goto start;
 	if (c0 == '\n') {
 	    state->zone_function=&read_token;
 	    return(read_token(state));
@@ -142,9 +141,8 @@ static int
 read_token_comment(lexer_state* state)
 {
 	start: {
-	int c0 = lexi_readchar(), t0;
-	t0 = lookup_char(c0);
-	if (is_comment_white(t0)) goto start;
+	int c0 = lexi_readchar();
+	if (is_comment_white(c0)) goto start;
 	if (c0 == '*') {
 	    int c1 = lexi_readchar();
 	    if (c1 == '/') {
@@ -164,15 +162,14 @@ read_token(lexer_state* state)
 	if(state->zone_function!=&read_token)
 		return ((*state->zone_function)(state));
 	start: {
-	int c0 = lexi_readchar(), t0;
-	t0 = lookup_char(c0);
-	if (is_white(t0)) goto start;
+	int c0 = lexi_readchar();
+	if (is_white(c0)) goto start;
 	switch (c0) {
 	    case '"': {
 		return(get_string(c0));
 	    }
 	    case '#': {
-		int c1 = lexi_readchar(), t1;
+		int c1 = lexi_readchar();
 		if (c1 == '#') {
 		    return(lex_arg_Hchar_Hlist);
 		} else if (c1 == '$') {
@@ -180,20 +177,18 @@ read_token(lexer_state* state)
 		} else if (c1 == '*') {
 		    return(lex_arg_Hchar_Hstring);
 		}
-		t1 = lookup_char(c1);
-		if (is_digit(t1)) {
+		if (is_digit(c1)) {
 		    return(read_arg_char_nb(c0, c1));
 		}
 		lexi_push(c1);
 		break;
 	    }
 	    case '$': {
-		int c1 = lexi_readchar(), t1;
+		int c1 = lexi_readchar();
 		if (c1 == '$') {
 		    return(lex_nothing_Hmarker);
 		}
-		t1 = lookup_char(c1);
-		if (is_alpha(t1)) {
+		if (is_alpha(c1)) {
 		    return(get_sid_ident(c0, c1));
 		}
 		lexi_push(c1);
@@ -307,7 +302,7 @@ read_token(lexer_state* state)
 		return(lex_eof);
 	    }
 	}
-	if (is_alpha(t0)) {
+	if (is_alpha(c0)) {
 	    return(get_identifier(c0));
 	}
 	return(unknown_token(c0));
