@@ -34,6 +34,8 @@
     This file describes the lexical analyser used by lexi.
 */
 
+COPYRIGHT = "COPYING";
+
 /* Character groups */
 GROUP white = " \t\n\r" ;
 GROUP alpha = {A-Z} + {a-z} + "_" ;
@@ -91,3 +93,4 @@ KEYWORD "TOKEN" -> $token ;
 KEYWORD "white" -> $white ;
 KEYWORD "IF" -> $if ;
 KEYWORD "ELSE" -> $else ;
+KEYWORD "COPYRIGHT" -> $copyright ;

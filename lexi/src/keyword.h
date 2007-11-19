@@ -29,6 +29,7 @@
  */
 /* KEYWORDS */
 
+MAKE_KEYWORD("COPYRIGHT", lex_copyright);
 MAKE_KEYWORD("DEFAULT", lex_default);
 MAKE_KEYWORD("ELSE", lex_else);
 MAKE_KEYWORD("GROUP", lex_group);

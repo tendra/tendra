@@ -1,7 +1,7 @@
 # $Id$
 
 INSTALL=install
-LEXI=lexi -C COPYING
+LEXI=lexi
 REMOVE=rm -f
 MOVE=mv
 SID=sid
