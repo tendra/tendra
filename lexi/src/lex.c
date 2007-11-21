@@ -64,6 +64,7 @@
 #include "xalloc.h"
 
 #include "lex.h"
+#include "lexer.h"
 #include "syntax.h"
 
 
@@ -159,11 +160,7 @@ read_identifier(int a, int sid)
 
     /* Deal with keywords */
     if (sid) return(lex_sid_Hidentifier);
-    t = token_buff;
-#define MAKE_KEYWORD(A, B)\
-    if (!strcmp(t,(A))) return(B);
-#include "keyword.h"
-    return(lex_identifier);
+	return lexi_keyword(token_buff, lex_identifier);
 }
 
 

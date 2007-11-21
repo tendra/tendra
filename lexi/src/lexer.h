@@ -53,6 +53,7 @@ extern int lexi_readchar(void);
 #define is_alphanum(T)	(lookup_tab[(T)] & 0x08)
 #define is_comment_white(T)	(lookup_tab[(T)] & 0x10)
 #define is_line_comment_white(T)	(lookup_tab[(T)] & 0x20)
+extern int lexi_keyword(const char *identifier, int notfound);
 /* lexer_state_definition */
 
 typedef struct lexer_state_tag lexer_state;

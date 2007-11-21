@@ -25,14 +25,14 @@ depend:
 
 clean:
 	${REMOVE} char.o syntax.o lex.o main.o output.o \
-		lexer.c lexer.h keyword.h syntax.h syntax.c lexi
+		lexer.c lexer.h syntax.h syntax.c lexi
 	cd shared && ${MAKE} -f makefile.standalone clean
 
 install: lexi
 	${INSTALL} -m 755 -d ${BINDIR}
 	${INSTALL} -m 755 lexi ${BINDIR}/
 
-lex.o: lexer.c keyword.h lexer.h
+lex.o: lexer.c lexer.h
 syntax.o: lexer.h
 
 main.o char.o syntax.o output.o: char.h
@@ -45,12 +45,6 @@ lexer.c lexer.h: lexer.lxi
 	-${MOVE} lexer.h sav.lexer.h
 	${LEXI} lexer.lxi lexer.c lexer.h \
 		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
-
-keyword.h: lexer.lxi
-	@${REMOVE} $@
-	${LEXI} -k lexer.lxi tmp.$@ \
-		|| ( ${REMOVE} tmp.$@ ; exit 1 )
-	${MOVE} tmp.$@ $@
 
 
 syntax.h: syntax.c

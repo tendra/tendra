@@ -71,7 +71,7 @@
 
 extern void output_all(cmd_line_options*, lexer_parse_tree *);
 extern void output_keyword(cmd_line_options*, lexer_parse_tree*);
-
+extern void output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h);
 
 
 #endif

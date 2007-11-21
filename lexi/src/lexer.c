@@ -111,6 +111,22 @@ int lexi_readchar(void) {
 
 
 
+
+/* KEYWORDS */
+#include <string.h>
+int lexi_keyword(const char *identifier, int notfound) {
+	if(!strcmp(identifier, "COPYRIGHT")) return lex_copyright;
+	if(!strcmp(identifier, "DEFAULT")) return lex_default;
+	if(!strcmp(identifier, "ELSE")) return lex_else;
+	if(!strcmp(identifier, "GROUP")) return lex_group;
+	if(!strcmp(identifier, "IF")) return lex_if;
+	if(!strcmp(identifier, "KEYWORD")) return lex_keyword;
+	if(!strcmp(identifier, "MAPPING")) return lex_mapping;
+	if(!strcmp(identifier, "TOKEN")) return lex_token;
+	if(!strcmp(identifier, "ZONE")) return lex_zone;
+	if(!strcmp(identifier, "white")) return lex_white;
+	return notfound;
+}
 /* PRE-PASS ANALYSERS */
 
 lexer_state current_lexer_state_v={&read_token};

@@ -841,6 +841,10 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("\n\n", lex_output);
 
 
+	/* Keywords */
+	output_keywords(top_level, opt->lex_output, opt->lex_output_h);
+
+
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs( "/* PRE-PASS ANALYSERS */\n\n", lex_output);
@@ -951,3 +955,64 @@ output_keyword(cmd_line_options* opt, lexer_parse_tree* top_level)
 	}
 	return;
 }
+
+/*
+	KEYWORDS GENERATION
+
+	This routine outputs a type-agnostic keyword interface.
+
+	TODO at some point (where the code is clearer), this can
+	be rewritten to generate and output a trie in its own right.
+	For the moment, we just need the interface in place to set
+	the generated API.
+*/
+extern void
+output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
+{
+	keyword *p;
+
+	fputs("\n/* KEYWORDS */\n", output);
+
+	if(output_h) {
+		fprintf(output_h, "extern int %slexi_keyword(const char *identifier, int notfound);\n",
+			lexi_prefix);
+	}
+
+	fprintf(output, "#include <string.h>\n");
+	fprintf(output, "int %slexi_keyword(const char *identifier, int notfound) {\n",
+		lexi_prefix);
+
+	/* TODO remove ->done */
+
+	for (p = top_level->global_zone->keywords; p; p = p->next) {
+		fprintf(output, "\tif(");
+
+		if(p->cond) {
+			fprintf(output, "%s && ", p->cond);
+		}
+
+		fprintf(output, "!strcmp(identifier, \"%s\")) return ",
+			p->name);
+
+		switch(p->instr->type) {
+		case apply_function:
+			/*
+			 * Arguments are not permitted for functions in
+			 * keyword instructions.
+			 */
+			fprintf(output, "%s()", p->instr->u.fun->name);
+			break;
+
+		case return_token:
+			fprintf(output, "%s", p->instr->u.name);
+			break;
+		}
+
+		fprintf(output, ";\n");
+	}
+
+	fprintf(output, "\treturn notfound;\n}\n");
+
+	return;
+}
+
