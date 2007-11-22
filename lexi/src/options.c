@@ -39,7 +39,7 @@ void cmd_line_options_init(cmd_line_options* opt)
 	opt->lex_output = stdout;
 	opt->lex_output_h_filename = NULL;
 	opt->lex_output_h = NULL;
-	opt->lexi_prefix = "";
+	opt->lexi_prefix = "lexi_";
 	/*	opt->lex_input_filename = NULL;
 		opt->lex_input = NULL;*/
 }

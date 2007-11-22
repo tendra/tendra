@@ -138,8 +138,8 @@ char_lit(letter_translation* ctrans)
 
 /*static int in_pre_pass = 0;*/
 /*static char *read_name = "lexi_readchar";*/
-static const char *read_token_name = "read_token";
-static const char *lexi_prefix = "";
+static const char *read_token_name;
+static const char *lexi_prefix;
 
 static	void 
 output_actions( zone* z, instructions_list* ret, int n, int d)
@@ -288,9 +288,11 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			for(scope=z; scope != NULL; scope=scope->up) {
 				if(scope->white_space) {
 					if(scope==scope->top_level->global_zone)
-						fputs("if (is_white(c0)) goto start;\n", lex_output);
+						fprintf(lex_output, "if (%sis_white(c0)) goto start;\n",
+							lexi_prefix);
 					else 
-						fprintf(lex_output,"if (is_%s_%s(c0)) goto start;\n", scope->zone_name, scope->white_space->name);
+						fprintf(lex_output,"if (%sis_%s_%s(c0)) goto start;\n",
+							lexi_prefix, scope->zone_name, scope->white_space->name);
 					break;
 				}
 			}
@@ -356,9 +358,11 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 					if (started)
 						fputs("} else ", lex_output);
 					if(grp->z==grp->z->top_level->global_zone)
-						fprintf(lex_output, "if (%sis_%s(c%d)) {\n", reverse_match, grp->name, n);
+						fprintf(lex_output, "if (%s%sis_%s(c%d)) {\n",
+							reverse_match, lexi_prefix, grp->name, n);
 					else
-						fprintf(lex_output, "if (%sis_%s_%s(c%d)) {\n", reverse_match,grp->z->zone_name,grp->name, n);
+						fprintf(lex_output, "if (%s%sis_%s_%s(c%d)) {\n",
+							reverse_match, lexi_prefix, grp->z->zone_name, grp->name, n);
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
@@ -373,7 +377,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		}
 		if (n) {
 			output_indent(d);
-			fprintf(lex_output, "%slexi_push(c%d);\n", lexi_prefix,n);
+			fprintf(lex_output, "%spush(c%d);\n", lexi_prefix,n);
 		}
 	}
 
@@ -442,7 +446,8 @@ output_zone_pass_prototypes(zone *p)
     output_zone_pass_prototypes(z);
   }
   if(!(p==p->top_level->global_zone))
-    fprintf(lex_output,"static int %s_%s(struct lexer_state_tag* state);\n",read_token_name,p->zone_name);
+    fprintf(lex_output,"static int %s_%s(struct %slexer_state_tag* state);\n",
+		read_token_name,p->zone_name, lexi_prefix);
 }
 
 static void
@@ -479,7 +484,13 @@ output_zone_pass(zone *p)
     }
     fprintf(lex_output,"/* MAIN PASS ANALYSER for zone %s*/\n\n",p->zone_name);
     if(is_p_global_zone) {
-        fprintf(lex_output,"int\n%s(%s)\n", read_token_name, has_zones ? "lexer_state* state" : "void");
+        if(has_zones) {
+        	fprintf(lex_output,"int\n%s(%slexer_state *state)\n",
+			read_token_name, lexi_prefix);
+	} else {
+        	fprintf(lex_output,"int\n%s(void)\n",
+			read_token_name);
+	}
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
 	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
@@ -487,7 +498,13 @@ output_zone_pass(zone *p)
 	}
     }
     else {
-        fprintf(lex_output,"static int\n%s_%s(%s)\n",read_token_name,p->zone_name,has_zones ? "lexer_state* state" : "void");
+	if(has_zones) {
+        	fprintf(lex_output,"static int\n%s_%s(%slexer_state* state)\n",
+			read_token_name,p->zone_name, lexi_prefix);
+	} else {
+        	fprintf(lex_output,"static int\n%s_%s(void)\n",
+			read_token_name,p->zone_name);
+	}
 	fputs("{\n", lex_output);
     }
     fputs("\tstart: {\n", lex_output);
@@ -663,9 +680,9 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 	char_group* grp;
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
-	fprintf(opt->lex_output_h, "typedef %s %slexi_lookup_type;\n", grouptype, opt->lexi_prefix);
-	fprintf(opt->lex_output_h,"extern %slexi_lookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix, opt->lexi_prefix);
-	fprintf(lex_output,"%slexi_lookup_type %slookup_tab[257] = {\n", opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(opt->lex_output_h, "typedef %s %slookup_type;\n", grouptype, opt->lexi_prefix);
+	fprintf(opt->lex_output_h,"extern %slookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(lex_output,"%slookup_type %slookup_tab[257] = {\n", opt->lexi_prefix, opt->lexi_prefix);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
 		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
@@ -713,8 +730,8 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("static int lexi_buffer_index;\n\n", lex_output);
 
 	fputs("/* Push a character to lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern void %slexi_push(const int c);\n", lexi_prefix);
-	fprintf(lex_output, "void %slexi_push(const int c) {\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern void %spush(const int c);\n", lexi_prefix);
+	fprintf(lex_output, "void %spush(const int c) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
 		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
 	}
@@ -722,8 +739,8 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern int %slexi_pop(void);\n", lexi_prefix);
-	fprintf(lex_output, "int %slexi_pop(void) {\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern int %spop(void);\n", lexi_prefix);
+	fprintf(lex_output, "int %spop(void) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
 		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
 	}
@@ -731,17 +748,17 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Flush lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern void %slexi_flush(void);\n", lexi_prefix);
-	fprintf(lex_output, "void %slexi_flush(void) {\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern void %sflush(void);\n", lexi_prefix);
+	fprintf(lex_output, "void %sflush(void) {\n", lexi_prefix);
 	fputs("\tlexi_buffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern int %slexi_readchar(void);\n", lexi_prefix);
-	fprintf(lex_output,"int %slexi_readchar(void) {\n", lexi_prefix);
-	fprintf(lex_output,"\tif(%slexi_buffer_index) {\n", lexi_prefix);
-	fprintf(lex_output,"\t\treturn %slexi_pop();\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern int %sreadchar(void);\n", lexi_prefix);
+	fprintf(lex_output,"int %sreadchar(void) {\n", lexi_prefix);
+	fprintf(lex_output,"\tif(%sbuffer_index) {\n", lexi_prefix);
+	fprintf(lex_output,"\t\treturn %spop();\n", lexi_prefix);
 	fputs("\t}\n\n", lex_output);
 	fputs("\treturn read_char();\n", lex_output);
 	fputs("}\n", lex_output);
@@ -763,7 +780,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	const char *grouphex;
 
 	lex_output=opt->lex_output;
-	read_token_name = xstrcat(opt->lexi_prefix,"read_token");
+	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
 
 	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
@@ -802,8 +819,8 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	}
 	fputs("#include <stdint.h>\n\n", opt->lex_output_h ? opt->lex_output_h: lex_output);
 	fprintf(opt->lex_output,"struct %slexer_state_tag {\n"
-	      "\tint (*zone_function)(struct lexer_state_tag*);\n"
-		"};\n", opt->lexi_prefix);
+	      "\tint (*zone_function)(struct %slexer_state_tag*);\n"
+		"};\n", opt->lexi_prefix, opt->lexi_prefix);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
@@ -837,12 +854,9 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 			opt->lexi_prefix, opt->lexi_prefix);
 		bool has_zones=(top_level->global_zone->next!=NULL);
 
-		fputs("extern ", opt->lex_output_h);
-		fprintf(opt->lex_output_h,"int %s(lexer_state*);\n", read_token_name);
-		fputs("extern ", opt->lex_output_h);
-		fprintf(opt->lex_output_h, "%slexer_state* %scurrent_lexer_state;", 
+		fprintf(opt->lex_output_h, "extern %slexer_state* %scurrent_lexer_state;", 
 			opt->lexi_prefix, opt->lexi_prefix);
-		fprintf(opt->lex_output_h,"\nextern int %s(lexer_state* state);\n", read_token_name);
+		fprintf(opt->lex_output_h,"\nextern int %s(%slexer_state *state);\n", read_token_name, lexi_prefix);
 		fprintf(lex_output,"%slexer_state %scurrent_lexer_state_v="
 			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
 		fprintf(lex_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
@@ -878,11 +892,11 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 
 	fputs("\n/* KEYWORDS */\n", output);
 
-	fprintf(output_h, "extern int %slexi_keyword(const char *identifier, int notfound);\n",
+	fprintf(output_h, "extern int %skeyword(const char *identifier, int notfound);\n",
 		lexi_prefix);
 
 	fprintf(output, "#include <string.h>\n");
-	fprintf(output, "int %slexi_keyword(const char *identifier, int notfound) {\n",
+	fprintf(output, "int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
 	/* TODO remove ->done */

@@ -35,12 +35,12 @@
 #include "lexer.h"
 
 #include <assert.h>
-struct lexer_state_tag {
-	int (*zone_function)(struct lexer_state_tag*);
+struct lexi_lexer_state_tag {
+	int (*zone_function)(struct lexi_lexer_state_tag*);
 };
 /* LOOKUP TABLE */
 
-lexi_lookup_type lookup_tab[257] = {
+lexi_lookup_type lexi_lookup_tab[257] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -129,24 +129,24 @@ int lexi_keyword(const char *identifier, int notfound) {
 }
 /* PRE-PASS ANALYSERS */
 
-lexer_state current_lexer_state_v={&read_token};
-lexer_state* current_lexer_state=&current_lexer_state_v;/* ZONES PASS ANALYSER PROTOTYPES*/
+lexi_lexer_state lexi_current_lexer_state_v={&lexi_read_token};
+lexi_lexer_state* lexi_current_lexer_state=&lexi_current_lexer_state_v;/* ZONES PASS ANALYSER PROTOTYPES*/
 
-static int read_token_line_comment(struct lexer_state_tag* state);
-static int read_token_comment(struct lexer_state_tag* state);
+static int lexi_read_token_line_comment(struct lexi_lexer_state_tag* state);
+static int lexi_read_token_comment(struct lexi_lexer_state_tag* state);
 /* MAIN PASS ANALYSERS */
 
 /* MAIN PASS ANALYSER for zone line_comment*/
 
 static int
-read_token_line_comment(lexer_state* state)
+lexi_read_token_line_comment(lexi_lexer_state* state)
 {
 	start: {
 	int c0 = lexi_readchar();
-	if (is_line_comment_white(c0)) goto start;
+	if (lexi_is_line_comment_white(c0)) goto start;
 	if (c0 == '\n') {
-	    state->zone_function=&read_token;
-	    return(read_token(state));
+	    state->zone_function=&lexi_read_token;
+	    return(lexi_read_token(state));
 	}
 	goto start;
 	}
@@ -154,16 +154,16 @@ read_token_line_comment(lexer_state* state)
 /* MAIN PASS ANALYSER for zone comment*/
 
 static int
-read_token_comment(lexer_state* state)
+lexi_read_token_comment(lexi_lexer_state* state)
 {
 	start: {
 	int c0 = lexi_readchar();
-	if (is_comment_white(c0)) goto start;
+	if (lexi_is_comment_white(c0)) goto start;
 	if (c0 == '*') {
 	    int c1 = lexi_readchar();
 	    if (c1 == '/') {
-		state->zone_function=&read_token;
-		return(read_token(state));
+		state->zone_function=&lexi_read_token;
+		return(lexi_read_token(state));
 	    }
 	    lexi_push(c1);
 	}
@@ -173,13 +173,13 @@ read_token_comment(lexer_state* state)
 /* MAIN PASS ANALYSER for zone global*/
 
 int
-read_token(lexer_state* state)
+lexi_read_token(lexi_lexer_state *state)
 {
-	if(state->zone_function!=&read_token)
+	if(state->zone_function!=&lexi_read_token)
 		return ((*state->zone_function)(state));
 	start: {
 	int c0 = lexi_readchar();
-	if (is_white(c0)) goto start;
+	if (lexi_is_white(c0)) goto start;
 	switch (c0) {
 	    case '"': {
 		return(get_string(c0));
@@ -193,7 +193,7 @@ read_token(lexer_state* state)
 		} else if (c1 == '*') {
 		    return(lex_arg_Hchar_Hstring);
 		}
-		if (is_digit(c1)) {
+		if (lexi_is_digit(c1)) {
 		    return(read_arg_char_nb(c0, c1));
 		}
 		lexi_push(c1);
@@ -204,7 +204,7 @@ read_token(lexer_state* state)
 		if (c1 == '$') {
 		    return(lex_nothing_Hmarker);
 		}
-		if (is_alpha(c1)) {
+		if (lexi_is_alpha(c1)) {
 		    return(get_sid_ident(c0, c1));
 		}
 		lexi_push(c1);
@@ -245,11 +245,11 @@ read_token(lexer_state* state)
 	    case '/': {
 		int c1 = lexi_readchar();
 		if (c1 == '*') {
-		    state->zone_function=&read_token_comment;
-		    return(read_token(state));
+		    state->zone_function=&lexi_read_token_comment;
+		    return(lexi_read_token(state));
 		} else if (c1 == '/') {
-		    state->zone_function=&read_token_line_comment;
-		    return(read_token(state));
+		    state->zone_function=&lexi_read_token_line_comment;
+		    return(lexi_read_token(state));
 		}
 		lexi_push(c1);
 		break;
@@ -318,7 +318,7 @@ read_token(lexer_state* state)
 		return(lex_eof);
 	    }
 	}
-	if (is_alpha(c0)) {
+	if (lexi_is_alpha(c0)) {
 	    return(get_identifier(c0));
 	}
 	return(unknown_token(c0));
