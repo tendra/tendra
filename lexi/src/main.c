@@ -75,7 +75,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
+	fputs("usage: lexi [-vha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
 }
 
 
@@ -133,7 +133,7 @@ main(int argc, char **argv)
 	argv += optind;
 
 	/* Check arguments */
-	if (argc < 1) {
+	if (argc < 3) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
 		/* TODO resolve - here, and pass FILE * to process_file();
@@ -146,26 +146,21 @@ main(int argc, char **argv)
 	}
 
 	/* Open output file */
-	if (argc == 2 || ( argc == 3 ) ) {
-		options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
-		options.lex_output_filename = !strcmp(argv[1], "-") ? "" : argv[1];
-
-		if (options.lex_output == NULL) {
-			error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
-			/* TODO perror for cases like this */
-			return EXIT_FAILURE;
-		}
+	options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
+	options.lex_output_filename = !strcmp(argv[1], "-") ? "" : argv[1];
+	if (options.lex_output == NULL) {
+		error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
+		/* TODO perror for cases like this */
+		return EXIT_FAILURE;
 	}
 
 	/* Open output header */
-	if (argc == 3 ) {
-		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
-		options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
-		if (options.lex_output_h == NULL) {
-			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
-			/* TODO perror for cases like this */
-			return EXIT_FAILURE;
-		}
+	options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
+	options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
+	if (options.lex_output_h == NULL) {
+		error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
+		/* TODO perror for cases like this */
+		return EXIT_FAILURE;
 	}
 
 	/* Process input file */
@@ -185,10 +180,8 @@ main(int argc, char **argv)
 	/* TODO pass output fd here; remove globals */
 	output_all(&options, &top_level);
 
-	if (options.lex_output)
-		fclose(options.lex_output);
-	if (options.lex_output_h)
-		fclose(options.lex_output_h);
+	fclose(options.lex_output);
+	fclose(options.lex_output_h);
 
 	return exit_status;
 }
