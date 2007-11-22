@@ -38,7 +38,6 @@
 typedef struct cmd_line_options_tag {
 	const char* copyright_filename_cmd_line;
 	FILE* copyright_file_cmd_line;
-	bool key;
 	bool generate_asserts;
 	const char* lex_output_filename;
 	FILE* lex_output;

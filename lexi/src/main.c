@@ -75,7 +75,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-kvha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
+	fputs("usage: lexi [-vha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file [output-file] [header-output-file]\n", stdout);
 }
 
 
@@ -95,12 +95,8 @@ main(int argc, char **argv)
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "C:kl:p:vha")) != -1) {
+	while ((optc = getopt(argc, argv, "C:l:p:vha")) != -1) {
 		switch(optc) {
-		case 'k':
-			options.key = true;
-			break;
-
 		/* TODO document flag to disable including <assert.h> for C89-only systems */
 		case 'a':
 			options.generate_asserts = false;
@@ -144,13 +140,13 @@ main(int argc, char **argv)
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > 3 || ( argc==3 && options.key ) ) {
+	if (argc > 3) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
 
 	/* Open output file */
-	if (argc == 2 || ( argc == 3 && !options.key ) ) {
+	if (argc == 2 || ( argc == 3 ) ) {
 		options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
 		options.lex_output_filename = !strcmp(argv[1], "-") ? "" : argv[1];
 
@@ -161,8 +157,8 @@ main(int argc, char **argv)
 		}
 	}
 
-	/* Open output file */
-	if (argc == 3 && !options.key) {
+	/* Open output header */
+	if (argc == 3 ) {
 		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
 		options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
 		if (options.lex_output_h == NULL) {
@@ -187,10 +183,7 @@ main(int argc, char **argv)
 							  make_string(" \t\n",top_level.global_zone));
 
 	/* TODO pass output fd here; remove globals */
-	if (options.key)
-		output_keyword(&options, &top_level);
-	else
-	  output_all(&options, &top_level);
+	output_all(&options, &top_level);
 
 	if (options.lex_output)
 		fclose(options.lex_output);

@@ -34,7 +34,6 @@ void cmd_line_options_init(cmd_line_options* opt)
 {
 	opt->copyright_filename_cmd_line = NULL;
 	opt->copyright_file_cmd_line = NULL;
-	opt->key = false;
 	opt->generate_asserts = true;
 	opt->lex_output_filename = NULL;
 	opt->lex_output = stdout;
