@@ -40,7 +40,7 @@ lex.o main.o syntax.o : syntax.h
 main.o output.o : output.h
 main.o options.o output.o : options.h
 
-lexer.c lexer.h: lexer.lxi
+lexer.c lexer.h: lexer.lxi COPYING
 	-${MOVE} lexer.c sav.lexer.c 
 	-${MOVE} lexer.h sav.lexer.h
 	${LEXI} lexer.lxi lexer.c lexer.h \
