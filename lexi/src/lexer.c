@@ -113,29 +113,29 @@ static lookup_type lookup_tab[257] = {
  * Lexi's buffer is a simple stack. The size is calculated as
  * max(mapping) - 1 + max(token) - 1
  */
-static int lexi_buffer[5 - 1];
-static int lexi_buffer_index;
+static int buffer[5 - 1];
+static int buffer_index;
 
 /* Push a character to lexi's buffer */
 void lexi_push(const int c) {
-	assert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);
-	lexi_buffer[lexi_buffer_index++] = c;
+	assert(buffer_index < sizeof buffer / sizeof *buffer);
+	buffer[buffer_index++] = c;
 }
 
 /* Pop a character from lexi's buffer */
 int lexi_pop(void) {
-	assert(lexi_buffer_index > 0);
-	return lexi_buffer[--lexi_buffer_index];
+	assert(buffer_index > 0);
+	return buffer[--buffer_index];
 }
 
 /* Flush lexi's buffer */
 void lexi_flush(void) {
-	lexi_buffer_index = 0;
+	buffer_index = 0;
 }
 
 /* Read a character */
 int lexi_readchar(void) {
-	if(lexi_buffer_index) {
+	if(buffer_index) {
 		return lexi_pop();
 	}
 

@@ -744,44 +744,44 @@ output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
 	fputs(" */\n", lex_output);
 	if(top_level->global_zone->zone_pre_pass->next) {
-		fprintf(lex_output, "static int lexi_buffer[%u - 1 + %u - 1];\n",
+		fprintf(lex_output, "static int buffer[%u - 1 + %u - 1];\n",
 			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), 
 			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
 	} else {
-		fprintf(lex_output, "static int lexi_buffer[%u - 1];\n",
+		fprintf(lex_output, "static int buffer[%u - 1];\n",
 			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
 	}
-	fputs("static int lexi_buffer_index;\n\n", lex_output);
+	fputs("static int buffer_index;\n\n", lex_output);
 
 	fputs("/* Push a character to lexi's buffer */\n", lex_output);
 	fprintf(opt->lex_output_h, "extern void %spush(const int c);\n", lexi_prefix);
 	fprintf(lex_output, "void %spush(const int c) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
-		fputs("\tassert(lexi_buffer_index < sizeof lexi_buffer / sizeof *lexi_buffer);\n", lex_output);
+		fputs("\tassert(buffer_index < sizeof buffer / sizeof *buffer);\n", lex_output);
 	}
-	fputs("\tlexi_buffer[lexi_buffer_index++] = c;\n", lex_output);
+	fputs("\tbuffer[buffer_index++] = c;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
 	fprintf(opt->lex_output_h, "extern int %spop(void);\n", lexi_prefix);
 	fprintf(lex_output, "int %spop(void) {\n", lexi_prefix);
 	if(opt->generate_asserts) {
-		fputs("\tassert(lexi_buffer_index > 0);\n", lex_output);
+		fputs("\tassert(buffer_index > 0);\n", lex_output);
 	}
-	fputs("\treturn lexi_buffer[--lexi_buffer_index];\n", lex_output);
+	fputs("\treturn buffer[--buffer_index];\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Flush lexi's buffer */\n", lex_output);
 	fprintf(opt->lex_output_h, "extern void %sflush(void);\n", lexi_prefix);
 	fprintf(lex_output, "void %sflush(void) {\n", lexi_prefix);
-	fputs("\tlexi_buffer_index = 0;\n", lex_output);
+	fputs("\tbuffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output);
 	fprintf(opt->lex_output_h, "extern int %sreadchar(void);\n", lexi_prefix);
 	fprintf(lex_output,"int %sreadchar(void) {\n", lexi_prefix);
-	fprintf(lex_output,"\tif(%sbuffer_index) {\n", lexi_prefix);
+	fputs("\tif(buffer_index) {\n", lex_output);
 	fprintf(lex_output,"\t\treturn %spop();\n", lexi_prefix);
 	fputs("\t}\n\n", lex_output);
 	fputs("\treturn read_char();\n", lex_output);
