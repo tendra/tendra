@@ -71,7 +71,7 @@ typedef args_list* args_listP;
     This string is added to the start of each sid identifier.
 */
 
-char *sid_prefix = "lex_" ;
+char *token_prefix = "lex_" ;
 
 
 /*
@@ -1021,7 +1021,7 @@ ZRinstruction(instructionP *ZOinst)
     int n ;
     char *s ;
     char buff [1000] ;
-    strcpy ( buff, sid_prefix ) ;
+    strcpy ( buff, token_prefix ) ;
     n = ( int ) strlen ( buff ) ;
     for ( s = token_buff ; *s ; s++ ) {
 	if ( *s == '-' ) {

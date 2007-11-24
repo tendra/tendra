@@ -75,7 +75,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vha] [-l sid-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
+	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
 }
 
 
@@ -95,15 +95,15 @@ main(int argc, char **argv)
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "C:l:p:vha")) != -1) {
+	while ((optc = getopt(argc, argv, "C:t:p:vha")) != -1) {
 		switch(optc) {
 		/* TODO document flag to disable including <assert.h> for C89-only systems */
 		case 'a':
 			options.generate_asserts = false;
 			break;
 
-		case 'l':
-			sid_prefix = optarg;
+		case 't':
+			token_prefix = optarg;
 			break;
 
 		case 'C':

@@ -45,7 +45,7 @@
 #define SYNTAX_INCLUDED
 
 #include "char.h"
-extern char *sid_prefix ;
+extern char *token_prefix ;
 typedef zone* zoneP;
 
 #line 52 "tmp.syntax.h"
