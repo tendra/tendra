@@ -178,13 +178,13 @@ static int
 lexi_read_token_line_comment(lexi_lexer_state* state)
 {
 	start: {
-	int c0 = lexi_readchar();
-	if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
-	if (c0 == '\n') {
-	    state->zone_function=&lexi_read_token;
-	    return(lexi_read_token(state));
-	}
-	goto start;
+		int c0 = lexi_readchar();
+		if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
+		if (c0 == '\n') {
+			state->zone_function=&lexi_read_token;
+			return(lexi_read_token(state));
+		}
+		goto start;
 	}
 }
 /* MAIN PASS ANALYSER for zone comment*/
@@ -193,17 +193,17 @@ static int
 lexi_read_token_comment(lexi_lexer_state* state)
 {
 	start: {
-	int c0 = lexi_readchar();
-	if (lexi_group(lexi_group_comment_white, c0)) goto start;
-	if (c0 == '*') {
-	    int c1 = lexi_readchar();
-	    if (c1 == '/') {
-		state->zone_function=&lexi_read_token;
-		return(lexi_read_token(state));
-	    }
-	    lexi_push(c1);
-	}
-	goto start;
+		int c0 = lexi_readchar();
+		if (lexi_group(lexi_group_comment_white, c0)) goto start;
+		if (c0 == '*') {
+			int c1 = lexi_readchar();
+			if (c1 == '/') {
+				state->zone_function=&lexi_read_token;
+				return(lexi_read_token(state));
+			}
+			lexi_push(c1);
+		}
+		goto start;
 	}
 }
 /* MAIN PASS ANALYSER for zone global*/
@@ -214,149 +214,149 @@ lexi_read_token(lexi_lexer_state *state)
 	if(state->zone_function!=&lexi_read_token)
 		return ((*state->zone_function)(state));
 	start: {
-	int c0 = lexi_readchar();
-	if (lexi_group(lexi_group_white, c0)) goto start;
-	switch (c0) {
-	    case '"': {
-		return(get_string(c0));
-	    }
-	    case '#': {
-		int c1 = lexi_readchar();
-		if (c1 == '#') {
-		    return(lex_arg_Hchar_Hlist);
-		} else if (c1 == '$') {
-		    return(lex_arg_Hchar_Hvoid);
-		} else if (c1 == '*') {
-		    return(lex_arg_Hchar_Hstring);
-		}
-		if (lexi_group(lexi_group_digit, c1)) {
-		    return(read_arg_char_nb(c0, c1));
-		}
-		lexi_push(c1);
-		break;
-	    }
-	    case '$': {
-		int c1 = lexi_readchar();
-		if (c1 == '$') {
-		    return(lex_nothing_Hmarker);
-		}
-		if (lexi_group(lexi_group_alpha, c1)) {
-		    return(get_sid_ident(c0, c1));
-		}
-		lexi_push(c1);
-		break;
-	    }
-	    case '(': {
-		return(lex_open);
-	    }
-	    case ')': {
-		return(lex_close);
-	    }
-	    case '+': {
-		return(lex_plus);
-	    }
-	    case ',': {
-		return(lex_comma);
-	    }
-	    case '-': {
-		int c1 = lexi_readchar();
-		if (c1 == '>') {
-		    return(lex_arrow);
-		}
-		lexi_push(c1);
-		break;
-	    }
-	    case '.': {
-		int c1 = lexi_readchar();
-		if (c1 == '.') {
-		    int c2 = lexi_readchar();
-		    if (c2 == '.') {
-			return(lex_range);
-		    }
-		    lexi_push(c2);
-		}
-		lexi_push(c1);
-		break;
-	    }
-	    case '/': {
-		int c1 = lexi_readchar();
-		if (c1 == '*') {
-		    state->zone_function=&lexi_read_token_comment;
-		    return(lexi_read_token(state));
-		} else if (c1 == '/') {
-		    state->zone_function=&lexi_read_token_line_comment;
-		    return(lexi_read_token(state));
-		}
-		lexi_push(c1);
-		break;
-	    }
-	    case ':': {
-		return(lex_colon);
-	    }
-	    case ';': {
-		return(lex_semicolon);
-	    }
-	    case '=': {
-		return(lex_equal);
-	    }
-	    case '{': {
-		int c1 = lexi_readchar();
-		if (c1 == '0') {
-		    int c2 = lexi_readchar();
-		    if (c2 == '-') {
-			int c3 = lexi_readchar();
-			if (c3 == '9') {
-			    int c4 = lexi_readchar();
-			    if (c4 == '}') {
-				return(lex_digit);
-			    }
-			    lexi_push(c4);
+		int c0 = lexi_readchar();
+		if (lexi_group(lexi_group_white, c0)) goto start;
+		switch (c0) {
+			case '"': {
+				return(get_string(c0));
 			}
-			lexi_push(c3);
-		    }
-		    lexi_push(c2);
-		} else if (c1 == 'A') {
-		    int c2 = lexi_readchar();
-		    if (c2 == '-') {
-			int c3 = lexi_readchar();
-			if (c3 == 'Z') {
-			    int c4 = lexi_readchar();
-			    if (c4 == '}') {
-				return(lex_upper);
-			    }
-			    lexi_push(c4);
+			case '#': {
+				int c1 = lexi_readchar();
+				if (c1 == '#') {
+					return(lex_arg_Hchar_Hlist);
+				} else if (c1 == '$') {
+					return(lex_arg_Hchar_Hvoid);
+				} else if (c1 == '*') {
+					return(lex_arg_Hchar_Hstring);
+				}
+				if (lexi_group(lexi_group_digit, c1)) {
+					return(read_arg_char_nb(c0, c1));
+				}
+				lexi_push(c1);
+				break;
 			}
-			lexi_push(c3);
-		    }
-		    lexi_push(c2);
-		} else if (c1 == 'a') {
-		    int c2 = lexi_readchar();
-		    if (c2 == '-') {
-			int c3 = lexi_readchar();
-			if (c3 == 'z') {
-			    int c4 = lexi_readchar();
-			    if (c4 == '}') {
-				return(lex_lower);
-			    }
-			    lexi_push(c4);
+			case '$': {
+				int c1 = lexi_readchar();
+				if (c1 == '$') {
+					return(lex_nothing_Hmarker);
+				}
+				if (lexi_group(lexi_group_alpha, c1)) {
+					return(get_sid_ident(c0, c1));
+				}
+				lexi_push(c1);
+				break;
 			}
-			lexi_push(c3);
-		    }
-		    lexi_push(c2);
+			case '(': {
+				return(lex_open);
+			}
+			case ')': {
+				return(lex_close);
+			}
+			case '+': {
+				return(lex_plus);
+			}
+			case ',': {
+				return(lex_comma);
+			}
+			case '-': {
+				int c1 = lexi_readchar();
+				if (c1 == '>') {
+					return(lex_arrow);
+				}
+				lexi_push(c1);
+				break;
+			}
+			case '.': {
+				int c1 = lexi_readchar();
+				if (c1 == '.') {
+					int c2 = lexi_readchar();
+					if (c2 == '.') {
+						return(lex_range);
+					}
+					lexi_push(c2);
+				}
+				lexi_push(c1);
+				break;
+			}
+			case '/': {
+				int c1 = lexi_readchar();
+				if (c1 == '*') {
+					state->zone_function=&lexi_read_token_comment;
+					return(lexi_read_token(state));
+				} else if (c1 == '/') {
+					state->zone_function=&lexi_read_token_line_comment;
+					return(lexi_read_token(state));
+				}
+				lexi_push(c1);
+				break;
+			}
+			case ':': {
+				return(lex_colon);
+			}
+			case ';': {
+				return(lex_semicolon);
+			}
+			case '=': {
+				return(lex_equal);
+			}
+			case '{': {
+				int c1 = lexi_readchar();
+				if (c1 == '0') {
+					int c2 = lexi_readchar();
+					if (c2 == '-') {
+						int c3 = lexi_readchar();
+						if (c3 == '9') {
+							int c4 = lexi_readchar();
+							if (c4 == '}') {
+								return(lex_digit);
+							}
+							lexi_push(c4);
+						}
+						lexi_push(c3);
+					}
+					lexi_push(c2);
+				} else if (c1 == 'A') {
+					int c2 = lexi_readchar();
+					if (c2 == '-') {
+						int c3 = lexi_readchar();
+						if (c3 == 'Z') {
+							int c4 = lexi_readchar();
+							if (c4 == '}') {
+								return(lex_upper);
+							}
+							lexi_push(c4);
+						}
+						lexi_push(c3);
+					}
+					lexi_push(c2);
+				} else if (c1 == 'a') {
+					int c2 = lexi_readchar();
+					if (c2 == '-') {
+						int c3 = lexi_readchar();
+						if (c3 == 'z') {
+							int c4 = lexi_readchar();
+							if (c4 == '}') {
+								return(lex_lower);
+							}
+							lexi_push(c4);
+						}
+						lexi_push(c3);
+					}
+					lexi_push(c2);
+				}
+				lexi_push(c1);
+				return(lex_open_Hbrace);
+			}
+			case '}': {
+				return(lex_close_Hbrace);
+			}
+			case LEX_EOF: {
+				return(lex_eof);
+			}
 		}
-		lexi_push(c1);
-		return(lex_open_Hbrace);
-	    }
-	    case '}': {
-		return(lex_close_Hbrace);
-	    }
-	    case LEX_EOF: {
-		return(lex_eof);
-	    }
-	}
-	if (lexi_group(lexi_group_alpha, c0)) {
-	    return(get_identifier(c0));
-	}
-	return(unknown_token(c0));
+		if (lexi_group(lexi_group_alpha, c0)) {
+			return(get_identifier(c0));
+		}
+		return(unknown_token(c0));
 	}
 }

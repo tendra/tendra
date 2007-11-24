@@ -89,12 +89,8 @@ FILE *lex_output;
 static void
 output_indent(int d)
 {
-	int n = 4 * d;
-	for (; n >= 8; n -= 8)
+	while(d --> 0)
 		fputc('\t', lex_output);
-	for (; n; n--)
-		fputc(' ', lex_output);
-	return;
 }
 
 
@@ -520,7 +516,7 @@ output_zone_pass(zone *p)
 	    fprintf(lex_output,"}\n",p->default_cond);
     } 
     else 
-        fputs("\treturn(unknown_token(c0));\n", lex_output);
+        fputs("\t\treturn(unknown_token(c0));\n", lex_output);
     fputs("\t}\n", lex_output);
     fputs("}\n", lex_output);
     return;
