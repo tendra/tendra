@@ -75,7 +75,7 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi_prefix] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
+	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi-prefix] [-l output-language] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
 }
 
 
@@ -95,7 +95,7 @@ main(int argc, char **argv)
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "C:t:p:vha")) != -1) {
+	while ((optc = getopt(argc, argv, "C:t:l:p:vha")) != -1) {
 		switch(optc) {
 		/* TODO document flag to disable including <assert.h> for C89-only systems */
 		case 'a':
@@ -104,6 +104,13 @@ main(int argc, char **argv)
 
 		case 't':
 			token_prefix = optarg;
+			break;
+
+		case 'l':
+			if(strcasecmp(optarg, "C90")) {
+				error(ERROR_FATAL, "Unrecognised language '%s'. The supported language is: C90 (default)",
+					optarg);
+			}
 			break;
 
 		case 'C':
