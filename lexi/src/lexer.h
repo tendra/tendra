@@ -64,8 +64,6 @@
 #ifndef LEXI_GENERATED_HEADER_lexi__INCLUDED
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
-#include <stdint.h>
-
 #ifndef LEX_EOF
 #define LEX_EOF		256
 #endif

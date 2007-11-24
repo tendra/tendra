@@ -65,6 +65,8 @@
 #include "lexer.h"
 
 #include <assert.h>
+#include <stdint.h>
+
 struct lexi_lexer_state_tag {
 	int (*zone_function)(struct lexi_lexer_state_tag*);
 };
