@@ -64,6 +64,13 @@
 #ifndef LEXI_GENERATED_HEADER_lexi__INCLUDED
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
+/*
+ * This struct holds state for the lexer; its representation is
+ * private, but present here for ease of allocation.
+ */
+struct lexi_state {
+	int (*zone_function)(struct lexi_state *);
+};
 #ifndef LEX_EOF
 #define LEX_EOF		256
 #endif
@@ -84,9 +91,7 @@ enum lexi_groups {
 /* true if the given character is present in the given group */
 extern int lexi_group(enum lexi_groups group, int c);
 extern int lexi_keyword(const char *identifier, int notfound);
-/* lexer_state_definition */
 
-typedef struct lexi_lexer_state_tag lexi_lexer_state;
-extern lexi_lexer_state* lexi_current_lexer_state;
-extern int lexi_read_token(lexi_lexer_state *state);
+extern int lexi_read_token(struct lexi_state *state);
+void lexi_init(struct lexi_state *state);
 #endif

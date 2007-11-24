@@ -67,9 +67,6 @@
 #include <assert.h>
 #include <stdint.h>
 
-struct lexi_lexer_state_tag {
-	int (*zone_function)(struct lexi_lexer_state_tag*);
-};
 /* LOOKUP TABLE */
 
 typedef uint8_t lookup_type;
@@ -165,17 +162,19 @@ int lexi_keyword(const char *identifier, int notfound) {
 }
 /* PRE-PASS ANALYSERS */
 
-lexi_lexer_state lexi_current_lexer_state_v={&lexi_read_token};
-lexi_lexer_state* lexi_current_lexer_state=&lexi_current_lexer_state_v;/* ZONES PASS ANALYSER PROTOTYPES*/
+void lexi_init(struct lexi_state *state) {
+	state->zone_function = &lexi_read_token;
+}
+/* ZONES PASS ANALYSER PROTOTYPES*/
 
-static int lexi_read_token_line_comment(struct lexi_lexer_state_tag* state);
-static int lexi_read_token_comment(struct lexi_lexer_state_tag* state);
+static int lexi_read_token_line_comment(struct lexi_state *state);
+static int lexi_read_token_comment(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
 /* MAIN PASS ANALYSER for zone line_comment*/
 
 static int
-lexi_read_token_line_comment(lexi_lexer_state* state)
+lexi_read_token_line_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar();
@@ -190,7 +189,7 @@ lexi_read_token_line_comment(lexi_lexer_state* state)
 /* MAIN PASS ANALYSER for zone comment*/
 
 static int
-lexi_read_token_comment(lexi_lexer_state* state)
+lexi_read_token_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar();
@@ -209,7 +208,7 @@ lexi_read_token_comment(lexi_lexer_state* state)
 /* MAIN PASS ANALYSER for zone global*/
 
 int
-lexi_read_token(lexi_lexer_state *state)
+lexi_read_token(struct lexi_state *state)
 {
 	if(state->zone_function!=&lexi_read_token)
 		return ((*state->zone_function)(state));

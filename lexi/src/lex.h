@@ -72,6 +72,7 @@ extern char token_buff [];
 extern int crt_lex_token;
 extern int saved_lex_token;
 extern unsigned int number_buffer;
+extern struct lexi_state lexer_state;
 
 
 
@@ -80,7 +81,7 @@ extern unsigned int number_buffer;
 */
 
 #define CURRENT_TERMINAL	crt_lex_token
-#define ADVANCE_LEXER		crt_lex_token = lexi_read_token(lexi_current_lexer_state)
+#define ADVANCE_LEXER		crt_lex_token = lexi_read_token(&lexer_state)
 #define SAVE_LEXER(T)       (saved_lex_token = crt_lex_token,\
                                   crt_lex_token = (T))
 #define RESTORE_LEXER          (crt_lex_token = saved_lex_token)

@@ -442,7 +442,7 @@ output_zone_pass_prototypes(zone *p)
     output_zone_pass_prototypes(z);
   }
   if(!(p==p->top_level->global_zone))
-    fprintf(lex_output,"static int %s_%s(struct %slexer_state_tag* state);\n",
+    fprintf(lex_output,"static int %s_%s(struct %sstate *state);\n",
 		read_token_name,p->zone_name, lexi_prefix);
 }
 
@@ -480,13 +480,8 @@ output_zone_pass(zone *p)
     }
     fprintf(lex_output,"/* MAIN PASS ANALYSER for zone %s*/\n\n",p->zone_name);
     if(is_p_global_zone) {
-        if(has_zones) {
-        	fprintf(lex_output,"int\n%s(%slexer_state *state)\n",
-			read_token_name, lexi_prefix);
-	} else {
-        	fprintf(lex_output,"int\n%s(void)\n",
-			read_token_name);
-	}
+       	fprintf(lex_output,"int\n%s(struct %sstate *state)\n",
+		read_token_name, lexi_prefix);
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
 	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
@@ -494,13 +489,8 @@ output_zone_pass(zone *p)
 	}
     }
     else {
-	if(has_zones) {
-        	fprintf(lex_output,"static int\n%s_%s(%slexer_state* state)\n",
-			read_token_name,p->zone_name, lexi_prefix);
-	} else {
-        	fprintf(lex_output,"static int\n%s_%s(void)\n",
-			read_token_name,p->zone_name);
-	}
+        fprintf(lex_output,"static int\n%s_%s(struct %sstate *state)\n",
+	read_token_name,p->zone_name, lexi_prefix);
 	fputs("{\n", lex_output);
     }
     fputs("\tstart: {\n", lex_output);
@@ -838,8 +828,12 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		fputs("#include <assert.h>\n", lex_output);
 	}
 	fputs("#include <stdint.h>\n\n", opt->lex_output);
-	fprintf(opt->lex_output,"struct %slexer_state_tag {\n"
-	      "\tint (*zone_function)(struct %slexer_state_tag*);\n"
+	fputs("/*\n"
+		" * This struct holds state for the lexer; its representation is\n"
+		" * private, but present here for ease of allocation.\n"
+		" */\n", opt->lex_output_h);
+	fprintf(opt->lex_output_h,"struct %sstate {\n"
+	      "\tint (*zone_function)(struct %sstate *);\n"
 		"};\n", opt->lexi_prefix, opt->lexi_prefix);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
@@ -868,24 +862,24 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	/* Main pass */
 
 	in_pre_pass = 0;
-	if(top_level->global_zone->next) {
-		fputs("/* lexer_state_definition */\n\n", lex_state_output);
-		fprintf(lex_state_output,"typedef struct %slexer_state_tag %slexer_state;\n",
-			opt->lexi_prefix, opt->lexi_prefix);
-		bool has_zones=(top_level->global_zone->next!=NULL);
 
-		fprintf(opt->lex_output_h, "extern %slexer_state* %scurrent_lexer_state;", 
-			opt->lexi_prefix, opt->lexi_prefix);
-		fprintf(opt->lex_output_h,"\nextern int %s(%slexer_state *state);\n", read_token_name, lexi_prefix);
-		fprintf(lex_output,"%slexer_state %scurrent_lexer_state_v="
-			"{&%s};\n", opt->lexi_prefix, opt->lexi_prefix, read_token_name);
-		fprintf(lex_output,"%slexer_state* %scurrent_lexer_state=&%scurrent_lexer_state_v;",
-		       opt->lexi_prefix, opt->lexi_prefix, opt->lexi_prefix);
-		fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-		output_zone_pass_prototypes(top_level->global_zone);
-	} else {
-		fprintf(opt->lex_output_h,"\nextern int %s(void);\n", read_token_name);
-	}
+	bool has_zones=(top_level->global_zone->next!=NULL);
+
+	fprintf(opt->lex_output_h,"\nextern int %s(struct %sstate *state);\n",
+		read_token_name, lexi_prefix);
+
+	/* lexi_init() */
+	/* TODO assert() state */
+	fprintf(opt->lex_output_h,"void %sinit(struct %sstate *state);\n",
+		opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(lex_output,"void %sinit(struct %sstate *state) {\n"
+		"\tstate->zone_function = &%s;\n"
+		"}\n",
+		opt->lexi_prefix, opt->lexi_prefix,
+		read_token_name);
+
+	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
+	output_zone_pass_prototypes(top_level->global_zone);
 
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
   	output_zone_pass(top_level->global_zone);

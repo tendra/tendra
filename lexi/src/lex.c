@@ -103,6 +103,7 @@ static int read_arg_char_nb(int,int) ;
     The main body of the lexical analyser is automatically generated.
 */
 
+struct lexi_state lexer_state;
 #include "lexer.c"
 
 
@@ -272,6 +273,7 @@ process_file(char *nm,lexer_parse_tree* top_level)
 	    return;
 	}
     }
+	lexi_init(&lexer_state);
     ADVANCE_LEXER;
     read_lex(top_level->global_zone);
     if (nm)fclose(lex_input);
