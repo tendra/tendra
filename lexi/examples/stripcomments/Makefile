@@ -20,12 +20,12 @@ install:
 		${EXAMPLEDIR}/lexi/stripcomments
 
 
-stripc: main.o
-	${CC} ${CFLAGS} ${LIBS} -o stripc main.o
+stripc: main.o comments.o
+	${CC} ${CFLAGS} ${LIBS} -o stripc main.o comments.o
 
-main.o: main.c comments.c
+main.o: main.c comments.o comments.h
 	${CC} -c ${CFLAGS} main.c
 
 comments.c: comments.lxi
-	${LEXI} comments.lxi comments.c
+	${LEXI} comments.lxi comments.c comments.h
 

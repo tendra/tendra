@@ -20,7 +20,7 @@ enum {
 	lex_unknown
 };
 
-#include "comments.c"
+#include "comments.h"
 
 char word[256];
 
@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	do {
-		t = read_token();
+		t = lexi_read_token();
 	} while(t != LEX_EOF);
 
 	return 0;
