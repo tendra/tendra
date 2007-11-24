@@ -288,11 +288,11 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			for(scope=z; scope != NULL; scope=scope->up) {
 				if(scope->white_space) {
 					if(scope==scope->top_level->global_zone)
-						fprintf(lex_output, "if (%sis_white(c0)) goto start;\n",
-							lexi_prefix);
+						fprintf(lex_output, "if (%sgroup(%sgroup_white, c0)) goto start;\n",
+							lexi_prefix, lexi_prefix);
 					else 
-						fprintf(lex_output,"if (%sis_%s_%s(c0)) goto start;\n",
-							lexi_prefix, scope->zone_name, scope->white_space->name);
+						fprintf(lex_output,"if (%sgroup(%sgroup_%s_%s, c0)) goto start;\n",
+							lexi_prefix, lexi_prefix, scope->zone_name, scope->white_space->name);
 					break;
 				}
 			}
@@ -358,11 +358,11 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 					if (started)
 						fputs("} else ", lex_output);
 					if(grp->z==grp->z->top_level->global_zone)
-						fprintf(lex_output, "if (%s%sis_%s(c%d)) {\n",
-							reverse_match, lexi_prefix, grp->name, n);
+						fprintf(lex_output, "if (%s%sgroup(%sgroup_%s, c%d)) {\n",
+							reverse_match, lexi_prefix, lexi_prefix, grp->name, n);
 					else
-						fprintf(lex_output, "if (%s%sis_%s_%s(c%d)) {\n",
-							reverse_match, lexi_prefix, grp->z->zone_name, grp->name, n);
+						fprintf(lex_output, "if (%s%sgroup(%s%s_%s, c%d)) {\n",
+							reverse_match, lexi_prefix, lexi_prefix, grp->z->zone_name, grp->name, n);
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
 					started = 1;
 				}
@@ -651,21 +651,46 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 {
 	int n;
 	char_group* grp;
-	/* Macros for accessing table */
-	FILE* output = opt->lex_output_h ? opt->lex_output_h :opt->lex_output;
+
+	fprintf(opt->lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
+
+	/* Group interface */
 	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
 		char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==grp->z->top_level->global_zone) {
-			fprintf(output, "#define %sis_%s(T)\t(%slookup_tab[(T)] & ",
+			fprintf(opt->lex_output_h, "\t%sgroup_%s = ",
 				opt->lexi_prefix, grp->name, opt->lexi_prefix);
 		} else {
-			fprintf(output, "#define %sis_%s_%s(T)\t(%slookup_tab[(T)] & ",
-				opt->lexi_prefix,grp->z->zone_name,grp->name, opt->lexi_prefix);
+			fprintf(opt->lex_output_h, "\t%sgroup_%s_%s = ",
+				opt->lexi_prefix, grp->z->zone_name, grp->name, opt->lexi_prefix);
 		}
-		fprintf(output, grouphex, m);
-		fputs(")\n", output);
+		fprintf(opt->lex_output_h, grouphex, m);
+
+		if(grp->next_in_groups_list) {
+			fputs(",", opt->lex_output_h);
+		}
+
+		fputs("\n", opt->lex_output_h);
 	}
+
+	fputs("};\n", opt->lex_output_h);
+
+	fputs("\n/* true if the given character is present in the given group */\n",
+		opt->lex_output_h);
+	fprintf(opt->lex_output_h, "extern int %sgroup(enum %sgroups group, int c);\n",
+		opt->lexi_prefix, opt->lexi_prefix);
+
+	/*
+	 * I'm presenting an int here for multibyte character literals, although
+	 * the lookup-table behind them is not that wide. Furthermore, it helps set
+	 * my mind at ease for lexers generated on machines with different signedness
+	 * for char than the machine upon which the generated lexer is compiled.
+	 */
+	fprintf(opt->lex_output, "int %sgroup(enum %sgroups group, int c) {\n",
+		opt->lexi_prefix, opt->lexi_prefix);
+	fputs("\treturn lookup_tab[c] & group;\n", opt->lex_output);
+	fputs("}\n", opt->lex_output);
 }
 
 /*
@@ -680,9 +705,8 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 	char_group* grp;
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
-	fprintf(opt->lex_output_h, "typedef %s %slookup_type;\n", grouptype, opt->lexi_prefix);
-	fprintf(opt->lex_output_h,"extern %slookup_type %slookup_tab[257];\n\n",  opt->lexi_prefix, opt->lexi_prefix);
-	fprintf(lex_output,"%slookup_type %slookup_tab[257] = {\n", opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(opt->lex_output, "typedef %s lookup_type;\n", grouptype);
+	fputs("static lookup_type lookup_tab[257] = {\n", lex_output);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
 		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);

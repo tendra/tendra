@@ -54,7 +54,7 @@
  *         no liability whatsoever in relation to any use to which
  *         it may be put.
  * 
- * $Id$
+ * $Id: COPYING 1703 2007-11-22 01:34:18Z kate $
  * 
  */
 /*
@@ -66,9 +66,6 @@
 
 #include <stdint.h>
 
-typedef uint8_t lexi_lookup_type;
-extern lexi_lookup_type lexi_lookup_tab[257];
-
 #ifndef LEX_EOF
 #define LEX_EOF		256
 #endif
@@ -77,12 +74,17 @@ extern void lexi_push(const int c);
 extern int lexi_pop(void);
 extern void lexi_flush(void);
 extern int lexi_readchar(void);
-#define lexi_is_white(T)	(lexi_lookup_tab[(T)] & 0x01)
-#define lexi_is_alpha(T)	(lexi_lookup_tab[(T)] & 0x02)
-#define lexi_is_digit(T)	(lexi_lookup_tab[(T)] & 0x04)
-#define lexi_is_alphanum(T)	(lexi_lookup_tab[(T)] & 0x08)
-#define lexi_is_comment_white(T)	(lexi_lookup_tab[(T)] & 0x10)
-#define lexi_is_line_comment_white(T)	(lexi_lookup_tab[(T)] & 0x20)
+enum lexi_groups {
+	lexi_group_white = 0x01,
+	lexi_group_alpha = 0x02,
+	lexi_group_digit = 0x04,
+	lexi_group_alphanum = 0x08,
+	lexi_group_comment_white = 0x10,
+	lexi_group_line_comment_white = 0x20
+};
+
+/* true if the given character is present in the given group */
+extern int lexi_group(enum lexi_groups group, int c);
 extern int lexi_keyword(const char *identifier, int notfound);
 /* lexer_state_definition */
 

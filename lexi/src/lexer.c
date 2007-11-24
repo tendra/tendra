@@ -70,7 +70,8 @@ struct lexi_lexer_state_tag {
 };
 /* LOOKUP TABLE */
 
-lexi_lookup_type lexi_lookup_tab[257] = {
+typedef uint8_t lookup_type;
+static lookup_type lookup_tab[257] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -139,6 +140,9 @@ int lexi_readchar(void) {
 	return read_char();
 }
 
+int lexi_group(enum lexi_groups group, int c) {
+	return lookup_tab[c] & group;
+}
 
 
 
@@ -173,7 +177,7 @@ lexi_read_token_line_comment(lexi_lexer_state* state)
 {
 	start: {
 	int c0 = lexi_readchar();
-	if (lexi_is_line_comment_white(c0)) goto start;
+	if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
 	if (c0 == '\n') {
 	    state->zone_function=&lexi_read_token;
 	    return(lexi_read_token(state));
@@ -188,7 +192,7 @@ lexi_read_token_comment(lexi_lexer_state* state)
 {
 	start: {
 	int c0 = lexi_readchar();
-	if (lexi_is_comment_white(c0)) goto start;
+	if (lexi_group(lexi_group_comment_white, c0)) goto start;
 	if (c0 == '*') {
 	    int c1 = lexi_readchar();
 	    if (c1 == '/') {
@@ -209,7 +213,7 @@ lexi_read_token(lexi_lexer_state *state)
 		return ((*state->zone_function)(state));
 	start: {
 	int c0 = lexi_readchar();
-	if (lexi_is_white(c0)) goto start;
+	if (lexi_group(lexi_group_white, c0)) goto start;
 	switch (c0) {
 	    case '"': {
 		return(get_string(c0));
@@ -223,7 +227,7 @@ lexi_read_token(lexi_lexer_state *state)
 		} else if (c1 == '*') {
 		    return(lex_arg_Hchar_Hstring);
 		}
-		if (lexi_is_digit(c1)) {
+		if (lexi_group(lexi_group_digit, c1)) {
 		    return(read_arg_char_nb(c0, c1));
 		}
 		lexi_push(c1);
@@ -234,7 +238,7 @@ lexi_read_token(lexi_lexer_state *state)
 		if (c1 == '$') {
 		    return(lex_nothing_Hmarker);
 		}
-		if (lexi_is_alpha(c1)) {
+		if (lexi_group(lexi_group_alpha, c1)) {
 		    return(get_sid_ident(c0, c1));
 		}
 		lexi_push(c1);
@@ -348,7 +352,7 @@ lexi_read_token(lexi_lexer_state *state)
 		return(lex_eof);
 	    }
 	}
-	if (lexi_is_alpha(c0)) {
+	if (lexi_group(lexi_group_alpha, c0)) {
 	    return(get_identifier(c0));
 	}
 	return(unknown_token(c0));
