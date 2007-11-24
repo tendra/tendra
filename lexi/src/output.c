@@ -807,7 +807,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
 
-	FILE* lex_state_output= opt->lex_output_h ? opt->lex_output_h : opt->lex_output;
+	FILE* lex_state_output= opt->lex_output_h;
 
 	if (top_level->no_total_groups >= 16) {
 		grouptype = "uint32_t";
@@ -841,7 +841,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	if(opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
 	}
-	fputs("#include <stdint.h>\n\n", opt->lex_output_h ? opt->lex_output_h: lex_output);
+	fputs("#include <stdint.h>\n\n", opt->lex_output_h);
 	fprintf(opt->lex_output,"struct %slexer_state_tag {\n"
 	      "\tint (*zone_function)(struct %slexer_state_tag*);\n"
 		"};\n", opt->lexi_prefix, opt->lexi_prefix);
