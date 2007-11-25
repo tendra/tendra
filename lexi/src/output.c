@@ -277,7 +277,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		  fprintf(lex_output, "int c%d = %s_aux_%s()", 
 			  n, read_token_name, z->zone_name);
 		else
-		    fprintf(lex_output, "int c%d = lexi_readchar()", n);
+		    fprintf(lex_output, "int c%d = lexi_readchar(state)", n);
 		fputs(";\n", lex_output);
 		if (w1) {
 			output_indent(d);
@@ -373,7 +373,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		}
 		if (n) {
 			output_indent(d);
-			fprintf(lex_output, "%spush(c%d);\n", lexi_prefix,n);
+			fprintf(lex_output, "%spush(state, c%d);\n", lexi_prefix,n);
 		}
 	}
 
@@ -722,55 +722,52 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 */
 
 static void
-output_buffer(cmd_line_options* opt, lexer_parse_tree* top_level) 
+output_buffer(cmd_line_options* opt) 
 {
 	/* Buffer operations */
-	fputs("/*\n", lex_output);
-	fputs(" * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output); 
-	fputs(" * max(mapping) - 1 + max(token) - 1\n", lex_output);
-	fputs(" */\n", lex_output);
-	if(top_level->global_zone->zone_pre_pass->next) {
-		fprintf(lex_output, "static int buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), 
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
-	} else {
-		fprintf(lex_output, "static int buffer[%u - 1];\n",
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
-	}
-	fputs("static int buffer_index;\n\n", lex_output);
-
 	fputs("/* Push a character to lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern void %spush(const int c);\n", lexi_prefix);
-	fprintf(lex_output, "void %spush(const int c) {\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern void %spush(struct %sstate *state, const int c);\n",
+		lexi_prefix, lexi_prefix);
+	fprintf(lex_output, "void %spush(struct %sstate *state, const int c) {\n",
+		lexi_prefix, lexi_prefix);
 	if(opt->generate_asserts) {
-		fputs("\tassert(buffer_index < sizeof buffer / sizeof *buffer);\n", lex_output);
+		fputs("\tassert(state);\n", lex_output);
+		fputs("\tassert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_output);
 	}
-	fputs("\tbuffer[buffer_index++] = c;\n", lex_output);
+	fputs("\tstate->buffer[state->buffer_index++] = c;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern int %spop(void);\n", lexi_prefix);
-	fprintf(lex_output, "int %spop(void) {\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern int %spop(struct %sstate *state);\n",
+		lexi_prefix, lexi_prefix);
+	fprintf(lex_output, "int %spop(struct %sstate *state) {\n",
+		lexi_prefix, lexi_prefix);
 	if(opt->generate_asserts) {
-		fputs("\tassert(buffer_index > 0);\n", lex_output);
+		fputs("\tassert(state);\n", lex_output);
+		fputs("\tassert(state->buffer_index > 0);\n", lex_output);
 	}
-	fputs("\treturn buffer[--buffer_index];\n", lex_output);
+	fputs("\treturn state->buffer[--state->buffer_index];\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Flush lexi's buffer */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern void %sflush(void);\n", lexi_prefix);
-	fprintf(lex_output, "void %sflush(void) {\n", lexi_prefix);
-	fputs("\tbuffer_index = 0;\n", lex_output);
+	fprintf(opt->lex_output_h, "extern void %sflush(struct %sstate *state);\n",
+		lexi_prefix, lexi_prefix);
+	fprintf(lex_output, "void %sflush(struct %sstate *state) {\n",
+		lexi_prefix, lexi_prefix);
+	fputs("\tstate->buffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output);
-	fprintf(opt->lex_output_h, "extern int %sreadchar(void);\n", lexi_prefix);
-	fprintf(lex_output,"int %sreadchar(void) {\n", lexi_prefix);
-	fputs("\tif(buffer_index) {\n", lex_output);
-	fprintf(lex_output,"\t\treturn %spop();\n", lexi_prefix);
+	fprintf(opt->lex_output_h, "extern int %sreadchar(struct %sstate *state);\n",
+		lexi_prefix, lexi_prefix);
+	fprintf(lex_output,"int %sreadchar(struct %sstate *state) {\n",
+		lexi_prefix, lexi_prefix);
+	fputs("\tif(state->buffer_index) {\n", lex_output);
+	fprintf(lex_output,"\t\treturn %spop(state);\n", lexi_prefix);
 	fputs("\t}\n\n", lex_output);
-	fputs("\treturn read_char();\n", lex_output);
+	/* TODO pass opaque here */
+	fprintf(lex_output, "\treturn %sgetchar();\n", lexi_prefix);
 	fputs("}\n", lex_output);
 }
 
@@ -833,8 +830,25 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		" * private, but present here for ease of allocation.\n"
 		" */\n", opt->lex_output_h);
 	fprintf(opt->lex_output_h,"struct %sstate {\n"
-	      "\tint (*zone_function)(struct %sstate *);\n"
-		"};\n", opt->lexi_prefix, opt->lexi_prefix);
+	      "\tint (*zone_function)(struct %sstate *);\n",
+		opt->lexi_prefix, opt->lexi_prefix);
+
+	/* Buffer storage */
+	fputs("\n", opt->lex_output_h);
+	fputs("\t/*\n", opt->lex_output_h);
+	fputs("\t * Lexi's buffer is a simple stack. The size is calculated as\n", opt->lex_output_h);
+	fputs("\t * max(mapping) - 1 + max(token) - 1\n", opt->lex_output_h);
+	fputs("\t */\n", opt->lex_output_h);
+	if(top_level->global_zone->zone_pre_pass->next) {
+		fprintf(opt->lex_output_h, "\tint buffer[%u - 1 + %u - 1];\n",
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), 
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
+	} else {
+		fprintf(opt->lex_output_h, "\tint buffer[%u - 1];\n",
+			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
+	}
+	fputs("\tint buffer_index;\n\n", opt->lex_output_h);
+	fputs("};\n", opt->lex_output_h);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
@@ -843,7 +857,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_state_output,"#define LEX_EOF\t\t%u\n", top_level->eof_letter_code);
 	fputs("#endif\n\n", lex_state_output);
 
-	output_buffer(opt, top_level);
+	output_buffer(opt);
 	fputs("\n", lex_output);
 
 	output_macros(opt,top_level,grouptype,grouphex,groupwidth);
@@ -874,6 +888,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		opt->lexi_prefix, opt->lexi_prefix);
 	fprintf(lex_output,"void %sinit(struct %sstate *state) {\n"
 		"\tstate->zone_function = &%s;\n"
+		"\tstate->buffer_index = 0;\n"
 		"}\n",
 		opt->lexi_prefix, opt->lexi_prefix,
 		read_token_name);

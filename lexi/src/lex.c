@@ -85,7 +85,7 @@ static FILE *lex_input;
     in this file.
 */
 
-static int read_char(void);
+static int lexi_getchar(void);
 static int read_comment(void);
 static int read_identifier(int, int);
 static int read_string(void);
@@ -115,7 +115,7 @@ struct lexi_state lexer_state;
 */
 
 static int
-read_char(void)
+lexi_getchar(void)
 {
     int c;
     c = fgetc(lex_input);
@@ -154,10 +154,10 @@ read_identifier(int a, int sid)
     do {
 	*(t++) = (char)c;
 	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
-	c = lexi_readchar();
+	c = lexi_readchar(&lexer_state);
     } while (lexi_group(lexi_group_alphanum, c) || c == e);
     *t = 0;
-    lexi_push(c);
+    lexi_push(&lexer_state, c);
 
     /* Deal with keywords */
     if (sid) return(lex_sid_Hidentifier);
@@ -178,7 +178,7 @@ read_string(void)
     int c;
     int escaped = 0;
     char *t = token_buff;
-    while (c = lexi_readchar(), (c != '"' || escaped)) {
+    while (c = lexi_readchar(&lexer_state), (c != '"' || escaped)) {
 	if (c == '\n' || c == LEX_EOF) {
 	    error(ERROR_SERIOUS, "Unexpected end of string");
 	    break;
@@ -232,11 +232,11 @@ static int read_arg_char_nb(int c0, int c1)
 {
   int c;
   number_buffer=chartoint(c1);
-  while(isdigit(c=lexi_readchar())){
+  while(isdigit(c=lexi_readchar(&lexer_state))){
     number_buffer*=10;
     number_buffer+=chartoint(c);
   }
-  lexi_push(c);
+  lexi_push(&lexer_state, c);
   return lex_arg_Hchar_Hnb;
 }
 

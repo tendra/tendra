@@ -70,15 +70,23 @@
  */
 struct lexi_state {
 	int (*zone_function)(struct lexi_state *);
+
+	/*
+	 * Lexi's buffer is a simple stack. The size is calculated as
+	 * max(mapping) - 1 + max(token) - 1
+	 */
+	int buffer[5 - 1];
+	int buffer_index;
+
 };
 #ifndef LEX_EOF
 #define LEX_EOF		256
 #endif
 
-extern void lexi_push(const int c);
-extern int lexi_pop(void);
-extern void lexi_flush(void);
-extern int lexi_readchar(void);
+extern void lexi_push(struct lexi_state *state, const int c);
+extern int lexi_pop(struct lexi_state *state);
+extern void lexi_flush(struct lexi_state *state);
+extern int lexi_readchar(struct lexi_state *state);
 enum lexi_groups {
 	lexi_group_white = 0x01,
 	lexi_group_alpha = 0x02,
