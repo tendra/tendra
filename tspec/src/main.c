@@ -60,7 +60,6 @@
 
 #include "config.h"
 #include <signal.h>
-#include "release.h"
 #include "object.h"
 #include "hash.h"
 #include "index.h"
@@ -271,8 +270,8 @@ main(int argc, char **argv)
 			case 'v': verbose++; break;
 			case 'w': warnings = 0; break;
 			case 'V': {
-			    error(ERR_INFO, "Version: %s (release %s)",
-				    progvers, RELEASE);
+			    error(ERR_INFO, "Version: %s (tendra.org)",
+				    progvers);
 			    break;
 			}
 			default : {
