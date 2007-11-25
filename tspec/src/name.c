@@ -158,7 +158,7 @@ hack_name(char *nm, char *key)
 {
     char *p = string_copy(nm), *q;
     for (q = p; *q; q++) {
-	char c = *q;
+	int c = *q;
 	if (isalpha(c) && isupper(c)) {
 	    /* The second letter of key maps upper case letters */
 	    if (key [1] == 'a')*q = (char)tolower(c);

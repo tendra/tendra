@@ -324,7 +324,7 @@ print_type(FILE *output, type *t, char *nm, int tok)
 static void
 print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 {
-    char *tok, *tag;
+    char *tok = NULL, *tag = NULL;
     object *q = t->v.obj2;
     boolean show_token = 1, show_interface = 1;
     boolean show_ignore = 1, show_defn = 1;

@@ -351,7 +351,7 @@ print_if_nest(void)
 {
     int i;
     for (i = 0; i < if_stack_index; i++) {
-	char code;
+	char code = ' ';
 	object *p = if_stack [ i ];
 	char *c = p->name;
 
@@ -606,7 +606,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 		case TYPE_UNION_TAG:
 		case TYPE_ENUM:
 		case TYPE_ENUM_TAG: {
-		    char *s;
+		    char *s = NULL;
 		    type *en = null;
 		    object *r = t->v.obj2;
 		    char *inf = (r ? "exact" : "");
@@ -848,7 +848,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 		case TYPE_STRUCT_TAG:
 		case TYPE_UNION:
 		case TYPE_UNION_TAG: {
-		    char *n;
+		    char *n = NULL;
 		    object *r = t->v.obj2;
 		    switch (i)EXHAUSTIVE {
 			case TYPE_STRUCT: n = "structure"; break;
