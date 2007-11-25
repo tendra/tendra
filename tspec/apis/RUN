@@ -1,0 +1,24 @@
+#!/bin/sh
+TSPEC="tspec -v"
+${TSPEC} ansi
+${TSPEC} bsd_extn
+${TSPEC} cpp
+${TSPEC} dummy
+${TSPEC} gcc
+${TSPEC} iso
+${TSPEC} motif/1_2
+${TSPEC} posix
+${TSPEC} posix1
+${TSPEC} posix2
+${TSPEC} svid3
+${TSPEC} unix95
+${TSPEC} x5/aw
+${TSPEC} x5
+${TSPEC} x5/ext
+${TSPEC} x5/lib
+${TSPEC} x5/mit
+${TSPEC} x5/mu
+${TSPEC} x5/proto
+${TSPEC} x5/t
+${TSPEC} xpg3
+${TSPEC} xpg4
