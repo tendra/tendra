@@ -1,10 +1,15 @@
 # $Id$
 
-TSPEC_FLAGS = -Otspec/include -Stspec/src -Iapis -a
+PREFIX ?= /usr/local
+SHAREDIR ?= $(PREFIX)/share
+
+TSPEC_FLAGS = -Otspec/include -Stspec/tcc -Iapis -a
 
 TSPEC = tspec -v
 MKDIR = mkdir
 REMOVE = rm -f
+INSTALL = install
+COPY = cp
 
 # This order might seem weird, but it has to do with dependencies on another
 # APIs and minimising the build costs.
@@ -21,4 +26,8 @@ tspec: apis
 
 clean:
 	$(REMOVE) -r tspec
+
+install: tspec
+	$(INSTALL) -m 755 -d $(SHAREDIR)
+	$(COPY) -R tspec $(SHAREDIR)/
 
