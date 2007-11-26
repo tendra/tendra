@@ -72,7 +72,7 @@
     library building process.
 */
 
-extern void print_makefile(char *, hash_elem *, int);
+extern void print_makefile(char *, hash_elem *);
 
 
 #endif

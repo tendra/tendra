@@ -91,7 +91,7 @@ boolean need_info(info *i, char *api)
 */
 
 void
-print_makefile(char *api, hash_elem *f, int whole)
+print_makefile(char *api, hash_elem *f)
 {
     char *nm;
     FILE *output;
@@ -99,7 +99,7 @@ print_makefile(char *api, hash_elem *f, int whole)
     char *api2 = hack_name(api, "_Aa0");
 
     /* Open output file */
-    nm = (whole ? MAKEFILE_API : MAKEFILE);
+    nm = MAKEFILE;
     nm = string_printf(nm, output_src_dir, api, api2);
     if (verbose > 1) IGNORE printf("Creating %s ...", nm);
     create_dir(nm);
@@ -108,8 +108,8 @@ print_makefile(char *api, hash_elem *f, int whole)
 	error(ERR_SERIOUS, "Can't open output file, %s", nm);
 	return;
     }
-    fprintf(output, "APILIB=\t%s.tl\n\n", api);
-	fputs("APIOBJS=\t", output);
+    fprintf(output, "APILIB =\t%s.tl\n\n", api);
+	fputs("APIOBJS =\t", output);
 	for ( e = f ; e != null ; e = e->next ) {
 		info *i = e->obj->u.u_info ;
 		if ( need_info ( i, api ) ) {
@@ -117,7 +117,7 @@ print_makefile(char *api, hash_elem *f, int whole)
 			strcpy(buffer, basename(i->src));
 			m = strlen(buffer) - 1;
 			buffer[m] = 'j';
-			fprintf(output, "\\\n\t\tbuilding/%s.api/%s", api, basename(buffer));
+			fprintf(output, "\\\n\t\t%s.api/%s", api, basename(buffer));
 		}
 	}
 	fputs("\n", output);
