@@ -27,6 +27,9 @@ all: tnc
 tnc: ${OBJS}
 	${CC} -o tnc ${OBJS}
 
+clean:
+	rm -f ${OBJS} tnc
+
 #MAKE_TDF=make_tdf
 #
 #auto : ${SRC}/tdf.c ${SRC}/tdf.h ${SRC}/check_exp.h
