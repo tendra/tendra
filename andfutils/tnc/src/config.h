@@ -126,7 +126,6 @@
 #define null			NULL
 #define BYTESIZE		8
 #define hash_size		31
-#define streq(X, Y)		(strcmp((X), (Y)) == 0)
 
 
 /*

@@ -175,15 +175,15 @@ de_token(node *p, sortname s)
 	if (bits) {
 	    /* Step over arguments */
 	    char *args;
-	    if (streq(t->name, "~dg_exp")) {
+	    if (strcmp(t->name, "~dg_exp") == 0) {
 		args = "xFF";
-	    } else if (streq(t->name, "~exp_to_source")) {
+	    } else if (strcmp(t->name, "~exp_to_source") == 0) {
 		args = "xFF";
-	    } else if (streq(t->name, "~diag_id_scope")) {
+	    } else if (strcmp(t->name, "~diag_id_scope") == 0) {
 		args = "x$xF";
-	    } else if (streq(t->name, "~diag_type_scope")) {
+	    } else if (strcmp(t->name, "~diag_type_scope") == 0) {
 		args = "x$F";
-	    } else if (streq(t->name, "~diag_tag_scope")) {
+	    } else if (strcmp(t->name, "~diag_tag_scope") == 0) {
 		args = "x$F";
 	    } else {
 		warning("Token %s undeclared", t->name);

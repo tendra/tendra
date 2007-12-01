@@ -428,13 +428,13 @@ de_capsule(void)
 	char *s = de_aligned_string();
 	long sz = tdf_int();
 	vars[i].name = s;
-	if (streq(s, LINK_al_tag)) {
+	if (strcmp(s, LINK_al_tag) == 0) {
 	    vars[i].sortnum = SORT_al_tag;
 	    al_tag_var = i;
-	} else if (streq(s, LINK_tag)) {
+	} else if (strcmp(s, LINK_tag) == 0) {
 	    vars[i].sortnum = SORT_tag;
 	    tag_var = i;
-	} else if (streq(s, LINK_token)) {
+	} else if (strcmp(s, LINK_token) == 0) {
 	    vars[i].sortnum = SORT_token;
 	    tok_var = i;
 	} else {
@@ -569,25 +569,25 @@ de_capsule(void)
 
 	    /* Find equation decoding routine */
 	    if (extract_tokdecs) {
-		if (streq(eq, LINK_tokdec_props)) {
+		if (strcmp(eq, LINK_tokdec_props) == 0) {
 		    f = de_tokdec;
-		} else if (streq(eq, LINK_tokdef_props)) {
+		} else if (strcmp(eq, LINK_tokdef_props) == 0) {
 		    f = de_tokdef;
 		    in_skip_pass = 1;
 		}
 	    } else {
-		if (streq(eq, LINK_al_tagdef_props)) {
+		if (strcmp(eq, LINK_al_tagdef_props) == 0) {
 		    f = de_aldef;
-		} else if (streq(eq, LINK_tagdec_props)) {
+		} else if (strcmp(eq, LINK_tagdec_props) == 0) {
 		    f = de_tagdec;
-		} else if (streq(eq, LINK_tagdef_props)) {
+		} else if (strcmp(eq, LINK_tagdef_props) == 0) {
 		    f = de_tagdef;
-		} else if (streq(eq, LINK_tokdec_props)) {
+		} else if (strcmp(eq, LINK_tokdec_props) == 0) {
 		    f = de_tokdec;
-		} else if (streq(eq, LINK_tokdef_props)) {
+		} else if (strcmp(eq, LINK_tokdef_props) == 0) {
 		    f = de_tokdef;
 		    skip_pass = 1;
-		} else if (streq(eq, LINK_version_props)) {
+		} else if (strcmp(eq, LINK_version_props) == 0) {
 		    f = de_version;
 		}
 	    }

@@ -431,7 +431,8 @@ read_word(void)
     }
     pending = c;
     word = p + 1;
-    if (streq(word, "-0"))word = "0";
+    if (strcmp(word, "-0") == 0)
+	    word = "0";
     word_type = INPUT_NUMBER;
     return;
 }

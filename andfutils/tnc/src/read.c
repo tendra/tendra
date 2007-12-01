@@ -213,7 +213,8 @@ read_token_name(sortname s)
 	    if (h->no_args == 0)ok = 1;
 	} else if (h->no_args) {
 	    char *ha = find_decode_string(h);
-	    if (streq(info->args, ha))ok = 1;
+	    if (strcmp(info->args, ha) == 0)
+		    ok = 1;
 	}
     } else if (h->id == info->res) {
 	if (info->args == null)ok = 1;
@@ -449,7 +450,7 @@ read_node_aux(char *str, int strict)
 	    boolean is_multibyte = 0;
 	    if (func_input) {
 		if (word_type == INPUT_WORD) {
-		    if (streq(word, MAKE_STRING)) {
+		    if (strcmp(word, MAKE_STRING) == 0) {
 			read_word();
 			if (word_type == INPUT_OPEN)is_multibyte = 1;
 		    }
@@ -458,7 +459,8 @@ read_node_aux(char *str, int strict)
 		if (word_type == INPUT_OPEN) {
 		    read_word();
 		    if (word_type == INPUT_WORD) {
-			if (streq(word, MAKE_STRING))is_multibyte = 1;
+			if (strcmp(word, MAKE_STRING) == 0)
+				is_multibyte = 1;
 		    }
 		}
 	    }
@@ -584,7 +586,7 @@ read_node_aux(char *str, int strict)
 	wtemp = word;
     }
 
-    if (s == SORT_string && streq(word, MAKE_STRING)) {
+    if (s == SORT_string && strcmp(word, MAKE_STRING) == 0) {
 	node *q;
 	p = new_node();
 	p->cons = &string_cons;

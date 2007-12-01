@@ -98,17 +98,17 @@ static boolean
 output_option(char *arg, boolean t)
 {
     boolean *p = null;
-    if (streq(arg, "tokdecs")) {
+    if (strcmp(arg, "tokdecs") == 0) {
 	p = &show_tokdecs;
-    } else if (streq(arg, "tokdefs")) {
+    } else if (strcmp(arg, "tokdefs") == 0) {
 	p = &show_tokdefs;
-    } else if (streq(arg, "aldecs")) {
+    } else if (strcmp(arg, "aldecs") == 0) {
 	p = &show_aldecs;
-    } else if (streq(arg, "aldefs")) {
+    } else if (strcmp(arg, "aldefs") == 0) {
 	p = &show_aldefs;
-    } else if (streq(arg, "tagdecs")) {
+    } else if (strcmp(arg, "tagdecs") == 0) {
 	p = &show_tagdecs;
-    } else if (streq(arg, "tagdefs")) {
+    } else if (strcmp(arg, "tagdefs") == 0) {
 	p = &show_tagdefs;
     }
     if (p == null) return(0);
@@ -165,7 +165,7 @@ main(int argc, char **argv)
 	    switch (arg[1]) {
 		case 'h': {
 		    /* Help option */
-		    if (streq(arg, "-help")) {
+		    if (strcmp(arg, "-help") == 0) {
 			if (status)warning("Too many arguments");
 			a++;
 			if (a == argc) {
@@ -181,7 +181,7 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'd': {
-		    if (arg[2] == 0 || streq(arg, "-decode")) {
+		    if (arg[2] == 0 || strcmp(arg, "-decode") == 0) {
 			/* Decode mode */
 			input_fn = de_capsule;
 			text_input = 0;
@@ -190,22 +190,22 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'e': {
-		    if (arg[2] == 0 || streq(arg, "-encode")) {
+		    if (arg[2] == 0 || strcmp(arg, "-encode") == 0) {
 			/* Encode mode */
 			output_fn = enc_capsule;
 			text_output = 0;
 			known = 1;
-		    } else if (streq(arg, "-eval")) {
+		    } else if (strcmp(arg, "-eval") == 0) {
 			evaluate = 1;
 			known = 1;
-		    } else if (streq(arg, "-expand")) {
+		    } else if (strcmp(arg, "-expand") == 0) {
 			expand = 1;
 			known = 1;
 		    }
 		    break;
 		}
 		case 'r': {
-		    if (arg[2] == 0 || streq(arg, "-read")) {
+		    if (arg[2] == 0 || strcmp(arg, "-read") == 0) {
 			/* Read mode */
 			input_fn = read_capsule;
 			text_input = 1;
@@ -214,7 +214,7 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'w': {
-		    if (arg[2] == 0 || streq(arg, "-write")) {
+		    if (arg[2] == 0 || strcmp(arg, "-write") == 0) {
 			/* Write mode */
 			output_fn = print_capsule;
 			text_output = 1;
@@ -223,7 +223,7 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'p': {
-		    if (arg[2] == 0 || streq(arg, "-print")) {
+		    if (arg[2] == 0 || strcmp(arg, "-print") == 0) {
 			/* Pretty printer mode */
 			input_fn = de_capsule;
 			output_fn = print_capsule;
@@ -234,7 +234,7 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 't': {
-		    if (arg[2] == 0 || streq(arg, "-tsimp")) {
+		    if (arg[2] == 0 || strcmp(arg, "-tsimp") == 0) {
 			/* Expand token definitions */
 			evaluate = 1;
 			expand = 1;
@@ -243,12 +243,12 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'c': {
-		    if (arg[2] == 0 || streq(arg, "-check")) {
+		    if (arg[2] == 0 || strcmp(arg, "-check") == 0) {
 			/* Switch on shape checking */
 			init_shapes();
 			do_check = 1;
 			known = 1;
-		    } else if (streq(arg, "-cv")) {
+		    } else if (strcmp(arg, "-cv")) {
 			init_shapes();
 			do_check = 1;
 			print_shapes = 1;
@@ -257,22 +257,22 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'l': {
-		    if (arg[2] == 0 || streq(arg, "-lib")) {
+		    if (arg[2] == 0 || strcmp(arg, "-lib") == 0) {
 			lib_input = 1;
 			known = 1;
 		    }
 		    break;
 		}
 		case 'f': {
-		    if (arg[2] == 0 || streq(arg, "-func")) {
+		    if (arg[2] == 0 || strcmp(arg, "-func") == 0) {
 			/* Check on form of input and output */
 			func_input = 1;
 			func_output = 1;
 			known = 1;
-		    } else if (streq(arg, "-func_out")) {
+		    } else if (strcmp(arg, "-func_out") == 0) {
 			func_output = 1;
 			known = 1;
-		    } else if (streq(arg, "-func_in")) {
+		    } else if (strcmp(arg, "-func_in") == 0) {
 			func_input = 1;
 			known = 1;
 		    }
@@ -301,14 +301,14 @@ main(int argc, char **argv)
 		    break;
 		}
 		case 'u': {
-		    if (arg[2] == 0 || streq(arg, "-unsorted")) {
+		    if (arg[2] == 0 || strcmp(arg, "-unsorted") == 0) {
 			order_names = 0;
 			known = 1;
 		    }
 		    break;
 		}
 		case 'v': {
-		    if (arg[2] == 0 || streq(arg, "-version")) {
+		    if (arg[2] == 0 || strcmp(arg, "-version") == 0) {
 			char *vn = version;
 			int v1 = VERSION_major;
 			int v2 = VERSION_minor;

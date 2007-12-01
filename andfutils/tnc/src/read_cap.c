@@ -99,11 +99,11 @@ read_external(sortname s, boolean local)
     /* Check for external name */
     if (func_input) {
 	if (word_type == INPUT_WORD) {
-	    if (streq(word, MAKE_STRING_EXTERN)) {
+	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
 		estate = 1;
-	    } else if (streq(word, MAKE_UNIQUE_EXTERN)) {
+	    } else if (strcmp(word, MAKE_UNIQUE_EXTERN) == 0) {
 		estate = 2;
-	    } else if (streq(word, MAKE_CHAIN_EXTERN)) {
+	    } else if (strcmp(word, MAKE_CHAIN_EXTERN) == 0) {
 		estate = 3;
 	    }
 	    if (estate) {
@@ -123,11 +123,11 @@ read_external(sortname s, boolean local)
 		input_error("External expected");
 		return(null);
 	    }
-	    if (streq(word, MAKE_STRING_EXTERN)) {
+	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
 		estate = 1;
-	    } else if (streq(word, MAKE_UNIQUE_EXTERN)) {
+	    } else if (strcmp(word, MAKE_UNIQUE_EXTERN) == 0) {
 		estate = 2;
-	    } else if (streq(word, MAKE_CHAIN_EXTERN)) {
+	    } else if (strcmp(word, MAKE_CHAIN_EXTERN) == 0) {
 		estate = 3;
 	    } else {
 		input_error("Illegal external, %s", word);
@@ -695,7 +695,7 @@ read_capsule(void)
 	}
 
 	/* Check for the local qualifier */
-	if (streq(word, LOCAL_DECL)) {
+	if (strcmp(word, LOCAL_DECL) == 0) {
 	    local = 1;
 	    read_word();
 	    if (word_type != INPUT_WORD) {
@@ -718,7 +718,7 @@ read_capsule(void)
 
 	/* Macro to aid checking */
 #define test_cmd(X, Y)\
-	if (streq(wtemp, cmd = (X))) {\
+	if (strcmp(wtemp, cmd = (X)) == 0) {\
 	    Y ;\
 	} else
 

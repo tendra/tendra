@@ -193,7 +193,8 @@ find_high_sort(char *nm)
     }
     for (i = 0; i < crt_high_sort; i++) {
 	high_sort *p = high_sorts + i;
-	if (streq(nm, p->name)) return(p->id);
+	if (strcmp(nm, p->name) == 0)
+		return(p->id);
     }
     return(SORT_unknown);
 }

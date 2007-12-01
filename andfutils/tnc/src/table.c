@@ -316,7 +316,8 @@ add_to_cons_hash(construct *p, sortname s)
     int n = hash(p->name);
     construct *h = cons_hash_tables[hash_size * s + n];
     for (q = h; q != null; q = q->next) {
-	if (streq(p->name, q->name)) return(q);
+	if (strcmp(p->name, q->name) == 0)
+		return(q);
     }
     p->next = h;
     cons_hash_tables[hash_size * s + n] = p;
@@ -339,7 +340,8 @@ search_cons_hash(char *p, sortname s)
     int n = hash(p);
     construct *h = cons_hash_tables[hash_size * s + n];
     for (q = h; q != null; q = q->next) {
-	if (streq(p, q->name)) return(q);
+	if (strcmp(p, q->name) == 0)
+		return(q);
     }
     return(null);
 }
@@ -360,7 +362,8 @@ add_to_var_hash(construct *p, sortname s)
     int n = hash(p->name);
     construct *h = var_hash_tables[hash_size * s + n];
     for (q = h; q != null; q = q->next) {
-	if (streq(p->name, q->name)) return(q);
+	if (strcmp(p->name, q->name) == 0)
+		return(q);
     }
     p->next = h;
     var_hash_tables[hash_size * s + n] = p;
@@ -383,7 +386,8 @@ search_var_hash(char *p, sortname s)
     int n = hash(p);
     construct *h = var_hash_tables[hash_size * s + n];
     for (q = h; q != null; q = q->next) {
-	if (streq(p, q->name)) return(q);
+	if (strcmp(p, q->name) == 0)
+		return(q);
     }
     return(null);
 }
@@ -414,7 +418,7 @@ remove_var_hash(char *p, sortname s)
     int n = hash(p);
     construct *h = var_hash_tables[hash_size * s + n];
     if (h == null) return;
-    if (streq(p, h->name)) {
+    if (strcmp(p, h->name) == 0) {
 	/* It is the first element */
 	var_hash_tables[hash_size * s + n] = h->next;
 	h->next = removals;
@@ -423,7 +427,7 @@ remove_var_hash(char *p, sortname s)
 	return;
     }
     while (h->next) {
-	if (streq(p, h->next->name)) {
+	if (strcmp(p, h->next->name) == 0) {
 	    /* It is a subsequent element */
 	    construct *q = h->next->next;
 	    h->next->next = removals;
