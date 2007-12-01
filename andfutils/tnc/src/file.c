@@ -73,7 +73,7 @@
     This is the list of all directories to be searched for included files.
 */
 
-static directory *search_path = null;
+static directory *search_path = NULL;
 
 
 /*
@@ -83,61 +83,7 @@ static directory *search_path = null;
 */
 
 FILE *input;
-char *input_file = null;
-
-
-/*
-    OPEN INPUT FILE
-
-    This routine opens the file nm.  If search is true it will search
-    for it along search_path.
-*/
-
-void
-open_input(char *nm, int search)
-{
-    input = fopen(nm,(text_input ? "r" : "rb"));
-    if (search && input == null) {
-	directory *d = search_path;
-	while (input == null && d) {
-	    char buff[1000];
-	    IGNORE sprintf(buff, "%s/%s", d->dirname, nm);
-	    input = fopen(buff,(text_input ? "r" : "rb"));
-	    d = d->next;
-	}
-    }
-    if (input == null)fatal_error("Can't open input file, %s", nm);
-    input_file = nm;
-    bits_in_buff = 0;
-    bytes_read = 0;
-    crt_line_no = 1;
-    line_no = 1;
-    looked_ahead = 0;
-    return;
-}
-
-
-/*
-    ADD A DIRECTORY TO THE SEARCH PATH
-
-    The directory nm is added to search_path.
-*/
-
-void
-add_directory(char *nm)
-{
-    directory *d = alloc_nof(directory, 1);
-    d->dirname = nm;
-    d->next = null;
-    if (search_path == null) {
-	search_path = d;
-    } else {
-	directory *p = search_path;
-	while (p->next)p = p->next;
-	p->next = d;
-    }
-    return;
-}
+char *input_file = NULL;
 
 
 /*
@@ -150,6 +96,68 @@ FILE *output /* = stdout */ ;
 
 
 /*
+    OPEN INPUT FILE
+
+    This routine opens the file nm.  If search is true it will search
+    for it along search_path.
+*/
+
+void
+open_input(char *nm, int search)
+{
+	input = fopen(nm,(text_input ? "r" : "rb"));
+
+	if (search && input == NULL) {
+		directory *d = search_path;
+
+		while (input == NULL && d) {
+			/* XXX: unsafe sprintf */
+			char buff[1000];
+			(void) sprintf(buff, "%s/%s", d->dirname, nm);
+			input = fopen(buff, "r");
+			d = d->next;
+		}
+	}
+
+	if (input == NULL)
+		fatal_error("Can't open input file, %s", nm);
+
+	input_file = nm;
+	bits_in_buff = 0;
+	bytes_read = 0;
+	crt_line_no = 1;
+	line_no = 1;
+	looked_ahead = 0;
+}
+
+
+/*
+    ADD A DIRECTORY TO THE SEARCH PATH
+
+    The directory nm is added to search_path.
+*/
+
+void
+add_directory(char *nm)
+{
+	directory *d = alloc_nof(directory, 1);
+	d->dirname = nm;
+	d->next = NULL;
+
+	if (search_path == NULL)
+		search_path = d;
+	else {
+		directory *p = search_path;
+
+		while (p->next)
+			p = p->next;
+
+		p->next = d;
+	}
+}
+
+
+/*
     OPEN OUTPUT FILE
 
     The output file nm is opened.
@@ -158,13 +166,16 @@ FILE *output /* = stdout */ ;
 void
 open_output(char *nm)
 {
-    static char *opened = null;
-    if (opened) {
-	warning("Multiple output files given, using %s", opened);
-	return;
-    }
-    output = fopen(nm,(text_output ? "w" : "wb"));
-    if (output == null)fatal_error("Can't open output file, %s", nm);
-    opened = nm;
-    return;
+	static char *opened = NULL;
+
+	if (opened) {
+		warning("Multiple output files given, using %s", opened);
+		return;
+	}
+
+	output = fopen(nm, "w");
+	if (output == NULL)
+		fatal_error("Can't open output file, %s", nm);
+
+	opened = nm;
 }
