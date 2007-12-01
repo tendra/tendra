@@ -66,12 +66,12 @@
     LOW-LEVEL ENCODING ROUTINES
 */
 
-extern bitstream *new_bitstream(void);
-extern long bitstream_length(bitstream *);
-extern void join_bitstreams(bitstream *, bitstream *);
-extern void enc_bits(bitstream *, int, long);
-extern void align_bitstream(bitstream *);
-extern void print_bitstream(bitstream *);
+bitstream *new_bitstream(void);
+long bitstream_length(bitstream *);
+void join_bitstreams(bitstream *, bitstream *);
+void enc_bits(bitstream *, int, long);
+void align_bitstream(bitstream *);
+void print_bitstream(bitstream *);
 
 
 #endif /* BITSTREAM_H */

@@ -72,12 +72,12 @@
 */
 
 typedef struct x_bitstream {
-    unsigned bytes;
-    unsigned bits;
-    unsigned length;
-    byte *source;
-    struct x_bitstream *next;
-    struct x_bitstream *end;
+	unsigned int bytes;
+	unsigned int bits;
+	unsigned int length;
+	byte *source;
+	struct x_bitstream *next;
+	struct x_bitstream *end;
 } bitstream;
 
 

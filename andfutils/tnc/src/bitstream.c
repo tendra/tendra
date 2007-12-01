@@ -74,7 +74,7 @@
 */
 
 static unsigned long mask[] = {
-    0, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
+	0, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
 };
 
 
@@ -95,7 +95,7 @@ static unsigned long mask[] = {
     Bitstreams are allocated from this list.
 */
 
-static bitstream *free_bitstreams = null;
+static bitstream *free_bitstreams = NULL;
 
 
 /*
@@ -107,22 +107,27 @@ static bitstream *free_bitstreams = null;
 bitstream *
 new_bitstream(void)
 {
-    unsigned i;
-    bitstream *p;
-    if (free_bitstreams == null) {
-	p = alloc_nof(bitstream, 1);
-	p->length = BITSTREAM_SIZE;
-	p->source = alloc_nof(byte, BITSTREAM_SIZE + 10);
-    } else {
-	p = free_bitstreams;
-	free_bitstreams = p->next;
-    }
-    for (i = 0; i < p->length; i++)p->source[i] = 0;
-    p->bytes = 0;
-    p->bits = 0;
-    p->next = null;
-    p->end = p;
-    return(p);
+	unsigned int i;
+	bitstream *p;
+
+	if (free_bitstreams == NULL) {
+		p = alloc_nof(bitstream, 1);
+		p->length = BITSTREAM_SIZE;
+		p->source = alloc_nof(byte, BITSTREAM_SIZE + 10);
+	} else {
+		p = free_bitstreams;
+		free_bitstreams = p->next;
+	}
+
+	for (i = 0; i < p->length; i++)
+		p->source[i] = 0;
+
+	p->bytes = 0;
+	p->bits = 0;
+	p->next = NULL;
+	p->end = p;
+
+	return (p);
 }
 
 
@@ -135,20 +140,22 @@ new_bitstream(void)
     (Not currently used.)
 */
 
-static void close_bitstream
-(bitstream *p)
+static void
+close_bitstream(bitstream *p)
 {
-    bitstream *q;
-    int used = p->end->bytes + 4;
-    int left = p->end->length - used;
-    if (left < CRITICAL_SIZE) return;
-    q = alloc_nof(bitstream, 1);
-    q->length = left;
-    q->source = p->end->source + used;
-    q->next = free_bitstreams;
-    free_bitstreams = q;
-    p->end->length = used;
-    return;
+	bitstream *q;
+	int used = p->end->bytes + 4;
+	int left = p->end->length - used;
+
+	if (left < CRITICAL_SIZE)
+		return;
+
+	q = alloc_nof(bitstream, 1);
+	q->length = left;
+	q->source = p->end->source + used;
+	q->next = free_bitstreams;
+	free_bitstreams = q;
+	p->end->length = used;
 }
 
 #endif
@@ -163,37 +170,38 @@ static void close_bitstream
 void
 print_bitstream(bitstream *p)
 {
-    unsigned r = 0;
-    unsigned long buff = 0;
-    for (; p; p = p->next) {
-	unsigned i;
-	for (i = 0; i < p->bytes; i++) {
-	    byte b = p->source[i];
-	    if (r == 0) {
-		IGNORE fputc((int)b, output);
-	    } else {
-		buff = (buff << BYTESIZE) | ((unsigned long)b);
-		IGNORE fputc((int)((buff >> r) & 0xff), output);
-		buff &= mask[r];
-	    }
+	unsigned int r = 0;
+	unsigned long buff = 0;
+
+	for (; p; p = p->next) {
+		unsigned int i;
+		for (i = 0; i < p->bytes; i++) {
+			byte b = p->source[i];
+			if (r == 0) {
+				(void) fputc((int)b, output);
+			} else {
+				buff = (buff << BYTESIZE) | ((unsigned long)b);
+				(void) fputc((int)((buff >> r) & 0xff), output);
+				buff &= mask[r];
+			}
+		}
+		if (p->bits) {
+			byte b = p->source[p->bytes];
+			b = (byte)((unsigned)b >> (BYTESIZE - p->bits));
+			buff = (buff << p->bits) | ((unsigned long)b);
+			r += p->bits;
+			if (r >= BYTESIZE) {
+				r -= BYTESIZE;
+				(void) fputc((int)((buff >> r) & 0xff), output);
+				buff &= mask[r];
+			}
+		}
 	}
-	if (p->bits) {
-	    byte b = p->source[p->bytes];
-	    b = (byte)((unsigned)b >> (BYTESIZE - p->bits));
-	    buff = (buff << p->bits) | ((unsigned long)b);
-	    r += p->bits;
-	    if (r >= BYTESIZE) {
-		r -= BYTESIZE;
-		IGNORE fputc((int)((buff >> r) & 0xff), output);
-		buff &= mask[r];
-	    }
+
+	if (r) {
+		buff <<= (BYTESIZE - r);
+		(void) fputc((int)buff, output);
 	}
-    }
-    if (r) {
-	buff <<= (BYTESIZE - r);
-	IGNORE fputc((int)buff, output);
-    }
-    return;
 }
 
 
@@ -206,9 +214,12 @@ print_bitstream(bitstream *p)
 long
 bitstream_length(bitstream *p)
 {
-    unsigned n = 0;
-    for (; p; p = p->next)n += (BYTESIZE * p->bytes) + p->bits;
-    return((long)n);
+	unsigned int n = 0;
+
+	for (; p; p = p->next)
+		n += (BYTESIZE * p->bytes) + p->bits;
+
+	return ((long)n);
 }
 
 
@@ -222,11 +233,10 @@ void
 join_bitstreams(bitstream *p, bitstream *q)
 {
 #if 0
-    close_bitstream(p);
+	close_bitstream(p);
 #endif
-    p->end->next = q;
-    p->end = q->end;
-    return;
+	p->end->next = q;
+	p->end = q->end;
 }
 
 
@@ -239,32 +249,36 @@ join_bitstreams(bitstream *p, bitstream *q)
 void
 enc_bits(bitstream *p, int n, long v)
 {
-    byte *t;
-    bitstream *q = p->end;
-    unsigned m = (unsigned)n;
-    unsigned left = BYTESIZE - q->bits;
-    unsigned long w = (unsigned long)v;
-    if (left == 0) {
-	left = BYTESIZE;
-	q->bits = 0;
-	q->bytes++;
-	if (q->bytes >= q->length) {
-	    q->next = new_bitstream();
-	    q = q->next;
-	    p->end = q;
+	byte *t;
+	bitstream *q = p->end;
+	unsigned int m = (unsigned int)n;
+	unsigned int left = BYTESIZE - q->bits;
+	unsigned long w = (unsigned long)v;
+
+	if (left == 0) {
+		left = BYTESIZE;
+		q->bits = 0;
+		q->bytes++;
+
+		if (q->bytes >= q->length) {
+			q->next = new_bitstream();
+			q = q->next;
+			p->end = q;
+		}
+
+		q->source[q->bytes] = 0;
 	}
-	q->source[q->bytes] = 0;
-    }
-    if (m > left) {
-	enc_bits(p,(int)(m - left), (long)(w >> left));
-	enc_bits(p,(int)left,(long)(w & mask[left]));
-	return;
-    }
-    w <<= (left - m);
-    t = q->source + q->bytes;
-    *t = (byte)(*t | (byte)w);
-    q->bits += m;
-    return;
+
+	if (m > left) {
+		enc_bits(p,(int)(m - left), (long)(w >> left));
+		enc_bits(p,(int)left,(long)(w & mask[left]));
+		return;
+	}
+
+	w <<= (left - m);
+	t = q->source + q->bytes;
+	*t = (byte)(*t | (byte)w);
+	q->bits += m;
 }
 
 
@@ -277,7 +291,8 @@ enc_bits(bitstream *p, int n, long v)
 void
 align_bitstream(bitstream *p)
 {
-    int bit = (int)(bitstream_length(p)% BYTESIZE);
-    if (bit)enc_bits(p, BYTESIZE - bit,(long)0);
-    return;
+	int bit = (int)(bitstream_length(p)% BYTESIZE);
+
+	if (bit)
+		enc_bits(p, BYTESIZE - bit,(long)0);
 }
