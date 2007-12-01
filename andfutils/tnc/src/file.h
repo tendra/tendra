@@ -61,18 +61,18 @@
 #ifndef FILE_H
 #define FILE_H
 
+extern FILE *input;
+extern FILE *output;
+extern char *input_file;
+
 
 /*
     FILE MANIPULATION ROUTINES
 */
 
-extern FILE *input;
-extern FILE *output;
-extern char *input_file;
-
-extern void open_input(char *, int);
-extern void open_output(char *);
-extern void add_directory(char *);
+void open_input(char *, int);
+void open_output(char *);
+void add_directory(char *);
 
 
 #endif /* FILE_H */
