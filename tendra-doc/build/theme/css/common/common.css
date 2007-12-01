@@ -137,3 +137,14 @@ div.table-contents table td {
 	padding: 0.5ex 1ex;
 }
 
+/*
+ * This is used by both docbook and dtns.
+ */
+.ERROR {
+	background: #e44;
+	border: 1px solid pink;
+	color: white;
+	margin: 0px 1px 0px 1px;
+	padding: 0px 2px 0px 2px;
+}
+
