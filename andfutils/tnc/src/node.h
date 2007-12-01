@@ -67,25 +67,28 @@
 */
 
 extern boolean dont_check;
-extern node *new_node(void);
-extern void free_node(node *);
-extern node *completion(node *);
-extern boolean eq_node(node *, node *);
+
+node *new_node(void);
+void free_node(node *);
+node *completion(node *);
+boolean eq_node(node *, node *);
 
 
 /*
     PROCEDURES FOR MANIPULATING CONSTRUCTS
 */
 
-extern construct *new_construct(void);
-extern construct *make_construct(sortname);
-extern void copy_construct(construct *);
-extern void free_construct(construct **);
-extern void set_token_sort(construct *, sortname, char *, node *);
-extern void set_tag_type(construct *, int);
-extern boolean is_local_name(char *);
-extern char *skip_text(char *);
 extern char *local_prefix;
+
+construct *new_construct(void);
+construct *make_construct(sortname);
+void copy_construct(construct *);
+void free_construct(construct **);
+void set_token_sort(construct *, sortname, char *, node *);
+void set_tag_type(construct *, int);
+boolean is_local_name(char *);
+char *skip_text(char *);
+
 
 
 /*
