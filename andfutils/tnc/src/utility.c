@@ -58,12 +58,9 @@
 */
 
 
-#include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
+
+#include "config.h"
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -108,13 +105,7 @@ void
 fatal_error(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     if (progname)IGNORE fprintf(stderr, "%s: ", progname);
     IGNORE fprintf(stderr, "Error: ");
     IGNORE vfprintf(stderr, s, args);
@@ -144,13 +135,7 @@ void
 input_error(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     if (progname)IGNORE fprintf(stderr, "%s: ", progname);
     IGNORE fprintf(stderr, "Error: ");
     IGNORE vfprintf(stderr, s, args);
@@ -212,13 +197,7 @@ void
 warning(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     if (progname)IGNORE fprintf(stderr, "%s: ", progname);
     IGNORE fprintf(stderr, "Warning: ");
     IGNORE vfprintf(stderr, s, args);
