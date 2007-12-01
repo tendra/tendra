@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ENCODE_INCLUDED
-#define ENCODE_INCLUDED
+#ifndef ENCODE_H
+#define ENCODE_H
 
 
 /*
@@ -80,4 +80,4 @@ extern void enc_node(bitstream *, node *);
 #define enc_list_start(p)	enc_bits(p, 1, (long)0)
 
 
-#endif
+#endif /* ENCODE_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ANALYSER_INCLUDED
-#define ANALYSER_INCLUDED
+#ifndef ANALYSER_H
+#define ANALYSER_H
 
 
 /*
@@ -104,4 +104,4 @@ extern void set_position(position *);
 extern long skip_words(void);
 
 
-#endif
+#endif /* ANALYSER_H */

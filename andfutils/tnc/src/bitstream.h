@@ -58,8 +58,8 @@
 */
 
 
-#ifndef BITSTREAM_INCLUDED
-#define BITSTREAM_INCLUDED
+#ifndef BITSTREAM_H
+#define BITSTREAM_H
 
 
 /*
@@ -74,4 +74,4 @@ extern void align_bitstream(bitstream *);
 extern void print_bitstream(bitstream *);
 
 
-#endif
+#endif /* BITSTREAM_H */

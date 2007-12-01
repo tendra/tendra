@@ -58,8 +58,8 @@
 */
 
 
-#ifndef READ_CAPSULE_INCLUDED
-#define READ_CAPSULE_INCLUDED
+#ifndef READ_CAP_H
+#define READ_CAP_H
 
 
 /*
@@ -69,4 +69,4 @@
 extern void read_capsule(void);
 
 
-#endif
+#endif /* READ_CAP_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef FETCH_INCLUDED
-#define FETCH_INCLUDED
+#ifndef FETCH_H
+#define FETCH_H
 
 
 /*
@@ -75,4 +75,4 @@ extern unsigned bits_in_buff;
 extern long bytes_read;
 
 
-#endif
+#endif /* FETCH_H */

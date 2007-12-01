@@ -58,8 +58,8 @@
 */
 
 
-#ifndef NAMES_INCLUDED
-#define NAMES_INCLUDED
+#ifndef NAMES_H
+#define NAMES_H
 
 
 /*
@@ -128,4 +128,4 @@
 #define MAKE_STRING		"multi_string"
 
 
-#endif
+#endif /* NAMES_H */

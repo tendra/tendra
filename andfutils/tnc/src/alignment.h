@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ALIGNMENT_INCLUDED
-#define ALIGNMENT_INCLUDED
+#ifndef ALIGNMENT_H
+#define ALIGNMENT_H
 
 
 /*
@@ -81,5 +81,4 @@ extern node *offset_from(node *);
 extern node *offset_to(node *);
 extern node *ptr_to(node *);
 
-
-#endif
+#endif /* ALIGNMENT_H */

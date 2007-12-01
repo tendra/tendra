@@ -58,8 +58,8 @@
 */
 
 
-#ifndef FILE_INCLUDED
-#define FILE_INCLUDED
+#ifndef FILE_H
+#define FILE_H
 
 
 /*
@@ -75,4 +75,4 @@ extern void open_output(char *);
 extern void add_directory(char *);
 
 
-#endif
+#endif /* FILE_H */

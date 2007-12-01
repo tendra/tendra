@@ -58,8 +58,8 @@
 */
 
 
-#ifndef UTILITY_INCLUDED
-#define UTILITY_INCLUDED
+#ifndef UTILITY_H
+#define UTILITY_H
 
 
 /*
@@ -108,4 +108,4 @@ extern unsigned long octal_to_ulong(char *);
 extern boolean fits_ulong(char *, int);
 
 
-#endif
+#endif /* UTILITY_H */

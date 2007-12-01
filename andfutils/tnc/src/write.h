@@ -58,8 +58,8 @@
 */
 
 
-#ifndef WRITE_INCLUDED
-#define WRITE_INCLUDED
+#ifndef WRITE_H
+#define WRITE_H
 
 
 /*
@@ -72,4 +72,4 @@ extern boolean print_shapes;
 extern boolean func_output;
 
 
-#endif
+#endif /* WRITE_H */

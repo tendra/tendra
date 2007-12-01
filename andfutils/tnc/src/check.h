@@ -58,8 +58,8 @@
 */
 
 
-#ifndef CHECK_INCLUDED
-#define CHECK_INCLUDED
+#ifndef CHECK_H
+#define CHECK_H
 
 
 /*
@@ -82,4 +82,4 @@ extern char *checking;
 #define check_access(X)		check_access_fn((X))
 
 
-#endif
+#endif /* CHECK_H */

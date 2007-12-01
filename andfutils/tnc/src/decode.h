@@ -58,8 +58,8 @@
 */
 
 
-#ifndef DECODE_INCLUDED
-#define DECODE_INCLUDED
+#ifndef DECODE_H
+#define DECODE_H
 
 
 /*
@@ -77,4 +77,4 @@ extern node *de_var_sort(long);
 	if (fetch(1)) input_error("Illegal LIST value")
 
 
-#endif
+#endif /* DECODE_H */

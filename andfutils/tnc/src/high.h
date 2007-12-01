@@ -58,8 +58,8 @@
 */
 
 
-#ifndef HIGH_INCLUDED
-#define HIGH_INCLUDED
+#ifndef HIGH_H
+#define HIGH_H
 
 
 /*
@@ -110,4 +110,4 @@ extern char *find_sortname(char *, sortname *);
 	(void)sprintf(p, "T%d#", high_no(s))
 
 
-#endif
+#endif /* HIGH_H */

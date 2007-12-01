@@ -58,8 +58,8 @@
 */
 
 
-#ifndef TABLE_INCLUDED
-#define TABLE_INCLUDED
+#ifndef TABLE_H
+#define TABLE_H
 
 
 /*
@@ -155,4 +155,4 @@ extern void new_cons(char *, sortname, int, char *);
 #define cons_no(X, Y)		(cons_table[(X)] + (Y))
 
 
-#endif
+#endif /* TABLE_H */

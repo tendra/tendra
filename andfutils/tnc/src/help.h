@@ -58,8 +58,8 @@
 */
 
 
-#ifndef HELP_INCLUDED
-#define HELP_INCLUDED
+#ifndef HELP_H
+#define HELP_H
 
 
 /*
@@ -69,4 +69,4 @@
 extern void help(char *);
 
 
-#endif
+#endif /* HELP_H */

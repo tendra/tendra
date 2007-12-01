@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ENC_CAPSULE_INCLUDED
-#define ENC_CAPSULE_INCLUDED
+#ifndef ENC_CAP_H
+#define ENC_CAP_H
 
 
 /*
@@ -71,4 +71,4 @@ extern long version_major;
 extern long version_minor;
 
 
-#endif
+#endif /* ENC_CAP_H */

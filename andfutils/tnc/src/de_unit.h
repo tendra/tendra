@@ -58,8 +58,8 @@
 */
 
 
-#ifndef DE_UNIT_INCLUDED
-#define DE_UNIT_INCLUDED
+#ifndef DE_UNIT_H
+#define DE_UNIT_H
 
 
 /*
@@ -78,4 +78,4 @@ extern construct *find_label(long);
 extern int have_version;
 
 
-#endif
+#endif /* DE_UNIT_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef DE_CAPSULE_INCLUDED
-#define DE_CAPSULE_INCLUDED
+#ifndef DE_CAPSULE_H
+#define DE_CAPSULE_H
 
 
 /*
@@ -87,4 +87,4 @@ extern void de_capsule(void);
 extern void de_library(void);
 
 
-#endif
+#endif /* DE_CAPSULE_H */

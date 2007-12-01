@@ -58,8 +58,8 @@
 */
 
 
-#ifndef TYPES_INCLUDED
-#define TYPES_INCLUDED
+#ifndef TYPES_H
+#define TYPES_H
 
 
 /*
@@ -212,4 +212,4 @@ typedef struct x_directory {
 } directory;
 
 
-#endif
+#endif /* TYPES_H */

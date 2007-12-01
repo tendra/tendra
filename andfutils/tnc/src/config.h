@@ -58,8 +58,8 @@
 */
 
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef CONFIG_H
+#define CONFIG_H
 
 
 /*
@@ -139,4 +139,4 @@
 #define MAGIC_LINK_NUMBER	"TDFL"
 
 
-#endif
+#endif /* CONFIG_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef READ_TYPES_INCLUDED
-#define READ_TYPES_INCLUDED
+#ifndef READ_TYPES_H
+#define READ_TYPES_H
 
 
 /*
@@ -79,4 +79,4 @@ typedef struct {
 } position;
 
 
-#endif
+#endif /* READ_TYPES_H */

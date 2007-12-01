@@ -28,8 +28,8 @@
 */
 
 
-#ifndef OSSG_INCLUDED
-#define OSSG_INCLUDED
+#ifndef OSSG_H
+#define OSSG_H
 
 
 /*
@@ -276,4 +276,4 @@
 #endif
 
 
-#endif
+#endif /* OSSG_H */

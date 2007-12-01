@@ -58,8 +58,8 @@
 */
 
 
-#ifndef DE_TYPES_INCLUDED
-#define DE_TYPES_INCLUDED
+#ifndef DE_TYPES_H
+#define DE_TYPES_H
 
 
 /*
@@ -90,4 +90,4 @@ typedef struct {
 } binding;
 
 
-#endif
+#endif /* DE_TYPES_H */

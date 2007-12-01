@@ -58,8 +58,8 @@
 */
 
 
-#ifndef EVAL_INCLUDED
-#define EVAL_INCLUDED
+#ifndef EVAL_H
+#define EVAL_H
 
 
 /*
@@ -71,4 +71,4 @@ extern node *make_nat(long);
 extern node *make_int(long);
 
 
-#endif
+#endif /* EVAL_H */

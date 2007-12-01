@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ENC_TYPES_INCLUDED
-#define ENC_TYPES_INCLUDED
+#ifndef ENC_TYPES_H
+#define ENC_TYPES_H
 
 
 /*
@@ -81,4 +81,4 @@ typedef struct x_bitstream {
 } bitstream;
 
 
-#endif
+#endif /* ENC_TYPES_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef READ_INCLUDED
-#define READ_INCLUDED
+#ifndef READ_H
+#define READ_H
 
 
 /*
@@ -77,4 +77,4 @@ extern boolean intro_visible;
 #define read_make_signed_nat(X, Y)	(X) ->son = read_node("j")
 
 
-#endif
+#endif /* READ_H */

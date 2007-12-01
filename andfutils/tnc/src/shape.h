@@ -58,8 +58,8 @@
 */
 
 
-#ifndef SHAPE_INCLUDED
-#define SHAPE_INCLUDED
+#ifndef SHAPE_H
+#define SHAPE_H
 
 
 /*
@@ -104,4 +104,4 @@ extern node *set_token_args(construct **, node *, int);
 extern void expand_all(void);
 
 
-#endif
+#endif /* SHAPE_H */

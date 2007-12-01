@@ -58,8 +58,8 @@
 */
 
 
-#ifndef NODE_INCLUDED
-#define NODE_INCLUDED
+#ifndef NODE_H
+#define NODE_H
 
 
 /*
@@ -98,4 +98,4 @@ extern char *local_prefix;
     }
 
 
-#endif
+#endif /* NODE_H */
