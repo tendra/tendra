@@ -459,7 +459,7 @@
       will have their <emphasis>var_param</emphasis> option present.  The body
       of the <emphasis>make_proc</emphasis> can access the additional params by
       using installer-defined <code>TOKEN</code>s specified in the companion
-      document <ulink url="reference/xhtml/register/">TDF Token Register</link>,
+      document <ulink url="reference/xhtml/register/">TDF Token Register</ulink>,
       analogous to the use of variable argument lists in C. A local variable
       <emphasis>v</emphasis> of shape <emphasis>~va_list</emphasis> must be
       initialised to <emphasis>~__va_start</emphasis>(<emphasis>p</emphasis>),

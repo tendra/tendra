@@ -83,7 +83,7 @@ x:              SHAPE
             Use of installer-defined <code>TOKEN</code>s for accessing variable
             parameter lists - see the companion document <ulink
             url="reference/xhtml/register/">TDF Token Register (Revision
-            1)</link>.
+            1)</ulink>.
           </para>
         </listitem>
 
