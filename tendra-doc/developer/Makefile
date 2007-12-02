@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = components guides
+SUBDIR = components guides proposals
 SECTION = developer
 
 include ../share/doc.subdir.mk
