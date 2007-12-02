@@ -72,13 +72,13 @@ extern node *al_frame;
 extern node *al_alloca;
 extern node *al_var_param;
 
-extern void init_alignments(void);
-extern node *al_shape(node *);
-extern void al_equals(node *, node *);
-extern void al_includes(node *, node *);
-extern node *al_union(node *, node *);
-extern node *offset_from(node *);
-extern node *offset_to(node *);
-extern node *ptr_to(node *);
+void init_alignments(void);
+node *al_shape(node *);
+void al_equals(node *, node *);
+void al_includes(node *, node *);
+node *al_union(node *, node *);
+node *offset_from(node *);
+node *offset_to(node *);
+node *ptr_to(node *);
 
 #endif /* ALIGNMENT_H */
