@@ -62,12 +62,14 @@
 -->
 
 	<refmeta>
-		<refentrytitle>make_tdf</refentrytitle>
+		<refentrytitle>tld</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
-	<!-- very much TODO -->
-	<!-- The TDF Linker - Program Documentation: File Formats -->
+	<refnamediv id='name'>
+		<refname>tld</refname>
+		<refpurpose>The TDF Linker - File Formats</refpurpose>
+	</refnamediv>
 
 	<refsection id="introduction">
 		<title>Introduction</title>
@@ -430,5 +432,67 @@ this_linkable_entity_names:	{
 			contains the definition for the name ("&lt;capsule&gt;").  The index of the first
 			capsule is zero.</para>
 	</refsection>
+
+	<refsection id='rename_file_syntax'>
+		<title>Rename File Syntax</title>
+
+		<para>Renaming may be specified either on the command line, or in a file.  The files
+			that specify the renamings to be performed have the following syntax.  The
+			file consists of a number of sections.  Each section begins with a shape
+			name, followed by zero or more pairs of external names (each pair is
+			terminated by a semi-colon).  Shape names are written as a sequence of
+			characters surrounded by single quotes.  Unique names have the same syntax
+			as described above.  String names are a sequence of characters surrounded by
+			double quotes.  The normal backslash escape sequences are supported.  The
+			hash character acts as a comment to end of line character (if this is
+			necessary).</para>
+	</refsection>
+
+	<refsection id='unit_set_file_syntax'>
+		<title>Unit Set File Syntax</title>
+
+		<para>The file should consist of a sequence of strings enclosed in double quotes.
+			The backslash character can be used to escape characters.  The following C
+			style escape sequences are recognized: '<emphasis>\n</emphasis>', '<emphasis>\r</emphasis>',
+			'<emphasis>\t</emphasis>', '<emphasis>\&numsp;</emphasis>'.  Also, the sequence '<emphasis>\x</emphasis><emphasis>NN</emphasis>'
+			represents the character with code <emphasis>NN</emphasis> in hex.  The order of the
+			strings is important, as it specifies the order that the unit sets should be
+			in when read from capsules.  It is necessary to specify the <emphasis>tld</emphasis> unit
+			set name.</para>
+	</refsection>
+
+	<refsection id='error_file_syntax'>
+		<title>Error File Syntax</title>
+
+		<para>It is possible to change the error messages that the linker uses.  In order
+			to do this, make the environment variable <emphasis>TLD_ERROR_FILE</emphasis>
+			contain the name of a file with the new error messages in.</para>
+
+		<para>The error file consists of zero or more sections.  Each section begins with
+			a section marker (one of <emphasis>%prefix%</emphasis>, <emphasis>%errors%</emphasis>
+			or <emphasis>%strings%</emphasis>).
+			The prefix section takes a single string (this is to be the prefix for all
+			error messages).  The other sections take zero or more pairs of names and
+			strings.  A name is a sequence of characters surrounded by single quotes.  A
+			string is a sequence of characters surrounded by double quotes.  In the case
+			of the prefix and error sections, the strings may contain variables of the
+			form <emphasis>${</emphasis><emphasis>variable name</emphasis><emphasis>}</emphasis>.
+			These variables will be replaced by suitable information when the error occurs.
+			The normal backslash escape sequences are supported.  The hash character acts
+			as a comment to end of line character.</para>
+
+		<para>The <option>--show-errors</option> option may be used to get a copy of the current
+			error messages.</para>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry>
+				<refentrytitle>tld</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>.</para>
+	</refsection>
+
 </refentry>
 
