@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = porting style api
+SUBDIR = porting style
 
 include ../../share/doc.subdir.mk
 
