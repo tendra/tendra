@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = tspec tcpplus
+SUBDIR = tcpplus
 
 DOCTOOLS_BASE = ../../build
 MAKEOPTS = DOCTOOLS_BASE=../$(DOCTOOLS_BASE) THEMEFILENAME=website
