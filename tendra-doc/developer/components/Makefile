@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = tcpplus
+SUBDIR =
 
 include ../../share/doc.subdir.mk
 
