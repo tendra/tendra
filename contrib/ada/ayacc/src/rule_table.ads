@@ -47,7 +47,7 @@ package Rule_Table is
     -- This package is used to store and access the rules
     -- of the input grammar.
 
-    Max_Rules  : constant := 1_000;       -- An arbitrary upper bound.
+    Max_Rules  : constant := 2_000;       -- An arbitrary upper bound.
                                           -- if you raise this above 3_000
                                           -- you will also need to make
                                           -- changes in parse_table_body
