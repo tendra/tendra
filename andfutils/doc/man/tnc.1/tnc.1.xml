@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- lifted from troff+man by doclifter, additional editing by hand -->
+<!-- $Id -->
+<refentry id='tnc1'>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+	
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+	
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+	
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+	
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+	
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>tnc</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>tnc</refname>
+		<refpurpose>TDF notation compiler</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv id='synopsis'>
+		<cmdsynopsis>
+		  <command>tnc</command>    <arg choice='opt'><replaceable>options</replaceable></arg>
+			<arg choice='plain'><replaceable>input-file</replaceable></arg>
+			<arg choice='opt'><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsection id='description'>
+		<title>Description</title>
+
+		<para><command>tnc</command> translates TDF capsules to and from text.
+			It has two input modes, <emphasis>read</emphasis> and
+			<emphasis>decode</emphasis>.  In the first, which is default,
+			<emphasis>input-file</emphasis> is a file containing TDF text.
+			In the second <emphasis>input-file</emphasis> is a TDF capsule.
+			There are also two output mode, <emphasis>encode</emphasis> and
+			<emphasis>write</emphasis>.  In the first, which is default, a
+			TDF capsule is written to <emphasis>output-file</emphasis>
+			In the second, TDF text is written to <emphasis>output-file</emphasis>.
+			If the <emphasis>output-file</emphasis> argument is absent, the
+			standard output is used
+		instead.</para>
+
+		<para>Combination of these modes give four actions: text to TDF (which
+			is default), TDF to text, text to text, and TDF to TDF.  The last
+			two actions are not precise identities, but they do give equivalent
+			files.  The TDF pretty-printer, <citerefentry>
+				<refentrytitle>disp</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>, provides a more sophisticated TDF to text
+			translator, although its output cannot be used as the input to
+			<command>tnc</command>.</para>
+
+		<para>The form of the TDF text format and more information about
+			<command>tnc</command> can be found in the document <emphasis>The
+			TDF Notation Compiler</emphasis>.</para>
+	</refsection>
+
+	<refsection id='options'>
+		<title>Options</title>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-c</option>&nbsp;or&nbsp;<option>-cv</option>&nbsp;or&nbsp;<option>-check</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should apply extra checks to <emphasis>input-file</emphasis>.
+						For example, simple shape checking is applied.  These checks are more
+						efficient in <emphasis>read</emphasis> mode than in <emphasis>decode</emphasis> mode.  If the <option>-cv</option>
+						option is used in <emphasis>write</emphasis> mode, all the information gleaned from the
+						shape checking appears in <emphasis>output-file</emphasis>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-d</option>&nbsp;or&nbsp;<option>-decode</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> mode.  That is,
+						that <emphasis>input-file</emphasis> is a TDF capsule.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-e</option>&nbsp;or&nbsp;<option>-encode</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should be in <emphasis>encode</emphasis> mode.  That is,
+						that <emphasis>output-file</emphasis> is a TDF capsule.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-eval</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should simplify its input by evaluating
+						constant expressions as far as possible.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-expand</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should expand its input by replacing all
+						applications of defined tokens by the token definition.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-f</option>&nbsp;or&nbsp;<option>-func</option></term>
+
+				<listitem>
+					<para>Causes <command>tnc</command> to use its alternative, functional, form for both input
+						and output.  The options <option>-func_in</option> and <option>-func_out</option> may be used
+						to change the input and the output independently.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...</term>
+
+				<listitem>
+					<para>Makes <command>tnc</command> print its help message on the given subject(s).  If no
+						subject is given, or the subject is <emphasis>all</emphasis>, all the help messages are
+						printed.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-I</option><replaceable>dir</replaceable></term>
+
+				<listitem>
+					<para>Adds the directory <emphasis>dir</emphasis> to the search path used by <command>tnc</command> to
+						find included files in <emphasis>read</emphasis> mode.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-l</option>&nbsp;or&nbsp;<option>-lib</option></term>
+
+				<listitem>
+					<para>In <emphasis>decode</emphasis> mode, specifies that <emphasis>input-file</emphasis> is not a TDF
+						capsule, but a TDF library.  All the capsules comprising the library
+						are decoded.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-L</option><replaceable>prefix</replaceable></term>
+
+				<listitem>
+					<para>Causes <command>tnc</command> to treat any external identifiers starting with
+						<emphasis>prefix</emphasis> to be treated as if they were declare <emphasis>local</emphasis>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-o</option>&nbsp;<emphasis>output-file</emphasis></term>
+
+				<listitem>
+					<para>Gives an alternative method of specifying the output file.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-p</option>&nbsp;or&nbsp;<option>-print</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> and <emphasis>write</emphasis> modes.
+						That is, that <emphasis>input-file</emphasis> is a TDF capsule and <emphasis>output-file</emphasis>
+						should consist of TDF text.  This option makes <command>tnc</command> into a TDF
+						pretty-printer.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-q</option></term>
+
+				<listitem>
+					<para>Causes <command>tnc</command> not to check the consistency of multiple tag or token
+						definitions.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-r</option>&nbsp;or&nbsp;<option>-read</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should be in <emphasis>read</emphasis> mode.  That is,
+						that <emphasis>input-file</emphasis> should consist of TDF text.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-t</option>&nbsp;or&nbsp;<option>-tsimp</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should expand its input by replacing all
+						applications of defined tokens by the token definition and by evaluating
+						constant expressions as far as possible.  This is equivalent to
+						<option>-expand -eval</option>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-V</option></term>
+
+				<listitem>
+					<para>In <emphasis>write</emphasis> mode, specifies that the output should be in the "verbose"
+						form, with no shorthand forms.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-version</option></term>
+
+				<listitem>
+					<para>Makes <command>tnc</command> print its version number and the version of the TDF
+						specification it supports.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-w</option>&nbsp;or&nbsp;<option>-write</option></term>
+
+				<listitem>
+					<para>Specifies that <command>tnc</command> should be in <emphasis>write</emphasis> mode.  That is,
+						that <emphasis>output-file</emphasis> should consist of TDF text.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry>
+				<refentrytitle>disp</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>, <citerefentry>
+				<refentrytitle>tcc</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>.</para>
+	</refsection>
+</refentry>
+
