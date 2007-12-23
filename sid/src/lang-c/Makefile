@@ -19,7 +19,10 @@ SIDOPTS=-l ansi-c -s numeric -s no-lines
 all: lang-c.a
 
 clean:
-	${REMOVE} lang-c.a ${TARGETS} c-lexi_lexer.c
+	${REMOVE} lang-c.a ${TARGETS}
+
+maintainer-clean:
+	${REMOVE} c-lexi_lexer.c
 
 lang-c.a: ${TARGETS}
 	ar r $@ ${TARGETS}

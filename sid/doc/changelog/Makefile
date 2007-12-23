@@ -8,6 +8,8 @@ DOCDIR ?= ${SHAREDIR}/doc
 
 DOCTOOLS_BASE ?= ../../build
 
+CLEAN_EXTRA = newsitems-docbook.xml
+
 INSTALL=install
 XSLTPROC=xsltproc
 
