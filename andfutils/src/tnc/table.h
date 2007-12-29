@@ -119,12 +119,13 @@ extern boolean show_tagdefs;
     TABLE MANIPULATION ROUTINES
 */
 
-extern void init_tables(void);
-extern construct *add_to_cons_hash(construct *, sortname);
-extern construct *search_cons_hash(char *, sortname);
-extern construct *add_to_var_hash(construct *, sortname);
-extern construct *search_var_hash(char *, sortname);
-extern void remove_var_hash(char *, sortname);
+void init_tables(void);
+construct *add_to_cons_hash(construct *, sortname);
+construct *search_cons_hash(char *, sortname);
+construct *add_to_var_hash(construct *, sortname);
+construct *search_var_hash(char *, sortname);
+void remove_var_hash(char *, sortname);
+
 extern construct *removals;
 
 
@@ -133,19 +134,20 @@ extern construct *removals;
 */
 
 extern boolean order_names;
+
 typedef void(*apply_func)(construct *);
-extern char *sort_name(sortname);
-extern void sort_table(construct **, sortname);
-extern void sort_all(void);
-extern void apply_to_all(apply_func, sortname);
+char *sort_name(sortname);
+void sort_table(construct **, sortname);
+void sort_all(void);
+void apply_to_all(apply_func, sortname);
 
 
 /*
     AUXILLIARY TABLE ROUTINES
 */
 
-extern void new_sort(sortname, int);
-extern void new_cons(char *, sortname, int, char *);
+void new_sort(sortname, int);
+void new_cons(char *, sortname, int, char *);
 
 
 /*
