@@ -126,7 +126,6 @@
 #pragma TenDRA keyword SET for set
 #pragma TenDRA keyword UNUSED for discard variable
 #pragma TenDRA keyword IGNORE for discard value
-#pragma TenDRA keyword EXHAUSTIVE for exhaustive
 #pragma TenDRA keyword REACHED for set reachable
 #pragma TenDRA keyword UNREACHED for set unreachable
 #define FALL_THROUGH
@@ -139,7 +138,6 @@
 #define SET( name )
 #define UNUSED( name )		( name ) = ( name )
 #define IGNORE			( void )
-#define EXHAUSTIVE
 #define REACHED
 #define UNREACHED
 #define FALL_THROUGH
@@ -152,7 +150,6 @@
 #define SET( name )
 #define UNUSED( name )
 #define IGNORE			( void )
-#define EXHAUSTIVE
 #define REACHED
 #define UNREACHED
 #define FALL_THROUGH
