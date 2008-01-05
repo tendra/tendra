@@ -104,7 +104,7 @@ static char *
 char_lit(letter_translation* ctrans)
 {
 	static char buff [10];
-	if (ctrans->type == eof_letter) return("LEX_EOF");
+	if (ctrans->type == eof_letter) return("LEXI_EOF");
 	if (ctrans->type == char_letter) {
 	switch (ctrans->u.ch) {
 		case '\n': return("'\\n'");
@@ -853,8 +853,8 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);	
 
-	fputs("#ifndef LEX_EOF\n", lex_state_output);
-	fprintf(lex_state_output,"#define LEX_EOF\t\t%u\n", top_level->eof_letter_code);
+	fputs("#ifndef LEXI_EOF\n", lex_state_output);
+	fprintf(lex_state_output,"#define LEXI_EOF %u\n", top_level->eof_letter_code);
 	fputs("#endif\n\n", lex_state_output);
 
 	output_buffer(opt);

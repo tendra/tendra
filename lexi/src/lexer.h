@@ -79,8 +79,8 @@ struct lexi_state {
 	int buffer_index;
 
 };
-#ifndef LEX_EOF
-#define LEX_EOF		256
+#ifndef LEXI_EOF
+#define LEXI_EOF 256
 #endif
 
 extern void lexi_push(struct lexi_state *state, const int c);

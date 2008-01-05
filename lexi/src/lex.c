@@ -120,7 +120,7 @@ lexi_getchar(void)
     int c;
     c = fgetc(lex_input);
     if (c == '\n')crt_line_no++;
-    if (c == EOF) return(LEX_EOF);
+    if (c == EOF) return(LEXI_EOF);
     c &= 0xff;
     return(c);
 }
@@ -179,7 +179,7 @@ read_string(void)
     int escaped = 0;
     char *t = token_buff;
     while (c = lexi_readchar(&lexer_state), (c != '"' || escaped)) {
-	if (c == '\n' || c == LEX_EOF) {
+	if (c == '\n' || c == LEXI_EOF) {
 	    error(ERROR_SERIOUS, "Unexpected end of string");
 	    break;
 	}

@@ -345,7 +345,7 @@ lexi_read_token(struct lexi_state *state)
 			case '}': {
 				return(lex_close_Hbrace);
 			}
-			case LEX_EOF: {
+			case LEXI_EOF: {
 				return(lex_eof);
 			}
 		}
