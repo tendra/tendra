@@ -509,44 +509,6 @@ output_zone_pass(zone *p)
     return;
 }
 
-/*
-  Check if input copyright file contains only comments.
-  Return 0 if successful, 1 if the file contains things that are not comments
-  and 2 if the file finish while in a comment.
-
-  TODO: we should use lexi to generate this.
-*/
-static int 
-check_if_file_is_comment(FILE* input)
-{
-	int state = 0;
-	int c;
-	while((c=fgetc(input))!=EOF) {
-		switch(state) {
-		case 0:
-			while(isspace(c))
-				c=fgetc(input);
-			if(c==EOF)
-				ungetc(c, input);
-			else if ( c == '/' && fgetc(input)=='*') {
-				state=1;
-			} else
-				return 1; /*Contains a non space character outside of a comment*/
-			break;
-		case 1:
-			while((c=fgetc(input))!=EOF && c!='*')
-		  		;
-			if(c==EOF)
-				return 2; /*EOF while in a comment */
-			else if (fgetc(input)=='/')
-				state=0;
-			break;
-		}
-		
-	}
-	return 0; /*Only contains comments*/
-}
-
 /* 
    COMMENT FILE
 
