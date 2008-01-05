@@ -101,17 +101,19 @@ char *checking = "????";
 static void
 chk_token(node *p)
 {
-    tok_info *info = get_tok_info(p->son->cons);
-    node *d = info->def;
-    if (d) {
-	if (d->cons->sortnum == SORT_completion)d = d->son;
-	p->shape = normalize(d->shape);
-    } else {
-	p->shape = new_node();
-	p->shape->cons = &shape_of;
-	p->shape->son = copy_node(p->son);
-    }
-    return;
+	tok_info *info = get_tok_info(p->son->cons);
+	node *d = info->def;
+
+	if (d) {
+		if (d->cons->sortnum == SORT_completion)
+			d = d->son;
+
+		p->shape = normalize(d->shape);
+	} else {
+		p->shape = new_node();
+		p->shape->cons = &shape_of;
+		p->shape->son = copy_node(p->son);
+	}
 }
 
 
@@ -127,31 +129,33 @@ chk_token(node *p)
 static void
 chk_cond(node *p)
 {
-    node *s;
-    node *q1 = p->son->bro->son;
-    node *q2 = p->son->bro->bro->son;
-    node *s1 = q1->shape;
-    node *s2 = q2->shape;
-    if (q1->cons->encoding == ENC_fail_installer) {
-	p->shape = normalize(s2);
-	return;
-    }
-    if (q2->cons->encoding == ENC_fail_installer) {
-	p->shape = normalize(s1);
-	return;
-    }
-    s = lub(s1, s2);
-    if (s == null) {
-	p->shape = null;
-    } else {
-	long n = s->cons->encoding;
-	if (n == ENC_bottom || n == ENC_top) {
-	    p->shape = null;
-	} else {
-	    p->shape = normalize(s);
+	node *s;
+	node *q1 = p->son->bro->son;
+	node *q2 = p->son->bro->bro->son;
+	node *s1 = q1->shape;
+	node *s2 = q2->shape;
+
+	if (q1->cons->encoding == ENC_fail_installer) {
+		p->shape = normalize(s2);
+		return;
 	}
-    }
-    return;
+
+	if (q2->cons->encoding == ENC_fail_installer) {
+		p->shape = normalize(s1);
+		return;
+	}
+
+	s = lub(s1, s2);
+	if (s == NULL)
+		p->shape = NULL;
+	else {
+		long n = s->cons->encoding;
+
+		if (n == ENC_bottom || n == ENC_top)
+			p->shape = NULL;
+		else
+			p->shape = normalize(s);
+	}
 }
 
 
@@ -165,36 +169,37 @@ chk_cond(node *p)
 static void
 chk_tag(node *p, node *a, int intro)
 {
-    if (!intro && a->cons->encoding == ENC_make_tag) {
-	tag_info *info = get_tag_info(a->son->cons);
-	node *d = info->dec;
-	if (d && d->cons->sortnum == SORT_completion)d = d->son;
-	if (d)d = d->bro;
-	if (d)d = d->bro;
-	switch (info->var) {
-	    case 0: {
-		p->shape = normalize(d);
-		break;
-	    }
-	    case 1:
-	    case 2: {
-		p->shape = sh_pointer(d);
-		break;
-	    }
-	    default : {
-		if (text_input) {
-		    char *nm = a->son->cons->name;
-		    is_fatal = 0;
-		    input_error("Tag %s used but not declared", nm);
+	if (!intro && a->cons->encoding == ENC_make_tag) {
+		tag_info *info = get_tag_info(a->son->cons);
+		node *d = info->dec;
+
+		if (d && d->cons->sortnum == SORT_completion)
+			d = d->son;
+		if (d)
+			d = d->bro;
+		if (d)
+			d = d->bro;
+
+		switch (info->var) {
+		case 0:
+			p->shape = normalize(d);
+			break;
+		case 1:
+		case 2:
+			p->shape = sh_pointer(d);
+			break;
+		default:
+			if (text_input) {
+				char *nm = a->son->cons->name;
+				is_fatal = 0;
+				input_error("Tag %s used but not declared", nm);
+			}
+
+			p->shape = NULL;
+			break;
 		}
-		p->shape = null;
-		break;
-	    }
-	}
-    } else {
-	p->shape = null;
-    }
-    return;
+	} else
+		p->shape = NULL;
 }
 
 
@@ -222,13 +227,10 @@ chk_tag(node *p, node *a, int intro)
 void
 check_shape_fn(node *p)
 {
-    if (p && p->cons->encoding == ENC_compound) {
-	if (do_check) {
-	    checking = p->cons->name;
-	    IGNORE check1(ENC_offset, p->son);
+	if (do_check && p && p->cons->encoding == ENC_compound) {
+		checking = p->cons->name;
+		(void) check1(ENC_offset, p->son);
 	}
-    }
-    return;
 }
 
 
@@ -242,13 +244,10 @@ check_shape_fn(node *p)
 void
 check_nat_fn(node *p)
 {
-    if (p && p->cons->encoding == ENC_computed_nat) {
-	if (do_check) {
-	    checking = p->cons->name;
-	    IGNORE check1(ENC_integer, p->son);
+	if (do_check && p && p->cons->encoding == ENC_computed_nat) {
+		checking = p->cons->name;
+		(void) check1(ENC_integer, p->son);
 	}
-    }
-    return;
 }
 
 
@@ -262,13 +261,10 @@ check_nat_fn(node *p)
 void
 check_snat_fn(node *p)
 {
-    if (p && p->cons->encoding == ENC_computed_signed_nat) {
-	if (do_check) {
-	    checking = p->cons->name;
-	    IGNORE check1(ENC_integer, p->son);
+	if (do_check && p && p->cons->encoding == ENC_computed_signed_nat) {
+		checking = p->cons->name;
+		(void) check1(ENC_integer, p->son);
 	}
-    }
-    return;
 }
 
 
@@ -282,8 +278,8 @@ check_snat_fn(node *p)
 void
 check_access_fn(node *p)
 {
-    if (p && p->cons->encoding == ENC_visible)intro_visible = 1;
-    return;
+    if (p && p->cons->encoding == ENC_visible)
+	    intro_visible = 1;
 }
 
 
@@ -298,24 +294,33 @@ check_access_fn(node *p)
 static boolean
 is_known(node *p)
 {
-    if (p == null) return(0);
-    while (p) {
-	sortname s = p->cons->sortnum;
-	if (s == SORT_unknown) return(0);
-	if (!text_output && s == SORT_exp) {
-	    switch (p->cons->encoding) {
-		case ENC_conditional: return(0);
-		case ENC_identify: return(0);
-		case ENC_labelled: return(0);
-		case ENC_make_proc: return(0);
-		case ENC_repeat: return(0);
-		case ENC_variable: return(0);
-	    }
+	if (p == NULL)
+		return (0);
+
+	while (p) {
+		sortname s = p->cons->sortnum;
+
+		if (s == SORT_unknown)
+			return (0);
+
+		if (!text_output && s == SORT_exp)
+			switch (p->cons->encoding) {
+			case ENC_conditional:
+			case ENC_identify:
+			case ENC_labelled:
+			case ENC_make_proc:
+			case ENC_repeat:
+			case ENC_variable:
+				return (0);
+			}
+
+		if (p->son && !is_known(p->son))
+			return (0);
+
+		p = p->bro;
 	}
-	if (p->son && !is_known(p->son)) return(0);
-	p = p->bro;
-    }
-    return(1);
+
+	return (1);
 }
 
 
@@ -329,32 +334,40 @@ is_known(node *p)
 void
 check_tagdef(construct *p)
 {
-    char *nm = p->name;
-    tag_info *info = get_tag_info(p);
-    node *dc = info->dec;
-    node *df = info->def;
-    if (df == null) return;
-    if (df->cons->sortnum == SORT_completion)df = df->son;
-    if (info->var)df = df->bro;
-    if (dc == null) {
-	if (is_known(df->shape)) {
-	    /* Declaration = ?[u]?[X]S (from 4.0) */
-	    node *q = new_node();
-	    q->cons = &false_cons;
-	    q->bro = new_node();
-	    q->bro->cons = &false_cons;
-	    q->bro->bro = df->shape;
-	    info->dec->bro = completion(q);
+	char *nm = p->name;
+	tag_info *info = get_tag_info(p);
+	node *dc = info->dec;
+	node *df = info->def;
+
+	if (df == NULL)
+		return;
+
+	if (df->cons->sortnum == SORT_completion)
+		df = df->son;
+
+	if (info->var)
+		df = df->bro;
+
+	if (dc == NULL) {
+		if (is_known(df->shape)) {
+			/* Declaration = ?[u]?[X]S (from 4.0) */
+			node *q = new_node();
+			q->cons = &false_cons;
+			q->bro = new_node();
+			q->bro->cons = &false_cons;
+			q->bro->bro = df->shape;
+			info->dec->bro = completion(q);
+		} else {
+			is_fatal = 0;
+			input_error("Can't deduce shape of %s from definition", nm);
+		}
 	} else {
-	    is_fatal = 0;
-	    input_error("Can't deduce shape of %s from definition", nm);
+		if (dc->cons->sortnum == SORT_completion)
+			dc = dc->son;
+
+		/* Declaration = ?[u]?[X]S (from 4.0) */
+		dc = dc->bro->bro;
+		checking = nm;
+		(void) check_shapes(dc, df->shape, 1);
 	}
-    } else {
-	if (dc->cons->sortnum == SORT_completion)dc = dc->son;
-	/* Declaration = ?[u]?[X]S (from 4.0) */
-	dc = dc->bro->bro;
-	checking = nm;
-	IGNORE check_shapes(dc, df->shape, 1);
-    }
-    return;
 }
