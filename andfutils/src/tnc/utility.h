@@ -69,19 +69,20 @@
 extern boolean is_fatal;
 extern int exit_status;
 extern boolean text_input, text_output;
-extern void fatal_error(char *, ...);
-extern void input_error(char *, ...);
-extern void warning(char *, ...);
+
+void fatal_error(char *, ...);
+void input_error(char *, ...);
+void warning(char *, ...);
 
 
 /*
     MEMORY ALLOCATION ROUTINES
 */
 
-extern pointer xalloc(int);
-extern pointer xrealloc(pointer, int);
-extern char *string_copy(char *, int);
-extern char *temp_copy(char *);
+void *xalloc(int);
+void *xrealloc(void *, int);
+char *string_copy(char *, int);
+char *temp_copy(char *);
 
 
 /*
@@ -92,7 +93,7 @@ extern char *temp_copy(char *);
    ((TYPE *)xalloc(((int)(NO)*(int)sizeof(TYPE))))
 
 #define realloc_nof(PTR, TYPE, NO)\
-   ((TYPE *)xrealloc((pointer)(PTR),\
+   ((TYPE *)xrealloc((PTR),\
      ((int)(NO)*(int)sizeof(TYPE))))
 
 #define string_copy_aux(STR)\
@@ -103,9 +104,9 @@ extern char *temp_copy(char *);
     CONVERSION ROUTINES
 */
 
-extern char *ulong_to_octal(unsigned long);
-extern unsigned long octal_to_ulong(char *);
-extern boolean fits_ulong(char *, int);
+char *ulong_to_octal(unsigned long);
+unsigned long octal_to_ulong(char *);
+boolean fits_ulong(char *, int);
 
 
 #endif /* UTILITY_H */
