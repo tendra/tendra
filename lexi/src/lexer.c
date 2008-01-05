@@ -347,7 +347,7 @@ lexi_read_token(struct lexi_state *state)
 		if (lexi_group(lexi_group_alpha, c0)) {
 			return get_identifier(c0);
 		}
-		return unknown_token(c0);
+		return lexi_unknown_token;
 	}
 }
 

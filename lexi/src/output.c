@@ -503,7 +503,8 @@ output_zone_pass(zone *p)
 	    fprintf(lex_output,"}\n",p->default_cond);
     } 
     else 
-        fputs("\t\treturn unknown_token(c0);\n", lex_output);
+        fprintf(lex_output, "\t\treturn %sunknown_token;\n",
+			lexi_prefix);
     fputs("\t}\n", lex_output);
     fputs("}\n", lex_output);
     return;
