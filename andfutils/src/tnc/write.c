@@ -485,7 +485,7 @@ print_tagdec(construct *p)
 static void
 print_tagdef(construct *p)
 {
-	char *instr;
+	char *instr = NULL;
 	tag_info *info = get_tag_info(p);
 	node *d = info->def;
 

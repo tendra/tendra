@@ -258,7 +258,7 @@ de_var_sort(long v)
 
     A label construct is decoded.
 */
-
+/* Unused
 static void
 de_make_label(node *p)
 {
@@ -267,7 +267,7 @@ de_make_label(node *p)
     p->son->cons = find_label(n);
     return;
 }
-
+*/
 
 /*
     DECODE A STRING OF DECODE CHARACTERS

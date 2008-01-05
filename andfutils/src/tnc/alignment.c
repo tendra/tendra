@@ -206,6 +206,8 @@ offset_to(node *p)
 void
 al_equals(node *p, node *q)
 {
+	(void) p;
+	(void) q;
 }
 
 
@@ -218,6 +220,8 @@ al_equals(node *p, node *q)
 void
 al_includes(node *p, node *q)
 {
+	(void) p;
+	(void) q;
 }
 
 

@@ -247,6 +247,8 @@ de_dummy(void)
 static node *
 read_dummy(long n)
 {
+	(void) n;
+
 	fatal_error("Invalid read function");
 	return (NULL);
 }
