@@ -66,12 +66,13 @@
     BASIC SHAPE CHECKING ROUTINES
 */
 
-extern void check_exp_fn(node *);
-extern void check_nat_fn(node *);
-extern void check_shape_fn(node *);
-extern void check_snat_fn(node *);
-extern void check_access_fn(node *);
-extern void check_tagdef(construct *);
+void check_exp_fn(node *);
+void check_nat_fn(node *);
+void check_shape_fn(node *);
+void check_snat_fn(node *);
+void check_access_fn(node *);
+void check_tagdef(construct *);
+
 extern boolean do_check;
 extern char *checking;
 
