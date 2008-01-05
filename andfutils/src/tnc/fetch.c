@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "config.h"
 #include "file.h"
@@ -114,12 +115,12 @@ fetch(int n)
 		input_error("Premature end of file");
 		c = 0xff;
 	    }
-	    bits_in_buff = BYTESIZE;
+	    bits_in_buff = CHAR_BIT;
 	    input_buff = (unsigned long)(c & 0xff);
 	}
 	m = (b <= bits_in_buff ? b : bits_in_buff);
 	s = (input_buff << m);
-	r = ((r << m) | ((s >> BYTESIZE) & 0xff));
+	r = ((r << m) | ((s >> CHAR_BIT) & 0xff));
 	b -= m;
 	bits_in_buff -= m;
 	input_buff = (s & 0xff);
@@ -137,7 +138,7 @@ fetch(int n)
 long
 input_posn(void)
 {
-    return(BYTESIZE * bytes_read - (long)bits_in_buff);
+    return (CHAR_BIT * bytes_read - (long)bits_in_buff);
 }
 
 
@@ -150,8 +151,8 @@ input_posn(void)
 void
 input_goto(long n)
 {
-    int b = (int)(n % BYTESIZE);
-    bytes_read = (n / BYTESIZE);
+    int b = (int)(n % CHAR_BIT);
+    bytes_read = (n / CHAR_BIT);
     bits_in_buff = 0;
     if (fseek(input, bytes_read, SEEK_SET)) {
 	bits_in_buff = (unsigned)b;
@@ -172,7 +173,7 @@ input_goto(long n)
 void
 input_skip(long n)
 {
-    if (n <= 4 * BYTESIZE) {
+    if (n <= 4 * CHAR_BIT) {
 	IGNORE fetch((int)n);
     } else {
 	long m = input_posn() + n;

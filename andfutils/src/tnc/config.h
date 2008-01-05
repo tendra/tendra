@@ -124,7 +124,6 @@
 */
 
 #define null			NULL
-#define BYTESIZE		8
 #define hash_size		31
 
 

@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "config.h"
 #include "types.h"
@@ -180,18 +181,18 @@ print_bitstream(bitstream *p)
 			if (r == 0) {
 				(void) fputc((int)b, output);
 			} else {
-				buff = (buff << BYTESIZE) | ((unsigned long)b);
+				buff = (buff << CHAR_BIT) | ((unsigned long)b);
 				(void) fputc((int)((buff >> r) & 0xff), output);
 				buff &= mask[r];
 			}
 		}
 		if (p->bits) {
 			byte b = p->source[p->bytes];
-			b = (byte)((unsigned)b >> (BYTESIZE - p->bits));
+			b = (byte)((unsigned)b >> (CHAR_BIT - p->bits));
 			buff = (buff << p->bits) | ((unsigned long)b);
 			r += p->bits;
-			if (r >= BYTESIZE) {
-				r -= BYTESIZE;
+			if (r >= CHAR_BIT) {
+				r -= CHAR_BIT;
 				(void) fputc((int)((buff >> r) & 0xff), output);
 				buff &= mask[r];
 			}
@@ -199,7 +200,7 @@ print_bitstream(bitstream *p)
 	}
 
 	if (r) {
-		buff <<= (BYTESIZE - r);
+		buff <<= (CHAR_BIT - r);
 		(void) fputc((int)buff, output);
 	}
 }
@@ -217,7 +218,7 @@ bitstream_length(bitstream *p)
 	unsigned int n = 0;
 
 	for (; p; p = p->next)
-		n += (BYTESIZE * p->bytes) + p->bits;
+		n += (CHAR_BIT * p->bytes) + p->bits;
 
 	return ((long)n);
 }
@@ -252,11 +253,11 @@ enc_bits(bitstream *p, int n, long v)
 	byte *t;
 	bitstream *q = p->end;
 	unsigned int m = (unsigned int)n;
-	unsigned int left = BYTESIZE - q->bits;
+	unsigned int left = CHAR_BIT - q->bits;
 	unsigned long w = (unsigned long)v;
 
 	if (left == 0) {
-		left = BYTESIZE;
+		left = CHAR_BIT;
 		q->bits = 0;
 		q->bytes++;
 
@@ -291,8 +292,8 @@ enc_bits(bitstream *p, int n, long v)
 void
 align_bitstream(bitstream *p)
 {
-	int bit = (int)(bitstream_length(p)% BYTESIZE);
+	int bit = (int)(bitstream_length(p)% CHAR_BIT);
 
 	if (bit)
-		enc_bits(p, BYTESIZE - bit,(long)0);
+		enc_bits(p, CHAR_BIT - bit,(long)0);
 }

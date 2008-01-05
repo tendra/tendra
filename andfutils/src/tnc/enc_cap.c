@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "config.h"
 #include "types.h"
@@ -418,7 +419,7 @@ enc_equation(bitstream *p, long ne, bitstream *q, int t)
 
     /* Precede links and body by their length in bytes */
     n = bitstream_length(u);
-    enc_tdf_int(p,(long)(n / BYTESIZE));
+    enc_tdf_int(p, (long)(n / CHAR_BIT));
     align_bitstream(p);
     join_bitstreams(p, u);
     return;

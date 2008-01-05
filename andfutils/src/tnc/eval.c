@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "config.h"
 #include "types.h"
@@ -841,7 +842,7 @@ eval_all(void)
 {
     long i;
     unsigned long m = 0;
-    var_max = BYTESIZE *(long)sizeof(long);
+    var_max = CHAR_BIT * sizeof(long);
     var_mask = alloc_nof(unsigned long, var_max + 1);
     var_mask[0] = 0;
     for (i = 1; i <= var_max; i++) {

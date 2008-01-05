@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <limits.h>
 
 #include "config.h"
 #include "types.h"
@@ -369,7 +370,7 @@ de_equation(equation_func f)
     }
 
     /* Read the actual equation */
-    n = BYTESIZE * tdf_int();
+    n = CHAR_BIT * tdf_int();
     byte_align();
     if (f == null) {
 	input_skip(n);
@@ -653,7 +654,7 @@ de_library(void)
 	    capname [j] = ( char ) fetch ( 8 ) ; /* LINT */
 	}
 	capname[n] = 0;
-	n = BYTESIZE * tdf_int();
+	n = CHAR_BIT * tdf_int();
 	byte_align();
 	end_posn = input_posn() + n;
 	de_capsule();
@@ -681,7 +682,7 @@ de_library(void)
 	    capname [j] = ( char ) fetch ( 8 ) ; /* LINT */
 	}
 	capname[n] = 0;
-	n = BYTESIZE * tdf_int();
+	n = CHAR_BIT * tdf_int();
 	byte_align();
 	end_posn = input_posn() + n;
 	de_capsule();
