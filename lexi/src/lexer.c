@@ -153,7 +153,7 @@ int lexi_keyword(const char *identifier, int notfound) {
 /* PRE-PASS ANALYSERS */
 
 void lexi_init(struct lexi_state *state) {
-	state->zone_function = &lexi_read_token;
+	state->zone_function = lexi_read_token;
 	state->buffer_index = 0;
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
@@ -171,7 +171,7 @@ lexi_read_token_line_comment(struct lexi_state *state)
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
 		if (c0 == '\n') {
-			state->zone_function=&lexi_read_token;
+			state->zone_function = lexi_read_token;
 			return lexi_read_token(state);
 		}
 		goto start;
@@ -188,7 +188,7 @@ lexi_read_token_comment(struct lexi_state *state)
 		if (c0 == '*') {
 			int c1 = lexi_readchar(state);
 			if (c1 == '/') {
-				state->zone_function=&lexi_read_token;
+				state->zone_function = lexi_read_token;
 				return lexi_read_token(state);
 			}
 			lexi_push(state, c1);
@@ -201,8 +201,8 @@ lexi_read_token_comment(struct lexi_state *state)
 int
 lexi_read_token(struct lexi_state *state)
 {
-	if(state->zone_function!=&lexi_read_token)
-		return ((*state->zone_function)(state));
+	if(state->zone_function != lexi_read_token)
+		return (*state->zone_function)(state);
 	start: {
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_white, c0)) goto start;
@@ -271,10 +271,10 @@ lexi_read_token(struct lexi_state *state)
 			case '/': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '*') {
-					state->zone_function=&lexi_read_token_comment;
+					state->zone_function = lexi_read_token_comment;
 					return lexi_read_token(state);
 				} else if (c1 == '/') {
-					state->zone_function=&lexi_read_token_line_comment;
+					state->zone_function = lexi_read_token_line_comment;
 					return lexi_read_token(state);
 				}
 				lexi_push(state, c1);

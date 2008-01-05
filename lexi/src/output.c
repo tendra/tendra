@@ -190,8 +190,8 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       break;
     case push_zone:
       output_indent(d);
-      fprintf(lex_output, "state->zone_function=&%s_%s;\n",read_token_name,
-	      instr->u.z->zone_name);
+      fprintf(lex_output, "state->zone_function = %s_%s;\n",
+	      read_token_name, instr->u.z->zone_name);
       if(instr->u.z->entering_instructions->head) 
 	output_actions(NULL,instr->u.z->entering_instructions,n,d);
       else {
@@ -202,9 +202,9 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     case pop_zone:
       output_indent(d);
       if(instr->u.z==instr->u.z->top_level->global_zone)
-	fprintf(lex_output, "state->zone_function=&%s;\n",read_token_name);	
+	fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
       else
-	fprintf(lex_output, "state->zone_function=&%s_%s;\n",read_token_name,
+	fprintf(lex_output, "state->zone_function = %s_%s;\n",read_token_name,
 		instr->u.z->zone_name);
       if(z->leaving_instructions->head) 
 	output_actions(NULL,z->leaving_instructions,n,d);
@@ -481,8 +481,8 @@ output_zone_pass(zone *p)
 		read_token_name, lexi_prefix);
 	fputs("{\n", lex_output);
 	if(p->top_level->global_zone->next!=NULL) {
-	  fprintf(lex_output,"\tif(state->zone_function!=&%s)\n",read_token_name);
-	  fprintf(lex_output, "\t\treturn ((*state->zone_function)(state));\n");
+	  fprintf(lex_output, "\tif(state->zone_function != %s)\n", read_token_name);
+	  fprintf(lex_output, "\t\treturn (*state->zone_function)(state);\n");
 	}
     }
     else {
@@ -886,7 +886,7 @@ output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(opt->lex_output_h,"void %sinit(struct %sstate *state);\n\n",
 		opt->lexi_prefix, opt->lexi_prefix);
 	fprintf(lex_output,"void %sinit(struct %sstate *state) {\n"
-		"\tstate->zone_function = &%s;\n"
+		"\tstate->zone_function = %s;\n"
 		"\tstate->buffer_index = 0;\n"
 		"}\n",
 		opt->lexi_prefix, opt->lexi_prefix,
