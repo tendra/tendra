@@ -120,9 +120,9 @@ lexi_getchar(void)
     int c;
     c = fgetc(lex_input);
     if (c == '\n')crt_line_no++;
-    if (c == EOF) return(LEXI_EOF);
+    if (c == EOF) return LEXI_EOF;
     c &= 0xff;
-    return(c);
+    return c;
 }
 
 
@@ -160,7 +160,7 @@ read_identifier(int a, int sid)
     lexi_push(&lexer_state, c);
 
     /* Deal with keywords */
-    if (sid) return(lex_sid_Hidentifier);
+    if (sid) return lex_sid_Hidentifier;
 	return lexi_keyword(token_buff, lex_identifier);
 }
 
@@ -192,7 +192,7 @@ read_string(void)
 	}
     }
     *t = 0;
-    return(lex_string);
+    return lex_string;
 }
 
 

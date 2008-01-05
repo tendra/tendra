@@ -172,7 +172,7 @@ lexi_read_token_line_comment(struct lexi_state *state)
 		if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
 		if (c0 == '\n') {
 			state->zone_function=&lexi_read_token;
-			return(lexi_read_token(state));
+			return lexi_read_token(state);
 		}
 		goto start;
 	}
@@ -189,7 +189,7 @@ lexi_read_token_comment(struct lexi_state *state)
 			int c1 = lexi_readchar(state);
 			if (c1 == '/') {
 				state->zone_function=&lexi_read_token;
-				return(lexi_read_token(state));
+				return lexi_read_token(state);
 			}
 			lexi_push(state, c1);
 		}
@@ -208,19 +208,19 @@ lexi_read_token(struct lexi_state *state)
 		if (lexi_group(lexi_group_white, c0)) goto start;
 		switch (c0) {
 			case '"': {
-				return(get_string(c0));
+				return get_string(c0);
 			}
 			case '#': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '#') {
-					return(lex_arg_Hchar_Hlist);
+					return lex_arg_Hchar_Hlist;
 				} else if (c1 == '$') {
-					return(lex_arg_Hchar_Hvoid);
+					return lex_arg_Hchar_Hvoid;
 				} else if (c1 == '*') {
-					return(lex_arg_Hchar_Hstring);
+					return lex_arg_Hchar_Hstring;
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
-					return(read_arg_char_nb(c0, c1));
+					return read_arg_char_nb(c0, c1);
 				}
 				lexi_push(state, c1);
 				break;
@@ -228,30 +228,30 @@ lexi_read_token(struct lexi_state *state)
 			case '$': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '$') {
-					return(lex_nothing_Hmarker);
+					return lex_nothing_Hmarker;
 				}
 				if (lexi_group(lexi_group_alpha, c1)) {
-					return(get_sid_ident(c0, c1));
+					return get_sid_ident(c0, c1);
 				}
 				lexi_push(state, c1);
 				break;
 			}
 			case '(': {
-				return(lex_open);
+				return lex_open;
 			}
 			case ')': {
-				return(lex_close);
+				return lex_close;
 			}
 			case '+': {
-				return(lex_plus);
+				return lex_plus;
 			}
 			case ',': {
-				return(lex_comma);
+				return lex_comma;
 			}
 			case '-': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '>') {
-					return(lex_arrow);
+					return lex_arrow;
 				}
 				lexi_push(state, c1);
 				break;
@@ -261,7 +261,7 @@ lexi_read_token(struct lexi_state *state)
 				if (c1 == '.') {
 					int c2 = lexi_readchar(state);
 					if (c2 == '.') {
-						return(lex_range);
+						return lex_range;
 					}
 					lexi_push(state, c2);
 				}
@@ -272,22 +272,22 @@ lexi_read_token(struct lexi_state *state)
 				int c1 = lexi_readchar(state);
 				if (c1 == '*') {
 					state->zone_function=&lexi_read_token_comment;
-					return(lexi_read_token(state));
+					return lexi_read_token(state);
 				} else if (c1 == '/') {
 					state->zone_function=&lexi_read_token_line_comment;
-					return(lexi_read_token(state));
+					return lexi_read_token(state);
 				}
 				lexi_push(state, c1);
 				break;
 			}
 			case ':': {
-				return(lex_colon);
+				return lex_colon;
 			}
 			case ';': {
-				return(lex_semicolon);
+				return lex_semicolon;
 			}
 			case '=': {
-				return(lex_equal);
+				return lex_equal;
 			}
 			case '{': {
 				int c1 = lexi_readchar(state);
@@ -298,7 +298,7 @@ lexi_read_token(struct lexi_state *state)
 						if (c3 == '9') {
 							int c4 = lexi_readchar(state);
 							if (c4 == '}') {
-								return(lex_digit);
+								return lex_digit;
 							}
 							lexi_push(state, c4);
 						}
@@ -312,7 +312,7 @@ lexi_read_token(struct lexi_state *state)
 						if (c3 == 'Z') {
 							int c4 = lexi_readchar(state);
 							if (c4 == '}') {
-								return(lex_upper);
+								return lex_upper;
 							}
 							lexi_push(state, c4);
 						}
@@ -326,7 +326,7 @@ lexi_read_token(struct lexi_state *state)
 						if (c3 == 'z') {
 							int c4 = lexi_readchar(state);
 							if (c4 == '}') {
-								return(lex_lower);
+								return lex_lower;
 							}
 							lexi_push(state, c4);
 						}
@@ -335,19 +335,19 @@ lexi_read_token(struct lexi_state *state)
 					lexi_push(state, c2);
 				}
 				lexi_push(state, c1);
-				return(lex_open_Hbrace);
+				return lex_open_Hbrace;
 			}
 			case '}': {
-				return(lex_close_Hbrace);
+				return lex_close_Hbrace;
 			}
 			case LEXI_EOF: {
-				return(lex_eof);
+				return lex_eof;
 			}
 		}
 		if (lexi_group(lexi_group_alpha, c0)) {
-			return(get_identifier(c0));
+			return get_identifier(c0);
 		}
-		return(unknown_token(c0));
+		return unknown_token(c0);
 	}
 }
 

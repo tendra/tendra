@@ -104,23 +104,23 @@ static char *
 char_lit(letter_translation* ctrans)
 {
 	static char buff [10];
-	if (ctrans->type == eof_letter) return("LEXI_EOF");
+	if (ctrans->type == eof_letter) return "LEXI_EOF";
 	if (ctrans->type == char_letter) {
 	switch (ctrans->u.ch) {
-		case '\n': return("'\\n'");
-		case '\r': return("'\\r'");
-		case '\t': return("'\\t'");
-		case '\v': return("'\\v'");
-		case '\f': return("'\\f'");
-		case '\\': return("'\\\\'");
-		case '\'': return("'\\''");
+		case '\n': return "'\\n'";
+		case '\r': return "'\\r'";
+		case '\t': return "'\\t'";
+		case '\v': return "'\\v'";
+		case '\f': return "'\\f'";
+		case '\\': return "'\\\\'";
+		case '\'': return "'\\''";
 	}
-	if (ctrans->u.ch > 127) return("'?'");
+	if (ctrans->u.ch > 127) return "'?'";
 	sprintf(buff, "'%c'", (char)ctrans->u.ch);
-	return(buff);
+	return buff;
 	}
 	else
-		return("'?'");	  
+		return "'?'";
 }
 
 
@@ -146,12 +146,12 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     case return_token :
       /* assert(!instr->next);*/
       output_indent(d);
-      fprintf(lex_output, "return(%s);\n", instr->u.name);
+      fprintf(lex_output, "return %s;\n", instr->u.name);
       break;
     case apply_function:
       output_indent(d);
       if(!(instr->next))
-	fprintf(lex_output, "return(");
+	fprintf(lex_output, "return ");
       fprintf(lex_output, "%s(", instr->u.fun->name);
       {
       arg* fun_args;
@@ -186,10 +186,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	}
       }
       }
-      fputs(")", lex_output);
-      if(!(instr->next))
-	fputs(")", lex_output);
-      fputs(";\n", lex_output);
+      fputs(");\n", lex_output);
       break;
     case push_zone:
       output_indent(d);
@@ -199,7 +196,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	output_actions(NULL,instr->u.z->entering_instructions,n,d);
       else {
 	output_indent(d);
-	fprintf(lex_output,"return(%s(state));\n",read_token_name);
+	fprintf(lex_output,"return %s(state);\n",read_token_name);
       }
       break;
     case pop_zone:
@@ -213,7 +210,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	output_actions(NULL,z->leaving_instructions,n,d);
       else {
 	output_indent(d);
-	fprintf(lex_output,"return(%s(state));\n",read_token_name);
+	fprintf(lex_output,"return %s(state);\n",read_token_name);
       }
       break;
     case do_nothing:
@@ -225,7 +222,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       if(z) /* if z==NULL, we are in a push or pop zone action and can't go to start*/
 	fputs("goto start;\n",lex_output);	  	
       else /*We're outputting entering and leaving actions.*/
-	fprintf(lex_output,"return(%s(state));\n",read_token_name);	  
+	fprintf(lex_output,"return %s(state);\n",read_token_name);	  
       break;
     }
   }
@@ -431,7 +428,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			}
        		}
 	}
-	return(((ret||retmap) && (cond == NULL))? 1 : 0);
+	return (ret || retmap) && (cond == NULL);
 }
 
 static void
@@ -461,7 +458,7 @@ output_zone_prepass(zone *p)
       fputs("{\n", lex_output);
       fputs("\tstart: {\n", lex_output);
       output_pass(p, p->zone_pre_pass, in_pre_pass, 0, 2);
-      fputs("\treturn(c0);\n", lex_output);
+      fputs("\treturn c0;\n", lex_output);
       fputs("\t}\n", lex_output);
       fputs("}\n\n\n", lex_output);
     }
@@ -506,7 +503,7 @@ output_zone_pass(zone *p)
 	    fprintf(lex_output,"}\n",p->default_cond);
     } 
     else 
-        fputs("\t\treturn(unknown_token(c0));\n", lex_output);
+        fputs("\t\treturn unknown_token(c0);\n", lex_output);
     fputs("\t}\n", lex_output);
     fputs("}\n", lex_output);
     return;

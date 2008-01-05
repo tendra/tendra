@@ -89,7 +89,7 @@ new_char(letter c)
     p->opt = NULL;
     p->next = NULL;
     p->u.definition = NULL;
-    return(p);
+    return p;
 }
 
 
@@ -156,7 +156,7 @@ new_arg(void)
     }
     p = args_free + (--args_left);
     p->next =NULL;
-    return(p);
+    return p;
 }
 
 /*
@@ -170,7 +170,7 @@ add_arg (arg_type t, unsigned int d)
     arg* p = new_arg();
     p->type = t;
     p->u.digit = d;
-    return(p);
+    return p;
 }
 
 /*
@@ -184,7 +184,7 @@ add_litteral_arg ( char* s)
     arg* p = new_arg();
     p->type = arg_litteral;
     p->u.litteral = s;
-    return(p);
+    return p;
 }
 
 /*
@@ -205,7 +205,7 @@ new_args_list (void)
     p = args_lists_free + (--args_lists_left);
     p->head =NULL;
     p->tail=&(p->head);
-    return(p);
+    return p;
 }
 
 
@@ -218,7 +218,7 @@ args_list*
 add_args_list (void) 
 {
     args_list *p=new_args_list();
-    return(p);
+    return p;
 }
 
 
@@ -572,18 +572,18 @@ in_group(char_group *grp, letter c)
     letter* p= grp->defn;
     letter_translation* ctrans;
     ctrans=letters_table_get_translation(c,grp->z->top_level->letters_table);
-    if (p == NULL) return(0);
+    if (p == NULL) return 0;
     while (a = *(p++), a != grp->z->top_level->last_letter_code) {
         atrans=letters_table_get_translation(a,grp->z->top_level->letters_table);
 	if (atrans->type==char_letter && atrans->u.ch == ctrans->u.ch) {
-	    return(1);
+	    return 1;
 	} else if (atrans->type==group_letter) {
-	    if (in_group(atrans->u.grp, c)) return(1);
+	    if (in_group(atrans->u.grp, c)) return 1;
 	} else if (atrans->type==notin_group_letter) {
-	    if (!in_group(atrans->u.grp, c)) return(1);
+	    if (!in_group(atrans->u.grp, c)) return 1;
 	}
     }
-    return(0);
+    return 0;
 }
 
 
@@ -616,7 +616,7 @@ find_escape(int c, letter eof_letter_code)
 	    break;
 	}
     }
-    return(a);
+    return a;
 }
 
 
@@ -683,7 +683,7 @@ make_string(char *s, zone* scope)
 	i++;
     }
     p [i] = scope->top_level->last_letter_code;
-    return(p);
+    return p;
 }
 
 /*
@@ -867,7 +867,7 @@ unsigned int hash_cstring (char* p) {
     value+=*p;
     p++;
   }
-  return(value%GROUP_HASH_TABLE_SIZE);
+  return value % GROUP_HASH_TABLE_SIZE;
 }
 
 unsigned int hash_cstring_n(char* p,size_t len)
@@ -878,6 +878,6 @@ unsigned int hash_cstring_n(char* p,size_t len)
     value+=*p;
     p++;
   }
-  return(value%GROUP_HASH_TABLE_SIZE);
+  return value % GROUP_HASH_TABLE_SIZE;
 
 }
