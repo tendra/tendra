@@ -1,5 +1,0 @@
-/* ENVIRONMENT FOR -Xa ON sol_i386 */
-
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xa"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xa"
-+CRT1			"/usr/ccs/lib/values-Xa.o"

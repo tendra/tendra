@@ -1,3 +1,0 @@
-/* inline alloca */
-
-+FLAG		"-f<TENDRA_INCLDIR>/gcc.api/tdf_alloca.h"

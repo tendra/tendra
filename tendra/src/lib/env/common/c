@@ -1,3 +1,0 @@
-/* tcc environment for c */
-
-+INCL			"-Yansi"

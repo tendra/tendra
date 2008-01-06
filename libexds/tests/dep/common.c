@@ -1,5 +1,0 @@
-/*
- * $Id$
- */
-
-#include "common.h"

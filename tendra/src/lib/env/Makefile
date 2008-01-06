@@ -1,5 +1,0 @@
-# $Id$
-
-SUBDIR=	common ${OSFAM}
-
-.include "Makefile.inc"

@@ -1,4 +1,0 @@
-/* TCC ENVIRONMENT : PROFILING FOR Linux I386 */
-
-+FLAG_TRANS	"-P"
-+LINE_START	"#pragma@preserve@*"

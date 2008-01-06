@@ -1,9 +1,0 @@
-#!/bin/sh
-
-for ARG in *.tpl
-do
-	BASE=`basename ${ARG} .tpl`
-	echo ${BASE}
-	../src/tpl ${ARG} ${BASE}.j
-	../../disp/src/disp ${BASE}.j ${BASE}.p
-done

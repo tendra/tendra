@@ -1,3 +1,0 @@
-/* tcc environment for PL_TDF compiler */
-
-+FLAG			"-special pl_tdf"
