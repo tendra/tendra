@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = inlining
+SUBDIR = inlining sharedbranches
 
 include ../../share/doc.subdir.mk
 
