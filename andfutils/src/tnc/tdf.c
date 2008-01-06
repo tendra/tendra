@@ -96,16 +96,16 @@ init_constructs(void)
     new_cons("access_cond", s, 2, "x@[u]@[u]");
     sort_conds[s] = 2;
     new_cons("add_accesses", s, 3, "uu");
-    new_cons("constant", s, 4,(char *)null);
-    new_cons("long_jump_access", s, 5,(char *)null);
-    new_cons("no_other_read", s, 6,(char *)null);
-    new_cons("no_other_write", s, 7,(char *)null);
-    new_cons("out_par", s, 8,(char *)null);
-    new_cons("preserve", s, 9,(char *)null);
-    new_cons("register", s, 10,(char *)null);
-    new_cons("standard_access", s, 11,(char *)null);
-    new_cons("used_as_volatile", s, 12,(char *)null);
-    new_cons("visible", s, 13,(char *)null);
+    new_cons("constant", s, 4, NULL);
+    new_cons("long_jump_access", s, 5, NULL);
+    new_cons("no_other_read", s, 6, NULL);
+    new_cons("no_other_write", s, 7, NULL);
+    new_cons("out_par", s, 8, NULL);
+    new_cons("preserve", s, 9, NULL);
+    new_cons("register", s, 10, NULL);
+    new_cons("standard_access", s, 11, NULL);
+    new_cons("used_as_volatile", s, 12, NULL);
+    new_cons("visible", s, 13, NULL);
 
     s = SORT_al_tag;
     sort_letters[s] = 'A';
@@ -130,15 +130,15 @@ init_constructs(void)
     new_cons("alignment_cond", s, 2, "x@[a]@[a]");
     sort_conds[s] = 2;
     new_cons("alignment", s, 3, "S");
-    new_cons("alloca_alignment", s, 4,(char *)null);
+    new_cons("alloca_alignment", s, 4, NULL);
     new_cons("callees_alignment", s, 5, "b");
     new_cons("callers_alignment", s, 6, "b");
-    new_cons("code_alignment", s, 7,(char *)null);
-    new_cons("locals_alignment", s, 8,(char *)null);
+    new_cons("code_alignment", s, 7, NULL);
+    new_cons("locals_alignment", s, 8, NULL);
     new_cons("obtain_al_tag", s, 9, "A");
     new_cons("parameter_alignment", s, 10, "S");
     new_cons("unite_alignments", s, 11, "aa");
-    new_cons("var_param_alignment", s, 12,(char *)null);
+    new_cons("var_param_alignment", s, 12, NULL);
 
     s = SORT_bitfield_variety;
     sort_letters[s] = 'B';
@@ -164,8 +164,8 @@ init_constructs(void)
     sort_tokens[s] = 1;
     new_cons("bool_cond", s, 2, "x@[b]@[b]");
     sort_conds[s] = 2;
-    new_cons("false", s, 3,(char *)null);
-    new_cons("true", s, 4,(char *)null);
+    new_cons("false", s, 3, NULL);
+    new_cons("true", s, 4, NULL);
 
     s = SORT_callees;
     sort_letters[s] = 'q';
@@ -176,7 +176,7 @@ init_constructs(void)
     new_sort(s, 4);
     new_cons("make_callee_list", s, 1, "*[x]");
     new_cons("make_dynamic_callees", s, 2, "xx");
-    new_cons("same_callees", s, 3,(char *)null);
+    new_cons("same_callees", s, 3, NULL);
 
     s = SORT_error_code;
     sort_letters[s] = 'c';
@@ -185,9 +185,9 @@ init_constructs(void)
     sort_decode[s] = de_error_code;
     sort_read[s] = read_error_code;
     new_sort(s, 4);
-    new_cons("nil_access", s, 1,(char *)null);
-    new_cons("overflow", s, 2,(char *)null);
-    new_cons("stack_overflow", s, 3,(char *)null);
+    new_cons("nil_access", s, 1, NULL);
+    new_cons("overflow", s, 2, NULL);
+    new_cons("stack_overflow", s, 3, NULL);
 
     s = SORT_error_treatment;
     sort_letters[s] = 'e';
@@ -200,11 +200,11 @@ init_constructs(void)
     sort_tokens[s] = 1;
     new_cons("errt_cond", s, 2, "x@[e]@[e]");
     sort_conds[s] = 2;
-    new_cons("continue", s, 3,(char *)null);
+    new_cons("continue", s, 3, NULL);
     new_cons("error_jump", s, 4, "l");
     new_cons("trap", s, 5, "*[c]");
-    new_cons("wrap", s, 6,(char *)null);
-    new_cons("impossible", s, 7,(char *)null);
+    new_cons("wrap", s, 6, NULL);
+    new_cons("impossible", s, 7, NULL);
 
     s = SORT_exp;
     sort_letters[s] = 'x';
@@ -239,7 +239,7 @@ init_constructs(void)
     new_cons("conditional", s, 22, "l&{xx}");
     new_cons("contents", s, 23, "Sx");
     new_cons("contents_with_mode", s, 24, "mSx");
-    new_cons("current_env", s, 25,(char *)null);
+    new_cons("current_env", s, 25, NULL);
     new_cons("div0", s, 26, "eexx");
     new_cons("div1", s, 27, "eexx");
     new_cons("div2", s, 28, "eexx");
@@ -269,7 +269,7 @@ init_constructs(void)
     new_cons("local_alloc", s, 52, "x");
     new_cons("local_alloc_check", s, 53, "x");
     new_cons("local_free", s, 54, "xx");
-    new_cons("local_free_all", s, 55,(char *)null);
+    new_cons("local_free_all", s, 55, NULL);
     new_cons("long_jump", s, 56, "xx");
     new_cons("make_complex", s, 57, "fxx");
     new_cons("make_compound", s, 58, "x*[x]");
@@ -279,12 +279,12 @@ init_constructs(void)
     new_cons("make_local_lv", s, 62, "l");
     new_cons("make_nof", s, 63, "*[x]");
     new_cons("make_nof_int", s, 64, "vX");
-    new_cons("make_null_local_lv", s, 65,(char *)null);
-    new_cons("make_null_proc", s, 66,(char *)null);
+    new_cons("make_null_local_lv", s, 65, NULL);
+    new_cons("make_null_proc", s, 66, NULL);
     new_cons("make_null_ptr", s, 67, "a");
     new_cons("make_proc", s, 68, "S*[S?[u]t&]?[t&?[u]]{x}");
     new_cons("make_stack_limit", s, 116, "xxx");
-    new_cons("make_top", s, 69,(char *)null);
+    new_cons("make_top", s, 69, NULL);
     new_cons("make_value", s, 70, "S");
     new_cons("maximum", s, 71, "xx");
     new_cons("minimum", s, 72, "xx");
@@ -385,20 +385,20 @@ init_constructs(void)
     sort_tokens[s] = 1;
     new_cons("ntest_cond", s, 2, "x@[N]@[N]");
     sort_conds[s] = 2;
-    new_cons("equal", s, 3,(char *)null);
-    new_cons("greater_than", s, 4,(char *)null);
-    new_cons("greater_than_or_equal", s, 5,(char *)null);
-    new_cons("less_than", s, 6,(char *)null);
-    new_cons("less_than_or_equal", s, 7,(char *)null);
-    new_cons("not_equal", s, 8,(char *)null);
-    new_cons("not_greater_than", s, 9,(char *)null);
-    new_cons("not_greater_than_or_equal", s, 10,(char *)null);
-    new_cons("not_less_than", s, 11,(char *)null);
-    new_cons("not_less_than_or_equal", s, 12,(char *)null);
-    new_cons("less_than_or_greater_than", s, 13,(char *)null);
-    new_cons("not_less_than_and_not_greater_than", s, 14,(char *)null);
-    new_cons("comparable", s, 15,(char *)null);
-    new_cons("not_comparable", s, 16,(char *)null);
+    new_cons("equal", s, 3, NULL);
+    new_cons("greater_than", s, 4, NULL);
+    new_cons("greater_than_or_equal", s, 5, NULL);
+    new_cons("less_than", s, 6, NULL);
+    new_cons("less_than_or_equal", s, 7, NULL);
+    new_cons("not_equal", s, 8, NULL);
+    new_cons("not_greater_than", s, 9, NULL);
+    new_cons("not_greater_than_or_equal", s, 10, NULL);
+    new_cons("not_less_than", s, 11, NULL);
+    new_cons("not_less_than_or_equal", s, 12, NULL);
+    new_cons("less_than_or_greater_than", s, 13, NULL);
+    new_cons("not_less_than_and_not_greater_than", s, 14, NULL);
+    new_cons("comparable", s, 15, NULL);
+    new_cons("not_comparable", s, 16, NULL);
 
     s = SORT_procprops;
     sort_letters[s] = 'P';
@@ -412,12 +412,12 @@ init_constructs(void)
     new_cons("procprops_cond", s, 2, "x@[P]@[P]");
     sort_conds[s] = 2;
     new_cons("add_procprops", s, 3, "PP");
-    new_cons("check_stack", s, 4,(char *)null);
-    new_cons("inline", s, 5,(char *)null);
-    new_cons("no_long_jump_dest", s, 6,(char *)null);
-    new_cons("untidy", s, 7,(char *)null);
-    new_cons("var_callees", s, 8,(char *)null);
-    new_cons("var_callers", s, 9,(char *)null);
+    new_cons("check_stack", s, 4, NULL);
+    new_cons("inline", s, 5, NULL);
+    new_cons("no_long_jump_dest", s, 6, NULL);
+    new_cons("untidy", s, 7, NULL);
+    new_cons("var_callees", s, 8, NULL);
+    new_cons("var_callers", s, 9, NULL);
 
     s = SORT_rounding_mode;
     sort_letters[s] = 'r';
@@ -430,11 +430,11 @@ init_constructs(void)
     sort_tokens[s] = 1;
     new_cons("rounding_mode_cond", s, 2, "x@[r]@[r]");
     sort_conds[s] = 2;
-    new_cons("round_as_state", s, 3,(char *)null);
-    new_cons("to_nearest", s, 4,(char *)null);
-    new_cons("toward_larger", s, 5,(char *)null);
-    new_cons("toward_smaller", s, 6,(char *)null);
-    new_cons("toward_zero", s, 7,(char *)null);
+    new_cons("round_as_state", s, 3, NULL);
+    new_cons("to_nearest", s, 4, NULL);
+    new_cons("toward_larger", s, 5, NULL);
+    new_cons("toward_smaller", s, 6, NULL);
+    new_cons("toward_zero", s, 7, NULL);
 
     s = SORT_shape;
     sort_letters[s] = 'S';
@@ -448,15 +448,15 @@ init_constructs(void)
     new_cons("shape_cond", s, 2, "x@[S]@[S]");
     sort_conds[s] = 2;
     new_cons("bitfield", s, 3, "B");
-    new_cons("bottom", s, 4,(char *)null);
+    new_cons("bottom", s, 4, NULL);
     new_cons("compound", s, 5, "x");
     new_cons("floating", s, 6, "f");
     new_cons("integer", s, 7, "v");
     new_cons("nof", s, 8, "nS");
     new_cons("offset", s, 9, "aa");
     new_cons("pointer", s, 10, "a");
-    new_cons("proc", s, 11,(char *)null);
-    new_cons("top", s, 12,(char *)null);
+    new_cons("proc", s, 11, NULL);
+    new_cons("top", s, 12, NULL);
 
     s = SORT_signed_nat;
     sort_letters[s] = 's';
@@ -475,29 +475,29 @@ init_constructs(void)
 
     s = SORT_sortname;
     new_sort(s, 24);
-    new_cons("access", s, 1,(char *)null);
-    new_cons("al_tag", s, 2,(char *)null);
-    new_cons("alignment", s, 3,(char *)null);
-    new_cons("bitfield_variety", s, 4,(char *)null);
-    new_cons("bool", s, 5,(char *)null);
-    new_cons("error_treatment", s, 6,(char *)null);
-    new_cons("exp", s, 7,(char *)null);
-    new_cons("floating_variety", s, 8,(char *)null);
+    new_cons("access", s, 1, NULL);
+    new_cons("al_tag", s, 2, NULL);
+    new_cons("alignment", s, 3, NULL);
+    new_cons("bitfield_variety", s, 4, NULL);
+    new_cons("bool", s, 5, NULL);
+    new_cons("error_treatment", s, 6, NULL);
+    new_cons("exp", s, 7, NULL);
+    new_cons("floating_variety", s, 8, NULL);
     new_cons("foreign_sort", s, 9, "X");
-    new_cons("label", s, 10,(char *)null);
-    new_cons("nat", s, 11,(char *)null);
-    new_cons("ntest", s, 12,(char *)null);
-    new_cons("procprops", s, 13,(char *)null);
-    new_cons("rounding_mode", s, 14,(char *)null);
-    new_cons("shape", s, 15,(char *)null);
-    new_cons("signed_nat", s, 16,(char *)null);
-    new_cons("string", s, 17,(char *)null);
-    new_cons("tag", s, 18,(char *)null);
-    new_cons("transfer_mode", s, 19,(char *)null);
+    new_cons("label", s, 10, NULL);
+    new_cons("nat", s, 11, NULL);
+    new_cons("ntest", s, 12, NULL);
+    new_cons("procprops", s, 13, NULL);
+    new_cons("rounding_mode", s, 14, NULL);
+    new_cons("shape", s, 15, NULL);
+    new_cons("signed_nat", s, 16, NULL);
+    new_cons("string", s, 17, NULL);
+    new_cons("tag", s, 18, NULL);
+    new_cons("transfer_mode", s, 19, NULL);
     new_cons("token", s, 20, "~*[~]");
-    new_cons("variety", s, 21,(char *)null);
-    new_cons("callees", s, 22,(char *)null);
-    new_cons("error_code", s, 23,(char *)null);
+    new_cons("variety", s, 21, NULL);
+    new_cons("callees", s, 22, NULL);
+    new_cons("error_code", s, 23, NULL);
 
     s = SORT_string;
     sort_letters[s] = 'X';
@@ -536,11 +536,11 @@ init_constructs(void)
     new_cons("transfer_mode_cond", s, 2, "x@[m]@[m]");
     sort_conds[s] = 2;
     new_cons("add_modes", s, 3, "mm");
-    new_cons("overlap", s, 4,(char *)null);
-    new_cons("standard_transfer_mode", s, 5,(char *)null);
-    new_cons("trap_on_nil", s, 6,(char *)null);
-    new_cons("volatile", s, 7,(char *)null);
-    new_cons("complete", s, 8,(char *)null);
+    new_cons("overlap", s, 4, NULL);
+    new_cons("standard_transfer_mode", s, 5, NULL);
+    new_cons("trap_on_nil", s, 6, NULL);
+    new_cons("volatile", s, 7, NULL);
+    new_cons("complete", s, 8, NULL);
 
     s = SORT_variety;
     sort_letters[s] = 'v';
@@ -607,7 +607,7 @@ de_access(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_access, n);
     p->cons = cons;
-    if (n < 1 || n > 13 || cons->name == null) {
+    if (n < 1 || n > 13 || cons->name == NULL) {
 	input_error("Illegal access value, %ld", n);
     }
     switch (n) {
@@ -649,7 +649,7 @@ de_al_tag(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_al_tag, n);
     p->cons = cons;
-    if (n < 1 || n > 2 || cons->name == null) {
+    if (n < 1 || n > 2 || cons->name == NULL) {
 	input_error("Illegal al_tag value, %ld", n);
     }
     switch (n) {
@@ -699,7 +699,7 @@ de_alignment(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_alignment, n);
     p->cons = cons;
-    if (n < 1 || n > 12 || cons->name == null) {
+    if (n < 1 || n > 12 || cons->name == NULL) {
 	input_error("Illegal alignment value, %ld", n);
     }
     switch (n) {
@@ -741,7 +741,7 @@ de_bitfield_variety(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_bitfield_variety, n);
     p->cons = cons;
-    if (n < 1 || n > 3 || cons->name == null) {
+    if (n < 1 || n > 3 || cons->name == NULL) {
 	input_error("Illegal bitfield_variety value, %ld", n);
     }
     switch (n) {
@@ -783,7 +783,7 @@ de_bool(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_bool, n);
     p->cons = cons;
-    if (n < 1 || n > 4 || cons->name == null) {
+    if (n < 1 || n > 4 || cons->name == NULL) {
 	input_error("Illegal bool value, %ld", n);
     }
     switch (n) {
@@ -825,7 +825,7 @@ de_callees(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_callees, n);
     p->cons = cons;
-    if (n < 1 || n > 3 || cons->name == null) {
+    if (n < 1 || n > 3 || cons->name == NULL) {
 	input_error("Illegal callees value, %ld", n);
     }
     args = get_char_info(cons);
@@ -849,7 +849,7 @@ de_error_code(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_error_code, n);
     p->cons = cons;
-    if (n < 1 || n > 3 || cons->name == null) {
+    if (n < 1 || n > 3 || cons->name == NULL) {
 	input_error("Illegal error_code value, %ld", n);
     }
     args = get_char_info(cons);
@@ -873,7 +873,7 @@ de_error_treatment(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_error_treatment, n);
     p->cons = cons;
-    if (n < 1 || n > 7 || cons->name == null) {
+    if (n < 1 || n > 7 || cons->name == NULL) {
 	input_error("Illegal error_treatment value, %ld", n);
     }
     switch (n) {
@@ -915,7 +915,7 @@ de_exp(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_exp, n);
     p->cons = cons;
-    if (n < 1 || n > 116 || cons->name == null) {
+    if (n < 1 || n > 116 || cons->name == NULL) {
 	input_error("Illegal exp value, %ld", n);
     }
     switch (n) {
@@ -970,7 +970,7 @@ de_floating_variety(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_floating_variety, n);
     p->cons = cons;
-    if (n < 1 || n > 6 || cons->name == null) {
+    if (n < 1 || n > 6 || cons->name == NULL) {
 	input_error("Illegal floating_variety value, %ld", n);
     }
     switch (n) {
@@ -1012,7 +1012,7 @@ de_label(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_label, n);
     p->cons = cons;
-    if (n < 1 || n > 2 || cons->name == null) {
+    if (n < 1 || n > 2 || cons->name == NULL) {
 	input_error("Illegal label value, %ld", n);
     }
     switch (n) {
@@ -1051,7 +1051,7 @@ de_nat(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_nat, n);
     p->cons = cons;
-    if (n < 1 || n > 5 || cons->name == null) {
+    if (n < 1 || n > 5 || cons->name == NULL) {
 	input_error("Illegal nat value, %ld", n);
     }
     switch (n) {
@@ -1093,7 +1093,7 @@ de_ntest(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_ntest, n);
     p->cons = cons;
-    if (n < 1 || n > 16 || cons->name == null) {
+    if (n < 1 || n > 16 || cons->name == NULL) {
 	input_error("Illegal ntest value, %ld", n);
     }
     switch (n) {
@@ -1135,7 +1135,7 @@ de_procprops(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_procprops, n);
     p->cons = cons;
-    if (n < 1 || n > 9 || cons->name == null) {
+    if (n < 1 || n > 9 || cons->name == NULL) {
 	input_error("Illegal procprops value, %ld", n);
     }
     switch (n) {
@@ -1177,7 +1177,7 @@ de_rounding_mode(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_rounding_mode, n);
     p->cons = cons;
-    if (n < 1 || n > 7 || cons->name == null) {
+    if (n < 1 || n > 7 || cons->name == NULL) {
 	input_error("Illegal rounding_mode value, %ld", n);
     }
     switch (n) {
@@ -1219,7 +1219,7 @@ de_shape(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_shape, n);
     p->cons = cons;
-    if (n < 1 || n > 12 || cons->name == null) {
+    if (n < 1 || n > 12 || cons->name == NULL) {
 	input_error("Illegal shape value, %ld", n);
     }
     switch (n) {
@@ -1261,7 +1261,7 @@ de_signed_nat(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_signed_nat, n);
     p->cons = cons;
-    if (n < 1 || n > 5 || cons->name == null) {
+    if (n < 1 || n > 5 || cons->name == NULL) {
 	input_error("Illegal signed_nat value, %ld", n);
     }
     switch (n) {
@@ -1316,7 +1316,7 @@ de_string(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_string, n);
     p->cons = cons;
-    if (n < 1 || n > 4 || cons->name == null) {
+    if (n < 1 || n > 4 || cons->name == NULL) {
 	input_error("Illegal string value, %ld", n);
     }
     switch (n) {
@@ -1358,7 +1358,7 @@ de_tag(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_tag, n);
     p->cons = cons;
-    if (n < 1 || n > 2 || cons->name == null) {
+    if (n < 1 || n > 2 || cons->name == NULL) {
 	input_error("Illegal tag value, %ld", n);
     }
     switch (n) {
@@ -1473,7 +1473,7 @@ de_transfer_mode(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_transfer_mode, n);
     p->cons = cons;
-    if (n < 1 || n > 8 || cons->name == null) {
+    if (n < 1 || n > 8 || cons->name == NULL) {
 	input_error("Illegal transfer_mode value, %ld", n);
     }
     switch (n) {
@@ -1515,7 +1515,7 @@ de_variety(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_variety, n);
     p->cons = cons;
-    if (n < 1 || n > 4 || cons->name == null) {
+    if (n < 1 || n > 4 || cons->name == NULL) {
 	input_error("Illegal variety value, %ld", n);
     }
     switch (n) {
@@ -1699,7 +1699,7 @@ read_access(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_access, n);
     p->cons = cons;
-    if (n < 0 || n > 13 || cons->name == null) {
+    if (n < 0 || n > 13 || cons->name == NULL) {
 	input_error("Illegal access value, %ld", n);
     }
     switch (n) {
@@ -1740,7 +1740,7 @@ read_al_tag(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_al_tag, n);
     p->cons = cons;
-    if (n < 0 || n > 2 || cons->name == null) {
+    if (n < 0 || n > 2 || cons->name == NULL) {
 	input_error("Illegal al_tag value, %ld", n);
     }
     switch (n) {
@@ -1776,7 +1776,7 @@ read_alignment(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_alignment, n);
     p->cons = cons;
-    if (n < 0 || n > 12 || cons->name == null) {
+    if (n < 0 || n > 12 || cons->name == NULL) {
 	input_error("Illegal alignment value, %ld", n);
     }
     switch (n) {
@@ -1817,7 +1817,7 @@ read_bitfield_variety(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_bitfield_variety, n);
     p->cons = cons;
-    if (n < 0 || n > 3 || cons->name == null) {
+    if (n < 0 || n > 3 || cons->name == NULL) {
 	input_error("Illegal bitfield_variety value, %ld", n);
     }
     switch (n) {
@@ -1858,7 +1858,7 @@ read_bool(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_bool, n);
     p->cons = cons;
-    if (n < 0 || n > 4 || cons->name == null) {
+    if (n < 0 || n > 4 || cons->name == NULL) {
 	input_error("Illegal bool value, %ld", n);
     }
     switch (n) {
@@ -1899,7 +1899,7 @@ read_callees(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_callees, n);
     p->cons = cons;
-    if (n < 0 || n > 3 || cons->name == null) {
+    if (n < 0 || n > 3 || cons->name == NULL) {
 	input_error("Illegal callees value, %ld", n);
     }
     args = get_char_info(cons);
@@ -1922,7 +1922,7 @@ read_error_code(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_error_code, n);
     p->cons = cons;
-    if (n < 0 || n > 3 || cons->name == null) {
+    if (n < 0 || n > 3 || cons->name == NULL) {
 	input_error("Illegal error_code value, %ld", n);
     }
     args = get_char_info(cons);
@@ -1945,7 +1945,7 @@ read_error_treatment(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_error_treatment, n);
     p->cons = cons;
-    if (n < 0 || n > 7 || cons->name == null) {
+    if (n < 0 || n > 7 || cons->name == NULL) {
 	input_error("Illegal error_treatment value, %ld", n);
     }
     switch (n) {
@@ -1986,7 +1986,7 @@ read_exp(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_exp, n);
     p->cons = cons;
-    if (n < 0 || n > 116 || cons->name == null) {
+    if (n < 0 || n > 116 || cons->name == NULL) {
 	input_error("Illegal exp value, %ld", n);
     }
     switch (n) {
@@ -2031,7 +2031,7 @@ read_floating_variety(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_floating_variety, n);
     p->cons = cons;
-    if (n < 0 || n > 6 || cons->name == null) {
+    if (n < 0 || n > 6 || cons->name == NULL) {
 	input_error("Illegal floating_variety value, %ld", n);
     }
     switch (n) {
@@ -2072,7 +2072,7 @@ read_label(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_label, n);
     p->cons = cons;
-    if (n < 0 || n > 2 || cons->name == null) {
+    if (n < 0 || n > 2 || cons->name == NULL) {
 	input_error("Illegal label value, %ld", n);
     }
     switch (n) {
@@ -2108,7 +2108,7 @@ read_nat(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_nat, n);
     p->cons = cons;
-    if (n < 0 || n > 5 || cons->name == null) {
+    if (n < 0 || n > 5 || cons->name == NULL) {
 	input_error("Illegal nat value, %ld", n);
     }
     switch (n) {
@@ -2149,7 +2149,7 @@ read_ntest(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_ntest, n);
     p->cons = cons;
-    if (n < 0 || n > 16 || cons->name == null) {
+    if (n < 0 || n > 16 || cons->name == NULL) {
 	input_error("Illegal ntest value, %ld", n);
     }
     switch (n) {
@@ -2190,7 +2190,7 @@ read_procprops(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_procprops, n);
     p->cons = cons;
-    if (n < 0 || n > 9 || cons->name == null) {
+    if (n < 0 || n > 9 || cons->name == NULL) {
 	input_error("Illegal procprops value, %ld", n);
     }
     switch (n) {
@@ -2231,7 +2231,7 @@ read_rounding_mode(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_rounding_mode, n);
     p->cons = cons;
-    if (n < 0 || n > 7 || cons->name == null) {
+    if (n < 0 || n > 7 || cons->name == NULL) {
 	input_error("Illegal rounding_mode value, %ld", n);
     }
     switch (n) {
@@ -2272,7 +2272,7 @@ read_shape(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_shape, n);
     p->cons = cons;
-    if (n < 0 || n > 12 || cons->name == null) {
+    if (n < 0 || n > 12 || cons->name == NULL) {
 	input_error("Illegal shape value, %ld", n);
     }
     switch (n) {
@@ -2313,7 +2313,7 @@ read_signed_nat(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_signed_nat, n);
     p->cons = cons;
-    if (n < 0 || n > 5 || cons->name == null) {
+    if (n < 0 || n > 5 || cons->name == NULL) {
 	input_error("Illegal signed_nat value, %ld", n);
     }
     switch (n) {
@@ -2358,7 +2358,7 @@ read_string(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_string, n);
     p->cons = cons;
-    if (n < 0 || n > 4 || cons->name == null) {
+    if (n < 0 || n > 4 || cons->name == NULL) {
 	input_error("Illegal string value, %ld", n);
     }
     switch (n) {
@@ -2399,7 +2399,7 @@ read_tag(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_tag, n);
     p->cons = cons;
-    if (n < 0 || n > 2 || cons->name == null) {
+    if (n < 0 || n > 2 || cons->name == NULL) {
 	input_error("Illegal tag value, %ld", n);
     }
     switch (n) {
@@ -2435,7 +2435,7 @@ read_transfer_mode(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_transfer_mode, n);
     p->cons = cons;
-    if (n < 0 || n > 8 || cons->name == null) {
+    if (n < 0 || n > 8 || cons->name == NULL) {
 	input_error("Illegal transfer_mode value, %ld", n);
     }
     switch (n) {
@@ -2476,7 +2476,7 @@ read_variety(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_variety, n);
     p->cons = cons;
-    if (n < 0 || n > 4 || cons->name == null) {
+    if (n < 0 || n > 4 || cons->name == NULL) {
 	input_error("Illegal variety value, %ld", n);
     }
     switch (n) {
