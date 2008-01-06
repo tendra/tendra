@@ -124,15 +124,15 @@ init_constructs(void)
 @endif
 @else
 @if cons.eq.alignment_sort
-    new_cons("alignment", s, %CE,(char *)null);
+    new_cons("alignment", s, %CE, NULL);
 @else
-    new_cons("%CN", s, %CE,(char *)null);
+    new_cons("%CN", s, %CE, NULL);
 @endif
 @endif
 @end
 @if sort.eq.sortname
-    new_cons("callees", s, %1SM,(char *)null);
-    new_cons("error_code", s, %2SM,(char *)null);
+    new_cons("callees", s, %1SM, NULL);
+    new_cons("error_code", s, %2SM, NULL);
 @endif
 @endif
 @endif
@@ -193,7 +193,7 @@ de_%SN(void)
     node *p = new_node();
     construct *cons = cons_no(SORT_%SN, n);
     p->cons = cons;
-    if (n < %u || n > %SM || cons->name == null) {
+    if (n < %u || n > %SM || cons->name == NULL) {
 	input_error("Illegal %SN value, %%ld", n);
     }
 @if sort.eq.callees
@@ -313,7 +313,7 @@ read_%SN(long n)
     node *p = new_node();
     construct *cons = cons_no(SORT_%SN, n);
     p->cons = cons;
-    if (n < 0 || n > %SM || cons->name == null) {
+    if (n < 0 || n > %SM || cons->name == NULL) {
 	input_error("Illegal %SN value, %%ld", n);
     }
 @if sort.eq.callees
