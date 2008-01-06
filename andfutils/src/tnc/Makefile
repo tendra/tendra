@@ -1,35 +1,34 @@
 # $Id$
 
-# Standard directories and files
+.if "${CC}" == "tcc"
+CFLAGS=	-Yansi -Xs
+.else
+CFLAGS+= -Wall
+.endif
 
-SRC1=${.CURDIR}/templ
-SPEC=${BASE_DIR}/src/lib/tdf/def_4_1.db
-
-# Standard variables
-
-WARNS?=		2
-
-TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${BASE_DIR}/${INCLUDE}
-LIBS=
-
-# Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
-
 OBJS=		alignment.o analyser.o bitstream.o check.o de_capsule.o\
 		de_unit.o decode.o enc_cap.o encode.o eval.o fetch.o file.o\
 		help.o high.o main.o node.o read.o read_cap.o shape.o table.o\
 		tdf.o utility.o write.o
 
-all: tnc
 
-tnc: ${OBJS}
-	${CC} -o tnc ${OBJS}
+all: ${PROG}
+
+${PROG}: ${OBJS}
+	${CC} -o ${PROG} ${OBJS}
 
 clean:
-	rm -f ${OBJS} tnc
+	rm -f ${OBJS} ${PROG}
 
+
+
+# XXX: This should really be made working again.
+#
+#SRC1=${.CURDIR}/templ
+#SPEC=${BASE_DIR}/src/lib/tdf/def_4_1.db
+#
 #MAKE_TDF=make_tdf
 #
 #auto : ${SRC}/tdf.c ${SRC}/tdf.h ${SRC}/check_exp.h
